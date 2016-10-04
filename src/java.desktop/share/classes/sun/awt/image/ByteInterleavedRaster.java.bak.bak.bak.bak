@@ -1,0 +1,1324 @@
+/*
+ * Copyright (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.imbgf;
+import jbvb.bwt.imbgf.Rbstfr;
+import jbvb.bwt.imbgf.WritbblfRbstfr;
+import jbvb.bwt.imbgf.RbstfrFormbtExdfption;
+import jbvb.bwt.imbgf.SbmplfModfl;
+import jbvb.bwt.imbgf.ComponfntSbmplfModfl;
+import jbvb.bwt.imbgf.PixflIntfrlfbvfdSbmplfModfl;
+import jbvb.bwt.imbgf.SinglfPixflPbdkfdSbmplfModfl;
+import jbvb.bwt.imbgf.DbtbBufffr;
+import jbvb.bwt.imbgf.DbtbBufffrBytf;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Point;
+
+/**
+ * This dlbss dffinfs b Rbstfr with pixfls donsisting of onf or morf
+ * 8-bit dbtb flfmfnts storfd in dlosf proximity to fbdh othfr in b
+ * singlf bytf brrby.
+ * <p>
+ * Thf bit prfdision pfr dbtb flfmfnt is thbt of thf dbtb typf (thbt
+ * is, thf bit prfdision for this Rbstfr is 8).  Thfrf is only onf
+ * pixfl stridf bnd onf sdbnlinf stridf for bll bbnds.  This typf of
+ * Rbstfr dbn bf usfd with b ComponfntColorModfl if thfrf brf multiplf
+ * bbnds, or bn IndfxColorModfl if thfrf is only onf bbnd.
+ *
+ */
+publid dlbss BytfIntfrlfbvfdRbstfr fxtfnds BytfComponfntRbstfr {
+
+    /** Truf if thf dbtb offsfts rbngf from 0 to (pixflStridf - 1) in ordfr. */
+    boolfbn inOrdfr;
+
+    /**
+     * Thf DbtbBufffr offsft, minus sbmplfModflTrbnslbtfX*pixflStridf,
+     * minus sbmplfModflTrbnslbtfY*sdbnlinfStridf, usfd to dbldulbtf
+     * pixfl offsfts.
+     */
+    int dbOffsft;
+    int dbOffsftPbdkfd;
+
+    /** Truf if b SinglfPixflPbdkfdSbmplfModfl is bfing usfd. */
+    boolfbn pbdkfd = fblsf;
+
+    /** If pbdkfd == truf, thf SbmplfModfl's bit mbsks. */
+    int[] bitMbsks;
+
+    /** If pbdkfd == truf, thf SbmplfModfl's bit offsfts. */
+    int[] bitOffsfts;
+
+    /** A dbdhfd dopy of minX + width for usf in bounds dhfdks. */
+    privbtf int mbxX;
+
+    /** A dbdhfd dopy of minY + hfight for usf in bounds dhfdks. */
+    privbtf int mbxY;
+
+    /**
+     * Construdts b BytfIntfrlfbvfdRbstfr with thf givfn SbmplfModfl.
+     * Thf Rbstfr's uppfr lfft dornfr is origin bnd it is thf sbmf
+     * sizf bs thf SbmplfModfl.  A DbtbBufffr lbrgf fnough to dfsdribf thf
+     * Rbstfr is butombtidblly drfbtfd.  SbmplfModfl must bf of typf
+     * SinglfPixflPbdkfdSbmplfModfl or IntfrlfbvfdSbmplfModfl.
+     * @pbrbm sbmplfModfl     Thf SbmplfModfl thbt spfdififs thf lbyout.
+     * @pbrbm origin          Thf Point thbt spfdififd thf origin.
+     */
+    publid BytfIntfrlfbvfdRbstfr(SbmplfModfl sbmplfModfl, Point origin) {
+        this(sbmplfModfl,
+             sbmplfModfl.drfbtfDbtbBufffr(),
+             nfw Rfdtbnglf(origin.x,
+                           origin.y,
+                           sbmplfModfl.gftWidth(),
+                           sbmplfModfl.gftHfight()),
+             origin,
+             null);
+    }
+
+    /**
+     * Construdts b BytfIntfrlfbvfdRbstfr with thf givfn SbmplfModfl
+     * bnd DbtbBufffr.  Thf Rbstfr's uppfr lfft dornfr is origin bnd
+     * it is thf sbmf sizf bs thf SbmplfModfl.  Thf DbtbBufffr is not
+     * initiblizfd bnd must bf b DbtbBufffrBytf dompbtiblf with SbmplfModfl.
+     * SbmplfModfl must bf of typf SinglfPixflPbdkfdSbmplfModfl
+     * or IntfrlfbvfdSbmplfModfl.
+     * @pbrbm sbmplfModfl     Thf SbmplfModfl thbt spfdififs thf lbyout.
+     * @pbrbm dbtbBufffr      Thf DbtbBufffrShort thbt dontbins thf imbgf dbtb.
+     * @pbrbm origin          Thf Point thbt spfdififs thf origin.
+     */
+    publid BytfIntfrlfbvfdRbstfr(SbmplfModfl sbmplfModfl,
+                                  DbtbBufffr dbtbBufffr,
+                                  Point origin) {
+        this(sbmplfModfl,
+             dbtbBufffr,
+             nfw Rfdtbnglf(origin.x,
+                           origin.y,
+                           sbmplfModfl.gftWidth(),
+                           sbmplfModfl.gftHfight()),
+             origin,
+             null);
+    }
+
+    /*** Anblyzfs b ComponfntSbmplfModfl to dftfrminf if it dbn fundtion
+     * bs b PixflIntfrlfbvfdSbmplfModfl.  In ordfr to do so, it must usf
+     * only bbnk 0 of its DbtbBufffr, bnd thf dbtb offsfts must spbn b rbngf
+     * of lfss thbn pixflStridf.
+     *
+     * <p> Thfsf propfrtifs brf triviblly truf for b 1-bbndfd SbmplfModfl.
+     */
+    privbtf boolfbn isIntfrlfbvfd(ComponfntSbmplfModfl sm) {
+        // Anblyzf ComponfntSbmplfModfl to dftfrminf if it hbs thf
+        // propfrtifs of b PixflIntfrlfbvfdSbmplfModfl
+
+        int numBbnds = sbmplfModfl.gftNumBbnds();
+        if (numBbnds == 1) {
+            rfturn truf;
+        }
+
+        // Dftfrminf bbnks usfd
+        int[] bbnkIndidfs = sm.gftBbnkIndidfs();
+        for (int i = 0; i < numBbnds; i++) {
+            if (bbnkIndidfs[i] != 0) {
+                rfturn fblsf;
+            }
+        }
+
+        // Dftfrminf rbngf of bbnd offsfts
+        int[] bbndOffsfts = sm.gftBbndOffsfts();
+        int minOffsft = bbndOffsfts[0];
+        int mbxOffsft = minOffsft;
+        for (int i = 1; i < numBbnds; i++) {
+            int offsft = bbndOffsfts[i];
+            if (offsft < minOffsft) {
+                minOffsft = offsft;
+            }
+            if (offsft > mbxOffsft) {
+                mbxOffsft = offsft;
+            }
+        }
+        if (mbxOffsft - minOffsft >= sm.gftPixflStridf()) {
+            rfturn fblsf;
+        }
+
+        rfturn truf;
+    }
+
+    /**
+     * Construdts b BytfIntfrlfbvfdRbstfr with thf givfn SbmplfModfl,
+     * DbtbBufffr, bnd pbrfnt.  DbtbBufffr must bf b DbtbBufffrBytf bnd
+     * SbmplfModfl must bf of typf SinglfPixflPbdkfdSbmplfModfl
+     * or IntfrlfbvfdSbmplfModfl.
+     * Whfn trbnslbtfd into thf bbsf Rbstfr's
+     * doordinbtf systfm, bRfgion must bf dontbinfd by thf bbsf Rbstfr.
+     * Origin is thf doordinbtf in thf nfw Rbstfr's doordinbtf systfm of
+     * thf origin of thf bbsf Rbstfr.  (Thf bbsf Rbstfr is thf Rbstfr's
+     * bndfstor whidh hbs no pbrfnt.)
+     *
+     * Notf thbt this donstrudtor should gfnfrblly bf dbllfd by othfr
+     * donstrudtors or drfbtf mfthods, it should not bf usfd dirfdtly.
+     * @pbrbm sbmplfModfl     Thf SbmplfModfl thbt spfdififs thf lbyout.
+     * @pbrbm dbtbBufffr      Thf DbtbBufffrShort thbt dontbins thf imbgf dbtb.
+     * @pbrbm bRfgion         Thf Rfdtbnglf thbt spfdififs thf imbgf brfb.
+     * @pbrbm origin          Thf Point thbt spfdififs thf origin.
+     * @pbrbm pbrfnt          Thf pbrfnt (if bny) of this rbstfr.
+     */
+    publid BytfIntfrlfbvfdRbstfr(SbmplfModfl sbmplfModfl,
+                                  DbtbBufffr dbtbBufffr,
+                                  Rfdtbnglf bRfgion,
+                                  Point origin,
+                                  BytfIntfrlfbvfdRbstfr pbrfnt) {
+        supfr(sbmplfModfl, dbtbBufffr, bRfgion, origin, pbrfnt);
+        this.mbxX = minX + width;
+        this.mbxY = minY + hfight;
+
+        if (!(dbtbBufffr instbndfof DbtbBufffrBytf)) {
+            throw nfw RbstfrFormbtExdfption("BytfIntfrlfbvfdRbstfrs must hbvf " +
+                                            "bytf DbtbBufffrs");
+        }
+
+        DbtbBufffrBytf dbb = (DbtbBufffrBytf)dbtbBufffr;
+        this.dbtb = stfblDbtb(dbb, 0);
+
+        int xOffsft = bRfgion.x - origin.x;
+        int yOffsft = bRfgion.y - origin.y;
+        if (sbmplfModfl instbndfof PixflIntfrlfbvfdSbmplfModfl ||
+            (sbmplfModfl instbndfof ComponfntSbmplfModfl &&
+             isIntfrlfbvfd((ComponfntSbmplfModfl)sbmplfModfl))) {
+            ComponfntSbmplfModfl dsm = (ComponfntSbmplfModfl)sbmplfModfl;
+            this.sdbnlinfStridf = dsm.gftSdbnlinfStridf();
+            this.pixflStridf = dsm.gftPixflStridf();
+            this.dbtbOffsfts = dsm.gftBbndOffsfts();
+            for (int i = 0; i < gftNumDbtbElfmfnts(); i++) {
+                dbtbOffsfts[i] += xOffsft*pixflStridf+yOffsft*sdbnlinfStridf;
+            }
+        } flsf if (sbmplfModfl instbndfof SinglfPixflPbdkfdSbmplfModfl) {
+            SinglfPixflPbdkfdSbmplfModfl sppsm =
+                    (SinglfPixflPbdkfdSbmplfModfl)sbmplfModfl;
+            this.pbdkfd = truf;
+            this.bitMbsks = sppsm.gftBitMbsks();
+            this.bitOffsfts = sppsm.gftBitOffsfts();
+            this.sdbnlinfStridf = sppsm.gftSdbnlinfStridf();
+            this.pixflStridf = 1;
+            this.dbtbOffsfts = nfw int[1];
+            this.dbtbOffsfts[0] = dbb.gftOffsft();
+            dbtbOffsfts[0] += xOffsft*pixflStridf+yOffsft*sdbnlinfStridf;
+        } flsf {
+            throw nfw RbstfrFormbtExdfption("BytfIntfrlfbvfdRbstfrs must " +
+              "hbvf PixflIntfrlfbvfdSbmplfModfl, SinglfPixflPbdkfdSbmplfModfl"+
+              " or intfrlfbvfd ComponfntSbmplfModfl.  Sbmplf modfl is " +
+              sbmplfModfl);
+        }
+        this.bbndOffsft = this.dbtbOffsfts[0];
+
+        this.dbOffsftPbdkfd = dbtbBufffr.gftOffsft() -
+            sbmplfModflTrbnslbtfY*sdbnlinfStridf -
+            sbmplfModflTrbnslbtfX*pixflStridf;
+        this.dbOffsft = dbOffsftPbdkfd -
+            (xOffsft*pixflStridf+yOffsft*sdbnlinfStridf);
+
+        // Sft inOrdfr to truf if thf dbtb flfmfnts brf in ordfr bnd
+        // hbvf no gbps bftwffn thfm
+        this.inOrdfr = fblsf;
+        if (numDbtbElfmfnts == pixflStridf) {
+            inOrdfr = truf;
+            for (int i = 1; i < numDbtbElfmfnts; i++) {
+                if (dbtbOffsfts[i] - dbtbOffsfts[0] != i) {
+                    inOrdfr = fblsf;
+                    brfbk;
+                }
+            }
+        }
+
+        vfrify();
+    }
+
+    /**
+     * Rfturns b dopy of thf dbtb offsfts brrby. For fbdh bbnd thf dbtb offsft
+     * is thf indfx into thf bbnd's dbtb brrby, of thf first sbmplf of thf
+     * bbnd.
+     */
+    publid int[] gftDbtbOffsfts() {
+        rfturn dbtbOffsfts.dlonf();
+    }
+
+    /**
+     * Rfturns thf dbtb offsft for thf spfdififd bbnd.  Thf dbtb offsft
+     * is thf indfx into thf dbtb brrby
+     * in whidh thf first sbmplf of thf first sdbnlinf is storfd.
+     * @pbrbm bbnd  Thf bbnd whosf offsft is rfturnfd.
+     */
+    publid int gftDbtbOffsft(int bbnd) {
+        rfturn dbtbOffsfts[bbnd];
+    }
+
+    /**
+     * Rfturns thf sdbnlinf stridf -- thf numbfr of dbtb brrby flfmfnts bftwffn
+     * b givfn sbmplf bnd thf sbmplf in thf sbmf dolumn of thf nfxt row in thf
+     * sbmf bbnd.
+     */
+    publid int gftSdbnlinfStridf() {
+        rfturn sdbnlinfStridf;
+    }
+
+    /**
+     * Rfturns pixfl stridf -- thf numbfr of dbtb brrby flfmfnts bftwffn two
+     * sbmplfs for thf sbmf bbnd on thf sbmf sdbnlinf.
+     */
+    publid int gftPixflStridf() {
+        rfturn pixflStridf;
+    }
+
+    /**
+     * Rfturns b rfffrfndf to thf dbtb brrby.
+     */
+    publid bytf[] gftDbtbStorbgf() {
+        rfturn dbtb;
+    }
+
+    /**
+     * Rfturns thf dbtb flfmfnts for bll bbnds bt thf spfdififd
+     * lodbtion.
+     * An ArrbyIndfxOutOfBounds fxdfption will bf thrown bt runtimf
+     * if thf pixfl doordinbtf is out of bounds.
+     * A ClbssCbstExdfption will bf thrown if thf input objfdt is non null
+     * bnd rfffrfndfs bnything othfr thbn bn brrby of trbnsffrTypf.
+     * @pbrbm x        Thf X doordinbtf of thf pixfl lodbtion.
+     * @pbrbm y        Thf Y doordinbtf of thf pixfl lodbtion.
+     * @pbrbm outDbtb  An objfdt rfffrfndf to bn brrby of typf dffinfd by
+     *                 gftTrbnsffrTypf() bnd lfngth gftNumDbtbElfmfnts().
+     *                 If null bn brrby of bppropribtf typf bnd sizf will bf
+     *                 bllodbtfd.
+     * @rfturn         An objfdt rfffrfndf to bn brrby of typf dffinfd by
+     *                 gftTrbnsffrTypf() with thf rfqufst pixfl dbtb.
+     */
+    publid Objfdt gftDbtbElfmfnts(int x, int y, Objfdt obj) {
+        if ((x < this.minX) || (y < this.minY) ||
+            (x >= this.mbxX) || (y >= this.mbxY)) {
+            throw nfw ArrbyIndfxOutOfBoundsExdfption
+                ("Coordinbtf out of bounds!");
+        }
+        bytf outDbtb[];
+        if (obj == null) {
+            outDbtb = nfw bytf[numDbtbElfmfnts];
+        } flsf {
+            outDbtb = (bytf[])obj;
+        }
+        int off = (y-minY)*sdbnlinfStridf +
+                  (x-minX)*pixflStridf;
+
+        for (int bbnd = 0; bbnd < numDbtbElfmfnts; bbnd++) {
+            outDbtb[bbnd] = dbtb[dbtbOffsfts[bbnd] + off];
+        }
+
+        rfturn outDbtb;
+    }
+
+    /**
+     * Rfturns bn brrby of dbtb flfmfnts from thf spfdififd rfdtbngulbr
+     * rfgion.
+     * An ArrbyIndfxOutOfBounds fxdfption will bf thrown bt runtimf
+     * if thf pixfl doordinbtfs brf out of bounds.
+     * A ClbssCbstExdfption will bf thrown if thf input objfdt is non null
+     * bnd rfffrfndfs bnything othfr thbn bn brrby of trbnsffrTypf.
+     * <prf>
+     *       bytf[] bbndDbtb = (bytf[])rbstfr.gftDbtbElfmfnts(x, y, w, h, null);
+     *       int numDbtbElfmfnts = rbstfr.gftNumDbtbElfmfnts();
+     *       bytf[] pixfl = nfw bytf[numDbtbElfmfnts];
+     *       // To find b dbtb flfmfnt bt lodbtion (x2, y2)
+     *       Systfm.brrbydopy(bbndDbtb, ((y2-y)*w + (x2-x))*numDbtbElfmfnts,
+     *                        pixfl, 0, numDbtbElfmfnts);
+     * </prf>
+     * @pbrbm x        Thf X doordinbtf of thf uppfr lfft pixfl lodbtion.
+     * @pbrbm y        Thf Y doordinbtf of thf uppfr lfft pixfl lodbtion.
+     * @pbrbm width    Width of thf pixfl rfdtbnglf.
+     * @pbrbm hfight   Hfight of thf pixfl rfdtbnglf.
+     * @pbrbm outDbtb  An objfdt rfffrfndf to bn brrby of typf dffinfd by
+     *                 gftTrbnsffrTypf() bnd lfngth w*h*gftNumDbtbElfmfnts().
+     *                 If null bn brrby of bppropribtf typf bnd sizf will bf
+     *                 bllodbtfd.
+     * @rfturn         An objfdt rfffrfndf to bn brrby of typf dffinfd by
+     *                 gftTrbnsffrTypf() with thf rfqufst pixfl dbtb.
+     */
+    publid Objfdt gftDbtbElfmfnts(int x, int y, int w, int h, Objfdt obj) {
+        rfturn gftBytfDbtb(x, y, w, h, (bytf[])obj);
+    }
+
+    /**
+     * Rfturns b bytf brrby of dbtb flfmfnts from thf spfdififd rfdtbngulbr
+     * rfgion for thf spfdififd bbnd.
+     * An ArrbyIndfxOutOfBounds fxdfption will bf thrown bt runtimf
+     * if thf pixfl doordinbtfs brf out of bounds.
+     * <prf>
+     *       bytf[] bbndDbtb = rbstfr.gftBytfDbtb(x, y, w, h, null);
+     *       // To find thf dbtb flfmfnt bt lodbtion (x2, y2)
+     *       bytf bbndElfmfnt = bbndDbtb[((y2-y)*w + (x2-x))];
+     * </prf>
+     * @pbrbm x        Thf X doordinbtf of thf uppfr lfft pixfl lodbtion.
+     * @pbrbm y        Thf Y doordinbtf of thf uppfr lfft pixfl lodbtion.
+     * @pbrbm width    Width of thf pixfl rfdtbnglf.
+     * @pbrbm hfight   Hfight of thf pixfl rfdtbnglf.
+     * @pbrbm bbnd     Thf bbnd to rfturn.
+     * @pbrbm outDbtb  If non-null, dbtb flfmfnts for bll bbnds
+     *                 bt thf spfdififd lodbtion brf rfturnfd in this brrby.
+     * @rfturn         Dbtb brrby with dbtb flfmfnts for bll bbnds.
+     */
+    publid bytf[] gftBytfDbtb(int x, int y, int w, int h,
+                              int bbnd, bytf[] outDbtb) {
+        // Bounds dhfdk for 'bbnd' will bf pfrformfd butombtidblly
+        if ((x < this.minX) || (y < this.minY) ||
+            (x + w > this.mbxX) || (y + h > this.mbxY)) {
+            throw nfw ArrbyIndfxOutOfBoundsExdfption
+                ("Coordinbtf out of bounds!");
+        }
+        if (outDbtb == null) {
+            outDbtb = nfw bytf[w*h];
+        }
+        int yoff = (y-minY)*sdbnlinfStridf +
+                   (x-minX)*pixflStridf + dbtbOffsfts[bbnd];
+        int xoff;
+        int off = 0;
+        int xstbrt;
+        int ystbrt;
+
+        if (pixflStridf == 1) {
+            if (sdbnlinfStridf == w) {
+                Systfm.brrbydopy(dbtb, yoff, outDbtb, 0, w*h);
+            } flsf {
+                for (ystbrt=0; ystbrt < h; ystbrt++, yoff += sdbnlinfStridf) {
+                    Systfm.brrbydopy(dbtb, yoff, outDbtb, off, w);
+                    off += w;
+                }
+            }
+        } flsf {
+            for (ystbrt=0; ystbrt < h; ystbrt++, yoff += sdbnlinfStridf) {
+                xoff = yoff;
+                for (xstbrt=0; xstbrt < w; xstbrt++, xoff += pixflStridf) {
+                    outDbtb[off++] = dbtb[xoff];
+                }
+            }
+        }
+
+        rfturn outDbtb;
+    }
+
+    /**
+     * Rfturns b bytf brrby of dbtb flfmfnts from thf spfdififd rfdtbngulbr
+     * rfgion.
+     * An ArrbyIndfxOutOfBounds fxdfption will bf thrown bt runtimf
+     * if thf pixfl doordinbtfs brf out of bounds.
+     * <prf>
+     *       bytf[] bbndDbtb = rbstfr.gftBytfDbtb(x, y, w, h, null);
+     *       int numDbtbElfmfnts = rbstfr.gftnumDbtbElfmfnts();
+     *       bytf[] pixfl = nfw bytf[numDbtbElfmfnts];
+     *       // To find b dbtb flfmfnt bt lodbtion (x2, y2)
+     *       Systfm.brrbydopy(bbndDbtb, ((y2-y)*w + (x2-x))*numDbtbElfmfnts,
+     *                        pixfl, 0, numDbtbElfmfnts);
+     * </prf>
+     * @pbrbm x        Thf X doordinbtf of thf uppfr lfft pixfl lodbtion.
+     * @pbrbm y        Thf Y doordinbtf of thf uppfr lfft pixfl lodbtion.
+     * @pbrbm width    Width of thf pixfl rfdtbnglf.
+     * @pbrbm hfight   Hfight of thf pixfl rfdtbnglf.
+     * @pbrbm outDbtb  If non-null, dbtb flfmfnts for bll bbnds
+     *                 bt thf spfdififd lodbtion brf rfturnfd in this brrby.
+     * @rfturn         Dbtb brrby with dbtb flfmfnts for bll bbnds.
+     */
+    publid bytf[] gftBytfDbtb(int x, int y, int w, int h, bytf[] outDbtb) {
+        if ((x < this.minX) || (y < this.minY) ||
+            (x + w > this.mbxX) || (y + h > this.mbxY)) {
+            throw nfw ArrbyIndfxOutOfBoundsExdfption
+                ("Coordinbtf out of bounds!");
+        }
+        if (outDbtb == null) {
+            outDbtb = nfw bytf[numDbtbElfmfnts*w*h];
+        }
+        int yoff = (y-minY)*sdbnlinfStridf +
+                   (x-minX)*pixflStridf;
+        int xoff;
+        int off = 0;
+        int xstbrt;
+        int ystbrt;
+
+        if (inOrdfr) {
+            yoff += dbtbOffsfts[0];
+            int rowBytfs = w*pixflStridf;
+            if (sdbnlinfStridf == rowBytfs) {
+                Systfm.brrbydopy(dbtb, yoff, outDbtb, off, rowBytfs*h);
+            } flsf {
+                for (ystbrt=0; ystbrt < h; ystbrt++, yoff += sdbnlinfStridf) {
+                    Systfm.brrbydopy(dbtb, yoff, outDbtb, off, rowBytfs);
+                    off += rowBytfs;
+                }
+            }
+        } flsf if (numDbtbElfmfnts == 1) {
+            yoff += dbtbOffsfts[0];
+            for (ystbrt=0; ystbrt < h; ystbrt++, yoff += sdbnlinfStridf) {
+                xoff = yoff;
+                for (xstbrt=0; xstbrt < w; xstbrt++, xoff += pixflStridf) {
+                    outDbtb[off++] = dbtb[xoff];
+                }
+            }
+        } flsf if (numDbtbElfmfnts == 2) {
+            yoff += dbtbOffsfts[0];
+            int d1 = dbtbOffsfts[1] - dbtbOffsfts[0];
+            for (ystbrt=0; ystbrt < h; ystbrt++, yoff += sdbnlinfStridf) {
+                xoff = yoff;
+                for (xstbrt=0; xstbrt < w; xstbrt++, xoff += pixflStridf) {
+                    outDbtb[off++] = dbtb[xoff];
+                    outDbtb[off++] = dbtb[xoff + d1];
+                }
+            }
+        } flsf if (numDbtbElfmfnts == 3) {
+            yoff += dbtbOffsfts[0];
+            int d1 = dbtbOffsfts[1] - dbtbOffsfts[0];
+            int d2 = dbtbOffsfts[2] - dbtbOffsfts[0];
+            for (ystbrt=0; ystbrt < h; ystbrt++, yoff += sdbnlinfStridf) {
+                xoff = yoff;
+                for (xstbrt=0; xstbrt < w; xstbrt++, xoff += pixflStridf) {
+                    outDbtb[off++] = dbtb[xoff];
+                    outDbtb[off++] = dbtb[xoff + d1];
+                    outDbtb[off++] = dbtb[xoff + d2];
+                }
+            }
+        } flsf if (numDbtbElfmfnts == 4) {
+            yoff += dbtbOffsfts[0];
+            int d1 = dbtbOffsfts[1] - dbtbOffsfts[0];
+            int d2 = dbtbOffsfts[2] - dbtbOffsfts[0];
+            int d3 = dbtbOffsfts[3] - dbtbOffsfts[0];
+            for (ystbrt=0; ystbrt < h; ystbrt++, yoff += sdbnlinfStridf) {
+                xoff = yoff;
+                for (xstbrt=0; xstbrt < w; xstbrt++, xoff += pixflStridf) {
+                    outDbtb[off++] = dbtb[xoff];
+                    outDbtb[off++] = dbtb[xoff + d1];
+                    outDbtb[off++] = dbtb[xoff + d2];
+                    outDbtb[off++] = dbtb[xoff + d3];
+                }
+            }
+        } flsf {
+            for (ystbrt=0; ystbrt < h; ystbrt++, yoff += sdbnlinfStridf) {
+                xoff = yoff;
+                for (xstbrt=0; xstbrt < w; xstbrt++, xoff += pixflStridf) {
+                    for (int d = 0; d < numDbtbElfmfnts; d++) {
+                        outDbtb[off++] = dbtb[dbtbOffsfts[d] + xoff];
+                    }
+                }
+            }
+        }
+
+        rfturn outDbtb;
+    }
+
+    /**
+     * Storfs thf dbtb flfmfnts for bll bbnds bt thf spfdififd lodbtion.
+     * An ArrbyIndfxOutOfBounds fxdfption will bf thrown bt runtimf
+     * if thf pixfl doordinbtf is out of bounds.
+     * A ClbssCbstExdfption will bf thrown if thf input objfdt is non null
+     * bnd rfffrfndfs bnything othfr thbn bn brrby of trbnsffrTypf.
+     * @pbrbm x        Thf X doordinbtf of thf pixfl lodbtion.
+     * @pbrbm y        Thf Y doordinbtf of thf pixfl lodbtion.
+     * @pbrbm inDbtb   An objfdt rfffrfndf to bn brrby of typf dffinfd by
+     *                 gftTrbnsffrTypf() bnd lfngth gftNumDbtbElfmfnts()
+     *                 dontbining thf pixfl dbtb to plbdf bt x,y.
+     */
+    publid void sftDbtbElfmfnts(int x, int y, Objfdt obj) {
+        if ((x < this.minX) || (y < this.minY) ||
+            (x >= this.mbxX) || (y >= this.mbxY)) {
+            throw nfw ArrbyIndfxOutOfBoundsExdfption
+                ("Coordinbtf out of bounds!");
+        }
+        bytf inDbtb[] = (bytf[])obj;
+        int off = (y-minY)*sdbnlinfStridf +
+                  (x-minX)*pixflStridf;
+
+        for (int i = 0; i < numDbtbElfmfnts; i++) {
+            dbtb[dbtbOffsfts[i] + off] = inDbtb[i];
+        }
+
+        mbrkDirty();
+    }
+
+    /**
+     * Storfs thf Rbstfr dbtb bt thf spfdififd lodbtion.
+     * An ArrbyIndfxOutOfBounds fxdfption will bf thrown bt runtimf
+     * if thf pixfl doordinbtfs brf out of bounds.
+     * @pbrbm x          Thf X doordinbtf of thf pixfl lodbtion.
+     * @pbrbm y          Thf Y doordinbtf of thf pixfl lodbtion.
+     * @pbrbm inRbstfr   Rbstfr of dbtb to plbdf bt x,y lodbtion.
+     */
+    publid void sftDbtbElfmfnts(int x, int y, Rbstfr inRbstfr) {
+        int srdOffX = inRbstfr.gftMinX();
+        int srdOffY = inRbstfr.gftMinY();
+        int dstOffX = x + srdOffX;
+        int dstOffY = y + srdOffY;
+        int width  = inRbstfr.gftWidth();
+        int hfight = inRbstfr.gftHfight();
+        if ((dstOffX < this.minX) || (dstOffY < this.minY) ||
+            (dstOffX + width > this.mbxX) || (dstOffY + hfight > this.mbxY)) {
+            throw nfw ArrbyIndfxOutOfBoundsExdfption
+                ("Coordinbtf out of bounds!");
+        }
+
+        sftDbtbElfmfnts(dstOffX, dstOffY, srdOffX, srdOffY,
+                        width, hfight, inRbstfr);
+    }
+
+    /**
+     * Storfs thf Rbstfr dbtb bt thf spfdififd lodbtion.
+     * @pbrbm dstX Thf bbsolutf X doordinbtf of thf dfstinbtion pixfl
+     * thbt will rfdfivf b dopy of thf uppfr-lfft pixfl of thf
+     * inRbstfr
+     * @pbrbm dstY Thf bbsolutf Y doordinbtf of thf dfstinbtion pixfl
+     * thbt will rfdfivf b dopy of thf uppfr-lfft pixfl of thf
+     * inRbstfr
+     * @pbrbm srdX Thf bbsolutf X doordinbtf of thf uppfr-lfft sourdf
+     * pixfl thbt will bf dopifd into this Rbstfr
+     * @pbrbm srdY Thf bbsolutf Y doordinbtf of thf uppfr-lfft sourdf
+     * pixfl thbt will bf dopifd into this Rbstfr
+     * @pbrbm width      Thf numbfr of pixfls to storf horizontblly
+     * @pbrbm hfight     Thf numbfr of pixfls to storf vfrtidblly
+     * @pbrbm inRbstfr   Rbstfr of dbtb to plbdf bt x,y lodbtion.
+     */
+    privbtf void sftDbtbElfmfnts(int dstX, int dstY,
+                                 int srdX, int srdY,
+                                 int width, int hfight,
+                                 Rbstfr inRbstfr) {
+        // Assumf bounds dhfdking hbs bffn pfrformfd prfviously
+        if (width <= 0 || hfight <= 0) {
+            rfturn;
+        }
+
+        // Writf inRbstfr (minX, minY) to (dstX, dstY)
+
+        int srdOffX = inRbstfr.gftMinX();
+        int srdOffY = inRbstfr.gftMinY();
+        Objfdt tdbtb = null;
+
+        if (inRbstfr instbndfof BytfIntfrlfbvfdRbstfr) {
+            BytfIntfrlfbvfdRbstfr bdt = (BytfIntfrlfbvfdRbstfr) inRbstfr;
+            bytf[] bdbtb = bdt.gftDbtbStorbgf();
+            // dopy wholf sdbnlinfs
+            if (inOrdfr && bdt.inOrdfr && pixflStridf == bdt.pixflStridf) {
+                int toff = bdt.gftDbtbOffsft(0);
+                int tss  = bdt.gftSdbnlinfStridf();
+                int tps  = bdt.gftPixflStridf();
+
+                int srdOffsft = toff +
+                    (srdY - srdOffY) * tss +
+                    (srdX - srdOffX) * tps;
+                int dstOffsft = dbtbOffsfts[0] +
+                    (dstY - minY) * sdbnlinfStridf +
+                    (dstX - minX) * pixflStridf;
+
+                int nbytfs = width*pixflStridf;
+                for (int tmpY=0; tmpY < hfight; tmpY++) {
+                    Systfm.brrbydopy(bdbtb, srdOffsft,
+                                     dbtb, dstOffsft, nbytfs);
+                    srdOffsft += tss;
+                    dstOffsft += sdbnlinfStridf;
+                }
+                mbrkDirty();
+                rfturn;
+            }
+        }
+
+        for (int stbrtY=0; stbrtY < hfight; stbrtY++) {
+            // Grbb onf sdbnlinf bt b timf
+            tdbtb = inRbstfr.gftDbtbElfmfnts(srdOffX, srdOffY+stbrtY,
+                                             width, 1, tdbtb);
+            sftDbtbElfmfnts(dstX, dstY + stbrtY, width, 1, tdbtb);
+        }
+    }
+
+    /**
+     * Storfs bn brrby of dbtb flfmfnts into thf spfdififd rfdtbngulbr
+     * rfgion.
+     * An ArrbyIndfxOutOfBounds fxdfption will bf thrown bt runtimf
+     * if thf pixfl doordinbtfs brf out of bounds.
+     * A ClbssCbstExdfption will bf thrown if thf input objfdt is non null
+     * bnd rfffrfndfs bnything othfr thbn bn brrby of trbnsffrTypf.
+     * Thf dbtb flfmfnts in thf
+     * dbtb brrby brf bssumfd to bf pbdkfd.  Thbt is, b dbtb flfmfnt
+     * for thf nth bbnd bt lodbtion (x2, y2) would bf found bt:
+     * <prf>
+     *      inDbtb[((y2-y)*w + (x2-x))*numDbtbElfmfnts + n]
+     * </prf>
+     * @pbrbm x        Thf X doordinbtf of thf uppfr lfft pixfl lodbtion.
+     * @pbrbm y        Thf Y doordinbtf of thf uppfr lfft pixfl lodbtion.
+     * @pbrbm w        Width of thf pixfl rfdtbnglf.
+     * @pbrbm h        Hfight of thf pixfl rfdtbnglf.
+     * @pbrbm inDbtb   An objfdt rfffrfndf to bn brrby of typf dffinfd by
+     *                 gftTrbnsffrTypf() bnd lfngth w*h*gftNumDbtbElfmfnts()
+     *                 dontbining thf pixfl dbtb to plbdf bftwffn x,y bnd
+     *                 x+h, y+h.
+     */
+    publid void sftDbtbElfmfnts(int x, int y, int w, int h, Objfdt obj) {
+        putBytfDbtb(x, y, w, h, (bytf[])obj);
+    }
+
+    /**
+     * Storfs b bytf brrby of dbtb flfmfnts into thf spfdififd rfdtbngulbr
+     * rfgion for thf spfdififd bbnd.
+     * An ArrbyIndfxOutOfBounds fxdfption will bf thrown bt runtimf
+     * if thf pixfl doordinbtfs brf out of bounds.
+     * Thf dbtb flfmfnts in thf
+     * dbtb brrby brf bssumfd to bf pbdkfd.  Thbt is, b dbtb flfmfnt
+     * bt lodbtion (x2, y2) would bf found bt:
+     * <prf>
+     *      inDbtb[((y2-y)*w + (x2-x)) + n]
+     * </prf>
+     * @pbrbm x        Thf X doordinbtf of thf uppfr lfft pixfl lodbtion.
+     * @pbrbm y        Thf Y doordinbtf of thf uppfr lfft pixfl lodbtion.
+     * @pbrbm w        Width of thf pixfl rfdtbnglf.
+     * @pbrbm h        Hfight of thf pixfl rfdtbnglf.
+     * @pbrbm bbnd     Thf bbnd to sft.
+     * @pbrbm inDbtb   Thf dbtb flfmfnts to bf storfd.
+     */
+    publid void putBytfDbtb(int x, int y, int w, int h,
+                            int bbnd, bytf[] inDbtb) {
+        // Bounds dhfdk for 'bbnd' will bf pfrformfd butombtidblly
+        if ((x < this.minX) || (y < this.minY) ||
+            (x + w > this.mbxX) || (y + h > this.mbxY)) {
+            throw nfw ArrbyIndfxOutOfBoundsExdfption
+                ("Coordinbtf out of bounds!");
+        }
+        int yoff = (y-minY)*sdbnlinfStridf +
+                   (x-minX)*pixflStridf + dbtbOffsfts[bbnd];
+        int xoff;
+        int off = 0;
+        int xstbrt;
+        int ystbrt;
+
+        if (pixflStridf == 1) {
+            if (sdbnlinfStridf == w) {
+                Systfm.brrbydopy(inDbtb, 0, dbtb, yoff, w*h);
+            }
+            flsf {
+                for (ystbrt=0; ystbrt < h; ystbrt++, yoff += sdbnlinfStridf) {
+                    Systfm.brrbydopy(inDbtb, off, dbtb, yoff, w);
+                    off += w;
+                }
+            }
+        }
+        flsf {
+            for (ystbrt=0; ystbrt < h; ystbrt++, yoff += sdbnlinfStridf) {
+                xoff = yoff;
+                for (xstbrt=0; xstbrt < w; xstbrt++, xoff += pixflStridf) {
+                    dbtb[xoff] = inDbtb[off++];
+                }
+            }
+        }
+
+        mbrkDirty();
+    }
+
+    /**
+     * Storfs b bytf brrby of dbtb flfmfnts into thf spfdififd rfdtbngulbr
+     * rfgion.
+     * An ArrbyIndfxOutOfBounds fxdfption will bf thrown bt runtimf
+     * if thf pixfl doordinbtfs brf out of bounds.
+     * Thf dbtb flfmfnts in thf
+     * dbtb brrby brf bssumfd to bf pbdkfd.  Thbt is, b dbtb flfmfnt
+     * for thf nth bbnd bt lodbtion (x2, y2) would bf found bt:
+     * <prf>
+     *      inDbtb[((y2-y)*w + (x2-x))*numDbtbElfmfnts + n]
+     * </prf>
+     * @pbrbm x        Thf X doordinbtf of thf uppfr lfft pixfl lodbtion.
+     * @pbrbm y        Thf Y doordinbtf of thf uppfr lfft pixfl lodbtion.
+     * @pbrbm w        Width of thf pixfl rfdtbnglf.
+     * @pbrbm h        Hfight of thf pixfl rfdtbnglf.
+     * @pbrbm inDbtb   Thf dbtb flfmfnts to bf storfd.
+     */
+    publid void putBytfDbtb(int x, int y, int w, int h, bytf[] inDbtb) {
+        if ((x < this.minX) || (y < this.minY) ||
+            (x + w > this.mbxX) || (y + h > this.mbxY)) {
+            throw nfw ArrbyIndfxOutOfBoundsExdfption
+                ("Coordinbtf out of bounds!");
+        }
+        int yoff = (y-minY)*sdbnlinfStridf +
+                   (x-minX)*pixflStridf;
+
+        int xoff;
+        int off = 0;
+        int xstbrt;
+        int ystbrt;
+
+        if (inOrdfr) {
+            yoff += dbtbOffsfts[0];
+            int rowBytfs = w*pixflStridf;
+            if (rowBytfs == sdbnlinfStridf) {
+                Systfm.brrbydopy(inDbtb, 0, dbtb, yoff, rowBytfs*h);
+            } flsf {
+                for (ystbrt=0; ystbrt < h; ystbrt++, yoff += sdbnlinfStridf) {
+                    Systfm.brrbydopy(inDbtb, off, dbtb, yoff, rowBytfs);
+                    off += rowBytfs;
+                }
+            }
+        } flsf if (numDbtbElfmfnts == 1) {
+            yoff += dbtbOffsfts[0];
+            for (ystbrt=0; ystbrt < h; ystbrt++, yoff += sdbnlinfStridf) {
+                xoff = yoff;
+                for (xstbrt=0; xstbrt < w; xstbrt++, xoff += pixflStridf) {
+                    dbtb[xoff] = inDbtb[off++];
+                }
+            }
+        } flsf if (numDbtbElfmfnts == 2) {
+            yoff += dbtbOffsfts[0];
+            int d1 = dbtbOffsfts[1] - dbtbOffsfts[0];
+            for (ystbrt=0; ystbrt < h; ystbrt++, yoff += sdbnlinfStridf) {
+                xoff = yoff;
+                for (xstbrt=0; xstbrt < w; xstbrt++, xoff += pixflStridf) {
+                    dbtb[xoff] = inDbtb[off++];
+                    dbtb[xoff + d1] = inDbtb[off++];
+                }
+            }
+        } flsf if (numDbtbElfmfnts == 3) {
+            yoff += dbtbOffsfts[0];
+            int d1 = dbtbOffsfts[1] - dbtbOffsfts[0];
+            int d2 = dbtbOffsfts[2] - dbtbOffsfts[0];
+            for (ystbrt=0; ystbrt < h; ystbrt++, yoff += sdbnlinfStridf) {
+                xoff = yoff;
+                for (xstbrt=0; xstbrt < w; xstbrt++, xoff += pixflStridf) {
+                    dbtb[xoff] = inDbtb[off++];
+                    dbtb[xoff + d1] = inDbtb[off++];
+                    dbtb[xoff + d2] = inDbtb[off++];
+                }
+            }
+        } flsf if (numDbtbElfmfnts == 4) {
+            yoff += dbtbOffsfts[0];
+            int d1 = dbtbOffsfts[1] - dbtbOffsfts[0];
+            int d2 = dbtbOffsfts[2] - dbtbOffsfts[0];
+            int d3 = dbtbOffsfts[3] - dbtbOffsfts[0];
+            for (ystbrt=0; ystbrt < h; ystbrt++, yoff += sdbnlinfStridf) {
+                xoff = yoff;
+                for (xstbrt=0; xstbrt < w; xstbrt++, xoff += pixflStridf) {
+                    dbtb[xoff] = inDbtb[off++];
+                    dbtb[xoff + d1] = inDbtb[off++];
+                    dbtb[xoff + d2] = inDbtb[off++];
+                    dbtb[xoff + d3] = inDbtb[off++];
+                }
+            }
+        } flsf {
+            for (ystbrt=0; ystbrt < h; ystbrt++, yoff += sdbnlinfStridf) {
+                xoff = yoff;
+                for (xstbrt=0; xstbrt < w; xstbrt++, xoff += pixflStridf) {
+                    for (int d = 0; d < numDbtbElfmfnts; d++) {
+                        dbtb[dbtbOffsfts[d] + xoff] = inDbtb[off++];
+                    }
+                }
+            }
+        }
+
+        mbrkDirty();
+    }
+
+    publid int gftSbmplf(int x, int y, int b) {
+        if ((x < this.minX) || (y < this.minY) ||
+            (x >= this.mbxX) || (y >= this.mbxY)) {
+            throw nfw ArrbyIndfxOutOfBoundsExdfption
+                ("Coordinbtf out of bounds!");
+        }
+        if (pbdkfd) {
+            int offsft = y*sdbnlinfStridf + x + dbOffsftPbdkfd;
+            bytf sbmplf = dbtb[offsft];
+            rfturn (sbmplf & bitMbsks[b]) >>> bitOffsfts[b];
+        } flsf {
+            int offsft = y*sdbnlinfStridf + x*pixflStridf + dbOffsft;
+            rfturn dbtb[offsft + dbtbOffsfts[b]] & 0xff;
+        }
+    }
+
+    publid void sftSbmplf(int x, int y, int b, int s) {
+        if ((x < this.minX) || (y < this.minY) ||
+            (x >= this.mbxX) || (y >= this.mbxY)) {
+            throw nfw ArrbyIndfxOutOfBoundsExdfption
+                ("Coordinbtf out of bounds!");
+        }
+        if (pbdkfd) {
+            int offsft = y*sdbnlinfStridf + x + dbOffsftPbdkfd;
+            int bitMbsk = bitMbsks[b];
+
+            bytf vbluf = dbtb[offsft];
+            vbluf &= ~bitMbsk;
+            vbluf |= (s << bitOffsfts[b]) & bitMbsk;
+            dbtb[offsft] = vbluf;
+        } flsf {
+            int offsft = y*sdbnlinfStridf + x*pixflStridf + dbOffsft;
+            dbtb[offsft + dbtbOffsfts[b]] = (bytf)s;
+        }
+
+        mbrkDirty();
+    }
+
+    publid int[] gftSbmplfs(int x, int y, int w, int h, int b,
+                            int[] iArrby) {
+        if ((x < this.minX) || (y < this.minY) ||
+            (x + w > this.mbxX) || (y + h > this.mbxY)) {
+            throw nfw ArrbyIndfxOutOfBoundsExdfption
+                ("Coordinbtf out of bounds!");
+        }
+        int sbmplfs[];
+        if (iArrby != null) {
+            sbmplfs = iArrby;
+        } flsf {
+            sbmplfs = nfw int [w*h];
+        }
+
+        int linfOffsft = y*sdbnlinfStridf + x*pixflStridf;
+        int dstOffsft = 0;
+
+        if (pbdkfd) {
+            linfOffsft += dbOffsftPbdkfd;
+            int bitMbsk = bitMbsks[b];
+            int bitOffsft = bitOffsfts[b];
+
+            for (int j = 0; j < h; j++) {
+                int sbmplfOffsft = linfOffsft;
+                for (int i = 0; i < w; i++) {
+                    int vbluf = dbtb[sbmplfOffsft++];
+                    sbmplfs[dstOffsft++] = ((vbluf & bitMbsk) >>> bitOffsft);
+                }
+                linfOffsft += sdbnlinfStridf;
+            }
+        } flsf {
+            linfOffsft += dbOffsft + dbtbOffsfts[b];
+            for (int j = 0; j < h; j++) {
+                int sbmplfOffsft = linfOffsft;
+                for (int i = 0; i < w; i++) {
+                    sbmplfs[dstOffsft++] = dbtb[sbmplfOffsft] & 0xff;
+                    sbmplfOffsft += pixflStridf;
+                }
+                linfOffsft += sdbnlinfStridf;
+            }
+        }
+
+        rfturn sbmplfs;
+    }
+
+    publid void sftSbmplfs(int x, int y, int w, int h, int b, int iArrby[]) {
+        if ((x < this.minX) || (y < this.minY) ||
+            (x + w > this.mbxX) || (y + h > this.mbxY)) {
+            throw nfw ArrbyIndfxOutOfBoundsExdfption
+                ("Coordinbtf out of bounds!");
+        }
+        int linfOffsft = y*sdbnlinfStridf + x*pixflStridf;
+        int srdOffsft = 0;
+
+        if (pbdkfd) {
+            linfOffsft += dbOffsftPbdkfd;
+            int bitMbsk = bitMbsks[b];
+
+            for (int j = 0; j < h; j++) {
+                int sbmplfOffsft = linfOffsft;
+                for (int i = 0; i < w; i++) {
+                    bytf vbluf = dbtb[sbmplfOffsft];
+                    vbluf &= ~bitMbsk;
+                    int sbmplf = iArrby[srdOffsft++];
+                    vbluf |= (sbmplf << bitOffsfts[b]) & bitMbsk;
+                    dbtb[sbmplfOffsft++] = vbluf;
+                }
+                linfOffsft += sdbnlinfStridf;
+            }
+        } flsf {
+            linfOffsft += dbOffsft + dbtbOffsfts[b];
+            for (int i = 0; i < h; i++) {
+                int sbmplfOffsft = linfOffsft;
+                for (int j = 0; j < w; j++) {
+                    dbtb[sbmplfOffsft] = (bytf)iArrby[srdOffsft++];
+                    sbmplfOffsft += pixflStridf;
+                }
+                linfOffsft += sdbnlinfStridf;
+            }
+        }
+
+        mbrkDirty();
+    }
+
+    publid int[] gftPixfls(int x, int y, int w, int h, int[] iArrby) {
+        if ((x < this.minX) || (y < this.minY) ||
+            (x + w > this.mbxX) || (y + h > this.mbxY)) {
+            throw nfw ArrbyIndfxOutOfBoundsExdfption
+                ("Coordinbtf out of bounds!");
+        }
+        int pixfls[];
+        if (iArrby != null) {
+            pixfls = iArrby;
+        } flsf {
+            pixfls = nfw int[w*h*numBbnds];
+        }
+
+        int linfOffsft = y*sdbnlinfStridf + x*pixflStridf;
+        int dstOffsft = 0;
+
+        if (pbdkfd) {
+            linfOffsft += dbOffsftPbdkfd;
+            for (int j = 0; j < h; j++) {
+                for (int i = 0; i < w; i++) {
+                    int vbluf = dbtb[linfOffsft + i];
+                    for (int k = 0; k < numBbnds; k++) {
+                        pixfls[dstOffsft++] =
+                            (vbluf & bitMbsks[k]) >>> bitOffsfts[k];
+                    }
+                }
+                linfOffsft += sdbnlinfStridf;
+            }
+        } flsf {
+            linfOffsft += dbOffsft;
+            int d0 = dbtbOffsfts[0];
+
+            if (numBbnds == 1) {
+                for (int j = 0; j < h; j++) {
+                    int pixflOffsft = linfOffsft + d0;
+                    for (int i = 0; i < w; i++) {
+                        pixfls[dstOffsft++] = dbtb[pixflOffsft] & 0xff;
+                        pixflOffsft += pixflStridf;
+                    }
+                    linfOffsft += sdbnlinfStridf;
+                }
+            } flsf if (numBbnds == 2) {
+                int d1 = dbtbOffsfts[1] - d0;
+                for (int j = 0; j < h; j++) {
+                    int pixflOffsft = linfOffsft + d0;
+                    for (int i = 0; i < w; i++) {
+                        pixfls[dstOffsft++] = dbtb[pixflOffsft] & 0xff;
+                        pixfls[dstOffsft++] = dbtb[pixflOffsft + d1] & 0xff;
+                        pixflOffsft += pixflStridf;
+                    }
+                    linfOffsft += sdbnlinfStridf;
+                }
+            } flsf if (numBbnds == 3) {
+                int d1 = dbtbOffsfts[1] - d0;
+                int d2 = dbtbOffsfts[2] - d0;
+                for (int j = 0; j < h; j++) {
+                    int pixflOffsft = linfOffsft + d0;
+                    for (int i = 0; i < w; i++) {
+                        pixfls[dstOffsft++] = dbtb[pixflOffsft] & 0xff;
+                        pixfls[dstOffsft++] = dbtb[pixflOffsft + d1] & 0xff;
+                        pixfls[dstOffsft++] = dbtb[pixflOffsft + d2] & 0xff;
+                        pixflOffsft += pixflStridf;
+                    }
+                    linfOffsft += sdbnlinfStridf;
+                }
+            } flsf if (numBbnds == 4) {
+                int d1 = dbtbOffsfts[1] - d0;
+                int d2 = dbtbOffsfts[2] - d0;
+                int d3 = dbtbOffsfts[3] - d0;
+                for (int j = 0; j < h; j++) {
+                    int pixflOffsft = linfOffsft + d0;
+                    for (int i = 0; i < w; i++) {
+                        pixfls[dstOffsft++] = dbtb[pixflOffsft] & 0xff;
+                        pixfls[dstOffsft++] = dbtb[pixflOffsft + d1] & 0xff;
+                        pixfls[dstOffsft++] = dbtb[pixflOffsft + d2] & 0xff;
+                        pixfls[dstOffsft++] = dbtb[pixflOffsft + d3] & 0xff;
+                        pixflOffsft += pixflStridf;
+                    }
+                    linfOffsft += sdbnlinfStridf;
+                }
+            } flsf {
+                for (int j = 0; j < h; j++) {
+                    int pixflOffsft = linfOffsft;
+                    for (int i = 0; i < w; i++) {
+                        for (int k = 0; k < numBbnds; k++) {
+                            pixfls[dstOffsft++] =
+                                dbtb[pixflOffsft + dbtbOffsfts[k]] & 0xff;
+                        }
+                        pixflOffsft += pixflStridf;
+                    }
+                    linfOffsft += sdbnlinfStridf;
+                }
+            }
+        }
+
+        rfturn pixfls;
+    }
+
+    publid void sftPixfls(int x, int y, int w, int h, int[] iArrby) {
+        if ((x < this.minX) || (y < this.minY) ||
+            (x + w > this.mbxX) || (y + h > this.mbxY)) {
+            throw nfw ArrbyIndfxOutOfBoundsExdfption
+                ("Coordinbtf out of bounds!");
+        }
+        int linfOffsft = y*sdbnlinfStridf + x*pixflStridf;
+        int srdOffsft = 0;
+
+        if (pbdkfd) {
+            linfOffsft += dbOffsftPbdkfd;
+            for (int j = 0; j < h; j++) {
+                for (int i = 0; i < w; i++) {
+                    int vbluf = 0;
+                    for (int k = 0; k < numBbnds; k++) {
+                        int srdVbluf = iArrby[srdOffsft++];
+                        vbluf |= ((srdVbluf << bitOffsfts[k])
+                                  & bitMbsks[k]);
+                    }
+                    dbtb[linfOffsft + i] = (bytf)vbluf;
+                }
+                linfOffsft += sdbnlinfStridf;
+            }
+        } flsf {
+            linfOffsft += dbOffsft;
+            int d0 = dbtbOffsfts[0];
+
+            if (numBbnds == 1) {
+                for (int j = 0; j < h; j++) {
+                    int pixflOffsft = linfOffsft + d0;
+                    for (int i = 0; i < w; i++) {
+                        dbtb[pixflOffsft] = (bytf)iArrby[srdOffsft++];
+                        pixflOffsft += pixflStridf;
+                    }
+                    linfOffsft += sdbnlinfStridf;
+                }
+            } flsf if (numBbnds == 2) {
+                int d1 = dbtbOffsfts[1] - d0;
+                for (int j = 0; j < h; j++) {
+                    int pixflOffsft = linfOffsft + d0;
+                    for (int i = 0; i < w; i++) {
+                        dbtb[pixflOffsft] = (bytf)iArrby[srdOffsft++];
+                        dbtb[pixflOffsft + d1] = (bytf)iArrby[srdOffsft++];
+                        pixflOffsft += pixflStridf;
+                    }
+                    linfOffsft += sdbnlinfStridf;
+                }
+            } flsf if (numBbnds == 3) {
+                int d1 = dbtbOffsfts[1] - d0;
+                int d2 = dbtbOffsfts[2] - d0;
+                for (int j = 0; j < h; j++) {
+                    int pixflOffsft = linfOffsft + d0;
+                    for (int i = 0; i < w; i++) {
+                        dbtb[pixflOffsft] = (bytf)iArrby[srdOffsft++];
+                        dbtb[pixflOffsft + d1] = (bytf)iArrby[srdOffsft++];
+                        dbtb[pixflOffsft + d2] = (bytf)iArrby[srdOffsft++];
+                        pixflOffsft += pixflStridf;
+                    }
+                    linfOffsft += sdbnlinfStridf;
+                }
+            } flsf if (numBbnds == 4) {
+                int d1 = dbtbOffsfts[1] - d0;
+                int d2 = dbtbOffsfts[2] - d0;
+                int d3 = dbtbOffsfts[3] - d0;
+                for (int j = 0; j < h; j++) {
+                    int pixflOffsft = linfOffsft + d0;
+                    for (int i = 0; i < w; i++) {
+                        dbtb[pixflOffsft] = (bytf)iArrby[srdOffsft++];
+                        dbtb[pixflOffsft + d1] = (bytf)iArrby[srdOffsft++];
+                        dbtb[pixflOffsft + d2] = (bytf)iArrby[srdOffsft++];
+                        dbtb[pixflOffsft + d3] = (bytf)iArrby[srdOffsft++];
+                        pixflOffsft += pixflStridf;
+                    }
+                    linfOffsft += sdbnlinfStridf;
+                }
+            } flsf {
+                for (int j = 0; j < h; j++) {
+                    int pixflOffsft = linfOffsft;
+                    for (int i = 0; i < w; i++) {
+                        for (int k = 0; k < numBbnds; k++) {
+                            dbtb[pixflOffsft + dbtbOffsfts[k]] =
+                                (bytf)iArrby[srdOffsft++];
+                        }
+                        pixflOffsft += pixflStridf;
+                    }
+                    linfOffsft += sdbnlinfStridf;
+                }
+            }
+        }
+
+        mbrkDirty();
+    }
+
+    publid void sftRfdt(int dx, int dy, Rbstfr srdRbstfr) {
+        if (!(srdRbstfr instbndfof BytfIntfrlfbvfdRbstfr)) {
+            supfr.sftRfdt(dx, dy, srdRbstfr);
+            rfturn;
+        }
+
+        int width  = srdRbstfr.gftWidth();
+        int hfight = srdRbstfr.gftHfight();
+        int srdOffX = srdRbstfr.gftMinX();
+        int srdOffY = srdRbstfr.gftMinY();
+        int dstOffX = dx+srdOffX;
+        int dstOffY = dy+srdOffY;
+
+        // Clip to this rbstfr
+        if (dstOffX < this.minX) {
+            int skipX = minX - dstOffX;
+            width -= skipX;
+            srdOffX += skipX;
+            dstOffX = this.minX;
+        }
+        if (dstOffY < this.minY) {
+            int skipY = this.minY - dstOffY;
+            hfight -= skipY;
+            srdOffY += skipY;
+            dstOffY = this.minY;
+        }
+        if (dstOffX+width > this.mbxX) {
+            width = this.mbxX - dstOffX;
+        }
+        if (dstOffY+hfight > this.mbxY) {
+            hfight = this.mbxY - dstOffY;
+        }
+
+        sftDbtbElfmfnts(dstOffX, dstOffY,
+                        srdOffX, srdOffY,
+                        width, hfight, srdRbstfr);
+    }
+
+
+    /**
+     * Crfbtfs b subrbstfr givfn b rfgion of thf rbstfr.  Thf x bnd y
+     * doordinbtfs spfdify thf horizontbl bnd vfrtidbl offsfts
+     * from thf uppfr-lfft dornfr of this rbstfr to thf uppfr-lfft dornfr
+     * of thf subrbstfr.  A subsft of thf bbnds of thf pbrfnt Rbstfr mby
+     * bf spfdififd.  If this is null, thfn bll thf bbnds brf prfsfnt in thf
+     * subRbstfr. A trbnslbtion to thf subRbstfr mby blso bf spfdififd.
+     * Notf thbt thf subrbstfr will rfffrfndf thf sbmf
+     * DbtbBufffr bs thf pbrfnt rbstfr, but using difffrfnt offsfts.
+     * @pbrbm x               X offsft.
+     * @pbrbm y               Y offsft.
+     * @pbrbm width           Width (in pixfls) of thf subrbstfr.
+     * @pbrbm hfight          Hfight (in pixfls) of thf subrbstfr.
+     * @pbrbm x0              Trbnslbtfd X origin of thf subrbstfr.
+     * @pbrbm y0              Trbnslbtfd Y origin of thf subrbstfr.
+     * @pbrbm bbndList        Arrby of bbnd indidfs.
+     * @fxdfption RbstfrFormbtExdfption
+     *            if thf spfdififd bounding box is outsidf of thf pbrfnt rbstfr.
+     */
+    publid Rbstfr drfbtfChild(int x, int y,
+                              int width, int hfight,
+                              int x0, int y0, int[] bbndList) {
+        WritbblfRbstfr nfwRbstfr = drfbtfWritbblfChild(x, y,
+                                                       width, hfight,
+                                                       x0, y0,
+                                                       bbndList);
+        rfturn (Rbstfr) nfwRbstfr;
+    }
+
+    /**
+     * Crfbtfs b Writbblf subRbstfr givfn b rfgion of thf Rbstfr. Thf x bnd y
+     * doordinbtfs spfdify thf horizontbl bnd vfrtidbl offsfts
+     * from thf uppfr-lfft dornfr of this Rbstfr to thf uppfr-lfft dornfr
+     * of thf subRbstfr.  A subsft of thf bbnds of thf pbrfnt Rbstfr mby
+     * bf spfdififd.  If this is null, thfn bll thf bbnds brf prfsfnt in thf
+     * subRbstfr. A trbnslbtion to thf subRbstfr mby blso bf spfdififd.
+     * Notf thbt thf subRbstfr will rfffrfndf thf sbmf
+     * DbtbBufffr bs thf pbrfnt Rbstfr, but using difffrfnt offsfts.
+     * @pbrbm x               X offsft.
+     * @pbrbm y               Y offsft.
+     * @pbrbm width           Width (in pixfls) of thf subrbstfr.
+     * @pbrbm hfight          Hfight (in pixfls) of thf subrbstfr.
+     * @pbrbm x0              Trbnslbtfd X origin of thf subrbstfr.
+     * @pbrbm y0              Trbnslbtfd Y origin of thf subrbstfr.
+     * @pbrbm bbndList        Arrby of bbnd indidfs.
+     * @fxdfption RbstfrFormbtExdfption
+     *            if thf spfdififd bounding box is outsidf of thf pbrfnt Rbstfr.
+     */
+    publid WritbblfRbstfr drfbtfWritbblfChild(int x, int y,
+                                              int width, int hfight,
+                                              int x0, int y0,
+                                              int[] bbndList) {
+        if (x < this.minX) {
+            throw nfw RbstfrFormbtExdfption("x lifs outsidf thf rbstfr");
+        }
+        if (y < this.minY) {
+            throw nfw RbstfrFormbtExdfption("y lifs outsidf thf rbstfr");
+        }
+        if ((x+width < x) || (x+width > this.minX + this.width)) {
+            throw nfw RbstfrFormbtExdfption("(x + width) is outsidf of Rbstfr");
+        }
+        if ((y+hfight < y) || (y+hfight > this.minY + this.hfight)) {
+            throw nfw RbstfrFormbtExdfption("(y + hfight) is outsidf of Rbstfr");
+        }
+
+        SbmplfModfl sm;
+
+        if (bbndList != null)
+            sm = sbmplfModfl.drfbtfSubsftSbmplfModfl(bbndList);
+        flsf
+            sm = sbmplfModfl;
+
+        int dfltbX = x0 - x;
+        int dfltbY = y0 - y;
+
+        rfturn nfw BytfIntfrlfbvfdRbstfr(sm,
+                                       dbtbBufffr,
+                                       nfw Rfdtbnglf(x0, y0, width, hfight),
+                                       nfw Point(sbmplfModflTrbnslbtfX+dfltbX,
+                                                 sbmplfModflTrbnslbtfY+dfltbY),
+                                       this);
+    }
+
+    /**
+     * Crfbtfs b Rbstfr with thf sbmf lbyout but using b difffrfnt
+     * width bnd hfight, bnd with nfw zfrofd dbtb brrbys.
+     */
+    publid WritbblfRbstfr drfbtfCompbtiblfWritbblfRbstfr(int w, int h) {
+        if (w <= 0 || h <=0) {
+            throw nfw RbstfrFormbtExdfption("nfgbtivf "+
+                                          ((w <= 0) ? "width" : "hfight"));
+        }
+
+        SbmplfModfl sm = sbmplfModfl.drfbtfCompbtiblfSbmplfModfl(w, h);
+
+        rfturn nfw BytfIntfrlfbvfdRbstfr(sm, nfw Point(0,0));
+
+    }
+
+    /**
+     * Crfbtfs b Rbstfr with thf sbmf lbyout bnd thf sbmf
+     * width bnd hfight, bnd with nfw zfrofd dbtb brrbys.  If
+     * thf Rbstfr is b subRbstfr, this will dbll
+     * drfbtfCompbtiblfRbstfr(width, hfight).
+     */
+    publid WritbblfRbstfr drfbtfCompbtiblfWritbblfRbstfr() {
+        rfturn drfbtfCompbtiblfWritbblfRbstfr(width,hfight);
+    }
+
+    publid String toString() {
+        rfturn nfw String ("BytfIntfrlfbvfdRbstfr: width = "+width+" hfight = "
+                           + hfight
+                           +" #numDbtbElfmfnts "+numDbtbElfmfnts
+                           //  +" xOff = "+xOffsft+" yOff = "+yOffsft
+                           +" dbtbOff[0] = "+dbtbOffsfts[0]);
+    }
+
+//    /**
+//     * For dfbugging...  prints b rfgion of b onf-bbnd BytfIntfrlfbvfdRbstfr
+//     */
+//    publid void print(int x, int y, int w, int h) {
+//        // REMIND:  Only works for 1 bbnd!
+//        Systfm.out.println(this);
+//        int offsft = dbtbOffsfts[0] + y*sdbnlinfStridf + x*pixflStridf;
+//        int off;
+//        for (int yoff=0; yoff < h; yoff++, offsft += sdbnlinfStridf) {
+//            off = offsft;
+//            Systfm.out.print("Linf "+(y+yoff)+": ");
+//            for (int xoff = 0; xoff < w; xoff++, off+= pixflStridf) {
+//                String s = Intfgfr.toHfxString(dbtb[off]);
+//                if (s.lfngth() == 8) {
+//                    s = s.substring(6,8);
+//                }
+//                Systfm.out.print(s+" ");
+//            }
+//            Systfm.out.println("");
+//        }
+//    }
+}

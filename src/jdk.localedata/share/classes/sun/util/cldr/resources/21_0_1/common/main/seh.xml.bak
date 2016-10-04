@@ -1,684 +1,684 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
 <ldml>
-	<identity>
-		<version number="$Revision: 6546 $"/>
-		<generation date="$Date: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
-		<language type="seh"/>
-	</identity>
-	<localeDisplayNames>
-		<languages>
-			<language type="ak">akan</language>
-			<language type="am">amárico</language>
-			<language type="ar">árabe</language>
-			<language type="be">bielo-russo</language>
-			<language type="bg">búlgaro</language>
-			<language type="bn">bengali</language>
-			<language type="cs">tcheco</language>
-			<language type="de">alemão</language>
-			<language type="el">grego</language>
-			<language type="en">inglês</language>
-			<language type="es">espanhol</language>
-			<language type="fa">persa</language>
-			<language type="fr">francês</language>
-			<language type="ha">hausa</language>
-			<language type="hi">hindi</language>
-			<language type="hu">húngaro</language>
-			<language type="id">indonésio</language>
-			<language type="ig">ibo</language>
-			<language type="it">italiano</language>
-			<language type="ja">japonês</language>
-			<language type="jv">javanês</language>
-			<language type="km">cmer</language>
-			<language type="ko">coreano</language>
-			<language type="ms">malaio</language>
-			<language type="my">birmanês</language>
-			<language type="ne">nepalês</language>
-			<language type="nl">holandês</language>
-			<language type="pa">panjabi</language>
-			<language type="pl">polonês</language>
-			<language type="pt">português</language>
-			<language type="ro">romeno</language>
-			<language type="ru">russo</language>
-			<language type="rw">kinyarwanda</language>
-			<language type="seh">sena</language>
-			<language type="so">somali</language>
-			<language type="sv">sueco</language>
-			<language type="ta">tâmil</language>
-			<language type="th">tailandês</language>
-			<language type="tr">turco</language>
-			<language type="uk">ucraniano</language>
-			<language type="ur">urdu</language>
-			<language type="vi">vietnamita</language>
-			<language type="yo">iorubá</language>
-			<language type="zh">chinês</language>
-			<language type="zu">zulu</language>
-		</languages>
-		<territories>
-			<territory type="AD">Andorra</territory>
-			<territory type="AE">Emirados Árabes Unidos</territory>
-			<territory type="AF">Afeganistão</territory>
-			<territory type="AG">Antígua e Barbuda</territory>
-			<territory type="AI">Anguilla</territory>
-			<territory type="AL">Albânia</territory>
-			<territory type="AM">Armênia</territory>
-			<territory type="AN">Antilhas Holandesas</territory>
-			<territory type="AO">Angola</territory>
-			<territory type="AR">Argentina</territory>
-			<territory type="AS">Samoa Americana</territory>
-			<territory type="AT">Áustria</territory>
-			<territory type="AU">Austrália</territory>
-			<territory type="AW">Aruba</territory>
-			<territory type="AZ">Azerbaijão</territory>
-			<territory type="BA">Bósnia-Herzegovina</territory>
-			<territory type="BB">Barbados</territory>
-			<territory type="BD">Bangladesh</territory>
-			<territory type="BE">Bélgica</territory>
-			<territory type="BF">Burquina Faso</territory>
-			<territory type="BG">Bulgária</territory>
-			<territory type="BH">Bahrain</territory>
-			<territory type="BI">Burundi</territory>
-			<territory type="BJ">Benin</territory>
-			<territory type="BM">Bermudas</territory>
-			<territory type="BN">Brunei</territory>
-			<territory type="BO">Bolívia</territory>
-			<territory type="BR">Brasil</territory>
-			<territory type="BS">Bahamas</territory>
-			<territory type="BT">Butão</territory>
-			<territory type="BW">Botsuana</territory>
-			<territory type="BY">Belarus</territory>
-			<territory type="BZ">Belize</territory>
-			<territory type="CA">Canadá</territory>
-			<territory type="CD">Congo-Kinshasa</territory>
-			<territory type="CF">República Centro-Africana</territory>
-			<territory type="CG">Congo</territory>
-			<territory type="CH">Suíça</territory>
-			<territory type="CI">Costa do Marfim</territory>
-			<territory type="CK">Ilhas Cook</territory>
-			<territory type="CL">Chile</territory>
-			<territory type="CM">República dos Camarões</territory>
-			<territory type="CN">China</territory>
-			<territory type="CO">Colômbia</territory>
-			<territory type="CR">Costa Rica</territory>
-			<territory type="CS">Sérvia e Montenegro</territory>
-			<territory type="CU">Cuba</territory>
-			<territory type="CV">Cabo Verde</territory>
-			<territory type="CY">Chipre</territory>
-			<territory type="CZ">República Tcheca</territory>
-			<territory type="DE">Alemanha</territory>
-			<territory type="DJ">Djibuti</territory>
-			<territory type="DK">Dinamarca</territory>
-			<territory type="DM">Dominica</territory>
-			<territory type="DO">República Dominicana</territory>
-			<territory type="DZ">Argélia</territory>
-			<territory type="EC">Equador</territory>
-			<territory type="EE">Estônia</territory>
-			<territory type="EG">Egito</territory>
-			<territory type="ER">Eritréia</territory>
-			<territory type="ES">Espanha</territory>
-			<territory type="ET">Etiópia</territory>
-			<territory type="FI">Finlândia</territory>
-			<territory type="FJ">Fiji</territory>
-			<territory type="FK">Ilhas Malvinas</territory>
-			<territory type="FM">Micronésia</territory>
-			<territory type="FR">França</territory>
-			<territory type="GA">Gabão</territory>
-			<territory type="GB">Reino Unido</territory>
-			<territory type="GD">Granada</territory>
-			<territory type="GE">Geórgia</territory>
-			<territory type="GF">Guiana Francesa</territory>
-			<territory type="GH">Gana</territory>
-			<territory type="GI">Gibraltar</territory>
-			<territory type="GL">Groênlandia</territory>
-			<territory type="GM">Gâmbia</territory>
-			<territory type="GN">Guiné</territory>
-			<territory type="GP">Guadalupe</territory>
-			<territory type="GQ">Guiné Equatorial</territory>
-			<territory type="GR">Grécia</territory>
-			<territory type="GT">Guatemala</territory>
-			<territory type="GU">Guam</territory>
-			<territory type="GW">Guiné Bissau</territory>
-			<territory type="GY">Guiana</territory>
-			<territory type="HN">Honduras</territory>
-			<territory type="HR">Croácia</territory>
-			<territory type="HT">Haiti</territory>
-			<territory type="HU">Hungria</territory>
-			<territory type="ID">Indonésia</territory>
-			<territory type="IE">Irlanda</territory>
-			<territory type="IL">Israel</territory>
-			<territory type="IN">Índia</territory>
-			<territory type="IO">Território Britânico do Oceano Índico</territory>
-			<territory type="IQ">Iraque</territory>
-			<territory type="IR">Irã</territory>
-			<territory type="IS">Islândia</territory>
-			<territory type="IT">Itália</territory>
-			<territory type="JM">Jamaica</territory>
-			<territory type="JO">Jordânia</territory>
-			<territory type="JP">Japão</territory>
-			<territory type="KE">Quênia</territory>
-			<territory type="KG">Quirguistão</territory>
-			<territory type="KH">Camboja</territory>
-			<territory type="KI">Quiribati</territory>
-			<territory type="KM">Comores</territory>
-			<territory type="KN">São Cristovão e Nevis</territory>
-			<territory type="KP">Coréia do Norte</territory>
-			<territory type="KR">Coréia do Sul</territory>
-			<territory type="KW">Kuwait</territory>
-			<territory type="KY">Ilhas Caiman</territory>
-			<territory type="KZ">Casaquistão</territory>
-			<territory type="LA">Laos</territory>
-			<territory type="LB">Líbano</territory>
-			<territory type="LC">Santa Lúcia</territory>
-			<territory type="LI">Liechtenstein</territory>
-			<territory type="LK">Sri Lanka</territory>
-			<territory type="LR">Libéria</territory>
-			<territory type="LS">Lesoto</territory>
-			<territory type="LT">Lituânia</territory>
-			<territory type="LU">Luxemburgo</territory>
-			<territory type="LV">Letônia</territory>
-			<territory type="LY">Líbia</territory>
-			<territory type="MA">Marrocos</territory>
-			<territory type="MC">Mônaco</territory>
-			<territory type="MD">Moldávia</territory>
-			<territory type="MG">Madagascar</territory>
-			<territory type="MH">Ilhas Marshall</territory>
-			<territory type="MK">Macedônia</territory>
-			<territory type="ML">Mali</territory>
-			<territory type="MM">Mianmar</territory>
-			<territory type="MN">Mongólia</territory>
-			<territory type="MP">Ilhas Marianas do Norte</territory>
-			<territory type="MQ">Martinica</territory>
-			<territory type="MR">Mauritânia</territory>
-			<territory type="MS">Montserrat</territory>
-			<territory type="MT">Malta</territory>
-			<territory type="MU">Maurício</territory>
-			<territory type="MV">Maldivas</territory>
-			<territory type="MW">Malawi</territory>
-			<territory type="MX">México</territory>
-			<territory type="MY">Malásia</territory>
-			<territory type="MZ">Moçambique</territory>
-			<territory type="NA">Namíbia</territory>
-			<territory type="NC">Nova Caledônia</territory>
-			<territory type="NE">Níger</territory>
-			<territory type="NF">Ilhas Norfolk</territory>
-			<territory type="NG">Nigéria</territory>
-			<territory type="NI">Nicarágua</territory>
-			<territory type="NL">Holanda</territory>
-			<territory type="NO">Noruega</territory>
-			<territory type="NP">Nepal</territory>
-			<territory type="NR">Nauru</territory>
-			<territory type="NU">Niue</territory>
-			<territory type="NZ">Nova Zelândia</territory>
-			<territory type="OM">Omã</territory>
-			<territory type="PA">Panamá</territory>
-			<territory type="PE">Peru</territory>
-			<territory type="PF">Polinésia Francesa</territory>
-			<territory type="PG">Papua-Nova Guiné</territory>
-			<territory type="PH">Filipinas</territory>
-			<territory type="PK">Paquistão</territory>
-			<territory type="PL">Polônia</territory>
-			<territory type="PM">Saint Pierre e Miquelon</territory>
-			<territory type="PN">Pitcairn</territory>
-			<territory type="PR">Porto Rico</territory>
-			<territory type="PS">Território da Palestina</territory>
-			<territory type="PT">Portugal</territory>
-			<territory type="PW">Palau</territory>
-			<territory type="PY">Paraguai</territory>
-			<territory type="QA">Catar</territory>
-			<territory type="RE">Reunião</territory>
-			<territory type="RO">Romênia</territory>
-			<territory type="RU">Rússia</territory>
-			<territory type="RW">Ruanda</territory>
-			<territory type="SA">Arábia Saudita</territory>
-			<territory type="SB">Ilhas Salomão</territory>
-			<territory type="SC">Seychelles</territory>
-			<territory type="SD">Sudão</territory>
-			<territory type="SE">Suécia</territory>
-			<territory type="SG">Cingapura</territory>
-			<territory type="SH">Santa Helena</territory>
-			<territory type="SI">Eslovênia</territory>
-			<territory type="SK">Eslováquia</territory>
-			<territory type="SL">Serra Leoa</territory>
-			<territory type="SM">San Marino</territory>
-			<territory type="SN">Senegal</territory>
-			<territory type="SO">Somália</territory>
-			<territory type="SR">Suriname</territory>
-			<territory type="ST">São Tomé e Príncipe</territory>
-			<territory type="SV">El Salvador</territory>
-			<territory type="SY">Síria</territory>
-			<territory type="SZ">Suazilândia</territory>
-			<territory type="TC">Ilhas Turks e Caicos</territory>
-			<territory type="TD">Chade</territory>
-			<territory type="TG">Togo</territory>
-			<territory type="TH">Tailândia</territory>
-			<territory type="TJ">Tadjiquistão</territory>
-			<territory type="TK">Tokelau</territory>
-			<territory type="TL">Timor Leste</territory>
-			<territory type="TM">Turcomenistão</territory>
-			<territory type="TN">Tunísia</territory>
-			<territory type="TO">Tonga</territory>
-			<territory type="TR">Turquia</territory>
-			<territory type="TT">Trinidad e Tobago</territory>
-			<territory type="TV">Tuvalu</territory>
-			<territory type="TW">Taiwan</territory>
-			<territory type="UA">Ucrânia</territory>
-			<territory type="UG">Uganda</territory>
-			<territory type="US">Estados Unidos</territory>
-			<territory type="UY">Uruguai</territory>
-			<territory type="UZ">Uzbequistão</territory>
-			<territory type="VA">Vaticano</territory>
-			<territory type="VC">São Vicente e Granadinas</territory>
-			<territory type="VE">Venezuela</territory>
-			<territory type="VG">Ilhas Virgens Britânicas</territory>
-			<territory type="VI">Ilhas Virgens dos EUA</territory>
-			<territory type="VN">Vietnã</territory>
-			<territory type="VU">Vanuatu</territory>
-			<territory type="WF">Wallis e Futuna</territory>
-			<territory type="WS">Samoa</territory>
-			<territory type="YE">Iêmen</territory>
-			<territory type="YT">Mayotte</territory>
-			<territory type="ZA">África do Sul</territory>
-			<territory type="ZM">Zâmbia</territory>
-			<territory type="ZW">Zimbábue</territory>
-		</territories>
-	</localeDisplayNames>
-	<characters>
-		<exemplarCharacters>[a á à â ã b c ç d e é ê f g h i í j k l m n o ó ò ô õ p q r s t u ú v w x y z]</exemplarCharacters>
-		<exemplarCharacters type="index">[A B C D E F G H I J K L M N O P Q R S T U V W X Y Z]</exemplarCharacters>
-	</characters>
-	<delimiters>
-		<quotationStart>“</quotationStart>
-		<quotationEnd>”</quotationEnd>
-		<alternateQuotationStart>‘</alternateQuotationStart>
-		<alternateQuotationEnd>’</alternateQuotationEnd>
-	</delimiters>
-	<dates>
-		<calendars>
-			<calendar type="gregorian">
-				<months>
-					<monthContext type="format">
-						<monthWidth type="abbreviated">
-							<month type="1">Jan</month>
-							<month type="2">Fev</month>
-							<month type="3">Mar</month>
-							<month type="4">Abr</month>
-							<month type="5">Mai</month>
-							<month type="6">Jun</month>
-							<month type="7">Jul</month>
-							<month type="8">Aug</month>
-							<month type="9">Set</month>
-							<month type="10">Otu</month>
-							<month type="11">Nov</month>
-							<month type="12">Dec</month>
-						</monthWidth>
-						<monthWidth type="wide">
-							<month type="1">Janeiro</month>
-							<month type="2">Fevreiro</month>
-							<month type="3">Marco</month>
-							<month type="4">Abril</month>
-							<month type="5">Maio</month>
-							<month type="6">Junho</month>
-							<month type="7">Julho</month>
-							<month type="8">Augusto</month>
-							<month type="9">Setembro</month>
-							<month type="10">Otubro</month>
-							<month type="11">Novembro</month>
-							<month type="12">Decembro</month>
-						</monthWidth>
-					</monthContext>
-					<monthContext type="stand-alone">
-						<monthWidth type="narrow">
-							<month type="1">J</month>
-							<month type="2">F</month>
-							<month type="3">M</month>
-							<month type="4">A</month>
-							<month type="5">M</month>
-							<month type="6">J</month>
-							<month type="7">J</month>
-							<month type="8">A</month>
-							<month type="9">S</month>
-							<month type="10">O</month>
-							<month type="11">N</month>
-							<month type="12">D</month>
-						</monthWidth>
-					</monthContext>
-				</months>
-				<days>
-					<dayContext type="format">
-						<dayWidth type="abbreviated">
-							<day type="sun">Dim</day>
-							<day type="mon">Pos</day>
-							<day type="tue">Pir</day>
-							<day type="wed">Tat</day>
-							<day type="thu">Nai</day>
-							<day type="fri">Sha</day>
-							<day type="sat">Sab</day>
-						</dayWidth>
-						<dayWidth type="wide">
-							<day type="sun">Dimingu</day>
-							<day type="mon">Chiposi</day>
-							<day type="tue">Chipiri</day>
-							<day type="wed">Chitatu</day>
-							<day type="thu">Chinai</day>
-							<day type="fri">Chishanu</day>
-							<day type="sat">Sabudu</day>
-						</dayWidth>
-					</dayContext>
-					<dayContext type="stand-alone">
-						<dayWidth type="narrow">
-							<day type="sun">D</day>
-							<day type="mon">P</day>
-							<day type="tue">C</day>
-							<day type="wed">T</day>
-							<day type="thu">N</day>
-							<day type="fri">S</day>
-							<day type="sat">S</day>
-						</dayWidth>
-					</dayContext>
-				</days>
-				<eras>
-					<eraNames>
-						<era type="0">Antes de Cristo</era>
-						<era type="1">Anno Domini</era>
-					</eraNames>
-					<eraAbbr>
-						<era type="0">AC</era>
-						<era type="1">AD</era>
-					</eraAbbr>
-				</eras>
-				<dateFormats>
-					<dateFormatLength type="full">
-						<dateFormat>
-							<pattern>EEEE, d 'de' MMMM 'de' y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="long">
-						<dateFormat>
-							<pattern>d 'de' MMMM 'de' y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="medium">
-						<dateFormat>
-							<pattern>d 'de' MMM 'de' y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="short">
-						<dateFormat>
-							<pattern>d/M/yyyy</pattern>
-						</dateFormat>
-					</dateFormatLength>
-				</dateFormats>
-				<timeFormats>
-					<timeFormatLength type="full">
-						<timeFormat>
-							<pattern>HH:mm:ss zzzz</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="long">
-						<timeFormat>
-							<pattern>HH:mm:ss z</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="medium">
-						<timeFormat>
-							<pattern>HH:mm:ss</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="short">
-						<timeFormat>
-							<pattern>HH:mm</pattern>
-						</timeFormat>
-					</timeFormatLength>
-				</timeFormats>
-				<dateTimeFormats>
-					<availableFormats>
-						<dateFormatItem id="d">d</dateFormatItem>
-						<dateFormatItem id="HHmm">HH:mm</dateFormatItem>
-						<dateFormatItem id="HHmmss">HH:mm:ss</dateFormatItem>
-						<dateFormatItem id="Hm">H:mm</dateFormatItem>
-						<dateFormatItem id="M">L</dateFormatItem>
-						<dateFormatItem id="Md">d/M</dateFormatItem>
-						<dateFormatItem id="MEd">E, dd/MM</dateFormatItem>
-						<dateFormatItem id="MMdd">dd/MM</dateFormatItem>
-						<dateFormatItem id="MMM">LLL</dateFormatItem>
-						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
-						<dateFormatItem id="MMMEd">E, d MMM</dateFormatItem>
-						<dateFormatItem id="MMMMd">d MMMM</dateFormatItem>
-						<dateFormatItem id="MMMMEd">E, d MMMM</dateFormatItem>
-						<dateFormatItem id="mmss">mm:ss</dateFormatItem>
-						<dateFormatItem id="ms">mm:ss</dateFormatItem>
-						<dateFormatItem id="y">y</dateFormatItem>
-						<dateFormatItem id="yM">MM/y</dateFormatItem>
-						<dateFormatItem id="yMEd">E, dd/MM/y</dateFormatItem>
-						<dateFormatItem id="yMMM">MMM 'de' y</dateFormatItem>
-						<dateFormatItem id="yMMMEd">E, d 'de' MMM 'de' y</dateFormatItem>
-						<dateFormatItem id="yMMMM">MMMM 'de' y</dateFormatItem>
-						<dateFormatItem id="yQ">y Q</dateFormatItem>
-						<dateFormatItem id="yQQQ">y QQQ</dateFormatItem>
-						<dateFormatItem id="yyMM">MM/yy</dateFormatItem>
-						<dateFormatItem id="yyMMM">MMM yy</dateFormatItem>
-						<dateFormatItem id="yyMMMd">d 'de' MMM 'de' yy</dateFormatItem>
-						<dateFormatItem id="yyMMMEd">E, d 'de' MMM 'de' yy</dateFormatItem>
-						<dateFormatItem id="yyQ">Q yy</dateFormatItem>
-					</availableFormats>
-				</dateTimeFormats>
-				<fields>
-					<field type="year">
-						<displayName>Chaka</displayName>
-					</field>
-					<field type="month">
-						<displayName>Mwezi</displayName>
-					</field>
-					<field type="day">
-						<displayName>Ntsiku</displayName>
-						<relative type="-1">Zuro</relative>
-						<relative type="0">Lero</relative>
-						<relative type="1">Manguana</relative>
-					</field>
-					<field type="weekday">
-						<displayName>Ntsiku</displayName>
-					</field>
-					<field type="hour">
-						<displayName>Hora</displayName>
-					</field>
-					<field type="minute">
-						<displayName>Minuto</displayName>
-					</field>
-					<field type="second">
-						<displayName>Segundo</displayName>
-					</field>
-				</fields>
-			</calendar>
-		</calendars>
-	</dates>
-	<numbers>
-		<symbols numberSystem="latn">
-			<decimal>,</decimal>
+	<idfntity>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<lbngubgf typf="sfi"/>
+	</idfntity>
+	<lodblfDisplbyNbmfs>
+		<lbngubgfs>
+			<lbngubgf typf="bk">bkbn</lbngubgf>
+			<lbngubgf typf="bm">bmárido</lbngubgf>
+			<lbngubgf typf="br">árbbf</lbngubgf>
+			<lbngubgf typf="bf">biflo-russo</lbngubgf>
+			<lbngubgf typf="bg">búlgbro</lbngubgf>
+			<lbngubgf typf="bn">bfngbli</lbngubgf>
+			<lbngubgf typf="ds">tdifdo</lbngubgf>
+			<lbngubgf typf="df">blfmão</lbngubgf>
+			<lbngubgf typf="fl">grfgo</lbngubgf>
+			<lbngubgf typf="fn">inglês</lbngubgf>
+			<lbngubgf typf="fs">fspbniol</lbngubgf>
+			<lbngubgf typf="fb">pfrsb</lbngubgf>
+			<lbngubgf typf="fr">frbndês</lbngubgf>
+			<lbngubgf typf="ib">ibusb</lbngubgf>
+			<lbngubgf typf="ii">iindi</lbngubgf>
+			<lbngubgf typf="iu">iúngbro</lbngubgf>
+			<lbngubgf typf="id">indonésio</lbngubgf>
+			<lbngubgf typf="ig">ibo</lbngubgf>
+			<lbngubgf typf="it">itblibno</lbngubgf>
+			<lbngubgf typf="jb">jbponês</lbngubgf>
+			<lbngubgf typf="jv">jbvbnês</lbngubgf>
+			<lbngubgf typf="km">dmfr</lbngubgf>
+			<lbngubgf typf="ko">dorfbno</lbngubgf>
+			<lbngubgf typf="ms">mblbio</lbngubgf>
+			<lbngubgf typf="my">birmbnês</lbngubgf>
+			<lbngubgf typf="nf">nfpblês</lbngubgf>
+			<lbngubgf typf="nl">iolbndês</lbngubgf>
+			<lbngubgf typf="pb">pbnjbbi</lbngubgf>
+			<lbngubgf typf="pl">polonês</lbngubgf>
+			<lbngubgf typf="pt">português</lbngubgf>
+			<lbngubgf typf="ro">romfno</lbngubgf>
+			<lbngubgf typf="ru">russo</lbngubgf>
+			<lbngubgf typf="rw">kinybrwbndb</lbngubgf>
+			<lbngubgf typf="sfi">sfnb</lbngubgf>
+			<lbngubgf typf="so">sombli</lbngubgf>
+			<lbngubgf typf="sv">sufdo</lbngubgf>
+			<lbngubgf typf="tb">tâmil</lbngubgf>
+			<lbngubgf typf="ti">tbilbndês</lbngubgf>
+			<lbngubgf typf="tr">turdo</lbngubgf>
+			<lbngubgf typf="uk">udrbnibno</lbngubgf>
+			<lbngubgf typf="ur">urdu</lbngubgf>
+			<lbngubgf typf="vi">viftnbmitb</lbngubgf>
+			<lbngubgf typf="yo">iorubá</lbngubgf>
+			<lbngubgf typf="zi">diinês</lbngubgf>
+			<lbngubgf typf="zu">zulu</lbngubgf>
+		</lbngubgfs>
+		<tfrritorifs>
+			<tfrritory typf="AD">Andorrb</tfrritory>
+			<tfrritory typf="AE">Emirbdos Árbbfs Unidos</tfrritory>
+			<tfrritory typf="AF">Affgbnistão</tfrritory>
+			<tfrritory typf="AG">Antígub f Bbrbudb</tfrritory>
+			<tfrritory typf="AI">Anguillb</tfrritory>
+			<tfrritory typf="AL">Albânib</tfrritory>
+			<tfrritory typf="AM">Armênib</tfrritory>
+			<tfrritory typf="AN">Antilibs Holbndfsbs</tfrritory>
+			<tfrritory typf="AO">Angolb</tfrritory>
+			<tfrritory typf="AR">Argfntinb</tfrritory>
+			<tfrritory typf="AS">Sbmob Amfridbnb</tfrritory>
+			<tfrritory typf="AT">Áustrib</tfrritory>
+			<tfrritory typf="AU">Austrálib</tfrritory>
+			<tfrritory typf="AW">Arubb</tfrritory>
+			<tfrritory typf="AZ">Azfrbbijão</tfrritory>
+			<tfrritory typf="BA">Bósnib-Hfrzfgovinb</tfrritory>
+			<tfrritory typf="BB">Bbrbbdos</tfrritory>
+			<tfrritory typf="BD">Bbnglbdfsi</tfrritory>
+			<tfrritory typf="BE">Bélgidb</tfrritory>
+			<tfrritory typf="BF">Burquinb Fbso</tfrritory>
+			<tfrritory typf="BG">Bulgárib</tfrritory>
+			<tfrritory typf="BH">Bbirbin</tfrritory>
+			<tfrritory typf="BI">Burundi</tfrritory>
+			<tfrritory typf="BJ">Bfnin</tfrritory>
+			<tfrritory typf="BM">Bfrmudbs</tfrritory>
+			<tfrritory typf="BN">Brunfi</tfrritory>
+			<tfrritory typf="BO">Bolívib</tfrritory>
+			<tfrritory typf="BR">Brbsil</tfrritory>
+			<tfrritory typf="BS">Bbibmbs</tfrritory>
+			<tfrritory typf="BT">Butão</tfrritory>
+			<tfrritory typf="BW">Botsubnb</tfrritory>
+			<tfrritory typf="BY">Bflbrus</tfrritory>
+			<tfrritory typf="BZ">Bflizf</tfrritory>
+			<tfrritory typf="CA">Cbnbdá</tfrritory>
+			<tfrritory typf="CD">Congo-Kinsibsb</tfrritory>
+			<tfrritory typf="CF">Rfpúblidb Cfntro-Afridbnb</tfrritory>
+			<tfrritory typf="CG">Congo</tfrritory>
+			<tfrritory typf="CH">Suíçb</tfrritory>
+			<tfrritory typf="CI">Costb do Mbrfim</tfrritory>
+			<tfrritory typf="CK">Ilibs Cook</tfrritory>
+			<tfrritory typf="CL">Ciilf</tfrritory>
+			<tfrritory typf="CM">Rfpúblidb dos Cbmbrõfs</tfrritory>
+			<tfrritory typf="CN">Ciinb</tfrritory>
+			<tfrritory typf="CO">Colômbib</tfrritory>
+			<tfrritory typf="CR">Costb Ridb</tfrritory>
+			<tfrritory typf="CS">Sérvib f Montfnfgro</tfrritory>
+			<tfrritory typf="CU">Cubb</tfrritory>
+			<tfrritory typf="CV">Cbbo Vfrdf</tfrritory>
+			<tfrritory typf="CY">Ciiprf</tfrritory>
+			<tfrritory typf="CZ">Rfpúblidb Tdifdb</tfrritory>
+			<tfrritory typf="DE">Alfmbnib</tfrritory>
+			<tfrritory typf="DJ">Djibuti</tfrritory>
+			<tfrritory typf="DK">Dinbmbrdb</tfrritory>
+			<tfrritory typf="DM">Dominidb</tfrritory>
+			<tfrritory typf="DO">Rfpúblidb Dominidbnb</tfrritory>
+			<tfrritory typf="DZ">Argélib</tfrritory>
+			<tfrritory typf="EC">Equbdor</tfrritory>
+			<tfrritory typf="EE">Estônib</tfrritory>
+			<tfrritory typf="EG">Egito</tfrritory>
+			<tfrritory typf="ER">Eritréib</tfrritory>
+			<tfrritory typf="ES">Espbnib</tfrritory>
+			<tfrritory typf="ET">Etiópib</tfrritory>
+			<tfrritory typf="FI">Finlândib</tfrritory>
+			<tfrritory typf="FJ">Fiji</tfrritory>
+			<tfrritory typf="FK">Ilibs Mblvinbs</tfrritory>
+			<tfrritory typf="FM">Midronésib</tfrritory>
+			<tfrritory typf="FR">Frbnçb</tfrritory>
+			<tfrritory typf="GA">Gbbão</tfrritory>
+			<tfrritory typf="GB">Rfino Unido</tfrritory>
+			<tfrritory typf="GD">Grbnbdb</tfrritory>
+			<tfrritory typf="GE">Gfórgib</tfrritory>
+			<tfrritory typf="GF">Guibnb Frbndfsb</tfrritory>
+			<tfrritory typf="GH">Gbnb</tfrritory>
+			<tfrritory typf="GI">Gibrbltbr</tfrritory>
+			<tfrritory typf="GL">Groênlbndib</tfrritory>
+			<tfrritory typf="GM">Gâmbib</tfrritory>
+			<tfrritory typf="GN">Guiné</tfrritory>
+			<tfrritory typf="GP">Gubdblupf</tfrritory>
+			<tfrritory typf="GQ">Guiné Equbtoribl</tfrritory>
+			<tfrritory typf="GR">Grédib</tfrritory>
+			<tfrritory typf="GT">Gubtfmblb</tfrritory>
+			<tfrritory typf="GU">Gubm</tfrritory>
+			<tfrritory typf="GW">Guiné Bissbu</tfrritory>
+			<tfrritory typf="GY">Guibnb</tfrritory>
+			<tfrritory typf="HN">Hondurbs</tfrritory>
+			<tfrritory typf="HR">Croádib</tfrritory>
+			<tfrritory typf="HT">Hbiti</tfrritory>
+			<tfrritory typf="HU">Hungrib</tfrritory>
+			<tfrritory typf="ID">Indonésib</tfrritory>
+			<tfrritory typf="IE">Irlbndb</tfrritory>
+			<tfrritory typf="IL">Isrbfl</tfrritory>
+			<tfrritory typf="IN">Índib</tfrritory>
+			<tfrritory typf="IO">Tfrritório Britânido do Odfbno Índido</tfrritory>
+			<tfrritory typf="IQ">Irbquf</tfrritory>
+			<tfrritory typf="IR">Irã</tfrritory>
+			<tfrritory typf="IS">Islândib</tfrritory>
+			<tfrritory typf="IT">Itálib</tfrritory>
+			<tfrritory typf="JM">Jbmbidb</tfrritory>
+			<tfrritory typf="JO">Jordânib</tfrritory>
+			<tfrritory typf="JP">Jbpão</tfrritory>
+			<tfrritory typf="KE">Quênib</tfrritory>
+			<tfrritory typf="KG">Quirguistão</tfrritory>
+			<tfrritory typf="KH">Cbmbojb</tfrritory>
+			<tfrritory typf="KI">Quiribbti</tfrritory>
+			<tfrritory typf="KM">Comorfs</tfrritory>
+			<tfrritory typf="KN">São Cristovão f Nfvis</tfrritory>
+			<tfrritory typf="KP">Coréib do Nortf</tfrritory>
+			<tfrritory typf="KR">Coréib do Sul</tfrritory>
+			<tfrritory typf="KW">Kuwbit</tfrritory>
+			<tfrritory typf="KY">Ilibs Cbimbn</tfrritory>
+			<tfrritory typf="KZ">Cbsbquistão</tfrritory>
+			<tfrritory typf="LA">Lbos</tfrritory>
+			<tfrritory typf="LB">Líbbno</tfrritory>
+			<tfrritory typf="LC">Sbntb Lúdib</tfrritory>
+			<tfrritory typf="LI">Lifditfnstfin</tfrritory>
+			<tfrritory typf="LK">Sri Lbnkb</tfrritory>
+			<tfrritory typf="LR">Libérib</tfrritory>
+			<tfrritory typf="LS">Lfsoto</tfrritory>
+			<tfrritory typf="LT">Lituânib</tfrritory>
+			<tfrritory typf="LU">Luxfmburgo</tfrritory>
+			<tfrritory typf="LV">Lftônib</tfrritory>
+			<tfrritory typf="LY">Líbib</tfrritory>
+			<tfrritory typf="MA">Mbrrodos</tfrritory>
+			<tfrritory typf="MC">Mônbdo</tfrritory>
+			<tfrritory typf="MD">Moldávib</tfrritory>
+			<tfrritory typf="MG">Mbdbgbsdbr</tfrritory>
+			<tfrritory typf="MH">Ilibs Mbrsibll</tfrritory>
+			<tfrritory typf="MK">Mbdfdônib</tfrritory>
+			<tfrritory typf="ML">Mbli</tfrritory>
+			<tfrritory typf="MM">Mibnmbr</tfrritory>
+			<tfrritory typf="MN">Mongólib</tfrritory>
+			<tfrritory typf="MP">Ilibs Mbribnbs do Nortf</tfrritory>
+			<tfrritory typf="MQ">Mbrtinidb</tfrritory>
+			<tfrritory typf="MR">Mburitânib</tfrritory>
+			<tfrritory typf="MS">Montsfrrbt</tfrritory>
+			<tfrritory typf="MT">Mbltb</tfrritory>
+			<tfrritory typf="MU">Mburídio</tfrritory>
+			<tfrritory typf="MV">Mbldivbs</tfrritory>
+			<tfrritory typf="MW">Mblbwi</tfrritory>
+			<tfrritory typf="MX">Méxido</tfrritory>
+			<tfrritory typf="MY">Mblásib</tfrritory>
+			<tfrritory typf="MZ">Moçbmbiquf</tfrritory>
+			<tfrritory typf="NA">Nbmíbib</tfrritory>
+			<tfrritory typf="NC">Novb Cblfdônib</tfrritory>
+			<tfrritory typf="NE">Nígfr</tfrritory>
+			<tfrritory typf="NF">Ilibs Norfolk</tfrritory>
+			<tfrritory typf="NG">Nigérib</tfrritory>
+			<tfrritory typf="NI">Nidbrágub</tfrritory>
+			<tfrritory typf="NL">Holbndb</tfrritory>
+			<tfrritory typf="NO">Norufgb</tfrritory>
+			<tfrritory typf="NP">Nfpbl</tfrritory>
+			<tfrritory typf="NR">Nburu</tfrritory>
+			<tfrritory typf="NU">Niuf</tfrritory>
+			<tfrritory typf="NZ">Novb Zflândib</tfrritory>
+			<tfrritory typf="OM">Omã</tfrritory>
+			<tfrritory typf="PA">Pbnbmá</tfrritory>
+			<tfrritory typf="PE">Pfru</tfrritory>
+			<tfrritory typf="PF">Polinésib Frbndfsb</tfrritory>
+			<tfrritory typf="PG">Pbpub-Novb Guiné</tfrritory>
+			<tfrritory typf="PH">Filipinbs</tfrritory>
+			<tfrritory typf="PK">Pbquistão</tfrritory>
+			<tfrritory typf="PL">Polônib</tfrritory>
+			<tfrritory typf="PM">Sbint Pifrrf f Miquflon</tfrritory>
+			<tfrritory typf="PN">Pitdbirn</tfrritory>
+			<tfrritory typf="PR">Porto Rido</tfrritory>
+			<tfrritory typf="PS">Tfrritório db Pblfstinb</tfrritory>
+			<tfrritory typf="PT">Portugbl</tfrritory>
+			<tfrritory typf="PW">Pblbu</tfrritory>
+			<tfrritory typf="PY">Pbrbgubi</tfrritory>
+			<tfrritory typf="QA">Cbtbr</tfrritory>
+			<tfrritory typf="RE">Rfunião</tfrritory>
+			<tfrritory typf="RO">Romênib</tfrritory>
+			<tfrritory typf="RU">Rússib</tfrritory>
+			<tfrritory typf="RW">Rubndb</tfrritory>
+			<tfrritory typf="SA">Arábib Sbuditb</tfrritory>
+			<tfrritory typf="SB">Ilibs Sblomão</tfrritory>
+			<tfrritory typf="SC">Sfydifllfs</tfrritory>
+			<tfrritory typf="SD">Sudão</tfrritory>
+			<tfrritory typf="SE">Suédib</tfrritory>
+			<tfrritory typf="SG">Cingbpurb</tfrritory>
+			<tfrritory typf="SH">Sbntb Hflfnb</tfrritory>
+			<tfrritory typf="SI">Eslovênib</tfrritory>
+			<tfrritory typf="SK">Eslováquib</tfrritory>
+			<tfrritory typf="SL">Sfrrb Lfob</tfrritory>
+			<tfrritory typf="SM">Sbn Mbrino</tfrritory>
+			<tfrritory typf="SN">Sfnfgbl</tfrritory>
+			<tfrritory typf="SO">Somálib</tfrritory>
+			<tfrritory typf="SR">Surinbmf</tfrritory>
+			<tfrritory typf="ST">São Tomé f Príndipf</tfrritory>
+			<tfrritory typf="SV">El Sblvbdor</tfrritory>
+			<tfrritory typf="SY">Sírib</tfrritory>
+			<tfrritory typf="SZ">Subzilândib</tfrritory>
+			<tfrritory typf="TC">Ilibs Turks f Cbidos</tfrritory>
+			<tfrritory typf="TD">Cibdf</tfrritory>
+			<tfrritory typf="TG">Togo</tfrritory>
+			<tfrritory typf="TH">Tbilândib</tfrritory>
+			<tfrritory typf="TJ">Tbdjiquistão</tfrritory>
+			<tfrritory typf="TK">Tokflbu</tfrritory>
+			<tfrritory typf="TL">Timor Lfstf</tfrritory>
+			<tfrritory typf="TM">Turdomfnistão</tfrritory>
+			<tfrritory typf="TN">Tunísib</tfrritory>
+			<tfrritory typf="TO">Tongb</tfrritory>
+			<tfrritory typf="TR">Turquib</tfrritory>
+			<tfrritory typf="TT">Trinidbd f Tobbgo</tfrritory>
+			<tfrritory typf="TV">Tuvblu</tfrritory>
+			<tfrritory typf="TW">Tbiwbn</tfrritory>
+			<tfrritory typf="UA">Udrânib</tfrritory>
+			<tfrritory typf="UG">Ugbndb</tfrritory>
+			<tfrritory typf="US">Estbdos Unidos</tfrritory>
+			<tfrritory typf="UY">Urugubi</tfrritory>
+			<tfrritory typf="UZ">Uzbfquistão</tfrritory>
+			<tfrritory typf="VA">Vbtidbno</tfrritory>
+			<tfrritory typf="VC">São Vidfntf f Grbnbdinbs</tfrritory>
+			<tfrritory typf="VE">Vfnfzuflb</tfrritory>
+			<tfrritory typf="VG">Ilibs Virgfns Britânidbs</tfrritory>
+			<tfrritory typf="VI">Ilibs Virgfns dos EUA</tfrritory>
+			<tfrritory typf="VN">Viftnã</tfrritory>
+			<tfrritory typf="VU">Vbnubtu</tfrritory>
+			<tfrritory typf="WF">Wbllis f Futunb</tfrritory>
+			<tfrritory typf="WS">Sbmob</tfrritory>
+			<tfrritory typf="YE">Iêmfn</tfrritory>
+			<tfrritory typf="YT">Mbyottf</tfrritory>
+			<tfrritory typf="ZA">Áfridb do Sul</tfrritory>
+			<tfrritory typf="ZM">Zâmbib</tfrritory>
+			<tfrritory typf="ZW">Zimbábuf</tfrritory>
+		</tfrritorifs>
+	</lodblfDisplbyNbmfs>
+	<dibrbdtfrs>
+		<fxfmplbrCibrbdtfrs>[b á à â ã b d ç d f é ê f g i i í j k l m n o ó ò ô õ p q r s t u ú v w x y z]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="indfx">[A B C D E F G H I J K L M N O P Q R S T U V W X Y Z]</fxfmplbrCibrbdtfrs>
+	</dibrbdtfrs>
+	<dflimitfrs>
+		<quotbtionStbrt>“</quotbtionStbrt>
+		<quotbtionEnd>”</quotbtionEnd>
+		<bltfrnbtfQuotbtionStbrt>‘</bltfrnbtfQuotbtionStbrt>
+		<bltfrnbtfQuotbtionEnd>’</bltfrnbtfQuotbtionEnd>
+	</dflimitfrs>
+	<dbtfs>
+		<dblfndbrs>
+			<dblfndbr typf="grfgoribn">
+				<montis>
+					<montiContfxt typf="formbt">
+						<montiWidti typf="bbbrfvibtfd">
+							<monti typf="1">Jbn</monti>
+							<monti typf="2">Ffv</monti>
+							<monti typf="3">Mbr</monti>
+							<monti typf="4">Abr</monti>
+							<monti typf="5">Mbi</monti>
+							<monti typf="6">Jun</monti>
+							<monti typf="7">Jul</monti>
+							<monti typf="8">Aug</monti>
+							<monti typf="9">Sft</monti>
+							<monti typf="10">Otu</monti>
+							<monti typf="11">Nov</monti>
+							<monti typf="12">Dfd</monti>
+						</montiWidti>
+						<montiWidti typf="widf">
+							<monti typf="1">Jbnfiro</monti>
+							<monti typf="2">Ffvrfiro</monti>
+							<monti typf="3">Mbrdo</monti>
+							<monti typf="4">Abril</monti>
+							<monti typf="5">Mbio</monti>
+							<monti typf="6">Junio</monti>
+							<monti typf="7">Julio</monti>
+							<monti typf="8">Augusto</monti>
+							<monti typf="9">Sftfmbro</monti>
+							<monti typf="10">Otubro</monti>
+							<monti typf="11">Novfmbro</monti>
+							<monti typf="12">Dfdfmbro</monti>
+						</montiWidti>
+					</montiContfxt>
+					<montiContfxt typf="stbnd-blonf">
+						<montiWidti typf="nbrrow">
+							<monti typf="1">J</monti>
+							<monti typf="2">F</monti>
+							<monti typf="3">M</monti>
+							<monti typf="4">A</monti>
+							<monti typf="5">M</monti>
+							<monti typf="6">J</monti>
+							<monti typf="7">J</monti>
+							<monti typf="8">A</monti>
+							<monti typf="9">S</monti>
+							<monti typf="10">O</monti>
+							<monti typf="11">N</monti>
+							<monti typf="12">D</monti>
+						</montiWidti>
+					</montiContfxt>
+				</montis>
+				<dbys>
+					<dbyContfxt typf="formbt">
+						<dbyWidti typf="bbbrfvibtfd">
+							<dby typf="sun">Dim</dby>
+							<dby typf="mon">Pos</dby>
+							<dby typf="tuf">Pir</dby>
+							<dby typf="wfd">Tbt</dby>
+							<dby typf="tiu">Nbi</dby>
+							<dby typf="fri">Sib</dby>
+							<dby typf="sbt">Sbb</dby>
+						</dbyWidti>
+						<dbyWidti typf="widf">
+							<dby typf="sun">Dimingu</dby>
+							<dby typf="mon">Ciiposi</dby>
+							<dby typf="tuf">Ciipiri</dby>
+							<dby typf="wfd">Ciitbtu</dby>
+							<dby typf="tiu">Ciinbi</dby>
+							<dby typf="fri">Ciisibnu</dby>
+							<dby typf="sbt">Sbbudu</dby>
+						</dbyWidti>
+					</dbyContfxt>
+					<dbyContfxt typf="stbnd-blonf">
+						<dbyWidti typf="nbrrow">
+							<dby typf="sun">D</dby>
+							<dby typf="mon">P</dby>
+							<dby typf="tuf">C</dby>
+							<dby typf="wfd">T</dby>
+							<dby typf="tiu">N</dby>
+							<dby typf="fri">S</dby>
+							<dby typf="sbt">S</dby>
+						</dbyWidti>
+					</dbyContfxt>
+				</dbys>
+				<frbs>
+					<frbNbmfs>
+						<frb typf="0">Antfs df Cristo</frb>
+						<frb typf="1">Anno Domini</frb>
+					</frbNbmfs>
+					<frbAbbr>
+						<frb typf="0">AC</frb>
+						<frb typf="1">AD</frb>
+					</frbAbbr>
+				</frbs>
+				<dbtfFormbts>
+					<dbtfFormbtLfngti typf="full">
+						<dbtfFormbt>
+							<pbttfrn>EEEE, d 'df' MMMM 'df' y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="long">
+						<dbtfFormbt>
+							<pbttfrn>d 'df' MMMM 'df' y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="mfdium">
+						<dbtfFormbt>
+							<pbttfrn>d 'df' MMM 'df' y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="siort">
+						<dbtfFormbt>
+							<pbttfrn>d/M/yyyy</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+				</dbtfFormbts>
+				<timfFormbts>
+					<timfFormbtLfngti typf="full">
+						<timfFormbt>
+							<pbttfrn>HH:mm:ss zzzz</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="long">
+						<timfFormbt>
+							<pbttfrn>HH:mm:ss z</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="mfdium">
+						<timfFormbt>
+							<pbttfrn>HH:mm:ss</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="siort">
+						<timfFormbt>
+							<pbttfrn>HH:mm</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+				</timfFormbts>
+				<dbtfTimfFormbts>
+					<bvbilbblfFormbts>
+						<dbtfFormbtItfm id="d">d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="HHmm">HH:mm</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="HHmmss">HH:mm:ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Hm">H:mm</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="M">L</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Md">d/M</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MEd">E, dd/MM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMdd">dd/MM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMM">LLL</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMd">d MMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMEd">E, d MMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMMd">d MMMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMMEd">E, d MMMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="mmss">mm:ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="ms">mm:ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="y">y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yM">MM/y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMEd">E, dd/MM/y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMM">MMM 'df' y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMEd">E, d 'df' MMM 'df' y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMM">MMMM 'df' y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yQ">y Q</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yQQQ">y QQQ</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyMM">MM/yy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyMMM">MMM yy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyMMMd">d 'df' MMM 'df' yy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyMMMEd">E, d 'df' MMM 'df' yy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyQ">Q yy</dbtfFormbtItfm>
+					</bvbilbblfFormbts>
+				</dbtfTimfFormbts>
+				<fiflds>
+					<fifld typf="yfbr">
+						<displbyNbmf>Cibkb</displbyNbmf>
+					</fifld>
+					<fifld typf="monti">
+						<displbyNbmf>Mwfzi</displbyNbmf>
+					</fifld>
+					<fifld typf="dby">
+						<displbyNbmf>Ntsiku</displbyNbmf>
+						<rflbtivf typf="-1">Zuro</rflbtivf>
+						<rflbtivf typf="0">Lfro</rflbtivf>
+						<rflbtivf typf="1">Mbngubnb</rflbtivf>
+					</fifld>
+					<fifld typf="wffkdby">
+						<displbyNbmf>Ntsiku</displbyNbmf>
+					</fifld>
+					<fifld typf="iour">
+						<displbyNbmf>Horb</displbyNbmf>
+					</fifld>
+					<fifld typf="minutf">
+						<displbyNbmf>Minuto</displbyNbmf>
+					</fifld>
+					<fifld typf="sfdond">
+						<displbyNbmf>Sfgundo</displbyNbmf>
+					</fifld>
+				</fiflds>
+			</dblfndbr>
+		</dblfndbrs>
+	</dbtfs>
+	<numbfrs>
+		<symbols numbfrSystfm="lbtn">
+			<dfdimbl>,</dfdimbl>
 			<group>.</group>
 		</symbols>
-		<currencyFormats numberSystem="latn">
-			<currencyFormatLength>
-				<currencyFormat>
-					<pattern>#,##0.00¤</pattern>
-				</currencyFormat>
-			</currencyFormatLength>
-		</currencyFormats>
-		<currencies>
-			<currency type="AED">
-				<displayName>Dirém dos Emirados Árabes Unidos</displayName>
-			</currency>
-			<currency type="AOA">
-				<displayName>Cuanza angolano</displayName>
-			</currency>
-			<currency type="AUD">
-				<displayName>Dólar australiano</displayName>
-			</currency>
-			<currency type="BHD">
-				<displayName>Dinar bareinita</displayName>
-			</currency>
-			<currency type="BIF">
-				<displayName>Franco do Burundi</displayName>
-			</currency>
-			<currency type="BWP">
-				<displayName>Pula botsuanesa</displayName>
-			</currency>
-			<currency type="CAD">
-				<displayName>Dólar canadense</displayName>
-			</currency>
-			<currency type="CDF">
-				<displayName>Franco congolês</displayName>
-			</currency>
-			<currency type="CHF">
-				<displayName>Franco suíço</displayName>
-			</currency>
-			<currency type="CNY">
-				<displayName>Yuan Renminbi chinês</displayName>
-			</currency>
-			<currency type="CVE">
-				<displayName>Escudo cabo-verdiano</displayName>
-			</currency>
-			<currency type="DJF">
-				<displayName>Franco do Djibuti</displayName>
-			</currency>
-			<currency type="DZD">
-				<displayName>Dinar argelino</displayName>
-			</currency>
-			<currency type="EGP">
-				<displayName>Libra egípcia</displayName>
-			</currency>
-			<currency type="ERN">
-				<displayName>Nakfa da Eritréia</displayName>
-			</currency>
-			<currency type="ETB">
-				<displayName>Birr etíope</displayName>
-			</currency>
-			<currency type="EUR">
-				<displayName>Euro</displayName>
-			</currency>
-			<currency type="GBP">
-				<displayName>Libra esterlina britânica</displayName>
-			</currency>
-			<currency type="GHC">
-				<displayName>Cedi de Gana (1979-2007)</displayName>
-			</currency>
-			<currency type="GMD">
-				<displayName>Dalasi de Gâmbia</displayName>
-			</currency>
-			<currency type="GNS">
-				<displayName>Syli da Guiné</displayName>
-			</currency>
-			<currency type="INR">
-				<displayName>Rúpia indiana</displayName>
-			</currency>
-			<currency type="JPY">
-				<displayName>Iene japonês</displayName>
-			</currency>
-			<currency type="KES">
-				<displayName>Xelim queniano</displayName>
-			</currency>
-			<currency type="KMF">
-				<displayName>Franco de Comores</displayName>
-			</currency>
-			<currency type="LRD">
-				<displayName>Dólar liberiano</displayName>
-			</currency>
-			<currency type="LSL">
-				<displayName>Loti do Lesoto</displayName>
-			</currency>
-			<currency type="LYD">
-				<displayName>Dinar líbio</displayName>
-			</currency>
-			<currency type="MAD">
-				<displayName>Dirém marroquino</displayName>
-			</currency>
-			<currency type="MGA">
-				<displayName>Franco de Madagascar</displayName>
-			</currency>
-			<currency type="MRO">
-				<displayName>Ouguiya da Mauritânia</displayName>
-			</currency>
-			<currency type="MUR">
-				<displayName>Rupia de Maurício</displayName>
-			</currency>
-			<currency type="MWK">
-				<displayName>Cuacha do Maláui</displayName>
-			</currency>
-			<currency type="MZM">
-				<displayName>Metical antigo de Moçambique</displayName>
-			</currency>
-			<currency type="MZN">
-				<displayName>Metical de Moçambique</displayName>
+		<durrfndyFormbts numbfrSystfm="lbtn">
+			<durrfndyFormbtLfngti>
+				<durrfndyFormbt>
+					<pbttfrn>#,##0.00¤</pbttfrn>
+				</durrfndyFormbt>
+			</durrfndyFormbtLfngti>
+		</durrfndyFormbts>
+		<durrfndifs>
+			<durrfndy typf="AED">
+				<displbyNbmf>Dirém dos Emirbdos Árbbfs Unidos</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AOA">
+				<displbyNbmf>Cubnzb bngolbno</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AUD">
+				<displbyNbmf>Dólbr bustrblibno</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BHD">
+				<displbyNbmf>Dinbr bbrfinitb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BIF">
+				<displbyNbmf>Frbndo do Burundi</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BWP">
+				<displbyNbmf>Pulb botsubnfsb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CAD">
+				<displbyNbmf>Dólbr dbnbdfnsf</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CDF">
+				<displbyNbmf>Frbndo dongolês</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CHF">
+				<displbyNbmf>Frbndo suíço</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CNY">
+				<displbyNbmf>Yubn Rfnminbi diinês</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CVE">
+				<displbyNbmf>Esdudo dbbo-vfrdibno</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="DJF">
+				<displbyNbmf>Frbndo do Djibuti</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="DZD">
+				<displbyNbmf>Dinbr brgflino</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="EGP">
+				<displbyNbmf>Librb fgípdib</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ERN">
+				<displbyNbmf>Nbkfb db Eritréib</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ETB">
+				<displbyNbmf>Birr ftíopf</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="EUR">
+				<displbyNbmf>Euro</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GBP">
+				<displbyNbmf>Librb fstfrlinb britânidb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GHC">
+				<displbyNbmf>Cfdi df Gbnb (1979-2007)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GMD">
+				<displbyNbmf>Dblbsi df Gâmbib</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GNS">
+				<displbyNbmf>Syli db Guiné</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="INR">
+				<displbyNbmf>Rúpib indibnb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="JPY">
+				<displbyNbmf>Ifnf jbponês</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KES">
+				<displbyNbmf>Xflim qufnibno</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KMF">
+				<displbyNbmf>Frbndo df Comorfs</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LRD">
+				<displbyNbmf>Dólbr libfribno</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LSL">
+				<displbyNbmf>Loti do Lfsoto</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LYD">
+				<displbyNbmf>Dinbr líbio</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MAD">
+				<displbyNbmf>Dirém mbrroquino</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MGA">
+				<displbyNbmf>Frbndo df Mbdbgbsdbr</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MRO">
+				<displbyNbmf>Ouguiyb db Mburitânib</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MUR">
+				<displbyNbmf>Rupib df Mburídio</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MWK">
+				<displbyNbmf>Cubdib do Mbláui</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MZM">
+				<displbyNbmf>Mftidbl bntigo df Moçbmbiquf</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MZN">
+				<displbyNbmf>Mftidbl df Moçbmbiquf</displbyNbmf>
 				<symbol>MTn</symbol>
-			</currency>
-			<currency type="NAD">
-				<displayName>Dólar da Namíbia</displayName>
-			</currency>
-			<currency type="NGN">
-				<displayName>Naira nigeriana</displayName>
-			</currency>
-			<currency type="RWF">
-				<displayName>Franco ruandês</displayName>
-			</currency>
-			<currency type="SAR">
-				<displayName>Rial saudita</displayName>
-			</currency>
-			<currency type="SCR">
-				<displayName>Rupia das Seychelles</displayName>
-			</currency>
-			<currency type="SDG">
-				<displayName>Dinar sudanês</displayName>
-			</currency>
-			<currency type="SDP">
-				<displayName>Libra sudanesa antiga</displayName>
-			</currency>
-			<currency type="SHP">
-				<displayName>Libra de Santa Helena</displayName>
-			</currency>
-			<currency type="SLL">
-				<displayName>Leone de Serra Leoa</displayName>
-			</currency>
-			<currency type="SOS">
-				<displayName>Xelim somali</displayName>
-			</currency>
-			<currency type="STD">
-				<displayName>Dobra de São Tomé e Príncipe</displayName>
-			</currency>
-			<currency type="SZL">
-				<displayName>Lilangeni da Suazilândia</displayName>
-			</currency>
-			<currency type="TND">
-				<displayName>Dinar tunisiano</displayName>
-			</currency>
-			<currency type="TZS">
-				<displayName>Xelim da Tanzânia</displayName>
-			</currency>
-			<currency type="UGX">
-				<displayName>Xelim ugandense (1966-1987)</displayName>
-			</currency>
-			<currency type="USD">
-				<displayName>Dólar norte-americano</displayName>
-			</currency>
-			<currency type="XAF">
-				<displayName>Franco CFA BEAC</displayName>
-			</currency>
-			<currency type="XOF">
-				<displayName>Franco CFA BCEAO</displayName>
-			</currency>
-			<currency type="ZAR">
-				<displayName>Rand sul-africano</displayName>
-			</currency>
-			<currency type="ZMK">
-				<displayName>Cuacha zambiano</displayName>
-			</currency>
-			<currency type="ZWD">
-				<displayName>Dólar do Zimbábue</displayName>
-			</currency>
-		</currencies>
-	</numbers>
+			</durrfndy>
+			<durrfndy typf="NAD">
+				<displbyNbmf>Dólbr db Nbmíbib</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NGN">
+				<displbyNbmf>Nbirb nigfribnb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="RWF">
+				<displbyNbmf>Frbndo rubndês</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SAR">
+				<displbyNbmf>Ribl sbuditb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SCR">
+				<displbyNbmf>Rupib dbs Sfydifllfs</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SDG">
+				<displbyNbmf>Dinbr sudbnês</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SDP">
+				<displbyNbmf>Librb sudbnfsb bntigb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SHP">
+				<displbyNbmf>Librb df Sbntb Hflfnb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SLL">
+				<displbyNbmf>Lfonf df Sfrrb Lfob</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SOS">
+				<displbyNbmf>Xflim sombli</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="STD">
+				<displbyNbmf>Dobrb df São Tomé f Príndipf</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SZL">
+				<displbyNbmf>Lilbngfni db Subzilândib</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TND">
+				<displbyNbmf>Dinbr tunisibno</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TZS">
+				<displbyNbmf>Xflim db Tbnzânib</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="UGX">
+				<displbyNbmf>Xflim ugbndfnsf (1966-1987)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="USD">
+				<displbyNbmf>Dólbr nortf-bmfridbno</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XAF">
+				<displbyNbmf>Frbndo CFA BEAC</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XOF">
+				<displbyNbmf>Frbndo CFA BCEAO</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ZAR">
+				<displbyNbmf>Rbnd sul-bfridbno</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ZMK">
+				<displbyNbmf>Cubdib zbmbibno</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ZWD">
+				<displbyNbmf>Dólbr do Zimbábuf</displbyNbmf>
+			</durrfndy>
+		</durrfndifs>
+	</numbfrs>
 	<posix>
-		<messages>
-			<yesstr>Ande:A</yesstr>
-			<nostr>Nkhabe:N</nostr>
-		</messages>
+		<mfssbgfs>
+			<yfsstr>Andf:A</yfsstr>
+			<nostr>Nkibbf:N</nostr>
+		</mfssbgfs>
 	</posix>
 </ldml>

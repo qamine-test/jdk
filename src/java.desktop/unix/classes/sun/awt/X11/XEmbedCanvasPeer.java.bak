@@ -1,894 +1,894 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.X11;
+pbdkbgf sun.bwt.X11;
 
-import java.awt.*;
-import java.awt.dnd.DropTarget;
-import java.awt.dnd.DropTargetListener;
-import java.awt.event.*;
-import sun.awt.*;
-import sun.awt.AWTAccessor;
-import sun.util.logging.PlatformLogger;
-import java.util.*;
-import static sun.awt.X11.XEmbedHelper.*;
+import jbvb.bwt.*;
+import jbvb.bwt.dnd.DropTbrgft;
+import jbvb.bwt.dnd.DropTbrgftListfnfr;
+import jbvb.bwt.fvfnt.*;
+import sun.bwt.*;
+import sun.bwt.AWTAddfssor;
+import sun.util.logging.PlbtformLoggfr;
+import jbvb.util.*;
+import stbtid sun.bwt.X11.XEmbfdHflpfr.*;
 
-import java.security.AccessController;
-import sun.security.action.GetBooleanAction;
+import jbvb.sfdurity.AddfssControllfr;
+import sun.sfdurity.bdtion.GftBoolfbnAdtion;
 
-public class XEmbedCanvasPeer extends XCanvasPeer implements WindowFocusListener, KeyEventPostProcessor, ModalityListener, WindowIDProvider {
-    private static final PlatformLogger xembedLog = PlatformLogger.getLogger("sun.awt.X11.xembed.XEmbedCanvasPeer");
+publid dlbss XEmbfdCbnvbsPffr fxtfnds XCbnvbsPffr implfmfnts WindowFodusListfnfr, KfyEvfntPostProdfssor, ModblityListfnfr, WindowIDProvidfr {
+    privbtf stbtid finbl PlbtformLoggfr xfmbfdLog = PlbtformLoggfr.gftLoggfr("sun.bwt.X11.xfmbfd.XEmbfdCbnvbsPffr");
 
-    boolean applicationActive; // Whether the application is active(has focus)
-    XEmbedServer xembed = new XEmbedServer(); // Helper object, contains XEmbed intrinsics
-    Map<Long, AWTKeyStroke> accelerators = new HashMap<Long, AWTKeyStroke>(); // Maps accelerator ID into AWTKeyStroke
-    Map<AWTKeyStroke, Long> accel_lookup = new HashMap<AWTKeyStroke, Long>(); // Maps AWTKeyStroke into accelerator ID
-    Set<GrabbedKey> grabbed_keys = new HashSet<GrabbedKey>(); // A set of keys grabbed by client
-    Object ACCEL_LOCK = accelerators; // Lock object for working with accelerators;
-    Object GRAB_LOCK = grabbed_keys; // Lock object for working with keys grabbed by client
+    boolfbn bpplidbtionAdtivf; // Wiftifr tif bpplidbtion is bdtivf(ibs fodus)
+    XEmbfdSfrvfr xfmbfd = nfw XEmbfdSfrvfr(); // Hflpfr objfdt, dontbins XEmbfd intrinsids
+    Mbp<Long, AWTKfyStrokf> bddflfrbtors = nfw HbsiMbp<Long, AWTKfyStrokf>(); // Mbps bddflfrbtor ID into AWTKfyStrokf
+    Mbp<AWTKfyStrokf, Long> bddfl_lookup = nfw HbsiMbp<AWTKfyStrokf, Long>(); // Mbps AWTKfyStrokf into bddflfrbtor ID
+    Sft<GrbbbfdKfy> grbbbfd_kfys = nfw HbsiSft<GrbbbfdKfy>(); // A sft of kfys grbbbfd by dlifnt
+    Objfdt ACCEL_LOCK = bddflfrbtors; // Lodk objfdt for working witi bddflfrbtors;
+    Objfdt GRAB_LOCK = grbbbfd_kfys; // Lodk objfdt for working witi kfys grbbbfd by dlifnt
 
-    XEmbedCanvasPeer() {}
+    XEmbfdCbnvbsPffr() {}
 
-    XEmbedCanvasPeer(XCreateWindowParams params) {
-        super(params);
+    XEmbfdCbnvbsPffr(XCrfbtfWindowPbrbms pbrbms) {
+        supfr(pbrbms);
     }
 
-    XEmbedCanvasPeer(Component target) {
-        super(target);
+    XEmbfdCbnvbsPffr(Componfnt tbrgft) {
+        supfr(tbrgft);
     }
 
-    protected void postInit(XCreateWindowParams params) {
-        super.postInit(params);
+    protfdtfd void postInit(XCrfbtfWindowPbrbms pbrbms) {
+        supfr.postInit(pbrbms);
 
-        installActivateListener();
-        installAcceleratorListener();
-        installModalityListener();
+        instbllAdtivbtfListfnfr();
+        instbllAddflfrbtorListfnfr();
+        instbllModblityListfnfr();
 
-        // XEmbed canvas should be non-traversable.
-        // FIXME: Probably should be removed and enforced setting of it by the users
-        target.setFocusTraversalKeysEnabled(false);
+        // XEmbfd dbnvbs siould bf non-trbvfrsbblf.
+        // FIXME: Probbbly siould bf rfmovfd bnd fnfordfd sftting of it by tif usfrs
+        tbrgft.sftFodusTrbvfrsblKfysEnbblfd(fblsf);
     }
 
-    protected void preInit(XCreateWindowParams params) {
-        super.preInit(params);
+    protfdtfd void prfInit(XCrfbtfWindowPbrbms pbrbms) {
+        supfr.prfInit(pbrbms);
 
-        params.put(EVENT_MASK,
-                   XConstants.KeyPressMask       | XConstants.KeyReleaseMask
-                   | XConstants.FocusChangeMask  | XConstants.ButtonPressMask | XConstants.ButtonReleaseMask
-                   | XConstants.EnterWindowMask  | XConstants.LeaveWindowMask | XConstants.PointerMotionMask
-                   | XConstants.ButtonMotionMask | XConstants.ExposureMask    | XConstants.StructureNotifyMask | XConstants.SubstructureNotifyMask);
+        pbrbms.put(EVENT_MASK,
+                   XConstbnts.KfyPrfssMbsk       | XConstbnts.KfyRflfbsfMbsk
+                   | XConstbnts.FodusCibngfMbsk  | XConstbnts.ButtonPrfssMbsk | XConstbnts.ButtonRflfbsfMbsk
+                   | XConstbnts.EntfrWindowMbsk  | XConstbnts.LfbvfWindowMbsk | XConstbnts.PointfrMotionMbsk
+                   | XConstbnts.ButtonMotionMbsk | XConstbnts.ExposurfMbsk    | XConstbnts.StrudturfNotifyMbsk | XConstbnts.SubstrudturfNotifyMbsk);
 
     }
 
-    void installModalityListener() {
-        ((SunToolkit)Toolkit.getDefaultToolkit()).addModalityListener(this);
+    void instbllModblityListfnfr() {
+        ((SunToolkit)Toolkit.gftDffbultToolkit()).bddModblityListfnfr(tiis);
     }
 
-    void deinstallModalityListener() {
-        ((SunToolkit)Toolkit.getDefaultToolkit()).removeModalityListener(this);
+    void dfinstbllModblityListfnfr() {
+        ((SunToolkit)Toolkit.gftDffbultToolkit()).rfmovfModblityListfnfr(tiis);
     }
 
-    void installAcceleratorListener() {
-        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventPostProcessor(this);
+    void instbllAddflfrbtorListfnfr() {
+        KfybobrdFodusMbnbgfr.gftCurrfntKfybobrdFodusMbnbgfr().bddKfyEvfntPostProdfssor(tiis);
     }
 
-    void deinstallAcceleratorListener() {
-        KeyboardFocusManager.getCurrentKeyboardFocusManager().removeKeyEventPostProcessor(this);
+    void dfinstbllAddflfrbtorListfnfr() {
+        KfybobrdFodusMbnbgfr.gftCurrfntKfybobrdFodusMbnbgfr().rfmovfKfyEvfntPostProdfssor(tiis);
     }
 
-    void installActivateListener() {
-        // FIXME: should watch for hierarchy changes
-        Window toplevel = getTopLevel(target);
-        if (toplevel != null) {
-            toplevel.addWindowFocusListener(this);
-            applicationActive = toplevel.isFocused();
+    void instbllAdtivbtfListfnfr() {
+        // FIXME: siould wbtdi for iifrbrdiy dibngfs
+        Window toplfvfl = gftTopLfvfl(tbrgft);
+        if (toplfvfl != null) {
+            toplfvfl.bddWindowFodusListfnfr(tiis);
+            bpplidbtionAdtivf = toplfvfl.isFodusfd();
         }
     }
 
-    void deinstallActivateListener() {
-        Window toplevel = getTopLevel(target);
-        if (toplevel != null) {
-            toplevel.removeWindowFocusListener(this);
+    void dfinstbllAdtivbtfListfnfr() {
+        Window toplfvfl = gftTopLfvfl(tbrgft);
+        if (toplfvfl != null) {
+            toplfvfl.rfmovfWindowFodusListfnfr(tiis);
         }
     }
 
-    boolean isXEmbedActive() {
-        return xembed.handle != 0;
+    boolfbn isXEmbfdAdtivf() {
+        rfturn xfmbfd.ibndlf != 0;
     }
 
-    boolean isApplicationActive() {
-        return applicationActive;
+    boolfbn isApplidbtionAdtivf() {
+        rfturn bpplidbtionAdtivf;
     }
 
-    void initDispatching() {
-        if (xembedLog.isLoggable(PlatformLogger.Level.FINE)) {
-            xembedLog.fine("Init embedding for " + Long.toHexString(xembed.handle));
+    void initDispbtdiing() {
+        if (xfmbfdLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            xfmbfdLog.finf("Init fmbfdding for " + Long.toHfxString(xfmbfd.ibndlf));
         }
-        XToolkit.awtLock();
+        XToolkit.bwtLodk();
         try {
-            XToolkit.addEventDispatcher(xembed.handle, xembed);
-            XlibWrapper.XSelectInput(XToolkit.getDisplay(), xembed.handle,
-                                     XConstants.StructureNotifyMask | XConstants.PropertyChangeMask);
+            XToolkit.bddEvfntDispbtdifr(xfmbfd.ibndlf, xfmbfd);
+            XlibWrbppfr.XSflfdtInput(XToolkit.gftDisplby(), xfmbfd.ibndlf,
+                                     XConstbnts.StrudturfNotifyMbsk | XConstbnts.PropfrtyCibngfMbsk);
 
-            XDropTargetRegistry.getRegistry().registerXEmbedClient(getWindow(), xembed.handle);
-        } finally {
-            XToolkit.awtUnlock();
+            XDropTbrgftRfgistry.gftRfgistry().rfgistfrXEmbfdClifnt(gftWindow(), xfmbfd.ibndlf);
+        } finblly {
+            XToolkit.bwtUnlodk();
         }
-        xembed.processXEmbedInfo();
+        xfmbfd.prodfssXEmbfdInfo();
 
-        notifyChildEmbedded();
+        notifyCiildEmbfddfd();
     }
 
-    void endDispatching() {
-        if (xembedLog.isLoggable(PlatformLogger.Level.FINE)) {
-            xembedLog.fine("End dispatching for " + Long.toHexString(xembed.handle));
+    void fndDispbtdiing() {
+        if (xfmbfdLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            xfmbfdLog.finf("End dispbtdiing for " + Long.toHfxString(xfmbfd.ibndlf));
         }
-        XToolkit.awtLock();
+        XToolkit.bwtLodk();
         try {
-            XDropTargetRegistry.getRegistry().unregisterXEmbedClient(getWindow(), xembed.handle);
-            // We can't deselect input since someone else might be interested in it
-            XToolkit.removeEventDispatcher(xembed.handle, xembed);
-        } finally {
-            XToolkit.awtUnlock();
+            XDropTbrgftRfgistry.gftRfgistry().unrfgistfrXEmbfdClifnt(gftWindow(), xfmbfd.ibndlf);
+            // Wf dbn't dfsflfdt input sindf somfonf flsf migit bf intfrfstfd in it
+            XToolkit.rfmovfEvfntDispbtdifr(xfmbfd.ibndlf, xfmbfd);
+        } finblly {
+            XToolkit.bwtUnlodk();
         }
     }
 
-    void embedChild(long child) {
-        if (xembed.handle != 0) {
-            detachChild();
+    void fmbfdCiild(long diild) {
+        if (xfmbfd.ibndlf != 0) {
+            dftbdiCiild();
         }
-        xembed.handle = child;
-        initDispatching();
+        xfmbfd.ibndlf = diild;
+        initDispbtdiing();
     }
 
-    void childDestroyed() {
-        if (xembedLog.isLoggable(PlatformLogger.Level.FINE)) {
-            xembedLog.fine("Child " + Long.toHexString(xembed.handle) + " has self-destroyed.");
+    void diildDfstroyfd() {
+        if (xfmbfdLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            xfmbfdLog.finf("Ciild " + Long.toHfxString(xfmbfd.ibndlf) + " ibs sflf-dfstroyfd.");
         }
-        endDispatching();
-        xembed.handle = 0;
+        fndDispbtdiing();
+        xfmbfd.ibndlf = 0;
     }
 
-    public void handleEvent(AWTEvent e) {
-        super.handleEvent(e);
-        if (isXEmbedActive()) {
-            switch (e.getID()) {
-              case FocusEvent.FOCUS_GAINED:
-                  canvasFocusGained((FocusEvent)e);
-                  break;
-              case FocusEvent.FOCUS_LOST:
-                  canvasFocusLost((FocusEvent)e);
-                  break;
-              case KeyEvent.KEY_PRESSED:
-              case KeyEvent.KEY_RELEASED:
-                  if (!((InputEvent)e).isConsumed()) {
-                      forwardKeyEvent((KeyEvent)e);
+    publid void ibndlfEvfnt(AWTEvfnt f) {
+        supfr.ibndlfEvfnt(f);
+        if (isXEmbfdAdtivf()) {
+            switdi (f.gftID()) {
+              dbsf FodusEvfnt.FOCUS_GAINED:
+                  dbnvbsFodusGbinfd((FodusEvfnt)f);
+                  brfbk;
+              dbsf FodusEvfnt.FOCUS_LOST:
+                  dbnvbsFodusLost((FodusEvfnt)f);
+                  brfbk;
+              dbsf KfyEvfnt.KEY_PRESSED:
+              dbsf KfyEvfnt.KEY_RELEASED:
+                  if (!((InputEvfnt)f).isConsumfd()) {
+                      forwbrdKfyEvfnt((KfyEvfnt)f);
                   }
-                  break;
+                  brfbk;
             }
         }
     }
 
-    public void dispatchEvent(XEvent ev) {
-        super.dispatchEvent(ev);
-        switch (ev.get_type()) {
-          case XConstants.CreateNotify:
-              XCreateWindowEvent cr = ev.get_xcreatewindow();
-              if (xembedLog.isLoggable(PlatformLogger.Level.FINEST)) {
-                  xembedLog.finest("Message on embedder: " + cr);
+    publid void dispbtdiEvfnt(XEvfnt fv) {
+        supfr.dispbtdiEvfnt(fv);
+        switdi (fv.gft_typf()) {
+          dbsf XConstbnts.CrfbtfNotify:
+              XCrfbtfWindowEvfnt dr = fv.gft_xdrfbtfwindow();
+              if (xfmbfdLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+                  xfmbfdLog.finfst("Mfssbgf on fmbfddfr: " + dr);
               }
-              if (xembedLog.isLoggable(PlatformLogger.Level.FINER)) {
-                  xembedLog.finer("Create notify for parent " + Long.toHexString(cr.get_parent()) +
-                                  ", window " + Long.toHexString(cr.get_window()));
+              if (xfmbfdLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                  xfmbfdLog.finfr("Crfbtf notify for pbrfnt " + Long.toHfxString(dr.gft_pbrfnt()) +
+                                  ", window " + Long.toHfxString(dr.gft_window()));
               }
-              embedChild(cr.get_window());
-              break;
-          case XConstants.DestroyNotify:
-              XDestroyWindowEvent dn = ev.get_xdestroywindow();
-              if (xembedLog.isLoggable(PlatformLogger.Level.FINEST)) {
-                  xembedLog.finest("Message on embedder: " + dn);
+              fmbfdCiild(dr.gft_window());
+              brfbk;
+          dbsf XConstbnts.DfstroyNotify:
+              XDfstroyWindowEvfnt dn = fv.gft_xdfstroywindow();
+              if (xfmbfdLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+                  xfmbfdLog.finfst("Mfssbgf on fmbfddfr: " + dn);
               }
-              if (xembedLog.isLoggable(PlatformLogger.Level.FINER)) {
-                  xembedLog.finer("Destroy notify for parent: " + dn);
+              if (xfmbfdLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                  xfmbfdLog.finfr("Dfstroy notify for pbrfnt: " + dn);
               }
-              childDestroyed();
-              break;
-          case XConstants.ReparentNotify:
-              XReparentEvent rep = ev.get_xreparent();
-              if (xembedLog.isLoggable(PlatformLogger.Level.FINEST)) {
-                  xembedLog.finest("Message on embedder: " + rep);
+              diildDfstroyfd();
+              brfbk;
+          dbsf XConstbnts.RfpbrfntNotify:
+              XRfpbrfntEvfnt rfp = fv.gft_xrfpbrfnt();
+              if (xfmbfdLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+                  xfmbfdLog.finfst("Mfssbgf on fmbfddfr: " + rfp);
               }
-              if (xembedLog.isLoggable(PlatformLogger.Level.FINER)) {
-                  xembedLog.finer("Reparent notify for parent " + Long.toHexString(rep.get_parent()) +
-                                  ", window " + Long.toHexString(rep.get_window()) +
-                                  ", event " + Long.toHexString(rep.get_event()));
+              if (xfmbfdLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                  xfmbfdLog.finfr("Rfpbrfnt notify for pbrfnt " + Long.toHfxString(rfp.gft_pbrfnt()) +
+                                  ", window " + Long.toHfxString(rfp.gft_window()) +
+                                  ", fvfnt " + Long.toHfxString(rfp.gft_fvfnt()));
               }
-              if (rep.get_parent() == getWindow()) {
-                  // Reparented into us - embed it
-                  embedChild(rep.get_window());
-              } else {
-                  // Reparented out of us - detach it
-                  childDestroyed();
+              if (rfp.gft_pbrfnt() == gftWindow()) {
+                  // Rfpbrfntfd into us - fmbfd it
+                  fmbfdCiild(rfp.gft_window());
+              } flsf {
+                  // Rfpbrfntfd out of us - dftbdi it
+                  diildDfstroyfd();
               }
-              break;
+              brfbk;
         }
     }
 
-    public Dimension getPreferredSize() {
-        if (isXEmbedActive()) {
-            XToolkit.awtLock();
+    publid Dimfnsion gftPrfffrrfdSizf() {
+        if (isXEmbfdAdtivf()) {
+            XToolkit.bwtLodk();
             try {
-                long p_hints = XlibWrapper.XAllocSizeHints();
-                XSizeHints hints = new XSizeHints(p_hints);
-                XlibWrapper.XGetWMNormalHints(XToolkit.getDisplay(), xembed.handle, p_hints, XlibWrapper.larg1);
-                Dimension res = new Dimension(hints.get_width(), hints.get_height());
-                XlibWrapper.XFree(p_hints);
-                return res;
-            } finally {
-                XToolkit.awtUnlock();
+                long p_iints = XlibWrbppfr.XAllodSizfHints();
+                XSizfHints iints = nfw XSizfHints(p_iints);
+                XlibWrbppfr.XGftWMNormblHints(XToolkit.gftDisplby(), xfmbfd.ibndlf, p_iints, XlibWrbppfr.lbrg1);
+                Dimfnsion rfs = nfw Dimfnsion(iints.gft_widti(), iints.gft_ifigit());
+                XlibWrbppfr.XFrff(p_iints);
+                rfturn rfs;
+            } finblly {
+                XToolkit.bwtUnlodk();
             }
-        } else {
-            return super.getPreferredSize();
+        } flsf {
+            rfturn supfr.gftPrfffrrfdSizf();
         }
     }
-    public Dimension getMinimumSize() {
-        if (isXEmbedActive()) {
-            XToolkit.awtLock();
+    publid Dimfnsion gftMinimumSizf() {
+        if (isXEmbfdAdtivf()) {
+            XToolkit.bwtLodk();
             try {
-                long p_hints = XlibWrapper.XAllocSizeHints();
-                XSizeHints hints = new XSizeHints(p_hints);
-                XlibWrapper.XGetWMNormalHints(XToolkit.getDisplay(), xembed.handle, p_hints, XlibWrapper.larg1);
-                Dimension res = new Dimension(hints.get_min_width(), hints.get_min_height());
-                XlibWrapper.XFree(p_hints);
-                return res;
-            } finally {
-                XToolkit.awtUnlock();
+                long p_iints = XlibWrbppfr.XAllodSizfHints();
+                XSizfHints iints = nfw XSizfHints(p_iints);
+                XlibWrbppfr.XGftWMNormblHints(XToolkit.gftDisplby(), xfmbfd.ibndlf, p_iints, XlibWrbppfr.lbrg1);
+                Dimfnsion rfs = nfw Dimfnsion(iints.gft_min_widti(), iints.gft_min_ifigit());
+                XlibWrbppfr.XFrff(p_iints);
+                rfturn rfs;
+            } finblly {
+                XToolkit.bwtUnlodk();
             }
-        } else {
-            return super.getMinimumSize();
+        } flsf {
+            rfturn supfr.gftMinimumSizf();
         }
     }
-    public void dispose() {
-        if (isXEmbedActive()) {
-            detachChild();
+    publid void disposf() {
+        if (isXEmbfdAdtivf()) {
+            dftbdiCiild();
         }
-        deinstallActivateListener();
-        deinstallModalityListener();
-        deinstallAcceleratorListener();
+        dfinstbllAdtivbtfListfnfr();
+        dfinstbllModblityListfnfr();
+        dfinstbllAddflfrbtorListfnfr();
 
-        // BUG: Focus traversal doesn't become enabled after the one round of embedding
-        //target.setFocusTraversalKeysEnabled(true);
+        // BUG: Fodus trbvfrsbl dofsn't bfdomf fnbblfd bftfr tif onf round of fmbfdding
+        //tbrgft.sftFodusTrbvfrsblKfysEnbblfd(truf);
 
-        super.dispose();
+        supfr.disposf();
     }
 
-    // Focusable is true in order to enable focus traversal through this Canvas
-    public boolean isFocusable() {
-        return true;
+    // Fodusbblf is truf in ordfr to fnbblf fodus trbvfrsbl tirougi tiis Cbnvbs
+    publid boolfbn isFodusbblf() {
+        rfturn truf;
     }
 
-    Window getTopLevel(Component comp) {
-        while (comp != null && !(comp instanceof Window)) {
-            comp = comp.getParent();
+    Window gftTopLfvfl(Componfnt domp) {
+        wiilf (domp != null && !(domp instbndfof Window)) {
+            domp = domp.gftPbrfnt();
         }
-        return (Window)comp;
+        rfturn (Window)domp;
     }
 
-    Rectangle getClientBounds() {
-        XToolkit.awtLock();
+    Rfdtbnglf gftClifntBounds() {
+        XToolkit.bwtLodk();
         try {
-            XWindowAttributes wattr = new XWindowAttributes();
+            XWindowAttributfs wbttr = nfw XWindowAttributfs();
             try {
-                XErrorHandlerUtil.WITH_XERROR_HANDLER(XErrorHandler.IgnoreBadWindowHandler.getInstance());
-                int status = XlibWrapper.XGetWindowAttributes(XToolkit.getDisplay(),
-                                                              xembed.handle, wattr.pData);
+                XErrorHbndlfrUtil.WITH_XERROR_HANDLER(XErrorHbndlfr.IgnorfBbdWindowHbndlfr.gftInstbndf());
+                int stbtus = XlibWrbppfr.XGftWindowAttributfs(XToolkit.gftDisplby(),
+                                                              xfmbfd.ibndlf, wbttr.pDbtb);
 
-                XErrorHandlerUtil.RESTORE_XERROR_HANDLER();
+                XErrorHbndlfrUtil.RESTORE_XERROR_HANDLER();
 
-                if ((status == 0) ||
-                    ((XErrorHandlerUtil.saved_error != null) &&
-                    (XErrorHandlerUtil.saved_error.get_error_code() != XConstants.Success))) {
-                    return null;
+                if ((stbtus == 0) ||
+                    ((XErrorHbndlfrUtil.sbvfd_frror != null) &&
+                    (XErrorHbndlfrUtil.sbvfd_frror.gft_frror_dodf() != XConstbnts.Suddfss))) {
+                    rfturn null;
                 }
 
-                return new Rectangle(wattr.get_x(), wattr.get_y(), wattr.get_width(), wattr.get_height());
-            } finally {
-                wattr.dispose();
+                rfturn nfw Rfdtbnglf(wbttr.gft_x(), wbttr.gft_y(), wbttr.gft_widti(), wbttr.gft_ifigit());
+            } finblly {
+                wbttr.disposf();
             }
-        } finally {
-            XToolkit.awtUnlock();
+        } finblly {
+            XToolkit.bwtUnlodk();
         }
     }
 
-    void childResized() {
-        if (xembedLog.isLoggable(PlatformLogger.Level.FINER)) {
-            Rectangle bounds = getClientBounds();
-            xembedLog.finer("Child resized: " + bounds);
-            // It is not required to update embedder's size when client size changes
-            // However, since there is no any means to get client size it seems to be the
-            // only way to provide it. However, it contradicts with Java layout concept -
-            // so it is disabled for now.
-//             Rectangle my_bounds = getBounds();
-//             setBounds(my_bounds.x, my_bounds.y, bounds.width, bounds.height, SET_BOUNDS);
+    void diildRfsizfd() {
+        if (xfmbfdLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+            Rfdtbnglf bounds = gftClifntBounds();
+            xfmbfdLog.finfr("Ciild rfsizfd: " + bounds);
+            // It is not rfquirfd to updbtf fmbfddfr's sizf wifn dlifnt sizf dibngfs
+            // Howfvfr, sindf tifrf is no bny mfbns to gft dlifnt sizf it sffms to bf tif
+            // only wby to providf it. Howfvfr, it dontrbdidts witi Jbvb lbyout dondfpt -
+            // so it is disbblfd for now.
+//             Rfdtbnglf my_bounds = gftBounds();
+//             sftBounds(my_bounds.x, my_bounds.y, bounds.widti, bounds.ifigit, SET_BOUNDS);
         }
-        XToolkit.postEvent(XToolkit.targetToAppContext(target), new ComponentEvent(target, ComponentEvent.COMPONENT_RESIZED));
+        XToolkit.postEvfnt(XToolkit.tbrgftToAppContfxt(tbrgft), nfw ComponfntEvfnt(tbrgft, ComponfntEvfnt.COMPONENT_RESIZED));
     }
 
-    void focusNext() {
-        if (isXEmbedActive()) {
-            xembedLog.fine("Requesting focus for the next component after embedder");
-            postEvent(new InvocationEvent(target, new Runnable() {
-                    public void run() {
-                        KeyboardFocusManager.getCurrentKeyboardFocusManager().focusNextComponent(target);
+    void fodusNfxt() {
+        if (isXEmbfdAdtivf()) {
+            xfmbfdLog.finf("Rfqufsting fodus for tif nfxt domponfnt bftfr fmbfddfr");
+            postEvfnt(nfw InvodbtionEvfnt(tbrgft, nfw Runnbblf() {
+                    publid void run() {
+                        KfybobrdFodusMbnbgfr.gftCurrfntKfybobrdFodusMbnbgfr().fodusNfxtComponfnt(tbrgft);
                     }
                 }));
-        } else {
-            xembedLog.fine("XEmbed is not active - denying focus next");
+        } flsf {
+            xfmbfdLog.finf("XEmbfd is not bdtivf - dfnying fodus nfxt");
         }
     }
 
-    void focusPrev() {
-        if (isXEmbedActive()) {
-            xembedLog.fine("Requesting focus for the next component after embedder");
-            postEvent(new InvocationEvent(target, new Runnable() {
-                    public void run() {
-                        KeyboardFocusManager.getCurrentKeyboardFocusManager().focusPreviousComponent(target);
+    void fodusPrfv() {
+        if (isXEmbfdAdtivf()) {
+            xfmbfdLog.finf("Rfqufsting fodus for tif nfxt domponfnt bftfr fmbfddfr");
+            postEvfnt(nfw InvodbtionEvfnt(tbrgft, nfw Runnbblf() {
+                    publid void run() {
+                        KfybobrdFodusMbnbgfr.gftCurrfntKfybobrdFodusMbnbgfr().fodusPrfviousComponfnt(tbrgft);
                     }
                 }));
-        } else {
-            xembedLog.fine("XEmbed is not active - denying focus prev");
+        } flsf {
+            xfmbfdLog.finf("XEmbfd is not bdtivf - dfnying fodus prfv");
         }
     }
 
-    void requestXEmbedFocus() {
-        if (isXEmbedActive()) {
-            xembedLog.fine("Requesting focus for client");
-            postEvent(new InvocationEvent(target, new Runnable() {
-                    public void run() {
-                        target.requestFocus();
+    void rfqufstXEmbfdFodus() {
+        if (isXEmbfdAdtivf()) {
+            xfmbfdLog.finf("Rfqufsting fodus for dlifnt");
+            postEvfnt(nfw InvodbtionEvfnt(tbrgft, nfw Runnbblf() {
+                    publid void run() {
+                        tbrgft.rfqufstFodus();
                     }
                 }));
-        } else {
-            xembedLog.fine("XEmbed is not active - denying request focus");
+        } flsf {
+            xfmbfdLog.finf("XEmbfd is not bdtivf - dfnying rfqufst fodus");
         }
     }
 
-    void notifyChildEmbedded() {
-        xembed.sendMessage(xembed.handle, XEMBED_EMBEDDED_NOTIFY, getWindow(), Math.min(xembed.version, XEMBED_VERSION), 0);
-        if (isApplicationActive()) {
-            xembedLog.fine("Sending WINDOW_ACTIVATE during initialization");
-            xembed.sendMessage(xembed.handle, XEMBED_WINDOW_ACTIVATE);
-            if (hasFocus()) {
-                xembedLog.fine("Sending FOCUS_GAINED during initialization");
-                xembed.sendMessage(xembed.handle, XEMBED_FOCUS_IN, XEMBED_FOCUS_CURRENT, 0, 0);
+    void notifyCiildEmbfddfd() {
+        xfmbfd.sfndMfssbgf(xfmbfd.ibndlf, XEMBED_EMBEDDED_NOTIFY, gftWindow(), Mbti.min(xfmbfd.vfrsion, XEMBED_VERSION), 0);
+        if (isApplidbtionAdtivf()) {
+            xfmbfdLog.finf("Sfnding WINDOW_ACTIVATE during initiblizbtion");
+            xfmbfd.sfndMfssbgf(xfmbfd.ibndlf, XEMBED_WINDOW_ACTIVATE);
+            if (ibsFodus()) {
+                xfmbfdLog.finf("Sfnding FOCUS_GAINED during initiblizbtion");
+                xfmbfd.sfndMfssbgf(xfmbfd.ibndlf, XEMBED_FOCUS_IN, XEMBED_FOCUS_CURRENT, 0, 0);
             }
         }
     }
 
-    void detachChild() {
-        if (xembedLog.isLoggable(PlatformLogger.Level.FINE)) {
-            xembedLog.fine("Detaching child " + Long.toHexString(xembed.handle));
+    void dftbdiCiild() {
+        if (xfmbfdLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            xfmbfdLog.finf("Dftbdiing diild " + Long.toHfxString(xfmbfd.ibndlf));
         }
         /**
-         *  XEmbed specification:
-         *  "The embedder can unmap the client and reparent the client window to the root window. If the
-         *  client receives an ReparentNotify event, it should check the parent field of the XReparentEvent
-         *  structure. If this is the root window of the window's screen, then the protocol is finished and
-         *  there is no further interaction. If it is a window other than the root window, then the protocol
-         *  continues with the new parent acting as the embedder window."
+         *  XEmbfd spfdifidbtion:
+         *  "Tif fmbfddfr dbn unmbp tif dlifnt bnd rfpbrfnt tif dlifnt window to tif root window. If tif
+         *  dlifnt rfdfivfs bn RfpbrfntNotify fvfnt, it siould difdk tif pbrfnt fifld of tif XRfpbrfntEvfnt
+         *  strudturf. If tiis is tif root window of tif window's sdrffn, tifn tif protodol is finisifd bnd
+         *  tifrf is no furtifr intfrbdtion. If it is b window otifr tibn tif root window, tifn tif protodol
+         *  dontinufs witi tif nfw pbrfnt bdting bs tif fmbfddfr window."
          */
-        XToolkit.awtLock();
+        XToolkit.bwtLodk();
         try {
-            XlibWrapper.XUnmapWindow(XToolkit.getDisplay(), xembed.handle);
-            XlibWrapper.XReparentWindow(XToolkit.getDisplay(), xembed.handle, XToolkit.getDefaultRootWindow(), 0, 0);
-        } finally {
-            XToolkit.awtUnlock();
+            XlibWrbppfr.XUnmbpWindow(XToolkit.gftDisplby(), xfmbfd.ibndlf);
+            XlibWrbppfr.XRfpbrfntWindow(XToolkit.gftDisplby(), xfmbfd.ibndlf, XToolkit.gftDffbultRootWindow(), 0, 0);
+        } finblly {
+            XToolkit.bwtUnlodk();
         }
-        endDispatching();
-        xembed.handle = 0;
+        fndDispbtdiing();
+        xfmbfd.ibndlf = 0;
     }
 
-    public void windowGainedFocus(WindowEvent e) {
-        applicationActive = true;
-        if (isXEmbedActive()) {
-            xembedLog.fine("Sending WINDOW_ACTIVATE");
-            xembed.sendMessage(xembed.handle, XEMBED_WINDOW_ACTIVATE);
-        }
-    }
-
-    public void windowLostFocus(WindowEvent e) {
-        applicationActive = false;
-        if (isXEmbedActive()) {
-            xembedLog.fine("Sending WINDOW_DEACTIVATE");
-            xembed.sendMessage(xembed.handle, XEMBED_WINDOW_DEACTIVATE);
+    publid void windowGbinfdFodus(WindowEvfnt f) {
+        bpplidbtionAdtivf = truf;
+        if (isXEmbfdAdtivf()) {
+            xfmbfdLog.finf("Sfnding WINDOW_ACTIVATE");
+            xfmbfd.sfndMfssbgf(xfmbfd.ibndlf, XEMBED_WINDOW_ACTIVATE);
         }
     }
 
-    void canvasFocusGained(FocusEvent e) {
-        if (isXEmbedActive()) {
-            xembedLog.fine("Forwarding FOCUS_GAINED");
-            int flavor = XEMBED_FOCUS_CURRENT;
-            if (e instanceof CausedFocusEvent) {
-                CausedFocusEvent ce = (CausedFocusEvent)e;
-                if (ce.getCause() == CausedFocusEvent.Cause.TRAVERSAL_FORWARD) {
-                    flavor = XEMBED_FOCUS_FIRST;
-                } else if (ce.getCause() == CausedFocusEvent.Cause.TRAVERSAL_BACKWARD) {
-                    flavor = XEMBED_FOCUS_LAST;
+    publid void windowLostFodus(WindowEvfnt f) {
+        bpplidbtionAdtivf = fblsf;
+        if (isXEmbfdAdtivf()) {
+            xfmbfdLog.finf("Sfnding WINDOW_DEACTIVATE");
+            xfmbfd.sfndMfssbgf(xfmbfd.ibndlf, XEMBED_WINDOW_DEACTIVATE);
+        }
+    }
+
+    void dbnvbsFodusGbinfd(FodusEvfnt f) {
+        if (isXEmbfdAdtivf()) {
+            xfmbfdLog.finf("Forwbrding FOCUS_GAINED");
+            int flbvor = XEMBED_FOCUS_CURRENT;
+            if (f instbndfof CbusfdFodusEvfnt) {
+                CbusfdFodusEvfnt df = (CbusfdFodusEvfnt)f;
+                if (df.gftCbusf() == CbusfdFodusEvfnt.Cbusf.TRAVERSAL_FORWARD) {
+                    flbvor = XEMBED_FOCUS_FIRST;
+                } flsf if (df.gftCbusf() == CbusfdFodusEvfnt.Cbusf.TRAVERSAL_BACKWARD) {
+                    flbvor = XEMBED_FOCUS_LAST;
                 }
             }
-            xembed.sendMessage(xembed.handle, XEMBED_FOCUS_IN, flavor, 0, 0);
+            xfmbfd.sfndMfssbgf(xfmbfd.ibndlf, XEMBED_FOCUS_IN, flbvor, 0, 0);
         }
     }
 
-    void canvasFocusLost(FocusEvent e) {
-        if (isXEmbedActive() && !e.isTemporary()) {
-            xembedLog.fine("Forwarding FOCUS_LOST");
+    void dbnvbsFodusLost(FodusEvfnt f) {
+        if (isXEmbfdAdtivf() && !f.isTfmporbry()) {
+            xfmbfdLog.finf("Forwbrding FOCUS_LOST");
             int num = 0;
-            if (AccessController.doPrivileged(new GetBooleanAction("sun.awt.xembed.testing"))) {
-                Component opp = e.getOppositeComponent();
+            if (AddfssControllfr.doPrivilfgfd(nfw GftBoolfbnAdtion("sun.bwt.xfmbfd.tfsting"))) {
+                Componfnt opp = f.gftOppositfComponfnt();
                 try {
-                    num = Integer.parseInt(opp.getName());
-                } catch (NumberFormatException nfe) {
+                    num = Intfgfr.pbrsfInt(opp.gftNbmf());
+                } dbtdi (NumbfrFormbtExdfption nff) {
                 }
             }
-            xembed.sendMessage(xembed.handle, XEMBED_FOCUS_OUT, num, 0, 0);
+            xfmbfd.sfndMfssbgf(xfmbfd.ibndlf, XEMBED_FOCUS_OUT, num, 0, 0);
         }
     }
 
-    static byte[] getBData(KeyEvent e) {
-        return AWTAccessor.getAWTEventAccessor().getBData(e);
+    stbtid bytf[] gftBDbtb(KfyEvfnt f) {
+        rfturn AWTAddfssor.gftAWTEvfntAddfssor().gftBDbtb(f);
     }
 
-    void forwardKeyEvent(KeyEvent e) {
-        xembedLog.fine("Try to forward key event");
-        byte[] bdata = getBData(e);
-        long data = Native.toData(bdata);
-        if (data == 0) {
-            return;
+    void forwbrdKfyEvfnt(KfyEvfnt f) {
+        xfmbfdLog.finf("Try to forwbrd kfy fvfnt");
+        bytf[] bdbtb = gftBDbtb(f);
+        long dbtb = Nbtivf.toDbtb(bdbtb);
+        if (dbtb == 0) {
+            rfturn;
         }
         try {
-            XKeyEvent ke = new XKeyEvent(data);
-            ke.set_window(xembed.handle);
-            if (xembedLog.isLoggable(PlatformLogger.Level.FINE)) {
-                xembedLog.fine("Forwarding native key event: " + ke);
+            XKfyEvfnt kf = nfw XKfyEvfnt(dbtb);
+            kf.sft_window(xfmbfd.ibndlf);
+            if (xfmbfdLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                xfmbfdLog.finf("Forwbrding nbtivf kfy fvfnt: " + kf);
             }
-            XToolkit.awtLock();
+            XToolkit.bwtLodk();
             try {
-                XlibWrapper.XSendEvent(XToolkit.getDisplay(), xembed.handle, false, XConstants.NoEventMask, data);
-            } finally {
-                XToolkit.awtUnlock();
+                XlibWrbppfr.XSfndEvfnt(XToolkit.gftDisplby(), xfmbfd.ibndlf, fblsf, XConstbnts.NoEvfntMbsk, dbtb);
+            } finblly {
+                XToolkit.bwtUnlodk();
             }
-        } finally {
-            XlibWrapper.unsafe.freeMemory(data);
+        } finblly {
+            XlibWrbppfr.unsbff.frffMfmory(dbtb);
         }
     }
 
 
     /**
-     * Grab/ungrab key functionality is an unofficial API supported by
-     * GTK.  Unfortunately, it doesn't support accelerator API, so,
-     * since this is the ONLY shortcut-processing API available, we
-     * must support it.  See XEmbed.NON_STANDARD_XEMBED_GTK_*
-     * messages.  The format of these messages is as follows:
-     * - request from client:
-     * data[1] = NON_STANDARD_XEMBED_GTK_GRAB_KEY or NON_STANDARD_XEMBED_GTK_UNGRAB_KEY
-     * data[3] = X keysym
-     * data[4] = X modifiers
+     * Grbb/ungrbb kfy fundtionblity is bn unoffidibl API supportfd by
+     * GTK.  Unfortunbtfly, it dofsn't support bddflfrbtor API, so,
+     * sindf tiis is tif ONLY siortdut-prodfssing API bvbilbblf, wf
+     * must support it.  Sff XEmbfd.NON_STANDARD_XEMBED_GTK_*
+     * mfssbgfs.  Tif formbt of tifsf mfssbgfs is bs follows:
+     * - rfqufst from dlifnt:
+     * dbtb[1] = NON_STANDARD_XEMBED_GTK_GRAB_KEY or NON_STANDARD_XEMBED_GTK_UNGRAB_KEY
+     * dbtb[3] = X kfysym
+     * dbtb[4] = X modififrs
      *
-     * - response from server (in case the grabbed key has been pressed):
-     * forwarded XKeyEvent that matches keysym/modifiers pair
+     * - rfsponsf from sfrvfr (in dbsf tif grbbbfd kfy ibs bffn prfssfd):
+     * forwbrdfd XKfyEvfnt tibt mbtdifs kfysym/modififrs pbir
      */
-    void grabKey(final long keysym, final long modifiers) {
-        postEvent(new InvocationEvent(target, new Runnable() {
-                public void run() {
-                    GrabbedKey grab = new GrabbedKey(keysym, modifiers);
-                    if (xembedLog.isLoggable(PlatformLogger.Level.FINE)) {
-                        xembedLog.fine("Grabbing key: " + grab);
+    void grbbKfy(finbl long kfysym, finbl long modififrs) {
+        postEvfnt(nfw InvodbtionEvfnt(tbrgft, nfw Runnbblf() {
+                publid void run() {
+                    GrbbbfdKfy grbb = nfw GrbbbfdKfy(kfysym, modififrs);
+                    if (xfmbfdLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                        xfmbfdLog.finf("Grbbbing kfy: " + grbb);
                     }
-                    synchronized(GRAB_LOCK) {
-                        grabbed_keys.add(grab);
-                    }
-                }
-            }));
-    }
-
-    void ungrabKey(final long keysym, final long modifiers) {
-        postEvent(new InvocationEvent(target, new Runnable() {
-                public void run() {
-                    GrabbedKey grab = new GrabbedKey(keysym, modifiers);
-                    if (xembedLog.isLoggable(PlatformLogger.Level.FINE)) {
-                        xembedLog.fine("UnGrabbing key: " + grab);
-                    }
-                    synchronized(GRAB_LOCK) {
-                        grabbed_keys.remove(grab);
+                    syndironizfd(GRAB_LOCK) {
+                        grbbbfd_kfys.bdd(grbb);
                     }
                 }
             }));
     }
 
-    void registerAccelerator(final long accel_id, final long keysym, final long modifiers) {
-        postEvent(new InvocationEvent(target, new Runnable() {
-                public void run() {
-                    AWTKeyStroke stroke = xembed.getKeyStrokeForKeySym(keysym, modifiers);
-                    if (stroke != null) {
-                        if (xembedLog.isLoggable(PlatformLogger.Level.FINE)) {
-                            xembedLog.fine("Registering accelerator " + accel_id + " for " + stroke);
+    void ungrbbKfy(finbl long kfysym, finbl long modififrs) {
+        postEvfnt(nfw InvodbtionEvfnt(tbrgft, nfw Runnbblf() {
+                publid void run() {
+                    GrbbbfdKfy grbb = nfw GrbbbfdKfy(kfysym, modififrs);
+                    if (xfmbfdLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                        xfmbfdLog.finf("UnGrbbbing kfy: " + grbb);
+                    }
+                    syndironizfd(GRAB_LOCK) {
+                        grbbbfd_kfys.rfmovf(grbb);
+                    }
+                }
+            }));
+    }
+
+    void rfgistfrAddflfrbtor(finbl long bddfl_id, finbl long kfysym, finbl long modififrs) {
+        postEvfnt(nfw InvodbtionEvfnt(tbrgft, nfw Runnbblf() {
+                publid void run() {
+                    AWTKfyStrokf strokf = xfmbfd.gftKfyStrokfForKfySym(kfysym, modififrs);
+                    if (strokf != null) {
+                        if (xfmbfdLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                            xfmbfdLog.finf("Rfgistfring bddflfrbtor " + bddfl_id + " for " + strokf);
                         }
-                        synchronized(ACCEL_LOCK) {
-                            accelerators.put(accel_id, stroke);
-                            accel_lookup.put(stroke, accel_id);
+                        syndironizfd(ACCEL_LOCK) {
+                            bddflfrbtors.put(bddfl_id, strokf);
+                            bddfl_lookup.put(strokf, bddfl_id);
                         }
                     }
-                    propogateRegisterAccelerator(stroke);
+                    propogbtfRfgistfrAddflfrbtor(strokf);
                 }
             }));
     }
 
-    void unregisterAccelerator(final long accel_id) {
-        postEvent(new InvocationEvent(target, new Runnable() {
-                public void run() {
-                    AWTKeyStroke stroke = null;
-                    synchronized(ACCEL_LOCK) {
-                        stroke = accelerators.get(accel_id);
-                        if (stroke != null) {
-                            if (xembedLog.isLoggable(PlatformLogger.Level.FINE)) {
-                                xembedLog.fine("Unregistering accelerator: " + accel_id);
+    void unrfgistfrAddflfrbtor(finbl long bddfl_id) {
+        postEvfnt(nfw InvodbtionEvfnt(tbrgft, nfw Runnbblf() {
+                publid void run() {
+                    AWTKfyStrokf strokf = null;
+                    syndironizfd(ACCEL_LOCK) {
+                        strokf = bddflfrbtors.gft(bddfl_id);
+                        if (strokf != null) {
+                            if (xfmbfdLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                                xfmbfdLog.finf("Unrfgistfring bddflfrbtor: " + bddfl_id);
                             }
-                            accelerators.remove(accel_id);
-                            accel_lookup.remove(stroke); // FIXME: How about several accelerators with the same stroke?
+                            bddflfrbtors.rfmovf(bddfl_id);
+                            bddfl_lookup.rfmovf(strokf); // FIXME: How bbout sfvfrbl bddflfrbtors witi tif sbmf strokf?
                         }
                     }
-                    propogateUnRegisterAccelerator(stroke);
+                    propogbtfUnRfgistfrAddflfrbtor(strokf);
                 }
             }));
     }
 
-    void propogateRegisterAccelerator(AWTKeyStroke stroke) {
-        // Find the top-level and see if it is XEmbed client. If so, ask him to
-        // register the accelerator
-        XWindowPeer parent = getToplevelXWindow();
-        if (parent != null && parent instanceof XEmbeddedFramePeer) {
-            XEmbeddedFramePeer embedded = (XEmbeddedFramePeer)parent;
-            embedded.registerAccelerator(stroke);
+    void propogbtfRfgistfrAddflfrbtor(AWTKfyStrokf strokf) {
+        // Find tif top-lfvfl bnd sff if it is XEmbfd dlifnt. If so, bsk iim to
+        // rfgistfr tif bddflfrbtor
+        XWindowPffr pbrfnt = gftToplfvflXWindow();
+        if (pbrfnt != null && pbrfnt instbndfof XEmbfddfdFrbmfPffr) {
+            XEmbfddfdFrbmfPffr fmbfddfd = (XEmbfddfdFrbmfPffr)pbrfnt;
+            fmbfddfd.rfgistfrAddflfrbtor(strokf);
         }
     }
 
-    void propogateUnRegisterAccelerator(AWTKeyStroke stroke) {
-        // Find the top-level and see if it is XEmbed client. If so, ask him to
-        // register the accelerator
-        XWindowPeer parent = getToplevelXWindow();
-        if (parent != null && parent instanceof XEmbeddedFramePeer) {
-            XEmbeddedFramePeer embedded = (XEmbeddedFramePeer)parent;
-            embedded.unregisterAccelerator(stroke);
+    void propogbtfUnRfgistfrAddflfrbtor(AWTKfyStrokf strokf) {
+        // Find tif top-lfvfl bnd sff if it is XEmbfd dlifnt. If so, bsk iim to
+        // rfgistfr tif bddflfrbtor
+        XWindowPffr pbrfnt = gftToplfvflXWindow();
+        if (pbrfnt != null && pbrfnt instbndfof XEmbfddfdFrbmfPffr) {
+            XEmbfddfdFrbmfPffr fmbfddfd = (XEmbfddfdFrbmfPffr)pbrfnt;
+            fmbfddfd.unrfgistfrAddflfrbtor(strokf);
         }
     }
 
-    public boolean postProcessKeyEvent(KeyEvent e) {
-        // Processing events only if we are in the focused window but
-        // we are not focus owner since otherwise we will get
-        // duplicate shortcut events in the client - one is from
-        // activate_accelerator, another from forwarded event
-        // FIXME: This is probably an incompatibility, protocol
-        // doesn't say anything about disable accelerators when client
-        // is focused.
+    publid boolfbn postProdfssKfyEvfnt(KfyEvfnt f) {
+        // Prodfssing fvfnts only if wf brf in tif fodusfd window but
+        // wf brf not fodus ownfr sindf otifrwisf wf will gft
+        // duplidbtf siortdut fvfnts in tif dlifnt - onf is from
+        // bdtivbtf_bddflfrbtor, bnotifr from forwbrdfd fvfnt
+        // FIXME: Tiis is probbbly bn indompbtibility, protodol
+        // dofsn't sby bnytiing bbout disbblf bddflfrbtors wifn dlifnt
+        // is fodusfd.
 
-        XWindowPeer parent = getToplevelXWindow();
-        if (parent == null || !((Window)parent.getTarget()).isFocused() || target.isFocusOwner()) {
-            return false;
+        XWindowPffr pbrfnt = gftToplfvflXWindow();
+        if (pbrfnt == null || !((Window)pbrfnt.gftTbrgft()).isFodusfd() || tbrgft.isFodusOwnfr()) {
+            rfturn fblsf;
         }
 
-        boolean result = false;
+        boolfbn rfsult = fblsf;
 
-        if (xembedLog.isLoggable(PlatformLogger.Level.FINER)) {
-            xembedLog.finer("Post-processing event " + e);
+        if (xfmbfdLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+            xfmbfdLog.finfr("Post-prodfssing fvfnt " + f);
         }
 
-        // Process ACCELERATORS
-        AWTKeyStroke stroke = AWTKeyStroke.getAWTKeyStrokeForEvent(e);
-        long accel_id = 0;
-        boolean exists = false;
-        synchronized(ACCEL_LOCK) {
-            exists = accel_lookup.containsKey(stroke);
-            if (exists) {
-                accel_id = accel_lookup.get(stroke).longValue();
+        // Prodfss ACCELERATORS
+        AWTKfyStrokf strokf = AWTKfyStrokf.gftAWTKfyStrokfForEvfnt(f);
+        long bddfl_id = 0;
+        boolfbn fxists = fblsf;
+        syndironizfd(ACCEL_LOCK) {
+            fxists = bddfl_lookup.dontbinsKfy(strokf);
+            if (fxists) {
+                bddfl_id = bddfl_lookup.gft(strokf).longVbluf();
             }
         }
-        if (exists) {
-            if (xembedLog.isLoggable(PlatformLogger.Level.FINE)) {
-                xembedLog.fine("Activating accelerator " + accel_id);
+        if (fxists) {
+            if (xfmbfdLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                xfmbfdLog.finf("Adtivbting bddflfrbtor " + bddfl_id);
             }
-            xembed.sendMessage(xembed.handle, XEMBED_ACTIVATE_ACCELERATOR, accel_id, 0, 0); // FIXME: How about overloaded?
-            result = true;
+            xfmbfd.sfndMfssbgf(xfmbfd.ibndlf, XEMBED_ACTIVATE_ACCELERATOR, bddfl_id, 0, 0); // FIXME: How bbout ovfrlobdfd?
+            rfsult = truf;
         }
 
-        // Process Grabs, unofficial GTK feature
-        exists = false;
-        GrabbedKey key = new GrabbedKey(e);
-        synchronized(GRAB_LOCK) {
-            exists = grabbed_keys.contains(key);
+        // Prodfss Grbbs, unoffidibl GTK ffbturf
+        fxists = fblsf;
+        GrbbbfdKfy kfy = nfw GrbbbfdKfy(f);
+        syndironizfd(GRAB_LOCK) {
+            fxists = grbbbfd_kfys.dontbins(kfy);
         }
-        if (exists) {
-            if (xembedLog.isLoggable(PlatformLogger.Level.FINE)) {
-                xembedLog.fine("Forwarding grabbed key " + e);
+        if (fxists) {
+            if (xfmbfdLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                xfmbfdLog.finf("Forwbrding grbbbfd kfy " + f);
             }
-            forwardKeyEvent(e);
-            result = true;
+            forwbrdKfyEvfnt(f);
+            rfsult = truf;
         }
 
-        return result;
+        rfturn rfsult;
     }
 
-    public void modalityPushed(ModalityEvent ev) {
-        xembed.sendMessage(xembed.handle, XEMBED_MODALITY_ON);
+    publid void modblityPusifd(ModblityEvfnt fv) {
+        xfmbfd.sfndMfssbgf(xfmbfd.ibndlf, XEMBED_MODALITY_ON);
     }
 
-    public void modalityPopped(ModalityEvent ev) {
-        xembed.sendMessage(xembed.handle, XEMBED_MODALITY_OFF);
+    publid void modblityPoppfd(ModblityEvfnt fv) {
+        xfmbfd.sfndMfssbgf(xfmbfd.ibndlf, XEMBED_MODALITY_OFF);
     }
 
-    public void handleClientMessage(XEvent xev) {
-        super.handleClientMessage(xev);
-        XClientMessageEvent msg = xev.get_xclient();
-        if (xembedLog.isLoggable(PlatformLogger.Level.FINER)) {
-            xembedLog.finer("Client message to embedder: " + msg);
+    publid void ibndlfClifntMfssbgf(XEvfnt xfv) {
+        supfr.ibndlfClifntMfssbgf(xfv);
+        XClifntMfssbgfEvfnt msg = xfv.gft_xdlifnt();
+        if (xfmbfdLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+            xfmbfdLog.finfr("Clifnt mfssbgf to fmbfddfr: " + msg);
         }
-        if (msg.get_message_type() == XEmbedHelper.XEmbed.getAtom()) {
-            if (xembedLog.isLoggable(PlatformLogger.Level.FINE)) {
-                xembedLog.fine(XEmbedHelper.XEmbedMessageToString(msg));
+        if (msg.gft_mfssbgf_typf() == XEmbfdHflpfr.XEmbfd.gftAtom()) {
+            if (xfmbfdLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                xfmbfdLog.finf(XEmbfdHflpfr.XEmbfdMfssbgfToString(msg));
             }
         }
-        if (isXEmbedActive()) {
-            switch ((int)msg.get_data(1)) {
-              case XEMBED_REQUEST_FOCUS:
-                  requestXEmbedFocus();
-                  break;
-              case XEMBED_FOCUS_NEXT:
-                  focusNext();
-                  break;
-              case XEMBED_FOCUS_PREV:
-                  focusPrev();
-                  break;
-              case XEMBED_REGISTER_ACCELERATOR:
-                  registerAccelerator(msg.get_data(2), msg.get_data(3), msg.get_data(4));
-                  break;
-              case XEMBED_UNREGISTER_ACCELERATOR:
-                  unregisterAccelerator(msg.get_data(2));
-                  break;
-              case NON_STANDARD_XEMBED_GTK_GRAB_KEY:
-                  grabKey(msg.get_data(3), msg.get_data(4));
-                  break;
-              case NON_STANDARD_XEMBED_GTK_UNGRAB_KEY:
-                  ungrabKey(msg.get_data(3), msg.get_data(4));
-                  break;
+        if (isXEmbfdAdtivf()) {
+            switdi ((int)msg.gft_dbtb(1)) {
+              dbsf XEMBED_REQUEST_FOCUS:
+                  rfqufstXEmbfdFodus();
+                  brfbk;
+              dbsf XEMBED_FOCUS_NEXT:
+                  fodusNfxt();
+                  brfbk;
+              dbsf XEMBED_FOCUS_PREV:
+                  fodusPrfv();
+                  brfbk;
+              dbsf XEMBED_REGISTER_ACCELERATOR:
+                  rfgistfrAddflfrbtor(msg.gft_dbtb(2), msg.gft_dbtb(3), msg.gft_dbtb(4));
+                  brfbk;
+              dbsf XEMBED_UNREGISTER_ACCELERATOR:
+                  unrfgistfrAddflfrbtor(msg.gft_dbtb(2));
+                  brfbk;
+              dbsf NON_STANDARD_XEMBED_GTK_GRAB_KEY:
+                  grbbKfy(msg.gft_dbtb(3), msg.gft_dbtb(4));
+                  brfbk;
+              dbsf NON_STANDARD_XEMBED_GTK_UNGRAB_KEY:
+                  ungrbbKfy(msg.gft_dbtb(3), msg.gft_dbtb(4));
+                  brfbk;
             }
-        } else {
-            xembedLog.finer("But XEmbed is not Active!");
+        } flsf {
+            xfmbfdLog.finfr("But XEmbfd is not Adtivf!");
         }
     }
 
-    @SuppressWarnings("serial") // JDK-implementation class
-    private static class XEmbedDropTarget extends DropTarget {
-        public void addDropTargetListener(DropTargetListener dtl)
-          throws TooManyListenersException {
-            // Drop target listeners registered with this target will never be
-            // notified, since all drag notifications are routed to the XEmbed
-            // client. To avoid confusion we prohibit listeners registration
-            // by throwing TooManyListenersException as if there is a listener
-            // registered with this target already.
-            throw new TooManyListenersException();
+    @SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+    privbtf stbtid dlbss XEmbfdDropTbrgft fxtfnds DropTbrgft {
+        publid void bddDropTbrgftListfnfr(DropTbrgftListfnfr dtl)
+          tirows TooMbnyListfnfrsExdfption {
+            // Drop tbrgft listfnfrs rfgistfrfd witi tiis tbrgft will nfvfr bf
+            // notififd, sindf bll drbg notifidbtions brf routfd to tif XEmbfd
+            // dlifnt. To bvoid donfusion wf proiibit listfnfrs rfgistrbtion
+            // by tirowing TooMbnyListfnfrsExdfption bs if tifrf is b listfnfr
+            // rfgistfrfd witi tiis tbrgft blrfbdy.
+            tirow nfw TooMbnyListfnfrsExdfption();
         }
     }
 
-    public void setXEmbedDropTarget() {
-        // Register a drop site on the top level.
-        Runnable r = new Runnable() {
-                public void run() {
-                    target.setDropTarget(new XEmbedDropTarget());
+    publid void sftXEmbfdDropTbrgft() {
+        // Rfgistfr b drop sitf on tif top lfvfl.
+        Runnbblf r = nfw Runnbblf() {
+                publid void run() {
+                    tbrgft.sftDropTbrgft(nfw XEmbfdDropTbrgft());
                 }
             };
-        SunToolkit.executeOnEventHandlerThread(target, r);
+        SunToolkit.fxfdutfOnEvfntHbndlfrTirfbd(tbrgft, r);
     }
 
-    public void removeXEmbedDropTarget() {
-        // Unregister a drop site on the top level.
-        Runnable r = new Runnable() {
-                public void run() {
-                    if (target.getDropTarget() instanceof XEmbedDropTarget) {
-                        target.setDropTarget(null);
+    publid void rfmovfXEmbfdDropTbrgft() {
+        // Unrfgistfr b drop sitf on tif top lfvfl.
+        Runnbblf r = nfw Runnbblf() {
+                publid void run() {
+                    if (tbrgft.gftDropTbrgft() instbndfof XEmbfdDropTbrgft) {
+                        tbrgft.sftDropTbrgft(null);
                     }
                 }
             };
-        SunToolkit.executeOnEventHandlerThread(target, r);
+        SunToolkit.fxfdutfOnEvfntHbndlfrTirfbd(tbrgft, r);
     }
 
-    public boolean processXEmbedDnDEvent(long ctxt, int eventID) {
-        if (xembedLog.isLoggable(PlatformLogger.Level.FINEST)) {
-            xembedLog.finest("     Drop target=" + target.getDropTarget());
+    publid boolfbn prodfssXEmbfdDnDEvfnt(long dtxt, int fvfntID) {
+        if (xfmbfdLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+            xfmbfdLog.finfst("     Drop tbrgft=" + tbrgft.gftDropTbrgft());
         }
-        if (target.getDropTarget() instanceof XEmbedDropTarget) {
-            AppContext appContext = XToolkit.targetToAppContext(getTarget());
-            XDropTargetContextPeer peer =
-                XDropTargetContextPeer.getPeer(appContext);
-            peer.forwardEventToEmbedded(xembed.handle, ctxt, eventID);
-            return true;
-        } else {
-            return false;
+        if (tbrgft.gftDropTbrgft() instbndfof XEmbfdDropTbrgft) {
+            AppContfxt bppContfxt = XToolkit.tbrgftToAppContfxt(gftTbrgft());
+            XDropTbrgftContfxtPffr pffr =
+                XDropTbrgftContfxtPffr.gftPffr(bppContfxt);
+            pffr.forwbrdEvfntToEmbfddfd(xfmbfd.ibndlf, dtxt, fvfntID);
+            rfturn truf;
+        } flsf {
+            rfturn fblsf;
         }
     }
 
-    class XEmbedServer extends XEmbedHelper implements XEventDispatcher {
-        long handle; // Handle to XEmbed client
-        long version;
-        long flags;
+    dlbss XEmbfdSfrvfr fxtfnds XEmbfdHflpfr implfmfnts XEvfntDispbtdifr {
+        long ibndlf; // Hbndlf to XEmbfd dlifnt
+        long vfrsion;
+        long flbgs;
 
-        boolean processXEmbedInfo() {
-            long xembed_info_data = Native.allocateLongArray(2);
+        boolfbn prodfssXEmbfdInfo() {
+            long xfmbfd_info_dbtb = Nbtivf.bllodbtfLongArrby(2);
             try {
-                if (!XEmbedInfo.getAtomData(handle, xembed_info_data, 2)) {
-                    // No more XEMBED_INFO? This is not XEmbed client!
-                    // Unfortunately this is the initial state of the most clients
-                    // FIXME: add 5-state processing
-                    //childDestroyed();
-                    xembedLog.finer("Unable to get XEMBED_INFO atom data");
-                    return false;
+                if (!XEmbfdInfo.gftAtomDbtb(ibndlf, xfmbfd_info_dbtb, 2)) {
+                    // No morf XEMBED_INFO? Tiis is not XEmbfd dlifnt!
+                    // Unfortunbtfly tiis is tif initibl stbtf of tif most dlifnts
+                    // FIXME: bdd 5-stbtf prodfssing
+                    //diildDfstroyfd();
+                    xfmbfdLog.finfr("Unbblf to gft XEMBED_INFO btom dbtb");
+                    rfturn fblsf;
                 }
-                version = Native.getCard32(xembed_info_data, 0);
-                flags = Native.getCard32(xembed_info_data, 1);
-                boolean new_mapped = (flags & XEMBED_MAPPED) != 0;
-                boolean currently_mapped = XlibUtil.getWindowMapState(handle) != XConstants.IsUnmapped;
-                if (new_mapped != currently_mapped) {
-                    if (xembedLog.isLoggable(PlatformLogger.Level.FINER)) {
-                        xembedLog.finer("Mapping state of the client has changed, old state: " + currently_mapped + ", new state: " + new_mapped);
+                vfrsion = Nbtivf.gftCbrd32(xfmbfd_info_dbtb, 0);
+                flbgs = Nbtivf.gftCbrd32(xfmbfd_info_dbtb, 1);
+                boolfbn nfw_mbppfd = (flbgs & XEMBED_MAPPED) != 0;
+                boolfbn durrfntly_mbppfd = XlibUtil.gftWindowMbpStbtf(ibndlf) != XConstbnts.IsUnmbppfd;
+                if (nfw_mbppfd != durrfntly_mbppfd) {
+                    if (xfmbfdLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                        xfmbfdLog.finfr("Mbpping stbtf of tif dlifnt ibs dibngfd, old stbtf: " + durrfntly_mbppfd + ", nfw stbtf: " + nfw_mbppfd);
                     }
-                    if (new_mapped) {
-                        XToolkit.awtLock();
+                    if (nfw_mbppfd) {
+                        XToolkit.bwtLodk();
                         try {
-                            XlibWrapper.XMapWindow(XToolkit.getDisplay(), handle);
-                        } finally {
-                            XToolkit.awtUnlock();
+                            XlibWrbppfr.XMbpWindow(XToolkit.gftDisplby(), ibndlf);
+                        } finblly {
+                            XToolkit.bwtUnlodk();
                         }
-                    } else {
-                        XToolkit.awtLock();
+                    } flsf {
+                        XToolkit.bwtLodk();
                         try {
-                            XlibWrapper.XUnmapWindow(XToolkit.getDisplay(), handle);
-                        } finally {
-                            XToolkit.awtUnlock();
+                            XlibWrbppfr.XUnmbpWindow(XToolkit.gftDisplby(), ibndlf);
+                        } finblly {
+                            XToolkit.bwtUnlodk();
                         }
                     }
-                } else {
-                    if (xembedLog.isLoggable(PlatformLogger.Level.FINER)) {
-                        xembedLog.finer("Mapping state didn't change, mapped: " + currently_mapped);
+                } flsf {
+                    if (xfmbfdLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                        xfmbfdLog.finfr("Mbpping stbtf didn't dibngf, mbppfd: " + durrfntly_mbppfd);
                     }
                 }
-                return true;
-            } finally {
-                XlibWrapper.unsafe.freeMemory(xembed_info_data);
+                rfturn truf;
+            } finblly {
+                XlibWrbppfr.unsbff.frffMfmory(xfmbfd_info_dbtb);
             }
         }
 
-        public void handlePropertyNotify(XEvent xev) {
-            if (isXEmbedActive()) {
-                XPropertyEvent ev = xev.get_xproperty();
-                if (xembedLog.isLoggable(PlatformLogger.Level.FINER)) {
-                    xembedLog.finer("Property change on client: " + ev);
+        publid void ibndlfPropfrtyNotify(XEvfnt xfv) {
+            if (isXEmbfdAdtivf()) {
+                XPropfrtyEvfnt fv = xfv.gft_xpropfrty();
+                if (xfmbfdLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                    xfmbfdLog.finfr("Propfrty dibngf on dlifnt: " + fv);
                 }
-                if (ev.get_atom() == XAtom.XA_WM_NORMAL_HINTS) {
-                    childResized();
-                } else if (ev.get_atom() == XEmbedInfo.getAtom()) {
-                    processXEmbedInfo();
-                } else if (ev.get_atom() ==
-                           XDnDConstants.XA_XdndAware.getAtom()) {
-                    XDropTargetRegistry.getRegistry().unregisterXEmbedClient(getWindow(),
-                                                                             xembed.handle);
-                    if (ev.get_state() == XConstants.PropertyNewValue) {
-                        XDropTargetRegistry.getRegistry().registerXEmbedClient(getWindow(),
-                                                                                xembed.handle);
+                if (fv.gft_btom() == XAtom.XA_WM_NORMAL_HINTS) {
+                    diildRfsizfd();
+                } flsf if (fv.gft_btom() == XEmbfdInfo.gftAtom()) {
+                    prodfssXEmbfdInfo();
+                } flsf if (fv.gft_btom() ==
+                           XDnDConstbnts.XA_XdndAwbrf.gftAtom()) {
+                    XDropTbrgftRfgistry.gftRfgistry().unrfgistfrXEmbfdClifnt(gftWindow(),
+                                                                             xfmbfd.ibndlf);
+                    if (fv.gft_stbtf() == XConstbnts.PropfrtyNfwVbluf) {
+                        XDropTbrgftRfgistry.gftRfgistry().rfgistfrXEmbfdClifnt(gftWindow(),
+                                                                                xfmbfd.ibndlf);
                     }
                 }
-            } else {
-                xembedLog.finer("XEmbed is not active");
+            } flsf {
+                xfmbfdLog.finfr("XEmbfd is not bdtivf");
             }
         }
-        void handleConfigureNotify(XEvent xev) {
-            if (isXEmbedActive()) {
-                XConfigureEvent ev = xev.get_xconfigure();
-                if (xembedLog.isLoggable(PlatformLogger.Level.FINER)) {
-                    xembedLog.finer("Bounds change on client: " + ev);
+        void ibndlfConfigurfNotify(XEvfnt xfv) {
+            if (isXEmbfdAdtivf()) {
+                XConfigurfEvfnt fv = xfv.gft_xdonfigurf();
+                if (xfmbfdLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                    xfmbfdLog.finfr("Bounds dibngf on dlifnt: " + fv);
                 }
-                if (xev.get_xany().get_window() == handle) {
-                    childResized();
+                if (xfv.gft_xbny().gft_window() == ibndlf) {
+                    diildRfsizfd();
                 }
             }
         }
-        public void dispatchEvent(XEvent xev) {
-            int type = xev.get_type();
-            switch (type) {
-              case XConstants.PropertyNotify:
-                  handlePropertyNotify(xev);
-                  break;
-              case XConstants.ConfigureNotify:
-                  handleConfigureNotify(xev);
-                  break;
-              case XConstants.ClientMessage:
-                  handleClientMessage(xev);
-                  break;
+        publid void dispbtdiEvfnt(XEvfnt xfv) {
+            int typf = xfv.gft_typf();
+            switdi (typf) {
+              dbsf XConstbnts.PropfrtyNotify:
+                  ibndlfPropfrtyNotify(xfv);
+                  brfbk;
+              dbsf XConstbnts.ConfigurfNotify:
+                  ibndlfConfigurfNotify(xfv);
+                  brfbk;
+              dbsf XConstbnts.ClifntMfssbgf:
+                  ibndlfClifntMfssbgf(xfv);
+                  brfbk;
             }
         }
     }
 
-    static class GrabbedKey {
-        long keysym;
-        long modifiers;
-        GrabbedKey(long keysym, long modifiers) {
-            this.keysym = keysym;
-            this.modifiers = modifiers;
+    stbtid dlbss GrbbbfdKfy {
+        long kfysym;
+        long modififrs;
+        GrbbbfdKfy(long kfysym, long modififrs) {
+            tiis.kfysym = kfysym;
+            tiis.modififrs = modififrs;
         }
 
-        GrabbedKey(KeyEvent ev) {
-            init(ev);
+        GrbbbfdKfy(KfyEvfnt fv) {
+            init(fv);
         }
 
-        private void init(KeyEvent e) {
-            byte[] bdata = getBData(e);
-            long data = Native.toData(bdata);
-            if (data == 0) {
-                return;
+        privbtf void init(KfyEvfnt f) {
+            bytf[] bdbtb = gftBDbtb(f);
+            long dbtb = Nbtivf.toDbtb(bdbtb);
+            if (dbtb == 0) {
+                rfturn;
             }
             try {
-                XToolkit.awtLock();
+                XToolkit.bwtLodk();
                 try {
-                    keysym = XWindow.getKeySymForAWTKeyCode(e.getKeyCode());
-                } finally {
-                    XToolkit.awtUnlock();
+                    kfysym = XWindow.gftKfySymForAWTKfyCodf(f.gftKfyCodf());
+                } finblly {
+                    XToolkit.bwtUnlodk();
                 }
-                XKeyEvent ke = new XKeyEvent(data);
+                XKfyEvfnt kf = nfw XKfyEvfnt(dbtb);
 
-                // We recognize only these masks
-                modifiers = ke.get_state() & (XConstants.ShiftMask | XConstants.ControlMask | XConstants.LockMask);
-                if (xembedLog.isLoggable(PlatformLogger.Level.FINEST)) {
-                    xembedLog.finest("Mapped " + e + " to " + this);
+                // Wf rfdognizf only tifsf mbsks
+                modififrs = kf.gft_stbtf() & (XConstbnts.SiiftMbsk | XConstbnts.ControlMbsk | XConstbnts.LodkMbsk);
+                if (xfmbfdLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+                    xfmbfdLog.finfst("Mbppfd " + f + " to " + tiis);
                 }
-            } finally {
-                XlibWrapper.unsafe.freeMemory(data);
+            } finblly {
+                XlibWrbppfr.unsbff.frffMfmory(dbtb);
             }
         }
 
-        public int hashCode() {
-            return (int)keysym & 0xFFFFFFFF;
+        publid int ibsiCodf() {
+            rfturn (int)kfysym & 0xFFFFFFFF;
         }
 
-        public boolean equals(Object o) {
-            if (!(o instanceof GrabbedKey)) {
-                return false;
+        publid boolfbn fqubls(Objfdt o) {
+            if (!(o instbndfof GrbbbfdKfy)) {
+                rfturn fblsf;
             }
-            GrabbedKey key = (GrabbedKey)o;
-            return (keysym == key.keysym && modifiers == key.modifiers);
+            GrbbbfdKfy kfy = (GrbbbfdKfy)o;
+            rfturn (kfysym == kfy.kfysym && modififrs == kfy.modififrs);
         }
 
-        public String toString() {
-            return "Key combination[keysym=" + keysym + ", mods=" + modifiers + "]";
+        publid String toString() {
+            rfturn "Kfy dombinbtion[kfysym=" + kfysym + ", mods=" + modififrs + "]";
         }
     }
 }

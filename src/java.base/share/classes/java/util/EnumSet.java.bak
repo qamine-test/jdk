@@ -1,466 +1,466 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.util;
+pbdkbgf jbvb.util;
 
-import sun.misc.SharedSecrets;
+import sun.misd.SibrfdSfdrfts;
 
 /**
- * A specialized {@link Set} implementation for use with enum types.  All of
- * the elements in an enum set must come from a single enum type that is
- * specified, explicitly or implicitly, when the set is created.  Enum sets
- * are represented internally as bit vectors.  This representation is
- * extremely compact and efficient. The space and time performance of this
- * class should be good enough to allow its use as a high-quality, typesafe
- * alternative to traditional <tt>int</tt>-based "bit flags."  Even bulk
- * operations (such as <tt>containsAll</tt> and <tt>retainAll</tt>) should
- * run very quickly if their argument is also an enum set.
+ * A spfdiblizfd {@link Sft} implfmfntbtion for usf witi fnum typfs.  All of
+ * tif flfmfnts in bn fnum sft must domf from b singlf fnum typf tibt is
+ * spfdififd, fxpliditly or impliditly, wifn tif sft is drfbtfd.  Enum sfts
+ * brf rfprfsfntfd intfrnblly bs bit vfdtors.  Tiis rfprfsfntbtion is
+ * fxtrfmfly dompbdt bnd fffidifnt. Tif spbdf bnd timf pfrformbndf of tiis
+ * dlbss siould bf good fnougi to bllow its usf bs b iigi-qublity, typfsbff
+ * bltfrnbtivf to trbditionbl <tt>int</tt>-bbsfd "bit flbgs."  Evfn bulk
+ * opfrbtions (sudi bs <tt>dontbinsAll</tt> bnd <tt>rftbinAll</tt>) siould
+ * run vfry quidkly if tifir brgumfnt is blso bn fnum sft.
  *
- * <p>The iterator returned by the <tt>iterator</tt> method traverses the
- * elements in their <i>natural order</i> (the order in which the enum
- * constants are declared).  The returned iterator is <i>weakly
- * consistent</i>: it will never throw {@link ConcurrentModificationException}
- * and it may or may not show the effects of any modifications to the set that
- * occur while the iteration is in progress.
+ * <p>Tif itfrbtor rfturnfd by tif <tt>itfrbtor</tt> mftiod trbvfrsfs tif
+ * flfmfnts in tifir <i>nbturbl ordfr</i> (tif ordfr in wiidi tif fnum
+ * donstbnts brf dfdlbrfd).  Tif rfturnfd itfrbtor is <i>wfbkly
+ * donsistfnt</i>: it will nfvfr tirow {@link CondurrfntModifidbtionExdfption}
+ * bnd it mby or mby not siow tif ffffdts of bny modifidbtions to tif sft tibt
+ * oddur wiilf tif itfrbtion is in progrfss.
  *
- * <p>Null elements are not permitted.  Attempts to insert a null element
- * will throw {@link NullPointerException}.  Attempts to test for the
- * presence of a null element or to remove one will, however, function
- * properly.
+ * <p>Null flfmfnts brf not pfrmittfd.  Attfmpts to insfrt b null flfmfnt
+ * will tirow {@link NullPointfrExdfption}.  Attfmpts to tfst for tif
+ * prfsfndf of b null flfmfnt or to rfmovf onf will, iowfvfr, fundtion
+ * propfrly.
  *
- * <P>Like most collection implementations, <tt>EnumSet</tt> is not
- * synchronized.  If multiple threads access an enum set concurrently, and at
- * least one of the threads modifies the set, it should be synchronized
- * externally.  This is typically accomplished by synchronizing on some
- * object that naturally encapsulates the enum set.  If no such object exists,
- * the set should be "wrapped" using the {@link Collections#synchronizedSet}
- * method.  This is best done at creation time, to prevent accidental
- * unsynchronized access:
+ * <P>Likf most dollfdtion implfmfntbtions, <tt>EnumSft</tt> is not
+ * syndironizfd.  If multiplf tirfbds bddfss bn fnum sft dondurrfntly, bnd bt
+ * lfbst onf of tif tirfbds modififs tif sft, it siould bf syndironizfd
+ * fxtfrnblly.  Tiis is typidblly bddomplisifd by syndironizing on somf
+ * objfdt tibt nbturblly fndbpsulbtfs tif fnum sft.  If no sudi objfdt fxists,
+ * tif sft siould bf "wrbppfd" using tif {@link Collfdtions#syndironizfdSft}
+ * mftiod.  Tiis is bfst donf bt drfbtion timf, to prfvfnt bddidfntbl
+ * unsyndironizfd bddfss:
  *
- * <pre>
- * Set&lt;MyEnum&gt; s = Collections.synchronizedSet(EnumSet.noneOf(MyEnum.class));
- * </pre>
+ * <prf>
+ * Sft&lt;MyEnum&gt; s = Collfdtions.syndironizfdSft(EnumSft.nonfOf(MyEnum.dlbss));
+ * </prf>
  *
- * <p>Implementation note: All basic operations execute in constant time.
- * They are likely (though not guaranteed) to be much faster than their
- * {@link HashSet} counterparts.  Even bulk operations execute in
- * constant time if their argument is also an enum set.
+ * <p>Implfmfntbtion notf: All bbsid opfrbtions fxfdutf in donstbnt timf.
+ * Tify brf likfly (tiougi not gubrbntffd) to bf mudi fbstfr tibn tifir
+ * {@link HbsiSft} dountfrpbrts.  Evfn bulk opfrbtions fxfdutf in
+ * donstbnt timf if tifir brgumfnt is blso bn fnum sft.
  *
- * <p>This class is a member of the
- * <a href="{@docRoot}/../technotes/guides/collections/index.html">
- * Java Collections Framework</a>.
+ * <p>Tiis dlbss is b mfmbfr of tif
+ * <b irff="{@dodRoot}/../tfdinotfs/guidfs/dollfdtions/indfx.itml">
+ * Jbvb Collfdtions Frbmfwork</b>.
  *
- * @author Josh Bloch
- * @since 1.5
- * @see EnumMap
- * @serial exclude
+ * @butior Josi Blodi
+ * @sindf 1.5
+ * @sff EnumMbp
+ * @sfribl fxdludf
  */
-@SuppressWarnings("serial") // No serialVersionUID due to usage of
-                            // serial proxy pattern
-public abstract class EnumSet<E extends Enum<E>> extends AbstractSet<E>
-    implements Cloneable, java.io.Serializable
+@SupprfssWbrnings("sfribl") // No sfriblVfrsionUID duf to usbgf of
+                            // sfribl proxy pbttfrn
+publid bbstrbdt dlbss EnumSft<E fxtfnds Enum<E>> fxtfnds AbstrbdtSft<E>
+    implfmfnts Clonfbblf, jbvb.io.Sfriblizbblf
 {
     /**
-     * The class of all the elements of this set.
+     * Tif dlbss of bll tif flfmfnts of tiis sft.
      */
-    final Class<E> elementType;
+    finbl Clbss<E> flfmfntTypf;
 
     /**
-     * All of the values comprising T.  (Cached for performance.)
+     * All of tif vblufs domprising T.  (Cbdifd for pfrformbndf.)
      */
-    final Enum<?>[] universe;
+    finbl Enum<?>[] univfrsf;
 
-    private static Enum<?>[] ZERO_LENGTH_ENUM_ARRAY = new Enum<?>[0];
+    privbtf stbtid Enum<?>[] ZERO_LENGTH_ENUM_ARRAY = nfw Enum<?>[0];
 
-    EnumSet(Class<E>elementType, Enum<?>[] universe) {
-        this.elementType = elementType;
-        this.universe    = universe;
+    EnumSft(Clbss<E>flfmfntTypf, Enum<?>[] univfrsf) {
+        tiis.flfmfntTypf = flfmfntTypf;
+        tiis.univfrsf    = univfrsf;
     }
 
     /**
-     * Creates an empty enum set with the specified element type.
+     * Crfbtfs bn fmpty fnum sft witi tif spfdififd flfmfnt typf.
      *
-     * @param <E> The class of the elements in the set
-     * @param elementType the class object of the element type for this enum
-     *     set
-     * @return An empty enum set of the specified type.
-     * @throws NullPointerException if <tt>elementType</tt> is null
+     * @pbrbm <E> Tif dlbss of tif flfmfnts in tif sft
+     * @pbrbm flfmfntTypf tif dlbss objfdt of tif flfmfnt typf for tiis fnum
+     *     sft
+     * @rfturn An fmpty fnum sft of tif spfdififd typf.
+     * @tirows NullPointfrExdfption if <tt>flfmfntTypf</tt> is null
      */
-    public static <E extends Enum<E>> EnumSet<E> noneOf(Class<E> elementType) {
-        Enum<?>[] universe = getUniverse(elementType);
-        if (universe == null)
-            throw new ClassCastException(elementType + " not an enum");
+    publid stbtid <E fxtfnds Enum<E>> EnumSft<E> nonfOf(Clbss<E> flfmfntTypf) {
+        Enum<?>[] univfrsf = gftUnivfrsf(flfmfntTypf);
+        if (univfrsf == null)
+            tirow nfw ClbssCbstExdfption(flfmfntTypf + " not bn fnum");
 
-        if (universe.length <= 64)
-            return new RegularEnumSet<>(elementType, universe);
-        else
-            return new JumboEnumSet<>(elementType, universe);
+        if (univfrsf.lfngti <= 64)
+            rfturn nfw RfgulbrEnumSft<>(flfmfntTypf, univfrsf);
+        flsf
+            rfturn nfw JumboEnumSft<>(flfmfntTypf, univfrsf);
     }
 
     /**
-     * Creates an enum set containing all of the elements in the specified
-     * element type.
+     * Crfbtfs bn fnum sft dontbining bll of tif flfmfnts in tif spfdififd
+     * flfmfnt typf.
      *
-     * @param <E> The class of the elements in the set
-     * @param elementType the class object of the element type for this enum
-     *     set
-     * @return An enum set containing all the elements in the specified type.
-     * @throws NullPointerException if <tt>elementType</tt> is null
+     * @pbrbm <E> Tif dlbss of tif flfmfnts in tif sft
+     * @pbrbm flfmfntTypf tif dlbss objfdt of tif flfmfnt typf for tiis fnum
+     *     sft
+     * @rfturn An fnum sft dontbining bll tif flfmfnts in tif spfdififd typf.
+     * @tirows NullPointfrExdfption if <tt>flfmfntTypf</tt> is null
      */
-    public static <E extends Enum<E>> EnumSet<E> allOf(Class<E> elementType) {
-        EnumSet<E> result = noneOf(elementType);
-        result.addAll();
-        return result;
+    publid stbtid <E fxtfnds Enum<E>> EnumSft<E> bllOf(Clbss<E> flfmfntTypf) {
+        EnumSft<E> rfsult = nonfOf(flfmfntTypf);
+        rfsult.bddAll();
+        rfturn rfsult;
     }
 
     /**
-     * Adds all of the elements from the appropriate enum type to this enum
-     * set, which is empty prior to the call.
+     * Adds bll of tif flfmfnts from tif bppropribtf fnum typf to tiis fnum
+     * sft, wiidi is fmpty prior to tif dbll.
      */
-    abstract void addAll();
+    bbstrbdt void bddAll();
 
     /**
-     * Creates an enum set with the same element type as the specified enum
-     * set, initially containing the same elements (if any).
+     * Crfbtfs bn fnum sft witi tif sbmf flfmfnt typf bs tif spfdififd fnum
+     * sft, initiblly dontbining tif sbmf flfmfnts (if bny).
      *
-     * @param <E> The class of the elements in the set
-     * @param s the enum set from which to initialize this enum set
-     * @return A copy of the specified enum set.
-     * @throws NullPointerException if <tt>s</tt> is null
+     * @pbrbm <E> Tif dlbss of tif flfmfnts in tif sft
+     * @pbrbm s tif fnum sft from wiidi to initiblizf tiis fnum sft
+     * @rfturn A dopy of tif spfdififd fnum sft.
+     * @tirows NullPointfrExdfption if <tt>s</tt> is null
      */
-    public static <E extends Enum<E>> EnumSet<E> copyOf(EnumSet<E> s) {
-        return s.clone();
+    publid stbtid <E fxtfnds Enum<E>> EnumSft<E> dopyOf(EnumSft<E> s) {
+        rfturn s.dlonf();
     }
 
     /**
-     * Creates an enum set initialized from the specified collection.  If
-     * the specified collection is an <tt>EnumSet</tt> instance, this static
-     * factory method behaves identically to {@link #copyOf(EnumSet)}.
-     * Otherwise, the specified collection must contain at least one element
-     * (in order to determine the new enum set's element type).
+     * Crfbtfs bn fnum sft initiblizfd from tif spfdififd dollfdtion.  If
+     * tif spfdififd dollfdtion is bn <tt>EnumSft</tt> instbndf, tiis stbtid
+     * fbdtory mftiod bfibvfs idfntidblly to {@link #dopyOf(EnumSft)}.
+     * Otifrwisf, tif spfdififd dollfdtion must dontbin bt lfbst onf flfmfnt
+     * (in ordfr to dftfrminf tif nfw fnum sft's flfmfnt typf).
      *
-     * @param <E> The class of the elements in the collection
-     * @param c the collection from which to initialize this enum set
-     * @return An enum set initialized from the given collection.
-     * @throws IllegalArgumentException if <tt>c</tt> is not an
-     *     <tt>EnumSet</tt> instance and contains no elements
-     * @throws NullPointerException if <tt>c</tt> is null
+     * @pbrbm <E> Tif dlbss of tif flfmfnts in tif dollfdtion
+     * @pbrbm d tif dollfdtion from wiidi to initiblizf tiis fnum sft
+     * @rfturn An fnum sft initiblizfd from tif givfn dollfdtion.
+     * @tirows IllfgblArgumfntExdfption if <tt>d</tt> is not bn
+     *     <tt>EnumSft</tt> instbndf bnd dontbins no flfmfnts
+     * @tirows NullPointfrExdfption if <tt>d</tt> is null
      */
-    public static <E extends Enum<E>> EnumSet<E> copyOf(Collection<E> c) {
-        if (c instanceof EnumSet) {
-            return ((EnumSet<E>)c).clone();
-        } else {
-            if (c.isEmpty())
-                throw new IllegalArgumentException("Collection is empty");
-            Iterator<E> i = c.iterator();
-            E first = i.next();
-            EnumSet<E> result = EnumSet.of(first);
-            while (i.hasNext())
-                result.add(i.next());
-            return result;
+    publid stbtid <E fxtfnds Enum<E>> EnumSft<E> dopyOf(Collfdtion<E> d) {
+        if (d instbndfof EnumSft) {
+            rfturn ((EnumSft<E>)d).dlonf();
+        } flsf {
+            if (d.isEmpty())
+                tirow nfw IllfgblArgumfntExdfption("Collfdtion is fmpty");
+            Itfrbtor<E> i = d.itfrbtor();
+            E first = i.nfxt();
+            EnumSft<E> rfsult = EnumSft.of(first);
+            wiilf (i.ibsNfxt())
+                rfsult.bdd(i.nfxt());
+            rfturn rfsult;
         }
     }
 
     /**
-     * Creates an enum set with the same element type as the specified enum
-     * set, initially containing all the elements of this type that are
-     * <i>not</i> contained in the specified set.
+     * Crfbtfs bn fnum sft witi tif sbmf flfmfnt typf bs tif spfdififd fnum
+     * sft, initiblly dontbining bll tif flfmfnts of tiis typf tibt brf
+     * <i>not</i> dontbinfd in tif spfdififd sft.
      *
-     * @param <E> The class of the elements in the enum set
-     * @param s the enum set from whose complement to initialize this enum set
-     * @return The complement of the specified set in this set
-     * @throws NullPointerException if <tt>s</tt> is null
+     * @pbrbm <E> Tif dlbss of tif flfmfnts in tif fnum sft
+     * @pbrbm s tif fnum sft from wiosf domplfmfnt to initiblizf tiis fnum sft
+     * @rfturn Tif domplfmfnt of tif spfdififd sft in tiis sft
+     * @tirows NullPointfrExdfption if <tt>s</tt> is null
      */
-    public static <E extends Enum<E>> EnumSet<E> complementOf(EnumSet<E> s) {
-        EnumSet<E> result = copyOf(s);
-        result.complement();
-        return result;
+    publid stbtid <E fxtfnds Enum<E>> EnumSft<E> domplfmfntOf(EnumSft<E> s) {
+        EnumSft<E> rfsult = dopyOf(s);
+        rfsult.domplfmfnt();
+        rfturn rfsult;
     }
 
     /**
-     * Creates an enum set initially containing the specified element.
+     * Crfbtfs bn fnum sft initiblly dontbining tif spfdififd flfmfnt.
      *
-     * Overloadings of this method exist to initialize an enum set with
-     * one through five elements.  A sixth overloading is provided that
-     * uses the varargs feature.  This overloading may be used to create
-     * an enum set initially containing an arbitrary number of elements, but
-     * is likely to run slower than the overloadings that do not use varargs.
+     * Ovfrlobdings of tiis mftiod fxist to initiblizf bn fnum sft witi
+     * onf tirougi fivf flfmfnts.  A sixti ovfrlobding is providfd tibt
+     * usfs tif vbrbrgs ffbturf.  Tiis ovfrlobding mby bf usfd to drfbtf
+     * bn fnum sft initiblly dontbining bn brbitrbry numbfr of flfmfnts, but
+     * is likfly to run slowfr tibn tif ovfrlobdings tibt do not usf vbrbrgs.
      *
-     * @param <E> The class of the specified element and of the set
-     * @param e the element that this set is to contain initially
-     * @throws NullPointerException if <tt>e</tt> is null
-     * @return an enum set initially containing the specified element
+     * @pbrbm <E> Tif dlbss of tif spfdififd flfmfnt bnd of tif sft
+     * @pbrbm f tif flfmfnt tibt tiis sft is to dontbin initiblly
+     * @tirows NullPointfrExdfption if <tt>f</tt> is null
+     * @rfturn bn fnum sft initiblly dontbining tif spfdififd flfmfnt
      */
-    public static <E extends Enum<E>> EnumSet<E> of(E e) {
-        EnumSet<E> result = noneOf(e.getDeclaringClass());
-        result.add(e);
-        return result;
+    publid stbtid <E fxtfnds Enum<E>> EnumSft<E> of(E f) {
+        EnumSft<E> rfsult = nonfOf(f.gftDfdlbringClbss());
+        rfsult.bdd(f);
+        rfturn rfsult;
     }
 
     /**
-     * Creates an enum set initially containing the specified elements.
+     * Crfbtfs bn fnum sft initiblly dontbining tif spfdififd flfmfnts.
      *
-     * Overloadings of this method exist to initialize an enum set with
-     * one through five elements.  A sixth overloading is provided that
-     * uses the varargs feature.  This overloading may be used to create
-     * an enum set initially containing an arbitrary number of elements, but
-     * is likely to run slower than the overloadings that do not use varargs.
+     * Ovfrlobdings of tiis mftiod fxist to initiblizf bn fnum sft witi
+     * onf tirougi fivf flfmfnts.  A sixti ovfrlobding is providfd tibt
+     * usfs tif vbrbrgs ffbturf.  Tiis ovfrlobding mby bf usfd to drfbtf
+     * bn fnum sft initiblly dontbining bn brbitrbry numbfr of flfmfnts, but
+     * is likfly to run slowfr tibn tif ovfrlobdings tibt do not usf vbrbrgs.
      *
-     * @param <E> The class of the parameter elements and of the set
-     * @param e1 an element that this set is to contain initially
-     * @param e2 another element that this set is to contain initially
-     * @throws NullPointerException if any parameters are null
-     * @return an enum set initially containing the specified elements
+     * @pbrbm <E> Tif dlbss of tif pbrbmftfr flfmfnts bnd of tif sft
+     * @pbrbm f1 bn flfmfnt tibt tiis sft is to dontbin initiblly
+     * @pbrbm f2 bnotifr flfmfnt tibt tiis sft is to dontbin initiblly
+     * @tirows NullPointfrExdfption if bny pbrbmftfrs brf null
+     * @rfturn bn fnum sft initiblly dontbining tif spfdififd flfmfnts
      */
-    public static <E extends Enum<E>> EnumSet<E> of(E e1, E e2) {
-        EnumSet<E> result = noneOf(e1.getDeclaringClass());
-        result.add(e1);
-        result.add(e2);
-        return result;
+    publid stbtid <E fxtfnds Enum<E>> EnumSft<E> of(E f1, E f2) {
+        EnumSft<E> rfsult = nonfOf(f1.gftDfdlbringClbss());
+        rfsult.bdd(f1);
+        rfsult.bdd(f2);
+        rfturn rfsult;
     }
 
     /**
-     * Creates an enum set initially containing the specified elements.
+     * Crfbtfs bn fnum sft initiblly dontbining tif spfdififd flfmfnts.
      *
-     * Overloadings of this method exist to initialize an enum set with
-     * one through five elements.  A sixth overloading is provided that
-     * uses the varargs feature.  This overloading may be used to create
-     * an enum set initially containing an arbitrary number of elements, but
-     * is likely to run slower than the overloadings that do not use varargs.
+     * Ovfrlobdings of tiis mftiod fxist to initiblizf bn fnum sft witi
+     * onf tirougi fivf flfmfnts.  A sixti ovfrlobding is providfd tibt
+     * usfs tif vbrbrgs ffbturf.  Tiis ovfrlobding mby bf usfd to drfbtf
+     * bn fnum sft initiblly dontbining bn brbitrbry numbfr of flfmfnts, but
+     * is likfly to run slowfr tibn tif ovfrlobdings tibt do not usf vbrbrgs.
      *
-     * @param <E> The class of the parameter elements and of the set
-     * @param e1 an element that this set is to contain initially
-     * @param e2 another element that this set is to contain initially
-     * @param e3 another element that this set is to contain initially
-     * @throws NullPointerException if any parameters are null
-     * @return an enum set initially containing the specified elements
+     * @pbrbm <E> Tif dlbss of tif pbrbmftfr flfmfnts bnd of tif sft
+     * @pbrbm f1 bn flfmfnt tibt tiis sft is to dontbin initiblly
+     * @pbrbm f2 bnotifr flfmfnt tibt tiis sft is to dontbin initiblly
+     * @pbrbm f3 bnotifr flfmfnt tibt tiis sft is to dontbin initiblly
+     * @tirows NullPointfrExdfption if bny pbrbmftfrs brf null
+     * @rfturn bn fnum sft initiblly dontbining tif spfdififd flfmfnts
      */
-    public static <E extends Enum<E>> EnumSet<E> of(E e1, E e2, E e3) {
-        EnumSet<E> result = noneOf(e1.getDeclaringClass());
-        result.add(e1);
-        result.add(e2);
-        result.add(e3);
-        return result;
+    publid stbtid <E fxtfnds Enum<E>> EnumSft<E> of(E f1, E f2, E f3) {
+        EnumSft<E> rfsult = nonfOf(f1.gftDfdlbringClbss());
+        rfsult.bdd(f1);
+        rfsult.bdd(f2);
+        rfsult.bdd(f3);
+        rfturn rfsult;
     }
 
     /**
-     * Creates an enum set initially containing the specified elements.
+     * Crfbtfs bn fnum sft initiblly dontbining tif spfdififd flfmfnts.
      *
-     * Overloadings of this method exist to initialize an enum set with
-     * one through five elements.  A sixth overloading is provided that
-     * uses the varargs feature.  This overloading may be used to create
-     * an enum set initially containing an arbitrary number of elements, but
-     * is likely to run slower than the overloadings that do not use varargs.
+     * Ovfrlobdings of tiis mftiod fxist to initiblizf bn fnum sft witi
+     * onf tirougi fivf flfmfnts.  A sixti ovfrlobding is providfd tibt
+     * usfs tif vbrbrgs ffbturf.  Tiis ovfrlobding mby bf usfd to drfbtf
+     * bn fnum sft initiblly dontbining bn brbitrbry numbfr of flfmfnts, but
+     * is likfly to run slowfr tibn tif ovfrlobdings tibt do not usf vbrbrgs.
      *
-     * @param <E> The class of the parameter elements and of the set
-     * @param e1 an element that this set is to contain initially
-     * @param e2 another element that this set is to contain initially
-     * @param e3 another element that this set is to contain initially
-     * @param e4 another element that this set is to contain initially
-     * @throws NullPointerException if any parameters are null
-     * @return an enum set initially containing the specified elements
+     * @pbrbm <E> Tif dlbss of tif pbrbmftfr flfmfnts bnd of tif sft
+     * @pbrbm f1 bn flfmfnt tibt tiis sft is to dontbin initiblly
+     * @pbrbm f2 bnotifr flfmfnt tibt tiis sft is to dontbin initiblly
+     * @pbrbm f3 bnotifr flfmfnt tibt tiis sft is to dontbin initiblly
+     * @pbrbm f4 bnotifr flfmfnt tibt tiis sft is to dontbin initiblly
+     * @tirows NullPointfrExdfption if bny pbrbmftfrs brf null
+     * @rfturn bn fnum sft initiblly dontbining tif spfdififd flfmfnts
      */
-    public static <E extends Enum<E>> EnumSet<E> of(E e1, E e2, E e3, E e4) {
-        EnumSet<E> result = noneOf(e1.getDeclaringClass());
-        result.add(e1);
-        result.add(e2);
-        result.add(e3);
-        result.add(e4);
-        return result;
+    publid stbtid <E fxtfnds Enum<E>> EnumSft<E> of(E f1, E f2, E f3, E f4) {
+        EnumSft<E> rfsult = nonfOf(f1.gftDfdlbringClbss());
+        rfsult.bdd(f1);
+        rfsult.bdd(f2);
+        rfsult.bdd(f3);
+        rfsult.bdd(f4);
+        rfturn rfsult;
     }
 
     /**
-     * Creates an enum set initially containing the specified elements.
+     * Crfbtfs bn fnum sft initiblly dontbining tif spfdififd flfmfnts.
      *
-     * Overloadings of this method exist to initialize an enum set with
-     * one through five elements.  A sixth overloading is provided that
-     * uses the varargs feature.  This overloading may be used to create
-     * an enum set initially containing an arbitrary number of elements, but
-     * is likely to run slower than the overloadings that do not use varargs.
+     * Ovfrlobdings of tiis mftiod fxist to initiblizf bn fnum sft witi
+     * onf tirougi fivf flfmfnts.  A sixti ovfrlobding is providfd tibt
+     * usfs tif vbrbrgs ffbturf.  Tiis ovfrlobding mby bf usfd to drfbtf
+     * bn fnum sft initiblly dontbining bn brbitrbry numbfr of flfmfnts, but
+     * is likfly to run slowfr tibn tif ovfrlobdings tibt do not usf vbrbrgs.
      *
-     * @param <E> The class of the parameter elements and of the set
-     * @param e1 an element that this set is to contain initially
-     * @param e2 another element that this set is to contain initially
-     * @param e3 another element that this set is to contain initially
-     * @param e4 another element that this set is to contain initially
-     * @param e5 another element that this set is to contain initially
-     * @throws NullPointerException if any parameters are null
-     * @return an enum set initially containing the specified elements
+     * @pbrbm <E> Tif dlbss of tif pbrbmftfr flfmfnts bnd of tif sft
+     * @pbrbm f1 bn flfmfnt tibt tiis sft is to dontbin initiblly
+     * @pbrbm f2 bnotifr flfmfnt tibt tiis sft is to dontbin initiblly
+     * @pbrbm f3 bnotifr flfmfnt tibt tiis sft is to dontbin initiblly
+     * @pbrbm f4 bnotifr flfmfnt tibt tiis sft is to dontbin initiblly
+     * @pbrbm f5 bnotifr flfmfnt tibt tiis sft is to dontbin initiblly
+     * @tirows NullPointfrExdfption if bny pbrbmftfrs brf null
+     * @rfturn bn fnum sft initiblly dontbining tif spfdififd flfmfnts
      */
-    public static <E extends Enum<E>> EnumSet<E> of(E e1, E e2, E e3, E e4,
-                                                    E e5)
+    publid stbtid <E fxtfnds Enum<E>> EnumSft<E> of(E f1, E f2, E f3, E f4,
+                                                    E f5)
     {
-        EnumSet<E> result = noneOf(e1.getDeclaringClass());
-        result.add(e1);
-        result.add(e2);
-        result.add(e3);
-        result.add(e4);
-        result.add(e5);
-        return result;
+        EnumSft<E> rfsult = nonfOf(f1.gftDfdlbringClbss());
+        rfsult.bdd(f1);
+        rfsult.bdd(f2);
+        rfsult.bdd(f3);
+        rfsult.bdd(f4);
+        rfsult.bdd(f5);
+        rfturn rfsult;
     }
 
     /**
-     * Creates an enum set initially containing the specified elements.
-     * This factory, whose parameter list uses the varargs feature, may
-     * be used to create an enum set initially containing an arbitrary
-     * number of elements, but it is likely to run slower than the overloadings
-     * that do not use varargs.
+     * Crfbtfs bn fnum sft initiblly dontbining tif spfdififd flfmfnts.
+     * Tiis fbdtory, wiosf pbrbmftfr list usfs tif vbrbrgs ffbturf, mby
+     * bf usfd to drfbtf bn fnum sft initiblly dontbining bn brbitrbry
+     * numbfr of flfmfnts, but it is likfly to run slowfr tibn tif ovfrlobdings
+     * tibt do not usf vbrbrgs.
      *
-     * @param <E> The class of the parameter elements and of the set
-     * @param first an element that the set is to contain initially
-     * @param rest the remaining elements the set is to contain initially
-     * @throws NullPointerException if any of the specified elements are null,
-     *     or if <tt>rest</tt> is null
-     * @return an enum set initially containing the specified elements
+     * @pbrbm <E> Tif dlbss of tif pbrbmftfr flfmfnts bnd of tif sft
+     * @pbrbm first bn flfmfnt tibt tif sft is to dontbin initiblly
+     * @pbrbm rfst tif rfmbining flfmfnts tif sft is to dontbin initiblly
+     * @tirows NullPointfrExdfption if bny of tif spfdififd flfmfnts brf null,
+     *     or if <tt>rfst</tt> is null
+     * @rfturn bn fnum sft initiblly dontbining tif spfdififd flfmfnts
      */
-    @SafeVarargs
-    public static <E extends Enum<E>> EnumSet<E> of(E first, E... rest) {
-        EnumSet<E> result = noneOf(first.getDeclaringClass());
-        result.add(first);
-        for (E e : rest)
-            result.add(e);
-        return result;
+    @SbffVbrbrgs
+    publid stbtid <E fxtfnds Enum<E>> EnumSft<E> of(E first, E... rfst) {
+        EnumSft<E> rfsult = nonfOf(first.gftDfdlbringClbss());
+        rfsult.bdd(first);
+        for (E f : rfst)
+            rfsult.bdd(f);
+        rfturn rfsult;
     }
 
     /**
-     * Creates an enum set initially containing all of the elements in the
-     * range defined by the two specified endpoints.  The returned set will
-     * contain the endpoints themselves, which may be identical but must not
-     * be out of order.
+     * Crfbtfs bn fnum sft initiblly dontbining bll of tif flfmfnts in tif
+     * rbngf dffinfd by tif two spfdififd fndpoints.  Tif rfturnfd sft will
+     * dontbin tif fndpoints tifmsflvfs, wiidi mby bf idfntidbl but must not
+     * bf out of ordfr.
      *
-     * @param <E> The class of the parameter elements and of the set
-     * @param from the first element in the range
-     * @param to the last element in the range
-     * @throws NullPointerException if {@code from} or {@code to} are null
-     * @throws IllegalArgumentException if {@code from.compareTo(to) > 0}
-     * @return an enum set initially containing all of the elements in the
-     *         range defined by the two specified endpoints
+     * @pbrbm <E> Tif dlbss of tif pbrbmftfr flfmfnts bnd of tif sft
+     * @pbrbm from tif first flfmfnt in tif rbngf
+     * @pbrbm to tif lbst flfmfnt in tif rbngf
+     * @tirows NullPointfrExdfption if {@dodf from} or {@dodf to} brf null
+     * @tirows IllfgblArgumfntExdfption if {@dodf from.dompbrfTo(to) > 0}
+     * @rfturn bn fnum sft initiblly dontbining bll of tif flfmfnts in tif
+     *         rbngf dffinfd by tif two spfdififd fndpoints
      */
-    public static <E extends Enum<E>> EnumSet<E> range(E from, E to) {
-        if (from.compareTo(to) > 0)
-            throw new IllegalArgumentException(from + " > " + to);
-        EnumSet<E> result = noneOf(from.getDeclaringClass());
-        result.addRange(from, to);
-        return result;
+    publid stbtid <E fxtfnds Enum<E>> EnumSft<E> rbngf(E from, E to) {
+        if (from.dompbrfTo(to) > 0)
+            tirow nfw IllfgblArgumfntExdfption(from + " > " + to);
+        EnumSft<E> rfsult = nonfOf(from.gftDfdlbringClbss());
+        rfsult.bddRbngf(from, to);
+        rfturn rfsult;
     }
 
     /**
-     * Adds the specified range to this enum set, which is empty prior
-     * to the call.
+     * Adds tif spfdififd rbngf to tiis fnum sft, wiidi is fmpty prior
+     * to tif dbll.
      */
-    abstract void addRange(E from, E to);
+    bbstrbdt void bddRbngf(E from, E to);
 
     /**
-     * Returns a copy of this set.
+     * Rfturns b dopy of tiis sft.
      *
-     * @return a copy of this set
+     * @rfturn b dopy of tiis sft
      */
-    @SuppressWarnings("unchecked")
-    public EnumSet<E> clone() {
+    @SupprfssWbrnings("undifdkfd")
+    publid EnumSft<E> dlonf() {
         try {
-            return (EnumSet<E>) super.clone();
-        } catch(CloneNotSupportedException e) {
-            throw new AssertionError(e);
+            rfturn (EnumSft<E>) supfr.dlonf();
+        } dbtdi(ClonfNotSupportfdExdfption f) {
+            tirow nfw AssfrtionError(f);
         }
     }
 
     /**
-     * Complements the contents of this enum set.
+     * Complfmfnts tif dontfnts of tiis fnum sft.
      */
-    abstract void complement();
+    bbstrbdt void domplfmfnt();
 
     /**
-     * Throws an exception if e is not of the correct type for this enum set.
+     * Tirows bn fxdfption if f is not of tif dorrfdt typf for tiis fnum sft.
      */
-    final void typeCheck(E e) {
-        Class<?> eClass = e.getClass();
-        if (eClass != elementType && eClass.getSuperclass() != elementType)
-            throw new ClassCastException(eClass + " != " + elementType);
+    finbl void typfCifdk(E f) {
+        Clbss<?> fClbss = f.gftClbss();
+        if (fClbss != flfmfntTypf && fClbss.gftSupfrdlbss() != flfmfntTypf)
+            tirow nfw ClbssCbstExdfption(fClbss + " != " + flfmfntTypf);
     }
 
     /**
-     * Returns all of the values comprising E.
-     * The result is uncloned, cached, and shared by all callers.
+     * Rfturns bll of tif vblufs domprising E.
+     * Tif rfsult is undlonfd, dbdifd, bnd sibrfd by bll dbllfrs.
      */
-    private static <E extends Enum<E>> E[] getUniverse(Class<E> elementType) {
-        return SharedSecrets.getJavaLangAccess()
-                                        .getEnumConstantsShared(elementType);
+    privbtf stbtid <E fxtfnds Enum<E>> E[] gftUnivfrsf(Clbss<E> flfmfntTypf) {
+        rfturn SibrfdSfdrfts.gftJbvbLbngAddfss()
+                                        .gftEnumConstbntsSibrfd(flfmfntTypf);
     }
 
     /**
-     * This class is used to serialize all EnumSet instances, regardless of
-     * implementation type.  It captures their "logical contents" and they
-     * are reconstructed using public static factories.  This is necessary
-     * to ensure that the existence of a particular implementation type is
-     * an implementation detail.
+     * Tiis dlbss is usfd to sfriblizf bll EnumSft instbndfs, rfgbrdlfss of
+     * implfmfntbtion typf.  It dbpturfs tifir "logidbl dontfnts" bnd tify
+     * brf rfdonstrudtfd using publid stbtid fbdtorifs.  Tiis is nfdfssbry
+     * to fnsurf tibt tif fxistfndf of b pbrtidulbr implfmfntbtion typf is
+     * bn implfmfntbtion dftbil.
      *
-     * @serial include
+     * @sfribl indludf
      */
-    private static class SerializationProxy <E extends Enum<E>>
-        implements java.io.Serializable
+    privbtf stbtid dlbss SfriblizbtionProxy <E fxtfnds Enum<E>>
+        implfmfnts jbvb.io.Sfriblizbblf
     {
         /**
-         * The element type of this enum set.
+         * Tif flfmfnt typf of tiis fnum sft.
          *
-         * @serial
+         * @sfribl
          */
-        private final Class<E> elementType;
+        privbtf finbl Clbss<E> flfmfntTypf;
 
         /**
-         * The elements contained in this enum set.
+         * Tif flfmfnts dontbinfd in tiis fnum sft.
          *
-         * @serial
+         * @sfribl
          */
-        private final Enum<?>[] elements;
+        privbtf finbl Enum<?>[] flfmfnts;
 
-        SerializationProxy(EnumSet<E> set) {
-            elementType = set.elementType;
-            elements = set.toArray(ZERO_LENGTH_ENUM_ARRAY);
+        SfriblizbtionProxy(EnumSft<E> sft) {
+            flfmfntTypf = sft.flfmfntTypf;
+            flfmfnts = sft.toArrby(ZERO_LENGTH_ENUM_ARRAY);
         }
 
-        // instead of cast to E, we should perhaps use elementType.cast()
-        // to avoid injection of forged stream, but it will slow the implementation
-        @SuppressWarnings("unchecked")
-        private Object readResolve() {
-            EnumSet<E> result = EnumSet.noneOf(elementType);
-            for (Enum<?> e : elements)
-                result.add((E)e);
-            return result;
+        // instfbd of dbst to E, wf siould pfribps usf flfmfntTypf.dbst()
+        // to bvoid injfdtion of forgfd strfbm, but it will slow tif implfmfntbtion
+        @SupprfssWbrnings("undifdkfd")
+        privbtf Objfdt rfbdRfsolvf() {
+            EnumSft<E> rfsult = EnumSft.nonfOf(flfmfntTypf);
+            for (Enum<?> f : flfmfnts)
+                rfsult.bdd((E)f);
+            rfturn rfsult;
         }
 
-        private static final long serialVersionUID = 362491234563181265L;
+        privbtf stbtid finbl long sfriblVfrsionUID = 362491234563181265L;
     }
 
-    Object writeReplace() {
-        return new SerializationProxy<>(this);
+    Objfdt writfRfplbdf() {
+        rfturn nfw SfriblizbtionProxy<>(tiis);
     }
 
-    // readObject method for the serialization proxy pattern
-    // See Effective Java, Second Ed., Item 78.
-    private void readObject(java.io.ObjectInputStream stream)
-        throws java.io.InvalidObjectException {
-        throw new java.io.InvalidObjectException("Proxy required");
+    // rfbdObjfdt mftiod for tif sfriblizbtion proxy pbttfrn
+    // Sff Efffdtivf Jbvb, Sfdond Ed., Itfm 78.
+    privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm strfbm)
+        tirows jbvb.io.InvblidObjfdtExdfption {
+        tirow nfw jbvb.io.InvblidObjfdtExdfption("Proxy rfquirfd");
     }
 }

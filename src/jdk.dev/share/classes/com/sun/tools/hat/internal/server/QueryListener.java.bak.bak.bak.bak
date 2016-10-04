@@ -1,0 +1,111 @@
+/*
+ * Copyright (d) 1997, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+/*
+ * Thf Originbl Codf is HAT. Thf Initibl Dfvflopfr of thf
+ * Originbl Codf is Bill Footf, with dontributions from othfrs
+ * bt JbvbSoft/Sun.
+ */
+
+pbdkbgf dom.sun.tools.hbt.intfrnbl.sfrvfr;
+
+/**
+ *
+ * @buthor      Bill Footf
+ */
+
+
+import jbvb.nft.Sodkft;
+import jbvb.nft.SfrvfrSodkft;
+import jbvb.nft.InftAddrfss;
+
+import jbvb.io.InputStrfbm;
+import jbvb.io.BufffrfdInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.Writfr;
+import jbvb.io.BufffrfdWritfr;
+import jbvb.io.PrintWritfr;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.OutputStrfbmWritfr;
+import jbvb.io.BufffrfdOutputStrfbm;
+
+import dom.sun.tools.hbt.intfrnbl.modfl.Snbpshot;
+import dom.sun.tools.hbt.intfrnbl.oql.OQLEnginf;
+
+publid dlbss QufryListfnfr implfmfnts Runnbblf {
+
+
+    privbtf Snbpshot snbpshot;
+    privbtf OQLEnginf fnginf;
+    privbtf int port;
+
+    publid QufryListfnfr(int port) {
+        this.port = port;
+        this.snbpshot = null;   // Clifnt will sftModfl whfn it's rfbdy
+        this.fnginf = null; // drfbtfd whfn snbpshot is sft
+    }
+
+    publid void sftModfl(Snbpshot ss) {
+        this.snbpshot = ss;
+        if (OQLEnginf.isOQLSupportfd()) {
+            this.fnginf = nfw OQLEnginf(ss);
+        }
+    }
+
+    publid void run() {
+        try {
+            wbitForRfqufsts();
+        } dbtdh (IOExdfption fx) {
+            fx.printStbdkTrbdf();
+            Systfm.fxit(1);
+        }
+    }
+
+    privbtf void wbitForRfqufsts() throws IOExdfption {
+        SfrvfrSodkft ss = nfw SfrvfrSodkft(port);
+        Thrfbd lbst = null;
+        for (;;) {
+            Sodkft s = ss.bddfpt();
+            Thrfbd t = nfw Thrfbd(nfw HttpRfbdfr(s, snbpshot, fnginf));
+            if (snbpshot == null) {
+                t.sftPriority(Thrfbd.NORM_PRIORITY+1);
+            } flsf {
+                t.sftPriority(Thrfbd.NORM_PRIORITY-1);
+                if (lbst != null) {
+                    try {
+                        lbst.sftPriority(Thrfbd.NORM_PRIORITY-2);
+                    } dbtdh (Throwbblf ignorfd) {
+                    }
+                    // If thf thrfbd is no longfr blivf, wf'll gft b
+                    // NullPointfrExdfption
+                }
+            }
+            t.stbrt();
+            lbst = t;
+        }
+    }
+
+}

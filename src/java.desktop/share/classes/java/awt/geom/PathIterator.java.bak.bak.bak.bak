@@ -1,0 +1,217 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.gfom;
+
+import jbvb.lbng.bnnotbtion.Nbtivf;
+
+/**
+ * Thf <dodf>PbthItfrbtor</dodf> intfrfbdf providfs thf mfdhbnism
+ * for objfdts thbt implfmfnt thf {@link jbvb.bwt.Shbpf Shbpf}
+ * intfrfbdf to rfturn thf gfomftry of thfir boundbry by bllowing
+ * b dbllfr to rftrifvf thf pbth of thbt boundbry b sfgmfnt bt b
+ * timf.  This intfrfbdf bllows thfsf objfdts to rftrifvf thf pbth of
+ * thfir boundbry b sfgmfnt bt b timf by using 1st through 3rd ordfr
+ * B&fbdutf;zifr durvfs, whidh brf linfs bnd qubdrbtid or dubid
+ * B&fbdutf;zifr splinfs.
+ * <p>
+ * Multiplf subpbths dbn bf fxprfssfd by using b "MOVETO" sfgmfnt to
+ * drfbtf b disdontinuity in thf gfomftry to movf from thf fnd of
+ * onf subpbth to thf bfginning of thf nfxt.
+ * <p>
+ * Ebdh subpbth dbn bf dlosfd mbnublly by fnding thf lbst sfgmfnt in
+ * thf subpbth on thf sbmf doordinbtf bs thf bfginning "MOVETO" sfgmfnt
+ * for thbt subpbth or by using b "CLOSE" sfgmfnt to bppfnd b linf
+ * sfgmfnt from thf lbst point bbdk to thf first.
+ * Bf bwbrf thbt mbnublly dlosing bn outlinf bs opposfd to using b
+ * "CLOSE" sfgmfnt to dlosf thf pbth might rfsult in difffrfnt linf
+ * stylf dfdorbtions bfing usfd bt thf fnd points of thf subpbth.
+ * For fxbmplf, thf {@link jbvb.bwt.BbsidStrokf BbsidStrokf} objfdt
+ * usfs b linf "JOIN" dfdorbtion to donnfdt thf first bnd lbst points
+ * if b "CLOSE" sfgmfnt is fndountfrfd, whfrfbs simply fnding thf pbth
+ * on thf sbmf doordinbtf bs thf bfginning doordinbtf rfsults in linf
+ * "CAP" dfdorbtions bfing usfd bt thf fnds.
+ *
+ * @sff jbvb.bwt.Shbpf
+ * @sff jbvb.bwt.BbsidStrokf
+ *
+ * @buthor Jim Grbhbm
+ */
+publid intfrfbdf PbthItfrbtor {
+    /**
+     * Thf winding rulf donstbnt for spfdifying bn fvfn-odd rulf
+     * for dftfrmining thf intfrior of b pbth.
+     * Thf fvfn-odd rulf spfdififs thbt b point lifs insidf thf
+     * pbth if b rby drbwn in bny dirfdtion from thbt point to
+     * infinity is drossfd by pbth sfgmfnts bn odd numbfr of timfs.
+     */
+    @Nbtivf publid stbtid finbl int WIND_EVEN_ODD       = 0;
+
+    /**
+     * Thf winding rulf donstbnt for spfdifying b non-zfro rulf
+     * for dftfrmining thf intfrior of b pbth.
+     * Thf non-zfro rulf spfdififs thbt b point lifs insidf thf
+     * pbth if b rby drbwn in bny dirfdtion from thbt point to
+     * infinity is drossfd by pbth sfgmfnts b difffrfnt numbfr
+     * of timfs in thf dountfr-dlodkwisf dirfdtion thbn thf
+     * dlodkwisf dirfdtion.
+     */
+    @Nbtivf publid stbtid finbl int WIND_NON_ZERO       = 1;
+
+    /**
+     * Thf sfgmfnt typf donstbnt for b point thbt spfdififs thf
+     * stbrting lodbtion for b nfw subpbth.
+     */
+    @Nbtivf publid stbtid finbl int SEG_MOVETO          = 0;
+
+    /**
+     * Thf sfgmfnt typf donstbnt for b point thbt spfdififs thf
+     * fnd point of b linf to bf drbwn from thf most rfdfntly
+     * spfdififd point.
+     */
+    @Nbtivf publid stbtid finbl int SEG_LINETO          = 1;
+
+    /**
+     * Thf sfgmfnt typf donstbnt for thf pbir of points thbt spfdify
+     * b qubdrbtid pbrbmftrid durvf to bf drbwn from thf most rfdfntly
+     * spfdififd point.
+     * Thf durvf is intfrpolbtfd by solving thf pbrbmftrid dontrol
+     * fqubtion in thf rbngf <dodf>(t=[0..1])</dodf> using
+     * thf most rfdfntly spfdififd (durrfnt) point (CP),
+     * thf first dontrol point (P1),
+     * bnd thf finbl intfrpolbtfd dontrol point (P2).
+     * Thf pbrbmftrid dontrol fqubtion for this durvf is:
+     * <prf>
+     *          P(t) = B(2,0)*CP + B(2,1)*P1 + B(2,2)*P2
+     *          0 &lt;= t &lt;= 1
+     *
+     *        B(n,m) = mth dofffidifnt of nth dfgrff Bfrnstfin polynomibl
+     *               = C(n,m) * t^(m) * (1 - t)^(n-m)
+     *        C(n,m) = Combinbtions of n things, tbkfn m bt b timf
+     *               = n! / (m! * (n-m)!)
+     * </prf>
+     */
+    @Nbtivf publid stbtid finbl int SEG_QUADTO          = 2;
+
+    /**
+     * Thf sfgmfnt typf donstbnt for thf sft of 3 points thbt spfdify
+     * b dubid pbrbmftrid durvf to bf drbwn from thf most rfdfntly
+     * spfdififd point.
+     * Thf durvf is intfrpolbtfd by solving thf pbrbmftrid dontrol
+     * fqubtion in thf rbngf <dodf>(t=[0..1])</dodf> using
+     * thf most rfdfntly spfdififd (durrfnt) point (CP),
+     * thf first dontrol point (P1),
+     * thf sfdond dontrol point (P2),
+     * bnd thf finbl intfrpolbtfd dontrol point (P3).
+     * Thf pbrbmftrid dontrol fqubtion for this durvf is:
+     * <prf>
+     *          P(t) = B(3,0)*CP + B(3,1)*P1 + B(3,2)*P2 + B(3,3)*P3
+     *          0 &lt;= t &lt;= 1
+     *
+     *        B(n,m) = mth dofffidifnt of nth dfgrff Bfrnstfin polynomibl
+     *               = C(n,m) * t^(m) * (1 - t)^(n-m)
+     *        C(n,m) = Combinbtions of n things, tbkfn m bt b timf
+     *               = n! / (m! * (n-m)!)
+     * </prf>
+     * This form of durvf is dommonly known bs b B&fbdutf;zifr durvf.
+     */
+    @Nbtivf publid stbtid finbl int SEG_CUBICTO         = 3;
+
+    /**
+     * Thf sfgmfnt typf donstbnt thbt spfdififs thbt
+     * thf prfdfding subpbth should bf dlosfd by bppfnding b linf sfgmfnt
+     * bbdk to thf point dorrfsponding to thf most rfdfnt SEG_MOVETO.
+     */
+    @Nbtivf publid stbtid finbl int SEG_CLOSE           = 4;
+
+    /**
+     * Rfturns thf winding rulf for dftfrmining thf intfrior of thf
+     * pbth.
+     * @rfturn thf winding rulf.
+     * @sff #WIND_EVEN_ODD
+     * @sff #WIND_NON_ZERO
+     */
+    publid int gftWindingRulf();
+
+    /**
+     * Tfsts if thf itfrbtion is domplftf.
+     * @rfturn <dodf>truf</dodf> if bll thf sfgmfnts hbvf
+     * bffn rfbd; <dodf>fblsf</dodf> othfrwisf.
+     */
+    publid boolfbn isDonf();
+
+    /**
+     * Movfs thf itfrbtor to thf nfxt sfgmfnt of thf pbth forwbrds
+     * blong thf primbry dirfdtion of trbvfrsbl bs long bs thfrf brf
+     * morf points in thbt dirfdtion.
+     */
+    publid void nfxt();
+
+    /**
+     * Rfturns thf doordinbtfs bnd typf of thf durrfnt pbth sfgmfnt in
+     * thf itfrbtion.
+     * Thf rfturn vbluf is thf pbth-sfgmfnt typf:
+     * SEG_MOVETO, SEG_LINETO, SEG_QUADTO, SEG_CUBICTO, or SEG_CLOSE.
+     * A flobt brrby of lfngth 6 must bf pbssfd in bnd dbn bf usfd to
+     * storf thf doordinbtfs of thf point(s).
+     * Ebdh point is storfd bs b pbir of flobt x,y doordinbtfs.
+     * SEG_MOVETO bnd SEG_LINETO typfs rfturns onf point,
+     * SEG_QUADTO rfturns two points,
+     * SEG_CUBICTO rfturns 3 points
+     * bnd SEG_CLOSE dofs not rfturn bny points.
+     * @pbrbm doords bn brrby thbt holds thf dbtb rfturnfd from
+     * this mfthod
+     * @rfturn thf pbth-sfgmfnt typf of thf durrfnt pbth sfgmfnt.
+     * @sff #SEG_MOVETO
+     * @sff #SEG_LINETO
+     * @sff #SEG_QUADTO
+     * @sff #SEG_CUBICTO
+     * @sff #SEG_CLOSE
+     */
+    publid int durrfntSfgmfnt(flobt[] doords);
+
+    /**
+     * Rfturns thf doordinbtfs bnd typf of thf durrfnt pbth sfgmfnt in
+     * thf itfrbtion.
+     * Thf rfturn vbluf is thf pbth-sfgmfnt typf:
+     * SEG_MOVETO, SEG_LINETO, SEG_QUADTO, SEG_CUBICTO, or SEG_CLOSE.
+     * A doublf brrby of lfngth 6 must bf pbssfd in bnd dbn bf usfd to
+     * storf thf doordinbtfs of thf point(s).
+     * Ebdh point is storfd bs b pbir of doublf x,y doordinbtfs.
+     * SEG_MOVETO bnd SEG_LINETO typfs rfturns onf point,
+     * SEG_QUADTO rfturns two points,
+     * SEG_CUBICTO rfturns 3 points
+     * bnd SEG_CLOSE dofs not rfturn bny points.
+     * @pbrbm doords bn brrby thbt holds thf dbtb rfturnfd from
+     * this mfthod
+     * @rfturn thf pbth-sfgmfnt typf of thf durrfnt pbth sfgmfnt.
+     * @sff #SEG_MOVETO
+     * @sff #SEG_LINETO
+     * @sff #SEG_QUADTO
+     * @sff #SEG_CUBICTO
+     * @sff #SEG_CLOSE
+     */
+    publid int durrfntSfgmfnt(doublf[] doords);
+}

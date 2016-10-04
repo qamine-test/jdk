@@ -1,95 +1,95 @@
 /*
- * Copyright (c) 2000, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.imageio.spi;
+pbdkbgf jbvbx.imbgfio.spi;
 
-import javax.imageio.ImageTranscoder;
+import jbvbx.imbgfio.ImbgfTrbnsdodfr;
 
 /**
- * The service provider interface (SPI) for <code>ImageTranscoder</code>s.
- * For more information on service provider classes, see the class comment
- * for the <code>IIORegistry</code> class.
+ * Tif sfrvidf providfr intfrfbdf (SPI) for <dodf>ImbgfTrbnsdodfr</dodf>s.
+ * For morf informbtion on sfrvidf providfr dlbssfs, sff tif dlbss dommfnt
+ * for tif <dodf>IIORfgistry</dodf> dlbss.
  *
- * @see IIORegistry
- * @see javax.imageio.ImageTranscoder
+ * @sff IIORfgistry
+ * @sff jbvbx.imbgfio.ImbgfTrbnsdodfr
  *
  */
-public abstract class ImageTranscoderSpi extends IIOServiceProvider {
+publid bbstrbdt dlbss ImbgfTrbnsdodfrSpi fxtfnds IIOSfrvidfProvidfr {
 
     /**
-     * Constructs a blank <code>ImageTranscoderSpi</code>.  It is up
-     * to the subclass to initialize instance variables and/or
-     * override method implementations in order to provide working
-     * versions of all methods.
+     * Construdts b blbnk <dodf>ImbgfTrbnsdodfrSpi</dodf>.  It is up
+     * to tif subdlbss to initiblizf instbndf vbribblfs bnd/or
+     * ovfrridf mftiod implfmfntbtions in ordfr to providf working
+     * vfrsions of bll mftiods.
      */
-    protected ImageTranscoderSpi() {
+    protfdtfd ImbgfTrbnsdodfrSpi() {
     }
 
     /**
-     * Constructs an <code>ImageTranscoderSpi</code> with a given set
-     * of values.
+     * Construdts bn <dodf>ImbgfTrbnsdodfrSpi</dodf> witi b givfn sft
+     * of vblufs.
      *
-     * @param vendorName the vendor name.
-     * @param version a version identifier.
+     * @pbrbm vfndorNbmf tif vfndor nbmf.
+     * @pbrbm vfrsion b vfrsion idfntififr.
      */
-    public ImageTranscoderSpi(String vendorName,
-                              String version) {
-        super(vendorName, version);
+    publid ImbgfTrbnsdodfrSpi(String vfndorNbmf,
+                              String vfrsion) {
+        supfr(vfndorNbmf, vfrsion);
     }
 
     /**
-     * Returns the fully qualified class name of an
-     * <code>ImageReaderSpi</code> class that generates
-     * <code>IIOMetadata</code> objects that may be used as input to
-     * this transcoder.
+     * Rfturns tif fully qublififd dlbss nbmf of bn
+     * <dodf>ImbgfRfbdfrSpi</dodf> dlbss tibt gfnfrbtfs
+     * <dodf>IIOMftbdbtb</dodf> objfdts tibt mby bf usfd bs input to
+     * tiis trbnsdodfr.
      *
-     * @return a <code>String</code> containing the fully-qualified
-     * class name of the <code>ImageReaderSpi</code> implementation class.
+     * @rfturn b <dodf>String</dodf> dontbining tif fully-qublififd
+     * dlbss nbmf of tif <dodf>ImbgfRfbdfrSpi</dodf> implfmfntbtion dlbss.
      *
-     * @see ImageReaderSpi
+     * @sff ImbgfRfbdfrSpi
      */
-    public abstract String getReaderServiceProviderName();
+    publid bbstrbdt String gftRfbdfrSfrvidfProvidfrNbmf();
 
     /**
-     * Returns the fully qualified class name of an
-     * <code>ImageWriterSpi</code> class that generates
-     * <code>IIOMetadata</code> objects that may be used as input to
-     * this transcoder.
+     * Rfturns tif fully qublififd dlbss nbmf of bn
+     * <dodf>ImbgfWritfrSpi</dodf> dlbss tibt gfnfrbtfs
+     * <dodf>IIOMftbdbtb</dodf> objfdts tibt mby bf usfd bs input to
+     * tiis trbnsdodfr.
      *
-     * @return a <code>String</code> containing the fully-qualified
-     * class name of the <code>ImageWriterSpi</code> implementation class.
+     * @rfturn b <dodf>String</dodf> dontbining tif fully-qublififd
+     * dlbss nbmf of tif <dodf>ImbgfWritfrSpi</dodf> implfmfntbtion dlbss.
      *
-     * @see ImageWriterSpi
+     * @sff ImbgfWritfrSpi
      */
-    public abstract String getWriterServiceProviderName();
+    publid bbstrbdt String gftWritfrSfrvidfProvidfrNbmf();
 
     /**
-     * Returns an instance of the <code>ImageTranscoder</code>
-     * implementation associated with this service provider.
+     * Rfturns bn instbndf of tif <dodf>ImbgfTrbnsdodfr</dodf>
+     * implfmfntbtion bssodibtfd witi tiis sfrvidf providfr.
      *
-     * @return an <code>ImageTranscoder</code> instance.
+     * @rfturn bn <dodf>ImbgfTrbnsdodfr</dodf> instbndf.
      */
-    public abstract ImageTranscoder createTranscoderInstance();
+    publid bbstrbdt ImbgfTrbnsdodfr drfbtfTrbnsdodfrInstbndf();
 }

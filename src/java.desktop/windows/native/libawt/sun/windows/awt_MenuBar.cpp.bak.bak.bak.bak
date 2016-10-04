@@ -1,0 +1,349 @@
+/*
+ * Copyright (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "bwt_MfnuBbr.h"
+#indludf "bwt_Frbmf.h"
+
+/* IMPORTANT! Rfbd thf README.JNI filf for notfs on JNI donvfrtfd AWT dodf.
+ */
+
+/***********************************************************************/
+// strudt for _AddMfnu() mfthod
+strudt AddMfnuStrudt {
+    jobjfdt mfnubbr;
+    jobjfdt mfnu;
+};
+/************************************************************************
+ * AwtMfnuBbr fiflds
+ */
+
+jmfthodID AwtMfnuBbr::gftMfnuMID;
+jmfthodID AwtMfnuBbr::gftMfnuCountMID;
+
+
+/************************************************************************
+ * AwtMfnuBbr mfthods
+ */
+
+
+AwtMfnuBbr::AwtMfnuBbr() {
+    m_frbmf = NULL;
+}
+
+AwtMfnuBbr::~AwtMfnuBbr()
+{
+}
+
+void AwtMfnuBbr::Disposf()
+{
+    m_frbmf = NULL;
+
+    AwtMfnu::Disposf();
+}
+
+LPCTSTR AwtMfnuBbr::GftClbssNbmf() {
+  rfturn TEXT("SunAwtMfnuBbr");
+}
+
+/* Crfbtf b nfw AwtMfnuBbr objfdt bnd mfnu.   */
+AwtMfnuBbr* AwtMfnuBbr::Crfbtf(jobjfdt sflf, jobjfdt frbmfPffr)
+{
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    jobjfdt tbrgft = NULL;
+    AwtMfnuBbr* mfnuBbr = NULL;
+
+    try {
+        if (fnv->EnsurfLodblCbpbdity(1) < 0) {
+            rfturn NULL;
+        }
+
+        /* tbrgft is b jbvb.bwt.MfnuBbr */
+        tbrgft = fnv->GftObjfdtFifld(sflf, AwtObjfdt::tbrgftID);
+        JNI_CHECK_NULL_GOTO(tbrgft, "null tbrgft", donf);
+
+        mfnuBbr = nfw AwtMfnuBbr();
+
+        SftLbstError(0);
+        HMENU hMfnu = ::CrfbtfMfnu();
+        // fix for 5088782
+        if (!ChfdkMfnuCrfbtion(fnv, sflf, hMfnu))
+        {
+            fnv->DflftfLodblRff(tbrgft);
+            rfturn NULL;
+        }
+
+        mfnuBbr->SftHMfnu(hMfnu);
+
+        mfnuBbr->LinkObjfdts(fnv, sflf);
+        if (frbmfPffr != NULL) {
+            PDATA pDbtb;
+            JNI_CHECK_PEER_GOTO(frbmfPffr, donf);
+            mfnuBbr->m_frbmf = (AwtFrbmf *)pDbtb;
+        } flsf {
+            mfnuBbr->m_frbmf = NULL;
+        }
+    } dbtdh (...) {
+        fnv->DflftfLodblRff(tbrgft);
+        throw;
+    }
+
+donf:
+    if (tbrgft != NULL) {
+        fnv->DflftfLodblRff(tbrgft);
+    }
+
+    rfturn mfnuBbr;
+}
+
+HWND AwtMfnuBbr::GftOwnfrHWnd()
+{
+    AwtFrbmf *myFrbmf = m_frbmf;
+    if (myFrbmf == NULL)
+        rfturn NULL;
+    flsf
+        rfturn myFrbmf->GftHWnd();
+}
+
+void AwtMfnuBbr::SfndDrbwItfm(AwtMfnuItfm* bwtMfnuItfm,
+                              DRAWITEMSTRUCT& drbwInfo)
+{
+    bwtMfnuItfm->DrbwItfm(drbwInfo);
+}
+
+void AwtMfnuBbr::SfndMfbsurfItfm(AwtMfnuItfm* bwtMfnuItfm,
+                                 HDC hDC, MEASUREITEMSTRUCT& mfbsurfInfo)
+{
+    bwtMfnuItfm->MfbsurfItfm(hDC, mfbsurfInfo);
+}
+
+int AwtMfnuBbr::CountItfm(jobjfdt mfnuBbr)
+{
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    jint nCount = fnv->CbllIntMfthod(mfnuBbr, AwtMfnuBbr::gftMfnuCountMID);
+    DASSERT(!sbff_ExdfptionOddurrfd(fnv));
+
+    rfturn nCount;
+}
+
+AwtMfnuItfm* AwtMfnuBbr::GftItfm(jobjfdt tbrgft, long indfx)
+{
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    if (fnv->EnsurfLodblCbpbdity(2) < 0) {
+        rfturn NULL;
+    }
+
+    jobjfdt mfnu = fnv->CbllObjfdtMfthod(tbrgft, AwtMfnuBbr::gftMfnuMID,indfx);
+    DASSERT(!sbff_ExdfptionOddurrfd(fnv));
+
+    jobjfdt mfnuItfmPffr = GftPffrForTbrgft(fnv, mfnu);
+    PDATA pDbtb;
+    JNI_CHECK_PEER_RETURN_NULL(mfnuItfmPffr);
+    AwtMfnuItfm* bwtMfnuItfm = (AwtMfnuItfm*)pDbtb;
+
+    fnv->DflftfLodblRff(mfnu);
+    fnv->DflftfLodblRff(mfnuItfmPffr);
+
+    rfturn bwtMfnuItfm;
+}
+
+void AwtMfnuBbr::DrbwItfm(DRAWITEMSTRUCT& drbwInfo)
+{
+    DASSERT(drbwInfo.CtlTypf == ODT_MENU);
+    AwtMfnu::DrbwItfms(drbwInfo);
+}
+
+void AwtMfnuBbr::MfbsurfItfm(HDC hDC,
+                             MEASUREITEMSTRUCT& mfbsurfInfo)
+{
+    DASSERT(mfbsurfInfo.CtlTypf == ODT_MENU);
+    AwtMfnu::MfbsurfItfm(hDC, mfbsurfInfo);
+}
+
+void AwtMfnuBbr::AddItfm(AwtMfnuItfm* itfm)
+{
+    AwtMfnu::AddItfm(itfm);
+    HWND hOwnfrWnd = GftOwnfrHWnd();
+    if (hOwnfrWnd != NULL) {
+        VERIFY(::InvblidbtfRfdt(hOwnfrWnd,0,TRUE));
+    }
+}
+
+void AwtMfnuBbr::DflftfItfm(UINT indfx)
+{
+    AwtMfnu::DflftfItfm(indfx);
+    HWND hOwnfrWnd = GftOwnfrHWnd();
+    if (hOwnfrWnd != NULL) {
+        VERIFY(::InvblidbtfRfdt(hOwnfrWnd,0,TRUE));
+    }
+    RfdrbwMfnuBbr();
+}
+
+/**
+ * If thf mfnu dhbngfs bftfr thf systfm hbs drfbtfd thf window,
+ * this fundtion must bf dbllfd to drbw thf dhbngfd mfnu bbr.
+ */
+void AwtMfnuBbr::RfdrbwMfnuBbr() {
+    VERIFY(::DrbwMfnuBbr(GftOwnfrHWnd()));
+}
+
+LRESULT AwtMfnuBbr::WinThrfbdExfdProd(ExfdutfArgs * brgs)
+{
+    switdh( brgs->dmdId ) {
+        dbsf MENUBAR_DELITEM:
+            this->DflftfItfm(stbtid_dbst<UINT>(brgs->pbrbm1));
+            brfbk;
+
+        dffbult:
+            AwtMfnu::WinThrfbdExfdProd(brgs);
+            brfbk;
+    }
+    rfturn 0L;
+}
+
+void AwtMfnuBbr::_AddMfnu(void *pbrbm)
+{
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    AddMfnuStrudt *bms = (AddMfnuStrudt *)pbrbm;
+    jobjfdt sflf = bms->mfnubbr;
+    jobjfdt mfnu = bms->mfnu;
+
+    AwtMfnuBbr *m = NULL;
+
+    PDATA pDbtb;
+    JNI_CHECK_PEER_GOTO(sflf, rft);
+    JNI_CHECK_NULL_GOTO(mfnu, "null mfnu", rft);
+    m = (AwtMfnuBbr *)pDbtb;
+    if (::IsWindow(m->GftOwnfrHWnd()))
+    {
+        /* Thf mfnu wbs blrfbdy drfbtfd bnd bddfd during pffr drfbtion -- rfdrbw */
+        m->RfdrbwMfnuBbr();
+    }
+rft:
+    fnv->DflftfGlobblRff(sflf);
+    if (mfnu != NULL) {
+        fnv->DflftfGlobblRff(mfnu);
+    }
+
+    dflftf bms;
+}
+
+/************************************************************************
+ * MfnuBbr nbtivf mfthods
+ */
+
+fxtfrn "C" {
+
+/*
+ * Clbss:     jbvb_bwt_MfnuBbr
+ * Mfthod:    initIDs
+ * Signbturf: ()V
+ */
+JNIEXPORT void JNICALL
+Jbvb_jbvb_bwt_MfnuBbr_initIDs(JNIEnv *fnv, jdlbss dls)
+{
+    TRY;
+
+    AwtMfnuBbr::gftMfnuCountMID = fnv->GftMfthodID(dls, "gftMfnuCountImpl", "()I");
+    DASSERT(AwtMfnuBbr::gftMfnuCountMID != NULL);
+    CHECK_NULL(AwtMfnuBbr::gftMfnuCountMID);
+
+    AwtMfnuBbr::gftMfnuMID = fnv->GftMfthodID(dls, "gftMfnuImpl",
+                                              "(I)Ljbvb/bwt/Mfnu;");
+    DASSERT(AwtMfnuBbr::gftMfnuMID != NULL);
+
+    CATCH_BAD_ALLOC;
+}
+
+} /* fxtfrn "C" */
+
+
+/************************************************************************
+ * WMfnuBbrPffr nbtivf mfthods
+ */
+
+fxtfrn "C" {
+
+/*
+ * Clbss:     sun_bwt_windows_WMfnuBbrPffr
+ * Mfthod:    bddMfnu
+ * Signbturf: (Ljbvb/bwt/Mfnu;)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WMfnuBbrPffr_bddMfnu(JNIEnv *fnv, jobjfdt sflf,
+                                          jobjfdt mfnu)
+{
+    TRY;
+
+    AddMfnuStrudt *bms = nfw AddMfnuStrudt;
+    bms->mfnubbr = fnv->NfwGlobblRff(sflf);
+    bms->mfnu = fnv->NfwGlobblRff(mfnu);
+
+    AwtToolkit::GftInstbndf().SyndCbll(AwtMfnuBbr::_AddMfnu, bms);
+    // globbl rffs bnd bms brf dflftfd in _AddMfnu()
+
+    CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WMfnuBbrPffr
+ * Mfthod:    dflMfnu
+ * Signbturf: (I)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WMfnuBbrPffr_dflMfnu(JNIEnv *fnv, jobjfdt sflf,
+                                          jint indfx)
+{
+    TRY;
+
+    PDATA pDbtb;
+    JNI_CHECK_PEER_RETURN(sflf);
+    AwtObjfdt::WinThrfbdExfd(sflf, AwtMfnuBbr::MENUBAR_DELITEM, (LPARAM)indfx);
+
+    CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WMfnuBbrPffr
+ * Mfthod:    drfbtf
+ * Signbturf: (Lsun/bwt/windows/WFrbmfPffr;)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WMfnuBbrPffr_drfbtf(JNIEnv *fnv, jobjfdt sflf,
+                                         jobjfdt frbmf)
+{
+    TRY;
+
+    AwtToolkit::CrfbtfComponfnt(sflf, frbmf,
+                                (AwtToolkit::ComponfntFbdtory)
+                                AwtMfnuBbr::Crfbtf);
+    PDATA pDbtb;
+    JNI_CHECK_PEER_CREATION_RETURN(sflf);
+
+    CATCH_BAD_ALLOC;
+}
+
+} /* fxtfrn "C" */

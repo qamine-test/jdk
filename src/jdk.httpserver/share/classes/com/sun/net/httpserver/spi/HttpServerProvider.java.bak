@@ -1,176 +1,176 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.net.httpserver.spi;
+pbdkbgf dom.sun.nft.ittpsfrvfr.spi;
 
-import java.io.IOException;
-import java.net.*;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.Iterator;
-import java.util.ServiceLoader;
-import java.util.ServiceConfigurationError;
-import com.sun.net.httpserver.*;
+import jbvb.io.IOExdfption;
+import jbvb.nft.*;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.Itfrbtor;
+import jbvb.util.SfrvidfLobdfr;
+import jbvb.util.SfrvidfConfigurbtionError;
+import dom.sun.nft.ittpsfrvfr.*;
 
 /**
- * Service provider class for HttpServer.
- * Sub-classes of HttpServerProvider provide an implementation of
- * {@link HttpServer} and associated classes. Applications do not normally use
- * this class. See {@link #provider()} for how providers are found and loaded.
+ * Sfrvidf providfr dlbss for HttpSfrvfr.
+ * Sub-dlbssfs of HttpSfrvfrProvidfr providf bn implfmfntbtion of
+ * {@link HttpSfrvfr} bnd bssodibtfd dlbssfs. Applidbtions do not normblly usf
+ * tiis dlbss. Sff {@link #providfr()} for iow providfrs brf found bnd lobdfd.
  */
-@jdk.Exported
-public abstract class HttpServerProvider {
+@jdk.Exportfd
+publid bbstrbdt dlbss HttpSfrvfrProvidfr {
 
     /**
-     * creates a HttpServer from this provider
+     * drfbtfs b HttpSfrvfr from tiis providfr
      *
-     * @param  addr
-     *         the address to bind to. May be {@code null}
+     * @pbrbm  bddr
+     *         tif bddrfss to bind to. Mby bf {@dodf null}
      *
-     * @param  backlog
-     *         the socket backlog. A value of {@code zero} means the systems default
+     * @pbrbm  bbdklog
+     *         tif sodkft bbdklog. A vbluf of {@dodf zfro} mfbns tif systfms dffbult
      */
-    public abstract HttpServer createHttpServer(InetSocketAddress addr,
-                                                int backlog)
-        throws IOException;
+    publid bbstrbdt HttpSfrvfr drfbtfHttpSfrvfr(InftSodkftAddrfss bddr,
+                                                int bbdklog)
+        tirows IOExdfption;
 
     /**
-     * creates a HttpsServer from this provider
+     * drfbtfs b HttpsSfrvfr from tiis providfr
      *
-     * @param  addr
-     *         the address to bind to. May be {@code null}
+     * @pbrbm  bddr
+     *         tif bddrfss to bind to. Mby bf {@dodf null}
      *
-     * @param  backlog
-     *         the socket backlog. A value of {@code zero} means the systems default
+     * @pbrbm  bbdklog
+     *         tif sodkft bbdklog. A vbluf of {@dodf zfro} mfbns tif systfms dffbult
      */
-    public abstract HttpsServer createHttpsServer(InetSocketAddress addr,
-                                                  int backlog)
-        throws IOException;
+    publid bbstrbdt HttpsSfrvfr drfbtfHttpsSfrvfr(InftSodkftAddrfss bddr,
+                                                  int bbdklog)
+        tirows IOExdfption;
 
-    private static final Object lock = new Object();
-    private static HttpServerProvider provider = null;
+    privbtf stbtid finbl Objfdt lodk = nfw Objfdt();
+    privbtf stbtid HttpSfrvfrProvidfr providfr = null;
 
     /**
-     * Initializes a new instance of this class.
+     * Initiblizfs b nfw instbndf of tiis dlbss.
      *
-     * @throws  SecurityException
-     *          If a security manager has been installed and it denies
-     *          {@link RuntimePermission}{@code ("httpServerProvider")}
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr ibs bffn instbllfd bnd it dfnifs
+     *          {@link RuntimfPfrmission}{@dodf ("ittpSfrvfrProvidfr")}
      */
-    protected HttpServerProvider() {
-        SecurityManager sm = System.getSecurityManager();
+    protfdtfd HttpSfrvfrProvidfr() {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null)
-            sm.checkPermission(new RuntimePermission("httpServerProvider"));
+            sm.difdkPfrmission(nfw RuntimfPfrmission("ittpSfrvfrProvidfr"));
     }
 
-    private static boolean loadProviderFromProperty() {
-        String cn = System.getProperty("com.sun.net.httpserver.HttpServerProvider");
-        if (cn == null)
-            return false;
+    privbtf stbtid boolfbn lobdProvidfrFromPropfrty() {
+        String dn = Systfm.gftPropfrty("dom.sun.nft.ittpsfrvfr.HttpSfrvfrProvidfr");
+        if (dn == null)
+            rfturn fblsf;
         try {
-            Class<?> c = Class.forName(cn, true,
-                                       ClassLoader.getSystemClassLoader());
-            provider = (HttpServerProvider)c.newInstance();
-            return true;
-        } catch (ClassNotFoundException |
-                 IllegalAccessException |
-                 InstantiationException |
-                 SecurityException x) {
-            throw new ServiceConfigurationError(null, x);
+            Clbss<?> d = Clbss.forNbmf(dn, truf,
+                                       ClbssLobdfr.gftSystfmClbssLobdfr());
+            providfr = (HttpSfrvfrProvidfr)d.nfwInstbndf();
+            rfturn truf;
+        } dbtdi (ClbssNotFoundExdfption |
+                 IllfgblAddfssExdfption |
+                 InstbntibtionExdfption |
+                 SfdurityExdfption x) {
+            tirow nfw SfrvidfConfigurbtionError(null, x);
         }
     }
 
-    private static boolean loadProviderAsService() {
-        Iterator<HttpServerProvider> i =
-            ServiceLoader.load(HttpServerProvider.class,
-                               ClassLoader.getSystemClassLoader())
-                .iterator();
+    privbtf stbtid boolfbn lobdProvidfrAsSfrvidf() {
+        Itfrbtor<HttpSfrvfrProvidfr> i =
+            SfrvidfLobdfr.lobd(HttpSfrvfrProvidfr.dlbss,
+                               ClbssLobdfr.gftSystfmClbssLobdfr())
+                .itfrbtor();
         for (;;) {
             try {
-                if (!i.hasNext())
-                    return false;
-                provider = i.next();
-                return true;
-            } catch (ServiceConfigurationError sce) {
-                if (sce.getCause() instanceof SecurityException) {
-                    // Ignore the security exception, try the next provider
-                    continue;
+                if (!i.ibsNfxt())
+                    rfturn fblsf;
+                providfr = i.nfxt();
+                rfturn truf;
+            } dbtdi (SfrvidfConfigurbtionError sdf) {
+                if (sdf.gftCbusf() instbndfof SfdurityExdfption) {
+                    // Ignorf tif sfdurity fxdfption, try tif nfxt providfr
+                    dontinuf;
                 }
-                throw sce;
+                tirow sdf;
             }
         }
     }
 
     /**
-     * Returns the system wide default HttpServerProvider for this invocation of
-     * the Java virtual machine.
+     * Rfturns tif systfm widf dffbult HttpSfrvfrProvidfr for tiis invodbtion of
+     * tif Jbvb virtubl mbdiinf.
      *
-     * <p> The first invocation of this method locates the default provider
-     * object as follows: </p>
+     * <p> Tif first invodbtion of tiis mftiod lodbtfs tif dffbult providfr
+     * objfdt bs follows: </p>
      *
      * <ol>
      *
-     *   <li><p> If the system property
-     *   {@code com.sun.net.httpserver.HttpServerProvider} is defined then it
-     *   is taken to be the fully-qualified name of a concrete provider class.
-     *   The class is loaded and instantiated; if this process fails then an
-     *   unspecified unchecked error or exception is thrown.  </p></li>
+     *   <li><p> If tif systfm propfrty
+     *   {@dodf dom.sun.nft.ittpsfrvfr.HttpSfrvfrProvidfr} is dffinfd tifn it
+     *   is tbkfn to bf tif fully-qublififd nbmf of b dondrftf providfr dlbss.
+     *   Tif dlbss is lobdfd bnd instbntibtfd; if tiis prodfss fbils tifn bn
+     *   unspfdififd undifdkfd frror or fxdfption is tirown.  </p></li>
      *
-     *   <li><p> If a provider class has been installed in a jar file that is
-     *   visible to the system class loader, and that jar file contains a
-     *   provider-configuration file named
-     *   {@code com.sun.net.httpserver.HttpServerProvider} in the resource
-     *   directory <tt>META-INF/services</tt>, then the first class name
-     *   specified in that file is taken.  The class is loaded and
-     *   instantiated; if this process fails then an unspecified unchecked error
-     *   or exception is thrown.  </p></li>
+     *   <li><p> If b providfr dlbss ibs bffn instbllfd in b jbr filf tibt is
+     *   visiblf to tif systfm dlbss lobdfr, bnd tibt jbr filf dontbins b
+     *   providfr-donfigurbtion filf nbmfd
+     *   {@dodf dom.sun.nft.ittpsfrvfr.HttpSfrvfrProvidfr} in tif rfsourdf
+     *   dirfdtory <tt>META-INF/sfrvidfs</tt>, tifn tif first dlbss nbmf
+     *   spfdififd in tibt filf is tbkfn.  Tif dlbss is lobdfd bnd
+     *   instbntibtfd; if tiis prodfss fbils tifn bn unspfdififd undifdkfd frror
+     *   or fxdfption is tirown.  </p></li>
      *
-     *   <li><p> Finally, if no provider has been specified by any of the above
-     *   means then the system-default provider class is instantiated and the
-     *   result is returned.  </p></li>
+     *   <li><p> Finblly, if no providfr ibs bffn spfdififd by bny of tif bbovf
+     *   mfbns tifn tif systfm-dffbult providfr dlbss is instbntibtfd bnd tif
+     *   rfsult is rfturnfd.  </p></li>
      *
      * </ol>
      *
-     * <p> Subsequent invocations of this method return the provider that was
-     * returned by the first invocation.  </p>
+     * <p> Subsfqufnt invodbtions of tiis mftiod rfturn tif providfr tibt wbs
+     * rfturnfd by tif first invodbtion.  </p>
      *
-     * @return  The system-wide default HttpServerProvider
+     * @rfturn  Tif systfm-widf dffbult HttpSfrvfrProvidfr
      */
-    public static HttpServerProvider provider () {
-        synchronized (lock) {
-            if (provider != null)
-                return provider;
-            return (HttpServerProvider)AccessController
-                .doPrivileged(new PrivilegedAction<Object>() {
-                        public Object run() {
-                            if (loadProviderFromProperty())
-                                return provider;
-                            if (loadProviderAsService())
-                                return provider;
-                            provider = new sun.net.httpserver.DefaultHttpServerProvider();
-                            return provider;
+    publid stbtid HttpSfrvfrProvidfr providfr () {
+        syndironizfd (lodk) {
+            if (providfr != null)
+                rfturn providfr;
+            rfturn (HttpSfrvfrProvidfr)AddfssControllfr
+                .doPrivilfgfd(nfw PrivilfgfdAdtion<Objfdt>() {
+                        publid Objfdt run() {
+                            if (lobdProvidfrFromPropfrty())
+                                rfturn providfr;
+                            if (lobdProvidfrAsSfrvidf())
+                                rfturn providfr;
+                            providfr = nfw sun.nft.ittpsfrvfr.DffbultHttpSfrvfrProvidfr();
+                            rfturn providfr;
                         }
                     });
         }

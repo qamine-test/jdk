@@ -1,170 +1,170 @@
 #
-# Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 # DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 #
-# This code is free software; you can redistribute it and/or modify it
-# under the terms of the GNU General Public License version 2 only, as
-# published by the Free Software Foundation.  Oracle designates this
-# particular file as subject to the "Classpath" exception as provided
-# by Oracle in the LICENSE file that accompanied this code.
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
 #
-# This code is distributed in the hope that it will be useful, but WITHOUT
-# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-# FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-# version 2 for more details (a copy is included in the LICENSE file that
-# accompanied this code).
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# bddompbnifd tiis dodf).
 #
-# You should have received a copy of the GNU General Public License version
-# 2 along with this work; if not, write to the Free Software Foundation,
-# Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 #
-# Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-# or visit www.oracle.com if you need additional information or have any
-# questions.
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# qufstions.
 #
 
-# CacheRowSetImpl exceptions
-cachedrowsetimpl.populate = Objeto ResultSet inv\u00E1lido fornecido para preencher o m\u00E9todo
-cachedrowsetimpl.invalidp = Fornecedor de persist\u00EAncias inv\u00E1lido gerado
-cachedrowsetimpl.nullhash = N\u00E3o \u00E9 poss\u00EDvel instanciar a inst\u00E2ncia CachedRowSetImpl. Hashtable Nulo fornecido ao construtor
-cachedrowsetimpl.invalidop = Opera\u00E7\u00E3o inv\u00E1lida durante a inser\u00E7\u00E3o de linha
-cachedrowsetimpl.accfailed = Falha em acceptChanges
-cachedrowsetimpl.invalidcp = Posi\u00E7\u00E3o inv\u00E1lida do cursor
-cachedrowsetimpl.illegalop = Opera\u00E7\u00E3o inv\u00E1lida em linha n\u00E3o inserida
-cachedrowsetimpl.clonefail = Falha ao clonar: {0}
-cachedrowsetimpl.invalidcol = \u00CDndice de coluna inv\u00E1lido
-cachedrowsetimpl.invalcolnm = Nome de coluna inv\u00E1lido
-cachedrowsetimpl.boolfail = Falha em getBoolen no valor ( {0} ) na coluna {1}
-cachedrowsetimpl.bytefail = Falha em getByte no valor ( {0} ) na coluna {1}
-cachedrowsetimpl.shortfail = Falha em getShort no valor ( {0} ) na coluna {1}
-cachedrowsetimpl.intfail = Falha em getInt no valor ( {0} ) na coluna {1}
-cachedrowsetimpl.longfail = Falha em getLong no valor ( {0} ) na coluna {1}
-cachedrowsetimpl.floatfail = Falha em getFloat no valor ( {0} ) na coluna {1}
-cachedrowsetimpl.doublefail = Falha em getDouble no valor ( {0} ) na coluna {1}
-cachedrowsetimpl.dtypemismt = Tipo de Dados Incompat\u00EDvel 
-cachedrowsetimpl.datefail = Falha em getDate no valor ( {0} ) na coluna {1} sem convers\u00E3o dispon\u00EDvel
-cachedrowsetimpl.timefail = Falha em getTime no valor ( {0} ) na coluna {1} sem convers\u00E3o dispon\u00EDvel
-cachedrowsetimpl.posupdate = Atualiza\u00E7\u00F5es posicionadas n\u00E3o suportadas
-cachedrowsetimpl.unableins = N\u00E3o \u00E9 poss\u00EDvel instanciar : {0}
-cachedrowsetimpl.beforefirst = beforeFirst : Opera\u00E7\u00E3o do cursor inv\u00E1lida
-cachedrowsetimpl.first = First : Opera\u00E7\u00E3o inv\u00E1lida do cursor
-cachedrowsetimpl.last = last : TYPE_FORWARD_ONLY
-cachedrowsetimpl.absolute = absolute : Posi\u00E7\u00E3o inv\u00E1lida do cursor
-cachedrowsetimpl.relative = relative : Posi\u00E7\u00E3o inv\u00E1lida do cursor
-cachedrowsetimpl.asciistream = falha na leitura do fluxo ascii
-cachedrowsetimpl.binstream = falha na leitura do fluxo bin\u00E1rio
-cachedrowsetimpl.failedins = Falha ao inserir a linha
-cachedrowsetimpl.updateins = updateRow chamado durante a inser\u00E7\u00E3o de linha
-cachedrowsetimpl.movetoins = moveToInsertRow : CONCUR_READ_ONLY
-cachedrowsetimpl.movetoins1 = moveToInsertRow : sem metadados
-cachedrowsetimpl.movetoins2 = moveToInsertRow : n\u00FAmero de colunas inv\u00E1lido
-cachedrowsetimpl.tablename = O nome da tabela n\u00E3o pode ser nulo
-cachedrowsetimpl.keycols = Colunas de chaves inv\u00E1lidas
-cachedrowsetimpl.invalidcol = \u00CDndice de coluna inv\u00E1lido
-cachedrowsetimpl.opnotsupp = Opera\u00E7\u00E3o n\u00E3o suportada pelo Banco de Dados
-cachedrowsetimpl.matchcols = As colunas correspondentes n\u00E3o s\u00E3o iguais \u00E0s colunas definidas
-cachedrowsetimpl.setmatchcols = Definir Colunas correspondentes antes de obt\u00EA-las
-cachedrowsetimpl.matchcols1 = As colunas correspondentes devem ser maior do que 0
-cachedrowsetimpl.matchcols2 = As colunas correspondentes devem ser strings vazias ou nulas
-cachedrowsetimpl.unsetmatch = As colunas n\u00E3o definidas n\u00E3o s\u00E3o iguais \u00E0s colunas definidas
-cachedrowsetimpl.unsetmatch1 = Usar o nome da coluna como argumento para unsetMatchColumn
-cachedrowsetimpl.unsetmatch2 = Usar o ID da coluna como argumento para unsetMatchColumn
-cachedrowsetimpl.numrows = O n\u00FAmero de linhas \u00E9 menor do que zero ou menor do que o tamanho obtido
-cachedrowsetimpl.startpos = A posi\u00E7\u00E3o de in\u00EDcio n\u00E3o pode ser negativa
-cachedrowsetimpl.nextpage = Preencher dados antes de chamar 
-cachedrowsetimpl.pagesize = O tamanho da p\u00E1gina n\u00E3o pode ser menor do que zero
-cachedrowsetimpl.pagesize1 = O tamanho da p\u00E1gina n\u00E3o pode ser maior do que maxRows
-cachedrowsetimpl.fwdonly = ResultSet \u00E9 somente para frente
-cachedrowsetimpl.type = O tipo \u00E9 : {0}
-cachedrowsetimpl.opnotysupp = Opera\u00E7\u00E3o ainda n\u00E3o suportada
-cachedrowsetimpl.featnotsupp = Recurso n\u00E3o suportado
+# CbdifRowSftImpl fxdfptions
+dbdifdrowsftimpl.populbtf = Objfto RfsultSft inv\u00E1lido fornfdido pbrb prffndifr o m\u00E9todo
+dbdifdrowsftimpl.invblidp = Fornfdfdor df pfrsist\u00EAndibs inv\u00E1lido gfrbdo
+dbdifdrowsftimpl.nullibsi = N\u00E3o \u00E9 poss\u00EDvfl instbndibr b inst\u00E2ndib CbdifdRowSftImpl. Hbsitbblf Nulo fornfdido bo donstrutor
+dbdifdrowsftimpl.invblidop = Opfrb\u00E7\u00E3o inv\u00E1lidb durbntf b insfr\u00E7\u00E3o df linib
+dbdifdrowsftimpl.bddfbilfd = Fblib fm bddfptCibngfs
+dbdifdrowsftimpl.invbliddp = Posi\u00E7\u00E3o inv\u00E1lidb do dursor
+dbdifdrowsftimpl.illfgblop = Opfrb\u00E7\u00E3o inv\u00E1lidb fm linib n\u00E3o insfridb
+dbdifdrowsftimpl.dlonffbil = Fblib bo dlonbr: {0}
+dbdifdrowsftimpl.invbliddol = \u00CDndidf df dolunb inv\u00E1lido
+dbdifdrowsftimpl.invbldolnm = Nomf df dolunb inv\u00E1lido
+dbdifdrowsftimpl.boolfbil = Fblib fm gftBoolfn no vblor ( {0} ) nb dolunb {1}
+dbdifdrowsftimpl.bytffbil = Fblib fm gftBytf no vblor ( {0} ) nb dolunb {1}
+dbdifdrowsftimpl.siortfbil = Fblib fm gftSiort no vblor ( {0} ) nb dolunb {1}
+dbdifdrowsftimpl.intfbil = Fblib fm gftInt no vblor ( {0} ) nb dolunb {1}
+dbdifdrowsftimpl.longfbil = Fblib fm gftLong no vblor ( {0} ) nb dolunb {1}
+dbdifdrowsftimpl.flobtfbil = Fblib fm gftFlobt no vblor ( {0} ) nb dolunb {1}
+dbdifdrowsftimpl.doublffbil = Fblib fm gftDoublf no vblor ( {0} ) nb dolunb {1}
+dbdifdrowsftimpl.dtypfmismt = Tipo df Dbdos Indompbt\u00EDvfl 
+dbdifdrowsftimpl.dbtffbil = Fblib fm gftDbtf no vblor ( {0} ) nb dolunb {1} sfm donvfrs\u00E3o dispon\u00EDvfl
+dbdifdrowsftimpl.timffbil = Fblib fm gftTimf no vblor ( {0} ) nb dolunb {1} sfm donvfrs\u00E3o dispon\u00EDvfl
+dbdifdrowsftimpl.posupdbtf = Atublizb\u00E7\u00F5fs posidionbdbs n\u00E3o suportbdbs
+dbdifdrowsftimpl.unbblfins = N\u00E3o \u00E9 poss\u00EDvfl instbndibr : {0}
+dbdifdrowsftimpl.bfforffirst = bfforfFirst : Opfrb\u00E7\u00E3o do dursor inv\u00E1lidb
+dbdifdrowsftimpl.first = First : Opfrb\u00E7\u00E3o inv\u00E1lidb do dursor
+dbdifdrowsftimpl.lbst = lbst : TYPE_FORWARD_ONLY
+dbdifdrowsftimpl.bbsolutf = bbsolutf : Posi\u00E7\u00E3o inv\u00E1lidb do dursor
+dbdifdrowsftimpl.rflbtivf = rflbtivf : Posi\u00E7\u00E3o inv\u00E1lidb do dursor
+dbdifdrowsftimpl.bsdiistrfbm = fblib nb lfiturb do fluxo bsdii
+dbdifdrowsftimpl.binstrfbm = fblib nb lfiturb do fluxo bin\u00E1rio
+dbdifdrowsftimpl.fbilfdins = Fblib bo insfrir b linib
+dbdifdrowsftimpl.updbtfins = updbtfRow dibmbdo durbntf b insfr\u00E7\u00E3o df linib
+dbdifdrowsftimpl.movftoins = movfToInsfrtRow : CONCUR_READ_ONLY
+dbdifdrowsftimpl.movftoins1 = movfToInsfrtRow : sfm mftbdbdos
+dbdifdrowsftimpl.movftoins2 = movfToInsfrtRow : n\u00FAmfro df dolunbs inv\u00E1lido
+dbdifdrowsftimpl.tbblfnbmf = O nomf db tbbflb n\u00E3o podf sfr nulo
+dbdifdrowsftimpl.kfydols = Colunbs df dibvfs inv\u00E1lidbs
+dbdifdrowsftimpl.invbliddol = \u00CDndidf df dolunb inv\u00E1lido
+dbdifdrowsftimpl.opnotsupp = Opfrb\u00E7\u00E3o n\u00E3o suportbdb pflo Bbndo df Dbdos
+dbdifdrowsftimpl.mbtdidols = As dolunbs dorrfspondfntfs n\u00E3o s\u00E3o igubis \u00E0s dolunbs dffinidbs
+dbdifdrowsftimpl.sftmbtdidols = Dffinir Colunbs dorrfspondfntfs bntfs df obt\u00EA-lbs
+dbdifdrowsftimpl.mbtdidols1 = As dolunbs dorrfspondfntfs dfvfm sfr mbior do quf 0
+dbdifdrowsftimpl.mbtdidols2 = As dolunbs dorrfspondfntfs dfvfm sfr strings vbzibs ou nulbs
+dbdifdrowsftimpl.unsftmbtdi = As dolunbs n\u00E3o dffinidbs n\u00E3o s\u00E3o igubis \u00E0s dolunbs dffinidbs
+dbdifdrowsftimpl.unsftmbtdi1 = Usbr o nomf db dolunb domo brgumfnto pbrb unsftMbtdiColumn
+dbdifdrowsftimpl.unsftmbtdi2 = Usbr o ID db dolunb domo brgumfnto pbrb unsftMbtdiColumn
+dbdifdrowsftimpl.numrows = O n\u00FAmfro df linibs \u00E9 mfnor do quf zfro ou mfnor do quf o tbmbnio obtido
+dbdifdrowsftimpl.stbrtpos = A posi\u00E7\u00E3o df in\u00EDdio n\u00E3o podf sfr nfgbtivb
+dbdifdrowsftimpl.nfxtpbgf = Prffndifr dbdos bntfs df dibmbr 
+dbdifdrowsftimpl.pbgfsizf = O tbmbnio db p\u00E1ginb n\u00E3o podf sfr mfnor do quf zfro
+dbdifdrowsftimpl.pbgfsizf1 = O tbmbnio db p\u00E1ginb n\u00E3o podf sfr mbior do quf mbxRows
+dbdifdrowsftimpl.fwdonly = RfsultSft \u00E9 somfntf pbrb frfntf
+dbdifdrowsftimpl.typf = O tipo \u00E9 : {0}
+dbdifdrowsftimpl.opnotysupp = Opfrb\u00E7\u00E3o bindb n\u00E3o suportbdb
+dbdifdrowsftimpl.ffbtnotsupp = Rfdurso n\u00E3o suportbdo
 
-# WebRowSetImpl exceptions
-webrowsetimpl.nullhash = N\u00E3o \u00E9 poss\u00EDvel instanciar a inst\u00E2ncia WebRowSetImpl. Hashtable nulo fornecido ao construtor
-webrowsetimpl.invalidwr = Gravador inv\u00E1lido
-webrowsetimpl.invalidrd = Leitor inv\u00E1lido
+# WfbRowSftImpl fxdfptions
+wfbrowsftimpl.nullibsi = N\u00E3o \u00E9 poss\u00EDvfl instbndibr b inst\u00E2ndib WfbRowSftImpl. Hbsitbblf nulo fornfdido bo donstrutor
+wfbrowsftimpl.invblidwr = Grbvbdor inv\u00E1lido
+wfbrowsftimpl.invblidrd = Lfitor inv\u00E1lido
 
-#FilteredRowSetImpl exceptions
-filteredrowsetimpl.relative = relative : Opera\u00E7\u00E3o inv\u00E1lida do cursor 
-filteredrowsetimpl.absolute = absolute : Opera\u00E7\u00E3o inv\u00E1lida do cursor
-filteredrowsetimpl.notallowed = Este valor n\u00E3o \u00E9 permitido no filtro
+#FiltfrfdRowSftImpl fxdfptions
+filtfrfdrowsftimpl.rflbtivf = rflbtivf : Opfrb\u00E7\u00E3o inv\u00E1lidb do dursor 
+filtfrfdrowsftimpl.bbsolutf = bbsolutf : Opfrb\u00E7\u00E3o inv\u00E1lidb do dursor
+filtfrfdrowsftimpl.notbllowfd = Estf vblor n\u00E3o \u00E9 pfrmitido no filtro
 
-#JoinRowSetImpl exceptions
-joinrowsetimpl.notinstance = N\u00E3o \u00E9 uma inst\u00E2ncia do conjunto de linhas
-joinrowsetimpl.matchnotset = Coluna Correspondente n\u00E3o definida para jun\u00E7\u00E3o
-joinrowsetimpl.numnotequal = N\u00FAmero de elementos no conjunto de linhas diferente da coluna correspondente
-joinrowsetimpl.notdefined = N\u00E3o \u00E9 um tipo definido de jun\u00E7\u00E3o
-joinrowsetimpl.notsupported = Este tipo de jun\u00E7\u00E3o n\u00E3o \u00E9 suportada
-joinrowsetimpl.initerror = Erro de inicializa\u00E7\u00E3o do JoinRowSet
-joinrowsetimpl.genericerr = Erro inicial de joinrowset gen\u00E9rico
-joinrowsetimpl.emptyrowset = O conjunto de linha vazio n\u00E3o pode ser adicionado a este JoinRowSet
+#JoinRowSftImpl fxdfptions
+joinrowsftimpl.notinstbndf = N\u00E3o \u00E9 umb inst\u00E2ndib do donjunto df linibs
+joinrowsftimpl.mbtdinotsft = Colunb Corrfspondfntf n\u00E3o dffinidb pbrb jun\u00E7\u00E3o
+joinrowsftimpl.numnotfqubl = N\u00FAmfro df flfmfntos no donjunto df linibs diffrfntf db dolunb dorrfspondfntf
+joinrowsftimpl.notdffinfd = N\u00E3o \u00E9 um tipo dffinido df jun\u00E7\u00E3o
+joinrowsftimpl.notsupportfd = Estf tipo df jun\u00E7\u00E3o n\u00E3o \u00E9 suportbdb
+joinrowsftimpl.initfrror = Erro df inidiblizb\u00E7\u00E3o do JoinRowSft
+joinrowsftimpl.gfnfridfrr = Erro inidibl df joinrowsft gfn\u00E9rido
+joinrowsftimpl.fmptyrowsft = O donjunto df linib vbzio n\u00E3o podf sfr bdidionbdo b fstf JoinRowSft
 
-#JdbcRowSetImpl exceptions
-jdbcrowsetimpl.invalstate = Estado inv\u00E1lido
-jdbcrowsetimpl.connect = N\u00E3o \u00E9 poss\u00EDvel conectar JdbcRowSet (connect) a JNDI
-jdbcrowsetimpl.paramtype = N\u00E3o \u00E9 poss\u00EDvel deduzir o tipo de par\u00E2metro
-jdbcrowsetimpl.matchcols = As Colunas Correspondentes n\u00E3o s\u00E3o iguais \u00E0s colunas definidas
-jdbcrowsetimpl.setmatchcols = Definir as colunas correspondentes antes de obt\u00EA-las
-jdbcrowsetimpl.matchcols1 = As colunas correspondentes devem ser maior do que 0
-jdbcrowsetimpl.matchcols2 = As colunas correspondentes n\u00E3o podem ser strings vazias ou nulas
-jdbcrowsetimpl.unsetmatch = As colunas n\u00E3o definidas n\u00E3o s\u00E3o iguais \u00E0s colunas definidas
-jdbcrowsetimpl.usecolname = Usar o nome da coluna como argumento para unsetMatchColumn
-jdbcrowsetimpl.usecolid = Usar o ID da coluna como argumento para unsetMatchColumn
-jdbcrowsetimpl.resnotupd = ResultSet n\u00E3o \u00E9 atualiz\u00E1vel
-jdbcrowsetimpl.opnotysupp = Opera\u00E7\u00E3o ainda n\u00E3o suportada
-jdbcrowsetimpl.featnotsupp = Recurso n\u00E3o suportado
+#JdbdRowSftImpl fxdfptions
+jdbdrowsftimpl.invblstbtf = Estbdo inv\u00E1lido
+jdbdrowsftimpl.donnfdt = N\u00E3o \u00E9 poss\u00EDvfl donfdtbr JdbdRowSft (donnfdt) b JNDI
+jdbdrowsftimpl.pbrbmtypf = N\u00E3o \u00E9 poss\u00EDvfl dfduzir o tipo df pbr\u00E2mftro
+jdbdrowsftimpl.mbtdidols = As Colunbs Corrfspondfntfs n\u00E3o s\u00E3o igubis \u00E0s dolunbs dffinidbs
+jdbdrowsftimpl.sftmbtdidols = Dffinir bs dolunbs dorrfspondfntfs bntfs df obt\u00EA-lbs
+jdbdrowsftimpl.mbtdidols1 = As dolunbs dorrfspondfntfs dfvfm sfr mbior do quf 0
+jdbdrowsftimpl.mbtdidols2 = As dolunbs dorrfspondfntfs n\u00E3o podfm sfr strings vbzibs ou nulbs
+jdbdrowsftimpl.unsftmbtdi = As dolunbs n\u00E3o dffinidbs n\u00E3o s\u00E3o igubis \u00E0s dolunbs dffinidbs
+jdbdrowsftimpl.usfdolnbmf = Usbr o nomf db dolunb domo brgumfnto pbrb unsftMbtdiColumn
+jdbdrowsftimpl.usfdolid = Usbr o ID db dolunb domo brgumfnto pbrb unsftMbtdiColumn
+jdbdrowsftimpl.rfsnotupd = RfsultSft n\u00E3o \u00E9 btubliz\u00E1vfl
+jdbdrowsftimpl.opnotysupp = Opfrb\u00E7\u00E3o bindb n\u00E3o suportbdb
+jdbdrowsftimpl.ffbtnotsupp = Rfdurso n\u00E3o suportbdo
 
-#CachedRowSetReader exceptions
-crsreader.connect = (JNDI) N\u00E3o \u00E9 poss\u00EDvel conectar
-crsreader.paramtype = N\u00E3o \u00E9 poss\u00EDvel deduzir o tipo de par\u00E2metro
-crsreader.connecterr = Erro Interno no RowSetReader: sem conex\u00E3o ou comando
-crsreader.datedetected = Data Detectada
-crsreader.caldetected = Calend\u00E1rio Detectado
+#CbdifdRowSftRfbdfr fxdfptions
+drsrfbdfr.donnfdt = (JNDI) N\u00E3o \u00E9 poss\u00EDvfl donfdtbr
+drsrfbdfr.pbrbmtypf = N\u00E3o \u00E9 poss\u00EDvfl dfduzir o tipo df pbr\u00E2mftro
+drsrfbdfr.donnfdtfrr = Erro Intfrno no RowSftRfbdfr: sfm donfx\u00E3o ou dombndo
+drsrfbdfr.dbtfdftfdtfd = Dbtb Dftfdtbdb
+drsrfbdfr.dbldftfdtfd = Cblfnd\u00E1rio Dftfdtbdo
 
-#CachedRowSetWriter exceptions
-crswriter.connect = N\u00E3o \u00E9 poss\u00EDvel obter a conex\u00E3o
-crswriter.tname = writeData n\u00E3o pode determinar o nome da tabela
-crswriter.params1 = Valor de params1 : {0} 
-crswriter.params2 = Valor de params2 : {0} 
-crswriter.conflictsno =  conflitos durante a sincroniza\u00E7\u00E3o 
+#CbdifdRowSftWritfr fxdfptions
+drswritfr.donnfdt = N\u00E3o \u00E9 poss\u00EDvfl obtfr b donfx\u00E3o
+drswritfr.tnbmf = writfDbtb n\u00E3o podf dftfrminbr o nomf db tbbflb
+drswritfr.pbrbms1 = Vblor df pbrbms1 : {0} 
+drswritfr.pbrbms2 = Vblor df pbrbms2 : {0} 
+drswritfr.donflidtsno =  donflitos durbntf b sindronizb\u00E7\u00E3o 
 
-#InsertRow exceptions
-insertrow.novalue = Nenhum valor foi inserido
+#InsfrtRow fxdfptions
+insfrtrow.novbluf = Nfnium vblor foi insfrido
 
-#SyncResolverImpl exceptions
-syncrsimpl.indexval = Valor de \u00EDndice fora da faixa  
-syncrsimpl.noconflict = Est\u00E1 coluna n\u00E3o est\u00E1 em conflito
-syncrsimpl.syncnotpos = A sincroniza\u00E7\u00E3o n\u00E3o \u00E9 poss\u00EDvel
-syncrsimpl.valtores = O valor a ser decidido pode estar no banco de dados ou no conjunto de linhas armazenado no cache
+#SyndRfsolvfrImpl fxdfptions
+syndrsimpl.indfxvbl = Vblor df \u00EDndidf forb db fbixb  
+syndrsimpl.nodonflidt = Est\u00E1 dolunb n\u00E3o fst\u00E1 fm donflito
+syndrsimpl.syndnotpos = A sindronizb\u00E7\u00E3o n\u00E3o \u00E9 poss\u00EDvfl
+syndrsimpl.vbltorfs = O vblor b sfr dfdidido podf fstbr no bbndo df dbdos ou no donjunto df linibs brmbzfnbdo no dbdif
 
-#WebRowSetXmlReader exception
-wrsxmlreader.invalidcp = Fim de RowSet atingido. Posi\u00E7\u00E3o inv\u00E1lida do cursor
-wrsxmlreader.readxml = readXML : {0}
-wrsxmlreader.parseerr = ** Erro de Parsing : {0} , linha : {1} , uri : {2}
+#WfbRowSftXmlRfbdfr fxdfption
+wrsxmlrfbdfr.invbliddp = Fim df RowSft btingido. Posi\u00E7\u00E3o inv\u00E1lidb do dursor
+wrsxmlrfbdfr.rfbdxml = rfbdXML : {0}
+wrsxmlrfbdfr.pbrsffrr = ** Erro df Pbrsing : {0} , linib : {1} , uri : {2}
 
-#WebRowSetXmlWriter exceptions
-wrsxmlwriter.ioex = IOException : {0}
-wrsxmlwriter.sqlex = SQLException : {0}
-wrsxmlwriter.failedwrite = Falha ao gravar o valor
-wsrxmlwriter.notproper = N\u00E3o \u00E9 um tipo adequado
+#WfbRowSftXmlWritfr fxdfptions
+wrsxmlwritfr.iofx = IOExdfption : {0}
+wrsxmlwritfr.sqlfx = SQLExdfption : {0}
+wrsxmlwritfr.fbilfdwritf = Fblib bo grbvbr o vblor
+wsrxmlwritfr.notpropfr = N\u00E3o \u00E9 um tipo bdfqubdo
 
-#XmlReaderContentHandler exceptions
-xmlrch.errmap = Erro ao definir o Mapa : {0}
-xmlrch.errmetadata = Erro ao definir metadados : {0}
-xmlrch.errinsertval = Erro ao inserir valores : {0}
-xmlrch.errconstr = Erro ao construir a linha : {0}
-xmlrch.errdel = Erro ao deletar a linha : {0}
-xmlrch.errinsert = Erro ao construir a linha de inser\u00E7\u00E3o : {0}
-xmlrch.errinsdel = Erro ao construir a linha insdel : {0}
-xmlrch.errupdate = Erro ao construir a linha de atualiza\u00E7\u00E3o : {0}
-xmlrch.errupdrow = Erro ao atualizar a linha : {0}
-xmlrch.chars = caracteres :
-xmlrch.badvalue = Valor incorreto ; propriedade n\u00E3o anul\u00E1vel
-xmlrch.badvalue1 = Valor incorreto ; metadado n\u00E3o anul\u00E1vel
-xmlrch.warning =  ** Advert\u00EAncia : {0} , linha : {1} , uri : {2}
+#XmlRfbdfrContfntHbndlfr fxdfptions
+xmlrdi.frrmbp = Erro bo dffinir o Mbpb : {0}
+xmlrdi.frrmftbdbtb = Erro bo dffinir mftbdbdos : {0}
+xmlrdi.frrinsfrtvbl = Erro bo insfrir vblorfs : {0}
+xmlrdi.frrdonstr = Erro bo donstruir b linib : {0}
+xmlrdi.frrdfl = Erro bo dflftbr b linib : {0}
+xmlrdi.frrinsfrt = Erro bo donstruir b linib df insfr\u00E7\u00E3o : {0}
+xmlrdi.frrinsdfl = Erro bo donstruir b linib insdfl : {0}
+xmlrdi.frrupdbtf = Erro bo donstruir b linib df btublizb\u00E7\u00E3o : {0}
+xmlrdi.frrupdrow = Erro bo btublizbr b linib : {0}
+xmlrdi.dibrs = dbrbdtfrfs :
+xmlrdi.bbdvbluf = Vblor indorrfto ; proprifdbdf n\u00E3o bnul\u00E1vfl
+xmlrdi.bbdvbluf1 = Vblor indorrfto ; mftbdbdo n\u00E3o bnul\u00E1vfl
+xmlrdi.wbrning =  ** Advfrt\u00EAndib : {0} , linib : {1} , uri : {2}
 
-#RIOptimisticProvider Exceptions
-riop.locking = O bloqueio de classifica\u00E7\u00E3o n\u00E3o \u00E9 suportado
+#RIOptimistidProvidfr Exdfptions
+riop.lodking = O bloqufio df dlbssifidb\u00E7\u00E3o n\u00E3o \u00E9 suportbdo
 
-#RIXMLProvider exceptions
-rixml.unsupp = N\u00E3o suportado com RIXMLProvider
+#RIXMLProvidfr fxdfptions
+rixml.unsupp = N\u00E3o suportbdo dom RIXMLProvidfr

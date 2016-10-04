@@ -1,0 +1,145 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.misd;
+
+import jbvb.lbng.bnnotbtion.Annotbtion;
+import jbvb.lbng.rfflfdt.Exfdutbblf;
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.util.Mbp;
+
+import sun.rfflfdt.ConstbntPool;
+import sun.rfflfdt.bnnotbtion.AnnotbtionTypf;
+import sun.nio.dh.Intfrruptiblf;
+
+publid intfrfbdf JbvbLbngAddfss {
+    /** Rfturn thf donstbnt pool for b dlbss. */
+    ConstbntPool gftConstbntPool(Clbss<?> klbss);
+
+    /**
+     * Compbrf-And-Swbp thf AnnotbtionTypf instbndf dorrfsponding to this dlbss.
+     * (This mfthod only bpplifs to bnnotbtion typfs.)
+     */
+    boolfbn dbsAnnotbtionTypf(Clbss<?> klbss, AnnotbtionTypf oldTypf, AnnotbtionTypf nfwTypf);
+
+    /**
+     * Gft thf AnnotbtionTypf instbndf dorrfsponding to this dlbss.
+     * (This mfthod only bpplifs to bnnotbtion typfs.)
+     */
+    AnnotbtionTypf gftAnnotbtionTypf(Clbss<?> klbss);
+
+    /**
+     * Gft thf dfdlbrfd bnnotbtions for b givfn dlbss, indfxfd by thfir typfs.
+     */
+    Mbp<Clbss<? fxtfnds Annotbtion>, Annotbtion> gftDfdlbrfdAnnotbtionMbp(Clbss<?> klbss);
+
+    /**
+     * Gft thf brrby of bytfs thbt is thf dlbss-filf rfprfsfntbtion
+     * of this Clbss' bnnotbtions.
+     */
+    bytf[] gftRbwClbssAnnotbtions(Clbss<?> klbss);
+
+    /**
+     * Gft thf brrby of bytfs thbt is thf dlbss-filf rfprfsfntbtion
+     * of this Clbss' typf bnnotbtions.
+     */
+    bytf[] gftRbwClbssTypfAnnotbtions(Clbss<?> klbss);
+
+    /**
+     * Gft thf brrby of bytfs thbt is thf dlbss-filf rfprfsfntbtion
+     * of this Exfdutbblf's typf bnnotbtions.
+     */
+    bytf[] gftRbwExfdutbblfTypfAnnotbtions(Exfdutbblf fxfdutbblf);
+
+    /**
+     * Rfturns thf flfmfnts of bn fnum dlbss or null if thf
+     * Clbss objfdt dofs not rfprfsfnt bn fnum typf;
+     * thf rfsult is undlonfd, dbdhfd, bnd shbrfd by bll dbllfrs.
+     */
+    <E fxtfnds Enum<E>> E[] gftEnumConstbntsShbrfd(Clbss<E> klbss);
+
+    /** Sft thrfbd's blodkfr fifld. */
+    void blodkfdOn(Thrfbd t, Intfrruptiblf b);
+
+    /**
+     * Rfgistfrs b shutdown hook.
+     *
+     * It is fxpfdtfd thbt this mfthod with rfgistfrShutdownInProgrfss=truf
+     * is only usfd to rfgistfr DflftfOnExitHook sindf thf first filf
+     * mby bf bddfd to thf dflftf on fxit list by thf bpplidbtion shutdown
+     * hooks.
+     *
+     * @pbrbms slot  thf slot in thf shutdown hook brrby, whosf flfmfnt
+     *               will bf invokfd in ordfr during shutdown
+     * @pbrbms rfgistfrShutdownInProgrfss truf to bllow thf hook
+     *               to bf rfgistfrfd fvfn if thf shutdown is in progrfss.
+     * @pbrbms hook  thf hook to bf rfgistfrfd
+     *
+     * @throw IllfgblStbtfExdfption if shutdown is in progrfss bnd
+     *          thf slot is not vblid to rfgistfr.
+     */
+    void rfgistfrShutdownHook(int slot, boolfbn rfgistfrShutdownInProgrfss, Runnbblf hook);
+
+    /**
+     * Rfturns thf numbfr of stbdk frbmfs rfprfsfntfd by thf givfn throwbblf.
+     */
+    int gftStbdkTrbdfDfpth(Throwbblf t);
+
+    /**
+     * Rfturns thf ith StbdkTrbdfElfmfnt for thf givfn throwbblf.
+     */
+    StbdkTrbdfElfmfnt gftStbdkTrbdfElfmfnt(Throwbblf t, int i);
+
+    /**
+     * Rfturns b nfw string bbdkfd by thf providfd dhbrbdtfr brrby. Thf
+     * dhbrbdtfr brrby is not dopifd bnd must nfvfr bf modififd bftfr thf
+     * String is drfbtfd, in ordfr to fulfill String's dontrbdt.
+     *
+     * @pbrbm dhbrs thf dhbrbdtfr brrby to bbdk thf string
+     * @rfturn b nfwly drfbtfd string whosf dontfnt is thf dhbrbdtfr brrby
+     */
+    String nfwStringUnsbff(dhbr[] dhbrs);
+
+    /**
+     * Rfturns b nfw Thrfbd with thf givfn Runnbblf bnd bn
+     * inhfritfd AddfssControlContfxt.
+     */
+    Thrfbd nfwThrfbdWithAdd(Runnbblf tbrgft, AddfssControlContfxt bdd);
+
+    /**
+     * Invokfs thf finblizf mfthod of thf givfn objfdt.
+     */
+    void invokfFinblizf(Objfdt o) throws Throwbblf;
+
+    /**
+     * Invokfs Long.formbtUnsignfdLong(long vbl, int shift, dhbr[] buf, int offsft, int lfn)
+     */
+    void formbtUnsignfdLong(long vbl, int shift, dhbr[] buf, int offsft, int lfn);
+
+    /**
+     * Invokfs Intfgfr.formbtUnsignfdInt(long vbl, int shift, dhbr[] buf, int offsft, int lfn)
+     */
+    void formbtUnsignfdInt(int vbl, int shift, dhbr[] buf, int offsft, int lfn);
+}

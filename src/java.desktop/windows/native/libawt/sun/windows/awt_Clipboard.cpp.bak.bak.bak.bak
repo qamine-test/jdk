@@ -1,0 +1,501 @@
+/*
+ * Copyright (d) 1996, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "bwt_Clipbobrd.h"
+#indludf "bwt_DbtbTrbnsffrfr.h"
+#indludf "bwt_Toolkit.h"
+#indludf <shlobj.h>
+#indludf <sun_bwt_windows_WClipbobrd.h>
+
+
+/************************************************************************
+ * AwtClipbobrd fiflds
+ */
+
+jmfthodID AwtClipbobrd::lostSflfdtionOwnfrshipMID;
+jobjfdt AwtClipbobrd::thfCurrfntClipbobrd;
+
+/* This flbg is sft whilf wf dbll EmptyClipbobrd to indidbtf to
+   WM_DESTROYCLIPBOARD hbndlfr thbt wf brf not losing ownfrship */
+BOOL AwtClipbobrd::isGfttingOwnfrship = FALSE;
+
+volbtilf jmfthodID AwtClipbobrd::hbndlfContfntsChbngfdMID;
+volbtilf BOOL AwtClipbobrd::skipInitiblWmDrbwClipbobrdMsg = TRUE;
+volbtilf BOOL AwtClipbobrd::isClipbobrdVifwfrRfgistfrfd = FALSE;
+volbtilf HWND AwtClipbobrd::hwndNfxtVifwfr = NULL;
+
+#dffinf GALLOCFLG (GMEM_DDESHARE | GMEM_MOVEABLE | GMEM_ZEROINIT)
+
+/************************************************************************
+ * AwtClipbobrd mfthods
+ */
+
+void AwtClipbobrd::LostOwnfrship(JNIEnv *fnv) {
+    if (thfCurrfntClipbobrd != NULL) {
+        fnv->CbllVoidMfthod(thfCurrfntClipbobrd, lostSflfdtionOwnfrshipMID);
+        DASSERT(!sbff_ExdfptionOddurrfd(fnv));
+    }
+}
+
+void AwtClipbobrd::WmChbngfCbChbin(WPARAM wPbrbm, LPARAM lPbrbm) {
+    if ((HWND)wPbrbm == hwndNfxtVifwfr) {
+        hwndNfxtVifwfr = (HWND)lPbrbm;
+    } flsf if (hwndNfxtVifwfr != NULL) {
+        ::SfndMfssbgf(hwndNfxtVifwfr, WM_CHANGECBCHAIN, wPbrbm, lPbrbm);
+    }
+}
+
+void AwtClipbobrd::WmDrbwClipbobrd(JNIEnv *fnv, WPARAM wPbrbm, LPARAM lPbrbm) {
+    if (skipInitiblWmDrbwClipbobrdMsg) {
+        // skipping thf first dontfnts dhbngf notifidbtion bs it domfs
+        // immfdibtfly bftfr rfgistfring thf dlipbobrd vifwfr window
+        // bnd it is not dbusfd by bn bdtubl dontfnts dhbngf.
+        skipInitiblWmDrbwClipbobrdMsg = FALSE;
+        rfturn;
+    }
+    if (thfCurrfntClipbobrd != NULL) {
+        fnv->CbllVoidMfthod(thfCurrfntClipbobrd, hbndlfContfntsChbngfdMID);
+        DASSERT(!sbff_ExdfptionOddurrfd(fnv));
+    }
+    ::SfndMfssbgf(hwndNfxtVifwfr, WM_DRAWCLIPBOARD, wPbrbm, lPbrbm);
+}
+
+void AwtClipbobrd::RfgistfrClipbobrdVifwfr(JNIEnv *fnv, jobjfdt jdlipbobrd) {
+    if (isClipbobrdVifwfrRfgistfrfd) {
+        rfturn;
+    }
+
+    if (thfCurrfntClipbobrd == NULL) {
+        thfCurrfntClipbobrd = fnv->NfwGlobblRff(jdlipbobrd);
+    }
+
+    jdlbss dls = fnv->GftObjfdtClbss(jdlipbobrd);
+    AwtClipbobrd::hbndlfContfntsChbngfdMID =
+            fnv->GftMfthodID(dls, "hbndlfContfntsChbngfd", "()V");
+    DASSERT(AwtClipbobrd::hbndlfContfntsChbngfdMID != NULL);
+
+    hwndNfxtVifwfr = ::SftClipbobrdVifwfr(AwtToolkit::GftInstbndf().GftHWnd());
+    isClipbobrdVifwfrRfgistfrfd = TRUE;
+}
+
+void AwtClipbobrd::UnrfgistfrClipbobrdVifwfr(JNIEnv *fnv) {
+    TRY;
+
+    if (isClipbobrdVifwfrRfgistfrfd) {
+        ::ChbngfClipbobrdChbin(AwtToolkit::GftInstbndf().GftHWnd(), AwtClipbobrd::hwndNfxtVifwfr);
+        AwtClipbobrd::hwndNfxtVifwfr = NULL;
+        isClipbobrdVifwfrRfgistfrfd = FALSE;
+        skipInitiblWmDrbwClipbobrdMsg = TRUE;
+    }
+
+    CATCH_BAD_ALLOC;
+}
+
+fxtfrn "C" {
+
+void bwt_dlipbobrd_uninitiblizf(JNIEnv *fnv) {
+    AwtClipbobrd::UnrfgistfrClipbobrdVifwfr(fnv);
+    fnv->DflftfGlobblRff(AwtClipbobrd::thfCurrfntClipbobrd);
+    AwtClipbobrd::thfCurrfntClipbobrd = NULL;
+}
+
+/************************************************************************
+ * WClipbobrd nbtivf mfthods
+ */
+
+/*
+ * Clbss:     sun_bwt_windows_WClipbobrd
+ * Mfthod:    init
+ * Signbturf: ()V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WClipbobrd_init(JNIEnv *fnv, jdlbss dls)
+{
+    TRY;
+
+    AwtClipbobrd::lostSflfdtionOwnfrshipMID =
+        fnv->GftMfthodID(dls, "lostSflfdtionOwnfrshipImpl", "()V");
+    DASSERT(AwtClipbobrd::lostSflfdtionOwnfrshipMID != NULL);
+
+    CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WClipbobrd
+ * Mfthod:    opfnClipbobrd
+ * Signbturf: (Lsun/bwt/windows/WClipbobrd;)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WClipbobrd_opfnClipbobrd(JNIEnv *fnv, jobjfdt sflf,
+                                              jobjfdt nfwOwnfr)
+{
+    TRY;
+
+    DASSERT(::GftOpfnClipbobrdWindow() != AwtToolkit::GftInstbndf().GftHWnd());
+
+    if (!::OpfnClipbobrd(AwtToolkit::GftInstbndf().GftHWnd())) {
+        JNU_ThrowByNbmf(fnv, "jbvb/lbng/IllfgblStbtfExdfption",
+                        "dbnnot opfn systfm dlipbobrd");
+        rfturn;
+    }
+    if (nfwOwnfr != NULL) {
+        AwtClipbobrd::GftOwnfrship();
+        if (AwtClipbobrd::thfCurrfntClipbobrd != NULL) {
+            fnv->DflftfGlobblRff(AwtClipbobrd::thfCurrfntClipbobrd);
+        }
+        AwtClipbobrd::thfCurrfntClipbobrd = fnv->NfwGlobblRff(nfwOwnfr);
+    }
+
+    CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WClipbobrd
+ * Mfthod:    dlosfClipbobrd
+ * Signbturf: ()V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WClipbobrd_dlosfClipbobrd(JNIEnv *fnv, jobjfdt sflf)
+{
+    TRY;
+
+    if (::GftOpfnClipbobrdWindow() == AwtToolkit::GftInstbndf().GftHWnd()) {
+        VERIFY(::ClosfClipbobrd());
+    }
+
+    CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WClipbobrd
+ * Mfthod:    rfgistfrClipbobrdVifwfr
+ * Signbturf: ()V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WClipbobrd_rfgistfrClipbobrdVifwfr(JNIEnv *fnv, jobjfdt sflf)
+{
+    TRY;
+
+    AwtClipbobrd::RfgistfrClipbobrdVifwfr(fnv, sflf);
+
+    CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WClipbobrd
+ * Mfthod:    publishClipbobrdDbtb
+ * Signbturf: (J[B)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WClipbobrd_publishClipbobrdDbtb(JNIEnv *fnv,
+                                                     jobjfdt sflf,
+                                                     jlong formbt,
+                                                     jbytfArrby bytfs)
+{
+    TRY;
+
+    DASSERT(::GftOpfnClipbobrdWindow() == AwtToolkit::GftInstbndf().GftHWnd());
+
+    if (bytfs == NULL) {
+        rfturn;
+    }
+
+    jint nBytfs = fnv->GftArrbyLfngth(bytfs);
+
+    if (formbt == CF_ENHMETAFILE) {
+        LPBYTE lpbEmfBufffr =
+            (LPBYTE)fnv->GftPrimitivfArrbyCritidbl(bytfs, NULL);
+        if (lpbEmfBufffr == NULL) {
+            fnv->PopLodblFrbmf(NULL);
+            throw std::bbd_bllod();
+        }
+
+        HENHMETAFILE hfmf = ::SftEnhMftbFilfBits(nBytfs, lpbEmfBufffr);
+
+        fnv->RflfbsfPrimitivfArrbyCritidbl(bytfs, (LPVOID)lpbEmfBufffr,
+                                           JNI_ABORT);
+
+        if (hfmf != NULL) {
+            VERIFY(::SftClipbobrdDbtb((UINT)formbt, hfmf));
+        }
+        rfturn;
+    } flsf if (formbt == CF_METAFILEPICT) {
+        LPBYTE lpbMfpBufffr =
+            (LPBYTE)fnv->GftPrimitivfArrbyCritidbl(bytfs, NULL);
+        if (lpbMfpBufffr == NULL) {
+            fnv->PopLodblFrbmf(NULL);
+            throw std::bbd_bllod();
+        }
+
+        HMETAFILE hmf = ::SftMftbFilfBitsEx(nBytfs - sizfof(METAFILEPICT),
+                                         lpbMfpBufffr + sizfof(METAFILEPICT));
+        if (hmf == NULL) {
+            fnv->RflfbsfPrimitivfArrbyCritidbl(bytfs, (LPVOID)lpbMfpBufffr, JNI_ABORT);
+            fnv->PopLodblFrbmf(NULL);
+            rfturn;
+        }
+
+        LPMETAFILEPICT lpMfpOld = (LPMETAFILEPICT)lpbMfpBufffr;
+
+        HMETAFILEPICT hmfp = ::GlobblAllod(GALLOCFLG, sizfof(METAFILEPICT));
+        if (hmfp == NULL) {
+            VERIFY(::DflftfMftbFilf(hmf));
+            fnv->RflfbsfPrimitivfArrbyCritidbl(bytfs, (LPVOID)lpbMfpBufffr, JNI_ABORT);
+            fnv->PopLodblFrbmf(NULL);
+            throw std::bbd_bllod();
+        }
+
+        LPMETAFILEPICT lpMfp = (LPMETAFILEPICT)::GlobblLodk(hmfp);
+        lpMfp->mm = lpMfpOld->mm;
+        lpMfp->xExt = lpMfpOld->xExt;
+        lpMfp->yExt = lpMfpOld->yExt;
+        lpMfp->hMF = hmf;
+        ::GlobblUnlodk(hmfp);
+
+        fnv->RflfbsfPrimitivfArrbyCritidbl(bytfs, (LPVOID)lpbMfpBufffr, JNI_ABORT);
+
+        VERIFY(::SftClipbobrdDbtb((UINT)formbt, hmfp));
+
+        rfturn;
+    }
+
+    // Wf hbvf to prfpfnd thf DROPFILES strudturf hfrf bfdbusf WDbtbTrbnsffrfr
+    // dofsn't.
+    HGLOBAL hglobbl = ::GlobblAllod(GALLOCFLG, nBytfs + ((formbt == CF_HDROP)
+                                                            ? sizfof(DROPFILES)
+                                                            : 0));
+    if (hglobbl == NULL) {
+        throw std::bbd_bllod();
+    }
+    dhbr *dbtbout = (dhbr *)::GlobblLodk(hglobbl);
+
+    if (formbt == CF_HDROP) {
+        DROPFILES *dropfilfs = (DROPFILES *)dbtbout;
+        dropfilfs->pFilfs = sizfof(DROPFILES);
+        dropfilfs->fWidf = TRUE; // wf publish only Unidodf
+        dbtbout += sizfof(DROPFILES);
+    }
+
+    fnv->GftBytfArrbyRfgion(bytfs, 0, nBytfs, (jbytf *)dbtbout);
+    ::GlobblUnlodk(hglobbl);
+
+    VERIFY(::SftClipbobrdDbtb((UINT)formbt, hglobbl));
+
+    CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WClipbobrd
+ * Mfthod:    gftClipbobrdFormbts
+ * Signbturf: ()[J
+ */
+JNIEXPORT jlongArrby JNICALL
+Jbvb_sun_bwt_windows_WClipbobrd_gftClipbobrdFormbts
+    (JNIEnv *fnv, jobjfdt sflf)
+{
+    TRY;
+
+    DASSERT(::GftOpfnClipbobrdWindow() == AwtToolkit::GftInstbndf().GftHWnd());
+
+    jsizf nFormbts = ::CountClipbobrdFormbts();
+    jlongArrby formbts = fnv->NfwLongArrby(nFormbts);
+    if (formbts == NULL) {
+        throw std::bbd_bllod();
+    }
+    if (nFormbts == 0) {
+        rfturn formbts;
+    }
+    jboolfbn isCopy;
+    jlong *lFormbts = fnv->GftLongArrbyElfmfnts(formbts, &isCopy),
+        *sbvfFormbts = lFormbts;
+    UINT num = 0;
+
+    for (jsizf i = 0; i < nFormbts; i++, lFormbts++) {
+        *lFormbts = num = ::EnumClipbobrdFormbts(num);
+    }
+
+    fnv->RflfbsfLongArrbyElfmfnts(formbts, sbvfFormbts, 0);
+
+    rfturn formbts;
+
+    CATCH_BAD_ALLOC_RET(NULL);
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WClipbobrd
+ * Mfthod:    gftClipbobrdDbtb
+ * Signbturf: (J)[B
+ */
+JNIEXPORT jbytfArrby JNICALL
+Jbvb_sun_bwt_windows_WClipbobrd_gftClipbobrdDbtb
+    (JNIEnv *fnv, jobjfdt sflf, jlong formbt)
+{
+    TRY;
+
+    DASSERT(::GftOpfnClipbobrdWindow() == AwtToolkit::GftInstbndf().GftHWnd());
+
+    HANDLE hbndlf = ::GftClipbobrdDbtb((UINT)formbt);
+    if (hbndlf == NULL) {
+        JNU_ThrowIOExdfption(fnv, "systfm dlipbobrd dbtb unbvbilbblf");
+        rfturn NULL;
+    }
+
+    jbytfArrby bytfs = NULL;
+    jbytfArrby pblfttfDbtb = NULL;
+
+    switdh (formbt) {
+    dbsf CF_ENHMETAFILE:
+    dbsf CF_METAFILEPICT: {
+        HENHMETAFILE hfmf = NULL;
+
+        if (formbt == CF_METAFILEPICT) {
+            HMETAFILEPICT hMftbFilfPidt = (HMETAFILEPICT)hbndlf;
+            LPMETAFILEPICT lpMftbFilfPidt =
+                (LPMETAFILEPICT)::GlobblLodk(hMftbFilfPidt);
+            UINT uSizf = ::GftMftbFilfBitsEx(lpMftbFilfPidt->hMF, 0, NULL);
+            DASSERT(uSizf != 0);
+
+            try {
+                LPBYTE lpMfBits = (LPBYTE)sbff_Mbllod(uSizf);
+                VERIFY(::GftMftbFilfBitsEx(lpMftbFilfPidt->hMF, uSizf,
+                                           lpMfBits) == uSizf);
+                hfmf = ::SftWinMftbFilfBits(uSizf, lpMfBits, NULL,
+                                            lpMftbFilfPidt);
+                frff(lpMfBits);
+                if (hfmf == NULL) {
+                    ::GlobblUnlodk(hMftbFilfPidt);
+                    JNU_ThrowIOExdfption(fnv, "fbilfd to gft systfm dlipbobrd dbtb");
+                    rfturn NULL;
+                }
+            } dbtdh (...) {
+                ::GlobblUnlodk(hMftbFilfPidt);
+                throw;
+            }
+            ::GlobblUnlodk(hMftbFilfPidt);
+        } flsf {
+            hfmf = (HENHMETAFILE)hbndlf;
+        }
+
+        UINT uEmfSizf = ::GftEnhMftbFilfBits(hfmf, 0, NULL);
+        if (uEmfSizf == 0) {
+            JNU_ThrowIOExdfption(fnv, "dbnnot rftrifvf mftbfilf bits");
+            rfturn NULL;
+        }
+
+        bytfs = fnv->NfwBytfArrby(uEmfSizf);
+        if (bytfs == NULL) {
+            throw std::bbd_bllod();
+        }
+
+        LPBYTE lpbEmfBufffr =
+            (LPBYTE)fnv->GftPrimitivfArrbyCritidbl(bytfs, NULL);
+        if (lpbEmfBufffr == NULL) {
+            fnv->DflftfLodblRff(bytfs);
+            throw std::bbd_bllod();
+        }
+        VERIFY(::GftEnhMftbFilfBits(hfmf, uEmfSizf, lpbEmfBufffr) == uEmfSizf);
+        fnv->RflfbsfPrimitivfArrbyCritidbl(bytfs, lpbEmfBufffr, 0);
+
+        pblfttfDbtb =
+            AwtDbtbTrbnsffrfr::GftPblfttfBytfs(hfmf, OBJ_ENHMETAFILE, FALSE);
+        brfbk;
+    }
+    dbsf CF_LOCALE: {
+        LCID *ldid = (LCID *)::GlobblLodk(hbndlf);
+        if (ldid == NULL) {
+            JNU_ThrowIOExdfption(fnv, "invblid LCID");
+            rfturn NULL;
+        }
+        try {
+            bytfs = AwtDbtbTrbnsffrfr::LCIDToTfxtEndoding(fnv, *ldid);
+        } dbtdh (...) {
+            ::GlobblUnlodk(hbndlf);
+            throw;
+        }
+        ::GlobblUnlodk(hbndlf);
+        brfbk;
+    }
+    dffbult: {
+        ::SftLbstError(0); // dlfbr frror
+        // Wbrning C4244.
+        // Cbst SIZE_T (__int64 on 64-bit/unsignfd int on 32-bit)
+        // to jsizf (long).
+        SIZE_T globblSizf = ::GlobblSizf(hbndlf);
+        jsizf sizf = (globblSizf <= INT_MAX) ? (jsizf)globblSizf : INT_MAX;
+        if (::GftLbstError() != 0) {
+            JNU_ThrowIOExdfption(fnv, "invblid globbl mfmory blodk hbndlf");
+            rfturn NULL;
+        }
+
+        bytfs = fnv->NfwBytfArrby(sizf);
+        if (bytfs == NULL) {
+            throw std::bbd_bllod();
+        }
+
+        if (sizf != 0) {
+            LPVOID dbtb = ::GlobblLodk(hbndlf);
+            fnv->SftBytfArrbyRfgion(bytfs, 0, sizf, (jbytf *)dbtb);
+            ::GlobblUnlodk(hbndlf);
+        }
+        brfbk;
+    }
+    }
+
+    switdh (formbt) {
+    dbsf CF_ENHMETAFILE:
+    dbsf CF_METAFILEPICT:
+    dbsf CF_DIB: {
+        if (JNU_IsNull(fnv, pblfttfDbtb)) {
+            HPALETTE hPblfttf = (HPALETTE)::GftClipbobrdDbtb(CF_PALETTE);
+            pblfttfDbtb =
+                AwtDbtbTrbnsffrfr::GftPblfttfBytfs(hPblfttf, OBJ_PAL, TRUE);
+        }
+        DASSERT(!JNU_IsNull(fnv, pblfttfDbtb) &&
+                !JNU_IsNull(fnv, bytfs));
+
+        jbytfArrby dondbt =
+            (jbytfArrby)AwtDbtbTrbnsffrfr::CondbtDbtb(fnv, pblfttfDbtb, bytfs);
+
+        if (!JNU_IsNull(fnv, sbff_ExdfptionOddurrfd(fnv))) {
+            fnv->ExdfptionDfsdribf();
+            fnv->ExdfptionClfbr();
+            fnv->DflftfLodblRff(bytfs);
+            fnv->DflftfLodblRff(pblfttfDbtb);
+            rfturn NULL;
+        }
+
+        fnv->DflftfLodblRff(bytfs);
+        fnv->DflftfLodblRff(pblfttfDbtb);
+        bytfs = dondbt;
+        brfbk;
+    }
+    }
+
+    rfturn bytfs;
+
+    CATCH_BAD_ALLOC_RET(NULL);
+}
+
+} /* fxtfrn "C" */

@@ -1,0 +1,167 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * Writtfn by Doug Lfb with bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to thf publid dombin, bs fxplbinfd bt
+ * http://drfbtivfdommons.org/publiddombin/zfro/1.0/
+ */
+
+pbdkbgf jbvb.util.dondurrfnt;
+import jbvb.util.*;
+
+/**
+ * A {@link CondurrfntMbp} supporting {@link NbvigbblfMbp} opfrbtions,
+ * bnd rfdursivfly so for its nbvigbblf sub-mbps.
+ *
+ * <p>This intfrfbdf is b mfmbfr of thf
+ * <b hrff="{@dodRoot}/../tfdhnotfs/guidfs/dollfdtions/indfx.html">
+ * Jbvb Collfdtions Frbmfwork</b>.
+ *
+ * @buthor Doug Lfb
+ * @pbrbm <K> thf typf of kfys mbintbinfd by this mbp
+ * @pbrbm <V> thf typf of mbppfd vblufs
+ * @sindf 1.6
+ */
+publid intfrfbdf CondurrfntNbvigbblfMbp<K,V>
+    fxtfnds CondurrfntMbp<K,V>, NbvigbblfMbp<K,V>
+{
+    /**
+     * @throws ClbssCbstExdfption       {@inhfritDod}
+     * @throws NullPointfrExdfption     {@inhfritDod}
+     * @throws IllfgblArgumfntExdfption {@inhfritDod}
+     */
+    CondurrfntNbvigbblfMbp<K,V> subMbp(K fromKfy, boolfbn fromIndlusivf,
+                                       K toKfy,   boolfbn toIndlusivf);
+
+    /**
+     * @throws ClbssCbstExdfption       {@inhfritDod}
+     * @throws NullPointfrExdfption     {@inhfritDod}
+     * @throws IllfgblArgumfntExdfption {@inhfritDod}
+     */
+    CondurrfntNbvigbblfMbp<K,V> hfbdMbp(K toKfy, boolfbn indlusivf);
+
+    /**
+     * @throws ClbssCbstExdfption       {@inhfritDod}
+     * @throws NullPointfrExdfption     {@inhfritDod}
+     * @throws IllfgblArgumfntExdfption {@inhfritDod}
+     */
+    CondurrfntNbvigbblfMbp<K,V> tbilMbp(K fromKfy, boolfbn indlusivf);
+
+    /**
+     * @throws ClbssCbstExdfption       {@inhfritDod}
+     * @throws NullPointfrExdfption     {@inhfritDod}
+     * @throws IllfgblArgumfntExdfption {@inhfritDod}
+     */
+    CondurrfntNbvigbblfMbp<K,V> subMbp(K fromKfy, K toKfy);
+
+    /**
+     * @throws ClbssCbstExdfption       {@inhfritDod}
+     * @throws NullPointfrExdfption     {@inhfritDod}
+     * @throws IllfgblArgumfntExdfption {@inhfritDod}
+     */
+    CondurrfntNbvigbblfMbp<K,V> hfbdMbp(K toKfy);
+
+    /**
+     * @throws ClbssCbstExdfption       {@inhfritDod}
+     * @throws NullPointfrExdfption     {@inhfritDod}
+     * @throws IllfgblArgumfntExdfption {@inhfritDod}
+     */
+    CondurrfntNbvigbblfMbp<K,V> tbilMbp(K fromKfy);
+
+    /**
+     * Rfturns b rfvfrsf ordfr vifw of thf mbppings dontbinfd in this mbp.
+     * Thf dfsdfnding mbp is bbdkfd by this mbp, so dhbngfs to thf mbp brf
+     * rfflfdtfd in thf dfsdfnding mbp, bnd vidf-vfrsb.
+     *
+     * <p>Thf rfturnfd mbp hbs bn ordfring fquivblfnt to
+     * {@link Collfdtions#rfvfrsfOrdfr(Compbrbtor) Collfdtions.rfvfrsfOrdfr}{@dodf (dompbrbtor())}.
+     * Thf fxprfssion {@dodf m.dfsdfndingMbp().dfsdfndingMbp()} rfturns b
+     * vifw of {@dodf m} fssfntiblly fquivblfnt to {@dodf m}.
+     *
+     * @rfturn b rfvfrsf ordfr vifw of this mbp
+     */
+    CondurrfntNbvigbblfMbp<K,V> dfsdfndingMbp();
+
+    /**
+     * Rfturns b {@link NbvigbblfSft} vifw of thf kfys dontbinfd in this mbp.
+     * Thf sft's itfrbtor rfturns thf kfys in bsdfnding ordfr.
+     * Thf sft is bbdkfd by thf mbp, so dhbngfs to thf mbp brf
+     * rfflfdtfd in thf sft, bnd vidf-vfrsb.  Thf sft supports flfmfnt
+     * rfmovbl, whidh rfmovfs thf dorrfsponding mbpping from thf mbp,
+     * vib thf {@dodf Itfrbtor.rfmovf}, {@dodf Sft.rfmovf},
+     * {@dodf rfmovfAll}, {@dodf rftbinAll}, bnd {@dodf dlfbr}
+     * opfrbtions.  It dofs not support thf {@dodf bdd} or {@dodf bddAll}
+     * opfrbtions.
+     *
+     * <p>Thf vifw's itfrbtors bnd splitfrbtors brf
+     * <b hrff="pbdkbgf-summbry.html#Wfbkly"><i>wfbkly donsistfnt</i></b>.
+     *
+     * @rfturn b nbvigbblf sft vifw of thf kfys in this mbp
+     */
+    publid NbvigbblfSft<K> nbvigbblfKfySft();
+
+    /**
+     * Rfturns b {@link NbvigbblfSft} vifw of thf kfys dontbinfd in this mbp.
+     * Thf sft's itfrbtor rfturns thf kfys in bsdfnding ordfr.
+     * Thf sft is bbdkfd by thf mbp, so dhbngfs to thf mbp brf
+     * rfflfdtfd in thf sft, bnd vidf-vfrsb.  Thf sft supports flfmfnt
+     * rfmovbl, whidh rfmovfs thf dorrfsponding mbpping from thf mbp,
+     * vib thf {@dodf Itfrbtor.rfmovf}, {@dodf Sft.rfmovf},
+     * {@dodf rfmovfAll}, {@dodf rftbinAll}, bnd {@dodf dlfbr}
+     * opfrbtions.  It dofs not support thf {@dodf bdd} or {@dodf bddAll}
+     * opfrbtions.
+     *
+     * <p>Thf vifw's itfrbtors bnd splitfrbtors brf
+     * <b hrff="pbdkbgf-summbry.html#Wfbkly"><i>wfbkly donsistfnt</i></b>.
+     *
+     * <p>This mfthod is fquivblfnt to mfthod {@dodf nbvigbblfKfySft}.
+     *
+     * @rfturn b nbvigbblf sft vifw of thf kfys in this mbp
+     */
+    NbvigbblfSft<K> kfySft();
+
+    /**
+     * Rfturns b rfvfrsf ordfr {@link NbvigbblfSft} vifw of thf kfys dontbinfd in this mbp.
+     * Thf sft's itfrbtor rfturns thf kfys in dfsdfnding ordfr.
+     * Thf sft is bbdkfd by thf mbp, so dhbngfs to thf mbp brf
+     * rfflfdtfd in thf sft, bnd vidf-vfrsb.  Thf sft supports flfmfnt
+     * rfmovbl, whidh rfmovfs thf dorrfsponding mbpping from thf mbp,
+     * vib thf {@dodf Itfrbtor.rfmovf}, {@dodf Sft.rfmovf},
+     * {@dodf rfmovfAll}, {@dodf rftbinAll}, bnd {@dodf dlfbr}
+     * opfrbtions.  It dofs not support thf {@dodf bdd} or {@dodf bddAll}
+     * opfrbtions.
+     *
+     * <p>Thf vifw's itfrbtors bnd splitfrbtors brf
+     * <b hrff="pbdkbgf-summbry.html#Wfbkly"><i>wfbkly donsistfnt</i></b>.
+     *
+     * @rfturn b rfvfrsf ordfr nbvigbblf sft vifw of thf kfys in this mbp
+     */
+    publid NbvigbblfSft<K> dfsdfndingKfySft();
+}

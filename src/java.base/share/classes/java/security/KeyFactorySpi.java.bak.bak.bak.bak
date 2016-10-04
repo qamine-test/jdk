@@ -1,0 +1,142 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity;
+
+import jbvb.sfdurity.spfd.KfySpfd;
+import jbvb.sfdurity.spfd.InvblidKfySpfdExdfption;
+
+/**
+ * This dlbss dffinfs thf <i>Sfrvidf Providfr Intfrfbdf</i> (<b>SPI</b>)
+ * for thf {@dodf KfyFbdtory} dlbss.
+ * All thf bbstrbdt mfthods in this dlbss must bf implfmfntfd by fbdh
+ * dryptogrbphid sfrvidf providfr who wishfs to supply thf implfmfntbtion
+ * of b kfy fbdtory for b pbrtidulbr blgorithm.
+ *
+ * <P> Kfy fbdtorifs brf usfd to donvfrt <I>kfys</I> (opbquf
+ * dryptogrbphid kfys of typf {@dodf Kfy}) into <I>kfy spfdifidbtions</I>
+ * (trbnspbrfnt rfprfsfntbtions of thf undfrlying kfy mbtfribl), bnd vidf
+ * vfrsb.
+ *
+ * <P> Kfy fbdtorifs brf bi-dirfdtionbl. Thbt is, thfy bllow you to build bn
+ * opbquf kfy objfdt from b givfn kfy spfdifidbtion (kfy mbtfribl), or to
+ * rftrifvf thf undfrlying kfy mbtfribl of b kfy objfdt in b suitbblf formbt.
+ *
+ * <P> Multiplf dompbtiblf kfy spfdifidbtions mby fxist for thf sbmf kfy.
+ * For fxbmplf, b DSA publid kfy mby bf spfdififd using
+ * {@dodf DSAPublidKfySpfd} or
+ * {@dodf X509EndodfdKfySpfd}. A kfy fbdtory dbn bf usfd to trbnslbtf
+ * bftwffn dompbtiblf kfy spfdifidbtions.
+ *
+ * <P> A providfr should dodumfnt bll thf kfy spfdifidbtions supportfd by its
+ * kfy fbdtory.
+ *
+ * @buthor Jbn Lufhf
+ *
+ *
+ * @sff KfyFbdtory
+ * @sff Kfy
+ * @sff PublidKfy
+ * @sff PrivbtfKfy
+ * @sff jbvb.sfdurity.spfd.KfySpfd
+ * @sff jbvb.sfdurity.spfd.DSAPublidKfySpfd
+ * @sff jbvb.sfdurity.spfd.X509EndodfdKfySpfd
+ *
+ * @sindf 1.2
+ */
+
+publid bbstrbdt dlbss KfyFbdtorySpi {
+
+    /**
+     * Gfnfrbtfs b publid kfy objfdt from thf providfd kfy
+     * spfdifidbtion (kfy mbtfribl).
+     *
+     * @pbrbm kfySpfd thf spfdifidbtion (kfy mbtfribl) of thf publid kfy.
+     *
+     * @rfturn thf publid kfy.
+     *
+     * @fxdfption InvblidKfySpfdExdfption if thf givfn kfy spfdifidbtion
+     * is inbppropribtf for this kfy fbdtory to produdf b publid kfy.
+     */
+    protfdtfd bbstrbdt PublidKfy fnginfGfnfrbtfPublid(KfySpfd kfySpfd)
+        throws InvblidKfySpfdExdfption;
+
+    /**
+     * Gfnfrbtfs b privbtf kfy objfdt from thf providfd kfy
+     * spfdifidbtion (kfy mbtfribl).
+     *
+     * @pbrbm kfySpfd thf spfdifidbtion (kfy mbtfribl) of thf privbtf kfy.
+     *
+     * @rfturn thf privbtf kfy.
+     *
+     * @fxdfption InvblidKfySpfdExdfption if thf givfn kfy spfdifidbtion
+     * is inbppropribtf for this kfy fbdtory to produdf b privbtf kfy.
+     */
+    protfdtfd bbstrbdt PrivbtfKfy fnginfGfnfrbtfPrivbtf(KfySpfd kfySpfd)
+        throws InvblidKfySpfdExdfption;
+
+    /**
+     * Rfturns b spfdifidbtion (kfy mbtfribl) of thf givfn kfy
+     * objfdt.
+     * {@dodf kfySpfd} idfntififs thf spfdifidbtion dlbss in whidh
+     * thf kfy mbtfribl should bf rfturnfd. It dould, for fxbmplf, bf
+     * {@dodf DSAPublidKfySpfd.dlbss}, to indidbtf thbt thf
+     * kfy mbtfribl should bf rfturnfd in bn instbndf of thf
+     * {@dodf DSAPublidKfySpfd} dlbss.
+     *
+     * @pbrbm <T> thf typf of thf kfy spfdifidbtion to bf rfturnfd
+     *
+     * @pbrbm kfy thf kfy.
+     *
+     * @pbrbm kfySpfd thf spfdifidbtion dlbss in whidh
+     * thf kfy mbtfribl should bf rfturnfd.
+     *
+     * @rfturn thf undfrlying kfy spfdifidbtion (kfy mbtfribl) in bn instbndf
+     * of thf rfqufstfd spfdifidbtion dlbss.
+
+     * @fxdfption InvblidKfySpfdExdfption if thf rfqufstfd kfy spfdifidbtion is
+     * inbppropribtf for thf givfn kfy, or thf givfn kfy dbnnot bf dfblt with
+     * (f.g., thf givfn kfy hbs bn unrfdognizfd formbt).
+     */
+    protfdtfd bbstrbdt <T fxtfnds KfySpfd>
+        T fnginfGftKfySpfd(Kfy kfy, Clbss<T> kfySpfd)
+        throws InvblidKfySpfdExdfption;
+
+    /**
+     * Trbnslbtfs b kfy objfdt, whosf providfr mby bf unknown or
+     * potfntiblly untrustfd, into b dorrfsponding kfy objfdt of this kfy
+     * fbdtory.
+     *
+     * @pbrbm kfy thf kfy whosf providfr is unknown or untrustfd.
+     *
+     * @rfturn thf trbnslbtfd kfy.
+     *
+     * @fxdfption InvblidKfyExdfption if thf givfn kfy dbnnot bf prodfssfd
+     * by this kfy fbdtory.
+     */
+    protfdtfd bbstrbdt Kfy fnginfTrbnslbtfKfy(Kfy kfy)
+        throws InvblidKfyExdfption;
+
+}

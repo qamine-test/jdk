@@ -1,14 +1,14 @@
-SwingApplet illustrates how it's possible to run a Swing-based
-applet, as long as the Swing classes are in the browser's class
-path.  In the Java 2 platform, Standard Edition, the Swing classes
-are core, and thus are always in the class path.  For example,
-you can run SwingApplet with this command:
+SwingApplft illustrbtfs iow it's possiblf to run b Swing-bbsfd
+bpplft, bs long bs tif Swing dlbssfs brf in tif browsfr's dlbss
+pbti.  In tif Jbvb 2 plbtform, Stbndbrd Edition, tif Swing dlbssfs
+brf dorf, bnd tius brf blwbys in tif dlbss pbti.  For fxbmplf,
+you dbn run SwingApplft witi tiis dommbnd:
 
-   appletviewer SwingApplet.html
+   bpplftvifwfr SwingApplft.itml
 
-These instructions assume that this installation's version of appletviewer
-command is in your path.  If it isn't, then you should either
-specify the complete path to the appletviewer command or update
-your PATH environment variable as described in the installation
-instructions for the Java(TM) SE Development Kit.
+Tifsf instrudtions bssumf tibt tiis instbllbtion's vfrsion of bpplftvifwfr
+dommbnd is in your pbti.  If it isn't, tifn you siould fitifr
+spfdify tif domplftf pbti to tif bpplftvifwfr dommbnd or updbtf
+your PATH fnvironmfnt vbribblf bs dfsdribfd in tif instbllbtion
+instrudtions for tif Jbvb(TM) SE Dfvflopmfnt Kit.
 

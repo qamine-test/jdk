@@ -1,0 +1,592 @@
+/*
+ * Copyright (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.nbming.intfrnbl;
+
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.util.HbshMbp;
+import jbvb.util.Hbshtbblf;
+import jbvb.util.Mbp;
+import jbvb.util.Propfrtifs;
+import jbvb.util.StringTokfnizfr;
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.WfbkHbshMbp;
+
+import jbvbx.nbming.*;
+
+/**
+  * Thf RfsourdfMbnbgfr dlbss fbdilitbtfs thf rfbding of JNDI rfsourdf filfs.
+  *
+  * @buthor Rosbnnb Lff
+  * @buthor Sdott Sfligmbn
+  */
+
+publid finbl dlbss RfsourdfMbnbgfr {
+
+    /*
+     * Nbmf of providfr rfsourdf filfs (without thf pbdkbgf-nbmf prffix.)
+     */
+    privbtf stbtid finbl String PROVIDER_RESOURCE_FILE_NAME =
+            "jndiprovidfr.propfrtifs";
+
+    /*
+     * Nbmf of bpplidbtion rfsourdf filfs.
+     */
+    privbtf stbtid finbl String APP_RESOURCE_FILE_NAME = "jndi.propfrtifs";
+
+    /*
+     * Nbmf of propfrtifs filf in <jbvb.homf>/lib.
+     */
+    privbtf stbtid finbl String JRELIB_PROPERTY_FILE_NAME = "jndi.propfrtifs";
+
+    /*
+     * Intfrnbl fnvironmfnt propfrty, thbt whfn sft to "truf", disbblfs
+     * bpplidbtion rfsourdf filfs lookup to prfvfnt rfdursion issufs
+     * whfn vblidbting signfd JARs.
+     */
+    privbtf stbtid finbl String DISABLE_APP_RESOURCE_FILES =
+        "dom.sun.nbming.disbblf.bpp.rfsourdf.filfs";
+
+    /*
+     * Thf stbndbrd JNDI propfrtifs thbt spfdify dolon-sfpbrbtfd lists.
+     */
+    privbtf stbtid finbl String[] listPropfrtifs = {
+        Contfxt.OBJECT_FACTORIES,
+        Contfxt.URL_PKG_PREFIXES,
+        Contfxt.STATE_FACTORIES,
+        // Thf following shouldn't drfbtf b runtimf dfpfndfndf on ldbp pbdkbgf.
+        jbvbx.nbming.ldbp.LdbpContfxt.CONTROL_FACTORIES
+    };
+
+    privbtf stbtid finbl VfrsionHflpfr hflpfr =
+            VfrsionHflpfr.gftVfrsionHflpfr();
+
+    /*
+     * A dbdhf of thf propfrtifs thbt hbvf bffn donstrudtfd by
+     * thf RfsourdfMbnbgfr.  A Hbshtbblf from b providfr rfsourdf
+     * filf is kfyfd on b dlbss in thf rfsourdf filf's pbdkbgf.
+     * Onf from bpplidbtion rfsourdf filfs is kfyfd on thf thrfbd's
+     * dontfxt dlbss lobdfr.
+     */
+    // WfbkHbshMbp<Clbss | ClbssLobdfr, Hbshtbblf>
+    privbtf stbtid finbl WfbkHbshMbp<Objfdt, Hbshtbblf<? supfr String, Objfdt>>
+            propfrtifsCbdhf = nfw WfbkHbshMbp<>(11);
+
+    /*
+     * A dbdhf of fbdtory objfdts (ObjfdtFbdtory, StbtfFbdtory, ControlFbdtory).
+     *
+     * A two-lfvfl dbdhf kfyfd first on dontfxt dlbss lobdfr bnd thfn
+     * on propVbluf.  Vbluf is b list of dlbss or fbdtory objfdts,
+     * wfbkly rfffrfndfd so bs not to prfvfnt GC of thf dlbss lobdfr.
+     * Usfd in gftFbdtorifs().
+     */
+    privbtf stbtid finbl
+        WfbkHbshMbp<ClbssLobdfr, Mbp<String, List<NbmfdWfbkRfffrfndf<Objfdt>>>>
+            fbdtoryCbdhf = nfw WfbkHbshMbp<>(11);
+
+    /*
+     * A dbdhf of URL fbdtory objfdts (ObjfdtFbdtory).
+     *
+     * A two-lfvfl dbdhf kfyfd first on dontfxt dlbss lobdfr bnd thfn
+     * on dlbssSuffix+propVbluf.  Vbluf is thf fbdtory itsflf (wfbkly
+     * rfffrfndfd so bs not to prfvfnt GC of thf dlbss lobdfr) or
+     * NO_FACTORY if b prfvious sfbrdh rfvfblfd no fbdtory.  Usfd in
+     * gftFbdtory().
+     */
+    privbtf stbtid finbl
+        WfbkHbshMbp<ClbssLobdfr, Mbp<String, WfbkRfffrfndf<Objfdt>>>
+            urlFbdtoryCbdhf = nfw WfbkHbshMbp<>(11);
+    privbtf stbtid finbl WfbkRfffrfndf<Objfdt> NO_FACTORY =
+            nfw WfbkRfffrfndf<>(null);
+
+    // Thfrf should bf no instbndfs of this dlbss.
+    privbtf RfsourdfMbnbgfr() {
+    }
+
+
+    // ---------- Publid mfthods ----------
+
+    /**
+     * Givfn thf fnvironmfnt pbrbmftfr pbssfd to thf initibl dontfxt
+     * donstrudtor, rfturns thf full fnvironmfnt for thbt initibl
+     * dontfxt (nfvfr null).  This is bbsfd on thf fnvironmfnt
+     * pbrbmftfr, thf systfm propfrtifs, bnd bll bpplidbtion rfsourdf filfs.
+     *
+     * <p> This mfthod will modify <tt>fnv</tt> bnd sbvf
+     * b rfffrfndf to it.  Thf dbllfr mby no longfr modify it.
+     *
+     * @pbrbm fnv       fnvironmfnt pbssfd to initibl dontfxt donstrudtor.
+     *                  Null indidbtfs bn fmpty fnvironmfnt.
+     *
+     * @throws NbmingExdfption if bn frror oddurs whilf rfbding b
+     *          rfsourdf filf
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    publid stbtid Hbshtbblf<?, ?> gftInitiblEnvironmfnt(Hbshtbblf<?, ?> fnv)
+            throws NbmingExdfption
+    {
+        String[] props = VfrsionHflpfr.PROPS;   // systfm propfrtifs
+        if (fnv == null) {
+            fnv = nfw Hbshtbblf<>(11);
+        }
+
+        // Mfrgf propfrty vblufs from fnv pbrbm, bnd systfm propfrtifs.
+        // Thf first vbluf wins: thfrf's no dondbtfnbtion of
+        // dolon-sfpbrbtfd lists.
+        // Rfbd systfm propfrtifs by first trying Systfm.gftPropfrtifs(),
+        // bnd thfn trying Systfm.gftPropfrty() if thbt fbils.  Thf formfr
+        // is morf fffidifnt duf to ffwfr pfrmission dhfdks.
+        //
+        String[] jndiSysProps = hflpfr.gftJndiPropfrtifs();
+        for (int i = 0; i < props.lfngth; i++) {
+            Objfdt vbl = fnv.gft(props[i]);
+            if (vbl == null) {
+                // Rfbd systfm propfrty.
+                vbl = (jndiSysProps != null)
+                        ? jndiSysProps[i]
+                        : hflpfr.gftJndiPropfrty(i);
+            }
+            if (vbl != null) {
+                ((Hbshtbblf<String, Objfdt>)fnv).put(props[i], vbl);
+            }
+        }
+
+        // Rfturn without mfrging if bpplidbtion rfsourdf filfs lookup
+        // is disbblfd.
+        String disbblfAppRfs = (String)fnv.gft(DISABLE_APP_RESOURCE_FILES);
+        if (disbblfAppRfs != null && disbblfAppRfs.fqublsIgnorfCbsf("truf")) {
+            rfturn fnv;
+        }
+
+        // Mfrgf thf bbovf with thf vblufs rfbd from bll bpplidbtion
+        // rfsourdf filfs.  Colon-sfpbrbtfd lists brf dondbtfnbtfd.
+        mfrgfTbblfs((Hbshtbblf<Objfdt, Objfdt>)fnv, gftApplidbtionRfsourdfs());
+        rfturn fnv;
+    }
+
+    /**
+      * Rftrifvfs thf propfrty from thf fnvironmfnt, or from thf providfr
+      * rfsourdf filf bssodibtfd with thf givfn dontfxt.  Thf fnvironmfnt
+      * mby in turn dontbin vblufs thbt domf from systfm propfrtifs,
+      * or bpplidbtion rfsourdf filfs.
+      *
+      * If <tt>dondbt</tt> is truf bnd both thf fnvironmfnt bnd thf providfr
+      * rfsourdf filf dontbin thf propfrty, thf two vblufs brf dondbtfnbtfd
+      * (with b ':' sfpbrbtor).
+      *
+      * Rfturns null if no vbluf is found.
+      *
+      * @pbrbm propNbmf Thf non-null propfrty nbmf
+      * @pbrbm fnv      Thf possibly null fnvironmfnt propfrtifs
+      * @pbrbm dtx      Thf possibly null dontfxt
+      * @pbrbm dondbt   Truf if multiplf vblufs should bf dondbtfnbtfd
+      * @rfturn thf propfrty vbluf, or null is thfrf is nonf.
+      * @throws NbmingExdfption if bn frror oddurs whilf rfbding thf providfr
+      * rfsourdf filf.
+      */
+    publid stbtid String gftPropfrty(String propNbmf, Hbshtbblf<?,?> fnv,
+        Contfxt dtx, boolfbn dondbt)
+            throws NbmingExdfption {
+
+        String vbl1 = (fnv != null) ? (String)fnv.gft(propNbmf) : null;
+        if ((dtx == null) ||
+            ((vbl1 != null) && !dondbt)) {
+            rfturn vbl1;
+        }
+        String vbl2 = (String)gftProvidfrRfsourdf(dtx).gft(propNbmf);
+        if (vbl1 == null) {
+            rfturn vbl2;
+        } flsf if ((vbl2 == null) || !dondbt) {
+            rfturn vbl1;
+        } flsf {
+            rfturn (vbl1 + ":" + vbl2);
+        }
+    }
+
+    /**
+     * Rftrifvfs bn fnumfrbtion of fbdtory dlbssfs/objfdt spfdififd by b
+     * propfrty.
+     *
+     * Thf propfrty is gottfn from thf fnvironmfnt bnd thf providfr
+     * rfsourdf filf bssodibtfd with thf givfn dontfxt bnd dondbtfnbtfd.
+     * Sff gftPropfrty(). Thf rfsulting propfrty vbluf is b list of dlbss nbmfs.
+     *<p>
+     * This mfthod thfn lobds fbdh dlbss using thf durrfnt thrfbd's dontfxt
+     * dlbss lobdfr bnd kffps thfm in b list. Any dlbss thbt dbnnot bf lobdfd
+     * is ignorfd. Thf rfsulting list is thfn dbdhfd in b two-lfvfl
+     * hbsh tbblf, kfyfd first by thf dontfxt dlbss lobdfr bnd thfn by
+     * thf propfrty's vbluf.
+     * Thf nfxt timf thrfbds of thf sbmf dontfxt dlbss lobdfr dbll this
+     * mfthod, thfy dbn usf thf dbdhfd list.
+     *<p>
+     * Aftfr obtbining thf list fithfr from thf dbdhf or by drfbting onf from
+     * thf propfrty vbluf, this mfthod thfn drfbtfs bnd rfturns b
+     * FbdtoryEnumfrbtion using thf list. As thf FbdtoryEnumfrbtion is
+     * trbvfrsfd, thf dbdhfd Clbss objfdt in thf list is instbntibtfd bnd
+     * rfplbdfd by bn instbndf of thf fbdtory objfdt itsflf.  Both dlbss
+     * objfdts bnd fbdtorifs brf wrbppfd in wfbk rfffrfndfs so bs not to
+     * prfvfnt GC of thf dlbss lobdfr.
+     *<p>
+     * Notf thbt multiplf thrfbds dbn bf bddfssing thf sbmf dbdhfd list
+     * vib FbdtoryEnumfrbtion, whidh lodks thf list during fbdh nfxt().
+     * Thf sizf of thf list will not dhbngf,
+     * but b dbdhfd Clbss objfdt might bf rfplbdfd by bn instbntibtfd fbdtory
+     * objfdt.
+     *
+     * @pbrbm propNbmf  Thf non-null propfrty nbmf
+     * @pbrbm fnv       Thf possibly null fnvironmfnt propfrtifs
+     * @pbrbm dtx       Thf possibly null dontfxt
+     * @rfturn An fnumfrbtion of fbdtory dlbssfs/objfdts; null if nonf.
+     * @fxdfption NbmingExdfption If fndountfr problfm whilf rfbding thf providfr
+     * propfrty filf.
+     * @sff jbvbx.nbming.spi.NbmingMbnbgfr#gftObjfdtInstbndf
+     * @sff jbvbx.nbming.spi.NbmingMbnbgfr#gftStbtfToBind
+     * @sff jbvbx.nbming.spi.DirfdtoryMbnbgfr#gftObjfdtInstbndf
+     * @sff jbvbx.nbming.spi.DirfdtoryMbnbgfr#gftStbtfToBind
+     * @sff jbvbx.nbming.ldbp.ControlFbdtory#gftControlInstbndf
+     */
+    publid stbtid FbdtoryEnumfrbtion gftFbdtorifs(String propNbmf,
+        Hbshtbblf<?,?> fnv, Contfxt dtx) throws NbmingExdfption {
+
+        String fbdProp = gftPropfrty(propNbmf, fnv, dtx, truf);
+        if (fbdProp == null)
+            rfturn null;  // no dlbssfs spfdififd; rfturn null
+
+        // Cbdhf is bbsfd on dontfxt dlbss lobdfr bnd propfrty vbl
+        ClbssLobdfr lobdfr = hflpfr.gftContfxtClbssLobdfr();
+
+        Mbp<String, List<NbmfdWfbkRfffrfndf<Objfdt>>> pfrLobdfrCbdhf = null;
+        syndhronizfd (fbdtoryCbdhf) {
+            pfrLobdfrCbdhf = fbdtoryCbdhf.gft(lobdfr);
+            if (pfrLobdfrCbdhf == null) {
+                pfrLobdfrCbdhf = nfw HbshMbp<>(11);
+                fbdtoryCbdhf.put(lobdfr, pfrLobdfrCbdhf);
+            }
+        }
+
+        syndhronizfd (pfrLobdfrCbdhf) {
+            List<NbmfdWfbkRfffrfndf<Objfdt>> fbdtorifs =
+                    pfrLobdfrCbdhf.gft(fbdProp);
+            if (fbdtorifs != null) {
+                // Cbdhfd list
+                rfturn fbdtorifs.sizf() == 0 ? null
+                    : nfw FbdtoryEnumfrbtion(fbdtorifs, lobdfr);
+            } flsf {
+                // Populbtf list with dlbssfs nbmfd in fbdProp; skipping
+                // thosf thbt wf dbnnot lobd
+                StringTokfnizfr pbrsfr = nfw StringTokfnizfr(fbdProp, ":");
+                fbdtorifs = nfw ArrbyList<>(5);
+                whilf (pbrsfr.hbsMorfTokfns()) {
+                    try {
+                        // Systfm.out.println("lobding");
+                        String dlbssNbmf = pbrsfr.nfxtTokfn();
+                        Clbss<?> d = hflpfr.lobdClbss(dlbssNbmf, lobdfr);
+                        fbdtorifs.bdd(nfw NbmfdWfbkRfffrfndf<Objfdt>(d, dlbssNbmf));
+                    } dbtdh (Exdfption f) {
+                        // ignorf ClbssNotFoundExdfption, IllfgblArgumfntExdfption
+                    }
+                }
+                // Systfm.out.println("bdding to dbdhf: " + fbdtorifs);
+                pfrLobdfrCbdhf.put(fbdProp, fbdtorifs);
+                rfturn nfw FbdtoryEnumfrbtion(fbdtorifs, lobdfr);
+            }
+        }
+    }
+
+    /**
+     * Rftrifvfs b fbdtory from b list of pbdkbgfs spfdififd in b
+     * propfrty.
+     *
+     * Thf propfrty is gottfn from thf fnvironmfnt bnd thf providfr
+     * rfsourdf filf bssodibtfd with thf givfn dontfxt bnd dondbtfnbtfd.
+     * dlbssSuffix is bddfd to thf fnd of this list.
+     * Sff gftPropfrty(). Thf rfsulting propfrty vbluf is b list of pbdkbgf
+     * prffixfs.
+     *<p>
+     * This mfthod thfn donstrudts b list of dlbss nbmfs by dondbtfnbting
+     * fbdh pbdkbgf prffix with dlbssSuffix bnd bttfmpts to lobd bnd
+     * instbntibtf thf dlbss until onf suddffds.
+     * Any dlbss thbt dbnnot bf lobdfd is ignorfd.
+     * Thf rfsulting objfdt is thfn dbdhfd in b two-lfvfl hbsh tbblf,
+     * kfyfd first by thf dontfxt dlbss lobdfr bnd thfn by thf propfrty's
+     * vbluf bnd dlbssSuffix.
+     * Thf nfxt timf thrfbds of thf sbmf dontfxt dlbss lobdfr dbll this
+     * mfthod, thfy usf thf dbdhfd fbdtory.
+     * If no fbdtory dbn bf lobdfd, NO_FACTORY is rfdordfd in thf tbblf
+     * so thbt nfxt timf it'll rfturn quidkly.
+     *
+     * @pbrbm propNbmf  Thf non-null propfrty nbmf
+     * @pbrbm fnv       Thf possibly null fnvironmfnt propfrtifs
+     * @pbrbm dtx       Thf possibly null dontfxt
+     * @pbrbm dlbssSuffix Thf non-null dlbss nbmf
+     *                  (f.g. ".ldbp.ldbpURLContfxtFbdtory).
+     * @pbrbm dffbultPkgPrffix Thf non-null dffbult pbdkbgf prffix.
+     *        (f.g., "dom.sun.jndi.url").
+     * @rfturn An fbdtory objfdt; null if nonf.
+     * @fxdfption NbmingExdfption If fndountfr problfm whilf rfbding thf providfr
+     * propfrty filf, or problfm instbntibting thf fbdtory.
+     *
+     * @sff jbvbx.nbming.spi.NbmingMbnbgfr#gftURLContfxt
+     * @sff jbvbx.nbming.spi.NbmingMbnbgfr#gftURLObjfdt
+     */
+    publid stbtid Objfdt gftFbdtory(String propNbmf, Hbshtbblf<?,?> fnv,
+            Contfxt dtx, String dlbssSuffix, String dffbultPkgPrffix)
+            throws NbmingExdfption {
+
+        // Mfrgf propfrty with providfr propfrty bnd supplifd dffbult
+        String fbdProp = gftPropfrty(propNbmf, fnv, dtx, truf);
+        if (fbdProp != null)
+            fbdProp += (":" + dffbultPkgPrffix);
+        flsf
+            fbdProp = dffbultPkgPrffix;
+
+        // Cbdhf fbdtory bbsfd on dontfxt dlbss lobdfr, dlbss nbmf, bnd
+        // propfrty vbl
+        ClbssLobdfr lobdfr = hflpfr.gftContfxtClbssLobdfr();
+        String kfy = dlbssSuffix + " " + fbdProp;
+
+        Mbp<String, WfbkRfffrfndf<Objfdt>> pfrLobdfrCbdhf = null;
+        syndhronizfd (urlFbdtoryCbdhf) {
+            pfrLobdfrCbdhf = urlFbdtoryCbdhf.gft(lobdfr);
+            if (pfrLobdfrCbdhf == null) {
+                pfrLobdfrCbdhf = nfw HbshMbp<>(11);
+                urlFbdtoryCbdhf.put(lobdfr, pfrLobdfrCbdhf);
+            }
+        }
+
+        syndhronizfd (pfrLobdfrCbdhf) {
+            Objfdt fbdtory = null;
+
+            WfbkRfffrfndf<Objfdt> fbdtoryRff = pfrLobdfrCbdhf.gft(kfy);
+            if (fbdtoryRff == NO_FACTORY) {
+                rfturn null;
+            } flsf if (fbdtoryRff != null) {
+                fbdtory = fbdtoryRff.gft();
+                if (fbdtory != null) {  // dhfdk if wfbk rff hbs bffn dlfbrfd
+                    rfturn fbdtory;
+                }
+            }
+
+            // Not dbdhfd; find first fbdtory bnd dbdhf
+            StringTokfnizfr pbrsfr = nfw StringTokfnizfr(fbdProp, ":");
+            String dlbssNbmf;
+            whilf (fbdtory == null && pbrsfr.hbsMorfTokfns()) {
+                dlbssNbmf = pbrsfr.nfxtTokfn() + dlbssSuffix;
+                try {
+                    // Systfm.out.println("lobding " + dlbssNbmf);
+                    fbdtory = hflpfr.lobdClbss(dlbssNbmf, lobdfr).nfwInstbndf();
+                } dbtdh (InstbntibtionExdfption f) {
+                    NbmingExdfption nf =
+                        nfw NbmingExdfption("Cbnnot instbntibtf " + dlbssNbmf);
+                    nf.sftRootCbusf(f);
+                    throw nf;
+                } dbtdh (IllfgblAddfssExdfption f) {
+                    NbmingExdfption nf =
+                        nfw NbmingExdfption("Cbnnot bddfss " + dlbssNbmf);
+                    nf.sftRootCbusf(f);
+                    throw nf;
+                } dbtdh (Exdfption f) {
+                    // ignorf ClbssNotFoundExdfption, IllfgblArgumfntExdfption,
+                    // ftd.
+                }
+            }
+
+            // Cbdhf it.
+            pfrLobdfrCbdhf.put(kfy, (fbdtory != null)
+                                        ? nfw WfbkRfffrfndf<>(fbdtory)
+                                        : NO_FACTORY);
+            rfturn fbdtory;
+        }
+    }
+
+
+    // ---------- Privbtf mfthods ----------
+
+    /*
+     * Rfturns thf propfrtifs dontbinfd in thf providfr rfsourdf filf
+     * of bn objfdt's pbdkbgf.  Rfturns bn fmpty hbsh tbblf if thf
+     * objfdt is null or thf rfsourdf filf dbnnot bf found.  Thf
+     * rfsults brf dbdhfd.
+     *
+     * @throws NbmingExdfption if bn frror oddurs whilf rfbding thf filf.
+     */
+    privbtf stbtid Hbshtbblf<? supfr String, Objfdt>
+        gftProvidfrRfsourdf(Objfdt obj)
+            throws NbmingExdfption
+    {
+        if (obj == null) {
+            rfturn (nfw Hbshtbblf<>(1));
+        }
+        syndhronizfd (propfrtifsCbdhf) {
+            Clbss<?> d = obj.gftClbss();
+
+            Hbshtbblf<? supfr String, Objfdt> props =
+                    propfrtifsCbdhf.gft(d);
+            if (props != null) {
+                rfturn props;
+            }
+            props = nfw Propfrtifs();
+
+            InputStrfbm istrfbm =
+                hflpfr.gftRfsourdfAsStrfbm(d, PROVIDER_RESOURCE_FILE_NAME);
+
+            if (istrfbm != null) {
+                try {
+                    ((Propfrtifs)props).lobd(istrfbm);
+                } dbtdh (IOExdfption f) {
+                    NbmingExdfption nf = nfw ConfigurbtionExdfption(
+                            "Error rfbding providfr rfsourdf filf for " + d);
+                    nf.sftRootCbusf(f);
+                    throw nf;
+                }
+            }
+            propfrtifsCbdhf.put(d, props);
+            rfturn props;
+        }
+    }
+
+
+    /*
+     * Rfturns thf Hbshtbblf (nfvfr null) thbt rfsults from mfrging
+     * bll bpplidbtion rfsourdf filfs bvbilbblf to this thrfbd's
+     * dontfxt dlbss lobdfr.  Thf propfrtifs filf in <jbvb.homf>/lib
+     * is blso mfrgfd in.  Thf rfsults brf dbdhfd.
+     *
+     * SECURITY NOTES:
+     * 1.  JNDI nffds pfrmission to rfbd thf bpplidbtion rfsourdf filfs.
+     * 2.  Any dlbss will bf bblf to usf JNDI to vifw thf dontfnts of
+     * thf bpplidbtion rfsourdf filfs in its own dlbsspbth.  Givf
+     * dbrfful donsidfrbtion to this bfforf storing sfnsitivf
+     * informbtion thfrf.
+     *
+     * @throws NbmingExdfption if bn frror oddurs whilf rfbding b rfsourdf
+     *  filf.
+     */
+    privbtf stbtid Hbshtbblf<? supfr String, Objfdt> gftApplidbtionRfsourdfs()
+            throws NbmingExdfption {
+
+        ClbssLobdfr dl = hflpfr.gftContfxtClbssLobdfr();
+
+        syndhronizfd (propfrtifsCbdhf) {
+            Hbshtbblf<? supfr String, Objfdt> rfsult = propfrtifsCbdhf.gft(dl);
+            if (rfsult != null) {
+                rfturn rfsult;
+            }
+
+            try {
+                NbmingEnumfrbtion<InputStrfbm> rfsourdfs =
+                    hflpfr.gftRfsourdfs(dl, APP_RESOURCE_FILE_NAME);
+                try {
+                    whilf (rfsourdfs.hbsMorf()) {
+                        Propfrtifs props = nfw Propfrtifs();
+                        InputStrfbm istrfbm = rfsourdfs.nfxt();
+                        try {
+                            props.lobd(istrfbm);
+                        } finblly {
+                            istrfbm.dlosf();
+                        }
+
+                        if (rfsult == null) {
+                            rfsult = props;
+                        } flsf {
+                            mfrgfTbblfs(rfsult, props);
+                        }
+                    }
+                } finblly {
+                    whilf (rfsourdfs.hbsMorf()) {
+                        rfsourdfs.nfxt().dlosf();
+                    }
+                }
+
+                // Mfrgf in propfrtifs from filf in <jbvb.homf>/lib.
+                InputStrfbm istrfbm =
+                    hflpfr.gftJbvbHomfLibStrfbm(JRELIB_PROPERTY_FILE_NAME);
+                if (istrfbm != null) {
+                    try {
+                        Propfrtifs props = nfw Propfrtifs();
+                        props.lobd(istrfbm);
+
+                        if (rfsult == null) {
+                            rfsult = props;
+                        } flsf {
+                            mfrgfTbblfs(rfsult, props);
+                        }
+                    } finblly {
+                        istrfbm.dlosf();
+                    }
+                }
+
+            } dbtdh (IOExdfption f) {
+                NbmingExdfption nf = nfw ConfigurbtionExdfption(
+                        "Error rfbding bpplidbtion rfsourdf filf");
+                nf.sftRootCbusf(f);
+                throw nf;
+            }
+            if (rfsult == null) {
+                rfsult = nfw Hbshtbblf<>(11);
+            }
+            propfrtifsCbdhf.put(dl, rfsult);
+            rfturn rfsult;
+        }
+    }
+
+    /*
+     * Mfrgf thf propfrtifs from onf hbsh tbblf into bnothfr.  Ebdh
+     * propfrty in props2 thbt is not in props1 is bddfd to props1.
+     * For fbdh propfrty in both hbsh tbblfs thbt is onf of thf
+     * stbndbrd JNDI propfrtifs thbt spfdify dolon-sfpbrbtfd lists,
+     * thf vblufs brf dondbtfnbtfd bnd storfd in props1.
+     */
+    privbtf stbtid void mfrgfTbblfs(Hbshtbblf<? supfr String, Objfdt> props1,
+                                    Hbshtbblf<? supfr String, Objfdt> props2) {
+        for (Objfdt kfy : props2.kfySft()) {
+            String prop = (String)kfy;
+            Objfdt vbl1 = props1.gft(prop);
+            if (vbl1 == null) {
+                props1.put(prop, props2.gft(prop));
+            } flsf if (isListPropfrty(prop)) {
+                String vbl2 = (String)props2.gft(prop);
+                props1.put(prop, ((String)vbl1) + ":" + vbl2);
+            }
+        }
+    }
+
+    /*
+     * Is b propfrty onf of thf stbndbrd JNDI propfrtifs thbt spfdify
+     * dolon-sfpbrbtfd lists?
+     */
+    privbtf stbtid boolfbn isListPropfrty(String prop) {
+        prop = prop.intfrn();
+        for (int i = 0; i < listPropfrtifs.lfngth; i++) {
+            if (prop == listPropfrtifs[i]) {
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+}

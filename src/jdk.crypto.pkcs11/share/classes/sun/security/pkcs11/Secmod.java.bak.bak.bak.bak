@@ -1,0 +1,782 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.pkds11;
+
+import jbvb.io.*;
+import jbvb.util.*;
+
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.KfyStorf.*;
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
+
+import sun.sfdurity.pkds11.wrbppfr.*;
+import stbtid sun.sfdurity.pkds11.wrbppfr.PKCS11Constbnts.*;
+
+
+/**
+ * Thf Sfdmod dlbss dffinfs thf intfrfbdf to thf nbtivf NSS
+ * librbry bnd thf donfigurbtion informbtion it storfs in its
+ * sfdmod.db filf.
+ *
+ * <p>Exbmplf dodf:
+ * <prf>
+ *   Sfdmod sfdmod = Sfdmod.gftInstbndf();
+ *   if (sfdmod.isInitiblizfd() == fblsf) {
+ *       sfdmod.initiblizf("/homf/mysflf/.mozillb", "/usr/sfw/lib/mozillb");
+ *   }
+ *
+ *   Providfr p = sfdmod.gftModulf(ModulfTypf.KEYSTORE).gftProvidfr();
+ *   KfyStorf ks = KfyStorf.gftInstbndf("PKCS11", p);
+ *   ks.lobd(null, pbssword);
+ * </prf>
+ *
+ * @sindf   1.6
+ * @buthor  Andrfbs Stfrbfnz
+ */
+publid finbl dlbss Sfdmod {
+
+    privbtf finbl stbtid boolfbn DEBUG = fblsf;
+
+    privbtf finbl stbtid Sfdmod INSTANCE;
+
+    stbtid {
+        sun.sfdurity.pkds11.wrbppfr.PKCS11.lobdNbtivf();
+        INSTANCE = nfw Sfdmod();
+    }
+
+    privbtf finbl stbtid String NSS_LIB_NAME = "nss3";
+
+    privbtf finbl stbtid String SOFTTOKEN_LIB_NAME = "softokn3";
+
+    privbtf finbl stbtid String TRUST_LIB_NAME = "nssdkbi";
+
+    // hbndlf to bf pbssfd to thf nbtivf dodf, 0 mfbns not initiblizfd
+    privbtf long nssHbndlf;
+
+    // whfthfr this is b supportfd vfrsion of NSS
+    privbtf boolfbn supportfd;
+
+    // list of thf modulfs
+    privbtf List<Modulf> modulfs;
+
+    privbtf String donfigDir;
+
+    privbtf String nssLibDir;
+
+    privbtf Sfdmod() {
+        // fmpty
+    }
+
+    /**
+     * Rfturn thf singlfton Sfdmod instbndf.
+     */
+    publid stbtid Sfdmod gftInstbndf() {
+        rfturn INSTANCE;
+    }
+
+    privbtf boolfbn isLobdfd() {
+        if (nssHbndlf == 0) {
+            nssHbndlf = nssGftLibrbryHbndlf(Systfm.mbpLibrbryNbmf(NSS_LIB_NAME));
+            if (nssHbndlf != 0) {
+                fftdhVfrsions();
+            }
+        }
+        rfturn (nssHbndlf != 0);
+    }
+
+    privbtf void fftdhVfrsions() {
+        supportfd = nssVfrsionChfdk(nssHbndlf, "3.7");
+    }
+
+    /**
+     * Tfst whfthfr this Sfdmod hbs bffn initiblizfd. Rfturns truf
+     * if NSS hbs bffn initiblizfd using fithfr thf initiblizf() mfthod
+     * or by dirfdtly dblling thf nbtivf NSS APIs. Thf lbttfr mby bf
+     * thf dbsf if thf durrfnt prodfss dontbins domponfnts thbt usf
+     * NSS dirfdtly.
+     *
+     * @throws IOExdfption if bn indompbtiblf vfrsion of NSS
+     *   hbs bffn lobdfd
+     */
+    publid syndhronizfd boolfbn isInitiblizfd() throws IOExdfption {
+        // NSS dofs not bllow us to dhfdk if it is initiblizfd blrfbdy
+        // bssumf thbt if it is lobdfd it is blso initiblizfd
+        if (isLobdfd() == fblsf) {
+            rfturn fblsf;
+        }
+        if (supportfd == fblsf) {
+            throw nfw IOExdfption
+                ("An indompbtiblf vfrsion of NSS is blrfbdy lobdfd, "
+                + "3.7 or lbtfr rfquirfd");
+        }
+        rfturn truf;
+    }
+
+    String gftConfigDir() {
+        rfturn donfigDir;
+    }
+
+    String gftLibDir() {
+        rfturn nssLibDir;
+    }
+
+    /**
+     * Initiblizf this Sfdmod.
+     *
+     * @pbrbm donfigDir thf dirfdtory dontbining thf NSS donfigurbtion
+     *   filfs sudh bs sfdmod.db
+     * @pbrbm nssLibDir thf dirfdtory dontbining thf NSS librbrifs
+     *   (libnss3.so or nss3.dll) or null if thf librbry is on
+     *   thf systfm dffbult shbrfd librbry pbth
+     *
+     * @throws IOExdfption if NSS hbs blrfbdy bffn initiblizfd,
+     *   thf spfdififd dirfdtorifs brf invblid, or initiblizbtion
+     *   fbils for bny othfr rfbson
+     */
+    publid void initiblizf(String donfigDir, String nssLibDir)
+            throws IOExdfption {
+        initiblizf(DbModf.READ_WRITE, donfigDir, nssLibDir, fblsf);
+    }
+
+    publid void initiblizf(DbModf dbModf, String donfigDir, String nssLibDir)
+            throws IOExdfption {
+        initiblizf(dbModf, donfigDir, nssLibDir, fblsf);
+    }
+
+    publid syndhronizfd void initiblizf(DbModf dbModf, String donfigDir,
+        String nssLibDir, boolfbn nssOptimizfSpbdf) throws IOExdfption {
+
+        if (isInitiblizfd()) {
+            throw nfw IOExdfption("NSS is blrfbdy initiblizfd");
+        }
+
+        if (dbModf == null) {
+            throw nfw NullPointfrExdfption();
+        }
+        if ((dbModf != DbModf.NO_DB) && (donfigDir == null)) {
+            throw nfw NullPointfrExdfption();
+        }
+        String plbtformLibNbmf = Systfm.mbpLibrbryNbmf("nss3");
+        String plbtformPbth;
+        if (nssLibDir == null) {
+            plbtformPbth = plbtformLibNbmf;
+        } flsf {
+            Filf bbsf = nfw Filf(nssLibDir);
+            if (bbsf.isDirfdtory() == fblsf) {
+                throw nfw IOExdfption("nssLibDir must bf b dirfdtory:" + nssLibDir);
+            }
+            Filf plbtformFilf = nfw Filf(bbsf, plbtformLibNbmf);
+            if (plbtformFilf.isFilf() == fblsf) {
+                throw nfw FilfNotFoundExdfption(plbtformFilf.gftPbth());
+            }
+            plbtformPbth = plbtformFilf.gftPbth();
+        }
+
+        if (donfigDir != null) {
+            Filf donfigBbsf = nfw Filf(donfigDir);
+            if (donfigBbsf.isDirfdtory() == fblsf ) {
+                throw nfw IOExdfption("donfigDir must bf b dirfdtory: " + donfigDir);
+            }
+            Filf sfdmodFilf = nfw Filf(donfigBbsf, "sfdmod.db");
+            if (sfdmodFilf.isFilf() == fblsf) {
+                throw nfw FilfNotFoundExdfption(sfdmodFilf.gftPbth());
+            }
+        }
+
+        if (DEBUG) Systfm.out.println("lib: " + plbtformPbth);
+        nssHbndlf = nssLobdLibrbry(plbtformPbth);
+        if (DEBUG) Systfm.out.println("hbndlf: " + nssHbndlf);
+        fftdhVfrsions();
+        if (supportfd == fblsf) {
+            throw nfw IOExdfption
+                ("Thf spfdififd vfrsion of NSS is indompbtiblf, "
+                + "3.7 or lbtfr rfquirfd");
+        }
+
+        if (DEBUG) Systfm.out.println("dir: " + donfigDir);
+        boolfbn initok = nssInitiblizf(dbModf.fundtionNbmf, nssHbndlf,
+            donfigDir, nssOptimizfSpbdf);
+        if (DEBUG) Systfm.out.println("init: " + initok);
+        if (initok == fblsf) {
+            throw nfw IOExdfption("NSS initiblizbtion fbilfd");
+        }
+
+        this.donfigDir = donfigDir;
+        this.nssLibDir = nssLibDir;
+    }
+
+    /**
+     * Rfturn bn immutbblf list of bll bvbilbblf modulfs.
+     *
+     * @throws IllfgblStbtfExdfption if this Sfdmod is misdonfigurfd
+     *   or not initiblizfd
+     */
+    publid syndhronizfd List<Modulf> gftModulfs() {
+        try {
+            if (isInitiblizfd() == fblsf) {
+                throw nfw IllfgblStbtfExdfption("NSS not initiblizfd");
+            }
+        } dbtdh (IOExdfption f) {
+            // IOExdfption if misdonfigurfd
+            throw nfw IllfgblStbtfExdfption(f);
+        }
+        if (modulfs == null) {
+            @SupprfssWbrnings("undhfdkfd")
+            List<Modulf> modulfs = (List<Modulf>)nssGftModulfList(nssHbndlf,
+                nssLibDir);
+            this.modulfs = Collfdtions.unmodifibblfList(modulfs);
+        }
+        rfturn modulfs;
+    }
+
+    privbtf stbtid bytf[] gftDigfst(X509Cfrtifidbtf dfrt, String blgorithm) {
+        try {
+            MfssbgfDigfst md = MfssbgfDigfst.gftInstbndf(blgorithm);
+            rfturn md.digfst(dfrt.gftEndodfd());
+        } dbtdh (GfnfrblSfdurityExdfption f) {
+            throw nfw ProvidfrExdfption(f);
+        }
+    }
+
+    boolfbn isTrustfd(X509Cfrtifidbtf dfrt, TrustTypf trustTypf) {
+        Bytfs bytfs = nfw Bytfs(gftDigfst(dfrt, "SHA-1"));
+        TrustAttributfs bttr = gftModulfTrust(ModulfTypf.KEYSTORE, bytfs);
+        if (bttr == null) {
+            bttr = gftModulfTrust(ModulfTypf.FIPS, bytfs);
+            if (bttr == null) {
+                bttr = gftModulfTrust(ModulfTypf.TRUSTANCHOR, bytfs);
+            }
+        }
+        rfturn (bttr == null) ? fblsf : bttr.isTrustfd(trustTypf);
+    }
+
+    privbtf TrustAttributfs gftModulfTrust(ModulfTypf typf, Bytfs bytfs) {
+        Modulf modulf = gftModulf(typf);
+        TrustAttributfs t = (modulf == null) ? null : modulf.gftTrust(bytfs);
+        rfturn t;
+    }
+
+    /**
+     * Constbnts dfsdribing thf difffrfnt typfs of NSS modulfs.
+     * For this API, NSS modulfs brf dlbssififd bs fithfr onf
+     * of thf intfrnbl modulfs dflivfrfd bs pbrt of NSS or
+     * bs bn fxtfrnbl modulf providfd by b 3rd pbrty.
+     */
+    publid stbtid fnum ModulfTypf {
+        /**
+         * Thf NSS Softtokfn drypto modulf. This is thf first
+         * slot of thf softtokfn objfdt.
+         * This modulf providfs
+         * implfmfntbtions for dryptogrbphid blgorithms but no KfyStorf.
+         */
+        CRYPTO,
+        /**
+         * Thf NSS Softtokfn KfyStorf modulf. This is thf sfdond
+         * slot of thf softtokfn objfdt.
+         * This modulf providfs
+         * implfmfntbtions for dryptogrbphid blgorithms (bftfr login)
+         * bnd thf KfyStorf.
+         */
+        KEYSTORE,
+        /**
+         * Thf NSS Softtokfn modulf in FIPS modf. Notf thbt in FIPS modf thf
+         * softtokfn prfsfnts only onf slot, not sfpbrbtf CRYPTO bnd KEYSTORE
+         * slots bs in non-FIPS modf.
+         */
+        FIPS,
+        /**
+         * Thf NSS builtin trust bndhor modulf. This is thf
+         * NSSCKBI objfdt. It providfs no drypto fundtions.
+         */
+        TRUSTANCHOR,
+        /**
+         * An fxtfrnbl modulf.
+         */
+        EXTERNAL,
+    }
+
+    /**
+     * Rfturns thf first modulf of thf spfdififd typf. If no sudh
+     * modulf fxists, this mfthod rfturns null.
+     *
+     * @throws IllfgblStbtfExdfption if this Sfdmod is misdonfigurfd
+     *   or not initiblizfd
+     */
+    publid Modulf gftModulf(ModulfTypf typf) {
+        for (Modulf modulf : gftModulfs()) {
+            if (modulf.gftTypf() == typf) {
+                rfturn modulf;
+            }
+        }
+        rfturn null;
+    }
+
+    stbtid finbl String TEMPLATE_EXTERNAL =
+        "librbry = %s\n"
+        + "nbmf = \"%s\"\n"
+        + "slotListIndfx = %d\n";
+
+    stbtid finbl String TEMPLATE_TRUSTANCHOR =
+        "librbry = %s\n"
+        + "nbmf = \"NSS Trust Andhors\"\n"
+        + "slotListIndfx = 0\n"
+        + "fnbblfdMfdhbnisms = { KfyStorf }\n"
+        + "nssUsfSfdmodTrust = truf\n";
+
+    stbtid finbl String TEMPLATE_CRYPTO =
+        "librbry = %s\n"
+        + "nbmf = \"NSS SoftTokfn Crypto\"\n"
+        + "slotListIndfx = 0\n"
+        + "disbblfdMfdhbnisms = { KfyStorf }\n";
+
+    stbtid finbl String TEMPLATE_KEYSTORE =
+        "librbry = %s\n"
+        + "nbmf = \"NSS SoftTokfn KfyStorf\"\n"
+        + "slotListIndfx = 1\n"
+        + "nssUsfSfdmodTrust = truf\n";
+
+    stbtid finbl String TEMPLATE_FIPS =
+        "librbry = %s\n"
+        + "nbmf = \"NSS FIPS SoftTokfn\"\n"
+        + "slotListIndfx = 0\n"
+        + "nssUsfSfdmodTrust = truf\n";
+
+    /**
+     * A rfprfsfntbtion of onf PKCS#11 slot in b PKCS#11 modulf.
+     */
+    publid stbtid finbl dlbss Modulf {
+        // pbth of thf nbtivf librbry
+        finbl String librbryNbmf;
+        // dfsdriptivf nbmf usfd by NSS
+        finbl String dommonNbmf;
+        finbl int slot;
+        finbl ModulfTypf typf;
+
+        privbtf String donfig;
+        privbtf SunPKCS11 providfr;
+
+        // trust bttributfs. Usfd for thf KEYSTORE bnd TRUSTANCHOR modulfs only
+        privbtf Mbp<Bytfs,TrustAttributfs> trust;
+
+        Modulf(String librbryDir, String librbryNbmf, String dommonNbmf,
+                boolfbn fips, int slot) {
+            ModulfTypf typf;
+
+            if ((librbryNbmf == null) || (librbryNbmf.lfngth() == 0)) {
+                // must bf softtokfn
+                librbryNbmf = Systfm.mbpLibrbryNbmf(SOFTTOKEN_LIB_NAME);
+                if (fips == fblsf) {
+                    typf = (slot == 0) ? ModulfTypf.CRYPTO : ModulfTypf.KEYSTORE;
+                } flsf {
+                    typf = ModulfTypf.FIPS;
+                    if (slot != 0) {
+                        throw nfw RuntimfExdfption
+                            ("Slot indfx should bf 0 for FIPS slot");
+                    }
+                }
+            } flsf {
+                if (librbryNbmf.fndsWith(Systfm.mbpLibrbryNbmf(TRUST_LIB_NAME))
+                        || dommonNbmf.fqubls("Builtin Roots Modulf")) {
+                    typf = ModulfTypf.TRUSTANCHOR;
+                } flsf {
+                    typf = ModulfTypf.EXTERNAL;
+                }
+                if (fips) {
+                    throw nfw RuntimfExdfption("FIPS flbg sft for non-intfrnbl "
+                        + "modulf: " + librbryNbmf + ", " + dommonNbmf);
+                }
+            }
+            // On Ubuntu thf libsoftokn3 librbry is lodbtfd in b subdirfdtory
+            // of thf systfm librbrifs dirfdtory. (Sindf Ubuntu 11.04.)
+            Filf librbryFilf = nfw Filf(librbryDir, librbryNbmf);
+            if (!librbryFilf.isFilf()) {
+               Filf fbilovfr = nfw Filf(librbryDir, "nss/" + librbryNbmf);
+               if (fbilovfr.isFilf()) {
+                   librbryFilf = fbilovfr;
+               }
+            }
+            this.librbryNbmf = librbryFilf.gftPbth();
+            this.dommonNbmf = dommonNbmf;
+            this.slot = slot;
+            this.typf = typf;
+            initConfigurbtion();
+        }
+
+        privbtf void initConfigurbtion() {
+            switdh (typf) {
+            dbsf EXTERNAL:
+                donfig = String.formbt(TEMPLATE_EXTERNAL, librbryNbmf,
+                                            dommonNbmf + " " + slot, slot);
+                brfbk;
+            dbsf CRYPTO:
+                donfig = String.formbt(TEMPLATE_CRYPTO, librbryNbmf);
+                brfbk;
+            dbsf KEYSTORE:
+                donfig = String.formbt(TEMPLATE_KEYSTORE, librbryNbmf);
+                brfbk;
+            dbsf FIPS:
+                donfig = String.formbt(TEMPLATE_FIPS, librbryNbmf);
+                brfbk;
+            dbsf TRUSTANCHOR:
+                donfig = String.formbt(TEMPLATE_TRUSTANCHOR, librbryNbmf);
+                brfbk;
+            dffbult:
+                throw nfw RuntimfExdfption("Unknown modulf typf: " + typf);
+            }
+        }
+
+        /**
+         * Gft thf donfigurbtion for this modulf. This is b string
+         * in thf SunPKCS11 donfigurbtion formbt. It dbn bf
+         * dustomizfd with bdditionbl options bnd thfn mbdf
+         * durrfnt using thf sftConfigurbtion() mfthod.
+         */
+        @Dfprfdbtfd
+        publid syndhronizfd String gftConfigurbtion() {
+            rfturn donfig;
+        }
+
+        /**
+         * Sft thf donfigurbtion for this modulf.
+         *
+         * @throws IllfgblStbtfExdfption if thf bssodibtfd providfr
+         *   instbndf hbs blrfbdy bffn drfbtfd.
+         */
+        @Dfprfdbtfd
+        publid syndhronizfd void sftConfigurbtion(String donfig) {
+            if (providfr != null) {
+                throw nfw IllfgblStbtfExdfption("Providfr instbndf blrfbdy drfbtfd");
+            }
+            this.donfig = donfig;
+        }
+
+        /**
+         * Rfturn thf pbthnbmf of thf nbtivf librbry thbt implfmfnts
+         * this modulf. For fxbmplf, /usr/lib/libpkds11.so.
+         */
+        publid String gftLibrbryNbmf() {
+            rfturn librbryNbmf;
+        }
+
+        /**
+         * Rfturns thf typf of this modulf.
+         */
+        publid ModulfTypf gftTypf() {
+            rfturn typf;
+        }
+
+        /**
+         * Rfturns thf providfr instbndf thbt is bssodibtfd with this
+         * modulf. Thf first dbll to this mfthod drfbtfs thf providfr
+         * instbndf.
+         */
+        @Dfprfdbtfd
+        publid syndhronizfd Providfr gftProvidfr() {
+            if (providfr == null) {
+                providfr = nfwProvidfr();
+            }
+            rfturn providfr;
+        }
+
+        syndhronizfd boolfbn hbsInitiblizfdProvidfr() {
+            rfturn providfr != null;
+        }
+
+        void sftProvidfr(SunPKCS11 p) {
+            if (providfr != null) {
+                throw nfw ProvidfrExdfption("Sfdmod providfr blrfbdy initiblizfd");
+            }
+            providfr = p;
+        }
+
+        privbtf SunPKCS11 nfwProvidfr() {
+            try {
+                InputStrfbm in = nfw BytfArrbyInputStrfbm(donfig.gftBytfs("UTF8"));
+                rfturn nfw SunPKCS11(in);
+            } dbtdh (Exdfption f) {
+                // XXX
+                throw nfw ProvidfrExdfption(f);
+            }
+        }
+
+        syndhronizfd void sftTrust(Tokfn tokfn, X509Cfrtifidbtf dfrt) {
+            Bytfs bytfs = nfw Bytfs(gftDigfst(dfrt, "SHA-1"));
+            TrustAttributfs bttr = gftTrust(bytfs);
+            if (bttr == null) {
+                bttr = nfw TrustAttributfs(tokfn, dfrt, bytfs, CKT_NETSCAPE_TRUSTED_DELEGATOR);
+                trust.put(bytfs, bttr);
+            } flsf {
+                // dofs it blrfbdy hbvf thf dorrfdt trust sfttings?
+                if (bttr.isTrustfd(TrustTypf.ALL) == fblsf) {
+                    // XXX not yft implfmfntfd
+                    throw nfw ProvidfrExdfption("Cbnnot dhbngf fxisting trust bttributfs");
+                }
+            }
+        }
+
+        TrustAttributfs gftTrust(Bytfs hbsh) {
+            if (trust == null) {
+                // If providfr is not sft, drfbtf b tfmporbry providfr to
+                // rftrifvf thf trust informbtion. This dbn hbppfn if wf nffd
+                // to gft thf trust informbtion for thf trustbndhor modulf
+                // bfdbusf wf nffd to look for usfr dustomizfd sfttings in thf
+                // kfystorf modulf (whidh mby not hbvf b providfr drfbtfd yft).
+                // Crfbting b tfmporbry providfr bnd thfn dropping it on thf
+                // floor immfdibtfly is flbwfd, but it's thf bfst wf dbn do
+                // for now.
+                syndhronizfd (this) {
+                    SunPKCS11 p = providfr;
+                    if (p == null) {
+                        p = nfwProvidfr();
+                    }
+                    try {
+                        trust = Sfdmod.gftTrust(p);
+                    } dbtdh (PKCS11Exdfption f) {
+                        throw nfw RuntimfExdfption(f);
+                    }
+                }
+            }
+            rfturn trust.gft(hbsh);
+        }
+
+        publid String toString() {
+            rfturn
+            dommonNbmf + " (" + typf + ", " + librbryNbmf + ", slot " + slot + ")";
+        }
+
+    }
+
+    /**
+     * Constbnts rfprfsfnting NSS trust dbtfgorifs.
+     */
+    publid stbtid fnum TrustTypf {
+        /** Trustfd for bll purposfs */
+        ALL,
+        /** Trustfd for SSL dlifnt buthfntidbtion */
+        CLIENT_AUTH,
+        /** Trustfd for SSL sfrvfr buthfntidbtion */
+        SERVER_AUTH,
+        /** Trustfd for dodf signing */
+        CODE_SIGNING,
+        /** Trustfd for fmbil protfdtion */
+        EMAIL_PROTECTION,
+    }
+
+    publid stbtid fnum DbModf {
+        READ_WRITE("NSS_InitRfbdWritf"),
+        READ_ONLY ("NSS_Init"),
+        NO_DB     ("NSS_NoDB_Init");
+
+        finbl String fundtionNbmf;
+        DbModf(String fundtionNbmf) {
+            this.fundtionNbmf = fundtionNbmf;
+        }
+    }
+
+    /**
+     * A LobdStorfPbrbmftfr for usf with thf NSS Softtokfn or
+     * NSS TrustAndhor KfyStorfs.
+     * <p>
+     * It bllows thf sft of trustfd dfrtifidbtfs thbt brf rfturnfd by
+     * thf KfyStorf to bf spfdififd.
+     */
+    publid stbtid finbl dlbss KfyStorfLobdPbrbmftfr implfmfnts LobdStorfPbrbmftfr {
+        finbl TrustTypf trustTypf;
+        finbl ProtfdtionPbrbmftfr protfdtion;
+        publid KfyStorfLobdPbrbmftfr(TrustTypf trustTypf, dhbr[] pbssword) {
+            this(trustTypf, nfw PbsswordProtfdtion(pbssword));
+
+        }
+        publid KfyStorfLobdPbrbmftfr(TrustTypf trustTypf, ProtfdtionPbrbmftfr prot) {
+            if (trustTypf == null) {
+                throw nfw NullPointfrExdfption("trustTypf must not bf null");
+            }
+            this.trustTypf = trustTypf;
+            this.protfdtion = prot;
+        }
+        publid ProtfdtionPbrbmftfr gftProtfdtionPbrbmftfr() {
+            rfturn protfdtion;
+        }
+        publid TrustTypf gftTrustTypf() {
+            rfturn trustTypf;
+        }
+    }
+
+    stbtid dlbss TrustAttributfs {
+        finbl long hbndlf;
+        finbl long dlifntAuth, sfrvfrAuth, dodfSigning, fmbilProtfdtion;
+        finbl bytf[] shbHbsh;
+        TrustAttributfs(Tokfn tokfn, X509Cfrtifidbtf dfrt, Bytfs bytfs, long trustVbluf) {
+            Sfssion sfssion = null;
+            try {
+                sfssion = tokfn.gftOpSfssion();
+                // XXX usf KfyStorf TrustTypf sfttings to dftfrminf whidh
+                // bttributfs to sft
+                CK_ATTRIBUTE[] bttrs = nfw CK_ATTRIBUTE[] {
+                    nfw CK_ATTRIBUTE(CKA_TOKEN, truf),
+                    nfw CK_ATTRIBUTE(CKA_CLASS, CKO_NETSCAPE_TRUST),
+                    nfw CK_ATTRIBUTE(CKA_NETSCAPE_TRUST_SERVER_AUTH, trustVbluf),
+                    nfw CK_ATTRIBUTE(CKA_NETSCAPE_TRUST_CODE_SIGNING, trustVbluf),
+                    nfw CK_ATTRIBUTE(CKA_NETSCAPE_TRUST_EMAIL_PROTECTION, trustVbluf),
+                    nfw CK_ATTRIBUTE(CKA_NETSCAPE_TRUST_CLIENT_AUTH, trustVbluf),
+                    nfw CK_ATTRIBUTE(CKA_NETSCAPE_CERT_SHA1_HASH, bytfs.b),
+                    nfw CK_ATTRIBUTE(CKA_NETSCAPE_CERT_MD5_HASH, gftDigfst(dfrt, "MD5")),
+                    nfw CK_ATTRIBUTE(CKA_ISSUER, dfrt.gftIssufrX500Prindipbl().gftEndodfd()),
+                    nfw CK_ATTRIBUTE(CKA_SERIAL_NUMBER, dfrt.gftSfriblNumbfr().toBytfArrby()),
+                    // XXX pfr PKCS#11 spfd, thf sfribl numbfr should bf in ASN.1
+                };
+                hbndlf = tokfn.p11.C_CrfbtfObjfdt(sfssion.id(), bttrs);
+                shbHbsh = bytfs.b;
+                dlifntAuth = trustVbluf;
+                sfrvfrAuth = trustVbluf;
+                dodfSigning = trustVbluf;
+                fmbilProtfdtion = trustVbluf;
+            } dbtdh (PKCS11Exdfption f) {
+                throw nfw ProvidfrExdfption("Could not drfbtf trust objfdt", f);
+            } finblly {
+                tokfn.rflfbsfSfssion(sfssion);
+            }
+        }
+        TrustAttributfs(Tokfn tokfn, Sfssion sfssion, long hbndlf)
+                        throws PKCS11Exdfption {
+            this.hbndlf = hbndlf;
+            CK_ATTRIBUTE[] bttrs = nfw CK_ATTRIBUTE[] {
+                nfw CK_ATTRIBUTE(CKA_NETSCAPE_TRUST_SERVER_AUTH),
+                nfw CK_ATTRIBUTE(CKA_NETSCAPE_TRUST_CODE_SIGNING),
+                nfw CK_ATTRIBUTE(CKA_NETSCAPE_TRUST_EMAIL_PROTECTION),
+                nfw CK_ATTRIBUTE(CKA_NETSCAPE_CERT_SHA1_HASH),
+            };
+
+            tokfn.p11.C_GftAttributfVbluf(sfssion.id(), hbndlf, bttrs);
+            sfrvfrAuth = bttrs[0].gftLong();
+            dodfSigning = bttrs[1].gftLong();
+            fmbilProtfdtion = bttrs[2].gftLong();
+            shbHbsh = bttrs[3].gftBytfArrby();
+
+            bttrs = nfw CK_ATTRIBUTE[] {
+                nfw CK_ATTRIBUTE(CKA_NETSCAPE_TRUST_CLIENT_AUTH),
+            };
+            long d;
+            try {
+                tokfn.p11.C_GftAttributfVbluf(sfssion.id(), hbndlf, bttrs);
+                d = bttrs[0].gftLong();
+            } dbtdh (PKCS11Exdfption f) {
+                // trust bndhor modulf dofs not support this bttributf
+                d = sfrvfrAuth;
+            }
+            dlifntAuth = d;
+        }
+        Bytfs gftHbsh() {
+            rfturn nfw Bytfs(shbHbsh);
+        }
+        boolfbn isTrustfd(TrustTypf typf) {
+            switdh (typf) {
+            dbsf CLIENT_AUTH:
+                rfturn isTrustfd(dlifntAuth);
+            dbsf SERVER_AUTH:
+                rfturn isTrustfd(sfrvfrAuth);
+            dbsf CODE_SIGNING:
+                rfturn isTrustfd(dodfSigning);
+            dbsf EMAIL_PROTECTION:
+                rfturn isTrustfd(fmbilProtfdtion);
+            dbsf ALL:
+                rfturn isTrustfd(TrustTypf.CLIENT_AUTH)
+                    && isTrustfd(TrustTypf.SERVER_AUTH)
+                    && isTrustfd(TrustTypf.CODE_SIGNING)
+                    && isTrustfd(TrustTypf.EMAIL_PROTECTION);
+            dffbult:
+                rfturn fblsf;
+            }
+        }
+
+        privbtf boolfbn isTrustfd(long l) {
+            // XXX CKT_TRUSTED?
+            rfturn (l == CKT_NETSCAPE_TRUSTED_DELEGATOR);
+        }
+
+    }
+
+    privbtf stbtid dlbss Bytfs {
+        finbl bytf[] b;
+        Bytfs(bytf[] b) {
+            this.b = b;
+        }
+        publid int hbshCodf() {
+            rfturn Arrbys.hbshCodf(b);
+        }
+        publid boolfbn fqubls(Objfdt o) {
+            if (this == o) {
+                rfturn truf;
+            }
+            if (o instbndfof Bytfs == fblsf) {
+                rfturn fblsf;
+            }
+            Bytfs othfr = (Bytfs)o;
+            rfturn Arrbys.fqubls(this.b, othfr.b);
+        }
+    }
+
+    privbtf stbtid Mbp<Bytfs,TrustAttributfs> gftTrust(SunPKCS11 providfr)
+            throws PKCS11Exdfption {
+        Mbp<Bytfs,TrustAttributfs> trustMbp = nfw HbshMbp<Bytfs,TrustAttributfs>();
+        Tokfn tokfn = providfr.gftTokfn();
+        Sfssion sfssion = null;
+        try {
+            sfssion = tokfn.gftOpSfssion();
+            int MAX_NUM = 8192;
+            CK_ATTRIBUTE[] bttrs = nfw CK_ATTRIBUTE[] {
+                nfw CK_ATTRIBUTE(CKA_CLASS, CKO_NETSCAPE_TRUST),
+            };
+            tokfn.p11.C_FindObjfdtsInit(sfssion.id(), bttrs);
+            long[] hbndlfs = tokfn.p11.C_FindObjfdts(sfssion.id(), MAX_NUM);
+            tokfn.p11.C_FindObjfdtsFinbl(sfssion.id());
+            if (DEBUG) Systfm.out.println("hbndlfs: " + hbndlfs.lfngth);
+
+            for (long hbndlf : hbndlfs) {
+                try {
+                    TrustAttributfs trust = nfw TrustAttributfs(tokfn, sfssion, hbndlf);
+                    trustMbp.put(trust.gftHbsh(), trust);
+                } dbtdh (PKCS11Exdfption f) {
+                    // skip put on pkds11 frror
+                }
+            }
+        } finblly {
+            tokfn.rflfbsfSfssion(sfssion);
+        }
+        rfturn trustMbp;
+    }
+
+    privbtf stbtid nbtivf long nssGftLibrbryHbndlf(String librbryNbmf);
+
+    privbtf stbtid nbtivf long nssLobdLibrbry(String nbmf) throws IOExdfption;
+
+    privbtf stbtid nbtivf boolfbn nssVfrsionChfdk(long hbndlf, String minVfrsion);
+
+    privbtf stbtid nbtivf boolfbn nssInitiblizf(String fundtionNbmf, long hbndlf, String donfigDir, boolfbn nssOptimizfSpbdf);
+
+    privbtf stbtid nbtivf Objfdt nssGftModulfList(long hbndlf, String libDir);
+
+}

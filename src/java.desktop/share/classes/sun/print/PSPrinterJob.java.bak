@@ -1,2275 +1,2275 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.print;
+pbdkbgf sun.print;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.GraphicsEnvironment;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.HeadlessException;
-import java.awt.Rectangle;
-import java.awt.Shape;
+import jbvb.bwt.Color;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Font;
+import jbvb.bwt.FontMftrids;
+import jbvb.bwt.GrbpiidsEnvironmfnt;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Grbpiids2D;
+import jbvb.bwt.HfbdlfssExdfption;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Sibpf;
 
-import java.awt.image.BufferedImage;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
 
-import java.awt.font.FontRenderContext;
+import jbvb.bwt.font.FontRfndfrContfxt;
 
-import java.awt.geom.AffineTransform;
-import java.awt.geom.PathIterator;
-import java.awt.geom.Rectangle2D;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.PbtiItfrbtor;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
 
-import java.awt.image.BufferedImage;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
 
-import java.awt.print.Pageable;
-import java.awt.print.PageFormat;
-import java.awt.print.Paper;
-import java.awt.print.Printable;
-import java.awt.print.PrinterException;
-import java.awt.print.PrinterIOException;
-import java.awt.print.PrinterJob;
+import jbvb.bwt.print.Pbgfbblf;
+import jbvb.bwt.print.PbgfFormbt;
+import jbvb.bwt.print.Pbpfr;
+import jbvb.bwt.print.Printbblf;
+import jbvb.bwt.print.PrintfrExdfption;
+import jbvb.bwt.print.PrintfrIOExdfption;
+import jbvb.bwt.print.PrintfrJob;
 
-import javax.print.DocFlavor;
-import javax.print.PrintService;
-import javax.print.StreamPrintService;
-import javax.print.attribute.HashPrintRequestAttributeSet;
-import javax.print.attribute.PrintRequestAttributeSet;
-import javax.print.attribute.PrintServiceAttributeSet;
-import javax.print.attribute.standard.PrinterName;
-import javax.print.attribute.standard.Chromaticity;
-import javax.print.attribute.standard.Copies;
-import javax.print.attribute.standard.Destination;
-import javax.print.attribute.standard.DialogTypeSelection;
-import javax.print.attribute.standard.JobName;
-import javax.print.attribute.standard.Sides;
+import jbvbx.print.DodFlbvor;
+import jbvbx.print.PrintSfrvidf;
+import jbvbx.print.StrfbmPrintSfrvidf;
+import jbvbx.print.bttributf.HbsiPrintRfqufstAttributfSft;
+import jbvbx.print.bttributf.PrintRfqufstAttributfSft;
+import jbvbx.print.bttributf.PrintSfrvidfAttributfSft;
+import jbvbx.print.bttributf.stbndbrd.PrintfrNbmf;
+import jbvbx.print.bttributf.stbndbrd.Cirombtidity;
+import jbvbx.print.bttributf.stbndbrd.Copifs;
+import jbvbx.print.bttributf.stbndbrd.Dfstinbtion;
+import jbvbx.print.bttributf.stbndbrd.DiblogTypfSflfdtion;
+import jbvbx.print.bttributf.stbndbrd.JobNbmf;
+import jbvbx.print.bttributf.stbndbrd.Sidfs;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.CharConversionException;
-import java.io.File;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.IOException;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
-import java.io.PrintStream;
-import java.io.PrintWriter;
-import java.io.StringWriter;
+import jbvb.io.BufffrfdInputStrfbm;
+import jbvb.io.BufffrfdOutputStrfbm;
+import jbvb.io.BufffrfdRfbdfr;
+import jbvb.io.CibrConvfrsionExdfption;
+import jbvb.io.Filf;
+import jbvb.io.InputStrfbm;
+import jbvb.io.InputStrfbmRfbdfr;
+import jbvb.io.IOExdfption;
+import jbvb.io.FilfInputStrfbm;
+import jbvb.io.FilfOutputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.PrintStrfbm;
+import jbvb.io.PrintWritfr;
+import jbvb.io.StringWritfr;
 
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.Locale;
-import java.util.Properties;
+import jbvb.util.ArrbyList;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Lodblf;
+import jbvb.util.Propfrtifs;
 
-import sun.awt.CharsetString;
-import sun.awt.FontConfiguration;
-import sun.awt.FontDescriptor;
-import sun.awt.PlatformFont;
-import sun.awt.SunToolkit;
-import sun.font.FontManagerFactory;
-import sun.font.FontUtilities;
+import sun.bwt.CibrsftString;
+import sun.bwt.FontConfigurbtion;
+import sun.bwt.FontDfsdriptor;
+import sun.bwt.PlbtformFont;
+import sun.bwt.SunToolkit;
+import sun.font.FontMbnbgfrFbdtory;
+import sun.font.FontUtilitifs;
 
-import java.nio.charset.*;
-import java.nio.CharBuffer;
-import java.nio.ByteBuffer;
-import java.nio.file.Files;
+import jbvb.nio.dibrsft.*;
+import jbvb.nio.CibrBufffr;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.filf.Filfs;
 
-//REMIND: Remove use of this class when IPPPrintService is moved to share directory.
-import java.lang.reflect.Method;
+//REMIND: Rfmovf usf of tiis dlbss wifn IPPPrintSfrvidf is movfd to sibrf dirfdtory.
+import jbvb.lbng.rfflfdt.Mftiod;
 
 /**
- * A class which initiates and executes a PostScript printer job.
+ * A dlbss wiidi initibtfs bnd fxfdutfs b PostSdript printfr job.
  *
- * @author Richard Blanchard
+ * @butior Ridibrd Blbndibrd
  */
-public class PSPrinterJob extends RasterPrinterJob {
+publid dlbss PSPrintfrJob fxtfnds RbstfrPrintfrJob {
 
- /* Class Constants */
-
-    /**
-     * Passed to the <code>setFillMode</code>
-     * method this value forces fills to be
-     * done using the even-odd fill rule.
-     */
-    protected static final int FILL_EVEN_ODD = 1;
+ /* Clbss Constbnts */
 
     /**
-     * Passed to the <code>setFillMode</code>
-     * method this value forces fills to be
-     * done using the non-zero winding rule.
+     * Pbssfd to tif <dodf>sftFillModf</dodf>
+     * mftiod tiis vbluf fordfs fills to bf
+     * donf using tif fvfn-odd fill rulf.
      */
-    protected static final int FILL_WINDING = 2;
+    protfdtfd stbtid finbl int FILL_EVEN_ODD = 1;
 
-    /* PostScript has a 64K maximum on its strings.
+    /**
+     * Pbssfd to tif <dodf>sftFillModf</dodf>
+     * mftiod tiis vbluf fordfs fills to bf
+     * donf using tif non-zfro winding rulf.
      */
-    private static final int MAX_PSSTR = (1024 * 64 - 1);
+    protfdtfd stbtid finbl int FILL_WINDING = 2;
 
-    private static final int RED_MASK = 0x00ff0000;
-    private static final int GREEN_MASK = 0x0000ff00;
-    private static final int BLUE_MASK = 0x000000ff;
+    /* PostSdript ibs b 64K mbximum on its strings.
+     */
+    privbtf stbtid finbl int MAX_PSSTR = (1024 * 64 - 1);
 
-    private static final int RED_SHIFT = 16;
-    private static final int GREEN_SHIFT = 8;
-    private static final int BLUE_SHIFT = 0;
+    privbtf stbtid finbl int RED_MASK = 0x00ff0000;
+    privbtf stbtid finbl int GREEN_MASK = 0x0000ff00;
+    privbtf stbtid finbl int BLUE_MASK = 0x000000ff;
 
-    private static final int LOWNIBBLE_MASK = 0x0000000f;
-    private static final int HINIBBLE_MASK =  0x000000f0;
-    private static final int HINIBBLE_SHIFT = 4;
-    private static final byte hexDigits[] = {
-        (byte)'0', (byte)'1', (byte)'2', (byte)'3',
-        (byte)'4', (byte)'5', (byte)'6', (byte)'7',
-        (byte)'8', (byte)'9', (byte)'A', (byte)'B',
-        (byte)'C', (byte)'D', (byte)'E', (byte)'F'
+    privbtf stbtid finbl int RED_SHIFT = 16;
+    privbtf stbtid finbl int GREEN_SHIFT = 8;
+    privbtf stbtid finbl int BLUE_SHIFT = 0;
+
+    privbtf stbtid finbl int LOWNIBBLE_MASK = 0x0000000f;
+    privbtf stbtid finbl int HINIBBLE_MASK =  0x000000f0;
+    privbtf stbtid finbl int HINIBBLE_SHIFT = 4;
+    privbtf stbtid finbl bytf ifxDigits[] = {
+        (bytf)'0', (bytf)'1', (bytf)'2', (bytf)'3',
+        (bytf)'4', (bytf)'5', (bytf)'6', (bytf)'7',
+        (bytf)'8', (bytf)'9', (bytf)'A', (bytf)'B',
+        (bytf)'C', (bytf)'D', (bytf)'E', (bytf)'F'
     };
 
-    private static final int PS_XRES = 300;
-    private static final int PS_YRES = 300;
+    privbtf stbtid finbl int PS_XRES = 300;
+    privbtf stbtid finbl int PS_YRES = 300;
 
-    private static final String ADOBE_PS_STR =  "%!PS-Adobe-3.0";
-    private static final String EOF_COMMENT =   "%%EOF";
-    private static final String PAGE_COMMENT =  "%%Page: ";
+    privbtf stbtid finbl String ADOBE_PS_STR =  "%!PS-Adobf-3.0";
+    privbtf stbtid finbl String EOF_COMMENT =   "%%EOF";
+    privbtf stbtid finbl String PAGE_COMMENT =  "%%Pbgf: ";
 
-    private static final String READIMAGEPROC = "/imStr 0 def /imageSrc " +
-        "{currentfile /ASCII85Decode filter /RunLengthDecode filter " +
-        " imStr readstring pop } def";
+    privbtf stbtid finbl String READIMAGEPROC = "/imStr 0 dff /imbgfSrd " +
+        "{durrfntfilf /ASCII85Dfdodf filtfr /RunLfngtiDfdodf filtfr " +
+        " imStr rfbdstring pop } dff";
 
-    private static final String COPIES =        "/#copies exch def";
-    private static final String PAGE_SAVE =     "/pgSave save def";
-    private static final String PAGE_RESTORE =  "pgSave restore";
-    private static final String SHOWPAGE =      "showpage";
-    private static final String IMAGE_SAVE =    "/imSave save def";
-    private static final String IMAGE_STR =     " string /imStr exch def";
-    private static final String IMAGE_RESTORE = "imSave restore";
+    privbtf stbtid finbl String COPIES =        "/#dopifs fxdi dff";
+    privbtf stbtid finbl String PAGE_SAVE =     "/pgSbvf sbvf dff";
+    privbtf stbtid finbl String PAGE_RESTORE =  "pgSbvf rfstorf";
+    privbtf stbtid finbl String SHOWPAGE =      "siowpbgf";
+    privbtf stbtid finbl String IMAGE_SAVE =    "/imSbvf sbvf dff";
+    privbtf stbtid finbl String IMAGE_STR =     " string /imStr fxdi dff";
+    privbtf stbtid finbl String IMAGE_RESTORE = "imSbvf rfstorf";
 
-    private static final String SetFontName = "F";
+    privbtf stbtid finbl String SftFontNbmf = "F";
 
-    private static final String DrawStringName = "S";
-
-    /**
-     * The PostScript invocation to fill a path using the
-     * even-odd rule. (eofill)
-     */
-    private static final String EVEN_ODD_FILL_STR = "EF";
+    privbtf stbtid finbl String DrbwStringNbmf = "S";
 
     /**
-     * The PostScript invocation to fill a path using the
-     * non-zero winding rule. (fill)
+     * Tif PostSdript invodbtion to fill b pbti using tif
+     * fvfn-odd rulf. (fofill)
      */
-    private static final String WINDING_FILL_STR = "WF";
+    privbtf stbtid finbl String EVEN_ODD_FILL_STR = "EF";
 
     /**
-     * The PostScript to set the clip to be the current path
-     * using the even odd rule. (eoclip)
+     * Tif PostSdript invodbtion to fill b pbti using tif
+     * non-zfro winding rulf. (fill)
      */
-    private static final String EVEN_ODD_CLIP_STR = "EC";
+    privbtf stbtid finbl String WINDING_FILL_STR = "WF";
 
     /**
-     * The PostScript to set the clip to be the current path
-     * using the non-zero winding rule. (clip)
+     * Tif PostSdript to sft tif dlip to bf tif durrfnt pbti
+     * using tif fvfn odd rulf. (fodlip)
      */
-    private static final String WINDING_CLIP_STR = "WC";
+    privbtf stbtid finbl String EVEN_ODD_CLIP_STR = "EC";
 
     /**
-     * Expecting two numbers on the PostScript stack, this
-     * invocation moves the current pen position. (moveto)
+     * Tif PostSdript to sft tif dlip to bf tif durrfnt pbti
+     * using tif non-zfro winding rulf. (dlip)
      */
-    private static final String MOVETO_STR = " M";
-    /**
-     * Expecting two numbers on the PostScript stack, this
-     * invocation draws a PS line from the current pen
-     * position to the point on the stack. (lineto)
-     */
-    private static final String LINETO_STR = " L";
+    privbtf stbtid finbl String WINDING_CLIP_STR = "WC";
 
     /**
-     * This PostScript operator takes two control points
-     * and an ending point and using the current pen
-     * position as a starting point adds a bezier
-     * curve to the current path. (curveto)
+     * Expfdting two numbfrs on tif PostSdript stbdk, tiis
+     * invodbtion movfs tif durrfnt pfn position. (movfto)
      */
-    private static final String CURVETO_STR = " C";
+    privbtf stbtid finbl String MOVETO_STR = " M";
+    /**
+     * Expfdting two numbfrs on tif PostSdript stbdk, tiis
+     * invodbtion drbws b PS linf from tif durrfnt pfn
+     * position to tif point on tif stbdk. (linfto)
+     */
+    privbtf stbtid finbl String LINETO_STR = " L";
 
     /**
-     * The PostScript to pop a state off of the printer's
-     * gstate stack. (grestore)
+     * Tiis PostSdript opfrbtor tbkfs two dontrol points
+     * bnd bn fnding point bnd using tif durrfnt pfn
+     * position bs b stbrting point bdds b bfzifr
+     * durvf to tif durrfnt pbti. (durvfto)
      */
-    private static final String GRESTORE_STR = "R";
-    /**
-     * The PostScript to push a state on to the printer's
-     * gstate stack. (gsave)
-     */
-    private static final String GSAVE_STR = "G";
+    privbtf stbtid finbl String CURVETO_STR = " C";
 
     /**
-     * Make the current PostScript path an empty path. (newpath)
+     * Tif PostSdript to pop b stbtf off of tif printfr's
+     * gstbtf stbdk. (grfstorf)
      */
-    private static final String NEWPATH_STR = "N";
+    privbtf stbtid finbl String GRESTORE_STR = "R";
+    /**
+     * Tif PostSdript to pusi b stbtf on to tif printfr's
+     * gstbtf stbdk. (gsbvf)
+     */
+    privbtf stbtid finbl String GSAVE_STR = "G";
 
     /**
-     * Close the current subpath by generating a line segment
-     * from the current position to the start of the subpath. (closepath)
+     * Mbkf tif durrfnt PostSdript pbti bn fmpty pbti. (nfwpbti)
      */
-    private static final String CLOSEPATH_STR = "P";
+    privbtf stbtid finbl String NEWPATH_STR = "N";
 
     /**
-     * Use the three numbers on top of the PS operator
-     * stack to set the rgb color. (setrgbcolor)
+     * Closf tif durrfnt subpbti by gfnfrbting b linf sfgmfnt
+     * from tif durrfnt position to tif stbrt of tif subpbti. (dlosfpbti)
      */
-    private static final String SETRGBCOLOR_STR = " SC";
+    privbtf stbtid finbl String CLOSEPATH_STR = "P";
 
     /**
-     * Use the top number on the stack to set the printer's
-     * current gray value. (setgray)
+     * Usf tif tirff numbfrs on top of tif PS opfrbtor
+     * stbdk to sft tif rgb dolor. (sftrgbdolor)
      */
-    private static final String SETGRAY_STR = " SG";
+    privbtf stbtid finbl String SETRGBCOLOR_STR = " SC";
 
- /* Instance Variables */
+    /**
+     * Usf tif top numbfr on tif stbdk to sft tif printfr's
+     * durrfnt grby vbluf. (sftgrby)
+     */
+    privbtf stbtid finbl String SETGRAY_STR = " SG";
 
-   private int mDestType;
+ /* Instbndf Vbribblfs */
 
-   private String mDestination = "lp";
+   privbtf int mDfstTypf;
 
-   private boolean mNoJobSheet = false;
+   privbtf String mDfstinbtion = "lp";
 
-   private String mOptions;
+   privbtf boolfbn mNoJobSifft = fblsf;
 
-   private Font mLastFont;
+   privbtf String mOptions;
 
-   private Color mLastColor;
+   privbtf Font mLbstFont;
 
-   private Shape mLastClip;
+   privbtf Color mLbstColor;
 
-   private AffineTransform mLastTransform;
+   privbtf Sibpf mLbstClip;
 
-   private double xres = PS_XRES;
-   private double yres = PS_XRES;
+   privbtf AffinfTrbnsform mLbstTrbnsform;
 
-   /* non-null if printing EPS for Java Plugin */
-   private EPSPrinter epsPrinter = null;
+   privbtf doublf xrfs = PS_XRES;
+   privbtf doublf yrfs = PS_XRES;
+
+   /* non-null if printing EPS for Jbvb Plugin */
+   privbtf EPSPrintfr fpsPrintfr = null;
 
    /**
-    * The metrics for the font currently set.
+    * Tif mftrids for tif font durrfntly sft.
     */
-   FontMetrics mCurMetrics;
+   FontMftrids mCurMftrids;
 
    /**
-    * The output stream to which the generated PostScript
-    * is written.
+    * Tif output strfbm to wiidi tif gfnfrbtfd PostSdript
+    * is writtfn.
     */
-   PrintStream mPSStream;
+   PrintStrfbm mPSStrfbm;
 
-   /* The temporary file to which we spool before sending to the printer  */
+   /* Tif tfmporbry filf to wiidi wf spool bfforf sfnding to tif printfr  */
 
-   File spoolFile;
+   Filf spoolFilf;
 
    /**
-    * This string holds the PostScript operator to
-    * be used to fill a path. It can be changed
-    * by the <code>setFillMode</code> method.
+    * Tiis string iolds tif PostSdript opfrbtor to
+    * bf usfd to fill b pbti. It dbn bf dibngfd
+    * by tif <dodf>sftFillModf</dodf> mftiod.
     */
-    private String mFillOpStr = WINDING_FILL_STR;
+    privbtf String mFillOpStr = WINDING_FILL_STR;
 
    /**
-    * This string holds the PostScript operator to
-    * be used to clip to a path. It can be changed
-    * by the <code>setFillMode</code> method.
+    * Tiis string iolds tif PostSdript opfrbtor to
+    * bf usfd to dlip to b pbti. It dbn bf dibngfd
+    * by tif <dodf>sftFillModf</dodf> mftiod.
     */
-    private String mClipOpStr = WINDING_CLIP_STR;
+    privbtf String mClipOpStr = WINDING_CLIP_STR;
 
    /**
-    * A stack that represents the PostScript gstate stack.
+    * A stbdk tibt rfprfsfnts tif PostSdript gstbtf stbdk.
     */
-   ArrayList<GState> mGStateStack = new ArrayList<>();
+   ArrbyList<GStbtf> mGStbtfStbdk = nfw ArrbyList<>();
 
    /**
-    * The x coordinate of the current pen position.
+    * Tif x doordinbtf of tif durrfnt pfn position.
     */
-   private float mPenX;
+   privbtf flobt mPfnX;
 
    /**
-    * The y coordinate of the current pen position.
+    * Tif y doordinbtf of tif durrfnt pfn position.
     */
-   private float mPenY;
+   privbtf flobt mPfnY;
 
    /**
-    * The x coordinate of the starting point of
-    * the current subpath.
+    * Tif x doordinbtf of tif stbrting point of
+    * tif durrfnt subpbti.
     */
-   private float mStartPathX;
+   privbtf flobt mStbrtPbtiX;
 
    /**
-    * The y coordinate of the starting point of
-    * the current subpath.
+    * Tif y doordinbtf of tif stbrting point of
+    * tif durrfnt subpbti.
     */
-   private float mStartPathY;
+   privbtf flobt mStbrtPbtiY;
 
    /**
-    * An optional mapping of fonts to PostScript names.
+    * An optionbl mbpping of fonts to PostSdript nbmfs.
     */
-   private static Properties mFontProps = null;
+   privbtf stbtid Propfrtifs mFontProps = null;
 
-   private static boolean isMac;
+   privbtf stbtid boolfbn isMbd;
 
-    /* Class static initialiser block */
-    static {
-       //enable priviledges so initProps can access system properties,
-        // open the property file, etc.
-        java.security.AccessController.doPrivileged(
-                            new java.security.PrivilegedAction<Object>() {
-            public Object run() {
+    /* Clbss stbtid initiblisfr blodk */
+    stbtid {
+       //fnbblf privilfdgfs so initProps dbn bddfss systfm propfrtifs,
+        // opfn tif propfrty filf, ftd.
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                            nfw jbvb.sfdurity.PrivilfgfdAdtion<Objfdt>() {
+            publid Objfdt run() {
                 mFontProps = initProps();
-                String osName = System.getProperty("os.name");
-                isMac = osName.startsWith("Mac");
-                return null;
+                String osNbmf = Systfm.gftPropfrty("os.nbmf");
+                isMbd = osNbmf.stbrtsWiti("Mbd");
+                rfturn null;
             }
         });
     }
 
     /*
-     * Initialize PostScript font properties.
-     * Copied from PSPrintStream
+     * Initiblizf PostSdript font propfrtifs.
+     * Copifd from PSPrintStrfbm
      */
-    private static Properties initProps() {
-        // search psfont.properties for fonts
-        // and create and initialize fontProps if it exist.
+    privbtf stbtid Propfrtifs initProps() {
+        // sfbrdi psfont.propfrtifs for fonts
+        // bnd drfbtf bnd initiblizf fontProps if it fxist.
 
-        String jhome = System.getProperty("java.home");
+        String jiomf = Systfm.gftPropfrty("jbvb.iomf");
 
-        if (jhome != null){
-            String ulocale = SunToolkit.getStartupLocale().getLanguage();
+        if (jiomf != null){
+            String ulodblf = SunToolkit.gftStbrtupLodblf().gftLbngubgf();
             try {
 
-                File f = new File(jhome + File.separator +
-                                  "lib" + File.separator +
-                                  "psfontj2d.properties." + ulocale);
+                Filf f = nfw Filf(jiomf + Filf.sfpbrbtor +
+                                  "lib" + Filf.sfpbrbtor +
+                                  "psfontj2d.propfrtifs." + ulodblf);
 
-                if (!f.canRead()){
+                if (!f.dbnRfbd()){
 
-                    f = new File(jhome + File.separator +
-                                      "lib" + File.separator +
-                                      "psfont.properties." + ulocale);
-                    if (!f.canRead()){
+                    f = nfw Filf(jiomf + Filf.sfpbrbtor +
+                                      "lib" + Filf.sfpbrbtor +
+                                      "psfont.propfrtifs." + ulodblf);
+                    if (!f.dbnRfbd()){
 
-                        f = new File(jhome + File.separator + "lib" +
-                                     File.separator + "psfontj2d.properties");
+                        f = nfw Filf(jiomf + Filf.sfpbrbtor + "lib" +
+                                     Filf.sfpbrbtor + "psfontj2d.propfrtifs");
 
-                        if (!f.canRead()){
+                        if (!f.dbnRfbd()){
 
-                            f = new File(jhome + File.separator + "lib" +
-                                         File.separator + "psfont.properties");
+                            f = nfw Filf(jiomf + Filf.sfpbrbtor + "lib" +
+                                         Filf.sfpbrbtor + "psfont.propfrtifs");
 
-                            if (!f.canRead()){
-                                return (Properties)null;
+                            if (!f.dbnRfbd()){
+                                rfturn (Propfrtifs)null;
                             }
                         }
                     }
                 }
 
-                // Load property file
-                InputStream in =
-                    new BufferedInputStream(new FileInputStream(f.getPath()));
-                Properties props = new Properties();
-                props.load(in);
-                in.close();
-                return props;
-            } catch (Exception e){
-                return (Properties)null;
+                // Lobd propfrty filf
+                InputStrfbm in =
+                    nfw BufffrfdInputStrfbm(nfw FilfInputStrfbm(f.gftPbti()));
+                Propfrtifs props = nfw Propfrtifs();
+                props.lobd(in);
+                in.dlosf();
+                rfturn props;
+            } dbtdi (Exdfption f){
+                rfturn (Propfrtifs)null;
             }
         }
-        return (Properties)null;
+        rfturn (Propfrtifs)null;
     }
 
- /* Constructors */
+ /* Construdtors */
 
-    public PSPrinterJob()
+    publid PSPrintfrJob()
     {
     }
 
- /* Instance Methods */
+ /* Instbndf Mftiods */
 
    /**
-     * Presents the user a dialog for changing properties of the
-     * print job interactively.
-     * @returns false if the user cancels the dialog and
-     *          true otherwise.
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
-     * returns true.
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * Prfsfnts tif usfr b diblog for dibnging propfrtifs of tif
+     * print job intfrbdtivfly.
+     * @rfturns fblsf if tif usfr dbndfls tif diblog bnd
+     *          truf otifrwisf.
+     * @fxdfption HfbdlfssExdfption if GrbpiidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf.
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
      */
-    public boolean printDialog() throws HeadlessException {
+    publid boolfbn printDiblog() tirows HfbdlfssExdfption {
 
-        if (GraphicsEnvironment.isHeadless()) {
-            throw new HeadlessException();
+        if (GrbpiidsEnvironmfnt.isHfbdlfss()) {
+            tirow nfw HfbdlfssExdfption();
         }
 
-        if (attributes == null) {
-            attributes = new HashPrintRequestAttributeSet();
+        if (bttributfs == null) {
+            bttributfs = nfw HbsiPrintRfqufstAttributfSft();
         }
-        attributes.add(new Copies(getCopies()));
-        attributes.add(new JobName(getJobName(), null));
+        bttributfs.bdd(nfw Copifs(gftCopifs()));
+        bttributfs.bdd(nfw JobNbmf(gftJobNbmf(), null));
 
-        boolean doPrint = false;
-        DialogTypeSelection dts =
-            (DialogTypeSelection)attributes.get(DialogTypeSelection.class);
-        if (dts == DialogTypeSelection.NATIVE) {
-            // Remove DialogTypeSelection.NATIVE to prevent infinite loop in
-            // RasterPrinterJob.
-            attributes.remove(DialogTypeSelection.class);
-            doPrint = printDialog(attributes);
-            // restore attribute
-            attributes.add(DialogTypeSelection.NATIVE);
-        } else {
-            doPrint = printDialog(attributes);
+        boolfbn doPrint = fblsf;
+        DiblogTypfSflfdtion dts =
+            (DiblogTypfSflfdtion)bttributfs.gft(DiblogTypfSflfdtion.dlbss);
+        if (dts == DiblogTypfSflfdtion.NATIVE) {
+            // Rfmovf DiblogTypfSflfdtion.NATIVE to prfvfnt infinitf loop in
+            // RbstfrPrintfrJob.
+            bttributfs.rfmovf(DiblogTypfSflfdtion.dlbss);
+            doPrint = printDiblog(bttributfs);
+            // rfstorf bttributf
+            bttributfs.bdd(DiblogTypfSflfdtion.NATIVE);
+        } flsf {
+            doPrint = printDiblog(bttributfs);
         }
 
         if (doPrint) {
-            JobName jobName = (JobName)attributes.get(JobName.class);
-            if (jobName != null) {
-                setJobName(jobName.getValue());
+            JobNbmf jobNbmf = (JobNbmf)bttributfs.gft(JobNbmf.dlbss);
+            if (jobNbmf != null) {
+                sftJobNbmf(jobNbmf.gftVbluf());
             }
-            Copies copies = (Copies)attributes.get(Copies.class);
-            if (copies != null) {
-                setCopies(copies.getValue());
+            Copifs dopifs = (Copifs)bttributfs.gft(Copifs.dlbss);
+            if (dopifs != null) {
+                sftCopifs(dopifs.gftVbluf());
             }
 
-            Destination dest = (Destination)attributes.get(Destination.class);
+            Dfstinbtion dfst = (Dfstinbtion)bttributfs.gft(Dfstinbtion.dlbss);
 
-            if (dest != null) {
+            if (dfst != null) {
                 try {
-                    mDestType = RasterPrinterJob.FILE;
-                    mDestination = (new File(dest.getURI())).getPath();
-                } catch (Exception e) {
-                    mDestination = "out.ps";
+                    mDfstTypf = RbstfrPrintfrJob.FILE;
+                    mDfstinbtion = (nfw Filf(dfst.gftURI())).gftPbti();
+                } dbtdi (Exdfption f) {
+                    mDfstinbtion = "out.ps";
                 }
-            } else {
-                mDestType = RasterPrinterJob.PRINTER;
-                PrintService pServ = getPrintService();
-                if (pServ != null) {
-                    mDestination = pServ.getName();
-                   if (isMac) {
-                        PrintServiceAttributeSet psaSet = pServ.getAttributes() ;
-                        if (psaSet != null) {
-                            mDestination = psaSet.get(PrinterName.class).toString();
+            } flsf {
+                mDfstTypf = RbstfrPrintfrJob.PRINTER;
+                PrintSfrvidf pSfrv = gftPrintSfrvidf();
+                if (pSfrv != null) {
+                    mDfstinbtion = pSfrv.gftNbmf();
+                   if (isMbd) {
+                        PrintSfrvidfAttributfSft psbSft = pSfrv.gftAttributfs() ;
+                        if (psbSft != null) {
+                            mDfstinbtion = psbSft.gft(PrintfrNbmf.dlbss).toString();
                         }
                     }
                 }
             }
         }
 
-        return doPrint;
+        rfturn doPrint;
     }
 
     /**
-     * Invoked by the RasterPrinterJob super class
-     * this method is called to mark the start of a
-     * document.
+     * Invokfd by tif RbstfrPrintfrJob supfr dlbss
+     * tiis mftiod is dbllfd to mbrk tif stbrt of b
+     * dodumfnt.
      */
-    protected void startDoc() throws PrinterException {
+    protfdtfd void stbrtDod() tirows PrintfrExdfption {
 
-        // A security check has been performed in the
-        // java.awt.print.printerJob.getPrinterJob method.
-        // We use an inner class to execute the privilged open operations.
-        // Note that we only open a file if it has been nominated by
-        // the end-user in a dialog that we ouselves put up.
+        // A sfdurity difdk ibs bffn pfrformfd in tif
+        // jbvb.bwt.print.printfrJob.gftPrintfrJob mftiod.
+        // Wf usf bn innfr dlbss to fxfdutf tif privilgfd opfn opfrbtions.
+        // Notf tibt wf only opfn b filf if it ibs bffn nominbtfd by
+        // tif fnd-usfr in b diblog tibt wf ousflvfs put up.
 
-        OutputStream output;
+        OutputStrfbm output;
 
-        if (epsPrinter == null) {
-            if (getPrintService() instanceof PSStreamPrintService) {
-                StreamPrintService sps = (StreamPrintService)getPrintService();
-                mDestType = RasterPrinterJob.STREAM;
-                if (sps.isDisposed()) {
-                    throw new PrinterException("service is disposed");
+        if (fpsPrintfr == null) {
+            if (gftPrintSfrvidf() instbndfof PSStrfbmPrintSfrvidf) {
+                StrfbmPrintSfrvidf sps = (StrfbmPrintSfrvidf)gftPrintSfrvidf();
+                mDfstTypf = RbstfrPrintfrJob.STREAM;
+                if (sps.isDisposfd()) {
+                    tirow nfw PrintfrExdfption("sfrvidf is disposfd");
                 }
-                output = sps.getOutputStream();
+                output = sps.gftOutputStrfbm();
                 if (output == null) {
-                    throw new PrinterException("Null output stream");
+                    tirow nfw PrintfrExdfption("Null output strfbm");
                 }
-            } else {
-                /* REMIND: This needs to be more maintainable */
-                mNoJobSheet = super.noJobSheet;
-                if (super.destinationAttr != null) {
-                    mDestType = RasterPrinterJob.FILE;
-                    mDestination = super.destinationAttr;
+            } flsf {
+                /* REMIND: Tiis nffds to bf morf mbintbinbblf */
+                mNoJobSifft = supfr.noJobSifft;
+                if (supfr.dfstinbtionAttr != null) {
+                    mDfstTypf = RbstfrPrintfrJob.FILE;
+                    mDfstinbtion = supfr.dfstinbtionAttr;
                 }
-                if (mDestType == RasterPrinterJob.FILE) {
+                if (mDfstTypf == RbstfrPrintfrJob.FILE) {
                     try {
-                        spoolFile = new File(mDestination);
-                        output =  new FileOutputStream(spoolFile);
-                    } catch (IOException ex) {
-                        throw new PrinterIOException(ex);
+                        spoolFilf = nfw Filf(mDfstinbtion);
+                        output =  nfw FilfOutputStrfbm(spoolFilf);
+                    } dbtdi (IOExdfption fx) {
+                        tirow nfw PrintfrIOExdfption(fx);
                     }
-                } else {
-                    PrinterOpener po = new PrinterOpener();
-                    java.security.AccessController.doPrivileged(po);
-                    if (po.pex != null) {
-                        throw po.pex;
+                } flsf {
+                    PrintfrOpfnfr po = nfw PrintfrOpfnfr();
+                    jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(po);
+                    if (po.pfx != null) {
+                        tirow po.pfx;
                     }
-                    output = po.result;
+                    output = po.rfsult;
                 }
             }
 
-            mPSStream = new PrintStream(new BufferedOutputStream(output));
-            mPSStream.println(ADOBE_PS_STR);
+            mPSStrfbm = nfw PrintStrfbm(nfw BufffrfdOutputStrfbm(output));
+            mPSStrfbm.println(ADOBE_PS_STR);
         }
 
-        mPSStream.println("%%BeginProlog");
-        mPSStream.println(READIMAGEPROC);
-        mPSStream.println("/BD {bind def} bind def");
-        mPSStream.println("/D {def} BD");
-        mPSStream.println("/C {curveto} BD");
-        mPSStream.println("/L {lineto} BD");
-        mPSStream.println("/M {moveto} BD");
-        mPSStream.println("/R {grestore} BD");
-        mPSStream.println("/G {gsave} BD");
-        mPSStream.println("/N {newpath} BD");
-        mPSStream.println("/P {closepath} BD");
-        mPSStream.println("/EC {eoclip} BD");
-        mPSStream.println("/WC {clip} BD");
-        mPSStream.println("/EF {eofill} BD");
-        mPSStream.println("/WF {fill} BD");
-        mPSStream.println("/SG {setgray} BD");
-        mPSStream.println("/SC {setrgbcolor} BD");
-        mPSStream.println("/ISOF {");
-        mPSStream.println("     dup findfont dup length 1 add dict begin {");
-        mPSStream.println("             1 index /FID eq {pop pop} {D} ifelse");
-        mPSStream.println("     } forall /Encoding ISOLatin1Encoding D");
-        mPSStream.println("     currentdict end definefont");
-        mPSStream.println("} BD");
-        mPSStream.println("/NZ {dup 1 lt {pop 1} if} BD");
-        /* The following procedure takes args: string, x, y, desiredWidth.
-         * It calculates using stringwidth the width of the string in the
-         * current font and subtracts it from the desiredWidth and divides
-         * this by stringLen-1. This gives us a per-glyph adjustment in
-         * the spacing needed (either +ve or -ve) to make the string
-         * print at the desiredWidth. The ashow procedure call takes this
-         * per-glyph adjustment as an argument. This is necessary for WYSIWYG
+        mPSStrfbm.println("%%BfginProlog");
+        mPSStrfbm.println(READIMAGEPROC);
+        mPSStrfbm.println("/BD {bind dff} bind dff");
+        mPSStrfbm.println("/D {dff} BD");
+        mPSStrfbm.println("/C {durvfto} BD");
+        mPSStrfbm.println("/L {linfto} BD");
+        mPSStrfbm.println("/M {movfto} BD");
+        mPSStrfbm.println("/R {grfstorf} BD");
+        mPSStrfbm.println("/G {gsbvf} BD");
+        mPSStrfbm.println("/N {nfwpbti} BD");
+        mPSStrfbm.println("/P {dlosfpbti} BD");
+        mPSStrfbm.println("/EC {fodlip} BD");
+        mPSStrfbm.println("/WC {dlip} BD");
+        mPSStrfbm.println("/EF {fofill} BD");
+        mPSStrfbm.println("/WF {fill} BD");
+        mPSStrfbm.println("/SG {sftgrby} BD");
+        mPSStrfbm.println("/SC {sftrgbdolor} BD");
+        mPSStrfbm.println("/ISOF {");
+        mPSStrfbm.println("     dup findfont dup lfngti 1 bdd didt bfgin {");
+        mPSStrfbm.println("             1 indfx /FID fq {pop pop} {D} ifflsf");
+        mPSStrfbm.println("     } forbll /Endoding ISOLbtin1Endoding D");
+        mPSStrfbm.println("     durrfntdidt fnd dffinffont");
+        mPSStrfbm.println("} BD");
+        mPSStrfbm.println("/NZ {dup 1 lt {pop 1} if} BD");
+        /* Tif following prodfdurf tbkfs brgs: string, x, y, dfsirfdWidti.
+         * It dbldulbtfs using stringwidti tif widti of tif string in tif
+         * durrfnt font bnd subtrbdts it from tif dfsirfdWidti bnd dividfs
+         * tiis by stringLfn-1. Tiis givfs us b pfr-glypi bdjustmfnt in
+         * tif spbding nffdfd (fitifr +vf or -vf) to mbkf tif string
+         * print bt tif dfsirfdWidti. Tif bsiow prodfdurf dbll tbkfs tiis
+         * pfr-glypi bdjustmfnt bs bn brgumfnt. Tiis is nfdfssbry for WYSIWYG
          */
-        mPSStream.println("/"+DrawStringName +" {");
-        mPSStream.println("     moveto 1 index stringwidth pop NZ sub");
-        mPSStream.println("     1 index length 1 sub NZ div 0");
-        mPSStream.println("     3 2 roll ashow newpath} BD");
-        mPSStream.println("/FL [");
+        mPSStrfbm.println("/"+DrbwStringNbmf +" {");
+        mPSStrfbm.println("     movfto 1 indfx stringwidti pop NZ sub");
+        mPSStrfbm.println("     1 indfx lfngti 1 sub NZ div 0");
+        mPSStrfbm.println("     3 2 roll bsiow nfwpbti} BD");
+        mPSStrfbm.println("/FL [");
         if (mFontProps == null){
-            mPSStream.println(" /Helvetica ISOF");
-            mPSStream.println(" /Helvetica-Bold ISOF");
-            mPSStream.println(" /Helvetica-Oblique ISOF");
-            mPSStream.println(" /Helvetica-BoldOblique ISOF");
-            mPSStream.println(" /Times-Roman ISOF");
-            mPSStream.println(" /Times-Bold ISOF");
-            mPSStream.println(" /Times-Italic ISOF");
-            mPSStream.println(" /Times-BoldItalic ISOF");
-            mPSStream.println(" /Courier ISOF");
-            mPSStream.println(" /Courier-Bold ISOF");
-            mPSStream.println(" /Courier-Oblique ISOF");
-            mPSStream.println(" /Courier-BoldOblique ISOF");
-        } else {
-            int cnt = Integer.parseInt(mFontProps.getProperty("font.num", "9"));
-            for (int i = 0; i < cnt; i++){
-                mPSStream.println("    /" + mFontProps.getProperty
-                           ("font." + String.valueOf(i), "Courier ISOF"));
+            mPSStrfbm.println(" /Hflvftidb ISOF");
+            mPSStrfbm.println(" /Hflvftidb-Bold ISOF");
+            mPSStrfbm.println(" /Hflvftidb-Obliquf ISOF");
+            mPSStrfbm.println(" /Hflvftidb-BoldObliquf ISOF");
+            mPSStrfbm.println(" /Timfs-Rombn ISOF");
+            mPSStrfbm.println(" /Timfs-Bold ISOF");
+            mPSStrfbm.println(" /Timfs-Itblid ISOF");
+            mPSStrfbm.println(" /Timfs-BoldItblid ISOF");
+            mPSStrfbm.println(" /Courifr ISOF");
+            mPSStrfbm.println(" /Courifr-Bold ISOF");
+            mPSStrfbm.println(" /Courifr-Obliquf ISOF");
+            mPSStrfbm.println(" /Courifr-BoldObliquf ISOF");
+        } flsf {
+            int dnt = Intfgfr.pbrsfInt(mFontProps.gftPropfrty("font.num", "9"));
+            for (int i = 0; i < dnt; i++){
+                mPSStrfbm.println("    /" + mFontProps.gftPropfrty
+                           ("font." + String.vblufOf(i), "Courifr ISOF"));
             }
         }
-        mPSStream.println("] D");
+        mPSStrfbm.println("] D");
 
-        mPSStream.println("/"+SetFontName +" {");
-        mPSStream.println("     FL exch get exch scalefont");
-        mPSStream.println("     [1 0 0 -1 0 0] makefont setfont} BD");
+        mPSStrfbm.println("/"+SftFontNbmf +" {");
+        mPSStrfbm.println("     FL fxdi gft fxdi sdblffont");
+        mPSStrfbm.println("     [1 0 0 -1 0 0] mbkffont sftfont} BD");
 
-        mPSStream.println("%%EndProlog");
+        mPSStrfbm.println("%%EndProlog");
 
-        mPSStream.println("%%BeginSetup");
-        if (epsPrinter == null) {
-            // Set Page Size using first page's format.
-            PageFormat pageFormat = getPageable().getPageFormat(0);
-            double paperHeight = pageFormat.getPaper().getHeight();
-            double paperWidth = pageFormat.getPaper().getWidth();
+        mPSStrfbm.println("%%BfginSftup");
+        if (fpsPrintfr == null) {
+            // Sft Pbgf Sizf using first pbgf's formbt.
+            PbgfFormbt pbgfFormbt = gftPbgfbblf().gftPbgfFormbt(0);
+            doublf pbpfrHfigit = pbgfFormbt.gftPbpfr().gftHfigit();
+            doublf pbpfrWidti = pbgfFormbt.gftPbpfr().gftWidti();
 
-            /* PostScript printers can always generate uncollated copies.
+            /* PostSdript printfrs dbn blwbys gfnfrbtf undollbtfd dopifs.
              */
-            mPSStream.print("<< /PageSize [" +
-                                           paperWidth + " "+ paperHeight+"]");
+            mPSStrfbm.print("<< /PbgfSizf [" +
+                                           pbpfrWidti + " "+ pbpfrHfigit+"]");
 
-            final PrintService pservice = getPrintService();
-            Boolean isPS = java.security.AccessController.doPrivileged(
-                new java.security.PrivilegedAction<Boolean>() {
-                    public Boolean run() {
+            finbl PrintSfrvidf psfrvidf = gftPrintSfrvidf();
+            Boolfbn isPS = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                nfw jbvb.sfdurity.PrivilfgfdAdtion<Boolfbn>() {
+                    publid Boolfbn run() {
                        try {
-                           Class<?> psClass = Class.forName("sun.print.IPPPrintService");
-                           if (psClass.isInstance(pservice)) {
-                               Method isPSMethod = psClass.getMethod("isPostscript",
-                                                                     (Class[])null);
-                               return (Boolean)isPSMethod.invoke(pservice, (Object[])null);
+                           Clbss<?> psClbss = Clbss.forNbmf("sun.print.IPPPrintSfrvidf");
+                           if (psClbss.isInstbndf(psfrvidf)) {
+                               Mftiod isPSMftiod = psClbss.gftMftiod("isPostsdript",
+                                                                     (Clbss[])null);
+                               rfturn (Boolfbn)isPSMftiod.invokf(psfrvidf, (Objfdt[])null);
                            }
-                       } catch (Throwable t) {
+                       } dbtdi (Tirowbblf t) {
                        }
-                       return Boolean.TRUE;
+                       rfturn Boolfbn.TRUE;
                     }
                 }
             );
             if (isPS) {
-                mPSStream.print(" /DeferredMediaSelection true");
+                mPSStrfbm.print(" /DfffrrfdMfdibSflfdtion truf");
             }
 
-            mPSStream.print(" /ImagingBBox null /ManualFeed false");
-            mPSStream.print(isCollated() ? " /Collate true":"");
-            mPSStream.print(" /NumCopies " +getCopiesInt());
+            mPSStrfbm.print(" /ImbgingBBox null /MbnublFffd fblsf");
+            mPSStrfbm.print(isCollbtfd() ? " /Collbtf truf":"");
+            mPSStrfbm.print(" /NumCopifs " +gftCopifsInt());
 
-            if (sidesAttr != Sides.ONE_SIDED) {
-                if (sidesAttr == Sides.TWO_SIDED_LONG_EDGE) {
-                    mPSStream.print(" /Duplex true ");
-                } else if (sidesAttr == Sides.TWO_SIDED_SHORT_EDGE) {
-                    mPSStream.print(" /Duplex true /Tumble true ");
+            if (sidfsAttr != Sidfs.ONE_SIDED) {
+                if (sidfsAttr == Sidfs.TWO_SIDED_LONG_EDGE) {
+                    mPSStrfbm.print(" /Duplfx truf ");
+                } flsf if (sidfsAttr == Sidfs.TWO_SIDED_SHORT_EDGE) {
+                    mPSStrfbm.print(" /Duplfx truf /Tumblf truf ");
                 }
             }
-            mPSStream.println(" >> setpagedevice ");
+            mPSStrfbm.println(" >> sftpbgfdfvidf ");
         }
-        mPSStream.println("%%EndSetup");
+        mPSStrfbm.println("%%EndSftup");
     }
 
-    // Inner class to run "privileged" to open the printer output stream.
+    // Innfr dlbss to run "privilfgfd" to opfn tif printfr output strfbm.
 
-    private class PrinterOpener implements java.security.PrivilegedAction<OutputStream> {
-        PrinterException pex;
-        OutputStream result;
+    privbtf dlbss PrintfrOpfnfr implfmfnts jbvb.sfdurity.PrivilfgfdAdtion<OutputStrfbm> {
+        PrintfrExdfption pfx;
+        OutputStrfbm rfsult;
 
-        public OutputStream run() {
+        publid OutputStrfbm run() {
             try {
 
-                    /* Write to a temporary file which will be spooled to
-                     * the printer then deleted. In the case that the file
-                     * is not removed for some reason, request that it is
-                     * removed when the VM exits.
+                    /* Writf to b tfmporbry filf wiidi will bf spoolfd to
+                     * tif printfr tifn dflftfd. In tif dbsf tibt tif filf
+                     * is not rfmovfd for somf rfbson, rfqufst tibt it is
+                     * rfmovfd wifn tif VM fxits.
                      */
-                    spoolFile = Files.createTempFile("javaprint", ".ps").toFile();
-                    spoolFile.deleteOnExit();
+                    spoolFilf = Filfs.drfbtfTfmpFilf("jbvbprint", ".ps").toFilf();
+                    spoolFilf.dflftfOnExit();
 
-                result = new FileOutputStream(spoolFile);
-                return result;
-            } catch (IOException ex) {
-                // If there is an IOError we subvert it to a PrinterException.
-                pex = new PrinterIOException(ex);
+                rfsult = nfw FilfOutputStrfbm(spoolFilf);
+                rfturn rfsult;
+            } dbtdi (IOExdfption fx) {
+                // If tifrf is bn IOError wf subvfrt it to b PrintfrExdfption.
+                pfx = nfw PrintfrIOExdfption(fx);
             }
-            return null;
+            rfturn null;
         }
     }
 
-    // Inner class to run "privileged" to invoke the system print command
+    // Innfr dlbss to run "privilfgfd" to invokf tif systfm print dommbnd
 
-    private class PrinterSpooler implements java.security.PrivilegedAction<Object> {
-        PrinterException pex;
+    privbtf dlbss PrintfrSpoolfr implfmfnts jbvb.sfdurity.PrivilfgfdAdtion<Objfdt> {
+        PrintfrExdfption pfx;
 
-        private void handleProcessFailure(final Process failedProcess,
-                final String[] execCmd, final int result) throws IOException {
-            try (StringWriter sw = new StringWriter();
-                    PrintWriter pw = new PrintWriter(sw)) {
-                pw.append("error=").append(Integer.toString(result));
-                pw.append(" running:");
-                for (String arg: execCmd) {
-                    pw.append(" '").append(arg).append("'");
+        privbtf void ibndlfProdfssFbilurf(finbl Prodfss fbilfdProdfss,
+                finbl String[] fxfdCmd, finbl int rfsult) tirows IOExdfption {
+            try (StringWritfr sw = nfw StringWritfr();
+                    PrintWritfr pw = nfw PrintWritfr(sw)) {
+                pw.bppfnd("frror=").bppfnd(Intfgfr.toString(rfsult));
+                pw.bppfnd(" running:");
+                for (String brg: fxfdCmd) {
+                    pw.bppfnd(" '").bppfnd(brg).bppfnd("'");
                 }
-                try (InputStream is = failedProcess.getErrorStream();
-                        InputStreamReader isr = new InputStreamReader(is);
-                        BufferedReader br = new BufferedReader(isr)) {
-                    while (br.ready()) {
+                try (InputStrfbm is = fbilfdProdfss.gftErrorStrfbm();
+                        InputStrfbmRfbdfr isr = nfw InputStrfbmRfbdfr(is);
+                        BufffrfdRfbdfr br = nfw BufffrfdRfbdfr(isr)) {
+                    wiilf (br.rfbdy()) {
                         pw.println();
-                        pw.append("\t\t").append(br.readLine());
+                        pw.bppfnd("\t\t").bppfnd(br.rfbdLinf());
                     }
-                } finally {
-                    pw.flush();
+                } finblly {
+                    pw.flusi();
                 }
-                throw new IOException(sw.toString());
+                tirow nfw IOExdfption(sw.toString());
             }
         }
 
-        public Object run() {
-            if (spoolFile == null || !spoolFile.exists()) {
-               pex = new PrinterException("No spool file");
-               return null;
+        publid Objfdt run() {
+            if (spoolFilf == null || !spoolFilf.fxists()) {
+               pfx = nfw PrintfrExdfption("No spool filf");
+               rfturn null;
             }
             try {
                 /**
-                 * Spool to the printer.
+                 * Spool to tif printfr.
                  */
-                String fileName = spoolFile.getAbsolutePath();
-                String execCmd[] = printExecCmd(mDestination, mOptions,
-                               mNoJobSheet, getJobNameInt(),
-                                                1, fileName);
+                String filfNbmf = spoolFilf.gftAbsolutfPbti();
+                String fxfdCmd[] = printExfdCmd(mDfstinbtion, mOptions,
+                               mNoJobSifft, gftJobNbmfInt(),
+                                                1, filfNbmf);
 
-                Process process = Runtime.getRuntime().exec(execCmd);
-                process.waitFor();
-                final int result = process.exitValue();
-                if (0 != result) {
-                    handleProcessFailure(process, execCmd, result);
+                Prodfss prodfss = Runtimf.gftRuntimf().fxfd(fxfdCmd);
+                prodfss.wbitFor();
+                finbl int rfsult = prodfss.fxitVbluf();
+                if (0 != rfsult) {
+                    ibndlfProdfssFbilurf(prodfss, fxfdCmd, rfsult);
                 }
-            } catch (IOException ex) {
-                pex = new PrinterIOException(ex);
-            } catch (InterruptedException ie) {
-                pex = new PrinterException(ie.toString());
-            } finally {
-                spoolFile.delete();
+            } dbtdi (IOExdfption fx) {
+                pfx = nfw PrintfrIOExdfption(fx);
+            } dbtdi (IntfrruptfdExdfption if) {
+                pfx = nfw PrintfrExdfption(if.toString());
+            } finblly {
+                spoolFilf.dflftf();
             }
-            return null;
+            rfturn null;
         }
     }
 
 
     /**
-     * Invoked if the application cancelled the printjob.
+     * Invokfd if tif bpplidbtion dbndfllfd tif printjob.
      */
-    protected void abortDoc() {
-        if (mPSStream != null && mDestType != RasterPrinterJob.STREAM) {
-            mPSStream.close();
+    protfdtfd void bbortDod() {
+        if (mPSStrfbm != null && mDfstTypf != RbstfrPrintfrJob.STREAM) {
+            mPSStrfbm.dlosf();
         }
-        java.security.AccessController.doPrivileged(
-            new java.security.PrivilegedAction<Object>() {
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw jbvb.sfdurity.PrivilfgfdAdtion<Objfdt>() {
 
-            public Object run() {
-               if (spoolFile != null && spoolFile.exists()) {
-                   spoolFile.delete();
+            publid Objfdt run() {
+               if (spoolFilf != null && spoolFilf.fxists()) {
+                   spoolFilf.dflftf();
                }
-               return null;
+               rfturn null;
             }
         });
     }
 
     /**
-     * Invoked by the RasterPrintJob super class
-     * this method is called after that last page
-     * has been imaged.
+     * Invokfd by tif RbstfrPrintJob supfr dlbss
+     * tiis mftiod is dbllfd bftfr tibt lbst pbgf
+     * ibs bffn imbgfd.
      */
-    protected void endDoc() throws PrinterException {
-        if (mPSStream != null) {
-            mPSStream.println(EOF_COMMENT);
-            mPSStream.flush();
-            if (mDestType != RasterPrinterJob.STREAM) {
-                mPSStream.close();
+    protfdtfd void fndDod() tirows PrintfrExdfption {
+        if (mPSStrfbm != null) {
+            mPSStrfbm.println(EOF_COMMENT);
+            mPSStrfbm.flusi();
+            if (mDfstTypf != RbstfrPrintfrJob.STREAM) {
+                mPSStrfbm.dlosf();
             }
         }
-        if (mDestType == RasterPrinterJob.PRINTER) {
-            PrintService pServ = getPrintService();
-            if (pServ != null) {
-                mDestination = pServ.getName();
-               if (isMac) {
-                    PrintServiceAttributeSet psaSet = pServ.getAttributes();
-                    if (psaSet != null) {
-                        mDestination = psaSet.get(PrinterName.class).toString() ;
+        if (mDfstTypf == RbstfrPrintfrJob.PRINTER) {
+            PrintSfrvidf pSfrv = gftPrintSfrvidf();
+            if (pSfrv != null) {
+                mDfstinbtion = pSfrv.gftNbmf();
+               if (isMbd) {
+                    PrintSfrvidfAttributfSft psbSft = pSfrv.gftAttributfs();
+                    if (psbSft != null) {
+                        mDfstinbtion = psbSft.gft(PrintfrNbmf.dlbss).toString() ;
                     }
                 }
             }
-            PrinterSpooler spooler = new PrinterSpooler();
-            java.security.AccessController.doPrivileged(spooler);
-            if (spooler.pex != null) {
-                throw spooler.pex;
+            PrintfrSpoolfr spoolfr = nfw PrintfrSpoolfr();
+            jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(spoolfr);
+            if (spoolfr.pfx != null) {
+                tirow spoolfr.pfx;
             }
         }
     }
 
-    private String getCoordPrep() {
-        return " 0 exch translate "
-             + "1 -1 scale"
-             + "[72 " + getXRes() + " div "
+    privbtf String gftCoordPrfp() {
+        rfturn " 0 fxdi trbnslbtf "
+             + "1 -1 sdblf"
+             + "[72 " + gftXRfs() + " div "
              + "0 0 "
-             + "72 " + getYRes() + " div "
-             + "0 0]concat";
+             + "72 " + gftYRfs() + " div "
+             + "0 0]dondbt";
     }
 
     /**
-     * The RasterPrintJob super class calls this method
-     * at the start of each page.
+     * Tif RbstfrPrintJob supfr dlbss dblls tiis mftiod
+     * bt tif stbrt of fbdi pbgf.
      */
-    protected void startPage(PageFormat pageFormat, Printable painter,
-                             int index, boolean paperChanged)
-        throws PrinterException
+    protfdtfd void stbrtPbgf(PbgfFormbt pbgfFormbt, Printbblf pbintfr,
+                             int indfx, boolfbn pbpfrCibngfd)
+        tirows PrintfrExdfption
     {
-        double paperHeight = pageFormat.getPaper().getHeight();
-        double paperWidth = pageFormat.getPaper().getWidth();
-        int pageNumber = index + 1;
+        doublf pbpfrHfigit = pbgfFormbt.gftPbpfr().gftHfigit();
+        doublf pbpfrWidti = pbgfFormbt.gftPbpfr().gftWidti();
+        int pbgfNumbfr = indfx + 1;
 
-        /* Place an initial gstate on to our gstate stack.
-         * It will have the default PostScript gstate
-         * attributes.
+        /* Plbdf bn initibl gstbtf on to our gstbtf stbdk.
+         * It will ibvf tif dffbult PostSdript gstbtf
+         * bttributfs.
          */
-        mGStateStack = new ArrayList<>();
-        mGStateStack.add(new GState());
+        mGStbtfStbdk = nfw ArrbyList<>();
+        mGStbtfStbdk.bdd(nfw GStbtf());
 
-        mPSStream.println(PAGE_COMMENT + pageNumber + " " + pageNumber);
+        mPSStrfbm.println(PAGE_COMMENT + pbgfNumbfr + " " + pbgfNumbfr);
 
-        /* Check current page's pageFormat against the previous pageFormat,
+        /* Cifdk durrfnt pbgf's pbgfFormbt bgbinst tif prfvious pbgfFormbt,
          */
-        if (index > 0 && paperChanged) {
+        if (indfx > 0 && pbpfrCibngfd) {
 
-            mPSStream.print("<< /PageSize [" +
-                            paperWidth + " " + paperHeight + "]");
+            mPSStrfbm.print("<< /PbgfSizf [" +
+                            pbpfrWidti + " " + pbpfrHfigit + "]");
 
-            final PrintService pservice = getPrintService();
-            Boolean isPS = java.security.AccessController.doPrivileged(
-                new java.security.PrivilegedAction<Boolean>() {
-                    public Boolean run() {
+            finbl PrintSfrvidf psfrvidf = gftPrintSfrvidf();
+            Boolfbn isPS = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                nfw jbvb.sfdurity.PrivilfgfdAdtion<Boolfbn>() {
+                    publid Boolfbn run() {
                         try {
-                            Class<?> psClass =
-                                Class.forName("sun.print.IPPPrintService");
-                            if (psClass.isInstance(pservice)) {
-                                Method isPSMethod =
-                                    psClass.getMethod("isPostscript",
-                                                      (Class[])null);
-                                return (Boolean)
-                                    isPSMethod.invoke(pservice,
-                                                      (Object[])null);
+                            Clbss<?> psClbss =
+                                Clbss.forNbmf("sun.print.IPPPrintSfrvidf");
+                            if (psClbss.isInstbndf(psfrvidf)) {
+                                Mftiod isPSMftiod =
+                                    psClbss.gftMftiod("isPostsdript",
+                                                      (Clbss[])null);
+                                rfturn (Boolfbn)
+                                    isPSMftiod.invokf(psfrvidf,
+                                                      (Objfdt[])null);
                             }
-                        } catch (Throwable t) {
+                        } dbtdi (Tirowbblf t) {
                         }
-                        return Boolean.TRUE;
+                        rfturn Boolfbn.TRUE;
                     }
                     }
                 );
 
             if (isPS) {
-                mPSStream.print(" /DeferredMediaSelection true");
+                mPSStrfbm.print(" /DfffrrfdMfdibSflfdtion truf");
             }
-            mPSStream.println(" >> setpagedevice");
+            mPSStrfbm.println(" >> sftpbgfdfvidf");
         }
-        mPSStream.println(PAGE_SAVE);
-        mPSStream.println(paperHeight + getCoordPrep());
+        mPSStrfbm.println(PAGE_SAVE);
+        mPSStrfbm.println(pbpfrHfigit + gftCoordPrfp());
     }
 
     /**
-     * The RastePrintJob super class calls this method
-     * at the end of each page.
+     * Tif RbstfPrintJob supfr dlbss dblls tiis mftiod
+     * bt tif fnd of fbdi pbgf.
      */
-    protected void endPage(PageFormat format, Printable painter,
-                           int index)
-        throws PrinterException
+    protfdtfd void fndPbgf(PbgfFormbt formbt, Printbblf pbintfr,
+                           int indfx)
+        tirows PrintfrExdfption
     {
-        mPSStream.println(PAGE_RESTORE);
-        mPSStream.println(SHOWPAGE);
+        mPSStrfbm.println(PAGE_RESTORE);
+        mPSStrfbm.println(SHOWPAGE);
     }
 
    /**
-     * Convert the 24 bit BGR image buffer represented by
-     * <code>image</code> to PostScript. The image is drawn at
-     * <code>(destX, destY)</code> in device coordinates.
-     * The image is scaled into a square of size
-     * specified by <code>destWidth</code> and
-     * <code>destHeight</code>. The portion of the
-     * source image copied into that square is specified
-     * by <code>srcX</code>, <code>srcY</code>,
-     * <code>srcWidth</code>, and srcHeight.
+     * Convfrt tif 24 bit BGR imbgf bufffr rfprfsfntfd by
+     * <dodf>imbgf</dodf> to PostSdript. Tif imbgf is drbwn bt
+     * <dodf>(dfstX, dfstY)</dodf> in dfvidf doordinbtfs.
+     * Tif imbgf is sdblfd into b squbrf of sizf
+     * spfdififd by <dodf>dfstWidti</dodf> bnd
+     * <dodf>dfstHfigit</dodf>. Tif portion of tif
+     * sourdf imbgf dopifd into tibt squbrf is spfdififd
+     * by <dodf>srdX</dodf>, <dodf>srdY</dodf>,
+     * <dodf>srdWidti</dodf>, bnd srdHfigit.
      */
-    protected void drawImageBGR(byte[] bgrData,
-                                   float destX, float destY,
-                                   float destWidth, float destHeight,
-                                   float srcX, float srcY,
-                                   float srcWidth, float srcHeight,
-                                   int srcBitMapWidth, int srcBitMapHeight) {
+    protfdtfd void drbwImbgfBGR(bytf[] bgrDbtb,
+                                   flobt dfstX, flobt dfstY,
+                                   flobt dfstWidti, flobt dfstHfigit,
+                                   flobt srdX, flobt srdY,
+                                   flobt srdWidti, flobt srdHfigit,
+                                   int srdBitMbpWidti, int srdBitMbpHfigit) {
 
-        /* We draw images at device resolution so we probably need
-         * to change the current PostScript transform.
+        /* Wf drbw imbgfs bt dfvidf rfsolution so wf probbbly nffd
+         * to dibngf tif durrfnt PostSdript trbnsform.
          */
-        setTransform(new AffineTransform());
-        prepDrawing();
+        sftTrbnsform(nfw AffinfTrbnsform());
+        prfpDrbwing();
 
-        int intSrcWidth = (int) srcWidth;
-        int intSrcHeight = (int) srcHeight;
+        int intSrdWidti = (int) srdWidti;
+        int intSrdHfigit = (int) srdHfigit;
 
-        mPSStream.println(IMAGE_SAVE);
+        mPSStrfbm.println(IMAGE_SAVE);
 
-        /* Create a PS string big enough to hold a row of pixels.
+        /* Crfbtf b PS string big fnougi to iold b row of pixfls.
          */
-        int psBytesPerRow = 3 * intSrcWidth;
-        while (psBytesPerRow > MAX_PSSTR) {
-            psBytesPerRow /= 2;
+        int psBytfsPfrRow = 3 * intSrdWidti;
+        wiilf (psBytfsPfrRow > MAX_PSSTR) {
+            psBytfsPfrRow /= 2;
         }
 
-        mPSStream.println(psBytesPerRow + IMAGE_STR);
+        mPSStrfbm.println(psBytfsPfrRow + IMAGE_STR);
 
-        /* Scale and translate the unit image.
+        /* Sdblf bnd trbnslbtf tif unit imbgf.
          */
-        mPSStream.println("[" + destWidth + " 0 "
-                          + "0 " + destHeight
-                          + " " + destX + " " + destY
-                          +"]concat");
+        mPSStrfbm.println("[" + dfstWidti + " 0 "
+                          + "0 " + dfstHfigit
+                          + " " + dfstX + " " + dfstY
+                          +"]dondbt");
 
-        /* Color Image invocation.
+        /* Color Imbgf invodbtion.
          */
-        mPSStream.println(intSrcWidth + " " + intSrcHeight + " " + 8 + "["
-                          + intSrcWidth + " 0 "
-                          + "0 " + intSrcHeight
+        mPSStrfbm.println(intSrdWidti + " " + intSrdHfigit + " " + 8 + "["
+                          + intSrdWidti + " 0 "
+                          + "0 " + intSrdHfigit
                           + " 0 " + 0 + "]"
-                          + "/imageSrc load false 3 colorimage");
+                          + "/imbgfSrd lobd fblsf 3 dolorimbgf");
 
-        /* Image data.
+        /* Imbgf dbtb.
          */
-        int index = 0;
-        byte[] rgbData = new byte[intSrcWidth * 3];
+        int indfx = 0;
+        bytf[] rgbDbtb = nfw bytf[intSrdWidti * 3];
 
         try {
-            /* Skip the parts of the image that are not part
-             * of the source rectangle.
+            /* Skip tif pbrts of tif imbgf tibt brf not pbrt
+             * of tif sourdf rfdtbnglf.
              */
-            index = (int) srcY * srcBitMapWidth;
+            indfx = (int) srdY * srdBitMbpWidti;
 
-            for(int i = 0; i < intSrcHeight; i++) {
+            for(int i = 0; i < intSrdHfigit; i++) {
 
-                /* Skip the left part of the image that is not
-                 * part of the source rectangle.
+                /* Skip tif lfft pbrt of tif imbgf tibt is not
+                 * pbrt of tif sourdf rfdtbnglf.
                  */
-                index += (int) srcX;
+                indfx += (int) srdX;
 
-                index = swapBGRtoRGB(bgrData, index, rgbData);
-                byte[] encodedData = rlEncode(rgbData);
-                byte[] asciiData = ascii85Encode(encodedData);
-                mPSStream.write(asciiData);
-                mPSStream.println("");
+                indfx = swbpBGRtoRGB(bgrDbtb, indfx, rgbDbtb);
+                bytf[] fndodfdDbtb = rlEndodf(rgbDbtb);
+                bytf[] bsdiiDbtb = bsdii85Endodf(fndodfdDbtb);
+                mPSStrfbm.writf(bsdiiDbtb);
+                mPSStrfbm.println("");
             }
 
             /*
-             * If there is an IOError we subvert it to a PrinterException.
-             * Fix: There has got to be a better way, maybe define
-             * a PrinterIOException and then throw that?
+             * If tifrf is bn IOError wf subvfrt it to b PrintfrExdfption.
+             * Fix: Tifrf ibs got to bf b bfttfr wby, mbybf dffinf
+             * b PrintfrIOExdfption bnd tifn tirow tibt?
              */
-        } catch (IOException e) {
-            //throw new PrinterException(e.toString());
+        } dbtdi (IOExdfption f) {
+            //tirow nfw PrintfrExdfption(f.toString());
         }
 
-        mPSStream.println(IMAGE_RESTORE);
+        mPSStrfbm.println(IMAGE_RESTORE);
     }
 
     /**
-     * Prints the contents of the array of ints, 'data'
-     * to the current page. The band is placed at the
-     * location (x, y) in device coordinates on the
-     * page. The width and height of the band is
-     * specified by the caller. Currently the data
-     * is 24 bits per pixel in BGR format.
+     * Prints tif dontfnts of tif brrby of ints, 'dbtb'
+     * to tif durrfnt pbgf. Tif bbnd is plbdfd bt tif
+     * lodbtion (x, y) in dfvidf doordinbtfs on tif
+     * pbgf. Tif widti bnd ifigit of tif bbnd is
+     * spfdififd by tif dbllfr. Currfntly tif dbtb
+     * is 24 bits pfr pixfl in BGR formbt.
      */
-    protected void printBand(byte[] bgrData, int x, int y,
-                             int width, int height)
-        throws PrinterException
+    protfdtfd void printBbnd(bytf[] bgrDbtb, int x, int y,
+                             int widti, int ifigit)
+        tirows PrintfrExdfption
     {
 
-        mPSStream.println(IMAGE_SAVE);
+        mPSStrfbm.println(IMAGE_SAVE);
 
-        /* Create a PS string big enough to hold a row of pixels.
+        /* Crfbtf b PS string big fnougi to iold b row of pixfls.
          */
-        int psBytesPerRow = 3 * width;
-        while (psBytesPerRow > MAX_PSSTR) {
-            psBytesPerRow /= 2;
+        int psBytfsPfrRow = 3 * widti;
+        wiilf (psBytfsPfrRow > MAX_PSSTR) {
+            psBytfsPfrRow /= 2;
         }
 
-        mPSStream.println(psBytesPerRow + IMAGE_STR);
+        mPSStrfbm.println(psBytfsPfrRow + IMAGE_STR);
 
-        /* Scale and translate the unit image.
+        /* Sdblf bnd trbnslbtf tif unit imbgf.
          */
-        mPSStream.println("[" + width + " 0 "
-                          + "0 " + height
+        mPSStrfbm.println("[" + widti + " 0 "
+                          + "0 " + ifigit
                           + " " + x + " " + y
-                          +"]concat");
+                          +"]dondbt");
 
-        /* Color Image invocation.
+        /* Color Imbgf invodbtion.
          */
-        mPSStream.println(width + " " + height + " " + 8 + "["
-                          + width + " 0 "
-                          + "0 " + -height
-                          + " 0 " + height + "]"
-                          + "/imageSrc load false 3 colorimage");
+        mPSStrfbm.println(widti + " " + ifigit + " " + 8 + "["
+                          + widti + " 0 "
+                          + "0 " + -ifigit
+                          + " 0 " + ifigit + "]"
+                          + "/imbgfSrd lobd fblsf 3 dolorimbgf");
 
-        /* Image data.
+        /* Imbgf dbtb.
          */
-        int index = 0;
-        byte[] rgbData = new byte[width*3];
+        int indfx = 0;
+        bytf[] rgbDbtb = nfw bytf[widti*3];
 
         try {
-            for(int i = 0; i < height; i++) {
-                index = swapBGRtoRGB(bgrData, index, rgbData);
-                byte[] encodedData = rlEncode(rgbData);
-                byte[] asciiData = ascii85Encode(encodedData);
-                mPSStream.write(asciiData);
-                mPSStream.println("");
+            for(int i = 0; i < ifigit; i++) {
+                indfx = swbpBGRtoRGB(bgrDbtb, indfx, rgbDbtb);
+                bytf[] fndodfdDbtb = rlEndodf(rgbDbtb);
+                bytf[] bsdiiDbtb = bsdii85Endodf(fndodfdDbtb);
+                mPSStrfbm.writf(bsdiiDbtb);
+                mPSStrfbm.println("");
             }
 
-        } catch (IOException e) {
-            throw new PrinterIOException(e);
+        } dbtdi (IOExdfption f) {
+            tirow nfw PrintfrIOExdfption(f);
         }
 
-        mPSStream.println(IMAGE_RESTORE);
+        mPSStrfbm.println(IMAGE_RESTORE);
     }
 
     /**
-     * Examine the metrics captured by the
-     * <code>PeekGraphics</code> instance and
-     * if capable of directly converting this
-     * print job to the printer's control language
-     * or the native OS's graphics primitives, then
-     * return a <code>PSPathGraphics</code> to perform
-     * that conversion. If there is not an object
-     * capable of the conversion then return
-     * <code>null</code>. Returning <code>null</code>
-     * causes the print job to be rasterized.
+     * Exbminf tif mftrids dbpturfd by tif
+     * <dodf>PffkGrbpiids</dodf> instbndf bnd
+     * if dbpbblf of dirfdtly donvfrting tiis
+     * print job to tif printfr's dontrol lbngubgf
+     * or tif nbtivf OS's grbpiids primitivfs, tifn
+     * rfturn b <dodf>PSPbtiGrbpiids</dodf> to pfrform
+     * tibt donvfrsion. If tifrf is not bn objfdt
+     * dbpbblf of tif donvfrsion tifn rfturn
+     * <dodf>null</dodf>. Rfturning <dodf>null</dodf>
+     * dbusfs tif print job to bf rbstfrizfd.
      */
 
-    protected Graphics2D createPathGraphics(PeekGraphics peekGraphics,
-                                            PrinterJob printerJob,
-                                            Printable painter,
-                                            PageFormat pageFormat,
-                                            int pageIndex) {
+    protfdtfd Grbpiids2D drfbtfPbtiGrbpiids(PffkGrbpiids pffkGrbpiids,
+                                            PrintfrJob printfrJob,
+                                            Printbblf pbintfr,
+                                            PbgfFormbt pbgfFormbt,
+                                            int pbgfIndfx) {
 
-        PSPathGraphics pathGraphics;
-        PeekMetrics metrics = peekGraphics.getMetrics();
+        PSPbtiGrbpiids pbtiGrbpiids;
+        PffkMftrids mftrids = pffkGrbpiids.gftMftrids();
 
-        /* If the application has drawn anything that
-         * out PathGraphics class can not handle then
-         * return a null PathGraphics.
+        /* If tif bpplidbtion ibs drbwn bnytiing tibt
+         * out PbtiGrbpiids dlbss dbn not ibndlf tifn
+         * rfturn b null PbtiGrbpiids.
          */
-        if (forcePDL == false && (forceRaster == true
-                        || metrics.hasNonSolidColors()
-                        || metrics.hasCompositing())) {
+        if (fordfPDL == fblsf && (fordfRbstfr == truf
+                        || mftrids.ibsNonSolidColors()
+                        || mftrids.ibsCompositing())) {
 
-            pathGraphics = null;
-        } else {
+            pbtiGrbpiids = null;
+        } flsf {
 
-            BufferedImage bufferedImage = new BufferedImage(8, 8,
-                                            BufferedImage.TYPE_INT_RGB);
-            Graphics2D bufferedGraphics = bufferedImage.createGraphics();
-            boolean canRedraw = peekGraphics.getAWTDrawingOnly() == false;
+            BufffrfdImbgf bufffrfdImbgf = nfw BufffrfdImbgf(8, 8,
+                                            BufffrfdImbgf.TYPE_INT_RGB);
+            Grbpiids2D bufffrfdGrbpiids = bufffrfdImbgf.drfbtfGrbpiids();
+            boolfbn dbnRfdrbw = pffkGrbpiids.gftAWTDrbwingOnly() == fblsf;
 
-            pathGraphics =  new PSPathGraphics(bufferedGraphics, printerJob,
-                                               painter, pageFormat, pageIndex,
-                                               canRedraw);
+            pbtiGrbpiids =  nfw PSPbtiGrbpiids(bufffrfdGrbpiids, printfrJob,
+                                               pbintfr, pbgfFormbt, pbgfIndfx,
+                                               dbnRfdrbw);
         }
 
-        return pathGraphics;
+        rfturn pbtiGrbpiids;
     }
 
     /**
-     * Intersect the gstate's current path with the
-     * current clip and make the result the new clip.
+     * Intfrsfdt tif gstbtf's durrfnt pbti witi tif
+     * durrfnt dlip bnd mbkf tif rfsult tif nfw dlip.
      */
-    protected void selectClipPath() {
+    protfdtfd void sflfdtClipPbti() {
 
-        mPSStream.println(mClipOpStr);
+        mPSStrfbm.println(mClipOpStr);
     }
 
-    protected void setClip(Shape clip) {
+    protfdtfd void sftClip(Sibpf dlip) {
 
-        mLastClip = clip;
+        mLbstClip = dlip;
     }
 
-    protected void setTransform(AffineTransform transform) {
-        mLastTransform = transform;
+    protfdtfd void sftTrbnsform(AffinfTrbnsform trbnsform) {
+        mLbstTrbnsform = trbnsform;
     }
 
     /**
-     * Set the current PostScript font.
-     * Taken from outFont in PSPrintStream.
+     * Sft tif durrfnt PostSdript font.
+     * Tbkfn from outFont in PSPrintStrfbm.
      */
-     protected boolean setFont(Font font) {
-        mLastFont = font;
-        return true;
+     protfdtfd boolfbn sftFont(Font font) {
+        mLbstFont = font;
+        rfturn truf;
     }
 
     /**
-     * Given an array of CharsetStrings that make up a run
-     * of text, this routine converts each CharsetString to
-     * an index into our PostScript font list. If one or more
-     * CharsetStrings can not be represented by a PostScript
-     * font, then this routine will return a null array.
+     * Givfn bn brrby of CibrsftStrings tibt mbkf up b run
+     * of tfxt, tiis routinf donvfrts fbdi CibrsftString to
+     * bn indfx into our PostSdript font list. If onf or morf
+     * CibrsftStrings dbn not bf rfprfsfntfd by b PostSdript
+     * font, tifn tiis routinf will rfturn b null brrby.
      */
-     private int[] getPSFontIndexArray(Font font, CharsetString[] charSet) {
+     privbtf int[] gftPSFontIndfxArrby(Font font, CibrsftString[] dibrSft) {
         int[] psFont = null;
 
         if (mFontProps != null) {
-            psFont = new int[charSet.length];
+            psFont = nfw int[dibrSft.lfngti];
         }
 
-        for (int i = 0; i < charSet.length && psFont != null; i++){
+        for (int i = 0; i < dibrSft.lfngti && psFont != null; i++){
 
-            /* Get the encoding of the run of text.
+            /* Gft tif fndoding of tif run of tfxt.
              */
-            CharsetString cs = charSet[i];
+            CibrsftString ds = dibrSft[i];
 
-            CharsetEncoder fontCS = cs.fontDescriptor.encoder;
-            String charsetName = cs.fontDescriptor.getFontCharsetName();
+            CibrsftEndodfr fontCS = ds.fontDfsdriptor.fndodfr;
+            String dibrsftNbmf = ds.fontDfsdriptor.gftFontCibrsftNbmf();
             /*
-             * sun.awt.Symbol perhaps should return "symbol" for encoding.
-             * Similarly X11Dingbats should return "dingbats"
-             * Forced to check for win32 & x/unix names for these converters.
+             * sun.bwt.Symbol pfribps siould rfturn "symbol" for fndoding.
+             * Similbrly X11Dingbbts siould rfturn "dingbbts"
+             * Fordfd to difdk for win32 & x/unix nbmfs for tifsf donvfrtfrs.
              */
 
-            if ("Symbol".equals(charsetName)) {
-                charsetName = "symbol";
-            } else if ("WingDings".equals(charsetName) ||
-                       "X11Dingbats".equals(charsetName)) {
-                charsetName = "dingbats";
-            } else {
-                charsetName = makeCharsetName(charsetName, cs.charsetChars);
+            if ("Symbol".fqubls(dibrsftNbmf)) {
+                dibrsftNbmf = "symbol";
+            } flsf if ("WingDings".fqubls(dibrsftNbmf) ||
+                       "X11Dingbbts".fqubls(dibrsftNbmf)) {
+                dibrsftNbmf = "dingbbts";
+            } flsf {
+                dibrsftNbmf = mbkfCibrsftNbmf(dibrsftNbmf, ds.dibrsftCibrs);
             }
 
-            int styleMask = font.getStyle() |
-                FontUtilities.getFont2D(font).getStyle();
+            int stylfMbsk = font.gftStylf() |
+                FontUtilitifs.gftFont2D(font).gftStylf();
 
-            String style = FontConfiguration.getStyleString(styleMask);
+            String stylf = FontConfigurbtion.gftStylfString(stylfMbsk);
 
-            /* First we map the font name through the properties file.
-             * This mapping provides alias names for fonts, for example,
-             * "timesroman" is mapped to "serif".
+            /* First wf mbp tif font nbmf tirougi tif propfrtifs filf.
+             * Tiis mbpping providfs blibs nbmfs for fonts, for fxbmplf,
+             * "timfsrombn" is mbppfd to "sfrif".
              */
-            String fontName = font.getFamily().toLowerCase(Locale.ENGLISH);
-            fontName = fontName.replace(' ', '_');
-            String name = mFontProps.getProperty(fontName, "");
+            String fontNbmf = font.gftFbmily().toLowfrCbsf(Lodblf.ENGLISH);
+            fontNbmf = fontNbmf.rfplbdf(' ', '_');
+            String nbmf = mFontProps.gftPropfrty(fontNbmf, "");
 
-            /* Now map the alias name, character set name, and style
-             * to a PostScript name.
+            /* Now mbp tif blibs nbmf, dibrbdtfr sft nbmf, bnd stylf
+             * to b PostSdript nbmf.
              */
-            String psName =
-                mFontProps.getProperty(name + "." + charsetName + "." + style,
+            String psNbmf =
+                mFontProps.gftPropfrty(nbmf + "." + dibrsftNbmf + "." + stylf,
                                       null);
 
-            if (psName != null) {
+            if (psNbmf != null) {
 
-                /* Get the PostScript font index for the PostScript font.
+                /* Gft tif PostSdript font indfx for tif PostSdript font.
                  */
                 try {
                     psFont[i] =
-                        Integer.parseInt(mFontProps.getProperty(psName));
+                        Intfgfr.pbrsfInt(mFontProps.gftPropfrty(psNbmf));
 
-                /* If there is no PostScript font for this font name,
-                 * then we want to termintate the loop and the method
-                 * indicating our failure. Setting the array to null
-                 * is used to indicate these failures.
+                /* If tifrf is no PostSdript font for tiis font nbmf,
+                 * tifn wf wbnt to tfrmintbtf tif loop bnd tif mftiod
+                 * indidbting our fbilurf. Sftting tif brrby to null
+                 * is usfd to indidbtf tifsf fbilurfs.
                  */
-                } catch(NumberFormatException e){
+                } dbtdi(NumbfrFormbtExdfption f){
                     psFont = null;
                 }
 
-            /* There was no PostScript name for the font, character set,
-             * and style so give up.
+            /* Tifrf wbs no PostSdript nbmf for tif font, dibrbdtfr sft,
+             * bnd stylf so givf up.
              */
-            } else {
+            } flsf {
                 psFont = null;
             }
         }
 
-         return psFont;
+         rfturn psFont;
      }
 
 
-    private static String escapeParens(String str) {
-        if (str.indexOf('(') == -1 && str.indexOf(')') == -1 ) {
-            return str;
-        } else {
-            int count = 0;
+    privbtf stbtid String fsdbpfPbrfns(String str) {
+        if (str.indfxOf('(') == -1 && str.indfxOf(')') == -1 ) {
+            rfturn str;
+        } flsf {
+            int dount = 0;
             int pos = 0;
-            while ((pos = str.indexOf('(', pos)) != -1) {
-                count++;
+            wiilf ((pos = str.indfxOf('(', pos)) != -1) {
+                dount++;
                 pos++;
             }
             pos = 0;
-            while ((pos = str.indexOf(')', pos)) != -1) {
-                count++;
+            wiilf ((pos = str.indfxOf(')', pos)) != -1) {
+                dount++;
                 pos++;
             }
-            char []inArr = str.toCharArray();
-            char []outArr = new char[inArr.length+count];
+            dibr []inArr = str.toCibrArrby();
+            dibr []outArr = nfw dibr[inArr.lfngti+dount];
             pos = 0;
-            for (int i=0;i<inArr.length;i++) {
+            for (int i=0;i<inArr.lfngti;i++) {
                 if (inArr[i] == '(' || inArr[i] == ')') {
                     outArr[pos++] = '\\';
                 }
                 outArr[pos++] = inArr[i];
             }
-            return new String(outArr);
+            rfturn nfw String(outArr);
 
         }
     }
 
-    /* return of 0 means unsupported. Other return indicates the number
-     * of distinct PS fonts needed to draw this text. This saves us
-     * doing this processing one extra time.
+    /* rfturn of 0 mfbns unsupportfd. Otifr rfturn indidbtfs tif numbfr
+     * of distindt PS fonts nffdfd to drbw tiis tfxt. Tiis sbvfs us
+     * doing tiis prodfssing onf fxtrb timf.
      */
-    protected int platformFontCount(Font font, String str) {
+    protfdtfd int plbtformFontCount(Font font, String str) {
         if (mFontProps == null) {
-            return 0;
+            rfturn 0;
         }
-        CharsetString[] acs =
-            ((PlatformFont)(font.getPeer())).makeMultiCharsetString(str,false);
-        if (acs == null) {
-            /* AWT can't convert all chars so use 2D path */
-            return 0;
+        CibrsftString[] bds =
+            ((PlbtformFont)(font.gftPffr())).mbkfMultiCibrsftString(str,fblsf);
+        if (bds == null) {
+            /* AWT dbn't donvfrt bll dibrs so usf 2D pbti */
+            rfturn 0;
         }
-        int[] psFonts = getPSFontIndexArray(font, acs);
-        return (psFonts == null) ? 0 : psFonts.length;
+        int[] psFonts = gftPSFontIndfxArrby(font, bds);
+        rfturn (psFonts == null) ? 0 : psFonts.lfngti;
     }
 
-     protected boolean textOut(Graphics g, String str, float x, float y,
-                               Font mLastFont, FontRenderContext frc,
-                               float width) {
-        boolean didText = true;
+     protfdtfd boolfbn tfxtOut(Grbpiids g, String str, flobt x, flobt y,
+                               Font mLbstFont, FontRfndfrContfxt frd,
+                               flobt widti) {
+        boolfbn didTfxt = truf;
 
         if (mFontProps == null) {
-            return false;
-        } else {
-            prepDrawing();
+            rfturn fblsf;
+        } flsf {
+            prfpDrbwing();
 
-            /* On-screen drawString renders most control chars as the missing
-             * glyph and have the non-zero advance of that glyph.
-             * Exceptions are \t, \n and \r which are considered zero-width.
-             * Postscript handles control chars mostly as a missing glyph.
-             * But we use 'ashow' specifying a width for the string which
-             * assumes zero-width for those three exceptions, and Postscript
-             * tries to squeeze the extra char in, with the result that the
-             * glyphs look compressed or even overlap.
-             * So exclude those control chars from the string sent to PS.
+            /* On-sdrffn drbwString rfndfrs most dontrol dibrs bs tif missing
+             * glypi bnd ibvf tif non-zfro bdvbndf of tibt glypi.
+             * Exdfptions brf \t, \n bnd \r wiidi brf donsidfrfd zfro-widti.
+             * Postsdript ibndlfs dontrol dibrs mostly bs b missing glypi.
+             * But wf usf 'bsiow' spfdifying b widti for tif string wiidi
+             * bssumfs zfro-widti for tiosf tirff fxdfptions, bnd Postsdript
+             * trifs to squffzf tif fxtrb dibr in, witi tif rfsult tibt tif
+             * glypis look domprfssfd or fvfn ovfrlbp.
+             * So fxdludf tiosf dontrol dibrs from tif string sfnt to PS.
              */
-            str = removeControlChars(str);
-            if (str.length() == 0) {
-                return true;
+            str = rfmovfControlCibrs(str);
+            if (str.lfngti() == 0) {
+                rfturn truf;
             }
-            CharsetString[] acs =
-                ((PlatformFont)
-                 (mLastFont.getPeer())).makeMultiCharsetString(str, false);
-            if (acs == null) {
-                /* AWT can't convert all chars so use 2D path */
-                return false;
+            CibrsftString[] bds =
+                ((PlbtformFont)
+                 (mLbstFont.gftPffr())).mbkfMultiCibrsftString(str, fblsf);
+            if (bds == null) {
+                /* AWT dbn't donvfrt bll dibrs so usf 2D pbti */
+                rfturn fblsf;
             }
-            /* Get an array of indices into our PostScript name
-             * table. If all of the runs can not be converted
-             * to PostScript fonts then null is returned and
-             * we'll want to fall back to printing the text
-             * as shapes.
+            /* Gft bn brrby of indidfs into our PostSdript nbmf
+             * tbblf. If bll of tif runs dbn not bf donvfrtfd
+             * to PostSdript fonts tifn null is rfturnfd bnd
+             * wf'll wbnt to fbll bbdk to printing tif tfxt
+             * bs sibpfs.
              */
-            int[] psFonts = getPSFontIndexArray(mLastFont, acs);
+            int[] psFonts = gftPSFontIndfxArrby(mLbstFont, bds);
             if (psFonts != null) {
 
-                for (int i = 0; i < acs.length; i++){
-                    CharsetString cs = acs[i];
-                    CharsetEncoder fontCS = cs.fontDescriptor.encoder;
+                for (int i = 0; i < bds.lfngti; i++){
+                    CibrsftString ds = bds[i];
+                    CibrsftEndodfr fontCS = ds.fontDfsdriptor.fndodfr;
 
-                    StringBuilder nativeStr = new StringBuilder();
-                    byte[] strSeg = new byte[cs.length * 2];
-                    int len = 0;
+                    StringBuildfr nbtivfStr = nfw StringBuildfr();
+                    bytf[] strSfg = nfw bytf[ds.lfngti * 2];
+                    int lfn = 0;
                     try {
-                        ByteBuffer bb = ByteBuffer.wrap(strSeg);
-                        fontCS.encode(CharBuffer.wrap(cs.charsetChars,
-                                                      cs.offset,
-                                                      cs.length),
-                                      bb, true);
+                        BytfBufffr bb = BytfBufffr.wrbp(strSfg);
+                        fontCS.fndodf(CibrBufffr.wrbp(ds.dibrsftCibrs,
+                                                      ds.offsft,
+                                                      ds.lfngti),
+                                      bb, truf);
                         bb.flip();
-                        len = bb.limit();
-                    } catch(IllegalStateException xx){
-                        continue;
-                    } catch(CoderMalfunctionError xx){
-                        continue;
+                        lfn = bb.limit();
+                    } dbtdi(IllfgblStbtfExdfption xx){
+                        dontinuf;
+                    } dbtdi(CodfrMblfundtionError xx){
+                        dontinuf;
                     }
-                    /* The width to fit to may either be specified,
-                     * or calculated. Specifying by the caller is only
-                     * valid if the text does not need to be decomposed
-                     * into multiple calls.
+                    /* Tif widti to fit to mby fitifr bf spfdififd,
+                     * or dbldulbtfd. Spfdifying by tif dbllfr is only
+                     * vblid if tif tfxt dofs not nffd to bf dfdomposfd
+                     * into multiplf dblls.
                      */
-                    float desiredWidth;
-                    if (acs.length == 1 && width != 0f) {
-                        desiredWidth = width;
-                    } else {
-                        Rectangle2D r2d =
-                            mLastFont.getStringBounds(cs.charsetChars,
-                                                      cs.offset,
-                                                      cs.offset+cs.length,
-                                                      frc);
-                        desiredWidth = (float)r2d.getWidth();
+                    flobt dfsirfdWidti;
+                    if (bds.lfngti == 1 && widti != 0f) {
+                        dfsirfdWidti = widti;
+                    } flsf {
+                        Rfdtbnglf2D r2d =
+                            mLbstFont.gftStringBounds(ds.dibrsftCibrs,
+                                                      ds.offsft,
+                                                      ds.offsft+ds.lfngti,
+                                                      frd);
+                        dfsirfdWidti = (flobt)r2d.gftWidti();
                     }
-                    /* unprintable chars had width of 0, causing a PS error
+                    /* unprintbblf dibrs ibd widti of 0, dbusing b PS frror
                      */
-                    if (desiredWidth == 0) {
-                        return didText;
+                    if (dfsirfdWidti == 0) {
+                        rfturn didTfxt;
                     }
-                    nativeStr.append('<');
-                    for (int j = 0; j < len; j++){
-                        byte b = strSeg[j];
-                        // to avoid encoding conversion with println()
-                        String hexS = Integer.toHexString(b);
-                        int length = hexS.length();
-                        if (length > 2) {
-                            hexS = hexS.substring(length - 2, length);
-                        } else if (length == 1) {
-                            hexS = "0" + hexS;
-                        } else if (length == 0) {
-                            hexS = "00";
+                    nbtivfStr.bppfnd('<');
+                    for (int j = 0; j < lfn; j++){
+                        bytf b = strSfg[j];
+                        // to bvoid fndoding donvfrsion witi println()
+                        String ifxS = Intfgfr.toHfxString(b);
+                        int lfngti = ifxS.lfngti();
+                        if (lfngti > 2) {
+                            ifxS = ifxS.substring(lfngti - 2, lfngti);
+                        } flsf if (lfngti == 1) {
+                            ifxS = "0" + ifxS;
+                        } flsf if (lfngti == 0) {
+                            ifxS = "00";
                         }
-                        nativeStr.append(hexS);
+                        nbtivfStr.bppfnd(ifxS);
                     }
-                    nativeStr.append('>');
-                    /* This comment costs too much in output file size */
-//                  mPSStream.println("% Font[" + mLastFont.getName() + ", " +
-//                             FontConfiguration.getStyleString(mLastFont.getStyle()) + ", "
-//                             + mLastFont.getSize2D() + "]");
-                    getGState().emitPSFont(psFonts[i], mLastFont.getSize2D());
+                    nbtivfStr.bppfnd('>');
+                    /* Tiis dommfnt dosts too mudi in output filf sizf */
+//                  mPSStrfbm.println("% Font[" + mLbstFont.gftNbmf() + ", " +
+//                             FontConfigurbtion.gftStylfString(mLbstFont.gftStylf()) + ", "
+//                             + mLbstFont.gftSizf2D() + "]");
+                    gftGStbtf().fmitPSFont(psFonts[i], mLbstFont.gftSizf2D());
 
                     // out String
-                    mPSStream.println(nativeStr.toString() + " " +
-                                      desiredWidth + " " + x + " " + y + " " +
-                                      DrawStringName);
-                    x += desiredWidth;
+                    mPSStrfbm.println(nbtivfStr.toString() + " " +
+                                      dfsirfdWidti + " " + x + " " + y + " " +
+                                      DrbwStringNbmf);
+                    x += dfsirfdWidti;
                 }
-            } else {
-                didText = false;
+            } flsf {
+                didTfxt = fblsf;
             }
         }
 
-        return didText;
+        rfturn didTfxt;
      }
     /**
-     * Set the current path rule to be either
-     * <code>FILL_EVEN_ODD</code> (using the
-     * even-odd file rule) or <code>FILL_WINDING</code>
-     * (using the non-zero winding rule.)
+     * Sft tif durrfnt pbti rulf to bf fitifr
+     * <dodf>FILL_EVEN_ODD</dodf> (using tif
+     * fvfn-odd filf rulf) or <dodf>FILL_WINDING</dodf>
+     * (using tif non-zfro winding rulf.)
      */
-    protected void setFillMode(int fillRule) {
+    protfdtfd void sftFillModf(int fillRulf) {
 
-        switch (fillRule) {
+        switdi (fillRulf) {
 
-         case FILL_EVEN_ODD:
+         dbsf FILL_EVEN_ODD:
             mFillOpStr = EVEN_ODD_FILL_STR;
             mClipOpStr = EVEN_ODD_CLIP_STR;
-            break;
+            brfbk;
 
-         case FILL_WINDING:
+         dbsf FILL_WINDING:
              mFillOpStr = WINDING_FILL_STR;
              mClipOpStr = WINDING_CLIP_STR;
-             break;
+             brfbk;
 
-         default:
-             throw new IllegalArgumentException();
+         dffbult:
+             tirow nfw IllfgblArgumfntExdfption();
         }
 
     }
 
     /**
-     * Set the printer's current color to be that
-     * defined by <code>color</code>
+     * Sft tif printfr's durrfnt dolor to bf tibt
+     * dffinfd by <dodf>dolor</dodf>
      */
-    protected void setColor(Color color) {
-        mLastColor = color;
+    protfdtfd void sftColor(Color dolor) {
+        mLbstColor = dolor;
     }
 
     /**
-     * Fill the current path using the current fill mode
-     * and color.
+     * Fill tif durrfnt pbti using tif durrfnt fill modf
+     * bnd dolor.
      */
-    protected void fillPath() {
+    protfdtfd void fillPbti() {
 
-        mPSStream.println(mFillOpStr);
+        mPSStrfbm.println(mFillOpStr);
     }
 
     /**
-     * Called to mark the start of a new path.
+     * Cbllfd to mbrk tif stbrt of b nfw pbti.
      */
-    protected void beginPath() {
+    protfdtfd void bfginPbti() {
 
-        prepDrawing();
-        mPSStream.println(NEWPATH_STR);
+        prfpDrbwing();
+        mPSStrfbm.println(NEWPATH_STR);
 
-        mPenX = 0;
-        mPenY = 0;
+        mPfnX = 0;
+        mPfnY = 0;
     }
 
     /**
-     * Close the current subpath by appending a straight
-     * line from the current point to the subpath's
-     * starting point.
+     * Closf tif durrfnt subpbti by bppfnding b strbigit
+     * linf from tif durrfnt point to tif subpbti's
+     * stbrting point.
      */
-    protected void closeSubpath() {
+    protfdtfd void dlosfSubpbti() {
 
-        mPSStream.println(CLOSEPATH_STR);
+        mPSStrfbm.println(CLOSEPATH_STR);
 
-        mPenX = mStartPathX;
-        mPenY = mStartPathY;
+        mPfnX = mStbrtPbtiX;
+        mPfnY = mStbrtPbtiY;
     }
 
 
     /**
-     * Generate PostScript to move the current pen
-     * position to <code>(x, y)</code>.
+     * Gfnfrbtf PostSdript to movf tif durrfnt pfn
+     * position to <dodf>(x, y)</dodf>.
      */
-    protected void moveTo(float x, float y) {
+    protfdtfd void movfTo(flobt x, flobt y) {
 
-        mPSStream.println(trunc(x) + " " + trunc(y) + MOVETO_STR);
+        mPSStrfbm.println(trund(x) + " " + trund(y) + MOVETO_STR);
 
-        /* moveto marks the start of a new subpath
-         * and we need to remember that starting
-         * position so that we know where the
-         * pen returns to with a close path.
+        /* movfto mbrks tif stbrt of b nfw subpbti
+         * bnd wf nffd to rfmfmbfr tibt stbrting
+         * position so tibt wf know wifrf tif
+         * pfn rfturns to witi b dlosf pbti.
          */
-        mStartPathX = x;
-        mStartPathY = y;
+        mStbrtPbtiX = x;
+        mStbrtPbtiY = y;
 
-        mPenX = x;
-        mPenY = y;
+        mPfnX = x;
+        mPfnY = y;
     }
     /**
-     * Generate PostScript to draw a line from the
-     * current pen position to <code>(x, y)</code>.
+     * Gfnfrbtf PostSdript to drbw b linf from tif
+     * durrfnt pfn position to <dodf>(x, y)</dodf>.
      */
-    protected void lineTo(float x, float y) {
+    protfdtfd void linfTo(flobt x, flobt y) {
 
-        mPSStream.println(trunc(x) + " " + trunc(y) + LINETO_STR);
+        mPSStrfbm.println(trund(x) + " " + trund(y) + LINETO_STR);
 
-        mPenX = x;
-        mPenY = y;
+        mPfnX = x;
+        mPfnY = y;
     }
 
     /**
-     * Add to the current path a bezier curve formed
-     * by the current pen position and the method parameters
-     * which are two control points and an ending
+     * Add to tif durrfnt pbti b bfzifr durvf formfd
+     * by tif durrfnt pfn position bnd tif mftiod pbrbmftfrs
+     * wiidi brf two dontrol points bnd bn fnding
      * point.
      */
-    protected void bezierTo(float control1x, float control1y,
-                                float control2x, float control2y,
-                                float endX, float endY) {
+    protfdtfd void bfzifrTo(flobt dontrol1x, flobt dontrol1y,
+                                flobt dontrol2x, flobt dontrol2y,
+                                flobt fndX, flobt fndY) {
 
-//      mPSStream.println(control1x + " " + control1y
-//                        + " " + control2x + " " + control2y
-//                        + " " + endX + " " + endY
+//      mPSStrfbm.println(dontrol1x + " " + dontrol1y
+//                        + " " + dontrol2x + " " + dontrol2y
+//                        + " " + fndX + " " + fndY
 //                        + CURVETO_STR);
-        mPSStream.println(trunc(control1x) + " " + trunc(control1y)
-                          + " " + trunc(control2x) + " " + trunc(control2y)
-                          + " " + trunc(endX) + " " + trunc(endY)
+        mPSStrfbm.println(trund(dontrol1x) + " " + trund(dontrol1y)
+                          + " " + trund(dontrol2x) + " " + trund(dontrol2y)
+                          + " " + trund(fndX) + " " + trund(fndY)
                           + CURVETO_STR);
 
 
-        mPenX = endX;
-        mPenY = endY;
+        mPfnX = fndX;
+        mPfnY = fndY;
     }
 
-    String trunc(float f) {
-        float af = Math.abs(f);
-        if (af >= 1f && af <=1000f) {
-            f = Math.round(f*1000)/1000f;
+    String trund(flobt f) {
+        flobt bf = Mbti.bbs(f);
+        if (bf >= 1f && bf <=1000f) {
+            f = Mbti.round(f*1000)/1000f;
         }
-        return Float.toString(f);
+        rfturn Flobt.toString(f);
     }
 
     /**
-     * Return the x coordinate of the pen in the
-     * current path.
+     * Rfturn tif x doordinbtf of tif pfn in tif
+     * durrfnt pbti.
      */
-    protected float getPenX() {
+    protfdtfd flobt gftPfnX() {
 
-        return mPenX;
+        rfturn mPfnX;
     }
     /**
-     * Return the y coordinate of the pen in the
-     * current path.
+     * Rfturn tif y doordinbtf of tif pfn in tif
+     * durrfnt pbti.
      */
-    protected float getPenY() {
+    protfdtfd flobt gftPfnY() {
 
-        return mPenY;
-    }
-
-    /**
-     * Return the x resolution of the coordinates
-     * to be rendered.
-     */
-    protected double getXRes() {
-        return xres;
-    }
-    /**
-     * Return the y resolution of the coordinates
-     * to be rendered.
-     */
-    protected double getYRes() {
-        return yres;
+        rfturn mPfnY;
     }
 
     /**
-     * Set the resolution at which to print.
+     * Rfturn tif x rfsolution of tif doordinbtfs
+     * to bf rfndfrfd.
      */
-    protected void setXYRes(double x, double y) {
-        xres = x;
-        yres = y;
+    protfdtfd doublf gftXRfs() {
+        rfturn xrfs;
+    }
+    /**
+     * Rfturn tif y rfsolution of tif doordinbtfs
+     * to bf rfndfrfd.
+     */
+    protfdtfd doublf gftYRfs() {
+        rfturn yrfs;
     }
 
     /**
-     * For PostScript the origin is in the upper-left of the
-     * paper not at the imageable area corner.
+     * Sft tif rfsolution bt wiidi to print.
      */
-    protected double getPhysicalPrintableX(Paper p) {
-        return 0;
+    protfdtfd void sftXYRfs(doublf x, doublf y) {
+        xrfs = x;
+        yrfs = y;
+    }
+
+    /**
+     * For PostSdript tif origin is in tif uppfr-lfft of tif
+     * pbpfr not bt tif imbgfbblf brfb dornfr.
+     */
+    protfdtfd doublf gftPiysidblPrintbblfX(Pbpfr p) {
+        rfturn 0;
 
     }
 
     /**
-     * For PostScript the origin is in the upper-left of the
-     * paper not at the imageable area corner.
+     * For PostSdript tif origin is in tif uppfr-lfft of tif
+     * pbpfr not bt tif imbgfbblf brfb dornfr.
      */
-    protected double getPhysicalPrintableY(Paper p) {
-        return 0;
+    protfdtfd doublf gftPiysidblPrintbblfY(Pbpfr p) {
+        rfturn 0;
     }
 
-    protected double getPhysicalPrintableWidth(Paper p) {
-        return p.getImageableWidth();
+    protfdtfd doublf gftPiysidblPrintbblfWidti(Pbpfr p) {
+        rfturn p.gftImbgfbblfWidti();
     }
 
-    protected double getPhysicalPrintableHeight(Paper p) {
-        return p.getImageableHeight();
+    protfdtfd doublf gftPiysidblPrintbblfHfigit(Pbpfr p) {
+        rfturn p.gftImbgfbblfHfigit();
     }
 
-    protected double getPhysicalPageWidth(Paper p) {
-        return p.getWidth();
+    protfdtfd doublf gftPiysidblPbgfWidti(Pbpfr p) {
+        rfturn p.gftWidti();
     }
 
-    protected double getPhysicalPageHeight(Paper p) {
-        return p.getHeight();
+    protfdtfd doublf gftPiysidblPbgfHfigit(Pbpfr p) {
+        rfturn p.gftHfigit();
     }
 
    /**
-     * Returns how many times each page in the book
-     * should be consecutively printed by PrintJob.
-     * If the printer makes copies itself then this
-     * method should return 1.
+     * Rfturns iow mbny timfs fbdi pbgf in tif book
+     * siould bf donsfdutivfly printfd by PrintJob.
+     * If tif printfr mbkfs dopifs itsflf tifn tiis
+     * mftiod siould rfturn 1.
      */
-    protected int getNoncollatedCopies() {
-        return 1;
+    protfdtfd int gftNondollbtfdCopifs() {
+        rfturn 1;
     }
 
-    protected int getCollatedCopies() {
-        return 1;
+    protfdtfd int gftCollbtfdCopifs() {
+        rfturn 1;
     }
 
-    private String[] printExecCmd(String printer, String options,
-                                  boolean noJobSheet,
-                                  String banner, int copies, String spoolFile) {
+    privbtf String[] printExfdCmd(String printfr, String options,
+                                  boolfbn noJobSifft,
+                                  String bbnnfr, int dopifs, String spoolFilf) {
         int PRINTER = 0x1;
         int OPTIONS = 0x2;
         int BANNER  = 0x4;
         int COPIES  = 0x8;
         int NOSHEET = 0x10;
-        int pFlags = 0;
-        String execCmd[];
-        int ncomps = 2; // minimum number of print args
+        int pFlbgs = 0;
+        String fxfdCmd[];
+        int ndomps = 2; // minimum numbfr of print brgs
         int n = 0;
 
-        if (printer != null && !printer.equals("") && !printer.equals("lp")) {
-            pFlags |= PRINTER;
-            ncomps+=1;
+        if (printfr != null && !printfr.fqubls("") && !printfr.fqubls("lp")) {
+            pFlbgs |= PRINTER;
+            ndomps+=1;
         }
-        if (options != null && !options.equals("")) {
-            pFlags |= OPTIONS;
-            ncomps+=1;
+        if (options != null && !options.fqubls("")) {
+            pFlbgs |= OPTIONS;
+            ndomps+=1;
         }
-        if (banner != null && !banner.equals("")) {
-            pFlags |= BANNER;
-            ncomps+=1;
+        if (bbnnfr != null && !bbnnfr.fqubls("")) {
+            pFlbgs |= BANNER;
+            ndomps+=1;
         }
-        if (copies > 1) {
-            pFlags |= COPIES;
-            ncomps+=1;
+        if (dopifs > 1) {
+            pFlbgs |= COPIES;
+            ndomps+=1;
         }
-        if (noJobSheet) {
-            pFlags |= NOSHEET;
-            ncomps+=1;
+        if (noJobSifft) {
+            pFlbgs |= NOSHEET;
+            ndomps+=1;
         }
 
-       String osname = System.getProperty("os.name");
-       if (osname.equals("Linux") || osname.contains("OS X")) {
-            execCmd = new String[ncomps];
-            execCmd[n++] = "/usr/bin/lpr";
-            if ((pFlags & PRINTER) != 0) {
-                execCmd[n++] = "-P" + printer;
+       String osnbmf = Systfm.gftPropfrty("os.nbmf");
+       if (osnbmf.fqubls("Linux") || osnbmf.dontbins("OS X")) {
+            fxfdCmd = nfw String[ndomps];
+            fxfdCmd[n++] = "/usr/bin/lpr";
+            if ((pFlbgs & PRINTER) != 0) {
+                fxfdCmd[n++] = "-P" + printfr;
             }
-            if ((pFlags & BANNER) != 0) {
-                execCmd[n++] = "-J"  + banner;
+            if ((pFlbgs & BANNER) != 0) {
+                fxfdCmd[n++] = "-J"  + bbnnfr;
             }
-            if ((pFlags & COPIES) != 0) {
-                execCmd[n++] = "-#" + copies;
+            if ((pFlbgs & COPIES) != 0) {
+                fxfdCmd[n++] = "-#" + dopifs;
             }
-            if ((pFlags & NOSHEET) != 0) {
-                execCmd[n++] = "-h";
+            if ((pFlbgs & NOSHEET) != 0) {
+                fxfdCmd[n++] = "-i";
             }
-            if ((pFlags & OPTIONS) != 0) {
-                execCmd[n++] = new String(options);
+            if ((pFlbgs & OPTIONS) != 0) {
+                fxfdCmd[n++] = nfw String(options);
             }
-        } else {
-            ncomps+=1; //add 1 arg for lp
-            execCmd = new String[ncomps];
-            execCmd[n++] = "/usr/bin/lp";
-            execCmd[n++] = "-c";           // make a copy of the spool file
-            if ((pFlags & PRINTER) != 0) {
-                execCmd[n++] = "-d" + printer;
+        } flsf {
+            ndomps+=1; //bdd 1 brg for lp
+            fxfdCmd = nfw String[ndomps];
+            fxfdCmd[n++] = "/usr/bin/lp";
+            fxfdCmd[n++] = "-d";           // mbkf b dopy of tif spool filf
+            if ((pFlbgs & PRINTER) != 0) {
+                fxfdCmd[n++] = "-d" + printfr;
             }
-            if ((pFlags & BANNER) != 0) {
-                execCmd[n++] = "-t"  + banner;
+            if ((pFlbgs & BANNER) != 0) {
+                fxfdCmd[n++] = "-t"  + bbnnfr;
             }
-            if ((pFlags & COPIES) != 0) {
-                execCmd[n++] = "-n" + copies;
+            if ((pFlbgs & COPIES) != 0) {
+                fxfdCmd[n++] = "-n" + dopifs;
             }
-            if ((pFlags & NOSHEET) != 0) {
-                execCmd[n++] = "-o nobanner";
+            if ((pFlbgs & NOSHEET) != 0) {
+                fxfdCmd[n++] = "-o nobbnnfr";
             }
-            if ((pFlags & OPTIONS) != 0) {
-                execCmd[n++] = "-o" + options;
+            if ((pFlbgs & OPTIONS) != 0) {
+                fxfdCmd[n++] = "-o" + options;
             }
         }
-        execCmd[n++] = spoolFile;
-        return execCmd;
+        fxfdCmd[n++] = spoolFilf;
+        rfturn fxfdCmd;
     }
 
-    private static int swapBGRtoRGB(byte[] image, int index, byte[] dest) {
-        int destIndex = 0;
-        while(index < image.length-2 && destIndex < dest.length-2) {
-            dest[destIndex++] = image[index+2];
-            dest[destIndex++] = image[index+1];
-            dest[destIndex++] = image[index+0];
-            index+=3;
+    privbtf stbtid int swbpBGRtoRGB(bytf[] imbgf, int indfx, bytf[] dfst) {
+        int dfstIndfx = 0;
+        wiilf(indfx < imbgf.lfngti-2 && dfstIndfx < dfst.lfngti-2) {
+            dfst[dfstIndfx++] = imbgf[indfx+2];
+            dfst[dfstIndfx++] = imbgf[indfx+1];
+            dfst[dfstIndfx++] = imbgf[indfx+0];
+            indfx+=3;
         }
-        return index;
+        rfturn indfx;
     }
 
     /*
-     * Currently CharToByteConverter.getCharacterEncoding() return values are
-     * not fixed yet. These are used as the part of the key of
-     * psfont.properties. When those name are fixed this routine can
-     * be erased.
+     * Currfntly CibrToBytfConvfrtfr.gftCibrbdtfrEndoding() rfturn vblufs brf
+     * not fixfd yft. Tifsf brf usfd bs tif pbrt of tif kfy of
+     * psfont.propfrtifs. Wifn tiosf nbmf brf fixfd tiis routinf dbn
+     * bf frbsfd.
      */
-    private String makeCharsetName(String name, char[] chs) {
-        if (name.equals("Cp1252") || name.equals("ISO8859_1")) {
-            return "latin1";
-        } else if (name.equals("UTF8")) {
-            // same as latin 1 if all chars < 256
-            for (int i=0; i < chs.length; i++) {
-                if (chs[i] > 255) {
-                    return name.toLowerCase();
+    privbtf String mbkfCibrsftNbmf(String nbmf, dibr[] dis) {
+        if (nbmf.fqubls("Cp1252") || nbmf.fqubls("ISO8859_1")) {
+            rfturn "lbtin1";
+        } flsf if (nbmf.fqubls("UTF8")) {
+            // sbmf bs lbtin 1 if bll dibrs < 256
+            for (int i=0; i < dis.lfngti; i++) {
+                if (dis[i] > 255) {
+                    rfturn nbmf.toLowfrCbsf();
                 }
             }
-            return "latin1";
-        } else if (name.startsWith("ISO8859")) {
-            // same as latin 1 if all chars < 128
-            for (int i=0; i < chs.length; i++) {
-                if (chs[i] > 127) {
-                    return name.toLowerCase();
+            rfturn "lbtin1";
+        } flsf if (nbmf.stbrtsWiti("ISO8859")) {
+            // sbmf bs lbtin 1 if bll dibrs < 128
+            for (int i=0; i < dis.lfngti; i++) {
+                if (dis[i] > 127) {
+                    rfturn nbmf.toLowfrCbsf();
                 }
             }
-            return "latin1";
-        } else {
-            return name.toLowerCase();
+            rfturn "lbtin1";
+        } flsf {
+            rfturn nbmf.toLowfrCbsf();
         }
     }
 
-    private void prepDrawing() {
+    privbtf void prfpDrbwing() {
 
-        /* Pop gstates until we can set the needed clip
-         * and transform or until we are at the outer most
-         * gstate.
+        /* Pop gstbtfs until wf dbn sft tif nffdfd dlip
+         * bnd trbnsform or until wf brf bt tif outfr most
+         * gstbtf.
          */
-        while (isOuterGState() == false
-               && (getGState().canSetClip(mLastClip) == false
-                   || getGState().mTransform.equals(mLastTransform) == false)) {
+        wiilf (isOutfrGStbtf() == fblsf
+               && (gftGStbtf().dbnSftClip(mLbstClip) == fblsf
+                   || gftGStbtf().mTrbnsform.fqubls(mLbstTrbnsform) == fblsf)) {
 
 
-            grestore();
+            grfstorf();
         }
 
-        /* Set the color. This can push the color to the
-         * outer most gsave which is often a good thing.
+        /* Sft tif dolor. Tiis dbn pusi tif dolor to tif
+         * outfr most gsbvf wiidi is oftfn b good tiing.
          */
-        getGState().emitPSColor(mLastColor);
+        gftGStbtf().fmitPSColor(mLbstColor);
 
-        /* We do not want to change the outermost
-         * transform or clip so if we are at the
-         * outer clip the generate a gsave.
+        /* Wf do not wbnt to dibngf tif outfrmost
+         * trbnsform or dlip so if wf brf bt tif
+         * outfr dlip tif gfnfrbtf b gsbvf.
          */
-        if (isOuterGState()) {
-            gsave();
-            getGState().emitTransform(mLastTransform);
-            getGState().emitPSClip(mLastClip);
+        if (isOutfrGStbtf()) {
+            gsbvf();
+            gftGStbtf().fmitTrbnsform(mLbstTrbnsform);
+            gftGStbtf().fmitPSClip(mLbstClip);
         }
 
-        /* Set the font if we have been asked to. It is
-         * important that the font is set after the
-         * transform in order to get the font size
-         * correct.
+        /* Sft tif font if wf ibvf bffn bskfd to. It is
+         * importbnt tibt tif font is sft bftfr tif
+         * trbnsform in ordfr to gft tif font sizf
+         * dorrfdt.
          */
 //      if (g != null) {
-//          getGState().emitPSFont(g, mLastFont);
+//          gftGStbtf().fmitPSFont(g, mLbstFont);
 //      }
 
     }
 
     /**
-     * Return the GState that is currently on top
-     * of the GState stack. There should always be
-     * a GState on top of the stack. If there isn't
-     * then this method will throw an IndexOutOfBounds
-     * exception.
+     * Rfturn tif GStbtf tibt is durrfntly on top
+     * of tif GStbtf stbdk. Tifrf siould blwbys bf
+     * b GStbtf on top of tif stbdk. If tifrf isn't
+     * tifn tiis mftiod will tirow bn IndfxOutOfBounds
+     * fxdfption.
      */
-    private GState getGState() {
-        int count = mGStateStack.size();
-        return mGStateStack.get(count - 1);
+    privbtf GStbtf gftGStbtf() {
+        int dount = mGStbtfStbdk.sizf();
+        rfturn mGStbtfStbdk.gft(dount - 1);
     }
 
     /**
-     * Emit a PostScript gsave command and add a
-     * new GState on to our stack which represents
-     * the printer's gstate stack.
+     * Emit b PostSdript gsbvf dommbnd bnd bdd b
+     * nfw GStbtf on to our stbdk wiidi rfprfsfnts
+     * tif printfr's gstbtf stbdk.
      */
-    private void gsave() {
-        GState oldGState = getGState();
-        mGStateStack.add(new GState(oldGState));
-        mPSStream.println(GSAVE_STR);
+    privbtf void gsbvf() {
+        GStbtf oldGStbtf = gftGStbtf();
+        mGStbtfStbdk.bdd(nfw GStbtf(oldGStbtf));
+        mPSStrfbm.println(GSAVE_STR);
     }
 
     /**
-     * Emit a PostScript grestore command and remove
-     * a GState from our stack which represents the
-     * printer's gstate stack.
+     * Emit b PostSdript grfstorf dommbnd bnd rfmovf
+     * b GStbtf from our stbdk wiidi rfprfsfnts tif
+     * printfr's gstbtf stbdk.
      */
-    private void grestore() {
-        int count = mGStateStack.size();
-        mGStateStack.remove(count - 1);
-        mPSStream.println(GRESTORE_STR);
+    privbtf void grfstorf() {
+        int dount = mGStbtfStbdk.sizf();
+        mGStbtfStbdk.rfmovf(dount - 1);
+        mPSStrfbm.println(GRESTORE_STR);
     }
 
     /**
-     * Return true if the current GState is the
-     * outermost GState and therefore should not
-     * be restored.
+     * Rfturn truf if tif durrfnt GStbtf is tif
+     * outfrmost GStbtf bnd tifrfforf siould not
+     * bf rfstorfd.
      */
-    private boolean isOuterGState() {
-        return mGStateStack.size() == 1;
+    privbtf boolfbn isOutfrGStbtf() {
+        rfturn mGStbtfStbdk.sizf() == 1;
     }
 
     /**
-     * A stack of GStates is maintained to model the printer's
-     * gstate stack. Each GState holds information about
-     * the current graphics attributes.
+     * A stbdk of GStbtfs is mbintbinfd to modfl tif printfr's
+     * gstbtf stbdk. Ebdi GStbtf iolds informbtion bbout
+     * tif durrfnt grbpiids bttributfs.
      */
-    private class GState{
+    privbtf dlbss GStbtf{
         Color mColor;
-        Shape mClip;
+        Sibpf mClip;
         Font mFont;
-        AffineTransform mTransform;
+        AffinfTrbnsform mTrbnsform;
 
-        GState() {
-            mColor = Color.black;
+        GStbtf() {
+            mColor = Color.blbdk;
             mClip = null;
             mFont = null;
-            mTransform = new AffineTransform();
+            mTrbnsform = nfw AffinfTrbnsform();
         }
 
-        GState(GState copyGState) {
-            mColor = copyGState.mColor;
-            mClip = copyGState.mClip;
-            mFont = copyGState.mFont;
-            mTransform = copyGState.mTransform;
+        GStbtf(GStbtf dopyGStbtf) {
+            mColor = dopyGStbtf.mColor;
+            mClip = dopyGStbtf.mClip;
+            mFont = dopyGStbtf.mFont;
+            mTrbnsform = dopyGStbtf.mTrbnsform;
         }
 
-        boolean canSetClip(Shape clip) {
+        boolfbn dbnSftClip(Sibpf dlip) {
 
-            return mClip == null || mClip.equals(clip);
+            rfturn mClip == null || mClip.fqubls(dlip);
         }
 
 
-        void emitPSClip(Shape clip) {
-            if (clip != null
-                && (mClip == null || mClip.equals(clip) == false)) {
-                String saveFillOp = mFillOpStr;
-                String saveClipOp = mClipOpStr;
-                convertToPSPath(clip.getPathIterator(new AffineTransform()));
-                selectClipPath();
-                mClip = clip;
-                /* The clip is a shape and has reset the winding rule state */
-                mClipOpStr = saveFillOp;
-                mFillOpStr = saveFillOp;
+        void fmitPSClip(Sibpf dlip) {
+            if (dlip != null
+                && (mClip == null || mClip.fqubls(dlip) == fblsf)) {
+                String sbvfFillOp = mFillOpStr;
+                String sbvfClipOp = mClipOpStr;
+                donvfrtToPSPbti(dlip.gftPbtiItfrbtor(nfw AffinfTrbnsform()));
+                sflfdtClipPbti();
+                mClip = dlip;
+                /* Tif dlip is b sibpf bnd ibs rfsft tif winding rulf stbtf */
+                mClipOpStr = sbvfFillOp;
+                mFillOpStr = sbvfFillOp;
             }
         }
 
-        void emitTransform(AffineTransform transform) {
+        void fmitTrbnsform(AffinfTrbnsform trbnsform) {
 
-            if (transform != null && transform.equals(mTransform) == false) {
-                double[] matrix = new double[6];
-                transform.getMatrix(matrix);
-                mPSStream.println("[" + (float)matrix[0]
-                                  + " " + (float)matrix[1]
-                                  + " " + (float)matrix[2]
-                                  + " " + (float)matrix[3]
-                                  + " " + (float)matrix[4]
-                                  + " " + (float)matrix[5]
-                                  + "] concat");
+            if (trbnsform != null && trbnsform.fqubls(mTrbnsform) == fblsf) {
+                doublf[] mbtrix = nfw doublf[6];
+                trbnsform.gftMbtrix(mbtrix);
+                mPSStrfbm.println("[" + (flobt)mbtrix[0]
+                                  + " " + (flobt)mbtrix[1]
+                                  + " " + (flobt)mbtrix[2]
+                                  + " " + (flobt)mbtrix[3]
+                                  + " " + (flobt)mbtrix[4]
+                                  + " " + (flobt)mbtrix[5]
+                                  + "] dondbt");
 
-                mTransform = transform;
+                mTrbnsform = trbnsform;
             }
         }
 
-        void emitPSColor(Color color) {
-            if (color != null && color.equals(mColor) == false) {
-                float[] rgb = color.getRGBColorComponents(null);
+        void fmitPSColor(Color dolor) {
+            if (dolor != null && dolor.fqubls(mColor) == fblsf) {
+                flobt[] rgb = dolor.gftRGBColorComponfnts(null);
 
-                /* If the color is a gray value then use
-                 * setgray.
+                /* If tif dolor is b grby vbluf tifn usf
+                 * sftgrby.
                  */
                 if (rgb[0] == rgb[1] && rgb[1] == rgb[2]) {
-                    mPSStream.println(rgb[0] + SETGRAY_STR);
+                    mPSStrfbm.println(rgb[0] + SETGRAY_STR);
 
-                /* It's not gray so use setrgbcolor.
+                /* It's not grby so usf sftrgbdolor.
                  */
-                } else {
-                    mPSStream.println(rgb[0] + " "
+                } flsf {
+                    mPSStrfbm.println(rgb[0] + " "
                                       + rgb[1] + " "
                                       + rgb[2] + " "
                                       + SETRGBCOLOR_STR);
                 }
 
-                mColor = color;
+                mColor = dolor;
 
             }
         }
 
-        void emitPSFont(int psFontIndex, float fontSize) {
-            mPSStream.println(fontSize + " " +
-                              psFontIndex + " " + SetFontName);
+        void fmitPSFont(int psFontIndfx, flobt fontSizf) {
+            mPSStrfbm.println(fontSizf + " " +
+                              psFontIndfx + " " + SftFontNbmf);
         }
     }
 
        /**
-        * Given a Java2D <code>PathIterator</code> instance,
-        * this method translates that into a PostScript path..
+        * Givfn b Jbvb2D <dodf>PbtiItfrbtor</dodf> instbndf,
+        * tiis mftiod trbnslbtfs tibt into b PostSdript pbti..
         */
-        void convertToPSPath(PathIterator pathIter) {
+        void donvfrtToPSPbti(PbtiItfrbtor pbtiItfr) {
 
-            float[] segment = new float[6];
-            int segmentType;
+            flobt[] sfgmfnt = nfw flobt[6];
+            int sfgmfntTypf;
 
-            /* Map the PathIterator's fill rule into the PostScript
-             * fill rule.
+            /* Mbp tif PbtiItfrbtor's fill rulf into tif PostSdript
+             * fill rulf.
              */
-            int fillRule;
-            if (pathIter.getWindingRule() == PathIterator.WIND_EVEN_ODD) {
-                fillRule = FILL_EVEN_ODD;
-            } else {
-                fillRule = FILL_WINDING;
+            int fillRulf;
+            if (pbtiItfr.gftWindingRulf() == PbtiItfrbtor.WIND_EVEN_ODD) {
+                fillRulf = FILL_EVEN_ODD;
+            } flsf {
+                fillRulf = FILL_WINDING;
             }
 
-            beginPath();
+            bfginPbti();
 
-            setFillMode(fillRule);
+            sftFillModf(fillRulf);
 
-            while (pathIter.isDone() == false) {
-                segmentType = pathIter.currentSegment(segment);
+            wiilf (pbtiItfr.isDonf() == fblsf) {
+                sfgmfntTypf = pbtiItfr.durrfntSfgmfnt(sfgmfnt);
 
-                switch (segmentType) {
-                 case PathIterator.SEG_MOVETO:
-                    moveTo(segment[0], segment[1]);
-                    break;
+                switdi (sfgmfntTypf) {
+                 dbsf PbtiItfrbtor.SEG_MOVETO:
+                    movfTo(sfgmfnt[0], sfgmfnt[1]);
+                    brfbk;
 
-                 case PathIterator.SEG_LINETO:
-                    lineTo(segment[0], segment[1]);
-                    break;
+                 dbsf PbtiItfrbtor.SEG_LINETO:
+                    linfTo(sfgmfnt[0], sfgmfnt[1]);
+                    brfbk;
 
-                /* Convert the quad path to a bezier.
+                /* Convfrt tif qubd pbti to b bfzifr.
                  */
-                 case PathIterator.SEG_QUADTO:
-                    float lastX = getPenX();
-                    float lastY = getPenY();
-                    float c1x = lastX + (segment[0] - lastX) * 2 / 3;
-                    float c1y = lastY + (segment[1] - lastY) * 2 / 3;
-                    float c2x = segment[2] - (segment[2] - segment[0]) * 2/ 3;
-                    float c2y = segment[3] - (segment[3] - segment[1]) * 2/ 3;
-                    bezierTo(c1x, c1y,
-                             c2x, c2y,
-                             segment[2], segment[3]);
-                    break;
+                 dbsf PbtiItfrbtor.SEG_QUADTO:
+                    flobt lbstX = gftPfnX();
+                    flobt lbstY = gftPfnY();
+                    flobt d1x = lbstX + (sfgmfnt[0] - lbstX) * 2 / 3;
+                    flobt d1y = lbstY + (sfgmfnt[1] - lbstY) * 2 / 3;
+                    flobt d2x = sfgmfnt[2] - (sfgmfnt[2] - sfgmfnt[0]) * 2/ 3;
+                    flobt d2y = sfgmfnt[3] - (sfgmfnt[3] - sfgmfnt[1]) * 2/ 3;
+                    bfzifrTo(d1x, d1y,
+                             d2x, d2y,
+                             sfgmfnt[2], sfgmfnt[3]);
+                    brfbk;
 
-                 case PathIterator.SEG_CUBICTO:
-                    bezierTo(segment[0], segment[1],
-                             segment[2], segment[3],
-                             segment[4], segment[5]);
-                    break;
+                 dbsf PbtiItfrbtor.SEG_CUBICTO:
+                    bfzifrTo(sfgmfnt[0], sfgmfnt[1],
+                             sfgmfnt[2], sfgmfnt[3],
+                             sfgmfnt[4], sfgmfnt[5]);
+                    brfbk;
 
-                 case PathIterator.SEG_CLOSE:
-                    closeSubpath();
-                    break;
+                 dbsf PbtiItfrbtor.SEG_CLOSE:
+                    dlosfSubpbti();
+                    brfbk;
                 }
 
 
-                pathIter.next();
+                pbtiItfr.nfxt();
             }
         }
 
     /*
-     * Fill the path defined by <code>pathIter</code>
-     * with the specified color.
-     * The path is provided in current user space.
+     * Fill tif pbti dffinfd by <dodf>pbtiItfr</dodf>
+     * witi tif spfdififd dolor.
+     * Tif pbti is providfd in durrfnt usfr spbdf.
      */
-    protected void deviceFill(PathIterator pathIter, Color color,
-                              AffineTransform tx, Shape clip) {
+    protfdtfd void dfvidfFill(PbtiItfrbtor pbtiItfr, Color dolor,
+                              AffinfTrbnsform tx, Sibpf dlip) {
 
-        setTransform(tx);
-        setClip(clip);
-        setColor(color);
-        convertToPSPath(pathIter);
-        /* Specify the path to fill as the clip, this ensures that only
-         * pixels which are inside the path will be filled, which is
-         * what the Java 2D APIs specify
+        sftTrbnsform(tx);
+        sftClip(dlip);
+        sftColor(dolor);
+        donvfrtToPSPbti(pbtiItfr);
+        /* Spfdify tif pbti to fill bs tif dlip, tiis fnsurfs tibt only
+         * pixfls wiidi brf insidf tif pbti will bf fillfd, wiidi is
+         * wibt tif Jbvb 2D APIs spfdify
          */
-        mPSStream.println(GSAVE_STR);
-        selectClipPath();
-        fillPath();
-        mPSStream.println(GRESTORE_STR + " " + NEWPATH_STR);
+        mPSStrfbm.println(GSAVE_STR);
+        sflfdtClipPbti();
+        fillPbti();
+        mPSStrfbm.println(GRESTORE_STR + " " + NEWPATH_STR);
     }
 
     /*
-     * Run length encode byte array in a form suitable for decoding
-     * by the PS Level 2 filter RunLengthDecode.
-     * Array data to encode is inArr. Encoded data is written to outArr
-     * outArr must be long enough to hold the encoded data but this
-     * can't be known ahead of time.
-     * A safe assumption is to use double the length of the input array.
-     * This is then copied into a new array of the correct length which
-     * is returned.
-     * Algorithm:
-     * Encoding is a lead byte followed by data bytes.
-     * Lead byte of 0->127 indicates leadByte + 1 distinct bytes follow
-     * Lead byte of 129->255 indicates 257 - leadByte is the number of times
-     * the following byte is repeated in the source.
-     * 128 is a special lead byte indicating end of data (EOD) and is
-     * written as the final byte of the returned encoded data.
+     * Run lfngti fndodf bytf brrby in b form suitbblf for dfdoding
+     * by tif PS Lfvfl 2 filtfr RunLfngtiDfdodf.
+     * Arrby dbtb to fndodf is inArr. Endodfd dbtb is writtfn to outArr
+     * outArr must bf long fnougi to iold tif fndodfd dbtb but tiis
+     * dbn't bf known bifbd of timf.
+     * A sbff bssumption is to usf doublf tif lfngti of tif input brrby.
+     * Tiis is tifn dopifd into b nfw brrby of tif dorrfdt lfngti wiidi
+     * is rfturnfd.
+     * Algoritim:
+     * Endoding is b lfbd bytf followfd by dbtb bytfs.
+     * Lfbd bytf of 0->127 indidbtfs lfbdBytf + 1 distindt bytfs follow
+     * Lfbd bytf of 129->255 indidbtfs 257 - lfbdBytf is tif numbfr of timfs
+     * tif following bytf is rfpfbtfd in tif sourdf.
+     * 128 is b spfdibl lfbd bytf indidbting fnd of dbtb (EOD) bnd is
+     * writtfn bs tif finbl bytf of tif rfturnfd fndodfd dbtb.
      */
-     private byte[] rlEncode(byte[] inArr) {
+     privbtf bytf[] rlEndodf(bytf[] inArr) {
 
-         int inIndex = 0;
-         int outIndex = 0;
-         int startIndex = 0;
-         int runLen = 0;
-         byte[] outArr = new byte[(inArr.length * 2) +2];
-         while (inIndex < inArr.length) {
-             if (runLen == 0) {
-                 startIndex = inIndex++;
-                 runLen=1;
-             }
-
-             while (runLen < 128 && inIndex < inArr.length &&
-                    inArr[inIndex] == inArr[startIndex]) {
-                 runLen++; // count run of same value
-                 inIndex++;
+         int inIndfx = 0;
+         int outIndfx = 0;
+         int stbrtIndfx = 0;
+         int runLfn = 0;
+         bytf[] outArr = nfw bytf[(inArr.lfngti * 2) +2];
+         wiilf (inIndfx < inArr.lfngti) {
+             if (runLfn == 0) {
+                 stbrtIndfx = inIndfx++;
+                 runLfn=1;
              }
 
-             if (runLen > 1) {
-                 outArr[outIndex++] = (byte)(257 - runLen);
-                 outArr[outIndex++] = inArr[startIndex];
-                 runLen = 0;
-                 continue; // back to top of while loop.
+             wiilf (runLfn < 128 && inIndfx < inArr.lfngti &&
+                    inArr[inIndfx] == inArr[stbrtIndfx]) {
+                 runLfn++; // dount run of sbmf vbluf
+                 inIndfx++;
              }
 
-             // if reach here have a run of different values, or at the end.
-             while (runLen < 128 && inIndex < inArr.length &&
-                    inArr[inIndex] != inArr[inIndex-1]) {
-                 runLen++; // count run of different values
-                 inIndex++;
+             if (runLfn > 1) {
+                 outArr[outIndfx++] = (bytf)(257 - runLfn);
+                 outArr[outIndfx++] = inArr[stbrtIndfx];
+                 runLfn = 0;
+                 dontinuf; // bbdk to top of wiilf loop.
              }
-             outArr[outIndex++] = (byte)(runLen - 1);
-             for (int i = startIndex; i < startIndex+runLen; i++) {
-                 outArr[outIndex++] = inArr[i];
+
+             // if rfbdi ifrf ibvf b run of difffrfnt vblufs, or bt tif fnd.
+             wiilf (runLfn < 128 && inIndfx < inArr.lfngti &&
+                    inArr[inIndfx] != inArr[inIndfx-1]) {
+                 runLfn++; // dount run of difffrfnt vblufs
+                 inIndfx++;
              }
-             runLen = 0;
+             outArr[outIndfx++] = (bytf)(runLfn - 1);
+             for (int i = stbrtIndfx; i < stbrtIndfx+runLfn; i++) {
+                 outArr[outIndfx++] = inArr[i];
+             }
+             runLfn = 0;
          }
-         outArr[outIndex++] = (byte)128;
-         byte[] encodedData = new byte[outIndex];
-         System.arraycopy(outArr, 0, encodedData, 0, outIndex);
+         outArr[outIndfx++] = (bytf)128;
+         bytf[] fndodfdDbtb = nfw bytf[outIndfx];
+         Systfm.brrbydopy(outArr, 0, fndodfdDbtb, 0, outIndfx);
 
-         return encodedData;
+         rfturn fndodfdDbtb;
      }
 
-    /* written acc. to Adobe Spec. "Filtered Files: ASCIIEncode Filter",
-     * "PS Language Reference Manual, 2nd edition: Section 3.13"
+    /* writtfn bdd. to Adobf Spfd. "Filtfrfd Filfs: ASCIIEndodf Filtfr",
+     * "PS Lbngubgf Rfffrfndf Mbnubl, 2nd fdition: Sfdtion 3.13"
      */
-    private byte[] ascii85Encode(byte[] inArr) {
-        byte[]  outArr = new byte[((inArr.length+4) * 5 / 4) + 2];
+    privbtf bytf[] bsdii85Endodf(bytf[] inArr) {
+        bytf[]  outArr = nfw bytf[((inArr.lfngti+4) * 5 / 4) + 2];
         long p1 = 85;
         long p2 = p1*p1;
         long p3 = p1*p2;
         long p4 = p1*p3;
-        byte pling = '!';
+        bytf pling = '!';
 
         int i = 0;
-        int olen = 0;
-        long val, rem;
+        int olfn = 0;
+        long vbl, rfm;
 
-        while (i+3 < inArr.length) {
-            val = ((long)((inArr[i++]&0xff))<<24) +
+        wiilf (i+3 < inArr.lfngti) {
+            vbl = ((long)((inArr[i++]&0xff))<<24) +
                   ((long)((inArr[i++]&0xff))<<16) +
                   ((long)((inArr[i++]&0xff))<< 8) +
                   ((long)(inArr[i++]&0xff));
-            if (val == 0) {
-                outArr[olen++] = 'z';
-            } else {
-                rem = val;
-                outArr[olen++] = (byte)(rem / p4 + pling); rem = rem % p4;
-                outArr[olen++] = (byte)(rem / p3 + pling); rem = rem % p3;
-                outArr[olen++] = (byte)(rem / p2 + pling); rem = rem % p2;
-                outArr[olen++] = (byte)(rem / p1 + pling); rem = rem % p1;
-                outArr[olen++] = (byte)(rem + pling);
+            if (vbl == 0) {
+                outArr[olfn++] = 'z';
+            } flsf {
+                rfm = vbl;
+                outArr[olfn++] = (bytf)(rfm / p4 + pling); rfm = rfm % p4;
+                outArr[olfn++] = (bytf)(rfm / p3 + pling); rfm = rfm % p3;
+                outArr[olfn++] = (bytf)(rfm / p2 + pling); rfm = rfm % p2;
+                outArr[olfn++] = (bytf)(rfm / p1 + pling); rfm = rfm % p1;
+                outArr[olfn++] = (bytf)(rfm + pling);
             }
         }
-        // input not a multiple of 4 bytes, write partial output.
-        if (i < inArr.length) {
-            int n = inArr.length - i; // n bytes remain to be written
+        // input not b multiplf of 4 bytfs, writf pbrtibl output.
+        if (i < inArr.lfngti) {
+            int n = inArr.lfngti - i; // n bytfs rfmbin to bf writtfn
 
-            val = 0;
-            while (i < inArr.length) {
-                val = (val << 8) + (inArr[i++]&0xff);
+            vbl = 0;
+            wiilf (i < inArr.lfngti) {
+                vbl = (vbl << 8) + (inArr[i++]&0xff);
             }
 
-            int append = 4 - n;
-            while (append-- > 0) {
-                val = val << 8;
+            int bppfnd = 4 - n;
+            wiilf (bppfnd-- > 0) {
+                vbl = vbl << 8;
             }
-            byte []c = new byte[5];
-            rem = val;
-            c[0] = (byte)(rem / p4 + pling); rem = rem % p4;
-            c[1] = (byte)(rem / p3 + pling); rem = rem % p3;
-            c[2] = (byte)(rem / p2 + pling); rem = rem % p2;
-            c[3] = (byte)(rem / p1 + pling); rem = rem % p1;
-            c[4] = (byte)(rem + pling);
+            bytf []d = nfw bytf[5];
+            rfm = vbl;
+            d[0] = (bytf)(rfm / p4 + pling); rfm = rfm % p4;
+            d[1] = (bytf)(rfm / p3 + pling); rfm = rfm % p3;
+            d[2] = (bytf)(rfm / p2 + pling); rfm = rfm % p2;
+            d[3] = (bytf)(rfm / p1 + pling); rfm = rfm % p1;
+            d[4] = (bytf)(rfm + pling);
 
             for (int b = 0; b < n+1 ; b++) {
-                outArr[olen++] = c[b];
+                outArr[olfn++] = d[b];
             }
         }
 
-        // write EOD marker.
-        outArr[olen++]='~'; outArr[olen++]='>';
+        // writf EOD mbrkfr.
+        outArr[olfn++]='~'; outArr[olfn++]='>';
 
-        /* The original intention was to insert a newline after every 78 bytes.
-         * This was mainly intended for legibility but I decided against this
-         * partially because of the (small) amount of extra space, and
-         * partially because for line breaks either would have to hardwire
-         * ascii 10 (newline) or calculate space in bytes to allocate for
-         * the platform's newline byte sequence. Also need to be careful
-         * about where its inserted:
-         * Ascii 85 decoder ignores white space except for one special case:
-         * you must ensure you do not split the EOD marker across lines.
+        /* Tif originbl intfntion wbs to insfrt b nfwlinf bftfr fvfry 78 bytfs.
+         * Tiis wbs mbinly intfndfd for lfgibility but I dfdidfd bgbinst tiis
+         * pbrtiblly bfdbusf of tif (smbll) bmount of fxtrb spbdf, bnd
+         * pbrtiblly bfdbusf for linf brfbks fitifr would ibvf to ibrdwirf
+         * bsdii 10 (nfwlinf) or dbldulbtf spbdf in bytfs to bllodbtf for
+         * tif plbtform's nfwlinf bytf sfqufndf. Also nffd to bf dbrfful
+         * bbout wifrf its insfrtfd:
+         * Asdii 85 dfdodfr ignorfs wiitf spbdf fxdfpt for onf spfdibl dbsf:
+         * you must fnsurf you do not split tif EOD mbrkfr bdross linfs.
          */
-        byte[] retArr = new byte[olen];
-        System.arraycopy(outArr, 0, retArr, 0, olen);
-        return retArr;
+        bytf[] rftArr = nfw bytf[olfn];
+        Systfm.brrbydopy(outArr, 0, rftArr, 0, olfn);
+        rfturn rftArr;
 
     }
 
     /**
-     * PluginPrinter generates EPSF wrapped with a header and trailer
-     * comment. This conforms to the new requirements of Mozilla 1.7
-     * and FireFox 1.5 and later. Earlier versions of these browsers
-     * did not support plugin printing in the general sense (not just Java).
-     * A notable limitation of these browsers is that they handle plugins
-     * which would span page boundaries by scaling plugin content to fit on a
-     * single page. This means white space is left at the bottom of the
-     * previous page and its impossible to print these cases as they appear on
-     * the web page. This is contrast to how the same browsers behave on
-     * Windows where it renders as on-screen.
-     * Cases where the content fits on a single page do work fine, and they
-     * are the majority of cases.
-     * The scaling that the browser specifies to make the plugin content fit
-     * when it is larger than a single page can hold is non-uniform. It
-     * scales the axis in which the content is too large just enough to
-     * ensure it fits. For content which is extremely long this could lead
-     * to noticeable distortion. However that is probably rare enough that
-     * its not worth compensating for that here, but we can revisit that if
-     * needed, and compensate by making the scale for the other axis the
-     * same.
+     * PluginPrintfr gfnfrbtfs EPSF wrbppfd witi b ifbdfr bnd trbilfr
+     * dommfnt. Tiis donforms to tif nfw rfquirfmfnts of Mozillb 1.7
+     * bnd FirfFox 1.5 bnd lbtfr. Ebrlifr vfrsions of tifsf browsfrs
+     * did not support plugin printing in tif gfnfrbl sfnsf (not just Jbvb).
+     * A notbblf limitbtion of tifsf browsfrs is tibt tify ibndlf plugins
+     * wiidi would spbn pbgf boundbrifs by sdbling plugin dontfnt to fit on b
+     * singlf pbgf. Tiis mfbns wiitf spbdf is lfft bt tif bottom of tif
+     * prfvious pbgf bnd its impossiblf to print tifsf dbsfs bs tify bppfbr on
+     * tif wfb pbgf. Tiis is dontrbst to iow tif sbmf browsfrs bfibvf on
+     * Windows wifrf it rfndfrs bs on-sdrffn.
+     * Cbsfs wifrf tif dontfnt fits on b singlf pbgf do work finf, bnd tify
+     * brf tif mbjority of dbsfs.
+     * Tif sdbling tibt tif browsfr spfdififs to mbkf tif plugin dontfnt fit
+     * wifn it is lbrgfr tibn b singlf pbgf dbn iold is non-uniform. It
+     * sdblfs tif bxis in wiidi tif dontfnt is too lbrgf just fnougi to
+     * fnsurf it fits. For dontfnt wiidi is fxtrfmfly long tiis dould lfbd
+     * to notidfbblf distortion. Howfvfr tibt is probbbly rbrf fnougi tibt
+     * its not worti dompfnsbting for tibt ifrf, but wf dbn rfvisit tibt if
+     * nffdfd, bnd dompfnsbtf by mbking tif sdblf for tif otifr bxis tif
+     * sbmf.
      */
-    public static class PluginPrinter implements Printable {
+    publid stbtid dlbss PluginPrintfr implfmfnts Printbblf {
 
-        private EPSPrinter epsPrinter;
-        private Component applet;
-        private PrintStream stream;
-        private String epsTitle;
-        private int bx, by, bw, bh;
-        private int width, height;
+        privbtf EPSPrintfr fpsPrintfr;
+        privbtf Componfnt bpplft;
+        privbtf PrintStrfbm strfbm;
+        privbtf String fpsTitlf;
+        privbtf int bx, by, bw, bi;
+        privbtf int widti, ifigit;
 
         /**
-         * This is called from the Java Plug-in to print an Applet's
-         * contents as EPS to a postscript stream provided by the browser.
-         * @param applet the applet component to print.
-         * @param stream the print stream provided by the plug-in
-         * @param x the x location of the applet panel in the browser window
-         * @param y the y location of the applet panel in the browser window
-         * @param w the width of the applet panel in the browser window
-         * @param h the width of the applet panel in the browser window
+         * Tiis is dbllfd from tif Jbvb Plug-in to print bn Applft's
+         * dontfnts bs EPS to b postsdript strfbm providfd by tif browsfr.
+         * @pbrbm bpplft tif bpplft domponfnt to print.
+         * @pbrbm strfbm tif print strfbm providfd by tif plug-in
+         * @pbrbm x tif x lodbtion of tif bpplft pbnfl in tif browsfr window
+         * @pbrbm y tif y lodbtion of tif bpplft pbnfl in tif browsfr window
+         * @pbrbm w tif widti of tif bpplft pbnfl in tif browsfr window
+         * @pbrbm i tif widti of tif bpplft pbnfl in tif browsfr window
          */
-        public PluginPrinter(Component applet,
-                             PrintStream stream,
-                             int x, int y, int w, int h) {
+        publid PluginPrintfr(Componfnt bpplft,
+                             PrintStrfbm strfbm,
+                             int x, int y, int w, int i) {
 
-            this.applet = applet;
-            this.epsTitle = "Java Plugin Applet";
-            this.stream = stream;
+            tiis.bpplft = bpplft;
+            tiis.fpsTitlf = "Jbvb Plugin Applft";
+            tiis.strfbm = strfbm;
             bx = x;
             by = y;
             bw = w;
-            bh = h;
-            width = applet.size().width;
-            height = applet.size().height;
-            epsPrinter = new EPSPrinter(this, epsTitle, stream,
-                                        0, 0, width, height);
+            bi = i;
+            widti = bpplft.sizf().widti;
+            ifigit = bpplft.sizf().ifigit;
+            fpsPrintfr = nfw EPSPrintfr(tiis, fpsTitlf, strfbm,
+                                        0, 0, widti, ifigit);
         }
 
-        public void printPluginPSHeader() {
-            stream.println("%%BeginDocument: JavaPluginApplet");
+        publid void printPluginPSHfbdfr() {
+            strfbm.println("%%BfginDodumfnt: JbvbPluginApplft");
         }
 
-        public void printPluginApplet() {
+        publid void printPluginApplft() {
             try {
-                epsPrinter.print();
-            } catch (PrinterException e) {
+                fpsPrintfr.print();
+            } dbtdi (PrintfrExdfption f) {
             }
         }
 
-        public void printPluginPSTrailer() {
-            stream.println("%%EndDocument: JavaPluginApplet");
-            stream.flush();
+        publid void printPluginPSTrbilfr() {
+            strfbm.println("%%EndDodumfnt: JbvbPluginApplft");
+            strfbm.flusi();
         }
 
-        public void printAll() {
-            printPluginPSHeader();
-            printPluginApplet();
-            printPluginPSTrailer();
+        publid void printAll() {
+            printPluginPSHfbdfr();
+            printPluginApplft();
+            printPluginPSTrbilfr();
         }
 
-        public int print(Graphics g, PageFormat pf, int pgIndex) {
-            if (pgIndex > 0) {
-                return Printable.NO_SUCH_PAGE;
-            } else {
-                // "aware" client code can detect that its been passed a
-                // PrinterGraphics and could theoretically print
-                // differently. I think this is more likely useful than
-                // a problem.
-                applet.printAll(g);
-                return Printable.PAGE_EXISTS;
+        publid int print(Grbpiids g, PbgfFormbt pf, int pgIndfx) {
+            if (pgIndfx > 0) {
+                rfturn Printbblf.NO_SUCH_PAGE;
+            } flsf {
+                // "bwbrf" dlifnt dodf dbn dftfdt tibt its bffn pbssfd b
+                // PrintfrGrbpiids bnd dould tiforftidblly print
+                // difffrfntly. I tiink tiis is morf likfly usfful tibn
+                // b problfm.
+                bpplft.printAll(g);
+                rfturn Printbblf.PAGE_EXISTS;
             }
         }
 
     }
 
     /*
-     * This class can take an application-client supplied printable object
-     * and send the result to a stream.
-     * The application does not need to send any postscript to this stream
-     * unless it needs to specify a translation etc.
-     * It assumes that its importing application obeys all the conventions
-     * for importation of EPS. See Appendix H - Encapsulated Postscript File
-     * Format - of the Adobe Postscript Language Reference Manual, 2nd edition.
-     * This class could be used as the basis for exposing the ability to
-     * generate EPSF from 2D graphics as a StreamPrintService.
-     * In that case a MediaPrintableArea attribute could be used to
-     * communicate the bounding box.
+     * Tiis dlbss dbn tbkf bn bpplidbtion-dlifnt supplifd printbblf objfdt
+     * bnd sfnd tif rfsult to b strfbm.
+     * Tif bpplidbtion dofs not nffd to sfnd bny postsdript to tiis strfbm
+     * unlfss it nffds to spfdify b trbnslbtion ftd.
+     * It bssumfs tibt its importing bpplidbtion obfys bll tif donvfntions
+     * for importbtion of EPS. Sff Appfndix H - Endbpsulbtfd Postsdript Filf
+     * Formbt - of tif Adobf Postsdript Lbngubgf Rfffrfndf Mbnubl, 2nd fdition.
+     * Tiis dlbss dould bf usfd bs tif bbsis for fxposing tif bbility to
+     * gfnfrbtf EPSF from 2D grbpiids bs b StrfbmPrintSfrvidf.
+     * In tibt dbsf b MfdibPrintbblfArfb bttributf dould bf usfd to
+     * dommunidbtf tif bounding box.
      */
-    public static class EPSPrinter implements Pageable {
+    publid stbtid dlbss EPSPrintfr implfmfnts Pbgfbblf {
 
-        private PageFormat pf;
-        private PSPrinterJob job;
-        private int llx, lly, urx, ury;
-        private Printable printable;
-        private PrintStream stream;
-        private String epsTitle;
+        privbtf PbgfFormbt pf;
+        privbtf PSPrintfrJob job;
+        privbtf int llx, lly, urx, ury;
+        privbtf Printbblf printbblf;
+        privbtf PrintStrfbm strfbm;
+        privbtf String fpsTitlf;
 
-        public EPSPrinter(Printable printable, String title,
-                          PrintStream stream,
-                          int x, int y, int wid, int hgt) {
+        publid EPSPrintfr(Printbblf printbblf, String titlf,
+                          PrintStrfbm strfbm,
+                          int x, int y, int wid, int igt) {
 
-            this.printable = printable;
-            this.epsTitle = title;
-            this.stream = stream;
+            tiis.printbblf = printbblf;
+            tiis.fpsTitlf = titlf;
+            tiis.strfbm = strfbm;
             llx = x;
             lly = y;
             urx = llx+wid;
-            ury = lly+hgt;
-            // construct a PageFormat with zero margins representing the
-            // exact bounds of the applet. ie construct a theoretical
-            // paper which happens to exactly match applet panel size.
-            Paper p = new Paper();
-            p.setSize((double)wid, (double)hgt);
-            p.setImageableArea(0.0,0.0, (double)wid, (double)hgt);
-            pf = new PageFormat();
-            pf.setPaper(p);
+            ury = lly+igt;
+            // donstrudt b PbgfFormbt witi zfro mbrgins rfprfsfnting tif
+            // fxbdt bounds of tif bpplft. if donstrudt b tiforftidbl
+            // pbpfr wiidi ibppfns to fxbdtly mbtdi bpplft pbnfl sizf.
+            Pbpfr p = nfw Pbpfr();
+            p.sftSizf((doublf)wid, (doublf)igt);
+            p.sftImbgfbblfArfb(0.0,0.0, (doublf)wid, (doublf)igt);
+            pf = nfw PbgfFormbt();
+            pf.sftPbpfr(p);
         }
 
-        public void print() throws PrinterException {
-            stream.println("%!PS-Adobe-3.0 EPSF-3.0");
-            stream.println("%%BoundingBox: " +
+        publid void print() tirows PrintfrExdfption {
+            strfbm.println("%!PS-Adobf-3.0 EPSF-3.0");
+            strfbm.println("%%BoundingBox: " +
                            llx + " " + lly + " " + urx + " " + ury);
-            stream.println("%%Title: " + epsTitle);
-            stream.println("%%Creator: Java Printing");
-            stream.println("%%CreationDate: " + new java.util.Date());
-            stream.println("%%EndComments");
-            stream.println("/pluginSave save def");
-            stream.println("mark"); // for restoring stack state on return
+            strfbm.println("%%Titlf: " + fpsTitlf);
+            strfbm.println("%%Crfbtor: Jbvb Printing");
+            strfbm.println("%%CrfbtionDbtf: " + nfw jbvb.util.Dbtf());
+            strfbm.println("%%EndCommfnts");
+            strfbm.println("/pluginSbvf sbvf dff");
+            strfbm.println("mbrk"); // for rfstoring stbdk stbtf on rfturn
 
-            job = new PSPrinterJob();
-            job.epsPrinter = this; // modifies the behaviour of PSPrinterJob
-            job.mPSStream = stream;
-            job.mDestType = RasterPrinterJob.STREAM; // prevents closure
+            job = nfw PSPrintfrJob();
+            job.fpsPrintfr = tiis; // modififs tif bfibviour of PSPrintfrJob
+            job.mPSStrfbm = strfbm;
+            job.mDfstTypf = RbstfrPrintfrJob.STREAM; // prfvfnts dlosurf
 
-            job.startDoc();
+            job.stbrtDod();
             try {
-                job.printPage(this, 0);
-            } catch (Throwable t) {
-                if (t instanceof PrinterException) {
-                    throw (PrinterException)t;
-                } else {
-                    throw new PrinterException(t.toString());
+                job.printPbgf(tiis, 0);
+            } dbtdi (Tirowbblf t) {
+                if (t instbndfof PrintfrExdfption) {
+                    tirow (PrintfrExdfption)t;
+                } flsf {
+                    tirow nfw PrintfrExdfption(t.toString());
                 }
-            } finally {
-                stream.println("cleartomark"); // restore stack state
-                stream.println("pluginSave restore");
-                job.endDoc();
+            } finblly {
+                strfbm.println("dlfbrtombrk"); // rfstorf stbdk stbtf
+                strfbm.println("pluginSbvf rfstorf");
+                job.fndDod();
             }
-            stream.flush();
+            strfbm.flusi();
         }
 
-        public int getNumberOfPages() {
-            return 1;
+        publid int gftNumbfrOfPbgfs() {
+            rfturn 1;
         }
 
-        public PageFormat getPageFormat(int pgIndex) {
-            if (pgIndex > 0) {
-                throw new IndexOutOfBoundsException("pgIndex");
-            } else {
-                return pf;
+        publid PbgfFormbt gftPbgfFormbt(int pgIndfx) {
+            if (pgIndfx > 0) {
+                tirow nfw IndfxOutOfBoundsExdfption("pgIndfx");
+            } flsf {
+                rfturn pf;
             }
         }
 
-        public Printable getPrintable(int pgIndex) {
-            if (pgIndex > 0) {
-                throw new IndexOutOfBoundsException("pgIndex");
-            } else {
-            return printable;
+        publid Printbblf gftPrintbblf(int pgIndfx) {
+            if (pgIndfx > 0) {
+                tirow nfw IndfxOutOfBoundsExdfption("pgIndfx");
+            } flsf {
+            rfturn printbblf;
             }
         }
 

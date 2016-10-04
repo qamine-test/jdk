@@ -1,721 +1,721 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.jgss.krb5;
+pbdkbgf sun.sfdurity.jgss.krb5;
 
-import org.ietf.jgss.*;
-import sun.security.jgss.*;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.IOException;
-import java.io.ByteArrayInputStream;
-import java.security.MessageDigest;
+import org.iftf.jgss.*;
+import sun.sfdurity.jgss.*;
+import jbvb.io.InputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.BytfArrbyInputStrfbm;
+import jbvb.sfdurity.MfssbgfDigfst;
 
 /**
- * This class is a base class for other token definitions that pertain to
- * per-message GSS-API calls. Conceptually GSS-API has two types of
- * per-message tokens: WrapToken and MicToken. They differ in the respect
- * that a WrapToken carries additional plaintext or ciphertext application
- * data besides just the sequence number and checksum. This class
- * encapsulates the commonality in the structure of the WrapToken and the
- * MicToken. This structure can be represented as:
+ * Tiis dlbss is b bbsf dlbss for otifr tokfn dffinitions tibt pfrtbin to
+ * pfr-mfssbgf GSS-API dblls. Condfptublly GSS-API ibs two typfs of
+ * pfr-mfssbgf tokfns: WrbpTokfn bnd MidTokfn. Tify difffr in tif rfspfdt
+ * tibt b WrbpTokfn dbrrifs bdditionbl plbintfxt or dipifrtfxt bpplidbtion
+ * dbtb bfsidfs just tif sfqufndf numbfr bnd difdksum. Tiis dlbss
+ * fndbpsulbtfs tif dommonblity in tif strudturf of tif WrbpTokfn bnd tif
+ * MidTokfn. Tiis strudturf dbn bf rfprfsfntfd bs:
  * <p>
- * <pre>
- *     0..1           TOK_ID          Identification field.
- *                                    01 01 - Mic token
- *                                    02 01 - Wrap token
- *     2..3           SGN_ALG         Checksum algorithm indicator.
+ * <prf>
+ *     0..1           TOK_ID          Idfntifidbtion fifld.
+ *                                    01 01 - Mid tokfn
+ *                                    02 01 - Wrbp tokfn
+ *     2..3           SGN_ALG         Cifdksum blgoritim indidbtor.
  *                                    00 00 - DES MAC MD5
  *                                    01 00 - MD2.5
  *                                    02 00 - DES MAC
  *                                    04 00 - HMAC SHA1 DES3-KD
  *                                    11 00 - RC4-HMAC
- *     4..5           SEAL_ALG        ff ff - none
+ *     4..5           SEAL_ALG        ff ff - nonf
  *                                    00 00 - DES
  *                                    02 00 - DES3-KD
  *                                    10 00 - RC4-HMAC
- *     6..7           Filler          Contains ff ff
- *     8..15          SND_SEQ         Encrypted sequence number field.
- *     16..s+15       SGN_CKSUM       Checksum of plaintext padded data,
- *                                   calculated according to algorithm
- *                                  specified in SGN_ALG field.
- *     s+16..last     Data            encrypted or plaintext padded data
- * </pre>
- * Where "s" indicates the size of the checksum.
+ *     6..7           Fillfr          Contbins ff ff
+ *     8..15          SND_SEQ         Endryptfd sfqufndf numbfr fifld.
+ *     16..s+15       SGN_CKSUM       Cifdksum of plbintfxt pbddfd dbtb,
+ *                                   dbldulbtfd bddording to blgoritim
+ *                                  spfdififd in SGN_ALG fifld.
+ *     s+16..lbst     Dbtb            fndryptfd or plbintfxt pbddfd dbtb
+ * </prf>
+ * Wifrf "s" indidbtfs tif sizf of tif difdksum.
  * <p>
- * As always, this is preceeded by a GSSHeader.
+ * As blwbys, tiis is prfdffdfd by b GSSHfbdfr.
  *
- * @author Mayank Upadhyay
- * @author Ram Marti
- * @see sun.security.jgss.GSSHeader
+ * @butior Mbybnk Upbdiyby
+ * @butior Rbm Mbrti
+ * @sff sun.sfdurity.jgss.GSSHfbdfr
  */
 
-abstract class MessageToken extends Krb5Token {
-    /* Fields in header minus checksum size */
-    private static final int TOKEN_NO_CKSUM_SIZE = 16;
+bbstrbdt dlbss MfssbgfTokfn fxtfnds Krb5Tokfn {
+    /* Fiflds in ifbdfr minus difdksum sizf */
+    privbtf stbtid finbl int TOKEN_NO_CKSUM_SIZE = 16;
 
     /**
-     * Filler data as defined in the specification of the Kerberos v5 GSS-API
-     * Mechanism.
+     * Fillfr dbtb bs dffinfd in tif spfdifidbtion of tif Kfrbfros v5 GSS-API
+     * Mfdibnism.
      */
-    private static final int FILLER = 0xffff;
+    privbtf stbtid finbl int FILLER = 0xffff;
 
-     // Signing algorithm values (for the SNG_ALG field)
+     // Signing blgoritim vblufs (for tif SNG_ALG fifld)
 
      // From RFC 1964
-     /* Use a DES MAC MD5 checksum */
-    static final int SGN_ALG_DES_MAC_MD5 = 0x0000;
+     /* Usf b DES MAC MD5 difdksum */
+    stbtid finbl int SGN_ALG_DES_MAC_MD5 = 0x0000;
 
-     /* Use DES MAC checksum. */
-    static final int SGN_ALG_DES_MAC     = 0x0200;
+     /* Usf DES MAC difdksum. */
+    stbtid finbl int SGN_ALG_DES_MAC     = 0x0200;
 
-     // From draft-raeburn-cat-gssapi-krb5-3des-00
-     /* Use a HMAC SHA1 DES3 -KD checksum */
-    static final int SGN_ALG_HMAC_SHA1_DES3_KD = 0x0400;
+     // From drbft-rbfburn-dbt-gssbpi-krb5-3dfs-00
+     /* Usf b HMAC SHA1 DES3 -KD difdksum */
+    stbtid finbl int SGN_ALG_HMAC_SHA1_DES3_KD = 0x0400;
 
-     // Sealing algorithm values (for the SEAL_ALG field)
+     // Sfbling blgoritim vblufs (for tif SEAL_ALG fifld)
 
      // RFC 1964
     /**
-     * A value for the SEAL_ALG field that indicates that no encryption was
-     * used.
+     * A vbluf for tif SEAL_ALG fifld tibt indidbtfs tibt no fndryption wbs
+     * usfd.
      */
-    static final int SEAL_ALG_NONE    = 0xffff;
-     /* Use DES CBC encryption algorithm. */
-    static final int SEAL_ALG_DES = 0x0000;
+    stbtid finbl int SEAL_ALG_NONE    = 0xffff;
+     /* Usf DES CBC fndryption blgoritim. */
+    stbtid finbl int SEAL_ALG_DES = 0x0000;
 
-    // From draft-raeburn-cat-gssapi-krb5-3des-00
+    // From drbft-rbfburn-dbt-gssbpi-krb5-3dfs-00
     /**
-     * Use DES3-KD sealing algorithm. (draft-raeburn-cat-gssapi-krb5-3des-00)
-     * This algorithm uses triple-DES with key derivation, with a usage
-     * value KG_USAGE_SEAL.  Padding is still to 8-byte multiples, and the
-     * IV for encrypting application data is zero.
+     * Usf DES3-KD sfbling blgoritim. (drbft-rbfburn-dbt-gssbpi-krb5-3dfs-00)
+     * Tiis blgoritim usfs triplf-DES witi kfy dfrivbtion, witi b usbgf
+     * vbluf KG_USAGE_SEAL.  Pbdding is still to 8-bytf multiplfs, bnd tif
+     * IV for fndrypting bpplidbtion dbtb is zfro.
      */
-    static final int SEAL_ALG_DES3_KD = 0x0200;
+    stbtid finbl int SEAL_ALG_DES3_KD = 0x0200;
 
-    // draft draft-brezak-win2k-krb-rc4-hmac-04.txt
-    static final int SEAL_ALG_ARCFOUR_HMAC = 0x1000;
-    static final int SGN_ALG_HMAC_MD5_ARCFOUR = 0x1100;
+    // drbft drbft-brfzbk-win2k-krb-rd4-imbd-04.txt
+    stbtid finbl int SEAL_ALG_ARCFOUR_HMAC = 0x1000;
+    stbtid finbl int SGN_ALG_HMAC_MD5_ARCFOUR = 0x1100;
 
-    private static final int TOKEN_ID_POS = 0;
-    private static final int SIGN_ALG_POS = 2;
-    private static final int SEAL_ALG_POS = 4;
+    privbtf stbtid finbl int TOKEN_ID_POS = 0;
+    privbtf stbtid finbl int SIGN_ALG_POS = 2;
+    privbtf stbtid finbl int SEAL_ALG_POS = 4;
 
-    private int seqNumber;
+    privbtf int sfqNumbfr;
 
-    private boolean confState = true;
-    private boolean initiator = true;
+    privbtf boolfbn donfStbtf = truf;
+    privbtf boolfbn initibtor = truf;
 
-    private int tokenId = 0;
-    private GSSHeader gssHeader = null;
-    private MessageTokenHeader tokenHeader = null;
-    private byte[] checksum = null;
-    private byte[] encSeqNumber = null;
-    private byte[] seqNumberData = null;
+    privbtf int tokfnId = 0;
+    privbtf GSSHfbdfr gssHfbdfr = null;
+    privbtf MfssbgfTokfnHfbdfr tokfnHfbdfr = null;
+    privbtf bytf[] difdksum = null;
+    privbtf bytf[] fndSfqNumbfr = null;
+    privbtf bytf[] sfqNumbfrDbtb = null;
 
-    /* cipher instance used by the corresponding GSSContext */
-    CipherHelper cipherHelper = null;
+    /* dipifr instbndf usfd by tif dorrfsponding GSSContfxt */
+    CipifrHflpfr dipifrHflpfr = null;
 
 
     /**
-     * Constructs a MessageToken from a byte array. If there are more bytes
-     * in the array than needed, the extra bytes are simply ignroed.
+     * Construdts b MfssbgfTokfn from b bytf brrby. If tifrf brf morf bytfs
+     * in tif brrby tibn nffdfd, tif fxtrb bytfs brf simply ignrofd.
      *
-     * @param tokenId the token id that should be contained in this token as
-     * it is read.
-     * @param context the Kerberos context associated with this token
-     * @param tokenBytes the byte array containing the token
-     * @param tokenOffset the offset where the token begins
-     * @param tokenLen the length of the token
-     * @param prop the MessageProp structure in which the properties of the
-     * token should be stored.
-     * @throws GSSException if there is a problem parsing the token
+     * @pbrbm tokfnId tif tokfn id tibt siould bf dontbinfd in tiis tokfn bs
+     * it is rfbd.
+     * @pbrbm dontfxt tif Kfrbfros dontfxt bssodibtfd witi tiis tokfn
+     * @pbrbm tokfnBytfs tif bytf brrby dontbining tif tokfn
+     * @pbrbm tokfnOffsft tif offsft wifrf tif tokfn bfgins
+     * @pbrbm tokfnLfn tif lfngti of tif tokfn
+     * @pbrbm prop tif MfssbgfProp strudturf in wiidi tif propfrtifs of tif
+     * tokfn siould bf storfd.
+     * @tirows GSSExdfption if tifrf is b problfm pbrsing tif tokfn
      */
-    MessageToken(int tokenId, Krb5Context context,
-                 byte[] tokenBytes, int tokenOffset, int tokenLen,
-                 MessageProp prop) throws GSSException {
-        this(tokenId, context,
-             new ByteArrayInputStream(tokenBytes, tokenOffset, tokenLen),
+    MfssbgfTokfn(int tokfnId, Krb5Contfxt dontfxt,
+                 bytf[] tokfnBytfs, int tokfnOffsft, int tokfnLfn,
+                 MfssbgfProp prop) tirows GSSExdfption {
+        tiis(tokfnId, dontfxt,
+             nfw BytfArrbyInputStrfbm(tokfnBytfs, tokfnOffsft, tokfnLfn),
              prop);
     }
 
     /**
-     * Constructs a MessageToken from an InputStream. Bytes will be read on
-     * demand and the thread might block if there are not enough bytes to
-     * complete the token.
+     * Construdts b MfssbgfTokfn from bn InputStrfbm. Bytfs will bf rfbd on
+     * dfmbnd bnd tif tirfbd migit blodk if tifrf brf not fnougi bytfs to
+     * domplftf tif tokfn.
      *
-     * @param tokenId the token id that should be contained in this token as
-     * it is read.
-     * @param context the Kerberos context associated with this token
-     * @param is the InputStream from which to read
-     * @param prop the MessageProp structure in which the properties of the
-     * token should be stored.
-     * @throws GSSException if there is a problem reading from the
-     * InputStream or parsing the token
+     * @pbrbm tokfnId tif tokfn id tibt siould bf dontbinfd in tiis tokfn bs
+     * it is rfbd.
+     * @pbrbm dontfxt tif Kfrbfros dontfxt bssodibtfd witi tiis tokfn
+     * @pbrbm is tif InputStrfbm from wiidi to rfbd
+     * @pbrbm prop tif MfssbgfProp strudturf in wiidi tif propfrtifs of tif
+     * tokfn siould bf storfd.
+     * @tirows GSSExdfption if tifrf is b problfm rfbding from tif
+     * InputStrfbm or pbrsing tif tokfn
      */
-    MessageToken(int tokenId, Krb5Context context, InputStream is,
-                 MessageProp prop) throws GSSException {
-        init(tokenId, context);
+    MfssbgfTokfn(int tokfnId, Krb5Contfxt dontfxt, InputStrfbm is,
+                 MfssbgfProp prop) tirows GSSExdfption {
+        init(tokfnId, dontfxt);
 
         try {
-            gssHeader = new GSSHeader(is);
+            gssHfbdfr = nfw GSSHfbdfr(is);
 
-            if (!gssHeader.getOid().equals((Object)OID)) {
-                throw new GSSException(GSSException.DEFECTIVE_TOKEN, -1,
-                                       getTokenName(tokenId));
+            if (!gssHfbdfr.gftOid().fqubls((Objfdt)OID)) {
+                tirow nfw GSSExdfption(GSSExdfption.DEFECTIVE_TOKEN, -1,
+                                       gftTokfnNbmf(tokfnId));
             }
-            if (!confState) {
-                prop.setPrivacy(false);
+            if (!donfStbtf) {
+                prop.sftPrivbdy(fblsf);
             }
 
-            tokenHeader = new MessageTokenHeader(is, prop);
+            tokfnHfbdfr = nfw MfssbgfTokfnHfbdfr(is, prop);
 
-            encSeqNumber = new byte[8];
-            readFully(is, encSeqNumber);
+            fndSfqNumbfr = nfw bytf[8];
+            rfbdFully(is, fndSfqNumbfr);
 
-            // debug("\n\tRead EncSeq#=" +
-            // getHexBytes(encSeqNumber, encSeqNumber.length));
+            // dfbug("\n\tRfbd EndSfq#=" +
+            // gftHfxBytfs(fndSfqNumbfr, fndSfqNumbfr.lfngti));
 
-            checksum = new byte[cipherHelper.getChecksumLength()];
-            readFully(is, checksum);
+            difdksum = nfw bytf[dipifrHflpfr.gftCifdksumLfngti()];
+            rfbdFully(is, difdksum);
 
-            // debug("\n\tRead checksum=" +
-            // getHexBytes(checksum, checksum.length));
-            // debug("\nLeaving MessageToken.Cons\n");
+            // dfbug("\n\tRfbd difdksum=" +
+            // gftHfxBytfs(difdksum, difdksum.lfngti));
+            // dfbug("\nLfbving MfssbgfTokfn.Cons\n");
 
-        } catch (IOException e) {
-            throw new GSSException(GSSException.DEFECTIVE_TOKEN, -1,
-                getTokenName(tokenId) + ":" + e.getMessage());
+        } dbtdi (IOExdfption f) {
+            tirow nfw GSSExdfption(GSSExdfption.DEFECTIVE_TOKEN, -1,
+                gftTokfnNbmf(tokfnId) + ":" + f.gftMfssbgf());
         }
     }
 
     /**
-     * Used to obtain the GSSHeader that was at the start of this
-     * token.
+     * Usfd to obtbin tif GSSHfbdfr tibt wbs bt tif stbrt of tiis
+     * tokfn.
      */
-    public final GSSHeader getGSSHeader() {
-        return gssHeader;
+    publid finbl GSSHfbdfr gftGSSHfbdfr() {
+        rfturn gssHfbdfr;
     }
 
     /**
-     * Used to obtain the token id that was contained in this token.
-     * @return the token id in the token
+     * Usfd to obtbin tif tokfn id tibt wbs dontbinfd in tiis tokfn.
+     * @rfturn tif tokfn id in tif tokfn
      */
-    public final int getTokenId() {
-        return tokenId;
+    publid finbl int gftTokfnId() {
+        rfturn tokfnId;
     }
 
     /**
-     * Used to obtain the encrypted sequence number in this token.
-     * @return the encrypted sequence number in the token
+     * Usfd to obtbin tif fndryptfd sfqufndf numbfr in tiis tokfn.
+     * @rfturn tif fndryptfd sfqufndf numbfr in tif tokfn
      */
-    public final byte[] getEncSeqNumber() {
-        return encSeqNumber;
+    publid finbl bytf[] gftEndSfqNumbfr() {
+        rfturn fndSfqNumbfr;
     }
 
     /**
-     * Used to obtain the checksum that was contained in this token.
-     * @return the checksum in the token
+     * Usfd to obtbin tif difdksum tibt wbs dontbinfd in tiis tokfn.
+     * @rfturn tif difdksum in tif tokfn
      */
-    public final byte[] getChecksum() {
-        return checksum;
+    publid finbl bytf[] gftCifdksum() {
+        rfturn difdksum;
     }
 
     /**
-     * Used to determine if this token contains any encrypted data.
-     * @return true if it contains any encrypted data, false if there is only
-     * plaintext data or if there is no data.
+     * Usfd to dftfrminf if tiis tokfn dontbins bny fndryptfd dbtb.
+     * @rfturn truf if it dontbins bny fndryptfd dbtb, fblsf if tifrf is only
+     * plbintfxt dbtb or if tifrf is no dbtb.
      */
-    public final boolean getConfState() {
-        return confState;
+    publid finbl boolfbn gftConfStbtf() {
+        rfturn donfStbtf;
     }
 
     /**
-     * Generates the checksum field and the encrypted sequence number
-     * field. The encrypted sequence number uses the 8 bytes of the checksum
-     * as an initial vector in a fixed DesCbc algorithm.
+     * Gfnfrbtfs tif difdksum fifld bnd tif fndryptfd sfqufndf numbfr
+     * fifld. Tif fndryptfd sfqufndf numbfr usfs tif 8 bytfs of tif difdksum
+     * bs bn initibl vfdtor in b fixfd DfsCbd blgoritim.
      *
-     * @param prop the MessageProp structure that determines what sort of
-     * checksum and sealing algorithm should be used. The lower byte
-     * of qop determines the checksum algorithm while the upper byte
-     * determines the signing algorithm.
-     *       Checksum values are:
-     *           0 - default (DES_MAC)
+     * @pbrbm prop tif MfssbgfProp strudturf tibt dftfrminfs wibt sort of
+     * difdksum bnd sfbling blgoritim siould bf usfd. Tif lowfr bytf
+     * of qop dftfrminfs tif difdksum blgoritim wiilf tif uppfr bytf
+     * dftfrminfs tif signing blgoritim.
+     *       Cifdksum vblufs brf:
+     *           0 - dffbult (DES_MAC)
      *           1 - MD5
      *           2 - DES_MD5
      *           3 - DES_MAC
      *           4 - HMAC_SHA1
-     *       Sealing values are:
-     *           0 - default (DES)
+     *       Sfbling vblufs brf:
+     *           0 - dffbult (DES)
      *           1 - DES
      *           2 - DES3-KD
      *
-     * @param optionalHeader an optional header that will be processed first
-     * during  checksum calculation
+     * @pbrbm optionblHfbdfr bn optionbl ifbdfr tibt will bf prodfssfd first
+     * during  difdksum dbldulbtion
      *
-     * @param data the application data to checksum
-     * @param offset the offset where the data starts
-     * @param len the length of the data
+     * @pbrbm dbtb tif bpplidbtion dbtb to difdksum
+     * @pbrbm offsft tif offsft wifrf tif dbtb stbrts
+     * @pbrbm lfn tif lfngti of tif dbtb
      *
-     * @param optionalTrailer an optional trailer that will be processed
-     * last during checksum calculation. e.g., padding that should be
-     * appended to the application data
+     * @pbrbm optionblTrbilfr bn optionbl trbilfr tibt will bf prodfssfd
+     * lbst during difdksum dbldulbtion. f.g., pbdding tibt siould bf
+     * bppfndfd to tif bpplidbtion dbtb
      *
-     * @throws GSSException if an error occurs in the checksum calculation or
-     * encryption sequence number calculation.
+     * @tirows GSSExdfption if bn frror oddurs in tif difdksum dbldulbtion or
+     * fndryption sfqufndf numbfr dbldulbtion.
      */
-    public void genSignAndSeqNumber(MessageProp prop,
-                                    byte[] optionalHeader,
-                                    byte[] data, int offset, int len,
-                                    byte[] optionalTrailer)
-        throws GSSException {
+    publid void gfnSignAndSfqNumbfr(MfssbgfProp prop,
+                                    bytf[] optionblHfbdfr,
+                                    bytf[] dbtb, int offsft, int lfn,
+                                    bytf[] optionblTrbilfr)
+        tirows GSSExdfption {
 
-        //    debug("Inside MessageToken.genSignAndSeqNumber:\n");
+        //    dfbug("Insidf MfssbgfTokfn.gfnSignAndSfqNumbfr:\n");
 
-        int qop = prop.getQOP();
+        int qop = prop.gftQOP();
         if (qop != 0) {
             qop = 0;
-            prop.setQOP(qop);
+            prop.sftQOP(qop);
         }
 
-        if (!confState) {
-            prop.setPrivacy(false);
+        if (!donfStbtf) {
+            prop.sftPrivbdy(fblsf);
         }
 
-        // Create a token header with the correct sign and seal algorithm
-        // values.
-        tokenHeader =
-            new MessageTokenHeader(tokenId, prop.getPrivacy(), qop);
+        // Crfbtf b tokfn ifbdfr witi tif dorrfdt sign bnd sfbl blgoritim
+        // vblufs.
+        tokfnHfbdfr =
+            nfw MfssbgfTokfnHfbdfr(tokfnId, prop.gftPrivbdy(), qop);
 
-        // Calculate SGN_CKSUM
+        // Cbldulbtf SGN_CKSUM
 
-        checksum =
-            getChecksum(optionalHeader, data, offset, len, optionalTrailer);
+        difdksum =
+            gftCifdksum(optionblHfbdfr, dbtb, offsft, lfn, optionblTrbilfr);
 
-        // debug("\n\tCalc checksum=" +
-        // getHexBytes(checksum, checksum.length));
+        // dfbug("\n\tCbld difdksum=" +
+        // gftHfxBytfs(difdksum, difdksum.lfngti));
 
-        // Calculate SND_SEQ
+        // Cbldulbtf SND_SEQ
 
-        seqNumberData = new byte[8];
+        sfqNumbfrDbtb = nfw bytf[8];
 
-        // When using this RC4 based encryption type, the sequence number is
-        // always sent in big-endian rather than little-endian order.
-        if (cipherHelper.isArcFour()) {
-            writeBigEndian(seqNumber, seqNumberData);
-        } else {
-            // for all other etypes
-            writeLittleEndian(seqNumber, seqNumberData);
+        // Wifn using tiis RC4 bbsfd fndryption typf, tif sfqufndf numbfr is
+        // blwbys sfnt in big-fndibn rbtifr tibn littlf-fndibn ordfr.
+        if (dipifrHflpfr.isArdFour()) {
+            writfBigEndibn(sfqNumbfr, sfqNumbfrDbtb);
+        } flsf {
+            // for bll otifr ftypfs
+            writfLittlfEndibn(sfqNumbfr, sfqNumbfrDbtb);
         }
-        if (!initiator) {
-            seqNumberData[4] = (byte)0xff;
-            seqNumberData[5] = (byte)0xff;
-            seqNumberData[6] = (byte)0xff;
-            seqNumberData[7] = (byte)0xff;
+        if (!initibtor) {
+            sfqNumbfrDbtb[4] = (bytf)0xff;
+            sfqNumbfrDbtb[5] = (bytf)0xff;
+            sfqNumbfrDbtb[6] = (bytf)0xff;
+            sfqNumbfrDbtb[7] = (bytf)0xff;
         }
 
-        encSeqNumber = cipherHelper.encryptSeq(checksum, seqNumberData, 0, 8);
+        fndSfqNumbfr = dipifrHflpfr.fndryptSfq(difdksum, sfqNumbfrDbtb, 0, 8);
 
-        // debug("\n\tCalc seqNum=" +
-        //    getHexBytes(seqNumberData, seqNumberData.length));
-        // debug("\n\tCalc encSeqNum=" +
-        //    getHexBytes(encSeqNumber, encSeqNumber.length));
+        // dfbug("\n\tCbld sfqNum=" +
+        //    gftHfxBytfs(sfqNumbfrDbtb, sfqNumbfrDbtb.lfngti));
+        // dfbug("\n\tCbld fndSfqNum=" +
+        //    gftHfxBytfs(fndSfqNumbfr, fndSfqNumbfr.lfngti));
     }
 
     /**
-     * Verifies that the checksum field and sequence number direction bytes
-     * are valid and consistent with the application data.
+     * Vfrififs tibt tif difdksum fifld bnd sfqufndf numbfr dirfdtion bytfs
+     * brf vblid bnd donsistfnt witi tif bpplidbtion dbtb.
      *
-     * @param optionalHeader an optional header that will be processed first
-     * during checksum calculation.
+     * @pbrbm optionblHfbdfr bn optionbl ifbdfr tibt will bf prodfssfd first
+     * during difdksum dbldulbtion.
      *
-     * @param data the application data
-     * @param offset the offset where the data begins
-     * @param len the length of the application data
+     * @pbrbm dbtb tif bpplidbtion dbtb
+     * @pbrbm offsft tif offsft wifrf tif dbtb bfgins
+     * @pbrbm lfn tif lfngti of tif bpplidbtion dbtb
      *
-     * @param optionalTrailer an optional trailer that will be processed last
-     * during checksum calculation. e.g., padding that should be appended to
-     * the application data
+     * @pbrbm optionblTrbilfr bn optionbl trbilfr tibt will bf prodfssfd lbst
+     * during difdksum dbldulbtion. f.g., pbdding tibt siould bf bppfndfd to
+     * tif bpplidbtion dbtb
      *
-     * @throws GSSException if an error occurs in the checksum calculation or
-     * encryption sequence number calculation.
+     * @tirows GSSExdfption if bn frror oddurs in tif difdksum dbldulbtion or
+     * fndryption sfqufndf numbfr dbldulbtion.
      */
-    public final boolean verifySignAndSeqNumber(byte[] optionalHeader,
-                                        byte[] data, int offset, int len,
-                                        byte[] optionalTrailer)
-        throws GSSException {
-         // debug("\tIn verifySign:\n");
+    publid finbl boolfbn vfrifySignAndSfqNumbfr(bytf[] optionblHfbdfr,
+                                        bytf[] dbtb, int offsft, int lfn,
+                                        bytf[] optionblTrbilfr)
+        tirows GSSExdfption {
+         // dfbug("\tIn vfrifySign:\n");
 
-         // debug("\t\tchecksum:   [" + getHexBytes(checksum) + "]\n");
+         // dfbug("\t\tdifdksum:   [" + gftHfxBytfs(difdksum) + "]\n");
 
-        byte[] myChecksum =
-            getChecksum(optionalHeader, data, offset, len, optionalTrailer);
+        bytf[] myCifdksum =
+            gftCifdksum(optionblHfbdfr, dbtb, offsft, lfn, optionblTrbilfr);
 
-        // debug("\t\tmychecksum: [" + getHexBytes(myChecksum) +"]\n");
-        // debug("\t\tchecksum:   [" + getHexBytes(checksum) + "]\n");
+        // dfbug("\t\tmydifdksum: [" + gftHfxBytfs(myCifdksum) +"]\n");
+        // dfbug("\t\tdifdksum:   [" + gftHfxBytfs(difdksum) + "]\n");
 
-        if (MessageDigest.isEqual(checksum, myChecksum)) {
+        if (MfssbgfDigfst.isEqubl(difdksum, myCifdksum)) {
 
-            seqNumberData = cipherHelper.decryptSeq(
-                checksum, encSeqNumber, 0, 8);
+            sfqNumbfrDbtb = dipifrHflpfr.dfdryptSfq(
+                difdksum, fndSfqNumbfr, 0, 8);
 
-            // debug("\t\tencSeqNumber:   [" + getHexBytes(encSeqNumber)
+            // dfbug("\t\tfndSfqNumbfr:   [" + gftHfxBytfs(fndSfqNumbfr)
             //  + "]\n");
-            // debug("\t\tseqNumberData:   [" + getHexBytes(seqNumberData)
+            // dfbug("\t\tsfqNumbfrDbtb:   [" + gftHfxBytfs(sfqNumbfrDbtb)
             //  + "]\n");
 
             /*
-             * The token from the initiator has direction bytes 0x00 and
-             * the token from the acceptor has direction bytes 0xff.
+             * Tif tokfn from tif initibtor ibs dirfdtion bytfs 0x00 bnd
+             * tif tokfn from tif bddfptor ibs dirfdtion bytfs 0xff.
              */
-            byte directionByte = 0;
-            if (initiator)
-                directionByte = (byte) 0xff; // Received token from acceptor
+            bytf dirfdtionBytf = 0;
+            if (initibtor)
+                dirfdtionBytf = (bytf) 0xff; // Rfdfivfd tokfn from bddfptor
 
-            if ((seqNumberData[4] == directionByte) &&
-                  (seqNumberData[5] == directionByte) &&
-                  (seqNumberData[6] == directionByte) &&
-                  (seqNumberData[7] == directionByte))
-                return true;
+            if ((sfqNumbfrDbtb[4] == dirfdtionBytf) &&
+                  (sfqNumbfrDbtb[5] == dirfdtionBytf) &&
+                  (sfqNumbfrDbtb[6] == dirfdtionBytf) &&
+                  (sfqNumbfrDbtb[7] == dirfdtionBytf))
+                rfturn truf;
         }
 
-        return false;
+        rfturn fblsf;
 
     }
 
-    public final int getSequenceNumber() {
-        int sequenceNum = 0;
-        if (cipherHelper.isArcFour()) {
-            sequenceNum = readBigEndian(seqNumberData, 0, 4);
-        } else {
-            sequenceNum = readLittleEndian(seqNumberData, 0, 4);
+    publid finbl int gftSfqufndfNumbfr() {
+        int sfqufndfNum = 0;
+        if (dipifrHflpfr.isArdFour()) {
+            sfqufndfNum = rfbdBigEndibn(sfqNumbfrDbtb, 0, 4);
+        } flsf {
+            sfqufndfNum = rfbdLittlfEndibn(sfqNumbfrDbtb, 0, 4);
         }
-        return sequenceNum;
+        rfturn sfqufndfNum;
     }
 
     /**
-     * Computes the checksum based on the algorithm stored in the
-     * tokenHeader.
+     * Computfs tif difdksum bbsfd on tif blgoritim storfd in tif
+     * tokfnHfbdfr.
      *
-     * @param optionalHeader an optional header that will be processed first
-     * during checksum calculation.
+     * @pbrbm optionblHfbdfr bn optionbl ifbdfr tibt will bf prodfssfd first
+     * during difdksum dbldulbtion.
      *
-     * @param data the application data
-     * @param offset the offset where the data begins
-     * @param len the length of the application data
+     * @pbrbm dbtb tif bpplidbtion dbtb
+     * @pbrbm offsft tif offsft wifrf tif dbtb bfgins
+     * @pbrbm lfn tif lfngti of tif bpplidbtion dbtb
      *
-     * @param optionalTrailer an optional trailer that will be processed last
-     * during checksum calculation. e.g., padding that should be appended to
-     * the application data
+     * @pbrbm optionblTrbilfr bn optionbl trbilfr tibt will bf prodfssfd lbst
+     * during difdksum dbldulbtion. f.g., pbdding tibt siould bf bppfndfd to
+     * tif bpplidbtion dbtb
      *
-     * @throws GSSException if an error occurs in the checksum calculation.
+     * @tirows GSSExdfption if bn frror oddurs in tif difdksum dbldulbtion.
      */
-    private byte[] getChecksum(byte[] optionalHeader,
-                               byte[] data, int offset, int len,
-                               byte[] optionalTrailer)
-        throws GSSException {
+    privbtf bytf[] gftCifdksum(bytf[] optionblHfbdfr,
+                               bytf[] dbtb, int offsft, int lfn,
+                               bytf[] optionblTrbilfr)
+        tirows GSSExdfption {
 
-        //      debug("Will do getChecksum:\n");
+        //      dfbug("Will do gftCifdksum:\n");
 
         /*
-         * For checksum calculation the token header bytes i.e., the first 8
-         * bytes following the GSSHeader, are logically prepended to the
-         * application data to bind the data to this particular token.
+         * For difdksum dbldulbtion tif tokfn ifbdfr bytfs i.f., tif first 8
+         * bytfs following tif GSSHfbdfr, brf logidblly prfpfndfd to tif
+         * bpplidbtion dbtb to bind tif dbtb to tiis pbrtidulbr tokfn.
          *
-         * Note: There is no such requirement wrt adding padding to the
-         * application data for checksumming, although the cryptographic
-         * algorithm used might itself apply some padding.
+         * Notf: Tifrf is no sudi rfquirfmfnt wrt bdding pbdding to tif
+         * bpplidbtion dbtb for difdksumming, bltiougi tif dryptogrbpiid
+         * blgoritim usfd migit itsflf bpply somf pbdding.
          */
 
-        byte[] tokenHeaderBytes = tokenHeader.getBytes();
-        byte[] existingHeader = optionalHeader;
-        byte[] checksumDataHeader = tokenHeaderBytes;
+        bytf[] tokfnHfbdfrBytfs = tokfnHfbdfr.gftBytfs();
+        bytf[] fxistingHfbdfr = optionblHfbdfr;
+        bytf[] difdksumDbtbHfbdfr = tokfnHfbdfrBytfs;
 
-        if (existingHeader != null) {
-            checksumDataHeader = new byte[tokenHeaderBytes.length +
-                                         existingHeader.length];
-            System.arraycopy(tokenHeaderBytes, 0,
-                             checksumDataHeader, 0, tokenHeaderBytes.length);
-            System.arraycopy(existingHeader, 0,
-                             checksumDataHeader, tokenHeaderBytes.length,
-                             existingHeader.length);
+        if (fxistingHfbdfr != null) {
+            difdksumDbtbHfbdfr = nfw bytf[tokfnHfbdfrBytfs.lfngti +
+                                         fxistingHfbdfr.lfngti];
+            Systfm.brrbydopy(tokfnHfbdfrBytfs, 0,
+                             difdksumDbtbHfbdfr, 0, tokfnHfbdfrBytfs.lfngti);
+            Systfm.brrbydopy(fxistingHfbdfr, 0,
+                             difdksumDbtbHfbdfr, tokfnHfbdfrBytfs.lfngti,
+                             fxistingHfbdfr.lfngti);
         }
 
-        return cipherHelper.calculateChecksum(tokenHeader.getSignAlg(),
-             checksumDataHeader, optionalTrailer, data, offset, len, tokenId);
+        rfturn dipifrHflpfr.dbldulbtfCifdksum(tokfnHfbdfr.gftSignAlg(),
+             difdksumDbtbHfbdfr, optionblTrbilfr, dbtb, offsft, lfn, tokfnId);
     }
 
 
     /**
-     * Constructs an empty MessageToken for the local context to send to
-     * the peer. It also increments the local sequence number in the
-     * Krb5Context instance it uses after obtaining the object lock for
+     * Construdts bn fmpty MfssbgfTokfn for tif lodbl dontfxt to sfnd to
+     * tif pffr. It blso indrfmfnts tif lodbl sfqufndf numbfr in tif
+     * Krb5Contfxt instbndf it usfs bftfr obtbining tif objfdt lodk for
      * it.
      *
-     * @param tokenId the token id that should be contained in this token
-     * @param context the Kerberos context associated with this token
+     * @pbrbm tokfnId tif tokfn id tibt siould bf dontbinfd in tiis tokfn
+     * @pbrbm dontfxt tif Kfrbfros dontfxt bssodibtfd witi tiis tokfn
      */
-    MessageToken(int tokenId, Krb5Context context) throws GSSException {
+    MfssbgfTokfn(int tokfnId, Krb5Contfxt dontfxt) tirows GSSExdfption {
         /*
-          debug("\n============================");
-          debug("\nMySessionKey=" +
-          getHexBytes(context.getMySessionKey().getBytes()));
-          debug("\nPeerSessionKey=" +
-          getHexBytes(context.getPeerSessionKey().getBytes()));
-          debug("\n============================\n");
+          dfbug("\n============================");
+          dfbug("\nMySfssionKfy=" +
+          gftHfxBytfs(dontfxt.gftMySfssionKfy().gftBytfs()));
+          dfbug("\nPffrSfssionKfy=" +
+          gftHfxBytfs(dontfxt.gftPffrSfssionKfy().gftBytfs()));
+          dfbug("\n============================\n");
         */
-        init(tokenId, context);
-        this.seqNumber = context.incrementMySequenceNumber();
+        init(tokfnId, dontfxt);
+        tiis.sfqNumbfr = dontfxt.indrfmfntMySfqufndfNumbfr();
     }
 
-    private void init(int tokenId, Krb5Context context) throws GSSException {
-        this.tokenId = tokenId;
-        // Just for consistency check in Wrap
-        this.confState = context.getConfState();
+    privbtf void init(int tokfnId, Krb5Contfxt dontfxt) tirows GSSExdfption {
+        tiis.tokfnId = tokfnId;
+        // Just for donsistfndy difdk in Wrbp
+        tiis.donfStbtf = dontfxt.gftConfStbtf();
 
-        this.initiator = context.isInitiator();
+        tiis.initibtor = dontfxt.isInitibtor();
 
-        this.cipherHelper = context.getCipherHelper(null);
-        //    debug("In MessageToken.Cons");
+        tiis.dipifrHflpfr = dontfxt.gftCipifrHflpfr(null);
+        //    dfbug("In MfssbgfTokfn.Cons");
     }
 
     /**
-     * Encodes a GSSHeader and this token onto an OutputStream.
+     * Endodfs b GSSHfbdfr bnd tiis tokfn onto bn OutputStrfbm.
      *
-     * @param os the OutputStream to which this should be written
-     * @throws GSSException if an error occurs while writing to the OutputStream
+     * @pbrbm os tif OutputStrfbm to wiidi tiis siould bf writtfn
+     * @tirows GSSExdfption if bn frror oddurs wiilf writing to tif OutputStrfbm
      */
-    public void encode(OutputStream os) throws IOException, GSSException {
-        gssHeader = new GSSHeader(OID, getKrb5TokenSize());
-        gssHeader.encode(os);
-        tokenHeader.encode(os);
-        // debug("Writing seqNumber: " + getHexBytes(encSeqNumber));
-        os.write(encSeqNumber);
-        // debug("Writing checksum: " + getHexBytes(checksum));
-        os.write(checksum);
+    publid void fndodf(OutputStrfbm os) tirows IOExdfption, GSSExdfption {
+        gssHfbdfr = nfw GSSHfbdfr(OID, gftKrb5TokfnSizf());
+        gssHfbdfr.fndodf(os);
+        tokfnHfbdfr.fndodf(os);
+        // dfbug("Writing sfqNumbfr: " + gftHfxBytfs(fndSfqNumbfr));
+        os.writf(fndSfqNumbfr);
+        // dfbug("Writing difdksum: " + gftHfxBytfs(difdksum));
+        os.writf(difdksum);
     }
 
     /**
-     * Obtains the size of this token. Note that this excludes the size of
-     * the GSSHeader.
-     * @return token size
+     * Obtbins tif sizf of tiis tokfn. Notf tibt tiis fxdludfs tif sizf of
+     * tif GSSHfbdfr.
+     * @rfturn tokfn sizf
      */
-    protected int getKrb5TokenSize() throws GSSException {
-        return getTokenSize();
+    protfdtfd int gftKrb5TokfnSizf() tirows GSSExdfption {
+        rfturn gftTokfnSizf();
     }
 
-    protected final int getTokenSize() throws GSSException {
-        return TOKEN_NO_CKSUM_SIZE + cipherHelper.getChecksumLength();
+    protfdtfd finbl int gftTokfnSizf() tirows GSSExdfption {
+        rfturn TOKEN_NO_CKSUM_SIZE + dipifrHflpfr.gftCifdksumLfngti();
     }
 
-    protected static final int getTokenSize(CipherHelper ch)
-        throws GSSException {
-         return TOKEN_NO_CKSUM_SIZE + ch.getChecksumLength();
+    protfdtfd stbtid finbl int gftTokfnSizf(CipifrHflpfr di)
+        tirows GSSExdfption {
+         rfturn TOKEN_NO_CKSUM_SIZE + di.gftCifdksumLfngti();
     }
 
     /**
-     * Obtains the conext key that is associated with this token.
-     * @return the context key
+     * Obtbins tif donfxt kfy tibt is bssodibtfd witi tiis tokfn.
+     * @rfturn tif dontfxt kfy
      */
     /*
-    public final byte[] getContextKey() {
-        return contextKey;
+    publid finbl bytf[] gftContfxtKfy() {
+        rfturn dontfxtKfy;
     }
     */
 
     /**
-     * Obtains the encryption algorithm that should be used in this token
-     * given the state of confidentiality the application requested.
-     * Requested qop must be consistent with negotiated session key.
-     * @param confRequested true if the application desired confidentiality
-     * on this token, false otherwise
-     * @param qop the qop requested by the application
-     * @throws GSSException if qop is incompatible with the negotiated
-     *         session key
+     * Obtbins tif fndryption blgoritim tibt siould bf usfd in tiis tokfn
+     * givfn tif stbtf of donfidfntiblity tif bpplidbtion rfqufstfd.
+     * Rfqufstfd qop must bf donsistfnt witi nfgotibtfd sfssion kfy.
+     * @pbrbm donfRfqufstfd truf if tif bpplidbtion dfsirfd donfidfntiblity
+     * on tiis tokfn, fblsf otifrwisf
+     * @pbrbm qop tif qop rfqufstfd by tif bpplidbtion
+     * @tirows GSSExdfption if qop is indompbtiblf witi tif nfgotibtfd
+     *         sfssion kfy
      */
-    protected abstract int getSealAlg(boolean confRequested, int qop)
-        throws GSSException;
+    protfdtfd bbstrbdt int gftSfblAlg(boolfbn donfRfqufstfd, int qop)
+        tirows GSSExdfption;
 
     // ******************************************* //
     //  I N N E R    C L A S S E S    F O L L O W
     // ******************************************* //
 
     /**
-     * This inner class represents the initial portion of the message token
-     * and contains information about the checksum and encryption algorithms
-     * that are in use. It constitutes the first 8 bytes of the
-     * message token:
-     * <pre>
-     *     0..1           TOK_ID          Identification field.
-     *                                    01 01 - Mic token
-     *                                    02 01 - Wrap token
-     *     2..3           SGN_ALG         Checksum algorithm indicator.
+     * Tiis innfr dlbss rfprfsfnts tif initibl portion of tif mfssbgf tokfn
+     * bnd dontbins informbtion bbout tif difdksum bnd fndryption blgoritims
+     * tibt brf in usf. It donstitutfs tif first 8 bytfs of tif
+     * mfssbgf tokfn:
+     * <prf>
+     *     0..1           TOK_ID          Idfntifidbtion fifld.
+     *                                    01 01 - Mid tokfn
+     *                                    02 01 - Wrbp tokfn
+     *     2..3           SGN_ALG         Cifdksum blgoritim indidbtor.
      *                                    00 00 - DES MAC MD5
      *                                    01 00 - MD2.5
      *                                    02 00 - DES MAC
      *                                    04 00 - HMAC SHA1 DES3-KD
      *                                    11 00 - RC4-HMAC
-     *     4..5           SEAL_ALG        ff ff - none
+     *     4..5           SEAL_ALG        ff ff - nonf
      *                                    00 00 - DES
      *                                    02 00 - DES3-KD
      *                                    10 00 - RC4-HMAC
-     *     6..7           Filler          Contains ff ff
-     * </pre>
+     *     6..7           Fillfr          Contbins ff ff
+     * </prf>
      */
-    class MessageTokenHeader {
+    dlbss MfssbgfTokfnHfbdfr {
 
-         private int tokenId;
-         private int signAlg;
-         private int sealAlg;
+         privbtf int tokfnId;
+         privbtf int signAlg;
+         privbtf int sfblAlg;
 
-         private byte[] bytes = new byte[8];
+         privbtf bytf[] bytfs = nfw bytf[8];
 
         /**
-         * Constructs a MessageTokenHeader for the specified token type with
-         * appropriate checksum and encryption algorithms fields.
+         * Construdts b MfssbgfTokfnHfbdfr for tif spfdififd tokfn typf witi
+         * bppropribtf difdksum bnd fndryption blgoritims fiflds.
          *
-         * @param tokenId the token id for this message token
-         * @param conf true if confidentiality will be resuested with this
-         * message token, false otherwise.
-         * @param qop the value of the quality of protection that will be
-         * desired.
+         * @pbrbm tokfnId tif tokfn id for tiis mfssbgf tokfn
+         * @pbrbm donf truf if donfidfntiblity will bf rfsufstfd witi tiis
+         * mfssbgf tokfn, fblsf otifrwisf.
+         * @pbrbm qop tif vbluf of tif qublity of protfdtion tibt will bf
+         * dfsirfd.
          */
-        public MessageTokenHeader(int tokenId, boolean conf, int qop)
-         throws GSSException {
+        publid MfssbgfTokfnHfbdfr(int tokfnId, boolfbn donf, int qop)
+         tirows GSSExdfption {
 
-            this.tokenId = tokenId;
+            tiis.tokfnId = tokfnId;
 
-            signAlg = MessageToken.this.getSgnAlg(qop);
+            signAlg = MfssbgfTokfn.tiis.gftSgnAlg(qop);
 
-            sealAlg = MessageToken.this.getSealAlg(conf, qop);
+            sfblAlg = MfssbgfTokfn.tiis.gftSfblAlg(donf, qop);
 
-            bytes[0] = (byte) (tokenId >>> 8);
-            bytes[1] = (byte) (tokenId);
+            bytfs[0] = (bytf) (tokfnId >>> 8);
+            bytfs[1] = (bytf) (tokfnId);
 
-            bytes[2] = (byte) (signAlg >>> 8);
-            bytes[3] = (byte) (signAlg);
+            bytfs[2] = (bytf) (signAlg >>> 8);
+            bytfs[3] = (bytf) (signAlg);
 
-            bytes[4] = (byte) (sealAlg >>> 8);
-            bytes[5] = (byte) (sealAlg);
+            bytfs[4] = (bytf) (sfblAlg >>> 8);
+            bytfs[5] = (bytf) (sfblAlg);
 
-            bytes[6] = (byte) (MessageToken.FILLER >>> 8);
-            bytes[7] = (byte) (MessageToken.FILLER);
+            bytfs[6] = (bytf) (MfssbgfTokfn.FILLER >>> 8);
+            bytfs[7] = (bytf) (MfssbgfTokfn.FILLER);
         }
 
         /**
-         * Constructs a MessageTokenHeader by reading it from an InputStream
-         * and sets the appropriate confidentiality and quality of protection
-         * values in a MessageProp structure.
+         * Construdts b MfssbgfTokfnHfbdfr by rfbding it from bn InputStrfbm
+         * bnd sfts tif bppropribtf donfidfntiblity bnd qublity of protfdtion
+         * vblufs in b MfssbgfProp strudturf.
          *
-         * @param is the InputStream to read from
-         * @param prop the MessageProp to populate
-         * @throws IOException is an error occurs while reading from the
-         * InputStream
+         * @pbrbm is tif InputStrfbm to rfbd from
+         * @pbrbm prop tif MfssbgfProp to populbtf
+         * @tirows IOExdfption is bn frror oddurs wiilf rfbding from tif
+         * InputStrfbm
          */
-        public MessageTokenHeader(InputStream is, MessageProp prop)
-            throws IOException {
-            readFully(is, bytes);
-            tokenId = readInt(bytes, TOKEN_ID_POS);
-            signAlg = readInt(bytes, SIGN_ALG_POS);
-            sealAlg = readInt(bytes, SEAL_ALG_POS);
-            //          debug("\nMessageTokenHeader read tokenId=" +
-            //                getHexBytes(bytes) + "\n");
-            // XXX compare to FILLER
-            int temp = readInt(bytes, SEAL_ALG_POS + 2);
+        publid MfssbgfTokfnHfbdfr(InputStrfbm is, MfssbgfProp prop)
+            tirows IOExdfption {
+            rfbdFully(is, bytfs);
+            tokfnId = rfbdInt(bytfs, TOKEN_ID_POS);
+            signAlg = rfbdInt(bytfs, SIGN_ALG_POS);
+            sfblAlg = rfbdInt(bytfs, SEAL_ALG_POS);
+            //          dfbug("\nMfssbgfTokfnHfbdfr rfbd tokfnId=" +
+            //                gftHfxBytfs(bytfs) + "\n");
+            // XXX dompbrf to FILLER
+            int tfmp = rfbdInt(bytfs, SEAL_ALG_POS + 2);
 
-            //              debug("SIGN_ALG=" + signAlg);
+            //              dfbug("SIGN_ALG=" + signAlg);
 
-            switch (sealAlg) {
-            case SEAL_ALG_DES:
-            case SEAL_ALG_DES3_KD:
-            case SEAL_ALG_ARCFOUR_HMAC:
-                prop.setPrivacy(true);
-                break;
+            switdi (sfblAlg) {
+            dbsf SEAL_ALG_DES:
+            dbsf SEAL_ALG_DES3_KD:
+            dbsf SEAL_ALG_ARCFOUR_HMAC:
+                prop.sftPrivbdy(truf);
+                brfbk;
 
-            default:
-                prop.setPrivacy(false);
+            dffbult:
+                prop.sftPrivbdy(fblsf);
             }
 
-            prop.setQOP(0);  // default
+            prop.sftQOP(0);  // dffbult
         }
 
         /**
-         * Encodes this MessageTokenHeader onto an OutputStream
-         * @param os the OutputStream to write to
-         * @throws IOException is an error occurs while writing
+         * Endodfs tiis MfssbgfTokfnHfbdfr onto bn OutputStrfbm
+         * @pbrbm os tif OutputStrfbm to writf to
+         * @tirows IOExdfption is bn frror oddurs wiilf writing
          */
-        public final void encode(OutputStream os) throws IOException {
-            os.write(bytes);
+        publid finbl void fndodf(OutputStrfbm os) tirows IOExdfption {
+            os.writf(bytfs);
         }
 
 
         /**
-         * Returns the token id for the message token.
-         * @return the token id
-         * @see sun.security.jgss.krb5.Krb5Token#MIC_ID
-         * @see sun.security.jgss.krb5.Krb5Token#WRAP_ID
+         * Rfturns tif tokfn id for tif mfssbgf tokfn.
+         * @rfturn tif tokfn id
+         * @sff sun.sfdurity.jgss.krb5.Krb5Tokfn#MIC_ID
+         * @sff sun.sfdurity.jgss.krb5.Krb5Tokfn#WRAP_ID
          */
-        public final int getTokenId() {
-            return tokenId;
+        publid finbl int gftTokfnId() {
+            rfturn tokfnId;
         }
 
         /**
-         * Returns the sign algorithm for the message token.
-         * @return the sign algorithm
-         * @see sun.security.jgss.krb5.MessageToken#SIGN_DES_MAC
-         * @see sun.security.jgss.krb5.MessageToken#SIGN_DES_MAC_MD5
+         * Rfturns tif sign blgoritim for tif mfssbgf tokfn.
+         * @rfturn tif sign blgoritim
+         * @sff sun.sfdurity.jgss.krb5.MfssbgfTokfn#SIGN_DES_MAC
+         * @sff sun.sfdurity.jgss.krb5.MfssbgfTokfn#SIGN_DES_MAC_MD5
          */
-        public final int getSignAlg() {
-            return signAlg;
+        publid finbl int gftSignAlg() {
+            rfturn signAlg;
         }
 
         /**
-         * Returns the seal algorithm for the message token.
-         * @return the seal algorithm
-         * @see sun.security.jgss.krb5.MessageToken#SEAL_ALG_DES
-         * @see sun.security.jgss.krb5.MessageToken#SEAL_ALG_NONE
+         * Rfturns tif sfbl blgoritim for tif mfssbgf tokfn.
+         * @rfturn tif sfbl blgoritim
+         * @sff sun.sfdurity.jgss.krb5.MfssbgfTokfn#SEAL_ALG_DES
+         * @sff sun.sfdurity.jgss.krb5.MfssbgfTokfn#SEAL_ALG_NONE
          */
-        public final int getSealAlg() {
-            return sealAlg;
+        publid finbl int gftSfblAlg() {
+            rfturn sfblAlg;
         }
 
         /**
-         * Returns the bytes of this header.
-         * @return 8 bytes that form this header
+         * Rfturns tif bytfs of tiis ifbdfr.
+         * @rfturn 8 bytfs tibt form tiis ifbdfr
          */
-        public final byte[] getBytes() {
-            return bytes;
+        publid finbl bytf[] gftBytfs() {
+            rfturn bytfs;
         }
-    } // end of class MessageTokenHeader
+    } // fnd of dlbss MfssbgfTokfnHfbdfr
 
 
     /**
-     * Determine signing algorithm based on QOP.
+     * Dftfrminf signing blgoritim bbsfd on QOP.
      */
-    protected int getSgnAlg(int qop) throws GSSException {
-         // QOP ignored
-         return cipherHelper.getSgnAlg();
+    protfdtfd int gftSgnAlg(int qop) tirows GSSExdfption {
+         // QOP ignorfd
+         rfturn dipifrHflpfr.gftSgnAlg();
     }
 }

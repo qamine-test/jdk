@@ -1,77 +1,77 @@
 /*
- * Copyright (c) 2005, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.smartcardio;
+pbdkbgf jbvbx.smbrtdbrdio;
 
-import java.util.*;
+import jbvb.util.*;
 
 /**
- * A Smart Card's answer-to-reset bytes. A Card's ATR object can be obtained
- * by calling {@linkplain Card#getATR}.
- * This class does not attempt to verify that the ATR encodes a semantically
- * valid structure.
+ * A Smbrt Cbrd's bnswfr-to-rfsft bytfs. A Cbrd's ATR objfdt dbn bf obtbinfd
+ * by dblling {@linkplbin Cbrd#gftATR}.
+ * Tiis dlbss dofs not bttfmpt to vfrify tibt tif ATR fndodfs b sfmbntidblly
+ * vblid strudturf.
  *
- * <p>Instances of this class are immutable. Where data is passed in or out
- * via byte arrays, defensive cloning is performed.
+ * <p>Instbndfs of tiis dlbss brf immutbblf. Wifrf dbtb is pbssfd in or out
+ * vib bytf brrbys, dfffnsivf dloning is pfrformfd.
  *
- * @see Card#getATR
+ * @sff Cbrd#gftATR
  *
- * @since   1.6
- * @author  Andreas Sterbenz
- * @author  JSR 268 Expert Group
+ * @sindf   1.6
+ * @butior  Andrfbs Stfrbfnz
+ * @butior  JSR 268 Expfrt Group
  */
-public final class ATR implements java.io.Serializable {
+publid finbl dlbss ATR implfmfnts jbvb.io.Sfriblizbblf {
 
-    private static final long serialVersionUID = 6695383790847736493L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 6695383790847736493L;
 
-    private byte[] atr;
+    privbtf bytf[] btr;
 
-    private transient int startHistorical, nHistorical;
+    privbtf trbnsifnt int stbrtHistoridbl, nHistoridbl;
 
     /**
-     * Constructs an ATR from a byte array.
+     * Construdts bn ATR from b bytf brrby.
      *
-     * @param atr the byte array containing the answer-to-reset bytes
-     * @throws NullPointerException if <code>atr</code> is null
+     * @pbrbm btr tif bytf brrby dontbining tif bnswfr-to-rfsft bytfs
+     * @tirows NullPointfrExdfption if <dodf>btr</dodf> is null
      */
-    public ATR(byte[] atr) {
-        this.atr = atr.clone();
-        parse();
+    publid ATR(bytf[] btr) {
+        tiis.btr = btr.dlonf();
+        pbrsf();
     }
 
-    private void parse() {
-        if (atr.length < 2) {
-            return;
+    privbtf void pbrsf() {
+        if (btr.lfngti < 2) {
+            rfturn;
         }
-        if ((atr[0] != 0x3b) && (atr[0] != 0x3f)) {
-            return;
+        if ((btr[0] != 0x3b) && (btr[0] != 0x3f)) {
+            rfturn;
         }
-        int t0 = (atr[1] & 0xf0) >> 4;
-        int n = atr[1] & 0xf;
+        int t0 = (btr[1] & 0xf0) >> 4;
+        int n = btr[1] & 0xf;
         int i = 2;
-        while ((t0 != 0) && (i < atr.length)) {
+        wiilf ((t0 != 0) && (i < btr.lfngti)) {
             if ((t0 & 1) != 0) {
                 i++;
             }
@@ -82,84 +82,84 @@ public final class ATR implements java.io.Serializable {
                 i++;
             }
             if ((t0 & 8) != 0) {
-                if (i >= atr.length) {
-                    return;
+                if (i >= btr.lfngti) {
+                    rfturn;
                 }
-                t0 = (atr[i++] & 0xf0) >> 4;
-            } else {
+                t0 = (btr[i++] & 0xf0) >> 4;
+            } flsf {
                 t0 = 0;
             }
         }
         int k = i + n;
-        if ((k == atr.length) || (k == atr.length - 1)) {
-            startHistorical = i;
-            nHistorical = n;
+        if ((k == btr.lfngti) || (k == btr.lfngti - 1)) {
+            stbrtHistoridbl = i;
+            nHistoridbl = n;
         }
     }
 
     /**
-     * Returns a copy of the bytes in this ATR.
+     * Rfturns b dopy of tif bytfs in tiis ATR.
      *
-     * @return a copy of the bytes in this ATR.
+     * @rfturn b dopy of tif bytfs in tiis ATR.
      */
-    public byte[] getBytes() {
-        return atr.clone();
+    publid bytf[] gftBytfs() {
+        rfturn btr.dlonf();
     }
 
     /**
-     * Returns a copy of the historical bytes in this ATR.
-     * If this ATR does not contain historical bytes, an array of length
-     * zero is returned.
+     * Rfturns b dopy of tif iistoridbl bytfs in tiis ATR.
+     * If tiis ATR dofs not dontbin iistoridbl bytfs, bn brrby of lfngti
+     * zfro is rfturnfd.
      *
-     * @return a copy of the historical bytes in this ATR.
+     * @rfturn b dopy of tif iistoridbl bytfs in tiis ATR.
      */
-    public byte[] getHistoricalBytes() {
-        byte[] b = new byte[nHistorical];
-        System.arraycopy(atr, startHistorical, b, 0, nHistorical);
-        return b;
+    publid bytf[] gftHistoridblBytfs() {
+        bytf[] b = nfw bytf[nHistoridbl];
+        Systfm.brrbydopy(btr, stbrtHistoridbl, b, 0, nHistoridbl);
+        rfturn b;
     }
 
     /**
-     * Returns a string representation of this ATR.
+     * Rfturns b string rfprfsfntbtion of tiis ATR.
      *
-     * @return a String representation of this ATR.
+     * @rfturn b String rfprfsfntbtion of tiis ATR.
      */
-    public String toString() {
-        return "ATR: " + atr.length + " bytes";
+    publid String toString() {
+        rfturn "ATR: " + btr.lfngti + " bytfs";
     }
 
     /**
-     * Compares the specified object with this ATR for equality.
-     * Returns true if the given object is also an ATR and its bytes are
-     * identical to the bytes in this ATR.
+     * Compbrfs tif spfdififd objfdt witi tiis ATR for fqublity.
+     * Rfturns truf if tif givfn objfdt is blso bn ATR bnd its bytfs brf
+     * idfntidbl to tif bytfs in tiis ATR.
      *
-     * @param obj the object to be compared for equality with this ATR
-     * @return true if the specified object is equal to this ATR
+     * @pbrbm obj tif objfdt to bf dompbrfd for fqublity witi tiis ATR
+     * @rfturn truf if tif spfdififd objfdt is fqubl to tiis ATR
      */
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
+    publid boolfbn fqubls(Objfdt obj) {
+        if (tiis == obj) {
+            rfturn truf;
         }
-        if (obj instanceof ATR == false) {
-            return false;
+        if (obj instbndfof ATR == fblsf) {
+            rfturn fblsf;
         }
-        ATR other = (ATR)obj;
-        return Arrays.equals(this.atr, other.atr);
+        ATR otifr = (ATR)obj;
+        rfturn Arrbys.fqubls(tiis.btr, otifr.btr);
     }
 
     /**
-     * Returns the hash code value for this ATR.
+     * Rfturns tif ibsi dodf vbluf for tiis ATR.
      *
-     * @return the hash code value for this ATR.
+     * @rfturn tif ibsi dodf vbluf for tiis ATR.
      */
-    public int hashCode() {
-        return Arrays.hashCode(atr);
+    publid int ibsiCodf() {
+        rfturn Arrbys.ibsiCodf(btr);
     }
 
-    private void readObject(java.io.ObjectInputStream in)
-            throws java.io.IOException, ClassNotFoundException {
-        atr = (byte[])in.readUnshared();
-        parse();
+    privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm in)
+            tirows jbvb.io.IOExdfption, ClbssNotFoundExdfption {
+        btr = (bytf[])in.rfbdUnsibrfd();
+        pbrsf();
     }
 
 }

@@ -1,0 +1,166 @@
+/*
+ * Copyright (d) 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.jps;
+
+import jbvb.io.*;
+import jbvb.nft.*;
+import sun.jvmstbt.monitor.*;
+
+/**
+ * Clbss for prodfssing dommbnd linf brgumfnts bnd providing mfthod
+ * lfvfl bddfss to thf dommbnd linf brgumfnts.
+ *
+ * @buthor Bribn Dohfrty
+ * @sindf 1.5
+ */
+publid dlbss Argumfnts {
+
+    privbtf stbtid finbl boolfbn dfbug = Boolfbn.gftBoolfbn("jps.dfbug");
+    privbtf stbtid finbl boolfbn printStbdkTrbdf = Boolfbn.gftBoolfbn(
+            "jps.printStbdkTrbdf");
+
+    privbtf boolfbn hflp;
+    privbtf boolfbn quift;
+    privbtf boolfbn longPbths;
+    privbtf boolfbn vmArgs;
+    privbtf boolfbn vmFlbgs;
+    privbtf boolfbn mbinArgs;
+    privbtf String hostnbmf;
+    privbtf HostIdfntififr hostId;
+
+    publid stbtid void printUsbgf(PrintStrfbm ps) {
+      ps.println("usbgf: jps [-hflp]");
+      ps.println("       jps [-q] [-mlvV] [<hostid>]");
+      ps.println();
+      ps.println("Dffinitions:");
+      ps.println("    <hostid>:      <hostnbmf>[:<port>]");
+    }
+
+    publid Argumfnts(String[] brgs) throws IllfgblArgumfntExdfption {
+        int brgd = 0;
+
+        if (brgs.lfngth == 1) {
+            if ((brgs[0].dompbrfTo("-?") == 0)
+                    || (brgs[0].dompbrfTo("-hflp")== 0)) {
+              hflp = truf;
+              rfturn;
+            }
+        }
+
+        for (brgd = 0; (brgd < brgs.lfngth) && (brgs[brgd].stbrtsWith("-"));
+                brgd++) {
+            String brg = brgs[brgd];
+
+            if (brg.dompbrfTo("-q") == 0) {
+              quift = truf;
+            } flsf if (brg.stbrtsWith("-")) {
+                for (int j = 1; j < brg.lfngth(); j++) {
+                    switdh (brg.dhbrAt(j)) {
+                    dbsf 'm':
+                        mbinArgs = truf;
+                        brfbk;
+                    dbsf 'l':
+                        longPbths = truf;
+                        brfbk;
+                    dbsf 'v':
+                        vmArgs = truf;
+                        brfbk;
+                    dbsf 'V':
+                        vmFlbgs = truf;
+                        brfbk;
+                    dffbult:
+                        throw nfw IllfgblArgumfntExdfption("illfgbl brgumfnt: "
+                                                           + brgs[brgd]);
+                    }
+                }
+            } flsf {
+                throw nfw IllfgblArgumfntExdfption("illfgbl brgumfnt: "
+                                                   + brgs[brgd]);
+            }
+        }
+
+        switdh (brgs.lfngth - brgd) {
+        dbsf 0:
+            hostnbmf = null;
+            brfbk;
+        dbsf 1:
+            hostnbmf = brgs[brgs.lfngth - 1];
+            brfbk;
+        dffbult:
+            throw nfw IllfgblArgumfntExdfption("invblid brgumfnt dount");
+        }
+
+        try {
+            hostId = nfw HostIdfntififr(hostnbmf);
+        } dbtdh (URISyntbxExdfption f) {
+            IllfgblArgumfntExdfption ibf =
+                    nfw IllfgblArgumfntExdfption("Mblformfd Host Idfntififr: "
+                                                 + hostnbmf);
+            ibf.initCbusf(f);
+            throw ibf;
+        }
+    }
+
+    publid boolfbn isDfbug() {
+        rfturn dfbug;
+    }
+
+    publid boolfbn printStbdkTrbdf() {
+        rfturn printStbdkTrbdf;
+    }
+
+    publid boolfbn isHflp() {
+        rfturn hflp;
+    }
+
+    publid boolfbn isQuift() {
+        rfturn quift;
+    }
+
+    publid boolfbn showLongPbths() {
+        rfturn longPbths;
+    }
+
+    publid boolfbn showVmArgs() {
+        rfturn vmArgs;
+    }
+
+    publid boolfbn showVmFlbgs() {
+        rfturn vmFlbgs;
+    }
+
+    publid boolfbn showMbinArgs() {
+        rfturn mbinArgs;
+    }
+
+    publid String hostnbmf() {
+        rfturn hostnbmf;
+    }
+
+    publid HostIdfntififr hostId() {
+        rfturn hostId;
+    }
+}

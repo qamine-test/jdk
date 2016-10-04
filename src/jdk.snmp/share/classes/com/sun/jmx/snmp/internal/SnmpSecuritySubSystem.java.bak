@@ -1,178 +1,178 @@
 /*
- * Copyright (c) 2001, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.jmx.snmp.internal;
+pbdkbgf dom.sun.jmx.snmp.intfrnbl;
 
-import com.sun.jmx.snmp.SnmpTooBigException;
-import com.sun.jmx.snmp.SnmpStatusException;
-import com.sun.jmx.snmp.SnmpUnknownSecModelException;
-import com.sun.jmx.snmp.SnmpSecurityException;
-import com.sun.jmx.snmp.SnmpSecurityParameters;
+import dom.sun.jmx.snmp.SnmpTooBigExdfption;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+import dom.sun.jmx.snmp.SnmpUnknownSfdModflExdfption;
+import dom.sun.jmx.snmp.SnmpSfdurityExdfption;
+import dom.sun.jmx.snmp.SnmpSfdurityPbrbmftfrs;
 
 /**
- * Security sub system interface. To allow engine integration, a security sub system must implement this interface.
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
+ * Sfdurity sub systfm intfrfbdf. To bllow fnginf intfgrbtion, b sfdurity sub systfm must implfmfnt tiis intfrfbdf.
+ * <p><b>Tiis API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dibngf witiout notidf.</b></p>
  */
-public interface SnmpSecuritySubSystem extends SnmpSubSystem {
+publid intfrfbdf SnmpSfduritySubSystfm fxtfnds SnmpSubSystfm {
      /**
-     * Instantiates an <CODE>SnmpSecurityCache</CODE> that is dependant to the model implementation. This call is routed to the dedicated model according to the model ID.
-     * @param id The model ID.
-     * @return The model dependant security cache.
+     * Instbntibtfs bn <CODE>SnmpSfdurityCbdif</CODE> tibt is dfpfndbnt to tif modfl implfmfntbtion. Tiis dbll is routfd to tif dfdidbtfd modfl bddording to tif modfl ID.
+     * @pbrbm id Tif modfl ID.
+     * @rfturn Tif modfl dfpfndbnt sfdurity dbdif.
      */
-    public SnmpSecurityCache createSecurityCache(int id) throws SnmpUnknownSecModelException;
+    publid SnmpSfdurityCbdif drfbtfSfdurityCbdif(int id) tirows SnmpUnknownSfdModflExdfption;
     /**
-     * To release the previously created cache. This call is routed to the dedicated model according to the model ID.
-     * @param id The model ID.
-     * @param cache The security cache to release.
+     * To rflfbsf tif prfviously drfbtfd dbdif. Tiis dbll is routfd to tif dfdidbtfd modfl bddording to tif modfl ID.
+     * @pbrbm id Tif modfl ID.
+     * @pbrbm dbdif Tif sfdurity dbdif to rflfbsf.
      */
-    public void releaseSecurityCache(int id,
-                                     SnmpSecurityCache cache) throws SnmpUnknownSecModelException;
+    publid void rflfbsfSfdurityCbdif(int id,
+                                     SnmpSfdurityCbdif dbdif) tirows SnmpUnknownSfdModflExdfption;
 
      /**
-     * Called when a request is to be sent to the network. It must be securized. This call is routed to the dedicated model according to the model ID.
-     * <BR>The specified parameters are defined in RFC 2572 (see also the {@link com.sun.jmx.snmp.SnmpV3Message} class).
-     * @param cache The cache that has been created by calling <CODE>createSecurityCache</CODE> on this model.
-     * @param version The SNMP protocol version.
-     * @param msgID The current request id.
-     * @param msgMaxSize The message max size.
-     * @param msgFlags The message flags (reportable, Auth and Priv).
-     * @param msgSecurityModel This current security model.
-     * @param params The security parameters that contain the model dependant parameters.
-     * @param contextEngineID The context engine ID.
-     * @param contextName The context name.
-     * @param data The marshalled varbind list
-     * @param dataLength The marshalled varbind list length.
-     * @param outputBytes The buffer to fill with securized request. This is a representation independant marshalled format. This buffer will be sent to the network.
-     * @return The marshalled byte number.
+     * Cbllfd wifn b rfqufst is to bf sfnt to tif nftwork. It must bf sfdurizfd. Tiis dbll is routfd to tif dfdidbtfd modfl bddording to tif modfl ID.
+     * <BR>Tif spfdififd pbrbmftfrs brf dffinfd in RFC 2572 (sff blso tif {@link dom.sun.jmx.snmp.SnmpV3Mfssbgf} dlbss).
+     * @pbrbm dbdif Tif dbdif tibt ibs bffn drfbtfd by dblling <CODE>drfbtfSfdurityCbdif</CODE> on tiis modfl.
+     * @pbrbm vfrsion Tif SNMP protodol vfrsion.
+     * @pbrbm msgID Tif durrfnt rfqufst id.
+     * @pbrbm msgMbxSizf Tif mfssbgf mbx sizf.
+     * @pbrbm msgFlbgs Tif mfssbgf flbgs (rfportbblf, Auti bnd Priv).
+     * @pbrbm msgSfdurityModfl Tiis durrfnt sfdurity modfl.
+     * @pbrbm pbrbms Tif sfdurity pbrbmftfrs tibt dontbin tif modfl dfpfndbnt pbrbmftfrs.
+     * @pbrbm dontfxtEnginfID Tif dontfxt fnginf ID.
+     * @pbrbm dontfxtNbmf Tif dontfxt nbmf.
+     * @pbrbm dbtb Tif mbrsibllfd vbrbind list
+     * @pbrbm dbtbLfngti Tif mbrsibllfd vbrbind list lfngti.
+     * @pbrbm outputBytfs Tif bufffr to fill witi sfdurizfd rfqufst. Tiis is b rfprfsfntbtion indfpfndbnt mbrsibllfd formbt. Tiis bufffr will bf sfnt to tif nftwork.
+     * @rfturn Tif mbrsibllfd bytf numbfr.
      */
-    public int generateRequestMsg(SnmpSecurityCache cache,
-                                  int version,
+    publid int gfnfrbtfRfqufstMsg(SnmpSfdurityCbdif dbdif,
+                                  int vfrsion,
                                   int msgID,
-                                  int msgMaxSize,
-                                  byte msgFlags,
-                                  int msgSecurityModel,
-                                  SnmpSecurityParameters params,
-                                  byte[] contextEngineID,
-                                  byte[] contextName,
-                                  byte[] data,
-                                  int dataLength,
-                                  byte[] outputBytes)
-        throws SnmpTooBigException, SnmpStatusException, SnmpSecurityException, SnmpUnknownSecModelException;
+                                  int msgMbxSizf,
+                                  bytf msgFlbgs,
+                                  int msgSfdurityModfl,
+                                  SnmpSfdurityPbrbmftfrs pbrbms,
+                                  bytf[] dontfxtEnginfID,
+                                  bytf[] dontfxtNbmf,
+                                  bytf[] dbtb,
+                                  int dbtbLfngti,
+                                  bytf[] outputBytfs)
+        tirows SnmpTooBigExdfption, SnmpStbtusExdfption, SnmpSfdurityExdfption, SnmpUnknownSfdModflExdfption;
 
     /**
-     * Called when a response is to be sent to the network. It must be securized. This call is routed to the dedicated model according to the model ID.
-     * <BR>The specified parameters are defined in RFC 2572 (see also the {@link com.sun.jmx.snmp.SnmpV3Message} class).
-     * @param cache The cache that has been created by calling <CODE>createSecurityCache</CODE> on this model.
-     * @param version The SNMP protocol version.
-     * @param msgID The current request id.
-     * @param msgMaxSize The message max size.
-     * @param msgFlags The message flags (reportable, Auth and Priv).
-     * @param msgSecurityModel This current security model.
-     * @param params The security parameters that contain the model dependant parameters.
-     * @param contextEngineID The context engine ID.
-     * @param contextName The context name.
-     * @param data The marshalled varbind list
-     * @param dataLength The marshalled varbind list length.
-     * @param outputBytes The buffer to fill with securized request. This is a representation independant marshalled format. This buffer will be sent to the network.
-     * @return The marshalled byte number.
+     * Cbllfd wifn b rfsponsf is to bf sfnt to tif nftwork. It must bf sfdurizfd. Tiis dbll is routfd to tif dfdidbtfd modfl bddording to tif modfl ID.
+     * <BR>Tif spfdififd pbrbmftfrs brf dffinfd in RFC 2572 (sff blso tif {@link dom.sun.jmx.snmp.SnmpV3Mfssbgf} dlbss).
+     * @pbrbm dbdif Tif dbdif tibt ibs bffn drfbtfd by dblling <CODE>drfbtfSfdurityCbdif</CODE> on tiis modfl.
+     * @pbrbm vfrsion Tif SNMP protodol vfrsion.
+     * @pbrbm msgID Tif durrfnt rfqufst id.
+     * @pbrbm msgMbxSizf Tif mfssbgf mbx sizf.
+     * @pbrbm msgFlbgs Tif mfssbgf flbgs (rfportbblf, Auti bnd Priv).
+     * @pbrbm msgSfdurityModfl Tiis durrfnt sfdurity modfl.
+     * @pbrbm pbrbms Tif sfdurity pbrbmftfrs tibt dontbin tif modfl dfpfndbnt pbrbmftfrs.
+     * @pbrbm dontfxtEnginfID Tif dontfxt fnginf ID.
+     * @pbrbm dontfxtNbmf Tif dontfxt nbmf.
+     * @pbrbm dbtb Tif mbrsibllfd vbrbind list
+     * @pbrbm dbtbLfngti Tif mbrsibllfd vbrbind list lfngti.
+     * @pbrbm outputBytfs Tif bufffr to fill witi sfdurizfd rfqufst. Tiis is b rfprfsfntbtion indfpfndbnt mbrsibllfd formbt. Tiis bufffr will bf sfnt to tif nftwork.
+     * @rfturn Tif mbrsibllfd bytf numbfr.
      */
-    public int generateResponseMsg(SnmpSecurityCache cache,
-                                   int version,
+    publid int gfnfrbtfRfsponsfMsg(SnmpSfdurityCbdif dbdif,
+                                   int vfrsion,
                                    int msgID,
-                                   int msgMaxSize,
-                                   byte msgFlags,
-                                   int msgSecurityModel,
-                                   SnmpSecurityParameters params,
-                                   byte[] contextEngineID,
-                                   byte[] contextName,
-                                   byte[] data,
-                                   int dataLength,
-                                   byte[] outputBytes)
-        throws SnmpTooBigException, SnmpStatusException,
-               SnmpSecurityException, SnmpUnknownSecModelException;
+                                   int msgMbxSizf,
+                                   bytf msgFlbgs,
+                                   int msgSfdurityModfl,
+                                   SnmpSfdurityPbrbmftfrs pbrbms,
+                                   bytf[] dontfxtEnginfID,
+                                   bytf[] dontfxtNbmf,
+                                   bytf[] dbtb,
+                                   int dbtbLfngti,
+                                   bytf[] outputBytfs)
+        tirows SnmpTooBigExdfption, SnmpStbtusExdfption,
+               SnmpSfdurityExdfption, SnmpUnknownSfdModflExdfption;
       /**
-     * Called when a request is received from the network. It handles authentication and privacy. This call is routed to the dedicated model according to the model ID.
-     * <BR>The specified parameters are defined in RFC 2572 (see also the {@link com.sun.jmx.snmp.SnmpV3Message} class).
-     * @param cache The cache that has been created by calling <CODE>createSecurityCache</CODE> on this model.
-     * @param version The SNMP protocol version.
-     * @param msgID The current request id.
-     * @param msgMaxSize The message max size.
-     * @param msgFlags The message flags (reportable, Auth and Priv)
-     * @param msgSecurityModel This current security model.
-     * @param params The security parameters in a marshalled format. The informations cointained in this array are model dependant.
-     * @param contextEngineID The context engine ID or null if encrypted.
-     * @param contextName The context name or null if encrypted.
-     * @param data The marshalled varbind list or null if encrypted.
-     * @param encryptedPdu The encrypted pdu or null if not encrypted.
-     * @param decryptedPdu The decrypted pdu. If no decryption is to be done, the passed context engine ID, context name and data could be used to fill this object.
-     * @return The decoded security parameters.
+     * Cbllfd wifn b rfqufst is rfdfivfd from tif nftwork. It ibndlfs butifntidbtion bnd privbdy. Tiis dbll is routfd to tif dfdidbtfd modfl bddording to tif modfl ID.
+     * <BR>Tif spfdififd pbrbmftfrs brf dffinfd in RFC 2572 (sff blso tif {@link dom.sun.jmx.snmp.SnmpV3Mfssbgf} dlbss).
+     * @pbrbm dbdif Tif dbdif tibt ibs bffn drfbtfd by dblling <CODE>drfbtfSfdurityCbdif</CODE> on tiis modfl.
+     * @pbrbm vfrsion Tif SNMP protodol vfrsion.
+     * @pbrbm msgID Tif durrfnt rfqufst id.
+     * @pbrbm msgMbxSizf Tif mfssbgf mbx sizf.
+     * @pbrbm msgFlbgs Tif mfssbgf flbgs (rfportbblf, Auti bnd Priv)
+     * @pbrbm msgSfdurityModfl Tiis durrfnt sfdurity modfl.
+     * @pbrbm pbrbms Tif sfdurity pbrbmftfrs in b mbrsibllfd formbt. Tif informbtions dointbinfd in tiis brrby brf modfl dfpfndbnt.
+     * @pbrbm dontfxtEnginfID Tif dontfxt fnginf ID or null if fndryptfd.
+     * @pbrbm dontfxtNbmf Tif dontfxt nbmf or null if fndryptfd.
+     * @pbrbm dbtb Tif mbrsibllfd vbrbind list or null if fndryptfd.
+     * @pbrbm fndryptfdPdu Tif fndryptfd pdu or null if not fndryptfd.
+     * @pbrbm dfdryptfdPdu Tif dfdryptfd pdu. If no dfdryption is to bf donf, tif pbssfd dontfxt fnginf ID, dontfxt nbmf bnd dbtb dould bf usfd to fill tiis objfdt.
+     * @rfturn Tif dfdodfd sfdurity pbrbmftfrs.
 
      */
-    public SnmpSecurityParameters
-        processIncomingRequest(SnmpSecurityCache cache,
-                               int version,
+    publid SnmpSfdurityPbrbmftfrs
+        prodfssIndomingRfqufst(SnmpSfdurityCbdif dbdif,
+                               int vfrsion,
                                int msgID,
-                               int msgMaxSize,
-                               byte msgFlags,
-                               int msgSecurityModel,
-                               byte[] params,
-                               byte[] contextEngineID,
-                               byte[] contextName,
-                               byte[] data,
-                               byte[] encryptedPdu,
-                               SnmpDecryptedPdu decryptedPdu)
-        throws SnmpStatusException, SnmpSecurityException, SnmpUnknownSecModelException;
+                               int msgMbxSizf,
+                               bytf msgFlbgs,
+                               int msgSfdurityModfl,
+                               bytf[] pbrbms,
+                               bytf[] dontfxtEnginfID,
+                               bytf[] dontfxtNbmf,
+                               bytf[] dbtb,
+                               bytf[] fndryptfdPdu,
+                               SnmpDfdryptfdPdu dfdryptfdPdu)
+        tirows SnmpStbtusExdfption, SnmpSfdurityExdfption, SnmpUnknownSfdModflExdfption;
           /**
-     * Called when a response is received from the network. It handles authentication and privacy. This call is routed to the dedicated model according to the model ID.
-     * <BR>The specified parameters are defined in RFC 2572 (see also the {@link com.sun.jmx.snmp.SnmpV3Message} class).
-     * @param cache The cache that has been created by calling <CODE>createSecurityCache</CODE> on this model.
-     * @param version The SNMP protocol version.
-     * @param msgID The current request id.
-     * @param msgMaxSize The message max size.
-     * @param msgFlags The message flags (reportable, Auth and Priv).
-     * @param msgSecurityModel This current security model.
-     * @param params The security parameters in a marshalled format. The informations cointained in this array are model dependant.
-     * @param contextEngineID The context engine ID or null if encrypted.
-     * @param contextName The context name or null if encrypted.
-     * @param data The marshalled varbind list or null if encrypted.
-     * @param encryptedPdu The encrypted pdu or null if not encrypted.
-     * @param decryptedPdu The decrypted pdu. If no decryption is to be done, the passed context engine ID, context name and data could be used to fill this object.
-     * @return The security parameters.
+     * Cbllfd wifn b rfsponsf is rfdfivfd from tif nftwork. It ibndlfs butifntidbtion bnd privbdy. Tiis dbll is routfd to tif dfdidbtfd modfl bddording to tif modfl ID.
+     * <BR>Tif spfdififd pbrbmftfrs brf dffinfd in RFC 2572 (sff blso tif {@link dom.sun.jmx.snmp.SnmpV3Mfssbgf} dlbss).
+     * @pbrbm dbdif Tif dbdif tibt ibs bffn drfbtfd by dblling <CODE>drfbtfSfdurityCbdif</CODE> on tiis modfl.
+     * @pbrbm vfrsion Tif SNMP protodol vfrsion.
+     * @pbrbm msgID Tif durrfnt rfqufst id.
+     * @pbrbm msgMbxSizf Tif mfssbgf mbx sizf.
+     * @pbrbm msgFlbgs Tif mfssbgf flbgs (rfportbblf, Auti bnd Priv).
+     * @pbrbm msgSfdurityModfl Tiis durrfnt sfdurity modfl.
+     * @pbrbm pbrbms Tif sfdurity pbrbmftfrs in b mbrsibllfd formbt. Tif informbtions dointbinfd in tiis brrby brf modfl dfpfndbnt.
+     * @pbrbm dontfxtEnginfID Tif dontfxt fnginf ID or null if fndryptfd.
+     * @pbrbm dontfxtNbmf Tif dontfxt nbmf or null if fndryptfd.
+     * @pbrbm dbtb Tif mbrsibllfd vbrbind list or null if fndryptfd.
+     * @pbrbm fndryptfdPdu Tif fndryptfd pdu or null if not fndryptfd.
+     * @pbrbm dfdryptfdPdu Tif dfdryptfd pdu. If no dfdryption is to bf donf, tif pbssfd dontfxt fnginf ID, dontfxt nbmf bnd dbtb dould bf usfd to fill tiis objfdt.
+     * @rfturn Tif sfdurity pbrbmftfrs.
 
      */
-    public SnmpSecurityParameters processIncomingResponse(SnmpSecurityCache cache,
-                                                          int version,
+    publid SnmpSfdurityPbrbmftfrs prodfssIndomingRfsponsf(SnmpSfdurityCbdif dbdif,
+                                                          int vfrsion,
                                                           int msgID,
-                                                          int msgMaxSize,
-                                                          byte msgFlags,
-                                                          int msgSecurityModel,
-                                                          byte[] params,
-                                                          byte[] contextEngineID,
-                                                          byte[] contextName,
-                                                          byte[] data,
-                                                          byte[] encryptedPdu,
-                                                          SnmpDecryptedPdu decryptedPdu)
-        throws SnmpStatusException, SnmpSecurityException, SnmpUnknownSecModelException;
+                                                          int msgMbxSizf,
+                                                          bytf msgFlbgs,
+                                                          int msgSfdurityModfl,
+                                                          bytf[] pbrbms,
+                                                          bytf[] dontfxtEnginfID,
+                                                          bytf[] dontfxtNbmf,
+                                                          bytf[] dbtb,
+                                                          bytf[] fndryptfdPdu,
+                                                          SnmpDfdryptfdPdu dfdryptfdPdu)
+        tirows SnmpStbtusExdfption, SnmpSfdurityExdfption, SnmpUnknownSfdModflExdfption;
 }

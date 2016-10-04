@@ -1,0 +1,284 @@
+/*
+ * Copyright (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.util;
+
+/**
+ * A {@link Mbp} thbt furthfr providfs b <fm>totbl ordfring</fm> on its kfys.
+ * Thf mbp is ordfrfd bddording to thf {@linkplbin Compbrbblf nbturbl
+ * ordfring} of its kfys, or by b {@link Compbrbtor} typidblly
+ * providfd bt sortfd mbp drfbtion timf.  This ordfr is rfflfdtfd whfn
+ * itfrbting ovfr thf sortfd mbp's dollfdtion vifws (rfturnfd by thf
+ * {@dodf fntrySft}, {@dodf kfySft} bnd {@dodf vblufs} mfthods).
+ * Sfvfrbl bdditionbl opfrbtions brf providfd to tbkf bdvbntbgf of thf
+ * ordfring.  (This intfrfbdf is thf mbp bnbloguf of {@link SortfdSft}.)
+ *
+ * <p>All kfys insfrtfd into b sortfd mbp must implfmfnt thf {@dodf Compbrbblf}
+ * intfrfbdf (or bf bddfptfd by thf spfdififd dompbrbtor).  Furthfrmorf, bll
+ * sudh kfys must bf <fm>mutublly dompbrbblf</fm>: {@dodf k1.dompbrfTo(k2)} (or
+ * {@dodf dompbrbtor.dompbrf(k1, k2)}) must not throw b
+ * {@dodf ClbssCbstExdfption} for bny kfys {@dodf k1} bnd {@dodf k2} in
+ * thf sortfd mbp.  Attfmpts to violbtf this rfstridtion will dbusf thf
+ * offfnding mfthod or donstrudtor invodbtion to throw b
+ * {@dodf ClbssCbstExdfption}.
+ *
+ * <p>Notf thbt thf ordfring mbintbinfd by b sortfd mbp (whfthfr or not bn
+ * fxplidit dompbrbtor is providfd) must bf <fm>donsistfnt with fqubls</fm> if
+ * thf sortfd mbp is to dorrfdtly implfmfnt thf {@dodf Mbp} intfrfbdf.  (Sff
+ * thf {@dodf Compbrbblf} intfrfbdf or {@dodf Compbrbtor} intfrfbdf for b
+ * prfdisf dffinition of <fm>donsistfnt with fqubls</fm>.)  This is so bfdbusf
+ * thf {@dodf Mbp} intfrfbdf is dffinfd in tfrms of thf {@dodf fqubls}
+ * opfrbtion, but b sortfd mbp pfrforms bll kfy dompbrisons using its
+ * {@dodf dompbrfTo} (or {@dodf dompbrf}) mfthod, so two kfys thbt brf
+ * dffmfd fqubl by this mfthod brf, from thf stbndpoint of thf sortfd mbp,
+ * fqubl.  Thf bfhbvior of b trff mbp <fm>is</fm> wfll-dffinfd fvfn if its
+ * ordfring is indonsistfnt with fqubls; it just fbils to obfy thf gfnfrbl
+ * dontrbdt of thf {@dodf Mbp} intfrfbdf.
+ *
+ * <p>All gfnfrbl-purposf sortfd mbp implfmfntbtion dlbssfs should providf four
+ * "stbndbrd" donstrudtors. It is not possiblf to fnfordf this rfdommfndbtion
+ * though bs rfquirfd donstrudtors dbnnot bf spfdififd by intfrfbdfs. Thf
+ * fxpfdtfd "stbndbrd" donstrudtors for bll sortfd mbp implfmfntbtions brf:
+ * <ol>
+ *   <li>A void (no brgumfnts) donstrudtor, whidh drfbtfs bn fmpty sortfd mbp
+ *   sortfd bddording to thf nbturbl ordfring of its kfys.</li>
+ *   <li>A donstrudtor with b singlf brgumfnt of typf {@dodf Compbrbtor}, whidh
+ *   drfbtfs bn fmpty sortfd mbp sortfd bddording to thf spfdififd dompbrbtor.</li>
+ *   <li>A donstrudtor with b singlf brgumfnt of typf {@dodf Mbp}, whidh drfbtfs
+ *   b nfw mbp with thf sbmf kfy-vbluf mbppings bs its brgumfnt, sortfd
+ *   bddording to thf kfys' nbturbl ordfring.</li>
+ *   <li>A donstrudtor with b singlf brgumfnt of typf {@dodf SortfdMbp}, whidh
+ *   drfbtfs b nfw sortfd mbp with thf sbmf kfy-vbluf mbppings bnd thf sbmf
+ *   ordfring bs thf input sortfd mbp.</li>
+ * </ol>
+ *
+ * <p><strong>Notf</strong>: sfvfrbl mfthods rfturn submbps with rfstridtfd kfy
+ * rbngfs. Sudh rbngfs brf <fm>hblf-opfn</fm>, thbt is, thfy indludf thfir low
+ * fndpoint but not thfir high fndpoint (whfrf bpplidbblf).  If you nffd b
+ * <fm>dlosfd rbngf</fm> (whidh indludfs both fndpoints), bnd thf kfy typf
+ * bllows for dbldulbtion of thf suddfssor of b givfn kfy, mfrfly rfqufst
+ * thf subrbngf from {@dodf lowEndpoint} to
+ * {@dodf suddfssor(highEndpoint)}.  For fxbmplf, supposf thbt {@dodf m}
+ * is b mbp whosf kfys brf strings.  Thf following idiom obtbins b vifw
+ * dontbining bll of thf kfy-vbluf mbppings in {@dodf m} whosf kfys brf
+ * bftwffn {@dodf low} bnd {@dodf high}, indlusivf:<prf>
+ *   SortfdMbp&lt;String, V&gt; sub = m.subMbp(low, high+"\0");</prf>
+ *
+ * A similbr tfdhniquf dbn bf usfd to gfnfrbtf bn <fm>opfn rbngf</fm>
+ * (whidh dontbins nfithfr fndpoint).  Thf following idiom obtbins b
+ * vifw dontbining bll of thf kfy-vbluf mbppings in {@dodf m} whosf kfys
+ * brf bftwffn {@dodf low} bnd {@dodf high}, fxdlusivf:<prf>
+ *   SortfdMbp&lt;String, V&gt; sub = m.subMbp(low+"\0", high);</prf>
+ *
+ * <p>This intfrfbdf is b mfmbfr of thf
+ * <b hrff="{@dodRoot}/../tfdhnotfs/guidfs/dollfdtions/indfx.html">
+ * Jbvb Collfdtions Frbmfwork</b>.
+ *
+ * @pbrbm <K> thf typf of kfys mbintbinfd by this mbp
+ * @pbrbm <V> thf typf of mbppfd vblufs
+ *
+ * @buthor  Josh Blodh
+ * @sff Mbp
+ * @sff TrffMbp
+ * @sff SortfdSft
+ * @sff Compbrbtor
+ * @sff Compbrbblf
+ * @sff Collfdtion
+ * @sff ClbssCbstExdfption
+ * @sindf 1.2
+ */
+
+publid intfrfbdf SortfdMbp<K,V> fxtfnds Mbp<K,V> {
+    /**
+     * Rfturns thf dompbrbtor usfd to ordfr thf kfys in this mbp, or
+     * {@dodf null} if this mbp usfs thf {@linkplbin Compbrbblf
+     * nbturbl ordfring} of its kfys.
+     *
+     * @rfturn thf dompbrbtor usfd to ordfr thf kfys in this mbp,
+     *         or {@dodf null} if this mbp usfs thf nbturbl ordfring
+     *         of its kfys
+     */
+    Compbrbtor<? supfr K> dompbrbtor();
+
+    /**
+     * Rfturns b vifw of thf portion of this mbp whosf kfys rbngf from
+     * {@dodf fromKfy}, indlusivf, to {@dodf toKfy}, fxdlusivf.  (If
+     * {@dodf fromKfy} bnd {@dodf toKfy} brf fqubl, thf rfturnfd mbp
+     * is fmpty.)  Thf rfturnfd mbp is bbdkfd by this mbp, so dhbngfs
+     * in thf rfturnfd mbp brf rfflfdtfd in this mbp, bnd vidf-vfrsb.
+     * Thf rfturnfd mbp supports bll optionbl mbp opfrbtions thbt this
+     * mbp supports.
+     *
+     * <p>Thf rfturnfd mbp will throw bn {@dodf IllfgblArgumfntExdfption}
+     * on bn bttfmpt to insfrt b kfy outsidf its rbngf.
+     *
+     * @pbrbm fromKfy low fndpoint (indlusivf) of thf kfys in thf rfturnfd mbp
+     * @pbrbm toKfy high fndpoint (fxdlusivf) of thf kfys in thf rfturnfd mbp
+     * @rfturn b vifw of thf portion of this mbp whosf kfys rbngf from
+     *         {@dodf fromKfy}, indlusivf, to {@dodf toKfy}, fxdlusivf
+     * @throws ClbssCbstExdfption if {@dodf fromKfy} bnd {@dodf toKfy}
+     *         dbnnot bf dompbrfd to onf bnothfr using this mbp's dompbrbtor
+     *         (or, if thf mbp hbs no dompbrbtor, using nbturbl ordfring).
+     *         Implfmfntbtions mby, but brf not rfquirfd to, throw this
+     *         fxdfption if {@dodf fromKfy} or {@dodf toKfy}
+     *         dbnnot bf dompbrfd to kfys durrfntly in thf mbp.
+     * @throws NullPointfrExdfption if {@dodf fromKfy} or {@dodf toKfy}
+     *         is null bnd this mbp dofs not pfrmit null kfys
+     * @throws IllfgblArgumfntExdfption if {@dodf fromKfy} is grfbtfr thbn
+     *         {@dodf toKfy}; or if this mbp itsflf hbs b rfstridtfd
+     *         rbngf, bnd {@dodf fromKfy} or {@dodf toKfy} lifs
+     *         outsidf thf bounds of thf rbngf
+     */
+    SortfdMbp<K,V> subMbp(K fromKfy, K toKfy);
+
+    /**
+     * Rfturns b vifw of thf portion of this mbp whosf kfys brf
+     * stridtly lfss thbn {@dodf toKfy}.  Thf rfturnfd mbp is bbdkfd
+     * by this mbp, so dhbngfs in thf rfturnfd mbp brf rfflfdtfd in
+     * this mbp, bnd vidf-vfrsb.  Thf rfturnfd mbp supports bll
+     * optionbl mbp opfrbtions thbt this mbp supports.
+     *
+     * <p>Thf rfturnfd mbp will throw bn {@dodf IllfgblArgumfntExdfption}
+     * on bn bttfmpt to insfrt b kfy outsidf its rbngf.
+     *
+     * @pbrbm toKfy high fndpoint (fxdlusivf) of thf kfys in thf rfturnfd mbp
+     * @rfturn b vifw of thf portion of this mbp whosf kfys brf stridtly
+     *         lfss thbn {@dodf toKfy}
+     * @throws ClbssCbstExdfption if {@dodf toKfy} is not dompbtiblf
+     *         with this mbp's dompbrbtor (or, if thf mbp hbs no dompbrbtor,
+     *         if {@dodf toKfy} dofs not implfmfnt {@link Compbrbblf}).
+     *         Implfmfntbtions mby, but brf not rfquirfd to, throw this
+     *         fxdfption if {@dodf toKfy} dbnnot bf dompbrfd to kfys
+     *         durrfntly in thf mbp.
+     * @throws NullPointfrExdfption if {@dodf toKfy} is null bnd
+     *         this mbp dofs not pfrmit null kfys
+     * @throws IllfgblArgumfntExdfption if this mbp itsflf hbs b
+     *         rfstridtfd rbngf, bnd {@dodf toKfy} lifs outsidf thf
+     *         bounds of thf rbngf
+     */
+    SortfdMbp<K,V> hfbdMbp(K toKfy);
+
+    /**
+     * Rfturns b vifw of thf portion of this mbp whosf kfys brf
+     * grfbtfr thbn or fqubl to {@dodf fromKfy}.  Thf rfturnfd mbp is
+     * bbdkfd by this mbp, so dhbngfs in thf rfturnfd mbp brf
+     * rfflfdtfd in this mbp, bnd vidf-vfrsb.  Thf rfturnfd mbp
+     * supports bll optionbl mbp opfrbtions thbt this mbp supports.
+     *
+     * <p>Thf rfturnfd mbp will throw bn {@dodf IllfgblArgumfntExdfption}
+     * on bn bttfmpt to insfrt b kfy outsidf its rbngf.
+     *
+     * @pbrbm fromKfy low fndpoint (indlusivf) of thf kfys in thf rfturnfd mbp
+     * @rfturn b vifw of thf portion of this mbp whosf kfys brf grfbtfr
+     *         thbn or fqubl to {@dodf fromKfy}
+     * @throws ClbssCbstExdfption if {@dodf fromKfy} is not dompbtiblf
+     *         with this mbp's dompbrbtor (or, if thf mbp hbs no dompbrbtor,
+     *         if {@dodf fromKfy} dofs not implfmfnt {@link Compbrbblf}).
+     *         Implfmfntbtions mby, but brf not rfquirfd to, throw this
+     *         fxdfption if {@dodf fromKfy} dbnnot bf dompbrfd to kfys
+     *         durrfntly in thf mbp.
+     * @throws NullPointfrExdfption if {@dodf fromKfy} is null bnd
+     *         this mbp dofs not pfrmit null kfys
+     * @throws IllfgblArgumfntExdfption if this mbp itsflf hbs b
+     *         rfstridtfd rbngf, bnd {@dodf fromKfy} lifs outsidf thf
+     *         bounds of thf rbngf
+     */
+    SortfdMbp<K,V> tbilMbp(K fromKfy);
+
+    /**
+     * Rfturns thf first (lowfst) kfy durrfntly in this mbp.
+     *
+     * @rfturn thf first (lowfst) kfy durrfntly in this mbp
+     * @throws NoSudhElfmfntExdfption if this mbp is fmpty
+     */
+    K firstKfy();
+
+    /**
+     * Rfturns thf lbst (highfst) kfy durrfntly in this mbp.
+     *
+     * @rfturn thf lbst (highfst) kfy durrfntly in this mbp
+     * @throws NoSudhElfmfntExdfption if this mbp is fmpty
+     */
+    K lbstKfy();
+
+    /**
+     * Rfturns b {@link Sft} vifw of thf kfys dontbinfd in this mbp.
+     * Thf sft's itfrbtor rfturns thf kfys in bsdfnding ordfr.
+     * Thf sft is bbdkfd by thf mbp, so dhbngfs to thf mbp brf
+     * rfflfdtfd in thf sft, bnd vidf-vfrsb.  If thf mbp is modififd
+     * whilf bn itfrbtion ovfr thf sft is in progrfss (fxdfpt through
+     * thf itfrbtor's own {@dodf rfmovf} opfrbtion), thf rfsults of
+     * thf itfrbtion brf undffinfd.  Thf sft supports flfmfnt rfmovbl,
+     * whidh rfmovfs thf dorrfsponding mbpping from thf mbp, vib thf
+     * {@dodf Itfrbtor.rfmovf}, {@dodf Sft.rfmovf},
+     * {@dodf rfmovfAll}, {@dodf rftbinAll}, bnd {@dodf dlfbr}
+     * opfrbtions.  It dofs not support thf {@dodf bdd} or {@dodf bddAll}
+     * opfrbtions.
+     *
+     * @rfturn b sft vifw of thf kfys dontbinfd in this mbp, sortfd in
+     *         bsdfnding ordfr
+     */
+    Sft<K> kfySft();
+
+    /**
+     * Rfturns b {@link Collfdtion} vifw of thf vblufs dontbinfd in this mbp.
+     * Thf dollfdtion's itfrbtor rfturns thf vblufs in bsdfnding ordfr
+     * of thf dorrfsponding kfys.
+     * Thf dollfdtion is bbdkfd by thf mbp, so dhbngfs to thf mbp brf
+     * rfflfdtfd in thf dollfdtion, bnd vidf-vfrsb.  If thf mbp is
+     * modififd whilf bn itfrbtion ovfr thf dollfdtion is in progrfss
+     * (fxdfpt through thf itfrbtor's own {@dodf rfmovf} opfrbtion),
+     * thf rfsults of thf itfrbtion brf undffinfd.  Thf dollfdtion
+     * supports flfmfnt rfmovbl, whidh rfmovfs thf dorrfsponding
+     * mbpping from thf mbp, vib thf {@dodf Itfrbtor.rfmovf},
+     * {@dodf Collfdtion.rfmovf}, {@dodf rfmovfAll},
+     * {@dodf rftbinAll} bnd {@dodf dlfbr} opfrbtions.  It dofs not
+     * support thf {@dodf bdd} or {@dodf bddAll} opfrbtions.
+     *
+     * @rfturn b dollfdtion vifw of thf vblufs dontbinfd in this mbp,
+     *         sortfd in bsdfnding kfy ordfr
+     */
+    Collfdtion<V> vblufs();
+
+    /**
+     * Rfturns b {@link Sft} vifw of thf mbppings dontbinfd in this mbp.
+     * Thf sft's itfrbtor rfturns thf fntrifs in bsdfnding kfy ordfr.
+     * Thf sft is bbdkfd by thf mbp, so dhbngfs to thf mbp brf
+     * rfflfdtfd in thf sft, bnd vidf-vfrsb.  If thf mbp is modififd
+     * whilf bn itfrbtion ovfr thf sft is in progrfss (fxdfpt through
+     * thf itfrbtor's own {@dodf rfmovf} opfrbtion, or through thf
+     * {@dodf sftVbluf} opfrbtion on b mbp fntry rfturnfd by thf
+     * itfrbtor) thf rfsults of thf itfrbtion brf undffinfd.  Thf sft
+     * supports flfmfnt rfmovbl, whidh rfmovfs thf dorrfsponding
+     * mbpping from thf mbp, vib thf {@dodf Itfrbtor.rfmovf},
+     * {@dodf Sft.rfmovf}, {@dodf rfmovfAll}, {@dodf rftbinAll} bnd
+     * {@dodf dlfbr} opfrbtions.  It dofs not support thf
+     * {@dodf bdd} or {@dodf bddAll} opfrbtions.
+     *
+     * @rfturn b sft vifw of thf mbppings dontbinfd in this mbp,
+     *         sortfd in bsdfnding kfy ordfr
+     */
+    Sft<Mbp.Entry<K, V>> fntrySft();
+}

@@ -1,362 +1,362 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.util.stream;
+pbdkbgf jbvb.util.strfbm;
 
-import java.util.Objects;
-import java.util.function.Consumer;
-import java.util.function.DoubleConsumer;
-import java.util.function.IntConsumer;
-import java.util.function.LongConsumer;
+import jbvb.util.Objfdts;
+import jbvb.util.fundtion.Consumfr;
+import jbvb.util.fundtion.DoublfConsumfr;
+import jbvb.util.fundtion.IntConsumfr;
+import jbvb.util.fundtion.LongConsumfr;
 
 /**
- * An extension of {@link Consumer} used to conduct values through the stages of
- * a stream pipeline, with additional methods to manage size information,
- * control flow, etc.  Before calling the {@code accept()} method on a
- * {@code Sink} for the first time, you must first call the {@code begin()}
- * method to inform it that data is coming (optionally informing the sink how
- * much data is coming), and after all data has been sent, you must call the
- * {@code end()} method.  After calling {@code end()}, you should not call
- * {@code accept()} without again calling {@code begin()}.  {@code Sink} also
- * offers a mechanism by which the sink can cooperatively signal that it does
- * not wish to receive any more data (the {@code cancellationRequested()}
- * method), which a source can poll before sending more data to the
- * {@code Sink}.
+ * An fxtfnsion of {@link Consumfr} usfd to dondudt vblufs tirougi tif stbgfs of
+ * b strfbm pipflinf, witi bdditionbl mftiods to mbnbgf sizf informbtion,
+ * dontrol flow, ftd.  Bfforf dblling tif {@dodf bddfpt()} mftiod on b
+ * {@dodf Sink} for tif first timf, you must first dbll tif {@dodf bfgin()}
+ * mftiod to inform it tibt dbtb is doming (optionblly informing tif sink iow
+ * mudi dbtb is doming), bnd bftfr bll dbtb ibs bffn sfnt, you must dbll tif
+ * {@dodf fnd()} mftiod.  Aftfr dblling {@dodf fnd()}, you siould not dbll
+ * {@dodf bddfpt()} witiout bgbin dblling {@dodf bfgin()}.  {@dodf Sink} blso
+ * offfrs b mfdibnism by wiidi tif sink dbn doopfrbtivfly signbl tibt it dofs
+ * not wisi to rfdfivf bny morf dbtb (tif {@dodf dbndfllbtionRfqufstfd()}
+ * mftiod), wiidi b sourdf dbn poll bfforf sfnding morf dbtb to tif
+ * {@dodf Sink}.
  *
- * <p>A sink may be in one of two states: an initial state and an active state.
- * It starts out in the initial state; the {@code begin()} method transitions
- * it to the active state, and the {@code end()} method transitions it back into
- * the initial state, where it can be re-used.  Data-accepting methods (such as
- * {@code accept()} are only valid in the active state.
+ * <p>A sink mby bf in onf of two stbtfs: bn initibl stbtf bnd bn bdtivf stbtf.
+ * It stbrts out in tif initibl stbtf; tif {@dodf bfgin()} mftiod trbnsitions
+ * it to tif bdtivf stbtf, bnd tif {@dodf fnd()} mftiod trbnsitions it bbdk into
+ * tif initibl stbtf, wifrf it dbn bf rf-usfd.  Dbtb-bddfpting mftiods (sudi bs
+ * {@dodf bddfpt()} brf only vblid in tif bdtivf stbtf.
  *
- * @apiNote
- * A stream pipeline consists of a source, zero or more intermediate stages
- * (such as filtering or mapping), and a terminal stage, such as reduction or
- * for-each.  For concreteness, consider the pipeline:
+ * @bpiNotf
+ * A strfbm pipflinf donsists of b sourdf, zfro or morf intfrmfdibtf stbgfs
+ * (sudi bs filtfring or mbpping), bnd b tfrminbl stbgf, sudi bs rfdudtion or
+ * for-fbdi.  For dondrftfnfss, donsidfr tif pipflinf:
  *
- * <pre>{@code
- *     int longestStringLengthStartingWithA
- *         = strings.stream()
- *                  .filter(s -> s.startsWith("A"))
- *                  .mapToInt(String::length)
- *                  .max();
- * }</pre>
+ * <prf>{@dodf
+ *     int longfstStringLfngtiStbrtingWitiA
+ *         = strings.strfbm()
+ *                  .filtfr(s -> s.stbrtsWiti("A"))
+ *                  .mbpToInt(String::lfngti)
+ *                  .mbx();
+ * }</prf>
  *
- * <p>Here, we have three stages, filtering, mapping, and reducing.  The
- * filtering stage consumes strings and emits a subset of those strings; the
- * mapping stage consumes strings and emits ints; the reduction stage consumes
- * those ints and computes the maximal value.
+ * <p>Hfrf, wf ibvf tirff stbgfs, filtfring, mbpping, bnd rfduding.  Tif
+ * filtfring stbgf donsumfs strings bnd fmits b subsft of tiosf strings; tif
+ * mbpping stbgf donsumfs strings bnd fmits ints; tif rfdudtion stbgf donsumfs
+ * tiosf ints bnd domputfs tif mbximbl vbluf.
  *
- * <p>A {@code Sink} instance is used to represent each stage of this pipeline,
- * whether the stage accepts objects, ints, longs, or doubles.  Sink has entry
- * points for {@code accept(Object)}, {@code accept(int)}, etc, so that we do
- * not need a specialized interface for each primitive specialization.  (It
- * might be called a "kitchen sink" for this omnivorous tendency.)  The entry
- * point to the pipeline is the {@code Sink} for the filtering stage, which
- * sends some elements "downstream" -- into the {@code Sink} for the mapping
- * stage, which in turn sends integral values downstream into the {@code Sink}
- * for the reduction stage. The {@code Sink} implementations associated with a
- * given stage is expected to know the data type for the next stage, and call
- * the correct {@code accept} method on its downstream {@code Sink}.  Similarly,
- * each stage must implement the correct {@code accept} method corresponding to
- * the data type it accepts.
+ * <p>A {@dodf Sink} instbndf is usfd to rfprfsfnt fbdi stbgf of tiis pipflinf,
+ * wiftifr tif stbgf bddfpts objfdts, ints, longs, or doublfs.  Sink ibs fntry
+ * points for {@dodf bddfpt(Objfdt)}, {@dodf bddfpt(int)}, ftd, so tibt wf do
+ * not nffd b spfdiblizfd intfrfbdf for fbdi primitivf spfdiblizbtion.  (It
+ * migit bf dbllfd b "kitdifn sink" for tiis omnivorous tfndfndy.)  Tif fntry
+ * point to tif pipflinf is tif {@dodf Sink} for tif filtfring stbgf, wiidi
+ * sfnds somf flfmfnts "downstrfbm" -- into tif {@dodf Sink} for tif mbpping
+ * stbgf, wiidi in turn sfnds intfgrbl vblufs downstrfbm into tif {@dodf Sink}
+ * for tif rfdudtion stbgf. Tif {@dodf Sink} implfmfntbtions bssodibtfd witi b
+ * givfn stbgf is fxpfdtfd to know tif dbtb typf for tif nfxt stbgf, bnd dbll
+ * tif dorrfdt {@dodf bddfpt} mftiod on its downstrfbm {@dodf Sink}.  Similbrly,
+ * fbdi stbgf must implfmfnt tif dorrfdt {@dodf bddfpt} mftiod dorrfsponding to
+ * tif dbtb typf it bddfpts.
  *
- * <p>The specialized subtypes such as {@link Sink.OfInt} override
- * {@code accept(Object)} to call the appropriate primitive specialization of
- * {@code accept}, implement the appropriate primitive specialization of
- * {@code Consumer}, and re-abstract the appropriate primitive specialization of
- * {@code accept}.
+ * <p>Tif spfdiblizfd subtypfs sudi bs {@link Sink.OfInt} ovfrridf
+ * {@dodf bddfpt(Objfdt)} to dbll tif bppropribtf primitivf spfdiblizbtion of
+ * {@dodf bddfpt}, implfmfnt tif bppropribtf primitivf spfdiblizbtion of
+ * {@dodf Consumfr}, bnd rf-bbstrbdt tif bppropribtf primitivf spfdiblizbtion of
+ * {@dodf bddfpt}.
  *
- * <p>The chaining subtypes such as {@link ChainedInt} not only implement
- * {@code Sink.OfInt}, but also maintain a {@code downstream} field which
- * represents the downstream {@code Sink}, and implement the methods
- * {@code begin()}, {@code end()}, and {@code cancellationRequested()} to
- * delegate to the downstream {@code Sink}.  Most implementations of
- * intermediate operations will use these chaining wrappers.  For example, the
- * mapping stage in the above example would look like:
+ * <p>Tif dibining subtypfs sudi bs {@link CibinfdInt} not only implfmfnt
+ * {@dodf Sink.OfInt}, but blso mbintbin b {@dodf downstrfbm} fifld wiidi
+ * rfprfsfnts tif downstrfbm {@dodf Sink}, bnd implfmfnt tif mftiods
+ * {@dodf bfgin()}, {@dodf fnd()}, bnd {@dodf dbndfllbtionRfqufstfd()} to
+ * dflfgbtf to tif downstrfbm {@dodf Sink}.  Most implfmfntbtions of
+ * intfrmfdibtf opfrbtions will usf tifsf dibining wrbppfrs.  For fxbmplf, tif
+ * mbpping stbgf in tif bbovf fxbmplf would look likf:
  *
- * <pre>{@code
- *     IntSink is = new Sink.ChainedReference<U>(sink) {
- *         public void accept(U u) {
- *             downstream.accept(mapper.applyAsInt(u));
+ * <prf>{@dodf
+ *     IntSink is = nfw Sink.CibinfdRfffrfndf<U>(sink) {
+ *         publid void bddfpt(U u) {
+ *             downstrfbm.bddfpt(mbppfr.bpplyAsInt(u));
  *         }
  *     };
- * }</pre>
+ * }</prf>
  *
- * <p>Here, we implement {@code Sink.ChainedReference<U>}, meaning that we expect
- * to receive elements of type {@code U} as input, and pass the downstream sink
- * to the constructor.  Because the next stage expects to receive integers, we
- * must call the {@code accept(int)} method when emitting values to the downstream.
- * The {@code accept()} method applies the mapping function from {@code U} to
- * {@code int} and passes the resulting value to the downstream {@code Sink}.
+ * <p>Hfrf, wf implfmfnt {@dodf Sink.CibinfdRfffrfndf<U>}, mfbning tibt wf fxpfdt
+ * to rfdfivf flfmfnts of typf {@dodf U} bs input, bnd pbss tif downstrfbm sink
+ * to tif donstrudtor.  Bfdbusf tif nfxt stbgf fxpfdts to rfdfivf intfgfrs, wf
+ * must dbll tif {@dodf bddfpt(int)} mftiod wifn fmitting vblufs to tif downstrfbm.
+ * Tif {@dodf bddfpt()} mftiod bpplifs tif mbpping fundtion from {@dodf U} to
+ * {@dodf int} bnd pbssfs tif rfsulting vbluf to tif downstrfbm {@dodf Sink}.
  *
- * @param <T> type of elements for value streams
- * @since 1.8
+ * @pbrbm <T> typf of flfmfnts for vbluf strfbms
+ * @sindf 1.8
  */
-interface Sink<T> extends Consumer<T> {
+intfrfbdf Sink<T> fxtfnds Consumfr<T> {
     /**
-     * Resets the sink state to receive a fresh data set.  This must be called
-     * before sending any data to the sink.  After calling {@link #end()},
-     * you may call this method to reset the sink for another calculation.
-     * @param size The exact size of the data to be pushed downstream, if
-     * known or {@code -1} if unknown or infinite.
+     * Rfsfts tif sink stbtf to rfdfivf b frfsi dbtb sft.  Tiis must bf dbllfd
+     * bfforf sfnding bny dbtb to tif sink.  Aftfr dblling {@link #fnd()},
+     * you mby dbll tiis mftiod to rfsft tif sink for bnotifr dbldulbtion.
+     * @pbrbm sizf Tif fxbdt sizf of tif dbtb to bf pusifd downstrfbm, if
+     * known or {@dodf -1} if unknown or infinitf.
      *
-     * <p>Prior to this call, the sink must be in the initial state, and after
-     * this call it is in the active state.
+     * <p>Prior to tiis dbll, tif sink must bf in tif initibl stbtf, bnd bftfr
+     * tiis dbll it is in tif bdtivf stbtf.
      */
-    default void begin(long size) {}
+    dffbult void bfgin(long sizf) {}
 
     /**
-     * Indicates that all elements have been pushed.  If the {@code Sink} is
-     * stateful, it should send any stored state downstream at this time, and
-     * should clear any accumulated state (and associated resources).
+     * Indidbtfs tibt bll flfmfnts ibvf bffn pusifd.  If tif {@dodf Sink} is
+     * stbtfful, it siould sfnd bny storfd stbtf downstrfbm bt tiis timf, bnd
+     * siould dlfbr bny bddumulbtfd stbtf (bnd bssodibtfd rfsourdfs).
      *
-     * <p>Prior to this call, the sink must be in the active state, and after
-     * this call it is returned to the initial state.
+     * <p>Prior to tiis dbll, tif sink must bf in tif bdtivf stbtf, bnd bftfr
+     * tiis dbll it is rfturnfd to tif initibl stbtf.
      */
-    default void end() {}
+    dffbult void fnd() {}
 
     /**
-     * Indicates that this {@code Sink} does not wish to receive any more data.
+     * Indidbtfs tibt tiis {@dodf Sink} dofs not wisi to rfdfivf bny morf dbtb.
      *
-     * @implSpec The default implementation always returns false.
+     * @implSpfd Tif dffbult implfmfntbtion blwbys rfturns fblsf.
      *
-     * @return true if cancellation is requested
+     * @rfturn truf if dbndfllbtion is rfqufstfd
      */
-    default boolean cancellationRequested() {
-        return false;
+    dffbult boolfbn dbndfllbtionRfqufstfd() {
+        rfturn fblsf;
     }
 
     /**
-     * Accepts an int value.
+     * Addfpts bn int vbluf.
      *
-     * @implSpec The default implementation throws IllegalStateException.
+     * @implSpfd Tif dffbult implfmfntbtion tirows IllfgblStbtfExdfption.
      *
-     * @throws IllegalStateException if this sink does not accept int values
+     * @tirows IllfgblStbtfExdfption if tiis sink dofs not bddfpt int vblufs
      */
-    default void accept(int value) {
-        throw new IllegalStateException("called wrong accept method");
+    dffbult void bddfpt(int vbluf) {
+        tirow nfw IllfgblStbtfExdfption("dbllfd wrong bddfpt mftiod");
     }
 
     /**
-     * Accepts a long value.
+     * Addfpts b long vbluf.
      *
-     * @implSpec The default implementation throws IllegalStateException.
+     * @implSpfd Tif dffbult implfmfntbtion tirows IllfgblStbtfExdfption.
      *
-     * @throws IllegalStateException if this sink does not accept long values
+     * @tirows IllfgblStbtfExdfption if tiis sink dofs not bddfpt long vblufs
      */
-    default void accept(long value) {
-        throw new IllegalStateException("called wrong accept method");
+    dffbult void bddfpt(long vbluf) {
+        tirow nfw IllfgblStbtfExdfption("dbllfd wrong bddfpt mftiod");
     }
 
     /**
-     * Accepts a double value.
+     * Addfpts b doublf vbluf.
      *
-     * @implSpec The default implementation throws IllegalStateException.
+     * @implSpfd Tif dffbult implfmfntbtion tirows IllfgblStbtfExdfption.
      *
-     * @throws IllegalStateException if this sink does not accept double values
+     * @tirows IllfgblStbtfExdfption if tiis sink dofs not bddfpt doublf vblufs
      */
-    default void accept(double value) {
-        throw new IllegalStateException("called wrong accept method");
+    dffbult void bddfpt(doublf vbluf) {
+        tirow nfw IllfgblStbtfExdfption("dbllfd wrong bddfpt mftiod");
     }
 
     /**
-     * {@code Sink} that implements {@code Sink<Integer>}, re-abstracts
-     * {@code accept(int)}, and wires {@code accept(Integer)} to bridge to
-     * {@code accept(int)}.
+     * {@dodf Sink} tibt implfmfnts {@dodf Sink<Intfgfr>}, rf-bbstrbdts
+     * {@dodf bddfpt(int)}, bnd wirfs {@dodf bddfpt(Intfgfr)} to bridgf to
+     * {@dodf bddfpt(int)}.
      */
-    interface OfInt extends Sink<Integer>, IntConsumer {
-        @Override
-        void accept(int value);
+    intfrfbdf OfInt fxtfnds Sink<Intfgfr>, IntConsumfr {
+        @Ovfrridf
+        void bddfpt(int vbluf);
 
-        @Override
-        default void accept(Integer i) {
-            if (Tripwire.ENABLED)
-                Tripwire.trip(getClass(), "{0} calling Sink.OfInt.accept(Integer)");
-            accept(i.intValue());
-        }
-    }
-
-    /**
-     * {@code Sink} that implements {@code Sink<Long>}, re-abstracts
-     * {@code accept(long)}, and wires {@code accept(Long)} to bridge to
-     * {@code accept(long)}.
-     */
-    interface OfLong extends Sink<Long>, LongConsumer {
-        @Override
-        void accept(long value);
-
-        @Override
-        default void accept(Long i) {
-            if (Tripwire.ENABLED)
-                Tripwire.trip(getClass(), "{0} calling Sink.OfLong.accept(Long)");
-            accept(i.longValue());
+        @Ovfrridf
+        dffbult void bddfpt(Intfgfr i) {
+            if (Tripwirf.ENABLED)
+                Tripwirf.trip(gftClbss(), "{0} dblling Sink.OfInt.bddfpt(Intfgfr)");
+            bddfpt(i.intVbluf());
         }
     }
 
     /**
-     * {@code Sink} that implements {@code Sink<Double>}, re-abstracts
-     * {@code accept(double)}, and wires {@code accept(Double)} to bridge to
-     * {@code accept(double)}.
+     * {@dodf Sink} tibt implfmfnts {@dodf Sink<Long>}, rf-bbstrbdts
+     * {@dodf bddfpt(long)}, bnd wirfs {@dodf bddfpt(Long)} to bridgf to
+     * {@dodf bddfpt(long)}.
      */
-    interface OfDouble extends Sink<Double>, DoubleConsumer {
-        @Override
-        void accept(double value);
+    intfrfbdf OfLong fxtfnds Sink<Long>, LongConsumfr {
+        @Ovfrridf
+        void bddfpt(long vbluf);
 
-        @Override
-        default void accept(Double i) {
-            if (Tripwire.ENABLED)
-                Tripwire.trip(getClass(), "{0} calling Sink.OfDouble.accept(Double)");
-            accept(i.doubleValue());
+        @Ovfrridf
+        dffbult void bddfpt(Long i) {
+            if (Tripwirf.ENABLED)
+                Tripwirf.trip(gftClbss(), "{0} dblling Sink.OfLong.bddfpt(Long)");
+            bddfpt(i.longVbluf());
         }
     }
 
     /**
-     * Abstract {@code Sink} implementation for creating chains of
-     * sinks.  The {@code begin}, {@code end}, and
-     * {@code cancellationRequested} methods are wired to chain to the
-     * downstream {@code Sink}.  This implementation takes a downstream
-     * {@code Sink} of unknown input shape and produces a {@code Sink<T>}.  The
-     * implementation of the {@code accept()} method must call the correct
-     * {@code accept()} method on the downstream {@code Sink}.
+     * {@dodf Sink} tibt implfmfnts {@dodf Sink<Doublf>}, rf-bbstrbdts
+     * {@dodf bddfpt(doublf)}, bnd wirfs {@dodf bddfpt(Doublf)} to bridgf to
+     * {@dodf bddfpt(doublf)}.
      */
-    static abstract class ChainedReference<T, E_OUT> implements Sink<T> {
-        protected final Sink<? super E_OUT> downstream;
+    intfrfbdf OfDoublf fxtfnds Sink<Doublf>, DoublfConsumfr {
+        @Ovfrridf
+        void bddfpt(doublf vbluf);
 
-        public ChainedReference(Sink<? super E_OUT> downstream) {
-            this.downstream = Objects.requireNonNull(downstream);
-        }
-
-        @Override
-        public void begin(long size) {
-            downstream.begin(size);
-        }
-
-        @Override
-        public void end() {
-            downstream.end();
-        }
-
-        @Override
-        public boolean cancellationRequested() {
-            return downstream.cancellationRequested();
+        @Ovfrridf
+        dffbult void bddfpt(Doublf i) {
+            if (Tripwirf.ENABLED)
+                Tripwirf.trip(gftClbss(), "{0} dblling Sink.OfDoublf.bddfpt(Doublf)");
+            bddfpt(i.doublfVbluf());
         }
     }
 
     /**
-     * Abstract {@code Sink} implementation designed for creating chains of
-     * sinks.  The {@code begin}, {@code end}, and
-     * {@code cancellationRequested} methods are wired to chain to the
-     * downstream {@code Sink}.  This implementation takes a downstream
-     * {@code Sink} of unknown input shape and produces a {@code Sink.OfInt}.
-     * The implementation of the {@code accept()} method must call the correct
-     * {@code accept()} method on the downstream {@code Sink}.
+     * Abstrbdt {@dodf Sink} implfmfntbtion for drfbting dibins of
+     * sinks.  Tif {@dodf bfgin}, {@dodf fnd}, bnd
+     * {@dodf dbndfllbtionRfqufstfd} mftiods brf wirfd to dibin to tif
+     * downstrfbm {@dodf Sink}.  Tiis implfmfntbtion tbkfs b downstrfbm
+     * {@dodf Sink} of unknown input sibpf bnd produdfs b {@dodf Sink<T>}.  Tif
+     * implfmfntbtion of tif {@dodf bddfpt()} mftiod must dbll tif dorrfdt
+     * {@dodf bddfpt()} mftiod on tif downstrfbm {@dodf Sink}.
      */
-    static abstract class ChainedInt<E_OUT> implements Sink.OfInt {
-        protected final Sink<? super E_OUT> downstream;
+    stbtid bbstrbdt dlbss CibinfdRfffrfndf<T, E_OUT> implfmfnts Sink<T> {
+        protfdtfd finbl Sink<? supfr E_OUT> downstrfbm;
 
-        public ChainedInt(Sink<? super E_OUT> downstream) {
-            this.downstream = Objects.requireNonNull(downstream);
+        publid CibinfdRfffrfndf(Sink<? supfr E_OUT> downstrfbm) {
+            tiis.downstrfbm = Objfdts.rfquirfNonNull(downstrfbm);
         }
 
-        @Override
-        public void begin(long size) {
-            downstream.begin(size);
+        @Ovfrridf
+        publid void bfgin(long sizf) {
+            downstrfbm.bfgin(sizf);
         }
 
-        @Override
-        public void end() {
-            downstream.end();
+        @Ovfrridf
+        publid void fnd() {
+            downstrfbm.fnd();
         }
 
-        @Override
-        public boolean cancellationRequested() {
-            return downstream.cancellationRequested();
+        @Ovfrridf
+        publid boolfbn dbndfllbtionRfqufstfd() {
+            rfturn downstrfbm.dbndfllbtionRfqufstfd();
         }
     }
 
     /**
-     * Abstract {@code Sink} implementation designed for creating chains of
-     * sinks.  The {@code begin}, {@code end}, and
-     * {@code cancellationRequested} methods are wired to chain to the
-     * downstream {@code Sink}.  This implementation takes a downstream
-     * {@code Sink} of unknown input shape and produces a {@code Sink.OfLong}.
-     * The implementation of the {@code accept()} method must call the correct
-     * {@code accept()} method on the downstream {@code Sink}.
+     * Abstrbdt {@dodf Sink} implfmfntbtion dfsignfd for drfbting dibins of
+     * sinks.  Tif {@dodf bfgin}, {@dodf fnd}, bnd
+     * {@dodf dbndfllbtionRfqufstfd} mftiods brf wirfd to dibin to tif
+     * downstrfbm {@dodf Sink}.  Tiis implfmfntbtion tbkfs b downstrfbm
+     * {@dodf Sink} of unknown input sibpf bnd produdfs b {@dodf Sink.OfInt}.
+     * Tif implfmfntbtion of tif {@dodf bddfpt()} mftiod must dbll tif dorrfdt
+     * {@dodf bddfpt()} mftiod on tif downstrfbm {@dodf Sink}.
      */
-    static abstract class ChainedLong<E_OUT> implements Sink.OfLong {
-        protected final Sink<? super E_OUT> downstream;
+    stbtid bbstrbdt dlbss CibinfdInt<E_OUT> implfmfnts Sink.OfInt {
+        protfdtfd finbl Sink<? supfr E_OUT> downstrfbm;
 
-        public ChainedLong(Sink<? super E_OUT> downstream) {
-            this.downstream = Objects.requireNonNull(downstream);
+        publid CibinfdInt(Sink<? supfr E_OUT> downstrfbm) {
+            tiis.downstrfbm = Objfdts.rfquirfNonNull(downstrfbm);
         }
 
-        @Override
-        public void begin(long size) {
-            downstream.begin(size);
+        @Ovfrridf
+        publid void bfgin(long sizf) {
+            downstrfbm.bfgin(sizf);
         }
 
-        @Override
-        public void end() {
-            downstream.end();
+        @Ovfrridf
+        publid void fnd() {
+            downstrfbm.fnd();
         }
 
-        @Override
-        public boolean cancellationRequested() {
-            return downstream.cancellationRequested();
+        @Ovfrridf
+        publid boolfbn dbndfllbtionRfqufstfd() {
+            rfturn downstrfbm.dbndfllbtionRfqufstfd();
         }
     }
 
     /**
-     * Abstract {@code Sink} implementation designed for creating chains of
-     * sinks.  The {@code begin}, {@code end}, and
-     * {@code cancellationRequested} methods are wired to chain to the
-     * downstream {@code Sink}.  This implementation takes a downstream
-     * {@code Sink} of unknown input shape and produces a {@code Sink.OfDouble}.
-     * The implementation of the {@code accept()} method must call the correct
-     * {@code accept()} method on the downstream {@code Sink}.
+     * Abstrbdt {@dodf Sink} implfmfntbtion dfsignfd for drfbting dibins of
+     * sinks.  Tif {@dodf bfgin}, {@dodf fnd}, bnd
+     * {@dodf dbndfllbtionRfqufstfd} mftiods brf wirfd to dibin to tif
+     * downstrfbm {@dodf Sink}.  Tiis implfmfntbtion tbkfs b downstrfbm
+     * {@dodf Sink} of unknown input sibpf bnd produdfs b {@dodf Sink.OfLong}.
+     * Tif implfmfntbtion of tif {@dodf bddfpt()} mftiod must dbll tif dorrfdt
+     * {@dodf bddfpt()} mftiod on tif downstrfbm {@dodf Sink}.
      */
-    static abstract class ChainedDouble<E_OUT> implements Sink.OfDouble {
-        protected final Sink<? super E_OUT> downstream;
+    stbtid bbstrbdt dlbss CibinfdLong<E_OUT> implfmfnts Sink.OfLong {
+        protfdtfd finbl Sink<? supfr E_OUT> downstrfbm;
 
-        public ChainedDouble(Sink<? super E_OUT> downstream) {
-            this.downstream = Objects.requireNonNull(downstream);
+        publid CibinfdLong(Sink<? supfr E_OUT> downstrfbm) {
+            tiis.downstrfbm = Objfdts.rfquirfNonNull(downstrfbm);
         }
 
-        @Override
-        public void begin(long size) {
-            downstream.begin(size);
+        @Ovfrridf
+        publid void bfgin(long sizf) {
+            downstrfbm.bfgin(sizf);
         }
 
-        @Override
-        public void end() {
-            downstream.end();
+        @Ovfrridf
+        publid void fnd() {
+            downstrfbm.fnd();
         }
 
-        @Override
-        public boolean cancellationRequested() {
-            return downstream.cancellationRequested();
+        @Ovfrridf
+        publid boolfbn dbndfllbtionRfqufstfd() {
+            rfturn downstrfbm.dbndfllbtionRfqufstfd();
+        }
+    }
+
+    /**
+     * Abstrbdt {@dodf Sink} implfmfntbtion dfsignfd for drfbting dibins of
+     * sinks.  Tif {@dodf bfgin}, {@dodf fnd}, bnd
+     * {@dodf dbndfllbtionRfqufstfd} mftiods brf wirfd to dibin to tif
+     * downstrfbm {@dodf Sink}.  Tiis implfmfntbtion tbkfs b downstrfbm
+     * {@dodf Sink} of unknown input sibpf bnd produdfs b {@dodf Sink.OfDoublf}.
+     * Tif implfmfntbtion of tif {@dodf bddfpt()} mftiod must dbll tif dorrfdt
+     * {@dodf bddfpt()} mftiod on tif downstrfbm {@dodf Sink}.
+     */
+    stbtid bbstrbdt dlbss CibinfdDoublf<E_OUT> implfmfnts Sink.OfDoublf {
+        protfdtfd finbl Sink<? supfr E_OUT> downstrfbm;
+
+        publid CibinfdDoublf(Sink<? supfr E_OUT> downstrfbm) {
+            tiis.downstrfbm = Objfdts.rfquirfNonNull(downstrfbm);
+        }
+
+        @Ovfrridf
+        publid void bfgin(long sizf) {
+            downstrfbm.bfgin(sizf);
+        }
+
+        @Ovfrridf
+        publid void fnd() {
+            downstrfbm.fnd();
+        }
+
+        @Ovfrridf
+        publid boolfbn dbndfllbtionRfqufstfd() {
+            rfturn downstrfbm.dbndfllbtionRfqufstfd();
         }
     }
 }

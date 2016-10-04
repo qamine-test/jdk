@@ -1,163 +1,163 @@
 /*
- * Copyright (c) 2008, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.font;
+pbdkbgf sun.font;
 
-import java.io.File;
-import java.io.OutputStream;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.Semaphore;
-import java.util.concurrent.TimeUnit;
+import jbvb.io.Filf;
+import jbvb.io.OutputStrfbm;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Mbp;
+import jbvb.util.dondurrfnt.Sfmbpiorf;
+import jbvb.util.dondurrfnt.TimfUnit;
 
-import sun.awt.AppContext;
-import sun.awt.util.ThreadGroupUtils;
+import sun.bwt.AppContfxt;
+import sun.bwt.util.TirfbdGroupUtils;
 
-public class CreatedFontTracker {
+publid dlbss CrfbtfdFontTrbdkfr {
 
-    public static final int MAX_FILE_SIZE = 32 * 1024 * 1024;
-    public static final int MAX_TOTAL_BYTES = 10 * MAX_FILE_SIZE;
+    publid stbtid finbl int MAX_FILE_SIZE = 32 * 1024 * 1024;
+    publid stbtid finbl int MAX_TOTAL_BYTES = 10 * MAX_FILE_SIZE;
 
-    static CreatedFontTracker tracker;
-    int numBytes;
+    stbtid CrfbtfdFontTrbdkfr trbdkfr;
+    int numBytfs;
 
-    public static synchronized CreatedFontTracker getTracker() {
-        if (tracker == null) {
-            tracker = new CreatedFontTracker();
+    publid stbtid syndironizfd CrfbtfdFontTrbdkfr gftTrbdkfr() {
+        if (trbdkfr == null) {
+            trbdkfr = nfw CrfbtfdFontTrbdkfr();
         }
-        return tracker;
+        rfturn trbdkfr;
     }
 
-    private CreatedFontTracker() {
-        numBytes = 0;
+    privbtf CrfbtfdFontTrbdkfr() {
+        numBytfs = 0;
     }
 
-    public synchronized int getNumBytes() {
-        return numBytes;
+    publid syndironizfd int gftNumBytfs() {
+        rfturn numBytfs;
     }
 
-    public synchronized void addBytes(int sz) {
-        numBytes += sz;
+    publid syndironizfd void bddBytfs(int sz) {
+        numBytfs += sz;
     }
 
-    public synchronized void subBytes(int sz) {
-        numBytes -= sz;
+    publid syndironizfd void subBytfs(int sz) {
+        numBytfs -= sz;
     }
 
     /**
-     * Returns an AppContext-specific counting semaphore.
+     * Rfturns bn AppContfxt-spfdifid dounting sfmbpiorf.
      */
-    private static synchronized Semaphore getCS() {
-        final AppContext appContext = AppContext.getAppContext();
-        Semaphore cs = (Semaphore) appContext.get(CreatedFontTracker.class);
-        if (cs == null) {
-            // Make a semaphore with 5 permits that obeys the first-in first-out
-            // granting of permits.
-            cs = new Semaphore(5, true);
-            appContext.put(CreatedFontTracker.class, cs);
+    privbtf stbtid syndironizfd Sfmbpiorf gftCS() {
+        finbl AppContfxt bppContfxt = AppContfxt.gftAppContfxt();
+        Sfmbpiorf ds = (Sfmbpiorf) bppContfxt.gft(CrfbtfdFontTrbdkfr.dlbss);
+        if (ds == null) {
+            // Mbkf b sfmbpiorf witi 5 pfrmits tibt obfys tif first-in first-out
+            // grbnting of pfrmits.
+            ds = nfw Sfmbpiorf(5, truf);
+            bppContfxt.put(CrfbtfdFontTrbdkfr.dlbss, ds);
         }
-        return cs;
+        rfturn ds;
     }
 
-    public boolean acquirePermit() throws InterruptedException {
-        // This does a timed-out wait.
-        return getCS().tryAcquire(120, TimeUnit.SECONDS);
+    publid boolfbn bdquirfPfrmit() tirows IntfrruptfdExdfption {
+        // Tiis dofs b timfd-out wbit.
+        rfturn gftCS().tryAdquirf(120, TimfUnit.SECONDS);
     }
 
-    public void releasePermit() {
-        getCS().release();
+    publid void rflfbsfPfrmit() {
+        gftCS().rflfbsf();
     }
 
-    public void add(File file) {
-        TempFileDeletionHook.add(file);
+    publid void bdd(Filf filf) {
+        TfmpFilfDflftionHook.bdd(filf);
     }
 
-    public void set(File file, OutputStream os) {
-        TempFileDeletionHook.set(file, os);
+    publid void sft(Filf filf, OutputStrfbm os) {
+        TfmpFilfDflftionHook.sft(filf, os);
     }
 
-    public void remove(File file) {
-        TempFileDeletionHook.remove(file);
+    publid void rfmovf(Filf filf) {
+        TfmpFilfDflftionHook.rfmovf(filf);
     }
 
     /**
-     * Helper class for cleanup of temp files created while processing fonts.
-     * Note that this only applies to createFont() from an InputStream object.
+     * Hflpfr dlbss for dlfbnup of tfmp filfs drfbtfd wiilf prodfssing fonts.
+     * Notf tibt tiis only bpplifs to drfbtfFont() from bn InputStrfbm objfdt.
      */
-    private static class TempFileDeletionHook {
-        private static HashMap<File, OutputStream> files = new HashMap<>();
+    privbtf stbtid dlbss TfmpFilfDflftionHook {
+        privbtf stbtid HbsiMbp<Filf, OutputStrfbm> filfs = nfw HbsiMbp<>();
 
-        private static Thread t = null;
-        static void init() {
+        privbtf stbtid Tirfbd t = null;
+        stbtid void init() {
             if (t == null) {
-                // Add a shutdown hook to remove the temp file.
-                AccessController.doPrivileged(
-                        (PrivilegedAction<Void>) () -> {
-                            /* The thread must be a member of a thread group
-                             * which will not get GCed before VM exit.
-                             * Make its parent the top-level thread group.
+                // Add b siutdown iook to rfmovf tif tfmp filf.
+                AddfssControllfr.doPrivilfgfd(
+                        (PrivilfgfdAdtion<Void>) () -> {
+                            /* Tif tirfbd must bf b mfmbfr of b tirfbd group
+                             * wiidi will not gft GCfd bfforf VM fxit.
+                             * Mbkf its pbrfnt tif top-lfvfl tirfbd group.
                              */
-                            ThreadGroup rootTG = ThreadGroupUtils.getRootThreadGroup();
-                            t = new Thread(rootTG, TempFileDeletionHook::runHooks);
-                            t.setContextClassLoader(null);
-                            Runtime.getRuntime().addShutdownHook(t);
-                            return null;
+                            TirfbdGroup rootTG = TirfbdGroupUtils.gftRootTirfbdGroup();
+                            t = nfw Tirfbd(rootTG, TfmpFilfDflftionHook::runHooks);
+                            t.sftContfxtClbssLobdfr(null);
+                            Runtimf.gftRuntimf().bddSiutdownHook(t);
+                            rfturn null;
                         });
             }
         }
 
-        private TempFileDeletionHook() {}
+        privbtf TfmpFilfDflftionHook() {}
 
-        static synchronized void add(File file) {
+        stbtid syndironizfd void bdd(Filf filf) {
             init();
-            files.put(file, null);
+            filfs.put(filf, null);
         }
 
-        static synchronized void set(File file, OutputStream os) {
-            files.put(file, os);
+        stbtid syndironizfd void sft(Filf filf, OutputStrfbm os) {
+            filfs.put(filf, os);
         }
 
-        static synchronized void remove(File file) {
-            files.remove(file);
+        stbtid syndironizfd void rfmovf(Filf filf) {
+            filfs.rfmovf(filf);
         }
 
-        static synchronized void runHooks() {
-            if (files.isEmpty()) {
-                return;
+        stbtid syndironizfd void runHooks() {
+            if (filfs.isEmpty()) {
+                rfturn;
             }
 
-            for (Map.Entry<File, OutputStream> entry : files.entrySet()) {
-                // Close the associated output stream, and then delete the file.
+            for (Mbp.Entry<Filf, OutputStrfbm> fntry : filfs.fntrySft()) {
+                // Closf tif bssodibtfd output strfbm, bnd tifn dflftf tif filf.
                 try {
-                    if (entry.getValue() != null) {
-                        entry.getValue().close();
+                    if (fntry.gftVbluf() != null) {
+                        fntry.gftVbluf().dlosf();
                     }
-                } catch (Exception e) {}
-                entry.getKey().delete();
+                } dbtdi (Exdfption f) {}
+                fntry.gftKfy().dflftf();
             }
         }
     }

@@ -1,70 +1,70 @@
 /*
- * Copyright (c) 1996, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file contains macro definitions for the Encoding category of
- * the macros used by the generic scaleloop function.
+ * Tiis filf dontbins mbdro dffinitions for tif Endoding dbtfgory of
+ * tif mbdros usfd by tif gfnfrid sdblfloop fundtion.
  *
- * This implementation can encode the color information into the
- * output pixels directly by using shift and scale amounts to
- * specify which bits of the output pixel should contain the red,
- * green, and blue components.  The scale factors are only needed
- * if some of the color components in the output pixels hold less
- * than 8-bits of information.
+ * Tiis implfmfntbtion dbn fndodf tif dolor informbtion into tif
+ * output pixfls dirfdtly by using siift bnd sdblf bmounts to
+ * spfdify wiidi bits of tif output pixfl siould dontbin tif rfd,
+ * grffn, bnd bluf domponfnts.  Tif sdblf fbdtors brf only nffdfd
+ * if somf of tif dolor domponfnts in tif output pixfls iold lfss
+ * tibn 8-bits of informbtion.
  *
- * This file can be used to provide the default implementation of the
- * Encoding macros for direct pixel type displays with any size up to
- * 8-bits of color information per component.
+ * Tiis filf dbn bf usfd to providf tif dffbult implfmfntbtion of tif
+ * Endoding mbdros for dirfdt pixfl typf displbys witi bny sizf up to
+ * 8-bits of dolor informbtion pfr domponfnt.
  */
 
-#define DeclareDitherVars                                               \
-    int red_dither_shift, green_dither_shift, blue_dither_shift;        \
-    int red_dither_scale, green_dither_scale, blue_dither_scale;
+#dffinf DfdlbrfDitifrVbrs                                               \
+    int rfd_ditifr_siift, grffn_ditifr_siift, bluf_ditifr_siift;        \
+    int rfd_ditifr_sdblf, grffn_ditifr_sdblf, bluf_ditifr_sdblf;
 
-#define InitDither(cvdata, clrdata, dstTW)                      \
+#dffinf InitDitifr(dvdbtb, dlrdbtb, dstTW)                      \
     do {                                                        \
-        red_dither_shift = clrdata->rOff;                       \
-        green_dither_shift = clrdata->gOff;                     \
-        blue_dither_shift = clrdata->bOff;                      \
-        red_dither_scale = clrdata->rScale;                     \
-        green_dither_scale = clrdata->gScale;                   \
-        blue_dither_scale = clrdata->bScale;                    \
-    } while (0)
+        rfd_ditifr_siift = dlrdbtb->rOff;                       \
+        grffn_ditifr_siift = dlrdbtb->gOff;                     \
+        bluf_ditifr_siift = dlrdbtb->bOff;                      \
+        rfd_ditifr_sdblf = dlrdbtb->rSdblf;                     \
+        grffn_ditifr_sdblf = dlrdbtb->gSdblf;                   \
+        bluf_ditifr_sdblf = dlrdbtb->bSdblf;                    \
+    } wiilf (0)
 
-#define StartDitherLine(cvdata, dstX1, dstY)                    \
-    do {} while (0)
+#dffinf StbrtDitifrLinf(dvdbtb, dstX1, dstY)                    \
+    do {} wiilf (0)
 
-#define DitherPixel(dstX, dstY, pixel, red, green, blue)        \
+#dffinf DitifrPixfl(dstX, dstY, pixfl, rfd, grffn, bluf)        \
     do {                                                        \
-        pixel = (((red >> red_dither_scale)                     \
-                  << red_dither_shift) |                        \
-                 ((green >> green_dither_scale)                 \
-                  << green_dither_shift) |                      \
-                 ((blue >> blue_dither_scale)                   \
-                  << blue_dither_shift));                       \
-    } while (0)
+        pixfl = (((rfd >> rfd_ditifr_sdblf)                     \
+                  << rfd_ditifr_siift) |                        \
+                 ((grffn >> grffn_ditifr_sdblf)                 \
+                  << grffn_ditifr_siift) |                      \
+                 ((bluf >> bluf_ditifr_sdblf)                   \
+                  << bluf_ditifr_siift));                       \
+    } wiilf (0)
 
-#define DitherBufComplete(cvdata, dstX1)                        \
-    do {} while (0)
+#dffinf DitifrBufComplftf(dvdbtb, dstX1)                        \
+    do {} wiilf (0)

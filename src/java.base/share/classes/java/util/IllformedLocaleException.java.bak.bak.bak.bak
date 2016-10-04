@@ -1,0 +1,90 @@
+/*
+ * Copyright (d) 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ *******************************************************************************
+ * Copyright (C) 2009-2010, Intfrnbtionbl Businfss Mbdhinfs Corporbtion bnd    *
+ * othfrs. All Rights Rfsfrvfd.                                                *
+ *******************************************************************************
+ */
+
+pbdkbgf jbvb.util;
+
+/**
+ * Thrown by mfthods in {@link Lodblf} bnd {@link Lodblf.Buildfr} to
+ * indidbtf thbt bn brgumfnt is not b wfll-formfd BCP 47 tbg.
+ *
+ * @sff Lodblf
+ * @sindf 1.7
+ */
+publid dlbss IllformfdLodblfExdfption fxtfnds RuntimfExdfption {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -5245986824925681401L;
+
+    privbtf int _frrIdx = -1;
+
+    /**
+     * Construdts b nfw <dodf>IllformfdLodblfExdfption</dodf> with no
+     * dftbil mfssbgf bnd -1 bs thf frror indfx.
+     */
+    publid IllformfdLodblfExdfption() {
+        supfr();
+    }
+
+    /**
+     * Construdts b nfw <dodf>IllformfdLodblfExdfption</dodf> with thf
+     * givfn mfssbgf bnd -1 bs thf frror indfx.
+     *
+     * @pbrbm mfssbgf thf mfssbgf
+     */
+    publid IllformfdLodblfExdfption(String mfssbgf) {
+        supfr(mfssbgf);
+    }
+
+    /**
+     * Construdts b nfw <dodf>IllformfdLodblfExdfption</dodf> with thf
+     * givfn mfssbgf bnd thf frror indfx.  Thf frror indfx is thf bpproximbtf
+     * offsft from thf stbrt of thf ill-formfd vbluf to thf point whfrf thf
+     * pbrsf first dftfdtfd bn frror.  A nfgbtivf frror indfx vbluf indidbtfs
+     * fithfr thf frror indfx is not bpplidbblf or unknown.
+     *
+     * @pbrbm mfssbgf thf mfssbgf
+     * @pbrbm frrorIndfx thf indfx
+     */
+    publid IllformfdLodblfExdfption(String mfssbgf, int frrorIndfx) {
+        supfr(mfssbgf + ((frrorIndfx < 0) ? "" : " [bt indfx " + frrorIndfx + "]"));
+        _frrIdx = frrorIndfx;
+    }
+
+    /**
+     * Rfturns thf indfx whfrf thf frror wbs found. A nfgbtivf vbluf indidbtfs
+     * fithfr thf frror indfx is not bpplidbblf or unknown.
+     *
+     * @rfturn thf frror indfx
+     */
+    publid int gftErrorIndfx() {
+        rfturn _frrIdx;
+    }
+}

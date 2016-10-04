@@ -1,162 +1,162 @@
 /*
- * Copyright (c) 2000, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.ch;
+pbdkbgf sun.nio.di;
 
-import java.nio.ByteBuffer;
-import sun.misc.*;
+import jbvb.nio.BytfBufffr;
+import sun.misd.*;
 
 
 /**
- * Manipulates a native array of iovec structs on Solaris:
+ * Mbnipulbtfs b nbtivf brrby of iovfd strudts on Solbris:
  *
- * typedef struct iovec {
- *    caddr_t  iov_base;
-      int      iov_len;
- * } iovec_t;
+ * typfdff strudt iovfd {
+ *    dbddr_t  iov_bbsf;
+      int      iov_lfn;
+ * } iovfd_t;
  *
- * @author Mike McCloskey
- * @since 1.4
+ * @butior Mikf MdCloskfy
+ * @sindf 1.4
  */
 
-class IOVecWrapper {
+dlbss IOVfdWrbppfr {
 
-    // Miscellaneous constants
-    private static final int BASE_OFFSET = 0;
-    private static final int LEN_OFFSET;
-    private static final int SIZE_IOVEC;
+    // Misdfllbnfous donstbnts
+    privbtf stbtid finbl int BASE_OFFSET = 0;
+    privbtf stbtid finbl int LEN_OFFSET;
+    privbtf stbtid finbl int SIZE_IOVEC;
 
-    // The iovec array
-    private final AllocatedNativeObject vecArray;
+    // Tif iovfd brrby
+    privbtf finbl AllodbtfdNbtivfObjfdt vfdArrby;
 
-    // Number of elements in iovec array
-    private final int size;
+    // Numbfr of flfmfnts in iovfd brrby
+    privbtf finbl int sizf;
 
-    // Buffers and position/remaining corresponding to elements in iovec array
-    private final ByteBuffer[] buf;
-    private final int[] position;
-    private final int[] remaining;
+    // Bufffrs bnd position/rfmbining dorrfsponding to flfmfnts in iovfd brrby
+    privbtf finbl BytfBufffr[] buf;
+    privbtf finbl int[] position;
+    privbtf finbl int[] rfmbining;
 
-    // Shadow buffers for cases when original buffer is substituted
-    private final ByteBuffer[] shadow;
+    // Sibdow bufffrs for dbsfs wifn originbl bufffr is substitutfd
+    privbtf finbl BytfBufffr[] sibdow;
 
-    // Base address of this array
-    final long address;
+    // Bbsf bddrfss of tiis brrby
+    finbl long bddrfss;
 
-    // Address size in bytes
-    static int addressSize;
+    // Addrfss sizf in bytfs
+    stbtid int bddrfssSizf;
 
-    private static class Deallocator implements Runnable {
-        private final AllocatedNativeObject obj;
-        Deallocator(AllocatedNativeObject obj) {
-            this.obj = obj;
+    privbtf stbtid dlbss Dfbllodbtor implfmfnts Runnbblf {
+        privbtf finbl AllodbtfdNbtivfObjfdt obj;
+        Dfbllodbtor(AllodbtfdNbtivfObjfdt obj) {
+            tiis.obj = obj;
         }
-        public void run() {
-            obj.free();
+        publid void run() {
+            obj.frff();
         }
     }
 
-    // per thread IOVecWrapper
-    private static final ThreadLocal<IOVecWrapper> cached =
-        new ThreadLocal<IOVecWrapper>();
+    // pfr tirfbd IOVfdWrbppfr
+    privbtf stbtid finbl TirfbdLodbl<IOVfdWrbppfr> dbdifd =
+        nfw TirfbdLodbl<IOVfdWrbppfr>();
 
-    private IOVecWrapper(int size) {
-        this.size      = size;
-        this.buf       = new ByteBuffer[size];
-        this.position  = new int[size];
-        this.remaining = new int[size];
-        this.shadow    = new ByteBuffer[size];
-        this.vecArray  = new AllocatedNativeObject(size * SIZE_IOVEC, false);
-        this.address   = vecArray.address();
+    privbtf IOVfdWrbppfr(int sizf) {
+        tiis.sizf      = sizf;
+        tiis.buf       = nfw BytfBufffr[sizf];
+        tiis.position  = nfw int[sizf];
+        tiis.rfmbining = nfw int[sizf];
+        tiis.sibdow    = nfw BytfBufffr[sizf];
+        tiis.vfdArrby  = nfw AllodbtfdNbtivfObjfdt(sizf * SIZE_IOVEC, fblsf);
+        tiis.bddrfss   = vfdArrby.bddrfss();
     }
 
-    static IOVecWrapper get(int size) {
-        IOVecWrapper wrapper = cached.get();
-        if (wrapper != null && wrapper.size < size) {
-            // not big enough; eagerly release memory
-            wrapper.vecArray.free();
-            wrapper = null;
+    stbtid IOVfdWrbppfr gft(int sizf) {
+        IOVfdWrbppfr wrbppfr = dbdifd.gft();
+        if (wrbppfr != null && wrbppfr.sizf < sizf) {
+            // not big fnougi; fbgfrly rflfbsf mfmory
+            wrbppfr.vfdArrby.frff();
+            wrbppfr = null;
         }
-        if (wrapper == null) {
-            wrapper = new IOVecWrapper(size);
-            Cleaner.create(wrapper, new Deallocator(wrapper.vecArray));
-            cached.set(wrapper);
+        if (wrbppfr == null) {
+            wrbppfr = nfw IOVfdWrbppfr(sizf);
+            Clfbnfr.drfbtf(wrbppfr, nfw Dfbllodbtor(wrbppfr.vfdArrby));
+            dbdifd.sft(wrbppfr);
         }
-        return wrapper;
+        rfturn wrbppfr;
     }
 
-    void setBuffer(int i, ByteBuffer buf, int pos, int rem) {
-        this.buf[i] = buf;
-        this.position[i] = pos;
-        this.remaining[i] = rem;
+    void sftBufffr(int i, BytfBufffr buf, int pos, int rfm) {
+        tiis.buf[i] = buf;
+        tiis.position[i] = pos;
+        tiis.rfmbining[i] = rfm;
     }
 
-    void setShadow(int i, ByteBuffer buf) {
-        shadow[i] = buf;
+    void sftSibdow(int i, BytfBufffr buf) {
+        sibdow[i] = buf;
     }
 
-    ByteBuffer getBuffer(int i) {
-        return buf[i];
+    BytfBufffr gftBufffr(int i) {
+        rfturn buf[i];
     }
 
-    int getPosition(int i) {
-        return position[i];
+    int gftPosition(int i) {
+        rfturn position[i];
     }
 
-    int getRemaining(int i) {
-        return remaining[i];
+    int gftRfmbining(int i) {
+        rfturn rfmbining[i];
     }
 
-    ByteBuffer getShadow(int i) {
-        return shadow[i];
+    BytfBufffr gftSibdow(int i) {
+        rfturn sibdow[i];
     }
 
-    void clearRefs(int i) {
+    void dlfbrRffs(int i) {
         buf[i] = null;
-        shadow[i] = null;
+        sibdow[i] = null;
     }
 
-    void putBase(int i, long base) {
-        int offset = SIZE_IOVEC * i + BASE_OFFSET;
-        if (addressSize == 4)
-            vecArray.putInt(offset, (int)base);
-        else
-            vecArray.putLong(offset, base);
+    void putBbsf(int i, long bbsf) {
+        int offsft = SIZE_IOVEC * i + BASE_OFFSET;
+        if (bddrfssSizf == 4)
+            vfdArrby.putInt(offsft, (int)bbsf);
+        flsf
+            vfdArrby.putLong(offsft, bbsf);
     }
 
-    void putLen(int i, long len) {
-        int offset = SIZE_IOVEC * i + LEN_OFFSET;
-        if (addressSize == 4)
-            vecArray.putInt(offset, (int)len);
-        else
-            vecArray.putLong(offset, len);
+    void putLfn(int i, long lfn) {
+        int offsft = SIZE_IOVEC * i + LEN_OFFSET;
+        if (bddrfssSizf == 4)
+            vfdArrby.putInt(offsft, (int)lfn);
+        flsf
+            vfdArrby.putLong(offsft, lfn);
     }
 
-    static {
-        addressSize = Util.unsafe().addressSize();
-        LEN_OFFSET = addressSize;
-        SIZE_IOVEC = (short) (addressSize * 2);
+    stbtid {
+        bddrfssSizf = Util.unsbff().bddrfssSizf();
+        LEN_OFFSET = bddrfssSizf;
+        SIZE_IOVEC = (siort) (bddrfssSizf * 2);
     }
 }

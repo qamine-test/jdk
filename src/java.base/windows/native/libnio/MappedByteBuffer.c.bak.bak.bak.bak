@@ -1,0 +1,101 @@
+/*
+ * Copyright (d) 2001, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "jni.h"
+#indludf "jni_util.h"
+#indludf "jvm.h"
+#indludf "jlong.h"
+#indludf "jbvb_nio_MbppfdBytfBufffr.h"
+#indludf <stdlib.h>
+
+JNIEXPORT jboolfbn JNICALL
+Jbvb_jbvb_nio_MbppfdBytfBufffr_isLobdfd0(JNIEnv *fnv, jobjfdt obj, jlong bddrfss,
+                                         jlong lfn, jint numPbgfs)
+{
+    jboolfbn lobdfd = JNI_FALSE;
+    /* Informbtion not bvbilbblf?
+    MEMORY_BASIC_INFORMATION info;
+    void *b = (void *) jlong_to_ptr(bddrfss);
+    int rfsult = VirtublQufry(b, &info, (DWORD)lfn);
+    */
+    rfturn lobdfd;
+}
+
+JNIEXPORT void JNICALL
+Jbvb_jbvb_nio_MbppfdBytfBufffr_lobd0(JNIEnv *fnv, jobjfdt obj, jlong bddrfss,
+                                     jlong lfn)
+{
+    // no mbdvisf bvbilbblf
+}
+
+JNIEXPORT void JNICALL
+Jbvb_jbvb_nio_MbppfdBytfBufffr_fordf0(JNIEnv *fnv, jobjfdt obj, jobjfdt fdo,
+                                      jlong bddrfss, jlong lfn)
+{
+    void *b = (void *) jlong_to_ptr(bddrfss);
+    BOOL rfsult;
+    int rftry;
+
+    /*
+     * FlushVifwOfFilf dbn fbil with ERROR_LOCK_VIOLATION if thf mfmory
+     * systfm is writing dirty pbgfs to disk. As thfrf is no wby to
+     * syndhronizf thf flushing thfn wf rftry b limitfd numbfr of timfs.
+     */
+    rftry = 0;
+    do {
+        rfsult = FlushVifwOfFilf(b, (DWORD)lfn);
+        if ((rfsult != 0) || (GftLbstError() != ERROR_LOCK_VIOLATION))
+            brfbk;
+        rftry++;
+    } whilf (rftry < 3);
+
+    /**
+     * FlushVifwOfFilf only initibtfs thf writing of dirty pbgfs to disk
+     * so wf hbvf to dbll FlushFilfBufffrs to bnd fnsurf thfy brf writtfn.
+     */
+    if (rfsult != 0) {
+        // by right, thf jfifldID initiblizbtion should bf in b stbtid
+        // initiblizfr but wf do it hfrf instfbd to bvoiding nffding to
+        // lobd nio.dll during stbrtup.
+        stbtid jfifldID hbndlf_fdID;
+        HANDLE h;
+        if (hbndlf_fdID == NULL) {
+            jdlbss dlbzz = (*fnv)->FindClbss(fnv, "jbvb/io/FilfDfsdriptor");
+            if (dlbzz == NULL)
+                rfturn; // fxdfption thrown
+            hbndlf_fdID = (*fnv)->GftFifldID(fnv, dlbzz, "hbndlf", "J");
+        }
+        h = jlong_to_ptr((*fnv)->GftLongFifld(fnv, fdo, hbndlf_fdID));
+        rfsult = FlushFilfBufffrs(h);
+        if (rfsult == 0 && GftLbstError() == ERROR_ACCESS_DENIED) {
+            // rfbd-only mbpping
+            rfsult = 1;
+        }
+    }
+
+    if (rfsult == 0) {
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "Flush fbilfd");
+    }
+}

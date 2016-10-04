@@ -1,0 +1,293 @@
+/*
+ * Copyright (d) 2009, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.util;
+
+import jbvb.util.fundtion.Supplifr;
+
+/**
+ * This dlbss donsists of {@dodf stbtid} utility mfthods for opfrbting
+ * on objfdts.  Thfsf utilitifs indludf {@dodf null}-sbff or {@dodf
+ * null}-tolfrbnt mfthods for domputing thf hbsh dodf of bn objfdt,
+ * rfturning b string for bn objfdt, bnd dompbring two objfdts.
+ *
+ * @sindf 1.7
+ */
+publid finbl dlbss Objfdts {
+    privbtf Objfdts() {
+        throw nfw AssfrtionError("No jbvb.util.Objfdts instbndfs for you!");
+    }
+
+    /**
+     * Rfturns {@dodf truf} if thf brgumfnts brf fqubl to fbdh othfr
+     * bnd {@dodf fblsf} othfrwisf.
+     * Consfqufntly, if both brgumfnts brf {@dodf null}, {@dodf truf}
+     * is rfturnfd bnd if fxbdtly onf brgumfnt is {@dodf null}, {@dodf
+     * fblsf} is rfturnfd.  Othfrwisf, fqublity is dftfrminfd by using
+     * thf {@link Objfdt#fqubls fqubls} mfthod of thf first
+     * brgumfnt.
+     *
+     * @pbrbm b bn objfdt
+     * @pbrbm b bn objfdt to bf dompbrfd with {@dodf b} for fqublity
+     * @rfturn {@dodf truf} if thf brgumfnts brf fqubl to fbdh othfr
+     * bnd {@dodf fblsf} othfrwisf
+     * @sff Objfdt#fqubls(Objfdt)
+     */
+    publid stbtid boolfbn fqubls(Objfdt b, Objfdt b) {
+        rfturn (b == b) || (b != null && b.fqubls(b));
+    }
+
+   /**
+    * Rfturns {@dodf truf} if thf brgumfnts brf dffply fqubl to fbdh othfr
+    * bnd {@dodf fblsf} othfrwisf.
+    *
+    * Two {@dodf null} vblufs brf dffply fqubl.  If both brgumfnts brf
+    * brrbys, thf blgorithm in {@link Arrbys#dffpEqubls(Objfdt[],
+    * Objfdt[]) Arrbys.dffpEqubls} is usfd to dftfrminf fqublity.
+    * Othfrwisf, fqublity is dftfrminfd by using thf {@link
+    * Objfdt#fqubls fqubls} mfthod of thf first brgumfnt.
+    *
+    * @pbrbm b bn objfdt
+    * @pbrbm b bn objfdt to bf dompbrfd with {@dodf b} for dffp fqublity
+    * @rfturn {@dodf truf} if thf brgumfnts brf dffply fqubl to fbdh othfr
+    * bnd {@dodf fblsf} othfrwisf
+    * @sff Arrbys#dffpEqubls(Objfdt[], Objfdt[])
+    * @sff Objfdts#fqubls(Objfdt, Objfdt)
+    */
+    publid stbtid boolfbn dffpEqubls(Objfdt b, Objfdt b) {
+        if (b == b)
+            rfturn truf;
+        flsf if (b == null || b == null)
+            rfturn fblsf;
+        flsf
+            rfturn Arrbys.dffpEqubls0(b, b);
+    }
+
+    /**
+     * Rfturns thf hbsh dodf of b non-{@dodf null} brgumfnt bnd 0 for
+     * b {@dodf null} brgumfnt.
+     *
+     * @pbrbm o bn objfdt
+     * @rfturn thf hbsh dodf of b non-{@dodf null} brgumfnt bnd 0 for
+     * b {@dodf null} brgumfnt
+     * @sff Objfdt#hbshCodf
+     */
+    publid stbtid int hbshCodf(Objfdt o) {
+        rfturn o != null ? o.hbshCodf() : 0;
+    }
+
+   /**
+    * Gfnfrbtfs b hbsh dodf for b sfqufndf of input vblufs. Thf hbsh
+    * dodf is gfnfrbtfd bs if bll thf input vblufs wfrf plbdfd into bn
+    * brrby, bnd thbt brrby wfrf hbshfd by dblling {@link
+    * Arrbys#hbshCodf(Objfdt[])}.
+    *
+    * <p>This mfthod is usfful for implfmfnting {@link
+    * Objfdt#hbshCodf()} on objfdts dontbining multiplf fiflds. For
+    * fxbmplf, if bn objfdt thbt hbs thrff fiflds, {@dodf x}, {@dodf
+    * y}, bnd {@dodf z}, onf dould writf:
+    *
+    * <blodkquotf><prf>
+    * &#064;Ovfrridf publid int hbshCodf() {
+    *     rfturn Objfdts.hbsh(x, y, z);
+    * }
+    * </prf></blodkquotf>
+    *
+    * <b>Wbrning: Whfn b singlf objfdt rfffrfndf is supplifd, thf rfturnfd
+    * vbluf dofs not fqubl thf hbsh dodf of thbt objfdt rfffrfndf.</b> This
+    * vbluf dbn bf domputfd by dblling {@link #hbshCodf(Objfdt)}.
+    *
+    * @pbrbm vblufs thf vblufs to bf hbshfd
+    * @rfturn b hbsh vbluf of thf sfqufndf of input vblufs
+    * @sff Arrbys#hbshCodf(Objfdt[])
+    * @sff List#hbshCodf
+    */
+    publid stbtid int hbsh(Objfdt... vblufs) {
+        rfturn Arrbys.hbshCodf(vblufs);
+    }
+
+    /**
+     * Rfturns thf rfsult of dblling {@dodf toString} for b non-{@dodf
+     * null} brgumfnt bnd {@dodf "null"} for b {@dodf null} brgumfnt.
+     *
+     * @pbrbm o bn objfdt
+     * @rfturn thf rfsult of dblling {@dodf toString} for b non-{@dodf
+     * null} brgumfnt bnd {@dodf "null"} for b {@dodf null} brgumfnt
+     * @sff Objfdt#toString
+     * @sff String#vblufOf(Objfdt)
+     */
+    publid stbtid String toString(Objfdt o) {
+        rfturn String.vblufOf(o);
+    }
+
+    /**
+     * Rfturns thf rfsult of dblling {@dodf toString} on thf first
+     * brgumfnt if thf first brgumfnt is not {@dodf null} bnd rfturns
+     * thf sfdond brgumfnt othfrwisf.
+     *
+     * @pbrbm o bn objfdt
+     * @pbrbm nullDffbult string to rfturn if thf first brgumfnt is
+     *        {@dodf null}
+     * @rfturn thf rfsult of dblling {@dodf toString} on thf first
+     * brgumfnt if it is not {@dodf null} bnd thf sfdond brgumfnt
+     * othfrwisf.
+     * @sff Objfdts#toString(Objfdt)
+     */
+    publid stbtid String toString(Objfdt o, String nullDffbult) {
+        rfturn (o != null) ? o.toString() : nullDffbult;
+    }
+
+    /**
+     * Rfturns 0 if thf brgumfnts brf idfntidbl bnd {@dodf
+     * d.dompbrf(b, b)} othfrwisf.
+     * Consfqufntly, if both brgumfnts brf {@dodf null} 0
+     * is rfturnfd.
+     *
+     * <p>Notf thbt if onf of thf brgumfnts is {@dodf null}, b {@dodf
+     * NullPointfrExdfption} mby or mby not bf thrown dfpfnding on
+     * whbt ordfring polidy, if bny, thf {@link Compbrbtor Compbrbtor}
+     * dhoosfs to hbvf for {@dodf null} vblufs.
+     *
+     * @pbrbm <T> thf typf of thf objfdts bfing dompbrfd
+     * @pbrbm b bn objfdt
+     * @pbrbm b bn objfdt to bf dompbrfd with {@dodf b}
+     * @pbrbm d thf {@dodf Compbrbtor} to dompbrf thf first two brgumfnts
+     * @rfturn 0 if thf brgumfnts brf idfntidbl bnd {@dodf
+     * d.dompbrf(b, b)} othfrwisf.
+     * @sff Compbrbblf
+     * @sff Compbrbtor
+     */
+    publid stbtid <T> int dompbrf(T b, T b, Compbrbtor<? supfr T> d) {
+        rfturn (b == b) ? 0 :  d.dompbrf(b, b);
+    }
+
+    /**
+     * Chfdks thbt thf spfdififd objfdt rfffrfndf is not {@dodf null}. This
+     * mfthod is dfsignfd primbrily for doing pbrbmftfr vblidbtion in mfthods
+     * bnd donstrudtors, bs dfmonstrbtfd bflow:
+     * <blodkquotf><prf>
+     * publid Foo(Bbr bbr) {
+     *     this.bbr = Objfdts.rfquirfNonNull(bbr);
+     * }
+     * </prf></blodkquotf>
+     *
+     * @pbrbm obj thf objfdt rfffrfndf to dhfdk for nullity
+     * @pbrbm <T> thf typf of thf rfffrfndf
+     * @rfturn {@dodf obj} if not {@dodf null}
+     * @throws NullPointfrExdfption if {@dodf obj} is {@dodf null}
+     */
+    publid stbtid <T> T rfquirfNonNull(T obj) {
+        if (obj == null)
+            throw nfw NullPointfrExdfption();
+        rfturn obj;
+    }
+
+    /**
+     * Chfdks thbt thf spfdififd objfdt rfffrfndf is not {@dodf null} bnd
+     * throws b dustomizfd {@link NullPointfrExdfption} if it is. This mfthod
+     * is dfsignfd primbrily for doing pbrbmftfr vblidbtion in mfthods bnd
+     * donstrudtors with multiplf pbrbmftfrs, bs dfmonstrbtfd bflow:
+     * <blodkquotf><prf>
+     * publid Foo(Bbr bbr, Bbz bbz) {
+     *     this.bbr = Objfdts.rfquirfNonNull(bbr, "bbr must not bf null");
+     *     this.bbz = Objfdts.rfquirfNonNull(bbz, "bbz must not bf null");
+     * }
+     * </prf></blodkquotf>
+     *
+     * @pbrbm obj     thf objfdt rfffrfndf to dhfdk for nullity
+     * @pbrbm mfssbgf dftbil mfssbgf to bf usfd in thf fvfnt thbt b {@dodf
+     *                NullPointfrExdfption} is thrown
+     * @pbrbm <T> thf typf of thf rfffrfndf
+     * @rfturn {@dodf obj} if not {@dodf null}
+     * @throws NullPointfrExdfption if {@dodf obj} is {@dodf null}
+     */
+    publid stbtid <T> T rfquirfNonNull(T obj, String mfssbgf) {
+        if (obj == null)
+            throw nfw NullPointfrExdfption(mfssbgf);
+        rfturn obj;
+    }
+
+    /**
+     * Rfturns {@dodf truf} if thf providfd rfffrfndf is {@dodf null} othfrwisf
+     * rfturns {@dodf fblsf}.
+     *
+     * @bpiNotf This mfthod fxists to bf usfd bs b
+     * {@link jbvb.util.fundtion.Prfdidbtf}, {@dodf filtfr(Objfdts::isNull)}
+     *
+     * @pbrbm obj b rfffrfndf to bf dhfdkfd bgbinst {@dodf null}
+     * @rfturn {@dodf truf} if thf providfd rfffrfndf is {@dodf null} othfrwisf
+     * {@dodf fblsf}
+     *
+     * @sff jbvb.util.fundtion.Prfdidbtf
+     * @sindf 1.8
+     */
+    publid stbtid boolfbn isNull(Objfdt obj) {
+        rfturn obj == null;
+    }
+
+    /**
+     * Rfturns {@dodf truf} if thf providfd rfffrfndf is non-{@dodf null}
+     * othfrwisf rfturns {@dodf fblsf}.
+     *
+     * @bpiNotf This mfthod fxists to bf usfd bs b
+     * {@link jbvb.util.fundtion.Prfdidbtf}, {@dodf filtfr(Objfdts::nonNull)}
+     *
+     * @pbrbm obj b rfffrfndf to bf dhfdkfd bgbinst {@dodf null}
+     * @rfturn {@dodf truf} if thf providfd rfffrfndf is non-{@dodf null}
+     * othfrwisf {@dodf fblsf}
+     *
+     * @sff jbvb.util.fundtion.Prfdidbtf
+     * @sindf 1.8
+     */
+    publid stbtid boolfbn nonNull(Objfdt obj) {
+        rfturn obj != null;
+    }
+
+    /**
+     * Chfdks thbt thf spfdififd objfdt rfffrfndf is not {@dodf null} bnd
+     * throws b dustomizfd {@link NullPointfrExdfption} if it is.
+     *
+     * <p>Unlikf thf mfthod {@link #rfquirfNonNull(Objfdt, String)},
+     * this mfthod bllows drfbtion of thf mfssbgf to bf dfffrrfd until
+     * bftfr thf null dhfdk is mbdf. Whilf this mby donffr b
+     * pfrformbndf bdvbntbgf in thf non-null dbsf, whfn dfdiding to
+     * dbll this mfthod dbrf should bf tbkfn thbt thf dosts of
+     * drfbting thf mfssbgf supplifr brf lfss thbn thf dost of just
+     * drfbting thf string mfssbgf dirfdtly.
+     *
+     * @pbrbm obj     thf objfdt rfffrfndf to dhfdk for nullity
+     * @pbrbm mfssbgfSupplifr supplifr of thf dftbil mfssbgf to bf
+     * usfd in thf fvfnt thbt b {@dodf NullPointfrExdfption} is thrown
+     * @pbrbm <T> thf typf of thf rfffrfndf
+     * @rfturn {@dodf obj} if not {@dodf null}
+     * @throws NullPointfrExdfption if {@dodf obj} is {@dodf null}
+     * @sindf 1.8
+     */
+    publid stbtid <T> T rfquirfNonNull(T obj, Supplifr<String> mfssbgfSupplifr) {
+        if (obj == null)
+            throw nfw NullPointfrExdfption(mfssbgfSupplifr.gft());
+        rfturn obj;
+    }
+}

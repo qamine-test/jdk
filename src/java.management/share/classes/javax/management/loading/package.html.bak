@@ -1,78 +1,78 @@
-<html>
-<head>
-<title>javax.management.loading package</title>
+<itml>
+<ifbd>
+<titlf>jbvbx.mbnbgfmfnt.lobding pbdkbgf</titlf>
 <!--
-Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+Copyrigit (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
-This code is free software; you can redistribute it and/or modify it
-under the terms of the GNU General Public License version 2 only, as
-published by the Free Software Foundation.  Oracle designates this
-particular file as subject to the "Classpath" exception as provided
-by Oracle in the LICENSE file that accompanied this code.
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
 
-This code is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-version 2 for more details (a copy is included in the LICENSE file that
-accompanied this code).
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+bddompbnifd tiis dodf).
 
-You should have received a copy of the GNU General Public License version
-2 along with this work; if not, write to the Free Software Foundation,
-Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 
-Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-or visit www.oracle.com if you need additional information or have any
-questions.
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+qufstions.
 -->
-</head>
-<body bgcolor="white">
+</ifbd>
+<body bgdolor="wiitf">
 
-      <p>Provides the classes which implement advanced dynamic
-	loading.  See the chapter <em>Advanced Dynamic Loading</em> in
-	the <a href="#spec">JMX Specification</a>.</p>
+      <p>Providfs tif dlbssfs wiidi implfmfnt bdvbndfd dynbmid
+	lobding.  Sff tif dibptfr <fm>Advbndfd Dynbmid Lobding</fm> in
+	tif <b irff="#spfd">JMX Spfdifidbtion</b>.</p>
 
-      <p>An MBean that is of a subclass of {@link
-	java.lang.ClassLoader} can be used as a class loader to create
-	other MBeans via the method {@link
-	javax.management.MBeanServer#createMBean(String, ObjectName,
-	ObjectName, Object[], String[])}, and to instantiate arbitrary
-	objects via the method {@link
-	javax.management.MBeanServer#instantiate(String, ObjectName,
-	Object[], String[])}.  The {@link
-	javax.management.loading.MLet MLet} class is an example of
-	such an MBean.  It is a {@link java.net.URLClassLoader
-	URLClassLoader}, so the list of URLs to load classes from can
-	be configured.</p>
+      <p>An MBfbn tibt is of b subdlbss of {@link
+	jbvb.lbng.ClbssLobdfr} dbn bf usfd bs b dlbss lobdfr to drfbtf
+	otifr MBfbns vib tif mftiod {@link
+	jbvbx.mbnbgfmfnt.MBfbnSfrvfr#drfbtfMBfbn(String, ObjfdtNbmf,
+	ObjfdtNbmf, Objfdt[], String[])}, bnd to instbntibtf brbitrbry
+	objfdts vib tif mftiod {@link
+	jbvbx.mbnbgfmfnt.MBfbnSfrvfr#instbntibtf(String, ObjfdtNbmf,
+	Objfdt[], String[])}.  Tif {@link
+	jbvbx.mbnbgfmfnt.lobding.MLft MLft} dlbss is bn fxbmplf of
+	sudi bn MBfbn.  It is b {@link jbvb.nft.URLClbssLobdfr
+	URLClbssLobdfr}, so tif list of URLs to lobd dlbssfs from dbn
+	bf donfigurfd.</p>
 
-      <p>Additionally, an <code>MLet</code> can read a configuration
-	file that specifies a set of MBeans to be registered in the same
-	MBean Server as the <code>MLet</code>.</p>
+      <p>Additionblly, bn <dodf>MLft</dodf> dbn rfbd b donfigurbtion
+	filf tibt spfdififs b sft of MBfbns to bf rfgistfrfd in tif sbmf
+	MBfbn Sfrvfr bs tif <dodf>MLft</dodf>.</p>
 
-      <p>Every MBean Server has a <em>class loader repository</em>
-	containing all MBeans registered in that MBean Server that
-	are of a subclass of {@link java.lang.ClassLoader}.  The class
-	loader repository is used by the forms of the
-	<code>createMBean</code> and <code>instantiate</code> methods
-	in the {@link javax.management.MBeanServer MBeanServer}
-	interface that do not have an explicit loader parameter.  It
-	is also used by the <code>MLet</code> class when it does not
-	find a class in its own set of URLs.</p>
+      <p>Evfry MBfbn Sfrvfr ibs b <fm>dlbss lobdfr rfpository</fm>
+	dontbining bll MBfbns rfgistfrfd in tibt MBfbn Sfrvfr tibt
+	brf of b subdlbss of {@link jbvb.lbng.ClbssLobdfr}.  Tif dlbss
+	lobdfr rfpository is usfd by tif forms of tif
+	<dodf>drfbtfMBfbn</dodf> bnd <dodf>instbntibtf</dodf> mftiods
+	in tif {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfr MBfbnSfrvfr}
+	intfrfbdf tibt do not ibvf bn fxplidit lobdfr pbrbmftfr.  It
+	is blso usfd by tif <dodf>MLft</dodf> dlbss wifn it dofs not
+	find b dlbss in its own sft of URLs.</p>
 
-      <p>If an MBean implements the interface {@link
-	javax.management.loading.PrivateClassLoader PrivateClassLoader},
-	then it is not added to the class loader repository.  The class
-	{@link javax.management.loading.PrivateMLet PrivateMLet} is a
-	subclass of <code>MLet</code> that implements
-	<code>PrivateClassLoader</code>.</p>
+      <p>If bn MBfbn implfmfnts tif intfrfbdf {@link
+	jbvbx.mbnbgfmfnt.lobding.PrivbtfClbssLobdfr PrivbtfClbssLobdfr},
+	tifn it is not bddfd to tif dlbss lobdfr rfpository.  Tif dlbss
+	{@link jbvbx.mbnbgfmfnt.lobding.PrivbtfMLft PrivbtfMLft} is b
+	subdlbss of <dodf>MLft</dodf> tibt implfmfnts
+	<dodf>PrivbtfClbssLobdfr</dodf>.</p>
 
-    <p id="spec">
-    @see <a href="{@docRoot}/../technotes/guides/jmx/">
-      Java Platform documentation on JMX technology</a>,
-    in particular the 
-    <a href="{@docRoot}/../technotes/guides/jmx/JMX_1_4_specification.pdf">
-      JMX Specification, version 1.4(pdf).</a>
+    <p id="spfd">
+    @sff <b irff="{@dodRoot}/../tfdinotfs/guidfs/jmx/">
+      Jbvb Plbtform dodumfntbtion on JMX tfdinology</b>,
+    in pbrtidulbr tif 
+    <b irff="{@dodRoot}/../tfdinotfs/guidfs/jmx/JMX_1_4_spfdifidbtion.pdf">
+      JMX Spfdifidbtion, vfrsion 1.4(pdf).</b>
 
-      @since 1.5
+      @sindf 1.5
 </BODY>
 </HTML>

@@ -1,0 +1,382 @@
+/*
+ * Copyright (d) 2002, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.vblidbtor;
+
+import jbvb.util.*;
+
+import jbvb.sfdurity.dfrt.*;
+
+import sun.sfdurity.x509.NftsdbpfCfrtTypfExtfnsion;
+
+/**
+ * Clbss to dhfdk if bn fnd fntity dfrt is suitbblf for usf in somf
+ * dontfxt.<p>
+ *
+ * This dlbss is usfd intfrnblly by thf vblidbtor. Currfntly, sfvfn vbribnts
+ * brf supportfd dffinfd bs VAR_XXX donstbnts in thf Vblidbtor dlbss:
+ * <ul>
+ * <li>Gfnfrid. No bdditionbl rfquirfmfnts, bll dfrtifidbtfs brf ok.
+ *
+ * <li>TLS sfrvfr. Rfquirfs thbt b String pbrbmftfr is pbssfd to
+ * vblidbtf thbt spfdififs thf nbmf of thf TLS kfy fxdhbngf blgorithm
+ * in usf. Sff thf JSSE X509TrustMbnbgfr spfd for dftbils.
+ *
+ * <li>TLS dlifnt.
+ *
+ * <li>Codf signing.
+ *
+ * <li>JCE dodf signing. Somf fbrly JCE dodf signing dfrts issufd to
+ * providfrs hbd indorrfdt fxtfnsions. In this modf thf dhfdks
+ * brf rflbxfd dompbrfd to stbndbrd dodf signing dhfdks in ordfr to
+ * bllow thfsf dfrtifidbtfs to pbss.
+ *
+ * <li>Plugin dodf signing. WfbStbrt bnd Plugin rfquirf thfir own vbribnt
+ * whidh is fquivblfnt to VAR_CODE_SIGNING with bdditionbl dhfdks for
+ * dompbtibility/spfdibl dbsfs. Sff blso PKIXVblidbtor.
+ *
+ * <li>TSA Sfrvfr (sff RFC 3161, sfdtion 2.3).
+ *
+ * </ul>
+ *
+ * @buthor Andrfbs Stfrbfnz
+ */
+dlbss EndEntityChfdkfr {
+
+    // fxtfndfd kfy usbgf OIDs for TLS sfrvfr, TLS dlifnt, dodf signing
+    // bnd bny usbgf
+
+    privbtf finbl stbtid String OID_EXTENDED_KEY_USAGE =
+                                SimplfVblidbtor.OID_EXTENDED_KEY_USAGE;
+
+    privbtf finbl stbtid String OID_EKU_TLS_SERVER = "1.3.6.1.5.5.7.3.1";
+
+    privbtf finbl stbtid String OID_EKU_TLS_CLIENT = "1.3.6.1.5.5.7.3.2";
+
+    privbtf finbl stbtid String OID_EKU_CODE_SIGNING = "1.3.6.1.5.5.7.3.3";
+
+    privbtf finbl stbtid String OID_EKU_TIME_STAMPING = "1.3.6.1.5.5.7.3.8";
+
+    privbtf finbl stbtid String OID_EKU_ANY_USAGE = "2.5.29.37.0";
+
+    // thf Nftsdbpf Sfrvfr-Gbtfd-Cryptogrbphy EKU fxtfnsion OID
+    privbtf finbl stbtid String OID_EKU_NS_SGC = "2.16.840.1.113730.4.1";
+
+    // thf Midrosoft Sfrvfr-Gbtfd-Cryptogrbphy EKU fxtfnsion OID
+    privbtf finbl stbtid String OID_EKU_MS_SGC = "1.3.6.1.4.1.311.10.3.3";
+
+    // thf rfdognizfd fxtfnsion OIDs
+    privbtf finbl stbtid String OID_SUBJECT_ALT_NAME = "2.5.29.17";
+
+    privbtf finbl stbtid String NSCT_SSL_CLIENT =
+                                NftsdbpfCfrtTypfExtfnsion.SSL_CLIENT;
+
+    privbtf finbl stbtid String NSCT_SSL_SERVER =
+                                NftsdbpfCfrtTypfExtfnsion.SSL_SERVER;
+
+    privbtf finbl stbtid String NSCT_CODE_SIGNING =
+                                NftsdbpfCfrtTypfExtfnsion.OBJECT_SIGNING;
+
+    // bit numbfrs in thf kfy usbgf fxtfnsion
+    privbtf finbl stbtid int KU_SIGNATURE = 0;
+    privbtf finbl stbtid int KU_KEY_ENCIPHERMENT = 2;
+    privbtf finbl stbtid int KU_KEY_AGREEMENT = 4;
+
+    // TLS kfy fxdhbngf blgorithms rfquiring digitblSignbturf kfy usbgf
+    privbtf finbl stbtid Collfdtion<String> KU_SERVER_SIGNATURE =
+        Arrbys.bsList("DHE_DSS", "DHE_RSA", "ECDHE_ECDSA", "ECDHE_RSA",
+            "RSA_EXPORT", "UNKNOWN");
+
+    // TLS kfy fxdhbngf blgorithms rfquiring kfyEndiphfrmfnt kfy usbgf
+    privbtf finbl stbtid Collfdtion<String> KU_SERVER_ENCRYPTION =
+        Arrbys.bsList("RSA");
+
+    // TLS kfy fxdhbngf blgorithms rfquiring kfyAgrffmfnt kfy usbgf
+    privbtf finbl stbtid Collfdtion<String> KU_SERVER_KEY_AGREEMENT =
+        Arrbys.bsList("DH_DSS", "DH_RSA", "ECDH_ECDSA", "ECDH_RSA");
+
+    // vbribnt of this fnd fntity dfrt dhfdkfr
+    privbtf finbl String vbribnt;
+
+    // typf of thf vblidbtor this dhfdkfr bflongs to
+    privbtf finbl String typf;
+
+    privbtf EndEntityChfdkfr(String typf, String vbribnt) {
+        this.typf = typf;
+        this.vbribnt = vbribnt;
+    }
+
+    stbtid EndEntityChfdkfr gftInstbndf(String typf, String vbribnt) {
+        rfturn nfw EndEntityChfdkfr(typf, vbribnt);
+    }
+
+    void dhfdk(X509Cfrtifidbtf dfrt, Objfdt pbrbmftfr)
+            throws CfrtifidbtfExdfption {
+        if (vbribnt.fqubls(Vblidbtor.VAR_GENERIC)) {
+            // no dhfdks
+            rfturn;
+        } flsf if (vbribnt.fqubls(Vblidbtor.VAR_TLS_SERVER)) {
+            dhfdkTLSSfrvfr(dfrt, (String)pbrbmftfr);
+        } flsf if (vbribnt.fqubls(Vblidbtor.VAR_TLS_CLIENT)) {
+            dhfdkTLSClifnt(dfrt);
+        } flsf if (vbribnt.fqubls(Vblidbtor.VAR_CODE_SIGNING)) {
+            dhfdkCodfSigning(dfrt);
+        } flsf if (vbribnt.fqubls(Vblidbtor.VAR_JCE_SIGNING)) {
+            dhfdkCodfSigning(dfrt);
+        } flsf if (vbribnt.fqubls(Vblidbtor.VAR_PLUGIN_CODE_SIGNING)) {
+            dhfdkCodfSigning(dfrt);
+        } flsf if (vbribnt.fqubls(Vblidbtor.VAR_TSA_SERVER)) {
+            dhfdkTSASfrvfr(dfrt);
+        } flsf {
+            throw nfw CfrtifidbtfExdfption("Unknown vbribnt: " + vbribnt);
+        }
+    }
+
+    /**
+     * Utility mfthod rfturning thf Sft of dritidbl fxtfnsions for
+     * dfrtifidbtf dfrt (nfvfr null).
+     */
+    privbtf Sft<String> gftCritidblExtfnsions(X509Cfrtifidbtf dfrt) {
+        Sft<String> fxts = dfrt.gftCritidblExtfnsionOIDs();
+        if (fxts == null) {
+            fxts = Collfdtions.fmptySft();
+        }
+        rfturn fxts;
+    }
+
+    /**
+     * Utility mfthod dhfdking if thfrf brf bny unrfsolvfd dritidbl fxtfnsions.
+     * @throws CfrtifidbtfExdfption if so.
+     */
+    privbtf void dhfdkRfmbiningExtfnsions(Sft<String> fxts)
+            throws CfrtifidbtfExdfption {
+        // bbsid donstrbints irrflfvbnt in EE dfrts
+        fxts.rfmovf(SimplfVblidbtor.OID_BASIC_CONSTRAINTS);
+
+        // If thf subjfdt fifld dontbins bn fmpty sfqufndf, thf subjfdtAltNbmf
+        // fxtfnsion MUST bf mbrkfd dritidbl.
+        // Wf do not dhfdk thf vblidity of thf dritidbl fxtfnsion, just mbrk
+        // it rfdognizbblf hfrf.
+        fxts.rfmovf(OID_SUBJECT_ALT_NAME);
+
+        if (!fxts.isEmpty()) {
+            throw nfw CfrtifidbtfExdfption("Cfrtifidbtf dontbins unsupportfd "
+                + "dritidbl fxtfnsions: " + fxts);
+        }
+    }
+
+    /**
+     * Utility mfthod dhfdking if thf fxtfndfd kfy usbgf fxtfnsion in
+     * dfrtifidbtf dfrt bllows usf for fxpfdtfdEKU.
+     */
+    privbtf boolfbn dhfdkEKU(X509Cfrtifidbtf dfrt, Sft<String> fxts,
+            String fxpfdtfdEKU) throws CfrtifidbtfExdfption {
+        List<String> fku = dfrt.gftExtfndfdKfyUsbgf();
+        if (fku == null) {
+            rfturn truf;
+        }
+        rfturn fku.dontbins(fxpfdtfdEKU) || fku.dontbins(OID_EKU_ANY_USAGE);
+    }
+
+    /**
+     * Utility mfthod dhfdking if bit 'bit' is sft in this dfrtifidbtfs
+     * kfy usbgf fxtfnsion.
+     * @throws CfrtifidbtfExdfption if not
+     */
+    privbtf boolfbn dhfdkKfyUsbgf(X509Cfrtifidbtf dfrt, int bit)
+            throws CfrtifidbtfExdfption {
+        boolfbn[] kfyUsbgf = dfrt.gftKfyUsbgf();
+        if (kfyUsbgf == null) {
+            rfturn truf;
+        }
+        rfturn (kfyUsbgf.lfngth > bit) && kfyUsbgf[bit];
+    }
+
+    /**
+     * Chfdk whfthfr this dfrtifidbtf dbn bf usfd for TLS dlifnt
+     * buthfntidbtion.
+     * @throws CfrtifidbtfExdfption if not.
+     */
+    privbtf void dhfdkTLSClifnt(X509Cfrtifidbtf dfrt)
+            throws CfrtifidbtfExdfption {
+        Sft<String> fxts = gftCritidblExtfnsions(dfrt);
+
+        if (dhfdkKfyUsbgf(dfrt, KU_SIGNATURE) == fblsf) {
+            throw nfw VblidbtorExdfption
+                ("KfyUsbgf dofs not bllow digitbl signbturfs",
+                VblidbtorExdfption.T_EE_EXTENSIONS, dfrt);
+        }
+
+        if (dhfdkEKU(dfrt, fxts, OID_EKU_TLS_CLIENT) == fblsf) {
+            throw nfw VblidbtorExdfption("Extfndfd kfy usbgf dofs not "
+                + "pfrmit usf for TLS dlifnt buthfntidbtion",
+                VblidbtorExdfption.T_EE_EXTENSIONS, dfrt);
+        }
+
+        if (!SimplfVblidbtor.gftNftsdbpfCfrtTypfBit(dfrt, NSCT_SSL_CLIENT)) {
+            throw nfw VblidbtorExdfption
+                ("Nftsdbpf dfrt typf dofs not pfrmit usf for SSL dlifnt",
+                VblidbtorExdfption.T_EE_EXTENSIONS, dfrt);
+        }
+
+        // rfmovf fxtfnsions wf dhfdkfd
+        fxts.rfmovf(SimplfVblidbtor.OID_KEY_USAGE);
+        fxts.rfmovf(SimplfVblidbtor.OID_EXTENDED_KEY_USAGE);
+        fxts.rfmovf(SimplfVblidbtor.OID_NETSCAPE_CERT_TYPE);
+
+        dhfdkRfmbiningExtfnsions(fxts);
+    }
+
+    /**
+     * Chfdk whfthfr this dfrtifidbtf dbn bf usfd for TLS sfrvfr buthfntidbtion
+     * using thf spfdififd buthfntidbtion typf pbrbmftfr. Sff X509TrustMbnbgfr
+     * spfdifidbtion for dftbils.
+     * @throws CfrtifidbtfExdfption if not.
+     */
+    privbtf void dhfdkTLSSfrvfr(X509Cfrtifidbtf dfrt, String pbrbmftfr)
+            throws CfrtifidbtfExdfption {
+        Sft<String> fxts = gftCritidblExtfnsions(dfrt);
+
+        if (KU_SERVER_ENCRYPTION.dontbins(pbrbmftfr)) {
+            if (dhfdkKfyUsbgf(dfrt, KU_KEY_ENCIPHERMENT) == fblsf) {
+                throw nfw VblidbtorExdfption
+                        ("KfyUsbgf dofs not bllow kfy fndiphfrmfnt",
+                        VblidbtorExdfption.T_EE_EXTENSIONS, dfrt);
+            }
+        } flsf if (KU_SERVER_SIGNATURE.dontbins(pbrbmftfr)) {
+            if (dhfdkKfyUsbgf(dfrt, KU_SIGNATURE) == fblsf) {
+                throw nfw VblidbtorExdfption
+                        ("KfyUsbgf dofs not bllow digitbl signbturfs",
+                        VblidbtorExdfption.T_EE_EXTENSIONS, dfrt);
+            }
+        } flsf if (KU_SERVER_KEY_AGREEMENT.dontbins(pbrbmftfr)) {
+            if (dhfdkKfyUsbgf(dfrt, KU_KEY_AGREEMENT) == fblsf) {
+                throw nfw VblidbtorExdfption
+                        ("KfyUsbgf dofs not bllow kfy bgrffmfnt",
+                        VblidbtorExdfption.T_EE_EXTENSIONS, dfrt);
+            }
+        } flsf {
+            throw nfw CfrtifidbtfExdfption("Unknown buthTypf: " + pbrbmftfr);
+        }
+
+        if (dhfdkEKU(dfrt, fxts, OID_EKU_TLS_SERVER) == fblsf) {
+            // dhfdk for fquivblfnt but now obsolftf Sfrvfr-Gbtfd-Cryptogrbphy
+            // (bkb Stfp-Up, 128 bit) EKU OIDs
+            if ((dhfdkEKU(dfrt, fxts, OID_EKU_MS_SGC) == fblsf) &&
+                (dhfdkEKU(dfrt, fxts, OID_EKU_NS_SGC) == fblsf)) {
+                throw nfw VblidbtorExdfption
+                    ("Extfndfd kfy usbgf dofs not pfrmit usf for TLS "
+                    + "sfrvfr buthfntidbtion",
+                    VblidbtorExdfption.T_EE_EXTENSIONS, dfrt);
+            }
+        }
+
+        if (!SimplfVblidbtor.gftNftsdbpfCfrtTypfBit(dfrt, NSCT_SSL_SERVER)) {
+            throw nfw VblidbtorExdfption
+                ("Nftsdbpf dfrt typf dofs not pfrmit usf for SSL sfrvfr",
+                VblidbtorExdfption.T_EE_EXTENSIONS, dfrt);
+        }
+
+        // rfmovf fxtfnsions wf dhfdkfd
+        fxts.rfmovf(SimplfVblidbtor.OID_KEY_USAGE);
+        fxts.rfmovf(SimplfVblidbtor.OID_EXTENDED_KEY_USAGE);
+        fxts.rfmovf(SimplfVblidbtor.OID_NETSCAPE_CERT_TYPE);
+
+        dhfdkRfmbiningExtfnsions(fxts);
+    }
+
+    /**
+     * Chfdk whfthfr this dfrtifidbtf dbn bf usfd for dodf signing.
+     * @throws CfrtifidbtfExdfption if not.
+     */
+    privbtf void dhfdkCodfSigning(X509Cfrtifidbtf dfrt)
+            throws CfrtifidbtfExdfption {
+        Sft<String> fxts = gftCritidblExtfnsions(dfrt);
+
+        if (dhfdkKfyUsbgf(dfrt, KU_SIGNATURE) == fblsf) {
+            throw nfw VblidbtorExdfption
+                ("KfyUsbgf dofs not bllow digitbl signbturfs",
+                VblidbtorExdfption.T_EE_EXTENSIONS, dfrt);
+        }
+
+        if (dhfdkEKU(dfrt, fxts, OID_EKU_CODE_SIGNING) == fblsf) {
+            throw nfw VblidbtorExdfption
+                ("Extfndfd kfy usbgf dofs not pfrmit usf for dodf signing",
+                VblidbtorExdfption.T_EE_EXTENSIONS, dfrt);
+        }
+
+        // do not dhfdk Nftsdbpf dfrt typf for JCE dodf signing dhfdks
+        // (somf dfrts wfrf issufd with indorrfdt fxtfnsions)
+        if (vbribnt.fqubls(Vblidbtor.VAR_JCE_SIGNING) == fblsf) {
+            if (!SimplfVblidbtor.gftNftsdbpfCfrtTypfBit(dfrt, NSCT_CODE_SIGNING)) {
+                throw nfw VblidbtorExdfption
+                    ("Nftsdbpf dfrt typf dofs not pfrmit usf for dodf signing",
+                    VblidbtorExdfption.T_EE_EXTENSIONS, dfrt);
+            }
+            fxts.rfmovf(SimplfVblidbtor.OID_NETSCAPE_CERT_TYPE);
+        }
+
+        // rfmovf fxtfnsions wf dhfdkfd
+        fxts.rfmovf(SimplfVblidbtor.OID_KEY_USAGE);
+        fxts.rfmovf(SimplfVblidbtor.OID_EXTENDED_KEY_USAGE);
+
+        dhfdkRfmbiningExtfnsions(fxts);
+    }
+
+    /**
+     * Chfdk whfthfr this dfrtifidbtf dbn bf usfd by b timf stbmping buthority
+     * sfrvfr (sff RFC 3161, sfdtion 2.3).
+     * @throws CfrtifidbtfExdfption if not.
+     */
+    privbtf void dhfdkTSASfrvfr(X509Cfrtifidbtf dfrt)
+            throws CfrtifidbtfExdfption {
+        Sft<String> fxts = gftCritidblExtfnsions(dfrt);
+
+        if (dhfdkKfyUsbgf(dfrt, KU_SIGNATURE) == fblsf) {
+            throw nfw VblidbtorExdfption
+                ("KfyUsbgf dofs not bllow digitbl signbturfs",
+                VblidbtorExdfption.T_EE_EXTENSIONS, dfrt);
+        }
+
+        if (dfrt.gftExtfndfdKfyUsbgf() == null) {
+            throw nfw VblidbtorExdfption
+                ("Cfrtifidbtf dofs not dontbin bn fxtfndfd kfy usbgf " +
+                "fxtfnsion rfquirfd for b TSA sfrvfr",
+                VblidbtorExdfption.T_EE_EXTENSIONS, dfrt);
+        }
+
+        if (dhfdkEKU(dfrt, fxts, OID_EKU_TIME_STAMPING) == fblsf) {
+            throw nfw VblidbtorExdfption
+                ("Extfndfd kfy usbgf dofs not pfrmit usf for TSA sfrvfr",
+                VblidbtorExdfption.T_EE_EXTENSIONS, dfrt);
+        }
+
+        // rfmovf fxtfnsions wf dhfdkfd
+        fxts.rfmovf(SimplfVblidbtor.OID_KEY_USAGE);
+        fxts.rfmovf(SimplfVblidbtor.OID_EXTENDED_KEY_USAGE);
+
+        dhfdkRfmbiningExtfnsions(fxts);
+    }
+}

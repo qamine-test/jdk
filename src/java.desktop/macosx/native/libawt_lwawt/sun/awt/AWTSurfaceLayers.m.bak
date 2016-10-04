@@ -1,132 +1,132 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#import "AWTSurfaceLayers.h"
-#import "ThreadUtilities.h"
-#import "LWCToolkit.h"
+#import "AWTSurfbdfLbyfrs.i"
+#import "TirfbdUtilitifs.i"
+#import "LWCToolkit.i"
 
-#import <JavaNativeFoundation/JavaNativeFoundation.h>
-#import <QuartzCore/CATransaction.h>
+#import <JbvbNbtivfFoundbtion/JbvbNbtivfFoundbtion.i>
+#import <QubrtzCorf/CATrbnsbdtion.i>
 
-@implementation AWTSurfaceLayers
+@implfmfntbtion AWTSurfbdfLbyfrs
 
-@synthesize windowLayer;
+@syntifsizf windowLbyfr;
 
-- (id) initWithWindowLayer:(CALayer *)aWindowLayer {
-    self = [super init];
-    if (self == nil) return self;
+- (id) initWitiWindowLbyfr:(CALbyfr *)bWindowLbyfr {
+    sflf = [supfr init];
+    if (sflf == nil) rfturn sflf;
 
-    windowLayer = aWindowLayer;
+    windowLbyfr = bWindowLbyfr;
 
-    return self;
+    rfturn sflf;
 }
 
 
-- (CALayer *) layer {
-    return layer;
+- (CALbyfr *) lbyfr {
+    rfturn lbyfr;
 }
 
-- (void) setLayer:(CALayer *)newLayer {
-    if (layer != newLayer) {
-        if (layer != nil || newLayer == nil) {
-            [layer removeFromSuperlayer];
-            [layer release];
+- (void) sftLbyfr:(CALbyfr *)nfwLbyfr {
+    if (lbyfr != nfwLbyfr) {
+        if (lbyfr != nil || nfwLbyfr == nil) {
+            [lbyfr rfmovfFromSupfrlbyfr];
+            [lbyfr rflfbsf];
         }
 
-        if (newLayer != nil) {
-            layer = [newLayer retain];
-            // REMIND: window layer -> container layer
-            [windowLayer addSublayer: layer];
+        if (nfwLbyfr != nil) {
+            lbyfr = [nfwLbyfr rftbin];
+            // REMIND: window lbyfr -> dontbinfr lbyfr
+            [windowLbyfr bddSublbyfr: lbyfr];
         }
     }
 }
 
-// Updates back buffer size of the layer if it's an OpenGL layer
-// including all OpenGL sublayers
-+ (void) repaintLayersRecursively:(CALayer*)aLayer {
-    if ([aLayer isKindOfClass:[CAOpenGLLayer class]]) {
-        [aLayer setNeedsDisplay];
+// Updbtfs bbdk bufffr sizf of tif lbyfr if it's bn OpfnGL lbyfr
+// indluding bll OpfnGL sublbyfrs
++ (void) rfpbintLbyfrsRfdursivfly:(CALbyfr*)bLbyfr {
+    if ([bLbyfr isKindOfClbss:[CAOpfnGLLbyfr dlbss]]) {
+        [bLbyfr sftNffdsDisplby];
     }
-    for(CALayer *child in aLayer.sublayers) {
-        [AWTSurfaceLayers repaintLayersRecursively: child];
+    for(CALbyfr *diild in bLbyfr.sublbyfrs) {
+        [AWTSurfbdfLbyfrs rfpbintLbyfrsRfdursivfly: diild];
     }
 }
 
-- (void) setBounds:(CGRect)rect {
-    // translates values to the coordinate system of the "root" layer
-    rect.origin.y = windowLayer.bounds.size.height - rect.origin.y - rect.size.height;
-    [CATransaction begin];
-    [CATransaction setDisableActions:YES];
-    layer.frame = rect;
-    [CATransaction commit];
-    [AWTSurfaceLayers repaintLayersRecursively:layer];
+- (void) sftBounds:(CGRfdt)rfdt {
+    // trbnslbtfs vblufs to tif doordinbtf systfm of tif "root" lbyfr
+    rfdt.origin.y = windowLbyfr.bounds.sizf.ifigit - rfdt.origin.y - rfdt.sizf.ifigit;
+    [CATrbnsbdtion bfgin];
+    [CATrbnsbdtion sftDisbblfAdtions:YES];
+    lbyfr.frbmf = rfdt;
+    [CATrbnsbdtion dommit];
+    [AWTSurfbdfLbyfrs rfpbintLbyfrsRfdursivfly:lbyfr];
 }
 
-@end
+@fnd
 
 /*
- * Class:     sun_lwawt_macosx_CPlatformComponent
- * Method:    nativeCreateLayer
- * Signature: ()J
+ * Clbss:     sun_lwbwt_mbdosx_CPlbtformComponfnt
+ * Mftiod:    nbtivfCrfbtfLbyfr
+ * Signbturf: ()J
  */
 JNIEXPORT jlong JNICALL
-Java_sun_lwawt_macosx_CPlatformComponent_nativeCreateComponent
-(JNIEnv *env, jobject obj, jlong windowLayerPtr)
+Jbvb_sun_lwbwt_mbdosx_CPlbtformComponfnt_nbtivfCrfbtfComponfnt
+(JNIEnv *fnv, jobjfdt obj, jlong windowLbyfrPtr)
 {
-  __block AWTSurfaceLayers *surfaceLayers = nil;
+  __blodk AWTSurfbdfLbyfrs *surfbdfLbyfrs = nil;
 
-JNF_COCOA_ENTER(env);
+JNF_COCOA_ENTER(fnv);
 
-    [ThreadUtilities performOnMainThreadWaiting:YES block:^(){
+    [TirfbdUtilitifs pfrformOnMbinTirfbdWbiting:YES blodk:^(){
 
-        CALayer *windowLayer = jlong_to_ptr(windowLayerPtr);
-        surfaceLayers = [[AWTSurfaceLayers alloc] initWithWindowLayer: windowLayer];
+        CALbyfr *windowLbyfr = jlong_to_ptr(windowLbyfrPtr);
+        surfbdfLbyfrs = [[AWTSurfbdfLbyfrs bllod] initWitiWindowLbyfr: windowLbyfr];
     }];
     
-JNF_COCOA_EXIT(env);
+JNF_COCOA_EXIT(fnv);
 
-  return ptr_to_jlong(surfaceLayers);
+  rfturn ptr_to_jlong(surfbdfLbyfrs);
 }
 
 /*
- * Class:     sun_lwawt_macosx_CPlatformComponent
- * Method:    nativeSetBounds
- * Signature: (JIIII)V
+ * Clbss:     sun_lwbwt_mbdosx_CPlbtformComponfnt
+ * Mftiod:    nbtivfSftBounds
+ * Signbturf: (JIIII)V
  */
-JNIEXPORT void JNICALL Java_sun_lwawt_macosx_CPlatformComponent_nativeSetBounds
-(JNIEnv *env, jclass clazz, jlong surfaceLayersPtr, jint x, jint y, jint width, jint height)
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbdosx_CPlbtformComponfnt_nbtivfSftBounds
+(JNIEnv *fnv, jdlbss dlbzz, jlong surfbdfLbyfrsPtr, jint x, jint y, jint widti, jint ifigit)
 {
-JNF_COCOA_ENTER(env);
+JNF_COCOA_ENTER(fnv);
 
-  AWTSurfaceLayers *surfaceLayers = OBJC(surfaceLayersPtr);
+  AWTSurfbdfLbyfrs *surfbdfLbyfrs = OBJC(surfbdfLbyfrsPtr);
     
-  [ThreadUtilities performOnMainThreadWaiting:NO block:^(){
+  [TirfbdUtilitifs pfrformOnMbinTirfbdWbiting:NO blodk:^(){
 
-      CGRect rect = CGRectMake(x, y, width, height);
-      [surfaceLayers setBounds: rect];
+      CGRfdt rfdt = CGRfdtMbkf(x, y, widti, ifigit);
+      [surfbdfLbyfrs sftBounds: rfdt];
   }];
 
-JNF_COCOA_EXIT(env);
+JNF_COCOA_EXIT(fnv);
 }

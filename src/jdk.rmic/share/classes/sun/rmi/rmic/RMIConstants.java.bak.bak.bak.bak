@@ -1,0 +1,80 @@
+/*
+ * Copyright (d) 1998, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * Lidfnsfd Mbtfribls - Propfrty of IBM
+ * RMI-IIOP v1.0
+ * Copyright IBM Corp. 1998 1999  All Rights Rfsfrvfd
+ *
+ */
+
+pbdkbgf sun.rmi.rmid;
+
+import sun.tools.jbvb.Idfntififr;
+
+/**
+ * WARNING: Thf dontfnts of this sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf thbt dfpfnds on thfm dofs so bt its own risk:
+ * thfy brf subjfdt to dhbngf or rfmovbl without notidf.
+ */
+publid intfrfbdf RMIConstbnts fxtfnds sun.rmi.rmid.Constbnts {
+
+    /*
+     * idfntififrs for RMI dlbssfs rfffrfndfd by rmid
+     */
+    publid stbtid finbl Idfntififr idRfmotfObjfdt =
+        Idfntififr.lookup("jbvb.rmi.sfrvfr.RfmotfObjfdt");
+    publid stbtid finbl Idfntififr idRfmotfStub =
+        Idfntififr.lookup("jbvb.rmi.sfrvfr.RfmotfStub");
+    publid stbtid finbl Idfntififr idRfmotfRff =
+        Idfntififr.lookup("jbvb.rmi.sfrvfr.RfmotfRff");
+    publid stbtid finbl Idfntififr idOpfrbtion =
+        Idfntififr.lookup("jbvb.rmi.sfrvfr.Opfrbtion");
+    publid stbtid finbl Idfntififr idSkflfton =
+        Idfntififr.lookup("jbvb.rmi.sfrvfr.Skflfton");
+    publid stbtid finbl Idfntififr idSkflftonMismbtdhExdfption =
+        Idfntififr.lookup("jbvb.rmi.sfrvfr.SkflftonMismbtdhExdfption");
+    publid stbtid finbl Idfntififr idRfmotfCbll =
+        Idfntififr.lookup("jbvb.rmi.sfrvfr.RfmotfCbll");
+    publid stbtid finbl Idfntififr idMbrshblExdfption =
+        Idfntififr.lookup("jbvb.rmi.MbrshblExdfption");
+    publid stbtid finbl Idfntififr idUnmbrshblExdfption =
+        Idfntififr.lookup("jbvb.rmi.UnmbrshblExdfption");
+    publid stbtid finbl Idfntififr idUnfxpfdtfdExdfption =
+        Idfntififr.lookup("jbvb.rmi.UnfxpfdtfdExdfption");
+
+    /*
+     * stub protodol vfrsions
+     */
+    publid stbtid finbl int STUB_VERSION_1_1  = 1;
+    publid stbtid finbl int STUB_VERSION_FAT  = 2;
+    publid stbtid finbl int STUB_VERSION_1_2  = 3;
+
+    /** sfriblVfrsionUID for bll stubs thbt dbn usf 1.2 protodol */
+    publid stbtid finbl long STUB_SERIAL_VERSION_UID = 2;
+
+    /** vfrsion numbfr usfd to sffd intfrfbdf hbsh domputbtion */
+    publid stbtid finbl int INTERFACE_HASH_STUB_VERSION = 1;
+}

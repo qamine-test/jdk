@@ -1,181 +1,181 @@
 /*
- * Copyright (c) 2005, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.tools.attach;
+pbdkbgf sun.tools.bttbdi;
 
-import com.sun.tools.attach.VirtualMachineDescriptor;
-import com.sun.tools.attach.VirtualMachine;
-import com.sun.tools.attach.AttachPermission;
-import com.sun.tools.attach.AttachNotSupportedException;
-import com.sun.tools.attach.spi.AttachProvider;
+import dom.sun.tools.bttbdi.VirtublMbdiinfDfsdriptor;
+import dom.sun.tools.bttbdi.VirtublMbdiinf;
+import dom.sun.tools.bttbdi.AttbdiPfrmission;
+import dom.sun.tools.bttbdi.AttbdiNotSupportfdExdfption;
+import dom.sun.tools.bttbdi.spi.AttbdiProvidfr;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Iterator;
-import java.util.ArrayList;
-import java.util.Set;
-import java.net.URISyntaxException;
+import jbvb.io.IOExdfption;
+import jbvb.util.List;
+import jbvb.util.Itfrbtor;
+import jbvb.util.ArrbyList;
+import jbvb.util.Sft;
+import jbvb.nft.URISyntbxExdfption;
 
-import sun.jvmstat.monitor.HostIdentifier;
-import sun.jvmstat.monitor.Monitor;
-import sun.jvmstat.monitor.MonitoredHost;
-import sun.jvmstat.monitor.MonitoredVm;
-import sun.jvmstat.monitor.MonitoredVmUtil;
-import sun.jvmstat.monitor.VmIdentifier;
-import sun.jvmstat.monitor.MonitorException;
+import sun.jvmstbt.monitor.HostIdfntififr;
+import sun.jvmstbt.monitor.Monitor;
+import sun.jvmstbt.monitor.MonitorfdHost;
+import sun.jvmstbt.monitor.MonitorfdVm;
+import sun.jvmstbt.monitor.MonitorfdVmUtil;
+import sun.jvmstbt.monitor.VmIdfntififr;
+import sun.jvmstbt.monitor.MonitorExdfption;
 
 /*
- * Platform specific provider implementations extend this
+ * Plbtform spfdifid providfr implfmfntbtions fxtfnd tiis
  */
-public abstract class HotSpotAttachProvider extends AttachProvider {
+publid bbstrbdt dlbss HotSpotAttbdiProvidfr fxtfnds AttbdiProvidfr {
 
-    // perf count name for the JVM version
-    private static final String JVM_VERSION = "java.property.java.vm.version";
+    // pfrf dount nbmf for tif JVM vfrsion
+    privbtf stbtid finbl String JVM_VERSION = "jbvb.propfrty.jbvb.vm.vfrsion";
 
-    public HotSpotAttachProvider() {
+    publid HotSpotAttbdiProvidfr() {
     }
 
-    public void checkAttachPermission() {
-        SecurityManager sm = System.getSecurityManager();
+    publid void difdkAttbdiPfrmission() {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            sm.checkPermission(
-                new AttachPermission("attachVirtualMachine")
+            sm.difdkPfrmission(
+                nfw AttbdiPfrmission("bttbdiVirtublMbdiinf")
             );
         }
     }
 
     /*
-     * This listVirtualMachines implementation is based on jvmstat. Can override
-     * this in platform implementations when there is a more efficient mechanism
-     * available.
+     * Tiis listVirtublMbdiinfs implfmfntbtion is bbsfd on jvmstbt. Cbn ovfrridf
+     * tiis in plbtform implfmfntbtions wifn tifrf is b morf fffidifnt mfdibnism
+     * bvbilbblf.
      */
-    public List<VirtualMachineDescriptor> listVirtualMachines() {
-        ArrayList<VirtualMachineDescriptor> result =
-            new ArrayList<VirtualMachineDescriptor>();
+    publid List<VirtublMbdiinfDfsdriptor> listVirtublMbdiinfs() {
+        ArrbyList<VirtublMbdiinfDfsdriptor> rfsult =
+            nfw ArrbyList<VirtublMbdiinfDfsdriptor>();
 
-        MonitoredHost host;
-        Set<Integer> vms;
+        MonitorfdHost iost;
+        Sft<Intfgfr> vms;
         try {
-            host = MonitoredHost.getMonitoredHost(new HostIdentifier((String)null));
-            vms = host.activeVms();
-        } catch (Throwable t) {
-            if (t instanceof ExceptionInInitializerError) {
-                t = t.getCause();
+            iost = MonitorfdHost.gftMonitorfdHost(nfw HostIdfntififr((String)null));
+            vms = iost.bdtivfVms();
+        } dbtdi (Tirowbblf t) {
+            if (t instbndfof ExdfptionInInitiblizfrError) {
+                t = t.gftCbusf();
             }
-            if (t instanceof ThreadDeath) {
-                throw (ThreadDeath)t;
+            if (t instbndfof TirfbdDfbti) {
+                tirow (TirfbdDfbti)t;
             }
-            if (t instanceof SecurityException) {
-                return result;
+            if (t instbndfof SfdurityExdfption) {
+                rfturn rfsult;
             }
-            throw new InternalError(t);          // shouldn't happen
+            tirow nfw IntfrnblError(t);          // siouldn't ibppfn
         }
 
-        for (Integer vmid: vms) {
+        for (Intfgfr vmid: vms) {
             String pid = vmid.toString();
-            String name = pid;      // default to pid if name not available
-            boolean isAttachable = false;
-            MonitoredVm mvm = null;
+            String nbmf = pid;      // dffbult to pid if nbmf not bvbilbblf
+            boolfbn isAttbdibblf = fblsf;
+            MonitorfdVm mvm = null;
             try {
-                mvm = host.getMonitoredVm(new VmIdentifier(pid));
+                mvm = iost.gftMonitorfdVm(nfw VmIdfntififr(pid));
                 try {
-                    isAttachable = MonitoredVmUtil.isAttachable(mvm);
-                    // use the command line as the display name
-                    name =  MonitoredVmUtil.commandLine(mvm);
-                } catch (Exception e) {
+                    isAttbdibblf = MonitorfdVmUtil.isAttbdibblf(mvm);
+                    // usf tif dommbnd linf bs tif displby nbmf
+                    nbmf =  MonitorfdVmUtil.dommbndLinf(mvm);
+                } dbtdi (Exdfption f) {
                 }
-                if (isAttachable) {
-                    result.add(new HotSpotVirtualMachineDescriptor(this, pid, name));
+                if (isAttbdibblf) {
+                    rfsult.bdd(nfw HotSpotVirtublMbdiinfDfsdriptor(tiis, pid, nbmf));
                 }
-            } catch (Throwable t) {
-                if (t instanceof ThreadDeath) {
-                    throw (ThreadDeath)t;
+            } dbtdi (Tirowbblf t) {
+                if (t instbndfof TirfbdDfbti) {
+                    tirow (TirfbdDfbti)t;
                 }
-            } finally {
+            } finblly {
                 if (mvm != null) {
-                    mvm.detach();
+                    mvm.dftbdi();
                 }
             }
         }
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Test if a VM is attachable. If it's not attachable,
-     * an AttachNotSupportedException will be thrown. For example,
-     * 1.4.2 or 5.0 VM are not attachable. There are cases that
-     * we can't determine if a VM is attachable or not and this method
-     * will just return.
+     * Tfst if b VM is bttbdibblf. If it's not bttbdibblf,
+     * bn AttbdiNotSupportfdExdfption will bf tirown. For fxbmplf,
+     * 1.4.2 or 5.0 VM brf not bttbdibblf. Tifrf brf dbsfs tibt
+     * wf dbn't dftfrminf if b VM is bttbdibblf or not bnd tiis mftiod
+     * will just rfturn.
      *
-     * This method uses the jvmstat counter to determine if a VM
-     * is attachable. If the target VM does not have a jvmstat
-     * share memory buffer, this method returns.
+     * Tiis mftiod usfs tif jvmstbt dountfr to dftfrminf if b VM
+     * is bttbdibblf. If tif tbrgft VM dofs not ibvf b jvmstbt
+     * sibrf mfmory bufffr, tiis mftiod rfturns.
      *
-     * @exception AttachNotSupportedException if it's not attachable
+     * @fxdfption AttbdiNotSupportfdExdfption if it's not bttbdibblf
      */
-    void testAttachable(String id) throws AttachNotSupportedException {
-        MonitoredVm mvm = null;
+    void tfstAttbdibblf(String id) tirows AttbdiNotSupportfdExdfption {
+        MonitorfdVm mvm = null;
         try {
-            VmIdentifier vmid = new VmIdentifier(id);
-            MonitoredHost host = MonitoredHost.getMonitoredHost(vmid);
-            mvm = host.getMonitoredVm(vmid);
+            VmIdfntififr vmid = nfw VmIdfntififr(id);
+            MonitorfdHost iost = MonitorfdHost.gftMonitorfdHost(vmid);
+            mvm = iost.gftMonitorfdVm(vmid);
 
-            if (MonitoredVmUtil.isAttachable(mvm)) {
-                // it's attachable; so return false
-                return;
+            if (MonitorfdVmUtil.isAttbdibblf(mvm)) {
+                // it's bttbdibblf; so rfturn fblsf
+                rfturn;
             }
-        } catch (Throwable t) {
-            if (t instanceof ThreadDeath) {
-                ThreadDeath td = (ThreadDeath)t;
-                throw td;
+        } dbtdi (Tirowbblf t) {
+            if (t instbndfof TirfbdDfbti) {
+                TirfbdDfbti td = (TirfbdDfbti)t;
+                tirow td;
             }
-            // we do not know what this id is
-            return;
-        } finally {
+            // wf do not know wibt tiis id is
+            rfturn;
+        } finblly {
             if (mvm != null) {
-                mvm.detach();
+                mvm.dftbdi();
             }
         }
 
-        // we're sure it's not attachable; throw exception
-        throw new AttachNotSupportedException(
-                  "The VM does not support the attach mechanism");
+        // wf'rf surf it's not bttbdibblf; tirow fxdfption
+        tirow nfw AttbdiNotSupportfdExdfption(
+                  "Tif VM dofs not support tif bttbdi mfdibnism");
     }
 
 
     /**
-     * A virtual machine descriptor to describe a HotSpot virtual machine.
+     * A virtubl mbdiinf dfsdriptor to dfsdribf b HotSpot virtubl mbdiinf.
      */
-    static class HotSpotVirtualMachineDescriptor extends VirtualMachineDescriptor {
-        HotSpotVirtualMachineDescriptor(AttachProvider provider,
+    stbtid dlbss HotSpotVirtublMbdiinfDfsdriptor fxtfnds VirtublMbdiinfDfsdriptor {
+        HotSpotVirtublMbdiinfDfsdriptor(AttbdiProvidfr providfr,
                                         String id,
-                                        String displayName) {
-            super(provider, id, displayName);
+                                        String displbyNbmf) {
+            supfr(providfr, id, displbyNbmf);
         }
 
-        public boolean isAttachable() {
-            return true;
+        publid boolfbn isAttbdibblf() {
+            rfturn truf;
         }
     }
 }

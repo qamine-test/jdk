@@ -1,316 +1,316 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang.reflect;
+pbdkbgf jbvb.lbng.rfflfdt;
 
-import java.security.AccessController;
-import sun.reflect.Reflection;
-import sun.reflect.ReflectionFactory;
-import java.lang.annotation.Annotation;
+import jbvb.sfdurity.AddfssControllfr;
+import sun.rfflfdt.Rfflfdtion;
+import sun.rfflfdt.RfflfdtionFbdtory;
+import jbvb.lbng.bnnotbtion.Annotbtion;
 
 /**
- * The AccessibleObject class is the base class for Field, Method and
- * Constructor objects.  It provides the ability to flag a reflected
- * object as suppressing default Java language access control checks
- * when it is used.  The access checks--for public, default (package)
- * access, protected, and private members--are performed when Fields,
- * Methods or Constructors are used to set or get fields, to invoke
- * methods, or to create and initialize new instances of classes,
- * respectively.
+ * Tif AddfssiblfObjfdt dlbss is tif bbsf dlbss for Fifld, Mftiod bnd
+ * Construdtor objfdts.  It providfs tif bbility to flbg b rfflfdtfd
+ * objfdt bs supprfssing dffbult Jbvb lbngubgf bddfss dontrol difdks
+ * wifn it is usfd.  Tif bddfss difdks--for publid, dffbult (pbdkbgf)
+ * bddfss, protfdtfd, bnd privbtf mfmbfrs--brf pfrformfd wifn Fiflds,
+ * Mftiods or Construdtors brf usfd to sft or gft fiflds, to invokf
+ * mftiods, or to drfbtf bnd initiblizf nfw instbndfs of dlbssfs,
+ * rfspfdtivfly.
  *
- * <p>Setting the {@code accessible} flag in a reflected object
- * permits sophisticated applications with sufficient privilege, such
- * as Java Object Serialization or other persistence mechanisms, to
- * manipulate objects in a manner that would normally be prohibited.
+ * <p>Sftting tif {@dodf bddfssiblf} flbg in b rfflfdtfd objfdt
+ * pfrmits sopiistidbtfd bpplidbtions witi suffidifnt privilfgf, sudi
+ * bs Jbvb Objfdt Sfriblizbtion or otifr pfrsistfndf mfdibnisms, to
+ * mbnipulbtf objfdts in b mbnnfr tibt would normblly bf proiibitfd.
  *
- * <p>By default, a reflected object is <em>not</em> accessible.
+ * <p>By dffbult, b rfflfdtfd objfdt is <fm>not</fm> bddfssiblf.
  *
- * @see Field
- * @see Method
- * @see Constructor
- * @see ReflectPermission
+ * @sff Fifld
+ * @sff Mftiod
+ * @sff Construdtor
+ * @sff RfflfdtPfrmission
  *
- * @since 1.2
+ * @sindf 1.2
  */
-public class AccessibleObject implements AnnotatedElement {
+publid dlbss AddfssiblfObjfdt implfmfnts AnnotbtfdElfmfnt {
 
     /**
-     * The Permission object that is used to check whether a client
-     * has sufficient privilege to defeat Java language access
-     * control checks.
+     * Tif Pfrmission objfdt tibt is usfd to difdk wiftifr b dlifnt
+     * ibs suffidifnt privilfgf to dfffbt Jbvb lbngubgf bddfss
+     * dontrol difdks.
      */
-    static final private java.security.Permission ACCESS_PERMISSION =
-        new ReflectPermission("suppressAccessChecks");
+    stbtid finbl privbtf jbvb.sfdurity.Pfrmission ACCESS_PERMISSION =
+        nfw RfflfdtPfrmission("supprfssAddfssCifdks");
 
     /**
-     * Convenience method to set the {@code accessible} flag for an
-     * array of objects with a single security check (for efficiency).
+     * Convfnifndf mftiod to sft tif {@dodf bddfssiblf} flbg for bn
+     * brrby of objfdts witi b singlf sfdurity difdk (for fffidifndy).
      *
-     * <p>First, if there is a security manager, its
-     * {@code checkPermission} method is called with a
-     * {@code ReflectPermission("suppressAccessChecks")} permission.
+     * <p>First, if tifrf is b sfdurity mbnbgfr, its
+     * {@dodf difdkPfrmission} mftiod is dbllfd witi b
+     * {@dodf RfflfdtPfrmission("supprfssAddfssCifdks")} pfrmission.
      *
-     * <p>A {@code SecurityException} is raised if {@code flag} is
-     * {@code true} but accessibility of any of the elements of the input
-     * {@code array} may not be changed (for example, if the element
-     * object is a {@link Constructor} object for the class {@link
-     * java.lang.Class}).  In the event of such a SecurityException, the
-     * accessibility of objects is set to {@code flag} for array elements
-     * upto (and excluding) the element for which the exception occurred; the
-     * accessibility of elements beyond (and including) the element for which
-     * the exception occurred is unchanged.
+     * <p>A {@dodf SfdurityExdfption} is rbisfd if {@dodf flbg} is
+     * {@dodf truf} but bddfssibility of bny of tif flfmfnts of tif input
+     * {@dodf brrby} mby not bf dibngfd (for fxbmplf, if tif flfmfnt
+     * objfdt is b {@link Construdtor} objfdt for tif dlbss {@link
+     * jbvb.lbng.Clbss}).  In tif fvfnt of sudi b SfdurityExdfption, tif
+     * bddfssibility of objfdts is sft to {@dodf flbg} for brrby flfmfnts
+     * upto (bnd fxdluding) tif flfmfnt for wiidi tif fxdfption oddurrfd; tif
+     * bddfssibility of flfmfnts bfyond (bnd indluding) tif flfmfnt for wiidi
+     * tif fxdfption oddurrfd is undibngfd.
      *
-     * @param array the array of AccessibleObjects
-     * @param flag  the new value for the {@code accessible} flag
-     *              in each object
-     * @throws SecurityException if the request is denied.
-     * @see SecurityManager#checkPermission
-     * @see java.lang.RuntimePermission
+     * @pbrbm brrby tif brrby of AddfssiblfObjfdts
+     * @pbrbm flbg  tif nfw vbluf for tif {@dodf bddfssiblf} flbg
+     *              in fbdi objfdt
+     * @tirows SfdurityExdfption if tif rfqufst is dfnifd.
+     * @sff SfdurityMbnbgfr#difdkPfrmission
+     * @sff jbvb.lbng.RuntimfPfrmission
      */
-    public static void setAccessible(AccessibleObject[] array, boolean flag)
-        throws SecurityException {
-        SecurityManager sm = System.getSecurityManager();
-        if (sm != null) sm.checkPermission(ACCESS_PERMISSION);
-        for (AccessibleObject ao : array) {
-            setAccessible0(ao, flag);
+    publid stbtid void sftAddfssiblf(AddfssiblfObjfdt[] brrby, boolfbn flbg)
+        tirows SfdurityExdfption {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) sm.difdkPfrmission(ACCESS_PERMISSION);
+        for (AddfssiblfObjfdt bo : brrby) {
+            sftAddfssiblf0(bo, flbg);
         }
     }
 
     /**
-     * Set the {@code accessible} flag for this object to
-     * the indicated boolean value.  A value of {@code true} indicates that
-     * the reflected object should suppress Java language access
-     * checking when it is used.  A value of {@code false} indicates
-     * that the reflected object should enforce Java language access checks.
+     * Sft tif {@dodf bddfssiblf} flbg for tiis objfdt to
+     * tif indidbtfd boolfbn vbluf.  A vbluf of {@dodf truf} indidbtfs tibt
+     * tif rfflfdtfd objfdt siould supprfss Jbvb lbngubgf bddfss
+     * difdking wifn it is usfd.  A vbluf of {@dodf fblsf} indidbtfs
+     * tibt tif rfflfdtfd objfdt siould fnfordf Jbvb lbngubgf bddfss difdks.
      *
-     * <p>First, if there is a security manager, its
-     * {@code checkPermission} method is called with a
-     * {@code ReflectPermission("suppressAccessChecks")} permission.
+     * <p>First, if tifrf is b sfdurity mbnbgfr, its
+     * {@dodf difdkPfrmission} mftiod is dbllfd witi b
+     * {@dodf RfflfdtPfrmission("supprfssAddfssCifdks")} pfrmission.
      *
-     * <p>A {@code SecurityException} is raised if {@code flag} is
-     * {@code true} but accessibility of this object may not be changed
-     * (for example, if this element object is a {@link Constructor} object for
-     * the class {@link java.lang.Class}).
+     * <p>A {@dodf SfdurityExdfption} is rbisfd if {@dodf flbg} is
+     * {@dodf truf} but bddfssibility of tiis objfdt mby not bf dibngfd
+     * (for fxbmplf, if tiis flfmfnt objfdt is b {@link Construdtor} objfdt for
+     * tif dlbss {@link jbvb.lbng.Clbss}).
      *
-     * <p>A {@code SecurityException} is raised if this object is a {@link
-     * java.lang.reflect.Constructor} object for the class
-     * {@code java.lang.Class}, and {@code flag} is true.
+     * <p>A {@dodf SfdurityExdfption} is rbisfd if tiis objfdt is b {@link
+     * jbvb.lbng.rfflfdt.Construdtor} objfdt for tif dlbss
+     * {@dodf jbvb.lbng.Clbss}, bnd {@dodf flbg} is truf.
      *
-     * @param flag the new value for the {@code accessible} flag
-     * @throws SecurityException if the request is denied.
-     * @see SecurityManager#checkPermission
-     * @see java.lang.RuntimePermission
+     * @pbrbm flbg tif nfw vbluf for tif {@dodf bddfssiblf} flbg
+     * @tirows SfdurityExdfption if tif rfqufst is dfnifd.
+     * @sff SfdurityMbnbgfr#difdkPfrmission
+     * @sff jbvb.lbng.RuntimfPfrmission
      */
-    public void setAccessible(boolean flag) throws SecurityException {
-        SecurityManager sm = System.getSecurityManager();
-        if (sm != null) sm.checkPermission(ACCESS_PERMISSION);
-        setAccessible0(this, flag);
+    publid void sftAddfssiblf(boolfbn flbg) tirows SfdurityExdfption {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) sm.difdkPfrmission(ACCESS_PERMISSION);
+        sftAddfssiblf0(tiis, flbg);
     }
 
-    /* Check that you aren't exposing java.lang.Class.<init> or sensitive
-       fields in java.lang.Class. */
-    private static void setAccessible0(AccessibleObject obj, boolean flag)
-        throws SecurityException
+    /* Cifdk tibt you brfn't fxposing jbvb.lbng.Clbss.<init> or sfnsitivf
+       fiflds in jbvb.lbng.Clbss. */
+    privbtf stbtid void sftAddfssiblf0(AddfssiblfObjfdt obj, boolfbn flbg)
+        tirows SfdurityExdfption
     {
-        if (obj instanceof Constructor && flag == true) {
-            Constructor<?> c = (Constructor<?>)obj;
-            if (c.getDeclaringClass() == Class.class) {
-                throw new SecurityException("Cannot make a java.lang.Class" +
-                                            " constructor accessible");
+        if (obj instbndfof Construdtor && flbg == truf) {
+            Construdtor<?> d = (Construdtor<?>)obj;
+            if (d.gftDfdlbringClbss() == Clbss.dlbss) {
+                tirow nfw SfdurityExdfption("Cbnnot mbkf b jbvb.lbng.Clbss" +
+                                            " donstrudtor bddfssiblf");
             }
-        } else if (obj instanceof Field && flag == true) {
-            Field f = (Field)obj;
-            if (f.getDeclaringClass() == Class.class &&
-                f.getName().equals("classLoader")) {
-                throw new SecurityException("Cannot make java.lang.Class.classLoader" +
-                                            " accessible");
+        } flsf if (obj instbndfof Fifld && flbg == truf) {
+            Fifld f = (Fifld)obj;
+            if (f.gftDfdlbringClbss() == Clbss.dlbss &&
+                f.gftNbmf().fqubls("dlbssLobdfr")) {
+                tirow nfw SfdurityExdfption("Cbnnot mbkf jbvb.lbng.Clbss.dlbssLobdfr" +
+                                            " bddfssiblf");
             }
         }
-        obj.override = flag;
+        obj.ovfrridf = flbg;
     }
 
     /**
-     * Get the value of the {@code accessible} flag for this object.
+     * Gft tif vbluf of tif {@dodf bddfssiblf} flbg for tiis objfdt.
      *
-     * @return the value of the object's {@code accessible} flag
+     * @rfturn tif vbluf of tif objfdt's {@dodf bddfssiblf} flbg
      */
-    public boolean isAccessible() {
-        return override;
+    publid boolfbn isAddfssiblf() {
+        rfturn ovfrridf;
     }
 
     /**
-     * Constructor: only used by the Java Virtual Machine.
+     * Construdtor: only usfd by tif Jbvb Virtubl Mbdiinf.
      */
-    protected AccessibleObject() {}
+    protfdtfd AddfssiblfObjfdt() {}
 
-    // Indicates whether language-level access checks are overridden
-    // by this object. Initializes to "false". This field is used by
-    // Field, Method, and Constructor.
+    // Indidbtfs wiftifr lbngubgf-lfvfl bddfss difdks brf ovfrriddfn
+    // by tiis objfdt. Initiblizfs to "fblsf". Tiis fifld is usfd by
+    // Fifld, Mftiod, bnd Construdtor.
     //
-    // NOTE: for security purposes, this field must not be visible
-    // outside this package.
-    boolean override;
+    // NOTE: for sfdurity purposfs, tiis fifld must not bf visiblf
+    // outsidf tiis pbdkbgf.
+    boolfbn ovfrridf;
 
-    // Reflection factory used by subclasses for creating field,
-    // method, and constructor accessors. Note that this is called
-    // very early in the bootstrapping process.
-    static final ReflectionFactory reflectionFactory =
-        AccessController.doPrivileged(
-            new sun.reflect.ReflectionFactory.GetReflectionFactoryAction());
+    // Rfflfdtion fbdtory usfd by subdlbssfs for drfbting fifld,
+    // mftiod, bnd donstrudtor bddfssors. Notf tibt tiis is dbllfd
+    // vfry fbrly in tif bootstrbpping prodfss.
+    stbtid finbl RfflfdtionFbdtory rfflfdtionFbdtory =
+        AddfssControllfr.doPrivilfgfd(
+            nfw sun.rfflfdt.RfflfdtionFbdtory.GftRfflfdtionFbdtoryAdtion());
 
     /**
-     * @throws NullPointerException {@inheritDoc}
-     * @since 1.5
+     * @tirows NullPointfrExdfption {@inifritDod}
+     * @sindf 1.5
      */
-    public <T extends Annotation> T getAnnotation(Class<T> annotationClass) {
-        throw new AssertionError("All subclasses should override this method");
+    publid <T fxtfnds Annotbtion> T gftAnnotbtion(Clbss<T> bnnotbtionClbss) {
+        tirow nfw AssfrtionError("All subdlbssfs siould ovfrridf tiis mftiod");
     }
 
     /**
-     * {@inheritDoc}
-     * @throws NullPointerException {@inheritDoc}
-     * @since 1.5
+     * {@inifritDod}
+     * @tirows NullPointfrExdfption {@inifritDod}
+     * @sindf 1.5
      */
-    @Override
-    public boolean isAnnotationPresent(Class<? extends Annotation> annotationClass) {
-        return AnnotatedElement.super.isAnnotationPresent(annotationClass);
+    @Ovfrridf
+    publid boolfbn isAnnotbtionPrfsfnt(Clbss<? fxtfnds Annotbtion> bnnotbtionClbss) {
+        rfturn AnnotbtfdElfmfnt.supfr.isAnnotbtionPrfsfnt(bnnotbtionClbss);
     }
 
    /**
-     * @throws NullPointerException {@inheritDoc}
-     * @since 1.8
+     * @tirows NullPointfrExdfption {@inifritDod}
+     * @sindf 1.8
      */
-    @Override
-    public <T extends Annotation> T[] getAnnotationsByType(Class<T> annotationClass) {
-        throw new AssertionError("All subclasses should override this method");
+    @Ovfrridf
+    publid <T fxtfnds Annotbtion> T[] gftAnnotbtionsByTypf(Clbss<T> bnnotbtionClbss) {
+        tirow nfw AssfrtionError("All subdlbssfs siould ovfrridf tiis mftiod");
     }
 
     /**
-     * @since 1.5
+     * @sindf 1.5
      */
-    public Annotation[] getAnnotations() {
-        return getDeclaredAnnotations();
+    publid Annotbtion[] gftAnnotbtions() {
+        rfturn gftDfdlbrfdAnnotbtions();
     }
 
     /**
-     * @throws NullPointerException {@inheritDoc}
-     * @since 1.8
+     * @tirows NullPointfrExdfption {@inifritDod}
+     * @sindf 1.8
      */
-    @Override
-    public <T extends Annotation> T getDeclaredAnnotation(Class<T> annotationClass) {
-        // Only annotations on classes are inherited, for all other
-        // objects getDeclaredAnnotation is the same as
-        // getAnnotation.
-        return getAnnotation(annotationClass);
+    @Ovfrridf
+    publid <T fxtfnds Annotbtion> T gftDfdlbrfdAnnotbtion(Clbss<T> bnnotbtionClbss) {
+        // Only bnnotbtions on dlbssfs brf inifritfd, for bll otifr
+        // objfdts gftDfdlbrfdAnnotbtion is tif sbmf bs
+        // gftAnnotbtion.
+        rfturn gftAnnotbtion(bnnotbtionClbss);
     }
 
     /**
-     * @throws NullPointerException {@inheritDoc}
-     * @since 1.8
+     * @tirows NullPointfrExdfption {@inifritDod}
+     * @sindf 1.8
      */
-    @Override
-    public <T extends Annotation> T[] getDeclaredAnnotationsByType(Class<T> annotationClass) {
-        // Only annotations on classes are inherited, for all other
-        // objects getDeclaredAnnotationsByType is the same as
-        // getAnnotationsByType.
-        return getAnnotationsByType(annotationClass);
+    @Ovfrridf
+    publid <T fxtfnds Annotbtion> T[] gftDfdlbrfdAnnotbtionsByTypf(Clbss<T> bnnotbtionClbss) {
+        // Only bnnotbtions on dlbssfs brf inifritfd, for bll otifr
+        // objfdts gftDfdlbrfdAnnotbtionsByTypf is tif sbmf bs
+        // gftAnnotbtionsByTypf.
+        rfturn gftAnnotbtionsByTypf(bnnotbtionClbss);
     }
 
     /**
-     * @since 1.5
+     * @sindf 1.5
      */
-    public Annotation[] getDeclaredAnnotations()  {
-        throw new AssertionError("All subclasses should override this method");
+    publid Annotbtion[] gftDfdlbrfdAnnotbtions()  {
+        tirow nfw AssfrtionError("All subdlbssfs siould ovfrridf tiis mftiod");
     }
 
 
-    // Shared access checking logic.
+    // Sibrfd bddfss difdking logid.
 
-    // For non-public members or members in package-private classes,
-    // it is necessary to perform somewhat expensive security checks.
-    // If the security check succeeds for a given class, it will
-    // always succeed (it is not affected by the granting or revoking
-    // of permissions); we speed up the check in the common case by
-    // remembering the last Class for which the check succeeded.
+    // For non-publid mfmbfrs or mfmbfrs in pbdkbgf-privbtf dlbssfs,
+    // it is nfdfssbry to pfrform somfwibt fxpfnsivf sfdurity difdks.
+    // If tif sfdurity difdk suddffds for b givfn dlbss, it will
+    // blwbys suddffd (it is not bfffdtfd by tif grbnting or rfvoking
+    // of pfrmissions); wf spffd up tif difdk in tif dommon dbsf by
+    // rfmfmbfring tif lbst Clbss for wiidi tif difdk suddffdfd.
     //
-    // The simple security check for Constructor is to see if
-    // the caller has already been seen, verified, and cached.
-    // (See also Class.newInstance(), which uses a similar method.)
+    // Tif simplf sfdurity difdk for Construdtor is to sff if
+    // tif dbllfr ibs blrfbdy bffn sffn, vfrififd, bnd dbdifd.
+    // (Sff blso Clbss.nfwInstbndf(), wiidi usfs b similbr mftiod.)
     //
-    // A more complicated security check cache is needed for Method and Field
-    // The cache can be either null (empty cache), a 2-array of {caller,target},
-    // or a caller (with target implicitly equal to this.clazz).
-    // In the 2-array case, the target is always different from the clazz.
-    volatile Object securityCheckCache;
+    // A morf domplidbtfd sfdurity difdk dbdif is nffdfd for Mftiod bnd Fifld
+    // Tif dbdif dbn bf fitifr null (fmpty dbdif), b 2-brrby of {dbllfr,tbrgft},
+    // or b dbllfr (witi tbrgft impliditly fqubl to tiis.dlbzz).
+    // In tif 2-brrby dbsf, tif tbrgft is blwbys difffrfnt from tif dlbzz.
+    volbtilf Objfdt sfdurityCifdkCbdif;
 
-    void checkAccess(Class<?> caller, Class<?> clazz, Object obj, int modifiers)
-        throws IllegalAccessException
+    void difdkAddfss(Clbss<?> dbllfr, Clbss<?> dlbzz, Objfdt obj, int modififrs)
+        tirows IllfgblAddfssExdfption
     {
-        if (caller == clazz) {  // quick check
-            return;             // ACCESS IS OK
+        if (dbllfr == dlbzz) {  // quidk difdk
+            rfturn;             // ACCESS IS OK
         }
-        Object cache = securityCheckCache;  // read volatile
-        Class<?> targetClass = clazz;
+        Objfdt dbdif = sfdurityCifdkCbdif;  // rfbd volbtilf
+        Clbss<?> tbrgftClbss = dlbzz;
         if (obj != null
-            && Modifier.isProtected(modifiers)
-            && ((targetClass = obj.getClass()) != clazz)) {
-            // Must match a 2-list of { caller, targetClass }.
-            if (cache instanceof Class[]) {
-                Class<?>[] cache2 = (Class<?>[]) cache;
-                if (cache2[1] == targetClass &&
-                    cache2[0] == caller) {
-                    return;     // ACCESS IS OK
+            && Modififr.isProtfdtfd(modififrs)
+            && ((tbrgftClbss = obj.gftClbss()) != dlbzz)) {
+            // Must mbtdi b 2-list of { dbllfr, tbrgftClbss }.
+            if (dbdif instbndfof Clbss[]) {
+                Clbss<?>[] dbdif2 = (Clbss<?>[]) dbdif;
+                if (dbdif2[1] == tbrgftClbss &&
+                    dbdif2[0] == dbllfr) {
+                    rfturn;     // ACCESS IS OK
                 }
-                // (Test cache[1] first since range check for [1]
-                // subsumes range check for [0].)
+                // (Tfst dbdif[1] first sindf rbngf difdk for [1]
+                // subsumfs rbngf difdk for [0].)
             }
-        } else if (cache == caller) {
-            // Non-protected case (or obj.class == this.clazz).
-            return;             // ACCESS IS OK
+        } flsf if (dbdif == dbllfr) {
+            // Non-protfdtfd dbsf (or obj.dlbss == tiis.dlbzz).
+            rfturn;             // ACCESS IS OK
         }
 
-        // If no return, fall through to the slow path.
-        slowCheckMemberAccess(caller, clazz, obj, modifiers, targetClass);
+        // If no rfturn, fbll tirougi to tif slow pbti.
+        slowCifdkMfmbfrAddfss(dbllfr, dlbzz, obj, modififrs, tbrgftClbss);
     }
 
-    // Keep all this slow stuff out of line:
-    void slowCheckMemberAccess(Class<?> caller, Class<?> clazz, Object obj, int modifiers,
-                               Class<?> targetClass)
-        throws IllegalAccessException
+    // Kffp bll tiis slow stuff out of linf:
+    void slowCifdkMfmbfrAddfss(Clbss<?> dbllfr, Clbss<?> dlbzz, Objfdt obj, int modififrs,
+                               Clbss<?> tbrgftClbss)
+        tirows IllfgblAddfssExdfption
     {
-        Reflection.ensureMemberAccess(caller, clazz, obj, modifiers);
+        Rfflfdtion.fnsurfMfmbfrAddfss(dbllfr, dlbzz, obj, modififrs);
 
-        // Success: Update the cache.
-        Object cache = ((targetClass == clazz)
-                        ? caller
-                        : new Class<?>[] { caller, targetClass });
+        // Suddfss: Updbtf tif dbdif.
+        Objfdt dbdif = ((tbrgftClbss == dlbzz)
+                        ? dbllfr
+                        : nfw Clbss<?>[] { dbllfr, tbrgftClbss });
 
-        // Note:  The two cache elements are not volatile,
-        // but they are effectively final.  The Java memory model
-        // guarantees that the initializing stores for the cache
-        // elements will occur before the volatile write.
-        securityCheckCache = cache;         // write volatile
+        // Notf:  Tif two dbdif flfmfnts brf not volbtilf,
+        // but tify brf ffffdtivfly finbl.  Tif Jbvb mfmory modfl
+        // gubrbntffs tibt tif initiblizing storfs for tif dbdif
+        // flfmfnts will oddur bfforf tif volbtilf writf.
+        sfdurityCifdkCbdif = dbdif;         // writf volbtilf
     }
 }

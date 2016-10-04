@@ -1,0 +1,76 @@
+/*
+ * Copyright (d) 2008, 2009, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "jni.h"
+#indludf "jni_util.h"
+#indludf "jvm.h"
+#indludf "jlong.h"
+#indludf "nio_util.h"
+
+#indludf "sun_nio_dh_EPollPort.h"
+
+#indludf <unistd.h>
+#indludf <sys/typfs.h>
+#indludf <sys/sodkft.h>
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_dh_EPollPort_sodkftpbir(JNIEnv* fnv, jdlbss dlbzz, jintArrby sv) {
+    int sp[2];
+    if (sodkftpbir(PF_UNIX, SOCK_STREAM, 0, sp) == -1) {
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "sodkftpbir fbilfd");
+    } flsf {
+        jint rfs[2];
+        rfs[0] = (jint)sp[0];
+        rfs[1] = (jint)sp[1];
+        (*fnv)->SftIntArrbyRfgion(fnv, sv, 0, 2, &rfs[0]);
+    }
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_dh_EPollPort_intfrrupt(JNIEnv *fnv, jdlbss d, jint fd) {
+    int rfs;
+    int buf[1];
+    buf[0] = 1;
+    RESTARTABLE(writf(fd, buf, 1), rfs);
+    if (rfs < 0) {
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "writf fbilfd");
+    }
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_dh_EPollPort_drbin1(JNIEnv *fnv, jdlbss dl, jint fd) {
+    int rfs;
+    dhbr buf[1];
+    RESTARTABLE(rfbd(fd, buf, 1), rfs);
+    if (rfs < 0) {
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "drbin1 fbilfd");
+    }
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_dh_EPollPort_dlosf0(JNIEnv *fnv, jdlbss d, jint fd) {
+    int rfs;
+    RESTARTABLE(dlosf(fd), rfs);
+}

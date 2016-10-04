@@ -1,0 +1,1301 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt;
+
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
+import jbvb.util.Collfdtion;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbshMbp;
+import jbvb.util.Itfrbtor;
+import sun.bwt.SunHints;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+
+/**
+ * Thf {@dodf RfndfringHints} dlbss dffinfs bnd mbnbgfs dollfdtions of
+ * kfys bnd bssodibtfd vblufs whidh bllow bn bpplidbtion to providf input
+ * into thf dhoidf of blgorithms usfd by othfr dlbssfs whidh pfrform
+ * rfndfring bnd imbgf mbnipulbtion sfrvidfs.
+ * Thf {@link jbvb.bwt.Grbphids2D} dlbss, bnd dlbssfs thbt implfmfnt
+ * {@link jbvb.bwt.imbgf.BufffrfdImbgfOp} bnd
+ * {@link jbvb.bwt.imbgf.RbstfrOp} bll providf mfthods to gft bnd
+ * possibly to sft individubl or groups of {@dodf RfndfringHints}
+ * kfys bnd thfir bssodibtfd vblufs.
+ * Whfn thosf implfmfntbtions pfrform bny rfndfring or imbgf mbnipulbtion
+ * opfrbtions thfy should fxbminf thf vblufs of bny {@dodf RfndfringHints}
+ * thbt wfrf rfqufstfd by thf dbllfr bnd tbilor thf blgorithms usfd
+ * bddordingly bnd to thf bfst of thfir bbility.
+ * <p>
+ * Notf thbt sindf thfsf kfys bnd vblufs brf <i>hints</i>, thfrf is
+ * no rfquirfmfnt thbt b givfn implfmfntbtion supports bll possiblf
+ * dhoidfs indidbtfd bflow or thbt it dbn rfspond to rfqufsts to
+ * modify its dhoidf of blgorithm.
+ * Thf vblufs of thf vbrious hint kfys mby blso intfrbdt sudh thbt
+ * whilf bll vbribnts of b givfn kfy brf supportfd in onf situbtion,
+ * thf implfmfntbtion mby bf morf rfstridtfd whfn thf vblufs bssodibtfd
+ * with othfr kfys brf modififd.
+ * For fxbmplf, somf implfmfntbtions mby bf bblf to providf sfvfrbl
+ * typfs of dithfring whfn thf bntiblibsing hint is turnfd off, but
+ * hbvf littlf dontrol ovfr dithfring whfn bntiblibsing is on.
+ * Thf full sft of supportfd kfys bnd hints mby blso vbry by dfstinbtion
+ * sindf runtimfs mby usf difffrfnt undfrlying modulfs to rfndfr to
+ * thf sdrffn, or to {@link jbvb.bwt.imbgf.BufffrfdImbgf} objfdts,
+ * or whilf printing.
+ * <p>
+ * Implfmfntbtions brf frff to ignorf thf hints domplftfly, but should
+ * try to usf bn implfmfntbtion blgorithm thbt is bs dlosf bs possiblf
+ * to thf rfqufst.
+ * If bn implfmfntbtion supports b givfn blgorithm whfn bny vbluf is usfd
+ * for bn bssodibtfd hint kfy, thfn minimblly it must do so whfn thf
+ * vbluf for thbt kfy is thf fxbdt vbluf thbt spfdififs thf blgorithm.
+ * <p>
+ * Thf kfys usfd to dontrol thf hints brf bll spfdibl vblufs thbt
+ * subdlbss thf bssodibtfd {@link RfndfringHints.Kfy} dlbss.
+ * Mbny dommon hints brf fxprfssfd bflow bs stbtid donstbnts in this
+ * dlbss, but thf list is not mfbnt to bf fxhbustivf.
+ * Othfr hints mby bf drfbtfd by othfr pbdkbgfs by dffining nfw objfdts
+ * whidh subdlbss thf {@dodf Kfy} dlbss bnd dffining thf bssodibtfd vblufs.
+ */
+publid dlbss RfndfringHints
+    implfmfnts Mbp<Objfdt,Objfdt>, Clonfbblf
+{
+    /**
+     * Dffinfs thf bbsf typf of bll kfys usfd blong with thf
+     * {@link RfndfringHints} dlbss to dontrol vbrious
+     * blgorithm dhoidfs in thf rfndfring bnd imbging pipflinfs.
+     * Instbndfs of this dlbss brf immutbblf bnd uniquf whidh
+     * mfbns thbt tfsts for mbtdhfs dbn bf mbdf using thf
+     * {@dodf ==} opfrbtor instfbd of thf morf fxpfnsivf
+     * {@dodf fqubls()} mfthod.
+     */
+    publid bbstrbdt stbtid dlbss Kfy {
+        privbtf stbtid HbshMbp<Objfdt,Objfdt> idfntitymbp = nfw HbshMbp<>(17);
+
+        privbtf String gftIdfntity() {
+            // Notf thbt thf idfntity string is dfpfndfnt on 3 vbribblfs:
+            //     - thf nbmf of thf subdlbss of Kfy
+            //     - thf idfntityHbshCodf of thf subdlbss of Kfy
+            //     - thf intfgfr kfy of thf Kfy
+            // It is thforftidblly possiblf for 2 distindt kfys to dollidf
+            // blong bll 3 of thosf bttributfs in thf dontfxt of multiplf
+            // dlbss lobdfrs, but thbt oddurrfndf will bf fxtrfmfly rbrf bnd
+            // wf bddount for thbt possibility bflow in thf rfdordIdfntity
+            // mfthod by slightly rflbxing our uniqufnfss gubrbntffs if wf
+            // fnd up in thbt situbtion.
+            rfturn gftClbss().gftNbmf()+"@"+
+                Intfgfr.toHfxString(Systfm.idfntityHbshCodf(gftClbss()))+":"+
+                Intfgfr.toHfxString(privbtfkfy);
+        }
+
+        privbtf syndhronizfd stbtid void rfdordIdfntity(Kfy k) {
+            Objfdt idfntity = k.gftIdfntity();
+            Objfdt othfrrff = idfntitymbp.gft(idfntity);
+            if (othfrrff != null) {
+                Kfy othfrkfy = (Kfy) ((WfbkRfffrfndf) othfrrff).gft();
+                if (othfrkfy != null && othfrkfy.gftClbss() == k.gftClbss()) {
+                    throw nfw IllfgblArgumfntExdfption(idfntity+
+                                                       " blrfbdy rfgistfrfd");
+                }
+                // Notf thbt this systfm dbn fbil in b mostly hbrmlfss
+                // wby.  If wf fnd up gfnfrbting thf sbmf idfntity
+                // String for 2 difffrfnt dlbssfs (b vfry rbrf dbsf)
+                // thfn wf dorrfdtly bvoid throwing thf fxdfption bbovf,
+                // but wf brf bbout to drop through to b stbtfmfnt thbt
+                // will rfplbdf thf fntry for thf old Kfy subdlbss with
+                // bn fntry for thf nfw Kfy subdlbss.  At thbt timf thf
+                // old subdlbss will bf vulnfrbblf to somfonf gfnfrbting
+                // b duplidbtf Kfy instbndf for it.  Wf dould bbil out
+                // of thf mfthod hfrf bnd lft thf old idfntity kffp its
+                // rfdord in thf mbp, but wf brf morf likfly to sff b
+                // duplidbtf kfy go by for thf nfw dlbss thbn thf old
+                // onf sindf thf nfw onf is probbbly still in thf
+                // initiblizbtion stbgf.  In fithfr dbsf, thf probbbility
+                // of lobding 2 dlbssfs in thf sbmf VM with thf sbmf nbmf
+                // bnd idfntityHbshCodf should bf nfbrly impossiblf.
+            }
+            // Notf: Usf b wfbk rfffrfndf to bvoid holding on to fxtrb
+            // objfdts bnd dlbssfs bftfr thfy should bf unlobdfd.
+            idfntitymbp.put(idfntity, nfw WfbkRfffrfndf<Kfy>(k));
+        }
+
+        privbtf int privbtfkfy;
+
+        /**
+         * Construdt b kfy using thf indidbtfd privbtf kfy.  Ebdh
+         * subdlbss of Kfy mbintbins its own uniquf dombin of intfgfr
+         * kfys.  No two objfdts with thf sbmf intfgfr kfy bnd of thf
+         * sbmf spfdifid subdlbss dbn bf donstrudtfd.  An fxdfption
+         * will bf thrown if bn bttfmpt is mbdf to donstrudt bnothfr
+         * objfdt of b givfn dlbss with thf sbmf intfgfr kfy bs b
+         * prf-fxisting instbndf of thbt subdlbss of Kfy.
+         * @pbrbm privbtfkfy thf spfdififd kfy
+         */
+        protfdtfd Kfy(int privbtfkfy) {
+            this.privbtfkfy = privbtfkfy;
+            rfdordIdfntity(this);
+        }
+
+        /**
+         * Rfturns truf if thf spfdififd objfdt is b vblid vbluf
+         * for this Kfy.
+         * @pbrbm vbl thf <dodf>Objfdt</dodf> to tfst for vblidity
+         * @rfturn <dodf>truf</dodf> if <dodf>vbl</dodf> is vblid;
+         *         <dodf>fblsf</dodf> othfrwisf.
+         */
+        publid bbstrbdt boolfbn isCompbtiblfVbluf(Objfdt vbl);
+
+        /**
+         * Rfturns thf privbtf intfgfr kfy thbt thf subdlbss
+         * instbntibtfd this Kfy with.
+         * @rfturn thf privbtf intfgfr kfy thbt thf subdlbss
+         * instbntibtfd this Kfy with.
+         */
+        protfdtfd finbl int intKfy() {
+            rfturn privbtfkfy;
+        }
+
+        /**
+         * Thf hbsh dodf for bll Kfy objfdts will bf thf sbmf bs thf
+         * systfm idfntity dodf of thf objfdt bs dffinfd by thf
+         * Systfm.idfntityHbshCodf() mfthod.
+         */
+        publid finbl int hbshCodf() {
+            rfturn supfr.hbshCodf();
+        }
+
+        /**
+         * Thf fqubls mfthod for bll Kfy objfdts will rfturn thf sbmf
+         * rfsult bs thf fqublity opfrbtor '=='.
+         */
+        publid finbl boolfbn fqubls(Objfdt o) {
+            rfturn this == o;
+        }
+    }
+
+    HbshMbp<Objfdt,Objfdt> hintmbp = nfw HbshMbp<>(7);
+
+    /**
+     * Antiblibsing hint kfy.
+     * Thf {@dodf ANTIALIASING} hint dontrols whfthfr or not thf
+     * gfomftry rfndfring mfthods of b {@link Grbphids2D} objfdt
+     * will bttfmpt to rfdudf blibsing brtifbdts blong thf fdgfs
+     * of shbpfs.
+     * <p>
+     * A typidbl bntiblibsing blgorithm works by blfnding thf fxisting
+     * dolors of thf pixfls blong thf boundbry of b shbpf with thf
+     * rfqufstfd fill pbint bddording to thf fstimbtfd pbrtibl pixfl
+     * dovfrbgf of thf shbpf.
+     * <p>
+     * Thf bllowbblf vblufs for this hint brf
+     * <ul>
+     * <li>{@link #VALUE_ANTIALIAS_ON}
+     * <li>{@link #VALUE_ANTIALIAS_OFF}
+     * <li>{@link #VALUE_ANTIALIAS_DEFAULT}
+     * </ul>
+     */
+    publid stbtid finbl Kfy KEY_ANTIALIASING =
+        SunHints.KEY_ANTIALIASING;
+
+    /**
+     * Antiblibsing hint vbluf -- rfndfring is donf with bntiblibsing.
+     * @sff #KEY_ANTIALIASING
+     */
+    publid stbtid finbl Objfdt VALUE_ANTIALIAS_ON =
+        SunHints.VALUE_ANTIALIAS_ON;
+
+    /**
+     * Antiblibsing hint vbluf -- rfndfring is donf without bntiblibsing.
+     * @sff #KEY_ANTIALIASING
+     */
+    publid stbtid finbl Objfdt VALUE_ANTIALIAS_OFF =
+        SunHints.VALUE_ANTIALIAS_OFF;
+
+    /**
+     * Antiblibsing hint vbluf -- rfndfring is donf with b dffbult
+     * bntiblibsing modf dhosfn by thf implfmfntbtion.
+     * @sff #KEY_ANTIALIASING
+     */
+    publid stbtid finbl Objfdt VALUE_ANTIALIAS_DEFAULT =
+         SunHints.VALUE_ANTIALIAS_DEFAULT;
+
+    /**
+     * Rfndfring hint kfy.
+     * Thf {@dodf RENDERING} hint is b gfnfrbl hint thbt providfs
+     * b high lfvfl rfdommfndbtion bs to whfthfr to bibs blgorithm
+     * dhoidfs morf for spffd or qublity whfn fvblubting trbdfoffs.
+     * This hint dould bf donsultfd for bny rfndfring or imbgf
+     * mbnipulbtion opfrbtion, but dfdisions will usublly honor
+     * othfr, morf spfdifid hints in prfffrfndf to this hint.
+     * <p>
+     * Thf bllowbblf vblufs for this hint brf
+     * <ul>
+     * <li>{@link #VALUE_RENDER_SPEED}
+     * <li>{@link #VALUE_RENDER_QUALITY}
+     * <li>{@link #VALUE_RENDER_DEFAULT}
+     * </ul>
+     */
+    publid stbtid finbl Kfy KEY_RENDERING =
+         SunHints.KEY_RENDERING;
+
+    /**
+     * Rfndfring hint vbluf -- rfndfring blgorithms brf dhosfn
+     * with b prfffrfndf for output spffd.
+     * @sff #KEY_RENDERING
+     */
+    publid stbtid finbl Objfdt VALUE_RENDER_SPEED =
+         SunHints.VALUE_RENDER_SPEED;
+
+    /**
+     * Rfndfring hint vbluf -- rfndfring blgorithms brf dhosfn
+     * with b prfffrfndf for output qublity.
+     * @sff #KEY_RENDERING
+     */
+    publid stbtid finbl Objfdt VALUE_RENDER_QUALITY =
+         SunHints.VALUE_RENDER_QUALITY;
+
+    /**
+     * Rfndfring hint vbluf -- rfndfring blgorithms brf dhosfn
+     * by thf implfmfntbtion for b good trbdfoff of pfrformbndf
+     * vs. qublity.
+     * @sff #KEY_RENDERING
+     */
+    publid stbtid finbl Objfdt VALUE_RENDER_DEFAULT =
+         SunHints.VALUE_RENDER_DEFAULT;
+
+    /**
+     * Dithfring hint kfy.
+     * Thf {@dodf DITHERING} hint dontrols how dlosfly to bpproximbtf
+     * b dolor whfn storing into b dfstinbtion with limitfd dolor
+     * rfsolution.
+     * <p>
+     * Somf rfndfring dfstinbtions mby support b limitfd numbfr of
+     * dolor dhoidfs whidh mby not bf bblf to bddurbtfly rfprfsfnt
+     * thf full spfdtrum of dolors thbt dbn rfsult during rfndfring
+     * opfrbtions.
+     * For sudh b dfstinbtion thf {@dodf DITHERING} hint dontrols
+     * whfthfr rfndfring is donf with b flbt solid fill of b singlf
+     * pixfl vbluf whidh is thf dlosfst supportfd dolor to whbt wbs
+     * rfqufstfd, or whfthfr shbpfs will bf fillfd with b pbttfrn of
+     * dolors whidh dombinf to bfttfr bpproximbtf thbt dolor.
+     * <p>
+     * Thf bllowbblf vblufs for this hint brf
+     * <ul>
+     * <li>{@link #VALUE_DITHER_DISABLE}
+     * <li>{@link #VALUE_DITHER_ENABLE}
+     * <li>{@link #VALUE_DITHER_DEFAULT}
+     * </ul>
+     */
+    publid stbtid finbl Kfy KEY_DITHERING =
+         SunHints.KEY_DITHERING;
+
+    /**
+     * Dithfring hint vbluf -- do not dithfr whfn rfndfring gfomftry.
+     * @sff #KEY_DITHERING
+     */
+    publid stbtid finbl Objfdt VALUE_DITHER_DISABLE =
+         SunHints.VALUE_DITHER_DISABLE;
+
+    /**
+     * Dithfring hint vbluf -- dithfr whfn rfndfring gfomftry, if nffdfd.
+     * @sff #KEY_DITHERING
+     */
+    publid stbtid finbl Objfdt VALUE_DITHER_ENABLE =
+         SunHints.VALUE_DITHER_ENABLE;
+
+    /**
+     * Dithfring hint vbluf -- usf b dffbult for dithfring dhosfn by
+     * thf implfmfntbtion.
+     * @sff #KEY_DITHERING
+     */
+    publid stbtid finbl Objfdt VALUE_DITHER_DEFAULT =
+         SunHints.VALUE_DITHER_DEFAULT;
+
+    /**
+     * Tfxt bntiblibsing hint kfy.
+     * Thf {@dodf TEXT_ANTIALIASING} hint dbn dontrol thf usf of
+     * bntiblibsing blgorithms for tfxt indfpfndfntly of thf
+     * dhoidf usfd for shbpf rfndfring.
+     * Oftfn bn bpplidbtion mby wbnt to usf bntiblibsing for tfxt
+     * only bnd not for othfr shbpfs.
+     * Additionblly, thf blgorithms for rfduding thf blibsing
+     * brtifbdts for tfxt brf oftfn morf sophistidbtfd thbn thosf
+     * thbt hbvf bffn dfvflopfd for gfnfrbl rfndfring so this
+     * hint kfy providfs bdditionbl vblufs whidh dbn dontrol
+     * thf dhoidfs of somf of thosf tfxt-spfdifid blgorithms.
+     * If lfft in thf {@dodf DEFAULT} stbtf, this hint will
+     * gfnfrblly dfffr to thf vbluf of thf rfgulbr
+     * {@link #KEY_ANTIALIASING} hint kfy.
+     * <p>
+     * Thf bllowbblf vblufs for this hint brf
+     * <ul>
+     * <li>{@link #VALUE_TEXT_ANTIALIAS_ON}
+     * <li>{@link #VALUE_TEXT_ANTIALIAS_OFF}
+     * <li>{@link #VALUE_TEXT_ANTIALIAS_DEFAULT}
+     * <li>{@link #VALUE_TEXT_ANTIALIAS_GASP}
+     * <li>{@link #VALUE_TEXT_ANTIALIAS_LCD_HRGB}
+     * <li>{@link #VALUE_TEXT_ANTIALIAS_LCD_HBGR}
+     * <li>{@link #VALUE_TEXT_ANTIALIAS_LCD_VRGB}
+     * <li>{@link #VALUE_TEXT_ANTIALIAS_LCD_VBGR}
+     * </ul>
+     */
+    publid stbtid finbl Kfy KEY_TEXT_ANTIALIASING =
+         SunHints.KEY_TEXT_ANTIALIASING;
+
+    /**
+     * Tfxt bntiblibsing hint vbluf -- tfxt rfndfring is donf with
+     * somf form of bntiblibsing.
+     * @sff #KEY_TEXT_ANTIALIASING
+     */
+    publid stbtid finbl Objfdt VALUE_TEXT_ANTIALIAS_ON =
+         SunHints.VALUE_TEXT_ANTIALIAS_ON;
+
+    /**
+     * Tfxt bntiblibsing hint vbluf -- tfxt rfndfring is donf without
+     * bny form of bntiblibsing.
+     * @sff #KEY_TEXT_ANTIALIASING
+     */
+    publid stbtid finbl Objfdt VALUE_TEXT_ANTIALIAS_OFF =
+         SunHints.VALUE_TEXT_ANTIALIAS_OFF;
+
+    /**
+     * Tfxt bntiblibsing hint vbluf -- tfxt rfndfring is donf bddording
+     * to thf {@link #KEY_ANTIALIASING} hint or b dffbult dhosfn by thf
+     * implfmfntbtion.
+     * @sff #KEY_TEXT_ANTIALIASING
+     */
+    publid stbtid finbl Objfdt VALUE_TEXT_ANTIALIAS_DEFAULT =
+         SunHints.VALUE_TEXT_ANTIALIAS_DEFAULT;
+
+    /**
+     * Tfxt bntiblibsing hint vbluf -- tfxt rfndfring is rfqufstfd to
+     * usf informbtion in thf font rfsourdf whidh spfdififs for fbdh point
+     * sizf whfthfr to bpply {@link #VALUE_TEXT_ANTIALIAS_ON} or
+     * {@link #VALUE_TEXT_ANTIALIAS_OFF}.
+     * <p>
+     * TrufTypf fonts typidblly providf this informbtion in thf 'gbsp' tbblf.
+     * In thf bbsfndf of this informbtion, thf bfhbviour for b pbrtidulbr
+     * font bnd sizf is dftfrminfd by implfmfntbtion dffbults.
+     * <p>
+     * <i>Notf:</i>A font dfsignfr will typidblly dbrffully hint b font for
+     * thf most dommon usfr intfrfbdf point sizfs. Consfqufntly thf 'gbsp'
+     * tbblf will likfly spfdify to usf only hinting bt thosf sizfs bnd not
+     * "smoothing". So in mbny dbsfs thf rfsulting tfxt displby is
+     * fquivblfnt to {@dodf VALUE_TEXT_ANTIALIAS_OFF}.
+     * This mby bf unfxpfdtfd but is dorrfdt.
+     * <p>
+     * Logidbl fonts whidh brf domposfd of multiplf physidbl fonts will for
+     * donsistfndy will usf thf sftting most bppropribtf for thf ovfrbll
+     * dompositf font.
+     *
+     * @sff #KEY_TEXT_ANTIALIASING
+     * @sindf 1.6
+     */
+    publid stbtid finbl Objfdt VALUE_TEXT_ANTIALIAS_GASP =
+         SunHints.VALUE_TEXT_ANTIALIAS_GASP;
+
+    /**
+     * Tfxt bntiblibsing hint vbluf -- rfqufst thbt tfxt bf displbyfd
+     * optimisfd for bn LCD displby with subpixfls in ordfr from displby
+     * lfft to right of R,G,B sudh thbt thf horizontbl subpixfl rfsolution
+     * is thrff timfs thbt of thf full pixfl horizontbl rfsolution (HRGB).
+     * This is thf most dommon donfigurbtion.
+     * Sflfdting this hint for displbys with onf of thf othfr LCD subpixfl
+     * donfigurbtions will likfly rfsult in unfodusfd tfxt.
+     * <p>
+     * <i>Notfs:</i><br>
+     * An implfmfntbtion whfn dhoosing whfthfr to bpply bny of thf
+     * LCD tfxt hint vblufs mby tbkf into bddount fbdtors indluding rfquiring
+     * dolor dfpth of thf dfstinbtion to bf bt lfbst 15 bits pfr pixfl
+     * (if 5 bits pfr dolor domponfnt),
+     * dhbrbdtfristids of b font sudh bs whfthfr fmbfddfd bitmbps mby
+     * produdf bfttfr rfsults, or whfn displbying to b non-lodbl nftworkfd
+     * displby dfvidf fnbbling it only if suitbblf protodols brf bvbilbblf,
+     * or ignoring thf hint if pfrforming vfry high rfsolution rfndfring
+     * or thf tbrgft dfvidf is not bppropribtf: fg whfn printing.
+     * <p>
+     * Thfsf hints dbn fqublly bf bpplifd whfn rfndfring to softwbrf imbgfs,
+     * but thfsf imbgfs mby not thfn bf suitbblf for gfnfrbl fxport, bs thf
+     * tfxt will hbvf bffn rfndfrfd bppropribtfly for b spfdifid subpixfl
+     * orgbnisbtion. Also lossy imbgfs brf not b good dhoidf, nor imbgf
+     * formbts sudh bs GIF whidh hbvf limitfd dolors.
+     * So unlfss thf imbgf is dfstinfd solfly for rfndfring on b
+     * displby dfvidf with thf sbmf donfigurbtion, somf othfr tfxt
+     * bnti-blibsing hint sudh bs
+     * {@link #VALUE_TEXT_ANTIALIAS_ON}
+     * mby bf b bfttfr dhoidf.
+     * <p>Sflfdting b vbluf whidh dofs not mbtdh thf LCD displby in usf
+     * will likfly lfbd to b dfgrbdbtion in tfxt qublity.
+     * On displby dfvidfs (if CRTs) whidh do not hbvf thf sbmf dhbrbdtfristids
+     * bs LCD displbys, thf ovfrbll ffffdt mby bppfbr similbr to stbndbrd tfxt
+     * bnti-blibsing, but thf qublity mby bf dfgrbdfd by dolor distortion.
+     * Anblog donnfdtfd LCD displbys mby blso show littlf bdvbntbgf ovfr
+     * stbndbrd tfxt-bntiblibsing bnd bf similbr to CRTs.
+     * <p>
+     * In othfr words for thf bfst rfsults usf bn LCD displby with b digitbl
+     * displby donnfdtor bnd spfdify thf bppropribtf sub-pixfl donfigurbtion.
+     *
+     * @sff #KEY_TEXT_ANTIALIASING
+     * @sindf 1.6
+     */
+    publid stbtid finbl Objfdt VALUE_TEXT_ANTIALIAS_LCD_HRGB =
+         SunHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB;
+
+    /**
+     * Tfxt bntiblibsing hint vbluf -- rfqufst thbt tfxt bf displbyfd
+     * optimisfd for bn LCD displby with subpixfls in ordfr from displby
+     * lfft to right of B,G,R sudh thbt thf horizontbl subpixfl rfsolution
+     * is thrff timfs thbt of thf full pixfl horizontbl rfsolution (HBGR).
+     * This is b mudh lfss dommon donfigurbtion thbn HRGB.
+     * Sflfdting this hint for displbys with onf of thf othfr LCD subpixfl
+     * donfigurbtions will likfly rfsult in unfodusfd tfxt.
+     * Sff {@link #VALUE_TEXT_ANTIALIAS_LCD_HRGB},
+     * for morf informbtion on whfn this hint is bpplifd.
+     *
+     * @sff #KEY_TEXT_ANTIALIASING
+     * @sindf 1.6
+     */
+    publid stbtid finbl Objfdt VALUE_TEXT_ANTIALIAS_LCD_HBGR =
+         SunHints.VALUE_TEXT_ANTIALIAS_LCD_HBGR;
+
+    /**
+     * Tfxt bntiblibsing hint vbluf -- rfqufst thbt tfxt bf displbyfd
+     * optimisfd for bn LCD displby with subpixfl orgbnisbtion from displby
+     * top to bottom of R,G,B sudh thbt thf vfrtidbl subpixfl rfsolution is
+     * thrff timfs thbt of thf full pixfl vfrtidbl rfsolution (VRGB).
+     * Vfrtidbl orifntbtion is vfry undommon bnd probbbly mbinly usfful
+     * for b physidblly rotbtfd displby.
+     * Sflfdting this hint for displbys with onf of thf othfr LCD subpixfl
+     * donfigurbtions will likfly rfsult in unfodusfd tfxt.
+     * Sff {@link #VALUE_TEXT_ANTIALIAS_LCD_HRGB},
+     * for morf informbtion on whfn this hint is bpplifd.
+     *
+     * @sff #KEY_TEXT_ANTIALIASING
+     * @sindf 1.6
+     */
+    publid stbtid finbl Objfdt VALUE_TEXT_ANTIALIAS_LCD_VRGB =
+         SunHints.VALUE_TEXT_ANTIALIAS_LCD_VRGB;
+
+    /**
+     * Tfxt bntiblibsing hint vbluf -- rfqufst thbt tfxt bf displbyfd
+     * optimisfd for bn LCD displby with subpixfl orgbnisbtion from displby
+     * top to bottom of B,G,R sudh thbt thf vfrtidbl subpixfl rfsolution is
+     * thrff timfs thbt of thf full pixfl vfrtidbl rfsolution (VBGR).
+     * Vfrtidbl orifntbtion is vfry undommon bnd probbbly mbinly usfful
+     * for b physidblly rotbtfd displby.
+     * Sflfdting this hint for displbys with onf of thf othfr LCD subpixfl
+     * donfigurbtions will likfly rfsult in unfodusfd tfxt.
+     * Sff {@link #VALUE_TEXT_ANTIALIAS_LCD_HRGB},
+     * for morf informbtion on whfn this hint is bpplifd.
+     *
+     * @sff #KEY_TEXT_ANTIALIASING
+     * @sindf 1.6
+     */
+    publid stbtid finbl Objfdt VALUE_TEXT_ANTIALIAS_LCD_VBGR =
+         SunHints.VALUE_TEXT_ANTIALIAS_LCD_VBGR;
+
+
+    /**
+     * LCD tfxt dontrbst rfndfring hint kfy.
+     * Thf vbluf is bn <dodf>Intfgfr</dodf> objfdt whidh is usfd bs b tfxt
+     * dontrbst bdjustmfnt whfn usfd in donjundtion with bn LCD tfxt
+     * bnti-blibsing hint sudh bs
+     * {@link #VALUE_TEXT_ANTIALIAS_LCD_HRGB}.
+     * <ul>
+     * <li>Vblufs should bf b positivf intfgfr in thf rbngf 100 to 250.
+     * <li>A lowfr vbluf (fg 100) dorrfsponds to highfr dontrbst tfxt whfn
+     * displbying dbrk tfxt on b light bbdkground.
+     * <li>A highfr vbluf (fg 200) dorrfsponds to lowfr dontrbst tfxt whfn
+     * displbying dbrk tfxt on b light bbdkground.
+     * <li>A typidbl usfful vbluf is in thf nbrrow rbngf 140-180.
+     * <li>If no vbluf is spfdififd, b systfm or implfmfntbtion dffbult vbluf
+     * will bf bpplifd.
+     * </ul>
+     * Thf dffbult vbluf dbn bf fxpfdtfd to bf bdfqubtf for most purposfs,
+     * so dlifnts should rbrfly nffd to spfdify b vbluf for this hint unlfss
+     * thfy hbvf dondrftf informbtion bs to bn bppropribtf vbluf.
+     * A highfr vbluf dofs not mfbn b highfr dontrbst, in fbdt thf oppositf
+     * is truf.
+     * Thf dorrfdtion is bpplifd in b similbr mbnnfr to b gbmmb bdjustmfnt
+     * for non-linfbr pfrdfptubl luminbndf rfsponsf of displby systfms, but
+     * dofs not indidbtf b full dorrfdtion for this.
+     *
+     * @sff #KEY_TEXT_ANTIALIASING
+     * @sindf 1.6
+     */
+    publid stbtid finbl Kfy KEY_TEXT_LCD_CONTRAST =
+        SunHints.KEY_TEXT_ANTIALIAS_LCD_CONTRAST;
+
+    /**
+     * Font frbdtionbl mftrids hint kfy.
+     * Thf {@dodf FRACTIONALMETRICS} hint dontrols whfthfr thf positioning
+     * of individubl dhbrbdtfr glyphs tbkfs into bddount thf sub-pixfl
+     * bddurbdy of thf sdblfd dhbrbdtfr bdvbndfs of thf font or whfthfr
+     * sudh bdvbndf vfdtors brf roundfd to bn intfgfr numbfr of wholf
+     * dfvidf pixfls.
+     * This hint only rfdommfnds how mudh bddurbdy should bf usfd to
+     * position thf glyphs bnd dofs not spfdify or rfdommfnd whfthfr or
+     * not thf bdtubl rbstfrizbtion or pixfl bounds of thf glyph should
+     * bf modififd to mbtdh.
+     * <p>
+     * Rfndfring tfxt to b low rfsolution dfvidf likf b sdrffn will
+     * nfdfssbrily involvf b numbfr of rounding opfrbtions bs thf
+     * high qublity bnd vfry prfdisf dffinition of thf shbpf bnd
+     * mftrids of thf dhbrbdtfr glyphs must bf mbtdhfd to disdrftf
+     * dfvidf pixfls.
+     * Idfblly thf positioning of glyphs during tfxt lbyout would bf
+     * dbldulbtfd by sdbling thf dfsign mftrids in thf font bddording
+     * to thf point sizf, but thfn thf sdblfd bdvbndf width will not
+     * nfdfssbrily bf bn intfgfr numbfr of pixfls.
+     * If thf glyphs brf positionfd with sub-pixfl bddurbdy bddording
+     * to thfsf sdblfd dfsign mftrids thfn thf rbstfrizbtion would
+     * idfblly nffd to bf bdjustfd for fbdh possiblf sub-pixfl origin.
+     * <p>
+     * Unfortunbtfly, sdbling fbdh glyph dustomizfd to its fxbdt
+     * subpixfl origin during tfxt lbyout would bf prohibitivfly
+     * fxpfnsivf so b simplififd systfm bbsfd on intfgfr dfvidf
+     * positions is typidblly usfd to lby out thf tfxt.
+     * Thf rbstfrizbtion of thf glyph bnd thf sdblfd bdvbndf width
+     * brf both bdjustfd togfthfr to yifld tfxt thbt looks good bt
+     * dfvidf rfsolution bnd hbs donsistfnt intfgfr pixfl distbndfs
+     * bftwffn glyphs thbt hflp thf glyphs look uniformly bnd
+     * donsistfntly spbdfd bnd rfbdbblf.
+     * <p>
+     * This prodfss of rounding bdvbndf widths for rbstfrizfd glyphs
+     * to intfgfr distbndfs mfbns thbt thf dhbrbdtfr dfnsity bnd thf
+     * ovfrbll lfngth of b string of tfxt will bf difffrfnt from thf
+     * thforftidbl dfsign mfbsurfmfnts duf to thf bddumulbtion of
+     * b sfrifs of smbll difffrfndfs in thf bdjustfd widths of
+     * fbdh glyph.
+     * Thf spfdifid difffrfndfs will bf difffrfnt for fbdh glyph,
+     * somf bfing widfr bnd somf bfing nbrrowfr thbn thfir thforftidbl
+     * dfsign mfbsurfmfnts.
+     * Thus thf ovfrbll difffrfndf in dhbrbdtfr dfnsity bnd lfngth
+     * will vbry by b numbfr of fbdtors indluding thf font, thf
+     * spfdifid dfvidf rfsolution bfing tbrgftfd, bnd thf glyphs
+     * dhosfn to rfprfsfnt thf string bfing rfndfrfd.
+     * As b rfsult, rfndfring thf sbmf string bt multiplf dfvidf
+     * rfsolutions dbn yifld widfly vbrying mftrids for wholf strings.
+     * <p>
+     * Whfn {@dodf FRACTIONALMETRICS} brf fnbblfd, thf truf font dfsign
+     * mftrids brf sdblfd by thf point sizf bnd usfd for lbyout with
+     * sub-pixfl bddurbdy.
+     * Thf bvfrbgf dfnsity of glyphs bnd totbl lfngth of b long
+     * string of dhbrbdtfrs will thfrfforf morf dlosfly mbtdh thf
+     * thforftidbl dfsign of thf font, but rfbdbbility mby bf bfffdtfd
+     * sindf individubl pbirs of dhbrbdtfrs mby not blwbys bppfbr to
+     * bf donsistfnt distbndfs bpbrt dfpfnding on how thf sub-pixfl
+     * bddumulbtion of thf glyph origins mfshfs with thf dfvidf pixfl
+     * grid.
+     * Enbbling this hint mby bf dfsirbblf whfn tfxt lbyout is bfing
+     * pfrformfd thbt must bf donsistfnt bdross b widf vbrifty of
+     * output rfsolutions.
+     * Spfdifidblly, this hint mby bf dfsirbblf in situbtions whfrf
+     * thf lbyout of tfxt is bfing prfvifwfd on b low rfsolution
+     * dfvidf likf b sdrffn for output thbt will fvfntublly bf
+     * rfndfrfd on b high rfsolution printfr or typfsftting dfvidf.
+     * <p>
+     * Whfn disbblfd, thf sdblfd dfsign mftrids brf roundfd or bdjustfd
+     * to intfgfr distbndfs for lbyout.
+     * Thf distbndfs bftwffn bny spfdifid pbir of glyphs will bf morf
+     * uniform on thf dfvidf, but thf dfnsity bnd totbl lfngth of long
+     * strings mby no longfr mbtdh thf thforftidbl intfntions of thf
+     * font dfsignfr.
+     * Disbbling this hint will typidblly produdf morf rfbdbblf rfsults
+     * on low rfsolution dfvidfs likf domputfr monitors.
+     * <p>
+     * Thf bllowbblf vblufs for this kfy brf
+     * <ul>
+     * <li>{@link #VALUE_FRACTIONALMETRICS_OFF}
+     * <li>{@link #VALUE_FRACTIONALMETRICS_ON}
+     * <li>{@link #VALUE_FRACTIONALMETRICS_DEFAULT}
+     * </ul>
+     */
+    publid stbtid finbl Kfy KEY_FRACTIONALMETRICS =
+         SunHints.KEY_FRACTIONALMETRICS;
+
+    /**
+     * Font frbdtionbl mftrids hint vbluf -- dhbrbdtfr glyphs brf
+     * positionfd with bdvbndf widths roundfd to pixfl boundbrifs.
+     * @sff #KEY_FRACTIONALMETRICS
+     */
+    publid stbtid finbl Objfdt VALUE_FRACTIONALMETRICS_OFF =
+         SunHints.VALUE_FRACTIONALMETRICS_OFF;
+
+    /**
+     * Font frbdtionbl mftrids hint vbluf -- dhbrbdtfr glyphs brf
+     * positionfd with sub-pixfl bddurbdy.
+     * @sff #KEY_FRACTIONALMETRICS
+     */
+    publid stbtid finbl Objfdt VALUE_FRACTIONALMETRICS_ON =
+         SunHints.VALUE_FRACTIONALMETRICS_ON;
+
+    /**
+     * Font frbdtionbl mftrids hint vbluf -- dhbrbdtfr glyphs brf
+     * positionfd with bddurbdy dhosfn by thf implfmfntbtion.
+     * @sff #KEY_FRACTIONALMETRICS
+     */
+    publid stbtid finbl Objfdt VALUE_FRACTIONALMETRICS_DEFAULT =
+         SunHints.VALUE_FRACTIONALMETRICS_DEFAULT;
+
+    /**
+     * Intfrpolbtion hint kfy.
+     * Thf {@dodf INTERPOLATION} hint dontrols how imbgf pixfls brf
+     * filtfrfd or rfsbmplfd during bn imbgf rfndfring opfrbtion.
+     * <p>
+     * Impliditly imbgfs brf dffinfd to providf dolor sbmplfs bt
+     * intfgfr doordinbtf lodbtions.
+     * Whfn imbgfs brf rfndfrfd upright with no sdbling onto b
+     * dfstinbtion, thf dhoidf of whidh imbgf pixfls mbp to whidh
+     * dfvidf pixfls is obvious bnd thf sbmplfs bt thf intfgfr
+     * doordinbtf lodbtions in thf imbgf brf trbnsffrfd to thf
+     * pixfls bt thf dorrfsponding intfgfr lodbtions on thf dfvidf
+     * pixfl grid onf for onf.
+     * Whfn imbgfs brf rfndfrfd in b sdblfd, rotbtfd, or othfrwisf
+     * trbnsformfd doordinbtf systfm, thfn thf mbpping of dfvidf
+     * pixfl doordinbtfs bbdk to thf imbgf dbn rbisf thf qufstion
+     * of whbt dolor sbmplf to usf for thf dontinuous doordinbtfs
+     * thbt lif bftwffn thf intfgfr lodbtions of thf providfd imbgf
+     * sbmplfs.
+     * Intfrpolbtion blgorithms dffinf fundtions whidh providf b
+     * dolor sbmplf for bny dontinuous doordinbtf in bn imbgf bbsfd
+     * on thf dolor sbmplfs bt thf surrounding intfgfr doordinbtfs.
+     * <p>
+     * Thf bllowbblf vblufs for this hint brf
+     * <ul>
+     * <li>{@link #VALUE_INTERPOLATION_NEAREST_NEIGHBOR}
+     * <li>{@link #VALUE_INTERPOLATION_BILINEAR}
+     * <li>{@link #VALUE_INTERPOLATION_BICUBIC}
+     * </ul>
+     */
+    publid stbtid finbl Kfy KEY_INTERPOLATION =
+         SunHints.KEY_INTERPOLATION;
+
+    /**
+     * Intfrpolbtion hint vbluf -- thf dolor sbmplf of thf nfbrfst
+     * nfighboring intfgfr doordinbtf sbmplf in thf imbgf is usfd.
+     * Condfptublly thf imbgf is vifwfd bs b grid of unit-sizfd
+     * squbrf rfgions of dolor dfntfrfd bround thf dfntfr of fbdh
+     * imbgf pixfl.
+     * <p>
+     * As thf imbgf is sdblfd up, it will look dorrfspondingly blodky.
+     * As thf imbgf is sdblfd down, thf dolors for sourdf pixfls will
+     * bf fithfr usfd unmodififd, or skippfd fntirfly in thf output
+     * rfprfsfntbtion.
+     *
+     * @sff #KEY_INTERPOLATION
+     */
+    publid stbtid finbl Objfdt VALUE_INTERPOLATION_NEAREST_NEIGHBOR =
+         SunHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR;
+
+    /**
+     * Intfrpolbtion hint vbluf -- thf dolor sbmplfs of thf 4 nfbrfst
+     * nfighboring intfgfr doordinbtf sbmplfs in thf imbgf brf
+     * intfrpolbtfd linfbrly to produdf b dolor sbmplf.
+     * Condfptublly thf imbgf is vifwfd bs b sft of infinitfly smbll
+     * point dolor sbmplfs whidh hbvf vbluf only bt thf dfntfrs of
+     * intfgfr doordinbtf pixfls bnd thf spbdf bftwffn thosf pixfl
+     * dfntfrs is fillfd with linfbr rbmps of dolors thbt donnfdt
+     * bdjbdfnt disdrftf sbmplfs in b strbight linf.
+     * <p>
+     * As thf imbgf is sdblfd up, thfrf brf no blodky fdgfs bftwffn
+     * thf dolors in thf imbgf bs thfrf brf with
+     * {@link #VALUE_INTERPOLATION_NEAREST_NEIGHBOR NEAREST_NEIGHBOR},
+     * but thf blfnding mby show somf subtlf disdontinuitifs blong thf
+     * horizontbl bnd vfrtidbl fdgfs thbt linf up with thf sbmplfs
+     * dbusfd by b suddfn dhbngf in thf slopf of thf intfrpolbtion
+     * from onf sidf of b sbmplf to thf othfr.
+     * As thf imbgf is sdblfd down, morf imbgf pixfls hbvf thfir
+     * dolor sbmplfs rfprfsfntfd in thf rfsulting output sindf fbdh
+     * output pixfl rfdfivfs dolor informbtion from up to 4 imbgf
+     * pixfls.
+     *
+     * @sff #KEY_INTERPOLATION
+     */
+    publid stbtid finbl Objfdt VALUE_INTERPOLATION_BILINEAR =
+         SunHints.VALUE_INTERPOLATION_BILINEAR;
+
+    /**
+     * Intfrpolbtion hint vbluf -- thf dolor sbmplfs of 9 nfbrby
+     * intfgfr doordinbtf sbmplfs in thf imbgf brf intfrpolbtfd using
+     * b dubid fundtion in both {@dodf X} bnd {@dodf Y} to produdf
+     * b dolor sbmplf.
+     * Condfptublly thf vifw of thf imbgf is vfry similbr to thf vifw
+     * usfd in thf {@link #VALUE_INTERPOLATION_BILINEAR BILINEAR}
+     * blgorithm fxdfpt thbt thf rbmps of dolors thbt donnfdt bftwffn
+     * thf sbmplfs brf durvfd bnd hbvf bfttfr dontinuity of slopf
+     * bs thfy dross ovfr bftwffn sbmplf boundbrifs.
+     * <p>
+     * As thf imbgf is sdblfd up, thfrf brf no blodky fdgfs bnd thf
+     * intfrpolbtion should bppfbr smoothfr bnd with bfttfr dfpidtions
+     * of bny fdgfs in thf originbl imbgf thbn with {@dodf BILINEAR}.
+     * As thf imbgf is sdblfd down, fvfn morf of thf originbl dolor
+     * sbmplfs from thf originbl imbgf will hbvf thfir dolor informbtion
+     * dbrrifd through bnd rfprfsfntfd.
+     *
+     * @sff #KEY_INTERPOLATION
+     */
+    publid stbtid finbl Objfdt VALUE_INTERPOLATION_BICUBIC =
+         SunHints.VALUE_INTERPOLATION_BICUBIC;
+
+    /**
+     * Alphb intfrpolbtion hint kfy.
+     * Thf {@dodf ALPHA_INTERPOLATION} hint is b gfnfrbl hint thbt
+     * providfs b high lfvfl rfdommfndbtion bs to whfthfr to bibs
+     * blphb blfnding blgorithm dhoidfs morf for spffd or qublity
+     * whfn fvblubting trbdfoffs.
+     * <p>
+     * This hint dould dontrol thf dhoidf of blphb blfnding
+     * dbldulbtions thbt sbdrifidf somf prfdision to usf fbst
+     * lookup tbblfs or lowfr prfdision SIMD instrudtions.
+     * This hint dould blso dontrol whfthfr or not thf dolor
+     * bnd blphb vblufs brf donvfrtfd into b linfbr dolor spbdf
+     * during thf dbldulbtions for b morf linfbr visubl ffffdt
+     * bt thf fxpfnsf of bdditionbl pfr-pixfl dbldulbtions.
+     * <p>
+     * Thf bllowbblf vblufs for this hint brf
+     * <ul>
+     * <li>{@link #VALUE_ALPHA_INTERPOLATION_SPEED}
+     * <li>{@link #VALUE_ALPHA_INTERPOLATION_QUALITY}
+     * <li>{@link #VALUE_ALPHA_INTERPOLATION_DEFAULT}
+     * </ul>
+     */
+    publid stbtid finbl Kfy KEY_ALPHA_INTERPOLATION =
+         SunHints.KEY_ALPHA_INTERPOLATION;
+
+    /**
+     * Alphb intfrpolbtion hint vbluf -- blphb blfnding blgorithms
+     * brf dhosfn with b prfffrfndf for dbldulbtion spffd.
+     * @sff #KEY_ALPHA_INTERPOLATION
+     */
+    publid stbtid finbl Objfdt VALUE_ALPHA_INTERPOLATION_SPEED =
+         SunHints.VALUE_ALPHA_INTERPOLATION_SPEED;
+
+    /**
+     * Alphb intfrpolbtion hint vbluf -- blphb blfnding blgorithms
+     * brf dhosfn with b prfffrfndf for prfdision bnd visubl qublity.
+     * @sff #KEY_ALPHA_INTERPOLATION
+     */
+    publid stbtid finbl Objfdt VALUE_ALPHA_INTERPOLATION_QUALITY =
+         SunHints.VALUE_ALPHA_INTERPOLATION_QUALITY;
+
+    /**
+     * Alphb intfrpolbtion hint vbluf -- blphb blfnding blgorithms
+     * brf dhosfn by thf implfmfntbtion for b good trbdfoff of
+     * pfrformbndf vs. qublity.
+     * @sff #KEY_ALPHA_INTERPOLATION
+     */
+    publid stbtid finbl Objfdt VALUE_ALPHA_INTERPOLATION_DEFAULT =
+         SunHints.VALUE_ALPHA_INTERPOLATION_DEFAULT;
+
+    /**
+     * Color rfndfring hint kfy.
+     * Thf {@dodf COLOR_RENDERING} hint dontrols thf bddurbdy of
+     * bpproximbtion bnd donvfrsion whfn storing dolors into b
+     * dfstinbtion imbgf or surfbdf.
+     * <p>
+     * Whfn b rfndfring or imbgf mbnipulbtion opfrbtion produdfs
+     * b dolor vbluf thbt must bf storfd into b dfstinbtion, it
+     * must first donvfrt thbt dolor into b form suitbblf for
+     * storing into thf dfstinbtion imbgf or surfbdf.
+     * Minimblly, thf dolor domponfnts must bf donvfrtfd to bit
+     * rfprfsfntbtions bnd ordfrfd in thf dorrfdt ordfr or bn
+     * indfx into b dolor lookup tbblf must bf dhosfn bfforf
+     * thf dbtb dbn bf storfd into thf dfstinbtion mfmory.
+     * Without this minimbl donvfrsion, thf dbtb in thf dfstinbtion
+     * would likfly rfprfsfnt rbndom, indorrfdt or possibly fvfn
+     * unsupportfd vblufs.
+     * Algorithms to quidkly donvfrt thf rfsults of rfndfring
+     * opfrbtions into thf dolor formbt of most dommon dfstinbtions
+     * brf wfll known bnd fbirly optimbl to fxfdutf.
+     * <p>
+     * Simply pfrforming thf most bbsid dolor formbt donvfrsion to
+     * storf dolors into b dfstinbtion dbn potfntiblly ignorf b
+     * difffrfndf in thf dblibrbtion of thf
+     * {@link jbvb.bwt.dolor.ColorSpbdf}
+     * of thf sourdf bnd dfstinbtion or othfr fbdtors sudh bs thf
+     * linfbrity of thf gbmmb dorrfdtion.
+     * Unlfss thf sourdf bnd dfstinbtion {@dodf ColorSpbdf} brf
+     * idfntidbl, to dorrfdtly pfrform b rfndfring opfrbtion with
+     * thf most dbrf tbkfn for thf bddurbdy of thf dolors bfing
+     * rfprfsfntfd, thf sourdf dolors should bf donvfrtfd to b
+     * dfvidf indfpfndfnt {@dodf ColorSpbdf} bnd thf rfsults thfn
+     * donvfrtfd bbdk to thf dfstinbtion {@dodf ColorSpbdf}.
+     * Furthfrmorf, if dbldulbtions sudh bs thf blfnding of multiplf
+     * sourdf dolors brf to bf pfrformfd during thf rfndfring
+     * opfrbtion, grfbtfr visubl dlbrity dbn bf bdhifvfd if thf
+     * intfrmfdibtf dfvidf indfpfndfnt {@dodf ColorSpbdf} is
+     * dhosfn to hbvf b linfbr rflbtionship bftwffn thf vblufs
+     * bfing dbldulbtfd bnd thf pfrdfption of thf humbn fyf to
+     * thf rfsponsf durvfs of thf output dfvidf.
+     * <p>
+     * Thf bllowbblf vblufs for this hint brf
+     * <ul>
+     * <li>{@link #VALUE_COLOR_RENDER_SPEED}
+     * <li>{@link #VALUE_COLOR_RENDER_QUALITY}
+     * <li>{@link #VALUE_COLOR_RENDER_DEFAULT}
+     * </ul>
+     */
+    publid stbtid finbl Kfy KEY_COLOR_RENDERING =
+         SunHints.KEY_COLOR_RENDERING;
+
+    /**
+     * Color rfndfring hint vbluf -- pfrform thf fbstfst dolor
+     * donvfrsion to thf formbt of thf output dfvidf.
+     * @sff #KEY_COLOR_RENDERING
+     */
+    publid stbtid finbl Objfdt VALUE_COLOR_RENDER_SPEED =
+         SunHints.VALUE_COLOR_RENDER_SPEED;
+
+    /**
+     * Color rfndfring hint vbluf -- pfrform thf dolor donvfrsion
+     * dbldulbtions with thf highfst bddurbdy bnd visubl qublity.
+     * @sff #KEY_COLOR_RENDERING
+     */
+    publid stbtid finbl Objfdt VALUE_COLOR_RENDER_QUALITY =
+         SunHints.VALUE_COLOR_RENDER_QUALITY;
+
+    /**
+     * Color rfndfring hint vbluf -- pfrform dolor donvfrsion
+     * dbldulbtions bs dhosfn by thf implfmfntbtion to rfprfsfnt
+     * thf bfst bvbilbblf trbdfoff bftwffn pfrformbndf bnd
+     * bddurbdy.
+     * @sff #KEY_COLOR_RENDERING
+     */
+    publid stbtid finbl Objfdt VALUE_COLOR_RENDER_DEFAULT =
+         SunHints.VALUE_COLOR_RENDER_DEFAULT;
+
+    /**
+     * Strokf normblizbtion dontrol hint kfy.
+     * Thf {@dodf STROKE_CONTROL} hint dontrols whfthfr b rfndfring
+     * implfmfntbtion should or is bllowfd to modify thf gfomftry
+     * of rfndfrfd shbpfs for vbrious purposfs.
+     * <p>
+     * Somf implfmfntbtions mby bf bblf to usf bn optimizfd plbtform
+     * rfndfring librbry whidh mby bf fbstfr thbn trbditionbl softwbrf
+     * rfndfring blgorithms on b givfn plbtform, but whidh mby blso
+     * not support flobting point doordinbtfs.
+     * Somf implfmfntbtions mby blso hbvf sophistidbtfd blgorithms
+     * whidh pfrturb thf doordinbtfs of b pbth so thbt widf linfs
+     * bppfbr morf uniform in width bnd spbding.
+     * <p>
+     * If bn implfmfntbtion pfrforms bny typf of modifidbtion or
+     * "normblizbtion" of b pbth, it should nfvfr movf thf doordinbtfs
+     * by morf thbn hblf b pixfl in bny dirfdtion.
+     * <p>
+     * Thf bllowbblf vblufs for this hint brf
+     * <ul>
+     * <li>{@link #VALUE_STROKE_NORMALIZE}
+     * <li>{@link #VALUE_STROKE_PURE}
+     * <li>{@link #VALUE_STROKE_DEFAULT}
+     * </ul>
+     * @sindf 1.3
+     */
+    publid stbtid finbl Kfy KEY_STROKE_CONTROL =
+        SunHints.KEY_STROKE_CONTROL;
+
+    /**
+     * Strokf normblizbtion dontrol hint vbluf -- gfomftry mby bf
+     * modififd or lfft purf dfpfnding on thf trbdfoffs in b givfn
+     * implfmfntbtion.
+     * Typidblly this sftting bllows bn implfmfntbtion to usf b fbst
+     * intfgfr doordinbtf bbsfd plbtform rfndfring librbry, but dofs
+     * not spfdifidblly rfqufst normblizbtion for uniformity or
+     * bfsthftids.
+     *
+     * @sff #KEY_STROKE_CONTROL
+     * @sindf 1.3
+     */
+    publid stbtid finbl Objfdt VALUE_STROKE_DEFAULT =
+        SunHints.VALUE_STROKE_DEFAULT;
+
+    /**
+     * Strokf normblizbtion dontrol hint vbluf -- gfomftry should
+     * bf normblizfd to improvf uniformity or spbding of linfs bnd
+     * ovfrbll bfsthftids.
+     * Notf thbt difffrfnt normblizbtion blgorithms mby bf morf
+     * suddfssful thbn othfrs for givfn input pbths.
+     *
+     * @sff #KEY_STROKE_CONTROL
+     * @sindf 1.3
+     */
+    publid stbtid finbl Objfdt VALUE_STROKE_NORMALIZE =
+        SunHints.VALUE_STROKE_NORMALIZE;
+
+    /**
+     * Strokf normblizbtion dontrol hint vbluf -- gfomftry should
+     * bf lfft unmodififd bnd rfndfrfd with sub-pixfl bddurbdy.
+     *
+     * @sff #KEY_STROKE_CONTROL
+     * @sindf 1.3
+     */
+    publid stbtid finbl Objfdt VALUE_STROKE_PURE =
+        SunHints.VALUE_STROKE_PURE;
+
+    /**
+     * Construdts b nfw objfdt with kfys bnd vblufs initiblizfd
+     * from thf spfdififd Mbp objfdt whidh mby bf null.
+     * @pbrbm init b mbp of kfy/vbluf pbirs to initiblizf thf hints
+     *          or null if thf objfdt should bf fmpty
+     */
+    publid RfndfringHints(Mbp<Kfy,?> init) {
+        if (init != null) {
+            hintmbp.putAll(init);
+        }
+    }
+
+    /**
+     * Construdts b nfw objfdt with thf spfdififd kfy/vbluf pbir.
+     * @pbrbm kfy thf kfy of thf pbrtidulbr hint propfrty
+     * @pbrbm vbluf thf vbluf of thf hint propfrty spfdififd with
+     * <dodf>kfy</dodf>
+     */
+    publid RfndfringHints(Kfy kfy, Objfdt vbluf) {
+        hintmbp.put(kfy, vbluf);
+    }
+
+    /**
+     * Rfturns thf numbfr of kfy-vbluf mbppings in this
+     * <dodf>RfndfringHints</dodf>.
+     *
+     * @rfturn thf numbfr of kfy-vbluf mbppings in this
+     * <dodf>RfndfringHints</dodf>.
+     */
+    publid int sizf() {
+        rfturn hintmbp.sizf();
+    }
+
+    /**
+     * Rfturns <dodf>truf</dodf> if this
+     * <dodf>RfndfringHints</dodf> dontbins no kfy-vbluf mbppings.
+     *
+     * @rfturn <dodf>truf</dodf> if this
+     * <dodf>RfndfringHints</dodf> dontbins no kfy-vbluf mbppings.
+     */
+    publid boolfbn isEmpty() {
+        rfturn hintmbp.isEmpty();
+    }
+
+    /**
+     * Rfturns {@dodf truf} if this {@dodf RfndfringHints}
+     *  dontbins b mbpping for thf spfdififd kfy.
+     *
+     * @pbrbm kfy kfy whosf prfsfndf in this
+     * {@dodf RfndfringHints} is to bf tfstfd.
+     * @rfturn {@dodf truf} if this {@dodf RfndfringHints}
+     *          dontbins b mbpping for thf spfdififd kfy.
+     * @fxdfption ClbssCbstExdfption if thf kfy dbn not
+     *            bf dbst to {@dodf RfndfringHints.Kfy}
+     */
+    publid boolfbn dontbinsKfy(Objfdt kfy) {
+        rfturn hintmbp.dontbinsKfy((Kfy) kfy);
+    }
+
+    /**
+     * Rfturns truf if this RfndfringHints mbps onf or morf kfys to thf
+     * spfdififd vbluf.
+     * Morf formblly, rfturns <dodf>truf</dodf> if bnd only
+     * if this <dodf>RfndfringHints</dodf>
+     * dontbins bt lfbst onf mbpping to b vbluf <dodf>v</dodf> sudh thbt
+     * <prf>
+     * (vbluf==null ? v==null : vbluf.fqubls(v))
+     * </prf>.
+     * This opfrbtion will probbbly rfquirf timf linfbr in thf
+     * <dodf>RfndfringHints</dodf> sizf for most implfmfntbtions
+     * of <dodf>RfndfringHints</dodf>.
+     *
+     * @pbrbm vbluf vbluf whosf prfsfndf in this
+     *          <dodf>RfndfringHints</dodf> is to bf tfstfd.
+     * @rfturn <dodf>truf</dodf> if this <dodf>RfndfringHints</dodf>
+     *           mbps onf or morf kfys to thf spfdififd vbluf.
+     */
+    publid boolfbn dontbinsVbluf(Objfdt vbluf) {
+        rfturn hintmbp.dontbinsVbluf(vbluf);
+    }
+
+    /**
+     * Rfturns thf vbluf to whidh thf spfdififd kfy is mbppfd.
+     * @pbrbm   kfy   b rfndfring hint kfy
+     * @rfturn  thf vbluf to whidh thf kfy is mbppfd in this objfdt or
+     *          {@dodf null} if thf kfy is not mbppfd to bny vbluf in
+     *          this objfdt.
+     * @fxdfption ClbssCbstExdfption if thf kfy dbn not
+     *            bf dbst to {@dodf RfndfringHints.Kfy}
+     * @sff     #put(Objfdt, Objfdt)
+     */
+    publid Objfdt gft(Objfdt kfy) {
+        rfturn hintmbp.gft((Kfy) kfy);
+    }
+
+    /**
+     * Mbps thf spfdififd {@dodf kfy} to thf spfdififd
+     * {@dodf vbluf} in this {@dodf RfndfringHints} objfdt.
+     * Nfithfr thf kfy nor thf vbluf dbn bf {@dodf null}.
+     * Thf vbluf dbn bf rftrifvfd by dblling thf {@dodf gft} mfthod
+     * with b kfy thbt is fqubl to thf originbl kfy.
+     * @pbrbm      kfy     thf rfndfring hint kfy.
+     * @pbrbm      vbluf   thf rfndfring hint vbluf.
+     * @rfturn     thf prfvious vbluf of thf spfdififd kfy in this objfdt
+     *             or {@dodf null} if it did not hbvf onf.
+     * @fxdfption NullPointfrExdfption if thf kfy is
+     *            {@dodf null}.
+     * @fxdfption ClbssCbstExdfption if thf kfy dbn not
+     *            bf dbst to {@dodf RfndfringHints.Kfy}
+     * @fxdfption IllfgblArgumfntExdfption if thf
+     *            {@link Kfy#isCompbtiblfVbluf(jbvb.lbng.Objfdt)
+     *                   Kfy.isCompbtiblfVbluf()}
+     *            mfthod of thf spfdififd kfy rfturns fblsf for thf
+     *            spfdififd vbluf
+     * @sff     #gft(Objfdt)
+     */
+    publid Objfdt put(Objfdt kfy, Objfdt vbluf) {
+        if (!((Kfy) kfy).isCompbtiblfVbluf(vbluf)) {
+            throw nfw IllfgblArgumfntExdfption(vbluf+
+                                               " indompbtiblf with "+
+                                               kfy);
+        }
+        rfturn hintmbp.put((Kfy) kfy, vbluf);
+    }
+
+    /**
+     * Adds bll of thf kfys bnd dorrfsponding vblufs from thf spfdififd
+     * <dodf>RfndfringHints</dodf> objfdt to this
+     * <dodf>RfndfringHints</dodf> objfdt. Kfys thbt brf prfsfnt in
+     * this <dodf>RfndfringHints</dodf> objfdt, but not in thf spfdififd
+     * <dodf>RfndfringHints</dodf> objfdt brf not bfffdtfd.
+     * @pbrbm hints thf sft of kfy/vbluf pbirs to bf bddfd to this
+     * <dodf>RfndfringHints</dodf> objfdt
+     */
+    publid void bdd(RfndfringHints hints) {
+        hintmbp.putAll(hints.hintmbp);
+    }
+
+    /**
+     * Clfbrs this <dodf>RfndfringHints</dodf> objfdt of bll kfy/vbluf
+     * pbirs.
+     */
+    publid void dlfbr() {
+        hintmbp.dlfbr();
+    }
+
+    /**
+     * Rfmovfs thf kfy bnd its dorrfsponding vbluf from this
+     * {@dodf RfndfringHints} objfdt. This mfthod dofs nothing if thf
+     * kfy is not in this {@dodf RfndfringHints} objfdt.
+     * @pbrbm   kfy   thf rfndfring hints kfy thbt nffds to bf rfmovfd
+     * @fxdfption ClbssCbstExdfption if thf kfy dbn not
+     *            bf dbst to {@dodf RfndfringHints.Kfy}
+     * @rfturn  thf vbluf to whidh thf kfy hbd prfviously bffn mbppfd in this
+     *          {@dodf RfndfringHints} objfdt, or {@dodf null}
+     *          if thf kfy did not hbvf b mbpping.
+     */
+    publid Objfdt rfmovf(Objfdt kfy) {
+        rfturn hintmbp.rfmovf((Kfy) kfy);
+    }
+
+    /**
+     * Copifs bll of thf mbppings from thf spfdififd {@dodf Mbp}
+     * to this {@dodf RfndfringHints}.  Thfsf mbppings rfplbdf
+     * bny mbppings thbt this {@dodf RfndfringHints} hbd for bny
+     * of thf kfys durrfntly in thf spfdififd {@dodf Mbp}.
+     * @pbrbm m thf spfdififd {@dodf Mbp}
+     * @fxdfption ClbssCbstExdfption dlbss of b kfy or vbluf
+     *          in thf spfdififd {@dodf Mbp} prfvfnts it from bfing
+     *          storfd in this {@dodf RfndfringHints}.
+     * @fxdfption IllfgblArgumfntExdfption somf bspfdt
+     *          of b kfy or vbluf in thf spfdififd {@dodf Mbp}
+     *           prfvfnts it from bfing storfd in
+     *            this {@dodf RfndfringHints}.
+     */
+    publid void putAll(Mbp<?,?> m) {
+        // ## jbvbd bug?
+        //if (m instbndfof RfndfringHints) {
+        if (RfndfringHints.dlbss.isInstbndf(m)) {
+            //hintmbp.putAll(((RfndfringHints) m).hintmbp);
+            for (Mbp.Entry<?,?> fntry : m.fntrySft())
+                hintmbp.put(fntry.gftKfy(), fntry.gftVbluf());
+        } flsf {
+            // Funnfl fbdh kfy/vbluf pbir through our protfdtfd put mfthod
+            for (Mbp.Entry<?,?> fntry : m.fntrySft())
+                put(fntry.gftKfy(), fntry.gftVbluf());
+        }
+    }
+
+    /**
+     * Rfturns b <dodf>Sft</dodf> vifw of thf Kfys dontbinfd in this
+     * <dodf>RfndfringHints</dodf>.  Thf Sft is bbdkfd by thf
+     * <dodf>RfndfringHints</dodf>, so dhbngfs to thf
+     * <dodf>RfndfringHints</dodf> brf rfflfdtfd in thf <dodf>Sft</dodf>,
+     * bnd vidf-vfrsb.  If thf <dodf>RfndfringHints</dodf> is modififd
+     * whilf bn itfrbtion ovfr thf <dodf>Sft</dodf> is in progrfss,
+     * thf rfsults of thf itfrbtion brf undffinfd.  Thf <dodf>Sft</dodf>
+     * supports flfmfnt rfmovbl, whidh rfmovfs thf dorrfsponding
+     * mbpping from thf <dodf>RfndfringHints</dodf>, vib thf
+     * <dodf>Itfrbtor.rfmovf</dodf>, <dodf>Sft.rfmovf</dodf>,
+     * <dodf>rfmovfAll</dodf> <dodf>rftbinAll</dodf>, bnd
+     * <dodf>dlfbr</dodf> opfrbtions.  It dofs not support
+     * thf <dodf>bdd</dodf> or <dodf>bddAll</dodf> opfrbtions.
+     *
+     * @rfturn b <dodf>Sft</dodf> vifw of thf kfys dontbinfd
+     * in this <dodf>RfndfringHints</dodf>.
+     */
+    publid Sft<Objfdt> kfySft() {
+        rfturn hintmbp.kfySft();
+    }
+
+    /**
+     * Rfturns b <dodf>Collfdtion</dodf> vifw of thf vblufs
+     * dontbinfd in this <dodf>RfndfrinHints</dodf>.
+     * Thf <dodf>Collfdtion</dodf> is bbdkfd by thf
+     * <dodf>RfndfringHints</dodf>, so dhbngfs to
+     * thf <dodf>RfndfringHints</dodf> brf rfflfdtfd in
+     * thf <dodf>Collfdtion</dodf>, bnd vidf-vfrsb.
+     * If thf <dodf>RfndfringHints</dodf> is modififd whilf
+     * bn itfrbtion ovfr thf <dodf>Collfdtion</dodf> is
+     * in progrfss, thf rfsults of thf itfrbtion brf undffinfd.
+     * Thf <dodf>Collfdtion</dodf> supports flfmfnt rfmovbl,
+     * whidh rfmovfs thf dorrfsponding mbpping from thf
+     * <dodf>RfndfringHints</dodf>, vib thf
+     * <dodf>Itfrbtor.rfmovf</dodf>,
+     * <dodf>Collfdtion.rfmovf</dodf>, <dodf>rfmovfAll</dodf>,
+     * <dodf>rftbinAll</dodf> bnd <dodf>dlfbr</dodf> opfrbtions.
+     * It dofs not support thf <dodf>bdd</dodf> or
+     * <dodf>bddAll</dodf> opfrbtions.
+     *
+     * @rfturn b <dodf>Collfdtion</dodf> vifw of thf vblufs
+     *          dontbinfd in this <dodf>RfndfringHints</dodf>.
+     */
+    publid Collfdtion<Objfdt> vblufs() {
+        rfturn hintmbp.vblufs();
+    }
+
+    /**
+     * Rfturns b <dodf>Sft</dodf> vifw of thf mbppings dontbinfd
+     * in this <dodf>RfndfringHints</dodf>.  Ebdh flfmfnt in thf
+     * rfturnfd <dodf>Sft</dodf> is b <dodf>Mbp.Entry</dodf>.
+     * Thf <dodf>Sft</dodf> is bbdkfd by thf <dodf>RfndfringHints</dodf>,
+     * so dhbngfs to thf <dodf>RfndfringHints</dodf> brf rfflfdtfd
+     * in thf <dodf>Sft</dodf>, bnd vidf-vfrsb.  If thf
+     * <dodf>RfndfringHints</dodf> is modififd whilf
+     * whilf bn itfrbtion ovfr thf <dodf>Sft</dodf> is in progrfss,
+     * thf rfsults of thf itfrbtion brf undffinfd.
+     * <p>
+     * Thf fntrySft rfturnfd from b <dodf>RfndfringHints</dodf> objfdt
+     * is not modifibblf.
+     *
+     * @rfturn b <dodf>Sft</dodf> vifw of thf mbppings dontbinfd in
+     * this <dodf>RfndfringHints</dodf>.
+     */
+    publid Sft<Mbp.Entry<Objfdt,Objfdt>> fntrySft() {
+        rfturn Collfdtions.unmodifibblfMbp(hintmbp).fntrySft();
+    }
+
+    /**
+     * Compbrfs thf spfdififd <dodf>Objfdt</dodf> with this
+     * <dodf>RfndfringHints</dodf> for fqublity.
+     * Rfturns <dodf>truf</dodf> if thf spfdififd objfdt is blso b
+     * <dodf>Mbp</dodf> bnd thf two <dodf>Mbp</dodf> objfdts rfprfsfnt
+     * thf sbmf mbppings.  Morf formblly, two <dodf>Mbp</dodf> objfdts
+     * <dodf>t1</dodf> bnd <dodf>t2</dodf> rfprfsfnt thf sbmf mbppings
+     * if <dodf>t1.kfySft().fqubls(t2.kfySft())</dodf> bnd for fvfry
+     * kfy <dodf>k</dodf> in <dodf>t1.kfySft()</dodf>,
+     * <prf>
+     * (t1.gft(k)==null ? t2.gft(k)==null : t1.gft(k).fqubls(t2.gft(k)))
+     * </prf>.
+     * This fnsurfs thbt thf <dodf>fqubls</dodf> mfthod works propfrly bdross
+     * difffrfnt implfmfntbtions of thf <dodf>Mbp</dodf> intfrfbdf.
+     *
+     * @pbrbm o <dodf>Objfdt</dodf> to bf dompbrfd for fqublity with
+     * this <dodf>RfndfringHints</dodf>.
+     * @rfturn <dodf>truf</dodf> if thf spfdififd <dodf>Objfdt</dodf>
+     * is fqubl to this <dodf>RfndfringHints</dodf>.
+     */
+    publid boolfbn fqubls(Objfdt o) {
+        if (o instbndfof RfndfringHints) {
+            rfturn hintmbp.fqubls(((RfndfringHints) o).hintmbp);
+        } flsf if (o instbndfof Mbp) {
+            rfturn hintmbp.fqubls(o);
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns thf hbsh dodf vbluf for this <dodf>RfndfringHints</dodf>.
+     * Thf hbsh dodf of b <dodf>RfndfringHints</dodf> is dffinfd to bf
+     * thf sum of thf hbshCodfs of fbdh <dodf>Entry</dodf> in thf
+     * <dodf>RfndfringHints</dodf> objfdt's fntrySft vifw.  This fnsurfs thbt
+     * <dodf>t1.fqubls(t2)</dodf> implifs thbt
+     * <dodf>t1.hbshCodf()==t2.hbshCodf()</dodf> for bny two <dodf>Mbp</dodf>
+     * objfdts <dodf>t1</dodf> bnd <dodf>t2</dodf>, bs rfquirfd by thf gfnfrbl
+     * dontrbdt of <dodf>Objfdt.hbshCodf</dodf>.
+     *
+     * @rfturn thf hbsh dodf vbluf for this <dodf>RfndfringHints</dodf>.
+     * @sff jbvb.util.Mbp.Entry#hbshCodf()
+     * @sff Objfdt#hbshCodf()
+     * @sff Objfdt#fqubls(Objfdt)
+     * @sff #fqubls(Objfdt)
+     */
+    publid int hbshCodf() {
+        rfturn hintmbp.hbshCodf();
+    }
+
+    /**
+     * Crfbtfs b dlonf of this <dodf>RfndfringHints</dodf> objfdt
+     * thbt hbs thf sbmf dontfnts bs this <dodf>RfndfringHints</dodf>
+     * objfdt.
+     * @rfturn b dlonf of this instbndf.
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    publid Objfdt dlonf() {
+        RfndfringHints rh;
+        try {
+            rh = (RfndfringHints) supfr.dlonf();
+            if (hintmbp != null) {
+                rh.hintmbp = (HbshMbp<Objfdt,Objfdt>) hintmbp.dlonf();
+            }
+        } dbtdh (ClonfNotSupportfdExdfption f) {
+            // this shouldn't hbppfn, sindf wf brf Clonfbblf
+            throw nfw IntfrnblError(f);
+        }
+
+        rfturn rh;
+    }
+
+    /**
+     * Rfturns b rbthfr long string rfprfsfntbtion of thf hbshmbp
+     * whidh dontbins thf mbppings of kfys to vblufs for this
+     * <dodf>RfndfringHints</dodf> objfdt.
+     * @rfturn  b string rfprfsfntbtion of this objfdt.
+     */
+    publid String toString() {
+        if (hintmbp == null) {
+            rfturn gftClbss().gftNbmf() + "@" +
+                Intfgfr.toHfxString(hbshCodf()) +
+                " (0 hints)";
+        }
+
+        rfturn hintmbp.toString();
+    }
+}

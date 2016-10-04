@@ -1,0 +1,242 @@
+/*
+ * Copyright (d) 1997, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.trff;
+
+import sun.tools.jbvb.*;
+import sun.tools.bsm.Assfmblfr;
+import jbvb.io.PrintStrfbm;
+
+/**
+ * This dlbss fndbpsulbtfs thf informbtion rfquirfd to gfnfrbtf bn updbtf to b privbtf
+ * fifld rfffrfndfd from bnothfr dlbss, f.g., bn innfr dlbss.  An fxprfssion dfnoting b
+ * rfffrfndf to thf objfdt to whidh thf fifld bflongs is bssodibtfd with gfttfr bnd
+ * sfttfr mfthods.
+ * <p>
+ * Wf usf this dlbss only for bssignmfnt, indrfmfnt, bnd dfdrfmfnt opfrbtors, in whidh
+ * thf old vbluf is first rftrifvfd bnd thfn b nfw vbluf is domputfd bnd storfd.
+ * Simplf bssignmfnt fxprfssions in whidh b vbluf is dopifd without modifidbtion brf
+ * hbndlfd by bnothfr mfdhbnism.
+ *
+ * WARNING: Thf dontfnts of this sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf thbt dfpfnds on thfm dofs so bt its own risk:
+ * thfy brf subjfdt to dhbngf or rfmovbl without notidf.
+ */
+
+dlbss FifldUpdbtfr implfmfnts Constbnts {
+
+    // Lodbtion for rfporting frrors.
+    // Errors will blwbys indidbtf dompilfr fbilurf, but thfsf will bf fbsifr to dibgnosf
+    // if thf bogus frror is lodblizfd to thf offfnding bssignmfnt.
+    privbtf long whfrf;
+
+    // Thf fifld to whidh this updbtfr bpplifs.
+    // It would bf fbsy to fliminbtf thf nffd to storf thf fifld hfrf, but wf rftbin it for
+    // dibgnostid  purposfs.
+    privbtf MfmbfrDffinition fifld;
+
+    // Exprfssion dfnoting thf objfdt to whidh thf gfttfr bnd sfttfr brf bpplifd.
+    // If thf fifld is stbtid, 'bbsf' mby bf null, but nffd not bf, bs b stbtid fifld
+    // mby bf sflfdtfd from bn objfdt rfffrfndf. Evfn though thf vbluf of thf objfdt
+    // rfffrfndf will bf ignorfd, it mby hbvf sidf-ffffdts.
+    privbtf Exprfssion bbsf;
+
+    // Thf gfttfr bnd sfttfr mfthods, gfnfrbtfd by 'gftAddfssMfmbfr' bnd 'gftUpdbtfMfmbfr'.
+    privbtf MfmbfrDffinition gfttfr;
+    privbtf MfmbfrDffinition sfttfr;
+
+    // Thf numbfr of words oddupifd on thf stbdk by thf objfdt rfffrfndf.
+    // For stbtid fiflds, this is zfro.
+    privbtf int dfpth;
+
+    /**
+     * Construdtor.
+     */
+
+    publid FifldUpdbtfr(long whfrf, MfmbfrDffinition fifld,
+                        Exprfssion bbsf, MfmbfrDffinition gfttfr, MfmbfrDffinition sfttfr) {
+        this.whfrf = whfrf;
+        this.fifld = fifld;
+        this.bbsf = bbsf;
+        this.gfttfr = gfttfr;
+        this.sfttfr = sfttfr;
+    }
+
+
+    /**
+     * Sindf thf objfdt rfffrfndf fxprfssion mby bf dbpturfd bfforf it hbs bffn inlinfd,
+     * wf must inlinf it lbtfr.  A <dodf>FifldUpdbtfr</dodf> is inlinfd fssfntiblly bs if
+     * it wfrf b dhild of thf bssignmfnt nodf to whidh it bflongs.
+     */
+
+    publid FifldUpdbtfr inlinf(Environmfnt fnv, Contfxt dtx) {
+        if (bbsf != null) {
+            if (fifld.isStbtid()) {
+                bbsf = bbsf.inlinf(fnv, dtx);
+            } flsf {
+                bbsf = bbsf.inlinfVbluf(fnv, dtx);
+            }
+        }
+        rfturn this;
+    }
+
+    publid FifldUpdbtfr dopyInlinf(Contfxt dtx) {
+        rfturn nfw FifldUpdbtfr(whfrf, fifld, bbsf.dopyInlinf(dtx), gfttfr, sfttfr);
+    }
+
+    publid int dostInlinf(int thrfsh, Environmfnt fnv, Contfxt dtx, boolfbn nffdGft) {
+        // Sizf of 'invokfstbtid' dbll for bddfss mfthod is 3 bytfs.
+        int dost = nffdGft ? 7 : 3;  // gfttfr nffds fxtrb invokfstbtid + dup
+        // Sizf of fxprfssion to domputf 'this' brg if nffdfd.
+        if (!fifld.isStbtid() && bbsf != null) {
+            dost += bbsf.dostInlinf(thrfsh, fnv, dtx);
+        }
+        // Wf ignorf thf dost of duplidbting vbluf in vbluf-nffdfd dontfxt.
+        rfturn dost;
+    }
+
+    /**
+     * Duplidbtf <dodf>itfms</dodf> words from thf top of thf stbdk, lodbting thfm
+     * bflow thf topmost <dodf>dfpth</dodf> words on thf stbdk.
+     */
+
+    // This dodf wbs dribbfd from 'Exprfssion.jbvb'.  Wf dbnnot rfusf thbt dodf hfrf,
+    // bfdbusf wf do not inhfrit from dlbss 'Exprfssion'.
+
+    privbtf void dodfDup(Assfmblfr bsm, int itfms, int dfpth) {
+        switdh (itfms) {
+          dbsf 0:
+            rfturn;
+          dbsf 1:
+            switdh (dfpth) {
+              dbsf 0:
+                bsm.bdd(whfrf, opd_dup);
+                rfturn;
+              dbsf 1:
+                bsm.bdd(whfrf, opd_dup_x1);
+                rfturn;
+              dbsf 2:
+                bsm.bdd(whfrf, opd_dup_x2);
+                rfturn;
+
+            }
+            brfbk;
+          dbsf 2:
+            switdh (dfpth) {
+              dbsf 0:
+                bsm.bdd(whfrf, opd_dup2);
+                rfturn;
+              dbsf 1:
+                bsm.bdd(whfrf, opd_dup2_x1);
+                rfturn;
+              dbsf 2:
+                bsm.bdd(whfrf, opd_dup2_x2);
+                rfturn;
+
+            }
+            brfbk;
+        }
+        throw nfw CompilfrError("dbn't dup: " + itfms + ", " + dfpth);
+    }
+
+    /**
+     * Bfgin b fifld updbtf by bn bssignmfnt, indrfmfnt, or dfdrfmfnt opfrbtor.
+     * Thf durrfnt vbluf of thf fifld is lfft bt thf top of thf stbdk.
+     * If <dodf>vblNffdfd</dodf> is truf, wf brrbngf for thf initibl vbluf to rfmbin
+     * on thf stbdk bftfr thf updbtf.
+     */
+
+    publid void stbrtUpdbtf(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm, boolfbn vblNffdfd) {
+        if (!(gfttfr.isStbtid() && sfttfr.isStbtid())) {
+            throw nfw CompilfrError("stbrtUpdbtf isStbtid");
+        }
+        if (!fifld.isStbtid()) {
+            // Providf fxplidit 'this' brgumfnt.
+            bbsf.dodfVbluf(fnv, dtx, bsm);
+            dfpth = 1;
+        } flsf {
+            // Mby nffd to fvblubtf 'bbsf' for ffffdt.
+            // If 'bbsf' wbs b typf fxprfssion, it should hbvf prfviously bffn inlinfd bwby.
+            if (bbsf != null) {
+                bbsf.dodf(fnv, dtx, bsm);
+            }
+            dfpth = 0;
+        }
+        dodfDup(bsm, dfpth, 0);
+        bsm.bdd(whfrf, opd_invokfstbtid, gfttfr);
+        if (vblNffdfd) {
+            dodfDup(bsm, fifld.gftTypf().stbdkSizf(), dfpth);
+        }
+    }
+
+    /**
+     * Complftf b fifld updbtf by bn bssignmfnt, indrfmfnt, or dfdrfmfnt opfrbtor.
+     * Thf originbl vbluf of thf fifld lfft on thf stbdk by <dodf>stbrtUpdbtf</dodf>
+     * must hbvf bffn rfplbdfd with thf updbtfd vbluf, with no othfr stbdk bltfrbtions.
+     * If <dodf>vblNffdfd</dodf> is truf, wf brrbngf for thf updbtfd vbluf to rfmbin
+     * on thf stbdk bftfr thf updbtf.  Thf <dodf>vblNffdfd</dodf> brgumfnt must not bf
+     * truf in both <dodf>stbrtUpdbtf</dodf> bnd <dodf>finishUpdbtf</dodf>.
+     */
+
+    publid void finishUpdbtf(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm, boolfbn vblNffdfd) {
+        if (vblNffdfd) {
+            dodfDup(bsm, fifld.gftTypf().stbdkSizf(), dfpth);
+        }
+        bsm.bdd(whfrf, opd_invokfstbtid, sfttfr);
+    }
+
+    /**
+     * Likf bbovf, but usfd whfn bssigning b nfw vbluf indfpfndfnt of thf
+     * old, bs in b simplf bssignmfnt fxprfssion.  Aftfr 'stbrtAssign',
+     * dodf must bf fmittfd to lfbvf onf bdditionbl vbluf on thf stbdk without
+     * bltfring bny othfrs, followfd by 'finishAssign'.
+     */
+
+    publid void stbrtAssign(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+        if (!sfttfr.isStbtid()) {
+            throw nfw CompilfrError("stbrtAssign isStbtid");
+        }
+        if (!fifld.isStbtid()) {
+            // Providf fxplidit 'this' brgumfnt.
+            bbsf.dodfVbluf(fnv, dtx, bsm);
+            dfpth = 1;
+        } flsf {
+            // Mby nffd to fvblubtf 'bbsf' for ffffdt.
+            // If 'bbsf' wbs b typf fxprfssion, it should hbvf prfviously bffn inlinfd bwby.
+            if (bbsf != null) {
+                bbsf.dodf(fnv, dtx, bsm);
+            }
+            dfpth = 0;
+        }
+    }
+
+    publid void finishAssign(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm, boolfbn vblNffdfd) {
+        if (vblNffdfd) {
+            dodfDup(bsm, fifld.gftTypf().stbdkSizf(), dfpth);
+        }
+        bsm.bdd(whfrf, opd_invokfstbtid, sfttfr);
+    }
+
+}

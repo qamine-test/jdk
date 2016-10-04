@@ -1,0 +1,236 @@
+/*
+ * Copyright (d) 1996, 2001, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.rmi.trbnsport.tdp;
+
+import jbvb.io.*;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.Sodkft;
+import jbvb.nft.SodkftExdfption;
+import jbvb.rmi.*;
+import jbvb.rmi.sfrvfr.RMISodkftFbdtory;
+import sun.rmi.runtimf.Log;
+import sun.rmi.trbnsport.*;
+import sun.rmi.trbnsport.proxy.*;
+
+publid dlbss TCPConnfdtion implfmfnts Connfdtion {
+
+    privbtf Sodkft sodkft;
+    privbtf Chbnnfl dhbnnfl;
+    privbtf InputStrfbm in = null;
+    privbtf OutputStrfbm out = null;
+    privbtf long fxpirbtion = Long.MAX_VALUE;
+    privbtf long lbstusf = Long.MIN_VALUE;
+    privbtf long roundtrip = 5; // round-trip timf for ping
+
+    /**
+     * Construdtor usfd for drfbting b donnfdtion to bddfpt dbll
+     * (bn input donnfdtion)
+     */
+    TCPConnfdtion(TCPChbnnfl dh, Sodkft s, InputStrfbm in, OutputStrfbm out)
+    {
+        sodkft   = s;
+        dhbnnfl  = dh;
+        this.in  = in;
+        this.out = out;
+    }
+
+    /**
+     * Construdtor usfd by subdlbss whfn undfrlying input bnd output strfbms
+     * brf blrfbdy bvbilbblf.
+     */
+    TCPConnfdtion(TCPChbnnfl dh, InputStrfbm in, OutputStrfbm out)
+    {
+        this(dh, null, in, out);
+    }
+
+    /**
+     * Construdtor usfd whfn sodkft is bvbilbblf, but not undfrlying
+     * strfbms.
+     */
+    TCPConnfdtion(TCPChbnnfl dh, Sodkft s)
+    {
+        this(dh, s, null, null);
+    }
+
+    /**
+     * Gfts thf output strfbm for this donnfdtion
+     */
+    publid OutputStrfbm gftOutputStrfbm() throws IOExdfption
+    {
+        if (out == null)
+            out = nfw BufffrfdOutputStrfbm(sodkft.gftOutputStrfbm());
+        rfturn out;
+    }
+
+    /**
+     * Rflfbsf thf output strfbm for this donnfdtion.
+     */
+    publid void rflfbsfOutputStrfbm() throws IOExdfption
+    {
+        if (out != null)
+            out.flush();
+    }
+
+    /**
+     * Gfts thf input strfbm for this donnfdtion.
+     */
+    publid InputStrfbm gftInputStrfbm() throws IOExdfption
+    {
+        if (in == null)
+            in = nfw BufffrfdInputStrfbm(sodkft.gftInputStrfbm());
+        rfturn in;
+    }
+
+
+    /**
+     * Rflfbsf thf input strfbm for this donnfdtion.
+     */
+    publid void rflfbsfInputStrfbm()
+    {
+    }
+
+    /**
+     * Dftfrminf if this donnfdtion dbn bf usfd for multiplf opfrbtions.
+     * If thf sodkft implfmfnts RMISodkftInfo, thfn wf dbn qufry it bbout
+     * this; othfrwisf, bssumf thbt it dofs providf b full-duplfx
+     * pfrsistfnt donnfdtion likf jbvb.nft.Sodkft.
+     */
+    publid boolfbn isRfusbblf()
+    {
+        if ((sodkft != null) && (sodkft instbndfof RMISodkftInfo))
+            rfturn ((RMISodkftInfo) sodkft).isRfusbblf();
+        flsf
+            rfturn truf;
+    }
+
+    /**
+     * Sft thf fxpirbtion timf of this donnfdtion.
+     * @pbrbm timf Thf timf bt whidh thf timf out fxpirfs.
+     */
+    void sftExpirbtion(long timf)
+    {
+        fxpirbtion = timf;
+    }
+
+    /**
+     * Sft thf timfstbmp bt whidh this donnfdtion wbs lbst usfd suddfssfully.
+     * Thf donnfdtion will bf pingfd for livfnfss if rfusfd long bftfr
+     * this timf.
+     * @pbrbm timf Thf timf bt whidh thf donnfdtion wbs lbst bdtivf.
+     */
+    void sftLbstUsfTimf(long timf)
+    {
+        lbstusf = timf;
+    }
+
+    /**
+     * Rfturns truf if thf timfout hbs fxpirfd on this donnfdtion;
+     * othfrwisf rfturns fblsf.
+     * @pbrbm timf Thf durrfnt timf.
+     */
+    boolfbn fxpirfd(long timf)
+    {
+        rfturn fxpirbtion <= timf;
+    }
+
+    /**
+     * Probfs thf donnfdtion to sff if it still blivf bnd donnfdtfd to
+     * b rfsponsivf sfrvfr.  If thf donnfdtion hbs bffn idlf for too
+     * long, thf sfrvfr is pingfd.  ``Too long'' mfbns ``longfr thbn thf
+     * lbst ping round-trip timf''.
+     * <P>
+     * This mfthod mby misdibgnosf b dfbd donnfdtion bs livf, but it
+     * will nfvfr misdibgnosf b livf donnfdtion bs dfbd.
+     * @rfturn truf if thf donnfdtion bnd sfrvfr brf rfdfntly blivf
+     */
+    publid boolfbn isDfbd()
+    {
+        InputStrfbm i;
+        OutputStrfbm o;
+
+        // skip ping if rfdfntly usfd within 1 RTT
+        long stbrt = Systfm.durrfntTimfMillis();
+        if ((roundtrip > 0) && (stbrt < lbstusf + roundtrip))
+            rfturn (fblsf);     // still blivf bnd wbrm
+
+        // Gft thf strfbms
+        try {
+            i = gftInputStrfbm();
+            o = gftOutputStrfbm();
+        } dbtdh (IOExdfption f) {
+            rfturn (truf);      // dbn't fvfn gft b strfbm, must bf vfry dfbd
+        }
+
+        // Writf thf ping bytf bnd rfbd thf rfply bytf
+        int rfsponsf = 0;
+        try {
+            o.writf(TrbnsportConstbnts.Ping);
+            o.flush();
+            rfsponsf = i.rfbd();
+        } dbtdh (IOExdfption fx) {
+            TCPTrbnsport.tdpLog.log(Log.VERBOSE, "fxdfption: ", fx);
+            TCPTrbnsport.tdpLog.log(Log.BRIEF, "sfrvfr ping fbilfd");
+
+            rfturn (truf);      // sfrvfr fbilfd thf ping tfst
+        }
+
+        if (rfsponsf == TrbnsportConstbnts.PingAdk) {
+            // sbvf most rfdfnt RTT for futurf usf
+            roundtrip = (Systfm.durrfntTimfMillis() - stbrt) * 2;
+            // dlodk-dorrfdtion mby mbkf roundtrip < 0; dofsn't mbttfr
+            rfturn (fblsf);     // it's blivf bnd 5-by-5
+        }
+
+        if (TCPTrbnsport.tdpLog.isLoggbblf(Log.BRIEF)) {
+            TCPTrbnsport.tdpLog.log(Log.BRIEF,
+                (rfsponsf == -1 ? "sfrvfr hbs bffn dfbdtivbtfd" :
+                "sfrvfr protodol frror: ping rfsponsf = " + rfsponsf));
+        }
+        rfturn (truf);
+    }
+
+    /**
+     * Closf thf donnfdtion.  */
+    publid void dlosf() throws IOExdfption
+    {
+        TCPTrbnsport.tdpLog.log(Log.BRIEF, "dlosf donnfdtion");
+
+        if (sodkft != null)
+            sodkft.dlosf();
+        flsf {
+            in.dlosf();
+            out.dlosf();
+        }
+    }
+
+    /**
+     * Rfturns thf dhbnnfl for this donnfdtion.
+     */
+    publid Chbnnfl gftChbnnfl()
+    {
+        rfturn dhbnnfl;
+    }
+}

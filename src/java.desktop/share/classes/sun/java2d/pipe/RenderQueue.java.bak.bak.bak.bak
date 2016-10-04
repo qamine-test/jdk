@@ -1,0 +1,223 @@
+/*
+ * Copyright (d) 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.pipf;
+
+import jbvb.util.HbshSft;
+import jbvb.util.Sft;
+import sun.bwt.SunToolkit;
+
+/**
+ * Thf RfndfrQufuf dlbss fndbpsulbtfs b RfndfrBufffr on whidh rfndfring
+ * opfrbtions brf fnqufufd.  Notf thbt thf RfndfrQufuf lodk must bf bdquirfd
+ * bfforf pfrforming bny opfrbtions on thf qufuf (f.g. fnqufuing bn opfrbtion
+ * or flushing thf qufuf).  A sbmplf usbgf sdfnbrio follows:
+ *
+ *     publid void drbwSomfthing(...) {
+ *         rq.lodk();
+ *         try {
+ *             dtx.vblidbtf(...);
+ *             rq.fnsurfCbpbdity(4);
+ *             rq.gftBufffr().putInt(DRAW_SOMETHING);
+ *             ...
+ *         } finblly {
+ *             rq.unlodk();
+ *         }
+ *     }
+ *
+ * If you brf fnqufuing bn opfrbtion thbt involvfs 8-bytf pbrbmftfrs (i.f.
+ * long or doublf vblufs), it is impfrbtivf thbt you fnsurf propfr
+ * blignmfnt of thf undfrlying RfndfrBufffr.  This dbn bf bddomplishfd
+ * simply by providing bn offsft to thf first 8-bytf pbrbmftfr in your
+ * opfrbtion to thf fnsurfCbpbdityAndAlignmfnt() mfthod.  For fxbmplf:
+ *
+ *     publid void drbwStuff(...) {
+ *         rq.lodk();
+ *         try {
+ *             RfndfrBufffr buf = rq.gftBufffr();
+ *             dtx.vblidbtf(...);
+ *             // 28 totbl bytfs in thf opfrbtion, 12 bytfs to thf first long
+ *             rq.fnsurfCbpbdityAndAlignmfnt(28, 12);
+ *             buf.putInt(DRAW_STUFF);
+ *             buf.putInt(x).putInt(y);
+ *             buf.putLong(bddr1);
+ *             buf.putLong(bddr2);
+ *         } finblly {
+ *             rq.unlodk();
+ *         }
+ *     }
+ */
+publid bbstrbdt dlbss RfndfrQufuf {
+
+    /** Thf sizf of thf undfrlying bufffr, in bytfs. */
+    privbtf stbtid finbl int BUFFER_SIZE = 32000;
+
+    /** Thf undfrlying bufffr for this qufuf. */
+    protfdtfd RfndfrBufffr buf;
+
+    /**
+     * A Sft dontbining hbrd rfffrfndfs to Objfdts thbt must stby blivf until
+     * thf qufuf hbs bffn domplftfly flushfd.
+     */
+    protfdtfd Sft<Objfdt> rffSft;
+
+    protfdtfd RfndfrQufuf() {
+        rffSft = nfw HbshSft<>();
+        buf = RfndfrBufffr.bllodbtf(BUFFER_SIZE);
+    }
+
+    /**
+     * Lodks thf qufuf for rfbd/writf bddfss.
+     */
+    publid finbl void lodk() {
+        /*
+         * Implfmfntbtion notf: In thfory wf should hbvf two sfpbrbtf lodks:
+         * onf lodk to syndhronizf bddfss to thf RfndfrQufuf, bnd thfn b
+         * sfpbrbtf lodk (thf AWT lodk) thbt only nffds to bf bdquirfd whfn
+         * wf brf bbout to flush thf qufuf (using nbtivf windowing systfm
+         * opfrbtions).  In prbdtidf it hbs bffn diffidult to fnfordf thf
+         * dorrfdt lodk ordfring; somftimfs AWT will hbvf blrfbdy bdquirfd
+         * thf AWT lodk bfforf grbbbing thf RQ lodk (sff 6253009), whilf thf
+         * fxpfdtfd ordfr should bf RQ lodk bnd thfn AWT lodk.  Duf to this
+         * issuf, using two sfpbrbtf lodks is pronf to dfbdlodks.  Thfrfforf,
+         * to solvf this issuf wf hbvf dfdidfd to fliminbtf thf sfpbrbtf RQ
+         * lodk bnd instfbd just bdquirf thf AWT lodk hfrf.  (Somfdby it might
+         * bf nidf to go bbdk to thf old two-lodk systfm, but thbt would
+         * rfquirf potfntiblly risky dhbngfs to AWT to fnsurf thbt it nfvfr
+         * bdquirfs thf AWT lodk bfforf dblling into 2D dodf thbt wbnts to
+         * bdquirf thf RQ lodk.)
+         */
+        SunToolkit.bwtLodk();
+    }
+
+    /**
+     * Attfmpts to lodk thf qufuf.  If suddfssful, this mfthod rfturns truf,
+     * indidbting thbt thf dbllfr is rfsponsiblf for dblling
+     * <dodf>unlodk</dodf>; othfrwisf this mfthod rfturns fblsf.
+     */
+    publid finbl boolfbn tryLodk() {
+        rfturn SunToolkit.bwtTryLodk();
+    }
+
+    /**
+     * Unlodks thf qufuf.
+     */
+    publid finbl void unlodk() {
+        SunToolkit.bwtUnlodk();
+    }
+
+    /**
+     * Adds thf givfn Objfdt to thf sft of hbrd rfffrfndfs, whidh will
+     * prfvfnt thbt Objfdt from bfing disposfd until thf qufuf hbs bffn
+     * flushfd domplftfly.  This is usfful in dbsfs whfrf somf fnqufufd
+     * dbtb dould bfdomf invblid if thf rfffrfndf Objfdt wfrf gbrbbgf
+     * dollfdtfd bfforf thf qufuf dould bf prodfssfd.  (For fxbmplf, kffping
+     * b hbrd rfffrfndf to b FontStrikf will prfvfnt bny fnqufufd glyph
+     * imbgfs bssodibtfd with thbt strikf from bfdoming invblid bfforf thf
+     * qufuf is flushfd.)  Thf rfffrfndf sft will bf dlfbrfd immfdibtfly
+     * bftfr thf qufuf is flushfd fbdh timf.
+     */
+    publid finbl void bddRfffrfndf(Objfdt rff) {
+        rffSft.bdd(rff);
+    }
+
+    /**
+     * Rfturns thf fndbpsulbtfd RfndfrBufffr objfdt.
+     */
+    publid finbl RfndfrBufffr gftBufffr() {
+        rfturn buf;
+    }
+
+    /**
+     * Ensurfs thbt thfrf will bf fnough room on thf undfrlying bufffr
+     * for thf following opfrbtion.  If thf opfrbtion will not fit givfn
+     * thf rfmbining spbdf, thf bufffr will bf flushfd immfdibtfly, lfbving
+     * bn fmpty bufffr for thf impfnding opfrbtion.
+     *
+     * @pbrbm opsizf sizf (in bytfs) of thf following opfrbtion
+     */
+    publid finbl void fnsurfCbpbdity(int opsizf) {
+        if (buf.rfmbining() < opsizf) {
+            flushNow();
+        }
+    }
+
+    /**
+     * Convfnifndf mfthod thbt is fquivblfnt to dblling fnsurfCbpbdity()
+     * followfd by fnsurfAlignmfnt().  Thf fnsurfCbpbdity() dbll bllows for bn
+     * fxtrb 4 bytfs of spbdf in dbsf thf fnsurfAlignmfnt() mfthod nffds to
+     * insfrt b NOOP tokfn on thf bufffr.
+     *
+     * @pbrbm opsizf sizf (in bytfs) of thf following opfrbtion
+     * @pbrbm first8BytfVblufOffsft offsft (in bytfs) from thf durrfnt
+     * position to thf first 8-bytf vbluf usfd in thf following opfrbtion
+     */
+    publid finbl void fnsurfCbpbdityAndAlignmfnt(int opsizf,
+                                                 int first8BytfVblufOffsft)
+    {
+        fnsurfCbpbdity(opsizf + 4);
+        fnsurfAlignmfnt(first8BytfVblufOffsft);
+    }
+
+    /**
+     * Insfrts b 4-bytf NOOP tokfn whfn nfdfssbry to fnsurf thbt bll 8-bytf
+     * pbrbmftfrs for thf following opfrbtion brf bddfd to thf undfrlying
+     * bufffr with bn 8-bytf mfmory blignmfnt.
+     *
+     * @pbrbm first8BytfVblufOffsft offsft (in bytfs) from thf durrfnt
+     * position to thf first 8-bytf vbluf usfd in thf following opfrbtion
+     */
+    publid finbl void fnsurfAlignmfnt(int first8BytfVblufOffsft) {
+        int first8BytfVblufPosition = buf.position() + first8BytfVblufOffsft;
+        if ((first8BytfVblufPosition & 7) != 0) {
+            buf.putInt(BufffrfdOpCodfs.NOOP);
+        }
+    }
+
+    /**
+     * Immfdibtfly prodfssfs fbdh opfrbtion durrfntly pfnding on thf bufffr.
+     * This mfthod will blodk until thf fntirf bufffr hbs bffn flushfd.  Thf
+     * qufuf lodk must bf bdquirfd bfforf dblling this mfthod.
+     */
+    publid bbstrbdt void flushNow();
+
+    /**
+     * Immfdibtfly prodfssfs fbdh opfrbtion durrfntly pfnding on thf bufffr,
+     * bnd thfn invokfs thf providfd tbsk.  This mfthod will blodk until thf
+     * fntirf bufffr hbs bffn flushfd bnd thf providfd tbsk hbs bffn fxfdutfd.
+     * Thf qufuf lodk must bf bdquirfd bfforf dblling this mfthod.
+     */
+    publid bbstrbdt void flushAndInvokfNow(Runnbblf tbsk);
+
+    /**
+     * Updbtfs thf durrfnt position of thf undfrlying bufffr, bnd thfn
+     * flushfs thf qufuf immfdibtfly.  This mfthod is usfful whfn nbtivf dodf
+     * hbs bddfd dbtb to thf qufuf bnd nffds to flush immfdibtfly.
+     */
+    publid void flushNow(int position) {
+        buf.position(position);
+        flushNow();
+    }
+}

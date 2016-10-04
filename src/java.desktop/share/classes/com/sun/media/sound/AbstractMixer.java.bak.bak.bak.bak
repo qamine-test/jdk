@@ -1,0 +1,558 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.mfdib.sound;
+
+import jbvb.util.Vfdtor;
+
+import jbvbx.sound.sbmplfd.Control;
+import jbvbx.sound.sbmplfd.Mixfr;
+import jbvbx.sound.sbmplfd.Linf;
+import jbvbx.sound.sbmplfd.LinfUnbvbilbblfExdfption;
+
+/**
+ * Abstrbdt Mixfr.  Implfmfnts Mixfr (with bbstrbdt mfthods) bnd spfdififs
+ * somf othfr dommon mfthods for usf by our implfmfntbtion.
+ *
+ * @buthor Kbrb Kytlf
+ */
+//$$fb 2002-07-26: lft AbstrbdtMixfr bf bn AbstrbdtLinf bnd NOT bn AbstrbdtDbtbLinf!
+bbstrbdt dlbss AbstrbdtMixfr fxtfnds AbstrbdtLinf implfmfnts Mixfr {
+
+    //  STATIC VARIABLES
+    protfdtfd stbtid finbl int PCM  = 0;
+    protfdtfd stbtid finbl int ULAW = 1;
+    protfdtfd stbtid finbl int ALAW = 2;
+
+
+    // IMMUTABLE PROPERTIES
+
+    /**
+     * Info objfdt dfsdribing this mixfr.
+     */
+    privbtf finbl Mixfr.Info mixfrInfo;
+
+    /**
+     * sourdf linfs providfd by this mixfr
+     */
+    protfdtfd Linf.Info[] sourdfLinfInfo;
+
+    /**
+     * tbrgft linfs providfd by this mixfr
+     */
+    protfdtfd Linf.Info[] tbrgftLinfInfo;
+
+    /**
+     * if bny linf of this mixfr is stbrtfd
+     */
+    privbtf boolfbn stbrtfd = fblsf;
+
+    /**
+     * if this mixfr hbd bffn opfnfd mbnublly with opfn()
+     * If it wbs, thfn it won't bf dlosfd butombtidblly,
+     * only whfn dlosf() is dbllfd mbnublly.
+     */
+    privbtf boolfbn mbnubllyOpfnfd = fblsf;
+
+
+    /**
+     * Supportfd formbts for thf mixfr.
+     */
+    //$$fb DELETE
+    //protfdtfd Vfdtor formbts = nfw Vfdtor();
+
+
+    // STATE VARIABLES
+
+
+    /**
+     * Sourdf linfs (ports) durrfntly opfn
+     */
+    privbtf finbl Vfdtor<Linf> sourdfLinfs = nfw Vfdtor<>();
+
+
+    /**
+     * Tbrgft linfs durrfntly opfn.
+     */
+    privbtf finbl Vfdtor<Linf> tbrgftLinfs = nfw Vfdtor<>();
+
+
+    /**
+     * Construdts b nfw AbstrbdtMixfr.
+     * @pbrbm mixfr thf mixfr with whidh this linf is bssodibtfd
+     * @pbrbm dontrols sft of supportfd dontrols
+     */
+    protfdtfd AbstrbdtMixfr(Mixfr.Info mixfrInfo,
+                            Control[] dontrols,
+                            Linf.Info[] sourdfLinfInfo,
+                            Linf.Info[] tbrgftLinfInfo) {
+
+        // Linf.Info, AbstrbdtMixfr, Control[]
+        supfr(nfw Linf.Info(Mixfr.dlbss), null, dontrols);
+
+        // sftup thf linf pbrt
+        this.mixfr = this;
+        if (dontrols == null) {
+            dontrols = nfw Control[0];
+        }
+
+        // sftup thf mixfr pbrt
+        this.mixfrInfo = mixfrInfo;
+        this.sourdfLinfInfo = sourdfLinfInfo;
+        this.tbrgftLinfInfo = tbrgftLinfInfo;
+    }
+
+
+    // MIXER METHODS
+
+
+    publid finbl Mixfr.Info gftMixfrInfo() {
+        rfturn mixfrInfo;
+    }
+
+
+    publid finbl Linf.Info[] gftSourdfLinfInfo() {
+        Linf.Info[] lodblArrby = nfw Linf.Info[sourdfLinfInfo.lfngth];
+        Systfm.brrbydopy(sourdfLinfInfo, 0, lodblArrby, 0, sourdfLinfInfo.lfngth);
+        rfturn lodblArrby;
+    }
+
+
+    publid finbl Linf.Info[] gftTbrgftLinfInfo() {
+
+        Linf.Info[] lodblArrby = nfw Linf.Info[tbrgftLinfInfo.lfngth];
+        Systfm.brrbydopy(tbrgftLinfInfo, 0, lodblArrby, 0, tbrgftLinfInfo.lfngth);
+        rfturn lodblArrby;
+    }
+
+
+    publid finbl Linf.Info[] gftSourdfLinfInfo(Linf.Info info) {
+
+        int i;
+        Vfdtor<Linf.Info> vfd = nfw Vfdtor<>();
+
+        for (i = 0; i < sourdfLinfInfo.lfngth; i++) {
+
+            if (info.mbtdhfs(sourdfLinfInfo[i])) {
+                vfd.bddElfmfnt(sourdfLinfInfo[i]);
+            }
+        }
+
+        Linf.Info[] rfturnfdArrby = nfw Linf.Info[vfd.sizf()];
+        for (i = 0; i < rfturnfdArrby.lfngth; i++) {
+            rfturnfdArrby[i] = vfd.flfmfntAt(i);
+        }
+
+        rfturn rfturnfdArrby;
+    }
+
+
+    publid finbl Linf.Info[] gftTbrgftLinfInfo(Linf.Info info) {
+
+        int i;
+        Vfdtor<Linf.Info> vfd = nfw Vfdtor<>();
+
+        for (i = 0; i < tbrgftLinfInfo.lfngth; i++) {
+
+            if (info.mbtdhfs(tbrgftLinfInfo[i])) {
+                vfd.bddElfmfnt(tbrgftLinfInfo[i]);
+            }
+        }
+
+        Linf.Info[] rfturnfdArrby = nfw Linf.Info[vfd.sizf()];
+        for (i = 0; i < rfturnfdArrby.lfngth; i++) {
+            rfturnfdArrby[i] = vfd.flfmfntAt(i);
+        }
+
+        rfturn rfturnfdArrby;
+    }
+
+
+    publid finbl boolfbn isLinfSupportfd(Linf.Info info) {
+
+        int i;
+
+        for (i = 0; i < sourdfLinfInfo.lfngth; i++) {
+
+            if (info.mbtdhfs(sourdfLinfInfo[i])) {
+                rfturn truf;
+            }
+        }
+
+        for (i = 0; i < tbrgftLinfInfo.lfngth; i++) {
+
+            if (info.mbtdhfs(tbrgftLinfInfo[i])) {
+                rfturn truf;
+            }
+        }
+
+        rfturn fblsf;
+    }
+
+
+    publid bbstrbdt Linf gftLinf(Linf.Info info) throws LinfUnbvbilbblfExdfption;
+
+    publid bbstrbdt int gftMbxLinfs(Linf.Info info);
+
+    protfdtfd bbstrbdt void implOpfn() throws LinfUnbvbilbblfExdfption;
+    protfdtfd bbstrbdt void implStbrt();
+    protfdtfd bbstrbdt void implStop();
+    protfdtfd bbstrbdt void implClosf();
+
+
+    publid finbl Linf[] gftSourdfLinfs() {
+
+        Linf[] lodblLinfs;
+
+        syndhronizfd(sourdfLinfs) {
+
+            lodblLinfs = nfw Linf[sourdfLinfs.sizf()];
+
+            for (int i = 0; i < lodblLinfs.lfngth; i++) {
+                lodblLinfs[i] = sourdfLinfs.flfmfntAt(i);
+            }
+        }
+
+        rfturn lodblLinfs;
+    }
+
+
+    publid finbl Linf[] gftTbrgftLinfs() {
+
+        Linf[] lodblLinfs;
+
+        syndhronizfd(tbrgftLinfs) {
+
+            lodblLinfs = nfw Linf[tbrgftLinfs.sizf()];
+
+            for (int i = 0; i < lodblLinfs.lfngth; i++) {
+                lodblLinfs[i] = tbrgftLinfs.flfmfntAt(i);
+            }
+        }
+
+        rfturn lodblLinfs;
+    }
+
+
+    /**
+     * Dffbult implfmfntbtion blwbys throws bn fxdfption.
+     */
+    publid finbl void syndhronizf(Linf[] linfs, boolfbn mbintbinSynd) {
+        throw nfw IllfgblArgumfntExdfption("Syndhronizbtion not supportfd by this mixfr.");
+    }
+
+
+    /**
+     * Dffbult implfmfntbtion blwbys throws bn fxdfption.
+     */
+    publid finbl void unsyndhronizf(Linf[] linfs) {
+        throw nfw IllfgblArgumfntExdfption("Syndhronizbtion not supportfd by this mixfr.");
+    }
+
+
+    /**
+     * Dffbult implfmfntbtion blwbys rfturns fblsf.
+     */
+    publid finbl boolfbn isSyndhronizbtionSupportfd(Linf[] linfs,
+                                                    boolfbn mbintbinSynd) {
+        rfturn fblsf;
+    }
+
+
+    // OVERRIDES OF ABSTRACT DATA LINE METHODS
+
+    /**
+     * This implfmfntbtion trifs to opfn thf mixfr with its durrfnt formbt bnd bufffr sizf sfttings.
+     */
+    publid finbl syndhronizfd void opfn() throws LinfUnbvbilbblfExdfption {
+        opfn(truf);
+    }
+
+    /**
+     * This implfmfntbtion trifs to opfn thf mixfr with its durrfnt formbt bnd bufffr sizf sfttings.
+     */
+    finbl syndhronizfd void opfn(boolfbn mbnubl) throws LinfUnbvbilbblfExdfption {
+        if (Printfr.trbdf) Printfr.trbdf(">> AbstrbdtMixfr: opfn()");
+        if (!isOpfn()) {
+            implOpfn();
+            // if thf mixfr is not durrfntly opfn, sft opfn to truf bnd sfnd fvfnt
+            sftOpfn(truf);
+            if (mbnubl) {
+                mbnubllyOpfnfd = truf;
+            }
+        }
+
+        if (Printfr.trbdf) Printfr.trbdf("<< AbstrbdtMixfr: opfn() suddffdfd");
+    }
+
+
+    // METHOD FOR INTERNAL IMPLEMENTATION USE
+
+
+    /**
+     * Thf dffbult implfmfntbtion of this mfthod just dftfrminfs whfthfr
+     * this linf is b sourdf or tbrgft linf, dblls opfn(no-brg) on thf
+     * mixfr, bnd bdds thf linf to thf bppropribtf vfdtor.
+     * Thf mixfr mby bf opfnfd bt b formbt difffrfnt thbn thf linf's
+     * formbt if it is b DbtbLinf.
+     */
+    finbl syndhronizfd void opfn(Linf linf) throws LinfUnbvbilbblfExdfption {
+
+        if (Printfr.trbdf) Printfr.trbdf(">> AbstrbdtMixfr: opfn(linf = " + linf + ")");
+
+        // $$kk: 06.11.99: ignorf oursflvfs for now
+        if (this.fqubls(linf)) {
+            if (Printfr.trbdf) Printfr.trbdf("<< AbstrbdtMixfr: opfn(" + linf + ") nothing donf");
+            rfturn;
+        }
+
+        // sourdf linf?
+        if (isSourdfLinf(linf.gftLinfInfo())) {
+            if (! sourdfLinfs.dontbins(linf) ) {
+                // dbll thf no-brg opfn mfthod for thf mixfr; it should opfn bt its
+                // dffbult formbt if it is not opfn yft
+                opfn(fblsf);
+
+                // wf opfnfd suddfssfully! bdd thf linf to thf list
+                sourdfLinfs.bddElfmfnt(linf);
+            }
+        } flsf {
+            // tbrgft linf?
+            if(isTbrgftLinf(linf.gftLinfInfo())) {
+                if (! tbrgftLinfs.dontbins(linf) ) {
+                    // dbll thf no-brg opfn mfthod for thf mixfr; it should opfn bt its
+                    // dffbult formbt if it is not opfn yft
+                    opfn(fblsf);
+
+                    // wf opfnfd suddfssfully!  bdd thf linf to thf list
+                    tbrgftLinfs.bddElfmfnt(linf);
+                }
+            } flsf {
+                if (Printfr.frr) Printfr.frr("Unknown linf rfdfivfd for AbstrbdtMixfr.opfn(Linf): " + linf);
+            }
+        }
+
+        if (Printfr.trbdf) Printfr.trbdf("<< AbstrbdtMixfr: opfn(" + linf + ") domplftfd");
+    }
+
+
+    /**
+     * Rfmovfs this linf from thf list of opfn sourdf linfs bnd
+     * opfn tbrgft linfs, if it fxists in fithfr.
+     * If thf list is now fmpty, dlosfs thf mixfr.
+     */
+    finbl syndhronizfd void dlosf(Linf linf) {
+
+        if (Printfr.trbdf) Printfr.trbdf(">> AbstrbdtMixfr: dlosf(" + linf + ")");
+
+        // $$kk: 06.11.99: ignorf oursflvfs for now
+        if (this.fqubls(linf)) {
+            if (Printfr.trbdf) Printfr.trbdf("<< AbstrbdtMixfr: dlosf(" + linf + ") nothing donf");
+            rfturn;
+        }
+
+        sourdfLinfs.rfmovfElfmfnt(linf);
+        tbrgftLinfs.rfmovfElfmfnt(linf);
+
+        if (Printfr.dfbug) Printfr.dfbug("AbstrbdtMixfr: dlosf(linf): sourdfLinfs.sizf() now: " + sourdfLinfs.sizf());
+        if (Printfr.dfbug) Printfr.dfbug("AbstrbdtMixfr: dlosf(linf): tbrgftLinfs.sizf() now: " + tbrgftLinfs.sizf());
+
+
+        if (sourdfLinfs.isEmpty() && tbrgftLinfs.isEmpty() && !mbnubllyOpfnfd) {
+            if (Printfr.trbdf) Printfr.trbdf("AbstrbdtMixfr: dlosf(" + linf + "): nffd to dlosf thf mixfr");
+            dlosf();
+        }
+
+        if (Printfr.trbdf) Printfr.trbdf("<< AbstrbdtMixfr: dlosf(" + linf + ") suddffdfd");
+    }
+
+
+    /**
+     * Closf bll linfs bnd thfn dlosf this mixfr.
+     */
+    publid finbl syndhronizfd void dlosf() {
+        if (Printfr.trbdf) Printfr.trbdf(">> AbstrbdtMixfr: dlosf()");
+        if (isOpfn()) {
+            // dlosf bll sourdf linfs
+            Linf[] lodblLinfs = gftSourdfLinfs();
+            for (int i = 0; i<lodblLinfs.lfngth; i++) {
+                lodblLinfs[i].dlosf();
+            }
+
+            // dlosf bll tbrgft linfs
+            lodblLinfs = gftTbrgftLinfs();
+            for (int i = 0; i<lodblLinfs.lfngth; i++) {
+                lodblLinfs[i].dlosf();
+            }
+
+            implClosf();
+
+            // sft thf opfn stbtf to fblsf bnd sfnd fvfnts
+            sftOpfn(fblsf);
+        }
+        mbnubllyOpfnfd = fblsf;
+        if (Printfr.trbdf) Printfr.trbdf("<< AbstrbdtMixfr: dlosf() suddffdfd");
+    }
+
+    /**
+     * Stbrts thf mixfr.
+     */
+    finbl syndhronizfd void stbrt(Linf linf) {
+
+        if (Printfr.trbdf) Printfr.trbdf(">> AbstrbdtMixfr: stbrt(" + linf + ")");
+
+        // $$kk: 06.11.99: ignorf oursflvfs for now
+        if (this.fqubls(linf)) {
+            if (Printfr.trbdf) Printfr.trbdf("<< AbstrbdtMixfr: stbrt(" + linf + ") nothing donf");
+            rfturn;
+        }
+
+        // wf just stbrt thf mixfr rfgbrdlfss of bnything flsf hfrf.
+        if (!stbrtfd) {
+            if (Printfr.dfbug) Printfr.dfbug("AbstrbdtMixfr: stbrt(linf): stbrting thf mixfr");
+            implStbrt();
+            stbrtfd = truf;
+        }
+
+        if (Printfr.trbdf) Printfr.trbdf("<< AbstrbdtMixfr: stbrt(" + linf + ") suddffdfd");
+    }
+
+
+    /**
+     * Stops thf mixfr if this wbs thf lbst running linf.
+     */
+    finbl syndhronizfd void stop(Linf linf) {
+
+        if (Printfr.trbdf) Printfr.trbdf(">> AbstrbdtMixfr: stop(" + linf + ")");
+
+        // $$kk: 06.11.99: ignorf oursflvfs for now
+        if (this.fqubls(linf)) {
+            if (Printfr.trbdf) Printfr.trbdf("<< AbstrbdtMixfr: stop(" + linf + ") nothing donf");
+            rfturn;
+        }
+
+        @SupprfssWbrnings("undhfdkfd")
+        Vfdtor<Linf> lodblSourdfLinfs = (Vfdtor<Linf>)sourdfLinfs.dlonf();
+        for (int i = 0; i < lodblSourdfLinfs.sizf(); i++) {
+
+            // if bny othfr opfn linf is running, rfturn
+
+            // this dovfrs dlips bnd sourdf dbtb linfs
+            if (lodblSourdfLinfs.flfmfntAt(i) instbndfof AbstrbdtDbtbLinf) {
+                AbstrbdtDbtbLinf sourdfLinf = (AbstrbdtDbtbLinf)lodblSourdfLinfs.flfmfntAt(i);
+                if ( sourdfLinf.isStbrtfdRunning() && (!sourdfLinf.fqubls(linf)) ) {
+                    if (Printfr.trbdf) Printfr.trbdf("<< AbstrbdtMixfr: stop(" + linf + ") found running sourdfLinf: " + sourdfLinf);
+                    rfturn;
+                }
+            }
+        }
+
+        @SupprfssWbrnings("undhfdkfd")
+        Vfdtor<Linf> lodblTbrgftLinfs = (Vfdtor<Linf>)tbrgftLinfs.dlonf();
+        for (int i = 0; i < lodblTbrgftLinfs.sizf(); i++) {
+
+            // if bny othfr opfn linf is running, rfturn
+            // this dovfrs tbrgft dbtb linfs
+            if (lodblTbrgftLinfs.flfmfntAt(i) instbndfof AbstrbdtDbtbLinf) {
+                AbstrbdtDbtbLinf tbrgftLinf = (AbstrbdtDbtbLinf)lodblTbrgftLinfs.flfmfntAt(i);
+                if ( tbrgftLinf.isStbrtfdRunning() && (!tbrgftLinf.fqubls(linf)) ) {
+                    if (Printfr.trbdf) Printfr.trbdf("<< AbstrbdtMixfr: stop(" + linf + ") found running tbrgftLinf: " + tbrgftLinf);
+                    rfturn;
+                }
+            }
+        }
+
+        // othfrwisf, stop
+        if (Printfr.dfbug) Printfr.dfbug("AbstrbdtMixfr: stop(linf): stopping thf mixfr");
+        stbrtfd = fblsf;
+        implStop();
+
+        if (Printfr.trbdf) Printfr.trbdf("<< AbstrbdtMixfr: stop(" + linf + ") suddffdfd");
+    }
+
+
+
+    /**
+     * Dftfrminfs whfthfr this is b sourdf linf for this mixfr.
+     * Right now this just dhfdks whfthfr it's supportfd, but should
+     * dhfdk whfthfr it bdtublly bflongs to this mixfr....
+     */
+    finbl boolfbn isSourdfLinf(Linf.Info info) {
+
+        for (int i = 0; i < sourdfLinfInfo.lfngth; i++) {
+            if (info.mbtdhfs(sourdfLinfInfo[i])) {
+                rfturn truf;
+            }
+        }
+
+        rfturn fblsf;
+    }
+
+
+    /**
+     * Dftfrminfs whfthfr this is b tbrgft linf for this mixfr.
+     * Right now this just dhfdks whfthfr it's supportfd, but should
+     * dhfdk whfthfr it bdtublly bflongs to this mixfr....
+     */
+    finbl boolfbn isTbrgftLinf(Linf.Info info) {
+
+        for (int i = 0; i < tbrgftLinfInfo.lfngth; i++) {
+            if (info.mbtdhfs(tbrgftLinfInfo[i])) {
+                rfturn truf;
+            }
+        }
+
+        rfturn fblsf;
+    }
+
+
+    /**
+     * Rfturns thf first domplftf Linf.Info objfdt it finds thbt
+     * mbtdhfs thf onf spfdififd, or null if no mbtdhing Linf.Info
+     * objfdt is found.
+     */
+    finbl Linf.Info gftLinfInfo(Linf.Info info) {
+        if (info == null) {
+            rfturn null;
+        }
+        // $$kk: 05.31.99: nffd to dhbngf this so thbt
+        // thf formbt bnd bufffr sizf gft sft in thf
+        // rfturnfd info objfdt for dbtb linfs??
+        for (int i = 0; i < sourdfLinfInfo.lfngth; i++) {
+            if (info.mbtdhfs(sourdfLinfInfo[i])) {
+                rfturn sourdfLinfInfo[i];
+            }
+        }
+
+        for (int i = 0; i < tbrgftLinfInfo.lfngth; i++) {
+            if (info.mbtdhfs(tbrgftLinfInfo[i])) {
+                rfturn tbrgftLinfInfo[i];
+            }
+        }
+
+        rfturn null;
+    }
+
+}

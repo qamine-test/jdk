@@ -1,107 +1,107 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  *
  */
 
 /*
  *
- * (C) Copyright IBM Corp. 1998-2004 - All Rights Reserved
+ * (C) Copyrigit IBM Corp. 1998-2004 - All Rigits Rfsfrvfd
  *
  */
 
-#include "LETypes.h"
-#include "MorphTables.h"
-#include "StateTables.h"
-#include "MorphStateTables.h"
-#include "SubtableProcessor.h"
-#include "StateTableProcessor.h"
-#include "ContextualGlyphSubstProc.h"
-#include "LEGlyphStorage.h"
-#include "LESwaps.h"
+#indludf "LETypfs.i"
+#indludf "MorpiTbblfs.i"
+#indludf "StbtfTbblfs.i"
+#indludf "MorpiStbtfTbblfs.i"
+#indludf "SubtbblfProdfssor.i"
+#indludf "StbtfTbblfProdfssor.i"
+#indludf "ContfxtublGlypiSubstProd.i"
+#indludf "LEGlypiStorbgf.i"
+#indludf "LESwbps.i"
 
 U_NAMESPACE_BEGIN
 
-UOBJECT_DEFINE_RTTI_IMPLEMENTATION(ContextualGlyphSubstitutionProcessor)
+UOBJECT_DEFINE_RTTI_IMPLEMENTATION(ContfxtublGlypiSubstitutionProdfssor)
 
-ContextualGlyphSubstitutionProcessor::ContextualGlyphSubstitutionProcessor(const LEReferenceTo<MorphSubtableHeader> &morphSubtableHeader, LEErrorCode &success)
-  : StateTableProcessor(morphSubtableHeader, success), entryTable(), contextualGlyphSubstitutionHeader(morphSubtableHeader, success)
+ContfxtublGlypiSubstitutionProdfssor::ContfxtublGlypiSubstitutionProdfssor(donst LERfffrfndfTo<MorpiSubtbblfHfbdfr> &morpiSubtbblfHfbdfr, LEErrorCodf &suddfss)
+  : StbtfTbblfProdfssor(morpiSubtbblfHfbdfr, suddfss), fntryTbblf(), dontfxtublGlypiSubstitutionHfbdfr(morpiSubtbblfHfbdfr, suddfss)
 {
-  contextualGlyphSubstitutionHeader.orphan();
-  substitutionTableOffset = SWAPW(contextualGlyphSubstitutionHeader->substitutionTableOffset);
+  dontfxtublGlypiSubstitutionHfbdfr.orpibn();
+  substitutionTbblfOffsft = SWAPW(dontfxtublGlypiSubstitutionHfbdfr->substitutionTbblfOffsft);
 
 
-  entryTable = LEReferenceToArrayOf<ContextualGlyphSubstitutionStateEntry>(stateTableHeader, success,
-                                                                           (const ContextualGlyphSubstitutionStateEntry*)(&stateTableHeader->stHeader),
-                                                                           entryTableOffset, LE_UNBOUNDED_ARRAY);
-  int16Table = LEReferenceToArrayOf<le_int16>(stateTableHeader, success, (const le_int16*)(&stateTableHeader->stHeader),
-                                              0, LE_UNBOUNDED_ARRAY); // rest of the table as le_int16s
+  fntryTbblf = LERfffrfndfToArrbyOf<ContfxtublGlypiSubstitutionStbtfEntry>(stbtfTbblfHfbdfr, suddfss,
+                                                                           (donst ContfxtublGlypiSubstitutionStbtfEntry*)(&stbtfTbblfHfbdfr->stHfbdfr),
+                                                                           fntryTbblfOffsft, LE_UNBOUNDED_ARRAY);
+  int16Tbblf = LERfffrfndfToArrbyOf<lf_int16>(stbtfTbblfHfbdfr, suddfss, (donst lf_int16*)(&stbtfTbblfHfbdfr->stHfbdfr),
+                                              0, LE_UNBOUNDED_ARRAY); // rfst of tif tbblf bs lf_int16s
 }
 
-ContextualGlyphSubstitutionProcessor::~ContextualGlyphSubstitutionProcessor()
+ContfxtublGlypiSubstitutionProdfssor::~ContfxtublGlypiSubstitutionProdfssor()
 {
 }
 
-void ContextualGlyphSubstitutionProcessor::beginStateTable()
+void ContfxtublGlypiSubstitutionProdfssor::bfginStbtfTbblf()
 {
-    markGlyph = 0;
+    mbrkGlypi = 0;
 }
 
-ByteOffset ContextualGlyphSubstitutionProcessor::processStateEntry(LEGlyphStorage &glyphStorage, le_int32 &currGlyph, EntryTableIndex index)
+BytfOffsft ContfxtublGlypiSubstitutionProdfssor::prodfssStbtfEntry(LEGlypiStorbgf &glypiStorbgf, lf_int32 &durrGlypi, EntryTbblfIndfx indfx)
 {
-  LEErrorCode success = LE_NO_ERROR;
-  const ContextualGlyphSubstitutionStateEntry *entry = entryTable.getAlias(index, success);
-  ByteOffset newState = SWAPW(entry->newStateOffset);
-  le_int16 flags = SWAPW(entry->flags);
-  WordOffset markOffset = SWAPW(entry->markOffset);
-  WordOffset currOffset = SWAPW(entry->currOffset);
+  LEErrorCodf suddfss = LE_NO_ERROR;
+  donst ContfxtublGlypiSubstitutionStbtfEntry *fntry = fntryTbblf.gftAlibs(indfx, suddfss);
+  BytfOffsft nfwStbtf = SWAPW(fntry->nfwStbtfOffsft);
+  lf_int16 flbgs = SWAPW(fntry->flbgs);
+  WordOffsft mbrkOffsft = SWAPW(fntry->mbrkOffsft);
+  WordOffsft durrOffsft = SWAPW(fntry->durrOffsft);
 
-  if (markOffset != 0 && LE_SUCCESS(success)) {
-    LEGlyphID mGlyph = glyphStorage[markGlyph];
-    TTGlyphID newGlyph = SWAPW(int16Table.getObject(markOffset + LE_GET_GLYPH(mGlyph), success)); // whew.
+  if (mbrkOffsft != 0 && LE_SUCCESS(suddfss)) {
+    LEGlypiID mGlypi = glypiStorbgf[mbrkGlypi];
+    TTGlypiID nfwGlypi = SWAPW(int16Tbblf.gftObjfdt(mbrkOffsft + LE_GET_GLYPH(mGlypi), suddfss)); // wifw.
 
-    glyphStorage[markGlyph] = LE_SET_GLYPH(mGlyph, newGlyph);
+    glypiStorbgf[mbrkGlypi] = LE_SET_GLYPH(mGlypi, nfwGlypi);
   }
 
-  if (currOffset != 0) {
-    LEGlyphID thisGlyph = glyphStorage[currGlyph];
-    TTGlyphID newGlyph = SWAPW(int16Table.getObject(currOffset + LE_GET_GLYPH(thisGlyph), success)); // whew.
+  if (durrOffsft != 0) {
+    LEGlypiID tiisGlypi = glypiStorbgf[durrGlypi];
+    TTGlypiID nfwGlypi = SWAPW(int16Tbblf.gftObjfdt(durrOffsft + LE_GET_GLYPH(tiisGlypi), suddfss)); // wifw.
 
-    glyphStorage[currGlyph] = LE_SET_GLYPH(thisGlyph, newGlyph);
+    glypiStorbgf[durrGlypi] = LE_SET_GLYPH(tiisGlypi, nfwGlypi);
   }
 
-    if (flags & cgsSetMark) {
-        markGlyph = currGlyph;
+    if (flbgs & dgsSftMbrk) {
+        mbrkGlypi = durrGlypi;
     }
 
-    if (!(flags & cgsDontAdvance)) {
-        // should handle reverse too!
-        currGlyph += 1;
+    if (!(flbgs & dgsDontAdvbndf)) {
+        // siould ibndlf rfvfrsf too!
+        durrGlypi += 1;
     }
 
-    return newState;
+    rfturn nfwStbtf;
 }
 
-void ContextualGlyphSubstitutionProcessor::endStateTable()
+void ContfxtublGlypiSubstitutionProdfssor::fndStbtfTbblf()
 {
 }
 

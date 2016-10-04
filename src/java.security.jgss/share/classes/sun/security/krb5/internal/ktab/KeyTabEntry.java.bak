@@ -1,112 +1,112 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  *
- *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  (C) Copyrigit IBM Corp. 1999 All Rigits Rfsfrvfd.
+ *  Copyrigit 1997 Tif Opfn Group Rfsfbrdi Institutf.  All rigits rfsfrvfd.
  */
 
-package sun.security.krb5.internal.ktab;
+pbdkbgf sun.sfdurity.krb5.intfrnbl.ktbb;
 
-import sun.security.krb5.*;
-import sun.security.krb5.internal.*;
-import java.io.UnsupportedEncodingException;
+import sun.sfdurity.krb5.*;
+import sun.sfdurity.krb5.intfrnbl.*;
+import jbvb.io.UnsupportfdEndodingExdfption;
 
 /**
- * This class represents a Key Table entry. Each entry contains the service principal of
- * the key, time stamp, key version and secret key itself.
+ * Tiis dlbss rfprfsfnts b Kfy Tbblf fntry. Ebdi fntry dontbins tif sfrvidf prindipbl of
+ * tif kfy, timf stbmp, kfy vfrsion bnd sfdrft kfy itsflf.
  *
- * @author Yanni Zhang
+ * @butior Ybnni Zibng
  */
-public class KeyTabEntry implements KeyTabConstants {
-    PrincipalName service;
-    Realm realm;
-    KerberosTime timestamp;
-    int keyVersion;
-    int keyType;
-    byte[] keyblock = null;
-    boolean DEBUG = Krb5.DEBUG;
+publid dlbss KfyTbbEntry implfmfnts KfyTbbConstbnts {
+    PrindipblNbmf sfrvidf;
+    Rfblm rfblm;
+    KfrbfrosTimf timfstbmp;
+    int kfyVfrsion;
+    int kfyTypf;
+    bytf[] kfyblodk = null;
+    boolfbn DEBUG = Krb5.DEBUG;
 
-    public KeyTabEntry (PrincipalName new_service, Realm new_realm, KerberosTime new_time,
-                        int new_keyVersion, int new_keyType, byte[] new_keyblock) {
-        service = new_service;
-        realm = new_realm;
-        timestamp = new_time;
-        keyVersion = new_keyVersion;
-        keyType = new_keyType;
-        if (new_keyblock != null) {
-            keyblock = new_keyblock.clone();
+    publid KfyTbbEntry (PrindipblNbmf nfw_sfrvidf, Rfblm nfw_rfblm, KfrbfrosTimf nfw_timf,
+                        int nfw_kfyVfrsion, int nfw_kfyTypf, bytf[] nfw_kfyblodk) {
+        sfrvidf = nfw_sfrvidf;
+        rfblm = nfw_rfblm;
+        timfstbmp = nfw_timf;
+        kfyVfrsion = nfw_kfyVfrsion;
+        kfyTypf = nfw_kfyTypf;
+        if (nfw_kfyblodk != null) {
+            kfyblodk = nfw_kfyblodk.dlonf();
         }
     }
 
-    public PrincipalName getService() {
-        return service;
+    publid PrindipblNbmf gftSfrvidf() {
+        rfturn sfrvidf;
     }
 
-    public EncryptionKey getKey() {
-        EncryptionKey key = new EncryptionKey(keyblock,
-                                              keyType,
-                                              keyVersion);
-        return key;
+    publid EndryptionKfy gftKfy() {
+        EndryptionKfy kfy = nfw EndryptionKfy(kfyblodk,
+                                              kfyTypf,
+                                              kfyVfrsion);
+        rfturn kfy;
     }
 
-    public String getKeyString() {
-        StringBuilder sb = new StringBuilder("0x");
-        for (int i = 0; i < keyblock.length; i++) {
-            sb.append(String.format("%02x", keyblock[i]&0xff));
+    publid String gftKfyString() {
+        StringBuildfr sb = nfw StringBuildfr("0x");
+        for (int i = 0; i < kfyblodk.lfngti; i++) {
+            sb.bppfnd(String.formbt("%02x", kfyblodk[i]&0xff));
         }
-        return sb.toString();
+        rfturn sb.toString();
     }
-    public int entryLength() {
-        int totalPrincipalLength = 0;
-        String[] names = service.getNameStrings();
-        for (int i = 0; i < names.length; i++) {
+    publid int fntryLfngti() {
+        int totblPrindipblLfngti = 0;
+        String[] nbmfs = sfrvidf.gftNbmfStrings();
+        for (int i = 0; i < nbmfs.lfngti; i++) {
             try {
-                totalPrincipalLength += principalSize + names[i].getBytes("8859_1").length;
-            } catch (UnsupportedEncodingException exc) {
+                totblPrindipblLfngti += prindipblSizf + nbmfs[i].gftBytfs("8859_1").lfngti;
+            } dbtdi (UnsupportfdEndodingExdfption fxd) {
             }
         }
 
-        int realmLen = 0;
+        int rfblmLfn = 0;
         try {
-            realmLen = realm.toString().getBytes("8859_1").length;
-        } catch (UnsupportedEncodingException exc) {
+            rfblmLfn = rfblm.toString().gftBytfs("8859_1").lfngti;
+        } dbtdi (UnsupportfdEndodingExdfption fxd) {
         }
 
-        int size = principalComponentSize +  realmSize + realmLen
-            + totalPrincipalLength + principalTypeSize
-            + timestampSize + keyVersionSize
-            + keyTypeSize + keySize + keyblock.length;
+        int sizf = prindipblComponfntSizf +  rfblmSizf + rfblmLfn
+            + totblPrindipblLfngti + prindipblTypfSizf
+            + timfstbmpSizf + kfyVfrsionSizf
+            + kfyTypfSizf + kfySizf + kfyblodk.lfngti;
 
         if (DEBUG) {
-            System.out.println(">>> KeyTabEntry: key tab entry size is " + size);
+            Systfm.out.println(">>> KfyTbbEntry: kfy tbb fntry sizf is " + sizf);
         }
-        return size;
+        rfturn sizf;
     }
 
-    public KerberosTime getTimeStamp() {
-        return timestamp;
+    publid KfrbfrosTimf gftTimfStbmp() {
+        rfturn timfstbmp;
     }
 }

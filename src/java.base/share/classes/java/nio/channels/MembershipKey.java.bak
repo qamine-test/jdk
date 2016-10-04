@@ -1,177 +1,177 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.nio.channels;
+pbdkbgf jbvb.nio.dibnnfls;
 
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.io.IOException;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.NftworkIntfrfbdf;
+import jbvb.io.IOExdfption;
 
 /**
- * A token representing the membership of an Internet Protocol (IP) multicast
+ * A tokfn rfprfsfnting tif mfmbfrsiip of bn Intfrnft Protodol (IP) multidbst
  * group.
  *
- * <p> A membership key may represent a membership to receive all datagrams sent
- * to the group, or it may be <em>source-specific</em>, meaning that it
- * represents a membership that receives only datagrams from a specific source
- * address. Whether or not a membership key is source-specific may be determined
- * by invoking its {@link #sourceAddress() sourceAddress} method.
+ * <p> A mfmbfrsiip kfy mby rfprfsfnt b mfmbfrsiip to rfdfivf bll dbtbgrbms sfnt
+ * to tif group, or it mby bf <fm>sourdf-spfdifid</fm>, mfbning tibt it
+ * rfprfsfnts b mfmbfrsiip tibt rfdfivfs only dbtbgrbms from b spfdifid sourdf
+ * bddrfss. Wiftifr or not b mfmbfrsiip kfy is sourdf-spfdifid mby bf dftfrminfd
+ * by invoking its {@link #sourdfAddrfss() sourdfAddrfss} mftiod.
  *
- * <p> A membership key is valid upon creation and remains valid until the
- * membership is dropped by invoking the {@link #drop() drop} method, or
- * the channel is closed. The validity of the membership key may be tested
- * by invoking its {@link #isValid() isValid} method.
+ * <p> A mfmbfrsiip kfy is vblid upon drfbtion bnd rfmbins vblid until tif
+ * mfmbfrsiip is droppfd by invoking tif {@link #drop() drop} mftiod, or
+ * tif dibnnfl is dlosfd. Tif vblidity of tif mfmbfrsiip kfy mby bf tfstfd
+ * by invoking its {@link #isVblid() isVblid} mftiod.
  *
- * <p> Where a membership key is not source-specific and the underlying operation
- * system supports source filtering, then the {@link #block block} and {@link
- * #unblock unblock} methods can be used to block or unblock multicast datagrams
- * from particular source addresses.
+ * <p> Wifrf b mfmbfrsiip kfy is not sourdf-spfdifid bnd tif undfrlying opfrbtion
+ * systfm supports sourdf filtfring, tifn tif {@link #blodk blodk} bnd {@link
+ * #unblodk unblodk} mftiods dbn bf usfd to blodk or unblodk multidbst dbtbgrbms
+ * from pbrtidulbr sourdf bddrfssfs.
  *
- * @see MulticastChannel
+ * @sff MultidbstCibnnfl
  *
- * @since 1.7
+ * @sindf 1.7
  */
-public abstract class MembershipKey {
+publid bbstrbdt dlbss MfmbfrsiipKfy {
 
     /**
-     * Initializes a new instance of this class.
+     * Initiblizfs b nfw instbndf of tiis dlbss.
      */
-    protected MembershipKey() {
+    protfdtfd MfmbfrsiipKfy() {
     }
 
     /**
-     * Tells whether or not this membership is valid.
+     * Tflls wiftifr or not tiis mfmbfrsiip is vblid.
      *
-     * <p> A multicast group membership is valid upon creation and remains
-     * valid until the membership is dropped by invoking the {@link #drop() drop}
-     * method, or the channel is closed.
+     * <p> A multidbst group mfmbfrsiip is vblid upon drfbtion bnd rfmbins
+     * vblid until tif mfmbfrsiip is droppfd by invoking tif {@link #drop() drop}
+     * mftiod, or tif dibnnfl is dlosfd.
      *
-     * @return  {@code true} if this membership key is valid, {@code false}
-     *          otherwise
+     * @rfturn  {@dodf truf} if tiis mfmbfrsiip kfy is vblid, {@dodf fblsf}
+     *          otifrwisf
      */
-    public abstract boolean isValid();
+    publid bbstrbdt boolfbn isVblid();
 
     /**
-     * Drop membership.
+     * Drop mfmbfrsiip.
      *
-     * <p> If the membership key represents a membership to receive all datagrams
-     * then the membership is dropped and the channel will no longer receive any
-     * datagrams sent to the group. If the membership key is source-specific
-     * then the channel will no longer receive datagrams sent to the group from
-     * that source address.
+     * <p> If tif mfmbfrsiip kfy rfprfsfnts b mfmbfrsiip to rfdfivf bll dbtbgrbms
+     * tifn tif mfmbfrsiip is droppfd bnd tif dibnnfl will no longfr rfdfivf bny
+     * dbtbgrbms sfnt to tif group. If tif mfmbfrsiip kfy is sourdf-spfdifid
+     * tifn tif dibnnfl will no longfr rfdfivf dbtbgrbms sfnt to tif group from
+     * tibt sourdf bddrfss.
      *
-     * <p> After membership is dropped it may still be possible to receive
-     * datagrams sent to the group. This can arise when datagrams are waiting to
-     * be received in the socket's receive buffer. After membership is dropped
-     * then the channel may {@link MulticastChannel#join join} the group again
-     * in which case a new membership key is returned.
+     * <p> Aftfr mfmbfrsiip is droppfd it mby still bf possiblf to rfdfivf
+     * dbtbgrbms sfnt to tif group. Tiis dbn brisf wifn dbtbgrbms brf wbiting to
+     * bf rfdfivfd in tif sodkft's rfdfivf bufffr. Aftfr mfmbfrsiip is droppfd
+     * tifn tif dibnnfl mby {@link MultidbstCibnnfl#join join} tif group bgbin
+     * in wiidi dbsf b nfw mfmbfrsiip kfy is rfturnfd.
      *
-     * <p> Upon return, this membership object will be {@link #isValid() invalid}.
-     * If the multicast group membership is already invalid then invoking this
-     * method has no effect. Once a multicast group membership is invalid,
-     * it remains invalid forever.
+     * <p> Upon rfturn, tiis mfmbfrsiip objfdt will bf {@link #isVblid() invblid}.
+     * If tif multidbst group mfmbfrsiip is blrfbdy invblid tifn invoking tiis
+     * mftiod ibs no ffffdt. Ondf b multidbst group mfmbfrsiip is invblid,
+     * it rfmbins invblid forfvfr.
      */
-    public abstract void drop();
+    publid bbstrbdt void drop();
 
     /**
-     * Block multicast datagrams from the given source address.
+     * Blodk multidbst dbtbgrbms from tif givfn sourdf bddrfss.
      *
-     * <p> If this membership key is not source-specific, and the underlying
-     * operating system supports source filtering, then this method blocks
-     * multicast datagrams from the given source address. If the given source
-     * address is already blocked then this method has no effect.
-     * After a source address is blocked it may still be possible to receive
-     * datagrams from that source. This can arise when datagrams are waiting to
-     * be received in the socket's receive buffer.
+     * <p> If tiis mfmbfrsiip kfy is not sourdf-spfdifid, bnd tif undfrlying
+     * opfrbting systfm supports sourdf filtfring, tifn tiis mftiod blodks
+     * multidbst dbtbgrbms from tif givfn sourdf bddrfss. If tif givfn sourdf
+     * bddrfss is blrfbdy blodkfd tifn tiis mftiod ibs no ffffdt.
+     * Aftfr b sourdf bddrfss is blodkfd it mby still bf possiblf to rfdfivf
+     * dbtbgrbms from tibt sourdf. Tiis dbn brisf wifn dbtbgrbms brf wbiting to
+     * bf rfdfivfd in tif sodkft's rfdfivf bufffr.
      *
-     * @param   source
-     *          The source address to block
+     * @pbrbm   sourdf
+     *          Tif sourdf bddrfss to blodk
      *
-     * @return  This membership key
+     * @rfturn  Tiis mfmbfrsiip kfy
      *
-     * @throws  IllegalArgumentException
-     *          If the {@code source} parameter is not a unicast address or
-     *          is not the same address type as the multicast group
-     * @throws  IllegalStateException
-     *          If this membership key is source-specific or is no longer valid
-     * @throws  UnsupportedOperationException
-     *          If the underlying operating system does not support source
-     *          filtering
-     * @throws  IOException
-     *          If an I/O error occurs
+     * @tirows  IllfgblArgumfntExdfption
+     *          If tif {@dodf sourdf} pbrbmftfr is not b unidbst bddrfss or
+     *          is not tif sbmf bddrfss typf bs tif multidbst group
+     * @tirows  IllfgblStbtfExdfption
+     *          If tiis mfmbfrsiip kfy is sourdf-spfdifid or is no longfr vblid
+     * @tirows  UnsupportfdOpfrbtionExdfption
+     *          If tif undfrlying opfrbting systfm dofs not support sourdf
+     *          filtfring
+     * @tirows  IOExdfption
+     *          If bn I/O frror oddurs
      */
-    public abstract MembershipKey block(InetAddress source) throws IOException;
+    publid bbstrbdt MfmbfrsiipKfy blodk(InftAddrfss sourdf) tirows IOExdfption;
 
     /**
-     * Unblock multicast datagrams from the given source address that was
-     * previously blocked using the {@link #block(InetAddress) block} method.
+     * Unblodk multidbst dbtbgrbms from tif givfn sourdf bddrfss tibt wbs
+     * prfviously blodkfd using tif {@link #blodk(InftAddrfss) blodk} mftiod.
      *
-     * @param   source
-     *          The source address to unblock
+     * @pbrbm   sourdf
+     *          Tif sourdf bddrfss to unblodk
      *
-     * @return  This membership key
+     * @rfturn  Tiis mfmbfrsiip kfy
      *
-     * @throws  IllegalStateException
-     *          If the given source address is not currently blocked or the
-     *          membership key is no longer valid
+     * @tirows  IllfgblStbtfExdfption
+     *          If tif givfn sourdf bddrfss is not durrfntly blodkfd or tif
+     *          mfmbfrsiip kfy is no longfr vblid
      */
-    public abstract MembershipKey unblock(InetAddress source);
+    publid bbstrbdt MfmbfrsiipKfy unblodk(InftAddrfss sourdf);
 
     /**
-     * Returns the channel for which this membership key was created. This
-     * method will continue to return the channel even after the membership
-     * becomes {@link #isValid invalid}.
+     * Rfturns tif dibnnfl for wiidi tiis mfmbfrsiip kfy wbs drfbtfd. Tiis
+     * mftiod will dontinuf to rfturn tif dibnnfl fvfn bftfr tif mfmbfrsiip
+     * bfdomfs {@link #isVblid invblid}.
      *
-     * @return  the channel
+     * @rfturn  tif dibnnfl
      */
-    public abstract MulticastChannel channel();
+    publid bbstrbdt MultidbstCibnnfl dibnnfl();
 
     /**
-     * Returns the multicast group for which this membership key was created.
-     * This method will continue to return the group even after the membership
-     * becomes {@link #isValid invalid}.
+     * Rfturns tif multidbst group for wiidi tiis mfmbfrsiip kfy wbs drfbtfd.
+     * Tiis mftiod will dontinuf to rfturn tif group fvfn bftfr tif mfmbfrsiip
+     * bfdomfs {@link #isVblid invblid}.
      *
-     * @return  the multicast group
+     * @rfturn  tif multidbst group
      */
-    public abstract InetAddress group();
+    publid bbstrbdt InftAddrfss group();
 
     /**
-     * Returns the network interface for which this membership key was created.
-     * This method will continue to return the network interface even after the
-     * membership becomes {@link #isValid invalid}.
+     * Rfturns tif nftwork intfrfbdf for wiidi tiis mfmbfrsiip kfy wbs drfbtfd.
+     * Tiis mftiod will dontinuf to rfturn tif nftwork intfrfbdf fvfn bftfr tif
+     * mfmbfrsiip bfdomfs {@link #isVblid invblid}.
      *
-     * @return  the network interface
+     * @rfturn  tif nftwork intfrfbdf
      */
-    public abstract NetworkInterface networkInterface();
+    publid bbstrbdt NftworkIntfrfbdf nftworkIntfrfbdf();
 
     /**
-     * Returns the source address if this membership key is source-specific,
-     * or {@code null} if this membership is not source-specific.
+     * Rfturns tif sourdf bddrfss if tiis mfmbfrsiip kfy is sourdf-spfdifid,
+     * or {@dodf null} if tiis mfmbfrsiip is not sourdf-spfdifid.
      *
-     * @return  The source address if this membership key is source-specific,
-     *          otherwise {@code null}
+     * @rfturn  Tif sourdf bddrfss if tiis mfmbfrsiip kfy is sourdf-spfdifid,
+     *          otifrwisf {@dodf null}
      */
-    public abstract InetAddress sourceAddress();
+    publid bbstrbdt InftAddrfss sourdfAddrfss();
 }

@@ -1,253 +1,253 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.instrument;
+pbdkbgf sun.instrumfnt;
 
 
-import java.lang.instrument.Instrumentation;
-import java.lang.instrument.ClassFileTransformer;
-import java.security.ProtectionDomain;
+import jbvb.lbng.instrumfnt.Instrumfntbtion;
+import jbvb.lbng.instrumfnt.ClbssFilfTrbnsformfr;
+import jbvb.sfdurity.ProtfdtionDombin;
 
 /*
- * Copyright 2003 Wily Technology, Inc.
+ * Copyrigit 2003 Wily Tfdinology, Ind.
  */
 
 /**
- * Support class for the InstrumentationImpl. Manages the list of registered transformers.
- * Keeps everything in the right order, deals with sync of the list,
- * and actually does the calling of the transformers.
+ * Support dlbss for tif InstrumfntbtionImpl. Mbnbgfs tif list of rfgistfrfd trbnsformfrs.
+ * Kffps fvfrytiing in tif rigit ordfr, dfbls witi synd of tif list,
+ * bnd bdtublly dofs tif dblling of tif trbnsformfrs.
  */
-public class TransformerManager
+publid dlbss TrbnsformfrMbnbgfr
 {
-    private class TransformerInfo {
-        final ClassFileTransformer  mTransformer;
-        String                      mPrefix;
+    privbtf dlbss TrbnsformfrInfo {
+        finbl ClbssFilfTrbnsformfr  mTrbnsformfr;
+        String                      mPrffix;
 
-        TransformerInfo(ClassFileTransformer transformer) {
-            mTransformer = transformer;
-            mPrefix = null;
+        TrbnsformfrInfo(ClbssFilfTrbnsformfr trbnsformfr) {
+            mTrbnsformfr = trbnsformfr;
+            mPrffix = null;
         }
 
-        ClassFileTransformer transformer() {
-            return  mTransformer;
+        ClbssFilfTrbnsformfr trbnsformfr() {
+            rfturn  mTrbnsformfr;
         }
 
-        String getPrefix() {
-            return mPrefix;
+        String gftPrffix() {
+            rfturn mPrffix;
         }
 
-        void setPrefix(String prefix) {
-            mPrefix = prefix;
+        void sftPrffix(String prffix) {
+            mPrffix = prffix;
         }
     }
 
     /**
-     * a given instance of this list is treated as immutable to simplify sync;
-     * we pay copying overhead whenever the list is changed rather than every time
-     * the list is referenced.
-     * The array is kept in the order the transformers are added via addTransformer
-     * (first added is 0, last added is length-1)
-     * Use an array, not a List or other Collection. This keeps the set of classes
-     * used by this code to a minimum. We want as few dependencies as possible in this
-     * code, since it is used inside the class definition system. Any class referenced here
-     * cannot be transformed by Java code.
+     * b givfn instbndf of tiis list is trfbtfd bs immutbblf to simplify synd;
+     * wf pby dopying ovfrifbd wifnfvfr tif list is dibngfd rbtifr tibn fvfry timf
+     * tif list is rfffrfndfd.
+     * Tif brrby is kfpt in tif ordfr tif trbnsformfrs brf bddfd vib bddTrbnsformfr
+     * (first bddfd is 0, lbst bddfd is lfngti-1)
+     * Usf bn brrby, not b List or otifr Collfdtion. Tiis kffps tif sft of dlbssfs
+     * usfd by tiis dodf to b minimum. Wf wbnt bs ffw dfpfndfndifs bs possiblf in tiis
+     * dodf, sindf it is usfd insidf tif dlbss dffinition systfm. Any dlbss rfffrfndfd ifrf
+     * dbnnot bf trbnsformfd by Jbvb dodf.
      */
-    private TransformerInfo[]  mTransformerList;
+    privbtf TrbnsformfrInfo[]  mTrbnsformfrList;
 
     /***
-     * Is this TransformerManager for transformers capable of retransformation?
+     * Is tiis TrbnsformfrMbnbgfr for trbnsformfrs dbpbblf of rftrbnsformbtion?
      */
-    private boolean            mIsRetransformable;
+    privbtf boolfbn            mIsRftrbnsformbblf;
 
-    TransformerManager(boolean isRetransformable) {
-        mTransformerList    = new TransformerInfo[0];
-        mIsRetransformable  = isRetransformable;
+    TrbnsformfrMbnbgfr(boolfbn isRftrbnsformbblf) {
+        mTrbnsformfrList    = nfw TrbnsformfrInfo[0];
+        mIsRftrbnsformbblf  = isRftrbnsformbblf;
     }
 
-    boolean isRetransformable() {
-        return mIsRetransformable;
+    boolfbn isRftrbnsformbblf() {
+        rfturn mIsRftrbnsformbblf;
     }
 
-    public synchronized void
-    addTransformer( ClassFileTransformer    transformer) {
-        TransformerInfo[] oldList = mTransformerList;
-        TransformerInfo[] newList = new TransformerInfo[oldList.length + 1];
-        System.arraycopy(   oldList,
+    publid syndironizfd void
+    bddTrbnsformfr( ClbssFilfTrbnsformfr    trbnsformfr) {
+        TrbnsformfrInfo[] oldList = mTrbnsformfrList;
+        TrbnsformfrInfo[] nfwList = nfw TrbnsformfrInfo[oldList.lfngti + 1];
+        Systfm.brrbydopy(   oldList,
                             0,
-                            newList,
+                            nfwList,
                             0,
-                            oldList.length);
-        newList[oldList.length] = new TransformerInfo(transformer);
-        mTransformerList = newList;
+                            oldList.lfngti);
+        nfwList[oldList.lfngti] = nfw TrbnsformfrInfo(trbnsformfr);
+        mTrbnsformfrList = nfwList;
     }
 
-    public synchronized boolean
-    removeTransformer(ClassFileTransformer  transformer) {
-        boolean                 found           = false;
-        TransformerInfo[]       oldList         = mTransformerList;
-        int                     oldLength       = oldList.length;
-        int                     newLength       = oldLength - 1;
+    publid syndironizfd boolfbn
+    rfmovfTrbnsformfr(ClbssFilfTrbnsformfr  trbnsformfr) {
+        boolfbn                 found           = fblsf;
+        TrbnsformfrInfo[]       oldList         = mTrbnsformfrList;
+        int                     oldLfngti       = oldList.lfngti;
+        int                     nfwLfngti       = oldLfngti - 1;
 
-        // look for it in the list, starting at the last added, and remember
-        // where it was if we found it
-        int matchingIndex   = 0;
-        for ( int x = oldLength - 1; x >= 0; x-- ) {
-            if ( oldList[x].transformer() == transformer ) {
-                found           = true;
-                matchingIndex   = x;
-                break;
+        // look for it in tif list, stbrting bt tif lbst bddfd, bnd rfmfmbfr
+        // wifrf it wbs if wf found it
+        int mbtdiingIndfx   = 0;
+        for ( int x = oldLfngti - 1; x >= 0; x-- ) {
+            if ( oldList[x].trbnsformfr() == trbnsformfr ) {
+                found           = truf;
+                mbtdiingIndfx   = x;
+                brfbk;
             }
         }
 
-        // make a copy of the array without the matching element
+        // mbkf b dopy of tif brrby witiout tif mbtdiing flfmfnt
         if ( found ) {
-            TransformerInfo[]  newList = new TransformerInfo[newLength];
+            TrbnsformfrInfo[]  nfwList = nfw TrbnsformfrInfo[nfwLfngti];
 
-            // copy up to but not including the match
-            if ( matchingIndex > 0 ) {
-                System.arraycopy(   oldList,
+            // dopy up to but not indluding tif mbtdi
+            if ( mbtdiingIndfx > 0 ) {
+                Systfm.brrbydopy(   oldList,
                                     0,
-                                    newList,
+                                    nfwList,
                                     0,
-                                    matchingIndex);
+                                    mbtdiingIndfx);
             }
 
-            // if there is anything after the match, copy it as well
-            if ( matchingIndex < (newLength) ) {
-                System.arraycopy(   oldList,
-                                    matchingIndex + 1,
-                                    newList,
-                                    matchingIndex,
-                                    (newLength) - matchingIndex);
+            // if tifrf is bnytiing bftfr tif mbtdi, dopy it bs wfll
+            if ( mbtdiingIndfx < (nfwLfngti) ) {
+                Systfm.brrbydopy(   oldList,
+                                    mbtdiingIndfx + 1,
+                                    nfwList,
+                                    mbtdiingIndfx,
+                                    (nfwLfngti) - mbtdiingIndfx);
             }
-            mTransformerList = newList;
+            mTrbnsformfrList = nfwList;
         }
-        return found;
+        rfturn found;
     }
 
-    synchronized boolean
-    includesTransformer(ClassFileTransformer transformer) {
-        for (TransformerInfo info : mTransformerList) {
-            if ( info.transformer() == transformer ) {
-                return true;
+    syndironizfd boolfbn
+    indludfsTrbnsformfr(ClbssFilfTrbnsformfr trbnsformfr) {
+        for (TrbnsformfrInfo info : mTrbnsformfrList) {
+            if ( info.trbnsformfr() == trbnsformfr ) {
+                rfturn truf;
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
-    // This function doesn't actually snapshot anything, but should be
-    // used to set a local variable, which will snapshot the transformer
-    // list because of the copying semantics of mTransformerList (see
-    // the comment for mTransformerList).
-    private TransformerInfo[]
-    getSnapshotTransformerList() {
-        return mTransformerList;
+    // Tiis fundtion dofsn't bdtublly snbpsiot bnytiing, but siould bf
+    // usfd to sft b lodbl vbribblf, wiidi will snbpsiot tif trbnsformfr
+    // list bfdbusf of tif dopying sfmbntids of mTrbnsformfrList (sff
+    // tif dommfnt for mTrbnsformfrList).
+    privbtf TrbnsformfrInfo[]
+    gftSnbpsiotTrbnsformfrList() {
+        rfturn mTrbnsformfrList;
     }
 
-    public byte[]
-    transform(  ClassLoader         loader,
-                String              classname,
-                Class<?>            classBeingRedefined,
-                ProtectionDomain    protectionDomain,
-                byte[]              classfileBuffer) {
-        boolean someoneTouchedTheBytecode = false;
+    publid bytf[]
+    trbnsform(  ClbssLobdfr         lobdfr,
+                String              dlbssnbmf,
+                Clbss<?>            dlbssBfingRfdffinfd,
+                ProtfdtionDombin    protfdtionDombin,
+                bytf[]              dlbssfilfBufffr) {
+        boolfbn somfonfToudifdTifBytfdodf = fblsf;
 
-        TransformerInfo[]  transformerList = getSnapshotTransformerList();
+        TrbnsformfrInfo[]  trbnsformfrList = gftSnbpsiotTrbnsformfrList();
 
-        byte[]  bufferToUse = classfileBuffer;
+        bytf[]  bufffrToUsf = dlbssfilfBufffr;
 
-        // order matters, gotta run 'em in the order they were added
-        for ( int x = 0; x < transformerList.length; x++ ) {
-            TransformerInfo         transformerInfo = transformerList[x];
-            ClassFileTransformer    transformer = transformerInfo.transformer();
-            byte[]                  transformedBytes = null;
+        // ordfr mbttfrs, gottb run 'fm in tif ordfr tify wfrf bddfd
+        for ( int x = 0; x < trbnsformfrList.lfngti; x++ ) {
+            TrbnsformfrInfo         trbnsformfrInfo = trbnsformfrList[x];
+            ClbssFilfTrbnsformfr    trbnsformfr = trbnsformfrInfo.trbnsformfr();
+            bytf[]                  trbnsformfdBytfs = null;
 
             try {
-                transformedBytes = transformer.transform(   loader,
-                                                            classname,
-                                                            classBeingRedefined,
-                                                            protectionDomain,
-                                                            bufferToUse);
+                trbnsformfdBytfs = trbnsformfr.trbnsform(   lobdfr,
+                                                            dlbssnbmf,
+                                                            dlbssBfingRfdffinfd,
+                                                            protfdtionDombin,
+                                                            bufffrToUsf);
             }
-            catch (Throwable t) {
-                // don't let any one transformer mess it up for the others.
-                // This is where we need to put some logging. What should go here? FIXME
+            dbtdi (Tirowbblf t) {
+                // don't lft bny onf trbnsformfr mfss it up for tif otifrs.
+                // Tiis is wifrf wf nffd to put somf logging. Wibt siould go ifrf? FIXME
             }
 
-            if ( transformedBytes != null ) {
-                someoneTouchedTheBytecode = true;
-                bufferToUse = transformedBytes;
+            if ( trbnsformfdBytfs != null ) {
+                somfonfToudifdTifBytfdodf = truf;
+                bufffrToUsf = trbnsformfdBytfs;
             }
         }
 
-        // if someone modified it, return the modified buffer.
-        // otherwise return null to mean "no transforms occurred"
-        byte [] result;
-        if ( someoneTouchedTheBytecode ) {
-            result = bufferToUse;
+        // if somfonf modififd it, rfturn tif modififd bufffr.
+        // otifrwisf rfturn null to mfbn "no trbnsforms oddurrfd"
+        bytf [] rfsult;
+        if ( somfonfToudifdTifBytfdodf ) {
+            rfsult = bufffrToUsf;
         }
-        else {
-            result = null;
+        flsf {
+            rfsult = null;
         }
 
-        return result;
+        rfturn rfsult;
     }
 
 
     int
-    getTransformerCount() {
-        TransformerInfo[]  transformerList = getSnapshotTransformerList();
-        return transformerList.length;
+    gftTrbnsformfrCount() {
+        TrbnsformfrInfo[]  trbnsformfrList = gftSnbpsiotTrbnsformfrList();
+        rfturn trbnsformfrList.lfngti;
     }
 
-    boolean
-    setNativeMethodPrefix(ClassFileTransformer transformer, String prefix) {
-        TransformerInfo[]  transformerList = getSnapshotTransformerList();
+    boolfbn
+    sftNbtivfMftiodPrffix(ClbssFilfTrbnsformfr trbnsformfr, String prffix) {
+        TrbnsformfrInfo[]  trbnsformfrList = gftSnbpsiotTrbnsformfrList();
 
-        for ( int x = 0; x < transformerList.length; x++ ) {
-            TransformerInfo         transformerInfo = transformerList[x];
-            ClassFileTransformer    aTransformer = transformerInfo.transformer();
+        for ( int x = 0; x < trbnsformfrList.lfngti; x++ ) {
+            TrbnsformfrInfo         trbnsformfrInfo = trbnsformfrList[x];
+            ClbssFilfTrbnsformfr    bTrbnsformfr = trbnsformfrInfo.trbnsformfr();
 
-            if ( aTransformer == transformer ) {
-                transformerInfo.setPrefix(prefix);
-                return true;
+            if ( bTrbnsformfr == trbnsformfr ) {
+                trbnsformfrInfo.sftPrffix(prffix);
+                rfturn truf;
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
 
     String[]
-    getNativeMethodPrefixes() {
-        TransformerInfo[]  transformerList = getSnapshotTransformerList();
-        String[] prefixes                  = new String[transformerList.length];
+    gftNbtivfMftiodPrffixfs() {
+        TrbnsformfrInfo[]  trbnsformfrList = gftSnbpsiotTrbnsformfrList();
+        String[] prffixfs                  = nfw String[trbnsformfrList.lfngti];
 
-        for ( int x = 0; x < transformerList.length; x++ ) {
-            TransformerInfo         transformerInfo = transformerList[x];
-            prefixes[x] = transformerInfo.getPrefix();
+        for ( int x = 0; x < trbnsformfrList.lfngti; x++ ) {
+            TrbnsformfrInfo         trbnsformfrInfo = trbnsformfrList[x];
+            prffixfs[x] = trbnsformfrInfo.gftPrffix();
         }
-        return prefixes;
+        rfturn prffixfs;
     }
 }

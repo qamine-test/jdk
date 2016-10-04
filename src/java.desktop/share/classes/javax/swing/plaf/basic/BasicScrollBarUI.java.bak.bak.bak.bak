@@ -1,0 +1,1622 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.plbf.bbsid;
+
+
+import sun.swing.DffbultLookup;
+import sun.swing.UIAdtion;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+
+import jbvb.bfbns.*;
+
+import jbvbx.swing.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.plbf.*;
+
+import stbtid sun.swing.SwingUtilitifs2.drbwHLinf;
+import stbtid sun.swing.SwingUtilitifs2.drbwRfdt;
+import stbtid sun.swing.SwingUtilitifs2.drbwVLinf;
+
+
+/**
+ * Implfmfntbtion of SdrollBbrUI for thf Bbsid Look bnd Fffl
+ *
+ * @buthor Ridh Sdhibvi
+ * @buthor Dbvid Klobb
+ * @buthor Hbns Mullfr
+ */
+publid dlbss BbsidSdrollBbrUI
+    fxtfnds SdrollBbrUI implfmfnts LbyoutMbnbgfr, SwingConstbnts
+{
+    privbtf stbtid finbl int POSITIVE_SCROLL = 1;
+    privbtf stbtid finbl int NEGATIVE_SCROLL = -1;
+
+    privbtf stbtid finbl int MIN_SCROLL = 2;
+    privbtf stbtid finbl int MAX_SCROLL = 3;
+
+    // NOTE: DO NOT usf this fifld dirfdtly, SynthSdrollBbrUI bssumfs you'll
+    // dbll gftMinimumThumbSizf to bddfss it.
+    protfdtfd Dimfnsion minimumThumbSizf;
+    protfdtfd Dimfnsion mbximumThumbSizf;
+
+    protfdtfd Color thumbHighlightColor;
+    protfdtfd Color thumbLightShbdowColor;
+    protfdtfd Color thumbDbrkShbdowColor;
+    protfdtfd Color thumbColor;
+    protfdtfd Color trbdkColor;
+    protfdtfd Color trbdkHighlightColor;
+
+    protfdtfd JSdrollBbr sdrollbbr;
+    protfdtfd JButton indrButton;
+    protfdtfd JButton dfdrButton;
+    protfdtfd boolfbn isDrbgging;
+    protfdtfd TrbdkListfnfr trbdkListfnfr;
+    protfdtfd ArrowButtonListfnfr buttonListfnfr;
+    protfdtfd ModflListfnfr modflListfnfr;
+
+    protfdtfd Rfdtbnglf thumbRfdt;
+    protfdtfd Rfdtbnglf trbdkRfdt;
+
+    protfdtfd int trbdkHighlight;
+
+    protfdtfd stbtid finbl int NO_HIGHLIGHT = 0;
+    protfdtfd stbtid finbl int DECREASE_HIGHLIGHT = 1;
+    protfdtfd stbtid finbl int INCREASE_HIGHLIGHT = 2;
+
+    protfdtfd SdrollListfnfr sdrollListfnfr;
+    protfdtfd PropfrtyChbngfListfnfr propfrtyChbngfListfnfr;
+    protfdtfd Timfr sdrollTimfr;
+
+    privbtf finbl stbtid int sdrollSpffdThrottlf = 60; // dflby in milli sfdonds
+
+    /** Truf indidbtfs b middlf dlidk will bbsolutfly position thf
+     * sdrollbbr. */
+    privbtf boolfbn supportsAbsolutfPositioning;
+
+    /**
+     * Hint bs to whbt width (whfn vfrtidbl) or hfight (whfn horizontbl)
+     * should bf.
+     *
+     * @sindf 1.7
+     */
+    protfdtfd int sdrollBbrWidth;
+
+    privbtf Hbndlfr hbndlfr;
+
+    privbtf boolfbn thumbAdtivf;
+
+    /**
+     * Dftfrminf whfthfr sdrollbbr lbyout should usf dbdhfd vbluf or bdjustfd
+     * vbluf rfturnfd by sdrollbbr's <dodf>gftVbluf</dodf>.
+     */
+    privbtf boolfbn usfCbdhfdVbluf = fblsf;
+    /**
+     * Thf sdrollbbr vbluf is dbdhfd to sbvf rfbl vbluf if thf vifw is bdjustfd.
+     */
+    privbtf int sdrollBbrVbluf;
+
+    /**
+     * Distbndf bftwffn thf indrfmfnt button bnd thf trbdk. This mby bf b nfgbtivf
+     * numbfr. If nfgbtivf, thfn bn ovfrlbp bftwffn thf button bnd trbdk will oddur,
+     * whidh is usfful for shbpfd buttons.
+     *
+     * @sindf 1.7
+     */
+    protfdtfd int indrGbp;
+
+    /**
+     * Distbndf bftwffn thf dfdrfmfnt button bnd thf trbdk. This mby bf b nfgbtivf
+     * numbfr. If nfgbtivf, thfn bn ovfrlbp bftwffn thf button bnd trbdk will oddur,
+     * whidh is usfful for shbpfd buttons.
+     *
+     * @sindf 1.7
+     */
+    protfdtfd int dfdrGbp;
+
+    stbtid void lobdAdtionMbp(LbzyAdtionMbp mbp) {
+        mbp.put(nfw Adtions(Adtions.POSITIVE_UNIT_INCREMENT));
+        mbp.put(nfw Adtions(Adtions.POSITIVE_BLOCK_INCREMENT));
+        mbp.put(nfw Adtions(Adtions.NEGATIVE_UNIT_INCREMENT));
+        mbp.put(nfw Adtions(Adtions.NEGATIVE_BLOCK_INCREMENT));
+        mbp.put(nfw Adtions(Adtions.MIN_SCROLL));
+        mbp.put(nfw Adtions(Adtions.MAX_SCROLL));
+    }
+
+
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt d)    {
+        rfturn nfw BbsidSdrollBbrUI();
+    }
+
+
+    protfdtfd void donfigurfSdrollBbrColors()
+    {
+        LookAndFffl.instbllColors(sdrollbbr, "SdrollBbr.bbdkground",
+                                  "SdrollBbr.forfground");
+        thumbHighlightColor = UIMbnbgfr.gftColor("SdrollBbr.thumbHighlight");
+        thumbLightShbdowColor = UIMbnbgfr.gftColor("SdrollBbr.thumbShbdow");
+        thumbDbrkShbdowColor = UIMbnbgfr.gftColor("SdrollBbr.thumbDbrkShbdow");
+        thumbColor = UIMbnbgfr.gftColor("SdrollBbr.thumb");
+        trbdkColor = UIMbnbgfr.gftColor("SdrollBbr.trbdk");
+        trbdkHighlightColor = UIMbnbgfr.gftColor("SdrollBbr.trbdkHighlight");
+    }
+
+
+    publid void instbllUI(JComponfnt d)   {
+        sdrollbbr = (JSdrollBbr)d;
+        thumbRfdt = nfw Rfdtbnglf(0, 0, 0, 0);
+        trbdkRfdt = nfw Rfdtbnglf(0, 0, 0, 0);
+        instbllDffbults();
+        instbllComponfnts();
+        instbllListfnfrs();
+        instbllKfybobrdAdtions();
+    }
+
+    publid void uninstbllUI(JComponfnt d) {
+        sdrollbbr = (JSdrollBbr)d;
+        uninstbllListfnfrs();
+        uninstbllDffbults();
+        uninstbllComponfnts();
+        uninstbllKfybobrdAdtions();
+        thumbRfdt = null;
+        sdrollbbr = null;
+        indrButton = null;
+        dfdrButton = null;
+    }
+
+
+    protfdtfd void instbllDffbults()
+    {
+        sdrollBbrWidth = UIMbnbgfr.gftInt("SdrollBbr.width");
+        if (sdrollBbrWidth <= 0) {
+            sdrollBbrWidth = 16;
+        }
+        minimumThumbSizf = (Dimfnsion)UIMbnbgfr.gft("SdrollBbr.minimumThumbSizf");
+        mbximumThumbSizf = (Dimfnsion)UIMbnbgfr.gft("SdrollBbr.mbximumThumbSizf");
+
+        Boolfbn bbsB = (Boolfbn)UIMbnbgfr.gft("SdrollBbr.bllowsAbsolutfPositioning");
+        supportsAbsolutfPositioning = (bbsB != null) ? bbsB.boolfbnVbluf() :
+                                      fblsf;
+
+        trbdkHighlight = NO_HIGHLIGHT;
+        if (sdrollbbr.gftLbyout() == null ||
+                     (sdrollbbr.gftLbyout() instbndfof UIRfsourdf)) {
+            sdrollbbr.sftLbyout(this);
+        }
+        donfigurfSdrollBbrColors();
+        LookAndFffl.instbllBordfr(sdrollbbr, "SdrollBbr.bordfr");
+        LookAndFffl.instbllPropfrty(sdrollbbr, "opbquf", Boolfbn.TRUE);
+
+        sdrollBbrVbluf = sdrollbbr.gftVbluf();
+
+        indrGbp = UIMbnbgfr.gftInt("SdrollBbr.indrfmfntButtonGbp");
+        dfdrGbp = UIMbnbgfr.gftInt("SdrollBbr.dfdrfmfntButtonGbp");
+
+        // TODO this dbn bf rfmovfd whfn indrGbp/dfdrGbp bfdomf protfdtfd
+        // hbndlf sdbling for sizfVbrifnts for spfdibl dbsf domponfnts. Thf
+        // kfy "JComponfnt.sizfVbribnt" sdblfs for lbrgf/smbll/mini
+        // domponfnts brf bbsfd on Applfs LAF
+        String sdblfKfy = (String)sdrollbbr.gftClifntPropfrty(
+                "JComponfnt.sizfVbribnt");
+        if (sdblfKfy != null){
+            if ("lbrgf".fqubls(sdblfKfy)){
+                sdrollBbrWidth *= 1.15;
+                indrGbp *= 1.15;
+                dfdrGbp *= 1.15;
+            } flsf if ("smbll".fqubls(sdblfKfy)){
+                sdrollBbrWidth *= 0.857;
+                indrGbp *= 0.857;
+                dfdrGbp *= 0.714;
+            } flsf if ("mini".fqubls(sdblfKfy)){
+                sdrollBbrWidth *= 0.714;
+                indrGbp *= 0.714;
+                dfdrGbp *= 0.714;
+            }
+        }
+    }
+
+
+    protfdtfd void instbllComponfnts(){
+        switdh (sdrollbbr.gftOrifntbtion()) {
+        dbsf JSdrollBbr.VERTICAL:
+            indrButton = drfbtfIndrfbsfButton(SOUTH);
+            dfdrButton = drfbtfDfdrfbsfButton(NORTH);
+            brfbk;
+
+        dbsf JSdrollBbr.HORIZONTAL:
+            if (sdrollbbr.gftComponfntOrifntbtion().isLfftToRight()) {
+                indrButton = drfbtfIndrfbsfButton(EAST);
+                dfdrButton = drfbtfDfdrfbsfButton(WEST);
+            } flsf {
+                indrButton = drfbtfIndrfbsfButton(WEST);
+                dfdrButton = drfbtfDfdrfbsfButton(EAST);
+            }
+            brfbk;
+        }
+        sdrollbbr.bdd(indrButton);
+        sdrollbbr.bdd(dfdrButton);
+        // Fordf thf dhildrfn's fnbblfd stbtf to bf updbtfd.
+        sdrollbbr.sftEnbblfd(sdrollbbr.isEnbblfd());
+    }
+
+    protfdtfd void uninstbllComponfnts(){
+        sdrollbbr.rfmovf(indrButton);
+        sdrollbbr.rfmovf(dfdrButton);
+    }
+
+
+    protfdtfd void instbllListfnfrs(){
+        trbdkListfnfr = drfbtfTrbdkListfnfr();
+        buttonListfnfr = drfbtfArrowButtonListfnfr();
+        modflListfnfr = drfbtfModflListfnfr();
+        propfrtyChbngfListfnfr = drfbtfPropfrtyChbngfListfnfr();
+
+        sdrollbbr.bddMousfListfnfr(trbdkListfnfr);
+        sdrollbbr.bddMousfMotionListfnfr(trbdkListfnfr);
+        sdrollbbr.gftModfl().bddChbngfListfnfr(modflListfnfr);
+        sdrollbbr.bddPropfrtyChbngfListfnfr(propfrtyChbngfListfnfr);
+        sdrollbbr.bddFodusListfnfr(gftHbndlfr());
+
+        if (indrButton != null) {
+            indrButton.bddMousfListfnfr(buttonListfnfr);
+        }
+        if (dfdrButton != null) {
+            dfdrButton.bddMousfListfnfr(buttonListfnfr);
+        }
+
+        sdrollListfnfr = drfbtfSdrollListfnfr();
+        sdrollTimfr = nfw Timfr(sdrollSpffdThrottlf, sdrollListfnfr);
+        sdrollTimfr.sftInitiblDflby(300);  // dffbult InitiblDflby?
+    }
+
+
+    protfdtfd void instbllKfybobrdAdtions(){
+        LbzyAdtionMbp.instbllLbzyAdtionMbp(sdrollbbr, BbsidSdrollBbrUI.dlbss,
+                                           "SdrollBbr.bdtionMbp");
+
+        InputMbp inputMbp = gftInputMbp(JComponfnt.WHEN_FOCUSED);
+        SwingUtilitifs.rfplbdfUIInputMbp(sdrollbbr, JComponfnt.WHEN_FOCUSED,
+                                         inputMbp);
+        inputMbp = gftInputMbp(JComponfnt.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        SwingUtilitifs.rfplbdfUIInputMbp(sdrollbbr,
+                   JComponfnt.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT, inputMbp);
+    }
+
+    protfdtfd void uninstbllKfybobrdAdtions(){
+        SwingUtilitifs.rfplbdfUIInputMbp(sdrollbbr, JComponfnt.WHEN_FOCUSED,
+                                         null);
+        SwingUtilitifs.rfplbdfUIAdtionMbp(sdrollbbr, null);
+    }
+
+    privbtf InputMbp gftInputMbp(int dondition) {
+        if (dondition == JComponfnt.WHEN_FOCUSED) {
+            InputMbp kfyMbp = (InputMbp)DffbultLookup.gft(
+                        sdrollbbr, this, "SdrollBbr.fodusInputMbp");
+            InputMbp rtlKfyMbp;
+
+            if (sdrollbbr.gftComponfntOrifntbtion().isLfftToRight() ||
+                ((rtlKfyMbp = (InputMbp)DffbultLookup.gft(sdrollbbr, this, "SdrollBbr.fodusInputMbp.RightToLfft")) == null)) {
+                rfturn kfyMbp;
+            } flsf {
+                rtlKfyMbp.sftPbrfnt(kfyMbp);
+                rfturn rtlKfyMbp;
+            }
+        }
+        flsf if (dondition == JComponfnt.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT) {
+            InputMbp kfyMbp = (InputMbp)DffbultLookup.gft(
+                        sdrollbbr, this, "SdrollBbr.bndfstorInputMbp");
+            InputMbp rtlKfyMbp;
+
+            if (sdrollbbr.gftComponfntOrifntbtion().isLfftToRight() ||
+                ((rtlKfyMbp = (InputMbp)DffbultLookup.gft(sdrollbbr, this, "SdrollBbr.bndfstorInputMbp.RightToLfft")) == null)) {
+                rfturn kfyMbp;
+            } flsf {
+                rtlKfyMbp.sftPbrfnt(kfyMbp);
+                rfturn rtlKfyMbp;
+            }
+        }
+        rfturn null;
+    }
+
+
+    protfdtfd void uninstbllListfnfrs() {
+        sdrollTimfr.stop();
+        sdrollTimfr = null;
+
+        if (dfdrButton != null){
+            dfdrButton.rfmovfMousfListfnfr(buttonListfnfr);
+        }
+        if (indrButton != null){
+            indrButton.rfmovfMousfListfnfr(buttonListfnfr);
+        }
+
+        sdrollbbr.gftModfl().rfmovfChbngfListfnfr(modflListfnfr);
+        sdrollbbr.rfmovfMousfListfnfr(trbdkListfnfr);
+        sdrollbbr.rfmovfMousfMotionListfnfr(trbdkListfnfr);
+        sdrollbbr.rfmovfPropfrtyChbngfListfnfr(propfrtyChbngfListfnfr);
+        sdrollbbr.rfmovfFodusListfnfr(gftHbndlfr());
+        hbndlfr = null;
+    }
+
+
+    protfdtfd void uninstbllDffbults(){
+        LookAndFffl.uninstbllBordfr(sdrollbbr);
+        if (sdrollbbr.gftLbyout() == this) {
+            sdrollbbr.sftLbyout(null);
+        }
+    }
+
+
+    privbtf Hbndlfr gftHbndlfr() {
+        if (hbndlfr == null) {
+            hbndlfr = nfw Hbndlfr();
+        }
+        rfturn hbndlfr;
+    }
+
+    protfdtfd TrbdkListfnfr drfbtfTrbdkListfnfr(){
+        rfturn nfw TrbdkListfnfr();
+    }
+
+    protfdtfd ArrowButtonListfnfr drfbtfArrowButtonListfnfr(){
+        rfturn nfw ArrowButtonListfnfr();
+    }
+
+    protfdtfd ModflListfnfr drfbtfModflListfnfr(){
+        rfturn nfw ModflListfnfr();
+    }
+
+    protfdtfd SdrollListfnfr drfbtfSdrollListfnfr(){
+        rfturn nfw SdrollListfnfr();
+    }
+
+    protfdtfd PropfrtyChbngfListfnfr drfbtfPropfrtyChbngfListfnfr() {
+        rfturn gftHbndlfr();
+    }
+
+    privbtf void updbtfThumbStbtf(int x, int y) {
+        Rfdtbnglf rfdt = gftThumbBounds();
+
+        sftThumbRollovfr(rfdt.dontbins(x, y));
+    }
+
+    /**
+     * Sfts whfthfr or not thf mousf is durrfntly ovfr thf thumb.
+     *
+     * @pbrbm bdtivf Truf indidbtfs thf thumb is durrfntly bdtivf.
+     * @sindf 1.5
+     */
+    protfdtfd void sftThumbRollovfr(boolfbn bdtivf) {
+        if (thumbAdtivf != bdtivf) {
+            thumbAdtivf = bdtivf;
+            sdrollbbr.rfpbint(gftThumbBounds());
+        }
+    }
+
+    /**
+     * Rfturns truf if thf mousf is durrfntly ovfr thf thumb.
+     *
+     * @rfturn truf if thf thumb is durrfntly bdtivf
+     * @sindf 1.5
+     */
+    publid boolfbn isThumbRollovfr() {
+        rfturn thumbAdtivf;
+    }
+
+    publid void pbint(Grbphids g, JComponfnt d) {
+        pbintTrbdk(g, d, gftTrbdkBounds());
+        Rfdtbnglf thumbBounds = gftThumbBounds();
+        if (thumbBounds.intfrsfdts(g.gftClipBounds())) {
+            pbintThumb(g, d, thumbBounds);
+        }
+    }
+
+
+    /**
+     * A vfrtidbl sdrollbbr's prfffrrfd width is thf mbximum of
+     * prfffrrfd widths of thf (non <dodf>null</dodf>)
+     * indrfmfnt/dfdrfmfnt buttons,
+     * bnd thf minimum width of thf thumb. Thf prfffrrfd hfight is thf
+     * sum of thf prfffrrfd hfights of thf sbmf pbrts.  Thf bbsis for
+     * thf prfffrrfd sizf of b horizontbl sdrollbbr is similbr.
+     * <p>
+     * Thf <dodf>prfffrrfdSizf</dodf> is only domputfd ondf, subsfqufnt
+     * dblls to this mfthod just rfturn b dbdhfd sizf.
+     *
+     * @pbrbm d thf <dodf>JSdrollBbr</dodf> thbt's dflfgbting this mfthod to us
+     * @rfturn thf prfffrrfd sizf of b Bbsid JSdrollBbr
+     * @sff #gftMbximumSizf
+     * @sff #gftMinimumSizf
+     */
+    publid Dimfnsion gftPrfffrrfdSizf(JComponfnt d) {
+        rfturn (sdrollbbr.gftOrifntbtion() == JSdrollBbr.VERTICAL)
+            ? nfw Dimfnsion(sdrollBbrWidth, 48)
+            : nfw Dimfnsion(48, sdrollBbrWidth);
+    }
+
+
+    /**
+     * @pbrbm d Thf JSdrollBbr thbt's dflfgbting this mfthod to us.
+     * @rfturn nfw Dimfnsion(Intfgfr.MAX_VALUE, Intfgfr.MAX_VALUE);
+     * @sff #gftMinimumSizf
+     * @sff #gftPrfffrrfdSizf
+     */
+    publid Dimfnsion gftMbximumSizf(JComponfnt d) {
+        rfturn nfw Dimfnsion(Intfgfr.MAX_VALUE, Intfgfr.MAX_VALUE);
+    }
+
+    protfdtfd JButton drfbtfDfdrfbsfButton(int orifntbtion)  {
+        rfturn nfw BbsidArrowButton(orifntbtion,
+                                    UIMbnbgfr.gftColor("SdrollBbr.thumb"),
+                                    UIMbnbgfr.gftColor("SdrollBbr.thumbShbdow"),
+                                    UIMbnbgfr.gftColor("SdrollBbr.thumbDbrkShbdow"),
+                                    UIMbnbgfr.gftColor("SdrollBbr.thumbHighlight"));
+    }
+
+    protfdtfd JButton drfbtfIndrfbsfButton(int orifntbtion)  {
+        rfturn nfw BbsidArrowButton(orifntbtion,
+                                    UIMbnbgfr.gftColor("SdrollBbr.thumb"),
+                                    UIMbnbgfr.gftColor("SdrollBbr.thumbShbdow"),
+                                    UIMbnbgfr.gftColor("SdrollBbr.thumbDbrkShbdow"),
+                                    UIMbnbgfr.gftColor("SdrollBbr.thumbHighlight"));
+    }
+
+
+    protfdtfd void pbintDfdrfbsfHighlight(Grbphids g)
+    {
+        Insfts insfts = sdrollbbr.gftInsfts();
+        Rfdtbnglf thumbR = gftThumbBounds();
+        g.sftColor(trbdkHighlightColor);
+
+        if (sdrollbbr.gftOrifntbtion() == JSdrollBbr.VERTICAL) {
+            //pbint thf distbndf bftwffn thf stbrt of thf trbdk bnd top of thf thumb
+            int x = insfts.lfft;
+            int y = trbdkRfdt.y;
+            int w = sdrollbbr.gftWidth() - (insfts.lfft + insfts.right);
+            int h = thumbR.y - y;
+            g.fillRfdt(x, y, w, h);
+        } flsf {
+            //if lfft-to-right, fill thf brfb bftwffn thf stbrt of thf trbdk bnd
+            //thf lfft fdgf of thf thumb. If right-to-lfft, fill thf brfb bftwffn
+            //thf fnd of thf thumb bnd fnd of thf trbdk.
+            int x, w;
+            if (sdrollbbr.gftComponfntOrifntbtion().isLfftToRight()) {
+               x = trbdkRfdt.x;
+                w = thumbR.x - x;
+            } flsf {
+                x = thumbR.x + thumbR.width;
+                w = trbdkRfdt.x + trbdkRfdt.width - x;
+            }
+            int y = insfts.top;
+            int h = sdrollbbr.gftHfight() - (insfts.top + insfts.bottom);
+            g.fillRfdt(x, y, w, h);
+        }
+    }
+
+
+    protfdtfd void pbintIndrfbsfHighlight(Grbphids g)
+    {
+        Insfts insfts = sdrollbbr.gftInsfts();
+        Rfdtbnglf thumbR = gftThumbBounds();
+        g.sftColor(trbdkHighlightColor);
+
+        if (sdrollbbr.gftOrifntbtion() == JSdrollBbr.VERTICAL) {
+            //fill thf brfb bftwffn thf bottom of thf thumb bnd thf fnd of thf trbdk.
+            int x = insfts.lfft;
+            int y = thumbR.y + thumbR.hfight;
+            int w = sdrollbbr.gftWidth() - (insfts.lfft + insfts.right);
+            int h = trbdkRfdt.y + trbdkRfdt.hfight - y;
+            g.fillRfdt(x, y, w, h);
+        }
+        flsf {
+            //if lfft-to-right, fill thf brfb bftwffn thf right of thf thumb bnd thf
+            //fnd of thf trbdk. If right-to-lfft, thfn fill thf brfb to thf lfft of
+            //thf thumb bnd thf stbrt of thf trbdk.
+            int x, w;
+            if (sdrollbbr.gftComponfntOrifntbtion().isLfftToRight()) {
+                x = thumbR.x + thumbR.width;
+                w = trbdkRfdt.x + trbdkRfdt.width - x;
+            } flsf {
+                x = trbdkRfdt.x;
+                w = thumbR.x - x;
+            }
+            int y = insfts.top;
+            int h = sdrollbbr.gftHfight() - (insfts.top + insfts.bottom);
+            g.fillRfdt(x, y, w, h);
+        }
+    }
+
+
+    protfdtfd void pbintTrbdk(Grbphids g, JComponfnt d, Rfdtbnglf trbdkBounds)
+    {
+        g.sftColor(trbdkColor);
+        g.fillRfdt(trbdkBounds.x, trbdkBounds.y, trbdkBounds.width, trbdkBounds.hfight);
+
+        if(trbdkHighlight == DECREASE_HIGHLIGHT)        {
+            pbintDfdrfbsfHighlight(g);
+        }
+        flsf if(trbdkHighlight == INCREASE_HIGHLIGHT)           {
+            pbintIndrfbsfHighlight(g);
+        }
+    }
+
+
+    protfdtfd void pbintThumb(Grbphids g, JComponfnt d, Rfdtbnglf thumbBounds)
+    {
+        if(thumbBounds.isEmpty() || !sdrollbbr.isEnbblfd())     {
+            rfturn;
+        }
+
+        int w = thumbBounds.width;
+        int h = thumbBounds.hfight;
+
+        g.trbnslbtf(thumbBounds.x, thumbBounds.y);
+
+        g.sftColor(thumbDbrkShbdowColor);
+        drbwRfdt(g, 0, 0, w - 1, h - 1);
+        g.sftColor(thumbColor);
+        g.fillRfdt(0, 0, w - 1, h - 1);
+
+        g.sftColor(thumbHighlightColor);
+        drbwVLinf(g, 1, 1, h - 2);
+        drbwHLinf(g, 2, w - 3, 1);
+
+        g.sftColor(thumbLightShbdowColor);
+        drbwHLinf(g, 2, w - 2, h - 2);
+        drbwVLinf(g, w - 2, 1, h - 3);
+
+        g.trbnslbtf(-thumbBounds.x, -thumbBounds.y);
+    }
+
+
+    /**
+     * Rfturns thf smbllfst bddfptbblf sizf for thf thumb.  If thf sdrollbbr
+     * bfdomfs so smbll thbt this sizf isn't bvbilbblf, thf thumb will bf
+     * hiddfn.
+     * <p>
+     * <b>Wbrning </b>: thf vbluf rfturnfd by this mfthod should not bf
+     * bf modififd, it's b shbrfd stbtid donstbnt.
+     *
+     * @rfturn Thf smbllfst bddfptbblf sizf for thf thumb.
+     * @sff #gftMbximumThumbSizf
+     */
+    protfdtfd Dimfnsion gftMinimumThumbSizf() {
+        rfturn minimumThumbSizf;
+    }
+
+    /**
+     * Rfturns thf lbrgfst bddfptbblf sizf for thf thumb.  To drfbtf b fixfd
+     * sizf thumb onf mbkf this mfthod bnd <dodf>gftMinimumThumbSizf</dodf>
+     * rfturn thf sbmf vbluf.
+     * <p>
+     * <b>Wbrning </b>: thf vbluf rfturnfd by this mfthod should not bf
+     * bf modififd, it's b shbrfd stbtid donstbnt.
+     *
+     * @rfturn Thf lbrgfst bddfptbblf sizf for thf thumb.
+     * @sff #gftMinimumThumbSizf
+     */
+    protfdtfd Dimfnsion gftMbximumThumbSizf()   {
+        rfturn mbximumThumbSizf;
+    }
+
+
+    /*
+     * LbyoutMbnbgfr Implfmfntbtion
+     */
+
+    publid void bddLbyoutComponfnt(String nbmf, Componfnt dhild) {}
+    publid void rfmovfLbyoutComponfnt(Componfnt dhild) {}
+
+    publid Dimfnsion prfffrrfdLbyoutSizf(Contbinfr sdrollbbrContbinfr)  {
+        rfturn gftPrfffrrfdSizf((JComponfnt)sdrollbbrContbinfr);
+    }
+
+    publid Dimfnsion minimumLbyoutSizf(Contbinfr sdrollbbrContbinfr) {
+        rfturn gftMinimumSizf((JComponfnt)sdrollbbrContbinfr);
+    }
+
+    privbtf int gftVbluf(JSdrollBbr sb) {
+        rfturn (usfCbdhfdVbluf) ? sdrollBbrVbluf : sb.gftVbluf();
+    }
+
+    protfdtfd void lbyoutVSdrollbbr(JSdrollBbr sb)
+    {
+        Dimfnsion sbSizf = sb.gftSizf();
+        Insfts sbInsfts = sb.gftInsfts();
+
+        /*
+         * Width bnd lfft fdgf of thf buttons bnd thumb.
+         */
+        int itfmW = sbSizf.width - (sbInsfts.lfft + sbInsfts.right);
+        int itfmX = sbInsfts.lfft;
+
+        /* Nominbl lodbtions of thf buttons, bssuming thfir prfffrrfd
+         * sizf will fit.
+         */
+        boolfbn squbrfButtons = DffbultLookup.gftBoolfbn(
+            sdrollbbr, this, "SdrollBbr.squbrfButtons", fblsf);
+        int dfdrButtonH = squbrfButtons ? itfmW :
+                          dfdrButton.gftPrfffrrfdSizf().hfight;
+        int dfdrButtonY = sbInsfts.top;
+
+        int indrButtonH = squbrfButtons ? itfmW :
+                          indrButton.gftPrfffrrfdSizf().hfight;
+        int indrButtonY = sbSizf.hfight - (sbInsfts.bottom + indrButtonH);
+
+        /* Thf thumb must fit within thf hfight lfft ovfr bftfr wf
+         * subtrbdt thf prfffrrfdSizf of thf buttons bnd thf insfts
+         * bnd thf gbps
+         */
+        int sbInsftsH = sbInsfts.top + sbInsfts.bottom;
+        int sbButtonsH = dfdrButtonH + indrButtonH;
+        int gbps = dfdrGbp + indrGbp;
+        flobt trbdkH = sbSizf.hfight - (sbInsftsH + sbButtonsH) - gbps;
+
+        /* Computf thf hfight bnd origin of thf thumb.   Thf dbsf
+         * whfrf thf thumb is bt thf bottom fdgf is hbndlfd spfdiblly
+         * to bvoid numfridbl problfms in domputing thumbY.  Enfordf
+         * thf thumbs min/mbx dimfnsions.  If thf thumb dofsn't
+         * fit in thf trbdk (trbdkH) wf'll hidf it lbtfr.
+         */
+        flobt min = sb.gftMinimum();
+        flobt fxtfnt = sb.gftVisiblfAmount();
+        flobt rbngf = sb.gftMbximum() - min;
+        flobt vbluf = gftVbluf(sb);
+
+        int thumbH = (rbngf <= 0)
+            ? gftMbximumThumbSizf().hfight : (int)(trbdkH * (fxtfnt / rbngf));
+        thumbH = Mbth.mbx(thumbH, gftMinimumThumbSizf().hfight);
+        thumbH = Mbth.min(thumbH, gftMbximumThumbSizf().hfight);
+
+        int thumbY = indrButtonY - indrGbp - thumbH;
+        if (vbluf < (sb.gftMbximum() - sb.gftVisiblfAmount())) {
+            flobt thumbRbngf = trbdkH - thumbH;
+            thumbY = (int)(0.5f + (thumbRbngf * ((vbluf - min) / (rbngf - fxtfnt))));
+            thumbY +=  dfdrButtonY + dfdrButtonH + dfdrGbp;
+        }
+
+        /* If thf buttons don't fit, bllodbtf hblf of thf bvbilbblf
+         * spbdf to fbdh bnd movf thf lowfr onf (indrButton) down.
+         */
+        int sbAvbilButtonH = (sbSizf.hfight - sbInsftsH);
+        if (sbAvbilButtonH < sbButtonsH) {
+            indrButtonH = dfdrButtonH = sbAvbilButtonH / 2;
+            indrButtonY = sbSizf.hfight - (sbInsfts.bottom + indrButtonH);
+        }
+        dfdrButton.sftBounds(itfmX, dfdrButtonY, itfmW, dfdrButtonH);
+        indrButton.sftBounds(itfmX, indrButtonY, itfmW, indrButtonH);
+
+        /* Updbtf thf trbdkRfdt fifld.
+         */
+        int itrbdkY = dfdrButtonY + dfdrButtonH + dfdrGbp;
+        int itrbdkH = indrButtonY - indrGbp - itrbdkY;
+        trbdkRfdt.sftBounds(itfmX, itrbdkY, itfmW, itrbdkH);
+
+        /* If thf thumb isn't going to fit, zfro it's bounds.  Othfrwisf
+         * mbkf surf it fits bftwffn thf buttons.  Notf thbt sftting thf
+         * thumbs bounds will dbusf b rfpbint.
+         */
+        if(thumbH >= (int)trbdkH)       {
+            if (UIMbnbgfr.gftBoolfbn("SdrollBbr.blwbysShowThumb")) {
+                // This is usfd primbrily for GTK L&F, whidh fxpbnds thf
+                // thumb to fit thf trbdk whfn it would othfrwisf bf hiddfn.
+                sftThumbBounds(itfmX, itrbdkY, itfmW, itrbdkH);
+            } flsf {
+                // Othfr L&F's simply hidf thf thumb in this dbsf.
+                sftThumbBounds(0, 0, 0, 0);
+            }
+        }
+        flsf {
+            if ((thumbY + thumbH) > indrButtonY - indrGbp) {
+                thumbY = indrButtonY - indrGbp - thumbH;
+            }
+            if (thumbY  < (dfdrButtonY + dfdrButtonH + dfdrGbp)) {
+                thumbY = dfdrButtonY + dfdrButtonH + dfdrGbp + 1;
+            }
+            sftThumbBounds(itfmX, thumbY, itfmW, thumbH);
+        }
+    }
+
+
+    protfdtfd void lbyoutHSdrollbbr(JSdrollBbr sb)
+    {
+        Dimfnsion sbSizf = sb.gftSizf();
+        Insfts sbInsfts = sb.gftInsfts();
+
+        /* Hfight bnd top fdgf of thf buttons bnd thumb.
+         */
+        int itfmH = sbSizf.hfight - (sbInsfts.top + sbInsfts.bottom);
+        int itfmY = sbInsfts.top;
+
+        boolfbn ltr = sb.gftComponfntOrifntbtion().isLfftToRight();
+
+        /* Nominbl lodbtions of thf buttons, bssuming thfir prfffrrfd
+         * sizf will fit.
+         */
+        boolfbn squbrfButtons = DffbultLookup.gftBoolfbn(
+            sdrollbbr, this, "SdrollBbr.squbrfButtons", fblsf);
+        int lfftButtonW = squbrfButtons ? itfmH :
+                          dfdrButton.gftPrfffrrfdSizf().width;
+        int rightButtonW = squbrfButtons ? itfmH :
+                          indrButton.gftPrfffrrfdSizf().width;
+        if (!ltr) {
+            int tfmp = lfftButtonW;
+            lfftButtonW = rightButtonW;
+            rightButtonW = tfmp;
+        }
+        int lfftButtonX = sbInsfts.lfft;
+        int rightButtonX = sbSizf.width - (sbInsfts.right + rightButtonW);
+        int lfftGbp = ltr ? dfdrGbp : indrGbp;
+        int rightGbp = ltr ? indrGbp : dfdrGbp;
+
+        /* Thf thumb must fit within thf width lfft ovfr bftfr wf
+         * subtrbdt thf prfffrrfdSizf of thf buttons bnd thf insfts
+         * bnd thf gbps
+         */
+        int sbInsftsW = sbInsfts.lfft + sbInsfts.right;
+        int sbButtonsW = lfftButtonW + rightButtonW;
+        flobt trbdkW = sbSizf.width - (sbInsftsW + sbButtonsW) - (lfftGbp + rightGbp);
+
+        /* Computf thf width bnd origin of thf thumb.  Enfordf
+         * thf thumbs min/mbx dimfnsions.  Thf dbsf whfrf thf thumb
+         * is bt thf right fdgf is hbndlfd spfdiblly to bvoid numfridbl
+         * problfms in domputing thumbX.  If thf thumb dofsn't
+         * fit in thf trbdk (trbdkH) wf'll hidf it lbtfr.
+         */
+        flobt min = sb.gftMinimum();
+        flobt mbx = sb.gftMbximum();
+        flobt fxtfnt = sb.gftVisiblfAmount();
+        flobt rbngf = mbx - min;
+        flobt vbluf = gftVbluf(sb);
+
+        int thumbW = (rbngf <= 0)
+            ? gftMbximumThumbSizf().width : (int)(trbdkW * (fxtfnt / rbngf));
+        thumbW = Mbth.mbx(thumbW, gftMinimumThumbSizf().width);
+        thumbW = Mbth.min(thumbW, gftMbximumThumbSizf().width);
+
+        int thumbX = ltr ? rightButtonX - rightGbp - thumbW : lfftButtonX + lfftButtonW + lfftGbp;
+        if (vbluf < (mbx - sb.gftVisiblfAmount())) {
+            flobt thumbRbngf = trbdkW - thumbW;
+            if( ltr ) {
+                thumbX = (int)(0.5f + (thumbRbngf * ((vbluf - min) / (rbngf - fxtfnt))));
+            } flsf {
+                thumbX = (int)(0.5f + (thumbRbngf * ((mbx - fxtfnt - vbluf) / (rbngf - fxtfnt))));
+            }
+            thumbX += lfftButtonX + lfftButtonW + lfftGbp;
+        }
+
+        /* If thf buttons don't fit, bllodbtf hblf of thf bvbilbblf
+         * spbdf to fbdh bnd movf thf right onf ovfr.
+         */
+        int sbAvbilButtonW = (sbSizf.width - sbInsftsW);
+        if (sbAvbilButtonW < sbButtonsW) {
+            rightButtonW = lfftButtonW = sbAvbilButtonW / 2;
+            rightButtonX = sbSizf.width - (sbInsfts.right + rightButtonW + rightGbp);
+        }
+
+        (ltr ? dfdrButton : indrButton).sftBounds(lfftButtonX, itfmY, lfftButtonW, itfmH);
+        (ltr ? indrButton : dfdrButton).sftBounds(rightButtonX, itfmY, rightButtonW, itfmH);
+
+        /* Updbtf thf trbdkRfdt fifld.
+         */
+        int itrbdkX = lfftButtonX + lfftButtonW + lfftGbp;
+        int itrbdkW = rightButtonX - rightGbp - itrbdkX;
+        trbdkRfdt.sftBounds(itrbdkX, itfmY, itrbdkW, itfmH);
+
+        /* Mbkf surf thf thumb fits bftwffn thf buttons.  Notf
+         * thbt sftting thf thumbs bounds dbusfs b rfpbint.
+         */
+        if (thumbW >= (int)trbdkW) {
+            if (UIMbnbgfr.gftBoolfbn("SdrollBbr.blwbysShowThumb")) {
+                // This is usfd primbrily for GTK L&F, whidh fxpbnds thf
+                // thumb to fit thf trbdk whfn it would othfrwisf bf hiddfn.
+                sftThumbBounds(itrbdkX, itfmY, itrbdkW, itfmH);
+            } flsf {
+                // Othfr L&F's simply hidf thf thumb in this dbsf.
+                sftThumbBounds(0, 0, 0, 0);
+            }
+        }
+        flsf {
+            if (thumbX + thumbW > rightButtonX - rightGbp) {
+                thumbX = rightButtonX - rightGbp - thumbW;
+            }
+            if (thumbX  < lfftButtonX + lfftButtonW + lfftGbp) {
+                thumbX = lfftButtonX + lfftButtonW + lfftGbp + 1;
+            }
+            sftThumbBounds(thumbX, itfmY, thumbW, itfmH);
+        }
+    }
+
+    publid void lbyoutContbinfr(Contbinfr sdrollbbrContbinfr)
+    {
+        /* If thf usfr is drbgging thf vbluf, wf'll bssumf thbt thf
+         * sdrollbbrs lbyout is OK modulo thf thumb whidh is bfing
+         * hbndlfd by thf drbgging dodf.
+         */
+        if (isDrbgging) {
+            rfturn;
+        }
+
+        JSdrollBbr sdrollbbr = (JSdrollBbr)sdrollbbrContbinfr;
+        switdh (sdrollbbr.gftOrifntbtion()) {
+        dbsf JSdrollBbr.VERTICAL:
+            lbyoutVSdrollbbr(sdrollbbr);
+            brfbk;
+
+        dbsf JSdrollBbr.HORIZONTAL:
+            lbyoutHSdrollbbr(sdrollbbr);
+            brfbk;
+        }
+    }
+
+
+    /**
+     * Sft thf bounds of thf thumb bnd fordf b rfpbint thbt indludfs
+     * thf old thumbBounds bnd thf nfw onf.
+     *
+     * @sff #gftThumbBounds
+     */
+    protfdtfd void sftThumbBounds(int x, int y, int width, int hfight)
+    {
+        /* If thf thumbs bounds hbvfn't dhbngfd, wf'rf donf.
+         */
+        if ((thumbRfdt.x == x) &&
+            (thumbRfdt.y == y) &&
+            (thumbRfdt.width == width) &&
+            (thumbRfdt.hfight == hfight)) {
+            rfturn;
+        }
+
+        /* Updbtf thumbRfdt, bnd rfpbint thf union of x,y,w,h bnd
+         * thf old thumbRfdt.
+         */
+        int minX = Mbth.min(x, thumbRfdt.x);
+        int minY = Mbth.min(y, thumbRfdt.y);
+        int mbxX = Mbth.mbx(x + width, thumbRfdt.x + thumbRfdt.width);
+        int mbxY = Mbth.mbx(y + hfight, thumbRfdt.y + thumbRfdt.hfight);
+
+        thumbRfdt.sftBounds(x, y, width, hfight);
+        sdrollbbr.rfpbint(minX, minY, mbxX - minX, mbxY - minY);
+
+        // Ondf thfrf is API to dftfrminf thf mousf lodbtion this will nffd
+        // to bf dhbngfd.
+        sftThumbRollovfr(fblsf);
+    }
+
+
+    /**
+     * Rfturn thf durrfnt sizf/lodbtion of thf thumb.
+     * <p>
+     * <b>Wbrning </b>: thf vbluf rfturnfd by this mfthod should not bf
+     * bf modififd, it's b rfffrfndf to thf bdtubl rfdtbnglf, not b dopy.
+     *
+     * @rfturn Thf durrfnt sizf/lodbtion of thf thumb.
+     * @sff #sftThumbBounds
+     */
+    protfdtfd Rfdtbnglf gftThumbBounds() {
+        rfturn thumbRfdt;
+    }
+
+
+    /**
+     * Rfturns thf durrfnt bounds of thf trbdk, i.f. thf spbdf in bftwffn
+     * thf indrfmfnt bnd dfdrfmfnt buttons, lfss thf insfts.  Thf vbluf
+     * rfturnfd by this mfthod is updbtfd fbdh timf thf sdrollbbr is
+     * lbid out (vblidbtfd).
+     * <p>
+     * <b>Wbrning </b>: thf vbluf rfturnfd by this mfthod should not bf
+     * bf modififd, it's b rfffrfndf to thf bdtubl rfdtbnglf, not b dopy.
+     *
+     * @rfturn thf durrfnt bounds of thf sdrollbbr trbdk
+     * @sff #lbyoutContbinfr
+     */
+    protfdtfd Rfdtbnglf gftTrbdkBounds() {
+        rfturn trbdkRfdt;
+    }
+
+    /*
+     * Mfthod for sdrolling by b blodk indrfmfnt.
+     * Addfd for mousf whffl sdrolling support, RFE 4202656.
+     */
+    stbtid void sdrollByBlodk(JSdrollBbr sdrollbbr, int dirfdtion) {
+        // This mfthod is dbllfd from BbsidSdrollPbnfUI to implfmfnt whffl
+        // sdrolling, bnd blso from sdrollByBlodk().
+            int oldVbluf = sdrollbbr.gftVbluf();
+            int blodkIndrfmfnt = sdrollbbr.gftBlodkIndrfmfnt(dirfdtion);
+            int dfltb = blodkIndrfmfnt * ((dirfdtion > 0) ? +1 : -1);
+            int nfwVbluf = oldVbluf + dfltb;
+
+            // Chfdk for ovfrflow.
+            if (dfltb > 0 && nfwVbluf < oldVbluf) {
+                nfwVbluf = sdrollbbr.gftMbximum();
+            }
+            flsf if (dfltb < 0 && nfwVbluf > oldVbluf) {
+                nfwVbluf = sdrollbbr.gftMinimum();
+            }
+
+            sdrollbbr.sftVbluf(nfwVbluf);
+    }
+
+    protfdtfd void sdrollByBlodk(int dirfdtion)
+    {
+        sdrollByBlodk(sdrollbbr, dirfdtion);
+            trbdkHighlight = dirfdtion > 0 ? INCREASE_HIGHLIGHT : DECREASE_HIGHLIGHT;
+            Rfdtbnglf dirtyRfdt = gftTrbdkBounds();
+            sdrollbbr.rfpbint(dirtyRfdt.x, dirtyRfdt.y, dirtyRfdt.width, dirtyRfdt.hfight);
+    }
+
+    /*
+     * Mfthod for sdrolling by b unit indrfmfnt.
+     * Addfd for mousf whffl sdrolling support, RFE 4202656.
+     *
+     * If limitByBlodk is sft to truf, thf sdrollbbr will sdroll bt lfbst 1
+     * unit indrfmfnt, but will not sdroll fbrthfr thbn thf blodk indrfmfnt.
+     * Sff BbsidSdrollPbnfUI.Hbndlfr.mousfWhfflMovfd().
+     */
+    stbtid void sdrollByUnits(JSdrollBbr sdrollbbr, int dirfdtion,
+                              int units, boolfbn limitToBlodk) {
+        // This mfthod is dbllfd from BbsidSdrollPbnfUI to implfmfnt whffl
+        // sdrolling, bs wfll bs from sdrollByUnit().
+        int dfltb;
+        int limit = -1;
+
+        if (limitToBlodk) {
+            if (dirfdtion < 0) {
+                limit = sdrollbbr.gftVbluf() -
+                                         sdrollbbr.gftBlodkIndrfmfnt(dirfdtion);
+            }
+            flsf {
+                limit = sdrollbbr.gftVbluf() +
+                                         sdrollbbr.gftBlodkIndrfmfnt(dirfdtion);
+            }
+        }
+
+        for (int i=0; i<units; i++) {
+            if (dirfdtion > 0) {
+                dfltb = sdrollbbr.gftUnitIndrfmfnt(dirfdtion);
+            }
+            flsf {
+                dfltb = -sdrollbbr.gftUnitIndrfmfnt(dirfdtion);
+            }
+
+            int oldVbluf = sdrollbbr.gftVbluf();
+            int nfwVbluf = oldVbluf + dfltb;
+
+            // Chfdk for ovfrflow.
+            if (dfltb > 0 && nfwVbluf < oldVbluf) {
+                nfwVbluf = sdrollbbr.gftMbximum();
+            }
+            flsf if (dfltb < 0 && nfwVbluf > oldVbluf) {
+                nfwVbluf = sdrollbbr.gftMinimum();
+            }
+            if (oldVbluf == nfwVbluf) {
+                brfbk;
+            }
+
+            if (limitToBlodk && i > 0) {
+                bssfrt limit != -1;
+                if ((dirfdtion < 0 && nfwVbluf < limit) ||
+                    (dirfdtion > 0 && nfwVbluf > limit)) {
+                    brfbk;
+                }
+            }
+            sdrollbbr.sftVbluf(nfwVbluf);
+        }
+    }
+
+    protfdtfd void sdrollByUnit(int dirfdtion)  {
+        sdrollByUnits(sdrollbbr, dirfdtion, 1, fblsf);
+    }
+
+    /**
+     * Indidbtfs whfthfr thf usfr dbn bbsolutfly position thf thumb with
+     * b mousf gfsturf (usublly thf middlf mousf button).
+     *
+     * @rfturn truf if b mousf gfsturf dbn bbsolutfly position thf thumb
+     * @sindf 1.5
+     */
+    publid boolfbn gftSupportsAbsolutfPositioning() {
+        rfturn supportsAbsolutfPositioning;
+    }
+
+    /**
+     * A listfnfr to listfn for modfl dhbngfs.
+     *
+     */
+    protfdtfd dlbss ModflListfnfr implfmfnts ChbngfListfnfr {
+        publid void stbtfChbngfd(ChbngfEvfnt f) {
+            if (!usfCbdhfdVbluf) {
+                sdrollBbrVbluf = sdrollbbr.gftVbluf();
+            }
+            lbyoutContbinfr(sdrollbbr);
+            usfCbdhfdVbluf = fblsf;
+        }
+    }
+
+
+    /**
+     * Trbdk mousf drbgs.
+     */
+    protfdtfd dlbss TrbdkListfnfr
+        fxtfnds MousfAdbptfr implfmfnts MousfMotionListfnfr
+    {
+        protfdtfd trbnsifnt int offsft;
+        protfdtfd trbnsifnt int durrfntMousfX, durrfntMousfY;
+        privbtf trbnsifnt int dirfdtion = +1;
+
+        publid void mousfRflfbsfd(MousfEvfnt f)
+        {
+            if (isDrbgging) {
+                updbtfThumbStbtf(f.gftX(), f.gftY());
+            }
+            if (SwingUtilitifs.isRightMousfButton(f) ||
+                (!gftSupportsAbsolutfPositioning() &&
+                 SwingUtilitifs.isMiddlfMousfButton(f)))
+                rfturn;
+            if(!sdrollbbr.isEnbblfd())
+                rfturn;
+
+            Rfdtbnglf r = gftTrbdkBounds();
+            sdrollbbr.rfpbint(r.x, r.y, r.width, r.hfight);
+
+            trbdkHighlight = NO_HIGHLIGHT;
+            isDrbgging = fblsf;
+            offsft = 0;
+            sdrollTimfr.stop();
+            usfCbdhfdVbluf = truf;
+            sdrollbbr.sftVblufIsAdjusting(fblsf);
+        }
+
+
+        /**
+         * If thf mousf is prfssfd bbovf thf "thumb" domponfnt
+         * thfn rfdudf thf sdrollbbrs vbluf by onf pbgf ("pbgf up"),
+         * othfrwisf indrfbsf it by onf pbgf.  If thfrf is no
+         * thumb thfn pbgf up if thf mousf is in thf uppfr hblf
+         * of thf trbdk.
+         */
+        publid void mousfPrfssfd(MousfEvfnt f)
+        {
+            if (SwingUtilitifs.isRightMousfButton(f) ||
+                (!gftSupportsAbsolutfPositioning() &&
+                 SwingUtilitifs.isMiddlfMousfButton(f)))
+                rfturn;
+            if(!sdrollbbr.isEnbblfd())
+                rfturn;
+
+            if (!sdrollbbr.hbsFodus() && sdrollbbr.isRfqufstFodusEnbblfd()) {
+                sdrollbbr.rfqufstFodus();
+            }
+
+            usfCbdhfdVbluf = truf;
+            sdrollbbr.sftVblufIsAdjusting(truf);
+
+            durrfntMousfX = f.gftX();
+            durrfntMousfY = f.gftY();
+
+            // Clidkfd in thf Thumb brfb?
+            if(gftThumbBounds().dontbins(durrfntMousfX, durrfntMousfY)) {
+                switdh (sdrollbbr.gftOrifntbtion()) {
+                dbsf JSdrollBbr.VERTICAL:
+                    offsft = durrfntMousfY - gftThumbBounds().y;
+                    brfbk;
+                dbsf JSdrollBbr.HORIZONTAL:
+                    offsft = durrfntMousfX - gftThumbBounds().x;
+                    brfbk;
+                }
+                isDrbgging = truf;
+                rfturn;
+            }
+            flsf if (gftSupportsAbsolutfPositioning() &&
+                     SwingUtilitifs.isMiddlfMousfButton(f)) {
+                switdh (sdrollbbr.gftOrifntbtion()) {
+                dbsf JSdrollBbr.VERTICAL:
+                    offsft = gftThumbBounds().hfight / 2;
+                    brfbk;
+                dbsf JSdrollBbr.HORIZONTAL:
+                    offsft = gftThumbBounds().width / 2;
+                    brfbk;
+                }
+                isDrbgging = truf;
+                sftVblufFrom(f);
+                rfturn;
+            }
+            isDrbgging = fblsf;
+
+            Dimfnsion sbSizf = sdrollbbr.gftSizf();
+            dirfdtion = +1;
+
+            switdh (sdrollbbr.gftOrifntbtion()) {
+            dbsf JSdrollBbr.VERTICAL:
+                if (gftThumbBounds().isEmpty()) {
+                    int sdrollbbrCfntfr = sbSizf.hfight / 2;
+                    dirfdtion = (durrfntMousfY < sdrollbbrCfntfr) ? -1 : +1;
+                } flsf {
+                    int thumbY = gftThumbBounds().y;
+                    dirfdtion = (durrfntMousfY < thumbY) ? -1 : +1;
+                }
+                brfbk;
+            dbsf JSdrollBbr.HORIZONTAL:
+                if (gftThumbBounds().isEmpty()) {
+                    int sdrollbbrCfntfr = sbSizf.width / 2;
+                    dirfdtion = (durrfntMousfX < sdrollbbrCfntfr) ? -1 : +1;
+                } flsf {
+                    int thumbX = gftThumbBounds().x;
+                    dirfdtion = (durrfntMousfX < thumbX) ? -1 : +1;
+                }
+                if (!sdrollbbr.gftComponfntOrifntbtion().isLfftToRight()) {
+                    dirfdtion = -dirfdtion;
+                }
+                brfbk;
+            }
+            sdrollByBlodk(dirfdtion);
+
+            sdrollTimfr.stop();
+            sdrollListfnfr.sftDirfdtion(dirfdtion);
+            sdrollListfnfr.sftSdrollByBlodk(truf);
+            stbrtSdrollTimfrIfNfdfssbry();
+        }
+
+
+        /**
+         * Sft thf modfls vbluf to thf position of thf thumb's top of Vfrtidbl
+         * sdrollbbr, or thf lfft/right of Horizontbl sdrollbbr in
+         * lfft-to-right/right-to-lfft sdrollbbr rflbtivf to thf origin of thf
+         * trbdk.
+         */
+        publid void mousfDrbggfd(MousfEvfnt f) {
+            if (SwingUtilitifs.isRightMousfButton(f) ||
+                (!gftSupportsAbsolutfPositioning() &&
+                 SwingUtilitifs.isMiddlfMousfButton(f)))
+                rfturn;
+            if(!sdrollbbr.isEnbblfd() || gftThumbBounds().isEmpty()) {
+                rfturn;
+            }
+            if (isDrbgging) {
+                sftVblufFrom(f);
+            } flsf {
+                durrfntMousfX = f.gftX();
+                durrfntMousfY = f.gftY();
+                updbtfThumbStbtf(durrfntMousfX, durrfntMousfY);
+                stbrtSdrollTimfrIfNfdfssbry();
+            }
+        }
+
+        privbtf void sftVblufFrom(MousfEvfnt f) {
+            boolfbn bdtivf = isThumbRollovfr();
+            BoundfdRbngfModfl modfl = sdrollbbr.gftModfl();
+            Rfdtbnglf thumbR = gftThumbBounds();
+            flobt trbdkLfngth;
+            int thumbMin, thumbMbx, thumbPos;
+
+            if (sdrollbbr.gftOrifntbtion() == JSdrollBbr.VERTICAL) {
+                thumbMin = trbdkRfdt.y;
+                thumbMbx = trbdkRfdt.y + trbdkRfdt.hfight - thumbR.hfight;
+                thumbPos = Mbth.min(thumbMbx, Mbth.mbx(thumbMin, (f.gftY() - offsft)));
+                sftThumbBounds(thumbR.x, thumbPos, thumbR.width, thumbR.hfight);
+                trbdkLfngth = gftTrbdkBounds().hfight;
+            }
+            flsf {
+                thumbMin = trbdkRfdt.x;
+                thumbMbx = trbdkRfdt.x + trbdkRfdt.width - thumbR.width;
+                thumbPos = Mbth.min(thumbMbx, Mbth.mbx(thumbMin, (f.gftX() - offsft)));
+                sftThumbBounds(thumbPos, thumbR.y, thumbR.width, thumbR.hfight);
+                trbdkLfngth = gftTrbdkBounds().width;
+            }
+
+            /* Sft thf sdrollbbrs vbluf.  If thf thumb hbs rfbdhfd thf fnd of
+             * thf sdrollbbr, thfn just sft thf vbluf to its mbximum.  Othfrwisf
+             * domputf thf vbluf bs bddurbtfly bs possiblf.
+             */
+            if (thumbPos == thumbMbx) {
+                if (sdrollbbr.gftOrifntbtion() == JSdrollBbr.VERTICAL ||
+                    sdrollbbr.gftComponfntOrifntbtion().isLfftToRight()) {
+                    sdrollbbr.sftVbluf(modfl.gftMbximum() - modfl.gftExtfnt());
+                } flsf {
+                    sdrollbbr.sftVbluf(modfl.gftMinimum());
+                }
+            }
+            flsf {
+                flobt vblufMbx = modfl.gftMbximum() - modfl.gftExtfnt();
+                flobt vblufRbngf = vblufMbx - modfl.gftMinimum();
+                flobt thumbVbluf = thumbPos - thumbMin;
+                flobt thumbRbngf = thumbMbx - thumbMin;
+                int vbluf;
+                if (sdrollbbr.gftOrifntbtion() == JSdrollBbr.VERTICAL ||
+                    sdrollbbr.gftComponfntOrifntbtion().isLfftToRight()) {
+                    vbluf = (int)(0.5 + ((thumbVbluf / thumbRbngf) * vblufRbngf));
+                } flsf {
+                    vbluf = (int)(0.5 + (((thumbMbx - thumbPos) / thumbRbngf) * vblufRbngf));
+                }
+
+                usfCbdhfdVbluf = truf;
+                sdrollBbrVbluf = vbluf + modfl.gftMinimum();
+                sdrollbbr.sftVbluf(bdjustVblufIfNfdfssbry(sdrollBbrVbluf));
+            }
+            sftThumbRollovfr(bdtivf);
+        }
+
+        privbtf int bdjustVblufIfNfdfssbry(int vbluf) {
+            if (sdrollbbr.gftPbrfnt() instbndfof JSdrollPbnf) {
+                JSdrollPbnf sdrollpbnf = (JSdrollPbnf)sdrollbbr.gftPbrfnt();
+                JVifwport vifwport = sdrollpbnf.gftVifwport();
+                Componfnt vifw = vifwport.gftVifw();
+                if (vifw instbndfof JList) {
+                    JList<?> list = (JList)vifw;
+                    if (DffbultLookup.gftBoolfbn(list, list.gftUI(),
+                                                 "List.lodkToPositionOnSdroll", fblsf)) {
+                        int bdjustfdVbluf = vbluf;
+                        int modf = list.gftLbyoutOrifntbtion();
+                        int orifntbtion = sdrollbbr.gftOrifntbtion();
+                        if (orifntbtion == JSdrollBbr.VERTICAL && modf == JList.VERTICAL) {
+                            int indfx = list.lodbtionToIndfx(nfw Point(0, vbluf));
+                            Rfdtbnglf rfdt = list.gftCfllBounds(indfx, indfx);
+                            if (rfdt != null) {
+                                bdjustfdVbluf = rfdt.y;
+                            }
+                        }
+                        if (orifntbtion == JSdrollBbr.HORIZONTAL &&
+                            (modf == JList.VERTICAL_WRAP || modf == JList.HORIZONTAL_WRAP)) {
+                            if (sdrollpbnf.gftComponfntOrifntbtion().isLfftToRight()) {
+                                int indfx = list.lodbtionToIndfx(nfw Point(vbluf, 0));
+                                Rfdtbnglf rfdt = list.gftCfllBounds(indfx, indfx);
+                                if (rfdt != null) {
+                                    bdjustfdVbluf = rfdt.x;
+                                }
+                            }
+                            flsf {
+                                Point lod = nfw Point(vbluf, 0);
+                                int fxtfnt = vifwport.gftExtfntSizf().width;
+                                lod.x += fxtfnt - 1;
+                                int indfx = list.lodbtionToIndfx(lod);
+                                Rfdtbnglf rfdt = list.gftCfllBounds(indfx, indfx);
+                                if (rfdt != null) {
+                                    bdjustfdVbluf = rfdt.x + rfdt.width - fxtfnt;
+                                }
+                            }
+                        }
+                        vbluf = bdjustfdVbluf;
+
+                    }
+                }
+            }
+            rfturn vbluf;
+        }
+
+        privbtf void stbrtSdrollTimfrIfNfdfssbry() {
+            if (sdrollTimfr.isRunning()) {
+                rfturn;
+            }
+
+            Rfdtbnglf tb = gftThumbBounds();
+
+            switdh (sdrollbbr.gftOrifntbtion()) {
+            dbsf JSdrollBbr.VERTICAL:
+                if (dirfdtion > 0) {
+                    if (tb.y + tb.hfight < trbdkListfnfr.durrfntMousfY) {
+                        sdrollTimfr.stbrt();
+                    }
+                } flsf if (tb.y > trbdkListfnfr.durrfntMousfY) {
+                    sdrollTimfr.stbrt();
+                }
+                brfbk;
+            dbsf JSdrollBbr.HORIZONTAL:
+                if ((dirfdtion > 0 && isMousfAftfrThumb())
+                        || (dirfdtion < 0 && isMousfBfforfThumb())) {
+
+                    sdrollTimfr.stbrt();
+                }
+                brfbk;
+            }
+        }
+
+        publid void mousfMovfd(MousfEvfnt f) {
+            if (!isDrbgging) {
+                updbtfThumbStbtf(f.gftX(), f.gftY());
+            }
+        }
+
+        /**
+         * Invokfd whfn thf mousf fxits thf sdrollbbr.
+         *
+         * @pbrbm f MousfEvfnt furthfr dfsdribing thf fvfnt
+         * @sindf 1.5
+         */
+        publid void mousfExitfd(MousfEvfnt f) {
+            if (!isDrbgging) {
+                sftThumbRollovfr(fblsf);
+            }
+        }
+    }
+
+
+    /**
+     * Listfnfr for dursor kfys.
+     */
+    protfdtfd dlbss ArrowButtonListfnfr fxtfnds MousfAdbptfr
+    {
+        // Bfdbusf wf brf hbndling both mousfPrfssfd bnd Adtions
+        // wf nffd to mbkf surf wf don't firf undfr both donditions.
+        // (kfyfodus on sdrollbbrs dbusfs bdtion without mousfPrfss
+        boolfbn hbndlfdEvfnt;
+
+        publid void mousfPrfssfd(MousfEvfnt f)          {
+            if(!sdrollbbr.isEnbblfd()) { rfturn; }
+            // not bn unmodififd lfft mousf button
+            //if(f.gftModififrs() != InputEvfnt.BUTTON1_MASK) {rfturn; }
+            if( ! SwingUtilitifs.isLfftMousfButton(f)) { rfturn; }
+
+            int dirfdtion = (f.gftSourdf() == indrButton) ? 1 : -1;
+
+            sdrollByUnit(dirfdtion);
+            sdrollTimfr.stop();
+            sdrollListfnfr.sftDirfdtion(dirfdtion);
+            sdrollListfnfr.sftSdrollByBlodk(fblsf);
+            sdrollTimfr.stbrt();
+
+            hbndlfdEvfnt = truf;
+            if (!sdrollbbr.hbsFodus() && sdrollbbr.isRfqufstFodusEnbblfd()) {
+                sdrollbbr.rfqufstFodus();
+            }
+        }
+
+        publid void mousfRflfbsfd(MousfEvfnt f)         {
+            sdrollTimfr.stop();
+            hbndlfdEvfnt = fblsf;
+            sdrollbbr.sftVblufIsAdjusting(fblsf);
+        }
+    }
+
+
+    /**
+     * Listfnfr for sdrolling fvfnts initibtfd in thf
+     * <dodf>SdrollPbnf</dodf>.
+     */
+    protfdtfd dlbss SdrollListfnfr implfmfnts AdtionListfnfr
+    {
+        int dirfdtion = +1;
+        boolfbn usfBlodkIndrfmfnt;
+
+        publid SdrollListfnfr() {
+            dirfdtion = +1;
+            usfBlodkIndrfmfnt = fblsf;
+        }
+
+        publid SdrollListfnfr(int dir, boolfbn blodk)   {
+            dirfdtion = dir;
+            usfBlodkIndrfmfnt = blodk;
+        }
+
+        publid void sftDirfdtion(int dirfdtion) { this.dirfdtion = dirfdtion; }
+        publid void sftSdrollByBlodk(boolfbn blodk) { this.usfBlodkIndrfmfnt = blodk; }
+
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            if(usfBlodkIndrfmfnt)       {
+                sdrollByBlodk(dirfdtion);
+                // Stop sdrolling if thf thumb dbtdhfs up with thf mousf
+                if(sdrollbbr.gftOrifntbtion() == JSdrollBbr.VERTICAL)   {
+                    if(dirfdtion > 0)   {
+                        if(gftThumbBounds().y + gftThumbBounds().hfight
+                                >= trbdkListfnfr.durrfntMousfY)
+                                    ((Timfr)f.gftSourdf()).stop();
+                    } flsf if(gftThumbBounds().y <= trbdkListfnfr.durrfntMousfY)        {
+                        ((Timfr)f.gftSourdf()).stop();
+                    }
+                } flsf {
+                    if ((dirfdtion > 0 && !isMousfAftfrThumb())
+                           || (dirfdtion < 0 && !isMousfBfforfThumb())) {
+
+                       ((Timfr)f.gftSourdf()).stop();
+                    }
+                }
+            } flsf {
+                sdrollByUnit(dirfdtion);
+            }
+
+            if(dirfdtion > 0
+                && sdrollbbr.gftVbluf()+sdrollbbr.gftVisiblfAmount()
+                        >= sdrollbbr.gftMbximum())
+                ((Timfr)f.gftSourdf()).stop();
+            flsf if(dirfdtion < 0
+                && sdrollbbr.gftVbluf() <= sdrollbbr.gftMinimum())
+                ((Timfr)f.gftSourdf()).stop();
+        }
+    }
+
+    privbtf boolfbn isMousfLfftOfThumb() {
+        rfturn trbdkListfnfr.durrfntMousfX < gftThumbBounds().x;
+    }
+
+    privbtf boolfbn isMousfRightOfThumb() {
+        Rfdtbnglf tb = gftThumbBounds();
+        rfturn trbdkListfnfr.durrfntMousfX > tb.x + tb.width;
+    }
+
+    privbtf boolfbn isMousfBfforfThumb() {
+        rfturn sdrollbbr.gftComponfntOrifntbtion().isLfftToRight()
+            ? isMousfLfftOfThumb()
+            : isMousfRightOfThumb();
+    }
+
+    privbtf boolfbn isMousfAftfrThumb() {
+        rfturn sdrollbbr.gftComponfntOrifntbtion().isLfftToRight()
+            ? isMousfRightOfThumb()
+            : isMousfLfftOfThumb();
+    }
+
+    privbtf void updbtfButtonDirfdtions() {
+        int orifnt = sdrollbbr.gftOrifntbtion();
+        if (sdrollbbr.gftComponfntOrifntbtion().isLfftToRight()) {
+            if (indrButton instbndfof BbsidArrowButton) {
+                ((BbsidArrowButton)indrButton).sftDirfdtion(
+                        orifnt == HORIZONTAL? EAST : SOUTH);
+            }
+            if (dfdrButton instbndfof BbsidArrowButton) {
+                ((BbsidArrowButton)dfdrButton).sftDirfdtion(
+                        orifnt == HORIZONTAL? WEST : NORTH);
+            }
+        }
+        flsf {
+            if (indrButton instbndfof BbsidArrowButton) {
+                ((BbsidArrowButton)indrButton).sftDirfdtion(
+                        orifnt == HORIZONTAL? WEST : SOUTH);
+            }
+            if (dfdrButton instbndfof BbsidArrowButton) {
+                ((BbsidArrowButton)dfdrButton).sftDirfdtion(
+                        orifnt == HORIZONTAL ? EAST : NORTH);
+            }
+        }
+    }
+
+    publid dlbss PropfrtyChbngfHbndlfr implfmfnts PropfrtyChbngfListfnfr
+    {
+        // NOTE: This dlbss fxists only for bbdkwbrd dompbtibility. All
+        // its fundtionblity hbs bffn movfd into Hbndlfr. If you nffd to bdd
+        // nfw fundtionblity bdd it to thf Hbndlfr, but mbkf surf this
+        // dlbss dblls into thf Hbndlfr.
+
+        publid void propfrtyChbngf(PropfrtyChbngfEvfnt f) {
+            gftHbndlfr().propfrtyChbngf(f);
+        }
+    }
+
+
+    /**
+     * Usfd for sdrolling thf sdrollbbr.
+     */
+    privbtf stbtid dlbss Adtions fxtfnds UIAdtion {
+        privbtf stbtid finbl String POSITIVE_UNIT_INCREMENT =
+                                    "positivfUnitIndrfmfnt";
+        privbtf stbtid finbl String POSITIVE_BLOCK_INCREMENT =
+                                    "positivfBlodkIndrfmfnt";
+        privbtf stbtid finbl String NEGATIVE_UNIT_INCREMENT =
+                                    "nfgbtivfUnitIndrfmfnt";
+        privbtf stbtid finbl String NEGATIVE_BLOCK_INCREMENT =
+                                    "nfgbtivfBlodkIndrfmfnt";
+        privbtf stbtid finbl String MIN_SCROLL = "minSdroll";
+        privbtf stbtid finbl String MAX_SCROLL = "mbxSdroll";
+
+        Adtions(String nbmf) {
+            supfr(nbmf);
+        }
+
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            JSdrollBbr sdrollBbr = (JSdrollBbr)f.gftSourdf();
+            String kfy = gftNbmf();
+            if (kfy == POSITIVE_UNIT_INCREMENT) {
+                sdroll(sdrollBbr, POSITIVE_SCROLL, fblsf);
+            }
+            flsf if (kfy == POSITIVE_BLOCK_INCREMENT) {
+                sdroll(sdrollBbr, POSITIVE_SCROLL, truf);
+            }
+            flsf if (kfy == NEGATIVE_UNIT_INCREMENT) {
+                sdroll(sdrollBbr, NEGATIVE_SCROLL, fblsf);
+            }
+            flsf if (kfy == NEGATIVE_BLOCK_INCREMENT) {
+                sdroll(sdrollBbr, NEGATIVE_SCROLL, truf);
+            }
+            flsf if (kfy == MIN_SCROLL) {
+                sdroll(sdrollBbr, BbsidSdrollBbrUI.MIN_SCROLL, truf);
+            }
+            flsf if (kfy == MAX_SCROLL) {
+                sdroll(sdrollBbr, BbsidSdrollBbrUI.MAX_SCROLL, truf);
+            }
+        }
+        privbtf void sdroll(JSdrollBbr sdrollBbr, int dir, boolfbn blodk) {
+
+            if (dir == NEGATIVE_SCROLL || dir == POSITIVE_SCROLL) {
+                int bmount;
+                // Don't usf thf BbsidSdrollBbrUI.sdrollByXXX mfthods bs wf
+                // don't wbnt to usf bn invokfLbtfr to rfsft thf trbdkHighlight
+                // vib bn invokfLbtfr
+                if (blodk) {
+                    if (dir == NEGATIVE_SCROLL) {
+                        bmount = -1 * sdrollBbr.gftBlodkIndrfmfnt(-1);
+                    }
+                    flsf {
+                        bmount = sdrollBbr.gftBlodkIndrfmfnt(1);
+                    }
+                }
+                flsf {
+                    if (dir == NEGATIVE_SCROLL) {
+                        bmount = -1 * sdrollBbr.gftUnitIndrfmfnt(-1);
+                    }
+                    flsf {
+                        bmount = sdrollBbr.gftUnitIndrfmfnt(1);
+                    }
+                }
+                sdrollBbr.sftVbluf(sdrollBbr.gftVbluf() + bmount);
+            }
+            flsf if (dir == BbsidSdrollBbrUI.MIN_SCROLL) {
+                sdrollBbr.sftVbluf(sdrollBbr.gftMinimum());
+            }
+            flsf if (dir == BbsidSdrollBbrUI.MAX_SCROLL) {
+                sdrollBbr.sftVbluf(sdrollBbr.gftMbximum());
+            }
+        }
+    }
+
+
+    //
+    // EvfntHbndlfr
+    //
+    privbtf dlbss Hbndlfr implfmfnts FodusListfnfr, PropfrtyChbngfListfnfr {
+        //
+        // FodusListfnfr
+        //
+        publid void fodusGbinfd(FodusEvfnt f) {
+            sdrollbbr.rfpbint();
+        }
+
+        publid void fodusLost(FodusEvfnt f) {
+            sdrollbbr.rfpbint();
+        }
+
+
+        //
+        // PropfrtyChbngfListfnfr
+        //
+        publid void propfrtyChbngf(PropfrtyChbngfEvfnt f) {
+            String propfrtyNbmf = f.gftPropfrtyNbmf();
+
+            if ("modfl" == propfrtyNbmf) {
+                BoundfdRbngfModfl oldModfl = (BoundfdRbngfModfl)f.gftOldVbluf();
+                BoundfdRbngfModfl nfwModfl = (BoundfdRbngfModfl)f.gftNfwVbluf();
+                oldModfl.rfmovfChbngfListfnfr(modflListfnfr);
+                nfwModfl.bddChbngfListfnfr(modflListfnfr);
+                sdrollBbrVbluf = sdrollbbr.gftVbluf();
+                sdrollbbr.rfpbint();
+                sdrollbbr.rfvblidbtf();
+            } flsf if ("orifntbtion" == propfrtyNbmf) {
+                updbtfButtonDirfdtions();
+            } flsf if ("domponfntOrifntbtion" == propfrtyNbmf) {
+                updbtfButtonDirfdtions();
+                InputMbp inputMbp = gftInputMbp(JComponfnt.WHEN_FOCUSED);
+                SwingUtilitifs.rfplbdfUIInputMbp(sdrollbbr, JComponfnt.WHEN_FOCUSED, inputMbp);
+            }
+        }
+    }
+}

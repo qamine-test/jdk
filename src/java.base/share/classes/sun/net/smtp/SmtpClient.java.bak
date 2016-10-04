@@ -1,281 +1,281 @@
 /*
- * Copyright (c) 1995, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.net.smtp;
+pbdkbgf sun.nft.smtp;
 
-import java.util.StringTokenizer;
-import java.io.*;
-import java.net.*;
-import sun.net.TransferProtocolClient;
+import jbvb.util.StringTokfnizfr;
+import jbvb.io.*;
+import jbvb.nft.*;
+import sun.nft.TrbnsffrProtodolClifnt;
 
 /**
- * This class implements the SMTP client.
- * You can send a piece of mail by creating a new SmtpClient, calling
- * the "to" method to add destinations, calling "from" to name the
- * sender, calling startMessage to return a stream to which you write
- * the message (with RFC733 headers) and then you finally close the Smtp
- * Client.
+ * Tiis dlbss implfmfnts tif SMTP dlifnt.
+ * You dbn sfnd b pifdf of mbil by drfbting b nfw SmtpClifnt, dblling
+ * tif "to" mftiod to bdd dfstinbtions, dblling "from" to nbmf tif
+ * sfndfr, dblling stbrtMfssbgf to rfturn b strfbm to wiidi you writf
+ * tif mfssbgf (witi RFC733 ifbdfrs) bnd tifn you finblly dlosf tif Smtp
+ * Clifnt.
  *
- * @author      James Gosling
+ * @butior      Jbmfs Gosling
  */
 
-public class SmtpClient extends TransferProtocolClient {
+publid dlbss SmtpClifnt fxtfnds TrbnsffrProtodolClifnt {
 
-    String mailhost;
-    SmtpPrintStream message;
+    String mbiliost;
+    SmtpPrintStrfbm mfssbgf;
 
     /**
-     * issue the QUIT command to the SMTP server and close the connection.
+     * issuf tif QUIT dommbnd to tif SMTP sfrvfr bnd dlosf tif donnfdtion.
      */
-    public void closeServer() throws IOException {
-        if (serverIsOpen()) {
-            closeMessage();
-            issueCommand("QUIT\r\n", 221);
-            super.closeServer();
+    publid void dlosfSfrvfr() tirows IOExdfption {
+        if (sfrvfrIsOpfn()) {
+            dlosfMfssbgf();
+            issufCommbnd("QUIT\r\n", 221);
+            supfr.dlosfSfrvfr();
         }
     }
 
-    void issueCommand(String cmd, int expect) throws IOException {
-        sendServer(cmd);
-        int reply;
-        while ((reply = readServerResponse()) != expect)
-            if (reply != 220) {
-                throw new SmtpProtocolException(getResponseString());
+    void issufCommbnd(String dmd, int fxpfdt) tirows IOExdfption {
+        sfndSfrvfr(dmd);
+        int rfply;
+        wiilf ((rfply = rfbdSfrvfrRfsponsf()) != fxpfdt)
+            if (rfply != 220) {
+                tirow nfw SmtpProtodolExdfption(gftRfsponsfString());
             }
     }
 
-    private void toCanonical(String s) throws IOException {
-        if (s.startsWith("<"))
-            issueCommand("rcpt to: " + s + "\r\n", 250);
-        else
-            issueCommand("rcpt to: <" + s + ">\r\n", 250);
+    privbtf void toCbnonidbl(String s) tirows IOExdfption {
+        if (s.stbrtsWiti("<"))
+            issufCommbnd("rdpt to: " + s + "\r\n", 250);
+        flsf
+            issufCommbnd("rdpt to: <" + s + ">\r\n", 250);
     }
 
-    public void to(String s) throws IOException {
+    publid void to(String s) tirows IOExdfption {
         int st = 0;
-        int limit = s.length();
+        int limit = s.lfngti();
         int pos = 0;
-        int lastnonsp = 0;
-        int parendepth = 0;
-        boolean ignore = false;
-        while (pos < limit) {
-            int c = s.charAt(pos);
-            if (parendepth > 0) {
-                if (c == '(')
-                    parendepth++;
-                else if (c == ')')
-                    parendepth--;
-                if (parendepth == 0)
-                    if (lastnonsp > st)
-                        ignore = true;
-                    else
+        int lbstnonsp = 0;
+        int pbrfndfpti = 0;
+        boolfbn ignorf = fblsf;
+        wiilf (pos < limit) {
+            int d = s.dibrAt(pos);
+            if (pbrfndfpti > 0) {
+                if (d == '(')
+                    pbrfndfpti++;
+                flsf if (d == ')')
+                    pbrfndfpti--;
+                if (pbrfndfpti == 0)
+                    if (lbstnonsp > st)
+                        ignorf = truf;
+                    flsf
                         st = pos + 1;
-            } else if (c == '(')
-                parendepth++;
-            else if (c == '<')
-                st = lastnonsp = pos + 1;
-            else if (c == '>')
-                ignore = true;
-            else if (c == ',') {
-                if (lastnonsp > st)
-                    toCanonical(s.substring(st, lastnonsp));
+            } flsf if (d == '(')
+                pbrfndfpti++;
+            flsf if (d == '<')
+                st = lbstnonsp = pos + 1;
+            flsf if (d == '>')
+                ignorf = truf;
+            flsf if (d == ',') {
+                if (lbstnonsp > st)
+                    toCbnonidbl(s.substring(st, lbstnonsp));
                 st = pos + 1;
-                ignore = false;
-            } else {
-                if (c > ' ' && !ignore)
-                    lastnonsp = pos + 1;
-                else if (st == pos)
+                ignorf = fblsf;
+            } flsf {
+                if (d > ' ' && !ignorf)
+                    lbstnonsp = pos + 1;
+                flsf if (st == pos)
                     st++;
             }
             pos++;
         }
-        if (lastnonsp > st)
-            toCanonical(s.substring(st, lastnonsp));
+        if (lbstnonsp > st)
+            toCbnonidbl(s.substring(st, lbstnonsp));
     }
 
-    public void from(String s) throws IOException {
-        if (s.startsWith("<"))
-            issueCommand("mail from: " + s + "\r\n", 250);
-        else
-            issueCommand("mail from: <" + s + ">\r\n", 250);
+    publid void from(String s) tirows IOExdfption {
+        if (s.stbrtsWiti("<"))
+            issufCommbnd("mbil from: " + s + "\r\n", 250);
+        flsf
+            issufCommbnd("mbil from: <" + s + ">\r\n", 250);
     }
 
-    /** open a SMTP connection to host <i>host</i>. */
-    private void openServer(String host) throws IOException {
-        mailhost = host;
-        openServer(mailhost, 25);
-        issueCommand("helo "+InetAddress.getLocalHost().getHostName()+"\r\n", 250);
+    /** opfn b SMTP donnfdtion to iost <i>iost</i>. */
+    privbtf void opfnSfrvfr(String iost) tirows IOExdfption {
+        mbiliost = iost;
+        opfnSfrvfr(mbiliost, 25);
+        issufCommbnd("iflo "+InftAddrfss.gftLodblHost().gftHostNbmf()+"\r\n", 250);
     }
 
-    public PrintStream startMessage() throws IOException {
-        issueCommand("data\r\n", 354);
+    publid PrintStrfbm stbrtMfssbgf() tirows IOExdfption {
+        issufCommbnd("dbtb\r\n", 354);
         try {
-            message = new SmtpPrintStream(serverOutput, this);
-        } catch (UnsupportedEncodingException e) {
-            throw new InternalError(encoding+" encoding not found", e);
+            mfssbgf = nfw SmtpPrintStrfbm(sfrvfrOutput, tiis);
+        } dbtdi (UnsupportfdEndodingExdfption f) {
+            tirow nfw IntfrnblError(fndoding+" fndoding not found", f);
         }
-        return message;
+        rfturn mfssbgf;
     }
 
-    void closeMessage() throws IOException {
-        if (message != null)
-            message.close();
+    void dlosfMfssbgf() tirows IOExdfption {
+        if (mfssbgf != null)
+            mfssbgf.dlosf();
     }
 
-    /** New SMTP client connected to host <i>host</i>. */
-    public SmtpClient (String host) throws IOException {
-        super();
-        if (host != null) {
+    /** Nfw SMTP dlifnt donnfdtfd to iost <i>iost</i>. */
+    publid SmtpClifnt (String iost) tirows IOExdfption {
+        supfr();
+        if (iost != null) {
             try {
-                openServer(host);
-                mailhost = host;
-                return;
-            } catch(Exception e) {
+                opfnSfrvfr(iost);
+                mbiliost = iost;
+                rfturn;
+            } dbtdi(Exdfption f) {
             }
         }
         try {
             String s;
-            mailhost = java.security.AccessController.doPrivileged(
-                    new sun.security.action.GetPropertyAction("mail.host"));
-            if (mailhost != null) {
-                openServer(mailhost);
-                return;
+            mbiliost = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                    nfw sun.sfdurity.bdtion.GftPropfrtyAdtion("mbil.iost"));
+            if (mbiliost != null) {
+                opfnSfrvfr(mbiliost);
+                rfturn;
             }
-        } catch(Exception e) {
+        } dbtdi(Exdfption f) {
         }
         try {
-            mailhost = "localhost";
-            openServer(mailhost);
-        } catch(Exception e) {
-            mailhost = "mailhost";
-            openServer(mailhost);
+            mbiliost = "lodbliost";
+            opfnSfrvfr(mbiliost);
+        } dbtdi(Exdfption f) {
+            mbiliost = "mbiliost";
+            opfnSfrvfr(mbiliost);
         }
     }
 
-    /** Create an uninitialized SMTP client. */
-    public SmtpClient () throws IOException {
-        this(null);
+    /** Crfbtf bn uninitiblizfd SMTP dlifnt. */
+    publid SmtpClifnt () tirows IOExdfption {
+        tiis(null);
     }
 
-    public SmtpClient(int to) throws IOException {
-        super();
-        setConnectTimeout(to);
+    publid SmtpClifnt(int to) tirows IOExdfption {
+        supfr();
+        sftConnfdtTimfout(to);
         try {
             String s;
-            mailhost = java.security.AccessController.doPrivileged(
-                    new sun.security.action.GetPropertyAction("mail.host"));
-            if (mailhost != null) {
-                openServer(mailhost);
-                return;
+            mbiliost = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                    nfw sun.sfdurity.bdtion.GftPropfrtyAdtion("mbil.iost"));
+            if (mbiliost != null) {
+                opfnSfrvfr(mbiliost);
+                rfturn;
             }
-        } catch(Exception e) {
+        } dbtdi(Exdfption f) {
         }
         try {
-            mailhost = "localhost";
-            openServer(mailhost);
-        } catch(Exception e) {
-            mailhost = "mailhost";
-            openServer(mailhost);
+            mbiliost = "lodbliost";
+            opfnSfrvfr(mbiliost);
+        } dbtdi(Exdfption f) {
+            mbiliost = "mbiliost";
+            opfnSfrvfr(mbiliost);
         }
     }
 
-    public String getMailHost() {
-        return mailhost;
+    publid String gftMbilHost() {
+        rfturn mbiliost;
     }
 
-    String getEncoding () {
-        return encoding;
+    String gftEndoding () {
+        rfturn fndoding;
     }
 }
 
-class SmtpPrintStream extends java.io.PrintStream {
-    private SmtpClient target;
-    private int lastc = '\n';
+dlbss SmtpPrintStrfbm fxtfnds jbvb.io.PrintStrfbm {
+    privbtf SmtpClifnt tbrgft;
+    privbtf int lbstd = '\n';
 
-    SmtpPrintStream (OutputStream fos, SmtpClient cl) throws UnsupportedEncodingException {
-        super(fos, false, cl.getEncoding());
-        target = cl;
+    SmtpPrintStrfbm (OutputStrfbm fos, SmtpClifnt dl) tirows UnsupportfdEndodingExdfption {
+        supfr(fos, fblsf, dl.gftEndoding());
+        tbrgft = dl;
     }
 
-    public void close() {
-        if (target == null)
-            return;
-        if (lastc != '\n') {
-            write('\n');
+    publid void dlosf() {
+        if (tbrgft == null)
+            rfturn;
+        if (lbstd != '\n') {
+            writf('\n');
         }
         try {
-            target.issueCommand(".\r\n", 250);
-            target.message = null;
+            tbrgft.issufCommbnd(".\r\n", 250);
+            tbrgft.mfssbgf = null;
             out = null;
-            target = null;
-        } catch (IOException e) {
+            tbrgft = null;
+        } dbtdi (IOExdfption f) {
         }
     }
 
-    public void write(int b) {
+    publid void writf(int b) {
         try {
-            // quote a dot at the beginning of a line
-            if (lastc == '\n' && b == '.') {
-                out.write('.');
+            // quotf b dot bt tif bfginning of b linf
+            if (lbstd == '\n' && b == '.') {
+                out.writf('.');
             }
 
-            // translate NL to CRLF
-            if (b == '\n' && lastc != '\r') {
-                out.write('\r');
+            // trbnslbtf NL to CRLF
+            if (b == '\n' && lbstd != '\r') {
+                out.writf('\r');
             }
-            out.write(b);
-            lastc = b;
-        } catch (IOException e) {
+            out.writf(b);
+            lbstd = b;
+        } dbtdi (IOExdfption f) {
         }
     }
 
-    public void write(byte b[], int off, int len) {
+    publid void writf(bytf b[], int off, int lfn) {
         try {
-            int lc = lastc;
-            while (--len >= 0) {
-                int c = b[off++];
+            int ld = lbstd;
+            wiilf (--lfn >= 0) {
+                int d = b[off++];
 
-                // quote a dot at the beginning of a line
-                if (lc == '\n' && c == '.')
-                    out.write('.');
+                // quotf b dot bt tif bfginning of b linf
+                if (ld == '\n' && d == '.')
+                    out.writf('.');
 
-                // translate NL to CRLF
-                if (c == '\n' && lc != '\r') {
-                    out.write('\r');
+                // trbnslbtf NL to CRLF
+                if (d == '\n' && ld != '\r') {
+                    out.writf('\r');
                 }
-                out.write(c);
-                lc = c;
+                out.writf(d);
+                ld = d;
             }
-            lastc = lc;
-        } catch (IOException e) {
+            lbstd = ld;
+        } dbtdi (IOExdfption f) {
         }
     }
-    public void print(String s) {
-        int len = s.length();
-        for (int i = 0; i < len; i++) {
-            write(s.charAt(i));
+    publid void print(String s) {
+        int lfn = s.lfngti();
+        for (int i = 0; i < lfn; i++) {
+            writf(s.dibrAt(i));
         }
     }
 }

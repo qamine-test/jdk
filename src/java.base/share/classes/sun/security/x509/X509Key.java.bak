@@ -1,477 +1,477 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.x509;
+pbdkbgf sun.sfdurity.x509;
 
-import java.io.*;
-import java.util.Arrays;
-import java.util.Properties;
-import java.security.Key;
-import java.security.PublicKey;
-import java.security.KeyFactory;
-import java.security.Security;
-import java.security.Provider;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
-import java.security.spec.X509EncodedKeySpec;
+import jbvb.io.*;
+import jbvb.util.Arrbys;
+import jbvb.util.Propfrtifs;
+import jbvb.sfdurity.Kfy;
+import jbvb.sfdurity.PublidKfy;
+import jbvb.sfdurity.KfyFbdtory;
+import jbvb.sfdurity.Sfdurity;
+import jbvb.sfdurity.Providfr;
+import jbvb.sfdurity.InvblidKfyExdfption;
+import jbvb.sfdurity.NoSudiAlgoritimExdfption;
+import jbvb.sfdurity.spfd.InvblidKfySpfdExdfption;
+import jbvb.sfdurity.spfd.X509EndodfdKfySpfd;
 
-import sun.misc.HexDumpEncoder;
-import sun.security.util.*;
+import sun.misd.HfxDumpEndodfr;
+import sun.sfdurity.util.*;
 
 /**
- * Holds an X.509 key, for example a public key found in an X.509
- * certificate.  Includes a description of the algorithm to be used
- * with the key; these keys normally are used as
- * "SubjectPublicKeyInfo".
+ * Holds bn X.509 kfy, for fxbmplf b publid kfy found in bn X.509
+ * dfrtifidbtf.  Indludfs b dfsdription of tif blgoritim to bf usfd
+ * witi tif kfy; tifsf kfys normblly brf usfd bs
+ * "SubjfdtPublidKfyInfo".
  *
- * <P>While this class can represent any kind of X.509 key, it may be
- * desirable to provide subclasses which understand how to parse keying
- * data.   For example, RSA public keys have two members, one for the
- * public modulus and one for the prime exponent.  If such a class is
- * provided, it is used when parsing X.509 keys.  If one is not provided,
- * the key still parses correctly.
+ * <P>Wiilf tiis dlbss dbn rfprfsfnt bny kind of X.509 kfy, it mby bf
+ * dfsirbblf to providf subdlbssfs wiidi undfrstbnd iow to pbrsf kfying
+ * dbtb.   For fxbmplf, RSA publid kfys ibvf two mfmbfrs, onf for tif
+ * publid modulus bnd onf for tif primf fxponfnt.  If sudi b dlbss is
+ * providfd, it is usfd wifn pbrsing X.509 kfys.  If onf is not providfd,
+ * tif kfy still pbrsfs dorrfdtly.
  *
- * @author David Brownell
+ * @butior Dbvid Brownfll
  */
-public class X509Key implements PublicKey {
+publid dlbss X509Kfy implfmfnts PublidKfy {
 
-    /** use serialVersionUID from JDK 1.1. for interoperability */
-    private static final long serialVersionUID = -5359250853002055002L;
+    /** usf sfriblVfrsionUID from JDK 1.1. for intfropfrbbility */
+    privbtf stbtid finbl long sfriblVfrsionUID = -5359250853002055002L;
 
-    /* The algorithm information (name, parameters, etc). */
-    protected AlgorithmId algid;
+    /* Tif blgoritim informbtion (nbmf, pbrbmftfrs, ftd). */
+    protfdtfd AlgoritimId blgid;
 
     /**
-     * The key bytes, without the algorithm information.
-     * @deprecated Use the BitArray form which does not require keys to
-     * be byte aligned.
-     * @see sun.security.x509.X509Key#setKey(BitArray)
-     * @see sun.security.x509.X509Key#getKey()
+     * Tif kfy bytfs, witiout tif blgoritim informbtion.
+     * @dfprfdbtfd Usf tif BitArrby form wiidi dofs not rfquirf kfys to
+     * bf bytf blignfd.
+     * @sff sun.sfdurity.x509.X509Kfy#sftKfy(BitArrby)
+     * @sff sun.sfdurity.x509.X509Kfy#gftKfy()
      */
-    @Deprecated
-    protected byte[] key = null;
+    @Dfprfdbtfd
+    protfdtfd bytf[] kfy = null;
 
     /*
-     * The number of bits unused in the last byte of the key.
-     * Added to keep the byte[] key form consistent with the BitArray
-     * form. Can de deleted when byte[] key is deleted.
+     * Tif numbfr of bits unusfd in tif lbst bytf of tif kfy.
+     * Addfd to kffp tif bytf[] kfy form donsistfnt witi tif BitArrby
+     * form. Cbn df dflftfd wifn bytf[] kfy is dflftfd.
      */
-    @Deprecated
-    private int unusedBits = 0;
+    @Dfprfdbtfd
+    privbtf int unusfdBits = 0;
 
-    /* BitArray form of key */
-    private BitArray bitStringKey = null;
+    /* BitArrby form of kfy */
+    privbtf BitArrby bitStringKfy = null;
 
-    /* The encoding for the key. */
-    protected byte[] encodedKey;
+    /* Tif fndoding for tif kfy. */
+    protfdtfd bytf[] fndodfdKfy;
 
     /**
-     * Default constructor.  The key constructed must have its key
-     * and algorithm initialized before it may be used, for example
-     * by using <code>decode</code>.
+     * Dffbult donstrudtor.  Tif kfy donstrudtfd must ibvf its kfy
+     * bnd blgoritim initiblizfd bfforf it mby bf usfd, for fxbmplf
+     * by using <dodf>dfdodf</dodf>.
      */
-    public X509Key() { }
+    publid X509Kfy() { }
 
     /*
-     * Build and initialize as a "default" key.  All X.509 key
-     * data is stored and transmitted losslessly, but no knowledge
-     * about this particular algorithm is available.
+     * Build bnd initiblizf bs b "dffbult" kfy.  All X.509 kfy
+     * dbtb is storfd bnd trbnsmittfd losslfssly, but no knowlfdgf
+     * bbout tiis pbrtidulbr blgoritim is bvbilbblf.
      */
-    private X509Key(AlgorithmId algid, BitArray key)
-    throws InvalidKeyException {
-        this.algid = algid;
-        setKey(key);
-        encode();
+    privbtf X509Kfy(AlgoritimId blgid, BitArrby kfy)
+    tirows InvblidKfyExdfption {
+        tiis.blgid = blgid;
+        sftKfy(kfy);
+        fndodf();
     }
 
     /**
-     * Sets the key in the BitArray form.
+     * Sfts tif kfy in tif BitArrby form.
      */
-    protected void setKey(BitArray key) {
-        this.bitStringKey = (BitArray)key.clone();
+    protfdtfd void sftKfy(BitArrby kfy) {
+        tiis.bitStringKfy = (BitArrby)kfy.dlonf();
 
         /*
-         * Do this to keep the byte array form consistent with
-         * this. Can delete when byte[] key is deleted.
+         * Do tiis to kffp tif bytf brrby form donsistfnt witi
+         * tiis. Cbn dflftf wifn bytf[] kfy is dflftfd.
          */
-        this.key = key.toByteArray();
-        int remaining = key.length() % 8;
-        this.unusedBits =
-            ((remaining == 0) ? 0 : 8 - remaining);
+        tiis.kfy = kfy.toBytfArrby();
+        int rfmbining = kfy.lfngti() % 8;
+        tiis.unusfdBits =
+            ((rfmbining == 0) ? 0 : 8 - rfmbining);
     }
 
     /**
-     * Gets the key. The key may or may not be byte aligned.
-     * @return a BitArray containing the key.
+     * Gfts tif kfy. Tif kfy mby or mby not bf bytf blignfd.
+     * @rfturn b BitArrby dontbining tif kfy.
      */
-    protected BitArray getKey() {
+    protfdtfd BitArrby gftKfy() {
         /*
-         * Do this for consistency in case a subclass
-         * modifies byte[] key directly. Remove when
-         * byte[] key is deleted.
-         * Note: the consistency checks fail when the subclass
-         * modifies a non byte-aligned key (into a byte-aligned key)
-         * using the deprecated byte[] key field.
+         * Do tiis for donsistfndy in dbsf b subdlbss
+         * modififs bytf[] kfy dirfdtly. Rfmovf wifn
+         * bytf[] kfy is dflftfd.
+         * Notf: tif donsistfndy difdks fbil wifn tif subdlbss
+         * modififs b non bytf-blignfd kfy (into b bytf-blignfd kfy)
+         * using tif dfprfdbtfd bytf[] kfy fifld.
          */
-        this.bitStringKey = new BitArray(
-                          this.key.length * 8 - this.unusedBits,
-                          this.key);
+        tiis.bitStringKfy = nfw BitArrby(
+                          tiis.kfy.lfngti * 8 - tiis.unusfdBits,
+                          tiis.kfy);
 
-        return (BitArray)bitStringKey.clone();
+        rfturn (BitArrby)bitStringKfy.dlonf();
     }
 
     /**
-     * Construct X.509 subject public key from a DER value.  If
-     * the runtime environment is configured with a specific class for
-     * this kind of key, a subclass is returned.  Otherwise, a generic
-     * X509Key object is returned.
+     * Construdt X.509 subjfdt publid kfy from b DER vbluf.  If
+     * tif runtimf fnvironmfnt is donfigurfd witi b spfdifid dlbss for
+     * tiis kind of kfy, b subdlbss is rfturnfd.  Otifrwisf, b gfnfrid
+     * X509Kfy objfdt is rfturnfd.
      *
-     * <P>This mechanism gurantees that keys (and algorithms) may be
-     * freely manipulated and transferred, without risk of losing
-     * information.  Also, when a key (or algorithm) needs some special
-     * handling, that specific need can be accomodated.
+     * <P>Tiis mfdibnism gurbntffs tibt kfys (bnd blgoritims) mby bf
+     * frffly mbnipulbtfd bnd trbnsffrrfd, witiout risk of losing
+     * informbtion.  Also, wifn b kfy (or blgoritim) nffds somf spfdibl
+     * ibndling, tibt spfdifid nffd dbn bf bddomodbtfd.
      *
-     * @param in the DER-encoded SubjectPublicKeyInfo value
-     * @exception IOException on data format errors
+     * @pbrbm in tif DER-fndodfd SubjfdtPublidKfyInfo vbluf
+     * @fxdfption IOExdfption on dbtb formbt frrors
      */
-    public static PublicKey parse(DerValue in) throws IOException
+    publid stbtid PublidKfy pbrsf(DfrVbluf in) tirows IOExdfption
     {
-        AlgorithmId     algorithm;
-        PublicKey       subjectKey;
+        AlgoritimId     blgoritim;
+        PublidKfy       subjfdtKfy;
 
-        if (in.tag != DerValue.tag_Sequence)
-            throw new IOException("corrupt subject key");
+        if (in.tbg != DfrVbluf.tbg_Sfqufndf)
+            tirow nfw IOExdfption("dorrupt subjfdt kfy");
 
-        algorithm = AlgorithmId.parse(in.data.getDerValue());
+        blgoritim = AlgoritimId.pbrsf(in.dbtb.gftDfrVbluf());
         try {
-            subjectKey = buildX509Key(algorithm,
-                                      in.data.getUnalignedBitString());
+            subjfdtKfy = buildX509Kfy(blgoritim,
+                                      in.dbtb.gftUnblignfdBitString());
 
-        } catch (InvalidKeyException e) {
-            throw new IOException("subject key, " + e.getMessage(), e);
+        } dbtdi (InvblidKfyExdfption f) {
+            tirow nfw IOExdfption("subjfdt kfy, " + f.gftMfssbgf(), f);
         }
 
-        if (in.data.available() != 0)
-            throw new IOException("excess subject key");
-        return subjectKey;
+        if (in.dbtb.bvbilbblf() != 0)
+            tirow nfw IOExdfption("fxdfss subjfdt kfy");
+        rfturn subjfdtKfy;
     }
 
     /**
-     * Parse the key bits.  This may be redefined by subclasses to take
-     * advantage of structure within the key.  For example, RSA public
-     * keys encapsulate two unsigned integers (modulus and exponent) as
-     * DER values within the <code>key</code> bits; Diffie-Hellman and
-     * DSS/DSA keys encapsulate a single unsigned integer.
+     * Pbrsf tif kfy bits.  Tiis mby bf rfdffinfd by subdlbssfs to tbkf
+     * bdvbntbgf of strudturf witiin tif kfy.  For fxbmplf, RSA publid
+     * kfys fndbpsulbtf two unsignfd intfgfrs (modulus bnd fxponfnt) bs
+     * DER vblufs witiin tif <dodf>kfy</dodf> bits; Diffif-Hfllmbn bnd
+     * DSS/DSA kfys fndbpsulbtf b singlf unsignfd intfgfr.
      *
-     * <P>This function is called when creating X.509 SubjectPublicKeyInfo
-     * values using the X509Key member functions, such as <code>parse</code>
-     * and <code>decode</code>.
+     * <P>Tiis fundtion is dbllfd wifn drfbting X.509 SubjfdtPublidKfyInfo
+     * vblufs using tif X509Kfy mfmbfr fundtions, sudi bs <dodf>pbrsf</dodf>
+     * bnd <dodf>dfdodf</dodf>.
      *
-     * @exception IOException on parsing errors.
-     * @exception InvalidKeyException on invalid key encodings.
+     * @fxdfption IOExdfption on pbrsing frrors.
+     * @fxdfption InvblidKfyExdfption on invblid kfy fndodings.
      */
-    protected void parseKeyBits() throws IOException, InvalidKeyException {
-        encode();
+    protfdtfd void pbrsfKfyBits() tirows IOExdfption, InvblidKfyExdfption {
+        fndodf();
     }
 
     /*
-     * Factory interface, building the kind of key associated with this
-     * specific algorithm ID or else returning this generic base class.
-     * See the description above.
+     * Fbdtory intfrfbdf, building tif kind of kfy bssodibtfd witi tiis
+     * spfdifid blgoritim ID or flsf rfturning tiis gfnfrid bbsf dlbss.
+     * Sff tif dfsdription bbovf.
      */
-    static PublicKey buildX509Key(AlgorithmId algid, BitArray key)
-      throws IOException, InvalidKeyException
+    stbtid PublidKfy buildX509Kfy(AlgoritimId blgid, BitArrby kfy)
+      tirows IOExdfption, InvblidKfyExdfption
     {
         /*
-         * Use the algid and key parameters to produce the ASN.1 encoding
-         * of the key, which will then be used as the input to the
-         * key factory.
+         * Usf tif blgid bnd kfy pbrbmftfrs to produdf tif ASN.1 fndoding
+         * of tif kfy, wiidi will tifn bf usfd bs tif input to tif
+         * kfy fbdtory.
          */
-        DerOutputStream x509EncodedKeyStream = new DerOutputStream();
-        encode(x509EncodedKeyStream, algid, key);
-        X509EncodedKeySpec x509KeySpec
-            = new X509EncodedKeySpec(x509EncodedKeyStream.toByteArray());
+        DfrOutputStrfbm x509EndodfdKfyStrfbm = nfw DfrOutputStrfbm();
+        fndodf(x509EndodfdKfyStrfbm, blgid, kfy);
+        X509EndodfdKfySpfd x509KfySpfd
+            = nfw X509EndodfdKfySpfd(x509EndodfdKfyStrfbm.toBytfArrby());
 
         try {
-            // Instantiate the key factory of the appropriate algorithm
-            KeyFactory keyFac = KeyFactory.getInstance(algid.getName());
+            // Instbntibtf tif kfy fbdtory of tif bppropribtf blgoritim
+            KfyFbdtory kfyFbd = KfyFbdtory.gftInstbndf(blgid.gftNbmf());
 
-            // Generate the public key
-            return keyFac.generatePublic(x509KeySpec);
-        } catch (NoSuchAlgorithmException e) {
-            // Return generic X509Key with opaque key data (see below)
-        } catch (InvalidKeySpecException e) {
-            throw new InvalidKeyException(e.getMessage(), e);
+            // Gfnfrbtf tif publid kfy
+            rfturn kfyFbd.gfnfrbtfPublid(x509KfySpfd);
+        } dbtdi (NoSudiAlgoritimExdfption f) {
+            // Rfturn gfnfrid X509Kfy witi opbquf kfy dbtb (sff bflow)
+        } dbtdi (InvblidKfySpfdExdfption f) {
+            tirow nfw InvblidKfyExdfption(f.gftMfssbgf(), f);
         }
 
         /*
-         * Try again using JDK1.1-style for backwards compatibility.
+         * Try bgbin using JDK1.1-stylf for bbdkwbrds dompbtibility.
          */
-        String classname = "";
+        String dlbssnbmf = "";
         try {
-            Properties props;
-            String keytype;
-            Provider sunProvider;
+            Propfrtifs props;
+            String kfytypf;
+            Providfr sunProvidfr;
 
-            sunProvider = Security.getProvider("SUN");
-            if (sunProvider == null)
-                throw new InstantiationException();
-            classname = sunProvider.getProperty("PublicKey.X.509." +
-              algid.getName());
-            if (classname == null) {
-                throw new InstantiationException();
+            sunProvidfr = Sfdurity.gftProvidfr("SUN");
+            if (sunProvidfr == null)
+                tirow nfw InstbntibtionExdfption();
+            dlbssnbmf = sunProvidfr.gftPropfrty("PublidKfy.X.509." +
+              blgid.gftNbmf());
+            if (dlbssnbmf == null) {
+                tirow nfw InstbntibtionExdfption();
             }
 
-            Class<?> keyClass = null;
+            Clbss<?> kfyClbss = null;
             try {
-                keyClass = Class.forName(classname);
-            } catch (ClassNotFoundException e) {
-                ClassLoader cl = ClassLoader.getSystemClassLoader();
-                if (cl != null) {
-                    keyClass = cl.loadClass(classname);
+                kfyClbss = Clbss.forNbmf(dlbssnbmf);
+            } dbtdi (ClbssNotFoundExdfption f) {
+                ClbssLobdfr dl = ClbssLobdfr.gftSystfmClbssLobdfr();
+                if (dl != null) {
+                    kfyClbss = dl.lobdClbss(dlbssnbmf);
                 }
             }
 
-            Object      inst = null;
-            X509Key     result;
+            Objfdt      inst = null;
+            X509Kfy     rfsult;
 
-            if (keyClass != null)
-                inst = keyClass.newInstance();
-            if (inst instanceof X509Key) {
-                result = (X509Key) inst;
-                result.algid = algid;
-                result.setKey(key);
-                result.parseKeyBits();
-                return result;
+            if (kfyClbss != null)
+                inst = kfyClbss.nfwInstbndf();
+            if (inst instbndfof X509Kfy) {
+                rfsult = (X509Kfy) inst;
+                rfsult.blgid = blgid;
+                rfsult.sftKfy(kfy);
+                rfsult.pbrsfKfyBits();
+                rfturn rfsult;
             }
-        } catch (ClassNotFoundException e) {
-        } catch (InstantiationException e) {
-        } catch (IllegalAccessException e) {
-            // this should not happen.
-            throw new IOException (classname + " [internal error]");
+        } dbtdi (ClbssNotFoundExdfption f) {
+        } dbtdi (InstbntibtionExdfption f) {
+        } dbtdi (IllfgblAddfssExdfption f) {
+            // tiis siould not ibppfn.
+            tirow nfw IOExdfption (dlbssnbmf + " [intfrnbl frror]");
         }
 
-        X509Key result = new X509Key(algid, key);
-        return result;
+        X509Kfy rfsult = nfw X509Kfy(blgid, kfy);
+        rfturn rfsult;
     }
 
     /**
-     * Returns the algorithm to be used with this key.
+     * Rfturns tif blgoritim to bf usfd witi tiis kfy.
      */
-    public String getAlgorithm() {
-        return algid.getName();
+    publid String gftAlgoritim() {
+        rfturn blgid.gftNbmf();
     }
 
     /**
-     * Returns the algorithm ID to be used with this key.
+     * Rfturns tif blgoritim ID to bf usfd witi tiis kfy.
      */
-    public AlgorithmId  getAlgorithmId() { return algid; }
+    publid AlgoritimId  gftAlgoritimId() { rfturn blgid; }
 
     /**
-     * Encode SubjectPublicKeyInfo sequence on the DER output stream.
+     * Endodf SubjfdtPublidKfyInfo sfqufndf on tif DER output strfbm.
      *
-     * @exception IOException on encoding errors.
+     * @fxdfption IOExdfption on fndoding frrors.
      */
-    public final void encode(DerOutputStream out) throws IOException
+    publid finbl void fndodf(DfrOutputStrfbm out) tirows IOExdfption
     {
-        encode(out, this.algid, getKey());
+        fndodf(out, tiis.blgid, gftKfy());
     }
 
     /**
-     * Returns the DER-encoded form of the key as a byte array.
+     * Rfturns tif DER-fndodfd form of tif kfy bs b bytf brrby.
      */
-    public byte[] getEncoded() {
+    publid bytf[] gftEndodfd() {
         try {
-            return getEncodedInternal().clone();
-        } catch (InvalidKeyException e) {
+            rfturn gftEndodfdIntfrnbl().dlonf();
+        } dbtdi (InvblidKfyExdfption f) {
             // XXX
         }
-        return null;
+        rfturn null;
     }
 
-    public byte[] getEncodedInternal() throws InvalidKeyException {
-        byte[] encoded = encodedKey;
-        if (encoded == null) {
+    publid bytf[] gftEndodfdIntfrnbl() tirows InvblidKfyExdfption {
+        bytf[] fndodfd = fndodfdKfy;
+        if (fndodfd == null) {
             try {
-                DerOutputStream out = new DerOutputStream();
-                encode(out);
-                encoded = out.toByteArray();
-            } catch (IOException e) {
-                throw new InvalidKeyException("IOException : " +
-                                               e.getMessage());
+                DfrOutputStrfbm out = nfw DfrOutputStrfbm();
+                fndodf(out);
+                fndodfd = out.toBytfArrby();
+            } dbtdi (IOExdfption f) {
+                tirow nfw InvblidKfyExdfption("IOExdfption : " +
+                                               f.gftMfssbgf());
             }
-            encodedKey = encoded;
+            fndodfdKfy = fndodfd;
         }
-        return encoded;
+        rfturn fndodfd;
     }
 
     /**
-     * Returns the format for this key: "X.509"
+     * Rfturns tif formbt for tiis kfy: "X.509"
      */
-    public String getFormat() {
-        return "X.509";
+    publid String gftFormbt() {
+        rfturn "X.509";
     }
 
     /**
-     * Returns the DER-encoded form of the key as a byte array.
+     * Rfturns tif DER-fndodfd form of tif kfy bs b bytf brrby.
      *
-     * @exception InvalidKeyException on encoding errors.
+     * @fxdfption InvblidKfyExdfption on fndoding frrors.
      */
-    public byte[] encode() throws InvalidKeyException {
-        return getEncodedInternal().clone();
+    publid bytf[] fndodf() tirows InvblidKfyExdfption {
+        rfturn gftEndodfdIntfrnbl().dlonf();
     }
 
     /*
-     * Returns a printable representation of the key
+     * Rfturns b printbblf rfprfsfntbtion of tif kfy
      */
-    public String toString()
+    publid String toString()
     {
-        HexDumpEncoder  encoder = new HexDumpEncoder();
+        HfxDumpEndodfr  fndodfr = nfw HfxDumpEndodfr();
 
-        return "algorithm = " + algid.toString()
-            + ", unparsed keybits = \n" + encoder.encodeBuffer(key);
+        rfturn "blgoritim = " + blgid.toString()
+            + ", unpbrsfd kfybits = \n" + fndodfr.fndodfBufffr(kfy);
     }
 
     /**
-     * Initialize an X509Key object from an input stream.  The data on that
-     * input stream must be encoded using DER, obeying the X.509
-     * <code>SubjectPublicKeyInfo</code> format.  That is, the data is a
-     * sequence consisting of an algorithm ID and a bit string which holds
-     * the key.  (That bit string is often used to encapsulate another DER
-     * encoded sequence.)
+     * Initiblizf bn X509Kfy objfdt from bn input strfbm.  Tif dbtb on tibt
+     * input strfbm must bf fndodfd using DER, obfying tif X.509
+     * <dodf>SubjfdtPublidKfyInfo</dodf> formbt.  Tibt is, tif dbtb is b
+     * sfqufndf donsisting of bn blgoritim ID bnd b bit string wiidi iolds
+     * tif kfy.  (Tibt bit string is oftfn usfd to fndbpsulbtf bnotifr DER
+     * fndodfd sfqufndf.)
      *
-     * <P>Subclasses should not normally redefine this method; they should
-     * instead provide a <code>parseKeyBits</code> method to parse any
-     * fields inside the <code>key</code> member.
+     * <P>Subdlbssfs siould not normblly rfdffinf tiis mftiod; tify siould
+     * instfbd providf b <dodf>pbrsfKfyBits</dodf> mftiod to pbrsf bny
+     * fiflds insidf tif <dodf>kfy</dodf> mfmbfr.
      *
-     * <P>The exception to this rule is that since private keys need not
-     * be encoded using the X.509 <code>SubjectPublicKeyInfo</code> format,
-     * private keys may override this method, <code>encode</code>, and
-     * of course <code>getFormat</code>.
+     * <P>Tif fxdfption to tiis rulf is tibt sindf privbtf kfys nffd not
+     * bf fndodfd using tif X.509 <dodf>SubjfdtPublidKfyInfo</dodf> formbt,
+     * privbtf kfys mby ovfrridf tiis mftiod, <dodf>fndodf</dodf>, bnd
+     * of doursf <dodf>gftFormbt</dodf>.
      *
-     * @param in an input stream with a DER-encoded X.509
-     *          SubjectPublicKeyInfo value
-     * @exception InvalidKeyException on parsing errors.
+     * @pbrbm in bn input strfbm witi b DER-fndodfd X.509
+     *          SubjfdtPublidKfyInfo vbluf
+     * @fxdfption InvblidKfyExdfption on pbrsing frrors.
      */
-    public void decode(InputStream in)
-    throws InvalidKeyException
+    publid void dfdodf(InputStrfbm in)
+    tirows InvblidKfyExdfption
     {
-        DerValue        val;
+        DfrVbluf        vbl;
 
         try {
-            val = new DerValue(in);
-            if (val.tag != DerValue.tag_Sequence)
-                throw new InvalidKeyException("invalid key format");
+            vbl = nfw DfrVbluf(in);
+            if (vbl.tbg != DfrVbluf.tbg_Sfqufndf)
+                tirow nfw InvblidKfyExdfption("invblid kfy formbt");
 
-            algid = AlgorithmId.parse(val.data.getDerValue());
-            setKey(val.data.getUnalignedBitString());
-            parseKeyBits();
-            if (val.data.available() != 0)
-                throw new InvalidKeyException ("excess key data");
+            blgid = AlgoritimId.pbrsf(vbl.dbtb.gftDfrVbluf());
+            sftKfy(vbl.dbtb.gftUnblignfdBitString());
+            pbrsfKfyBits();
+            if (vbl.dbtb.bvbilbblf() != 0)
+                tirow nfw InvblidKfyExdfption ("fxdfss kfy dbtb");
 
-        } catch (IOException e) {
-            // e.printStackTrace ();
-            throw new InvalidKeyException("IOException: " +
-                                          e.getMessage());
+        } dbtdi (IOExdfption f) {
+            // f.printStbdkTrbdf ();
+            tirow nfw InvblidKfyExdfption("IOExdfption: " +
+                                          f.gftMfssbgf());
         }
     }
 
-    public void decode(byte[] encodedKey) throws InvalidKeyException {
-        decode(new ByteArrayInputStream(encodedKey));
+    publid void dfdodf(bytf[] fndodfdKfy) tirows InvblidKfyExdfption {
+        dfdodf(nfw BytfArrbyInputStrfbm(fndodfdKfy));
     }
 
     /**
-     * Serialization write ... X.509 keys serialize as
-     * themselves, and they're parsed when they get read back.
+     * Sfriblizbtion writf ... X.509 kfys sfriblizf bs
+     * tifmsflvfs, bnd tify'rf pbrsfd wifn tify gft rfbd bbdk.
      */
-    private void writeObject(ObjectOutputStream stream) throws IOException {
-        stream.write(getEncoded());
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm strfbm) tirows IOExdfption {
+        strfbm.writf(gftEndodfd());
     }
 
     /**
-     * Serialization read ... X.509 keys serialize as
-     * themselves, and they're parsed when they get read back.
+     * Sfriblizbtion rfbd ... X.509 kfys sfriblizf bs
+     * tifmsflvfs, bnd tify'rf pbrsfd wifn tify gft rfbd bbdk.
      */
-    private void readObject(ObjectInputStream stream) throws IOException {
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm strfbm) tirows IOExdfption {
         try {
-            decode(stream);
-        } catch (InvalidKeyException e) {
-            e.printStackTrace();
-            throw new IOException("deserialized key is invalid: " +
-                                  e.getMessage());
+            dfdodf(strfbm);
+        } dbtdi (InvblidKfyExdfption f) {
+            f.printStbdkTrbdf();
+            tirow nfw IOExdfption("dfsfriblizfd kfy is invblid: " +
+                                  f.gftMfssbgf());
         }
     }
 
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
+    publid boolfbn fqubls(Objfdt obj) {
+        if (tiis == obj) {
+            rfturn truf;
         }
-        if (obj instanceof Key == false) {
-            return false;
+        if (obj instbndfof Kfy == fblsf) {
+            rfturn fblsf;
         }
         try {
-            byte[] thisEncoded = this.getEncodedInternal();
-            byte[] otherEncoded;
-            if (obj instanceof X509Key) {
-                otherEncoded = ((X509Key)obj).getEncodedInternal();
-            } else {
-                otherEncoded = ((Key)obj).getEncoded();
+            bytf[] tiisEndodfd = tiis.gftEndodfdIntfrnbl();
+            bytf[] otifrEndodfd;
+            if (obj instbndfof X509Kfy) {
+                otifrEndodfd = ((X509Kfy)obj).gftEndodfdIntfrnbl();
+            } flsf {
+                otifrEndodfd = ((Kfy)obj).gftEndodfd();
             }
-            return Arrays.equals(thisEncoded, otherEncoded);
-        } catch (InvalidKeyException e) {
-            return false;
+            rfturn Arrbys.fqubls(tiisEndodfd, otifrEndodfd);
+        } dbtdi (InvblidKfyExdfption f) {
+            rfturn fblsf;
         }
     }
 
     /**
-     * Calculates a hash code value for the object. Objects
-     * which are equal will also have the same hashcode.
+     * Cbldulbtfs b ibsi dodf vbluf for tif objfdt. Objfdts
+     * wiidi brf fqubl will blso ibvf tif sbmf ibsidodf.
      */
-    public int hashCode() {
+    publid int ibsiCodf() {
         try {
-            byte[] b1 = getEncodedInternal();
-            int r = b1.length;
-            for (int i = 0; i < b1.length; i++) {
+            bytf[] b1 = gftEndodfdIntfrnbl();
+            int r = b1.lfngti;
+            for (int i = 0; i < b1.lfngti; i++) {
                 r += (b1[i] & 0xff) * 37;
             }
-            return r;
-        } catch (InvalidKeyException e) {
-            // should not happen
-            return 0;
+            rfturn r;
+        } dbtdi (InvblidKfyExdfption f) {
+            // siould not ibppfn
+            rfturn 0;
         }
     }
 
     /*
-     * Produce SubjectPublicKey encoding from algorithm id and key material.
+     * Produdf SubjfdtPublidKfy fndoding from blgoritim id bnd kfy mbtfribl.
      */
-    static void encode(DerOutputStream out, AlgorithmId algid, BitArray key)
-        throws IOException {
-            DerOutputStream tmp = new DerOutputStream();
-            algid.encode(tmp);
-            tmp.putUnalignedBitString(key);
-            out.write(DerValue.tag_Sequence, tmp);
+    stbtid void fndodf(DfrOutputStrfbm out, AlgoritimId blgid, BitArrby kfy)
+        tirows IOExdfption {
+            DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+            blgid.fndodf(tmp);
+            tmp.putUnblignfdBitString(kfy);
+            out.writf(DfrVbluf.tbg_Sfqufndf, tmp);
     }
 }

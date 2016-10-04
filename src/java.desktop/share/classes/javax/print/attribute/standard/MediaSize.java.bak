@@ -1,854 +1,854 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.print.attribute.standard;
+pbdkbgf jbvbx.print.bttributf.stbndbrd;
 
-import java.util.HashMap;
-import java.util.Vector;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Vfdtor;
 
-import javax.print.attribute.Size2DSyntax;
-import javax.print.attribute.Attribute;
+import jbvbx.print.bttributf.Sizf2DSyntbx;
+import jbvbx.print.bttributf.Attributf;
 
 /**
- * Class MediaSize is a two-dimensional size valued printing attribute class
- * that indicates the dimensions of the medium in a portrait orientation, with
- * the X dimension running along the bottom edge and the Y dimension running
- * along the left edge. Thus, the Y dimension must be greater than or equal to
- * the X dimension. Class MediaSize declares many standard media size
- * values, organized into nested classes for ISO, JIS, North American,
- * engineering, and other media.
+ * Clbss MfdibSizf is b two-dimfnsionbl sizf vblufd printing bttributf dlbss
+ * tibt indidbtfs tif dimfnsions of tif mfdium in b portrbit orifntbtion, witi
+ * tif X dimfnsion running blong tif bottom fdgf bnd tif Y dimfnsion running
+ * blong tif lfft fdgf. Tius, tif Y dimfnsion must bf grfbtfr tibn or fqubl to
+ * tif X dimfnsion. Clbss MfdibSizf dfdlbrfs mbny stbndbrd mfdib sizf
+ * vblufs, orgbnizfd into nfstfd dlbssfs for ISO, JIS, Norti Amfridbn,
+ * fnginffring, bnd otifr mfdib.
  * <P>
- * MediaSize is not yet used to specify media. Its current role is
- * as a mapping for named media (see {@link MediaSizeName MediaSizeName}).
- * Clients can use the mapping method
- * <code>MediaSize.getMediaSizeForName(MediaSizeName)</code>
- * to find the physical dimensions of the MediaSizeName instances
- * enumerated in this API. This is useful for clients which need this
- * information to format {@literal &} paginate printing.
+ * MfdibSizf is not yft usfd to spfdify mfdib. Its durrfnt rolf is
+ * bs b mbpping for nbmfd mfdib (sff {@link MfdibSizfNbmf MfdibSizfNbmf}).
+ * Clifnts dbn usf tif mbpping mftiod
+ * <dodf>MfdibSizf.gftMfdibSizfForNbmf(MfdibSizfNbmf)</dodf>
+ * to find tif piysidbl dimfnsions of tif MfdibSizfNbmf instbndfs
+ * fnumfrbtfd in tiis API. Tiis is usfful for dlifnts wiidi nffd tiis
+ * informbtion to formbt {@litfrbl &} pbginbtf printing.
  *
- * @author  Phil Race, Alan Kaminsky
+ * @butior  Piil Rbdf, Albn Kbminsky
  */
-public class MediaSize extends Size2DSyntax implements Attribute {
+publid dlbss MfdibSizf fxtfnds Sizf2DSyntbx implfmfnts Attributf {
 
-    private static final long serialVersionUID = -1967958664615414771L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -1967958664615414771L;
 
-    private MediaSizeName mediaName;
+    privbtf MfdibSizfNbmf mfdibNbmf;
 
-    private static HashMap<MediaSizeName, MediaSize> mediaMap = new HashMap<>(100, 10);
+    privbtf stbtid HbsiMbp<MfdibSizfNbmf, MfdibSizf> mfdibMbp = nfw HbsiMbp<>(100, 10);
 
-    private static Vector<MediaSize> sizeVector = new Vector<>(100, 10);
+    privbtf stbtid Vfdtor<MfdibSizf> sizfVfdtor = nfw Vfdtor<>(100, 10);
 
     /**
-     * Construct a new media size attribute from the given floating-point
-     * values.
+     * Construdt b nfw mfdib sizf bttributf from tif givfn flobting-point
+     * vblufs.
      *
-     * @param  x  X dimension.
-     * @param  y  Y dimension.
-     * @param  units
-     *     Unit conversion factor, e.g. <CODE>Size2DSyntax.INCH</CODE> or
-     *     <CODE>Size2DSyntax.MM</CODE>.
+     * @pbrbm  x  X dimfnsion.
+     * @pbrbm  y  Y dimfnsion.
+     * @pbrbm  units
+     *     Unit donvfrsion fbdtor, f.g. <CODE>Sizf2DSyntbx.INCH</CODE> or
+     *     <CODE>Sizf2DSyntbx.MM</CODE>.
      *
-     * @exception  IllegalArgumentException
-     *   (Unchecked exception) Thrown if {@code x < 0} or {@code y < 0} or
-     *   {@code units < 1} or {@code x > y}.
+     * @fxdfption  IllfgblArgumfntExdfption
+     *   (Undifdkfd fxdfption) Tirown if {@dodf x < 0} or {@dodf y < 0} or
+     *   {@dodf units < 1} or {@dodf x > y}.
      */
-    public MediaSize(float x, float y,int units) {
-        super (x, y, units);
+    publid MfdibSizf(flobt x, flobt y,int units) {
+        supfr (x, y, units);
         if (x > y) {
-            throw new IllegalArgumentException("X dimension > Y dimension");
+            tirow nfw IllfgblArgumfntExdfption("X dimfnsion > Y dimfnsion");
         }
-        sizeVector.add(this);
+        sizfVfdtor.bdd(tiis);
     }
 
     /**
-     * Construct a new media size attribute from the given integer values.
+     * Construdt b nfw mfdib sizf bttributf from tif givfn intfgfr vblufs.
      *
-     * @param  x  X dimension.
-     * @param  y  Y dimension.
-     * @param  units
-     *     Unit conversion factor, e.g. <CODE>Size2DSyntax.INCH</CODE> or
-     *     <CODE>Size2DSyntax.MM</CODE>.
+     * @pbrbm  x  X dimfnsion.
+     * @pbrbm  y  Y dimfnsion.
+     * @pbrbm  units
+     *     Unit donvfrsion fbdtor, f.g. <CODE>Sizf2DSyntbx.INCH</CODE> or
+     *     <CODE>Sizf2DSyntbx.MM</CODE>.
      *
-     * @exception  IllegalArgumentException
-     *   (Unchecked exception) Thrown if {@code x < 0} or {@code y < 0} or
-     *   {@code units < 1} or {@code x > y}.
+     * @fxdfption  IllfgblArgumfntExdfption
+     *   (Undifdkfd fxdfption) Tirown if {@dodf x < 0} or {@dodf y < 0} or
+     *   {@dodf units < 1} or {@dodf x > y}.
      */
-    public MediaSize(int x, int y,int units) {
-        super (x, y, units);
+    publid MfdibSizf(int x, int y,int units) {
+        supfr (x, y, units);
         if (x > y) {
-            throw new IllegalArgumentException("X dimension > Y dimension");
+            tirow nfw IllfgblArgumfntExdfption("X dimfnsion > Y dimfnsion");
         }
-        sizeVector.add(this);
+        sizfVfdtor.bdd(tiis);
     }
 
    /**
-     * Construct a new media size attribute from the given floating-point
-     * values.
+     * Construdt b nfw mfdib sizf bttributf from tif givfn flobting-point
+     * vblufs.
      *
-     * @param  x  X dimension.
-     * @param  y  Y dimension.
-     * @param  units
-     *     Unit conversion factor, e.g. <CODE>Size2DSyntax.INCH</CODE> or
-     *     <CODE>Size2DSyntax.MM</CODE>.
-     * @param media a media name to associate with this MediaSize
+     * @pbrbm  x  X dimfnsion.
+     * @pbrbm  y  Y dimfnsion.
+     * @pbrbm  units
+     *     Unit donvfrsion fbdtor, f.g. <CODE>Sizf2DSyntbx.INCH</CODE> or
+     *     <CODE>Sizf2DSyntbx.MM</CODE>.
+     * @pbrbm mfdib b mfdib nbmf to bssodibtf witi tiis MfdibSizf
      *
-     * @exception  IllegalArgumentException
-     *   (Unchecked exception) Thrown if {@code x < 0} or {@code y < 0} or
-     *   {@code units < 1} or {@code x > y}.
+     * @fxdfption  IllfgblArgumfntExdfption
+     *   (Undifdkfd fxdfption) Tirown if {@dodf x < 0} or {@dodf y < 0} or
+     *   {@dodf units < 1} or {@dodf x > y}.
      */
-    public MediaSize(float x, float y,int units, MediaSizeName media) {
-        super (x, y, units);
+    publid MfdibSizf(flobt x, flobt y,int units, MfdibSizfNbmf mfdib) {
+        supfr (x, y, units);
         if (x > y) {
-            throw new IllegalArgumentException("X dimension > Y dimension");
+            tirow nfw IllfgblArgumfntExdfption("X dimfnsion > Y dimfnsion");
         }
-        if (media != null && mediaMap.get(media) == null) {
-            mediaName = media;
-            mediaMap.put(mediaName, this);
+        if (mfdib != null && mfdibMbp.gft(mfdib) == null) {
+            mfdibNbmf = mfdib;
+            mfdibMbp.put(mfdibNbmf, tiis);
         }
-        sizeVector.add(this);
+        sizfVfdtor.bdd(tiis);
     }
 
     /**
-     * Construct a new media size attribute from the given integer values.
+     * Construdt b nfw mfdib sizf bttributf from tif givfn intfgfr vblufs.
      *
-     * @param  x  X dimension.
-     * @param  y  Y dimension.
-     * @param  units
-     *     Unit conversion factor, e.g. <CODE>Size2DSyntax.INCH</CODE> or
-     *     <CODE>Size2DSyntax.MM</CODE>.
-     * @param media a media name to associate with this MediaSize
+     * @pbrbm  x  X dimfnsion.
+     * @pbrbm  y  Y dimfnsion.
+     * @pbrbm  units
+     *     Unit donvfrsion fbdtor, f.g. <CODE>Sizf2DSyntbx.INCH</CODE> or
+     *     <CODE>Sizf2DSyntbx.MM</CODE>.
+     * @pbrbm mfdib b mfdib nbmf to bssodibtf witi tiis MfdibSizf
      *
-     * @exception  IllegalArgumentException
-     *   (Unchecked exception) Thrown if {@code x < 0} or {@code y < 0} or
-     *   {@code units < 1} or {@code x > y}.
+     * @fxdfption  IllfgblArgumfntExdfption
+     *   (Undifdkfd fxdfption) Tirown if {@dodf x < 0} or {@dodf y < 0} or
+     *   {@dodf units < 1} or {@dodf x > y}.
      */
-    public MediaSize(int x, int y,int units, MediaSizeName media) {
-        super (x, y, units);
+    publid MfdibSizf(int x, int y,int units, MfdibSizfNbmf mfdib) {
+        supfr (x, y, units);
         if (x > y) {
-            throw new IllegalArgumentException("X dimension > Y dimension");
+            tirow nfw IllfgblArgumfntExdfption("X dimfnsion > Y dimfnsion");
         }
-        if (media != null && mediaMap.get(media) == null) {
-            mediaName = media;
-            mediaMap.put(mediaName, this);
+        if (mfdib != null && mfdibMbp.gft(mfdib) == null) {
+            mfdibNbmf = mfdib;
+            mfdibMbp.put(mfdibNbmf, tiis);
         }
-        sizeVector.add(this);
+        sizfVfdtor.bdd(tiis);
     }
 
     /**
-     * Get the media name, if any, for this size.
+     * Gft tif mfdib nbmf, if bny, for tiis sizf.
      *
-     * @return the name for this media size, or null if no name was
-     * associated with this size (an anonymous size).
+     * @rfturn tif nbmf for tiis mfdib sizf, or null if no nbmf wbs
+     * bssodibtfd witi tiis sizf (bn bnonymous sizf).
      */
-    public MediaSizeName getMediaSizeName() {
-        return mediaName;
+    publid MfdibSizfNbmf gftMfdibSizfNbmf() {
+        rfturn mfdibNbmf;
     }
 
     /**
-     * Get the MediaSize for the specified named media.
+     * Gft tif MfdibSizf for tif spfdififd nbmfd mfdib.
      *
-     * @param media - the name of the media for which the size is sought
-     * @return size of the media, or null if this media is not associated
-     * with any size.
+     * @pbrbm mfdib - tif nbmf of tif mfdib for wiidi tif sizf is sougit
+     * @rfturn sizf of tif mfdib, or null if tiis mfdib is not bssodibtfd
+     * witi bny sizf.
      */
-    public static MediaSize getMediaSizeForName(MediaSizeName media) {
-        return mediaMap.get(media);
+    publid stbtid MfdibSizf gftMfdibSizfForNbmf(MfdibSizfNbmf mfdib) {
+        rfturn mfdibMbp.gft(mfdib);
     }
 
     /**
-     * The specified dimensions are used to locate a matching MediaSize
-     * instance from amongst all the standard MediaSize instances.
-     * If there is no exact match, the closest match is used.
+     * Tif spfdififd dimfnsions brf usfd to lodbtf b mbtdiing MfdibSizf
+     * instbndf from bmongst bll tif stbndbrd MfdibSizf instbndfs.
+     * If tifrf is no fxbdt mbtdi, tif dlosfst mbtdi is usfd.
      * <p>
-     * The MediaSize is in turn used to locate the MediaSizeName object.
-     * This method may return null if the closest matching MediaSize
-     * has no corresponding Media instance.
+     * Tif MfdibSizf is in turn usfd to lodbtf tif MfdibSizfNbmf objfdt.
+     * Tiis mftiod mby rfturn null if tif dlosfst mbtdiing MfdibSizf
+     * ibs no dorrfsponding Mfdib instbndf.
      * <p>
-     * This method is useful for clients which have only dimensions and
-     * want to find a Media which corresponds to the dimensions.
-     * @param x - X dimension
-     * @param y - Y dimension.
-     * @param  units
-     *     Unit conversion factor, e.g. <CODE>Size2DSyntax.INCH</CODE> or
-     *     <CODE>Size2DSyntax.MM</CODE>
-     * @return MediaSizeName matching these dimensions, or null.
-     * @exception IllegalArgumentException if {@code x <= 0},
-     *      {@code y <= 0}, or {@code units < 1}.
+     * Tiis mftiod is usfful for dlifnts wiidi ibvf only dimfnsions bnd
+     * wbnt to find b Mfdib wiidi dorrfsponds to tif dimfnsions.
+     * @pbrbm x - X dimfnsion
+     * @pbrbm y - Y dimfnsion.
+     * @pbrbm  units
+     *     Unit donvfrsion fbdtor, f.g. <CODE>Sizf2DSyntbx.INCH</CODE> or
+     *     <CODE>Sizf2DSyntbx.MM</CODE>
+     * @rfturn MfdibSizfNbmf mbtdiing tifsf dimfnsions, or null.
+     * @fxdfption IllfgblArgumfntExdfption if {@dodf x <= 0},
+     *      {@dodf y <= 0}, or {@dodf units < 1}.
      *
      */
-    public static MediaSizeName findMedia(float x, float y, int units) {
+    publid stbtid MfdibSizfNbmf findMfdib(flobt x, flobt y, int units) {
 
-        MediaSize match = MediaSize.ISO.A4;
+        MfdibSizf mbtdi = MfdibSizf.ISO.A4;
 
         if (x <= 0.0f || y <= 0.0f || units < 1) {
-            throw new IllegalArgumentException("args must be +ve values");
+            tirow nfw IllfgblArgumfntExdfption("brgs must bf +vf vblufs");
         }
 
-        double ls = x * x + y * y;
-        double tmp_ls;
-        float []dim;
-        float diffx = x;
-        float diffy = y;
+        doublf ls = x * x + y * y;
+        doublf tmp_ls;
+        flobt []dim;
+        flobt diffx = x;
+        flobt diffy = y;
 
-        for (int i=0; i < sizeVector.size() ; i++) {
-            MediaSize mediaSize = sizeVector.elementAt(i);
-            dim = mediaSize.getSize(units);
+        for (int i=0; i < sizfVfdtor.sizf() ; i++) {
+            MfdibSizf mfdibSizf = sizfVfdtor.flfmfntAt(i);
+            dim = mfdibSizf.gftSizf(units);
             if (x == dim[0] && y == dim[1]) {
-                match = mediaSize;
-                break;
-            } else {
+                mbtdi = mfdibSizf;
+                brfbk;
+            } flsf {
                 diffx = x - dim[0];
                 diffy = y - dim[1];
                 tmp_ls = diffx * diffx + diffy * diffy;
                 if (tmp_ls < ls) {
                     ls = tmp_ls;
-                    match = mediaSize;
+                    mbtdi = mfdibSizf;
                 }
             }
         }
 
-        return match.getMediaSizeName();
+        rfturn mbtdi.gftMfdibSizfNbmf();
     }
 
     /**
-     * Returns whether this media size attribute is equivalent to the passed
-     * in object.
-     * To be equivalent, all of the following conditions must be true:
+     * Rfturns wiftifr tiis mfdib sizf bttributf is fquivblfnt to tif pbssfd
+     * in objfdt.
+     * To bf fquivblfnt, bll of tif following donditions must bf truf:
      * <OL TYPE=1>
      * <LI>
-     * <CODE>object</CODE> is not null.
+     * <CODE>objfdt</CODE> is not null.
      * <LI>
-     * <CODE>object</CODE> is an instance of class MediaSize.
+     * <CODE>objfdt</CODE> is bn instbndf of dlbss MfdibSizf.
      * <LI>
-     * This media size attribute's X dimension is equal to
-     * <CODE>object</CODE>'s X dimension.
+     * Tiis mfdib sizf bttributf's X dimfnsion is fqubl to
+     * <CODE>objfdt</CODE>'s X dimfnsion.
      * <LI>
-     * This media size attribute's Y dimension is equal to
-     * <CODE>object</CODE>'s Y dimension.
+     * Tiis mfdib sizf bttributf's Y dimfnsion is fqubl to
+     * <CODE>objfdt</CODE>'s Y dimfnsion.
      * </OL>
      *
-     * @param  object  Object to compare to.
+     * @pbrbm  objfdt  Objfdt to dompbrf to.
      *
-     * @return  True if <CODE>object</CODE> is equivalent to this media size
-     *          attribute, false otherwise.
+     * @rfturn  Truf if <CODE>objfdt</CODE> is fquivblfnt to tiis mfdib sizf
+     *          bttributf, fblsf otifrwisf.
      */
-    public boolean equals(Object object) {
-        return (super.equals(object) && object instanceof MediaSize);
+    publid boolfbn fqubls(Objfdt objfdt) {
+        rfturn (supfr.fqubls(objfdt) && objfdt instbndfof MfdibSizf);
     }
 
     /**
-     * Get the printing attribute class which is to be used as the "category"
-     * for this printing attribute value.
+     * Gft tif printing bttributf dlbss wiidi is to bf usfd bs tif "dbtfgory"
+     * for tiis printing bttributf vbluf.
      * <P>
-     * For class MediaSize and any vendor-defined subclasses, the category is
-     * class MediaSize itself.
+     * For dlbss MfdibSizf bnd bny vfndor-dffinfd subdlbssfs, tif dbtfgory is
+     * dlbss MfdibSizf itsflf.
      *
-     * @return  Printing attribute class (category), an instance of class
-     *          {@link java.lang.Class java.lang.Class}.
+     * @rfturn  Printing bttributf dlbss (dbtfgory), bn instbndf of dlbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
      */
-    public final Class<? extends Attribute> getCategory() {
-        return MediaSize.class;
+    publid finbl Clbss<? fxtfnds Attributf> gftCbtfgory() {
+        rfturn MfdibSizf.dlbss;
     }
 
     /**
-     * Get the name of the category of which this attribute value is an
-     * instance.
+     * Gft tif nbmf of tif dbtfgory of wiidi tiis bttributf vbluf is bn
+     * instbndf.
      * <P>
-     * For class MediaSize and any vendor-defined subclasses, the category
-     * name is <CODE>"media-size"</CODE>.
+     * For dlbss MfdibSizf bnd bny vfndor-dffinfd subdlbssfs, tif dbtfgory
+     * nbmf is <CODE>"mfdib-sizf"</CODE>.
      *
-     * @return  Attribute category name.
+     * @rfturn  Attributf dbtfgory nbmf.
      */
-    public final String getName() {
-        return "media-size";
+    publid finbl String gftNbmf() {
+        rfturn "mfdib-sizf";
     }
 
     /**
-     * Class MediaSize.ISO includes {@link MediaSize MediaSize} values for ISO
-     * media.
+     * Clbss MfdibSizf.ISO indludfs {@link MfdibSizf MfdibSizf} vblufs for ISO
+     * mfdib.
      */
-    public final static class ISO {
+    publid finbl stbtid dlbss ISO {
         /**
-         * Specifies the ISO A0 size, 841 mm by 1189 mm.
+         * Spfdififs tif ISO A0 sizf, 841 mm by 1189 mm.
          */
-        public static final MediaSize
-            A0 = new MediaSize(841, 1189, Size2DSyntax.MM, MediaSizeName.ISO_A0);
+        publid stbtid finbl MfdibSizf
+            A0 = nfw MfdibSizf(841, 1189, Sizf2DSyntbx.MM, MfdibSizfNbmf.ISO_A0);
         /**
-         * Specifies the ISO A1 size, 594 mm by 841 mm.
+         * Spfdififs tif ISO A1 sizf, 594 mm by 841 mm.
          */
-        public static final MediaSize
-            A1 = new MediaSize(594, 841, Size2DSyntax.MM, MediaSizeName.ISO_A1);
+        publid stbtid finbl MfdibSizf
+            A1 = nfw MfdibSizf(594, 841, Sizf2DSyntbx.MM, MfdibSizfNbmf.ISO_A1);
         /**
-         * Specifies the ISO A2 size, 420 mm by 594 mm.
+         * Spfdififs tif ISO A2 sizf, 420 mm by 594 mm.
          */
-        public static final MediaSize
-            A2 = new MediaSize(420, 594, Size2DSyntax.MM, MediaSizeName.ISO_A2);
+        publid stbtid finbl MfdibSizf
+            A2 = nfw MfdibSizf(420, 594, Sizf2DSyntbx.MM, MfdibSizfNbmf.ISO_A2);
         /**
-         * Specifies the ISO A3 size, 297 mm by 420 mm.
+         * Spfdififs tif ISO A3 sizf, 297 mm by 420 mm.
          */
-        public static final MediaSize
-            A3 = new MediaSize(297, 420, Size2DSyntax.MM, MediaSizeName.ISO_A3);
+        publid stbtid finbl MfdibSizf
+            A3 = nfw MfdibSizf(297, 420, Sizf2DSyntbx.MM, MfdibSizfNbmf.ISO_A3);
         /**
-         * Specifies the ISO A4 size, 210 mm by 297 mm.
+         * Spfdififs tif ISO A4 sizf, 210 mm by 297 mm.
          */
-        public static final MediaSize
-            A4 = new MediaSize(210, 297, Size2DSyntax.MM, MediaSizeName.ISO_A4);
+        publid stbtid finbl MfdibSizf
+            A4 = nfw MfdibSizf(210, 297, Sizf2DSyntbx.MM, MfdibSizfNbmf.ISO_A4);
         /**
-         * Specifies the ISO A5 size, 148 mm by 210 mm.
+         * Spfdififs tif ISO A5 sizf, 148 mm by 210 mm.
          */
-        public static final MediaSize
-            A5 = new MediaSize(148, 210, Size2DSyntax.MM, MediaSizeName.ISO_A5);
+        publid stbtid finbl MfdibSizf
+            A5 = nfw MfdibSizf(148, 210, Sizf2DSyntbx.MM, MfdibSizfNbmf.ISO_A5);
         /**
-         * Specifies the ISO A6 size, 105 mm by 148 mm.
+         * Spfdififs tif ISO A6 sizf, 105 mm by 148 mm.
          */
-        public static final MediaSize
-            A6 = new MediaSize(105, 148, Size2DSyntax.MM, MediaSizeName.ISO_A6);
+        publid stbtid finbl MfdibSizf
+            A6 = nfw MfdibSizf(105, 148, Sizf2DSyntbx.MM, MfdibSizfNbmf.ISO_A6);
         /**
-         * Specifies the ISO A7 size, 74 mm by 105 mm.
+         * Spfdififs tif ISO A7 sizf, 74 mm by 105 mm.
          */
-        public static final MediaSize
-            A7 = new MediaSize(74, 105, Size2DSyntax.MM, MediaSizeName.ISO_A7);
+        publid stbtid finbl MfdibSizf
+            A7 = nfw MfdibSizf(74, 105, Sizf2DSyntbx.MM, MfdibSizfNbmf.ISO_A7);
         /**
-         * Specifies the ISO A8 size, 52 mm by 74 mm.
+         * Spfdififs tif ISO A8 sizf, 52 mm by 74 mm.
          */
-        public static final MediaSize
-            A8 = new MediaSize(52, 74, Size2DSyntax.MM, MediaSizeName.ISO_A8);
+        publid stbtid finbl MfdibSizf
+            A8 = nfw MfdibSizf(52, 74, Sizf2DSyntbx.MM, MfdibSizfNbmf.ISO_A8);
         /**
-         * Specifies the ISO A9 size, 37 mm by 52 mm.
+         * Spfdififs tif ISO A9 sizf, 37 mm by 52 mm.
          */
-        public static final MediaSize
-            A9 = new MediaSize(37, 52, Size2DSyntax.MM, MediaSizeName.ISO_A9);
+        publid stbtid finbl MfdibSizf
+            A9 = nfw MfdibSizf(37, 52, Sizf2DSyntbx.MM, MfdibSizfNbmf.ISO_A9);
         /**
-         * Specifies the ISO A10 size, 26 mm by 37 mm.
+         * Spfdififs tif ISO A10 sizf, 26 mm by 37 mm.
          */
-        public static final MediaSize
-            A10 = new MediaSize(26, 37, Size2DSyntax.MM, MediaSizeName.ISO_A10);
+        publid stbtid finbl MfdibSizf
+            A10 = nfw MfdibSizf(26, 37, Sizf2DSyntbx.MM, MfdibSizfNbmf.ISO_A10);
         /**
-         * Specifies the ISO B0 size, 1000 mm by 1414 mm.
+         * Spfdififs tif ISO B0 sizf, 1000 mm by 1414 mm.
          */
-        public static final MediaSize
-            B0 = new MediaSize(1000, 1414, Size2DSyntax.MM, MediaSizeName.ISO_B0);
+        publid stbtid finbl MfdibSizf
+            B0 = nfw MfdibSizf(1000, 1414, Sizf2DSyntbx.MM, MfdibSizfNbmf.ISO_B0);
         /**
-         * Specifies the ISO B1 size, 707 mm by 1000 mm.
+         * Spfdififs tif ISO B1 sizf, 707 mm by 1000 mm.
          */
-        public static final MediaSize
-            B1 = new MediaSize(707, 1000, Size2DSyntax.MM, MediaSizeName.ISO_B1);
+        publid stbtid finbl MfdibSizf
+            B1 = nfw MfdibSizf(707, 1000, Sizf2DSyntbx.MM, MfdibSizfNbmf.ISO_B1);
         /**
-         * Specifies the ISO B2 size, 500 mm by 707 mm.
+         * Spfdififs tif ISO B2 sizf, 500 mm by 707 mm.
          */
-        public static final MediaSize
-            B2 = new MediaSize(500, 707, Size2DSyntax.MM, MediaSizeName.ISO_B2);
+        publid stbtid finbl MfdibSizf
+            B2 = nfw MfdibSizf(500, 707, Sizf2DSyntbx.MM, MfdibSizfNbmf.ISO_B2);
         /**
-         * Specifies the ISO B3 size, 353 mm by 500 mm.
+         * Spfdififs tif ISO B3 sizf, 353 mm by 500 mm.
          */
-        public static final MediaSize
-            B3 = new MediaSize(353, 500, Size2DSyntax.MM, MediaSizeName.ISO_B3);
+        publid stbtid finbl MfdibSizf
+            B3 = nfw MfdibSizf(353, 500, Sizf2DSyntbx.MM, MfdibSizfNbmf.ISO_B3);
         /**
-         * Specifies the ISO B4 size, 250 mm by 353 mm.
+         * Spfdififs tif ISO B4 sizf, 250 mm by 353 mm.
          */
-        public static final MediaSize
-            B4 = new MediaSize(250, 353, Size2DSyntax.MM, MediaSizeName.ISO_B4);
+        publid stbtid finbl MfdibSizf
+            B4 = nfw MfdibSizf(250, 353, Sizf2DSyntbx.MM, MfdibSizfNbmf.ISO_B4);
         /**
-         * Specifies the ISO B5 size, 176 mm by 250 mm.
+         * Spfdififs tif ISO B5 sizf, 176 mm by 250 mm.
          */
-        public static final MediaSize
-            B5 = new MediaSize(176, 250, Size2DSyntax.MM, MediaSizeName.ISO_B5);
+        publid stbtid finbl MfdibSizf
+            B5 = nfw MfdibSizf(176, 250, Sizf2DSyntbx.MM, MfdibSizfNbmf.ISO_B5);
         /**
-         * Specifies the ISO B6 size, 125 mm by 176 mm.
+         * Spfdififs tif ISO B6 sizf, 125 mm by 176 mm.
          */
-        public static final MediaSize
-            B6 = new MediaSize(125, 176, Size2DSyntax.MM, MediaSizeName.ISO_B6);
+        publid stbtid finbl MfdibSizf
+            B6 = nfw MfdibSizf(125, 176, Sizf2DSyntbx.MM, MfdibSizfNbmf.ISO_B6);
         /**
-         * Specifies the ISO B7 size, 88 mm by 125 mm.
+         * Spfdififs tif ISO B7 sizf, 88 mm by 125 mm.
          */
-        public static final MediaSize
-            B7 = new MediaSize(88, 125, Size2DSyntax.MM, MediaSizeName.ISO_B7);
+        publid stbtid finbl MfdibSizf
+            B7 = nfw MfdibSizf(88, 125, Sizf2DSyntbx.MM, MfdibSizfNbmf.ISO_B7);
         /**
-         * Specifies the ISO B8 size, 62 mm by 88 mm.
+         * Spfdififs tif ISO B8 sizf, 62 mm by 88 mm.
          */
-        public static final MediaSize
-            B8 = new MediaSize(62, 88, Size2DSyntax.MM, MediaSizeName.ISO_B8);
+        publid stbtid finbl MfdibSizf
+            B8 = nfw MfdibSizf(62, 88, Sizf2DSyntbx.MM, MfdibSizfNbmf.ISO_B8);
         /**
-         * Specifies the ISO B9 size, 44 mm by 62 mm.
+         * Spfdififs tif ISO B9 sizf, 44 mm by 62 mm.
          */
-        public static final MediaSize
-            B9 = new MediaSize(44, 62, Size2DSyntax.MM, MediaSizeName.ISO_B9);
+        publid stbtid finbl MfdibSizf
+            B9 = nfw MfdibSizf(44, 62, Sizf2DSyntbx.MM, MfdibSizfNbmf.ISO_B9);
         /**
-         * Specifies the ISO B10 size, 31 mm by 44 mm.
+         * Spfdififs tif ISO B10 sizf, 31 mm by 44 mm.
          */
-        public static final MediaSize
-            B10 = new MediaSize(31, 44, Size2DSyntax.MM, MediaSizeName.ISO_B10);
+        publid stbtid finbl MfdibSizf
+            B10 = nfw MfdibSizf(31, 44, Sizf2DSyntbx.MM, MfdibSizfNbmf.ISO_B10);
         /**
-         * Specifies the ISO C3 size, 324 mm by 458 mm.
+         * Spfdififs tif ISO C3 sizf, 324 mm by 458 mm.
          */
-        public static final MediaSize
-            C3 = new MediaSize(324, 458, Size2DSyntax.MM, MediaSizeName.ISO_C3);
+        publid stbtid finbl MfdibSizf
+            C3 = nfw MfdibSizf(324, 458, Sizf2DSyntbx.MM, MfdibSizfNbmf.ISO_C3);
         /**
-         * Specifies the ISO C4 size, 229 mm by 324 mm.
+         * Spfdififs tif ISO C4 sizf, 229 mm by 324 mm.
          */
-        public static final MediaSize
-            C4 = new MediaSize(229, 324, Size2DSyntax.MM, MediaSizeName.ISO_C4);
+        publid stbtid finbl MfdibSizf
+            C4 = nfw MfdibSizf(229, 324, Sizf2DSyntbx.MM, MfdibSizfNbmf.ISO_C4);
         /**
-         * Specifies the ISO C5 size, 162 mm by 229 mm.
+         * Spfdififs tif ISO C5 sizf, 162 mm by 229 mm.
          */
-        public static final MediaSize
-            C5 = new MediaSize(162, 229, Size2DSyntax.MM, MediaSizeName.ISO_C5);
+        publid stbtid finbl MfdibSizf
+            C5 = nfw MfdibSizf(162, 229, Sizf2DSyntbx.MM, MfdibSizfNbmf.ISO_C5);
         /**
-         * Specifies the ISO C6 size, 114 mm by 162 mm.
+         * Spfdififs tif ISO C6 sizf, 114 mm by 162 mm.
          */
-        public static final MediaSize
-            C6 = new MediaSize(114, 162, Size2DSyntax.MM, MediaSizeName.ISO_C6);
+        publid stbtid finbl MfdibSizf
+            C6 = nfw MfdibSizf(114, 162, Sizf2DSyntbx.MM, MfdibSizfNbmf.ISO_C6);
         /**
-         * Specifies the ISO Designated Long size, 110 mm by 220 mm.
+         * Spfdififs tif ISO Dfsignbtfd Long sizf, 110 mm by 220 mm.
          */
-        public static final MediaSize
-            DESIGNATED_LONG = new MediaSize(110, 220, Size2DSyntax.MM,
-                                            MediaSizeName.ISO_DESIGNATED_LONG);
+        publid stbtid finbl MfdibSizf
+            DESIGNATED_LONG = nfw MfdibSizf(110, 220, Sizf2DSyntbx.MM,
+                                            MfdibSizfNbmf.ISO_DESIGNATED_LONG);
 
         /**
-         * Hide all constructors.
+         * Hidf bll donstrudtors.
          */
-        private ISO() {
+        privbtf ISO() {
         }
     }
 
     /**
-     * Class MediaSize.JIS includes {@link MediaSize MediaSize} values for JIS
-     * (Japanese) media.      *
+     * Clbss MfdibSizf.JIS indludfs {@link MfdibSizf MfdibSizf} vblufs for JIS
+     * (Jbpbnfsf) mfdib.      *
      */
-    public final static class JIS {
+    publid finbl stbtid dlbss JIS {
 
         /**
-         * Specifies the JIS B0 size, 1030 mm by 1456 mm.
+         * Spfdififs tif JIS B0 sizf, 1030 mm by 1456 mm.
          */
-        public static final MediaSize
-            B0 = new MediaSize(1030, 1456, Size2DSyntax.MM, MediaSizeName.JIS_B0);
+        publid stbtid finbl MfdibSizf
+            B0 = nfw MfdibSizf(1030, 1456, Sizf2DSyntbx.MM, MfdibSizfNbmf.JIS_B0);
         /**
-         * Specifies the JIS B1 size, 728 mm by 1030 mm.
+         * Spfdififs tif JIS B1 sizf, 728 mm by 1030 mm.
          */
-        public static final MediaSize
-            B1 = new MediaSize(728, 1030, Size2DSyntax.MM, MediaSizeName.JIS_B1);
+        publid stbtid finbl MfdibSizf
+            B1 = nfw MfdibSizf(728, 1030, Sizf2DSyntbx.MM, MfdibSizfNbmf.JIS_B1);
         /**
-         * Specifies the JIS B2 size, 515 mm by 728 mm.
+         * Spfdififs tif JIS B2 sizf, 515 mm by 728 mm.
          */
-        public static final MediaSize
-            B2 = new MediaSize(515, 728, Size2DSyntax.MM, MediaSizeName.JIS_B2);
+        publid stbtid finbl MfdibSizf
+            B2 = nfw MfdibSizf(515, 728, Sizf2DSyntbx.MM, MfdibSizfNbmf.JIS_B2);
         /**
-         * Specifies the JIS B3 size, 364 mm by 515 mm.
+         * Spfdififs tif JIS B3 sizf, 364 mm by 515 mm.
          */
-        public static final MediaSize
-            B3 = new MediaSize(364, 515, Size2DSyntax.MM, MediaSizeName.JIS_B3);
+        publid stbtid finbl MfdibSizf
+            B3 = nfw MfdibSizf(364, 515, Sizf2DSyntbx.MM, MfdibSizfNbmf.JIS_B3);
         /**
-         * Specifies the JIS B4 size, 257 mm by 364 mm.
+         * Spfdififs tif JIS B4 sizf, 257 mm by 364 mm.
          */
-        public static final MediaSize
-            B4 = new MediaSize(257, 364, Size2DSyntax.MM, MediaSizeName.JIS_B4);
+        publid stbtid finbl MfdibSizf
+            B4 = nfw MfdibSizf(257, 364, Sizf2DSyntbx.MM, MfdibSizfNbmf.JIS_B4);
         /**
-         * Specifies the JIS B5 size, 182 mm by 257 mm.
+         * Spfdififs tif JIS B5 sizf, 182 mm by 257 mm.
          */
-        public static final MediaSize
-            B5 = new MediaSize(182, 257, Size2DSyntax.MM, MediaSizeName.JIS_B5);
+        publid stbtid finbl MfdibSizf
+            B5 = nfw MfdibSizf(182, 257, Sizf2DSyntbx.MM, MfdibSizfNbmf.JIS_B5);
         /**
-         * Specifies the JIS B6 size, 128 mm by 182 mm.
+         * Spfdififs tif JIS B6 sizf, 128 mm by 182 mm.
          */
-        public static final MediaSize
-            B6 = new MediaSize(128, 182, Size2DSyntax.MM, MediaSizeName.JIS_B6);
+        publid stbtid finbl MfdibSizf
+            B6 = nfw MfdibSizf(128, 182, Sizf2DSyntbx.MM, MfdibSizfNbmf.JIS_B6);
         /**
-         * Specifies the JIS B7 size, 91 mm by 128 mm.
+         * Spfdififs tif JIS B7 sizf, 91 mm by 128 mm.
          */
-        public static final MediaSize
-            B7 = new MediaSize(91, 128, Size2DSyntax.MM, MediaSizeName.JIS_B7);
+        publid stbtid finbl MfdibSizf
+            B7 = nfw MfdibSizf(91, 128, Sizf2DSyntbx.MM, MfdibSizfNbmf.JIS_B7);
         /**
-         * Specifies the JIS B8 size, 64 mm by 91 mm.
+         * Spfdififs tif JIS B8 sizf, 64 mm by 91 mm.
          */
-        public static final MediaSize
-            B8 = new MediaSize(64, 91, Size2DSyntax.MM, MediaSizeName.JIS_B8);
+        publid stbtid finbl MfdibSizf
+            B8 = nfw MfdibSizf(64, 91, Sizf2DSyntbx.MM, MfdibSizfNbmf.JIS_B8);
         /**
-         * Specifies the JIS B9 size, 45 mm by 64 mm.
+         * Spfdififs tif JIS B9 sizf, 45 mm by 64 mm.
          */
-        public static final MediaSize
-            B9 = new MediaSize(45, 64, Size2DSyntax.MM, MediaSizeName.JIS_B9);
+        publid stbtid finbl MfdibSizf
+            B9 = nfw MfdibSizf(45, 64, Sizf2DSyntbx.MM, MfdibSizfNbmf.JIS_B9);
         /**
-         * Specifies the JIS B10 size, 32 mm by 45 mm.
+         * Spfdififs tif JIS B10 sizf, 32 mm by 45 mm.
          */
-        public static final MediaSize
-            B10 = new MediaSize(32, 45, Size2DSyntax.MM, MediaSizeName.JIS_B10);
+        publid stbtid finbl MfdibSizf
+            B10 = nfw MfdibSizf(32, 45, Sizf2DSyntbx.MM, MfdibSizfNbmf.JIS_B10);
         /**
-         * Specifies the JIS Chou ("long") #1 envelope size, 142 mm by 332 mm.
+         * Spfdififs tif JIS Ciou ("long") #1 fnvflopf sizf, 142 mm by 332 mm.
          */
-        public static final MediaSize CHOU_1 = new MediaSize(142, 332, Size2DSyntax.MM);
+        publid stbtid finbl MfdibSizf CHOU_1 = nfw MfdibSizf(142, 332, Sizf2DSyntbx.MM);
         /**
-         * Specifies the JIS Chou ("long") #2 envelope size, 119 mm by 277 mm.
+         * Spfdififs tif JIS Ciou ("long") #2 fnvflopf sizf, 119 mm by 277 mm.
          */
-        public static final MediaSize CHOU_2 = new MediaSize(119, 277, Size2DSyntax.MM);
+        publid stbtid finbl MfdibSizf CHOU_2 = nfw MfdibSizf(119, 277, Sizf2DSyntbx.MM);
         /**
-         * Specifies the JIS Chou ("long") #3 envelope size, 120 mm by 235 mm.
+         * Spfdififs tif JIS Ciou ("long") #3 fnvflopf sizf, 120 mm by 235 mm.
          */
-        public static final MediaSize CHOU_3 = new MediaSize(120, 235, Size2DSyntax.MM);
+        publid stbtid finbl MfdibSizf CHOU_3 = nfw MfdibSizf(120, 235, Sizf2DSyntbx.MM);
         /**
-         * Specifies the JIS Chou ("long") #4 envelope size, 90 mm by 205 mm.
+         * Spfdififs tif JIS Ciou ("long") #4 fnvflopf sizf, 90 mm by 205 mm.
          */
-        public static final MediaSize CHOU_4 = new MediaSize(90, 205, Size2DSyntax.MM);
+        publid stbtid finbl MfdibSizf CHOU_4 = nfw MfdibSizf(90, 205, Sizf2DSyntbx.MM);
         /**
-         * Specifies the JIS Chou ("long") #30 envelope size, 92 mm by 235 mm.
+         * Spfdififs tif JIS Ciou ("long") #30 fnvflopf sizf, 92 mm by 235 mm.
          */
-        public static final MediaSize CHOU_30 = new MediaSize(92, 235, Size2DSyntax.MM);
+        publid stbtid finbl MfdibSizf CHOU_30 = nfw MfdibSizf(92, 235, Sizf2DSyntbx.MM);
         /**
-         * Specifies the JIS Chou ("long") #40 envelope size, 90 mm by 225 mm.
+         * Spfdififs tif JIS Ciou ("long") #40 fnvflopf sizf, 90 mm by 225 mm.
          */
-        public static final MediaSize CHOU_40 = new MediaSize(90, 225, Size2DSyntax.MM);
+        publid stbtid finbl MfdibSizf CHOU_40 = nfw MfdibSizf(90, 225, Sizf2DSyntbx.MM);
         /**
-         * Specifies the JIS Kaku ("square") #0 envelope size, 287 mm by 382 mm.
+         * Spfdififs tif JIS Kbku ("squbrf") #0 fnvflopf sizf, 287 mm by 382 mm.
          */
-        public static final MediaSize KAKU_0 = new MediaSize(287, 382, Size2DSyntax.MM);
+        publid stbtid finbl MfdibSizf KAKU_0 = nfw MfdibSizf(287, 382, Sizf2DSyntbx.MM);
         /**
-         * Specifies the JIS Kaku ("square") #1 envelope size, 270 mm by 382 mm.
+         * Spfdififs tif JIS Kbku ("squbrf") #1 fnvflopf sizf, 270 mm by 382 mm.
          */
-        public static final MediaSize KAKU_1 = new MediaSize(270, 382, Size2DSyntax.MM);
+        publid stbtid finbl MfdibSizf KAKU_1 = nfw MfdibSizf(270, 382, Sizf2DSyntbx.MM);
         /**
-         * Specifies the JIS Kaku ("square") #2 envelope size, 240 mm by 332 mm.
+         * Spfdififs tif JIS Kbku ("squbrf") #2 fnvflopf sizf, 240 mm by 332 mm.
          */
-        public static final MediaSize KAKU_2 = new MediaSize(240, 332, Size2DSyntax.MM);
+        publid stbtid finbl MfdibSizf KAKU_2 = nfw MfdibSizf(240, 332, Sizf2DSyntbx.MM);
         /**
-         * Specifies the JIS Kaku ("square") #3 envelope size, 216 mm by 277 mm.
+         * Spfdififs tif JIS Kbku ("squbrf") #3 fnvflopf sizf, 216 mm by 277 mm.
          */
-        public static final MediaSize KAKU_3 = new MediaSize(216, 277, Size2DSyntax.MM);
+        publid stbtid finbl MfdibSizf KAKU_3 = nfw MfdibSizf(216, 277, Sizf2DSyntbx.MM);
         /**
-         * Specifies the JIS Kaku ("square") #4 envelope size, 197 mm by 267 mm.
+         * Spfdififs tif JIS Kbku ("squbrf") #4 fnvflopf sizf, 197 mm by 267 mm.
          */
-        public static final MediaSize KAKU_4 = new MediaSize(197, 267, Size2DSyntax.MM);
+        publid stbtid finbl MfdibSizf KAKU_4 = nfw MfdibSizf(197, 267, Sizf2DSyntbx.MM);
         /**
-         * Specifies the JIS Kaku ("square") #5 envelope size, 190 mm by 240 mm.
+         * Spfdififs tif JIS Kbku ("squbrf") #5 fnvflopf sizf, 190 mm by 240 mm.
          */
-        public static final MediaSize KAKU_5 = new MediaSize(190, 240, Size2DSyntax.MM);
+        publid stbtid finbl MfdibSizf KAKU_5 = nfw MfdibSizf(190, 240, Sizf2DSyntbx.MM);
         /**
-         * Specifies the JIS Kaku ("square") #6 envelope size, 162 mm by 229 mm.
+         * Spfdififs tif JIS Kbku ("squbrf") #6 fnvflopf sizf, 162 mm by 229 mm.
          */
-        public static final MediaSize KAKU_6 = new MediaSize(162, 229, Size2DSyntax.MM);
+        publid stbtid finbl MfdibSizf KAKU_6 = nfw MfdibSizf(162, 229, Sizf2DSyntbx.MM);
         /**
-         * Specifies the JIS Kaku ("square") #7 envelope size, 142 mm by 205 mm.
+         * Spfdififs tif JIS Kbku ("squbrf") #7 fnvflopf sizf, 142 mm by 205 mm.
          */
-        public static final MediaSize KAKU_7 = new MediaSize(142, 205, Size2DSyntax.MM);
+        publid stbtid finbl MfdibSizf KAKU_7 = nfw MfdibSizf(142, 205, Sizf2DSyntbx.MM);
         /**
-         * Specifies the JIS Kaku ("square") #8 envelope size, 119 mm by 197 mm.
+         * Spfdififs tif JIS Kbku ("squbrf") #8 fnvflopf sizf, 119 mm by 197 mm.
          */
-        public static final MediaSize KAKU_8 = new MediaSize(119, 197, Size2DSyntax.MM);
+        publid stbtid finbl MfdibSizf KAKU_8 = nfw MfdibSizf(119, 197, Sizf2DSyntbx.MM);
         /**
-         * Specifies the JIS Kaku ("square") #20 envelope size, 229 mm by 324 mm.
+         * Spfdififs tif JIS Kbku ("squbrf") #20 fnvflopf sizf, 229 mm by 324 mm.
          */
-        public static final MediaSize KAKU_20 = new MediaSize(229, 324, Size2DSyntax.MM);
+        publid stbtid finbl MfdibSizf KAKU_20 = nfw MfdibSizf(229, 324, Sizf2DSyntbx.MM);
         /**
-         * Specifies the JIS Kaku ("square") A4 envelope size, 228 mm by 312 mm.
+         * Spfdififs tif JIS Kbku ("squbrf") A4 fnvflopf sizf, 228 mm by 312 mm.
          */
-        public static final MediaSize KAKU_A4 = new MediaSize(228, 312, Size2DSyntax.MM);
+        publid stbtid finbl MfdibSizf KAKU_A4 = nfw MfdibSizf(228, 312, Sizf2DSyntbx.MM);
         /**
-         * Specifies the JIS You ("Western") #1 envelope size, 120 mm by 176 mm.
+         * Spfdififs tif JIS You ("Wfstfrn") #1 fnvflopf sizf, 120 mm by 176 mm.
          */
-        public static final MediaSize YOU_1 = new MediaSize(120, 176, Size2DSyntax.MM);
+        publid stbtid finbl MfdibSizf YOU_1 = nfw MfdibSizf(120, 176, Sizf2DSyntbx.MM);
         /**
-         * Specifies the JIS You ("Western") #2 envelope size, 114 mm by 162 mm.
+         * Spfdififs tif JIS You ("Wfstfrn") #2 fnvflopf sizf, 114 mm by 162 mm.
          */
-        public static final MediaSize YOU_2 = new MediaSize(114, 162, Size2DSyntax.MM);
+        publid stbtid finbl MfdibSizf YOU_2 = nfw MfdibSizf(114, 162, Sizf2DSyntbx.MM);
         /**
-         * Specifies the JIS You ("Western") #3 envelope size, 98 mm by 148 mm.
+         * Spfdififs tif JIS You ("Wfstfrn") #3 fnvflopf sizf, 98 mm by 148 mm.
          */
-        public static final MediaSize YOU_3 = new MediaSize(98, 148, Size2DSyntax.MM);
+        publid stbtid finbl MfdibSizf YOU_3 = nfw MfdibSizf(98, 148, Sizf2DSyntbx.MM);
         /**
-         * Specifies the JIS You ("Western") #4 envelope size, 105 mm by 235 mm.
+         * Spfdififs tif JIS You ("Wfstfrn") #4 fnvflopf sizf, 105 mm by 235 mm.
          */
-        public static final MediaSize YOU_4 = new MediaSize(105, 235, Size2DSyntax.MM);
+        publid stbtid finbl MfdibSizf YOU_4 = nfw MfdibSizf(105, 235, Sizf2DSyntbx.MM);
         /**
-         * Specifies the JIS You ("Western") #5 envelope size, 95 mm by 217 mm.
+         * Spfdififs tif JIS You ("Wfstfrn") #5 fnvflopf sizf, 95 mm by 217 mm.
          */
-        public static final MediaSize YOU_5 = new MediaSize(95, 217, Size2DSyntax.MM);
+        publid stbtid finbl MfdibSizf YOU_5 = nfw MfdibSizf(95, 217, Sizf2DSyntbx.MM);
         /**
-         * Specifies the JIS You ("Western") #6 envelope size, 98 mm by 190 mm.
+         * Spfdififs tif JIS You ("Wfstfrn") #6 fnvflopf sizf, 98 mm by 190 mm.
          */
-        public static final MediaSize YOU_6 = new MediaSize(98, 190, Size2DSyntax.MM);
+        publid stbtid finbl MfdibSizf YOU_6 = nfw MfdibSizf(98, 190, Sizf2DSyntbx.MM);
         /**
-         * Specifies the JIS You ("Western") #7 envelope size, 92 mm by 165 mm.
+         * Spfdififs tif JIS You ("Wfstfrn") #7 fnvflopf sizf, 92 mm by 165 mm.
          */
-        public static final MediaSize YOU_7 = new MediaSize(92, 165, Size2DSyntax.MM);
+        publid stbtid finbl MfdibSizf YOU_7 = nfw MfdibSizf(92, 165, Sizf2DSyntbx.MM);
         /**
-         * Hide all constructors.
+         * Hidf bll donstrudtors.
          */
-        private JIS() {
+        privbtf JIS() {
         }
     }
 
     /**
-     * Class MediaSize.NA includes {@link MediaSize MediaSize} values for North
-     * American media.
+     * Clbss MfdibSizf.NA indludfs {@link MfdibSizf MfdibSizf} vblufs for Norti
+     * Amfridbn mfdib.
      */
-    public final static class NA {
+    publid finbl stbtid dlbss NA {
 
         /**
-         * Specifies the North American letter size, 8.5 inches by 11 inches.
+         * Spfdififs tif Norti Amfridbn lfttfr sizf, 8.5 indifs by 11 indifs.
          */
-        public static final MediaSize
-            LETTER = new MediaSize(8.5f, 11.0f, Size2DSyntax.INCH,
-                                                MediaSizeName.NA_LETTER);
+        publid stbtid finbl MfdibSizf
+            LETTER = nfw MfdibSizf(8.5f, 11.0f, Sizf2DSyntbx.INCH,
+                                                MfdibSizfNbmf.NA_LETTER);
         /**
-         * Specifies the North American legal size, 8.5 inches by 14 inches.
+         * Spfdififs tif Norti Amfridbn lfgbl sizf, 8.5 indifs by 14 indifs.
          */
-        public static final MediaSize
-            LEGAL = new MediaSize(8.5f, 14.0f, Size2DSyntax.INCH,
-                                               MediaSizeName.NA_LEGAL);
+        publid stbtid finbl MfdibSizf
+            LEGAL = nfw MfdibSizf(8.5f, 14.0f, Sizf2DSyntbx.INCH,
+                                               MfdibSizfNbmf.NA_LEGAL);
         /**
-         * Specifies the North American 5 inch by 7 inch paper.
+         * Spfdififs tif Norti Amfridbn 5 indi by 7 indi pbpfr.
          */
-        public static final MediaSize
-            NA_5X7 = new MediaSize(5, 7, Size2DSyntax.INCH,
-                                   MediaSizeName.NA_5X7);
+        publid stbtid finbl MfdibSizf
+            NA_5X7 = nfw MfdibSizf(5, 7, Sizf2DSyntbx.INCH,
+                                   MfdibSizfNbmf.NA_5X7);
         /**
-         * Specifies the North American 8 inch by 10 inch paper.
+         * Spfdififs tif Norti Amfridbn 8 indi by 10 indi pbpfr.
          */
-        public static final MediaSize
-            NA_8X10 = new MediaSize(8, 10, Size2DSyntax.INCH,
-                                   MediaSizeName.NA_8X10);
+        publid stbtid finbl MfdibSizf
+            NA_8X10 = nfw MfdibSizf(8, 10, Sizf2DSyntbx.INCH,
+                                   MfdibSizfNbmf.NA_8X10);
         /**
-         * Specifies the North American Number 9 business envelope size,
-         * 3.875 inches by 8.875 inches.
+         * Spfdififs tif Norti Amfridbn Numbfr 9 businfss fnvflopf sizf,
+         * 3.875 indifs by 8.875 indifs.
          */
-        public static final MediaSize
+        publid stbtid finbl MfdibSizf
             NA_NUMBER_9_ENVELOPE =
-            new MediaSize(3.875f, 8.875f, Size2DSyntax.INCH,
-                          MediaSizeName.NA_NUMBER_9_ENVELOPE);
+            nfw MfdibSizf(3.875f, 8.875f, Sizf2DSyntbx.INCH,
+                          MfdibSizfNbmf.NA_NUMBER_9_ENVELOPE);
         /**
-         * Specifies the North American Number 10 business envelope size,
-         * 4.125 inches by 9.5 inches.
+         * Spfdififs tif Norti Amfridbn Numbfr 10 businfss fnvflopf sizf,
+         * 4.125 indifs by 9.5 indifs.
          */
-        public static final MediaSize
+        publid stbtid finbl MfdibSizf
             NA_NUMBER_10_ENVELOPE =
-            new MediaSize(4.125f, 9.5f, Size2DSyntax.INCH,
-                          MediaSizeName.NA_NUMBER_10_ENVELOPE);
+            nfw MfdibSizf(4.125f, 9.5f, Sizf2DSyntbx.INCH,
+                          MfdibSizfNbmf.NA_NUMBER_10_ENVELOPE);
         /**
-         * Specifies the North American Number 11 business envelope size,
-         * 4.5 inches by 10.375 inches.
+         * Spfdififs tif Norti Amfridbn Numbfr 11 businfss fnvflopf sizf,
+         * 4.5 indifs by 10.375 indifs.
          */
-        public static final MediaSize
+        publid stbtid finbl MfdibSizf
             NA_NUMBER_11_ENVELOPE =
-            new MediaSize(4.5f, 10.375f, Size2DSyntax.INCH,
-                          MediaSizeName.NA_NUMBER_11_ENVELOPE);
+            nfw MfdibSizf(4.5f, 10.375f, Sizf2DSyntbx.INCH,
+                          MfdibSizfNbmf.NA_NUMBER_11_ENVELOPE);
         /**
-         * Specifies the North American Number 12 business envelope size,
-         * 4.75 inches by 11 inches.
+         * Spfdififs tif Norti Amfridbn Numbfr 12 businfss fnvflopf sizf,
+         * 4.75 indifs by 11 indifs.
          */
-        public static final MediaSize
+        publid stbtid finbl MfdibSizf
             NA_NUMBER_12_ENVELOPE =
-            new MediaSize(4.75f, 11.0f, Size2DSyntax.INCH,
-                          MediaSizeName.NA_NUMBER_12_ENVELOPE);
+            nfw MfdibSizf(4.75f, 11.0f, Sizf2DSyntbx.INCH,
+                          MfdibSizfNbmf.NA_NUMBER_12_ENVELOPE);
         /**
-         * Specifies the North American Number 14 business envelope size,
-         * 5 inches by 11.5 inches.
+         * Spfdififs tif Norti Amfridbn Numbfr 14 businfss fnvflopf sizf,
+         * 5 indifs by 11.5 indifs.
          */
-        public static final MediaSize
+        publid stbtid finbl MfdibSizf
             NA_NUMBER_14_ENVELOPE =
-            new MediaSize(5.0f, 11.5f, Size2DSyntax.INCH,
-                          MediaSizeName.NA_NUMBER_14_ENVELOPE);
+            nfw MfdibSizf(5.0f, 11.5f, Sizf2DSyntbx.INCH,
+                          MfdibSizfNbmf.NA_NUMBER_14_ENVELOPE);
 
         /**
-         * Specifies the North American 6 inch by 9 inch envelope size.
+         * Spfdififs tif Norti Amfridbn 6 indi by 9 indi fnvflopf sizf.
          */
-        public static final MediaSize
-            NA_6X9_ENVELOPE = new MediaSize(6.0f, 9.0f, Size2DSyntax.INCH,
-                                            MediaSizeName.NA_6X9_ENVELOPE);
+        publid stbtid finbl MfdibSizf
+            NA_6X9_ENVELOPE = nfw MfdibSizf(6.0f, 9.0f, Sizf2DSyntbx.INCH,
+                                            MfdibSizfNbmf.NA_6X9_ENVELOPE);
         /**
-         * Specifies the North American 7 inch by 9 inch envelope size.
+         * Spfdififs tif Norti Amfridbn 7 indi by 9 indi fnvflopf sizf.
          */
-        public static final MediaSize
-            NA_7X9_ENVELOPE = new MediaSize(7.0f, 9.0f, Size2DSyntax.INCH,
-                                            MediaSizeName.NA_7X9_ENVELOPE);
+        publid stbtid finbl MfdibSizf
+            NA_7X9_ENVELOPE = nfw MfdibSizf(7.0f, 9.0f, Sizf2DSyntbx.INCH,
+                                            MfdibSizfNbmf.NA_7X9_ENVELOPE);
         /**
-         * Specifies the North American 9 inch by 11 inch envelope size.
+         * Spfdififs tif Norti Amfridbn 9 indi by 11 indi fnvflopf sizf.
          */
-        public static final MediaSize
-            NA_9x11_ENVELOPE = new MediaSize(9.0f, 11.0f, Size2DSyntax.INCH,
-                                             MediaSizeName.NA_9X11_ENVELOPE);
+        publid stbtid finbl MfdibSizf
+            NA_9x11_ENVELOPE = nfw MfdibSizf(9.0f, 11.0f, Sizf2DSyntbx.INCH,
+                                             MfdibSizfNbmf.NA_9X11_ENVELOPE);
         /**
-         * Specifies the North American 9 inch by 12 inch envelope size.
+         * Spfdififs tif Norti Amfridbn 9 indi by 12 indi fnvflopf sizf.
          */
-        public static final MediaSize
-            NA_9x12_ENVELOPE = new MediaSize(9.0f, 12.0f, Size2DSyntax.INCH,
-                                             MediaSizeName.NA_9X12_ENVELOPE);
+        publid stbtid finbl MfdibSizf
+            NA_9x12_ENVELOPE = nfw MfdibSizf(9.0f, 12.0f, Sizf2DSyntbx.INCH,
+                                             MfdibSizfNbmf.NA_9X12_ENVELOPE);
         /**
-         * Specifies the North American 10 inch by 13 inch envelope size.
+         * Spfdififs tif Norti Amfridbn 10 indi by 13 indi fnvflopf sizf.
          */
-        public static final MediaSize
-            NA_10x13_ENVELOPE = new MediaSize(10.0f, 13.0f, Size2DSyntax.INCH,
-                                              MediaSizeName.NA_10X13_ENVELOPE);
+        publid stbtid finbl MfdibSizf
+            NA_10x13_ENVELOPE = nfw MfdibSizf(10.0f, 13.0f, Sizf2DSyntbx.INCH,
+                                              MfdibSizfNbmf.NA_10X13_ENVELOPE);
         /**
-         * Specifies the North American 10 inch by 14 inch envelope size.
+         * Spfdififs tif Norti Amfridbn 10 indi by 14 indi fnvflopf sizf.
          */
-        public static final MediaSize
-            NA_10x14_ENVELOPE = new MediaSize(10.0f, 14.0f, Size2DSyntax.INCH,
-                                              MediaSizeName.NA_10X14_ENVELOPE);
+        publid stbtid finbl MfdibSizf
+            NA_10x14_ENVELOPE = nfw MfdibSizf(10.0f, 14.0f, Sizf2DSyntbx.INCH,
+                                              MfdibSizfNbmf.NA_10X14_ENVELOPE);
         /**
-         * Specifies the North American 10 inch by 15 inch envelope size.
+         * Spfdififs tif Norti Amfridbn 10 indi by 15 indi fnvflopf sizf.
          */
-        public static final MediaSize
-            NA_10X15_ENVELOPE = new MediaSize(10.0f, 15.0f, Size2DSyntax.INCH,
-                                              MediaSizeName.NA_10X15_ENVELOPE);
+        publid stbtid finbl MfdibSizf
+            NA_10X15_ENVELOPE = nfw MfdibSizf(10.0f, 15.0f, Sizf2DSyntbx.INCH,
+                                              MfdibSizfNbmf.NA_10X15_ENVELOPE);
         /**
-         * Hide all constructors.
+         * Hidf bll donstrudtors.
          */
-        private NA() {
+        privbtf NA() {
         }
     }
 
     /**
-     * Class MediaSize.Engineering includes {@link MediaSize MediaSize} values
-     * for engineering media.
+     * Clbss MfdibSizf.Enginffring indludfs {@link MfdibSizf MfdibSizf} vblufs
+     * for fnginffring mfdib.
      */
-    public final static class Engineering {
+    publid finbl stbtid dlbss Enginffring {
 
         /**
-         * Specifies the engineering A size, 8.5 inch by 11 inch.
+         * Spfdififs tif fnginffring A sizf, 8.5 indi by 11 indi.
          */
-        public static final MediaSize
-            A = new MediaSize(8.5f, 11.0f, Size2DSyntax.INCH,
-                              MediaSizeName.A);
+        publid stbtid finbl MfdibSizf
+            A = nfw MfdibSizf(8.5f, 11.0f, Sizf2DSyntbx.INCH,
+                              MfdibSizfNbmf.A);
         /**
-         * Specifies the engineering B size, 11 inch by 17 inch.
+         * Spfdififs tif fnginffring B sizf, 11 indi by 17 indi.
          */
-        public static final MediaSize
-            B = new MediaSize(11.0f, 17.0f, Size2DSyntax.INCH,
-                              MediaSizeName.B);
+        publid stbtid finbl MfdibSizf
+            B = nfw MfdibSizf(11.0f, 17.0f, Sizf2DSyntbx.INCH,
+                              MfdibSizfNbmf.B);
         /**
-         * Specifies the engineering C size, 17 inch by 22 inch.
+         * Spfdififs tif fnginffring C sizf, 17 indi by 22 indi.
          */
-        public static final MediaSize
-            C = new MediaSize(17.0f, 22.0f, Size2DSyntax.INCH,
-                              MediaSizeName.C);
+        publid stbtid finbl MfdibSizf
+            C = nfw MfdibSizf(17.0f, 22.0f, Sizf2DSyntbx.INCH,
+                              MfdibSizfNbmf.C);
         /**
-         * Specifies the engineering D size, 22 inch by 34 inch.
+         * Spfdififs tif fnginffring D sizf, 22 indi by 34 indi.
          */
-        public static final MediaSize
-            D = new MediaSize(22.0f, 34.0f, Size2DSyntax.INCH,
-                              MediaSizeName.D);
+        publid stbtid finbl MfdibSizf
+            D = nfw MfdibSizf(22.0f, 34.0f, Sizf2DSyntbx.INCH,
+                              MfdibSizfNbmf.D);
         /**
-         * Specifies the engineering E size, 34 inch by 44 inch.
+         * Spfdififs tif fnginffring E sizf, 34 indi by 44 indi.
          */
-        public static final MediaSize
-            E = new MediaSize(34.0f, 44.0f, Size2DSyntax.INCH,
-                              MediaSizeName.E);
+        publid stbtid finbl MfdibSizf
+            E = nfw MfdibSizf(34.0f, 44.0f, Sizf2DSyntbx.INCH,
+                              MfdibSizfNbmf.E);
         /**
-         * Hide all constructors.
+         * Hidf bll donstrudtors.
          */
-        private Engineering() {
+        privbtf Enginffring() {
         }
     }
 
     /**
-     * Class MediaSize.Other includes {@link MediaSize MediaSize} values for
-     * miscellaneous media.
+     * Clbss MfdibSizf.Otifr indludfs {@link MfdibSizf MfdibSizf} vblufs for
+     * misdfllbnfous mfdib.
      */
-    public final static class Other {
+    publid finbl stbtid dlbss Otifr {
         /**
-         * Specifies the executive size, 7.25 inches by 10.5 inches.
+         * Spfdififs tif fxfdutivf sizf, 7.25 indifs by 10.5 indifs.
          */
-        public static final MediaSize
-            EXECUTIVE = new MediaSize(7.25f, 10.5f, Size2DSyntax.INCH,
-                                      MediaSizeName.EXECUTIVE);
+        publid stbtid finbl MfdibSizf
+            EXECUTIVE = nfw MfdibSizf(7.25f, 10.5f, Sizf2DSyntbx.INCH,
+                                      MfdibSizfNbmf.EXECUTIVE);
         /**
-         * Specifies the ledger size, 11 inches by 17 inches.
+         * Spfdififs tif lfdgfr sizf, 11 indifs by 17 indifs.
          */
-        public static final MediaSize
-            LEDGER = new MediaSize(11.0f, 17.0f, Size2DSyntax.INCH,
-                                   MediaSizeName.LEDGER);
+        publid stbtid finbl MfdibSizf
+            LEDGER = nfw MfdibSizf(11.0f, 17.0f, Sizf2DSyntbx.INCH,
+                                   MfdibSizfNbmf.LEDGER);
 
         /**
-         * Specifies the tabloid size, 11 inches by 17 inches.
-         * @since 1.5
+         * Spfdififs tif tbbloid sizf, 11 indifs by 17 indifs.
+         * @sindf 1.5
          */
-        public static final MediaSize
-            TABLOID = new MediaSize(11.0f, 17.0f, Size2DSyntax.INCH,
-                                   MediaSizeName.TABLOID);
+        publid stbtid finbl MfdibSizf
+            TABLOID = nfw MfdibSizf(11.0f, 17.0f, Sizf2DSyntbx.INCH,
+                                   MfdibSizfNbmf.TABLOID);
 
         /**
-         * Specifies the invoice size, 5.5 inches by 8.5 inches.
+         * Spfdififs tif invoidf sizf, 5.5 indifs by 8.5 indifs.
          */
-        public static final MediaSize
-            INVOICE = new MediaSize(5.5f, 8.5f, Size2DSyntax.INCH,
-                              MediaSizeName.INVOICE);
+        publid stbtid finbl MfdibSizf
+            INVOICE = nfw MfdibSizf(5.5f, 8.5f, Sizf2DSyntbx.INCH,
+                              MfdibSizfNbmf.INVOICE);
         /**
-         * Specifies the folio size, 8.5 inches by 13 inches.
+         * Spfdififs tif folio sizf, 8.5 indifs by 13 indifs.
          */
-        public static final MediaSize
-            FOLIO = new MediaSize(8.5f, 13.0f, Size2DSyntax.INCH,
-                                  MediaSizeName.FOLIO);
+        publid stbtid finbl MfdibSizf
+            FOLIO = nfw MfdibSizf(8.5f, 13.0f, Sizf2DSyntbx.INCH,
+                                  MfdibSizfNbmf.FOLIO);
         /**
-         * Specifies the quarto size, 8.5 inches by 10.83 inches.
+         * Spfdififs tif qubrto sizf, 8.5 indifs by 10.83 indifs.
          */
-        public static final MediaSize
-            QUARTO = new MediaSize(8.5f, 10.83f, Size2DSyntax.INCH,
-                                   MediaSizeName.QUARTO);
+        publid stbtid finbl MfdibSizf
+            QUARTO = nfw MfdibSizf(8.5f, 10.83f, Sizf2DSyntbx.INCH,
+                                   MfdibSizfNbmf.QUARTO);
         /**
-         * Specifies the Italy envelope size, 110 mm by 230 mm.
+         * Spfdififs tif Itbly fnvflopf sizf, 110 mm by 230 mm.
          */
-        public static final MediaSize
-        ITALY_ENVELOPE = new MediaSize(110, 230, Size2DSyntax.MM,
-                                       MediaSizeName.ITALY_ENVELOPE);
+        publid stbtid finbl MfdibSizf
+        ITALY_ENVELOPE = nfw MfdibSizf(110, 230, Sizf2DSyntbx.MM,
+                                       MfdibSizfNbmf.ITALY_ENVELOPE);
         /**
-         * Specifies the Monarch envelope size, 3.87 inch by 7.5 inch.
+         * Spfdififs tif Monbrdi fnvflopf sizf, 3.87 indi by 7.5 indi.
          */
-        public static final MediaSize
-        MONARCH_ENVELOPE = new MediaSize(3.87f, 7.5f, Size2DSyntax.INCH,
-                                         MediaSizeName.MONARCH_ENVELOPE);
+        publid stbtid finbl MfdibSizf
+        MONARCH_ENVELOPE = nfw MfdibSizf(3.87f, 7.5f, Sizf2DSyntbx.INCH,
+                                         MfdibSizfNbmf.MONARCH_ENVELOPE);
         /**
-         * Specifies the Personal envelope size, 3.625 inch by 6.5 inch.
+         * Spfdififs tif Pfrsonbl fnvflopf sizf, 3.625 indi by 6.5 indi.
          */
-        public static final MediaSize
-        PERSONAL_ENVELOPE = new MediaSize(3.625f, 6.5f, Size2DSyntax.INCH,
-                                         MediaSizeName.PERSONAL_ENVELOPE);
+        publid stbtid finbl MfdibSizf
+        PERSONAL_ENVELOPE = nfw MfdibSizf(3.625f, 6.5f, Sizf2DSyntbx.INCH,
+                                         MfdibSizfNbmf.PERSONAL_ENVELOPE);
         /**
-         * Specifies the Japanese postcard size, 100 mm by 148 mm.
+         * Spfdififs tif Jbpbnfsf postdbrd sizf, 100 mm by 148 mm.
          */
-        public static final MediaSize
-            JAPANESE_POSTCARD = new MediaSize(100, 148, Size2DSyntax.MM,
-                                              MediaSizeName.JAPANESE_POSTCARD);
+        publid stbtid finbl MfdibSizf
+            JAPANESE_POSTCARD = nfw MfdibSizf(100, 148, Sizf2DSyntbx.MM,
+                                              MfdibSizfNbmf.JAPANESE_POSTCARD);
         /**
-         * Specifies the Japanese Double postcard size, 148 mm by 200 mm.
+         * Spfdififs tif Jbpbnfsf Doublf postdbrd sizf, 148 mm by 200 mm.
          */
-        public static final MediaSize
-            JAPANESE_DOUBLE_POSTCARD = new MediaSize(148, 200, Size2DSyntax.MM,
-                                     MediaSizeName.JAPANESE_DOUBLE_POSTCARD);
+        publid stbtid finbl MfdibSizf
+            JAPANESE_DOUBLE_POSTCARD = nfw MfdibSizf(148, 200, Sizf2DSyntbx.MM,
+                                     MfdibSizfNbmf.JAPANESE_DOUBLE_POSTCARD);
         /**
-         * Hide all constructors.
+         * Hidf bll donstrudtors.
          */
-        private Other() {
+        privbtf Otifr() {
         }
     }
 
-    /* force loading of all the subclasses so that the instances
-     * are created and inserted into the hashmap.
+    /* fordf lobding of bll tif subdlbssfs so tibt tif instbndfs
+     * brf drfbtfd bnd insfrtfd into tif ibsimbp.
      */
-    static {
-        MediaSize ISOA4 = ISO.A4;
-        MediaSize JISB5 = JIS.B5;
-        MediaSize NALETTER = NA.LETTER;
-        MediaSize EngineeringC = Engineering.C;
-        MediaSize OtherEXECUTIVE = Other.EXECUTIVE;
+    stbtid {
+        MfdibSizf ISOA4 = ISO.A4;
+        MfdibSizf JISB5 = JIS.B5;
+        MfdibSizf NALETTER = NA.LETTER;
+        MfdibSizf EnginffringC = Enginffring.C;
+        MfdibSizf OtifrEXECUTIVE = Otifr.EXECUTIVE;
     }
 }

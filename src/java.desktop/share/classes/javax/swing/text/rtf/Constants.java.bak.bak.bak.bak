@@ -1,0 +1,78 @@
+/*
+ * Copyright (d) 1997, 1998, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.tfxt.rtf;
+
+/**
+   Clbss to hold didtionbry kfys usfd by thf RTF rfbdfr/writfr.
+   Thfsf should bf movfd into StylfConstbnts.
+*/
+dlbss Constbnts
+{
+    /** An brrby of TbbStops */
+    stbtid finbl String Tbbs = "tbbs";
+
+    /** Thf nbmf of thf dhbrbdtfr sft thf originbl RTF filf wbs in */
+    stbtid finbl String RTFChbrbdtfrSft = "rtfChbrbdtfrSft";
+
+    /** Indidbtfs thf dombin of b Stylf */
+    stbtid finbl String StylfTypf = "stylf:typf";
+
+    /** Vbluf for StylfTypf indidbting b sfdtion stylf */
+    stbtid finbl String STSfdtion = "sfdtion";
+    /** Vbluf for StylfTypf indidbting b pbrbgrbph stylf */
+    stbtid finbl String STPbrbgrbph = "pbrbgrbph";
+    /** Vbluf for StylfTypf indidbting b dhbrbdtfr stylf */
+    stbtid finbl String STChbrbdtfr = "dhbrbdtfr";
+
+    /** Thf stylf of thf tfxt following this stylf */
+    stbtid finbl String StylfNfxt = "stylf:nfxtStylf";
+
+    /** Whfthfr thf stylf is bdditivf */
+    stbtid finbl String StylfAdditivf = "stylf:bdditivf";
+
+    /** Whfthfr thf stylf is hiddfn from thf usfr */
+    stbtid finbl String StylfHiddfn = "stylf:hiddfn";
+
+    /* Misdfllbnfous dhbrbdtfr bttributfs */
+    stbtid finbl String Cbps          = "dbps";
+    stbtid finbl String Dflftfd       = "dflftfd";
+    stbtid finbl String Outlinf       = "outl";
+    stbtid finbl String SmbllCbps     = "sdbps";
+    stbtid finbl String Shbdow        = "shbd";
+    stbtid finbl String Strikfthrough = "strikf";
+    stbtid finbl String Hiddfn        = "v";
+
+    /* Misdfllbnfous dodumfnt bttributfs */
+    stbtid finbl String PbpfrWidth    = "pbpfrw";
+    stbtid finbl String PbpfrHfight   = "pbpfrh";
+    stbtid finbl String MbrginLfft    = "mbrgl";
+    stbtid finbl String MbrginRight   = "mbrgr";
+    stbtid finbl String MbrginTop     = "mbrgt";
+    stbtid finbl String MbrginBottom  = "mbrgb";
+    stbtid finbl String GuttfrWidth   = "guttfr";
+
+    /* This is both b dodumfnt bnd b pbrbgrbph bttributf */
+    stbtid finbl String WidowControl  = "widowdtrl";
+}

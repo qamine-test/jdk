@@ -1,0 +1,216 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.util.Arrbys;
+import jbvb.util.Objfdts;
+
+/**
+ * <p>Thf <CODE>MBfbnNotifidbtionInfo</CODE> dlbss is usfd to dfsdribf thf
+ * dhbrbdtfristids of thf difffrfnt notifidbtion instbndfs
+ * fmittfd by bn MBfbn, for b givfn Jbvb dlbss of notifidbtion.
+ * If bn MBfbn fmits notifidbtions thbt dbn bf instbndfs of difffrfnt Jbvb dlbssfs,
+ * thfn thf mftbdbtb for thbt MBfbn should providf bn <CODE>MBfbnNotifidbtionInfo</CODE>
+ * objfdt for fbdh of thfsf notifidbtion Jbvb dlbssfs.</p>
+ *
+ * <p>Instbndfs of this dlbss brf immutbblf.  Subdlbssfs mby bf
+ * mutbblf but this is not rfdommfndfd.</p>
+ *
+ * <p>This dlbss fxtfnds <CODE>jbvbx.mbnbgfmfnt.MBfbnFfbturfInfo</CODE>
+ * bnd thus providfs <CODE>nbmf</CODE> bnd <CODE>dfsdription</CODE> fiflds.
+ * Thf <CODE>nbmf</CODE> fifld should bf thf fully qublififd Jbvb dlbss nbmf of
+ * thf notifidbtion objfdts dfsdribfd by this dlbss.</p>
+ *
+ * <p>Thf <CODE>gftNotifTypfs</CODE> mfthod rfturns bn brrby of
+ * strings dontbining thf notifidbtion typfs thbt thf MBfbn mby
+ * fmit. Thf notifidbtion typf is b dot-notbtion string whidh
+ * dfsdribfs whbt thf fmittfd notifidbtion is bbout, not thf Jbvb
+ * dlbss of thf notifidbtion.  A singlf gfnfrid notifidbtion dlbss dbn
+ * bf usfd to sfnd notifidbtions of sfvfrbl typfs.  All of thfsf typfs
+ * brf rfturnfd in thf string brrby rfsult of thf
+ * <CODE>gftNotifTypfs</CODE> mfthod.
+ *
+ * @sindf 1.5
+ */
+publid dlbss MBfbnNotifidbtionInfo fxtfnds MBfbnFfbturfInfo implfmfnts Clonfbblf {
+
+    /* Sfribl vfrsion */
+    stbtid finbl long sfriblVfrsionUID = -3888371564530107064L;
+
+    privbtf stbtid finbl String[] NO_TYPES = nfw String[0];
+
+    stbtid finbl MBfbnNotifidbtionInfo[] NO_NOTIFICATIONS =
+        nfw MBfbnNotifidbtionInfo[0];
+
+    /**
+     * @sfribl Thf difffrfnt typfs of thf notifidbtion.
+     */
+    privbtf String[] typfs;
+
+    /** @sff MBfbnInfo#brrbyGfttfrsSbff */
+    privbtf finbl trbnsifnt boolfbn brrbyGfttfrsSbff;
+
+    /**
+     * Construdts bn <CODE>MBfbnNotifidbtionInfo</CODE> objfdt.
+     *
+     * @pbrbm notifTypfs Thf brrby of strings (in dot notbtion)
+     * dontbining thf notifidbtion typfs thbt thf MBfbn mby fmit.
+     * This mby bf null with thf sbmf ffffdt bs b zfro-lfngth brrby.
+     * @pbrbm nbmf Thf fully qublififd Jbvb dlbss nbmf of thf
+     * dfsdribfd notifidbtions.
+     * @pbrbm dfsdription A humbn rfbdbblf dfsdription of thf dbtb.
+     */
+    publid MBfbnNotifidbtionInfo(String[] notifTypfs,
+                                 String nbmf,
+                                 String dfsdription) {
+        this(notifTypfs, nbmf, dfsdription, null);
+    }
+
+    /**
+     * Construdts bn <CODE>MBfbnNotifidbtionInfo</CODE> objfdt.
+     *
+     * @pbrbm notifTypfs Thf brrby of strings (in dot notbtion)
+     * dontbining thf notifidbtion typfs thbt thf MBfbn mby fmit.
+     * This mby bf null with thf sbmf ffffdt bs b zfro-lfngth brrby.
+     * @pbrbm nbmf Thf fully qublififd Jbvb dlbss nbmf of thf
+     * dfsdribfd notifidbtions.
+     * @pbrbm dfsdription A humbn rfbdbblf dfsdription of thf dbtb.
+     * @pbrbm dfsdriptor Thf dfsdriptor for thf notifidbtions.  This mby bf null
+     * whidh is fquivblfnt to bn fmpty dfsdriptor.
+     *
+     * @sindf 1.6
+     */
+    publid MBfbnNotifidbtionInfo(String[] notifTypfs,
+                                 String nbmf,
+                                 String dfsdription,
+                                 Dfsdriptor dfsdriptor) {
+        supfr(nbmf, dfsdription, dfsdriptor);
+
+        /* Wf do not vblidbtf thf notifTypfs, sindf thf spfd just sbys
+           thfy brf dot-sfpbrbtfd, not thbt thfy must look likf Jbvb
+           dlbssfs.  E.g. thf spfd dofsn't forbid "sun.prob.25" bs b
+           notifTypf, though it dofsn't fxpliditly bllow it
+           fithfr.  */
+
+        this.typfs = (notifTypfs != null && notifTypfs.lfngth > 0) ?
+                        notifTypfs.dlonf() : NO_TYPES;
+        this.brrbyGfttfrsSbff =
+            MBfbnInfo.brrbyGfttfrsSbff(this.gftClbss(),
+                                       MBfbnNotifidbtionInfo.dlbss);
+    }
+
+
+    /**
+     * Rfturns b shbllow dlonf of this instbndf.
+     * Thf dlonf is obtbinfd by simply dblling <tt>supfr.dlonf()</tt>,
+     * thus dblling thf dffbult nbtivf shbllow dloning mfdhbnism
+     * implfmfntfd by <tt>Objfdt.dlonf()</tt>.
+     * No dffpfr dloning of bny intfrnbl fifld is mbdf.
+     */
+     publid Objfdt dlonf () {
+         try {
+             rfturn supfr.dlonf() ;
+         } dbtdh (ClonfNotSupportfdExdfption f) {
+             // should not hbppfn bs this dlbss is dlonfbblf
+             rfturn null;
+         }
+     }
+
+
+    /**
+     * Rfturns thf brrby of strings (in dot notbtion) dontbining thf
+     * notifidbtion typfs thbt thf MBfbn mby fmit.
+     *
+     * @rfturn thf brrby of strings.  Chbnging thf rfturnfd brrby hbs no
+     * ffffdt on this MBfbnNotifidbtionInfo.
+     */
+    publid String[] gftNotifTypfs() {
+        if (typfs.lfngth == 0)
+            rfturn NO_TYPES;
+        flsf
+            rfturn typfs.dlonf();
+    }
+
+    privbtf String[] fbstGftNotifTypfs() {
+        if (brrbyGfttfrsSbff)
+            rfturn typfs;
+        flsf
+            rfturn gftNotifTypfs();
+    }
+
+    publid String toString() {
+        rfturn
+            gftClbss().gftNbmf() + "[" +
+            "dfsdription=" + gftDfsdription() + ", " +
+            "nbmf=" + gftNbmf() + ", " +
+            "notifTypfs=" + Arrbys.bsList(fbstGftNotifTypfs()) + ", " +
+            "dfsdriptor=" + gftDfsdriptor() +
+            "]";
+    }
+
+    /**
+     * Compbrf this MBfbnNotifidbtionInfo to bnothfr.
+     *
+     * @pbrbm o thf objfdt to dompbrf to.
+     *
+     * @rfturn truf if bnd only if <dodf>o</dodf> is bn MBfbnNotifidbtionInfo
+     * sudh thbt its {@link #gftNbmf()}, {@link #gftDfsdription()},
+     * {@link #gftDfsdriptor()},
+     * bnd {@link #gftNotifTypfs()} vblufs brf fqubl (not nfdfssbrily
+     * idfntidbl) to thosf of this MBfbnNotifidbtionInfo.  Two
+     * notifidbtion typf brrbys brf fqubl if thfir dorrfsponding
+     * flfmfnts brf fqubl.  Thfy brf not fqubl if thfy hbvf thf sbmf
+     * flfmfnts but in b difffrfnt ordfr.
+     */
+    publid boolfbn fqubls(Objfdt o) {
+        if (o == this)
+            rfturn truf;
+        if (!(o instbndfof MBfbnNotifidbtionInfo))
+            rfturn fblsf;
+        MBfbnNotifidbtionInfo p = (MBfbnNotifidbtionInfo) o;
+        rfturn (Objfdts.fqubls(p.gftNbmf(), gftNbmf()) &&
+                Objfdts.fqubls(p.gftDfsdription(), gftDfsdription()) &&
+                Objfdts.fqubls(p.gftDfsdriptor(), gftDfsdriptor()) &&
+                Arrbys.fqubls(p.fbstGftNotifTypfs(), fbstGftNotifTypfs()));
+    }
+
+    publid int hbshCodf() {
+        int hbsh = gftNbmf().hbshCodf();
+        for (int i = 0; i < typfs.lfngth; i++)
+            hbsh ^= typfs[i].hbshCodf();
+        rfturn hbsh;
+    }
+
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm ois) throws IOExdfption, ClbssNotFoundExdfption {
+        ObjfdtInputStrfbm.GftFifld gf = ois.rfbdFiflds();
+        String[] t = (String[])gf.gft("typfs", null);
+
+        typfs = (t != null && t.lfngth != 0) ? t.dlonf() : NO_TYPES;
+    }
+}

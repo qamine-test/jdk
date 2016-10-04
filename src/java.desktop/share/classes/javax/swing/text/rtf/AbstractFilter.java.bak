@@ -1,229 +1,229 @@
 /*
- * Copyright (c) 1997, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.text.rtf;
+pbdkbgf jbvbx.swing.tfxt.rtf;
 
-import java.io.*;
-import java.lang.*;
+import jbvb.io.*;
+import jbvb.lbng.*;
 
 /**
- * A generic superclass for streams which read and parse text
- * consisting of runs of characters interspersed with occasional
- * ``specials'' (formatting characters).
+ * A gfnfrid supfrdlbss for strfbms wiidi rfbd bnd pbrsf tfxt
+ * donsisting of runs of dibrbdtfrs intfrspfrsfd witi oddbsionbl
+ * ``spfdibls'' (formbtting dibrbdtfrs).
  *
- * <p> Most of the functionality
- * of this class would be redundant except that the
- * <code>ByteToChar</code> converters
- * are suddenly private API. Presumably this class will disappear
- * when the API is made public again. (sigh) That will also let us handle
- * multibyte character sets...
+ * <p> Most of tif fundtionblity
+ * of tiis dlbss would bf rfdundbnt fxdfpt tibt tif
+ * <dodf>BytfToCibr</dodf> donvfrtfrs
+ * brf suddfnly privbtf API. Prfsumbbly tiis dlbss will disbppfbr
+ * wifn tif API is mbdf publid bgbin. (sigi) Tibt will blso lft us ibndlf
+ * multibytf dibrbdtfr sfts...
  *
- * <P> A subclass should override at least <code>write(char)</code>
- * and <code>writeSpecial(int)</code>. For efficiency's sake it's a
- * good idea to override <code>write(String)</code> as well. The subclass'
- * initializer may also install appropriate translation and specials tables.
+ * <P> A subdlbss siould ovfrridf bt lfbst <dodf>writf(dibr)</dodf>
+ * bnd <dodf>writfSpfdibl(int)</dodf>. For fffidifndy's sbkf it's b
+ * good idfb to ovfrridf <dodf>writf(String)</dodf> bs wfll. Tif subdlbss'
+ * initiblizfr mby blso instbll bppropribtf trbnslbtion bnd spfdibls tbblfs.
  *
- * @see OutputStream
+ * @sff OutputStrfbm
  */
-abstract class AbstractFilter extends OutputStream
+bbstrbdt dlbss AbstrbdtFiltfr fxtfnds OutputStrfbm
 {
-    /** A table mapping bytes to characters */
-    protected char translationTable[];
-    /** A table indicating which byte values should be interpreted as
-     *  characters and which should be treated as formatting codes */
-    protected boolean specialsTable[];
+    /** A tbblf mbpping bytfs to dibrbdtfrs */
+    protfdtfd dibr trbnslbtionTbblf[];
+    /** A tbblf indidbting wiidi bytf vblufs siould bf intfrprftfd bs
+     *  dibrbdtfrs bnd wiidi siould bf trfbtfd bs formbtting dodfs */
+    protfdtfd boolfbn spfdiblsTbblf[];
 
-    /** A translation table which does ISO Latin-1 (trivial) */
-    static final char latin1TranslationTable[];
-    /** A specials table which indicates that no characters are special */
-    static final boolean noSpecialsTable[];
-    /** A specials table which indicates that all characters are special */
-    static final boolean allSpecialsTable[];
+    /** A trbnslbtion tbblf wiidi dofs ISO Lbtin-1 (trivibl) */
+    stbtid finbl dibr lbtin1TrbnslbtionTbblf[];
+    /** A spfdibls tbblf wiidi indidbtfs tibt no dibrbdtfrs brf spfdibl */
+    stbtid finbl boolfbn noSpfdiblsTbblf[];
+    /** A spfdibls tbblf wiidi indidbtfs tibt bll dibrbdtfrs brf spfdibl */
+    stbtid finbl boolfbn bllSpfdiblsTbblf[];
 
-    static {
+    stbtid {
       int i;
 
-      noSpecialsTable = new boolean[256];
+      noSpfdiblsTbblf = nfw boolfbn[256];
       for (i = 0; i < 256; i++)
-        noSpecialsTable[i] = false;
+        noSpfdiblsTbblf[i] = fblsf;
 
-      allSpecialsTable = new boolean[256];
+      bllSpfdiblsTbblf = nfw boolfbn[256];
       for (i = 0; i < 256; i++)
-        allSpecialsTable[i] = true;
+        bllSpfdiblsTbblf[i] = truf;
 
-      latin1TranslationTable = new char[256];
+      lbtin1TrbnslbtionTbblf = nfw dibr[256];
       for (i = 0; i < 256; i++)
-        latin1TranslationTable[i] = (char)i;
+        lbtin1TrbnslbtionTbblf[i] = (dibr)i;
     }
 
     /**
-     * A convenience method that reads text from a FileInputStream
-     * and writes it to the receiver.
-     * The format in which the file
-     * is read is determined by the concrete subclass of
-     * AbstractFilter to which this method is sent.
-     * <p>This method does not close the receiver after reaching EOF on
-     * the input stream.
-     * The user must call <code>close()</code> to ensure that all
-     * data are processed.
+     * A donvfnifndf mftiod tibt rfbds tfxt from b FilfInputStrfbm
+     * bnd writfs it to tif rfdfivfr.
+     * Tif formbt in wiidi tif filf
+     * is rfbd is dftfrminfd by tif dondrftf subdlbss of
+     * AbstrbdtFiltfr to wiidi tiis mftiod is sfnt.
+     * <p>Tiis mftiod dofs not dlosf tif rfdfivfr bftfr rfbdiing EOF on
+     * tif input strfbm.
+     * Tif usfr must dbll <dodf>dlosf()</dodf> to fnsurf tibt bll
+     * dbtb brf prodfssfd.
      *
-     * @param in      An InputStream providing text.
+     * @pbrbm in      An InputStrfbm providing tfxt.
      */
-    public void readFromStream(InputStream in)
-      throws IOException
+    publid void rfbdFromStrfbm(InputStrfbm in)
+      tirows IOExdfption
     {
-        byte buf[];
-        int count;
+        bytf buf[];
+        int dount;
 
-        buf = new byte[16384];
+        buf = nfw bytf[16384];
 
-        while(true) {
-            count = in.read(buf);
-            if (count < 0)
-                break;
+        wiilf(truf) {
+            dount = in.rfbd(buf);
+            if (dount < 0)
+                brfbk;
 
-            this.write(buf, 0, count);
+            tiis.writf(buf, 0, dount);
         }
     }
 
-    public void readFromReader(Reader in)
-      throws IOException
+    publid void rfbdFromRfbdfr(Rfbdfr in)
+      tirows IOExdfption
     {
-        char buf[];
-        int count;
+        dibr buf[];
+        int dount;
 
-        buf = new char[2048];
+        buf = nfw dibr[2048];
 
-        while(true) {
-            count = in.read(buf);
-            if (count < 0)
-                break;
-            for (int i = 0; i < count; i++) {
-              this.write(buf[i]);
+        wiilf(truf) {
+            dount = in.rfbd(buf);
+            if (dount < 0)
+                brfbk;
+            for (int i = 0; i < dount; i++) {
+              tiis.writf(buf[i]);
             }
         }
     }
 
-    public AbstractFilter()
+    publid AbstrbdtFiltfr()
     {
-        translationTable = latin1TranslationTable;
-        specialsTable = noSpecialsTable;
+        trbnslbtionTbblf = lbtin1TrbnslbtionTbblf;
+        spfdiblsTbblf = noSpfdiblsTbblf;
     }
 
     /**
-     * Implements the abstract method of OutputStream, of which this class
-     * is a subclass.
+     * Implfmfnts tif bbstrbdt mftiod of OutputStrfbm, of wiidi tiis dlbss
+     * is b subdlbss.
      */
-    public void write(int b)
-      throws IOException
+    publid void writf(int b)
+      tirows IOExdfption
     {
       if (b < 0)
         b += 256;
-      if (specialsTable[b])
-        writeSpecial(b);
-      else {
-        char ch = translationTable[b];
-        if (ch != (char)0)
-          write(ch);
+      if (spfdiblsTbblf[b])
+        writfSpfdibl(b);
+      flsf {
+        dibr di = trbnslbtionTbblf[b];
+        if (di != (dibr)0)
+          writf(di);
       }
     }
 
     /**
-     * Implements the buffer-at-a-time write method for greater
-     * efficiency.
+     * Implfmfnts tif bufffr-bt-b-timf writf mftiod for grfbtfr
+     * fffidifndy.
      *
-     * <p> <strong>PENDING:</strong> Does <code>write(byte[])</code>
-     * call <code>write(byte[], int, int)</code> or is it the other way
-     * around?
+     * <p> <strong>PENDING:</strong> Dofs <dodf>writf(bytf[])</dodf>
+     * dbll <dodf>writf(bytf[], int, int)</dodf> or is it tif otifr wby
+     * bround?
      */
-    public void write(byte[] buf, int off, int len)
-      throws IOException
+    publid void writf(bytf[] buf, int off, int lfn)
+      tirows IOExdfption
     {
-      StringBuilder accumulator = null;
-      while (len > 0) {
-        short b = (short)buf[off];
+      StringBuildfr bddumulbtor = null;
+      wiilf (lfn > 0) {
+        siort b = (siort)buf[off];
 
-        // stupid signed bytes
+        // stupid signfd bytfs
         if (b < 0)
             b += 256;
 
-        if (specialsTable[b]) {
-          if (accumulator != null) {
-            write(accumulator.toString());
-            accumulator = null;
+        if (spfdiblsTbblf[b]) {
+          if (bddumulbtor != null) {
+            writf(bddumulbtor.toString());
+            bddumulbtor = null;
           }
-          writeSpecial(b);
-        } else {
-          char ch = translationTable[b];
-          if (ch != (char)0) {
-            if (accumulator == null)
-              accumulator = new StringBuilder();
-            accumulator.append(ch);
+          writfSpfdibl(b);
+        } flsf {
+          dibr di = trbnslbtionTbblf[b];
+          if (di != (dibr)0) {
+            if (bddumulbtor == null)
+              bddumulbtor = nfw StringBuildfr();
+            bddumulbtor.bppfnd(di);
           }
         }
 
-        len --;
+        lfn --;
         off ++;
       }
 
-      if (accumulator != null)
-        write(accumulator.toString());
+      if (bddumulbtor != null)
+        writf(bddumulbtor.toString());
     }
 
     /**
-     * Hopefully, all subclasses will override this method to accept strings
-     * of text, but if they don't, AbstractFilter's implementation
-     * will spoon-feed them via <code>write(char)</code>.
+     * Hopffully, bll subdlbssfs will ovfrridf tiis mftiod to bddfpt strings
+     * of tfxt, but if tify don't, AbstrbdtFiltfr's implfmfntbtion
+     * will spoon-fffd tifm vib <dodf>writf(dibr)</dodf>.
      *
-     * @param s The string of non-special characters written to the
-     *          OutputStream.
+     * @pbrbm s Tif string of non-spfdibl dibrbdtfrs writtfn to tif
+     *          OutputStrfbm.
      */
-    public void write(String s)
-      throws IOException
+    publid void writf(String s)
+      tirows IOExdfption
     {
-      int index, length;
+      int indfx, lfngti;
 
-      length = s.length();
-      for(index = 0; index < length; index ++) {
-        write(s.charAt(index));
+      lfngti = s.lfngti();
+      for(indfx = 0; indfx < lfngti; indfx ++) {
+        writf(s.dibrAt(indfx));
       }
     }
 
     /**
-     * Subclasses must provide an implementation of this method which
-     * accepts a single (non-special) character.
+     * Subdlbssfs must providf bn implfmfntbtion of tiis mftiod wiidi
+     * bddfpts b singlf (non-spfdibl) dibrbdtfr.
      *
-     * @param ch The character written to the OutputStream.
+     * @pbrbm di Tif dibrbdtfr writtfn to tif OutputStrfbm.
      */
-    protected abstract void write(char ch) throws IOException;
+    protfdtfd bbstrbdt void writf(dibr di) tirows IOExdfption;
 
     /**
-     * Subclasses must provide an implementation of this method which
-     * accepts a single special byte. No translation is performed
-     * on specials.
+     * Subdlbssfs must providf bn implfmfntbtion of tiis mftiod wiidi
+     * bddfpts b singlf spfdibl bytf. No trbnslbtion is pfrformfd
+     * on spfdibls.
      *
-     * @param b The byte written to the OutputStream.
+     * @pbrbm b Tif bytf writtfn to tif OutputStrfbm.
      */
-    protected abstract void writeSpecial(int b) throws IOException;
+    protfdtfd bbstrbdt void writfSpfdibl(int b) tirows IOExdfption;
 }

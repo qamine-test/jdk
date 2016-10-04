@@ -1,569 +1,569 @@
 /*
- * Copyright (c) 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.jvmstat.monitor;
+pbdkbgf sun.jvmstbt.monitor;
 
-import java.net.*;
+import jbvb.nft.*;
 
 /**
- * An abstraction that identifies a target host and communications
- * protocol. The HostIdentifier, or hostid, provides a convenient string
- * representation of the information needed to locate and communicate with
- * a target host. The string, based on a {@link URI}, may specify the
- * the communications protocol, host name, and protocol specific information
- * for a target host. The format for a HostIdentifier string is:
- * <pre>
- *       [<I>protocol</I>:][[<I>//</I>]<I>hostname</I>][<I>:port</I>][<I>/servername</I>]
- * </pre>
- * There are actually no required components of this string, as a null string
- * is interpreted to mean a local connection to the local host and is equivalent
- * to the string <em>local://localhost</em>. The components of the
- * HostIdentifier are:
+ * An bbstrbdtion tibt idfntififs b tbrgft iost bnd dommunidbtions
+ * protodol. Tif HostIdfntififr, or iostid, providfs b donvfnifnt string
+ * rfprfsfntbtion of tif informbtion nffdfd to lodbtf bnd dommunidbtf witi
+ * b tbrgft iost. Tif string, bbsfd on b {@link URI}, mby spfdify tif
+ * tif dommunidbtions protodol, iost nbmf, bnd protodol spfdifid informbtion
+ * for b tbrgft iost. Tif formbt for b HostIdfntififr string is:
+ * <prf>
+ *       [<I>protodol</I>:][[<I>//</I>]<I>iostnbmf</I>][<I>:port</I>][<I>/sfrvfrnbmf</I>]
+ * </prf>
+ * Tifrf brf bdtublly no rfquirfd domponfnts of tiis string, bs b null string
+ * is intfrprftfd to mfbn b lodbl donnfdtion to tif lodbl iost bnd is fquivblfnt
+ * to tif string <fm>lodbl://lodbliost</fm>. Tif domponfnts of tif
+ * HostIdfntififr brf:
  * <ul>
- *   <li><p><tt>protocol</tt> - The communications protocol. If omitted,
- *          and a hostname is not specified, then default local protocol,
- *          <em>local:</em>, is assumed. If the protocol is omitted and a
- *          hostname is specified then the default remote protocol,
- *          <em>rmi:</em> is assumed.
+ *   <li><p><tt>protodol</tt> - Tif dommunidbtions protodol. If omittfd,
+ *          bnd b iostnbmf is not spfdififd, tifn dffbult lodbl protodol,
+ *          <fm>lodbl:</fm>, is bssumfd. If tif protodol is omittfd bnd b
+ *          iostnbmf is spfdififd tifn tif dffbult rfmotf protodol,
+ *          <fm>rmi:</fm> is bssumfd.
  *       </p></li>
- *   <li><p><tt>hostname</tt> - The hostname. If omitted, then
- *          <em>localhost</em> is assumed. If the protocol is also omitted,
- *          then default local protocol <em>local:</em> is also assumed.
- *          If the hostname is not omitted but the protocol is omitted,
- *          then the default remote protocol, <em>rmi:</em> is assumed.
+ *   <li><p><tt>iostnbmf</tt> - Tif iostnbmf. If omittfd, tifn
+ *          <fm>lodbliost</fm> is bssumfd. If tif protodol is blso omittfd,
+ *          tifn dffbult lodbl protodol <fm>lodbl:</fm> is blso bssumfd.
+ *          If tif iostnbmf is not omittfd but tif protodol is omittfd,
+ *          tifn tif dffbult rfmotf protodol, <fm>rmi:</fm> is bssumfd.
  *       </p></li>
- *   <li><p><tt>port</tt> - The port for the communications protocol.
- *          Treatment of the <tt>port</tt> parameter is implementation
- *          (protocol) specific. It is unused by the default local protocol,
- *          <em>local:</em>. For the default remote protocol, <em>rmi:</em>,
- *          <tt>port</tt> indicates the port number of the <em>rmiregistry</em>
- *          on the target host and defaults to port 1099.
+ *   <li><p><tt>port</tt> - Tif port for tif dommunidbtions protodol.
+ *          Trfbtmfnt of tif <tt>port</tt> pbrbmftfr is implfmfntbtion
+ *          (protodol) spfdifid. It is unusfd by tif dffbult lodbl protodol,
+ *          <fm>lodbl:</fm>. For tif dffbult rfmotf protodol, <fm>rmi:</fm>,
+ *          <tt>port</tt> indidbtfs tif port numbfr of tif <fm>rmirfgistry</fm>
+ *          on tif tbrgft iost bnd dffbults to port 1099.
  *       </p></li>
- *   <li><p><tt>servername</tt> - The treatment of the Path, Query, and
- *          Fragment components of the HostIdentifier are implementation
- *          (protocol) dependent. These components are ignored by the
- *          default local protocol, <em>local:</em>. For the default remote
- *          protocol, <em>rmi</em>, the Path component is interpreted as
- *          the name of the RMI remote object. The Query component may
- *          contain an access mode specifier <em>?mode=</em> specifying
- *          <em>"r"</em> or <em>"rw"</em> access (write access currently
- *          ignored). The Fragment part is ignored.
+ *   <li><p><tt>sfrvfrnbmf</tt> - Tif trfbtmfnt of tif Pbti, Qufry, bnd
+ *          Frbgmfnt domponfnts of tif HostIdfntififr brf implfmfntbtion
+ *          (protodol) dfpfndfnt. Tifsf domponfnts brf ignorfd by tif
+ *          dffbult lodbl protodol, <fm>lodbl:</fm>. For tif dffbult rfmotf
+ *          protodol, <fm>rmi</fm>, tif Pbti domponfnt is intfrprftfd bs
+ *          tif nbmf of tif RMI rfmotf objfdt. Tif Qufry domponfnt mby
+ *          dontbin bn bddfss modf spfdififr <fm>?modf=</fm> spfdifying
+ *          <fm>"r"</fm> or <fm>"rw"</fm> bddfss (writf bddfss durrfntly
+ *          ignorfd). Tif Frbgmfnt pbrt is ignorfd.
  *       </p></li>
  * </ul>
  * <p>
- * All HostIdentifier objects are represented as absolute, hierarchical URIs.
- * The constructors accept relative URIs, but these will generally be
- * transformed into an absolute URI specifying a default protocol. A
- * HostIdentifier differs from a URI in that certain contractions and
- * illicit syntactical constructions are allowed. The following are all
- * valid HostIdentifier strings:
+ * All HostIdfntififr objfdts brf rfprfsfntfd bs bbsolutf, iifrbrdiidbl URIs.
+ * Tif donstrudtors bddfpt rflbtivf URIs, but tifsf will gfnfrblly bf
+ * trbnsformfd into bn bbsolutf URI spfdifying b dffbult protodol. A
+ * HostIdfntififr difffrs from b URI in tibt dfrtbin dontrbdtions bnd
+ * illidit syntbdtidbl donstrudtions brf bllowfd. Tif following brf bll
+ * vblid HostIdfntififr strings:
  *
  * <ul>
- *   <li><p>&lt null &gt - transformed into "//localhost"</p></li>
- *   <li><p>localhost - transformed into "//localhost"</p></li>
- *   <li><p>hostname - transformed into "//hostname"</p></li>
- *   <li><p>hostname:port - transformed into "//hostname:port"</p></li>
- *   <li><p>proto:hostname - transformed into "proto://hostname"</p></li>
- *   <li><p>proto:hostname:port - transformed into
- *          "proto://hostname:port"</p></li>
- *   <li><p>proto://hostname:port</p></li>
+ *   <li><p>&lt null &gt - trbnsformfd into "//lodbliost"</p></li>
+ *   <li><p>lodbliost - trbnsformfd into "//lodbliost"</p></li>
+ *   <li><p>iostnbmf - trbnsformfd into "//iostnbmf"</p></li>
+ *   <li><p>iostnbmf:port - trbnsformfd into "//iostnbmf:port"</p></li>
+ *   <li><p>proto:iostnbmf - trbnsformfd into "proto://iostnbmf"</p></li>
+ *   <li><p>proto:iostnbmf:port - trbnsformfd into
+ *          "proto://iostnbmf:port"</p></li>
+ *   <li><p>proto://iostnbmf:port</p></li>
  * </ul>
  * </p>
  *
- * @see URI
- * @see VmIdentifier
+ * @sff URI
+ * @sff VmIdfntififr
  *
- * @author Brian Doherty
- * @since 1.5
+ * @butior Bribn Doifrty
+ * @sindf 1.5
  */
-public class HostIdentifier {
-    private URI uri;
+publid dlbss HostIdfntififr {
+    privbtf URI uri;
 
     /**
-     * creates a canonical representation of the uriString. This method
-     * performs certain translations depending on the type of URI generated
-     * by the string.
+     * drfbtfs b dbnonidbl rfprfsfntbtion of tif uriString. Tiis mftiod
+     * pfrforms dfrtbin trbnslbtions dfpfnding on tif typf of URI gfnfrbtfd
+     * by tif string.
      */
-    private URI canonicalize(String uriString) throws URISyntaxException {
-        if ((uriString == null) || (uriString.compareTo("localhost") == 0)) {
-            uriString = "//localhost";
-            return new URI(uriString);
+    privbtf URI dbnonidblizf(String uriString) tirows URISyntbxExdfption {
+        if ((uriString == null) || (uriString.dompbrfTo("lodbliost") == 0)) {
+            uriString = "//lodbliost";
+            rfturn nfw URI(uriString);
         }
 
-        URI u = new URI(uriString);
+        URI u = nfw URI(uriString);
 
-        if (u.isAbsolute()) {
-            if (u.isOpaque()) {
+        if (u.isAbsolutf()) {
+            if (u.isOpbquf()) {
                 /*
-                 * this code is here to deal with a special case. For ease of
-                 * use, we'd like to be able to handle the case where the user
-                 * specifies hostname:port, not requiring the scheme part.
-                 * This introduces some subtleties.
-                 *     hostname:port - scheme = hostname
-                 *                   - schemespecificpart = port
-                 *                   - hostname = null
-                 *                   - userinfo=null
-                 * however, someone could also enter scheme:hostname:port and
-                 * get into this code. the strategy is to consider this
-                 * syntax illegal and provide some code to defend against it.
-                 * Basically, we test that the string contains only one ":"
-                 * and that the ssp is numeric. If we get two colons, we will
-                 * attempt to insert the "//" after the first colon and then
-                 * try to create a URI from the resulting string.
+                 * tiis dodf is ifrf to dfbl witi b spfdibl dbsf. For fbsf of
+                 * usf, wf'd likf to bf bblf to ibndlf tif dbsf wifrf tif usfr
+                 * spfdififs iostnbmf:port, not rfquiring tif sdifmf pbrt.
+                 * Tiis introdudfs somf subtlftifs.
+                 *     iostnbmf:port - sdifmf = iostnbmf
+                 *                   - sdifmfspfdifidpbrt = port
+                 *                   - iostnbmf = null
+                 *                   - usfrinfo=null
+                 * iowfvfr, somfonf dould blso fntfr sdifmf:iostnbmf:port bnd
+                 * gft into tiis dodf. tif strbtfgy is to donsidfr tiis
+                 * syntbx illfgbl bnd providf somf dodf to dfffnd bgbinst it.
+                 * Bbsidblly, wf tfst tibt tif string dontbins only onf ":"
+                 * bnd tibt tif ssp is numfrid. If wf gft two dolons, wf will
+                 * bttfmpt to insfrt tif "//" bftfr tif first dolon bnd tifn
+                 * try to drfbtf b URI from tif rfsulting string.
                  */
-                String scheme = u.getScheme();
-                String ssp = u.getSchemeSpecificPart();
-                String frag = u.getFragment();
+                String sdifmf = u.gftSdifmf();
+                String ssp = u.gftSdifmfSpfdifidPbrt();
+                String frbg = u.gftFrbgmfnt();
                 URI u2 = null;
 
-                int c1index = uriString.indexOf(':');
-                int c2index = uriString.lastIndexOf(':');
-                if (c2index != c1index) {
+                int d1indfx = uriString.indfxOf(':');
+                int d2indfx = uriString.lbstIndfxOf(':');
+                if (d2indfx != d1indfx) {
                     /*
-                     * this is the scheme:hostname:port case. Attempt to
-                     * transform this to scheme://hostname:port. If a path
-                     * part is part of the original strings, it will be
-                     * included in the SchemeSpecificPart. however, the
-                     * fragment part must be handled separately.
+                     * tiis is tif sdifmf:iostnbmf:port dbsf. Attfmpt to
+                     * trbnsform tiis to sdifmf://iostnbmf:port. If b pbti
+                     * pbrt is pbrt of tif originbl strings, it will bf
+                     * indludfd in tif SdifmfSpfdifidPbrt. iowfvfr, tif
+                     * frbgmfnt pbrt must bf ibndlfd sfpbrbtfly.
                      */
-                    if (frag == null) {
-                        u2 = new URI(scheme + "://" + ssp);
-                    } else {
-                        u2 = new URI(scheme + "://" + ssp + "#" + frag);
+                    if (frbg == null) {
+                        u2 = nfw URI(sdifmf + "://" + ssp);
+                    } flsf {
+                        u2 = nfw URI(sdifmf + "://" + ssp + "#" + frbg);
                     }
-                    return u2;
+                    rfturn u2;
                 }
                 /*
-                 * here we have the <string>:<string> case, possibly with
-                 * optional path and fragment components. we assume that
-                 * the part following the colon is a number. we don't check
-                 * this condition here as it will get detected later anyway.
+                 * ifrf wf ibvf tif <string>:<string> dbsf, possibly witi
+                 * optionbl pbti bnd frbgmfnt domponfnts. wf bssumf tibt
+                 * tif pbrt following tif dolon is b numbfr. wf don't difdk
+                 * tiis dondition ifrf bs it will gft dftfdtfd lbtfr bnywby.
                  */
-                u2 = new URI("//" + uriString);
-                return u2;
-            } else {
-                return u;
+                u2 = nfw URI("//" + uriString);
+                rfturn u2;
+            } flsf {
+                rfturn u;
             }
-        } else {
+        } flsf {
             /*
-             * This is the case where we were given a hostname followed
-             * by a path part, fragment part, or both a path and fragment
-             * part. The key here is that no scheme part was specified.
-             * For this case, if the scheme specific part does not begin
-             * with "//", then we prefix the "//" to the given string and
-             * attempt to create a URI from the resulting string.
+             * Tiis is tif dbsf wifrf wf wfrf givfn b iostnbmf followfd
+             * by b pbti pbrt, frbgmfnt pbrt, or boti b pbti bnd frbgmfnt
+             * pbrt. Tif kfy ifrf is tibt no sdifmf pbrt wbs spfdififd.
+             * For tiis dbsf, if tif sdifmf spfdifid pbrt dofs not bfgin
+             * witi "//", tifn wf prffix tif "//" to tif givfn string bnd
+             * bttfmpt to drfbtf b URI from tif rfsulting string.
              */
-            String ssp = u.getSchemeSpecificPart();
-            if (ssp.startsWith("//")) {
-                return u;
-            } else {
-                return new URI("//" + uriString);
+            String ssp = u.gftSdifmfSpfdifidPbrt();
+            if (ssp.stbrtsWiti("//")) {
+                rfturn u;
+            } flsf {
+                rfturn nfw URI("//" + uriString);
             }
         }
     }
 
     /**
-     * Create a HostIdentifier instance from a string value.
+     * Crfbtf b HostIdfntififr instbndf from b string vbluf.
      *
-     * @param uriString a string representing a target host. The syntax of
-     *                  the string must conform to the rules specified in the
-     *                  class documentation.
+     * @pbrbm uriString b string rfprfsfnting b tbrgft iost. Tif syntbx of
+     *                  tif string must donform to tif rulfs spfdififd in tif
+     *                  dlbss dodumfntbtion.
      *
-     * @throws URISyntaxException Thrown when the uriString or its canonical
-     *                            form is poorly formed. This exception may
-     *                            get encapsulated into a MonitorException in
-     *                            a future version.
+     * @tirows URISyntbxExdfption Tirown wifn tif uriString or its dbnonidbl
+     *                            form is poorly formfd. Tiis fxdfption mby
+     *                            gft fndbpsulbtfd into b MonitorExdfption in
+     *                            b futurf vfrsion.
      *
      */
-    public HostIdentifier(String uriString) throws URISyntaxException {
-        uri = canonicalize(uriString);
+    publid HostIdfntififr(String uriString) tirows URISyntbxExdfption {
+        uri = dbnonidblizf(uriString);
     }
 
     /**
-     * Create a HostIdentifier instance from component parts of a URI.
+     * Crfbtf b HostIdfntififr instbndf from domponfnt pbrts of b URI.
      *
-     * @param scheme the {@link URI#getScheme} component of a URI.
-     * @param authority the {@link URI#getAuthority} component of a URI.
-     * @param path the {@link URI#getPath} component of a URI.
-     * @param query the {@link URI#getQuery} component of a URI.
-     * @param fragment the {@link URI#getFragment} component of a URI.
+     * @pbrbm sdifmf tif {@link URI#gftSdifmf} domponfnt of b URI.
+     * @pbrbm butiority tif {@link URI#gftAutiority} domponfnt of b URI.
+     * @pbrbm pbti tif {@link URI#gftPbti} domponfnt of b URI.
+     * @pbrbm qufry tif {@link URI#gftQufry} domponfnt of b URI.
+     * @pbrbm frbgmfnt tif {@link URI#gftFrbgmfnt} domponfnt of b URI.
      *
-     * @throws URISyntaxException Thrown when the uriString or its canonical
-     *                            form is poorly formed. This exception may
-     *                            get encapsulated into a MonitorException in
-     *                            a future version.
-     * @see URI
+     * @tirows URISyntbxExdfption Tirown wifn tif uriString or its dbnonidbl
+     *                            form is poorly formfd. Tiis fxdfption mby
+     *                            gft fndbpsulbtfd into b MonitorExdfption in
+     *                            b futurf vfrsion.
+     * @sff URI
      */
-    public HostIdentifier(String scheme, String authority, String path,
-                          String query, String fragment)
-           throws URISyntaxException {
-        uri = new URI(scheme, authority, path, query, fragment);
+    publid HostIdfntififr(String sdifmf, String butiority, String pbti,
+                          String qufry, String frbgmfnt)
+           tirows URISyntbxExdfption {
+        uri = nfw URI(sdifmf, butiority, pbti, qufry, frbgmfnt);
     }
 
     /**
-     * Create a HostIdentifier instance from a VmIdentifier.
+     * Crfbtf b HostIdfntififr instbndf from b VmIdfntififr.
      *
-     * The necessary components of the VmIdentifier are extracted and
-     * reassembled into a HostIdentifier. If a "file:" scheme (protocol)
-     * is specified, the the returned HostIdentifier will always be
-     * equivalent to HostIdentifier("file://localhost").
+     * Tif nfdfssbry domponfnts of tif VmIdfntififr brf fxtrbdtfd bnd
+     * rfbssfmblfd into b HostIdfntififr. If b "filf:" sdifmf (protodol)
+     * is spfdififd, tif tif rfturnfd HostIdfntififr will blwbys bf
+     * fquivblfnt to HostIdfntififr("filf://lodbliost").
      *
-     * @param vmid the VmIdentifier use to construct the HostIdentifier.
+     * @pbrbm vmid tif VmIdfntififr usf to donstrudt tif HostIdfntififr.
      */
-    public HostIdentifier(VmIdentifier vmid) {
+    publid HostIdfntififr(VmIdfntififr vmid) {
         /*
-         * Extract all components of the VmIdentifier URI except the
-         * user-info part of the authority (the lvmid).
+         * Extrbdt bll domponfnts of tif VmIdfntififr URI fxdfpt tif
+         * usfr-info pbrt of tif butiority (tif lvmid).
          */
-        StringBuilder sb = new StringBuilder();
-        String scheme = vmid.getScheme();
-        String host = vmid.getHost();
-        String authority = vmid.getAuthority();
+        StringBuildfr sb = nfw StringBuildfr();
+        String sdifmf = vmid.gftSdifmf();
+        String iost = vmid.gftHost();
+        String butiority = vmid.gftAutiority();
 
-        // check for 'file:' VmIdentifiers and handled as a special case.
-        if ((scheme != null) && (scheme.compareTo("file") == 0)) {
+        // difdk for 'filf:' VmIdfntififrs bnd ibndlfd bs b spfdibl dbsf.
+        if ((sdifmf != null) && (sdifmf.dompbrfTo("filf") == 0)) {
             try {
-                uri = new URI("file://localhost");
-            } catch (URISyntaxException e) { };
-            return;
+                uri = nfw URI("filf://lodbliost");
+            } dbtdi (URISyntbxExdfption f) { };
+            rfturn;
         }
 
-        if ((host != null) && (host.compareTo(authority) == 0)) {
+        if ((iost != null) && (iost.dompbrfTo(butiority) == 0)) {
             /*
-             * this condition occurs when the VmIdentifier specifies only
-             * the authority (i.e. the lvmid ), and not a host name.
+             * tiis dondition oddurs wifn tif VmIdfntififr spfdififs only
+             * tif butiority (i.f. tif lvmid ), bnd not b iost nbmf.
              */
-            host = null;
+            iost = null;
         }
 
-        if (scheme == null) {
-            if (host == null) {
-                scheme = "local";            // default local scheme
-            } else {
+        if (sdifmf == null) {
+            if (iost == null) {
+                sdifmf = "lodbl";            // dffbult lodbl sdifmf
+            } flsf {
                 /*
-                 * rmi is the default remote scheme. if the VmIdentifier
-                 * specifies some other protocol, this default is overridden.
+                 * rmi is tif dffbult rfmotf sdifmf. if tif VmIdfntififr
+                 * spfdififs somf otifr protodol, tiis dffbult is ovfrriddfn.
                  */
-                scheme = "rmi";
+                sdifmf = "rmi";
             }
         }
 
-        sb.append(scheme).append("://");
+        sb.bppfnd(sdifmf).bppfnd("://");
 
-        if (host == null) {
-            sb.append("localhost");          // default host name
-        } else {
-            sb.append(host);
+        if (iost == null) {
+            sb.bppfnd("lodbliost");          // dffbult iost nbmf
+        } flsf {
+            sb.bppfnd(iost);
         }
 
-        int port = vmid.getPort();
+        int port = vmid.gftPort();
         if (port != -1) {
-            sb.append(":").append(port);
+            sb.bppfnd(":").bppfnd(port);
         }
 
-        String path = vmid.getPath();
-        if ((path != null) && (path.length() != 0)) {
-            sb.append(path);
+        String pbti = vmid.gftPbti();
+        if ((pbti != null) && (pbti.lfngti() != 0)) {
+            sb.bppfnd(pbti);
         }
 
-        String query = vmid.getQuery();
-        if (query != null) {
-            sb.append("?").append(query);
+        String qufry = vmid.gftQufry();
+        if (qufry != null) {
+            sb.bppfnd("?").bppfnd(qufry);
         }
 
-        String frag = vmid.getFragment();
-        if (frag != null) {
-            sb.append("#").append(frag);
+        String frbg = vmid.gftFrbgmfnt();
+        if (frbg != null) {
+            sb.bppfnd("#").bppfnd(frbg);
         }
 
         try {
-           uri = new URI(sb.toString());
-        } catch (URISyntaxException e) {
-           // shouldn't happen, as we were passed a valid VmIdentifier
-           throw new RuntimeException("Internal Error", e);
+           uri = nfw URI(sb.toString());
+        } dbtdi (URISyntbxExdfption f) {
+           // siouldn't ibppfn, bs wf wfrf pbssfd b vblid VmIdfntififr
+           tirow nfw RuntimfExdfption("Intfrnbl Error", f);
         }
     }
 
     /**
-     * Resolve a VmIdentifier with this HostIdentifier. A VmIdentifier, such
-     * as <em>1234</em> or <em>1234@hostname</em> or any other string that
-     * omits certain components of the URI string may be valid, but is certainly
-     * incomplete. They are missing critical information for identifying the
-     * the communications protocol, target host, or other parameters. A
-     * VmIdentifier of this form is considered <em>unresolved</em>. This method
-     * uses components of the HostIdentifier to resolve the missing components
-     * of the VmIdentifier.
+     * Rfsolvf b VmIdfntififr witi tiis HostIdfntififr. A VmIdfntififr, sudi
+     * bs <fm>1234</fm> or <fm>1234@iostnbmf</fm> or bny otifr string tibt
+     * omits dfrtbin domponfnts of tif URI string mby bf vblid, but is dfrtbinly
+     * indomplftf. Tify brf missing dritidbl informbtion for idfntifying tif
+     * tif dommunidbtions protodol, tbrgft iost, or otifr pbrbmftfrs. A
+     * VmIdfntififr of tiis form is donsidfrfd <fm>unrfsolvfd</fm>. Tiis mftiod
+     * usfs domponfnts of tif HostIdfntififr to rfsolvf tif missing domponfnts
+     * of tif VmIdfntififr.
      * <p>
-     * Specified components of the unresolved VmIdentifier take precedence
-     * over their HostIdentifier counterparts. For example, if the VmIdentifier
-     * indicates <em>1234@hostname:2099</em> and the HostIdentifier indicates
-     * <em>rmi://hostname:1099/</em>, then the resolved VmIdentifier will
-     * be <em>rmi://1234@hostname:2099</em>. Any component not explicitly
-     * specified or assumed by the HostIdentifier, will remain unresolved in
-     * resolved VmIdentifier.
+     * Spfdififd domponfnts of tif unrfsolvfd VmIdfntififr tbkf prfdfdfndf
+     * ovfr tifir HostIdfntififr dountfrpbrts. For fxbmplf, if tif VmIdfntififr
+     * indidbtfs <fm>1234@iostnbmf:2099</fm> bnd tif HostIdfntififr indidbtfs
+     * <fm>rmi://iostnbmf:1099/</fm>, tifn tif rfsolvfd VmIdfntififr will
+     * bf <fm>rmi://1234@iostnbmf:2099</fm>. Any domponfnt not fxpliditly
+     * spfdififd or bssumfd by tif HostIdfntififr, will rfmbin unrfsolvfd in
+     * rfsolvfd VmIdfntififr.
      *  <p>
-     * A VmIdentifier specifying a <em>file:</em> scheme (protocol), is
-     * not changed in any way by this method.
+     * A VmIdfntififr spfdifying b <fm>filf:</fm> sdifmf (protodol), is
+     * not dibngfd in bny wby by tiis mftiod.
      *
-     * @param vmid the unresolved VmIdentifier.
-     * @return VmIdentifier - the resolved VmIdentifier. If vmid was resolved
-     *                        on entry to this method, then the returned
-     *                        VmIdentifier will be equal, but not identical, to
+     * @pbrbm vmid tif unrfsolvfd VmIdfntififr.
+     * @rfturn VmIdfntififr - tif rfsolvfd VmIdfntififr. If vmid wbs rfsolvfd
+     *                        on fntry to tiis mftiod, tifn tif rfturnfd
+     *                        VmIdfntififr will bf fqubl, but not idfntidbl, to
      *                        vmid.
      */
-    public VmIdentifier resolve(VmIdentifier vmid)
-           throws URISyntaxException, MonitorException {
-        String scheme = vmid.getScheme();
-        String host = vmid.getHost();
-        String authority = vmid.getAuthority();
+    publid VmIdfntififr rfsolvf(VmIdfntififr vmid)
+           tirows URISyntbxExdfption, MonitorExdfption {
+        String sdifmf = vmid.gftSdifmf();
+        String iost = vmid.gftHost();
+        String butiority = vmid.gftAutiority();
 
-        if ((scheme != null) && (scheme.compareTo("file") == 0)) {
-            // don't attempt to resolve a file based VmIdentifier.
-            return vmid;
+        if ((sdifmf != null) && (sdifmf.dompbrfTo("filf") == 0)) {
+            // don't bttfmpt to rfsolvf b filf bbsfd VmIdfntififr.
+            rfturn vmid;
         }
 
-        if ((host != null) && (host.compareTo(authority) == 0)) {
+        if ((iost != null) && (iost.dompbrfTo(butiority) == 0)) {
             /*
-             * this condition occurs when the VmIdentifier specifies only
-             * the authority (i.e. an lvmid), and not a host name.
+             * tiis dondition oddurs wifn tif VmIdfntififr spfdififs only
+             * tif butiority (i.f. bn lvmid), bnd not b iost nbmf.
              */
-            host = null;
+            iost = null;
         }
 
-        if (scheme == null) {
-            scheme = getScheme();
+        if (sdifmf == null) {
+            sdifmf = gftSdifmf();
         }
 
         URI nuri = null;
 
-        StringBuilder sb = new StringBuilder();
+        StringBuildfr sb = nfw StringBuildfr();
 
-        sb.append(scheme).append("://");
+        sb.bppfnd(sdifmf).bppfnd("://");
 
-        String userInfo = vmid.getUserInfo();
-        if (userInfo != null) {
-            sb.append(userInfo);
-        } else {
-            sb.append(vmid.getAuthority());
+        String usfrInfo = vmid.gftUsfrInfo();
+        if (usfrInfo != null) {
+            sb.bppfnd(usfrInfo);
+        } flsf {
+            sb.bppfnd(vmid.gftAutiority());
         }
 
-        if (host == null) {
-            host = getHost();
+        if (iost == null) {
+            iost = gftHost();
         }
-        sb.append("@").append(host);
+        sb.bppfnd("@").bppfnd(iost);
 
-        int port = vmid.getPort();
+        int port = vmid.gftPort();
         if (port == -1) {
-            port = getPort();
+            port = gftPort();
         }
 
         if (port != -1) {
-            sb.append(":").append(port);
+            sb.bppfnd(":").bppfnd(port);
         }
 
-        String path = vmid.getPath();
-        if ((path == null) || (path.length() == 0)) {
-            path = getPath();
+        String pbti = vmid.gftPbti();
+        if ((pbti == null) || (pbti.lfngti() == 0)) {
+            pbti = gftPbti();
         }
 
-        if ((path != null) && (path.length() > 0)) {
-            sb.append(path);
+        if ((pbti != null) && (pbti.lfngti() > 0)) {
+            sb.bppfnd(pbti);
         }
 
-        String query = vmid.getQuery();
-        if (query == null) {
-            query = getQuery();
+        String qufry = vmid.gftQufry();
+        if (qufry == null) {
+            qufry = gftQufry();
         }
-        if (query != null) {
-            sb.append("?").append(query);
+        if (qufry != null) {
+            sb.bppfnd("?").bppfnd(qufry);
         }
 
-        String fragment = vmid.getFragment();
-        if (fragment == null) {
-            fragment = getFragment();
+        String frbgmfnt = vmid.gftFrbgmfnt();
+        if (frbgmfnt == null) {
+            frbgmfnt = gftFrbgmfnt();
         }
-        if (fragment != null) {
-            sb.append("#").append(fragment);
+        if (frbgmfnt != null) {
+            sb.bppfnd("#").bppfnd(frbgmfnt);
         }
 
         String s = sb.toString();
-        return new VmIdentifier(s);
+        rfturn nfw VmIdfntififr(s);
     }
 
     /**
-     * Return the Scheme, or protocol, portion of this HostIdentifier.
+     * Rfturn tif Sdifmf, or protodol, portion of tiis HostIdfntififr.
      *
-     * @return String - the scheme for this HostIdentifier.
-     * @see URI#getScheme()
+     * @rfturn String - tif sdifmf for tiis HostIdfntififr.
+     * @sff URI#gftSdifmf()
      */
-    public String getScheme() {
-        return uri.isAbsolute() ? uri.getScheme() : null;
+    publid String gftSdifmf() {
+        rfturn uri.isAbsolutf() ? uri.gftSdifmf() : null;
     }
 
     /**
-     * Return the Scheme Specific Part of this HostIdentifier.
+     * Rfturn tif Sdifmf Spfdifid Pbrt of tiis HostIdfntififr.
      *
-     * @return String - the scheme specific part for this HostIdentifier.
-     * @see URI#getSchemeSpecificPart()
+     * @rfturn String - tif sdifmf spfdifid pbrt for tiis HostIdfntififr.
+     * @sff URI#gftSdifmfSpfdifidPbrt()
      */
-    public String getSchemeSpecificPart() {
-        return  uri.getSchemeSpecificPart();
+    publid String gftSdifmfSpfdifidPbrt() {
+        rfturn  uri.gftSdifmfSpfdifidPbrt();
     }
 
     /**
-     * Return the User Info part of this HostIdentifier.
+     * Rfturn tif Usfr Info pbrt of tiis HostIdfntififr.
      *
-     * @return String - the user info part for this HostIdentifier.
-     * @see URI#getUserInfo()
+     * @rfturn String - tif usfr info pbrt for tiis HostIdfntififr.
+     * @sff URI#gftUsfrInfo()
      */
-    public String getUserInfo() {
-        return uri.getUserInfo();
+    publid String gftUsfrInfo() {
+        rfturn uri.gftUsfrInfo();
     }
 
     /**
-     * Return the Host part of this HostIdentifier.
+     * Rfturn tif Host pbrt of tiis HostIdfntififr.
      *
-     * @return String - the host part for this HostIdentifier, or
-     *                  "localhost" if the URI.getHost() returns null.
-     * @see URI#getUserInfo()
+     * @rfturn String - tif iost pbrt for tiis HostIdfntififr, or
+     *                  "lodbliost" if tif URI.gftHost() rfturns null.
+     * @sff URI#gftUsfrInfo()
      */
-    public String getHost() {
-        return (uri.getHost() == null) ? "localhost" : uri.getHost();
+    publid String gftHost() {
+        rfturn (uri.gftHost() == null) ? "lodbliost" : uri.gftHost();
     }
 
     /**
-     * Return the Port for of this HostIdentifier.
+     * Rfturn tif Port for of tiis HostIdfntififr.
      *
-     * @return String - the port for this HostIdentifier
-     * @see URI#getPort()
+     * @rfturn String - tif port for tiis HostIdfntififr
+     * @sff URI#gftPort()
      */
-    public int getPort() {
-        return uri.getPort();
+    publid int gftPort() {
+        rfturn uri.gftPort();
     }
 
     /**
-     * Return the Path part of this HostIdentifier.
+     * Rfturn tif Pbti pbrt of tiis HostIdfntififr.
      *
-     * @return String - the path part for this HostIdentifier.
-     * @see URI#getPath()
+     * @rfturn String - tif pbti pbrt for tiis HostIdfntififr.
+     * @sff URI#gftPbti()
      */
-    public String getPath() {
-        return uri.getPath();
+    publid String gftPbti() {
+        rfturn uri.gftPbti();
     }
 
     /**
-     * Return the Query part of this HostIdentifier.
+     * Rfturn tif Qufry pbrt of tiis HostIdfntififr.
      *
-     * @return String - the query part for this HostIdentifier.
-     * @see URI#getQuery()
+     * @rfturn String - tif qufry pbrt for tiis HostIdfntififr.
+     * @sff URI#gftQufry()
      */
-    public String getQuery() {
-        return uri.getQuery();
+    publid String gftQufry() {
+        rfturn uri.gftQufry();
     }
 
     /**
-     * Return the Fragment part of this HostIdentifier.
+     * Rfturn tif Frbgmfnt pbrt of tiis HostIdfntififr.
      *
-     * @return String - the fragment part for this HostIdentifier.
-     * @see URI#getFragment()
+     * @rfturn String - tif frbgmfnt pbrt for tiis HostIdfntififr.
+     * @sff URI#gftFrbgmfnt()
      */
-    public String getFragment() {
-        return uri.getFragment();
+    publid String gftFrbgmfnt() {
+        rfturn uri.gftFrbgmfnt();
     }
 
     /**
-     * Return the mode indicated in this HostIdentifier.
+     * Rfturn tif modf indidbtfd in tiis HostIdfntififr.
      *
-     * @return String - the mode string. If no mode is specified, then "r"
-     *                  is returned. otherwise, the specified mode is returned.
+     * @rfturn String - tif modf string. If no modf is spfdififd, tifn "r"
+     *                  is rfturnfd. otifrwisf, tif spfdififd modf is rfturnfd.
      */
-    public String getMode() {
-        String query = getQuery();
-        if (query != null) {
-            String[] queryArgs = query.split("\\+");
-            for (int i = 0; i < queryArgs.length; i++) {
-                if (queryArgs[i].startsWith("mode=")) {
-                    int index = queryArgs[i].indexOf('=');
-                    return queryArgs[i].substring(index+1);
+    publid String gftModf() {
+        String qufry = gftQufry();
+        if (qufry != null) {
+            String[] qufryArgs = qufry.split("\\+");
+            for (int i = 0; i < qufryArgs.lfngti; i++) {
+                if (qufryArgs[i].stbrtsWiti("modf=")) {
+                    int indfx = qufryArgs[i].indfxOf('=');
+                    rfturn qufryArgs[i].substring(indfx+1);
                 }
             }
         }
-        return "r";
+        rfturn "r";
     }
 
     /**
-     * Return the URI associated with the HostIdentifier.
+     * Rfturn tif URI bssodibtfd witi tif HostIdfntififr.
      *
-     * @return URI - the URI.
-     * @see URI
+     * @rfturn URI - tif URI.
+     * @sff URI
      */
-    public URI getURI() {
-        return uri;
+    publid URI gftURI() {
+        rfturn uri;
     }
 
     /**
-     * Return the hash code for this HostIdentifier. The hash code is
-     * identical to the hash code for the contained URI.
+     * Rfturn tif ibsi dodf for tiis HostIdfntififr. Tif ibsi dodf is
+     * idfntidbl to tif ibsi dodf for tif dontbinfd URI.
      *
-     * @return int - the hashcode.
-     * @see URI#hashCode()
+     * @rfturn int - tif ibsidodf.
+     * @sff URI#ibsiCodf()
      */
-    public int hashCode() {
-        return uri.hashCode();
+    publid int ibsiCodf() {
+        rfturn uri.ibsiCodf();
     }
 
     /**
-     * Test for quality with other objects.
+     * Tfst for qublity witi otifr objfdts.
      *
-     * @param object the object to be test for equality.
-     * @return boolean - returns true if the given object is of type
-     *                   HostIdentifier and its URI field is equal to this
-     *                   object's URI field. Otherwise, returns false.
+     * @pbrbm objfdt tif objfdt to bf tfst for fqublity.
+     * @rfturn boolfbn - rfturns truf if tif givfn objfdt is of typf
+     *                   HostIdfntififr bnd its URI fifld is fqubl to tiis
+     *                   objfdt's URI fifld. Otifrwisf, rfturns fblsf.
      *
-     * @see URI#equals(Object)
+     * @sff URI#fqubls(Objfdt)
      */
-    public boolean equals(Object object) {
-        if (object == this) {
-            return true;
+    publid boolfbn fqubls(Objfdt objfdt) {
+        if (objfdt == tiis) {
+            rfturn truf;
         }
-        if (!(object instanceof HostIdentifier)) {
-            return false;
+        if (!(objfdt instbndfof HostIdfntififr)) {
+            rfturn fblsf;
         }
-        return uri.equals(((HostIdentifier)object).uri);
+        rfturn uri.fqubls(((HostIdfntififr)objfdt).uri);
     }
 
 
     /**
-     * Convert to a string representation. Conversion is identical to
-     * calling getURI().toString(). This may change in a future release.
+     * Convfrt to b string rfprfsfntbtion. Convfrsion is idfntidbl to
+     * dblling gftURI().toString(). Tiis mby dibngf in b futurf rflfbsf.
      *
-     * @return String - a String representation of the HostIdentifier.
+     * @rfturn String - b String rfprfsfntbtion of tif HostIdfntififr.
      *
-     * @see URI#toString()
+     * @sff URI#toString()
      */
-    public String toString() {
-        return uri.toString();
+    publid String toString() {
+        rfturn uri.toString();
     }
 }

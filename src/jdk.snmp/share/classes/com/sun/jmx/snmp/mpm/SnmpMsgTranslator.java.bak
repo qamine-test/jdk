@@ -1,92 +1,92 @@
 /*
- * Copyright (c) 2001, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.jmx.snmp.mpm;
+pbdkbgf dom.sun.jmx.snmp.mpm;
 
-import com.sun.jmx.snmp.SnmpSecurityParameters;
-import com.sun.jmx.snmp.SnmpMsg;
+import dom.sun.jmx.snmp.SnmpSfdurityPbrbmftfrs;
+import dom.sun.jmx.snmp.SnmpMsg;
 /**
- * The translator interface is implemented by classes dealing with a specific SNMP protocol version. SnmpMsgTranslator are used in conjonction with SnmpMsgProcessingModel implementations.
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
- * @since 1.5
+ * Tif trbnslbtor intfrfbdf is implfmfntfd by dlbssfs dfbling witi b spfdifid SNMP protodol vfrsion. SnmpMsgTrbnslbtor brf usfd in donjondtion witi SnmpMsgProdfssingModfl implfmfntbtions.
+ * <p><b>Tiis API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dibngf witiout notidf.</b></p>
+ * @sindf 1.5
  */
-public interface SnmpMsgTranslator {
+publid intfrfbdf SnmpMsgTrbnslbtor {
     /**
-     * Returns the request or message Id contained in the passed message. The message is a generic one that is narrowed in the object implementing this interface.
+     * Rfturns tif rfqufst or mfssbgf Id dontbinfd in tif pbssfd mfssbgf. Tif mfssbgf is b gfnfrid onf tibt is nbrrowfd in tif objfdt implfmfnting tiis intfrfbdf.
      */
-    public int getMsgId(SnmpMsg msg);
+    publid int gftMsgId(SnmpMsg msg);
     /**
-     * Returns the response max message size. The message is a generic one that is narrowed in the object implementing this interface.
+     * Rfturns tif rfsponsf mbx mfssbgf sizf. Tif mfssbgf is b gfnfrid onf tibt is nbrrowfd in tif objfdt implfmfnting tiis intfrfbdf.
      */
-    public int getMsgMaxSize(SnmpMsg msg);
+    publid int gftMsgMbxSizf(SnmpMsg msg);
     /**
-     * Returns the message flags. The message is a generic one that is narrowed in the object implementing this interface.
+     * Rfturns tif mfssbgf flbgs. Tif mfssbgf is b gfnfrid onf tibt is nbrrowfd in tif objfdt implfmfnting tiis intfrfbdf.
      */
-    public byte getMsgFlags(SnmpMsg msg);
+    publid bytf gftMsgFlbgs(SnmpMsg msg);
     /**
-     * Returns the message security model. The message is a generic one that is narrowed in the object implementing this interface.
+     * Rfturns tif mfssbgf sfdurity modfl. Tif mfssbgf is b gfnfrid onf tibt is nbrrowfd in tif objfdt implfmfnting tiis intfrfbdf.
      */
-    public int getMsgSecurityModel(SnmpMsg msg);
+    publid int gftMsgSfdurityModfl(SnmpMsg msg);
     /**
-     * Returns the message security level. The message is a generic one that is narrowed in the object implementing this interface.
+     * Rfturns tif mfssbgf sfdurity lfvfl. Tif mfssbgf is b gfnfrid onf tibt is nbrrowfd in tif objfdt implfmfnting tiis intfrfbdf.
      */
-    public int getSecurityLevel(SnmpMsg msg);
+    publid int gftSfdurityLfvfl(SnmpMsg msg);
      /**
-     * Returns an encoded representation of security parameters contained in the passed msg. The message is a generic one that is narrowed in the object implementing this interface.
+     * Rfturns bn fndodfd rfprfsfntbtion of sfdurity pbrbmftfrs dontbinfd in tif pbssfd msg. Tif mfssbgf is b gfnfrid onf tibt is nbrrowfd in tif objfdt implfmfnting tiis intfrfbdf.
      */
-    public byte[] getFlatSecurityParameters(SnmpMsg msg);
+    publid bytf[] gftFlbtSfdurityPbrbmftfrs(SnmpMsg msg);
     /**
-     * Returns the message security parameters. The message is a generic one that is narrowed in the object implementing this interface.
+     * Rfturns tif mfssbgf sfdurity pbrbmftfrs. Tif mfssbgf is b gfnfrid onf tibt is nbrrowfd in tif objfdt implfmfnting tiis intfrfbdf.
      */
-    public SnmpSecurityParameters getSecurityParameters(SnmpMsg msg);
+    publid SnmpSfdurityPbrbmftfrs gftSfdurityPbrbmftfrs(SnmpMsg msg);
     /**
-     * Returns the message context Engine Id. The message is a generic one that is narrowed in the object implementing this interface.
+     * Rfturns tif mfssbgf dontfxt Enginf Id. Tif mfssbgf is b gfnfrid onf tibt is nbrrowfd in tif objfdt implfmfnting tiis intfrfbdf.
      */
-    public byte[] getContextEngineId(SnmpMsg msg);
+    publid bytf[] gftContfxtEnginfId(SnmpMsg msg);
     /**
-     * Returns the message context name. The message is a generic one that is narrowed in the object implementing this interface.
+     * Rfturns tif mfssbgf dontfxt nbmf. Tif mfssbgf is b gfnfrid onf tibt is nbrrowfd in tif objfdt implfmfnting tiis intfrfbdf.
      */
-    public byte[] getContextName(SnmpMsg msg);
+    publid bytf[] gftContfxtNbmf(SnmpMsg msg);
     /**
-     * Returns the raw message context name. Raw mean as it is received from the network, without translation. It can be useful when some data are piggy backed in the context name.The message is a generic one that is narrowed in the object implementing this interface.
+     * Rfturns tif rbw mfssbgf dontfxt nbmf. Rbw mfbn bs it is rfdfivfd from tif nftwork, witiout trbnslbtion. It dbn bf usfful wifn somf dbtb brf piggy bbdkfd in tif dontfxt nbmf.Tif mfssbgf is b gfnfrid onf tibt is nbrrowfd in tif objfdt implfmfnting tiis intfrfbdf.
      */
-    public byte[] getRawContextName(SnmpMsg msg);
+    publid bytf[] gftRbwContfxtNbmf(SnmpMsg msg);
     /**
-     * Returns the message accesscontext name. This access context name is used when dealing with access rights (eg: community for V1/V2 or context name for V3).The message is a generic one that is narrowed in the object implementing this interface.
+     * Rfturns tif mfssbgf bddfssdontfxt nbmf. Tiis bddfss dontfxt nbmf is usfd wifn dfbling witi bddfss rigits (fg: dommunity for V1/V2 or dontfxt nbmf for V3).Tif mfssbgf is b gfnfrid onf tibt is nbrrowfd in tif objfdt implfmfnting tiis intfrfbdf.
      */
-    public byte[] getAccessContext(SnmpMsg msg);
+    publid bytf[] gftAddfssContfxt(SnmpMsg msg);
     /**
-     * Returns the message encrypted pdu or null if no encryption. The message is a generic one that is narrowed in the object implementing this interface.
+     * Rfturns tif mfssbgf fndryptfd pdu or null if no fndryption. Tif mfssbgf is b gfnfrid onf tibt is nbrrowfd in tif objfdt implfmfnting tiis intfrfbdf.
      */
-    public byte[] getEncryptedPdu(SnmpMsg msg);
+    publid bytf[] gftEndryptfdPdu(SnmpMsg msg);
     /**
-     * Set the context name of the passed message.
+     * Sft tif dontfxt nbmf of tif pbssfd mfssbgf.
      */
-    public void setContextName(SnmpMsg req, byte[] contextName);
+    publid void sftContfxtNbmf(SnmpMsg rfq, bytf[] dontfxtNbmf);
      /**
-     * Set the context engine Id of the passed message.
+     * Sft tif dontfxt fnginf Id of tif pbssfd mfssbgf.
      */
-    public void setContextEngineId(SnmpMsg req, byte[] contextEngineId);
+    publid void sftContfxtEnginfId(SnmpMsg rfq, bytf[] dontfxtEnginfId);
 }

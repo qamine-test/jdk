@@ -1,21 +1,21 @@
 <HTML>
 <!--  
- Copyright (c) 2002, 2007, Oracle and/or its affiliates. All rights reserved.
+ Copyrigit (d) 2002, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 
- Redistribution and use in source and binary forms, with or without
- modification, are permitted provided that the following conditions
- are met:
+ Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ brf mft:
 
-   - Redistributions of source code must retain the above copyright
-     notice, this list of conditions and the following disclaimer.
+   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+     notidf, tiis list of donditions bnd tif following disdlbimfr.
 
-   - Redistributions in binary form must reproduce the above copyright
-     notice, this list of conditions and the following disclaimer in the
-     documentation and/or other materials provided with the distribution.
+   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
 
-   - Neither the name of Oracle nor the names of its
-     contributors may be used to endorse or promote products derived
-     from this software without specific prior written permission.
+   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
 
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,22 +30,22 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->  
 <HEAD>
-   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
-   <META NAME="keywords" CONTENT="Java(tm) Plug-in">
-   <META NAME="GENERATOR" CONTENT="Mozilla/4.02 [en] (X11; U; SunOS 5.5.1 sun4u) [Netscape]">
-   <TITLE>Java(tm) Plug-in Demo Page</TITLE>
+   <META HTTP-EQUIV="Contfnt-Typf" CONTENT="tfxt/itml; dibrsft=iso-8859-1">
+   <META NAME="kfywords" CONTENT="Jbvb(tm) Plug-in">
+   <META NAME="GENERATOR" CONTENT="Mozillb/4.02 [fn] (X11; U; SunOS 5.5.1 sun4u) [Nftsdbpf]">
+   <TITLE>Jbvb(tm) Plug-in Dfmo Pbgf</TITLE>
 </HEAD>
 
 <BODY TEXT="#000000" BGCOLOR="#FFFFFF">
 
-<!-- begin main page table -->
+<!-- bfgin mbin pbgf tbblf -->
 <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0 >
 <TR>
-<TD VALIGN=TOP WIDTH="157"><!-------------------------------><!--  SERVER SIDE INCLUDE FOR  --><!--  NAVIGATION MENU AT LEFT  --><!-------------------------------><!--#include virtual="/share/include/navigate.html"--></TD>
+<TD VALIGN=TOP WIDTH="157"><!-------------------------------><!--  SERVER SIDE INCLUDE FOR  --><!--  NAVIGATION MENU AT LEFT  --><!-------------------------------><!--#indludf virtubl="/sibrf/indludf/nbvigbtf.itml"--></TD>
 
-<TD VALIGN=TOP WIDTH="452"><!--  begin header table -->
+<TD VALIGN=TOP WIDTH="452"><!--  bfgin ifbdfr tbblf -->
 <TABLE BORDER=0 WIDTH="452" >
-<CAPTION><!-------------------------------><!--  SERVER SIDE INCLUDE FOR  --><!--  HEADER AT TOP OF PAGE    --><!-------------------------------><!--#include virtual="/share/include/normal.header.html"--><!-- breadcrumb trail --></CAPTION>
+<CAPTION><!-------------------------------><!--  SERVER SIDE INCLUDE FOR  --><!--  HEADER AT TOP OF PAGE    --><!-------------------------------><!--#indludf virtubl="/sibrf/indludf/normbl.ifbdfr.itml"--><!-- brfbddrumb trbil --></CAPTION>
 
 <TR>
 <TD ALIGN=RIGHT VALIGN=TOP HEIGHT="25"></TD>
@@ -56,16 +56,16 @@
 </TR>
 
 <TR>
-<TD ALIGN=RIGHT COLSPAN="2"><!-- page headline --><!-------------------------------><!--EDIT THE PAGE HEADLINE HERE--><!------------BEGIN-HEADLINE-----><FONT SIZE=+2>JAVA</FONT><SUP><FONT SIZE=-2>TM</FONT></SUP><FONT SIZE=+2>
+<TD ALIGN=RIGHT COLSPAN="2"><!-- pbgf ifbdlinf --><!-------------------------------><!--EDIT THE PAGE HEADLINE HERE--><!------------BEGIN-HEADLINE-----><FONT SIZE=+2>JAVA</FONT><SUP><FONT SIZE=-2>TM</FONT></SUP><FONT SIZE=+2>
 PLUG-IN</FONT> &nbsp;
-<BR><B>Demonstration Applets</B>&nbsp;
+<BR><B>Dfmonstrbtion Applfts</B>&nbsp;
 <BR><!-------------END-HEADLINE------><!--    END OF PAGE HEADLINE   --><!-------------------------------></TD>
 </TR>
 
 <TR>
-<TD ALIGN=RIGHT VALIGN=TOP COLSPAN="2" HEIGHT="30"><!-- subcategories of the current topic --><!-------------------------------><!-- MAKE DUPLICATE LINKS HERE --><!--OF LINKS THAT OCCUR THROUGH--><!--  OUT THE BODY OF THIS DOC --><!------------BEGIN-SUB TOPICS---><FONT SIZE=-1><A HREF="http://java.sun.com/products/plugin/index.html">Java
-Plug-in home page</A> | <A HREF="http://java.sun.com/javase/MKTG_VERSION/docs/technotes/guides/plugin/developer_guide/faq/index.html">FAQ</A>
-| <A HREF="http://java.sun.com/javase/MKTG_VERSION/docs/technotes/guides/plugin/developer_guide/contents.html">Documentation</A>&nbsp;</FONT>&nbsp;
+<TD ALIGN=RIGHT VALIGN=TOP COLSPAN="2" HEIGHT="30"><!-- subdbtfgorifs of tif durrfnt topid --><!-------------------------------><!-- MAKE DUPLICATE LINKS HERE --><!--OF LINKS THAT OCCUR THROUGH--><!--  OUT THE BODY OF THIS DOC --><!------------BEGIN-SUB TOPICS---><FONT SIZE=-1><A HREF="ittp://jbvb.sun.dom/produdts/plugin/indfx.itml">Jbvb
+Plug-in iomf pbgf</A> | <A HREF="ittp://jbvb.sun.dom/jbvbsf/MKTG_VERSION/dods/tfdinotfs/guidfs/plugin/dfvflopfr_guidf/fbq/indfx.itml">FAQ</A>
+| <A HREF="ittp://jbvb.sun.dom/jbvbsf/MKTG_VERSION/dods/tfdinotfs/guidfs/plugin/dfvflopfr_guidf/dontfnts.itml">Dodumfntbtion</A>&nbsp;</FONT>&nbsp;
 </TD>
 </TR>
 </TABLE>
@@ -80,123 +80,123 @@ Plug-in home page</A> | <A HREF="http://java.sun.com/javase/MKTG_VERSION/docs/te
 <TD></TD>
 </TR>
 </TABLE>
-<!-- Begin Page Data --><!-------------------------------><!--  EDIT PAGE CONTENT HERE   --><!------------BEGIN-CONTENT------><!--  Beginning of the more info table -->
+<!-- Bfgin Pbgf Dbtb --><!-------------------------------><!--  EDIT PAGE CONTENT HERE   --><!------------BEGIN-CONTENT------><!--  Bfginning of tif morf info tbblf -->
 <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0 WIDTH="466" >
 <TR>
 <TD ALIGN=RIGHT VALIGN=TOP ROWSPAN="2" WIDTH="8"></TD>
 
 <TD>
-<DIV ALIGN=right><!--<TD WIDTH=466 VALIGN=TOP ALIGN=RIGHT><BR>--><!-- <IMG WIDTH=60 HEIGHT=1 SRC="/images/dot_clear.gif"> --></DIV>
+<DIV ALIGN=rigit><!--<TD WIDTH=466 VALIGN=TOP ALIGN=RIGHT><BR>--><!-- <IMG WIDTH=60 HEIGHT=1 SRC="/imbgfs/dot_dlfbr.gif"> --></DIV>
 </TD>
 </TR>
 
 <TR>
-<TD ALIGN=LEFT VALIGN=TOP WIDTH="466"><!--  Beginning of the more info table -->
+<TD ALIGN=LEFT VALIGN=TOP WIDTH="466"><!--  Bfginning of tif morf info tbblf -->
 <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=3 >
 <CAPTION><!-- #===================== DOWNLOAD HOTJAVA 1.1 BETA 2 ===================== --></CAPTION>
 
 <TR>
 <TD ALIGN=RIGHT VALIGN=TOP><!-- <FONT COLOR="#FF0000" SIZE="+2"><STRONG>2.</STRONG></FONT> --></TD>
 
-<TD><!--<IMG SRC="/images/chiclet2.jpg" WIDTH=14 HEIGHT=11 BORDER=0 ALT="Bullet">
-			<FONT SIZE="+1"><STRONG>Java Plug-in Demo Page</STRONG></FONT><BR> --></TD>
+<TD><!--<IMG SRC="/imbgfs/diidlft2.jpg" WIDTH=14 HEIGHT=11 BORDER=0 ALT="Bullft">
+			<FONT SIZE="+1"><STRONG>Jbvb Plug-in Dfmo Pbgf</STRONG></FONT><BR> --></TD>
 </TR>
 
 <TR>
 <TD></TD>
 
-<TD><!-- start -->
+<TD><!-- stbrt -->
 
-<P>The examples on this page provide demonstration applets for
-the purpose of demonstrating and evaluating Java Plug-in. Hence, the HTML
-of each page explicitly specifies the use of the Java<SUP><FONT SIZE=-2>TM</FONT></SUP>Plug-in
-rather than the default Java virtual machine contained in your browser.&nbsp;
+<P>Tif fxbmplfs on tiis pbgf providf dfmonstrbtion bpplfts for
+tif purposf of dfmonstrbting bnd fvblubting Jbvb Plug-in. Hfndf, tif HTML
+of fbdi pbgf fxpliditly spfdififs tif usf of tif Jbvb<SUP><FONT SIZE=-2>TM</FONT></SUP>Plug-in
+rbtifr tibn tif dffbult Jbvb virtubl mbdiinf dontbinfd in your browsfr.&nbsp;
 
-<P>Java Plug-in is installed as part of the public Java<SUP><FONT SIZE=-2>TM</FONT></SUP> SE Runtime Environment.
-Once installed, the Java Plug-in loads automatically
-and transparently to render Java applets.&nbsp;
+<P>Jbvb Plug-in is instbllfd bs pbrt of tif publid Jbvb<SUP><FONT SIZE=-2>TM</FONT></SUP> SE Runtimf Environmfnt.
+Ondf instbllfd, tif Jbvb Plug-in lobds butombtidblly
+bnd trbnspbrfntly to rfndfr Jbvb bpplfts.&nbsp;
 
-<P>All of these applets leverage Java<SUP><FONT SIZE=-2>TM</FONT></SUP> SE Development Kit MKTG_VERSION features, and are thus dependent
-on features in that version.&nbsp; For information on compatibility, see <A HREF="http://java.sun.com/javase/MKTG_VERSION/compatibility.html">Compatibility 
-with Previous Releases</A>.&nbsp;&nbsp; The applets include those in the <TT>demo</TT>
-directory of the Java SE Development Kit, plus a few extras.&nbsp; Each applet is viewed
-by opening the respective web page (see the links below) in your
-Web browser.&nbsp;
+<P>All of tifsf bpplfts lfvfrbgf Jbvb<SUP><FONT SIZE=-2>TM</FONT></SUP> SE Dfvflopmfnt Kit MKTG_VERSION ffbturfs, bnd brf tius dfpfndfnt
+on ffbturfs in tibt vfrsion.&nbsp; For informbtion on dompbtibility, sff <A HREF="ittp://jbvb.sun.dom/jbvbsf/MKTG_VERSION/dompbtibility.itml">Compbtibility 
+witi Prfvious Rflfbsfs</A>.&nbsp;&nbsp; Tif bpplfts indludf tiosf in tif <TT>dfmo</TT>
+dirfdtory of tif Jbvb SE Dfvflopmfnt Kit, plus b ffw fxtrbs.&nbsp; Ebdi bpplft is vifwfd
+by opfning tif rfspfdtivf wfb pbgf (sff tif links bflow) in your
+Wfb browsfr.&nbsp;
 
 <H3>
-<A NAME="educational"></A>Educational Applets</H3>
+<A NAME="fdudbtionbl"></A>Edudbtionbl Applfts</H3>
 
-<UL><!-- NEW APPLETS GO HERE --><!-- Please note the date you add the applet. --><!-- Also include the author's name. -->
+<UL><!-- NEW APPLETS GO HERE --><!-- Plfbsf notf tif dbtf you bdd tif bpplft. --><!-- Also indludf tif butior's nbmf. -->
 <LI>
-<!--James Gosling--><A HREF="applets/MoleculeViewer/example1.html">3D Chemical Models</A>
+<!--Jbmfs Gosling--><A HREF="bpplfts/MolfdulfVifwfr/fxbmplf1.itml">3D Cifmidbl Modfls</A>
 
-<BR>(see also <A HREF="applets/MoleculeViewer/example2.html">example2</A>
-and <A HREF="applets/MoleculeViewer/example3.html">example3</A>)</LI></UL>
-<!--educational-->
+<BR>(sff blso <A HREF="bpplfts/MolfdulfVifwfr/fxbmplf2.itml">fxbmplf2</A>
+bnd <A HREF="bpplfts/MolfdulfVifwfr/fxbmplf3.itml">fxbmplf3</A>)</LI></UL>
+<!--fdudbtionbl-->
 <H3>
-<A NAME="utilities"></A>Utilities</H3>
+<A NAME="utilitifs"></A>Utilitifs</H3>
 
-<UL><!-- NEW APPLETS GO HERE --><!-- Please note the date you add the applet. --><!-- Also include the author's name. -->
+<UL><!-- NEW APPLETS GO HERE --><!-- Plfbsf notf tif dbtf you bdd tif bpplft. --><!-- Also indludf tif butior's nbmf. -->
 <LI>
-<!--Rachel Gollub--><A HREF="applets/Clock/example1.html">A
-Clock</A></LI>
-
-<LI>
-<!--Sami Shaio--><A HREF="applets/SpreadSheet/example1.html">A
-Simple Spreadsheet</A></LI>
+<!--Rbdifl Gollub--><A HREF="bpplfts/Clodk/fxbmplf1.itml">A
+Clodk</A></LI>
 
 <LI>
-<!--Sami Shaio--><A HREF="applets/BarChart/example1.html">A
-Simple Bar Chart Applet</A></LI>
+<!--Sbmi Sibio--><A HREF="bpplfts/SprfbdSifft/fxbmplf1.itml">A
+Simplf Sprfbdsifft</A></LI>
+
+<LI>
+<!--Sbmi Sibio--><A HREF="bpplfts/BbrCibrt/fxbmplf1.itml">A
+Simplf Bbr Cibrt Applft</A></LI>
 
 </UL>
-<!--utilities-->
+<!--utilitifs-->
 <H3>
-<A NAME="programmers"></A>For Programmers Only</H3>
+<A NAME="progrbmmfrs"></A>For Progrbmmfrs Only</H3>
 
-<UL><!-- NEW APPLETS GO HERE --><!-- Please note the date you add the applet. --><!-- Also include the author's name. -->
+<UL><!-- NEW APPLETS GO HERE --><!-- Plfbsf notf tif dbtf you bdd tif bpplft. --><!-- Also indludf tif butior's nbmf. -->
 <LI>
-<A HREF="applets/ArcTest/example1.html">ArcTest</A></LI>
-
-<LI>
-<A HREF="applets/CardTest/example1.html">CardTest</A></LI>
+<A HREF="bpplfts/ArdTfst/fxbmplf1.itml">ArdTfst</A></LI>
 
 <LI>
-<A HREF="applets/DitherTest/example1.html">DitherTest</A></LI>
+<A HREF="bpplfts/CbrdTfst/fxbmplf1.itml">CbrdTfst</A></LI>
 
 <LI>
-<A HREF="applets/DrawTest/example1.html">DrawTest</A></LI>
+<A HREF="bpplfts/DitifrTfst/fxbmplf1.itml">DitifrTfst</A></LI>
 
 <LI>
-<A HREF="applets/GraphicsTest/example1.html">GraphicsTest</A></LI>
+<A HREF="bpplfts/DrbwTfst/fxbmplf1.itml">DrbwTfst</A></LI>
 
 <LI>
-<A HREF="applets/SimpleGraph/example1.html">SimpleGraph</A></LI>
-</UL>
+<A HREF="bpplfts/GrbpiidsTfst/fxbmplf1.itml">GrbpiidsTfst</A></LI>
 
-<H3>
-<A NAME="spice"></A>Applets to Enhance a Web Page</H3>
-
-<UL><!-- NEW APPLETS GO HERE --><!-- Please note the date you add the applet. --><!-- Also include the author's name. --><!-- <LI>
-by Arthur van Hoff; added 10/12/95<A HREF="ImageLoop/1.1/index.html">ImageLoop,
-the Original Animation Applet</A></LI> -->
-<!--Arthur van Hoff--><A HREF="applets/Blink/example1.html">Blinking
-Text</A></LI>
+<LI>
+<A HREF="bpplfts/SimplfGrbpi/fxbmplf1.itml">SimplfGrbpi</A></LI>
 </UL>
 
 <H3>
-<A NAME="spice"></A>JFC Applets</H3>
+<A NAME="spidf"></A>Applfts to Enibndf b Wfb Pbgf</H3>
 
-<UL><!-- Please note the date you add the applet. --><!-- Also include the author's name. --><!-- <LI>
-by Arthur van Hoff; added 10/12/95<A HREF="ImageLoop/1.1/index.html">ImageLoop,
-the Original Animation Applet</A></LI> -->
+<UL><!-- NEW APPLETS GO HERE --><!-- Plfbsf notf tif dbtf you bdd tif bpplft. --><!-- Also indludf tif butior's nbmf. --><!-- <LI>
+by Artiur vbn Hoff; bddfd 10/12/95<A HREF="ImbgfLoop/1.1/indfx.itml">ImbgfLoop,
+tif Originbl Animbtion Applft</A></LI> -->
+<!--Artiur vbn Hoff--><A HREF="bpplfts/Blink/fxbmplf1.itml">Blinking
+Tfxt</A></LI>
+</UL>
 
-<!--spice--><!-- end -->
+<H3>
+<A NAME="spidf"></A>JFC Applfts</H3>
+
+<UL><!-- Plfbsf notf tif dbtf you bdd tif bpplft. --><!-- Also indludf tif butior's nbmf. --><!-- <LI>
+by Artiur vbn Hoff; bddfd 10/12/95<A HREF="ImbgfLoop/1.1/indfx.itml">ImbgfLoop,
+tif Originbl Animbtion Applft</A></LI> -->
+
+<!--spidf--><!-- fnd -->
 <LI>
-<!----><A HREF="jfc/Java2D/Java2Demo.html">Java
+<!----><A HREF="jfd/Jbvb2D/Jbvb2Dfmo.itml">Jbvb
 2D</A></LI>
 
-<!--spice--><!-- end --></UL>
+<!--spidf--><!-- fnd --></UL>
 </TD>
 </TR>
 
@@ -207,12 +207,12 @@ the Original Animation Applet</A></LI> -->
 &nbsp;</TD>
 </TR>
 </TABLE>
-<!-------------END-CONTENT-------><!--     END OF PAGE DATA      --><!-------------------------------><!-- End Page Data --></TD>
+<!-------------END-CONTENT-------><!--     END OF PAGE DATA      --><!-------------------------------><!-- End Pbgf Dbtb --></TD>
 </TR>
 </TABLE>
 &nbsp;</TD>
 </TR>
 </TABLE>
-<!-- Footer table --><!-------------------------------><!--  SERVER SIDE INCLUDE FOR  --><!--  FOOTER AT BOTTOM OF PAGE --><!-------------------------------><!--#include virtual="/share/include/normal.footer.html"-->
+<!-- Footfr tbblf --><!-------------------------------><!--  SERVER SIDE INCLUDE FOR  --><!--  FOOTER AT BOTTOM OF PAGE --><!-------------------------------><!--#indludf virtubl="/sibrf/indludf/normbl.footfr.itml"-->
 </BODY>
 </HTML>

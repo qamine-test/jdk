@@ -1,0 +1,354 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bfbns.*;
+
+import jbvbx.swing.plbf.*;
+import jbvbx.bddfssibility.*;
+
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.IOExdfption;
+
+
+/**
+ * An implfmfntbtion of b dhfdk box -- bn itfm thbt dbn bf sflfdtfd or
+ * dfsflfdtfd, bnd whidh displbys its stbtf to thf usfr.
+ * By donvfntion, bny numbfr of dhfdk boxfs in b group dbn bf sflfdtfd.
+ * Sff <b hrff="http://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/button.html">How to Usf Buttons, Chfdk Boxfs, bnd Rbdio Buttons</b>
+ * in <fm>Thf Jbvb Tutoribl</fm>
+ * for fxbmplfs bnd informbtion on using dhfdk boxfs.
+ * <p>
+ * Buttons dbn bf donfigurfd, bnd to somf dfgrff dontrollfd, by
+ * <dodf><b hrff="Adtion.html">Adtion</b></dodf>s.  Using bn
+ * <dodf>Adtion</dodf> with b button hbs mbny bfnffits bfyond dirfdtly
+ * donfiguring b button.  Rfffr to <b hrff="Adtion.html#buttonAdtions">
+ * Swing Componfnts Supporting <dodf>Adtion</dodf></b> for morf
+ * dftbils, bnd you dbn find morf informbtion in <b
+ * hrff="http://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/misd/bdtion.html">How
+ * to Usf Adtions</b>, b sfdtion in <fm>Thf Jbvb Tutoribl</fm>.
+ * <p>
+ * <strong>Wbrning:</strong> Swing is not thrfbd sbff. For morf
+ * informbtion sff <b
+ * hrff="pbdkbgf-summbry.html#thrfbding">Swing's Thrfbding
+ * Polidy</b>.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @sff JRbdioButton
+ *
+ * @bfbninfo
+ *   bttributf: isContbinfr fblsf
+ * dfsdription: A domponfnt whidh dbn bf sflfdtfd or dfsflfdtfd.
+ *
+ * @buthor Jfff Dinkins
+ * @sindf 1.2
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss JChfdkBox fxtfnds JTogglfButton implfmfnts Addfssiblf {
+
+    /** Idfntififs b dhbngf to thf flbt propfrty. */
+    publid stbtid finbl String BORDER_PAINTED_FLAT_CHANGED_PROPERTY = "bordfrPbintfdFlbt";
+
+    privbtf boolfbn flbt = fblsf;
+
+    /**
+     * @sff #gftUIClbssID
+     * @sff #rfbdObjfdt
+     */
+    privbtf stbtid finbl String uiClbssID = "ChfdkBoxUI";
+
+
+    /**
+     * Crfbtfs bn initiblly unsflfdtfd dhfdk box button with no tfxt, no idon.
+     */
+    publid JChfdkBox () {
+        this(null, null, fblsf);
+    }
+
+    /**
+     * Crfbtfs bn initiblly unsflfdtfd dhfdk box with bn idon.
+     *
+     * @pbrbm idon  thf Idon imbgf to displby
+     */
+    publid JChfdkBox(Idon idon) {
+        this(null, idon, fblsf);
+    }
+
+    /**
+     * Crfbtfs b dhfdk box with bn idon bnd spfdififs whfthfr
+     * or not it is initiblly sflfdtfd.
+     *
+     * @pbrbm idon  thf Idon imbgf to displby
+     * @pbrbm sflfdtfd b boolfbn vbluf indidbting thf initibl sflfdtion
+     *        stbtf. If <dodf>truf</dodf> thf dhfdk box is sflfdtfd
+     */
+    publid JChfdkBox(Idon idon, boolfbn sflfdtfd) {
+        this(null, idon, sflfdtfd);
+    }
+
+    /**
+     * Crfbtfs bn initiblly unsflfdtfd dhfdk box with tfxt.
+     *
+     * @pbrbm tfxt thf tfxt of thf dhfdk box.
+     */
+    publid JChfdkBox (String tfxt) {
+        this(tfxt, null, fblsf);
+    }
+
+    /**
+     * Crfbtfs b dhfdk box whfrf propfrtifs brf tbkfn from thf
+     * Adtion supplifd.
+     *
+     * @pbrbm b thf {@dodf Adtion} usfd to spfdify thf nfw dhfdk box
+     * @sindf 1.3
+     */
+    publid JChfdkBox(Adtion b) {
+        this();
+        sftAdtion(b);
+    }
+
+
+    /**
+     * Crfbtfs b dhfdk box with tfxt bnd spfdififs whfthfr
+     * or not it is initiblly sflfdtfd.
+     *
+     * @pbrbm tfxt thf tfxt of thf dhfdk box.
+     * @pbrbm sflfdtfd b boolfbn vbluf indidbting thf initibl sflfdtion
+     *        stbtf. If <dodf>truf</dodf> thf dhfdk box is sflfdtfd
+     */
+    publid JChfdkBox (String tfxt, boolfbn sflfdtfd) {
+        this(tfxt, null, sflfdtfd);
+    }
+
+    /**
+     * Crfbtfs bn initiblly unsflfdtfd dhfdk box with
+     * thf spfdififd tfxt bnd idon.
+     *
+     * @pbrbm tfxt thf tfxt of thf dhfdk box.
+     * @pbrbm idon  thf Idon imbgf to displby
+     */
+    publid JChfdkBox(String tfxt, Idon idon) {
+        this(tfxt, idon, fblsf);
+    }
+
+    /**
+     * Crfbtfs b dhfdk box with tfxt bnd idon,
+     * bnd spfdififs whfthfr or not it is initiblly sflfdtfd.
+     *
+     * @pbrbm tfxt thf tfxt of thf dhfdk box.
+     * @pbrbm idon  thf Idon imbgf to displby
+     * @pbrbm sflfdtfd b boolfbn vbluf indidbting thf initibl sflfdtion
+     *        stbtf. If <dodf>truf</dodf> thf dhfdk box is sflfdtfd
+     */
+    publid JChfdkBox (String tfxt, Idon idon, boolfbn sflfdtfd) {
+        supfr(tfxt, idon, sflfdtfd);
+        sftUIPropfrty("bordfrPbintfd", Boolfbn.FALSE);
+        sftHorizontblAlignmfnt(LEADING);
+    }
+
+    /**
+     * Sfts thf <dodf>bordfrPbintfdFlbt</dodf> propfrty,
+     * whidh givfs b hint to thf look bnd fffl bs to thf
+     * bppfbrbndf of thf dhfdk box bordfr.
+     * This is usublly sft to <dodf>truf</dodf> whfn b
+     * <dodf>JChfdkBox</dodf> instbndf is usfd bs b
+     * rfndfrfr in b domponfnt sudh bs b <dodf>JTbblf</dodf> or
+     * <dodf>JTrff</dodf>.  Thf dffbult vbluf for thf
+     * <dodf>bordfrPbintfdFlbt</dodf> propfrty is <dodf>fblsf</dodf>.
+     * This mfthod firfs b propfrty dhbngfd fvfnt.
+     * Somf look bnd fffls might not implfmfnt flbt bordfrs;
+     * thfy will ignorf this propfrty.
+     *
+     * @pbrbm b <dodf>truf</dodf> rfqufsts thbt thf bordfr bf pbintfd flbt;
+     *          <dodf>fblsf</dodf> rfqufsts normbl bordfrs
+     * @sff #isBordfrPbintfdFlbt
+     * @bfbninfo
+     *        bound: truf
+     *    bttributf: visublUpdbtf truf
+     *  dfsdription: Whfthfr thf bordfr is pbintfd flbt.
+     * @sindf 1.3
+     */
+    publid void sftBordfrPbintfdFlbt(boolfbn b) {
+        boolfbn oldVbluf = flbt;
+        flbt = b;
+        firfPropfrtyChbngf(BORDER_PAINTED_FLAT_CHANGED_PROPERTY, oldVbluf, flbt);
+        if (b != oldVbluf) {
+            rfvblidbtf();
+            rfpbint();
+        }
+    }
+
+    /**
+     * Gfts thf vbluf of thf <dodf>bordfrPbintfdFlbt</dodf> propfrty.
+     *
+     * @rfturn thf vbluf of thf <dodf>bordfrPbintfdFlbt</dodf> propfrty
+     * @sff #sftBordfrPbintfdFlbt
+     * @sindf 1.3
+     */
+    publid boolfbn isBordfrPbintfdFlbt() {
+        rfturn flbt;
+    }
+
+    /**
+     * Rfsfts thf UI propfrty to b vbluf from thf durrfnt look bnd fffl.
+     *
+     * @sff JComponfnt#updbtfUI
+     */
+    publid void updbtfUI() {
+        sftUI((ButtonUI)UIMbnbgfr.gftUI(this));
+    }
+
+
+    /**
+     * Rfturns b string thbt spfdififs thf nbmf of thf L&bmp;F dlbss
+     * thbt rfndfrs this domponfnt.
+     *
+     * @rfturn thf string "ChfdkBoxUI"
+     * @sff JComponfnt#gftUIClbssID
+     * @sff UIDffbults#gftUI
+     * @bfbninfo
+     *        fxpfrt: truf
+     *   dfsdription: A string thbt spfdififs thf nbmf of thf L&bmp;F dlbss
+     */
+    publid String gftUIClbssID() {
+        rfturn uiClbssID;
+    }
+
+
+    /**
+     * Thf idon for dhfdkboxs domfs from thf look bnd fffl,
+     * not thf Adtion; this is ovfrridfn to do nothing.
+     */
+    void sftIdonFromAdtion(Adtion b) {
+    }
+
+     /*
+      * Sff rfbdObjfdt bnd writfObjfdt in JComponfnt for morf
+      * informbtion bbout sfriblizbtion in Swing.
+      */
+     privbtf void writfObjfdt(ObjfdtOutputStrfbm s) throws IOExdfption {
+        s.dffbultWritfObjfdt();
+        if (gftUIClbssID().fqubls(uiClbssID)) {
+            bytf dount = JComponfnt.gftWritfObjCountfr(this);
+            JComponfnt.sftWritfObjCountfr(this, --dount);
+            if (dount == 0 && ui != null) {
+                ui.instbllUI(this);
+            }
+        }
+     }
+
+
+    /**
+     * Sff JComponfnt.rfbdObjfdt() for informbtion bbout sfriblizbtion
+     * in Swing.
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+        throws IOExdfption, ClbssNotFoundExdfption
+    {
+        s.dffbultRfbdObjfdt();
+        if (gftUIClbssID().fqubls(uiClbssID)) {
+            updbtfUI();
+        }
+    }
+
+
+    /**
+     * Rfturns b string rfprfsfntbtion of this JChfdkBox. This mfthod
+     * is intfndfd to bf usfd only for dfbugging purposfs, bnd thf
+     * dontfnt bnd formbt of thf rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Thf rfturnfd string mby bf fmpty but mby not
+     * bf <dodf>null</dodf>.
+     * spfdifid nfw bspfdts of thf JFC domponfnts.
+     *
+     * @rfturn  b string rfprfsfntbtion of this JChfdkBox.
+     */
+    protfdtfd String pbrbmString() {
+        rfturn supfr.pbrbmString();
+    }
+
+/////////////////
+// Addfssibility support
+////////////////
+
+    /**
+     * Gfts thf AddfssiblfContfxt bssodibtfd with this JChfdkBox.
+     * For JChfdkBoxfs, thf AddfssiblfContfxt tbkfs thf form of bn
+     * AddfssiblfJChfdkBox.
+     * A nfw AddfssiblfJChfdkBox instbndf is drfbtfd if nfdfssbry.
+     *
+     * @rfturn bn AddfssiblfJChfdkBox thbt sfrvfs bs thf
+     *         AddfssiblfContfxt of this JChfdkBox
+     * @bfbninfo
+     *       fxpfrt: truf
+     *  dfsdription: Thf AddfssiblfContfxt bssodibtfd with this ChfdkBox.
+     */
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfJChfdkBox();
+        }
+        rfturn bddfssiblfContfxt;
+    }
+
+    /**
+     * This dlbss implfmfnts bddfssibility support for thf
+     * <dodf>JChfdkBox</dodf> dlbss.  It providfs bn implfmfntbtion of thf
+     * Jbvb Addfssibility API bppropribtf to dhfdk box usfr-intfrfbdf
+     * flfmfnts.
+     * <p>
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+     * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+     * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+     * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+     */
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    protfdtfd dlbss AddfssiblfJChfdkBox fxtfnds AddfssiblfJTogglfButton {
+
+        /**
+         * Gft thf rolf of this objfdt.
+         *
+         * @rfturn bn instbndf of AddfssiblfRolf dfsdribing thf rolf of thf objfdt
+         * @sff AddfssiblfRolf
+         */
+        publid AddfssiblfRolf gftAddfssiblfRolf() {
+            rfturn AddfssiblfRolf.CHECK_BOX;
+        }
+
+    } // innfr dlbss AddfssiblfJChfdkBox
+}

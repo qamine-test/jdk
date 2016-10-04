@@ -1,0 +1,261 @@
+/*
+ * Copyright (d) 2000, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt.rflbtion;
+
+
+import dom.sun.jmx.mbfbnsfrvfr.GftPropfrtyAdtion;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtStrfbmFifld;
+import jbvb.io.Sfriblizbblf;
+
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.util.Itfrbtor;
+
+/**
+ * Rfprfsfnts thf rfsult of b multiplf bddfss to sfvfrbl rolfs of b rflbtion
+ * (fithfr for rfbding or writing).
+ *
+ * <p>Thf <b>sfriblVfrsionUID</b> of this dlbss is <dodf>-6304063118040985512L</dodf>.
+ *
+ * @sindf 1.5
+ */
+@SupprfssWbrnings("sfribl")
+publid dlbss RolfRfsult implfmfnts Sfriblizbblf {
+
+    // Sfriblizbtion dompbtibility stuff:
+    // Two sfribl forms brf supportfd in this dlbss. Thf sflfdtfd form dfpfnds
+    // on systfm propfrty "jmx.sfribl.form":
+    //  - "1.0" for JMX 1.0
+    //  - bny othfr vbluf for JMX 1.1 bnd highfr
+    //
+    // Sfribl vfrsion for old sfribl form
+    privbtf stbtid finbl long oldSfriblVfrsionUID = 3786616013762091099L;
+    //
+    // Sfribl vfrsion for nfw sfribl form
+    privbtf stbtid finbl long nfwSfriblVfrsionUID = -6304063118040985512L;
+    //
+    // Sfriblizbblf fiflds in old sfribl form
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] oldSfriblPfrsistfntFiflds =
+    {
+      nfw ObjfdtStrfbmFifld("myRolfList", RolfList.dlbss),
+      nfw ObjfdtStrfbmFifld("myRolfUnrfsList", RolfUnrfsolvfdList.dlbss)
+    };
+    //
+    // Sfriblizbblf fiflds in nfw sfribl form
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] nfwSfriblPfrsistfntFiflds =
+    {
+      nfw ObjfdtStrfbmFifld("rolfList", RolfList.dlbss),
+      nfw ObjfdtStrfbmFifld("unrfsolvfdRolfList", RolfUnrfsolvfdList.dlbss)
+    };
+    //
+    // Adtubl sfribl vfrsion bnd sfribl form
+    privbtf stbtid finbl long sfriblVfrsionUID;
+    /**
+     * @sfriblFifld rolfList RolfList List of rolfs suddfssfully bddfssfd
+     * @sfriblFifld unrfsolvfdRolfList RolfUnrfsolvfdList List of rolfs unsuddfssfully bddfssfd
+     */
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] sfriblPfrsistfntFiflds;
+    privbtf stbtid boolfbn dompbt = fblsf;
+    stbtid {
+        try {
+            GftPropfrtyAdtion bdt = nfw GftPropfrtyAdtion("jmx.sfribl.form");
+            String form = AddfssControllfr.doPrivilfgfd(bdt);
+            dompbt = (form != null && form.fqubls("1.0"));
+        } dbtdh (Exdfption f) {
+            // OK : Too bbd, no dompbt with 1.0
+        }
+        if (dompbt) {
+            sfriblPfrsistfntFiflds = oldSfriblPfrsistfntFiflds;
+            sfriblVfrsionUID = oldSfriblVfrsionUID;
+        } flsf {
+            sfriblPfrsistfntFiflds = nfwSfriblPfrsistfntFiflds;
+            sfriblVfrsionUID = nfwSfriblVfrsionUID;
+        }
+    }
+    //
+    // END Sfriblizbtion dompbtibility stuff
+
+    //
+    // Privbtf mfmbfrs
+    //
+
+    /**
+     * @sfribl List of rolfs suddfssfully bddfssfd
+     */
+    privbtf RolfList rolfList = null;
+
+    /**
+     * @sfribl List of rolfs unsuddfssfully bddfssfd
+     */
+    privbtf RolfUnrfsolvfdList unrfsolvfdRolfList = null;
+
+    //
+    // Construdtor
+    //
+
+    /**
+     * Construdtor.
+     *
+     * @pbrbm list  list of rolfs suddfssfully bddfssfd.
+     * @pbrbm unrfsolvfdList  list of rolfs not bddfssfd (with problfm
+     * dfsdriptions).
+     */
+    publid RolfRfsult(RolfList list,
+                      RolfUnrfsolvfdList unrfsolvfdList) {
+
+        sftRolfs(list);
+        sftRolfsUnrfsolvfd(unrfsolvfdList);
+        rfturn;
+    }
+
+    //
+    // Addfssors
+    //
+
+    /**
+     * Rftrifvfs list of rolfs suddfssfully bddfssfd.
+     *
+     * @rfturn b RolfList
+     *
+     * @sff #sftRolfs
+     */
+    publid RolfList gftRolfs() {
+        rfturn rolfList;
+    }
+
+    /**
+     * Rftrifvfs list of rolfs unsuddfssfully bddfssfd.
+     *
+     * @rfturn b RolfUnrfsolvfdList.
+     *
+     * @sff #sftRolfsUnrfsolvfd
+     */
+    publid RolfUnrfsolvfdList gftRolfsUnrfsolvfd() {
+        rfturn unrfsolvfdRolfList;
+    }
+
+    /**
+     * Sfts list of rolfs suddfssfully bddfssfd.
+     *
+     * @pbrbm list  list of rolfs suddfssfully bddfssfd
+     *
+     * @sff #gftRolfs
+     */
+    publid void sftRolfs(RolfList list) {
+        if (list != null) {
+
+            rolfList = nfw RolfList();
+
+            for (Itfrbtor<?> rolfItfr = list.itfrbtor();
+                 rolfItfr.hbsNfxt();) {
+                Rolf durrRolf = (Rolf)(rolfItfr.nfxt());
+                rolfList.bdd((Rolf)(durrRolf.dlonf()));
+            }
+        } flsf {
+            rolfList = null;
+        }
+        rfturn;
+    }
+
+    /**
+     * Sfts list of rolfs unsuddfssfully bddfssfd.
+     *
+     * @pbrbm unrfsolvfdList  list of rolfs unsuddfssfully bddfssfd
+     *
+     * @sff #gftRolfsUnrfsolvfd
+     */
+    publid void sftRolfsUnrfsolvfd(RolfUnrfsolvfdList unrfsolvfdList) {
+        if (unrfsolvfdList != null) {
+
+            unrfsolvfdRolfList = nfw RolfUnrfsolvfdList();
+
+            for (Itfrbtor<?> rolfUnrfsItfr = unrfsolvfdList.itfrbtor();
+                 rolfUnrfsItfr.hbsNfxt();) {
+                RolfUnrfsolvfd durrRolfUnrfs =
+                    (RolfUnrfsolvfd)(rolfUnrfsItfr.nfxt());
+                unrfsolvfdRolfList.bdd((RolfUnrfsolvfd)(durrRolfUnrfs.dlonf()));
+            }
+        } flsf {
+            unrfsolvfdRolfList = null;
+        }
+        rfturn;
+    }
+
+    /**
+     * Dfsfriblizfs b {@link RolfRfsult} from bn {@link ObjfdtInputStrfbm}.
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm in)
+            throws IOExdfption, ClbssNotFoundExdfption {
+      if (dompbt)
+      {
+        // Rfbd bn objfdt sfriblizfd in thf old sfribl form
+        //
+        ObjfdtInputStrfbm.GftFifld fiflds = in.rfbdFiflds();
+        rolfList = (RolfList) fiflds.gft("myRolfList", null);
+        if (fiflds.dffbultfd("myRolfList"))
+        {
+          throw nfw NullPointfrExdfption("myRolfList");
+        }
+        unrfsolvfdRolfList = (RolfUnrfsolvfdList) fiflds.gft("myRolfUnrfsList", null);
+        if (fiflds.dffbultfd("myRolfUnrfsList"))
+        {
+          throw nfw NullPointfrExdfption("myRolfUnrfsList");
+        }
+      }
+      flsf
+      {
+        // Rfbd bn objfdt sfriblizfd in thf nfw sfribl form
+        //
+        in.dffbultRfbdObjfdt();
+      }
+    }
+
+
+    /**
+     * Sfriblizfs b {@link RolfRfsult} to bn {@link ObjfdtOutputStrfbm}.
+     */
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm out)
+            throws IOExdfption {
+      if (dompbt)
+      {
+        // Sfriblizfs this instbndf in thf old sfribl form
+        //
+        ObjfdtOutputStrfbm.PutFifld fiflds = out.putFiflds();
+        fiflds.put("myRolfList", rolfList);
+        fiflds.put("myRolfUnrfsList", unrfsolvfdRolfList);
+        out.writfFiflds();
+      }
+      flsf
+      {
+        // Sfriblizfs this instbndf in thf nfw sfribl form
+        //
+        out.dffbultWritfObjfdt();
+      }
+    }
+}

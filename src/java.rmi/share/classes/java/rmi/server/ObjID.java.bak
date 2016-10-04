@@ -1,248 +1,248 @@
 /*
- * Copyright (c) 1996, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.rmi.server;
+pbdkbgf jbvb.rmi.sfrvfr;
 
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-import java.io.Serializable;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.security.SecureRandom;
-import java.util.concurrent.atomic.AtomicLong;
+import jbvb.io.DbtbInput;
+import jbvb.io.DbtbOutput;
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInput;
+import jbvb.io.ObjfdtOutput;
+import jbvb.io.Sfriblizbblf;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.SfdurfRbndom;
+import jbvb.util.dondurrfnt.btomid.AtomidLong;
 
 /**
- * An <code>ObjID</code> is used to identify a remote object exported
- * to an RMI runtime.  When a remote object is exported, it is assigned
- * an object identifier either implicitly or explicitly, depending on
- * the API used to export.
+ * An <dodf>ObjID</dodf> is usfd to idfntify b rfmotf objfdt fxportfd
+ * to bn RMI runtimf.  Wifn b rfmotf objfdt is fxportfd, it is bssignfd
+ * bn objfdt idfntififr fitifr impliditly or fxpliditly, dfpfnding on
+ * tif API usfd to fxport.
  *
- * <p>The {@link #ObjID()} constructor can be used to generate a unique
- * object identifier.  Such an <code>ObjID</code> is unique over time
- * with respect to the host it is generated on.
+ * <p>Tif {@link #ObjID()} donstrudtor dbn bf usfd to gfnfrbtf b uniquf
+ * objfdt idfntififr.  Sudi bn <dodf>ObjID</dodf> is uniquf ovfr timf
+ * witi rfspfdt to tif iost it is gfnfrbtfd on.
  *
- * The {@link #ObjID(int)} constructor can be used to create a
- * "well-known" object identifier.  The scope of a well-known
- * <code>ObjID</code> depends on the RMI runtime it is exported to.
+ * Tif {@link #ObjID(int)} donstrudtor dbn bf usfd to drfbtf b
+ * "wfll-known" objfdt idfntififr.  Tif sdopf of b wfll-known
+ * <dodf>ObjID</dodf> dfpfnds on tif RMI runtimf it is fxportfd to.
  *
- * <p>An <code>ObjID</code> instance contains an object number (of type
- * <code>long</code>) and an address space identifier (of type
- * {@link UID}).  In a unique <code>ObjID</code>, the address space
- * identifier is unique with respect to a given host over time.  In a
- * well-known <code>ObjID</code>, the address space identifier is
- * equivalent to one returned by invoking the {@link UID#UID(short)}
- * constructor with the value zero.
+ * <p>An <dodf>ObjID</dodf> instbndf dontbins bn objfdt numbfr (of typf
+ * <dodf>long</dodf>) bnd bn bddrfss spbdf idfntififr (of typf
+ * {@link UID}).  In b uniquf <dodf>ObjID</dodf>, tif bddrfss spbdf
+ * idfntififr is uniquf witi rfspfdt to b givfn iost ovfr timf.  In b
+ * wfll-known <dodf>ObjID</dodf>, tif bddrfss spbdf idfntififr is
+ * fquivblfnt to onf rfturnfd by invoking tif {@link UID#UID(siort)}
+ * donstrudtor witi tif vbluf zfro.
  *
- * <p>If the system property <code>java.rmi.server.randomIDs</code>
- * is defined to equal the string <code>"true"</code> (case insensitive),
- * then the {@link #ObjID()} constructor will use a cryptographically
- * strong random number generator to choose the object number of the
- * returned <code>ObjID</code>.
+ * <p>If tif systfm propfrty <dodf>jbvb.rmi.sfrvfr.rbndomIDs</dodf>
+ * is dffinfd to fqubl tif string <dodf>"truf"</dodf> (dbsf insfnsitivf),
+ * tifn tif {@link #ObjID()} donstrudtor will usf b dryptogrbpiidblly
+ * strong rbndom numbfr gfnfrbtor to dioosf tif objfdt numbfr of tif
+ * rfturnfd <dodf>ObjID</dodf>.
  *
- * @author      Ann Wollrath
- * @author      Peter Jones
- * @since       1.1
+ * @butior      Ann Wollrbti
+ * @butior      Pftfr Jonfs
+ * @sindf       1.1
  */
-public final class ObjID implements Serializable {
+publid finbl dlbss ObjID implfmfnts Sfriblizbblf {
 
-    /** Object number for well-known <code>ObjID</code> of the registry. */
-    public static final int REGISTRY_ID = 0;
+    /** Objfdt numbfr for wfll-known <dodf>ObjID</dodf> of tif rfgistry. */
+    publid stbtid finbl int REGISTRY_ID = 0;
 
-    /** Object number for well-known <code>ObjID</code> of the activator. */
-    public static final int ACTIVATOR_ID = 1;
+    /** Objfdt numbfr for wfll-known <dodf>ObjID</dodf> of tif bdtivbtor. */
+    publid stbtid finbl int ACTIVATOR_ID = 1;
 
     /**
-     * Object number for well-known <code>ObjID</code> of
-     * the distributed garbage collector.
+     * Objfdt numbfr for wfll-known <dodf>ObjID</dodf> of
+     * tif distributfd gbrbbgf dollfdtor.
      */
-    public static final int DGC_ID = 2;
+    publid stbtid finbl int DGC_ID = 2;
 
-    /** indicate compatibility with JDK 1.1.x version of class */
-    private static final long serialVersionUID = -6386392263968365220L;
+    /** indidbtf dompbtibility witi JDK 1.1.x vfrsion of dlbss */
+    privbtf stbtid finbl long sfriblVfrsionUID = -6386392263968365220L;
 
-    private static final AtomicLong nextObjNum = new AtomicLong(0);
-    private static final UID mySpace = new UID();
-    private static final SecureRandom secureRandom = new SecureRandom();
+    privbtf stbtid finbl AtomidLong nfxtObjNum = nfw AtomidLong(0);
+    privbtf stbtid finbl UID mySpbdf = nfw UID();
+    privbtf stbtid finbl SfdurfRbndom sfdurfRbndom = nfw SfdurfRbndom();
 
     /**
-     * @serial object number
-     * @see #hashCode
+     * @sfribl objfdt numbfr
+     * @sff #ibsiCodf
      */
-    private final long objNum;
+    privbtf finbl long objNum;
 
     /**
-     * @serial address space identifier (unique to host over time)
+     * @sfribl bddrfss spbdf idfntififr (uniquf to iost ovfr timf)
      */
-    private final UID space;
+    privbtf finbl UID spbdf;
 
     /**
-     * Generates a unique object identifier.
+     * Gfnfrbtfs b uniquf objfdt idfntififr.
      *
-     * <p>If the system property <code>java.rmi.server.randomIDs</code>
-     * is defined to equal the string <code>"true"</code> (case insensitive),
-     * then this constructor will use a cryptographically
-     * strong random number generator to choose the object number of the
-     * returned <code>ObjID</code>.
+     * <p>If tif systfm propfrty <dodf>jbvb.rmi.sfrvfr.rbndomIDs</dodf>
+     * is dffinfd to fqubl tif string <dodf>"truf"</dodf> (dbsf insfnsitivf),
+     * tifn tiis donstrudtor will usf b dryptogrbpiidblly
+     * strong rbndom numbfr gfnfrbtor to dioosf tif objfdt numbfr of tif
+     * rfturnfd <dodf>ObjID</dodf>.
      */
-    public ObjID() {
+    publid ObjID() {
         /*
-         * If generating random object numbers, create a new UID to
-         * ensure uniqueness; otherwise, use a shared UID because
-         * sequential object numbers already ensure uniqueness.
+         * If gfnfrbting rbndom objfdt numbfrs, drfbtf b nfw UID to
+         * fnsurf uniqufnfss; otifrwisf, usf b sibrfd UID bfdbusf
+         * sfqufntibl objfdt numbfrs blrfbdy fnsurf uniqufnfss.
          */
-        if (useRandomIDs()) {
-            space = new UID();
-            objNum = secureRandom.nextLong();
-        } else {
-            space = mySpace;
-            objNum = nextObjNum.getAndIncrement();
+        if (usfRbndomIDs()) {
+            spbdf = nfw UID();
+            objNum = sfdurfRbndom.nfxtLong();
+        } flsf {
+            spbdf = mySpbdf;
+            objNum = nfxtObjNum.gftAndIndrfmfnt();
         }
     }
 
     /**
-     * Creates a "well-known" object identifier.
+     * Crfbtfs b "wfll-known" objfdt idfntififr.
      *
-     * <p>An <code>ObjID</code> created via this constructor will not
-     * clash with any <code>ObjID</code>s generated via the no-arg
-     * constructor.
+     * <p>An <dodf>ObjID</dodf> drfbtfd vib tiis donstrudtor will not
+     * dlbsi witi bny <dodf>ObjID</dodf>s gfnfrbtfd vib tif no-brg
+     * donstrudtor.
      *
-     * @param   objNum object number for well-known object identifier
+     * @pbrbm   objNum objfdt numbfr for wfll-known objfdt idfntififr
      */
-    public ObjID(int objNum) {
-        space = new UID((short) 0);
-        this.objNum = objNum;
+    publid ObjID(int objNum) {
+        spbdf = nfw UID((siort) 0);
+        tiis.objNum = objNum;
     }
 
     /**
-     * Constructs an object identifier given data read from a stream.
+     * Construdts bn objfdt idfntififr givfn dbtb rfbd from b strfbm.
      */
-    private ObjID(long objNum, UID space) {
-        this.objNum = objNum;
-        this.space = space;
+    privbtf ObjID(long objNum, UID spbdf) {
+        tiis.objNum = objNum;
+        tiis.spbdf = spbdf;
     }
 
     /**
-     * Marshals a binary representation of this <code>ObjID</code> to
-     * an <code>ObjectOutput</code> instance.
+     * Mbrsibls b binbry rfprfsfntbtion of tiis <dodf>ObjID</dodf> to
+     * bn <dodf>ObjfdtOutput</dodf> instbndf.
      *
-     * <p>Specifically, this method first invokes the given stream's
-     * {@link ObjectOutput#writeLong(long)} method with this object
-     * identifier's object number, and then it writes its address
-     * space identifier by invoking its {@link UID#write(DataOutput)}
-     * method with the stream.
+     * <p>Spfdifidblly, tiis mftiod first invokfs tif givfn strfbm's
+     * {@link ObjfdtOutput#writfLong(long)} mftiod witi tiis objfdt
+     * idfntififr's objfdt numbfr, bnd tifn it writfs its bddrfss
+     * spbdf idfntififr by invoking its {@link UID#writf(DbtbOutput)}
+     * mftiod witi tif strfbm.
      *
-     * @param   out the <code>ObjectOutput</code> instance to write
-     * this <code>ObjID</code> to
+     * @pbrbm   out tif <dodf>ObjfdtOutput</dodf> instbndf to writf
+     * tiis <dodf>ObjID</dodf> to
      *
-     * @throws  IOException if an I/O error occurs while performing
-     * this operation
+     * @tirows  IOExdfption if bn I/O frror oddurs wiilf pfrforming
+     * tiis opfrbtion
      */
-    public void write(ObjectOutput out) throws IOException {
-        out.writeLong(objNum);
-        space.write(out);
+    publid void writf(ObjfdtOutput out) tirows IOExdfption {
+        out.writfLong(objNum);
+        spbdf.writf(out);
     }
 
     /**
-     * Constructs and returns a new <code>ObjID</code> instance by
-     * unmarshalling a binary representation from an
-     * <code>ObjectInput</code> instance.
+     * Construdts bnd rfturns b nfw <dodf>ObjID</dodf> instbndf by
+     * unmbrsiblling b binbry rfprfsfntbtion from bn
+     * <dodf>ObjfdtInput</dodf> instbndf.
      *
-     * <p>Specifically, this method first invokes the given stream's
-     * {@link ObjectInput#readLong()} method to read an object number,
-     * then it invokes {@link UID#read(DataInput)} with the
-     * stream to read an address space identifier, and then it
-     * creates and returns a new <code>ObjID</code> instance that
-     * contains the object number and address space identifier that
-     * were read from the stream.
+     * <p>Spfdifidblly, tiis mftiod first invokfs tif givfn strfbm's
+     * {@link ObjfdtInput#rfbdLong()} mftiod to rfbd bn objfdt numbfr,
+     * tifn it invokfs {@link UID#rfbd(DbtbInput)} witi tif
+     * strfbm to rfbd bn bddrfss spbdf idfntififr, bnd tifn it
+     * drfbtfs bnd rfturns b nfw <dodf>ObjID</dodf> instbndf tibt
+     * dontbins tif objfdt numbfr bnd bddrfss spbdf idfntififr tibt
+     * wfrf rfbd from tif strfbm.
      *
-     * @param   in the <code>ObjectInput</code> instance to read
-     * <code>ObjID</code> from
+     * @pbrbm   in tif <dodf>ObjfdtInput</dodf> instbndf to rfbd
+     * <dodf>ObjID</dodf> from
      *
-     * @return  unmarshalled <code>ObjID</code> instance
+     * @rfturn  unmbrsibllfd <dodf>ObjID</dodf> instbndf
      *
-     * @throws  IOException if an I/O error occurs while performing
-     * this operation
+     * @tirows  IOExdfption if bn I/O frror oddurs wiilf pfrforming
+     * tiis opfrbtion
      */
-    public static ObjID read(ObjectInput in) throws IOException {
-        long num = in.readLong();
-        UID space = UID.read(in);
-        return new ObjID(num, space);
+    publid stbtid ObjID rfbd(ObjfdtInput in) tirows IOExdfption {
+        long num = in.rfbdLong();
+        UID spbdf = UID.rfbd(in);
+        rfturn nfw ObjID(num, spbdf);
     }
 
     /**
-     * Returns the hash code value for this object identifier, the
-     * object number.
+     * Rfturns tif ibsi dodf vbluf for tiis objfdt idfntififr, tif
+     * objfdt numbfr.
      *
-     * @return  the hash code value for this object identifier
+     * @rfturn  tif ibsi dodf vbluf for tiis objfdt idfntififr
      */
-    public int hashCode() {
-        return (int) objNum;
+    publid int ibsiCodf() {
+        rfturn (int) objNum;
     }
 
     /**
-     * Compares the specified object with this <code>ObjID</code> for
-     * equality.
+     * Compbrfs tif spfdififd objfdt witi tiis <dodf>ObjID</dodf> for
+     * fqublity.
      *
-     * This method returns <code>true</code> if and only if the
-     * specified object is an <code>ObjID</code> instance with the same
-     * object number and address space identifier as this one.
+     * Tiis mftiod rfturns <dodf>truf</dodf> if bnd only if tif
+     * spfdififd objfdt is bn <dodf>ObjID</dodf> instbndf witi tif sbmf
+     * objfdt numbfr bnd bddrfss spbdf idfntififr bs tiis onf.
      *
-     * @param   obj the object to compare this <code>ObjID</code> to
+     * @pbrbm   obj tif objfdt to dompbrf tiis <dodf>ObjID</dodf> to
      *
-     * @return  <code>true</code> if the given object is equivalent to
-     * this one, and <code>false</code> otherwise
+     * @rfturn  <dodf>truf</dodf> if tif givfn objfdt is fquivblfnt to
+     * tiis onf, bnd <dodf>fblsf</dodf> otifrwisf
      */
-    public boolean equals(Object obj) {
-        if (obj instanceof ObjID) {
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj instbndfof ObjID) {
             ObjID id = (ObjID) obj;
-            return objNum == id.objNum && space.equals(id.space);
-        } else {
-            return false;
+            rfturn objNum == id.objNum && spbdf.fqubls(id.spbdf);
+        } flsf {
+            rfturn fblsf;
         }
     }
 
     /**
-     * Returns a string representation of this object identifier.
+     * Rfturns b string rfprfsfntbtion of tiis objfdt idfntififr.
      *
-     * @return  a string representation of this object identifier
+     * @rfturn  b string rfprfsfntbtion of tiis objfdt idfntififr
      */
     /*
-     * The address space identifier is only included in the string
-     * representation if it does not denote the local address space
-     * (or if the randomIDs property was set).
+     * Tif bddrfss spbdf idfntififr is only indludfd in tif string
+     * rfprfsfntbtion if it dofs not dfnotf tif lodbl bddrfss spbdf
+     * (or if tif rbndomIDs propfrty wbs sft).
      */
-    public String toString() {
-        return "[" + (space.equals(mySpace) ? "" : space + ", ") +
+    publid String toString() {
+        rfturn "[" + (spbdf.fqubls(mySpbdf) ? "" : spbdf + ", ") +
             objNum + "]";
     }
 
-    private static boolean useRandomIDs() {
-        String value = AccessController.doPrivileged(
-            (PrivilegedAction<String>) () -> System.getProperty("java.rmi.server.randomIDs"));
-        return value == null ? true : Boolean.parseBoolean(value);
+    privbtf stbtid boolfbn usfRbndomIDs() {
+        String vbluf = AddfssControllfr.doPrivilfgfd(
+            (PrivilfgfdAdtion<String>) () -> Systfm.gftPropfrty("jbvb.rmi.sfrvfr.rbndomIDs"));
+        rfturn vbluf == null ? truf : Boolfbn.pbrsfBoolfbn(vbluf);
     }
 }

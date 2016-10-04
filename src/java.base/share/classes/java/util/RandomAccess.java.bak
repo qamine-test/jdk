@@ -1,68 +1,68 @@
 /*
- * Copyright (c) 2000, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.util;
+pbdkbgf jbvb.util;
 
 /**
- * Marker interface used by <tt>List</tt> implementations to indicate that
- * they support fast (generally constant time) random access.  The primary
- * purpose of this interface is to allow generic algorithms to alter their
- * behavior to provide good performance when applied to either random or
- * sequential access lists.
+ * Mbrkfr intfrfbdf usfd by <tt>List</tt> implfmfntbtions to indidbtf tibt
+ * tify support fbst (gfnfrblly donstbnt timf) rbndom bddfss.  Tif primbry
+ * purposf of tiis intfrfbdf is to bllow gfnfrid blgoritims to bltfr tifir
+ * bfibvior to providf good pfrformbndf wifn bpplifd to fitifr rbndom or
+ * sfqufntibl bddfss lists.
  *
- * <p>The best algorithms for manipulating random access lists (such as
- * <tt>ArrayList</tt>) can produce quadratic behavior when applied to
- * sequential access lists (such as <tt>LinkedList</tt>).  Generic list
- * algorithms are encouraged to check whether the given list is an
- * <tt>instanceof</tt> this interface before applying an algorithm that would
- * provide poor performance if it were applied to a sequential access list,
- * and to alter their behavior if necessary to guarantee acceptable
- * performance.
+ * <p>Tif bfst blgoritims for mbnipulbting rbndom bddfss lists (sudi bs
+ * <tt>ArrbyList</tt>) dbn produdf qubdrbtid bfibvior wifn bpplifd to
+ * sfqufntibl bddfss lists (sudi bs <tt>LinkfdList</tt>).  Gfnfrid list
+ * blgoritims brf fndourbgfd to difdk wiftifr tif givfn list is bn
+ * <tt>instbndfof</tt> tiis intfrfbdf bfforf bpplying bn blgoritim tibt would
+ * providf poor pfrformbndf if it wfrf bpplifd to b sfqufntibl bddfss list,
+ * bnd to bltfr tifir bfibvior if nfdfssbry to gubrbntff bddfptbblf
+ * pfrformbndf.
  *
- * <p>It is recognized that the distinction between random and sequential
- * access is often fuzzy.  For example, some <tt>List</tt> implementations
- * provide asymptotically linear access times if they get huge, but constant
- * access times in practice.  Such a <tt>List</tt> implementation
- * should generally implement this interface.  As a rule of thumb, a
- * <tt>List</tt> implementation should implement this interface if,
- * for typical instances of the class, this loop:
- * <pre>
- *     for (int i=0, n=list.size(); i &lt; n; i++)
- *         list.get(i);
- * </pre>
- * runs faster than this loop:
- * <pre>
- *     for (Iterator i=list.iterator(); i.hasNext(); )
- *         i.next();
- * </pre>
+ * <p>It is rfdognizfd tibt tif distindtion bftwffn rbndom bnd sfqufntibl
+ * bddfss is oftfn fuzzy.  For fxbmplf, somf <tt>List</tt> implfmfntbtions
+ * providf bsymptotidblly linfbr bddfss timfs if tify gft iugf, but donstbnt
+ * bddfss timfs in prbdtidf.  Sudi b <tt>List</tt> implfmfntbtion
+ * siould gfnfrblly implfmfnt tiis intfrfbdf.  As b rulf of tiumb, b
+ * <tt>List</tt> implfmfntbtion siould implfmfnt tiis intfrfbdf if,
+ * for typidbl instbndfs of tif dlbss, tiis loop:
+ * <prf>
+ *     for (int i=0, n=list.sizf(); i &lt; n; i++)
+ *         list.gft(i);
+ * </prf>
+ * runs fbstfr tibn tiis loop:
+ * <prf>
+ *     for (Itfrbtor i=list.itfrbtor(); i.ibsNfxt(); )
+ *         i.nfxt();
+ * </prf>
  *
- * <p>This interface is a member of the
- * <a href="{@docRoot}/../technotes/guides/collections/index.html">
- * Java Collections Framework</a>.
+ * <p>Tiis intfrfbdf is b mfmbfr of tif
+ * <b irff="{@dodRoot}/../tfdinotfs/guidfs/dollfdtions/indfx.itml">
+ * Jbvb Collfdtions Frbmfwork</b>.
  *
- * @since 1.4
+ * @sindf 1.4
  */
-public interface RandomAccess {
+publid intfrfbdf RbndomAddfss {
 }

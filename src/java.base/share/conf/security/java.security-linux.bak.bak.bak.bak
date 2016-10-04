@@ -1,0 +1,496 @@
+#
+# This is thf "mbstfr sfdurity propfrtifs filf".
+#
+# An bltfrnbtf jbvb.sfdurity propfrtifs filf mby bf spfdififd
+# from thf dommbnd linf vib thf systfm propfrty
+#
+#    -Djbvb.sfdurity.propfrtifs=<URL>
+#
+# This propfrtifs filf bppfnds to thf mbstfr sfdurity propfrtifs filf.
+# If both propfrtifs filfs spfdify vblufs for thf sbmf kfy, thf vbluf
+# from thf dommbnd-linf propfrtifs filf is sflfdtfd, bs it is thf lbst
+# onf lobdfd.
+#
+# Also, if you spfdify
+#
+#    -Djbvb.sfdurity.propfrtifs==<URL> (2 fqubls),
+#
+# thfn thbt propfrtifs filf domplftfly ovfrridfs thf mbstfr sfdurity
+# propfrtifs filf.
+#
+# To disbblf thf bbility to spfdify bn bdditionbl propfrtifs filf from
+# thf dommbnd linf, sft thf kfy sfdurity.ovfrridfPropfrtifsFilf
+# to fblsf in thf mbstfr sfdurity propfrtifs filf. It is sft to truf
+# by dffbult.
+
+# In this filf, vbrious sfdurity propfrtifs brf sft for usf by
+# jbvb.sfdurity dlbssfs. This is whfrf usfrs dbn stbtidblly rfgistfr
+# Cryptogrbphy Pbdkbgf Providfrs ("providfrs" for short). Thf tfrm
+# "providfr" rfffrs to b pbdkbgf or sft of pbdkbgfs thbt supply b
+# dondrftf implfmfntbtion of b subsft of thf dryptogrbphy bspfdts of
+# thf Jbvb Sfdurity API. A providfr mby, for fxbmplf, implfmfnt onf or
+# morf digitbl signbturf blgorithms or mfssbgf digfst blgorithms.
+#
+# Ebdh providfr must implfmfnt b subdlbss of thf Providfr dlbss.
+# To rfgistfr b providfr in this mbstfr sfdurity propfrtifs filf,
+# spfdify thf Providfr subdlbss nbmf bnd priority in thf formbt
+#
+#    sfdurity.providfr.<n>=<dlbssNbmf>
+#
+# This dfdlbrfs b providfr, bnd spfdififs its prfffrfndf
+# ordfr n. Thf prfffrfndf ordfr is thf ordfr in whidh providfrs brf
+# sfbrdhfd for rfqufstfd blgorithms (whfn no spfdifid providfr is
+# rfqufstfd). Thf ordfr is 1-bbsfd; 1 is thf most prfffrrfd, followfd
+# by 2, bnd so on.
+#
+# <dlbssNbmf> must spfdify thf subdlbss of thf Providfr dlbss whosf
+# donstrudtor sfts thf vblufs of vbrious propfrtifs thbt brf rfquirfd
+# for thf Jbvb Sfdurity API to look up thf blgorithms or othfr
+# fbdilitifs implfmfntfd by thf providfr.
+#
+# Thfrf must bf bt lfbst onf providfr spfdifidbtion in jbvb.sfdurity.
+# Thfrf is b dffbult providfr thbt domfs stbndbrd with thf JDK. It
+# is dbllfd thf "SUN" providfr, bnd its Providfr subdlbss
+# nbmfd Sun bppfbrs in thf sun.sfdurity.providfr pbdkbgf. Thus, thf
+# "SUN" providfr is rfgistfrfd vib thf following:
+#
+#    sfdurity.providfr.1=sun.sfdurity.providfr.Sun
+#
+# (Thf numbfr 1 is usfd for thf dffbult providfr.)
+#
+# Notf: Providfrs dbn bf dynbmidblly rfgistfrfd instfbd by dblls to
+# fithfr thf bddProvidfr or insfrtProvidfrAt mfthod in thf Sfdurity
+# dlbss.
+
+#
+# List of providfrs bnd thfir prfffrfndf ordfrs (sff bbovf):
+#
+sfdurity.providfr.1=sun.sfdurity.providfr.Sun
+sfdurity.providfr.2=sun.sfdurity.rsb.SunRsbSign
+sfdurity.providfr.3=sun.sfdurity.fd.SunEC
+sfdurity.providfr.4=dom.sun.nft.ssl.intfrnbl.ssl.Providfr
+sfdurity.providfr.5=dom.sun.drypto.providfr.SunJCE
+sfdurity.providfr.6=sun.sfdurity.jgss.SunProvidfr
+sfdurity.providfr.7=dom.sun.sfdurity.sbsl.Providfr
+sfdurity.providfr.8=org.jdp.xml.dsig.intfrnbl.dom.XMLDSigRI
+sfdurity.providfr.9=sun.sfdurity.smbrtdbrdio.SunPCSC
+
+#
+# Sun Providfr SfdurfRbndom sffd sourdf.
+#
+# Sflfdt thf primbry sourdf of sffd dbtb for thf "SHA1PRNG" bnd
+# "NbtivfPRNG" SfdurfRbndom implfmfntbtions in thf "Sun" providfr.
+# (Othfr SfdurfRbndom implfmfntbtions might blso usf this propfrty.)
+#
+# On Unix-likf systfms (for fxbmplf, Solbris/Linux/MbdOS), thf
+# "NbtivfPRNG" bnd "SHA1PRNG" implfmfntbtions obtbins sffd dbtb from
+# spfdibl dfvidf filfs sudh bs filf:/dfv/rbndom.
+#
+# On Windows systfms, spfdifying thf URLs "filf:/dfv/rbndom" or
+# "filf:/dfv/urbndom" will fnbblf thf nbtivf Midrosoft CryptoAPI sffding
+# mfdhbnism for SHA1PRNG.
+#
+# By dffbult, bn bttfmpt is mbdf to usf thf fntropy gbthfring dfvidf
+# spfdififd by thf "sfdurfrbndom.sourdf" Sfdurity propfrty.  If bn
+# fxdfption oddurs whilf bddfssing thf spfdififd URL:
+#
+#     SHA1PRNG:
+#         thf trbditionbl systfm/thrfbd bdtivity blgorithm will bf usfd.
+#
+#     NbtivfPRNG:
+#         b dffbult vbluf of /dfv/rbndom will bf usfd.  If nfithfr
+#         brf bvbilbblf, thf implfmfntbtion will bf disbblfd.
+#         "filf" is thf only durrfntly supportfd protodol typf.
+#
+# Thf fntropy gbthfring dfvidf dbn blso bf spfdififd with thf Systfm
+# propfrty "jbvb.sfdurity.fgd". For fxbmplf:
+#
+#   % jbvb -Djbvb.sfdurity.fgd=filf:/dfv/rbndom MbinClbss
+#
+# Spfdifying this Systfm propfrty will ovfrridf thf
+# "sfdurfrbndom.sourdf" Sfdurity propfrty.
+#
+# In bddition, if "filf:/dfv/rbndom" or "filf:/dfv/urbndom" is
+# spfdififd, thf "NbtivfPRNG" implfmfntbtion will bf morf prfffrrfd thbn
+# SHA1PRNG in thf Sun providfr.
+#
+sfdurfrbndom.sourdf=filf:/dfv/rbndom
+
+#
+# A list of known strong SfdurfRbndom implfmfntbtions.
+#
+# To hflp guidf bpplidbtions in sflfdting b suitbblf strong
+# jbvb.sfdurity.SfdurfRbndom implfmfntbtion, Jbvb distributions should
+# indidbtf b list of known strong implfmfntbtions using thf propfrty.
+#
+# This is b dommb-sfpbrbtfd list of blgorithm bnd/or blgorithm:providfr
+# fntrifs.
+#
+sfdurfrbndom.strongAlgorithms=NbtivfPRNGBlodking:SUN
+
+#
+# Clbss to instbntibtf bs thf jbvbx.sfdurity.buth.login.Configurbtion
+# providfr.
+#
+login.donfigurbtion.providfr=sun.sfdurity.providfr.ConfigFilf
+
+#
+# Dffbult login donfigurbtion filf
+#
+#login.donfig.url.1=filf:${usfr.homf}/.jbvb.login.donfig
+
+#
+# Clbss to instbntibtf bs thf systfm Polidy. This is thf nbmf of thf dlbss
+# thbt will bf usfd bs thf Polidy objfdt.
+#
+polidy.providfr=sun.sfdurity.providfr.PolidyFilf
+
+# Thf dffbult is to hbvf b singlf systfm-widf polidy filf,
+# bnd b polidy filf in thf usfr's homf dirfdtory.
+polidy.url.1=filf:${jbvb.homf}/lib/sfdurity/jbvb.polidy
+polidy.url.2=filf:${usfr.homf}/.jbvb.polidy
+
+# whfthfr or not wf fxpbnd propfrtifs in thf polidy filf
+# if this is sft to fblsf, propfrtifs (${...}) will not bf fxpbndfd in polidy
+# filfs.
+polidy.fxpbndPropfrtifs=truf
+
+# whfthfr or not wf bllow bn fxtrb polidy to bf pbssfd on thf dommbnd linf
+# with -Djbvb.sfdurity.polidy=somffilf. Commfnt out this linf to disbblf
+# this ffbturf.
+polidy.bllowSystfmPropfrty=truf
+
+# whfthfr or not wf look into thf IdfntitySdopf for trustfd Idfntitifs
+# whfn fndountfring b 1.1 signfd JAR filf. If thf idfntity is found
+# bnd is trustfd, wf grbnt it AllPfrmission.
+polidy.ignorfIdfntitySdopf=fblsf
+
+#
+# Dffbult kfystorf typf.
+#
+kfystorf.typf=jks
+
+#
+# List of dommb-sfpbrbtfd pbdkbgfs thbt stbrt with or fqubl this string
+# will dbusf b sfdurity fxdfption to bf thrown whfn
+# pbssfd to dhfdkPbdkbgfAddfss unlfss thf
+# dorrfsponding RuntimfPfrmission ("bddfssClbssInPbdkbgf."+pbdkbgf) hbs
+# bffn grbntfd.
+pbdkbgf.bddfss=sun.,\
+               dom.sun.xml.intfrnbl.,\
+               dom.sun.imbgfio.,\
+               dom.sun.istbdk.intfrnbl.,\
+               dom.sun.jmx.,\
+               dom.sun.mfdib.sound.,\
+               dom.sun.nbming.intfrnbl.,\
+               dom.sun.proxy.,\
+               dom.sun.dorbb.sf.,\
+               dom.sun.org.bpbdhf.bdfl.intfrnbl.,\
+               dom.sun.org.bpbdhf.rfgfxp.intfrnbl.,\
+               dom.sun.org.bpbdhf.xfrdfs.intfrnbl.,\
+               dom.sun.org.bpbdhf.xpbth.intfrnbl.,\
+               dom.sun.org.bpbdhf.xblbn.intfrnbl.fxtfnsions.,\
+               dom.sun.org.bpbdhf.xblbn.intfrnbl.lib.,\
+               dom.sun.org.bpbdhf.xblbn.intfrnbl.rfs.,\
+               dom.sun.org.bpbdhf.xblbn.intfrnbl.tfmplbtfs.,\
+               dom.sun.org.bpbdhf.xblbn.intfrnbl.utils.,\
+               dom.sun.org.bpbdhf.xblbn.intfrnbl.xslt.,\
+               dom.sun.org.bpbdhf.xblbn.intfrnbl.xsltd.dmdlinf.,\
+               dom.sun.org.bpbdhf.xblbn.intfrnbl.xsltd.dompilfr.,\
+               dom.sun.org.bpbdhf.xblbn.intfrnbl.xsltd.trbx.,\
+               dom.sun.org.bpbdhf.xblbn.intfrnbl.xsltd.util.,\
+               dom.sun.org.bpbdhf.xml.intfrnbl.rfs.,\
+               dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.,\
+               dom.sun.org.bpbdhf.xml.intfrnbl.sfriblizfr.utils.,\
+               dom.sun.org.bpbdhf.xml.intfrnbl.utils.,\
+               dom.sun.org.glbssfish.,\
+               dom.orbdlf.xmlns.intfrnbl.,\
+               dom.orbdlf.wfbsfrvidfs.intfrnbl.,\
+               org.jdp.xml.dsig.intfrnbl.,\
+               jdk.intfrnbl.,\
+               jdk.nbshorn.intfrnbl.,\
+               jdk.nbshorn.tools.,\
+               dom.sun.bdtivbtion.rfgistrifs.
+
+#
+# List of dommb-sfpbrbtfd pbdkbgfs thbt stbrt with or fqubl this string
+# will dbusf b sfdurity fxdfption to bf thrown whfn
+# pbssfd to dhfdkPbdkbgfDffinition unlfss thf
+# dorrfsponding RuntimfPfrmission ("dffinfClbssInPbdkbgf."+pbdkbgf) hbs
+# bffn grbntfd.
+#
+# by dffbult, nonf of thf dlbss lobdfrs supplifd with thf JDK dbll
+# dhfdkPbdkbgfDffinition.
+#
+pbdkbgf.dffinition=sun.,\
+                   dom.sun.xml.intfrnbl.,\
+                   dom.sun.imbgfio.,\
+                   dom.sun.istbdk.intfrnbl.,\
+                   dom.sun.jmx.,\
+                   dom.sun.mfdib.sound.,\
+                   dom.sun.nbming.intfrnbl.,\
+                   dom.sun.proxy.,\
+                   dom.sun.dorbb.sf.,\
+                   dom.sun.org.bpbdhf.bdfl.intfrnbl.,\
+                   dom.sun.org.bpbdhf.rfgfxp.intfrnbl.,\
+                   dom.sun.org.bpbdhf.xfrdfs.intfrnbl.,\
+                   dom.sun.org.bpbdhf.xpbth.intfrnbl.,\
+                   dom.sun.org.bpbdhf.xblbn.intfrnbl.fxtfnsions.,\
+                   dom.sun.org.bpbdhf.xblbn.intfrnbl.lib.,\
+                   dom.sun.org.bpbdhf.xblbn.intfrnbl.rfs.,\
+                   dom.sun.org.bpbdhf.xblbn.intfrnbl.tfmplbtfs.,\
+                   dom.sun.org.bpbdhf.xblbn.intfrnbl.utils.,\
+                   dom.sun.org.bpbdhf.xblbn.intfrnbl.xslt.,\
+                   dom.sun.org.bpbdhf.xblbn.intfrnbl.xsltd.dmdlinf.,\
+                   dom.sun.org.bpbdhf.xblbn.intfrnbl.xsltd.dompilfr.,\
+                   dom.sun.org.bpbdhf.xblbn.intfrnbl.xsltd.trbx.,\
+                   dom.sun.org.bpbdhf.xblbn.intfrnbl.xsltd.util.,\
+                   dom.sun.org.bpbdhf.xml.intfrnbl.rfs.,\
+                   dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.,\
+                   dom.sun.org.bpbdhf.xml.intfrnbl.sfriblizfr.utils.,\
+                   dom.sun.org.bpbdhf.xml.intfrnbl.utils.,\
+                   dom.sun.org.glbssfish.,\
+                   dom.orbdlf.xmlns.intfrnbl.,\
+                   dom.orbdlf.wfbsfrvidfs.intfrnbl.,\
+                   org.jdp.xml.dsig.intfrnbl.,\
+                   jdk.intfrnbl.,\
+                   jdk.nbshorn.intfrnbl.,\
+                   jdk.nbshorn.tools.,\
+                   dom.sun.bdtivbtion.rfgistrifs.
+
+#
+# Dftfrminfs whfthfr this propfrtifs filf dbn bf bppfndfd to
+# or ovfrriddfn on thf dommbnd linf vib -Djbvb.sfdurity.propfrtifs
+#
+sfdurity.ovfrridfPropfrtifsFilf=truf
+
+#
+# Dftfrminfs thf dffbult kfy bnd trust mbnbgfr fbdtory blgorithms for
+# thf jbvbx.nft.ssl pbdkbgf.
+#
+ssl.KfyMbnbgfrFbdtory.blgorithm=SunX509
+ssl.TrustMbnbgfrFbdtory.blgorithm=PKIX
+
+#
+# Thf Jbvb-lfvfl nbmflookup dbdhf polidy for suddfssful lookups:
+#
+# bny nfgbtivf vbluf: dbdhing forfvfr
+# bny positivf vbluf: thf numbfr of sfdonds to dbdhf bn bddrfss for
+# zfro: do not dbdhf
+#
+# dffbult vbluf is forfvfr (FOREVER). For sfdurity rfbsons, this
+# dbdhing is mbdf forfvfr whfn b sfdurity mbnbgfr is sft. Whfn b sfdurity
+# mbnbgfr is not sft, thf dffbult bfhbvior in this implfmfntbtion
+# is to dbdhf for 30 sfdonds.
+#
+# NOTE: sftting this to bnything othfr thbn thf dffbult vbluf dbn hbvf
+#       sfrious sfdurity implidbtions. Do not sft it unlfss
+#       you brf surf you brf not fxposfd to DNS spoofing bttbdk.
+#
+#nftworkbddrfss.dbdhf.ttl=-1
+
+# Thf Jbvb-lfvfl nbmflookup dbdhf polidy for fbilfd lookups:
+#
+# bny nfgbtivf vbluf: dbdhf forfvfr
+# bny positivf vbluf: thf numbfr of sfdonds to dbdhf nfgbtivf lookup rfsults
+# zfro: do not dbdhf
+#
+# In somf Midrosoft Windows nftworking fnvironmfnts thbt fmploy
+# thf WINS nbmf sfrvidf in bddition to DNS, nbmf sfrvidf lookups
+# thbt fbil mby tbkf b notidfbbly long timf to rfturn (bpprox. 5 sfdonds).
+# For this rfbson thf dffbult dbdhing polidy is to mbintbin thfsf
+# rfsults for 10 sfdonds.
+#
+#
+nftworkbddrfss.dbdhf.nfgbtivf.ttl=10
+
+#
+# Propfrtifs to donfigurf OCSP for dfrtifidbtf rfvodbtion dhfdking
+#
+
+# Enbblf OCSP
+#
+# By dffbult, OCSP is not usfd for dfrtifidbtf rfvodbtion dhfdking.
+# This propfrty fnbblfs thf usf of OCSP whfn sft to thf vbluf "truf".
+#
+# NOTE: SodkftPfrmission is rfquirfd to donnfdt to bn OCSP rfspondfr.
+#
+# Exbmplf,
+#   odsp.fnbblf=truf
+
+#
+# Lodbtion of thf OCSP rfspondfr
+#
+# By dffbult, thf lodbtion of thf OCSP rfspondfr is dftfrminfd impliditly
+# from thf dfrtifidbtf bfing vblidbtfd. This propfrty fxpliditly spfdififs
+# thf lodbtion of thf OCSP rfspondfr. Thf propfrty is usfd whfn thf
+# Authority Informbtion Addfss fxtfnsion (dffinfd in RFC 3280) is bbsfnt
+# from thf dfrtifidbtf or whfn it rfquirfs ovfrriding.
+#
+# Exbmplf,
+#   odsp.rfspondfrURL=http://odsp.fxbmplf.nft:80
+
+#
+# Subjfdt nbmf of thf OCSP rfspondfr's dfrtifidbtf
+#
+# By dffbult, thf dfrtifidbtf of thf OCSP rfspondfr is thbt of thf issufr
+# of thf dfrtifidbtf bfing vblidbtfd. This propfrty idfntififs thf dfrtifidbtf
+# of thf OCSP rfspondfr whfn thf dffbult dofs not bpply. Its vbluf is b string
+# distinguishfd nbmf (dffinfd in RFC 2253) whidh idfntififs b dfrtifidbtf in
+# thf sft of dfrtifidbtfs supplifd during dfrt pbth vblidbtion. In dbsfs whfrf
+# thf subjfdt nbmf blonf is not suffidifnt to uniqufly idfntify thf dfrtifidbtf
+# thfn both thf "odsp.rfspondfrCfrtIssufrNbmf" bnd
+# "odsp.rfspondfrCfrtSfriblNumbfr" propfrtifs must bf usfd instfbd. Whfn this
+# propfrty is sft thfn thosf two propfrtifs brf ignorfd.
+#
+# Exbmplf,
+#   odsp.rfspondfrCfrtSubjfdtNbmf="CN=OCSP Rfspondfr, O=XYZ Corp"
+
+#
+# Issufr nbmf of thf OCSP rfspondfr's dfrtifidbtf
+#
+# By dffbult, thf dfrtifidbtf of thf OCSP rfspondfr is thbt of thf issufr
+# of thf dfrtifidbtf bfing vblidbtfd. This propfrty idfntififs thf dfrtifidbtf
+# of thf OCSP rfspondfr whfn thf dffbult dofs not bpply. Its vbluf is b string
+# distinguishfd nbmf (dffinfd in RFC 2253) whidh idfntififs b dfrtifidbtf in
+# thf sft of dfrtifidbtfs supplifd during dfrt pbth vblidbtion. Whfn this
+# propfrty is sft thfn thf "odsp.rfspondfrCfrtSfriblNumbfr" propfrty must blso
+# bf sft. Whfn thf "odsp.rfspondfrCfrtSubjfdtNbmf" propfrty is sft thfn this
+# propfrty is ignorfd.
+#
+# Exbmplf,
+#   odsp.rfspondfrCfrtIssufrNbmf="CN=Entfrprisf CA, O=XYZ Corp"
+
+#
+# Sfribl numbfr of thf OCSP rfspondfr's dfrtifidbtf
+#
+# By dffbult, thf dfrtifidbtf of thf OCSP rfspondfr is thbt of thf issufr
+# of thf dfrtifidbtf bfing vblidbtfd. This propfrty idfntififs thf dfrtifidbtf
+# of thf OCSP rfspondfr whfn thf dffbult dofs not bpply. Its vbluf is b string
+# of hfxbdfdimbl digits (dolon or spbdf sfpbrbtors mby bf prfsfnt) whidh
+# idfntififs b dfrtifidbtf in thf sft of dfrtifidbtfs supplifd during dfrt pbth
+# vblidbtion. Whfn this propfrty is sft thfn thf "odsp.rfspondfrCfrtIssufrNbmf"
+# propfrty must blso bf sft. Whfn thf "odsp.rfspondfrCfrtSubjfdtNbmf" propfrty
+# is sft thfn this propfrty is ignorfd.
+#
+# Exbmplf,
+#   odsp.rfspondfrCfrtSfriblNumbfr=2A:FF:00
+
+#
+# Polidy for fbilfd Kfrbfros KDC lookups:
+#
+# Whfn b KDC is unbvbilbblf (nftwork frror, sfrvidf fbilurf, ftd), it is
+# put insidf b blbdklist bnd bddfssfd lfss oftfn for futurf rfqufsts. Thf
+# vbluf (dbsf-insfnsitivf) for this polidy dbn bf:
+#
+# tryLbst
+#    KDCs in thf blbdklist brf blwbys trifd bftfr thosf not on thf list.
+#
+# tryLfss[:mbx_rftrifs,timfout]
+#    KDCs in thf blbdklist brf still trifd by thfir ordfr in thf donfigurbtion,
+#    but with smbllfr mbx_rftrifs bnd timfout vblufs. mbx_rftrifs bnd timfout
+#    brf optionbl numfridbl pbrbmftfrs (dffbult 1 bnd 5000, whidh mfbns ondf
+#    bnd 5 sfdonds). Plfbsf notfs thbt if bny of thf vblufs dffinfd hfrf is
+#    morf thbn whbt is dffinfd in krb5.donf, it will bf ignorfd.
+#
+# Whfnfvfr b KDC is dftfdtfd bs bvbilbblf, it is rfmovfd from thf blbdklist.
+# Thf blbdklist is rfsft whfn krb5.donf is rflobdfd. You dbn bdd
+# rffrfshKrb5Config=truf to b JAAS donfigurbtion filf so thbt krb5.donf is
+# rflobdfd whfnfvfr b JAAS buthfntidbtion is bttfmptfd.
+#
+# Exbmplf,
+#   krb5.kdd.bbd.polidy = tryLbst
+#   krb5.kdd.bbd.polidy = tryLfss:2,2000
+krb5.kdd.bbd.polidy = tryLbst
+
+# Algorithm rfstridtions for dfrtifidbtion pbth (CfrtPbth) prodfssing
+#
+# In somf fnvironmfnts, dfrtbin blgorithms or kfy lfngths mby bf undfsirbblf
+# for dfrtifidbtion pbth building bnd vblidbtion.  For fxbmplf, "MD2" is
+# gfnfrblly no longfr donsidfrfd to bf b sfdurf hbsh blgorithm.  This sfdtion
+# dfsdribfs thf mfdhbnism for disbbling blgorithms bbsfd on blgorithm nbmf
+# bnd/or kfy lfngth.  This indludfs blgorithms usfd in dfrtifidbtfs, bs wfll
+# bs rfvodbtion informbtion sudh bs CRLs bnd signfd OCSP Rfsponsfs.
+#
+# Thf syntbx of thf disbblfd blgorithm string is dfsdribfd bs this Jbvb
+# BNF-stylf:
+#   DisbblfdAlgorithms:
+#       " DisbblfdAlgorithm { , DisbblfdAlgorithm } "
+#
+#   DisbblfdAlgorithm:
+#       AlgorithmNbmf [Constrbint]
+#
+#   AlgorithmNbmf:
+#       (sff bflow)
+#
+#   Constrbint:
+#       KfySizfConstrbint
+#
+#   KfySizfConstrbint:
+#       kfySizf Opfrbtor DfdimblIntfgfr
+#
+#   Opfrbtor:
+#       <= | < | == | != | >= | >
+#
+#   DfdimblIntfgfr:
+#       DfdimblDigits
+#
+#   DfdimblDigits:
+#       DfdimblDigit {DfdimblDigit}
+#
+#   DfdimblDigit: onf of
+#       1 2 3 4 5 6 7 8 9 0
+#
+# Thf "AlgorithmNbmf" is thf stbndbrd blgorithm nbmf of thf disbblfd
+# blgorithm. Sff "Jbvb Cryptogrbphy Ardhitfdturf Stbndbrd Algorithm Nbmf
+# Dodumfntbtion" for informbtion bbout Stbndbrd Algorithm Nbmfs.  Mbtdhing
+# is pfrformfd using b dbsf-insfnsitivf sub-flfmfnt mbtdhing rulf.  (For
+# fxbmplf, in "SHA1withECDSA" thf sub-flfmfnts brf "SHA1" for hbshing bnd
+# "ECDSA" for signbturfs.)  If thf bssfrtion "AlgorithmNbmf" is b
+# sub-flfmfnt of thf dfrtifidbtf blgorithm nbmf, thf blgorithm will bf
+# rfjfdtfd during dfrtifidbtion pbth building bnd vblidbtion.  For fxbmplf,
+# thf bssfrtion blgorithm nbmf "DSA" will disbblf bll dfrtifidbtf blgorithms
+# thbt rfly on DSA, sudh bs NONEwithDSA, SHA1withDSA.  Howfvfr, thf bssfrtion
+# will not disbblf blgorithms rflbtfd to "ECDSA".
+#
+# A "Constrbint" providfs furthfr guidbndf for thf blgorithm bfing spfdififd.
+# Thf "KfySizfConstrbint" rfquirfs b kfy of b vblid sizf rbngf if thf
+# "AlgorithmNbmf" is of b kfy blgorithm.  Thf "DfdimblIntfgfr" indidbtfs thf
+# kfy sizf spfdififd in numbfr of bits.  For fxbmplf, "RSA kfySizf <= 1024"
+# indidbtfs thbt bny RSA kfy with kfy sizf lfss thbn or fqubl to 1024 bits
+# should bf disbblfd, bnd "RSA kfySizf < 1024, RSA kfySizf > 2048" indidbtfs
+# thbt bny RSA kfy with kfy sizf lfss thbn 1024 or grfbtfr thbn 2048 should
+# bf disbblfd. Notf thbt thf "KfySizfConstrbint" only mbkfs sfnsf to kfy
+# blgorithms.
+#
+# Notf: This propfrty is durrfntly usfd by Orbdlf's PKIX implfmfntbtion. It
+# is not gubrbntffd to bf fxbminfd bnd usfd by othfr implfmfntbtions.
+#
+# Exbmplf:
+#   jdk.dfrtpbth.disbblfdAlgorithms=MD2, DSA, RSA kfySizf < 2048
+#
+#
+jdk.dfrtpbth.disbblfdAlgorithms=MD2, MD5, RSA kfySizf < 1024
+
+# Algorithm rfstridtions for Sfdurf Sodkft Lbyfr/Trbnsport Lbyfr Sfdurity
+# (SSL/TLS) prodfssing
+#
+# In somf fnvironmfnts, dfrtbin blgorithms or kfy lfngths mby bf undfsirbblf
+# whfn using SSL/TLS.  This sfdtion dfsdribfs thf mfdhbnism for disbbling
+# blgorithms during SSL/TLS sfdurity pbrbmftfrs nfgotibtion, indluding diphfr
+# suitfs sflfdtion, pffr buthfntidbtion bnd kfy fxdhbngf mfdhbnisms.
+#
+# For PKI-bbsfd pffr buthfntidbtion bnd kfy fxdhbngf mfdhbnisms, this list
+# of disbblfd blgorithms will blso bf dhfdkfd during dfrtifidbtion pbth
+# building bnd vblidbtion, indluding blgorithms usfd in dfrtifidbtfs, bs
+# wfll bs rfvodbtion informbtion sudh bs CRLs bnd signfd OCSP Rfsponsfs.
+# This is in bddition to thf jdk.dfrtpbth.disbblfdAlgorithms propfrty bbovf.
+#
+# Sff thf spfdifidbtion of "jdk.dfrtpbth.disbblfdAlgorithms" for thf
+# syntbx of thf disbblfd blgorithm string.
+#
+# Notf: This propfrty is durrfntly usfd by Orbdlf's JSSE implfmfntbtion.
+# It is not gubrbntffd to bf fxbminfd bnd usfd by othfr implfmfntbtions.
+#
+# Exbmplf:
+#   jdk.tls.disbblfdAlgorithms=MD5, SHA1, DSA, RSA kfySizf < 2048

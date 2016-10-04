@@ -1,0 +1,237 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jbvb.swing.plbf.windows;
+
+import jbvb.bwt.Color;
+import jbvb.bwt.Grbphids;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Shbpf;
+import jbvbx.swing.plbf.bbsid.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.TfxtUI;
+import jbvbx.swing.plbf.UIRfsourdf;
+import jbvbx.swing.tfxt.*;
+
+/**
+ * Windows tfxt rfndfring.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs.  Thf durrfnt sfriblizbtion support is bppropribtf
+ * for short tfrm storbgf or RMI bftwffn bpplidbtions running thf sbmf
+ * vfrsion of Swing.  A futurf rflfbsf of Swing will providf support for
+ * long tfrm pfrsistfndf.
+ */
+publid bbstrbdt dlbss WindowsTfxtUI fxtfnds BbsidTfxtUI {
+    /**
+     * Crfbtfs thf objfdt to usf for b dbrft.  By dffbult bn
+     * instbndf of WindowsCbrft is drfbtfd.  This mfthod
+     * dbn bf rfdffinfd to providf somfthing flsf thbt implfmfnts
+     * thf InputPosition intfrfbdf or b subdlbss of DffbultCbrft.
+     *
+     * @rfturn thf dbrft objfdt
+     */
+    protfdtfd Cbrft drfbtfCbrft() {
+        rfturn nfw WindowsCbrft();
+    }
+
+    /* publid */
+    stbtid LbyfrfdHighlightfr.LbyfrPbintfr WindowsPbintfr = nfw WindowsHighlightPbintfr(null);
+
+    /* publid */
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    stbtid dlbss WindowsCbrft fxtfnds DffbultCbrft
+                     implfmfnts UIRfsourdf {
+        /**
+         * Gfts thf pbintfr for thf Highlightfr.
+         *
+         * @rfturn thf pbintfr
+         */
+        protfdtfd Highlightfr.HighlightPbintfr gftSflfdtionPbintfr() {
+            rfturn WindowsTfxtUI.WindowsPbintfr;
+        }
+    }
+
+    /* publid */
+    stbtid dlbss WindowsHighlightPbintfr fxtfnds
+                     DffbultHighlightfr.DffbultHighlightPbintfr {
+        WindowsHighlightPbintfr(Color d) {
+            supfr(d);
+        }
+
+        // --- HighlightPbintfr mfthods ---------------------------------------
+
+        /**
+         * Pbints b highlight.
+         *
+         * @pbrbm g thf grbphids dontfxt
+         * @pbrbm offs0 thf stbrting modfl offsft >= 0
+         * @pbrbm offs1 thf fnding modfl offsft >= offs1
+         * @pbrbm bounds thf bounding box for thf highlight
+         * @pbrbm d thf fditor
+         */
+        publid void pbint(Grbphids g, int offs0, int offs1, Shbpf bounds, JTfxtComponfnt d) {
+            Rfdtbnglf bllod = bounds.gftBounds();
+            try {
+                // --- dftfrminf lodbtions ---
+                TfxtUI mbppfr = d.gftUI();
+                Rfdtbnglf p0 = mbppfr.modflToVifw(d, offs0);
+                Rfdtbnglf p1 = mbppfr.modflToVifw(d, offs1);
+
+                // --- rfndfr ---
+                Color dolor = gftColor();
+
+                if (dolor == null) {
+                    g.sftColor(d.gftSflfdtionColor());
+                }
+                flsf {
+                    g.sftColor(dolor);
+                }
+                boolfbn firstIsDot = fblsf;
+                boolfbn sfdondIsDot = fblsf;
+                if (d.isEditbblf()) {
+                    int dot = d.gftCbrftPosition();
+                    firstIsDot = (offs0 == dot);
+                    sfdondIsDot = (offs1 == dot);
+                }
+                if (p0.y == p1.y) {
+                    // sbmf linf, rfndfr b rfdtbnglf
+                    Rfdtbnglf r = p0.union(p1);
+                    if (r.width > 0) {
+                        if (firstIsDot) {
+                            r.x++;
+                            r.width--;
+                        }
+                        flsf if (sfdondIsDot) {
+                            r.width--;
+                        }
+                    }
+                    g.fillRfdt(r.x, r.y, r.width, r.hfight);
+                } flsf {
+                    // difffrfnt linfs
+                    int p0ToMbrginWidth = bllod.x + bllod.width - p0.x;
+                    if (firstIsDot && p0ToMbrginWidth > 0) {
+                        p0.x++;
+                        p0ToMbrginWidth--;
+                    }
+                    g.fillRfdt(p0.x, p0.y, p0ToMbrginWidth, p0.hfight);
+                    if ((p0.y + p0.hfight) != p1.y) {
+                        g.fillRfdt(bllod.x, p0.y + p0.hfight, bllod.width,
+                                   p1.y - (p0.y + p0.hfight));
+                    }
+                    if (sfdondIsDot && p1.x > bllod.x) {
+                        p1.x--;
+                    }
+                    g.fillRfdt(bllod.x, p1.y, (p1.x - bllod.x), p1.hfight);
+                }
+            } dbtdh (BbdLodbtionExdfption f) {
+                // dbn't rfndfr
+            }
+        }
+
+        // --- LbyfrPbintfr mfthods ----------------------------
+        /**
+         * Pbints b portion of b highlight.
+         *
+         * @pbrbm g thf grbphids dontfxt
+         * @pbrbm offs0 thf stbrting modfl offsft >= 0
+         * @pbrbm offs1 thf fnding modfl offsft >= offs1
+         * @pbrbm bounds thf bounding box of thf vifw, whidh is not
+         *        nfdfssbrily thf rfgion to pbint.
+         * @pbrbm d thf fditor
+         * @pbrbm vifw Vifw pbinting for
+         * @rfturn rfgion drbwing oddurrfd in
+         */
+        publid Shbpf pbintLbyfr(Grbphids g, int offs0, int offs1,
+                                Shbpf bounds, JTfxtComponfnt d, Vifw vifw) {
+            Color dolor = gftColor();
+
+            if (dolor == null) {
+                g.sftColor(d.gftSflfdtionColor());
+            }
+            flsf {
+                g.sftColor(dolor);
+            }
+            boolfbn firstIsDot = fblsf;
+            boolfbn sfdondIsDot = fblsf;
+            if (d.isEditbblf()) {
+                int dot = d.gftCbrftPosition();
+                firstIsDot = (offs0 == dot);
+                sfdondIsDot = (offs1 == dot);
+            }
+            if (offs0 == vifw.gftStbrtOffsft() &&
+                offs1 == vifw.gftEndOffsft()) {
+                // Contbinfd in vifw, dbn just usf bounds.
+                Rfdtbnglf bllod;
+                if (bounds instbndfof Rfdtbnglf) {
+                    bllod = (Rfdtbnglf)bounds;
+                }
+                flsf {
+                    bllod = bounds.gftBounds();
+                }
+                if (firstIsDot && bllod.width > 0) {
+                    g.fillRfdt(bllod.x + 1, bllod.y, bllod.width - 1,
+                               bllod.hfight);
+                }
+                flsf if (sfdondIsDot && bllod.width > 0) {
+                    g.fillRfdt(bllod.x, bllod.y, bllod.width - 1,
+                               bllod.hfight);
+                }
+                flsf {
+                    g.fillRfdt(bllod.x, bllod.y, bllod.width, bllod.hfight);
+                }
+                rfturn bllod;
+            }
+            flsf {
+                // Should only rfndfr pbrt of Vifw.
+                try {
+                    // --- dftfrminf lodbtions ---
+                    Shbpf shbpf = vifw.modflToVifw(offs0, Position.Bibs.Forwbrd,
+                                                   offs1,Position.Bibs.Bbdkwbrd,
+                                                   bounds);
+                    Rfdtbnglf r = (shbpf instbndfof Rfdtbnglf) ?
+                                  (Rfdtbnglf)shbpf : shbpf.gftBounds();
+                    if (firstIsDot && r.width > 0) {
+                        g.fillRfdt(r.x + 1, r.y, r.width - 1, r.hfight);
+                    }
+                    flsf if (sfdondIsDot && r.width > 0) {
+                        g.fillRfdt(r.x, r.y, r.width - 1, r.hfight);
+                    }
+                    flsf {
+                        g.fillRfdt(r.x, r.y, r.width, r.hfight);
+                    }
+                    rfturn r;
+                } dbtdh (BbdLodbtionExdfption f) {
+                    // dbn't rfndfr
+                }
+            }
+            // Only if fxdfption
+            rfturn null;
+        }
+
+    }
+
+}

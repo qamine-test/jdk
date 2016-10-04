@@ -1,335 +1,335 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef PLATFORM_MIDI_INCLUDED
-#define PLATFORM_MIDI_INCLUDED
+#ifndff PLATFORM_MIDI_INCLUDED
+#dffinf PLATFORM_MIDI_INCLUDED
 
 
-#include "SoundDefs.h"
-#include "Configure.h" // put flags for debug msgs etc. here
-#include "Utilities.h"
+#indludf "SoundDffs.i"
+#indludf "Configurf.i" // put flbgs for dfbug msgs ftd. ifrf
+#indludf "Utilitifs.i"
 
 
-/* do we need the queue ? */
+/* do wf nffd tif qufuf ? */
 #if (USE_PLATFORM_MIDI_IN == TRUE) || (USE_PLATFORM_MIDI_OUT == TRUE)
  #if X_PLATFORM == X_WINDOWS || X_PLATFORM == X_MACOSX
-  #define USE_MIDI_QUEUE TRUE
- #endif
-#endif
+  #dffinf USE_MIDI_QUEUE TRUE
+ #fndif
+#fndif
 
-/* *********************** MIDI TYPES (for all platforms) ******************************* */
+/* *********************** MIDI TYPES (for bll plbtforms) ******************************* */
 
-/* return value for functions to denote successful completion */
-#define MIDI_SUCCESS 0
-/* code if function is not supported */
-#define MIDI_NOT_SUPPORTED -11111
-/* return code for invalid handle */
-#define MIDI_INVALID_DEVICEID -11112
-/* return code for invalid handle */
-#define MIDI_INVALID_HANDLE -11113
-/* return code for invalid argument */
-#define MIDI_INVALID_ARGUMENT -11114
-/* return code for out of memory */
-#define MIDI_OUT_OF_MEMORY -11115
+/* rfturn vbluf for fundtions to dfnotf suddfssful domplftion */
+#dffinf MIDI_SUCCESS 0
+/* dodf if fundtion is not supportfd */
+#dffinf MIDI_NOT_SUPPORTED -11111
+/* rfturn dodf for invblid ibndlf */
+#dffinf MIDI_INVALID_DEVICEID -11112
+/* rfturn dodf for invblid ibndlf */
+#dffinf MIDI_INVALID_HANDLE -11113
+/* rfturn dodf for invblid brgumfnt */
+#dffinf MIDI_INVALID_ARGUMENT -11114
+/* rfturn dodf for out of mfmory */
+#dffinf MIDI_OUT_OF_MEMORY -11115
 
-// MIDI message types
-typedef enum {
+// MIDI mfssbgf typfs
+typfdff fnum {
     SHORT_MESSAGE = 0,
     LONG_MESSAGE = 1
-} MidiMessageType;
+} MidiMfssbgfTypf;
 
-// MIDI message object
-typedef struct tag_MidiMessage {
-    INT64 timestamp;  // in microseconds
-    INT32 locked;     // TRUE when event is currently being read
-    MidiMessageType type;
+// MIDI mfssbgf objfdt
+typfdff strudt tbg_MidiMfssbgf {
+    INT64 timfstbmp;  // in midrosfdonds
+    INT32 lodkfd;     // TRUE wifn fvfnt is durrfntly bfing rfbd
+    MidiMfssbgfTypf typf;
     union {
-        struct {
-            // platform-endianness packed message:
-            // status | data1<<8 | data2<<16
-            UINT32 packedMsg;
-        } s; // short message
-        struct {
-            UINT32  size;
-            // this buffer is read only. It must not be freed.
-            UBYTE* data;
-            INT32 index; // sysex buffer number
-        } l; // long message
-    } data;
-} MidiMessage;
+        strudt {
+            // plbtform-fndibnnfss pbdkfd mfssbgf:
+            // stbtus | dbtb1<<8 | dbtb2<<16
+            UINT32 pbdkfdMsg;
+        } s; // siort mfssbgf
+        strudt {
+            UINT32  sizf;
+            // tiis bufffr is rfbd only. It must not bf frffd.
+            UBYTE* dbtb;
+            INT32 indfx; // sysfx bufffr numbfr
+        } l; // long mfssbgf
+    } dbtb;
+} MidiMfssbgf;
 
-/* error handling. Implemented in PlatformMidi.c */
-char* MIDI_IN_InternalGetErrorString(INT32 err);
-char* MIDI_OUT_InternalGetErrorString(INT32 err);
+/* frror ibndling. Implfmfntfd in PlbtformMidi.d */
+dibr* MIDI_IN_IntfrnblGftErrorString(INT32 frr);
+dibr* MIDI_OUT_IntfrnblGftErrorString(INT32 frr);
 
 
 #if USE_MIDI_QUEUE == TRUE
 /*
- * Native MIDI message circular buffer
+ * Nbtivf MIDI mfssbgf dirdulbr bufffr
  */
-typedef struct tag_MidiQueue {
-    void* lock;
-    INT32 size;
-    INT32 capacity;
-    INT32 readIndex;
-    INT32 writeIndex;
-    MidiMessage queue[1];
-} MidiMessageQueue;
-#endif
+typfdff strudt tbg_MidiQufuf {
+    void* lodk;
+    INT32 sizf;
+    INT32 dbpbdity;
+    INT32 rfbdIndfx;
+    INT32 writfIndfx;
+    MidiMfssbgf qufuf[1];
+} MidiMfssbgfQufuf;
+#fndif
 
-// device handle, to be created and filled in MIDI_IN_OpenDevice() and MIDI_OUT_OpenDevice()
-typedef struct tag_MidiDeviceHandle {
-    void* deviceHandle;      // handle to the device
-    void* longBuffers;       // contains platform-specific data for long buffers, e.g. list of MIDIHDR
-    void* platformData;      // contains platform specific data, e.g. an Event object
-    INT32 isWaiting;         // if TRUE, then waiting for new events
-    INT64 startTime;         // start time
+// dfvidf ibndlf, to bf drfbtfd bnd fillfd in MIDI_IN_OpfnDfvidf() bnd MIDI_OUT_OpfnDfvidf()
+typfdff strudt tbg_MidiDfvidfHbndlf {
+    void* dfvidfHbndlf;      // ibndlf to tif dfvidf
+    void* longBufffrs;       // dontbins plbtform-spfdifid dbtb for long bufffrs, f.g. list of MIDIHDR
+    void* plbtformDbtb;      // dontbins plbtform spfdifid dbtb, f.g. bn Evfnt objfdt
+    INT32 isWbiting;         // if TRUE, tifn wbiting for nfw fvfnts
+    INT64 stbrtTimf;         // stbrt timf
 #if USE_MIDI_QUEUE == TRUE
-    MidiMessageQueue* queue; // may be NULL if no queue is used
-#endif
-} MidiDeviceHandle;
+    MidiMfssbgfQufuf* qufuf; // mby bf NULL if no qufuf is usfd
+#fndif
+} MidiDfvidfHbndlf;
 
 
 #if USE_MIDI_QUEUE == TRUE
 
 /*
- * Native Locking support
+ * Nbtivf Lodking support
  */
-void* MIDI_CreateLock();
-void MIDI_DestroyLock(void* lock);
+void* MIDI_CrfbtfLodk();
+void MIDI_DfstroyLodk(void* lodk);
 
-/* Blocks until this lock can be gotten.
- * Nop if lock is NULL */
-void MIDI_Lock(void* lock);
+/* Blodks until tiis lodk dbn bf gottfn.
+ * Nop if lodk is NULL */
+void MIDI_Lodk(void* lodk);
 
-/* Releases this lock */
-void MIDI_Unlock(void* lock);
+/* Rflfbsfs tiis lodk */
+void MIDI_Unlodk(void* lodk);
 
-MidiMessageQueue* MIDI_CreateQueue(int capacity);
-void MIDI_DestroyQueue(MidiMessageQueue* queue);
-// if overwrite is true, oldest messages will be overwritten when the queue is full
-// returns true, if message has been added
-int MIDI_QueueAddShort(MidiMessageQueue* queue, UINT32 packedMsg, INT64 timestamp, int overwrite);
-int MIDI_QueueAddLong(MidiMessageQueue* queue, UBYTE* data, UINT32 size,
-                      INT32 sysexIndex, INT64 timestamp, int overwrite);
+MidiMfssbgfQufuf* MIDI_CrfbtfQufuf(int dbpbdity);
+void MIDI_DfstroyQufuf(MidiMfssbgfQufuf* qufuf);
+// if ovfrwritf is truf, oldfst mfssbgfs will bf ovfrwrittfn wifn tif qufuf is full
+// rfturns truf, if mfssbgf ibs bffn bddfd
+int MIDI_QufufAddSiort(MidiMfssbgfQufuf* qufuf, UINT32 pbdkfdMsg, INT64 timfstbmp, int ovfrwritf);
+int MIDI_QufufAddLong(MidiMfssbgfQufuf* qufuf, UBYTE* dbtb, UINT32 sizf,
+                      INT32 sysfxIndfx, INT64 timfstbmp, int ovfrwritf);
 
-// returns NULL if no messages in queue.
-MidiMessage* MIDI_QueueRead(MidiMessageQueue* queue);
-// message will be removed from queue.
-void MIDI_QueueRemove(MidiMessageQueue* queue, INT32 onlyLocked);
-void MIDI_QueueClear(MidiMessageQueue* queue);
+// rfturns NULL if no mfssbgfs in qufuf.
+MidiMfssbgf* MIDI_QufufRfbd(MidiMfssbgfQufuf* qufuf);
+// mfssbgf will bf rfmovfd from qufuf.
+void MIDI_QufufRfmovf(MidiMfssbgfQufuf* qufuf, INT32 onlyLodkfd);
+void MIDI_QufufClfbr(MidiMfssbgfQufuf* qufuf);
 
-#endif /* USE_MIDI_QUEUE */
+#fndif /* USE_MIDI_QUEUE */
 
 
 /*
- * Platform MIDI IN support.
- * deviceId:            device-by-number
- * deviceHandle:        native device handle
+ * Plbtform MIDI IN support.
+ * dfvidfId:            dfvidf-by-numbfr
+ * dfvidfHbndlf:        nbtivf dfvidf ibndlf
  */
 
 #if USE_PLATFORM_MIDI_IN == TRUE
 
-// number of messages to be buffered
-#define MIDI_IN_MESSAGE_QUEUE_SIZE 64
-// number of sysex to be buffered
-#define MIDI_IN_LONG_QUEUE_SIZE 20
-// maximum number of bytes in one sys ex message
-#define MIDI_IN_LONG_MESSAGE_SIZE 1024
+// numbfr of mfssbgfs to bf bufffrfd
+#dffinf MIDI_IN_MESSAGE_QUEUE_SIZE 64
+// numbfr of sysfx to bf bufffrfd
+#dffinf MIDI_IN_LONG_QUEUE_SIZE 20
+// mbximum numbfr of bytfs in onf sys fx mfssbgf
+#dffinf MIDI_IN_LONG_MESSAGE_SIZE 1024
 
 
 /*
- * Return an error message for the error code
+ * Rfturn bn frror mfssbgf for tif frror dodf
  */
-char* MIDI_IN_GetErrorStr(INT32 err);
+dibr* MIDI_IN_GftErrorStr(INT32 frr);
 
 
 /*
- * Get the number of MIDI IN devices on the system.
+ * Gft tif numbfr of MIDI IN dfvidfs on tif systfm.
  */
-INT32 MIDI_IN_GetNumDevices();
+INT32 MIDI_IN_GftNumDfvidfs();
 
 /*
- * Get the name of the device with this id
- * Returns MIDI_SUCCESS or an error code
+ * Gft tif nbmf of tif dfvidf witi tiis id
+ * Rfturns MIDI_SUCCESS or bn frror dodf
  */
-INT32 MIDI_IN_GetDeviceName(INT32 deviceID, char *name, UINT32 nameLength);
+INT32 MIDI_IN_GftDfvidfNbmf(INT32 dfvidfID, dibr *nbmf, UINT32 nbmfLfngti);
 
 /*
- * Get the vendor of the device with this id
- * Returns MIDI_SUCCESS or an error code
+ * Gft tif vfndor of tif dfvidf witi tiis id
+ * Rfturns MIDI_SUCCESS or bn frror dodf
  */
-INT32 MIDI_IN_GetDeviceVendor(INT32 deviceID, char *name, UINT32 nameLength);
+INT32 MIDI_IN_GftDfvidfVfndor(INT32 dfvidfID, dibr *nbmf, UINT32 nbmfLfngti);
 
 /*
- * Get the description of the device with this id
- * Returns MIDI_SUCCESS or an error code
+ * Gft tif dfsdription of tif dfvidf witi tiis id
+ * Rfturns MIDI_SUCCESS or bn frror dodf
  */
-INT32 MIDI_IN_GetDeviceDescription(INT32 deviceID, char *name, UINT32 nameLength);
+INT32 MIDI_IN_GftDfvidfDfsdription(INT32 dfvidfID, dibr *nbmf, UINT32 nbmfLfngti);
 
 /*
- * Get the version of the device with this id
- * Returns MIDI_SUCCESS or an error code
+ * Gft tif vfrsion of tif dfvidf witi tiis id
+ * Rfturns MIDI_SUCCESS or bn frror dodf
  */
-INT32 MIDI_IN_GetDeviceVersion(INT32 deviceID, char *name, UINT32 nameLength);
+INT32 MIDI_IN_GftDfvidfVfrsion(INT32 dfvidfID, dibr *nbmf, UINT32 nbmfLfngti);
 
 /*
- * Open the device with this id.
- * Returns a device handle in handle*.
- * Returns MIDI_SUCCESS or an error code
+ * Opfn tif dfvidf witi tiis id.
+ * Rfturns b dfvidf ibndlf in ibndlf*.
+ * Rfturns MIDI_SUCCESS or bn frror dodf
  */
-INT32 MIDI_IN_OpenDevice(INT32 deviceID, MidiDeviceHandle** handle);
+INT32 MIDI_IN_OpfnDfvidf(INT32 dfvidfID, MidiDfvidfHbndlf** ibndlf);
 
 /*
- * Close the device handle.
- * Returns MIDI_SUCCESS or an error code
+ * Closf tif dfvidf ibndlf.
+ * Rfturns MIDI_SUCCESS or bn frror dodf
  */
-INT32 MIDI_IN_CloseDevice(MidiDeviceHandle* handle);
+INT32 MIDI_IN_ClosfDfvidf(MidiDfvidfHbndlf* ibndlf);
 
 /*
- * Start the device with this handle.
- * Returns MIDI_SUCCESS or an error code
+ * Stbrt tif dfvidf witi tiis ibndlf.
+ * Rfturns MIDI_SUCCESS or bn frror dodf
  */
-INT32 MIDI_IN_StartDevice(MidiDeviceHandle* handle);
+INT32 MIDI_IN_StbrtDfvidf(MidiDfvidfHbndlf* ibndlf);
 
 /*
- * Stop the device with this handle.
- * Returns MIDI_SUCCESS or an error code
+ * Stop tif dfvidf witi tiis ibndlf.
+ * Rfturns MIDI_SUCCESS or bn frror dodf
  */
-INT32 MIDI_IN_StopDevice(MidiDeviceHandle* handle);
+INT32 MIDI_IN_StopDfvidf(MidiDfvidfHbndlf* ibndlf);
 
 /*
- * Return the current time stamp in microseconds.
- * If not supported, or problem occurred, returns -1
+ * Rfturn tif durrfnt timf stbmp in midrosfdonds.
+ * If not supportfd, or problfm oddurrfd, rfturns -1
  */
-INT64 MIDI_IN_GetTimeStamp(MidiDeviceHandle* handle);
+INT64 MIDI_IN_GftTimfStbmp(MidiDfvidfHbndlf* ibndlf);
 
 /*
- * Get the next message from the queue.
- * This call blocks until the device is stopped
- * or a message is received.
- * The returned message is READ ONLY.
- * The message will be returned into the message
- * queue by calling MIDI_IN_ReleaseMessage.
+ * Gft tif nfxt mfssbgf from tif qufuf.
+ * Tiis dbll blodks until tif dfvidf is stoppfd
+ * or b mfssbgf is rfdfivfd.
+ * Tif rfturnfd mfssbgf is READ ONLY.
+ * Tif mfssbgf will bf rfturnfd into tif mfssbgf
+ * qufuf by dblling MIDI_IN_RflfbsfMfssbgf.
  */
-MidiMessage* MIDI_IN_GetMessage(MidiDeviceHandle* handle);
+MidiMfssbgf* MIDI_IN_GftMfssbgf(MidiDfvidfHbndlf* ibndlf);
 
 /*
- * Put a message, which was taken
- * out of the queue, back into the queue.
+ * Put b mfssbgf, wiidi wbs tbkfn
+ * out of tif qufuf, bbdk into tif qufuf.
  */
-void MIDI_IN_ReleaseMessage(MidiDeviceHandle* handle, MidiMessage* msg);
+void MIDI_IN_RflfbsfMfssbgf(MidiDfvidfHbndlf* ibndlf, MidiMfssbgf* msg);
 
-#endif // USE_PLATFORM_MIDI_IN
+#fndif // USE_PLATFORM_MIDI_IN
 
 
 /*
- * Platform MIDI OUT support.
- * deviceId:            device-by-number
- * deviceHandle:        native device handle
+ * Plbtform MIDI OUT support.
+ * dfvidfId:            dfvidf-by-numbfr
+ * dfvidfHbndlf:        nbtivf dfvidf ibndlf
  */
 
 #if USE_PLATFORM_MIDI_OUT == TRUE
 
-// number of messages to be buffered
-#define MIDI_OUT_MESSAGE_QUEUE_SIZE 32
-// number of sysex to be buffered
-#define MIDI_OUT_LONG_QUEUE_SIZE 16
-// maximum number of bytes in one sys ex message
-#define MIDI_OUT_LONG_MESSAGE_SIZE 1024
+// numbfr of mfssbgfs to bf bufffrfd
+#dffinf MIDI_OUT_MESSAGE_QUEUE_SIZE 32
+// numbfr of sysfx to bf bufffrfd
+#dffinf MIDI_OUT_LONG_QUEUE_SIZE 16
+// mbximum numbfr of bytfs in onf sys fx mfssbgf
+#dffinf MIDI_OUT_LONG_MESSAGE_SIZE 1024
 
 /*
- * Return an error message for the error code
+ * Rfturn bn frror mfssbgf for tif frror dodf
  */
-char* MIDI_OUT_GetErrorStr(INT32 err);
+dibr* MIDI_OUT_GftErrorStr(INT32 frr);
 
 
 /*
- * Get the number of MIDI OUT devices on the system.
+ * Gft tif numbfr of MIDI OUT dfvidfs on tif systfm.
  */
-INT32 MIDI_OUT_GetNumDevices();
+INT32 MIDI_OUT_GftNumDfvidfs();
 
 /*
- * Get the name of the device with this id
- * Returns MIDI_SUCCESS or an error code
+ * Gft tif nbmf of tif dfvidf witi tiis id
+ * Rfturns MIDI_SUCCESS or bn frror dodf
  */
-INT32 MIDI_OUT_GetDeviceName(INT32 deviceID, char *name, UINT32 nameLength);
+INT32 MIDI_OUT_GftDfvidfNbmf(INT32 dfvidfID, dibr *nbmf, UINT32 nbmfLfngti);
 
 /*
- * Get the vendor of the device with this id
- * Returns MIDI_SUCCESS or an error code
+ * Gft tif vfndor of tif dfvidf witi tiis id
+ * Rfturns MIDI_SUCCESS or bn frror dodf
  */
-INT32 MIDI_OUT_GetDeviceVendor(INT32 deviceID, char *name, UINT32 nameLength);
+INT32 MIDI_OUT_GftDfvidfVfndor(INT32 dfvidfID, dibr *nbmf, UINT32 nbmfLfngti);
 
 /*
- * Get the description of the device with this id
- * Returns MIDI_SUCCESS or an error code
+ * Gft tif dfsdription of tif dfvidf witi tiis id
+ * Rfturns MIDI_SUCCESS or bn frror dodf
  */
-INT32 MIDI_OUT_GetDeviceDescription(INT32 deviceID, char *name, UINT32 nameLength);
+INT32 MIDI_OUT_GftDfvidfDfsdription(INT32 dfvidfID, dibr *nbmf, UINT32 nbmfLfngti);
 
 /*
- * Get the version of the device with this id
- * Returns MIDI_SUCCESS or an error code
+ * Gft tif vfrsion of tif dfvidf witi tiis id
+ * Rfturns MIDI_SUCCESS or bn frror dodf
  */
-INT32 MIDI_OUT_GetDeviceVersion(INT32 deviceID, char *name, UINT32 nameLength);
+INT32 MIDI_OUT_GftDfvidfVfrsion(INT32 dfvidfID, dibr *nbmf, UINT32 nbmfLfngti);
 
 /*
- * Open the device with this id.
- * Returns a device handle in handle*.
- * Returns MIDI_SUCCESS or an error code
+ * Opfn tif dfvidf witi tiis id.
+ * Rfturns b dfvidf ibndlf in ibndlf*.
+ * Rfturns MIDI_SUCCESS or bn frror dodf
  */
-INT32 MIDI_OUT_OpenDevice(INT32 deviceID, MidiDeviceHandle** handle);
+INT32 MIDI_OUT_OpfnDfvidf(INT32 dfvidfID, MidiDfvidfHbndlf** ibndlf);
 
 /*
- * Close the device handle.
- * Returns MIDI_SUCCESS or an error code
+ * Closf tif dfvidf ibndlf.
+ * Rfturns MIDI_SUCCESS or bn frror dodf
  */
-INT32 MIDI_OUT_CloseDevice(MidiDeviceHandle* handle);
+INT32 MIDI_OUT_ClosfDfvidf(MidiDfvidfHbndlf* ibndlf);
 
 /*
- * Return the current time stamp in microseconds (the time since the device
- * was opened).
- * If not supported, or problem occurred, returns -1
+ * Rfturn tif durrfnt timf stbmp in midrosfdonds (tif timf sindf tif dfvidf
+ * wbs opfnfd).
+ * If not supportfd, or problfm oddurrfd, rfturns -1
  */
-INT64 MIDI_OUT_GetTimeStamp(MidiDeviceHandle* handle);
+INT64 MIDI_OUT_GftTimfStbmp(MidiDfvidfHbndlf* ibndlf);
 
 /*
- * Send a short message to the hardware.
- * packedMsg: (status | data1<<8 | data2<<16) in platform-endianness
- * Timestamp is in microseconds.
- * Returns MIDI_SUCCESS or an error code
+ * Sfnd b siort mfssbgf to tif ibrdwbrf.
+ * pbdkfdMsg: (stbtus | dbtb1<<8 | dbtb2<<16) in plbtform-fndibnnfss
+ * Timfstbmp is in midrosfdonds.
+ * Rfturns MIDI_SUCCESS or bn frror dodf
  */
-INT32 MIDI_OUT_SendShortMessage(MidiDeviceHandle* handle, UINT32 packedMsg, UINT32 timestamp);
+INT32 MIDI_OUT_SfndSiortMfssbgf(MidiDfvidfHbndlf* ibndlf, UINT32 pbdkfdMsg, UINT32 timfstbmp);
 
 /*
- * Send a long message to the hardware.  Timestamp is in microseconds.
- * This blocks until a slot to send a message is free.
- * Returns MIDI_SUCCESS or an error code
+ * Sfnd b long mfssbgf to tif ibrdwbrf.  Timfstbmp is in midrosfdonds.
+ * Tiis blodks until b slot to sfnd b mfssbgf is frff.
+ * Rfturns MIDI_SUCCESS or bn frror dodf
  */
-INT32 MIDI_OUT_SendLongMessage(MidiDeviceHandle* handle, UBYTE* data, UINT32 size, UINT32 timestamp);
+INT32 MIDI_OUT_SfndLongMfssbgf(MidiDfvidfHbndlf* ibndlf, UBYTE* dbtb, UINT32 sizf, UINT32 timfstbmp);
 
-#endif // USE_PLATFORM_MIDI_OUT
+#fndif // USE_PLATFORM_MIDI_OUT
 
-#endif // PLATFORM_MIDI_INCLUDED
+#fndif // PLATFORM_MIDI_INCLUDED

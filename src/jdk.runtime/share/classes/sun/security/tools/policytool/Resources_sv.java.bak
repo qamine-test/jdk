@@ -1,159 +1,159 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.tools.policytool;
+pbdkbgf sun.sfdurity.tools.polidytool;
 
 /**
- * <p> This class represents the <code>ResourceBundle</code>
- * for the policytool.
+ * <p> Tiis dlbss rfprfsfnts tif <dodf>RfsourdfBundlf</dodf>
+ * for tif polidytool.
  *
  */
-public class Resources_sv extends java.util.ListResourceBundle {
+publid dlbss Rfsourdfs_sv fxtfnds jbvb.util.ListRfsourdfBundlf {
 
-    private static final Object[][] contents = {
+    privbtf stbtid finbl Objfdt[][] dontfnts = {
         {"NEWLINE", "\n"},
-        {"Warning.A.public.key.for.alias.signers.i.does.not.exist.Make.sure.a.KeyStore.is.properly.configured.",
-                "Varning! Det finns ingen offentlig nyckel f\u00F6r aliaset {0}. Kontrollera att det aktuella nyckellagret \u00E4r korrekt konfigurerat."},
-        {"Warning.Class.not.found.class", "Varning! Klassen hittades inte: {0}"},
-        {"Warning.Invalid.argument.s.for.constructor.arg",
-                "Varning! Ogiltiga argument f\u00F6r konstruktor: {0}"},
-        {"Illegal.Principal.Type.type", "Otill\u00E5ten identitetshavaretyp: {0}"},
-        {"Illegal.option.option", "Otill\u00E5tet alternativ: {0}"},
-        {"Usage.policytool.options.", "Syntax: policytool [alternativ]"},
-        {".file.file.policy.file.location",
-                "  [-file <fil>]    policyfilens plats"},
-        {"New", "Nytt"},
-        {"Open", "\u00D6ppna"},
-        {"Save", "Spara"},
-        {"Save.As", "Spara som"},
-        {"View.Warning.Log", "Visa varningslogg"},
-        {"Exit", "Avsluta"},
-        {"Add.Policy.Entry", "L\u00E4gg till policypost"},
-        {"Edit.Policy.Entry", "Redigera policypost"},
-        {"Remove.Policy.Entry", "Ta bort policypost"},
-        {"Edit", "Redigera"},
-        {"Retain", "Beh\u00E5ll"},
+        {"Wbrning.A.publid.kfy.for.blibs.signfrs.i.dofs.not.fxist.Mbkf.surf.b.KfyStorf.is.propfrly.donfigurfd.",
+                "Vbrning! Dft finns ingfn offfntlig nydkfl f\u00F6r blibsft {0}. Kontrollfrb btt dft bktufllb nydkfllbgrft \u00E4r korrfkt konfigurfrbt."},
+        {"Wbrning.Clbss.not.found.dlbss", "Vbrning! Klbssfn iittbdfs intf: {0}"},
+        {"Wbrning.Invblid.brgumfnt.s.for.donstrudtor.brg",
+                "Vbrning! Ogiltigb brgumfnt f\u00F6r konstruktor: {0}"},
+        {"Illfgbl.Prindipbl.Typf.typf", "Otill\u00E5tfn idfntitftsibvbrftyp: {0}"},
+        {"Illfgbl.option.option", "Otill\u00E5tft bltfrnbtiv: {0}"},
+        {"Usbgf.polidytool.options.", "Syntbx: polidytool [bltfrnbtiv]"},
+        {".filf.filf.polidy.filf.lodbtion",
+                "  [-filf <fil>]    polidyfilfns plbts"},
+        {"Nfw", "Nytt"},
+        {"Opfn", "\u00D6ppnb"},
+        {"Sbvf", "Spbrb"},
+        {"Sbvf.As", "Spbrb som"},
+        {"Vifw.Wbrning.Log", "Visb vbrningslogg"},
+        {"Exit", "Avslutb"},
+        {"Add.Polidy.Entry", "L\u00E4gg till polidypost"},
+        {"Edit.Polidy.Entry", "Rfdigfrb polidypost"},
+        {"Rfmovf.Polidy.Entry", "Tb bort polidypost"},
+        {"Edit", "Rfdigfrb"},
+        {"Rftbin", "Bfi\u00E5ll"},
 
-        {"Warning.File.name.may.include.escaped.backslash.characters.It.is.not.necessary.to.escape.backslash.characters.the.tool.escapes",
-            "Varning! Filnamnet kan inneh\u00E5lla omv\u00E4nda snedstreck inom citattecken. Citattecken kr\u00E4vs inte f\u00F6r omv\u00E4nda snedstreck (verktyget hanterar detta n\u00E4r policyinneh\u00E5llet skrivs till det best\u00E4ndiga lagret).\n\nKlicka p\u00E5 Beh\u00E5ll f\u00F6r att beh\u00E5lla det angivna namnet, eller klicka p\u00E5 Redigera f\u00F6r att \u00E4ndra det."},
+        {"Wbrning.Filf.nbmf.mby.indludf.fsdbpfd.bbdkslbsi.dibrbdtfrs.It.is.not.nfdfssbry.to.fsdbpf.bbdkslbsi.dibrbdtfrs.tif.tool.fsdbpfs",
+            "Vbrning! Filnbmnft kbn innfi\u00E5llb omv\u00E4ndb snfdstrfdk inom ditbttfdkfn. Citbttfdkfn kr\u00E4vs intf f\u00F6r omv\u00E4ndb snfdstrfdk (vfrktygft ibntfrbr dfttb n\u00E4r polidyinnfi\u00E5llft skrivs till dft bfst\u00E4ndigb lbgrft).\n\nKlidkb p\u00E5 Bfi\u00E5ll f\u00F6r btt bfi\u00E5llb dft bngivnb nbmnft, fllfr klidkb p\u00E5 Rfdigfrb f\u00F6r btt \u00E4ndrb dft."},
 
-        {"Add.Public.Key.Alias", "L\u00E4gg till offentligt nyckelalias"},
-        {"Remove.Public.Key.Alias", "Ta bort offentligt nyckelalias"},
-        {"File", "Fil"},
-        {"KeyStore", "Nyckellager"},
-        {"Policy.File.", "Policyfil:"},
-        {"Could.not.open.policy.file.policyFile.e.toString.",
-                "Kan inte \u00F6ppna policyfilen: {0}: {1}"},
-        {"Policy.Tool", "Policyverktyg"},
-        {"Errors.have.occurred.while.opening.the.policy.configuration.View.the.Warning.Log.for.more.information.",
-                "Det uppstod ett fel n\u00E4r policykonfigurationen skulle \u00F6ppnas. Se varningsloggen f\u00F6r mer information."},
-        {"Error", "Fel"},
+        {"Add.Publid.Kfy.Alibs", "L\u00E4gg till offfntligt nydkflblibs"},
+        {"Rfmovf.Publid.Kfy.Alibs", "Tb bort offfntligt nydkflblibs"},
+        {"Filf", "Fil"},
+        {"KfyStorf", "Nydkfllbgfr"},
+        {"Polidy.Filf.", "Polidyfil:"},
+        {"Could.not.opfn.polidy.filf.polidyFilf.f.toString.",
+                "Kbn intf \u00F6ppnb polidyfilfn: {0}: {1}"},
+        {"Polidy.Tool", "Polidyvfrktyg"},
+        {"Errors.ibvf.oddurrfd.wiilf.opfning.tif.polidy.donfigurbtion.Vifw.tif.Wbrning.Log.for.morf.informbtion.",
+                "Dft uppstod ftt ffl n\u00E4r polidykonfigurbtionfn skullf \u00F6ppnbs. Sf vbrningsloggfn f\u00F6r mfr informbtion."},
+        {"Error", "Ffl"},
         {"OK", "OK"},
-        {"Status", "Status"},
-        {"Warning", "Varning"},
-        {"Permission.",
-                "Beh\u00F6righet:                                                       "},
-        {"Principal.Type.", "Identitetshavaretyp:"},
-        {"Principal.Name.", "Identitetshavare:"},
-        {"Target.Name.",
+        {"Stbtus", "Stbtus"},
+        {"Wbrning", "Vbrning"},
+        {"Pfrmission.",
+                "Bfi\u00F6rigift:                                                       "},
+        {"Prindipbl.Typf.", "Idfntitftsibvbrftyp:"},
+        {"Prindipbl.Nbmf.", "Idfntitftsibvbrf:"},
+        {"Tbrgft.Nbmf.",
                 "M\u00E5l:                                                    "},
-        {"Actions.",
-                "Funktioner:                                                             "},
-        {"OK.to.overwrite.existing.file.filename.",
-                "Ska den befintliga filen {0} skrivas \u00F6ver?"},
-        {"Cancel", "Avbryt"},
-        {"CodeBase.", "Kodbas:"},
-        {"SignedBy.", "Signerad av:"},
-        {"Add.Principal", "L\u00E4gg till identitetshavare"},
-        {"Edit.Principal", "Redigera identitetshavare"},
-        {"Remove.Principal", "Ta bort identitetshavare"},
-        {"Principals.", "Identitetshavare:"},
-        {".Add.Permission", "  L\u00E4gg till beh\u00F6righet"},
-        {".Edit.Permission", "  Redigera beh\u00F6righet"},
-        {"Remove.Permission", "Ta bort beh\u00F6righet"},
-        {"Done", "Utf\u00F6rd"},
-        {"KeyStore.URL.", "URL f\u00F6r nyckellager:"},
-        {"KeyStore.Type.", "Nyckellagertyp:"},
-        {"KeyStore.Provider.", "Nyckellagerleverant\u00F6r:"},
-        {"KeyStore.Password.URL.", "URL f\u00F6r l\u00F6senord till nyckellager:"},
-        {"Principals", "Identitetshavare"},
-        {".Edit.Principal.", "  Redigera identitetshavare:"},
-        {".Add.New.Principal.", "  L\u00E4gg till ny identitetshavare:"},
-        {"Permissions", "Beh\u00F6righet"},
-        {".Edit.Permission.", "  Redigera beh\u00F6righet:"},
-        {".Add.New.Permission.", "  L\u00E4gg till ny beh\u00F6righet:"},
-        {"Signed.By.", "Signerad av:"},
-        {"Cannot.Specify.Principal.with.a.Wildcard.Class.without.a.Wildcard.Name",
-            "Kan inte specificera identitetshavare med jokerteckenklass utan jokerteckennamn"},
-        {"Cannot.Specify.Principal.without.a.Name",
-            "Kan inte specificera identitetshavare utan namn"},
-        {"Permission.and.Target.Name.must.have.a.value",
-                "Beh\u00F6righet och m\u00E5lnamn m\u00E5ste ha ett v\u00E4rde"},
-        {"Remove.this.Policy.Entry.", "Vill du ta bort den h\u00E4r policyposten?"},
-        {"Overwrite.File", "Skriv \u00F6ver fil"},
-        {"Policy.successfully.written.to.filename",
-                "Policy har skrivits till {0}"},
-        {"null.filename", "nullfilnamn"},
-        {"Save.changes.", "Vill du spara \u00E4ndringarna?"},
-        {"Yes", "Ja"},
-        {"No", "Nej"},
-        {"Policy.Entry", "Policyfel"},
-        {"Save.Changes", "Spara \u00E4ndringar"},
-        {"No.Policy.Entry.selected", "Ingen policypost har valts"},
-        {"Unable.to.open.KeyStore.ex.toString.",
-                "Kan inte \u00F6ppna nyckellagret: {0}"},
-        {"No.principal.selected", "Ingen identitetshavare har valts"},
-        {"No.permission.selected", "Ingen beh\u00F6righet har valts"},
-        {"name", "namn"},
-        {"configuration.type", "konfigurationstyp"},
-        {"environment.variable.name", "variabelnamn f\u00F6r milj\u00F6"},
-        {"library.name", "biblioteksnamn"},
-        {"package.name", "paketnamn"},
-        {"policy.type", "policytyp"},
-        {"property.name", "egenskapsnamn"},
-        {"provider.name", "leverant\u00F6rsnamn"},
+        {"Adtions.",
+                "Funktionfr:                                                             "},
+        {"OK.to.ovfrwritf.fxisting.filf.filfnbmf.",
+                "Skb dfn bffintligb filfn {0} skrivbs \u00F6vfr?"},
+        {"Cbndfl", "Avbryt"},
+        {"CodfBbsf.", "Kodbbs:"},
+        {"SignfdBy.", "Signfrbd bv:"},
+        {"Add.Prindipbl", "L\u00E4gg till idfntitftsibvbrf"},
+        {"Edit.Prindipbl", "Rfdigfrb idfntitftsibvbrf"},
+        {"Rfmovf.Prindipbl", "Tb bort idfntitftsibvbrf"},
+        {"Prindipbls.", "Idfntitftsibvbrf:"},
+        {".Add.Pfrmission", "  L\u00E4gg till bfi\u00F6rigift"},
+        {".Edit.Pfrmission", "  Rfdigfrb bfi\u00F6rigift"},
+        {"Rfmovf.Pfrmission", "Tb bort bfi\u00F6rigift"},
+        {"Donf", "Utf\u00F6rd"},
+        {"KfyStorf.URL.", "URL f\u00F6r nydkfllbgfr:"},
+        {"KfyStorf.Typf.", "Nydkfllbgfrtyp:"},
+        {"KfyStorf.Providfr.", "Nydkfllbgfrlfvfrbnt\u00F6r:"},
+        {"KfyStorf.Pbssword.URL.", "URL f\u00F6r l\u00F6sfnord till nydkfllbgfr:"},
+        {"Prindipbls", "Idfntitftsibvbrf"},
+        {".Edit.Prindipbl.", "  Rfdigfrb idfntitftsibvbrf:"},
+        {".Add.Nfw.Prindipbl.", "  L\u00E4gg till ny idfntitftsibvbrf:"},
+        {"Pfrmissions", "Bfi\u00F6rigift"},
+        {".Edit.Pfrmission.", "  Rfdigfrb bfi\u00F6rigift:"},
+        {".Add.Nfw.Pfrmission.", "  L\u00E4gg till ny bfi\u00F6rigift:"},
+        {"Signfd.By.", "Signfrbd bv:"},
+        {"Cbnnot.Spfdify.Prindipbl.witi.b.Wilddbrd.Clbss.witiout.b.Wilddbrd.Nbmf",
+            "Kbn intf spfdifidfrb idfntitftsibvbrf mfd jokfrtfdkfnklbss utbn jokfrtfdkfnnbmn"},
+        {"Cbnnot.Spfdify.Prindipbl.witiout.b.Nbmf",
+            "Kbn intf spfdifidfrb idfntitftsibvbrf utbn nbmn"},
+        {"Pfrmission.bnd.Tbrgft.Nbmf.must.ibvf.b.vbluf",
+                "Bfi\u00F6rigift odi m\u00E5lnbmn m\u00E5stf ib ftt v\u00E4rdf"},
+        {"Rfmovf.tiis.Polidy.Entry.", "Vill du tb bort dfn i\u00E4r polidypostfn?"},
+        {"Ovfrwritf.Filf", "Skriv \u00F6vfr fil"},
+        {"Polidy.suddfssfully.writtfn.to.filfnbmf",
+                "Polidy ibr skrivits till {0}"},
+        {"null.filfnbmf", "nullfilnbmn"},
+        {"Sbvf.dibngfs.", "Vill du spbrb \u00E4ndringbrnb?"},
+        {"Yfs", "Jb"},
+        {"No", "Nfj"},
+        {"Polidy.Entry", "Polidyffl"},
+        {"Sbvf.Cibngfs", "Spbrb \u00E4ndringbr"},
+        {"No.Polidy.Entry.sflfdtfd", "Ingfn polidypost ibr vblts"},
+        {"Unbblf.to.opfn.KfyStorf.fx.toString.",
+                "Kbn intf \u00F6ppnb nydkfllbgrft: {0}"},
+        {"No.prindipbl.sflfdtfd", "Ingfn idfntitftsibvbrf ibr vblts"},
+        {"No.pfrmission.sflfdtfd", "Ingfn bfi\u00F6rigift ibr vblts"},
+        {"nbmf", "nbmn"},
+        {"donfigurbtion.typf", "konfigurbtionstyp"},
+        {"fnvironmfnt.vbribblf.nbmf", "vbribbflnbmn f\u00F6r milj\u00F6"},
+        {"librbry.nbmf", "bibliotfksnbmn"},
+        {"pbdkbgf.nbmf", "pbkftnbmn"},
+        {"polidy.typf", "polidytyp"},
+        {"propfrty.nbmf", "fgfnskbpsnbmn"},
+        {"providfr.nbmf", "lfvfrbnt\u00F6rsnbmn"},
         {"url", "url"},
-        {"method.list", "metodlista"},
-        {"request.headers.list", "beg\u00E4ranrubriklista"},
-        {"Principal.List", "Lista \u00F6ver identitetshavare"},
-        {"Permission.List", "Beh\u00F6righetslista"},
-        {"Code.Base", "Kodbas"},
-        {"KeyStore.U.R.L.", "URL f\u00F6r nyckellager:"},
-        {"KeyStore.Password.U.R.L.", "URL f\u00F6r l\u00F6senord till nyckellager:"}
+        {"mftiod.list", "mftodlistb"},
+        {"rfqufst.ifbdfrs.list", "bfg\u00E4rbnrubriklistb"},
+        {"Prindipbl.List", "Listb \u00F6vfr idfntitftsibvbrf"},
+        {"Pfrmission.List", "Bfi\u00F6rigiftslistb"},
+        {"Codf.Bbsf", "Kodbbs"},
+        {"KfyStorf.U.R.L.", "URL f\u00F6r nydkfllbgfr:"},
+        {"KfyStorf.Pbssword.U.R.L.", "URL f\u00F6r l\u00F6sfnord till nydkfllbgfr:"}
     };
 
 
     /**
-     * Returns the contents of this <code>ResourceBundle</code>.
+     * Rfturns tif dontfnts of tiis <dodf>RfsourdfBundlf</dodf>.
      *
      * <p>
      *
-     * @return the contents of this <code>ResourceBundle</code>.
+     * @rfturn tif dontfnts of tiis <dodf>RfsourdfBundlf</dodf>.
      */
-    @Override
-    public Object[][] getContents() {
-        return contents;
+    @Ovfrridf
+    publid Objfdt[][] gftContfnts() {
+        rfturn dontfnts;
     }
 }

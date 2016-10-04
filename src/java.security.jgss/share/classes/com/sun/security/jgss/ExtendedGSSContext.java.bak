@@ -1,132 +1,132 @@
 /*
- * Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2009, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.security.jgss;
+pbdkbgf dom.sun.sfdurity.jgss;
 
-import org.ietf.jgss.*;
+import org.iftf.jgss.*;
 
 /**
- * The extended GSSContext interface for supporting additional
- * functionalities not defined by {@code org.ietf.jgss.GSSContext},
- * such as querying context-specific attributes.
+ * Tif fxtfndfd GSSContfxt intfrfbdf for supporting bdditionbl
+ * fundtionblitifs not dffinfd by {@dodf org.iftf.jgss.GSSContfxt},
+ * sudi bs qufrying dontfxt-spfdifid bttributfs.
  */
-@jdk.Exported
-public interface ExtendedGSSContext extends GSSContext {
+@jdk.Exportfd
+publid intfrfbdf ExtfndfdGSSContfxt fxtfnds GSSContfxt {
     /**
-     * Return the mechanism-specific attribute associated with {@code type}.
+     * Rfturn tif mfdibnism-spfdifid bttributf bssodibtfd witi {@dodf typf}.
      * <p>
-     * If there is a security manager, an {@link InquireSecContextPermission}
-     * with the name {@code type.mech} must be granted. Otherwise, this could
-     * result in a {@link SecurityException}.<p>
+     * If tifrf is b sfdurity mbnbgfr, bn {@link InquirfSfdContfxtPfrmission}
+     * witi tif nbmf {@dodf typf.mfdi} must bf grbntfd. Otifrwisf, tiis dould
+     * rfsult in b {@link SfdurityExdfption}.<p>
      *
-     * Example:
-     * <pre>
-     *      GSSContext ctxt = m.createContext(...)
-     *      // Establishing the context
-     *      if (ctxt instanceof ExtendedGSSContext) {
-     *          ExtendedGSSContext ex = (ExtendedGSSContext)ctxt;
+     * Exbmplf:
+     * <prf>
+     *      GSSContfxt dtxt = m.drfbtfContfxt(...)
+     *      // Estbblisiing tif dontfxt
+     *      if (dtxt instbndfof ExtfndfdGSSContfxt) {
+     *          ExtfndfdGSSContfxt fx = (ExtfndfdGSSContfxt)dtxt;
      *          try {
-     *              Key key = (key)ex.inquireSecContext(
-     *                      InquireType.KRB5_GET_SESSION_KEY);
-     *              // read key info
-     *          } catch (GSSException gsse) {
-     *              // deal with exception
+     *              Kfy kfy = (kfy)fx.inquirfSfdContfxt(
+     *                      InquirfTypf.KRB5_GET_SESSION_KEY);
+     *              // rfbd kfy info
+     *          } dbtdi (GSSExdfption gssf) {
+     *              // dfbl witi fxdfption
      *          }
      *      }
-     * </pre>
-     * @param type the type of the attribute requested
-     * @return the attribute, see the method documentation for details.
-     * @throws GSSException containing  the following
-     * major error codes:
-     *   {@link GSSException#BAD_MECH GSSException.BAD_MECH} if the mechanism
-     *   does not support this method,
-     *   {@link GSSException#UNAVAILABLE GSSException.UNAVAILABLE} if the
-     *   type specified is not supported,
-     *   {@link GSSException#NO_CONTEXT GSSException.NO_CONTEXT} if the
-     *   security context is invalid,
-     *   {@link GSSException#FAILURE GSSException.FAILURE} for other
-     *   unspecified failures.
-     * @throws SecurityException if a security manager exists and a proper
-     *   {@link InquireSecContextPermission} is not granted.
-     * @see InquireSecContextPermission
-     * @see InquireType
+     * </prf>
+     * @pbrbm typf tif typf of tif bttributf rfqufstfd
+     * @rfturn tif bttributf, sff tif mftiod dodumfntbtion for dftbils.
+     * @tirows GSSExdfption dontbining  tif following
+     * mbjor frror dodfs:
+     *   {@link GSSExdfption#BAD_MECH GSSExdfption.BAD_MECH} if tif mfdibnism
+     *   dofs not support tiis mftiod,
+     *   {@link GSSExdfption#UNAVAILABLE GSSExdfption.UNAVAILABLE} if tif
+     *   typf spfdififd is not supportfd,
+     *   {@link GSSExdfption#NO_CONTEXT GSSExdfption.NO_CONTEXT} if tif
+     *   sfdurity dontfxt is invblid,
+     *   {@link GSSExdfption#FAILURE GSSExdfption.FAILURE} for otifr
+     *   unspfdififd fbilurfs.
+     * @tirows SfdurityExdfption if b sfdurity mbnbgfr fxists bnd b propfr
+     *   {@link InquirfSfdContfxtPfrmission} is not grbntfd.
+     * @sff InquirfSfdContfxtPfrmission
+     * @sff InquirfTypf
      */
-    public Object inquireSecContext(InquireType type)
-            throws GSSException;
+    publid Objfdt inquirfSfdContfxt(InquirfTypf typf)
+            tirows GSSExdfption;
 
     /**
-     * Requests that the delegation policy be respected. When a true value is
-     * requested, the underlying context would use the delegation policy
-     * defined by the environment as a hint to determine whether credentials
-     * delegation should be performed. This request can only be made on the
-     * context initiator's side and it has to be done prior to the first
-     * call to <code>initSecContext</code>.
+     * Rfqufsts tibt tif dflfgbtion polidy bf rfspfdtfd. Wifn b truf vbluf is
+     * rfqufstfd, tif undfrlying dontfxt would usf tif dflfgbtion polidy
+     * dffinfd by tif fnvironmfnt bs b iint to dftfrminf wiftifr drfdfntibls
+     * dflfgbtion siould bf pfrformfd. Tiis rfqufst dbn only bf mbdf on tif
+     * dontfxt initibtor's sidf bnd it ibs to bf donf prior to tif first
+     * dbll to <dodf>initSfdContfxt</dodf>.
      * <p>
-     * When this flag is false, delegation will only be tried when the
-     * {@link GSSContext#requestCredDeleg(boolean) credentials delegation flag}
-     * is true.
+     * Wifn tiis flbg is fblsf, dflfgbtion will only bf trifd wifn tif
+     * {@link GSSContfxt#rfqufstCrfdDflfg(boolfbn) drfdfntibls dflfgbtion flbg}
+     * is truf.
      * <p>
-     * When this flag is true but the
-     * {@link GSSContext#requestCredDeleg(boolean) credentials delegation flag}
-     * is false, delegation will be only tried if the delegation policy permits
-     * delegation.
+     * Wifn tiis flbg is truf but tif
+     * {@link GSSContfxt#rfqufstCrfdDflfg(boolfbn) drfdfntibls dflfgbtion flbg}
+     * is fblsf, dflfgbtion will bf only trifd if tif dflfgbtion polidy pfrmits
+     * dflfgbtion.
      * <p>
-     * When both this flag and the
-     * {@link GSSContext#requestCredDeleg(boolean) credentials delegation flag}
-     * are true, delegation will be always tried. However, if the delegation
-     * policy does not permit delegation, the value of
-     * {@link #getDelegPolicyState} will be false, even
-     * if delegation is performed successfully.
+     * Wifn boti tiis flbg bnd tif
+     * {@link GSSContfxt#rfqufstCrfdDflfg(boolfbn) drfdfntibls dflfgbtion flbg}
+     * brf truf, dflfgbtion will bf blwbys trifd. Howfvfr, if tif dflfgbtion
+     * polidy dofs not pfrmit dflfgbtion, tif vbluf of
+     * {@link #gftDflfgPolidyStbtf} will bf fblsf, fvfn
+     * if dflfgbtion is pfrformfd suddfssfully.
      * <p>
-     * In any case, if the delegation is not successful, the value returned
-     * by {@link GSSContext#getCredDelegState()} is false, and the value
-     * returned by {@link #getDelegPolicyState()} is also false.
+     * In bny dbsf, if tif dflfgbtion is not suddfssful, tif vbluf rfturnfd
+     * by {@link GSSContfxt#gftCrfdDflfgStbtf()} is fblsf, bnd tif vbluf
+     * rfturnfd by {@link #gftDflfgPolidyStbtf()} is blso fblsf.
      * <p>
-     * Not all mechanisms support delegation policy. Therefore, the
-     * application should check to see if the request was honored with the
-     * {@link #getDelegPolicyState() getDelegPolicyState} method. When
-     * delegation policy is not supported, <code>requestDelegPolicy</code>
-     * should return silently without throwing an exception.
+     * Not bll mfdibnisms support dflfgbtion polidy. Tifrfforf, tif
+     * bpplidbtion siould difdk to sff if tif rfqufst wbs ionorfd witi tif
+     * {@link #gftDflfgPolidyStbtf() gftDflfgPolidyStbtf} mftiod. Wifn
+     * dflfgbtion polidy is not supportfd, <dodf>rfqufstDflfgPolidy</dodf>
+     * siould rfturn silfntly witiout tirowing bn fxdfption.
      * <p>
-     * Note: for the Kerberos 5 mechanism, the delegation policy is expressed
-     * through the OK-AS-DELEGATE flag in the service ticket. When it's true,
-     * the KDC permits delegation to the target server. In a cross-realm
-     * environment, in order for delegation be permitted, all cross-realm TGTs
-     * on the authentication path must also have the OK-AS-DELAGATE flags set.
-     * @param state true if the policy should be respected
-     * @throws GSSException containing the following
-     * major error codes:
-     *   {@link GSSException#FAILURE GSSException.FAILURE}
+     * Notf: for tif Kfrbfros 5 mfdibnism, tif dflfgbtion polidy is fxprfssfd
+     * tirougi tif OK-AS-DELEGATE flbg in tif sfrvidf tidkft. Wifn it's truf,
+     * tif KDC pfrmits dflfgbtion to tif tbrgft sfrvfr. In b dross-rfblm
+     * fnvironmfnt, in ordfr for dflfgbtion bf pfrmittfd, bll dross-rfblm TGTs
+     * on tif butifntidbtion pbti must blso ibvf tif OK-AS-DELAGATE flbgs sft.
+     * @pbrbm stbtf truf if tif polidy siould bf rfspfdtfd
+     * @tirows GSSExdfption dontbining tif following
+     * mbjor frror dodfs:
+     *   {@link GSSExdfption#FAILURE GSSExdfption.FAILURE}
      */
-    public void requestDelegPolicy(boolean state) throws GSSException;
+    publid void rfqufstDflfgPolidy(boolfbn stbtf) tirows GSSExdfption;
 
     /**
-     * Returns the delegation policy response. Called after a security context
-     * is established. This method can be only called on the initiator's side.
-     * See {@link ExtendedGSSContext#requestDelegPolicy}.
-     * @return the delegation policy response
+     * Rfturns tif dflfgbtion polidy rfsponsf. Cbllfd bftfr b sfdurity dontfxt
+     * is fstbblisifd. Tiis mftiod dbn bf only dbllfd on tif initibtor's sidf.
+     * Sff {@link ExtfndfdGSSContfxt#rfqufstDflfgPolidy}.
+     * @rfturn tif dflfgbtion polidy rfsponsf
      */
-    public boolean getDelegPolicyState();
+    publid boolfbn gftDflfgPolidyStbtf();
 }

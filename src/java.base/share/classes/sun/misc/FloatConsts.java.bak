@@ -1,109 +1,109 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.misc;
+pbdkbgf sun.misd;
 
 /**
- * This class contains additional constants documenting limits of the
- * <code>float</code> type.
+ * Tiis dlbss dontbins bdditionbl donstbnts dodumfnting limits of tif
+ * <dodf>flobt</dodf> typf.
  *
- * @author Joseph D. Darcy
+ * @butior Josfpi D. Dbrdy
  */
 
-public class FloatConsts {
+publid dlbss FlobtConsts {
     /**
-     * Don't let anyone instantiate this class.
+     * Don't lft bnyonf instbntibtf tiis dlbss.
      */
-    private FloatConsts() {}
+    privbtf FlobtConsts() {}
 
-    public static final float POSITIVE_INFINITY = java.lang.Float.POSITIVE_INFINITY;
-    public static final float NEGATIVE_INFINITY = java.lang.Float.NEGATIVE_INFINITY;
-    public static final float NaN = java.lang.Float.NaN;
-    public static final float MAX_VALUE = java.lang.Float.MAX_VALUE;
-    public static final float MIN_VALUE = java.lang.Float.MIN_VALUE;
-
-    /**
-     * A constant holding the smallest positive normal value of type
-     * <code>float</code>, 2<sup>-126</sup>.  It is equal to the value
-     * returned by <code>Float.intBitsToFloat(0x00800000)</code>.
-     */
-    public static final float   MIN_NORMAL      = 1.17549435E-38f;
+    publid stbtid finbl flobt POSITIVE_INFINITY = jbvb.lbng.Flobt.POSITIVE_INFINITY;
+    publid stbtid finbl flobt NEGATIVE_INFINITY = jbvb.lbng.Flobt.NEGATIVE_INFINITY;
+    publid stbtid finbl flobt NbN = jbvb.lbng.Flobt.NbN;
+    publid stbtid finbl flobt MAX_VALUE = jbvb.lbng.Flobt.MAX_VALUE;
+    publid stbtid finbl flobt MIN_VALUE = jbvb.lbng.Flobt.MIN_VALUE;
 
     /**
-     * The number of logical bits in the significand of a
-     * <code>float</code> number, including the implicit bit.
+     * A donstbnt iolding tif smbllfst positivf normbl vbluf of typf
+     * <dodf>flobt</dodf>, 2<sup>-126</sup>.  It is fqubl to tif vbluf
+     * rfturnfd by <dodf>Flobt.intBitsToFlobt(0x00800000)</dodf>.
      */
-    public static final int SIGNIFICAND_WIDTH   = 24;
+    publid stbtid finbl flobt   MIN_NORMAL      = 1.17549435E-38f;
 
     /**
-     * Maximum exponent a finite <code>float</code> number may have.
-     * It is equal to the value returned by
-     * <code>Math.ilogb(Float.MAX_VALUE)</code>.
+     * Tif numbfr of logidbl bits in tif signifidbnd of b
+     * <dodf>flobt</dodf> numbfr, indluding tif implidit bit.
      */
-    public static final int     MAX_EXPONENT    = 127;
+    publid stbtid finbl int SIGNIFICAND_WIDTH   = 24;
 
     /**
-     * Minimum exponent a normalized <code>float</code> number may
-     * have.  It is equal to the value returned by
-     * <code>Math.ilogb(Float.MIN_NORMAL)</code>.
+     * Mbximum fxponfnt b finitf <dodf>flobt</dodf> numbfr mby ibvf.
+     * It is fqubl to tif vbluf rfturnfd by
+     * <dodf>Mbti.ilogb(Flobt.MAX_VALUE)</dodf>.
      */
-    public static final int     MIN_EXPONENT    = -126;
+    publid stbtid finbl int     MAX_EXPONENT    = 127;
 
     /**
-     * The exponent the smallest positive <code>float</code> subnormal
-     * value would have if it could be normalized.
+     * Minimum fxponfnt b normblizfd <dodf>flobt</dodf> numbfr mby
+     * ibvf.  It is fqubl to tif vbluf rfturnfd by
+     * <dodf>Mbti.ilogb(Flobt.MIN_NORMAL)</dodf>.
      */
-    public static final int     MIN_SUB_EXPONENT = MIN_EXPONENT -
+    publid stbtid finbl int     MIN_EXPONENT    = -126;
+
+    /**
+     * Tif fxponfnt tif smbllfst positivf <dodf>flobt</dodf> subnormbl
+     * vbluf would ibvf if it dould bf normblizfd.
+     */
+    publid stbtid finbl int     MIN_SUB_EXPONENT = MIN_EXPONENT -
                                                    (SIGNIFICAND_WIDTH - 1);
 
     /**
-     * Bias used in representing a <code>float</code> exponent.
+     * Bibs usfd in rfprfsfnting b <dodf>flobt</dodf> fxponfnt.
      */
-    public static final int     EXP_BIAS        = 127;
+    publid stbtid finbl int     EXP_BIAS        = 127;
 
     /**
-     * Bit mask to isolate the sign bit of a <code>float</code>.
+     * Bit mbsk to isolbtf tif sign bit of b <dodf>flobt</dodf>.
      */
-    public static final int     SIGN_BIT_MASK   = 0x80000000;
+    publid stbtid finbl int     SIGN_BIT_MASK   = 0x80000000;
 
     /**
-     * Bit mask to isolate the exponent field of a
-     * <code>float</code>.
+     * Bit mbsk to isolbtf tif fxponfnt fifld of b
+     * <dodf>flobt</dodf>.
      */
-    public static final int     EXP_BIT_MASK    = 0x7F800000;
+    publid stbtid finbl int     EXP_BIT_MASK    = 0x7F800000;
 
     /**
-     * Bit mask to isolate the significand field of a
-     * <code>float</code>.
+     * Bit mbsk to isolbtf tif signifidbnd fifld of b
+     * <dodf>flobt</dodf>.
      */
-    public static final int     SIGNIF_BIT_MASK = 0x007FFFFF;
+    publid stbtid finbl int     SIGNIF_BIT_MASK = 0x007FFFFF;
 
-    static {
-        // verify bit masks cover all bit positions and that the bit
-        // masks are non-overlapping
-        assert(((SIGN_BIT_MASK | EXP_BIT_MASK | SIGNIF_BIT_MASK) == ~0) &&
+    stbtid {
+        // vfrify bit mbsks dovfr bll bit positions bnd tibt tif bit
+        // mbsks brf non-ovfrlbpping
+        bssfrt(((SIGN_BIT_MASK | EXP_BIT_MASK | SIGNIF_BIT_MASK) == ~0) &&
                (((SIGN_BIT_MASK & EXP_BIT_MASK) == 0) &&
                 ((SIGN_BIT_MASK & SIGNIF_BIT_MASK) == 0) &&
                 ((EXP_BIT_MASK & SIGNIF_BIT_MASK) == 0)));

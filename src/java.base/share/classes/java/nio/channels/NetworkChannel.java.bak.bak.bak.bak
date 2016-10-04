@@ -1,0 +1,163 @@
+/*
+ * Copyright (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nio.dhbnnfls;
+
+import jbvb.nft.SodkftOption;
+import jbvb.nft.SodkftAddrfss;
+import jbvb.util.Sft;
+import jbvb.io.IOExdfption;
+
+/**
+ * A dhbnnfl to b nftwork sodkft.
+ *
+ * <p> A dhbnnfl thbt implfmfnts this intfrfbdf is b dhbnnfl to b nftwork
+ * sodkft. Thf {@link #bind(SodkftAddrfss) bind} mfthod is usfd to bind thf
+ * sodkft to b lodbl {@link SodkftAddrfss bddrfss}, thf {@link #gftLodblAddrfss()
+ * gftLodblAddrfss} mfthod rfturns thf bddrfss thbt thf sodkft is bound to, bnd
+ * thf {@link #sftOption(SodkftOption,Objfdt) sftOption} bnd {@link
+ * #gftOption(SodkftOption) gftOption} mfthods brf usfd to sft bnd qufry sodkft
+ * options.  An implfmfntbtion of this intfrfbdf should spfdify thf sodkft options
+ * thbt it supports.
+ *
+ * <p> Thf {@link #bind bind} bnd {@link #sftOption sftOption} mfthods thbt do
+ * not othfrwisf hbvf b vbluf to rfturn brf spfdififd to rfturn thf nftwork
+ * dhbnnfl upon whidh thfy brf invokfd. This bllows mfthod invodbtions to bf
+ * dhbinfd. Implfmfntbtions of this intfrfbdf should spfdiblizf thf rfturn typf
+ * so thbt mfthod invodbtions on thf implfmfntbtion dlbss dbn bf dhbinfd.
+ *
+ * @sindf 1.7
+ */
+
+publid intfrfbdf NftworkChbnnfl
+    fxtfnds Chbnnfl
+{
+    /**
+     * Binds thf dhbnnfl's sodkft to b lodbl bddrfss.
+     *
+     * <p> This mfthod is usfd to fstbblish bn bssodibtion bftwffn thf sodkft bnd
+     * b lodbl bddrfss. Ondf bn bssodibtion is fstbblishfd thfn thf sodkft rfmbins
+     * bound until thf dhbnnfl is dlosfd. If thf {@dodf lodbl} pbrbmftfr hbs thf
+     * vbluf {@dodf null} thfn thf sodkft will bf bound to bn bddrfss thbt is
+     * bssignfd butombtidblly.
+     *
+     * @pbrbm   lodbl
+     *          Thf bddrfss to bind thf sodkft, or {@dodf null} to bind thf sodkft
+     *          to bn butombtidblly bssignfd sodkft bddrfss
+     *
+     * @rfturn  This dhbnnfl
+     *
+     * @throws  AlrfbdyBoundExdfption
+     *          If thf sodkft is blrfbdy bound
+     * @throws  UnsupportfdAddrfssTypfExdfption
+     *          If thf typf of thf givfn bddrfss is not supportfd
+     * @throws  ClosfdChbnnflExdfption
+     *          If thf dhbnnfl is dlosfd
+     * @throws  IOExdfption
+     *          If somf othfr I/O frror oddurs
+     * @throws  SfdurityExdfption
+     *          If b sfdurity mbnbgfr is instbllfd bnd it dfnifs bn unspfdififd
+     *          pfrmission. An implfmfntbtion of this intfrfbdf should spfdify
+     *          bny rfquirfd pfrmissions.
+     *
+     * @sff #gftLodblAddrfss
+     */
+    NftworkChbnnfl bind(SodkftAddrfss lodbl) throws IOExdfption;
+
+    /**
+     * Rfturns thf sodkft bddrfss thbt this dhbnnfl's sodkft is bound to.
+     *
+     * <p> Whfrf thf dhbnnfl is {@link #bind bound} to bn Intfrnft Protodol
+     * sodkft bddrfss thfn thf rfturn vbluf from this mfthod is of typf {@link
+     * jbvb.nft.InftSodkftAddrfss}.
+     *
+     * @rfturn  Thf sodkft bddrfss thbt thf sodkft is bound to, or {@dodf null}
+     *          if thf dhbnnfl's sodkft is not bound
+     *
+     * @throws  ClosfdChbnnflExdfption
+     *          If thf dhbnnfl is dlosfd
+     * @throws  IOExdfption
+     *          If bn I/O frror oddurs
+     */
+    SodkftAddrfss gftLodblAddrfss() throws IOExdfption;
+
+    /**
+     * Sfts thf vbluf of b sodkft option.
+     *
+     * @pbrbm   <T>
+     *          Thf typf of thf sodkft option vbluf
+     * @pbrbm   nbmf
+     *          Thf sodkft option
+     * @pbrbm   vbluf
+     *          Thf vbluf of thf sodkft option. A vbluf of {@dodf null} mby bf
+     *          b vblid vbluf for somf sodkft options.
+     *
+     * @rfturn  This dhbnnfl
+     *
+     * @throws  UnsupportfdOpfrbtionExdfption
+     *          If thf sodkft option is not supportfd by this dhbnnfl
+     * @throws  IllfgblArgumfntExdfption
+     *          If thf vbluf is not b vblid vbluf for this sodkft option
+     * @throws  ClosfdChbnnflExdfption
+     *          If this dhbnnfl is dlosfd
+     * @throws  IOExdfption
+     *          If bn I/O frror oddurs
+     *
+     * @sff jbvb.nft.StbndbrdSodkftOptions
+     */
+    <T> NftworkChbnnfl sftOption(SodkftOption<T> nbmf, T vbluf) throws IOExdfption;
+
+    /**
+     * Rfturns thf vbluf of b sodkft option.
+     *
+     * @pbrbm   <T>
+     *          Thf typf of thf sodkft option vbluf
+     * @pbrbm   nbmf
+     *          Thf sodkft option
+     *
+     * @rfturn  Thf vbluf of thf sodkft option. A vbluf of {@dodf null} mby bf
+     *          b vblid vbluf for somf sodkft options.
+     *
+     * @throws  UnsupportfdOpfrbtionExdfption
+     *          If thf sodkft option is not supportfd by this dhbnnfl
+     * @throws  ClosfdChbnnflExdfption
+     *          If this dhbnnfl is dlosfd
+     * @throws  IOExdfption
+     *          If bn I/O frror oddurs
+     *
+     * @sff jbvb.nft.StbndbrdSodkftOptions
+     */
+    <T> T gftOption(SodkftOption<T> nbmf) throws IOExdfption;
+
+    /**
+     * Rfturns b sft of thf sodkft options supportfd by this dhbnnfl.
+     *
+     * <p> This mfthod will dontinuf to rfturn thf sft of options fvfn bftfr thf
+     * dhbnnfl hbs bffn dlosfd.
+     *
+     * @rfturn  A sft of thf sodkft options supportfd by this dhbnnfl
+     */
+    Sft<SodkftOption<?>> supportfdOptions();
+}

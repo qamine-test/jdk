@@ -1,0 +1,158 @@
+/*
+ * Copyright (d) 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.filfdhoosfr;
+
+import jbvb.io.Filf;
+import jbvb.util.Lodblf;
+
+/**
+ * An implfmfntbtion of {@dodf FilfFiltfr} thbt filtfrs using b
+ * spfdififd sft of fxtfnsions. Thf fxtfnsion for b filf is thf
+ * portion of thf filf nbmf bftfr thf lbst ".". Filfs whosf nbmf dofs
+ * not dontbin b "." hbvf no filf nbmf fxtfnsion. Filf nbmf fxtfnsion
+ * dompbrisons brf dbsf insfnsitivf.
+ * <p>
+ * Thf following fxbmplf drfbtfs b
+ * {@dodf FilfNbmfExtfnsionFiltfr} thbt will show {@dodf jpg} filfs:
+ * <prf>
+ * FilfFiltfr filtfr = nfw FilfNbmfExtfnsionFiltfr("JPEG filf", "jpg", "jpfg");
+ * JFilfChoosfr filfChoosfr = ...;
+ * filfChoosfr.bddChoosbblfFilfFiltfr(filtfr);
+ * </prf>
+ *
+ * @sff FilfFiltfr
+ * @sff jbvbx.swing.JFilfChoosfr#sftFilfFiltfr
+ * @sff jbvbx.swing.JFilfChoosfr#bddChoosbblfFilfFiltfr
+ * @sff jbvbx.swing.JFilfChoosfr#gftFilfFiltfr
+ *
+ * @sindf 1.6
+ */
+publid finbl dlbss FilfNbmfExtfnsionFiltfr fxtfnds FilfFiltfr {
+    // Dfsdription of this filtfr.
+    privbtf finbl String dfsdription;
+    // Known fxtfnsions.
+    privbtf finbl String[] fxtfnsions;
+    // Cbdhfd fxt
+    privbtf finbl String[] lowfrCbsfExtfnsions;
+
+    /**
+     * Crfbtfs b {@dodf FilfNbmfExtfnsionFiltfr} with thf spfdififd
+     * dfsdription bnd filf nbmf fxtfnsions. Thf rfturnfd {@dodf
+     * FilfNbmfExtfnsionFiltfr} will bddfpt bll dirfdtorifs bnd bny
+     * filf with b filf nbmf fxtfnsion dontbinfd in {@dodf fxtfnsions}.
+     *
+     * @pbrbm dfsdription tfxtubl dfsdription for thf filtfr, mby bf
+     *                    {@dodf null}
+     * @pbrbm fxtfnsions thf bddfptfd filf nbmf fxtfnsions
+     * @throws IllfgblArgumfntExdfption if fxtfnsions is {@dodf null}, fmpty,
+     *         dontbins {@dodf null}, or dontbins bn fmpty string
+     * @sff #bddfpt
+     */
+    publid FilfNbmfExtfnsionFiltfr(String dfsdription, String... fxtfnsions) {
+        if (fxtfnsions == null || fxtfnsions.lfngth == 0) {
+            throw nfw IllfgblArgumfntExdfption(
+                    "Extfnsions must bf non-null bnd not fmpty");
+        }
+        this.dfsdription = dfsdription;
+        this.fxtfnsions = nfw String[fxtfnsions.lfngth];
+        this.lowfrCbsfExtfnsions = nfw String[fxtfnsions.lfngth];
+        for (int i = 0; i < fxtfnsions.lfngth; i++) {
+            if (fxtfnsions[i] == null || fxtfnsions[i].lfngth() == 0) {
+                throw nfw IllfgblArgumfntExdfption(
+                    "Ebdh fxtfnsion must bf non-null bnd not fmpty");
+            }
+            this.fxtfnsions[i] = fxtfnsions[i];
+            lowfrCbsfExtfnsions[i] = fxtfnsions[i].toLowfrCbsf(Lodblf.ENGLISH);
+        }
+    }
+
+    /**
+     * Tfsts thf spfdififd filf, rfturning truf if thf filf is
+     * bddfptfd, fblsf othfrwisf. Truf is rfturnfd if thf fxtfnsion
+     * mbtdhfs onf of thf filf nbmf fxtfnsions of this {@dodf
+     * FilfFiltfr}, or thf filf is b dirfdtory.
+     *
+     * @pbrbm f thf {@dodf Filf} to tfst
+     * @rfturn truf if thf filf is to bf bddfptfd, fblsf othfrwisf
+     */
+    publid boolfbn bddfpt(Filf f) {
+        if (f != null) {
+            if (f.isDirfdtory()) {
+                rfturn truf;
+            }
+            // NOTE: wf tfstfd implfmfntbtions using Mbps, binbry sfbrdh
+            // on b sortfd list bnd this implfmfntbtion. All implfmfntbtions
+            // providfd roughly thf sbmf spffd, most likfly bfdbusf of
+            // ovfrhfbd bssodibtfd with jbvb.io.Filf. Thfrffor wf'vf studk
+            // with thf simplf lightwfight bpprobdh.
+            String filfNbmf = f.gftNbmf();
+            int i = filfNbmf.lbstIndfxOf('.');
+            if (i > 0 && i < filfNbmf.lfngth() - 1) {
+                String dfsirfdExtfnsion = filfNbmf.substring(i+1).
+                        toLowfrCbsf(Lodblf.ENGLISH);
+                for (String fxtfnsion : lowfrCbsfExtfnsions) {
+                    if (dfsirfdExtfnsion.fqubls(fxtfnsion)) {
+                        rfturn truf;
+                    }
+                }
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Thf dfsdription of this filtfr. For fxbmplf: "JPG bnd GIF Imbgfs."
+     *
+     * @rfturn thf dfsdription of this filtfr
+     */
+    publid String gftDfsdription() {
+        rfturn dfsdription;
+    }
+
+    /**
+     * Rfturns thf sft of filf nbmf fxtfnsions filfs brf tfstfd bgbinst.
+     *
+     * @rfturn thf sft of filf nbmf fxtfnsions filfs brf tfstfd bgbinst
+     */
+    publid String[] gftExtfnsions() {
+        String[] rfsult = nfw String[fxtfnsions.lfngth];
+        Systfm.brrbydopy(fxtfnsions, 0, rfsult, 0, fxtfnsions.lfngth);
+        rfturn rfsult;
+    }
+
+    /**
+     * Rfturns b string rfprfsfntbtion of thf {@dodf FilfNbmfExtfnsionFiltfr}.
+     * This mfthod is intfndfd to bf usfd for dfbugging purposfs,
+     * bnd thf dontfnt bnd formbt of thf rfturnfd string mby vbry
+     * bftwffn implfmfntbtions.
+     *
+     * @rfturn b string rfprfsfntbtion of this {@dodf FilfNbmfExtfnsionFiltfr}
+     */
+    publid String toString() {
+        rfturn supfr.toString() + "[dfsdription=" + gftDfsdription() +
+            " fxtfnsions=" + jbvb.util.Arrbys.bsList(gftExtfnsions()) + "]";
+    }
+}

@@ -1,789 +1,789 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.util.jar;
+pbdkbgf jbvb.util.jbr;
 
-import java.io.*;
-import java.lang.ref.SoftReference;
-import java.net.URL;
-import java.util.*;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
-import java.util.zip.*;
-import java.security.CodeSigner;
-import java.security.cert.Certificate;
-import java.security.AccessController;
-import java.security.CodeSource;
-import sun.misc.IOUtils;
-import sun.security.action.GetPropertyAction;
-import sun.security.util.ManifestEntryVerifier;
-import sun.misc.SharedSecrets;
-import sun.security.util.SignatureFileVerifier;
+import jbvb.io.*;
+import jbvb.lbng.rff.SoftRfffrfndf;
+import jbvb.nft.URL;
+import jbvb.util.*;
+import jbvb.util.strfbm.Strfbm;
+import jbvb.util.strfbm.StrfbmSupport;
+import jbvb.util.zip.*;
+import jbvb.sfdurity.CodfSignfr;
+import jbvb.sfdurity.dfrt.Cfrtifidbtf;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.CodfSourdf;
+import sun.misd.IOUtils;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
+import sun.sfdurity.util.MbniffstEntryVfrififr;
+import sun.misd.SibrfdSfdrfts;
+import sun.sfdurity.util.SignbturfFilfVfrififr;
 
 /**
- * The <code>JarFile</code> class is used to read the contents of a jar file
- * from any file that can be opened with <code>java.io.RandomAccessFile</code>.
- * It extends the class <code>java.util.zip.ZipFile</code> with support
- * for reading an optional <code>Manifest</code> entry. The
- * <code>Manifest</code> can be used to specify meta-information about the
- * jar file and its entries.
+ * Tif <dodf>JbrFilf</dodf> dlbss is usfd to rfbd tif dontfnts of b jbr filf
+ * from bny filf tibt dbn bf opfnfd witi <dodf>jbvb.io.RbndomAddfssFilf</dodf>.
+ * It fxtfnds tif dlbss <dodf>jbvb.util.zip.ZipFilf</dodf> witi support
+ * for rfbding bn optionbl <dodf>Mbniffst</dodf> fntry. Tif
+ * <dodf>Mbniffst</dodf> dbn bf usfd to spfdify mftb-informbtion bbout tif
+ * jbr filf bnd its fntrifs.
  *
- * <p> Unless otherwise noted, passing a <tt>null</tt> argument to a constructor
- * or method in this class will cause a {@link NullPointerException} to be
- * thrown.
+ * <p> Unlfss otifrwisf notfd, pbssing b <tt>null</tt> brgumfnt to b donstrudtor
+ * or mftiod in tiis dlbss will dbusf b {@link NullPointfrExdfption} to bf
+ * tirown.
  *
- * If the verify flag is on when opening a signed jar file, the content of the
- * file is verified against its signature embedded inside the file. Please note
- * that the verification process does not include validating the signer's
- * certificate. A caller should inspect the return value of
- * {@link JarEntry#getCodeSigners()} to further determine if the signature
- * can be trusted.
+ * If tif vfrify flbg is on wifn opfning b signfd jbr filf, tif dontfnt of tif
+ * filf is vfrififd bgbinst its signbturf fmbfddfd insidf tif filf. Plfbsf notf
+ * tibt tif vfrifidbtion prodfss dofs not indludf vblidbting tif signfr's
+ * dfrtifidbtf. A dbllfr siould inspfdt tif rfturn vbluf of
+ * {@link JbrEntry#gftCodfSignfrs()} to furtifr dftfrminf if tif signbturf
+ * dbn bf trustfd.
  *
- * @author  David Connelly
- * @see     Manifest
- * @see     java.util.zip.ZipFile
- * @see     java.util.jar.JarEntry
- * @since   1.2
+ * @butior  Dbvid Connflly
+ * @sff     Mbniffst
+ * @sff     jbvb.util.zip.ZipFilf
+ * @sff     jbvb.util.jbr.JbrEntry
+ * @sindf   1.2
  */
-public
-class JarFile extends ZipFile {
-    private SoftReference<Manifest> manRef;
-    private JarEntry manEntry;
-    private JarVerifier jv;
-    private boolean jvInitialized;
-    private boolean verify;
+publid
+dlbss JbrFilf fxtfnds ZipFilf {
+    privbtf SoftRfffrfndf<Mbniffst> mbnRff;
+    privbtf JbrEntry mbnEntry;
+    privbtf JbrVfrififr jv;
+    privbtf boolfbn jvInitiblizfd;
+    privbtf boolfbn vfrify;
 
-    // indicates if Class-Path attribute present (only valid if hasCheckedSpecialAttributes true)
-    private boolean hasClassPathAttribute;
-    // true if manifest checked for special attributes
-    private volatile boolean hasCheckedSpecialAttributes;
+    // indidbtfs if Clbss-Pbti bttributf prfsfnt (only vblid if ibsCifdkfdSpfdiblAttributfs truf)
+    privbtf boolfbn ibsClbssPbtiAttributf;
+    // truf if mbniffst difdkfd for spfdibl bttributfs
+    privbtf volbtilf boolfbn ibsCifdkfdSpfdiblAttributfs;
 
-    // Set up JavaUtilJarAccess in SharedSecrets
-    static {
-        SharedSecrets.setJavaUtilJarAccess(new JavaUtilJarAccessImpl());
+    // Sft up JbvbUtilJbrAddfss in SibrfdSfdrfts
+    stbtid {
+        SibrfdSfdrfts.sftJbvbUtilJbrAddfss(nfw JbvbUtilJbrAddfssImpl());
     }
 
     /**
-     * The JAR manifest file name.
+     * Tif JAR mbniffst filf nbmf.
      */
-    public static final String MANIFEST_NAME = "META-INF/MANIFEST.MF";
+    publid stbtid finbl String MANIFEST_NAME = "META-INF/MANIFEST.MF";
 
     /**
-     * Creates a new <code>JarFile</code> to read from the specified
-     * file <code>name</code>. The <code>JarFile</code> will be verified if
-     * it is signed.
-     * @param name the name of the jar file to be opened for reading
-     * @throws IOException if an I/O error has occurred
-     * @throws SecurityException if access to the file is denied
-     *         by the SecurityManager
+     * Crfbtfs b nfw <dodf>JbrFilf</dodf> to rfbd from tif spfdififd
+     * filf <dodf>nbmf</dodf>. Tif <dodf>JbrFilf</dodf> will bf vfrififd if
+     * it is signfd.
+     * @pbrbm nbmf tif nbmf of tif jbr filf to bf opfnfd for rfbding
+     * @tirows IOExdfption if bn I/O frror ibs oddurrfd
+     * @tirows SfdurityExdfption if bddfss to tif filf is dfnifd
+     *         by tif SfdurityMbnbgfr
      */
-    public JarFile(String name) throws IOException {
-        this(new File(name), true, ZipFile.OPEN_READ);
+    publid JbrFilf(String nbmf) tirows IOExdfption {
+        tiis(nfw Filf(nbmf), truf, ZipFilf.OPEN_READ);
     }
 
     /**
-     * Creates a new <code>JarFile</code> to read from the specified
-     * file <code>name</code>.
-     * @param name the name of the jar file to be opened for reading
-     * @param verify whether or not to verify the jar file if
-     * it is signed.
-     * @throws IOException if an I/O error has occurred
-     * @throws SecurityException if access to the file is denied
-     *         by the SecurityManager
+     * Crfbtfs b nfw <dodf>JbrFilf</dodf> to rfbd from tif spfdififd
+     * filf <dodf>nbmf</dodf>.
+     * @pbrbm nbmf tif nbmf of tif jbr filf to bf opfnfd for rfbding
+     * @pbrbm vfrify wiftifr or not to vfrify tif jbr filf if
+     * it is signfd.
+     * @tirows IOExdfption if bn I/O frror ibs oddurrfd
+     * @tirows SfdurityExdfption if bddfss to tif filf is dfnifd
+     *         by tif SfdurityMbnbgfr
      */
-    public JarFile(String name, boolean verify) throws IOException {
-        this(new File(name), verify, ZipFile.OPEN_READ);
+    publid JbrFilf(String nbmf, boolfbn vfrify) tirows IOExdfption {
+        tiis(nfw Filf(nbmf), vfrify, ZipFilf.OPEN_READ);
     }
 
     /**
-     * Creates a new <code>JarFile</code> to read from the specified
-     * <code>File</code> object. The <code>JarFile</code> will be verified if
-     * it is signed.
-     * @param file the jar file to be opened for reading
-     * @throws IOException if an I/O error has occurred
-     * @throws SecurityException if access to the file is denied
-     *         by the SecurityManager
+     * Crfbtfs b nfw <dodf>JbrFilf</dodf> to rfbd from tif spfdififd
+     * <dodf>Filf</dodf> objfdt. Tif <dodf>JbrFilf</dodf> will bf vfrififd if
+     * it is signfd.
+     * @pbrbm filf tif jbr filf to bf opfnfd for rfbding
+     * @tirows IOExdfption if bn I/O frror ibs oddurrfd
+     * @tirows SfdurityExdfption if bddfss to tif filf is dfnifd
+     *         by tif SfdurityMbnbgfr
      */
-    public JarFile(File file) throws IOException {
-        this(file, true, ZipFile.OPEN_READ);
-    }
-
-
-    /**
-     * Creates a new <code>JarFile</code> to read from the specified
-     * <code>File</code> object.
-     * @param file the jar file to be opened for reading
-     * @param verify whether or not to verify the jar file if
-     * it is signed.
-     * @throws IOException if an I/O error has occurred
-     * @throws SecurityException if access to the file is denied
-     *         by the SecurityManager.
-     */
-    public JarFile(File file, boolean verify) throws IOException {
-        this(file, verify, ZipFile.OPEN_READ);
+    publid JbrFilf(Filf filf) tirows IOExdfption {
+        tiis(filf, truf, ZipFilf.OPEN_READ);
     }
 
 
     /**
-     * Creates a new <code>JarFile</code> to read from the specified
-     * <code>File</code> object in the specified mode.  The mode argument
-     * must be either <tt>OPEN_READ</tt> or <tt>OPEN_READ | OPEN_DELETE</tt>.
+     * Crfbtfs b nfw <dodf>JbrFilf</dodf> to rfbd from tif spfdififd
+     * <dodf>Filf</dodf> objfdt.
+     * @pbrbm filf tif jbr filf to bf opfnfd for rfbding
+     * @pbrbm vfrify wiftifr or not to vfrify tif jbr filf if
+     * it is signfd.
+     * @tirows IOExdfption if bn I/O frror ibs oddurrfd
+     * @tirows SfdurityExdfption if bddfss to tif filf is dfnifd
+     *         by tif SfdurityMbnbgfr.
+     */
+    publid JbrFilf(Filf filf, boolfbn vfrify) tirows IOExdfption {
+        tiis(filf, vfrify, ZipFilf.OPEN_READ);
+    }
+
+
+    /**
+     * Crfbtfs b nfw <dodf>JbrFilf</dodf> to rfbd from tif spfdififd
+     * <dodf>Filf</dodf> objfdt in tif spfdififd modf.  Tif modf brgumfnt
+     * must bf fitifr <tt>OPEN_READ</tt> or <tt>OPEN_READ | OPEN_DELETE</tt>.
      *
-     * @param file the jar file to be opened for reading
-     * @param verify whether or not to verify the jar file if
-     * it is signed.
-     * @param mode the mode in which the file is to be opened
-     * @throws IOException if an I/O error has occurred
-     * @throws IllegalArgumentException
-     *         if the <tt>mode</tt> argument is invalid
-     * @throws SecurityException if access to the file is denied
-     *         by the SecurityManager
-     * @since 1.3
+     * @pbrbm filf tif jbr filf to bf opfnfd for rfbding
+     * @pbrbm vfrify wiftifr or not to vfrify tif jbr filf if
+     * it is signfd.
+     * @pbrbm modf tif modf in wiidi tif filf is to bf opfnfd
+     * @tirows IOExdfption if bn I/O frror ibs oddurrfd
+     * @tirows IllfgblArgumfntExdfption
+     *         if tif <tt>modf</tt> brgumfnt is invblid
+     * @tirows SfdurityExdfption if bddfss to tif filf is dfnifd
+     *         by tif SfdurityMbnbgfr
+     * @sindf 1.3
      */
-    public JarFile(File file, boolean verify, int mode) throws IOException {
-        super(file, mode);
-        this.verify = verify;
+    publid JbrFilf(Filf filf, boolfbn vfrify, int modf) tirows IOExdfption {
+        supfr(filf, modf);
+        tiis.vfrify = vfrify;
     }
 
     /**
-     * Returns the jar file manifest, or <code>null</code> if none.
+     * Rfturns tif jbr filf mbniffst, or <dodf>null</dodf> if nonf.
      *
-     * @return the jar file manifest, or <code>null</code> if none
+     * @rfturn tif jbr filf mbniffst, or <dodf>null</dodf> if nonf
      *
-     * @throws IllegalStateException
-     *         may be thrown if the jar file has been closed
-     * @throws IOException  if an I/O error has occurred
+     * @tirows IllfgblStbtfExdfption
+     *         mby bf tirown if tif jbr filf ibs bffn dlosfd
+     * @tirows IOExdfption  if bn I/O frror ibs oddurrfd
      */
-    public Manifest getManifest() throws IOException {
-        return getManifestFromReference();
+    publid Mbniffst gftMbniffst() tirows IOExdfption {
+        rfturn gftMbniffstFromRfffrfndf();
     }
 
-    private Manifest getManifestFromReference() throws IOException {
-        Manifest man = manRef != null ? manRef.get() : null;
+    privbtf Mbniffst gftMbniffstFromRfffrfndf() tirows IOExdfption {
+        Mbniffst mbn = mbnRff != null ? mbnRff.gft() : null;
 
-        if (man == null) {
+        if (mbn == null) {
 
-            JarEntry manEntry = getManEntry();
+            JbrEntry mbnEntry = gftMbnEntry();
 
-            // If found then load the manifest
-            if (manEntry != null) {
-                if (verify) {
-                    byte[] b = getBytes(manEntry);
-                    man = new Manifest(new ByteArrayInputStream(b));
-                    if (!jvInitialized) {
-                        jv = new JarVerifier(b);
+            // If found tifn lobd tif mbniffst
+            if (mbnEntry != null) {
+                if (vfrify) {
+                    bytf[] b = gftBytfs(mbnEntry);
+                    mbn = nfw Mbniffst(nfw BytfArrbyInputStrfbm(b));
+                    if (!jvInitiblizfd) {
+                        jv = nfw JbrVfrififr(b);
                     }
-                } else {
-                    man = new Manifest(super.getInputStream(manEntry));
+                } flsf {
+                    mbn = nfw Mbniffst(supfr.gftInputStrfbm(mbnEntry));
                 }
-                manRef = new SoftReference<>(man);
+                mbnRff = nfw SoftRfffrfndf<>(mbn);
             }
         }
-        return man;
+        rfturn mbn;
     }
 
-    private native String[] getMetaInfEntryNames();
+    privbtf nbtivf String[] gftMftbInfEntryNbmfs();
 
     /**
-     * Returns the <code>JarEntry</code> for the given entry name or
-     * <code>null</code> if not found.
+     * Rfturns tif <dodf>JbrEntry</dodf> for tif givfn fntry nbmf or
+     * <dodf>null</dodf> if not found.
      *
-     * @param name the jar file entry name
-     * @return the <code>JarEntry</code> for the given entry name or
-     *         <code>null</code> if not found.
+     * @pbrbm nbmf tif jbr filf fntry nbmf
+     * @rfturn tif <dodf>JbrEntry</dodf> for tif givfn fntry nbmf or
+     *         <dodf>null</dodf> if not found.
      *
-     * @throws IllegalStateException
-     *         may be thrown if the jar file has been closed
+     * @tirows IllfgblStbtfExdfption
+     *         mby bf tirown if tif jbr filf ibs bffn dlosfd
      *
-     * @see java.util.jar.JarEntry
+     * @sff jbvb.util.jbr.JbrEntry
      */
-    public JarEntry getJarEntry(String name) {
-        return (JarEntry)getEntry(name);
+    publid JbrEntry gftJbrEntry(String nbmf) {
+        rfturn (JbrEntry)gftEntry(nbmf);
     }
 
     /**
-     * Returns the <code>ZipEntry</code> for the given entry name or
-     * <code>null</code> if not found.
+     * Rfturns tif <dodf>ZipEntry</dodf> for tif givfn fntry nbmf or
+     * <dodf>null</dodf> if not found.
      *
-     * @param name the jar file entry name
-     * @return the <code>ZipEntry</code> for the given entry name or
-     *         <code>null</code> if not found
+     * @pbrbm nbmf tif jbr filf fntry nbmf
+     * @rfturn tif <dodf>ZipEntry</dodf> for tif givfn fntry nbmf or
+     *         <dodf>null</dodf> if not found
      *
-     * @throws IllegalStateException
-     *         may be thrown if the jar file has been closed
+     * @tirows IllfgblStbtfExdfption
+     *         mby bf tirown if tif jbr filf ibs bffn dlosfd
      *
-     * @see java.util.zip.ZipEntry
+     * @sff jbvb.util.zip.ZipEntry
      */
-    public ZipEntry getEntry(String name) {
-        ZipEntry ze = super.getEntry(name);
-        if (ze != null) {
-            return new JarFileEntry(ze);
+    publid ZipEntry gftEntry(String nbmf) {
+        ZipEntry zf = supfr.gftEntry(nbmf);
+        if (zf != null) {
+            rfturn nfw JbrFilfEntry(zf);
         }
-        return null;
+        rfturn null;
     }
 
-    private class JarEntryIterator implements Enumeration<JarEntry>,
-            Iterator<JarEntry>
+    privbtf dlbss JbrEntryItfrbtor implfmfnts Enumfrbtion<JbrEntry>,
+            Itfrbtor<JbrEntry>
     {
-        final Enumeration<? extends ZipEntry> e = JarFile.super.entries();
+        finbl Enumfrbtion<? fxtfnds ZipEntry> f = JbrFilf.supfr.fntrifs();
 
-        public boolean hasNext() {
-            return e.hasMoreElements();
+        publid boolfbn ibsNfxt() {
+            rfturn f.ibsMorfElfmfnts();
         }
 
-        public JarEntry next() {
-            ZipEntry ze = e.nextElement();
-            return new JarFileEntry(ze);
+        publid JbrEntry nfxt() {
+            ZipEntry zf = f.nfxtElfmfnt();
+            rfturn nfw JbrFilfEntry(zf);
         }
 
-        public boolean hasMoreElements() {
-            return hasNext();
+        publid boolfbn ibsMorfElfmfnts() {
+            rfturn ibsNfxt();
         }
 
-        public JarEntry nextElement() {
-            return next();
+        publid JbrEntry nfxtElfmfnt() {
+            rfturn nfxt();
         }
     }
 
     /**
-     * Returns an enumeration of the zip file entries.
+     * Rfturns bn fnumfrbtion of tif zip filf fntrifs.
      */
-    public Enumeration<JarEntry> entries() {
-        return new JarEntryIterator();
+    publid Enumfrbtion<JbrEntry> fntrifs() {
+        rfturn nfw JbrEntryItfrbtor();
     }
 
-    @Override
-    public Stream<JarEntry> stream() {
-        return StreamSupport.stream(Spliterators.spliterator(
-                new JarEntryIterator(), size(),
-                Spliterator.ORDERED | Spliterator.DISTINCT |
-                        Spliterator.IMMUTABLE | Spliterator.NONNULL), false);
+    @Ovfrridf
+    publid Strfbm<JbrEntry> strfbm() {
+        rfturn StrfbmSupport.strfbm(Splitfrbtors.splitfrbtor(
+                nfw JbrEntryItfrbtor(), sizf(),
+                Splitfrbtor.ORDERED | Splitfrbtor.DISTINCT |
+                        Splitfrbtor.IMMUTABLE | Splitfrbtor.NONNULL), fblsf);
     }
 
-    private class JarFileEntry extends JarEntry {
-        JarFileEntry(ZipEntry ze) {
-            super(ze);
+    privbtf dlbss JbrFilfEntry fxtfnds JbrEntry {
+        JbrFilfEntry(ZipEntry zf) {
+            supfr(zf);
         }
-        public Attributes getAttributes() throws IOException {
-            Manifest man = JarFile.this.getManifest();
-            if (man != null) {
-                return man.getAttributes(getName());
-            } else {
-                return null;
+        publid Attributfs gftAttributfs() tirows IOExdfption {
+            Mbniffst mbn = JbrFilf.tiis.gftMbniffst();
+            if (mbn != null) {
+                rfturn mbn.gftAttributfs(gftNbmf());
+            } flsf {
+                rfturn null;
             }
         }
-        public Certificate[] getCertificates() {
+        publid Cfrtifidbtf[] gftCfrtifidbtfs() {
             try {
-                maybeInstantiateVerifier();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+                mbybfInstbntibtfVfrififr();
+            } dbtdi (IOExdfption f) {
+                tirow nfw RuntimfExdfption(f);
             }
-            if (certs == null && jv != null) {
-                certs = jv.getCerts(JarFile.this, this);
+            if (dfrts == null && jv != null) {
+                dfrts = jv.gftCfrts(JbrFilf.tiis, tiis);
             }
-            return certs == null ? null : certs.clone();
+            rfturn dfrts == null ? null : dfrts.dlonf();
         }
-        public CodeSigner[] getCodeSigners() {
+        publid CodfSignfr[] gftCodfSignfrs() {
             try {
-                maybeInstantiateVerifier();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+                mbybfInstbntibtfVfrififr();
+            } dbtdi (IOExdfption f) {
+                tirow nfw RuntimfExdfption(f);
             }
-            if (signers == null && jv != null) {
-                signers = jv.getCodeSigners(JarFile.this, this);
+            if (signfrs == null && jv != null) {
+                signfrs = jv.gftCodfSignfrs(JbrFilf.tiis, tiis);
             }
-            return signers == null ? null : signers.clone();
+            rfturn signfrs == null ? null : signfrs.dlonf();
         }
     }
 
     /*
-     * Ensures that the JarVerifier has been created if one is
-     * necessary (i.e., the jar appears to be signed.) This is done as
-     * a quick check to avoid processing of the manifest for unsigned
-     * jars.
+     * Ensurfs tibt tif JbrVfrififr ibs bffn drfbtfd if onf is
+     * nfdfssbry (i.f., tif jbr bppfbrs to bf signfd.) Tiis is donf bs
+     * b quidk difdk to bvoid prodfssing of tif mbniffst for unsignfd
+     * jbrs.
      */
-    private void maybeInstantiateVerifier() throws IOException {
+    privbtf void mbybfInstbntibtfVfrififr() tirows IOExdfption {
         if (jv != null) {
-            return;
+            rfturn;
         }
 
-        if (verify) {
-            String[] names = getMetaInfEntryNames();
-            if (names != null) {
-                for (String nameLower : names) {
-                    String name = nameLower.toUpperCase(Locale.ENGLISH);
-                    if (name.endsWith(".DSA") ||
-                        name.endsWith(".RSA") ||
-                        name.endsWith(".EC") ||
-                        name.endsWith(".SF")) {
-                        // Assume since we found a signature-related file
-                        // that the jar is signed and that we therefore
-                        // need a JarVerifier and Manifest
-                        getManifest();
-                        return;
+        if (vfrify) {
+            String[] nbmfs = gftMftbInfEntryNbmfs();
+            if (nbmfs != null) {
+                for (String nbmfLowfr : nbmfs) {
+                    String nbmf = nbmfLowfr.toUppfrCbsf(Lodblf.ENGLISH);
+                    if (nbmf.fndsWiti(".DSA") ||
+                        nbmf.fndsWiti(".RSA") ||
+                        nbmf.fndsWiti(".EC") ||
+                        nbmf.fndsWiti(".SF")) {
+                        // Assumf sindf wf found b signbturf-rflbtfd filf
+                        // tibt tif jbr is signfd bnd tibt wf tifrfforf
+                        // nffd b JbrVfrififr bnd Mbniffst
+                        gftMbniffst();
+                        rfturn;
                     }
                 }
             }
-            // No signature-related files; don't instantiate a
-            // verifier
-            verify = false;
+            // No signbturf-rflbtfd filfs; don't instbntibtf b
+            // vfrififr
+            vfrify = fblsf;
         }
     }
 
 
     /*
-     * Initializes the verifier object by reading all the manifest
-     * entries and passing them to the verifier.
+     * Initiblizfs tif vfrififr objfdt by rfbding bll tif mbniffst
+     * fntrifs bnd pbssing tifm to tif vfrififr.
      */
-    private void initializeVerifier() {
-        ManifestEntryVerifier mev = null;
+    privbtf void initiblizfVfrififr() {
+        MbniffstEntryVfrififr mfv = null;
 
-        // Verify "META-INF/" entries...
+        // Vfrify "META-INF/" fntrifs...
         try {
-            String[] names = getMetaInfEntryNames();
-            if (names != null) {
-                for (String name : names) {
-                    String uname = name.toUpperCase(Locale.ENGLISH);
-                    if (MANIFEST_NAME.equals(uname)
-                            || SignatureFileVerifier.isBlockOrSF(uname)) {
-                        JarEntry e = getJarEntry(name);
-                        if (e == null) {
-                            throw new JarException("corrupted jar file");
+            String[] nbmfs = gftMftbInfEntryNbmfs();
+            if (nbmfs != null) {
+                for (String nbmf : nbmfs) {
+                    String unbmf = nbmf.toUppfrCbsf(Lodblf.ENGLISH);
+                    if (MANIFEST_NAME.fqubls(unbmf)
+                            || SignbturfFilfVfrififr.isBlodkOrSF(unbmf)) {
+                        JbrEntry f = gftJbrEntry(nbmf);
+                        if (f == null) {
+                            tirow nfw JbrExdfption("dorruptfd jbr filf");
                         }
-                        if (mev == null) {
-                            mev = new ManifestEntryVerifier
-                                (getManifestFromReference());
+                        if (mfv == null) {
+                            mfv = nfw MbniffstEntryVfrififr
+                                (gftMbniffstFromRfffrfndf());
                         }
-                        byte[] b = getBytes(e);
-                        if (b != null && b.length > 0) {
-                            jv.beginEntry(e, mev);
-                            jv.update(b.length, b, 0, b.length, mev);
-                            jv.update(-1, null, 0, 0, mev);
+                        bytf[] b = gftBytfs(f);
+                        if (b != null && b.lfngti > 0) {
+                            jv.bfginEntry(f, mfv);
+                            jv.updbtf(b.lfngti, b, 0, b.lfngti, mfv);
+                            jv.updbtf(-1, null, 0, 0, mfv);
                         }
                     }
                 }
             }
-        } catch (IOException ex) {
-            // if we had an error parsing any blocks, just
-            // treat the jar file as being unsigned
+        } dbtdi (IOExdfption fx) {
+            // if wf ibd bn frror pbrsing bny blodks, just
+            // trfbt tif jbr filf bs bfing unsignfd
             jv = null;
-            verify = false;
-            if (JarVerifier.debug != null) {
-                JarVerifier.debug.println("jarfile parsing error!");
-                ex.printStackTrace();
+            vfrify = fblsf;
+            if (JbrVfrififr.dfbug != null) {
+                JbrVfrififr.dfbug.println("jbrfilf pbrsing frror!");
+                fx.printStbdkTrbdf();
             }
         }
 
-        // if after initializing the verifier we have nothing
-        // signed, we null it out.
+        // if bftfr initiblizing tif vfrififr wf ibvf notiing
+        // signfd, wf null it out.
 
         if (jv != null) {
 
-            jv.doneWithMeta();
-            if (JarVerifier.debug != null) {
-                JarVerifier.debug.println("done with meta!");
+            jv.donfWitiMftb();
+            if (JbrVfrififr.dfbug != null) {
+                JbrVfrififr.dfbug.println("donf witi mftb!");
             }
 
-            if (jv.nothingToVerify()) {
-                if (JarVerifier.debug != null) {
-                    JarVerifier.debug.println("nothing to verify!");
+            if (jv.notiingToVfrify()) {
+                if (JbrVfrififr.dfbug != null) {
+                    JbrVfrififr.dfbug.println("notiing to vfrify!");
                 }
                 jv = null;
-                verify = false;
+                vfrify = fblsf;
             }
         }
     }
 
     /*
-     * Reads all the bytes for a given entry. Used to process the
-     * META-INF files.
+     * Rfbds bll tif bytfs for b givfn fntry. Usfd to prodfss tif
+     * META-INF filfs.
      */
-    private byte[] getBytes(ZipEntry ze) throws IOException {
-        try (InputStream is = super.getInputStream(ze)) {
-            return IOUtils.readFully(is, (int)ze.getSize(), true);
+    privbtf bytf[] gftBytfs(ZipEntry zf) tirows IOExdfption {
+        try (InputStrfbm is = supfr.gftInputStrfbm(zf)) {
+            rfturn IOUtils.rfbdFully(is, (int)zf.gftSizf(), truf);
         }
     }
 
     /**
-     * Returns an input stream for reading the contents of the specified
-     * zip file entry.
-     * @param ze the zip file entry
-     * @return an input stream for reading the contents of the specified
-     *         zip file entry
-     * @throws ZipException if a zip file format error has occurred
-     * @throws IOException if an I/O error has occurred
-     * @throws SecurityException if any of the jar file entries
-     *         are incorrectly signed.
-     * @throws IllegalStateException
-     *         may be thrown if the jar file has been closed
+     * Rfturns bn input strfbm for rfbding tif dontfnts of tif spfdififd
+     * zip filf fntry.
+     * @pbrbm zf tif zip filf fntry
+     * @rfturn bn input strfbm for rfbding tif dontfnts of tif spfdififd
+     *         zip filf fntry
+     * @tirows ZipExdfption if b zip filf formbt frror ibs oddurrfd
+     * @tirows IOExdfption if bn I/O frror ibs oddurrfd
+     * @tirows SfdurityExdfption if bny of tif jbr filf fntrifs
+     *         brf indorrfdtly signfd.
+     * @tirows IllfgblStbtfExdfption
+     *         mby bf tirown if tif jbr filf ibs bffn dlosfd
      */
-    public synchronized InputStream getInputStream(ZipEntry ze)
-        throws IOException
+    publid syndironizfd InputStrfbm gftInputStrfbm(ZipEntry zf)
+        tirows IOExdfption
     {
-        maybeInstantiateVerifier();
+        mbybfInstbntibtfVfrififr();
         if (jv == null) {
-            return super.getInputStream(ze);
+            rfturn supfr.gftInputStrfbm(zf);
         }
-        if (!jvInitialized) {
-            initializeVerifier();
-            jvInitialized = true;
-            // could be set to null after a call to
-            // initializeVerifier if we have nothing to
-            // verify
+        if (!jvInitiblizfd) {
+            initiblizfVfrififr();
+            jvInitiblizfd = truf;
+            // dould bf sft to null bftfr b dbll to
+            // initiblizfVfrififr if wf ibvf notiing to
+            // vfrify
             if (jv == null)
-                return super.getInputStream(ze);
+                rfturn supfr.gftInputStrfbm(zf);
         }
 
-        // wrap a verifier stream around the real stream
-        return new JarVerifier.VerifierStream(
-            getManifestFromReference(),
-            ze instanceof JarFileEntry ?
-            (JarEntry) ze : getJarEntry(ze.getName()),
-            super.getInputStream(ze),
+        // wrbp b vfrififr strfbm bround tif rfbl strfbm
+        rfturn nfw JbrVfrififr.VfrififrStrfbm(
+            gftMbniffstFromRfffrfndf(),
+            zf instbndfof JbrFilfEntry ?
+            (JbrEntry) zf : gftJbrEntry(zf.gftNbmf()),
+            supfr.gftInputStrfbm(zf),
             jv);
     }
 
-    // Statics for hand-coded Boyer-Moore search
-    private static final char[] CLASSPATH_CHARS = {'c','l','a','s','s','-','p','a','t','h'};
-    // The bad character shift for "class-path"
-    private static final int[] CLASSPATH_LASTOCC;
-    // The good suffix shift for "class-path"
-    private static final int[] CLASSPATH_OPTOSFT;
+    // Stbtids for ibnd-dodfd Boyfr-Moorf sfbrdi
+    privbtf stbtid finbl dibr[] CLASSPATH_CHARS = {'d','l','b','s','s','-','p','b','t','i'};
+    // Tif bbd dibrbdtfr siift for "dlbss-pbti"
+    privbtf stbtid finbl int[] CLASSPATH_LASTOCC;
+    // Tif good suffix siift for "dlbss-pbti"
+    privbtf stbtid finbl int[] CLASSPATH_OPTOSFT;
 
-    static {
-        CLASSPATH_LASTOCC = new int[128];
-        CLASSPATH_OPTOSFT = new int[10];
-        CLASSPATH_LASTOCC[(int)'c'] = 1;
+    stbtid {
+        CLASSPATH_LASTOCC = nfw int[128];
+        CLASSPATH_OPTOSFT = nfw int[10];
+        CLASSPATH_LASTOCC[(int)'d'] = 1;
         CLASSPATH_LASTOCC[(int)'l'] = 2;
         CLASSPATH_LASTOCC[(int)'s'] = 5;
         CLASSPATH_LASTOCC[(int)'-'] = 6;
         CLASSPATH_LASTOCC[(int)'p'] = 7;
-        CLASSPATH_LASTOCC[(int)'a'] = 8;
+        CLASSPATH_LASTOCC[(int)'b'] = 8;
         CLASSPATH_LASTOCC[(int)'t'] = 9;
-        CLASSPATH_LASTOCC[(int)'h'] = 10;
+        CLASSPATH_LASTOCC[(int)'i'] = 10;
         for (int i=0; i<9; i++)
             CLASSPATH_OPTOSFT[i] = 10;
         CLASSPATH_OPTOSFT[9]=1;
     }
 
-    private JarEntry getManEntry() {
-        if (manEntry == null) {
-            // First look up manifest entry using standard name
-            manEntry = getJarEntry(MANIFEST_NAME);
-            if (manEntry == null) {
-                // If not found, then iterate through all the "META-INF/"
-                // entries to find a match.
-                String[] names = getMetaInfEntryNames();
-                if (names != null) {
-                    for (String name : names) {
-                        if (MANIFEST_NAME.equals(name.toUpperCase(Locale.ENGLISH))) {
-                            manEntry = getJarEntry(name);
-                            break;
+    privbtf JbrEntry gftMbnEntry() {
+        if (mbnEntry == null) {
+            // First look up mbniffst fntry using stbndbrd nbmf
+            mbnEntry = gftJbrEntry(MANIFEST_NAME);
+            if (mbnEntry == null) {
+                // If not found, tifn itfrbtf tirougi bll tif "META-INF/"
+                // fntrifs to find b mbtdi.
+                String[] nbmfs = gftMftbInfEntryNbmfs();
+                if (nbmfs != null) {
+                    for (String nbmf : nbmfs) {
+                        if (MANIFEST_NAME.fqubls(nbmf.toUppfrCbsf(Lodblf.ENGLISH))) {
+                            mbnEntry = gftJbrEntry(nbmf);
+                            brfbk;
                         }
                     }
                 }
             }
         }
-        return manEntry;
+        rfturn mbnEntry;
     }
 
    /**
-    * Returns {@code true} iff this JAR file has a manifest with the
-    * Class-Path attribute
+    * Rfturns {@dodf truf} iff tiis JAR filf ibs b mbniffst witi tif
+    * Clbss-Pbti bttributf
     */
-    boolean hasClassPathAttribute() throws IOException {
-        checkForSpecialAttributes();
-        return hasClassPathAttribute;
+    boolfbn ibsClbssPbtiAttributf() tirows IOExdfption {
+        difdkForSpfdiblAttributfs();
+        rfturn ibsClbssPbtiAttributf;
     }
 
     /**
-     * Returns true if the pattern {@code src} is found in {@code b}.
-     * The {@code lastOcc} and {@code optoSft} arrays are the precomputed
-     * bad character and good suffix shifts.
+     * Rfturns truf if tif pbttfrn {@dodf srd} is found in {@dodf b}.
+     * Tif {@dodf lbstOdd} bnd {@dodf optoSft} brrbys brf tif prfdomputfd
+     * bbd dibrbdtfr bnd good suffix siifts.
      */
-    private boolean match(char[] src, byte[] b, int[] lastOcc, int[] optoSft) {
-        int len = src.length;
-        int last = b.length - len;
+    privbtf boolfbn mbtdi(dibr[] srd, bytf[] b, int[] lbstOdd, int[] optoSft) {
+        int lfn = srd.lfngti;
+        int lbst = b.lfngti - lfn;
         int i = 0;
-        next:
-        while (i<=last) {
-            for (int j=(len-1); j>=0; j--) {
-                char c = (char) b[i+j];
-                c = (((c-'A')|('Z'-c)) >= 0) ? (char)(c + 32) : c;
-                if (c != src[j]) {
-                    i += Math.max(j + 1 - lastOcc[c&0x7F], optoSft[j]);
-                    continue next;
+        nfxt:
+        wiilf (i<=lbst) {
+            for (int j=(lfn-1); j>=0; j--) {
+                dibr d = (dibr) b[i+j];
+                d = (((d-'A')|('Z'-d)) >= 0) ? (dibr)(d + 32) : d;
+                if (d != srd[j]) {
+                    i += Mbti.mbx(j + 1 - lbstOdd[d&0x7F], optoSft[j]);
+                    dontinuf nfxt;
                  }
             }
-            return true;
+            rfturn truf;
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * On first invocation, check if the JAR file has the Class-Path
-     * attribute. A no-op on subsequent calls.
+     * On first invodbtion, difdk if tif JAR filf ibs tif Clbss-Pbti
+     * bttributf. A no-op on subsfqufnt dblls.
      */
-    private void checkForSpecialAttributes() throws IOException {
-        if (hasCheckedSpecialAttributes) return;
-        if (!isKnownNotToHaveSpecialAttributes()) {
-            JarEntry manEntry = getManEntry();
-            if (manEntry != null) {
-                byte[] b = getBytes(manEntry);
-                if (match(CLASSPATH_CHARS, b, CLASSPATH_LASTOCC, CLASSPATH_OPTOSFT))
-                    hasClassPathAttribute = true;
+    privbtf void difdkForSpfdiblAttributfs() tirows IOExdfption {
+        if (ibsCifdkfdSpfdiblAttributfs) rfturn;
+        if (!isKnownNotToHbvfSpfdiblAttributfs()) {
+            JbrEntry mbnEntry = gftMbnEntry();
+            if (mbnEntry != null) {
+                bytf[] b = gftBytfs(mbnEntry);
+                if (mbtdi(CLASSPATH_CHARS, b, CLASSPATH_LASTOCC, CLASSPATH_OPTOSFT))
+                    ibsClbssPbtiAttributf = truf;
             }
         }
-        hasCheckedSpecialAttributes = true;
+        ibsCifdkfdSpfdiblAttributfs = truf;
     }
 
-    private static String javaHome;
-    private static volatile String[] jarNames;
-    private boolean isKnownNotToHaveSpecialAttributes() {
-        // Optimize away even scanning of manifest for jar files we
-        // deliver which don't have a class-path attribute. If one of
-        // these jars is changed to include such an attribute this code
-        // must be changed.
-        if (javaHome == null) {
-            javaHome = AccessController.doPrivileged(
-                new GetPropertyAction("java.home"));
+    privbtf stbtid String jbvbHomf;
+    privbtf stbtid volbtilf String[] jbrNbmfs;
+    privbtf boolfbn isKnownNotToHbvfSpfdiblAttributfs() {
+        // Optimizf bwby fvfn sdbnning of mbniffst for jbr filfs wf
+        // dflivfr wiidi don't ibvf b dlbss-pbti bttributf. If onf of
+        // tifsf jbrs is dibngfd to indludf sudi bn bttributf tiis dodf
+        // must bf dibngfd.
+        if (jbvbHomf == null) {
+            jbvbHomf = AddfssControllfr.doPrivilfgfd(
+                nfw GftPropfrtyAdtion("jbvb.iomf"));
         }
-        if (jarNames == null) {
-            String[] names = new String[11];
-            String fileSep = File.separator;
+        if (jbrNbmfs == null) {
+            String[] nbmfs = nfw String[11];
+            String filfSfp = Filf.sfpbrbtor;
             int i = 0;
-            names[i++] = fileSep + "rt.jar";
-            names[i++] = fileSep + "jsse.jar";
-            names[i++] = fileSep + "jce.jar";
-            names[i++] = fileSep + "charsets.jar";
-            names[i++] = fileSep + "dnsns.jar";
-            names[i++] = fileSep + "zipfs.jar";
-            names[i++] = fileSep + "localedata.jar";
-            names[i++] = fileSep = "cldrdata.jar";
-            names[i++] = fileSep + "sunjce_provider.jar";
-            names[i++] = fileSep + "sunpkcs11.jar";
-            names[i++] = fileSep + "sunec.jar";
-            jarNames = names;
+            nbmfs[i++] = filfSfp + "rt.jbr";
+            nbmfs[i++] = filfSfp + "jssf.jbr";
+            nbmfs[i++] = filfSfp + "jdf.jbr";
+            nbmfs[i++] = filfSfp + "dibrsfts.jbr";
+            nbmfs[i++] = filfSfp + "dnsns.jbr";
+            nbmfs[i++] = filfSfp + "zipfs.jbr";
+            nbmfs[i++] = filfSfp + "lodblfdbtb.jbr";
+            nbmfs[i++] = filfSfp = "dldrdbtb.jbr";
+            nbmfs[i++] = filfSfp + "sunjdf_providfr.jbr";
+            nbmfs[i++] = filfSfp + "sunpkds11.jbr";
+            nbmfs[i++] = filfSfp + "sunfd.jbr";
+            jbrNbmfs = nbmfs;
         }
 
-        String name = getName();
-        if (name.startsWith(javaHome)) {
-            String[] names = jarNames;
-            for (String jarName : names) {
-                if (name.endsWith(jarName)) {
-                    return true;
+        String nbmf = gftNbmf();
+        if (nbmf.stbrtsWiti(jbvbHomf)) {
+            String[] nbmfs = jbrNbmfs;
+            for (String jbrNbmf : nbmfs) {
+                if (nbmf.fndsWiti(jbrNbmf)) {
+                    rfturn truf;
                 }
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
-    private synchronized void ensureInitialization() {
+    privbtf syndironizfd void fnsurfInitiblizbtion() {
         try {
-            maybeInstantiateVerifier();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            mbybfInstbntibtfVfrififr();
+        } dbtdi (IOExdfption f) {
+            tirow nfw RuntimfExdfption(f);
         }
-        if (jv != null && !jvInitialized) {
-            initializeVerifier();
-            jvInitialized = true;
+        if (jv != null && !jvInitiblizfd) {
+            initiblizfVfrififr();
+            jvInitiblizfd = truf;
         }
     }
 
-    JarEntry newEntry(ZipEntry ze) {
-        return new JarFileEntry(ze);
+    JbrEntry nfwEntry(ZipEntry zf) {
+        rfturn nfw JbrFilfEntry(zf);
     }
 
-    Enumeration<String> entryNames(CodeSource[] cs) {
-        ensureInitialization();
+    Enumfrbtion<String> fntryNbmfs(CodfSourdf[] ds) {
+        fnsurfInitiblizbtion();
         if (jv != null) {
-            return jv.entryNames(this, cs);
+            rfturn jv.fntryNbmfs(tiis, ds);
         }
 
         /*
-         * JAR file has no signed content. Is there a non-signing
-         * code source?
+         * JAR filf ibs no signfd dontfnt. Is tifrf b non-signing
+         * dodf sourdf?
          */
-        boolean includeUnsigned = false;
-        for (CodeSource c : cs) {
-            if (c.getCodeSigners() == null) {
-                includeUnsigned = true;
-                break;
+        boolfbn indludfUnsignfd = fblsf;
+        for (CodfSourdf d : ds) {
+            if (d.gftCodfSignfrs() == null) {
+                indludfUnsignfd = truf;
+                brfbk;
             }
         }
-        if (includeUnsigned) {
-            return unsignedEntryNames();
-        } else {
-            return new Enumeration<String>() {
+        if (indludfUnsignfd) {
+            rfturn unsignfdEntryNbmfs();
+        } flsf {
+            rfturn nfw Enumfrbtion<String>() {
 
-                public boolean hasMoreElements() {
-                    return false;
+                publid boolfbn ibsMorfElfmfnts() {
+                    rfturn fblsf;
                 }
 
-                public String nextElement() {
-                    throw new NoSuchElementException();
+                publid String nfxtElfmfnt() {
+                    tirow nfw NoSudiElfmfntExdfption();
                 }
             };
         }
     }
 
     /**
-     * Returns an enumeration of the zip file entries
-     * excluding internal JAR mechanism entries and including
-     * signed entries missing from the ZIP directory.
+     * Rfturns bn fnumfrbtion of tif zip filf fntrifs
+     * fxdluding intfrnbl JAR mfdibnism fntrifs bnd indluding
+     * signfd fntrifs missing from tif ZIP dirfdtory.
      */
-    Enumeration<JarEntry> entries2() {
-        ensureInitialization();
+    Enumfrbtion<JbrEntry> fntrifs2() {
+        fnsurfInitiblizbtion();
         if (jv != null) {
-            return jv.entries2(this, super.entries());
+            rfturn jv.fntrifs2(tiis, supfr.fntrifs());
         }
 
-        // screen out entries which are never signed
-        final Enumeration<? extends ZipEntry> enum_ = super.entries();
-        return new Enumeration<JarEntry>() {
+        // sdrffn out fntrifs wiidi brf nfvfr signfd
+        finbl Enumfrbtion<? fxtfnds ZipEntry> fnum_ = supfr.fntrifs();
+        rfturn nfw Enumfrbtion<JbrEntry>() {
 
-            ZipEntry entry;
+            ZipEntry fntry;
 
-            public boolean hasMoreElements() {
-                if (entry != null) {
-                    return true;
+            publid boolfbn ibsMorfElfmfnts() {
+                if (fntry != null) {
+                    rfturn truf;
                 }
-                while (enum_.hasMoreElements()) {
-                    ZipEntry ze = enum_.nextElement();
-                    if (JarVerifier.isSigningRelated(ze.getName())) {
-                        continue;
+                wiilf (fnum_.ibsMorfElfmfnts()) {
+                    ZipEntry zf = fnum_.nfxtElfmfnt();
+                    if (JbrVfrififr.isSigningRflbtfd(zf.gftNbmf())) {
+                        dontinuf;
                     }
-                    entry = ze;
-                    return true;
+                    fntry = zf;
+                    rfturn truf;
                 }
-                return false;
+                rfturn fblsf;
             }
 
-            public JarFileEntry nextElement() {
-                if (hasMoreElements()) {
-                    ZipEntry ze = entry;
-                    entry = null;
-                    return new JarFileEntry(ze);
+            publid JbrFilfEntry nfxtElfmfnt() {
+                if (ibsMorfElfmfnts()) {
+                    ZipEntry zf = fntry;
+                    fntry = null;
+                    rfturn nfw JbrFilfEntry(zf);
                 }
-                throw new NoSuchElementException();
+                tirow nfw NoSudiElfmfntExdfption();
             }
         };
     }
 
-    CodeSource[] getCodeSources(URL url) {
-        ensureInitialization();
+    CodfSourdf[] gftCodfSourdfs(URL url) {
+        fnsurfInitiblizbtion();
         if (jv != null) {
-            return jv.getCodeSources(this, url);
+            rfturn jv.gftCodfSourdfs(tiis, url);
         }
 
         /*
-         * JAR file has no signed content. Is there a non-signing
-         * code source?
+         * JAR filf ibs no signfd dontfnt. Is tifrf b non-signing
+         * dodf sourdf?
          */
-        Enumeration<String> unsigned = unsignedEntryNames();
-        if (unsigned.hasMoreElements()) {
-            return new CodeSource[]{JarVerifier.getUnsignedCS(url)};
-        } else {
-            return null;
+        Enumfrbtion<String> unsignfd = unsignfdEntryNbmfs();
+        if (unsignfd.ibsMorfElfmfnts()) {
+            rfturn nfw CodfSourdf[]{JbrVfrififr.gftUnsignfdCS(url)};
+        } flsf {
+            rfturn null;
         }
     }
 
-    private Enumeration<String> unsignedEntryNames() {
-        final Enumeration<JarEntry> entries = entries();
-        return new Enumeration<String>() {
+    privbtf Enumfrbtion<String> unsignfdEntryNbmfs() {
+        finbl Enumfrbtion<JbrEntry> fntrifs = fntrifs();
+        rfturn nfw Enumfrbtion<String>() {
 
-            String name;
+            String nbmf;
 
             /*
-             * Grab entries from ZIP directory but screen out
-             * metadata.
+             * Grbb fntrifs from ZIP dirfdtory but sdrffn out
+             * mftbdbtb.
              */
-            public boolean hasMoreElements() {
-                if (name != null) {
-                    return true;
+            publid boolfbn ibsMorfElfmfnts() {
+                if (nbmf != null) {
+                    rfturn truf;
                 }
-                while (entries.hasMoreElements()) {
-                    String value;
-                    ZipEntry e = entries.nextElement();
-                    value = e.getName();
-                    if (e.isDirectory() || JarVerifier.isSigningRelated(value)) {
-                        continue;
+                wiilf (fntrifs.ibsMorfElfmfnts()) {
+                    String vbluf;
+                    ZipEntry f = fntrifs.nfxtElfmfnt();
+                    vbluf = f.gftNbmf();
+                    if (f.isDirfdtory() || JbrVfrififr.isSigningRflbtfd(vbluf)) {
+                        dontinuf;
                     }
-                    name = value;
-                    return true;
+                    nbmf = vbluf;
+                    rfturn truf;
                 }
-                return false;
+                rfturn fblsf;
             }
 
-            public String nextElement() {
-                if (hasMoreElements()) {
-                    String value = name;
-                    name = null;
-                    return value;
+            publid String nfxtElfmfnt() {
+                if (ibsMorfElfmfnts()) {
+                    String vbluf = nbmf;
+                    nbmf = null;
+                    rfturn vbluf;
                 }
-                throw new NoSuchElementException();
+                tirow nfw NoSudiElfmfntExdfption();
             }
         };
     }
 
-    CodeSource getCodeSource(URL url, String name) {
-        ensureInitialization();
+    CodfSourdf gftCodfSourdf(URL url, String nbmf) {
+        fnsurfInitiblizbtion();
         if (jv != null) {
-            if (jv.eagerValidation) {
-                CodeSource cs = null;
-                JarEntry je = getJarEntry(name);
-                if (je != null) {
-                    cs = jv.getCodeSource(url, this, je);
-                } else {
-                    cs = jv.getCodeSource(url, name);
+            if (jv.fbgfrVblidbtion) {
+                CodfSourdf ds = null;
+                JbrEntry jf = gftJbrEntry(nbmf);
+                if (jf != null) {
+                    ds = jv.gftCodfSourdf(url, tiis, jf);
+                } flsf {
+                    ds = jv.gftCodfSourdf(url, nbmf);
                 }
-                return cs;
-            } else {
-                return jv.getCodeSource(url, name);
+                rfturn ds;
+            } flsf {
+                rfturn jv.gftCodfSourdf(url, nbmf);
             }
         }
 
-        return JarVerifier.getUnsignedCS(url);
+        rfturn JbrVfrififr.gftUnsignfdCS(url);
     }
 
-    void setEagerValidation(boolean eager) {
+    void sftEbgfrVblidbtion(boolfbn fbgfr) {
         try {
-            maybeInstantiateVerifier();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            mbybfInstbntibtfVfrififr();
+        } dbtdi (IOExdfption f) {
+            tirow nfw RuntimfExdfption(f);
         }
         if (jv != null) {
-            jv.setEagerValidation(eager);
+            jv.sftEbgfrVblidbtion(fbgfr);
         }
     }
 
-    List<Object> getManifestDigests() {
-        ensureInitialization();
+    List<Objfdt> gftMbniffstDigfsts() {
+        fnsurfInitiblizbtion();
         if (jv != null) {
-            return jv.getManifestDigests();
+            rfturn jv.gftMbniffstDigfsts();
         }
-        return new ArrayList<>();
+        rfturn nfw ArrbyList<>();
     }
 }

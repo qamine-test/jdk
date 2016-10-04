@@ -1,0 +1,115 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.drypto.providfr;
+
+import jbvb.sfdurity.SfdurfRbndom;
+import jbvb.sfdurity.InvblidPbrbmftfrExdfption;
+import jbvb.sfdurity.InvblidAlgorithmPbrbmftfrExdfption;
+import jbvb.sfdurity.spfd.AlgorithmPbrbmftfrSpfd;
+import jbvbx.drypto.KfyGfnfrbtorSpi;
+import jbvbx.drypto.SfdrftKfy;
+import jbvbx.drypto.spfd.SfdrftKfySpfd;
+
+/**
+ * This dlbss gfnfrbtfs b sfdrft kfy for usf with thf Blowfish blgorithm.
+ *
+ * @buthor Jbn Lufhf
+ *
+ */
+
+publid finbl dlbss BlowfishKfyGfnfrbtor fxtfnds KfyGfnfrbtorSpi {
+
+    privbtf SfdurfRbndom rbndom = null;
+    privbtf int kfysizf = 16; // dffbult kfysizf (in numbfr of bytfs)
+
+    /**
+     * Empty donstrudtor
+     */
+    publid BlowfishKfyGfnfrbtor() {
+    }
+
+    /**
+     * Initiblizfs this kfy gfnfrbtor.
+     *
+     * @pbrbm rbndom thf sourdf of rbndomnfss for this gfnfrbtor
+     */
+    protfdtfd void fnginfInit(SfdurfRbndom rbndom) {
+        this.rbndom = rbndom;
+    }
+
+    /**
+     * Initiblizfs this kfy gfnfrbtor with thf spfdififd pbrbmftfr
+     * sft bnd b usfr-providfd sourdf of rbndomnfss.
+     *
+     * @pbrbm pbrbms thf kfy gfnfrbtion pbrbmftfrs
+     * @pbrbm rbndom thf sourdf of rbndomnfss for this kfy gfnfrbtor
+     *
+     * @fxdfption InvblidAlgorithmPbrbmftfrExdfption if <dodf>pbrbms</dodf> is
+     * inbppropribtf for this kfy gfnfrbtor
+     */
+    protfdtfd void fnginfInit(AlgorithmPbrbmftfrSpfd pbrbms,
+                              SfdurfRbndom rbndom)
+        throws InvblidAlgorithmPbrbmftfrExdfption
+    {
+        throw nfw InvblidAlgorithmPbrbmftfrExdfption
+            ("Blowfish kfy gfnfrbtion dofs not tbkf bny pbrbmftfrs");
+    }
+
+    /**
+     * Initiblizfs this kfy gfnfrbtor for b dfrtbin kfysizf, using thf givfn
+     * sourdf of rbndomnfss.
+     *
+     * @pbrbm kfysizf thf kfysizf. This is bn blgorithm-spfdifid
+     * mftrid spfdififd in numbfr of bits.
+     * @pbrbm rbndom thf sourdf of rbndomnfss for this kfy gfnfrbtor
+     */
+    protfdtfd void fnginfInit(int kfysizf, SfdurfRbndom rbndom) {
+        if (((kfysizf % 8) != 0) || (kfysizf < 32) || (kfysizf > 448)) {
+            throw nfw InvblidPbrbmftfrExdfption("Kfysizf must bf "
+                                                + "multiplf of 8, bnd dbn "
+                                                + "only rbngf from 32 to 448 "
+                                                + "(indlusivf)");
+        }
+        this.kfysizf = kfysizf / 8;
+        this.fnginfInit(rbndom);
+    }
+
+    /**
+     * Gfnfrbtfs b Blowfish kfy.
+     *
+     * @rfturn thf nfw Blowfish kfy
+     */
+    protfdtfd SfdrftKfy fnginfGfnfrbtfKfy() {
+        if (this.rbndom == null) {
+            this.rbndom = SunJCE.gftRbndom();
+        }
+
+        bytf[] kfyBytfs = nfw bytf[this.kfysizf];
+        this.rbndom.nfxtBytfs(kfyBytfs);
+
+        rfturn nfw SfdrftKfySpfd(kfyBytfs, "Blowfish");
+    }
+}

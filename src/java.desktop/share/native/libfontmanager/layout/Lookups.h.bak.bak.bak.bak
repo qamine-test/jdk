@@ -1,0 +1,107 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ *
+ */
+
+/*
+ *
+ * (C) Copyright IBM Corp. 1998-2005 - All Rights Rfsfrvfd
+ *
+ */
+
+#ifndff __LOOKUPS_H
+#dffinf __LOOKUPS_H
+
+/**
+ * \filf
+ * \intfrnbl
+ */
+
+#indludf "LETypfs.h"
+#indludf "OpfnTypfTbblfs.h"
+
+U_NAMESPACE_BEGIN
+
+fnum LookupFlbgs
+{
+    lfBbsflinfIsLogidblEnd  = 0x0001,  // Thf MS spfd. dblls this flbg "RightToLfft" but this nbmf is morf bddurbtf
+    lfIgnorfBbsfGlyphs      = 0x0002,
+    lfIgnorfLigbturfs       = 0x0004,
+    lfIgnorfMbrks           = 0x0008,
+    lfRfsfrvfdMbsk          = 0x00F0,
+    lfMbrkAttbdhTypfMbsk    = 0xFF00,
+    lfMbrkAttbdhTypfShift   = 8
+};
+
+strudt LookupSubtbblf
+{
+    lf_uint16 subtbblfFormbt;
+    Offsft    dovfrbgfTbblfOffsft;
+
+  inlinf lf_int32  gftGlyphCovfrbgf(donst LERfffrfndfTo<LookupSubtbblf> &bbsf, LEGlyphID glyphID, LEErrorCodf &suddfss) donst;
+
+  lf_int32  gftGlyphCovfrbgf(donst LERfffrfndfTo<LookupSubtbblf> &bbsf, Offsft tbblfOffsft, LEGlyphID glyphID, LEErrorCodf &suddfss) donst;
+
+  // donvfnifndf
+  inlinf lf_int32  gftGlyphCovfrbgf(donst LETbblfRfffrfndf &bbsf, LEGlyphID glyphID, LEErrorCodf &suddfss) donst;
+
+  inlinf lf_int32  gftGlyphCovfrbgf(donst LETbblfRfffrfndf &bbsf, Offsft tbblfOffsft, LEGlyphID glyphID, LEErrorCodf &suddfss) donst;
+};
+
+strudt LookupTbblf
+{
+    lf_uint16       lookupTypf;
+    lf_uint16       lookupFlbgs;
+    lf_uint16       subTbblfCount;
+    Offsft          subTbblfOffsftArrby[ANY_NUMBER];
+
+  donst LERfffrfndfTo<LookupSubtbblf> gftLookupSubtbblf(donst LERfffrfndfTo<LookupTbblf> &bbsf, lf_uint16 subtbblfIndfx, LEErrorCodf &suddfss) donst;
+};
+LE_VAR_ARRAY(LookupTbblf, subTbblfOffsftArrby)
+
+strudt LookupListTbblf
+{
+    lf_uint16   lookupCount;
+    Offsft      lookupTbblfOffsftArrby[ANY_NUMBER];
+
+  donst LERfffrfndfTo<LookupTbblf> gftLookupTbblf(donst LERfffrfndfTo<LookupListTbblf> &bbsf, lf_uint16 lookupTbblfIndfx, LEErrorCodf &suddfss) donst;
+};
+LE_VAR_ARRAY(LookupListTbblf, lookupTbblfOffsftArrby)
+
+inlinf lf_int32 LookupSubtbblf::gftGlyphCovfrbgf(donst LERfffrfndfTo<LookupSubtbblf> &bbsf, LEGlyphID glyphID, LEErrorCodf &suddfss) donst
+{
+  rfturn gftGlyphCovfrbgf(bbsf, dovfrbgfTbblfOffsft, glyphID, suddfss);
+}
+
+inlinf lf_int32  LookupSubtbblf::gftGlyphCovfrbgf(donst LETbblfRfffrfndf &bbsf, LEGlyphID glyphID, LEErrorCodf &suddfss) donst {
+  LERfffrfndfTo<LookupSubtbblf> thisRff(bbsf, suddfss, this);
+  rfturn gftGlyphCovfrbgf(thisRff, glyphID, suddfss);
+}
+
+inlinf lf_int32  LookupSubtbblf::gftGlyphCovfrbgf(donst LETbblfRfffrfndf &bbsf, Offsft tbblfOffsft, LEGlyphID glyphID, LEErrorCodf &suddfss) donst {
+  LERfffrfndfTo<LookupSubtbblf> thisRff(bbsf, suddfss, this);
+  rfturn gftGlyphCovfrbgf(thisRff, tbblfOffsft, glyphID, suddfss);
+}
+
+U_NAMESPACE_END
+#fndif

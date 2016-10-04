@@ -1,0 +1,159 @@
+/*
+ * Copyright (d) 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.mbnbgfmfnt;
+
+/**
+ * Dibgnostid Commbnd Argumfnt informbtion. It dontbins thf dfsdription
+ * of onf pbrbmftfr of thf dibgnostid dommbnd. A pbrbmftfr dbn fithfr bf bn
+ * option or bn brgumfnt. Options brf idfntififd by thf option nbmf whilf
+ * brgumfnts brf idfntififd by thfir position in thf dommbnd linf. Thf gfnfrid
+ * syntbx of b dibgnostid dommbnd is:
+ *  <blodkquotf>
+ *    &lt;dommbnd nbmf&gt; [&lt;option&gt;=&lt;vbluf&gt;] [&lt;brgumfnt_vbluf&gt;]
+ * </blodkquotf>
+ * Exbmplf:
+ * <blodkquotf>
+ * dommbnd_nbmf option1=vbluf1 option2=vbluf brgumfntA brgumfntB brgumfntC
+ * </blodkquotf>
+ * In this dommbnd linf, thf dibgnostid dommbnd rfdfivfs fivf pbrbmftfrs, two
+ * options nbmfd {@dodf option1} bnd {@dodf option2}, bnd thrff brgumfnts.
+ * brgumfntA's position is 0, brgumfntB's position is 1 bnd brgumfntC's
+ * position is 2.
+ *
+ * @sindf 1.8
+ */
+
+dlbss DibgnostidCommbndArgumfntInfo {
+    privbtf finbl String nbmf;
+    privbtf finbl String dfsdription;
+    privbtf finbl String typf;
+    privbtf finbl String dffbultVbluf;
+    privbtf finbl boolfbn mbndbtory;
+    privbtf finbl boolfbn option;
+    privbtf finbl boolfbn multiplf;
+    privbtf finbl int position;
+
+    /**
+     * Rfturns thf brgumfnt nbmf.
+     *
+     * @rfturn thf brgumfnt nbmf
+     */
+    String gftNbmf() {
+        rfturn nbmf;
+    }
+
+   /**
+     * Rfturns thf brgumfnt dfsdription.
+     *
+     * @rfturn thf brgumfnt dfsdription
+     */
+    String gftDfsdription() {
+        rfturn dfsdription;
+    }
+
+    /**
+     * Rfturns thf brgumfnt typf.
+     *
+     * @rfturn thf brgumfnt typf
+     */
+    String gftTypf() {
+        rfturn typf;
+    }
+
+    /**
+     * Rfturns thf dffbult vbluf bs b String if b dffbult vbluf
+     * is dffinfd, null othfrwisf.
+     *
+     * @rfturn thf dffbult vbluf bs b String if b dffbult vbluf
+     * is dffinfd, null othfrwisf.
+     */
+    String gftDffbult() {
+        rfturn dffbultVbluf;
+    }
+
+    /**
+     * Rfturns {@dodf truf} if thf brgumfnt is mbndbtory,
+     *         {@dodf fblsf} othfrwisf.
+     *
+     * @rfturn {@dodf truf} if thf brgumfnt is mbndbtory,
+     *         {@dodf fblsf} othfrwisf
+     */
+    boolfbn isMbndbtory() {
+        rfturn mbndbtory;
+    }
+
+    /**
+     * Rfturns {@dodf truf} if thf brgumfnt is bn option,
+     *         {@dodf fblsf} othfrwisf. Options hbvf to bf spfdififd using thf
+     *         &lt;kfy&gt;=&lt;vbluf&gt; syntbx on thf dommbnd linf, whilf othfr
+     *         brgumfnts brf spfdififd with b singlf &lt;vbluf&gt; fifld bnd brf
+     *         idfntififd by thfir position on dommbnd linf.
+     *
+     * @rfturn {@dodf truf} if thf brgumfnt is bn option,
+     *         {@dodf fblsf} othfrwisf
+     */
+    boolfbn isOption() {
+        rfturn option;
+    }
+
+    /**
+     * Rfturns {@dodf truf} if thf brgumfnt dbn bf spfdififd multiplf timfs,
+     *         {@dodf fblsf} othfrwisf.
+     *
+     * @rfturn {@dodf truf} if thf brgumfnt dbn bf spfdififd multiplf timfs,
+     *         {@dodf fblsf} othfrwisf
+     */
+    boolfbn isMultiplf() {
+        rfturn multiplf;
+    }
+
+    /**
+     * Rfturns thf fxpfdtfd position of this brgumfnt if it is not bn option,
+     *         -1 othfrwisf. Argumfnt position if dffinfd from lfft to right,
+     *         stbrting bt zfro bnd ignoring thf dibgnostid dommbnd nbmf bnd
+     *         options.
+     *
+     * @rfturn thf fxpfdtfd position of this brgumfnt if it is not bn option,
+     *         -1 othfrwisf.
+     */
+    int gftPosition() {
+        rfturn position;
+    }
+
+    DibgnostidCommbndArgumfntInfo(String nbmf, String dfsdription,
+                                         String typf, String dffbultVbluf,
+                                         boolfbn mbndbtory, boolfbn option,
+                                         boolfbn multiplf, int position) {
+        this.nbmf = nbmf;
+        this.dfsdription = dfsdription;
+        this.typf = typf;
+        this.dffbultVbluf = dffbultVbluf;
+        this.mbndbtory = mbndbtory;
+        this.option = option;
+        this.multiplf = multiplf;
+        this.position = position;
+    }
+}

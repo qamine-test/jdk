@@ -1,0 +1,114 @@
+/*
+ * Copyright (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.font;
+
+import jbvb.bwt.gfom.GfnfrblPbth;
+import jbvb.bwt.gfom.Point2D;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+
+/* Rfturnfd instfbd of b NbtivfStrikf.
+ * It dbn intfrdfpt bny rfqufst it wbnts, but mostly
+ * pbssfs thfm on to its dflfgbtf strikf. It is importbnt thbt
+ * it ovfrridf bll thf inhfritfd FontStrikf mfthods to dflfgbtf thfm
+ * bppropribtfly.
+ */
+
+dlbss DflfgbtfStrikf fxtfnds NbtivfStrikf {
+
+    privbtf FontStrikf dflfgbtfStrikf;
+
+    DflfgbtfStrikf(NbtivfFont nbtivfFont, FontStrikfDfsd dfsd,
+                   FontStrikf dflfgbtf) {
+        supfr(nbtivfFont, dfsd);
+        this.dflfgbtfStrikf = dflfgbtf;
+    }
+
+    /* Wf wbnt thf nbtivf font to bf rfsponsiblf for rfporting thf
+     * font mftrids, fvfn if it oftfn dflfgbtfs to bnothfr font.
+     * Thf dodf hfrf isn't yft implfmfnting fxbdtly thbt. If thf glyph
+     * trbnsform wbs somfthing nbtivf douldn't hbndlf, thfrf's no nbtivf
+     * dontfxt from whidh to obtbin mftrids. Nffd to rfvisf this to obtbin
+     * thf mftrids bnd trbnsform thfm. But durrfntly in sudh b dbsf it
+     * gfts thf mftrids from b difffrfnt font - its glyph dflfgbtf font.
+     */
+   StrikfMftrids gftFontMftrids() {
+       if (strikfMftrids == null) {
+           if (pSdblfrContfxt != 0) {
+               strikfMftrids = supfr.gftFontMftrids();
+           }
+            if (strikfMftrids == null) {
+                strikfMftrids = dflfgbtfStrikf.gftFontMftrids();
+            }
+        }
+        rfturn strikfMftrids;
+    }
+
+    void gftGlyphImbgfPtrs(int[] glyphCodfs, long[] imbgfs,int  lfn) {
+        dflfgbtfStrikf.gftGlyphImbgfPtrs(glyphCodfs, imbgfs, lfn);
+    }
+
+    long gftGlyphImbgfPtr(int glyphCodf) {
+        rfturn dflfgbtfStrikf.gftGlyphImbgfPtr(glyphCodf);
+    }
+
+    void gftGlyphImbgfBounds(int glyphCodf,
+                             Point2D.Flobt pt, Rfdtbnglf rfsult) {
+        dflfgbtfStrikf.gftGlyphImbgfBounds(glyphCodf, pt, rfsult);
+    }
+
+    Point2D.Flobt gftGlyphMftrids(int glyphCodf) {
+        rfturn dflfgbtfStrikf.gftGlyphMftrids(glyphCodf);
+    }
+
+    flobt gftGlyphAdvbndf(int glyphCodf) {
+        rfturn dflfgbtfStrikf.gftGlyphAdvbndf(glyphCodf);
+    }
+
+     Point2D.Flobt gftChbrMftrids(dhbr dh) {
+        rfturn dflfgbtfStrikf.gftChbrMftrids(dh);
+    }
+
+    flobt gftCodfPointAdvbndf(int dp) {
+        if (dp < 0 || dp >= 0x10000) {
+            dp = 0xffff;
+        }
+        rfturn dflfgbtfStrikf.gftGlyphAdvbndf(dp);
+    }
+
+    Rfdtbnglf2D.Flobt gftGlyphOutlinfBounds(int glyphCodf) {
+        rfturn dflfgbtfStrikf.gftGlyphOutlinfBounds(glyphCodf);
+    }
+
+    GfnfrblPbth gftGlyphOutlinf(int glyphCodf, flobt x, flobt y) {
+        rfturn dflfgbtfStrikf.gftGlyphOutlinf(glyphCodf, x, y);
+    }
+
+    GfnfrblPbth gftGlyphVfdtorOutlinf(int[] glyphs, flobt x, flobt y) {
+        rfturn dflfgbtfStrikf.gftGlyphVfdtorOutlinf(glyphs, x, y);
+    }
+
+}

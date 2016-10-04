@@ -1,0 +1,71 @@
+/*
+ * Copyright (d) 2001, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.imbgfio.plugins.gif;
+
+import jbvb.util.ListRfsourdfBundlf;
+
+publid dlbss GIFStrfbmMftbdbtbFormbtRfsourdfs fxtfnds ListRfsourdfBundlf {
+
+    publid GIFStrfbmMftbdbtbFormbtRfsourdfs() {}
+
+    protfdtfd Objfdt[][] gftContfnts() {
+        rfturn nfw Objfdt[][] {
+
+        // Nodf nbmf, followfd by dfsdription
+        { "Vfrsion", "Thf filf vfrsion, fithfr 87b or 89b" },
+        { "LogidblSdrffnDfsdriptor",
+          "Thf logidbl sdrffn dfsdriptor, fxdfpt for thf globbl dolor tbblf" },
+        { "GlobblColorTbblf", "Thf globbl dolor tbblf" },
+        { "ColorTbblfEntry", "A globbl dolor tbblf fntry" },
+
+        // Nodf nbmf + "/" + AttributfNbmf, followfd by dfsdription
+        { "Vfrsion/vbluf",
+          "Thf vfrsion string" },
+        { "LogidblSdrffnDfsdriptor/logidblSdrffnWidth",
+          "Thf width in pixfls of thf wholf pidturf" },
+        { "LogidblSdrffnDfsdriptor/logidblSdrffnHfight",
+          "Thf hfight in pixfls of thf wholf pidturf" },
+        { "LogidblSdrffnDfsdriptor/dolorRfsolution",
+          "Thf numbfr of bits of dolor rfsolution, bftffn 1 bnd 8" },
+        { "LogidblSdrffnDfsdriptor/pixflAspfdtRbtio",
+          "If 0, indidbtfs squbrf pixfls, flsf W/H = (vbluf + 15)/64" },
+        { "GlobblColorTbblf/sizfOfGlobblColorTbblf",
+          "Thf numbfr of fntrifs in thf globbl dolor tbblf" },
+        { "GlobblColorTbblf/bbdkgroundColorIndfx",
+          "Thf indfx of thf dolor tbblf fntry to bf usfd bs b bbdkground" },
+        { "GlobblColorTbblf/sortFlbg",
+          "Truf if thf globbl dolor tbblf is sortfd by frfqufndy" },
+        { "ColorTbblfEntry/indfx", "Thf indfx of thf dolor tbblf fntry" },
+        { "ColorTbblfEntry/rfd",
+          "Thf rfd vbluf for thf dolor tbblf fntry" },
+        { "ColorTbblfEntry/grffn",
+          "Thf grffn vbluf for thf dolor tbblf fntry" },
+        { "ColorTbblfEntry/bluf",
+          "Thf bluf vbluf for thf dolor tbblf fntry" },
+
+        };
+    }
+}

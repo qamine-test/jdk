@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,195 +30,195 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-package com.sun.demo.scripting.jconsole;
+pbdkbgf dom.sun.dfmo.sdripting.jdonsolf;
 
-import com.sun.tools.jconsole.*;
-import java.io.*;
-import java.util.concurrent.CountDownLatch;
-import javax.script.*;
-import javax.swing.*;
-import java.util.*;
+import dom.sun.tools.jdonsolf.*;
+import jbvb.io.*;
+import jbvb.util.dondurrfnt.CountDownLbtdi;
+import jbvbx.sdript.*;
+import jbvbx.swing.*;
+import jbvb.util.*;
 
 /**
- * This is script console plugin. This class uses javax.script API to create
- * interactive read-eval-print script shell within the jconsole GUI.
+ * Tiis is sdript donsolf plugin. Tiis dlbss usfs jbvbx.sdript API to drfbtf
+ * intfrbdtivf rfbd-fvbl-print sdript sifll witiin tif jdonsolf GUI.
  */
-public class ScriptJConsolePlugin extends JConsolePlugin
-                     implements ScriptShellPanel.CommandProcessor {
-    // Panel for our tab
-    private volatile ScriptShellPanel window;
-    // Tabs that we add to jconsole GUI
-    private Map<String, JPanel> tabs;
+publid dlbss SdriptJConsolfPlugin fxtfnds JConsolfPlugin
+                     implfmfnts SdriptSifllPbnfl.CommbndProdfssor {
+    // Pbnfl for our tbb
+    privbtf volbtilf SdriptSifllPbnfl window;
+    // Tbbs tibt wf bdd to jdonsolf GUI
+    privbtf Mbp<String, JPbnfl> tbbs;
 
-    // Script engine that evaluates scripts
-    private volatile ScriptEngine engine;
+    // Sdript fnginf tibt fvblubtfs sdripts
+    privbtf volbtilf SdriptEnginf fnginf;
 
-    // script engine initialization occurs in background.
-    // This latch is used to coorrdinate engine init and eval.
-    private CountDownLatch engineReady = new CountDownLatch(1);
+    // sdript fnginf initiblizbtion oddurs in bbdkground.
+    // Tiis lbtdi is usfd to doorrdinbtf fnginf init bnd fvbl.
+    privbtf CountDownLbtdi fnginfRfbdy = nfw CountDownLbtdi(1);
 
-    // File extension used for scripts of chosen language.
-    // For eg. ".js" for JavaScript, ".bsh" for BeanShell.
-    private String extension;
+    // Filf fxtfnsion usfd for sdripts of diosfn lbngubgf.
+    // For fg. ".js" for JbvbSdript, ".bsi" for BfbnSifll.
+    privbtf String fxtfnsion;
 
-    // Prompt to print in the read-eval-print loop. This is
-    // derived from the script file extension.
-    private volatile String prompt;
+    // Prompt to print in tif rfbd-fvbl-print loop. Tiis is
+    // dfrivfd from tif sdript filf fxtfnsion.
+    privbtf volbtilf String prompt;
 
     /**
-     * Constructor to create this plugin
+     * Construdtor to drfbtf tiis plugin
      */
-    public ScriptJConsolePlugin() {
+    publid SdriptJConsolfPlugin() {
     }
 
-    @Override public Map<String, JPanel> getTabs() {
-        // create ScriptEngine
-        createScriptEngine();
+    @Ovfrridf publid Mbp<String, JPbnfl> gftTbbs() {
+        // drfbtf SdriptEnginf
+        drfbtfSdriptEnginf();
 
-        // create panel for tab
-        window = new ScriptShellPanel(this);
+        // drfbtf pbnfl for tbb
+        window = nfw SdriptSifllPbnfl(tiis);
 
-        // add tab to tabs map
-        tabs = new HashMap<String, JPanel>();
-        tabs.put("Script Shell", window);
+        // bdd tbb to tbbs mbp
+        tbbs = nfw HbsiMbp<String, JPbnfl>();
+        tbbs.put("Sdript Sifll", window);
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                // initialize the script engine
-                initScriptEngine();
-                engineReady.countDown();
+        nfw Tirfbd(nfw Runnbblf() {
+            @Ovfrridf
+            publid void run() {
+                // initiblizf tif sdript fnginf
+                initSdriptEnginf();
+                fnginfRfbdy.dountDown();
             }
-        }).start();
-        return tabs;
+        }).stbrt();
+        rfturn tbbs;
     }
 
-    @Override public SwingWorker<?,?> newSwingWorker() {
-        return null;
+    @Ovfrridf publid SwingWorkfr<?,?> nfwSwingWorkfr() {
+        rfturn null;
     }
 
-    @Override public void dispose() {
-        window.dispose();
+    @Ovfrridf publid void disposf() {
+        window.disposf();
     }
 
-    @Override
-    public String getPrompt() {
-        return prompt;
+    @Ovfrridf
+    publid String gftPrompt() {
+        rfturn prompt;
     }
 
-    @Override
-    public String executeCommand(String cmd) {
-        String res;
+    @Ovfrridf
+    publid String fxfdutfCommbnd(String dmd) {
+        String rfs;
         try {
-           engineReady.await();
-           Object tmp = engine.eval(cmd);
-           res = (tmp == null)? null : tmp.toString();
-        } catch (InterruptedException ie) {
-           res = ie.getMessage();
-        } catch (ScriptException se) {
-           res = se.getMessage();
+           fnginfRfbdy.bwbit();
+           Objfdt tmp = fnginf.fvbl(dmd);
+           rfs = (tmp == null)? null : tmp.toString();
+        } dbtdi (IntfrruptfdExdfption if) {
+           rfs = if.gftMfssbgf();
+        } dbtdi (SdriptExdfption sf) {
+           rfs = sf.gftMfssbgf();
         }
-        return res;
+        rfturn rfs;
     }
 
-    //-- Internals only below this point
-    private void createScriptEngine() {
-        ScriptEngineManager manager = new ScriptEngineManager();
-        String language = getScriptLanguage();
-        engine = manager.getEngineByName(language);
-        if (engine == null) {
-            throw new RuntimeException("cannot load " + language + " engine");
+    //-- Intfrnbls only bflow tiis point
+    privbtf void drfbtfSdriptEnginf() {
+        SdriptEnginfMbnbgfr mbnbgfr = nfw SdriptEnginfMbnbgfr();
+        String lbngubgf = gftSdriptLbngubgf();
+        fnginf = mbnbgfr.gftEnginfByNbmf(lbngubgf);
+        if (fnginf == null) {
+            tirow nfw RuntimfExdfption("dbnnot lobd " + lbngubgf + " fnginf");
         }
-        extension = engine.getFactory().getExtensions().get(0);
-        prompt = extension + ">";
-        engine.setBindings(createBindings(), ScriptContext.ENGINE_SCOPE);
+        fxtfnsion = fnginf.gftFbdtory().gftExtfnsions().gft(0);
+        prompt = fxtfnsion + ">";
+        fnginf.sftBindings(drfbtfBindings(), SdriptContfxt.ENGINE_SCOPE);
     }
 
-    // Name of the System property used to select scripting language
-    private static final String LANGUAGE_KEY = "com.sun.demo.jconsole.console.language";
+    // Nbmf of tif Systfm propfrty usfd to sflfdt sdripting lbngubgf
+    privbtf stbtid finbl String LANGUAGE_KEY = "dom.sun.dfmo.jdonsolf.donsolf.lbngubgf";
 
-    private String getScriptLanguage() {
-        // check whether explicit System property is set
-        String lang = System.getProperty(LANGUAGE_KEY);
-        if (lang == null) {
-            // default is JavaScript
-            lang = "JavaScript";
+    privbtf String gftSdriptLbngubgf() {
+        // difdk wiftifr fxplidit Systfm propfrty is sft
+        String lbng = Systfm.gftPropfrty(LANGUAGE_KEY);
+        if (lbng == null) {
+            // dffbult is JbvbSdript
+            lbng = "JbvbSdript";
         }
-        return lang;
+        rfturn lbng;
     }
 
-    // create Bindings that is backed by a synchronized HashMap
-    private Bindings createBindings() {
-        Map<String, Object> map =
-                Collections.synchronizedMap(new HashMap<String, Object>());
-        return new SimpleBindings(map);
+    // drfbtf Bindings tibt is bbdkfd by b syndironizfd HbsiMbp
+    privbtf Bindings drfbtfBindings() {
+        Mbp<String, Objfdt> mbp =
+                Collfdtions.syndironizfdMbp(nfw HbsiMbp<String, Objfdt>());
+        rfturn nfw SimplfBindings(mbp);
     }
 
-    // create and initialize script engine
-    private void initScriptEngine() {
-        // set pre-defined global variables
-        setGlobals();
-        // load pre-defined initialization file
-        loadInitFile();
-        // load current user's initialization file
-        loadUserInitFile();
+    // drfbtf bnd initiblizf sdript fnginf
+    privbtf void initSdriptEnginf() {
+        // sft prf-dffinfd globbl vbribblfs
+        sftGlobbls();
+        // lobd prf-dffinfd initiblizbtion filf
+        lobdInitFilf();
+        // lobd durrfnt usfr's initiblizbtion filf
+        lobdUsfrInitFilf();
     }
 
-    // set pre-defined global variables for script
-    private void setGlobals() {
-        engine.put("engine", engine);
-        engine.put("window", window);
-        engine.put("plugin", this);
+    // sft prf-dffinfd globbl vbribblfs for sdript
+    privbtf void sftGlobbls() {
+        fnginf.put("fnginf", fnginf);
+        fnginf.put("window", window);
+        fnginf.put("plugin", tiis);
     }
 
-    // load initial script file (jconsole.<extension>)
-    private void loadInitFile() {
-        String oldFilename = (String) engine.get(ScriptEngine.FILENAME);
-        engine.put(ScriptEngine.FILENAME, "<built-in jconsole." + extension + ">");
+    // lobd initibl sdript filf (jdonsolf.<fxtfnsion>)
+    privbtf void lobdInitFilf() {
+        String oldFilfnbmf = (String) fnginf.gft(SdriptEnginf.FILENAME);
+        fnginf.put(SdriptEnginf.FILENAME, "<built-in jdonsolf." + fxtfnsion + ">");
         try {
-            Class<? extends ScriptJConsolePlugin> myClass = this.getClass();
-            InputStream stream = myClass.getResourceAsStream("/resources/jconsole." +
-                                       extension);
-            if (stream != null) {
-                engine.eval(new InputStreamReader(new BufferedInputStream(stream)));
+            Clbss<? fxtfnds SdriptJConsolfPlugin> myClbss = tiis.gftClbss();
+            InputStrfbm strfbm = myClbss.gftRfsourdfAsStrfbm("/rfsourdfs/jdonsolf." +
+                                       fxtfnsion);
+            if (strfbm != null) {
+                fnginf.fvbl(nfw InputStrfbmRfbdfr(nfw BufffrfdInputStrfbm(strfbm)));
             }
-        } catch (Exception exp) {
-            exp.printStackTrace();
-            // FIXME: What else I can do here??
-        } finally {
-            engine.put(ScriptEngine.FILENAME, oldFilename);
+        } dbtdi (Exdfption fxp) {
+            fxp.printStbdkTrbdf();
+            // FIXME: Wibt flsf I dbn do ifrf??
+        } finblly {
+            fnginf.put(SdriptEnginf.FILENAME, oldFilfnbmf);
         }
     }
 
-    // load user's initial script file (~/jconsole.<extension>)
-    private void loadUserInitFile() {
-        String oldFilename = (String) engine.get(ScriptEngine.FILENAME);
-        String home = System.getProperty("user.home");
-        if (home == null) {
-            // no user.home?? should not happen??
-            return;
+    // lobd usfr's initibl sdript filf (~/jdonsolf.<fxtfnsion>)
+    privbtf void lobdUsfrInitFilf() {
+        String oldFilfnbmf = (String) fnginf.gft(SdriptEnginf.FILENAME);
+        String iomf = Systfm.gftPropfrty("usfr.iomf");
+        if (iomf == null) {
+            // no usfr.iomf?? siould not ibppfn??
+            rfturn;
         }
-        String fileName = home + File.separator + "jconsole." + extension;
-        if (! (new File(fileName).exists())) {
-            // user does not have ~/jconsole.<extension>
-            return;
+        String filfNbmf = iomf + Filf.sfpbrbtor + "jdonsolf." + fxtfnsion;
+        if (! (nfw Filf(filfNbmf).fxists())) {
+            // usfr dofs not ibvf ~/jdonsolf.<fxtfnsion>
+            rfturn;
         }
-        engine.put(ScriptEngine.FILENAME, fileName);
+        fnginf.put(SdriptEnginf.FILENAME, filfNbmf);
         try {
-            engine.eval(new FileReader(fileName));
-        } catch (Exception exp) {
-            exp.printStackTrace();
-            // FIXME: What else I can do here??
-        } finally {
-            engine.put(ScriptEngine.FILENAME, oldFilename);
+            fnginf.fvbl(nfw FilfRfbdfr(filfNbmf));
+        } dbtdi (Exdfption fxp) {
+            fxp.printStbdkTrbdf();
+            // FIXME: Wibt flsf I dbn do ifrf??
+        } finblly {
+            fnginf.put(SdriptEnginf.FILENAME, oldFilfnbmf);
         }
     }
 }

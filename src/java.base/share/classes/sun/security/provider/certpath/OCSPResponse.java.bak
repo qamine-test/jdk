@@ -1,827 +1,827 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.provider.certpath;
+pbdkbgf sun.sfdurity.providfr.dfrtpbti;
 
-import java.io.*;
-import java.security.*;
-import java.security.cert.CertificateException;
-import java.security.cert.CertificateParsingException;
-import java.security.cert.CertPathValidatorException;
-import java.security.cert.CertPathValidatorException.BasicReason;
-import java.security.cert.CRLReason;
-import java.security.cert.TrustAnchor;
-import java.security.cert.X509Certificate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import javax.security.auth.x500.X500Principal;
+import jbvb.io.*;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.dfrt.CfrtifidbtfExdfption;
+import jbvb.sfdurity.dfrt.CfrtifidbtfPbrsingExdfption;
+import jbvb.sfdurity.dfrt.CfrtPbtiVblidbtorExdfption;
+import jbvb.sfdurity.dfrt.CfrtPbtiVblidbtorExdfption.BbsidRfbson;
+import jbvb.sfdurity.dfrt.CRLRfbson;
+import jbvb.sfdurity.dfrt.TrustAndior;
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.Collfdtions;
+import jbvb.util.Dbtf;
+import jbvb.util.HbsiMbp;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvbx.sfdurity.buti.x500.X500Prindipbl;
 
-import sun.misc.HexDumpEncoder;
-import sun.security.action.GetIntegerAction;
-import sun.security.x509.*;
-import sun.security.util.*;
+import sun.misd.HfxDumpEndodfr;
+import sun.sfdurity.bdtion.GftIntfgfrAdtion;
+import sun.sfdurity.x509.*;
+import sun.sfdurity.util.*;
 
 /**
- * This class is used to process an OCSP response.
- * The OCSP Response is defined
- * in RFC 2560 and the ASN.1 encoding is as follows:
- * <pre>
+ * Tiis dlbss is usfd to prodfss bn OCSP rfsponsf.
+ * Tif OCSP Rfsponsf is dffinfd
+ * in RFC 2560 bnd tif ASN.1 fndoding is bs follows:
+ * <prf>
  *
- *  OCSPResponse ::= SEQUENCE {
- *      responseStatus         OCSPResponseStatus,
- *      responseBytes          [0] EXPLICIT ResponseBytes OPTIONAL }
+ *  OCSPRfsponsf ::= SEQUENCE {
+ *      rfsponsfStbtus         OCSPRfsponsfStbtus,
+ *      rfsponsfBytfs          [0] EXPLICIT RfsponsfBytfs OPTIONAL }
  *
- *   OCSPResponseStatus ::= ENUMERATED {
- *       successful            (0),  --Response has valid confirmations
- *       malformedRequest      (1),  --Illegal confirmation request
- *       internalError         (2),  --Internal error in issuer
- *       tryLater              (3),  --Try again later
- *                                   --(4) is not used
- *       sigRequired           (5),  --Must sign the request
- *       unauthorized          (6)   --Request unauthorized
+ *   OCSPRfsponsfStbtus ::= ENUMERATED {
+ *       suddfssful            (0),  --Rfsponsf ibs vblid donfirmbtions
+ *       mblformfdRfqufst      (1),  --Illfgbl donfirmbtion rfqufst
+ *       intfrnblError         (2),  --Intfrnbl frror in issufr
+ *       tryLbtfr              (3),  --Try bgbin lbtfr
+ *                                   --(4) is not usfd
+ *       sigRfquirfd           (5),  --Must sign tif rfqufst
+ *       unbutiorizfd          (6)   --Rfqufst unbutiorizfd
  *   }
  *
- *   ResponseBytes ::=       SEQUENCE {
- *       responseType   OBJECT IDENTIFIER,
- *       response       OCTET STRING }
+ *   RfsponsfBytfs ::=       SEQUENCE {
+ *       rfsponsfTypf   OBJECT IDENTIFIER,
+ *       rfsponsf       OCTET STRING }
  *
- *   BasicOCSPResponse       ::= SEQUENCE {
- *      tbsResponseData      ResponseData,
- *      signatureAlgorithm   AlgorithmIdentifier,
- *      signature            BIT STRING,
- *      certs                [0] EXPLICIT SEQUENCE OF Certificate OPTIONAL }
+ *   BbsidOCSPRfsponsf       ::= SEQUENCE {
+ *      tbsRfsponsfDbtb      RfsponsfDbtb,
+ *      signbturfAlgoritim   AlgoritimIdfntififr,
+ *      signbturf            BIT STRING,
+ *      dfrts                [0] EXPLICIT SEQUENCE OF Cfrtifidbtf OPTIONAL }
  *
- *   The value for signature SHALL be computed on the hash of the DER
- *   encoding ResponseData.
+ *   Tif vbluf for signbturf SHALL bf domputfd on tif ibsi of tif DER
+ *   fndoding RfsponsfDbtb.
  *
- *   ResponseData ::= SEQUENCE {
- *      version              [0] EXPLICIT Version DEFAULT v1,
- *      responderID              ResponderID,
- *      producedAt               GeneralizedTime,
- *      responses                SEQUENCE OF SingleResponse,
- *      responseExtensions   [1] EXPLICIT Extensions OPTIONAL }
+ *   RfsponsfDbtb ::= SEQUENCE {
+ *      vfrsion              [0] EXPLICIT Vfrsion DEFAULT v1,
+ *      rfspondfrID              RfspondfrID,
+ *      produdfdAt               GfnfrblizfdTimf,
+ *      rfsponsfs                SEQUENCE OF SinglfRfsponsf,
+ *      rfsponsfExtfnsions   [1] EXPLICIT Extfnsions OPTIONAL }
  *
- *   ResponderID ::= CHOICE {
- *      byName               [1] Name,
- *      byKey                [2] KeyHash }
+ *   RfspondfrID ::= CHOICE {
+ *      byNbmf               [1] Nbmf,
+ *      byKfy                [2] KfyHbsi }
  *
- *   KeyHash ::= OCTET STRING -- SHA-1 hash of responder's public key
- *   (excluding the tag and length fields)
+ *   KfyHbsi ::= OCTET STRING -- SHA-1 ibsi of rfspondfr's publid kfy
+ *   (fxdluding tif tbg bnd lfngti fiflds)
  *
- *   SingleResponse ::= SEQUENCE {
- *      certID                       CertID,
- *      certStatus                   CertStatus,
- *      thisUpdate                   GeneralizedTime,
- *      nextUpdate         [0]       EXPLICIT GeneralizedTime OPTIONAL,
- *      singleExtensions   [1]       EXPLICIT Extensions OPTIONAL }
+ *   SinglfRfsponsf ::= SEQUENCE {
+ *      dfrtID                       CfrtID,
+ *      dfrtStbtus                   CfrtStbtus,
+ *      tiisUpdbtf                   GfnfrblizfdTimf,
+ *      nfxtUpdbtf         [0]       EXPLICIT GfnfrblizfdTimf OPTIONAL,
+ *      singlfExtfnsions   [1]       EXPLICIT Extfnsions OPTIONAL }
  *
- *   CertStatus ::= CHOICE {
+ *   CfrtStbtus ::= CHOICE {
  *       good        [0]     IMPLICIT NULL,
- *       revoked     [1]     IMPLICIT RevokedInfo,
+ *       rfvokfd     [1]     IMPLICIT RfvokfdInfo,
  *       unknown     [2]     IMPLICIT UnknownInfo }
  *
- *   RevokedInfo ::= SEQUENCE {
- *       revocationTime              GeneralizedTime,
- *       revocationReason    [0]     EXPLICIT CRLReason OPTIONAL }
+ *   RfvokfdInfo ::= SEQUENCE {
+ *       rfvodbtionTimf              GfnfrblizfdTimf,
+ *       rfvodbtionRfbson    [0]     EXPLICIT CRLRfbson OPTIONAL }
  *
- *   UnknownInfo ::= NULL -- this can be replaced with an enumeration
+ *   UnknownInfo ::= NULL -- tiis dbn bf rfplbdfd witi bn fnumfrbtion
  *
- * </pre>
+ * </prf>
  *
- * @author      Ram Marti
+ * @butior      Rbm Mbrti
  */
 
-public final class OCSPResponse {
+publid finbl dlbss OCSPRfsponsf {
 
-    public enum ResponseStatus {
-        SUCCESSFUL,            // Response has valid confirmations
-        MALFORMED_REQUEST,     // Illegal request
-        INTERNAL_ERROR,        // Internal error in responder
-        TRY_LATER,             // Try again later
-        UNUSED,                // is not used
-        SIG_REQUIRED,          // Must sign the request
-        UNAUTHORIZED           // Request unauthorized
+    publid fnum RfsponsfStbtus {
+        SUCCESSFUL,            // Rfsponsf ibs vblid donfirmbtions
+        MALFORMED_REQUEST,     // Illfgbl rfqufst
+        INTERNAL_ERROR,        // Intfrnbl frror in rfspondfr
+        TRY_LATER,             // Try bgbin lbtfr
+        UNUSED,                // is not usfd
+        SIG_REQUIRED,          // Must sign tif rfqufst
+        UNAUTHORIZED           // Rfqufst unbutiorizfd
     };
-    private static ResponseStatus[] rsvalues = ResponseStatus.values();
+    privbtf stbtid RfsponsfStbtus[] rsvblufs = RfsponsfStbtus.vblufs();
 
-    private static final Debug debug = Debug.getInstance("certpath");
-    private static final boolean dump = debug != null && Debug.isOn("ocsp");
-    private static final ObjectIdentifier OCSP_BASIC_RESPONSE_OID =
-        ObjectIdentifier.newInternal(new int[] { 1, 3, 6, 1, 5, 5, 7, 48, 1, 1});
-    private static final int CERT_STATUS_GOOD = 0;
-    private static final int CERT_STATUS_REVOKED = 1;
-    private static final int CERT_STATUS_UNKNOWN = 2;
+    privbtf stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("dfrtpbti");
+    privbtf stbtid finbl boolfbn dump = dfbug != null && Dfbug.isOn("odsp");
+    privbtf stbtid finbl ObjfdtIdfntififr OCSP_BASIC_RESPONSE_OID =
+        ObjfdtIdfntififr.nfwIntfrnbl(nfw int[] { 1, 3, 6, 1, 5, 5, 7, 48, 1, 1});
+    privbtf stbtid finbl int CERT_STATUS_GOOD = 0;
+    privbtf stbtid finbl int CERT_STATUS_REVOKED = 1;
+    privbtf stbtid finbl int CERT_STATUS_UNKNOWN = 2;
 
-    // ResponderID CHOICE tags
-    private static final int NAME_TAG = 1;
-    private static final int KEY_TAG = 2;
+    // RfspondfrID CHOICE tbgs
+    privbtf stbtid finbl int NAME_TAG = 1;
+    privbtf stbtid finbl int KEY_TAG = 2;
 
-    // Object identifier for the OCSPSigning key purpose
-    private static final String KP_OCSP_SIGNING_OID = "1.3.6.1.5.5.7.3.9";
+    // Objfdt idfntififr for tif OCSPSigning kfy purposf
+    privbtf stbtid finbl String KP_OCSP_SIGNING_OID = "1.3.6.1.5.5.7.3.9";
 
-    // Default maximum clock skew in milliseconds (15 minutes)
-    // allowed when checking validity of OCSP responses
-    private static final int DEFAULT_MAX_CLOCK_SKEW = 900000;
-
-    /**
-     * Integer value indicating the maximum allowable clock skew, in seconds,
-     * to be used for the OCSP check.
-     */
-    private static final int MAX_CLOCK_SKEW = initializeClockSkew();
+    // Dffbult mbximum dlodk skfw in millisfdonds (15 minutfs)
+    // bllowfd wifn difdking vblidity of OCSP rfsponsfs
+    privbtf stbtid finbl int DEFAULT_MAX_CLOCK_SKEW = 900000;
 
     /**
-     * Initialize the maximum allowable clock skew by getting the OCSP
-     * clock skew system property. If the property has not been set, or if its
-     * value is negative, set the skew to the default.
+     * Intfgfr vbluf indidbting tif mbximum bllowbblf dlodk skfw, in sfdonds,
+     * to bf usfd for tif OCSP difdk.
      */
-    private static int initializeClockSkew() {
-        Integer tmp = java.security.AccessController.doPrivileged(
-                new GetIntegerAction("com.sun.security.ocsp.clockSkew"));
+    privbtf stbtid finbl int MAX_CLOCK_SKEW = initiblizfClodkSkfw();
+
+    /**
+     * Initiblizf tif mbximum bllowbblf dlodk skfw by gftting tif OCSP
+     * dlodk skfw systfm propfrty. If tif propfrty ibs not bffn sft, or if its
+     * vbluf is nfgbtivf, sft tif skfw to tif dffbult.
+     */
+    privbtf stbtid int initiblizfClodkSkfw() {
+        Intfgfr tmp = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                nfw GftIntfgfrAdtion("dom.sun.sfdurity.odsp.dlodkSkfw"));
         if (tmp == null || tmp < 0) {
-            return DEFAULT_MAX_CLOCK_SKEW;
+            rfturn DEFAULT_MAX_CLOCK_SKEW;
         }
-        // Convert to milliseconds, as the system property will be
-        // specified in seconds
-        return tmp * 1000;
+        // Convfrt to millisfdonds, bs tif systfm propfrty will bf
+        // spfdififd in sfdonds
+        rfturn tmp * 1000;
     }
 
-    // an array of all of the CRLReasons (used in SingleResponse)
-    private static CRLReason[] values = CRLReason.values();
+    // bn brrby of bll of tif CRLRfbsons (usfd in SinglfRfsponsf)
+    privbtf stbtid CRLRfbson[] vblufs = CRLRfbson.vblufs();
 
-    private final ResponseStatus responseStatus;
-    private final Map<CertId, SingleResponse> singleResponseMap;
-    private final AlgorithmId sigAlgId;
-    private final byte[] signature;
-    private final byte[] tbsResponseData;
-    private final byte[] responseNonce;
-    private List<X509CertImpl> certs;
-    private X509CertImpl signerCert = null;
-    private X500Principal responderName = null;
-    private KeyIdentifier responderKeyId = null;
+    privbtf finbl RfsponsfStbtus rfsponsfStbtus;
+    privbtf finbl Mbp<CfrtId, SinglfRfsponsf> singlfRfsponsfMbp;
+    privbtf finbl AlgoritimId sigAlgId;
+    privbtf finbl bytf[] signbturf;
+    privbtf finbl bytf[] tbsRfsponsfDbtb;
+    privbtf finbl bytf[] rfsponsfNondf;
+    privbtf List<X509CfrtImpl> dfrts;
+    privbtf X509CfrtImpl signfrCfrt = null;
+    privbtf X500Prindipbl rfspondfrNbmf = null;
+    privbtf KfyIdfntififr rfspondfrKfyId = null;
 
     /*
-     * Create an OCSP response from its ASN.1 DER encoding.
+     * Crfbtf bn OCSP rfsponsf from its ASN.1 DER fndoding.
      */
-    OCSPResponse(byte[] bytes) throws IOException {
+    OCSPRfsponsf(bytf[] bytfs) tirows IOExdfption {
         if (dump) {
-            HexDumpEncoder hexEnc = new HexDumpEncoder();
-            debug.println("OCSPResponse bytes...\n\n" +
-                hexEnc.encode(bytes) + "\n");
+            HfxDumpEndodfr ifxEnd = nfw HfxDumpEndodfr();
+            dfbug.println("OCSPRfsponsf bytfs...\n\n" +
+                ifxEnd.fndodf(bytfs) + "\n");
         }
-        DerValue der = new DerValue(bytes);
-        if (der.tag != DerValue.tag_Sequence) {
-            throw new IOException("Bad encoding in OCSP response: " +
-                "expected ASN.1 SEQUENCE tag.");
+        DfrVbluf dfr = nfw DfrVbluf(bytfs);
+        if (dfr.tbg != DfrVbluf.tbg_Sfqufndf) {
+            tirow nfw IOExdfption("Bbd fndoding in OCSP rfsponsf: " +
+                "fxpfdtfd ASN.1 SEQUENCE tbg.");
         }
-        DerInputStream derIn = der.getData();
+        DfrInputStrfbm dfrIn = dfr.gftDbtb();
 
-        // responseStatus
-        int status = derIn.getEnumerated();
-        if (status >= 0 && status < rsvalues.length) {
-            responseStatus = rsvalues[status];
-        } else {
-            // unspecified responseStatus
-            throw new IOException("Unknown OCSPResponse status: " + status);
+        // rfsponsfStbtus
+        int stbtus = dfrIn.gftEnumfrbtfd();
+        if (stbtus >= 0 && stbtus < rsvblufs.lfngti) {
+            rfsponsfStbtus = rsvblufs[stbtus];
+        } flsf {
+            // unspfdififd rfsponsfStbtus
+            tirow nfw IOExdfption("Unknown OCSPRfsponsf stbtus: " + stbtus);
         }
-        if (debug != null) {
-            debug.println("OCSP response status: " + responseStatus);
+        if (dfbug != null) {
+            dfbug.println("OCSP rfsponsf stbtus: " + rfsponsfStbtus);
         }
-        if (responseStatus != ResponseStatus.SUCCESSFUL) {
-            // no need to continue, responseBytes are not set.
-            singleResponseMap = Collections.emptyMap();
-            certs = new ArrayList<X509CertImpl>();
+        if (rfsponsfStbtus != RfsponsfStbtus.SUCCESSFUL) {
+            // no nffd to dontinuf, rfsponsfBytfs brf not sft.
+            singlfRfsponsfMbp = Collfdtions.fmptyMbp();
+            dfrts = nfw ArrbyList<X509CfrtImpl>();
             sigAlgId = null;
-            signature = null;
-            tbsResponseData = null;
-            responseNonce = null;
-            return;
+            signbturf = null;
+            tbsRfsponsfDbtb = null;
+            rfsponsfNondf = null;
+            rfturn;
         }
 
-        // responseBytes
-        der = derIn.getDerValue();
-        if (!der.isContextSpecific((byte)0)) {
-            throw new IOException("Bad encoding in responseBytes element " +
-                "of OCSP response: expected ASN.1 context specific tag 0.");
+        // rfsponsfBytfs
+        dfr = dfrIn.gftDfrVbluf();
+        if (!dfr.isContfxtSpfdifid((bytf)0)) {
+            tirow nfw IOExdfption("Bbd fndoding in rfsponsfBytfs flfmfnt " +
+                "of OCSP rfsponsf: fxpfdtfd ASN.1 dontfxt spfdifid tbg 0.");
         }
-        DerValue tmp = der.data.getDerValue();
-        if (tmp.tag != DerValue.tag_Sequence) {
-            throw new IOException("Bad encoding in responseBytes element " +
-                "of OCSP response: expected ASN.1 SEQUENCE tag.");
+        DfrVbluf tmp = dfr.dbtb.gftDfrVbluf();
+        if (tmp.tbg != DfrVbluf.tbg_Sfqufndf) {
+            tirow nfw IOExdfption("Bbd fndoding in rfsponsfBytfs flfmfnt " +
+                "of OCSP rfsponsf: fxpfdtfd ASN.1 SEQUENCE tbg.");
         }
 
-        // responseType
-        derIn = tmp.data;
-        ObjectIdentifier responseType = derIn.getOID();
-        if (responseType.equals((Object)OCSP_BASIC_RESPONSE_OID)) {
-            if (debug != null) {
-                debug.println("OCSP response type: basic");
+        // rfsponsfTypf
+        dfrIn = tmp.dbtb;
+        ObjfdtIdfntififr rfsponsfTypf = dfrIn.gftOID();
+        if (rfsponsfTypf.fqubls((Objfdt)OCSP_BASIC_RESPONSE_OID)) {
+            if (dfbug != null) {
+                dfbug.println("OCSP rfsponsf typf: bbsid");
             }
-        } else {
-            if (debug != null) {
-                debug.println("OCSP response type: " + responseType);
+        } flsf {
+            if (dfbug != null) {
+                dfbug.println("OCSP rfsponsf typf: " + rfsponsfTypf);
             }
-            throw new IOException("Unsupported OCSP response type: " +
-                                  responseType);
+            tirow nfw IOExdfption("Unsupportfd OCSP rfsponsf typf: " +
+                                  rfsponsfTypf);
         }
 
-        // BasicOCSPResponse
-        DerInputStream basicOCSPResponse =
-            new DerInputStream(derIn.getOctetString());
+        // BbsidOCSPRfsponsf
+        DfrInputStrfbm bbsidOCSPRfsponsf =
+            nfw DfrInputStrfbm(dfrIn.gftOdtftString());
 
-        DerValue[] seqTmp = basicOCSPResponse.getSequence(2);
-        if (seqTmp.length < 3) {
-            throw new IOException("Unexpected BasicOCSPResponse value");
+        DfrVbluf[] sfqTmp = bbsidOCSPRfsponsf.gftSfqufndf(2);
+        if (sfqTmp.lfngti < 3) {
+            tirow nfw IOExdfption("Unfxpfdtfd BbsidOCSPRfsponsf vbluf");
         }
 
-        DerValue responseData = seqTmp[0];
+        DfrVbluf rfsponsfDbtb = sfqTmp[0];
 
-        // Need the DER encoded ResponseData to verify the signature later
-        tbsResponseData = seqTmp[0].toByteArray();
+        // Nffd tif DER fndodfd RfsponsfDbtb to vfrify tif signbturf lbtfr
+        tbsRfsponsfDbtb = sfqTmp[0].toBytfArrby();
 
-        // tbsResponseData
-        if (responseData.tag != DerValue.tag_Sequence) {
-            throw new IOException("Bad encoding in tbsResponseData " +
-                "element of OCSP response: expected ASN.1 SEQUENCE tag.");
+        // tbsRfsponsfDbtb
+        if (rfsponsfDbtb.tbg != DfrVbluf.tbg_Sfqufndf) {
+            tirow nfw IOExdfption("Bbd fndoding in tbsRfsponsfDbtb " +
+                "flfmfnt of OCSP rfsponsf: fxpfdtfd ASN.1 SEQUENCE tbg.");
         }
-        DerInputStream seqDerIn = responseData.data;
-        DerValue seq = seqDerIn.getDerValue();
+        DfrInputStrfbm sfqDfrIn = rfsponsfDbtb.dbtb;
+        DfrVbluf sfq = sfqDfrIn.gftDfrVbluf();
 
-        // version
-        if (seq.isContextSpecific((byte)0)) {
-            // seq[0] is version
-            if (seq.isConstructed() && seq.isContextSpecific()) {
-                //System.out.println ("version is available");
-                seq = seq.data.getDerValue();
-                int version = seq.getInteger();
-                if (seq.data.available() != 0) {
-                    throw new IOException("Bad encoding in version " +
-                        " element of OCSP response: bad format");
+        // vfrsion
+        if (sfq.isContfxtSpfdifid((bytf)0)) {
+            // sfq[0] is vfrsion
+            if (sfq.isConstrudtfd() && sfq.isContfxtSpfdifid()) {
+                //Systfm.out.println ("vfrsion is bvbilbblf");
+                sfq = sfq.dbtb.gftDfrVbluf();
+                int vfrsion = sfq.gftIntfgfr();
+                if (sfq.dbtb.bvbilbblf() != 0) {
+                    tirow nfw IOExdfption("Bbd fndoding in vfrsion " +
+                        " flfmfnt of OCSP rfsponsf: bbd formbt");
                 }
-                seq = seqDerIn.getDerValue();
+                sfq = sfqDfrIn.gftDfrVbluf();
             }
         }
 
-        // responderID
-        short tag = (byte)(seq.tag & 0x1f);
-        if (tag == NAME_TAG) {
-            responderName = new X500Principal(seq.getData().toByteArray());
-            if (debug != null) {
-                debug.println("Responder's name: " + responderName);
+        // rfspondfrID
+        siort tbg = (bytf)(sfq.tbg & 0x1f);
+        if (tbg == NAME_TAG) {
+            rfspondfrNbmf = nfw X500Prindipbl(sfq.gftDbtb().toBytfArrby());
+            if (dfbug != null) {
+                dfbug.println("Rfspondfr's nbmf: " + rfspondfrNbmf);
             }
-        } else if (tag == KEY_TAG) {
-            responderKeyId = new KeyIdentifier(seq.getData().getOctetString());
-            if (debug != null) {
-                debug.println("Responder's key ID: " +
-                    Debug.toString(responderKeyId.getIdentifier()));
+        } flsf if (tbg == KEY_TAG) {
+            rfspondfrKfyId = nfw KfyIdfntififr(sfq.gftDbtb().gftOdtftString());
+            if (dfbug != null) {
+                dfbug.println("Rfspondfr's kfy ID: " +
+                    Dfbug.toString(rfspondfrKfyId.gftIdfntififr()));
             }
-        } else {
-            throw new IOException("Bad encoding in responderID element of " +
-                "OCSP response: expected ASN.1 context specific tag 0 or 1");
+        } flsf {
+            tirow nfw IOExdfption("Bbd fndoding in rfspondfrID flfmfnt of " +
+                "OCSP rfsponsf: fxpfdtfd ASN.1 dontfxt spfdifid tbg 0 or 1");
         }
 
-        // producedAt
-        seq = seqDerIn.getDerValue();
-        if (debug != null) {
-            Date producedAtDate = seq.getGeneralizedTime();
-            debug.println("OCSP response produced at: " + producedAtDate);
+        // produdfdAt
+        sfq = sfqDfrIn.gftDfrVbluf();
+        if (dfbug != null) {
+            Dbtf produdfdAtDbtf = sfq.gftGfnfrblizfdTimf();
+            dfbug.println("OCSP rfsponsf produdfd bt: " + produdfdAtDbtf);
         }
 
-        // responses
-        DerValue[] singleResponseDer = seqDerIn.getSequence(1);
-        singleResponseMap = new HashMap<>(singleResponseDer.length);
-        if (debug != null) {
-            debug.println("OCSP number of SingleResponses: "
-                          + singleResponseDer.length);
+        // rfsponsfs
+        DfrVbluf[] singlfRfsponsfDfr = sfqDfrIn.gftSfqufndf(1);
+        singlfRfsponsfMbp = nfw HbsiMbp<>(singlfRfsponsfDfr.lfngti);
+        if (dfbug != null) {
+            dfbug.println("OCSP numbfr of SinglfRfsponsfs: "
+                          + singlfRfsponsfDfr.lfngti);
         }
-        for (int i = 0; i < singleResponseDer.length; i++) {
-            SingleResponse singleResponse =
-                new SingleResponse(singleResponseDer[i]);
-            singleResponseMap.put(singleResponse.getCertId(), singleResponse);
+        for (int i = 0; i < singlfRfsponsfDfr.lfngti; i++) {
+            SinglfRfsponsf singlfRfsponsf =
+                nfw SinglfRfsponsf(singlfRfsponsfDfr[i]);
+            singlfRfsponsfMbp.put(singlfRfsponsf.gftCfrtId(), singlfRfsponsf);
         }
 
-        // responseExtensions
-        byte[] nonce = null;
-        if (seqDerIn.available() > 0) {
-            seq = seqDerIn.getDerValue();
-            if (seq.isContextSpecific((byte)1)) {
-                DerValue[] responseExtDer = seq.data.getSequence(3);
-                for (int i = 0; i < responseExtDer.length; i++) {
-                    Extension ext = new Extension(responseExtDer[i]);
-                    if (debug != null) {
-                        debug.println("OCSP extension: " + ext);
+        // rfsponsfExtfnsions
+        bytf[] nondf = null;
+        if (sfqDfrIn.bvbilbblf() > 0) {
+            sfq = sfqDfrIn.gftDfrVbluf();
+            if (sfq.isContfxtSpfdifid((bytf)1)) {
+                DfrVbluf[] rfsponsfExtDfr = sfq.dbtb.gftSfqufndf(3);
+                for (int i = 0; i < rfsponsfExtDfr.lfngti; i++) {
+                    Extfnsion fxt = nfw Extfnsion(rfsponsfExtDfr[i]);
+                    if (dfbug != null) {
+                        dfbug.println("OCSP fxtfnsion: " + fxt);
                     }
-                    // Only the NONCE extension is recognized
-                    if (ext.getExtensionId().equals((Object)
+                    // Only tif NONCE fxtfnsion is rfdognizfd
+                    if (fxt.gftExtfnsionId().fqubls((Objfdt)
                         OCSP.NONCE_EXTENSION_OID))
                     {
-                        nonce = ext.getExtensionValue();
-                    } else if (ext.isCritical())  {
-                        throw new IOException(
-                            "Unsupported OCSP critical extension: " +
-                            ext.getExtensionId());
+                        nondf = fxt.gftExtfnsionVbluf();
+                    } flsf if (fxt.isCritidbl())  {
+                        tirow nfw IOExdfption(
+                            "Unsupportfd OCSP dritidbl fxtfnsion: " +
+                            fxt.gftExtfnsionId());
                     }
                 }
             }
         }
-        responseNonce = nonce;
+        rfsponsfNondf = nondf;
 
-        // signatureAlgorithmId
-        sigAlgId = AlgorithmId.parse(seqTmp[1]);
+        // signbturfAlgoritimId
+        sigAlgId = AlgoritimId.pbrsf(sfqTmp[1]);
 
-        // signature
-        signature = seqTmp[2].getBitString();
+        // signbturf
+        signbturf = sfqTmp[2].gftBitString();
 
-        // if seq[3] is available , then it is a sequence of certificates
-        if (seqTmp.length > 3) {
-            // certs are available
-            DerValue seqCert = seqTmp[3];
-            if (!seqCert.isContextSpecific((byte)0)) {
-                throw new IOException("Bad encoding in certs element of " +
-                    "OCSP response: expected ASN.1 context specific tag 0.");
+        // if sfq[3] is bvbilbblf , tifn it is b sfqufndf of dfrtifidbtfs
+        if (sfqTmp.lfngti > 3) {
+            // dfrts brf bvbilbblf
+            DfrVbluf sfqCfrt = sfqTmp[3];
+            if (!sfqCfrt.isContfxtSpfdifid((bytf)0)) {
+                tirow nfw IOExdfption("Bbd fndoding in dfrts flfmfnt of " +
+                    "OCSP rfsponsf: fxpfdtfd ASN.1 dontfxt spfdifid tbg 0.");
             }
-            DerValue[] derCerts = seqCert.getData().getSequence(3);
-            certs = new ArrayList<X509CertImpl>(derCerts.length);
+            DfrVbluf[] dfrCfrts = sfqCfrt.gftDbtb().gftSfqufndf(3);
+            dfrts = nfw ArrbyList<X509CfrtImpl>(dfrCfrts.lfngti);
             try {
-                for (int i = 0; i < derCerts.length; i++) {
-                    X509CertImpl cert =
-                        new X509CertImpl(derCerts[i].toByteArray());
-                    certs.add(cert);
+                for (int i = 0; i < dfrCfrts.lfngti; i++) {
+                    X509CfrtImpl dfrt =
+                        nfw X509CfrtImpl(dfrCfrts[i].toBytfArrby());
+                    dfrts.bdd(dfrt);
 
-                    if (debug != null) {
-                        debug.println("OCSP response cert #" + (i + 1) + ": " +
-                            cert.getSubjectX500Principal());
+                    if (dfbug != null) {
+                        dfbug.println("OCSP rfsponsf dfrt #" + (i + 1) + ": " +
+                            dfrt.gftSubjfdtX500Prindipbl());
                     }
                 }
-            } catch (CertificateException ce) {
-                throw new IOException("Bad encoding in X509 Certificate", ce);
+            } dbtdi (CfrtifidbtfExdfption df) {
+                tirow nfw IOExdfption("Bbd fndoding in X509 Cfrtifidbtf", df);
             }
-        } else {
-            certs = new ArrayList<X509CertImpl>();
+        } flsf {
+            dfrts = nfw ArrbyList<X509CfrtImpl>();
         }
     }
 
-    void verify(List<CertId> certIds, X509Certificate issuerCert,
-                X509Certificate responderCert, Date date, byte[] nonce)
-        throws CertPathValidatorException
+    void vfrify(List<CfrtId> dfrtIds, X509Cfrtifidbtf issufrCfrt,
+                X509Cfrtifidbtf rfspondfrCfrt, Dbtf dbtf, bytf[] nondf)
+        tirows CfrtPbtiVblidbtorExdfption
     {
-        switch (responseStatus) {
-            case SUCCESSFUL:
-                break;
-            case TRY_LATER:
-            case INTERNAL_ERROR:
-                throw new CertPathValidatorException(
-                    "OCSP response error: " + responseStatus, null, null, -1,
-                    BasicReason.UNDETERMINED_REVOCATION_STATUS);
-            case UNAUTHORIZED:
-            default:
-                throw new CertPathValidatorException("OCSP response error: " +
-                                                     responseStatus);
+        switdi (rfsponsfStbtus) {
+            dbsf SUCCESSFUL:
+                brfbk;
+            dbsf TRY_LATER:
+            dbsf INTERNAL_ERROR:
+                tirow nfw CfrtPbtiVblidbtorExdfption(
+                    "OCSP rfsponsf frror: " + rfsponsfStbtus, null, null, -1,
+                    BbsidRfbson.UNDETERMINED_REVOCATION_STATUS);
+            dbsf UNAUTHORIZED:
+            dffbult:
+                tirow nfw CfrtPbtiVblidbtorExdfption("OCSP rfsponsf frror: " +
+                                                     rfsponsfStbtus);
         }
 
-        // Check that the response includes a response for all of the
-        // certs that were supplied in the request
-        for (CertId certId : certIds) {
-            SingleResponse sr = getSingleResponse(certId);
+        // Cifdk tibt tif rfsponsf indludfs b rfsponsf for bll of tif
+        // dfrts tibt wfrf supplifd in tif rfqufst
+        for (CfrtId dfrtId : dfrtIds) {
+            SinglfRfsponsf sr = gftSinglfRfsponsf(dfrtId);
             if (sr == null) {
-                if (debug != null) {
-                    debug.println("No response found for CertId: " + certId);
+                if (dfbug != null) {
+                    dfbug.println("No rfsponsf found for CfrtId: " + dfrtId);
                 }
-                throw new CertPathValidatorException(
-                    "OCSP response does not include a response for a " +
-                    "certificate supplied in the OCSP request");
+                tirow nfw CfrtPbtiVblidbtorExdfption(
+                    "OCSP rfsponsf dofs not indludf b rfsponsf for b " +
+                    "dfrtifidbtf supplifd in tif OCSP rfqufst");
             }
-            if (debug != null) {
-                debug.println("Status of certificate (with serial number " +
-                    certId.getSerialNumber() + ") is: " + sr.getCertStatus());
+            if (dfbug != null) {
+                dfbug.println("Stbtus of dfrtifidbtf (witi sfribl numbfr " +
+                    dfrtId.gftSfriblNumbfr() + ") is: " + sr.gftCfrtStbtus());
             }
         }
 
-        // Locate the signer cert
-        if (signerCert == null) {
-            // Add the Issuing CA cert and/or Trusted Responder cert to the list
-            // of certs from the OCSP response
+        // Lodbtf tif signfr dfrt
+        if (signfrCfrt == null) {
+            // Add tif Issuing CA dfrt bnd/or Trustfd Rfspondfr dfrt to tif list
+            // of dfrts from tif OCSP rfsponsf
             try {
-                certs.add(X509CertImpl.toImpl(issuerCert));
-                if (responderCert != null) {
-                    certs.add(X509CertImpl.toImpl(responderCert));
+                dfrts.bdd(X509CfrtImpl.toImpl(issufrCfrt));
+                if (rfspondfrCfrt != null) {
+                    dfrts.bdd(X509CfrtImpl.toImpl(rfspondfrCfrt));
                 }
-            } catch (CertificateException ce) {
-                throw new CertPathValidatorException(
-                    "Invalid issuer or trusted responder certificate", ce);
+            } dbtdi (CfrtifidbtfExdfption df) {
+                tirow nfw CfrtPbtiVblidbtorExdfption(
+                    "Invblid issufr or trustfd rfspondfr dfrtifidbtf", df);
             }
 
-            if (responderName != null) {
-                for (X509CertImpl cert : certs) {
-                    if (cert.getSubjectX500Principal().equals(responderName)) {
-                        signerCert = cert;
-                        break;
+            if (rfspondfrNbmf != null) {
+                for (X509CfrtImpl dfrt : dfrts) {
+                    if (dfrt.gftSubjfdtX500Prindipbl().fqubls(rfspondfrNbmf)) {
+                        signfrCfrt = dfrt;
+                        brfbk;
                     }
                 }
-            } else if (responderKeyId != null) {
-                for (X509CertImpl cert : certs) {
-                    // Match responder's key identifier against the cert's SKID
-                    // This will match if the SKID is encoded using the 160-bit
-                    // SHA-1 hash method as defined in RFC 5280.
-                    KeyIdentifier certKeyId = cert.getSubjectKeyId();
-                    if (certKeyId != null && responderKeyId.equals(certKeyId)) {
-                        signerCert = cert;
-                        break;
-                    } else {
-                        // The certificate does not have a SKID or may have
-                        // been using a different algorithm (ex: see RFC 7093).
-                        // Check if the responder's key identifier matches
-                        // against a newly generated key identifier of the
-                        // cert's public key using the 160-bit SHA-1 method.
+            } flsf if (rfspondfrKfyId != null) {
+                for (X509CfrtImpl dfrt : dfrts) {
+                    // Mbtdi rfspondfr's kfy idfntififr bgbinst tif dfrt's SKID
+                    // Tiis will mbtdi if tif SKID is fndodfd using tif 160-bit
+                    // SHA-1 ibsi mftiod bs dffinfd in RFC 5280.
+                    KfyIdfntififr dfrtKfyId = dfrt.gftSubjfdtKfyId();
+                    if (dfrtKfyId != null && rfspondfrKfyId.fqubls(dfrtKfyId)) {
+                        signfrCfrt = dfrt;
+                        brfbk;
+                    } flsf {
+                        // Tif dfrtifidbtf dofs not ibvf b SKID or mby ibvf
+                        // bffn using b difffrfnt blgoritim (fx: sff RFC 7093).
+                        // Cifdk if tif rfspondfr's kfy idfntififr mbtdifs
+                        // bgbinst b nfwly gfnfrbtfd kfy idfntififr of tif
+                        // dfrt's publid kfy using tif 160-bit SHA-1 mftiod.
                         try {
-                            certKeyId = new KeyIdentifier(cert.getPublicKey());
-                        } catch (IOException e) {
-                            // ignore
+                            dfrtKfyId = nfw KfyIdfntififr(dfrt.gftPublidKfy());
+                        } dbtdi (IOExdfption f) {
+                            // ignorf
                         }
-                        if (responderKeyId.equals(certKeyId)) {
-                            signerCert = cert;
-                            break;
+                        if (rfspondfrKfyId.fqubls(dfrtKfyId)) {
+                            signfrCfrt = dfrt;
+                            brfbk;
                         }
                     }
                 }
             }
         }
 
-        // Check whether the signer cert returned by the responder is trusted
-        if (signerCert != null) {
-            // Check if the response is signed by the issuing CA
-            if (signerCert.equals(issuerCert)) {
-                if (debug != null) {
-                    debug.println("OCSP response is signed by the target's " +
+        // Cifdk wiftifr tif signfr dfrt rfturnfd by tif rfspondfr is trustfd
+        if (signfrCfrt != null) {
+            // Cifdk if tif rfsponsf is signfd by tif issuing CA
+            if (signfrCfrt.fqubls(issufrCfrt)) {
+                if (dfbug != null) {
+                    dfbug.println("OCSP rfsponsf is signfd by tif tbrgft's " +
                         "Issuing CA");
                 }
-                // cert is trusted, now verify the signed response
+                // dfrt is trustfd, now vfrify tif signfd rfsponsf
 
-            // Check if the response is signed by a trusted responder
-            } else if (signerCert.equals(responderCert)) {
-                if (debug != null) {
-                    debug.println("OCSP response is signed by a Trusted " +
-                        "Responder");
+            // Cifdk if tif rfsponsf is signfd by b trustfd rfspondfr
+            } flsf if (signfrCfrt.fqubls(rfspondfrCfrt)) {
+                if (dfbug != null) {
+                    dfbug.println("OCSP rfsponsf is signfd by b Trustfd " +
+                        "Rfspondfr");
                 }
-                // cert is trusted, now verify the signed response
+                // dfrt is trustfd, now vfrify tif signfd rfsponsf
 
-            // Check if the response is signed by an authorized responder
-            } else if (signerCert.getIssuerX500Principal().equals(
-                       issuerCert.getSubjectX500Principal())) {
+            // Cifdk if tif rfsponsf is signfd by bn butiorizfd rfspondfr
+            } flsf if (signfrCfrt.gftIssufrX500Prindipbl().fqubls(
+                       issufrCfrt.gftSubjfdtX500Prindipbl())) {
 
-                // Check for the OCSPSigning key purpose
+                // Cifdk for tif OCSPSigning kfy purposf
                 try {
-                    List<String> keyPurposes = signerCert.getExtendedKeyUsage();
-                    if (keyPurposes == null ||
-                        !keyPurposes.contains(KP_OCSP_SIGNING_OID)) {
-                        throw new CertPathValidatorException(
-                            "Responder's certificate not valid for signing " +
-                            "OCSP responses");
+                    List<String> kfyPurposfs = signfrCfrt.gftExtfndfdKfyUsbgf();
+                    if (kfyPurposfs == null ||
+                        !kfyPurposfs.dontbins(KP_OCSP_SIGNING_OID)) {
+                        tirow nfw CfrtPbtiVblidbtorExdfption(
+                            "Rfspondfr's dfrtifidbtf not vblid for signing " +
+                            "OCSP rfsponsfs");
                     }
-                } catch (CertificateParsingException cpe) {
-                    // assume cert is not valid for signing
-                    throw new CertPathValidatorException(
-                        "Responder's certificate not valid for signing " +
-                        "OCSP responses", cpe);
+                } dbtdi (CfrtifidbtfPbrsingExdfption dpf) {
+                    // bssumf dfrt is not vblid for signing
+                    tirow nfw CfrtPbtiVblidbtorExdfption(
+                        "Rfspondfr's dfrtifidbtf not vblid for signing " +
+                        "OCSP rfsponsfs", dpf);
                 }
 
-                // Check algorithm constraints specified in security property
-                // "jdk.certpath.disabledAlgorithms".
-                AlgorithmChecker algChecker = new AlgorithmChecker(
-                                    new TrustAnchor(issuerCert, null));
-                algChecker.init(false);
-                algChecker.check(signerCert, Collections.<String>emptySet());
+                // Cifdk blgoritim donstrbints spfdififd in sfdurity propfrty
+                // "jdk.dfrtpbti.disbblfdAlgoritims".
+                AlgoritimCifdkfr blgCifdkfr = nfw AlgoritimCifdkfr(
+                                    nfw TrustAndior(issufrCfrt, null));
+                blgCifdkfr.init(fblsf);
+                blgCifdkfr.difdk(signfrCfrt, Collfdtions.<String>fmptySft());
 
-                // check the validity
+                // difdk tif vblidity
                 try {
-                    if (date == null) {
-                        signerCert.checkValidity();
-                    } else {
-                        signerCert.checkValidity(date);
+                    if (dbtf == null) {
+                        signfrCfrt.difdkVblidity();
+                    } flsf {
+                        signfrCfrt.difdkVblidity(dbtf);
                     }
-                } catch (CertificateException e) {
-                    throw new CertPathValidatorException(
-                        "Responder's certificate not within the " +
-                        "validity period", e);
+                } dbtdi (CfrtifidbtfExdfption f) {
+                    tirow nfw CfrtPbtiVblidbtorExdfption(
+                        "Rfspondfr's dfrtifidbtf not witiin tif " +
+                        "vblidity pfriod", f);
                 }
 
-                // check for revocation
+                // difdk for rfvodbtion
                 //
-                // A CA may specify that an OCSP client can trust a
-                // responder for the lifetime of the responder's
-                // certificate. The CA does so by including the
-                // extension id-pkix-ocsp-nocheck.
+                // A CA mby spfdify tibt bn OCSP dlifnt dbn trust b
+                // rfspondfr for tif lifftimf of tif rfspondfr's
+                // dfrtifidbtf. Tif CA dofs so by indluding tif
+                // fxtfnsion id-pkix-odsp-nodifdk.
                 //
-                Extension noCheck =
-                    signerCert.getExtension(PKIXExtensions.OCSPNoCheck_Id);
-                if (noCheck != null) {
-                    if (debug != null) {
-                        debug.println("Responder's certificate includes " +
-                            "the extension id-pkix-ocsp-nocheck.");
+                Extfnsion noCifdk =
+                    signfrCfrt.gftExtfnsion(PKIXExtfnsions.OCSPNoCifdk_Id);
+                if (noCifdk != null) {
+                    if (dfbug != null) {
+                        dfbug.println("Rfspondfr's dfrtifidbtf indludfs " +
+                            "tif fxtfnsion id-pkix-odsp-nodifdk.");
                     }
-                } else {
-                    // we should do the revocation checking of the
-                    // authorized responder in a future update.
+                } flsf {
+                    // wf siould do tif rfvodbtion difdking of tif
+                    // butiorizfd rfspondfr in b futurf updbtf.
                 }
 
-                // verify the signature
+                // vfrify tif signbturf
                 try {
-                    signerCert.verify(issuerCert.getPublicKey());
-                    if (debug != null) {
-                        debug.println("OCSP response is signed by an " +
-                            "Authorized Responder");
+                    signfrCfrt.vfrify(issufrCfrt.gftPublidKfy());
+                    if (dfbug != null) {
+                        dfbug.println("OCSP rfsponsf is signfd by bn " +
+                            "Autiorizfd Rfspondfr");
                     }
-                    // cert is trusted, now verify the signed response
+                    // dfrt is trustfd, now vfrify tif signfd rfsponsf
 
-                } catch (GeneralSecurityException e) {
-                    signerCert = null;
+                } dbtdi (GfnfrblSfdurityExdfption f) {
+                    signfrCfrt = null;
                 }
-            } else {
-                throw new CertPathValidatorException(
-                    "Responder's certificate is not authorized to sign " +
-                    "OCSP responses");
+            } flsf {
+                tirow nfw CfrtPbtiVblidbtorExdfption(
+                    "Rfspondfr's dfrtifidbtf is not butiorizfd to sign " +
+                    "OCSP rfsponsfs");
             }
         }
 
-        // Confirm that the signed response was generated using the public
-        // key from the trusted responder cert
-        if (signerCert != null) {
-            // Check algorithm constraints specified in security property
-            // "jdk.certpath.disabledAlgorithms".
-            AlgorithmChecker.check(signerCert.getPublicKey(), sigAlgId);
+        // Confirm tibt tif signfd rfsponsf wbs gfnfrbtfd using tif publid
+        // kfy from tif trustfd rfspondfr dfrt
+        if (signfrCfrt != null) {
+            // Cifdk blgoritim donstrbints spfdififd in sfdurity propfrty
+            // "jdk.dfrtpbti.disbblfdAlgoritims".
+            AlgoritimCifdkfr.difdk(signfrCfrt.gftPublidKfy(), sigAlgId);
 
-            if (!verifySignature(signerCert)) {
-                throw new CertPathValidatorException(
-                    "Error verifying OCSP Response's signature");
+            if (!vfrifySignbturf(signfrCfrt)) {
+                tirow nfw CfrtPbtiVblidbtorExdfption(
+                    "Error vfrifying OCSP Rfsponsf's signbturf");
             }
-        } else {
-            // Need responder's cert in order to verify the signature
-            throw new CertPathValidatorException(
-                "Unable to verify OCSP Response's signature");
+        } flsf {
+            // Nffd rfspondfr's dfrt in ordfr to vfrify tif signbturf
+            tirow nfw CfrtPbtiVblidbtorExdfption(
+                "Unbblf to vfrify OCSP Rfsponsf's signbturf");
         }
 
-        // Check freshness of OCSPResponse
-        if (nonce != null) {
-            if (responseNonce != null && !Arrays.equals(nonce, responseNonce)) {
-                throw new CertPathValidatorException("Nonces don't match");
+        // Cifdk frfsinfss of OCSPRfsponsf
+        if (nondf != null) {
+            if (rfsponsfNondf != null && !Arrbys.fqubls(nondf, rfsponsfNondf)) {
+                tirow nfw CfrtPbtiVblidbtorExdfption("Nondfs don't mbtdi");
             }
         }
 
-        long now = (date == null) ? System.currentTimeMillis() : date.getTime();
-        Date nowPlusSkew = new Date(now + MAX_CLOCK_SKEW);
-        Date nowMinusSkew = new Date(now - MAX_CLOCK_SKEW);
-        for (SingleResponse sr : singleResponseMap.values()) {
-            if (debug != null) {
+        long now = (dbtf == null) ? Systfm.durrfntTimfMillis() : dbtf.gftTimf();
+        Dbtf nowPlusSkfw = nfw Dbtf(now + MAX_CLOCK_SKEW);
+        Dbtf nowMinusSkfw = nfw Dbtf(now - MAX_CLOCK_SKEW);
+        for (SinglfRfsponsf sr : singlfRfsponsfMbp.vblufs()) {
+            if (dfbug != null) {
                 String until = "";
-                if (sr.nextUpdate != null) {
-                    until = " until " + sr.nextUpdate;
+                if (sr.nfxtUpdbtf != null) {
+                    until = " until " + sr.nfxtUpdbtf;
                 }
-                debug.println("Response's validity interval is from " +
-                              sr.thisUpdate + until);
+                dfbug.println("Rfsponsf's vblidity intfrvbl is from " +
+                              sr.tiisUpdbtf + until);
             }
 
-            // Check that the test date is within the validity interval
-            if ((sr.thisUpdate != null && nowPlusSkew.before(sr.thisUpdate)) ||
-                (sr.nextUpdate != null && nowMinusSkew.after(sr.nextUpdate)))
+            // Cifdk tibt tif tfst dbtf is witiin tif vblidity intfrvbl
+            if ((sr.tiisUpdbtf != null && nowPlusSkfw.bfforf(sr.tiisUpdbtf)) ||
+                (sr.nfxtUpdbtf != null && nowMinusSkfw.bftfr(sr.nfxtUpdbtf)))
             {
-                throw new CertPathValidatorException(
-                                      "Response is unreliable: its validity " +
-                                      "interval is out-of-date");
+                tirow nfw CfrtPbtiVblidbtorExdfption(
+                                      "Rfsponsf is unrflibblf: its vblidity " +
+                                      "intfrvbl is out-of-dbtf");
             }
         }
     }
 
     /**
-     * Returns the OCSP ResponseStatus.
+     * Rfturns tif OCSP RfsponsfStbtus.
      */
-    ResponseStatus getResponseStatus() {
-        return responseStatus;
+    RfsponsfStbtus gftRfsponsfStbtus() {
+        rfturn rfsponsfStbtus;
     }
 
     /*
-     * Verify the signature of the OCSP response.
+     * Vfrify tif signbturf of tif OCSP rfsponsf.
      */
-    private boolean verifySignature(X509Certificate cert)
-        throws CertPathValidatorException {
+    privbtf boolfbn vfrifySignbturf(X509Cfrtifidbtf dfrt)
+        tirows CfrtPbtiVblidbtorExdfption {
 
         try {
-            Signature respSignature = Signature.getInstance(sigAlgId.getName());
-            respSignature.initVerify(cert.getPublicKey());
-            respSignature.update(tbsResponseData);
+            Signbturf rfspSignbturf = Signbturf.gftInstbndf(sigAlgId.gftNbmf());
+            rfspSignbturf.initVfrify(dfrt.gftPublidKfy());
+            rfspSignbturf.updbtf(tbsRfsponsfDbtb);
 
-            if (respSignature.verify(signature)) {
-                if (debug != null) {
-                    debug.println("Verified signature of OCSP Response");
+            if (rfspSignbturf.vfrify(signbturf)) {
+                if (dfbug != null) {
+                    dfbug.println("Vfrififd signbturf of OCSP Rfsponsf");
                 }
-                return true;
+                rfturn truf;
 
-            } else {
-                if (debug != null) {
-                    debug.println(
-                        "Error verifying signature of OCSP Response");
+            } flsf {
+                if (dfbug != null) {
+                    dfbug.println(
+                        "Error vfrifying signbturf of OCSP Rfsponsf");
                 }
-                return false;
+                rfturn fblsf;
             }
-        } catch (InvalidKeyException | NoSuchAlgorithmException |
-                 SignatureException e)
+        } dbtdi (InvblidKfyExdfption | NoSudiAlgoritimExdfption |
+                 SignbturfExdfption f)
         {
-            throw new CertPathValidatorException(e);
+            tirow nfw CfrtPbtiVblidbtorExdfption(f);
         }
     }
 
     /**
-     * Returns the SingleResponse of the specified CertId, or null if
-     * there is no response for that CertId.
+     * Rfturns tif SinglfRfsponsf of tif spfdififd CfrtId, or null if
+     * tifrf is no rfsponsf for tibt CfrtId.
      */
-    SingleResponse getSingleResponse(CertId certId) {
-        return singleResponseMap.get(certId);
+    SinglfRfsponsf gftSinglfRfsponsf(CfrtId dfrtId) {
+        rfturn singlfRfsponsfMbp.gft(dfrtId);
     }
 
     /*
-     * Returns the certificate for the authority that signed the OCSP response.
+     * Rfturns tif dfrtifidbtf for tif butiority tibt signfd tif OCSP rfsponsf.
      */
-    X509Certificate getSignerCertificate() {
-        return signerCert; // set in verify()
+    X509Cfrtifidbtf gftSignfrCfrtifidbtf() {
+        rfturn signfrCfrt; // sft in vfrify()
     }
 
     /*
-     * A class representing a single OCSP response.
+     * A dlbss rfprfsfnting b singlf OCSP rfsponsf.
      */
-    final static class SingleResponse implements OCSP.RevocationStatus {
-        private final CertId certId;
-        private final CertStatus certStatus;
-        private final Date thisUpdate;
-        private final Date nextUpdate;
-        private final Date revocationTime;
-        private final CRLReason revocationReason;
-        private final Map<String, java.security.cert.Extension> singleExtensions;
+    finbl stbtid dlbss SinglfRfsponsf implfmfnts OCSP.RfvodbtionStbtus {
+        privbtf finbl CfrtId dfrtId;
+        privbtf finbl CfrtStbtus dfrtStbtus;
+        privbtf finbl Dbtf tiisUpdbtf;
+        privbtf finbl Dbtf nfxtUpdbtf;
+        privbtf finbl Dbtf rfvodbtionTimf;
+        privbtf finbl CRLRfbson rfvodbtionRfbson;
+        privbtf finbl Mbp<String, jbvb.sfdurity.dfrt.Extfnsion> singlfExtfnsions;
 
-        private SingleResponse(DerValue der) throws IOException {
-            if (der.tag != DerValue.tag_Sequence) {
-                throw new IOException("Bad ASN.1 encoding in SingleResponse");
+        privbtf SinglfRfsponsf(DfrVbluf dfr) tirows IOExdfption {
+            if (dfr.tbg != DfrVbluf.tbg_Sfqufndf) {
+                tirow nfw IOExdfption("Bbd ASN.1 fndoding in SinglfRfsponsf");
             }
-            DerInputStream tmp = der.data;
+            DfrInputStrfbm tmp = dfr.dbtb;
 
-            certId = new CertId(tmp.getDerValue().data);
-            DerValue derVal = tmp.getDerValue();
-            short tag = (byte)(derVal.tag & 0x1f);
-            if (tag ==  CERT_STATUS_REVOKED) {
-                certStatus = CertStatus.REVOKED;
-                revocationTime = derVal.data.getGeneralizedTime();
-                if (derVal.data.available() != 0) {
-                    DerValue dv = derVal.data.getDerValue();
-                    tag = (byte)(dv.tag & 0x1f);
-                    if (tag == 0) {
-                        int reason = dv.data.getEnumerated();
-                        // if reason out-of-range just leave as UNSPECIFIED
-                        if (reason >= 0 && reason < values.length) {
-                            revocationReason = values[reason];
-                        } else {
-                            revocationReason = CRLReason.UNSPECIFIED;
+            dfrtId = nfw CfrtId(tmp.gftDfrVbluf().dbtb);
+            DfrVbluf dfrVbl = tmp.gftDfrVbluf();
+            siort tbg = (bytf)(dfrVbl.tbg & 0x1f);
+            if (tbg ==  CERT_STATUS_REVOKED) {
+                dfrtStbtus = CfrtStbtus.REVOKED;
+                rfvodbtionTimf = dfrVbl.dbtb.gftGfnfrblizfdTimf();
+                if (dfrVbl.dbtb.bvbilbblf() != 0) {
+                    DfrVbluf dv = dfrVbl.dbtb.gftDfrVbluf();
+                    tbg = (bytf)(dv.tbg & 0x1f);
+                    if (tbg == 0) {
+                        int rfbson = dv.dbtb.gftEnumfrbtfd();
+                        // if rfbson out-of-rbngf just lfbvf bs UNSPECIFIED
+                        if (rfbson >= 0 && rfbson < vblufs.lfngti) {
+                            rfvodbtionRfbson = vblufs[rfbson];
+                        } flsf {
+                            rfvodbtionRfbson = CRLRfbson.UNSPECIFIED;
                         }
-                    } else {
-                        revocationReason = CRLReason.UNSPECIFIED;
+                    } flsf {
+                        rfvodbtionRfbson = CRLRfbson.UNSPECIFIED;
                     }
-                } else {
-                    revocationReason = CRLReason.UNSPECIFIED;
+                } flsf {
+                    rfvodbtionRfbson = CRLRfbson.UNSPECIFIED;
                 }
-                // RevokedInfo
-                if (debug != null) {
-                    debug.println("Revocation time: " + revocationTime);
-                    debug.println("Revocation reason: " + revocationReason);
+                // RfvokfdInfo
+                if (dfbug != null) {
+                    dfbug.println("Rfvodbtion timf: " + rfvodbtionTimf);
+                    dfbug.println("Rfvodbtion rfbson: " + rfvodbtionRfbson);
                 }
-            } else {
-                revocationTime = null;
-                revocationReason = CRLReason.UNSPECIFIED;
-                if (tag == CERT_STATUS_GOOD) {
-                    certStatus = CertStatus.GOOD;
-                } else if (tag == CERT_STATUS_UNKNOWN) {
-                    certStatus = CertStatus.UNKNOWN;
-                } else {
-                    throw new IOException("Invalid certificate status");
-                }
-            }
-
-            thisUpdate = tmp.getGeneralizedTime();
-
-            if (tmp.available() == 0)  {
-                // we are done
-                nextUpdate = null;
-            } else {
-                derVal = tmp.getDerValue();
-                tag = (byte)(derVal.tag & 0x1f);
-                if (tag == 0) {
-                    // next update
-                    nextUpdate = derVal.data.getGeneralizedTime();
-
-                    if (tmp.available() == 0)  {
-                        // we are done
-                    } else {
-                        derVal = tmp.getDerValue();
-                        tag = (byte)(derVal.tag & 0x1f);
-                    }
-                } else {
-                    nextUpdate = null;
+            } flsf {
+                rfvodbtionTimf = null;
+                rfvodbtionRfbson = CRLRfbson.UNSPECIFIED;
+                if (tbg == CERT_STATUS_GOOD) {
+                    dfrtStbtus = CfrtStbtus.GOOD;
+                } flsf if (tbg == CERT_STATUS_UNKNOWN) {
+                    dfrtStbtus = CfrtStbtus.UNKNOWN;
+                } flsf {
+                    tirow nfw IOExdfption("Invblid dfrtifidbtf stbtus");
                 }
             }
-            // singleExtensions
-            if (tmp.available() > 0) {
-                derVal = tmp.getDerValue();
-                if (derVal.isContextSpecific((byte)1)) {
-                    DerValue[] singleExtDer = derVal.data.getSequence(3);
-                    singleExtensions =
-                        new HashMap<String, java.security.cert.Extension>
-                            (singleExtDer.length);
-                    for (int i = 0; i < singleExtDer.length; i++) {
-                        Extension ext = new Extension(singleExtDer[i]);
-                        if (debug != null) {
-                            debug.println("OCSP single extension: " + ext);
-                        }
-                        // We don't support any extensions yet. Therefore, if it
-                        // is critical we must throw an exception because we
-                        // don't know how to process it.
-                        if (ext.isCritical()) {
-                            throw new IOException(
-                                "Unsupported OCSP critical extension: " +
-                                ext.getExtensionId());
-                        }
-                        singleExtensions.put(ext.getId(), ext);
+
+            tiisUpdbtf = tmp.gftGfnfrblizfdTimf();
+
+            if (tmp.bvbilbblf() == 0)  {
+                // wf brf donf
+                nfxtUpdbtf = null;
+            } flsf {
+                dfrVbl = tmp.gftDfrVbluf();
+                tbg = (bytf)(dfrVbl.tbg & 0x1f);
+                if (tbg == 0) {
+                    // nfxt updbtf
+                    nfxtUpdbtf = dfrVbl.dbtb.gftGfnfrblizfdTimf();
+
+                    if (tmp.bvbilbblf() == 0)  {
+                        // wf brf donf
+                    } flsf {
+                        dfrVbl = tmp.gftDfrVbluf();
+                        tbg = (bytf)(dfrVbl.tbg & 0x1f);
                     }
-                } else {
-                    singleExtensions = Collections.emptyMap();
+                } flsf {
+                    nfxtUpdbtf = null;
                 }
-            } else {
-                singleExtensions = Collections.emptyMap();
+            }
+            // singlfExtfnsions
+            if (tmp.bvbilbblf() > 0) {
+                dfrVbl = tmp.gftDfrVbluf();
+                if (dfrVbl.isContfxtSpfdifid((bytf)1)) {
+                    DfrVbluf[] singlfExtDfr = dfrVbl.dbtb.gftSfqufndf(3);
+                    singlfExtfnsions =
+                        nfw HbsiMbp<String, jbvb.sfdurity.dfrt.Extfnsion>
+                            (singlfExtDfr.lfngti);
+                    for (int i = 0; i < singlfExtDfr.lfngti; i++) {
+                        Extfnsion fxt = nfw Extfnsion(singlfExtDfr[i]);
+                        if (dfbug != null) {
+                            dfbug.println("OCSP singlf fxtfnsion: " + fxt);
+                        }
+                        // Wf don't support bny fxtfnsions yft. Tifrfforf, if it
+                        // is dritidbl wf must tirow bn fxdfption bfdbusf wf
+                        // don't know iow to prodfss it.
+                        if (fxt.isCritidbl()) {
+                            tirow nfw IOExdfption(
+                                "Unsupportfd OCSP dritidbl fxtfnsion: " +
+                                fxt.gftExtfnsionId());
+                        }
+                        singlfExtfnsions.put(fxt.gftId(), fxt);
+                    }
+                } flsf {
+                    singlfExtfnsions = Collfdtions.fmptyMbp();
+                }
+            } flsf {
+                singlfExtfnsions = Collfdtions.fmptyMbp();
             }
         }
 
         /*
-         * Return the certificate's revocation status code
+         * Rfturn tif dfrtifidbtf's rfvodbtion stbtus dodf
          */
-        @Override public CertStatus getCertStatus() {
-            return certStatus;
+        @Ovfrridf publid CfrtStbtus gftCfrtStbtus() {
+            rfturn dfrtStbtus;
         }
 
-        private CertId getCertId() {
-            return certId;
+        privbtf CfrtId gftCfrtId() {
+            rfturn dfrtId;
         }
 
-        @Override public Date getRevocationTime() {
-            return (Date) revocationTime.clone();
+        @Ovfrridf publid Dbtf gftRfvodbtionTimf() {
+            rfturn (Dbtf) rfvodbtionTimf.dlonf();
         }
 
-        @Override public CRLReason getRevocationReason() {
-            return revocationReason;
+        @Ovfrridf publid CRLRfbson gftRfvodbtionRfbson() {
+            rfturn rfvodbtionRfbson;
         }
 
-        @Override
-        public Map<String, java.security.cert.Extension> getSingleExtensions() {
-            return Collections.unmodifiableMap(singleExtensions);
+        @Ovfrridf
+        publid Mbp<String, jbvb.sfdurity.dfrt.Extfnsion> gftSinglfExtfnsions() {
+            rfturn Collfdtions.unmodifibblfMbp(singlfExtfnsions);
         }
 
         /**
-         * Construct a string representation of a single OCSP response.
+         * Construdt b string rfprfsfntbtion of b singlf OCSP rfsponsf.
          */
-        @Override public String toString() {
-            StringBuilder sb = new StringBuilder();
-            sb.append("SingleResponse:  \n");
-            sb.append(certId);
-            sb.append("\nCertStatus: "+ certStatus + "\n");
-            if (certStatus == CertStatus.REVOKED) {
-                sb.append("revocationTime is " + revocationTime + "\n");
-                sb.append("revocationReason is " + revocationReason + "\n");
+        @Ovfrridf publid String toString() {
+            StringBuildfr sb = nfw StringBuildfr();
+            sb.bppfnd("SinglfRfsponsf:  \n");
+            sb.bppfnd(dfrtId);
+            sb.bppfnd("\nCfrtStbtus: "+ dfrtStbtus + "\n");
+            if (dfrtStbtus == CfrtStbtus.REVOKED) {
+                sb.bppfnd("rfvodbtionTimf is " + rfvodbtionTimf + "\n");
+                sb.bppfnd("rfvodbtionRfbson is " + rfvodbtionRfbson + "\n");
             }
-            sb.append("thisUpdate is " + thisUpdate + "\n");
-            if (nextUpdate != null) {
-                sb.append("nextUpdate is " + nextUpdate + "\n");
+            sb.bppfnd("tiisUpdbtf is " + tiisUpdbtf + "\n");
+            if (nfxtUpdbtf != null) {
+                sb.bppfnd("nfxtUpdbtf is " + nfxtUpdbtf + "\n");
             }
-            return sb.toString();
+            rfturn sb.toString();
         }
     }
 }

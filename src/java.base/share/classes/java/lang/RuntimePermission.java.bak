@@ -1,387 +1,387 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang;
+pbdkbgf jbvb.lbng;
 
-import java.security.*;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.StringTokenizer;
+import jbvb.sfdurity.*;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.StringTokfnizfr;
 
 /**
- * This class is for runtime permissions. A RuntimePermission
- * contains a name (also referred to as a "target name") but
- * no actions list; you either have the named permission
+ * Tiis dlbss is for runtimf pfrmissions. A RuntimfPfrmission
+ * dontbins b nbmf (blso rfffrrfd to bs b "tbrgft nbmf") but
+ * no bdtions list; you fitifr ibvf tif nbmfd pfrmission
  * or you don't.
  *
  * <P>
- * The target name is the name of the runtime permission (see below). The
- * naming convention follows the  hierarchical property naming convention.
- * Also, an asterisk
- * may appear at the end of the name, following a ".", or by itself, to
- * signify a wildcard match. For example: "loadLibrary.*" and "*" signify a
- * wildcard match, while "*loadLibrary" and "a*b" do not.
+ * Tif tbrgft nbmf is tif nbmf of tif runtimf pfrmission (sff bflow). Tif
+ * nbming donvfntion follows tif  iifrbrdiidbl propfrty nbming donvfntion.
+ * Also, bn bstfrisk
+ * mby bppfbr bt tif fnd of tif nbmf, following b ".", or by itsflf, to
+ * signify b wilddbrd mbtdi. For fxbmplf: "lobdLibrbry.*" bnd "*" signify b
+ * wilddbrd mbtdi, wiilf "*lobdLibrbry" bnd "b*b" do not.
  * <P>
- * The following table lists all the possible RuntimePermission target names,
- * and for each provides a description of what the permission allows
- * and a discussion of the risks of granting code the permission.
+ * Tif following tbblf lists bll tif possiblf RuntimfPfrmission tbrgft nbmfs,
+ * bnd for fbdi providfs b dfsdription of wibt tif pfrmission bllows
+ * bnd b disdussion of tif risks of grbnting dodf tif pfrmission.
  *
- * <table border=1 cellpadding=5 summary="permission target name,
- *  what the target allows,and associated risks">
+ * <tbblf bordfr=1 dfllpbdding=5 summbry="pfrmission tbrgft nbmf,
+ *  wibt tif tbrgft bllows,bnd bssodibtfd risks">
  * <tr>
- * <th>Permission Target Name</th>
- * <th>What the Permission Allows</th>
- * <th>Risks of Allowing this Permission</th>
+ * <ti>Pfrmission Tbrgft Nbmf</ti>
+ * <ti>Wibt tif Pfrmission Allows</ti>
+ * <ti>Risks of Allowing tiis Pfrmission</ti>
  * </tr>
  *
  * <tr>
- *   <td>createClassLoader</td>
- *   <td>Creation of a class loader</td>
- *   <td>This is an extremely dangerous permission to grant.
- * Malicious applications that can instantiate their own class
- * loaders could then load their own rogue classes into the system.
- * These newly loaded classes could be placed into any protection
- * domain by the class loader, thereby automatically granting the
- * classes the permissions for that domain.</td>
+ *   <td>drfbtfClbssLobdfr</td>
+ *   <td>Crfbtion of b dlbss lobdfr</td>
+ *   <td>Tiis is bn fxtrfmfly dbngfrous pfrmission to grbnt.
+ * Mblidious bpplidbtions tibt dbn instbntibtf tifir own dlbss
+ * lobdfrs dould tifn lobd tifir own roguf dlbssfs into tif systfm.
+ * Tifsf nfwly lobdfd dlbssfs dould bf plbdfd into bny protfdtion
+ * dombin by tif dlbss lobdfr, tifrfby butombtidblly grbnting tif
+ * dlbssfs tif pfrmissions for tibt dombin.</td>
  * </tr>
  *
  * <tr>
- *   <td>getClassLoader</td>
- *   <td>Retrieval of a class loader (e.g., the class loader for the calling
- * class)</td>
- *   <td>This would grant an attacker permission to get the
- * class loader for a particular class. This is dangerous because
- * having access to a class's class loader allows the attacker to
- * load other classes available to that class loader. The attacker
- * would typically otherwise not have access to those classes.</td>
+ *   <td>gftClbssLobdfr</td>
+ *   <td>Rftrifvbl of b dlbss lobdfr (f.g., tif dlbss lobdfr for tif dblling
+ * dlbss)</td>
+ *   <td>Tiis would grbnt bn bttbdkfr pfrmission to gft tif
+ * dlbss lobdfr for b pbrtidulbr dlbss. Tiis is dbngfrous bfdbusf
+ * ibving bddfss to b dlbss's dlbss lobdfr bllows tif bttbdkfr to
+ * lobd otifr dlbssfs bvbilbblf to tibt dlbss lobdfr. Tif bttbdkfr
+ * would typidblly otifrwisf not ibvf bddfss to tiosf dlbssfs.</td>
  * </tr>
  *
  * <tr>
- *   <td>setContextClassLoader</td>
- *   <td>Setting of the context class loader used by a thread</td>
- *   <td>The context class loader is used by system code and extensions
- * when they need to lookup resources that might not exist in the system
- * class loader. Granting setContextClassLoader permission would allow
- * code to change which context class loader is used
- * for a particular thread, including system threads.</td>
+ *   <td>sftContfxtClbssLobdfr</td>
+ *   <td>Sftting of tif dontfxt dlbss lobdfr usfd by b tirfbd</td>
+ *   <td>Tif dontfxt dlbss lobdfr is usfd by systfm dodf bnd fxtfnsions
+ * wifn tify nffd to lookup rfsourdfs tibt migit not fxist in tif systfm
+ * dlbss lobdfr. Grbnting sftContfxtClbssLobdfr pfrmission would bllow
+ * dodf to dibngf wiidi dontfxt dlbss lobdfr is usfd
+ * for b pbrtidulbr tirfbd, indluding systfm tirfbds.</td>
  * </tr>
  *
  * <tr>
- *   <td>enableContextClassLoaderOverride</td>
- *   <td>Subclass implementation of the thread context class loader methods</td>
- *   <td>The context class loader is used by system code and extensions
- * when they need to lookup resources that might not exist in the system
- * class loader. Granting enableContextClassLoaderOverride permission would allow
- * a subclass of Thread to override the methods that are used
- * to get or set the context class loader for a particular thread.</td>
+ *   <td>fnbblfContfxtClbssLobdfrOvfrridf</td>
+ *   <td>Subdlbss implfmfntbtion of tif tirfbd dontfxt dlbss lobdfr mftiods</td>
+ *   <td>Tif dontfxt dlbss lobdfr is usfd by systfm dodf bnd fxtfnsions
+ * wifn tify nffd to lookup rfsourdfs tibt migit not fxist in tif systfm
+ * dlbss lobdfr. Grbnting fnbblfContfxtClbssLobdfrOvfrridf pfrmission would bllow
+ * b subdlbss of Tirfbd to ovfrridf tif mftiods tibt brf usfd
+ * to gft or sft tif dontfxt dlbss lobdfr for b pbrtidulbr tirfbd.</td>
  * </tr>
  *
  * <tr>
- *   <td>closeClassLoader</td>
- *   <td>Closing of a ClassLoader</td>
- *   <td>Granting this permission allows code to close any URLClassLoader
- * that it has a reference to.</td>
+ *   <td>dlosfClbssLobdfr</td>
+ *   <td>Closing of b ClbssLobdfr</td>
+ *   <td>Grbnting tiis pfrmission bllows dodf to dlosf bny URLClbssLobdfr
+ * tibt it ibs b rfffrfndf to.</td>
  * </tr>
  *
  * <tr>
- *   <td>setSecurityManager</td>
- *   <td>Setting of the security manager (possibly replacing an existing one)
+ *   <td>sftSfdurityMbnbgfr</td>
+ *   <td>Sftting of tif sfdurity mbnbgfr (possibly rfplbding bn fxisting onf)
  * </td>
- *   <td>The security manager is a class that allows
- * applications to implement a security policy. Granting the setSecurityManager
- * permission would allow code to change which security manager is used by
- * installing a different, possibly less restrictive security manager,
- * thereby bypassing checks that would have been enforced by the original
- * security manager.</td>
+ *   <td>Tif sfdurity mbnbgfr is b dlbss tibt bllows
+ * bpplidbtions to implfmfnt b sfdurity polidy. Grbnting tif sftSfdurityMbnbgfr
+ * pfrmission would bllow dodf to dibngf wiidi sfdurity mbnbgfr is usfd by
+ * instblling b difffrfnt, possibly lfss rfstridtivf sfdurity mbnbgfr,
+ * tifrfby bypbssing difdks tibt would ibvf bffn fnfordfd by tif originbl
+ * sfdurity mbnbgfr.</td>
  * </tr>
  *
  * <tr>
- *   <td>createSecurityManager</td>
- *   <td>Creation of a new security manager</td>
- *   <td>This gives code access to protected, sensitive methods that may
- * disclose information about other classes or the execution stack.</td>
+ *   <td>drfbtfSfdurityMbnbgfr</td>
+ *   <td>Crfbtion of b nfw sfdurity mbnbgfr</td>
+ *   <td>Tiis givfs dodf bddfss to protfdtfd, sfnsitivf mftiods tibt mby
+ * disdlosf informbtion bbout otifr dlbssfs or tif fxfdution stbdk.</td>
  * </tr>
  *
  * <tr>
- *   <td>getenv.{variable name}</td>
- *   <td>Reading of the value of the specified environment variable</td>
- *   <td>This would allow code to read the value, or determine the
- *       existence, of a particular environment variable.  This is
- *       dangerous if the variable contains confidential data.</td>
+ *   <td>gftfnv.{vbribblf nbmf}</td>
+ *   <td>Rfbding of tif vbluf of tif spfdififd fnvironmfnt vbribblf</td>
+ *   <td>Tiis would bllow dodf to rfbd tif vbluf, or dftfrminf tif
+ *       fxistfndf, of b pbrtidulbr fnvironmfnt vbribblf.  Tiis is
+ *       dbngfrous if tif vbribblf dontbins donfidfntibl dbtb.</td>
  * </tr>
  *
  * <tr>
- *   <td>exitVM.{exit status}</td>
- *   <td>Halting of the Java Virtual Machine with the specified exit status</td>
- *   <td>This allows an attacker to mount a denial-of-service attack
- * by automatically forcing the virtual machine to halt.
- * Note: The "exitVM.*" permission is automatically granted to all code
- * loaded from the application class path, thus enabling applications
- * to terminate themselves. Also, the "exitVM" permission is equivalent to
- * "exitVM.*".</td>
+ *   <td>fxitVM.{fxit stbtus}</td>
+ *   <td>Hblting of tif Jbvb Virtubl Mbdiinf witi tif spfdififd fxit stbtus</td>
+ *   <td>Tiis bllows bn bttbdkfr to mount b dfnibl-of-sfrvidf bttbdk
+ * by butombtidblly fording tif virtubl mbdiinf to iblt.
+ * Notf: Tif "fxitVM.*" pfrmission is butombtidblly grbntfd to bll dodf
+ * lobdfd from tif bpplidbtion dlbss pbti, tius fnbbling bpplidbtions
+ * to tfrminbtf tifmsflvfs. Also, tif "fxitVM" pfrmission is fquivblfnt to
+ * "fxitVM.*".</td>
  * </tr>
  *
  * <tr>
- *   <td>shutdownHooks</td>
- *   <td>Registration and cancellation of virtual-machine shutdown hooks</td>
- *   <td>This allows an attacker to register a malicious shutdown
- * hook that interferes with the clean shutdown of the virtual machine.</td>
+ *   <td>siutdownHooks</td>
+ *   <td>Rfgistrbtion bnd dbndfllbtion of virtubl-mbdiinf siutdown iooks</td>
+ *   <td>Tiis bllows bn bttbdkfr to rfgistfr b mblidious siutdown
+ * iook tibt intfrffrfs witi tif dlfbn siutdown of tif virtubl mbdiinf.</td>
  * </tr>
  *
  * <tr>
- *   <td>setFactory</td>
- *   <td>Setting of the socket factory used by ServerSocket or Socket,
- * or of the stream handler factory used by URL</td>
- *   <td>This allows code to set the actual implementation
- * for the socket, server socket, stream handler, or RMI socket factory.
- * An attacker may set a faulty implementation which mangles the data
- * stream.</td>
+ *   <td>sftFbdtory</td>
+ *   <td>Sftting of tif sodkft fbdtory usfd by SfrvfrSodkft or Sodkft,
+ * or of tif strfbm ibndlfr fbdtory usfd by URL</td>
+ *   <td>Tiis bllows dodf to sft tif bdtubl implfmfntbtion
+ * for tif sodkft, sfrvfr sodkft, strfbm ibndlfr, or RMI sodkft fbdtory.
+ * An bttbdkfr mby sft b fbulty implfmfntbtion wiidi mbnglfs tif dbtb
+ * strfbm.</td>
  * </tr>
  *
  * <tr>
- *   <td>setIO</td>
- *   <td>Setting of System.out, System.in, and System.err</td>
- *   <td>This allows changing the value of the standard system streams.
- * An attacker may change System.in to monitor and
- * steal user input, or may set System.err to a "null" OutputStream,
- * which would hide any error messages sent to System.err. </td>
+ *   <td>sftIO</td>
+ *   <td>Sftting of Systfm.out, Systfm.in, bnd Systfm.frr</td>
+ *   <td>Tiis bllows dibnging tif vbluf of tif stbndbrd systfm strfbms.
+ * An bttbdkfr mby dibngf Systfm.in to monitor bnd
+ * stfbl usfr input, or mby sft Systfm.frr to b "null" OutputStrfbm,
+ * wiidi would iidf bny frror mfssbgfs sfnt to Systfm.frr. </td>
  * </tr>
  *
  * <tr>
- *   <td>modifyThread</td>
- *   <td>Modification of threads, e.g., via calls to Thread
- * <tt>interrupt</tt>, <tt>stop</tt>, <tt>suspend</tt>,
- * <tt>resume</tt>, <tt>setDaemon</tt>, <tt>setPriority</tt>,
- * <tt>setName</tt> and <tt>setUncaughtExceptionHandler</tt>
- * methods</td>
- * <td>This allows an attacker to modify the behaviour of
- * any thread in the system.</td>
+ *   <td>modifyTirfbd</td>
+ *   <td>Modifidbtion of tirfbds, f.g., vib dblls to Tirfbd
+ * <tt>intfrrupt</tt>, <tt>stop</tt>, <tt>suspfnd</tt>,
+ * <tt>rfsumf</tt>, <tt>sftDbfmon</tt>, <tt>sftPriority</tt>,
+ * <tt>sftNbmf</tt> bnd <tt>sftUndbugitExdfptionHbndlfr</tt>
+ * mftiods</td>
+ * <td>Tiis bllows bn bttbdkfr to modify tif bfibviour of
+ * bny tirfbd in tif systfm.</td>
  * </tr>
  *
  * <tr>
- *   <td>stopThread</td>
- *   <td>Stopping of threads via calls to the Thread <code>stop</code>
- * method</td>
- *   <td>This allows code to stop any thread in the system provided that it is
- * already granted permission to access that thread.
- * This poses as a threat, because that code may corrupt the system by
- * killing existing threads.</td>
+ *   <td>stopTirfbd</td>
+ *   <td>Stopping of tirfbds vib dblls to tif Tirfbd <dodf>stop</dodf>
+ * mftiod</td>
+ *   <td>Tiis bllows dodf to stop bny tirfbd in tif systfm providfd tibt it is
+ * blrfbdy grbntfd pfrmission to bddfss tibt tirfbd.
+ * Tiis posfs bs b tirfbt, bfdbusf tibt dodf mby dorrupt tif systfm by
+ * killing fxisting tirfbds.</td>
  * </tr>
  *
  * <tr>
- *   <td>modifyThreadGroup</td>
- *   <td>modification of thread groups, e.g., via calls to ThreadGroup
- * <code>destroy</code>, <code>getParent</code>, <code>resume</code>,
- * <code>setDaemon</code>, <code>setMaxPriority</code>, <code>stop</code>,
- * and <code>suspend</code> methods</td>
- *   <td>This allows an attacker to create thread groups and
- * set their run priority.</td>
+ *   <td>modifyTirfbdGroup</td>
+ *   <td>modifidbtion of tirfbd groups, f.g., vib dblls to TirfbdGroup
+ * <dodf>dfstroy</dodf>, <dodf>gftPbrfnt</dodf>, <dodf>rfsumf</dodf>,
+ * <dodf>sftDbfmon</dodf>, <dodf>sftMbxPriority</dodf>, <dodf>stop</dodf>,
+ * bnd <dodf>suspfnd</dodf> mftiods</td>
+ *   <td>Tiis bllows bn bttbdkfr to drfbtf tirfbd groups bnd
+ * sft tifir run priority.</td>
  * </tr>
  *
  * <tr>
- *   <td>getProtectionDomain</td>
- *   <td>Retrieval of the ProtectionDomain for a class</td>
- *   <td>This allows code to obtain policy information
- * for a particular code source. While obtaining policy information
- * does not compromise the security of the system, it does give
- * attackers additional information, such as local file names for
- * example, to better aim an attack.</td>
+ *   <td>gftProtfdtionDombin</td>
+ *   <td>Rftrifvbl of tif ProtfdtionDombin for b dlbss</td>
+ *   <td>Tiis bllows dodf to obtbin polidy informbtion
+ * for b pbrtidulbr dodf sourdf. Wiilf obtbining polidy informbtion
+ * dofs not dompromisf tif sfdurity of tif systfm, it dofs givf
+ * bttbdkfrs bdditionbl informbtion, sudi bs lodbl filf nbmfs for
+ * fxbmplf, to bfttfr bim bn bttbdk.</td>
  * </tr>
  *
  * <tr>
- *   <td>getFileSystemAttributes</td>
- *   <td>Retrieval of file system attributes</td>
- *   <td>This allows code to obtain file system information such as disk usage
- *       or disk space available to the caller.  This is potentially dangerous
- *       because it discloses information about the system hardware
- *       configuration and some information about the caller's privilege to
- *       write files.</td>
+ *   <td>gftFilfSystfmAttributfs</td>
+ *   <td>Rftrifvbl of filf systfm bttributfs</td>
+ *   <td>Tiis bllows dodf to obtbin filf systfm informbtion sudi bs disk usbgf
+ *       or disk spbdf bvbilbblf to tif dbllfr.  Tiis is potfntiblly dbngfrous
+ *       bfdbusf it disdlosfs informbtion bbout tif systfm ibrdwbrf
+ *       donfigurbtion bnd somf informbtion bbout tif dbllfr's privilfgf to
+ *       writf filfs.</td>
  * </tr>
  *
  * <tr>
- *   <td>readFileDescriptor</td>
- *   <td>Reading of file descriptors</td>
- *   <td>This would allow code to read the particular file associated
- *       with the file descriptor read. This is dangerous if the file
- *       contains confidential data.</td>
+ *   <td>rfbdFilfDfsdriptor</td>
+ *   <td>Rfbding of filf dfsdriptors</td>
+ *   <td>Tiis would bllow dodf to rfbd tif pbrtidulbr filf bssodibtfd
+ *       witi tif filf dfsdriptor rfbd. Tiis is dbngfrous if tif filf
+ *       dontbins donfidfntibl dbtb.</td>
  * </tr>
  *
  * <tr>
- *   <td>writeFileDescriptor</td>
- *   <td>Writing to file descriptors</td>
- *   <td>This allows code to write to a particular file associated
- *       with the descriptor. This is dangerous because it may allow
- *       malicious code to plant viruses or at the very least, fill up
- *       your entire disk.</td>
+ *   <td>writfFilfDfsdriptor</td>
+ *   <td>Writing to filf dfsdriptors</td>
+ *   <td>Tiis bllows dodf to writf to b pbrtidulbr filf bssodibtfd
+ *       witi tif dfsdriptor. Tiis is dbngfrous bfdbusf it mby bllow
+ *       mblidious dodf to plbnt virusfs or bt tif vfry lfbst, fill up
+ *       your fntirf disk.</td>
  * </tr>
  *
  * <tr>
- *   <td>loadLibrary.{library name}</td>
- *   <td>Dynamic linking of the specified library</td>
- *   <td>It is dangerous to allow an applet permission to load native code
- * libraries, because the Java security architecture is not designed to and
- * does not prevent malicious behavior at the level of native code.</td>
+ *   <td>lobdLibrbry.{librbry nbmf}</td>
+ *   <td>Dynbmid linking of tif spfdififd librbry</td>
+ *   <td>It is dbngfrous to bllow bn bpplft pfrmission to lobd nbtivf dodf
+ * librbrifs, bfdbusf tif Jbvb sfdurity brdiitfdturf is not dfsignfd to bnd
+ * dofs not prfvfnt mblidious bfibvior bt tif lfvfl of nbtivf dodf.</td>
  * </tr>
  *
  * <tr>
- *   <td>accessClassInPackage.{package name}</td>
- *   <td>Access to the specified package via a class loader's
- * <code>loadClass</code> method when that class loader calls
- * the SecurityManager <code>checkPackageAccess</code> method</td>
- *   <td>This gives code access to classes in packages
- * to which it normally does not have access. Malicious code
- * may use these classes to help in its attempt to compromise
- * security in the system.</td>
+ *   <td>bddfssClbssInPbdkbgf.{pbdkbgf nbmf}</td>
+ *   <td>Addfss to tif spfdififd pbdkbgf vib b dlbss lobdfr's
+ * <dodf>lobdClbss</dodf> mftiod wifn tibt dlbss lobdfr dblls
+ * tif SfdurityMbnbgfr <dodf>difdkPbdkbgfAddfss</dodf> mftiod</td>
+ *   <td>Tiis givfs dodf bddfss to dlbssfs in pbdkbgfs
+ * to wiidi it normblly dofs not ibvf bddfss. Mblidious dodf
+ * mby usf tifsf dlbssfs to iflp in its bttfmpt to dompromisf
+ * sfdurity in tif systfm.</td>
  * </tr>
  *
  * <tr>
- *   <td>defineClassInPackage.{package name}</td>
- *   <td>Definition of classes in the specified package, via a class
- * loader's <code>defineClass</code> method when that class loader calls
- * the SecurityManager <code>checkPackageDefinition</code> method.</td>
- *   <td>This grants code permission to define a class
- * in a particular package. This is dangerous because malicious
- * code with this permission may define rogue classes in
- * trusted packages like <code>java.security</code> or <code>java.lang</code>,
- * for example.</td>
+ *   <td>dffinfClbssInPbdkbgf.{pbdkbgf nbmf}</td>
+ *   <td>Dffinition of dlbssfs in tif spfdififd pbdkbgf, vib b dlbss
+ * lobdfr's <dodf>dffinfClbss</dodf> mftiod wifn tibt dlbss lobdfr dblls
+ * tif SfdurityMbnbgfr <dodf>difdkPbdkbgfDffinition</dodf> mftiod.</td>
+ *   <td>Tiis grbnts dodf pfrmission to dffinf b dlbss
+ * in b pbrtidulbr pbdkbgf. Tiis is dbngfrous bfdbusf mblidious
+ * dodf witi tiis pfrmission mby dffinf roguf dlbssfs in
+ * trustfd pbdkbgfs likf <dodf>jbvb.sfdurity</dodf> or <dodf>jbvb.lbng</dodf>,
+ * for fxbmplf.</td>
  * </tr>
  *
  * <tr>
- *   <td>accessDeclaredMembers</td>
- *   <td>Access to the declared members of a class</td>
- *   <td>This grants code permission to query a class for its public,
- * protected, default (package) access, and private fields and/or
- * methods. Although the code would have
- * access to the private and protected field and method names, it would not
- * have access to the private/protected field data and would not be able
- * to invoke any private methods. Nevertheless, malicious code
- * may use this information to better aim an attack.
- * Additionally, it may invoke any public methods and/or access public fields
- * in the class.  This could be dangerous if
- * the code would normally not be able to invoke those methods and/or
- * access the fields  because
- * it can't cast the object to the class/interface with those methods
- * and fields.
+ *   <td>bddfssDfdlbrfdMfmbfrs</td>
+ *   <td>Addfss to tif dfdlbrfd mfmbfrs of b dlbss</td>
+ *   <td>Tiis grbnts dodf pfrmission to qufry b dlbss for its publid,
+ * protfdtfd, dffbult (pbdkbgf) bddfss, bnd privbtf fiflds bnd/or
+ * mftiods. Altiougi tif dodf would ibvf
+ * bddfss to tif privbtf bnd protfdtfd fifld bnd mftiod nbmfs, it would not
+ * ibvf bddfss to tif privbtf/protfdtfd fifld dbtb bnd would not bf bblf
+ * to invokf bny privbtf mftiods. Nfvfrtiflfss, mblidious dodf
+ * mby usf tiis informbtion to bfttfr bim bn bttbdk.
+ * Additionblly, it mby invokf bny publid mftiods bnd/or bddfss publid fiflds
+ * in tif dlbss.  Tiis dould bf dbngfrous if
+ * tif dodf would normblly not bf bblf to invokf tiosf mftiods bnd/or
+ * bddfss tif fiflds  bfdbusf
+ * it dbn't dbst tif objfdt to tif dlbss/intfrfbdf witi tiosf mftiods
+ * bnd fiflds.
 </td>
  * </tr>
  * <tr>
- *   <td>queuePrintJob</td>
- *   <td>Initiation of a print job request</td>
- *   <td>This could print sensitive information to a printer,
- * or simply waste paper.</td>
+ *   <td>qufufPrintJob</td>
+ *   <td>Initibtion of b print job rfqufst</td>
+ *   <td>Tiis dould print sfnsitivf informbtion to b printfr,
+ * or simply wbstf pbpfr.</td>
  * </tr>
  *
  * <tr>
- *   <td>getStackTrace</td>
- *   <td>Retrieval of the stack trace information of another thread.</td>
- *   <td>This allows retrieval of the stack trace information of
- * another thread.  This might allow malicious code to monitor the
- * execution of threads and discover vulnerabilities in applications.</td>
+ *   <td>gftStbdkTrbdf</td>
+ *   <td>Rftrifvbl of tif stbdk trbdf informbtion of bnotifr tirfbd.</td>
+ *   <td>Tiis bllows rftrifvbl of tif stbdk trbdf informbtion of
+ * bnotifr tirfbd.  Tiis migit bllow mblidious dodf to monitor tif
+ * fxfdution of tirfbds bnd disdovfr vulnfrbbilitifs in bpplidbtions.</td>
  * </tr>
  *
  * <tr>
- *   <td>setDefaultUncaughtExceptionHandler</td>
- *   <td>Setting the default handler to be used when a thread
- *   terminates abruptly due to an uncaught exception</td>
- *   <td>This allows an attacker to register a malicious
- *   uncaught exception handler that could interfere with termination
- *   of a thread</td>
+ *   <td>sftDffbultUndbugitExdfptionHbndlfr</td>
+ *   <td>Sftting tif dffbult ibndlfr to bf usfd wifn b tirfbd
+ *   tfrminbtfs bbruptly duf to bn undbugit fxdfption</td>
+ *   <td>Tiis bllows bn bttbdkfr to rfgistfr b mblidious
+ *   undbugit fxdfption ibndlfr tibt dould intfrffrf witi tfrminbtion
+ *   of b tirfbd</td>
  * </tr>
  *
  * <tr>
- *   <td>preferences</td>
- *   <td>Represents the permission required to get access to the
- *   java.util.prefs.Preferences implementations user or system root
- *   which in turn allows retrieval or update operations within the
- *   Preferences persistent backing store.) </td>
- *   <td>This permission allows the user to read from or write to the
- *   preferences backing store if the user running the code has
- *   sufficient OS privileges to read/write to that backing store.
- *   The actual backing store may reside within a traditional filesystem
- *   directory or within a registry depending on the platform OS</td>
+ *   <td>prfffrfndfs</td>
+ *   <td>Rfprfsfnts tif pfrmission rfquirfd to gft bddfss to tif
+ *   jbvb.util.prffs.Prfffrfndfs implfmfntbtions usfr or systfm root
+ *   wiidi in turn bllows rftrifvbl or updbtf opfrbtions witiin tif
+ *   Prfffrfndfs pfrsistfnt bbdking storf.) </td>
+ *   <td>Tiis pfrmission bllows tif usfr to rfbd from or writf to tif
+ *   prfffrfndfs bbdking storf if tif usfr running tif dodf ibs
+ *   suffidifnt OS privilfgfs to rfbd/writf to tibt bbdking storf.
+ *   Tif bdtubl bbdking storf mby rfsidf witiin b trbditionbl filfsystfm
+ *   dirfdtory or witiin b rfgistry dfpfnding on tif plbtform OS</td>
  * </tr>
  *
  * <tr>
- *   <td>usePolicy</td>
- *   <td>Granting this permission disables the Java Plug-In's default
- *   security prompting behavior.</td>
- *   <td>For more information, refer to Java Plug-In's guides, <a href=
- *   "../../../technotes/guides/plugin/developer_guide/security.html">
- *   Applet Security Basics</a> and <a href=
- *   "../../../technotes/guides/plugin/developer_guide/rsa_how.html#use">
- *   usePolicy Permission</a>.</td>
+ *   <td>usfPolidy</td>
+ *   <td>Grbnting tiis pfrmission disbblfs tif Jbvb Plug-In's dffbult
+ *   sfdurity prompting bfibvior.</td>
+ *   <td>For morf informbtion, rfffr to Jbvb Plug-In's guidfs, <b irff=
+ *   "../../../tfdinotfs/guidfs/plugin/dfvflopfr_guidf/sfdurity.itml">
+ *   Applft Sfdurity Bbsids</b> bnd <b irff=
+ *   "../../../tfdinotfs/guidfs/plugin/dfvflopfr_guidf/rsb_iow.itml#usf">
+ *   usfPolidy Pfrmission</b>.</td>
  * </tr>
- * </table>
+ * </tbblf>
  *
- * @see java.security.BasicPermission
- * @see java.security.Permission
- * @see java.security.Permissions
- * @see java.security.PermissionCollection
- * @see java.lang.SecurityManager
+ * @sff jbvb.sfdurity.BbsidPfrmission
+ * @sff jbvb.sfdurity.Pfrmission
+ * @sff jbvb.sfdurity.Pfrmissions
+ * @sff jbvb.sfdurity.PfrmissionCollfdtion
+ * @sff jbvb.lbng.SfdurityMbnbgfr
  *
  *
- * @author Marianne Mueller
- * @author Roland Schemers
+ * @butior Mbribnnf Mufllfr
+ * @butior Rolbnd Sdifmfrs
  */
 
-public final class RuntimePermission extends BasicPermission {
+publid finbl dlbss RuntimfPfrmission fxtfnds BbsidPfrmission {
 
-    private static final long serialVersionUID = 7399184964622342223L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 7399184964622342223L;
 
     /**
-     * Creates a new RuntimePermission with the specified name.
-     * The name is the symbolic name of the RuntimePermission, such as
-     * "exit", "setFactory", etc. An asterisk
-     * may appear at the end of the name, following a ".", or by itself, to
-     * signify a wildcard match.
+     * Crfbtfs b nfw RuntimfPfrmission witi tif spfdififd nbmf.
+     * Tif nbmf is tif symbolid nbmf of tif RuntimfPfrmission, sudi bs
+     * "fxit", "sftFbdtory", ftd. An bstfrisk
+     * mby bppfbr bt tif fnd of tif nbmf, following b ".", or by itsflf, to
+     * signify b wilddbrd mbtdi.
      *
-     * @param name the name of the RuntimePermission.
+     * @pbrbm nbmf tif nbmf of tif RuntimfPfrmission.
      *
-     * @throws NullPointerException if <code>name</code> is <code>null</code>.
-     * @throws IllegalArgumentException if <code>name</code> is empty.
+     * @tirows NullPointfrExdfption if <dodf>nbmf</dodf> is <dodf>null</dodf>.
+     * @tirows IllfgblArgumfntExdfption if <dodf>nbmf</dodf> is fmpty.
      */
 
-    public RuntimePermission(String name)
+    publid RuntimfPfrmission(String nbmf)
     {
-        super(name);
+        supfr(nbmf);
     }
 
     /**
-     * Creates a new RuntimePermission object with the specified name.
-     * The name is the symbolic name of the RuntimePermission, and the
-     * actions String is currently unused and should be null.
+     * Crfbtfs b nfw RuntimfPfrmission objfdt witi tif spfdififd nbmf.
+     * Tif nbmf is tif symbolid nbmf of tif RuntimfPfrmission, bnd tif
+     * bdtions String is durrfntly unusfd bnd siould bf null.
      *
-     * @param name the name of the RuntimePermission.
-     * @param actions should be null.
+     * @pbrbm nbmf tif nbmf of tif RuntimfPfrmission.
+     * @pbrbm bdtions siould bf null.
      *
-     * @throws NullPointerException if <code>name</code> is <code>null</code>.
-     * @throws IllegalArgumentException if <code>name</code> is empty.
+     * @tirows NullPointfrExdfption if <dodf>nbmf</dodf> is <dodf>null</dodf>.
+     * @tirows IllfgblArgumfntExdfption if <dodf>nbmf</dodf> is fmpty.
      */
 
-    public RuntimePermission(String name, String actions)
+    publid RuntimfPfrmission(String nbmf, String bdtions)
     {
-        super(name, actions);
+        supfr(nbmf, bdtions);
     }
 }

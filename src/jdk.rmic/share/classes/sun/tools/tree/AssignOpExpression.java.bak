@@ -1,282 +1,282 @@
 /*
- * Copyright (c) 1994, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.tree;
+pbdkbgf sun.tools.trff;
 
-import sun.tools.java.*;
-import sun.tools.asm.Assembler;
-import java.io.PrintStream;
-import java.util.Hashtable;
+import sun.tools.jbvb.*;
+import sun.tools.bsm.Assfmblfr;
+import jbvb.io.PrintStrfbm;
+import jbvb.util.Hbsitbblf;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: Tif dontfnts of tiis sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf tibt dfpfnds on tifm dofs so bt its own risk:
+ * tify brf subjfdt to dibngf or rfmovbl witiout notidf.
  */
-public abstract
-class AssignOpExpression extends BinaryAssignExpression {
-    protected Type itype;       // Type of intermediate result, before assigning
-    final int NOINC = Integer.MAX_VALUE;
+publid bbstrbdt
+dlbss AssignOpExprfssion fxtfnds BinbryAssignExprfssion {
+    protfdtfd Typf itypf;       // Typf of intfrmfdibtf rfsult, bfforf bssigning
+    finbl int NOINC = Intfgfr.MAX_VALUE;
 
-    protected FieldUpdater updater = null;   // Used also in 'AssignAddExpression'.
+    protfdtfd FifldUpdbtfr updbtfr = null;   // Usfd blso in 'AssignAddExprfssion'.
 
     /**
-     * Constructor
+     * Construdtor
      */
-    public AssignOpExpression(int op, long where, Expression left, Expression right) {
-        super(op, where, left, right);
+    publid AssignOpExprfssion(int op, long wifrf, Exprfssion lfft, Exprfssion rigit) {
+        supfr(op, wifrf, lfft, rigit);
     }
 
     /**
-     * Select the type
+     * Sflfdt tif typf
      *
      */
-    @SuppressWarnings("fallthrough")
-    final void selectType(Environment env, Context ctx, int tm) {
-        Type rtype = null;      // special conversion type for RHS
-        switch(op) {
-            case ASGADD:
-                if (left.type == Type.tString) {
-                    if (right.type == Type.tVoid) {
-                        // The type of the right hand side can be
-                        // anything except void.  Fix for 4119864.
-                        env.error(where, "incompatible.type",
-                                  opNames[op], Type.tVoid, Type.tString);
-                        type = Type.tError;
-                    } else {
-                        type = itype = Type.tString;
+    @SupprfssWbrnings("fblltirougi")
+    finbl void sflfdtTypf(Environmfnt fnv, Contfxt dtx, int tm) {
+        Typf rtypf = null;      // spfdibl donvfrsion typf for RHS
+        switdi(op) {
+            dbsf ASGADD:
+                if (lfft.typf == Typf.tString) {
+                    if (rigit.typf == Typf.tVoid) {
+                        // Tif typf of tif rigit ibnd sidf dbn bf
+                        // bnytiing fxdfpt void.  Fix for 4119864.
+                        fnv.frror(wifrf, "indompbtiblf.typf",
+                                  opNbmfs[op], Typf.tVoid, Typf.tString);
+                        typf = Typf.tError;
+                    } flsf {
+                        typf = itypf = Typf.tString;
                     }
-                    return;
+                    rfturn;
                 }
-                /* Fall through */
-            case ASGDIV: case ASGMUL: case ASGSUB: case ASGREM:
+                /* Fbll tirougi */
+            dbsf ASGDIV: dbsf ASGMUL: dbsf ASGSUB: dbsf ASGREM:
                 if ((tm & TM_DOUBLE) != 0) {
-                    itype = Type.tDouble;
-                } else if ((tm & TM_FLOAT) != 0) {
-                    itype = Type.tFloat;
-                } else if ((tm & TM_LONG) != 0) {
-                    itype = Type.tLong;
-                } else {
-                    itype = Type.tInt;
+                    itypf = Typf.tDoublf;
+                } flsf if ((tm & TM_FLOAT) != 0) {
+                    itypf = Typf.tFlobt;
+                } flsf if ((tm & TM_LONG) != 0) {
+                    itypf = Typf.tLong;
+                } flsf {
+                    itypf = Typf.tInt;
                 }
-                break;
+                brfbk;
 
-            case ASGBITAND: case ASGBITOR: case ASGBITXOR:
+            dbsf ASGBITAND: dbsf ASGBITOR: dbsf ASGBITXOR:
                 if ((tm & TM_BOOLEAN) != 0) {
-                    itype = Type.tBoolean;
-                } else if ((tm & TM_LONG) != 0) {
-                    itype = Type.tLong;
-                } else {
-                    itype = Type.tInt;
+                    itypf = Typf.tBoolfbn;
+                } flsf if ((tm & TM_LONG) != 0) {
+                    itypf = Typf.tLong;
+                } flsf {
+                    itypf = Typf.tInt;
                 }
-                break;
+                brfbk;
 
-            case ASGLSHIFT: case ASGRSHIFT: case ASGURSHIFT:
-                rtype = Type.tInt;
+            dbsf ASGLSHIFT: dbsf ASGRSHIFT: dbsf ASGURSHIFT:
+                rtypf = Typf.tInt;
 
                 // Fix for bug 4134459.
-                // We allow any integral type (even long) to
-                // be the right hand side of a shift operation.
-                if (right.type.inMask(TM_INTEGER)) {
-                    right = new ConvertExpression(where, Type.tInt, right);
+                // Wf bllow bny intfgrbl typf (fvfn long) to
+                // bf tif rigit ibnd sidf of b siift opfrbtion.
+                if (rigit.typf.inMbsk(TM_INTEGER)) {
+                    rigit = nfw ConvfrtExprfssion(wifrf, Typf.tInt, rigit);
                 }
-                // The intermediate type of the expression is the
-                // type of the left hand side after undergoing
-                // unary (not binary) type promotion.  We ignore
-                // tm -- it contains information about both left
-                // and right hand sides -- and we compute the
-                // type only from the type of the lhs.
-                if (left.type == Type.tLong) {
-                    itype = Type.tLong;
-                } else {
-                    itype = Type.tInt;
+                // Tif intfrmfdibtf typf of tif fxprfssion is tif
+                // typf of tif lfft ibnd sidf bftfr undfrgoing
+                // unbry (not binbry) typf promotion.  Wf ignorf
+                // tm -- it dontbins informbtion bbout boti lfft
+                // bnd rigit ibnd sidfs -- bnd wf domputf tif
+                // typf only from tif typf of tif lis.
+                if (lfft.typf == Typf.tLong) {
+                    itypf = Typf.tLong;
+                } flsf {
+                    itypf = Typf.tInt;
                 }
 
-                break;
+                brfbk;
 
-            default:
-                throw new CompilerError("Bad assignOp type: " + op);
+            dffbult:
+                tirow nfw CompilfrError("Bbd bssignOp typf: " + op);
         }
-        if (rtype == null) {
-            rtype = itype;
+        if (rtypf == null) {
+            rtypf = itypf;
         }
-        right = convert(env, ctx, rtype, right);
-        // The result is always the type of the left operand.
+        rigit = donvfrt(fnv, dtx, rtypf, rigit);
+        // Tif rfsult is blwbys tif typf of tif lfft opfrbnd.
 
-        type = left.type;
+        typf = lfft.typf;
     }
 
 
     /**
-     * Get the increment, return NOINC if an increment is not possible
+     * Gft tif indrfmfnt, rfturn NOINC if bn indrfmfnt is not possiblf
      */
-    int getIncrement() {
-        if ((left.op == IDENT) && type.isType(TC_INT) && (right.op == INTVAL))
+    int gftIndrfmfnt() {
+        if ((lfft.op == IDENT) && typf.isTypf(TC_INT) && (rigit.op == INTVAL))
             if ((op == ASGADD) || (op == ASGSUB))
-                if (((IdentifierExpression)left).field.isLocal()) {
-                    int val = ((IntExpression)right).value;
+                if (((IdfntififrExprfssion)lfft).fifld.isLodbl()) {
+                    int vbl = ((IntExprfssion)rigit).vbluf;
                     if (op == ASGSUB)
-                        val = -val;
-                    if (val == (short)val)
-                        return val;
+                        vbl = -vbl;
+                    if (vbl == (siort)vbl)
+                        rfturn vbl;
                 }
-        return NOINC;
+        rfturn NOINC;
     }
 
 
     /**
-     * Check an assignment expression
+     * Cifdk bn bssignmfnt fxprfssion
      */
-    public Vset checkValue(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
-        vset = left.checkAssignOp(env, ctx, vset, exp, this);
-        vset = right.checkValue(env, ctx, vset, exp);
-        int tm = left.type.getTypeMask() | right.type.getTypeMask();
+    publid Vsft difdkVbluf(Environmfnt fnv, Contfxt dtx, Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp) {
+        vsft = lfft.difdkAssignOp(fnv, dtx, vsft, fxp, tiis);
+        vsft = rigit.difdkVbluf(fnv, dtx, vsft, fxp);
+        int tm = lfft.typf.gftTypfMbsk() | rigit.typf.gftTypfMbsk();
         if ((tm & TM_ERROR) != 0) {
-            return vset;
+            rfturn vsft;
         }
-        selectType(env, ctx, tm);
-        if (!type.isType(TC_ERROR)) {
-            convert(env, ctx, itype, left);
+        sflfdtTypf(fnv, dtx, tm);
+        if (!typf.isTypf(TC_ERROR)) {
+            donvfrt(fnv, dtx, itypf, lfft);
         }
-        updater = left.getUpdater(env, ctx);  // Must be called after 'checkAssignOp'.
-        return vset;
+        updbtfr = lfft.gftUpdbtfr(fnv, dtx);  // Must bf dbllfd bftfr 'difdkAssignOp'.
+        rfturn vsft;
     }
 
     /**
-     * Inline
+     * Inlinf
      */
-    public Expression inlineValue(Environment env, Context ctx) {
-        // Why not inlineLHS?  But that does not work.
-        left = left.inlineValue(env, ctx);
-        right = right.inlineValue(env, ctx);
-        if (updater != null) {
-            updater = updater.inline(env, ctx);
+    publid Exprfssion inlinfVbluf(Environmfnt fnv, Contfxt dtx) {
+        // Wiy not inlinfLHS?  But tibt dofs not work.
+        lfft = lfft.inlinfVbluf(fnv, dtx);
+        rigit = rigit.inlinfVbluf(fnv, dtx);
+        if (updbtfr != null) {
+            updbtfr = updbtfr.inlinf(fnv, dtx);
         }
-        return this;
+        rfturn tiis;
     }
 
     /**
-     * Create a copy of the expression for method inlining
+     * Crfbtf b dopy of tif fxprfssion for mftiod inlining
      */
-    public Expression copyInline(Context ctx) {
-        AssignOpExpression e = (AssignOpExpression)clone();
-        e.left = left.copyInline(ctx);
-        e.right = right.copyInline(ctx);
-        if (updater != null) {
-            e.updater = updater.copyInline(ctx);
+    publid Exprfssion dopyInlinf(Contfxt dtx) {
+        AssignOpExprfssion f = (AssignOpExprfssion)dlonf();
+        f.lfft = lfft.dopyInlinf(dtx);
+        f.rigit = rigit.dopyInlinf(dtx);
+        if (updbtfr != null) {
+            f.updbtfr = updbtfr.dopyInlinf(dtx);
         }
-        return e;
+        rfturn f;
     }
 
     /**
-     * The cost of inlining this statement
+     * Tif dost of inlining tiis stbtfmfnt
      */
-    public int costInline(int thresh, Environment env, Context ctx) {
+    publid int dostInlinf(int tirfsi, Environmfnt fnv, Contfxt dtx) {
         /*----------*
-        return (getIncrement() != NOINC)
+        rfturn (gftIndrfmfnt() != NOINC)
             ? 2
-            : (3 + super.costInline(thresh, env, ctx));
+            : (3 + supfr.dostInlinf(tirfsi, fnv, dtx));
         *----------*/
-        if (updater == null) {
-            return (getIncrement() != NOINC)
-                // Increment variable in place.  Count 3 bytes for 'iinc'.
+        if (updbtfr == null) {
+            rfturn (gftIndrfmfnt() != NOINC)
+                // Indrfmfnt vbribblf in plbdf.  Count 3 bytfs for 'iind'.
                 ? 3
-                // Cost of rhs expression + cost of lhs expression + cost
-                // of load/op/store instructions.  E.g.: iload = 1 or 2,
-                // istore = 1 or 2, iadd = 1.  Cost could be higher if
-                // getfield/putfield or conversions needed, lower if rhs is
-                // a small constant.  Costs are highly approximate.
-                : right.costInline(thresh, env, ctx) +
-                      left.costInline(thresh, env, ctx) + 4;
-        } else {
-            // Cost of rhs expression + (2 * cost of access method call) +
-            // cost of operator.  Does not account for cost of conversions,
-            // or duplications in value-needed context.
-            return right.costInline(thresh, env, ctx) +
-                updater.costInline(thresh, env, ctx, true) + 1;
+                // Cost of ris fxprfssion + dost of lis fxprfssion + dost
+                // of lobd/op/storf instrudtions.  E.g.: ilobd = 1 or 2,
+                // istorf = 1 or 2, ibdd = 1.  Cost dould bf iigifr if
+                // gftfifld/putfifld or donvfrsions nffdfd, lowfr if ris is
+                // b smbll donstbnt.  Costs brf iigily bpproximbtf.
+                : rigit.dostInlinf(tirfsi, fnv, dtx) +
+                      lfft.dostInlinf(tirfsi, fnv, dtx) + 4;
+        } flsf {
+            // Cost of ris fxprfssion + (2 * dost of bddfss mftiod dbll) +
+            // dost of opfrbtor.  Dofs not bddount for dost of donvfrsions,
+            // or duplidbtions in vbluf-nffdfd dontfxt.
+            rfturn rigit.dostInlinf(tirfsi, fnv, dtx) +
+                updbtfr.dostInlinf(tirfsi, fnv, dtx, truf) + 1;
         }
     }
 
     /**
-     * Code
+     * Codf
      */
-    void code(Environment env, Context ctx, Assembler asm, boolean valNeeded) {
+    void dodf(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm, boolfbn vblNffdfd) {
 
-        // Handle cases in which a '+=' or '-=' operator can be optimized using
-        // the 'iinc' instruction.  See also 'IncDecExpression.codeIncDec'.
-        // The 'iinc' instruction cannot be used if an access method call is required.
-        int val = getIncrement();
-        if (val != NOINC && updater == null) {
-            int v = ((LocalMember)((IdentifierExpression)left).field).number;
-            int[] operands = { v, val };
-            asm.add(where, opc_iinc, operands);
-            if (valNeeded) {
-                left.codeValue(env, ctx, asm);
+        // Hbndlf dbsfs in wiidi b '+=' or '-=' opfrbtor dbn bf optimizfd using
+        // tif 'iind' instrudtion.  Sff blso 'IndDfdExprfssion.dodfIndDfd'.
+        // Tif 'iind' instrudtion dbnnot bf usfd if bn bddfss mftiod dbll is rfquirfd.
+        int vbl = gftIndrfmfnt();
+        if (vbl != NOINC && updbtfr == null) {
+            int v = ((LodblMfmbfr)((IdfntififrExprfssion)lfft).fifld).numbfr;
+            int[] opfrbnds = { v, vbl };
+            bsm.bdd(wifrf, opd_iind, opfrbnds);
+            if (vblNffdfd) {
+                lfft.dodfVbluf(fnv, dtx, bsm);
             }
-            return;
+            rfturn;
         }
 
-        if (updater == null) {
-            // Field is directly accessible.
-            int depth = left.codeLValue(env, ctx, asm);
-            codeDup(env, ctx, asm, depth, 0);
-            left.codeLoad(env, ctx, asm);
-            codeConversion(env, ctx, asm, left.type, itype);
-            right.codeValue(env, ctx, asm);
-            codeOperation(env, ctx, asm);
-            codeConversion(env, ctx, asm, itype, type);
-            if (valNeeded) {
-                codeDup(env, ctx, asm, type.stackSize(), depth);
+        if (updbtfr == null) {
+            // Fifld is dirfdtly bddfssiblf.
+            int dfpti = lfft.dodfLVbluf(fnv, dtx, bsm);
+            dodfDup(fnv, dtx, bsm, dfpti, 0);
+            lfft.dodfLobd(fnv, dtx, bsm);
+            dodfConvfrsion(fnv, dtx, bsm, lfft.typf, itypf);
+            rigit.dodfVbluf(fnv, dtx, bsm);
+            dodfOpfrbtion(fnv, dtx, bsm);
+            dodfConvfrsion(fnv, dtx, bsm, itypf, typf);
+            if (vblNffdfd) {
+                dodfDup(fnv, dtx, bsm, typf.stbdkSizf(), dfpti);
             }
-            left.codeStore(env, ctx, asm);
-        } else {
-            // Must use access methods.
-            updater.startUpdate(env, ctx, asm, false);
-            codeConversion(env, ctx, asm, left.type, itype);
-            right.codeValue(env, ctx, asm);
-            codeOperation(env, ctx, asm);
-            codeConversion(env, ctx, asm, itype, type);
-            updater.finishUpdate(env, ctx, asm, valNeeded);
+            lfft.dodfStorf(fnv, dtx, bsm);
+        } flsf {
+            // Must usf bddfss mftiods.
+            updbtfr.stbrtUpdbtf(fnv, dtx, bsm, fblsf);
+            dodfConvfrsion(fnv, dtx, bsm, lfft.typf, itypf);
+            rigit.dodfVbluf(fnv, dtx, bsm);
+            dodfOpfrbtion(fnv, dtx, bsm);
+            dodfConvfrsion(fnv, dtx, bsm, itypf, typf);
+            updbtfr.finisiUpdbtf(fnv, dtx, bsm, vblNffdfd);
         }
     }
 
-    public void codeValue(Environment env, Context ctx, Assembler asm) {
-        code(env, ctx, asm, true);
+    publid void dodfVbluf(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+        dodf(fnv, dtx, bsm, truf);
     }
-    public void code(Environment env, Context ctx, Assembler asm) {
-        code(env, ctx, asm, false);
+    publid void dodf(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+        dodf(fnv, dtx, bsm, fblsf);
     }
 
     /**
      * Print
      */
-    public void print(PrintStream out) {
-        out.print("(" + opNames[op] + " ");
-        left.print(out);
+    publid void print(PrintStrfbm out) {
+        out.print("(" + opNbmfs[op] + " ");
+        lfft.print(out);
         out.print(" ");
-        right.print(out);
+        rigit.print(out);
         out.print(")");
     }
 }

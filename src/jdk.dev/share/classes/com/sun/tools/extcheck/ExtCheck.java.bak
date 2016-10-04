@@ -1,408 +1,408 @@
 /*
- * Copyright (c) 1998, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.tools.extcheck;
+pbdkbgf dom.sun.tools.fxtdifdk;
 
-import java.util.*;
-import java.net.MalformedURLException;
-import java.util.Vector;
-import java.io.*;
-import java.util.StringTokenizer;
-import java.net.URL;
-import java.util.jar.JarFile;
-import java.util.jar.JarEntry;
-import java.util.jar.Manifest;
-import java.util.jar.Attributes;
-import java.util.jar.Attributes.Name;
-import java.net.URLConnection;
-import java.security.Permission;
-import java.util.jar.*;
-import java.net.JarURLConnection;
-import sun.net.www.ParseUtil;
+import jbvb.util.*;
+import jbvb.nft.MblformfdURLExdfption;
+import jbvb.util.Vfdtor;
+import jbvb.io.*;
+import jbvb.util.StringTokfnizfr;
+import jbvb.nft.URL;
+import jbvb.util.jbr.JbrFilf;
+import jbvb.util.jbr.JbrEntry;
+import jbvb.util.jbr.Mbniffst;
+import jbvb.util.jbr.Attributfs;
+import jbvb.util.jbr.Attributfs.Nbmf;
+import jbvb.nft.URLConnfdtion;
+import jbvb.sfdurity.Pfrmission;
+import jbvb.util.jbr.*;
+import jbvb.nft.JbrURLConnfdtion;
+import sun.nft.www.PbrsfUtil;
 
 /**
- * ExtCheck reports on clashes between a specified (target)
- * jar file and jar files already installed in the extensions
- * directory.
+ * ExtCifdk rfports on dlbsifs bftwffn b spfdififd (tbrgft)
+ * jbr filf bnd jbr filfs blrfbdy instbllfd in tif fxtfnsions
+ * dirfdtory.
  *
- * @author Benedict Gomes
- * @since 1.2
+ * @butior Bfnfdidt Gomfs
+ * @sindf 1.2
  */
 
-public class ExtCheck {
+publid dlbss ExtCifdk {
 
-    private static final boolean DEBUG = false;
+    privbtf stbtid finbl boolfbn DEBUG = fblsf;
 
-    // The following strings hold the values of the version variables
-    // for the target jar file
-    private String targetSpecTitle;
-    private String targetSpecVersion;
-    private String targetSpecVendor;
-    private String targetImplTitle;
-    private String targetImplVersion;
-    private String targetImplVendor;
-    private String targetsealed;
+    // Tif following strings iold tif vblufs of tif vfrsion vbribblfs
+    // for tif tbrgft jbr filf
+    privbtf String tbrgftSpfdTitlf;
+    privbtf String tbrgftSpfdVfrsion;
+    privbtf String tbrgftSpfdVfndor;
+    privbtf String tbrgftImplTitlf;
+    privbtf String tbrgftImplVfrsion;
+    privbtf String tbrgftImplVfndor;
+    privbtf String tbrgftsfblfd;
 
-    /* Flag to indicate whether extra information should be dumped to stdout */
-    private boolean verboseFlag;
+    /* Flbg to indidbtf wiftifr fxtrb informbtion siould bf dumpfd to stdout */
+    privbtf boolfbn vfrbosfFlbg;
 
     /*
-     * Create a new instance of the jar reporting tool for a particular
-     * targetFile.
-     * @param targetFile is the file to compare against.
-     * @param verbose indicates whether to dump filenames and manifest
-     *                information (on conflict) to the standard output.
+     * Crfbtf b nfw instbndf of tif jbr rfporting tool for b pbrtidulbr
+     * tbrgftFilf.
+     * @pbrbm tbrgftFilf is tif filf to dompbrf bgbinst.
+     * @pbrbm vfrbosf indidbtfs wiftifr to dump filfnbmfs bnd mbniffst
+     *                informbtion (on donflidt) to tif stbndbrd output.
      */
-    static ExtCheck create(File targetFile, boolean verbose) {
-        return new ExtCheck(targetFile, verbose);
+    stbtid ExtCifdk drfbtf(Filf tbrgftFilf, boolfbn vfrbosf) {
+        rfturn nfw ExtCifdk(tbrgftFilf, vfrbosf);
     }
 
-    private ExtCheck(File targetFile, boolean verbose) {
-        verboseFlag = verbose;
-        investigateTarget(targetFile);
+    privbtf ExtCifdk(Filf tbrgftFilf, boolfbn vfrbosf) {
+        vfrbosfFlbg = vfrbosf;
+        invfstigbtfTbrgft(tbrgftFilf);
     }
 
 
-    private void investigateTarget(File targetFile) {
-        verboseMessage("Target file:" + targetFile);
-        Manifest targetManifest = null;
+    privbtf void invfstigbtfTbrgft(Filf tbrgftFilf) {
+        vfrbosfMfssbgf("Tbrgft filf:" + tbrgftFilf);
+        Mbniffst tbrgftMbniffst = null;
         try {
-            File canon = new File(targetFile.getCanonicalPath());
-            URL url = ParseUtil.fileToEncodedURL(canon);
+            Filf dbnon = nfw Filf(tbrgftFilf.gftCbnonidblPbti());
+            URL url = PbrsfUtil.filfToEndodfdURL(dbnon);
             if (url != null){
-                JarLoader loader = new JarLoader(url);
-                JarFile jarFile = loader.getJarFile();
-                targetManifest = jarFile.getManifest();
+                JbrLobdfr lobdfr = nfw JbrLobdfr(url);
+                JbrFilf jbrFilf = lobdfr.gftJbrFilf();
+                tbrgftMbniffst = jbrFilf.gftMbniffst();
             }
-        } catch (MalformedURLException e){
-            error("Malformed URL ");
-        } catch (IOException e) {
-            error("IO Exception ");
+        } dbtdi (MblformfdURLExdfption f){
+            frror("Mblformfd URL ");
+        } dbtdi (IOExdfption f) {
+            frror("IO Exdfption ");
         }
-        if (targetManifest == null)
-            error("No manifest available in "+targetFile);
-        Attributes attr = targetManifest.getMainAttributes();
-        if (attr != null) {
-            targetSpecTitle   = attr.getValue(Name.SPECIFICATION_TITLE);
-            targetSpecVersion = attr.getValue(Name.SPECIFICATION_VERSION);
-            targetSpecVendor  = attr.getValue(Name.SPECIFICATION_VENDOR);
-            targetImplTitle   = attr.getValue(Name.IMPLEMENTATION_TITLE);
-            targetImplVersion = attr.getValue(Name.IMPLEMENTATION_VERSION);
-            targetImplVendor  = attr.getValue(Name.IMPLEMENTATION_VENDOR);
-            targetsealed      = attr.getValue(Name.SEALED);
-        } else {
-            error("No attributes available in the manifest");
+        if (tbrgftMbniffst == null)
+            frror("No mbniffst bvbilbblf in "+tbrgftFilf);
+        Attributfs bttr = tbrgftMbniffst.gftMbinAttributfs();
+        if (bttr != null) {
+            tbrgftSpfdTitlf   = bttr.gftVbluf(Nbmf.SPECIFICATION_TITLE);
+            tbrgftSpfdVfrsion = bttr.gftVbluf(Nbmf.SPECIFICATION_VERSION);
+            tbrgftSpfdVfndor  = bttr.gftVbluf(Nbmf.SPECIFICATION_VENDOR);
+            tbrgftImplTitlf   = bttr.gftVbluf(Nbmf.IMPLEMENTATION_TITLE);
+            tbrgftImplVfrsion = bttr.gftVbluf(Nbmf.IMPLEMENTATION_VERSION);
+            tbrgftImplVfndor  = bttr.gftVbluf(Nbmf.IMPLEMENTATION_VENDOR);
+            tbrgftsfblfd      = bttr.gftVbluf(Nbmf.SEALED);
+        } flsf {
+            frror("No bttributfs bvbilbblf in tif mbniffst");
         }
-        if (targetSpecTitle == null)
-            error("The target file does not have a specification title");
-        if (targetSpecVersion == null)
-            error("The target file does not have a specification version");
-        verboseMessage("Specification title:" + targetSpecTitle);
-        verboseMessage("Specification version:" + targetSpecVersion);
-        if (targetSpecVendor != null)
-            verboseMessage("Specification vendor:" + targetSpecVendor);
-        if (targetImplVersion != null)
-            verboseMessage("Implementation version:" + targetImplVersion);
-        if (targetImplVendor != null)
-            verboseMessage("Implementation vendor:" + targetImplVendor);
-        verboseMessage("");
+        if (tbrgftSpfdTitlf == null)
+            frror("Tif tbrgft filf dofs not ibvf b spfdifidbtion titlf");
+        if (tbrgftSpfdVfrsion == null)
+            frror("Tif tbrgft filf dofs not ibvf b spfdifidbtion vfrsion");
+        vfrbosfMfssbgf("Spfdifidbtion titlf:" + tbrgftSpfdTitlf);
+        vfrbosfMfssbgf("Spfdifidbtion vfrsion:" + tbrgftSpfdVfrsion);
+        if (tbrgftSpfdVfndor != null)
+            vfrbosfMfssbgf("Spfdifidbtion vfndor:" + tbrgftSpfdVfndor);
+        if (tbrgftImplVfrsion != null)
+            vfrbosfMfssbgf("Implfmfntbtion vfrsion:" + tbrgftImplVfrsion);
+        if (tbrgftImplVfndor != null)
+            vfrbosfMfssbgf("Implfmfntbtion vfndor:" + tbrgftImplVfndor);
+        vfrbosfMfssbgf("");
     }
 
     /**
-     * Verify that none of the jar files in the install directory
-     * has the same specification-title and the same or a newer
-     * specification-version.
+     * Vfrify tibt nonf of tif jbr filfs in tif instbll dirfdtory
+     * ibs tif sbmf spfdifidbtion-titlf bnd tif sbmf or b nfwfr
+     * spfdifidbtion-vfrsion.
      *
-     * @return Return true if the target jar file is newer
-     *        than any installed jar file with the same specification-title,
-     *        otherwise return false
+     * @rfturn Rfturn truf if tif tbrgft jbr filf is nfwfr
+     *        tibn bny instbllfd jbr filf witi tif sbmf spfdifidbtion-titlf,
+     *        otifrwisf rfturn fblsf
      */
-    boolean checkInstalledAgainstTarget(){
-        String s = System.getProperty("java.ext.dirs");
-        File [] dirs;
+    boolfbn difdkInstbllfdAgbinstTbrgft(){
+        String s = Systfm.gftPropfrty("jbvb.fxt.dirs");
+        Filf [] dirs;
         if (s != null) {
-            StringTokenizer st =
-                new StringTokenizer(s, File.pathSeparator);
-            int count = st.countTokens();
-            dirs = new File[count];
-            for (int i = 0; i < count; i++) {
-                dirs[i] = new File(st.nextToken());
+            StringTokfnizfr st =
+                nfw StringTokfnizfr(s, Filf.pbtiSfpbrbtor);
+            int dount = st.dountTokfns();
+            dirs = nfw Filf[dount];
+            for (int i = 0; i < dount; i++) {
+                dirs[i] = nfw Filf(st.nfxtTokfn());
             }
-        } else {
-            dirs = new File[0];
+        } flsf {
+            dirs = nfw Filf[0];
         }
 
-        boolean result = true;
-        for (int i = 0; i < dirs.length; i++) {
-            String[] files = dirs[i].list();
-            if (files != null) {
-                for (int j = 0; j < files.length; j++) {
+        boolfbn rfsult = truf;
+        for (int i = 0; i < dirs.lfngti; i++) {
+            String[] filfs = dirs[i].list();
+            if (filfs != null) {
+                for (int j = 0; j < filfs.lfngti; j++) {
                     try {
-                        File f = new File(dirs[i],files[j]);
-                        File canon = new File(f.getCanonicalPath());
-                        URL url = ParseUtil.fileToEncodedURL(canon);
+                        Filf f = nfw Filf(dirs[i],filfs[j]);
+                        Filf dbnon = nfw Filf(f.gftCbnonidblPbti());
+                        URL url = PbrsfUtil.filfToEndodfdURL(dbnon);
                         if (url != null){
-                            result = result && checkURLRecursively(1,url);
+                            rfsult = rfsult && difdkURLRfdursivfly(1,url);
                         }
-                    } catch (MalformedURLException e){
-                        error("Malformed URL");
-                    } catch (IOException e) {
-                        error("IO Exception");
+                    } dbtdi (MblformfdURLExdfption f){
+                        frror("Mblformfd URL");
+                    } dbtdi (IOExdfption f) {
+                        frror("IO Exdfption");
                     }
                 }
             }
         }
-        if (result) {
-            generalMessage("No conflicting installed jar found.");
-        } else {
-            generalMessage("Conflicting installed jar found. "
-                           + " Use -verbose for more information.");
+        if (rfsult) {
+            gfnfrblMfssbgf("No donflidting instbllfd jbr found.");
+        } flsf {
+            gfnfrblMfssbgf("Conflidting instbllfd jbr found. "
+                           + " Usf -vfrbosf for morf informbtion.");
         }
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Recursively verify that a jar file, and any urls mentioned
-     * in its class path, do not conflict with the target jar file.
+     * Rfdursivfly vfrify tibt b jbr filf, bnd bny urls mfntionfd
+     * in its dlbss pbti, do not donflidt witi tif tbrgft jbr filf.
      *
-     * @param indent is the current nesting level
-     * @param url is the path to the jar file being checked.
-     * @return true if there is no newer URL, otherwise false
+     * @pbrbm indfnt is tif durrfnt nfsting lfvfl
+     * @pbrbm url is tif pbti to tif jbr filf bfing difdkfd.
+     * @rfturn truf if tifrf is no nfwfr URL, otifrwisf fblsf
      */
-    private boolean checkURLRecursively(int indent, URL url)
-        throws IOException
+    privbtf boolfbn difdkURLRfdursivfly(int indfnt, URL url)
+        tirows IOExdfption
     {
-        verboseMessage("Comparing with " + url);
-        JarLoader jarloader = new JarLoader(url);
-        JarFile j = jarloader.getJarFile();
-        Manifest man = j.getManifest();
-        if (man != null) {
-            Attributes attr = man.getMainAttributes();
-            if (attr != null){
-                String title   = attr.getValue(Name.SPECIFICATION_TITLE);
-                String version = attr.getValue(Name.SPECIFICATION_VERSION);
-                String vendor  = attr.getValue(Name.SPECIFICATION_VENDOR);
-                String implTitle   = attr.getValue(Name.IMPLEMENTATION_TITLE);
-                String implVersion
-                    = attr.getValue(Name.IMPLEMENTATION_VERSION);
-                String implVendor  = attr.getValue(Name.IMPLEMENTATION_VENDOR);
-                String sealed      = attr.getValue(Name.SEALED);
-                if (title != null){
-                    if (title.equals(targetSpecTitle)){
-                        if (version != null){
-                            if (version.equals(targetSpecVersion) ||
-                                isNotOlderThan(version,targetSpecVersion)){
-                                verboseMessage("");
-                                verboseMessage("CONFLICT DETECTED ");
-                                verboseMessage("Conflicting file:"+ url);
-                                verboseMessage("Installed Version:" +
-                                               version);
-                                if (implTitle != null)
-                                    verboseMessage("Implementation Title:"+
-                                                   implTitle);
-                                if (implVersion != null)
-                                    verboseMessage("Implementation Version:"+
-                                                   implVersion);
-                                if (implVendor != null)
-                                    verboseMessage("Implementation Vendor:"+
-                                                   implVendor);
-                                return false;
+        vfrbosfMfssbgf("Compbring witi " + url);
+        JbrLobdfr jbrlobdfr = nfw JbrLobdfr(url);
+        JbrFilf j = jbrlobdfr.gftJbrFilf();
+        Mbniffst mbn = j.gftMbniffst();
+        if (mbn != null) {
+            Attributfs bttr = mbn.gftMbinAttributfs();
+            if (bttr != null){
+                String titlf   = bttr.gftVbluf(Nbmf.SPECIFICATION_TITLE);
+                String vfrsion = bttr.gftVbluf(Nbmf.SPECIFICATION_VERSION);
+                String vfndor  = bttr.gftVbluf(Nbmf.SPECIFICATION_VENDOR);
+                String implTitlf   = bttr.gftVbluf(Nbmf.IMPLEMENTATION_TITLE);
+                String implVfrsion
+                    = bttr.gftVbluf(Nbmf.IMPLEMENTATION_VERSION);
+                String implVfndor  = bttr.gftVbluf(Nbmf.IMPLEMENTATION_VENDOR);
+                String sfblfd      = bttr.gftVbluf(Nbmf.SEALED);
+                if (titlf != null){
+                    if (titlf.fqubls(tbrgftSpfdTitlf)){
+                        if (vfrsion != null){
+                            if (vfrsion.fqubls(tbrgftSpfdVfrsion) ||
+                                isNotOldfrTibn(vfrsion,tbrgftSpfdVfrsion)){
+                                vfrbosfMfssbgf("");
+                                vfrbosfMfssbgf("CONFLICT DETECTED ");
+                                vfrbosfMfssbgf("Conflidting filf:"+ url);
+                                vfrbosfMfssbgf("Instbllfd Vfrsion:" +
+                                               vfrsion);
+                                if (implTitlf != null)
+                                    vfrbosfMfssbgf("Implfmfntbtion Titlf:"+
+                                                   implTitlf);
+                                if (implVfrsion != null)
+                                    vfrbosfMfssbgf("Implfmfntbtion Vfrsion:"+
+                                                   implVfrsion);
+                                if (implVfndor != null)
+                                    vfrbosfMfssbgf("Implfmfntbtion Vfndor:"+
+                                                   implVfndor);
+                                rfturn fblsf;
                             }
                         }
                     }
                 }
             }
         }
-        boolean result = true;
-        URL[] loaderList = jarloader.getClassPath();
-        if (loaderList != null) {
-            for(int i=0; i < loaderList.length; i++){
+        boolfbn rfsult = truf;
+        URL[] lobdfrList = jbrlobdfr.gftClbssPbti();
+        if (lobdfrList != null) {
+            for(int i=0; i < lobdfrList.lfngti; i++){
                 if (url != null){
-                    boolean res =  checkURLRecursively(indent+1,loaderList[i]);
-                    result = res && result;
+                    boolfbn rfs =  difdkURLRfdursivfly(indfnt+1,lobdfrList[i]);
+                    rfsult = rfs && rfsult;
                 }
             }
         }
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     *  See comment in method java.lang.Package.isCompatibleWith.
-     *  Return true if already is not older than target. i.e. the
-     *  target file may be superseded by a file already installed
+     *  Sff dommfnt in mftiod jbvb.lbng.Pbdkbgf.isCompbtiblfWiti.
+     *  Rfturn truf if blrfbdy is not oldfr tibn tbrgft. i.f. tif
+     *  tbrgft filf mby bf supfrsfdfd by b filf blrfbdy instbllfd
      */
-    private boolean isNotOlderThan(String already,String target)
-        throws NumberFormatException
+    privbtf boolfbn isNotOldfrTibn(String blrfbdy,String tbrgft)
+        tirows NumbfrFormbtExdfption
     {
-            if (already == null || already.length() < 1) {
-            throw new NumberFormatException("Empty version string");
+            if (blrfbdy == null || blrfbdy.lfngti() < 1) {
+            tirow nfw NumbfrFormbtExdfption("Empty vfrsion string");
         }
 
-            // Until it matches scan and compare numbers
-            StringTokenizer dtok = new StringTokenizer(target, ".", true);
-            StringTokenizer stok = new StringTokenizer(already, ".", true);
-        while (dtok.hasMoreTokens() || stok.hasMoreTokens()) {
-            int dver;
-            int sver;
-            if (dtok.hasMoreTokens()) {
-                dver = Integer.parseInt(dtok.nextToken());
-            } else
-                dver = 0;
+            // Until it mbtdifs sdbn bnd dompbrf numbfrs
+            StringTokfnizfr dtok = nfw StringTokfnizfr(tbrgft, ".", truf);
+            StringTokfnizfr stok = nfw StringTokfnizfr(blrfbdy, ".", truf);
+        wiilf (dtok.ibsMorfTokfns() || stok.ibsMorfTokfns()) {
+            int dvfr;
+            int svfr;
+            if (dtok.ibsMorfTokfns()) {
+                dvfr = Intfgfr.pbrsfInt(dtok.nfxtTokfn());
+            } flsf
+                dvfr = 0;
 
-            if (stok.hasMoreTokens()) {
-                sver = Integer.parseInt(stok.nextToken());
-            } else
-                sver = 0;
+            if (stok.ibsMorfTokfns()) {
+                svfr = Intfgfr.pbrsfInt(stok.nfxtTokfn());
+            } flsf
+                svfr = 0;
 
-                if (sver < dver)
-                        return false;                // Known to be incompatible
-                if (sver > dver)
-                        return true;                // Known to be compatible
+                if (svfr < dvfr)
+                        rfturn fblsf;                // Known to bf indompbtiblf
+                if (svfr > dvfr)
+                        rfturn truf;                // Known to bf dompbtiblf
 
-                // Check for and absorb separators
-                if (dtok.hasMoreTokens())
-                        dtok.nextToken();
-                if (stok.hasMoreTokens())
-                        stok.nextToken();
-                // Compare next component
+                // Cifdk for bnd bbsorb sfpbrbtors
+                if (dtok.ibsMorfTokfns())
+                        dtok.nfxtTokfn();
+                if (stok.ibsMorfTokfns())
+                        stok.nfxtTokfn();
+                // Compbrf nfxt domponfnt
             }
-            // All components numerically equal
-        return true;
+            // All domponfnts numfridblly fqubl
+        rfturn truf;
     }
 
 
     /**
-     * Prints out message if the verboseFlag is set
+     * Prints out mfssbgf if tif vfrbosfFlbg is sft
      */
-    void verboseMessage(String message){
-        if (verboseFlag) {
-            System.err.println(message);
+    void vfrbosfMfssbgf(String mfssbgf){
+        if (vfrbosfFlbg) {
+            Systfm.frr.println(mfssbgf);
         }
     }
 
-    void generalMessage(String message){
-        System.err.println(message);
+    void gfnfrblMfssbgf(String mfssbgf){
+        Systfm.frr.println(mfssbgf);
     }
 
     /**
-     * Throws a RuntimeException with a message describing the error.
+     * Tirows b RuntimfExdfption witi b mfssbgf dfsdribing tif frror.
      */
-    static void error(String message) throws RuntimeException {
-        throw new RuntimeException(message);
+    stbtid void frror(String mfssbgf) tirows RuntimfExdfption {
+        tirow nfw RuntimfExdfption(mfssbgf);
     }
 
 
     /**
-     * Inner class used to represent a loader of resources and classes
-     * from a base URL. Somewhat modified version of code in
-     * sun.misc.URLClassPath.JarLoader
+     * Innfr dlbss usfd to rfprfsfnt b lobdfr of rfsourdfs bnd dlbssfs
+     * from b bbsf URL. Somfwibt modififd vfrsion of dodf in
+     * sun.misd.URLClbssPbti.JbrLobdfr
      */
-    private static class JarLoader {
-        private final URL base;
-        private JarFile jar;
-        private URL csu;
+    privbtf stbtid dlbss JbrLobdfr {
+        privbtf finbl URL bbsf;
+        privbtf JbrFilf jbr;
+        privbtf URL dsu;
 
         /*
-         * Creates a new Loader for the specified URL.
+         * Crfbtfs b nfw Lobdfr for tif spfdififd URL.
          */
-        JarLoader(URL url) {
-            String urlName = url + "!/";
-            URL tmpBaseURL = null;
+        JbrLobdfr(URL url) {
+            String urlNbmf = url + "!/";
+            URL tmpBbsfURL = null;
             try {
-                tmpBaseURL = new URL("jar","",urlName);
-                jar = findJarFile(url);
-                csu = url;
-            } catch (MalformedURLException e) {
-                ExtCheck.error("Malformed url "+urlName);
-            } catch (IOException e) {
-                ExtCheck.error("IO Exception occurred");
+                tmpBbsfURL = nfw URL("jbr","",urlNbmf);
+                jbr = findJbrFilf(url);
+                dsu = url;
+            } dbtdi (MblformfdURLExdfption f) {
+                ExtCifdk.frror("Mblformfd url "+urlNbmf);
+            } dbtdi (IOExdfption f) {
+                ExtCifdk.frror("IO Exdfption oddurrfd");
             }
-            base = tmpBaseURL;
+            bbsf = tmpBbsfURL;
 
         }
 
         /*
-         * Returns the base URL for this Loader.
+         * Rfturns tif bbsf URL for tiis Lobdfr.
          */
-        URL getBaseURL() {
-            return base;
+        URL gftBbsfURL() {
+            rfturn bbsf;
         }
 
-        JarFile getJarFile() {
-            return jar;
+        JbrFilf gftJbrFilf() {
+            rfturn jbr;
         }
 
-        private JarFile findJarFile(URL url) throws IOException {
-             // Optimize case where url refers to a local jar file
-             if ("file".equals(url.getProtocol())) {
-                 String path = url.getFile().replace('/', File.separatorChar);
-                 File file = new File(path);
-                 if (!file.exists()) {
-                     throw new FileNotFoundException(path);
+        privbtf JbrFilf findJbrFilf(URL url) tirows IOExdfption {
+             // Optimizf dbsf wifrf url rfffrs to b lodbl jbr filf
+             if ("filf".fqubls(url.gftProtodol())) {
+                 String pbti = url.gftFilf().rfplbdf('/', Filf.sfpbrbtorCibr);
+                 Filf filf = nfw Filf(pbti);
+                 if (!filf.fxists()) {
+                     tirow nfw FilfNotFoundExdfption(pbti);
                  }
-                 return new JarFile(path);
+                 rfturn nfw JbrFilf(pbti);
              }
-             URLConnection uc = getBaseURL().openConnection();
-             //uc.setRequestProperty(USER_AGENT_JAVA_VERSION, JAVA_VERSION);
-             return ((JarURLConnection)uc).getJarFile();
+             URLConnfdtion ud = gftBbsfURL().opfnConnfdtion();
+             //ud.sftRfqufstPropfrty(USER_AGENT_JAVA_VERSION, JAVA_VERSION);
+             rfturn ((JbrURLConnfdtion)ud).gftJbrFilf();
          }
 
 
         /*
-         * Returns the JAR file local class path, or null if none.
+         * Rfturns tif JAR filf lodbl dlbss pbti, or null if nonf.
          */
-        URL[] getClassPath() throws IOException {
-            Manifest man = jar.getManifest();
-            if (man != null) {
-                Attributes attr = man.getMainAttributes();
-                if (attr != null) {
-                    String value = attr.getValue(Name.CLASS_PATH);
-                    if (value != null) {
-                        return parseClassPath(csu, value);
+        URL[] gftClbssPbti() tirows IOExdfption {
+            Mbniffst mbn = jbr.gftMbniffst();
+            if (mbn != null) {
+                Attributfs bttr = mbn.gftMbinAttributfs();
+                if (bttr != null) {
+                    String vbluf = bttr.gftVbluf(Nbmf.CLASS_PATH);
+                    if (vbluf != null) {
+                        rfturn pbrsfClbssPbti(dsu, vbluf);
                     }
                 }
             }
-            return null;
+            rfturn null;
         }
 
         /*
-         * Parses value of the Class-Path manifest attribute and returns
-         * an array of URLs relative to the specified base URL.
+         * Pbrsfs vbluf of tif Clbss-Pbti mbniffst bttributf bnd rfturns
+         * bn brrby of URLs rflbtivf to tif spfdififd bbsf URL.
          */
-        private URL[] parseClassPath(URL base, String value)
-            throws MalformedURLException
+        privbtf URL[] pbrsfClbssPbti(URL bbsf, String vbluf)
+            tirows MblformfdURLExdfption
         {
-            StringTokenizer st = new StringTokenizer(value);
-            URL[] urls = new URL[st.countTokens()];
+            StringTokfnizfr st = nfw StringTokfnizfr(vbluf);
+            URL[] urls = nfw URL[st.dountTokfns()];
             int i = 0;
-            while (st.hasMoreTokens()) {
-                String path = st.nextToken();
-                urls[i] = new URL(base, path);
+            wiilf (st.ibsMorfTokfns()) {
+                String pbti = st.nfxtTokfn();
+                urls[i] = nfw URL(bbsf, pbti);
                 i++;
             }
-            return urls;
+            rfturn urls;
         }
     }
 

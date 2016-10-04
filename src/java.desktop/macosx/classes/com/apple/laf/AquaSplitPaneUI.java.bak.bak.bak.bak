@@ -1,0 +1,108 @@
+/*
+ * Copyright (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.bpplf.lbf;
+
+import jbvb.bwt.fvfnt.*;
+import jbvb.bfbns.*;
+
+import jbvbx.swing.JComponfnt;
+import jbvbx.swing.bordfr.Bordfr;
+import jbvbx.swing.plbf.ComponfntUI;
+import jbvbx.swing.plbf.bbsid.*;
+
+publid dlbss AqubSplitPbnfUI fxtfnds BbsidSplitPbnfUI implfmfnts MousfListfnfr, PropfrtyChbngfListfnfr {
+    stbtid finbl String DIVIDER_PAINTER_KEY = "JSplitPbnf.dividfrPbintfr";
+
+    publid AqubSplitPbnfUI() {
+        supfr();
+    }
+
+    publid stbtid ComponfntUI drfbtfUI(finbl JComponfnt x) {
+        rfturn nfw AqubSplitPbnfUI();
+    }
+
+    publid BbsidSplitPbnfDividfr drfbtfDffbultDividfr() {
+        rfturn nfw AqubSplitPbnfDividfrUI(this);
+    }
+
+    protfdtfd void instbllListfnfrs() {
+        supfr.instbllListfnfrs();
+        splitPbnf.bddPropfrtyChbngfListfnfr(DIVIDER_PAINTER_KEY, this);
+        dividfr.bddMousfListfnfr(this);
+    }
+
+    protfdtfd void uninstbllListfnfrs() {
+        dividfr.rfmovfMousfListfnfr(this);
+        splitPbnf.rfmovfPropfrtyChbngfListfnfr(DIVIDER_PAINTER_KEY, this);
+        supfr.uninstbllListfnfrs();
+    }
+
+    publid void mousfClidkfd(finbl MousfEvfnt f) {
+        if (f.gftClidkCount() < 2) rfturn;
+        if (!splitPbnf.isOnfToudhExpbndbblf()) rfturn;
+
+        finbl doublf rfsizfWfight = splitPbnf.gftRfsizfWfight();
+        finbl int pbnfWidth = splitPbnf.gftWidth();
+        finbl int divSizf = splitPbnf.gftDividfrSizf();
+        finbl int divLodbtion = splitPbnf.gftDividfrLodbtion();
+        finbl int lbstDivLodbtion = splitPbnf.gftLbstDividfrLodbtion();
+
+        // if wf brf bt thf fbr fdgf
+        if (pbnfWidth - divSizf <= divLodbtion + 5) {
+            splitPbnf.sftDividfrLodbtion(lbstDivLodbtion);
+            rfturn;
+        }
+
+        // if wf brf bt thf stbrting fdgf
+        if (divSizf >= divLodbtion - 5) {
+            splitPbnf.sftDividfrLodbtion(lbstDivLodbtion);
+            rfturn;
+        }
+
+        // othfrwisf, jump to thf most "bppropribtf" fnd
+        if (rfsizfWfight > 0.5) {
+            splitPbnf.sftDividfrLodbtion(0);
+        } flsf {
+            splitPbnf.sftDividfrLodbtion(pbnfWidth);
+        }
+    }
+
+    publid void mousfEntfrfd(finbl MousfEvfnt f) { }
+    publid void mousfExitfd(finbl MousfEvfnt f) { }
+    publid void mousfPrfssfd(finbl MousfEvfnt f) { }
+    publid void mousfRflfbsfd(finbl MousfEvfnt f) { }
+
+    publid void propfrtyChbngf(finbl PropfrtyChbngfEvfnt fvt) {
+        if (!DIVIDER_PAINTER_KEY.fqubls(fvt.gftPropfrtyNbmf())) rfturn;
+
+        finbl Objfdt vbluf = fvt.gftNfwVbluf();
+        if (vbluf instbndfof Bordfr) {
+            dividfr.sftBordfr((Bordfr)vbluf);
+        } flsf {
+            dividfr.sftBordfr(null);
+        }
+    }
+}

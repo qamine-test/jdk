@@ -1,127 +1,127 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.security.spec;
+pbdkbgf jbvb.sfdurity.spfd;
 
 /**
- * This immutable class specifies the set of parameters used for
- * generating DSA parameters as specified in
- * <a href="http://csrc.nist.gov/publications/fips/fips186-3/fips_186-3.pdf">FIPS 186-3 Digital Signature Standard (DSS)</a>.
+ * Tiis immutbblf dlbss spfdififs tif sft of pbrbmftfrs usfd for
+ * gfnfrbting DSA pbrbmftfrs bs spfdififd in
+ * <b irff="ittp://dsrd.nist.gov/publidbtions/fips/fips186-3/fips_186-3.pdf">FIPS 186-3 Digitbl Signbturf Stbndbrd (DSS)</b>.
  *
- * @see AlgorithmParameterSpec
+ * @sff AlgoritimPbrbmftfrSpfd
  *
- * @since 1.8
+ * @sindf 1.8
  */
-public final class DSAGenParameterSpec implements AlgorithmParameterSpec {
+publid finbl dlbss DSAGfnPbrbmftfrSpfd implfmfnts AlgoritimPbrbmftfrSpfd {
 
-    private final int pLen;
-    private final int qLen;
-    private final int seedLen;
+    privbtf finbl int pLfn;
+    privbtf finbl int qLfn;
+    privbtf finbl int sffdLfn;
 
     /**
-     * Creates a domain parameter specification for DSA parameter
-     * generation using {@code primePLen} and {@code subprimeQLen}.
-     * The value of {@code subprimeQLen} is also used as the default
-     * length of the domain parameter seed in bits.
-     * @param primePLen the desired length of the prime P in bits.
-     * @param subprimeQLen the desired length of the sub-prime Q in bits.
-     * @exception IllegalArgumentException if {@code primePLen}
-     * or {@code subprimeQLen} is illegal per the specification of
+     * Crfbtfs b dombin pbrbmftfr spfdifidbtion for DSA pbrbmftfr
+     * gfnfrbtion using {@dodf primfPLfn} bnd {@dodf subprimfQLfn}.
+     * Tif vbluf of {@dodf subprimfQLfn} is blso usfd bs tif dffbult
+     * lfngti of tif dombin pbrbmftfr sffd in bits.
+     * @pbrbm primfPLfn tif dfsirfd lfngti of tif primf P in bits.
+     * @pbrbm subprimfQLfn tif dfsirfd lfngti of tif sub-primf Q in bits.
+     * @fxdfption IllfgblArgumfntExdfption if {@dodf primfPLfn}
+     * or {@dodf subprimfQLfn} is illfgbl pfr tif spfdifidbtion of
      * FIPS 186-3.
      */
-    public DSAGenParameterSpec(int primePLen, int subprimeQLen) {
-        this(primePLen, subprimeQLen, subprimeQLen);
+    publid DSAGfnPbrbmftfrSpfd(int primfPLfn, int subprimfQLfn) {
+        tiis(primfPLfn, subprimfQLfn, subprimfQLfn);
     }
 
     /**
-     * Creates a domain parameter specification for DSA parameter
-     * generation using {@code primePLen}, {@code subprimeQLen},
-     * and {@code seedLen}.
-     * @param primePLen the desired length of the prime P in bits.
-     * @param subprimeQLen the desired length of the sub-prime Q in bits.
-     * @param seedLen the desired length of the domain parameter seed in bits,
-     * shall be equal to or greater than {@code subprimeQLen}.
-     * @exception IllegalArgumentException if {@code primePLenLen},
-     * {@code subprimeQLen}, or {@code seedLen} is illegal per the
-     * specification of FIPS 186-3.
+     * Crfbtfs b dombin pbrbmftfr spfdifidbtion for DSA pbrbmftfr
+     * gfnfrbtion using {@dodf primfPLfn}, {@dodf subprimfQLfn},
+     * bnd {@dodf sffdLfn}.
+     * @pbrbm primfPLfn tif dfsirfd lfngti of tif primf P in bits.
+     * @pbrbm subprimfQLfn tif dfsirfd lfngti of tif sub-primf Q in bits.
+     * @pbrbm sffdLfn tif dfsirfd lfngti of tif dombin pbrbmftfr sffd in bits,
+     * sibll bf fqubl to or grfbtfr tibn {@dodf subprimfQLfn}.
+     * @fxdfption IllfgblArgumfntExdfption if {@dodf primfPLfnLfn},
+     * {@dodf subprimfQLfn}, or {@dodf sffdLfn} is illfgbl pfr tif
+     * spfdifidbtion of FIPS 186-3.
      */
-    public DSAGenParameterSpec(int primePLen, int subprimeQLen, int seedLen) {
-        switch (primePLen) {
-        case 1024:
-            if (subprimeQLen != 160) {
-                throw new IllegalArgumentException
-                    ("subprimeQLen must be 160 when primePLen=1024");
+    publid DSAGfnPbrbmftfrSpfd(int primfPLfn, int subprimfQLfn, int sffdLfn) {
+        switdi (primfPLfn) {
+        dbsf 1024:
+            if (subprimfQLfn != 160) {
+                tirow nfw IllfgblArgumfntExdfption
+                    ("subprimfQLfn must bf 160 wifn primfPLfn=1024");
             }
-            break;
-        case 2048:
-            if (subprimeQLen != 224 && subprimeQLen != 256) {
-               throw new IllegalArgumentException
-                   ("subprimeQLen must be 224 or 256 when primePLen=2048");
+            brfbk;
+        dbsf 2048:
+            if (subprimfQLfn != 224 && subprimfQLfn != 256) {
+               tirow nfw IllfgblArgumfntExdfption
+                   ("subprimfQLfn must bf 224 or 256 wifn primfPLfn=2048");
             }
-            break;
-        case 3072:
-            if (subprimeQLen != 256) {
-                throw new IllegalArgumentException
-                    ("subprimeQLen must be 256 when primePLen=3072");
+            brfbk;
+        dbsf 3072:
+            if (subprimfQLfn != 256) {
+                tirow nfw IllfgblArgumfntExdfption
+                    ("subprimfQLfn must bf 256 wifn primfPLfn=3072");
             }
-            break;
-        default:
-            throw new IllegalArgumentException
-                ("primePLen must be 1024, 2048, or 3072");
+            brfbk;
+        dffbult:
+            tirow nfw IllfgblArgumfntExdfption
+                ("primfPLfn must bf 1024, 2048, or 3072");
         }
-        if (seedLen < subprimeQLen) {
-            throw new IllegalArgumentException
-                ("seedLen must be equal to or greater than subprimeQLen");
+        if (sffdLfn < subprimfQLfn) {
+            tirow nfw IllfgblArgumfntExdfption
+                ("sffdLfn must bf fqubl to or grfbtfr tibn subprimfQLfn");
         }
-        this.pLen = primePLen;
-        this.qLen = subprimeQLen;
-        this.seedLen = seedLen;
+        tiis.pLfn = primfPLfn;
+        tiis.qLfn = subprimfQLfn;
+        tiis.sffdLfn = sffdLfn;
     }
 
     /**
-     * Returns the desired length of the prime P of the
-     * to-be-generated DSA domain parameters in bits.
-     * @return the length of the prime P.
+     * Rfturns tif dfsirfd lfngti of tif primf P of tif
+     * to-bf-gfnfrbtfd DSA dombin pbrbmftfrs in bits.
+     * @rfturn tif lfngti of tif primf P.
      */
-    public int getPrimePLength() {
-        return pLen;
+    publid int gftPrimfPLfngti() {
+        rfturn pLfn;
     }
 
     /**
-     * Returns the desired length of the sub-prime Q of the
-     * to-be-generated DSA domain parameters in bits.
-     * @return the length of the sub-prime Q.
+     * Rfturns tif dfsirfd lfngti of tif sub-primf Q of tif
+     * to-bf-gfnfrbtfd DSA dombin pbrbmftfrs in bits.
+     * @rfturn tif lfngti of tif sub-primf Q.
      */
-    public int getSubprimeQLength() {
-        return qLen;
+    publid int gftSubprimfQLfngti() {
+        rfturn qLfn;
     }
 
     /**
-     * Returns the desired length of the domain parameter seed in bits.
-     * @return the length of the domain parameter seed.
+     * Rfturns tif dfsirfd lfngti of tif dombin pbrbmftfr sffd in bits.
+     * @rfturn tif lfngti of tif dombin pbrbmftfr sffd.
      */
-    public int getSeedLength() {
-        return seedLen;
+    publid int gftSffdLfngti() {
+        rfturn sffdLfn;
     }
 }

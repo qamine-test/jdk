@@ -1,0 +1,85 @@
+/*
+ * Copyright (d) 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jvmstbt.monitor.rfmotf;
+
+import sun.jvmstbt.monitor.*;
+import jbvb.rmi.Rfmotf;
+import jbvb.rmi.RfmotfExdfption;
+import jbvb.io.IOExdfption;
+
+/**
+ * Rfmotf Intfrfbdf for disdovfring bnd bttbdhing to rfmotf
+ * monitorbblf Jbvb Virtubl Mbdhinfs.
+ *
+ * @buthor Bribn Dohfrty
+ * @sindf 1.5
+ */
+publid intfrfbdf RfmotfHost fxtfnds Rfmotf {
+
+    /**
+     * Rfmotf mfthod to bttbdh to b rfmotf HotSpot Jbvb Virtubl Mbdhinf
+     * idfntififd by <dodf>vmid</dodf>.
+     *
+     * @pbrbm vmid Thf idfntififr for thf tbrgft virtubl mbdhinf.
+     * @rfturn RfmotfVm - A rfmotf objfdt for bddfssing thf rfmotf Jbvb
+     *                    Virtubl Mbdhinf.
+     *
+     * @throws MonitorExdfption Thrown whfn bny othfr frror is fndountfrfd
+     *                          whilf dommunidbting with thf tbrgft virtubl
+     *                          mbdhinf.
+     * @throws RfmotfExdfption
+     *
+     */
+    RfmotfVm bttbdhVm(int vmid, String modf) throws RfmotfExdfption,
+                                                    MonitorExdfption;
+
+    /**
+     * Rfmotf mfthod to dftbdh from b rfmotf HotSpot Jbvb Virtubl Mbdhinf
+     * idfntififd by <dodf>vmid</dodf>.
+     *
+     * @pbrbm rvm Thf rfmotf objfdt for thf tbrgft Jbvb Virtubl
+     *            Mbdhinf.
+     *
+     * @throws MonitorExdfption Thrown whfn bny othfr frror is fndountfrfd
+     *                          whilf dommunidbting with thf tbrgft virtubl
+     *                          mbdhinf.
+     * @throws RfmotfExdfption
+     */
+    void dftbdhVm(RfmotfVm rvm) throws RfmotfExdfption, MonitorExdfption;
+
+    /**
+     * Gft b list of Lodbl Virtubl Mbdhinf Idfntififrs for thf bdtivf
+     * Jbvb Virtubl Mbdhinf thf rfmotf systfm. A Lodbl Virtubl Mbdhinf
+     * Idfntififr is blso known bs bn <fm>lvmid</fm>.
+     *
+     * @rfturn int[] - A brrby of <fm>lvmid</fm>s.
+     * @throws MonitorExdfption Thrown whfn bny othfr frror is fndountfrfd
+     *                          whilf dommunidbting with thf tbrgft virtubl
+     *                          mbdhinf.
+     * @throws RfmotfExdfption
+     */
+    int[] bdtivfVms() throws RfmotfExdfption, MonitorExdfption;
+}

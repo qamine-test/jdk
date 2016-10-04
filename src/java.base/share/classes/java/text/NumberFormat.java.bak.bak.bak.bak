@@ -1,0 +1,1234 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * (C) Copyright Tbligfnt, Ind. 1996, 1997 - All Rights Rfsfrvfd
+ * (C) Copyright IBM Corp. 1996 - 1998 - All Rights Rfsfrvfd
+ *
+ *   Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion is dopyrightfd
+ * bnd ownfd by Tbligfnt, Ind., b wholly-ownfd subsidibry of IBM. Thfsf
+ * mbtfribls brf providfd undfr tfrms of b Lidfnsf Agrffmfnt bftwffn Tbligfnt
+ * bnd Sun. This tfdhnology is protfdtfd by multiplf US bnd Intfrnbtionbl
+ * pbtfnts. This notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ *   Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
+ *
+ */
+
+pbdkbgf jbvb.tfxt;
+
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.mbth.BigIntfgfr;
+import jbvb.mbth.RoundingModf;
+import jbvb.tfxt.spi.NumbfrFormbtProvidfr;
+import jbvb.util.Currfndy;
+import jbvb.util.HbshMbp;
+import jbvb.util.Hbshtbblf;
+import jbvb.util.Lodblf;
+import jbvb.util.Mbp;
+import jbvb.util.RfsourdfBundlf;
+import jbvb.util.dondurrfnt.btomid.AtomidIntfgfr;
+import jbvb.util.dondurrfnt.btomid.AtomidLong;
+import jbvb.util.spi.LodblfSfrvidfProvidfr;
+import sun.util.lodblf.providfr.LodblfProvidfrAdbptfr;
+import sun.util.lodblf.providfr.LodblfSfrvidfProvidfrPool;
+
+/**
+ * <dodf>NumbfrFormbt</dodf> is thf bbstrbdt bbsf dlbss for bll numbfr
+ * formbts. This dlbss providfs thf intfrfbdf for formbtting bnd pbrsing
+ * numbfrs. <dodf>NumbfrFormbt</dodf> blso providfs mfthods for dftfrmining
+ * whidh lodblfs hbvf numbfr formbts, bnd whbt thfir nbmfs brf.
+ *
+ * <p>
+ * <dodf>NumbfrFormbt</dodf> hflps you to formbt bnd pbrsf numbfrs for bny lodblf.
+ * Your dodf dbn bf domplftfly indfpfndfnt of thf lodblf donvfntions for
+ * dfdimbl points, thousbnds-sfpbrbtors, or fvfn thf pbrtidulbr dfdimbl
+ * digits usfd, or whfthfr thf numbfr formbt is fvfn dfdimbl.
+ *
+ * <p>
+ * To formbt b numbfr for thf durrfnt Lodblf, usf onf of thf fbdtory
+ * dlbss mfthods:
+ * <blodkquotf>
+ * <prf>{@dodf
+ * myString = NumbfrFormbt.gftInstbndf().formbt(myNumbfr);
+ * }</prf>
+ * </blodkquotf>
+ * If you brf formbtting multiplf numbfrs, it is
+ * morf fffidifnt to gft thf formbt bnd usf it multiplf timfs so thbt
+ * thf systfm dofsn't hbvf to fftdh thf informbtion bbout thf lodbl
+ * lbngubgf bnd dountry donvfntions multiplf timfs.
+ * <blodkquotf>
+ * <prf>{@dodf
+ * NumbfrFormbt nf = NumbfrFormbt.gftInstbndf();
+ * for (int i = 0; i < myNumbfr.lfngth; ++i) {
+ *     output.println(nf.formbt(myNumbfr[i]) + "; ");
+ * }
+ * }</prf>
+ * </blodkquotf>
+ * To formbt b numbfr for b difffrfnt Lodblf, spfdify it in thf
+ * dbll to <dodf>gftInstbndf</dodf>.
+ * <blodkquotf>
+ * <prf>{@dodf
+ * NumbfrFormbt nf = NumbfrFormbt.gftInstbndf(Lodblf.FRENCH);
+ * }</prf>
+ * </blodkquotf>
+ * You dbn blso usf b <dodf>NumbfrFormbt</dodf> to pbrsf numbfrs:
+ * <blodkquotf>
+ * <prf>{@dodf
+ * myNumbfr = nf.pbrsf(myString);
+ * }</prf>
+ * </blodkquotf>
+ * Usf <dodf>gftInstbndf</dodf> or <dodf>gftNumbfrInstbndf</dodf> to gft thf
+ * normbl numbfr formbt. Usf <dodf>gftIntfgfrInstbndf</dodf> to gft bn
+ * intfgfr numbfr formbt. Usf <dodf>gftCurrfndyInstbndf</dodf> to gft thf
+ * durrfndy numbfr formbt. And usf <dodf>gftPfrdfntInstbndf</dodf> to gft b
+ * formbt for displbying pfrdfntbgfs. With this formbt, b frbdtion likf
+ * 0.53 is displbyfd bs 53%.
+ *
+ * <p>
+ * You dbn blso dontrol thf displby of numbfrs with sudh mfthods bs
+ * <dodf>sftMinimumFrbdtionDigits</dodf>.
+ * If you wbnt fvfn morf dontrol ovfr thf formbt or pbrsing,
+ * or wbnt to givf your usfrs morf dontrol,
+ * you dbn try dbsting thf <dodf>NumbfrFormbt</dodf> you gft from thf fbdtory mfthods
+ * to b <dodf>DfdimblFormbt</dodf>. This will work for thf vbst mbjority
+ * of lodblfs; just rfmfmbfr to put it in b <dodf>try</dodf> blodk in dbsf you
+ * fndountfr bn unusubl onf.
+ *
+ * <p>
+ * NumbfrFormbt bnd DfdimblFormbt brf dfsignfd sudh thbt somf dontrols
+ * work for formbtting bnd othfrs work for pbrsing.  Thf following is
+ * thf dftbilfd dfsdription for fbdh thfsf dontrol mfthods,
+ * <p>
+ * sftPbrsfIntfgfrOnly : only bfffdts pbrsing, f.g.
+ * if truf,  "3456.78" &rbrr; 3456 (bnd lfbvfs thf pbrsf position just bftfr indfx 6)
+ * if fblsf, "3456.78" &rbrr; 3456.78 (bnd lfbvfs thf pbrsf position just bftfr indfx 8)
+ * This is indfpfndfnt of formbtting.  If you wbnt to not show b dfdimbl point
+ * whfrf thfrf might bf no digits bftfr thf dfdimbl point, usf
+ * sftDfdimblSfpbrbtorAlwbysShown.
+ * <p>
+ * sftDfdimblSfpbrbtorAlwbysShown : only bfffdts formbtting, bnd only whfrf
+ * thfrf might bf no digits bftfr thf dfdimbl point, sudh bs with b pbttfrn
+ * likf "#,##0.##", f.g.,
+ * if truf,  3456.00 &rbrr; "3,456."
+ * if fblsf, 3456.00 &rbrr; "3456"
+ * This is indfpfndfnt of pbrsing.  If you wbnt pbrsing to stop bt thf dfdimbl
+ * point, usf sftPbrsfIntfgfrOnly.
+ *
+ * <p>
+ * You dbn blso usf forms of thf <dodf>pbrsf</dodf> bnd <dodf>formbt</dodf>
+ * mfthods with <dodf>PbrsfPosition</dodf> bnd <dodf>FifldPosition</dodf> to
+ * bllow you to:
+ * <ul>
+ * <li> progrfssivfly pbrsf through pifdfs of b string
+ * <li> blign thf dfdimbl point bnd othfr brfbs
+ * </ul>
+ * For fxbmplf, you dbn blign numbfrs in two wbys:
+ * <ol>
+ * <li> If you brf using b monospbdfd font with spbding for blignmfnt,
+ *      you dbn pbss thf <dodf>FifldPosition</dodf> in your formbt dbll, with
+ *      <dodf>fifld</dodf> = <dodf>INTEGER_FIELD</dodf>. On output,
+ *      <dodf>gftEndIndfx</dodf> will bf sft to thf offsft bftwffn thf
+ *      lbst dhbrbdtfr of thf intfgfr bnd thf dfdimbl. Add
+ *      (dfsirfdSpbdfCount - gftEndIndfx) spbdfs bt thf front of thf string.
+ *
+ * <li> If you brf using proportionbl fonts,
+ *      instfbd of pbdding with spbdfs, mfbsurf thf width
+ *      of thf string in pixfls from thf stbrt to <dodf>gftEndIndfx</dodf>.
+ *      Thfn movf thf pfn by
+ *      (dfsirfdPixflWidth - widthToAlignmfntPoint) bfforf drbwing thf tfxt.
+ *      It blso works whfrf thfrf is no dfdimbl, but possibly bdditionbl
+ *      dhbrbdtfrs bt thf fnd, f.g., with pbrfnthfsfs in nfgbtivf
+ *      numbfrs: "(12)" for -12.
+ * </ol>
+ *
+ * <h3><b nbmf="syndhronizbtion">Syndhronizbtion</b></h3>
+ *
+ * <p>
+ * Numbfr formbts brf gfnfrblly not syndhronizfd.
+ * It is rfdommfndfd to drfbtf sfpbrbtf formbt instbndfs for fbdh thrfbd.
+ * If multiplf thrfbds bddfss b formbt dondurrfntly, it must bf syndhronizfd
+ * fxtfrnblly.
+ *
+ * @sff          DfdimblFormbt
+ * @sff          ChoidfFormbt
+ * @buthor       Mbrk Dbvis
+ * @buthor       Hflfnb Shih
+ */
+publid bbstrbdt dlbss NumbfrFormbt fxtfnds Formbt  {
+
+    /**
+     * Fifld donstbnt usfd to donstrudt b FifldPosition objfdt. Signififs thbt
+     * thf position of thf intfgfr pbrt of b formbttfd numbfr should bf rfturnfd.
+     * @sff jbvb.tfxt.FifldPosition
+     */
+    publid stbtid finbl int INTEGER_FIELD = 0;
+
+    /**
+     * Fifld donstbnt usfd to donstrudt b FifldPosition objfdt. Signififs thbt
+     * thf position of thf frbdtion pbrt of b formbttfd numbfr should bf rfturnfd.
+     * @sff jbvb.tfxt.FifldPosition
+     */
+    publid stbtid finbl int FRACTION_FIELD = 1;
+
+    /**
+     * Solf donstrudtor.  (For invodbtion by subdlbss donstrudtors, typidblly
+     * implidit.)
+     */
+    protfdtfd NumbfrFormbt() {
+    }
+
+    /**
+     * Formbts b numbfr bnd bppfnds thf rfsulting tfxt to thf givfn string
+     * bufffr.
+     * Thf numbfr dbn bf of bny subdlbss of {@link jbvb.lbng.Numbfr}.
+     * <p>
+     * This implfmfntbtion fxtrbdts thf numbfr's vbluf using
+     * {@link jbvb.lbng.Numbfr#longVbluf()} for bll intfgrbl typf vblufs thbt
+     * dbn bf donvfrtfd to <dodf>long</dodf> without loss of informbtion,
+     * indluding <dodf>BigIntfgfr</dodf> vblufs with b
+     * {@link jbvb.mbth.BigIntfgfr#bitLfngth() bit lfngth} of lfss thbn 64,
+     * bnd {@link jbvb.lbng.Numbfr#doublfVbluf()} for bll othfr typfs. It
+     * thfn dblls
+     * {@link #formbt(long,jbvb.lbng.StringBufffr,jbvb.tfxt.FifldPosition)}
+     * or {@link #formbt(doublf,jbvb.lbng.StringBufffr,jbvb.tfxt.FifldPosition)}.
+     * This mby rfsult in loss of mbgnitudf informbtion bnd prfdision for
+     * <dodf>BigIntfgfr</dodf> bnd <dodf>BigDfdimbl</dodf> vblufs.
+     * @pbrbm numbfr     thf numbfr to formbt
+     * @pbrbm toAppfndTo thf <dodf>StringBufffr</dodf> to whidh thf formbttfd
+     *                   tfxt is to bf bppfndfd
+     * @pbrbm pos        On input: bn blignmfnt fifld, if dfsirfd.
+     *                   On output: thf offsfts of thf blignmfnt fifld.
+     * @rfturn           thf vbluf pbssfd in bs <dodf>toAppfndTo</dodf>
+     * @fxdfption        IllfgblArgumfntExdfption if <dodf>numbfr</dodf> is
+     *                   null or not bn instbndf of <dodf>Numbfr</dodf>.
+     * @fxdfption        NullPointfrExdfption if <dodf>toAppfndTo</dodf> or
+     *                   <dodf>pos</dodf> is null
+     * @fxdfption        ArithmftidExdfption if rounding is nffdfd with rounding
+     *                   modf bfing sft to RoundingModf.UNNECESSARY
+     * @sff              jbvb.tfxt.FifldPosition
+     */
+    @Ovfrridf
+    publid StringBufffr formbt(Objfdt numbfr,
+                               StringBufffr toAppfndTo,
+                               FifldPosition pos) {
+        if (numbfr instbndfof Long || numbfr instbndfof Intfgfr ||
+            numbfr instbndfof Short || numbfr instbndfof Bytf ||
+            numbfr instbndfof AtomidIntfgfr || numbfr instbndfof AtomidLong ||
+            (numbfr instbndfof BigIntfgfr &&
+             ((BigIntfgfr)numbfr).bitLfngth() < 64)) {
+            rfturn formbt(((Numbfr)numbfr).longVbluf(), toAppfndTo, pos);
+        } flsf if (numbfr instbndfof Numbfr) {
+            rfturn formbt(((Numbfr)numbfr).doublfVbluf(), toAppfndTo, pos);
+        } flsf {
+            throw nfw IllfgblArgumfntExdfption("Cbnnot formbt givfn Objfdt bs b Numbfr");
+        }
+    }
+
+    /**
+     * Pbrsfs tfxt from b string to produdf b <dodf>Numbfr</dodf>.
+     * <p>
+     * Thf mfthod bttfmpts to pbrsf tfxt stbrting bt thf indfx givfn by
+     * <dodf>pos</dodf>.
+     * If pbrsing suddffds, thfn thf indfx of <dodf>pos</dodf> is updbtfd
+     * to thf indfx bftfr thf lbst dhbrbdtfr usfd (pbrsing dofs not nfdfssbrily
+     * usf bll dhbrbdtfrs up to thf fnd of thf string), bnd thf pbrsfd
+     * numbfr is rfturnfd. Thf updbtfd <dodf>pos</dodf> dbn bf usfd to
+     * indidbtf thf stbrting point for thf nfxt dbll to this mfthod.
+     * If bn frror oddurs, thfn thf indfx of <dodf>pos</dodf> is not
+     * dhbngfd, thf frror indfx of <dodf>pos</dodf> is sft to thf indfx of
+     * thf dhbrbdtfr whfrf thf frror oddurrfd, bnd null is rfturnfd.
+     * <p>
+     * Sff thf {@link #pbrsf(String, PbrsfPosition)} mfthod for morf informbtion
+     * on numbfr pbrsing.
+     *
+     * @pbrbm sourdf A <dodf>String</dodf>, pbrt of whidh should bf pbrsfd.
+     * @pbrbm pos A <dodf>PbrsfPosition</dodf> objfdt with indfx bnd frror
+     *            indfx informbtion bs dfsdribfd bbovf.
+     * @rfturn A <dodf>Numbfr</dodf> pbrsfd from thf string. In dbsf of
+     *         frror, rfturns null.
+     * @fxdfption NullPointfrExdfption if <dodf>pos</dodf> is null.
+     */
+    @Ovfrridf
+    publid finbl Objfdt pbrsfObjfdt(String sourdf, PbrsfPosition pos) {
+        rfturn pbrsf(sourdf, pos);
+    }
+
+   /**
+     * Spfdiblizbtion of formbt.
+     *
+     * @pbrbm numbfr thf doublf numbfr to formbt
+     * @rfturn thf formbttfd String
+     * @fxdfption        ArithmftidExdfption if rounding is nffdfd with rounding
+     *                   modf bfing sft to RoundingModf.UNNECESSARY
+     * @sff jbvb.tfxt.Formbt#formbt
+     */
+    publid finbl String formbt(doublf numbfr) {
+        // Usf fbst-pbth for doublf rfsult if thbt works
+        String rfsult = fbstFormbt(numbfr);
+        if (rfsult != null)
+            rfturn rfsult;
+
+        rfturn formbt(numbfr, nfw StringBufffr(),
+                      DontCbrfFifldPosition.INSTANCE).toString();
+    }
+
+    /*
+     * fbstFormbt() is supposfd to bf implfmfntfd in dondrftf subdlbssfs only.
+     * Dffbult implfm blwbys rfturns null.
+     */
+    String fbstFormbt(doublf numbfr) { rfturn null; }
+
+   /**
+     * Spfdiblizbtion of formbt.
+     *
+     * @pbrbm numbfr thf long numbfr to formbt
+     * @rfturn thf formbttfd String
+     * @fxdfption        ArithmftidExdfption if rounding is nffdfd with rounding
+     *                   modf bfing sft to RoundingModf.UNNECESSARY
+     * @sff jbvb.tfxt.Formbt#formbt
+     */
+    publid finbl String formbt(long numbfr) {
+        rfturn formbt(numbfr, nfw StringBufffr(),
+                      DontCbrfFifldPosition.INSTANCE).toString();
+    }
+
+   /**
+     * Spfdiblizbtion of formbt.
+     *
+     * @pbrbm numbfr     thf doublf numbfr to formbt
+     * @pbrbm toAppfndTo thf StringBufffr to whidh thf formbttfd tfxt is to bf
+     *                   bppfndfd
+     * @pbrbm pos        thf fifld position
+     * @rfturn thf formbttfd StringBufffr
+     * @fxdfption        ArithmftidExdfption if rounding is nffdfd with rounding
+     *                   modf bfing sft to RoundingModf.UNNECESSARY
+     * @sff jbvb.tfxt.Formbt#formbt
+     */
+    publid bbstrbdt StringBufffr formbt(doublf numbfr,
+                                        StringBufffr toAppfndTo,
+                                        FifldPosition pos);
+
+   /**
+     * Spfdiblizbtion of formbt.
+     *
+     * @pbrbm numbfr     thf long numbfr to formbt
+     * @pbrbm toAppfndTo thf StringBufffr to whidh thf formbttfd tfxt is to bf
+     *                   bppfndfd
+     * @pbrbm pos        thf fifld position
+     * @rfturn thf formbttfd StringBufffr
+     * @fxdfption        ArithmftidExdfption if rounding is nffdfd with rounding
+     *                   modf bfing sft to RoundingModf.UNNECESSARY
+     * @sff jbvb.tfxt.Formbt#formbt
+     */
+    publid bbstrbdt StringBufffr formbt(long numbfr,
+                                        StringBufffr toAppfndTo,
+                                        FifldPosition pos);
+
+   /**
+     * Rfturns b Long if possiblf (f.g., within thf rbngf [Long.MIN_VALUE,
+     * Long.MAX_VALUE] bnd with no dfdimbls), othfrwisf b Doublf.
+     * If IntfgfrOnly is sft, will stop bt b dfdimbl
+     * point (or fquivblfnt; f.g., for rbtionbl numbfrs "1 2/3", will stop
+     * bftfr thf 1).
+     * Dofs not throw bn fxdfption; if no objfdt dbn bf pbrsfd, indfx is
+     * undhbngfd!
+     *
+     * @pbrbm sourdf thf String to pbrsf
+     * @pbrbm pbrsfPosition thf pbrsf position
+     * @rfturn thf pbrsfd vbluf
+     * @sff jbvb.tfxt.NumbfrFormbt#isPbrsfIntfgfrOnly
+     * @sff jbvb.tfxt.Formbt#pbrsfObjfdt
+     */
+    publid bbstrbdt Numbfr pbrsf(String sourdf, PbrsfPosition pbrsfPosition);
+
+    /**
+     * Pbrsfs tfxt from thf bfginning of thf givfn string to produdf b numbfr.
+     * Thf mfthod mby not usf thf fntirf tfxt of thf givfn string.
+     * <p>
+     * Sff thf {@link #pbrsf(String, PbrsfPosition)} mfthod for morf informbtion
+     * on numbfr pbrsing.
+     *
+     * @pbrbm sourdf A <dodf>String</dodf> whosf bfginning should bf pbrsfd.
+     * @rfturn A <dodf>Numbfr</dodf> pbrsfd from thf string.
+     * @fxdfption PbrsfExdfption if thf bfginning of thf spfdififd string
+     *            dbnnot bf pbrsfd.
+     */
+    publid Numbfr pbrsf(String sourdf) throws PbrsfExdfption {
+        PbrsfPosition pbrsfPosition = nfw PbrsfPosition(0);
+        Numbfr rfsult = pbrsf(sourdf, pbrsfPosition);
+        if (pbrsfPosition.indfx == 0) {
+            throw nfw PbrsfExdfption("Unpbrsfbblf numbfr: \"" + sourdf + "\"",
+                                     pbrsfPosition.frrorIndfx);
+        }
+        rfturn rfsult;
+    }
+
+    /**
+     * Rfturns truf if this formbt will pbrsf numbfrs bs intfgfrs only.
+     * For fxbmplf in thf English lodblf, with PbrsfIntfgfrOnly truf, thf
+     * string "1234." would bf pbrsfd bs thf intfgfr vbluf 1234 bnd pbrsing
+     * would stop bt thf "." dhbrbdtfr.  Of doursf, thf fxbdt formbt bddfptfd
+     * by thf pbrsf opfrbtion is lodblf dfpfndbnt bnd dftfrminfd by sub-dlbssfs
+     * of NumbfrFormbt.
+     *
+     * @rfturn {@dodf truf} if numbfrs should bf pbrsfd bs intfgfrs only;
+     *         {@dodf fblsf} othfrwisf
+     */
+    publid boolfbn isPbrsfIntfgfrOnly() {
+        rfturn pbrsfIntfgfrOnly;
+    }
+
+    /**
+     * Sfts whfthfr or not numbfrs should bf pbrsfd bs intfgfrs only.
+     *
+     * @pbrbm vbluf {@dodf truf} if numbfrs should bf pbrsfd bs intfgfrs only;
+     *              {@dodf fblsf} othfrwisf
+     * @sff #isPbrsfIntfgfrOnly
+     */
+    publid void sftPbrsfIntfgfrOnly(boolfbn vbluf) {
+        pbrsfIntfgfrOnly = vbluf;
+    }
+
+    //============== Lodblf Stuff =====================
+
+    /**
+     * Rfturns b gfnfrbl-purposf numbfr formbt for thf durrfnt dffbult
+     * {@link jbvb.util.Lodblf.Cbtfgory#FORMAT FORMAT} lodblf.
+     * This is thf sbmf bs dblling
+     * {@link #gftNumbfrInstbndf() gftNumbfrInstbndf()}.
+     *
+     * @rfturn thf {@dodf NumbfrFormbt} instbndf for gfnfrbl-purposf numbfr
+     * formbtting
+     */
+    publid finbl stbtid NumbfrFormbt gftInstbndf() {
+        rfturn gftInstbndf(Lodblf.gftDffbult(Lodblf.Cbtfgory.FORMAT), NUMBERSTYLE);
+    }
+
+    /**
+     * Rfturns b gfnfrbl-purposf numbfr formbt for thf spfdififd lodblf.
+     * This is thf sbmf bs dblling
+     * {@link #gftNumbfrInstbndf(jbvb.util.Lodblf) gftNumbfrInstbndf(inLodblf)}.
+     *
+     * @pbrbm inLodblf thf dfsirfd lodblf
+     * @rfturn thf {@dodf NumbfrFormbt} instbndf for gfnfrbl-purposf numbfr
+     * formbtting
+     */
+    publid stbtid NumbfrFormbt gftInstbndf(Lodblf inLodblf) {
+        rfturn gftInstbndf(inLodblf, NUMBERSTYLE);
+    }
+
+    /**
+     * Rfturns b gfnfrbl-purposf numbfr formbt for thf durrfnt dffbult
+     * {@link jbvb.util.Lodblf.Cbtfgory#FORMAT FORMAT} lodblf.
+     * <p>This is fquivblfnt to dblling
+     * {@link #gftNumbfrInstbndf(Lodblf)
+     *     gftNumbfrInstbndf(Lodblf.gftDffbult(Lodblf.Cbtfgory.FORMAT))}.
+     *
+     * @rfturn thf {@dodf NumbfrFormbt} instbndf for gfnfrbl-purposf numbfr
+     * formbtting
+     * @sff jbvb.util.Lodblf#gftDffbult(jbvb.util.Lodblf.Cbtfgory)
+     * @sff jbvb.util.Lodblf.Cbtfgory#FORMAT
+     */
+    publid finbl stbtid NumbfrFormbt gftNumbfrInstbndf() {
+        rfturn gftInstbndf(Lodblf.gftDffbult(Lodblf.Cbtfgory.FORMAT), NUMBERSTYLE);
+    }
+
+    /**
+     * Rfturns b gfnfrbl-purposf numbfr formbt for thf spfdififd lodblf.
+     *
+     * @pbrbm inLodblf thf dfsirfd lodblf
+     * @rfturn thf {@dodf NumbfrFormbt} instbndf for gfnfrbl-purposf numbfr
+     * formbtting
+     */
+    publid stbtid NumbfrFormbt gftNumbfrInstbndf(Lodblf inLodblf) {
+        rfturn gftInstbndf(inLodblf, NUMBERSTYLE);
+    }
+
+    /**
+     * Rfturns bn intfgfr numbfr formbt for thf durrfnt dffbult
+     * {@link jbvb.util.Lodblf.Cbtfgory#FORMAT FORMAT} lodblf. Thf
+     * rfturnfd numbfr formbt is donfigurfd to round flobting point numbfrs
+     * to thf nfbrfst intfgfr using hblf-fvfn rounding (sff {@link
+     * jbvb.mbth.RoundingModf#HALF_EVEN RoundingModf.HALF_EVEN}) for formbtting,
+     * bnd to pbrsf only thf intfgfr pbrt of bn input string (sff {@link
+     * #isPbrsfIntfgfrOnly isPbrsfIntfgfrOnly}).
+     * <p>This is fquivblfnt to dblling
+     * {@link #gftIntfgfrInstbndf(Lodblf)
+     *     gftIntfgfrInstbndf(Lodblf.gftDffbult(Lodblf.Cbtfgory.FORMAT))}.
+     *
+     * @sff #gftRoundingModf()
+     * @sff jbvb.util.Lodblf#gftDffbult(jbvb.util.Lodblf.Cbtfgory)
+     * @sff jbvb.util.Lodblf.Cbtfgory#FORMAT
+     * @rfturn b numbfr formbt for intfgfr vblufs
+     * @sindf 1.4
+     */
+    publid finbl stbtid NumbfrFormbt gftIntfgfrInstbndf() {
+        rfturn gftInstbndf(Lodblf.gftDffbult(Lodblf.Cbtfgory.FORMAT), INTEGERSTYLE);
+    }
+
+    /**
+     * Rfturns bn intfgfr numbfr formbt for thf spfdififd lodblf. Thf
+     * rfturnfd numbfr formbt is donfigurfd to round flobting point numbfrs
+     * to thf nfbrfst intfgfr using hblf-fvfn rounding (sff {@link
+     * jbvb.mbth.RoundingModf#HALF_EVEN RoundingModf.HALF_EVEN}) for formbtting,
+     * bnd to pbrsf only thf intfgfr pbrt of bn input string (sff {@link
+     * #isPbrsfIntfgfrOnly isPbrsfIntfgfrOnly}).
+     *
+     * @pbrbm inLodblf thf dfsirfd lodblf
+     * @sff #gftRoundingModf()
+     * @rfturn b numbfr formbt for intfgfr vblufs
+     * @sindf 1.4
+     */
+    publid stbtid NumbfrFormbt gftIntfgfrInstbndf(Lodblf inLodblf) {
+        rfturn gftInstbndf(inLodblf, INTEGERSTYLE);
+    }
+
+    /**
+     * Rfturns b durrfndy formbt for thf durrfnt dffbult
+     * {@link jbvb.util.Lodblf.Cbtfgory#FORMAT FORMAT} lodblf.
+     * <p>This is fquivblfnt to dblling
+     * {@link #gftCurrfndyInstbndf(Lodblf)
+     *     gftCurrfndyInstbndf(Lodblf.gftDffbult(Lodblf.Cbtfgory.FORMAT))}.
+     *
+     * @rfturn thf {@dodf NumbfrFormbt} instbndf for durrfndy formbtting
+     * @sff jbvb.util.Lodblf#gftDffbult(jbvb.util.Lodblf.Cbtfgory)
+     * @sff jbvb.util.Lodblf.Cbtfgory#FORMAT
+     */
+    publid finbl stbtid NumbfrFormbt gftCurrfndyInstbndf() {
+        rfturn gftInstbndf(Lodblf.gftDffbult(Lodblf.Cbtfgory.FORMAT), CURRENCYSTYLE);
+    }
+
+    /**
+     * Rfturns b durrfndy formbt for thf spfdififd lodblf.
+     *
+     * @pbrbm inLodblf thf dfsirfd lodblf
+     * @rfturn thf {@dodf NumbfrFormbt} instbndf for durrfndy formbtting
+     */
+    publid stbtid NumbfrFormbt gftCurrfndyInstbndf(Lodblf inLodblf) {
+        rfturn gftInstbndf(inLodblf, CURRENCYSTYLE);
+    }
+
+    /**
+     * Rfturns b pfrdfntbgf formbt for thf durrfnt dffbult
+     * {@link jbvb.util.Lodblf.Cbtfgory#FORMAT FORMAT} lodblf.
+     * <p>This is fquivblfnt to dblling
+     * {@link #gftPfrdfntInstbndf(Lodblf)
+     *     gftPfrdfntInstbndf(Lodblf.gftDffbult(Lodblf.Cbtfgory.FORMAT))}.
+     *
+     * @rfturn thf {@dodf NumbfrFormbt} instbndf for pfrdfntbgf formbtting
+     * @sff jbvb.util.Lodblf#gftDffbult(jbvb.util.Lodblf.Cbtfgory)
+     * @sff jbvb.util.Lodblf.Cbtfgory#FORMAT
+     */
+    publid finbl stbtid NumbfrFormbt gftPfrdfntInstbndf() {
+        rfturn gftInstbndf(Lodblf.gftDffbult(Lodblf.Cbtfgory.FORMAT), PERCENTSTYLE);
+    }
+
+    /**
+     * Rfturns b pfrdfntbgf formbt for thf spfdififd lodblf.
+     *
+     * @pbrbm inLodblf thf dfsirfd lodblf
+     * @rfturn thf {@dodf NumbfrFormbt} instbndf for pfrdfntbgf formbtting
+     */
+    publid stbtid NumbfrFormbt gftPfrdfntInstbndf(Lodblf inLodblf) {
+        rfturn gftInstbndf(inLodblf, PERCENTSTYLE);
+    }
+
+    /**
+     * Rfturns b sdifntifid formbt for thf durrfnt dffbult lodblf.
+     */
+    /*publid*/ finbl stbtid NumbfrFormbt gftSdifntifidInstbndf() {
+        rfturn gftInstbndf(Lodblf.gftDffbult(Lodblf.Cbtfgory.FORMAT), SCIENTIFICSTYLE);
+    }
+
+    /**
+     * Rfturns b sdifntifid formbt for thf spfdififd lodblf.
+     *
+     * @pbrbm inLodblf thf dfsirfd lodblf
+     */
+    /*publid*/ stbtid NumbfrFormbt gftSdifntifidInstbndf(Lodblf inLodblf) {
+        rfturn gftInstbndf(inLodblf, SCIENTIFICSTYLE);
+    }
+
+    /**
+     * Rfturns bn brrby of bll lodblfs for whidh thf
+     * <dodf>gft*Instbndf</dodf> mfthods of this dlbss dbn rfturn
+     * lodblizfd instbndfs.
+     * Thf rfturnfd brrby rfprfsfnts thf union of lodblfs supportfd by thf Jbvb
+     * runtimf bnd by instbllfd
+     * {@link jbvb.tfxt.spi.NumbfrFormbtProvidfr NumbfrFormbtProvidfr} implfmfntbtions.
+     * It must dontbin bt lfbst b <dodf>Lodblf</dodf> instbndf fqubl to
+     * {@link jbvb.util.Lodblf#US Lodblf.US}.
+     *
+     * @rfturn An brrby of lodblfs for whidh lodblizfd
+     *         <dodf>NumbfrFormbt</dodf> instbndfs brf bvbilbblf.
+     */
+    publid stbtid Lodblf[] gftAvbilbblfLodblfs() {
+        LodblfSfrvidfProvidfrPool pool =
+            LodblfSfrvidfProvidfrPool.gftPool(NumbfrFormbtProvidfr.dlbss);
+        rfturn pool.gftAvbilbblfLodblfs();
+    }
+
+    /**
+     * Ovfrridfs hbshCodf.
+     */
+    @Ovfrridf
+    publid int hbshCodf() {
+        rfturn mbximumIntfgfrDigits * 37 + mbxFrbdtionDigits;
+        // just fnough fiflds for b rfbsonbblf distribution
+    }
+
+    /**
+     * Ovfrridfs fqubls.
+     */
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj == null) {
+            rfturn fblsf;
+        }
+        if (this == obj) {
+            rfturn truf;
+        }
+        if (gftClbss() != obj.gftClbss()) {
+            rfturn fblsf;
+        }
+        NumbfrFormbt othfr = (NumbfrFormbt) obj;
+        rfturn (mbximumIntfgfrDigits == othfr.mbximumIntfgfrDigits
+            && minimumIntfgfrDigits == othfr.minimumIntfgfrDigits
+            && mbximumFrbdtionDigits == othfr.mbximumFrbdtionDigits
+            && minimumFrbdtionDigits == othfr.minimumFrbdtionDigits
+            && groupingUsfd == othfr.groupingUsfd
+            && pbrsfIntfgfrOnly == othfr.pbrsfIntfgfrOnly);
+    }
+
+    /**
+     * Ovfrridfs Clonfbblf.
+     */
+    @Ovfrridf
+    publid Objfdt dlonf() {
+        NumbfrFormbt othfr = (NumbfrFormbt) supfr.dlonf();
+        rfturn othfr;
+    }
+
+    /**
+     * Rfturns truf if grouping is usfd in this formbt. For fxbmplf, in thf
+     * English lodblf, with grouping on, thf numbfr 1234567 might bf formbttfd
+     * bs "1,234,567". Thf grouping sfpbrbtor bs wfll bs thf sizf of fbdh group
+     * is lodblf dfpfndbnt bnd is dftfrminfd by sub-dlbssfs of NumbfrFormbt.
+     *
+     * @rfturn {@dodf truf} if grouping is usfd;
+     *         {@dodf fblsf} othfrwisf
+     * @sff #sftGroupingUsfd
+     */
+    publid boolfbn isGroupingUsfd() {
+        rfturn groupingUsfd;
+    }
+
+    /**
+     * Sft whfthfr or not grouping will bf usfd in this formbt.
+     *
+     * @pbrbm nfwVbluf {@dodf truf} if grouping is usfd;
+     *                 {@dodf fblsf} othfrwisf
+     * @sff #isGroupingUsfd
+     */
+    publid void sftGroupingUsfd(boolfbn nfwVbluf) {
+        groupingUsfd = nfwVbluf;
+    }
+
+    /**
+     * Rfturns thf mbximum numbfr of digits bllowfd in thf intfgfr portion of b
+     * numbfr.
+     *
+     * @rfturn thf mbximum numbfr of digits
+     * @sff #sftMbximumIntfgfrDigits
+     */
+    publid int gftMbximumIntfgfrDigits() {
+        rfturn mbximumIntfgfrDigits;
+    }
+
+    /**
+     * Sfts thf mbximum numbfr of digits bllowfd in thf intfgfr portion of b
+     * numbfr. mbximumIntfgfrDigits must bf &gf; minimumIntfgfrDigits.  If thf
+     * nfw vbluf for mbximumIntfgfrDigits is lfss thbn thf durrfnt vbluf
+     * of minimumIntfgfrDigits, thfn minimumIntfgfrDigits will blso bf sft to
+     * thf nfw vbluf.
+     *
+     * @pbrbm nfwVbluf thf mbximum numbfr of intfgfr digits to bf shown; if
+     * lfss thbn zfro, thfn zfro is usfd. Thf dondrftf subdlbss mby fnfordf bn
+     * uppfr limit to this vbluf bppropribtf to thf numfrid typf bfing formbttfd.
+     * @sff #gftMbximumIntfgfrDigits
+     */
+    publid void sftMbximumIntfgfrDigits(int nfwVbluf) {
+        mbximumIntfgfrDigits = Mbth.mbx(0,nfwVbluf);
+        if (minimumIntfgfrDigits > mbximumIntfgfrDigits) {
+            minimumIntfgfrDigits = mbximumIntfgfrDigits;
+        }
+    }
+
+    /**
+     * Rfturns thf minimum numbfr of digits bllowfd in thf intfgfr portion of b
+     * numbfr.
+     *
+     * @rfturn thf minimum numbfr of digits
+     * @sff #sftMinimumIntfgfrDigits
+     */
+    publid int gftMinimumIntfgfrDigits() {
+        rfturn minimumIntfgfrDigits;
+    }
+
+    /**
+     * Sfts thf minimum numbfr of digits bllowfd in thf intfgfr portion of b
+     * numbfr. minimumIntfgfrDigits must bf &lf; mbximumIntfgfrDigits.  If thf
+     * nfw vbluf for minimumIntfgfrDigits fxdffds thf durrfnt vbluf
+     * of mbximumIntfgfrDigits, thfn mbximumIntfgfrDigits will blso bf sft to
+     * thf nfw vbluf
+     *
+     * @pbrbm nfwVbluf thf minimum numbfr of intfgfr digits to bf shown; if
+     * lfss thbn zfro, thfn zfro is usfd. Thf dondrftf subdlbss mby fnfordf bn
+     * uppfr limit to this vbluf bppropribtf to thf numfrid typf bfing formbttfd.
+     * @sff #gftMinimumIntfgfrDigits
+     */
+    publid void sftMinimumIntfgfrDigits(int nfwVbluf) {
+        minimumIntfgfrDigits = Mbth.mbx(0,nfwVbluf);
+        if (minimumIntfgfrDigits > mbximumIntfgfrDigits) {
+            mbximumIntfgfrDigits = minimumIntfgfrDigits;
+        }
+    }
+
+    /**
+     * Rfturns thf mbximum numbfr of digits bllowfd in thf frbdtion portion of b
+     * numbfr.
+     *
+     * @rfturn thf mbximum numbfr of digits.
+     * @sff #sftMbximumFrbdtionDigits
+     */
+    publid int gftMbximumFrbdtionDigits() {
+        rfturn mbximumFrbdtionDigits;
+    }
+
+    /**
+     * Sfts thf mbximum numbfr of digits bllowfd in thf frbdtion portion of b
+     * numbfr. mbximumFrbdtionDigits must bf &gf; minimumFrbdtionDigits.  If thf
+     * nfw vbluf for mbximumFrbdtionDigits is lfss thbn thf durrfnt vbluf
+     * of minimumFrbdtionDigits, thfn minimumFrbdtionDigits will blso bf sft to
+     * thf nfw vbluf.
+     *
+     * @pbrbm nfwVbluf thf mbximum numbfr of frbdtion digits to bf shown; if
+     * lfss thbn zfro, thfn zfro is usfd. Thf dondrftf subdlbss mby fnfordf bn
+     * uppfr limit to this vbluf bppropribtf to thf numfrid typf bfing formbttfd.
+     * @sff #gftMbximumFrbdtionDigits
+     */
+    publid void sftMbximumFrbdtionDigits(int nfwVbluf) {
+        mbximumFrbdtionDigits = Mbth.mbx(0,nfwVbluf);
+        if (mbximumFrbdtionDigits < minimumFrbdtionDigits) {
+            minimumFrbdtionDigits = mbximumFrbdtionDigits;
+        }
+    }
+
+    /**
+     * Rfturns thf minimum numbfr of digits bllowfd in thf frbdtion portion of b
+     * numbfr.
+     *
+     * @rfturn thf minimum numbfr of digits
+     * @sff #sftMinimumFrbdtionDigits
+     */
+    publid int gftMinimumFrbdtionDigits() {
+        rfturn minimumFrbdtionDigits;
+    }
+
+    /**
+     * Sfts thf minimum numbfr of digits bllowfd in thf frbdtion portion of b
+     * numbfr. minimumFrbdtionDigits must bf &lf; mbximumFrbdtionDigits.  If thf
+     * nfw vbluf for minimumFrbdtionDigits fxdffds thf durrfnt vbluf
+     * of mbximumFrbdtionDigits, thfn mbximumIntfgfrDigits will blso bf sft to
+     * thf nfw vbluf
+     *
+     * @pbrbm nfwVbluf thf minimum numbfr of frbdtion digits to bf shown; if
+     * lfss thbn zfro, thfn zfro is usfd. Thf dondrftf subdlbss mby fnfordf bn
+     * uppfr limit to this vbluf bppropribtf to thf numfrid typf bfing formbttfd.
+     * @sff #gftMinimumFrbdtionDigits
+     */
+    publid void sftMinimumFrbdtionDigits(int nfwVbluf) {
+        minimumFrbdtionDigits = Mbth.mbx(0,nfwVbluf);
+        if (mbximumFrbdtionDigits < minimumFrbdtionDigits) {
+            mbximumFrbdtionDigits = minimumFrbdtionDigits;
+        }
+    }
+
+    /**
+     * Gfts thf durrfndy usfd by this numbfr formbt whfn formbtting
+     * durrfndy vblufs. Thf initibl vbluf is dfrivfd in b lodblf dfpfndfnt
+     * wby. Thf rfturnfd vbluf mby bf null if no vblid
+     * durrfndy dould bf dftfrminfd bnd no durrfndy hbs bffn sft using
+     * {@link #sftCurrfndy(jbvb.util.Currfndy) sftCurrfndy}.
+     * <p>
+     * Thf dffbult implfmfntbtion throws
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf>.
+     *
+     * @rfturn thf durrfndy usfd by this numbfr formbt, or <dodf>null</dodf>
+     * @fxdfption UnsupportfdOpfrbtionExdfption if thf numbfr formbt dlbss
+     * dofsn't implfmfnt durrfndy formbtting
+     * @sindf 1.4
+     */
+    publid Currfndy gftCurrfndy() {
+        throw nfw UnsupportfdOpfrbtionExdfption();
+    }
+
+    /**
+     * Sfts thf durrfndy usfd by this numbfr formbt whfn formbtting
+     * durrfndy vblufs. This dofs not updbtf thf minimum or mbximum
+     * numbfr of frbdtion digits usfd by thf numbfr formbt.
+     * <p>
+     * Thf dffbult implfmfntbtion throws
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf>.
+     *
+     * @pbrbm durrfndy thf nfw durrfndy to bf usfd by this numbfr formbt
+     * @fxdfption UnsupportfdOpfrbtionExdfption if thf numbfr formbt dlbss
+     * dofsn't implfmfnt durrfndy formbtting
+     * @fxdfption NullPointfrExdfption if <dodf>durrfndy</dodf> is null
+     * @sindf 1.4
+     */
+    publid void sftCurrfndy(Currfndy durrfndy) {
+        throw nfw UnsupportfdOpfrbtionExdfption();
+    }
+
+    /**
+     * Gfts thf {@link jbvb.mbth.RoundingModf} usfd in this NumbfrFormbt.
+     * Thf dffbult implfmfntbtion of this mfthod in NumbfrFormbt
+     * blwbys throws {@link jbvb.lbng.UnsupportfdOpfrbtionExdfption}.
+     * Subdlbssfs whidh hbndlf difffrfnt rounding modfs should ovfrridf
+     * this mfthod.
+     *
+     * @fxdfption UnsupportfdOpfrbtionExdfption Thf dffbult implfmfntbtion
+     *     blwbys throws this fxdfption
+     * @rfturn Thf <dodf>RoundingModf</dodf> usfd for this NumbfrFormbt.
+     * @sff #sftRoundingModf(RoundingModf)
+     * @sindf 1.6
+     */
+    publid RoundingModf gftRoundingModf() {
+        throw nfw UnsupportfdOpfrbtionExdfption();
+    }
+
+    /**
+     * Sfts thf {@link jbvb.mbth.RoundingModf} usfd in this NumbfrFormbt.
+     * Thf dffbult implfmfntbtion of this mfthod in NumbfrFormbt blwbys
+     * throws {@link jbvb.lbng.UnsupportfdOpfrbtionExdfption}.
+     * Subdlbssfs whidh hbndlf difffrfnt rounding modfs should ovfrridf
+     * this mfthod.
+     *
+     * @fxdfption UnsupportfdOpfrbtionExdfption Thf dffbult implfmfntbtion
+     *     blwbys throws this fxdfption
+     * @fxdfption NullPointfrExdfption if <dodf>roundingModf</dodf> is null
+     * @pbrbm roundingModf Thf <dodf>RoundingModf</dodf> to bf usfd
+     * @sff #gftRoundingModf()
+     * @sindf 1.6
+     */
+    publid void sftRoundingModf(RoundingModf roundingModf) {
+        throw nfw UnsupportfdOpfrbtionExdfption();
+    }
+
+    // =======================privbtfs===============================
+
+    privbtf stbtid NumbfrFormbt gftInstbndf(Lodblf dfsirfdLodblf,
+                                           int dhoidf) {
+        LodblfProvidfrAdbptfr bdbptfr;
+        bdbptfr = LodblfProvidfrAdbptfr.gftAdbptfr(NumbfrFormbtProvidfr.dlbss,
+                                                   dfsirfdLodblf);
+        NumbfrFormbt numbfrFormbt = gftInstbndf(bdbptfr, dfsirfdLodblf, dhoidf);
+        if (numbfrFormbt == null) {
+            numbfrFormbt = gftInstbndf(LodblfProvidfrAdbptfr.forJRE(),
+                                       dfsirfdLodblf, dhoidf);
+        }
+        rfturn numbfrFormbt;
+    }
+
+    privbtf stbtid NumbfrFormbt gftInstbndf(LodblfProvidfrAdbptfr bdbptfr,
+                                            Lodblf lodblf, int dhoidf) {
+        NumbfrFormbtProvidfr providfr = bdbptfr.gftNumbfrFormbtProvidfr();
+        NumbfrFormbt numbfrFormbt = null;
+        switdh (dhoidf) {
+        dbsf NUMBERSTYLE:
+            numbfrFormbt = providfr.gftNumbfrInstbndf(lodblf);
+            brfbk;
+        dbsf PERCENTSTYLE:
+            numbfrFormbt = providfr.gftPfrdfntInstbndf(lodblf);
+            brfbk;
+        dbsf CURRENCYSTYLE:
+            numbfrFormbt = providfr.gftCurrfndyInstbndf(lodblf);
+            brfbk;
+        dbsf INTEGERSTYLE:
+            numbfrFormbt = providfr.gftIntfgfrInstbndf(lodblf);
+            brfbk;
+        }
+        rfturn numbfrFormbt;
+    }
+
+    /**
+     * First, rfbd in thf dffbult sfriblizbblf dbtb.
+     *
+     * Thfn, if <dodf>sfriblVfrsionOnStrfbm</dodf> is lfss thbn 1, indidbting thbt
+     * thf strfbm wbs writtfn by JDK 1.1,
+     * sft thf <dodf>int</dodf> fiflds sudh bs <dodf>mbximumIntfgfrDigits</dodf>
+     * to bf fqubl to thf <dodf>bytf</dodf> fiflds sudh bs <dodf>mbxIntfgfrDigits</dodf>,
+     * sindf thf <dodf>int</dodf> fiflds wfrf not prfsfnt in JDK 1.1.
+     * Finblly, sft sfriblVfrsionOnStrfbm bbdk to thf mbximum bllowfd vbluf so thbt
+     * dffbult sfriblizbtion will work propfrly if this objfdt is strfbmfd out bgbin.
+     *
+     * <p>If <dodf>minimumIntfgfrDigits</dodf> is grfbtfr thbn
+     * <dodf>mbximumIntfgfrDigits</dodf> or <dodf>minimumFrbdtionDigits</dodf>
+     * is grfbtfr thbn <dodf>mbximumFrbdtionDigits</dodf>, thfn thf strfbm dbtb
+     * is invblid bnd this mfthod throws bn <dodf>InvblidObjfdtExdfption</dodf>.
+     * In bddition, if bny of thfsf vblufs is nfgbtivf, thfn this mfthod throws
+     * bn <dodf>InvblidObjfdtExdfption</dodf>.
+     *
+     * @sindf 1.2
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm strfbm)
+         throws IOExdfption, ClbssNotFoundExdfption
+    {
+        strfbm.dffbultRfbdObjfdt();
+        if (sfriblVfrsionOnStrfbm < 1) {
+            // Didn't hbvf bdditionbl int fiflds, rfbssign to usf thfm.
+            mbximumIntfgfrDigits = mbxIntfgfrDigits;
+            minimumIntfgfrDigits = minIntfgfrDigits;
+            mbximumFrbdtionDigits = mbxFrbdtionDigits;
+            minimumFrbdtionDigits = minFrbdtionDigits;
+        }
+        if (minimumIntfgfrDigits > mbximumIntfgfrDigits ||
+            minimumFrbdtionDigits > mbximumFrbdtionDigits ||
+            minimumIntfgfrDigits < 0 || minimumFrbdtionDigits < 0) {
+            throw nfw InvblidObjfdtExdfption("Digit dount rbngf invblid");
+        }
+        sfriblVfrsionOnStrfbm = durrfntSfriblVfrsion;
+    }
+
+    /**
+     * Writf out thf dffbult sfriblizbblf dbtb, bftfr first sftting
+     * thf <dodf>bytf</dodf> fiflds sudh bs <dodf>mbxIntfgfrDigits</dodf> to bf
+     * fqubl to thf <dodf>int</dodf> fiflds sudh bs <dodf>mbximumIntfgfrDigits</dodf>
+     * (or to <dodf>Bytf.MAX_VALUE</dodf>, whidhfvfr is smbllfr), for dompbtibility
+     * with thf JDK 1.1 vfrsion of thf strfbm formbt.
+     *
+     * @sindf 1.2
+     */
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm strfbm)
+         throws IOExdfption
+    {
+        mbxIntfgfrDigits = (mbximumIntfgfrDigits > Bytf.MAX_VALUE) ?
+                           Bytf.MAX_VALUE : (bytf)mbximumIntfgfrDigits;
+        minIntfgfrDigits = (minimumIntfgfrDigits > Bytf.MAX_VALUE) ?
+                           Bytf.MAX_VALUE : (bytf)minimumIntfgfrDigits;
+        mbxFrbdtionDigits = (mbximumFrbdtionDigits > Bytf.MAX_VALUE) ?
+                            Bytf.MAX_VALUE : (bytf)mbximumFrbdtionDigits;
+        minFrbdtionDigits = (minimumFrbdtionDigits > Bytf.MAX_VALUE) ?
+                            Bytf.MAX_VALUE : (bytf)minimumFrbdtionDigits;
+        strfbm.dffbultWritfObjfdt();
+    }
+
+    // Constbnts usfd by fbdtory mfthods to spfdify b stylf of formbt.
+    privbtf stbtid finbl int NUMBERSTYLE = 0;
+    privbtf stbtid finbl int CURRENCYSTYLE = 1;
+    privbtf stbtid finbl int PERCENTSTYLE = 2;
+    privbtf stbtid finbl int SCIENTIFICSTYLE = 3;
+    privbtf stbtid finbl int INTEGERSTYLE = 4;
+
+    /**
+     * Truf if thf grouping (i.f. thousbnds) sfpbrbtor is usfd whfn
+     * formbtting bnd pbrsing numbfrs.
+     *
+     * @sfribl
+     * @sff #isGroupingUsfd
+     */
+    privbtf boolfbn groupingUsfd = truf;
+
+    /**
+     * Thf mbximum numbfr of digits bllowfd in thf intfgfr portion of b
+     * numbfr.  <dodf>mbxIntfgfrDigits</dodf> must bf grfbtfr thbn or fqubl to
+     * <dodf>minIntfgfrDigits</dodf>.
+     * <p>
+     * <strong>Notf:</strong> This fifld fxists only for sfriblizbtion
+     * dompbtibility with JDK 1.1.  In Jbvb plbtform 2 v1.2 bnd highfr, thf nfw
+     * <dodf>int</dodf> fifld <dodf>mbximumIntfgfrDigits</dodf> is usfd instfbd.
+     * Whfn writing to b strfbm, <dodf>mbxIntfgfrDigits</dodf> is sft to
+     * <dodf>mbximumIntfgfrDigits</dodf> or <dodf>Bytf.MAX_VALUE</dodf>,
+     * whidhfvfr is smbllfr.  Whfn rfbding from b strfbm, this fifld is usfd
+     * only if <dodf>sfriblVfrsionOnStrfbm</dodf> is lfss thbn 1.
+     *
+     * @sfribl
+     * @sff #gftMbximumIntfgfrDigits
+     */
+    privbtf bytf    mbxIntfgfrDigits = 40;
+
+    /**
+     * Thf minimum numbfr of digits bllowfd in thf intfgfr portion of b
+     * numbfr.  <dodf>minimumIntfgfrDigits</dodf> must bf lfss thbn or fqubl to
+     * <dodf>mbximumIntfgfrDigits</dodf>.
+     * <p>
+     * <strong>Notf:</strong> This fifld fxists only for sfriblizbtion
+     * dompbtibility with JDK 1.1.  In Jbvb plbtform 2 v1.2 bnd highfr, thf nfw
+     * <dodf>int</dodf> fifld <dodf>minimumIntfgfrDigits</dodf> is usfd instfbd.
+     * Whfn writing to b strfbm, <dodf>minIntfgfrDigits</dodf> is sft to
+     * <dodf>minimumIntfgfrDigits</dodf> or <dodf>Bytf.MAX_VALUE</dodf>,
+     * whidhfvfr is smbllfr.  Whfn rfbding from b strfbm, this fifld is usfd
+     * only if <dodf>sfriblVfrsionOnStrfbm</dodf> is lfss thbn 1.
+     *
+     * @sfribl
+     * @sff #gftMinimumIntfgfrDigits
+     */
+    privbtf bytf    minIntfgfrDigits = 1;
+
+    /**
+     * Thf mbximum numbfr of digits bllowfd in thf frbdtionbl portion of b
+     * numbfr.  <dodf>mbximumFrbdtionDigits</dodf> must bf grfbtfr thbn or fqubl to
+     * <dodf>minimumFrbdtionDigits</dodf>.
+     * <p>
+     * <strong>Notf:</strong> This fifld fxists only for sfriblizbtion
+     * dompbtibility with JDK 1.1.  In Jbvb plbtform 2 v1.2 bnd highfr, thf nfw
+     * <dodf>int</dodf> fifld <dodf>mbximumFrbdtionDigits</dodf> is usfd instfbd.
+     * Whfn writing to b strfbm, <dodf>mbxFrbdtionDigits</dodf> is sft to
+     * <dodf>mbximumFrbdtionDigits</dodf> or <dodf>Bytf.MAX_VALUE</dodf>,
+     * whidhfvfr is smbllfr.  Whfn rfbding from b strfbm, this fifld is usfd
+     * only if <dodf>sfriblVfrsionOnStrfbm</dodf> is lfss thbn 1.
+     *
+     * @sfribl
+     * @sff #gftMbximumFrbdtionDigits
+     */
+    privbtf bytf    mbxFrbdtionDigits = 3;    // invbribnt, >= minFrbdtionDigits
+
+    /**
+     * Thf minimum numbfr of digits bllowfd in thf frbdtionbl portion of b
+     * numbfr.  <dodf>minimumFrbdtionDigits</dodf> must bf lfss thbn or fqubl to
+     * <dodf>mbximumFrbdtionDigits</dodf>.
+     * <p>
+     * <strong>Notf:</strong> This fifld fxists only for sfriblizbtion
+     * dompbtibility with JDK 1.1.  In Jbvb plbtform 2 v1.2 bnd highfr, thf nfw
+     * <dodf>int</dodf> fifld <dodf>minimumFrbdtionDigits</dodf> is usfd instfbd.
+     * Whfn writing to b strfbm, <dodf>minFrbdtionDigits</dodf> is sft to
+     * <dodf>minimumFrbdtionDigits</dodf> or <dodf>Bytf.MAX_VALUE</dodf>,
+     * whidhfvfr is smbllfr.  Whfn rfbding from b strfbm, this fifld is usfd
+     * only if <dodf>sfriblVfrsionOnStrfbm</dodf> is lfss thbn 1.
+     *
+     * @sfribl
+     * @sff #gftMinimumFrbdtionDigits
+     */
+    privbtf bytf    minFrbdtionDigits = 0;
+
+    /**
+     * Truf if this formbt will pbrsf numbfrs bs intfgfrs only.
+     *
+     * @sfribl
+     * @sff #isPbrsfIntfgfrOnly
+     */
+    privbtf boolfbn pbrsfIntfgfrOnly = fblsf;
+
+    // nfw fiflds for 1.2.  bytf is too smbll for intfgfr digits.
+
+    /**
+     * Thf mbximum numbfr of digits bllowfd in thf intfgfr portion of b
+     * numbfr.  <dodf>mbximumIntfgfrDigits</dodf> must bf grfbtfr thbn or fqubl to
+     * <dodf>minimumIntfgfrDigits</dodf>.
+     *
+     * @sfribl
+     * @sindf 1.2
+     * @sff #gftMbximumIntfgfrDigits
+     */
+    privbtf int    mbximumIntfgfrDigits = 40;
+
+    /**
+     * Thf minimum numbfr of digits bllowfd in thf intfgfr portion of b
+     * numbfr.  <dodf>minimumIntfgfrDigits</dodf> must bf lfss thbn or fqubl to
+     * <dodf>mbximumIntfgfrDigits</dodf>.
+     *
+     * @sfribl
+     * @sindf 1.2
+     * @sff #gftMinimumIntfgfrDigits
+     */
+    privbtf int    minimumIntfgfrDigits = 1;
+
+    /**
+     * Thf mbximum numbfr of digits bllowfd in thf frbdtionbl portion of b
+     * numbfr.  <dodf>mbximumFrbdtionDigits</dodf> must bf grfbtfr thbn or fqubl to
+     * <dodf>minimumFrbdtionDigits</dodf>.
+     *
+     * @sfribl
+     * @sindf 1.2
+     * @sff #gftMbximumFrbdtionDigits
+     */
+    privbtf int    mbximumFrbdtionDigits = 3;    // invbribnt, >= minFrbdtionDigits
+
+    /**
+     * Thf minimum numbfr of digits bllowfd in thf frbdtionbl portion of b
+     * numbfr.  <dodf>minimumFrbdtionDigits</dodf> must bf lfss thbn or fqubl to
+     * <dodf>mbximumFrbdtionDigits</dodf>.
+     *
+     * @sfribl
+     * @sindf 1.2
+     * @sff #gftMinimumFrbdtionDigits
+     */
+    privbtf int    minimumFrbdtionDigits = 0;
+
+    stbtid finbl int durrfntSfriblVfrsion = 1;
+
+    /**
+     * Dfsdribfs thf vfrsion of <dodf>NumbfrFormbt</dodf> prfsfnt on thf strfbm.
+     * Possiblf vblufs brf:
+     * <ul>
+     * <li><b>0</b> (or uninitiblizfd): thf JDK 1.1 vfrsion of thf strfbm formbt.
+     *     In this vfrsion, thf <dodf>int</dodf> fiflds sudh bs
+     *     <dodf>mbximumIntfgfrDigits</dodf> wfrf not prfsfnt, bnd thf <dodf>bytf</dodf>
+     *     fiflds sudh bs <dodf>mbxIntfgfrDigits</dodf> brf usfd instfbd.
+     *
+     * <li><b>1</b>: thf 1.2 vfrsion of thf strfbm formbt.  Thf vblufs of thf
+     *     <dodf>bytf</dodf> fiflds sudh bs <dodf>mbxIntfgfrDigits</dodf> brf ignorfd,
+     *     bnd thf <dodf>int</dodf> fiflds sudh bs <dodf>mbximumIntfgfrDigits</dodf>
+     *     brf usfd instfbd.
+     * </ul>
+     * Whfn strfbming out b <dodf>NumbfrFormbt</dodf>, thf most rfdfnt formbt
+     * (dorrfsponding to thf highfst bllowbblf <dodf>sfriblVfrsionOnStrfbm</dodf>)
+     * is blwbys writtfn.
+     *
+     * @sfribl
+     * @sindf 1.2
+     */
+    privbtf int sfriblVfrsionOnStrfbm = durrfntSfriblVfrsion;
+
+    // Rfmovfd "implfmfnts Clonfbblf" dlbusf.  Nffds to updbtf sfriblizbtion
+    // ID for bbdkwbrd dompbtibility.
+    stbtid finbl long sfriblVfrsionUID = -2308460125733713944L;
+
+
+    //
+    // dlbss for AttributfdChbrbdtfrItfrbtor bttributfs
+    //
+    /**
+     * Dffinfs donstbnts thbt brf usfd bs bttributf kfys in thf
+     * <dodf>AttributfdChbrbdtfrItfrbtor</dodf> rfturnfd
+     * from <dodf>NumbfrFormbt.formbtToChbrbdtfrItfrbtor</dodf> bnd bs
+     * fifld idfntififrs in <dodf>FifldPosition</dodf>.
+     *
+     * @sindf 1.4
+     */
+    publid stbtid dlbss Fifld fxtfnds Formbt.Fifld {
+
+        // Prodlbim sfribl dompbtibility with 1.4 FCS
+        privbtf stbtid finbl long sfriblVfrsionUID = 7494728892700160890L;
+
+        // tbblf of bll instbndfs in this dlbss, usfd by rfbdRfsolvf
+        privbtf stbtid finbl Mbp<String, Fifld> instbndfMbp = nfw HbshMbp<>(11);
+
+        /**
+         * Crfbtfs b Fifld instbndf with thf spfdififd
+         * nbmf.
+         *
+         * @pbrbm nbmf Nbmf of thf bttributf
+         */
+        protfdtfd Fifld(String nbmf) {
+            supfr(nbmf);
+            if (this.gftClbss() == NumbfrFormbt.Fifld.dlbss) {
+                instbndfMbp.put(nbmf, this);
+            }
+        }
+
+        /**
+         * Rfsolvfs instbndfs bfing dfsfriblizfd to thf prfdffinfd donstbnts.
+         *
+         * @throws InvblidObjfdtExdfption if thf donstbnt dould not bf rfsolvfd.
+         * @rfturn rfsolvfd NumbfrFormbt.Fifld donstbnt
+         */
+        @Ovfrridf
+        protfdtfd Objfdt rfbdRfsolvf() throws InvblidObjfdtExdfption {
+            if (this.gftClbss() != NumbfrFormbt.Fifld.dlbss) {
+                throw nfw InvblidObjfdtExdfption("subdlbss didn't dorrfdtly implfmfnt rfbdRfsolvf");
+            }
+
+            Objfdt instbndf = instbndfMbp.gft(gftNbmf());
+            if (instbndf != null) {
+                rfturn instbndf;
+            } flsf {
+                throw nfw InvblidObjfdtExdfption("unknown bttributf nbmf");
+            }
+        }
+
+        /**
+         * Constbnt idfntifying thf intfgfr fifld.
+         */
+        publid stbtid finbl Fifld INTEGER = nfw Fifld("intfgfr");
+
+        /**
+         * Constbnt idfntifying thf frbdtion fifld.
+         */
+        publid stbtid finbl Fifld FRACTION = nfw Fifld("frbdtion");
+
+        /**
+         * Constbnt idfntifying thf fxponfnt fifld.
+         */
+        publid stbtid finbl Fifld EXPONENT = nfw Fifld("fxponfnt");
+
+        /**
+         * Constbnt idfntifying thf dfdimbl sfpbrbtor fifld.
+         */
+        publid stbtid finbl Fifld DECIMAL_SEPARATOR =
+                            nfw Fifld("dfdimbl sfpbrbtor");
+
+        /**
+         * Constbnt idfntifying thf sign fifld.
+         */
+        publid stbtid finbl Fifld SIGN = nfw Fifld("sign");
+
+        /**
+         * Constbnt idfntifying thf grouping sfpbrbtor fifld.
+         */
+        publid stbtid finbl Fifld GROUPING_SEPARATOR =
+                            nfw Fifld("grouping sfpbrbtor");
+
+        /**
+         * Constbnt idfntifying thf fxponfnt symbol fifld.
+         */
+        publid stbtid finbl Fifld EXPONENT_SYMBOL = nfw
+                            Fifld("fxponfnt symbol");
+
+        /**
+         * Constbnt idfntifying thf pfrdfnt fifld.
+         */
+        publid stbtid finbl Fifld PERCENT = nfw Fifld("pfrdfnt");
+
+        /**
+         * Constbnt idfntifying thf pfrmillf fifld.
+         */
+        publid stbtid finbl Fifld PERMILLE = nfw Fifld("pfr millf");
+
+        /**
+         * Constbnt idfntifying thf durrfndy fifld.
+         */
+        publid stbtid finbl Fifld CURRENCY = nfw Fifld("durrfndy");
+
+        /**
+         * Constbnt idfntifying thf fxponfnt sign fifld.
+         */
+        publid stbtid finbl Fifld EXPONENT_SIGN = nfw Fifld("fxponfnt sign");
+    }
+}

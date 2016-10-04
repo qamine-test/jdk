@@ -1,500 +1,500 @@
 /*
- * Copyright (c) 2001, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.imageio.plugins.png;
+pbdkbgf dom.sun.imbgfio.plugins.png;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ListResourceBundle;
-import javax.imageio.ImageTypeSpecifier;
-import javax.imageio.metadata.IIOMetadataFormat;
-import javax.imageio.metadata.IIOMetadataFormatImpl;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.List;
+import jbvb.util.ListRfsourdfBundlf;
+import jbvbx.imbgfio.ImbgfTypfSpfdififr;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtbFormbt;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtbFormbtImpl;
 
-public class PNGMetadataFormat extends IIOMetadataFormatImpl {
+publid dlbss PNGMftbdbtbFormbt fxtfnds IIOMftbdbtbFormbtImpl {
 
-    private static IIOMetadataFormat instance = null;
+    privbtf stbtid IIOMftbdbtbFormbt instbndf = null;
 
-    private static String VALUE_0 = "0";
-    private static String VALUE_1 = "1";
-    private static String VALUE_12 = "12";
-    private static String VALUE_23 = "23";
-    private static String VALUE_31 = "31";
-    private static String VALUE_59 = "59";
-    private static String VALUE_60 = "60";
-    private static String VALUE_255 = "255";
-    private static String VALUE_MAX_16 = "65535"; // 2^16 - 1
-    private static String VALUE_MAX_32 = "2147483647"; // 2^32 - 1
+    privbtf stbtid String VALUE_0 = "0";
+    privbtf stbtid String VALUE_1 = "1";
+    privbtf stbtid String VALUE_12 = "12";
+    privbtf stbtid String VALUE_23 = "23";
+    privbtf stbtid String VALUE_31 = "31";
+    privbtf stbtid String VALUE_59 = "59";
+    privbtf stbtid String VALUE_60 = "60";
+    privbtf stbtid String VALUE_255 = "255";
+    privbtf stbtid String VALUE_MAX_16 = "65535"; // 2^16 - 1
+    privbtf stbtid String VALUE_MAX_32 = "2147483647"; // 2^32 - 1
 
-    private PNGMetadataFormat() {
-        super(PNGMetadata.nativeMetadataFormatName,
+    privbtf PNGMftbdbtbFormbt() {
+        supfr(PNGMftbdbtb.nbtivfMftbdbtbFormbtNbmf,
               CHILD_POLICY_SOME);
 
         // root -> IHDR
-        addElement("IHDR", PNGMetadata.nativeMetadataFormatName,
+        bddElfmfnt("IHDR", PNGMftbdbtb.nbtivfMftbdbtbFormbtNbmf,
                    CHILD_POLICY_EMPTY);
 
-        addAttribute("IHDR", "width",
-                     DATATYPE_INTEGER, true, null,
-                     VALUE_1, VALUE_MAX_32, true, true);
+        bddAttributf("IHDR", "widti",
+                     DATATYPE_INTEGER, truf, null,
+                     VALUE_1, VALUE_MAX_32, truf, truf);
 
-        addAttribute("IHDR", "height",
-                     DATATYPE_INTEGER, true, null,
-                     VALUE_1, VALUE_MAX_32, true, true);
+        bddAttributf("IHDR", "ifigit",
+                     DATATYPE_INTEGER, truf, null,
+                     VALUE_1, VALUE_MAX_32, truf, truf);
 
-        addAttribute("IHDR", "bitDepth",
-                     DATATYPE_INTEGER, true, null,
-                     Arrays.asList(PNGMetadata.IHDR_bitDepths));
+        bddAttributf("IHDR", "bitDfpti",
+                     DATATYPE_INTEGER, truf, null,
+                     Arrbys.bsList(PNGMftbdbtb.IHDR_bitDfptis));
 
-        String[] colorTypes = {
-            "Grayscale", "RGB", "Palette", "GrayAlpha", "RGBAlpha"
+        String[] dolorTypfs = {
+            "Grbysdblf", "RGB", "Pblfttf", "GrbyAlpib", "RGBAlpib"
         };
-        addAttribute("IHDR", "colorType",
-                     DATATYPE_STRING, true, null,
-                     Arrays.asList(colorTypes));
+        bddAttributf("IHDR", "dolorTypf",
+                     DATATYPE_STRING, truf, null,
+                     Arrbys.bsList(dolorTypfs));
 
-        addAttribute("IHDR", "compressionMethod",
-                     DATATYPE_STRING, true, null,
-                     Arrays.asList(PNGMetadata.IHDR_compressionMethodNames));
+        bddAttributf("IHDR", "domprfssionMftiod",
+                     DATATYPE_STRING, truf, null,
+                     Arrbys.bsList(PNGMftbdbtb.IHDR_domprfssionMftiodNbmfs));
 
-        addAttribute("IHDR", "filterMethod",
-                     DATATYPE_STRING, true, null,
-                     Arrays.asList(PNGMetadata.IHDR_filterMethodNames));
+        bddAttributf("IHDR", "filtfrMftiod",
+                     DATATYPE_STRING, truf, null,
+                     Arrbys.bsList(PNGMftbdbtb.IHDR_filtfrMftiodNbmfs));
 
-        addAttribute("IHDR", "interlaceMethod",
-                     DATATYPE_STRING, true, null,
-                     Arrays.asList(PNGMetadata.IHDR_interlaceMethodNames));
+        bddAttributf("IHDR", "intfrlbdfMftiod",
+                     DATATYPE_STRING, truf, null,
+                     Arrbys.bsList(PNGMftbdbtb.IHDR_intfrlbdfMftiodNbmfs));
 
         // root -> PLTE
-        addElement("PLTE", PNGMetadata.nativeMetadataFormatName,
+        bddElfmfnt("PLTE", PNGMftbdbtb.nbtivfMftbdbtbFormbtNbmf,
                    1, 256);
 
         // root -> PLTE -> PLTEEntry
-        addElement("PLTEEntry", "PLTE",
+        bddElfmfnt("PLTEEntry", "PLTE",
                    CHILD_POLICY_EMPTY);
 
-        addAttribute("PLTEEntry", "index",
-                     DATATYPE_INTEGER, true, null,
-                     VALUE_0, VALUE_255, true, true);
+        bddAttributf("PLTEEntry", "indfx",
+                     DATATYPE_INTEGER, truf, null,
+                     VALUE_0, VALUE_255, truf, truf);
 
-        addAttribute("PLTEEntry", "red",
-                     DATATYPE_INTEGER, true, null,
-                     VALUE_0, VALUE_255, true, true);
+        bddAttributf("PLTEEntry", "rfd",
+                     DATATYPE_INTEGER, truf, null,
+                     VALUE_0, VALUE_255, truf, truf);
 
-        addAttribute("PLTEEntry", "green",
-                     DATATYPE_INTEGER, true, null,
-                     VALUE_0, VALUE_255, true, true);
+        bddAttributf("PLTEEntry", "grffn",
+                     DATATYPE_INTEGER, truf, null,
+                     VALUE_0, VALUE_255, truf, truf);
 
-        addAttribute("PLTEEntry", "blue",
-                     DATATYPE_INTEGER, true, null,
-                     VALUE_0, VALUE_255, true, true);
+        bddAttributf("PLTEEntry", "bluf",
+                     DATATYPE_INTEGER, truf, null,
+                     VALUE_0, VALUE_255, truf, truf);
 
         // root -> bKGD
-        addElement("bKGD", PNGMetadata.nativeMetadataFormatName,
+        bddElfmfnt("bKGD", PNGMftbdbtb.nbtivfMftbdbtbFormbtNbmf,
                    CHILD_POLICY_CHOICE);
 
-        // root -> bKGD -> bKGD_Grayscale
-        addElement("bKGD_Grayscale", "bKGD",
+        // root -> bKGD -> bKGD_Grbysdblf
+        bddElfmfnt("bKGD_Grbysdblf", "bKGD",
                    CHILD_POLICY_EMPTY);
 
-        addAttribute("bKGD_Grayscale", "gray",
-                     DATATYPE_INTEGER, true, null,
-                     VALUE_0, VALUE_MAX_16, true, true);
+        bddAttributf("bKGD_Grbysdblf", "grby",
+                     DATATYPE_INTEGER, truf, null,
+                     VALUE_0, VALUE_MAX_16, truf, truf);
 
         // root -> bKGD -> bKGD_RGB
-        addElement("bKGD_RGB", "bKGD",
+        bddElfmfnt("bKGD_RGB", "bKGD",
                    CHILD_POLICY_EMPTY);
 
-        addAttribute("bKGD_RGB", "red",
-                     DATATYPE_INTEGER, true, null,
-                     VALUE_0, VALUE_MAX_16, true, true);
+        bddAttributf("bKGD_RGB", "rfd",
+                     DATATYPE_INTEGER, truf, null,
+                     VALUE_0, VALUE_MAX_16, truf, truf);
 
-        addAttribute("bKGD_RGB", "green",
-                     DATATYPE_INTEGER, true, null,
-                     VALUE_0, VALUE_MAX_16, true, true);
+        bddAttributf("bKGD_RGB", "grffn",
+                     DATATYPE_INTEGER, truf, null,
+                     VALUE_0, VALUE_MAX_16, truf, truf);
 
-        addAttribute("bKGD_RGB", "blue",
-                     DATATYPE_INTEGER, true, null,
-                     VALUE_0, VALUE_MAX_16, true, true);
+        bddAttributf("bKGD_RGB", "bluf",
+                     DATATYPE_INTEGER, truf, null,
+                     VALUE_0, VALUE_MAX_16, truf, truf);
 
-        // root -> bKGD -> bKGD_Palette
-        addElement("bKGD_Palette", "bKGD",
+        // root -> bKGD -> bKGD_Pblfttf
+        bddElfmfnt("bKGD_Pblfttf", "bKGD",
                    CHILD_POLICY_EMPTY);
 
-        addAttribute("bKGD_Palette", "index",
-                     DATATYPE_INTEGER, true, null,
-                     VALUE_0, VALUE_255, true, true);
+        bddAttributf("bKGD_Pblfttf", "indfx",
+                     DATATYPE_INTEGER, truf, null,
+                     VALUE_0, VALUE_255, truf, truf);
 
-        // root -> cHRM
-        addElement("cHRM", PNGMetadata.nativeMetadataFormatName,
+        // root -> dHRM
+        bddElfmfnt("dHRM", PNGMftbdbtb.nbtivfMftbdbtbFormbtNbmf,
                    CHILD_POLICY_EMPTY);
 
-        addAttribute("cHRM", "whitePointX",
-                     DATATYPE_INTEGER, true, null,
-                     VALUE_0, VALUE_MAX_16, true, true);
+        bddAttributf("dHRM", "wiitfPointX",
+                     DATATYPE_INTEGER, truf, null,
+                     VALUE_0, VALUE_MAX_16, truf, truf);
 
-        addAttribute("cHRM", "whitePointY",
-                     DATATYPE_INTEGER, true, null,
-                     VALUE_0, VALUE_MAX_16, true, true);
+        bddAttributf("dHRM", "wiitfPointY",
+                     DATATYPE_INTEGER, truf, null,
+                     VALUE_0, VALUE_MAX_16, truf, truf);
 
-        addAttribute("cHRM", "redX",
-                     DATATYPE_INTEGER, true, null,
-                     VALUE_0, VALUE_MAX_16, true, true);
+        bddAttributf("dHRM", "rfdX",
+                     DATATYPE_INTEGER, truf, null,
+                     VALUE_0, VALUE_MAX_16, truf, truf);
 
-        addAttribute("cHRM", "redY",
-                     DATATYPE_INTEGER, true, null,
-                     VALUE_0, VALUE_MAX_16, true, true);
+        bddAttributf("dHRM", "rfdY",
+                     DATATYPE_INTEGER, truf, null,
+                     VALUE_0, VALUE_MAX_16, truf, truf);
 
-        addAttribute("cHRM", "greenX",
-                     DATATYPE_INTEGER, true, null,
-                     VALUE_0, VALUE_MAX_16, true, true);
+        bddAttributf("dHRM", "grffnX",
+                     DATATYPE_INTEGER, truf, null,
+                     VALUE_0, VALUE_MAX_16, truf, truf);
 
-        addAttribute("cHRM", "greenY",
-                     DATATYPE_INTEGER, true, null,
-                     VALUE_0, VALUE_MAX_16, true, true);
+        bddAttributf("dHRM", "grffnY",
+                     DATATYPE_INTEGER, truf, null,
+                     VALUE_0, VALUE_MAX_16, truf, truf);
 
-        addAttribute("cHRM", "blueX",
-                     DATATYPE_INTEGER, true, null,
-                     VALUE_0, VALUE_MAX_16, true, true);
+        bddAttributf("dHRM", "blufX",
+                     DATATYPE_INTEGER, truf, null,
+                     VALUE_0, VALUE_MAX_16, truf, truf);
 
-        addAttribute("cHRM", "blueY",
-                     DATATYPE_INTEGER, true, null,
-                     VALUE_0, VALUE_MAX_16, true, true);
+        bddAttributf("dHRM", "blufY",
+                     DATATYPE_INTEGER, truf, null,
+                     VALUE_0, VALUE_MAX_16, truf, truf);
 
         // root -> gAMA
-        addElement("gAMA", PNGMetadata.nativeMetadataFormatName,
+        bddElfmfnt("gAMA", PNGMftbdbtb.nbtivfMftbdbtbFormbtNbmf,
                    CHILD_POLICY_EMPTY);
 
-        addAttribute("gAMA", "value",
-                     DATATYPE_INTEGER, true, null,
-                     VALUE_0, VALUE_MAX_32, true, true);
+        bddAttributf("gAMA", "vbluf",
+                     DATATYPE_INTEGER, truf, null,
+                     VALUE_0, VALUE_MAX_32, truf, truf);
 
-        // root -> hIST
-        addElement("hIST", PNGMetadata.nativeMetadataFormatName,
+        // root -> iIST
+        bddElfmfnt("iIST", PNGMftbdbtb.nbtivfMftbdbtbFormbtNbmf,
                    1, 256);
 
-        // root -> hISTEntry
-        addElement("hISTEntry", "hIST",
+        // root -> iISTEntry
+        bddElfmfnt("iISTEntry", "iIST",
                    CHILD_POLICY_EMPTY);
 
-        addAttribute("hISTEntry", "index",
-                     DATATYPE_INTEGER, true, null,
-                     VALUE_0, VALUE_255, true, true);
+        bddAttributf("iISTEntry", "indfx",
+                     DATATYPE_INTEGER, truf, null,
+                     VALUE_0, VALUE_255, truf, truf);
 
-        addAttribute("hISTEntry", "value",
-                     DATATYPE_INTEGER, true, null,
-                     VALUE_0, VALUE_MAX_16, true, true);
+        bddAttributf("iISTEntry", "vbluf",
+                     DATATYPE_INTEGER, truf, null,
+                     VALUE_0, VALUE_MAX_16, truf, truf);
 
         // root -> iCCP
-        addElement("iCCP", PNGMetadata.nativeMetadataFormatName,
+        bddElfmfnt("iCCP", PNGMftbdbtb.nbtivfMftbdbtbFormbtNbmf,
                    CHILD_POLICY_EMPTY);
 
-        addAttribute("iCCP", "profileName",
-                     DATATYPE_STRING, true, null);
+        bddAttributf("iCCP", "profilfNbmf",
+                     DATATYPE_STRING, truf, null);
 
-        addAttribute("iCCP", "compressionMethod",
-                     DATATYPE_STRING, true, null,
-                     Arrays.asList(PNGMetadata.iCCP_compressionMethodNames));
+        bddAttributf("iCCP", "domprfssionMftiod",
+                     DATATYPE_STRING, truf, null,
+                     Arrbys.bsList(PNGMftbdbtb.iCCP_domprfssionMftiodNbmfs));
 
-        addObjectValue("iCCP", byte.class, 0, Integer.MAX_VALUE);
+        bddObjfdtVbluf("iCCP", bytf.dlbss, 0, Intfgfr.MAX_VALUE);
 
         // root -> iTXt
-        addElement("iTXt", PNGMetadata.nativeMetadataFormatName,
-                   1, Integer.MAX_VALUE);
+        bddElfmfnt("iTXt", PNGMftbdbtb.nbtivfMftbdbtbFormbtNbmf,
+                   1, Intfgfr.MAX_VALUE);
 
         // root -> iTXt -> iTXtEntry
-        addElement("iTXtEntry", "iTXt",
+        bddElfmfnt("iTXtEntry", "iTXt",
                    CHILD_POLICY_EMPTY);
 
-        addAttribute("iTXtEntry", "keyword",
-                     DATATYPE_STRING, true, null);
+        bddAttributf("iTXtEntry", "kfyword",
+                     DATATYPE_STRING, truf, null);
 
-        addBooleanAttribute("iTXtEntry", "compressionFlag",
-                            false, false);
+        bddBoolfbnAttributf("iTXtEntry", "domprfssionFlbg",
+                            fblsf, fblsf);
 
-        addAttribute("iTXtEntry", "compressionMethod",
-                     DATATYPE_STRING, true, null);
+        bddAttributf("iTXtEntry", "domprfssionMftiod",
+                     DATATYPE_STRING, truf, null);
 
-        addAttribute("iTXtEntry", "languageTag",
-                     DATATYPE_STRING, true, null);
+        bddAttributf("iTXtEntry", "lbngubgfTbg",
+                     DATATYPE_STRING, truf, null);
 
-        addAttribute("iTXtEntry", "translatedKeyword",
-                     DATATYPE_STRING, true, null);
+        bddAttributf("iTXtEntry", "trbnslbtfdKfyword",
+                     DATATYPE_STRING, truf, null);
 
-        addAttribute("iTXtEntry", "text",
-                     DATATYPE_STRING, true, null);
+        bddAttributf("iTXtEntry", "tfxt",
+                     DATATYPE_STRING, truf, null);
 
         // root -> pHYS
-        addElement("pHYS", PNGMetadata.nativeMetadataFormatName,
+        bddElfmfnt("pHYS", PNGMftbdbtb.nbtivfMftbdbtbFormbtNbmf,
                    CHILD_POLICY_EMPTY);
 
-        addAttribute("pHYS", "pixelsPerUnitXAxis",
-                     DATATYPE_INTEGER, true, null,
-                     VALUE_0, VALUE_MAX_32, true, true);
-        addAttribute("pHYS", "pixelsPerUnitYAxis",
-                     DATATYPE_INTEGER, true, null,
-                     VALUE_0, VALUE_MAX_32, true, true);
-        addAttribute("pHYS", "unitSpecifier",
-                     DATATYPE_STRING, true, null,
-                     Arrays.asList(PNGMetadata.unitSpecifierNames));
+        bddAttributf("pHYS", "pixflsPfrUnitXAxis",
+                     DATATYPE_INTEGER, truf, null,
+                     VALUE_0, VALUE_MAX_32, truf, truf);
+        bddAttributf("pHYS", "pixflsPfrUnitYAxis",
+                     DATATYPE_INTEGER, truf, null,
+                     VALUE_0, VALUE_MAX_32, truf, truf);
+        bddAttributf("pHYS", "unitSpfdififr",
+                     DATATYPE_STRING, truf, null,
+                     Arrbys.bsList(PNGMftbdbtb.unitSpfdififrNbmfs));
 
         // root -> sBIT
-        addElement("sBIT", PNGMetadata.nativeMetadataFormatName,
+        bddElfmfnt("sBIT", PNGMftbdbtb.nbtivfMftbdbtbFormbtNbmf,
                    CHILD_POLICY_CHOICE);
 
-        // root -> sBIT -> sBIT_Grayscale
-        addElement("sBIT_Grayscale", "sBIT",
+        // root -> sBIT -> sBIT_Grbysdblf
+        bddElfmfnt("sBIT_Grbysdblf", "sBIT",
                    CHILD_POLICY_EMPTY);
 
-        addAttribute("sBIT_Grayscale", "gray",
-                     DATATYPE_INTEGER, true, null,
-                     VALUE_0, VALUE_255, true, true);
+        bddAttributf("sBIT_Grbysdblf", "grby",
+                     DATATYPE_INTEGER, truf, null,
+                     VALUE_0, VALUE_255, truf, truf);
 
-        // root -> sBIT -> sBIT_GrayAlpha
-        addElement("sBIT_GrayAlpha", "sBIT",
+        // root -> sBIT -> sBIT_GrbyAlpib
+        bddElfmfnt("sBIT_GrbyAlpib", "sBIT",
                    CHILD_POLICY_EMPTY);
 
-        addAttribute("sBIT_GrayAlpha", "gray",
-                     DATATYPE_INTEGER, true, null,
-                     VALUE_0, VALUE_255, true, true);
+        bddAttributf("sBIT_GrbyAlpib", "grby",
+                     DATATYPE_INTEGER, truf, null,
+                     VALUE_0, VALUE_255, truf, truf);
 
-        addAttribute("sBIT_GrayAlpha", "alpha",
-                     DATATYPE_INTEGER, true, null,
-                     VALUE_0, VALUE_255, true, true);
+        bddAttributf("sBIT_GrbyAlpib", "blpib",
+                     DATATYPE_INTEGER, truf, null,
+                     VALUE_0, VALUE_255, truf, truf);
 
         // root -> sBIT -> sBIT_RGB
-        addElement("sBIT_RGB", "sBIT",
+        bddElfmfnt("sBIT_RGB", "sBIT",
                    CHILD_POLICY_EMPTY);
 
-        addAttribute("sBIT_RGB", "red",
-                     DATATYPE_INTEGER, true, null,
-                     VALUE_0, VALUE_255, true, true);
+        bddAttributf("sBIT_RGB", "rfd",
+                     DATATYPE_INTEGER, truf, null,
+                     VALUE_0, VALUE_255, truf, truf);
 
-        addAttribute("sBIT_RGB", "green",
-                     DATATYPE_INTEGER, true, null,
-                     VALUE_0, VALUE_255, true, true);
+        bddAttributf("sBIT_RGB", "grffn",
+                     DATATYPE_INTEGER, truf, null,
+                     VALUE_0, VALUE_255, truf, truf);
 
-        addAttribute("sBIT_RGB", "blue",
-                     DATATYPE_INTEGER, true, null,
-                     VALUE_0, VALUE_255, true, true);
+        bddAttributf("sBIT_RGB", "bluf",
+                     DATATYPE_INTEGER, truf, null,
+                     VALUE_0, VALUE_255, truf, truf);
 
-        // root -> sBIT -> sBIT_RGBAlpha
-        addElement("sBIT_RGBAlpha", "sBIT",
+        // root -> sBIT -> sBIT_RGBAlpib
+        bddElfmfnt("sBIT_RGBAlpib", "sBIT",
                    CHILD_POLICY_EMPTY);
 
-        addAttribute("sBIT_RGBAlpha", "red",
-                     DATATYPE_INTEGER, true, null,
-                     VALUE_0, VALUE_255, true, true);
+        bddAttributf("sBIT_RGBAlpib", "rfd",
+                     DATATYPE_INTEGER, truf, null,
+                     VALUE_0, VALUE_255, truf, truf);
 
-        addAttribute("sBIT_RGBAlpha", "green",
-                     DATATYPE_INTEGER, true, null,
-                     VALUE_0, VALUE_255, true, true);
+        bddAttributf("sBIT_RGBAlpib", "grffn",
+                     DATATYPE_INTEGER, truf, null,
+                     VALUE_0, VALUE_255, truf, truf);
 
-        addAttribute("sBIT_RGBAlpha", "blue",
-                     DATATYPE_INTEGER, true, null,
-                     VALUE_0, VALUE_255, true, true);
+        bddAttributf("sBIT_RGBAlpib", "bluf",
+                     DATATYPE_INTEGER, truf, null,
+                     VALUE_0, VALUE_255, truf, truf);
 
-        addAttribute("sBIT_RGBAlpha", "alpha",
-                     DATATYPE_INTEGER, true, null,
-                     VALUE_0, VALUE_255, true, true);
+        bddAttributf("sBIT_RGBAlpib", "blpib",
+                     DATATYPE_INTEGER, truf, null,
+                     VALUE_0, VALUE_255, truf, truf);
 
-        // root -> sBIT -> sBIT_Palette
-        addElement("sBIT_Palette", "sBIT",
+        // root -> sBIT -> sBIT_Pblfttf
+        bddElfmfnt("sBIT_Pblfttf", "sBIT",
                    CHILD_POLICY_EMPTY);
 
-        addAttribute("sBIT_Palette", "red",
-                     DATATYPE_INTEGER, true, null,
-                     VALUE_0, VALUE_255, true, true);
+        bddAttributf("sBIT_Pblfttf", "rfd",
+                     DATATYPE_INTEGER, truf, null,
+                     VALUE_0, VALUE_255, truf, truf);
 
-        addAttribute("sBIT_Palette", "green",
-                     DATATYPE_INTEGER, true, null,
-                     VALUE_0, VALUE_255, true, true);
+        bddAttributf("sBIT_Pblfttf", "grffn",
+                     DATATYPE_INTEGER, truf, null,
+                     VALUE_0, VALUE_255, truf, truf);
 
-        addAttribute("sBIT_Palette", "blue",
-                     DATATYPE_INTEGER, true, null,
-                     VALUE_0, VALUE_255, true, true);
+        bddAttributf("sBIT_Pblfttf", "bluf",
+                     DATATYPE_INTEGER, truf, null,
+                     VALUE_0, VALUE_255, truf, truf);
 
         // root -> sPLT
-        addElement("sPLT", PNGMetadata.nativeMetadataFormatName,
+        bddElfmfnt("sPLT", PNGMftbdbtb.nbtivfMftbdbtbFormbtNbmf,
                    1, 256);
 
         // root -> sPLT -> sPLTEntry
-        addElement("sPLTEntry", "sPLT",
+        bddElfmfnt("sPLTEntry", "sPLT",
                    CHILD_POLICY_EMPTY);
 
-        addAttribute("sPLTEntry", "index",
-                     DATATYPE_INTEGER, true, null,
-                     VALUE_0, VALUE_255, true, true);
+        bddAttributf("sPLTEntry", "indfx",
+                     DATATYPE_INTEGER, truf, null,
+                     VALUE_0, VALUE_255, truf, truf);
 
-        addAttribute("sPLTEntry", "red",
-                     DATATYPE_INTEGER, true, null,
-                     VALUE_0, VALUE_255, true, true);
+        bddAttributf("sPLTEntry", "rfd",
+                     DATATYPE_INTEGER, truf, null,
+                     VALUE_0, VALUE_255, truf, truf);
 
-        addAttribute("sPLTEntry", "green",
-                     DATATYPE_INTEGER, true, null,
-                     VALUE_0, VALUE_255, true, true);
+        bddAttributf("sPLTEntry", "grffn",
+                     DATATYPE_INTEGER, truf, null,
+                     VALUE_0, VALUE_255, truf, truf);
 
-        addAttribute("sPLTEntry", "blue",
-                     DATATYPE_INTEGER, true, null,
-                     VALUE_0, VALUE_255, true, true);
+        bddAttributf("sPLTEntry", "bluf",
+                     DATATYPE_INTEGER, truf, null,
+                     VALUE_0, VALUE_255, truf, truf);
 
-        addAttribute("sPLTEntry", "alpha",
-                     DATATYPE_INTEGER, true, null,
-                     VALUE_0, VALUE_255, true, true);
+        bddAttributf("sPLTEntry", "blpib",
+                     DATATYPE_INTEGER, truf, null,
+                     VALUE_0, VALUE_255, truf, truf);
 
         // root -> sRGB
-        addElement("sRGB", PNGMetadata.nativeMetadataFormatName,
+        bddElfmfnt("sRGB", PNGMftbdbtb.nbtivfMftbdbtbFormbtNbmf,
                    CHILD_POLICY_EMPTY);
 
-        addAttribute("sRGB", "renderingIntent",
-                     DATATYPE_STRING, true, null,
-                     Arrays.asList(PNGMetadata.renderingIntentNames));
+        bddAttributf("sRGB", "rfndfringIntfnt",
+                     DATATYPE_STRING, truf, null,
+                     Arrbys.bsList(PNGMftbdbtb.rfndfringIntfntNbmfs));
 
         // root -> tEXt
-        addElement("tEXt", PNGMetadata.nativeMetadataFormatName,
-                   1, Integer.MAX_VALUE);
+        bddElfmfnt("tEXt", PNGMftbdbtb.nbtivfMftbdbtbFormbtNbmf,
+                   1, Intfgfr.MAX_VALUE);
 
         // root -> tEXt -> tEXtEntry
-        addElement("tEXtEntry", "tEXt",
+        bddElfmfnt("tEXtEntry", "tEXt",
                    CHILD_POLICY_EMPTY);
 
-        addAttribute("tEXtEntry", "keyword",
-                     DATATYPE_STRING, true, null);
+        bddAttributf("tEXtEntry", "kfyword",
+                     DATATYPE_STRING, truf, null);
 
-        addAttribute("tEXtEntry", "value",
-                     DATATYPE_STRING, true, null);
+        bddAttributf("tEXtEntry", "vbluf",
+                     DATATYPE_STRING, truf, null);
 
         // root -> tIME
-        addElement("tIME", PNGMetadata.nativeMetadataFormatName,
+        bddElfmfnt("tIME", PNGMftbdbtb.nbtivfMftbdbtbFormbtNbmf,
                    CHILD_POLICY_EMPTY);
 
-        addAttribute("tIME", "year",
-                     DATATYPE_INTEGER, true, null,
-                     VALUE_0, VALUE_MAX_16, true, true);
+        bddAttributf("tIME", "yfbr",
+                     DATATYPE_INTEGER, truf, null,
+                     VALUE_0, VALUE_MAX_16, truf, truf);
 
-        addAttribute("tIME", "month",
-                     DATATYPE_INTEGER, true, null,
-                     VALUE_1, VALUE_12, true, true);
+        bddAttributf("tIME", "monti",
+                     DATATYPE_INTEGER, truf, null,
+                     VALUE_1, VALUE_12, truf, truf);
 
-        addAttribute("tIME", "day",
-                     DATATYPE_INTEGER, true, null,
-                     VALUE_1, VALUE_31, true, true);
+        bddAttributf("tIME", "dby",
+                     DATATYPE_INTEGER, truf, null,
+                     VALUE_1, VALUE_31, truf, truf);
 
-        addAttribute("tIME", "hour",
-                     DATATYPE_INTEGER, true, null,
-                     VALUE_0, VALUE_23, true, true);
+        bddAttributf("tIME", "iour",
+                     DATATYPE_INTEGER, truf, null,
+                     VALUE_0, VALUE_23, truf, truf);
 
-        addAttribute("tIME", "minute",
-                     DATATYPE_INTEGER, true, null,
-                     VALUE_0, VALUE_59, true, true);
+        bddAttributf("tIME", "minutf",
+                     DATATYPE_INTEGER, truf, null,
+                     VALUE_0, VALUE_59, truf, truf);
 
-        addAttribute("tIME", "second",
-                     DATATYPE_INTEGER, true, null,
-                     VALUE_0, VALUE_60, true, true);
+        bddAttributf("tIME", "sfdond",
+                     DATATYPE_INTEGER, truf, null,
+                     VALUE_0, VALUE_60, truf, truf);
 
         // root -> tRNS
-        addElement("tRNS", PNGMetadata.nativeMetadataFormatName,
+        bddElfmfnt("tRNS", PNGMftbdbtb.nbtivfMftbdbtbFormbtNbmf,
                    CHILD_POLICY_CHOICE);
 
-        // root -> tRNS -> tRNS_Grayscale
-        addElement("tRNS_Grayscale", "tRNS",
+        // root -> tRNS -> tRNS_Grbysdblf
+        bddElfmfnt("tRNS_Grbysdblf", "tRNS",
                    CHILD_POLICY_EMPTY);
 
-        addAttribute("tRNS_Grayscale", "gray",
-                     DATATYPE_INTEGER, true, null,
-                     VALUE_0, VALUE_MAX_16, true, true);
+        bddAttributf("tRNS_Grbysdblf", "grby",
+                     DATATYPE_INTEGER, truf, null,
+                     VALUE_0, VALUE_MAX_16, truf, truf);
 
         // root -> tRNS -> tRNS_RGB
-        addElement("tRNS_RGB", "tRNS",
+        bddElfmfnt("tRNS_RGB", "tRNS",
                    CHILD_POLICY_EMPTY);
 
-        addAttribute("tRNS_RGB", "red",
-                     DATATYPE_INTEGER, true, null,
-                     VALUE_0, VALUE_MAX_16, true, true);
+        bddAttributf("tRNS_RGB", "rfd",
+                     DATATYPE_INTEGER, truf, null,
+                     VALUE_0, VALUE_MAX_16, truf, truf);
 
-        addAttribute("tRNS_RGB", "green",
-                     DATATYPE_INTEGER, true, null,
-                     VALUE_0, VALUE_MAX_16, true, true);
+        bddAttributf("tRNS_RGB", "grffn",
+                     DATATYPE_INTEGER, truf, null,
+                     VALUE_0, VALUE_MAX_16, truf, truf);
 
-        addAttribute("tRNS_RGB", "blue",
-                     DATATYPE_INTEGER, true, null,
-                     VALUE_0, VALUE_MAX_16, true, true);
+        bddAttributf("tRNS_RGB", "bluf",
+                     DATATYPE_INTEGER, truf, null,
+                     VALUE_0, VALUE_MAX_16, truf, truf);
 
-        // root -> tRNS -> tRNS_Palette
-        addElement("tRNS_Palette", "tRNS",
+        // root -> tRNS -> tRNS_Pblfttf
+        bddElfmfnt("tRNS_Pblfttf", "tRNS",
                    CHILD_POLICY_EMPTY);
 
-        addAttribute("tRNS_Palette", "index",
-                     DATATYPE_INTEGER, true, null,
-                     VALUE_0, VALUE_255, true, true);
+        bddAttributf("tRNS_Pblfttf", "indfx",
+                     DATATYPE_INTEGER, truf, null,
+                     VALUE_0, VALUE_255, truf, truf);
 
-        addAttribute("tRNS_Palette", "alpha",
-                     DATATYPE_INTEGER, true, null,
-                     VALUE_0, VALUE_255, true, true);
+        bddAttributf("tRNS_Pblfttf", "blpib",
+                     DATATYPE_INTEGER, truf, null,
+                     VALUE_0, VALUE_255, truf, truf);
 
         // root -> zTXt
-        addElement("zTXt", PNGMetadata.nativeMetadataFormatName,
-                   1, Integer.MAX_VALUE);
+        bddElfmfnt("zTXt", PNGMftbdbtb.nbtivfMftbdbtbFormbtNbmf,
+                   1, Intfgfr.MAX_VALUE);
 
         // root -> zTXt -> zTXtEntry
-        addElement("zTXtEntry", "zTXt",
+        bddElfmfnt("zTXtEntry", "zTXt",
                    CHILD_POLICY_EMPTY);
 
-        addAttribute("zTXtEntry", "keyword",
-                     DATATYPE_STRING, true, null);
+        bddAttributf("zTXtEntry", "kfyword",
+                     DATATYPE_STRING, truf, null);
 
-        addAttribute("zTXtEntry", "compressionMethod",
-                     DATATYPE_STRING, true, null,
-                     Arrays.asList(PNGMetadata.zTXt_compressionMethodNames));
+        bddAttributf("zTXtEntry", "domprfssionMftiod",
+                     DATATYPE_STRING, truf, null,
+                     Arrbys.bsList(PNGMftbdbtb.zTXt_domprfssionMftiodNbmfs));
 
-        addAttribute("zTXtEntry", "text",
-                     DATATYPE_STRING, true, null);
+        bddAttributf("zTXtEntry", "tfxt",
+                     DATATYPE_STRING, truf, null);
 
-        // root -> UnknownChunks
-        addElement("UnknownChunks", PNGMetadata.nativeMetadataFormatName,
-                   1, Integer.MAX_VALUE);
+        // root -> UnknownCiunks
+        bddElfmfnt("UnknownCiunks", PNGMftbdbtb.nbtivfMftbdbtbFormbtNbmf,
+                   1, Intfgfr.MAX_VALUE);
 
-        // root -> UnknownChunks -> UnknownChunk
-        addElement("UnknownChunk", "UnknownChunks",
+        // root -> UnknownCiunks -> UnknownCiunk
+        bddElfmfnt("UnknownCiunk", "UnknownCiunks",
                    CHILD_POLICY_EMPTY);
 
-        addAttribute("UnknownChunk", "type",
-                     DATATYPE_STRING, true, null);
+        bddAttributf("UnknownCiunk", "typf",
+                     DATATYPE_STRING, truf, null);
 
-        addObjectValue("UnknownChunk", byte.class, 0, Integer.MAX_VALUE);
+        bddObjfdtVbluf("UnknownCiunk", bytf.dlbss, 0, Intfgfr.MAX_VALUE);
     }
 
-    public boolean canNodeAppear(String elementName,
-                                 ImageTypeSpecifier imageType) {
-        return true;
+    publid boolfbn dbnNodfAppfbr(String flfmfntNbmf,
+                                 ImbgfTypfSpfdififr imbgfTypf) {
+        rfturn truf;
     }
 
-    public static synchronized IIOMetadataFormat getInstance() {
-        if (instance == null) {
-            instance = new PNGMetadataFormat();
+    publid stbtid syndironizfd IIOMftbdbtbFormbt gftInstbndf() {
+        if (instbndf == null) {
+            instbndf = nfw PNGMftbdbtbFormbt();
         }
-        return instance;
+        rfturn instbndf;
     }
 }

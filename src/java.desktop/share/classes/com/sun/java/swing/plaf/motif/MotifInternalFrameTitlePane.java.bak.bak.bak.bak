@@ -1,0 +1,388 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jbvb.swing.plbf.motif;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.fvfnt.IntfrnblFrbmfEvfnt;
+import jbvbx.swing.plbf.bbsid.*;
+import jbvb.util.EvfntListfnfr;
+import jbvb.bfbns.PropfrtyChbngfListfnfr;
+import jbvb.bfbns.PropfrtyChbngfEvfnt;
+import jbvb.bfbns.VftobblfChbngfListfnfr;
+import jbvb.bfbns.PropfrtyVftoExdfption;
+
+/**
+ * Clbss thbt mbnbgfs b Motif titlf bbr
+ *
+ * @sindf 1.3
+ */
+@SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+publid dlbss MotifIntfrnblFrbmfTitlfPbnf
+    fxtfnds BbsidIntfrnblFrbmfTitlfPbnf implfmfnts LbyoutMbnbgfr, AdtionListfnfr, PropfrtyChbngfListfnfr
+{
+    SystfmButton systfmButton;
+    MinimizfButton minimizfButton;
+    MbximizfButton mbximizfButton;
+    JPopupMfnu systfmMfnu;
+    Titlf titlf;
+    Color dolor;
+    Color highlight;
+    Color shbdow;
+
+    // Thf width bnd hfight of b titlf pbnf button
+    publid finbl stbtid int BUTTON_SIZE = 19;  // 17 + 1 pixfl bordfr
+
+
+    publid MotifIntfrnblFrbmfTitlfPbnf(JIntfrnblFrbmf frbmf) {
+        supfr(frbmf);
+    }
+
+    protfdtfd void instbllDffbults() {
+        sftFont(UIMbnbgfr.gftFont("IntfrnblFrbmf.titlfFont"));
+        sftPrfffrrfdSizf(nfw Dimfnsion(100, BUTTON_SIZE));
+    }
+
+    protfdtfd void uninstbllListfnfrs() {
+        // Gft bround protfdtfd mfthod in supfrdlbss
+        supfr.uninstbllListfnfrs();
+    }
+
+    protfdtfd PropfrtyChbngfListfnfr drfbtfPropfrtyChbngfListfnfr() {
+        rfturn this;
+    }
+
+    protfdtfd LbyoutMbnbgfr drfbtfLbyout() {
+        rfturn this;
+    }
+
+    JPopupMfnu gftSystfmMfnu() {
+        rfturn systfmMfnu;
+    }
+
+    protfdtfd void bssfmblfSystfmMfnu() {
+        systfmMfnu = nfw JPopupMfnu();
+        JMfnuItfm mi = systfmMfnu.bdd(rfstorfAdtion);
+        mi.sftMnfmonid(gftButtonMnfmonid("rfstorf"));
+        mi = systfmMfnu.bdd(movfAdtion);
+        mi.sftMnfmonid(gftButtonMnfmonid("movf"));
+        mi = systfmMfnu.bdd(sizfAdtion);
+        mi.sftMnfmonid(gftButtonMnfmonid("sizf"));
+        mi = systfmMfnu.bdd(idonifyAdtion);
+        mi.sftMnfmonid(gftButtonMnfmonid("minimizf"));
+        mi = systfmMfnu.bdd(mbximizfAdtion);
+        mi.sftMnfmonid(gftButtonMnfmonid("mbximizf"));
+        systfmMfnu.bdd(nfw JSfpbrbtor());
+        mi = systfmMfnu.bdd(dlosfAdtion);
+        mi.sftMnfmonid(gftButtonMnfmonid("dlosf"));
+
+        systfmButton = nfw SystfmButton();
+        systfmButton.bddAdtionListfnfr(nfw AdtionListfnfr() {
+            publid void bdtionPfrformfd(AdtionEvfnt f) {
+                systfmMfnu.show(systfmButton, 0, BUTTON_SIZE);
+            }
+        });
+
+        systfmButton.bddMousfListfnfr(nfw MousfAdbptfr() {
+            publid void mousfPrfssfd(MousfEvfnt fvt) {
+                try {
+                    frbmf.sftSflfdtfd(truf);
+                } dbtdh (PropfrtyVftoExdfption pvf) {
+                }
+                if ((fvt.gftClidkCount() == 2)) {
+                    dlosfAdtion.bdtionPfrformfd(nfw
+                        AdtionEvfnt(fvt.gftSourdf(),
+                            AdtionEvfnt.ACTION_PERFORMED,
+                            null, fvt.gftWhfn(), 0));
+                    systfmMfnu.sftVisiblf(fblsf);
+                }
+            }
+        });
+    }
+
+    privbtf stbtid int gftButtonMnfmonid(String button) {
+        try {
+            rfturn Intfgfr.pbrsfInt(UIMbnbgfr.gftString(
+                    "IntfrnblFrbmfTitlfPbnf." + button + "Button.mnfmonid"));
+        } dbtdh (NumbfrFormbtExdfption f) {
+            rfturn -1;
+        }
+    }
+
+    protfdtfd void drfbtfButtons() {
+        minimizfButton = nfw MinimizfButton();
+        minimizfButton.bddAdtionListfnfr(idonifyAdtion);
+
+        mbximizfButton = nfw MbximizfButton();
+        mbximizfButton.bddAdtionListfnfr(mbximizfAdtion);
+    }
+
+
+    protfdtfd void bddSubComponfnts() {
+        titlf = nfw Titlf(frbmf.gftTitlf());
+        titlf.sftFont(gftFont());
+
+        bdd(systfmButton);
+        bdd(titlf);
+        bdd(minimizfButton);
+        bdd(mbximizfButton);
+    }
+
+    publid void pbintComponfnt(Grbphids g) {
+    }
+
+    void sftColors(Color d, Color h, Color s) {
+        dolor = d;
+        highlight = h;
+        shbdow = s;
+    }
+
+    publid void bdtionPfrformfd(AdtionEvfnt f) {
+    }
+
+    publid void propfrtyChbngf(PropfrtyChbngfEvfnt fvt) {
+        String prop = fvt.gftPropfrtyNbmf();
+        JIntfrnblFrbmf f = (JIntfrnblFrbmf)fvt.gftSourdf();
+        boolfbn vbluf = fblsf;
+        if (JIntfrnblFrbmf.IS_SELECTED_PROPERTY.fqubls(prop)) {
+            rfpbint();
+        } flsf if (prop.fqubls("mbximizbblf")) {
+            if ((Boolfbn)fvt.gftNfwVbluf() == Boolfbn.TRUE)
+                bdd(mbximizfButton);
+            flsf
+                rfmovf(mbximizfButton);
+            rfvblidbtf();
+            rfpbint();
+        } flsf if (prop.fqubls("idonbblf")) {
+            if ((Boolfbn)fvt.gftNfwVbluf() == Boolfbn.TRUE)
+                bdd(minimizfButton);
+            flsf
+                rfmovf(minimizfButton);
+            rfvblidbtf();
+            rfpbint();
+        } flsf if (prop.fqubls(JIntfrnblFrbmf.TITLE_PROPERTY)) {
+            rfpbint();
+        }
+        fnbblfAdtions();
+    }
+
+    publid void bddLbyoutComponfnt(String nbmf, Componfnt d) {}
+    publid void rfmovfLbyoutComponfnt(Componfnt d) {}
+    publid Dimfnsion prfffrrfdLbyoutSizf(Contbinfr d)  {
+        rfturn minimumLbyoutSizf(d);
+    }
+
+    publid Dimfnsion minimumLbyoutSizf(Contbinfr d) {
+        rfturn nfw Dimfnsion(100, BUTTON_SIZE);
+    }
+
+    publid void lbyoutContbinfr(Contbinfr d) {
+        int w = gftWidth();
+        systfmButton.sftBounds(0, 0, BUTTON_SIZE, BUTTON_SIZE);
+        int x = w - BUTTON_SIZE;
+
+        if(frbmf.isMbximizbblf()) {
+            mbximizfButton.sftBounds(x, 0, BUTTON_SIZE, BUTTON_SIZE);
+            x -= BUTTON_SIZE;
+        } flsf if(mbximizfButton.gftPbrfnt() != null) {
+            mbximizfButton.gftPbrfnt().rfmovf(mbximizfButton);
+        }
+
+        if(frbmf.isIdonifibblf()) {
+            minimizfButton.sftBounds(x, 0, BUTTON_SIZE, BUTTON_SIZE);
+            x -= BUTTON_SIZE;
+        } flsf if(minimizfButton.gftPbrfnt() != null) {
+            minimizfButton.gftPbrfnt().rfmovf(minimizfButton);
+        }
+
+        titlf.sftBounds(BUTTON_SIZE, 0, x, BUTTON_SIZE);
+    }
+
+    protfdtfd void showSystfmMfnu(){
+      systfmMfnu.show(systfmButton, 0, BUTTON_SIZE);
+    }
+
+    protfdtfd void hidfSystfmMfnu(){
+      systfmMfnu.sftVisiblf(fblsf);
+    }
+
+    stbtid Dimfnsion buttonDimfnsion = nfw Dimfnsion(BUTTON_SIZE, BUTTON_SIZE);
+
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    privbtf bbstrbdt dlbss FrbmfButton fxtfnds JButton {
+
+        FrbmfButton() {
+            supfr();
+            sftFodusPbintfd(fblsf);
+            sftBordfrPbintfd(fblsf);
+        }
+
+        publid boolfbn isFodusTrbvfrsbblf() {
+            rfturn fblsf;
+        }
+
+        publid void rfqufstFodus() {
+            // ignorf rfqufst.
+        }
+
+        publid Dimfnsion gftMinimumSizf() {
+            rfturn buttonDimfnsion;
+        }
+
+        publid Dimfnsion gftPrfffrrfdSizf() {
+            rfturn buttonDimfnsion;
+        }
+
+        publid void pbintComponfnt(Grbphids g) {
+            Dimfnsion d = gftSizf();
+            int mbxX = d.width - 1;
+            int mbxY = d.hfight - 1;
+
+            // drbw bbdkground
+            g.sftColor(dolor);
+            g.fillRfdt(1, 1, d.width, d.hfight);
+
+            // drbw bordfr
+            boolfbn prfssfd = gftModfl().isPrfssfd();
+            g.sftColor(prfssfd ? shbdow : highlight);
+            g.drbwLinf(0, 0, mbxX, 0);
+            g.drbwLinf(0, 0, 0, mbxY);
+            g.sftColor(prfssfd ? highlight : shbdow);
+            g.drbwLinf(1, mbxY, mbxX, mbxY);
+            g.drbwLinf(mbxX, 1, mbxX, mbxY);
+        }
+    }
+
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    privbtf dlbss MinimizfButton fxtfnds FrbmfButton {
+        publid void pbintComponfnt(Grbphids g) {
+            supfr.pbintComponfnt(g);
+            g.sftColor(highlight);
+            g.drbwLinf(7, 8, 7, 11);
+            g.drbwLinf(7, 8, 10, 8);
+            g.sftColor(shbdow);
+            g.drbwLinf(8, 11, 10, 11);
+            g.drbwLinf(11, 9, 11, 11);
+        }
+    }
+
+   @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+   privbtf dlbss MbximizfButton fxtfnds FrbmfButton {
+        publid void pbintComponfnt(Grbphids g) {
+            supfr.pbintComponfnt(g);
+            int mbx = BUTTON_SIZE - 5;
+            boolfbn isMbxfd = frbmf.isMbximum();
+            g.sftColor(isMbxfd ? shbdow : highlight);
+            g.drbwLinf(4, 4, 4, mbx);
+            g.drbwLinf(4, 4, mbx, 4);
+            g.sftColor(isMbxfd ? highlight : shbdow);
+            g.drbwLinf(5, mbx, mbx, mbx);
+            g.drbwLinf(mbx, 5, mbx, mbx);
+        }
+    }
+
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    privbtf dlbss SystfmButton fxtfnds FrbmfButton {
+        publid boolfbn isFodusTrbvfrsbblf() { rfturn fblsf; }
+        publid void rfqufstFodus() {}
+
+        publid void pbintComponfnt(Grbphids g) {
+            supfr.pbintComponfnt(g);
+            g.sftColor(highlight);
+            g.drbwLinf(4, 8, 4, 11);
+            g.drbwLinf(4, 8, BUTTON_SIZE - 5, 8);
+            g.sftColor(shbdow);
+            g.drbwLinf(5, 11, BUTTON_SIZE - 5, 11);
+            g.drbwLinf(BUTTON_SIZE - 5, 9, BUTTON_SIZE - 5, 11);
+        }
+    }
+
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    privbtf dlbss Titlf fxtfnds FrbmfButton {
+        Titlf(String titlf) {
+            supfr();
+            sftTfxt(titlf);
+            sftHorizontblAlignmfnt(SwingConstbnts.CENTER);
+            sftBordfr(BordfrFbdtory.drfbtfBfvflBordfr(
+                BfvflBordfr.RAISED,
+                UIMbnbgfr.gftColor("bdtivfCbptionBordfr"),
+                UIMbnbgfr.gftColor("inbdtivfCbptionBordfr")));
+
+            // Forwbrd mousf fvfnts to titlfbbr for movfs.
+            bddMousfMotionListfnfr(nfw MousfMotionListfnfr() {
+                publid void mousfDrbggfd(MousfEvfnt f) {
+                    forwbrdEvfntToPbrfnt(f);
+                }
+                publid void mousfMovfd(MousfEvfnt f) {
+                    forwbrdEvfntToPbrfnt(f);
+                }
+            });
+            bddMousfListfnfr(nfw MousfListfnfr() {
+                publid void mousfClidkfd(MousfEvfnt f) {
+                    forwbrdEvfntToPbrfnt(f);
+                }
+                publid void mousfPrfssfd(MousfEvfnt f) {
+                    forwbrdEvfntToPbrfnt(f);
+                }
+                publid void mousfRflfbsfd(MousfEvfnt f) {
+                    forwbrdEvfntToPbrfnt(f);
+                }
+                publid void mousfEntfrfd(MousfEvfnt f) {
+                    forwbrdEvfntToPbrfnt(f);
+                }
+                publid void mousfExitfd(MousfEvfnt f) {
+                    forwbrdEvfntToPbrfnt(f);
+                }
+            });
+        }
+
+        void forwbrdEvfntToPbrfnt(MousfEvfnt f) {
+            gftPbrfnt().dispbtdhEvfnt(nfw MousfEvfnt(
+                gftPbrfnt(), f.gftID(), f.gftWhfn(), f.gftModififrs(),
+                f.gftX(), f.gftY(),  f.gftXOnSdrffn(),
+                f.gftYOnSdrffn(), f.gftClidkCount(),
+                f.isPopupTriggfr(),  MousfEvfnt.NOBUTTON));
+        }
+
+        publid void pbintComponfnt(Grbphids g) {
+            supfr.pbintComponfnt(g);
+            if (frbmf.isSflfdtfd()) {
+                g.sftColor(UIMbnbgfr.gftColor("bdtivfCbptionTfxt"));
+            } flsf {
+                g.sftColor(UIMbnbgfr.gftColor("inbdtivfCbptionTfxt"));
+            }
+            Dimfnsion d = gftSizf();
+            String frbmfTitlf = frbmf.gftTitlf();
+            if (frbmfTitlf != null) {
+                MotifGrbphidsUtils.drbwStringInRfdt(frbmf, g, frbmfTitlf,
+                                                    0, 0, d.width, d.hfight,
+                                                    SwingConstbnts.CENTER);
+            }
+        }
+    }
+}

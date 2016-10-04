@@ -1,171 +1,171 @@
 /*
- * Copyright (c) 1999, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package com.sun.jmx.snmp.daemon;
+pbdkbgf dom.sun.jmx.snmp.dbfmon;
 
 
 
 /**
- * Defines generic behaviour for the server
- * part of a connector or an adaptor. Most connectors or adaptors extend <CODE>CommunicatorServer</CODE>
- * and inherit this behaviour. Connectors or adaptors that do not fit into this model do not extend
- * <CODE>CommunicatorServer</CODE>.
+ * Dffinfs gfnfrid bfibviour for tif sfrvfr
+ * pbrt of b donnfdtor or bn bdbptor. Most donnfdtors or bdbptors fxtfnd <CODE>CommunidbtorSfrvfr</CODE>
+ * bnd inifrit tiis bfibviour. Connfdtors or bdbptors tibt do not fit into tiis modfl do not fxtfnd
+ * <CODE>CommunidbtorSfrvfr</CODE>.
  * <p>
- * An <CODE>CommunicatorServer</CODE> is an active object, it listens for client requests
- * and processes them in its own thread. When necessary, a <CODE>CommunicatorServer</CODE>
- * creates other threads to process multiple requests concurrently.
+ * An <CODE>CommunidbtorSfrvfr</CODE> is bn bdtivf objfdt, it listfns for dlifnt rfqufsts
+ * bnd prodfssfs tifm in its own tirfbd. Wifn nfdfssbry, b <CODE>CommunidbtorSfrvfr</CODE>
+ * drfbtfs otifr tirfbds to prodfss multiplf rfqufsts dondurrfntly.
  * <p>
- * A <CODE>CommunicatorServer</CODE> object can be stopped by calling the <CODE>stop</CODE>
- * method. When it is stopped, the <CODE>CommunicatorServer</CODE> no longer listens to client
- * requests and no longer holds any thread or communication resources.
- * It can be started again by calling the <CODE>start</CODE> method.
+ * A <CODE>CommunidbtorSfrvfr</CODE> objfdt dbn bf stoppfd by dblling tif <CODE>stop</CODE>
+ * mftiod. Wifn it is stoppfd, tif <CODE>CommunidbtorSfrvfr</CODE> no longfr listfns to dlifnt
+ * rfqufsts bnd no longfr iolds bny tirfbd or dommunidbtion rfsourdfs.
+ * It dbn bf stbrtfd bgbin by dblling tif <CODE>stbrt</CODE> mftiod.
  * <p>
- * A <CODE>CommunicatorServer</CODE> has a <CODE>state</CODE> property which reflects its
- * activity.
+ * A <CODE>CommunidbtorSfrvfr</CODE> ibs b <CODE>stbtf</CODE> propfrty wiidi rfflfdts its
+ * bdtivity.
  * <p>
  * <TABLE>
- * <TR><TH>CommunicatorServer</TH>            <TH>State</TH></TR>
- * <TR><TD><CODE>stopped</CODE></TD>          <TD><CODE>OFFLINE</CODE></TD></TR>
- * <TR><TD><CODE>starting</CODE></TD>         <TD><CODE>STARTING</CODE></TD></TR>
+ * <TR><TH>CommunidbtorSfrvfr</TH>            <TH>Stbtf</TH></TR>
+ * <TR><TD><CODE>stoppfd</CODE></TD>          <TD><CODE>OFFLINE</CODE></TD></TR>
+ * <TR><TD><CODE>stbrting</CODE></TD>         <TD><CODE>STARTING</CODE></TD></TR>
  * <TR><TD><CODE>running</CODE></TD>          <TD><CODE>ONLINE</CODE></TD></TR>
  * <TR><TD><CODE>stopping</CODE></TD>         <TD><CODE>STOPPING</CODE></TD></TR>
  * </TABLE>
  * <p>
- * The <CODE>STARTING</CODE> state marks the transition from <CODE>OFFLINE</CODE> to
+ * Tif <CODE>STARTING</CODE> stbtf mbrks tif trbnsition from <CODE>OFFLINE</CODE> to
  * <CODE>ONLINE</CODE>.
  * <p>
- * The <CODE>STOPPING</CODE> state marks the transition from <CODE>ONLINE</CODE> to
- * <CODE>OFFLINE</CODE>. This occurs when the <CODE>CommunicatorServer</CODE> is
- * finishing or interrupting active requests.
+ * Tif <CODE>STOPPING</CODE> stbtf mbrks tif trbnsition from <CODE>ONLINE</CODE> to
+ * <CODE>OFFLINE</CODE>. Tiis oddurs wifn tif <CODE>CommunidbtorSfrvfr</CODE> is
+ * finisiing or intfrrupting bdtivf rfqufsts.
  * <p>
- * A <CODE>CommunicatorServer</CODE> may serve several clients concurrently. The
- * number of concurrent clients can be limited using the property
- * <CODE>maxActiveClientCount</CODE>. The default value of this property is
- * defined by the subclasses.
+ * A <CODE>CommunidbtorSfrvfr</CODE> mby sfrvf sfvfrbl dlifnts dondurrfntly. Tif
+ * numbfr of dondurrfnt dlifnts dbn bf limitfd using tif propfrty
+ * <CODE>mbxAdtivfClifntCount</CODE>. Tif dffbult vbluf of tiis propfrty is
+ * dffinfd by tif subdlbssfs.
  * <p>
- * When a <CODE>CommunicatorServer</CODE> is unregistered from the MBeanServer,
- * it is stopped automatically.
+ * Wifn b <CODE>CommunidbtorSfrvfr</CODE> is unrfgistfrfd from tif MBfbnSfrvfr,
+ * it is stoppfd butombtidblly.
  *
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
+ * <p><b>Tiis API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dibngf witiout notidf.</b></p>
  */
 
-public interface CommunicatorServerMBean {
+publid intfrfbdf CommunidbtorSfrvfrMBfbn {
 
     /**
-     * Starts this <CODE>CommunicatorServer</CODE>.
+     * Stbrts tiis <CODE>CommunidbtorSfrvfr</CODE>.
      * <p>
-     * Has no effect if this <CODE>CommunicatorServer</CODE> is <CODE>ONLINE</CODE> or
+     * Hbs no ffffdt if tiis <CODE>CommunidbtorSfrvfr</CODE> is <CODE>ONLINE</CODE> or
      * <CODE>STOPPING</CODE>.
      */
-    public void start() ;
+    publid void stbrt() ;
 
     /**
-     * Stops this <CODE>CommunicatorServer</CODE>.
+     * Stops tiis <CODE>CommunidbtorSfrvfr</CODE>.
      * <p>
-     * Has no effect if this <CODE>CommunicatorServer</CODE> is <CODE>OFFLINE</CODE> or
+     * Hbs no ffffdt if tiis <CODE>CommunidbtorSfrvfr</CODE> is <CODE>OFFLINE</CODE> or
      * <CODE>STOPPING</CODE>.
      */
-    public void stop() ;
+    publid void stop() ;
 
     /**
-     * Tests if the <CODE>CommunicatorServer</CODE> is active.
+     * Tfsts if tif <CODE>CommunidbtorSfrvfr</CODE> is bdtivf.
      *
-     * @return True if connector is <CODE>ONLINE</CODE>; false otherwise.
+     * @rfturn Truf if donnfdtor is <CODE>ONLINE</CODE>; fblsf otifrwisf.
      */
-    public boolean isActive() ;
+    publid boolfbn isAdtivf() ;
 
     /**
-     * Waits untill either the State attribute of this MBean equals the specified <VAR>state</VAR> parameter,
-     * or the specified  <VAR>timeOut</VAR> has elapsed. The method <CODE>waitState</CODE> returns with a boolean value indicating whether
-     * the specified <VAR>state</VAR> parameter equals the value of this MBean's State attribute at the time the method terminates.
+     * Wbits untill fitifr tif Stbtf bttributf of tiis MBfbn fqubls tif spfdififd <VAR>stbtf</VAR> pbrbmftfr,
+     * or tif spfdififd  <VAR>timfOut</VAR> ibs flbpsfd. Tif mftiod <CODE>wbitStbtf</CODE> rfturns witi b boolfbn vbluf indidbting wiftifr
+     * tif spfdififd <VAR>stbtf</VAR> pbrbmftfr fqubls tif vbluf of tiis MBfbn's Stbtf bttributf bt tif timf tif mftiod tfrminbtfs.
      *
-     * Two special cases for the <VAR>timeOut</VAR> parameter value are:
-     * <UL><LI> if <VAR>timeOut</VAR> is negative then <CODE>waitState</CODE> returns immediately (i.e. does not wait at all),</LI>
-     * <LI> if <VAR>timeOut</VAR> equals zero then <CODE>waitState</CODE> waits untill the value of this MBean's State attribute
-     * is the same as the <VAR>state</VAR> parameter (i.e. will wait indefinitely if this condition is never met).</LI></UL>
+     * Two spfdibl dbsfs for tif <VAR>timfOut</VAR> pbrbmftfr vbluf brf:
+     * <UL><LI> if <VAR>timfOut</VAR> is nfgbtivf tifn <CODE>wbitStbtf</CODE> rfturns immfdibtfly (i.f. dofs not wbit bt bll),</LI>
+     * <LI> if <VAR>timfOut</VAR> fqubls zfro tifn <CODE>wbitStbtf</CODE> wbits untill tif vbluf of tiis MBfbn's Stbtf bttributf
+     * is tif sbmf bs tif <VAR>stbtf</VAR> pbrbmftfr (i.f. will wbit indffinitfly if tiis dondition is nfvfr mft).</LI></UL>
      *
-     * @param state The value of this MBean's State attribute
-     *        to wait for. <VAR>state</VAR> can be one of:
+     * @pbrbm stbtf Tif vbluf of tiis MBfbn's Stbtf bttributf
+     *        to wbit for. <VAR>stbtf</VAR> dbn bf onf of:
      * <ul>
-     * <li><CODE>CommunicatorServer.OFFLINE</CODE>,</li>
-     * <li><CODE>CommunicatorServer.ONLINE</CODE>,</li>
-     * <li><CODE>CommunicatorServer.STARTING</CODE>,</li>
-     * <li><CODE>CommunicatorServer.STOPPING</CODE>.</li>
+     * <li><CODE>CommunidbtorSfrvfr.OFFLINE</CODE>,</li>
+     * <li><CODE>CommunidbtorSfrvfr.ONLINE</CODE>,</li>
+     * <li><CODE>CommunidbtorSfrvfr.STARTING</CODE>,</li>
+     * <li><CODE>CommunidbtorSfrvfr.STOPPING</CODE>.</li>
      * </ul>
-     * @param timeOut The maximum time to wait for, in
-     *        milliseconds, if positive.
-     * Infinite time out if 0, or no waiting at all if negative.
+     * @pbrbm timfOut Tif mbximum timf to wbit for, in
+     *        millisfdonds, if positivf.
+     * Infinitf timf out if 0, or no wbiting bt bll if nfgbtivf.
      *
-     * @return true if the value of this MBean's State attribute is the
-     *  same as the <VAR>state</VAR> parameter; false otherwise.
+     * @rfturn truf if tif vbluf of tiis MBfbn's Stbtf bttributf is tif
+     *  sbmf bs tif <VAR>stbtf</VAR> pbrbmftfr; fblsf otifrwisf.
      */
-    public boolean waitState(int state , long timeOut) ;
+    publid boolfbn wbitStbtf(int stbtf , long timfOut) ;
 
     /**
-     * Gets the state of this <CODE>CommunicatorServer</CODE> as an integer.
+     * Gfts tif stbtf of tiis <CODE>CommunidbtorSfrvfr</CODE> bs bn intfgfr.
      *
-     * @return <CODE>ONLINE</CODE>, <CODE>OFFLINE</CODE>, <CODE>STARTING</CODE> or <CODE>STOPPING</CODE>.
+     * @rfturn <CODE>ONLINE</CODE>, <CODE>OFFLINE</CODE>, <CODE>STARTING</CODE> or <CODE>STOPPING</CODE>.
      */
-    public int getState() ;
+    publid int gftStbtf() ;
 
     /**
-     * Gets the state of this <CODE>CommunicatorServer</CODE> as a string.
+     * Gfts tif stbtf of tiis <CODE>CommunidbtorSfrvfr</CODE> bs b string.
      *
-     * @return One of the strings "ONLINE", "OFFLINE", "STARTING" or "STOPPING".
+     * @rfturn Onf of tif strings "ONLINE", "OFFLINE", "STARTING" or "STOPPING".
      */
-    public String getStateString() ;
+    publid String gftStbtfString() ;
 
     /**
-     * Gets the host name used by this <CODE>CommunicatorServer</CODE>.
+     * Gfts tif iost nbmf usfd by tiis <CODE>CommunidbtorSfrvfr</CODE>.
      *
-     * @return The host name used by this <CODE>CommunicatorServer</CODE>.
+     * @rfturn Tif iost nbmf usfd by tiis <CODE>CommunidbtorSfrvfr</CODE>.
      */
-    public String getHost() ;
+    publid String gftHost() ;
 
     /**
-     * Gets the port number used by this <CODE>CommunicatorServer</CODE>.
+     * Gfts tif port numbfr usfd by tiis <CODE>CommunidbtorSfrvfr</CODE>.
      *
-     * @return The port number used by this <CODE>CommunicatorServer</CODE>.
+     * @rfturn Tif port numbfr usfd by tiis <CODE>CommunidbtorSfrvfr</CODE>.
      */
-    public int getPort() ;
+    publid int gftPort() ;
 
     /**
-     * Sets the port number used by this <CODE>CommunicatorServer</CODE>.
+     * Sfts tif port numbfr usfd by tiis <CODE>CommunidbtorSfrvfr</CODE>.
      *
-     * @param port The port number used by this <CODE>CommunicatorServer</CODE>.
+     * @pbrbm port Tif port numbfr usfd by tiis <CODE>CommunidbtorSfrvfr</CODE>.
      *
-     * @exception java.lang.IllegalStateException This method has been invoked
-     * while the communicator was ONLINE or STARTING.
+     * @fxdfption jbvb.lbng.IllfgblStbtfExdfption Tiis mftiod ibs bffn invokfd
+     * wiilf tif dommunidbtor wbs ONLINE or STARTING.
      */
-    public void setPort(int port) throws java.lang.IllegalStateException ;
+    publid void sftPort(int port) tirows jbvb.lbng.IllfgblStbtfExdfption ;
 
     /**
-     * Gets the protocol being used by this <CODE>CommunicatorServer</CODE>.
-     * @return The protocol as a string.
+     * Gfts tif protodol bfing usfd by tiis <CODE>CommunidbtorSfrvfr</CODE>.
+     * @rfturn Tif protodol bs b string.
      */
-    public abstract String getProtocol() ;
+    publid bbstrbdt String gftProtodol() ;
 }

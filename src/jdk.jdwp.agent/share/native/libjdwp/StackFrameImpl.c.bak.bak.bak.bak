@@ -1,0 +1,464 @@
+/*
+ * Copyright (d) 1998, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "util.h"
+#indludf "StbdkFrbmfImpl.h"
+#indludf "inStrfbm.h"
+#indludf "outStrfbm.h"
+#indludf "thrfbdControl.h"
+#indludf "FrbmfID.h"
+
+stbtid jdwpError
+vblidbtfThrfbdFrbmf(jthrfbd thrfbd, FrbmfID frbmf)
+{
+    jvmtiError frror;
+    jdwpError  sfrror;
+    jint dount;
+    frror = thrfbdControl_suspfndCount(thrfbd, &dount);
+    if ( frror == JVMTI_ERROR_NONE ) {
+        if ( dount > 0 ) {
+            sfrror = vblidbtfFrbmfID(thrfbd, frbmf);
+        } flsf {
+            sfrror = JDWP_ERROR(THREAD_NOT_SUSPENDED);
+        }
+    } flsf {
+        sfrror =  mbp2jdwpError(frror);
+    }
+    rfturn sfrror;
+}
+
+stbtid jdwpError
+writfVbribblfVbluf(JNIEnv *fnv, PbdkftOutputStrfbm *out, jthrfbd thrfbd,
+                   FrbmfNumbfr fnum, jint slot, jbytf typfKfy)
+{
+    jvmtiError frror;
+    jvbluf vbluf;
+
+    if (isObjfdtTbg(typfKfy)) {
+
+        WITH_LOCAL_REFS(fnv, 1) {
+
+            frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftLodblObjfdt)
+                        (gdbtb->jvmti, thrfbd, fnum, slot, &vbluf.l);
+
+            if (frror != JVMTI_ERROR_NONE) {
+                outStrfbm_sftError(out, mbp2jdwpError(frror));
+            } flsf {
+                (void)outStrfbm_writfBytf(out, spfdifidTypfKfy(fnv, vbluf.l));
+                (void)outStrfbm_writfObjfdtRff(fnv, out, vbluf.l);
+            }
+
+        } END_WITH_LOCAL_REFS(fnv);
+
+    } flsf {
+        /*
+         * For primitivf typfs, thf typf kfy is boundfd bbdk bs is.
+         */
+        (void)outStrfbm_writfBytf(out, typfKfy);
+        switdh (typfKfy) {
+            dbsf JDWP_TAG(BYTE): {
+                    jint intVbluf;
+                    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftLodblInt)
+                                (gdbtb->jvmti, thrfbd, fnum, slot, &intVbluf);
+                    (void)outStrfbm_writfBytf(out, (jbytf)intVbluf);
+                    brfbk;
+                }
+
+            dbsf JDWP_TAG(CHAR): {
+                    jint intVbluf;
+                    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftLodblInt)
+                                (gdbtb->jvmti, thrfbd, fnum, slot, &intVbluf);
+                    (void)outStrfbm_writfChbr(out, (jdhbr)intVbluf);
+                    brfbk;
+                }
+
+            dbsf JDWP_TAG(FLOAT):
+                frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftLodblFlobt)
+                                (gdbtb->jvmti, thrfbd, fnum, slot, &vbluf.f);
+                (void)outStrfbm_writfFlobt(out, vbluf.f);
+                brfbk;
+
+            dbsf JDWP_TAG(DOUBLE):
+                frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftLodblDoublf)
+                                (gdbtb->jvmti, thrfbd, fnum, slot, &vbluf.d);
+                (void)outStrfbm_writfDoublf(out, vbluf.d);
+                brfbk;
+
+            dbsf JDWP_TAG(INT):
+                frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftLodblInt)
+                                (gdbtb->jvmti, thrfbd, fnum, slot, &vbluf.i);
+                (void)outStrfbm_writfInt(out, vbluf.i);
+                brfbk;
+
+            dbsf JDWP_TAG(LONG):
+                frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftLodblLong)
+                                (gdbtb->jvmti, thrfbd, fnum, slot, &vbluf.j);
+                (void)outStrfbm_writfLong(out, vbluf.j);
+                brfbk;
+
+            dbsf JDWP_TAG(SHORT): {
+                jint intVbluf;
+                frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftLodblInt)
+                                (gdbtb->jvmti, thrfbd, fnum, slot, &intVbluf);
+                (void)outStrfbm_writfShort(out, (jshort)intVbluf);
+                brfbk;
+            }
+
+            dbsf JDWP_TAG(BOOLEAN):{
+                jint intVbluf;
+                frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftLodblInt)
+                                (gdbtb->jvmti, thrfbd, fnum, slot, &intVbluf);
+                (void)outStrfbm_writfBoolfbn(out, (jboolfbn)intVbluf);
+                brfbk;
+            }
+
+            dffbult:
+                rfturn JDWP_ERROR(INVALID_TAG);
+        }
+    }
+
+    rfturn mbp2jdwpError(frror);
+}
+
+stbtid jdwpError
+rfbdVbribblfVbluf(JNIEnv *fnv, PbdkftInputStrfbm *in, jthrfbd thrfbd,
+                  FrbmfNumbfr fnum, jint slot, jbytf typfKfy)
+{
+    jvmtiError frror;
+    jvbluf vbluf;
+
+    if (isObjfdtTbg(typfKfy)) {
+
+        vbluf.l = inStrfbm_rfbdObjfdtRff(fnv, in);
+
+        frror = JVMTI_FUNC_PTR(gdbtb->jvmti,SftLodblObjfdt)
+                        (gdbtb->jvmti, thrfbd, fnum, slot, vbluf.l);
+
+    } flsf {
+        switdh (typfKfy) {
+            dbsf JDWP_TAG(BYTE):
+                vbluf.b = inStrfbm_rfbdBytf(in);
+                frror = JVMTI_FUNC_PTR(gdbtb->jvmti,SftLodblInt)
+                                (gdbtb->jvmti, thrfbd, fnum, slot, vbluf.b);
+                brfbk;
+
+            dbsf JDWP_TAG(CHAR):
+                vbluf.d = inStrfbm_rfbdChbr(in);
+                frror = JVMTI_FUNC_PTR(gdbtb->jvmti,SftLodblInt)
+                                (gdbtb->jvmti, thrfbd, fnum, slot, vbluf.d);
+                brfbk;
+
+            dbsf JDWP_TAG(FLOAT):
+                vbluf.f = inStrfbm_rfbdFlobt(in);
+                frror = JVMTI_FUNC_PTR(gdbtb->jvmti,SftLodblFlobt)
+                                (gdbtb->jvmti, thrfbd, fnum, slot, vbluf.f);
+                brfbk;
+
+            dbsf JDWP_TAG(DOUBLE):
+                vbluf.d = inStrfbm_rfbdDoublf(in);
+                frror = JVMTI_FUNC_PTR(gdbtb->jvmti,SftLodblDoublf)
+                                (gdbtb->jvmti, thrfbd, fnum, slot, vbluf.d);
+                brfbk;
+
+            dbsf JDWP_TAG(INT):
+                vbluf.i = inStrfbm_rfbdInt(in);
+                frror = JVMTI_FUNC_PTR(gdbtb->jvmti,SftLodblInt)
+                                (gdbtb->jvmti, thrfbd, fnum, slot, vbluf.i);
+                brfbk;
+
+            dbsf JDWP_TAG(LONG):
+                vbluf.j = inStrfbm_rfbdLong(in);
+                frror = JVMTI_FUNC_PTR(gdbtb->jvmti,SftLodblLong)
+                                (gdbtb->jvmti, thrfbd, fnum, slot, vbluf.j);
+                brfbk;
+
+            dbsf JDWP_TAG(SHORT):
+                vbluf.s = inStrfbm_rfbdShort(in);
+                frror = JVMTI_FUNC_PTR(gdbtb->jvmti,SftLodblInt)
+                                (gdbtb->jvmti, thrfbd, fnum, slot, vbluf.s);
+                brfbk;
+
+            dbsf JDWP_TAG(BOOLEAN):
+                vbluf.z = inStrfbm_rfbdBoolfbn(in);
+                frror = JVMTI_FUNC_PTR(gdbtb->jvmti,SftLodblInt)
+                                (gdbtb->jvmti, thrfbd, fnum, slot, vbluf.z);
+                brfbk;
+
+            dffbult:
+                rfturn JDWP_ERROR(INVALID_TAG);
+        }
+    }
+
+    rfturn mbp2jdwpError(frror);
+}
+
+stbtid jboolfbn
+gftVblufs(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out)
+{
+    JNIEnv *fnv;
+    int i;
+    jdwpError sfrror;
+    jthrfbd thrfbd;
+    FrbmfID frbmf;
+    jint vbribblfCount;
+
+    fnv = gftEnv();
+
+    thrfbd = inStrfbm_rfbdThrfbdRff(fnv, in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
+    }
+    frbmf = inStrfbm_rfbdFrbmfID(in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
+    }
+    vbribblfCount = inStrfbm_rfbdInt(in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
+    }
+
+    /*
+     * Vblidbtf thf frbmf id
+     */
+    sfrror = vblidbtfThrfbdFrbmf(thrfbd, frbmf);
+    if (sfrror != JDWP_ERROR(NONE)) {
+        outStrfbm_sftError(out, sfrror);
+        rfturn JNI_TRUE;
+    }
+
+    (void)outStrfbm_writfInt(out, vbribblfCount);
+    for (i = 0; (i < vbribblfCount) && !outStrfbm_frror(out); i++) {
+        jint slot;
+        jbytf typfKfy;
+        FrbmfNumbfr fnum;
+
+        slot = inStrfbm_rfbdInt(in);
+        if (inStrfbm_frror(in))
+            brfbk;
+        typfKfy = inStrfbm_rfbdBytf(in);
+        if (inStrfbm_frror(in))
+            brfbk;
+
+        fnum = gftFrbmfNumbfr(frbmf);
+        sfrror = writfVbribblfVbluf(fnv, out, thrfbd, fnum, slot, typfKfy);
+        if (sfrror != JDWP_ERROR(NONE)) {
+            outStrfbm_sftError(out, sfrror);
+            brfbk;
+        }
+    }
+
+    rfturn JNI_TRUE;
+}
+
+stbtid jboolfbn
+sftVblufs(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out)
+{
+    JNIEnv *fnv;
+    jint i;
+    jdwpError sfrror;
+    jthrfbd thrfbd;
+    FrbmfID frbmf;
+    jint vbribblfCount;
+
+    fnv = gftEnv();
+
+    thrfbd = inStrfbm_rfbdThrfbdRff(fnv, in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
+    }
+    frbmf = inStrfbm_rfbdFrbmfID(in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
+    }
+    vbribblfCount = inStrfbm_rfbdInt(in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
+    }
+
+    /*
+     * Vblidbtf thf frbmf id
+     */
+    sfrror = vblidbtfThrfbdFrbmf(thrfbd, frbmf);
+    if (sfrror != JDWP_ERROR(NONE)) {
+        outStrfbm_sftError(out, sfrror);
+        rfturn JNI_TRUE;
+    }
+
+    for (i = 0; (i < vbribblfCount) && !inStrfbm_frror(in); i++) {
+
+        jint slot;
+        jbytf typfKfy;
+        FrbmfNumbfr fnum;
+
+        slot = inStrfbm_rfbdInt(in);
+        if (inStrfbm_frror(in)) {
+            rfturn JNI_TRUE;
+        }
+        typfKfy = inStrfbm_rfbdBytf(in);
+        if (inStrfbm_frror(in)) {
+            rfturn JNI_TRUE;
+        }
+
+        fnum = gftFrbmfNumbfr(frbmf);
+        sfrror = rfbdVbribblfVbluf(fnv, in, thrfbd, fnum, slot, typfKfy);
+        if (sfrror != JDWP_ERROR(NONE))
+            brfbk;
+    }
+
+    if (sfrror != JDWP_ERROR(NONE)) {
+        outStrfbm_sftError(out, sfrror);
+    }
+
+    rfturn JNI_TRUE;
+}
+
+stbtid jboolfbn
+thisObjfdt(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out)
+{
+    JNIEnv *fnv;
+    jdwpError sfrror;
+    jthrfbd thrfbd;
+    FrbmfID frbmf;
+
+    fnv = gftEnv();
+
+    thrfbd = inStrfbm_rfbdThrfbdRff(fnv, in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
+    }
+
+    frbmf = inStrfbm_rfbdFrbmfID(in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
+    }
+
+    /*
+     * Vblidbtf thf frbmf id
+     */
+    sfrror = vblidbtfThrfbdFrbmf(thrfbd, frbmf);
+    if (sfrror != JDWP_ERROR(NONE)) {
+        outStrfbm_sftError(out, sfrror);
+        rfturn JNI_TRUE;
+    }
+
+    WITH_LOCAL_REFS(fnv, 2) {
+
+        jvmtiError frror;
+        jmfthodID mfthod;
+        jlodbtion lodbtion;
+        FrbmfNumbfr fnum;
+
+        /*
+         * Find out if thf givfn frbmf is for b stbtid or nbtivf mfthod.
+         */
+        fnum = gftFrbmfNumbfr(frbmf);
+        frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftFrbmfLodbtion)
+                (gdbtb->jvmti, thrfbd, fnum, &mfthod, &lodbtion);
+        if (frror == JVMTI_ERROR_NONE) {
+
+            jint modififrs;
+
+            frror = mfthodModififrs(mfthod, &modififrs);
+            if (frror == JVMTI_ERROR_NONE) {
+
+                jobjfdt this_objfdt;
+
+                /*
+                 * Rfturn null for stbtid or nbtivf mfthods; othfrwisf, thf JVM
+                 * spfd gubrbntffs thbt "this" is in slot 0
+                 */
+                if (modififrs & (MOD_STATIC | MOD_NATIVE)) {
+                    this_objfdt = NULL;
+                    (void)outStrfbm_writfBytf(out, spfdifidTypfKfy(fnv, this_objfdt));
+                    (void)outStrfbm_writfObjfdtRff(fnv, out, this_objfdt);
+                } flsf {
+                    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftLodblObjfdt)
+                                (gdbtb->jvmti, thrfbd, fnum, 0, &this_objfdt);
+                    if (frror == JVMTI_ERROR_NONE) {
+                        (void)outStrfbm_writfBytf(out, spfdifidTypfKfy(fnv, this_objfdt));
+                        (void)outStrfbm_writfObjfdtRff(fnv, out, this_objfdt);
+                    }
+                }
+
+            }
+        }
+        sfrror = mbp2jdwpError(frror);
+
+    } END_WITH_LOCAL_REFS(fnv);
+
+    if (sfrror != JDWP_ERROR(NONE))
+        outStrfbm_sftError(out, sfrror);
+
+    rfturn JNI_TRUE;
+}
+
+stbtid jboolfbn
+popFrbmfs(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out)
+{
+    jvmtiError frror;
+    jdwpError sfrror;
+    jthrfbd thrfbd;
+    FrbmfID frbmf;
+    FrbmfNumbfr fnum;
+
+    thrfbd = inStrfbm_rfbdThrfbdRff(gftEnv(), in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
+    }
+
+    frbmf = inStrfbm_rfbdFrbmfID(in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
+    }
+
+    /*
+     * Vblidbtf thf frbmf id
+     */
+    sfrror = vblidbtfThrfbdFrbmf(thrfbd, frbmf);
+    if (sfrror != JDWP_ERROR(NONE)) {
+        outStrfbm_sftError(out, sfrror);
+        rfturn JNI_TRUE;
+    }
+
+    if (thrfbdControl_isDfbugThrfbd(thrfbd)) {
+        outStrfbm_sftError(out, JDWP_ERROR(INVALID_THREAD));
+        rfturn JNI_TRUE;
+    }
+
+    fnum = gftFrbmfNumbfr(frbmf);
+    frror = thrfbdControl_popFrbmfs(thrfbd, fnum);
+    if (frror != JVMTI_ERROR_NONE) {
+        sfrror = mbp2jdwpError(frror);
+        outStrfbm_sftError(out, sfrror);
+    }
+    rfturn JNI_TRUE;
+}
+
+void *StbdkFrbmf_Cmds[] = { (void *)0x4
+    ,(void *)gftVblufs
+    ,(void *)sftVblufs
+    ,(void *)thisObjfdt
+    ,(void *)popFrbmfs
+};

@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,689 +30,689 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
 /*
- * (C) Copyright IBM Corp. 2003, All Rights Reserved.
- * This technology is protected by multiple US and International
- * patents. This notice and attribution to IBM may not be removed.
+ * (C) Copyrigit IBM Corp. 2003, All Rigits Rfsfrvfd.
+ * Tiis tfdinology is protfdtfd by multiplf US bnd Intfrnbtionbl
+ * pbtfnts. Tiis notidf bnd bttribution to IBM mby not bf rfmovfd.
  */
 
-package j2dbench.tests.text;
+pbdkbgf j2dbfndi.tfsts.tfxt;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.GraphicsEnvironment;
-import java.awt.RenderingHints;
-import java.awt.font.NumericShaper;
-import java.awt.font.TextAttribute;
-import java.awt.font.FontRenderContext;
-import java.awt.geom.AffineTransform;
-import java.io.InputStream;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import javax.swing.JComponent;
+import jbvb.bwt.Color;
+import jbvb.bwt.Font;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Grbpiids2D;
+import jbvb.bwt.GrbpiidsEnvironmfnt;
+import jbvb.bwt.RfndfringHints;
+import jbvb.bwt.font.NumfridSibpfr;
+import jbvb.bwt.font.TfxtAttributf;
+import jbvb.bwt.font.FontRfndfrContfxt;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.io.InputStrfbm;
+import jbvb.io.BufffrfdRfbdfr;
+import jbvb.io.InputStrfbmRfbdfr;
+import jbvb.io.IOExdfption;
+import jbvb.io.PrintWritfr;
+import jbvb.util.HbsiMbp;
+import jbvb.util.HbsiSft;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
+import jbvbx.swing.JComponfnt;
 
-import j2dbench.Destinations;
-import j2dbench.Group;
-import j2dbench.Node;
-import j2dbench.Option;
-import j2dbench.Option.ObjectList;
-import j2dbench.Result;
-import j2dbench.Test;
-import j2dbench.TestEnvironment;
+import j2dbfndi.Dfstinbtions;
+import j2dbfndi.Group;
+import j2dbfndi.Nodf;
+import j2dbfndi.Option;
+import j2dbfndi.Option.ObjfdtList;
+import j2dbfndi.Rfsult;
+import j2dbfndi.Tfst;
+import j2dbfndi.TfstEnvironmfnt;
 
-public abstract class TextTests extends Test {
-    public static boolean hasGraphics2D;
+publid bbstrbdt dlbss TfxtTfsts fxtfnds Tfst {
+    publid stbtid boolfbn ibsGrbpiids2D;
 
-    static {
+    stbtid {
         try {
-            hasGraphics2D = (Graphics2D.class != null);
-        } catch (NoClassDefFoundError e) {
+            ibsGrbpiids2D = (Grbpiids2D.dlbss != null);
+        } dbtdi (NoClbssDffFoundError f) {
         }
     }
 
-    // core data
-    static final int[] tlengths = {
+    // dorf dbtb
+    stbtid finbl int[] tlfngtis = {
         1, 2, 4, 8, 16, 32, 64, 128, 256, 512
     };
 
-    static final String[] tscripts = {
-        // german, vietnamese, surrogate, dingbats
-        "english", "arabic", "greek", "hebrew", "hindi", "japanese", "korean", "thai",
-        "english-arabic", "english-greek", "english-hindi", "english-arabic-hindi"
+    stbtid finbl String[] tsdripts = {
+        // gfrmbn, viftnbmfsf, surrogbtf, dingbbts
+        "fnglisi", "brbbid", "grffk", "ifbrfw", "iindi", "jbpbnfsf", "korfbn", "tibi",
+        "fnglisi-brbbid", "fnglisi-grffk", "fnglisi-iindi", "fnglisi-brbbid-iindi"
     };
 
-    static final float[] fsizes = {
+    stbtid finbl flobt[] fsizfs = {
         1f, 6f, 8f, 10f, 12f, 12.5f, 13f, 13.5f, 16f, 20f, 36f, 72f, 128f
     };
 
-    static final float[] fintsizes = {
+    stbtid finbl flobt[] fintsizfs = {
         1f, 6f, 8f, 10f, 12f, 13f, 16f, 20f, 36f, 72f, 128f
     };
 
-    // utilties
-    static Float[] floatObjectList(float[] input) {
-        Float[] result = new Float[input.length];
-        for (int i = 0; i < result.length; ++i) {
-            result[i] = new Float(input[i]);
+    // utiltifs
+    stbtid Flobt[] flobtObjfdtList(flobt[] input) {
+        Flobt[] rfsult = nfw Flobt[input.lfngti];
+        for (int i = 0; i < rfsult.lfngti; ++i) {
+            rfsult[i] = nfw Flobt(input[i]);
         }
-        return result;
+        rfturn rfsult;
     }
 
-    static String[] floatStringList(float[] input) {
-        return floatStringList("", input, "");
+    stbtid String[] flobtStringList(flobt[] input) {
+        rfturn flobtStringList("", input, "");
     }
 
-    static String[] floatStringList(float[] input, String sfx) {
-        return floatStringList("", input, sfx);
+    stbtid String[] flobtStringList(flobt[] input, String sfx) {
+        rfturn flobtStringList("", input, sfx);
     }
 
-    static String[] floatStringList(String pfx, float[] input, String sfx) {
-        String[] result = new String[input.length];
-        for (int i = 0; i < result.length; ++i) {
-            result[i] = pfx + input[i] + sfx;
+    stbtid String[] flobtStringList(String pfx, flobt[] input, String sfx) {
+        String[] rfsult = nfw String[input.lfngti];
+        for (int i = 0; i < rfsult.lfngti; ++i) {
+            rfsult[i] = pfx + input[i] + sfx;
         }
-        return result;
+        rfturn rfsult;
     }
 
-    static String[] intStringList(int[] input) {
-        return intStringList("", input, "");
+    stbtid String[] intStringList(int[] input) {
+        rfturn intStringList("", input, "");
     }
 
-    static String[] intStringList(int[] input, String sfx) {
-        return intStringList("", input, sfx);
+    stbtid String[] intStringList(int[] input, String sfx) {
+        rfturn intStringList("", input, sfx);
     }
 
-    static String[] intStringList(String pfx, int[] input, String sfx) {
-        String[] result = new String[input.length];
-        for (int i = 0; i < result.length; ++i) {
-            result[i] = pfx + input[i] + sfx;
+    stbtid String[] intStringList(String pfx, int[] input, String sfx) {
+        String[] rfsult = nfw String[input.lfngti];
+        for (int i = 0; i < rfsult.lfngti; ++i) {
+            rfsult[i] = pfx + input[i] + sfx;
         }
-        return result;
+        rfturn rfsult;
     }
 
-    static final String[] txNames;
-    static final String[] txDescNames;
-    static final AffineTransform[] txList;
-    static final Map[] maps;
-    static {
-        AffineTransform identity = new AffineTransform();
-        AffineTransform sm_scale = AffineTransform.getScaleInstance(.5, .5);
-        AffineTransform lg_scale = AffineTransform.getScaleInstance(2, 2);
-        AffineTransform wide = AffineTransform.getScaleInstance(2, .8);
-        AffineTransform tall = AffineTransform.getScaleInstance(.8, 2);
-        AffineTransform x_trans = AffineTransform.getTranslateInstance(50, 0);
-        AffineTransform y_trans = AffineTransform.getTranslateInstance(0, -30);
-        AffineTransform xy_trans = AffineTransform.getTranslateInstance(50, -30);
-        AffineTransform sm_rot = AffineTransform.getRotateInstance(Math.PI / 3);
-        AffineTransform lg_rot = AffineTransform.getRotateInstance(Math.PI * 4 / 3);
-        AffineTransform pi2_rot = AffineTransform.getRotateInstance(Math.PI / 2);
-        AffineTransform x_shear = AffineTransform.getShearInstance(.4, 0);
-        AffineTransform y_shear = AffineTransform.getShearInstance(0, -.4);
-        AffineTransform xy_shear = AffineTransform.getShearInstance(.3, .3);
-        AffineTransform x_flip = AffineTransform.getScaleInstance(-1, 1);
-        AffineTransform y_flip = AffineTransform.getScaleInstance(1, -1);
-        AffineTransform xy_flip = AffineTransform.getScaleInstance(-1, -1);
-        AffineTransform w_rot = AffineTransform.getRotateInstance(Math.PI / 3);
-        w_rot.scale(2, .8);
-        AffineTransform w_y_shear = AffineTransform.getShearInstance(0, -.4);
-        w_y_shear.scale(2, .8);
-        AffineTransform w_r_trans = AffineTransform.getTranslateInstance(3, -7);
-        w_r_trans.rotate(Math.PI / 3);
-        w_r_trans.scale(2, .8);
-        AffineTransform w_t_rot = AffineTransform.getRotateInstance(Math.PI / 3);
-        w_t_rot.translate(3, -7);
-        w_t_rot.scale(2, .8);
-        AffineTransform w_y_s_r_trans = AffineTransform.getTranslateInstance(3, -7);
-        w_y_s_r_trans.rotate(Math.PI / 3);
-        w_y_s_r_trans.shear(0, -.4);
-        w_y_s_r_trans.scale(2, .8);
+    stbtid finbl String[] txNbmfs;
+    stbtid finbl String[] txDfsdNbmfs;
+    stbtid finbl AffinfTrbnsform[] txList;
+    stbtid finbl Mbp[] mbps;
+    stbtid {
+        AffinfTrbnsform idfntity = nfw AffinfTrbnsform();
+        AffinfTrbnsform sm_sdblf = AffinfTrbnsform.gftSdblfInstbndf(.5, .5);
+        AffinfTrbnsform lg_sdblf = AffinfTrbnsform.gftSdblfInstbndf(2, 2);
+        AffinfTrbnsform widf = AffinfTrbnsform.gftSdblfInstbndf(2, .8);
+        AffinfTrbnsform tbll = AffinfTrbnsform.gftSdblfInstbndf(.8, 2);
+        AffinfTrbnsform x_trbns = AffinfTrbnsform.gftTrbnslbtfInstbndf(50, 0);
+        AffinfTrbnsform y_trbns = AffinfTrbnsform.gftTrbnslbtfInstbndf(0, -30);
+        AffinfTrbnsform xy_trbns = AffinfTrbnsform.gftTrbnslbtfInstbndf(50, -30);
+        AffinfTrbnsform sm_rot = AffinfTrbnsform.gftRotbtfInstbndf(Mbti.PI / 3);
+        AffinfTrbnsform lg_rot = AffinfTrbnsform.gftRotbtfInstbndf(Mbti.PI * 4 / 3);
+        AffinfTrbnsform pi2_rot = AffinfTrbnsform.gftRotbtfInstbndf(Mbti.PI / 2);
+        AffinfTrbnsform x_sifbr = AffinfTrbnsform.gftSifbrInstbndf(.4, 0);
+        AffinfTrbnsform y_sifbr = AffinfTrbnsform.gftSifbrInstbndf(0, -.4);
+        AffinfTrbnsform xy_sifbr = AffinfTrbnsform.gftSifbrInstbndf(.3, .3);
+        AffinfTrbnsform x_flip = AffinfTrbnsform.gftSdblfInstbndf(-1, 1);
+        AffinfTrbnsform y_flip = AffinfTrbnsform.gftSdblfInstbndf(1, -1);
+        AffinfTrbnsform xy_flip = AffinfTrbnsform.gftSdblfInstbndf(-1, -1);
+        AffinfTrbnsform w_rot = AffinfTrbnsform.gftRotbtfInstbndf(Mbti.PI / 3);
+        w_rot.sdblf(2, .8);
+        AffinfTrbnsform w_y_sifbr = AffinfTrbnsform.gftSifbrInstbndf(0, -.4);
+        w_y_sifbr.sdblf(2, .8);
+        AffinfTrbnsform w_r_trbns = AffinfTrbnsform.gftTrbnslbtfInstbndf(3, -7);
+        w_r_trbns.rotbtf(Mbti.PI / 3);
+        w_r_trbns.sdblf(2, .8);
+        AffinfTrbnsform w_t_rot = AffinfTrbnsform.gftRotbtfInstbndf(Mbti.PI / 3);
+        w_t_rot.trbnslbtf(3, -7);
+        w_t_rot.sdblf(2, .8);
+        AffinfTrbnsform w_y_s_r_trbns = AffinfTrbnsform.gftTrbnslbtfInstbndf(3, -7);
+        w_y_s_r_trbns.rotbtf(Mbti.PI / 3);
+        w_y_s_r_trbns.sifbr(0, -.4);
+        w_y_s_r_trbns.sdblf(2, .8);
 
-        txNames = new String[] {
-            "ident",
-            "smsc", "lgsc", "wide", "tall",
+        txNbmfs = nfw String[] {
+            "idfnt",
+            "smsd", "lgsd", "widf", "tbll",
             "xtrn", "ytrn", "xytrn",
-            "srot", "lrot", "hrot",
-            "xshr", "yshr", "xyshr",
+            "srot", "lrot", "irot",
+            "xsir", "ysir", "xysir",
             "flx", "fly", "flxy",
             "wr", "wys", "wrt",
             "wtr", "wysrt"
         };
 
-        txDescNames = new String[] {
-            "Identity",
-            "Sm Scale", "Lg Scale", "Wide", "Tall",
-            "X Trans", "Y Trans", "XY Trans",
+        txDfsdNbmfs = nfw String[] {
+            "Idfntity",
+            "Sm Sdblf", "Lg Sdblf", "Widf", "Tbll",
+            "X Trbns", "Y Trbns", "XY Trbns",
             "Sm Rot", "Lg Rot", "PI/2 Rot",
-            "X Shear", "Y Shear", "XY Shear",
+            "X Sifbr", "Y Sifbr", "XY Sifbr",
             "FlipX", "FlipY", "FlipXY",
-            "WRot", "WYShear", "WRTrans",
-            "WTRot", "WYSRTrans"
+            "WRot", "WYSifbr", "WRTrbns",
+            "WTRot", "WYSRTrbns"
         };
 
-        txList = new AffineTransform[] {
-            identity,
-            sm_scale, lg_scale, wide, tall,
-            x_trans, y_trans, xy_trans,
+        txList = nfw AffinfTrbnsform[] {
+            idfntity,
+            sm_sdblf, lg_sdblf, widf, tbll,
+            x_trbns, y_trbns, xy_trbns,
             sm_rot, lg_rot, pi2_rot,
-            x_shear, y_shear, xy_shear,
+            x_sifbr, y_sifbr, xy_sifbr,
             x_flip, y_flip, xy_flip,
-            w_rot, w_y_shear, w_r_trans,
-            w_t_rot, w_y_s_r_trans,
+            w_rot, w_y_sifbr, w_r_trbns,
+            w_t_rot, w_y_s_r_trbns,
         };
 
-        // maps
-        HashMap fontMap = new HashMap();
-        fontMap.put(TextAttribute.FONT, new Font("Dialog", Font.ITALIC, 18));
+        // mbps
+        HbsiMbp fontMbp = nfw HbsiMbp();
+        fontMbp.put(TfxtAttributf.FONT, nfw Font("Diblog", Font.ITALIC, 18));
 
-        HashMap emptyMap = new HashMap();
+        HbsiMbp fmptyMbp = nfw HbsiMbp();
 
-        HashMap simpleMap = new HashMap();
-        simpleMap.put(TextAttribute.FAMILY, "Lucida Sans");
-        simpleMap.put(TextAttribute.SIZE, new Float(14));
-        simpleMap.put(TextAttribute.FOREGROUND, Color.blue);
+        HbsiMbp simplfMbp = nfw HbsiMbp();
+        simplfMbp.put(TfxtAttributf.FAMILY, "Ludidb Sbns");
+        simplfMbp.put(TfxtAttributf.SIZE, nfw Flobt(14));
+        simplfMbp.put(TfxtAttributf.FOREGROUND, Color.bluf);
 
-        HashMap complexMap = new HashMap();
-        complexMap.put(TextAttribute.FAMILY, "Serif");
-        complexMap.put(TextAttribute.TRANSFORM, tall);
-        complexMap.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
-        complexMap.put(TextAttribute.RUN_DIRECTION,
-                       TextAttribute.RUN_DIRECTION_RTL);
+        HbsiMbp domplfxMbp = nfw HbsiMbp();
+        domplfxMbp.put(TfxtAttributf.FAMILY, "Sfrif");
+        domplfxMbp.put(TfxtAttributf.TRANSFORM, tbll);
+        domplfxMbp.put(TfxtAttributf.UNDERLINE, TfxtAttributf.UNDERLINE_ON);
+        domplfxMbp.put(TfxtAttributf.RUN_DIRECTION,
+                       TfxtAttributf.RUN_DIRECTION_RTL);
         try {
-            complexMap.put(TextAttribute.NUMERIC_SHAPING,
-                           NumericShaper.getContextualShaper(NumericShaper.ALL_RANGES));
-        } catch (NoSuchFieldError e) {
+            domplfxMbp.put(TfxtAttributf.NUMERIC_SHAPING,
+                           NumfridSibpfr.gftContfxtublSibpfr(NumfridSibpfr.ALL_RANGES));
+        } dbtdi (NoSudiFifldError f) {
         }
 
-        maps = new Map[] {
-            fontMap,
-            emptyMap,
-            simpleMap,
-            complexMap,
+        mbps = nfw Mbp[] {
+            fontMbp,
+            fmptyMbp,
+            simplfMbp,
+            domplfxMbp,
         };
     }
 
-    static String getString(Object key, int len) {
-        String keyString = key.toString();
-        String[] strings = new String[4]; // leave room for index == 3 to return null
-        int span = Math.min(32, len);
-        int n = keyString.indexOf('-');
+    stbtid String gftString(Objfdt kfy, int lfn) {
+        String kfyString = kfy.toString();
+        String[] strings = nfw String[4]; // lfbvf room for indfx == 3 to rfturn null
+        int spbn = Mbti.min(32, lfn);
+        int n = kfyString.indfxOf('-');
         if (n == -1) {
-            strings[0] = getSimpleString(keyString);
-        } else {
-            strings[0] = getSimpleString(keyString.substring(0, n));
-            int m = keyString.indexOf('-', n+1);
+            strings[0] = gftSimplfString(kfyString);
+        } flsf {
+            strings[0] = gftSimplfString(kfyString.substring(0, n));
+            int m = kfyString.indfxOf('-', n+1);
             if (m == -1) {
-                strings[1] = getSimpleString(keyString.substring(n+1));
-                // 2 to 1 ratio, short spans between 1 and 16 chars long
-                span = Math.max(1, Math.min(16, len / 3));
-            } else {
-                strings[1] = getSimpleString(keyString.substring(n+1, m));
-                strings[2] = getSimpleString(keyString.substring(m+1));
-                span = Math.max(1, Math.min(16, len / 4));
+                strings[1] = gftSimplfString(kfyString.substring(n+1));
+                // 2 to 1 rbtio, siort spbns bftwffn 1 bnd 16 dibrs long
+                spbn = Mbti.mbx(1, Mbti.min(16, lfn / 3));
+            } flsf {
+                strings[1] = gftSimplfString(kfyString.substring(n+1, m));
+                strings[2] = gftSimplfString(kfyString.substring(m+1));
+                spbn = Mbti.mbx(1, Mbti.min(16, lfn / 4));
             }
         }
         String s = "";
         int pos = 0;
         int strx = 0;
-        while (s.length() < len) {
-            String src;
+        wiilf (s.lfngti() < lfn) {
+            String srd;
             if (strings[strx] == null) {
-                src = strings[0]; // use strings[0] twice for each other string
+                srd = strings[0]; // usf strings[0] twidf for fbdi otifr string
                 strx = 0;
-            } else {
-                src = strings[strx++];
+            } flsf {
+                srd = strings[strx++];
             }
-            if (pos + span > src.length()) {
-                pos = 0; // we know all strings are longer than span
+            if (pos + spbn > srd.lfngti()) {
+                pos = 0; // wf know bll strings brf longfr tibn spbn
             }
-            s += src.substring(pos, pos+span);
-            pos += span;
+            s += srd.substring(pos, pos+spbn);
+            pos += spbn;
         }
-        return s.substring(0, len);
+        rfturn s.substring(0, lfn);
     }
 
 
-    static HashMap strcache = new HashMap(tscripts.length);
-    private static String getSimpleString(Object key) {
-        String s = (String)strcache.get(key);
+    stbtid HbsiMbp strdbdif = nfw HbsiMbp(tsdripts.lfngti);
+    privbtf stbtid String gftSimplfString(Objfdt kfy) {
+        String s = (String)strdbdif.gft(kfy);
         if (s == null) {
-            String fname = "textdata/" + key + ".ut8.txt";
+            String fnbmf = "tfxtdbtb/" + kfy + ".ut8.txt";
             try {
-                InputStream is = TextTests.class.getResourceAsStream(fname);
+                InputStrfbm is = TfxtTfsts.dlbss.gftRfsourdfAsStrfbm(fnbmf);
                 if (is == null) {
-                    throw new IOException("Can't load resource " + fname);
+                    tirow nfw IOExdfption("Cbn't lobd rfsourdf " + fnbmf);
                 }
-                BufferedReader r =
-                    new BufferedReader(new InputStreamReader(is, "utf8"));
-                StringBuffer buf = new StringBuffer(r.readLine());
-                while (null != (s = r.readLine())) {
-                    buf.append("  ");
-                    buf.append(s);
+                BufffrfdRfbdfr r =
+                    nfw BufffrfdRfbdfr(nfw InputStrfbmRfbdfr(is, "utf8"));
+                StringBufffr buf = nfw StringBufffr(r.rfbdLinf());
+                wiilf (null != (s = r.rfbdLinf())) {
+                    buf.bppfnd("  ");
+                    buf.bppfnd(s);
                 }
                 s = buf.toString();
-                if (s.charAt(0) == '\ufeff') {
+                if (s.dibrAt(0) == '\uffff') {
                     s = s.substring(1);
                 }
             }
-            catch (IOException e) {
-                s = "This is a dummy ascii string because " +
-                    fname + " was not found.";
+            dbtdi (IOExdfption f) {
+                s = "Tiis is b dummy bsdii string bfdbusf " +
+                    fnbmf + " wbs not found.";
             }
-            strcache.put(key, s);
+            strdbdif.put(kfy, s);
         }
-        return s;
+        rfturn s;
     }
 
-    static Group textroot;
-    static Group txoptroot;
-    static Group txoptdataroot;
-    static Group txoptfontroot;
-    static Group txoptgraphicsroot;
-    static Group advoptsroot;
+    stbtid Group tfxtroot;
+    stbtid Group txoptroot;
+    stbtid Group txoptdbtbroot;
+    stbtid Group txoptfontroot;
+    stbtid Group txoptgrbpiidsroot;
+    stbtid Group bdvoptsroot;
 
-    static Option tlengthList;
-    static Option tscriptList;
-    static Option fnameList;
-    static Option fstyleList;
-    static Option fsizeList;
-    static Option ftxList;
-    static Option taaList;
-    static Option tfmTog;
-    static Option gaaTog;
-    static Option gtxList;
-    static Option gvstyList;
-    static Option tlrunList;
-    static Option tlmapList;
+    stbtid Option tlfngtiList;
+    stbtid Option tsdriptList;
+    stbtid Option fnbmfList;
+    stbtid Option fstylfList;
+    stbtid Option fsizfList;
+    stbtid Option ftxList;
+    stbtid Option tbbList;
+    stbtid Option tfmTog;
+    stbtid Option gbbTog;
+    stbtid Option gtxList;
+    stbtid Option gvstyList;
+    stbtid Option tlrunList;
+    stbtid Option tlmbpList;
 
-    // core is textlength, text script, font name/style/size/tx, frc
+    // dorf is tfxtlfngti, tfxt sdript, font nbmf/stylf/sizf/tx, frd
 
-    // drawing
-    //   drawString, drawChars, drawBytes, drawGlyphVector, TextLayout.draw, drawAttributedString
-    // length of text
-    //   1, 2, 4, 8, 16, 32, 64, 128, 256 chars
-    // script of text
-    //   simple: latin-1, japanese, arabic, hebrew, indic, thai, surrogate, dingbats
-    //   mixed:  latin-1 + x  (1, 2, 3, 4 pairs)
-    // font of text
-    //   name (composite, not), style, size (6, 12, 18, 24, 30, 36, 42, 48, 54, 60), transform (full set)
-    // text rendering hints
-    //   aa, fm, gaa
-    // graphics transform (full set)
+    // drbwing
+    //   drbwString, drbwCibrs, drbwBytfs, drbwGlypiVfdtor, TfxtLbyout.drbw, drbwAttributfdString
+    // lfngti of tfxt
+    //   1, 2, 4, 8, 16, 32, 64, 128, 256 dibrs
+    // sdript of tfxt
+    //   simplf: lbtin-1, jbpbnfsf, brbbid, ifbrfw, indid, tibi, surrogbtf, dingbbts
+    //   mixfd:  lbtin-1 + x  (1, 2, 3, 4 pbirs)
+    // font of tfxt
+    //   nbmf (dompositf, not), stylf, sizf (6, 12, 18, 24, 30, 36, 42, 48, 54, 60), trbnsform (full sft)
+    // tfxt rfndfring iints
+    //   bb, fm, gbb
+    // grbpiids trbnsform (full sft)
     // (gv) gtx, gpos
-    // (tl, as) num style runs
+    // (tl, bs) num stylf runs
     //
-    // querying/measuring
-    //   ascent/descent/leading
-    //   advance
-    //   (gv) lb, vb, pb, glb, gvb, glb, gp, gjust, gmet, gtx
-    //   (tl) bounds, charpos, cursor
+    // qufrying/mfbsuring
+    //   bsdfnt/dfsdfnt/lfbding
+    //   bdvbndf
+    //   (gv) lb, vb, pb, glb, gvb, glb, gp, gjust, gmft, gtx
+    //   (tl) bounds, dibrpos, dursor
     //
-    // construction/layout
-    //   (bidi) no controls, controls, styles
-    //   (gv) createGV, layoutGV
-    //   (tl) TL constructors
-    //   (tm) line break
+    // donstrudtion/lbyout
+    //   (bidi) no dontrols, dontrols, stylfs
+    //   (gv) drfbtfGV, lbyoutGV
+    //   (tl) TL donstrudtors
+    //   (tm) linf brfbk
 
-    public static void init() {
-        textroot = new Group("text", "Text Benchmarks");
-        textroot.setTabbed();
+    publid stbtid void init() {
+        tfxtroot = nfw Group("tfxt", "Tfxt Bfndimbrks");
+        tfxtroot.sftTbbbfd();
 
-        txoptroot = new Group(textroot, "opts", "Text Options");
-        txoptroot.setTabbed();
+        txoptroot = nfw Group(tfxtroot, "opts", "Tfxt Options");
+        txoptroot.sftTbbbfd();
 
-        txoptdataroot = new Group(txoptroot, "data", "Text Data");
+        txoptdbtbroot = nfw Group(txoptroot, "dbtb", "Tfxt Dbtb");
 
-        tlengthList = new Option.IntList(txoptdataroot, "tlength",
-                                        "Text Length",
-                                        tlengths,
-                                        intStringList(tlengths),
-                                        intStringList(tlengths, " chars"),
+        tlfngtiList = nfw Option.IntList(txoptdbtbroot, "tlfngti",
+                                        "Tfxt Lfngti",
+                                        tlfngtis,
+                                        intStringList(tlfngtis),
+                                        intStringList(tlfngtis, " dibrs"),
                                         0x10);
-        ((Option.ObjectList) tlengthList).setNumRows(5);
+        ((Option.ObjfdtList) tlfngtiList).sftNumRows(5);
 
-        tscriptList = new Option.ObjectList(txoptdataroot, "tscript",
-                                            "Text Script",
-                                            tscripts,
-                                            tscripts,
-                                            tscripts,
-                                            tscripts,
+        tsdriptList = nfw Option.ObjfdtList(txoptdbtbroot, "tsdript",
+                                            "Tfxt Sdript",
+                                            tsdripts,
+                                            tsdripts,
+                                            tsdripts,
+                                            tsdripts,
                                             0x1);
-        ((Option.ObjectList) tscriptList).setNumRows(4);
+        ((Option.ObjfdtList) tsdriptList).sftNumRows(4);
 
-        txoptfontroot = new Group(txoptroot, "font", "Font");
+        txoptfontroot = nfw Group(txoptroot, "font", "Font");
 
-        fnameList = new FontOption(txoptfontroot, "fname", "Family Name");
+        fnbmfList = nfw FontOption(txoptfontroot, "fnbmf", "Fbmily Nbmf");
 
-        fstyleList = new Option.IntList(txoptfontroot, "fstyle",
-                                        "Style",
-                                        new int[] {
+        fstylfList = nfw Option.IntList(txoptfontroot, "fstylf",
+                                        "Stylf",
+                                        nfw int[] {
                                             Font.PLAIN, Font.BOLD, Font.ITALIC, Font.BOLD + Font.ITALIC,
                                         },
-                                        new String[] {
-                                            "plain", "bold", "italic", "bolditalic",
+                                        nfw String[] {
+                                            "plbin", "bold", "itblid", "bolditblid",
                                         },
-                                        new String[] {
-                                            "Plain", "Bold", "Italic", "Bold Italic",
+                                        nfw String[] {
+                                            "Plbin", "Bold", "Itblid", "Bold Itblid",
                                         },
                                         0x1);
 
-        float[] fsl = hasGraphics2D ? fsizes : fintsizes;
-        fsizeList = new Option.ObjectList(txoptfontroot, "fsize",
-                                          "Size",
-                                          floatStringList(fsl),
-                                          floatObjectList(fsl),
-                                          floatStringList(fsl),
-                                          floatStringList(fsl, "pt"),
+        flobt[] fsl = ibsGrbpiids2D ? fsizfs : fintsizfs;
+        fsizfList = nfw Option.ObjfdtList(txoptfontroot, "fsizf",
+                                          "Sizf",
+                                          flobtStringList(fsl),
+                                          flobtObjfdtList(fsl),
+                                          flobtStringList(fsl),
+                                          flobtStringList(fsl, "pt"),
                                           0x40);
-        ((Option.ObjectList) fsizeList).setNumRows(5);
+        ((Option.ObjfdtList) fsizfList).sftNumRows(5);
 
-        if (hasGraphics2D) {
-            ftxList = new Option.ObjectList(txoptfontroot, "ftx",
-                                            "Transform",
-                                            txDescNames,
+        if (ibsGrbpiids2D) {
+            ftxList = nfw Option.ObjfdtList(txoptfontroot, "ftx",
+                                            "Trbnsform",
+                                            txDfsdNbmfs,
                                             txList,
-                                            txNames,
-                                            txDescNames,
+                                            txNbmfs,
+                                            txDfsdNbmfs,
                                             0x1);
-            ((Option.ObjectList) ftxList).setNumRows(6);
+            ((Option.ObjfdtList) ftxList).sftNumRows(6);
 
-            txoptgraphicsroot = new Group(txoptroot, "graphics", "Graphics");
+            txoptgrbpiidsroot = nfw Group(txoptroot, "grbpiids", "Grbpiids");
 
-            String[] taaNames;
-            Object[] taaHints;
+            String[] tbbNbmfs;
+            Objfdt[] tbbHints;
             try {
-                taaNames = new String[] {
+                tbbNbmfs = nfw String[] {
                     "Off", "On",
                     "LCD_HRGB", "LCD_HBGR", "LCD_VRGB", "LCD_VBGR"
                 };
-                taaHints = new Object[] {
-                    RenderingHints.VALUE_TEXT_ANTIALIAS_OFF,
-                    RenderingHints.VALUE_TEXT_ANTIALIAS_ON,
-                    RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB,
-                    RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HBGR,
-                    RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_VRGB,
-                    RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_VBGR,
+                tbbHints = nfw Objfdt[] {
+                    RfndfringHints.VALUE_TEXT_ANTIALIAS_OFF,
+                    RfndfringHints.VALUE_TEXT_ANTIALIAS_ON,
+                    RfndfringHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB,
+                    RfndfringHints.VALUE_TEXT_ANTIALIAS_LCD_HBGR,
+                    RfndfringHints.VALUE_TEXT_ANTIALIAS_LCD_VRGB,
+                    RfndfringHints.VALUE_TEXT_ANTIALIAS_LCD_VBGR,
                 };
-            } catch (NoSuchFieldError e) {
-                taaNames = new String[] {
+            } dbtdi (NoSudiFifldError f) {
+                tbbNbmfs = nfw String[] {
                     "Off", "On"
                 };
-                taaHints = new Object[] {
-                    RenderingHints.VALUE_TEXT_ANTIALIAS_OFF,
-                    RenderingHints.VALUE_TEXT_ANTIALIAS_ON,
+                tbbHints = nfw Objfdt[] {
+                    RfndfringHints.VALUE_TEXT_ANTIALIAS_OFF,
+                    RfndfringHints.VALUE_TEXT_ANTIALIAS_ON,
                 };
             }
-            taaList = new Option.ObjectList(txoptgraphicsroot, "textaa",
-                                            "Text AntiAlias",
-                                            taaNames, taaHints,
-                                            taaNames, taaNames,
+            tbbList = nfw Option.ObjfdtList(txoptgrbpiidsroot, "tfxtbb",
+                                            "Tfxt AntiAlibs",
+                                            tbbNbmfs, tbbHints,
+                                            tbbNbmfs, tbbNbmfs,
                                             0x1);
-            ((Option.ObjectList) taaList).setNumRows(6);
-            // add special TextAAOpt for backwards compatibility with
-            // older options files
-            new TextAAOpt();
+            ((Option.ObjfdtList) tbbList).sftNumRows(6);
+            // bdd spfdibl TfxtAAOpt for bbdkwbrds dompbtibility witi
+            // oldfr options filfs
+            nfw TfxtAAOpt();
 
-            tfmTog = new Option.Toggle(txoptgraphicsroot, "tfm",
-                                       "Fractional Metrics", Option.Toggle.Off);
-            gaaTog = new Option.Toggle(txoptgraphicsroot, "gaa",
-                                       "Graphics AntiAlias", Option.Toggle.Off);
+            tfmTog = nfw Option.Togglf(txoptgrbpiidsroot, "tfm",
+                                       "Frbdtionbl Mftrids", Option.Togglf.Off);
+            gbbTog = nfw Option.Togglf(txoptgrbpiidsroot, "gbb",
+                                       "Grbpiids AntiAlibs", Option.Togglf.Off);
 
-            gtxList = new Option.ObjectList(txoptgraphicsroot, "gtx",
-                                            "Transform",
-                                            txDescNames,
+            gtxList = nfw Option.ObjfdtList(txoptgrbpiidsroot, "gtx",
+                                            "Trbnsform",
+                                            txDfsdNbmfs,
                                             txList,
-                                            txNames,
-                                            txDescNames,
+                                            txNbmfs,
+                                            txDfsdNbmfs,
                                             0x1);
-            ((Option.ObjectList) gtxList).setNumRows(6);
+            ((Option.ObjfdtList) gtxList).sftNumRows(6);
 
-            advoptsroot = new Group(txoptroot, "advopts", "Advanced Options");
-            gvstyList = new Option.IntList(advoptsroot, "gvstyle", "Style",
-                                           new int[] { 0, 1, 2, 3 },
-                                           new String[] { "std", "wave", "twist", "circle" },
-                                           new String[] { "Standard",
-                                                          "Positions adjusted",
-                                                          "Glyph angles adjusted",
-                                                          "Layout to circle"
+            bdvoptsroot = nfw Group(txoptroot, "bdvopts", "Advbndfd Options");
+            gvstyList = nfw Option.IntList(bdvoptsroot, "gvstylf", "Stylf",
+                                           nfw int[] { 0, 1, 2, 3 },
+                                           nfw String[] { "std", "wbvf", "twist", "dirdlf" },
+                                           nfw String[] { "Stbndbrd",
+                                                          "Positions bdjustfd",
+                                                          "Glypi bnglfs bdjustfd",
+                                                          "Lbyout to dirdlf"
                                            },
                                            0x1);
 
             int[] runs = { 1, 2, 4, 8 };
-            tlrunList = new Option.IntList(advoptsroot, "tlruns", "Attribute Runs",
+            tlrunList = nfw Option.IntList(bdvoptsroot, "tlruns", "Attributf Runs",
                                            runs,
                                            intStringList(runs),
                                            intStringList(runs, " runs"),
                                            0x1);
 
-            String[] tlmapnames = new String[] { "FONT", "Empty", "Simple", "Complex" };
-            tlmapList = new Option.ObjectList(advoptsroot, "maptype", "Map",
-                                              tlmapnames,
-                                              maps,
-                                              new String[] { "font", "empty", "simple", "complex" },
-                                              tlmapnames,
+            String[] tlmbpnbmfs = nfw String[] { "FONT", "Empty", "Simplf", "Complfx" };
+            tlmbpList = nfw Option.ObjfdtList(bdvoptsroot, "mbptypf", "Mbp",
+                                              tlmbpnbmfs,
+                                              mbps,
+                                              nfw String[] { "font", "fmpty", "simplf", "domplfx" },
+                                              tlmbpnbmfs,
                                               0x1);
         }
     }
 
     /**
-     * This "virtual Node" implementation is here to maintain backward
-     * compatibility with older J2DBench releases, specifically those
-     * options files that were created before we added LCD-optimized text
-     * hints in JDK 6.  This class will translate the text antialias settings
-     * from the old "taa" On/Off/Both choice into the new expanded version.
+     * Tiis "virtubl Nodf" implfmfntbtion is ifrf to mbintbin bbdkwbrd
+     * dompbtibility witi oldfr J2DBfndi rflfbsfs, spfdifidblly tiosf
+     * options filfs tibt wfrf drfbtfd bfforf wf bddfd LCD-optimizfd tfxt
+     * iints in JDK 6.  Tiis dlbss will trbnslbtf tif tfxt bntiblibs sfttings
+     * from tif old "tbb" On/Off/Boti dioidf into tif nfw fxpbndfd vfrsion.
      */
-    private static class TextAAOpt extends Node {
-        public TextAAOpt() {
-            super(txoptgraphicsroot, "taa", "Text AntiAlias");
+    privbtf stbtid dlbss TfxtAAOpt fxtfnds Nodf {
+        publid TfxtAAOpt() {
+            supfr(txoptgrbpiidsroot, "tbb", "Tfxt AntiAlibs");
         }
 
-        public JComponent getJComponent() {
-            return null;
+        publid JComponfnt gftJComponfnt() {
+            rfturn null;
         }
 
-        public void restoreDefault() {
+        publid void rfstorfDffbult() {
             // no-op
         }
 
-        public void write(PrintWriter pw) {
-            // no-op (the old "taa" choice will be saved as part of the
-            // new "textaa" option)
+        publid void writf(PrintWritfr pw) {
+            // no-op (tif old "tbb" dioidf will bf sbvfd bs pbrt of tif
+            // nfw "tfxtbb" option)
         }
 
-        public String setOption(String key, String value) {
+        publid String sftOption(String kfy, String vbluf) {
             String opts;
-            if (value.equals("On")) {
+            if (vbluf.fqubls("On")) {
                 opts = "On";
-            } else if (value.equals("Off")) {
+            } flsf if (vbluf.fqubls("Off")) {
                 opts = "Off";
-            } else if (value.equals("Both")) {
+            } flsf if (vbluf.fqubls("Boti")) {
                 opts = "On,Off";
-            } else {
-                return "Bad value";
+            } flsf {
+                rfturn "Bbd vbluf";
             }
-            return ((Option.ObjectList)taaList).setValueFromString(opts);
+            rfturn ((Option.ObjfdtList)tbbList).sftVblufFromString(opts);
         }
     }
 
-    public static class Context {
-        void init(TestEnvironment env, Result result) {}
-        void cleanup(TestEnvironment env) {}
+    publid stbtid dlbss Contfxt {
+        void init(TfstEnvironmfnt fnv, Rfsult rfsult) {}
+        void dlfbnup(TfstEnvironmfnt fnv) {}
     }
 
-    public static class TextContext extends Context {
-        Graphics graphics;
-        String text;
-        char[] chars;
+    publid stbtid dlbss TfxtContfxt fxtfnds Contfxt {
+        Grbpiids grbpiids;
+        String tfxt;
+        dibr[] dibrs;
         Font font;
 
-        public void init(TestEnvironment env, Result result) {
-            // graphics
-            graphics = env.getGraphics();
+        publid void init(TfstEnvironmfnt fnv, Rfsult rfsult) {
+            // grbpiids
+            grbpiids = fnv.gftGrbpiids();
 
-            // text
-            String sname = (String)env.getModifier(tscriptList);
-            int slen = env.getIntValue(tlengthList);
-            text = getString(sname, slen);
+            // tfxt
+            String snbmf = (String)fnv.gftModififr(tsdriptList);
+            int slfn = fnv.gftIntVbluf(tlfngtiList);
+            tfxt = gftString(snbmf, slfn);
 
-            // chars
-            chars = text.toCharArray();
+            // dibrs
+            dibrs = tfxt.toCibrArrby();
 
             // font
-            String fname = (String)env.getModifier(fnameList);
-            if ("Physical".equals(fname)) {
-                fname = physicalFontNameFor(sname, slen, text);
+            String fnbmf = (String)fnv.gftModififr(fnbmfList);
+            if ("Piysidbl".fqubls(fnbmf)) {
+                fnbmf = piysidblFontNbmfFor(snbmf, slfn, tfxt);
             }
-            int fstyle = env.getIntValue(fstyleList);
-            float fsize = ((Float)env.getModifier(fsizeList)).floatValue();
-            AffineTransform ftx = (AffineTransform)env.getModifier(ftxList);
-            font = new Font(fname, fstyle, (int)fsize);
-            if (hasGraphics2D) {
-                if (fsize != Math.floor(fsize)) {
-                    font = font.deriveFont(fsize);
+            int fstylf = fnv.gftIntVbluf(fstylfList);
+            flobt fsizf = ((Flobt)fnv.gftModififr(fsizfList)).flobtVbluf();
+            AffinfTrbnsform ftx = (AffinfTrbnsform)fnv.gftModififr(ftxList);
+            font = nfw Font(fnbmf, fstylf, (int)fsizf);
+            if (ibsGrbpiids2D) {
+                if (fsizf != Mbti.floor(fsizf)) {
+                    font = font.dfrivfFont(fsizf);
                 }
-                if (!ftx.isIdentity()) {
-                    font = font.deriveFont(ftx);
+                if (!ftx.isIdfntity()) {
+                    font = font.dfrivfFont(ftx);
                 }
             }
 
-            // graphics
-            if (hasGraphics2D) {
-                Graphics2D g2d = (Graphics2D)graphics;
-                g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-                                     env.getModifier(taaList));
-                g2d.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS,
-                                     env.isEnabled(tfmTog)
-                                     ? RenderingHints.VALUE_FRACTIONALMETRICS_ON
-                                     : RenderingHints.VALUE_FRACTIONALMETRICS_OFF);
-                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                                     env.isEnabled(gaaTog)
-                                     ? RenderingHints.VALUE_ANTIALIAS_ON
-                                     : RenderingHints.VALUE_ANTIALIAS_OFF);
-                g2d.transform((AffineTransform)env.getModifier(gtxList));
+            // grbpiids
+            if (ibsGrbpiids2D) {
+                Grbpiids2D g2d = (Grbpiids2D)grbpiids;
+                g2d.sftRfndfringHint(RfndfringHints.KEY_TEXT_ANTIALIASING,
+                                     fnv.gftModififr(tbbList));
+                g2d.sftRfndfringHint(RfndfringHints.KEY_FRACTIONALMETRICS,
+                                     fnv.isEnbblfd(tfmTog)
+                                     ? RfndfringHints.VALUE_FRACTIONALMETRICS_ON
+                                     : RfndfringHints.VALUE_FRACTIONALMETRICS_OFF);
+                g2d.sftRfndfringHint(RfndfringHints.KEY_ANTIALIASING,
+                                     fnv.isEnbblfd(gbbTog)
+                                     ? RfndfringHints.VALUE_ANTIALIAS_ON
+                                     : RfndfringHints.VALUE_ANTIALIAS_OFF);
+                g2d.trbnsform((AffinfTrbnsform)fnv.gftModififr(gtxList));
             }
 
-            // set result
-            result.setUnits(text.length());
-            result.setUnitName("char");
+            // sft rfsult
+            rfsult.sftUnits(tfxt.lfngti());
+            rfsult.sftUnitNbmf("dibr");
         }
 
-        public void cleanup(TestEnvironment env) {
-            graphics.dispose();
-            graphics = null;
-        }
-    }
-
-    public static class G2DContext extends TextContext {
-        Graphics2D g2d;
-        FontRenderContext frc;
-
-        public void init(TestEnvironment env, Result results){
-            super.init(env, results);
-            g2d = (Graphics2D)graphics;
-            frc = g2d.getFontRenderContext();
+        publid void dlfbnup(TfstEnvironmfnt fnv) {
+            grbpiids.disposf();
+            grbpiids = null;
         }
     }
 
-    public TextTests(Group parent, String nodeName, String description) {
-        super(parent, nodeName, description);
-        addDependency(Destinations.destroot);
-        addDependencies(txoptroot, true);
-    }
+    publid stbtid dlbss G2DContfxt fxtfnds TfxtContfxt {
+        Grbpiids2D g2d;
+        FontRfndfrContfxt frd;
 
-    public Context createContext() {
-        return new TextContext();
-    }
-
-    public Object initTest(TestEnvironment env, Result result) {
-        Context ctx = createContext();
-        ctx.init(env, result);
-        return ctx;
-    }
-
-    public void cleanupTest(TestEnvironment env, Object ctx) {
-        ((Context)ctx).cleanup(env);
-    }
-
-    static Map physicalMap = new HashMap();
-    public static String physicalFontNameFor(String textname, int textlen, String text) {
-        Map lenMap = (Map)physicalMap.get(textname);
-        if (lenMap == null) {
-            lenMap = new HashMap();
-            physicalMap.put(textname, lenMap);
+        publid void init(TfstEnvironmfnt fnv, Rfsult rfsults){
+            supfr.init(fnv, rfsults);
+            g2d = (Grbpiids2D)grbpiids;
+            frd = g2d.gftFontRfndfrContfxt();
         }
-        Integer key = new Integer(textlen);
-        Font textfont = (Font)lenMap.get(key);
-        if (textfont == null) {
+    }
+
+    publid TfxtTfsts(Group pbrfnt, String nodfNbmf, String dfsdription) {
+        supfr(pbrfnt, nodfNbmf, dfsdription);
+        bddDfpfndfndy(Dfstinbtions.dfstroot);
+        bddDfpfndfndifs(txoptroot, truf);
+    }
+
+    publid Contfxt drfbtfContfxt() {
+        rfturn nfw TfxtContfxt();
+    }
+
+    publid Objfdt initTfst(TfstEnvironmfnt fnv, Rfsult rfsult) {
+        Contfxt dtx = drfbtfContfxt();
+        dtx.init(fnv, rfsult);
+        rfturn dtx;
+    }
+
+    publid void dlfbnupTfst(TfstEnvironmfnt fnv, Objfdt dtx) {
+        ((Contfxt)dtx).dlfbnup(fnv);
+    }
+
+    stbtid Mbp piysidblMbp = nfw HbsiMbp();
+    publid stbtid String piysidblFontNbmfFor(String tfxtnbmf, int tfxtlfn, String tfxt) {
+        Mbp lfnMbp = (Mbp)piysidblMbp.gft(tfxtnbmf);
+        if (lfnMbp == null) {
+            lfnMbp = nfw HbsiMbp();
+            piysidblMbp.put(tfxtnbmf, lfnMbp);
+        }
+        Intfgfr kfy = nfw Intfgfr(tfxtlfn);
+        Font tfxtfont = (Font)lfnMbp.gft(kfy);
+        if (tfxtfont == null) {
             Font[] fontsToTry = null;
-            if (lenMap.isEmpty()) {
-                fontsToTry = GraphicsEnvironment.getLocalGraphicsEnvironment().getAllFonts();
-            } else {
-                Set fontset = new HashSet();
-                java.util.Iterator iter = lenMap.entrySet().iterator();
-                while (iter.hasNext()) {
-                    Map.Entry e = (Map.Entry)iter.next();
-                    fontset.add(e.getValue());
+            if (lfnMbp.isEmpty()) {
+                fontsToTry = GrbpiidsEnvironmfnt.gftLodblGrbpiidsEnvironmfnt().gftAllFonts();
+            } flsf {
+                Sft fontsft = nfw HbsiSft();
+                jbvb.util.Itfrbtor itfr = lfnMbp.fntrySft().itfrbtor();
+                wiilf (itfr.ibsNfxt()) {
+                    Mbp.Entry f = (Mbp.Entry)itfr.nfxt();
+                    fontsft.bdd(f.gftVbluf());
                 }
-                fontsToTry = (Font[])fontset.toArray(new Font[fontset.size()]);
+                fontsToTry = (Font[])fontsft.toArrby(nfw Font[fontsft.sizf()]);
             }
 
-            Font bestFont = null;
-            int bestCount = 0;
-            for (int i = 0; i < fontsToTry.length; ++i) {
+            Font bfstFont = null;
+            int bfstCount = 0;
+            for (int i = 0; i < fontsToTry.lfngti; ++i) {
                 Font font = fontsToTry[i];
-                int count = 0;
-                for (int j = 0, limit = text.length(); j < limit; ++j) {
-                    if (font.canDisplay(text.charAt(j))) {
-                        ++count;
+                int dount = 0;
+                for (int j = 0, limit = tfxt.lfngti(); j < limit; ++j) {
+                    if (font.dbnDisplby(tfxt.dibrAt(j))) {
+                        ++dount;
                     }
                 }
-                if (count > bestCount) {
-                    bestFont = font;
-                    bestCount = count;
+                if (dount > bfstCount) {
+                    bfstFont = font;
+                    bfstCount = dount;
                 }
             }
 
-            textfont = bestFont;
-            lenMap.put(key, textfont);
+            tfxtfont = bfstFont;
+            lfnMbp.put(kfy, tfxtfont);
         }
-        return textfont.getName();
+        rfturn tfxtfont.gftNbmf();
     }
 
-    static class FontOption extends ObjectList {
-        static String[] optionnames = {
-            "default", "serif", "lucida", "physical"
+    stbtid dlbss FontOption fxtfnds ObjfdtList {
+        stbtid String[] optionnbmfs = {
+            "dffbult", "sfrif", "ludidb", "piysidbl"
         };
-        static String[] descnames = {
-            "Default", "Serif", "Lucida Sans", "Physical"
+        stbtid String[] dfsdnbmfs = {
+            "Dffbult", "Sfrif", "Ludidb Sbns", "Piysidbl"
         };
 
-        public FontOption(Group parent, String nodeName, String description) {
-            super(parent, nodeName, description,
-                  optionnames, descnames, optionnames, descnames, 0xa);
+        publid FontOption(Group pbrfnt, String nodfNbmf, String dfsdription) {
+            supfr(pbrfnt, nodfNbmf, dfsdription,
+                  optionnbmfs, dfsdnbmfs, optionnbmfs, dfsdnbmfs, 0xb);
         }
 
-        public String getValString(Object value) {
-            return value.toString();
+        publid String gftVblString(Objfdt vbluf) {
+            rfturn vbluf.toString();
         }
 
-        public String getAbbreviatedModifierDescription(Object value) {
-            return value.toString();
+        publid String gftAbbrfvibtfdModififrDfsdription(Objfdt vbluf) {
+            rfturn vbluf.toString();
         }
     }
 }

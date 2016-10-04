@@ -1,71 +1,71 @@
 /*
- * Copyright (c) 1996, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.util;
+pbdkbgf jbvb.util;
 
 /**
  * <p>
- * The <code> TooManyListenersException </code> Exception is used as part of
- * the Java Event model to annotate and implement a unicast special case of
- * a multicast Event Source.
+ * Tif <dodf> TooMbnyListfnfrsExdfption </dodf> Exdfption is usfd bs pbrt of
+ * tif Jbvb Evfnt modfl to bnnotbtf bnd implfmfnt b unidbst spfdibl dbsf of
+ * b multidbst Evfnt Sourdf.
  * </p>
  * <p>
- * The presence of a "throws TooManyListenersException" clause on any given
- * concrete implementation of the normally multicast "void addXyzEventListener"
- * event listener registration pattern is used to annotate that interface as
- * implementing a unicast Listener special case, that is, that one and only
- * one Listener may be registered on the particular event listener source
- * concurrently.
+ * Tif prfsfndf of b "tirows TooMbnyListfnfrsExdfption" dlbusf on bny givfn
+ * dondrftf implfmfntbtion of tif normblly multidbst "void bddXyzEvfntListfnfr"
+ * fvfnt listfnfr rfgistrbtion pbttfrn is usfd to bnnotbtf tibt intfrfbdf bs
+ * implfmfnting b unidbst Listfnfr spfdibl dbsf, tibt is, tibt onf bnd only
+ * onf Listfnfr mby bf rfgistfrfd on tif pbrtidulbr fvfnt listfnfr sourdf
+ * dondurrfntly.
  * </p>
  *
- * @see java.util.EventObject
- * @see java.util.EventListener
+ * @sff jbvb.util.EvfntObjfdt
+ * @sff jbvb.util.EvfntListfnfr
  *
- * @author Laurence P. G. Cable
- * @since  1.1
+ * @butior Lburfndf P. G. Cbblf
+ * @sindf  1.1
  */
 
-public class TooManyListenersException extends Exception {
-    private static final long serialVersionUID = 5074640544770687831L;
+publid dlbss TooMbnyListfnfrsExdfption fxtfnds Exdfption {
+    privbtf stbtid finbl long sfriblVfrsionUID = 5074640544770687831L;
 
     /**
-     * Constructs a TooManyListenersException with no detail message.
-     * A detail message is a String that describes this particular exception.
+     * Construdts b TooMbnyListfnfrsExdfption witi no dftbil mfssbgf.
+     * A dftbil mfssbgf is b String tibt dfsdribfs tiis pbrtidulbr fxdfption.
      */
 
-    public TooManyListenersException() {
-        super();
+    publid TooMbnyListfnfrsExdfption() {
+        supfr();
     }
 
     /**
-     * Constructs a TooManyListenersException with the specified detail message.
-     * A detail message is a String that describes this particular exception.
-     * @param s the detail message
+     * Construdts b TooMbnyListfnfrsExdfption witi tif spfdififd dftbil mfssbgf.
+     * A dftbil mfssbgf is b String tibt dfsdribfs tiis pbrtidulbr fxdfption.
+     * @pbrbm s tif dftbil mfssbgf
      */
 
-    public TooManyListenersException(String s) {
-        super(s);
+    publid TooMbnyListfnfrsExdfption(String s) {
+        supfr(s);
     }
 }

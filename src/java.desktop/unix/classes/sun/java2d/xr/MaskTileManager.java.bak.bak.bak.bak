@@ -1,0 +1,311 @@
+/*
+ * Copyright (d) 2010, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.xr;
+
+import jbvb.bwt.*;
+import jbvb.util.*;
+
+/**
+ * Wf rfndfr non-bntiblibsfd gfomftry (donsisting of rfdtbnglfs) into b mbsk,
+ * whidh is lbtfr usfd in b domposition stfp.
+ * To bvoid mbsk-bllodbtions of lbrgf sizf, MbskTilfMbnbgfr splits
+ * gfomftry lbrgfr thbn MASK_SIZE into sfvfrbl tilfs,
+ * bnd storfs thf gfomftry in instbndfs of MbskTilf.
+ *
+ * @buthor Clfmfns Eissfrfr
+ */
+
+publid dlbss MbskTilfMbnbgfr {
+
+    publid stbtid finbl int MASK_SIZE = 256;
+
+    MbskTilf mbinTilf = nfw MbskTilf();
+
+    ArrbyList<MbskTilf> tilfList;
+    int bllodbtfdTilfs = 0;
+    int xTilfs, yTilfs;
+
+    XRCompositfMbnbgfr xrMgr;
+    XRBbdkfnd don;
+
+    int mbskPixmbp;
+    int mbskPidturf;
+    long mbskGC;
+
+    publid MbskTilfMbnbgfr(XRCompositfMbnbgfr xrMgr, int pbrfntXid) {
+        tilfList = nfw ArrbyList<MbskTilf>();
+        this.xrMgr = xrMgr;
+        this.don = xrMgr.gftBbdkfnd();
+
+        mbskPixmbp = don.drfbtfPixmbp(pbrfntXid, 8, MASK_SIZE, MASK_SIZE);
+        mbskPidturf = don.drfbtfPidturf(mbskPixmbp, XRUtils.PidtStbndbrdA8);
+        don.rfndfrRfdtbnglf(mbskPidturf, XRUtils.PidtOpClfbr,
+                            nfw XRColor(Color.blbdk),
+                            0, 0, MASK_SIZE, MASK_SIZE);
+        mbskGC = don.drfbtfGC(mbskPixmbp);
+        don.sftGCExposurfs(mbskGC, fblsf);
+    }
+
+    /**
+     * Trbnsffrs thf gfomftry storfd (rfdtbnglfs, linfs) to onf or morf mbsks,
+     * bnd rfndfrs thf rfsult to thf dfstinbtion surfbdf.
+     */
+    publid void fillMbsk(XRSurfbdfDbtb dst) {
+
+        boolfbn mbskRfquirfd = xrMgr.mbskRfquirfd();
+        boolfbn mbskEvblubtfd = XRUtils.isMbskEvblubtfd(xrMgr.dompRulf);
+
+        if (mbskRfquirfd && mbskEvblubtfd) {
+            mbinTilf.dbldulbtfDirtyArfbs();
+            DirtyRfgion dirtyArfb = mbinTilf.gftDirtyArfb().dlonfRfgion();
+            mbinTilf.trbnslbtf(-dirtyArfb.x, -dirtyArfb.y);
+
+            XRColor mbskColor = xrMgr.gftMbskColor();
+
+            // Wf don't nffd tiling if bll gfomftry fits in b singlf tilf
+            if (dirtyArfb.gftWidth() <= MASK_SIZE &&
+                dirtyArfb.gftHfight() <= MASK_SIZE)
+            {
+                dompositfSinglfTilf(dst, mbinTilf, dirtyArfb,
+                                     mbskRfquirfd, 0, 0, mbskColor);
+            } flsf {
+                bllodTilfs(dirtyArfb);
+                tilfRfdts();
+
+                for (int i = 0; i < yTilfs; i++) {
+                    for (int m = 0; m < xTilfs; m++) {
+                        MbskTilf tilf = tilfList.gft(i * xTilfs + m);
+
+                        int tilfStbrtX = m * MASK_SIZE;
+                        int tilfStbrtY = i * MASK_SIZE;
+                        dompositfSinglfTilf(dst, tilf, dirtyArfb, mbskRfquirfd,
+                                            tilfStbrtX, tilfStbrtY, mbskColor);
+                    }
+                }
+            }
+        } flsf {
+            /*
+             * If b mbsk would bf rfquirfd to storf gfomftry (mbskRfquirfd)
+             * domposition hbs to bf donf rfdtbnglf-by-rfdtbglf.
+             */
+            if(xrMgr.isSolidPbintAdtivf()) {
+                xrMgr.XRRfndfrRfdtbnglfs(dst, mbinTilf.gftRfdts());
+            } flsf {
+                xrMgr.XRCompositfRfdtbnglfs(dst, mbinTilf.gftRfdts());
+            }
+        }
+
+        mbinTilf.rfsft();
+    }
+
+    /**
+     * Uplobds bb gfomftry gfnfrbtfd for mbskblit/fill into thf mbsk pixmbp.
+     */
+    publid int uplobdMbsk(int w, int h, int mbsksdbn, int mbskoff, bytf[] mbsk) {
+        int mbskPid = XRUtils.Nonf;
+
+        if (mbsk != null) {
+            flobt mbskAlphb =
+                 xrMgr.isTfxturfPbintAdtivf() ? xrMgr.gftExtrbAlphb() : 1.0f;
+            don.putMbskImbgf(mbskPixmbp, mbskGC, mbsk, 0, 0, 0, 0,
+                             w, h, mbskoff, mbsksdbn, mbskAlphb);
+            mbskPid = mbskPidturf;
+        } flsf if (xrMgr.isTfxturfPbintAdtivf()) {
+            mbskPid = xrMgr.gftExtrbAlphbMbsk();
+         }
+
+        rfturn mbskPid;
+    }
+
+    /**
+     * Clfbrs thf brfb of thf mbsk-pixmbp usfd for uplobding bb dovfrbgf vblufs.
+     */
+    publid void dlfbrUplobdMbsk(int mbsk, int w, int h) {
+        if (mbsk == mbskPidturf) {
+            don.rfndfrRfdtbnglf(mbskPidturf, XRUtils.PidtOpClfbr,
+                                XRColor.NO_ALPHA, 0, 0, w, h);
+        }
+    }
+
+
+    /**
+     * Rfndfrs thf rfdtbnglfs providfd to thf mbsk, bnd dofs b domposition
+     * opfrbtion with thf propfrtifs sft inXRCompositfMbnbgfr.
+     */
+    protfdtfd void dompositfSinglfTilf(XRSurfbdfDbtb dst, MbskTilf tilf,
+                                       DirtyRfgion dirtyArfb,
+                                       boolfbn mbskRfquirfd,
+                                       int tilfStbrtX, int tilfStbrtY,
+                                       XRColor mbskColor) {
+        if (tilf.rfdts.gftSizf() > 0) {
+            DirtyRfgion tilfDirtyArfb = tilf.gftDirtyArfb();
+
+            int x = tilfDirtyArfb.x + tilfStbrtX + dirtyArfb.x;
+            int y = tilfDirtyArfb.y + tilfStbrtY + dirtyArfb.y;
+            int width = tilfDirtyArfb.x2 - tilfDirtyArfb.x;
+            int hfight = tilfDirtyArfb.y2 - tilfDirtyArfb.y;
+            width = Mbth.min(width, MASK_SIZE);
+            hfight = Mbth.min(hfight, MASK_SIZE);
+
+            int rfdtCnt = tilf.rfdts.gftSizf();
+
+            if (mbskRfquirfd) {
+                int mbsk = XRUtils.Nonf;
+
+                /*
+                 * Optimizbtion: Whfn thf tilf only dontbins onf rfdtbnglf, thf
+                 * dompositf-opfrbtion boundbrifs dbn bf usfd bs gfomftry
+                 */
+                if (rfdtCnt > 1) {
+                    don.rfndfrRfdtbnglfs(mbskPidturf, XRUtils.PidtOpSrd,
+                                         mbskColor, tilf.rfdts);
+                    mbsk = mbskPidturf;
+                } flsf {
+                    if (xrMgr.isTfxturfPbintAdtivf()) {
+                        mbsk = xrMgr.gftExtrbAlphbMbsk();
+                    }
+                }
+
+                xrMgr.XRCompositf(XRUtils.Nonf, mbsk, dst.gftPidturf(),
+                                  x, y, tilfDirtyArfb.x, tilfDirtyArfb.y,
+                                  x, y, width, hfight);
+
+                /* Clfbr dirty rfdtbnglf of thf rfdt-mbsk */
+                if (rfdtCnt > 1) {
+                    don.rfndfrRfdtbnglf(mbskPidturf, XRUtils.PidtOpClfbr,
+                                        XRColor.NO_ALPHA,
+                                        tilfDirtyArfb.x, tilfDirtyArfb.y,
+                                        width, hfight);
+                }
+
+                tilf.rfsft();
+            } flsf if (rfdtCnt > 0) {
+                tilf.rfdts.trbnslbtfRfdts(tilfStbrtX + dirtyArfb.x,
+                                          tilfStbrtY + dirtyArfb.y);
+                xrMgr.XRRfndfrRfdtbnglfs(dst, tilf.rfdts);
+            }
+        }
+    }
+
+
+    /**
+     * Allodbtfs fnough MbskTilf instbndfs, to dovfr thf wholf
+     * mbsk brfb, or rfsfts fxisting onfs.
+     */
+    protfdtfd void bllodTilfs(DirtyRfgion mbskArfb) {
+        xTilfs = (mbskArfb.gftWidth() / MASK_SIZE) + 1;
+        yTilfs = (mbskArfb.gftHfight() / MASK_SIZE) + 1;
+        int tilfCnt = xTilfs * yTilfs;
+
+        if (tilfCnt > bllodbtfdTilfs) {
+            for (int i = 0; i < tilfCnt; i++) {
+                if (i < bllodbtfdTilfs) {
+                    tilfList.gft(i).rfsft();
+                } flsf {
+                    tilfList.bdd(nfw MbskTilf());
+                }
+            }
+
+            bllodbtfdTilfs = tilfCnt;
+        }
+    }
+
+    /**
+     * Tilfs thf storfd rfdtbnglfs, if thfy brf lbrgfr thbn thf MASK_SIZE
+     */
+    protfdtfd void tilfRfdts() {
+        GrowbblfRfdtArrby rfdts = mbinTilf.rfdts;
+
+        for (int i = 0; i < rfdts.gftSizf(); i++) {
+            int tilfXStbrtIndfx = rfdts.gftX(i) / MASK_SIZE;
+            int tilfYStbrtIndfx = rfdts.gftY(i) / MASK_SIZE;
+            int tilfXLfngth =
+                ((rfdts.gftX(i) + rfdts.gftWidth(i)) / MASK_SIZE + 1) -
+                 tilfXStbrtIndfx;
+            int tilfYLfngth =
+                 ((rfdts.gftY(i) + rfdts.gftHfight(i)) / MASK_SIZE + 1) -
+                 tilfYStbrtIndfx;
+
+            for (int n = 0; n < tilfYLfngth; n++) {
+                for (int m = 0; m < tilfXLfngth; m++) {
+
+                    int tilfIndfx =
+                         xTilfs * (tilfYStbrtIndfx + n) + tilfXStbrtIndfx + m;
+                    MbskTilf tilf = tilfList.gft(tilfIndfx);
+
+                    GrowbblfRfdtArrby rfdtTilfList = tilf.gftRfdts();
+                    int tilfArrbyIndfx = rfdtTilfList.gftNfxtIndfx();
+
+                    int tilfStbrtPosX = (tilfXStbrtIndfx + m) * MASK_SIZE;
+                    int tilfStbrtPosY = (tilfYStbrtIndfx + n) * MASK_SIZE;
+
+                    rfdtTilfList.sftX(tilfArrbyIndfx, rfdts.gftX(i) - tilfStbrtPosX);
+                    rfdtTilfList.sftY(tilfArrbyIndfx, rfdts.gftY(i) - tilfStbrtPosY);
+                    rfdtTilfList.sftWidth(tilfArrbyIndfx, rfdts.gftWidth(i));
+                    rfdtTilfList.sftHfight(tilfArrbyIndfx, rfdts.gftHfight(i));
+
+                    limitRfdtCoords(rfdtTilfList, tilfArrbyIndfx);
+
+                    tilf.gftDirtyArfb().growDirtyRfgion
+                       (rfdtTilfList.gftX(tilfArrbyIndfx),
+                        rfdtTilfList.gftY(tilfArrbyIndfx),
+                        rfdtTilfList.gftWidth(tilfArrbyIndfx) +
+                             rfdtTilfList.gftX(tilfArrbyIndfx),
+                        rfdtTilfList.gftHfight(tilfArrbyIndfx) +
+                            rfdtTilfList.gftY(tilfArrbyIndfx));
+                }
+            }
+        }
+    }
+
+    /**
+     * Limits thf rfdt's doordinbtfs to thf mbsk doordinbtfs. Thf rfsult is usfd
+     * by growDirtyRfgion.
+     */
+    privbtf void limitRfdtCoords(GrowbblfRfdtArrby rfdts, int indfx) {
+        if ((rfdts.gftX(indfx) + rfdts.gftWidth(indfx)) > MASK_SIZE) {
+            rfdts.sftWidth(indfx, MASK_SIZE - rfdts.gftX(indfx));
+        }
+        if ((rfdts.gftY(indfx) + rfdts.gftHfight(indfx)) > MASK_SIZE) {
+            rfdts.sftHfight(indfx, MASK_SIZE - rfdts.gftY(indfx));
+        }
+        if (rfdts.gftX(indfx) < 0) {
+            rfdts.sftWidth(indfx, rfdts.gftWidth(indfx) + rfdts.gftX(indfx));
+            rfdts.sftX(indfx, 0);
+        }
+        if (rfdts.gftY(indfx) < 0) {
+            rfdts.sftHfight(indfx, rfdts.gftHfight(indfx) + rfdts.gftY(indfx));
+            rfdts.sftY(indfx, 0);
+        }
+    }
+
+    /**
+     * @rfturn MbinTilf to whidh rfdtbnglfs brf bddfd bfforf domposition.
+     */
+    publid MbskTilf gftMbinTilf() {
+        rfturn mbinTilf;
+     }
+}

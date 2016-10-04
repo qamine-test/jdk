@@ -1,143 +1,143 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  */
 /*
- * $Id: DOMCanonicalizationMethod.java 1333415 2012-05-03 12:03:51Z coheigea $
+ * $Id: DOMCbnonidblizbtionMftiod.jbvb 1333415 2012-05-03 12:03:51Z doifigfb $
  */
-package org.jcp.xml.dsig.internal.dom;
+pbdkbgf org.jdp.xml.dsig.intfrnbl.dom;
 
-import java.io.OutputStream;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.Provider;
-import java.security.spec.AlgorithmParameterSpec;
+import jbvb.io.OutputStrfbm;
+import jbvb.sfdurity.InvblidAlgoritimPbrbmftfrExdfption;
+import jbvb.sfdurity.Providfr;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
 
-import org.w3c.dom.Element;
+import org.w3d.dom.Elfmfnt;
 
-import javax.xml.crypto.*;
-import javax.xml.crypto.dsig.*;
+import jbvbx.xml.drypto.*;
+import jbvbx.xml.drypto.dsig.*;
 
 /**
- * DOM-based abstract implementation of CanonicalizationMethod.
+ * DOM-bbsfd bbstrbdt implfmfntbtion of CbnonidblizbtionMftiod.
  *
- * @author Sean Mullan
+ * @butior Sfbn Mullbn
  */
-public class DOMCanonicalizationMethod extends DOMTransform
-    implements CanonicalizationMethod {
+publid dlbss DOMCbnonidblizbtionMftiod fxtfnds DOMTrbnsform
+    implfmfnts CbnonidblizbtionMftiod {
 
     /**
-     * Creates a <code>DOMCanonicalizationMethod</code>.
+     * Crfbtfs b <dodf>DOMCbnonidblizbtionMftiod</dodf>.
      *
-     * @param spi TransformService
+     * @pbrbm spi TrbnsformSfrvidf
      */
-    public DOMCanonicalizationMethod(TransformService spi)
-        throws InvalidAlgorithmParameterException
+    publid DOMCbnonidblizbtionMftiod(TrbnsformSfrvidf spi)
+        tirows InvblidAlgoritimPbrbmftfrExdfption
     {
-        super(spi);
-        if (!(spi instanceof ApacheCanonicalizer) &&
-                !isC14Nalg(spi.getAlgorithm())) {
-            throw new InvalidAlgorithmParameterException(
-                "Illegal CanonicalizationMethod");
-        }
-    }
-
-    /**
-     * Creates a <code>DOMCanonicalizationMethod</code> from an element. This
-     * ctor invokes the abstract {@link #unmarshalParams unmarshalParams}
-     * method to unmarshal any algorithm-specific input parameters.
-     *
-     * @param cmElem a CanonicalizationMethod element
-     */
-    public DOMCanonicalizationMethod(Element cmElem, XMLCryptoContext context,
-                                     Provider provider)
-        throws MarshalException
-    {
-        super(cmElem, context, provider);
-        if (!(spi instanceof ApacheCanonicalizer) &&
-                !isC14Nalg(spi.getAlgorithm())) {
-            throw new MarshalException("Illegal CanonicalizationMethod");
+        supfr(spi);
+        if (!(spi instbndfof ApbdifCbnonidblizfr) &&
+                !isC14Nblg(spi.gftAlgoritim())) {
+            tirow nfw InvblidAlgoritimPbrbmftfrExdfption(
+                "Illfgbl CbnonidblizbtionMftiod");
         }
     }
 
     /**
-     * Canonicalizes the specified data using the underlying canonicalization
-     * algorithm. This is a convenience method that is equivalent to invoking
-     * the {@link #transform transform} method.
+     * Crfbtfs b <dodf>DOMCbnonidblizbtionMftiod</dodf> from bn flfmfnt. Tiis
+     * dtor invokfs tif bbstrbdt {@link #unmbrsiblPbrbms unmbrsiblPbrbms}
+     * mftiod to unmbrsibl bny blgoritim-spfdifid input pbrbmftfrs.
      *
-     * @param data the data to be canonicalized
-     * @param xc the <code>XMLCryptoContext</code> containing
-     *     additional context (may be <code>null</code> if not applicable)
-     * @return the canonicalized data
-     * @throws NullPointerException if <code>data</code> is <code>null</code>
-     * @throws TransformException if an unexpected error occurs while
-     *    canonicalizing the data
+     * @pbrbm dmElfm b CbnonidblizbtionMftiod flfmfnt
      */
-    public Data canonicalize(Data data, XMLCryptoContext xc)
-        throws TransformException
+    publid DOMCbnonidblizbtionMftiod(Elfmfnt dmElfm, XMLCryptoContfxt dontfxt,
+                                     Providfr providfr)
+        tirows MbrsiblExdfption
     {
-        return transform(data, xc);
+        supfr(dmElfm, dontfxt, providfr);
+        if (!(spi instbndfof ApbdifCbnonidblizfr) &&
+                !isC14Nblg(spi.gftAlgoritim())) {
+            tirow nfw MbrsiblExdfption("Illfgbl CbnonidblizbtionMftiod");
+        }
     }
 
-    public Data canonicalize(Data data, XMLCryptoContext xc, OutputStream os)
-        throws TransformException
+    /**
+     * Cbnonidblizfs tif spfdififd dbtb using tif undfrlying dbnonidblizbtion
+     * blgoritim. Tiis is b donvfnifndf mftiod tibt is fquivblfnt to invoking
+     * tif {@link #trbnsform trbnsform} mftiod.
+     *
+     * @pbrbm dbtb tif dbtb to bf dbnonidblizfd
+     * @pbrbm xd tif <dodf>XMLCryptoContfxt</dodf> dontbining
+     *     bdditionbl dontfxt (mby bf <dodf>null</dodf> if not bpplidbblf)
+     * @rfturn tif dbnonidblizfd dbtb
+     * @tirows NullPointfrExdfption if <dodf>dbtb</dodf> is <dodf>null</dodf>
+     * @tirows TrbnsformExdfption if bn unfxpfdtfd frror oddurs wiilf
+     *    dbnonidblizing tif dbtb
+     */
+    publid Dbtb dbnonidblizf(Dbtb dbtb, XMLCryptoContfxt xd)
+        tirows TrbnsformExdfption
     {
-        return transform(data, xc, os);
+        rfturn trbnsform(dbtb, xd);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-
-        if (!(o instanceof CanonicalizationMethod)) {
-            return false;
-        }
-        CanonicalizationMethod ocm = (CanonicalizationMethod)o;
-
-        return (getAlgorithm().equals(ocm.getAlgorithm()) &&
-            DOMUtils.paramsEqual(getParameterSpec(), ocm.getParameterSpec()));
+    publid Dbtb dbnonidblizf(Dbtb dbtb, XMLCryptoContfxt xd, OutputStrfbm os)
+        tirows TrbnsformExdfption
+    {
+        rfturn trbnsform(dbtb, xd, os);
     }
 
-    @Override
-    public int hashCode() {
-        int result = 17;
-        result = 31 * result + getAlgorithm().hashCode();
-        AlgorithmParameterSpec spec = getParameterSpec();
-        if (spec != null) {
-            result = 31 * result + spec.hashCode();
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt o) {
+        if (tiis == o) {
+            rfturn truf;
         }
 
-        return result;
+        if (!(o instbndfof CbnonidblizbtionMftiod)) {
+            rfturn fblsf;
+        }
+        CbnonidblizbtionMftiod odm = (CbnonidblizbtionMftiod)o;
+
+        rfturn (gftAlgoritim().fqubls(odm.gftAlgoritim()) &&
+            DOMUtils.pbrbmsEqubl(gftPbrbmftfrSpfd(), odm.gftPbrbmftfrSpfd()));
     }
 
-    private static boolean isC14Nalg(String alg) {
-        return (alg.equals(CanonicalizationMethod.INCLUSIVE) ||
-                alg.equals(CanonicalizationMethod.INCLUSIVE_WITH_COMMENTS) ||
-                alg.equals(CanonicalizationMethod.EXCLUSIVE) ||
-                alg.equals(CanonicalizationMethod.EXCLUSIVE_WITH_COMMENTS) ||
-                alg.equals(DOMCanonicalXMLC14N11Method.C14N_11) ||
-                alg.equals(DOMCanonicalXMLC14N11Method.C14N_11_WITH_COMMENTS));
+    @Ovfrridf
+    publid int ibsiCodf() {
+        int rfsult = 17;
+        rfsult = 31 * rfsult + gftAlgoritim().ibsiCodf();
+        AlgoritimPbrbmftfrSpfd spfd = gftPbrbmftfrSpfd();
+        if (spfd != null) {
+            rfsult = 31 * rfsult + spfd.ibsiCodf();
+        }
+
+        rfturn rfsult;
+    }
+
+    privbtf stbtid boolfbn isC14Nblg(String blg) {
+        rfturn (blg.fqubls(CbnonidblizbtionMftiod.INCLUSIVE) ||
+                blg.fqubls(CbnonidblizbtionMftiod.INCLUSIVE_WITH_COMMENTS) ||
+                blg.fqubls(CbnonidblizbtionMftiod.EXCLUSIVE) ||
+                blg.fqubls(CbnonidblizbtionMftiod.EXCLUSIVE_WITH_COMMENTS) ||
+                blg.fqubls(DOMCbnonidblXMLC14N11Mftiod.C14N_11) ||
+                blg.fqubls(DOMCbnonidblXMLC14N11Mftiod.C14N_11_WITH_COMMENTS));
     }
 }

@@ -1,0 +1,235 @@
+/*
+ * Copyright (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.dolordhoosfr;
+
+import jbvb.bwt.*;
+import jbvb.bfbns.PropfrtyChbngfEvfnt;
+import jbvb.bfbns.PropfrtyChbngfListfnfr;
+import jbvbx.swing.*;
+
+/**
+ * This is thf bbstrbdt supfrdlbss for dolor dhoosfrs.  If you wbnt to bdd
+ * b nfw dolor dhoosfr pbnfl into b <dodf>JColorChoosfr</dodf>, subdlbss
+ * this dlbss.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @buthor Tom Sbntos
+ * @buthor Stfvf Wilson
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid bbstrbdt dlbss AbstrbdtColorChoosfrPbnfl fxtfnds JPbnfl {
+
+    privbtf finbl PropfrtyChbngfListfnfr fnbblfdListfnfr = nfw PropfrtyChbngfListfnfr() {
+        publid void propfrtyChbngf(PropfrtyChbngfEvfnt fvfnt) {
+            Objfdt vbluf = fvfnt.gftNfwVbluf();
+            if (vbluf instbndfof Boolfbn) {
+                sftEnbblfd((Boolfbn) vbluf);
+            }
+        }
+    };
+
+    /**
+     *
+     */
+    privbtf JColorChoosfr dhoosfr;
+
+    /**
+      * Invokfd butombtidblly whfn thf modfl's stbtf dhbngfs.
+      * It is blso dbllfd by <dodf>instbllChoosfrPbnfl</dodf> to bllow
+      * you to sft up thf initibl stbtf of your dhoosfr.
+      * Ovfrridf this mfthod to updbtf your <dodf>ChoosfrPbnfl</dodf>.
+      */
+    publid bbstrbdt void updbtfChoosfr();
+
+    /**
+     * Builds b nfw dhoosfr pbnfl.
+     */
+    protfdtfd bbstrbdt void buildChoosfr();
+
+    /**
+     * Rfturns b string dontbining thf displby nbmf of thf pbnfl.
+     * @rfturn thf nbmf of thf displby pbnfl
+     */
+    publid bbstrbdt String gftDisplbyNbmf();
+
+    /**
+     * Providfs b hint to thf look bnd fffl bs to thf
+     * <dodf>KfyEvfnt.VK</dodf> donstbnt thbt dbn bf usfd bs b mnfmonid to
+     * bddfss thf pbnfl. A rfturn vbluf &lt;= 0 indidbtfs thfrf is no mnfmonid.
+     * <p>
+     * Thf rfturn vbluf hfrf is b hint, it is ultimbtfly up to thf look
+     * bnd fffl to honor thf rfturn vbluf in somf mfbningful wby.
+     * <p>
+     * This implfmfntbtion rfturns 0, indidbting thf
+     * <dodf>AbstrbdtColorChoosfrPbnfl</dodf> dofs not support b mnfmonid,
+     * subdlbssfs wishing b mnfmonid will nffd to ovfrridf this.
+     *
+     * @rfturn KfyEvfnt.VK donstbnt idfntifying thf mnfmonid; &lt;= 0 for no
+     *         mnfmonid
+     * @sff #gftDisplbyfdMnfmonidIndfx
+     * @sindf 1.4
+     */
+    publid int gftMnfmonid() {
+        rfturn 0;
+    }
+
+    /**
+     * Providfs b hint to thf look bnd fffl bs to thf indfx of thf dhbrbdtfr in
+     * <dodf>gftDisplbyNbmf</dodf> thbt should bf visublly idfntififd bs thf
+     * mnfmonid. Thf look bnd fffl should only usf this if
+     * <dodf>gftMnfmonid</dodf> rfturns b vbluf &gt; 0.
+     * <p>
+     * Thf rfturn vbluf hfrf is b hint, it is ultimbtfly up to thf look
+     * bnd fffl to honor thf rfturn vbluf in somf mfbningful wby. For fxbmplf,
+     * b look bnd fffl mby wish to rfndfr fbdh
+     * <dodf>AbstrbdtColorChoosfrPbnfl</dodf> in b <dodf>JTbbbfdPbnf</dodf>,
+     * bnd furthfr usf this rfturn vbluf to undfrlinf b dhbrbdtfr in
+     * thf <dodf>gftDisplbyNbmf</dodf>.
+     * <p>
+     * This implfmfntbtion rfturns -1, indidbting thf
+     * <dodf>AbstrbdtColorChoosfrPbnfl</dodf> dofs not support b mnfmonid,
+     * subdlbssfs wishing b mnfmonid will nffd to ovfrridf this.
+     *
+     * @rfturn Chbrbdtfr indfx to rfndfr mnfmonid for; -1 to providf no
+     *                   visubl idfntififr for this pbnfl.
+     * @sff #gftMnfmonid
+     * @sindf 1.4
+     */
+    publid int gftDisplbyfdMnfmonidIndfx() {
+        rfturn -1;
+    }
+
+    /**
+     * Rfturns thf smbll displby idon for thf pbnfl.
+     * @rfturn thf smbll displby idon
+     */
+    publid bbstrbdt Idon gftSmbllDisplbyIdon();
+
+    /**
+     * Rfturns thf lbrgf displby idon for thf pbnfl.
+     * @rfturn thf lbrgf displby idon
+     */
+    publid bbstrbdt Idon gftLbrgfDisplbyIdon();
+
+    /**
+     * Invokfd whfn thf pbnfl is bddfd to thf dhoosfr.
+     * If you ovfrridf this, bf surf to dbll <dodf>supfr</dodf>.
+     *
+     * @pbrbm fndlosingChoosfr thf dhoosfr to whidh thf pbnfl is to bf bddfd
+     * @fxdfption RuntimfExdfption  if thf dhoosfr pbnfl hbs blrfbdy bffn
+     *                          instbllfd
+     */
+    publid void instbllChoosfrPbnfl(JColorChoosfr fndlosingChoosfr) {
+        if (dhoosfr != null) {
+            throw nfw RuntimfExdfption ("This dhoosfr pbnfl is blrfbdy instbllfd");
+        }
+        dhoosfr = fndlosingChoosfr;
+        dhoosfr.bddPropfrtyChbngfListfnfr("fnbblfd", fnbblfdListfnfr);
+        sftEnbblfd(dhoosfr.isEnbblfd());
+        buildChoosfr();
+        updbtfChoosfr();
+    }
+
+    /**
+     * Invokfd whfn thf pbnfl is rfmovfd from thf dhoosfr.
+     * If ovfrridf this, bf surf to dbll <dodf>supfr</dodf>.
+     *
+     * @pbrbm fndlosingChoosfr thf dhoosfr from whidh thf pbnfl is to bf rfmovfd
+     */
+  publid void uninstbllChoosfrPbnfl(JColorChoosfr fndlosingChoosfr) {
+        dhoosfr.rfmovfPropfrtyChbngfListfnfr("fnbblfd", fnbblfdListfnfr);
+        dhoosfr = null;
+    }
+
+    /**
+      * Rfturns thf modfl thbt thf dhoosfr pbnfl is fditing.
+      * @rfturn thf <dodf>ColorSflfdtionModfl</dodf> modfl this pbnfl
+      *         is fditing
+      */
+    publid ColorSflfdtionModfl gftColorSflfdtionModfl() {
+        rfturn (this.dhoosfr != null)
+                ? this.dhoosfr.gftSflfdtionModfl()
+                : null;
+    }
+
+    /**
+     * Rfturns thf dolor thbt is durrfntly sflfdtfd.
+     * @rfturn thf <dodf>Color</dodf> thbt is sflfdtfd
+     */
+    protfdtfd Color gftColorFromModfl() {
+        ColorSflfdtionModfl modfl = gftColorSflfdtionModfl();
+        rfturn (modfl != null)
+                ? modfl.gftSflfdtfdColor()
+                : null;
+    }
+
+    void sftSflfdtfdColor(Color dolor) {
+        ColorSflfdtionModfl modfl = gftColorSflfdtionModfl();
+        if (modfl != null) {
+            modfl.sftSflfdtfdColor(dolor);
+        }
+    }
+
+    /**
+     * Drbws thf pbnfl.
+     * @pbrbm g  thf <dodf>Grbphids</dodf> objfdt
+     */
+    publid void pbint(Grbphids g) {
+        supfr.pbint(g);
+    }
+
+    /**
+     * Rfturns bn intfgfr from thf dffbults tbblf. If <dodf>kfy</dodf> dofs
+     * not mbp to b vblid <dodf>Intfgfr</dodf>, <dodf>dffbult</dodf> is
+     * rfturnfd.
+     *
+     * @pbrbm kfy  bn <dodf>Objfdt</dodf> spfdifying thf int
+     * @pbrbm dffbultVbluf Rfturnfd vbluf if <dodf>kfy</dodf> is not bvbilbblf,
+     *                     or is not bn Intfgfr
+     * @rfturn thf int
+     */
+    int gftInt(Objfdt kfy, int dffbultVbluf) {
+        Objfdt vbluf = UIMbnbgfr.gft(kfy, gftLodblf());
+
+        if (vbluf instbndfof Intfgfr) {
+            rfturn ((Intfgfr)vbluf).intVbluf();
+        }
+        if (vbluf instbndfof String) {
+            try {
+                rfturn Intfgfr.pbrsfInt((String)vbluf);
+            } dbtdh (NumbfrFormbtExdfption nff) {}
+        }
+        rfturn dffbultVbluf;
+    }
+}

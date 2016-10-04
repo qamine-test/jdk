@@ -1,560 +1,560 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang.invoke;
+pbdkbgf jbvb.lbng.invokf;
 
-import jdk.internal.org.objectweb.asm.*;
-import sun.invoke.util.BytecodeDescriptor;
-import sun.misc.Unsafe;
-import sun.security.action.GetPropertyAction;
+import jdk.intfrnbl.org.objfdtwfb.bsm.*;
+import sun.invokf.util.BytfdodfDfsdriptor;
+import sun.misd.Unsbff;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
 
-import java.io.FilePermission;
-import java.io.Serializable;
-import java.lang.reflect.Constructor;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.LinkedHashSet;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.PropertyPermission;
-import java.util.Set;
+import jbvb.io.FilfPfrmission;
+import jbvb.io.Sfriblizbblf;
+import jbvb.lbng.rfflfdt.Construdtor;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.LinkfdHbsiSft;
+import jbvb.util.dondurrfnt.btomid.AtomidIntfgfr;
+import jbvb.util.PropfrtyPfrmission;
+import jbvb.util.Sft;
 
-import static jdk.internal.org.objectweb.asm.Opcodes.*;
+import stbtid jdk.intfrnbl.org.objfdtwfb.bsm.Opdodfs.*;
 
 /**
- * Lambda metafactory implementation which dynamically creates an
- * inner-class-like class per lambda callsite.
+ * Lbmbdb mftbfbdtory implfmfntbtion wiidi dynbmidblly drfbtfs bn
+ * innfr-dlbss-likf dlbss pfr lbmbdb dbllsitf.
  *
- * @see LambdaMetafactory
+ * @sff LbmbdbMftbfbdtory
  */
-/* package */ final class InnerClassLambdaMetafactory extends AbstractValidatingLambdaMetafactory {
-    private static final Unsafe UNSAFE = Unsafe.getUnsafe();
+/* pbdkbgf */ finbl dlbss InnfrClbssLbmbdbMftbfbdtory fxtfnds AbstrbdtVblidbtingLbmbdbMftbfbdtory {
+    privbtf stbtid finbl Unsbff UNSAFE = Unsbff.gftUnsbff();
 
-    private static final int CLASSFILE_VERSION = 52;
-    private static final String METHOD_DESCRIPTOR_VOID = Type.getMethodDescriptor(Type.VOID_TYPE);
-    private static final String JAVA_LANG_OBJECT = "java/lang/Object";
-    private static final String NAME_CTOR = "<init>";
-    private static final String NAME_FACTORY = "get$Lambda";
+    privbtf stbtid finbl int CLASSFILE_VERSION = 52;
+    privbtf stbtid finbl String METHOD_DESCRIPTOR_VOID = Typf.gftMftiodDfsdriptor(Typf.VOID_TYPE);
+    privbtf stbtid finbl String JAVA_LANG_OBJECT = "jbvb/lbng/Objfdt";
+    privbtf stbtid finbl String NAME_CTOR = "<init>";
+    privbtf stbtid finbl String NAME_FACTORY = "gft$Lbmbdb";
 
-    //Serialization support
-    private static final String NAME_SERIALIZED_LAMBDA = "java/lang/invoke/SerializedLambda";
-    private static final String NAME_NOT_SERIALIZABLE_EXCEPTION = "java/io/NotSerializableException";
-    private static final String DESCR_METHOD_WRITE_REPLACE = "()Ljava/lang/Object;";
-    private static final String DESCR_METHOD_WRITE_OBJECT = "(Ljava/io/ObjectOutputStream;)V";
-    private static final String DESCR_METHOD_READ_OBJECT = "(Ljava/io/ObjectInputStream;)V";
-    private static final String NAME_METHOD_WRITE_REPLACE = "writeReplace";
-    private static final String NAME_METHOD_READ_OBJECT = "readObject";
-    private static final String NAME_METHOD_WRITE_OBJECT = "writeObject";
-    private static final String DESCR_CTOR_SERIALIZED_LAMBDA
-            = MethodType.methodType(void.class,
-                                    Class.class,
-                                    String.class, String.class, String.class,
-                                    int.class, String.class, String.class, String.class,
-                                    String.class,
-                                    Object[].class).toMethodDescriptorString();
-    private static final String DESCR_CTOR_NOT_SERIALIZABLE_EXCEPTION
-            = MethodType.methodType(void.class, String.class).toMethodDescriptorString();
-    private static final String[] SER_HOSTILE_EXCEPTIONS = new String[] {NAME_NOT_SERIALIZABLE_EXCEPTION};
+    //Sfriblizbtion support
+    privbtf stbtid finbl String NAME_SERIALIZED_LAMBDA = "jbvb/lbng/invokf/SfriblizfdLbmbdb";
+    privbtf stbtid finbl String NAME_NOT_SERIALIZABLE_EXCEPTION = "jbvb/io/NotSfriblizbblfExdfption";
+    privbtf stbtid finbl String DESCR_METHOD_WRITE_REPLACE = "()Ljbvb/lbng/Objfdt;";
+    privbtf stbtid finbl String DESCR_METHOD_WRITE_OBJECT = "(Ljbvb/io/ObjfdtOutputStrfbm;)V";
+    privbtf stbtid finbl String DESCR_METHOD_READ_OBJECT = "(Ljbvb/io/ObjfdtInputStrfbm;)V";
+    privbtf stbtid finbl String NAME_METHOD_WRITE_REPLACE = "writfRfplbdf";
+    privbtf stbtid finbl String NAME_METHOD_READ_OBJECT = "rfbdObjfdt";
+    privbtf stbtid finbl String NAME_METHOD_WRITE_OBJECT = "writfObjfdt";
+    privbtf stbtid finbl String DESCR_CTOR_SERIALIZED_LAMBDA
+            = MftiodTypf.mftiodTypf(void.dlbss,
+                                    Clbss.dlbss,
+                                    String.dlbss, String.dlbss, String.dlbss,
+                                    int.dlbss, String.dlbss, String.dlbss, String.dlbss,
+                                    String.dlbss,
+                                    Objfdt[].dlbss).toMftiodDfsdriptorString();
+    privbtf stbtid finbl String DESCR_CTOR_NOT_SERIALIZABLE_EXCEPTION
+            = MftiodTypf.mftiodTypf(void.dlbss, String.dlbss).toMftiodDfsdriptorString();
+    privbtf stbtid finbl String[] SER_HOSTILE_EXCEPTIONS = nfw String[] {NAME_NOT_SERIALIZABLE_EXCEPTION};
 
 
-    private static final String[] EMPTY_STRING_ARRAY = new String[0];
+    privbtf stbtid finbl String[] EMPTY_STRING_ARRAY = nfw String[0];
 
-    // Used to ensure that each spun class name is unique
-    private static final AtomicInteger counter = new AtomicInteger(0);
+    // Usfd to fnsurf tibt fbdi spun dlbss nbmf is uniquf
+    privbtf stbtid finbl AtomidIntfgfr dountfr = nfw AtomidIntfgfr(0);
 
-    // For dumping generated classes to disk, for debugging purposes
-    private static final ProxyClassesDumper dumper;
+    // For dumping gfnfrbtfd dlbssfs to disk, for dfbugging purposfs
+    privbtf stbtid finbl ProxyClbssfsDumpfr dumpfr;
 
-    static {
-        final String key = "jdk.internal.lambda.dumpProxyClasses";
-        String path = AccessController.doPrivileged(
-                new GetPropertyAction(key), null,
-                new PropertyPermission(key , "read"));
-        dumper = (null == path) ? null : ProxyClassesDumper.getInstance(path);
+    stbtid {
+        finbl String kfy = "jdk.intfrnbl.lbmbdb.dumpProxyClbssfs";
+        String pbti = AddfssControllfr.doPrivilfgfd(
+                nfw GftPropfrtyAdtion(kfy), null,
+                nfw PropfrtyPfrmission(kfy , "rfbd"));
+        dumpfr = (null == pbti) ? null : ProxyClbssfsDumpfr.gftInstbndf(pbti);
     }
 
-    // See context values in AbstractValidatingLambdaMetafactory
-    private final String implMethodClassName;        // Name of type containing implementation "CC"
-    private final String implMethodName;             // Name of implementation method "impl"
-    private final String implMethodDesc;             // Type descriptor for implementation methods "(I)Ljava/lang/String;"
-    private final Class<?> implMethodReturnClass;    // class for implementaion method return type "Ljava/lang/String;"
-    private final MethodType constructorType;        // Generated class constructor type "(CC)void"
-    private final ClassWriter cw;                    // ASM class writer
-    private final String[] argNames;                 // Generated names for the constructor arguments
-    private final String[] argDescs;                 // Type descriptors for the constructor arguments
-    private final String lambdaClassName;            // Generated name for the generated class "X$$Lambda$1"
+    // Sff dontfxt vblufs in AbstrbdtVblidbtingLbmbdbMftbfbdtory
+    privbtf finbl String implMftiodClbssNbmf;        // Nbmf of typf dontbining implfmfntbtion "CC"
+    privbtf finbl String implMftiodNbmf;             // Nbmf of implfmfntbtion mftiod "impl"
+    privbtf finbl String implMftiodDfsd;             // Typf dfsdriptor for implfmfntbtion mftiods "(I)Ljbvb/lbng/String;"
+    privbtf finbl Clbss<?> implMftiodRfturnClbss;    // dlbss for implfmfntbion mftiod rfturn typf "Ljbvb/lbng/String;"
+    privbtf finbl MftiodTypf donstrudtorTypf;        // Gfnfrbtfd dlbss donstrudtor typf "(CC)void"
+    privbtf finbl ClbssWritfr dw;                    // ASM dlbss writfr
+    privbtf finbl String[] brgNbmfs;                 // Gfnfrbtfd nbmfs for tif donstrudtor brgumfnts
+    privbtf finbl String[] brgDfsds;                 // Typf dfsdriptors for tif donstrudtor brgumfnts
+    privbtf finbl String lbmbdbClbssNbmf;            // Gfnfrbtfd nbmf for tif gfnfrbtfd dlbss "X$$Lbmbdb$1"
 
     /**
-     * General meta-factory constructor, supporting both standard cases and
-     * allowing for uncommon options such as serialization or bridging.
+     * Gfnfrbl mftb-fbdtory donstrudtor, supporting boti stbndbrd dbsfs bnd
+     * bllowing for undommon options sudi bs sfriblizbtion or bridging.
      *
-     * @param caller Stacked automatically by VM; represents a lookup context
-     *               with the accessibility privileges of the caller.
-     * @param invokedType Stacked automatically by VM; the signature of the
-     *                    invoked method, which includes the expected static
-     *                    type of the returned lambda object, and the static
-     *                    types of the captured arguments for the lambda.  In
-     *                    the event that the implementation method is an
-     *                    instance method, the first argument in the invocation
-     *                    signature will correspond to the receiver.
-     * @param samMethodName Name of the method in the functional interface to
-     *                      which the lambda or method reference is being
-     *                      converted, represented as a String.
-     * @param samMethodType Type of the method in the functional interface to
-     *                      which the lambda or method reference is being
-     *                      converted, represented as a MethodType.
-     * @param implMethod The implementation method which should be called (with
-     *                   suitable adaptation of argument types, return types,
-     *                   and adjustment for captured arguments) when methods of
-     *                   the resulting functional interface instance are invoked.
-     * @param instantiatedMethodType The signature of the primary functional
-     *                               interface method after type variables are
-     *                               substituted with their instantiation from
-     *                               the capture site
-     * @param isSerializable Should the lambda be made serializable?  If set,
-     *                       either the target type or one of the additional SAM
-     *                       types must extend {@code Serializable}.
-     * @param markerInterfaces Additional interfaces which the lambda object
-     *                       should implement.
-     * @param additionalBridges Method types for additional signatures to be
-     *                          bridged to the implementation method
-     * @throws LambdaConversionException If any of the meta-factory protocol
-     * invariants are violated
+     * @pbrbm dbllfr Stbdkfd butombtidblly by VM; rfprfsfnts b lookup dontfxt
+     *               witi tif bddfssibility privilfgfs of tif dbllfr.
+     * @pbrbm invokfdTypf Stbdkfd butombtidblly by VM; tif signbturf of tif
+     *                    invokfd mftiod, wiidi indludfs tif fxpfdtfd stbtid
+     *                    typf of tif rfturnfd lbmbdb objfdt, bnd tif stbtid
+     *                    typfs of tif dbpturfd brgumfnts for tif lbmbdb.  In
+     *                    tif fvfnt tibt tif implfmfntbtion mftiod is bn
+     *                    instbndf mftiod, tif first brgumfnt in tif invodbtion
+     *                    signbturf will dorrfspond to tif rfdfivfr.
+     * @pbrbm sbmMftiodNbmf Nbmf of tif mftiod in tif fundtionbl intfrfbdf to
+     *                      wiidi tif lbmbdb or mftiod rfffrfndf is bfing
+     *                      donvfrtfd, rfprfsfntfd bs b String.
+     * @pbrbm sbmMftiodTypf Typf of tif mftiod in tif fundtionbl intfrfbdf to
+     *                      wiidi tif lbmbdb or mftiod rfffrfndf is bfing
+     *                      donvfrtfd, rfprfsfntfd bs b MftiodTypf.
+     * @pbrbm implMftiod Tif implfmfntbtion mftiod wiidi siould bf dbllfd (witi
+     *                   suitbblf bdbptbtion of brgumfnt typfs, rfturn typfs,
+     *                   bnd bdjustmfnt for dbpturfd brgumfnts) wifn mftiods of
+     *                   tif rfsulting fundtionbl intfrfbdf instbndf brf invokfd.
+     * @pbrbm instbntibtfdMftiodTypf Tif signbturf of tif primbry fundtionbl
+     *                               intfrfbdf mftiod bftfr typf vbribblfs brf
+     *                               substitutfd witi tifir instbntibtion from
+     *                               tif dbpturf sitf
+     * @pbrbm isSfriblizbblf Siould tif lbmbdb bf mbdf sfriblizbblf?  If sft,
+     *                       fitifr tif tbrgft typf or onf of tif bdditionbl SAM
+     *                       typfs must fxtfnd {@dodf Sfriblizbblf}.
+     * @pbrbm mbrkfrIntfrfbdfs Additionbl intfrfbdfs wiidi tif lbmbdb objfdt
+     *                       siould implfmfnt.
+     * @pbrbm bdditionblBridgfs Mftiod typfs for bdditionbl signbturfs to bf
+     *                          bridgfd to tif implfmfntbtion mftiod
+     * @tirows LbmbdbConvfrsionExdfption If bny of tif mftb-fbdtory protodol
+     * invbribnts brf violbtfd
      */
-    public InnerClassLambdaMetafactory(MethodHandles.Lookup caller,
-                                       MethodType invokedType,
-                                       String samMethodName,
-                                       MethodType samMethodType,
-                                       MethodHandle implMethod,
-                                       MethodType instantiatedMethodType,
-                                       boolean isSerializable,
-                                       Class<?>[] markerInterfaces,
-                                       MethodType[] additionalBridges)
-            throws LambdaConversionException {
-        super(caller, invokedType, samMethodName, samMethodType,
-              implMethod, instantiatedMethodType,
-              isSerializable, markerInterfaces, additionalBridges);
-        implMethodClassName = implDefiningClass.getName().replace('.', '/');
-        implMethodName = implInfo.getName();
-        implMethodDesc = implMethodType.toMethodDescriptorString();
-        implMethodReturnClass = (implKind == MethodHandleInfo.REF_newInvokeSpecial)
-                ? implDefiningClass
-                : implMethodType.returnType();
-        constructorType = invokedType.changeReturnType(Void.TYPE);
-        lambdaClassName = targetClass.getName().replace('.', '/') + "$$Lambda$" + counter.incrementAndGet();
-        cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
-        int parameterCount = invokedType.parameterCount();
-        if (parameterCount > 0) {
-            argNames = new String[parameterCount];
-            argDescs = new String[parameterCount];
-            for (int i = 0; i < parameterCount; i++) {
-                argNames[i] = "arg$" + (i + 1);
-                argDescs[i] = BytecodeDescriptor.unparse(invokedType.parameterType(i));
+    publid InnfrClbssLbmbdbMftbfbdtory(MftiodHbndlfs.Lookup dbllfr,
+                                       MftiodTypf invokfdTypf,
+                                       String sbmMftiodNbmf,
+                                       MftiodTypf sbmMftiodTypf,
+                                       MftiodHbndlf implMftiod,
+                                       MftiodTypf instbntibtfdMftiodTypf,
+                                       boolfbn isSfriblizbblf,
+                                       Clbss<?>[] mbrkfrIntfrfbdfs,
+                                       MftiodTypf[] bdditionblBridgfs)
+            tirows LbmbdbConvfrsionExdfption {
+        supfr(dbllfr, invokfdTypf, sbmMftiodNbmf, sbmMftiodTypf,
+              implMftiod, instbntibtfdMftiodTypf,
+              isSfriblizbblf, mbrkfrIntfrfbdfs, bdditionblBridgfs);
+        implMftiodClbssNbmf = implDffiningClbss.gftNbmf().rfplbdf('.', '/');
+        implMftiodNbmf = implInfo.gftNbmf();
+        implMftiodDfsd = implMftiodTypf.toMftiodDfsdriptorString();
+        implMftiodRfturnClbss = (implKind == MftiodHbndlfInfo.REF_nfwInvokfSpfdibl)
+                ? implDffiningClbss
+                : implMftiodTypf.rfturnTypf();
+        donstrudtorTypf = invokfdTypf.dibngfRfturnTypf(Void.TYPE);
+        lbmbdbClbssNbmf = tbrgftClbss.gftNbmf().rfplbdf('.', '/') + "$$Lbmbdb$" + dountfr.indrfmfntAndGft();
+        dw = nfw ClbssWritfr(ClbssWritfr.COMPUTE_MAXS);
+        int pbrbmftfrCount = invokfdTypf.pbrbmftfrCount();
+        if (pbrbmftfrCount > 0) {
+            brgNbmfs = nfw String[pbrbmftfrCount];
+            brgDfsds = nfw String[pbrbmftfrCount];
+            for (int i = 0; i < pbrbmftfrCount; i++) {
+                brgNbmfs[i] = "brg$" + (i + 1);
+                brgDfsds[i] = BytfdodfDfsdriptor.unpbrsf(invokfdTypf.pbrbmftfrTypf(i));
             }
-        } else {
-            argNames = argDescs = EMPTY_STRING_ARRAY;
+        } flsf {
+            brgNbmfs = brgDfsds = EMPTY_STRING_ARRAY;
         }
     }
 
     /**
-     * Build the CallSite. Generate a class file which implements the functional
-     * interface, define the class, if there are no parameters create an instance
-     * of the class which the CallSite will return, otherwise, generate handles
-     * which will call the class' constructor.
+     * Build tif CbllSitf. Gfnfrbtf b dlbss filf wiidi implfmfnts tif fundtionbl
+     * intfrfbdf, dffinf tif dlbss, if tifrf brf no pbrbmftfrs drfbtf bn instbndf
+     * of tif dlbss wiidi tif CbllSitf will rfturn, otifrwisf, gfnfrbtf ibndlfs
+     * wiidi will dbll tif dlbss' donstrudtor.
      *
-     * @return a CallSite, which, when invoked, will return an instance of the
-     * functional interface
-     * @throws ReflectiveOperationException
-     * @throws LambdaConversionException If properly formed functional interface
+     * @rfturn b CbllSitf, wiidi, wifn invokfd, will rfturn bn instbndf of tif
+     * fundtionbl intfrfbdf
+     * @tirows RfflfdtivfOpfrbtionExdfption
+     * @tirows LbmbdbConvfrsionExdfption If propfrly formfd fundtionbl intfrfbdf
      * is not found
      */
-    @Override
-    CallSite buildCallSite() throws LambdaConversionException {
-        final Class<?> innerClass = spinInnerClass();
-        if (invokedType.parameterCount() == 0) {
-            final Constructor<?>[] ctrs = AccessController.doPrivileged(
-                    new PrivilegedAction<Constructor<?>[]>() {
-                @Override
-                public Constructor<?>[] run() {
-                    Constructor<?>[] ctrs = innerClass.getDeclaredConstructors();
-                    if (ctrs.length == 1) {
-                        // The lambda implementing inner class constructor is private, set
-                        // it accessible (by us) before creating the constant sole instance
-                        ctrs[0].setAccessible(true);
+    @Ovfrridf
+    CbllSitf buildCbllSitf() tirows LbmbdbConvfrsionExdfption {
+        finbl Clbss<?> innfrClbss = spinInnfrClbss();
+        if (invokfdTypf.pbrbmftfrCount() == 0) {
+            finbl Construdtor<?>[] dtrs = AddfssControllfr.doPrivilfgfd(
+                    nfw PrivilfgfdAdtion<Construdtor<?>[]>() {
+                @Ovfrridf
+                publid Construdtor<?>[] run() {
+                    Construdtor<?>[] dtrs = innfrClbss.gftDfdlbrfdConstrudtors();
+                    if (dtrs.lfngti == 1) {
+                        // Tif lbmbdb implfmfnting innfr dlbss donstrudtor is privbtf, sft
+                        // it bddfssiblf (by us) bfforf drfbting tif donstbnt solf instbndf
+                        dtrs[0].sftAddfssiblf(truf);
                     }
-                    return ctrs;
+                    rfturn dtrs;
                 }
                     });
-            if (ctrs.length != 1) {
-                throw new LambdaConversionException("Expected one lambda constructor for "
-                        + innerClass.getCanonicalName() + ", got " + ctrs.length);
+            if (dtrs.lfngti != 1) {
+                tirow nfw LbmbdbConvfrsionExdfption("Expfdtfd onf lbmbdb donstrudtor for "
+                        + innfrClbss.gftCbnonidblNbmf() + ", got " + dtrs.lfngti);
             }
 
             try {
-                Object inst = ctrs[0].newInstance();
-                return new ConstantCallSite(MethodHandles.constant(samBase, inst));
+                Objfdt inst = dtrs[0].nfwInstbndf();
+                rfturn nfw ConstbntCbllSitf(MftiodHbndlfs.donstbnt(sbmBbsf, inst));
             }
-            catch (ReflectiveOperationException e) {
-                throw new LambdaConversionException("Exception instantiating lambda object", e);
+            dbtdi (RfflfdtivfOpfrbtionExdfption f) {
+                tirow nfw LbmbdbConvfrsionExdfption("Exdfption instbntibting lbmbdb objfdt", f);
             }
-        } else {
+        } flsf {
             try {
-                UNSAFE.ensureClassInitialized(innerClass);
-                return new ConstantCallSite(
-                        MethodHandles.Lookup.IMPL_LOOKUP
-                             .findStatic(innerClass, NAME_FACTORY, invokedType));
+                UNSAFE.fnsurfClbssInitiblizfd(innfrClbss);
+                rfturn nfw ConstbntCbllSitf(
+                        MftiodHbndlfs.Lookup.IMPL_LOOKUP
+                             .findStbtid(innfrClbss, NAME_FACTORY, invokfdTypf));
             }
-            catch (ReflectiveOperationException e) {
-                throw new LambdaConversionException("Exception finding constructor", e);
+            dbtdi (RfflfdtivfOpfrbtionExdfption f) {
+                tirow nfw LbmbdbConvfrsionExdfption("Exdfption finding donstrudtor", f);
             }
         }
     }
 
     /**
-     * Generate a class file which implements the functional
-     * interface, define and return the class.
+     * Gfnfrbtf b dlbss filf wiidi implfmfnts tif fundtionbl
+     * intfrfbdf, dffinf bnd rfturn tif dlbss.
      *
-     * @implNote The class that is generated does not include signature
-     * information for exceptions that may be present on the SAM method.
-     * This is to reduce classfile size, and is harmless as checked exceptions
-     * are erased anyway, no one will ever compile against this classfile,
-     * and we make no guarantees about the reflective properties of lambda
-     * objects.
+     * @implNotf Tif dlbss tibt is gfnfrbtfd dofs not indludf signbturf
+     * informbtion for fxdfptions tibt mby bf prfsfnt on tif SAM mftiod.
+     * Tiis is to rfdudf dlbssfilf sizf, bnd is ibrmlfss bs difdkfd fxdfptions
+     * brf frbsfd bnywby, no onf will fvfr dompilf bgbinst tiis dlbssfilf,
+     * bnd wf mbkf no gubrbntffs bbout tif rfflfdtivf propfrtifs of lbmbdb
+     * objfdts.
      *
-     * @return a Class which implements the functional interface
-     * @throws LambdaConversionException If properly formed functional interface
+     * @rfturn b Clbss wiidi implfmfnts tif fundtionbl intfrfbdf
+     * @tirows LbmbdbConvfrsionExdfption If propfrly formfd fundtionbl intfrfbdf
      * is not found
      */
-    private Class<?> spinInnerClass() throws LambdaConversionException {
-        String[] interfaces;
-        String samIntf = samBase.getName().replace('.', '/');
-        boolean accidentallySerializable = !isSerializable && Serializable.class.isAssignableFrom(samBase);
-        if (markerInterfaces.length == 0) {
-            interfaces = new String[]{samIntf};
-        } else {
-            // Assure no duplicate interfaces (ClassFormatError)
-            Set<String> itfs = new LinkedHashSet<>(markerInterfaces.length + 1);
-            itfs.add(samIntf);
-            for (Class<?> markerInterface : markerInterfaces) {
-                itfs.add(markerInterface.getName().replace('.', '/'));
-                accidentallySerializable |= !isSerializable && Serializable.class.isAssignableFrom(markerInterface);
+    privbtf Clbss<?> spinInnfrClbss() tirows LbmbdbConvfrsionExdfption {
+        String[] intfrfbdfs;
+        String sbmIntf = sbmBbsf.gftNbmf().rfplbdf('.', '/');
+        boolfbn bddidfntbllySfriblizbblf = !isSfriblizbblf && Sfriblizbblf.dlbss.isAssignbblfFrom(sbmBbsf);
+        if (mbrkfrIntfrfbdfs.lfngti == 0) {
+            intfrfbdfs = nfw String[]{sbmIntf};
+        } flsf {
+            // Assurf no duplidbtf intfrfbdfs (ClbssFormbtError)
+            Sft<String> itfs = nfw LinkfdHbsiSft<>(mbrkfrIntfrfbdfs.lfngti + 1);
+            itfs.bdd(sbmIntf);
+            for (Clbss<?> mbrkfrIntfrfbdf : mbrkfrIntfrfbdfs) {
+                itfs.bdd(mbrkfrIntfrfbdf.gftNbmf().rfplbdf('.', '/'));
+                bddidfntbllySfriblizbblf |= !isSfriblizbblf && Sfriblizbblf.dlbss.isAssignbblfFrom(mbrkfrIntfrfbdf);
             }
-            interfaces = itfs.toArray(new String[itfs.size()]);
+            intfrfbdfs = itfs.toArrby(nfw String[itfs.sizf()]);
         }
 
-        cw.visit(CLASSFILE_VERSION, ACC_SUPER + ACC_FINAL + ACC_SYNTHETIC,
-                 lambdaClassName, null,
-                 JAVA_LANG_OBJECT, interfaces);
+        dw.visit(CLASSFILE_VERSION, ACC_SUPER + ACC_FINAL + ACC_SYNTHETIC,
+                 lbmbdbClbssNbmf, null,
+                 JAVA_LANG_OBJECT, intfrfbdfs);
 
-        // Generate final fields to be filled in by constructor
-        for (int i = 0; i < argDescs.length; i++) {
-            FieldVisitor fv = cw.visitField(ACC_PRIVATE + ACC_FINAL,
-                                            argNames[i],
-                                            argDescs[i],
+        // Gfnfrbtf finbl fiflds to bf fillfd in by donstrudtor
+        for (int i = 0; i < brgDfsds.lfngti; i++) {
+            FifldVisitor fv = dw.visitFifld(ACC_PRIVATE + ACC_FINAL,
+                                            brgNbmfs[i],
+                                            brgDfsds[i],
                                             null, null);
             fv.visitEnd();
         }
 
-        generateConstructor();
+        gfnfrbtfConstrudtor();
 
-        if (invokedType.parameterCount() != 0) {
-            generateFactory();
+        if (invokfdTypf.pbrbmftfrCount() != 0) {
+            gfnfrbtfFbdtory();
         }
 
-        // Forward the SAM method
-        MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, samMethodName,
-                                          samMethodType.toMethodDescriptorString(), null, null);
-        new ForwardingMethodGenerator(mv).generate(samMethodType);
+        // Forwbrd tif SAM mftiod
+        MftiodVisitor mv = dw.visitMftiod(ACC_PUBLIC, sbmMftiodNbmf,
+                                          sbmMftiodTypf.toMftiodDfsdriptorString(), null, null);
+        nfw ForwbrdingMftiodGfnfrbtor(mv).gfnfrbtf(sbmMftiodTypf);
 
-        // Forward the bridges
-        if (additionalBridges != null) {
-            for (MethodType mt : additionalBridges) {
-                mv = cw.visitMethod(ACC_PUBLIC|ACC_BRIDGE, samMethodName,
-                                    mt.toMethodDescriptorString(), null, null);
-                new ForwardingMethodGenerator(mv).generate(mt);
+        // Forwbrd tif bridgfs
+        if (bdditionblBridgfs != null) {
+            for (MftiodTypf mt : bdditionblBridgfs) {
+                mv = dw.visitMftiod(ACC_PUBLIC|ACC_BRIDGE, sbmMftiodNbmf,
+                                    mt.toMftiodDfsdriptorString(), null, null);
+                nfw ForwbrdingMftiodGfnfrbtor(mv).gfnfrbtf(mt);
             }
         }
 
-        if (isSerializable)
-            generateSerializationFriendlyMethods();
-        else if (accidentallySerializable)
-            generateSerializationHostileMethods();
+        if (isSfriblizbblf)
+            gfnfrbtfSfriblizbtionFrifndlyMftiods();
+        flsf if (bddidfntbllySfriblizbblf)
+            gfnfrbtfSfriblizbtionHostilfMftiods();
 
-        cw.visitEnd();
+        dw.visitEnd();
 
-        // Define the generated class in this VM.
+        // Dffinf tif gfnfrbtfd dlbss in tiis VM.
 
-        final byte[] classBytes = cw.toByteArray();
+        finbl bytf[] dlbssBytfs = dw.toBytfArrby();
 
-        // If requested, dump out to a file for debugging purposes
-        if (dumper != null) {
-            AccessController.doPrivileged(new PrivilegedAction<Void>() {
-                @Override
-                public Void run() {
-                    dumper.dumpClass(lambdaClassName, classBytes);
-                    return null;
+        // If rfqufstfd, dump out to b filf for dfbugging purposfs
+        if (dumpfr != null) {
+            AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+                @Ovfrridf
+                publid Void run() {
+                    dumpfr.dumpClbss(lbmbdbClbssNbmf, dlbssBytfs);
+                    rfturn null;
                 }
             }, null,
-            new FilePermission("<<ALL FILES>>", "read, write"),
-            // createDirectories may need it
-            new PropertyPermission("user.dir", "read"));
+            nfw FilfPfrmission("<<ALL FILES>>", "rfbd, writf"),
+            // drfbtfDirfdtorifs mby nffd it
+            nfw PropfrtyPfrmission("usfr.dir", "rfbd"));
         }
 
-        return UNSAFE.defineAnonymousClass(targetClass, classBytes, null);
+        rfturn UNSAFE.dffinfAnonymousClbss(tbrgftClbss, dlbssBytfs, null);
     }
 
     /**
-     * Generate the factory method for the class
+     * Gfnfrbtf tif fbdtory mftiod for tif dlbss
      */
-    private void generateFactory() {
-        MethodVisitor m = cw.visitMethod(ACC_PRIVATE | ACC_STATIC, NAME_FACTORY, invokedType.toMethodDescriptorString(), null, null);
-        m.visitCode();
-        m.visitTypeInsn(NEW, lambdaClassName);
-        m.visitInsn(Opcodes.DUP);
-        int parameterCount = invokedType.parameterCount();
-        for (int typeIndex = 0, varIndex = 0; typeIndex < parameterCount; typeIndex++) {
-            Class<?> argType = invokedType.parameterType(typeIndex);
-            m.visitVarInsn(getLoadOpcode(argType), varIndex);
-            varIndex += getParameterSize(argType);
+    privbtf void gfnfrbtfFbdtory() {
+        MftiodVisitor m = dw.visitMftiod(ACC_PRIVATE | ACC_STATIC, NAME_FACTORY, invokfdTypf.toMftiodDfsdriptorString(), null, null);
+        m.visitCodf();
+        m.visitTypfInsn(NEW, lbmbdbClbssNbmf);
+        m.visitInsn(Opdodfs.DUP);
+        int pbrbmftfrCount = invokfdTypf.pbrbmftfrCount();
+        for (int typfIndfx = 0, vbrIndfx = 0; typfIndfx < pbrbmftfrCount; typfIndfx++) {
+            Clbss<?> brgTypf = invokfdTypf.pbrbmftfrTypf(typfIndfx);
+            m.visitVbrInsn(gftLobdOpdodf(brgTypf), vbrIndfx);
+            vbrIndfx += gftPbrbmftfrSizf(brgTypf);
         }
-        m.visitMethodInsn(INVOKESPECIAL, lambdaClassName, NAME_CTOR, constructorType.toMethodDescriptorString(), false);
+        m.visitMftiodInsn(INVOKESPECIAL, lbmbdbClbssNbmf, NAME_CTOR, donstrudtorTypf.toMftiodDfsdriptorString(), fblsf);
         m.visitInsn(ARETURN);
-        m.visitMaxs(-1, -1);
+        m.visitMbxs(-1, -1);
         m.visitEnd();
     }
 
     /**
-     * Generate the constructor for the class
+     * Gfnfrbtf tif donstrudtor for tif dlbss
      */
-    private void generateConstructor() {
-        // Generate constructor
-        MethodVisitor ctor = cw.visitMethod(ACC_PRIVATE, NAME_CTOR,
-                                            constructorType.toMethodDescriptorString(), null, null);
-        ctor.visitCode();
-        ctor.visitVarInsn(ALOAD, 0);
-        ctor.visitMethodInsn(INVOKESPECIAL, JAVA_LANG_OBJECT, NAME_CTOR,
-                             METHOD_DESCRIPTOR_VOID, false);
-        int parameterCount = invokedType.parameterCount();
-        for (int i = 0, lvIndex = 0; i < parameterCount; i++) {
-            ctor.visitVarInsn(ALOAD, 0);
-            Class<?> argType = invokedType.parameterType(i);
-            ctor.visitVarInsn(getLoadOpcode(argType), lvIndex + 1);
-            lvIndex += getParameterSize(argType);
-            ctor.visitFieldInsn(PUTFIELD, lambdaClassName, argNames[i], argDescs[i]);
+    privbtf void gfnfrbtfConstrudtor() {
+        // Gfnfrbtf donstrudtor
+        MftiodVisitor dtor = dw.visitMftiod(ACC_PRIVATE, NAME_CTOR,
+                                            donstrudtorTypf.toMftiodDfsdriptorString(), null, null);
+        dtor.visitCodf();
+        dtor.visitVbrInsn(ALOAD, 0);
+        dtor.visitMftiodInsn(INVOKESPECIAL, JAVA_LANG_OBJECT, NAME_CTOR,
+                             METHOD_DESCRIPTOR_VOID, fblsf);
+        int pbrbmftfrCount = invokfdTypf.pbrbmftfrCount();
+        for (int i = 0, lvIndfx = 0; i < pbrbmftfrCount; i++) {
+            dtor.visitVbrInsn(ALOAD, 0);
+            Clbss<?> brgTypf = invokfdTypf.pbrbmftfrTypf(i);
+            dtor.visitVbrInsn(gftLobdOpdodf(brgTypf), lvIndfx + 1);
+            lvIndfx += gftPbrbmftfrSizf(brgTypf);
+            dtor.visitFifldInsn(PUTFIELD, lbmbdbClbssNbmf, brgNbmfs[i], brgDfsds[i]);
         }
-        ctor.visitInsn(RETURN);
-        // Maxs computed by ClassWriter.COMPUTE_MAXS, these arguments ignored
-        ctor.visitMaxs(-1, -1);
-        ctor.visitEnd();
+        dtor.visitInsn(RETURN);
+        // Mbxs domputfd by ClbssWritfr.COMPUTE_MAXS, tifsf brgumfnts ignorfd
+        dtor.visitMbxs(-1, -1);
+        dtor.visitEnd();
     }
 
     /**
-     * Generate a writeReplace method that supports serialization
+     * Gfnfrbtf b writfRfplbdf mftiod tibt supports sfriblizbtion
      */
-    private void generateSerializationFriendlyMethods() {
-        TypeConvertingMethodAdapter mv
-                = new TypeConvertingMethodAdapter(
-                    cw.visitMethod(ACC_PRIVATE + ACC_FINAL,
+    privbtf void gfnfrbtfSfriblizbtionFrifndlyMftiods() {
+        TypfConvfrtingMftiodAdbptfr mv
+                = nfw TypfConvfrtingMftiodAdbptfr(
+                    dw.visitMftiod(ACC_PRIVATE + ACC_FINAL,
                     NAME_METHOD_WRITE_REPLACE, DESCR_METHOD_WRITE_REPLACE,
                     null, null));
 
-        mv.visitCode();
-        mv.visitTypeInsn(NEW, NAME_SERIALIZED_LAMBDA);
+        mv.visitCodf();
+        mv.visitTypfInsn(NEW, NAME_SERIALIZED_LAMBDA);
         mv.visitInsn(DUP);
-        mv.visitLdcInsn(Type.getType(targetClass));
-        mv.visitLdcInsn(invokedType.returnType().getName().replace('.', '/'));
-        mv.visitLdcInsn(samMethodName);
-        mv.visitLdcInsn(samMethodType.toMethodDescriptorString());
-        mv.visitLdcInsn(implInfo.getReferenceKind());
-        mv.visitLdcInsn(implInfo.getDeclaringClass().getName().replace('.', '/'));
-        mv.visitLdcInsn(implInfo.getName());
-        mv.visitLdcInsn(implInfo.getMethodType().toMethodDescriptorString());
-        mv.visitLdcInsn(instantiatedMethodType.toMethodDescriptorString());
-        mv.iconst(argDescs.length);
-        mv.visitTypeInsn(ANEWARRAY, JAVA_LANG_OBJECT);
-        for (int i = 0; i < argDescs.length; i++) {
+        mv.visitLddInsn(Typf.gftTypf(tbrgftClbss));
+        mv.visitLddInsn(invokfdTypf.rfturnTypf().gftNbmf().rfplbdf('.', '/'));
+        mv.visitLddInsn(sbmMftiodNbmf);
+        mv.visitLddInsn(sbmMftiodTypf.toMftiodDfsdriptorString());
+        mv.visitLddInsn(implInfo.gftRfffrfndfKind());
+        mv.visitLddInsn(implInfo.gftDfdlbringClbss().gftNbmf().rfplbdf('.', '/'));
+        mv.visitLddInsn(implInfo.gftNbmf());
+        mv.visitLddInsn(implInfo.gftMftiodTypf().toMftiodDfsdriptorString());
+        mv.visitLddInsn(instbntibtfdMftiodTypf.toMftiodDfsdriptorString());
+        mv.idonst(brgDfsds.lfngti);
+        mv.visitTypfInsn(ANEWARRAY, JAVA_LANG_OBJECT);
+        for (int i = 0; i < brgDfsds.lfngti; i++) {
             mv.visitInsn(DUP);
-            mv.iconst(i);
-            mv.visitVarInsn(ALOAD, 0);
-            mv.visitFieldInsn(GETFIELD, lambdaClassName, argNames[i], argDescs[i]);
-            mv.boxIfTypePrimitive(Type.getType(argDescs[i]));
+            mv.idonst(i);
+            mv.visitVbrInsn(ALOAD, 0);
+            mv.visitFifldInsn(GETFIELD, lbmbdbClbssNbmf, brgNbmfs[i], brgDfsds[i]);
+            mv.boxIfTypfPrimitivf(Typf.gftTypf(brgDfsds[i]));
             mv.visitInsn(AASTORE);
         }
-        mv.visitMethodInsn(INVOKESPECIAL, NAME_SERIALIZED_LAMBDA, NAME_CTOR,
-                DESCR_CTOR_SERIALIZED_LAMBDA, false);
+        mv.visitMftiodInsn(INVOKESPECIAL, NAME_SERIALIZED_LAMBDA, NAME_CTOR,
+                DESCR_CTOR_SERIALIZED_LAMBDA, fblsf);
         mv.visitInsn(ARETURN);
-        // Maxs computed by ClassWriter.COMPUTE_MAXS, these arguments ignored
-        mv.visitMaxs(-1, -1);
+        // Mbxs domputfd by ClbssWritfr.COMPUTE_MAXS, tifsf brgumfnts ignorfd
+        mv.visitMbxs(-1, -1);
         mv.visitEnd();
     }
 
     /**
-     * Generate a readObject/writeObject method that is hostile to serialization
+     * Gfnfrbtf b rfbdObjfdt/writfObjfdt mftiod tibt is iostilf to sfriblizbtion
      */
-    private void generateSerializationHostileMethods() {
-        MethodVisitor mv = cw.visitMethod(ACC_PRIVATE + ACC_FINAL,
+    privbtf void gfnfrbtfSfriblizbtionHostilfMftiods() {
+        MftiodVisitor mv = dw.visitMftiod(ACC_PRIVATE + ACC_FINAL,
                                           NAME_METHOD_WRITE_OBJECT, DESCR_METHOD_WRITE_OBJECT,
                                           null, SER_HOSTILE_EXCEPTIONS);
-        mv.visitCode();
-        mv.visitTypeInsn(NEW, NAME_NOT_SERIALIZABLE_EXCEPTION);
+        mv.visitCodf();
+        mv.visitTypfInsn(NEW, NAME_NOT_SERIALIZABLE_EXCEPTION);
         mv.visitInsn(DUP);
-        mv.visitLdcInsn("Non-serializable lambda");
-        mv.visitMethodInsn(INVOKESPECIAL, NAME_NOT_SERIALIZABLE_EXCEPTION, NAME_CTOR,
-                           DESCR_CTOR_NOT_SERIALIZABLE_EXCEPTION, false);
+        mv.visitLddInsn("Non-sfriblizbblf lbmbdb");
+        mv.visitMftiodInsn(INVOKESPECIAL, NAME_NOT_SERIALIZABLE_EXCEPTION, NAME_CTOR,
+                           DESCR_CTOR_NOT_SERIALIZABLE_EXCEPTION, fblsf);
         mv.visitInsn(ATHROW);
-        mv.visitMaxs(-1, -1);
+        mv.visitMbxs(-1, -1);
         mv.visitEnd();
 
-        mv = cw.visitMethod(ACC_PRIVATE + ACC_FINAL,
+        mv = dw.visitMftiod(ACC_PRIVATE + ACC_FINAL,
                             NAME_METHOD_READ_OBJECT, DESCR_METHOD_READ_OBJECT,
                             null, SER_HOSTILE_EXCEPTIONS);
-        mv.visitCode();
-        mv.visitTypeInsn(NEW, NAME_NOT_SERIALIZABLE_EXCEPTION);
+        mv.visitCodf();
+        mv.visitTypfInsn(NEW, NAME_NOT_SERIALIZABLE_EXCEPTION);
         mv.visitInsn(DUP);
-        mv.visitLdcInsn("Non-serializable lambda");
-        mv.visitMethodInsn(INVOKESPECIAL, NAME_NOT_SERIALIZABLE_EXCEPTION, NAME_CTOR,
-                           DESCR_CTOR_NOT_SERIALIZABLE_EXCEPTION, false);
+        mv.visitLddInsn("Non-sfriblizbblf lbmbdb");
+        mv.visitMftiodInsn(INVOKESPECIAL, NAME_NOT_SERIALIZABLE_EXCEPTION, NAME_CTOR,
+                           DESCR_CTOR_NOT_SERIALIZABLE_EXCEPTION, fblsf);
         mv.visitInsn(ATHROW);
-        mv.visitMaxs(-1, -1);
+        mv.visitMbxs(-1, -1);
         mv.visitEnd();
     }
 
     /**
-     * This class generates a method body which calls the lambda implementation
-     * method, converting arguments, as needed.
+     * Tiis dlbss gfnfrbtfs b mftiod body wiidi dblls tif lbmbdb implfmfntbtion
+     * mftiod, donvfrting brgumfnts, bs nffdfd.
      */
-    private class ForwardingMethodGenerator extends TypeConvertingMethodAdapter {
+    privbtf dlbss ForwbrdingMftiodGfnfrbtor fxtfnds TypfConvfrtingMftiodAdbptfr {
 
-        ForwardingMethodGenerator(MethodVisitor mv) {
-            super(mv);
+        ForwbrdingMftiodGfnfrbtor(MftiodVisitor mv) {
+            supfr(mv);
         }
 
-        void generate(MethodType methodType) {
-            visitCode();
+        void gfnfrbtf(MftiodTypf mftiodTypf) {
+            visitCodf();
 
-            if (implKind == MethodHandleInfo.REF_newInvokeSpecial) {
-                visitTypeInsn(NEW, implMethodClassName);
+            if (implKind == MftiodHbndlfInfo.REF_nfwInvokfSpfdibl) {
+                visitTypfInsn(NEW, implMftiodClbssNbmf);
                 visitInsn(DUP);
             }
-            for (int i = 0; i < argNames.length; i++) {
-                visitVarInsn(ALOAD, 0);
-                visitFieldInsn(GETFIELD, lambdaClassName, argNames[i], argDescs[i]);
+            for (int i = 0; i < brgNbmfs.lfngti; i++) {
+                visitVbrInsn(ALOAD, 0);
+                visitFifldInsn(GETFIELD, lbmbdbClbssNbmf, brgNbmfs[i], brgDfsds[i]);
             }
 
-            convertArgumentTypes(methodType);
+            donvfrtArgumfntTypfs(mftiodTypf);
 
-            // Invoke the method we want to forward to
-            visitMethodInsn(invocationOpcode(), implMethodClassName,
-                            implMethodName, implMethodDesc,
-                            implDefiningClass.isInterface());
+            // Invokf tif mftiod wf wbnt to forwbrd to
+            visitMftiodInsn(invodbtionOpdodf(), implMftiodClbssNbmf,
+                            implMftiodNbmf, implMftiodDfsd,
+                            implDffiningClbss.isIntfrfbdf());
 
-            // Convert the return value (if any) and return it
-            // Note: if adapting from non-void to void, the 'return'
-            // instruction will pop the unneeded result
-            Class<?> samReturnClass = methodType.returnType();
-            convertType(implMethodReturnClass, samReturnClass, samReturnClass);
-            visitInsn(getReturnOpcode(samReturnClass));
-            // Maxs computed by ClassWriter.COMPUTE_MAXS,these arguments ignored
-            visitMaxs(-1, -1);
+            // Convfrt tif rfturn vbluf (if bny) bnd rfturn it
+            // Notf: if bdbpting from non-void to void, tif 'rfturn'
+            // instrudtion will pop tif unnffdfd rfsult
+            Clbss<?> sbmRfturnClbss = mftiodTypf.rfturnTypf();
+            donvfrtTypf(implMftiodRfturnClbss, sbmRfturnClbss, sbmRfturnClbss);
+            visitInsn(gftRfturnOpdodf(sbmRfturnClbss));
+            // Mbxs domputfd by ClbssWritfr.COMPUTE_MAXS,tifsf brgumfnts ignorfd
+            visitMbxs(-1, -1);
             visitEnd();
         }
 
-        private void convertArgumentTypes(MethodType samType) {
-            int lvIndex = 0;
-            boolean samIncludesReceiver = implIsInstanceMethod &&
-                                                   invokedType.parameterCount() == 0;
-            int samReceiverLength = samIncludesReceiver ? 1 : 0;
-            if (samIncludesReceiver) {
-                // push receiver
-                Class<?> rcvrType = samType.parameterType(0);
-                visitVarInsn(getLoadOpcode(rcvrType), lvIndex + 1);
-                lvIndex += getParameterSize(rcvrType);
-                convertType(rcvrType, implDefiningClass, instantiatedMethodType.parameterType(0));
+        privbtf void donvfrtArgumfntTypfs(MftiodTypf sbmTypf) {
+            int lvIndfx = 0;
+            boolfbn sbmIndludfsRfdfivfr = implIsInstbndfMftiod &&
+                                                   invokfdTypf.pbrbmftfrCount() == 0;
+            int sbmRfdfivfrLfngti = sbmIndludfsRfdfivfr ? 1 : 0;
+            if (sbmIndludfsRfdfivfr) {
+                // pusi rfdfivfr
+                Clbss<?> rdvrTypf = sbmTypf.pbrbmftfrTypf(0);
+                visitVbrInsn(gftLobdOpdodf(rdvrTypf), lvIndfx + 1);
+                lvIndfx += gftPbrbmftfrSizf(rdvrTypf);
+                donvfrtTypf(rdvrTypf, implDffiningClbss, instbntibtfdMftiodTypf.pbrbmftfrTypf(0));
             }
-            int samParametersLength = samType.parameterCount();
-            int argOffset = implMethodType.parameterCount() - samParametersLength;
-            for (int i = samReceiverLength; i < samParametersLength; i++) {
-                Class<?> argType = samType.parameterType(i);
-                visitVarInsn(getLoadOpcode(argType), lvIndex + 1);
-                lvIndex += getParameterSize(argType);
-                convertType(argType, implMethodType.parameterType(argOffset + i), instantiatedMethodType.parameterType(i));
+            int sbmPbrbmftfrsLfngti = sbmTypf.pbrbmftfrCount();
+            int brgOffsft = implMftiodTypf.pbrbmftfrCount() - sbmPbrbmftfrsLfngti;
+            for (int i = sbmRfdfivfrLfngti; i < sbmPbrbmftfrsLfngti; i++) {
+                Clbss<?> brgTypf = sbmTypf.pbrbmftfrTypf(i);
+                visitVbrInsn(gftLobdOpdodf(brgTypf), lvIndfx + 1);
+                lvIndfx += gftPbrbmftfrSizf(brgTypf);
+                donvfrtTypf(brgTypf, implMftiodTypf.pbrbmftfrTypf(brgOffsft + i), instbntibtfdMftiodTypf.pbrbmftfrTypf(i));
             }
         }
 
-        private int invocationOpcode() throws InternalError {
-            switch (implKind) {
-                case MethodHandleInfo.REF_invokeStatic:
-                    return INVOKESTATIC;
-                case MethodHandleInfo.REF_newInvokeSpecial:
-                    return INVOKESPECIAL;
-                 case MethodHandleInfo.REF_invokeVirtual:
-                    return INVOKEVIRTUAL;
-                case MethodHandleInfo.REF_invokeInterface:
-                    return INVOKEINTERFACE;
-                case MethodHandleInfo.REF_invokeSpecial:
-                    return INVOKESPECIAL;
-                default:
-                    throw new InternalError("Unexpected invocation kind: " + implKind);
+        privbtf int invodbtionOpdodf() tirows IntfrnblError {
+            switdi (implKind) {
+                dbsf MftiodHbndlfInfo.REF_invokfStbtid:
+                    rfturn INVOKESTATIC;
+                dbsf MftiodHbndlfInfo.REF_nfwInvokfSpfdibl:
+                    rfturn INVOKESPECIAL;
+                 dbsf MftiodHbndlfInfo.REF_invokfVirtubl:
+                    rfturn INVOKEVIRTUAL;
+                dbsf MftiodHbndlfInfo.REF_invokfIntfrfbdf:
+                    rfturn INVOKEINTERFACE;
+                dbsf MftiodHbndlfInfo.REF_invokfSpfdibl:
+                    rfturn INVOKESPECIAL;
+                dffbult:
+                    tirow nfw IntfrnblError("Unfxpfdtfd invodbtion kind: " + implKind);
             }
         }
     }
 
-    static int getParameterSize(Class<?> c) {
-        if (c == Void.TYPE) {
-            return 0;
-        } else if (c == Long.TYPE || c == Double.TYPE) {
-            return 2;
+    stbtid int gftPbrbmftfrSizf(Clbss<?> d) {
+        if (d == Void.TYPE) {
+            rfturn 0;
+        } flsf if (d == Long.TYPE || d == Doublf.TYPE) {
+            rfturn 2;
         }
-        return 1;
+        rfturn 1;
     }
 
-    static int getLoadOpcode(Class<?> c) {
-        if(c == Void.TYPE) {
-            throw new InternalError("Unexpected void type of load opcode");
+    stbtid int gftLobdOpdodf(Clbss<?> d) {
+        if(d == Void.TYPE) {
+            tirow nfw IntfrnblError("Unfxpfdtfd void typf of lobd opdodf");
         }
-        return ILOAD + getOpcodeOffset(c);
+        rfturn ILOAD + gftOpdodfOffsft(d);
     }
 
-    static int getReturnOpcode(Class<?> c) {
-        if(c == Void.TYPE) {
-            return RETURN;
+    stbtid int gftRfturnOpdodf(Clbss<?> d) {
+        if(d == Void.TYPE) {
+            rfturn RETURN;
         }
-        return IRETURN + getOpcodeOffset(c);
+        rfturn IRETURN + gftOpdodfOffsft(d);
     }
 
-    private static int getOpcodeOffset(Class<?> c) {
-        if (c.isPrimitive()) {
-            if (c == Long.TYPE) {
-                return 1;
-            } else if (c == Float.TYPE) {
-                return 2;
-            } else if (c == Double.TYPE) {
-                return 3;
+    privbtf stbtid int gftOpdodfOffsft(Clbss<?> d) {
+        if (d.isPrimitivf()) {
+            if (d == Long.TYPE) {
+                rfturn 1;
+            } flsf if (d == Flobt.TYPE) {
+                rfturn 2;
+            } flsf if (d == Doublf.TYPE) {
+                rfturn 3;
             }
-            return 0;
-        } else {
-            return 4;
+            rfturn 0;
+        } flsf {
+            rfturn 4;
         }
     }
 

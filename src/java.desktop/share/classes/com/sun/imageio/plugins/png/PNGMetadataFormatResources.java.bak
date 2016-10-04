@@ -1,218 +1,218 @@
 /*
- * Copyright (c) 2001, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.imageio.plugins.png;
+pbdkbgf dom.sun.imbgfio.plugins.png;
 
-import java.util.ListResourceBundle;
+import jbvb.util.ListRfsourdfBundlf;
 
-public class PNGMetadataFormatResources extends ListResourceBundle {
+publid dlbss PNGMftbdbtbFormbtRfsourdfs fxtfnds ListRfsourdfBundlf {
 
-    public PNGMetadataFormatResources() {}
+    publid PNGMftbdbtbFormbtRfsourdfs() {}
 
-    protected Object[][] getContents() {
-        return new Object[][] {
+    protfdtfd Objfdt[][] gftContfnts() {
+        rfturn nfw Objfdt[][] {
 
-        // Node name, followed by description
-        { "IHDR", "The IHDR chunk, containing the header" },
-        { "PLTE", "The PLTE chunk, containing the palette" },
-        { "PLTEEntry", "A palette entry" },
-        { "bKGD", "The bKGD chunk, containing the background color" },
-        { "bKGD_RGB", "An RGB background color, for RGB and RGBAlpha images" },
-        { "bKGD_Grayscale",
-          "A grayscale background color, for Gray and GrayAlpha images" },
-        { "bKGD_Palette", "A background palette index" },
-        { "cHRM", "The cHRM chunk, containing color calibration" },
-        { "gAMA", "The gAMA chunk, containing the image gamma" },
-        { "hIST", "The hIST chunk, containing histogram information " },
-        { "hISTEntry", "A histogram entry" },
-        { "iCCP", "The iCCP chunk, containing an ICC color profile" },
-        { "iTXt", "The iTXt chunk, containing internationalized text" },
-        { "iTXtEntry", "A localized text entry" },
+        // Nodf nbmf, followfd by dfsdription
+        { "IHDR", "Tif IHDR diunk, dontbining tif ifbdfr" },
+        { "PLTE", "Tif PLTE diunk, dontbining tif pblfttf" },
+        { "PLTEEntry", "A pblfttf fntry" },
+        { "bKGD", "Tif bKGD diunk, dontbining tif bbdkground dolor" },
+        { "bKGD_RGB", "An RGB bbdkground dolor, for RGB bnd RGBAlpib imbgfs" },
+        { "bKGD_Grbysdblf",
+          "A grbysdblf bbdkground dolor, for Grby bnd GrbyAlpib imbgfs" },
+        { "bKGD_Pblfttf", "A bbdkground pblfttf indfx" },
+        { "dHRM", "Tif dHRM diunk, dontbining dolor dblibrbtion" },
+        { "gAMA", "Tif gAMA diunk, dontbining tif imbgf gbmmb" },
+        { "iIST", "Tif iIST diunk, dontbining iistogrbm informbtion " },
+        { "iISTEntry", "A iistogrbm fntry" },
+        { "iCCP", "Tif iCCP diunk, dontbining bn ICC dolor profilf" },
+        { "iTXt", "Tif iTXt diunk, dontbining intfrnbtionblizfd tfxt" },
+        { "iTXtEntry", "A lodblizfd tfxt fntry" },
         { "pHYS",
-          "The pHYS chunk, containing the pixel size and aspect ratio" },
-        { "sBIT", "The sBIT chunk, containing significant bit information" },
-        { "sBIT_Grayscale", "Significant bit information for gray samples" },
-        { "sBIT_GrayAlpha",
-          "Significant bit information for gray and alpha samples" },
-        { "sBIT_RGB", "Significant bit information for RGB samples" },
-        { "sBIT_RGBAlpha", "Significant bit information for RGBA samples" },
-        { "sBIT_Palette",
-          "Significant bit information for RGB palette entries" },
-        { "sPLT", "The sPLT chunk, containing a suggested palette" },
-        { "sPLTEntry", "A suggested palette entry" },
-        { "sRGB", "The sRGB chunk, containing rendering intent information" },
-        { "tEXt", "The tEXt chunk, containing text" },
-        { "tEXtEntry", "A text entry" },
-        { "tIME", "The tIME chunk, containing the image modification time" },
-        { "tRNS", "The tRNS chunk, containing transparency information" },
-        { "tRNS_Grayscale",
-          "A grayscale value that should be considered transparent" },
+          "Tif pHYS diunk, dontbining tif pixfl sizf bnd bspfdt rbtio" },
+        { "sBIT", "Tif sBIT diunk, dontbining signifidbnt bit informbtion" },
+        { "sBIT_Grbysdblf", "Signifidbnt bit informbtion for grby sbmplfs" },
+        { "sBIT_GrbyAlpib",
+          "Signifidbnt bit informbtion for grby bnd blpib sbmplfs" },
+        { "sBIT_RGB", "Signifidbnt bit informbtion for RGB sbmplfs" },
+        { "sBIT_RGBAlpib", "Signifidbnt bit informbtion for RGBA sbmplfs" },
+        { "sBIT_Pblfttf",
+          "Signifidbnt bit informbtion for RGB pblfttf fntrifs" },
+        { "sPLT", "Tif sPLT diunk, dontbining b suggfstfd pblfttf" },
+        { "sPLTEntry", "A suggfstfd pblfttf fntry" },
+        { "sRGB", "Tif sRGB diunk, dontbining rfndfring intfnt informbtion" },
+        { "tEXt", "Tif tEXt diunk, dontbining tfxt" },
+        { "tEXtEntry", "A tfxt fntry" },
+        { "tIME", "Tif tIME diunk, dontbining tif imbgf modifidbtion timf" },
+        { "tRNS", "Tif tRNS diunk, dontbining trbnspbrfndy informbtion" },
+        { "tRNS_Grbysdblf",
+          "A grbysdblf vbluf tibt siould bf donsidfrfd trbnspbrfnt" },
         { "tRNS_RGB",
-          "An RGB value that should be considered transparent" },
-        { "tRNS_Palette",
-          "A palette index that should be considered transparent" },
-        { "zTXt", "The zTXt chunk, containing compressed text" },
-        { "zTXtEntry", "A compressed text entry" },
-        { "UnknownChunks", "A set of unknown chunks" },
-        { "UnknownChunk", "Unknown chunk data stored as a byte array" },
+          "An RGB vbluf tibt siould bf donsidfrfd trbnspbrfnt" },
+        { "tRNS_Pblfttf",
+          "A pblfttf indfx tibt siould bf donsidfrfd trbnspbrfnt" },
+        { "zTXt", "Tif zTXt diunk, dontbining domprfssfd tfxt" },
+        { "zTXtEntry", "A domprfssfd tfxt fntry" },
+        { "UnknownCiunks", "A sft of unknown diunks" },
+        { "UnknownCiunk", "Unknown diunk dbtb storfd bs b bytf brrby" },
 
-        // Node name + "/" + AttributeName, followed by description
-        { "IHDR/width", "The width of the image in pixels" },
-        { "IHDR/height", "The height of the image in pixels" },
-        { "IHDR/bitDepth", "The bit depth of the image samples" },
-        { "IHDR/colorType", "The color type of the image" },
-        { "IHDR/compressionMethod",
-"The compression used for image data, always \"deflate\"" },
-        { "IHDR/filterMethod",
-"The filtering method used for compression, always \"adaptive\"" },
-        { "IHDR/interlaceMethod",
-          "The interlacing method, \"none\" or \"adam7\"" },
+        // Nodf nbmf + "/" + AttributfNbmf, followfd by dfsdription
+        { "IHDR/widti", "Tif widti of tif imbgf in pixfls" },
+        { "IHDR/ifigit", "Tif ifigit of tif imbgf in pixfls" },
+        { "IHDR/bitDfpti", "Tif bit dfpti of tif imbgf sbmplfs" },
+        { "IHDR/dolorTypf", "Tif dolor typf of tif imbgf" },
+        { "IHDR/domprfssionMftiod",
+"Tif domprfssion usfd for imbgf dbtb, blwbys \"dfflbtf\"" },
+        { "IHDR/filtfrMftiod",
+"Tif filtfring mftiod usfd for domprfssion, blwbys \"bdbptivf\"" },
+        { "IHDR/intfrlbdfMftiod",
+          "Tif intfrlbding mftiod, \"nonf\" or \"bdbm7\"" },
 
-        { "PLTEEntry/index", "The index of a palette entry" },
-        { "PLTEEntry/red", "The red value of a palette entry" },
-        { "PLTEEntry/green", "The green value of a palette entry" },
-        { "PLTEEntry/blue", "The blue value of a palette entry" },
+        { "PLTEEntry/indfx", "Tif indfx of b pblfttf fntry" },
+        { "PLTEEntry/rfd", "Tif rfd vbluf of b pblfttf fntry" },
+        { "PLTEEntry/grffn", "Tif grffn vbluf of b pblfttf fntry" },
+        { "PLTEEntry/bluf", "Tif bluf vbluf of b pblfttf fntry" },
 
-        { "bKGD_Grayscale/gray", "A gray value to be used as a background" },
-        { "bKGD_RGB/red", "A red value to be used as a background" },
-        { "bKGD_RGB/green", "A green value to be used as a background" },
-        { "bKGD_RGB/blue", "A blue value to be used as a background" },
-        { "bKGD_Palette/index", "A palette index to be used as a background" },
+        { "bKGD_Grbysdblf/grby", "A grby vbluf to bf usfd bs b bbdkground" },
+        { "bKGD_RGB/rfd", "A rfd vbluf to bf usfd bs b bbdkground" },
+        { "bKGD_RGB/grffn", "A grffn vbluf to bf usfd bs b bbdkground" },
+        { "bKGD_RGB/bluf", "A bluf vbluf to bf usfd bs b bbdkground" },
+        { "bKGD_Pblfttf/indfx", "A pblfttf indfx to bf usfd bs b bbdkground" },
 
-        { "cHRM/whitePointX",
-              "The CIE x coordinate of the white point, multiplied by 1e5" },
-        { "cHRM/whitePointY",
-              "The CIE y coordinate of the white point, multiplied by 1e5" },
-        { "cHRM/redX",
-              "The CIE x coordinate of the red primary, multiplied by 1e5" },
-        { "cHRM/redY",
-              "The CIE y coordinate of the red primary, multiplied by 1e5" },
-        { "cHRM/greenX",
-              "The CIE x coordinate of the green primary, multiplied by 1e5" },
-        { "cHRM/greenY",
-              "The CIE y coordinate of the green primary, multiplied by 1e5" },
-        { "cHRM/blueX",
-              "The CIE x coordinate of the blue primary, multiplied by 1e5" },
-        { "cHRM/blueY",
-              "The CIE y coordinate of the blue primary, multiplied by 1e5" },
+        { "dHRM/wiitfPointX",
+              "Tif CIE x doordinbtf of tif wiitf point, multiplifd by 1f5" },
+        { "dHRM/wiitfPointY",
+              "Tif CIE y doordinbtf of tif wiitf point, multiplifd by 1f5" },
+        { "dHRM/rfdX",
+              "Tif CIE x doordinbtf of tif rfd primbry, multiplifd by 1f5" },
+        { "dHRM/rfdY",
+              "Tif CIE y doordinbtf of tif rfd primbry, multiplifd by 1f5" },
+        { "dHRM/grffnX",
+              "Tif CIE x doordinbtf of tif grffn primbry, multiplifd by 1f5" },
+        { "dHRM/grffnY",
+              "Tif CIE y doordinbtf of tif grffn primbry, multiplifd by 1f5" },
+        { "dHRM/blufX",
+              "Tif CIE x doordinbtf of tif bluf primbry, multiplifd by 1f5" },
+        { "dHRM/blufY",
+              "Tif CIE y doordinbtf of tif bluf primbry, multiplifd by 1f5" },
 
-        { "gAMA/value",
-              "The image gamma, multiplied by 1e5" },
+        { "gAMA/vbluf",
+              "Tif imbgf gbmmb, multiplifd by 1f5" },
 
-        { "hISTEntry/index", "The palette index of this histogram entry" },
-        { "hISTEntry/value", "The frequency of this histogram entry" },
+        { "iISTEntry/indfx", "Tif pblfttf indfx of tiis iistogrbm fntry" },
+        { "iISTEntry/vbluf", "Tif frfqufndy of tiis iistogrbm fntry" },
 
-        { "iCCP/profileName", "The name of this ICC profile" },
-        { "iCCP/compressionMethod",
-              "The compression method used to store this ICC profile" },
+        { "iCCP/profilfNbmf", "Tif nbmf of tiis ICC profilf" },
+        { "iCCP/domprfssionMftiod",
+              "Tif domprfssion mftiod usfd to storf tiis ICC profilf" },
 
-        { "iTXtEntry/keyword", "The keyword" },
-        { "iTXtEntry/compressionMethod",
-              "The compression method used to store this iTXt entry" },
-        { "iTXtEntry/languageTag",
-              "The ISO tag describing the language this iTXt entry" },
-        { "iTXtEntry/translatedKeyword",
-              "The translated keyword for iTXt entry" },
-        { "iTXtEntry/text",
-              "The localized text" },
+        { "iTXtEntry/kfyword", "Tif kfyword" },
+        { "iTXtEntry/domprfssionMftiod",
+              "Tif domprfssion mftiod usfd to storf tiis iTXt fntry" },
+        { "iTXtEntry/lbngubgfTbg",
+              "Tif ISO tbg dfsdribing tif lbngubgf tiis iTXt fntry" },
+        { "iTXtEntry/trbnslbtfdKfyword",
+              "Tif trbnslbtfd kfyword for iTXt fntry" },
+        { "iTXtEntry/tfxt",
+              "Tif lodblizfd tfxt" },
 
-        { "pHYS/pixelsPerUnitXAxis",
-            "The number of horizontal pixels per unit, multiplied by 1e5" },
-        { "pHYS/pixelsPerUnitYAxis",
-            "The number of vertical pixels per unit, multiplied by 1e5" },
-        { "pHYS/unitSpecifier",
-            "The unit specifier for this chunk (i.e., meters)" },
+        { "pHYS/pixflsPfrUnitXAxis",
+            "Tif numbfr of iorizontbl pixfls pfr unit, multiplifd by 1f5" },
+        { "pHYS/pixflsPfrUnitYAxis",
+            "Tif numbfr of vfrtidbl pixfls pfr unit, multiplifd by 1f5" },
+        { "pHYS/unitSpfdififr",
+            "Tif unit spfdififr for tiis diunk (i.f., mftfrs)" },
 
-        { "sBIT_Grayscale/gray",
-            "The number of significant bits of the gray samples" },
-        { "sBIT_GrayAlpha/gray",
-            "The number of significant bits of the gray samples" },
-        { "sBIT_GrayAlpha/alpha",
-            "The number of significant bits of the alpha samples" },
-        { "sBIT_RGB/red",
-            "The number of significant bits of the red samples" },
-        { "sBIT_RGB/green",
-            "The number of significant bits of the green samples" },
-        { "sBIT_RGB/blue",
-            "The number of significant bits of the blue samples" },
-        { "sBIT_RGBAlpha/red",
-            "The number of significant bits of the red samples" },
-        { "sBIT_RGBAlpha/green",
-            "The number of significant bits of the green samples" },
-        { "sBIT_RGBAlpha/blue",
-            "The number of significant bits of the blue samples" },
-        { "sBIT_RGBAlpha/alpha",
-            "The number of significant bits of the alpha samples" },
-        { "sBIT_Palette/red",
-            "The number of significant bits of the red palette entries" },
-        { "sBIT_Palette/green",
-            "The number of significant bits of the green palette entries" },
-        { "sBIT_Palette/blue",
-            "The number of significant bits of the blue palette entries" },
+        { "sBIT_Grbysdblf/grby",
+            "Tif numbfr of signifidbnt bits of tif grby sbmplfs" },
+        { "sBIT_GrbyAlpib/grby",
+            "Tif numbfr of signifidbnt bits of tif grby sbmplfs" },
+        { "sBIT_GrbyAlpib/blpib",
+            "Tif numbfr of signifidbnt bits of tif blpib sbmplfs" },
+        { "sBIT_RGB/rfd",
+            "Tif numbfr of signifidbnt bits of tif rfd sbmplfs" },
+        { "sBIT_RGB/grffn",
+            "Tif numbfr of signifidbnt bits of tif grffn sbmplfs" },
+        { "sBIT_RGB/bluf",
+            "Tif numbfr of signifidbnt bits of tif bluf sbmplfs" },
+        { "sBIT_RGBAlpib/rfd",
+            "Tif numbfr of signifidbnt bits of tif rfd sbmplfs" },
+        { "sBIT_RGBAlpib/grffn",
+            "Tif numbfr of signifidbnt bits of tif grffn sbmplfs" },
+        { "sBIT_RGBAlpib/bluf",
+            "Tif numbfr of signifidbnt bits of tif bluf sbmplfs" },
+        { "sBIT_RGBAlpib/blpib",
+            "Tif numbfr of signifidbnt bits of tif blpib sbmplfs" },
+        { "sBIT_Pblfttf/rfd",
+            "Tif numbfr of signifidbnt bits of tif rfd pblfttf fntrifs" },
+        { "sBIT_Pblfttf/grffn",
+            "Tif numbfr of signifidbnt bits of tif grffn pblfttf fntrifs" },
+        { "sBIT_Pblfttf/bluf",
+            "Tif numbfr of signifidbnt bits of tif bluf pblfttf fntrifs" },
 
-        { "sPLTEntry/index", "The index of a suggested palette entry" },
-        { "sPLTEntry/red", "The red value of a suggested palette entry" },
-        { "sPLTEntry/green", "The green value of a suggested palette entry" },
-        { "sPLTEntry/blue", "The blue value of a suggested palette entry" },
-        { "sPLTEntry/alpha", "The blue value of a suggested palette entry" },
+        { "sPLTEntry/indfx", "Tif indfx of b suggfstfd pblfttf fntry" },
+        { "sPLTEntry/rfd", "Tif rfd vbluf of b suggfstfd pblfttf fntry" },
+        { "sPLTEntry/grffn", "Tif grffn vbluf of b suggfstfd pblfttf fntry" },
+        { "sPLTEntry/bluf", "Tif bluf vbluf of b suggfstfd pblfttf fntry" },
+        { "sPLTEntry/blpib", "Tif bluf vbluf of b suggfstfd pblfttf fntry" },
 
-        { "sRGB/renderingIntent", "The rendering intent" },
+        { "sRGB/rfndfringIntfnt", "Tif rfndfring intfnt" },
 
-        { "tEXtEntry/keyword", "The keyword" },
-        { "tEXtEntry/value", "The text" },
+        { "tEXtEntry/kfyword", "Tif kfyword" },
+        { "tEXtEntry/vbluf", "Tif tfxt" },
 
-        { "tIME/year", "The year when the image was last modified" },
-        { "tIME/month",
-          "The month when the image was last modified, 1 = January" },
-        { "tIME/day",
-          "The day of the month when the image was last modified" },
-        { "tIME/hour",
-          "The hour when the image was last modified" },
-        { "tIME/minute",
-          "The minute when the image was last modified" },
-        { "tIME/second",
-          "The second when the image was last modified, 60 = leap second" },
+        { "tIME/yfbr", "Tif yfbr wifn tif imbgf wbs lbst modififd" },
+        { "tIME/monti",
+          "Tif monti wifn tif imbgf wbs lbst modififd, 1 = Jbnubry" },
+        { "tIME/dby",
+          "Tif dby of tif monti wifn tif imbgf wbs lbst modififd" },
+        { "tIME/iour",
+          "Tif iour wifn tif imbgf wbs lbst modififd" },
+        { "tIME/minutf",
+          "Tif minutf wifn tif imbgf wbs lbst modififd" },
+        { "tIME/sfdond",
+          "Tif sfdond wifn tif imbgf wbs lbst modififd, 60 = lfbp sfdond" },
 
-        { "tRNS_Grayscale/gray",
-          "The gray value to be considered transparent" },
-        { "tRNS_RGB/red",
-          "The red value to be considered transparent" },
-        { "tRNS_RGB/green",
-          "The green value to be considered transparent" },
-        { "tRNS_RGB/blue",
-          "The blure value to be considered transparent" },
-        { "tRNS_Palette/index",
-          "A palette index to be considered transparent" },
-        { "tRNS_Palette/alpha",
-          "The transparency associated with the palette entry" },
+        { "tRNS_Grbysdblf/grby",
+          "Tif grby vbluf to bf donsidfrfd trbnspbrfnt" },
+        { "tRNS_RGB/rfd",
+          "Tif rfd vbluf to bf donsidfrfd trbnspbrfnt" },
+        { "tRNS_RGB/grffn",
+          "Tif grffn vbluf to bf donsidfrfd trbnspbrfnt" },
+        { "tRNS_RGB/bluf",
+          "Tif blurf vbluf to bf donsidfrfd trbnspbrfnt" },
+        { "tRNS_Pblfttf/indfx",
+          "A pblfttf indfx to bf donsidfrfd trbnspbrfnt" },
+        { "tRNS_Pblfttf/blpib",
+          "Tif trbnspbrfndy bssodibtfd witi tif pblfttf fntry" },
 
-        { "zTXtEntry/keyword", "The keyword" },
-        { "zTXtEntry/compressionMethod", "The compression method" },
-        { "zTXtEntry/text", "The compressed text" },
+        { "zTXtEntry/kfyword", "Tif kfyword" },
+        { "zTXtEntry/domprfssionMftiod", "Tif domprfssion mftiod" },
+        { "zTXtEntry/tfxt", "Tif domprfssfd tfxt" },
 
-        { "UnknownChunk/type", "The 4-character type of the unknown chunk" }
+        { "UnknownCiunk/typf", "Tif 4-dibrbdtfr typf of tif unknown diunk" }
 
         };
     }

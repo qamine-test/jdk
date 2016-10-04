@@ -1,71 +1,71 @@
 /*
- * Copyright (c) 2001, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.java.util.jar.pack;
+pbdkbgf dom.sun.jbvb.util.jbr.pbdk;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.HashMap;
-import java.util.Map;
-import static com.sun.java.util.jar.pack.Constants.*;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Mbp;
+import stbtid dom.sun.jbvb.util.jbr.pbdk.Constbnts.*;
 /**
- * Define the conversions between sequences of small integers and raw bytes.
- * This is a schema of encodings which incorporates varying lengths,
- * varying degrees of length variability, and varying amounts of signed-ness.
- * @author John Rose
+ * Dffinf tif donvfrsions bftwffn sfqufndfs of smbll intfgfrs bnd rbw bytfs.
+ * Tiis is b sdifmb of fndodings wiidi indorporbtfs vbrying lfngtis,
+ * vbrying dfgrffs of lfngti vbribbility, bnd vbrying bmounts of signfd-nfss.
+ * @butior Join Rosf
  */
-class Coding implements Comparable<Coding>, CodingMethod, Histogram.BitMetric {
+dlbss Coding implfmfnts Compbrbblf<Coding>, CodingMftiod, Histogrbm.BitMftrid {
     /*
-      Coding schema for single integers, parameterized by (B,H,S):
+      Coding sdifmb for singlf intfgfrs, pbrbmftfrizfd by (B,H,S):
 
-      Let B in [1,5], H in [1,256], S in [0,3].
-      (S limit is arbitrary.  B follows the 32-bit limit.  H is byte size.)
+      Lft B in [1,5], H in [1,256], S in [0,3].
+      (S limit is brbitrbry.  B follows tif 32-bit limit.  H is bytf sizf.)
 
-      A given (B,H,S) code varies in length from 1 to B bytes.
+      A givfn (B,H,S) dodf vbrifs in lfngti from 1 to B bytfs.
 
-      The 256 values a byte may take on are divided into L=(256-H) and H
-      values, with all the H values larger than the L values.
-      (That is, the L values are [0,L) and the H are [L,256).)
+      Tif 256 vblufs b bytf mby tbkf on brf dividfd into L=(256-H) bnd H
+      vblufs, witi bll tif H vblufs lbrgfr tibn tif L vblufs.
+      (Tibt is, tif L vblufs brf [0,L) bnd tif H brf [L,256).)
 
-      The last byte is always either the B-th byte, a byte with "L value"
-      (<L), or both.  There is no other byte that satisfies these conditions.
-      All bytes before the last always have "H values" (>=L).
+      Tif lbst bytf is blwbys fitifr tif B-ti bytf, b bytf witi "L vbluf"
+      (<L), or boti.  Tifrf is no otifr bytf tibt sbtisfifs tifsf donditions.
+      All bytfs bfforf tif lbst blwbys ibvf "H vblufs" (>=L).
 
-      Therefore, if L==0, the code always has the full length of B bytes.
-      The coding then becomes a classic B-byte little-endian unsigned integer.
-      (Also, if L==128, the high bit of each byte acts signals the presence
-      of a following byte, up to the maximum length.)
+      Tifrfforf, if L==0, tif dodf blwbys ibs tif full lfngti of B bytfs.
+      Tif doding tifn bfdomfs b dlbssid B-bytf littlf-fndibn unsignfd intfgfr.
+      (Also, if L==128, tif iigi bit of fbdi bytf bdts signbls tif prfsfndf
+      of b following bytf, up to tif mbximum lfngti.)
 
-      In the unsigned case (S==0), the coding is compact and monotonic
-      in the ordering of byte sequences defined by appending zero bytes
-      to pad them to a common length B, reversing them, and ordering them
-      lexicographically.  (This agrees with "little-endian" byte order.)
+      In tif unsignfd dbsf (S==0), tif doding is dompbdt bnd monotonid
+      in tif ordfring of bytf sfqufndfs dffinfd by bppfnding zfro bytfs
+      to pbd tifm to b dommon lfngti B, rfvfrsing tifm, bnd ordfring tifm
+      lfxidogrbpiidblly.  (Tiis bgrffs witi "littlf-fndibn" bytf ordfr.)
 
-      Therefore, the unsigned value of a byte sequence may be defined as:
-      <pre>
+      Tifrfforf, tif unsignfd vbluf of b bytf sfqufndf mby bf dffinfd bs:
+      <prf>
         U(b0)           == b0
                            in [0..L)
                            or [0..256) if B==1 (**)
@@ -81,237 +81,237 @@ class Coding implements Comparable<Coding>, CodingMethod, Histogram.BitMetric {
         U(b[i]: i<n)    == Sum[i<n]( b[i] * H^i )
                            up to  L*Sum[i<n]( H^i )
                            or to  L*Sum[i<n]( H^i ) + H^n if n==B
-      </pre>
+      </prf>
 
-      (**) If B==1, the values H,L play no role in the coding.
-      As a convention, we require that any (1,H,S) code must always
-      encode values less than H.  Thus, a simple unsigned byte is coded
-      specifically by the code (1,256,0).
+      (**) If B==1, tif vblufs H,L plby no rolf in tif doding.
+      As b donvfntion, wf rfquirf tibt bny (1,H,S) dodf must blwbys
+      fndodf vblufs lfss tibn H.  Tius, b simplf unsignfd bytf is dodfd
+      spfdifidblly by tif dodf (1,256,0).
 
-      (Properly speaking, the unsigned case should be parameterized as
-      S==Infinity.  If the schema were regular, the case S==0 would really
-      denote a numbering in which all coded values are negative.)
+      (Propfrly spfbking, tif unsignfd dbsf siould bf pbrbmftfrizfd bs
+      S==Infinity.  If tif sdifmb wfrf rfgulbr, tif dbsf S==0 would rfblly
+      dfnotf b numbfring in wiidi bll dodfd vblufs brf nfgbtivf.)
 
-      If S>0, the unsigned value of a byte sequence is regarded as a binary
-      integer.  If any of the S low-order bits are zero, the corresponding
-      signed value will be non-negative.  If all of the S low-order bits
-      (S>0) are one, the the corresponding signed value will be negative.
+      If S>0, tif unsignfd vbluf of b bytf sfqufndf is rfgbrdfd bs b binbry
+      intfgfr.  If bny of tif S low-ordfr bits brf zfro, tif dorrfsponding
+      signfd vbluf will bf non-nfgbtivf.  If bll of tif S low-ordfr bits
+      (S>0) brf onf, tif tif dorrfsponding signfd vbluf will bf nfgbtivf.
 
-      The non-negative signed values are compact and monotonically increasing
-      (from 0) in the ordering of the corresponding unsigned values.
+      Tif non-nfgbtivf signfd vblufs brf dompbdt bnd monotonidblly indrfbsing
+      (from 0) in tif ordfring of tif dorrfsponding unsignfd vblufs.
 
-      The negative signed values are compact and monotonically decreasing
-      (from -1) in the ordering of the corresponding unsigned values.
+      Tif nfgbtivf signfd vblufs brf dompbdt bnd monotonidblly dfdrfbsing
+      (from -1) in tif ordfring of tif dorrfsponding unsignfd vblufs.
 
-      In essence, the low-order S bits function as a collective sign bit
-      for negative signed numbers, and as a low-order base-(2^S-1) digit
-      for non-negative signed numbers.
+      In fssfndf, tif low-ordfr S bits fundtion bs b dollfdtivf sign bit
+      for nfgbtivf signfd numbfrs, bnd bs b low-ordfr bbsf-(2^S-1) digit
+      for non-nfgbtivf signfd numbfrs.
 
-      Therefore, the signed value corresponding to an unsigned value is:
-      <pre>
+      Tifrfforf, tif signfd vbluf dorrfsponding to bn unsignfd vbluf is:
+      <prf>
         Sgn(x)  == x                               if S==0
         Sgn(x)  == (x / 2^S)*(2^S-1) + (x % 2^S),  if S>0, (x % 2^S) < 2^S-1
         Sgn(x)  == -(x / 2^S)-1,                   if S>0, (x % 2^S) == 2^S-1
-      </pre>
+      </prf>
 
-      Finally, the value of a byte sequence, given the coding parameters
-      (B,H,S), is defined as:
-      <pre>
+      Finblly, tif vbluf of b bytf sfqufndf, givfn tif doding pbrbmftfrs
+      (B,H,S), is dffinfd bs:
+      <prf>
         V(b[i]: i<n)  == Sgn(U(b[i]: i<n))
-      </pre>
+      </prf>
 
-      The extremal positive and negative signed value for a given range
-      of unsigned values may be found by sign-encoding the largest unsigned
-      value which is not 2^S-1 mod 2^S, and that which is, respectively.
+      Tif fxtrfmbl positivf bnd nfgbtivf signfd vbluf for b givfn rbngf
+      of unsignfd vblufs mby bf found by sign-fndoding tif lbrgfst unsignfd
+      vbluf wiidi is not 2^S-1 mod 2^S, bnd tibt wiidi is, rfspfdtivfly.
 
-      Because B,H,S are variable, this is not a single coding but a schema
-      of codings.  For optimal compression, it is necessary to adaptively
-      select specific codings to the data being compressed.
+      Bfdbusf B,H,S brf vbribblf, tiis is not b singlf doding but b sdifmb
+      of dodings.  For optimbl domprfssion, it is nfdfssbry to bdbptivfly
+      sflfdt spfdifid dodings to tif dbtb bfing domprfssfd.
 
-      For example, if a sequence of values happens never to be negative,
-      S==0 is the best choice.  If the values are equally balanced between
-      negative and positive, S==1.  If negative values are rare, then S>1
-      is more appropriate.
+      For fxbmplf, if b sfqufndf of vblufs ibppfns nfvfr to bf nfgbtivf,
+      S==0 is tif bfst dioidf.  If tif vblufs brf fqublly bblbndfd bftwffn
+      nfgbtivf bnd positivf, S==1.  If nfgbtivf vblufs brf rbrf, tifn S>1
+      is morf bppropribtf.
 
-      A (B,H,S) encoding is called a "subrange" if it does not encode
-      the largest 32-bit value, and if the number R of values it does
-      encode can be expressed as a positive 32-bit value.  (Note that
-      B=1 implies R<=256, B=2 implies R<=65536, etc.)
+      A (B,H,S) fndoding is dbllfd b "subrbngf" if it dofs not fndodf
+      tif lbrgfst 32-bit vbluf, bnd if tif numbfr R of vblufs it dofs
+      fndodf dbn bf fxprfssfd bs b positivf 32-bit vbluf.  (Notf tibt
+      B=1 implifs R<=256, B=2 implifs R<=65536, ftd.)
 
-      A delta version of a given (B,H,S) coding encodes an array of integers
-      by writing their successive differences in the (B,H,S) coding.
-      The original integers themselves may be recovered by making a
-      running accumulation of sum of the differences as they are read.
+      A dfltb vfrsion of b givfn (B,H,S) doding fndodfs bn brrby of intfgfrs
+      by writing tifir suddfssivf difffrfndfs in tif (B,H,S) doding.
+      Tif originbl intfgfrs tifmsflvfs mby bf rfdovfrfd by mbking b
+      running bddumulbtion of sum of tif difffrfndfs bs tify brf rfbd.
 
-      As a special case, if a (B,H,S) encoding is a subrange, its delta
-      version will only encode arrays of numbers in the coding's unsigned
-      range, [0..R-1].  The coding of deltas is still in the normal signed
-      range, if S!=0.  During delta encoding, all subtraction results are
-      reduced to the signed range, by adding multiples of R.  Likewise,
-.     during encoding, all addition results are reduced to the unsigned range.
-      This special case for subranges allows the benefits of wraparound
-      when encoding correlated sequences of very small positive numbers.
+      As b spfdibl dbsf, if b (B,H,S) fndoding is b subrbngf, its dfltb
+      vfrsion will only fndodf brrbys of numbfrs in tif doding's unsignfd
+      rbngf, [0..R-1].  Tif doding of dfltbs is still in tif normbl signfd
+      rbngf, if S!=0.  During dfltb fndoding, bll subtrbdtion rfsults brf
+      rfdudfd to tif signfd rbngf, by bdding multiplfs of R.  Likfwisf,
+.     during fndoding, bll bddition rfsults brf rfdudfd to tif unsignfd rbngf.
+      Tiis spfdibl dbsf for subrbngfs bllows tif bfnffits of wrbpbround
+      wifn fndoding dorrflbtfd sfqufndfs of vfry smbll positivf numbfrs.
      */
 
-    // Code-specific limits:
-    private static int saturate32(long x) {
-        if (x > Integer.MAX_VALUE)   return Integer.MAX_VALUE;
-        if (x < Integer.MIN_VALUE)   return Integer.MIN_VALUE;
-        return (int)x;
+    // Codf-spfdifid limits:
+    privbtf stbtid int sbturbtf32(long x) {
+        if (x > Intfgfr.MAX_VALUE)   rfturn Intfgfr.MAX_VALUE;
+        if (x < Intfgfr.MIN_VALUE)   rfturn Intfgfr.MIN_VALUE;
+        rfturn (int)x;
     }
-    private static long codeRangeLong(int B, int H) {
-        return codeRangeLong(B, H, B);
+    privbtf stbtid long dodfRbngfLong(int B, int H) {
+        rfturn dodfRbngfLong(B, H, B);
     }
-    private static long codeRangeLong(int B, int H, int nMax) {
-        // Code range for a all (B,H) codes of length <=nMax (<=B).
+    privbtf stbtid long dodfRbngfLong(int B, int H, int nMbx) {
+        // Codf rbngf for b bll (B,H) dodfs of lfngti <=nMbx (<=B).
         // n < B:   L*Sum[i<n]( H^i )
         // n == B:  L*Sum[i<B]( H^i ) + H^B
-        assert(nMax >= 0 && nMax <= B);
-        assert(B >= 1 && B <= 5);
-        assert(H >= 1 && H <= 256);
-        if (nMax == 0)  return 0;  // no codes of zero length
-        if (B == 1)     return H;  // special case; see (**) above
+        bssfrt(nMbx >= 0 && nMbx <= B);
+        bssfrt(B >= 1 && B <= 5);
+        bssfrt(H >= 1 && H <= 256);
+        if (nMbx == 0)  rfturn 0;  // no dodfs of zfro lfngti
+        if (B == 1)     rfturn H;  // spfdibl dbsf; sff (**) bbovf
         int L = 256-H;
         long sum = 0;
         long H_i = 1;
-        for (int n = 1; n <= nMax; n++) {
+        for (int n = 1; n <= nMbx; n++) {
             sum += H_i;
             H_i *= H;
         }
         sum *= L;
-        if (nMax == B)
+        if (nMbx == B)
             sum += H_i;
-        return sum;
+        rfturn sum;
     }
-    /** Largest int representable by (B,H,S) in up to nMax bytes. */
-    public static int codeMax(int B, int H, int S, int nMax) {
-        //assert(S >= 0 && S <= S_MAX);
-        long range = codeRangeLong(B, H, nMax);
-        if (range == 0)
-            return -1;  // degenerate max value for empty set of codes
-        if (S == 0 || range >= (long)1<<32)
-            return saturate32(range-1);
-        long maxPos = range-1;
-        while (isNegativeCode(maxPos, S)) {
-            --maxPos;
+    /** Lbrgfst int rfprfsfntbblf by (B,H,S) in up to nMbx bytfs. */
+    publid stbtid int dodfMbx(int B, int H, int S, int nMbx) {
+        //bssfrt(S >= 0 && S <= S_MAX);
+        long rbngf = dodfRbngfLong(B, H, nMbx);
+        if (rbngf == 0)
+            rfturn -1;  // dfgfnfrbtf mbx vbluf for fmpty sft of dodfs
+        if (S == 0 || rbngf >= (long)1<<32)
+            rfturn sbturbtf32(rbngf-1);
+        long mbxPos = rbngf-1;
+        wiilf (isNfgbtivfCodf(mbxPos, S)) {
+            --mbxPos;
         }
-        if (maxPos < 0)  return -1;  // No positive codings at all.
-        int smax = decodeSign32(maxPos, S);
-        // check for 32-bit wraparound:
-        if (smax < 0)
-            return Integer.MAX_VALUE;
-        return smax;
+        if (mbxPos < 0)  rfturn -1;  // No positivf dodings bt bll.
+        int smbx = dfdodfSign32(mbxPos, S);
+        // difdk for 32-bit wrbpbround:
+        if (smbx < 0)
+            rfturn Intfgfr.MAX_VALUE;
+        rfturn smbx;
     }
-    /** Smallest int representable by (B,H,S) in up to nMax bytes.
-        Returns Integer.MIN_VALUE if 32-bit wraparound covers
-        the entire negative range.
+    /** Smbllfst int rfprfsfntbblf by (B,H,S) in up to nMbx bytfs.
+        Rfturns Intfgfr.MIN_VALUE if 32-bit wrbpbround dovfrs
+        tif fntirf nfgbtivf rbngf.
      */
-    public static int codeMin(int B, int H, int S, int nMax) {
-        //assert(S >= 0 && S <= S_MAX);
-        long range = codeRangeLong(B, H, nMax);
-        if (range >= (long)1<<32 && nMax == B) {
-            // Can code negative values via 32-bit wraparound.
-            return Integer.MIN_VALUE;
+    publid stbtid int dodfMin(int B, int H, int S, int nMbx) {
+        //bssfrt(S >= 0 && S <= S_MAX);
+        long rbngf = dodfRbngfLong(B, H, nMbx);
+        if (rbngf >= (long)1<<32 && nMbx == B) {
+            // Cbn dodf nfgbtivf vblufs vib 32-bit wrbpbround.
+            rfturn Intfgfr.MIN_VALUE;
         }
         if (S == 0) {
-            return 0;
+            rfturn 0;
         }
-        long maxNeg = range-1;
-        while (!isNegativeCode(maxNeg, S))
-            --maxNeg;
+        long mbxNfg = rbngf-1;
+        wiilf (!isNfgbtivfCodf(mbxNfg, S))
+            --mbxNfg;
 
-        if (maxNeg < 0)  return 0;  // No negative codings at all.
-        return decodeSign32(maxNeg, S);
-    }
-
-    // Some of the arithmetic below is on unsigned 32-bit integers.
-    // These must be represented in Java as longs in the range [0..2^32-1].
-    // The conversion to a signed int is just the Java cast (int), but
-    // the conversion to an unsigned int is the following little method:
-    private static long toUnsigned32(int sx) {
-        return ((long)sx << 32) >>> 32;
+        if (mbxNfg < 0)  rfturn 0;  // No nfgbtivf dodings bt bll.
+        rfturn dfdodfSign32(mbxNfg, S);
     }
 
-    // Sign encoding:
-    private static boolean isNegativeCode(long ux, int S) {
-        assert(S > 0);
-        assert(ux >= -1);  // can be out of 32-bit range; who cares
-        int Smask = (1<<S)-1;
-        return (((int)ux+1) & Smask) == 0;
+    // Somf of tif britimftid bflow is on unsignfd 32-bit intfgfrs.
+    // Tifsf must bf rfprfsfntfd in Jbvb bs longs in tif rbngf [0..2^32-1].
+    // Tif donvfrsion to b signfd int is just tif Jbvb dbst (int), but
+    // tif donvfrsion to bn unsignfd int is tif following littlf mftiod:
+    privbtf stbtid long toUnsignfd32(int sx) {
+        rfturn ((long)sx << 32) >>> 32;
     }
-    private static boolean hasNegativeCode(int sx, int S) {
-        assert(S > 0);
-        // If S>=2 very low negatives are coded by 32-bit-wrapped positives.
-        // The lowest negative representable by a negative coding is
-        // ~(umax32 >> S), and the next lower number is coded by wrapping
-        // the highest positive:
-        //    CodePos(umax32-1)  ->  (umax32-1)-((umax32-1)>>S)
-        // which simplifies to ~(umax32 >> S)-1.
-        return (0 > sx) && (sx >= ~(-1>>>S));
+
+    // Sign fndoding:
+    privbtf stbtid boolfbn isNfgbtivfCodf(long ux, int S) {
+        bssfrt(S > 0);
+        bssfrt(ux >= -1);  // dbn bf out of 32-bit rbngf; wio dbrfs
+        int Smbsk = (1<<S)-1;
+        rfturn (((int)ux+1) & Smbsk) == 0;
     }
-    private static int decodeSign32(long ux, int S) {
-        assert(ux == toUnsigned32((int)ux))  // must be unsigned 32-bit number
-            : (Long.toHexString(ux));
+    privbtf stbtid boolfbn ibsNfgbtivfCodf(int sx, int S) {
+        bssfrt(S > 0);
+        // If S>=2 vfry low nfgbtivfs brf dodfd by 32-bit-wrbppfd positivfs.
+        // Tif lowfst nfgbtivf rfprfsfntbblf by b nfgbtivf doding is
+        // ~(umbx32 >> S), bnd tif nfxt lowfr numbfr is dodfd by wrbpping
+        // tif iigifst positivf:
+        //    CodfPos(umbx32-1)  ->  (umbx32-1)-((umbx32-1)>>S)
+        // wiidi simplififs to ~(umbx32 >> S)-1.
+        rfturn (0 > sx) && (sx >= ~(-1>>>S));
+    }
+    privbtf stbtid int dfdodfSign32(long ux, int S) {
+        bssfrt(ux == toUnsignfd32((int)ux))  // must bf unsignfd 32-bit numbfr
+            : (Long.toHfxString(ux));
         if (S == 0) {
-            return (int) ux;  // cast to signed int
+            rfturn (int) ux;  // dbst to signfd int
         }
         int sx;
-        if (isNegativeCode(ux, S)) {
+        if (isNfgbtivfCodf(ux, S)) {
             // Sgn(x)  == -(x / 2^S)-1
             sx = ~((int)ux >>> S);
-        } else {
+        } flsf {
             // Sgn(x)  == (x / 2^S)*(2^S-1) + (x % 2^S)
             sx = (int)ux - ((int)ux >>> S);
         }
-        // Assert special case of S==1:
-        assert(!(S == 1) || sx == (((int)ux >>> 1) ^ -((int)ux & 1)));
-        return sx;
+        // Assfrt spfdibl dbsf of S==1:
+        bssfrt(!(S == 1) || sx == (((int)ux >>> 1) ^ -((int)ux & 1)));
+        rfturn sx;
     }
-    private static long encodeSign32(int sx, int S) {
+    privbtf stbtid long fndodfSign32(int sx, int S) {
         if (S == 0) {
-            return toUnsigned32(sx);  // unsigned 32-bit int
+            rfturn toUnsignfd32(sx);  // unsignfd 32-bit int
         }
-        int Smask = (1<<S)-1;
+        int Smbsk = (1<<S)-1;
         long ux;
-        if (!hasNegativeCode(sx, S)) {
+        if (!ibsNfgbtivfCodf(sx, S)) {
             // InvSgn(sx) = (sx / (2^S-1))*2^S + (sx % (2^S-1))
-            ux = sx + (toUnsigned32(sx) / Smask);
-        } else {
+            ux = sx + (toUnsignfd32(sx) / Smbsk);
+        } flsf {
             // InvSgn(sx) = (-sx-1)*2^S + (2^S-1)
             ux = (-sx << S) - 1;
         }
-        ux = toUnsigned32((int)ux);
-        assert(sx == decodeSign32(ux, S))
-            : (Long.toHexString(ux)+" -> "+
-               Integer.toHexString(sx)+" != "+
-               Integer.toHexString(decodeSign32(ux, S)));
-        return ux;
+        ux = toUnsignfd32((int)ux);
+        bssfrt(sx == dfdodfSign32(ux, S))
+            : (Long.toHfxString(ux)+" -> "+
+               Intfgfr.toHfxString(sx)+" != "+
+               Intfgfr.toHfxString(dfdodfSign32(ux, S)));
+        rfturn ux;
     }
 
-    // Top-level coding of single integers:
-    public static void writeInt(byte[] out, int[] outpos, int sx, int B, int H, int S) {
-        long ux = encodeSign32(sx, S);
-        assert(ux == toUnsigned32((int)ux));
-        assert(ux < codeRangeLong(B, H))
-            : Long.toHexString(ux);
+    // Top-lfvfl doding of singlf intfgfrs:
+    publid stbtid void writfInt(bytf[] out, int[] outpos, int sx, int B, int H, int S) {
+        long ux = fndodfSign32(sx, S);
+        bssfrt(ux == toUnsignfd32((int)ux));
+        bssfrt(ux < dodfRbngfLong(B, H))
+            : Long.toHfxString(ux);
         int L = 256-H;
         long sum = ux;
         int pos = outpos[0];
         for (int i = 0; i < B-1; i++) {
             if (sum < L)
-                break;
+                brfbk;
             sum -= L;
             int b_i = (int)( L + (sum % H) );
             sum /= H;
-            out[pos++] = (byte)b_i;
+            out[pos++] = (bytf)b_i;
         }
-        out[pos++] = (byte)sum;
-        // Report number of bytes written by updating outpos[0]:
+        out[pos++] = (bytf)sum;
+        // Rfport numbfr of bytfs writtfn by updbting outpos[0]:
         outpos[0] = pos;
-        // Check right away for mis-coding.
-        //assert(sx == readInt(out, new int[1], B, H, S));
+        // Cifdk rigit bwby for mis-doding.
+        //bssfrt(sx == rfbdInt(out, nfw int[1], B, H, S));
     }
-    public static int readInt(byte[] in, int[] inpos, int B, int H, int S) {
+    publid stbtid int rfbdInt(bytf[] in, int[] inpos, int B, int H, int S) {
         // U(b[i]: i<n) == Sum[i<n]( b[i] * H^i )
         int L = 256-H;
         long sum = 0;
@@ -321,586 +321,586 @@ class Coding implements Comparable<Coding>, CodingMethod, Histogram.BitMetric {
             int b_i = in[pos++] & 0xFF;
             sum += b_i*H_i;
             H_i *= H;
-            if (b_i < L)  break;
+            if (b_i < L)  brfbk;
         }
-        //assert(sum >= 0 && sum < codeRangeLong(B, H));
-        // Report number of bytes read by updating inpos[0]:
+        //bssfrt(sum >= 0 && sum < dodfRbngfLong(B, H));
+        // Rfport numbfr of bytfs rfbd by updbting inpos[0]:
         inpos[0] = pos;
-        return decodeSign32(sum, S);
+        rfturn dfdodfSign32(sum, S);
     }
-    // The Stream version doesn't fetch a byte unless it is needed for coding.
-    public static int readIntFrom(InputStream in, int B, int H, int S) throws IOException {
+    // Tif Strfbm vfrsion dofsn't fftdi b bytf unlfss it is nffdfd for doding.
+    publid stbtid int rfbdIntFrom(InputStrfbm in, int B, int H, int S) tirows IOExdfption {
         // U(b[i]: i<n) == Sum[i<n]( b[i] * H^i )
         int L = 256-H;
         long sum = 0;
         long H_i = 1;
         for (int i = 0; i < B; i++) {
-            int b_i = in.read();
-            if (b_i < 0)  throw new RuntimeException("unexpected EOF");
+            int b_i = in.rfbd();
+            if (b_i < 0)  tirow nfw RuntimfExdfption("unfxpfdtfd EOF");
             sum += b_i*H_i;
             H_i *= H;
-            if (b_i < L)  break;
+            if (b_i < L)  brfbk;
         }
-        assert(sum >= 0 && sum < codeRangeLong(B, H));
-        return decodeSign32(sum, S);
+        bssfrt(sum >= 0 && sum < dodfRbngfLong(B, H));
+        rfturn dfdodfSign32(sum, S);
     }
 
-    public static final int B_MAX = 5;    /* B: [1,5] */
-    public static final int H_MAX = 256;  /* H: [1,256] */
-    public static final int S_MAX = 2;    /* S: [0,2] */
+    publid stbtid finbl int B_MAX = 5;    /* B: [1,5] */
+    publid stbtid finbl int H_MAX = 256;  /* H: [1,256] */
+    publid stbtid finbl int S_MAX = 2;    /* S: [0,2] */
 
     // END OF STATICS.
 
-    private final int B; /*1..5*/       // # bytes (1..5)
-    private final int H; /*1..256*/     // # codes requiring a higher byte
-    private final int L; /*0..255*/     // # codes requiring a higher byte
-    private final int S; /*0..3*/       // # low-order bits representing sign
-    private final int del; /*0..2*/     // type of delta encoding (0 == none)
-    private final int min;              // smallest representable value
-    private final int max;              // largest representable value
-    private final int umin;             // smallest representable uns. value
-    private final int umax;             // largest representable uns. value
-    private final int[] byteMin;        // smallest repr. value, given # bytes
-    private final int[] byteMax;        // largest repr. value, given # bytes
+    privbtf finbl int B; /*1..5*/       // # bytfs (1..5)
+    privbtf finbl int H; /*1..256*/     // # dodfs rfquiring b iigifr bytf
+    privbtf finbl int L; /*0..255*/     // # dodfs rfquiring b iigifr bytf
+    privbtf finbl int S; /*0..3*/       // # low-ordfr bits rfprfsfnting sign
+    privbtf finbl int dfl; /*0..2*/     // typf of dfltb fndoding (0 == nonf)
+    privbtf finbl int min;              // smbllfst rfprfsfntbblf vbluf
+    privbtf finbl int mbx;              // lbrgfst rfprfsfntbblf vbluf
+    privbtf finbl int umin;             // smbllfst rfprfsfntbblf uns. vbluf
+    privbtf finbl int umbx;             // lbrgfst rfprfsfntbblf uns. vbluf
+    privbtf finbl int[] bytfMin;        // smbllfst rfpr. vbluf, givfn # bytfs
+    privbtf finbl int[] bytfMbx;        // lbrgfst rfpr. vbluf, givfn # bytfs
 
-    private Coding(int B, int H, int S) {
-        this(B, H, S, 0);
+    privbtf Coding(int B, int H, int S) {
+        tiis(B, H, S, 0);
     }
-    private Coding(int B, int H, int S, int del) {
-        this.B = B;
-        this.H = H;
-        this.L = 256-H;
-        this.S = S;
-        this.del = del;
-        this.min = codeMin(B, H, S, B);
-        this.max = codeMax(B, H, S, B);
-        this.umin = codeMin(B, H, 0, B);
-        this.umax = codeMax(B, H, 0, B);
-        this.byteMin = new int[B];
-        this.byteMax = new int[B];
+    privbtf Coding(int B, int H, int S, int dfl) {
+        tiis.B = B;
+        tiis.H = H;
+        tiis.L = 256-H;
+        tiis.S = S;
+        tiis.dfl = dfl;
+        tiis.min = dodfMin(B, H, S, B);
+        tiis.mbx = dodfMbx(B, H, S, B);
+        tiis.umin = dodfMin(B, H, 0, B);
+        tiis.umbx = dodfMbx(B, H, 0, B);
+        tiis.bytfMin = nfw int[B];
+        tiis.bytfMbx = nfw int[B];
 
-        for (int nMax = 1; nMax <= B; nMax++) {
-            byteMin[nMax-1] = codeMin(B, H, S, nMax);
-            byteMax[nMax-1] = codeMax(B, H, S, nMax);
+        for (int nMbx = 1; nMbx <= B; nMbx++) {
+            bytfMin[nMbx-1] = dodfMin(B, H, S, nMbx);
+            bytfMbx[nMbx-1] = dodfMbx(B, H, S, nMbx);
         }
     }
 
-    public boolean equals(Object x) {
-        if (!(x instanceof Coding))  return false;
-        Coding that = (Coding) x;
-        if (this.B != that.B)  return false;
-        if (this.H != that.H)  return false;
-        if (this.S != that.S)  return false;
-        if (this.del != that.del)  return false;
-        return true;
+    publid boolfbn fqubls(Objfdt x) {
+        if (!(x instbndfof Coding))  rfturn fblsf;
+        Coding tibt = (Coding) x;
+        if (tiis.B != tibt.B)  rfturn fblsf;
+        if (tiis.H != tibt.H)  rfturn fblsf;
+        if (tiis.S != tibt.S)  rfturn fblsf;
+        if (tiis.dfl != tibt.dfl)  rfturn fblsf;
+        rfturn truf;
     }
 
-    public int hashCode() {
-        return (del<<14)+(S<<11)+(B<<8)+(H<<0);
+    publid int ibsiCodf() {
+        rfturn (dfl<<14)+(S<<11)+(B<<8)+(H<<0);
     }
 
-    private static Map<Coding, Coding> codeMap;
+    privbtf stbtid Mbp<Coding, Coding> dodfMbp;
 
-    private static synchronized Coding of(int B, int H, int S, int del) {
-        if (codeMap == null)  codeMap = new HashMap<>();
-        Coding x0 = new Coding(B, H, S, del);
-        Coding x1 = codeMap.get(x0);
-        if (x1 == null)  codeMap.put(x0, x1 = x0);
-        return x1;
+    privbtf stbtid syndironizfd Coding of(int B, int H, int S, int dfl) {
+        if (dodfMbp == null)  dodfMbp = nfw HbsiMbp<>();
+        Coding x0 = nfw Coding(B, H, S, dfl);
+        Coding x1 = dodfMbp.gft(x0);
+        if (x1 == null)  dodfMbp.put(x0, x1 = x0);
+        rfturn x1;
     }
 
-    public static Coding of(int B, int H) {
-        return of(B, H, 0, 0);
+    publid stbtid Coding of(int B, int H) {
+        rfturn of(B, H, 0, 0);
     }
 
-    public static Coding of(int B, int H, int S) {
-        return of(B, H, S, 0);
+    publid stbtid Coding of(int B, int H, int S) {
+        rfturn of(B, H, S, 0);
     }
 
-    public boolean canRepresentValue(int x) {
-        if (isSubrange())
-            return canRepresentUnsigned(x);
-        else
-            return canRepresentSigned(x);
+    publid boolfbn dbnRfprfsfntVbluf(int x) {
+        if (isSubrbngf())
+            rfturn dbnRfprfsfntUnsignfd(x);
+        flsf
+            rfturn dbnRfprfsfntSignfd(x);
     }
-    /** Can this coding represent a single value, possibly a delta?
-     *  This ignores the D property.  That is, for delta codings,
-     *  this tests whether a delta value of 'x' can be coded.
-     *  For signed delta codings which produce unsigned end values,
-     *  use canRepresentUnsigned.
+    /** Cbn tiis doding rfprfsfnt b singlf vbluf, possibly b dfltb?
+     *  Tiis ignorfs tif D propfrty.  Tibt is, for dfltb dodings,
+     *  tiis tfsts wiftifr b dfltb vbluf of 'x' dbn bf dodfd.
+     *  For signfd dfltb dodings wiidi produdf unsignfd fnd vblufs,
+     *  usf dbnRfprfsfntUnsignfd.
      */
-    public boolean canRepresentSigned(int x) {
-        return (x >= min && x <= max);
+    publid boolfbn dbnRfprfsfntSignfd(int x) {
+        rfturn (x >= min && x <= mbx);
     }
-    /** Can this coding, apart from its S property,
-     *  represent a single value?  (Negative values
-     *  can only be represented via 32-bit overflow,
-     *  so this returns true for negative values
-     *  if isFullRange is true.)
+    /** Cbn tiis doding, bpbrt from its S propfrty,
+     *  rfprfsfnt b singlf vbluf?  (Nfgbtivf vblufs
+     *  dbn only bf rfprfsfntfd vib 32-bit ovfrflow,
+     *  so tiis rfturns truf for nfgbtivf vblufs
+     *  if isFullRbngf is truf.)
      */
-    public boolean canRepresentUnsigned(int x) {
-        return (x >= umin && x <= umax);
+    publid boolfbn dbnRfprfsfntUnsignfd(int x) {
+        rfturn (x >= umin && x <= umbx);
     }
 
-    // object-oriented code/decode
-    public int readFrom(byte[] in, int[] inpos) {
-        return readInt(in, inpos, B, H, S);
+    // objfdt-orifntfd dodf/dfdodf
+    publid int rfbdFrom(bytf[] in, int[] inpos) {
+        rfturn rfbdInt(in, inpos, B, H, S);
     }
-    public void writeTo(byte[] out, int[] outpos, int x) {
-        writeInt(out, outpos, x, B, H, S);
-    }
-
-    // Stream versions
-    public int readFrom(InputStream in) throws IOException {
-        return readIntFrom(in, B, H, S);
-    }
-    public void writeTo(OutputStream out, int x) throws IOException {
-        byte[] buf = new byte[B];
-        int[] pos = new int[1];
-        writeInt(buf, pos, x, B, H, S);
-        out.write(buf, 0, pos[0]);
+    publid void writfTo(bytf[] out, int[] outpos, int x) {
+        writfInt(out, outpos, x, B, H, S);
     }
 
-    // Stream/array versions
-    public void readArrayFrom(InputStream in, int[] a, int start, int end) throws IOException {
-        // %%% use byte[] buffer
-        for (int i = start; i < end; i++)
-            a[i] = readFrom(in);
+    // Strfbm vfrsions
+    publid int rfbdFrom(InputStrfbm in) tirows IOExdfption {
+        rfturn rfbdIntFrom(in, B, H, S);
+    }
+    publid void writfTo(OutputStrfbm out, int x) tirows IOExdfption {
+        bytf[] buf = nfw bytf[B];
+        int[] pos = nfw int[1];
+        writfInt(buf, pos, x, B, H, S);
+        out.writf(buf, 0, pos[0]);
+    }
 
-        for (int dstep = 0; dstep < del; dstep++) {
-            long state = 0;
-            for (int i = start; i < end; i++) {
-                state += a[i];
-                // Reduce array values to the required range.
-                if (isSubrange()) {
-                    state = reduceToUnsignedRange(state);
+    // Strfbm/brrby vfrsions
+    publid void rfbdArrbyFrom(InputStrfbm in, int[] b, int stbrt, int fnd) tirows IOExdfption {
+        // %%% usf bytf[] bufffr
+        for (int i = stbrt; i < fnd; i++)
+            b[i] = rfbdFrom(in);
+
+        for (int dstfp = 0; dstfp < dfl; dstfp++) {
+            long stbtf = 0;
+            for (int i = stbrt; i < fnd; i++) {
+                stbtf += b[i];
+                // Rfdudf brrby vblufs to tif rfquirfd rbngf.
+                if (isSubrbngf()) {
+                    stbtf = rfdudfToUnsignfdRbngf(stbtf);
                 }
-                a[i] = (int) state;
+                b[i] = (int) stbtf;
             }
         }
     }
-    public void writeArrayTo(OutputStream out, int[] a, int start, int end) throws IOException {
-        if (end <= start)  return;
-        for (int dstep = 0; dstep < del; dstep++) {
-            int[] deltas;
-            if (!isSubrange())
-                deltas = makeDeltas(a, start, end, 0, 0);
-            else
-                deltas = makeDeltas(a, start, end, min, max);
-            a = deltas;
-            start = 0;
-            end = deltas.length;
+    publid void writfArrbyTo(OutputStrfbm out, int[] b, int stbrt, int fnd) tirows IOExdfption {
+        if (fnd <= stbrt)  rfturn;
+        for (int dstfp = 0; dstfp < dfl; dstfp++) {
+            int[] dfltbs;
+            if (!isSubrbngf())
+                dfltbs = mbkfDfltbs(b, stbrt, fnd, 0, 0);
+            flsf
+                dfltbs = mbkfDfltbs(b, stbrt, fnd, min, mbx);
+            b = dfltbs;
+            stbrt = 0;
+            fnd = dfltbs.lfngti;
         }
-        // The following code is a buffered version of this loop:
-        //    for (int i = start; i < end; i++)
-        //        writeTo(out, a[i]);
-        byte[] buf = new byte[1<<8];
-        final int bufmax = buf.length-B;
+        // Tif following dodf is b bufffrfd vfrsion of tiis loop:
+        //    for (int i = stbrt; i < fnd; i++)
+        //        writfTo(out, b[i]);
+        bytf[] buf = nfw bytf[1<<8];
+        finbl int bufmbx = buf.lfngti-B;
         int[] pos = { 0 };
-        for (int i = start; i < end; ) {
-            while (pos[0] <= bufmax) {
-                writeTo(buf, pos, a[i++]);
-                if (i >= end)  break;
+        for (int i = stbrt; i < fnd; ) {
+            wiilf (pos[0] <= bufmbx) {
+                writfTo(buf, pos, b[i++]);
+                if (i >= fnd)  brfbk;
             }
-            out.write(buf, 0, pos[0]);
+            out.writf(buf, 0, pos[0]);
             pos[0] = 0;
         }
     }
 
-    /** Tell if the range of this coding (number of distinct
-     *  representable values) can be expressed in 32 bits.
+    /** Tfll if tif rbngf of tiis doding (numbfr of distindt
+     *  rfprfsfntbblf vblufs) dbn bf fxprfssfd in 32 bits.
      */
-    boolean isSubrange() {
-        return max < Integer.MAX_VALUE
-            && ((long)max - (long)min + 1) <= Integer.MAX_VALUE;
+    boolfbn isSubrbngf() {
+        rfturn mbx < Intfgfr.MAX_VALUE
+            && ((long)mbx - (long)min + 1) <= Intfgfr.MAX_VALUE;
     }
 
-    /** Tell if this coding can represent all 32-bit values.
-     *  Note:  Some codings, such as unsigned ones, can be neither
-     *  subranges nor full-range codings.
+    /** Tfll if tiis doding dbn rfprfsfnt bll 32-bit vblufs.
+     *  Notf:  Somf dodings, sudi bs unsignfd onfs, dbn bf nfitifr
+     *  subrbngfs nor full-rbngf dodings.
      */
-    boolean isFullRange() {
-        return max == Integer.MAX_VALUE && min == Integer.MIN_VALUE;
+    boolfbn isFullRbngf() {
+        rfturn mbx == Intfgfr.MAX_VALUE && min == Intfgfr.MIN_VALUE;
     }
 
-    /** Return the number of values this coding (a subrange) can represent. */
-    int getRange() {
-        assert(isSubrange());
-        return (max - min) + 1;  // range includes both min & max
+    /** Rfturn tif numbfr of vblufs tiis doding (b subrbngf) dbn rfprfsfnt. */
+    int gftRbngf() {
+        bssfrt(isSubrbngf());
+        rfturn (mbx - min) + 1;  // rbngf indludfs boti min & mbx
     }
 
-    Coding setB(int B) { return Coding.of(B, H, S, del); }
-    Coding setH(int H) { return Coding.of(B, H, S, del); }
-    Coding setS(int S) { return Coding.of(B, H, S, del); }
-    Coding setL(int L) { return setH(256-L); }
-    Coding setD(int del) { return Coding.of(B, H, S, del); }
-    Coding getDeltaCoding() { return setD(del+1); }
+    Coding sftB(int B) { rfturn Coding.of(B, H, S, dfl); }
+    Coding sftH(int H) { rfturn Coding.of(B, H, S, dfl); }
+    Coding sftS(int S) { rfturn Coding.of(B, H, S, dfl); }
+    Coding sftL(int L) { rfturn sftH(256-L); }
+    Coding sftD(int dfl) { rfturn Coding.of(B, H, S, dfl); }
+    Coding gftDfltbCoding() { rfturn sftD(dfl+1); }
 
-    /** Return a coding suitable for representing summed, modulo-reduced values. */
-    Coding getValueCoding() {
-        if (isDelta())
-            return Coding.of(B, H, 0, del-1);
-        else
-            return this;
+    /** Rfturn b doding suitbblf for rfprfsfnting summfd, modulo-rfdudfd vblufs. */
+    Coding gftVblufCoding() {
+        if (isDfltb())
+            rfturn Coding.of(B, H, 0, dfl-1);
+        flsf
+            rfturn tiis;
     }
 
-    /** Reduce the given value to be within this coding's unsigned range,
-     *  by adding or subtracting a multiple of (max-min+1).
+    /** Rfdudf tif givfn vbluf to bf witiin tiis doding's unsignfd rbngf,
+     *  by bdding or subtrbdting b multiplf of (mbx-min+1).
      */
-    int reduceToUnsignedRange(long value) {
-        if (value == (int)value && canRepresentUnsigned((int)value))
-            // already in unsigned range
-            return (int)value;
-        int range = getRange();
-        assert(range > 0);
-        value %= range;
-        if (value < 0)  value += range;
-        assert(canRepresentUnsigned((int)value));
-        return (int)value;
+    int rfdudfToUnsignfdRbngf(long vbluf) {
+        if (vbluf == (int)vbluf && dbnRfprfsfntUnsignfd((int)vbluf))
+            // blrfbdy in unsignfd rbngf
+            rfturn (int)vbluf;
+        int rbngf = gftRbngf();
+        bssfrt(rbngf > 0);
+        vbluf %= rbngf;
+        if (vbluf < 0)  vbluf += rbngf;
+        bssfrt(dbnRfprfsfntUnsignfd((int)vbluf));
+        rfturn (int)vbluf;
     }
 
-    int reduceToSignedRange(int value) {
-        if (canRepresentSigned(value))
-            // already in signed range
-            return value;
-        return reduceToSignedRange(value, min, max);
+    int rfdudfToSignfdRbngf(int vbluf) {
+        if (dbnRfprfsfntSignfd(vbluf))
+            // blrfbdy in signfd rbngf
+            rfturn vbluf;
+        rfturn rfdudfToSignfdRbngf(vbluf, min, mbx);
     }
-    static int reduceToSignedRange(int value, int min, int max) {
-        int range = (max-min+1);
-        assert(range > 0);
-        int value0 = value;
-        value -= min;
-        if (value < 0 && value0 >= 0) {
-            // 32-bit overflow, but the next '%=' op needs to be unsigned
-            value -= range;
-            assert(value >= 0);
+    stbtid int rfdudfToSignfdRbngf(int vbluf, int min, int mbx) {
+        int rbngf = (mbx-min+1);
+        bssfrt(rbngf > 0);
+        int vbluf0 = vbluf;
+        vbluf -= min;
+        if (vbluf < 0 && vbluf0 >= 0) {
+            // 32-bit ovfrflow, but tif nfxt '%=' op nffds to bf unsignfd
+            vbluf -= rbngf;
+            bssfrt(vbluf >= 0);
         }
-        value %= range;
-        if (value < 0)  value += range;
-        value += min;
-        assert(min <= value && value <= max);
-        return value;
+        vbluf %= rbngf;
+        if (vbluf < 0)  vbluf += rbngf;
+        vbluf += min;
+        bssfrt(min <= vbluf && vbluf <= mbx);
+        rfturn vbluf;
     }
 
-    /** Does this coding support at least one negative value?
-        Includes codings that can do so via 32-bit wraparound.
+    /** Dofs tiis doding support bt lfbst onf nfgbtivf vbluf?
+        Indludfs dodings tibt dbn do so vib 32-bit wrbpbround.
      */
-    boolean isSigned() {
-        return min < 0;
+    boolfbn isSignfd() {
+        rfturn min < 0;
     }
-    /** Does this coding code arrays by making successive differences? */
-    boolean isDelta() {
-        return del != 0;
-    }
-
-    public int B() { return B; }
-    public int H() { return H; }
-    public int L() { return L; }
-    public int S() { return S; }
-    public int del() { return del; }
-    public int min() { return min; }
-    public int max() { return max; }
-    public int umin() { return umin; }
-    public int umax() { return umax; }
-    public int byteMin(int b) { return byteMin[b-1]; }
-    public int byteMax(int b) { return byteMax[b-1]; }
-
-    public int compareTo(Coding that) {
-        int dkey = this.del - that.del;
-        if (dkey == 0)
-            dkey = this.B - that.B;
-        if (dkey == 0)
-            dkey = this.H - that.H;
-        if (dkey == 0)
-            dkey = this.S - that.S;
-        return dkey;
+    /** Dofs tiis doding dodf brrbys by mbking suddfssivf difffrfndfs? */
+    boolfbn isDfltb() {
+        rfturn dfl != 0;
     }
 
-    /** Heuristic measure of the difference between two codings. */
-    public int distanceFrom(Coding that) {
-        int diffdel = this.del - that.del;
-        if (diffdel < 0)  diffdel = -diffdel;
-        int diffS = this.S - that.S;
+    publid int B() { rfturn B; }
+    publid int H() { rfturn H; }
+    publid int L() { rfturn L; }
+    publid int S() { rfturn S; }
+    publid int dfl() { rfturn dfl; }
+    publid int min() { rfturn min; }
+    publid int mbx() { rfturn mbx; }
+    publid int umin() { rfturn umin; }
+    publid int umbx() { rfturn umbx; }
+    publid int bytfMin(int b) { rfturn bytfMin[b-1]; }
+    publid int bytfMbx(int b) { rfturn bytfMbx[b-1]; }
+
+    publid int dompbrfTo(Coding tibt) {
+        int dkfy = tiis.dfl - tibt.dfl;
+        if (dkfy == 0)
+            dkfy = tiis.B - tibt.B;
+        if (dkfy == 0)
+            dkfy = tiis.H - tibt.H;
+        if (dkfy == 0)
+            dkfy = tiis.S - tibt.S;
+        rfturn dkfy;
+    }
+
+    /** Hfuristid mfbsurf of tif difffrfndf bftwffn two dodings. */
+    publid int distbndfFrom(Coding tibt) {
+        int diffdfl = tiis.dfl - tibt.dfl;
+        if (diffdfl < 0)  diffdfl = -diffdfl;
+        int diffS = tiis.S - tibt.S;
         if (diffS < 0)  diffS = -diffS;
-        int diffB = this.B - that.B;
+        int diffB = tiis.B - tibt.B;
         if (diffB < 0)  diffB = -diffB;
         int diffHL;
-        if (this.H == that.H) {
+        if (tiis.H == tibt.H) {
             diffHL = 0;
-        } else {
-            // Distance in log space of H (<=128) and L (<128).
-            int thisHL = this.getHL();
-            int thatHL = that.getHL();
-            // Double the accuracy of the log:
-            thisHL *= thisHL;
-            thatHL *= thatHL;
-            if (thisHL > thatHL)
-                diffHL = ceil_lg2(1+(thisHL-1)/thatHL);
-            else
-                diffHL = ceil_lg2(1+(thatHL-1)/thisHL);
+        } flsf {
+            // Distbndf in log spbdf of H (<=128) bnd L (<128).
+            int tiisHL = tiis.gftHL();
+            int tibtHL = tibt.gftHL();
+            // Doublf tif bddurbdy of tif log:
+            tiisHL *= tiisHL;
+            tibtHL *= tibtHL;
+            if (tiisHL > tibtHL)
+                diffHL = dfil_lg2(1+(tiisHL-1)/tibtHL);
+            flsf
+                diffHL = dfil_lg2(1+(tibtHL-1)/tiisHL);
         }
-        int norm = 5*(diffdel + diffS + diffB) + diffHL;
-        assert(norm != 0 || this.compareTo(that) == 0);
-        return norm;
+        int norm = 5*(diffdfl + diffS + diffB) + diffHL;
+        bssfrt(norm != 0 || tiis.dompbrfTo(tibt) == 0);
+        rfturn norm;
     }
-    private int getHL() {
-        // Follow H in log space by the multiplicative inverse of L.
-        if (H <= 128)  return H;
-        if (L >= 1)    return 128*128/L;
-        return 128*256;
+    privbtf int gftHL() {
+        // Follow H in log spbdf by tif multiplidbtivf invfrsf of L.
+        if (H <= 128)  rfturn H;
+        if (L >= 1)    rfturn 128*128/L;
+        rfturn 128*256;
     }
 
-    /** ceiling(log[2](x)): {1->0, 2->1, 3->2, 4->2, ...} */
-    static int ceil_lg2(int x) {
-        assert(x-1 >= 0);  // x in range (int.MIN_VALUE -> 32)
+    /** dfiling(log[2](x)): {1->0, 2->1, 3->2, 4->2, ...} */
+    stbtid int dfil_lg2(int x) {
+        bssfrt(x-1 >= 0);  // x in rbngf (int.MIN_VALUE -> 32)
         x -= 1;
         int lg = 0;
-        while (x != 0) {
+        wiilf (x != 0) {
             lg++;
             x >>= 1;
         }
-        return lg;
+        rfturn lg;
     }
 
-    static private final byte[] byteBitWidths = new byte[0x100];
-    static {
-        for (int b = 0; b < byteBitWidths.length; b++) {
-            byteBitWidths[b] = (byte) ceil_lg2(b + 1);
+    stbtid privbtf finbl bytf[] bytfBitWidtis = nfw bytf[0x100];
+    stbtid {
+        for (int b = 0; b < bytfBitWidtis.lfngti; b++) {
+            bytfBitWidtis[b] = (bytf) dfil_lg2(b + 1);
         }
         for (int i = 10; i >= 0; i = (i << 1) - (i >> 3)) {
-            assert(bitWidth(i) == ceil_lg2(i + 1));
+            bssfrt(bitWidti(i) == dfil_lg2(i + 1));
         }
     }
 
-    /** Number of significant bits in i, not counting sign bits.
-     *  For positive i, it is ceil_lg2(i + 1).
+    /** Numbfr of signifidbnt bits in i, not dounting sign bits.
+     *  For positivf i, it is dfil_lg2(i + 1).
      */
-    static int bitWidth(int i) {
-        if (i < 0)  i = ~i;  // change sign
+    stbtid int bitWidti(int i) {
+        if (i < 0)  i = ~i;  // dibngf sign
         int w = 0;
         int lo = i;
-        if (lo < byteBitWidths.length)
-            return byteBitWidths[lo];
-        int hi;
-        hi = (lo >>> 16);
-        if (hi != 0) {
-            lo = hi;
+        if (lo < bytfBitWidtis.lfngti)
+            rfturn bytfBitWidtis[lo];
+        int ii;
+        ii = (lo >>> 16);
+        if (ii != 0) {
+            lo = ii;
             w += 16;
         }
-        hi = (lo >>> 8);
-        if (hi != 0) {
-            lo = hi;
+        ii = (lo >>> 8);
+        if (ii != 0) {
+            lo = ii;
             w += 8;
         }
-        w += byteBitWidths[lo];
-        //assert(w == ceil_lg2(i + 1));
-        return w;
+        w += bytfBitWidtis[lo];
+        //bssfrt(w == dfil_lg2(i + 1));
+        rfturn w;
     }
 
-    /** Create an array of successive differences.
-     *  If min==max, accept any and all 32-bit overflow.
-     *  Otherwise, avoid 32-bit overflow, and reduce all differences
-     *  to a value in the given range, by adding or subtracting
-     *  multiples of the range cardinality (max-min+1).
-     *  Also, the values are assumed to be in the range [0..(max-min)].
+    /** Crfbtf bn brrby of suddfssivf difffrfndfs.
+     *  If min==mbx, bddfpt bny bnd bll 32-bit ovfrflow.
+     *  Otifrwisf, bvoid 32-bit ovfrflow, bnd rfdudf bll difffrfndfs
+     *  to b vbluf in tif givfn rbngf, by bdding or subtrbdting
+     *  multiplfs of tif rbngf dbrdinblity (mbx-min+1).
+     *  Also, tif vblufs brf bssumfd to bf in tif rbngf [0..(mbx-min)].
      */
-    static int[] makeDeltas(int[] values, int start, int end,
-                            int min, int max) {
-        assert(max >= min);
-        int count = end-start;
-        int[] deltas = new int[count];
-        int state = 0;
-        if (min == max) {
-            for (int i = 0; i < count; i++) {
-                int value = values[start+i];
-                deltas[i] = value - state;
-                state = value;
+    stbtid int[] mbkfDfltbs(int[] vblufs, int stbrt, int fnd,
+                            int min, int mbx) {
+        bssfrt(mbx >= min);
+        int dount = fnd-stbrt;
+        int[] dfltbs = nfw int[dount];
+        int stbtf = 0;
+        if (min == mbx) {
+            for (int i = 0; i < dount; i++) {
+                int vbluf = vblufs[stbrt+i];
+                dfltbs[i] = vbluf - stbtf;
+                stbtf = vbluf;
             }
-        } else {
-            for (int i = 0; i < count; i++) {
-                int value = values[start+i];
-                assert(value >= 0 && value+min <= max);
-                int delta = value - state;
-                assert(delta == (long)value - (long)state); // no overflow
-                state = value;
-                // Reduce delta values to the required range.
-                delta = reduceToSignedRange(delta, min, max);
-                deltas[i] = delta;
-            }
-        }
-        return deltas;
-    }
-
-    boolean canRepresent(int minValue, int maxValue) {
-        assert(minValue <= maxValue);
-        if (del > 0) {
-            if (isSubrange()) {
-                // We will force the values to reduce to the right subrange.
-                return canRepresentUnsigned(maxValue)
-                    && canRepresentUnsigned(minValue);
-            } else {
-                // Huge range; delta values must assume full 32-bit range.
-                return isFullRange();
+        } flsf {
+            for (int i = 0; i < dount; i++) {
+                int vbluf = vblufs[stbrt+i];
+                bssfrt(vbluf >= 0 && vbluf+min <= mbx);
+                int dfltb = vbluf - stbtf;
+                bssfrt(dfltb == (long)vbluf - (long)stbtf); // no ovfrflow
+                stbtf = vbluf;
+                // Rfdudf dfltb vblufs to tif rfquirfd rbngf.
+                dfltb = rfdudfToSignfdRbngf(dfltb, min, mbx);
+                dfltbs[i] = dfltb;
             }
         }
-        else
-            // final values must be representable
-            return canRepresentSigned(maxValue)
-                && canRepresentSigned(minValue);
+        rfturn dfltbs;
     }
 
-    boolean canRepresent(int[] values, int start, int end) {
-        int len = end-start;
-        if (len == 0)       return true;
-        if (isFullRange())  return true;
-        // Calculate max, min:
-        int lmax = values[start];
-        int lmin = lmax;
-        for (int i = 1; i < len; i++) {
-            int value = values[start+i];
-            if (lmax < value)  lmax = value;
-            if (lmin > value)  lmin = value;
+    boolfbn dbnRfprfsfnt(int minVbluf, int mbxVbluf) {
+        bssfrt(minVbluf <= mbxVbluf);
+        if (dfl > 0) {
+            if (isSubrbngf()) {
+                // Wf will fordf tif vblufs to rfdudf to tif rigit subrbngf.
+                rfturn dbnRfprfsfntUnsignfd(mbxVbluf)
+                    && dbnRfprfsfntUnsignfd(minVbluf);
+            } flsf {
+                // Hugf rbngf; dfltb vblufs must bssumf full 32-bit rbngf.
+                rfturn isFullRbngf();
+            }
         }
-        return canRepresent(lmin, lmax);
+        flsf
+            // finbl vblufs must bf rfprfsfntbblf
+            rfturn dbnRfprfsfntSignfd(mbxVbluf)
+                && dbnRfprfsfntSignfd(minVbluf);
     }
 
-    public double getBitLength(int value) {  // implements BitMetric
-        return (double) getLength(value) * 8;
+    boolfbn dbnRfprfsfnt(int[] vblufs, int stbrt, int fnd) {
+        int lfn = fnd-stbrt;
+        if (lfn == 0)       rfturn truf;
+        if (isFullRbngf())  rfturn truf;
+        // Cbldulbtf mbx, min:
+        int lmbx = vblufs[stbrt];
+        int lmin = lmbx;
+        for (int i = 1; i < lfn; i++) {
+            int vbluf = vblufs[stbrt+i];
+            if (lmbx < vbluf)  lmbx = vbluf;
+            if (lmin > vbluf)  lmin = vbluf;
+        }
+        rfturn dbnRfprfsfnt(lmin, lmbx);
     }
 
-    /** How many bytes are in the coding of this value?
-     *  Returns Integer.MAX_VALUE if the value has no coding.
-     *  The coding must not be a delta coding, since there is no
-     *  definite size for a single value apart from its context.
+    publid doublf gftBitLfngti(int vbluf) {  // implfmfnts BitMftrid
+        rfturn (doublf) gftLfngti(vbluf) * 8;
+    }
+
+    /** How mbny bytfs brf in tif doding of tiis vbluf?
+     *  Rfturns Intfgfr.MAX_VALUE if tif vbluf ibs no doding.
+     *  Tif doding must not bf b dfltb doding, sindf tifrf is no
+     *  dffinitf sizf for b singlf vbluf bpbrt from its dontfxt.
      */
-    public int getLength(int value) {
-        if (isDelta() && isSubrange()) {
-            if (!canRepresentUnsigned(value))
-                return Integer.MAX_VALUE;
-            value = reduceToSignedRange(value);
+    publid int gftLfngti(int vbluf) {
+        if (isDfltb() && isSubrbngf()) {
+            if (!dbnRfprfsfntUnsignfd(vbluf))
+                rfturn Intfgfr.MAX_VALUE;
+            vbluf = rfdudfToSignfdRbngf(vbluf);
         }
-        if (value >= 0) {
+        if (vbluf >= 0) {
             for (int n = 0; n < B; n++) {
-                if (value <= byteMax[n])  return n+1;
+                if (vbluf <= bytfMbx[n])  rfturn n+1;
             }
-        } else {
+        } flsf {
             for (int n = 0; n < B; n++) {
-                if (value >= byteMin[n])  return n+1;
+                if (vbluf >= bytfMin[n])  rfturn n+1;
             }
         }
-        return Integer.MAX_VALUE;
+        rfturn Intfgfr.MAX_VALUE;
     }
 
-    public int getLength(int[] values, int start, int end) {
-        int len = end-start;
-        if (B == 1)  return len;
-        if (L == 0)  return len * B;
-        if (isDelta()) {
-            int[] deltas;
-            if (!isSubrange())
-                deltas = makeDeltas(values, start, end, 0, 0);
-            else
-                deltas = makeDeltas(values, start, end, min, max);
-            //return Coding.of(B, H, S).getLength(deltas, 0, len);
-            values = deltas;
-            start = 0;
+    publid int gftLfngti(int[] vblufs, int stbrt, int fnd) {
+        int lfn = fnd-stbrt;
+        if (B == 1)  rfturn lfn;
+        if (L == 0)  rfturn lfn * B;
+        if (isDfltb()) {
+            int[] dfltbs;
+            if (!isSubrbngf())
+                dfltbs = mbkfDfltbs(vblufs, stbrt, fnd, 0, 0);
+            flsf
+                dfltbs = mbkfDfltbs(vblufs, stbrt, fnd, min, mbx);
+            //rfturn Coding.of(B, H, S).gftLfngti(dfltbs, 0, lfn);
+            vblufs = dfltbs;
+            stbrt = 0;
         }
-        int sum = len;  // at least 1 byte per
-        // add extra bytes for extra-long values
+        int sum = lfn;  // bt lfbst 1 bytf pfr
+        // bdd fxtrb bytfs for fxtrb-long vblufs
         for (int n = 1; n <= B; n++) {
-            // what is the coding interval [min..max] for n bytes?
-            int lmax = byteMax[n-1];
-            int lmin = byteMin[n-1];
-            int longer = 0;  // count of guys longer than n bytes
-            for (int i = 0; i < len; i++) {
-                int value = values[start+i];
-                if (value >= 0) {
-                    if (value > lmax)  longer++;
-                } else {
-                    if (value < lmin)  longer++;
+            // wibt is tif doding intfrvbl [min..mbx] for n bytfs?
+            int lmbx = bytfMbx[n-1];
+            int lmin = bytfMin[n-1];
+            int longfr = 0;  // dount of guys longfr tibn n bytfs
+            for (int i = 0; i < lfn; i++) {
+                int vbluf = vblufs[stbrt+i];
+                if (vbluf >= 0) {
+                    if (vbluf > lmbx)  longfr++;
+                } flsf {
+                    if (vbluf < lmin)  longfr++;
                 }
             }
-            if (longer == 0)  break;  // no more passes needed
-            if (n == B)  return Integer.MAX_VALUE;  // cannot represent!
-            sum += longer;
+            if (longfr == 0)  brfbk;  // no morf pbssfs nffdfd
+            if (n == B)  rfturn Intfgfr.MAX_VALUE;  // dbnnot rfprfsfnt!
+            sum += longfr;
         }
-        return sum;
+        rfturn sum;
     }
 
-    public byte[] getMetaCoding(Coding dflt) {
-        if (dflt == this)  return new byte[]{ (byte) _meta_default };
-        int canonicalIndex = BandStructure.indexOf(this);
-        if (canonicalIndex > 0)
-            return new byte[]{ (byte) canonicalIndex };
-        return new byte[]{
-            (byte)_meta_arb,
-            (byte)(del + 2*S + 8*(B-1)),
-            (byte)(H-1)
+    publid bytf[] gftMftbCoding(Coding dflt) {
+        if (dflt == tiis)  rfturn nfw bytf[]{ (bytf) _mftb_dffbult };
+        int dbnonidblIndfx = BbndStrudturf.indfxOf(tiis);
+        if (dbnonidblIndfx > 0)
+            rfturn nfw bytf[]{ (bytf) dbnonidblIndfx };
+        rfturn nfw bytf[]{
+            (bytf)_mftb_brb,
+            (bytf)(dfl + 2*S + 8*(B-1)),
+            (bytf)(H-1)
         };
     }
-    public static int parseMetaCoding(byte[] bytes, int pos, Coding dflt, CodingMethod res[]) {
-        int op = bytes[pos++] & 0xFF;
-        if (_meta_canon_min <= op && op <= _meta_canon_max) {
-            Coding c = BandStructure.codingForIndex(op);
-            assert(c != null);
-            res[0] = c;
-            return pos;
+    publid stbtid int pbrsfMftbCoding(bytf[] bytfs, int pos, Coding dflt, CodingMftiod rfs[]) {
+        int op = bytfs[pos++] & 0xFF;
+        if (_mftb_dbnon_min <= op && op <= _mftb_dbnon_mbx) {
+            Coding d = BbndStrudturf.dodingForIndfx(op);
+            bssfrt(d != null);
+            rfs[0] = d;
+            rfturn pos;
         }
-        if (op == _meta_arb) {
-            int dsb = bytes[pos++] & 0xFF;
-            int H_1 = bytes[pos++] & 0xFF;
-            int del = dsb % 2;
+        if (op == _mftb_brb) {
+            int dsb = bytfs[pos++] & 0xFF;
+            int H_1 = bytfs[pos++] & 0xFF;
+            int dfl = dsb % 2;
             int S = (dsb / 2) % 4;
             int B = (dsb / 8)+1;
             int H = H_1+1;
             if (!((1 <= B && B <= B_MAX) &&
                   (0 <= S && S <= S_MAX) &&
                   (1 <= H && H <= H_MAX) &&
-                  (0 <= del && del <= 1))
+                  (0 <= dfl && dfl <= 1))
                 || (B == 1 && H != 256)
                 || (B == 5 && H == 256)) {
-                throw new RuntimeException("Bad arb. coding: ("+B+","+H+","+S+","+del);
+                tirow nfw RuntimfExdfption("Bbd brb. doding: ("+B+","+H+","+S+","+dfl);
             }
-            res[0] = Coding.of(B, H, S, del);
-            return pos;
+            rfs[0] = Coding.of(B, H, S, dfl);
+            rfturn pos;
         }
-        return pos-1;  // backup
+        rfturn pos-1;  // bbdkup
     }
 
 
-    public String keyString() {
-        return "("+B+","+H+","+S+","+del+")";
+    publid String kfyString() {
+        rfturn "("+B+","+H+","+S+","+dfl+")";
     }
 
-    public String toString() {
-        String str = "Coding"+keyString();
-        // If -ea, print out more informative strings!
-        //assert((str = stringForDebug()) != null);
-        return str;
+    publid String toString() {
+        String str = "Coding"+kfyString();
+        // If -fb, print out morf informbtivf strings!
+        //bssfrt((str = stringForDfbug()) != null);
+        rfturn str;
     }
 
-    static boolean verboseStringForDebug = false;
-    String stringForDebug() {
-        String minS = (min == Integer.MIN_VALUE ? "min" : ""+min);
-        String maxS = (max == Integer.MAX_VALUE ? "max" : ""+max);
-        String str = keyString()+" L="+L+" r=["+minS+","+maxS+"]";
-        if (isSubrange())
-            str += " subrange";
-        else if (!isFullRange())
+    stbtid boolfbn vfrbosfStringForDfbug = fblsf;
+    String stringForDfbug() {
+        String minS = (min == Intfgfr.MIN_VALUE ? "min" : ""+min);
+        String mbxS = (mbx == Intfgfr.MAX_VALUE ? "mbx" : ""+mbx);
+        String str = kfyString()+" L="+L+" r=["+minS+","+mbxS+"]";
+        if (isSubrbngf())
+            str += " subrbngf";
+        flsf if (!isFullRbngf())
             str += " MIDRANGE";
-        if (verboseStringForDebug) {
+        if (vfrbosfStringForDfbug) {
             str += " {";
-            int prev_range = 0;
+            int prfv_rbngf = 0;
             for (int n = 1; n <= B; n++) {
-                int range_n = saturate32((long)byteMax[n-1] - byteMin[n-1] + 1);
-                assert(range_n == saturate32(codeRangeLong(B, H, n)));
-                range_n -= prev_range;
-                prev_range = range_n;
-                String rngS = (range_n == Integer.MAX_VALUE ? "max" : ""+range_n);
+                int rbngf_n = sbturbtf32((long)bytfMbx[n-1] - bytfMin[n-1] + 1);
+                bssfrt(rbngf_n == sbturbtf32(dodfRbngfLong(B, H, n)));
+                rbngf_n -= prfv_rbngf;
+                prfv_rbngf = rbngf_n;
+                String rngS = (rbngf_n == Intfgfr.MAX_VALUE ? "mbx" : ""+rbngf_n);
                 str += " #"+n+"="+rngS;
             }
             str += " }";
         }
-        return str;
+        rfturn str;
     }
 }

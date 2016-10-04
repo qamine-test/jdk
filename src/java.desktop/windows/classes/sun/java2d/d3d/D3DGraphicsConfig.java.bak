@@ -1,327 +1,327 @@
 /*
- * Copyright (c) 2007, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d.d3d;
+pbdkbgf sun.jbvb2d.d3d;
 
-import java.awt.AWTException;
-import java.awt.BufferCapabilities;
-import java.awt.BufferCapabilities.FlipContents;
-import java.awt.Component;
-import java.awt.Graphics;
-import java.awt.ImageCapabilities;
-import java.awt.Transparency;
-import java.awt.color.ColorSpace;
-import java.awt.image.ColorModel;
-import java.awt.image.DataBuffer;
-import java.awt.image.DirectColorModel;
-import java.awt.image.VolatileImage;
-import sun.awt.Win32GraphicsConfig;
-import sun.awt.image.SunVolatileImage;
-import sun.awt.image.SurfaceManager;
-import sun.awt.windows.WComponentPeer;
-import sun.java2d.Surface;
-import sun.java2d.SurfaceData;
-import sun.java2d.pipe.hw.AccelDeviceEventNotifier;
-import sun.java2d.pipe.hw.AccelTypedVolatileImage;
-import sun.java2d.pipe.hw.AccelGraphicsConfig;
-import sun.java2d.pipe.hw.AccelSurface;
-import sun.java2d.pipe.hw.ContextCapabilities;
-import static sun.java2d.pipe.hw.AccelSurface.*;
-import static sun.java2d.d3d.D3DContext.D3DContextCaps.*;
-import sun.java2d.pipe.hw.AccelDeviceEventListener;
+import jbvb.bwt.AWTExdfption;
+import jbvb.bwt.BufffrCbpbbilitifs;
+import jbvb.bwt.BufffrCbpbbilitifs.FlipContfnts;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.ImbgfCbpbbilitifs;
+import jbvb.bwt.Trbnspbrfndy;
+import jbvb.bwt.dolor.ColorSpbdf;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.DbtbBufffr;
+import jbvb.bwt.imbgf.DirfdtColorModfl;
+import jbvb.bwt.imbgf.VolbtilfImbgf;
+import sun.bwt.Win32GrbpiidsConfig;
+import sun.bwt.imbgf.SunVolbtilfImbgf;
+import sun.bwt.imbgf.SurfbdfMbnbgfr;
+import sun.bwt.windows.WComponfntPffr;
+import sun.jbvb2d.Surfbdf;
+import sun.jbvb2d.SurfbdfDbtb;
+import sun.jbvb2d.pipf.iw.AddflDfvidfEvfntNotififr;
+import sun.jbvb2d.pipf.iw.AddflTypfdVolbtilfImbgf;
+import sun.jbvb2d.pipf.iw.AddflGrbpiidsConfig;
+import sun.jbvb2d.pipf.iw.AddflSurfbdf;
+import sun.jbvb2d.pipf.iw.ContfxtCbpbbilitifs;
+import stbtid sun.jbvb2d.pipf.iw.AddflSurfbdf.*;
+import stbtid sun.jbvb2d.d3d.D3DContfxt.D3DContfxtCbps.*;
+import sun.jbvb2d.pipf.iw.AddflDfvidfEvfntListfnfr;
 
-public class D3DGraphicsConfig
-    extends Win32GraphicsConfig
-    implements AccelGraphicsConfig
+publid dlbss D3DGrbpiidsConfig
+    fxtfnds Win32GrbpiidsConfig
+    implfmfnts AddflGrbpiidsConfig
 {
-    private static ImageCapabilities imageCaps = new D3DImageCaps();
+    privbtf stbtid ImbgfCbpbbilitifs imbgfCbps = nfw D3DImbgfCbps();
 
-    private BufferCapabilities bufferCaps;
-    private D3DGraphicsDevice device;
+    privbtf BufffrCbpbbilitifs bufffrCbps;
+    privbtf D3DGrbpiidsDfvidf dfvidf;
 
-    protected D3DGraphicsConfig(D3DGraphicsDevice device) {
-        super(device, 0);
-        this.device = device;
+    protfdtfd D3DGrbpiidsConfig(D3DGrbpiidsDfvidf dfvidf) {
+        supfr(dfvidf, 0);
+        tiis.dfvidf = dfvidf;
     }
 
-    public SurfaceData createManagedSurface(int w, int h, int transparency) {
-        return D3DSurfaceData.createData(this, w, h,
-                                         getColorModel(transparency),
+    publid SurfbdfDbtb drfbtfMbnbgfdSurfbdf(int w, int i, int trbnspbrfndy) {
+        rfturn D3DSurfbdfDbtb.drfbtfDbtb(tiis, w, i,
+                                         gftColorModfl(trbnspbrfndy),
                                          null,
-                                         D3DSurfaceData.TEXTURE);
+                                         D3DSurfbdfDbtb.TEXTURE);
     }
 
-    @Override
-    public synchronized void displayChanged() {
-        super.displayChanged();
-        // the context could hold a reference to a D3DSurfaceData, which in
-        // turn has a reference back to this D3DGraphicsConfig, so in order
-        // for this instance to be disposed we need to break the connection
-        D3DRenderQueue rq = D3DRenderQueue.getInstance();
-        rq.lock();
+    @Ovfrridf
+    publid syndironizfd void displbyCibngfd() {
+        supfr.displbyCibngfd();
+        // tif dontfxt dould iold b rfffrfndf to b D3DSurfbdfDbtb, wiidi in
+        // turn ibs b rfffrfndf bbdk to tiis D3DGrbpiidsConfig, so in ordfr
+        // for tiis instbndf to bf disposfd wf nffd to brfbk tif donnfdtion
+        D3DRfndfrQufuf rq = D3DRfndfrQufuf.gftInstbndf();
+        rq.lodk();
         try {
-            D3DContext.invalidateCurrentContext();
-        } finally {
-            rq.unlock();
+            D3DContfxt.invblidbtfCurrfntContfxt();
+        } finblly {
+            rq.unlodk();
         }
     }
 
-    @Override
-    public ColorModel getColorModel(int transparency) {
-        switch (transparency) {
-        case Transparency.OPAQUE:
-            // REMIND: once the ColorModel spec is changed, this should be
-            //         an opaque premultiplied DCM...
-            return new DirectColorModel(24, 0xff0000, 0xff00, 0xff);
-        case Transparency.BITMASK:
-            return new DirectColorModel(25, 0xff0000, 0xff00, 0xff, 0x1000000);
-        case Transparency.TRANSLUCENT:
-            ColorSpace cs = ColorSpace.getInstance(ColorSpace.CS_sRGB);
-            return new DirectColorModel(cs, 32,
+    @Ovfrridf
+    publid ColorModfl gftColorModfl(int trbnspbrfndy) {
+        switdi (trbnspbrfndy) {
+        dbsf Trbnspbrfndy.OPAQUE:
+            // REMIND: ondf tif ColorModfl spfd is dibngfd, tiis siould bf
+            //         bn opbquf prfmultiplifd DCM...
+            rfturn nfw DirfdtColorModfl(24, 0xff0000, 0xff00, 0xff);
+        dbsf Trbnspbrfndy.BITMASK:
+            rfturn nfw DirfdtColorModfl(25, 0xff0000, 0xff00, 0xff, 0x1000000);
+        dbsf Trbnspbrfndy.TRANSLUCENT:
+            ColorSpbdf ds = ColorSpbdf.gftInstbndf(ColorSpbdf.CS_sRGB);
+            rfturn nfw DirfdtColorModfl(ds, 32,
                                         0xff0000, 0xff00, 0xff, 0xff000000,
-                                        true, DataBuffer.TYPE_INT);
-        default:
-            return null;
+                                        truf, DbtbBufffr.TYPE_INT);
+        dffbult:
+            rfturn null;
         }
     }
 
-    @Override
-    public String toString() {
-        return ("D3DGraphicsConfig[dev="+screen+",pixfmt="+visual+"]");
+    @Ovfrridf
+    publid String toString() {
+        rfturn ("D3DGrbpiidsConfig[dfv="+sdrffn+",pixfmt="+visubl+"]");
     }
 
     /**
-     * The following methods are invoked from WComponentPeer.java rather
-     * than having the Win32-dependent implementations hardcoded in that
-     * class.  This way the appropriate actions are taken based on the peer's
-     * GraphicsConfig, whether it is a Win32GraphicsConfig or a
-     * D3DGraphicsConfig.
+     * Tif following mftiods brf invokfd from WComponfntPffr.jbvb rbtifr
+     * tibn ibving tif Win32-dfpfndfnt implfmfntbtions ibrddodfd in tibt
+     * dlbss.  Tiis wby tif bppropribtf bdtions brf tbkfn bbsfd on tif pffr's
+     * GrbpiidsConfig, wiftifr it is b Win32GrbpiidsConfig or b
+     * D3DGrbpiidsConfig.
      */
 
     /**
-     * Creates a new SurfaceData that will be associated with the given
-     * WComponentPeer. D3D9 doesn't allow rendering to the screen,
-     * so a GDI surface will be returned.
+     * Crfbtfs b nfw SurfbdfDbtb tibt will bf bssodibtfd witi tif givfn
+     * WComponfntPffr. D3D9 dofsn't bllow rfndfring to tif sdrffn,
+     * so b GDI surfbdf will bf rfturnfd.
      */
-    @Override
-    public SurfaceData createSurfaceData(WComponentPeer peer,
-                                         int numBackBuffers)
+    @Ovfrridf
+    publid SurfbdfDbtb drfbtfSurfbdfDbtb(WComponfntPffr pffr,
+                                         int numBbdkBufffrs)
     {
-        return super.createSurfaceData(peer, numBackBuffers);
+        rfturn supfr.drfbtfSurfbdfDbtb(pffr, numBbdkBufffrs);
     }
 
     /**
-     * The following methods correspond to the multibuffering methods in
-     * WComponentPeer.java...
+     * Tif following mftiods dorrfspond to tif multibufffring mftiods in
+     * WComponfntPffr.jbvb...
      */
 
     /**
-     * Checks that the requested configuration is natively supported; if not,
-     * an AWTException is thrown.
+     * Cifdks tibt tif rfqufstfd donfigurbtion is nbtivfly supportfd; if not,
+     * bn AWTExdfption is tirown.
      */
-    @Override
-    public void assertOperationSupported(Component target,
-                                         int numBuffers,
-                                         BufferCapabilities caps)
-        throws AWTException
+    @Ovfrridf
+    publid void bssfrtOpfrbtionSupportfd(Componfnt tbrgft,
+                                         int numBufffrs,
+                                         BufffrCbpbbilitifs dbps)
+        tirows AWTExdfption
     {
-        if (numBuffers < 2 || numBuffers > 4) {
-            throw new AWTException("Only 2-4 buffers supported");
+        if (numBufffrs < 2 || numBufffrs > 4) {
+            tirow nfw AWTExdfption("Only 2-4 bufffrs supportfd");
         }
-        if (caps.getFlipContents() == BufferCapabilities.FlipContents.COPIED &&
-            numBuffers != 2)
+        if (dbps.gftFlipContfnts() == BufffrCbpbbilitifs.FlipContfnts.COPIED &&
+            numBufffrs != 2)
         {
-            throw new AWTException("FlipContents.COPIED is only" +
-                                   "supported for 2 buffers");
+            tirow nfw AWTExdfption("FlipContfnts.COPIED is only" +
+                                   "supportfd for 2 bufffrs");
         }
     }
 
     /**
-     * Creates a D3D-based backbuffer for the given peer and returns the
-     * image wrapper.
+     * Crfbtfs b D3D-bbsfd bbdkbufffr for tif givfn pffr bnd rfturns tif
+     * imbgf wrbppfr.
      */
-    @Override
-    public VolatileImage createBackBuffer(WComponentPeer peer) {
-        Component target = (Component)peer.getTarget();
-        // it is possible for the component to have size 0x0, adjust it to
-        // be at least 1x1 to avoid IAE
-        int w = Math.max(1, target.getWidth());
-        int h = Math.max(1, target.getHeight());
-        return new SunVolatileImage(target, w, h, Boolean.TRUE);
+    @Ovfrridf
+    publid VolbtilfImbgf drfbtfBbdkBufffr(WComponfntPffr pffr) {
+        Componfnt tbrgft = (Componfnt)pffr.gftTbrgft();
+        // it is possiblf for tif domponfnt to ibvf sizf 0x0, bdjust it to
+        // bf bt lfbst 1x1 to bvoid IAE
+        int w = Mbti.mbx(1, tbrgft.gftWidti());
+        int i = Mbti.mbx(1, tbrgft.gftHfigit());
+        rfturn nfw SunVolbtilfImbgf(tbrgft, w, i, Boolfbn.TRUE);
     }
 
     /**
-     * Performs the native D3D flip operation for the given target Component.
+     * Pfrforms tif nbtivf D3D flip opfrbtion for tif givfn tbrgft Componfnt.
      */
-    @Override
-    public void flip(WComponentPeer peer,
-                     Component target, VolatileImage backBuffer,
+    @Ovfrridf
+    publid void flip(WComponfntPffr pffr,
+                     Componfnt tbrgft, VolbtilfImbgf bbdkBufffr,
                      int x1, int y1, int x2, int y2,
-                     BufferCapabilities.FlipContents flipAction)
+                     BufffrCbpbbilitifs.FlipContfnts flipAdtion)
     {
-        // REMIND: we should actually get a surface data for the
-        // backBuffer's VI
-        SurfaceManager d3dvsm =
-            SurfaceManager.getManager(backBuffer);
-        SurfaceData sd = d3dvsm.getPrimarySurfaceData();
-        if (sd instanceof D3DSurfaceData) {
-            D3DSurfaceData d3dsd = (D3DSurfaceData)sd;
-            D3DSurfaceData.swapBuffers(d3dsd, x1, y1, x2, y2);
-        } else {
-            // the surface was likely lost could not have been restored
-            Graphics g = peer.getGraphics();
+        // REMIND: wf siould bdtublly gft b surfbdf dbtb for tif
+        // bbdkBufffr's VI
+        SurfbdfMbnbgfr d3dvsm =
+            SurfbdfMbnbgfr.gftMbnbgfr(bbdkBufffr);
+        SurfbdfDbtb sd = d3dvsm.gftPrimbrySurfbdfDbtb();
+        if (sd instbndfof D3DSurfbdfDbtb) {
+            D3DSurfbdfDbtb d3dsd = (D3DSurfbdfDbtb)sd;
+            D3DSurfbdfDbtb.swbpBufffrs(d3dsd, x1, y1, x2, y2);
+        } flsf {
+            // tif surfbdf wbs likfly lost dould not ibvf bffn rfstorfd
+            Grbpiids g = pffr.gftGrbpiids();
             try {
-                g.drawImage(backBuffer,
+                g.drbwImbgf(bbdkBufffr,
                             x1, y1, x2, y2,
                             x1, y1, x2, y2,
                             null);
-            } finally {
-                g.dispose();
+            } finblly {
+                g.disposf();
             }
         }
 
-        if (flipAction == BufferCapabilities.FlipContents.BACKGROUND) {
-            Graphics g = backBuffer.getGraphics();
+        if (flipAdtion == BufffrCbpbbilitifs.FlipContfnts.BACKGROUND) {
+            Grbpiids g = bbdkBufffr.gftGrbpiids();
             try {
-                g.setColor(target.getBackground());
-                g.fillRect(0, 0,
-                           backBuffer.getWidth(),
-                           backBuffer.getHeight());
-            } finally {
-                g.dispose();
+                g.sftColor(tbrgft.gftBbdkground());
+                g.fillRfdt(0, 0,
+                           bbdkBufffr.gftWidti(),
+                           bbdkBufffr.gftHfigit());
+            } finblly {
+                g.disposf();
             }
         }
     }
 
-    private static class D3DBufferCaps extends BufferCapabilities {
-        public D3DBufferCaps() {
-            // REMIND: should we indicate that the front-buffer
-            // (the on-screen rendering) is not accelerated?
-            super(imageCaps, imageCaps, FlipContents.UNDEFINED);
+    privbtf stbtid dlbss D3DBufffrCbps fxtfnds BufffrCbpbbilitifs {
+        publid D3DBufffrCbps() {
+            // REMIND: siould wf indidbtf tibt tif front-bufffr
+            // (tif on-sdrffn rfndfring) is not bddflfrbtfd?
+            supfr(imbgfCbps, imbgfCbps, FlipContfnts.UNDEFINED);
         }
-        @Override
-        public boolean isMultiBufferAvailable() {
-            return true;
+        @Ovfrridf
+        publid boolfbn isMultiBufffrAvbilbblf() {
+            rfturn truf;
         }
 
     }
 
-    @Override
-    public BufferCapabilities getBufferCapabilities() {
-        if (bufferCaps == null) {
-            bufferCaps = new D3DBufferCaps();
+    @Ovfrridf
+    publid BufffrCbpbbilitifs gftBufffrCbpbbilitifs() {
+        if (bufffrCbps == null) {
+            bufffrCbps = nfw D3DBufffrCbps();
         }
-        return bufferCaps;
+        rfturn bufffrCbps;
     }
 
-    private static class D3DImageCaps extends ImageCapabilities {
-        private D3DImageCaps() {
-            super(true);
+    privbtf stbtid dlbss D3DImbgfCbps fxtfnds ImbgfCbpbbilitifs {
+        privbtf D3DImbgfCbps() {
+            supfr(truf);
         }
-        @Override
-        public boolean isTrueVolatile() {
-            return true;
+        @Ovfrridf
+        publid boolfbn isTrufVolbtilf() {
+            rfturn truf;
         }
     }
 
-    @Override
-    public ImageCapabilities getImageCapabilities() {
-        return imageCaps;
+    @Ovfrridf
+    publid ImbgfCbpbbilitifs gftImbgfCbpbbilitifs() {
+        rfturn imbgfCbps;
     }
 
-    D3DGraphicsDevice getD3DDevice() {
-        return device;
+    D3DGrbpiidsDfvidf gftD3DDfvidf() {
+        rfturn dfvidf;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      *
-     * @see sun.java2d.pipe.hw.BufferedContextProvider#getContext
+     * @sff sun.jbvb2d.pipf.iw.BufffrfdContfxtProvidfr#gftContfxt
      */
-    @Override
-    public D3DContext getContext() {
-        return device.getContext();
+    @Ovfrridf
+    publid D3DContfxt gftContfxt() {
+        rfturn dfvidf.gftContfxt();
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      *
-     * @see sun.java2d.pipe.hw.AccelGraphicsConfig#createCompatibleVolatileImage
+     * @sff sun.jbvb2d.pipf.iw.AddflGrbpiidsConfig#drfbtfCompbtiblfVolbtilfImbgf
      */
-    @Override
-    public VolatileImage
-        createCompatibleVolatileImage(int width, int height,
-                                      int transparency, int type)
+    @Ovfrridf
+    publid VolbtilfImbgf
+        drfbtfCompbtiblfVolbtilfImbgf(int widti, int ifigit,
+                                      int trbnspbrfndy, int typf)
     {
-        if (type == FLIP_BACKBUFFER || type == WINDOW || type == UNDEFINED ||
-            transparency == Transparency.BITMASK)
+        if (typf == FLIP_BACKBUFFER || typf == WINDOW || typf == UNDEFINED ||
+            trbnspbrfndy == Trbnspbrfndy.BITMASK)
         {
-            return null;
+            rfturn null;
         }
-        boolean isOpaque = transparency == Transparency.OPAQUE;
-        if (type == RT_TEXTURE) {
-            int cap = isOpaque ? CAPS_RT_TEXTURE_OPAQUE : CAPS_RT_TEXTURE_ALPHA;
-            if (!device.isCapPresent(cap)) {
-                return null;
+        boolfbn isOpbquf = trbnspbrfndy == Trbnspbrfndy.OPAQUE;
+        if (typf == RT_TEXTURE) {
+            int dbp = isOpbquf ? CAPS_RT_TEXTURE_OPAQUE : CAPS_RT_TEXTURE_ALPHA;
+            if (!dfvidf.isCbpPrfsfnt(dbp)) {
+                rfturn null;
             }
-        } else if (type == RT_PLAIN) {
-            if (!isOpaque && !device.isCapPresent(CAPS_RT_PLAIN_ALPHA)) {
-                return null;
+        } flsf if (typf == RT_PLAIN) {
+            if (!isOpbquf && !dfvidf.isCbpPrfsfnt(CAPS_RT_PLAIN_ALPHA)) {
+                rfturn null;
             }
         }
 
-        SunVolatileImage vi = new AccelTypedVolatileImage(this, width, height,
-                                                          transparency, type);
-        Surface sd = vi.getDestSurface();
-        if (!(sd instanceof AccelSurface) ||
-            ((AccelSurface)sd).getType() != type)
+        SunVolbtilfImbgf vi = nfw AddflTypfdVolbtilfImbgf(tiis, widti, ifigit,
+                                                          trbnspbrfndy, typf);
+        Surfbdf sd = vi.gftDfstSurfbdf();
+        if (!(sd instbndfof AddflSurfbdf) ||
+            ((AddflSurfbdf)sd).gftTypf() != typf)
         {
-            vi.flush();
+            vi.flusi();
             vi = null;
         }
 
-        return vi;
+        rfturn vi;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      *
-     * @see sun.java2d.pipe.hw.AccelGraphicsConfig#getContextCapabilities
+     * @sff sun.jbvb2d.pipf.iw.AddflGrbpiidsConfig#gftContfxtCbpbbilitifs
      */
-    @Override
-    public ContextCapabilities getContextCapabilities() {
-        return device.getContextCapabilities();
+    @Ovfrridf
+    publid ContfxtCbpbbilitifs gftContfxtCbpbbilitifs() {
+        rfturn dfvidf.gftContfxtCbpbbilitifs();
     }
 
-    @Override
-    public void addDeviceEventListener(AccelDeviceEventListener l) {
-        AccelDeviceEventNotifier.addListener(l, device.getScreen());
+    @Ovfrridf
+    publid void bddDfvidfEvfntListfnfr(AddflDfvidfEvfntListfnfr l) {
+        AddflDfvidfEvfntNotififr.bddListfnfr(l, dfvidf.gftSdrffn());
     }
 
-    @Override
-    public void removeDeviceEventListener(AccelDeviceEventListener l) {
-        AccelDeviceEventNotifier.removeListener(l);
+    @Ovfrridf
+    publid void rfmovfDfvidfEvfntListfnfr(AddflDfvidfEvfntListfnfr l) {
+        AddflDfvidfEvfntNotififr.rfmovfListfnfr(l);
     }
 }

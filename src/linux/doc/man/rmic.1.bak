@@ -1,106 +1,106 @@
 '\" t
-.\"  Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+.\"  Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free software; you can redistribute it and/or modify it
-.\" under the terms of the GNU General Public License version 2 only, as
-.\" published by the Free Software Foundation.
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
 .\"
-.\" This code is distributed in the hope that it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-.\" version 2 for more details (a copy is included in the LICENSE file that
-.\" accompanied this code).
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
 .\"
-.\" You should have received a copy of the GNU General Public License version
-.\" 2 along with this work; if not, write to the Free Software Foundation,
-.\" Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-.\" or visit www.oracle.com if you need additional information or have any
-.\" questions.
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
 .\"
-.\"     Arch: generic
-.\"     Software: JDK 8
-.\"     Date: 21 November 2013
-.\"     SectDesc: Remote Method Invocation (RMI) Tools
-.\"     Title: rmic.1
+.\"     Ardi: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     SfdtDfsd: Rfmotf Mftiod Invodbtion (RMI) Tools
+.\"     Titlf: rmid.1
 .\"
 .if n .pl 99999
-.TH rmic 1 "21 November 2013" "JDK 8" "Remote Method Invocation (RMI) Tools"
+.TH rmid 1 "21 Novfmbfr 2013" "JDK 8" "Rfmotf Mftiod Invodbtion (RMI) Tools"
 .\" -----------------------------------------------------------------
-.\" * Define some portability stuff
+.\" * Dffinf somf portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debian.org/507673
-.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(aq
-.el       .ds Aq '
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set default formatting
+.\" * sft dffbult formbtting
 .\" -----------------------------------------------------------------
-.\" disable hyphenation
-.nh
-.\" disable justification (adjust text to left margin only)
-.ad l
+.\" disbblf iypifnbtion
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 
 .SH NAME    
-rmic \- Generates stub, skeleton, and tie classes for remote objects that use the Java Remote Method Protocol (JRMP) or Internet Inter-Orb protocol (IIOP)\&. Also generates Object Management Group (OMG) Interface Definition Language (IDL)
+rmid \- Gfnfrbtfs stub, skflfton, bnd tif dlbssfs for rfmotf objfdts tibt usf tif Jbvb Rfmotf Mftiod Protodol (JRMP) or Intfrnft Intfr-Orb protodol (IIOP)\&. Also gfnfrbtfs Objfdt Mbnbgfmfnt Group (OMG) Intfrfbdf Dffinition Lbngubgf (IDL)
 .SH SYNOPSIS    
 .sp     
 .nf     
 
-\fBrmic\fR [ \fIoptions\fR ] \fIpackage\-qualified\-class\-names\fR
+\fBrmid\fR [ \fIoptions\fR ] \fIpbdkbgf\-qublififd\-dlbss\-nbmfs\fR
 .fi     
 .sp     
 .TP     
 \fIoptions\fR
-The command-line \f3options\fR\&. See Options\&.
+Tif dommbnd-linf \f3options\fR\&. Sff Options\&.
 .TP     
-\fIpackage-qualified-class-names\fR
-Class names that include their packages, for example, \f3java\&.awt\&.Color\fR\&.
+\fIpbdkbgf-qublififd-dlbss-nbmfs\fR
+Clbss nbmfs tibt indludf tifir pbdkbgfs, for fxbmplf, \f3jbvb\&.bwt\&.Color\fR\&.
 .SH DESCRIPTION    
-\fIDeprecation Note:\fR Support for static generation of Java Remote Method Protocol (JRMP) stubs and skeletons has been deprecated\&. Oracle recommends that you use dynamically generated JRMP stubs instead, eliminating the need to use this tool for JRMP-based applications\&. See the \f3java\&.rmi\&.server\&.UnicastRemoteObject\fR specification at http://docs\&.oracle\&.com/javase/8/docs/api/java/rmi/server/UnicastRemoteObject\&.html for further information\&.
+\fIDfprfdbtion Notf:\fR Support for stbtid gfnfrbtion of Jbvb Rfmotf Mftiod Protodol (JRMP) stubs bnd skflftons ibs bffn dfprfdbtfd\&. Orbdlf rfdommfnds tibt you usf dynbmidblly gfnfrbtfd JRMP stubs instfbd, fliminbting tif nffd to usf tiis tool for JRMP-bbsfd bpplidbtions\&. Sff tif \f3jbvb\&.rmi\&.sfrvfr\&.UnidbstRfmotfObjfdt\fR spfdifidbtion bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/jbvb/rmi/sfrvfr/UnidbstRfmotfObjfdt\&.itml for furtifr informbtion\&.
 .PP
-The \f3rmic\fR compiler generates stub and skeleton class files using the Java Remote Method Protocol (JRMP) and stub and tie class files (IIOP protocol) for remote objects\&. These class files are generated from compiled Java programming language classes that are remote object implementation classes\&. A remote implementation class is a class that implements the interface \f3java\&.rmi\&.Remote\fR\&. The class names in the \f3rmic\fR command must be for classes that were compiled successfully with the \f3javac\fR command and must be fully package qualified\&. For example, running the \f3rmic\fR command on the class file name \f3HelloImpl\fR as shown here creates the \f3HelloImpl_Stub\&.class\fRfile in the hello subdirectory (named for the class\&'s package):
+Tif \f3rmid\fR dompilfr gfnfrbtfs stub bnd skflfton dlbss filfs using tif Jbvb Rfmotf Mftiod Protodol (JRMP) bnd stub bnd tif dlbss filfs (IIOP protodol) for rfmotf objfdts\&. Tifsf dlbss filfs brf gfnfrbtfd from dompilfd Jbvb progrbmming lbngubgf dlbssfs tibt brf rfmotf objfdt implfmfntbtion dlbssfs\&. A rfmotf implfmfntbtion dlbss is b dlbss tibt implfmfnts tif intfrfbdf \f3jbvb\&.rmi\&.Rfmotf\fR\&. Tif dlbss nbmfs in tif \f3rmid\fR dommbnd must bf for dlbssfs tibt wfrf dompilfd suddfssfully witi tif \f3jbvbd\fR dommbnd bnd must bf fully pbdkbgf qublififd\&. For fxbmplf, running tif \f3rmid\fR dommbnd on tif dlbss filf nbmf \f3HflloImpl\fR bs siown ifrf drfbtfs tif \f3HflloImpl_Stub\&.dlbss\fRfilf in tif ifllo subdirfdtory (nbmfd for tif dlbss\&'s pbdkbgf):
 .sp     
 .nf     
-\f3rmic hello\&.HelloImpl\fP
+\f3rmid ifllo\&.HflloImpl\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-A skeleton for a remote object is a JRMP protocol server-side entity that has a method that dispatches calls to the remote object implementation\&.
+A skflfton for b rfmotf objfdt is b JRMP protodol sfrvfr-sidf fntity tibt ibs b mftiod tibt dispbtdifs dblls to tif rfmotf objfdt implfmfntbtion\&.
 .PP
-A tie for a remote object is a server-side entity similar to a skeleton, but communicates with the client with the IIOP protocol\&.
+A tif for b rfmotf objfdt is b sfrvfr-sidf fntity similbr to b skflfton, but dommunidbtfs witi tif dlifnt witi tif IIOP protodol\&.
 .PP
-A stub is a client-side proxy for a remote object that is responsible for communicating method invocations on remote objects to the server where the actual remote object implementation resides\&. A client\&'s reference to a remote object, therefore, is actually a reference to a local stub\&.
+A stub is b dlifnt-sidf proxy for b rfmotf objfdt tibt is rfsponsiblf for dommunidbting mftiod invodbtions on rfmotf objfdts to tif sfrvfr wifrf tif bdtubl rfmotf objfdt implfmfntbtion rfsidfs\&. A dlifnt\&'s rfffrfndf to b rfmotf objfdt, tifrfforf, is bdtublly b rfffrfndf to b lodbl stub\&.
 .PP
-By default, the \f3rmic\fR command generates stub classes that use the 1\&.2 JRMP stub protocol version only, as though the \f3-v1\&.2\fR option was specified\&. The \f3-vcompat\fR option was the default in releases before 5\&.0\&. Use the \f3-iiop\fR option to generate stub and tie classes for the IIOP protocol\&. See Options\&.
+By dffbult, tif \f3rmid\fR dommbnd gfnfrbtfs stub dlbssfs tibt usf tif 1\&.2 JRMP stub protodol vfrsion only, bs tiougi tif \f3-v1\&.2\fR option wbs spfdififd\&. Tif \f3-vdompbt\fR option wbs tif dffbult in rflfbsfs bfforf 5\&.0\&. Usf tif \f3-iiop\fR option to gfnfrbtf stub bnd tif dlbssfs for tif IIOP protodol\&. Sff Options\&.
 .PP
-A stub implements only the remote interfaces, and not any local interfaces that the remote object also implements\&. Because a JRMP stub implements the same set of remote interfaces as the remote object, a client can use the Java programming language built-in operators for casting and type checking\&. For IIOP, the \f3PortableRemoteObject\&.narrow\fR method must be used\&.
+A stub implfmfnts only tif rfmotf intfrfbdfs, bnd not bny lodbl intfrfbdfs tibt tif rfmotf objfdt blso implfmfnts\&. Bfdbusf b JRMP stub implfmfnts tif sbmf sft of rfmotf intfrfbdfs bs tif rfmotf objfdt, b dlifnt dbn usf tif Jbvb progrbmming lbngubgf built-in opfrbtors for dbsting bnd typf difdking\&. For IIOP, tif \f3PortbblfRfmotfObjfdt\&.nbrrow\fR mftiod must bf usfd\&.
 .SH OPTIONS    
 .TP
--bootclasspath \fIpath\fR
+-bootdlbsspbti \fIpbti\fR
 .br
-Overrides the location of bootstrap class files\&.
+Ovfrridfs tif lodbtion of bootstrbp dlbss filfs\&.
 .TP
--classpath path
+-dlbsspbti pbti
 .br
-Specifies the path the \f3rmic\fR command uses to look up classes\&. This option overrides the default or the \f3CLASSPATH\fR environment variable when it is set\&. Directories are separated by colons\&. The general format for path is: \f3\&.:<your_path>\fR, for example: \f3\&.:/usr/local/java/classes\fR\&.
+Spfdififs tif pbti tif \f3rmid\fR dommbnd usfs to look up dlbssfs\&. Tiis option ovfrridfs tif dffbult or tif \f3CLASSPATH\fR fnvironmfnt vbribblf wifn it is sft\&. Dirfdtorifs brf sfpbrbtfd by dolons\&. Tif gfnfrbl formbt for pbti is: \f3\&.:<your_pbti>\fR, for fxbmplf: \f3\&.:/usr/lodbl/jbvb/dlbssfs\fR\&.
 .TP
--d \fIdirectory\fR
+-d \fIdirfdtory\fR
 .br
-Specifies the root destination directory for the generated class hierarchy\&. You can use this option to specify a destination directory for the stub, skeleton, and tie files\&. For example, the following command places the stub and skeleton classes derived from MyClass into the directory /java/classes/exampleclass\&.
+Spfdififs tif root dfstinbtion dirfdtory for tif gfnfrbtfd dlbss iifrbrdiy\&. You dbn usf tiis option to spfdify b dfstinbtion dirfdtory for tif stub, skflfton, bnd tif filfs\&. For fxbmplf, tif following dommbnd plbdfs tif stub bnd skflfton dlbssfs dfrivfd from MyClbss into tif dirfdtory /jbvb/dlbssfs/fxbmplfdlbss\&.
 .sp     
 .nf     
-\f3rmic \-d /java/classes exampleclass\&.MyClass\fP
+\f3rmid \-d /jbvb/dlbssfs fxbmplfdlbss\&.MyClbss\fP
 .fi     
 .nf     
 \f3\fP
@@ -108,48 +108,48 @@ Specifies the root destination directory for the generated class hierarchy\&. Yo
 .sp     
 
 
-If the \f3-d\fR option is not specified, then the default behavior is as if \f3-d \&.\fR was specified\&. The package hierarchy of the target class is created in the current directory, and stub/tie/skeleton files are placed within it\&. In some earlier releases of the \f3rmic\fR command, if the \f3-d\fR option was not specified, then the package hierarchy was not created, and all of the output files were placed directly in the current directory\&.
+If tif \f3-d\fR option is not spfdififd, tifn tif dffbult bfibvior is bs if \f3-d \&.\fR wbs spfdififd\&. Tif pbdkbgf iifrbrdiy of tif tbrgft dlbss is drfbtfd in tif durrfnt dirfdtory, bnd stub/tif/skflfton filfs brf plbdfd witiin it\&. In somf fbrlifr rflfbsfs of tif \f3rmid\fR dommbnd, if tif \f3-d\fR option wbs not spfdififd, tifn tif pbdkbgf iifrbrdiy wbs not drfbtfd, bnd bll of tif output filfs wfrf plbdfd dirfdtly in tif durrfnt dirfdtory\&.
 .TP
--extdirs \fIpath\fR
+-fxtdirs \fIpbti\fR
 .br
-Overrides the location of installed extensions\&.
+Ovfrridfs tif lodbtion of instbllfd fxtfnsions\&.
 .TP
 -g
 .br
-Enables the generation of all debugging information, including local variables\&. By default, only line number information is generated\&.
+Enbblfs tif gfnfrbtion of bll dfbugging informbtion, indluding lodbl vbribblfs\&. By dffbult, only linf numbfr informbtion is gfnfrbtfd\&.
 .TP
 -idl
 .br
-Causes the \f3rmic\fR command to generate OMG IDL for the classes specified and any classes referenced\&. IDL provides a purely declarative, programming language-independent way to specify an API for an object\&. The IDL is used as a specification for methods and data that can be written in and called from any language that provides CORBA bindings\&. This includes Java and C++ among others\&. See Java IDL: IDL to Java Language Mapping at http://docs\&.oracle\&.com/javase/8/docs/technotes/guides/idl/mapping/jidlMapping\&.html
+Cbusfs tif \f3rmid\fR dommbnd to gfnfrbtf OMG IDL for tif dlbssfs spfdififd bnd bny dlbssfs rfffrfndfd\&. IDL providfs b purfly dfdlbrbtivf, progrbmming lbngubgf-indfpfndfnt wby to spfdify bn API for bn objfdt\&. Tif IDL is usfd bs b spfdifidbtion for mftiods bnd dbtb tibt dbn bf writtfn in bnd dbllfd from bny lbngubgf tibt providfs CORBA bindings\&. Tiis indludfs Jbvb bnd C++ bmong otifrs\&. Sff Jbvb IDL: IDL to Jbvb Lbngubgf Mbpping bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/idl/mbpping/jidlMbpping\&.itml
 
-When the \f3-idl\fR option is used, other options also include:
+Wifn tif \f3-idl\fR option is usfd, otifr options blso indludf:
 .RS     
 .TP 0.2i    
 \(bu
-The \f3-always\fR or \f3-alwaysgenerate\fR options force regeneration even when existing stubs/ties/IDL are newer than the input class\&.
+Tif \f3-blwbys\fR or \f3-blwbysgfnfrbtf\fR options fordf rfgfnfrbtion fvfn wifn fxisting stubs/tifs/IDL brf nfwfr tibn tif input dlbss\&.
 .TP 0.2i    
 \(bu
-The \f3-factory\fR option uses the \f3factory\fR keyword in generated IDL\&.
+Tif \f3-fbdtory\fR option usfs tif \f3fbdtory\fR kfyword in gfnfrbtfd IDL\&.
 .TP 0.2i    
 \(bu
-The \f3-idlModule\fR from J\f3avaPackage[\&.class]\fR\f3toIDLModule\fR specifies \f3IDLEntity\fR package mapping, for example: \f3-idlModule\fR\f3my\&.module my::real::idlmod\fR\&.
+Tif \f3-idlModulf\fR from J\f3bvbPbdkbgf[\&.dlbss]\fR\f3toIDLModulf\fR spfdififs \f3IDLEntity\fR pbdkbgf mbpping, for fxbmplf: \f3-idlModulf\fR\f3my\&.modulf my::rfbl::idlmod\fR\&.
 .TP 0.2i    
 \(bu
-\f3-idlFile\fR\f3fromJavaPackage[\&.class] toIDLFile\fR specifies \f3IDLEntity\fR file mapping, for example: \f3-idlFile test\&.pkg\&.X TEST16\&.idl\fR\&.
+\f3-idlFilf\fR\f3fromJbvbPbdkbgf[\&.dlbss] toIDLFilf\fR spfdififs \f3IDLEntity\fR filf mbpping, for fxbmplf: \f3-idlFilf tfst\&.pkg\&.X TEST16\&.idl\fR\&.
 .RE     
 
 .TP
 -iiop
 .br
-Causes the \f3rmic\fR command to generate IIOP stub and tie classes, rather than JRMP stub and skeleton classes\&. A stub class is a local proxy for a remote object and is used by clients to send calls to a server\&. Each remote interface requires a stub class, which implements that remote interface\&. A client reference to a remote object is a reference to a stub\&. Tie classes are used on the server side to process incoming calls, and dispatch the calls to the proper implementation class\&. Each implementation class requires a tie class\&.
+Cbusfs tif \f3rmid\fR dommbnd to gfnfrbtf IIOP stub bnd tif dlbssfs, rbtifr tibn JRMP stub bnd skflfton dlbssfs\&. A stub dlbss is b lodbl proxy for b rfmotf objfdt bnd is usfd by dlifnts to sfnd dblls to b sfrvfr\&. Ebdi rfmotf intfrfbdf rfquirfs b stub dlbss, wiidi implfmfnts tibt rfmotf intfrfbdf\&. A dlifnt rfffrfndf to b rfmotf objfdt is b rfffrfndf to b stub\&. Tif dlbssfs brf usfd on tif sfrvfr sidf to prodfss indoming dblls, bnd dispbtdi tif dblls to tif propfr implfmfntbtion dlbss\&. Ebdi implfmfntbtion dlbss rfquirfs b tif dlbss\&.
 
-If you call the \f3rmic\fR command with the \f3-iiop\fR, then it generates stubs and ties that conform to this naming convention:
+If you dbll tif \f3rmid\fR dommbnd witi tif \f3-iiop\fR, tifn it gfnfrbtfs stubs bnd tifs tibt donform to tiis nbming donvfntion:
 .sp     
 .nf     
-\f3_<implementationName>_stub\&.class\fP
+\f3_<implfmfntbtionNbmf>_stub\&.dlbss\fP
 .fi     
 .nf     
-\f3_<interfaceName>_tie\&.class\fP
+\f3_<intfrfbdfNbmf>_tif\&.dlbss\fP
 .fi     
 .nf     
 \f3\fP
@@ -158,66 +158,66 @@ If you call the \f3rmic\fR command with the \f3-iiop\fR, then it generates stubs
 .RS     
 .TP 0.2i    
 \(bu
-When you use the \f3-iiop\fR option, other options also include:
+Wifn you usf tif \f3-iiop\fR option, otifr options blso indludf:
 .TP 0.2i    
 \(bu
-The \f3-always\fR or \f3-alwaysgenerate\fR options force regeneration even when existing stubs/ties/IDL are newer than the input class\&.
+Tif \f3-blwbys\fR or \f3-blwbysgfnfrbtf\fR options fordf rfgfnfrbtion fvfn wifn fxisting stubs/tifs/IDL brf nfwfr tibn tif input dlbss\&.
 .TP 0.2i    
 \(bu
-The \f3-nolocalstubs\fR option means do not create stubs optimized for same-process clients and servers\&.
+Tif \f3-nolodblstubs\fR option mfbns do not drfbtf stubs optimizfd for sbmf-prodfss dlifnts bnd sfrvfrs\&.
 .TP 0.2i    
 \(bu
-The \f3-noValueMethods\fR option must be used with the \f3-idl\fR option\&. The \f3-noValueMethods\fR option prevents the addition of \f3valuetype\fR methods and initializers to emitted IDL\&. These methods and initializers are optional for valuetypes, and are generated unless the \f3-noValueMethods\fR option is specified with the \f3-idl\fR option\&.
+Tif \f3-noVblufMftiods\fR option must bf usfd witi tif \f3-idl\fR option\&. Tif \f3-noVblufMftiods\fR option prfvfnts tif bddition of \f3vbluftypf\fR mftiods bnd initiblizfrs to fmittfd IDL\&. Tifsf mftiods bnd initiblizfrs brf optionbl for vbluftypfs, bnd brf gfnfrbtfd unlfss tif \f3-noVblufMftiods\fR option is spfdififd witi tif \f3-idl\fR option\&.
 .TP 0.2i    
 \(bu
-The \f3-poa\fR option changes the inheritance from \f3org\&.omg\&.CORBA_2_3\&.portable\&.ObjectImpl\fR to \f3org\&.omg\&.PortableServer\&.Servant\fR\&. The \f3PortableServer\fR module for the Portable Object Adapter (POA) defines the native \f3Servant\fR type\&. In the Java programming language, the \f3Servant\fR type is mapped to the \f3Java org\&.omg\&.PortableServer\&.Servant\fR class\&. It serves as the base class for all POA servant implementations and provides a number of methods that can be called by the application programmer, and methods that are called by the POA and that can be overridden by the user to control aspects of servant behavior\&. Based on the OMG IDL to Java Language Mapping Specification, CORBA V 2\&.3\&.1 ptc/00-01-08\&.pdf\&..RE     
+Tif \f3-pob\fR option dibngfs tif inifritbndf from \f3org\&.omg\&.CORBA_2_3\&.portbblf\&.ObjfdtImpl\fR to \f3org\&.omg\&.PortbblfSfrvfr\&.Sfrvbnt\fR\&. Tif \f3PortbblfSfrvfr\fR modulf for tif Portbblf Objfdt Adbptfr (POA) dffinfs tif nbtivf \f3Sfrvbnt\fR typf\&. In tif Jbvb progrbmming lbngubgf, tif \f3Sfrvbnt\fR typf is mbppfd to tif \f3Jbvb org\&.omg\&.PortbblfSfrvfr\&.Sfrvbnt\fR dlbss\&. It sfrvfs bs tif bbsf dlbss for bll POA sfrvbnt implfmfntbtions bnd providfs b numbfr of mftiods tibt dbn bf dbllfd by tif bpplidbtion progrbmmfr, bnd mftiods tibt brf dbllfd by tif POA bnd tibt dbn bf ovfrriddfn by tif usfr to dontrol bspfdts of sfrvbnt bfibvior\&. Bbsfd on tif OMG IDL to Jbvb Lbngubgf Mbpping Spfdifidbtion, CORBA V 2\&.3\&.1 ptd/00-01-08\&.pdf\&..RE     
 
 .TP
 -J
 .br
-Used with any Java command, the \f3-J\fR option passes the argument that follows the \f3-J\fR (no spaces between the \f3-J\fRand the argument) to the Java interpreter
+Usfd witi bny Jbvb dommbnd, tif \f3-J\fR option pbssfs tif brgumfnt tibt follows tif \f3-J\fR (no spbdfs bftwffn tif \f3-J\fRbnd tif brgumfnt) to tif Jbvb intfrprftfr
 .TP
--keep or -keepgenerated
+-kffp or -kffpgfnfrbtfd
 .br
-Retains the generated \f3\&.java\fR source files for the stub, skeleton, and tie classes and writes them to the same directory as the\f3\&.class\fR files\&.
+Rftbins tif gfnfrbtfd \f3\&.jbvb\fR sourdf filfs for tif stub, skflfton, bnd tif dlbssfs bnd writfs tifm to tif sbmf dirfdtory bs tif\f3\&.dlbss\fR filfs\&.
 .TP
--nowarn
+-nowbrn
 .br
-Turns off warnings\&. When the \f3-nowarn\fR options is used\&. The compiler does not print out any warnings\&.
+Turns off wbrnings\&. Wifn tif \f3-nowbrn\fR options is usfd\&. Tif dompilfr dofs not print out bny wbrnings\&.
 .TP
--nowrite
+-nowritf
 .br
-Does not write compiled classes to the file system\&.
+Dofs not writf dompilfd dlbssfs to tif filf systfm\&.
 .TP
--vcompat (deprecated)
+-vdompbt (dfprfdbtfd)
 .br
-Generates stub and skeleton classes that are compatible with both the 1\&.1 and 1\&.2 JRMP stub protocol versions\&. This option was the default in releases before 5\&.0\&. The generated stub classes use the 1\&.1 stub protocol version when loaded in a JDK 1\&.1 virtual machine and use the 1\&.2 stub protocol version when loaded into a 1\&.2 (or later) virtual machine\&. The generated skeleton classes support both 1\&.1 and 1\&.2 stub protocol versions\&. The generated classes are relatively large to support both modes of operation\&. Note: This option has been deprecated\&. See Description\&.
+Gfnfrbtfs stub bnd skflfton dlbssfs tibt brf dompbtiblf witi boti tif 1\&.1 bnd 1\&.2 JRMP stub protodol vfrsions\&. Tiis option wbs tif dffbult in rflfbsfs bfforf 5\&.0\&. Tif gfnfrbtfd stub dlbssfs usf tif 1\&.1 stub protodol vfrsion wifn lobdfd in b JDK 1\&.1 virtubl mbdiinf bnd usf tif 1\&.2 stub protodol vfrsion wifn lobdfd into b 1\&.2 (or lbtfr) virtubl mbdiinf\&. Tif gfnfrbtfd skflfton dlbssfs support boti 1\&.1 bnd 1\&.2 stub protodol vfrsions\&. Tif gfnfrbtfd dlbssfs brf rflbtivfly lbrgf to support boti modfs of opfrbtion\&. Notf: Tiis option ibs bffn dfprfdbtfd\&. Sff Dfsdription\&.
 .TP
--verbose
+-vfrbosf
 .br
-Causes the compiler and linker to print out messages about what classes are being compiled and what class files are being loaded\&.
+Cbusfs tif dompilfr bnd linkfr to print out mfssbgfs bbout wibt dlbssfs brf bfing dompilfd bnd wibt dlbss filfs brf bfing lobdfd\&.
 .TP
--v1\&.1 (deprecated)
+-v1\&.1 (dfprfdbtfd)
 .br
-Generates stub and skeleton classes for the 1\&.1 JRMP stub protocol version only\&. The \f3-v1\&.1\fR option is only useful for generating stub classes that are serialization-compatible with preexisting, statically deployed stub classes that were generated by the \f3rmic\fR command from JDK 1\&.1 and that cannot be upgraded (and dynamic class loading is not being used)\&. Note: This option has been deprecated\&. See Description\&.
+Gfnfrbtfs stub bnd skflfton dlbssfs for tif 1\&.1 JRMP stub protodol vfrsion only\&. Tif \f3-v1\&.1\fR option is only usfful for gfnfrbting stub dlbssfs tibt brf sfriblizbtion-dompbtiblf witi prffxisting, stbtidblly dfployfd stub dlbssfs tibt wfrf gfnfrbtfd by tif \f3rmid\fR dommbnd from JDK 1\&.1 bnd tibt dbnnot bf upgrbdfd (bnd dynbmid dlbss lobding is not bfing usfd)\&. Notf: Tiis option ibs bffn dfprfdbtfd\&. Sff Dfsdription\&.
 .TP
--v1\&.2 (deprecated)
+-v1\&.2 (dfprfdbtfd)
 .br
-(Default) Generates stub classes for the 1\&.2 JRMP stub protocol version only\&. No skeleton classes are generated because skeleton classes are not used with the 1\&.2 stub protocol version\&. The generated stub classes do not work when they are loaded into a JDK 1\&.1 virtual machine\&. Note: This option has been deprecated\&. See Description\&.
+(Dffbult) Gfnfrbtfs stub dlbssfs for tif 1\&.2 JRMP stub protodol vfrsion only\&. No skflfton dlbssfs brf gfnfrbtfd bfdbusf skflfton dlbssfs brf not usfd witi tif 1\&.2 stub protodol vfrsion\&. Tif gfnfrbtfd stub dlbssfs do not work wifn tify brf lobdfd into b JDK 1\&.1 virtubl mbdiinf\&. Notf: Tiis option ibs bffn dfprfdbtfd\&. Sff Dfsdription\&.
 .SH ENVIRONMENT\ VARIABLES    
 .TP     
 CLASSPATH
-Used to provide the system a path to user-defined classes\&. Directories are separated by colons, for example: \f3\&.:/usr/local/java/classes\fR\&.
+Usfd to providf tif systfm b pbti to usfr-dffinfd dlbssfs\&. Dirfdtorifs brf sfpbrbtfd by dolons, for fxbmplf: \f3\&.:/usr/lodbl/jbvb/dlbssfs\fR\&.
 .SH SEE\ ALSO    
 .TP 0.2i    
 \(bu
-javac(1)
+jbvbd(1)
 .TP 0.2i    
 \(bu
-java(1)
+jbvb(1)
 .TP 0.2i    
 \(bu
-Setting the Class Path
+Sftting tif Clbss Pbti
 .RE
 .br
 'pl 8.5i

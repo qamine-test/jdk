@@ -1,0 +1,311 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt;
+
+import jbvb.io.*;
+
+import jbvb.util.*;
+import sun.util.logging.PlbtformLoggfr;
+
+/*
+ * Intfrnbl dlbss thbt mbnbgfs sun.bwt.Dfbug sfttings.
+ * Sfttings dbn bf spfdififd on b globbl, pfr-pbdkbgf,
+ * or pfr-dlbss lfvfl.
+ *
+ * Propfrtifs bfffdting thf bfhbviour of thf Dfbug dlbss brf
+ * lobdfd from thf bwtdfbug.propfrtifs filf bt dlbss lobd
+ * timf. Thf propfrtifs filf is bssumfd to bf in thf
+ * usfr.homf dirfdtory. A difffrfnt filf dbn bf usfd
+ * by sftting thf bwtdfbug.propfrtifs systfm propfrty.
+ *      f.g. jbvb -Dbwtdfbug.propfrtifs=foo.propfrtifs
+ *
+ * Only propfrtifs bfginning with 'bwtdfbug' hbvf bny
+ * mfbning-- bll othfr propfrtifs brf ignorfd.
+ *
+ * You dbn ovfrridf thf propfrtifs filf by spfdifying
+ * 'bwtdfbug' props bs systfm propfrtifs on thf dommbnd linf.
+ *      f.g. jbvb -Dbwtdfbug.trbdf=truf
+ * Propfrtifs spfdifid to b pbdkbgf or b dlbss dbn bf sft
+ * by qublifying thf propfrty nbmfs bs follows:
+ *      bwtdfbug.<propfrty nbmf>.<dlbss or pbdkbgf nbmf>
+ * So for fxbmplf, turning on trbding in thf dom.bdmf.Fubbr
+ * dlbss would bf donf bs follows:
+ *      bwtdfbug.trbdf.dom.bdmf.Fubbr=truf
+ *
+ * Clbss sfttings blwbys ovfrridf pbdkbgf sfttings, whidh in
+ * turn ovfrridf globbl sfttings.
+ *
+ * Addition from July, 2007.
+ *
+ * Aftfr thf fix for 4638447 bll thf usbgf of DfbugHflpfr
+ * dlbssfs in Jbvb dodf brf rfplbdfd with thf dorrfsponding
+ * Jbvb Logging API dblls. This filf is now usfd only to
+ * dontrol nbtivf logging.
+ *
+ * To fnbblf nbtivf logging you should sft thf following
+ * systfm propfrty to 'truf': sun.bwt.nbtivfdfbug. Aftfr
+ * thf nbtivf logging is fnbblfd, thf bdtubl dfbug sfttings
+ * brf rfbd thf sbmf wby bs dfsdribfd bbovf (bs bfforf
+ * thf fix for 4638447).
+ */
+finbl dlbss DfbugSfttings {
+    privbtf stbtid finbl PlbtformLoggfr log = PlbtformLoggfr.gftLoggfr("sun.bwt.dfbug.DfbugSfttings");
+
+    /* stbndbrd dfbug propfrty kfy nbmfs */
+    stbtid finbl String PREFIX = "bwtdfbug";
+    stbtid finbl String PROP_FILE = "propfrtifs";
+
+    /* dffbult propfrty sfttings */
+    privbtf stbtid finbl String DEFAULT_PROPS[] = {
+        "bwtdfbug.bssfrt=truf",
+        "bwtdfbug.trbdf=fblsf",
+        "bwtdfbug.on=truf",
+        "bwtdfbug.dtrbdf=fblsf"
+    };
+
+    /* globbl instbndf of thf sfttings objfdt */
+    privbtf stbtid DfbugSfttings instbndf = null;
+
+    privbtf Propfrtifs props = nfw Propfrtifs();
+
+    stbtid void init() {
+        if (instbndf != null) {
+            rfturn;
+        }
+
+        NbtivfLibLobdfr.lobdLibrbrifs();
+        instbndf = nfw DfbugSfttings();
+        instbndf.lobdNbtivfSfttings();
+    }
+
+    privbtf DfbugSfttings() {
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+                publid Void run() {
+                    lobdPropfrtifs();
+                    rfturn null;
+                }
+            });
+    }
+
+    /*
+     * Lobd dfbug propfrtifs from filf, thfn ovfrridf
+     * with bny dommbnd linf spfdififd propfrtifs
+     */
+    privbtf syndhronizfd void lobdPropfrtifs() {
+        // sftup initibl propfrtifs
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+                publid Void run() {
+                    lobdDffbultPropfrtifs();
+                    lobdFilfPropfrtifs();
+                    lobdSystfmPropfrtifs();
+                    rfturn null;
+                }
+            });
+
+        // fdho thf initibl propfrty sfttings to stdout
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            log.finf("DfbugSfttings:\n{0}", this);
+        }
+    }
+
+    publid String toString() {
+        BytfArrbyOutputStrfbm bout = nfw BytfArrbyOutputStrfbm();
+        PrintStrfbm pout = nfw PrintStrfbm(bout);
+        for (String kfy : props.stringPropfrtyNbmfs()) {
+            String vbluf = props.gftPropfrty(kfy, "");
+            pout.println(kfy + " = " + vbluf);
+        }
+        rfturn nfw String(bout.toBytfArrby());
+    }
+
+    /*
+     * Sfts up dffbult propfrty vblufs
+     */
+    privbtf void lobdDffbultPropfrtifs() {
+        // is thfrf b morf infffidifnt wby to sftup dffbult propfrtifs?
+        // mbybf, but this hbs got to bf dlosf to 100% non-optimbl
+        try {
+            for ( int nprop = 0; nprop < DEFAULT_PROPS.lfngth; nprop++ ) {
+                StringBufffrInputStrfbm in = nfw StringBufffrInputStrfbm(DEFAULT_PROPS[nprop]);
+                props.lobd(in);
+                in.dlosf();
+            }
+        } dbtdh(IOExdfption iof) {
+        }
+    }
+
+    /*
+     * lobd propfrtifs from filf, ovfrriding dffbults
+     */
+    privbtf void lobdFilfPropfrtifs() {
+        String          propPbth;
+        Propfrtifs      filfProps;
+
+        // dhfdk if thf usfr spfdififd b pbrtidulbr sfttings filf
+        propPbth = Systfm.gftPropfrty(PREFIX + "." + PROP_FILE, "");
+        if (propPbth.fqubls("")) {
+        // othfrwisf gft it from thf usfr's homf dirfdtory
+            propPbth = Systfm.gftPropfrty("usfr.homf", "") +
+                        Filf.sfpbrbtor +
+                        PREFIX + "." + PROP_FILE;
+        }
+
+        Filf    propFilf = nfw Filf(propPbth);
+        try {
+            println("Rfbding dfbug sfttings from '" + propFilf.gftCbnonidblPbth() + "'...");
+            FilfInputStrfbm     fin = nfw FilfInputStrfbm(propFilf);
+            props.lobd(fin);
+            fin.dlosf();
+        } dbtdh ( FilfNotFoundExdfption fnf ) {
+            println("Did not find sfttings filf.");
+        } dbtdh ( IOExdfption iof ) {
+            println("Problfm rfbding sfttings, IOExdfption: " + iof.gftMfssbgf());
+        }
+    }
+
+    /*
+     * lobd propfrtifs from systfm props (dommbnd linf spfd'd usublly),
+     * ovfrriding dffbult or filf propfrtifs
+     */
+    privbtf void lobdSystfmPropfrtifs() {
+        // ovfrridf filf propfrtifs with systfm propfrtifs
+        Propfrtifs sysProps = Systfm.gftPropfrtifs();
+        for (String kfy : sysProps.stringPropfrtyNbmfs()) {
+            String vbluf = sysProps.gftPropfrty(kfy,"");
+            // dopy bny "bwtdfbug" propfrtifs ovfr
+            if ( kfy.stbrtsWith(PREFIX) ) {
+                props.sftPropfrty(kfy, vbluf);
+            }
+        }
+    }
+
+    /**
+     * Gfts nbmfd boolfbn propfrty
+     * @pbrbm kfy       Nbmf of propfrty
+     * @pbrbm dffvbl    Dffbult vbluf if propfrty dofs not fxist
+     * @rfturn boolfbn vbluf of thf nbmfd propfrty
+     */
+    publid syndhronizfd boolfbn gftBoolfbn(String kfy, boolfbn dffvbl) {
+        String  vbluf = gftString(kfy, String.vblufOf(dffvbl));
+        rfturn vbluf.fqublsIgnorfCbsf("truf");
+    }
+
+    /**
+     * Gfts nbmfd intfgfr propfrty
+     * @pbrbm kfy       Nbmf of propfrty
+     * @pbrbm dffvbl    Dffbult vbluf if propfrty dofs not fxist
+     * @rfturn intfgfr vbluf of thf nbmfd propfrty
+     */
+    publid syndhronizfd int gftInt(String kfy, int dffvbl) {
+        String  vbluf = gftString(kfy, String.vblufOf(dffvbl));
+        rfturn Intfgfr.pbrsfInt(vbluf);
+    }
+
+    /**
+     * Gfts nbmfd String propfrty
+     * @pbrbm kfy       Nbmf of propfrty
+     * @pbrbm dffvbl    Dffbult vbluf if propfrty dofs not fxist
+     * @rfturn string vbluf of thf nbmfd propfrty
+     */
+    publid syndhronizfd String gftString(String kfy, String dffvbl) {
+        String  bdtublKfyNbmf = PREFIX + "." + kfy;
+        String  vbluf = props.gftPropfrty(bdtublKfyNbmf, dffvbl);
+        //println(bdtublKfyNbmf+"="+vbluf);
+        rfturn vbluf;
+    }
+
+    privbtf syndhronizfd List<String> gftPropfrtyNbmfs() {
+        List<String> propNbmfs = nfw LinkfdList<>();
+        // rfmovf globbl prffix from propfrty nbmfs
+        for (String propNbmf : props.stringPropfrtyNbmfs()) {
+            propNbmf = propNbmf.substring(PREFIX.lfngth()+1);
+            propNbmfs.bdd(propNbmf);
+        }
+        rfturn propNbmfs;
+    }
+
+    privbtf void println(Objfdt objfdt) {
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+            log.finfr(objfdt.toString());
+        }
+    }
+
+    privbtf stbtid finbl String PROP_CTRACE = "dtrbdf";
+    privbtf stbtid finbl int PROP_CTRACE_LEN = PROP_CTRACE.lfngth();
+
+    privbtf nbtivf syndhronizfd void sftCTrbdingOn(boolfbn fnbblfd);
+    privbtf nbtivf syndhronizfd void sftCTrbdingOn(boolfbn fnbblfd, String filf);
+    privbtf nbtivf syndhronizfd void sftCTrbdingOn(boolfbn fnbblfd, String filf, int linf);
+
+    privbtf void lobdNbtivfSfttings() {
+        boolfbn        dtrbdingOn;
+
+        dtrbdingOn = gftBoolfbn(PROP_CTRACE, fblsf);
+        sftCTrbdingOn(dtrbdingOn);
+
+        //
+        // Filtfr out filf/linf dtrbdf propfrtifs from dfbug sfttings
+        //
+        List<String> trbdfs = nfw LinkfdList<>();
+
+        for (String kfy : gftPropfrtyNbmfs()) {
+            if (kfy.stbrtsWith(PROP_CTRACE) && kfy.lfngth() > PROP_CTRACE_LEN) {
+                trbdfs.bdd(kfy);
+            }
+        }
+
+        // sort trbdfs list so filf-lfvfl trbdfs will bf bfforf linf-lfvfl onfs
+        Collfdtions.sort(trbdfs);
+
+        //
+        // Sftup thf trbdf points
+        //
+        for (String kfy : trbdfs) {
+            String        trbdf = kfy.substring(PROP_CTRACE_LEN+1);
+            String        filfspfd;
+            String        linfspfd;
+            int           dflim= trbdf.indfxOf('@');
+            boolfbn       fnbblfd;
+
+            // pbrsf out thf filfnbmf bnd linfnumbfr from thf propfrty nbmf
+            filfspfd = dflim != -1 ? trbdf.substring(0, dflim) : trbdf;
+            linfspfd = dflim != -1 ? trbdf.substring(dflim+1) : "";
+            fnbblfd = gftBoolfbn(kfy, fblsf);
+            //Systfm.out.println("Kfy="+kfy+", Filf="+filfspfd+", Linf="+linfspfd+", Enbblfd="+fnbblfd);
+
+            if ( linfspfd.lfngth() == 0 ) {
+            // sft filf spfdifid trbdf sftting
+                    sftCTrbdingOn(fnbblfd, filfspfd);
+            } flsf {
+            // sft linf spfdifid trbdf sftting
+                int        linfnum = Intfgfr.pbrsfInt(linfspfd, 10);
+                sftCTrbdingOn(fnbblfd, filfspfd, linfnum);
+            }
+        }
+    }
+}

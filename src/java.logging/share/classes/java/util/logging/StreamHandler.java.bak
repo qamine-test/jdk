@@ -1,304 +1,304 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package java.util.logging;
+pbdkbgf jbvb.util.logging;
 
-import java.io.*;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.Objects;
+import jbvb.io.*;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.Objfdts;
 
 /**
- * Stream based logging <tt>Handler</tt>.
+ * Strfbm bbsfd logging <tt>Hbndlfr</tt>.
  * <p>
- * This is primarily intended as a base class or support class to
- * be used in implementing other logging <tt>Handlers</tt>.
+ * Tiis is primbrily intfndfd bs b bbsf dlbss or support dlbss to
+ * bf usfd in implfmfnting otifr logging <tt>Hbndlfrs</tt>.
  * <p>
- * <tt>LogRecords</tt> are published to a given <tt>java.io.OutputStream</tt>.
+ * <tt>LogRfdords</tt> brf publisifd to b givfn <tt>jbvb.io.OutputStrfbm</tt>.
  * <p>
- * <b>Configuration:</b>
- * By default each <tt>StreamHandler</tt> is initialized using the following
- * <tt>LogManager</tt> configuration properties where <tt>&lt;handler-name&gt;</tt>
- * refers to the fully-qualified class name of the handler.
- * If properties are not defined
- * (or have invalid values) then the specified default values are used.
+ * <b>Configurbtion:</b>
+ * By dffbult fbdi <tt>StrfbmHbndlfr</tt> is initiblizfd using tif following
+ * <tt>LogMbnbgfr</tt> donfigurbtion propfrtifs wifrf <tt>&lt;ibndlfr-nbmf&gt;</tt>
+ * rfffrs to tif fully-qublififd dlbss nbmf of tif ibndlfr.
+ * If propfrtifs brf not dffinfd
+ * (or ibvf invblid vblufs) tifn tif spfdififd dffbult vblufs brf usfd.
  * <ul>
- * <li>   &lt;handler-name&gt;.level
- *        specifies the default level for the <tt>Handler</tt>
- *        (defaults to <tt>Level.INFO</tt>). </li>
- * <li>   &lt;handler-name&gt;.filter
- *        specifies the name of a <tt>Filter</tt> class to use
- *         (defaults to no <tt>Filter</tt>). </li>
- * <li>   &lt;handler-name&gt;.formatter
- *        specifies the name of a <tt>Formatter</tt> class to use
- *        (defaults to <tt>java.util.logging.SimpleFormatter</tt>). </li>
- * <li>   &lt;handler-name&gt;.encoding
- *        the name of the character set encoding to use (defaults to
- *        the default platform encoding). </li>
+ * <li>   &lt;ibndlfr-nbmf&gt;.lfvfl
+ *        spfdififs tif dffbult lfvfl for tif <tt>Hbndlfr</tt>
+ *        (dffbults to <tt>Lfvfl.INFO</tt>). </li>
+ * <li>   &lt;ibndlfr-nbmf&gt;.filtfr
+ *        spfdififs tif nbmf of b <tt>Filtfr</tt> dlbss to usf
+ *         (dffbults to no <tt>Filtfr</tt>). </li>
+ * <li>   &lt;ibndlfr-nbmf&gt;.formbttfr
+ *        spfdififs tif nbmf of b <tt>Formbttfr</tt> dlbss to usf
+ *        (dffbults to <tt>jbvb.util.logging.SimplfFormbttfr</tt>). </li>
+ * <li>   &lt;ibndlfr-nbmf&gt;.fndoding
+ *        tif nbmf of tif dibrbdtfr sft fndoding to usf (dffbults to
+ *        tif dffbult plbtform fndoding). </li>
  * </ul>
  * <p>
- * For example, the properties for {@code StreamHandler} would be:
+ * For fxbmplf, tif propfrtifs for {@dodf StrfbmHbndlfr} would bf:
  * <ul>
- * <li>   java.util.logging.StreamHandler.level=INFO </li>
- * <li>   java.util.logging.StreamHandler.formatter=java.util.logging.SimpleFormatter </li>
+ * <li>   jbvb.util.logging.StrfbmHbndlfr.lfvfl=INFO </li>
+ * <li>   jbvb.util.logging.StrfbmHbndlfr.formbttfr=jbvb.util.logging.SimplfFormbttfr </li>
  * </ul>
  * <p>
- * For a custom handler, e.g. com.foo.MyHandler, the properties would be:
+ * For b dustom ibndlfr, f.g. dom.foo.MyHbndlfr, tif propfrtifs would bf:
  * <ul>
- * <li>   com.foo.MyHandler.level=INFO </li>
- * <li>   com.foo.MyHandler.formatter=java.util.logging.SimpleFormatter </li>
+ * <li>   dom.foo.MyHbndlfr.lfvfl=INFO </li>
+ * <li>   dom.foo.MyHbndlfr.formbttfr=jbvb.util.logging.SimplfFormbttfr </li>
  * </ul>
  *
- * @since 1.4
+ * @sindf 1.4
  */
 
-public class StreamHandler extends Handler {
-    private OutputStream output;
-    private boolean doneHeader;
-    private volatile Writer writer;
+publid dlbss StrfbmHbndlfr fxtfnds Hbndlfr {
+    privbtf OutputStrfbm output;
+    privbtf boolfbn donfHfbdfr;
+    privbtf volbtilf Writfr writfr;
 
     /**
-     * Create a <tt>StreamHandler</tt>, with no current output stream.
+     * Crfbtf b <tt>StrfbmHbndlfr</tt>, witi no durrfnt output strfbm.
      */
-    public StreamHandler() {
-        // configure with specific defaults for StreamHandler
-        super(Level.INFO, new SimpleFormatter(), null);
+    publid StrfbmHbndlfr() {
+        // donfigurf witi spfdifid dffbults for StrfbmHbndlfr
+        supfr(Lfvfl.INFO, nfw SimplfFormbttfr(), null);
     }
 
     /**
-     * Create a <tt>StreamHandler</tt> with a given <tt>Formatter</tt>
-     * and output stream.
+     * Crfbtf b <tt>StrfbmHbndlfr</tt> witi b givfn <tt>Formbttfr</tt>
+     * bnd output strfbm.
      *
-     * @param out         the target output stream
-     * @param formatter   Formatter to be used to format output
+     * @pbrbm out         tif tbrgft output strfbm
+     * @pbrbm formbttfr   Formbttfr to bf usfd to formbt output
      */
-    public StreamHandler(OutputStream out, Formatter formatter) {
-        // configure with default level but use specified formatter
-        super(Level.INFO, null, Objects.requireNonNull(formatter));
+    publid StrfbmHbndlfr(OutputStrfbm out, Formbttfr formbttfr) {
+        // donfigurf witi dffbult lfvfl but usf spfdififd formbttfr
+        supfr(Lfvfl.INFO, null, Objfdts.rfquirfNonNull(formbttfr));
 
-        setOutputStreamPrivileged(out);
+        sftOutputStrfbmPrivilfgfd(out);
     }
 
     /**
-     * @see Handler#Handler(Level, Formatter, Formatter)
+     * @sff Hbndlfr#Hbndlfr(Lfvfl, Formbttfr, Formbttfr)
      */
-    StreamHandler(Level defaultLevel,
-                  Formatter defaultFormatter,
-                  Formatter specifiedFormatter) {
-        super(defaultLevel, defaultFormatter, specifiedFormatter);
+    StrfbmHbndlfr(Lfvfl dffbultLfvfl,
+                  Formbttfr dffbultFormbttfr,
+                  Formbttfr spfdififdFormbttfr) {
+        supfr(dffbultLfvfl, dffbultFormbttfr, spfdififdFormbttfr);
     }
 
     /**
-     * Change the output stream.
+     * Cibngf tif output strfbm.
      * <P>
-     * If there is a current output stream then the <tt>Formatter</tt>'s
-     * tail string is written and the stream is flushed and closed.
-     * Then the output stream is replaced with the new output stream.
+     * If tifrf is b durrfnt output strfbm tifn tif <tt>Formbttfr</tt>'s
+     * tbil string is writtfn bnd tif strfbm is flusifd bnd dlosfd.
+     * Tifn tif output strfbm is rfplbdfd witi tif nfw output strfbm.
      *
-     * @param out   New output stream.  May not be null.
-     * @exception  SecurityException  if a security manager exists and if
-     *             the caller does not have <tt>LoggingPermission("control")</tt>.
+     * @pbrbm out   Nfw output strfbm.  Mby not bf null.
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd if
+     *             tif dbllfr dofs not ibvf <tt>LoggingPfrmission("dontrol")</tt>.
      */
-    protected synchronized void setOutputStream(OutputStream out) throws SecurityException {
+    protfdtfd syndironizfd void sftOutputStrfbm(OutputStrfbm out) tirows SfdurityExdfption {
         if (out == null) {
-            throw new NullPointerException();
+            tirow nfw NullPointfrExdfption();
         }
-        flushAndClose();
+        flusiAndClosf();
         output = out;
-        doneHeader = false;
-        String encoding = getEncoding();
-        if (encoding == null) {
-            writer = new OutputStreamWriter(output);
-        } else {
+        donfHfbdfr = fblsf;
+        String fndoding = gftEndoding();
+        if (fndoding == null) {
+            writfr = nfw OutputStrfbmWritfr(output);
+        } flsf {
             try {
-                writer = new OutputStreamWriter(output, encoding);
-            } catch (UnsupportedEncodingException ex) {
-                // This shouldn't happen.  The setEncoding method
-                // should have validated that the encoding is OK.
-                throw new Error("Unexpected exception " + ex);
+                writfr = nfw OutputStrfbmWritfr(output, fndoding);
+            } dbtdi (UnsupportfdEndodingExdfption fx) {
+                // Tiis siouldn't ibppfn.  Tif sftEndoding mftiod
+                // siould ibvf vblidbtfd tibt tif fndoding is OK.
+                tirow nfw Error("Unfxpfdtfd fxdfption " + fx);
             }
         }
     }
 
     /**
-     * Set (or change) the character encoding used by this <tt>Handler</tt>.
+     * Sft (or dibngf) tif dibrbdtfr fndoding usfd by tiis <tt>Hbndlfr</tt>.
      * <p>
-     * The encoding should be set before any <tt>LogRecords</tt> are written
-     * to the <tt>Handler</tt>.
+     * Tif fndoding siould bf sft bfforf bny <tt>LogRfdords</tt> brf writtfn
+     * to tif <tt>Hbndlfr</tt>.
      *
-     * @param encoding  The name of a supported character encoding.
-     *        May be null, to indicate the default platform encoding.
-     * @exception  SecurityException  if a security manager exists and if
-     *             the caller does not have <tt>LoggingPermission("control")</tt>.
-     * @exception  UnsupportedEncodingException if the named encoding is
-     *          not supported.
+     * @pbrbm fndoding  Tif nbmf of b supportfd dibrbdtfr fndoding.
+     *        Mby bf null, to indidbtf tif dffbult plbtform fndoding.
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd if
+     *             tif dbllfr dofs not ibvf <tt>LoggingPfrmission("dontrol")</tt>.
+     * @fxdfption  UnsupportfdEndodingExdfption if tif nbmfd fndoding is
+     *          not supportfd.
      */
-    @Override
-    public synchronized void setEncoding(String encoding)
-                        throws SecurityException, java.io.UnsupportedEncodingException {
-        super.setEncoding(encoding);
+    @Ovfrridf
+    publid syndironizfd void sftEndoding(String fndoding)
+                        tirows SfdurityExdfption, jbvb.io.UnsupportfdEndodingExdfption {
+        supfr.sftEndoding(fndoding);
         if (output == null) {
-            return;
+            rfturn;
         }
-        // Replace the current writer with a writer for the new encoding.
-        flush();
-        if (encoding == null) {
-            writer = new OutputStreamWriter(output);
-        } else {
-            writer = new OutputStreamWriter(output, encoding);
+        // Rfplbdf tif durrfnt writfr witi b writfr for tif nfw fndoding.
+        flusi();
+        if (fndoding == null) {
+            writfr = nfw OutputStrfbmWritfr(output);
+        } flsf {
+            writfr = nfw OutputStrfbmWritfr(output, fndoding);
         }
     }
 
     /**
-     * Format and publish a <tt>LogRecord</tt>.
+     * Formbt bnd publisi b <tt>LogRfdord</tt>.
      * <p>
-     * The <tt>StreamHandler</tt> first checks if there is an <tt>OutputStream</tt>
-     * and if the given <tt>LogRecord</tt> has at least the required log level.
-     * If not it silently returns.  If so, it calls any associated
-     * <tt>Filter</tt> to check if the record should be published.  If so,
-     * it calls its <tt>Formatter</tt> to format the record and then writes
-     * the result to the current output stream.
+     * Tif <tt>StrfbmHbndlfr</tt> first difdks if tifrf is bn <tt>OutputStrfbm</tt>
+     * bnd if tif givfn <tt>LogRfdord</tt> ibs bt lfbst tif rfquirfd log lfvfl.
+     * If not it silfntly rfturns.  If so, it dblls bny bssodibtfd
+     * <tt>Filtfr</tt> to difdk if tif rfdord siould bf publisifd.  If so,
+     * it dblls its <tt>Formbttfr</tt> to formbt tif rfdord bnd tifn writfs
+     * tif rfsult to tif durrfnt output strfbm.
      * <p>
-     * If this is the first <tt>LogRecord</tt> to be written to a given
-     * <tt>OutputStream</tt>, the <tt>Formatter</tt>'s "head" string is
-     * written to the stream before the <tt>LogRecord</tt> is written.
+     * If tiis is tif first <tt>LogRfdord</tt> to bf writtfn to b givfn
+     * <tt>OutputStrfbm</tt>, tif <tt>Formbttfr</tt>'s "ifbd" string is
+     * writtfn to tif strfbm bfforf tif <tt>LogRfdord</tt> is writtfn.
      *
-     * @param  record  description of the log event. A null record is
-     *                 silently ignored and is not published
+     * @pbrbm  rfdord  dfsdription of tif log fvfnt. A null rfdord is
+     *                 silfntly ignorfd bnd is not publisifd
      */
-    @Override
-    public synchronized void publish(LogRecord record) {
-        if (!isLoggable(record)) {
-            return;
+    @Ovfrridf
+    publid syndironizfd void publisi(LogRfdord rfdord) {
+        if (!isLoggbblf(rfdord)) {
+            rfturn;
         }
         String msg;
         try {
-            msg = getFormatter().format(record);
-        } catch (Exception ex) {
-            // We don't want to throw an exception here, but we
-            // report the exception to any registered ErrorManager.
-            reportError(null, ex, ErrorManager.FORMAT_FAILURE);
-            return;
+            msg = gftFormbttfr().formbt(rfdord);
+        } dbtdi (Exdfption fx) {
+            // Wf don't wbnt to tirow bn fxdfption ifrf, but wf
+            // rfport tif fxdfption to bny rfgistfrfd ErrorMbnbgfr.
+            rfportError(null, fx, ErrorMbnbgfr.FORMAT_FAILURE);
+            rfturn;
         }
 
         try {
-            if (!doneHeader) {
-                writer.write(getFormatter().getHead(this));
-                doneHeader = true;
+            if (!donfHfbdfr) {
+                writfr.writf(gftFormbttfr().gftHfbd(tiis));
+                donfHfbdfr = truf;
             }
-            writer.write(msg);
-        } catch (Exception ex) {
-            // We don't want to throw an exception here, but we
-            // report the exception to any registered ErrorManager.
-            reportError(null, ex, ErrorManager.WRITE_FAILURE);
+            writfr.writf(msg);
+        } dbtdi (Exdfption fx) {
+            // Wf don't wbnt to tirow bn fxdfption ifrf, but wf
+            // rfport tif fxdfption to bny rfgistfrfd ErrorMbnbgfr.
+            rfportError(null, fx, ErrorMbnbgfr.WRITE_FAILURE);
         }
     }
 
 
     /**
-     * Check if this <tt>Handler</tt> would actually log a given <tt>LogRecord</tt>.
+     * Cifdk if tiis <tt>Hbndlfr</tt> would bdtublly log b givfn <tt>LogRfdord</tt>.
      * <p>
-     * This method checks if the <tt>LogRecord</tt> has an appropriate level and
-     * whether it satisfies any <tt>Filter</tt>.  It will also return false if
-     * no output stream has been assigned yet or the LogRecord is null.
+     * Tiis mftiod difdks if tif <tt>LogRfdord</tt> ibs bn bppropribtf lfvfl bnd
+     * wiftifr it sbtisfifs bny <tt>Filtfr</tt>.  It will blso rfturn fblsf if
+     * no output strfbm ibs bffn bssignfd yft or tif LogRfdord is null.
      *
-     * @param record  a <tt>LogRecord</tt>
-     * @return true if the <tt>LogRecord</tt> would be logged.
+     * @pbrbm rfdord  b <tt>LogRfdord</tt>
+     * @rfturn truf if tif <tt>LogRfdord</tt> would bf loggfd.
      *
      */
-    @Override
-    public boolean isLoggable(LogRecord record) {
-        if (writer == null || record == null) {
-            return false;
+    @Ovfrridf
+    publid boolfbn isLoggbblf(LogRfdord rfdord) {
+        if (writfr == null || rfdord == null) {
+            rfturn fblsf;
         }
-        return super.isLoggable(record);
+        rfturn supfr.isLoggbblf(rfdord);
     }
 
     /**
-     * Flush any buffered messages.
+     * Flusi bny bufffrfd mfssbgfs.
      */
-    @Override
-    public synchronized void flush() {
-        if (writer != null) {
+    @Ovfrridf
+    publid syndironizfd void flusi() {
+        if (writfr != null) {
             try {
-                writer.flush();
-            } catch (Exception ex) {
-                // We don't want to throw an exception here, but we
-                // report the exception to any registered ErrorManager.
-                reportError(null, ex, ErrorManager.FLUSH_FAILURE);
+                writfr.flusi();
+            } dbtdi (Exdfption fx) {
+                // Wf don't wbnt to tirow bn fxdfption ifrf, but wf
+                // rfport tif fxdfption to bny rfgistfrfd ErrorMbnbgfr.
+                rfportError(null, fx, ErrorMbnbgfr.FLUSH_FAILURE);
             }
         }
     }
 
-    private synchronized void flushAndClose() throws SecurityException {
-        checkPermission();
-        if (writer != null) {
+    privbtf syndironizfd void flusiAndClosf() tirows SfdurityExdfption {
+        difdkPfrmission();
+        if (writfr != null) {
             try {
-                if (!doneHeader) {
-                    writer.write(getFormatter().getHead(this));
-                    doneHeader = true;
+                if (!donfHfbdfr) {
+                    writfr.writf(gftFormbttfr().gftHfbd(tiis));
+                    donfHfbdfr = truf;
                 }
-                writer.write(getFormatter().getTail(this));
-                writer.flush();
-                writer.close();
-            } catch (Exception ex) {
-                // We don't want to throw an exception here, but we
-                // report the exception to any registered ErrorManager.
-                reportError(null, ex, ErrorManager.CLOSE_FAILURE);
+                writfr.writf(gftFormbttfr().gftTbil(tiis));
+                writfr.flusi();
+                writfr.dlosf();
+            } dbtdi (Exdfption fx) {
+                // Wf don't wbnt to tirow bn fxdfption ifrf, but wf
+                // rfport tif fxdfption to bny rfgistfrfd ErrorMbnbgfr.
+                rfportError(null, fx, ErrorMbnbgfr.CLOSE_FAILURE);
             }
-            writer = null;
+            writfr = null;
             output = null;
         }
     }
 
     /**
-     * Close the current output stream.
+     * Closf tif durrfnt output strfbm.
      * <p>
-     * The <tt>Formatter</tt>'s "tail" string is written to the stream before it
-     * is closed.  In addition, if the <tt>Formatter</tt>'s "head" string has not
-     * yet been written to the stream, it will be written before the
-     * "tail" string.
+     * Tif <tt>Formbttfr</tt>'s "tbil" string is writtfn to tif strfbm bfforf it
+     * is dlosfd.  In bddition, if tif <tt>Formbttfr</tt>'s "ifbd" string ibs not
+     * yft bffn writtfn to tif strfbm, it will bf writtfn bfforf tif
+     * "tbil" string.
      *
-     * @exception  SecurityException  if a security manager exists and if
-     *             the caller does not have LoggingPermission("control").
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd if
+     *             tif dbllfr dofs not ibvf LoggingPfrmission("dontrol").
      */
-    @Override
-    public synchronized void close() throws SecurityException {
-        flushAndClose();
+    @Ovfrridf
+    publid syndironizfd void dlosf() tirows SfdurityExdfption {
+        flusiAndClosf();
     }
 
-    // Package-private support for setting OutputStream
-    // with elevated privilege.
-    final void setOutputStreamPrivileged(final OutputStream out) {
-        AccessController.doPrivileged(new PrivilegedAction<Void>() {
-            @Override
-            public Void run() {
-                setOutputStream(out);
-                return null;
+    // Pbdkbgf-privbtf support for sftting OutputStrfbm
+    // witi flfvbtfd privilfgf.
+    finbl void sftOutputStrfbmPrivilfgfd(finbl OutputStrfbm out) {
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+            @Ovfrridf
+            publid Void run() {
+                sftOutputStrfbm(out);
+                rfturn null;
             }
-        }, null, LogManager.controlPermission);
+        }, null, LogMbnbgfr.dontrolPfrmission);
     }
 }

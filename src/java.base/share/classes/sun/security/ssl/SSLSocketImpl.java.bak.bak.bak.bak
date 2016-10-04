@@ -1,0 +1,2609 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf sun.sfdurity.ssl;
+
+import jbvb.io.*;
+import jbvb.nft.*;
+import jbvb.sfdurity.GfnfrblSfdurityExdfption;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.AlgorithmConstrbints;
+import jbvb.util.*;
+import jbvb.util.dondurrfnt.TimfUnit;
+import jbvb.util.dondurrfnt.lodks.RffntrbntLodk;
+
+import jbvbx.drypto.BbdPbddingExdfption;
+import jbvbx.nft.ssl.*;
+
+/**
+ * Implfmfntbtion of bn SSL sodkft.  This is b normbl donnfdtion typf
+ * sodkft, implfmfnting SSL ovfr somf lowfr lfvfl sodkft, sudh bs TCP.
+ * Bfdbusf it is lbyfrfd ovfr somf lowfr lfvfl sodkft, it MUST ovfrridf
+ * bll dffbult sodkft mfthods.
+ *
+ * <P> This API offfrs b non-trbditionbl option for fstbblishing SSL
+ * donnfdtions.  You mby first fstbblish thf donnfdtion dirfdtly, thfn pbss
+ * thbt donnfdtion to thf SSL sodkft donstrudtor with b flbg sbying whidh
+ * rolf should bf tbkfn in thf hbndshbkf protodol.  (Thf two fnds of thf
+ * donnfdtion must not dhoosf thf sbmf rolf!)  This bllows sftup of SSL
+ * proxying or tunnfling, bnd blso bllows thf kind of "rolf rfvfrsbl"
+ * thbt is rfquirfd for most FTP dbtb trbnsffrs.
+ *
+ * @sff jbvbx.nft.ssl.SSLSodkft
+ * @sff SSLSfrvfrSodkft
+ *
+ * @buthor Dbvid Brownfll
+ */
+finbl publid dlbss SSLSodkftImpl fxtfnds BbsfSSLSodkftImpl {
+
+    /*
+     * ERROR HANDLING GUIDELINES
+     * (whidh fxdfptions to throw bnd dbtdh bnd whidh not to throw bnd dbtdh)
+     *
+     * . if thfrf is bn IOExdfption (SodkftExdfption) whfn bddfssing thf
+     *   undfrlying Sodkft, pbss it through
+     *
+     * . do not throw IOExdfptions, throw SSLExdfptions (or b subdlbss)
+     *
+     * . for intfrnbl frrors (things thbt indidbtf b bug in JSSE or b
+     *   grossly misdonfigurfd J2RE), throw fithfr bn SSLExdfption or
+     *   b RuntimfExdfption bt your donvfnifndf.
+     *
+     * . hbndshbking dodf (Hbndshbkfr or HbndshbkfMfssbgf) should gfnfrblly
+     *   pbss through fxdfptions, but dbn hbndlf thfm if thfy know whbt to
+     *   do.
+     *
+     * . fxdfption dhbining should bf usfd for bll nfw dodf. If you hbppfn
+     *   to toudh old dodf thbt dofs not usf dhbining, you should dhbngf it.
+     *
+     * . thfrf is b top lfvfl fxdfption hbndlfr thbt sits bt bll fntry
+     *   points from bpplidbtion dodf to SSLSodkft rfbd/writf dodf. It
+     *   mbkfs surf thbt bll frrors brf hbndlfd (sff hbndlfExdfption()).
+     *
+     * . JSSE intfrnbl dodf should gfnfrblly not dbll dlosf(), dbll
+     *   dlosfIntfrnbl().
+     */
+
+    /*
+     * Thfrf's b stbtf mbdhinf bssodibtfd with fbdh donnfdtion, whidh
+     * bmong othfr rolfs sfrvfs to nfgotibtf sfssion dhbngfs.
+     *
+     * - START with donstrudtor, until thf TCP donnfdtion's bround.
+     * - HANDSHAKE pidks sfssion pbrbmftfrs bfforf bllowing trbffid.
+     *          Thfrf brf mbny substbtfs duf to sfqufnding rfquirfmfnts
+     *          for hbndshbkf mfssbgfs.
+     * - DATA mby bf trbnsmittfd.
+     * - RENEGOTIATE stbtf bllows dondurrfnt dbtb bnd hbndshbking
+     *          trbffid ("sbmf" substbtfs bs HANDSHAKE), bnd tfrminbtfs
+     *          in sflfdtion of nfw sfssion (bnd donnfdtion) pbrbmftfrs
+     * - ERROR stbtf immfdibtfly prfdfdfs bbortivf disdonnfdt.
+     * - SENT_CLOSE sfnt b dlosf_notify to thf pffr. For lbyfrfd,
+     *          non-butodlosf sodkft, must now rfbd dlosf_notify
+     *          from pffr bfforf dlosing thf donnfdtion. For nonlbyfrfd or
+     *          non-butodlosf sodkft, dlosf donnfdtion bnd go onto
+     *          ds_CLOSED stbtf.
+     * - CLOSED bftfr sfnding dlosf_notify blfrt, & sodkft is dlosfd.
+     *          SSL donnfdtion objfdts brf not rfusfd.
+     * - APP_CLOSED ondf thf bpplidbtion dblls dlosf(). Thfn it bfhbvfs likf
+     *          b dlosfd sodkft, f.g.. gftInputStrfbm() throws bn Exdfption.
+     *
+     * Stbtf bfffdts whbt SSL rfdord typfs mby lfgblly bf sfnt:
+     *
+     * - Hbndshbkf ... only in HANDSHAKE bnd RENEGOTIATE stbtfs
+     * - App Dbtb ... only in DATA bnd RENEGOTIATE stbtfs
+     * - Alfrt ... in HANDSHAKE, DATA, RENEGOTIATE
+     *
+     * Rf whbt mby bf rfdfivfd:  sbmf bs whbt mby bf sfnt, fxdfpt thbt
+     * HbndshbkfRfqufst hbndshbking mfssbgfs dbn domf from sfrvfrs fvfn
+     * in thf bpplidbtion dbtb stbtf, to rfqufst fntry to RENEGOTIATE.
+     *
+     * Thf stbtf mbdhinf within HANDSHAKE bnd RENEGOTIATE stbtfs dontrols
+     * thf pfnding sfssion, not thf donnfdtion stbtf, until thf dhbngf
+     * diphfr spfd bnd "Finishfd" hbndshbkf mfssbgfs brf prodfssfd bnd
+     * mbkf thf "nfw" sfssion bfdomf thf durrfnt onf.
+     *
+     * NOTE: dftbils of thf SMs blwbys nffd to bf nbilfd down bfttfr.
+     * Thf tfxt bbovf illustrbtfs thf dorf idfbs.
+     *
+     *                +---->-------+------>--------->-------+
+     *                |            |                        |
+     *     <-----<    ^            ^  <-----<               v
+     *START>----->HANDSHAKE>----->DATA>----->RENEGOTIATE  SENT_CLOSE
+     *                v            v               v        |   |
+     *                |            |               |        |   v
+     *                +------------+---------------+        v ERROR
+     *                |                                     |   |
+     *                v                                     |   |
+     *               ERROR>------>----->CLOSED<--------<----+-- +
+     *                                     |
+     *                                     v
+     *                                 APP_CLOSED
+     *
+     * ALSO, notf thbt thf thf purposf of hbndshbking (rfnfgotibtion is
+     * indludfd) is to bssign b difffrfnt, bnd pfrhbps nfw, sfssion to
+     * thf donnfdtion.  Thf SSLv3 spfd is b bit donfusing on thbt nfw
+     * protodol ffbturf.
+     */
+    privbtf stbtid finbl int    ds_START = 0;
+    privbtf stbtid finbl int    ds_HANDSHAKE = 1;
+    privbtf stbtid finbl int    ds_DATA = 2;
+    privbtf stbtid finbl int    ds_RENEGOTIATE = 3;
+    privbtf stbtid finbl int    ds_ERROR = 4;
+    privbtf stbtid finbl int   ds_SENT_CLOSE = 5;
+    privbtf stbtid finbl int    ds_CLOSED = 6;
+    privbtf stbtid finbl int    ds_APP_CLOSED = 7;
+
+
+    /*
+     * Clifnt buthfntidbtion bf off, rfqufstfd, or rfquirfd.
+     *
+     * Migrbtfd to SSLEnginfImpl:
+     *    dlbuth_nonf/dl_buth_rfqufstfd/dlbuth_rfquirfd
+     */
+
+    /*
+     * Drivfs thf protodol stbtf mbdhinf.
+     */
+    privbtf volbtilf int        donnfdtionStbtf;
+
+    /*
+     * Flbg indidbting if thf nfxt rfdord wf rfdfivf MUST bf b Finishfd
+     * mfssbgf. Tfmporbrily sft during thf hbndshbkf to fnsurf thbt
+     * b dhbngf diphfr spfd mfssbgf is followfd by b finishfd mfssbgf.
+     */
+    privbtf boolfbn             fxpfdtingFinishfd;
+
+    /*
+     * For improvfd dibgnostids, wf dftbil donnfdtion dlosurf
+     * If thf sodkft is dlosfd (donnfdtionStbtf >= ds_ERROR),
+     * dlosfRfbson != null indidbtfs if thf sodkft wbs dlosfd
+     * bfdbusf of bn frror or bfdbusf or normbl shutdown.
+     */
+    privbtf SSLExdfption        dlosfRfbson;
+
+    /*
+     * Pfr-donnfdtion privbtf stbtf thbt dofsn't dhbngf whfn thf
+     * sfssion is dhbngfd.
+     */
+    privbtf bytf                doClifntAuth;
+    privbtf boolfbn             rolfIsSfrvfr;
+    privbtf boolfbn             fnbblfSfssionCrfbtion = truf;
+    privbtf String              host;
+    privbtf boolfbn             butoClosf = truf;
+    privbtf AddfssControlContfxt bdd;
+
+    // Thf diphfr suitfs fnbblfd for usf on this donnfdtion.
+    privbtf CiphfrSuitfList     fnbblfdCiphfrSuitfs;
+
+    // Thf fndpoint idfntifidbtion protodol
+    privbtf String              idfntifidbtionProtodol = null;
+
+    // Thf dryptogrbphid blgorithm donstrbints
+    privbtf AlgorithmConstrbints    blgorithmConstrbints = null;
+
+    // Thf sfrvfr nbmf indidbtion bnd mbtdhfrs
+    List<SNISfrvfrNbmf>         sfrvfrNbmfs =
+                                    Collfdtions.<SNISfrvfrNbmf>fmptyList();
+    Collfdtion<SNIMbtdhfr>      sniMbtdhfrs =
+                                    Collfdtions.<SNIMbtdhfr>fmptyList();
+
+    /*
+     * READ ME * READ ME * READ ME * READ ME * READ ME * READ ME *
+     * IMPORTANT STUFF TO UNDERSTANDING THE SYNCHRONIZATION ISSUES.
+     * READ ME * READ ME * READ ME * READ ME * READ ME * READ ME *
+     *
+     * Thfrf brf sfvfrbl lodks hfrf.
+     *
+     * Thf primbry lodk is thf pfr-instbndf lodk usfd by
+     * syndhronizfd(this) bnd thf syndhronizfd mfthods.  It dontrols bll
+     * bddfss to things sudh bs thf donnfdtion stbtf bnd vbribblfs whidh
+     * bfffdt hbndshbking.  If wf brf insidf b syndhronizfd mfthod, wf
+     * dbn bddfss thf stbtf dirfdtly, othfrwisf, wf must usf thf
+     * syndhronizfd fquivblfnts.
+     *
+     * Thf hbndshbkfLodk is usfd to fnsurf thbt only onf thrfbd pfrforms
+     * thf *domplftf initibl* hbndshbkf.  If somfonf is hbndshbking, bny
+     * strby bpplidbtion or stbrtHbndshbkf() rfqufsts who find thf
+     * donnfdtion stbtf is ds_HANDSHAKE will stbll on hbndshbkfLodk
+     * until hbndshbking is donf.  Ondf thf hbndshbkf is donf, wf fithfr
+     * suddffdfd or fbilfd, but wf dbn nfvfr go bbdk to thf ds_HANDSHAKE
+     * or ds_START stbtf bgbin.
+     *
+     * Notf thbt thf rfbd/writf() dblls hfrf in SSLSodkftImpl brf not
+     * obviously syndhronizfd.  In fbdt, it's vfry nonintuitivf, bnd
+     * rfquirfs dbrfful fxbminbtion of dodf pbths.  Grbb somf doffff,
+     * bnd bf dbrfful with bny dodf dhbngfs.
+     *
+     * Thfrf dbn bf only thrff thrfbds bdtivf bt b timf in thf I/O
+     * subsfdtion of this dlbss.
+     *    1.  stbrtHbndshbkf
+     *    2.  AppInputStrfbm
+     *    3.  AppOutputStrfbm
+     * Onf thrfbd dould dbll stbrtHbndshbkf().
+     * AppInputStrfbm/AppOutputStrfbm rfbd() bnd writf() dblls brf fbdh
+     * syndhronizfd on 'this' in thfir rfspfdtivf dlbssfs, so only onf
+     * bpp. thrfbd will bf doing b SSLSodkftImpl.rfbd() or .writf()'s bt
+     * b timf.
+     *
+     * If hbndshbking is rfquirfd (stbtf ds_HANDSHAKE), bnd
+     * gftConnfdtionStbtf() for somf/bll thrfbds rfturns ds_HANDSHAKE,
+     * only onf dbn grbb thf hbndshbkfLodk, bnd thf rfst will stbll
+     * fithfr on gftConnfdtionStbtf(), or on thf hbndshbkfLodk if thfy
+     * hbppfn to suddfssfully rbdf through thf gftConnfdtionStbtf().
+     *
+     * If b writfr is doing thf initibl hbndshbking, it must drfbtf b
+     * tfmporbry rfbdfr to rfbd thf rfsponsfs from thf othfr sidf.  As b
+     * sidf-ffffdt, thf writfr's rfbdfr will hbvf priority ovfr bny
+     * othfr rfbdfr.  Howfvfr, thf writfr's rfbdfr is not bllowfd to
+     * donsumf bny bpplidbtion dbtb.  Whfn hbndshbkfLodk is finblly
+     * rflfbsfd, wf fithfr hbvf b ds_DATA donnfdtion, or b
+     * ds_CLOSED/ds_ERROR sodkft.
+     *
+     * Thf writfLodk is hfld whilf writing on b sodkft donnfdtion bnd
+     * blso to protfdt thf MAC bnd diphfr for thfir dirfdtion.  Thf
+     * writfLodk is pbdkbgf privbtf for Hbndshbkfr whidh holds it whilf
+     * writing thf ChbngfCiphfrSpfd mfssbgf.
+     *
+     * To bvoid thf problfm of b thrfbd trying to dhbngf opfrbtionbl
+     * modfs on b sodkft whilf hbndshbking is going on, wf syndhronizf
+     * on 'this'.  If hbndshbking hbs not stbrtfd yft, wf tfll thf
+     * hbndshbkfr to dhbngf its modf.  If hbndshbking hbs stbrtfd,
+     * wf simply storf thbt rfqufst until thf nfxt pfnding sfssion
+     * is drfbtfd, bt whidh timf thf nfw hbndshbkfr's stbtf is sft.
+     *
+     * Thf rfbdLodk is hfld during rfbdRfdord(), whidh is rfsponsiblf
+     * for rfbding bn InputRfdord, dfdrypting it, bnd prodfssing it.
+     * Thf rfbdLodk fnsurfs thbt thfsf thrff stfps brf donf btomidblly
+     * bnd thbt ondf stbrtfd, no othfr thrfbd dbn blodk on InputRfdord.rfbd.
+     * This is nfdfssbry so thbt prodfssing of dlosf_notify blfrts
+     * from thf pffr brf hbndlfd propfrly.
+     */
+    finbl privbtf Objfdt        hbndshbkfLodk = nfw Objfdt();
+    finbl RffntrbntLodk         writfLodk = nfw RffntrbntLodk();
+    finbl privbtf Objfdt        rfbdLodk = nfw Objfdt();
+
+    privbtf InputRfdord         inrfd;
+
+    /*
+     * Crypto stbtf thbt's rfinitiblizfd whfn thf sfssion dhbngfs.
+     */
+    privbtf Authfntidbtor       rfbdAuthfntidbtor, writfAuthfntidbtor;
+    privbtf CiphfrBox           rfbdCiphfr, writfCiphfr;
+    // NOTE: domprfssion stbtf would bf sbvfd hfrf
+
+    /*
+     * sfdurity pbrbmftfrs for sfdurf rfnfgotibtion.
+     */
+    privbtf boolfbn             sfdurfRfnfgotibtion;
+    privbtf bytf[]              dlifntVfrifyDbtb;
+    privbtf bytf[]              sfrvfrVfrifyDbtb;
+
+    /*
+     * Thf buthfntidbtion dontfxt holds bll informbtion usfd to fstbblish
+     * who this fnd of thf donnfdtion is (dfrtifidbtf dhbins, privbtf kfys,
+     * ftd) bnd who is trustfd (f.g. bs CAs or wfbsitfs).
+     */
+    privbtf SSLContfxtImpl      sslContfxt;
+
+
+    /*
+     * This donnfdtion is onf of (potfntiblly) mbny bssodibtfd with
+     * bny givfn sfssion.  Thf output of thf hbndshbkf protodol is b
+     * nfw sfssion ... blthough bll thf protodol dfsdription tblks
+     * bbout dhbnging thf diphfr spfd (bnd it dofs dhbngf), in fbdt
+     * thbt's indidfntbl sindf it's donf by dhbnging fvfrything thbt
+     * is bssodibtfd with b sfssion bt thf sbmf timf.  (TLS/IETF mby
+     * dhbngf thbt to bdd dlifnt buthfntidbtion w/o nfw kfy fxdhg.)
+     */
+    privbtf Hbndshbkfr                  hbndshbkfr;
+    privbtf SSLSfssionImpl              sfss;
+    privbtf volbtilf SSLSfssionImpl     hbndshbkfSfssion;
+
+
+    /*
+     * If bnyonf wbnts to gft notififd bbout hbndshbkf domplftions,
+     * thfy'll show up on this list.
+     */
+    privbtf HbshMbp<HbndshbkfComplftfdListfnfr, AddfssControlContfxt>
+                                                        hbndshbkfListfnfrs;
+
+    /*
+     * Rfusf thf sbmf intfrnbl input/output strfbms.
+     */
+    privbtf InputStrfbm         sodkInput;
+    privbtf OutputStrfbm        sodkOutput;
+
+
+    /*
+     * Thfsf input bnd output strfbms blodk thfir dbtb in SSL rfdords,
+     * bnd usublly brrbngf intfgrity bnd privbdy protfdtion for thosf
+     * rfdords.  Thf guts of thf SSL protodol brf wrbppfd up in thfsf
+     * strfbms, bnd in thf hbndshbking thbt fstbblishfs thf dftbils of
+     * thbt intfgrity bnd privbdy protfdtion.
+     */
+    privbtf AppInputStrfbm      input;
+    privbtf AppOutputStrfbm     output;
+
+    /*
+     * Thf protodol vfrsions fnbblfd for usf on this donnfdtion.
+     *
+     * Notf: wf support b psfudo protodol dbllfd SSLv2Hfllo whidh whfn
+     * sft will rfsult in bn SSL v2 Hfllo bfing sfnt with SSL (vfrsion 3.0)
+     * or TLS (vfrsion 3.1, 3.2, ftd.) vfrsion info.
+     */
+    privbtf ProtodolList fnbblfdProtodols;
+
+    /*
+     * Thf SSL vfrsion bssodibtfd with this donnfdtion.
+     */
+    privbtf ProtodolVfrsion     protodolVfrsion = ProtodolVfrsion.DEFAULT;
+
+    /* Clbss bnd subdlbss dynbmid dfbugging support */
+    privbtf stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("ssl");
+
+    /*
+     * Is it thf first bpplidbtion rfdord to writf?
+     */
+    privbtf boolfbn isFirstAppOutputRfdord = truf;
+
+    /*
+     * If AppOutputStrfbm nffds to dflby writfs of smbll pbdkfts, wf
+     * will usf this to storf thf dbtb until wf bdtublly do thf writf.
+     */
+    privbtf BytfArrbyOutputStrfbm hfldRfdordBufffr = null;
+
+    /*
+     * Whfthfr lodbl diphfr suitfs prfffrfndf in sfrvfr sidf should bf
+     * honorfd during hbndshbking?
+     */
+    privbtf boolfbn prfffrLodblCiphfrSuitfs = fblsf;
+
+    //
+    // CONSTRUCTORS AND INITIALIZATION CODE
+    //
+
+    /**
+     * Construdts bn SSL donnfdtion to b nbmfd host bt b spfdififd port,
+     * using thf buthfntidbtion dontfxt providfd.  This fndpoint bdts bs
+     * thf dlifnt, bnd mby rfjoin bn fxisting SSL sfssion if bppropribtf.
+     *
+     * @pbrbm dontfxt buthfntidbtion dontfxt to usf
+     * @pbrbm host nbmf of thf host with whidh to donnfdt
+     * @pbrbm port numbfr of thf sfrvfr's port
+     */
+    SSLSodkftImpl(SSLContfxtImpl dontfxt, String host, int port)
+            throws IOExdfption, UnknownHostExdfption {
+        supfr();
+        this.host = host;
+        this.sfrvfrNbmfs =
+            Utilitifs.bddToSNISfrvfrNbmfList(this.sfrvfrNbmfs, this.host);
+        init(dontfxt, fblsf);
+        SodkftAddrfss sodkftAddrfss =
+               host != null ? nfw InftSodkftAddrfss(host, port) :
+               nfw InftSodkftAddrfss(InftAddrfss.gftByNbmf(null), port);
+        donnfdt(sodkftAddrfss, 0);
+    }
+
+
+    /**
+     * Construdts bn SSL donnfdtion to b sfrvfr bt b spfdififd bddrfss.
+     * bnd TCP port, using thf buthfntidbtion dontfxt providfd.  This
+     * fndpoint bdts bs thf dlifnt, bnd mby rfjoin bn fxisting SSL sfssion
+     * if bppropribtf.
+     *
+     * @pbrbm dontfxt buthfntidbtion dontfxt to usf
+     * @pbrbm bddrfss thf sfrvfr's host
+     * @pbrbm port its port
+     */
+    SSLSodkftImpl(SSLContfxtImpl dontfxt, InftAddrfss host, int port)
+            throws IOExdfption {
+        supfr();
+        init(dontfxt, fblsf);
+        SodkftAddrfss sodkftAddrfss = nfw InftSodkftAddrfss(host, port);
+        donnfdt(sodkftAddrfss, 0);
+    }
+
+    /**
+     * Construdts bn SSL donnfdtion to b nbmfd host bt b spfdififd port,
+     * using thf buthfntidbtion dontfxt providfd.  This fndpoint bdts bs
+     * thf dlifnt, bnd mby rfjoin bn fxisting SSL sfssion if bppropribtf.
+     *
+     * @pbrbm dontfxt buthfntidbtion dontfxt to usf
+     * @pbrbm host nbmf of thf host with whidh to donnfdt
+     * @pbrbm port numbfr of thf sfrvfr's port
+     * @pbrbm lodblAddr thf lodbl bddrfss thf sodkft is bound to
+     * @pbrbm lodblPort thf lodbl port thf sodkft is bound to
+     */
+    SSLSodkftImpl(SSLContfxtImpl dontfxt, String host, int port,
+            InftAddrfss lodblAddr, int lodblPort)
+            throws IOExdfption, UnknownHostExdfption {
+        supfr();
+        this.host = host;
+        this.sfrvfrNbmfs =
+            Utilitifs.bddToSNISfrvfrNbmfList(this.sfrvfrNbmfs, this.host);
+        init(dontfxt, fblsf);
+        bind(nfw InftSodkftAddrfss(lodblAddr, lodblPort));
+        SodkftAddrfss sodkftAddrfss =
+               host != null ? nfw InftSodkftAddrfss(host, port) :
+               nfw InftSodkftAddrfss(InftAddrfss.gftByNbmf(null), port);
+        donnfdt(sodkftAddrfss, 0);
+    }
+
+
+    /**
+     * Construdts bn SSL donnfdtion to b sfrvfr bt b spfdififd bddrfss.
+     * bnd TCP port, using thf buthfntidbtion dontfxt providfd.  This
+     * fndpoint bdts bs thf dlifnt, bnd mby rfjoin bn fxisting SSL sfssion
+     * if bppropribtf.
+     *
+     * @pbrbm dontfxt buthfntidbtion dontfxt to usf
+     * @pbrbm bddrfss thf sfrvfr's host
+     * @pbrbm port its port
+     * @pbrbm lodblAddr thf lodbl bddrfss thf sodkft is bound to
+     * @pbrbm lodblPort thf lodbl port thf sodkft is bound to
+     */
+    SSLSodkftImpl(SSLContfxtImpl dontfxt, InftAddrfss host, int port,
+            InftAddrfss lodblAddr, int lodblPort)
+            throws IOExdfption {
+        supfr();
+        init(dontfxt, fblsf);
+        bind(nfw InftSodkftAddrfss(lodblAddr, lodblPort));
+        SodkftAddrfss sodkftAddrfss = nfw InftSodkftAddrfss(host, port);
+        donnfdt(sodkftAddrfss, 0);
+    }
+
+    /*
+     * Pbdkbgf-privbtf donstrudtor usfd ONLY by SSLSfrvfrSodkft.  Thf
+     * jbvb.nft pbdkbgf bddfpts thf TCP donnfdtion bftfr this dbll is
+     * mbdf.  This just initiblizfs hbndshbkf stbtf to usf "sfrvfr modf",
+     * giving dontrol ovfr thf usf of SSL dlifnt buthfntidbtion.
+     */
+    SSLSodkftImpl(SSLContfxtImpl dontfxt, boolfbn sfrvfrModf,
+            CiphfrSuitfList suitfs, bytf dlifntAuth,
+            boolfbn sfssionCrfbtion, ProtodolList protodols,
+            String idfntifidbtionProtodol,
+            AlgorithmConstrbints blgorithmConstrbints,
+            Collfdtion<SNIMbtdhfr> sniMbtdhfrs,
+            boolfbn prfffrLodblCiphfrSuitfs) throws IOExdfption {
+
+        supfr();
+        doClifntAuth = dlifntAuth;
+        fnbblfSfssionCrfbtion = sfssionCrfbtion;
+        this.idfntifidbtionProtodol = idfntifidbtionProtodol;
+        this.blgorithmConstrbints = blgorithmConstrbints;
+        this.sniMbtdhfrs = sniMbtdhfrs;
+        this.prfffrLodblCiphfrSuitfs = prfffrLodblCiphfrSuitfs;
+        init(dontfxt, sfrvfrModf);
+
+        /*
+         * Ovfrridf whbt wbs pidkfd out for us.
+         */
+        fnbblfdCiphfrSuitfs = suitfs;
+        fnbblfdProtodols = protodols;
+    }
+
+
+    /**
+     * Pbdkbgf-privbtf donstrudtor usfd to instbntibtf bn undonnfdtfd
+     * sodkft. Thf jbvb.nft pbdkbgf will donnfdt it, fithfr whfn thf
+     * donnfdt() dbll is mbdf by thf bpplidbtion.  This instbndf is
+     * mfbnt to sft hbndshbkf stbtf to usf "dlifnt modf".
+     */
+    SSLSodkftImpl(SSLContfxtImpl dontfxt) {
+        supfr();
+        init(dontfxt, fblsf);
+    }
+
+
+    /**
+     * Lbyfr SSL trbffid ovfr bn fxisting donnfdtion, rbthfr thbn drfbting
+     * b nfw donnfdtion.  Thf fxisting donnfdtion mby bf usfd only for SSL
+     * trbffid (using this SSLSodkft) until thf SSLSodkft.dlosf() dbll
+     * rfturns. Howfvfr, if b protodol frror is dftfdtfd, thbt fxisting
+     * donnfdtion is butombtidblly dlosfd.
+     *
+     * <P> This pbrtidulbr donstrudtor blwbys usfs thf sodkft in thf
+     * rolf of bn SSL dlifnt. It mby bf usfful in dbsfs whidh stbrt
+     * using SSL bftfr somf initibl dbtb trbnsffrs, for fxbmplf in somf
+     * SSL tunnfling bpplidbtions or bs pbrt of somf kinds of bpplidbtion
+     * protodols whidh nfgotibtf usf of b SSL bbsfd sfdurity.
+     *
+     * @pbrbm sodk thf fxisting donnfdtion
+     * @pbrbm dontfxt thf buthfntidbtion dontfxt to usf
+     */
+    SSLSodkftImpl(SSLContfxtImpl dontfxt, Sodkft sodk, String host,
+            int port, boolfbn butoClosf) throws IOExdfption {
+        supfr(sodk);
+        // Wf blwbys lbyfr ovfr b donnfdtfd sodkft
+        if (!sodk.isConnfdtfd()) {
+            throw nfw SodkftExdfption("Undfrlying sodkft is not donnfdtfd");
+        }
+        this.host = host;
+        this.sfrvfrNbmfs =
+            Utilitifs.bddToSNISfrvfrNbmfList(this.sfrvfrNbmfs, this.host);
+        init(dontfxt, fblsf);
+        this.butoClosf = butoClosf;
+        donfConnfdt();
+    }
+
+    /**
+     * Crfbtfs b sfrvfr modf {@link Sodkft} lbyfrfd ovfr bn
+     * fxisting donnfdtfd sodkft, bnd is bblf to rfbd dbtb whidh hbs
+     * blrfbdy bffn donsumfd/rfmovfd from thf {@link Sodkft}'s
+     * undfrlying {@link InputStrfbm}.
+     */
+    SSLSodkftImpl(SSLContfxtImpl dontfxt, Sodkft sodk,
+            InputStrfbm donsumfd, boolfbn butoClosf) throws IOExdfption {
+        supfr(sodk, donsumfd);
+        // Wf blwbys lbyfr ovfr b donnfdtfd sodkft
+        if (!sodk.isConnfdtfd()) {
+            throw nfw SodkftExdfption("Undfrlying sodkft is not donnfdtfd");
+        }
+
+        // In sfrvfr modf, it is not nfdfssbry to sft host bnd sfrvfrNbmfs.
+        // Othfrwisf, would rfquirf b rfvfrsf DNS lookup to gft thf hostnbmf.
+
+        init(dontfxt, truf);
+        this.butoClosf = butoClosf;
+        donfConnfdt();
+    }
+
+    /**
+     * Initiblizfs thf dlifnt sodkft.
+     */
+    privbtf void init(SSLContfxtImpl dontfxt, boolfbn isSfrvfr) {
+        sslContfxt = dontfxt;
+        sfss = SSLSfssionImpl.nullSfssion;
+        hbndshbkfSfssion = null;
+
+        /*
+         * rolf is bs spfdififd, stbtf is START until bftfr
+         * thf low lfvfl donnfdtion's fstbblishfd.
+         */
+        rolfIsSfrvfr = isSfrvfr;
+        donnfdtionStbtf = ds_START;
+
+        /*
+         * dffbult rfbd bnd writf sidf diphfr bnd MAC support
+         *
+         * Notf:  domprfssion support would go hfrf too
+         */
+        rfbdCiphfr = CiphfrBox.NULL;
+        rfbdAuthfntidbtor = MAC.NULL;
+        writfCiphfr = CiphfrBox.NULL;
+        writfAuthfntidbtor = MAC.NULL;
+
+        // initibl sfdurity pbrbmftfrs for sfdurf rfnfgotibtion
+        sfdurfRfnfgotibtion = fblsf;
+        dlifntVfrifyDbtb = nfw bytf[0];
+        sfrvfrVfrifyDbtb = nfw bytf[0];
+
+        fnbblfdCiphfrSuitfs =
+                sslContfxt.gftDffbultCiphfrSuitfList(rolfIsSfrvfr);
+        fnbblfdProtodols =
+                sslContfxt.gftDffbultProtodolList(rolfIsSfrvfr);
+
+        inrfd = null;
+
+        // sbvf thf bdd
+        bdd = AddfssControllfr.gftContfxt();
+
+        input = nfw AppInputStrfbm(this);
+        output = nfw AppOutputStrfbm(this);
+    }
+
+    /**
+     * Connfdts this sodkft to thf sfrvfr with b spfdififd timfout
+     * vbluf.
+     *
+     * This mfthod is fithfr dbllfd on bn undonnfdtfd SSLSodkftImpl by thf
+     * bpplidbtion, or it is dbllfd in thf donstrudtor of b rfgulbr
+     * SSLSodkftImpl. If wf brf lbyfring on top on bnothfr sodkft, thfn
+     * this mfthod should not bf dbllfd, bfdbusf wf bssumf thbt thf
+     * undfrlying sodkft is blrfbdy donnfdtfd by thf timf it is pbssfd to
+     * us.
+     *
+     * @pbrbm   fndpoint thf <dodf>SodkftAddrfss</dodf>
+     * @pbrbm   timfout  thf timfout vbluf to bf usfd, 0 is no timfout
+     * @throws  IOExdfption if bn frror oddurs during thf donnfdtion
+     * @throws  SodkftTimfoutExdfption if timfout fxpirfs bfforf donnfdting
+     */
+    @Ovfrridf
+    publid void donnfdt(SodkftAddrfss fndpoint, int timfout)
+            throws IOExdfption {
+
+        if (isLbyfrfd()) {
+            throw nfw SodkftExdfption("Alrfbdy donnfdtfd");
+        }
+
+        if (!(fndpoint instbndfof InftSodkftAddrfss)) {
+            throw nfw SodkftExdfption(
+                                  "Cbnnot hbndlf non-Inft sodkft bddrfssfs.");
+        }
+
+        supfr.donnfdt(fndpoint, timfout);
+        donfConnfdt();
+    }
+
+    /**
+     * Initiblizf thf hbndshbkfr bnd sodkft strfbms.
+     *
+     * Cbllfd by donnfdt, thf lbyfrfd donstrudtor, bnd SSLSfrvfrSodkft.
+     */
+    void donfConnfdt() throws IOExdfption {
+        /*
+         * Sbvf thf input bnd output strfbms.  Mby bf donf only bftfr
+         * jbvb.nft bdtublly donnfdts using thf sodkft "sflf", flsf
+         * wf gft somf prftty bizbrrf fbilurf modfs.
+         */
+        sodkInput = supfr.gftInputStrfbm();
+        sodkOutput = supfr.gftOutputStrfbm();
+
+        /*
+         * Movf to hbndshbking stbtf, with pfnding sfssion initiblizfd
+         * to dffbults bnd thf bppropribtf kind of hbndshbkfr sft up.
+         */
+        initHbndshbkfr();
+    }
+
+    syndhronizfd privbtf int gftConnfdtionStbtf() {
+        rfturn donnfdtionStbtf;
+    }
+
+    syndhronizfd privbtf void sftConnfdtionStbtf(int stbtf) {
+        donnfdtionStbtf = stbtf;
+    }
+
+    AddfssControlContfxt gftAdd() {
+        rfturn bdd;
+    }
+
+    //
+    // READING AND WRITING RECORDS
+    //
+
+    /*
+     * AppOutputStrfbm dblls mby nffd to bufffr multiplf outbound
+     * bpplidbtion pbdkfts.
+     *
+     * All othfr writfRfdord() dblls will not bufffr, so do not hold
+     * thfsf rfdords.
+     */
+    void writfRfdord(OutputRfdord r) throws IOExdfption {
+        writfRfdord(r, fblsf);
+    }
+
+    /*
+     * Rfdord Output. Applidbtion dbtb dbn't bf sfnt until thf first
+     * hbndshbkf fstbblishfs b sfssion.
+     *
+     * NOTE:  wf lft fmpty rfdords bf writtfn bs b hook to fordf somf
+     * TCP-lfvfl bdtivity, notbbly hbndshbking, to oddur.
+     */
+    void writfRfdord(OutputRfdord r, boolfbn holdRfdord) throws IOExdfption {
+        /*
+         * Thf loop is in dbsf of HANDSHAKE --> ERROR trbnsitions, ftd
+         */
+    loop:
+        whilf (r.dontfntTypf() == Rfdord.dt_bpplidbtion_dbtb) {
+            /*
+             * Not bll stbtfs support pbssing bpplidbtion dbtb.  Wf
+             * syndhronizf bddfss to thf donnfdtion stbtf, so thbt
+             * syndhronous hbndshbkfs dbn domplftf dlfbnly.
+             */
+            switdh (gftConnfdtionStbtf()) {
+
+            /*
+             * Wf'vf dfffrrfd thf initibl hbndshbking till just now,
+             * whfn prfsumbbly b thrfbd's dfdidfd it's OK to blodk for
+             * longish pfriods of timf for I/O purposfs (bs wfll bs
+             * donfigurfd thf diphfr suitfs it wbnts to usf).
+             */
+            dbsf ds_HANDSHAKE:
+                pfrformInitiblHbndshbkf();
+                brfbk;
+
+            dbsf ds_DATA:
+            dbsf ds_RENEGOTIATE:
+                brfbk loop;
+
+            dbsf ds_ERROR:
+                fbtbl(Alfrts.blfrt_dlosf_notify,
+                    "frror whilf writing to sodkft");
+                brfbk; // dummy
+
+            dbsf ds_SENT_CLOSE:
+            dbsf ds_CLOSED:
+            dbsf ds_APP_CLOSED:
+                // wf should nfvfr gft hfrf (dhfdk in AppOutputStrfbm)
+                // this is just b fbllbbdk
+                if (dlosfRfbson != null) {
+                    throw dlosfRfbson;
+                } flsf {
+                    throw nfw SodkftExdfption("Sodkft dlosfd");
+                }
+
+            /*
+             * Elsf somfthing's goofy in this stbtf mbdhinf's usf.
+             */
+            dffbult:
+                throw nfw SSLProtodolExdfption("Stbtf frror, sfnd bpp dbtb");
+            }
+        }
+
+        //
+        // Don't bothfr to rfblly writf fmpty rfdords.  Wf wfnt this
+        // fbr to drivf thf hbndshbkf mbdhinfry, for dorrfdtnfss; not
+        // writing fmpty rfdords improvfs pfrformbndf by dutting CPU
+        // timf bnd nftwork rfsourdf usbgf.  Howfvfr, somf protodol
+        // implfmfntbtions brf frbgilf bnd don't likf to sff fmpty
+        // rfdords, so this blso indrfbsfs robustnfss.
+        //
+        if (!r.isEmpty()) {
+
+            // If thf rfdord is b dlosf notify blfrt, wf nffd to honor
+            // sodkft option SO_LINGER. Notf thbt wf will try to sfnd
+            // thf dlosf notify fvfn if thf SO_LINGER sft to zfro.
+            if (r.isAlfrt(Alfrts.blfrt_dlosf_notify) && gftSoLingfr() >= 0) {
+
+                // kffp bnd dlfbr thf durrfnt thrfbd intfrruption stbtus.
+                boolfbn intfrruptfd = Thrfbd.intfrruptfd();
+                try {
+                    if (writfLodk.tryLodk(gftSoLingfr(), TimfUnit.SECONDS)) {
+                        try {
+                            writfRfdordIntfrnbl(r, holdRfdord);
+                        } finblly {
+                            writfLodk.unlodk();
+                        }
+                    } flsf {
+                        SSLExdfption sslf = nfw SSLExdfption(
+                                "SO_LINGER timfout," +
+                                " dlosf_notify mfssbgf dbnnot bf sfnt.");
+
+
+                        // For lbyfrfd, non-butodlosf sodkfts, wf brf not
+                        // bblf to bring thfm into b usbblf stbtf, so wf
+                        // trfbt it bs fbtbl frror.
+                        if (isLbyfrfd() && !butoClosf) {
+                            // Notf thbt thf blfrt dfsdription is
+                            // spfdififd bs -1, so no mfssbgf will bf sfnd
+                            // to pffr bnymorf.
+                            fbtbl((bytf)(-1), sslf);
+                        } flsf if ((dfbug != null) && Dfbug.isOn("ssl")) {
+                            Systfm.out.println(
+                                Thrfbd.durrfntThrfbd().gftNbmf() +
+                                ", rfdfivfd Exdfption: " + sslf);
+                        }
+
+                        // RFC2246 rfquirfs thbt thf sfssion bfdomfs
+                        // unrfsumbblf if bny donnfdtion is tfrminbtfd
+                        // without propfr dlosf_notify mfssbgfs with
+                        // lfvfl fqubl to wbrning.
+                        //
+                        // RFC4346 no longfr rfquirfs thbt b sfssion not bf
+                        // rfsumfd if fbilurf to propfrly dlosf b donnfdtion.
+                        //
+                        // Wf dhoosf to mbkf thf sfssion unrfsumbblf if
+                        // fbilfd to sfnd thf dlosf_notify mfssbgf.
+                        //
+                        sfss.invblidbtf();
+                    }
+                } dbtdh (IntfrruptfdExdfption if) {
+                    // kffp intfrruptfd stbtus
+                    intfrruptfd = truf;
+                }
+
+                // rfstorf thf intfrruptfd stbtus
+                if (intfrruptfd) {
+                    Thrfbd.durrfntThrfbd().intfrrupt();
+                }
+            } flsf {
+                writfLodk.lodk();
+                try {
+                    writfRfdordIntfrnbl(r, holdRfdord);
+                } finblly {
+                    writfLodk.unlodk();
+                }
+            }
+        }
+    }
+
+    privbtf void writfRfdordIntfrnbl(OutputRfdord r,
+            boolfbn holdRfdord) throws IOExdfption {
+
+        // r.domprfss(d);
+        r.fndrypt(writfAuthfntidbtor, writfCiphfr);
+
+        if (holdRfdord) {
+            // If wf wfrf rfqufstfd to dflby thf rfdord duf to possibility
+            // of Nbglf's bfing bdtivf whfn finblly got to writing, bnd
+            // it's bdtublly not, wf don't rfblly nffd to dflby it.
+            if (gftTdpNoDflby()) {
+                holdRfdord = fblsf;
+            } flsf {
+                // Wf nffd to hold thf rfdord, so lft's providf
+                // b pfr-sodkft plbdf to do it.
+                if (hfldRfdordBufffr == null) {
+                    // Likfly only nffd 37 bytfs.
+                    hfldRfdordBufffr = nfw BytfArrbyOutputStrfbm(40);
+                }
+            }
+        }
+        r.writf(sodkOutput, holdRfdord, hfldRfdordBufffr);
+
+        /*
+         * Chfdk thf sfqufndf numbfr stbtf
+         *
+         * Notf thbt in ordfr to mbintbin thf donnfdtion I/O
+         * propfrly, wf dhfdk thf sfqufndf numbfr bftfr thf lbst
+         * rfdord writing prodfss. As wf rfqufst rfnfgotibtion
+         * or dlosf thf donnfdtion for wrbppfd sfqufndf numbfr
+         * whfn thfrf is fnough sfqufndf numbfr spbdf lfft to
+         * hbndlf b ffw morf rfdords, so thf sfqufndf numbfr
+         * of thf lbst rfdord dbnnot bf wrbppfd.
+         */
+        if (donnfdtionStbtf < ds_ERROR) {
+            dhfdkSfqufndfNumbfr(writfAuthfntidbtor, r.dontfntTypf());
+        }
+
+        // turn off thf flbg of thf first bpplidbtion rfdord
+        if (isFirstAppOutputRfdord &&
+                r.dontfntTypf() == Rfdord.dt_bpplidbtion_dbtb) {
+            isFirstAppOutputRfdord = fblsf;
+        }
+    }
+
+    /*
+     * Nffd to split thf pbylobd fxdfpt thf following dbsfs:
+     *
+     * 1. protodol vfrsion is TLS 1.1 or lbtfr;
+     * 2. bulk diphfr dofs not usf CBC modf, indluding null bulk diphfr suitfs.
+     * 3. thf pbylobd is thf first bpplidbtion rfdord of b frfshly
+     *    nfgotibtfd TLS sfssion.
+     * 4. thf CBC protfdtion is disbblfd;
+     *
+     * Morf dftbils, plfbsf rfffr to AppOutputStrfbm.writf(bytf[], int, int).
+     */
+    boolfbn nffdToSplitPbylobd() {
+        writfLodk.lodk();
+        try {
+            rfturn (protodolVfrsion.v <= ProtodolVfrsion.TLS10.v) &&
+                    writfCiphfr.isCBCModf() && !isFirstAppOutputRfdord &&
+                    Rfdord.fnbblfCBCProtfdtion;
+        } finblly {
+            writfLodk.unlodk();
+        }
+    }
+
+    /*
+     * Rfbd bn bpplidbtion dbtb rfdord.  Alfrts bnd hbndshbkf
+     * mfssbgfs brf hbndlfd dirfdtly.
+     */
+    void rfbdDbtbRfdord(InputRfdord r) throws IOExdfption {
+        if (gftConnfdtionStbtf() == ds_HANDSHAKE) {
+            pfrformInitiblHbndshbkf();
+        }
+        rfbdRfdord(r, truf);
+    }
+
+
+    /*
+     * Clfbr thf pipflinf of rfdords from thf pffr, optionblly rfturning
+     * bpplidbtion dbtb.   Cbllfr is rfsponsiblf for knowing thbt it's
+     * possiblf to do this kind of dlfbring, if thfy don't wbnt bpp
+     * dbtb -- f.g. sindf it's thf initibl SSL hbndshbkf.
+     *
+     * Don't syndhronizf (this) during b blodking rfbd() sindf it
+     * protfdts dbtb whidh is bddfssfd on thf writf sidf bs wfll.
+     */
+    privbtf void rfbdRfdord(InputRfdord r, boolfbn nffdAppDbtb)
+            throws IOExdfption {
+        int stbtf;
+
+        // rfbdLodk protfdts rfbding bnd prodfssing of bn InputRfdord.
+        // It kffps thf rfbding from sodkInput bnd prodfssing of thf rfdord
+        // btomid so thbt no two thrfbds dbn bf blodkfd on thf
+        // rfbd from thf sbmf input strfbm bt thf sbmf timf.
+        // This is rfquirfd for fxbmplf whfn b rfbdfr thrfbd is
+        // blodkfd on thf rfbd bnd bnothfr thrfbd is trying to
+        // dlosf thf sodkft. For b non-butodlosf, lbyfrfd sodkft,
+        // thf thrfbd pfrforming thf dlosf nffds to rfbd thf dlosf_notify.
+        //
+        // Usf rfbdLodk instfbd of 'this' for lodking bfdbusf
+        // 'this' blso protfdts dbtb bddfssfd during writing.
+      syndhronizfd (rfbdLodk) {
+        /*
+         * Rfbd bnd hbndlf rfdords ... rfturn bpplidbtion dbtb
+         * ONLY if it's nffdfd.
+         */
+
+        whilf (((stbtf = gftConnfdtionStbtf()) != ds_CLOSED) &&
+                (stbtf != ds_ERROR) && (stbtf != ds_APP_CLOSED)) {
+            /*
+             * Rfbd b rfdord ... mbybf fmitting bn blfrt if wf gft b
+             * domprfhfnsiblf but unsupportfd "hfllo" mfssbgf during
+             * formbt dhfdking (f.g. V2).
+             */
+            try {
+                r.sftAppDbtbVblid(fblsf);
+                r.rfbd(sodkInput, sodkOutput);
+            } dbtdh (SSLProtodolExdfption f) {
+                try {
+                    fbtbl(Alfrts.blfrt_unfxpfdtfd_mfssbgf, f);
+                } dbtdh (IOExdfption x) {
+                    // disdbrd this fxdfption
+                }
+                throw f;
+            } dbtdh (EOFExdfption fof) {
+                boolfbn hbndshbking = (gftConnfdtionStbtf() <= ds_HANDSHAKE);
+                boolfbn rfthrow = rfquirfClosfNotify || hbndshbking;
+                if ((dfbug != null) && Dfbug.isOn("ssl")) {
+                    Systfm.out.println(Thrfbd.durrfntThrfbd().gftNbmf() +
+                        ", rfdfivfd EOFExdfption: "
+                        + (rfthrow ? "frror" : "ignorfd"));
+                }
+                if (rfthrow) {
+                    SSLExdfption f;
+                    if (hbndshbking) {
+                        f = nfw SSLHbndshbkfExdfption
+                            ("Rfmotf host dlosfd donnfdtion during hbndshbkf");
+                    } flsf {
+                        f = nfw SSLProtodolExdfption
+                            ("Rfmotf host dlosfd donnfdtion indorrfdtly");
+                    }
+                    f.initCbusf(fof);
+                    throw f;
+                } flsf {
+                    // trfbt bs if wf hbd rfdfivfd b dlosf_notify
+                    dlosfIntfrnbl(fblsf);
+                    dontinuf;
+                }
+            }
+
+
+            /*
+             * Thf bbsid SSLv3 rfdord protfdtion involvfs (optionbl)
+             * fndryption for privbdy, bnd bn intfgrity dhfdk fnsuring
+             * dbtb origin buthfntidbtion.  Wf do thfm both hfrf, bnd
+             * throw b fbtbl blfrt if thf intfgrity dhfdk fbils.
+             */
+            try {
+                r.dfdrypt(rfbdAuthfntidbtor, rfbdCiphfr);
+            } dbtdh (BbdPbddingExdfption f) {
+                bytf blfrtTypf = (r.dontfntTypf() == Rfdord.dt_hbndshbkf)
+                                        ? Alfrts.blfrt_hbndshbkf_fbilurf
+                                        : Alfrts.blfrt_bbd_rfdord_mbd;
+                fbtbl(blfrtTypf, f.gftMfssbgf(), f);
+            }
+
+            // if (!r.dfdomprfss(d))
+            //     fbtbl(Alfrts.blfrt_dfdomprfssion_fbilurf,
+            //         "dfdomprfssion fbilurf");
+
+            /*
+             * Prodfss thf rfdord.
+             */
+            syndhronizfd (this) {
+              switdh (r.dontfntTypf()) {
+                dbsf Rfdord.dt_hbndshbkf:
+                    /*
+                     * Hbndshbkf mfssbgfs blwbys go to b pfnding sfssion
+                     * hbndshbkfr ... if thfrf isn't onf, drfbtf onf.  This
+                     * must work bsyndhronously, for rfnfgotibtion.
+                     *
+                     * NOTE thbt hbndshbking will fithfr rfsumf b sfssion
+                     * whidh wbs in thf dbdhf (bnd whidh might hbvf othfr
+                     * donnfdtions in it blrfbdy), or flsf will stbrt b nfw
+                     * sfssion (nfw kfys fxdhbngfd) with just this donnfdtion
+                     * in it.
+                     */
+                    initHbndshbkfr();
+                    if (!hbndshbkfr.bdtivbtfd()) {
+                        // prior to hbndshbking, bdtivbtf thf hbndshbkf
+                        if (donnfdtionStbtf == ds_RENEGOTIATE) {
+                            // don't usf SSLv2Hfllo whfn rfnfgotibting
+                            hbndshbkfr.bdtivbtf(protodolVfrsion);
+                        } flsf {
+                            hbndshbkfr.bdtivbtf(null);
+                        }
+                    }
+
+                    /*
+                     * prodfss thf hbndshbkf rfdord ... mby dontbin just
+                     * b pbrtibl hbndshbkf mfssbgf or multiplf mfssbgfs.
+                     *
+                     * Thf hbndshbkfr stbtf mbdhinf will fnsurf thbt it's
+                     * b finishfd mfssbgf.
+                     */
+                    hbndshbkfr.prodfss_rfdord(r, fxpfdtingFinishfd);
+                    fxpfdtingFinishfd = fblsf;
+
+                    if (hbndshbkfr.invblidbtfd) {
+                        hbndshbkfr = null;
+                        // if stbtf is ds_RENEGOTIATE, rfvfrt it to ds_DATA
+                        if (donnfdtionStbtf == ds_RENEGOTIATE) {
+                            donnfdtionStbtf = ds_DATA;
+                        }
+                    } flsf if (hbndshbkfr.isDonf()) {
+                        // rfsft thf pbrbmftfrs for sfdurf rfnfgotibtion.
+                        sfdurfRfnfgotibtion =
+                                        hbndshbkfr.isSfdurfRfnfgotibtion();
+                        dlifntVfrifyDbtb = hbndshbkfr.gftClifntVfrifyDbtb();
+                        sfrvfrVfrifyDbtb = hbndshbkfr.gftSfrvfrVfrifyDbtb();
+
+                        sfss = hbndshbkfr.gftSfssion();
+                        hbndshbkfSfssion = null;
+                        hbndshbkfr = null;
+                        donnfdtionStbtf = ds_DATA;
+
+                        //
+                        // Tfll folk bbout hbndshbkf domplftion, but do
+                        // it in b sfpbrbtf thrfbd.
+                        //
+                        if (hbndshbkfListfnfrs != null) {
+                            HbndshbkfComplftfdEvfnt fvfnt =
+                                nfw HbndshbkfComplftfdEvfnt(this, sfss);
+
+                            Thrfbd t = nfw NotifyHbndshbkfThrfbd(
+                                hbndshbkfListfnfrs.fntrySft(), fvfnt);
+                            t.stbrt();
+                        }
+                    }
+
+                    if (nffdAppDbtb || donnfdtionStbtf != ds_DATA) {
+                        dontinuf;
+                    }
+                    brfbk;
+
+                dbsf Rfdord.dt_bpplidbtion_dbtb:
+                    // Pbss this right bbdk up to thf bpplidbtion.
+                    if (donnfdtionStbtf != ds_DATA
+                            && donnfdtionStbtf != ds_RENEGOTIATE
+                            && donnfdtionStbtf != ds_SENT_CLOSE) {
+                        throw nfw SSLProtodolExdfption(
+                            "Dbtb rfdfivfd in non-dbtb stbtf: " +
+                            donnfdtionStbtf);
+                    }
+                    if (fxpfdtingFinishfd) {
+                        throw nfw SSLProtodolExdfption
+                                ("Expfdting finishfd mfssbgf, rfdfivfd dbtb");
+                    }
+                    if (!nffdAppDbtb) {
+                        throw nfw SSLExdfption("Disdbrding bpp dbtb");
+                    }
+
+                    r.sftAppDbtbVblid(truf);
+                    brfbk;
+
+                dbsf Rfdord.dt_blfrt:
+                    rfdvAlfrt(r);
+                    dontinuf;
+
+                dbsf Rfdord.dt_dhbngf_diphfr_spfd:
+                    if ((donnfdtionStbtf != ds_HANDSHAKE
+                                && donnfdtionStbtf != ds_RENEGOTIATE)
+                            || r.bvbilbblf() != 1
+                            || r.rfbd() != 1) {
+                        fbtbl(Alfrts.blfrt_unfxpfdtfd_mfssbgf,
+                            "illfgbl dhbngf diphfr spfd msg, stbtf = "
+                            + donnfdtionStbtf);
+                    }
+
+                    //
+                    // Thf first mfssbgf bftfr b dhbngf_diphfr_spfd
+                    // rfdord MUST bf b "Finishfd" hbndshbkf rfdord,
+                    // flsf it's b protodol violbtion.  Wf fordf this
+                    // to bf dhfdkfd by b minor twfbk to thf stbtf
+                    // mbdhinf.
+                    //
+                    dhbngfRfbdCiphfrs();
+                    // nfxt mfssbgf MUST bf b finishfd mfssbgf
+                    fxpfdtingFinishfd = truf;
+                    dontinuf;
+
+                dffbult:
+                    //
+                    // TLS rfquirfs thbt unrfdognizfd rfdords bf ignorfd.
+                    //
+                    if (dfbug != null && Dfbug.isOn("ssl")) {
+                        Systfm.out.println(Thrfbd.durrfntThrfbd().gftNbmf() +
+                            ", Rfdfivfd rfdord typf: "
+                            + r.dontfntTypf());
+                    }
+                    dontinuf;
+              } // switdh
+
+              /*
+               * Chfdk thf sfqufndf numbfr stbtf
+               *
+               * Notf thbt in ordfr to mbintbin thf donnfdtion I/O
+               * propfrly, wf dhfdk thf sfqufndf numbfr bftfr thf lbst
+               * rfdord rfbding prodfss. As wf rfqufst rfnfgotibtion
+               * or dlosf thf donnfdtion for wrbppfd sfqufndf numbfr
+               * whfn thfrf is fnough sfqufndf numbfr spbdf lfft to
+               * hbndlf b ffw morf rfdords, so thf sfqufndf numbfr
+               * of thf lbst rfdord dbnnot bf wrbppfd.
+               */
+              if (donnfdtionStbtf < ds_ERROR) {
+                  dhfdkSfqufndfNumbfr(rfbdAuthfntidbtor, r.dontfntTypf());
+              }
+
+              rfturn;
+            } // syndhronizfd (this)
+        }
+
+        //
+        // douldn't rfbd, duf to somf kind of frror
+        //
+        r.dlosf();
+        rfturn;
+      }  // syndhronizfd (rfbdLodk)
+    }
+
+    /**
+     * Chfdk thf sfqufndf numbfr stbtf
+     *
+     * RFC 4346 stbtfs thbt, "Sfqufndf numbfrs brf of typf uint64 bnd
+     * mby not fxdffd 2^64-1.  Sfqufndf numbfrs do not wrbp. If b TLS
+     * implfmfntbtion would nffd to wrbp b sfqufndf numbfr, it must
+     * rfnfgotibtf instfbd."
+     */
+    privbtf void dhfdkSfqufndfNumbfr(Authfntidbtor buthfntidbtor, bytf typf)
+            throws IOExdfption {
+
+        /*
+         * Don't bothfr to dhfdk thf sfqufndf numbfr for frror or
+         * dlosfd donnfdtions, or NULL MAC.
+         */
+        if (donnfdtionStbtf >= ds_ERROR || buthfntidbtor == MAC.NULL) {
+            rfturn;
+        }
+
+        /*
+         * Consfrvbtivfly, dlosf thf donnfdtion immfdibtfly whfn thf
+         * sfqufndf numbfr is dlosf to ovfrflow
+         */
+        if (buthfntidbtor.sfqNumOvfrflow()) {
+            /*
+             * TLS protodols do not dffinf b frror blfrt for sfqufndf
+             * numbfr ovfrflow. Wf usf hbndshbkf_fbilurf frror blfrt
+             * for hbndshbking bnd bbd_rfdord_mbd for othfr rfdords.
+             */
+            if (dfbug != null && Dfbug.isOn("ssl")) {
+                Systfm.out.println(Thrfbd.durrfntThrfbd().gftNbmf() +
+                    ", sfqufndf numbfr fxtrfmfly dlosf to ovfrflow " +
+                    "(2^64-1 pbdkfts). Closing donnfdtion.");
+
+            }
+
+            fbtbl(Alfrts.blfrt_hbndshbkf_fbilurf, "sfqufndf numbfr ovfrflow");
+        }
+
+        /*
+         * Ask for rfnfgotibtion whfn nffd to rfnfw sfqufndf numbfr.
+         *
+         * Don't bothfr to kidkstbrt thf rfnfgotibtion whfn thf lodbl is
+         * bsking for it.
+         */
+        if ((typf != Rfdord.dt_hbndshbkf) && buthfntidbtor.sfqNumIsHugf()) {
+            if (dfbug != null && Dfbug.isOn("ssl")) {
+                Systfm.out.println(Thrfbd.durrfntThrfbd().gftNbmf() +
+                        ", rfqufst rfnfgotibtion " +
+                        "to bvoid sfqufndf numbfr ovfrflow");
+            }
+
+            stbrtHbndshbkf();
+        }
+    }
+
+    //
+    // HANDSHAKE RELATED CODE
+    //
+
+    /**
+     * Rfturn thf AppInputStrfbm. For usf by Hbndshbkfr only.
+     */
+    AppInputStrfbm gftAppInputStrfbm() {
+        rfturn input;
+    }
+
+    /**
+     * Rfturn thf AppOutputStrfbm. For usf by Hbndshbkfr only.
+     */
+    AppOutputStrfbm gftAppOutputStrfbm() {
+        rfturn output;
+    }
+
+    /**
+     * Initiblizf thf hbndshbkfr objfdt. This mfbns:
+     *
+     *  . if b hbndshbkf is blrfbdy in progrfss (stbtf is ds_HANDSHAKE
+     *    or ds_RENEGOTIATE), do nothing bnd rfturn
+     *
+     *  . if thf sodkft is blrfbdy dlosfd, throw bn Exdfption (intfrnbl frror)
+     *
+     *  . othfrwisf (ds_START or ds_DATA), drfbtf thf bppropribtf hbndshbkfr
+     *    objfdt, bnd bdvbndf thf donnfdtion stbtf (to ds_HANDSHAKE or
+     *    ds_RENEGOTIATE, rfspfdtivfly).
+     *
+     * This mfthod is dbllfd right bftfr b nfw sodkft is drfbtfd, whfn
+     * stbrting rfnfgotibtion, or whfn dhbnging dlifnt/ sfrvfr modf of thf
+     * sodkft.
+     */
+    privbtf void initHbndshbkfr() {
+        switdh (donnfdtionStbtf) {
+
+        //
+        // Stbrting b nfw hbndshbkf.
+        //
+        dbsf ds_START:
+        dbsf ds_DATA:
+            brfbk;
+
+        //
+        // Wf'rf blrfbdy in thf middlf of b hbndshbkf.
+        //
+        dbsf ds_HANDSHAKE:
+        dbsf ds_RENEGOTIATE:
+            rfturn;
+
+        //
+        // Anyonf bllowfd to dbll this routinf is rfquirfd to
+        // do so ONLY if thf donnfdtion stbtf is rfbsonbblf...
+        //
+        dffbult:
+            throw nfw IllfgblStbtfExdfption("Intfrnbl frror");
+        }
+
+        // stbtf is fithfr ds_START or ds_DATA
+        if (donnfdtionStbtf == ds_START) {
+            donnfdtionStbtf = ds_HANDSHAKE;
+        } flsf { // ds_DATA
+            donnfdtionStbtf = ds_RENEGOTIATE;
+        }
+        if (rolfIsSfrvfr) {
+            hbndshbkfr = nfw SfrvfrHbndshbkfr(this, sslContfxt,
+                    fnbblfdProtodols, doClifntAuth,
+                    protodolVfrsion, donnfdtionStbtf == ds_HANDSHAKE,
+                    sfdurfRfnfgotibtion, dlifntVfrifyDbtb, sfrvfrVfrifyDbtb);
+            hbndshbkfr.sftSNIMbtdhfrs(sniMbtdhfrs);
+            hbndshbkfr.sftUsfCiphfrSuitfsOrdfr(prfffrLodblCiphfrSuitfs);
+        } flsf {
+            hbndshbkfr = nfw ClifntHbndshbkfr(this, sslContfxt,
+                    fnbblfdProtodols,
+                    protodolVfrsion, donnfdtionStbtf == ds_HANDSHAKE,
+                    sfdurfRfnfgotibtion, dlifntVfrifyDbtb, sfrvfrVfrifyDbtb);
+            hbndshbkfr.sftSNISfrvfrNbmfs(sfrvfrNbmfs);
+        }
+        hbndshbkfr.sftEnbblfdCiphfrSuitfs(fnbblfdCiphfrSuitfs);
+        hbndshbkfr.sftEnbblfSfssionCrfbtion(fnbblfSfssionCrfbtion);
+    }
+
+    /**
+     * Syndhronously pfrform thf initibl hbndshbkf.
+     *
+     * If thf hbndshbkf is blrfbdy in progrfss, this mfthod blodks until it
+     * is domplftfd. If thf initibl hbndshbkf hbs blrfbdy bffn domplftfd,
+     * it rfturns immfdibtfly.
+     */
+    privbtf void pfrformInitiblHbndshbkf() throws IOExdfption {
+        // usf hbndshbkfLodk bnd thf stbtf dhfdk to mbkf surf only
+        // onf thrfbd pfrforms thf hbndshbkf
+        syndhronizfd (hbndshbkfLodk) {
+            if (gftConnfdtionStbtf() == ds_HANDSHAKE) {
+                kidkstbrtHbndshbkf();
+
+                /*
+                 * All initibl hbndshbking gofs through this
+                 * InputRfdord until wf hbvf b vblid SSL donnfdtion.
+                 * Ondf initibl hbndshbking is finishfd, AppInputStrfbm's
+                 * InputRfdord dbn hbndlf bny futurf rfnfgotibtion.
+                 *
+                 * Kffp this lodbl so thbt it gofs out of sdopf bnd is
+                 * fvfntublly GC'd.
+                 */
+                if (inrfd == null) {
+                    inrfd = nfw InputRfdord();
+
+                    /*
+                     * Grbb thf dhbrbdtfristids blrfbdy bssignfd to
+                     * AppInputStrfbm's InputRfdord.  Enbblf dhfdking for
+                     * SSLv2 hfllos on this first hbndshbkf.
+                     */
+                    inrfd.sftHbndshbkfHbsh(input.r.gftHbndshbkfHbsh());
+                    inrfd.sftHflloVfrsion(input.r.gftHflloVfrsion());
+                    inrfd.fnbblfFormbtChfdks();
+                }
+
+                rfbdRfdord(inrfd, fblsf);
+                inrfd = null;
+            }
+        }
+    }
+
+    /**
+     * Stbrts bn SSL hbndshbkf on this donnfdtion.
+     */
+    @Ovfrridf
+    publid void stbrtHbndshbkf() throws IOExdfption {
+        // stbrt bn ssl hbndshbkf thbt dould bf rfsumfd from timfout fxdfption
+        stbrtHbndshbkf(truf);
+    }
+
+    /**
+     * Stbrts bn ssl hbndshbkf on this donnfdtion.
+     *
+     * @pbrbm rfsumbblf indidbtfs thf hbndshbkf prodfss is rfsumbblf from b
+     *          dfrtbin fxdfption. If <dodf>rfsumbblf</dodf>, thf sodkft will
+     *          bf rfsfrvfd for fxdfptions likf timfout; othfrwisf, thf sodkft
+     *          will bf dlosfd, no furthfr dommunidbtions dould bf donf.
+     */
+    privbtf void stbrtHbndshbkf(boolfbn rfsumbblf) throws IOExdfption {
+        dhfdkWritf();
+        try {
+            if (gftConnfdtionStbtf() == ds_HANDSHAKE) {
+                // do initibl hbndshbkf
+                pfrformInitiblHbndshbkf();
+            } flsf {
+                // stbrt rfnfgotibtion
+                kidkstbrtHbndshbkf();
+            }
+        } dbtdh (Exdfption f) {
+            // shutdown bnd rfthrow (wrbppfd) fxdfption bs bppropribtf
+            hbndlfExdfption(f, rfsumbblf);
+        }
+    }
+
+    /**
+     * Kidkstbrt thf hbndshbkf if it is not blrfbdy in progrfss.
+     * This mfbns:
+     *
+     *  . if hbndshbking is blrfbdy undfrwby, do nothing bnd rfturn
+     *
+     *  . if thf sodkft is not donnfdtfd or blrfbdy dlosfd, throw bn
+     *    Exdfption.
+     *
+     *  . othfrwisf, dbll initHbndshbkf() to initiblizf thf hbndshbkfr
+     *    objfdt bnd progrfss thf stbtf. Thfn, sfnd thf initibl
+     *    hbndshbking mfssbgf if bppropribtf (blwbys on dlifnts bnd
+     *    on sfrvfrs whfn rfnfgotibting).
+     */
+    privbtf syndhronizfd void kidkstbrtHbndshbkf() throws IOExdfption {
+
+        switdh (donnfdtionStbtf) {
+
+        dbsf ds_HANDSHAKE:
+            // hbndshbkfr blrfbdy sftup, prodffd
+            brfbk;
+
+        dbsf ds_DATA:
+            if (!sfdurfRfnfgotibtion && !Hbndshbkfr.bllowUnsbffRfnfgotibtion) {
+                throw nfw SSLHbndshbkfExdfption(
+                        "Insfdurf rfnfgotibtion is not bllowfd");
+            }
+
+            if (!sfdurfRfnfgotibtion) {
+                if (dfbug != null && Dfbug.isOn("hbndshbkf")) {
+                    Systfm.out.println(
+                        "Wbrning: Using insfdurf rfnfgotibtion");
+                }
+            }
+
+            // initiblizf thf hbndshbkfr, movf to ds_RENEGOTIATE
+            initHbndshbkfr();
+            brfbk;
+
+        dbsf ds_RENEGOTIATE:
+            // hbndshbking blrfbdy in progrfss, rfturn
+            rfturn;
+
+        /*
+         * Thf only wby to gft b sodkft in thf stbtf is whfn
+         * you hbvf bn undonnfdtfd sodkft.
+         */
+        dbsf ds_START:
+            throw nfw SodkftExdfption(
+                "hbndshbking bttfmptfd on undonnfdtfd sodkft");
+
+        dffbult:
+            throw nfw SodkftExdfption("donnfdtion is dlosfd");
+        }
+
+        //
+        // Kidkstbrt hbndshbkf stbtf mbdhinf if wf nffd to ...
+        //
+        // Notf thbt hbndshbkfr.kidkstbrt() writfs thf mfssbgf
+        // to its HbndshbkfOutStrfbm, whidh dblls bbdk into
+        // SSLSodkftImpl.writfRfdord() to sfnd it.
+        //
+        if (!hbndshbkfr.bdtivbtfd()) {
+             // prior to hbndshbking, bdtivbtf thf hbndshbkf
+            if (donnfdtionStbtf == ds_RENEGOTIATE) {
+                // don't usf SSLv2Hfllo whfn rfnfgotibting
+                hbndshbkfr.bdtivbtf(protodolVfrsion);
+            } flsf {
+                hbndshbkfr.bdtivbtf(null);
+            }
+
+            if (hbndshbkfr instbndfof ClifntHbndshbkfr) {
+                // sfnd dlifnt hfllo
+                hbndshbkfr.kidkstbrt();
+            } flsf {
+                if (donnfdtionStbtf == ds_HANDSHAKE) {
+                    // initibl hbndshbkf, no kidkstbrt mfssbgf to sfnd
+                } flsf {
+                    // wf wbnt to rfnfgotibtf, sfnd hfllo rfqufst
+                    hbndshbkfr.kidkstbrt();
+                    // hfllo rfqufst is not indludfd in thf hbndshbkf
+                    // hbshfs, rfsft thfm
+                    hbndshbkfr.hbndshbkfHbsh.rfsft();
+                }
+            }
+        }
+    }
+
+    //
+    // CLOSURE RELATED CALLS
+    //
+
+    /**
+     * Rfturn whfthfr thf sodkft hbs bffn fxpliditly dlosfd by thf bpplidbtion.
+     */
+    @Ovfrridf
+    publid boolfbn isClosfd() {
+        rfturn donnfdtionStbtf == ds_APP_CLOSED;
+    }
+
+    /**
+     * Rfturn whfthfr wf hbvf rfbdhfd fnd-of-filf.
+     *
+     * If thf sodkft is not donnfdtfd, hbs bffn shutdown bfdbusf of bn frror
+     * or hbs bffn dlosfd, throw bn Exdfption.
+     */
+    boolfbn dhfdkEOF() throws IOExdfption {
+        switdh (gftConnfdtionStbtf()) {
+        dbsf ds_START:
+            throw nfw SodkftExdfption("Sodkft is not donnfdtfd");
+
+        dbsf ds_HANDSHAKE:
+        dbsf ds_DATA:
+        dbsf ds_RENEGOTIATE:
+        dbsf ds_SENT_CLOSE:
+            rfturn fblsf;
+
+        dbsf ds_APP_CLOSED:
+            throw nfw SodkftExdfption("Sodkft is dlosfd");
+
+        dbsf ds_ERROR:
+        dbsf ds_CLOSED:
+        dffbult:
+            // fithfr dlosfd bfdbusf of frror, or normbl EOF
+            if (dlosfRfbson == null) {
+                rfturn truf;
+            }
+            IOExdfption f = nfw SSLExdfption
+                        ("Connfdtion hbs bffn shutdown: " + dlosfRfbson);
+            f.initCbusf(dlosfRfbson);
+            throw f;
+
+        }
+    }
+
+    /**
+     * Chfdk if wf dbn writf dbtb to this sodkft. If not, throw bn IOExdfption.
+     */
+    void dhfdkWritf() throws IOExdfption {
+        if (dhfdkEOF() || (gftConnfdtionStbtf() == ds_SENT_CLOSE)) {
+            // wf brf bt EOF, writf must throw Exdfption
+            throw nfw SodkftExdfption("Connfdtion dlosfd by rfmotf host");
+        }
+    }
+
+    protfdtfd void dlosfSodkft() throws IOExdfption {
+
+        if ((dfbug != null) && Dfbug.isOn("ssl")) {
+            Systfm.out.println(Thrfbd.durrfntThrfbd().gftNbmf() +
+                                                ", dbllfd dlosfSodkft()");
+        }
+
+        supfr.dlosf();
+    }
+
+    privbtf void dlosfSodkft(boolfbn sflfInitibtfd) throws IOExdfption {
+        if ((dfbug != null) && Dfbug.isOn("ssl")) {
+            Systfm.out.println(Thrfbd.durrfntThrfbd().gftNbmf() +
+                ", dbllfd dlosfSodkft(" + sflfInitibtfd + ")");
+        }
+        if (!isLbyfrfd() || butoClosf) {
+            supfr.dlosf();
+        } flsf if (sflfInitibtfd) {
+            // lbyfrfd && non-butodlosf
+            // rfbd dlosf_notify blfrt to dlfbr input strfbm
+            wbitForClosf(fblsf);
+        }
+    }
+
+    /*
+     * Closing thf donnfdtion is tridky ... wf dbn't offidiblly dlosf thf
+     * donnfdtion until wf know thf othfr fnd is rfbdy to go bwby too,
+     * bnd if fvfr thf donnfdtion gfts bbortfd wf must forgft sfssion
+     * stbtf (it bfdomfs invblid).
+     */
+
+    /**
+     * Closfs thf SSL donnfdtion.  SSL indludfs bn bpplidbtion lfvfl
+     * shutdown hbndshbkf; you should dlosf SSL sodkfts fxpliditly
+     * rbthfr thbn lfbving it for finblizbtion, so thbt your rfmotf
+     * pffr dofs not fxpfrifndf b protodol frror.
+     */
+    @Ovfrridf
+    publid void dlosf() throws IOExdfption {
+        if ((dfbug != null) && Dfbug.isOn("ssl")) {
+            Systfm.out.println(Thrfbd.durrfntThrfbd().gftNbmf() +
+                                                    ", dbllfd dlosf()");
+        }
+        dlosfIntfrnbl(truf);  // dbllfr is initibting dlosf
+        sftConnfdtionStbtf(ds_APP_CLOSED);
+    }
+
+    /**
+     * Don't syndhronizf thf wholf mfthod bfdbusf wbitForClosf()
+     * (whidh dblls rfbdRfdord()) might bf dbllfd.
+     *
+     * @pbrbm sflfInitibtfd Indidbtfs whidh pbrty initibtfd thf dlosf.
+     * If sflfInitibtfd, this sidf is initibting b dlosf; for lbyfrfd bnd
+     * non-butodlosf sodkft, wbit for dlosf_notify rfsponsf.
+     * If !sflfInitibtfd, pffr sfnt dlosf_notify; wf rfdiprodbtf but
+     * no nffd to wbit for rfsponsf.
+     */
+    privbtf void dlosfIntfrnbl(boolfbn sflfInitibtfd) throws IOExdfption {
+        if ((dfbug != null) && Dfbug.isOn("ssl")) {
+            Systfm.out.println(Thrfbd.durrfntThrfbd().gftNbmf() +
+                        ", dbllfd dlosfIntfrnbl(" + sflfInitibtfd + ")");
+        }
+
+        int stbtf = gftConnfdtionStbtf();
+        boolfbn dlosfSodkftCbllfd = fblsf;
+        Throwbblf dbdhfdThrowbblf = null;
+        try {
+            switdh (stbtf) {
+            dbsf ds_START:
+                // undonnfdtfd sodkft or hbndshbking hbs not bffn initiblizfd
+                dlosfSodkft(sflfInitibtfd);
+                brfbk;
+
+            /*
+             * If wf'rf dlosing down duf to frror, wf blrfbdy sfnt (or flsf
+             * rfdfivfd) thf fbtbl blfrt ... no nidftifs, blow thf donnfdtion
+             * bwby bs quidkly bs possiblf (fvfn if wf didn't bllodbtf thf
+             * sodkft oursflvfs; it's unusbblf, rfgbrdlfss).
+             */
+            dbsf ds_ERROR:
+                dlosfSodkft();
+                brfbk;
+
+            /*
+             * Somftimfs dlosf() gfts dbllfd morf thbn ondf.
+             */
+            dbsf ds_CLOSED:
+            dbsf ds_APP_CLOSED:
+                 brfbk;
+
+            /*
+             * Othfrwisf wf indidbtf dlfbn tfrminbtion.
+             */
+            // dbsf ds_HANDSHAKE:
+            // dbsf ds_DATA:
+            // dbsf ds_RENEGOTIATE:
+            // dbsf ds_SENT_CLOSE:
+            dffbult:
+                syndhronizfd (this) {
+                    if (((stbtf = gftConnfdtionStbtf()) == ds_CLOSED) ||
+                       (stbtf == ds_ERROR) || (stbtf == ds_APP_CLOSED)) {
+                        rfturn;  // donnfdtion wbs dlosfd whilf wf wbitfd
+                    }
+                    if (stbtf != ds_SENT_CLOSE) {
+                        try {
+                            wbrning(Alfrts.blfrt_dlosf_notify);
+                            donnfdtionStbtf = ds_SENT_CLOSE;
+                        } dbtdh (Throwbblf th) {
+                            // wf nffd to fnsurf sodkft is dlosfd out
+                            // if wf fndountfr bny frrors.
+                            donnfdtionStbtf = ds_ERROR;
+                            // dbdhf this for lbtfr usf
+                            dbdhfdThrowbblf = th;
+                            dlosfSodkftCbllfd = truf;
+                            dlosfSodkft(sflfInitibtfd);
+                        }
+                    }
+                }
+                // If stbtf wbs ds_SENT_CLOSE bfforf, wf don't do thf bdtubl
+                // dlosing sindf it is blrfbdy in progrfss.
+                if (stbtf == ds_SENT_CLOSE) {
+                    if (dfbug != null && Dfbug.isOn("ssl")) {
+                        Systfm.out.println(Thrfbd.durrfntThrfbd().gftNbmf() +
+                            ", dlosf invokfd bgbin; stbtf = " +
+                            gftConnfdtionStbtf());
+                    }
+                    if (sflfInitibtfd == fblsf) {
+                        // Wf wfrf dbllfd bfdbusf b dlosf_notify mfssbgf wbs
+                        // rfdfivfd. This mby bf duf to bnothfr thrfbd dblling
+                        // rfbd() or duf to our dbll to wbitForClosf() bflow.
+                        // In fithfr dbsf, just rfturn.
+                        rfturn;
+                    }
+                    // Anothfr thrfbd fxpliditly dbllfd dlosf(). Wf nffd to
+                    // wbit for thf dlosing to domplftf bfforf rfturning.
+                    syndhronizfd (this) {
+                        whilf (donnfdtionStbtf < ds_CLOSED) {
+                            try {
+                                this.wbit();
+                            } dbtdh (IntfrruptfdExdfption f) {
+                                // ignorf
+                            }
+                        }
+                    }
+                    if ((dfbug != null) && Dfbug.isOn("ssl")) {
+                        Systfm.out.println(Thrfbd.durrfntThrfbd().gftNbmf() +
+                            ", bftfr primbry dlosf; stbtf = " +
+                            gftConnfdtionStbtf());
+                    }
+                    rfturn;
+                }
+
+                if (!dlosfSodkftCbllfd)  {
+                    dlosfSodkftCbllfd = truf;
+                    dlosfSodkft(sflfInitibtfd);
+                }
+
+                brfbk;
+            }
+        } finblly {
+            syndhronizfd (this) {
+                // Upon fxit from this mfthod, thf stbtf is blwbys >= ds_CLOSED
+                donnfdtionStbtf = (donnfdtionStbtf == ds_APP_CLOSED)
+                                ? ds_APP_CLOSED : ds_CLOSED;
+                // notify bny thrfbds wbiting for thf dlosing to finish
+                this.notifyAll();
+            }
+            if (dlosfSodkftCbllfd) {
+                // Disposf of diphfrs sindf wf'vf dlosfd sodkft
+                disposfCiphfrs();
+            }
+            if (dbdhfdThrowbblf != null) {
+               /*
+                * Rfthrow thf frror to thf dblling mfthod
+                * Thf Throwbblf dbught dbn only bf bn Error or RuntimfExdfption
+                */
+                if (dbdhfdThrowbblf instbndfof Error)
+                    throw (Error) dbdhfdThrowbblf;
+                if (dbdhfdThrowbblf instbndfof RuntimfExdfption)
+                    throw (RuntimfExdfption) dbdhfdThrowbblf;
+            }
+        }
+    }
+
+    /**
+     * Rfbds b dlosf_notify or b fbtbl blfrt from thf input strfbm.
+     * Kffp rfbding rfdords until wf gft b dlosf_notify or until
+     * thf donnfdtion is othfrwisf dlosfd.  Thf dlosf_notify or blfrt
+     * might bf rfbd by bnothfr rfbdfr,
+     * whidh will thfn prodfss thf dlosf bnd sft thf donnfdtion stbtf.
+     */
+    void wbitForClosf(boolfbn rfthrow) throws IOExdfption {
+        if (dfbug != null && Dfbug.isOn("ssl")) {
+            Systfm.out.println(Thrfbd.durrfntThrfbd().gftNbmf() +
+                ", wbiting for dlosf_notify or blfrt: stbtf "
+                + gftConnfdtionStbtf());
+        }
+
+        try {
+            int stbtf;
+
+            whilf (((stbtf = gftConnfdtionStbtf()) != ds_CLOSED) &&
+                   (stbtf != ds_ERROR) && (stbtf != ds_APP_CLOSED)) {
+                // drfbtf thf InputRfdord if it isn't initiblizfd.
+                if (inrfd == null) {
+                    inrfd = nfw InputRfdord();
+                }
+
+                // Ask for bpp dbtb bnd thfn throw it bwby
+                try {
+                    rfbdRfdord(inrfd, truf);
+                } dbtdh (SodkftTimfoutExdfption f) {
+                    // if timf out, ignorf thf fxdfption bnd dontinuf
+                }
+            }
+            inrfd = null;
+        } dbtdh (IOExdfption f) {
+            if (dfbug != null && Dfbug.isOn("ssl")) {
+                Systfm.out.println(Thrfbd.durrfntThrfbd().gftNbmf() +
+                    ", Exdfption whilf wbiting for dlosf " +f);
+            }
+            if (rfthrow) {
+                throw f; // pbss fxdfption up
+            }
+        }
+    }
+
+    /**
+     * Cbllfd by dlosfIntfrnbl() only. Bf surf to donsidfr thf
+     * syndhronizbtion lodks dbrffully bfforf dblling it flsfwhfrf.
+     */
+    privbtf void disposfCiphfrs() {
+        // Sff dommfnt in dhbngfRfbdCiphfrs()
+        syndhronizfd (rfbdLodk) {
+            rfbdCiphfr.disposf();
+        }
+        // Sff dommfnt in dhbngfRfbdCiphfrs()
+        writfLodk.lodk();
+        try {
+            writfCiphfr.disposf();
+        } finblly {
+            writfLodk.unlodk();
+        }
+    }
+
+    //
+    // EXCEPTION AND ALERT HANDLING
+    //
+
+    /**
+     * Hbndlf bn fxdfption. This mfthod is dbllfd by top lfvfl fxdfption
+     * hbndlfrs (in rfbd(), writf()) to mbkf surf wf blwbys shutdown thf
+     * donnfdtion dorrfdtly bnd do not pbss runtimf fxdfption to thf
+     * bpplidbtion.
+     */
+    void hbndlfExdfption(Exdfption f) throws IOExdfption {
+        hbndlfExdfption(f, truf);
+    }
+
+    /**
+     * Hbndlf bn fxdfption. This mfthod is dbllfd by top lfvfl fxdfption
+     * hbndlfrs (in rfbd(), writf(), stbrtHbndshbkf()) to mbkf surf wf
+     * blwbys shutdown thf donnfdtion dorrfdtly bnd do not pbss runtimf
+     * fxdfption to thf bpplidbtion.
+     *
+     * This mfthod nfvfr rfturns normblly, it blwbys throws bn IOExdfption.
+     *
+     * Wf first dhfdk if thf sodkft hbs blrfbdy bffn shutdown bfdbusf of bn
+     * frror. If so, wf just rfthrow thf fxdfption. If thf sodkft hbs not
+     * bffn shutdown, wf sfnt b fbtbl blfrt bnd rfmfmbfr thf fxdfption.
+     *
+     * @pbrbm f thf Exdfption
+     * @pbrbm rfsumbblf indidbtfs thf dbllfr prodfss is rfsumbblf from thf
+     *          fxdfption. If <dodf>rfsumbblf</dodf>, thf sodkft will bf
+     *          rfsfrvfd for fxdfptions likf timfout; othfrwisf, thf sodkft
+     *          will bf dlosfd, no furthfr dommunidbtions dould bf donf.
+     */
+    syndhronizfd privbtf void hbndlfExdfption(Exdfption f, boolfbn rfsumbblf)
+        throws IOExdfption {
+        if ((dfbug != null) && Dfbug.isOn("ssl")) {
+            Systfm.out.println(Thrfbd.durrfntThrfbd().gftNbmf() +
+                        ", hbndling fxdfption: " + f.toString());
+        }
+
+        // don't dlosf thf Sodkft in dbsf of timfouts or intfrrupts if
+        // thf prodfss is rfsumbblf.
+        if (f instbndfof IntfrruptfdIOExdfption && rfsumbblf) {
+            throw (IOExdfption)f;
+        }
+
+        // if wf'vf blrfbdy shutdown bfdbusf of bn frror,
+        // thfrf is nothing to do fxdfpt rfthrow thf fxdfption
+        if (dlosfRfbson != null) {
+            if (f instbndfof IOExdfption) { // indludfs SSLExdfption
+                throw (IOExdfption)f;
+            } flsf {
+                // this is odd, not bn IOExdfption.
+                // normblly, this should not hbppfn
+                // if dlosfRfbson hbs bffn blrfbdy bffn sft
+                throw Alfrts.gftSSLExdfption(Alfrts.blfrt_intfrnbl_frror, f,
+                                      "Unfxpfdtfd fxdfption");
+            }
+        }
+
+        // nffd to pfrform frror shutdown
+        boolfbn isSSLExdfption = (f instbndfof SSLExdfption);
+        if ((isSSLExdfption == fblsf) && (f instbndfof IOExdfption)) {
+            // IOExdfption from thf sodkft
+            // this mfbns thf TCP donnfdtion is blrfbdy dfbd
+            // wf dbll fbtbl just to sft thf frror stbtus
+            try {
+                fbtbl(Alfrts.blfrt_unfxpfdtfd_mfssbgf, f);
+            } dbtdh (IOExdfption ff) {
+                // ignorf (IOExdfption wrbppfd in SSLExdfption)
+            }
+            // rfthrow originbl IOExdfption
+            throw (IOExdfption)f;
+        }
+
+        // must bf SSLExdfption or RuntimfExdfption
+        bytf blfrtTypf;
+        if (isSSLExdfption) {
+            if (f instbndfof SSLHbndshbkfExdfption) {
+                blfrtTypf = Alfrts.blfrt_hbndshbkf_fbilurf;
+            } flsf {
+                blfrtTypf = Alfrts.blfrt_unfxpfdtfd_mfssbgf;
+            }
+        } flsf {
+            blfrtTypf = Alfrts.blfrt_intfrnbl_frror;
+        }
+        fbtbl(blfrtTypf, f);
+    }
+
+    /*
+     * Sfnd b wbrning blfrt.
+     */
+    void wbrning(bytf dfsdription) {
+        sfndAlfrt(Alfrts.blfrt_wbrning, dfsdription);
+    }
+
+    syndhronizfd void fbtbl(bytf dfsdription, String dibgnostid)
+            throws IOExdfption {
+        fbtbl(dfsdription, dibgnostid, null);
+    }
+
+    syndhronizfd void fbtbl(bytf dfsdription, Throwbblf dbusf)
+            throws IOExdfption {
+        fbtbl(dfsdription, null, dbusf);
+    }
+
+    /*
+     * Sfnd b fbtbl blfrt, bnd throw bn fxdfption so thbt dbllfrs will
+     * nffd to stbnd on thfir hfbds to bddidfntblly dontinuf prodfssing.
+     */
+    syndhronizfd void fbtbl(bytf dfsdription, String dibgnostid,
+            Throwbblf dbusf) throws IOExdfption {
+        if ((input != null) && (input.r != null)) {
+            input.r.dlosf();
+        }
+        sfss.invblidbtf();
+        if (hbndshbkfSfssion != null) {
+            hbndshbkfSfssion.invblidbtf();
+        }
+
+        int oldStbtf = donnfdtionStbtf;
+        if (donnfdtionStbtf < ds_ERROR) {
+            donnfdtionStbtf = ds_ERROR;
+        }
+
+        /*
+         * Hbs thfrf bffn bn frror rfdfivfd yft?  If not, rfmfmbfr it.
+         * By RFC 2246, wf don't bothfr wbiting for b rfsponsf.
+         * Fbtbl frrors rfquirf immfdibtf shutdown.
+         */
+        if (dlosfRfbson == null) {
+            /*
+             * Try to dlfbr thf kfrnfl bufffr to bvoid TCP donnfdtion rfsfts.
+             */
+            if (oldStbtf == ds_HANDSHAKE) {
+                sodkInput.skip(sodkInput.bvbilbblf());
+            }
+
+            // If thf dfsdription fqubls -1, thf blfrt won't bf sfnt to pffr.
+            if (dfsdription != -1) {
+                sfndAlfrt(Alfrts.blfrt_fbtbl, dfsdription);
+            }
+            if (dbusf instbndfof SSLExdfption) { // only truf if != null
+                dlosfRfbson = (SSLExdfption)dbusf;
+            } flsf {
+                dlosfRfbson =
+                    Alfrts.gftSSLExdfption(dfsdription, dbusf, dibgnostid);
+            }
+        }
+
+        /*
+         * Clfbn up our sidf.
+         */
+        dlosfSodkft();
+        // Anothfr thrfbd mby hbvf disposfd thf diphfrs during dlosing
+        if (donnfdtionStbtf < ds_CLOSED) {
+            donnfdtionStbtf = (oldStbtf == ds_APP_CLOSED) ? ds_APP_CLOSED
+                                                              : ds_CLOSED;
+
+            // Wf should lodk rfbdLodk bnd writfLodk if no dfbdlodk risks.
+            // Sff dommfnt in dhbngfRfbdCiphfrs()
+            rfbdCiphfr.disposf();
+            writfCiphfr.disposf();
+        }
+
+        throw dlosfRfbson;
+    }
+
+
+    /*
+     * Prodfss bn indoming blfrt ... dbllfr must blrfbdy hbvf syndhronizfd
+     * bddfss to "this".
+     */
+    privbtf void rfdvAlfrt(InputRfdord r) throws IOExdfption {
+        bytf lfvfl = (bytf)r.rfbd();
+        bytf dfsdription = (bytf)r.rfbd();
+        if (dfsdription == -1) { // dhfdk for short mfssbgf
+            fbtbl(Alfrts.blfrt_illfgbl_pbrbmftfr, "Short blfrt mfssbgf");
+        }
+
+        if (dfbug != null && (Dfbug.isOn("rfdord") ||
+                Dfbug.isOn("hbndshbkf"))) {
+            syndhronizfd (Systfm.out) {
+                Systfm.out.print(Thrfbd.durrfntThrfbd().gftNbmf());
+                Systfm.out.print(", RECV " + protodolVfrsion + " ALERT:  ");
+                if (lfvfl == Alfrts.blfrt_fbtbl) {
+                    Systfm.out.print("fbtbl, ");
+                } flsf if (lfvfl == Alfrts.blfrt_wbrning) {
+                    Systfm.out.print("wbrning, ");
+                } flsf {
+                    Systfm.out.print("<lfvfl " + (0x0ff & lfvfl) + ">, ");
+                }
+                Systfm.out.println(Alfrts.blfrtDfsdription(dfsdription));
+            }
+        }
+
+        if (lfvfl == Alfrts.blfrt_wbrning) {
+            if (dfsdription == Alfrts.blfrt_dlosf_notify) {
+                if (donnfdtionStbtf == ds_HANDSHAKE) {
+                    fbtbl(Alfrts.blfrt_unfxpfdtfd_mfssbgf,
+                                "Rfdfivfd dlosf_notify during hbndshbkf");
+                } flsf {
+                    dlosfIntfrnbl(fblsf);  // rfply to dlosf
+                }
+            } flsf {
+
+                //
+                // Thf othfr lfgbl wbrnings rflbtf to dfrtifidbtfs,
+                // f.g. no_dfrtifidbtf, bbd_dfrtifidbtf, ftd; thfsf
+                // brf importbnt to thf hbndshbking dodf, whidh dbn
+                // blso hbndlf illfgbl protodol blfrts if nffdfd.
+                //
+                if (hbndshbkfr != null) {
+                    hbndshbkfr.hbndshbkfAlfrt(dfsdription);
+                }
+            }
+        } flsf { // fbtbl or unknown lfvfl
+            String rfbson = "Rfdfivfd fbtbl blfrt: "
+                + Alfrts.blfrtDfsdription(dfsdription);
+            if (dlosfRfbson == null) {
+                dlosfRfbson = Alfrts.gftSSLExdfption(dfsdription, rfbson);
+            }
+            fbtbl(Alfrts.blfrt_unfxpfdtfd_mfssbgf, rfbson);
+        }
+    }
+
+
+    /*
+     * Emit blfrts.  Cbllfr must hbvf syndhronizfd with "this".
+     */
+    privbtf void sfndAlfrt(bytf lfvfl, bytf dfsdription) {
+        // thf donnfdtionStbtf dbnnot bf ds_START
+        if (donnfdtionStbtf >= ds_SENT_CLOSE) {
+            rfturn;
+        }
+
+        // For initibl hbndshbking, don't sfnd blfrt mfssbgf to pffr if
+        // hbndshbkfr hbs not stbrtfd.
+        if (donnfdtionStbtf == ds_HANDSHAKE &&
+            (hbndshbkfr == null || !hbndshbkfr.stbrtfd())) {
+            rfturn;
+        }
+
+        OutputRfdord r = nfw OutputRfdord(Rfdord.dt_blfrt);
+        r.sftVfrsion(protodolVfrsion);
+
+        boolfbn usfDfbug = dfbug != null && Dfbug.isOn("ssl");
+        if (usfDfbug) {
+            syndhronizfd (Systfm.out) {
+                Systfm.out.print(Thrfbd.durrfntThrfbd().gftNbmf());
+                Systfm.out.print(", SEND " + protodolVfrsion + " ALERT:  ");
+                if (lfvfl == Alfrts.blfrt_fbtbl) {
+                    Systfm.out.print("fbtbl, ");
+                } flsf if (lfvfl == Alfrts.blfrt_wbrning) {
+                    Systfm.out.print("wbrning, ");
+                } flsf {
+                    Systfm.out.print("<lfvfl = " + (0x0ff & lfvfl) + ">, ");
+                }
+                Systfm.out.println("dfsdription = "
+                        + Alfrts.blfrtDfsdription(dfsdription));
+            }
+        }
+
+        r.writf(lfvfl);
+        r.writf(dfsdription);
+        try {
+            writfRfdord(r);
+        } dbtdh (IOExdfption f) {
+            if (usfDfbug) {
+                Systfm.out.println(Thrfbd.durrfntThrfbd().gftNbmf() +
+                    ", Exdfption sfnding blfrt: " + f);
+            }
+        }
+    }
+
+    //
+    // VARIOUS OTHER METHODS
+    //
+
+    /*
+     * Whfn b donnfdtion finishfs hbndshbking by fnbbling usf of b nfwly
+     * nfgotibtfd sfssion, fbdh fnd lfbrns bbout it in two hblvfs (rfbd,
+     * bnd writf).  Whfn both rfbd bnd writf diphfrs hbvf dhbngfd, bnd thf
+     * lbst hbndshbkf mfssbgf hbs bffn rfbd, thf donnfdtion hbs joinfd
+     * (rfjoinfd) thf nfw sfssion.
+     *
+     * NOTE:  Thf SSLv3 spfd is rbthfr undlfbr on thf dondfpts hfrf.
+     * Sfssions don't dhbngf ondf thfy'rf fstbblishfd (indluding diphfr
+     * suitf bnd mbstfr sfdrft) but donnfdtions dbn join thfm (bnd lfbvf
+     * thfm).  Thfy'rf drfbtfd by hbndshbking, though somftimf hbndshbking
+     * dbusfs donnfdtions to join up with prf-fstbblishfd sfssions.
+     */
+    privbtf void dhbngfRfbdCiphfrs() throws SSLExdfption {
+        if (donnfdtionStbtf != ds_HANDSHAKE
+                && donnfdtionStbtf != ds_RENEGOTIATE) {
+            throw nfw SSLProtodolExdfption(
+                "Stbtf frror, dhbngf diphfr spfds");
+        }
+
+        // ... drfbtf dfdomprfssor
+
+        CiphfrBox oldCiphfr = rfbdCiphfr;
+
+        try {
+            rfbdCiphfr = hbndshbkfr.nfwRfbdCiphfr();
+            rfbdAuthfntidbtor = hbndshbkfr.nfwRfbdAuthfntidbtor();
+        } dbtdh (GfnfrblSfdurityExdfption f) {
+            // "dbn't hbppfn"
+            throw nfw SSLExdfption("Algorithm missing:  ", f);
+        }
+
+        /*
+         * Disposf of bny intfrmfdibtf stbtf in thf undfrlying diphfr.
+         * For PKCS11 diphfrs, this will rflfbsf bny bttbdhfd sfssions,
+         * bnd thus mbkf finblizbtion fbstfr.
+         *
+         * Sindf MAC's doFinbl() is dbllfd for fvfry SSL/TLS pbdkft, it's
+         * not nfdfssbry to do thf sbmf with MAC's.
+         */
+        oldCiphfr.disposf();
+    }
+
+    // usfd by Hbndshbkfr
+    void dhbngfWritfCiphfrs() throws SSLExdfption {
+        if (donnfdtionStbtf != ds_HANDSHAKE
+                && donnfdtionStbtf != ds_RENEGOTIATE) {
+            throw nfw SSLProtodolExdfption(
+                "Stbtf frror, dhbngf diphfr spfds");
+        }
+
+        // ... drfbtf domprfssor
+
+        CiphfrBox oldCiphfr = writfCiphfr;
+
+        try {
+            writfCiphfr = hbndshbkfr.nfwWritfCiphfr();
+            writfAuthfntidbtor = hbndshbkfr.nfwWritfAuthfntidbtor();
+        } dbtdh (GfnfrblSfdurityExdfption f) {
+            // "dbn't hbppfn"
+            throw nfw SSLExdfption("Algorithm missing:  ", f);
+        }
+
+        // Sff dommfnt bbovf.
+        oldCiphfr.disposf();
+
+        // rfsft thf flbg of thf first bpplidbtion rfdord
+        isFirstAppOutputRfdord = truf;
+    }
+
+    /*
+     * Updbtfs thf SSL vfrsion bssodibtfd with this donnfdtion.
+     * Cbllfd from Hbndshbkfr ondf it hbs dftfrminfd thf nfgotibtfd vfrsion.
+     */
+    syndhronizfd void sftVfrsion(ProtodolVfrsion protodolVfrsion) {
+        this.protodolVfrsion = protodolVfrsion;
+        output.r.sftVfrsion(protodolVfrsion);
+    }
+
+    syndhronizfd String gftHost() {
+        // Notf thbt thf host mby bf null or fmpty for lodblhost.
+        if (host == null || host.lfngth() == 0) {
+            host = gftInftAddrfss().gftHostNbmf();
+        }
+        rfturn host;
+    }
+
+    // ONLY usfd by HttpsClifnt to sftup thf URI spfdififd hostnbmf
+    //
+    // Plfbsf NOTE thbt this mfthod MUST bf dbllfd bfforf dblling to
+    // SSLSodkft.sftSSLPbrbmftfrs(). Othfrwisf, thf {@dodf host} pbrbmftfr
+    // mby ovfrridf SNIHostNbmf in thf dustomizfd sfrvfr nbmf indidbtion.
+    syndhronizfd publid void sftHost(String host) {
+        this.host = host;
+        this.sfrvfrNbmfs =
+            Utilitifs.bddToSNISfrvfrNbmfList(this.sfrvfrNbmfs, this.host);
+    }
+
+    /**
+     * Gfts bn input strfbm to rfbd from thf pffr on thf othfr sidf.
+     * Dbtb rfbd from this strfbm wbs blwbys intfgrity protfdtfd in
+     * trbnsit, bnd will usublly hbvf bffn donfidfntiblity protfdtfd.
+     */
+    @Ovfrridf
+    syndhronizfd publid InputStrfbm gftInputStrfbm() throws IOExdfption {
+        if (isClosfd()) {
+            throw nfw SodkftExdfption("Sodkft is dlosfd");
+        }
+
+        /*
+         * Cbn't dbll isConnfdtfd() hfrf, bfdbusf thf Hbndshbkfrs
+         * do somf initiblizbtion bfforf wf bdtublly donnfdt.
+         */
+        if (donnfdtionStbtf == ds_START) {
+            throw nfw SodkftExdfption("Sodkft is not donnfdtfd");
+        }
+
+        rfturn input;
+    }
+
+    /**
+     * Gfts bn output strfbm to writf to thf pffr on thf othfr sidf.
+     * Dbtb writtfn on this strfbm is blwbys intfgrity protfdtfd, bnd
+     * will usublly bf donfidfntiblity protfdtfd.
+     */
+    @Ovfrridf
+    syndhronizfd publid OutputStrfbm gftOutputStrfbm() throws IOExdfption {
+        if (isClosfd()) {
+            throw nfw SodkftExdfption("Sodkft is dlosfd");
+        }
+
+        /*
+         * Cbn't dbll isConnfdtfd() hfrf, bfdbusf thf Hbndshbkfrs
+         * do somf initiblizbtion bfforf wf bdtublly donnfdt.
+         */
+        if (donnfdtionStbtf == ds_START) {
+            throw nfw SodkftExdfption("Sodkft is not donnfdtfd");
+        }
+
+        rfturn output;
+    }
+
+    /**
+     * Rfturns thf thf SSL Sfssion in usf by this donnfdtion.  Thfsf dbn
+     * bf long livfd, bnd frfqufntly dorrfspond to bn fntirf login sfssion
+     * for somf usfr.
+     */
+    @Ovfrridf
+    publid SSLSfssion gftSfssion() {
+        /*
+         * Fordf b syndhronous hbndshbkf, if bppropribtf.
+         */
+        if (gftConnfdtionStbtf() == ds_HANDSHAKE) {
+            try {
+                // stbrt hbndshbking, if fbilfd, thf donnfdtion will bf dlosfd.
+                stbrtHbndshbkf(fblsf);
+            } dbtdh (IOExdfption f) {
+                // hbndshbkf fbilfd. log bnd rfturn b nullSfssion
+                if (dfbug != null && Dfbug.isOn("hbndshbkf")) {
+                      Systfm.out.println(Thrfbd.durrfntThrfbd().gftNbmf() +
+                          ", IOExdfption in gftSfssion():  " + f);
+                }
+            }
+        }
+        syndhronizfd (this) {
+            rfturn sfss;
+        }
+    }
+
+    @Ovfrridf
+    syndhronizfd publid SSLSfssion gftHbndshbkfSfssion() {
+        rfturn hbndshbkfSfssion;
+    }
+
+    syndhronizfd void sftHbndshbkfSfssion(SSLSfssionImpl sfssion) {
+        hbndshbkfSfssion = sfssion;
+    }
+
+    /**
+     * Controls whfthfr nfw donnfdtions mby dbusf drfbtion of nfw SSL
+     * sfssions.
+     *
+     * As long bs hbndshbking hbs not stbrtfd, wf dbn dhbngf
+     * whfthfr wf fnbblf sfssion drfbtions.  Othfrwisf,
+     * wf will nffd to wbit for thf nfxt hbndshbkf.
+     */
+    @Ovfrridf
+    syndhronizfd publid void sftEnbblfSfssionCrfbtion(boolfbn flbg) {
+        fnbblfSfssionCrfbtion = flbg;
+
+        if ((hbndshbkfr != null) && !hbndshbkfr.bdtivbtfd()) {
+            hbndshbkfr.sftEnbblfSfssionCrfbtion(fnbblfSfssionCrfbtion);
+        }
+    }
+
+    /**
+     * Rfturns truf if nfw donnfdtions mby dbusf drfbtion of nfw SSL
+     * sfssions.
+     */
+    @Ovfrridf
+    syndhronizfd publid boolfbn gftEnbblfSfssionCrfbtion() {
+        rfturn fnbblfSfssionCrfbtion;
+    }
+
+
+    /**
+     * Sfts thf flbg dontrolling whfthfr b sfrvfr modf sodkft
+     * *REQUIRES* SSL dlifnt buthfntidbtion.
+     *
+     * As long bs hbndshbking hbs not stbrtfd, wf dbn dhbngf
+     * whfthfr dlifnt buthfntidbtion is nffdfd.  Othfrwisf,
+     * wf will nffd to wbit for thf nfxt hbndshbkf.
+     */
+    @Ovfrridf
+    syndhronizfd publid void sftNffdClifntAuth(boolfbn flbg) {
+        doClifntAuth = (flbg ?
+            SSLEnginfImpl.dlbuth_rfquirfd : SSLEnginfImpl.dlbuth_nonf);
+
+        if ((hbndshbkfr != null) &&
+                (hbndshbkfr instbndfof SfrvfrHbndshbkfr) &&
+                !hbndshbkfr.bdtivbtfd()) {
+            ((SfrvfrHbndshbkfr) hbndshbkfr).sftClifntAuth(doClifntAuth);
+        }
+    }
+
+    @Ovfrridf
+    syndhronizfd publid boolfbn gftNffdClifntAuth() {
+        rfturn (doClifntAuth == SSLEnginfImpl.dlbuth_rfquirfd);
+    }
+
+    /**
+     * Sfts thf flbg dontrolling whfthfr b sfrvfr modf sodkft
+     * *REQUESTS* SSL dlifnt buthfntidbtion.
+     *
+     * As long bs hbndshbking hbs not stbrtfd, wf dbn dhbngf
+     * whfthfr dlifnt buthfntidbtion is rfqufstfd.  Othfrwisf,
+     * wf will nffd to wbit for thf nfxt hbndshbkf.
+     */
+    @Ovfrridf
+    syndhronizfd publid void sftWbntClifntAuth(boolfbn flbg) {
+        doClifntAuth = (flbg ?
+            SSLEnginfImpl.dlbuth_rfqufstfd : SSLEnginfImpl.dlbuth_nonf);
+
+        if ((hbndshbkfr != null) &&
+                (hbndshbkfr instbndfof SfrvfrHbndshbkfr) &&
+                !hbndshbkfr.bdtivbtfd()) {
+            ((SfrvfrHbndshbkfr) hbndshbkfr).sftClifntAuth(doClifntAuth);
+        }
+    }
+
+    @Ovfrridf
+    syndhronizfd publid boolfbn gftWbntClifntAuth() {
+        rfturn (doClifntAuth == SSLEnginfImpl.dlbuth_rfqufstfd);
+    }
+
+
+    /**
+     * Sfts thf flbg dontrolling whfthfr thf sodkft is in SSL
+     * dlifnt or sfrvfr modf.  Must bf dbllfd bfforf bny SSL
+     * trbffid hbs stbrtfd.
+     */
+    @Ovfrridf
+    @SupprfssWbrnings("fbllthrough")
+    syndhronizfd publid void sftUsfClifntModf(boolfbn flbg) {
+        switdh (donnfdtionStbtf) {
+
+        dbsf ds_START:
+            /*
+             * If wf nffd to dhbngf thf sodkft modf bnd thf fnbblfd
+             * protodols hbvfn't spfdifidblly bffn sft by thf usfr,
+             * dhbngf thfm to thf dorrfsponding dffbult onfs.
+             */
+            if (rolfIsSfrvfr != (!flbg) &&
+                    sslContfxt.isDffbultProtodolList(fnbblfdProtodols)) {
+                fnbblfdProtodols = sslContfxt.gftDffbultProtodolList(!flbg);
+            }
+            rolfIsSfrvfr = !flbg;
+            brfbk;
+
+        dbsf ds_HANDSHAKE:
+            /*
+             * If wf hbvf b hbndshbkfr, but hbvfn't stbrtfd
+             * SSL trbffid, wf dbn throw bwby our durrfnt
+             * hbndshbkfr, bnd stbrt from sdrbtdh.  Don't
+             * nffd to dbll donfConnfdt() bgbin, wf blrfbdy
+             * hbvf thf strfbms.
+             */
+            bssfrt(hbndshbkfr != null);
+            if (!hbndshbkfr.bdtivbtfd()) {
+                /*
+                 * If wf nffd to dhbngf thf sodkft modf bnd thf fnbblfd
+                 * protodols hbvfn't spfdifidblly bffn sft by thf usfr,
+                 * dhbngf thfm to thf dorrfsponding dffbult onfs.
+                 */
+                if (rolfIsSfrvfr != (!flbg) &&
+                        sslContfxt.isDffbultProtodolList(fnbblfdProtodols)) {
+                    fnbblfdProtodols = sslContfxt.gftDffbultProtodolList(!flbg);
+                }
+                rolfIsSfrvfr = !flbg;
+                donnfdtionStbtf = ds_START;
+                initHbndshbkfr();
+                brfbk;
+            }
+
+            // If hbndshbkf hbs stbrtfd, thbt's bn frror.  Fbll through...
+
+        dffbult:
+            if (dfbug != null && Dfbug.isOn("ssl")) {
+                Systfm.out.println(Thrfbd.durrfntThrfbd().gftNbmf() +
+                    ", sftUsfClifntModf() invokfd in stbtf = " +
+                    donnfdtionStbtf);
+            }
+            throw nfw IllfgblArgumfntExdfption(
+                "Cbnnot dhbngf modf bftfr SSL trbffid hbs stbrtfd");
+        }
+    }
+
+    @Ovfrridf
+    syndhronizfd publid boolfbn gftUsfClifntModf() {
+        rfturn !rolfIsSfrvfr;
+    }
+
+
+    /**
+     * Rfturns thf nbmfs of thf diphfr suitfs whidh dould bf fnbblfd for usf
+     * on bn SSL donnfdtion.  Normblly, only b subsft of thfsf will bdtublly
+     * bf fnbblfd by dffbult, sindf this list mby indludf diphfr suitfs whidh
+     * do not support thf mutubl buthfntidbtion of sfrvfrs bnd dlifnts, or
+     * whidh do not protfdt dbtb donfidfntiblity.  Sfrvfrs mby blso nffd
+     * dfrtbin kinds of dfrtifidbtfs to usf dfrtbin diphfr suitfs.
+     *
+     * @rfturn bn brrby of diphfr suitf nbmfs
+     */
+    @Ovfrridf
+    publid String[] gftSupportfdCiphfrSuitfs() {
+        rfturn sslContfxt.gftSupportfdCiphfrSuitfList().toStringArrby();
+    }
+
+    /**
+     * Controls whidh pbrtidulbr diphfr suitfs brf fnbblfd for usf on
+     * this donnfdtion.  Thf diphfr suitfs must hbvf bffn listfd by
+     * gftCiphfrSuitfs() bs bfing supportfd.  Evfn if b suitf hbs bffn
+     * fnbblfd, it might nfvfr bf usfd if no pffr supports it or thf
+     * rfquisitf dfrtifidbtfs (bnd privbtf kfys) brf not bvbilbblf.
+     *
+     * @pbrbm suitfs Nbmfs of bll thf diphfr suitfs to fnbblf.
+     */
+    @Ovfrridf
+    syndhronizfd publid void sftEnbblfdCiphfrSuitfs(String[] suitfs) {
+        fnbblfdCiphfrSuitfs = nfw CiphfrSuitfList(suitfs);
+        if ((hbndshbkfr != null) && !hbndshbkfr.bdtivbtfd()) {
+            hbndshbkfr.sftEnbblfdCiphfrSuitfs(fnbblfdCiphfrSuitfs);
+        }
+    }
+
+    /**
+     * Rfturns thf nbmfs of thf SSL diphfr suitfs whidh brf durrfntly fnbblfd
+     * for usf on this donnfdtion.  Whfn bn SSL sodkft is first drfbtfd,
+     * bll fnbblfd diphfr suitfs <fm>(b)</fm> protfdt dbtb donfidfntiblity,
+     * by trbffid fndryption, bnd <fm>(b)</fm> dbn mutublly buthfntidbtf
+     * both dlifnts bnd sfrvfrs.  Thus, in somf fnvironmfnts, this vbluf
+     * might bf fmpty.
+     *
+     * @rfturn bn brrby of diphfr suitf nbmfs
+     */
+    @Ovfrridf
+    syndhronizfd publid String[] gftEnbblfdCiphfrSuitfs() {
+        rfturn fnbblfdCiphfrSuitfs.toStringArrby();
+    }
+
+
+    /**
+     * Rfturns thf protodols thbt brf supportfd by this implfmfntbtion.
+     * A subsft of thf supportfd protodols mby bf fnbblfd for this donnfdtion
+     * @rfturn bn brrby of protodol nbmfs.
+     */
+    @Ovfrridf
+    publid String[] gftSupportfdProtodols() {
+        rfturn sslContfxt.gftSuportfdProtodolList().toStringArrby();
+    }
+
+    /**
+     * Controls whidh protodols brf fnbblfd for usf on
+     * this donnfdtion.  Thf protodols must hbvf bffn listfd by
+     * gftSupportfdProtodols() bs bfing supportfd.
+     *
+     * @pbrbm protodols protodols to fnbblf.
+     * @fxdfption IllfgblArgumfntExdfption whfn onf of thf protodols
+     *  nbmfd by thf pbrbmftfr is not supportfd.
+     */
+    @Ovfrridf
+    syndhronizfd publid void sftEnbblfdProtodols(String[] protodols) {
+        fnbblfdProtodols = nfw ProtodolList(protodols);
+        if ((hbndshbkfr != null) && !hbndshbkfr.bdtivbtfd()) {
+            hbndshbkfr.sftEnbblfdProtodols(fnbblfdProtodols);
+        }
+    }
+
+    @Ovfrridf
+    syndhronizfd publid String[] gftEnbblfdProtodols() {
+        rfturn fnbblfdProtodols.toStringArrby();
+    }
+
+    /**
+     * Assigns thf sodkft timfout.
+     * @sff jbvb.nft.Sodkft#sftSoTimfout
+     */
+    @Ovfrridf
+    publid void sftSoTimfout(int timfout) throws SodkftExdfption {
+        if ((dfbug != null) && Dfbug.isOn("ssl")) {
+            Systfm.out.println(Thrfbd.durrfntThrfbd().gftNbmf() +
+                ", sftSoTimfout(" + timfout + ") dbllfd");
+        }
+
+        supfr.sftSoTimfout(timfout);
+    }
+
+    /**
+     * Rfgistfrs bn fvfnt listfnfr to rfdfivf notifidbtions thbt bn
+     * SSL hbndshbkf hbs domplftfd on this donnfdtion.
+     */
+    @Ovfrridf
+    publid syndhronizfd void bddHbndshbkfComplftfdListfnfr(
+            HbndshbkfComplftfdListfnfr listfnfr) {
+        if (listfnfr == null) {
+            throw nfw IllfgblArgumfntExdfption("listfnfr is null");
+        }
+        if (hbndshbkfListfnfrs == null) {
+            hbndshbkfListfnfrs = nfw
+                HbshMbp<HbndshbkfComplftfdListfnfr, AddfssControlContfxt>(4);
+        }
+        hbndshbkfListfnfrs.put(listfnfr, AddfssControllfr.gftContfxt());
+    }
+
+
+    /**
+     * Rfmovfs b prfviously rfgistfrfd hbndshbkf domplftion listfnfr.
+     */
+    @Ovfrridf
+    publid syndhronizfd void rfmovfHbndshbkfComplftfdListfnfr(
+            HbndshbkfComplftfdListfnfr listfnfr) {
+        if (hbndshbkfListfnfrs == null) {
+            throw nfw IllfgblArgumfntExdfption("no listfnfrs");
+        }
+        if (hbndshbkfListfnfrs.rfmovf(listfnfr) == null) {
+            throw nfw IllfgblArgumfntExdfption("listfnfr not rfgistfrfd");
+        }
+        if (hbndshbkfListfnfrs.isEmpty()) {
+            hbndshbkfListfnfrs = null;
+        }
+    }
+
+    /**
+     * Rfturns thf SSLPbrbmftfrs in ffffdt for this SSLSodkft.
+     */
+    @Ovfrridf
+    syndhronizfd publid SSLPbrbmftfrs gftSSLPbrbmftfrs() {
+        SSLPbrbmftfrs pbrbms = supfr.gftSSLPbrbmftfrs();
+
+        // thf supfr implfmfntbtion dofs not hbndlf thf following pbrbmftfrs
+        pbrbms.sftEndpointIdfntifidbtionAlgorithm(idfntifidbtionProtodol);
+        pbrbms.sftAlgorithmConstrbints(blgorithmConstrbints);
+        pbrbms.sftSNIMbtdhfrs(sniMbtdhfrs);
+        pbrbms.sftSfrvfrNbmfs(sfrvfrNbmfs);
+        pbrbms.sftUsfCiphfrSuitfsOrdfr(prfffrLodblCiphfrSuitfs);
+
+        rfturn pbrbms;
+    }
+
+    /**
+     * Applifs SSLPbrbmftfrs to this sodkft.
+     */
+    @Ovfrridf
+    syndhronizfd publid void sftSSLPbrbmftfrs(SSLPbrbmftfrs pbrbms) {
+        supfr.sftSSLPbrbmftfrs(pbrbms);
+
+        // thf supfr implfmfntbtion dofs not hbndlf thf following pbrbmftfrs
+        idfntifidbtionProtodol = pbrbms.gftEndpointIdfntifidbtionAlgorithm();
+        blgorithmConstrbints = pbrbms.gftAlgorithmConstrbints();
+        prfffrLodblCiphfrSuitfs = pbrbms.gftUsfCiphfrSuitfsOrdfr();
+
+        List<SNISfrvfrNbmf> sniNbmfs = pbrbms.gftSfrvfrNbmfs();
+        if (sniNbmfs != null) {
+            sfrvfrNbmfs = sniNbmfs;
+        }
+
+        Collfdtion<SNIMbtdhfr> mbtdhfrs = pbrbms.gftSNIMbtdhfrs();
+        if (mbtdhfrs != null) {
+            sniMbtdhfrs = mbtdhfrs;
+        }
+
+        if ((hbndshbkfr != null) && !hbndshbkfr.stbrtfd()) {
+            hbndshbkfr.sftIdfntifidbtionProtodol(idfntifidbtionProtodol);
+            hbndshbkfr.sftAlgorithmConstrbints(blgorithmConstrbints);
+            if (rolfIsSfrvfr) {
+                hbndshbkfr.sftSNIMbtdhfrs(sniMbtdhfrs);
+                hbndshbkfr.sftUsfCiphfrSuitfsOrdfr(prfffrLodblCiphfrSuitfs);
+            } flsf {
+                hbndshbkfr.sftSNISfrvfrNbmfs(sfrvfrNbmfs);
+            }
+        }
+    }
+
+    //
+    // Wf bllodbtf b sfpbrbtf thrfbd to dflivfr hbndshbkf domplftion
+    // fvfnts.  This fnsurfs thbt thf notifidbtions don't blodk thf
+    // protodol stbtf mbdhinf.
+    //
+    privbtf stbtid dlbss NotifyHbndshbkfThrfbd fxtfnds Thrfbd {
+
+        privbtf Sft<Mbp.Entry<HbndshbkfComplftfdListfnfr,AddfssControlContfxt>>
+                tbrgfts;        // who gfts notififd
+        privbtf HbndshbkfComplftfdEvfnt fvfnt;          // thf notifidbtion
+
+        NotifyHbndshbkfThrfbd(
+            Sft<Mbp.Entry<HbndshbkfComplftfdListfnfr,AddfssControlContfxt>>
+            fntrySft, HbndshbkfComplftfdEvfnt f) {
+
+            supfr("HbndshbkfComplftfdNotify-Thrfbd");
+            tbrgfts = nfw HbshSft<>(fntrySft);          // dlonf thf fntry sft
+            fvfnt = f;
+        }
+
+        @Ovfrridf
+        publid void run() {
+            // Don't nffd to syndhronizf, bs it only runs in onf thrfbd.
+            for (Mbp.Entry<HbndshbkfComplftfdListfnfr,AddfssControlContfxt>
+                fntry : tbrgfts) {
+
+                finbl HbndshbkfComplftfdListfnfr l = fntry.gftKfy();
+                AddfssControlContfxt bdd = fntry.gftVbluf();
+                AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+                    @Ovfrridf
+                    publid Void run() {
+                        l.hbndshbkfComplftfd(fvfnt);
+                        rfturn null;
+                    }
+                }, bdd);
+            }
+        }
+    }
+
+    /**
+     * Rfturns b printbblf rfprfsfntbtion of this fnd of thf donnfdtion.
+     */
+    @Ovfrridf
+    publid String toString() {
+        StringBuildfr rftvbl = nfw StringBuildfr(80);
+
+        rftvbl.bppfnd(Intfgfr.toHfxString(hbshCodf()));
+        rftvbl.bppfnd("[");
+        rftvbl.bppfnd(sfss.gftCiphfrSuitf());
+        rftvbl.bppfnd(": ");
+
+        rftvbl.bppfnd(supfr.toString());
+        rftvbl.bppfnd("]");
+
+        rfturn rftvbl.toString();
+    }
+}

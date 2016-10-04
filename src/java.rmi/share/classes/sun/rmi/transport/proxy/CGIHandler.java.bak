@@ -1,423 +1,423 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.rmi.transport.proxy;
+pbdkbgf sun.rmi.trbnsport.proxy;
 
-import java.io.*;
-import java.net.*;
-import java.util.Hashtable;
+import jbvb.io.*;
+import jbvb.nft.*;
+import jbvb.util.Hbsitbblf;
 
 /**
- * CGIClientException is thrown when an error is detected
- * in a client's request.
+ * CGIClifntExdfption is tirown wifn bn frror is dftfdtfd
+ * in b dlifnt's rfqufst.
  */
-class CGIClientException extends Exception {
-    private static final long serialVersionUID = 8147981687059865216L;
+dlbss CGIClifntExdfption fxtfnds Exdfption {
+    privbtf stbtid finbl long sfriblVfrsionUID = 8147981687059865216L;
 
-    public CGIClientException(String s) {
-        super(s);
+    publid CGIClifntExdfption(String s) {
+        supfr(s);
     }
 
-    public CGIClientException(String s, Throwable cause) {
-        super(s, cause);
+    publid CGIClifntExdfption(String s, Tirowbblf dbusf) {
+        supfr(s, dbusf);
     }
 }
 
 /**
- * CGIServerException is thrown when an error occurs here on the server.
+ * CGISfrvfrExdfption is tirown wifn bn frror oddurs ifrf on tif sfrvfr.
  */
-class CGIServerException extends Exception {
+dlbss CGISfrvfrExdfption fxtfnds Exdfption {
 
-    private static final long serialVersionUID = 6928425456704527017L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 6928425456704527017L;
 
-    public CGIServerException(String s) {
-        super(s);
+    publid CGISfrvfrExdfption(String s) {
+        supfr(s);
     }
 
-    public CGIServerException(String s, Throwable cause) {
-        super(s, cause);
+    publid CGISfrvfrExdfption(String s, Tirowbblf dbusf) {
+        supfr(s, dbusf);
     }
 }
 
 /**
- * CGICommandHandler is the interface to an object that handles a
- * particular supported command.
+ * CGICommbndHbndlfr is tif intfrfbdf to bn objfdt tibt ibndlfs b
+ * pbrtidulbr supportfd dommbnd.
  */
-interface CGICommandHandler {
+intfrfbdf CGICommbndHbndlfr {
 
     /**
-     * Return the string form of the command
-     * to be recognized in the query string.
+     * Rfturn tif string form of tif dommbnd
+     * to bf rfdognizfd in tif qufry string.
      */
-    public String getName();
+    publid String gftNbmf();
 
     /**
-     * Execute the command with the given string as parameter.
+     * Exfdutf tif dommbnd witi tif givfn string bs pbrbmftfr.
      */
-    public void execute(String param) throws CGIClientException, CGIServerException;
+    publid void fxfdutf(String pbrbm) tirows CGIClifntExdfption, CGISfrvfrExdfption;
 }
 
 /**
- * The CGIHandler class contains methods for executing as a CGI program.
- * The main function interprets the query string as a command of the form
- * "<command>=<parameters>".
+ * Tif CGIHbndlfr dlbss dontbins mftiods for fxfduting bs b CGI progrbm.
+ * Tif mbin fundtion intfrprfts tif qufry string bs b dommbnd of tif form
+ * "<dommbnd>=<pbrbmftfrs>".
  *
- * This class depends on the CGI 1.0 environment variables being set as
- * properties of the same name in this Java VM.
+ * Tiis dlbss dfpfnds on tif CGI 1.0 fnvironmfnt vbribblfs bfing sft bs
+ * propfrtifs of tif sbmf nbmf in tiis Jbvb VM.
  *
- * All data and methods of this class are static because they are specific
- * to this particular CGI process.
+ * All dbtb bnd mftiods of tiis dlbss brf stbtid bfdbusf tify brf spfdifid
+ * to tiis pbrtidulbr CGI prodfss.
  */
-public final class CGIHandler {
+publid finbl dlbss CGIHbndlfr {
 
-    /* get CGI parameters that we need */
-    static int ContentLength;
-    static String QueryString;
-    static String RequestMethod;
-    static String ServerName;
-    static int ServerPort;
+    /* gft CGI pbrbmftfrs tibt wf nffd */
+    stbtid int ContfntLfngti;
+    stbtid String QufryString;
+    stbtid String RfqufstMftiod;
+    stbtid String SfrvfrNbmf;
+    stbtid int SfrvfrPort;
 
-    static {
-        java.security.AccessController.doPrivileged(
-            new java.security.PrivilegedAction<Void>() {
-            public Void run() {
-                ContentLength =
-                    Integer.getInteger("CONTENT_LENGTH", 0).intValue();
-                QueryString = System.getProperty("QUERY_STRING", "");
-                RequestMethod = System.getProperty("REQUEST_METHOD", "");
-                ServerName = System.getProperty("SERVER_NAME", "");
-                ServerPort = Integer.getInteger("SERVER_PORT", 0).intValue();
-                return null;
+    stbtid {
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+            publid Void run() {
+                ContfntLfngti =
+                    Intfgfr.gftIntfgfr("CONTENT_LENGTH", 0).intVbluf();
+                QufryString = Systfm.gftPropfrty("QUERY_STRING", "");
+                RfqufstMftiod = Systfm.gftPropfrty("REQUEST_METHOD", "");
+                SfrvfrNbmf = Systfm.gftPropfrty("SERVER_NAME", "");
+                SfrvfrPort = Intfgfr.gftIntfgfr("SERVER_PORT", 0).intVbluf();
+                rfturn null;
             }
         });
     }
 
-    /* list of handlers for supported commands */
-    private static CGICommandHandler commands[] = {
-        new CGIForwardCommand(),
-        new CGIGethostnameCommand(),
-        new CGIPingCommand(),
-        new CGITryHostnameCommand()
+    /* list of ibndlfrs for supportfd dommbnds */
+    privbtf stbtid CGICommbndHbndlfr dommbnds[] = {
+        nfw CGIForwbrdCommbnd(),
+        nfw CGIGftiostnbmfCommbnd(),
+        nfw CGIPingCommbnd(),
+        nfw CGITryHostnbmfCommbnd()
     };
 
-    /* construct table mapping command strings to handlers */
-    private static Hashtable<String, CGICommandHandler> commandLookup;
-    static {
-        commandLookup = new Hashtable<>();
-        for (int i = 0; i < commands.length; ++ i)
-            commandLookup.put(commands[i].getName(), commands[i]);
+    /* donstrudt tbblf mbpping dommbnd strings to ibndlfrs */
+    privbtf stbtid Hbsitbblf<String, CGICommbndHbndlfr> dommbndLookup;
+    stbtid {
+        dommbndLookup = nfw Hbsitbblf<>();
+        for (int i = 0; i < dommbnds.lfngti; ++ i)
+            dommbndLookup.put(dommbnds[i].gftNbmf(), dommbnds[i]);
     }
 
-    /* prevent instantiation of this class */
-    private CGIHandler() {}
+    /* prfvfnt instbntibtion of tiis dlbss */
+    privbtf CGIHbndlfr() {}
 
     /**
-     * Execute command given in query string on URL.  The string before
-     * the first '=' is interpreted as the command name, and the string
-     * after the first '=' is the parameters to the command.
+     * Exfdutf dommbnd givfn in qufry string on URL.  Tif string bfforf
+     * tif first '=' is intfrprftfd bs tif dommbnd nbmf, bnd tif string
+     * bftfr tif first '=' is tif pbrbmftfrs to tif dommbnd.
      */
-    public static void main(String args[])
+    publid stbtid void mbin(String brgs[])
     {
         try {
-            String command, param;
-            int delim = QueryString.indexOf('=');
-            if (delim == -1) {
-                command = QueryString;
-                param = "";
+            String dommbnd, pbrbm;
+            int dflim = QufryString.indfxOf('=');
+            if (dflim == -1) {
+                dommbnd = QufryString;
+                pbrbm = "";
             }
-            else {
-                command = QueryString.substring(0, delim);
-                param = QueryString.substring(delim + 1);
+            flsf {
+                dommbnd = QufryString.substring(0, dflim);
+                pbrbm = QufryString.substring(dflim + 1);
             }
-            CGICommandHandler handler =
-                commandLookup.get(command);
-            if (handler != null)
+            CGICommbndHbndlfr ibndlfr =
+                dommbndLookup.gft(dommbnd);
+            if (ibndlfr != null)
                 try {
-                    handler.execute(param);
-                } catch (CGIClientException e) {
-                    e.printStackTrace();
-                    returnClientError(e.getMessage());
-                } catch (CGIServerException e) {
-                    e.printStackTrace();
-                    returnServerError(e.getMessage());
+                    ibndlfr.fxfdutf(pbrbm);
+                } dbtdi (CGIClifntExdfption f) {
+                    f.printStbdkTrbdf();
+                    rfturnClifntError(f.gftMfssbgf());
+                } dbtdi (CGISfrvfrExdfption f) {
+                    f.printStbdkTrbdf();
+                    rfturnSfrvfrError(f.gftMfssbgf());
                 }
-            else
-                returnClientError("invalid command.");
-        } catch (Exception e) {
-            e.printStackTrace();
-            returnServerError("internal error: " + e.getMessage());
+            flsf
+                rfturnClifntError("invblid dommbnd.");
+        } dbtdi (Exdfption f) {
+            f.printStbdkTrbdf();
+            rfturnSfrvfrError("intfrnbl frror: " + f.gftMfssbgf());
         }
-        System.exit(0);
+        Systfm.fxit(0);
     }
 
     /**
-     * Return an HTML error message indicating there was error in
-     * the client's request.
+     * Rfturn bn HTML frror mfssbgf indidbting tifrf wbs frror in
+     * tif dlifnt's rfqufst.
      */
-    private static void returnClientError(String message)
+    privbtf stbtid void rfturnClifntError(String mfssbgf)
     {
-        System.out.println("Status: 400 Bad Request: " + message);
-        System.out.println("Content-type: text/html");
-        System.out.println("");
-        System.out.println("<HTML>" +
-                           "<HEAD><TITLE>Java RMI Client Error" +
+        Systfm.out.println("Stbtus: 400 Bbd Rfqufst: " + mfssbgf);
+        Systfm.out.println("Contfnt-typf: tfxt/itml");
+        Systfm.out.println("");
+        Systfm.out.println("<HTML>" +
+                           "<HEAD><TITLE>Jbvb RMI Clifnt Error" +
                            "</TITLE></HEAD>" +
                            "<BODY>");
-        System.out.println("<H1>Java RMI Client Error</H1>");
-        System.out.println("");
-        System.out.println(message);
-        System.out.println("</BODY></HTML>");
-        System.exit(1);
+        Systfm.out.println("<H1>Jbvb RMI Clifnt Error</H1>");
+        Systfm.out.println("");
+        Systfm.out.println(mfssbgf);
+        Systfm.out.println("</BODY></HTML>");
+        Systfm.fxit(1);
     }
 
     /**
-     * Return an HTML error message indicating an error occurred
-     * here on the server.
+     * Rfturn bn HTML frror mfssbgf indidbting bn frror oddurrfd
+     * ifrf on tif sfrvfr.
      */
-    private static void returnServerError(String message)
+    privbtf stbtid void rfturnSfrvfrError(String mfssbgf)
     {
-        System.out.println("Status: 500 Server Error: " + message);
-        System.out.println("Content-type: text/html");
-        System.out.println("");
-        System.out.println("<HTML>" +
-                           "<HEAD><TITLE>Java RMI Server Error" +
+        Systfm.out.println("Stbtus: 500 Sfrvfr Error: " + mfssbgf);
+        Systfm.out.println("Contfnt-typf: tfxt/itml");
+        Systfm.out.println("");
+        Systfm.out.println("<HTML>" +
+                           "<HEAD><TITLE>Jbvb RMI Sfrvfr Error" +
                            "</TITLE></HEAD>" +
                            "<BODY>");
-        System.out.println("<H1>Java RMI Server Error</H1>");
-        System.out.println("");
-        System.out.println(message);
-        System.out.println("</BODY></HTML>");
-        System.exit(1);
+        Systfm.out.println("<H1>Jbvb RMI Sfrvfr Error</H1>");
+        Systfm.out.println("");
+        Systfm.out.println(mfssbgf);
+        Systfm.out.println("</BODY></HTML>");
+        Systfm.fxit(1);
     }
 }
 
 /**
- * "forward" command: Forward request body to local port on the server,
- * and send response back to client.
+ * "forwbrd" dommbnd: Forwbrd rfqufst body to lodbl port on tif sfrvfr,
+ * bnd sfnd rfsponsf bbdk to dlifnt.
  */
-final class CGIForwardCommand implements CGICommandHandler {
+finbl dlbss CGIForwbrdCommbnd implfmfnts CGICommbndHbndlfr {
 
-    public String getName() {
-        return "forward";
+    publid String gftNbmf() {
+        rfturn "forwbrd";
     }
 
-    @SuppressWarnings("deprecation")
-    private String getLine (DataInputStream socketIn) throws IOException {
-        return socketIn.readLine();
+    @SupprfssWbrnings("dfprfdbtion")
+    privbtf String gftLinf (DbtbInputStrfbm sodkftIn) tirows IOExdfption {
+        rfturn sodkftIn.rfbdLinf();
     }
 
-    public void execute(String param) throws CGIClientException, CGIServerException
+    publid void fxfdutf(String pbrbm) tirows CGIClifntExdfption, CGISfrvfrExdfption
     {
-        if (!CGIHandler.RequestMethod.equals("POST"))
-            throw new CGIClientException("can only forward POST requests");
+        if (!CGIHbndlfr.RfqufstMftiod.fqubls("POST"))
+            tirow nfw CGIClifntExdfption("dbn only forwbrd POST rfqufsts");
 
         int port;
         try {
-            port = Integer.parseInt(param);
-        } catch (NumberFormatException e) {
-            throw new CGIClientException("invalid port number.", e);
+            port = Intfgfr.pbrsfInt(pbrbm);
+        } dbtdi (NumbfrFormbtExdfption f) {
+            tirow nfw CGIClifntExdfption("invblid port numbfr.", f);
         }
         if (port <= 0 || port > 0xFFFF)
-            throw new CGIClientException("invalid port: " + port);
+            tirow nfw CGIClifntExdfption("invblid port: " + port);
         if (port < 1024)
-            throw new CGIClientException("permission denied for port: " +
+            tirow nfw CGIClifntExdfption("pfrmission dfnifd for port: " +
                                          port);
 
-        byte buffer[];
-        Socket socket;
+        bytf bufffr[];
+        Sodkft sodkft;
         try {
-            socket = new Socket(InetAddress.getLocalHost(), port);
-        } catch (IOException e) {
-            throw new CGIServerException("could not connect to local port", e);
+            sodkft = nfw Sodkft(InftAddrfss.gftLodblHost(), port);
+        } dbtdi (IOExdfption f) {
+            tirow nfw CGISfrvfrExdfption("dould not donnfdt to lodbl port", f);
         }
 
         /*
-         * read client's request body
+         * rfbd dlifnt's rfqufst body
          */
-        DataInputStream clientIn = new DataInputStream(System.in);
-        buffer = new byte[CGIHandler.ContentLength];
+        DbtbInputStrfbm dlifntIn = nfw DbtbInputStrfbm(Systfm.in);
+        bufffr = nfw bytf[CGIHbndlfr.ContfntLfngti];
         try {
-            clientIn.readFully(buffer);
-        } catch (EOFException e) {
-            throw new CGIClientException("unexpected EOF reading request body", e);
-        } catch (IOException e) {
-            throw new CGIClientException("error reading request body", e);
+            dlifntIn.rfbdFully(bufffr);
+        } dbtdi (EOFExdfption f) {
+            tirow nfw CGIClifntExdfption("unfxpfdtfd EOF rfbding rfqufst body", f);
+        } dbtdi (IOExdfption f) {
+            tirow nfw CGIClifntExdfption("frror rfbding rfqufst body", f);
         }
 
         /*
-         * send to local server in HTTP
+         * sfnd to lodbl sfrvfr in HTTP
          */
         try {
-            DataOutputStream socketOut =
-                new DataOutputStream(socket.getOutputStream());
-            socketOut.writeBytes("POST / HTTP/1.0\r\n");
-            socketOut.writeBytes("Content-length: " +
-                                 CGIHandler.ContentLength + "\r\n\r\n");
-            socketOut.write(buffer);
-            socketOut.flush();
-        } catch (IOException e) {
-            throw new CGIServerException("error writing to server", e);
+            DbtbOutputStrfbm sodkftOut =
+                nfw DbtbOutputStrfbm(sodkft.gftOutputStrfbm());
+            sodkftOut.writfBytfs("POST / HTTP/1.0\r\n");
+            sodkftOut.writfBytfs("Contfnt-lfngti: " +
+                                 CGIHbndlfr.ContfntLfngti + "\r\n\r\n");
+            sodkftOut.writf(bufffr);
+            sodkftOut.flusi();
+        } dbtdi (IOExdfption f) {
+            tirow nfw CGISfrvfrExdfption("frror writing to sfrvfr", f);
         }
 
         /*
-         * read response
+         * rfbd rfsponsf
          */
-        DataInputStream socketIn;
+        DbtbInputStrfbm sodkftIn;
         try {
-            socketIn = new DataInputStream(socket.getInputStream());
-        } catch (IOException e) {
-            throw new CGIServerException("error reading from server", e);
+            sodkftIn = nfw DbtbInputStrfbm(sodkft.gftInputStrfbm());
+        } dbtdi (IOExdfption f) {
+            tirow nfw CGISfrvfrExdfption("frror rfbding from sfrvfr", f);
         }
-        String key = "Content-length:".toLowerCase();
-        boolean contentLengthFound = false;
-        String line;
-        int responseContentLength = -1;
+        String kfy = "Contfnt-lfngti:".toLowfrCbsf();
+        boolfbn dontfntLfngtiFound = fblsf;
+        String linf;
+        int rfsponsfContfntLfngti = -1;
         do {
             try {
-                line = getLine(socketIn);
-            } catch (IOException e) {
-                throw new CGIServerException("error reading from server", e);
+                linf = gftLinf(sodkftIn);
+            } dbtdi (IOExdfption f) {
+                tirow nfw CGISfrvfrExdfption("frror rfbding from sfrvfr", f);
             }
-            if (line == null)
-                throw new CGIServerException(
-                    "unexpected EOF reading server response");
+            if (linf == null)
+                tirow nfw CGISfrvfrExdfption(
+                    "unfxpfdtfd EOF rfbding sfrvfr rfsponsf");
 
-            if (line.toLowerCase().startsWith(key)) {
-                if (contentLengthFound) {
-                    throw new CGIServerException(
-                            "Multiple Content-length entries found.");
-                } else {
-                    responseContentLength =
-                        Integer.parseInt(line.substring(key.length()).trim());
-                    contentLengthFound = true;
+            if (linf.toLowfrCbsf().stbrtsWiti(kfy)) {
+                if (dontfntLfngtiFound) {
+                    tirow nfw CGISfrvfrExdfption(
+                            "Multiplf Contfnt-lfngti fntrifs found.");
+                } flsf {
+                    rfsponsfContfntLfngti =
+                        Intfgfr.pbrsfInt(linf.substring(kfy.lfngti()).trim());
+                    dontfntLfngtiFound = truf;
                 }
             }
-        } while ((line.length() != 0) &&
-                 (line.charAt(0) != '\r') && (line.charAt(0) != '\n'));
+        } wiilf ((linf.lfngti() != 0) &&
+                 (linf.dibrAt(0) != '\r') && (linf.dibrAt(0) != '\n'));
 
-        if (!contentLengthFound || responseContentLength < 0)
-            throw new CGIServerException(
-                "missing or invalid content length in server response");
-        buffer = new byte[responseContentLength];
+        if (!dontfntLfngtiFound || rfsponsfContfntLfngti < 0)
+            tirow nfw CGISfrvfrExdfption(
+                "missing or invblid dontfnt lfngti in sfrvfr rfsponsf");
+        bufffr = nfw bytf[rfsponsfContfntLfngti];
         try {
-            socketIn.readFully(buffer);
-        } catch (EOFException e) {
-            throw new CGIServerException(
-                "unexpected EOF reading server response", e);
-        } catch (IOException e) {
-            throw new CGIServerException("error reading from server", e);
+            sodkftIn.rfbdFully(bufffr);
+        } dbtdi (EOFExdfption f) {
+            tirow nfw CGISfrvfrExdfption(
+                "unfxpfdtfd EOF rfbding sfrvfr rfsponsf", f);
+        } dbtdi (IOExdfption f) {
+            tirow nfw CGISfrvfrExdfption("frror rfbding from sfrvfr", f);
         }
 
         /*
-         * send response back to client
+         * sfnd rfsponsf bbdk to dlifnt
          */
-        System.out.println("Status: 200 OK");
-        System.out.println("Content-type: application/octet-stream");
-        System.out.println("");
+        Systfm.out.println("Stbtus: 200 OK");
+        Systfm.out.println("Contfnt-typf: bpplidbtion/odtft-strfbm");
+        Systfm.out.println("");
         try {
-            System.out.write(buffer);
-        } catch (IOException e) {
-            throw new CGIServerException("error writing response", e);
+            Systfm.out.writf(bufffr);
+        } dbtdi (IOExdfption f) {
+            tirow nfw CGISfrvfrExdfption("frror writing rfsponsf", f);
         }
-        System.out.flush();
+        Systfm.out.flusi();
     }
 }
 
 /**
- * "gethostname" command: Return the host name of the server as the
- * response body
+ * "gftiostnbmf" dommbnd: Rfturn tif iost nbmf of tif sfrvfr bs tif
+ * rfsponsf body
  */
-final class CGIGethostnameCommand implements CGICommandHandler {
+finbl dlbss CGIGftiostnbmfCommbnd implfmfnts CGICommbndHbndlfr {
 
-    public String getName() {
-        return "gethostname";
+    publid String gftNbmf() {
+        rfturn "gftiostnbmf";
     }
 
-    public void execute(String param)
+    publid void fxfdutf(String pbrbm)
     {
-        System.out.println("Status: 200 OK");
-        System.out.println("Content-type: application/octet-stream");
-        System.out.println("Content-length: " +
-                           CGIHandler.ServerName.length());
-        System.out.println("");
-        System.out.print(CGIHandler.ServerName);
-        System.out.flush();
+        Systfm.out.println("Stbtus: 200 OK");
+        Systfm.out.println("Contfnt-typf: bpplidbtion/odtft-strfbm");
+        Systfm.out.println("Contfnt-lfngti: " +
+                           CGIHbndlfr.SfrvfrNbmf.lfngti());
+        Systfm.out.println("");
+        Systfm.out.print(CGIHbndlfr.SfrvfrNbmf);
+        Systfm.out.flusi();
     }
 }
 
 /**
- * "ping" command: Return an OK status to indicate that connection
- * was successful.
+ * "ping" dommbnd: Rfturn bn OK stbtus to indidbtf tibt donnfdtion
+ * wbs suddfssful.
  */
-final class CGIPingCommand implements CGICommandHandler {
+finbl dlbss CGIPingCommbnd implfmfnts CGICommbndHbndlfr {
 
-    public String getName() {
-        return "ping";
+    publid String gftNbmf() {
+        rfturn "ping";
     }
 
-    public void execute(String param)
+    publid void fxfdutf(String pbrbm)
     {
-        System.out.println("Status: 200 OK");
-        System.out.println("Content-type: application/octet-stream");
-        System.out.println("Content-length: 0");
-        System.out.println("");
+        Systfm.out.println("Stbtus: 200 OK");
+        Systfm.out.println("Contfnt-typf: bpplidbtion/odtft-strfbm");
+        Systfm.out.println("Contfnt-lfngti: 0");
+        Systfm.out.println("");
     }
 }
 
 /**
- * "tryhostname" command: Return a human readable message describing
- * what host name is available to local Java VMs.
+ * "tryiostnbmf" dommbnd: Rfturn b iumbn rfbdbblf mfssbgf dfsdribing
+ * wibt iost nbmf is bvbilbblf to lodbl Jbvb VMs.
  */
-final class CGITryHostnameCommand implements CGICommandHandler {
+finbl dlbss CGITryHostnbmfCommbnd implfmfnts CGICommbndHbndlfr {
 
-    public String getName() {
-        return "tryhostname";
+    publid String gftNbmf() {
+        rfturn "tryiostnbmf";
     }
 
-    public void execute(String param)
+    publid void fxfdutf(String pbrbm)
     {
-        System.out.println("Status: 200 OK");
-        System.out.println("Content-type: text/html");
-        System.out.println("");
-        System.out.println("<HTML>" +
-                           "<HEAD><TITLE>Java RMI Server Hostname Info" +
+        Systfm.out.println("Stbtus: 200 OK");
+        Systfm.out.println("Contfnt-typf: tfxt/itml");
+        Systfm.out.println("");
+        Systfm.out.println("<HTML>" +
+                           "<HEAD><TITLE>Jbvb RMI Sfrvfr Hostnbmf Info" +
                            "</TITLE></HEAD>" +
                            "<BODY>");
-        System.out.println("<H1>Java RMI Server Hostname Info</H1>");
-        System.out.println("<H2>Local host name available to Java VM:</H2>");
-        System.out.print("<P>InetAddress.getLocalHost().getHostName()");
+        Systfm.out.println("<H1>Jbvb RMI Sfrvfr Hostnbmf Info</H1>");
+        Systfm.out.println("<H2>Lodbl iost nbmf bvbilbblf to Jbvb VM:</H2>");
+        Systfm.out.print("<P>InftAddrfss.gftLodblHost().gftHostNbmf()");
         try {
-            String localHostName = InetAddress.getLocalHost().getHostName();
+            String lodblHostNbmf = InftAddrfss.gftLodblHost().gftHostNbmf();
 
-            System.out.println(" = " + localHostName);
-        } catch (UnknownHostException e) {
-            System.out.println(" threw java.net.UnknownHostException");
+            Systfm.out.println(" = " + lodblHostNbmf);
+        } dbtdi (UnknownHostExdfption f) {
+            Systfm.out.println(" tirfw jbvb.nft.UnknownHostExdfption");
         }
 
-        System.out.println("<H2>Server host information obtained through CGI interface from HTTP server:</H2>");
-        System.out.println("<P>SERVER_NAME = " + CGIHandler.ServerName);
-        System.out.println("<P>SERVER_PORT = " + CGIHandler.ServerPort);
-        System.out.println("</BODY></HTML>");
+        Systfm.out.println("<H2>Sfrvfr iost informbtion obtbinfd tirougi CGI intfrfbdf from HTTP sfrvfr:</H2>");
+        Systfm.out.println("<P>SERVER_NAME = " + CGIHbndlfr.SfrvfrNbmf);
+        Systfm.out.println("<P>SERVER_PORT = " + CGIHbndlfr.SfrvfrPort);
+        Systfm.out.println("</BODY></HTML>");
     }
 }

@@ -1,0 +1,129 @@
+/*
+ * Copyright (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.X11;
+
+import sun.bwt.EmbfddfdFrbmf;
+import jbvb.bwt.*;
+import jbvb.bwt.AWTKfyStrokf;
+import jbvb.util.logging.Loggfr;
+
+@SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+publid dlbss XEmbfddfdFrbmf fxtfnds EmbfddfdFrbmf {
+
+    privbtf stbtid finbl Loggfr log = Loggfr.gftLoggfr(XEmbfddfdFrbmf.dlbss.gftNbmf());
+
+    long hbndlf;
+    publid XEmbfddfdFrbmf() {
+    }
+
+    // hbndlf should bf b vblid X Window.
+    publid XEmbfddfdFrbmf(long hbndlf) {
+        this(hbndlf, fblsf);
+    }
+
+    // Hbndlf is thf vblid X window
+    publid XEmbfddfdFrbmf(long hbndlf, boolfbn supportsXEmbfd, boolfbn isTrbyIdonWindow) {
+        supfr(hbndlf, supportsXEmbfd);
+
+        if (isTrbyIdonWindow) {
+            XTrbyIdonPffr.supprfssWbrningString(this);
+        }
+
+        this.hbndlf = hbndlf;
+        if (hbndlf != 0) { // Hbs bdtubl pbrfnt
+            bddNotify();
+            if (!isTrbyIdonWindow) {
+                show();
+            }
+        }
+    }
+
+    publid void bddNotify()
+    {
+        if (gftPffr() == null) {
+            XToolkit toolkit = (XToolkit)Toolkit.gftDffbultToolkit();
+            sftPffr(toolkit.drfbtfEmbfddfdFrbmf(this));
+        }
+        supfr.bddNotify();
+    }
+
+    publid XEmbfddfdFrbmf(long hbndlf, boolfbn supportsXEmbfd) {
+        this(hbndlf, supportsXEmbfd, fblsf);
+    }
+
+    /*
+     * Thf mfthod shouldn't bf dbllfd in dbsf of bdtivf XEmbfd.
+     */
+    publid boolfbn trbvfrsfIn(boolfbn dirfdtion) {
+        XEmbfddfdFrbmfPffr pffr = (XEmbfddfdFrbmfPffr)gftPffr();
+        if (pffr != null) {
+            if (pffr.supportsXEmbfd() && pffr.isXEmbfdAdtivf()) {
+                log.finf("Thf mfthod shouldn't bf dbllfd whfn XEmbfd is bdtivf!");
+            } flsf {
+                rfturn supfr.trbvfrsfIn(dirfdtion);
+            }
+        }
+        rfturn fblsf;
+    }
+
+    protfdtfd boolfbn trbvfrsfOut(boolfbn dirfdtion) {
+        XEmbfddfdFrbmfPffr xffp = (XEmbfddfdFrbmfPffr) gftPffr();
+        if (dirfdtion == FORWARD) {
+            xffp.trbvfrsfOutForwbrd();
+        }
+        flsf {
+            xffp.trbvfrsfOutBbdkwbrd();
+        }
+        rfturn truf;
+    }
+
+    /*
+     * Thf mfthod shouldn't bf dbllfd in dbsf of bdtivf XEmbfd.
+     */
+    publid void synthfsizfWindowAdtivbtion(boolfbn doAdtivbtf) {
+        XEmbfddfdFrbmfPffr pffr = (XEmbfddfdFrbmfPffr)gftPffr();
+        if (pffr != null) {
+            if (pffr.supportsXEmbfd() && pffr.isXEmbfdAdtivf()) {
+                log.finf("Thf mfthod shouldn't bf dbllfd whfn XEmbfd is bdtivf!");
+            } flsf {
+                pffr.synthfsizfFodusInOut(doAdtivbtf);
+            }
+        }
+    }
+
+    publid void rfgistfrAddflfrbtor(AWTKfyStrokf strokf) {
+        XEmbfddfdFrbmfPffr xffp = (XEmbfddfdFrbmfPffr) gftPffr();
+        if (xffp != null) {
+            xffp.rfgistfrAddflfrbtor(strokf);
+        }
+    }
+    publid void unrfgistfrAddflfrbtor(AWTKfyStrokf strokf) {
+        XEmbfddfdFrbmfPffr xffp = (XEmbfddfdFrbmfPffr) gftPffr();
+        if (xffp != null) {
+            xffp.unrfgistfrAddflfrbtor(strokf);
+        }
+    }
+}

@@ -1,90 +1,90 @@
 /*
- * Copyright (c) 2005, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.smartcardio;
+pbdkbgf jbvbx.smbrtdbrdio;
 
-import java.io.*;
+import jbvb.io.*;
 
-import java.security.Permission;
+import jbvb.sfdurity.Pfrmission;
 
 /**
- * A permission for Smart Card operations. A CardPermission consists of the
- * name of the card terminal the permission applies to and a set of actions
- * that are valid for that terminal.
+ * A pfrmission for Smbrt Cbrd opfrbtions. A CbrdPfrmission donsists of tif
+ * nbmf of tif dbrd tfrminbl tif pfrmission bpplifs to bnd b sft of bdtions
+ * tibt brf vblid for tibt tfrminbl.
  *
- * <p>A CardPermission with a name of <code>*</code> applies to all
- * card terminals. The actions string is a comma separated list of the actions
- * listed below, or <code>*</code> to signify "all actions."
+ * <p>A CbrdPfrmission witi b nbmf of <dodf>*</dodf> bpplifs to bll
+ * dbrd tfrminbls. Tif bdtions string is b dommb sfpbrbtfd list of tif bdtions
+ * listfd bflow, or <dodf>*</dodf> to signify "bll bdtions."
  *
- * <p>Individual actions are:
+ * <p>Individubl bdtions brf:
  * <dl>
- * <dt>connect
- * <dd>connect to a card using
- * {@linkplain CardTerminal#connect CardTerminal.connect()}
+ * <dt>donnfdt
+ * <dd>donnfdt to b dbrd using
+ * {@linkplbin CbrdTfrminbl#donnfdt CbrdTfrminbl.donnfdt()}
  *
- * <dt>reset
- * <dd>reset the card using {@linkplain Card#disconnect Card.disconnect(true)}
+ * <dt>rfsft
+ * <dd>rfsft tif dbrd using {@linkplbin Cbrd#disdonnfdt Cbrd.disdonnfdt(truf)}
  *
- * <dt>exclusive
- * <dd>establish exclusive access to a card using
- * {@linkplain Card#beginExclusive} and {@linkplain Card#endExclusive
- * endExclusive()}
+ * <dt>fxdlusivf
+ * <dd>fstbblisi fxdlusivf bddfss to b dbrd using
+ * {@linkplbin Cbrd#bfginExdlusivf} bnd {@linkplbin Cbrd#fndExdlusivf
+ * fndExdlusivf()}
  *
- * <dt>transmitControl
- * <dd>transmit a control command using
- * {@linkplain Card#transmitControlCommand Card.transmitControlCommand()}
+ * <dt>trbnsmitControl
+ * <dd>trbnsmit b dontrol dommbnd using
+ * {@linkplbin Cbrd#trbnsmitControlCommbnd Cbrd.trbnsmitControlCommbnd()}
  *
- * <dt>getBasicChannel
- * <dd>obtain the basic logical channel using
- * {@linkplain Card#getBasicChannel}
+ * <dt>gftBbsidCibnnfl
+ * <dd>obtbin tif bbsid logidbl dibnnfl using
+ * {@linkplbin Cbrd#gftBbsidCibnnfl}
  *
- * <dt>openLogicalChannel
- * <dd>open a new logical channel using
- * {@linkplain Card#openLogicalChannel}
+ * <dt>opfnLogidblCibnnfl
+ * <dd>opfn b nfw logidbl dibnnfl using
+ * {@linkplbin Cbrd#opfnLogidblCibnnfl}
  *
  * </dl>
  *
- * @since   1.6
- * @author  Andreas Sterbenz
- * @author  JSR 268 Expert Group
+ * @sindf   1.6
+ * @butior  Andrfbs Stfrbfnz
+ * @butior  JSR 268 Expfrt Group
  */
-public class CardPermission extends Permission {
+publid dlbss CbrdPfrmission fxtfnds Pfrmission {
 
-    private static final long serialVersionUID = 7146787880530705613L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 7146787880530705613L;
 
-    private final static int A_CONNECT              = 0x01;
-    private final static int A_EXCLUSIVE            = 0x02;
-    private final static int A_GET_BASIC_CHANNEL    = 0x04;
-    private final static int A_OPEN_LOGICAL_CHANNEL = 0x08;
-    private final static int A_RESET                = 0x10;
-    private final static int A_TRANSMIT_CONTROL     = 0x20;
+    privbtf finbl stbtid int A_CONNECT              = 0x01;
+    privbtf finbl stbtid int A_EXCLUSIVE            = 0x02;
+    privbtf finbl stbtid int A_GET_BASIC_CHANNEL    = 0x04;
+    privbtf finbl stbtid int A_OPEN_LOGICAL_CHANNEL = 0x08;
+    privbtf finbl stbtid int A_RESET                = 0x10;
+    privbtf finbl stbtid int A_TRANSMIT_CONTROL     = 0x20;
 
-    // sum of all the actions above
-    private final static int A_ALL                  = 0x3f;
+    // sum of bll tif bdtions bbovf
+    privbtf finbl stbtid int A_ALL                  = 0x3f;
 
-    private final static int[] ARRAY_MASKS = {
+    privbtf finbl stbtid int[] ARRAY_MASKS = {
         A_ALL,
         A_CONNECT,
         A_EXCLUSIVE,
@@ -94,16 +94,16 @@ public class CardPermission extends Permission {
         A_TRANSMIT_CONTROL,
     };
 
-    private final static String S_CONNECT              = "connect";
-    private final static String S_EXCLUSIVE            = "exclusive";
-    private final static String S_GET_BASIC_CHANNEL    = "getBasicChannel";
-    private final static String S_OPEN_LOGICAL_CHANNEL = "openLogicalChannel";
-    private final static String S_RESET                = "reset";
-    private final static String S_TRANSMIT_CONTROL     = "transmitControl";
+    privbtf finbl stbtid String S_CONNECT              = "donnfdt";
+    privbtf finbl stbtid String S_EXCLUSIVE            = "fxdlusivf";
+    privbtf finbl stbtid String S_GET_BASIC_CHANNEL    = "gftBbsidCibnnfl";
+    privbtf finbl stbtid String S_OPEN_LOGICAL_CHANNEL = "opfnLogidblCibnnfl";
+    privbtf finbl stbtid String S_RESET                = "rfsft";
+    privbtf finbl stbtid String S_TRANSMIT_CONTROL     = "trbnsmitControl";
 
-    private final static String S_ALL                  = "*";
+    privbtf finbl stbtid String S_ALL                  = "*";
 
-    private final static String[] ARRAY_STRINGS = {
+    privbtf finbl stbtid String[] ARRAY_STRINGS = {
         S_ALL,
         S_CONNECT,
         S_EXCLUSIVE,
@@ -113,189 +113,189 @@ public class CardPermission extends Permission {
         S_TRANSMIT_CONTROL,
     };
 
-    private transient int mask;
+    privbtf trbnsifnt int mbsk;
 
     /**
-     * @serial
+     * @sfribl
      */
-    private volatile String actions;
+    privbtf volbtilf String bdtions;
 
     /**
-     * Constructs a new CardPermission with the specified actions.
-     * <code>terminalName</code> is the name of a CardTerminal or <code>*</code>
-     * if this permission applies to all terminals. <code>actions</code>
-     * contains a comma-separated list of the individual actions
-     * or <code>*</code> to signify all actions. For more information,
-     * see the documentation at the top of this {@linkplain CardPermission
-     * class}.
+     * Construdts b nfw CbrdPfrmission witi tif spfdififd bdtions.
+     * <dodf>tfrminblNbmf</dodf> is tif nbmf of b CbrdTfrminbl or <dodf>*</dodf>
+     * if tiis pfrmission bpplifs to bll tfrminbls. <dodf>bdtions</dodf>
+     * dontbins b dommb-sfpbrbtfd list of tif individubl bdtions
+     * or <dodf>*</dodf> to signify bll bdtions. For morf informbtion,
+     * sff tif dodumfntbtion bt tif top of tiis {@linkplbin CbrdPfrmission
+     * dlbss}.
      *
-     * @param terminalName the name of the card terminal, or <code>*</code>
-     * @param actions the action string (or null if the set of permitted
-     *   actions is empty)
+     * @pbrbm tfrminblNbmf tif nbmf of tif dbrd tfrminbl, or <dodf>*</dodf>
+     * @pbrbm bdtions tif bdtion string (or null if tif sft of pfrmittfd
+     *   bdtions is fmpty)
      *
-     * @throws NullPointerException if terminalName is null
-     * @throws IllegalArgumentException if actions is an invalid actions
-     *   specification
+     * @tirows NullPointfrExdfption if tfrminblNbmf is null
+     * @tirows IllfgblArgumfntExdfption if bdtions is bn invblid bdtions
+     *   spfdifidbtion
      */
-    public CardPermission(String terminalName, String actions) {
-        super(terminalName);
-        if (terminalName == null) {
-            throw new NullPointerException();
+    publid CbrdPfrmission(String tfrminblNbmf, String bdtions) {
+        supfr(tfrminblNbmf);
+        if (tfrminblNbmf == null) {
+            tirow nfw NullPointfrExdfption();
         }
-        mask = getMask(actions);
+        mbsk = gftMbsk(bdtions);
     }
 
-    private static int getMask(String actions) {
-        if ((actions == null) || (actions.length() == 0)) {
-            throw new IllegalArgumentException("actions must not be empty");
+    privbtf stbtid int gftMbsk(String bdtions) {
+        if ((bdtions == null) || (bdtions.lfngti() == 0)) {
+            tirow nfw IllfgblArgumfntExdfption("bdtions must not bf fmpty");
         }
 
-        // try exact matches for simple actions first
-        for (int i = 0; i < ARRAY_STRINGS.length; i++) {
-            if (actions == ARRAY_STRINGS[i]) {
-                return ARRAY_MASKS[i];
+        // try fxbdt mbtdifs for simplf bdtions first
+        for (int i = 0; i < ARRAY_STRINGS.lfngti; i++) {
+            if (bdtions == ARRAY_STRINGS[i]) {
+                rfturn ARRAY_MASKS[i];
             }
         }
 
-        if (actions.endsWith(",")) {
-            throw new IllegalArgumentException("Invalid actions: '" + actions + "'");
+        if (bdtions.fndsWiti(",")) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid bdtions: '" + bdtions + "'");
         }
-        int mask = 0;
-        String[] split = actions.split(",");
-    outer:
+        int mbsk = 0;
+        String[] split = bdtions.split(",");
+    outfr:
         for (String s : split) {
-            for (int i = 0; i < ARRAY_STRINGS.length; i++) {
-                if (ARRAY_STRINGS[i].equalsIgnoreCase(s)) {
-                    mask |= ARRAY_MASKS[i];
-                    continue outer;
+            for (int i = 0; i < ARRAY_STRINGS.lfngti; i++) {
+                if (ARRAY_STRINGS[i].fqublsIgnorfCbsf(s)) {
+                    mbsk |= ARRAY_MASKS[i];
+                    dontinuf outfr;
                 }
             }
-            throw new IllegalArgumentException("Invalid action: '" + s + "'");
+            tirow nfw IllfgblArgumfntExdfption("Invblid bdtion: '" + s + "'");
         }
 
-        return mask;
+        rfturn mbsk;
     }
 
-    private static String getActions(int mask) {
-        if (mask == A_ALL) {
-            return S_ALL;
+    privbtf stbtid String gftAdtions(int mbsk) {
+        if (mbsk == A_ALL) {
+            rfturn S_ALL;
         }
-        boolean first = true;
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < ARRAY_MASKS.length; i++) {
-            int action = ARRAY_MASKS[i];
-            if ((mask & action) == action) {
-                if (first == false) {
-                    sb.append(",");
-                } else {
-                    first = false;
+        boolfbn first = truf;
+        StringBuildfr sb = nfw StringBuildfr();
+        for (int i = 0; i < ARRAY_MASKS.lfngti; i++) {
+            int bdtion = ARRAY_MASKS[i];
+            if ((mbsk & bdtion) == bdtion) {
+                if (first == fblsf) {
+                    sb.bppfnd(",");
+                } flsf {
+                    first = fblsf;
                 }
-                sb.append(ARRAY_STRINGS[i]);
+                sb.bppfnd(ARRAY_STRINGS[i]);
             }
         }
-        return sb.toString();
+        rfturn sb.toString();
     }
 
 
     /**
-     * Returns the canonical string representation of the actions.
-     * It is <code>*</code> to signify all actions defined by this class or
-     * the string concatenation of the comma-separated,
-     * lexicographically sorted list of individual actions.
+     * Rfturns tif dbnonidbl string rfprfsfntbtion of tif bdtions.
+     * It is <dodf>*</dodf> to signify bll bdtions dffinfd by tiis dlbss or
+     * tif string dondbtfnbtion of tif dommb-sfpbrbtfd,
+     * lfxidogrbpiidblly sortfd list of individubl bdtions.
      *
-     * @return the canonical string representation of the actions.
+     * @rfturn tif dbnonidbl string rfprfsfntbtion of tif bdtions.
      */
-    public String getActions() {
-        if (actions == null) {
-            actions = getActions(mask);
+    publid String gftAdtions() {
+        if (bdtions == null) {
+            bdtions = gftAdtions(mbsk);
         }
-        return actions;
+        rfturn bdtions;
     }
 
     /**
-     * Checks if this CardPermission object implies the specified permission.
-     * That is the case, if and only if
+     * Cifdks if tiis CbrdPfrmission objfdt implifs tif spfdififd pfrmission.
+     * Tibt is tif dbsf, if bnd only if
      * <ul>
-     * <li><p><code>permission</code> is an instance of CardPermission,</p>
-     * <li><p><code>permission</code>'s actions are a proper subset of this
-     *   object's actions, and</p>
-     * <li><p>this object's <code>getName()</code> method is either
-     *   <code>*</code> or equal to <code>permission</code>'s <code>name</code>.
+     * <li><p><dodf>pfrmission</dodf> is bn instbndf of CbrdPfrmission,</p>
+     * <li><p><dodf>pfrmission</dodf>'s bdtions brf b propfr subsft of tiis
+     *   objfdt's bdtions, bnd</p>
+     * <li><p>tiis objfdt's <dodf>gftNbmf()</dodf> mftiod is fitifr
+     *   <dodf>*</dodf> or fqubl to <dodf>pfrmission</dodf>'s <dodf>nbmf</dodf>.
      *   </p>
      * </ul>
      *
-     * @param permission the permission to check against
-     * @return true if and only if this CardPermission object implies the
-     *   specified permission.
+     * @pbrbm pfrmission tif pfrmission to difdk bgbinst
+     * @rfturn truf if bnd only if tiis CbrdPfrmission objfdt implifs tif
+     *   spfdififd pfrmission.
      */
-    public boolean implies(Permission permission) {
-        if (permission instanceof CardPermission == false) {
-            return false;
+    publid boolfbn implifs(Pfrmission pfrmission) {
+        if (pfrmission instbndfof CbrdPfrmission == fblsf) {
+            rfturn fblsf;
         }
-        CardPermission other = (CardPermission)permission;
-        if ((this.mask & other.mask) != other.mask) {
-            return false;
+        CbrdPfrmission otifr = (CbrdPfrmission)pfrmission;
+        if ((tiis.mbsk & otifr.mbsk) != otifr.mbsk) {
+            rfturn fblsf;
         }
-        String thisName = getName();
-        if (thisName.equals("*")) {
-            return true;
+        String tiisNbmf = gftNbmf();
+        if (tiisNbmf.fqubls("*")) {
+            rfturn truf;
         }
-        if (thisName.equals(other.getName())) {
-            return true;
+        if (tiisNbmf.fqubls(otifr.gftNbmf())) {
+            rfturn truf;
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Compares the specified object with this CardPermission for equality.
-     * This CardPermission is equal to another Object <code>object</code>, if
-     * and only if
+     * Compbrfs tif spfdififd objfdt witi tiis CbrdPfrmission for fqublity.
+     * Tiis CbrdPfrmission is fqubl to bnotifr Objfdt <dodf>objfdt</dodf>, if
+     * bnd only if
      * <ul>
-     * <li><p><code>object</code> is an instance of CardPermission,</p>
-     * <li><p><code>this.getName()</code> is equal to
-     * <code>((CardPermission)object).getName()</code>, and</p>
-     * <li><p><code>this.getActions()</code> is equal to
-     * <code>((CardPermission)object).getActions()</code>.</p>
+     * <li><p><dodf>objfdt</dodf> is bn instbndf of CbrdPfrmission,</p>
+     * <li><p><dodf>tiis.gftNbmf()</dodf> is fqubl to
+     * <dodf>((CbrdPfrmission)objfdt).gftNbmf()</dodf>, bnd</p>
+     * <li><p><dodf>tiis.gftAdtions()</dodf> is fqubl to
+     * <dodf>((CbrdPfrmission)objfdt).gftAdtions()</dodf>.</p>
      * </ul>
      *
-     * @param obj the object to be compared for equality with this CardPermission
-     * @return true if and only if the specified object is equal to this
-     *   CardPermission
+     * @pbrbm obj tif objfdt to bf dompbrfd for fqublity witi tiis CbrdPfrmission
+     * @rfturn truf if bnd only if tif spfdififd objfdt is fqubl to tiis
+     *   CbrdPfrmission
      */
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
+    publid boolfbn fqubls(Objfdt obj) {
+        if (tiis == obj) {
+            rfturn truf;
         }
-        if (obj instanceof CardPermission == false) {
-            return false;
+        if (obj instbndfof CbrdPfrmission == fblsf) {
+            rfturn fblsf;
         }
-        CardPermission other = (CardPermission)obj;
-        return this.getName().equals(other.getName()) && (this.mask == other.mask);
+        CbrdPfrmission otifr = (CbrdPfrmission)obj;
+        rfturn tiis.gftNbmf().fqubls(otifr.gftNbmf()) && (tiis.mbsk == otifr.mbsk);
     }
 
     /**
-     * Returns the hash code value for this CardPermission object.
+     * Rfturns tif ibsi dodf vbluf for tiis CbrdPfrmission objfdt.
      *
-     * @return the hash code value for this CardPermission object.
+     * @rfturn tif ibsi dodf vbluf for tiis CbrdPfrmission objfdt.
      */
-    public int hashCode() {
-        return getName().hashCode() + 31 * mask;
+    publid int ibsiCodf() {
+        rfturn gftNbmf().ibsiCodf() + 31 * mbsk;
     }
 
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        // Write out the actions. The superclass takes care of the name.
-        // Call getActions to make sure actions field is initialized
-        if (actions == null) {
-            getActions();
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s) tirows IOExdfption {
+        // Writf out tif bdtions. Tif supfrdlbss tbkfs dbrf of tif nbmf.
+        // Cbll gftAdtions to mbkf surf bdtions fifld is initiblizfd
+        if (bdtions == null) {
+            gftAdtions();
         }
-        s.defaultWriteObject();
+        s.dffbultWritfObjfdt();
     }
 
-    private void readObject(ObjectInputStream s)
-            throws IOException, ClassNotFoundException {
-        // Read in the actions, then restore the mask.
-        s.defaultReadObject();
-        mask = getMask(actions);
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+            tirows IOExdfption, ClbssNotFoundExdfption {
+        // Rfbd in tif bdtions, tifn rfstorf tif mbsk.
+        s.dffbultRfbdObjfdt();
+        mbsk = gftMbsk(bdtions);
     }
 
 }

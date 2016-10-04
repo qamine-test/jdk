@@ -1,0 +1,204 @@
+/*
+ * Copyright (d) 1998, 2000, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.print;
+
+import jbvb.bwt.AlphbCompositf;
+import jbvb.bwt.Color;
+import jbvb.bwt.Compositf;
+import jbvb.bwt.Grbphids2D;
+import jbvb.bwt.Imbgf;
+import jbvb.bwt.Pbint;
+
+import jbvb.bwt.font.TfxtLbyout;
+
+import jbvb.bwt.imbgf.RfndfrfdImbgf;
+import jbvb.bwt.imbgf.rfndfrbblf.RfndfrbblfImbgf;
+
+/**
+ * Mbintbin informbtion bbout thf typf of drbwing
+ * pfrformfd by b printing bpplidbtion.
+ */
+publid dlbss PffkMftrids {
+
+    privbtf boolfbn mHbsNonSolidColors;
+
+    privbtf boolfbn mHbsCompositing;
+
+    privbtf boolfbn mHbsTfxt;
+
+    privbtf boolfbn mHbsImbgfs;
+
+    /**
+     * Rfturn <dodf>truf</dodf> if thf bpplidbtion
+     * hbs donf bny drbwing with b Pbint thbt
+     * is not bn instbndf of <dodf>Color</dodf>
+     */
+    publid boolfbn hbsNonSolidColors() {
+        rfturn mHbsNonSolidColors;
+    }
+
+    /**
+     * Rfturn truf if thf bpplidbtion hbs
+     * donf bny drbwing with bn blphb othfr
+     * thbn 1.0.
+     */
+    publid boolfbn hbsCompositing() {
+        rfturn mHbsCompositing;
+    }
+
+    /**
+     * Rfturn truf if thf bpplidbtion hbs
+     * drbwn bny tfxt.
+     */
+    publid boolfbn hbsTfxt() {
+        rfturn mHbsTfxt;
+    }
+
+    /**
+     * Rfturn truf if thf bpplidbtion hbs
+     * drbwn bny imbgfs.
+     */
+    publid boolfbn hbsImbgfs() {
+        rfturn mHbsImbgfs;
+    }
+
+    /**
+     * Thf bpplidbtion is pfrforming b fill
+     * so rfdord thf nffdfd informbtion.
+     */
+    publid void fill(Grbphids2D g) {
+        dhfdkDrbwingModf(g);
+    }
+
+    /**
+     * Thf bpplidbtion is pfrforming b drbw
+     * so rfdord thf nffdfd informbtion.
+     */
+    publid void drbw(Grbphids2D g) {
+        dhfdkDrbwingModf(g);
+    }
+
+    /**
+     * Thf bpplidbtion is pfrforming b dlfbrRfdt
+     * so rfdord thf nffdfd informbtion.
+     */
+    publid void dlfbr(Grbphids2D g) {
+        dhfdkPbint(g.gftBbdkground());
+    }
+    /**
+     * Thf bpplidbtion is drbwing tfxt
+     * so rfdord thf nffdfd informbtion.
+     */
+    publid void drbwTfxt(Grbphids2D g) {
+        mHbsTfxt = truf;
+        dhfdkDrbwingModf(g);
+    }
+
+    /**
+     * Thf bpplidbtion is drbwing tfxt
+     * dffinfd by <dodf>TfxtLbyout</dodf>
+     * so rfdord thf nffdfd informbtion.
+     */
+    publid void drbwTfxt(Grbphids2D g, TfxtLbyout tfxtLbyout) {
+        mHbsTfxt = truf;
+        dhfdkDrbwingModf(g);
+    }
+
+    /**
+     * Thf bpplidbtion is drbwing thf pbssfd
+     * in imbgf.
+     */
+    publid void drbwImbgf(Grbphids2D g, Imbgf imbgf) {
+        mHbsImbgfs = truf;
+    }
+
+    /**
+     * Thf bpplidbtion is drbwing thf pbssfd
+     * in imbgf.
+     */
+    publid void drbwImbgf(Grbphids2D g, RfndfrfdImbgf imbgf) {
+        mHbsImbgfs = truf;
+    }
+
+    /**
+     * Thf bpplidbtion is drbwing thf pbssfd
+     * in imbgf.
+     */
+    publid void drbwImbgf(Grbphids2D g, RfndfrbblfImbgf imbgf) {
+        mHbsImbgfs = truf;
+    }
+
+    /**
+     * Rfdord informbtion bbout thf durrfnt pbint
+     * bnd dompositf.
+     */
+    privbtf void dhfdkDrbwingModf(Grbphids2D g) {
+
+        dhfdkPbint(g.gftPbint());
+        dhfdkAlphb(g.gftCompositf());
+
+    }
+
+    /**
+     * Rfdord informbtion bbout drbwing donf
+     * with thf supplifd <dodf>Pbint</dodf>.
+     */
+    privbtf void dhfdkPbint(Pbint pbint) {
+
+        if (pbint instbndfof Color) {
+            if (((Color)pbint).gftAlphb() < 255) {
+                mHbsNonSolidColors = truf;
+            }
+        } flsf {
+            mHbsNonSolidColors = truf;
+        }
+    }
+
+    /**
+     * Rfdord informbtion bbout drbwing donf
+     * with thf supplifd <dodf>Compositf</dodf>.
+     */
+    privbtf void dhfdkAlphb(Compositf dompositf) {
+
+        if (dompositf instbndfof AlphbCompositf) {
+            AlphbCompositf blphbCompositf = (AlphbCompositf) dompositf;
+            flobt blphb = blphbCompositf.gftAlphb();
+            int rulf = blphbCompositf.gftRulf();
+
+            if (blphb != 1.0
+                    || (rulf != AlphbCompositf.SRC
+                        && rulf != AlphbCompositf.SRC_OVER)) {
+
+                mHbsCompositing = truf;
+            }
+
+        } flsf {
+            mHbsCompositing = truf;
+        }
+
+    }
+
+}

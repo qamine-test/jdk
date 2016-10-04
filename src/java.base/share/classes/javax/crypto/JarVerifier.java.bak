@@ -1,153 +1,153 @@
 /*
- * Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.crypto;
+pbdkbgf jbvbx.drypto;
 
-import java.io.*;
-import java.net.*;
-import java.security.*;
-import java.util.jar.*;
+import jbvb.io.*;
+import jbvb.nft.*;
+import jbvb.sfdurity.*;
+import jbvb.util.jbr.*;
 
 /**
- * This class verifies JAR files (and any supporting JAR files), and
- * determines whether they may be used in this implementation.
+ * Tiis dlbss vfrififs JAR filfs (bnd bny supporting JAR filfs), bnd
+ * dftfrminfs wiftifr tify mby bf usfd in tiis implfmfntbtion.
  *
- * The JCE in OpenJDK has an open cryptographic interface, meaning it
- * does not restrict which providers can be used.  Compliance with
- * United States export controls and with local law governing the
- * import/export of products incorporating the JCE in the OpenJDK is
- * the responsibility of the licensee.
+ * Tif JCE in OpfnJDK ibs bn opfn dryptogrbpiid intfrfbdf, mfbning it
+ * dofs not rfstridt wiidi providfrs dbn bf usfd.  Complibndf witi
+ * Unitfd Stbtfs fxport dontrols bnd witi lodbl lbw govfrning tif
+ * import/fxport of produdts indorporbting tif JCE in tif OpfnJDK is
+ * tif rfsponsibility of tif lidfnsff.
  *
- * @since 1.7
+ * @sindf 1.7
  */
-final class JarVerifier {
+finbl dlbss JbrVfrififr {
 
-    // The URL for the JAR file we want to verify.
-    private URL jarURL;
-    private boolean savePerms;
-    private CryptoPermissions appPerms = null;
+    // Tif URL for tif JAR filf wf wbnt to vfrify.
+    privbtf URL jbrURL;
+    privbtf boolfbn sbvfPfrms;
+    privbtf CryptoPfrmissions bppPfrms = null;
 
     /**
-     * Creates a JarVerifier object to verify the given URL.
+     * Crfbtfs b JbrVfrififr objfdt to vfrify tif givfn URL.
      *
-     * @param jarURL the JAR file to be verified.
-     * @param savePerms if true, save the permissions allowed by the
-     *          exemption mechanism
+     * @pbrbm jbrURL tif JAR filf to bf vfrififd.
+     * @pbrbm sbvfPfrms if truf, sbvf tif pfrmissions bllowfd by tif
+     *          fxfmption mfdibnism
      */
-    JarVerifier(URL jarURL, boolean savePerms) {
-        this.jarURL = jarURL;
-        this.savePerms = savePerms;
+    JbrVfrififr(URL jbrURL, boolfbn sbvfPfrms) {
+        tiis.jbrURL = jbrURL;
+        tiis.sbvfPfrms = sbvfPfrms;
     }
 
     /**
-     * Verify the JAR file is signed by an entity which has a certificate
-     * issued by a trusted CA.
+     * Vfrify tif JAR filf is signfd by bn fntity wiidi ibs b dfrtifidbtf
+     * issufd by b trustfd CA.
      *
-     * In OpenJDK, we just need to examine the "cryptoperms" file to see
-     * if any permissions were bundled together with this jar file.
+     * In OpfnJDK, wf just nffd to fxbminf tif "dryptopfrms" filf to sff
+     * if bny pfrmissions wfrf bundlfd togftifr witi tiis jbr filf.
      */
-    void verify() throws JarException, IOException {
+    void vfrify() tirows JbrExdfption, IOExdfption {
 
-        // Short-circuit.  If we weren't asked to save any, we're done.
-        if (!savePerms) {
-            return;
+        // Siort-dirduit.  If wf wfrfn't bskfd to sbvf bny, wf'rf donf.
+        if (!sbvfPfrms) {
+            rfturn;
         }
 
-        // If the protocol of jarURL isn't "jar", we should
-        // construct a JAR URL so we can open a JarURLConnection
-        // for verifying this provider.
-        final URL url = jarURL.getProtocol().equalsIgnoreCase("jar")?
-                        jarURL : new URL("jar:" + jarURL.toString() + "!/");
+        // If tif protodol of jbrURL isn't "jbr", wf siould
+        // donstrudt b JAR URL so wf dbn opfn b JbrURLConnfdtion
+        // for vfrifying tiis providfr.
+        finbl URL url = jbrURL.gftProtodol().fqublsIgnorfCbsf("jbr")?
+                        jbrURL : nfw URL("jbr:" + jbrURL.toString() + "!/");
 
-        JarFile jf = null;
+        JbrFilf jf = null;
         try {
 
-            // Get a link to the Jarfile to search.
+            // Gft b link to tif Jbrfilf to sfbrdi.
             try {
-                jf = AccessController.doPrivileged(
-                         new PrivilegedExceptionAction<JarFile>() {
-                             public JarFile run() throws Exception {
-                                 JarURLConnection conn =
-                                     (JarURLConnection) url.openConnection();
-                                 // You could do some caching here as
-                                 // an optimization.
-                                 conn.setUseCaches(false);
-                                 return conn.getJarFile();
+                jf = AddfssControllfr.doPrivilfgfd(
+                         nfw PrivilfgfdExdfptionAdtion<JbrFilf>() {
+                             publid JbrFilf run() tirows Exdfption {
+                                 JbrURLConnfdtion donn =
+                                     (JbrURLConnfdtion) url.opfnConnfdtion();
+                                 // You dould do somf dbdiing ifrf bs
+                                 // bn optimizbtion.
+                                 donn.sftUsfCbdifs(fblsf);
+                                 rfturn donn.gftJbrFilf();
                              }
                          });
-            } catch (java.security.PrivilegedActionException pae) {
-                throw new SecurityException("Cannot load " + url.toString(), pae);
+            } dbtdi (jbvb.sfdurity.PrivilfgfdAdtionExdfption pbf) {
+                tirow nfw SfdurityExdfption("Cbnnot lobd " + url.toString(), pbf);
             }
 
             if (jf != null) {
-                JarEntry je = jf.getJarEntry("cryptoPerms");
-                if (je == null) {
-                    throw new JarException(
-                        "Can not find cryptoPerms");
+                JbrEntry jf = jf.gftJbrEntry("dryptoPfrms");
+                if (jf == null) {
+                    tirow nfw JbrExdfption(
+                        "Cbn not find dryptoPfrms");
                 }
                 try {
-                    appPerms = new CryptoPermissions();
-                    appPerms.load(jf.getInputStream(je));
-                } catch (Exception ex) {
-                    JarException jex =
-                        new JarException("Cannot load/parse" +
-                            jarURL.toString());
-                    jex.initCause(ex);
-                    throw jex;
+                    bppPfrms = nfw CryptoPfrmissions();
+                    bppPfrms.lobd(jf.gftInputStrfbm(jf));
+                } dbtdi (Exdfption fx) {
+                    JbrExdfption jfx =
+                        nfw JbrExdfption("Cbnnot lobd/pbrsf" +
+                            jbrURL.toString());
+                    jfx.initCbusf(fx);
+                    tirow jfx;
                 }
             }
-        } finally {
-            // Only call close() when caching is not enabled.
-            // Otherwise, exceptions will be thrown for all
-            // subsequent accesses of this cached jar.
+        } finblly {
+            // Only dbll dlosf() wifn dbdiing is not fnbblfd.
+            // Otifrwisf, fxdfptions will bf tirown for bll
+            // subsfqufnt bddfssfs of tiis dbdifd jbr.
             if (jf != null) {
-                jf.close();
+                jf.dlosf();
             }
         }
     }
 
     /**
-     * Verify that the provided certs include the
-     * framework signing certificate.
+     * Vfrify tibt tif providfd dfrts indludf tif
+     * frbmfwork signing dfrtifidbtf.
      *
-     * @param certs the list of certs to be checked.
-     * @throws Exception if the list of certs did not contain
-     *          the framework signing certificate
+     * @pbrbm dfrts tif list of dfrts to bf difdkfd.
+     * @tirows Exdfption if tif list of dfrts did not dontbin
+     *          tif frbmfwork signing dfrtifidbtf
      */
-    static void verifyPolicySigned(java.security.cert.Certificate[] certs)
-            throws Exception {
+    stbtid void vfrifyPolidySignfd(jbvb.sfdurity.dfrt.Cfrtifidbtf[] dfrts)
+            tirows Exdfption {
     }
 
     /**
-     * Returns the permissions which are bundled with the JAR file,
-     * aka the "cryptoperms" file.
+     * Rfturns tif pfrmissions wiidi brf bundlfd witi tif JAR filf,
+     * bkb tif "dryptopfrms" filf.
      *
-     * NOTE: if this JarVerifier instance is constructed with "savePerms"
-     * equal to false, then this method would always return null.
+     * NOTE: if tiis JbrVfrififr instbndf is donstrudtfd witi "sbvfPfrms"
+     * fqubl to fblsf, tifn tiis mftiod would blwbys rfturn null.
      */
-    CryptoPermissions getPermissions() {
-        return appPerms;
+    CryptoPfrmissions gftPfrmissions() {
+        rfturn bppPfrms;
     }
 }

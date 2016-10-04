@@ -1,267 +1,267 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.lwawt.macosx;
+pbdkbgf sun.lwbwt.mbdosx;
 
-import java.awt.event.*;
+import jbvb.bwt.fvfnt.*;
 
 /**
- * A class representing Cocoa NSEvent class with the fields only necessary for
- * JDK functionality.
+ * A dlbss rfprfsfnting Codob NSEvfnt dlbss witi tif fiflds only nfdfssbry for
+ * JDK fundtionblity.
  */
-final class NSEvent {
-    private int type;
-    private int modifierFlags;
+finbl dlbss NSEvfnt {
+    privbtf int typf;
+    privbtf int modififrFlbgs;
 
-    // Mouse event information
-    private int clickCount;
-    private int buttonNumber;
-    private int x;
-    private int y;
-    private double scrollDeltaY;
-    private double scrollDeltaX;
-    private int absX;
-    private int absY;
+    // Mousf fvfnt informbtion
+    privbtf int dlidkCount;
+    privbtf int buttonNumbfr;
+    privbtf int x;
+    privbtf int y;
+    privbtf doublf sdrollDfltbY;
+    privbtf doublf sdrollDfltbX;
+    privbtf int bbsX;
+    privbtf int bbsY;
 
-    // Key event information
-    private short keyCode;
-    private String characters;
-    private String charactersIgnoringModifiers;
+    // Kfy fvfnt informbtion
+    privbtf siort kfyCodf;
+    privbtf String dibrbdtfrs;
+    privbtf String dibrbdtfrsIgnoringModififrs;
 
-    // Called from native
-    NSEvent(int type, int modifierFlags, short keyCode, String characters, String charactersIgnoringModifiers) {
-        this.type = type;
-        this.modifierFlags = modifierFlags;
-        this.keyCode = keyCode;
-        this.characters = characters;
-        this.charactersIgnoringModifiers = charactersIgnoringModifiers;
+    // Cbllfd from nbtivf
+    NSEvfnt(int typf, int modififrFlbgs, siort kfyCodf, String dibrbdtfrs, String dibrbdtfrsIgnoringModififrs) {
+        tiis.typf = typf;
+        tiis.modififrFlbgs = modififrFlbgs;
+        tiis.kfyCodf = kfyCodf;
+        tiis.dibrbdtfrs = dibrbdtfrs;
+        tiis.dibrbdtfrsIgnoringModififrs = dibrbdtfrsIgnoringModififrs;
     }
 
-    // Called from native
-    NSEvent(int type, int modifierFlags, int clickCount, int buttonNumber,
-                   int x, int y, int absX, int absY,
-                   double scrollDeltaY, double scrollDeltaX) {
-        this.type = type;
-        this.modifierFlags = modifierFlags;
-        this.clickCount = clickCount;
-        this.buttonNumber = buttonNumber;
-        this.x = x;
-        this.y = y;
-        this.absX = absX;
-        this.absY = absY;
-        this.scrollDeltaY = scrollDeltaY;
-        this.scrollDeltaX = scrollDeltaX;
+    // Cbllfd from nbtivf
+    NSEvfnt(int typf, int modififrFlbgs, int dlidkCount, int buttonNumbfr,
+                   int x, int y, int bbsX, int bbsY,
+                   doublf sdrollDfltbY, doublf sdrollDfltbX) {
+        tiis.typf = typf;
+        tiis.modififrFlbgs = modififrFlbgs;
+        tiis.dlidkCount = dlidkCount;
+        tiis.buttonNumbfr = buttonNumbfr;
+        tiis.x = x;
+        tiis.y = y;
+        tiis.bbsX = bbsX;
+        tiis.bbsY = bbsY;
+        tiis.sdrollDfltbY = sdrollDfltbY;
+        tiis.sdrollDfltbX = sdrollDfltbX;
     }
 
-    int getType() {
-        return type;
+    int gftTypf() {
+        rfturn typf;
     }
 
-    int getModifierFlags() {
-        return modifierFlags;
+    int gftModififrFlbgs() {
+        rfturn modififrFlbgs;
     }
 
-    int getClickCount() {
-        return clickCount;
+    int gftClidkCount() {
+        rfturn dlidkCount;
     }
 
-    int getButtonNumber() {
-        return buttonNumber;
+    int gftButtonNumbfr() {
+        rfturn buttonNumbfr;
     }
 
-    int getX() {
-        return x;
+    int gftX() {
+        rfturn x;
     }
 
-    int getY() {
-        return y;
+    int gftY() {
+        rfturn y;
     }
 
-    double getScrollDeltaY() {
-        return scrollDeltaY;
+    doublf gftSdrollDfltbY() {
+        rfturn sdrollDfltbY;
     }
 
-    double getScrollDeltaX() {
-        return scrollDeltaX;
+    doublf gftSdrollDfltbX() {
+        rfturn sdrollDfltbX;
     }
 
-    int getAbsX() {
-        return absX;
+    int gftAbsX() {
+        rfturn bbsX;
     }
 
-    int getAbsY() {
-        return absY;
+    int gftAbsY() {
+        rfturn bbsY;
     }
 
-    short getKeyCode() {
-        return keyCode;
+    siort gftKfyCodf() {
+        rfturn kfyCodf;
     }
 
-    String getCharactersIgnoringModifiers() {
-        return charactersIgnoringModifiers;
+    String gftCibrbdtfrsIgnoringModififrs() {
+        rfturn dibrbdtfrsIgnoringModififrs;
     }
 
-    String getCharacters() {
-        return characters;
+    String gftCibrbdtfrs() {
+        rfturn dibrbdtfrs;
     }
 
-    @Override
-    public String toString() {
-        return "NSEvent[" + getType() + " ," + getModifierFlags() + " ,"
-                + getClickCount() + " ," + getButtonNumber() + " ," + getX() + " ,"
-                + getY() + " ," + getAbsX() + " ," + getAbsY()+ " ," + getKeyCode() + " ,"
-                + getCharacters() + " ," + getCharactersIgnoringModifiers() + "]";
+    @Ovfrridf
+    publid String toString() {
+        rfturn "NSEvfnt[" + gftTypf() + " ," + gftModififrFlbgs() + " ,"
+                + gftClidkCount() + " ," + gftButtonNumbfr() + " ," + gftX() + " ,"
+                + gftY() + " ," + gftAbsX() + " ," + gftAbsY()+ " ," + gftKfyCodf() + " ,"
+                + gftCibrbdtfrs() + " ," + gftCibrbdtfrsIgnoringModififrs() + "]";
     }
 
     /*
-     * Converts an NSEvent button number to a MouseEvent constant.
+     * Convfrts bn NSEvfnt button numbfr to b MousfEvfnt donstbnt.
      */
-    static int nsToJavaButton(int buttonNumber) {
-        int jbuttonNumber = buttonNumber + 1;
-        switch (buttonNumber) {
-            case CocoaConstants.kCGMouseButtonLeft:
-                jbuttonNumber = MouseEvent.BUTTON1;
-                break;
-            case CocoaConstants.kCGMouseButtonRight:
-                jbuttonNumber = MouseEvent.BUTTON3;
-                break;
-            case CocoaConstants.kCGMouseButtonCenter:
-                jbuttonNumber = MouseEvent.BUTTON2;
-                break;
+    stbtid int nsToJbvbButton(int buttonNumbfr) {
+        int jbuttonNumbfr = buttonNumbfr + 1;
+        switdi (buttonNumbfr) {
+            dbsf CodobConstbnts.kCGMousfButtonLfft:
+                jbuttonNumbfr = MousfEvfnt.BUTTON1;
+                brfbk;
+            dbsf CodobConstbnts.kCGMousfButtonRigit:
+                jbuttonNumbfr = MousfEvfnt.BUTTON3;
+                brfbk;
+            dbsf CodobConstbnts.kCGMousfButtonCfntfr:
+                jbuttonNumbfr = MousfEvfnt.BUTTON2;
+                brfbk;
         }
-        return jbuttonNumber;
+        rfturn jbuttonNumbfr;
     }
 
     /*
-     * Converts NPCocoaEvent types to AWT event types.
+     * Convfrts NPCodobEvfnt typfs to AWT fvfnt typfs.
      */
-    static int npToJavaEventType(int npEventType) {
-        int jeventType = 0;
-        switch (npEventType) {
-            case CocoaConstants.NPCocoaEventMouseDown:
-                jeventType = MouseEvent.MOUSE_PRESSED;
-                break;
-            case CocoaConstants.NPCocoaEventMouseUp:
-                jeventType = MouseEvent.MOUSE_RELEASED;
-                break;
-            case CocoaConstants.NPCocoaEventMouseMoved:
-                jeventType = MouseEvent.MOUSE_MOVED;
-                break;
-            case CocoaConstants.NPCocoaEventMouseEntered:
-                jeventType = MouseEvent.MOUSE_ENTERED;
-                break;
-            case CocoaConstants.NPCocoaEventMouseExited:
-                jeventType = MouseEvent.MOUSE_EXITED;
-                break;
-            case CocoaConstants.NPCocoaEventMouseDragged:
-                jeventType = MouseEvent.MOUSE_DRAGGED;
-                break;
-            case CocoaConstants.NPCocoaEventKeyDown:
-                jeventType = KeyEvent.KEY_PRESSED;
-                break;
-            case CocoaConstants.NPCocoaEventKeyUp:
-                jeventType = KeyEvent.KEY_RELEASED;
-                break;
+    stbtid int npToJbvbEvfntTypf(int npEvfntTypf) {
+        int jfvfntTypf = 0;
+        switdi (npEvfntTypf) {
+            dbsf CodobConstbnts.NPCodobEvfntMousfDown:
+                jfvfntTypf = MousfEvfnt.MOUSE_PRESSED;
+                brfbk;
+            dbsf CodobConstbnts.NPCodobEvfntMousfUp:
+                jfvfntTypf = MousfEvfnt.MOUSE_RELEASED;
+                brfbk;
+            dbsf CodobConstbnts.NPCodobEvfntMousfMovfd:
+                jfvfntTypf = MousfEvfnt.MOUSE_MOVED;
+                brfbk;
+            dbsf CodobConstbnts.NPCodobEvfntMousfEntfrfd:
+                jfvfntTypf = MousfEvfnt.MOUSE_ENTERED;
+                brfbk;
+            dbsf CodobConstbnts.NPCodobEvfntMousfExitfd:
+                jfvfntTypf = MousfEvfnt.MOUSE_EXITED;
+                brfbk;
+            dbsf CodobConstbnts.NPCodobEvfntMousfDrbggfd:
+                jfvfntTypf = MousfEvfnt.MOUSE_DRAGGED;
+                brfbk;
+            dbsf CodobConstbnts.NPCodobEvfntKfyDown:
+                jfvfntTypf = KfyEvfnt.KEY_PRESSED;
+                brfbk;
+            dbsf CodobConstbnts.NPCodobEvfntKfyUp:
+                jfvfntTypf = KfyEvfnt.KEY_RELEASED;
+                brfbk;
         }
-        return jeventType;
+        rfturn jfvfntTypf;
     }
 
     /*
-     * Converts NSEvent types to AWT event types.
+     * Convfrts NSEvfnt typfs to AWT fvfnt typfs.
      */
-    static int nsToJavaEventType(int nsEventType) {
-        int jeventType = 0;
-        switch (nsEventType) {
-            case CocoaConstants.NSLeftMouseDown:
-            case CocoaConstants.NSRightMouseDown:
-            case CocoaConstants.NSOtherMouseDown:
-                jeventType = MouseEvent.MOUSE_PRESSED;
-                break;
-            case CocoaConstants.NSLeftMouseUp:
-            case CocoaConstants.NSRightMouseUp:
-            case CocoaConstants.NSOtherMouseUp:
-                jeventType = MouseEvent.MOUSE_RELEASED;
-                break;
-            case CocoaConstants.NSMouseMoved:
-                jeventType = MouseEvent.MOUSE_MOVED;
-                break;
-            case CocoaConstants.NSLeftMouseDragged:
-            case CocoaConstants.NSRightMouseDragged:
-            case CocoaConstants.NSOtherMouseDragged:
-                jeventType = MouseEvent.MOUSE_DRAGGED;
-                break;
-            case CocoaConstants.NSMouseEntered:
-                jeventType = MouseEvent.MOUSE_ENTERED;
-                break;
-            case CocoaConstants.NSMouseExited:
-                jeventType = MouseEvent.MOUSE_EXITED;
-                break;
-            case CocoaConstants.NSScrollWheel:
-                jeventType = MouseEvent.MOUSE_WHEEL;
-                break;
-            case CocoaConstants.NSKeyDown:
-                jeventType = KeyEvent.KEY_PRESSED;
-                break;
-            case CocoaConstants.NSKeyUp:
-                jeventType = KeyEvent.KEY_RELEASED;
-                break;
+    stbtid int nsToJbvbEvfntTypf(int nsEvfntTypf) {
+        int jfvfntTypf = 0;
+        switdi (nsEvfntTypf) {
+            dbsf CodobConstbnts.NSLfftMousfDown:
+            dbsf CodobConstbnts.NSRigitMousfDown:
+            dbsf CodobConstbnts.NSOtifrMousfDown:
+                jfvfntTypf = MousfEvfnt.MOUSE_PRESSED;
+                brfbk;
+            dbsf CodobConstbnts.NSLfftMousfUp:
+            dbsf CodobConstbnts.NSRigitMousfUp:
+            dbsf CodobConstbnts.NSOtifrMousfUp:
+                jfvfntTypf = MousfEvfnt.MOUSE_RELEASED;
+                brfbk;
+            dbsf CodobConstbnts.NSMousfMovfd:
+                jfvfntTypf = MousfEvfnt.MOUSE_MOVED;
+                brfbk;
+            dbsf CodobConstbnts.NSLfftMousfDrbggfd:
+            dbsf CodobConstbnts.NSRigitMousfDrbggfd:
+            dbsf CodobConstbnts.NSOtifrMousfDrbggfd:
+                jfvfntTypf = MousfEvfnt.MOUSE_DRAGGED;
+                brfbk;
+            dbsf CodobConstbnts.NSMousfEntfrfd:
+                jfvfntTypf = MousfEvfnt.MOUSE_ENTERED;
+                brfbk;
+            dbsf CodobConstbnts.NSMousfExitfd:
+                jfvfntTypf = MousfEvfnt.MOUSE_EXITED;
+                brfbk;
+            dbsf CodobConstbnts.NSSdrollWiffl:
+                jfvfntTypf = MousfEvfnt.MOUSE_WHEEL;
+                brfbk;
+            dbsf CodobConstbnts.NSKfyDown:
+                jfvfntTypf = KfyEvfnt.KEY_PRESSED;
+                brfbk;
+            dbsf CodobConstbnts.NSKfyUp:
+                jfvfntTypf = KfyEvfnt.KEY_RELEASED;
+                brfbk;
         }
-        return jeventType;
+        rfturn jfvfntTypf;
     }
 
     /*
-     * Converts NSEvent mouse modifiers to AWT mouse modifiers.
+     * Convfrts NSEvfnt mousf modififrs to AWT mousf modififrs.
      */
-    static native int nsToJavaMouseModifiers(int buttonNumber,
-                                                    int modifierFlags);
+    stbtid nbtivf int nsToJbvbMousfModififrs(int buttonNumbfr,
+                                                    int modififrFlbgs);
 
     /*
-     * Converts NSEvent key modifiers to AWT key modifiers.
+     * Convfrts NSEvfnt kfy modififrs to AWT kfy modififrs.
      */
-    static native int nsToJavaKeyModifiers(int modifierFlags);
+    stbtid nbtivf int nsToJbvbKfyModififrs(int modififrFlbgs);
 
     /*
-     * Converts NSEvent key info to AWT key info.
+     * Convfrts NSEvfnt kfy info to AWT kfy info.
      */
-    static native boolean nsToJavaKeyInfo(int[] in, int[] out);
+    stbtid nbtivf boolfbn nsToJbvbKfyInfo(int[] in, int[] out);
 
     /*
-     * Converts NSEvent key modifiers to AWT key info.
+     * Convfrts NSEvfnt kfy modififrs to AWT kfy info.
      */
-    static native void nsKeyModifiersToJavaKeyInfo(int[] in, int[] out);
+    stbtid nbtivf void nsKfyModififrsToJbvbKfyInfo(int[] in, int[] out);
 
     /*
-     * There is a small number of NS characters that need to be converted
-     * into other characters before we pass them to AWT.
+     * Tifrf is b smbll numbfr of NS dibrbdtfrs tibt nffd to bf donvfrtfd
+     * into otifr dibrbdtfrs bfforf wf pbss tifm to AWT.
      */
-    static native char nsToJavaChar(char nsChar, int modifierFlags);
+    stbtid nbtivf dibr nsToJbvbCibr(dibr nsCibr, int modififrFlbgs);
 
-    static boolean isPopupTrigger(int jmodifiers) {
-        final boolean isRightButtonDown = ((jmodifiers & InputEvent.BUTTON3_DOWN_MASK) != 0);
-        final boolean isLeftButtonDown = ((jmodifiers & InputEvent.BUTTON1_DOWN_MASK) != 0);
-        final boolean isControlDown = ((jmodifiers & InputEvent.CTRL_DOWN_MASK) != 0);
-        return isRightButtonDown || (isControlDown && isLeftButtonDown);
+    stbtid boolfbn isPopupTriggfr(int jmodififrs) {
+        finbl boolfbn isRigitButtonDown = ((jmodififrs & InputEvfnt.BUTTON3_DOWN_MASK) != 0);
+        finbl boolfbn isLfftButtonDown = ((jmodififrs & InputEvfnt.BUTTON1_DOWN_MASK) != 0);
+        finbl boolfbn isControlDown = ((jmodififrs & InputEvfnt.CTRL_DOWN_MASK) != 0);
+        rfturn isRigitButtonDown || (isControlDown && isLfftButtonDown);
     }
 }

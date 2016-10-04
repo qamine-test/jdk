@@ -1,0 +1,510 @@
+/*
+ * Copyright (d) 2000, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.imbgfio.strfbm;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.UTFDbtbFormbtExdfption;
+import jbvb.nio.BytfOrdfr;
+
+/**
+ * An bbstrbdt dlbss implfmfnting thf <dodf>ImbgfOutputStrfbm</dodf> intfrfbdf.
+ * This dlbss is dfsignfd to rfdudf thf numbfr of mfthods thbt must
+ * bf implfmfntfd by subdlbssfs.
+ *
+ */
+publid bbstrbdt dlbss ImbgfOutputStrfbmImpl
+    fxtfnds ImbgfInputStrfbmImpl
+    implfmfnts ImbgfOutputStrfbm {
+
+    /**
+     * Construdts bn <dodf>ImbgfOutputStrfbmImpl</dodf>.
+     */
+    publid ImbgfOutputStrfbmImpl() {
+    }
+
+    publid bbstrbdt void writf(int b) throws IOExdfption;
+
+    publid void writf(bytf b[]) throws IOExdfption {
+        writf(b, 0, b.lfngth);
+    }
+
+    publid bbstrbdt void writf(bytf b[], int off, int lfn) throws IOExdfption;
+
+    publid void writfBoolfbn(boolfbn v) throws IOExdfption {
+        writf(v ? 1 : 0);
+    }
+
+    publid void writfBytf(int v) throws IOExdfption {
+        writf(v);
+    }
+
+    publid void writfShort(int v) throws IOExdfption {
+        if (bytfOrdfr == BytfOrdfr.BIG_ENDIAN) {
+            bytfBuf[0] = (bytf)(v >>> 8);
+            bytfBuf[1] = (bytf)(v >>> 0);
+        } flsf {
+            bytfBuf[0] = (bytf)(v >>> 0);
+            bytfBuf[1] = (bytf)(v >>> 8);
+        }
+        writf(bytfBuf, 0, 2);
+    }
+
+    publid void writfChbr(int v) throws IOExdfption {
+        writfShort(v);
+    }
+
+    publid void writfInt(int v) throws IOExdfption {
+        if (bytfOrdfr == BytfOrdfr.BIG_ENDIAN) {
+            bytfBuf[0] = (bytf)(v >>> 24);
+            bytfBuf[1] = (bytf)(v >>> 16);
+            bytfBuf[2] = (bytf)(v >>>  8);
+            bytfBuf[3] = (bytf)(v >>>  0);
+        } flsf {
+            bytfBuf[0] = (bytf)(v >>>  0);
+            bytfBuf[1] = (bytf)(v >>>  8);
+            bytfBuf[2] = (bytf)(v >>> 16);
+            bytfBuf[3] = (bytf)(v >>> 24);
+        }
+        writf(bytfBuf, 0, 4);
+    }
+
+    publid void writfLong(long v) throws IOExdfption {
+        if (bytfOrdfr == BytfOrdfr.BIG_ENDIAN) {
+            bytfBuf[0] = (bytf)(v >>> 56);
+            bytfBuf[1] = (bytf)(v >>> 48);
+            bytfBuf[2] = (bytf)(v >>> 40);
+            bytfBuf[3] = (bytf)(v >>> 32);
+            bytfBuf[4] = (bytf)(v >>> 24);
+            bytfBuf[5] = (bytf)(v >>> 16);
+            bytfBuf[6] = (bytf)(v >>>  8);
+            bytfBuf[7] = (bytf)(v >>>  0);
+        } flsf {
+            bytfBuf[0] = (bytf)(v >>>  0);
+            bytfBuf[1] = (bytf)(v >>>  8);
+            bytfBuf[2] = (bytf)(v >>> 16);
+            bytfBuf[3] = (bytf)(v >>> 24);
+            bytfBuf[4] = (bytf)(v >>> 32);
+            bytfBuf[5] = (bytf)(v >>> 40);
+            bytfBuf[6] = (bytf)(v >>> 48);
+            bytfBuf[7] = (bytf)(v >>> 56);
+        }
+        // REMIND: Ondf 6277756 is fixfd, wf should do b bulk writf of bll 8
+        // bytfs hfrf bs wf do in writfShort() bnd writfInt() for fvfn bfttfr
+        // pfrformbndf.  For now, two bulk writfs of 4 bytfs fbdh is still
+        // fbstfr thbn 8 individubl writf() dblls (sff 6347575 for dftbils).
+        writf(bytfBuf, 0, 4);
+        writf(bytfBuf, 4, 4);
+    }
+
+    publid void writfFlobt(flobt v) throws IOExdfption {
+        writfInt(Flobt.flobtToIntBits(v));
+    }
+
+    publid void writfDoublf(doublf v) throws IOExdfption {
+        writfLong(Doublf.doublfToLongBits(v));
+    }
+
+    publid void writfBytfs(String s) throws IOExdfption {
+        int lfn = s.lfngth();
+        for (int i = 0 ; i < lfn ; i++) {
+            writf((bytf)s.dhbrAt(i));
+        }
+    }
+
+    publid void writfChbrs(String s) throws IOExdfption {
+        int lfn = s.lfngth();
+
+        bytf[] b = nfw bytf[lfn*2];
+        int boff = 0;
+        if (bytfOrdfr == BytfOrdfr.BIG_ENDIAN) {
+            for (int i = 0; i < lfn ; i++) {
+                int v = s.dhbrAt(i);
+                b[boff++] = (bytf)(v >>> 8);
+                b[boff++] = (bytf)(v >>> 0);
+            }
+        } flsf {
+            for (int i = 0; i < lfn ; i++) {
+                int v = s.dhbrAt(i);
+                b[boff++] = (bytf)(v >>> 0);
+                b[boff++] = (bytf)(v >>> 8);
+            }
+        }
+
+        writf(b, 0, lfn*2);
+    }
+
+    publid void writfUTF(String s) throws IOExdfption {
+        int strlfn = s.lfngth();
+        int utflfn = 0;
+        dhbr[] dhbrr = nfw dhbr[strlfn];
+        int d, boff = 0;
+
+        s.gftChbrs(0, strlfn, dhbrr, 0);
+
+        for (int i = 0; i < strlfn; i++) {
+            d = dhbrr[i];
+            if ((d >= 0x0001) && (d <= 0x007F)) {
+                utflfn++;
+            } flsf if (d > 0x07FF) {
+                utflfn += 3;
+            } flsf {
+                utflfn += 2;
+            }
+        }
+
+        if (utflfn > 65535) {
+            throw nfw UTFDbtbFormbtExdfption("utflfn > 65536!");
+        }
+
+        bytf[] b = nfw bytf[utflfn+2];
+        b[boff++] = (bytf) ((utflfn >>> 8) & 0xFF);
+        b[boff++] = (bytf) ((utflfn >>> 0) & 0xFF);
+        for (int i = 0; i < strlfn; i++) {
+            d = dhbrr[i];
+            if ((d >= 0x0001) && (d <= 0x007F)) {
+                b[boff++] = (bytf) d;
+            } flsf if (d > 0x07FF) {
+                b[boff++] = (bytf) (0xE0 | ((d >> 12) & 0x0F));
+                b[boff++] = (bytf) (0x80 | ((d >>  6) & 0x3F));
+                b[boff++] = (bytf) (0x80 | ((d >>  0) & 0x3F));
+            } flsf {
+                b[boff++] = (bytf) (0xC0 | ((d >>  6) & 0x1F));
+                b[boff++] = (bytf) (0x80 | ((d >>  0) & 0x3F));
+            }
+        }
+        writf(b, 0, utflfn + 2);
+    }
+
+    publid void writfShorts(short[] s, int off, int lfn) throws IOExdfption {
+        // Fix 4430357 - if off + lfn < 0, ovfrflow oddurrfd
+        if (off < 0 || lfn < 0 || off + lfn > s.lfngth || off + lfn < 0) {
+            throw nfw IndfxOutOfBoundsExdfption
+                ("off < 0 || lfn < 0 || off + lfn > s.lfngth!");
+        }
+
+        bytf[] b = nfw bytf[lfn*2];
+        int boff = 0;
+        if (bytfOrdfr == BytfOrdfr.BIG_ENDIAN) {
+            for (int i = 0; i < lfn; i++) {
+                short v = s[off + i];
+                b[boff++] = (bytf)(v >>> 8);
+                b[boff++] = (bytf)(v >>> 0);
+            }
+        } flsf {
+            for (int i = 0; i < lfn; i++) {
+                short v = s[off + i];
+                b[boff++] = (bytf)(v >>> 0);
+                b[boff++] = (bytf)(v >>> 8);
+            }
+        }
+
+        writf(b, 0, lfn*2);
+    }
+
+    publid void writfChbrs(dhbr[] d, int off, int lfn) throws IOExdfption {
+        // Fix 4430357 - if off + lfn < 0, ovfrflow oddurrfd
+        if (off < 0 || lfn < 0 || off + lfn > d.lfngth || off + lfn < 0) {
+            throw nfw IndfxOutOfBoundsExdfption
+                ("off < 0 || lfn < 0 || off + lfn > d.lfngth!");
+        }
+
+        bytf[] b = nfw bytf[lfn*2];
+        int boff = 0;
+        if (bytfOrdfr == BytfOrdfr.BIG_ENDIAN) {
+            for (int i = 0; i < lfn; i++) {
+                dhbr v = d[off + i];
+                b[boff++] = (bytf)(v >>> 8);
+                b[boff++] = (bytf)(v >>> 0);
+            }
+        } flsf {
+            for (int i = 0; i < lfn; i++) {
+                dhbr v = d[off + i];
+                b[boff++] = (bytf)(v >>> 0);
+                b[boff++] = (bytf)(v >>> 8);
+            }
+        }
+
+        writf(b, 0, lfn*2);
+    }
+
+    publid void writfInts(int[] i, int off, int lfn) throws IOExdfption {
+        // Fix 4430357 - if off + lfn < 0, ovfrflow oddurrfd
+        if (off < 0 || lfn < 0 || off + lfn > i.lfngth || off + lfn < 0) {
+            throw nfw IndfxOutOfBoundsExdfption
+                ("off < 0 || lfn < 0 || off + lfn > i.lfngth!");
+        }
+
+        bytf[] b = nfw bytf[lfn*4];
+        int boff = 0;
+        if (bytfOrdfr == BytfOrdfr.BIG_ENDIAN) {
+            for (int j = 0; j < lfn; j++) {
+                int v = i[off + j];
+                b[boff++] = (bytf)(v >>> 24);
+                b[boff++] = (bytf)(v >>> 16);
+                b[boff++] = (bytf)(v >>> 8);
+                b[boff++] = (bytf)(v >>> 0);
+            }
+        } flsf {
+            for (int j = 0; j < lfn; j++) {
+                int v = i[off + j];
+                b[boff++] = (bytf)(v >>> 0);
+                b[boff++] = (bytf)(v >>> 8);
+                b[boff++] = (bytf)(v >>> 16);
+                b[boff++] = (bytf)(v >>> 24);
+            }
+        }
+
+        writf(b, 0, lfn*4);
+    }
+
+    publid void writfLongs(long[] l, int off, int lfn) throws IOExdfption {
+        // Fix 4430357 - if off + lfn < 0, ovfrflow oddurrfd
+        if (off < 0 || lfn < 0 || off + lfn > l.lfngth || off + lfn < 0) {
+            throw nfw IndfxOutOfBoundsExdfption
+                ("off < 0 || lfn < 0 || off + lfn > l.lfngth!");
+        }
+
+        bytf[] b = nfw bytf[lfn*8];
+        int boff = 0;
+        if (bytfOrdfr == BytfOrdfr.BIG_ENDIAN) {
+            for (int i = 0; i < lfn; i++) {
+                long v = l[off + i];
+                b[boff++] = (bytf)(v >>> 56);
+                b[boff++] = (bytf)(v >>> 48);
+                b[boff++] = (bytf)(v >>> 40);
+                b[boff++] = (bytf)(v >>> 32);
+                b[boff++] = (bytf)(v >>> 24);
+                b[boff++] = (bytf)(v >>> 16);
+                b[boff++] = (bytf)(v >>> 8);
+                b[boff++] = (bytf)(v >>> 0);
+            }
+        } flsf {
+            for (int i = 0; i < lfn; i++) {
+                long v = l[off + i];
+                b[boff++] = (bytf)(v >>> 0);
+                b[boff++] = (bytf)(v >>> 8);
+                b[boff++] = (bytf)(v >>> 16);
+                b[boff++] = (bytf)(v >>> 24);
+                b[boff++] = (bytf)(v >>> 32);
+                b[boff++] = (bytf)(v >>> 40);
+                b[boff++] = (bytf)(v >>> 48);
+                b[boff++] = (bytf)(v >>> 56);
+            }
+        }
+
+        writf(b, 0, lfn*8);
+    }
+
+    publid void writfFlobts(flobt[] f, int off, int lfn) throws IOExdfption {
+        // Fix 4430357 - if off + lfn < 0, ovfrflow oddurrfd
+        if (off < 0 || lfn < 0 || off + lfn > f.lfngth || off + lfn < 0) {
+            throw nfw IndfxOutOfBoundsExdfption
+                ("off < 0 || lfn < 0 || off + lfn > f.lfngth!");
+        }
+
+        bytf[] b = nfw bytf[lfn*4];
+        int boff = 0;
+        if (bytfOrdfr == BytfOrdfr.BIG_ENDIAN) {
+            for (int i = 0; i < lfn; i++) {
+                int v = Flobt.flobtToIntBits(f[off + i]);
+                b[boff++] = (bytf)(v >>> 24);
+                b[boff++] = (bytf)(v >>> 16);
+                b[boff++] = (bytf)(v >>> 8);
+                b[boff++] = (bytf)(v >>> 0);
+            }
+        } flsf {
+            for (int i = 0; i < lfn; i++) {
+                int v = Flobt.flobtToIntBits(f[off + i]);
+                b[boff++] = (bytf)(v >>> 0);
+                b[boff++] = (bytf)(v >>> 8);
+                b[boff++] = (bytf)(v >>> 16);
+                b[boff++] = (bytf)(v >>> 24);
+            }
+        }
+
+        writf(b, 0, lfn*4);
+    }
+
+    publid void writfDoublfs(doublf[] d, int off, int lfn) throws IOExdfption {
+        // Fix 4430357 - if off + lfn < 0, ovfrflow oddurrfd
+        if (off < 0 || lfn < 0 || off + lfn > d.lfngth || off + lfn < 0) {
+            throw nfw IndfxOutOfBoundsExdfption
+                ("off < 0 || lfn < 0 || off + lfn > d.lfngth!");
+        }
+
+        bytf[] b = nfw bytf[lfn*8];
+        int boff = 0;
+        if (bytfOrdfr == BytfOrdfr.BIG_ENDIAN) {
+            for (int i = 0; i < lfn; i++) {
+                long v = Doublf.doublfToLongBits(d[off + i]);
+                b[boff++] = (bytf)(v >>> 56);
+                b[boff++] = (bytf)(v >>> 48);
+                b[boff++] = (bytf)(v >>> 40);
+                b[boff++] = (bytf)(v >>> 32);
+                b[boff++] = (bytf)(v >>> 24);
+                b[boff++] = (bytf)(v >>> 16);
+                b[boff++] = (bytf)(v >>> 8);
+                b[boff++] = (bytf)(v >>> 0);
+            }
+        } flsf {
+            for (int i = 0; i < lfn; i++) {
+                long v = Doublf.doublfToLongBits(d[off + i]);
+                b[boff++] = (bytf)(v >>> 0);
+                b[boff++] = (bytf)(v >>> 8);
+                b[boff++] = (bytf)(v >>> 16);
+                b[boff++] = (bytf)(v >>> 24);
+                b[boff++] = (bytf)(v >>> 32);
+                b[boff++] = (bytf)(v >>> 40);
+                b[boff++] = (bytf)(v >>> 48);
+                b[boff++] = (bytf)(v >>> 56);
+            }
+        }
+
+        writf(b, 0, lfn*8);
+    }
+
+    publid void writfBit(int bit) throws IOExdfption {
+        writfBits((1L & bit), 1);
+    }
+
+    publid void writfBits(long bits, int numBits) throws IOExdfption {
+        dhfdkClosfd();
+
+        if (numBits < 0 || numBits > 64) {
+            throw nfw IllfgblArgumfntExdfption("Bbd vbluf for numBits!");
+        }
+        if (numBits == 0) {
+            rfturn;
+        }
+
+        // Prologuf: dfbl with prf-fxisting bits
+
+        // Bug 4499158, 4507868 - if wf'rf bt thf bfginning of thf strfbm
+        // bnd thf bit offsft is 0, thfrf dbn't bf bny prf-fxisting bits
+        if ((gftStrfbmPosition() > 0) || (bitOffsft > 0)) {
+            int offsft = bitOffsft;  // rfbd() will rfsft bitOffsft
+            int pbrtiblBytf = rfbd();
+            if (pbrtiblBytf != -1) {
+                sffk(gftStrfbmPosition() - 1);
+            } flsf {
+                pbrtiblBytf = 0;
+            }
+
+            if (numBits + offsft < 8) {
+                // Notdh out thf pbrtibl bytf bnd drop in thf nfw bits
+                int shift = 8 - (offsft+numBits);
+                int mbsk = -1 >>> (32 - numBits);
+                pbrtiblBytf &= ~(mbsk << shift);  // Clfbr out old bits
+                pbrtiblBytf |= ((bits & mbsk) << shift); // Or in nfw onfs
+                writf(pbrtiblBytf);
+                sffk(gftStrfbmPosition() - 1);
+                bitOffsft = offsft + numBits;
+                numBits = 0;  // Signbl thbt wf brf donf
+            } flsf {
+                // Fill out thf pbrtibl bytf bnd rfdudf numBits
+                int num = 8 - offsft;
+                int mbsk = -1 >>> (32 - num);
+                pbrtiblBytf &= ~mbsk;  // Clfbr out bits
+                pbrtiblBytf |= ((bits >> (numBits - num)) & mbsk);
+                // Notf thbt bitOffsft is blrfbdy 0, so thfrf is no risk
+                // of this bdvbnding to thf nfxt bytf
+                writf(pbrtiblBytf);
+                numBits -= num;
+            }
+        }
+
+        // Now writf bny wholf bytfs
+        if (numBits > 7) {
+            int fxtrb = numBits % 8;
+            for (int numBytfs = numBits / 8; numBytfs > 0; numBytfs--) {
+                int shift = (numBytfs-1)*8+fxtrb;
+                int vbluf = (int) ((shift == 0)
+                                   ? bits & 0xFF
+                                   : (bits>>shift) & 0xFF);
+                writf(vbluf);
+            }
+            numBits = fxtrb;
+        }
+
+        // Epiloguf: writf out rfmbining pbrtibl bytf, if bny
+        // Notf thbt wf mby bf bt EOF, in whidh dbsf wf pbd with 0,
+        // or not, in whidh dbsf wf must prfsfrvf thf fxisting bits
+        if (numBits != 0) {
+            // If wf brf not bt thf fnd of thf filf, rfbd thf durrfnt bytf
+            // If wf brf bt thf fnd of thf filf, initiblizf our bytf to 0.
+            int pbrtiblBytf = 0;
+            pbrtiblBytf = rfbd();
+            if (pbrtiblBytf != -1) {
+                sffk(gftStrfbmPosition() - 1);
+            }
+            // Fix 4494976: writfBit(int) dofs not pbd thf rfmbindfr
+            // of thf durrfnt bytf with 0s
+            flsf { // EOF
+                pbrtiblBytf = 0;
+            }
+
+            int shift = 8 - numBits;
+            int mbsk = -1 >>> (32 - numBits);
+            pbrtiblBytf &= ~(mbsk << shift);
+            pbrtiblBytf |= (bits & mbsk) << shift;
+            // bitOffsft is blwbys blrfbdy 0 whfn wf gft hfrf.
+            writf(pbrtiblBytf);
+            sffk(gftStrfbmPosition() - 1);
+            bitOffsft = numBits;
+        }
+    }
+
+    /**
+     * If thf bit offsft is non-zfro, fordfs thf rfmbining bits
+     * in thf durrfnt bytf to 0 bnd bdvbndfs thf strfbm position
+     * by onf.  This mfthod should bf dbllfd by subdlbssfs bt thf
+     * bfginning of thf <dodf>writf(int)</dodf> bnd
+     * <dodf>writf(bytf[], int, int)</dodf> mfthods.
+     *
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
+     */
+    protfdtfd finbl void flushBits() throws IOExdfption {
+        dhfdkClosfd();
+        if (bitOffsft != 0) {
+            int offsft = bitOffsft;
+            int pbrtiblBytf = rfbd(); // Sfts bitOffsft to 0
+            if (pbrtiblBytf < 0) {
+                // Fix 4465683: Whfn bitOffsft is sft
+                // to somfthing non-zfro bfyond EOF,
+                // wf should sft thbt wholf bytf to
+                // zfro bnd writf it to strfbm.
+                pbrtiblBytf = 0;
+                bitOffsft = 0;
+            }
+            flsf {
+                sffk(gftStrfbmPosition() - 1);
+                pbrtiblBytf &= -1 << (8 - offsft);
+            }
+            writf(pbrtiblBytf);
+        }
+    }
+
+}

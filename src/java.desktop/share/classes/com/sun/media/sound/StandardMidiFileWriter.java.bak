@@ -1,467 +1,467 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.media.sound;
+pbdkbgf dom.sun.mfdib.sound;
 
-import java.io.DataOutputStream;
-import java.io.PipedInputStream;
-import java.io.PipedOutputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.ByteArrayInputStream;
-import java.io.SequenceInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import jbvb.io.DbtbOutputStrfbm;
+import jbvb.io.PipfdInputStrfbm;
+import jbvb.io.PipfdOutputStrfbm;
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.io.BytfArrbyInputStrfbm;
+import jbvb.io.SfqufndfInputStrfbm;
+import jbvb.io.Filf;
+import jbvb.io.FilfOutputStrfbm;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
 
-import javax.sound.midi.InvalidMidiDataException;
-import javax.sound.midi.MidiEvent;
-import javax.sound.midi.MetaMessage;
-import javax.sound.midi.Sequence;
-import javax.sound.midi.ShortMessage;
-import javax.sound.midi.SysexMessage;
-import javax.sound.midi.Track;
-import javax.sound.midi.spi.MidiFileWriter;
+import jbvbx.sound.midi.InvblidMidiDbtbExdfption;
+import jbvbx.sound.midi.MidiEvfnt;
+import jbvbx.sound.midi.MftbMfssbgf;
+import jbvbx.sound.midi.Sfqufndf;
+import jbvbx.sound.midi.SiortMfssbgf;
+import jbvbx.sound.midi.SysfxMfssbgf;
+import jbvbx.sound.midi.Trbdk;
+import jbvbx.sound.midi.spi.MidiFilfWritfr;
 
 
 /**
- * MIDI file writer.
+ * MIDI filf writfr.
  *
- * @author Kara Kytle
- * @author Jan Borgersen
+ * @butior Kbrb Kytlf
+ * @butior Jbn Borgfrsfn
  */
-public final class StandardMidiFileWriter extends MidiFileWriter {
+publid finbl dlbss StbndbrdMidiFilfWritfr fxtfnds MidiFilfWritfr {
 
-    private static final int MThd_MAGIC = 0x4d546864;  // 'MThd'
-    private static final int MTrk_MAGIC = 0x4d54726b;  // 'MTrk'
+    privbtf stbtid finbl int MTid_MAGIC = 0x4d546864;  // 'MTid'
+    privbtf stbtid finbl int MTrk_MAGIC = 0x4d54726b;  // 'MTrk'
 
-    private static final int ONE_BYTE   = 1;
-    private static final int TWO_BYTE   = 2;
-    private static final int SYSEX      = 3;
-    private static final int META       = 4;
-    private static final int ERROR      = 5;
-    private static final int IGNORE     = 6;
+    privbtf stbtid finbl int ONE_BYTE   = 1;
+    privbtf stbtid finbl int TWO_BYTE   = 2;
+    privbtf stbtid finbl int SYSEX      = 3;
+    privbtf stbtid finbl int META       = 4;
+    privbtf stbtid finbl int ERROR      = 5;
+    privbtf stbtid finbl int IGNORE     = 6;
 
-    private static final int MIDI_TYPE_0 = 0;
-    private static final int MIDI_TYPE_1 = 1;
+    privbtf stbtid finbl int MIDI_TYPE_0 = 0;
+    privbtf stbtid finbl int MIDI_TYPE_1 = 1;
 
-    private static final int bufferSize = 16384;  // buffersize for write
-    private DataOutputStream tddos;               // data output stream for track writing
+    privbtf stbtid finbl int bufffrSizf = 16384;  // bufffrsizf for writf
+    privbtf DbtbOutputStrfbm tddos;               // dbtb output strfbm for trbdk writing
 
 
 
     /**
-     * MIDI parser types
+     * MIDI pbrsfr typfs
      */
-    private static final int types[] = {
+    privbtf stbtid finbl int typfs[] = {
         MIDI_TYPE_0,
         MIDI_TYPE_1
     };
 
 
     /**
-     * new
+     * nfw
      */
-    public int[] getMidiFileTypes() {
-        int[] localArray = new int[types.length];
-        System.arraycopy(types, 0, localArray, 0, types.length);
-        return localArray;
+    publid int[] gftMidiFilfTypfs() {
+        int[] lodblArrby = nfw int[typfs.lfngti];
+        Systfm.brrbydopy(typfs, 0, lodblArrby, 0, typfs.lfngti);
+        rfturn lodblArrby;
     }
 
     /**
-     * Obtains the file types that this provider can write from the
-     * sequence specified.
-     * @param sequence the sequence for which midi file type support
-     * is queried
-     * @return array of file types.  If no file types are supported,
-     * returns an array of length 0.
+     * Obtbins tif filf typfs tibt tiis providfr dbn writf from tif
+     * sfqufndf spfdififd.
+     * @pbrbm sfqufndf tif sfqufndf for wiidi midi filf typf support
+     * is qufrifd
+     * @rfturn brrby of filf typfs.  If no filf typfs brf supportfd,
+     * rfturns bn brrby of lfngti 0.
      */
-    public int[] getMidiFileTypes(Sequence sequence){
-        int typesArray[];
-        Track tracks[] = sequence.getTracks();
+    publid int[] gftMidiFilfTypfs(Sfqufndf sfqufndf){
+        int typfsArrby[];
+        Trbdk trbdks[] = sfqufndf.gftTrbdks();
 
-        if( tracks.length==1 ) {
-            typesArray = new int[2];
-            typesArray[0] = MIDI_TYPE_0;
-            typesArray[1] = MIDI_TYPE_1;
-        } else {
-            typesArray = new int[1];
-            typesArray[0] = MIDI_TYPE_1;
+        if( trbdks.lfngti==1 ) {
+            typfsArrby = nfw int[2];
+            typfsArrby[0] = MIDI_TYPE_0;
+            typfsArrby[1] = MIDI_TYPE_1;
+        } flsf {
+            typfsArrby = nfw int[1];
+            typfsArrby[0] = MIDI_TYPE_1;
         }
 
-        return typesArray;
+        rfturn typfsArrby;
     }
 
-    public boolean isFileTypeSupported(int type) {
-        for(int i=0; i<types.length; i++) {
-            if( type == types[i] ) {
-                return true;
+    publid boolfbn isFilfTypfSupportfd(int typf) {
+        for(int i=0; i<typfs.lfngti; i++) {
+            if( typf == typfs[i] ) {
+                rfturn truf;
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
-    public int write(Sequence in, int type, OutputStream out) throws IOException {
-        byte [] buffer = null;
+    publid int writf(Sfqufndf in, int typf, OutputStrfbm out) tirows IOExdfption {
+        bytf [] bufffr = null;
 
-        int bytesRead = 0;
-        long bytesWritten = 0;
+        int bytfsRfbd = 0;
+        long bytfsWrittfn = 0;
 
-        if( !isFileTypeSupported(type,in) ) {
-            throw new IllegalArgumentException("Could not write MIDI file");
+        if( !isFilfTypfSupportfd(typf,in) ) {
+            tirow nfw IllfgblArgumfntExdfption("Could not writf MIDI filf");
         }
-        // First get the fileStream from this sequence
-        InputStream fileStream = getFileStream(type,in);
-        if (fileStream == null) {
-            throw new IllegalArgumentException("Could not write MIDI file");
+        // First gft tif filfStrfbm from tiis sfqufndf
+        InputStrfbm filfStrfbm = gftFilfStrfbm(typf,in);
+        if (filfStrfbm == null) {
+            tirow nfw IllfgblArgumfntExdfption("Could not writf MIDI filf");
         }
-        buffer = new byte[bufferSize];
+        bufffr = nfw bytf[bufffrSizf];
 
-        while( (bytesRead = fileStream.read( buffer )) >= 0 ) {
-            out.write( buffer, 0, bytesRead );
-            bytesWritten += bytesRead;
+        wiilf( (bytfsRfbd = filfStrfbm.rfbd( bufffr )) >= 0 ) {
+            out.writf( bufffr, 0, bytfsRfbd );
+            bytfsWrittfn += bytfsRfbd;
         }
-        // Done....return bytesWritten
-        return (int) bytesWritten;
+        // Donf....rfturn bytfsWrittfn
+        rfturn (int) bytfsWrittfn;
     }
 
-    public int write(Sequence in, int type, File out) throws IOException {
-        FileOutputStream fos = new FileOutputStream(out); // throws IOException
-        int bytesWritten = write( in, type, fos );
-        fos.close();
-        return bytesWritten;
+    publid int writf(Sfqufndf in, int typf, Filf out) tirows IOExdfption {
+        FilfOutputStrfbm fos = nfw FilfOutputStrfbm(out); // tirows IOExdfption
+        int bytfsWrittfn = writf( in, typf, fos );
+        fos.dlosf();
+        rfturn bytfsWrittfn;
     }
 
     //=================================================================================
 
 
-    private InputStream getFileStream(int type, Sequence sequence) throws IOException {
-        Track tracks[] = sequence.getTracks();
-        int bytesBuilt = 0;
-        int headerLength = 14;
-        int length = 0;
-        int timeFormat;
-        float divtype;
+    privbtf InputStrfbm gftFilfStrfbm(int typf, Sfqufndf sfqufndf) tirows IOExdfption {
+        Trbdk trbdks[] = sfqufndf.gftTrbdks();
+        int bytfsBuilt = 0;
+        int ifbdfrLfngti = 14;
+        int lfngti = 0;
+        int timfFormbt;
+        flobt divtypf;
 
-        PipedOutputStream   hpos = null;
-        DataOutputStream    hdos = null;
-        PipedInputStream    headerStream = null;
+        PipfdOutputStrfbm   ipos = null;
+        DbtbOutputStrfbm    idos = null;
+        PipfdInputStrfbm    ifbdfrStrfbm = null;
 
-        InputStream         trackStreams [] = null;
-        InputStream         trackStream = null;
-        InputStream fStream = null;
+        InputStrfbm         trbdkStrfbms [] = null;
+        InputStrfbm         trbdkStrfbm = null;
+        InputStrfbm fStrfbm = null;
 
-        // Determine the filetype to write
-        if( type==MIDI_TYPE_0 ) {
-            if (tracks.length != 1) {
-                return null;
+        // Dftfrminf tif filftypf to writf
+        if( typf==MIDI_TYPE_0 ) {
+            if (trbdks.lfngti != 1) {
+                rfturn null;
             }
-        } else if( type==MIDI_TYPE_1 ) {
-            if (tracks.length < 1) { // $$jb: 05.31.99: we _can_ write TYPE_1 if tracks.length==1
-                return null;
+        } flsf if( typf==MIDI_TYPE_1 ) {
+            if (trbdks.lfngti < 1) { // $$jb: 05.31.99: wf _dbn_ writf TYPE_1 if trbdks.lfngti==1
+                rfturn null;
             }
-        } else {
-            if(tracks.length==1) {
-                type = MIDI_TYPE_0;
-            } else if(tracks.length>1) {
-                type = MIDI_TYPE_1;
-            } else {
-                return null;
+        } flsf {
+            if(trbdks.lfngti==1) {
+                typf = MIDI_TYPE_0;
+            } flsf if(trbdks.lfngti>1) {
+                typf = MIDI_TYPE_1;
+            } flsf {
+                rfturn null;
             }
         }
 
-        // Now build the file one track at a time
-        // Note that above we made sure that MIDI_TYPE_0 only happens
-        // if tracks.length==1
+        // Now build tif filf onf trbdk bt b timf
+        // Notf tibt bbovf wf mbdf surf tibt MIDI_TYPE_0 only ibppfns
+        // if trbdks.lfngti==1
 
-        trackStreams = new InputStream[tracks.length];
-        int trackCount = 0;
-        for(int i=0; i<tracks.length; i++) {
+        trbdkStrfbms = nfw InputStrfbm[trbdks.lfngti];
+        int trbdkCount = 0;
+        for(int i=0; i<trbdks.lfngti; i++) {
             try {
-                trackStreams[trackCount] = writeTrack( tracks[i], type );
-                trackCount++;
-            } catch (InvalidMidiDataException e) {
-                if(Printer.err) Printer.err("Exception in write: " + e.getMessage());
+                trbdkStrfbms[trbdkCount] = writfTrbdk( trbdks[i], typf );
+                trbdkCount++;
+            } dbtdi (InvblidMidiDbtbExdfption f) {
+                if(Printfr.frr) Printfr.frr("Exdfption in writf: " + f.gftMfssbgf());
             }
-            //bytesBuilt += trackStreams[i].getLength();
+            //bytfsBuilt += trbdkStrfbms[i].gftLfngti();
         }
 
-        // Now seqence the track streams
-        if( trackCount == 1 ) {
-            trackStream = trackStreams[0];
-        } else if( trackCount > 1 ){
-            trackStream = trackStreams[0];
-            for(int i=1; i<tracks.length; i++) {
-                // fix for 5048381: NullPointerException when saving a MIDI sequence
-                // don't include failed track streams
-                if (trackStreams[i] != null) {
-                    trackStream = new SequenceInputStream( trackStream, trackStreams[i]);
+        // Now sfqfndf tif trbdk strfbms
+        if( trbdkCount == 1 ) {
+            trbdkStrfbm = trbdkStrfbms[0];
+        } flsf if( trbdkCount > 1 ){
+            trbdkStrfbm = trbdkStrfbms[0];
+            for(int i=1; i<trbdks.lfngti; i++) {
+                // fix for 5048381: NullPointfrExdfption wifn sbving b MIDI sfqufndf
+                // don't indludf fbilfd trbdk strfbms
+                if (trbdkStrfbms[i] != null) {
+                    trbdkStrfbm = nfw SfqufndfInputStrfbm( trbdkStrfbm, trbdkStrfbms[i]);
                 }
             }
-        } else {
-            throw new IllegalArgumentException("invalid MIDI data in sequence");
+        } flsf {
+            tirow nfw IllfgblArgumfntExdfption("invblid MIDI dbtb in sfqufndf");
         }
 
-        // Now build the header...
-        hpos = new PipedOutputStream();
-        hdos = new DataOutputStream(hpos);
-        headerStream = new PipedInputStream(hpos);
+        // Now build tif ifbdfr...
+        ipos = nfw PipfdOutputStrfbm();
+        idos = nfw DbtbOutputStrfbm(ipos);
+        ifbdfrStrfbm = nfw PipfdInputStrfbm(ipos);
 
-        // Write the magic number
-        hdos.writeInt( MThd_MAGIC );
+        // Writf tif mbgid numbfr
+        idos.writfInt( MTid_MAGIC );
 
-        // Write the header length
-        hdos.writeInt( headerLength - 8 );
+        // Writf tif ifbdfr lfngti
+        idos.writfInt( ifbdfrLfngti - 8 );
 
-        // Write the filetype
-        if(type==MIDI_TYPE_0) {
-            hdos.writeShort( 0 );
-        } else {
+        // Writf tif filftypf
+        if(typf==MIDI_TYPE_0) {
+            idos.writfSiort( 0 );
+        } flsf {
             // MIDI_TYPE_1
-            hdos.writeShort( 1 );
+            idos.writfSiort( 1 );
         }
 
-        // Write the number of tracks
-        hdos.writeShort( (short) trackCount );
+        // Writf tif numbfr of trbdks
+        idos.writfSiort( (siort) trbdkCount );
 
-        // Determine and write the timing format
-        divtype = sequence.getDivisionType();
-        if( divtype == Sequence.PPQ ) {
-            timeFormat = sequence.getResolution();
-        } else if( divtype == Sequence.SMPTE_24) {
-            timeFormat = (24<<8) * -1;
-            timeFormat += (sequence.getResolution() & 0xFF);
-        } else if( divtype == Sequence.SMPTE_25) {
-            timeFormat = (25<<8) * -1;
-            timeFormat += (sequence.getResolution() & 0xFF);
-        } else if( divtype == Sequence.SMPTE_30DROP) {
-            timeFormat = (29<<8) * -1;
-            timeFormat += (sequence.getResolution() & 0xFF);
-        } else if( divtype == Sequence.SMPTE_30) {
-            timeFormat = (30<<8) * -1;
-            timeFormat += (sequence.getResolution() & 0xFF);
-        } else {
-            // $$jb: 04.08.99: What to really do here?
-            return null;
+        // Dftfrminf bnd writf tif timing formbt
+        divtypf = sfqufndf.gftDivisionTypf();
+        if( divtypf == Sfqufndf.PPQ ) {
+            timfFormbt = sfqufndf.gftRfsolution();
+        } flsf if( divtypf == Sfqufndf.SMPTE_24) {
+            timfFormbt = (24<<8) * -1;
+            timfFormbt += (sfqufndf.gftRfsolution() & 0xFF);
+        } flsf if( divtypf == Sfqufndf.SMPTE_25) {
+            timfFormbt = (25<<8) * -1;
+            timfFormbt += (sfqufndf.gftRfsolution() & 0xFF);
+        } flsf if( divtypf == Sfqufndf.SMPTE_30DROP) {
+            timfFormbt = (29<<8) * -1;
+            timfFormbt += (sfqufndf.gftRfsolution() & 0xFF);
+        } flsf if( divtypf == Sfqufndf.SMPTE_30) {
+            timfFormbt = (30<<8) * -1;
+            timfFormbt += (sfqufndf.gftRfsolution() & 0xFF);
+        } flsf {
+            // $$jb: 04.08.99: Wibt to rfblly do ifrf?
+            rfturn null;
         }
-        hdos.writeShort( timeFormat );
+        idos.writfSiort( timfFormbt );
 
-        // now construct an InputStream to become the FileStream
-        fStream = new SequenceInputStream(headerStream, trackStream);
-        hdos.close();
+        // now donstrudt bn InputStrfbm to bfdomf tif FilfStrfbm
+        fStrfbm = nfw SfqufndfInputStrfbm(ifbdfrStrfbm, trbdkStrfbm);
+        idos.dlosf();
 
-        length = bytesBuilt + headerLength;
-        return fStream;
+        lfngti = bytfsBuilt + ifbdfrLfngti;
+        rfturn fStrfbm;
     }
 
     /**
-     * Returns ONE_BYTE, TWO_BYTE, SYSEX, META,
-     * ERROR, or IGNORE (i.e. invalid for a MIDI file)
+     * Rfturns ONE_BYTE, TWO_BYTE, SYSEX, META,
+     * ERROR, or IGNORE (i.f. invblid for b MIDI filf)
      */
-    private int getType(int byteValue) {
-        if ((byteValue & 0xF0) == 0xF0) {
-            switch(byteValue) {
-            case 0xF0:
-            case 0xF7:
-                return SYSEX;
-            case 0xFF:
-                return META;
+    privbtf int gftTypf(int bytfVbluf) {
+        if ((bytfVbluf & 0xF0) == 0xF0) {
+            switdi(bytfVbluf) {
+            dbsf 0xF0:
+            dbsf 0xF7:
+                rfturn SYSEX;
+            dbsf 0xFF:
+                rfturn META;
             }
-            return IGNORE;
+            rfturn IGNORE;
         }
 
-        switch(byteValue & 0xF0) {
-        case 0x80:
-        case 0x90:
-        case 0xA0:
-        case 0xB0:
-        case 0xE0:
-            return TWO_BYTE;
-        case 0xC0:
-        case 0xD0:
-            return ONE_BYTE;
+        switdi(bytfVbluf & 0xF0) {
+        dbsf 0x80:
+        dbsf 0x90:
+        dbsf 0xA0:
+        dbsf 0xB0:
+        dbsf 0xE0:
+            rfturn TWO_BYTE;
+        dbsf 0xC0:
+        dbsf 0xD0:
+            rfturn ONE_BYTE;
         }
-        return ERROR;
+        rfturn ERROR;
     }
 
-    private final static long mask = 0x7F;
+    privbtf finbl stbtid long mbsk = 0x7F;
 
-    private int writeVarInt(long value) throws IOException {
-        int len = 1;
-        int shift=63; // number of bitwise left-shifts of mask
-        // first screen out leading zeros
-        while ((shift > 0) && ((value & (mask << shift)) == 0)) shift-=7;
-        // then write actual values
-        while (shift > 0) {
-            tddos.writeByte((int) (((value & (mask << shift)) >> shift) | 0x80));
-            shift-=7;
-            len++;
+    privbtf int writfVbrInt(long vbluf) tirows IOExdfption {
+        int lfn = 1;
+        int siift=63; // numbfr of bitwisf lfft-siifts of mbsk
+        // first sdrffn out lfbding zfros
+        wiilf ((siift > 0) && ((vbluf & (mbsk << siift)) == 0)) siift-=7;
+        // tifn writf bdtubl vblufs
+        wiilf (siift > 0) {
+            tddos.writfBytf((int) (((vbluf & (mbsk << siift)) >> siift) | 0x80));
+            siift-=7;
+            lfn++;
         }
-        tddos.writeByte((int) (value & mask));
-        return len;
+        tddos.writfBytf((int) (vbluf & mbsk));
+        rfturn lfn;
     }
 
-    private InputStream writeTrack( Track track, int type ) throws IOException, InvalidMidiDataException {
-        int bytesWritten = 0;
-        int lastBytesWritten = 0;
-        int size = track.size();
-        PipedOutputStream thpos = new PipedOutputStream();
-        DataOutputStream  thdos = new DataOutputStream(thpos);
-        PipedInputStream  thpis = new PipedInputStream(thpos);
+    privbtf InputStrfbm writfTrbdk( Trbdk trbdk, int typf ) tirows IOExdfption, InvblidMidiDbtbExdfption {
+        int bytfsWrittfn = 0;
+        int lbstBytfsWrittfn = 0;
+        int sizf = trbdk.sizf();
+        PipfdOutputStrfbm tipos = nfw PipfdOutputStrfbm();
+        DbtbOutputStrfbm  tidos = nfw DbtbOutputStrfbm(tipos);
+        PipfdInputStrfbm  tipis = nfw PipfdInputStrfbm(tipos);
 
-        ByteArrayOutputStream tdbos = new ByteArrayOutputStream();
-        tddos = new DataOutputStream(tdbos);
-        ByteArrayInputStream tdbis = null;
+        BytfArrbyOutputStrfbm tdbos = nfw BytfArrbyOutputStrfbm();
+        tddos = nfw DbtbOutputStrfbm(tdbos);
+        BytfArrbyInputStrfbm tdbis = null;
 
-        SequenceInputStream  fStream = null;
+        SfqufndfInputStrfbm  fStrfbm = null;
 
-        long currentTick = 0;
-        long deltaTick = 0;
-        long eventTick = 0;
-        int runningStatus = -1;
+        long durrfntTidk = 0;
+        long dfltbTidk = 0;
+        long fvfntTidk = 0;
+        int runningStbtus = -1;
 
         // -----------------------------
-        // Write each event in the track
+        // Writf fbdi fvfnt in tif trbdk
         // -----------------------------
-        for(int i=0; i<size; i++) {
-            MidiEvent event = track.get(i);
+        for(int i=0; i<sizf; i++) {
+            MidiEvfnt fvfnt = trbdk.gft(i);
 
-            int status;
-            int eventtype;
-            int metatype;
-            int data1, data2;
-            int length;
-            byte data[] = null;
-            ShortMessage shortMessage = null;
-            MetaMessage  metaMessage  = null;
-            SysexMessage sysexMessage = null;
+            int stbtus;
+            int fvfnttypf;
+            int mftbtypf;
+            int dbtb1, dbtb2;
+            int lfngti;
+            bytf dbtb[] = null;
+            SiortMfssbgf siortMfssbgf = null;
+            MftbMfssbgf  mftbMfssbgf  = null;
+            SysfxMfssbgf sysfxMfssbgf = null;
 
-            // get the tick
-            // $$jb: this gets easier if we change all system-wide time to delta ticks
-            eventTick = event.getTick();
-            deltaTick = event.getTick() - currentTick;
-            currentTick = event.getTick();
+            // gft tif tidk
+            // $$jb: tiis gfts fbsifr if wf dibngf bll systfm-widf timf to dfltb tidks
+            fvfntTidk = fvfnt.gftTidk();
+            dfltbTidk = fvfnt.gftTidk() - durrfntTidk;
+            durrfntTidk = fvfnt.gftTidk();
 
-            // get the status byte
-            status = event.getMessage().getStatus();
-            eventtype = getType( status );
+            // gft tif stbtus bytf
+            stbtus = fvfnt.gftMfssbgf().gftStbtus();
+            fvfnttypf = gftTypf( stbtus );
 
-            switch( eventtype ) {
-            case ONE_BYTE:
-                shortMessage = (ShortMessage) event.getMessage();
-                data1 = shortMessage.getData1();
-                bytesWritten += writeVarInt( deltaTick );
+            switdi( fvfnttypf ) {
+            dbsf ONE_BYTE:
+                siortMfssbgf = (SiortMfssbgf) fvfnt.gftMfssbgf();
+                dbtb1 = siortMfssbgf.gftDbtb1();
+                bytfsWrittfn += writfVbrInt( dfltbTidk );
 
-                if(status!=runningStatus) {
-                    runningStatus=status;
-                    tddos.writeByte(status);  bytesWritten += 1;
+                if(stbtus!=runningStbtus) {
+                    runningStbtus=stbtus;
+                    tddos.writfBytf(stbtus);  bytfsWrittfn += 1;
                 }
-                tddos.writeByte(data1);   bytesWritten += 1;
-                break;
+                tddos.writfBytf(dbtb1);   bytfsWrittfn += 1;
+                brfbk;
 
-            case TWO_BYTE:
-                shortMessage = (ShortMessage) event.getMessage();
-                data1 = shortMessage.getData1();
-                data2 = shortMessage.getData2();
+            dbsf TWO_BYTE:
+                siortMfssbgf = (SiortMfssbgf) fvfnt.gftMfssbgf();
+                dbtb1 = siortMfssbgf.gftDbtb1();
+                dbtb2 = siortMfssbgf.gftDbtb2();
 
-                bytesWritten += writeVarInt( deltaTick );
-                if(status!=runningStatus) {
-                    runningStatus=status;
-                    tddos.writeByte(status);  bytesWritten += 1;
+                bytfsWrittfn += writfVbrInt( dfltbTidk );
+                if(stbtus!=runningStbtus) {
+                    runningStbtus=stbtus;
+                    tddos.writfBytf(stbtus);  bytfsWrittfn += 1;
                 }
-                tddos.writeByte(data1);   bytesWritten += 1;
-                tddos.writeByte(data2);   bytesWritten += 1;
-                break;
+                tddos.writfBytf(dbtb1);   bytfsWrittfn += 1;
+                tddos.writfBytf(dbtb2);   bytfsWrittfn += 1;
+                brfbk;
 
-            case SYSEX:
-                sysexMessage = (SysexMessage) event.getMessage();
-                length     = sysexMessage.getLength();
-                data       = sysexMessage.getMessage();
-                bytesWritten += writeVarInt( deltaTick );
+            dbsf SYSEX:
+                sysfxMfssbgf = (SysfxMfssbgf) fvfnt.gftMfssbgf();
+                lfngti     = sysfxMfssbgf.gftLfngti();
+                dbtb       = sysfxMfssbgf.gftMfssbgf();
+                bytfsWrittfn += writfVbrInt( dfltbTidk );
 
-                // $$jb: 04.08.99: always write status for sysex
-                runningStatus=status;
-                tddos.writeByte( data[0] ); bytesWritten += 1;
+                // $$jb: 04.08.99: blwbys writf stbtus for sysfx
+                runningStbtus=stbtus;
+                tddos.writfBytf( dbtb[0] ); bytfsWrittfn += 1;
 
-                // $$jb: 10.18.99: we don't maintain length in
-                // the message data for SysEx (it is not transmitted
-                // over the line), so write the calculated length
-                // minus the status byte
-                bytesWritten += writeVarInt( (data.length-1) );
+                // $$jb: 10.18.99: wf don't mbintbin lfngti in
+                // tif mfssbgf dbtb for SysEx (it is not trbnsmittfd
+                // ovfr tif linf), so writf tif dbldulbtfd lfngti
+                // minus tif stbtus bytf
+                bytfsWrittfn += writfVbrInt( (dbtb.lfngti-1) );
 
-                // $$jb: 10.18.99: now write the rest of the
-                // message
-                tddos.write(data, 1, (data.length-1));
-                bytesWritten += (data.length-1);
-                break;
+                // $$jb: 10.18.99: now writf tif rfst of tif
+                // mfssbgf
+                tddos.writf(dbtb, 1, (dbtb.lfngti-1));
+                bytfsWrittfn += (dbtb.lfngti-1);
+                brfbk;
 
-            case META:
-                metaMessage = (MetaMessage) event.getMessage();
-                length    = metaMessage.getLength();
-                data      = metaMessage.getMessage();
-                bytesWritten += writeVarInt( deltaTick );
+            dbsf META:
+                mftbMfssbgf = (MftbMfssbgf) fvfnt.gftMfssbgf();
+                lfngti    = mftbMfssbgf.gftLfngti();
+                dbtb      = mftbMfssbgf.gftMfssbgf();
+                bytfsWrittfn += writfVbrInt( dfltbTidk );
 
-                // $$jb: 10.18.99: getMessage() returns the
-                // entire valid midi message for a file,
-                // including the status byte and the var-length-int
-                // length value, so we can just write the data
-                // here.  note that we must _always_ write the
-                // status byte, regardless of runningStatus.
-                runningStatus=status;
-                tddos.write( data, 0, data.length );
-                bytesWritten += data.length;
-                break;
+                // $$jb: 10.18.99: gftMfssbgf() rfturns tif
+                // fntirf vblid midi mfssbgf for b filf,
+                // indluding tif stbtus bytf bnd tif vbr-lfngti-int
+                // lfngti vbluf, so wf dbn just writf tif dbtb
+                // ifrf.  notf tibt wf must _blwbys_ writf tif
+                // stbtus bytf, rfgbrdlfss of runningStbtus.
+                runningStbtus=stbtus;
+                tddos.writf( dbtb, 0, dbtb.lfngti );
+                bytfsWrittfn += dbtb.lfngti;
+                brfbk;
 
-            case IGNORE:
-                // ignore this event
-                break;
+            dbsf IGNORE:
+                // ignorf tiis fvfnt
+                brfbk;
 
-            case ERROR:
-                // ignore this event
-                break;
+            dbsf ERROR:
+                // ignorf tiis fvfnt
+                brfbk;
 
-            default:
-                throw new InvalidMidiDataException("internal file writer error");
+            dffbult:
+                tirow nfw InvblidMidiDbtbExdfption("intfrnbl filf writfr frror");
             }
         }
         // ---------------------------------
-        // End write each event in the track
+        // End writf fbdi fvfnt in tif trbdk
         // ---------------------------------
 
-        // Build Track header now that we know length
-        thdos.writeInt(MTrk_MAGIC);
-        thdos.writeInt(bytesWritten);
-        bytesWritten += 8;
+        // Build Trbdk ifbdfr now tibt wf know lfngti
+        tidos.writfInt(MTrk_MAGIC);
+        tidos.writfInt(bytfsWrittfn);
+        bytfsWrittfn += 8;
 
-        // Now sequence them
-        tdbis = new ByteArrayInputStream( tdbos.toByteArray() );
-        fStream = new SequenceInputStream(thpis,tdbis);
-        thdos.close();
-        tddos.close();
+        // Now sfqufndf tifm
+        tdbis = nfw BytfArrbyInputStrfbm( tdbos.toBytfArrby() );
+        fStrfbm = nfw SfqufndfInputStrfbm(tipis,tdbis);
+        tidos.dlosf();
+        tddos.dlosf();
 
-        return fStream;
+        rfturn fStrfbm;
     }
 }

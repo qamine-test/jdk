@@ -1,123 +1,123 @@
 /*
- * Copyright (c) 1998, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 options {
-  JAVA_UNICODE_ESCAPE = true;
-  STATIC = false;
+  JAVA_UNICODE_ESCAPE = truf;
+  STATIC = fblsf;
 }
 
-PARSER_BEGIN(ExpressionParser)
+PARSER_BEGIN(ExprfssionPbrsfr)
 
-package com.sun.tools.example.debug.expr;
+pbdkbgf dom.sun.tools.fxbmplf.dfbug.fxpr;
 
-import com.sun.jdi.*;
-import java.util.Stack;
-import java.util.List;
-import java.util.ArrayList;
+import dom.sun.jdi.*;
+import jbvb.util.Stbdk;
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
 
-public class ExpressionParser {    
+publid dlbss ExprfssionPbrsfr {    
 
-  Stack stack = new Stack();    
-  VirtualMachine vm = null;
-  GetFrame frameGetter = null;
-  private static GetFrame lastFrameGetter;
-  private static LValue lastLValue;
+  Stbdk stbdk = nfw Stbdk();    
+  VirtublMbdiinf vm = null;
+  GftFrbmf frbmfGfttfr = null;
+  privbtf stbtid GftFrbmf lbstFrbmfGfttfr;
+  privbtf stbtid LVbluf lbstLVbluf;
 
-  LValue peek() {
-    return (LValue)stack.peek();
+  LVbluf pffk() {
+    rfturn (LVbluf)stbdk.pffk();
   }
 
-  LValue pop() {
-    return (LValue)stack.pop();
+  LVbluf pop() {
+    rfturn (LVbluf)stbdk.pop();
   }
 
-  void push(LValue lval) {
-    stack.push(lval);
+  void pusi(LVbluf lvbl) {
+    stbdk.pusi(lvbl);
   }
 
-  public static Value getMassagedValue() throws ParseException {
-        return lastLValue.getMassagedValue(lastFrameGetter);
+  publid stbtid Vbluf gftMbssbgfdVbluf() tirows PbrsfExdfption {
+        rfturn lbstLVbluf.gftMbssbgfdVbluf(lbstFrbmfGfttfr);
   }
 
-  public interface GetFrame {
-        StackFrame get() throws IncompatibleThreadStateException;
+  publid intfrfbdf GftFrbmf {
+        StbdkFrbmf gft() tirows IndompbtiblfTirfbdStbtfExdfption;
   }
 
-  public static Value evaluate(String expr, VirtualMachine vm, 
-                               GetFrame frameGetter) throws ParseException,
-                                            InvocationException, 
-					    InvalidTypeException,
-					    ClassNotLoadedException,
-					    IncompatibleThreadStateException {
-        // TODO StringBufferInputStream is deprecated.
-        java.io.InputStream in = new java.io.StringBufferInputStream(expr);
-        ExpressionParser parser = new ExpressionParser(in);
-        parser.vm = vm;
-        parser.frameGetter = frameGetter;
-	Value value = null;
-        parser.Expression();
-	lastFrameGetter = frameGetter;
-	lastLValue = parser.pop();
-	return lastLValue.getValue();
+  publid stbtid Vbluf fvblubtf(String fxpr, VirtublMbdiinf vm, 
+                               GftFrbmf frbmfGfttfr) tirows PbrsfExdfption,
+                                            InvodbtionExdfption, 
+					    InvblidTypfExdfption,
+					    ClbssNotLobdfdExdfption,
+					    IndompbtiblfTirfbdStbtfExdfption {
+        // TODO StringBufffrInputStrfbm is dfprfdbtfd.
+        jbvb.io.InputStrfbm in = nfw jbvb.io.StringBufffrInputStrfbm(fxpr);
+        ExprfssionPbrsfr pbrsfr = nfw ExprfssionPbrsfr(in);
+        pbrsfr.vm = vm;
+        pbrsfr.frbmfGfttfr = frbmfGfttfr;
+	Vbluf vbluf = null;
+        pbrsfr.Exprfssion();
+	lbstFrbmfGfttfr = frbmfGfttfr;
+	lbstLVbluf = pbrsfr.pop();
+	rfturn lbstLVbluf.gftVbluf();
   }
 
-  public static void main(String args[]) {
-    ExpressionParser parser;
-    System.out.print("Java Expression Parser:  ");
-    if (args.length == 0) {
-      System.out.println("Reading from standard input . . .");
-      parser = new ExpressionParser(System.in);
-    } else if (args.length == 1) {
-      System.out.println("Reading from file " + args[0] + " . . .");
+  publid stbtid void mbin(String brgs[]) {
+    ExprfssionPbrsfr pbrsfr;
+    Systfm.out.print("Jbvb Exprfssion Pbrsfr:  ");
+    if (brgs.lfngti == 0) {
+      Systfm.out.println("Rfbding from stbndbrd input . . .");
+      pbrsfr = nfw ExprfssionPbrsfr(Systfm.in);
+    } flsf if (brgs.lfngti == 1) {
+      Systfm.out.println("Rfbding from filf " + brgs[0] + " . . .");
       try {
-        parser = new ExpressionParser(new java.io.FileInputStream(args[0]));
-      } catch (java.io.FileNotFoundException e) {
-        System.out.println("Java Parser Version 1.0.2:  File " + 
-                           args[0] + " not found.");
-        return;
+        pbrsfr = nfw ExprfssionPbrsfr(nfw jbvb.io.FilfInputStrfbm(brgs[0]));
+      } dbtdi (jbvb.io.FilfNotFoundExdfption f) {
+        Systfm.out.println("Jbvb Pbrsfr Vfrsion 1.0.2:  Filf " + 
+                           brgs[0] + " not found.");
+        rfturn;
       }
-    } else {
-      System.out.println("Usage is one of:");
-      System.out.println("         java ExpressionParser < inputfile");
-      System.out.println("OR");
-      System.out.println("         java ExpressionParser inputfile");
-      return;
+    } flsf {
+      Systfm.out.println("Usbgf is onf of:");
+      Systfm.out.println("         jbvb ExprfssionPbrsfr < inputfilf");
+      Systfm.out.println("OR");
+      Systfm.out.println("         jbvb ExprfssionPbrsfr inputfilf");
+      rfturn;
     }
     try {
-        parser.Expression();
-        System.out.print("Java Expression Parser:  ");
-        System.out.println("Java program parsed successfully.");
-    } catch (ParseException e) {
-        System.out.print("Java Expression Parser:  ");
-        System.out.println("Encountered errors during parse.");
+        pbrsfr.Exprfssion();
+        Systfm.out.print("Jbvb Exprfssion Pbrsfr:  ");
+        Systfm.out.println("Jbvb progrbm pbrsfd suddfssfully.");
+    } dbtdi (PbrsfExdfption f) {
+        Systfm.out.print("Jbvb Exprfssion Pbrsfr:  ");
+        Systfm.out.println("Endountfrfd frrors during pbrsf.");
     }
   }
 
 }
 
-PARSER_END(ExpressionParser)
+PARSER_END(ExprfssionPbrsfr)
 
 
 SKIP : /* WHITE SPACE */
@@ -138,56 +138,56 @@ SPECIAL_TOKEN : /* COMMENTS */
 
 TOKEN : /* RESERVED WORDS AND LITERALS */
 {
-  < ABSTRACT: "abstract" >
-| < BOOLEAN: "boolean" >
-| < BREAK: "break" >
-| < BYTE: "byte" >
-| < CASE: "case" >
-| < CATCH: "catch" >
-| < CHAR: "char" >
-| < CLASS: "class" >
-| < CONST: "const" >
-| < CONTINUE: "continue" >
-| < _DEFAULT: "default" >
+  < ABSTRACT: "bbstrbdt" >
+| < BOOLEAN: "boolfbn" >
+| < BREAK: "brfbk" >
+| < BYTE: "bytf" >
+| < CASE: "dbsf" >
+| < CATCH: "dbtdi" >
+| < CHAR: "dibr" >
+| < CLASS: "dlbss" >
+| < CONST: "donst" >
+| < CONTINUE: "dontinuf" >
+| < _DEFAULT: "dffbult" >
 | < DO: "do" >
-| < DOUBLE: "double" >
-| < ELSE: "else" >
-| < EXTENDS: "extends" >
-| < FALSE: "false" >
-| < FINAL: "final" >
-| < FINALLY: "finally" >
-| < FLOAT: "float" >
+| < DOUBLE: "doublf" >
+| < ELSE: "flsf" >
+| < EXTENDS: "fxtfnds" >
+| < FALSE: "fblsf" >
+| < FINAL: "finbl" >
+| < FINALLY: "finblly" >
+| < FLOAT: "flobt" >
 | < FOR: "for" >
 | < GOTO: "goto" >
 | < IF: "if" >
-| < IMPLEMENTS: "implements" >
+| < IMPLEMENTS: "implfmfnts" >
 | < IMPORT: "import" >
-| < INSTANCEOF: "instanceof" >
+| < INSTANCEOF: "instbndfof" >
 | < INT: "int" >
-| < INTERFACE: "interface" >
+| < INTERFACE: "intfrfbdf" >
 | < LONG: "long" >
-| < NATIVE: "native" >
-| < NEW: "new" >
+| < NATIVE: "nbtivf" >
+| < NEW: "nfw" >
 | < NULL: "null" >
-| < PACKAGE: "package">
-| < PRIVATE: "private" >
-| < PROTECTED: "protected" >
-| < PUBLIC: "public" >
-| < RETURN: "return" >
-| < SHORT: "short" >
-| < STATIC: "static" >
-| < SUPER: "super" >
-| < SWITCH: "switch" >
-| < SYNCHRONIZED: "synchronized" >
-| < THIS: "this" >
-| < THROW: "throw" >
-| < THROWS: "throws" >
-| < TRANSIENT: "transient" >
-| < TRUE: "true" >
+| < PACKAGE: "pbdkbgf">
+| < PRIVATE: "privbtf" >
+| < PROTECTED: "protfdtfd" >
+| < PUBLIC: "publid" >
+| < RETURN: "rfturn" >
+| < SHORT: "siort" >
+| < STATIC: "stbtid" >
+| < SUPER: "supfr" >
+| < SWITCH: "switdi" >
+| < SYNCHRONIZED: "syndironizfd" >
+| < THIS: "tiis" >
+| < THROW: "tirow" >
+| < THROWS: "tirows" >
+| < TRANSIENT: "trbnsifnt" >
+| < TRUE: "truf" >
 | < TRY: "try" >
 | < VOID: "void" >
-| < VOLATILE: "volatile" >
-| < WHILE: "while" >
+| < VOLATILE: "volbtilf" >
+| < WHILE: "wiilf" >
 }
 
 TOKEN : /* LITERALS */
@@ -201,7 +201,7 @@ TOKEN : /* LITERALS */
 |
   < #DECIMAL_LITERAL: ["1"-"9"] (["0"-"9"])* >
 |
-  < #HEX_LITERAL: "0" ["x","X"] (["0"-"9","a"-"f","A"-"F"])+ >
+  < #HEX_LITERAL: "0" ["x","X"] (["0"-"9","b"-"f","A"-"F"])+ >
 |
   < #OCTAL_LITERAL: "0" (["0"-"7"])* >
 |
@@ -212,7 +212,7 @@ TOKEN : /* LITERALS */
       | (["0"-"9"])+ (<EXPONENT>)? ["f","F","d","D"]
   >
 |
-  < #EXPONENT: ["e","E"] (["+","-"])? (["0"-"9"])+ >
+  < #EXPONENT: ["f","E"] (["+","-"])? (["0"-"9"])+ >
 |
   < CHARACTER_LITERAL:
       "'"
@@ -248,18 +248,18 @@ TOKEN : /* IDENTIFIERS */
   < #LETTER:
       [
        "\u0024",
-       "\u0041"-"\u005a",
+       "\u0041"-"\u005b",
        "\u005f",
-       "\u0061"-"\u007a",
-       "\u00c0"-"\u00d6",
+       "\u0061"-"\u007b",
+       "\u00d0"-"\u00d6",
        "\u00d8"-"\u00f6",
        "\u00f8"-"\u00ff",
        "\u0100"-"\u1fff",
        "\u3040"-"\u318f",
        "\u3300"-"\u337f",
        "\u3400"-"\u3d2d",
-       "\u4e00"-"\u9fff",
-       "\uf900"-"\ufaff"
+       "\u4f00"-"\u9fff",
+       "\uf900"-"\ufbff"
       ]
   >
 |
@@ -269,16 +269,16 @@ TOKEN : /* IDENTIFIERS */
        "\u0660"-"\u0669",
        "\u06f0"-"\u06f9",
        "\u0966"-"\u096f",
-       "\u09e6"-"\u09ef",
-       "\u0a66"-"\u0a6f",
-       "\u0ae6"-"\u0aef",
+       "\u09f6"-"\u09ff",
        "\u0b66"-"\u0b6f",
-       "\u0be7"-"\u0bef",
-       "\u0c66"-"\u0c6f",
-       "\u0ce6"-"\u0cef",
+       "\u0bf6"-"\u0bff",
+       "\u0b66"-"\u0b6f",
+       "\u0bf7"-"\u0bff",
        "\u0d66"-"\u0d6f",
-       "\u0e50"-"\u0e59",
-       "\u0ed0"-"\u0ed9",
+       "\u0df6"-"\u0dff",
+       "\u0d66"-"\u0d6f",
+       "\u0f50"-"\u0f59",
+       "\u0fd0"-"\u0fd9",
        "\u1040"-"\u1049"
       ]
   >
@@ -344,381 +344,381 @@ TOKEN : /* OPERATORS */
  *****************************************/
 
 /*
- * Type, name and expression syntax follows.
+ * Typf, nbmf bnd fxprfssion syntbx follows.
  */
 
-void Type() :
+void Typf() :
 {}
 {
-  ( PrimitiveType() | Name() ) ( "[" "]" )*
+  ( PrimitivfTypf() | Nbmf() ) ( "[" "]" )*
 }
 
-void PrimitiveType() :
+void PrimitivfTypf() :
 {}
 {
-  "boolean"
+  "boolfbn"
 |
-  "char"
+  "dibr"
 |
-  "byte"
+  "bytf"
 |
-  "short"
+  "siort"
 |
   "int"
 |
   "long"
 |
-  "float"
+  "flobt"
 |
-  "double"
+  "doublf"
 }
 
 
-String Name() :
-{StringBuffer sb = new StringBuffer();}
+String Nbmf() :
+{StringBufffr sb = nfw StringBufffr();}
 {
-  <IDENTIFIER> { sb.append(token); }
-  ( LOOKAHEAD(2) "." <IDENTIFIER> { sb.append('.'); sb.append(token); }
+  <IDENTIFIER> { sb.bppfnd(tokfn); }
+  ( LOOKAHEAD(2) "." <IDENTIFIER> { sb.bppfnd('.'); sb.bppfnd(tokfn); }
   )*
-        { return sb.toString(); }
+        { rfturn sb.toString(); }
 }
 
-void NameList() :
+void NbmfList() :
 {}
 {
-  Name()
-  ( "," Name()
+  Nbmf()
+  ( "," Nbmf()
   )*
 }
 
 
 /*
- * Expression syntax follows.
+ * Exprfssion syntbx follows.
  */
 
-void Expression() :
+void Exprfssion() :
 {}
 {
-  LOOKAHEAD( PrimaryExpression() AssignmentOperator() )
-  Assignment()
+  LOOKAHEAD( PrimbryExprfssion() AssignmfntOpfrbtor() )
+  Assignmfnt()
 |
-  ConditionalExpression()
+  ConditionblExprfssion()
 }
 
-void Assignment() :
+void Assignmfnt() :
 {}
 {
-  PrimaryExpression() AssignmentOperator() Expression()
-        { LValue exprVal = pop(); pop().setValue(exprVal); push(exprVal);}
+  PrimbryExprfssion() AssignmfntOpfrbtor() Exprfssion()
+        { LVbluf fxprVbl = pop(); pop().sftVbluf(fxprVbl); pusi(fxprVbl);}
 }
 
-void AssignmentOperator() :
+void AssignmfntOpfrbtor() :
 {}
 {
   "=" | "*=" | "/=" | "%=" | "+=" | "-=" | "<<=" | ">>=" | ">>>=" | "&=" | "^=" | "|="
 }
 
-void ConditionalExpression() :
+void ConditionblExprfssion() :
 {}
 {
-  ConditionalOrExpression() 
-        [ "?" Expression() ":" ConditionalExpression() 
-                { LValue falseBranch = pop(); LValue trueBranch = pop(); 
-                  Value cond = pop().interiorGetValue();
-                  if (cond instanceof BooleanValue) {
-                        push(((BooleanValue)cond).booleanValue()? 
-                                        trueBranch : falseBranch);
-                  } else {
-                        throw new ParseException("Condition must be boolean");
+  ConditionblOrExprfssion() 
+        [ "?" Exprfssion() ":" ConditionblExprfssion() 
+                { LVbluf fblsfBrbndi = pop(); LVbluf trufBrbndi = pop(); 
+                  Vbluf dond = pop().intfriorGftVbluf();
+                  if (dond instbndfof BoolfbnVbluf) {
+                        pusi(((BoolfbnVbluf)dond).boolfbnVbluf()? 
+                                        trufBrbndi : fblsfBrbndi);
+                  } flsf {
+                        tirow nfw PbrsfExdfption("Condition must bf boolfbn");
                   }
                 }
         ]
 }
 
-void ConditionalOrExpression() :
+void ConditionblOrExprfssion() :
 {}
 {
-  ConditionalAndExpression() 
-        ( "||" ConditionalAndExpression() 
-                        { throw new ParseException("operation not yet supported"); }
+  ConditionblAndExprfssion() 
+        ( "||" ConditionblAndExprfssion() 
+                        { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
         )*
 }
 
-void ConditionalAndExpression() :
+void ConditionblAndExprfssion() :
 {}
 {
-  InclusiveOrExpression() 
-        ( "&&" InclusiveOrExpression() 
-                        { throw new ParseException("operation not yet supported"); }
+  IndlusivfOrExprfssion() 
+        ( "&&" IndlusivfOrExprfssion() 
+                        { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
         )*
 }
 
-void InclusiveOrExpression() :
+void IndlusivfOrExprfssion() :
 {}
 {
-  ExclusiveOrExpression() 
-        ( "|" ExclusiveOrExpression() 
-                        { throw new ParseException("operation not yet supported"); }
+  ExdlusivfOrExprfssion() 
+        ( "|" ExdlusivfOrExprfssion() 
+                        { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
         )*
 }
 
-void ExclusiveOrExpression() :
+void ExdlusivfOrExprfssion() :
 {}
 {
-  AndExpression() 
-        ( "^" AndExpression() 
-                        { throw new ParseException("operation not yet supported"); }
+  AndExprfssion() 
+        ( "^" AndExprfssion() 
+                        { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
         )*
 }
 
-void AndExpression() :
+void AndExprfssion() :
 {}
 {
-  EqualityExpression() 
-        ( "&" EqualityExpression() 
-                        { throw new ParseException("operation not yet supported"); }
+  EqublityExprfssion() 
+        ( "&" EqublityExprfssion() 
+                        { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
         )*
 }
 
-void EqualityExpression() :
-{Token tok;}
+void EqublityExprfssion() :
+{Tokfn tok;}
 {
-  InstanceOfExpression() 
-        ( ( tok = "==" | tok = "!=" ) InstanceOfExpression() 
-                { LValue left = pop(); 
-                  push( LValue.booleanOperation(vm, tok, pop(), left) ); }
+  InstbndfOfExprfssion() 
+        ( ( tok = "==" | tok = "!=" ) InstbndfOfExprfssion() 
+                { LVbluf lfft = pop(); 
+                  pusi( LVbluf.boolfbnOpfrbtion(vm, tok, pop(), lfft) ); }
         )*
 }
 
-void InstanceOfExpression() :
+void InstbndfOfExprfssion() :
 {}
 {
-  RelationalExpression() 
-        [ "instanceof" Type() 
-                        { throw new ParseException("operation not yet supported"); }
+  RflbtionblExprfssion() 
+        [ "instbndfof" Typf() 
+                        { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
         ]
 }
 
-void RelationalExpression() :
-{Token tok;}
+void RflbtionblExprfssion() :
+{Tokfn tok;}
 {
-  ShiftExpression() 
-        ( ( tok = "<" | tok = ">" | tok = "<=" | tok = ">=" ) ShiftExpression()
-                { LValue left = pop(); 
-                  push( LValue.booleanOperation(vm, tok, pop(), left) ); }
+  SiiftExprfssion() 
+        ( ( tok = "<" | tok = ">" | tok = "<=" | tok = ">=" ) SiiftExprfssion()
+                { LVbluf lfft = pop(); 
+                  pusi( LVbluf.boolfbnOpfrbtion(vm, tok, pop(), lfft) ); }
          )*
 }
 
-void ShiftExpression() :
+void SiiftExprfssion() :
 {}
 {
-  AdditiveExpression() 
-        ( ( "<<" | ">>" | ">>>" ) AdditiveExpression() 
-                        { throw new ParseException("operation not yet supported"); }
+  AdditivfExprfssion() 
+        ( ( "<<" | ">>" | ">>>" ) AdditivfExprfssion() 
+                        { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
         )*
 }
 
-void AdditiveExpression() :
-{Token tok;}
+void AdditivfExprfssion() :
+{Tokfn tok;}
 {
-  MultiplicativeExpression() 
-        ( ( tok = "+" | tok = "-" ) MultiplicativeExpression() 
-                { LValue left = pop(); 
-                  push( LValue.operation(vm, tok, pop(), left, frameGetter) ); }
+  MultiplidbtivfExprfssion() 
+        ( ( tok = "+" | tok = "-" ) MultiplidbtivfExprfssion() 
+                { LVbluf lfft = pop(); 
+                  pusi( LVbluf.opfrbtion(vm, tok, pop(), lfft, frbmfGfttfr) ); }
         )*
 }
 
-void MultiplicativeExpression() :
-{Token tok;}
+void MultiplidbtivfExprfssion() :
+{Tokfn tok;}
 {
-  UnaryExpression() 
-        ( ( tok = "*" | tok = "/" | tok = "%" ) UnaryExpression()
-                { LValue left = pop(); 
-                  push( LValue.operation(vm, tok, pop(), left, frameGetter) ); }
+  UnbryExprfssion() 
+        ( ( tok = "*" | tok = "/" | tok = "%" ) UnbryExprfssion()
+                { LVbluf lfft = pop(); 
+                  pusi( LVbluf.opfrbtion(vm, tok, pop(), lfft, frbmfGfttfr) ); }
         )*
 }
 
-void UnaryExpression() :
-{Token tok;}
+void UnbryExprfssion() :
+{Tokfn tok;}
 {
-  ( tok = "+" | tok = "-" ) UnaryExpression()
-                { push( LValue.operation(vm, tok, pop(), frameGetter) ); }
+  ( tok = "+" | tok = "-" ) UnbryExprfssion()
+                { pusi( LVbluf.opfrbtion(vm, tok, pop(), frbmfGfttfr) ); }
 |
-  PreIncrementExpression()
+  PrfIndrfmfntExprfssion()
 |
-  PreDecrementExpression()
+  PrfDfdrfmfntExprfssion()
 |
-  UnaryExpressionNotPlusMinus()
+  UnbryExprfssionNotPlusMinus()
 }
 
-void PreIncrementExpression() :
+void PrfIndrfmfntExprfssion() :
 {}
 {
-  "++" PrimaryExpression()
-                        { throw new ParseException("operation not yet supported"); }
+  "++" PrimbryExprfssion()
+                        { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
 }
 
-void PreDecrementExpression() :
+void PrfDfdrfmfntExprfssion() :
 {}
 {
-  "--" PrimaryExpression()
-                        { throw new ParseException("operation not yet supported"); }
+  "--" PrimbryExprfssion()
+                        { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
 }
 
-void UnaryExpressionNotPlusMinus() :
-{Token tok;}
+void UnbryExprfssionNotPlusMinus() :
+{Tokfn tok;}
 {
-  ( tok = "~" | tok = "!" ) UnaryExpression()
-                { push( LValue.operation(vm, tok, pop(), frameGetter) ); }
+  ( tok = "~" | tok = "!" ) UnbryExprfssion()
+                { pusi( LVbluf.opfrbtion(vm, tok, pop(), frbmfGfttfr) ); }
 |
-  LOOKAHEAD( CastLookahead() )
-  CastExpression()
+  LOOKAHEAD( CbstLookbifbd() )
+  CbstExprfssion()
 |
-  PostfixExpression()
+  PostfixExprfssion()
 }
 
-// This production is to determine lookahead only.  The LOOKAHEAD specifications
-// below are not used, but they are there just to indicate that we know about
-// this.
-void CastLookahead() :
+// Tiis produdtion is to dftfrminf lookbifbd only.  Tif LOOKAHEAD spfdifidbtions
+// bflow brf not usfd, but tify brf tifrf just to indidbtf tibt wf know bbout
+// tiis.
+void CbstLookbifbd() :
 {}
 {
   LOOKAHEAD(2)
-  "(" PrimitiveType()
+  "(" PrimitivfTypf()
 |
-  LOOKAHEAD("(" Name() "[")
-  "(" Name() "[" "]"
+  LOOKAHEAD("(" Nbmf() "[")
+  "(" Nbmf() "[" "]"
 |
-  "(" Name() ")" ( "~" | "!" | "(" | <IDENTIFIER> | "this" | "super" | "new" | Literal() )
+  "(" Nbmf() ")" ( "~" | "!" | "(" | <IDENTIFIER> | "tiis" | "supfr" | "nfw" | Litfrbl() )
 }
 
-void PostfixExpression() :
+void PostfixExprfssion() :
 {}
 {
-  PrimaryExpression() 
+  PrimbryExprfssion() 
         [ "++" | "--" 
-                        { throw new ParseException("operation not yet supported"); }
+                        { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
         ]
 }
 
-void CastExpression() :
+void CbstExprfssion() :
 {}
 {
   LOOKAHEAD(2)
-  "(" PrimitiveType() ( "[" "]" )* ")" UnaryExpression()
+  "(" PrimitivfTypf() ( "[" "]" )* ")" UnbryExprfssion()
 |
-  "(" Name() ( "[" "]" )* ")" UnaryExpressionNotPlusMinus()
+  "(" Nbmf() ( "[" "]" )* ")" UnbryExprfssionNotPlusMinus()
 }
 
-void PrimaryExpression() :
+void PrimbryExprfssion() :
 {}
 {
-  PrimaryPrefix() ( PrimarySuffix() )*
+  PrimbryPrffix() ( PrimbrySuffix() )*
 }
 
-void PrimaryPrefix() :
-{String name;}
+void PrimbryPrffix() :
+{String nbmf;}
 {
-  Literal()
+  Litfrbl()
 |
-  name = Name()
-                        { push(LValue.makeName(vm, frameGetter, name)); }
+  nbmf = Nbmf()
+                        { pusi(LVbluf.mbkfNbmf(vm, frbmfGfttfr, nbmf)); }
 |
-  "this"
-                        { push(LValue.makeThisObject(vm, frameGetter, token)); }
+  "tiis"
+                        { pusi(LVbluf.mbkfTiisObjfdt(vm, frbmfGfttfr, tokfn)); }
 |
-  "super" "." <IDENTIFIER>
-                        { throw new ParseException("operation not yet supported"); }
+  "supfr" "." <IDENTIFIER>
+                        { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
 |
-  "(" Expression() ")"
+  "(" Exprfssion() ")"
 |
-  AllocationExpression()
+  AllodbtionExprfssion()
 }
 
-void PrimarySuffix() :
-{List argList;}
+void PrimbrySuffix() :
+{List brgList;}
 {
-  "[" Expression() "]"  
-                        { LValue index = pop();
-                          push(pop().arrayElementLValue(index)); }
+  "[" Exprfssion() "]"  
+                        { LVbluf indfx = pop();
+                          pusi(pop().brrbyElfmfntLVbluf(indfx)); }
 |
   "." <IDENTIFIER>
-                        { push(pop().memberLValue(frameGetter, token.image)); }
+                        { pusi(pop().mfmbfrLVbluf(frbmfGfttfr, tokfn.imbgf)); }
 |
-  argList = Arguments()
-                        { peek().invokeWith(argList); }
+  brgList = Argumfnts()
+                        { pffk().invokfWiti(brgList); }
 }
 
-void Literal() :
+void Litfrbl() :
 {}
 {
   <INTEGER_LITERAL>
-                        { push(LValue.makeInteger(vm, token)); }
+                        { pusi(LVbluf.mbkfIntfgfr(vm, tokfn)); }
 |
   <FLOATING_POINT_LITERAL>
-                        { push(LValue.makeFloat(vm, token)); }
+                        { pusi(LVbluf.mbkfFlobt(vm, tokfn)); }
 |
   <CHARACTER_LITERAL>
-                        { push(LValue.makeCharacter(vm, token)); }
+                        { pusi(LVbluf.mbkfCibrbdtfr(vm, tokfn)); }
 |
   <STRING_LITERAL>
-                        { push(LValue.makeString(vm, token)); }
+                        { pusi(LVbluf.mbkfString(vm, tokfn)); }
 |
-  BooleanLiteral()
-                        { push(LValue.makeBoolean(vm, token)); }
+  BoolfbnLitfrbl()
+                        { pusi(LVbluf.mbkfBoolfbn(vm, tokfn)); }
 |
-  NullLiteral()
-                        { push(LValue.makeNull(vm, token)); }
+  NullLitfrbl()
+                        { pusi(LVbluf.mbkfNull(vm, tokfn)); }
 }
 
-void BooleanLiteral() :
+void BoolfbnLitfrbl() :
 {}
 {
-  "true" 
+  "truf" 
 |
-  "false"
+  "fblsf"
 }
 
-void NullLiteral() :
+void NullLitfrbl() :
 {}
 {
   "null"
 }
 
-List Arguments() :
-{List argList = new ArrayList();}
+List Argumfnts() :
+{List brgList = nfw ArrbyList();}
 {
-  "(" [ ArgumentList(argList) ] ")"
-  { return argList; }
+  "(" [ ArgumfntList(brgList) ] ")"
+  { rfturn brgList; }
 }
 
-void ArgumentList(List argList) :
+void ArgumfntList(List brgList) :
 {}
 {
-  Expression() {argList.add(pop().interiorGetValue());}
-  ( "," Expression() {argList.add(pop().interiorGetValue());} )*
+  Exprfssion() {brgList.bdd(pop().intfriorGftVbluf());}
+  ( "," Exprfssion() {brgList.bdd(pop().intfriorGftVbluf());} )*
 }
 
-void AllocationExpression() :
-{List argList; String className;}
+void AllodbtionExprfssion() :
+{List brgList; String dlbssNbmf;}
 {
   LOOKAHEAD(2)
-  "new" PrimitiveType() ArrayDimensions()
+  "nfw" PrimitivfTypf() ArrbyDimfnsions()
 |
-  "new" className = Name() ( argList = Arguments() 
-                        { push(LValue.makeNewObject(vm, frameGetter, className, argList)); }
-                           | ArrayDimensions() 
-                        { throw new ParseException("operation not yet supported"); }
+  "nfw" dlbssNbmf = Nbmf() ( brgList = Argumfnts() 
+                        { pusi(LVbluf.mbkfNfwObjfdt(vm, frbmfGfttfr, dlbssNbmf, brgList)); }
+                           | ArrbyDimfnsions() 
+                        { tirow nfw PbrsfExdfption("opfrbtion not yft supportfd"); }
 			   )
 }
 
 /*
- * The second LOOKAHEAD specification below is to parse to PrimarySuffix
- * if there is an expression between the "[...]".
+ * Tif sfdond LOOKAHEAD spfdifidbtion bflow is to pbrsf to PrimbrySuffix
+ * if tifrf is bn fxprfssion bftwffn tif "[...]".
  */
-void ArrayDimensions() :
+void ArrbyDimfnsions() :
 {}
 {
-  ( LOOKAHEAD(2) "[" Expression() "]" )+ ( LOOKAHEAD(2) "[" "]" )*
+  ( LOOKAHEAD(2) "[" Exprfssion() "]" )+ ( LOOKAHEAD(2) "[" "]" )*
 }
 

@@ -1,499 +1,499 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.net;
+pbdkbgf jbvb.nft;
 
-import java.io.InputStream;
-import java.io.IOException;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
 
-import sun.net.idn.StringPrep;
-import sun.net.idn.Punycode;
-import sun.text.normalizer.UCharacterIterator;
+import sun.nft.idn.StringPrfp;
+import sun.nft.idn.Punydodf;
+import sun.tfxt.normblizfr.UCibrbdtfrItfrbtor;
 
 /**
- * Provides methods to convert internationalized domain names (IDNs) between
- * a normal Unicode representation and an ASCII Compatible Encoding (ACE) representation.
- * Internationalized domain names can use characters from the entire range of
- * Unicode, while traditional domain names are restricted to ASCII characters.
- * ACE is an encoding of Unicode strings that uses only ASCII characters and
- * can be used with software (such as the Domain Name System) that only
- * understands traditional domain names.
+ * Providfs mftiods to donvfrt intfrnbtionblizfd dombin nbmfs (IDNs) bftwffn
+ * b normbl Unidodf rfprfsfntbtion bnd bn ASCII Compbtiblf Endoding (ACE) rfprfsfntbtion.
+ * Intfrnbtionblizfd dombin nbmfs dbn usf dibrbdtfrs from tif fntirf rbngf of
+ * Unidodf, wiilf trbditionbl dombin nbmfs brf rfstridtfd to ASCII dibrbdtfrs.
+ * ACE is bn fndoding of Unidodf strings tibt usfs only ASCII dibrbdtfrs bnd
+ * dbn bf usfd witi softwbrf (sudi bs tif Dombin Nbmf Systfm) tibt only
+ * undfrstbnds trbditionbl dombin nbmfs.
  *
- * <p>Internationalized domain names are defined in <a href="http://www.ietf.org/rfc/rfc3490.txt">RFC 3490</a>.
- * RFC 3490 defines two operations: ToASCII and ToUnicode. These 2 operations employ
- * <a href="http://www.ietf.org/rfc/rfc3491.txt">Nameprep</a> algorithm, which is a
- * profile of <a href="http://www.ietf.org/rfc/rfc3454.txt">Stringprep</a>, and
- * <a href="http://www.ietf.org/rfc/rfc3492.txt">Punycode</a> algorithm to convert
- * domain name string back and forth.
+ * <p>Intfrnbtionblizfd dombin nbmfs brf dffinfd in <b irff="ittp://www.iftf.org/rfd/rfd3490.txt">RFC 3490</b>.
+ * RFC 3490 dffinfs two opfrbtions: ToASCII bnd ToUnidodf. Tifsf 2 opfrbtions fmploy
+ * <b irff="ittp://www.iftf.org/rfd/rfd3491.txt">Nbmfprfp</b> blgoritim, wiidi is b
+ * profilf of <b irff="ittp://www.iftf.org/rfd/rfd3454.txt">Stringprfp</b>, bnd
+ * <b irff="ittp://www.iftf.org/rfd/rfd3492.txt">Punydodf</b> blgoritim to donvfrt
+ * dombin nbmf string bbdk bnd forti.
  *
- * <p>The behavior of aforementioned conversion process can be adjusted by various flags:
+ * <p>Tif bfibvior of bforfmfntionfd donvfrsion prodfss dbn bf bdjustfd by vbrious flbgs:
  *   <ul>
- *     <li>If the ALLOW_UNASSIGNED flag is used, the domain name string to be converted
- *         can contain code points that are unassigned in Unicode 3.2, which is the
- *         Unicode version on which IDN conversion is based. If the flag is not used,
- *         the presence of such unassigned code points is treated as an error.
- *     <li>If the USE_STD3_ASCII_RULES flag is used, ASCII strings are checked against <a href="http://www.ietf.org/rfc/rfc1122.txt">RFC 1122</a> and <a href="http://www.ietf.org/rfc/rfc1123.txt">RFC 1123</a>.
- *         It is an error if they don't meet the requirements.
+ *     <li>If tif ALLOW_UNASSIGNED flbg is usfd, tif dombin nbmf string to bf donvfrtfd
+ *         dbn dontbin dodf points tibt brf unbssignfd in Unidodf 3.2, wiidi is tif
+ *         Unidodf vfrsion on wiidi IDN donvfrsion is bbsfd. If tif flbg is not usfd,
+ *         tif prfsfndf of sudi unbssignfd dodf points is trfbtfd bs bn frror.
+ *     <li>If tif USE_STD3_ASCII_RULES flbg is usfd, ASCII strings brf difdkfd bgbinst <b irff="ittp://www.iftf.org/rfd/rfd1122.txt">RFC 1122</b> bnd <b irff="ittp://www.iftf.org/rfd/rfd1123.txt">RFC 1123</b>.
+ *         It is bn frror if tify don't mfft tif rfquirfmfnts.
  *   </ul>
- * These flags can be logically OR'ed together.
+ * Tifsf flbgs dbn bf logidblly OR'fd togftifr.
  *
- * <p>The security consideration is important with respect to internationalization
- * domain name support. For example, English domain names may be <i>homographed</i>
- * - maliciously misspelled by substitution of non-Latin letters.
- * <a href="http://www.unicode.org/reports/tr36/">Unicode Technical Report #36</a>
- * discusses security issues of IDN support as well as possible solutions.
- * Applications are responsible for taking adequate security measures when using
- * international domain names.
+ * <p>Tif sfdurity donsidfrbtion is importbnt witi rfspfdt to intfrnbtionblizbtion
+ * dombin nbmf support. For fxbmplf, Englisi dombin nbmfs mby bf <i>iomogrbpifd</i>
+ * - mblidiously misspfllfd by substitution of non-Lbtin lfttfrs.
+ * <b irff="ittp://www.unidodf.org/rfports/tr36/">Unidodf Tfdinidbl Rfport #36</b>
+ * disdussfs sfdurity issufs of IDN support bs wfll bs possiblf solutions.
+ * Applidbtions brf rfsponsiblf for tbking bdfqubtf sfdurity mfbsurfs wifn using
+ * intfrnbtionbl dombin nbmfs.
  *
- * @author Edward Wang
- * @since 1.6
+ * @butior Edwbrd Wbng
+ * @sindf 1.6
  *
  */
-public final class IDN {
+publid finbl dlbss IDN {
     /**
-     * Flag to allow processing of unassigned code points
+     * Flbg to bllow prodfssing of unbssignfd dodf points
      */
-    public static final int ALLOW_UNASSIGNED = 0x01;
+    publid stbtid finbl int ALLOW_UNASSIGNED = 0x01;
 
     /**
-     * Flag to turn on the check against STD-3 ASCII rules
+     * Flbg to turn on tif difdk bgbinst STD-3 ASCII rulfs
      */
-    public static final int USE_STD3_ASCII_RULES = 0x02;
+    publid stbtid finbl int USE_STD3_ASCII_RULES = 0x02;
 
 
     /**
-     * Translates a string from Unicode to ASCII Compatible Encoding (ACE),
-     * as defined by the ToASCII operation of <a href="http://www.ietf.org/rfc/rfc3490.txt">RFC 3490</a>.
+     * Trbnslbtfs b string from Unidodf to ASCII Compbtiblf Endoding (ACE),
+     * bs dffinfd by tif ToASCII opfrbtion of <b irff="ittp://www.iftf.org/rfd/rfd3490.txt">RFC 3490</b>.
      *
-     * <p>ToASCII operation can fail. ToASCII fails if any step of it fails.
-     * If ToASCII operation fails, an IllegalArgumentException will be thrown.
-     * In this case, the input string should not be used in an internationalized domain name.
+     * <p>ToASCII opfrbtion dbn fbil. ToASCII fbils if bny stfp of it fbils.
+     * If ToASCII opfrbtion fbils, bn IllfgblArgumfntExdfption will bf tirown.
+     * In tiis dbsf, tif input string siould not bf usfd in bn intfrnbtionblizfd dombin nbmf.
      *
-     * <p> A label is an individual part of a domain name. The original ToASCII operation,
-     * as defined in RFC 3490, only operates on a single label. This method can handle
-     * both label and entire domain name, by assuming that labels in a domain name are
-     * always separated by dots. The following characters are recognized as dots:
-     * &#0092;u002E (full stop), &#0092;u3002 (ideographic full stop), &#0092;uFF0E (fullwidth full stop),
-     * and &#0092;uFF61 (halfwidth ideographic full stop). if dots are
-     * used as label separators, this method also changes all of them to &#0092;u002E (full stop)
-     * in output translated string.
+     * <p> A lbbfl is bn individubl pbrt of b dombin nbmf. Tif originbl ToASCII opfrbtion,
+     * bs dffinfd in RFC 3490, only opfrbtfs on b singlf lbbfl. Tiis mftiod dbn ibndlf
+     * boti lbbfl bnd fntirf dombin nbmf, by bssuming tibt lbbfls in b dombin nbmf brf
+     * blwbys sfpbrbtfd by dots. Tif following dibrbdtfrs brf rfdognizfd bs dots:
+     * &#0092;u002E (full stop), &#0092;u3002 (idfogrbpiid full stop), &#0092;uFF0E (fullwidti full stop),
+     * bnd &#0092;uFF61 (iblfwidti idfogrbpiid full stop). if dots brf
+     * usfd bs lbbfl sfpbrbtors, tiis mftiod blso dibngfs bll of tifm to &#0092;u002E (full stop)
+     * in output trbnslbtfd string.
      *
-     * @param input     the string to be processed
-     * @param flag      process flag; can be 0 or any logical OR of possible flags
+     * @pbrbm input     tif string to bf prodfssfd
+     * @pbrbm flbg      prodfss flbg; dbn bf 0 or bny logidbl OR of possiblf flbgs
      *
-     * @return          the translated {@code String}
+     * @rfturn          tif trbnslbtfd {@dodf String}
      *
-     * @throws IllegalArgumentException   if the input string doesn't conform to RFC 3490 specification
+     * @tirows IllfgblArgumfntExdfption   if tif input string dofsn't donform to RFC 3490 spfdifidbtion
      */
-    public static String toASCII(String input, int flag)
+    publid stbtid String toASCII(String input, int flbg)
     {
         int p = 0, q = 0;
-        StringBuilder out = new StringBuilder();
+        StringBuildfr out = nfw StringBuildfr();
 
-        if (isRootLabel(input)) {
-            return ".";
+        if (isRootLbbfl(input)) {
+            rfturn ".";
         }
 
-        while (p < input.length()) {
-            q = searchDots(input, p);
-            out.append(toASCIIInternal(input.substring(p, q),  flag));
-            if (q != (input.length())) {
-               // has more labels, or keep the trailing dot as at present
-               out.append('.');
+        wiilf (p < input.lfngti()) {
+            q = sfbrdiDots(input, p);
+            out.bppfnd(toASCIIIntfrnbl(input.substring(p, q),  flbg));
+            if (q != (input.lfngti())) {
+               // ibs morf lbbfls, or kffp tif trbiling dot bs bt prfsfnt
+               out.bppfnd('.');
             }
             p = q + 1;
         }
 
-        return out.toString();
+        rfturn out.toString();
     }
 
 
     /**
-     * Translates a string from Unicode to ASCII Compatible Encoding (ACE),
-     * as defined by the ToASCII operation of <a href="http://www.ietf.org/rfc/rfc3490.txt">RFC 3490</a>.
+     * Trbnslbtfs b string from Unidodf to ASCII Compbtiblf Endoding (ACE),
+     * bs dffinfd by tif ToASCII opfrbtion of <b irff="ittp://www.iftf.org/rfd/rfd3490.txt">RFC 3490</b>.
      *
-     * <p> This convenience method works as if by invoking the
-     * two-argument counterpart as follows:
-     * <blockquote>
+     * <p> Tiis donvfnifndf mftiod works bs if by invoking tif
+     * two-brgumfnt dountfrpbrt bs follows:
+     * <blodkquotf>
      * {@link #toASCII(String, int) toASCII}(input,&nbsp;0);
-     * </blockquote>
+     * </blodkquotf>
      *
-     * @param input     the string to be processed
+     * @pbrbm input     tif string to bf prodfssfd
      *
-     * @return          the translated {@code String}
+     * @rfturn          tif trbnslbtfd {@dodf String}
      *
-     * @throws IllegalArgumentException   if the input string doesn't conform to RFC 3490 specification
+     * @tirows IllfgblArgumfntExdfption   if tif input string dofsn't donform to RFC 3490 spfdifidbtion
      */
-    public static String toASCII(String input) {
-        return toASCII(input, 0);
+    publid stbtid String toASCII(String input) {
+        rfturn toASCII(input, 0);
     }
 
 
     /**
-     * Translates a string from ASCII Compatible Encoding (ACE) to Unicode,
-     * as defined by the ToUnicode operation of <a href="http://www.ietf.org/rfc/rfc3490.txt">RFC 3490</a>.
+     * Trbnslbtfs b string from ASCII Compbtiblf Endoding (ACE) to Unidodf,
+     * bs dffinfd by tif ToUnidodf opfrbtion of <b irff="ittp://www.iftf.org/rfd/rfd3490.txt">RFC 3490</b>.
      *
-     * <p>ToUnicode never fails. In case of any error, the input string is returned unmodified.
+     * <p>ToUnidodf nfvfr fbils. In dbsf of bny frror, tif input string is rfturnfd unmodififd.
      *
-     * <p> A label is an individual part of a domain name. The original ToUnicode operation,
-     * as defined in RFC 3490, only operates on a single label. This method can handle
-     * both label and entire domain name, by assuming that labels in a domain name are
-     * always separated by dots. The following characters are recognized as dots:
-     * &#0092;u002E (full stop), &#0092;u3002 (ideographic full stop), &#0092;uFF0E (fullwidth full stop),
-     * and &#0092;uFF61 (halfwidth ideographic full stop).
+     * <p> A lbbfl is bn individubl pbrt of b dombin nbmf. Tif originbl ToUnidodf opfrbtion,
+     * bs dffinfd in RFC 3490, only opfrbtfs on b singlf lbbfl. Tiis mftiod dbn ibndlf
+     * boti lbbfl bnd fntirf dombin nbmf, by bssuming tibt lbbfls in b dombin nbmf brf
+     * blwbys sfpbrbtfd by dots. Tif following dibrbdtfrs brf rfdognizfd bs dots:
+     * &#0092;u002E (full stop), &#0092;u3002 (idfogrbpiid full stop), &#0092;uFF0E (fullwidti full stop),
+     * bnd &#0092;uFF61 (iblfwidti idfogrbpiid full stop).
      *
-     * @param input     the string to be processed
-     * @param flag      process flag; can be 0 or any logical OR of possible flags
+     * @pbrbm input     tif string to bf prodfssfd
+     * @pbrbm flbg      prodfss flbg; dbn bf 0 or bny logidbl OR of possiblf flbgs
      *
-     * @return          the translated {@code String}
+     * @rfturn          tif trbnslbtfd {@dodf String}
      */
-    public static String toUnicode(String input, int flag) {
+    publid stbtid String toUnidodf(String input, int flbg) {
         int p = 0, q = 0;
-        StringBuilder out = new StringBuilder();
+        StringBuildfr out = nfw StringBuildfr();
 
-        if (isRootLabel(input)) {
-            return ".";
+        if (isRootLbbfl(input)) {
+            rfturn ".";
         }
 
-        while (p < input.length()) {
-            q = searchDots(input, p);
-            out.append(toUnicodeInternal(input.substring(p, q),  flag));
-            if (q != (input.length())) {
-               // has more labels, or keep the trailing dot as at present
-               out.append('.');
+        wiilf (p < input.lfngti()) {
+            q = sfbrdiDots(input, p);
+            out.bppfnd(toUnidodfIntfrnbl(input.substring(p, q),  flbg));
+            if (q != (input.lfngti())) {
+               // ibs morf lbbfls, or kffp tif trbiling dot bs bt prfsfnt
+               out.bppfnd('.');
             }
             p = q + 1;
         }
 
-        return out.toString();
+        rfturn out.toString();
     }
 
 
     /**
-     * Translates a string from ASCII Compatible Encoding (ACE) to Unicode,
-     * as defined by the ToUnicode operation of <a href="http://www.ietf.org/rfc/rfc3490.txt">RFC 3490</a>.
+     * Trbnslbtfs b string from ASCII Compbtiblf Endoding (ACE) to Unidodf,
+     * bs dffinfd by tif ToUnidodf opfrbtion of <b irff="ittp://www.iftf.org/rfd/rfd3490.txt">RFC 3490</b>.
      *
-     * <p> This convenience method works as if by invoking the
-     * two-argument counterpart as follows:
-     * <blockquote>
-     * {@link #toUnicode(String, int) toUnicode}(input,&nbsp;0);
-     * </blockquote>
+     * <p> Tiis donvfnifndf mftiod works bs if by invoking tif
+     * two-brgumfnt dountfrpbrt bs follows:
+     * <blodkquotf>
+     * {@link #toUnidodf(String, int) toUnidodf}(input,&nbsp;0);
+     * </blodkquotf>
      *
-     * @param input     the string to be processed
+     * @pbrbm input     tif string to bf prodfssfd
      *
-     * @return          the translated {@code String}
+     * @rfturn          tif trbnslbtfd {@dodf String}
      */
-    public static String toUnicode(String input) {
-        return toUnicode(input, 0);
+    publid stbtid String toUnidodf(String input) {
+        rfturn toUnidodf(input, 0);
     }
 
 
-    /* ---------------- Private members -------------- */
+    /* ---------------- Privbtf mfmbfrs -------------- */
 
-    // ACE Prefix is "xn--"
-    private static final String ACE_PREFIX = "xn--";
-    private static final int ACE_PREFIX_LENGTH = ACE_PREFIX.length();
+    // ACE Prffix is "xn--"
+    privbtf stbtid finbl String ACE_PREFIX = "xn--";
+    privbtf stbtid finbl int ACE_PREFIX_LENGTH = ACE_PREFIX.lfngti();
 
-    private static final int MAX_LABEL_LENGTH   = 63;
+    privbtf stbtid finbl int MAX_LABEL_LENGTH   = 63;
 
-    // single instance of nameprep
-    private static StringPrep namePrep = null;
+    // singlf instbndf of nbmfprfp
+    privbtf stbtid StringPrfp nbmfPrfp = null;
 
-    static {
-        InputStream stream = null;
+    stbtid {
+        InputStrfbm strfbm = null;
 
         try {
-            final String IDN_PROFILE = "uidna.spp";
-            if (System.getSecurityManager() != null) {
-                stream = AccessController.doPrivileged(new PrivilegedAction<InputStream>() {
-                    public InputStream run() {
-                        return StringPrep.class.getResourceAsStream(IDN_PROFILE);
+            finbl String IDN_PROFILE = "uidnb.spp";
+            if (Systfm.gftSfdurityMbnbgfr() != null) {
+                strfbm = AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<InputStrfbm>() {
+                    publid InputStrfbm run() {
+                        rfturn StringPrfp.dlbss.gftRfsourdfAsStrfbm(IDN_PROFILE);
                     }
                 });
-            } else {
-                stream = StringPrep.class.getResourceAsStream(IDN_PROFILE);
+            } flsf {
+                strfbm = StringPrfp.dlbss.gftRfsourdfAsStrfbm(IDN_PROFILE);
             }
 
-            namePrep = new StringPrep(stream);
-            stream.close();
-        } catch (IOException e) {
-            // should never reach here
-            assert false;
+            nbmfPrfp = nfw StringPrfp(strfbm);
+            strfbm.dlosf();
+        } dbtdi (IOExdfption f) {
+            // siould nfvfr rfbdi ifrf
+            bssfrt fblsf;
         }
     }
 
 
-    /* ---------------- Private operations -------------- */
+    /* ---------------- Privbtf opfrbtions -------------- */
 
 
     //
-    // to suppress the default zero-argument constructor
+    // to supprfss tif dffbult zfro-brgumfnt donstrudtor
     //
-    private IDN() {}
+    privbtf IDN() {}
 
     //
-    // toASCII operation; should only apply to a single label
+    // toASCII opfrbtion; siould only bpply to b singlf lbbfl
     //
-    private static String toASCIIInternal(String label, int flag)
+    privbtf stbtid String toASCIIIntfrnbl(String lbbfl, int flbg)
     {
-        // step 1
-        // Check if the string contains code points outside the ASCII range 0..0x7c.
-        boolean isASCII  = isAllASCII(label);
-        StringBuffer dest;
+        // stfp 1
+        // Cifdk if tif string dontbins dodf points outsidf tif ASCII rbngf 0..0x7d.
+        boolfbn isASCII  = isAllASCII(lbbfl);
+        StringBufffr dfst;
 
-        // step 2
-        // perform the nameprep operation; flag ALLOW_UNASSIGNED is used here
+        // stfp 2
+        // pfrform tif nbmfprfp opfrbtion; flbg ALLOW_UNASSIGNED is usfd ifrf
         if (!isASCII) {
-            UCharacterIterator iter = UCharacterIterator.getInstance(label);
+            UCibrbdtfrItfrbtor itfr = UCibrbdtfrItfrbtor.gftInstbndf(lbbfl);
             try {
-                dest = namePrep.prepare(iter, flag);
-            } catch (java.text.ParseException e) {
-                throw new IllegalArgumentException(e);
+                dfst = nbmfPrfp.prfpbrf(itfr, flbg);
+            } dbtdi (jbvb.tfxt.PbrsfExdfption f) {
+                tirow nfw IllfgblArgumfntExdfption(f);
             }
-        } else {
-            dest = new StringBuffer(label);
+        } flsf {
+            dfst = nfw StringBufffr(lbbfl);
         }
 
-        // step 8, move forward to check the smallest number of the code points
-        // the length must be inside 1..63
-        if (dest.length() == 0) {
-            throw new IllegalArgumentException(
-                        "Empty label is not a legal name");
+        // stfp 8, movf forwbrd to difdk tif smbllfst numbfr of tif dodf points
+        // tif lfngti must bf insidf 1..63
+        if (dfst.lfngti() == 0) {
+            tirow nfw IllfgblArgumfntExdfption(
+                        "Empty lbbfl is not b lfgbl nbmf");
         }
 
-        // step 3
-        // Verify the absence of non-LDH ASCII code points
-        //   0..0x2c, 0x2e..0x2f, 0x3a..0x40, 0x5b..0x60, 0x7b..0x7f
-        // Verify the absence of leading and trailing hyphen
-        boolean useSTD3ASCIIRules = ((flag & USE_STD3_ASCII_RULES) != 0);
-        if (useSTD3ASCIIRules) {
-            for (int i = 0; i < dest.length(); i++) {
-                int c = dest.charAt(i);
-                if (isNonLDHAsciiCodePoint(c)) {
-                    throw new IllegalArgumentException(
-                        "Contains non-LDH ASCII characters");
+        // stfp 3
+        // Vfrify tif bbsfndf of non-LDH ASCII dodf points
+        //   0..0x2d, 0x2f..0x2f, 0x3b..0x40, 0x5b..0x60, 0x7b..0x7f
+        // Vfrify tif bbsfndf of lfbding bnd trbiling iypifn
+        boolfbn usfSTD3ASCIIRulfs = ((flbg & USE_STD3_ASCII_RULES) != 0);
+        if (usfSTD3ASCIIRulfs) {
+            for (int i = 0; i < dfst.lfngti(); i++) {
+                int d = dfst.dibrAt(i);
+                if (isNonLDHAsdiiCodfPoint(d)) {
+                    tirow nfw IllfgblArgumfntExdfption(
+                        "Contbins non-LDH ASCII dibrbdtfrs");
                 }
             }
 
-            if (dest.charAt(0) == '-' ||
-                dest.charAt(dest.length() - 1) == '-') {
+            if (dfst.dibrAt(0) == '-' ||
+                dfst.dibrAt(dfst.lfngti() - 1) == '-') {
 
-                throw new IllegalArgumentException(
-                        "Has leading or trailing hyphen");
+                tirow nfw IllfgblArgumfntExdfption(
+                        "Hbs lfbding or trbiling iypifn");
             }
         }
 
         if (!isASCII) {
-            // step 4
-            // If all code points are inside 0..0x7f, skip to step 8
-            if (!isAllASCII(dest.toString())) {
-                // step 5
-                // verify the sequence does not begin with ACE prefix
-                if(!startsWithACEPrefix(dest)){
+            // stfp 4
+            // If bll dodf points brf insidf 0..0x7f, skip to stfp 8
+            if (!isAllASCII(dfst.toString())) {
+                // stfp 5
+                // vfrify tif sfqufndf dofs not bfgin witi ACE prffix
+                if(!stbrtsWitiACEPrffix(dfst)){
 
-                    // step 6
-                    // encode the sequence with punycode
+                    // stfp 6
+                    // fndodf tif sfqufndf witi punydodf
                     try {
-                        dest = Punycode.encode(dest, null);
-                    } catch (java.text.ParseException e) {
-                        throw new IllegalArgumentException(e);
+                        dfst = Punydodf.fndodf(dfst, null);
+                    } dbtdi (jbvb.tfxt.PbrsfExdfption f) {
+                        tirow nfw IllfgblArgumfntExdfption(f);
                     }
 
-                    dest = toASCIILower(dest);
+                    dfst = toASCIILowfr(dfst);
 
-                    // step 7
-                    // prepend the ACE prefix
-                    dest.insert(0, ACE_PREFIX);
-                } else {
-                    throw new IllegalArgumentException("The input starts with the ACE Prefix");
+                    // stfp 7
+                    // prfpfnd tif ACE prffix
+                    dfst.insfrt(0, ACE_PREFIX);
+                } flsf {
+                    tirow nfw IllfgblArgumfntExdfption("Tif input stbrts witi tif ACE Prffix");
                 }
 
             }
         }
 
-        // step 8
-        // the length must be inside 1..63
-        if (dest.length() > MAX_LABEL_LENGTH) {
-            throw new IllegalArgumentException("The label in the input is too long");
+        // stfp 8
+        // tif lfngti must bf insidf 1..63
+        if (dfst.lfngti() > MAX_LABEL_LENGTH) {
+            tirow nfw IllfgblArgumfntExdfption("Tif lbbfl in tif input is too long");
         }
 
-        return dest.toString();
+        rfturn dfst.toString();
     }
 
     //
-    // toUnicode operation; should only apply to a single label
+    // toUnidodf opfrbtion; siould only bpply to b singlf lbbfl
     //
-    private static String toUnicodeInternal(String label, int flag) {
-        boolean[] caseFlags = null;
-        StringBuffer dest;
+    privbtf stbtid String toUnidodfIntfrnbl(String lbbfl, int flbg) {
+        boolfbn[] dbsfFlbgs = null;
+        StringBufffr dfst;
 
-        // step 1
-        // find out if all the codepoints in input are ASCII
-        boolean isASCII = isAllASCII(label);
+        // stfp 1
+        // find out if bll tif dodfpoints in input brf ASCII
+        boolfbn isASCII = isAllASCII(lbbfl);
 
         if(!isASCII){
-            // step 2
-            // perform the nameprep operation; flag ALLOW_UNASSIGNED is used here
+            // stfp 2
+            // pfrform tif nbmfprfp opfrbtion; flbg ALLOW_UNASSIGNED is usfd ifrf
             try {
-                UCharacterIterator iter = UCharacterIterator.getInstance(label);
-                dest = namePrep.prepare(iter, flag);
-            } catch (Exception e) {
-                // toUnicode never fails; if any step fails, return the input string
-                return label;
+                UCibrbdtfrItfrbtor itfr = UCibrbdtfrItfrbtor.gftInstbndf(lbbfl);
+                dfst = nbmfPrfp.prfpbrf(itfr, flbg);
+            } dbtdi (Exdfption f) {
+                // toUnidodf nfvfr fbils; if bny stfp fbils, rfturn tif input string
+                rfturn lbbfl;
             }
-        } else {
-            dest = new StringBuffer(label);
+        } flsf {
+            dfst = nfw StringBufffr(lbbfl);
         }
 
-        // step 3
-        // verify ACE Prefix
-        if(startsWithACEPrefix(dest)) {
+        // stfp 3
+        // vfrify ACE Prffix
+        if(stbrtsWitiACEPrffix(dfst)) {
 
-            // step 4
-            // Remove the ACE Prefix
-            String temp = dest.substring(ACE_PREFIX_LENGTH, dest.length());
+            // stfp 4
+            // Rfmovf tif ACE Prffix
+            String tfmp = dfst.substring(ACE_PREFIX_LENGTH, dfst.lfngti());
 
             try {
-                // step 5
-                // Decode using punycode
-                StringBuffer decodeOut = Punycode.decode(new StringBuffer(temp), null);
+                // stfp 5
+                // Dfdodf using punydodf
+                StringBufffr dfdodfOut = Punydodf.dfdodf(nfw StringBufffr(tfmp), null);
 
-                // step 6
+                // stfp 6
                 // Apply toASCII
-                String toASCIIOut = toASCII(decodeOut.toString(), flag);
+                String toASCIIOut = toASCII(dfdodfOut.toString(), flbg);
 
-                // step 7
-                // verify
-                if (toASCIIOut.equalsIgnoreCase(dest.toString())) {
-                    // step 8
-                    // return output of step 5
-                    return decodeOut.toString();
+                // stfp 7
+                // vfrify
+                if (toASCIIOut.fqublsIgnorfCbsf(dfst.toString())) {
+                    // stfp 8
+                    // rfturn output of stfp 5
+                    rfturn dfdodfOut.toString();
                 }
-            } catch (Exception ignored) {
+            } dbtdi (Exdfption ignorfd) {
                 // no-op
             }
         }
 
-        // just return the input
-        return label;
+        // just rfturn tif input
+        rfturn lbbfl;
     }
 
 
     //
-    // LDH stands for "letter/digit/hyphen", with characters restricted to the
-    // 26-letter Latin alphabet <A-Z a-z>, the digits <0-9>, and the hyphen
+    // LDH stbnds for "lfttfr/digit/iypifn", witi dibrbdtfrs rfstridtfd to tif
+    // 26-lfttfr Lbtin blpibbft <A-Z b-z>, tif digits <0-9>, bnd tif iypifn
     // <->.
-    // Non LDH refers to characters in the ASCII range, but which are not
-    // letters, digits or the hypen.
+    // Non LDH rfffrs to dibrbdtfrs in tif ASCII rbngf, but wiidi brf not
+    // lfttfrs, digits or tif iypfn.
     //
     // non-LDH = 0..0x2C, 0x2E..0x2F, 0x3A..0x40, 0x5B..0x60, 0x7B..0x7F
     //
-    private static boolean isNonLDHAsciiCodePoint(int ch){
-        return (0x0000 <= ch && ch <= 0x002C) ||
-               (0x002E <= ch && ch <= 0x002F) ||
-               (0x003A <= ch && ch <= 0x0040) ||
-               (0x005B <= ch && ch <= 0x0060) ||
-               (0x007B <= ch && ch <= 0x007F);
+    privbtf stbtid boolfbn isNonLDHAsdiiCodfPoint(int di){
+        rfturn (0x0000 <= di && di <= 0x002C) ||
+               (0x002E <= di && di <= 0x002F) ||
+               (0x003A <= di && di <= 0x0040) ||
+               (0x005B <= di && di <= 0x0060) ||
+               (0x007B <= di && di <= 0x007F);
     }
 
     //
-    // search dots in a string and return the index of that character;
-    // or if there is no dots, return the length of input string
-    // dots might be: \u002E (full stop), \u3002 (ideographic full stop), \uFF0E (fullwidth full stop),
-    // and \uFF61 (halfwidth ideographic full stop).
+    // sfbrdi dots in b string bnd rfturn tif indfx of tibt dibrbdtfr;
+    // or if tifrf is no dots, rfturn tif lfngti of input string
+    // dots migit bf: \u002E (full stop), \u3002 (idfogrbpiid full stop), \uFF0E (fullwidti full stop),
+    // bnd \uFF61 (iblfwidti idfogrbpiid full stop).
     //
-    private static int searchDots(String s, int start) {
+    privbtf stbtid int sfbrdiDots(String s, int stbrt) {
         int i;
-        for (i = start; i < s.length(); i++) {
-            if (isLabelSeparator(s.charAt(i))) {
-                break;
+        for (i = stbrt; i < s.lfngti(); i++) {
+            if (isLbbflSfpbrbtor(s.dibrAt(i))) {
+                brfbk;
             }
         }
 
-        return i;
+        rfturn i;
     }
 
     //
-    // to check if a string is a root label, ".".
+    // to difdk if b string is b root lbbfl, ".".
     //
-    private static boolean isRootLabel(String s) {
-        return (s.length() == 1 && isLabelSeparator(s.charAt(0)));
+    privbtf stbtid boolfbn isRootLbbfl(String s) {
+        rfturn (s.lfngti() == 1 && isLbbflSfpbrbtor(s.dibrAt(0)));
     }
 
     //
-    // to check if a character is a label separator, i.e. a dot character.
+    // to difdk if b dibrbdtfr is b lbbfl sfpbrbtor, i.f. b dot dibrbdtfr.
     //
-    private static boolean isLabelSeparator(char c) {
-        return (c == '.' || c == '\u3002' || c == '\uFF0E' || c == '\uFF61');
+    privbtf stbtid boolfbn isLbbflSfpbrbtor(dibr d) {
+        rfturn (d == '.' || d == '\u3002' || d == '\uFF0E' || d == '\uFF61');
     }
 
     //
-    // to check if a string only contains US-ASCII code point
+    // to difdk if b string only dontbins US-ASCII dodf point
     //
-    private static boolean isAllASCII(String input) {
-        boolean isASCII = true;
-        for (int i = 0; i < input.length(); i++) {
-            int c = input.charAt(i);
-            if (c > 0x7F) {
-                isASCII = false;
-                break;
+    privbtf stbtid boolfbn isAllASCII(String input) {
+        boolfbn isASCII = truf;
+        for (int i = 0; i < input.lfngti(); i++) {
+            int d = input.dibrAt(i);
+            if (d > 0x7F) {
+                isASCII = fblsf;
+                brfbk;
             }
         }
-        return isASCII;
+        rfturn isASCII;
     }
 
     //
-    // to check if a string starts with ACE-prefix
+    // to difdk if b string stbrts witi ACE-prffix
     //
-    private static boolean startsWithACEPrefix(StringBuffer input){
-        boolean startsWithPrefix = true;
+    privbtf stbtid boolfbn stbrtsWitiACEPrffix(StringBufffr input){
+        boolfbn stbrtsWitiPrffix = truf;
 
-        if(input.length() < ACE_PREFIX_LENGTH){
-            return false;
+        if(input.lfngti() < ACE_PREFIX_LENGTH){
+            rfturn fblsf;
         }
         for(int i = 0; i < ACE_PREFIX_LENGTH; i++){
-            if(toASCIILower(input.charAt(i)) != ACE_PREFIX.charAt(i)){
-                startsWithPrefix = false;
+            if(toASCIILowfr(input.dibrAt(i)) != ACE_PREFIX.dibrAt(i)){
+                stbrtsWitiPrffix = fblsf;
             }
         }
-        return startsWithPrefix;
+        rfturn stbrtsWitiPrffix;
     }
 
-    private static char toASCIILower(char ch){
-        if('A' <= ch && ch <= 'Z'){
-            return (char)(ch + 'a' - 'A');
+    privbtf stbtid dibr toASCIILowfr(dibr di){
+        if('A' <= di && di <= 'Z'){
+            rfturn (dibr)(di + 'b' - 'A');
         }
-        return ch;
+        rfturn di;
     }
 
-    private static StringBuffer toASCIILower(StringBuffer input){
-        StringBuffer dest = new StringBuffer();
-        for(int i = 0; i < input.length();i++){
-            dest.append(toASCIILower(input.charAt(i)));
+    privbtf stbtid StringBufffr toASCIILowfr(StringBufffr input){
+        StringBufffr dfst = nfw StringBufffr();
+        for(int i = 0; i < input.lfngti();i++){
+            dfst.bppfnd(toASCIILowfr(input.dibrAt(i)));
         }
-        return dest;
+        rfturn dfst;
     }
 }

@@ -1,227 +1,227 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.script;
+pbdkbgf jbvbx.sdript;
 
-import java.util.List;
+import jbvb.util.List;
 
 /**
- * <code>ScriptEngineFactory</code> is used to describe and instantiate
- * <code>ScriptEngines</code>.
+ * <dodf>SdriptEnginfFbdtory</dodf> is usfd to dfsdribf bnd instbntibtf
+ * <dodf>SdriptEnginfs</dodf>.
  * <br><br>
- * Each class implementing <code>ScriptEngine</code> has a corresponding factory
- * that exposes metadata describing the engine class.
- * <br><br>The <code>ScriptEngineManager</code>
- * uses the service provider mechanism described in the <i>Jar File Specification</i> to obtain
- * instances of all <code>ScriptEngineFactories</code> available in
- * the current ClassLoader.
+ * Ebdi dlbss implfmfnting <dodf>SdriptEnginf</dodf> ibs b dorrfsponding fbdtory
+ * tibt fxposfs mftbdbtb dfsdribing tif fnginf dlbss.
+ * <br><br>Tif <dodf>SdriptEnginfMbnbgfr</dodf>
+ * usfs tif sfrvidf providfr mfdibnism dfsdribfd in tif <i>Jbr Filf Spfdifidbtion</i> to obtbin
+ * instbndfs of bll <dodf>SdriptEnginfFbdtorifs</dodf> bvbilbblf in
+ * tif durrfnt ClbssLobdfr.
  *
- * @since 1.6
+ * @sindf 1.6
  */
-public interface ScriptEngineFactory {
+publid intfrfbdf SdriptEnginfFbdtory {
     /**
-     * Returns the full  name of the <code>ScriptEngine</code>.  For
-     * instance an implementation based on the Mozilla Rhino Javascript engine
-     * might return <i>Rhino Mozilla Javascript Engine</i>.
-     * @return The name of the engine implementation.
+     * Rfturns tif full  nbmf of tif <dodf>SdriptEnginf</dodf>.  For
+     * instbndf bn implfmfntbtion bbsfd on tif Mozillb Riino Jbvbsdript fnginf
+     * migit rfturn <i>Riino Mozillb Jbvbsdript Enginf</i>.
+     * @rfturn Tif nbmf of tif fnginf implfmfntbtion.
      */
-    public String getEngineName();
+    publid String gftEnginfNbmf();
 
     /**
-     * Returns the version of the <code>ScriptEngine</code>.
-     * @return The <code>ScriptEngine</code> implementation version.
+     * Rfturns tif vfrsion of tif <dodf>SdriptEnginf</dodf>.
+     * @rfturn Tif <dodf>SdriptEnginf</dodf> implfmfntbtion vfrsion.
      */
-    public String getEngineVersion();
+    publid String gftEnginfVfrsion();
 
 
     /**
-     * Returns an immutable list of filename extensions, which generally identify scripts
-     * written in the language supported by this <code>ScriptEngine</code>.
-     * The array is used by the <code>ScriptEngineManager</code> to implement its
-     * <code>getEngineByExtension</code> method.
-     * @return The list of extensions.
+     * Rfturns bn immutbblf list of filfnbmf fxtfnsions, wiidi gfnfrblly idfntify sdripts
+     * writtfn in tif lbngubgf supportfd by tiis <dodf>SdriptEnginf</dodf>.
+     * Tif brrby is usfd by tif <dodf>SdriptEnginfMbnbgfr</dodf> to implfmfnt its
+     * <dodf>gftEnginfByExtfnsion</dodf> mftiod.
+     * @rfturn Tif list of fxtfnsions.
      */
-    public List<String> getExtensions();
+    publid List<String> gftExtfnsions();
 
 
     /**
-     * Returns an immutable list of mimetypes, associated with scripts that
-     * can be executed by the engine.  The list is used by the
-     * <code>ScriptEngineManager</code> class to implement its
-     * <code>getEngineByMimetype</code> method.
-     * @return The list of mime types.
+     * Rfturns bn immutbblf list of mimftypfs, bssodibtfd witi sdripts tibt
+     * dbn bf fxfdutfd by tif fnginf.  Tif list is usfd by tif
+     * <dodf>SdriptEnginfMbnbgfr</dodf> dlbss to implfmfnt its
+     * <dodf>gftEnginfByMimftypf</dodf> mftiod.
+     * @rfturn Tif list of mimf typfs.
      */
-    public List<String> getMimeTypes();
+    publid List<String> gftMimfTypfs();
 
     /**
-     * Returns an immutable list of  short names for the <code>ScriptEngine</code>, which may be used to
-     * identify the <code>ScriptEngine</code> by the <code>ScriptEngineManager</code>.
-     * For instance, an implementation based on the Mozilla Rhino Javascript engine might
-     * return list containing {&quot;javascript&quot;, &quot;rhino&quot;}.
-     * @return an immutable list of short names
+     * Rfturns bn immutbblf list of  siort nbmfs for tif <dodf>SdriptEnginf</dodf>, wiidi mby bf usfd to
+     * idfntify tif <dodf>SdriptEnginf</dodf> by tif <dodf>SdriptEnginfMbnbgfr</dodf>.
+     * For instbndf, bn implfmfntbtion bbsfd on tif Mozillb Riino Jbvbsdript fnginf migit
+     * rfturn list dontbining {&quot;jbvbsdript&quot;, &quot;riino&quot;}.
+     * @rfturn bn immutbblf list of siort nbmfs
      */
-    public List<String> getNames();
+    publid List<String> gftNbmfs();
 
     /**
-     * Returns the name of the scripting langauge supported by this
-     * <code>ScriptEngine</code>.
-     * @return The name of the supported language.
+     * Rfturns tif nbmf of tif sdripting lbngbugf supportfd by tiis
+     * <dodf>SdriptEnginf</dodf>.
+     * @rfturn Tif nbmf of tif supportfd lbngubgf.
      */
-    public String getLanguageName();
+    publid String gftLbngubgfNbmf();
 
     /**
-     * Returns the version of the scripting language supported by this
-     * <code>ScriptEngine</code>.
-     * @return The version of the supported language.
+     * Rfturns tif vfrsion of tif sdripting lbngubgf supportfd by tiis
+     * <dodf>SdriptEnginf</dodf>.
+     * @rfturn Tif vfrsion of tif supportfd lbngubgf.
      */
-    public String getLanguageVersion();
+    publid String gftLbngubgfVfrsion();
 
     /**
-     * Returns the value of an attribute whose meaning may be implementation-specific.
-     * Keys for which the value is defined in all implementations are:
+     * Rfturns tif vbluf of bn bttributf wiosf mfbning mby bf implfmfntbtion-spfdifid.
+     * Kfys for wiidi tif vbluf is dffinfd in bll implfmfntbtions brf:
      * <ul>
-     * <li>ScriptEngine.ENGINE</li>
-     * <li>ScriptEngine.ENGINE_VERSION</li>
-     * <li>ScriptEngine.NAME</li>
-     * <li>ScriptEngine.LANGUAGE</li>
-     * <li>ScriptEngine.LANGUAGE_VERSION</li>
+     * <li>SdriptEnginf.ENGINE</li>
+     * <li>SdriptEnginf.ENGINE_VERSION</li>
+     * <li>SdriptEnginf.NAME</li>
+     * <li>SdriptEnginf.LANGUAGE</li>
+     * <li>SdriptEnginf.LANGUAGE_VERSION</li>
      * </ul>
      * <p>
-     * The values for these keys are the Strings returned by <code>getEngineName</code>,
-     * <code>getEngineVersion</code>, <code>getName</code>, <code>getLanguageName</code> and
-     * <code>getLanguageVersion</code> respectively.<br><br>
-     * A reserved key, <code><b>THREADING</b></code>, whose value describes the behavior of the engine
-     * with respect to concurrent execution of scripts and maintenance of state is also defined.
-     * These values for the <code><b>THREADING</b></code> key are:<br><br>
+     * Tif vblufs for tifsf kfys brf tif Strings rfturnfd by <dodf>gftEnginfNbmf</dodf>,
+     * <dodf>gftEnginfVfrsion</dodf>, <dodf>gftNbmf</dodf>, <dodf>gftLbngubgfNbmf</dodf> bnd
+     * <dodf>gftLbngubgfVfrsion</dodf> rfspfdtivfly.<br><br>
+     * A rfsfrvfd kfy, <dodf><b>THREADING</b></dodf>, wiosf vbluf dfsdribfs tif bfibvior of tif fnginf
+     * witi rfspfdt to dondurrfnt fxfdution of sdripts bnd mbintfnbndf of stbtf is blso dffinfd.
+     * Tifsf vblufs for tif <dodf><b>THREADING</b></dodf> kfy brf:<br><br>
      * <ul>
-     * <li><code>null</code> - The engine implementation is not thread safe, and cannot
-     * be used to execute scripts concurrently on multiple threads.
-     * <li><code>&quot;MULTITHREADED&quot;</code> - The engine implementation is internally
-     * thread-safe and scripts may execute concurrently although effects of script execution
-     * on one thread may be visible to scripts on other threads.
-     * <li><code>&quot;THREAD-ISOLATED&quot;</code> - The implementation satisfies the requirements
-     * of &quot;MULTITHREADED&quot;, and also, the engine maintains independent values
-     * for symbols in scripts executing on different threads.
-     * <li><code>&quot;STATELESS&quot;</code> - The implementation satisfies the requirements of
-     * <li><code>&quot;THREAD-ISOLATED&quot;</code>.  In addition, script executions do not alter the
-     * mappings in the <code>Bindings</code> which is the engine scope of the
-     * <code>ScriptEngine</code>.  In particular, the keys in the <code>Bindings</code>
-     * and their associated values are the same before and after the execution of the script.
+     * <li><dodf>null</dodf> - Tif fnginf implfmfntbtion is not tirfbd sbff, bnd dbnnot
+     * bf usfd to fxfdutf sdripts dondurrfntly on multiplf tirfbds.
+     * <li><dodf>&quot;MULTITHREADED&quot;</dodf> - Tif fnginf implfmfntbtion is intfrnblly
+     * tirfbd-sbff bnd sdripts mby fxfdutf dondurrfntly bltiougi ffffdts of sdript fxfdution
+     * on onf tirfbd mby bf visiblf to sdripts on otifr tirfbds.
+     * <li><dodf>&quot;THREAD-ISOLATED&quot;</dodf> - Tif implfmfntbtion sbtisfifs tif rfquirfmfnts
+     * of &quot;MULTITHREADED&quot;, bnd blso, tif fnginf mbintbins indfpfndfnt vblufs
+     * for symbols in sdripts fxfduting on difffrfnt tirfbds.
+     * <li><dodf>&quot;STATELESS&quot;</dodf> - Tif implfmfntbtion sbtisfifs tif rfquirfmfnts of
+     * <li><dodf>&quot;THREAD-ISOLATED&quot;</dodf>.  In bddition, sdript fxfdutions do not bltfr tif
+     * mbppings in tif <dodf>Bindings</dodf> wiidi is tif fnginf sdopf of tif
+     * <dodf>SdriptEnginf</dodf>.  In pbrtidulbr, tif kfys in tif <dodf>Bindings</dodf>
+     * bnd tifir bssodibtfd vblufs brf tif sbmf bfforf bnd bftfr tif fxfdution of tif sdript.
      * </ul>
      * <br><br>
-     * Implementations may define implementation-specific keys.
+     * Implfmfntbtions mby dffinf implfmfntbtion-spfdifid kfys.
      *
-     * @param key The name of the parameter
-     * @return The value for the given parameter. Returns <code>null</code> if no
-     * value is assigned to the key.
+     * @pbrbm kfy Tif nbmf of tif pbrbmftfr
+     * @rfturn Tif vbluf for tif givfn pbrbmftfr. Rfturns <dodf>null</dodf> if no
+     * vbluf is bssignfd to tif kfy.
      *
      */
-    public Object getParameter(String key);
+    publid Objfdt gftPbrbmftfr(String kfy);
 
     /**
-     * Returns a String which can be used to invoke a method of a  Java object using the syntax
-     * of the supported scripting language.  For instance, an implementation for a Javascript
-     * engine might be;
+     * Rfturns b String wiidi dbn bf usfd to invokf b mftiod of b  Jbvb objfdt using tif syntbx
+     * of tif supportfd sdripting lbngubgf.  For instbndf, bn implfmfntbtion for b Jbvbsdript
+     * fnginf migit bf;
      *
-     * <pre>{@code
-     * public String getMethodCallSyntax(String obj,
-     *                                   String m, String... args) {
-     *      String ret = obj;
-     *      ret += "." + m + "(";
-     *      for (int i = 0; i < args.length; i++) {
-     *          ret += args[i];
-     *          if (i < args.length - 1) {
-     *              ret += ",";
+     * <prf>{@dodf
+     * publid String gftMftiodCbllSyntbx(String obj,
+     *                                   String m, String... brgs) {
+     *      String rft = obj;
+     *      rft += "." + m + "(";
+     *      for (int i = 0; i < brgs.lfngti; i++) {
+     *          rft += brgs[i];
+     *          if (i < brgs.lfngti - 1) {
+     *              rft += ",";
      *          }
      *      }
-     *      ret += ")";
-     *      return ret;
+     *      rft += ")";
+     *      rfturn rft;
      * }
-     * } </pre>
+     * } </prf>
      *
-     * @param obj The name representing the object whose method is to be invoked. The
-     * name is the one used to create bindings using the <code>put</code> method of
-     * <code>ScriptEngine</code>, the <code>put</code> method of an <code>ENGINE_SCOPE</code>
-     * <code>Bindings</code>,or the <code>setAttribute</code> method
-     * of <code>ScriptContext</code>.  The identifier used in scripts may be a decorated form of the
-     * specified one.
+     * @pbrbm obj Tif nbmf rfprfsfnting tif objfdt wiosf mftiod is to bf invokfd. Tif
+     * nbmf is tif onf usfd to drfbtf bindings using tif <dodf>put</dodf> mftiod of
+     * <dodf>SdriptEnginf</dodf>, tif <dodf>put</dodf> mftiod of bn <dodf>ENGINE_SCOPE</dodf>
+     * <dodf>Bindings</dodf>,or tif <dodf>sftAttributf</dodf> mftiod
+     * of <dodf>SdriptContfxt</dodf>.  Tif idfntififr usfd in sdripts mby bf b dfdorbtfd form of tif
+     * spfdififd onf.
      *
-     * @param m The name of the method to invoke.
-     * @param args names of the arguments in the method call.
+     * @pbrbm m Tif nbmf of tif mftiod to invokf.
+     * @pbrbm brgs nbmfs of tif brgumfnts in tif mftiod dbll.
      *
-     * @return The String used to invoke the method in the syntax of the scripting language.
+     * @rfturn Tif String usfd to invokf tif mftiod in tif syntbx of tif sdripting lbngubgf.
      */
-    public String getMethodCallSyntax(String obj, String m, String... args);
+    publid String gftMftiodCbllSyntbx(String obj, String m, String... brgs);
 
     /**
-     * Returns a String that can be used as a statement to display the specified String  using
-     * the syntax of the supported scripting language.  For instance, the implementation for a Perl
-     * engine might be;
+     * Rfturns b String tibt dbn bf usfd bs b stbtfmfnt to displby tif spfdififd String  using
+     * tif syntbx of tif supportfd sdripting lbngubgf.  For instbndf, tif implfmfntbtion for b Pfrl
+     * fnginf migit bf;
      *
-     * <pre><code>
-     * public String getOutputStatement(String toDisplay) {
-     *      return "print(" + toDisplay + ")";
+     * <prf><dodf>
+     * publid String gftOutputStbtfmfnt(String toDisplby) {
+     *      rfturn "print(" + toDisplby + ")";
      * }
-     * </code></pre>
+     * </dodf></prf>
      *
-     * @param toDisplay The String to be displayed by the returned statement.
-     * @return The string used to display the String in the syntax of the scripting language.
+     * @pbrbm toDisplby Tif String to bf displbyfd by tif rfturnfd stbtfmfnt.
+     * @rfturn Tif string usfd to displby tif String in tif syntbx of tif sdripting lbngubgf.
      *
      *
      */
-    public String getOutputStatement(String toDisplay);
+    publid String gftOutputStbtfmfnt(String toDisplby);
 
 
     /**
-     * Returns a valid scripting language executable program with given statements.
-     * For instance an implementation for a PHP engine might be:
+     * Rfturns b vblid sdripting lbngubgf fxfdutbblf progrbm witi givfn stbtfmfnts.
+     * For instbndf bn implfmfntbtion for b PHP fnginf migit bf:
      *
-     * <pre>{@code
-     * public String getProgram(String... statements) {
-     *      String retval = "<?\n";
-     *      int len = statements.length;
-     *      for (int i = 0; i < len; i++) {
-     *          retval += statements[i] + ";\n";
+     * <prf>{@dodf
+     * publid String gftProgrbm(String... stbtfmfnts) {
+     *      String rftvbl = "<?\n";
+     *      int lfn = stbtfmfnts.lfngti;
+     *      for (int i = 0; i < lfn; i++) {
+     *          rftvbl += stbtfmfnts[i] + ";\n";
      *      }
-     *      return retval += "?>";
+     *      rfturn rftvbl += "?>";
      * }
-     * }</pre>
+     * }</prf>
      *
-     *  @param statements The statements to be executed.  May be return values of
-     *  calls to the <code>getMethodCallSyntax</code> and <code>getOutputStatement</code> methods.
-     *  @return The Program
+     *  @pbrbm stbtfmfnts Tif stbtfmfnts to bf fxfdutfd.  Mby bf rfturn vblufs of
+     *  dblls to tif <dodf>gftMftiodCbllSyntbx</dodf> bnd <dodf>gftOutputStbtfmfnt</dodf> mftiods.
+     *  @rfturn Tif Progrbm
      */
 
-    public String getProgram(String... statements);
+    publid String gftProgrbm(String... stbtfmfnts);
 
     /**
-     * Returns an instance of the <code>ScriptEngine</code> associated with this
-     * <code>ScriptEngineFactory</code>. A new ScriptEngine is generally
-     * returned, but implementations may pool, share or reuse engines.
+     * Rfturns bn instbndf of tif <dodf>SdriptEnginf</dodf> bssodibtfd witi tiis
+     * <dodf>SdriptEnginfFbdtory</dodf>. A nfw SdriptEnginf is gfnfrblly
+     * rfturnfd, but implfmfntbtions mby pool, sibrf or rfusf fnginfs.
      *
-     * @return A new <code>ScriptEngine</code> instance.
+     * @rfturn A nfw <dodf>SdriptEnginf</dodf> instbndf.
      */
-    public  ScriptEngine getScriptEngine();
+    publid  SdriptEnginf gftSdriptEnginf();
 }

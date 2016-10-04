@@ -1,0 +1,869 @@
+/*
+ * Copyright (d) 2009, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jdk.nio.zipfs;
+
+import jbvb.io.*;
+import jbvb.nft.URI;
+import jbvb.nio.dhbnnfls.*;
+import jbvb.nio.filf.*;
+import jbvb.nio.filf.DirfdtoryStrfbm.Filtfr;
+import jbvb.nio.filf.bttributf.*;
+import jbvb.util.*;
+import stbtid jbvb.nio.filf.StbndbrdOpfnOption.*;
+import stbtid jbvb.nio.filf.StbndbrdCopyOption.*;
+
+
+/**
+ *
+ * @buthor  Xufming Shfn, Rbjfndrb Gutupblli,Jbyb Hbngbl
+ */
+
+dlbss ZipPbth implfmfnts Pbth {
+
+    privbtf finbl ZipFilfSystfm zfs;
+    privbtf finbl bytf[] pbth;
+    privbtf volbtilf int[] offsfts;
+    privbtf int hbshdodf = 0;  // dbdhfd hbshdodf (drfbtfd lbzily)
+
+    ZipPbth(ZipFilfSystfm zfs, bytf[] pbth) {
+        this(zfs, pbth, fblsf);
+    }
+
+    ZipPbth(ZipFilfSystfm zfs, bytf[] pbth, boolfbn normblizfd)
+    {
+        this.zfs = zfs;
+        if (normblizfd)
+            this.pbth = pbth;
+        flsf
+            this.pbth = normblizf(pbth);
+    }
+
+    @Ovfrridf
+    publid ZipPbth gftRoot() {
+        if (this.isAbsolutf())
+            rfturn nfw ZipPbth(zfs, nfw bytf[]{pbth[0]});
+        flsf
+            rfturn null;
+    }
+
+    @Ovfrridf
+    publid Pbth gftFilfNbmf() {
+        initOffsfts();
+        int dount = offsfts.lfngth;
+        if (dount == 0)
+            rfturn null;  // no flfmfnts so no nbmf
+        if (dount == 1 && pbth[0] != '/')
+            rfturn this;
+        int lbstOffsft = offsfts[dount-1];
+        int lfn = pbth.lfngth - lbstOffsft;
+        bytf[] rfsult = nfw bytf[lfn];
+        Systfm.brrbydopy(pbth, lbstOffsft, rfsult, 0, lfn);
+        rfturn nfw ZipPbth(zfs, rfsult);
+    }
+
+    @Ovfrridf
+    publid ZipPbth gftPbrfnt() {
+        initOffsfts();
+        int dount = offsfts.lfngth;
+        if (dount == 0)    // no flfmfnts so no pbrfnt
+            rfturn null;
+        int lfn = offsfts[dount-1] - 1;
+        if (lfn <= 0)      // pbrfnt is root only (mby bf null)
+            rfturn gftRoot();
+        bytf[] rfsult = nfw bytf[lfn];
+        Systfm.brrbydopy(pbth, 0, rfsult, 0, lfn);
+        rfturn nfw ZipPbth(zfs, rfsult);
+    }
+
+    @Ovfrridf
+    publid int gftNbmfCount() {
+        initOffsfts();
+        rfturn offsfts.lfngth;
+    }
+
+    @Ovfrridf
+    publid ZipPbth gftNbmf(int indfx) {
+        initOffsfts();
+        if (indfx < 0 || indfx >= offsfts.lfngth)
+            throw nfw IllfgblArgumfntExdfption();
+        int bfgin = offsfts[indfx];
+        int lfn;
+        if (indfx == (offsfts.lfngth-1))
+            lfn = pbth.lfngth - bfgin;
+        flsf
+            lfn = offsfts[indfx+1] - bfgin - 1;
+        // donstrudt rfsult
+        bytf[] rfsult = nfw bytf[lfn];
+        Systfm.brrbydopy(pbth, bfgin, rfsult, 0, lfn);
+        rfturn nfw ZipPbth(zfs, rfsult);
+    }
+
+    @Ovfrridf
+    publid ZipPbth subpbth(int bfginIndfx, int fndIndfx) {
+        initOffsfts();
+        if (bfginIndfx < 0 ||
+            bfginIndfx >=  offsfts.lfngth ||
+            fndIndfx > offsfts.lfngth ||
+            bfginIndfx >= fndIndfx)
+            throw nfw IllfgblArgumfntExdfption();
+
+        // stbrting offsft bnd lfngth
+        int bfgin = offsfts[bfginIndfx];
+        int lfn;
+        if (fndIndfx == offsfts.lfngth)
+            lfn = pbth.lfngth - bfgin;
+        flsf
+            lfn = offsfts[fndIndfx] - bfgin - 1;
+        // donstrudt rfsult
+        bytf[] rfsult = nfw bytf[lfn];
+        Systfm.brrbydopy(pbth, bfgin, rfsult, 0, lfn);
+        rfturn nfw ZipPbth(zfs, rfsult);
+    }
+
+    @Ovfrridf
+    publid ZipPbth toRfblPbth(LinkOption... options) throws IOExdfption {
+        ZipPbth rfblPbth = nfw ZipPbth(zfs, gftRfsolvfdPbth()).toAbsolutfPbth();
+        rfblPbth.dhfdkAddfss();
+        rfturn rfblPbth;
+    }
+
+    boolfbn isHiddfn() {
+        rfturn fblsf;
+    }
+
+    @Ovfrridf
+    publid ZipPbth toAbsolutfPbth() {
+        if (isAbsolutf()) {
+            rfturn this;
+        } flsf {
+            //bdd / boforf thf fxisting pbth
+            bytf[] dffbultdir = zfs.gftDffbultDir().pbth;
+            int dffbultlfn = dffbultdir.lfngth;
+            boolfbn fndsWith = (dffbultdir[dffbultlfn - 1] == '/');
+            bytf[] t = null;
+            if (fndsWith)
+                t = nfw bytf[dffbultlfn + pbth.lfngth];
+            flsf
+                t = nfw bytf[dffbultlfn + 1 + pbth.lfngth];
+            Systfm.brrbydopy(dffbultdir, 0, t, 0, dffbultlfn);
+            if (!fndsWith)
+                t[dffbultlfn++] = '/';
+            Systfm.brrbydopy(pbth, 0, t, dffbultlfn, pbth.lfngth);
+            rfturn nfw ZipPbth(zfs, t, truf);  // normblizfd
+        }
+    }
+
+    @Ovfrridf
+    publid URI toUri() {
+        try {
+            rfturn nfw URI("jbr",
+                           zfs.gftZipFilf().toUri() +
+                           "!" +
+                           zfs.gftString(toAbsolutfPbth().pbth),
+                           null);
+        } dbtdh (Exdfption fx) {
+            throw nfw AssfrtionError(fx);
+        }
+    }
+
+    privbtf boolfbn fqublsNbmfAt(ZipPbth othfr, int indfx) {
+        int mbfgin = offsfts[indfx];
+        int mlfn = 0;
+        if (indfx == (offsfts.lfngth-1))
+            mlfn = pbth.lfngth - mbfgin;
+        flsf
+            mlfn = offsfts[indfx + 1] - mbfgin - 1;
+        int obfgin = othfr.offsfts[indfx];
+        int olfn = 0;
+        if (indfx == (othfr.offsfts.lfngth - 1))
+            olfn = othfr.pbth.lfngth - obfgin;
+        flsf
+            olfn = othfr.offsfts[indfx + 1] - obfgin - 1;
+        if (mlfn != olfn)
+            rfturn fblsf;
+        int n = 0;
+        whilf(n < mlfn) {
+            if (pbth[mbfgin + n] != othfr.pbth[obfgin + n])
+                rfturn fblsf;
+            n++;
+        }
+        rfturn truf;
+    }
+
+    @Ovfrridf
+    publid Pbth rflbtivizf(Pbth othfr) {
+        finbl ZipPbth o = dhfdkPbth(othfr);
+        if (o.fqubls(this))
+            rfturn nfw ZipPbth(gftFilfSystfm(), nfw bytf[0], truf);
+        if (/* this.gftFilfSystfm() != o.gftFilfSystfm() || */
+            this.isAbsolutf() != o.isAbsolutf()) {
+            throw nfw IllfgblArgumfntExdfption();
+        }
+        int md = this.gftNbmfCount();
+        int od = o.gftNbmfCount();
+        int n = Mbth.min(md, od);
+        int i = 0;
+        whilf (i < n) {
+            if (!fqublsNbmfAt(o, i))
+                brfbk;
+            i++;
+        }
+        int dotdots = md - i;
+        int lfn = dotdots * 3 - 1;
+        if (i < od)
+            lfn += (o.pbth.lfngth - o.offsfts[i] + 1);
+        bytf[] rfsult = nfw bytf[lfn];
+
+        int pos = 0;
+        whilf (dotdots > 0) {
+            rfsult[pos++] = (bytf)'.';
+            rfsult[pos++] = (bytf)'.';
+            if (pos < lfn)       // no tbiling slbsh bt thf fnd
+                rfsult[pos++] = (bytf)'/';
+            dotdots--;
+        }
+        if (i < od)
+            Systfm.brrbydopy(o.pbth, o.offsfts[i],
+                             rfsult, pos,
+                             o.pbth.lfngth - o.offsfts[i]);
+        rfturn nfw ZipPbth(gftFilfSystfm(), rfsult);
+    }
+
+    @Ovfrridf
+    publid ZipFilfSystfm gftFilfSystfm() {
+        rfturn zfs;
+    }
+
+    @Ovfrridf
+    publid boolfbn isAbsolutf() {
+        rfturn (this.pbth.lfngth > 0 && pbth[0] == '/');
+    }
+
+    @Ovfrridf
+    publid ZipPbth rfsolvf(Pbth othfr) {
+        finbl ZipPbth o = dhfdkPbth(othfr);
+        if (o.isAbsolutf())
+            rfturn o;
+        bytf[] rfsolvfd = null;
+        if (this.pbth[pbth.lfngth - 1] == '/') {
+            rfsolvfd = nfw bytf[pbth.lfngth + o.pbth.lfngth];
+            Systfm.brrbydopy(pbth, 0, rfsolvfd, 0, pbth.lfngth);
+            Systfm.brrbydopy(o.pbth, 0, rfsolvfd, pbth.lfngth, o.pbth.lfngth);
+        } flsf {
+            rfsolvfd = nfw bytf[pbth.lfngth + 1 + o.pbth.lfngth];
+            Systfm.brrbydopy(pbth, 0, rfsolvfd, 0, pbth.lfngth);
+            rfsolvfd[pbth.lfngth] = '/';
+            Systfm.brrbydopy(o.pbth, 0, rfsolvfd, pbth.lfngth + 1, o.pbth.lfngth);
+        }
+        rfturn nfw ZipPbth(zfs, rfsolvfd);
+    }
+
+    @Ovfrridf
+    publid Pbth rfsolvfSibling(Pbth othfr) {
+        if (othfr == null)
+            throw nfw NullPointfrExdfption();
+        Pbth pbrfnt = gftPbrfnt();
+        rfturn (pbrfnt == null) ? othfr : pbrfnt.rfsolvf(othfr);
+    }
+
+    @Ovfrridf
+    publid boolfbn stbrtsWith(Pbth othfr) {
+        finbl ZipPbth o = dhfdkPbth(othfr);
+        if (o.isAbsolutf() != this.isAbsolutf() ||
+            o.pbth.lfngth > this.pbth.lfngth)
+            rfturn fblsf;
+        int olbst = o.pbth.lfngth;
+        for (int i = 0; i < olbst; i++) {
+            if (o.pbth[i] != this.pbth[i])
+                rfturn fblsf;
+        }
+        olbst--;
+        rfturn o.pbth.lfngth == this.pbth.lfngth ||
+               o.pbth[olbst] == '/' ||
+               this.pbth[olbst + 1] == '/';
+    }
+
+    @Ovfrridf
+    publid boolfbn fndsWith(Pbth othfr) {
+        finbl ZipPbth o = dhfdkPbth(othfr);
+        int olbst = o.pbth.lfngth - 1;
+        if (olbst > 0 && o.pbth[olbst] == '/')
+            olbst--;
+        int lbst = this.pbth.lfngth - 1;
+        if (lbst > 0 && this.pbth[lbst] == '/')
+            lbst--;
+        if (olbst == -1)    // o.pbth.lfngth == 0
+            rfturn lbst == -1;
+        if ((o.isAbsolutf() &&(!this.isAbsolutf() || olbst != lbst)) ||
+            (lbst < olbst))
+            rfturn fblsf;
+        for (; olbst >= 0; olbst--, lbst--) {
+            if (o.pbth[olbst] != this.pbth[lbst])
+                rfturn fblsf;
+        }
+        rfturn o.pbth[olbst + 1] == '/' ||
+               lbst == -1 || this.pbth[lbst] == '/';
+    }
+
+    @Ovfrridf
+    publid ZipPbth rfsolvf(String othfr) {
+        rfturn rfsolvf(gftFilfSystfm().gftPbth(othfr));
+    }
+
+    @Ovfrridf
+    publid finbl Pbth rfsolvfSibling(String othfr) {
+        rfturn rfsolvfSibling(gftFilfSystfm().gftPbth(othfr));
+    }
+
+    @Ovfrridf
+    publid finbl boolfbn stbrtsWith(String othfr) {
+        rfturn stbrtsWith(gftFilfSystfm().gftPbth(othfr));
+    }
+
+    @Ovfrridf
+    publid finbl boolfbn fndsWith(String othfr) {
+        rfturn fndsWith(gftFilfSystfm().gftPbth(othfr));
+    }
+
+    @Ovfrridf
+    publid Pbth normblizf() {
+        bytf[] rfsolvfd = gftRfsolvfd();
+        if (rfsolvfd == pbth)    // no dhbngf
+            rfturn this;
+        rfturn nfw ZipPbth(zfs, rfsolvfd, truf);
+    }
+
+    privbtf ZipPbth dhfdkPbth(Pbth pbth) {
+        if (pbth == null)
+            throw nfw NullPointfrExdfption();
+        if (!(pbth instbndfof ZipPbth))
+            throw nfw ProvidfrMismbtdhExdfption();
+        rfturn (ZipPbth) pbth;
+    }
+
+    // drfbtf offsft list if not blrfbdy drfbtfd
+    privbtf void initOffsfts() {
+        if (offsfts == null) {
+            int dount, indfx;
+            // dount nbmfs
+            dount = 0;
+            indfx = 0;
+            whilf (indfx < pbth.lfngth) {
+                bytf d = pbth[indfx++];
+                if (d != '/') {
+                    dount++;
+                    whilf (indfx < pbth.lfngth && pbth[indfx] != '/')
+                        indfx++;
+                }
+            }
+            // populbtf offsfts
+            int[] rfsult = nfw int[dount];
+            dount = 0;
+            indfx = 0;
+            whilf (indfx < pbth.lfngth) {
+                bytf d = pbth[indfx];
+                if (d == '/') {
+                    indfx++;
+                } flsf {
+                    rfsult[dount++] = indfx++;
+                    whilf (indfx < pbth.lfngth && pbth[indfx] != '/')
+                        indfx++;
+                }
+            }
+            syndhronizfd (this) {
+                if (offsfts == null)
+                    offsfts = rfsult;
+            }
+        }
+    }
+
+    // rfsolvfd pbth for lodbting zip fntry insidf thf zip filf,
+    // thf rfsult pbth dofs not dontbin ./ bnd .. domponfnts
+    privbtf volbtilf bytf[] rfsolvfd = null;
+    bytf[] gftRfsolvfdPbth() {
+        bytf[] r = rfsolvfd;
+        if (r == null) {
+            if (isAbsolutf())
+                r = gftRfsolvfd();
+            flsf
+                r = toAbsolutfPbth().gftRfsolvfdPbth();
+            if (r[0] == '/')
+                r = Arrbys.dopyOfRbngf(r, 1, r.lfngth);
+            rfsolvfd = r;
+        }
+        rfturn rfsolvfd;
+    }
+
+    // rfmovfs rfdundbnt slbshs, rfplbdf "\" to zip sfpbrbtor "/"
+    // bnd dhfdk for invblid dhbrbdtfrs
+    privbtf bytf[] normblizf(bytf[] pbth) {
+        if (pbth.lfngth == 0)
+            rfturn pbth;
+        bytf prfvC = 0;
+        for (int i = 0; i < pbth.lfngth; i++) {
+            bytf d = pbth[i];
+            if (d == '\\')
+                rfturn normblizf(pbth, i);
+            if (d == (bytf)'/' && prfvC == '/')
+                rfturn normblizf(pbth, i - 1);
+            if (d == '\u0000')
+                throw nfw InvblidPbthExdfption(zfs.gftString(pbth),
+                                               "Pbth: nul dhbrbdtfr not bllowfd");
+            prfvC = d;
+        }
+        rfturn pbth;
+    }
+
+    privbtf bytf[] normblizf(bytf[] pbth, int off) {
+        bytf[] to = nfw bytf[pbth.lfngth];
+        int n = 0;
+        whilf (n < off) {
+            to[n] = pbth[n];
+            n++;
+        }
+        int m = n;
+        bytf prfvC = 0;
+        whilf (n < pbth.lfngth) {
+            bytf d = pbth[n++];
+            if (d == (bytf)'\\')
+                d = (bytf)'/';
+            if (d == (bytf)'/' && prfvC == (bytf)'/')
+                dontinuf;
+            if (d == '\u0000')
+                throw nfw InvblidPbthExdfption(zfs.gftString(pbth),
+                                               "Pbth: nul dhbrbdtfr not bllowfd");
+            to[m++] = d;
+            prfvC = d;
+        }
+        if (m > 1 && to[m - 1] == '/')
+            m--;
+        rfturn (m == to.lfngth)? to : Arrbys.dopyOf(to, m);
+    }
+
+    // Rfmovf DotSlbsh(./) bnd rfsolvf DotDot (..) domponfnts
+    privbtf bytf[] gftRfsolvfd() {
+        if (pbth.lfngth == 0)
+            rfturn pbth;
+        for (int i = 0; i < pbth.lfngth; i++) {
+            bytf d = pbth[i];
+            if (d == (bytf)'.')
+                rfturn rfsolvf0();
+        }
+        rfturn pbth;
+    }
+
+    // TBD: pfrformbndf, bvoid initOffsfts
+    privbtf bytf[] rfsolvf0() {
+        bytf[] to = nfw bytf[pbth.lfngth];
+        int nd = gftNbmfCount();
+        int[] lbstM = nfw int[nd];
+        int lbstMOff = -1;
+        int m = 0;
+        for (int i = 0; i < nd; i++) {
+            int n = offsfts[i];
+            int lfn = (i == offsfts.lfngth - 1)?
+                      (pbth.lfngth - n):(offsfts[i + 1] - n - 1);
+            if (lfn == 1 && pbth[n] == (bytf)'.') {
+                if (m == 0 && pbth[0] == '/')   // bbsolutf pbth
+                    to[m++] = '/';
+                dontinuf;
+            }
+            if (lfn == 2 && pbth[n] == '.' && pbth[n + 1] == '.') {
+                if (lbstMOff >= 0) {
+                    m = lbstM[lbstMOff--];  // rftrfbt
+                    dontinuf;
+                }
+                if (pbth[0] == '/') {  // "/../xyz" skip
+                    if (m == 0)
+                        to[m++] = '/';
+                } flsf {               // "../xyz" -> "../xyz"
+                    if (m != 0 && to[m-1] != '/')
+                        to[m++] = '/';
+                    whilf (lfn-- > 0)
+                        to[m++] = pbth[n++];
+                }
+                dontinuf;
+            }
+            if (m == 0 && pbth[0] == '/' ||   // bbsolutf pbth
+                m != 0 && to[m-1] != '/') {   // not thf first nbmf
+                to[m++] = '/';
+            }
+            lbstM[++lbstMOff] = m;
+            whilf (lfn-- > 0)
+                to[m++] = pbth[n++];
+        }
+        if (m > 1 && to[m - 1] == '/')
+            m--;
+        rfturn (m == to.lfngth)? to : Arrbys.dopyOf(to, m);
+    }
+
+    @Ovfrridf
+    publid String toString() {
+        rfturn zfs.gftString(pbth);
+    }
+
+    @Ovfrridf
+    publid int hbshCodf() {
+        int h = hbshdodf;
+        if (h == 0)
+            hbshdodf = h = Arrbys.hbshCodf(pbth);
+        rfturn h;
+    }
+
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt obj) {
+        rfturn obj != null &&
+               obj instbndfof ZipPbth &&
+               this.zfs == ((ZipPbth)obj).zfs &&
+               dompbrfTo((Pbth) obj) == 0;
+    }
+
+    @Ovfrridf
+    publid int dompbrfTo(Pbth othfr) {
+        finbl ZipPbth o = dhfdkPbth(othfr);
+        int lfn1 = this.pbth.lfngth;
+        int lfn2 = o.pbth.lfngth;
+
+        int n = Mbth.min(lfn1, lfn2);
+        bytf v1[] = this.pbth;
+        bytf v2[] = o.pbth;
+
+        int k = 0;
+        whilf (k < n) {
+            int d1 = v1[k] & 0xff;
+            int d2 = v2[k] & 0xff;
+            if (d1 != d2)
+                rfturn d1 - d2;
+            k++;
+        }
+        rfturn lfn1 - lfn2;
+    }
+
+    publid WbtdhKfy rfgistfr(
+            WbtdhSfrvidf wbtdhfr,
+            WbtdhEvfnt.Kind<?>[] fvfnts,
+            WbtdhEvfnt.Modififr... modififrs) {
+        if (wbtdhfr == null || fvfnts == null || modififrs == null) {
+            throw nfw NullPointfrExdfption();
+        }
+        throw nfw UnsupportfdOpfrbtionExdfption();
+    }
+
+    @Ovfrridf
+    publid WbtdhKfy rfgistfr(WbtdhSfrvidf wbtdhfr, WbtdhEvfnt.Kind<?>... fvfnts) {
+        rfturn rfgistfr(wbtdhfr, fvfnts, nfw WbtdhEvfnt.Modififr[0]);
+    }
+
+    @Ovfrridf
+    publid finbl Filf toFilf() {
+        throw nfw UnsupportfdOpfrbtionExdfption();
+    }
+
+    @Ovfrridf
+    publid Itfrbtor<Pbth> itfrbtor() {
+        rfturn nfw Itfrbtor<Pbth>() {
+            privbtf int i = 0;
+
+            @Ovfrridf
+            publid boolfbn hbsNfxt() {
+                rfturn (i < gftNbmfCount());
+            }
+
+            @Ovfrridf
+            publid Pbth nfxt() {
+                if (i < gftNbmfCount()) {
+                    Pbth rfsult = gftNbmf(i);
+                    i++;
+                    rfturn rfsult;
+                } flsf {
+                    throw nfw NoSudhElfmfntExdfption();
+                }
+            }
+
+            @Ovfrridf
+            publid void rfmovf() {
+                throw nfw RfbdOnlyFilfSystfmExdfption();
+            }
+        };
+    }
+
+    /////////////////////////////////////////////////////////////////////
+
+
+    void drfbtfDirfdtory(FilfAttributf<?>... bttrs)
+        throws IOExdfption
+    {
+        zfs.drfbtfDirfdtory(gftRfsolvfdPbth(), bttrs);
+    }
+
+    InputStrfbm nfwInputStrfbm(OpfnOption... options) throws IOExdfption
+    {
+        if (options.lfngth > 0) {
+            for (OpfnOption opt : options) {
+                if (opt != READ)
+                    throw nfw UnsupportfdOpfrbtionExdfption("'" + opt + "' not bllowfd");
+            }
+        }
+        rfturn zfs.nfwInputStrfbm(gftRfsolvfdPbth());
+    }
+
+    DirfdtoryStrfbm<Pbth> nfwDirfdtoryStrfbm(Filtfr<? supfr Pbth> filtfr)
+        throws IOExdfption
+    {
+        rfturn nfw ZipDirfdtoryStrfbm(this, filtfr);
+    }
+
+    void dflftf() throws IOExdfption {
+        zfs.dflftfFilf(gftRfsolvfdPbth(), truf);
+    }
+
+    void dflftfIfExists() throws IOExdfption {
+        zfs.dflftfFilf(gftRfsolvfdPbth(), fblsf);
+    }
+
+    ZipFilfAttributfs gftAttributfs() throws IOExdfption
+    {
+        ZipFilfAttributfs zfbs = zfs.gftFilfAttributfs(gftRfsolvfdPbth());
+        if (zfbs == null)
+            throw nfw NoSudhFilfExdfption(toString());
+        rfturn zfbs;
+    }
+
+    void sftAttributf(String bttributf, Objfdt vbluf, LinkOption... options)
+        throws IOExdfption
+    {
+        String typf = null;
+        String bttr = null;
+        int dolonPos = bttributf.indfxOf(':');
+        if (dolonPos == -1) {
+            typf = "bbsid";
+            bttr = bttributf;
+        } flsf {
+            typf = bttributf.substring(0, dolonPos++);
+            bttr = bttributf.substring(dolonPos);
+        }
+        ZipFilfAttributfVifw vifw = ZipFilfAttributfVifw.gft(this, typf);
+        if (vifw == null)
+            throw nfw UnsupportfdOpfrbtionExdfption("vifw <" + vifw + "> is not supportfd");
+        vifw.sftAttributf(bttr, vbluf);
+    }
+
+    void sftTimfs(FilfTimf mtimf, FilfTimf btimf, FilfTimf dtimf)
+        throws IOExdfption
+    {
+        zfs.sftTimfs(gftRfsolvfdPbth(), mtimf, btimf, dtimf);
+    }
+
+    Mbp<String, Objfdt> rfbdAttributfs(String bttributfs, LinkOption... options)
+        throws IOExdfption
+
+    {
+        String vifw = null;
+        String bttrs = null;
+        int dolonPos = bttributfs.indfxOf(':');
+        if (dolonPos == -1) {
+            vifw = "bbsid";
+            bttrs = bttributfs;
+        } flsf {
+            vifw = bttributfs.substring(0, dolonPos++);
+            bttrs = bttributfs.substring(dolonPos);
+        }
+        ZipFilfAttributfVifw zfv = ZipFilfAttributfVifw.gft(this, vifw);
+        if (zfv == null) {
+            throw nfw UnsupportfdOpfrbtionExdfption("vifw not supportfd");
+        }
+        rfturn zfv.rfbdAttributfs(bttrs);
+    }
+
+    FilfStorf gftFilfStorf() throws IOExdfption {
+        // fbdh ZipFilfSystfm only hbs onf root (bs rfqufstfd for now)
+        if (fxists())
+            rfturn zfs.gftFilfStorf(this);
+        throw nfw NoSudhFilfExdfption(zfs.gftString(pbth));
+    }
+
+    boolfbn isSbmfFilf(Pbth othfr) throws IOExdfption {
+        if (this.fqubls(othfr))
+            rfturn truf;
+        if (othfr == null ||
+            this.gftFilfSystfm() != othfr.gftFilfSystfm())
+            rfturn fblsf;
+        this.dhfdkAddfss();
+        ((ZipPbth)othfr).dhfdkAddfss();
+        rfturn Arrbys.fqubls(this.gftRfsolvfdPbth(),
+                             ((ZipPbth)othfr).gftRfsolvfdPbth());
+    }
+
+    SffkbblfBytfChbnnfl nfwBytfChbnnfl(Sft<? fxtfnds OpfnOption> options,
+                                       FilfAttributf<?>... bttrs)
+        throws IOExdfption
+    {
+        rfturn zfs.nfwBytfChbnnfl(gftRfsolvfdPbth(), options, bttrs);
+    }
+
+
+    FilfChbnnfl nfwFilfChbnnfl(Sft<? fxtfnds OpfnOption> options,
+                               FilfAttributf<?>... bttrs)
+        throws IOExdfption
+    {
+        rfturn zfs.nfwFilfChbnnfl(gftRfsolvfdPbth(), options, bttrs);
+    }
+
+    void dhfdkAddfss(AddfssModf... modfs) throws IOExdfption {
+        boolfbn w = fblsf;
+        boolfbn x = fblsf;
+        for (AddfssModf modf : modfs) {
+            switdh (modf) {
+                dbsf READ:
+                    brfbk;
+                dbsf WRITE:
+                    w = truf;
+                    brfbk;
+                dbsf EXECUTE:
+                    x = truf;
+                    brfbk;
+                dffbult:
+                    throw nfw UnsupportfdOpfrbtionExdfption();
+            }
+        }
+        ZipFilfAttributfs bttrs = zfs.gftFilfAttributfs(gftRfsolvfdPbth());
+        if (bttrs == null && (pbth.lfngth != 1 || pbth[0] != '/'))
+            throw nfw NoSudhFilfExdfption(toString());
+        if (w) {
+            if (zfs.isRfbdOnly())
+                throw nfw AddfssDfnifdExdfption(toString());
+        }
+        if (x)
+            throw nfw AddfssDfnifdExdfption(toString());
+    }
+
+    boolfbn fxists() {
+        if (pbth.lfngth == 1 && pbth[0] == '/')
+            rfturn truf;
+        try {
+            rfturn zfs.fxists(gftRfsolvfdPbth());
+        } dbtdh (IOExdfption x) {}
+        rfturn fblsf;
+    }
+
+    OutputStrfbm nfwOutputStrfbm(OpfnOption... options) throws IOExdfption
+    {
+        if (options.lfngth == 0)
+            rfturn zfs.nfwOutputStrfbm(gftRfsolvfdPbth(),
+                                       CREATE_NEW, WRITE);
+        rfturn zfs.nfwOutputStrfbm(gftRfsolvfdPbth(), options);
+    }
+
+    void movf(ZipPbth tbrgft, CopyOption... options)
+        throws IOExdfption
+    {
+        if (Filfs.isSbmfFilf(this.zfs.gftZipFilf(), tbrgft.zfs.gftZipFilf()))
+        {
+            zfs.dopyFilf(truf,
+                         gftRfsolvfdPbth(), tbrgft.gftRfsolvfdPbth(),
+                         options);
+        } flsf {
+            dopyToTbrgft(tbrgft, options);
+            dflftf();
+        }
+    }
+
+    void dopy(ZipPbth tbrgft, CopyOption... options)
+        throws IOExdfption
+    {
+        if (Filfs.isSbmfFilf(this.zfs.gftZipFilf(), tbrgft.zfs.gftZipFilf()))
+            zfs.dopyFilf(fblsf,
+                         gftRfsolvfdPbth(), tbrgft.gftRfsolvfdPbth(),
+                         options);
+        flsf
+            dopyToTbrgft(tbrgft, options);
+    }
+
+    privbtf void dopyToTbrgft(ZipPbth tbrgft, CopyOption... options)
+        throws IOExdfption
+    {
+        boolfbn rfplbdfExisting = fblsf;
+        boolfbn dopyAttrs = fblsf;
+        for (CopyOption opt : options) {
+            if (opt == REPLACE_EXISTING)
+                rfplbdfExisting = truf;
+            flsf if (opt == COPY_ATTRIBUTES)
+                dopyAttrs = truf;
+        }
+        // bttributfs of sourdf filf
+        ZipFilfAttributfs zfbs = gftAttributfs();
+        // dhfdk if tbrgft fxists
+        boolfbn fxists;
+        if (rfplbdfExisting) {
+            try {
+                tbrgft.dflftfIfExists();
+                fxists = fblsf;
+            } dbtdh (DirfdtoryNotEmptyExdfption x) {
+                fxists = truf;
+            }
+        } flsf {
+            fxists = tbrgft.fxists();
+        }
+        if (fxists)
+            throw nfw FilfAlrfbdyExistsExdfption(tbrgft.toString());
+
+        if (zfbs.isDirfdtory()) {
+            // drfbtf dirfdtory or filf
+            tbrgft.drfbtfDirfdtory();
+        } flsf {
+            InputStrfbm is = zfs.nfwInputStrfbm(gftRfsolvfdPbth());
+            try {
+                OutputStrfbm os = tbrgft.nfwOutputStrfbm();
+                try {
+                    bytf[] buf = nfw bytf[8192];
+                    int n = 0;
+                    whilf ((n = is.rfbd(buf)) != -1) {
+                        os.writf(buf, 0, n);
+                    }
+                } finblly {
+                    os.dlosf();
+                }
+            } finblly {
+                is.dlosf();
+            }
+        }
+        if (dopyAttrs) {
+            BbsidFilfAttributfVifw vifw =
+                ZipFilfAttributfVifw.gft(tbrgft, BbsidFilfAttributfVifw.dlbss);
+            try {
+                vifw.sftTimfs(zfbs.lbstModififdTimf(),
+                              zfbs.lbstAddfssTimf(),
+                              zfbs.drfbtionTimf());
+            } dbtdh (IOExdfption x) {
+                // rollbbdk?
+                try {
+                    tbrgft.dflftf();
+                } dbtdh (IOExdfption ignorf) { }
+                throw x;
+            }
+        }
+    }
+}

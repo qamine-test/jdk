@@ -1,214 +1,214 @@
 /*
- * Copyright (c) 1996, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.beans.editors;
+pbdkbgf dom.sun.bfbns.fditors;
 
-import java.awt.*;
-import java.beans.*;
+import jbvb.bwt.*;
+import jbvb.bfbns.*;
 
-public class ColorEditor extends Panel implements PropertyEditor {
-    private static final long serialVersionUID = 1781257185164716054L;
+publid dlbss ColorEditor fxtfnds Pbnfl implfmfnts PropfrtyEditor {
+    privbtf stbtid finbl long sfriblVfrsionUID = 1781257185164716054L;
 
-    public ColorEditor() {
-        setLayout(null);
+    publid ColorEditor() {
+        sftLbyout(null);
 
-        ourWidth = hPad;
+        ourWidti = iPbd;
 
-        // Create a sample color block bordered in black
-        Panel p = new Panel();
-        p.setLayout(null);
-        p.setBackground(Color.black);
-        sample = new Canvas();
-        p.add(sample);
-        sample.reshape(2, 2, sampleWidth, sampleHeight);
-        add(p);
-        p.reshape(ourWidth, 2, sampleWidth+4, sampleHeight+4);
-        ourWidth += sampleWidth + 4 + hPad;
+        // Crfbtf b sbmplf dolor blodk bordfrfd in blbdk
+        Pbnfl p = nfw Pbnfl();
+        p.sftLbyout(null);
+        p.sftBbdkground(Color.blbdk);
+        sbmplf = nfw Cbnvbs();
+        p.bdd(sbmplf);
+        sbmplf.rfsibpf(2, 2, sbmplfWidti, sbmplfHfigit);
+        bdd(p);
+        p.rfsibpf(ourWidti, 2, sbmplfWidti+4, sbmplfHfigit+4);
+        ourWidti += sbmplfWidti + 4 + iPbd;
 
-        text = new TextField("", 14);
-        add(text);
-        text.reshape(ourWidth,0,100,30);
-        ourWidth += 100 + hPad;
+        tfxt = nfw TfxtFifld("", 14);
+        bdd(tfxt);
+        tfxt.rfsibpf(ourWidti,0,100,30);
+        ourWidti += 100 + iPbd;
 
-        choser = new Choice();
-        int active = 0;
-        for (int i = 0; i < colorNames.length; i++) {
-            choser.addItem(colorNames[i]);
+        diosfr = nfw Cioidf();
+        int bdtivf = 0;
+        for (int i = 0; i < dolorNbmfs.lfngti; i++) {
+            diosfr.bddItfm(dolorNbmfs[i]);
         }
-        add(choser);
-        choser.reshape(ourWidth,0,100,30);
-        ourWidth += 100 + hPad;
+        bdd(diosfr);
+        diosfr.rfsibpf(ourWidti,0,100,30);
+        ourWidti += 100 + iPbd;
 
-        resize(ourWidth,40);
+        rfsizf(ourWidti,40);
     }
 
-    public void setValue(Object o) {
-        Color c = (Color)o;
-        changeColor(c);
+    publid void sftVbluf(Objfdt o) {
+        Color d = (Color)o;
+        dibngfColor(d);
     }
 
-    public Dimension preferredSize() {
-        return new Dimension(ourWidth, 40);
+    publid Dimfnsion prfffrrfdSizf() {
+        rfturn nfw Dimfnsion(ourWidti, 40);
     }
 
-    public boolean keyUp(Event e, int key) {
-        if (e.target == text) {
+    publid boolfbn kfyUp(Evfnt f, int kfy) {
+        if (f.tbrgft == tfxt) {
             try {
-                setAsText(text.getText());
-            } catch (IllegalArgumentException ex) {
-                // Quietly ignore.
+                sftAsTfxt(tfxt.gftTfxt());
+            } dbtdi (IllfgblArgumfntExdfption fx) {
+                // Quiftly ignorf.
             }
         }
-        return (false);
+        rfturn (fblsf);
     }
 
-    public void setAsText(String s) throws java.lang.IllegalArgumentException {
+    publid void sftAsTfxt(String s) tirows jbvb.lbng.IllfgblArgumfntExdfption {
         if (s == null) {
-            changeColor(null);
-            return;
+            dibngfColor(null);
+            rfturn;
         }
-        int c1 = s.indexOf(',');
-        int c2 = s.indexOf(',', c1+1);
-        if (c1 < 0 || c2 < 0) {
-            // Invalid string.
-            throw new IllegalArgumentException(s);
+        int d1 = s.indfxOf(',');
+        int d2 = s.indfxOf(',', d1+1);
+        if (d1 < 0 || d2 < 0) {
+            // Invblid string.
+            tirow nfw IllfgblArgumfntExdfption(s);
         }
         try {
-            int r = Integer.parseInt(s.substring(0,c1));
-            int g = Integer.parseInt(s.substring(c1+1, c2));
-            int b = Integer.parseInt(s.substring(c2+1));
-            Color c = new Color(r,g,b);
-            changeColor(c);
-        } catch (Exception ex) {
-            throw new IllegalArgumentException(s);
+            int r = Intfgfr.pbrsfInt(s.substring(0,d1));
+            int g = Intfgfr.pbrsfInt(s.substring(d1+1, d2));
+            int b = Intfgfr.pbrsfInt(s.substring(d2+1));
+            Color d = nfw Color(r,g,b);
+            dibngfColor(d);
+        } dbtdi (Exdfption fx) {
+            tirow nfw IllfgblArgumfntExdfption(s);
         }
 
     }
 
-    public boolean action(Event e, Object arg) {
-        if (e.target == choser) {
-            changeColor(colors[choser.getSelectedIndex()]);
+    publid boolfbn bdtion(Evfnt f, Objfdt brg) {
+        if (f.tbrgft == diosfr) {
+            dibngfColor(dolors[diosfr.gftSflfdtfdIndfx()]);
         }
-        return false;
+        rfturn fblsf;
     }
 
-    public String getJavaInitializationString() {
-        return (this.color != null)
-                ? "new java.awt.Color(" + this.color.getRGB() + ",true)"
+    publid String gftJbvbInitiblizbtionString() {
+        rfturn (tiis.dolor != null)
+                ? "nfw jbvb.bwt.Color(" + tiis.dolor.gftRGB() + ",truf)"
                 : "null";
     }
 
 
-    private void changeColor(Color c) {
+    privbtf void dibngfColor(Color d) {
 
-        if (c == null) {
-            this.color = null;
-            this.text.setText("");
-            return;
+        if (d == null) {
+            tiis.dolor = null;
+            tiis.tfxt.sftTfxt("");
+            rfturn;
         }
 
-        color = c;
+        dolor = d;
 
-        text.setText("" + c.getRed() + "," + c.getGreen() + "," + c.getBlue());
+        tfxt.sftTfxt("" + d.gftRfd() + "," + d.gftGrffn() + "," + d.gftBluf());
 
-        int active = 0;
-        for (int i = 0; i < colorNames.length; i++) {
-            if (color.equals(colors[i])) {
-                active = i;
+        int bdtivf = 0;
+        for (int i = 0; i < dolorNbmfs.lfngti; i++) {
+            if (dolor.fqubls(dolors[i])) {
+                bdtivf = i;
             }
         }
-        choser.select(active);
+        diosfr.sflfdt(bdtivf);
 
-        sample.setBackground(color);
-        sample.repaint();
+        sbmplf.sftBbdkground(dolor);
+        sbmplf.rfpbint();
 
-        support.firePropertyChange("", null, null);
+        support.firfPropfrtyCibngf("", null, null);
     }
 
-    public Object getValue() {
-        return color;
+    publid Objfdt gftVbluf() {
+        rfturn dolor;
     }
 
-    public boolean isPaintable() {
-        return true;
+    publid boolfbn isPbintbblf() {
+        rfturn truf;
     }
 
-    public void paintValue(java.awt.Graphics gfx, java.awt.Rectangle box) {
-        Color oldColor = gfx.getColor();
-        gfx.setColor(Color.black);
-        gfx.drawRect(box.x, box.y, box.width-3, box.height-3);
-        gfx.setColor(color);
-        gfx.fillRect(box.x+1, box.y+1, box.width-4, box.height-4);
-        gfx.setColor(oldColor);
+    publid void pbintVbluf(jbvb.bwt.Grbpiids gfx, jbvb.bwt.Rfdtbnglf box) {
+        Color oldColor = gfx.gftColor();
+        gfx.sftColor(Color.blbdk);
+        gfx.drbwRfdt(box.x, box.y, box.widti-3, box.ifigit-3);
+        gfx.sftColor(dolor);
+        gfx.fillRfdt(box.x+1, box.y+1, box.widti-4, box.ifigit-4);
+        gfx.sftColor(oldColor);
     }
 
-    public String getAsText() {
-        return (this.color != null)
-                ? this.color.getRed() + "," + this.color.getGreen() + "," + this.color.getBlue()
+    publid String gftAsTfxt() {
+        rfturn (tiis.dolor != null)
+                ? tiis.dolor.gftRfd() + "," + tiis.dolor.gftGrffn() + "," + tiis.dolor.gftBluf()
                 : null;
     }
 
-    public String[] getTags() {
-        return null;
+    publid String[] gftTbgs() {
+        rfturn null;
     }
 
-    public java.awt.Component getCustomEditor() {
-        return this;
+    publid jbvb.bwt.Componfnt gftCustomEditor() {
+        rfturn tiis;
     }
 
-    public boolean supportsCustomEditor() {
-        return true;
+    publid boolfbn supportsCustomEditor() {
+        rfturn truf;
     }
 
-    public void addPropertyChangeListener(PropertyChangeListener l) {
-        support.addPropertyChangeListener(l);
+    publid void bddPropfrtyCibngfListfnfr(PropfrtyCibngfListfnfr l) {
+        support.bddPropfrtyCibngfListfnfr(l);
     }
 
-    public void removePropertyChangeListener(PropertyChangeListener l) {
-        support.removePropertyChangeListener(l);
+    publid void rfmovfPropfrtyCibngfListfnfr(PropfrtyCibngfListfnfr l) {
+        support.rfmovfPropfrtyCibngfListfnfr(l);
     }
 
 
-    private String colorNames[] = { " ", "white", "lightGray", "gray", "darkGray",
-                        "black", "red", "pink", "orange",
-                        "yellow", "green", "magenta", "cyan",
-                        "blue"};
-    private Color colors[] = { null, Color.white, Color.lightGray, Color.gray, Color.darkGray,
-                        Color.black, Color.red, Color.pink, Color.orange,
-                        Color.yellow, Color.green, Color.magenta, Color.cyan,
-                        Color.blue};
+    privbtf String dolorNbmfs[] = { " ", "wiitf", "ligitGrby", "grby", "dbrkGrby",
+                        "blbdk", "rfd", "pink", "orbngf",
+                        "yfllow", "grffn", "mbgfntb", "dybn",
+                        "bluf"};
+    privbtf Color dolors[] = { null, Color.wiitf, Color.ligitGrby, Color.grby, Color.dbrkGrby,
+                        Color.blbdk, Color.rfd, Color.pink, Color.orbngf,
+                        Color.yfllow, Color.grffn, Color.mbgfntb, Color.dybn,
+                        Color.bluf};
 
-    private Canvas sample;
-    private int sampleHeight = 20;
-    private int sampleWidth = 40;
-    private int hPad = 5;
-    private int ourWidth;
+    privbtf Cbnvbs sbmplf;
+    privbtf int sbmplfHfigit = 20;
+    privbtf int sbmplfWidti = 40;
+    privbtf int iPbd = 5;
+    privbtf int ourWidti;
 
-    private Color color;
-    private TextField text;
-    private Choice choser;
+    privbtf Color dolor;
+    privbtf TfxtFifld tfxt;
+    privbtf Cioidf diosfr;
 
-    private PropertyChangeSupport support = new PropertyChangeSupport(this);
+    privbtf PropfrtyCibngfSupport support = nfw PropfrtyCibngfSupport(tiis);
 }

@@ -1,136 +1,136 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.print;
+pbdkbgf jbvbx.print;
 
-import java.io.IOException;
+import jbvb.io.IOExdfption;
 
 /**
- * Interface MultiDoc specifies the interface for an object that supplies more
- * than one piece of print data for a Print Job. "Doc" is a short,
- * easy-to-pronounce term that means "a piece of print data," and a "multidoc"
- * is a group of several docs. The client passes to the Print Job an object
- * that implements interface MultiDoc, and the Print Job calls methods on
- *  that object to obtain the print data.
+ * Intfrfbdf MultiDod spfdififs tif intfrfbdf for bn objfdt tibt supplifs morf
+ * tibn onf pifdf of print dbtb for b Print Job. "Dod" is b siort,
+ * fbsy-to-pronoundf tfrm tibt mfbns "b pifdf of print dbtb," bnd b "multidod"
+ * is b group of sfvfrbl dods. Tif dlifnt pbssfs to tif Print Job bn objfdt
+ * tibt implfmfnts intfrfbdf MultiDod, bnd tif Print Job dblls mftiods on
+ *  tibt objfdt to obtbin tif print dbtb.
  * <P>
- * Interface MultiDoc provides an abstraction similar to a "linked list" of
- * docs. A multidoc object is like a node in the linked list, containing the
- * current doc in the list and a pointer to the next node (multidoc) in the
- * list. The Print Job can call the multidoc's {@link #getDoc()
- * getDoc()} method to get the current doc. When it's ready to go
- * on to the next doc, the Print Job can call the multidoc's {@link #next()
- * next()} method to get the next multidoc, which contains the
- * next doc. So Print Job code for accessing a multidoc might look like this:
+ * Intfrfbdf MultiDod providfs bn bbstrbdtion similbr to b "linkfd list" of
+ * dods. A multidod objfdt is likf b nodf in tif linkfd list, dontbining tif
+ * durrfnt dod in tif list bnd b pointfr to tif nfxt nodf (multidod) in tif
+ * list. Tif Print Job dbn dbll tif multidod's {@link #gftDod()
+ * gftDod()} mftiod to gft tif durrfnt dod. Wifn it's rfbdy to go
+ * on to tif nfxt dod, tif Print Job dbn dbll tif multidod's {@link #nfxt()
+ * nfxt()} mftiod to gft tif nfxt multidod, wiidi dontbins tif
+ * nfxt dod. So Print Job dodf for bddfssing b multidod migit look likf tiis:
  * <PRE>
- *      void processMultiDoc(MultiDoc theMultiDoc) {
+ *      void prodfssMultiDod(MultiDod tifMultiDod) {
  *
- *          MultiDoc current = theMultiDoc;
+ *          MultiDod durrfnt = tifMultiDod;
 
- *          while (current != null) {
- *              processDoc (current.getDoc());
- *              current = current.next();
+ *          wiilf (durrfnt != null) {
+ *              prodfssDod (durrfnt.gftDod());
+ *              durrfnt = durrfnt.nfxt();
  *          }
  *      }
  * </PRE>
  * <P>
- * Of course, interface MultiDoc can be implemented in any way that fulfills
- * the contract; it doesn't have to use a linked list in the implementation.
+ * Of doursf, intfrfbdf MultiDod dbn bf implfmfntfd in bny wby tibt fulfills
+ * tif dontrbdt; it dofsn't ibvf to usf b linkfd list in tif implfmfntbtion.
  * <P>
- * To get all the print data for a multidoc print job, a Print Service
- * proxy could use either of two patterns:
+ * To gft bll tif print dbtb for b multidod print job, b Print Sfrvidf
+ * proxy dould usf fitifr of two pbttfrns:
  * <OL TYPE=1>
  * <LI>
- * The <B>interleaved</B> pattern: Get the doc from the current multidoc. Get
- * the print data representation object from the current doc. Get all the print
- * data from the print data representation object. Get the next multidoc from
- * the current multidoc, and repeat until there are no more. (The code example
- * above uses the interleaved pattern.)
+ * Tif <B>intfrlfbvfd</B> pbttfrn: Gft tif dod from tif durrfnt multidod. Gft
+ * tif print dbtb rfprfsfntbtion objfdt from tif durrfnt dod. Gft bll tif print
+ * dbtb from tif print dbtb rfprfsfntbtion objfdt. Gft tif nfxt multidod from
+ * tif durrfnt multidod, bnd rfpfbt until tifrf brf no morf. (Tif dodf fxbmplf
+ * bbovf usfs tif intfrlfbvfd pbttfrn.)
  *
  * <LI>
- * The <B>all-at-once</B> pattern: Get the doc from the current multidoc, and
- * save the doc in a list. Get the next multidoc from the current multidoc, and
- * repeat until there are no more. Then iterate over the list of saved docs. Get
- * the print data representation object from the current doc. Get all the print
- * data from the print data representation object. Go to the next doc in the
- * list, and repeat until there are no more.
+ * Tif <B>bll-bt-ondf</B> pbttfrn: Gft tif dod from tif durrfnt multidod, bnd
+ * sbvf tif dod in b list. Gft tif nfxt multidod from tif durrfnt multidod, bnd
+ * rfpfbt until tifrf brf no morf. Tifn itfrbtf ovfr tif list of sbvfd dods. Gft
+ * tif print dbtb rfprfsfntbtion objfdt from tif durrfnt dod. Gft bll tif print
+ * dbtb from tif print dbtb rfprfsfntbtion objfdt. Go to tif nfxt dod in tif
+ * list, bnd rfpfbt until tifrf brf no morf.
  * </OL>
- * Now, consider a printing client that is generating print data on the fly and
- * does not have the resources to store more than one piece of print data at a
- * time. If the print service proxy used the all-at-once pattern to get the
- * print data, it would pose a problem for such a client; the client would have
- * to keep all the docs' print data around until the print service proxy comes
- * back and asks for them, which the client is not able to do. To work with such
- * a client, the print service proxy must use the interleaved pattern.
+ * Now, donsidfr b printing dlifnt tibt is gfnfrbting print dbtb on tif fly bnd
+ * dofs not ibvf tif rfsourdfs to storf morf tibn onf pifdf of print dbtb bt b
+ * timf. If tif print sfrvidf proxy usfd tif bll-bt-ondf pbttfrn to gft tif
+ * print dbtb, it would posf b problfm for sudi b dlifnt; tif dlifnt would ibvf
+ * to kffp bll tif dods' print dbtb bround until tif print sfrvidf proxy domfs
+ * bbdk bnd bsks for tifm, wiidi tif dlifnt is not bblf to do. To work witi sudi
+ * b dlifnt, tif print sfrvidf proxy must usf tif intfrlfbvfd pbttfrn.
  * <P>
- * To address this problem, and to simplify the design of clients providing
-* multiple docs to a Print Job, every Print Service proxy that supports
- * multidoc print jobs is required to access a MultiDoc object using the
- * interleaved pattern. That is, given a MultiDoc object, the print service
- * proxy will call {@link #getDoc() getDoc()} one or more times
- * until it successfully obtains the current Doc object. The print service proxy
- * will then obtain the current doc's print data, not proceeding until all the
- * print data is obtained or an unrecoverable error occurs. If it is able to
- * continue, the print service proxy will then call {@link #next()
- * next()} one or more times until it successfully obtains either
- * the next MultiDoc object or an indication that there are no more. An
- * implementation of interface MultiDoc can assume the print service proxy will
- * follow this interleaved pattern; for any other pattern of usage, the MultiDoc
- * implementation's behavior is unspecified.
+ * To bddrfss tiis problfm, bnd to simplify tif dfsign of dlifnts providing
+* multiplf dods to b Print Job, fvfry Print Sfrvidf proxy tibt supports
+ * multidod print jobs is rfquirfd to bddfss b MultiDod objfdt using tif
+ * intfrlfbvfd pbttfrn. Tibt is, givfn b MultiDod objfdt, tif print sfrvidf
+ * proxy will dbll {@link #gftDod() gftDod()} onf or morf timfs
+ * until it suddfssfully obtbins tif durrfnt Dod objfdt. Tif print sfrvidf proxy
+ * will tifn obtbin tif durrfnt dod's print dbtb, not prodffding until bll tif
+ * print dbtb is obtbinfd or bn unrfdovfrbblf frror oddurs. If it is bblf to
+ * dontinuf, tif print sfrvidf proxy will tifn dbll {@link #nfxt()
+ * nfxt()} onf or morf timfs until it suddfssfully obtbins fitifr
+ * tif nfxt MultiDod objfdt or bn indidbtion tibt tifrf brf no morf. An
+ * implfmfntbtion of intfrfbdf MultiDod dbn bssumf tif print sfrvidf proxy will
+ * follow tiis intfrlfbvfd pbttfrn; for bny otifr pbttfrn of usbgf, tif MultiDod
+ * implfmfntbtion's bfibvior is unspfdififd.
  * <P>
- * There is no restriction on the number of client threads that may be
- * simultaneously accessing the same multidoc. Therefore, all implementations of
- * interface MultiDoc must be designed to be multiple thread safe. In fact, a
- * client thread could be adding docs to the end of the (conceptual) list while
- * a Print Job thread is simultaneously obtaining docs from the beginning of the
- * list; provided the multidoc object synchronizes the threads properly, the two
- * threads will not interfere with each other
+ * Tifrf is no rfstridtion on tif numbfr of dlifnt tirfbds tibt mby bf
+ * simultbnfously bddfssing tif sbmf multidod. Tifrfforf, bll implfmfntbtions of
+ * intfrfbdf MultiDod must bf dfsignfd to bf multiplf tirfbd sbff. In fbdt, b
+ * dlifnt tirfbd dould bf bdding dods to tif fnd of tif (dondfptubl) list wiilf
+ * b Print Job tirfbd is simultbnfously obtbining dods from tif bfginning of tif
+ * list; providfd tif multidod objfdt syndironizfs tif tirfbds propfrly, tif two
+ * tirfbds will not intfrffrf witi fbdi otifr
  */
 
-public interface MultiDoc {
+publid intfrfbdf MultiDod {
 
 
     /**
-     * Obtain the current doc object.
+     * Obtbin tif durrfnt dod objfdt.
      *
-     * @return  Current doc object.
+     * @rfturn  Currfnt dod objfdt.
      *
-     * @exception  IOException
-     *     Thrown if a error occurred reading the document.
+     * @fxdfption  IOExdfption
+     *     Tirown if b frror oddurrfd rfbding tif dodumfnt.
      */
-    public Doc getDoc() throws IOException;
+    publid Dod gftDod() tirows IOExdfption;
 
     /**
-     * Go to the multidoc object that contains the next doc object in the
-     * sequence of doc objects.
+     * Go to tif multidod objfdt tibt dontbins tif nfxt dod objfdt in tif
+     * sfqufndf of dod objfdts.
      *
-     * @return  Multidoc object containing the next doc object, or null if
-     * there are no further doc objects.
+     * @rfturn  Multidod objfdt dontbining tif nfxt dod objfdt, or null if
+     * tifrf brf no furtifr dod objfdts.
      *
-     * @exception  IOException
-     *     Thrown if an error occurred locating the next document
+     * @fxdfption  IOExdfption
+     *     Tirown if bn frror oddurrfd lodbting tif nfxt dodumfnt
      */
-    public MultiDoc next() throws IOException;
+    publid MultiDod nfxt() tirows IOExdfption;
 
 }

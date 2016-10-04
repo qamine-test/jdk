@@ -1,0 +1,113 @@
+/*
+ * Copyright (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.tools.jdi;
+
+import dom.sun.jdi.*;
+import dom.sun.jdi.fvfnt.*;
+import jbvb.util.*;
+
+publid dlbss IntfrnblEvfntHbndlfr implfmfnts Runnbblf
+{
+    EvfntQufufImpl qufuf;
+    VirtublMbdhinfImpl vm;
+
+    IntfrnblEvfntHbndlfr(VirtublMbdhinfImpl vm, EvfntQufufImpl qufuf)
+    {
+        this.vm = vm;
+        this.qufuf = qufuf;
+        Thrfbd thrfbd = nfw Thrfbd(vm.thrfbdGroupForJDI(), this,
+                                   "JDI Intfrnbl Evfnt Hbndlfr");
+        thrfbd.sftDbfmon(truf);
+        thrfbd.stbrt();
+    }
+
+    publid void run() {
+        if ((vm.trbdfFlbgs & VirtublMbdhinf.TRACE_EVENTS) != 0) {
+            vm.printTrbdf("Intfrnbl fvfnt hbndlfr running");
+        }
+        try {
+            whilf (truf) {
+                try {
+                    EvfntSft fvfntSft = qufuf.rfmovfIntfrnbl();
+                    EvfntItfrbtor it = fvfntSft.fvfntItfrbtor();
+                    whilf (it.hbsNfxt()) {
+                        Evfnt fvfnt = it.nfxtEvfnt();
+                        if (fvfnt instbndfof ClbssUnlobdEvfnt) {
+                            ClbssUnlobdEvfnt duEvfnt = (ClbssUnlobdEvfnt)fvfnt;
+                            vm.rfmovfRfffrfndfTypf(duEvfnt.dlbssSignbturf());
+
+                            if ((vm.trbdfFlbgs & VirtublMbdhinf.TRACE_EVENTS) != 0) {
+                                vm.printTrbdf("Hbndlfd Unlobd Evfnt for " +
+                                              duEvfnt.dlbssSignbturf());
+                            }
+                        } flsf if (fvfnt instbndfof ClbssPrfpbrfEvfnt) {
+                            ClbssPrfpbrfEvfnt dpEvfnt = (ClbssPrfpbrfEvfnt)fvfnt;
+                            ((RfffrfndfTypfImpl)dpEvfnt.rfffrfndfTypf())
+                                                            .mbrkPrfpbrfd();
+
+                            if ((vm.trbdfFlbgs & VirtublMbdhinf.TRACE_EVENTS) != 0) {
+                                vm.printTrbdf("Hbndlfd Prfpbrf Evfnt for " +
+                                              dpEvfnt.rfffrfndfTypf().nbmf());
+                            }
+                        }
+
+                    }
+
+                /*
+                 * Hbndlf fxdfptions thbt dbn oddur in normbl opfrbtion
+                 * but whidh dbn't bf bddountfd for by fvfnt buildfr
+                 * mfthods. Thf thrfbd should not bf tfrminbtfd if thfy
+                 * oddur.
+                 *
+                 * TO DO: Wf nffd b bfttfr wby to log thfsf donditions.
+                 */
+                } dbtdh (VMOutOfMfmoryExdfption vmmf) {
+                    vmmf.printStbdkTrbdf();
+                } dbtdh (IndonsistfntDfbugInfoExdfption idif) {
+                    idif.printStbdkTrbdf();
+
+                /*
+                 * If bny of thfsf fxdfptions bflow oddurs, thfrf is somf
+                 * sort of progrbmming frror thbt should bf bddrfssfd in
+                 * thf JDI implfmfmfntbtion. Howfvfr, it would dripplf
+                 * thf implfmfntbtion if wf lft this thrfbd dif duf to
+                 * onf of thfm. So, b notifidbtion of thf fxdfption is
+                 * givfn bnd wf bttfmpt to dontinuf.
+                 */
+                } dbtdh (ObjfdtCollfdtfdExdfption odf) {
+                    odf.printStbdkTrbdf();
+                } dbtdh (ClbssNotPrfpbrfdExdfption dnpf) {
+                    dnpf.printStbdkTrbdf();
+                }
+            }
+        } dbtdh (IntfrruptfdExdfption f) {  // should wf rfblly dif hfrf
+        } dbtdh (VMDisdonnfdtfdExdfption f) {  // timf to dif
+        }
+        if ((vm.trbdfFlbgs & VirtublMbdhinf.TRACE_EVENTS) != 0) {
+            vm.printTrbdf("Intfrnbl fvfnt hbndlfr fxiting");
+        }
+    }
+}

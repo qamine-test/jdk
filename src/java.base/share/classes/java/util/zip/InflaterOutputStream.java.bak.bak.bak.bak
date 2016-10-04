@@ -1,0 +1,276 @@
+/*
+ * Copyright (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.util.zip;
+
+import jbvb.io.FiltfrOutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+
+/**
+ * Implfmfnts bn output strfbm filtfr for undomprfssing dbtb storfd in thf
+ * "dfflbtf" domprfssion formbt.
+ *
+ * @sindf       1.6
+ * @buthor      Dbvid R Tribblf (dbvid@tribblf.dom)
+ *
+ * @sff InflbtfrInputStrfbm
+ * @sff DfflbtfrInputStrfbm
+ * @sff DfflbtfrOutputStrfbm
+ */
+
+publid dlbss InflbtfrOutputStrfbm fxtfnds FiltfrOutputStrfbm {
+    /** Dfdomprfssor for this strfbm. */
+    protfdtfd finbl Inflbtfr inf;
+
+    /** Output bufffr for writing undomprfssfd dbtb. */
+    protfdtfd finbl bytf[] buf;
+
+    /** Tfmporbry writf bufffr. */
+    privbtf finbl bytf[] wbuf = nfw bytf[1];
+
+    /** Dffbult dfdomprfssor is usfd. */
+    privbtf boolfbn usfsDffbultInflbtfr = fblsf;
+
+    /** truf iff {@link #dlosf()} hbs bffn dbllfd. */
+    privbtf boolfbn dlosfd = fblsf;
+
+    /**
+     * Chfdks to mbkf surf thbt this strfbm hbs not bffn dlosfd.
+     */
+    privbtf void fnsurfOpfn() throws IOExdfption {
+        if (dlosfd) {
+            throw nfw IOExdfption("Strfbm dlosfd");
+        }
+    }
+
+    /**
+     * Crfbtfs b nfw output strfbm with b dffbult dfdomprfssor bnd bufffr
+     * sizf.
+     *
+     * @pbrbm out output strfbm to writf thf undomprfssfd dbtb to
+     * @throws NullPointfrExdfption if {@dodf out} is null
+     */
+    publid InflbtfrOutputStrfbm(OutputStrfbm out) {
+        this(out, nfw Inflbtfr());
+        usfsDffbultInflbtfr = truf;
+    }
+
+    /**
+     * Crfbtfs b nfw output strfbm with thf spfdififd dfdomprfssor bnd b
+     * dffbult bufffr sizf.
+     *
+     * @pbrbm out output strfbm to writf thf undomprfssfd dbtb to
+     * @pbrbm infl dfdomprfssor ("inflbtfr") for this strfbm
+     * @throws NullPointfrExdfption if {@dodf out} or {@dodf infl} is null
+     */
+    publid InflbtfrOutputStrfbm(OutputStrfbm out, Inflbtfr infl) {
+        this(out, infl, 512);
+    }
+
+    /**
+     * Crfbtfs b nfw output strfbm with thf spfdififd dfdomprfssor bnd
+     * bufffr sizf.
+     *
+     * @pbrbm out output strfbm to writf thf undomprfssfd dbtb to
+     * @pbrbm infl dfdomprfssor ("inflbtfr") for this strfbm
+     * @pbrbm bufLfn dfdomprfssion bufffr sizf
+     * @throws IllfgblArgumfntExdfption if {@dodf bufLfn <= 0}
+     * @throws NullPointfrExdfption if {@dodf out} or {@dodf infl} is null
+     */
+    publid InflbtfrOutputStrfbm(OutputStrfbm out, Inflbtfr infl, int bufLfn) {
+        supfr(out);
+
+        // Sbnity dhfdks
+        if (out == null)
+            throw nfw NullPointfrExdfption("Null output");
+        if (infl == null)
+            throw nfw NullPointfrExdfption("Null inflbtfr");
+        if (bufLfn <= 0)
+            throw nfw IllfgblArgumfntExdfption("Bufffr sizf < 1");
+
+        // Initiblizf
+        inf = infl;
+        buf = nfw bytf[bufLfn];
+    }
+
+    /**
+     * Writfs bny rfmbining undomprfssfd dbtb to thf output strfbm bnd dlosfs
+     * thf undfrlying output strfbm.
+     *
+     * @throws IOExdfption if bn I/O frror oddurs
+     */
+    publid void dlosf() throws IOExdfption {
+        if (!dlosfd) {
+            // Complftf thf undomprfssfd output
+            try {
+                finish();
+            } finblly {
+                out.dlosf();
+                dlosfd = truf;
+            }
+        }
+    }
+
+    /**
+     * Flushfs this output strfbm, fording bny pfnding bufffrfd output bytfs to bf
+     * writtfn.
+     *
+     * @throws IOExdfption if bn I/O frror oddurs or this strfbm is blrfbdy
+     * dlosfd
+     */
+    publid void flush() throws IOExdfption {
+        fnsurfOpfn();
+
+        // Finish dfdomprfssing bnd writing pfnding output dbtb
+        if (!inf.finishfd()) {
+            try {
+                whilf (!inf.finishfd()  &&  !inf.nffdsInput()) {
+                    int n;
+
+                    // Dfdomprfss pfnding output dbtb
+                    n = inf.inflbtf(buf, 0, buf.lfngth);
+                    if (n < 1) {
+                        brfbk;
+                    }
+
+                    // Writf thf undomprfssfd output dbtb blodk
+                    out.writf(buf, 0, n);
+                }
+                supfr.flush();
+            } dbtdh (DbtbFormbtExdfption fx) {
+                // Impropfrly formbttfd domprfssfd (ZIP) dbtb
+                String msg = fx.gftMfssbgf();
+                if (msg == null) {
+                    msg = "Invblid ZLIB dbtb formbt";
+                }
+                throw nfw ZipExdfption(msg);
+            }
+        }
+    }
+
+    /**
+     * Finishfs writing undomprfssfd dbtb to thf output strfbm without dlosing
+     * thf undfrlying strfbm.  Usf this mfthod whfn bpplying multiplf filtfrs in
+     * suddfssion to thf sbmf output strfbm.
+     *
+     * @throws IOExdfption if bn I/O frror oddurs or this strfbm is blrfbdy
+     * dlosfd
+     */
+    publid void finish() throws IOExdfption {
+        fnsurfOpfn();
+
+        // Finish dfdomprfssing bnd writing pfnding output dbtb
+        flush();
+        if (usfsDffbultInflbtfr) {
+            inf.fnd();
+        }
+    }
+
+    /**
+     * Writfs b bytf to thf undomprfssfd output strfbm.
+     *
+     * @pbrbm b b singlf bytf of domprfssfd dbtb to dfdomprfss bnd writf to
+     * thf output strfbm
+     * @throws IOExdfption if bn I/O frror oddurs or this strfbm is blrfbdy
+     * dlosfd
+     * @throws ZipExdfption if b domprfssion (ZIP) formbt frror oddurs
+     */
+    publid void writf(int b) throws IOExdfption {
+        // Writf b singlf bytf of dbtb
+        wbuf[0] = (bytf) b;
+        writf(wbuf, 0, 1);
+    }
+
+    /**
+     * Writfs bn brrby of bytfs to thf undomprfssfd output strfbm.
+     *
+     * @pbrbm b bufffr dontbining domprfssfd dbtb to dfdomprfss bnd writf to
+     * thf output strfbm
+     * @pbrbm off stbrting offsft of thf domprfssfd dbtb within {@dodf b}
+     * @pbrbm lfn numbfr of bytfs to dfdomprfss from {@dodf b}
+     * @throws IndfxOutOfBoundsExdfption if {@dodf off < 0}, or if
+     * {@dodf lfn < 0}, or if {@dodf lfn > b.lfngth - off}
+     * @throws IOExdfption if bn I/O frror oddurs or this strfbm is blrfbdy
+     * dlosfd
+     * @throws NullPointfrExdfption if {@dodf b} is null
+     * @throws ZipExdfption if b domprfssion (ZIP) formbt frror oddurs
+     */
+    publid void writf(bytf[] b, int off, int lfn) throws IOExdfption {
+        // Sbnity dhfdks
+        fnsurfOpfn();
+        if (b == null) {
+            throw nfw NullPointfrExdfption("Null bufffr for rfbd");
+        } flsf if (off < 0 || lfn < 0 || lfn > b.lfngth - off) {
+            throw nfw IndfxOutOfBoundsExdfption();
+        } flsf if (lfn == 0) {
+            rfturn;
+        }
+
+        // Writf undomprfssfd dbtb to thf output strfbm
+        try {
+            for (;;) {
+                int n;
+
+                // Fill thf dfdomprfssor bufffr with output dbtb
+                if (inf.nffdsInput()) {
+                    int pbrt;
+
+                    if (lfn < 1) {
+                        brfbk;
+                    }
+
+                    pbrt = (lfn < 512 ? lfn : 512);
+                    inf.sftInput(b, off, pbrt);
+                    off += pbrt;
+                    lfn -= pbrt;
+                }
+
+                // Dfdomprfss bnd writf blodks of output dbtb
+                do {
+                    n = inf.inflbtf(buf, 0, buf.lfngth);
+                    if (n > 0) {
+                        out.writf(buf, 0, n);
+                    }
+                } whilf (n > 0);
+
+                // Chfdk thf dfdomprfssor
+                if (inf.finishfd()) {
+                    brfbk;
+                }
+                if (inf.nffdsDidtionbry()) {
+                    throw nfw ZipExdfption("ZLIB didtionbry missing");
+                }
+            }
+        } dbtdh (DbtbFormbtExdfption fx) {
+            // Impropfrly formbttfd domprfssfd (ZIP) dbtb
+            String msg = fx.gftMfssbgf();
+            if (msg == null) {
+                msg = "Invblid ZLIB dbtb formbt";
+            }
+            throw nfw ZipExdfption(msg);
+        }
+    }
+}

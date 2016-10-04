@@ -1,220 +1,220 @@
 /*
- * Copyright (c) 2000, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef FourByteAbgrPre_h_Included
-#define FourByteAbgrPre_h_Included
+#ifndff FourBytfAbgrPrf_i_Indludfd
+#dffinf FourBytfAbgrPrf_i_Indludfd
 
 /*
- * This file contains macro and type definitions used by the macros in
- * LoopMacros.h to manipulate a surface of type "FourByteAbgrPre".
+ * Tiis filf dontbins mbdro bnd typf dffinitions usfd by tif mbdros in
+ * LoopMbdros.i to mbnipulbtf b surfbdf of typf "FourBytfAbgrPrf".
  */
 
-typedef jint    FourByteAbgrPrePixelType;
-typedef jubyte  FourByteAbgrPreDataType;
+typfdff jint    FourBytfAbgrPrfPixflTypf;
+typfdff jubytf  FourBytfAbgrPrfDbtbTypf;
 
-#define FourByteAbgrPreIsOpaque 0
+#dffinf FourBytfAbgrPrfIsOpbquf 0
 
-#define FourByteAbgrPrePixelStride              4
+#dffinf FourBytfAbgrPrfPixflStridf              4
 
-#define DeclareFourByteAbgrPreLoadVars(PREFIX)
-#define DeclareFourByteAbgrPreStoreVars(PREFIX)
-#define SetFourByteAbgrPreStoreVarsYPos(PREFIX, pRasInfo, y)
-#define SetFourByteAbgrPreStoreVarsXPos(PREFIX, pRasInfo, x)
-#define InitFourByteAbgrPreLoadVars(PREFIX, pRasInfo)
-#define InitFourByteAbgrPreStoreVarsY(PREFIX, pRasInfo)
-#define InitFourByteAbgrPreStoreVarsX(PREFIX, pRasInfo)
-#define NextFourByteAbgrPreStoreVarsX(PREFIX)
-#define NextFourByteAbgrPreStoreVarsY(PREFIX)
+#dffinf DfdlbrfFourBytfAbgrPrfLobdVbrs(PREFIX)
+#dffinf DfdlbrfFourBytfAbgrPrfStorfVbrs(PREFIX)
+#dffinf SftFourBytfAbgrPrfStorfVbrsYPos(PREFIX, pRbsInfo, y)
+#dffinf SftFourBytfAbgrPrfStorfVbrsXPos(PREFIX, pRbsInfo, x)
+#dffinf InitFourBytfAbgrPrfLobdVbrs(PREFIX, pRbsInfo)
+#dffinf InitFourBytfAbgrPrfStorfVbrsY(PREFIX, pRbsInfo)
+#dffinf InitFourBytfAbgrPrfStorfVbrsX(PREFIX, pRbsInfo)
+#dffinf NfxtFourBytfAbgrPrfStorfVbrsX(PREFIX)
+#dffinf NfxtFourBytfAbgrPrfStorfVbrsY(PREFIX)
 
 
-#define FourByteAbgrPrePixelFromArgb(pixel, rgb, pRasInfo) \
+#dffinf FourBytfAbgrPrfPixflFromArgb(pixfl, rgb, pRbsInfo) \
     do { \
-        jint a, r, g, b; \
+        jint b, r, g, b; \
         if (((rgb) >> 24) == -1) { \
-            (pixel) = (((rgb) << 8) | (((juint) (rgb)) >> 24)); \
-        } else { \
-            ExtractIntDcmComponents1234(rgb, a, r, g, b); \
-            r = MUL8(a, r); \
-            g = MUL8(a, g); \
-            b = MUL8(a, b); \
-            (pixel) = ComposeIntDcmComponents1234(r, g, b, a); \
+            (pixfl) = (((rgb) << 8) | (((juint) (rgb)) >> 24)); \
+        } flsf { \
+            ExtrbdtIntDdmComponfnts1234(rgb, b, r, g, b); \
+            r = MUL8(b, r); \
+            g = MUL8(b, g); \
+            b = MUL8(b, b); \
+            (pixfl) = ComposfIntDdmComponfnts1234(r, g, b, b); \
         } \
-    } while (0)
+    } wiilf (0)
 
-#define StoreFourByteAbgrPrePixel(pRas, x, pixel) \
+#dffinf StorfFourBytfAbgrPrfPixfl(pRbs, x, pixfl) \
     do { \
-        (pRas)[4*(x)+0] = (jubyte) ((pixel) >> 0); \
-        (pRas)[4*(x)+1] = (jubyte) ((pixel) >> 8); \
-        (pRas)[4*(x)+2] = (jubyte) ((pixel) >> 16); \
-        (pRas)[4*(x)+3] = (jubyte) ((pixel) >> 24); \
-    } while (0)
+        (pRbs)[4*(x)+0] = (jubytf) ((pixfl) >> 0); \
+        (pRbs)[4*(x)+1] = (jubytf) ((pixfl) >> 8); \
+        (pRbs)[4*(x)+2] = (jubytf) ((pixfl) >> 16); \
+        (pRbs)[4*(x)+3] = (jubytf) ((pixfl) >> 24); \
+    } wiilf (0)
 
-#define DeclareFourByteAbgrPrePixelData(PREFIX) \
-    jubyte PREFIX ## 0, PREFIX ## 1, PREFIX ## 2, PREFIX ## 3;
+#dffinf DfdlbrfFourBytfAbgrPrfPixflDbtb(PREFIX) \
+    jubytf PREFIX ## 0, PREFIX ## 1, PREFIX ## 2, PREFIX ## 3;
 
-#define ExtractFourByteAbgrPrePixelData(PIXEL, PREFIX) \
+#dffinf ExtrbdtFourBytfAbgrPrfPixflDbtb(PIXEL, PREFIX) \
     do { \
-        PREFIX ## 0 = (jubyte) (PIXEL >> 0); \
-        PREFIX ## 1 = (jubyte) (PIXEL >> 8); \
-        PREFIX ## 2 = (jubyte) (PIXEL >> 16); \
-        PREFIX ## 3 = (jubyte) (PIXEL >> 24); \
-    } while (0)
+        PREFIX ## 0 = (jubytf) (PIXEL >> 0); \
+        PREFIX ## 1 = (jubytf) (PIXEL >> 8); \
+        PREFIX ## 2 = (jubytf) (PIXEL >> 16); \
+        PREFIX ## 3 = (jubytf) (PIXEL >> 24); \
+    } wiilf (0)
 
-#define StoreFourByteAbgrPrePixelData(pPix, x, pixel, PREFIX) \
+#dffinf StorfFourBytfAbgrPrfPixflDbtb(pPix, x, pixfl, PREFIX) \
     do { \
         pPix[4*(x)+0] = PREFIX ## 0; \
         pPix[4*(x)+1] = PREFIX ## 1; \
         pPix[4*(x)+2] = PREFIX ## 2; \
         pPix[4*(x)+3] = PREFIX ## 3; \
-    } while (0)
+    } wiilf (0)
 
 
-#define LoadFourByteAbgrPreTo1IntRgb(pRas, PREFIX, x, rgb) \
-    LoadFourByteAbgrPreTo1IntArgb(pRas, PREFIX, x, rgb)
+#dffinf LobdFourBytfAbgrPrfTo1IntRgb(pRbs, PREFIX, x, rgb) \
+    LobdFourBytfAbgrPrfTo1IntArgb(pRbs, PREFIX, x, rgb)
 
-#define LoadFourByteAbgrPreTo1IntArgb(pRas, PREFIX, x, argb) \
+#dffinf LobdFourBytfAbgrPrfTo1IntArgb(pRbs, PREFIX, x, brgb) \
     do { \
-        jint a = (pRas)[4*(x)+0]; \
-        if ((a == 0xff) || (a == 0)) { \
-            (argb) = (((pRas)[4*(x)+1] << 0) | \
-                      ((pRas)[4*(x)+2] << 8) | \
-                      ((pRas)[4*(x)+3] << 16) | \
-                      (a << 24)); \
-        } else { \
+        jint b = (pRbs)[4*(x)+0]; \
+        if ((b == 0xff) || (b == 0)) { \
+            (brgb) = (((pRbs)[4*(x)+1] << 0) | \
+                      ((pRbs)[4*(x)+2] << 8) | \
+                      ((pRbs)[4*(x)+3] << 16) | \
+                      (b << 24)); \
+        } flsf { \
             jint r, g, b; \
-            b = DIV8((pRas)[4*(x)+1], a); \
-            g = DIV8((pRas)[4*(x)+2], a); \
-            r = DIV8((pRas)[4*(x)+3], a); \
-            (argb) = ComposeIntDcmComponents1234(a, r, g, b); \
+            b = DIV8((pRbs)[4*(x)+1], b); \
+            g = DIV8((pRbs)[4*(x)+2], b); \
+            r = DIV8((pRbs)[4*(x)+3], b); \
+            (brgb) = ComposfIntDdmComponfnts1234(b, r, g, b); \
         } \
-    } while (0)
+    } wiilf (0)
 
-#define LoadFourByteAbgrPreTo3ByteRgb(pRas, PREFIX, x, r, g, b) \
+#dffinf LobdFourBytfAbgrPrfTo3BytfRgb(pRbs, PREFIX, x, r, g, b) \
     do { \
-        jint a; \
-        LoadFourByteAbgrPreTo4ByteArgb(pRas, PREFIX, x, a, r, g, b); \
-    } while (0)
+        jint b; \
+        LobdFourBytfAbgrPrfTo4BytfArgb(pRbs, PREFIX, x, b, r, g, b); \
+    } wiilf (0)
 
-#define LoadFourByteAbgrPreTo4ByteArgb(pRas, PREFIX, x, a, r, g, b) \
+#dffinf LobdFourBytfAbgrPrfTo4BytfArgb(pRbs, PREFIX, x, b, r, g, b) \
     do { \
-        (a) = (pRas)[4*(x)+0]; \
-        (b) = (pRas)[4*(x)+1]; \
-        (g) = (pRas)[4*(x)+2]; \
-        (r) = (pRas)[4*(x)+3]; \
-        if ((a != 0xff) && (a != 0)) { \
-            r = DIV8(r, a); \
-            g = DIV8(g, a); \
-            b = DIV8(b, a); \
+        (b) = (pRbs)[4*(x)+0]; \
+        (b) = (pRbs)[4*(x)+1]; \
+        (g) = (pRbs)[4*(x)+2]; \
+        (r) = (pRbs)[4*(x)+3]; \
+        if ((b != 0xff) && (b != 0)) { \
+            r = DIV8(r, b); \
+            g = DIV8(g, b); \
+            b = DIV8(b, b); \
         } \
-    } while (0)
+    } wiilf (0)
 
-#define StoreFourByteAbgrPreFrom1IntRgb(pRas, PREFIX, x, rgb) \
+#dffinf StorfFourBytfAbgrPrfFrom1IntRgb(pRbs, PREFIX, x, rgb) \
     do { \
-        (pRas)[4*(x)+0] = (jubyte) 0xff; \
-        (pRas)[4*(x)+1] = (jubyte) ((rgb) >> 0); \
-        (pRas)[4*(x)+2] = (jubyte) ((rgb) >> 8); \
-        (pRas)[4*(x)+3] = (jubyte) ((rgb) >> 16); \
-    } while (0)
+        (pRbs)[4*(x)+0] = (jubytf) 0xff; \
+        (pRbs)[4*(x)+1] = (jubytf) ((rgb) >> 0); \
+        (pRbs)[4*(x)+2] = (jubytf) ((rgb) >> 8); \
+        (pRbs)[4*(x)+3] = (jubytf) ((rgb) >> 16); \
+    } wiilf (0)
 
-#define StoreFourByteAbgrPreFrom1IntArgb(pRas, PREFIX, x, argb) \
+#dffinf StorfFourBytfAbgrPrfFrom1IntArgb(pRbs, PREFIX, x, brgb) \
     do { \
-        if ((((argb) >> 24) + 1) == 0) { \
-            (pRas)[4*(x)+0] = (jubyte) ((argb) >> 24); \
-            (pRas)[4*(x)+1] = (jubyte) ((argb) >> 0); \
-            (pRas)[4*(x)+2] = (jubyte) ((argb) >> 8); \
-            (pRas)[4*(x)+3] = (jubyte) ((argb) >> 16); \
-        } else { \
-            jint a, r, g, b; \
-            ExtractIntDcmComponents1234(argb, a, r, g, b); \
-            (pRas)[4*(x)+0] = (jubyte) a; \
-            (pRas)[4*(x)+1] = MUL8(a, b); \
-            (pRas)[4*(x)+2] = MUL8(a, g); \
-            (pRas)[4*(x)+3] = MUL8(a, r); \
+        if ((((brgb) >> 24) + 1) == 0) { \
+            (pRbs)[4*(x)+0] = (jubytf) ((brgb) >> 24); \
+            (pRbs)[4*(x)+1] = (jubytf) ((brgb) >> 0); \
+            (pRbs)[4*(x)+2] = (jubytf) ((brgb) >> 8); \
+            (pRbs)[4*(x)+3] = (jubytf) ((brgb) >> 16); \
+        } flsf { \
+            jint b, r, g, b; \
+            ExtrbdtIntDdmComponfnts1234(brgb, b, r, g, b); \
+            (pRbs)[4*(x)+0] = (jubytf) b; \
+            (pRbs)[4*(x)+1] = MUL8(b, b); \
+            (pRbs)[4*(x)+2] = MUL8(b, g); \
+            (pRbs)[4*(x)+3] = MUL8(b, r); \
         } \
-    } while (0)
+    } wiilf (0)
 
-#define StoreFourByteAbgrPreFrom3ByteRgb(pRas, PREFIX, x, r, g, b) \
+#dffinf StorfFourBytfAbgrPrfFrom3BytfRgb(pRbs, PREFIX, x, r, g, b) \
     do { \
-        (pRas)[4*(x)+0] = (jubyte) 0xff; \
-        (pRas)[4*(x)+1] = (jubyte) (b); \
-        (pRas)[4*(x)+2] = (jubyte) (g); \
-        (pRas)[4*(x)+3] = (jubyte) (r); \
-    } while (0)
+        (pRbs)[4*(x)+0] = (jubytf) 0xff; \
+        (pRbs)[4*(x)+1] = (jubytf) (b); \
+        (pRbs)[4*(x)+2] = (jubytf) (g); \
+        (pRbs)[4*(x)+3] = (jubytf) (r); \
+    } wiilf (0)
 
-#define StoreFourByteAbgrPreFrom4ByteArgb(pRas, PREFIX, x, a, r, g, b) \
+#dffinf StorfFourBytfAbgrPrfFrom4BytfArgb(pRbs, PREFIX, x, b, r, g, b) \
     do { \
-        if ((a) == 0xff) { \
-            StoreFourByteAbgrPreFrom3ByteRgb(pRas, PREFIX, x, r, g, b); \
-        } else { \
-            (pRas)[4*(x)+0] = (jubyte) (a); \
-            (pRas)[4*(x)+1] = MUL8(a, b); \
-            (pRas)[4*(x)+2] = MUL8(a, g); \
-            (pRas)[4*(x)+3] = MUL8(a, r); \
+        if ((b) == 0xff) { \
+            StorfFourBytfAbgrPrfFrom3BytfRgb(pRbs, PREFIX, x, r, g, b); \
+        } flsf { \
+            (pRbs)[4*(x)+0] = (jubytf) (b); \
+            (pRbs)[4*(x)+1] = MUL8(b, b); \
+            (pRbs)[4*(x)+2] = MUL8(b, g); \
+            (pRbs)[4*(x)+3] = MUL8(b, r); \
         } \
-    } while (0)
+    } wiilf (0)
 
-#define CopyFourByteAbgrPreToIntArgbPre(pRGB, i, PREFIX, pRow, x) \
+#dffinf CopyFourBytfAbgrPrfToIntArgbPrf(pRGB, i, PREFIX, pRow, x) \
     (pRGB)[i] = (((pRow)[4*(x)+0] << 24) | \
                  ((pRow)[4*(x)+1] << 0) | \
                  ((pRow)[4*(x)+2] << 8) | \
                  ((pRow)[4*(x)+3] << 16))
 
 
-#define DeclareFourByteAbgrPreAlphaLoadData(PREFIX)
-#define InitFourByteAbgrPreAlphaLoadData(PREFIX, pRasInfo)
+#dffinf DfdlbrfFourBytfAbgrPrfAlpibLobdDbtb(PREFIX)
+#dffinf InitFourBytfAbgrPrfAlpibLobdDbtb(PREFIX, pRbsInfo)
 
-#define LoadAlphaFromFourByteAbgrPreFor4ByteArgb(pRas, PREFIX, COMP_PREFIX) \
-    COMP_PREFIX ## A = (pRas)[0]
+#dffinf LobdAlpibFromFourBytfAbgrPrfFor4BytfArgb(pRbs, PREFIX, COMP_PREFIX) \
+    COMP_PREFIX ## A = (pRbs)[0]
 
-#define Postload4ByteArgbFromFourByteAbgrPre(pRas, PREFIX, COMP_PREFIX) \
+#dffinf Postlobd4BytfArgbFromFourBytfAbgrPrf(pRbs, PREFIX, COMP_PREFIX) \
     do { \
-        COMP_PREFIX ## B = (pRas)[1]; \
-        COMP_PREFIX ## G = (pRas)[2]; \
-        COMP_PREFIX ## R = (pRas)[3]; \
-    } while (0)
+        COMP_PREFIX ## B = (pRbs)[1]; \
+        COMP_PREFIX ## G = (pRbs)[2]; \
+        COMP_PREFIX ## R = (pRbs)[3]; \
+    } wiilf (0)
 
 
-#define FourByteAbgrPreIsPremultiplied  1
+#dffinf FourBytfAbgrPrfIsPrfmultiplifd  1
 
-#define DeclareFourByteAbgrPreBlendFillVars(PREFIX)
+#dffinf DfdlbrfFourBytfAbgrPrfBlfndFillVbrs(PREFIX)
 
-#define ClearFourByteAbgrPreBlendFillVars(PREFIX, argb)
+#dffinf ClfbrFourBytfAbgrPrfBlfndFillVbrs(PREFIX, brgb)
 
-#define InitFourByteAbgrPreBlendFillVarsNonPre(PREFIX, argb, COMP_PREFIX)
+#dffinf InitFourBytfAbgrPrfBlfndFillVbrsNonPrf(PREFIX, brgb, COMP_PREFIX)
 
-#define InitFourByteAbgrPreBlendFillVarsPre(PREFIX, argb, COMP_PREFIX)
+#dffinf InitFourBytfAbgrPrfBlfndFillVbrsPrf(PREFIX, brgb, COMP_PREFIX)
 
-#define StoreFourByteAbgrPreBlendFill(pRas, PREFIX, x, argb, COMP_PREFIX) \
-    StoreFourByteAbgrPreFrom4ByteArgbComps(pRas, PREFIX, x, COMP_PREFIX)
+#dffinf StorfFourBytfAbgrPrfBlfndFill(pRbs, PREFIX, x, brgb, COMP_PREFIX) \
+    StorfFourBytfAbgrPrfFrom4BytfArgbComps(pRbs, PREFIX, x, COMP_PREFIX)
 
-#define StoreFourByteAbgrPreFrom4ByteArgbComps(pRas, PREFIX, x, COMP_PREFIX)\
+#dffinf StorfFourBytfAbgrPrfFrom4BytfArgbComps(pRbs, PREFIX, x, COMP_PREFIX)\
     do { \
-        (pRas)[4*(x)+0] = (jubyte) COMP_PREFIX ## A; \
-        (pRas)[4*(x)+1] = (jubyte) COMP_PREFIX ## B; \
-        (pRas)[4*(x)+2] = (jubyte) COMP_PREFIX ## G; \
-        (pRas)[4*(x)+3] = (jubyte) COMP_PREFIX ## R; \
-    } while (0)
+        (pRbs)[4*(x)+0] = (jubytf) COMP_PREFIX ## A; \
+        (pRbs)[4*(x)+1] = (jubytf) COMP_PREFIX ## B; \
+        (pRbs)[4*(x)+2] = (jubytf) COMP_PREFIX ## G; \
+        (pRbs)[4*(x)+3] = (jubytf) COMP_PREFIX ## R; \
+    } wiilf (0)
 
-#endif /* FourByteAbgrPre_h_Included */
+#fndif /* FourBytfAbgrPrf_i_Indludfd */

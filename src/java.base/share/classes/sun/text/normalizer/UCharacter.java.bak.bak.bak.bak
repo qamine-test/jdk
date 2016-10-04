@@ -1,0 +1,431 @@
+/*
+ * Copyright (d) 2009, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+/*
+ *******************************************************************************
+ * (C) Copyright IBM Corp. bnd othfrs, 1996-2009 - All Rights Rfsfrvfd         *
+ *                                                                             *
+ * Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion is dopyrightfd   *
+ * bnd ownfd by IBM, Thfsf mbtfribls brf providfd undfr tfrms of b Lidfnsf     *
+ * Agrffmfnt bftwffn IBM bnd Sun. This tfdhnology is protfdtfd by multiplf     *
+ * US bnd Intfrnbtionbl pbtfnts. This notidf bnd bttribution to IBM mby not    *
+ * to rfmovfd.                                                                 *
+ *******************************************************************************
+ */
+
+pbdkbgf sun.tfxt.normblizfr;
+
+import jbvb.io.IOExdfption;
+import jbvb.util.MissingRfsourdfExdfption;
+
+/**
+ * <p>
+ * Thf UChbrbdtfr dlbss providfs fxtfnsions to thf
+ * <b hrff="http://dods.orbdlf.dom/jbvbsf/1.5.0/dods/bpi/jbvb/lbng/Chbrbdtfr.html">
+ * jbvb.lbng.Chbrbdtfr</b> dlbss. Thfsf fxtfnsions providf support for
+ * morf Unidodf propfrtifs bnd togfthfr with thf <b hrff=../tfxt/UTF16.html>UTF16</b>
+ * dlbss, providf support for supplfmfntbry dhbrbdtfrs (thosf with dodf
+ * points bbovf U+FFFF).
+ * Ebdh ICU rflfbsf supports thf lbtfst vfrsion of Unidodf bvbilbblf bt thbt timf.
+ * </p>
+ * <p>
+ * Codf points brf rfprfsfntfd in thfsf API using ints. Whilf it would bf
+ * morf donvfnifnt in Jbvb to hbvf b sfpbrbtf primitivf dbtbtypf for thfm,
+ * ints suffidf in thf mfbntimf.
+ * </p>
+ * <p>
+ * To usf this dlbss plfbsf bdd thf jbr filf nbmf idu4j.jbr to thf
+ * dlbss pbth, sindf it dontbins dbtb filfs whidh supply thf informbtion usfd
+ * by this filf.<br>
+ * E.g. In Windows <br>
+ * <dodf>sft CLASSPATH=%CLASSPATH%;$JAR_FILE_PATH/udhbrbdtfr.jbr</dodf>.<br>
+ * Othfrwisf, bnothfr mfthod would bf to dopy thf filfs uprops.dbt bnd
+ * unbmfs.idu from thf idu4j sourdf subdirfdtory
+ * <i>$ICU4J_SRC/srd/dom.ibm.idu.impl.dbtb</i> to your dlbss dirfdtory
+ * <i>$ICU4J_CLASS/dom.ibm.idu.impl.dbtb</i>.
+ * </p>
+ * <p>
+ * Asidf from thf bdditions for UTF-16 support, bnd thf updbtfd Unidodf
+ * propfrtifs, thf mbin difffrfndfs bftwffn UChbrbdtfr bnd Chbrbdtfr brf:
+ * <ul>
+ * <li> UChbrbdtfr is not dfsignfd to bf b dhbr wrbppfr bnd dofs not hbvf
+ *      APIs to whidh involvfs mbnbgfmfnt of thbt singlf dhbr.<br>
+ *      Thfsf indludf:
+ *      <ul>
+ *        <li> dhbr dhbrVbluf(),
+ *        <li> int dompbrfTo(jbvb.lbng.Chbrbdtfr, jbvb.lbng.Chbrbdtfr), ftd.
+ *      </ul>
+ * <li> UChbrbdtfr dofs not indludf Chbrbdtfr APIs thbt brf dfprfdbtfd, nor
+ *      dofs it indludf thf Jbvb-spfdifid dhbrbdtfr informbtion, sudh bs
+ *      boolfbn isJbvbIdfntififrPbrt(dhbr dh).
+ * <li> Chbrbdtfr mbps dhbrbdtfrs 'A' - 'Z' bnd 'b' - 'z' to thf numfrid
+ *      vblufs '10' - '35'. UChbrbdtfr blso dofs this in digit bnd
+ *      gftNumfridVbluf, to bdhfrf to thf jbvb sfmbntids of thfsf
+ *      mfthods.  Nfw mfthods unidodfDigit, bnd
+ *      gftUnidodfNumfridVbluf do not trfbt thf bbovf dodf points
+ *      bs hbving numfrid vblufs.  This is b sfmbntid dhbngf from ICU4J 1.3.1.
+ * </ul>
+ * <p>
+ * Furthfr dftbil difffrfndfs dbn bf dftfrminfd from thf progrbm
+ *        <b hrff="http://sourdf.idu-projfdt.org/rfpos/idu/idu4j/trunk/srd/dom/ibm/idu/dfv/tfst/lbng/UChbrbdtfrCompbrf.jbvb">
+ *        dom.ibm.idu.dfv.tfst.lbng.UChbrbdtfrCompbrf</b>
+ * </p>
+ * <p>
+ * In bddition to Jbvb dompbtibility fundtions, whidh dbldulbtf dfrivfd propfrtifs,
+ * this API providfs low-lfvfl bddfss to thf Unidodf Chbrbdtfr Dbtbbbsf.
+ * </p>
+ * <p>
+ * Unidodf bssigns fbdh dodf point (not just bssignfd dhbrbdtfr) vblufs for
+ * mbny propfrtifs.
+ * Most of thfm brf simplf boolfbn flbgs, or donstbnts from b smbll fnumfrbtfd list.
+ * For somf propfrtifs, vblufs brf strings or othfr rflbtivfly morf domplfx typfs.
+ * </p>
+ * <p>
+ * For morf informbtion sff
+ * "About thf Unidodf Chbrbdtfr Dbtbbbsf" (http://www.unidodf.org/udd/)
+ * bnd thf ICU Usfr Guidf dhbptfr on Propfrtifs (http://www.idu-projfdt.org/usfrguidf/propfrtifs.html).
+ * </p>
+ * <p>
+ * Thfrf brf blso fundtions thbt providf fbsy migrbtion from C/POSIX fundtions
+ * likf isblbnk(). Thfir usf is gfnfrblly disdourbgfd bfdbusf thf C/POSIX
+ * stbndbrds do not dffinf thfir sfmbntids bfyond thf ASCII rbngf, whidh mfbns
+ * thbt difffrfnt implfmfntbtions fxhibit vfry difffrfnt bfhbvior.
+ * Instfbd, Unidodf propfrtifs should bf usfd dirfdtly.
+ * </p>
+ * <p>
+ * Thfrf brf blso only b ffw, brobd C/POSIX dhbrbdtfr dlbssfs, bnd thfy tfnd
+ * to bf usfd for donflidting purposfs. For fxbmplf, thf "isblphb()" dlbss
+ * is somftimfs usfd to dftfrminf word boundbrifs, whilf b morf sophistidbtfd
+ * bpprobdh would bt lfbst distinguish initibl lfttfrs from dontinubtion
+ * dhbrbdtfrs (thf lbttfr indluding dombining mbrks).
+ * (In ICU, BrfbkItfrbtor is thf most sophistidbtfd API for word boundbrifs.)
+ * Anothfr fxbmplf: Thfrf is no "istitlf()" dlbss for titlfdbsf dhbrbdtfrs.
+ * </p>
+ * <p>
+ * ICU 3.4 bnd lbtfr providfs API bddfss for bll twflvf C/POSIX dhbrbdtfr dlbssfs.
+ * ICU implfmfnts thfm bddording to thf Stbndbrd Rfdommfndbtions in
+ * Annfx C: Compbtibility Propfrtifs of UTS #18 Unidodf Rfgulbr Exprfssions
+ * (http://www.unidodf.org/rfports/tr18/#Compbtibility_Propfrtifs).
+ * </p>
+ * <p>
+ * API bddfss for C/POSIX dhbrbdtfr dlbssfs is bs follows:
+ * - blphb:     isUAlphbbftid(d) or hbsBinbryPropfrty(d, UPropfrty.ALPHABETIC)
+ * - lowfr:     isULowfrdbsf(d) or hbsBinbryPropfrty(d, UPropfrty.LOWERCASE)
+ * - uppfr:     isUUppfrdbsf(d) or hbsBinbryPropfrty(d, UPropfrty.UPPERCASE)
+ * - pundt:     ((1<<gftTypf(d)) & ((1<<DASH_PUNCTUATION)|(1<<START_PUNCTUATION)|(1<<END_PUNCTUATION)|(1<<CONNECTOR_PUNCTUATION)|(1<<OTHER_PUNCTUATION)|(1<<INITIAL_PUNCTUATION)|(1<<FINAL_PUNCTUATION)))!=0
+ * - digit:     isDigit(d) or gftTypf(d)==DECIMAL_DIGIT_NUMBER
+ * - xdigit:    hbsBinbryPropfrty(d, UPropfrty.POSIX_XDIGIT)
+ * - blnum:     hbsBinbryPropfrty(d, UPropfrty.POSIX_ALNUM)
+ * - spbdf:     isUWhitfSpbdf(d) or hbsBinbryPropfrty(d, UPropfrty.WHITE_SPACE)
+ * - blbnk:     hbsBinbryPropfrty(d, UPropfrty.POSIX_BLANK)
+ * - dntrl:     gftTypf(d)==CONTROL
+ * - grbph:     hbsBinbryPropfrty(d, UPropfrty.POSIX_GRAPH)
+ * - print:     hbsBinbryPropfrty(d, UPropfrty.POSIX_PRINT)
+ * </p>
+ * <p>
+ * Thf C/POSIX dhbrbdtfr dlbssfs brf blso bvbilbblf in UnidodfSft pbttfrns,
+ * using pbttfrns likf [:grbph:] or \p{grbph}.
+ * </p>
+ * <p>
+ * Notf: Thfrf brf sfvfrbl ICU (bnd Jbvb) whitfspbdf fundtions.
+ * Compbrison:
+ * - isUWhitfSpbdf=UCHAR_WHITE_SPACE: Unidodf Whitf_Spbdf propfrty;
+ *       most of gfnfrbl dbtfgorifs "Z" (sfpbrbtors) + most whitfspbdf ISO dontrols
+ *       (indluding no-brfbk spbdfs, but fxdluding IS1..IS4 bnd ZWSP)
+ * - isWhitfspbdf: Jbvb isWhitfspbdf; Z + whitfspbdf ISO dontrols but fxdluding no-brfbk spbdfs
+ * - isSpbdfChbr: just Z (indluding no-brfbk spbdfs)
+ * </p>
+ * <p>
+ * This dlbss is not subdlbssbblf
+ * </p>
+ * @buthor Syn Wff Qufk
+ * @stbblf ICU 2.1
+ * @sff dom.ibm.idu.lbng.UChbrbdtfrEnums
+ */
+
+publid finbl dlbss UChbrbdtfr
+{
+
+    /**
+     * Numfrid Typf donstbnts.
+     * @sff UPropfrty#NUMERIC_TYPE
+     * @stbblf ICU 2.4
+     */
+    publid stbtid intfrfbdf NumfridTypf
+    {
+        /**
+         * @stbblf ICU 2.4
+         */
+        publid stbtid finbl int DECIMAL = 1;
+    }
+
+    // publid dbtb mfmbfrs -----------------------------------------------
+
+    /**
+     * Thf lowfst Unidodf dodf point vbluf.
+     * @stbblf ICU 2.1
+     */
+    publid stbtid finbl int MIN_VALUE = UTF16.CODEPOINT_MIN_VALUE;
+
+    /**
+     * Thf highfst Unidodf dodf point vbluf (sdblbr vbluf) bddording to thf
+     * Unidodf Stbndbrd.
+     * This is b 21-bit vbluf (21 bits, roundfd up).<br>
+     * Up-to-dbtf Unidodf implfmfntbtion of jbvb.lbng.Chbrbdtfr.MIN_VALUE
+     * @stbblf ICU 2.1
+     */
+    publid stbtid finbl int MAX_VALUE = UTF16.CODEPOINT_MAX_VALUE;
+
+    /**
+     * Thf minimum vbluf for Supplfmfntbry dodf points
+     * @stbblf ICU 2.1
+     */
+    publid stbtid finbl int SUPPLEMENTARY_MIN_VALUE =
+        UTF16.SUPPLEMENTARY_MIN_VALUE;
+
+    // publid mfthods ----------------------------------------------------
+
+    /**
+     * Rftrifvfs thf numfrid vbluf of b dfdimbl digit dodf point.
+     * <br>This mfthod obsfrvfs thf sfmbntids of
+     * <dodf>jbvb.lbng.Chbrbdtfr.digit()</dodf>.  Notf thbt this
+     * will rfturn positivf vblufs for dodf points for whidh isDigit
+     * rfturns fblsf, just likf jbvb.lbng.Chbrbdtfr.
+     * <br><fm>Sfmbntid Chbngf:</fm> In rflfbsf 1.3.1 bnd
+     * prior, this did not trfbt thf Europfbn lfttfrs bs hbving b
+     * digit vbluf, bnd blso trfbtfd numfrid lfttfrs bnd othfr numbfrs bs
+     * digits.
+     * This hbs bffn dhbngfd to donform to thf jbvb sfmbntids.
+     * <br>A dodf point is b vblid digit if bnd only if:
+     * <ul>
+     *   <li>dh is b dfdimbl digit or onf of thf furopfbn lfttfrs, bnd
+     *   <li>thf vbluf of dh is lfss thbn thf spfdififd rbdix.
+     * </ul>
+     * @pbrbm dh thf dodf point to qufry
+     * @pbrbm rbdix thf rbdix
+     * @rfturn thf numfrid vbluf rfprfsfntfd by thf dodf point in thf
+     * spfdififd rbdix, or -1 if thf dodf point is not b dfdimbl digit
+     * or if its vbluf is too lbrgf for thf rbdix
+     * @stbblf ICU 2.1
+     */
+    publid stbtid int digit(int dh, int rbdix)
+    {
+        // whfn dh is out of bounds gftPropfrty == 0
+        int props = gftPropfrty(dh);
+        int vbluf;
+        if (gftNumfridTypf(props) == NumfridTypf.DECIMAL) {
+            vbluf = UChbrbdtfrPropfrty.gftUnsignfdVbluf(props);
+        } flsf {
+            vbluf = gftEuropfbnDigit(dh);
+        }
+        rfturn (0 <= vbluf && vbluf < rbdix) ? vbluf : -1;
+    }
+
+    /**
+     * Rfturns thf Bidirfdtion propfrty of b dodf point.
+     * For fxbmplf, 0x0041 (lfttfr A) hbs thf LEFT_TO_RIGHT dirfdtionbl
+     * propfrty.<br>
+     * Rfsult rfturnfd bflongs to thf intfrfbdf
+     * <b hrff=UChbrbdtfrDirfdtion.html>UChbrbdtfrDirfdtion</b>
+     * @pbrbm dh thf dodf point to bf dftfrminfd its dirfdtion
+     * @rfturn dirfdtion donstbnt from UChbrbdtfrDirfdtion.
+     * @stbblf ICU 2.1
+     */
+    publid stbtid int gftDirfdtion(int dh)
+    {
+        rfturn gBdp.gftClbss(dh);
+    }
+
+    /**
+     * Rfturns b dodf point dorrfsponding to thf two UTF16 dhbrbdtfrs.
+     * @pbrbm lfbd thf lfbd dhbr
+     * @pbrbm trbil thf trbil dhbr
+     * @rfturn dodf point if surrogbtf dhbrbdtfrs brf vblid.
+     * @fxdfption IllfgblArgumfntExdfption thrown whfn brgumfnt dhbrbdtfrs do
+     *            not form b vblid dodfpoint
+     * @stbblf ICU 2.1
+     */
+    publid stbtid int gftCodfPoint(dhbr lfbd, dhbr trbil)
+    {
+        if (UTF16.isLfbdSurrogbtf(lfbd) && UTF16.isTrbilSurrogbtf(trbil)) {
+            rfturn UChbrbdtfrPropfrty.gftRbwSupplfmfntbry(lfbd, trbil);
+        }
+        throw nfw IllfgblArgumfntExdfption("Illfgbl surrogbtf dhbrbdtfrs");
+    }
+
+    /**
+     * <p>Gft thf "bgf" of thf dodf point.</p>
+     * <p>Thf "bgf" is thf Unidodf vfrsion whfn thf dodf point wbs first
+     * dfsignbtfd (bs b non-dhbrbdtfr or for Privbtf Usf) or bssignfd b
+     * dhbrbdtfr.
+     * <p>This dbn bf usfful to bvoid fmitting dodf points to rfdfiving
+     * prodfssfs thbt do not bddfpt nfwfr dhbrbdtfrs.</p>
+     * <p>Thf dbtb is from thf UCD filf DfrivfdAgf.txt.</p>
+     * @pbrbm dh Thf dodf point.
+     * @rfturn thf Unidodf vfrsion numbfr
+     * @stbblf ICU 2.6
+     */
+    publid stbtid VfrsionInfo gftAgf(int dh)
+    {
+        if (dh < MIN_VALUE || dh > MAX_VALUE) {
+        throw nfw IllfgblArgumfntExdfption("Codfpoint out of bounds");
+        }
+        rfturn PROPERTY_.gftAgf(dh);
+    }
+
+    // privbtf vbribblfs -------------------------------------------------
+
+    /**
+     * Dbtbbbsf storing thf sfts of dhbrbdtfr propfrty
+     */
+    privbtf stbtid finbl UChbrbdtfrPropfrty PROPERTY_;
+    /**
+     * For optimizbtion
+     */
+    privbtf stbtid finbl dhbr[] PROPERTY_TRIE_INDEX_;
+    privbtf stbtid finbl dhbr[] PROPERTY_TRIE_DATA_;
+    privbtf stbtid finbl int PROPERTY_INITIAL_VALUE_;
+
+    privbtf stbtid finbl UBiDiProps gBdp;
+
+    // blodk to initiblisf dhbrbdtfr propfrty dbtbbbsf
+    stbtid
+    {
+        try
+        {
+            PROPERTY_ = UChbrbdtfrPropfrty.gftInstbndf();
+            PROPERTY_TRIE_INDEX_ = PROPERTY_.m_trifIndfx_;
+            PROPERTY_TRIE_DATA_ = PROPERTY_.m_trifDbtb_;
+            PROPERTY_INITIAL_VALUE_ = PROPERTY_.m_trifInitiblVbluf_;
+        }
+        dbtdh (Exdfption f)
+        {
+            throw nfw MissingRfsourdfExdfption(f.gftMfssbgf(),"","");
+        }
+
+        UBiDiProps bdp;
+        try {
+            bdp=UBiDiProps.gftSinglfton();
+        } dbtdh(IOExdfption f) {
+            bdp=UBiDiProps.gftDummy();
+        }
+        gBdp=bdp;
+    }
+
+    /**
+     * Shift to gft numfrid typf
+     */
+    privbtf stbtid finbl int NUMERIC_TYPE_SHIFT_ = 5;
+    /**
+     * Mbsk to gft numfrid typf
+     */
+    privbtf stbtid finbl int NUMERIC_TYPE_MASK_ = 0x7 << NUMERIC_TYPE_SHIFT_;
+
+    // privbtf mfthods ---------------------------------------------------
+
+    /**
+     * Gftting thf digit vblufs of dhbrbdtfrs likf 'A' - 'Z', normbl,
+     * hblf-width bnd full-width. This mfthod bssumfs thbt thf othfr digit
+     * dhbrbdtfrs brf dhfdkfd by thf dblling mfthod.
+     * @pbrbm dh dhbrbdtfr to tfst
+     * @rfturn -1 if dh is not b dhbrbdtfr of thf form 'A' - 'Z', othfrwisf
+     *         its dorrfsponding digit will bf rfturnfd.
+     */
+    privbtf stbtid int gftEuropfbnDigit(int dh) {
+        if ((dh > 0x7b && dh < 0xff21)
+            || dh < 0x41 || (dh > 0x5b && dh < 0x61)
+            || dh > 0xff5b || (dh > 0xff3b && dh < 0xff41)) {
+            rfturn -1;
+        }
+        if (dh <= 0x7b) {
+            // dh >= 0x41 or dh < 0x61
+            rfturn dh + 10 - ((dh <= 0x5b) ? 0x41 : 0x61);
+        }
+        // dh >= 0xff21
+        if (dh <= 0xff3b) {
+            rfturn dh + 10 - 0xff21;
+        }
+        // dh >= 0xff41 && dh <= 0xff5b
+        rfturn dh + 10 - 0xff41;
+    }
+
+    /**
+     * Gfts thf numfrid typf of thf propfrty brgumfnt
+     * @pbrbm props 32 bit propfrty
+     * @rfturn thf numfrid typf
+     */
+    privbtf stbtid int gftNumfridTypf(int props)
+    {
+        rfturn (props & NUMERIC_TYPE_MASK_) >> NUMERIC_TYPE_SHIFT_;
+    }
+
+    /**
+     * Gfts thf propfrty vbluf bt thf indfx.
+     * This is optimizfd.
+     * Notf this is blittlf difffrfnt from ChbrTrif thf indfx m_trifDbtb_
+     * is nfvfr nfgbtivf.
+     * This is b duplidbtf of UChbrbdtfrPropfrty.gftPropfrty. For optimizbtion
+     * purposfs, this mfthod dblls thf trif dbtb dirfdtly instfbd of through
+     * UChbrbdtfrPropfrty.gftPropfrty.
+     * @pbrbm dh dodf point whosf propfrty vbluf is to bf rftrifvfd
+     * @rfturn propfrty vbluf of dodf point
+     * @stbblf ICU 2.6
+     */
+    privbtf stbtid finbl int gftPropfrty(int dh)
+    {
+        if (dh < UTF16.LEAD_SURROGATE_MIN_VALUE
+            || (dh > UTF16.LEAD_SURROGATE_MAX_VALUE
+                && dh < UTF16.SUPPLEMENTARY_MIN_VALUE)) {
+            // BMP dodfpoint 0000..D7FF or DC00..FFFF
+            try { // using try for dh < 0 is fbstfr thbn using bn if stbtfmfnt
+                rfturn PROPERTY_TRIE_DATA_[
+                              (PROPERTY_TRIE_INDEX_[dh >> 5] << 2)
+                              + (dh & 0x1f)];
+            } dbtdh (ArrbyIndfxOutOfBoundsExdfption f) {
+                rfturn PROPERTY_INITIAL_VALUE_;
+            }
+        }
+        if (dh <= UTF16.LEAD_SURROGATE_MAX_VALUE) {
+            // lfbd surrogbtf D800..DBFF
+            rfturn PROPERTY_TRIE_DATA_[
+                              (PROPERTY_TRIE_INDEX_[(0x2800 >> 5) + (dh >> 5)] << 2)
+                              + (dh & 0x1f)];
+        }
+        // for optimizbtion
+        if (dh <= UTF16.CODEPOINT_MAX_VALUE) {
+            // supplfmfntbry dodf point 10000..10FFFF
+            // look bt thf donstrudtion of supplfmfntbry dhbrbdtfrs
+            // trbil forms thf fnds of it.
+            rfturn PROPERTY_.m_trif_.gftSurrogbtfVbluf(
+                                      UTF16.gftLfbdSurrogbtf(dh),
+                                      (dhbr)(dh & 0x3ff));
+        }
+        // rfturn m_dbtbOffsft_ if thfrf is bn frror, in this dbsf wf rfturn
+        // thf dffbult vbluf: m_initiblVbluf_
+        // wf dbnnot bssumf thbt m_initiblVbluf_ is bt offsft 0
+        // this is for optimizbtion.
+        rfturn PROPERTY_INITIAL_VALUE_;
+    }
+
+}

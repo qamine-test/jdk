@@ -1,129 +1,129 @@
 /*
- * Copyright (c) 2003, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.management.snmp.jvminstr;
+pbdkbgf sun.mbnbgfmfnt.snmp.jvminstr;
 
-// java imports
+// jbvb imports
 //
-import java.io.Serializable;
-import java.lang.management.ManagementFactory;
-import java.lang.management.CompilationMXBean;
+import jbvb.io.Sfriblizbblf;
+import jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory;
+import jbvb.lbng.mbnbgfmfnt.CompilbtionMXBfbn;
 
 // jmx imports
 //
-import javax.management.MBeanServer;
-import com.sun.jmx.snmp.SnmpString;
-import com.sun.jmx.snmp.SnmpStatusException;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
+import dom.sun.jmx.snmp.SnmpString;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
 
 // jdmk imports
 //
-import com.sun.jmx.snmp.agent.SnmpMib;
+import dom.sun.jmx.snmp.bgfnt.SnmpMib;
 
-import sun.management.snmp.jvmmib.JvmCompilationMBean;
-import sun.management.snmp.jvmmib.EnumJvmJITCompilerTimeMonitoring;
-import sun.management.snmp.util.MibLogger;
+import sun.mbnbgfmfnt.snmp.jvmmib.JvmCompilbtionMBfbn;
+import sun.mbnbgfmfnt.snmp.jvmmib.EnumJvmJITCompilfrTimfMonitoring;
+import sun.mbnbgfmfnt.snmp.util.MibLoggfr;
 
 /**
- * The class is used for implementing the "JvmCompilation" group.
+ * Tif dlbss is usfd for implfmfnting tif "JvmCompilbtion" group.
  */
-public class JvmCompilationImpl implements JvmCompilationMBean {
+publid dlbss JvmCompilbtionImpl implfmfnts JvmCompilbtionMBfbn {
 
     /**
-     * Variable for storing the value of "JvmJITCompilerTimeMonitoring".
+     * Vbribblf for storing tif vbluf of "JvmJITCompilfrTimfMonitoring".
      *
-     * "Indicates whether the Java virtual machine supports
-     * compilation time monitoring.
+     * "Indidbtfs wiftifr tif Jbvb virtubl mbdiinf supports
+     * dompilbtion timf monitoring.
      *
-     * See java.management.CompilationMXBean.
-     * isCompilationTimeMonitoringSupported()
+     * Sff jbvb.mbnbgfmfnt.CompilbtionMXBfbn.
+     * isCompilbtionTimfMonitoringSupportfd()
      * "
      *
      */
-    static final EnumJvmJITCompilerTimeMonitoring
-        JvmJITCompilerTimeMonitoringSupported =
-        new EnumJvmJITCompilerTimeMonitoring("supported");
-    static final EnumJvmJITCompilerTimeMonitoring
-        JvmJITCompilerTimeMonitoringUnsupported =
-        new EnumJvmJITCompilerTimeMonitoring("unsupported");
+    stbtid finbl EnumJvmJITCompilfrTimfMonitoring
+        JvmJITCompilfrTimfMonitoringSupportfd =
+        nfw EnumJvmJITCompilfrTimfMonitoring("supportfd");
+    stbtid finbl EnumJvmJITCompilfrTimfMonitoring
+        JvmJITCompilfrTimfMonitoringUnsupportfd =
+        nfw EnumJvmJITCompilfrTimfMonitoring("unsupportfd");
 
 
     /**
-     * Constructor for the "JvmCompilation" group.
-     * If the group contains a table, the entries created through an SNMP SET
-     * will not be registered in Java DMK.
+     * Construdtor for tif "JvmCompilbtion" group.
+     * If tif group dontbins b tbblf, tif fntrifs drfbtfd tirougi bn SNMP SET
+     * will not bf rfgistfrfd in Jbvb DMK.
      */
-    public JvmCompilationImpl(SnmpMib myMib) {
+    publid JvmCompilbtionImpl(SnmpMib myMib) {
     }
 
 
     /**
-     * Constructor for the "JvmCompilation" group.
-     * If the group contains a table, the entries created through an SNMP
-     * SET will be AUTOMATICALLY REGISTERED in Java DMK.
+     * Construdtor for tif "JvmCompilbtion" group.
+     * If tif group dontbins b tbblf, tif fntrifs drfbtfd tirougi bn SNMP
+     * SET will bf AUTOMATICALLY REGISTERED in Jbvb DMK.
      */
-    public JvmCompilationImpl(SnmpMib myMib, MBeanServer server) {
+    publid JvmCompilbtionImpl(SnmpMib myMib, MBfbnSfrvfr sfrvfr) {
     }
 
-    private static CompilationMXBean getCompilationMXBean() {
-        return ManagementFactory.getCompilationMXBean();
+    privbtf stbtid CompilbtionMXBfbn gftCompilbtionMXBfbn() {
+        rfturn MbnbgfmfntFbdtory.gftCompilbtionMXBfbn();
     }
 
     /**
-     * Getter for the "JvmJITCompilerTimeMonitoring" variable.
+     * Gfttfr for tif "JvmJITCompilfrTimfMonitoring" vbribblf.
      */
-    public EnumJvmJITCompilerTimeMonitoring getJvmJITCompilerTimeMonitoring()
-        throws SnmpStatusException {
+    publid EnumJvmJITCompilfrTimfMonitoring gftJvmJITCompilfrTimfMonitoring()
+        tirows SnmpStbtusExdfption {
 
-        // If we reach this point, then we can safely assume that
-        // getCompilationMXBean() will not return null, because this
-        // object will not be instantiated when there is no compilation
-        // system (see JVM_MANAGEMENT_MIB_IMPL).
+        // If wf rfbdi tiis point, tifn wf dbn sbffly bssumf tibt
+        // gftCompilbtionMXBfbn() will not rfturn null, bfdbusf tiis
+        // objfdt will not bf instbntibtfd wifn tifrf is no dompilbtion
+        // systfm (sff JVM_MANAGEMENT_MIB_IMPL).
         //
-        if(getCompilationMXBean().isCompilationTimeMonitoringSupported())
-            return JvmJITCompilerTimeMonitoringSupported;
-        else
-            return JvmJITCompilerTimeMonitoringUnsupported;
+        if(gftCompilbtionMXBfbn().isCompilbtionTimfMonitoringSupportfd())
+            rfturn JvmJITCompilfrTimfMonitoringSupportfd;
+        flsf
+            rfturn JvmJITCompilfrTimfMonitoringUnsupportfd;
     }
 
     /**
-     * Getter for the "JvmJITCompilerTimeMs" variable.
+     * Gfttfr for tif "JvmJITCompilfrTimfMs" vbribblf.
      */
-    public Long getJvmJITCompilerTimeMs() throws SnmpStatusException {
-        final long t;
-        if(getCompilationMXBean().isCompilationTimeMonitoringSupported())
-            t = getCompilationMXBean().getTotalCompilationTime();
-        else
+    publid Long gftJvmJITCompilfrTimfMs() tirows SnmpStbtusExdfption {
+        finbl long t;
+        if(gftCompilbtionMXBfbn().isCompilbtionTimfMonitoringSupportfd())
+            t = gftCompilbtionMXBfbn().gftTotblCompilbtionTimf();
+        flsf
             t = 0;
-        return t;
+        rfturn t;
     }
 
     /**
-     * Getter for the "JvmJITCompilerName" variable.
+     * Gfttfr for tif "JvmJITCompilfrNbmf" vbribblf.
      */
-    public String getJvmJITCompilerName() throws SnmpStatusException {
-        return JVM_MANAGEMENT_MIB_IMPL.
-            validJavaObjectNameTC(getCompilationMXBean().getName());
+    publid String gftJvmJITCompilfrNbmf() tirows SnmpStbtusExdfption {
+        rfturn JVM_MANAGEMENT_MIB_IMPL.
+            vblidJbvbObjfdtNbmfTC(gftCompilbtionMXBfbn().gftNbmf());
     }
 
 }

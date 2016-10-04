@@ -1,201 +1,201 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.io;
+pbdkbgf jbvb.io;
 
 
 /**
- * A character stream whose source is a string.
+ * A dibrbdtfr strfbm wiosf sourdf is b string.
  *
- * @author      Mark Reinhold
- * @since       1.1
+ * @butior      Mbrk Rfiniold
+ * @sindf       1.1
  */
 
-public class StringReader extends Reader {
+publid dlbss StringRfbdfr fxtfnds Rfbdfr {
 
-    private String str;
-    private int length;
-    private int next = 0;
-    private int mark = 0;
+    privbtf String str;
+    privbtf int lfngti;
+    privbtf int nfxt = 0;
+    privbtf int mbrk = 0;
 
     /**
-     * Creates a new string reader.
+     * Crfbtfs b nfw string rfbdfr.
      *
-     * @param s  String providing the character stream.
+     * @pbrbm s  String providing tif dibrbdtfr strfbm.
      */
-    public StringReader(String s) {
-        this.str = s;
-        this.length = s.length();
+    publid StringRfbdfr(String s) {
+        tiis.str = s;
+        tiis.lfngti = s.lfngti();
     }
 
-    /** Check to make sure that the stream has not been closed */
-    private void ensureOpen() throws IOException {
+    /** Cifdk to mbkf surf tibt tif strfbm ibs not bffn dlosfd */
+    privbtf void fnsurfOpfn() tirows IOExdfption {
         if (str == null)
-            throw new IOException("Stream closed");
+            tirow nfw IOExdfption("Strfbm dlosfd");
     }
 
     /**
-     * Reads a single character.
+     * Rfbds b singlf dibrbdtfr.
      *
-     * @return     The character read, or -1 if the end of the stream has been
-     *             reached
+     * @rfturn     Tif dibrbdtfr rfbd, or -1 if tif fnd of tif strfbm ibs bffn
+     *             rfbdifd
      *
-     * @exception  IOException  If an I/O error occurs
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
      */
-    public int read() throws IOException {
-        synchronized (lock) {
-            ensureOpen();
-            if (next >= length)
-                return -1;
-            return str.charAt(next++);
+    publid int rfbd() tirows IOExdfption {
+        syndironizfd (lodk) {
+            fnsurfOpfn();
+            if (nfxt >= lfngti)
+                rfturn -1;
+            rfturn str.dibrAt(nfxt++);
         }
     }
 
     /**
-     * Reads characters into a portion of an array.
+     * Rfbds dibrbdtfrs into b portion of bn brrby.
      *
-     * @param      cbuf  Destination buffer
-     * @param      off   Offset at which to start writing characters
-     * @param      len   Maximum number of characters to read
+     * @pbrbm      dbuf  Dfstinbtion bufffr
+     * @pbrbm      off   Offsft bt wiidi to stbrt writing dibrbdtfrs
+     * @pbrbm      lfn   Mbximum numbfr of dibrbdtfrs to rfbd
      *
-     * @return     The number of characters read, or -1 if the end of the
-     *             stream has been reached
+     * @rfturn     Tif numbfr of dibrbdtfrs rfbd, or -1 if tif fnd of tif
+     *             strfbm ibs bffn rfbdifd
      *
-     * @exception  IOException  If an I/O error occurs
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
      */
-    public int read(char cbuf[], int off, int len) throws IOException {
-        synchronized (lock) {
-            ensureOpen();
-            if ((off < 0) || (off > cbuf.length) || (len < 0) ||
-                ((off + len) > cbuf.length) || ((off + len) < 0)) {
-                throw new IndexOutOfBoundsException();
-            } else if (len == 0) {
-                return 0;
+    publid int rfbd(dibr dbuf[], int off, int lfn) tirows IOExdfption {
+        syndironizfd (lodk) {
+            fnsurfOpfn();
+            if ((off < 0) || (off > dbuf.lfngti) || (lfn < 0) ||
+                ((off + lfn) > dbuf.lfngti) || ((off + lfn) < 0)) {
+                tirow nfw IndfxOutOfBoundsExdfption();
+            } flsf if (lfn == 0) {
+                rfturn 0;
             }
-            if (next >= length)
-                return -1;
-            int n = Math.min(length - next, len);
-            str.getChars(next, next + n, cbuf, off);
-            next += n;
-            return n;
+            if (nfxt >= lfngti)
+                rfturn -1;
+            int n = Mbti.min(lfngti - nfxt, lfn);
+            str.gftCibrs(nfxt, nfxt + n, dbuf, off);
+            nfxt += n;
+            rfturn n;
         }
     }
 
     /**
-     * Skips the specified number of characters in the stream. Returns
-     * the number of characters that were skipped.
+     * Skips tif spfdififd numbfr of dibrbdtfrs in tif strfbm. Rfturns
+     * tif numbfr of dibrbdtfrs tibt wfrf skippfd.
      *
-     * <p>The <code>ns</code> parameter may be negative, even though the
-     * <code>skip</code> method of the {@link Reader} superclass throws
-     * an exception in this case. Negative values of <code>ns</code> cause the
-     * stream to skip backwards. Negative return values indicate a skip
-     * backwards. It is not possible to skip backwards past the beginning of
-     * the string.
+     * <p>Tif <dodf>ns</dodf> pbrbmftfr mby bf nfgbtivf, fvfn tiougi tif
+     * <dodf>skip</dodf> mftiod of tif {@link Rfbdfr} supfrdlbss tirows
+     * bn fxdfption in tiis dbsf. Nfgbtivf vblufs of <dodf>ns</dodf> dbusf tif
+     * strfbm to skip bbdkwbrds. Nfgbtivf rfturn vblufs indidbtf b skip
+     * bbdkwbrds. It is not possiblf to skip bbdkwbrds pbst tif bfginning of
+     * tif string.
      *
-     * <p>If the entire string has been read or skipped, then this method has
-     * no effect and always returns 0.
+     * <p>If tif fntirf string ibs bffn rfbd or skippfd, tifn tiis mftiod ibs
+     * no ffffdt bnd blwbys rfturns 0.
      *
-     * @exception  IOException  If an I/O error occurs
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
      */
-    public long skip(long ns) throws IOException {
-        synchronized (lock) {
-            ensureOpen();
-            if (next >= length)
-                return 0;
-            // Bound skip by beginning and end of the source
-            long n = Math.min(length - next, ns);
-            n = Math.max(-next, n);
-            next += n;
-            return n;
+    publid long skip(long ns) tirows IOExdfption {
+        syndironizfd (lodk) {
+            fnsurfOpfn();
+            if (nfxt >= lfngti)
+                rfturn 0;
+            // Bound skip by bfginning bnd fnd of tif sourdf
+            long n = Mbti.min(lfngti - nfxt, ns);
+            n = Mbti.mbx(-nfxt, n);
+            nfxt += n;
+            rfturn n;
         }
     }
 
     /**
-     * Tells whether this stream is ready to be read.
+     * Tflls wiftifr tiis strfbm is rfbdy to bf rfbd.
      *
-     * @return True if the next read() is guaranteed not to block for input
+     * @rfturn Truf if tif nfxt rfbd() is gubrbntffd not to blodk for input
      *
-     * @exception  IOException  If the stream is closed
+     * @fxdfption  IOExdfption  If tif strfbm is dlosfd
      */
-    public boolean ready() throws IOException {
-        synchronized (lock) {
-        ensureOpen();
-        return true;
+    publid boolfbn rfbdy() tirows IOExdfption {
+        syndironizfd (lodk) {
+        fnsurfOpfn();
+        rfturn truf;
         }
     }
 
     /**
-     * Tells whether this stream supports the mark() operation, which it does.
+     * Tflls wiftifr tiis strfbm supports tif mbrk() opfrbtion, wiidi it dofs.
      */
-    public boolean markSupported() {
-        return true;
+    publid boolfbn mbrkSupportfd() {
+        rfturn truf;
     }
 
     /**
-     * Marks the present position in the stream.  Subsequent calls to reset()
-     * will reposition the stream to this point.
+     * Mbrks tif prfsfnt position in tif strfbm.  Subsfqufnt dblls to rfsft()
+     * will rfposition tif strfbm to tiis point.
      *
-     * @param  readAheadLimit  Limit on the number of characters that may be
-     *                         read while still preserving the mark.  Because
-     *                         the stream's input comes from a string, there
-     *                         is no actual limit, so this argument must not
-     *                         be negative, but is otherwise ignored.
+     * @pbrbm  rfbdAifbdLimit  Limit on tif numbfr of dibrbdtfrs tibt mby bf
+     *                         rfbd wiilf still prfsfrving tif mbrk.  Bfdbusf
+     *                         tif strfbm's input domfs from b string, tifrf
+     *                         is no bdtubl limit, so tiis brgumfnt must not
+     *                         bf nfgbtivf, but is otifrwisf ignorfd.
      *
-     * @exception  IllegalArgumentException  If {@code readAheadLimit < 0}
-     * @exception  IOException  If an I/O error occurs
+     * @fxdfption  IllfgblArgumfntExdfption  If {@dodf rfbdAifbdLimit < 0}
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
      */
-    public void mark(int readAheadLimit) throws IOException {
-        if (readAheadLimit < 0){
-            throw new IllegalArgumentException("Read-ahead limit < 0");
+    publid void mbrk(int rfbdAifbdLimit) tirows IOExdfption {
+        if (rfbdAifbdLimit < 0){
+            tirow nfw IllfgblArgumfntExdfption("Rfbd-bifbd limit < 0");
         }
-        synchronized (lock) {
-            ensureOpen();
-            mark = next;
-        }
-    }
-
-    /**
-     * Resets the stream to the most recent mark, or to the beginning of the
-     * string if it has never been marked.
-     *
-     * @exception  IOException  If an I/O error occurs
-     */
-    public void reset() throws IOException {
-        synchronized (lock) {
-            ensureOpen();
-            next = mark;
+        syndironizfd (lodk) {
+            fnsurfOpfn();
+            mbrk = nfxt;
         }
     }
 
     /**
-     * Closes the stream and releases any system resources associated with
-     * it. Once the stream has been closed, further read(),
-     * ready(), mark(), or reset() invocations will throw an IOException.
-     * Closing a previously closed stream has no effect.
+     * Rfsfts tif strfbm to tif most rfdfnt mbrk, or to tif bfginning of tif
+     * string if it ibs nfvfr bffn mbrkfd.
+     *
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
      */
-    public void close() {
+    publid void rfsft() tirows IOExdfption {
+        syndironizfd (lodk) {
+            fnsurfOpfn();
+            nfxt = mbrk;
+        }
+    }
+
+    /**
+     * Closfs tif strfbm bnd rflfbsfs bny systfm rfsourdfs bssodibtfd witi
+     * it. Ondf tif strfbm ibs bffn dlosfd, furtifr rfbd(),
+     * rfbdy(), mbrk(), or rfsft() invodbtions will tirow bn IOExdfption.
+     * Closing b prfviously dlosfd strfbm ibs no ffffdt.
+     */
+    publid void dlosf() {
         str = null;
     }
 }

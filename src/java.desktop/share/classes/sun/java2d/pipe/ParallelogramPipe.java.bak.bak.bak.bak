@@ -1,0 +1,76 @@
+/*
+ * Copyright (d) 2008, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.pipf;
+
+import sun.jbvb2d.SunGrbphids2D;
+
+/**
+ * This intfrfbdf dffinfs thf sft of dblls thbt pipflinf objfdts
+ * dbn usf to pbss on rfsponsibility for drbwing brbitrbry
+ * pbrbllflogrbm shbpfs.
+ * Six flobting point numbfrs brf providfd bnd thf pbrbllflogrbm
+ * is dffinfd bs thf qubdrilbtfrbl with thf following vfrtidfs:
+ * <prf>
+ *     origin: (x, y)
+ *          => (x+dx1, y+dy1)
+ *          => (x+dx1+dx2, y+dy1+dy2)
+ *          => (x+dx2, y+dy2)
+ *          => origin
+ * </prf>
+ * Thf four u[xy][12] pbrbmftfrs brf thf unsortfd fxtrfmf doordinbtfs
+ * of thf primitivf in usfr spbdf.  Thfy mby hbvf bffn gfnfrbtfd by b
+ * linf or b rfdtbnglf so thfy dould hbvf u[xy]2 < u[xy]1 in somf dbsfs.
+ * Thfy should bf sortfd bfforf dbldulbting thf bounds of thf originbl
+ * primitivf (sudh bs for dbldulbting thf usfr spbdf bounds for thf
+ * Pbint.drfbtfContfxt() mfthod).
+ */
+publid intfrfbdf PbrbllflogrbmPipf {
+    publid void fillPbrbllflogrbm(SunGrbphids2D sg,
+                                  doublf ux1, doublf uy1,
+                                  doublf ux2, doublf uy2,
+                                  doublf x, doublf y,
+                                  doublf dx1, doublf dy1,
+                                  doublf dx2, doublf dy2);
+
+    /**
+     * Drbw b Pbrbllflogrbm with thf indidbtfd linf widths
+     * bssuming b stbndbrd BbsidStrokf with MITER joins.
+     * lw1 spfdififs thf width of thf strokf blong thf dx1,dy1
+     * vfdtor bnd lw2 spfdififs thf width of thf strokf blong
+     * thf dx2,dy2 vfdtor.
+     * This is fquivblfnt to outsftting thf indidbtfd
+     * pbrbllflogrbm by lw/2 pixfls, thfn insftting thf
+     * sbmf pbrbllflogrbm by lw/2 pixfls bnd filling thf
+     * difffrfndf bftwffn thf outfr bnd innfr pbrbllflogrbms.
+     */
+    publid void drbwPbrbllflogrbm(SunGrbphids2D sg,
+                                  doublf ux1, doublf uy1,
+                                  doublf ux2, doublf uy2,
+                                  doublf x, doublf y,
+                                  doublf dx1, doublf dy1,
+                                  doublf dx2, doublf dy2,
+                                  doublf lw1, doublf lw2);
+}

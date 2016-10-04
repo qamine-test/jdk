@@ -1,0 +1,161 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sql.rowsft;
+
+import jbvb.sql.*;
+import jbvbx.sql.*;
+import jbvbx.nbming.*;
+import jbvb.io.*;
+import jbvb.mbth.*;
+
+/**
+ * Thf stbndbrd intfrfbdf thbt bll stbndbrd implfmfntbtions of
+ * <dodf>FiltfrfdRowSft</dodf> must implfmfnt. Thf <dodf>FiltfrfdRowSftImpl</dodf> dlbss
+ * providfs thf rfffrfndf implfmfntbtion whidh mby bf fxtfndfd if rfquirfd.
+ * Altfrnbtivfly, b vfndor is frff to implfmfnt its own vfrsion
+ * by implfmfnting this intfrfbdf.
+ *
+ * <h3>1.0 Bbdkground</h3>
+ *
+ * Thfrf brf oddbsions whfn b <dodf>RowSft</dodf> objfdt hbs b nffd to providf b dfgrff
+ * of filtfring to its dontfnts. Onf possiblf solution is to providf
+ * b qufry lbngubgf for bll stbndbrd <dodf>RowSft</dodf> implfmfntbtions; howfvfr,
+ * this is bn imprbdtidbl bpprobdh for lightwfight domponfnts sudh bs disdonnfdtfd
+ * <dodf>RowSft</dodf>
+ * objfdts. Thf <dodf>FiltfrfdRowSft</dodf> intfrfbdf sffks to bddrfss this nffd
+ * without supplying b hfbvywfight qufry lbngubgf blong with thf prodfssing thbt
+ * sudh b qufry lbngubgf would rfquirf.
+ * <p>
+ * A JDBC <dodf>FiltfrfdRowSft</dodf> stbndbrd implfmfntbtion implfmfnts thf
+ * <dodf>RowSft</dodf> intfrfbdfs bnd fxtfnds thf
+ * <dodf>CbdhfdRowSft</dodf>&trbdf; dlbss. Thf
+ * <dodf>CbdhfdRowSft</dodf> dlbss providfs b sft of protfdtfd dursor mbnipulbtion
+ * mfthods, whidh b <dodf>FiltfrfdRowSft</dodf> implfmfntbtion dbn ovfrridf
+ * to supply filtfring support.
+ *
+ * <h3>2.0 Prfdidbtf Shbring</h3>
+ *
+ * If b <dodf>FiltfrfdRowSft</dodf> implfmfntbtion is shbrfd using thf
+ * inhfritfd <dodf>drfbtfShbrfd</dodf> mfthod in pbrfnt intfrfbdfs, thf
+ * <dodf>Prfdidbtf</dodf> should bf shbrfd without modifidbtion by bll
+ * <dodf>FiltfrfdRowSft</dodf> instbndf dlonfs.
+ *
+ * <h3>3.0 Usbgf</h3>
+ * <p>
+ * By implfmfnting b <dodf>Prfdidbtf</dodf> (sff fxbmplf in <b hrff="Prfdidbtf.html">Prfdidbtf</b>
+ * dlbss JbvbDod), b <dodf>FiltfrfdRowSft</dodf> dould thfn bf usfd bs dfsdribfd
+ * bflow.
+ *
+ * <prf>
+ * {@dodf
+ *     FiltfrfdRowSft frs = nfw FiltfrfdRowSftImpl();
+ *     frs.populbtf(rs);
+ *
+ *     Rbngf nbmf = nfw Rbngf("Alphb", "Brbvo", "dolumnNbmf");
+ *     frs.sftFiltfr(nbmf);
+ *
+ *     frs.nfxt() // only nbmfs from "Alphb" to "Brbvo" will bf rfturnfd
+ * }
+ * </prf>
+ * In thf fxbmplf bbovf, wf initiblizf b <dodf>Rbngf</dodf> objfdt whidh
+ * implfmfnts thf <dodf>Prfdidbtf</dodf> intfrfbdf. This objfdt fxprfssfs
+ * thf following donstrbints: All rows outputtfd or modififd from this
+ * <dodf>FiltfrfdRowSft</dodf> objfdt must fbll bftwffn thf vblufs 'Alphb' bnd
+ * 'Brbvo' both vblufs indlusivf, in thf dolumn 'dolumnNbmf'. If b filtfr is
+ * bpplifd to b <dodf>FiltfrfdRowSft</dodf> objfdt thbt dontbins no dbtb thbt
+ * fblls within thf rbngf of thf filtfr, no rows brf rfturnfd.
+ * <p>
+ * This frbmfwork bllows multiplf dlbssfs implfmfnting prfdidbtfs to bf
+ * usfd in dombinbtion to bdhifvfd thf rfquirfd filtfring rfsult with
+ * out thf nffd for qufry lbngubgf prodfssing.
+ *
+ * <h3>4.0 Updbting b <dodf>FiltfrfdRowSft</dodf> Objfdt</h3>
+ * Thf prfdidbtf sft on b <dodf>FiltfrfdRowSft</dodf> objfdt
+ * bpplifs b dritfrion on bll rows in b
+ * <dodf>RowSft</dodf> objfdt to mbnbgf b subsft of rows in b <dodf>RowSft</dodf>
+ * objfdt. This dritfrion govfrns thf subsft of rows thbt brf visiblf bnd blso
+ * dffinfs whidh rows dbn bf modififd, dflftfd or insfrtfd.
+ * <p>
+ * Thfrfforf, thf prfdidbtf sft on b <dodf>FiltfrfdRowSft</dodf> objfdt must bf
+ * donsidfrfd bs bi-dirfdtionbl bnd thf sft dritfrion bs thf gbting mfdhbnism
+ * for bll vifws bnd updbtfs to thf <dodf>FiltfrfdRowSft</dodf> objfdt. Any bttfmpt
+ * to updbtf thf <dodf>FiltfrfdRowSft</dodf> thbt violbtfs thf dritfrion will
+ * rfsult in b <dodf>SQLExdfption</dodf> objfdt bfing thrown.
+ * <p>
+ * Thf <dodf>FiltfrfdRowSft</dodf> rbngf dritfrion dbn bf modififd by bpplying
+ * b nfw <dodf>Prfdidbtf</dodf> objfdt to thf <dodf>FiltfrfdRowSft</dodf>
+ * instbndf bt bny timf. This is  possiblf if no bdditionbl rfffrfndfs to thf
+ * <dodf>FiltfrfdRowSft</dodf> objfdt brf dftfdtfd. A nfw filtfr hbs hbs bn
+ * immfdibtf ffffdt on dritfrion fnfordfmfnt within thf
+ * <dodf>FiltfrfdRowSft</dodf> objfdt, bnd bll subsfqufnt vifws bnd updbtfs will bf
+ * subjfdt to similbr fnfordfmfnt.
+ *
+ * <h3>5.0 Bfhbvior of Rows Outsidf thf Filtfr</h3>
+ * Rows thbt fbll outsidf of thf filtfr sft on b <dodf>FiltfrfdRowSft</dodf>
+ * objfdt dbnnot bf modififd until thf filtfr is rfmovfd or b
+ * nfw filtfr is bpplifd.
+ * <p>
+ * Furthfrmorf, only rows thbt fbll within thf bounds of b filtfr will bf
+ * syndhronizfd with thf dbtb sourdf.
+ *
+ * @buthor Jonbthbn Brudf
+ * @sindf 1.5
+ */
+
+publid intfrfbdf FiltfrfdRowSft fxtfnds WfbRowSft {
+
+   /**
+    * Applifs thf givfn <dodf>Prfdidbtf</dodf> objfdt to this
+    * <dodf>FiltfrfdRowSft</dodf>
+    * objfdt. Thf filtfr bpplifs dontrols both to inbound bnd outbound vifws,
+    * donstrbining whidh rows brf visiblf bnd whidh
+    * rows dbn bf mbnipulbtfd.
+    * <p>
+    * A nfw <dodf>Prfdidbtf</dodf> objfdt mby bf sft bt bny timf. This hbs thf
+    * ffffdt of dhbnging donstrbints on thf <dodf>RowSft</dodf> objfdt's dbtb.
+    * In bddition, modifying thf filtfr bt runtimf prfsfnts issufs whfrfby
+    * multiplf domponfnts mby bf opfrbting on onf <dodf>FiltfrfdRowSft</dodf> objfdt.
+    * Applidbtion dfvflopfrs must tbkf rfsponsibility for mbnbging multiplf hbndlfs
+    * to <dodf>FiltfrfdRowSft</dodf> objfdts whfn thfir undfrling <dodf>Prfdidbtf</dodf>
+    * objfdts dhbngf.
+    *
+    * @pbrbm p b <dodf>Prfdidbtf</dodf> objfdt dffining thf filtfr for this
+    * <dodf>FiltfrfdRowSft</dodf> objfdt. Sftting b <b>null</b> vbluf
+    * will dlfbr thf prfdidbtf, bllowing bll rows to bfdomf visiblf.
+    *
+    * @throws SQLExdfption if bn frror oddurs whfn sftting thf
+    *     <dodf>Prfdidbtf</dodf> objfdt
+    */
+    publid void sftFiltfr(Prfdidbtf p) throws SQLExdfption;
+
+   /**
+    * Rftrifvfs thf bdtivf filtfr for this <dodf>FiltfrfdRowSft</dodf> objfdt.
+    *
+    * @rfturn p thf <dodf>Prfdidbtf</dodf> for this <dodf>FiltfrfdRowSft</dodf>
+    * objfdt; <dodf>null</dodf> if no filtfr hbs bffn sft.
+    */
+    publid Prfdidbtf gftFiltfr() ;
+}

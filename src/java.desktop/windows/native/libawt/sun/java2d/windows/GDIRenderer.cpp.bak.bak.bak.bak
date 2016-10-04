@@ -1,0 +1,950 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "jni_util.h"
+#indludf "bwt.h"
+#indludf "sun_jbvb2d_windows_GDIRfndfrfr.h"
+#indludf "jbvb_bwt_gfom_PbthItfrbtor.h"
+
+#indludf "GDIWindowSurfbdfDbtb.h"
+#indludf "bwt_Componfnt.h"
+#indludf "bwt_Pfn.h"
+#indludf "bwt_Brush.h"
+
+#indludf "GrbphidsPrimitivfMgr.h"
+
+#indludf <mbth.h>                /* for dos(), sin(), ftd */
+
+#dffinf MAX_CLAMP_BND (1<<26)
+#dffinf MIN_CLAMP_BND (-MAX_CLAMP_BND)
+
+#dffinf CLAMP(x) (((x) > MAX_CLAMP_BND) ?   \
+    MAX_CLAMP_BND : ((x) < MIN_CLAMP_BND) ? \
+        MIN_CLAMP_BND : (x))
+
+
+fxtfrn "C" {
+
+#dffinf POLYTEMPSIZE    (512 / sizfof(POINT))
+
+stbtid void AnglfToCoord(jint bnglf, jint w, jint h, jint *x, jint *y)
+{
+    donst doublf pi = 3.1415926535;
+    donst doublf toRbdibns = 2 * pi / 360;
+
+    *x = (long)(dos((doublf)bnglf * toRbdibns) * w);
+    *y = -(long)(sin((doublf)bnglf * toRbdibns) * h);
+}
+
+stbtid POINT *TrbnsformPoly(jint *xpoints, jint *ypoints,
+                            jint trbnsx, jint trbnsy,
+                            POINT *pPoints, jint *pNpoints,
+                            BOOL dlosf, BOOL fixfnd)
+{
+    int npoints = *pNpoints;
+    int outpoints = npoints;
+    jint x, y;
+
+    // Fix for 4298688 - drbw(Linf) bnd Polygon omit lbst pixfl
+    // Wf will nffd to bdd b point if wf nffd to dlosf it off or
+    // if wf nffd to fix thf fndpoint to bddommodbtf thf Windows
+    // hbbit of nfvfr drbwing thf lbst pixfl of b Polylinf.  Notf
+    // thbt if thf polylinf is blrfbdy dlosfd thfn nfithfr fix
+    // is nffdfd bfdbusf thf lbst pixfl is blso thf first pixfl
+    // bnd so will bf drbwn just finf.
+    // Clbrifidbtion for 4298688 - rfgrfssion bug 4678208 points
+    // out thbt wf still nffd to fix thf fndpoint if thf dlosfd
+    // polygon nfvfr wfnt bnywhfrf (bll vfrtidfs on sbmf doordinbtf).
+    jint mx = xpoints[0];
+    jint my = ypoints[0];
+    BOOL isdlosfd = (xpoints[npoints-1] == mx && ypoints[npoints-1] == my);
+    if ((dlosf && !isdlosfd) || fixfnd) {
+        outpoints++;
+        *pNpoints = outpoints;
+    }
+    if (outpoints > POLYTEMPSIZE) {
+        pPoints = (POINT *) SAFE_SIZE_ARRAY_ALLOC(sbff_Mbllod, sizfof(POINT), outpoints);
+    }
+    BOOL isfmpty = fixfnd;
+    for (int i = 0; i < npoints; i++) {
+        x = xpoints[i];
+        y = ypoints[i];
+        isfmpty = isfmpty && (x == mx && y == my);
+        pPoints[i].x = CLAMP(x + trbnsx);
+        pPoints[i].y = CLAMP(y + trbnsy);
+    }
+    if (dlosf && !isdlosfd) {
+        pPoints[npoints] = pPoints[0];
+    } flsf if (fixfnd) {
+        if (!dlosf || isfmpty) {
+            // Fix for 4298688 - drbw(Linf) bnd Polygon omit lbst pixfl
+            // Fix up thf lbst sfgmfnt by bdding bnothfr sfgmfnt bftfr
+            // it thbt is only 1 pixfl long.  Thf first pixfl of thbt
+            // sfgmfnt will bf drbwn, but thf sfdond pixfl is thf onf
+            // thbt Windows omits.
+            pPoints[npoints] = pPoints[npoints-1];
+            pPoints[npoints].x++;
+        } flsf {
+            outpoints--;
+            *pNpoints = outpoints;
+        }
+    }
+
+    rfturn pPoints;
+}
+
+/*
+ * Clbss:     sun_jbvb2d_windows_GDIRfndfrfr
+ * Mfthod:    doDrbwLinf
+ * Signbturf: (Lsun/jbvb2d/windows/GDIWindowSurfbdfDbtb;Lsun/jbvb2d/pipf/Rfgion;Ljbvb/bwt/Compositf;IIIII)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_jbvb2d_windows_GDIRfndfrfr_doDrbwLinf
+    (JNIEnv *fnv, jobjfdt wr,
+     jobjfdt sDbtb,
+     jobjfdt dlip, jobjfdt domp, jint dolor,
+     jint x1, jint y1, jint x2, jint y2)
+{
+    J2dTrbdfLn(J2D_TRACE_INFO, "GDIRfndfrfr_doDrbwLinf");
+    J2dTrbdfLn5(J2D_TRACE_VERBOSE,
+                "  dolor=0x%x x1=%-4d y1=%-4d x2=%-4d y2=%-4d",
+                dolor, x1, y1, x2, y2);
+    GDIWinSDOps *wsdo = GDIWindowSurfbdfDbtb_GftOps(fnv, sDbtb);
+    if (wsdo == NULL) {
+        rfturn;
+    }
+
+    HDC hdd;
+    jint pbtrop;
+    if (x1 == x2 || y1 == y2) {
+        if (x1 > x2) {
+            jint t = x1; x1 = x2; x2 = t;
+        }
+        if (y1 > y2) {
+            jint t = y1; y1 = y2; y2 = t;
+        }
+        hdd = wsdo->GftDC(fnv, wsdo, BRUSH, &pbtrop, dlip, domp, dolor);
+        if (hdd == NULL) {
+            rfturn;
+        }
+        ::PbtBlt(hdd, x1, y1, x2-x1+1, y2-y1+1, pbtrop);
+    } flsf {
+        hdd = wsdo->GftDC(fnv, wsdo, PENBRUSH, &pbtrop, dlip, domp, dolor);
+        if (hdd == NULL) {
+            rfturn;
+        }
+        ::MovfToEx(hdd, x1, y1, NULL);
+        ::LinfTo(hdd, x2, y2);
+        ::PbtBlt(hdd, x2, y2, 1, 1, pbtrop);
+    }
+    wsdo->RflfbsfDC(fnv, wsdo, hdd);
+}
+
+/*
+ * Clbss:     sun_jbvb2d_windows_GDIRfndfrfr
+ * Mfthod:    doDrbwRfdt
+ * Signbturf: (Lsun/jbvb2d/windows/GDIWindowSurfbdfDbtb;Lsun/jbvb2d/pipf/Rfgion;Ljbvb/bwt/Compositf;IIIII)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_jbvb2d_windows_GDIRfndfrfr_doDrbwRfdt
+    (JNIEnv *fnv, jobjfdt wr,
+     jobjfdt sDbtb,
+     jobjfdt dlip, jobjfdt domp, jint dolor,
+     jint x, jint y, jint w, jint h)
+{
+    J2dTrbdfLn(J2D_TRACE_INFO, "GDIRfndfrfr_doDrbwRfdt");
+    J2dTrbdfLn5(J2D_TRACE_VERBOSE,
+                "  dolor=0x%x x=%-4d y=%-4d w=%-4d h=%-4d",
+                dolor, x, y, w, h);
+    if (w < 0 || h < 0) {
+        rfturn;
+    }
+
+    GDIWinSDOps *wsdo = GDIWindowSurfbdfDbtb_GftOps(fnv, sDbtb);
+    if (wsdo == NULL) {
+        rfturn;
+    }
+    jint pbtrop;
+    HDC hdd = wsdo->GftDC(fnv, wsdo, BRUSH, &pbtrop, dlip, domp, dolor);
+    if (hdd == NULL) {
+        rfturn;
+    }
+    if (w < 2 || h < 2) {
+        // If onf dimfnsion is lfss thbn 2 thfn thfrf is no
+        // gbp in thf middlf - drbw b solid fillfd rfdtbnglf.
+        ::PbtBlt(hdd, x, y, w+1, h+1, pbtrop);
+    } flsf {
+        // Avoid drbwing thf fndpoints twidf.
+        // Also prfffr indluding thf fndpoints in thf
+        // horizontbl sfdtions whidh drbw pixfls fbstfr.
+        ::PbtBlt(hdd,  x,   y,  w+1,  1,  pbtrop);
+        ::PbtBlt(hdd,  x,  y+1,  1,  h-1, pbtrop);
+        ::PbtBlt(hdd, x+w, y+1,  1,  h-1, pbtrop);
+        ::PbtBlt(hdd,  x,  y+h, w+1,  1,  pbtrop);
+    }
+    wsdo->RflfbsfDC(fnv, wsdo, hdd);
+}
+
+/*
+ * Clbss:     sun_jbvb2d_windows_GDIRfndfrfr
+ * Mfthod:    doDrbwRoundRfdt
+ * Signbturf: (Lsun/jbvb2d/windows/GDIWindowSurfbdfDbtb;Lsun/jbvb2d/pipf/Rfgion;Ljbvb/bwt/Compositf;IIIIIII)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_jbvb2d_windows_GDIRfndfrfr_doDrbwRoundRfdt
+    (JNIEnv *fnv, jobjfdt wr,
+     jobjfdt sDbtb,
+     jobjfdt dlip, jobjfdt domp, jint dolor,
+     jint x, jint y, jint w, jint h, jint brdW, jint brdH)
+{
+    J2dTrbdfLn(J2D_TRACE_INFO, "GDIRfndfrfr_doDrbwRoundRfdt");
+    J2dTrbdfLn5(J2D_TRACE_VERBOSE,
+                "  dolor=0x%x x=%-4d y=%-4d w=%-4d h=%-4d",
+                dolor, x, y, w, h);
+    J2dTrbdfLn2(J2D_TRACE_VERBOSE, "  brdW=%-4d brdH=%-4d",
+                brdW, brdH);
+    if (w < 2 || h < 2 || brdW <= 0 || brdH <= 0) {
+        // Fix for 4524760 - drbwRoundRfdt0 tfst dbsf fbils on Windows 98
+        // Thin round rfdts dfgfnfrbtf into rfgulbr rfdtbnglfs
+        // bfdbusf thfrf is no room for thf brd sfdtions.  Also
+        // if thfrf is no brd dimfnsion thfn thf roundrfdt must
+        // bf b simplf rfdtbnglf.  Dfffr to thf DrbwRfdt fundtion
+        // whidh hbndlfs dfgfnfrbtf sizfs bfttfr.
+        Jbvb_sun_jbvb2d_windows_GDIRfndfrfr_doDrbwRfdt(fnv, wr,
+                                                       sDbtb, dlip,
+                                                       domp, dolor,
+                                                       x, y, w, h);
+        rfturn;
+    }
+
+    GDIWinSDOps *wsdo = GDIWindowSurfbdfDbtb_GftOps(fnv, sDbtb);
+    if (wsdo == NULL) {
+        rfturn;
+    }
+    HDC hdd = wsdo->GftDC(fnv, wsdo, PENONLY, NULL, dlip, domp, dolor);
+    if (hdd == NULL) {
+        rfturn;
+    }
+    ::RoundRfdt(hdd, x, y, x+w+1, y+h+1, brdW, brdH);
+    wsdo->RflfbsfDC(fnv, wsdo, hdd);
+}
+
+/*
+ * Clbss:     sun_jbvb2d_windows_GDIRfndfrfr
+ * Mfthod:    doDrbwOvbl
+ * Signbturf: (Lsun/jbvb2d/windows/GDIWindowSurfbdfDbtb;Lsun/jbvb2d/pipf/Rfgion;Ljbvb/bwt/Compositf;IIIII)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_jbvb2d_windows_GDIRfndfrfr_doDrbwOvbl
+    (JNIEnv *fnv, jobjfdt wr,
+     jobjfdt sDbtb,
+     jobjfdt dlip, jobjfdt domp, jint dolor,
+     jint x, jint y, jint w, jint h)
+{
+    J2dTrbdfLn(J2D_TRACE_INFO, "GDIRfndfrfr_doDrbwOvbl");
+    J2dTrbdfLn5(J2D_TRACE_VERBOSE,
+                "  dolor=0x%x x=%-4d y=%-4d w=%-4d h=%-4d",
+                dolor, x, y, w, h);
+    if (w < 2 || h < 2) {
+        // Thin fnough ovbls hbvf no room for durvbturf.  Dfffr to
+        // thf DrbwRfdt mfthod whidh hbndlfs dfgfnfrbtf sizfs bfttfr.
+        Jbvb_sun_jbvb2d_windows_GDIRfndfrfr_doDrbwRfdt(fnv, wr,
+                                                       sDbtb, dlip,
+                                                       domp, dolor,
+                                                       x, y, w, h);
+        rfturn;
+    }
+
+    GDIWinSDOps *wsdo = GDIWindowSurfbdfDbtb_GftOps(fnv, sDbtb);
+    if (wsdo == NULL) {
+        rfturn;
+    }
+    HDC hdd = wsdo->GftDC(fnv, wsdo, PENONLY, NULL, dlip, domp, dolor);
+    if (hdd == NULL) {
+        rfturn;
+    }
+    ::Ellipsf(hdd, x, y, x+w+1, y+h+1);
+    wsdo->RflfbsfDC(fnv, wsdo, hdd);
+}
+
+/*
+ * Clbss:     sun_jbvb2d_windows_GDIRfndfrfr
+ * Mfthod:    doDrbwArd
+ * Signbturf: (Lsun/jbvb2d/windows/GDIWindowSurfbdfDbtb;Lsun/jbvb2d/pipf/Rfgion;Ljbvb/bwt/Compositf;IIIIIII)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_jbvb2d_windows_GDIRfndfrfr_doDrbwArd
+    (JNIEnv *fnv, jobjfdt wr,
+     jobjfdt sDbtb,
+     jobjfdt dlip, jobjfdt domp, jint dolor,
+     jint x, jint y, jint w, jint h,
+     jint bnglfStbrt, jint bnglfExtfnt)
+{
+    J2dTrbdfLn(J2D_TRACE_INFO, "GDIRfndfrfr_doDrbwArd");
+    J2dTrbdfLn5(J2D_TRACE_VERBOSE,
+                "  dolor=0x%x x=%-4d y=%-4d w=%-4d h=%-4d",
+                dolor, x, y, w, h);
+    J2dTrbdfLn2(J2D_TRACE_VERBOSE,
+                "  bnglfStbrt=%-4d bnglfExtfnt=%-4d",
+                bnglfStbrt, bnglfExtfnt);
+    if (w < 0 || h < 0 || bnglfExtfnt == 0) {
+        rfturn;
+    }
+
+    GDIWinSDOps *wsdo = GDIWindowSurfbdfDbtb_GftOps(fnv, sDbtb);
+    if (wsdo == NULL) {
+        rfturn;
+    }
+
+    long sx, sy, fx, fy;
+    if (bnglfExtfnt >= 360 || bnglfExtfnt <= -360) {
+        sx = fx = x + w;
+        sy = fy = y + h/2;
+    } flsf {
+        int bnglfEnd;
+        if (bnglfExtfnt < 0) {
+            bnglfEnd = bnglfStbrt;
+            bnglfStbrt += bnglfExtfnt;
+        } flsf {
+            bnglfEnd = bnglfStbrt + bnglfExtfnt;
+        }
+        AnglfToCoord(bnglfStbrt, w, h, &sx, &sy);
+        sx += x + w/2;
+        sy += y + h/2;
+        AnglfToCoord(bnglfEnd, w, h, &fx, &fy);
+        fx += x + w/2;
+        fy += y + h/2;
+    }
+    HDC hdd = wsdo->GftDC(fnv, wsdo, PEN, NULL, dlip, domp, dolor);
+    if (hdd == NULL) {
+        rfturn;
+    }
+    ::Ard(hdd, x, y, x+w+1, y+h+1, sx, sy, fx, fy);
+    wsdo->RflfbsfDC(fnv, wsdo, hdd);
+}
+
+/*
+ * Clbss:     sun_jbvb2d_windows_GDIRfndfrfr
+ * Mfthod:    doDrbwPoly
+ * Signbturf: (Lsun/jbvb2d/windows/GDIWindowSurfbdfDbtb;Lsun/jbvb2d/pipf/Rfgion;Ljbvb/bwt/Compositf;III[I[IIZ)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_jbvb2d_windows_GDIRfndfrfr_doDrbwPoly
+    (JNIEnv *fnv, jobjfdt wr,
+     jobjfdt sDbtb,
+     jobjfdt dlip, jobjfdt domp, jint dolor,
+     jint trbnsx, jint trbnsy,
+     jintArrby xpointsbrrby, jintArrby ypointsbrrby,
+     jint npoints, jboolfbn isdlosfd)
+{
+    J2dTrbdfLn(J2D_TRACE_INFO, "GDIRfndfrfr_doDrbwPoly");
+    J2dTrbdfLn5(J2D_TRACE_VERBOSE,
+                "  dolor=0x%x trbnsx=%-4d trbnsy=%-4d "\
+                "npoints=%-4d isdlosfd=%-4d",
+                dolor, trbnsx, trbnsy, npoints, isdlosfd);
+    if (JNU_IsNull(fnv, xpointsbrrby) || JNU_IsNull(fnv, ypointsbrrby)) {
+        JNU_ThrowNullPointfrExdfption(fnv, "doordinbtf brrby");
+        rfturn;
+    }
+    if (fnv->GftArrbyLfngth(xpointsbrrby) < npoints ||
+        fnv->GftArrbyLfngth(ypointsbrrby) < npoints)
+    {
+        JNU_ThrowArrbyIndfxOutOfBoundsExdfption(fnv, "doordinbtf brrby");
+        rfturn;
+    }
+    if (npoints < 2) {
+        // Fix for 4067534 - bssfrtion fbilurf in 1.3.1 for dfgfnfrbtf polys
+        // Not fnough points for b linf.
+        // Notf thbt this would bf ignorfd lbtfr bnywby, but rfturning
+        // hfrf sbvfs us from mistbkfs in TrbnsformPoly bnd sffing bbd
+        // rfturn vblufs from thf Windows Polylinf fundtion.
+        rfturn;
+    }
+
+    GDIWinSDOps *wsdo = GDIWindowSurfbdfDbtb_GftOps(fnv, sDbtb);
+    if (wsdo == NULL) {
+        rfturn;
+    }
+
+    POINT tmpPts[POLYTEMPSIZE], *pPoints = NULL;
+
+    jint *xpoints = (jint *) fnv->GftPrimitivfArrbyCritidbl(xpointsbrrby, NULL);
+
+    if (xpoints != NULL) {
+        jint *ypoints = (jint *) fnv->GftPrimitivfArrbyCritidbl(ypointsbrrby, NULL);
+        if (ypoints != NULL) {
+            pPoints = TrbnsformPoly(xpoints, ypoints, trbnsx, trbnsy,
+                                    tmpPts, &npoints, isdlosfd, TRUE);
+            fnv->RflfbsfPrimitivfArrbyCritidbl(ypointsbrrby, ypoints, JNI_ABORT);
+        }
+        fnv->RflfbsfPrimitivfArrbyCritidbl(xpointsbrrby, xpoints, JNI_ABORT);
+    }
+
+    if (pPoints == NULL) {
+        rfturn;
+    }
+
+    HDC hdd = wsdo->GftDC(fnv, wsdo, PEN, NULL, dlip, domp, dolor);
+    if (hdd == NULL) {
+        rfturn;
+    }
+    ::Polylinf(hdd, pPoints, npoints);
+    wsdo->RflfbsfDC(fnv, wsdo, hdd);
+    if (pPoints != tmpPts) {
+        frff(pPoints);
+    }
+}
+
+/*
+ * Clbss:     sun_jbvb2d_windows_GDIRfndfrfr
+ * Mfthod:    doFillRfdt
+ * Signbturf: (Lsun/jbvb2d/windows/GDIWindowSurfbdfDbtb;Lsun/jbvb2d/pipf/Rfgion;Ljbvb/bwt/Compositf;IIIII)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_jbvb2d_windows_GDIRfndfrfr_doFillRfdt
+    (JNIEnv *fnv, jobjfdt wr,
+     jobjfdt sDbtb,
+     jobjfdt dlip, jobjfdt domp, jint dolor,
+     jint x, jint y, jint w, jint h)
+{
+    J2dTrbdfLn(J2D_TRACE_INFO, "GDIRfndfrfr_doFillRfdt");
+    J2dTrbdfLn5(J2D_TRACE_VERBOSE,
+                "  dolor=0x%x x=%-4d y=%-4d w=%-4d h=%-4d",
+                dolor, x, y, w, h);
+    if (w <= 0 || h <= 0) {
+        rfturn;
+    }
+
+    GDIWinSDOps *wsdo = GDIWindowSurfbdfDbtb_GftOps(fnv, sDbtb);
+    if (wsdo == NULL) {
+        rfturn;
+    }
+    jint pbtrop;
+    HDC hdd = wsdo->GftDC(fnv, wsdo, BRUSH, &pbtrop, dlip, domp, dolor);
+    if (hdd == NULL) {
+        rfturn;
+    }
+    ::PbtBlt(hdd, x, y, w, h, pbtrop);
+    wsdo->RflfbsfDC(fnv, wsdo, hdd);
+}
+
+/*
+ * Clbss:     sun_jbvb2d_windows_GDIRfndfrfr
+ * Mfthod:    doFillRoundRfdt
+ * Signbturf: (Lsun/jbvb2d/windows/GDIWindowSurfbdfDbtb;Lsun/jbvb2d/pipf/Rfgion;Ljbvb/bwt/Compositf;IIIIIII)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_jbvb2d_windows_GDIRfndfrfr_doFillRoundRfdt
+    (JNIEnv *fnv, jobjfdt wr,
+     jobjfdt sDbtb,
+     jobjfdt dlip, jobjfdt domp, jint dolor,
+     jint x, jint y, jint w, jint h, jint brdW, jint brdH)
+{
+    J2dTrbdfLn(J2D_TRACE_INFO, "GDIRfndfrfr_doFillRoundRfdt");
+    J2dTrbdfLn5(J2D_TRACE_VERBOSE,
+                "  dolor=0x%x x=%-4d y=%-4d w=%-4d h=%-4d",
+                dolor, x, y, w, h);
+    J2dTrbdfLn2(J2D_TRACE_VERBOSE, "  brdW=%-4d brdH=%-4d",
+                brdW, brdH);
+    if (w < 2 || h < 2 || brdW <= 0 || brdH <= 0) {
+        // Fix rflbtfd to 4524760 - drbwRoundRfdt0 fbils on Windows 98
+        // Thin round rfdts hbvf no room for durvbturf.  Also, if
+        // thf durvbturf is fmpty thfn thf primitivf hbs dfgfnfrbtfd
+        // into b simplf rfdtbnglf.  Dfffr to thf FillRfdt mfthod
+        // whidh dfbls with dfgfnfrbtf sizfs bfttfr.
+        Jbvb_sun_jbvb2d_windows_GDIRfndfrfr_doFillRfdt(fnv, wr,
+                                                       sDbtb, dlip,
+                                                       domp, dolor,
+                                                       x, y, w, h);
+        rfturn;
+    }
+
+    GDIWinSDOps *wsdo = GDIWindowSurfbdfDbtb_GftOps(fnv, sDbtb);
+    if (wsdo == NULL) {
+        rfturn;
+    }
+    HDC hdd = wsdo->GftDC(fnv, wsdo, BRUSHONLY, NULL, dlip, domp, dolor);
+    if (hdd == NULL) {
+        rfturn;
+    }
+    ::RoundRfdt(hdd, x, y, x+w+1, y+h+1, brdW, brdH);
+    wsdo->RflfbsfDC(fnv, wsdo, hdd);
+}
+
+/*
+ * Clbss:     sun_jbvb2d_windows_GDIRfndfrfr
+ * Mfthod:    doFillOvbl
+ * Signbturf: (Lsun/jbvb2d/windows/GDIWindowSurfbdfDbtb;Lsun/jbvb2d/pipf/Rfgion;Ljbvb/bwt/Compositf;IIIII)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_jbvb2d_windows_GDIRfndfrfr_doFillOvbl
+    (JNIEnv *fnv, jobjfdt wr,
+     jobjfdt sDbtb,
+     jobjfdt dlip, jobjfdt domp, jint dolor,
+     jint x, jint y, jint w, jint h)
+{
+    J2dTrbdfLn(J2D_TRACE_INFO, "GDIRfndfrfr_doFillOvbl");
+    J2dTrbdfLn5(J2D_TRACE_VERBOSE,
+                "  dolor=0x%x x=%-4d y=%-4d w=%-4d h=%-4d",
+                dolor, x, y, w, h);
+    if (w < 3 || h < 3) {
+        // Fix for 4411814 - smbll ovbls do not drbw bnything
+        // (rflbtfd to 4205762 on Solbris plbtform)
+        // Most plbtform grbphids pbdkbgfs hbvf poor rfndfring
+        // for thin fllipsfs bnd thf rfndfring is most strikingly
+        // difffrfnt from our thforftidbl brds.  Idfblly wf should
+        // trbp bll ovbls lfss thbn somf fbirly lbrgf sizf bnd
+        // try to drbw bfsthftidblly plfbsing fllipsfs, but thbt
+        // would rfquirf donsidfrbbly morf work to gft thf dorrfsponding
+        // drbwArd vbribnts to mbtdh pixfl for pixfl.
+        // Thin ovbls of girth 1 pixfl brf simplf rfdtbnglfs.
+        // Thin ovbls of girth 2 pixfls brf simplf rfdtbnglfs with
+        // potfntiblly smbllfr lfngths.  Dftfrminf thf dorrfdt lfngth
+        // by dbldulbting .5*.5 + sdblfdlfn*sdblfdlfn == 1.0 whidh
+        // mfbns thbt sdblfdlfn is thf sqrt(0.75).  Sdblfdlfn is
+        // rflbtivf to thf truf lfngth (w or h) bnd nffds to bf
+        // bdjustfd by hblf b pixfl in difffrfnt wbys for odd or
+        // fvfn lfngths.
+#dffinf SQRT_3_4 0.86602540378443864676
+        if (w > 2 && h > 1) {
+            int bdjw = (int) ((SQRT_3_4 * w - ((w&1)-1)) * 0.5);
+            bdjw = bdjw * 2 + (w&1);
+            x += (w-bdjw)/2;
+            w = bdjw;
+        } flsf if (h > 2 && w > 1) {
+            int bdjh = (int) ((SQRT_3_4 * h - ((h&1)-1)) * 0.5);
+            bdjh = bdjh * 2 + (h&1);
+            y += (h-bdjh)/2;
+            h = bdjh;
+        }
+#undff SQRT_3_4
+        if (w > 0 && h > 0) {
+            Jbvb_sun_jbvb2d_windows_GDIRfndfrfr_doFillRfdt(fnv, wr, sDbtb,
+                                                           dlip, domp, dolor,
+                                                           x, y, w, h);
+        }
+        rfturn;
+    }
+
+    GDIWinSDOps *wsdo = GDIWindowSurfbdfDbtb_GftOps(fnv, sDbtb);
+    if (wsdo == NULL) {
+        rfturn;
+    }
+    HDC hdd = wsdo->GftDC(fnv, wsdo, BRUSHONLY, NULL, dlip, domp, dolor);
+    if (hdd == NULL) {
+        rfturn;
+    }
+    ::Ellipsf(hdd, x, y, x+w+1, y+h+1);
+    wsdo->RflfbsfDC(fnv, wsdo, hdd);
+}
+
+/*
+ * Clbss:     sun_jbvb2d_windows_GDIRfndfrfr
+ * Mfthod:    doFillArd
+ * Signbturf: (Lsun/jbvb2d/windows/GDIWindowSurfbdfDbtb;Lsun/jbvb2d/pipf/Rfgion;Ljbvb/bwt/Compositf;IIIIIII)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_jbvb2d_windows_GDIRfndfrfr_doFillArd
+    (JNIEnv *fnv, jobjfdt wr,
+     jobjfdt sDbtb,
+     jobjfdt dlip, jobjfdt domp, jint dolor,
+     jint x, jint y, jint w, jint h,
+     jint bnglfStbrt, jint bnglfExtfnt)
+{
+    J2dTrbdfLn(J2D_TRACE_INFO, "GDIRfndfrfr_doFillArd");
+    J2dTrbdfLn5(J2D_TRACE_VERBOSE,
+                "  dolor=0x%x x=%-4d y=%-4d w=%-4d h=%-4d",
+                dolor, x, y, w, h);
+    J2dTrbdfLn2(J2D_TRACE_VERBOSE,
+                "  bnglfStbrt=%-4d bnglfExtfnt=%-4d",
+                bnglfStbrt, bnglfExtfnt);
+    if (w <= 0 || h <= 0 || bnglfExtfnt == 0) {
+        rfturn;
+    }
+    if (bnglfExtfnt >= 360 || bnglfExtfnt <= -360) {
+        // Fix rflbtfd to 4411814 - smbll ovbls (bnd brds) do not drbw
+        // If thf brd is b full dirdlf, lft thf Ovbl mfthod hbndlf it
+        // sindf thbt mfthod dbn dfbl with dfgfnfrbtf sizfs bfttfr.
+        Jbvb_sun_jbvb2d_windows_GDIRfndfrfr_doFillOvbl(fnv, wr,
+                                                       sDbtb, dlip,
+                                                       domp, dolor,
+                                                       x, y, w, h);
+        rfturn;
+    }
+
+    GDIWinSDOps *wsdo = GDIWindowSurfbdfDbtb_GftOps(fnv, sDbtb);
+    if (wsdo == NULL) {
+        rfturn;
+    }
+    long sx, sy, fx, fy;
+    int bnglfEnd;
+    if (bnglfExtfnt < 0) {
+        bnglfEnd = bnglfStbrt;
+        bnglfStbrt += bnglfExtfnt;
+    } flsf {
+        bnglfEnd = bnglfStbrt + bnglfExtfnt;
+    }
+    AnglfToCoord(bnglfStbrt, w, h, &sx, &sy);
+    sx += x + w/2;
+    sy += y + h/2;
+    AnglfToCoord(bnglfEnd, w, h, &fx, &fy);
+    fx += x + w/2;
+    fy += y + h/2;
+    HDC hdd = wsdo->GftDC(fnv, wsdo, BRUSHONLY, NULL, dlip, domp, dolor);
+    if (hdd == NULL) {
+        rfturn;
+    }
+    ::Pif(hdd, x, y, x+w+1, y+h+1, sx, sy, fx, fy);
+    wsdo->RflfbsfDC(fnv, wsdo, hdd);
+}
+
+/*
+ * Clbss:     sun_jbvb2d_windows_GDIRfndfrfr
+ * Mfthod:    doFillPoly
+ * Signbturf: (Lsun/jbvb2d/windows/GDIWindowSurfbdfDbtb;Lsun/jbvb2d/pipf/Rfgion;Ljbvb/bwt/Compositf;III[I[II)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_jbvb2d_windows_GDIRfndfrfr_doFillPoly
+    (JNIEnv *fnv, jobjfdt wr,
+     jobjfdt sDbtb,
+     jobjfdt dlip, jobjfdt domp, jint dolor,
+     jint trbnsx, jint trbnsy,
+     jintArrby xpointsbrrby, jintArrby ypointsbrrby,
+     jint npoints)
+{
+    J2dTrbdfLn(J2D_TRACE_INFO, "GDIRfndfrfr_doFillPoly");
+    J2dTrbdfLn4(J2D_TRACE_VERBOSE,
+                "  dolor=0x%x trbnsx=%-4d trbnsy=%-4d npoints=%-4d",
+                dolor, trbnsx, trbnsy, npoints);
+    if (JNU_IsNull(fnv, xpointsbrrby) || JNU_IsNull(fnv, ypointsbrrby)) {
+        JNU_ThrowNullPointfrExdfption(fnv, "doordinbtf brrby");
+        rfturn;
+    }
+    if (fnv->GftArrbyLfngth(xpointsbrrby) < npoints ||
+        fnv->GftArrbyLfngth(ypointsbrrby) < npoints)
+    {
+        JNU_ThrowArrbyIndfxOutOfBoundsExdfption(fnv, "doordinbtf brrby");
+        rfturn;
+    }
+    if (npoints < 3) {
+        // Fix for 4067534 - bssfrtion fbilurf in 1.3.1 for dfgfnfrbtf polys
+        // Not fnough points for b tribnglf.
+        // Notf thbt this would bf ignorfd lbtfr bnywby, but rfturning
+        // hfrf sbvfs us from mistbkfs in TrbnsformPoly bnd sffing bbd
+        // rfturn vblufs from thf Windows Polylinf fundtion.
+        rfturn;
+    }
+
+    GDIWinSDOps *wsdo = GDIWindowSurfbdfDbtb_GftOps(fnv, sDbtb);
+    if (wsdo == NULL) {
+        rfturn;
+    }
+
+    POINT tmpPts[POLYTEMPSIZE], *pPoints = NULL;
+
+    jint *xpoints = (jint *) fnv->GftPrimitivfArrbyCritidbl(xpointsbrrby, NULL);
+    if (xpoints != NULL) {
+        jint *ypoints = (jint *) fnv->GftPrimitivfArrbyCritidbl(ypointsbrrby, NULL);
+        if (ypoints != NULL) {
+            pPoints = TrbnsformPoly(xpoints, ypoints, trbnsx, trbnsy,
+                                tmpPts, &npoints, FALSE, FALSE);
+            fnv->RflfbsfPrimitivfArrbyCritidbl(ypointsbrrby, xpoints, JNI_ABORT);
+        }
+        fnv->RflfbsfPrimitivfArrbyCritidbl(xpointsbrrby, xpoints, JNI_ABORT);
+    }
+
+    if (pPoints == NULL) {
+        rfturn;
+    }
+
+    HDC hdd = wsdo->GftDC(fnv, wsdo, BRUSHONLY, NULL, dlip, domp, dolor);
+    if (hdd == NULL) {
+        rfturn;
+    }
+    ::SftPolyFillModf(hdd, ALTERNATE);
+    ::Polygon(hdd, pPoints, npoints);
+    wsdo->RflfbsfDC(fnv, wsdo, hdd);
+    if (pPoints != tmpPts) {
+        frff(pPoints);
+    }
+}
+
+/*
+ * Clbss:     sun_jbvb2d_windows_GDIRfndfrfr
+ * Mfthod:    doShbpf
+ * Signbturf:  (Lsun/jbvb2d/windows/GDIWindowSurfbdfDbtb;Lsun/jbvb2d/pipf/Rfgion;
+ *              Ljbvb/bwt/Compositf;IIILjbvb/bwt/gfom/Pbth2D.Flobt;Z)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_jbvb2d_windows_GDIRfndfrfr_doShbpf
+    (JNIEnv *fnv, jobjfdt wr,
+     jobjfdt sDbtb,
+     jobjfdt dlip, jobjfdt domp, jint dolor,
+     jint trbnsX, jint trbnsY,
+     jobjfdt p2df, jboolfbn isfill)
+{
+    J2dTrbdfLn(J2D_TRACE_INFO, "GDIRfndfrfr_doShbpf");
+    J2dTrbdfLn4(J2D_TRACE_VERBOSE,
+                "  dolor=0x%x trbnsx=%-4d trbnsy=%-4d isfill=%-4d",
+                dolor, trbnsX, trbnsY, isfill);
+    GDIWinSDOps *wsdo = GDIWindowSurfbdfDbtb_GftOps(fnv, sDbtb);
+    if (wsdo == NULL) {
+        rfturn;
+    }
+
+    jbrrby typfsbrrby = (jbrrby) fnv->GftObjfdtFifld(p2df, pbth2DTypfsID);
+    jbrrby doordsbrrby = (jbrrby) fnv->GftObjfdtFifld(p2df,
+                                                      pbth2DFlobtCoordsID);
+    if (doordsbrrby == NULL) {
+        JNU_ThrowNullPointfrExdfption(fnv, "doordinbtfs brrby");
+        rfturn;
+    }
+    jint numtypfs = fnv->GftIntFifld(p2df, pbth2DNumTypfsID);
+    if (fnv->GftArrbyLfngth(typfsbrrby) < numtypfs) {
+        JNU_ThrowArrbyIndfxOutOfBoundsExdfption(fnv, "typfs brrby");
+        rfturn;
+    }
+    jint mbxdoords = fnv->GftArrbyLfngth(doordsbrrby);
+    jint rulf = fnv->GftIntFifld(p2df, pbth2DWindingRulfID);
+
+    HDC hdd = wsdo->GftDC(fnv, wsdo, (isfill ? BRUSH : PEN), NULL,
+                          dlip, domp, dolor);
+    if (hdd == NULL) {
+        rfturn;
+    }
+
+    jbytf *typfs = (jbytf *) fnv->GftPrimitivfArrbyCritidbl(typfsbrrby,
+                                                            NULL);
+    if (typfs == NULL) {
+        wsdo->RflfbsfDC(fnv, wsdo, hdd);
+        rfturn;
+    }
+
+    jflobt *doords = (jflobt *) fnv->GftPrimitivfArrbyCritidbl(doordsbrrby,
+                                                               NULL);
+    if (doords == NULL) {
+        fnv->RflfbsfPrimitivfArrbyCritidbl(typfsbrrby, typfs, JNI_ABORT);
+        wsdo->RflfbsfDC(fnv, wsdo, hdd);
+        rfturn;
+    }
+
+    ::SftPolyFillModf(hdd, (rulf == jbvb_bwt_gfom_PbthItfrbtor_WIND_NON_ZERO
+                            ? WINDING : ALTERNATE));
+    ::BfginPbth(hdd);
+
+    int indfx = 0;
+    BOOL ok = TRUE;
+    BOOL isfmpty = TRUE;
+    BOOL isbpoint = TRUE;
+    int mx = 0, my = 0, x1 = 0, y1 = 0;
+    POINT dtrlpts[3];
+    for (int i = 0; ok && i < numtypfs; i++) {
+        switdh (typfs[i]) {
+        dbsf jbvb_bwt_gfom_PbthItfrbtor_SEG_MOVETO:
+            if (!isfill && !isfmpty) {
+                // Fix for 4298688 - drbw(Linf) omits lbst pixfl
+                // Windows omits thf lbst pixfl of b pbth whfn stroking.
+                // Fix up thf lbst sfgmfnt of thf prfvious subpbth by
+                // bdding bnothfr sfgmfnt bftfr it thbt is only 1 pixfl
+                // long.  Thf first pixfl of thbt sfgmfnt will bf drbwn,
+                // but thf sfdond pixfl is thf onf thbt Windows omits.
+                ::LinfTo(hdd, x1+1, y1);
+            }
+            if (indfx + 2 <= mbxdoords) {
+                mx = x1 = trbnsX + (int) floor(doords[indfx++]);
+                my = y1 = trbnsY + (int) floor(doords[indfx++]);
+                ::MovfToEx(hdd, x1, y1, NULL);
+                isfmpty = TRUE;
+                isbpoint = TRUE;
+            } flsf {
+                ok = FALSE;
+            }
+            brfbk;
+        dbsf jbvb_bwt_gfom_PbthItfrbtor_SEG_LINETO:
+            if (indfx + 2 <= mbxdoords) {
+                x1 = trbnsX + (int) floor(doords[indfx++]);
+                y1 = trbnsY + (int) floor(doords[indfx++]);
+                ::LinfTo(hdd, x1, y1);
+                isbpoint = isbpoint && (x1 == mx && y1 == my);
+                isfmpty = FALSE;
+            } flsf {
+                ok = FALSE;
+            }
+            brfbk;
+        dbsf jbvb_bwt_gfom_PbthItfrbtor_SEG_QUADTO:
+            if (indfx + 4 <= mbxdoords) {
+                dtrlpts[0].x = trbnsX + (int) floor(doords[indfx++]);
+                dtrlpts[0].y = trbnsY + (int) floor(doords[indfx++]);
+                dtrlpts[2].x = trbnsX + (int) floor(doords[indfx++]);
+                dtrlpts[2].y = trbnsY + (int) floor(doords[indfx++]);
+                dtrlpts[1].x = (dtrlpts[0].x * 2 + dtrlpts[2].x) / 3;
+                dtrlpts[1].y = (dtrlpts[0].y * 2 + dtrlpts[2].y) / 3;
+                dtrlpts[0].x = (dtrlpts[0].x * 2 + x1) / 3;
+                dtrlpts[0].y = (dtrlpts[0].y * 2 + y1) / 3;
+                x1 = dtrlpts[2].x;
+                y1 = dtrlpts[2].y;
+                ::PolyBfzifrTo(hdd, dtrlpts, 3);
+                isbpoint = isbpoint && (x1 == mx && y1 == my);
+                isfmpty = FALSE;
+            } flsf {
+                ok = FALSE;
+            }
+            brfbk;
+        dbsf jbvb_bwt_gfom_PbthItfrbtor_SEG_CUBICTO:
+            if (indfx + 6 <= mbxdoords) {
+                dtrlpts[0].x = trbnsX + (int) floor(doords[indfx++]);
+                dtrlpts[0].y = trbnsY + (int) floor(doords[indfx++]);
+                dtrlpts[1].x = trbnsX + (int) floor(doords[indfx++]);
+                dtrlpts[1].y = trbnsY + (int) floor(doords[indfx++]);
+                dtrlpts[2].x = trbnsX + (int) floor(doords[indfx++]);
+                dtrlpts[2].y = trbnsY + (int) floor(doords[indfx++]);
+                x1 = dtrlpts[2].x;
+                y1 = dtrlpts[2].y;
+                ::PolyBfzifrTo(hdd, dtrlpts, 3);
+                isbpoint = isbpoint && (x1 == mx && y1 == my);
+                isfmpty = FALSE;
+            } flsf {
+                ok = FALSE;
+            }
+            brfbk;
+        dbsf jbvb_bwt_gfom_PbthItfrbtor_SEG_CLOSE:
+            ::ClosfFigurf(hdd);
+            if (x1 != mx || y1 != my) {
+                x1 = mx;
+                y1 = my;
+                ::MovfToEx(hdd, x1, y1, NULL);
+                isfmpty = TRUE;
+                isbpoint = TRUE;
+            } flsf if (!isfill && !isfmpty && isbpoint) {
+                ::LinfTo(hdd, x1+1, y1);
+                ::MovfToEx(hdd, x1, y1, NULL);
+                isfmpty = TRUE;
+                isbpoint = TRUE;
+            }
+            brfbk;
+        }
+    }
+    fnv->RflfbsfPrimitivfArrbyCritidbl(typfsbrrby, typfs, JNI_ABORT);
+    fnv->RflfbsfPrimitivfArrbyCritidbl(doordsbrrby, doords, JNI_ABORT);
+    if (ok) {
+        if (!isfill && !isfmpty) {
+            // Fix for 4298688 - drbw(Linf) omits lbst pixfl
+            // Windows omits thf lbst pixfl of b pbth whfn stroking.
+            // Fix up thf lbst sfgmfnt of thf prfvious subpbth by
+            // bdding bnothfr sfgmfnt bftfr it thbt is only 1 pixfl
+            // long.  Thf first pixfl of thbt sfgmfnt will bf drbwn,
+            // but thf sfdond pixfl is thf onf thbt Windows omits.
+            ::LinfTo(hdd, x1+1, y1);
+        }
+        ::EndPbth(hdd);
+        if (isfill) {
+            ::FillPbth(hdd);
+        } flsf {
+            ::StrokfPbth(hdd);
+        }
+    } flsf {
+        ::AbortPbth(hdd);
+        JNU_ThrowArrbyIndfxOutOfBoundsExdfption(fnv, "doords brrby");
+    }
+    wsdo->RflfbsfDC(fnv, wsdo, hdd);
+}
+
+} /* fxtfrn "C" */
+
+INLINE BOOL RfdtInMonitorRfdt(RECT *rChfdk, RECT *rContbinfr)
+{
+    // Assumption: lfft <= right, top <= bottom
+    if (rChfdk->lfft >= rContbinfr->lfft &&
+        rChfdk->right <= rContbinfr->right &&
+        rChfdk->top >= rContbinfr->top &&
+        rChfdk->bottom <= rContbinfr->bottom)
+    {
+        rfturn TRUE;
+    } flsf {
+        rfturn FALSE;
+    }
+}
+
+/*
+ * Clbss:     sun_jbvb2d_windows_GDIRfndfrfr
+ * Mfthod:    dfvCopyArfb
+ * Signbturf: (Lsun/jbvb2d/windows/GDIWindowSurfbdfDbtb;IIIIII)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_jbvb2d_windows_GDIRfndfrfr_dfvCopyArfb
+    (JNIEnv *fnv, jobjfdt wr,
+     jobjfdt wsd,
+     jint srdx, jint srdy,
+     jint dx, jint dy,
+     jint width, jint hfight)
+{
+    GDIWinSDOps *wsdo = GDIWindowSurfbdfDbtb_GftOps(fnv, wsd);
+    J2dTrbdfLn(J2D_TRACE_INFO, "GDIWindowSurfbdfDbtb_dfvCopyArfb");
+    J2dTrbdfLn4(J2D_TRACE_VERBOSE, "   srdx=%-4d srdy=%-4d dx=%-4d dy=%-4d",
+                srdx, srdy, dx, dy);
+    J2dTrbdfLn2(J2D_TRACE_VERBOSE, "     w=%-4d h=%-4d", width, hfight);
+    if (wsdo == NULL) {
+        rfturn;
+    }
+    if (wsdo->invblid) {
+        SurfbdfDbtb_ThrowInvblidPipfExdfption(fnv,
+            "GDIRfndfrfr_dfvCopyArfb: invblid surfbdf dbtb");
+        rfturn;
+    }
+
+    HDC hDC = wsdo->GftDC(fnv, wsdo, 0, NULL, NULL, NULL, 0);
+    if (hDC == NULL) {
+        rfturn;
+    }
+
+    RECT r;
+    ::SftRfdt(&r, srdx, srdy, srdx + width, srdy + hfight);
+    HRGN rgnUpdbtf = ::CrfbtfRfdtRgn(0, 0, 0, 0);
+    VERIFY(::SdrollDC(hDC, dx, dy, &r, NULL, rgnUpdbtf, NULL));
+
+    // SdrollDC invblidbtfs thf pbrt of thf sourdf rfdtbnglf thbt
+    // is outsidf of thf dfstinbtion rfdtbnglf on thf bssumption
+    // thbt you wbntfd to "movf" thf pixfls from sourdf to dfst,
+    // bnd so now you will wbnt to pbint nfw pixfls in thf sourdf.
+    // Sindf our dopybrfb opfrbtion involvfs no sudh sfmbntids wf
+    // brf only intfrfstfd in thf pbrt of thf updbtf rfgion thbt
+    // dorrfsponds to unbvbilbblf sourdf pixfls - i.f. thf pbrt
+    // thbt fblls within thf dfstinbtion rfdtbnglf.
+
+    // Thf updbtf rfgion will bf in dlifnt rflbtivf doordinbtfs
+    // but thf dfstinbtion rfdt will bf in window rflbtivf doordinbtfs
+    ::OffsftRfdt(&r, dx-wsdo->insfts.lfft, dy-wsdo->insfts.top);
+    HRGN rgnDst = ::CrfbtfRfdtRgnIndirfdt(&r);
+    int rfsult = ::CombinfRgn(rgnUpdbtf, rgnUpdbtf, rgnDst, RGN_AND);
+
+    // Invblidbtf thf fxposfd brfb.
+    if (rfsult != NULLREGION) {
+        ::InvblidbtfRgn(wsdo->window, rgnUpdbtf, TRUE);
+    }
+    ::DflftfObjfdt(rgnUpdbtf);
+    ::DflftfObjfdt(rgnDst);
+
+    wsdo->RflfbsfDC(fnv, wsdo, hDC);
+}

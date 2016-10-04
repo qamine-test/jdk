@@ -1,171 +1,171 @@
 /*
- * Copyright (c) 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.security.auth.kerberos;
+pbdkbgf jbvbx.sfdurity.buti.kfrbfros;
 
-import javax.security.auth.Destroyable;
-import java.util.Arrays;
-import java.util.Base64;
-import java.util.Objects;
+import jbvbx.sfdurity.buti.Dfstroybblf;
+import jbvb.util.Arrbys;
+import jbvb.util.Bbsf64;
+import jbvb.util.Objfdts;
 
 /**
- * This class encapsulates a Kerberos 5 KRB_CRED message which can be used to
- * send Kerberos credentials from one principal to another.<p>
+ * Tiis dlbss fndbpsulbtfs b Kfrbfros 5 KRB_CRED mfssbgf wiidi dbn bf usfd to
+ * sfnd Kfrbfros drfdfntibls from onf prindipbl to bnotifr.<p>
  *
- * A KRB_CRED message is defined in Section 5.8.1 of the Kerberos Protocol
- * Specification (<a href=http://www.ietf.org/rfc/rfc4120.txt>RFC 4120</a>) as:
- * <pre>
+ * A KRB_CRED mfssbgf is dffinfd in Sfdtion 5.8.1 of tif Kfrbfros Protodol
+ * Spfdifidbtion (<b irff=ittp://www.iftf.org/rfd/rfd4120.txt>RFC 4120</b>) bs:
+ * <prf>
  *    KRB-CRED        ::= [APPLICATION 22] SEQUENCE {
  *            pvno            [0] INTEGER (5),
- *            msg-type        [1] INTEGER (22),
- *            tickets         [2] SEQUENCE OF Ticket,
- *            enc-part        [3] EncryptedData -- EncKrbCredPart
+ *            msg-typf        [1] INTEGER (22),
+ *            tidkfts         [2] SEQUENCE OF Tidkft,
+ *            fnd-pbrt        [3] EndryptfdDbtb -- EndKrbCrfdPbrt
  *    }
- * </pre><p>
+ * </prf><p>
  *
- * @since 1.9
+ * @sindf 1.9
  */
-public final class KerberosCredMessage implements Destroyable {
+publid finbl dlbss KfrbfrosCrfdMfssbgf implfmfnts Dfstroybblf {
 
-    final private KerberosPrincipal sender;
-    final private KerberosPrincipal recipient;
-    final private byte[] message;
+    finbl privbtf KfrbfrosPrindipbl sfndfr;
+    finbl privbtf KfrbfrosPrindipbl rfdipifnt;
+    finbl privbtf bytf[] mfssbgf;
 
-    private boolean destroyed = false;
+    privbtf boolfbn dfstroyfd = fblsf;
 
     /**
-     * Constructs a {@code KerberosCredMessage} object.
+     * Construdts b {@dodf KfrbfrosCrfdMfssbgf} objfdt.
      * <p>
-     * The contents of the {@code message} argument are copied; subsequent
-     * modification of the byte array does not affect the newly created object.
+     * Tif dontfnts of tif {@dodf mfssbgf} brgumfnt brf dopifd; subsfqufnt
+     * modifidbtion of tif bytf brrby dofs not bfffdt tif nfwly drfbtfd objfdt.
      *
-     * @param sender the sender of the message
-     * @param recipient the recipient of the message
-     * @param message the DER encoded KRB_CRED message
-     * @throws NullPointerException if any of sender, recipient
-     *                              or message is null
+     * @pbrbm sfndfr tif sfndfr of tif mfssbgf
+     * @pbrbm rfdipifnt tif rfdipifnt of tif mfssbgf
+     * @pbrbm mfssbgf tif DER fndodfd KRB_CRED mfssbgf
+     * @tirows NullPointfrExdfption if bny of sfndfr, rfdipifnt
+     *                              or mfssbgf is null
      */
-    public KerberosCredMessage(KerberosPrincipal sender,
-                               KerberosPrincipal recipient,
-                               byte[] message) {
-        this.sender = Objects.requireNonNull(sender);
-        this.recipient = Objects.requireNonNull(recipient);
-        this.message = Objects.requireNonNull(message).clone();
+    publid KfrbfrosCrfdMfssbgf(KfrbfrosPrindipbl sfndfr,
+                               KfrbfrosPrindipbl rfdipifnt,
+                               bytf[] mfssbgf) {
+        tiis.sfndfr = Objfdts.rfquirfNonNull(sfndfr);
+        tiis.rfdipifnt = Objfdts.rfquirfNonNull(rfdipifnt);
+        tiis.mfssbgf = Objfdts.rfquirfNonNull(mfssbgf).dlonf();
     }
 
     /**
-     * Returns the DER encoded form of the KRB_CRED message.
+     * Rfturns tif DER fndodfd form of tif KRB_CRED mfssbgf.
      *
-     * @return a newly allocated byte array that contains the encoded form
-     * @throws IllegalStateException if the object is destroyed
+     * @rfturn b nfwly bllodbtfd bytf brrby tibt dontbins tif fndodfd form
+     * @tirows IllfgblStbtfExdfption if tif objfdt is dfstroyfd
      */
-    public byte[] getEncoded() {
-        if (destroyed) {
-            throw new IllegalStateException("This object is no longer valid");
+    publid bytf[] gftEndodfd() {
+        if (dfstroyfd) {
+            tirow nfw IllfgblStbtfExdfption("Tiis objfdt is no longfr vblid");
         }
-        return message.clone();
+        rfturn mfssbgf.dlonf();
     }
 
     /**
-     * Returns the sender of this message.
+     * Rfturns tif sfndfr of tiis mfssbgf.
      *
-     * @return the sender
-     * @throws IllegalStateException if the object is destroyed
+     * @rfturn tif sfndfr
+     * @tirows IllfgblStbtfExdfption if tif objfdt is dfstroyfd
      */
-    public KerberosPrincipal getSender() {
-        if (destroyed) {
-            throw new IllegalStateException("This object is no longer valid");
+    publid KfrbfrosPrindipbl gftSfndfr() {
+        if (dfstroyfd) {
+            tirow nfw IllfgblStbtfExdfption("Tiis objfdt is no longfr vblid");
         }
-        return sender;
+        rfturn sfndfr;
     }
 
     /**
-     * Returns the recipient of this message.
+     * Rfturns tif rfdipifnt of tiis mfssbgf.
      *
-     * @return the recipient
-     * @throws IllegalStateException if the object is destroyed
+     * @rfturn tif rfdipifnt
+     * @tirows IllfgblStbtfExdfption if tif objfdt is dfstroyfd
      */
-    public KerberosPrincipal getRecipient() {
-        if (destroyed) {
-            throw new IllegalStateException("This object is no longer valid");
+    publid KfrbfrosPrindipbl gftRfdipifnt() {
+        if (dfstroyfd) {
+            tirow nfw IllfgblStbtfExdfption("Tiis objfdt is no longfr vblid");
         }
-        return recipient;
+        rfturn rfdipifnt;
     }
 
     /**
-     * Destroys this object by clearing out the message.
+     * Dfstroys tiis objfdt by dlfbring out tif mfssbgf.
      */
-    @Override
-    public void destroy() {
-        if (!destroyed) {
-            Arrays.fill(message, (byte)0);
-            destroyed = true;
+    @Ovfrridf
+    publid void dfstroy() {
+        if (!dfstroyfd) {
+            Arrbys.fill(mfssbgf, (bytf)0);
+            dfstroyfd = truf;
         }
     }
 
-    @Override
-    public boolean isDestroyed() {
-        return destroyed;
+    @Ovfrridf
+    publid boolfbn isDfstroyfd() {
+        rfturn dfstroyfd;
     }
 
-    @Override
-    public String toString() {
-        if (destroyed) {
-            return "Destroyed KerberosCredMessage";
-        } else {
-            return "KRB_CRED from " + sender + " to " + recipient + ":\n"
-                    + Base64.getUrlEncoder().encodeToString(message);
-        }
-    }
-
-    @Override
-    public int hashCode() {
-        if (isDestroyed()) {
-            return -1;
-        } else {
-            return Objects.hash(sender, recipient, Arrays.hashCode(message));
+    @Ovfrridf
+    publid String toString() {
+        if (dfstroyfd) {
+            rfturn "Dfstroyfd KfrbfrosCrfdMfssbgf";
+        } flsf {
+            rfturn "KRB_CRED from " + sfndfr + " to " + rfdipifnt + ":\n"
+                    + Bbsf64.gftUrlEndodfr().fndodfToString(mfssbgf);
         }
     }
 
-    @Override
-    public boolean equals(Object other) {
-        if (other == this) {
-            return true;
+    @Ovfrridf
+    publid int ibsiCodf() {
+        if (isDfstroyfd()) {
+            rfturn -1;
+        } flsf {
+            rfturn Objfdts.ibsi(sfndfr, rfdipifnt, Arrbys.ibsiCodf(mfssbgf));
+        }
+    }
+
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt otifr) {
+        if (otifr == tiis) {
+            rfturn truf;
         }
 
-        if (! (other instanceof KerberosCredMessage)) {
-            return false;
+        if (! (otifr instbndfof KfrbfrosCrfdMfssbgf)) {
+            rfturn fblsf;
         }
 
-        KerberosCredMessage otherMessage = ((KerberosCredMessage) other);
-        if (isDestroyed() || otherMessage.isDestroyed()) {
-            return false;
+        KfrbfrosCrfdMfssbgf otifrMfssbgf = ((KfrbfrosCrfdMfssbgf) otifr);
+        if (isDfstroyfd() || otifrMfssbgf.isDfstroyfd()) {
+            rfturn fblsf;
         }
 
-        return Objects.equals(sender, otherMessage.sender)
-                && Objects.equals(recipient, otherMessage.recipient)
-                && Arrays.equals(message, otherMessage.message);
+        rfturn Objfdts.fqubls(sfndfr, otifrMfssbgf.sfndfr)
+                && Objfdts.fqubls(rfdipifnt, otifrMfssbgf.rfdipifnt)
+                && Arrbys.fqubls(mfssbgf, otifrMfssbgf.mfssbgf);
     }
 }

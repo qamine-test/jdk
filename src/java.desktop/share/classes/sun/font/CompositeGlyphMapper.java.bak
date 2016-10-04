@@ -1,271 +1,271 @@
 /*
- * Copyright (c) 2003, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.font;
+pbdkbgf sun.font;
 
-/* remember that the API requires a Font use a
- * consistent glyph id. for a code point, and this is a
- * problem if a particular strike uses native scaler sometimes
- * and T2K others. That needs to be dealt with somewhere, but
- * here we can just always get the same glyph code without
- * needing a strike.
+/* rfmfmbfr tibt tif API rfquirfs b Font usf b
+ * donsistfnt glypi id. for b dodf point, bnd tiis is b
+ * problfm if b pbrtidulbr strikf usfs nbtivf sdblfr somftimfs
+ * bnd T2K otifrs. Tibt nffds to bf dfblt witi somfwifrf, but
+ * ifrf wf dbn just blwbys gft tif sbmf glypi dodf witiout
+ * nffding b strikf.
  *
- * The C implementation would cache the results of anything up
- * to the maximum surrogate pair code point.
- * This implementation will not cache as much, since the storage
- * requirements are not justifiable. Even so it still can use up
- * to 216*256*4 bytes of storage per composite font. If an app
- * calls canDisplay on this range for all 20 composite fonts that's
- * over 1Mb of cached data. May need to employ WeakReferences if
- * this appears to cause problems.
+ * Tif C implfmfntbtion would dbdif tif rfsults of bnytiing up
+ * to tif mbximum surrogbtf pbir dodf point.
+ * Tiis implfmfntbtion will not dbdif bs mudi, sindf tif storbgf
+ * rfquirfmfnts brf not justifibblf. Evfn so it still dbn usf up
+ * to 216*256*4 bytfs of storbgf pfr dompositf font. If bn bpp
+ * dblls dbnDisplby on tiis rbngf for bll 20 dompositf fonts tibt's
+ * ovfr 1Mb of dbdifd dbtb. Mby nffd to fmploy WfbkRfffrfndfs if
+ * tiis bppfbrs to dbusf problfms.
  */
 
-public final class CompositeGlyphMapper extends CharToGlyphMapper {
+publid finbl dlbss CompositfGlypiMbppfr fxtfnds CibrToGlypiMbppfr {
 
-    public static final int SLOTMASK =  0xff000000;
-    public static final int GLYPHMASK = 0x00ffffff;
+    publid stbtid finbl int SLOTMASK =  0xff000000;
+    publid stbtid finbl int GLYPHMASK = 0x00ffffff;
 
-    public static final int NBLOCKS = 216;
-    public static final int BLOCKSZ = 256;
-    public static final int MAXUNICODE = NBLOCKS*BLOCKSZ;
+    publid stbtid finbl int NBLOCKS = 216;
+    publid stbtid finbl int BLOCKSZ = 256;
+    publid stbtid finbl int MAXUNICODE = NBLOCKS*BLOCKSZ;
 
 
-    CompositeFont font;
-    CharToGlyphMapper slotMappers[];
-    int[][] glyphMaps;
-    private boolean hasExcludes;
+    CompositfFont font;
+    CibrToGlypiMbppfr slotMbppfrs[];
+    int[][] glypiMbps;
+    privbtf boolfbn ibsExdludfs;
 
-    public CompositeGlyphMapper(CompositeFont compFont) {
-        font = compFont;
-        initMapper();
-        /* This is often false which saves the overhead of a
-         * per-mapped char method call.
+    publid CompositfGlypiMbppfr(CompositfFont dompFont) {
+        font = dompFont;
+        initMbppfr();
+        /* Tiis is oftfn fblsf wiidi sbvfs tif ovfrifbd of b
+         * pfr-mbppfd dibr mftiod dbll.
          */
-        hasExcludes = compFont.exclusionRanges != null &&
-                      compFont.maxIndices != null;
+        ibsExdludfs = dompFont.fxdlusionRbngfs != null &&
+                      dompFont.mbxIndidfs != null;
     }
 
-    public final int compositeGlyphCode(int slot, int glyphCode) {
-        return (slot << 24 | (glyphCode & GLYPHMASK));
+    publid finbl int dompositfGlypiCodf(int slot, int glypiCodf) {
+        rfturn (slot << 24 | (glypiCodf & GLYPHMASK));
     }
 
-    private final void initMapper() {
-        if (missingGlyph == CharToGlyphMapper.UNINITIALIZED_GLYPH) {
-            if (glyphMaps == null) {
-                glyphMaps = new int[NBLOCKS][];
+    privbtf finbl void initMbppfr() {
+        if (missingGlypi == CibrToGlypiMbppfr.UNINITIALIZED_GLYPH) {
+            if (glypiMbps == null) {
+                glypiMbps = nfw int[NBLOCKS][];
             }
-            slotMappers = new CharToGlyphMapper[font.numSlots];
-            /* This requires that slot 0 is never empty. */
-            missingGlyph = font.getSlotFont(0).getMissingGlyphCode();
-            missingGlyph = compositeGlyphCode(0, missingGlyph);
+            slotMbppfrs = nfw CibrToGlypiMbppfr[font.numSlots];
+            /* Tiis rfquirfs tibt slot 0 is nfvfr fmpty. */
+            missingGlypi = font.gftSlotFont(0).gftMissingGlypiCodf();
+            missingGlypi = dompositfGlypiCodf(0, missingGlypi);
         }
     }
 
-    private int getCachedGlyphCode(int unicode) {
-        if (unicode >= MAXUNICODE) {
-            return UNINITIALIZED_GLYPH; // don't cache surrogates
+    privbtf int gftCbdifdGlypiCodf(int unidodf) {
+        if (unidodf >= MAXUNICODE) {
+            rfturn UNINITIALIZED_GLYPH; // don't dbdif surrogbtfs
         }
-        int[] gmap;
-        if ((gmap = glyphMaps[unicode >> 8]) == null) {
-            return UNINITIALIZED_GLYPH;
+        int[] gmbp;
+        if ((gmbp = glypiMbps[unidodf >> 8]) == null) {
+            rfturn UNINITIALIZED_GLYPH;
         }
-        return gmap[unicode & 0xff];
+        rfturn gmbp[unidodf & 0xff];
     }
 
-    private void setCachedGlyphCode(int unicode, int glyphCode) {
-        if (unicode >= MAXUNICODE) {
-            return;     // don't cache surrogates
+    privbtf void sftCbdifdGlypiCodf(int unidodf, int glypiCodf) {
+        if (unidodf >= MAXUNICODE) {
+            rfturn;     // don't dbdif surrogbtfs
         }
-        int index0 = unicode >> 8;
-        if (glyphMaps[index0] == null) {
-            glyphMaps[index0] = new int[BLOCKSZ];
+        int indfx0 = unidodf >> 8;
+        if (glypiMbps[indfx0] == null) {
+            glypiMbps[indfx0] = nfw int[BLOCKSZ];
             for (int i=0;i<BLOCKSZ;i++) {
-                glyphMaps[index0][i] = UNINITIALIZED_GLYPH;
+                glypiMbps[indfx0][i] = UNINITIALIZED_GLYPH;
             }
         }
-        glyphMaps[index0][unicode & 0xff] = glyphCode;
+        glypiMbps[indfx0][unidodf & 0xff] = glypiCodf;
     }
 
-    private final CharToGlyphMapper getSlotMapper(int slot) {
-        CharToGlyphMapper mapper = slotMappers[slot];
-        if (mapper == null) {
-            mapper = font.getSlotFont(slot).getMapper();
-            slotMappers[slot] = mapper;
+    privbtf finbl CibrToGlypiMbppfr gftSlotMbppfr(int slot) {
+        CibrToGlypiMbppfr mbppfr = slotMbppfrs[slot];
+        if (mbppfr == null) {
+            mbppfr = font.gftSlotFont(slot).gftMbppfr();
+            slotMbppfrs[slot] = mbppfr;
         }
-        return mapper;
+        rfturn mbppfr;
     }
 
-    private final int convertToGlyph(int unicode) {
+    privbtf finbl int donvfrtToGlypi(int unidodf) {
 
         for (int slot = 0; slot < font.numSlots; slot++) {
-            if (!hasExcludes || !font.isExcludedChar(slot, unicode)) {
-                CharToGlyphMapper mapper = getSlotMapper(slot);
-                int glyphCode = mapper.charToGlyph(unicode);
-                if (glyphCode != mapper.getMissingGlyphCode()) {
-                    glyphCode = compositeGlyphCode(slot, glyphCode);
-                    setCachedGlyphCode(unicode, glyphCode);
-                    return glyphCode;
+            if (!ibsExdludfs || !font.isExdludfdCibr(slot, unidodf)) {
+                CibrToGlypiMbppfr mbppfr = gftSlotMbppfr(slot);
+                int glypiCodf = mbppfr.dibrToGlypi(unidodf);
+                if (glypiCodf != mbppfr.gftMissingGlypiCodf()) {
+                    glypiCodf = dompositfGlypiCodf(slot, glypiCodf);
+                    sftCbdifdGlypiCodf(unidodf, glypiCodf);
+                    rfturn glypiCodf;
                 }
             }
         }
-        return missingGlyph;
+        rfturn missingGlypi;
     }
 
-    public int getNumGlyphs() {
-        int numGlyphs = 0;
-        /* The number of glyphs in a composite is affected by
-         * exclusion ranges and duplicates (ie the same code point is
-         * mapped by two different fonts) and also whether or not to
-         * count fallback fonts. A nearly correct answer would be very
-         * expensive to generate. A rough ballpark answer would
-         * just count the glyphs in all the slots. However this would
-         * initialize mappers for all slots when they aren't necessarily
-         * needed. For now just use the first slot as JDK 1.4 did.
+    publid int gftNumGlypis() {
+        int numGlypis = 0;
+        /* Tif numbfr of glypis in b dompositf is bfffdtfd by
+         * fxdlusion rbngfs bnd duplidbtfs (if tif sbmf dodf point is
+         * mbppfd by two difffrfnt fonts) bnd blso wiftifr or not to
+         * dount fbllbbdk fonts. A nfbrly dorrfdt bnswfr would bf vfry
+         * fxpfnsivf to gfnfrbtf. A rougi bbllpbrk bnswfr would
+         * just dount tif glypis in bll tif slots. Howfvfr tiis would
+         * initiblizf mbppfrs for bll slots wifn tify brfn't nfdfssbrily
+         * nffdfd. For now just usf tif first slot bs JDK 1.4 did.
          */
         for (int slot=0; slot<1 /*font.numSlots*/; slot++) {
-           CharToGlyphMapper mapper = slotMappers[slot];
-           if (mapper == null) {
-               mapper = font.getSlotFont(slot).getMapper();
-               slotMappers[slot] = mapper;
+           CibrToGlypiMbppfr mbppfr = slotMbppfrs[slot];
+           if (mbppfr == null) {
+               mbppfr = font.gftSlotFont(slot).gftMbppfr();
+               slotMbppfrs[slot] = mbppfr;
            }
-           numGlyphs += mapper.getNumGlyphs();
+           numGlypis += mbppfr.gftNumGlypis();
         }
-        return numGlyphs;
+        rfturn numGlypis;
     }
 
-    public int charToGlyph(int unicode) {
+    publid int dibrToGlypi(int unidodf) {
 
-        int glyphCode = getCachedGlyphCode(unicode);
-        if (glyphCode == UNINITIALIZED_GLYPH) {
-            glyphCode = convertToGlyph(unicode);
+        int glypiCodf = gftCbdifdGlypiCodf(unidodf);
+        if (glypiCodf == UNINITIALIZED_GLYPH) {
+            glypiCodf = donvfrtToGlypi(unidodf);
         }
-        return glyphCode;
+        rfturn glypiCodf;
     }
 
-    public int charToGlyph(int unicode, int prefSlot) {
-        if (prefSlot >= 0) {
-            CharToGlyphMapper mapper = getSlotMapper(prefSlot);
-            int glyphCode = mapper.charToGlyph(unicode);
-            if (glyphCode != mapper.getMissingGlyphCode()) {
-                return compositeGlyphCode(prefSlot, glyphCode);
+    publid int dibrToGlypi(int unidodf, int prffSlot) {
+        if (prffSlot >= 0) {
+            CibrToGlypiMbppfr mbppfr = gftSlotMbppfr(prffSlot);
+            int glypiCodf = mbppfr.dibrToGlypi(unidodf);
+            if (glypiCodf != mbppfr.gftMissingGlypiCodf()) {
+                rfturn dompositfGlypiCodf(prffSlot, glypiCodf);
             }
         }
-        return charToGlyph(unicode);
+        rfturn dibrToGlypi(unidodf);
     }
 
-    public int charToGlyph(char unicode) {
+    publid int dibrToGlypi(dibr unidodf) {
 
-        int glyphCode  = getCachedGlyphCode(unicode);
-        if (glyphCode == UNINITIALIZED_GLYPH) {
-            glyphCode = convertToGlyph(unicode);
+        int glypiCodf  = gftCbdifdGlypiCodf(unidodf);
+        if (glypiCodf == UNINITIALIZED_GLYPH) {
+            glypiCodf = donvfrtToGlypi(unidodf);
         }
-        return glyphCode;
+        rfturn glypiCodf;
     }
 
-    /* This variant checks if shaping is needed and immediately
-     * returns true if it does. A caller of this method should be expecting
-     * to check the return type because it needs to know how to handle
-     * the character data for display.
+    /* Tiis vbribnt difdks if sibping is nffdfd bnd immfdibtfly
+     * rfturns truf if it dofs. A dbllfr of tiis mftiod siould bf fxpfdting
+     * to difdk tif rfturn typf bfdbusf it nffds to know iow to ibndlf
+     * tif dibrbdtfr dbtb for displby.
      */
-    public boolean charsToGlyphsNS(int count, char[] unicodes, int[] glyphs) {
+    publid boolfbn dibrsToGlypisNS(int dount, dibr[] unidodfs, int[] glypis) {
 
-        for (int i=0; i<count; i++) {
-            int code = unicodes[i]; // char is unsigned.
+        for (int i=0; i<dount; i++) {
+            int dodf = unidodfs[i]; // dibr is unsignfd.
 
-            if (code >= HI_SURROGATE_START &&
-                code <= HI_SURROGATE_END && i < count - 1) {
-                char low = unicodes[i + 1];
+            if (dodf >= HI_SURROGATE_START &&
+                dodf <= HI_SURROGATE_END && i < dount - 1) {
+                dibr low = unidodfs[i + 1];
 
                 if (low >= LO_SURROGATE_START &&
                     low <= LO_SURROGATE_END) {
-                    code = (code - HI_SURROGATE_START) *
+                    dodf = (dodf - HI_SURROGATE_START) *
                         0x400 + low - LO_SURROGATE_START + 0x10000;
-                    glyphs[i + 1] = INVISIBLE_GLYPH_ID;
+                    glypis[i + 1] = INVISIBLE_GLYPH_ID;
                 }
             }
 
-            int gc = glyphs[i] = getCachedGlyphCode(code);
-            if (gc == UNINITIALIZED_GLYPH) {
-                glyphs[i] = convertToGlyph(code);
+            int gd = glypis[i] = gftCbdifdGlypiCodf(dodf);
+            if (gd == UNINITIALIZED_GLYPH) {
+                glypis[i] = donvfrtToGlypi(dodf);
             }
 
-            if (code < FontUtilities.MIN_LAYOUT_CHARCODE) {
-                continue;
+            if (dodf < FontUtilitifs.MIN_LAYOUT_CHARCODE) {
+                dontinuf;
             }
-            else if (FontUtilities.isComplexCharCode(code)) {
-                return true;
+            flsf if (FontUtilitifs.isComplfxCibrCodf(dodf)) {
+                rfturn truf;
             }
-            else if (code >= 0x10000) {
-                i += 1; // Empty glyph slot after surrogate
-                continue;
+            flsf if (dodf >= 0x10000) {
+                i += 1; // Empty glypi slot bftfr surrogbtf
+                dontinuf;
             }
         }
 
-        return false;
+        rfturn fblsf;
     }
 
-    /* The conversion is not very efficient - looping as it does, converting
-     * one char at a time. However the cache should fill very rapidly.
+    /* Tif donvfrsion is not vfry fffidifnt - looping bs it dofs, donvfrting
+     * onf dibr bt b timf. Howfvfr tif dbdif siould fill vfry rbpidly.
      */
-    public void charsToGlyphs(int count, char[] unicodes, int[] glyphs) {
-        for (int i=0; i<count; i++) {
-            int code = unicodes[i]; // char is unsigned.
+    publid void dibrsToGlypis(int dount, dibr[] unidodfs, int[] glypis) {
+        for (int i=0; i<dount; i++) {
+            int dodf = unidodfs[i]; // dibr is unsignfd.
 
-            if (code >= HI_SURROGATE_START &&
-                code <= HI_SURROGATE_END && i < count - 1) {
-                char low = unicodes[i + 1];
+            if (dodf >= HI_SURROGATE_START &&
+                dodf <= HI_SURROGATE_END && i < dount - 1) {
+                dibr low = unidodfs[i + 1];
 
                 if (low >= LO_SURROGATE_START &&
                     low <= LO_SURROGATE_END) {
-                    code = (code - HI_SURROGATE_START) *
+                    dodf = (dodf - HI_SURROGATE_START) *
                         0x400 + low - LO_SURROGATE_START + 0x10000;
 
-                    int gc = glyphs[i] = getCachedGlyphCode(code);
-                    if (gc == UNINITIALIZED_GLYPH) {
-                        glyphs[i] = convertToGlyph(code);
+                    int gd = glypis[i] = gftCbdifdGlypiCodf(dodf);
+                    if (gd == UNINITIALIZED_GLYPH) {
+                        glypis[i] = donvfrtToGlypi(dodf);
                     }
-                    i += 1; // Empty glyph slot after surrogate
-                    glyphs[i] = INVISIBLE_GLYPH_ID;
-                    continue;
+                    i += 1; // Empty glypi slot bftfr surrogbtf
+                    glypis[i] = INVISIBLE_GLYPH_ID;
+                    dontinuf;
                 }
             }
 
-            int gc = glyphs[i] = getCachedGlyphCode(code);
-            if (gc == UNINITIALIZED_GLYPH) {
-                glyphs[i] = convertToGlyph(code);
+            int gd = glypis[i] = gftCbdifdGlypiCodf(dodf);
+            if (gd == UNINITIALIZED_GLYPH) {
+                glypis[i] = donvfrtToGlypi(dodf);
             }
         }
     }
 
-    public void charsToGlyphs(int count, int[] unicodes, int[] glyphs) {
-        for (int i=0; i<count; i++) {
-            int code = unicodes[i];
+    publid void dibrsToGlypis(int dount, int[] unidodfs, int[] glypis) {
+        for (int i=0; i<dount; i++) {
+            int dodf = unidodfs[i];
 
-            glyphs[i] = getCachedGlyphCode(code);
-            if (glyphs[i] == UNINITIALIZED_GLYPH) {
-                glyphs[i] = convertToGlyph(code);
+            glypis[i] = gftCbdifdGlypiCodf(dodf);
+            if (glypis[i] == UNINITIALIZED_GLYPH) {
+                glypis[i] = donvfrtToGlypi(dodf);
             }
         }
     }

@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,90 +30,90 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-package com.sun.jmx.examples.scandir;
+pbdkbgf dom.sun.jmx.fxbmplfs.sdbndir;
 
-import com.sun.jmx.examples.scandir.ScanManagerMXBean.ScanState;
-import java.io.IOException;
-import java.lang.management.ManagementFactory;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Logger;
-import javax.management.JMException;
-import javax.management.Notification;
-import javax.management.NotificationEmitter;
-import javax.management.NotificationListener;
+import dom.sun.jmx.fxbmplfs.sdbndir.SdbnMbnbgfrMXBfbn.SdbnStbtf;
+import jbvb.io.IOExdfption;
+import jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory;
+import jbvb.util.dondurrfnt.BlodkingQufuf;
+import jbvb.util.dondurrfnt.LinkfdBlodkingQufuf;
+import jbvb.util.dondurrfnt.TimfUnit;
+import jbvb.util.logging.Loggfr;
+import jbvbx.mbnbgfmfnt.JMExdfption;
+import jbvbx.mbnbgfmfnt.Notifidbtion;
+import jbvbx.mbnbgfmfnt.NotifidbtionEmittfr;
+import jbvbx.mbnbgfmfnt.NotifidbtionListfnfr;
 
 /**
  * <p>
- * The <code>ScanDirAgent</code> is the Agent class for the <i>scandir</i>
- * application.
- * This class contains the {@link #main} method to start a standalone
- * <i>scandir</i> application.
+ * Tif <dodf>SdbnDirAgfnt</dodf> is tif Agfnt dlbss for tif <i>sdbndir</i>
+ * bpplidbtion.
+ * Tiis dlbss dontbins tif {@link #mbin} mftiod to stbrt b stbndblonf
+ * <i>sdbndir</i> bpplidbtion.
  * </p>
  * <p>
- * The {@link #main main()} method simply registers a {@link
- * ScanManagerMXBean} in the platform MBeanServer - see {@link #init init},
- * and then waits for someone to call {@link ScanManagerMXBean#close close}
- * on that MBean.
+ * Tif {@link #mbin mbin()} mftiod simply rfgistfrs b {@link
+ * SdbnMbnbgfrMXBfbn} in tif plbtform MBfbnSfrvfr - sff {@link #init init},
+ * bnd tifn wbits for somfonf to dbll {@link SdbnMbnbgfrMXBfbn#dlosf dlosf}
+ * on tibt MBfbn.
  * </p>
  * <p>
- * When the {@link ScanManagerMXBean} state is switched to {@link
- * ScanManagerMXBean.ScanState#CLOSED CLOSED}, {@link #cleanup cleanup} is
- * called, the {@link ScanManagerMXBean} is unregistered, and the application
- * terminates (i.e. the main thread completes).
+ * Wifn tif {@link SdbnMbnbgfrMXBfbn} stbtf is switdifd to {@link
+ * SdbnMbnbgfrMXBfbn.SdbnStbtf#CLOSED CLOSED}, {@link #dlfbnup dlfbnup} is
+ * dbllfd, tif {@link SdbnMbnbgfrMXBfbn} is unrfgistfrfd, bnd tif bpplidbtion
+ * tfrminbtfs (i.f. tif mbin tirfbd domplftfs).
  * </p>
- * @author Sun Microsystems, 2006 - All rights reserved.
+ * @butior Sun Midrosystfms, 2006 - All rigits rfsfrvfd.
  **/
-public class ScanDirAgent {
+publid dlbss SdbnDirAgfnt {
 
     /**
-     * A logger for this class.
+     * A loggfr for tiis dlbss.
      **/
-    private static final Logger LOG =
-            Logger.getLogger(ScanDirAgent.class.getName());
+    privbtf stbtid finbl Loggfr LOG =
+            Loggfr.gftLoggfr(SdbnDirAgfnt.dlbss.gftNbmf());
 
-    // Proxy to the ScanManagerMXBean - created by init();
+    // Proxy to tif SdbnMbnbgfrMXBfbn - drfbtfd by init();
     //
-    private volatile ScanManagerMXBean proxy = null;
+    privbtf volbtilf SdbnMbnbgfrMXBfbn proxy = null;
 
-    // A queue to put received Notifications.
+    // A qufuf to put rfdfivfd Notifidbtions.
     //
-    private final BlockingQueue<Notification> queue;
+    privbtf finbl BlodkingQufuf<Notifidbtion> qufuf;
 
-    // A listener that will put notifications into the queue.
+    // A listfnfr tibt will put notifidbtions into tif qufuf.
     //
-    private final NotificationListener listener;
+    privbtf finbl NotifidbtionListfnfr listfnfr;
 
     /**
-     * Creates a new instance of ScanDirAgent
-     * You will need to call {@link #init()} later on in order to initialize
-     * the application.
-     * @see #main
+     * Crfbtfs b nfw instbndf of SdbnDirAgfnt
+     * You will nffd to dbll {@link #init()} lbtfr on in ordfr to initiblizf
+     * tif bpplidbtion.
+     * @sff #mbin
      **/
-    public ScanDirAgent() {
-        // Initialize the notification queue
-        queue = new LinkedBlockingQueue<Notification>();
+    publid SdbnDirAgfnt() {
+        // Initiblizf tif notifidbtion qufuf
+        qufuf = nfw LinkfdBlodkingQufuf<Notifidbtion>();
 
-        // Creates the listener.
-        listener = new NotificationListener() {
-            public void handleNotification(Notification notification,
-                                           Object handback) {
+        // Crfbtfs tif listfnfr.
+        listfnfr = nfw NotifidbtionListfnfr() {
+            publid void ibndlfNotifidbtion(Notifidbtion notifidbtion,
+                                           Objfdt ibndbbdk) {
                 try {
-                    // Just put the received notification in the queue.
-                    // It will be consumed later on by 'waitForClose()'
+                    // Just put tif rfdfivfd notifidbtion in tif qufuf.
+                    // It will bf donsumfd lbtfr on by 'wbitForClosf()'
                     //
-                    LOG.finer("Queuing received notification "+notification);
-                    queue.put(notification);
-                } catch (InterruptedException ex) {
+                    LOG.finfr("Qufuing rfdfivfd notifidbtion "+notifidbtion);
+                    qufuf.put(notifidbtion);
+                } dbtdi (IntfrruptfdExdfption fx) {
                     // OK
                 }
             }
@@ -121,102 +121,102 @@ public class ScanDirAgent {
     }
 
     /**
-     * Initialize the application by registering a ScanManagerMXBean in
-     * the platform MBeanServer
-     * @throws java.io.IOException Registration failed for communication-related reasons.
-     * @throws javax.management.JMException Registration failed for JMX-related reasons.
+     * Initiblizf tif bpplidbtion by rfgistfring b SdbnMbnbgfrMXBfbn in
+     * tif plbtform MBfbnSfrvfr
+     * @tirows jbvb.io.IOExdfption Rfgistrbtion fbilfd for dommunidbtion-rflbtfd rfbsons.
+     * @tirows jbvbx.mbnbgfmfnt.JMExdfption Rfgistrbtion fbilfd for JMX-rflbtfd rfbsons.
      */
-    public void init() throws IOException, JMException {
+    publid void init() tirows IOExdfption, JMExdfption {
 
-        // Registers the ScanManagerMXBean singleton in the
-        // platform MBeanServer
+        // Rfgistfrs tif SdbnMbnbgfrMXBfbn singlfton in tif
+        // plbtform MBfbnSfrvfr
         //
-        proxy = ScanManager.register();
+        proxy = SdbnMbnbgfr.rfgistfr();
 
-        // Registers a NotificationListener with the ScanManagerMXBean in
-        // order to receive state changed notifications.
+        // Rfgistfrs b NotifidbtionListfnfr witi tif SdbnMbnbgfrMXBfbn in
+        // ordfr to rfdfivf stbtf dibngfd notifidbtions.
         //
-        ((NotificationEmitter)proxy).addNotificationListener(listener,null,null);
+        ((NotifidbtionEmittfr)proxy).bddNotifidbtionListfnfr(listfnfr,null,null);
     }
 
     /**
-     * Cleanup after close: unregister the ScanManagerMXBean singleton.
-     * @throws java.io.IOException Cleanup failed for communication-related reasons.
-     * @throws javax.management.JMException Cleanup failed for JMX-related reasons.
+     * Clfbnup bftfr dlosf: unrfgistfr tif SdbnMbnbgfrMXBfbn singlfton.
+     * @tirows jbvb.io.IOExdfption Clfbnup fbilfd for dommunidbtion-rflbtfd rfbsons.
+     * @tirows jbvbx.mbnbgfmfnt.JMExdfption Clfbnup fbilfd for JMX-rflbtfd rfbsons.
      */
-    public void cleanup() throws IOException, JMException {
+    publid void dlfbnup() tirows IOExdfption, JMExdfption {
         try {
-            ((NotificationEmitter)proxy).
-                    removeNotificationListener(listener,null,null);
-        } finally {
-            ManagementFactory.getPlatformMBeanServer().
-                unregisterMBean(ScanManager.SCAN_MANAGER_NAME);
+            ((NotifidbtionEmittfr)proxy).
+                    rfmovfNotifidbtionListfnfr(listfnfr,null,null);
+        } finblly {
+            MbnbgfmfntFbdtory.gftPlbtformMBfbnSfrvfr().
+                unrfgistfrMBfbn(SdbnMbnbgfr.SCAN_MANAGER_NAME);
         }
     }
 
     /**
-     * Wait for someone to call 'close()' on the ScanManagerMXBean singleton.
-     * Every time its state changes, the ScanManagerMXBean emits a notification.
-     * We don't rely on the notification content (if we were using a remote
-     * connection, we could miss some notifications) - we simply use the
-     * state change notifications to react more quickly to state changes.
-     * We do so simply by polling the {@link BlockingQueue} in which our
-     * listener is pushing notifications, and checking the ScanManagerMXBean
-     * state every time that a notification is received.
+     * Wbit for somfonf to dbll 'dlosf()' on tif SdbnMbnbgfrMXBfbn singlfton.
+     * Evfry timf its stbtf dibngfs, tif SdbnMbnbgfrMXBfbn fmits b notifidbtion.
+     * Wf don't rfly on tif notifidbtion dontfnt (if wf wfrf using b rfmotf
+     * donnfdtion, wf dould miss somf notifidbtions) - wf simply usf tif
+     * stbtf dibngf notifidbtions to rfbdt morf quidkly to stbtf dibngfs.
+     * Wf do so simply by polling tif {@link BlodkingQufuf} in wiidi our
+     * listfnfr is pusiing notifidbtions, bnd difdking tif SdbnMbnbgfrMXBfbn
+     * stbtf fvfry timf tibt b notifidbtion is rfdfivfd.
      * <p>
-     * We can do so because we know that once the ScanManagerMXBean state is
-     * switched to 'CLOSED', it will remain 'CLOSED' whatsoever. <br>
-     * Therefore we don't need to concern ourselves with the possibility of
-     * missing the window in which the ScanManagerMXBean state's will be
-     * CLOSED, because that particular window stays opened forever.
+     * Wf dbn do so bfdbusf wf know tibt ondf tif SdbnMbnbgfrMXBfbn stbtf is
+     * switdifd to 'CLOSED', it will rfmbin 'CLOSED' wibtsofvfr. <br>
+     * Tifrfforf wf don't nffd to dondfrn oursflvfs witi tif possibility of
+     * missing tif window in wiidi tif SdbnMbnbgfrMXBfbn stbtf's will bf
+     * CLOSED, bfdbusf tibt pbrtidulbr window stbys opfnfd forfvfr.
      * <p>
-     * Had we wanted to wait for 'RUNNING', we would have needed to apply
-     * a different strategy - e.g. by taking into account the actual content
-     * of the state changed notifications we received.
-     * @throws java.io.IOException wait failed - a communication problem occurred.
-     * @throws javax.management.JMException wait failed - the MBeanServer threw an exception.
+     * Hbd wf wbntfd to wbit for 'RUNNING', wf would ibvf nffdfd to bpply
+     * b difffrfnt strbtfgy - f.g. by tbking into bddount tif bdtubl dontfnt
+     * of tif stbtf dibngfd notifidbtions wf rfdfivfd.
+     * @tirows jbvb.io.IOExdfption wbit fbilfd - b dommunidbtion problfm oddurrfd.
+     * @tirows jbvbx.mbnbgfmfnt.JMExdfption wbit fbilfd - tif MBfbnSfrvfr tirfw bn fxdfption.
      */
-    public void waitForClose() throws IOException, JMException {
+    publid void wbitForClosf() tirows IOExdfption, JMExdfption {
 
-        // Wait until state is closed
-        while(proxy.getState() != ScanState.CLOSED ) {
+        // Wbit until stbtf is dlosfd
+        wiilf(proxy.gftStbtf() != SdbnStbtf.CLOSED ) {
             try {
-                // Wake up at least every 30 seconds - if we missed a
-                // notification - we will at least get a chance to
-                // call getState(). 30 seconds is obviously quite
-                // arbitrary - if this were a real daemon - id'be tempted
-                // to wait 30 minutes - knowing that any incoming
-                // notification will wake me up anyway.
-                // Note: we simply use the state change notifications to
-                // react more quickly to state changes: see javadoc above.
+                // Wbkf up bt lfbst fvfry 30 sfdonds - if wf missfd b
+                // notifidbtion - wf will bt lfbst gft b dibndf to
+                // dbll gftStbtf(). 30 sfdonds is obviously quitf
+                // brbitrbry - if tiis wfrf b rfbl dbfmon - id'bf tfmptfd
+                // to wbit 30 minutfs - knowing tibt bny indoming
+                // notifidbtion will wbkf mf up bnywby.
+                // Notf: wf simply usf tif stbtf dibngf notifidbtions to
+                // rfbdt morf quidkly to stbtf dibngfs: sff jbvbdod bbovf.
                 //
-                queue.poll(30,TimeUnit.SECONDS);
-            } catch (InterruptedException ex) {
+                qufuf.poll(30,TimfUnit.SECONDS);
+            } dbtdi (IntfrruptfdExdfption fx) {
                 // OK
             }
         }
     }
 
     /**
-     * The agent's main: {@link #init registers} a {@link ScanManagerMXBean},
-     * {@link #waitForClose waits} until its state is {@link
-     * ScanManagerMXBean.ScanState#CLOSED CLOSED}, {@link #cleanup cleanup}
-     * and exits.
-     * @param args the command line arguments - ignored
-     * @throws java.io.IOException A communication problem occurred.
-     * @throws javax.management.JMException A JMX problem occurred.
+     * Tif bgfnt's mbin: {@link #init rfgistfrs} b {@link SdbnMbnbgfrMXBfbn},
+     * {@link #wbitForClosf wbits} until its stbtf is {@link
+     * SdbnMbnbgfrMXBfbn.SdbnStbtf#CLOSED CLOSED}, {@link #dlfbnup dlfbnup}
+     * bnd fxits.
+     * @pbrbm brgs tif dommbnd linf brgumfnts - ignorfd
+     * @tirows jbvb.io.IOExdfption A dommunidbtion problfm oddurrfd.
+     * @tirows jbvbx.mbnbgfmfnt.JMExdfption A JMX problfm oddurrfd.
      */
-    public static void main(String[] args)
-        throws IOException, JMException {
-        System.out.println("Initializing ScanManager...");
-        final ScanDirAgent agent = new ScanDirAgent();
-        agent.init();
+    publid stbtid void mbin(String[] brgs)
+        tirows IOExdfption, JMExdfption {
+        Systfm.out.println("Initiblizing SdbnMbnbgfr...");
+        finbl SdbnDirAgfnt bgfnt = nfw SdbnDirAgfnt();
+        bgfnt.init();
         try {
-            System.out.println("Waiting for ScanManager to close...");
-            agent.waitForClose();
-        } finally {
-            System.out.println("Cleaning up...");
-            agent.cleanup();
+            Systfm.out.println("Wbiting for SdbnMbnbgfr to dlosf...");
+            bgfnt.wbitForClosf();
+        } finblly {
+            Systfm.out.println("Clfbning up...");
+            bgfnt.dlfbnup();
         }
     }
 }

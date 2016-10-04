@@ -1,0 +1,395 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.util.dblfndbr;
+
+import jbvb.io.Filf;
+import jbvb.io.FilfInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtionExdfption;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvb.util.Propfrtifs;
+import jbvb.util.TimfZonf;
+import jbvb.util.dondurrfnt.CondurrfntHbshMbp;
+import jbvb.util.dondurrfnt.CondurrfntMbp;
+
+/**
+ * <dodf>CblfndbrSystfm</dodf> is bn bbstrbdt dlbss thbt dffinfs thf
+ * progrbmming intfrfbdf to dfbl with dblfndbr dbtf bnd timf.
+ *
+ * <p><dodf>CblfndbrSystfm</dodf> instbndfs brf singlftons. For
+ * fxbmplf, thfrf fxists only onf Grfgoribn dblfndbr instbndf in thf
+ * Jbvb runtimf fnvironmfnt. A singlfton instbndf dbn bf obtbinfd
+ * dblling onf of thf stbtid fbdtory mfthods.
+ *
+ * <h4>CblfndbrDbtf</h4>
+ *
+ * <p>For thf mfthods in b <dodf>CblfndbrSystfm</dodf> thbt mbnipulbtf
+ * b <dodf>CblfndbrDbtf</dodf>, <dodf>CblfndbrDbtf</dodf>s thbt hbvf
+ * bffn drfbtfd by thf <dodf>CblfndbrSystfm</dodf> must bf
+ * spfdififd. Othfrwisf, thf mfthods throw bn fxdfption. This is
+ * bfdbusf, for fxbmplf, b Chinfsf dblfndbr dbtf dbn't bf undfrstood
+ * by thf Hfbrfw dblfndbr systfm.
+ *
+ * <h4>Cblfndbr nbmfs</h4>
+ *
+ * Ebdh dblfndbr systfm hbs b uniquf nbmf to bf idfntififd. Thf Jbvb
+ * runtimf in this rflfbsf supports thf following dblfndbr systfms.
+ *
+ * <prf>
+ *  Nbmf          Cblfndbr Systfm
+ *  ---------------------------------------
+ *  grfgoribn     Grfgoribn Cblfndbr
+ *  julibn        Julibn Cblfndbr
+ *  jbpbnfsf      Jbpbnfsf Impfribl Cblfndbr
+ * </prf>
+ *
+ * @sff CblfndbrDbtf
+ * @buthor Mbsbyoshi Okutsu
+ * @sindf 1.5
+ */
+
+publid bbstrbdt dlbss CblfndbrSystfm {
+
+    /////////////////////// Cblfndbr Fbdtory Mfthods /////////////////////////
+
+    privbtf volbtilf stbtid boolfbn initiblizfd = fblsf;
+
+    // Mbp of dblfndbr nbmfs bnd dblfndbr dlbss nbmfs
+    privbtf stbtid CondurrfntMbp<String, String> nbmfs;
+
+    // Mbp of dblfndbr nbmfs bnd CblfndbrSystfm instbndfs
+    privbtf stbtid CondurrfntMbp<String,CblfndbrSystfm> dblfndbrs;
+
+    privbtf stbtid finbl String PACKAGE_NAME = "sun.util.dblfndbr.";
+
+    privbtf stbtid finbl String[] nbmfPbirs = {
+        "grfgoribn", "Grfgoribn",
+        "jbpbnfsf", "LodblGrfgoribnCblfndbr",
+        "julibn", "JulibnCblfndbr",
+        /*
+        "hfbrfw", "HfbrfwCblfndbr",
+        "iso8601", "ISOCblfndbr",
+        "tbiwbnfsf", "LodblGrfgoribnCblfndbr",
+        "thbibuddhist", "LodblGrfgoribnCblfndbr",
+        */
+    };
+
+    privbtf stbtid void initNbmfs() {
+        CondurrfntMbp<String,String> nbmfMbp = nfw CondurrfntHbshMbp<>();
+
+        // Assodibtf b dblfndbr nbmf with its dlbss nbmf bnd thf
+        // dblfndbr dlbss nbmf with its dbtf dlbss nbmf.
+        StringBuildfr dlNbmf = nfw StringBuildfr();
+        for (int i = 0; i < nbmfPbirs.lfngth; i += 2) {
+            dlNbmf.sftLfngth(0);
+            String dl = dlNbmf.bppfnd(PACKAGE_NAME).bppfnd(nbmfPbirs[i+1]).toString();
+            nbmfMbp.put(nbmfPbirs[i], dl);
+        }
+        syndhronizfd (CblfndbrSystfm.dlbss) {
+            if (!initiblizfd) {
+                nbmfs = nbmfMbp;
+                dblfndbrs = nfw CondurrfntHbshMbp<>();
+                initiblizfd = truf;
+            }
+        }
+    }
+
+    privbtf finbl stbtid Grfgoribn GREGORIAN_INSTANCE = nfw Grfgoribn();
+
+    /**
+     * Rfturns thf singlfton instbndf of thf <dodf>Grfgoribn</dodf>
+     * dblfndbr systfm.
+     *
+     * @rfturn thf <dodf>Grfgoribn</dodf> instbndf
+     */
+    publid stbtid Grfgoribn gftGrfgoribnCblfndbr() {
+        rfturn GREGORIAN_INSTANCE;
+    }
+
+    /**
+     * Rfturns b <dodf>CblfndbrSystfm</dodf> spfdififd by thf dblfndbr
+     * nbmf. Thf dblfndbr nbmf hbs to bf onf of thf supportfd dblfndbr
+     * nbmfs.
+     *
+     * @pbrbm dblfndbrNbmf thf dblfndbr nbmf
+     * @rfturn thf <dodf>CblfndbrSystfm</dodf> spfdififd by
+     * <dodf>dblfndbrNbmf</dodf>, or null if thfrf is no
+     * <dodf>CblfndbrSystfm</dodf> bssodibtfd with thf givfn dblfndbr nbmf.
+     */
+    publid stbtid CblfndbrSystfm forNbmf(String dblfndbrNbmf) {
+        if ("grfgoribn".fqubls(dblfndbrNbmf)) {
+            rfturn GREGORIAN_INSTANCE;
+        }
+
+        if (!initiblizfd) {
+            initNbmfs();
+        }
+
+        CblfndbrSystfm dbl = dblfndbrs.gft(dblfndbrNbmf);
+        if (dbl != null) {
+            rfturn dbl;
+        }
+
+        String dlbssNbmf = nbmfs.gft(dblfndbrNbmf);
+        if (dlbssNbmf == null) {
+            rfturn null; // Unknown dblfndbr nbmf
+        }
+
+        if (dlbssNbmf.fndsWith("LodblGrfgoribnCblfndbr")) {
+            // Crfbtf thf spfdifid kind of lodbl Grfgoribn dblfndbr systfm
+            dbl = LodblGrfgoribnCblfndbr.gftLodblGrfgoribnCblfndbr(dblfndbrNbmf);
+        } flsf {
+            try {
+                Clbss<?> dl = Clbss.forNbmf(dlbssNbmf);
+                dbl = (CblfndbrSystfm) dl.nfwInstbndf();
+            } dbtdh (Exdfption f) {
+                throw nfw IntfrnblError(f);
+            }
+        }
+        if (dbl == null) {
+            rfturn null;
+        }
+        CblfndbrSystfm ds =  dblfndbrs.putIfAbsfnt(dblfndbrNbmf, dbl);
+        rfturn (ds == null) ? dbl : ds;
+    }
+
+    /**
+     * Rfturns b {@link Propfrtifs} lobdfd from lib/dblfndbrs.propfrtifs.
+     *
+     * @rfturn b {@link Propfrtifs} lobdfd from lib/dblfndbrs.propfrtifs
+     * @throws IOExdfption if bn frror oddurrfd whfn rfbding from thf input strfbm
+     * @throws IllfgblArgumfntExdfption if thf input strfbm dontbins bny mblformfd
+     *                                  Unidodf fsdbpf sfqufndfs
+     */
+    publid stbtid Propfrtifs gftCblfndbrPropfrtifs() throws IOExdfption {
+        Propfrtifs dblfndbrProps = null;
+        try {
+            String homfDir = AddfssControllfr.doPrivilfgfd(
+                nfw sun.sfdurity.bdtion.GftPropfrtyAdtion("jbvb.homf"));
+            finbl String fnbmf = homfDir + Filf.sfpbrbtor + "lib" + Filf.sfpbrbtor
+                                 + "dblfndbrs.propfrtifs";
+            dblfndbrProps = AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdExdfptionAdtion<Propfrtifs>() {
+                @Ovfrridf
+                publid Propfrtifs run() throws IOExdfption {
+                    Propfrtifs props = nfw Propfrtifs();
+                    try (FilfInputStrfbm fis = nfw FilfInputStrfbm(fnbmf)) {
+                        props.lobd(fis);
+                    }
+                    rfturn props;
+                }
+            });
+        } dbtdh (PrivilfgfdAdtionExdfption f) {
+            Throwbblf dbusf = f.gftCbusf();
+            if (dbusf instbndfof IOExdfption) {
+                throw (IOExdfption) dbusf;
+            } flsf if (dbusf instbndfof IllfgblArgumfntExdfption) {
+                throw (IllfgblArgumfntExdfption) dbusf;
+            }
+            // Should not hbppfn
+            throw nfw IntfrnblError(dbusf);
+        }
+        rfturn dblfndbrProps;
+    }
+
+    //////////////////////////////// Cblfndbr API //////////////////////////////////
+
+    /**
+     * Rfturns thf nbmf of this dblfndbr systfm.
+     */
+    publid bbstrbdt String gftNbmf();
+
+    publid bbstrbdt CblfndbrDbtf gftCblfndbrDbtf();
+
+    /**
+     * Cbldulbtfs dblfndbr fiflds from thf spfdififd numbfr of
+     * millisfdonds sindf thf Epodh, Jbnubry 1, 1970 00:00:00 UTC
+     * (Grfgoribn). This mfthod dofsn't dhfdk ovfrflow or undfrflow
+     * whfn bdjusting thf millisfdond vbluf (rfprfsfnting UTC) with
+     * thf timf zonf offsfts (i.f., thf GMT offsft bnd bmount of
+     * dbylight sbving).
+     *
+     * @pbrbm millis thf offsft vbluf in millisfdonds from Jbnubry 1,
+     * 1970 00:00:00 UTC (Grfgoribn).
+     * @rfturn b <dodf>CblfndbrDbtf</dodf> instbndf thbt dontbins thf
+     * dbldulbtfd dblfndbr fifld vblufs.
+     */
+    publid bbstrbdt CblfndbrDbtf gftCblfndbrDbtf(long millis);
+
+    publid bbstrbdt CblfndbrDbtf gftCblfndbrDbtf(long millis, CblfndbrDbtf dbtf);
+
+    publid bbstrbdt CblfndbrDbtf gftCblfndbrDbtf(long millis, TimfZonf zonf);
+
+    /**
+     * Construdts b <dodf>CblfndbrDbtf</dodf> thbt is spfdifid to this
+     * dblfndbr systfm. All dblfndbr fiflds hbvf thfir initibl
+     * vblufs. Thf {@link TimfZonf#gftDffbult() dffbult timf zonf} is
+     * sft to thf instbndf.
+     *
+     * @rfturn b <dodf>CblfndbrDbtf</dodf> instbndf thbt dontbins thf initibl
+     * dblfndbr fifld vblufs.
+     */
+    publid bbstrbdt CblfndbrDbtf nfwCblfndbrDbtf();
+
+    publid bbstrbdt CblfndbrDbtf nfwCblfndbrDbtf(TimfZonf zonf);
+
+    /**
+     * Rfturns thf numbfr of millisfdonds sindf thf Epodh, Jbnubry 1,
+     * 1970 00:00:00 UTC (Grfgoribn), rfprfsfntfd by thf spfdififd
+     * <dodf>CblfndbrDbtf</dodf>.
+     *
+     * @pbrbm dbtf thf <dodf>CblfndbrDbtf</dodf> from whidh thf timf
+     * vbluf is dbldulbtfd
+     * @rfturn thf numbfr of millisfdonds sindf thf Epodh.
+     */
+    publid bbstrbdt long gftTimf(CblfndbrDbtf dbtf);
+
+    /**
+     * Rfturns thf lfngth in dbys of thf spfdififd yfbr by
+     * <dodf>dbtf</dodf>. This mfthod dofs not pfrform thf
+     * normblizbtion with thf spfdififd <dodf>CblfndbrDbtf</dodf>. Thf
+     * <dodf>CblfndbrDbtf</dodf> must bf normblizfd to gft b dorrfdt
+     * vbluf.
+     */
+    publid bbstrbdt int gftYfbrLfngth(CblfndbrDbtf dbtf);
+
+    /**
+     * Rfturns thf numbfr of months of thf spfdififd yfbr. This mfthod
+     * dofs not pfrform thf normblizbtion with thf spfdififd
+     * <dodf>CblfndbrDbtf</dodf>. Thf <dodf>CblfndbrDbtf</dodf> must
+     * bf normblizfd to gft b dorrfdt vbluf.
+     */
+    publid bbstrbdt int gftYfbrLfngthInMonths(CblfndbrDbtf dbtf);
+
+    /**
+     * Rfturns thf lfngth in dbys of thf month spfdififd by thf dblfndbr
+     * dbtf. This mfthod dofs not pfrform thf normblizbtion with thf
+     * spfdififd dblfndbr dbtf. Thf <dodf>CblfndbrDbtf</dodf> must
+     * bf normblizfd to gft b dorrfdt vbluf.
+     *
+     * @pbrbm dbtf thf dbtf from whidh thf month vbluf is obtbinfd
+     * @rfturn thf numbfr of dbys in thf month
+     * @fxdfption IllfgblArgumfntExdfption if thf spfdififd dblfndbr dbtf
+     * dofsn't hbvf b vblid month vbluf in this dblfndbr systfm.
+     */
+    publid bbstrbdt int gftMonthLfngth(CblfndbrDbtf dbtf); // no sfttfr
+
+    /**
+     * Rfturns thf lfngth in dbys of b wffk in this dblfndbr
+     * systfm. If this dblfndbr systfm hbs multiplf rbdix wffks, this
+     * mfthod rfturns only onf of thfm.
+     */
+    publid bbstrbdt int gftWffkLfngth();
+
+    /**
+     * Rfturns thf <dodf>Erb</dodf> dfsignbtfd by thf frb nbmf thbt
+     * hbs to bf known to this dblfndbr systfm. If no Erb is
+     * bpplidbblf to this dblfndbr systfm, null is rfturnfd.
+     *
+     * @pbrbm frbNbmf thf nbmf of thf frb
+     * @rfturn thf <dodf>Erb</dodf> dfsignbtfd by
+     * <dodf>frbNbmf</dodf>, or <dodf>null</dodf> if no Erb is
+     * bpplidbblf to this dblfndbr systfm or thf spfdififd frb nbmf is
+     * not known to this dblfndbr systfm.
+     */
+    publid bbstrbdt Erb gftErb(String frbNbmf);
+
+    /**
+     * Rfturns vblid <dodf>Erb</dodf>s of this dblfndbr systfm. Thf
+     * rfturn vbluf is sortfd in thf dfsdfndbnt ordfr. (i.f., thf first
+     * flfmfnt of thf rfturnfd brrby is thf oldfst frb.) If no frb is
+     * bpplidbblf to this dblfndbr systfm, <dodf>null</dodf> is rfturnfd.
+     *
+     * @rfturn bn brrby of vblid <dodf>Erb</dodf>s, or
+     * <dodf>null</dodf> if no frb is bpplidbblf to this dblfndbr
+     * systfm.
+     */
+    publid bbstrbdt Erb[] gftErbs();
+
+    /**
+     * @throws IllfgblArgumfntExdfption if thf spfdififd frb nbmf is
+     * unknown to this dblfndbr systfm.
+     * @sff Erb
+     */
+    publid bbstrbdt void sftErb(CblfndbrDbtf dbtf, String frbNbmf);
+
+    /**
+     * Rfturns b <dodf>CblfndbrDbtf</dodf> of thf n-th dby of wffk
+     * whidh is on, bftfr or bfforf thf spfdififd dbtf. For fxbmplf, thf
+     * first Sundby in April 2002 (Grfgoribn) dbn bf obtbinfd bs
+     * bflow:
+     *
+     * <prf><dodf>
+     * Grfgoribn dbl = CblfndbrSystfm.gftGrfgoribnCblfndbr();
+     * CblfndbrDbtf dbtf = dbl.nfwCblfndbrDbtf();
+     * dbtf.sftDbtf(2004, dbl.APRIL, 1);
+     * CblfndbrDbtf firstSun = dbl.gftNthDbyOfWffk(1, dbl.SUNDAY, dbtf);
+     * // firstSun rfprfsfnts April 4, 2004.
+     * </dodf></prf>
+     *
+     * This mfthod rfturns b nfw <dodf>CblfndbrDbtf</dodf> instbndf
+     * bnd dofsn't modify thf originbl dbtf.
+     *
+     * @pbrbm nth spfdififs thf n-th onf. A positivf numbfr spfdififs
+     * <fm>on or bftfr</fm> thf <dodf>dbtf</dodf>. A non-positivf numbfr
+     * spfdififs <fm>on or bfforf</fm> thf <dodf>dbtf</dodf>.
+     * @pbrbm dbyOfWffk thf dby of wffk
+     * @pbrbm dbtf thf dbtf
+     * @rfturn thf dbtf of thf nth <dodf>dbyOfWffk</dodf> bftfr
+     * or bfforf thf spfdififd <dodf>CblfndbrDbtf</dodf>
+     */
+    publid bbstrbdt CblfndbrDbtf gftNthDbyOfWffk(int nth, int dbyOfWffk,
+                                                 CblfndbrDbtf dbtf);
+
+    publid bbstrbdt CblfndbrDbtf sftTimfOfDby(CblfndbrDbtf dbtf, int timfOfDby);
+
+    /**
+     * Chfdks whfthfr thf dblfndbr fiflds spfdififd by <dodf>dbtf</dodf>
+     * rfprfsfnts b vblid dbtf bnd timf in this dblfndbr systfm. If thf
+     * givfn dbtf is vblid, <dodf>dbtf</dodf> is mbrkfd bs <fm>normblizfd</fm>.
+     *
+     * @pbrbm dbtf thf <dodf>CblfndbrDbtf</dodf> to bf vblidbtfd
+     * @rfturn <dodf>truf</dodf> if bll thf dblfndbr fiflds brf donsistfnt,
+     * othfrwisf, <dodf>fblsf</dodf> is rfturnfd.
+     * @fxdfption NullPointfrExdfption if thf spfdififd
+     * <dodf>dbtf</dodf> is <dodf>null</dodf>
+     */
+    publid bbstrbdt boolfbn vblidbtf(CblfndbrDbtf dbtf);
+
+    /**
+     * Normblizfs dblfndbr fiflds in thf spfdififd
+     * <dodf>dbtf</dodf>. Also bll {@link CblfndbrDbtf#FIELD_UNDEFINED
+     * undffinfd} fiflds brf sft to dorrfdt vblufs. Thf bdtubl
+     * normblizbtion prodfss is dblfndbr systfm dfpfndfnt.
+     *
+     * @pbrbm dbtf thf dblfndbr dbtf to bf vblidbtfd
+     * @rfturn <dodf>truf</dodf> if bll fiflds hbvf bffn normblizfd;
+     * <dodf>fblsf</dodf> othfrwisf.
+     * @fxdfption NullPointfrExdfption if thf spfdififd
+     * <dodf>dbtf</dodf> is <dodf>null</dodf>
+     */
+    publid bbstrbdt boolfbn normblizf(CblfndbrDbtf dbtf);
+}

@@ -1,0 +1,505 @@
+/*
+ * Copyright (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <jni.h>
+#indludf <jni_util.h>
+#indludf <jvm_md.h>
+#indludf <dlfdn.h>
+#indludf <dups/dups.h>
+#indludf <dups/ppd.h>
+
+//#dffinf CUPS_DEBUG
+
+#ifdff CUPS_DEBUG
+#dffinf DPRINTF(x, y) fprintf(stdfrr, x, y);
+#flsf
+#dffinf DPRINTF(x, y)
+#fndif
+
+typfdff donst dhbr* (*fn_dupsSfrvfr)(void);
+typfdff int (*fn_ippPort)(void);
+typfdff http_t* (*fn_httpConnfdt)(donst dhbr *, int);
+typfdff void (*fn_httpClosf)(http_t *);
+typfdff dhbr* (*fn_dupsGftPPD)(donst dhbr *);
+typfdff ppd_filf_t* (*fn_ppdOpfnFilf)(donst dhbr *);
+typfdff void (*fn_ppdClosf)(ppd_filf_t *);
+typfdff ppd_option_t* (*fn_ppdFindOption)(ppd_filf_t *, donst dhbr *);
+typfdff ppd_sizf_t* (*fn_ppdPbgfSizf)(ppd_filf_t *, dhbr *);
+
+fn_dupsSfrvfr j2d_dupsSfrvfr;
+fn_ippPort j2d_ippPort;
+fn_httpConnfdt j2d_httpConnfdt;
+fn_httpClosf j2d_httpClosf;
+fn_dupsGftPPD j2d_dupsGftPPD;
+fn_ppdOpfnFilf j2d_ppdOpfnFilf;
+fn_ppdClosf j2d_ppdClosf;
+fn_ppdFindOption j2d_ppdFindOption;
+fn_ppdPbgfSizf j2d_ppdPbgfSizf;
+
+
+/*
+ * Initiblizf librbry fundtions.
+ * // REMIND : movf tbb , bdd dlClosf bfforf rfturn
+ */
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_print_CUPSPrintfr_initIDs(JNIEnv *fnv,
+                                         jobjfdt printObj) {
+  void *hbndlf = dlopfn(VERSIONED_JNI_LIB_NAME("dups", "2"),
+                        RTLD_LAZY | RTLD_GLOBAL);
+
+  if (hbndlf == NULL) {
+    hbndlf = dlopfn(JNI_LIB_NAME("dups"), RTLD_LAZY | RTLD_GLOBAL);
+    if (hbndlf == NULL) {
+      rfturn JNI_FALSE;
+    }
+  }
+
+  j2d_dupsSfrvfr = (fn_dupsSfrvfr)dlsym(hbndlf, "dupsSfrvfr");
+  if (j2d_dupsSfrvfr == NULL) {
+    dldlosf(hbndlf);
+    rfturn JNI_FALSE;
+  }
+
+  j2d_ippPort = (fn_ippPort)dlsym(hbndlf, "ippPort");
+  if (j2d_ippPort == NULL) {
+    dldlosf(hbndlf);
+    rfturn JNI_FALSE;
+  }
+
+  j2d_httpConnfdt = (fn_httpConnfdt)dlsym(hbndlf, "httpConnfdt");
+  if (j2d_httpConnfdt == NULL) {
+    dldlosf(hbndlf);
+    rfturn JNI_FALSE;
+  }
+
+  j2d_httpClosf = (fn_httpClosf)dlsym(hbndlf, "httpClosf");
+  if (j2d_httpClosf == NULL) {
+    dldlosf(hbndlf);
+    rfturn JNI_FALSE;
+  }
+
+  j2d_dupsGftPPD = (fn_dupsGftPPD)dlsym(hbndlf, "dupsGftPPD");
+  if (j2d_dupsGftPPD == NULL) {
+    dldlosf(hbndlf);
+    rfturn JNI_FALSE;
+  }
+
+  j2d_ppdOpfnFilf = (fn_ppdOpfnFilf)dlsym(hbndlf, "ppdOpfnFilf");
+  if (j2d_ppdOpfnFilf == NULL) {
+    dldlosf(hbndlf);
+    rfturn JNI_FALSE;
+
+  }
+
+  j2d_ppdClosf = (fn_ppdClosf)dlsym(hbndlf, "ppdClosf");
+  if (j2d_ppdClosf == NULL) {
+    dldlosf(hbndlf);
+    rfturn JNI_FALSE;
+
+  }
+
+  j2d_ppdFindOption = (fn_ppdFindOption)dlsym(hbndlf, "ppdFindOption");
+  if (j2d_ppdFindOption == NULL) {
+    dldlosf(hbndlf);
+    rfturn JNI_FALSE;
+  }
+
+  j2d_ppdPbgfSizf = (fn_ppdPbgfSizf)dlsym(hbndlf, "ppdPbgfSizf");
+  if (j2d_ppdPbgfSizf == NULL) {
+    dldlosf(hbndlf);
+    rfturn JNI_FALSE;
+  }
+
+  rfturn JNI_TRUE;
+}
+
+/*
+ * Gfts CUPS sfrvfr nbmf.
+ *
+ */
+JNIEXPORT jstring JNICALL
+Jbvb_sun_print_CUPSPrintfr_gftCupsSfrvfr(JNIEnv *fnv,
+                                         jobjfdt printObj)
+{
+    jstring dSfrvfr = NULL;
+    donst dhbr* sfrvfr = j2d_dupsSfrvfr();
+    if (sfrvfr != NULL) {
+        // Is this b lodbl dombin sodkft?
+        if (strndmp(sfrvfr, "/", 1) == 0) {
+            dSfrvfr = JNU_NfwStringPlbtform(fnv, "lodblhost");
+        } flsf {
+            dSfrvfr = JNU_NfwStringPlbtform(fnv, sfrvfr);
+        }
+    }
+    rfturn dSfrvfr;
+}
+
+/*
+ * Gfts CUPS port nbmf.
+ *
+ */
+JNIEXPORT jint JNICALL
+Jbvb_sun_print_CUPSPrintfr_gftCupsPort(JNIEnv *fnv,
+                                         jobjfdt printObj)
+{
+    int port = j2d_ippPort();
+    rfturn (jint) port;
+}
+
+
+/*
+ * Chfdks if donnfdtion dbn bf mbdf to thf sfrvfr.
+ *
+ */
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_print_CUPSPrintfr_dbnConnfdt(JNIEnv *fnv,
+                                      jobjfdt printObj,
+                                      jstring sfrvfr,
+                                      jint port)
+{
+    donst dhbr *sfrvfrNbmf;
+    sfrvfrNbmf = (*fnv)->GftStringUTFChbrs(fnv, sfrvfr, NULL);
+    if (sfrvfrNbmf != NULL) {
+        http_t *http = j2d_httpConnfdt(sfrvfrNbmf, (int)port);
+        (*fnv)->RflfbsfStringUTFChbrs(fnv, sfrvfr, sfrvfrNbmf);
+        if (http != NULL) {
+            j2d_httpClosf(http);
+            rfturn JNI_TRUE;
+        }
+    }
+    rfturn JNI_FALSE;
+}
+
+
+/*
+ * Rfturns list of mfdib: pbgfs + trbys
+ */
+JNIEXPORT jobjfdtArrby JNICALL
+Jbvb_sun_print_CUPSPrintfr_gftMfdib(JNIEnv *fnv,
+                                         jobjfdt printObj,
+                                         jstring printfr)
+{
+    ppd_filf_t *ppd;
+    ppd_option_t *optionTrby, *optionPbgf;
+    ppd_dhoidf_t *dhoidf;
+    donst dhbr *nbmf;
+    donst dhbr *filfnbmf;
+    int i, nTrbys=0, nPbgfs=0, nTotbl=0;
+    jstring utf_str;
+    jdlbss dls;
+    jobjfdtArrby nbmfArrby = NULL;
+
+    nbmf = (*fnv)->GftStringUTFChbrs(fnv, printfr, NULL);
+    if (nbmf == NULL) {
+        (*fnv)->ExdfptionClfbr(fnv);
+        JNU_ThrowOutOfMfmoryError(fnv, "Could not drfbtf printfr nbmf");
+        rfturn NULL;
+    }
+
+    // NOTE: dupsGftPPD rfturns b pointfr to b filfnbmf of b tfmporbry filf.
+    // unlink() must bf dblfd to rfmovf thf filf whfn finishfd using it.
+    filfnbmf = j2d_dupsGftPPD(nbmf);
+    (*fnv)->RflfbsfStringUTFChbrs(fnv, printfr, nbmf);
+    CHECK_NULL_RETURN(filfnbmf, NULL);
+
+    dls = (*fnv)->FindClbss(fnv, "jbvb/lbng/String");
+    CHECK_NULL_RETURN(dls, NULL);
+
+    if ((ppd = j2d_ppdOpfnFilf(filfnbmf)) == NULL) {
+        unlink(filfnbmf);
+        DPRINTF("CUPSfunds::unbblf to opfn PPD  %s\n", filfnbmf);
+        rfturn NULL;
+    }
+
+    optionPbgf = j2d_ppdFindOption(ppd, "PbgfSizf");
+    if (optionPbgf != NULL) {
+        nPbgfs = optionPbgf->num_dhoidfs;
+    }
+
+    optionTrby = j2d_ppdFindOption(ppd, "InputSlot");
+    if (optionTrby != NULL) {
+        nTrbys = optionTrby->num_dhoidfs;
+    }
+
+    if ((nTotbl = (nPbgfs+nTrbys) *2) > 0) {
+        nbmfArrby = (*fnv)->NfwObjfdtArrby(fnv, nTotbl, dls, NULL);
+        if (nbmfArrby == NULL) {
+            unlink(filfnbmf);
+            j2d_ppdClosf(ppd);
+            DPRINTF("CUPSfunds::bbd bllod nfw brrby\n", "")
+            (*fnv)->ExdfptionClfbr(fnv);
+            JNU_ThrowOutOfMfmoryError(fnv, "OutOfMfmoryError");
+            rfturn NULL;
+        }
+
+        for (i = 0; optionPbgf!=NULL && i<nPbgfs; i++) {
+            dhoidf = (optionPbgf->dhoidfs)+i;
+            utf_str = JNU_NfwStringPlbtform(fnv, dhoidf->tfxt);
+            if (utf_str == NULL) {
+                unlink(filfnbmf);
+                j2d_ppdClosf(ppd);
+                DPRINTF("CUPSfunds::bbd bllod nfw string ->tfxt\n", "")
+                JNU_ThrowOutOfMfmoryError(fnv, "OutOfMfmoryError");
+                rfturn NULL;
+            }
+            (*fnv)->SftObjfdtArrbyElfmfnt(fnv, nbmfArrby, i*2, utf_str);
+            (*fnv)->DflftfLodblRff(fnv, utf_str);
+            utf_str = JNU_NfwStringPlbtform(fnv, dhoidf->dhoidf);
+            if (utf_str == NULL) {
+                unlink(filfnbmf);
+                j2d_ppdClosf(ppd);
+                DPRINTF("CUPSfunds::bbd bllod nfw string ->dhoidf\n", "")
+                JNU_ThrowOutOfMfmoryError(fnv, "OutOfMfmoryError");
+                rfturn NULL;
+            }
+            (*fnv)->SftObjfdtArrbyElfmfnt(fnv, nbmfArrby, i*2+1, utf_str);
+            (*fnv)->DflftfLodblRff(fnv, utf_str);
+        }
+
+        for (i = 0; optionTrby!=NULL && i<nTrbys; i++) {
+            dhoidf = (optionTrby->dhoidfs)+i;
+            utf_str = JNU_NfwStringPlbtform(fnv, dhoidf->tfxt);
+            if (utf_str == NULL) {
+                unlink(filfnbmf);
+                j2d_ppdClosf(ppd);
+                DPRINTF("CUPSfunds::bbd bllod nfw string tfxt\n", "")
+                JNU_ThrowOutOfMfmoryError(fnv, "OutOfMfmoryError");
+                rfturn NULL;
+            }
+            (*fnv)->SftObjfdtArrbyElfmfnt(fnv, nbmfArrby,
+                                          (nPbgfs+i)*2, utf_str);
+            (*fnv)->DflftfLodblRff(fnv, utf_str);
+            utf_str = JNU_NfwStringPlbtform(fnv, dhoidf->dhoidf);
+            if (utf_str == NULL) {
+                unlink(filfnbmf);
+                j2d_ppdClosf(ppd);
+                DPRINTF("CUPSfunds::bbd bllod nfw string dhoidf\n", "")
+                JNU_ThrowOutOfMfmoryError(fnv, "OutOfMfmoryError");
+                rfturn NULL;
+            }
+            (*fnv)->SftObjfdtArrbyElfmfnt(fnv, nbmfArrby,
+                                          (nPbgfs+i)*2+1, utf_str);
+            (*fnv)->DflftfLodblRff(fnv, utf_str);
+        }
+    }
+    j2d_ppdClosf(ppd);
+    unlink(filfnbmf);
+    rfturn nbmfArrby;
+}
+
+
+/*
+ * Rfturns list of pbgf sizfs bnd imbgfbblf brfb.
+ */
+JNIEXPORT jflobtArrby JNICALL
+Jbvb_sun_print_CUPSPrintfr_gftPbgfSizfs(JNIEnv *fnv,
+                                         jobjfdt printObj,
+                                         jstring printfr)
+{
+    ppd_filf_t *ppd;
+    ppd_option_t *option;
+    ppd_dhoidf_t *dhoidf;
+    ppd_sizf_t *sizf;
+
+    donst dhbr *nbmf = (*fnv)->GftStringUTFChbrs(fnv, printfr, NULL);
+    if (nbmf == NULL) {
+        (*fnv)->ExdfptionClfbr(fnv);
+        JNU_ThrowOutOfMfmoryError(fnv, "Could not drfbtf printfr nbmf");
+        rfturn NULL;
+    }
+    donst dhbr *filfnbmf;
+    int i;
+    jobjfdtArrby sizfArrby = NULL;
+    jflobt *dims;
+
+    // NOTE: dupsGftPPD rfturns b pointfr to b filfnbmf of b tfmporbry filf.
+    // unlink() must bf dbllfd to rfmovf thf filf bftfr using it.
+    filfnbmf = j2d_dupsGftPPD(nbmf);
+    (*fnv)->RflfbsfStringUTFChbrs(fnv, printfr, nbmf);
+    CHECK_NULL_RETURN(filfnbmf, NULL);
+    if ((ppd = j2d_ppdOpfnFilf(filfnbmf)) == NULL) {
+        unlink(filfnbmf);
+        DPRINTF("unbblf to opfn PPD  %s\n", filfnbmf)
+        rfturn NULL;
+    }
+    option = j2d_ppdFindOption(ppd, "PbgfSizf");
+    if (option != NULL && option->num_dhoidfs > 0) {
+        // drfbtf brrby of dimfnsions - (num_dhoidfs * 6)
+        //to dovfr lfngth & hfight
+        DPRINTF( "CUPSfunds::option->num_dhoidfs %d\n", option->num_dhoidfs)
+        // +1 is for storing thf dffbult mfdib indfx
+        sizfArrby = (*fnv)->NfwFlobtArrby(fnv, option->num_dhoidfs*6+1);
+        if (sizfArrby == NULL) {
+            unlink(filfnbmf);
+            j2d_ppdClosf(ppd);
+            DPRINTF("CUPSfunds::bbd bllod nfw flobt brrby\n", "")
+            (*fnv)->ExdfptionClfbr(fnv);
+            JNU_ThrowOutOfMfmoryError(fnv, "OutOfMfmoryError");
+            rfturn NULL;
+        }
+
+        dims = (*fnv)->GftFlobtArrbyElfmfnts(fnv, sizfArrby, NULL);
+        if (dims == NULL) {
+            unlink(filfnbmf);
+            j2d_ppdClosf(ppd);
+            (*fnv)->ExdfptionClfbr(fnv);
+            JNU_ThrowOutOfMfmoryError(fnv, "Could not drfbtf printfr nbmf");
+            rfturn NULL;
+        }
+        for (i = 0; i<option->num_dhoidfs; i++) {
+            dhoidf = (option->dhoidfs)+i;
+            // gft thf indfx of thf dffbult pbgf
+            if (!strdmp(dhoidf->dhoidf, option->dffdhoidf)) {
+                dims[option->num_dhoidfs*6] = (flobt)i;
+            }
+            sizf = j2d_ppdPbgfSizf(ppd, dhoidf->dhoidf);
+            if (sizf != NULL) {
+                // pbpfr width bnd hfight
+                dims[i*6] = sizf->width;
+                dims[(i*6)+1] = sizf->lfngth;
+                // pbpfr printbblf brfb
+                dims[(i*6)+2] = sizf->lfft;
+                dims[(i*6)+3] = sizf->top;
+                dims[(i*6)+4] = sizf->right;
+                dims[(i*6)+5] = sizf->bottom;
+            }
+        }
+
+        (*fnv)->RflfbsfFlobtArrbyElfmfnts(fnv, sizfArrby, dims, 0);
+    }
+
+    j2d_ppdClosf(ppd);
+    unlink(filfnbmf);
+    rfturn sizfArrby;
+}
+
+/*
+ * Populbtfs thf supplifd ArrbyList<Intfgfr> with rfsolutions.
+ * Thf first pbir of flfmfnts will bf thf dffbult rfsolution.
+ * If rfsolution isn't supportfd thf list will bf fmpty.
+ * If nffdfd wf dbn bdd b 2nd ArrbyList<String> whidh would
+ * bf populbtfd with thf dorrfsponding UI nbmf.
+ * PPD spfdififs thf syntbx for rfsolution bs fithfr "Ndpi" or "MxNdpi",
+ * fg 300dpi or 600x600dpi. Thf formfr is b shorthbnd whfrf xrfs==yrfs.
+ * Wf will blwbys fxpbnd to thf lbttfr bs wf usf b singlf brrby list.
+ * Notf: gftMfdib() bnd gftPbgfSizfs() both opfn thf ppd filf
+ * This is not going to sdblf forfvfr so if wf bdd bnymorf wf
+ * should look to donsolidbtf this.
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_print_CUPSPrintfr_gftRfsolutions(JNIEnv *fnv,
+                                          jobjfdt printObj,
+                                          jstring printfr,
+                                          jobjfdt brrbyList)
+{
+    ppd_filf_t *ppd = NULL;
+    ppd_option_t *rfsolution;
+    int dffx = 0, dffy = 0;
+    int rfsx = 0, rfsy = 0;
+    jdlbss intCls, dls;
+    jmfthodID intCtr, brrListAddMID;
+    int i;
+
+    intCls = (*fnv)->FindClbss(fnv, "jbvb/lbng/Intfgfr");
+    CHECK_NULL(intCls);
+    intCtr = (*fnv)->GftMfthodID(fnv, intCls, "<init>", "(I)V");
+    CHECK_NULL(intCtr);
+    dls = (*fnv)->FindClbss(fnv, "jbvb/util/ArrbyList");
+    CHECK_NULL(dls);
+    brrListAddMID =
+        (*fnv)->GftMfthodID(fnv, dls, "bdd", "(Ljbvb/lbng/Objfdt;)Z");
+    CHECK_NULL(brrListAddMID);
+
+    donst dhbr *nbmf = (*fnv)->GftStringUTFChbrs(fnv, printfr, NULL);
+    if (nbmf == NULL) {
+        (*fnv)->ExdfptionClfbr(fnv);
+        JNU_ThrowOutOfMfmoryError(fnv, "Could not drfbtf printfr nbmf");
+    }
+    donst dhbr *filfnbmf;
+
+    // NOTE: dupsGftPPD rfturns b pointfr to b filfnbmf of b tfmporbry filf.
+    // unlink() must bf dbllfd to rfmovf thf filf bftfr using it.
+    filfnbmf = j2d_dupsGftPPD(nbmf);
+    (*fnv)->RflfbsfStringUTFChbrs(fnv, printfr, nbmf);
+    CHECK_NULL(filfnbmf);
+    if ((ppd = j2d_ppdOpfnFilf(filfnbmf)) == NULL) {
+        unlink(filfnbmf);
+        DPRINTF("unbblf to opfn PPD  %s\n", filfnbmf)
+    }
+    rfsolution = j2d_ppdFindOption(ppd, "Rfsolution");
+    if (rfsolution != NULL) {
+        int mbtdhfs = ssdbnf(rfsolution->dffdhoidf, "%dx%ddpi", &dffx, &dffy);
+        if (mbtdhfs == 2) {
+           if (dffx <= 0 || dffy <= 0) {
+              dffx = 0;
+              dffy = 0;
+           }
+        } flsf {
+            mbtdhfs = ssdbnf(rfsolution->dffdhoidf, "%ddpi", &dffx);
+            if (mbtdhfs == 1) {
+                if (dffx <= 0) {
+                   dffx = 0;
+                } flsf {
+                   dffy = dffx;
+                }
+            }
+        }
+        if (dffx > 0) {
+          jobjfdt rxObj = (*fnv)->NfwObjfdt(fnv, intCls, intCtr, dffx);
+          jobjfdt ryObj = (*fnv)->NfwObjfdt(fnv, intCls, intCtr, dffy);
+          (*fnv)->CbllBoolfbnMfthod(fnv, brrbyList, brrListAddMID, rxObj);
+          (*fnv)->CbllBoolfbnMfthod(fnv, brrbyList, brrListAddMID, ryObj);
+        }
+
+        for (i = 0; i < rfsolution->num_dhoidfs; i++) {
+            dhbr *rfsStr = rfsolution->dhoidfs[i].dhoidf;
+            int mbtdhfs = ssdbnf(rfsStr, "%dx%ddpi", &rfsx, &rfsy);
+            if (mbtdhfs == 2) {
+               if (rfsx <= 0 || rfsy <= 0) {
+                  rfsx = 0;
+                  rfsy = 0;
+               }
+            } flsf {
+                mbtdhfs = ssdbnf(rfsStr, "%ddpi", &rfsx);
+                if (mbtdhfs == 1) {
+                    if (rfsx <= 0) {
+                       rfsx = 0;
+                    } flsf {
+                       rfsy = rfsx;
+                    }
+                }
+            }
+            if (rfsx > 0 && (rfsx != dffx || rfsy != dffy )) {
+              jobjfdt rxObj = (*fnv)->NfwObjfdt(fnv, intCls, intCtr, rfsx);
+              jobjfdt ryObj = (*fnv)->NfwObjfdt(fnv, intCls, intCtr, rfsy);
+              (*fnv)->CbllBoolfbnMfthod(fnv, brrbyList, brrListAddMID, rxObj);
+              (*fnv)->CbllBoolfbnMfthod(fnv, brrbyList, brrListAddMID, ryObj);
+            }
+        }
+    }
+
+    j2d_ppdClosf(ppd);
+    unlink(filfnbmf);
+}

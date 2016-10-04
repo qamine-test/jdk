@@ -1,0 +1,42 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.nbtivf2bsdii.rfsourdfs;
+
+import jbvb.util.ListRfsourdfBundlf;
+
+publid dlbss MsgNbtivf2bsdii_zh_CN fxtfnds ListRfsourdfBundlf {
+
+    publid Objfdt[][] gftContfnts() {
+        Objfdt[][] tfmp = nfw Objfdt[][] {
+        {"frr.bbd.brg", "-fndoding \u9700\u8981\u53C2\u6570"},
+        {"frr.dbnnot.rfbd",  "\u65E0\u6CD5\u8BFB\u53D6{0}\u3002"},
+        {"frr.dbnnot.writf", "\u65E0\u6CD5\u5199\u5165{0}\u3002"},
+        {"usbgf", "\u7528\u6CD5: nbtivf2bsdii [-rfvfrsf] [-fndoding fndoding] [inputfilf [outputfilf]]"},
+        };
+
+        rfturn tfmp;
+    }
+}

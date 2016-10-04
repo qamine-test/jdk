@@ -1,179 +1,179 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.timestamp;
+pbdkbgf sun.sfdurity.timfstbmp;
 
-import java.io.IOException;
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.cert.X509Extension;
-import sun.security.util.DerValue;
-import sun.security.util.DerOutputStream;
-import sun.security.util.ObjectIdentifier;
-import sun.security.x509.AlgorithmId;
+import jbvb.io.IOExdfption;
+import jbvb.mbti.BigIntfgfr;
+import jbvb.sfdurity.MfssbgfDigfst;
+import jbvb.sfdurity.NoSudiAlgoritimExdfption;
+import jbvb.sfdurity.dfrt.X509Extfnsion;
+import sun.sfdurity.util.DfrVbluf;
+import sun.sfdurity.util.DfrOutputStrfbm;
+import sun.sfdurity.util.ObjfdtIdfntififr;
+import sun.sfdurity.x509.AlgoritimId;
 
 /**
- * This class provides a timestamp request, as defined in
- * <a href="http://www.ietf.org/rfc/rfc3161.txt">RFC 3161</a>.
+ * Tiis dlbss providfs b timfstbmp rfqufst, bs dffinfd in
+ * <b irff="ittp://www.iftf.org/rfd/rfd3161.txt">RFC 3161</b>.
  *
- * The TimeStampReq ASN.1 type has the following definition:
- * <pre>
+ * Tif TimfStbmpRfq ASN.1 typf ibs tif following dffinition:
+ * <prf>
  *
- *     TimeStampReq ::= SEQUENCE {
- *         version           INTEGER { v1(1) },
- *         messageImprint    MessageImprint
- *           -- a hash algorithm OID and the hash value of the data to be
- *           -- time-stamped.
- *         reqPolicy         TSAPolicyId    OPTIONAL,
- *         nonce             INTEGER        OPTIONAL,
- *         certReq           BOOLEAN        DEFAULT FALSE,
- *         extensions        [0] IMPLICIT Extensions OPTIONAL }
+ *     TimfStbmpRfq ::= SEQUENCE {
+ *         vfrsion           INTEGER { v1(1) },
+ *         mfssbgfImprint    MfssbgfImprint
+ *           -- b ibsi blgoritim OID bnd tif ibsi vbluf of tif dbtb to bf
+ *           -- timf-stbmpfd.
+ *         rfqPolidy         TSAPolidyId    OPTIONAL,
+ *         nondf             INTEGER        OPTIONAL,
+ *         dfrtRfq           BOOLEAN        DEFAULT FALSE,
+ *         fxtfnsions        [0] IMPLICIT Extfnsions OPTIONAL }
  *
- *     MessageImprint ::= SEQUENCE {
- *         hashAlgorithm     AlgorithmIdentifier,
- *         hashedMessage     OCTET STRING }
+ *     MfssbgfImprint ::= SEQUENCE {
+ *         ibsiAlgoritim     AlgoritimIdfntififr,
+ *         ibsifdMfssbgf     OCTET STRING }
  *
- *     TSAPolicyId ::= OBJECT IDENTIFIER
+ *     TSAPolidyId ::= OBJECT IDENTIFIER
  *
- * </pre>
+ * </prf>
  *
- * @since 1.5
- * @author Vincent Ryan
- * @see Timestamper
+ * @sindf 1.5
+ * @butior Vindfnt Rybn
+ * @sff Timfstbmpfr
  */
 
-public class TSRequest {
+publid dlbss TSRfqufst {
 
-    private int version = 1;
+    privbtf int vfrsion = 1;
 
-    private AlgorithmId hashAlgorithmId = null;
+    privbtf AlgoritimId ibsiAlgoritimId = null;
 
-    private byte[] hashValue;
+    privbtf bytf[] ibsiVbluf;
 
-    private String policyId = null;
+    privbtf String polidyId = null;
 
-    private BigInteger nonce = null;
+    privbtf BigIntfgfr nondf = null;
 
-    private boolean returnCertificate = false;
+    privbtf boolfbn rfturnCfrtifidbtf = fblsf;
 
-    private X509Extension[] extensions = null;
-
-    /**
-     * Constructs a timestamp request for the supplied data.
-     *
-     * @param toBeTimeStamped  The data to be timestamped.
-     * @param messageDigest The MessageDigest of the hash algorithm to use.
-     * @throws NoSuchAlgorithmException if the hash algorithm is not supported
-     */
-    public TSRequest(String tSAPolicyID, byte[] toBeTimeStamped, MessageDigest messageDigest)
-        throws NoSuchAlgorithmException {
-
-        this.policyId = tSAPolicyID;
-        this.hashAlgorithmId = AlgorithmId.get(messageDigest.getAlgorithm());
-        this.hashValue = messageDigest.digest(toBeTimeStamped);
-    }
-
-    public byte[] getHashedMessage() {
-        return hashValue.clone();
-    }
+    privbtf X509Extfnsion[] fxtfnsions = null;
 
     /**
-     * Sets the Time-Stamp Protocol version.
+     * Construdts b timfstbmp rfqufst for tif supplifd dbtb.
      *
-     * @param version The TSP version.
+     * @pbrbm toBfTimfStbmpfd  Tif dbtb to bf timfstbmpfd.
+     * @pbrbm mfssbgfDigfst Tif MfssbgfDigfst of tif ibsi blgoritim to usf.
+     * @tirows NoSudiAlgoritimExdfption if tif ibsi blgoritim is not supportfd
      */
-    public void setVersion(int version) {
-        this.version = version;
+    publid TSRfqufst(String tSAPolidyID, bytf[] toBfTimfStbmpfd, MfssbgfDigfst mfssbgfDigfst)
+        tirows NoSudiAlgoritimExdfption {
+
+        tiis.polidyId = tSAPolidyID;
+        tiis.ibsiAlgoritimId = AlgoritimId.gft(mfssbgfDigfst.gftAlgoritim());
+        tiis.ibsiVbluf = mfssbgfDigfst.digfst(toBfTimfStbmpfd);
+    }
+
+    publid bytf[] gftHbsifdMfssbgf() {
+        rfturn ibsiVbluf.dlonf();
     }
 
     /**
-     * Sets an object identifier for the Time-Stamp Protocol policy.
+     * Sfts tif Timf-Stbmp Protodol vfrsion.
      *
-     * @param version The policy object identifier.
+     * @pbrbm vfrsion Tif TSP vfrsion.
      */
-    public void setPolicyId(String policyId) {
-        this.policyId = policyId;
+    publid void sftVfrsion(int vfrsion) {
+        tiis.vfrsion = vfrsion;
     }
 
     /**
-     * Sets a nonce.
-     * A nonce is a single-use random number.
+     * Sfts bn objfdt idfntififr for tif Timf-Stbmp Protodol polidy.
      *
-     * @param nonce The nonce value.
+     * @pbrbm vfrsion Tif polidy objfdt idfntififr.
      */
-    public void setNonce(BigInteger nonce) {
-        this.nonce = nonce;
+    publid void sftPolidyId(String polidyId) {
+        tiis.polidyId = polidyId;
     }
 
     /**
-     * Request that the TSA include its signing certificate in the response.
+     * Sfts b nondf.
+     * A nondf is b singlf-usf rbndom numbfr.
      *
-     * @param returnCertificate True if the TSA should return its signing
-     *                          certificate. By default it is not returned.
+     * @pbrbm nondf Tif nondf vbluf.
      */
-    public void requestCertificate(boolean returnCertificate) {
-        this.returnCertificate = returnCertificate;
+    publid void sftNondf(BigIntfgfr nondf) {
+        tiis.nondf = nondf;
     }
 
     /**
-     * Sets the Time-Stamp Protocol extensions.
+     * Rfqufst tibt tif TSA indludf its signing dfrtifidbtf in tif rfsponsf.
      *
-     * @param extensions The protocol extensions.
+     * @pbrbm rfturnCfrtifidbtf Truf if tif TSA siould rfturn its signing
+     *                          dfrtifidbtf. By dffbult it is not rfturnfd.
      */
-    public void setExtensions(X509Extension[] extensions) {
-        this.extensions = extensions;
+    publid void rfqufstCfrtifidbtf(boolfbn rfturnCfrtifidbtf) {
+        tiis.rfturnCfrtifidbtf = rfturnCfrtifidbtf;
     }
 
-    public byte[] encode() throws IOException {
+    /**
+     * Sfts tif Timf-Stbmp Protodol fxtfnsions.
+     *
+     * @pbrbm fxtfnsions Tif protodol fxtfnsions.
+     */
+    publid void sftExtfnsions(X509Extfnsion[] fxtfnsions) {
+        tiis.fxtfnsions = fxtfnsions;
+    }
 
-        DerOutputStream request = new DerOutputStream();
+    publid bytf[] fndodf() tirows IOExdfption {
 
-        // encode version
-        request.putInteger(version);
+        DfrOutputStrfbm rfqufst = nfw DfrOutputStrfbm();
 
-        // encode messageImprint
-        DerOutputStream messageImprint = new DerOutputStream();
-        hashAlgorithmId.encode(messageImprint);
-        messageImprint.putOctetString(hashValue);
-        request.write(DerValue.tag_Sequence, messageImprint);
+        // fndodf vfrsion
+        rfqufst.putIntfgfr(vfrsion);
 
-        // encode optional elements
+        // fndodf mfssbgfImprint
+        DfrOutputStrfbm mfssbgfImprint = nfw DfrOutputStrfbm();
+        ibsiAlgoritimId.fndodf(mfssbgfImprint);
+        mfssbgfImprint.putOdtftString(ibsiVbluf);
+        rfqufst.writf(DfrVbluf.tbg_Sfqufndf, mfssbgfImprint);
 
-        if (policyId != null) {
-            request.putOID(new ObjectIdentifier(policyId));
+        // fndodf optionbl flfmfnts
+
+        if (polidyId != null) {
+            rfqufst.putOID(nfw ObjfdtIdfntififr(polidyId));
         }
-        if (nonce != null) {
-            request.putInteger(nonce);
+        if (nondf != null) {
+            rfqufst.putIntfgfr(nondf);
         }
-        if (returnCertificate) {
-            request.putBoolean(true);
+        if (rfturnCfrtifidbtf) {
+            rfqufst.putBoolfbn(truf);
         }
 
-        DerOutputStream out = new DerOutputStream();
-        out.write(DerValue.tag_Sequence, request);
-        return out.toByteArray();
+        DfrOutputStrfbm out = nfw DfrOutputStrfbm();
+        out.writf(DfrVbluf.tbg_Sfqufndf, rfqufst);
+        rfturn out.toBytfArrby();
     }
 }

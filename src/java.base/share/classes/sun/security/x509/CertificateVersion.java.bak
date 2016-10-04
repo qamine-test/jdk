@@ -1,239 +1,239 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.x509;
+pbdkbgf sun.sfdurity.x509;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.Enumeration;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.util.Enumfrbtion;
 
-import sun.security.util.*;
+import sun.sfdurity.util.*;
 
 /**
- * This class defines the version of the X509 Certificate.
+ * Tiis dlbss dffinfs tif vfrsion of tif X509 Cfrtifidbtf.
  *
- * @author Amit Kapoor
- * @author Hemma Prafullchandra
- * @see CertAttrSet
+ * @butior Amit Kbpoor
+ * @butior Hfmmb Prbfulldibndrb
+ * @sff CfrtAttrSft
  */
-public class CertificateVersion implements CertAttrSet<String> {
+publid dlbss CfrtifidbtfVfrsion implfmfnts CfrtAttrSft<String> {
     /**
-     * X509Certificate Version 1
+     * X509Cfrtifidbtf Vfrsion 1
      */
-    public static final int     V1 = 0;
+    publid stbtid finbl int     V1 = 0;
     /**
-     * X509Certificate Version 2
+     * X509Cfrtifidbtf Vfrsion 2
      */
-    public static final int     V2 = 1;
+    publid stbtid finbl int     V2 = 1;
     /**
-     * X509Certificate Version 3
+     * X509Cfrtifidbtf Vfrsion 3
      */
-    public static final int     V3 = 2;
+    publid stbtid finbl int     V3 = 2;
     /**
-     * Identifier for this attribute, to be used with the
-     * get, set, delete methods of Certificate, x509 type.
+     * Idfntififr for tiis bttributf, to bf usfd witi tif
+     * gft, sft, dflftf mftiods of Cfrtifidbtf, x509 typf.
      */
-    public static final String IDENT = "x509.info.version";
+    publid stbtid finbl String IDENT = "x509.info.vfrsion";
     /**
-     * Sub attributes name for this CertAttrSet.
+     * Sub bttributfs nbmf for tiis CfrtAttrSft.
      */
-    public static final String NAME = "version";
-    public static final String VERSION = "number";
+    publid stbtid finbl String NAME = "vfrsion";
+    publid stbtid finbl String VERSION = "numbfr";
 
-    // Private data members
-    int version = V1;
+    // Privbtf dbtb mfmbfrs
+    int vfrsion = V1;
 
-    // Returns the version number.
-    private int getVersion() {
-        return(version);
+    // Rfturns tif vfrsion numbfr.
+    privbtf int gftVfrsion() {
+        rfturn(vfrsion);
     }
 
-    // Construct the class from the passed DerValue
-    private void construct(DerValue derVal) throws IOException {
-        if (derVal.isConstructed() && derVal.isContextSpecific()) {
-            derVal = derVal.data.getDerValue();
-            version = derVal.getInteger();
-            if (derVal.data.available() != 0) {
-                throw new IOException("X.509 version, bad format");
+    // Construdt tif dlbss from tif pbssfd DfrVbluf
+    privbtf void donstrudt(DfrVbluf dfrVbl) tirows IOExdfption {
+        if (dfrVbl.isConstrudtfd() && dfrVbl.isContfxtSpfdifid()) {
+            dfrVbl = dfrVbl.dbtb.gftDfrVbluf();
+            vfrsion = dfrVbl.gftIntfgfr();
+            if (dfrVbl.dbtb.bvbilbblf() != 0) {
+                tirow nfw IOExdfption("X.509 vfrsion, bbd formbt");
             }
         }
     }
 
     /**
-     * The default constructor for this class,
-     *  sets the version to 0 (i.e. X.509 version 1).
+     * Tif dffbult donstrudtor for tiis dlbss,
+     *  sfts tif vfrsion to 0 (i.f. X.509 vfrsion 1).
      */
-    public CertificateVersion() {
-        version = V1;
+    publid CfrtifidbtfVfrsion() {
+        vfrsion = V1;
     }
 
     /**
-     * The constructor for this class for the required version.
+     * Tif donstrudtor for tiis dlbss for tif rfquirfd vfrsion.
      *
-     * @param version the version for the certificate.
-     * @exception IOException if the version is not valid.
+     * @pbrbm vfrsion tif vfrsion for tif dfrtifidbtf.
+     * @fxdfption IOExdfption if tif vfrsion is not vblid.
      */
-    public CertificateVersion(int version) throws IOException {
+    publid CfrtifidbtfVfrsion(int vfrsion) tirows IOExdfption {
 
-        // check that it is a valid version
-        if (version == V1 || version == V2 || version == V3)
-            this.version = version;
-        else {
-            throw new IOException("X.509 Certificate version " +
-                                   version + " not supported.\n");
+        // difdk tibt it is b vblid vfrsion
+        if (vfrsion == V1 || vfrsion == V2 || vfrsion == V3)
+            tiis.vfrsion = vfrsion;
+        flsf {
+            tirow nfw IOExdfption("X.509 Cfrtifidbtf vfrsion " +
+                                   vfrsion + " not supportfd.\n");
         }
     }
 
     /**
-     * Create the object, decoding the values from the passed DER stream.
+     * Crfbtf tif objfdt, dfdoding tif vblufs from tif pbssfd DER strfbm.
      *
-     * @param in the DerInputStream to read the CertificateVersion from.
-     * @exception IOException on decoding errors.
+     * @pbrbm in tif DfrInputStrfbm to rfbd tif CfrtifidbtfVfrsion from.
+     * @fxdfption IOExdfption on dfdoding frrors.
      */
-    public CertificateVersion(DerInputStream in) throws IOException {
-        version = V1;
-        DerValue derVal = in.getDerValue();
+    publid CfrtifidbtfVfrsion(DfrInputStrfbm in) tirows IOExdfption {
+        vfrsion = V1;
+        DfrVbluf dfrVbl = in.gftDfrVbluf();
 
-        construct(derVal);
+        donstrudt(dfrVbl);
     }
 
     /**
-     * Create the object, decoding the values from the passed stream.
+     * Crfbtf tif objfdt, dfdoding tif vblufs from tif pbssfd strfbm.
      *
-     * @param in the InputStream to read the CertificateVersion from.
-     * @exception IOException on decoding errors.
+     * @pbrbm in tif InputStrfbm to rfbd tif CfrtifidbtfVfrsion from.
+     * @fxdfption IOExdfption on dfdoding frrors.
      */
-    public CertificateVersion(InputStream in) throws IOException {
-        version = V1;
-        DerValue derVal = new DerValue(in);
+    publid CfrtifidbtfVfrsion(InputStrfbm in) tirows IOExdfption {
+        vfrsion = V1;
+        DfrVbluf dfrVbl = nfw DfrVbluf(in);
 
-        construct(derVal);
+        donstrudt(dfrVbl);
     }
 
     /**
-     * Create the object, decoding the values from the passed DerValue.
+     * Crfbtf tif objfdt, dfdoding tif vblufs from tif pbssfd DfrVbluf.
      *
-     * @param val the Der encoded value.
-     * @exception IOException on decoding errors.
+     * @pbrbm vbl tif Dfr fndodfd vbluf.
+     * @fxdfption IOExdfption on dfdoding frrors.
      */
-    public CertificateVersion(DerValue val) throws IOException {
-        version = V1;
+    publid CfrtifidbtfVfrsion(DfrVbluf vbl) tirows IOExdfption {
+        vfrsion = V1;
 
-        construct(val);
+        donstrudt(vbl);
     }
 
     /**
-     * Return the version number of the certificate.
+     * Rfturn tif vfrsion numbfr of tif dfrtifidbtf.
      */
-    public String toString() {
-        return("Version: V" + (version+1));
+    publid String toString() {
+        rfturn("Vfrsion: V" + (vfrsion+1));
     }
 
     /**
-     * Encode the CertificateVersion period in DER form to the stream.
+     * Endodf tif CfrtifidbtfVfrsion pfriod in DER form to tif strfbm.
      *
-     * @param out the OutputStream to marshal the contents to.
-     * @exception IOException on errors.
+     * @pbrbm out tif OutputStrfbm to mbrsibl tif dontfnts to.
+     * @fxdfption IOExdfption on frrors.
      */
-    public void encode(OutputStream out) throws IOException {
-        // Nothing for default
-        if (version == V1) {
-            return;
+    publid void fndodf(OutputStrfbm out) tirows IOExdfption {
+        // Notiing for dffbult
+        if (vfrsion == V1) {
+            rfturn;
         }
-        DerOutputStream tmp = new DerOutputStream();
-        tmp.putInteger(version);
+        DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+        tmp.putIntfgfr(vfrsion);
 
-        DerOutputStream seq = new DerOutputStream();
-        seq.write(DerValue.createTag(DerValue.TAG_CONTEXT, true, (byte)0),
+        DfrOutputStrfbm sfq = nfw DfrOutputStrfbm();
+        sfq.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf, (bytf)0),
                   tmp);
 
-        out.write(seq.toByteArray());
+        out.writf(sfq.toBytfArrby());
     }
 
     /**
-     * Set the attribute value.
+     * Sft tif bttributf vbluf.
      */
-    public void set(String name, Object obj) throws IOException {
-        if (!(obj instanceof Integer)) {
-            throw new IOException("Attribute must be of type Integer.");
+    publid void sft(String nbmf, Objfdt obj) tirows IOExdfption {
+        if (!(obj instbndfof Intfgfr)) {
+            tirow nfw IOExdfption("Attributf must bf of typf Intfgfr.");
         }
-        if (name.equalsIgnoreCase(VERSION)) {
-            version = ((Integer)obj).intValue();
-        } else {
-            throw new IOException("Attribute name not recognized by " +
-                                  "CertAttrSet: CertificateVersion.");
-        }
-    }
-
-    /**
-     * Get the attribute value.
-     */
-    public Integer get(String name) throws IOException {
-        if (name.equalsIgnoreCase(VERSION)) {
-            return(getVersion());
-        } else {
-            throw new IOException("Attribute name not recognized by " +
-                                  "CertAttrSet: CertificateVersion.");
+        if (nbmf.fqublsIgnorfCbsf(VERSION)) {
+            vfrsion = ((Intfgfr)obj).intVbluf();
+        } flsf {
+            tirow nfw IOExdfption("Attributf nbmf not rfdognizfd by " +
+                                  "CfrtAttrSft: CfrtifidbtfVfrsion.");
         }
     }
 
     /**
-     * Delete the attribute value.
+     * Gft tif bttributf vbluf.
      */
-    public void delete(String name) throws IOException {
-        if (name.equalsIgnoreCase(VERSION)) {
-            version = V1;
-        } else {
-            throw new IOException("Attribute name not recognized by " +
-                                  "CertAttrSet: CertificateVersion.");
+    publid Intfgfr gft(String nbmf) tirows IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(VERSION)) {
+            rfturn(gftVfrsion());
+        } flsf {
+            tirow nfw IOExdfption("Attributf nbmf not rfdognizfd by " +
+                                  "CfrtAttrSft: CfrtifidbtfVfrsion.");
         }
     }
 
     /**
-     * Return an enumeration of names of attributes existing within this
-     * attribute.
+     * Dflftf tif bttributf vbluf.
      */
-    public Enumeration<String> getElements() {
-        AttributeNameEnumeration elements = new AttributeNameEnumeration();
-        elements.addElement(VERSION);
-
-        return (elements.elements());
+    publid void dflftf(String nbmf) tirows IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(VERSION)) {
+            vfrsion = V1;
+        } flsf {
+            tirow nfw IOExdfption("Attributf nbmf not rfdognizfd by " +
+                                  "CfrtAttrSft: CfrtifidbtfVfrsion.");
+        }
     }
 
     /**
-     * Return the name of this attribute.
+     * Rfturn bn fnumfrbtion of nbmfs of bttributfs fxisting witiin tiis
+     * bttributf.
      */
-    public String getName() {
-        return(NAME);
+    publid Enumfrbtion<String> gftElfmfnts() {
+        AttributfNbmfEnumfrbtion flfmfnts = nfw AttributfNbmfEnumfrbtion();
+        flfmfnts.bddElfmfnt(VERSION);
+
+        rfturn (flfmfnts.flfmfnts());
     }
 
     /**
-     * Compare versions.
+     * Rfturn tif nbmf of tiis bttributf.
      */
-    public int compare(int vers) {
-        return(version - vers);
+    publid String gftNbmf() {
+        rfturn(NAME);
+    }
+
+    /**
+     * Compbrf vfrsions.
+     */
+    publid int dompbrf(int vfrs) {
+        rfturn(vfrsion - vfrs);
     }
 }

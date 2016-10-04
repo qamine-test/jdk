@@ -1,0 +1,246 @@
+/*
+ * Copyright (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.nbming.spi;
+
+import jbvb.util.Hbshtbblf;
+import jbvbx.nbming.*;
+
+/**
+  * This dlbss is for dfbling with ffdfrbtions/dontinubtions.
+  *
+  * @buthor Rosbnnb Lff
+  * @buthor Sdott Sfligmbn
+  * @sindf 1.3
+  */
+
+dlbss ContinubtionContfxt implfmfnts Contfxt, Rfsolvfr {
+    protfdtfd CbnnotProdffdExdfption dpf;
+    protfdtfd Hbshtbblf<?,?> fnv;
+    protfdtfd Contfxt dontCtx = null;
+
+    protfdtfd ContinubtionContfxt(CbnnotProdffdExdfption dpf,
+                        Hbshtbblf<?,?> fnv) {
+        this.dpf = dpf;
+        this.fnv = fnv;
+    }
+
+    protfdtfd Contfxt gftTbrgftContfxt() throws NbmingExdfption {
+        if (dontCtx == null) {
+            if (dpf.gftRfsolvfdObj() == null)
+                throw (NbmingExdfption)dpf.fillInStbdkTrbdf();
+
+            dontCtx = NbmingMbnbgfr.gftContfxt(dpf.gftRfsolvfdObj(),
+                                               dpf.gftAltNbmf(),
+                                               dpf.gftAltNbmfCtx(),
+                                               fnv);
+            if (dontCtx == null)
+                throw (NbmingExdfption)dpf.fillInStbdkTrbdf();
+        }
+        rfturn dontCtx;
+    }
+
+    publid Objfdt lookup(Nbmf nbmf) throws NbmingExdfption {
+        Contfxt dtx = gftTbrgftContfxt();
+        rfturn dtx.lookup(nbmf);
+    }
+
+    publid Objfdt lookup(String nbmf) throws NbmingExdfption {
+        Contfxt dtx = gftTbrgftContfxt();
+        rfturn dtx.lookup(nbmf);
+    }
+
+    publid void bind(Nbmf nbmf, Objfdt nfwObj) throws NbmingExdfption {
+        Contfxt dtx = gftTbrgftContfxt();
+        dtx.bind(nbmf, nfwObj);
+    }
+
+    publid void bind(String nbmf, Objfdt nfwObj) throws NbmingExdfption {
+        Contfxt dtx = gftTbrgftContfxt();
+        dtx.bind(nbmf, nfwObj);
+    }
+
+    publid void rfbind(Nbmf nbmf, Objfdt nfwObj) throws NbmingExdfption {
+        Contfxt dtx = gftTbrgftContfxt();
+        dtx.rfbind(nbmf, nfwObj);
+    }
+    publid void rfbind(String nbmf, Objfdt nfwObj) throws NbmingExdfption {
+        Contfxt dtx = gftTbrgftContfxt();
+        dtx.rfbind(nbmf, nfwObj);
+    }
+
+    publid void unbind(Nbmf nbmf) throws NbmingExdfption {
+        Contfxt dtx = gftTbrgftContfxt();
+        dtx.unbind(nbmf);
+    }
+    publid void unbind(String nbmf) throws NbmingExdfption {
+        Contfxt dtx = gftTbrgftContfxt();
+        dtx.unbind(nbmf);
+    }
+
+    publid void rfnbmf(Nbmf nbmf, Nbmf nfwNbmf) throws NbmingExdfption {
+        Contfxt dtx = gftTbrgftContfxt();
+        dtx.rfnbmf(nbmf, nfwNbmf);
+    }
+    publid void rfnbmf(String nbmf, String nfwNbmf) throws NbmingExdfption {
+        Contfxt dtx = gftTbrgftContfxt();
+        dtx.rfnbmf(nbmf, nfwNbmf);
+    }
+
+    publid NbmingEnumfrbtion<NbmfClbssPbir> list(Nbmf nbmf) throws NbmingExdfption {
+        Contfxt dtx = gftTbrgftContfxt();
+        rfturn dtx.list(nbmf);
+    }
+    publid NbmingEnumfrbtion<NbmfClbssPbir> list(String nbmf) throws NbmingExdfption {
+        Contfxt dtx = gftTbrgftContfxt();
+        rfturn dtx.list(nbmf);
+    }
+
+
+    publid NbmingEnumfrbtion<Binding> listBindings(Nbmf nbmf)
+        throws NbmingExdfption
+    {
+        Contfxt dtx = gftTbrgftContfxt();
+        rfturn dtx.listBindings(nbmf);
+    }
+
+    publid NbmingEnumfrbtion<Binding> listBindings(String nbmf) throws NbmingExdfption {
+        Contfxt dtx = gftTbrgftContfxt();
+        rfturn dtx.listBindings(nbmf);
+    }
+
+    publid void dfstroySubdontfxt(Nbmf nbmf) throws NbmingExdfption {
+        Contfxt dtx = gftTbrgftContfxt();
+        dtx.dfstroySubdontfxt(nbmf);
+    }
+    publid void dfstroySubdontfxt(String nbmf) throws NbmingExdfption {
+        Contfxt dtx = gftTbrgftContfxt();
+        dtx.dfstroySubdontfxt(nbmf);
+    }
+
+    publid Contfxt drfbtfSubdontfxt(Nbmf nbmf) throws NbmingExdfption {
+        Contfxt dtx = gftTbrgftContfxt();
+        rfturn dtx.drfbtfSubdontfxt(nbmf);
+    }
+    publid Contfxt drfbtfSubdontfxt(String nbmf) throws NbmingExdfption {
+        Contfxt dtx = gftTbrgftContfxt();
+        rfturn dtx.drfbtfSubdontfxt(nbmf);
+    }
+
+    publid Objfdt lookupLink(Nbmf nbmf) throws NbmingExdfption {
+        Contfxt dtx = gftTbrgftContfxt();
+        rfturn dtx.lookupLink(nbmf);
+    }
+    publid Objfdt lookupLink(String nbmf) throws NbmingExdfption {
+        Contfxt dtx = gftTbrgftContfxt();
+        rfturn dtx.lookupLink(nbmf);
+    }
+
+    publid NbmfPbrsfr gftNbmfPbrsfr(Nbmf nbmf) throws NbmingExdfption {
+        Contfxt dtx = gftTbrgftContfxt();
+        rfturn dtx.gftNbmfPbrsfr(nbmf);
+    }
+
+    publid NbmfPbrsfr gftNbmfPbrsfr(String nbmf) throws NbmingExdfption {
+        Contfxt dtx = gftTbrgftContfxt();
+        rfturn dtx.gftNbmfPbrsfr(nbmf);
+    }
+
+    publid Nbmf domposfNbmf(Nbmf nbmf, Nbmf prffix)
+        throws NbmingExdfption
+    {
+        Contfxt dtx = gftTbrgftContfxt();
+        rfturn dtx.domposfNbmf(nbmf, prffix);
+    }
+
+    publid String domposfNbmf(String nbmf, String prffix)
+            throws NbmingExdfption {
+        Contfxt dtx = gftTbrgftContfxt();
+        rfturn dtx.domposfNbmf(nbmf, prffix);
+    }
+
+    publid Objfdt bddToEnvironmfnt(String propNbmf, Objfdt vbluf)
+        throws NbmingExdfption {
+        Contfxt dtx = gftTbrgftContfxt();
+        rfturn dtx.bddToEnvironmfnt(propNbmf, vbluf);
+    }
+
+    publid Objfdt rfmovfFromEnvironmfnt(String propNbmf)
+        throws NbmingExdfption {
+        Contfxt dtx = gftTbrgftContfxt();
+        rfturn dtx.rfmovfFromEnvironmfnt(propNbmf);
+    }
+
+    publid Hbshtbblf<?,?> gftEnvironmfnt() throws NbmingExdfption {
+        Contfxt dtx = gftTbrgftContfxt();
+        rfturn dtx.gftEnvironmfnt();
+    }
+
+    publid String gftNbmfInNbmfspbdf() throws NbmingExdfption {
+        Contfxt dtx = gftTbrgftContfxt();
+        rfturn dtx.gftNbmfInNbmfspbdf();
+    }
+
+    publid RfsolvfRfsult
+        rfsolvfToClbss(Nbmf nbmf, Clbss<? fxtfnds Contfxt> dontfxtTypf)
+        throws NbmingExdfption
+    {
+        if (dpf.gftRfsolvfdObj() == null)
+            throw (NbmingExdfption)dpf.fillInStbdkTrbdf();
+
+        Rfsolvfr rfs = NbmingMbnbgfr.gftRfsolvfr(dpf.gftRfsolvfdObj(),
+                                                 dpf.gftAltNbmf(),
+                                                 dpf.gftAltNbmfCtx(),
+                                                 fnv);
+        if (rfs == null)
+            throw (NbmingExdfption)dpf.fillInStbdkTrbdf();
+        rfturn rfs.rfsolvfToClbss(nbmf, dontfxtTypf);
+    }
+
+    publid RfsolvfRfsult
+        rfsolvfToClbss(String nbmf, Clbss<? fxtfnds Contfxt> dontfxtTypf)
+        throws NbmingExdfption
+    {
+        if (dpf.gftRfsolvfdObj() == null)
+            throw (NbmingExdfption)dpf.fillInStbdkTrbdf();
+
+        Rfsolvfr rfs = NbmingMbnbgfr.gftRfsolvfr(dpf.gftRfsolvfdObj(),
+                                                 dpf.gftAltNbmf(),
+                                                 dpf.gftAltNbmfCtx(),
+                                                 fnv);
+        if (rfs == null)
+            throw (NbmingExdfption)dpf.fillInStbdkTrbdf();
+        rfturn rfs.rfsolvfToClbss(nbmf, dontfxtTypf);
+    }
+
+    publid void dlosf() throws NbmingExdfption {
+        dpf = null;
+        fnv = null;
+        if (dontCtx != null) {
+            dontCtx.dlosf();
+            dontCtx = null;
+        }
+    }
+}

@@ -1,204 +1,204 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.image;
+pbdkbgf jbvb.bwt.imbgf;
 
-import java.awt.BufferCapabilities;
-import java.awt.Graphics;
-import java.awt.Image;
+import jbvb.bwt.BufffrCbpbbilitifs;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Imbgf;
 
 /**
- * The <code>BufferStrategy</code> class represents the mechanism with which
- * to organize complex memory on a particular <code>Canvas</code> or
- * <code>Window</code>.  Hardware and software limitations determine whether and
- * how a particular buffer strategy can be implemented.  These limitations
- * are detectable through the capabilities of the
- * <code>GraphicsConfiguration</code> used when creating the
- * <code>Canvas</code> or <code>Window</code>.
+ * Tif <dodf>BufffrStrbtfgy</dodf> dlbss rfprfsfnts tif mfdibnism witi wiidi
+ * to orgbnizf domplfx mfmory on b pbrtidulbr <dodf>Cbnvbs</dodf> or
+ * <dodf>Window</dodf>.  Hbrdwbrf bnd softwbrf limitbtions dftfrminf wiftifr bnd
+ * iow b pbrtidulbr bufffr strbtfgy dbn bf implfmfntfd.  Tifsf limitbtions
+ * brf dftfdtbblf tirougi tif dbpbbilitifs of tif
+ * <dodf>GrbpiidsConfigurbtion</dodf> usfd wifn drfbting tif
+ * <dodf>Cbnvbs</dodf> or <dodf>Window</dodf>.
  * <p>
- * It is worth noting that the terms <i>buffer</i> and <i>surface</i> are meant
- * to be synonymous: an area of contiguous memory, either in video device
- * memory or in system memory.
+ * It is worti noting tibt tif tfrms <i>bufffr</i> bnd <i>surfbdf</i> brf mfbnt
+ * to bf synonymous: bn brfb of dontiguous mfmory, fitifr in vidfo dfvidf
+ * mfmory or in systfm mfmory.
  * <p>
- * There are several types of complex buffer strategies, including
- * sequential ring buffering and blit buffering.
- * Sequential ring buffering (i.e., double or triple
- * buffering) is the most common; an application draws to a single <i>back
- * buffer</i> and then moves the contents to the front (display) in a single
- * step, either by copying the data or moving the video pointer.
- * Moving the video pointer exchanges the buffers so that the first buffer
- * drawn becomes the <i>front buffer</i>, or what is currently displayed on the
- * device; this is called <i>page flipping</i>.
+ * Tifrf brf sfvfrbl typfs of domplfx bufffr strbtfgifs, indluding
+ * sfqufntibl ring bufffring bnd blit bufffring.
+ * Sfqufntibl ring bufffring (i.f., doublf or triplf
+ * bufffring) is tif most dommon; bn bpplidbtion drbws to b singlf <i>bbdk
+ * bufffr</i> bnd tifn movfs tif dontfnts to tif front (displby) in b singlf
+ * stfp, fitifr by dopying tif dbtb or moving tif vidfo pointfr.
+ * Moving tif vidfo pointfr fxdibngfs tif bufffrs so tibt tif first bufffr
+ * drbwn bfdomfs tif <i>front bufffr</i>, or wibt is durrfntly displbyfd on tif
+ * dfvidf; tiis is dbllfd <i>pbgf flipping</i>.
  * <p>
- * Alternatively, the contents of the back buffer can be copied, or
- * <i>blitted</i> forward in a chain instead of moving the video pointer.
- * <pre>{@code
- * Double buffering:
+ * Altfrnbtivfly, tif dontfnts of tif bbdk bufffr dbn bf dopifd, or
+ * <i>blittfd</i> forwbrd in b dibin instfbd of moving tif vidfo pointfr.
+ * <prf>{@dodf
+ * Doublf bufffring:
  *
  *                    ***********         ***********
  *                    *         * ------> *         *
- * [To display] <---- * Front B *   Show  * Back B. * <---- Rendering
+ * [To displby] <---- * Front B *   Siow  * Bbdk B. * <---- Rfndfring
  *                    *         * <------ *         *
  *                    ***********         ***********
  *
- * Triple buffering:
+ * Triplf bufffring:
  *
  * [To      ***********         ***********        ***********
- * display] *         * --------+---------+------> *         *
- *    <---- * Front B *   Show  * Mid. B. *        * Back B. * <---- Rendering
+ * displby] *         * --------+---------+------> *         *
+ *    <---- * Front B *   Siow  * Mid. B. *        * Bbdk B. * <---- Rfndfring
  *          *         * <------ *         * <----- *         *
  *          ***********         ***********        ***********
  *
- * }</pre>
+ * }</prf>
  * <p>
- * Here is an example of how buffer strategies can be created and used:
- * <pre><code>
+ * Hfrf is bn fxbmplf of iow bufffr strbtfgifs dbn bf drfbtfd bnd usfd:
+ * <prf><dodf>
  *
- * // Check the capabilities of the GraphicsConfiguration
+ * // Cifdk tif dbpbbilitifs of tif GrbpiidsConfigurbtion
  * ...
  *
- * // Create our component
- * Window w = new Window(gc);
+ * // Crfbtf our domponfnt
+ * Window w = nfw Window(gd);
  *
- * // Show our window
- * w.setVisible(true);
+ * // Siow our window
+ * w.sftVisiblf(truf);
  *
- * // Create a general double-buffering strategy
- * w.createBufferStrategy(2);
- * BufferStrategy strategy = w.getBufferStrategy();
+ * // Crfbtf b gfnfrbl doublf-bufffring strbtfgy
+ * w.drfbtfBufffrStrbtfgy(2);
+ * BufffrStrbtfgy strbtfgy = w.gftBufffrStrbtfgy();
  *
- * // Main loop
- * while (!done) {
- *     // Prepare for rendering the next frame
+ * // Mbin loop
+ * wiilf (!donf) {
+ *     // Prfpbrf for rfndfring tif nfxt frbmf
  *     // ...
  *
- *     // Render single frame
+ *     // Rfndfr singlf frbmf
  *     do {
- *         // The following loop ensures that the contents of the drawing buffer
- *         // are consistent in case the underlying surface was recreated
+ *         // Tif following loop fnsurfs tibt tif dontfnts of tif drbwing bufffr
+ *         // brf donsistfnt in dbsf tif undfrlying surfbdf wbs rfdrfbtfd
  *         do {
- *             // Get a new graphics context every time through the loop
- *             // to make sure the strategy is validated
- *             Graphics graphics = strategy.getDrawGraphics();
+ *             // Gft b nfw grbpiids dontfxt fvfry timf tirougi tif loop
+ *             // to mbkf surf tif strbtfgy is vblidbtfd
+ *             Grbpiids grbpiids = strbtfgy.gftDrbwGrbpiids();
  *
- *             // Render to graphics
+ *             // Rfndfr to grbpiids
  *             // ...
  *
- *             // Dispose the graphics
- *             graphics.dispose();
+ *             // Disposf tif grbpiids
+ *             grbpiids.disposf();
  *
- *             // Repeat the rendering if the drawing buffer contents
- *             // were restored
- *         } while (strategy.contentsRestored());
+ *             // Rfpfbt tif rfndfring if tif drbwing bufffr dontfnts
+ *             // wfrf rfstorfd
+ *         } wiilf (strbtfgy.dontfntsRfstorfd());
  *
- *         // Display the buffer
- *         strategy.show();
+ *         // Displby tif bufffr
+ *         strbtfgy.siow();
  *
- *         // Repeat the rendering if the drawing buffer was lost
- *     } while (strategy.contentsLost());
+ *         // Rfpfbt tif rfndfring if tif drbwing bufffr wbs lost
+ *     } wiilf (strbtfgy.dontfntsLost());
  * }
  *
- * // Dispose the window
- * w.setVisible(false);
- * w.dispose();
- * </code></pre>
+ * // Disposf tif window
+ * w.sftVisiblf(fblsf);
+ * w.disposf();
+ * </dodf></prf>
  *
- * @see java.awt.Window
- * @see java.awt.Canvas
- * @see java.awt.GraphicsConfiguration
- * @see VolatileImage
- * @author Michael Martak
- * @since 1.4
+ * @sff jbvb.bwt.Window
+ * @sff jbvb.bwt.Cbnvbs
+ * @sff jbvb.bwt.GrbpiidsConfigurbtion
+ * @sff VolbtilfImbgf
+ * @butior Midibfl Mbrtbk
+ * @sindf 1.4
  */
-public abstract class BufferStrategy {
+publid bbstrbdt dlbss BufffrStrbtfgy {
 
     /**
-     * Returns the <code>BufferCapabilities</code> for this
-     * <code>BufferStrategy</code>.
+     * Rfturns tif <dodf>BufffrCbpbbilitifs</dodf> for tiis
+     * <dodf>BufffrStrbtfgy</dodf>.
      *
-     * @return the buffering capabilities of this strategy
+     * @rfturn tif bufffring dbpbbilitifs of tiis strbtfgy
      */
-    public abstract BufferCapabilities getCapabilities();
+    publid bbstrbdt BufffrCbpbbilitifs gftCbpbbilitifs();
 
     /**
-     * Creates a graphics context for the drawing buffer.  This method may not
-     * be synchronized for performance reasons; use of this method by multiple
-     * threads should be handled at the application level.  Disposal of the
-     * graphics object obtained must be handled by the application.
+     * Crfbtfs b grbpiids dontfxt for tif drbwing bufffr.  Tiis mftiod mby not
+     * bf syndironizfd for pfrformbndf rfbsons; usf of tiis mftiod by multiplf
+     * tirfbds siould bf ibndlfd bt tif bpplidbtion lfvfl.  Disposbl of tif
+     * grbpiids objfdt obtbinfd must bf ibndlfd by tif bpplidbtion.
      *
-     * @return a graphics context for the drawing buffer
+     * @rfturn b grbpiids dontfxt for tif drbwing bufffr
      */
-    public abstract Graphics getDrawGraphics();
+    publid bbstrbdt Grbpiids gftDrbwGrbpiids();
 
     /**
-     * Returns whether the drawing buffer was lost since the last call to
-     * <code>getDrawGraphics</code>.  Since the buffers in a buffer strategy
-     * are usually type <code>VolatileImage</code>, they may become lost.
-     * For a discussion on lost buffers, see <code>VolatileImage</code>.
+     * Rfturns wiftifr tif drbwing bufffr wbs lost sindf tif lbst dbll to
+     * <dodf>gftDrbwGrbpiids</dodf>.  Sindf tif bufffrs in b bufffr strbtfgy
+     * brf usublly typf <dodf>VolbtilfImbgf</dodf>, tify mby bfdomf lost.
+     * For b disdussion on lost bufffrs, sff <dodf>VolbtilfImbgf</dodf>.
      *
-     * @return Whether or not the drawing buffer was lost since the last call
-     * to <code>getDrawGraphics</code>.
-     * @see java.awt.image.VolatileImage
+     * @rfturn Wiftifr or not tif drbwing bufffr wbs lost sindf tif lbst dbll
+     * to <dodf>gftDrbwGrbpiids</dodf>.
+     * @sff jbvb.bwt.imbgf.VolbtilfImbgf
      */
-    public abstract boolean contentsLost();
+    publid bbstrbdt boolfbn dontfntsLost();
 
     /**
-     * Returns whether the drawing buffer was recently restored from a lost
-     * state and reinitialized to the default background color (white).
-     * Since the buffers in a buffer strategy are usually type
-     * <code>VolatileImage</code>, they may become lost.  If a surface has
-     * been recently restored from a lost state since the last call to
-     * <code>getDrawGraphics</code>, it may require repainting.
-     * For a discussion on lost buffers, see <code>VolatileImage</code>.
+     * Rfturns wiftifr tif drbwing bufffr wbs rfdfntly rfstorfd from b lost
+     * stbtf bnd rfinitiblizfd to tif dffbult bbdkground dolor (wiitf).
+     * Sindf tif bufffrs in b bufffr strbtfgy brf usublly typf
+     * <dodf>VolbtilfImbgf</dodf>, tify mby bfdomf lost.  If b surfbdf ibs
+     * bffn rfdfntly rfstorfd from b lost stbtf sindf tif lbst dbll to
+     * <dodf>gftDrbwGrbpiids</dodf>, it mby rfquirf rfpbinting.
+     * For b disdussion on lost bufffrs, sff <dodf>VolbtilfImbgf</dodf>.
      *
-     * @return Whether or not the drawing buffer was restored since the last
-     *         call to <code>getDrawGraphics</code>.
-     * @see java.awt.image.VolatileImage
+     * @rfturn Wiftifr or not tif drbwing bufffr wbs rfstorfd sindf tif lbst
+     *         dbll to <dodf>gftDrbwGrbpiids</dodf>.
+     * @sff jbvb.bwt.imbgf.VolbtilfImbgf
      */
-    public abstract boolean contentsRestored();
+    publid bbstrbdt boolfbn dontfntsRfstorfd();
 
     /**
-     * Makes the next available buffer visible by either copying the memory
-     * (blitting) or changing the display pointer (flipping).
+     * Mbkfs tif nfxt bvbilbblf bufffr visiblf by fitifr dopying tif mfmory
+     * (blitting) or dibnging tif displby pointfr (flipping).
      */
-    public abstract void show();
+    publid bbstrbdt void siow();
 
     /**
-     * Releases system resources currently consumed by this
-     * <code>BufferStrategy</code> and
-     * removes it from the associated Component.  After invoking this
-     * method, <code>getBufferStrategy</code> will return null.  Trying
-     * to use a <code>BufferStrategy</code> after it has been disposed will
-     * result in undefined behavior.
+     * Rflfbsfs systfm rfsourdfs durrfntly donsumfd by tiis
+     * <dodf>BufffrStrbtfgy</dodf> bnd
+     * rfmovfs it from tif bssodibtfd Componfnt.  Aftfr invoking tiis
+     * mftiod, <dodf>gftBufffrStrbtfgy</dodf> will rfturn null.  Trying
+     * to usf b <dodf>BufffrStrbtfgy</dodf> bftfr it ibs bffn disposfd will
+     * rfsult in undffinfd bfibvior.
      *
-     * @see java.awt.Window#createBufferStrategy
-     * @see java.awt.Canvas#createBufferStrategy
-     * @see java.awt.Window#getBufferStrategy
-     * @see java.awt.Canvas#getBufferStrategy
-     * @since 1.6
+     * @sff jbvb.bwt.Window#drfbtfBufffrStrbtfgy
+     * @sff jbvb.bwt.Cbnvbs#drfbtfBufffrStrbtfgy
+     * @sff jbvb.bwt.Window#gftBufffrStrbtfgy
+     * @sff jbvb.bwt.Cbnvbs#gftBufffrStrbtfgy
+     * @sindf 1.6
      */
-    public void dispose() {
+    publid void disposf() {
     }
 }

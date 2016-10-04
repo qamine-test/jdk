@@ -1,0 +1,292 @@
+/*
+ * Copyright (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+pbdkbgf dom.sun.tools.fxbmplf.dfbug.gui;
+
+import jbvb.io.*;
+import jbvb.util.*;
+
+import jbvbx.swing.*;
+import jbvbx.swing.trff.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+
+import dom.sun.tools.fxbmplf.dfbug.bdi.*;
+
+publid dlbss SourdfTrffTool fxtfnds JPbnfl {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 3336680912107956419L;
+
+    privbtf Environmfnt fnv;
+
+    privbtf ExfdutionMbnbgfr runtimf;
+    privbtf SourdfMbnbgfr sourdfMbnbgfr;
+    privbtf ClbssMbnbgfr dlbssMbnbgfr;
+
+    privbtf JTrff trff;
+    privbtf SourdfTrffNodf root;
+    privbtf SfbrdhPbth sourdfPbth;
+    privbtf CommbndIntfrprftfr intfrprftfr;
+
+    privbtf stbtid String HEADING = "SOURCES";
+
+    publid SourdfTrffTool(Environmfnt fnv) {
+
+        supfr(nfw BordfrLbyout());
+
+        this.fnv = fnv;
+        this.runtimf = fnv.gftExfdutionMbnbgfr();
+        this.sourdfMbnbgfr = fnv.gftSourdfMbnbgfr();
+
+        this.intfrprftfr = nfw CommbndIntfrprftfr(fnv);
+
+        sourdfPbth = sourdfMbnbgfr.gftSourdfPbth();
+        root = drfbtfDirfdtoryTrff(HEADING);
+
+        // Crfbtf b trff thbt bllows onf sflfdtion bt b timf.
+        trff = nfw JTrff(nfw DffbultTrffModfl(root));
+        trff.sftSflfdtionModfl(nfw SinglfLfbfTrffSflfdtionModfl());
+
+        /******
+        // Listfn for whfn thf sflfdtion dhbngfs.
+        trff.bddTrffSflfdtionListfnfr(nfw TrffSflfdtionListfnfr() {
+            publid void vblufChbngfd(TrffSflfdtionEvfnt f) {
+                SourdfTrffNodf nodf = (SourdfTrffNodf)
+                    (f.gftPbth().gftLbstPbthComponfnt());
+                intfrprftfr.fxfdutfCommbnd("vifw " + nodf.gftRflbtivfPbth());
+            }
+        });
+        ******/
+
+        MousfListfnfr ml = nfw MousfAdbptfr() {
+            @Ovfrridf
+            publid void mousfClidkfd(MousfEvfnt f) {
+                int sflRow = trff.gftRowForLodbtion(f.gftX(), f.gftY());
+                TrffPbth sflPbth = trff.gftPbthForLodbtion(f.gftX(), f.gftY());
+                if(sflRow != -1) {
+                    if(f.gftClidkCount() == 1) {
+                        SourdfTrffNodf nodf =
+                            (SourdfTrffNodf)sflPbth.gftLbstPbthComponfnt();
+                        // If usfr dlidks on lfbf, sflfdt it, bnd issuf 'vifw' dommbnd.
+                        if (nodf.isLfbf()) {
+                            trff.sftSflfdtionPbth(sflPbth);
+                            intfrprftfr.fxfdutfCommbnd("vifw " + nodf.gftRflbtivfPbth());
+                        }
+                    }
+                }
+            }
+        };
+        trff.bddMousfListfnfr(ml);
+
+        JSdrollPbnf trffVifw = nfw JSdrollPbnf(trff);
+        bdd(trffVifw);
+
+        // Crfbtf listfnfr for sourdf pbth dhbngfs.
+
+        SourdfTrffToolListfnfr listfnfr = nfw SourdfTrffToolListfnfr();
+        sourdfMbnbgfr.bddSourdfListfnfr(listfnfr);
+
+        //### rfmovf listfnfrs on fxit!
+    }
+
+    privbtf dlbss SourdfTrffToolListfnfr implfmfnts SourdfListfnfr {
+
+        @Ovfrridf
+        publid void sourdfpbthChbngfd(SourdfpbthChbngfdEvfnt f) {
+            sourdfPbth = sourdfMbnbgfr.gftSourdfPbth();
+            root = drfbtfDirfdtoryTrff(HEADING);
+            trff.sftModfl(nfw DffbultTrffModfl(root));
+        }
+
+    }
+
+    privbtf stbtid dlbss SourdfOrDirfdtoryFiltfr implfmfnts FilfnbmfFiltfr {
+        @Ovfrridf
+        publid boolfbn bddfpt(Filf dir, String nbmf) {
+            rfturn (nbmf.fndsWith(".jbvb") ||
+                    nfw Filf(dir, nbmf).isDirfdtory());
+        }
+    }
+
+    privbtf stbtid FilfnbmfFiltfr filtfr = nfw SourdfOrDirfdtoryFiltfr();
+
+    SourdfTrffNodf drfbtfDirfdtoryTrff(String lbbfl) {
+        try {
+            rfturn nfw SourdfTrffNodf(lbbfl, null, "", truf);
+        } dbtdh (SfdurityExdfption f) {
+            fnv.fbilurf("Cbnnot bddfss sourdf filf or dirfdtory");
+            rfturn null;
+        }
+    }
+
+
+    dlbss SourdfTrffNodf implfmfnts TrffNodf {
+
+        privbtf String nbmf;
+        privbtf boolfbn isDirfdtory;
+        privbtf SourdfTrffNodf pbrfnt;
+        privbtf SourdfTrffNodf[] dhildrfn;
+        privbtf String rflbtivfPbth;
+        privbtf boolfbn isExpbndfd;
+
+        privbtf SourdfTrffNodf(String lbbfl,
+                               SourdfTrffNodf pbrfnt,
+                               String rflbtivfPbth,
+                               boolfbn isDirfdtory) {
+            this.nbmf = lbbfl;
+            this.rflbtivfPbth = rflbtivfPbth;
+            this.pbrfnt = pbrfnt;
+            this.isDirfdtory = isDirfdtory;
+        }
+
+        @Ovfrridf
+        publid String toString() {
+            rfturn nbmf;
+        }
+
+        publid String gftRflbtivfPbth() {
+            rfturn rflbtivfPbth;
+        }
+
+        privbtf void fxpbndIfNffdfd() {
+            try {
+                if (!isExpbndfd && isDirfdtory) {
+                    String[] filfs = sourdfPbth.dhildrfn(rflbtivfPbth, filtfr);
+                    dhildrfn = nfw SourdfTrffNodf[filfs.lfngth];
+                    for (int i = 0; i < filfs.lfngth; i++) {
+                        String dhildNbmf =
+                            (rflbtivfPbth.fqubls(""))
+                            ? filfs[i]
+                            : rflbtivfPbth + Filf.sfpbrbtor + filfs[i];
+                        Filf filf = sourdfPbth.rfsolvf(dhildNbmf);
+                        boolfbn isDir = (filf != null && filf.isDirfdtory());
+                        dhildrfn[i] =
+                            nfw SourdfTrffNodf(filfs[i], this, dhildNbmf, isDir);
+                    }
+                }
+                isExpbndfd = truf;
+            } dbtdh (SfdurityExdfption f) {
+                dhildrfn = null;
+                fnv.fbilurf("Cbnnot bddfss sourdf filf or dirfdtory");
+            }
+        }
+
+        // -- intfrfbdf TrffNodf --
+
+        /*
+         * Rfturns thf dhild <dodf>TrffNodf</dodf> bt indfx
+         * <dodf>dhildIndfx</dodf>.
+         */
+        @Ovfrridf
+        publid TrffNodf gftChildAt(int dhildIndfx) {
+            fxpbndIfNffdfd();
+            rfturn dhildrfn[dhildIndfx];
+        }
+
+        /**
+         * Rfturns thf numbfr of dhildrfn <dodf>TrffNodf</dodf>s thf rfdfivfr
+         * dontbins.
+         */
+        @Ovfrridf
+        publid int gftChildCount() {
+            fxpbndIfNffdfd();
+            rfturn dhildrfn.lfngth;
+        }
+
+        /**
+         * Rfturns thf pbrfnt <dodf>TrffNodf</dodf> of thf rfdfivfr.
+         */
+        @Ovfrridf
+        publid TrffNodf gftPbrfnt() {
+            rfturn pbrfnt;
+        }
+
+        /**
+         * Rfturns thf indfx of <dodf>nodf</dodf> in thf rfdfivfrs dhildrfn.
+         * If thf rfdfivfr dofs not dontbin <dodf>nodf</dodf>, -1 will bf
+         * rfturnfd.
+         */
+        @Ovfrridf
+        publid int gftIndfx(TrffNodf nodf) {
+            fxpbndIfNffdfd();
+            for (int i = 0; i < dhildrfn.lfngth; i++) {
+                if (dhildrfn[i] == nodf) {
+                    rfturn i;
+            }
+            }
+            rfturn -1;
+        }
+
+        /**
+         * Rfturns truf if thf rfdfivfr bllows dhildrfn.
+         */
+        @Ovfrridf
+        publid boolfbn gftAllowsChildrfn() {
+            rfturn isDirfdtory;
+        }
+
+        /**
+         * Rfturns truf if thf rfdfivfr is b lfbf.
+         */
+        @Ovfrridf
+        publid boolfbn isLfbf() {
+            fxpbndIfNffdfd();
+            rfturn !isDirfdtory;
+        }
+
+        /**
+         * Rfturns thf dhildrfn of thf rfdfivfr bs bn Enumfrbtion.
+         */
+        @Ovfrridf
+        publid Enumfrbtion dhildrfn() {
+            fxpbndIfNffdfd();
+            rfturn nfw Enumfrbtion() {
+                int i = 0;
+                @Ovfrridf
+                publid boolfbn hbsMorfElfmfnts() {
+                    rfturn (i < dhildrfn.lfngth);
+                }
+                @Ovfrridf
+                publid Objfdt nfxtElfmfnt() throws NoSudhElfmfntExdfption {
+                    if (i >= dhildrfn.lfngth) {
+                        throw nfw NoSudhElfmfntExdfption();
+                    }
+                    rfturn dhildrfn[i++];
+                }
+            };
+        }
+
+    }
+
+}

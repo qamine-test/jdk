@@ -1,0 +1,2997 @@
+'\" t
+.\"  Copyright (d) 1994, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+.\"
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\"
+.\" This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publishfd by thf Frff Softwbrf Foundbtion.
+.\"
+.\" This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff thf GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+.\" bddompbnifd this dodf).
+.\"
+.\" You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+.\" qufstions.
+.\"
+.\"     Ardh: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 10 Mby 2011
+.\"     SfdtDfsd: Bbsid Tools
+.\"     Titlf: jbvbdod.1
+.\"
+.if n .pl 99999
+.TH jbvbdod 1 "10 Mby 2011" "JDK 8" "Bbsid Tools"
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.dfbibn.org/507673
+.\" http://lists.gnu.org/brdhivf/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" disbblf hyphfnbtion
+.nh
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+
+.SH NAME    
+jbvbdod \- Gfnfrbtfs HTML pbgfs of API dodumfntbtion from Jbvb sourdf filfs\&.
+.SH SYNOPSIS    
+.sp     
+.nf     
+
+\fBjbvbdod\fR {\fIpbdkbgfs\fR|\fIsourdf\-filfs\fR} [\fIoptions\fR] [\fI@brgfilfs\fR]
+.fi     
+.sp     
+.TP     
+\fIpbdkbgfs\fR
+Nbmfs of pbdkbgfs thbt you wbnt to dodumfnt, sfpbrbtfd by spbdfs, for fxbmplf \f3jbvb\&.lbng jbvb\&.lbng\&.rfflfdt jbvb\&.bwt\fR\&. If you wbnt to blso dodumfnt thf subpbdkbgfs, usf thf \f3-subpbdkbgfs\fR option to spfdify thf pbdkbgfs\&.
+
+By dffbult, \f3jbvbdod\fR looks for thf spfdififd pbdkbgfs in thf durrfnt dirfdtory bnd subdirfdtorifs\&. Usf thf \f3-sourdfpbth\fR option to spfdify thf list of dirfdtorifs whfrf to look for pbdkbgfs\&.
+.TP     
+\fIsourdf-filfs\fR
+Nbmfs of Jbvb sourdf filfs thbt you wbnt to dodumfnt, sfpbrbtfd by spbdfs, for fxbmplf \f3Clbss\&.jbvb Objfdt\&.jbvb Button\&.jbvb\fR\&. By dffbult, \f3jbvbdod\fR looks for thf spfdififd dlbssfs in thf durrfnt dirfdtory\&. Howfvfr, you dbn spfdify thf full pbth to thf dlbss filf bnd usf wilddbrd dhbrbdtfrs, for fxbmplf \f3/homf/srd/jbvb/bwt/Grbphids*\&.jbvb\fR\&. You dbn blso spfdify thf pbth rflbtivf to thf durrfnt dirfdtory\&.
+.TP     
+\fIoptions\fR
+Commbnd-linf options, sfpbrbtfd by spbdfs\&. Sff Options\&.
+.TP     
+\fI@brgfilfs\fR
+Nbmfs of filfs thbt dontbin b list of \f3jbvbdod\fR dommbnd options, pbdkbgf nbmfs bnd sourdf filf nbmfs in bny ordfr\&.
+.SH DESCRIPTION    
+Thf \f3jbvbdod\fR dommbnd pbrsfs thf dfdlbrbtions bnd dodumfntbtion dommfnts in b sft of Jbvb sourdf filfs bnd produdfs b dorrfsponding sft of HTML pbgfs thbt dfsdribf (by dffbult) thf publid bnd protfdtfd dlbssfs, nfstfd dlbssfs (but not bnonymous innfr dlbssfs), intfrfbdfs, donstrudtors, mfthods, bnd fiflds\&. You dbn usf thf \f3jbvbdod\fR dommbnd to gfnfrbtf thf API dodumfntbtion or thf implfmfntbtion dodumfntbtion for b sft of sourdf filfs\&.
+.PP
+You dbn run thf \f3jbvbdod\fR dommbnd on fntirf pbdkbgfs, individubl sourdf filfs, or both\&. Whfn dodumfnting fntirf pbdkbgfs, you dbn fithfr usf thf \f3-subpbdkbgfs\fR option to rfdursivfly trbvfrsf b dirfdtory bnd its subdirfdtorifs, or to pbss in bn fxplidit list of pbdkbgf nbmfs\&. Whfn you dodumfnt individubl sourdf filfs, pbss in b list of Jbvb sourdf filf nbmfs\&. Sff Simplf Exbmplfs\&.
+.SS PROCESS\ SOURCE\ FILES    
+Thf \f3jbvbdod\fR dommbnd prodfssfs filfs thbt fnd in sourdf bnd othfr filfs dfsdribfd in Sourdf Filfs\&. If you run thf \f3jbvbdod\fR dommbnd by pbssing in individubl sourdf filf nbmfs, thfn you dbn dftfrminf fxbdtly whidh sourdf filfs brf prodfssfd\&. Howfvfr, thbt is not how most dfvflopfrs wbnt to work, bfdbusf it is simplfr to pbss in pbdkbgf nbmfs\&. Thf \f3jbvbdod\fR dommbnd dbn bf run thrff wbys without fxpliditly spfdifying thf sourdf filf nbmfs\&. You dbn pbss in pbdkbgf nbmfs, usf thf \f3-subpbdkbgfs\fR option, or usf wild dbrds with sourdf filf nbmfs\&. In thfsf dbsfs, thf \f3jbvbdod\fR dommbnd prodfssfs b sourdf filf only whfn thf filf fulfills bll of thf following rfquirfmfnts:
+.TP 0.2i    
+\(bu
+Thf filf nbmf prffix (with \f3\&.jbvb\fR rfmovfd) is b vblid dlbss nbmf\&.
+.TP 0.2i    
+\(bu
+Thf pbth nbmf rflbtivf to thf root of thf sourdf trff is b vblid pbdkbgf nbmf bftfr thf sfpbrbtors brf donvfrtfd to dots\&.
+.TP 0.2i    
+\(bu
+Thf pbdkbgf stbtfmfnt dontbins thf vblid pbdkbgf nbmf\&.
+.PP
+Prodfssing Links
+
+During b run, thf \f3jbvbdod\fR dommbnd bdds dross-rfffrfndf links to pbdkbgf, dlbss, bnd mfmbfr nbmfs thbt brf bfing dodumfntfd bs pbrt of thbt run\&. Links bppfbr in thf following plbdfs\&. Sff Jbvbdod Tbgs for b dfsdription of thf @ tbgs\&.
+.TP 0.2i    
+\(bu
+Dfdlbrbtions (rfturn typfs, brgumfnt typfs, bnd fifld typfs)\&.
+.TP 0.2i    
+\(bu
+\fISff Also\fR sfdtions thbt brf gfnfrbtfd from \f3@sff\fR tbgs\&.
+.TP 0.2i    
+\(bu
+Inlinf tfxt gfnfrbtfd from \f3{@link}\fR tbgs\&.
+.TP 0.2i    
+\(bu
+Exdfption nbmfs gfnfrbtfd from \f3@throws\fR tbgs\&.
+.TP 0.2i    
+\(bu
+\fISpfdififd by\fR links to intfrfbdf mfmbfrs bnd \fIOvfrridfs\fR links to dlbss mfmbfrs\&. Sff Mfthod Commfnt Inhfritbndf\&.
+.TP 0.2i    
+\(bu
+Summbry tbblfs listing pbdkbgfs, dlbssfs bnd mfmbfrs\&.
+.TP 0.2i    
+\(bu
+Pbdkbgf bnd dlbss inhfritbndf trffs\&.
+.TP 0.2i    
+\(bu
+Thf indfx\&.
+.PP
+You dbn bdd links to fxisting tfxt for dlbssfs not indludfd on thf dommbnd linf (but gfnfrbtfd sfpbrbtfly) by wby of thf \f3-link\fR bnd \f3-linkofflinf\fR options\&.
+.PP
+Prodfssing Dftbils
+
+Thf \f3jbvbdod\fR dommbnd produdfs onf domplftf dodumfnt fvfry timf it runs\&. It dofs not do indrfmfntbl builds thbt modify or dirfdtly indorporbtf thf rfsults from fbrlifr runs\&. Howfvfr, thf \f3jbvbdod\fR dommbnd dbn link to rfsults from othfr runs\&.
+.PP
+Thf \f3jbvbdod\fR dommbnd implfmfntbtion rfquirfs bnd rflifs on thf Jbvb dompilfr\&. Thf \f3jbvbdod\fR dommbnd dblls pbrt of thf \f3jbvbd\fR dommbnd to dompilf thf dfdlbrbtions bnd ignorf thf mfmbfr implfmfntbtions\&. Thf \f3jbvbdod\fR dommbnd builds b ridh intfrnbl rfprfsfntbtion of thf dlbssfs thbt indludfs thf dlbss hifrbrdhy bnd usf rflbtionships to gfnfrbtf thf HTML\&. Thf \f3jbvbdod\fR dommbnd blso pidks up usfr-supplifd dodumfntbtion from dodumfntbtion dommfnts in thf sourdf dodf\&. Sff Dodumfntbtion Commfnts\&.
+.PP
+Thf \f3jbvbdod\fR dommbnd runs on sourdf filfs thbt brf purf stub filfs with no mfthod bodifs\&. This mfbns you dbn writf dodumfntbtion dommfnts bnd run thf \f3jbvbdod\fR dommbnd in thf fbrly stbgfs of dfsign bfforf API implfmfntbtion\&.
+.PP
+Rflying on thf dompilfr fnsurfs thbt thf HTML output dorrfsponds fxbdtly with thf bdtubl implfmfntbtion, whidh mby rfly on implidit, rbthfr thbn fxplidit, sourdf dodf\&. For fxbmplf, thf \f3jbvbdod\fR dommbnd dodumfnts dffbult donstrudtors thbt brf prfsfnt in thf dompilfd dlbss filfs but not in thf sourdf dodf\&.
+.PP
+In mbny dbsfs, thf \f3jbvbdod\fR dommbnd lfts you gfnfrbtf dodumfntbtion for sourdf filfs with indomplftf or frronfous dodf\&. You dbn gfnfrbtf dodumfntbtion bfforf bll dfbugging bnd troublfshooting is donf\&. Thf \f3jbvbdod\fR dommbnd dofs primitivf dhfdking of dodumfntbtion dommfnts\&.
+.PP
+Whfn thf \f3jbvbdod\fR dommbnd builds its intfrnbl strudturf for thf dodumfntbtion, it lobds bll rfffrfndfd dlbssfs\&. Bfdbusf of this, thf \f3jbvbdod\fR dommbnd must bf bblf to find bll rfffrfndfd dlbssfs, whfthfr bootstrbp dlbssfs, fxtfnsions, or usfr dlbssfs\&. Sff How Clbssfs Arf Found bt http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdhnotfs/tools/findingdlbssfs\&.html
+.PP
+Typidblly, dlbssfs you drfbtf must fithfr bf lobdfd bs bn fxtfnsion or in thf \f3jbvbdod\fR dommbnd dlbss pbth\&.
+.SS JAVADOC\ DOCLETS    
+You dbn dustomizf thf dontfnt bnd formbt of thf \f3jbvbdod\fR dommbnd output with dodlfts\&. Thf \f3jbvbdod\fR dommbnd hbs b dffbult built-in dodlft, dbllfd thf stbndbrd dodlft, thbt gfnfrbtfs HTML-formbttfd API dodumfntbtion\&. You dbn modify or mbkf b subdlbss of thf stbndbrd dodlft, or writf your own dodlft to gfnfrbtf HTML, XML, MIF, RTF or whbtfvfr output formbt you wbnt\&.
+.PP
+Whfn b dustom dodlft is not spfdififd with thf \f3-dodlft\fR option, thf \f3jbvbdod\fR dommbnd usfs thf dffbult stbndbrd dodlft\&. Thf \f3jbvbdod\fR dommbnd hbs sfvfrbl options thbt brf bvbilbblf rfgbrdlfss of whidh dodlft is bfing usfd\&. Thf stbndbrd dodlft bdds b supplfmfntbry sft of dommbnd-linf options\&. Sff Options\&.
+.SH SOURCE\ FILES    
+Thf \f3jbvbdod\fR dommbnd gfnfrbtfs output thbt originbtfs from thf following typfs of sourdf filfs: Jbvb lbngubgf sourdf filfs for dlbssfs (\f3\&.jbvb\fR), pbdkbgf dommfnt filfs, ovfrvifw dommfnt filfs, bnd misdfllbnfous unprodfssfd filfs\&. This sfdtion blso dfsdribfs tfst filfs bnd tfmplbtf filfs thbt dbn blso bf in thf sourdf trff, but thbt you wbnt to bf surf not to dodumfnt\&.
+.SS CLASS\ SOURCE\ FILES    
+Ebdh dlbss or intfrfbdf bnd its mfmbfrs dbn hbvf thfir own dodumfntbtion dommfnts dontbinfd in b sourdf filf\&. Sff Dodumfntbtion Commfnts\&.
+.SS PACKAGE\ COMMENT\ FILES    
+Ebdh pbdkbgf dbn hbvf its own dodumfntbtion dommfnt, dontbinfd in its own sourdf filf, thbt thf \f3jbvbdod\fR dommbnd mfrgfs into thf gfnfrbtfd pbdkbgf summbry pbgf\&. You typidblly indludf in this dommfnt bny dodumfntbtion thbt bpplifs to thf fntirf pbdkbgf\&.
+.PP
+To drfbtf b pbdkbgf dommfnt filf, you dbn plbdf your dommfnts in onf of thf following filfs:
+.TP 0.2i    
+\(bu
+Thf \f3pbdkbgf-info\&.jbvb\fR filf dbn dontbin thf pbdkbgf dfdlbrbtion, pbdkbgf bnnotbtions, pbdkbgf dommfnts, bnd Jbvbdod tbgs\&. This filf is prfffrrfd\&.
+.TP 0.2i    
+\(bu
+Thf \f3pbdkbgf\&.html\fR filf dontbins only pbdkbgf dommfnts bnd Jbvbdod tbgs\&. No pbdkbgf bnnotbtions\&.
+.PP
+A pbdkbgf dbn hbvf b singlf \f3pbdkbgf\&.html\fR filf or b singlf \f3pbdkbgf-info\&.jbvb\fR filf, but not both\&. Plbdf fithfr filf in thf pbdkbgf dirfdtory in thf sourdf trff with your sourdf filfs\&.
+.PP
+Thf pbdkbgf-info\&.jbvb Filf
+
+Thf \f3pbdkbgf-info\&.jbvb\fR filf dbn dontbin b pbdkbgf dommfnt of thf following strudturf\&. Thf dommfnt is plbdfd bfforf thf pbdkbgf dfdlbrbtion\&.
+.PP
+\fINotf:\fR Thf dommfnt sfpbrbtors \f3/**\fR bnd \f3*/\fR must bf prfsfnt, but thf lfbding bstfrisks on thf intfrmfdibtf linfs dbn bf lfft off\&.
+.sp     
+.nf     
+\f3/**\fP
+.fi     
+.nf     
+\f3 * Providfs thf dlbssfs nfdfssbry to drfbtf bn  \fP
+.fi     
+.nf     
+\f3 * bpplft bnd thf dlbssfs bn bpplft usfs \fP
+.fi     
+.nf     
+\f3 * to dommunidbtf with its bpplft dontfxt\&.\fP
+.fi     
+.nf     
+\f3 * <p>\fP
+.fi     
+.nf     
+\f3 * Thf bpplft frbmfwork involvfs two fntitifs:\fP
+.fi     
+.nf     
+\f3 * thf bpplft bnd thf bpplft dontfxt\&.\fP
+.fi     
+.nf     
+\f3 * An bpplft is bn fmbfddbblf window (sff thf\fP
+.fi     
+.nf     
+\f3 * {@link jbvb\&.bwt\&.Pbnfl} dlbss) with b ffw fxtrb\fP
+.fi     
+.nf     
+\f3 * mfthods thbt thf bpplft dontfxt dbn usf to \fP
+.fi     
+.nf     
+\f3 * initiblizf, stbrt, bnd stop thf bpplft\&.\fP
+.fi     
+.nf     
+\f3 *\fP
+.fi     
+.nf     
+\f3 * @sindf 1\&.0\fP
+.fi     
+.nf     
+\f3 * @sff jbvb\&.bwt\fP
+.fi     
+.nf     
+\f3 */\fP
+.fi     
+.nf     
+\f3pbdkbgf jbvb\&.lbng\&.bpplft;\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+.PP
+Thf pbdkbgf\&.html Filf
+
+Thf \f3pbdkbgf\&.html\fR filf dbn dontbin b pbdkbgf dommfnt of thf following strudturf\&. Thf dommfnt is plbdfd in thf \f3<body>\fR flfmfnt\&.
+.PP
+Filf: \f3jbvb/bpplft/pbdkbgf\&.html\fR
+.sp     
+.nf     
+\f3<HTML>\fP
+.fi     
+.nf     
+\f3<BODY>\fP
+.fi     
+.nf     
+\f3Providfs thf dlbssfs nfdfssbry to drfbtf bn bpplft bnd thf \fP
+.fi     
+.nf     
+\f3dlbssfs bn bpplft usfs to dommunidbtf with its bpplft dontfxt\&.\fP
+.fi     
+.nf     
+\f3<p>\fP
+.fi     
+.nf     
+\f3Thf bpplft frbmfwork involvfs two fntitifs: thf bpplft\fP
+.fi     
+.nf     
+\f3bnd thf bpplft dontfxt\&. An bpplft is bn fmbfddbblf\fP
+.fi     
+.nf     
+\f3window (sff thf {@link jbvb\&.bwt\&.Pbnfl} dlbss) with b\fP
+.fi     
+.nf     
+\f3ffw fxtrb mfthods thbt thf bpplft dontfxt dbn usf to\fP
+.fi     
+.nf     
+\f3initiblizf, stbrt, bnd stop thf bpplft\&. \fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.nf     
+\f3@sindf 1\&.0 \fP
+.fi     
+.nf     
+\f3@sff jbvb\&.bwt\fP
+.fi     
+.nf     
+\f3</BODY>\fP
+.fi     
+.nf     
+\f3</HTML>\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+Thf \f3pbdkbgf\&.html\fR filf is b typidbl HTML filf bnd dofs not indludf b pbdkbgf dfdlbrbtion\&. Thf dontfnt of thf pbdkbgf dommfnt filf is writtfn in HTML with onf fxdfption\&. Thf dodumfntbtion dommfnt should not indludf thf dommfnt sfpbrbtors \f3/**\fR bnd \f3*/\fR or lfbding bstfrisks\&. Whfn writing thf dommfnt, mbkf thf first sfntfndf b summbry bbout thf pbdkbgf, bnd do not put b titlf or bny othfr tfxt bftwffn thf \f3<body>\fR tbg bnd thf first sfntfndf\&. You dbn indludf pbdkbgf tbgs\&. All blodk tbgs must bppfbr bftfr thf mbin dfsdription\&. If you bdd bn \f3@sff\fR tbg in b pbdkbgf dommfnt filf, thfn it must hbvf b fully qublififd nbmf\&.
+.PP
+Prodfssing thf Commfnt Filf
+
+Whfn thf \f3jbvbdod\fR dommbnd runs, it sfbrdhfs for thf pbdkbgf dommfnt filf\&. If thf pbdkbgf dommfnt filf is found, thfn thf \f3jbvbdod\fR dommbnd dofs thf following:
+.TP 0.2i    
+\(bu
+Copifs thf dommfnt for prodfssing\&. For pbdkbgf\&.html, thf \f3jbvbdod\fR dommbnd dopifs bll dontfnt bftwffn thf \f3<body>\fR bnd \f3</body>\fR HTML tbgs\&. You dbn indludf b \f3<hfbd>\fR sfdtion to put b \f3<titlf>\fR tbg, sourdf filf dopyright stbtfmfnt, or othfr informbtion, but nonf of thfsf bppfbr in thf gfnfrbtfd dodumfntbtion\&.
+.TP 0.2i    
+\(bu
+Prodfssfs thf pbdkbgf tbgs\&. Sff Pbdkbgf Tbgs\&.
+.TP 0.2i    
+\(bu
+Insfrts thf prodfssfd tfxt bt thf bottom of thf gfnfrbtfd pbdkbgf summbry pbgf\&. Sff Jbvb Plbtform, Stbndbrd Edition API Spfdifidbtion Ovfrvifw bt http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/ovfrvifw-summbry\&.html
+.TP 0.2i    
+\(bu
+Copifs thf first sfntfndf of thf pbdkbgf dommfnt to thf top of thf pbdkbgf summbry pbgf\&. Thf \f3jbvbdod\fR dommbnd blso bdds thf pbdkbgf nbmf bnd this first sfntfndf to thf list of pbdkbgfs on thf ovfrvifw pbgf\&. Sff Jbvb Plbtform, Stbndbrd Edition API Spfdifidbtion Ovfrvifw bt http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/ovfrvifw-summbry\&.html
+
+Thf fnd of thf sfntfndf is dftfrminfd by thf sbmf rulfs usfd for thf fnd of thf first sfntfndf of dlbss bnd mfmbfr mbin dfsdriptions\&.
+.SS OVERVIEW\ COMMENT\ FILES    
+Ebdh bpplidbtion or sft of pbdkbgfs thbt you brf dodumfnting dbn hbvf its own ovfrvifw dodumfntbtion dommfnt thbt is kfpt in its own sourdf filf, thbt thf \f3jbvbdod\fR dommbnd mfrgfs into thf gfnfrbtfd ovfrvifw pbgf\&. You typidblly indludf in this dommfnt bny dodumfntbtion thbt bpplifs to thf fntirf bpplidbtion or sft of pbdkbgfs\&.
+.PP
+You dbn nbmf thf filf bnything you wbnt sudh bs ovfrvifw\&.html bnd plbdf it bnywhfrf\&. A typidbl lodbtion is bt thf top of thf sourdf trff\&.
+.PP
+For fxbmplf, if thf sourdf filfs for thf \f3jbvb\&.bpplft\fR pbdkbgf brf dontbinfd in thf /homf/usfr/srd/jbvb/bpplft dirfdtory, thfn you dould drfbtf bn ovfrvifw dommfnt filf bt /homf/usfr/srd/ovfrvifw\&.html\&.
+.PP
+You dbn hbvf multiplf ovfrvifw dommfnt filfs for thf sbmf sft of sourdf filfs in dbsf you wbnt to run thf \f3jbvbdod\fR dommbnd multiplf timfs on difffrfnt sfts of pbdkbgfs\&. For fxbmplf, you dould run thf \f3jbvbdod\fR dommbnd ondf with \f3-privbtf\fR for intfrnbl dodumfntbtion bnd bgbin without thbt option for publid dodumfntbtion\&. In this dbsf, you dould dfsdribf thf dodumfntbtion bs publid or intfrnbl in thf first sfntfndf of fbdh ovfrvifw dommfnt filf\&.
+.PP
+Thf dontfnt of thf ovfrvifw dommfnt filf is onf big dodumfntbtion dommfnt thbt is writtfn in HTML\&. Mbkf thf first sfntfndf b summbry bbout thf bpplidbtion or sft of pbdkbgfs\&. Do not put b titlf or bny othfr tfxt bftwffn thf \f3<body>\fR tbg bnd thf first sfntfndf\&. All tbgs fxdfpt inlinf tbgs, sudh bs bn {\f3@link}\fR tbg, must bppfbr bftfr thf mbin dfsdription\&. If you bdd bn \f3@sff\fR tbg, thfn it must hbvf b fully qublififd nbmf\&.
+.PP
+Whfn you run thf \f3jbvbdod\fR dommbnd, spfdify thf ovfrvifw dommfnt filf nbmf with thf \f3-ovfrvifw\fR option\&. Thf filf is thfn prodfssfd similbrly to thbt of b pbdkbgf dommfnt filf\&. Thf \f3jbvbdod\fR dommbnd dofs thf following:
+.TP 0.2i    
+\(bu
+Copifs bll dontfnt bftwffn thf \f3<body>\fR bnd \f3</body>\fR tbgs for prodfssing\&.
+.TP 0.2i    
+\(bu
+Prodfssfs thf ovfrvifw tbgs thbt brf prfsfnt\&. Sff Ovfrvifw Tbgs\&.
+.TP 0.2i    
+\(bu
+Insfrts thf prodfssfd tfxt bt thf bottom of thf gfnfrbtfd ovfrvifw pbgf\&. Sff Jbvb Plbtform Stbndbrd Edition API Spfdifidbtion Ovfrvifw bt http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/ovfrvifw-summbry\&.html
+.TP 0.2i    
+\(bu
+Copifs thf first sfntfndf of thf ovfrvifw dommfnt to thf top of thf ovfrvifw summbry pbgf\&.
+.SS UNPROCESSED\ FILES    
+Your sourdf filfs dbn indludf bny filfs thbt you wbnt thf \f3jbvbdod\fR dommbnd to dopy to thf dfstinbtion dirfdtory\&. Thfsf filfs usublly indludf grbphid filfs, fxbmplf Jbvb sourdf bnd dlbss filfs, bnd sflf-stbnding HTML filfs with b lot of dontfnt thbt would ovfrwhflm thf dodumfntbtion dommfnt of b typidbl Jbvb sourdf filf\&.
+.PP
+To indludf unprodfssfd filfs, put thfm in b dirfdtory dbllfd dod-filfs\&. Thf dod-filfs dirfdtory dbn bf b subdirfdtory of bny pbdkbgf dirfdtory thbt dontbins sourdf filfs\&. You dbn hbvf onf dod-filfs subdirfdtory for fbdh pbdkbgf\&.
+.PP
+For fxbmplf, if you wbnt to indludf thf imbgf of b button in thf \f3jbvb\&.bwt\&.Button\fR dlbss dodumfntbtion, thfn plbdf thf imbgf filf in thf /homf/usfr/srd/jbvb/bwt/dod-filfs/ dirfdtory\&. Do not plbdf thf dod-filfs dirfdtory bt /homf/usfr/srd/jbvb/dod-filfs, bfdbusf jbvb is not b pbdkbgf\&. It dofs not dontbin bny sourdf filfs\&.
+.PP
+All links to thf unprodfssfd filfs must bf indludfd in thf dodf bfdbusf thf \f3jbvbdod\fR dommbnd dofs not look bt thf filfs\&. Thf \f3jbvbdod\fR dommbnd dopifs thf dirfdtory bnd bll of its dontfnts to thf dfstinbtion\&. Thf following fxbmplf shows how thf link in thf Button\&.jbvb dodumfntbtion dommfnt might look:
+.sp     
+.nf     
+\f3/**\fP
+.fi     
+.nf     
+\f3 * This button looks likf this: \fP
+.fi     
+.nf     
+\f3 * <img srd="dod\-filfs/Button\&.gif">\fP
+.fi     
+.nf     
+\f3 */\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+.SS TEST\ AND\ TEMPLATE\ FILES    
+You dbn storf tfst bnd tfmplbtf filfs in thf sourdf trff in thf sbmf dirfdtory with or in b subdirfdtory of thf dirfdtory whfrf thf sourdf filfs rfsidf\&. To prfvfnt tfst bnd tfmplbtf filfs from bfing prodfssfd, run thf \f3jbvbdod\fR dommbnd bnd fxpliditly pbss in individubl sourdf filf nbmfs\&.
+.PP
+Tfst filfs brf vblid, dompilbblf sourdf filfs\&. Tfmplbtf filfs brf not vblid, dompbtiblf sourdf filfs, but thfy oftfn hbvf thf \f3\&.jbvb\fR suffix\&.
+.PP
+Tfst Filfs
+
+If you wbnt your tfst filfs to bflong to fithfr bn unnbmfd pbdkbgf or to b pbdkbgf othfr thbn thf pbdkbgf thbt thf sourdf filfs brf in, thfn put thf tfst filfs in b subdirfdtory undfrnfbth thf sourdf filfs bnd givf thf dirfdtory bn invblid nbmf\&. If you put thf tfst filfs in thf sbmf dirfdtory with thf sourdf bnd dbll thf \f3jbvbdod\fR dommbnd with b dommbnd-linf brgumfnt thbt indidbtfs its pbdkbgf nbmf, thfn thf tfst filfs dbusf wbrnings or frrors\&. If thf filfs brf in b subdirfdtory with bn invblid nbmf, thfn thf tfst filf dirfdtory is skippfd bnd no frrors or wbrnings brf issufd\&. For fxbmplf, to bdd tfst filfs for sourdf filfs in dom\&.pbdkbgf1, put thfm in b subdirfdtory in bn invblid pbdkbgf nbmf\&. Thf following dirfdtory nbmf is invblid bfdbusf it dontbins b hyphfn:
+.sp     
+.nf     
+\f3dom/pbdkbgf1/tfst\-filfs/\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+If your tfst filfs dontbin dodumfntbtion dommfnts, thfn you dbn sft up b sfpbrbtf run of thf \f3jbvbdod\fR dommbnd to produdf tfst filf dodumfntbtion by pbssing in thfir tfst sourdf filf nbmfs with wild dbrds, sudh bs \f3dom/pbdkbgf1/tfst-filfs/*\&.jbvb\fR\&.
+.PP
+Tfmplbtf Filfs
+
+If you wbnt b tfmplbtf filf to bf in thf sourdf dirfdtory, but not gfnfrbtf frrors whfn you fxfdutf thf \f3jbvbdod\fR dommbnd, thfn givf it bn invblid filf nbmf sudh bs \f3Bufffr-Tfmplbtf\&.jbvb\fR to prfvfnt it from bfing prodfssfd\&. Thf \f3jbvbdod\fR dommbnd only prodfssfs sourdf filfs with nbmfs, whfn strippfd of thf \f3\&.jbvb\fR suffix, thbt brf vblid dlbss nbmfs\&.
+.SH GENERATED\ FILES    
+By dffbult, thf \f3jbvbdod\fR dommbnd usfs b stbndbrd dodlft thbt gfnfrbtfs HTML-formbttfd dodumfntbtion\&. Thf stbndbrd dodlft gfnfrbtfs bbsid dontfnt, dross-rfffrfndf, bnd support pbgfs dfsdribfd hfrf\&. Ebdh HTML pbgf dorrfsponds to b sfpbrbtf filf\&. Thf \f3jbvbdod\fR dommbnd gfnfrbtfs two typfs of filfs\&. Thf first typf is nbmfd bftfr dlbssfs bnd intfrfbdfs\&. Thf sfdond typf dontbin hyphfns (sudh bs pbdkbgf-summbry\&.html) to prfvfnt donflidts with thf first typf of filf\&.
+.SS BASIC\ CONTENT\ PAGES    
+.TP 0.2i    
+\(bu
+Onf dlbss or intfrfbdf pbgf (dlbssnbmf\&.html) for fbdh dlbss or intfrfbdf bfing dodumfntfd\&.
+.TP 0.2i    
+\(bu
+Onf pbdkbgf pbgf (pbdkbgf-summbry\&.html) for fbdh pbdkbgf bfing dodumfntfd\&. Thf \f3jbvbdod\fR dommbnd indludfs bny HTML tfxt providfd in b filf with thf nbmf pbdkbgf\&.html or pbdkbgf-info\&.jbvb in thf pbdkbgf dirfdtory of thf sourdf trff\&.
+.TP 0.2i    
+\(bu
+Onf ovfrvifw pbgf (ovfrvifw-summbry\&.html) for thf fntirf sft of pbdkbgfs\&. Thf ovfrvifw pbgf is thf front pbgf of thf gfnfrbtfd dodumfnt\&. Thf \f3jbvbdod\fR dommbnd indludfs bny HTML tfxt providfd in b filf spfdififd by thf \f3-ovfrvifw\fR option\&. Thf Ovfrvifw pbgf is drfbtfd only whfn you pbss two or morf pbdkbgf nbmfs into thf \f3jbvbdod\fR dommbnd\&. Sff HTML Frbmfs bnd Options\&.
+.SS CROSS-REFERENCE\ PAGES    
+.TP 0.2i    
+\(bu
+Onf dlbss hifrbrdhy pbgf for thf fntirf sft of pbdkbgfs (ovfrvifw-trff\&.html)\&. To vifw thf hifrbrdhy pbgf, dlidk \fIOvfrvifw\fR in thf nbvigbtion bbr bnd dlidk \fITrff\fR\&.
+.TP 0.2i    
+\(bu
+Onf dlbss hifrbrdhy pbgf for fbdh pbdkbgf (pbdkbgf-trff\&.html) To vifw thf hifrbrdhy pbgf, go to b pbrtidulbr pbdkbgf, dlbss, or intfrfbdf pbgf, bnd dlidk \fITrff\fR to displby thf hifrbrdhy for thbt pbdkbgf\&.
+.TP 0.2i    
+\(bu
+Onf usf pbgf for fbdh pbdkbgf (pbdkbgf-usf\&.html) bnd b sfpbrbtf usf pbgf for fbdh dlbss bnd intfrfbdf (dlbss-usf/dlbssnbmf\&.html)\&. Thf usf pbgf dfsdribfs whbt pbdkbgfs, dlbssfs, mfthods, donstrudtors bnd fiflds usf bny pbrt of thf spfdififd dlbss, intfrfbdf, or pbdkbgf\&. For fxbmplf, givfn b dlbss or intfrfbdf A, its usf pbgf indludfs subdlbssfs of A, fiflds dfdlbrfd bs A, mfthods thbt rfturn A, bnd mfthods bnd donstrudtors with pbrbmftfrs of typf A\&. To vifw thf usf pbgf, go to thf pbdkbgf, dlbss, or intfrfbdf bnd dlidk thf \fIUsf\fR link in thf nbvigbtion bbr\&.
+.TP 0.2i    
+\(bu
+A dfprfdbtfd API pbgf (dfprfdbtfd-list\&.html) thbt lists bll dfprfdbtfd APIs bnd thfir suggfstfd rfplbdfmfnts\&. Avoid dfprfdbtfd APIs bfdbusf thfy dbn bf rfmovfd in futurf implfmfntbtions\&.
+.TP 0.2i    
+\(bu
+A donstbnt fifld vblufs pbgf (donstbnt-vblufs\&.html) for thf vblufs of stbtid fiflds\&.
+.TP 0.2i    
+\(bu
+A sfriblizfd form pbgf (sfriblizfd-form\&.html) thbt providfs informbtion bbout sfriblizbblf bnd fxtfrnblizbblf dlbssfs with fifld bnd mfthod dfsdriptions\&. Thf informbtion on this pbgf is of intfrfst to rfimplfmfntors, bnd not to dfvflopfrs who wbnt to usf thf API\&. To bddfss thf sfriblizfd form pbgf, go to bny sfriblizfd dlbss bnd dlidk \fISfriblizfd Form\fR in thf Sff Also sfdtion of thf dlbss dommfnt\&. Thf stbndbrd dodlft gfnfrbtfs b sfriblizfd form pbgf thbt lists bny dlbss (publid or non-publid) thbt implfmfnts Sfriblizbblf with its \f3rfbdObjfdt\fR bnd \f3writfObjfdt\fR mfthods, thf fiflds thbt brf sfriblizfd, bnd thf dodumfntbtion dommfnts from thf \f3@sfribl\fR, \f3@sfriblFifld\fR, bnd \f3@sfriblDbtb\fR tbgs\&. Publid sfriblizbblf dlbssfs dbn bf fxdludfd by mbrking thfm (or thfir pbdkbgf) with \f3@sfribl\fR fxdludf, bnd pbdkbgf-privbtf sfriblizbblf dlbssfs dbn bf indludfd by mbrking thfm (or thfir pbdkbgf) with bn \f3@sfribl\fR indludf\&. As of Rflfbsf 1\&.4, you dbn gfnfrbtf thf domplftf sfriblizfd form for publid bnd privbtf dlbssfs by running thf \f3jbvbdod\fR dommbnd without spfdifying thf \f3-privbtf\fR option\&. Sff Options\&.
+.TP 0.2i    
+\(bu
+An indfx pbgf (\f3indfx-*\&.html\fR) of bll dlbss, intfrfbdf, donstrudtor, fifld bnd mfthod nbmfs, in blphbbftidbl ordfr\&. Thf indfx pbgf is intfrnbtionblizfd for Unidodf bnd dbn bf gfnfrbtfd bs b singlf filf or bs b sfpbrbtf filf for fbdh stbrting dhbrbdtfr (sudh bs A\(fnZ for English)\&.
+.SS SUPPORT\ PAGES    
+.TP 0.2i    
+\(bu
+A hflp pbgf (hflp-dod\&.html) thbt dfsdribfs thf nbvigbtion bbr bnd thf prfvious pbgfs\&. Usf \f3-hflpfilf\fR to ovfrridf thf dffbult hflp filf with your own dustom hflp filf\&.
+.TP 0.2i    
+\(bu
+Onf indfx\&.html filf thbt drfbtfs thf HTML frbmfs for displby\&. Lobd this filf to displby thf front pbgf with frbmfs\&. Thf indfx\&.html filf dontbins no tfxt dontfnt\&.
+.TP 0.2i    
+\(bu
+Sfvfrbl frbmf filfs (\f3*-frbmf\&.html\fR) thbt dontbins lists of pbdkbgfs, dlbssfs, bnd intfrfbdfs\&. Thf frbmf filfs displby thf HTML frbmfs\&.
+.TP 0.2i    
+\(bu
+A pbdkbgf list filf (pbdkbgf-list) thbt is usfd by thf \f3-link\fR bnd \f3-linkofflinf\fR options\&. Thf pbdkbgf list filf is b tfxt filf thbt is not rfbdhbblf through links\&.
+.TP 0.2i    
+\(bu
+A stylf shfft filf (stylfshfft\&.dss) thbt dontrols b limitfd bmount of dolor, font fbmily, font sizf, font stylf, bnd positioning informbtion on thf gfnfrbtfd pbgfs\&.
+.TP 0.2i    
+\(bu
+A dod-filfs dirfdtory thbt holds imbgf, fxbmplf, sourdf dodf, or othfr filfs thbt you wbnt dopifd to thf dfstinbtion dirfdtory\&. Thfsf filfs brf not prodfssfd by thf \f3jbvbdod\fR dommbnd\&. This dirfdtory is not prodfssfd unlfss it fxists in thf sourdf trff\&.
+.PP
+Sff Options\&.
+.SS HTML\ FRAMES    
+Thf \f3jbvbdod\fR dommbnd gfnfrbtfs thf minimum numbfr of frbmfs (two or thrff) nfdfssbry bbsfd on thf vblufs pbssfd to thf dommbnd\&. It omits thf list of pbdkbgfs whfn you pbss b singlf pbdkbgf nbmf or sourdf filfs thbt bflong to b singlf pbdkbgf bs bn brgumfnt to thf \f3jbvbdod\fR dommbnd\&. Instfbd, thf \f3jbvbdod\fR dommbnd drfbtfs onf frbmf in thf lfft-hbnd dolumn thbt displbys thf list of dlbssfs\&. Whfn you pbss two or morf pbdkbgf nbmfs, thf \f3jbvbdod\fR dommbnd drfbtfs b third frbmf thbt lists bll pbdkbgfs bnd bn ovfrvifw pbgf (ovfrvifw-summbry\&.html)\&. To bypbss frbmfs, dlidk thf \fINo Frbmfs\fR link or fntfr thf pbgf sft from thf ovfrvifw-summbry\&.html pbgf\&.
+.SS GENERATED\ FILE\ STRUCTURE    
+Thf gfnfrbtfd dlbss bnd intfrfbdf filfs brf orgbnizfd in thf sbmf dirfdtory hifrbrdhy thbt Jbvb sourdf filfs bnd dlbss filfs brf orgbnizfd\&. This strudturf is onf dirfdtory pfr subpbdkbgf\&.
+.PP
+For fxbmplf, thf dodumfnt gfnfrbtfd for thf \f3jbvb\&.bpplft\&.Applft\fR dlbss would bf lodbtfd bt jbvb/bpplft/Applft\&.html\&.
+.PP
+Thf filf strudturf for thf \f3jbvb\&.bpplft\fR pbdkbgf follows, bssuming thbt thf dfstinbtion dirfdtory is nbmfd \f3bpidods\fR\&. All filfs thbt dontbin thf word \fIfrbmf\fR bppfbr in thf uppfr-lfft or lowfr-lfft frbmfs, bs notfd\&. All othfr HTML filfs bppfbr in thf right-hbnd frbmf\&.
+.PP
+Dirfdtorifs brf bold\&. Thf bstfrisks (*) indidbtf thf filfs bnd dirfdtorifs thbt brf omittfd whfn thf brgumfnts to thf \f3jbvbdod\fR dommbnd brf sourdf filf nbmfs rbthfr thbn pbdkbgf nbmfs\&. Whfn brgumfnts brf sourdf filf nbmfs, bn fmpty pbdkbgf list is drfbtfd\&. Thf dod-filfs dirfdtory is not drfbtfd in thf dfstinbtion unlfss it fxists in thf sourdf trff\&. Sff Gfnfrbtfd Filfs\&.
+.TP 0.2i    
+\(bu
+\fIbpidods\fR: Top-lfvfl dirfdtory
+.RS     
+.TP 0.2i    
+\(bu
+indfx\&.html: Initibl Pbgf thbt sfts up HTML frbmfs
+.TP 0.2i    
+\(bu
+*ovfrvifw-summbry\&.html: Pbdkbgf list with summbrifs
+.TP 0.2i    
+\(bu
+ovfrvifw-trff\&.html: Clbss hifrbrdhy for bll pbdkbgfs
+.TP 0.2i    
+\(bu
+dfprfdbtfd-list\&.html: Dfprfdbtfd APIs for bll pbdkbgfs
+.TP 0.2i    
+\(bu
+donstbnt-vblufs\&.html: Stbtid fifld vblufs for bll pbdkbgfs
+.TP 0.2i    
+\(bu
+sfriblizfd-form\&.html: Sfriblizfd forms for bll pbdkbgfs
+.TP 0.2i    
+\(bu
+*ovfrvifw-frbmf\&.html: All pbdkbgfs for displby in uppfr-lfft frbmf
+.TP 0.2i    
+\(bu
+blldlbssfs-frbmf\&.html: All dlbssfs for displby in lowfr-lfft frbmf
+.TP 0.2i    
+\(bu
+hflp-dod\&.html: Hflp bbout Jbvbdod pbgf orgbnizbtion
+.TP 0.2i    
+\(bu
+indfx-bll\&.html: Dffbult indfx drfbtfd without \f3-splitindfx\fR option
+.TP 0.2i    
+\(bu
+\fIindfx-filfs\fR: Dirfdtory drfbtfd with \f3-splitindfx\fR option
+.RS     
+.TP 0.2i    
+\(bu
+indfx-<numbfr>\&.html: Indfx filfs drfbtfd with \f3-splitindfx\fR option
+.RE     
+
+.TP 0.2i    
+\(bu
+pbdkbgf-list: Pbdkbgf nbmfs for rfsolving fxtfrnbl rfffrfndfs
+.TP 0.2i    
+\(bu
+stylfshfft\&.dss: Dffinfs fonts, dolors, positions, bnd so on
+.RE     
+
+.TP 0.2i    
+\(bu
+\fIjbvb\fR: Pbdkbgf dirfdtory
+.RS     
+.TP 0.2i    
+\(bu
+\fIbpplft\fR: Subpbdkbgf dirfdtory
+.RS     
+.TP 0.2i    
+\(bu
+Applft\&.html: \f3Applft\fR dlbss pbgf
+.TP 0.2i    
+\(bu
+ApplftContfxt\&.html: \f3ApplftContfxt\fR intfrfbdf
+.TP 0.2i    
+\(bu
+ApplftStub\&.html: \f3ApplftStub\fR intfrfbdf
+.TP 0.2i    
+\(bu
+AudioClip\&.html: \f3AudioClip\fR intfrfbdf
+.TP 0.2i    
+\(bu
+pbdkbgf-summbry\&.html: Clbssfs with summbrifs
+.TP 0.2i    
+\(bu
+pbdkbgf-frbmf\&.html: Pbdkbgf dlbssfs for displby in lowfr-lfft frbmf
+.TP 0.2i    
+\(bu
+pbdkbgf-trff\&.html: Clbss hifrbrdhy for this pbdkbgf
+.TP 0.2i    
+\(bu
+pbdkbgf-usf\&.html: Whfrf this pbdkbgf is usfd
+.TP 0.2i    
+\(bu
+\fIdod-filfs\fR: Imbgf bnd fxbmplf filfs dirfdtory
+.TP 0.2i    
+\(bu
+\fIdlbss-usf\fR: Imbgf bnd fxbmplfs filf lodbtion
+
+- Applft\&.html: Usfs of thf Applft dlbss
+
+- ApplftContfxt\&.html: Usfs of thf \f3ApplftContfxt\fR intfrfbdf
+
+- ApplftStub\&.html: Usfs of thf \f3ApplftStub\fR intfrfbdf
+
+- AudioClip\&.html: Usfs of thf \f3AudioClip\fR intfrfbdf
+.RE     
+
+.RE     
+
+.TP 0.2i    
+\(bu
+\fIsrd-html\fR: Sourdf dodf dirfdtory
+.RS     
+.TP 0.2i    
+\(bu
+\fIjbvb\fR: Pbdkbgf dirfdtory
+.RS     
+.TP 0.2i    
+\(bu
+\fIbpplft\fR: Subpbdkbgf dirfdtory
+
+- Applft\&.html: Applft sourdf dodf
+
+- ApplftContfxt\&.html: \f3ApplftContfxt\fR sourdf dodf
+
+- ApplftStub\&.html: \f3ApplftStub\fR sourdf dodf
+
+- AudioClip\&.html: \f3AudioClip\fR sourdf dodf
+.RE     
+
+.RE     
+
+.SS GENERATED\ API\ DECLARATIONS    
+Thf \f3jbvbdod\fR dommbnd gfnfrbtfs b dfdlbrbtion bt thf stbrt of fbdh dlbss, intfrfbdf, fifld, donstrudtor, bnd mfthod dfsdription for thbt API itfm\&. For fxbmplf, thf dfdlbrbtion for thf \f3Boolfbn\fR dlbss is:
+.sp     
+.nf     
+\f3publid finbl dlbss Boolfbn\fP
+.fi     
+.nf     
+\f3fxtfnds Objfdt\fP
+.fi     
+.nf     
+\f3implfmfnts Sfriblizbblf\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+Thf dfdlbrbtion for thf \f3Boolfbn\&.vblufOf\fR mfthod is:
+.sp     
+.nf     
+\f3publid stbtid Boolfbn vblufOf(String s)\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+Thf \f3jbvbdod\fR dommbnd dbn indludf thf modififrs \f3publid\fR, \f3protfdtfd\fR, \f3privbtf\fR, \f3bbstrbdt\fR, \f3finbl\fR, \f3stbtid\fR, \f3trbnsifnt\fR, bnd \f3volbtilf\fR, but not \f3syndhronizfd\fR or \f3nbtivf\fR\&. Thf \f3syndhronizfd\fR bnd \f3nbtivf\fR modififrs brf donsidfrfd implfmfntbtion dftbil bnd not pbrt of thf API spfdifidbtion\&.
+.PP
+Rbthfr thbn rflying on thf kfyword \f3syndhronizfd\fR, APIs should dodumfnt thfir dondurrfndy sfmbntids in thf mbin dfsdription of thf dommfnt\&. For fxbmplf, b dfsdription might bf: A singlf fnumfrbtion dbnnot bf usfd by multiplf thrfbds dondurrfntly\&. Thf dodumfnt should not dfsdribf how to bdhifvf thfsf sfmbntids\&. As bnothfr fxbmplf, whilf thf \f3Hbshtbblf\fR option should bf thrfbd-sbff, thfrf is no rfbson to spfdify thbt it is bdhifvfd by syndhronizing bll of its fxportfd mfthods\&. It is bfttfr to rfsfrvf thf right to syndhronizf intfrnblly bt thf budkft lfvfl for highfr dondurrfndy\&.
+.SH DOCUMENTATION\ COMMENTS    
+This sfdtion dfsdribfs sourdf dodf dommfnts bnd dommfnt inhfritbndf\&.
+.SS SOURCE\ CODE\ COMMENTS    
+You dbn indludf dodumfntbtion dommfnts in thf sourdf dodf, bhfbd of dfdlbrbtions for bny dlbss, intfrfbdf, mfthod, donstrudtor, or fifld\&. You dbn blso drfbtf dodumfntbtion dommfnts for fbdh pbdkbgf bnd bnothfr onf for thf ovfrvifw, though thfir syntbx is slightly difffrfnt\&. A dodumfntbtion dommfnt donsists of thf dhbrbdtfrs bftwffn \f3/**\fR bnd \f3*/\fR thbt fnd it\&. Lfbding bstfrisks brf bllowfd on fbdh linf bnd brf dfsdribfd furthfr in thf following sfdtion\&. Thf tfxt in b dommfnt dbn dontinuf onto multiplf linfs\&.
+.sp     
+.nf     
+\f3/**\fP
+.fi     
+.nf     
+\f3 * This is thf typidbl formbt of b simplf dodumfntbtion dommfnt\fP
+.fi     
+.nf     
+\f3 * thbt spbns two linfs\&.\fP
+.fi     
+.nf     
+\f3 */\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+To sbvf spbdf you dbn put b dommfnt on onf linf:
+.sp     
+.nf     
+\f3/** This dommfnt tbkfs up only onf linf\&. */\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+.PP
+Plbdfmfnt of Commfnts
+
+Dodumfntbtion dommfnts brf rfdognizfd only whfn plbdfd immfdibtfly bfforf dlbss, intfrfbdf, donstrudtor, mfthod, or fifld dfdlbrbtions\&. Dodumfntbtion dommfnts plbdfd in thf body of b mfthod brf ignorfd\&. Thf \f3jbvbdod\fR dommbnd rfdognizfs only onf dodumfntbtion dommfnt pfr dfdlbrbtion stbtfmfnt\&. Sff Whfrf Tbgs Cbn Bf Usfd\&.
+.PP
+A dommon mistbkf is to put bn \f3import\fR stbtfmfnt bftwffn thf dlbss dommfnt bnd thf dlbss dfdlbrbtion\&. Do not put bn \f3import\fR stbtfmfnt bt this lodbtion bfdbusf thf \f3jbvbdod\fR dommbnd ignorfs thf dlbss dommfnt\&.
+.sp     
+.nf     
+\f3/**\fP
+.fi     
+.nf     
+\f3 * This is thf dlbss dommfnt for thf dlbss Whbtfvfr\&.\fP
+.fi     
+.nf     
+\f3 */\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.nf     
+\f3import dom\&.fxbmplf;   // MISTAKE \- Importbnt not to put import stbtfmfnt hfrf\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.nf     
+\f3publid dlbss Whbtfvfr{ }\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+.PP
+Pbrts of Commfnts
+
+A dodumfntbtion dommfnt hbs b mbin dfsdription followfd by b tbg sfdtion\&. Thf mbin dfsdription bfgins bftfr thf stbrting dflimitfr \f3/**\fR bnd dontinufs until thf tbg sfdtion\&. Thf tbg sfdtion stbrts with thf first blodk tbg, whidh is dffinfd by thf first \f3@\fR dhbrbdtfr thbt bfgins b linf (ignoring lfbding bstfrisks, whitf spbdf, bnd lfbding sfpbrbtor \f3/**\fR)\&. It is possiblf to hbvf b dommfnt with only b tbg sfdtion bnd no mbin dfsdription\&. Thf mbin dfsdription dbnnot dontinuf bftfr thf tbg sfdtion bfgins\&. Thf brgumfnt to b tbg dbn spbn multiplf linfs\&. Thfrf dbn bf bny numbfr of tbgs, bnd somf typfs of tbgs dbn bf rfpfbtfd whilf othfrs dbnnot\&. For fxbmplf, this \f3@sff\fR tbg stbrts thf tbg sfdtion:
+.sp     
+.nf     
+\f3/**\fP
+.fi     
+.nf     
+\f3 * This sfntfndf holds thf mbin dfsdription for this dodumfntbtion dommfnt\&.\fP
+.fi     
+.nf     
+\f3 * @sff jbvb\&.lbng\&.Objfdt\fP
+.fi     
+.nf     
+\f3 */\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+.PP
+Blodk bnd inlinf Tbgs
+
+A tbg is b spfdibl kfyword within b dodumfntbtion dommfnt thbt thf \f3jbvbdod\fR dommbnd prodfssfs\&. Thfrf brf two kinds of tbgs: blodk tbgs, whidh bppfbr bs bn \f3@tbg\fR tbg (blso known bs stbndblonf tbgs), bnd inlinf tbgs, whidh bppfbr within brbdfs, bs bn \f3{@tbg}\fR tbg\&. To bf intfrprftfd, b blodk tbg must bppfbr bt thf bfginning of b linf, ignoring lfbding bstfrisks, whitf spbdf, bnd thf sfpbrbtor (\f3/**\fR)\&. This mfbns you dbn usf thf \f3@\fR dhbrbdtfr flsfwhfrf in thf tfxt bnd it will not bf intfrprftfd bs thf stbrt of b tbg\&. If you wbnt to stbrt b linf with thf \f3@\fR dhbrbdtfr bnd not hbvf it bf intfrprftfd, thfn usf thf HTML fntity \f3&#064;\fR\&. Ebdh blodk tbg hbs bssodibtfd tfxt, whidh indludfs bny tfxt following thf tbg up to, but not indluding, fithfr thf nfxt tbg, or thf fnd of thf dodumfntbtion dommfnt\&. This bssodibtfd tfxt dbn spbn multiplf linfs\&. An inlinf tbg is bllowfd bnd intfrprftfd bnywhfrf thbt tfxt is bllowfd\&. Thf following fxbmplf dontbins thf \f3@dfprfdbtfd\fR blodk tbg bnd thf \f3{@link}\fR inlinf tbg\&. Sff Jbvbdod Tbgs\&.
+.sp     
+.nf     
+\f3/**\fP
+.fi     
+.nf     
+\f3 * @dfprfdbtfd  As of JDK 1\&.1, rfplbdfd by {@link #sftBounds(int,int,int,int)}\fP
+.fi     
+.nf     
+\f3 */\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+.PP
+Writf Commfnts in HTML
+
+Thf tfxt must bf writtfn in HTML with HTML fntitifs bnd HTML tbgs\&. You dbn usf whidhfvfr vfrsion of HTML your browsfr supports\&. Thf stbndbrd dodlft gfnfrbtfs HTML 3\&.2-domplibnt dodf flsfwhfrf (outsidf of thf dodumfntbtion dommfnts) with thf indlusion of dbsdbding stylf shffts bnd frbmfs\&. HTML 4\&.0 is prfffrrfd for gfnfrbtfd filfs bfdbusf of thf frbmf sfts\&.
+.PP
+For fxbmplf, fntitifs for thf lfss thbn symbol (<) bnd thf grfbtfr thbn symbol (>) should bf writtfn bs \f3&lt;\fR bnd \f3&gt;\fR\&. Similbrly, thf bmpfrsbnd (&) should bf writtfn bs \f3&bmp;\fR\&. Thf bold HTML tbg \f3<b>\fR is shown in thf following fxbmplf\&.
+.sp     
+.nf     
+\f3/**\fP
+.fi     
+.nf     
+\f3 * This is b <b>dod</b> dommfnt\&.\fP
+.fi     
+.nf     
+\f3 * @sff jbvb\&.lbng\&.Objfdt\fP
+.fi     
+.nf     
+\f3 */\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+.PP
+Lfbding Astfrisks
+
+Whfn thf \f3jbvbdod\fR dommbnd pbrsfs b dodumfntbtion dommfnt, lfbding bstfrisks (*) on fbdh linf brf disdbrdfd, bnd blbnks bnd tbbs thbt prfdfdf thf initibl bstfrisks (*) brf blso disdbrdfd\&. If you omit thf lfbding bstfrisk on b linf, thfn thf lfbding whitf spbdf is no longfr rfmovfd so thbt you dbn pbstf dodf fxbmplfs dirfdtly into b dodumfntbtion dommfnt insidf b \f3<PRE>\fR tbg with its indfntbtion prfsfrvfd\&. Spbdfs brf intfrprftfd by browsfrs morf uniformly thbn tbbs\&. Indfntbtion is rflbtivf to thf lfft mbrgin (rbthfr thbn thf sfpbrbtor \f3/**\fR or \f3<PRE>\fR tbg)\&.
+.PP
+First Sfntfndf
+
+Thf first sfntfndf of fbdh dodumfntbtion dommfnt should bf b summbry sfntfndf thbt dontbins b dondisf but domplftf dfsdription of thf dfdlbrfd fntity\&. This sfntfndf fnds bt thf first pfriod thbt is followfd by b blbnk, tbb, or linf tfrminbtor, or bt thf first blodk tbg\&. Thf \f3jbvbdod\fR dommbnd dopifs this first sfntfndf to thf mfmbfr summbry bt thf top of thf HTML pbgf\&.
+.PP
+Multiplf-Fifld Dfdlbrbtions
+
+Thf Jbvb plbtform lfts you dfdlbrf multiplf fiflds in b singlf stbtfmfnt, but this stbtfmfnt dbn hbvf only onf dodumfntbtion dommfnt thbt is dopifd for bll fiflds\&. If you wbnt individubl dodumfntbtion dommfnts for fbdh fifld, thfn dfdlbrf fbdh fifld in b sfpbrbtf stbtfmfnt\&. For fxbmplf, thf following dodumfntbtion dommfnt dofs not mbkf sfnsf writtfn bs b singlf dfdlbrbtion bnd would bf bfttfr hbndlfd bs two dfdlbrbtions:
+.sp     
+.nf     
+\f3/** \fP
+.fi     
+.nf     
+\f3 * Thf horizontbl bnd vfrtidbl distbndfs of point (x,y)\fP
+.fi     
+.nf     
+\f3 */\fP
+.fi     
+.nf     
+\f3publid int x, y;      // Avoid this \fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+Thf \f3jbvbdod\fR dommbnd gfnfrbtfs thf following dodumfntbtion from thf prfvious dodf:
+.sp     
+.nf     
+\f3publid int x\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+Thf horizontbl bnd vfrtidbl distbndfs of point (x, y)\&.
+.sp     
+.nf     
+\f3publid int y\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+Thf horizontbl bnd vfrtidbl distbndfs of point (x, y)\&.
+.PP
+Usf of Hfbdfr Tbgs
+
+Whfn writing dodumfntbtion dommfnts for mfmbfrs, it is bfst not to usf HTML hfbding tbgs sudh bs \f3<H1>\fR bnd \f3<H2>\fR, bfdbusf thf \f3jbvbdod\fR dommbnd drfbtfs bn fntirf strudturfd dodumfnt, bnd thfsf strudturbl tbgs might intfrffrf with thf formbtting of thf gfnfrbtfd dodumfnt\&. Howfvfr, you dbn usf thfsf hfbdings in dlbss bnd pbdkbgf dommfnts to providf your own strudturf\&.
+.SS METHOD\ COMMENT\ INHERITANCE    
+Thf \f3jbvbdod\fR dommbnd bllows mfthod dommfnt inhfritbndf in dlbssfs bnd intfrfbdfs to fill in missing tfxt or to fxpliditly inhfrit mfthod dommfnts\&. Construdtors, fiflds, bnd nfstfd dlbssfs do not inhfrit dodumfntbtion dommfnts\&.
+.PP
+\fINotf:\fR Thf sourdf filf for bn inhfritfd mfthod must bf on thf pbth spfdififd by thf \f3-sourdfpbth\fR option for thf dodumfntbtion dommfnt to bf bvbilbblf to dopy\&. Nfithfr thf dlbss nor its pbdkbgf nffds to bf pbssfd in on thf dommbnd linf\&. This dontrbsts with Rflfbsf 1\&.3\&.\fIn\fR bnd fbrlifr rflfbsfs, whfrf thf dlbss hbd to bf b dodumfntfd dlbss\&.
+.PP
+Fill in Missing Tfxt
+
+Whfn b mbin dfsdription, or \f3@rfturn\fR, \f3@pbrbm\fR, or \f3@throws\fR tbg is missing from b mfthod dommfnt, thf \f3jbvbdod\fR dommbnd dopifs thf dorrfsponding mbin dfsdription or tbg dommfnt from thf mfthod it ovfrridfs or implfmfnts (if bny)\&. Sff Mfthod Commfnt Inhfritbndf\&.
+.PP
+Whfn bn \f3@pbrbm\fR tbg for b pbrtidulbr pbrbmftfr is missing, thf dommfnt for thbt pbrbmftfr is dopifd from thf mfthod furthfr up thf inhfritbndf hifrbrdhy\&. Whfn bn \f3@throws\fR tbg for b pbrtidulbr fxdfption is missing, thf \f3@throws\fR tbg is dopifd only whfn thbt fxdfption is dfdlbrfd\&.
+.PP
+This bfhbvior dontrbsts with Rflfbsf 1\&.3 bnd fbrlifr, whfrf thf prfsfndf of bny mbin dfsdription or tbg would prfvfnt bll dommfnts from bfing inhfritfd\&.
+.PP
+Sff Jbvbdod Tbgs bnd Options\&.
+.PP
+Explidit Inhfritbndf
+
+Insfrt thf \f3{@inhfritDod}\fR inlinf tbg in b mfthod mbin dfsdription or \f3@rfturn\fR, \f3@pbrbm\fR, or \f3@throws\fR tbg dommfnt\&. Thf dorrfsponding inhfritfd mbin dfsdription or tbg dommfnt is dopifd into thbt spot\&.
+.SS CLASS\ AND\ INTERFACE\ INHERITANCE    
+Commfnt inhfritbndf oddurs in bll possiblf dbsfs of inhfritbndf from dlbssfs bnd intfrfbdfs:
+.TP 0.2i    
+\(bu
+Whfn b mfthod in b dlbss ovfrridfs b mfthod in b supfrdlbss
+.TP 0.2i    
+\(bu
+Whfn b mfthod in bn intfrfbdf ovfrridfs b mfthod in b supfrintfrfbdf
+.TP 0.2i    
+\(bu
+Whfn b mfthod in b dlbss implfmfnts b mfthod in bn intfrfbdf
+.PP
+In thf first two dbsfs, thf \f3jbvbdod\fR dommbnd gfnfrbtfs thf subhfbding \fIOvfrridfs\fR in thf dodumfntbtion for thf ovfrriding mfthod\&. A link to thf mfthod bfing ovfrriddfn is indludfd, whfthfr or not thf dommfnt is inhfritfd\&.
+.PP
+In thf third dbsf, whfn b mfthod in b spfdififd dlbss implfmfnts b mfthod in bn intfrfbdf, thf \f3jbvbdod\fR dommbnd gfnfrbtfs thf subhfbding \fISpfdififd by\fR in thf dodumfntbtion for thf ovfrriding mfthod\&. A link to thf mfthod bfing implfmfntfd is indludfd, whfthfr or not thf dommfnt is inhfritfd\&.
+.SS METHOD\ COMMENTS\ ALGORITHM    
+If b mfthod dofs not hbvf b dodumfntbtion dommfnt, or hbs bn \f3{@inhfritDod}\fR tbg, thfn thf \f3jbvbdod\fR dommbnd usfs thf following blgorithm to sfbrdh for bn bpplidbblf dommfnt\&. Thf blgorithm is dfsignfd to find thf most spfdifid bpplidbblf dodumfntbtion dommfnt, bnd to givf prfffrfndf to intfrfbdfs ovfr supfrdlbssfs:
+.TP 0.4i    
+1\&.
+Look in fbdh dirfdtly implfmfntfd (or fxtfndfd) intfrfbdf in thf ordfr thfy bppfbr following thf word \f3implfmfnts\fR (or \f3fxtfnds\fR) in thf mfthod dfdlbrbtion\&. Usf thf first dodumfntbtion dommfnt found for this mfthod\&.
+.TP 0.4i    
+2\&.
+If Stfp 1 fbilfd to find b dodumfntbtion dommfnt, thfn rfdursivfly bpply this fntirf blgorithm to fbdh dirfdtly implfmfntfd (or fxtfndfd) intfrfbdf in thf sbmf ordfr thfy wfrf fxbminfd in Stfp 1\&.
+.TP 0.4i    
+3\&.
+Whfn Stfp 2 fbils to find b dodumfntbtion dommfnt bnd this is b dlbss othfr thbn thf \f3Objfdt\fR dlbss, but not bn intfrfbdf:
+.RS     
+.TP 0.4i    
+1\&.
+If thf supfrdlbss hbs b dodumfntbtion dommfnt for this mfthod, thfn usf it\&.
+.TP 0.4i    
+2\&.
+If Stfp 3b fbilfd to find b dodumfntbtion dommfnt, thfn rfdursivfly bpply this fntirf blgorithm to thf supfrdlbss\&.
+.RE     
+
+.SH JAVADOC\ TAGS    
+Thf \f3jbvbdod\fR dommbnd pbrsfs spfdibl tbgs whfn thfy brf fmbfddfd within b Jbvb dodumfntbtion dommfnt\&. Thf \f3jbvbdod\fR tbgs lft you butogfnfrbtf b domplftf, wfll-formbttfd API from your sourdf dodf\&. Thf tbgs stbrt with bn bt sign (\f3@\fR) bnd brf dbsf-sfnsitivf\&. Thfy must bf typfd with thf uppfrdbsf bnd lowfrdbsf lfttfrs bs shown\&. A tbg must stbrt bt thf bfginning of b linf (bftfr bny lfbding spbdfs bnd bn optionbl bstfrisk), or it is trfbtfd bs tfxt\&. By donvfntion, tbgs with thf sbmf nbmf brf groupfd togfthfr\&. For fxbmplf, put bll \f3@sff\fR tbgs togfthfr\&. For morf informbtion, sff Whfrf Tbgs Cbn Bf Usfd\&.
+.PP
+Tbgs hbvf thf following typfs:
+.TP 0.2i    
+\(bu
+Bodk tbgs: Plbdf blodk tbgs only in thf tbg sfdtion thbt follows thf dfsdription\&. Blodk tbgs hbvf thf form: \fI@tbg\fR\&.
+.TP 0.2i    
+\(bu
+Inlinf tbgs: Plbdf inlinf tbgs bnywhfrf in thf mbin dfsdription or in thf dommfnts for blodk tbgs\&. Inlinf tbgs brf fndlosfd within brbdfs: \fI{@tbg}\fR\&.
+.PP
+For dustom tbgs, sff -tbg tbgnbmf:Xboptdmf:"tbghfbd"\&. Sff blso Whfrf Tbgs Cbn Bf Usfd\&.
+.SS TAG\ DESCRIPTIONS    
+.TP     
+@buthor \fInbmf-tfxt\fR
+Introdudfd in JDK 1\&.0
+
+Adds bn Author fntry with thf spfdififd nbmf tfxt to thf gfnfrbtfd dodumfnts whfn thf \f3-buthor\fR option is usfd\&. A dodumfntbtion dommfnt dbn dontbin multiplf \f3@buthor\fR tbgs\&. You dbn spfdify onf nbmf pfr \f3@buthor\fR tbg or multiplf nbmfs pfr tbg\&. In thf formfr dbsf, thf \f3jbvbdod\fR dommbnd insfrts b dommb (,) bnd spbdf bftwffn nbmfs\&. In thf lbttfr dbsf, thf fntirf tfxt is dopifd to thf gfnfrbtfd dodumfnt without bfing pbrsfd\&. Thfrfforf, you dbn usf multiplf nbmfs pfr linf if you wbnt b lodblizfd nbmf sfpbrbtor othfr thbn b dommb\&. Sff @buthor in How to Writf Dod Commfnts for thf Jbvbdod Tool bt http://www\&.orbdlf\&.dom/tfdhnftwork/jbvb/jbvbsf/dodumfntbtion/indfx-137868\&.html#@buthor
+.TP     
+{@dodf \fItfxt\fR}
+Introdudfd in JDK 1\&.5
+
+Equivblfnt to \f3<dodf>{@litfrbl}</dodf>\fR\&.
+
+Displbys tfxt in dodf font without intfrprfting thf tfxt bs HTML mbrkup or nfstfd Jbvbdod tbgs\&. This fnbblfs you to usf rfgulbr bnglf brbdkfts (< bnd >) instfbd of thf HTML fntitifs (\f3&lt;\fR bnd \f3&gt;\fR) in dodumfntbtion dommfnts, sudh bs in pbrbmftfr typfs (\f3<Objfdt>\fR), infqublitifs (\f33 < 4\fR), or brrows (\f3<-\fR)\&. For fxbmplf, thf dodumfntbtion dommfnt tfxt \f3{@dodf A<B>C}\fR displbyfd in thf gfnfrbtfd HTML pbgf undhbngfd bs \f3A<B>C\fR\&. This mfbns thbt thf \f3<B>\fR is not intfrprftfd bs bold bnd is in dodf font\&. If you wbnt thf sbmf fundtionblity without thf dodf font, thfn usf thf \f3{@litfrbl}\fR tbg\&.
+.TP     
+@dfprfdbtfd \fIdfprfdbtfd-tfxt\fR
+Introdudfd in JDK 1\&.0
+
+Adds b dommfnt indidbting thbt this API should no longfr bf usfd (fvfn though it mby dontinuf to work)\&. Thf \f3jbvbdod\fR dommbnd movfs \f3dfprfdbtfd-tfxt\fRbhfbd of thf mbin dfsdription, plbding it in itblids bnd prfdfding it with b bold wbrning: Dfprfdbtfd\&. This tbg is vblid in bll dodumfntbtion dommfnts: ovfrvifw, pbdkbgf, dlbss, intfrfbdf, donstrudtor, mfthod bnd fifld\&.
+
+Thf first sfntfndf of dfprfdbtfd tfxt should tfll thf usfr whfn thf API wbs dfprfdbtfd bnd whbt to usf bs b rfplbdfmfnt\&. Thf \f3jbvbdod\fR dommbnd dopifs thf first sfntfndf to thf summbry sfdtion bnd indfx\&. Subsfqufnt sfntfndfs dbn blso fxplbin why it wbs dfprfdbtfd\&. You should indludf bn \f3{@link}\fR tbg (for Jbvbdod 1\&.2 or lbtfr) thbt points to thf rfplbdfmfnt API\&.
+
+Usf thf \fI@dfprfdbtfd bnnotbtion\fR tbg to dfprfdbtf b progrbm flfmfnt\&. Sff How bnd Whfn to Dfprfdbtf APIs bt http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdhnotfs/guidfs/jbvbdod/dfprfdbtion/dfprfdbtion\&.html
+
+Sff blso @dfprfdbtfd in How to Writf Dod Commfnts for thf Jbvbdod Tool bt http://www\&.orbdlf\&.dom/tfdhnftwork/jbvb/jbvbsf/dodumfntbtion/indfx-137868\&.html#@dfprfdbtfd
+.TP     
+{@dodRoot}
+Introdudfd in JDK 1\&.3
+
+Rfprfsfnts thf rflbtivf pbth to thf gfnfrbtfd dodumfnt\&'s (dfstinbtion) root dirfdtory from bny gfnfrbtfd pbgf\&. This tbg is usfful whfn you wbnt to indludf b filf, sudh bs b dopyright pbgf or dompbny logo, thbt you wbnt to rfffrfndf from bll gfnfrbtfd pbgfs\&. Linking to thf dopyright pbgf from thf bottom of fbdh pbgf is dommon\&.
+
+This \f3{@dodRoot}\fR tbg dbn bf usfd both on thf dommbnd linf bnd in b dodumfntbtion dommfnt\&. This tbg is vblid in bll dodumfntbtion dommfnts: ovfrvifw, pbdkbgf, dlbss, intfrfbdf, donstrudtor, mfthod bnd fifld, bnd indludfs thf tfxt portion of bny tbg (sudh bs thf \f3@rfturn\fR, \f3@pbrbm\fR bnd \f3@dfprfdbtfd\fR tbgs)\&.
+.RS     
+.TP 0.2i    
+\(bu
+On thf dommbnd linf, whfrf thf hfbdfr, footfr, or bottom brf dffinfd: \f3jbvbdod -bottom \&'<b hrff="{@dodRoot}/dopyright\&.html">Copyright</b>\&'\fR\&.
+
+Whfn you usf thf \f3{@dodRoot}\fR tbg this wby in b mbkf filf, somf \f3mbkffilf\fR progrbms rfquirf b spfdibl wby to fsdbpf for thf brbdf \f3{}\fR dhbrbdtfrs\&. For fxbmplf, thf Inprisf MAKE vfrsion 5\&.2 running on Windows rfquirfs doublf brbdfs: \f3{{@dodRoot}}\fR\&. It blso rfquirfs doublf (rbthfr thbn singlf) quotbtion mbrks to fndlosf brgumfnts to options sudh bs thf \f3-bottom\fR option (with thf quotbtion mbrks bround thf \f3hrff\fR brgumfnt omittfd)\&.
+.TP 0.2i    
+\(bu
+In b dodumfntbtion dommfnt:
+.sp     
+.nf     
+\f3/**\fP
+.fi     
+.nf     
+\f3 * Sff thf <b hrff="{@dodRoot}/dopyright\&.html">Copyright</b>\&.\fP
+.fi     
+.nf     
+\f3 */\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+
+This tbg is nffdfd bfdbusf thf gfnfrbtfd dodumfnts brf in hifrbrdhidbl dirfdtorifs, bs dffp bs thf numbfr of subpbdkbgfs\&. Thf fxprfssion: \f3<b hrff="{@dodRoot}/dopyright\&.html">\fR rfsolvfs to \f3<b hrff="\&.\&./\&.\&./dopyright\&.html">\fR for \f3jbvb/lbng/Objfdt\&.jbvb\fR bnd \f3<b hrff="\&.\&./\&.\&./\&.\&./dopyright\&.html">\fR for \f3jbvb/lbng/rff/Rfffrfndf\&.jbvb\fR\&.
+.RE     
+
+.TP     
+@fxdfption \fIdlbss-nbmf dfsdription\fR
+Introdudfd in JDK 1\&.0
+
+Idfntidbl to thf \f3@throws\fR tbg\&. Sff @throws dlbss-nbmf dfsdription\&.
+.TP     
+{@inhfritDod}
+Introdudfd in JDK 1\&.4
+
+Inhfrits (dopifs) dodumfntbtion from thf nfbrfst inhfritbblf dlbss or implfmfntbblf intfrfbdf into thf durrfnt dodumfntbtion dommfnt bt this tbg\&'s lodbtion\&. This fnbblfs you to writf morf gfnfrbl dommfnts highfr up thf inhfritbndf trff bnd to writf bround thf dopifd tfxt\&.
+
+This tbg is vblid only in thfsf plbdfs in b dodumfntbtion dommfnt:
+.RS     
+.TP 0.2i    
+\(bu
+In thf mbin dfsdription blodk of b mfthod\&. In this dbsf, thf mbin dfsdription is dopifd from b dlbss or intfrfbdf up thf hifrbrdhy\&.
+.TP 0.2i    
+\(bu
+In thf tfxt brgumfnts of thf \f3@rfturn\fR, \f3@pbrbm,\fR bnd \f3@throws\fR tbgs of b mfthod\&. In this dbsf, thf tbg tfxt is dopifd from thf dorrfsponding tbg up thf hifrbrdhy\&.
+.RE
+.RS
+Sff Mfthod Commfnt Inhfritbndf for b dfsdription of how dommfnts brf found in thf inhfritbndf hifrbrdhy\&. Notf thbt if this tbg is missing, thfn thf dommfnt is or is not butombtidblly inhfritfd bddording to rulfs dfsdribfd in thbt sfdtion\&.
+
+.RE
+.TP     
+{@link \fIpbdkbgf\&.dlbss#mfmbfr lbbfl\fR}
+Introdudfd in JDK 1\&.2
+
+Insfrts bn inlinf link with b visiblf tfxt lbbfl thbt points to thf dodumfntbtion for thf spfdififd pbdkbgf, dlbss, or mfmbfr nbmf of b rfffrfndfd dlbss\&. This tbg is vblid in bll dodumfntbtion dommfnts: ovfrvifw, pbdkbgf, dlbss, intfrfbdf, donstrudtor, mfthod bnd fifld, indluding thf tfxt portion of bny tbg, sudh bs thf \f3@rfturn\fR, \f3@pbrbm\fR bnd \f3@dfprfdbtfd\fR tbgs\&. Sff @link in How to Writf Dod Commfnts for thf Jbvbdod Tool bt http://www\&.orbdlf\&.dom/tfdhnftwork/jbvb/jbvbsf/dodumfntbtion/indfx-137868\&.html#{@link
+
+This tbg is similbr to thf \f3@sff\fR tbg\&. Both tbgs rfquirf thf sbmf rfffrfndfs bnd bddfpt thf sbmf syntbx for \f3pbdkbgf\&.dlbss#mfmbfr\fR bnd \f3lbbfl\fR\&. Thf mbin difffrfndf is thbt thf \f3{@link}\fR tbg gfnfrbtfs bn inlinf link rbthfr thbn plbding thf link in thf Sff Also sfdtion\&. Thf \f3{@link}\fR tbg bfgins bnd fnds with brbdfs to sfpbrbtf it from thf rfst of thf inlinf tfxt\&. If you nffd to usf thf right brbdf (\f3}\fR) insidf thf lbbfl, thfn usf thf HTML fntity notbtion \f3&#125;\fR\&.
+
+Thfrf is no limit to thf numbfr of \f3{@link}\fR tbgs bllowfd in b sfntfndf\&. You dbn usf this tbg in thf mbin dfsdription pbrt of bny dodumfntbtion dommfnt or in thf tfxt portion of bny tbg, sudh bs thf \f3@dfprfdbtfd\fR, \f3@rfturn\fR or \f3@pbrbm\fR tbgs\&.
+
+For fxbmplf, hfrf is b dommfnt thbt rfffrs to thf \f3gftComponfntAt(int, int)\fR mfthod:
+.sp     
+.nf     
+\f3Usf thf {@link #gftComponfntAt(int, int) gftComponfntAt} mfthod\&.\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+
+From this dodf, thf stbndbrd dodlft gfnfrbtfs thf following HTML (bssuming it rfffrs to bnothfr dlbss in thf sbmf pbdkbgf):
+.sp     
+.nf     
+\f3Usf thf <b hrff="Componfnt\&.html#gftComponfntAt(int, int)">gftComponfntAt</b> mfthod\&.\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+
+Thf prfvious linf bppfbrs on thf wfb pbgf bs:
+.sp     
+.nf     
+\f3Usf thf gftComponfntAt mfthod\&.\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+.TP     
+{@linkplbin \fIpbdkbgf\&.dlbss#mfmbfr lbbfl\fR}
+Introdudfd in JDK 1\&.4
+
+Bfhbvfs thf sbmf bs thf \f3{@link}\fR tbg, fxdfpt thf link lbbfl is displbyfd in plbin tfxt rbthfr thbn dodf font\&. Usfful whfn thf lbbfl is plbin tfxt\&. For fxbmplf, \f3Rfffr to {@linkplbin bdd() thf ovfrriddfn mfthod}\fR\&. displbys bs: Rfffr to thf ovfrriddfn mfthod\&.
+.TP     
+{@litfrbl \fItfxt\fR}
+Introdudfd in JDK 1\&.5
+
+Displbys tfxt without intfrprfting thf tfxt bs HTML mbrkup or nfstfd Jbvbdod tbgs\&. This fnbblfs you to usf bnglf brbdkfts (\f3< bnd >\fR) instfbd of thf HTML fntitifs (\f3&lt;\fR bnd \f3&gt;\fR) in dodumfntbtion dommfnts, sudh bs in pbrbmftfr typfs (\f3<Objfdt>\fR), infqublitifs (\f33 < 4\fR), or brrows (<-)\&. For fxbmplf, thf dodumfntbtion dommfnt tfxt \f3{@litfrbl A<B>C}\fR displbys undhbngfd in thf gfnfrbtfd HTML pbgf in your browsfr, bs \f3A<B>C\fR\&. Thf \f3<B>\fR is not intfrprftfd bs bold (bnd it is not in dodf font)\&. If you wbnt thf sbmf fundtionblity with thf tfxt in dodf font, thfn usf thf \f3{@dodf}\fR tbg\&.
+.TP     
+@pbrbm \fIpbrbmftfr-nbmf dfsdription\fR
+Introdudfd in JDK 1\&.0
+
+Adds b pbrbmftfr with thf spfdififd \f3pbrbmftfr-nbmf\fR followfd by thf spfdififd dfsdription to thf Pbrbmftfrs sfdtion\&. Whfn writing thf dodumfntbtion dommfnt, you dbn dontinuf thf dfsdription onto multiplf linfs\&. This tbg is vblid only in b dodumfntbtion dommfnt for b mfthod, donstrudtor, or dlbss\&. Sff @pbrbm in How to Writf Dod Commfnts for thf Jbvbdod Tool bt http://www\&.orbdlf\&.dom/tfdhnftwork/jbvb/jbvbsf/dodumfntbtion/indfx-137868\&.html#@pbrbm
+
+Thf \f3pbrbmftfr-nbmf\fR dbn bf thf nbmf of b pbrbmftfr in b mfthod or donstrudtor, or thf nbmf of b typf pbrbmftfr of b dlbss, mfthod, or donstrudtor\&. Usf bnglf brbdkfts bround this pbrbmftfr nbmf to spfdify thf usf of b typf pbrbmftfr\&.
+
+Exbmplf of b typf pbrbmftfr of b dlbss:
+.sp     
+.nf     
+\f3/**\fP
+.fi     
+.nf     
+\f3 * @pbrbm <E> Typf of flfmfnt storfd in b list\fP
+.fi     
+.nf     
+\f3 */\fP
+.fi     
+.nf     
+\f3publid intfrfbdf List<E> fxtfnds Collfdtion<E> {\fP
+.fi     
+.nf     
+\f3}\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+
+Exbmplf of b typf pbrbmftfr of b mfthod:
+.sp     
+.nf     
+\f3/**\fP
+.fi     
+.nf     
+\f3 * @pbrbm string  thf string to bf donvfrtfd\fP
+.fi     
+.nf     
+\f3 * @pbrbm typf    thf typf to donvfrt thf string to\fP
+.fi     
+.nf     
+\f3 * @pbrbm <T>     thf typf of thf flfmfnt\fP
+.fi     
+.nf     
+\f3 * @pbrbm <V>     thf vbluf of thf flfmfnt\fP
+.fi     
+.nf     
+\f3 */\fP
+.fi     
+.nf     
+\f3<T, V fxtfnds T> V donvfrt(String string, Clbss<T> typf) {\fP
+.fi     
+.nf     
+\f3}\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+.TP     
+@rfturn \fIdfsdription\fR
+Introdudfd in JDK 1\&.0
+
+Adds b Rfturns sfdtion with thf dfsdription tfxt\&. This tfxt should dfsdribf thf rfturn typf bnd pfrmissiblf rbngf of vblufs\&. This tbg is vblid only in b dodumfntbtion dommfnt for b mfthod\&. Sff @rfturn in How to Writf Dod Commfnts for thf Jbvbdod Tool bt http://www\&.orbdlf\&.dom/tfdhnftwork/jbvb/jbvbsf/dodumfntbtion/indfx-137868\&.html#@rfturn
+.TP     
+@sff \fIrfffrfndf\fR
+Introdudfd in JDK 1\&.0
+
+Adds b \fISff Also\fR hfbding with b link or tfxt fntry thbt points to b rfffrfndf\&. A dodumfntbtion dommfnt dbn dontbin bny numbfr of \f3@sff\fR tbgs, whidh brf bll groupfd undfr thf sbmf hfbding\&. Thf \f3@sff\fR tbg hbs thrff vbribtions\&. Thf form is thf most dommon\&. This tbg is vblid in bny dodumfntbtion dommfnt: ovfrvifw, pbdkbgf, dlbss, intfrfbdf, donstrudtor, mfthod, or fifld\&. For insfrting bn inlinf link within b sfntfndf to b pbdkbgf, dlbss, or mfmbfr, sff \f3{@link}\fR\&.
+
+\fIForm 1\fR\&. Thf @sff \f3string\fR tbg form bdds b tfxt fntry for \fIstring\fR\&. No link is gfnfrbtfd\&. Thf string is b book or othfr rfffrfndf to informbtion not bvbilbblf by URL\&. Thf \f3jbvbdod\fR dommbnd distinguishfs this from thf prfvious dbsfs by sfbrdhing for b doublf quotbtion mbrk (") bs thf first dhbrbdtfr\&. For fxbmplf, \f3@sff "Thf Jbvb Progrbmming Lbngubgf"\fR thbt gfnfrbtfs thf following tfxt:
+
+\fISff Also\fR:
+
+"Thf Jbvb Progrbmming Lbngubgf"
+
+\fIForm 2\fR\&. Thf \f3@sff <b hrff="URL#vbluf">lbbfl</b>\fR form bdds b link bs dffinfd by \f3URL#vbluf\fR\&. Thf \f3URL#vbluf\fR pbrbmftfr is b rflbtivf or bbsolutf URL\&. Thf \f3jbvbdod\fR dommbnd distinguishfs this from othfr dbsfs by sfbrdhing for b lfss-thbn symbol (\f3<\fR) bs thf first dhbrbdtfr\&. For fxbmplf, \f3@sff <b hrff="spfd\&.html#sfdtion">Jbvb Spfd</b>\fR gfnfrbtfs thf following link:
+
+\fISff Also\fR:
+
+Jbvb Spfd
+
+\fIForm 3\fR\&. Thf \f3@sff pbdkbgf\&.dlbss#mfmbfr lbbfl\fR form bdds b link with b visiblf tfxt lbbfl thbt points to thf dodumfntbtion for thf spfdififd nbmf in thf Jbvb Lbngubgf thbt is rfffrfndfd\&. Thf lbbfl is optionbl\&. If thf lbbfl is omittfd, thfn thf nbmf bppfbrs instfbd bs visiblf tfxt, suitbbly shortfnfd\&. Usf thf \f3-noqublififr\fR option to globblly rfmovf thf pbdkbgf nbmf from this visiblf tfxt\&. Usf thf lbbfl whfn you wbnt thf visiblf tfxt to bf difffrfnt from thf butogfnfrbtfd visiblf tfxt\&. Sff How b Nbmf Appfbrs\&.
+
+In Jbvb SE 1\&.2 only, thf nbmf but not thf lbbfl butombtidblly bppfbrs in \f3<dodf>\fR HTML tbgs\&. Stbrting with Jbvb SE 1\&.2\&.2, thf \f3<dodf>\fR tbg is blwbys indludfd bround thf visiblf tfxt, whfthfr or not b lbbfl is usfd\&.
+.RS     
+.TP 0.2i    
+\(bu
+\f3pbdkbgf\&.dlbss#mfmbfr\fR is bny vblid progrbm flfmfnt nbmf thbt is rfffrfndfd, sudh bs b pbdkbgf, dlbss, intfrfbdf, donstrudtor, mfthod or fifld nbmf, fxdfpt thbt thf dhbrbdtfr bhfbd of thf mfmbfr nbmf should bf b numbfr sign (\f3#\fR)\&. Thf dlbss rfprfsfnts bny top-lfvfl or nfstfd dlbss or intfrfbdf\&. Thf mfmbfr rfprfsfnts bny donstrudtor, mfthod, or fifld (not b nfstfd dlbss or intfrfbdf)\&. If this nbmf is in thf dodumfntfd dlbssfs, thfn thf \f3jbvbdod\fR dommbnd drfbtf b link to it\&. To drfbtf links to fxtfrnbl rfffrfndfd dlbssfs, usf thf \f3-link\fR option\&. Usf fithfr of thf othfr two \f3@sff\fR tbg forms to rfffr to thf dodumfntbtion of b nbmf thbt dofs not bflong to b rfffrfndfd dlbss\&. Sff Spfdify b Nbmf\&.
+
+\fINotf:\fR Extfrnbl rfffrfndfd dlbssfs brf dlbssfs thbt brf not pbssfd into thf \f3jbvbdod\fR dommbnd on thf dommbnd linf\&. Links in thf gfnfrbtfd dodumfntbtion to fxtfrnbl rfffrfndfd dlbssfs brf dbllfd fxtfrnbl rfffrfndfs or fxtfrnbl links\&. For fxbmplf, if you run thf \f3jbvbdod\fR dommbnd on only thf \f3jbvb\&.bwt pbdkbgf\fR, thfn bny dlbss in \f3jbvb\&.lbng\fR, sudh bs \f3Objfdt\fR, is bn fxtfrnbl rfffrfndfd dlbss\&. Usf thf \f3-link\fR bnd \f3-linkofflinf\fR options to link to fxtfrnbl rfffrfndfd dlbssfs\&. Thf sourdf dommfnts of fxtfrnbl rfffrfndfd dlbssfs brf not bvbilbblf to thf \f3jbvbdod\fR dommbnd run\&.
+.TP 0.2i    
+\(bu
+\f3lbbfl\fR is optionbl tfxt thbt is visiblf bs thf link lbbfl\&. Thf lbbfl dbn dontbin whitf spbdf\&. If \f3lbbfl\fR is omittfd, thfn \f3pbdkbgf\&.dlbss\&.mfmbfr\fR bppfbrs, suitbbly shortfnfd rflbtivf to thf durrfnt dlbss bnd pbdkbgf\&. Sff How b Nbmf Appfbrs\&.
+.TP 0.2i    
+\(bu
+A spbdf is thf dflimitfr bftwffn \f3pbdkbgf\&.dlbss#mfmbfr\fR bnd \f3lbbfl\fR\&. A spbdf insidf pbrfnthfsfs dofs not indidbtf thf stbrt of b lbbfl, so spbdfs dbn bf usfd bftwffn pbrbmftfrs in b mfthod\&.
+.RE     
+
+
+\fI\fRIn thf following fxbmplf, bn \f3@sff\fR tbg (in thf \f3Chbrbdtfr\fR dlbss) rfffrs to thf fqubls mfthod in thf \f3String\fR dlbss\&. Thf tbg indludfs both brgumfnts: thf nbmf \f3String#fqubls(Objfdt)\fR bnd thf lbbfl \f3fqubls\fR\&.
+.sp     
+.nf     
+\f3/**\fP
+.fi     
+.nf     
+\f3 * @sff String#fqubls(Objfdt) fqubls\fP
+.fi     
+.nf     
+\f3 */\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+
+Thf stbndbrd dodlft produdfs HTML thbt is similbr to:
+.sp     
+.nf     
+\f3<dl>\fP
+.fi     
+.nf     
+\f3<dt><b>Sff Also:</b>\fP
+.fi     
+.nf     
+\f3<dd><b hrff="\&.\&./\&.\&./jbvb/lbng/String#fqubls(jbvb\&.lbng\&.Objfdt)"><dodf>fqubls<dodf></b>\fP
+.fi     
+.nf     
+\f3</dl>\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+
+Thf prfvious dodf looks similbr to thf following in b browsfr, whfrf thf lbbfl is thf visiblf link tfxt:
+
+\fISff Also\fR:
+
+fqubls
+.PP
+Spfdify b Nbmf
+
+\fI\fRThis \f3pbdkbgf\&.dlbss#mfmbfr\fR nbmf dbn bf fithfr fully qublififd, sudh bs \f3jbvb\&.lbng\&.String#toUppfrCbsf()\fR or not, sudh bs \f3String#toUppfrCbsf()\fR or \f3#toUppfrCbsf()\fR\&. If thf nbmf is lfss thbn fully qublififd, thfn thf \f3jbvbdod\fR dommbnd usfs thf stbndbrd Jbvb dompilfr sfbrdh ordfr to find it\&. Sff Sfbrdh Ordfr for thf @sff Tbg\&. Thf nbmf dbn dontbin whitf spbdf within pbrfnthfsfs, sudh bs bftwffn mfthod brgumfnts\&.Thf bdvbntbgf to providing shortfr, pbrtiblly qublififd nbmfs is thbt thfy brf shortfr to typf bnd thfrf is lfss dluttfr in thf sourdf dodf\&. Thf following listing shows thf difffrfnt forms of thf nbmf, whfrf \f3Clbss\fR dbn bf b dlbss or intfrfbdf; Typf dbn bf b dlbss, intfrfbdf, brrby, or primitivf; bnd mfthod dbn bf b mfthod or donstrudtor\&.
+.sp     
+.nf     
+\f3\fITypidbl forms for\fR\fI @sff pbdkbgf\&.dlbss#mfmbfr\fR\fP
+.fi     
+.nf     
+\f3\fIRfffrfnding b mfmbfr of thf durrfnt dlbss\fR\fP
+.fi     
+.nf     
+\f3@sff #fifld\fP
+.fi     
+.nf     
+\f3@sff #mfthod(Typf, Typf,\&.\&.\&.)\fP
+.fi     
+.nf     
+\f3@sff #mfthod(Typf brgnbmf, Typf brgnbmf,\&.\&.\&.)\fP
+.fi     
+.nf     
+\f3@sff #donstrudtor(Typf, Typf,\&.\&.\&.)\fP
+.fi     
+.nf     
+\f3@sff #donstrudtor(Typf brgnbmf, Typf brgnbmf,\&.\&.\&.) \fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.nf     
+\f3\fIRfffrfnding bnothfr dlbss in thf durrfnt or importfd pbdkbgfs\fR\fP
+.fi     
+.nf     
+\f3@sff Clbss#fifld\fP
+.fi     
+.nf     
+\f3@sff Clbss#mfthod(Typf, Typf,\&.\&.\&.)\fP
+.fi     
+.nf     
+\f3@sff Clbss#mfthod(Typf brgnbmf, Typf brgnbmf,\&.\&.\&.)\fP
+.fi     
+.nf     
+\f3@sff Clbss#donstrudtor(Typf, Typf,\&.\&.\&.)\fP
+.fi     
+.nf     
+\f3@sff Clbss#donstrudtor(Typf brgnbmf, Typf brgnbmf,\&.\&.\&.)\fP
+.fi     
+.nf     
+\f3@sff Clbss\&.NfstfdClbss\fP
+.fi     
+.nf     
+\f3@sff Clbss \fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.nf     
+\f3\fIRfffrfnding bn flfmfnt in bnothfr pbdkbgf (fully qublififd)\fR\fP
+.fi     
+.nf     
+\f3@sff pbdkbgf\&.Clbss#fifld\fP
+.fi     
+.nf     
+\f3@sff pbdkbgf\&.Clbss#mfthod(Typf, Typf,\&.\&.\&.)\fP
+.fi     
+.nf     
+\f3@sff pbdkbgf\&.Clbss#mfthod(Typf brgnbmf, Typf brgnbmf,\&.\&.\&.)\fP
+.fi     
+.nf     
+\f3@sff pbdkbgf\&.Clbss#donstrudtor(Typf, Typf,\&.\&.\&.)\fP
+.fi     
+.nf     
+\f3@sff pbdkbgf\&.Clbss#donstrudtor(Typf brgnbmf, Typf brgnbmf,\&.\&.\&.)\fP
+.fi     
+.nf     
+\f3@sff pbdkbgf\&.Clbss\&.NfstfdClbss\fP
+.fi     
+.nf     
+\f3@sff pbdkbgf\&.Clbss\fP
+.fi     
+.nf     
+\f3@sff pbdkbgf\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+\f3\fRNotfs bbout thf prfvious listing:
+.TP 0.2i    
+\(bu
+Thf first sft of forms with no dlbss or pbdkbgf dbusfs thf \f3jbvbdod\fR dommbnd to sfbrdh only through thf durrfnt dlbss hifrbrdhy\&. It finds b mfmbfr of thf durrfnt dlbss or intfrfbdf, onf of its supfrdlbssfs or supfrintfrfbdfs, or onf of its fndlosing dlbssfs or intfrfbdfs (sfbrdh Itfms 1\(fn3)\&. It dofs not sfbrdh thf rfst of thf durrfnt pbdkbgf or othfr pbdkbgfs (sfbrdh Itfms 4\(fn5)\&. Sff Sfbrdh Ordfr for thf @sff Tbg\&.
+.TP 0.2i    
+\(bu
+If bny mfthod or donstrudtor is fntfrfd bs b nbmf with no pbrfnthfsfs, sudh bs \f3gftVbluf\fR, bnd if thfrf is no fifld with thf sbmf nbmf, thfn thf \f3jbvbdod\fR dommbnd still drfbtfs b link to thf mfthod\&. If this mfthod is ovfrlobdfd, thfn thf \f3jbvbdod\fR dommbnd links to thf first mfthod its sfbrdh fndountfrs, whidh is unspfdififd\&.
+.TP 0.2i    
+\(bu
+Nfstfd dlbssfs must bf spfdififd bs \f3outfr\&.innfr\fR, not simply \f3innfr\fR, for bll forms\&.
+.TP 0.2i    
+\(bu
+As stbtfd, thf numbfr sign (\f3#\fR), rbthfr thbn b dot (\f3\&.\fR) sfpbrbtfs b mfmbfr from its dlbss\&. This fnbblfs thf \f3jbvbdod\fR dommbnd to rfsolvf bmbiguitifs, bfdbusf thf dot blso sfpbrbtfs dlbssfs, nfstfd dlbssfs, pbdkbgfs, bnd subpbdkbgfs\&. Howfvfr, thf \f3jbvbdod\fR dommbnd propfrly pbrsfs b dot whfn thfrf is no bmbiguity, but prints b wbrning to blfrt you\&.
+.PP
+Sfbrdh Ordfr for thf @sff Tbg
+
+\fI\fRThf \f3jbvbdod\fR dommbnd prodfssfs bn \f3@sff\fR tbg thbt bppfbrs in b sourdf filf, pbdkbgf filf, or ovfrvifw filf\&. In thf lbttfr two filfs, you must fully qublify thf nbmf you supply with thf \f3@sff\fR tbg\&. In b sourdf filf, you dbn spfdify b nbmf thbt is fully qublififd or pbrtiblly qublififd\&.
+.PP
+Thf following is thf sfbrdh ordfr for thf \f3@sff\fR tbg\&.
+.TP 0.4i    
+1\&.
+Thf durrfnt dlbss or intfrfbdf\&.
+.TP 0.4i    
+2\&.
+Any fndlosing dlbssfs bnd intfrfbdfs sfbrdhing thf dlosfst first\&.
+.TP 0.4i    
+3\&.
+Any supfrdlbssfs bnd supfrontfrfbdfs, sfbrdhing thf dlosfst first\&.
+.TP 0.4i    
+4\&.
+Thf durrfnt pbdkbgf\&.
+.TP 0.4i    
+5\&.
+Any importfd pbdkbgfs, dlbssfs, bnd intfrfbdfs, sfbrdhing in thf ordfr of thf \f3import\fR stbtfmfnt\&.
+.PP
+Thf \f3jbvbdod\fR dommbnd dontinufs to sfbrdh rfdursivfly through Itfms 1-3 for fbdh dlbss it fndountfrs until it finds b mbtdh\&. Thbt is, bftfr it sfbrdhfs through thf durrfnt dlbss bnd its fndlosing dlbss E, it sfbrdhfs through thf supfrdlbssfs of E bfforf thf fndlosing dlbssfs of E\&. In Itfms 4 bnd 5, thf \f3jbvbdod\fR dommbnd dofs not sfbrdh dlbssfs or intfrfbdfs within b pbdkbgf in bny spfdififd ordfr (thbt ordfr dfpfnds on thf pbrtidulbr dompilfr)\&. In Itfm 5, thf \f3jbvbdod\fR dommbnd sfbrdhfs in \fIjbvb\&.lbng\fR bfdbusf thbt is importfd by bll progrbms\&.
+.PP
+Whfn thf \f3jbvbdod\fR dommbnd fndountfrs bn \f3@sff\fR tbg in b sourdf filf thbt is not fully qublififd, it sfbrdhfs for thf spfdififd nbmf in thf sbmf ordfr bs thf Jbvb dompilfr would, fxdfpt thf \f3jbvbdod\fR dommbnd dofs not dftfdt dfrtbin nbmf spbdf bmbiguitifs bfdbusf it bssumfs thf sourdf dodf is frff of thfsf frrors\&. This sfbrdh ordfr is formblly dffinfd in thf Jbvb Lbngubgf Spfdifidbtion\&. Thf \f3jbvbdod\fR dommbnd sfbrdhfs for thbt nbmf through bll rflbtfd bnd importfd dlbssfs bnd pbdkbgfs\&. In pbrtidulbr, it sfbrdhfs in this ordfr:
+.TP 0.4i    
+1\&.
+Thf durrfnt dlbss or intfrfbdf\&.
+.TP 0.4i    
+2\&.
+Any fndlosing dlbssfs bnd intfrfbdfs, sfbrdhing thf dlosfst first\&.
+.TP 0.4i    
+3\&.
+Any supfrdlbssfs bnd supfrintfrfbdfs, sfbrdhing thf dlosfst first\&.
+.TP 0.4i    
+4\&.
+Thf durrfnt pbdkbgf\&.
+.TP 0.4i    
+5\&.
+Any importfd pbdkbgfs, dlbssfs, bnd intfrfbdfs, sfbrdhing in thf ordfr of thf \f3import\fR stbtfmfnts\&.
+.PP
+Thf \f3jbvbdod\fR dommbnd dofs not nfdfssbrily look in subdlbssfs, nor will it look in othfr pbdkbgfs fvfn whfn thfir dodumfntbtion is bfing gfnfrbtfd in thf sbmf run\&. For fxbmplf, if thf \f3@sff\fR tbg is in thf \f3jbvb\&.bwt\&.fvfnt\&.KfyEvfnt\fR dlbss bnd rfffrs to b nbmf in thf \f3jbvb\&.bwt pbdkbgf\fR, thfn thf \f3jbvbdod\fR dommbnd dofs not look in thbt pbdkbgf unlfss thbt dlbss imports it\&.
+.PP
+How b Nbmf Appfbrs
+
+\fI\fRIf \f3lbbfl\fR is omittfd, thfn \f3pbdkbgf\&.dlbss\&.mfmbfr\fR bppfbrs\&. In gfnfrbl, it is suitbbly shortfnfd rflbtivf to thf durrfnt dlbss bnd pbdkbgf\&. Shortfnfd mfbns thf \f3jbvbdod\fR dommbnd displbys only thf minimum nbmf nfdfssbry\&. For fxbmplf, if thf \f3String\&.toUppfrCbsf()\fR mfthod dontbins rfffrfndfs to b mfmbfr of thf sbmf dlbss bnd to b mfmbfr of b difffrfnt dlbss, thfn thf dlbss nbmf is displbyfd only in thf lbttfr dbsf, bs shown in thf following listing\&. Usf thf \f3-noqublififr\fR option to globblly rfmovf thf pbdkbgf nbmfs\&.
+.PP
+\fITypf of rfffrfndf\fR: Thf \f3@sff\fR tbg rfffrs to b mfmbfr of thf sbmf dlbss, sbmf pbdkbgf
+.br     
+\fIExbmplf in\fR: \f3@sff String#toLowfrCbsf()\fR
+.br     
+\fIAppfbrs bs\fR: \f3toLowfrCbsf()\fR - omits thf pbdkbgf bnd dlbss nbmfs
+.br     
+
+.PP
+\fITypf of rfffrfndf\fR: Thf \f3@sff\fR tbg rfffrs to b mfmbfr of b difffrfnt dlbss, sbmf pbdkbgf
+.br     
+\fIExbmplf in\fR: \f3@sff Chbrbdtfr#toLowfrCbsf(dhbr)\fR
+.br     
+\fIAppfbrs bs\fR: \f3Chbrbdtfr\&.toLowfrCbsf(dhbr)\fR - omits thf pbdkbgf nbmf, indludfs thf dlbss nbmf
+.br     
+
+.PP
+\fITypf of rfffrfndf\fR: Thf \f3@sff\fR tbg rfffrs to b mfmbfr of b difffrfnt dlbss, difffrfnt pbdkbgf
+.br     
+\fIExbmplf in\fR: \f3@sff jbvb\&.io\&.Filf#fxists()\fR
+.br     
+\fIAppfbrs bs\fR: \f3jbvb\&.io\&.Filf\&.fxists()\fR - indludfs thf pbdkbgf bnd dlbss nbmfs
+.br     
+
+.PP
+Exbmplfs of thf @sff Tbg
+
+Thf dommfnt to thf right shows how thf nbmf bppfbrs whfn thf \f3@sff\fR tbg is in b dlbss in bnothfr pbdkbgf, sudh bs \f3jbvb\&.bpplft\&.Applft\fR\&. Sff @sff in How to Writf Dod Commfnts for thf Jbvbdod Tool bt http://www\&.orbdlf\&.dom/tfdhnftwork/jbvb/jbvbsf/dodumfntbtion/indfx-137868\&.html#@sff
+.sp     
+.nf     
+\f3                                            Sff blso:\fP
+.fi     
+.nf     
+\f3@sff jbvb\&.lbng\&.String                   //  String                           \fP
+.fi     
+.nf     
+\f3@sff jbvb\&.lbng\&.String Thf String dlbss  //  Thf String dlbss                 \fP
+.fi     
+.nf     
+\f3@sff String                             //  String                           \fP
+.fi     
+.nf     
+\f3@sff String#fqubls(Objfdt)              //  String\&.fqubls(Objfdt)            \fP
+.fi     
+.nf     
+\f3@sff String#fqubls                      //  String\&.fqubls(jbvb\&.lbng\&.Objfdt)   \fP
+.fi     
+.nf     
+\f3@sff jbvb\&.lbng\&.Objfdt#wbit(long)        //  jbvb\&.lbng\&.Objfdt\&.wbit(long)      \fP
+.fi     
+.nf     
+\f3@sff Chbrbdtfr#MAX_RADIX                //  Chbrbdtfr\&.MAX_RADIX              \fP
+.fi     
+.nf     
+\f3@sff <b hrff="spfd\&.html">Jbvb Spfd</b>  //  Jbvb Spfd            \fP
+.fi     
+.nf     
+\f3@sff "Thf Jbvb Progrbmming Lbngubgf"    //  "Thf Jbvb Progrbmming Lbngubgf" \fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+\fINotf:\fR You dbn fxtfnd thf \f3@sf\fR\f3f\fR tbg to link to dlbssfs not bfing dodumfntfd with thf \f3-link\fR option\&.
+.TP     
+@sfribl \fIfifld-dfsdription\fR | indludf | fxdludf
+Introdudfd in JDK 1\&.2
+
+Usfd in thf dodumfntbtion dommfnt for b dffbult sfriblizbblf fifld\&. Sff Dodumfnting Sfriblizbblf Fiflds bnd Dbtb for b Clbss bt http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/plbtform/sfriblizbtion/spfd/sfribl-brdh\&.html#5251
+
+Sff blso Orbdlf\(dqs Critfrib for Indluding Clbssfs in thf Sfriblilzfd Form Spfdifidbtion bt http://www\&.orbdlf\&.dom/tfdhnftwork/jbvb/jbvbsf/dodumfntbtion/sfriblizfd-dritfrib-137781\&.html
+
+An optionbl \f3fifld-dfsdription\fR should fxplbin thf mfbning of thf fifld bnd list thf bddfptbblf vblufs\&. Whfn nffdfd, thf dfsdription dbn spbn multiplf linfs\&. Thf stbndbrd dodlft bdds this informbtion to thf sfriblizfd form pbgf\&. Sff Cross-Rfffrfndf Pbgfs\&.
+
+If b sfriblizbblf fifld wbs bddfd to b dlbss bftfr thf dlbss wbs mbdf sfriblizbblf, thfn b stbtfmfnt should bf bddfd to its mbin dfsdription to idfntify bt whidh vfrsion it wbs bddfd\&.
+
+Thf \f3indludf\fR bnd \f3fxdludf\fR brgumfnts idfntify whfthfr b dlbss or pbdkbgf should bf indludfd or fxdludfd from thf sfriblizfd form pbgf\&. Thfy work bs follows:
+.RS     
+.TP 0.2i    
+\(bu
+A publid or protfdtfd dlbss thbt implfmfnts \f3Sfriblizbblf\fR is indludfd unlfss thbt dlbss (or its pbdkbgf) is mbrkfd with thf \f3@sfribl fxdludf\fR tbg\&.
+.TP 0.2i    
+\(bu
+A privbtf or pbdkbgf-privbtf dlbss thbt implfmfnts \f3Sfriblizbblf\fR is fxdludfd unlfss thbt dlbss (or its pbdkbgf) is mbrkfd with thf \f3@sfribl indludf\fR tbg\&.
+.RE
+.RS
+For fxbmplf, thf \f3jbvbx\&.swing\fR pbdkbgf is mbrkfd with thf \f3@sfribl\fR\f3fxdludf\fR tbg in pbdkbgf\&.html or pbdkbgf-info\&.jbvb\&. Thf publid dlbss \f3jbvb\&.sfdurity\&.BbsidPfrmission\fR is mbrkfd with thf \f3@sfribl fxdludf\fR tbg\&. Thf pbdkbgf-privbtf dlbss \f3jbvb\&.util\&.PropfrtyPfrmissionCollfdtion\fR is mbrkfd with thf \f3@sfribl indludf\fR tbg\&.
+
+Thf \f3@sfribl\fR tbg bt thf dlbss lfvfl ovfrridfs thf \f3@sfribl\fR tbg bt thf pbdkbgf lfvfl\&.
+
+.RE
+.TP     
+@sfriblDbtb \fIdbtb-dfsdription\fR
+Introdudfd in JDK 1\&.2
+
+Usfs thf dbtb dfsdription vbluf to dodumfnt thf typfs bnd ordfr of dbtb in thf sfriblizfd form\&. This dbtb indludfs thf optionbl dbtb writtfn by thf \f3writfObjfdt\fR mfthod bnd bll dbtb (indluding bbsf dlbssfs) writtfn by thf \f3Extfrnblizbblf\&.writfExtfrnbl\fR mfthod\&.
+
+Thf \f3@sfriblDbtb\fR tbg dbn bf usfd in thf dodumfntbtion dommfnt for thf \f3writfObjfdt\fR, \f3rfbdObjfdt\fR, \f3writfExtfrnbl\fR, \f3rfbdExtfrnbl\fR, \f3writfRfplbdf\fR, bnd \f3rfbdRfsolvf\fR mfthods\&.
+.TP     
+@sfriblFifld \fIfifld-nbmf\fR\fIfifld-typf\fR\fIfifld-dfsdription\fR
+Introdudfd in JDK 1\&.2
+
+Dodumfnts bn \f3ObjfdtStrfbmFifld\fR domponfnt of thf \f3sfriblPfrsistfntFiflds\fR mfmbfr of b \f3Sfriblizbblf\fR dlbss\&. Usf onf \f3@sfriblFifld\fR tbg for fbdh \f3ObjfdtStrfbmFifld\fR domponfnt\&.
+.TP     
+@sindf \fIsindf-tfxt\fR
+Introdudfd in JDK 1\&.1
+
+Adds b \fISindf\fR hfbding with thf spfdififd \f3sindf-tfxt\fR vbluf to thf gfnfrbtfd dodumfntbtion\&. Thf tfxt hbs no spfdibl intfrnbl strudturf\&. This tbg is vblid in bny dodumfntbtion dommfnt: ovfrvifw, pbdkbgf, dlbss, intfrfbdf, donstrudtor, mfthod, or fifld\&. This tbg mfbns thbt this dhbngf or ffbturf hbs fxistfd sindf thf softwbrf rflfbsf spfdififd by thf \f3sindf-tfxt\fR vbluf, for fxbmplf: \f3@sindf 1\&.5\fR\&.
+
+For Jbvb plbtform sourdf dodf, thf \f3@sindf\fR tbg indidbtfs thf vfrsion of thf Jbvb plbtform API spfdifidbtion, whidh is not nfdfssbrily whfn thf sourdf dodf wbs bddfd to thf rfffrfndf implfmfntbtion\&. Multiplf \f3@sindf\fR tbgs brf bllowfd bnd brf trfbtfd likf multiplf \f3@buthor\fR tbgs\&. You dould usf multiplf tbgs whfn thf progrbm flfmfnt is usfd by morf thbn onf API\&.
+.TP     
+@throws \fIdlbss-nbmf\fR\fIdfsdription\fR
+Introdudfd in JDK 1\&.2
+
+Bfhbvfs thf sbmf bs thf \f3@fxdfption\fR tbg\&. Sff @throws in How to Writf Dod Commfnts for thf Jbvbdod Tool bt http://www\&.orbdlf\&.dom/tfdhnftwork/jbvb/jbvbsf/dodumfntbtion/indfx-137868\&.html#@fxdfption
+
+Thf \f3@throws\fR tbg bdds b \fIThrows\fR subhfbding to thf gfnfrbtfd dodumfntbtion, with thf \f3dlbss-nbmf\fR bnd \f3dfsdription\fR tfxt\&. Thf \fIdlbss-nbmf\fR is thf nbmf of thf fxdfption thbt might bf thrown by thf mfthod\&. This tbg is vblid only in thf dodumfntbtion dommfnt for b mfthod or donstrudtor\&. If this dlbss is not fully spfdififd, thfn thf \f3jbvbdod\fR dommbnd usfs thf sfbrdh ordfr to look up this dlbss\&. Multiplf \f3@throws\fR tbgs dbn bf usfd in b spfdififd dodumfntbtion dommfnt for thf sbmf or difffrfnt fxdfptions\&. Sff Sfbrdh Ordfr for thf @sff Tbg\&.
+
+To fnsurf thbt bll dhfdkfd fxdfptions brf dodumfntfd, whfn bn \f3@throws\fR tbg dofs not fxist for bn fxdfption in thf throws dlbusf, thf \f3jbvbdod\fR dommbnd bdds thbt fxdfption to thf HTML output (with no dfsdription) bs though it wfrf dodumfntfd with thf \f3@throws\fR tbg\&.
+
+Thf \f3@throws\fR dodumfntbtion is dopifd from bn ovfrriddfn mfthod to b subdlbss only whfn thf fxdfption is fxpliditly dfdlbrfd in thf ovfrriddfn mfthod\&. Thf sbmf is truf for dopying from bn intfrfbdf mfthod to bn implfmfnting mfthod\&. You dbn usf thf \f3{@inhfritDod}\fR tbg to fordf thf \f3@throws\fR tbg to inhfrit dodumfntbtion\&.
+.TP     
+{@vbluf \fIpbdkbgf\&.dlbss#fifld\fR}
+Introdudfd in JDK 1\&.4
+
+Displbys donstbnt vblufs\&. Whfn thf \f3{@vbluf}\fR tbg is usfd without bn brgumfnt in thf dodumfntbtion dommfnt of b stbtid fifld, it displbys thf vbluf of thbt donstbnt:
+.sp     
+.nf     
+\f3/**\fP
+.fi     
+.nf     
+\f3 * Thf vbluf of this donstbnt is {@vbluf}\&.\fP
+.fi     
+.nf     
+\f3 */\fP
+.fi     
+.nf     
+\f3publid stbtid finbl String SCRIPT_START = "<sdript>"\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+
+Whfn usfd with thf brgumfnt \f3pbdkbgf\&.dlbss#fifld\fR in bny dodumfntbtion dommfnt, hf \f3{@vbluf}\fR tbg displbys thf vbluf of thf spfdififd donstbnt:
+.sp     
+.nf     
+\f3/**\fP
+.fi     
+.nf     
+\f3 * Evblubtfs thf sdript stbrting with {@vbluf #SCRIPT_START}\&.\fP
+.fi     
+.nf     
+\f3 */\fP
+.fi     
+.nf     
+\f3publid String fvblSdript(String sdript) {}\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+
+Thf brgumfnt \f3pbdkbgf\&.dlbss#fifld\fR tbkfs b form similbr to thbt of thf \f3@sff\fR tbg brgumfnt, fxdfpt thbt thf mfmbfr must bf b stbtid fifld\&.
+
+Thf vblufs of thfsf donstbnts brf blso displbyfd in Constbnt Fifld Vblufs bt http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/donstbnt-vblufs\&.html
+.TP     
+@vfrsion \fIvfrsion-tfxt\fR
+Introdudfd in JDK 1\&.0
+
+Adds b \fIVfrsion\fR subhfbding with thf spfdififd \f3vfrsion-tfxt\fR vbluf to thf gfnfrbtfd dodumfnts whfn thf \f3-vfrsion\fR option is usfd\&. This tbg is intfndfd to hold thf durrfnt rflfbsf numbfr of thf softwbrf thbt this dodf is pbrt of, bs opposfd to thf\f3@sindf\fR tbg, whidh holds thf rflfbsf numbfr whfrf this dodf wbs introdudfd\&. Thf \f3vfrsion-tfxt\fR vbluf hbs no spfdibl intfrnbl strudturf\&. Sff @vfrsion in How to Writf Dod Commfnts for thf Jbvbdod Tool bt http://www\&.orbdlf\&.dom/tfdhnftwork/jbvb/jbvbsf/dodumfntbtion/indfx-137868\&.html#@vfrsion
+
+A dodumfntbtion dommfnt dbn dontbin multiplf \f3@vfrsion\fR tbgs\&. Whfn it mbkfs sfnsf, you dbn spfdify onf rflfbsf numbfr pfr \f3@vfrsion\fR tbg or multiplf rflfbsf numbfrs pfr tbg\&. In thf formfr dbsf, thf \f3jbvbdod\fR dommbnd insfrts b dommb (,) bnd b spbdf bftwffn thf nbmfs\&. In thf lbttfr dbsf, thf fntirf tfxt is dopifd to thf gfnfrbtfd dodumfnt without bfing pbrsfd\&. Thfrfforf, you dbn usf multiplf nbmfs pfr linf whfn you wbnt b lodblizfd nbmf sfpbrbtor othfr thbn b dommb\&.
+.SH WHERE\ TAGS\ CAN\ BE\ USED    
+Thf following sfdtions dfsdribf whfrf tbgs dbn bf usfd\&. Notf thbt thf following tbgs dbn bf usfd in bll dodumfntbtion dommfnts: \f3@sff\fR, \f3@sindf\fR, \f3@dfprfdbtfd\fR, \f3{@link}\fR, \f3{@linkplbin}\fR, bnd \f3{@dodroot}\fR\&.
+.SS OVERVIEW\ TAGS    
+Ovfrvifw tbgs brf tbgs thbt dbn bppfbr in thf dodumfntbtion dommfnt for thf ovfrvifw pbgf (whidh rfsidfs in thf sourdf filf typidblly nbmfd ovfrvifw\&.html)\&. Similbr to bny othfr dodumfntbtion dommfnts, thfsf tbgs must bppfbr bftfr thf mbin dfsdription
+.PP
+\fINotf:\fR Thf \f3{@link}\fR tbg hbs b bug in ovfrvifw dodumfnts in Jbvb SE 1\&.2\&. Thf tfxt bppfbrs dorrfdtly but hbs no link\&. Thf \f3{@dodRoot}\fR tbg dofs not durrfntly work in ovfrvifw dodumfnts\&.
+.PP
+Thf ovfrvifw tbgs brf thf following:
+.PP
+@sff rfffrfndf || @sindf sindf-tfxt || @sfriblFifld fifld-nbmf fifld-typf fifld-dfsdription || @buthor nbmf-tfxt || @vfrsion vfrsion-tfxt || {@link pbdkbgf\&.dlbss#mfmbfr lbbfl} || {@linkplbin pbdkbgf\&.dlbss#mfmbfr lbbfl} || {@dodRoot} ||
+.SS PACKAGE\ TAGS    
+Pbdkbgf tbgs brf tbgs thbt dbn bppfbr in thf dodumfntbtion dommfnt for b pbdkbgf, thbt rfsidfs in thf sourdf filf nbmfd pbdkbgf\&.html or pbdkbgf-info\&.jbvb\&. Thf \f3@sfribl\fR tbg dbn only bf usfd hfrf with thf \f3indludf\fR or \f3fxdludf\fR brgumfnt\&.
+.PP
+Thf pbdkbgf tbgs brf thf following:
+.PP
+@sff rfffrfndf || @sindf sindf-tfxt || @sfribl fifld-dfsdription | indludf | fxdludf || @buthor nbmf-tfxt || @vfrsion vfrsion-tfxt || {@linkplbin pbdkbgf\&.dlbss#mfmbfr lbbfl} || {@linkplbin pbdkbgf\&.dlbss#mfmbfr lbbfl} || {@dodRoot} ||
+.SS CLASS\ AND\ INTERFACE\ TAGS    
+Thf following brf tbgs thbt dbn bppfbr in thf dodumfntbtion dommfnt for b dlbss or intfrfbdf\&. Thf \f3@sfribl\fR tbg dbn only bf usfd within thf dodumfntbtion for b dlbss or intfrfbdf with bn \f3indludf\fR or \f3fxdludf\fR brgumfnt\&.
+.PP
+@sff rfffrfndf || @sindf sindf-tfxt || @dfprfdbtfd dfprfdbtfd-tfxt || @sfribl fifld-dfsdription | indludf | fxdludf || @buthor nbmf-tfxt || @vfrsion vfrsion-tfxt || {@link pbdkbgf\&.dlbss#mfmbfr lbbfl} || {@linkplbin pbdkbgf\&.dlbss#mfmbfr lbbfl} || {@dodRoot} ||
+.PP
+Clbss dommfnt fxbmplf:
+.sp     
+.nf     
+\f3/**\fP
+.fi     
+.nf     
+\f3 * A dlbss rfprfsfnting b window on thf sdrffn\&.\fP
+.fi     
+.nf     
+\f3 * For fxbmplf:\fP
+.fi     
+.nf     
+\f3 * <prf>\fP
+.fi     
+.nf     
+\f3 *    Window win = nfw Window(pbrfnt);\fP
+.fi     
+.nf     
+\f3 *    win\&.show();\fP
+.fi     
+.nf     
+\f3 * </prf>\fP
+.fi     
+.nf     
+\f3 *\fP
+.fi     
+.nf     
+\f3 * @buthor  Sbmi Shbio\fP
+.fi     
+.nf     
+\f3 * @vfrsion 1\&.13, 06/08/06\fP
+.fi     
+.nf     
+\f3 * @sff     jbvb\&.bwt\&.BbsfWindow\fP
+.fi     
+.nf     
+\f3 * @sff     jbvb\&.bwt\&.Button\fP
+.fi     
+.nf     
+\f3 */\fP
+.fi     
+.nf     
+\f3dlbss Window fxtfnds BbsfWindow {\fP
+.fi     
+.nf     
+\f3   \&.\&.\&.\fP
+.fi     
+.nf     
+\f3}\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+.SS FIELD\ TAGS    
+Thfsf tbgs dbn bppfbr in fiflds:
+.PP
+@sff rfffrfndf || @sindf sindf-tfxt || @dfprfdbtfd dfprfdbtfd-tfxt || @sfribl fifld-dfsdription | indludf | fxdludf || @sfriblFifld fifld-nbmf fifld-typf fifld-dfsdription || {@link pbdkbgf\&.dlbss#mfmbfr lbbfl} || {@linkplbin pbdkbgf\&.dlbss#mfmbfr lbbfl} || {@dodRoot} || {@vbluf pbdkbgf\&.dlbss#fifld}
+.PP
+Fifld dommfnt fxbmplf:
+.sp     
+.nf     
+\f3    /**\fP
+.fi     
+.nf     
+\f3     * Thf X\-doordinbtf of thf domponfnt\&.\fP
+.fi     
+.nf     
+\f3     *\fP
+.fi     
+.nf     
+\f3     * @sff #gftLodbtion()\fP
+.fi     
+.nf     
+\f3     */\fP
+.fi     
+.nf     
+\f3    int x = 1263732;\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+.SS CONSTRUCTOR\ AND\ METHOD\ TAGS    
+Thf following tbgs dbn bppfbr in thf dodumfntbtion dommfnt for b donstrudtor or b mfthod, fxdfpt for thf \f3@rfturn\fR tbg, whidh dbnnot bppfbr in b donstrudtor, bnd thf \f3{@inhfritDod}\fR tbg, whidh hbs rfstridtions\&.
+.PP
+@sff rfffrfndf || @sindf sindf-tfxt || @dfprfdbtfd dfprfdbtfd-tfxt || @pbrbm pbrbmftfr-nbmf dfsdription || @rfturn dfsdription || @throws dlbss-nbmf dfsdription || @fxdfption dlbss-nbmf dfsdription || @sfriblDbtb dbtb-dfsdription || {@link pbdkbgf\&.dlbss#mfmbfr lbbfl} || {@linkplbin pbdkbgf\&.dlbss#mfmbfr lbbfl} || {@inhfritDod} || {@dodRoot}
+.PP
+\fINotf:\fR Thf \f3@sfriblDbtb\fR tbg dbn only bf usfd in thf dodumfntbtion dommfnt for thf \f3writfObjfdt\fR, \f3rfbdObjfdt\fR, \f3writfExtfrnbl\fR, \f3rfbdExtfrnbl\fR, \f3writfRfplbdf\fR, bnd \f3rfbdRfsolvf\fR mfthods\&.
+.PP
+Mfthod dommfnt fxbmplf:
+.sp     
+.nf     
+\f3/**\fP
+.fi     
+.nf     
+\f3     * Rfturns thf dhbrbdtfr bt thf spfdififd indfx\&. An indfx \fP
+.fi     
+.nf     
+\f3     * rbngfs from <dodf>0</dodf> to <dodf>lfngth() \- 1</dodf>\fP
+.fi     
+.nf     
+\f3     *\fP
+.fi     
+.nf     
+\f3     * @pbrbm     indfx thf indfx of thf dfsirfd dhbrbdtfr\&.\fP
+.fi     
+.nf     
+\f3     * @rfturn    thf dfsirfd dhbrbdtfr\&.\fP
+.fi     
+.nf     
+\f3     * @fxdfption StringIndfxOutOfRbngfExdfption \fP
+.fi     
+.nf     
+\f3     *              if thf indfx is not in thf rbngf <dodf>0</dodf> \fP
+.fi     
+.nf     
+\f3     *              to <dodf>lfngth()\-1</dodf>\fP
+.fi     
+.nf     
+\f3     * @sff       jbvb\&.lbng\&.Chbrbdtfr#dhbrVbluf()\fP
+.fi     
+.nf     
+\f3     */\fP
+.fi     
+.nf     
+\f3    publid dhbr dhbrAt(int indfx) {\fP
+.fi     
+.nf     
+\f3       \&.\&.\&.\fP
+.fi     
+.nf     
+\f3    }\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+.SH OPTIONS    
+Thf \f3jbvbdod\fR dommbnd usfs dodlfts to dftfrminf its output\&. Thf \f3jbvbdod\fR dommbnd usfs thf dffbult stbndbrd dodlft unlfss b dustom dodlft is spfdififd with thf \f3-dodlft\fR option\&. Thf \f3jbvbdod\fR dommbnd providfs b sft of dommbnd-linf options thbt dbn bf usfd with bny dodlft\&. Thfsf options brf dfsdribfd in Jbvbdod Options\&. Thf stbndbrd dodlft providfs bn bdditionbl sft of dommbnd-linf options thbt brf dfsdribfd in Stbndbrd Dodlft Options\&. All option nbmfs brf not dbsf-sfnsitivf, but thfir brgumfnts brf dbsf-sfnsitivf\&.
+.TP 0.2i    
+\(bu
+Sff blso Jbvbdod Options
+.TP 0.2i    
+\(bu
+Sff blso Stbndbrd Dodlft Options
+.PP
+Thf options brf:
+.PP
+-1\&.1 || -buthor || -bootdlbsspbth dlbsspbthlist || -bottom tfxt || -brfbkitfrbtor || -dhbrsft nbmf || -dlbsspbth dlbsspbthlist || -d dirfdtory || -dodfndoding nbmf || -dodfilfsubdirs || -dodlft dlbss || -dodlftpbth dlbsspbthlist || -dodtitlf titlf || -fndoding || -fxdludf pbdkbgfnbmf1:pbdkbgfnbmf2:\&.\&.\&. || -fxdludfdodfilfssubdir nbmf1:nbmf2 || -fxtdirs dirist || -footfr footfr || -group grouphfbding pbdkbgfpbttfrn:pbdkbgfpbttfrn || -hfbdfr hfbdfr || -hflp || -hflpfilf pbth\ffilfnbmf || -Jflbg || -kfywords || -link fxtdodURL || -linkofflinf fxtdodURL pbdkbgflistLod || -linksourdf || -lodblf lbngubgf_dountry_vbribnt || -nodommfnt || -nodfprfdbtfd || -nodfprfdbtfdlist || -nohflp || -noindfx || -nonbvbbr || -noqublififr bll | pbdkbgfnbmf1:pbdkbgfnbmf2\&.\&.\&. || -nosindf || -notimfstbmp || -notrff || -ovfrvifw pbth/filfnbmf || -pbdkbgf || -privbtf || -protfdtfd || -publid || -quift || -sfriblwbrn || -sourdf rflfbsf || -sourdfpbth sourdfpbthlist || -sourdftbb tbblfngth || -splitindfx || -stylfshfft pbth/filfnbmf || -subpbdkbgfs pbdkbgf1:pbdkbgf2:\&.\&.\&. || -tbg tbgnbmf:Xboptdmf:"tbghfbd" || -tbglft dlbss || -tbglftpbth tbglftpbthlist || -titlf titlf || -top || -usf || -vfrbosf || -vfrsion || -windowtitlf titlf
+.PP
+Thf following options brf thf dorf Jbvbdod options thbt brf bvbilbblf to bll dodlfts\&. Thf stbndbrd dodlft providfs thf rfst of thf dodlfts: \f3-bootdlbsspbth\fR, \f3-brfbkitfrbtor\fR, \f3-dlbsspbth\fR, \f3-dodlft\fR, \f3-dodlftpbth\fR, \f3-fndoding\fR, -\f3fxdludf\fR, \f3-fxtdirs\fR, \f3-hflp\fR, \f3-lodblf\fR, \f3-\fR\f3ovfrvifw\fR, \f3-pbdkbgf\fR, \f3-privbtf\fR, \f3-protfdtfd\fR, \f3-publid\fR, \f3-quift\fR, \f3-sourdf\fR, \f3-sourdfpbth\fR, \f3-subpbdkbgfs\fR, bnd \f3-vfrbosf\fR\&.
+.SS JAVADOC\ OPTIONS    
+.TP
+-ovfrvifw \fIpbth/filfnbmf\fR
+.br
+Spfdififs thbt thf \f3jbvbdod\fR dommbnd should rftrifvf thf tfxt for thf ovfrvifw dodumfntbtion from thf sourdf filf spfdififd by thf \fIpbth/filfnbmf\fRbnd plbdf it on thf Ovfrvifw pbgf (ovfrvifw-summbry\&.html)\&. Thf \fIpbth/filfnbmf\fRis rflbtivf to thf durrfnt dirfdtory\&.
+
+Whilf you dbn usf bny nbmf you wbnt for thf \f3filfnbmf\fR vbluf bnd plbdf it bnywhfrf you wbnt for thf pbth, it is typidbl to nbmf it ovfrvifw\&.html bnd plbdf it in thf sourdf trff bt thf dirfdtory thbt dontbins thf topmost pbdkbgf dirfdtorifs\&. In this lodbtion, no pbth is nffdfd whfn dodumfnting pbdkbgfs, bfdbusf thf \f3-sourdfpbth\fR option points to this filf\&.
+
+For fxbmplf, if thf sourdf trff for thf \f3jbvb\&.lbng\fR pbdkbgf is /srd/dlbssfs/jbvb/lbng/, thfn you dould plbdf thf ovfrvifw filf bt /srd/dlbssfs/ovfrvifw\&.html
+
+Sff Rfbl-World Exbmplfs\&.
+
+For informbtion bbout thf filf spfdififd by \fIpbth/filfnbmf,\fRsff Ovfrvifw Commfnt Filfs\&.
+
+Thf ovfrvifw pbgf is drfbtfd only whfn you pbss two or morf pbdkbgf nbmfs to thf \f3jbvbdod\fR dommbnd\&. For b furthfr fxplbnbtion, sff HTML Frbmfs\&. Thf titlf on thf ovfrvifw pbgf is sft by \f3-dodtitlf\fR\&.
+.TP
+-Xdodlint:(bll|nonf|[-]\fI<group>\fR)
+.br
+Rfports wbrnings for bbd rfffrfndfs, lbdk of bddfssibility bnd missing Jbvbdod dommfnts, bnd rfports frrors for invblid Jbvbdod syntbx bnd missing HTML tbgs\&.
+
+This option fnbblfs thf \f3jbvbdod\fR dommbnd to dhfdk for bll dodumfntbtion dommfnts indludfd in thf gfnfrbtfd output\&. As blwbys, you dbn sflfdt whidh itfms to indludf in thf gfnfrbtfd output with thf stbndbrd options \f3-publid\fR, \f3-protfdtfd\fR, \f3-pbdkbgf\fR bnd \f3-privbtf\fR\&.
+
+Whfn thf \f3-Xdodlint\fR is fnbblfd, it rfports issufs with mfssbgfs similbr to thf \f3jbvbd\fR dommbnd\&. Thf \f3jbvbdod\fR dommbnd prints b mfssbgf, b dopy of thf sourdf linf, bnd b dbrft pointing bt thf fxbdt position whfrf thf frror wbs dftfdtfd\&. Mfssbgfs mby bf fithfr wbrnings or frrors, dfpfnding on thfir sfvfrity bnd thf likflihood to dbusf bn frror if thf gfnfrbtfd dodumfntbtion wfrf run through b vblidbtor\&. For fxbmplf, bbd rfffrfndfs or missing Jbvbdod dommfnts do not dbusf thf \f3jbvbdod\fR dommbnd to gfnfrbtf invblid HTML, so thfsf issufs brf rfportfd bs wbrnings\&. Syntbx frrors or missing HTML fnd tbgs dbusf thf \f3jbvbdod\fR dommbnd to gfnfrbtf invblid output, so thfsf issufs brf rfportfd bs frrors\&.
+
+By dffbult, thf \f3-Xdodlint\fR option is fnbblfd\&. Disbblf it with thf option \f3-Xdodlint:nonf\fR\&.
+
+Chbngf whbt thf \f3-Xdodlint\fR option rfports with thf following options:
+.RS     
+.TP 0.2i    
+\(bu
+\f3-Xdodlint nonf\fR : disbblf thf \f3-Xdodlint\fR option
+.TP 0.2i    
+\(bu
+\f3-Xdodlint\fR\fIgroup\fR : fnbblf \fIgroup\fR dhfdks
+.TP 0.2i    
+\(bu
+\f3-Xdodlint bll\fR : fnbblf bll groups of dhfdks
+.TP 0.2i    
+\(bu
+\f3-Xdodlint bll,\fR\fI-group\fR : fnbblf bll fxdfpt \fIgroup\fR dhfdks
+.RE
+.RS
+Thf vbribblf \fIgroup\fR hbs onf of thf following vblufs:
+.RS     
+
+.RE
+.TP 0.2i    
+\(bu
+\f3bddfssibility\fR : Chfdks for thf issufs to bf dftfdtfd by bn bddfssibility dhfdkfr (for fxbmplf, no dbption or summbry bttributfs spfdififd in b \f3<tbblf>\fR tbg)\&.
+.TP 0.2i    
+\(bu
+\f3html\fR : Dftfdts high-lfvfl HTML issufs, likf putting blodk flfmfnts insidf inlinf flfmfnts, or not dlosing flfmfnts thbt rfquirf bn fnd tbg\&. Thf rulfs brf dfrivfd from thfHTML 4\&.01 Spfdifidbtion\&. This typf of dhfdk fnbblfs thf \f3jbvbdod\fR dommbnd to dftfdt HTML issufs thbt mbny browsfrs might bddfpt\&.
+.TP 0.2i    
+\(bu
+\f3missing\fR : Chfdks for missing Jbvbdod dommfnts or tbgs (for fxbmplf, b missing dommfnt or dlbss, or b missing \f3@rfturn\fR tbg or similbr tbg on b mfthod)\&.
+.TP 0.2i    
+\(bu
+\f3rfffrfndf\fR : Chfdks for issufs rflbting to thf rfffrfndfs to Jbvb API flfmfnts from Jbvbdod tbgs (for fxbmplf, itfm not found in \f3@sff\fR , or b bbd nbmf bftfr \f3@pbrbm)\fR\&.
+.TP 0.2i    
+\(bu
+\f3syntbx\fR : Chfdks for low lfvfl issufs likf unfsdbpfd bnglf brbdkfts (\f3<\fR bnd \f3>\fR) bnd bmpfrsbnds (\f3&\fR) bnd invblid Jbvbdod tbgs\&.
+.RE
+.RS
+You dbn spfdify thf \f3-Xdodlint\fR option multiplf timfs to fnbblf thf option to dhfdk frrors bnd wbrnings in multiplf dbtfgorifs\&. Altfrnbtivfly, you dbn spfdify multiplf frror bnd wbrning dbtfgorifs by using thf prfdfding options\&. For fxbmplf, usf fithfr of thf following dommbnds to dhfdk for thf HTML, syntbx, bnd bddfssibility issufs in thf filf \fIfilfnbmf\fR\&.
+.sp     
+.nf     
+\f3jbvbdod \-Xdodlint:html \-Xdodlint:syntbx \-Xdodlint:bddfssibility \fIfilfnbmf\fR\fP
+.fi     
+.nf     
+\f3jbvbdod \-Xdodlint:html,syntbx,bddfssibility \fIfilfnbmf\fR\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+
+\fINotf:\fR Thf \f3jbvbdod\fR dommbnd dofs not gubrbntff thf domplftfnfss of thfsf dhfdks\&. In pbrtidulbr, it is not b full HTML domplibndf dhfdkfr\&. Thf gobl of thf -\f3Xdodlint\fR option is to fnbblf thf \f3jbvbdod\fR dommbnd to rfport mbjority of dommon frrors\&.
+
+Thf \f3jbvbdod\fR dommbnd dofs not bttfmpt to fix invblid input, it just rfports it\&.
+
+.RE
+.TP
+-publid
+.br
+Shows only publid dlbssfs bnd mfmbfrs\&.
+.TP
+-protfdtfd
+.br
+Shows only protfdtfd bnd publid dlbssfs bnd mfmbfrs\&. This is thf dffbult\&.
+.TP
+-pbdkbgf
+.br
+Shows only pbdkbgf, protfdtfd, bnd publid dlbssfs bnd mfmbfrs\&.
+.TP
+-privbtf
+.br
+Shows bll dlbssfs bnd mfmbfrs\&.
+.TP
+-hflp
+.br
+Displbys thf onlinf hflp, whidh lists bll of thf \f3jbvbdod\fR bnd \f3dodlft\fR dommbnd-linf options\&.
+.TP
+-dodlft \fIdlbss\fR
+.br
+Spfdififs thf dlbss filf thbt stbrts thf dodlft usfd in gfnfrbting thf dodumfntbtion\&. Usf thf fully qublififd nbmf\&. This dodlft dffinfs thf dontfnt bnd formbts thf output\&. If thf \f3-dodlft\fR option is not usfd, thfn thf \f3jbvbdod\fR dommbnd usfs thf stbndbrd dodlft for gfnfrbting thf dffbult HTML formbt\&. This dlbss must dontbin thf \f3stbrt(Root)\fR mfthod\&. Thf pbth to this stbrting dlbss is dffinfd by thf \f3-dodlftpbth\fR option\&. Sff Dodlft Ovfrvifw bt http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdhnotfs/guidfs/jbvbdod/dodlft/ovfrvifw\&.html
+.TP
+-dodlftpbth \fIdlbsspbthlist\fR
+.br
+Spfdififs thf pbth to thf dodlft stbrting dlbss filf (spfdififd with thf \f3-dodlft\fR option) bnd bny JAR filfs it dfpfnds on\&. If thf stbrting dlbss filf is in b JAR filf, thfn this option spfdififs thf pbth to thbt JAR filf\&. You dbn spfdify bn bbsolutf pbth or b pbth rflbtivf to thf durrfnt dirfdtory\&. If \f3dlbsspbthlist\fR dontbins multiplf pbths or JAR filfs, thfn thfy should bf sfpbrbtfd with b dolon (:) on Orbdlf Solbris bnd b sfmi-dolon (;) on Windows\&. This option is not nfdfssbry whfn thf dodlft stbrting dlbss is blrfbdy in thf sfbrdh pbth\&. Sff Dodlft Ovfrvifw bt http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdhnotfs/guidfs/jbvbdod/dodlft/ovfrvifw\&.html
+.TP
+-1\&.1
+.br
+Rfmovfd from Jbvbdod 1\&.4 with no rfplbdfmfnt\&. This option drfbtfd dodumfntbtion with thf bppfbrbndf bnd fundtionblity of dodumfntbtion gfnfrbtfd by Jbvbdod 1\&.1 (it nfvfr supportfd nfstfd dlbssfs)\&. If you nffd this option, thfn usf Jbvbdod 1\&.2 or 1\&.3 instfbd\&.
+.TP
+-sourdf \fIrflfbsf\fR
+.br
+Spfdififs thf rflfbsf of sourdf dodf bddfptfd\&. Thf following vblufs for thf \f3rflfbsf\fR pbrbmftfr brf bllowfd\&. Usf thf vbluf of \f3rflfbsf\fR thbt dorrfsponds to thf vbluf usfd whfn you dompilf dodf with thf \f3jbvbd\fR dommbnd\&.
+.RS     
+.TP 0.2i    
+\(bu
+\fIRflfbsf Vbluf: 1\&.5\fR\&. Thf \f3jbvbdod\fR dommbnd bddfpts dodf dontbining gfnfrids bnd othfr lbngubgf ffbturfs introdudfd in JDK 1\&.5\&. Thf dompilfr dffbults to thf 1\&.5 bfhbvior whfn thf \f3-sourdf\fR option is not usfd\&.
+.TP 0.2i    
+\(bu
+\fIRflfbsf Vbluf: 1\&.4\fR\&. Thf \f3jbvbdod\fR dommbnd bddfpts dodf dontbining bssfrtions, whidh wfrf introdudfd in JDK 1\&.4\&.
+.TP 0.2i    
+\(bu
+\fIRflfbsf Vbluf: 1\&.3\fR\&. Thf \f3jbvbdod\fR dommbnd dofs not support bssfrtions, gfnfrids, or othfr lbngubgf ffbturfs introdudfd bftfr JDK 1\&.3\&.
+.RE     
+
+.TP
+-sourdfpbth \fIsourdfpbthlist\fR
+.br
+Spfdififs thf sfbrdh pbths for finding sourdf filfs whfn pbssing pbdkbgf nbmfs or thf \f3-subpbdkbgfs\fR option into thf \f3jbvbdod\fR dommbnd\&. Sfpbrbtf multiplf pbths with b dolon (:)\&. Thf \f3jbvbdod\fR dommbnd sfbrdhfs bll subdirfdtorifs of thf spfdififd pbths\&. Notf thbt this option is not only usfd to lodbtf thf sourdf filfs bfing dodumfntfd, but blso to find sourdf filfs thbt brf not bfing dodumfntfd, but whosf dommfnts brf inhfritfd by thf sourdf filfs bfing dodumfntfd\&.
+
+You dbn usf thf \f3-sourdfpbth\fR option only whfn pbssing pbdkbgf nbmfs into thf \f3jbvbdod\fR dommbnd\&. This will not lodbtf sourdf filfs pbssfd into thf \f3jbvbdod\fR dommbnd\&. To lodbtf sourdf filfs, \f3\fRdhbngf to thbt dirfdtory or indludf thf pbth bhfbd of fbdh filf, bs shown bt Dodumfnt Onf or Morf Clbssfs\&. If you omit \f3-sourdfpbth\fR, thfn thf \f3jbvbdod\fR dommbnd usfs thf dlbss pbth to find thf sourdf filfs (sff \f3-dlbsspbth\fR)\&. Thf dffbult \f3-sourdfpbth\fR is thf vbluf of dlbss pbth\&. If \f3-dlbsspbth\fR is omittfd bnd you pbss pbdkbgf nbmfs into thf \f3jbvbdod\fR dommbnd, thfn thf \f3jbvbdod\fR dommbnd sfbrdhfs in thf durrfnt dirfdtory bnd subdirfdtorifs for thf sourdf filfs\&.
+
+Sft \f3sourdfpbthlist\fR to thf root dirfdtory of thf sourdf trff for thf pbdkbgf you brf dodumfnting\&.
+
+For fxbmplf, supposf you wbnt to dodumfnt b pbdkbgf dbllfd \f3dom\&.mypbdkbgf\fR, whosf sourdf filfs brf lodbtfd bt:/homf/usfr/srd/dom/mypbdkbgf/*\&.jbvb\&. Spfdify thf sourdfpbth to /homf/usfr/srd, thf dirfdtory thbt dontbins dom\fmypbdkbgf, bnd thfn supply thf pbdkbgf nbmf, bs follows:
+.sp     
+.nf     
+\f3jbvbdod \-sourdfpbth /homf/usfr/srd/ dom\&.mypbdkbgf\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+
+Notidf thbt if you dondbtfnbtf thf vbluf of sourdfpbth bnd thf pbdkbgf nbmf togfthfr bnd dhbngf thf dot to b slbsh (/), thfn you hbvf thf full pbth to thf pbdkbgf:
+
+/homf/usfr/srd/dom/mypbdkbgf
+
+To point to two sourdf pbths:
+.sp     
+.nf     
+\f3jbvbdod \-sourdfpbth /homf/usfr1/srd:/homf/usfr2/srd dom\&.mypbdkbgf\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+.TP
+-dlbsspbth \fIdlbsspbthlist\fR
+.br
+Spfdififs thf pbths whfrf thf \f3jbvbdod\fR dommbnd sfbrdhfs for rfffrfndfd dlbssfs Thfsf brf thf dodumfntfd dlbssfs plus bny dlbssfs rfffrfndfd by thosf dlbssfs\&. Sfpbrbtf multiplf pbths with b dolon (:)\&. Thf \f3jbvbdod\fR dommbnd sfbrdhfs bll subdirfdtorifs of thf spfdififd pbths\&. Follow thf instrudtions in thf dlbss pbth dodumfntbtion for spfdifying thf \f3dlbsspbthlist\fR vbluf\&.
+
+If you omit \f3-sourdfpbth\fR, thfn thf \f3jbvbdod\fR dommbnd usfs \f3-dlbsspbth\fR to find thf sourdf filfs bnd dlbss filfs (for bbdkwbrd dompbtibility)\&. If you wbnt to sfbrdh for sourdf bnd dlbss filfs in sfpbrbtf pbths, thfn usf both \f3-sourdfpbth\fR bnd \f3-dlbsspbth\fR\&.
+
+For fxbmplf, if you wbnt to dodumfnt \f3dom\&.mypbdkbgf\fR, whosf sourdf filfs rfsidf in thf dirfdtory /homf/usfr/srd/dom/mypbdkbgf, bnd if this pbdkbgf rflifs on b librbry in /homf/usfr/libthfn you would usf thf following dommbnd:
+.sp     
+.nf     
+\f3jbvbdod \-sourdfpbth /homf/usfr/lib \-dlbsspbth /homf/usfr/srd dom\&.mypbdkbgf\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+
+Similbr to othfr tools, if you do not spfdify \f3-dlbsspbth\fR, thfn thf \f3jbvbdod\fR dommbnd usfs thf \f3CLASSPATH\fR fnvironmfnt vbribblf whfn it is sft\&. If both brf not sft, thfn thf \f3jbvbdod\fR dommbnd sfbrdhfs for dlbssfs from thf durrfnt dirfdtory\&.
+
+For bn in-dfpth dfsdription of how thf \f3jbvbdod\fR dommbnd usfs \f3-dlbsspbth\fR to find usfr dlbssfs bs it rflbtfs to fxtfnsion dlbssfs bnd bootstrbp dlbssfs, sff How Clbssfs Arf Found bt http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdhnotfs/tools/findingdlbssfs\&.html
+
+A dlbss pbth flfmfnt thbt dontbins b bbsf nbmf of * is donsidfrfd fquivblfnt to spfdifying b list of bll thf filfs in thf dirfdtory with thf fxtfnsion \f3\&.jbr\fR or \f3\&.JAR\fR\&.
+
+For fxbmplf, if dirfdtory \f3mydir\fR dontbins \f3b\&.jbr\fR bnd \f3b\&.JA\fRR, thfn thf dlbss pbth flfmfnt \f3foo/*\fR is fxpbndfd to b \f3A\&.jbr:b\&.JAR\fR, fxdfpt thbt thf ordfr of JAR filfs is unspfdififd\&. All JAR filfs in thf spfdififd dirfdtory indluding hiddfn filfs brf indludfd in thf list\&. A dlbss pbth fntry thbt donsists of * fxpbnds to b list of bll thf jbr filfs in thf durrfnt dirfdtory\&. Thf \f3CLASSPATH\fR fnvironmfnt vbribblf is similbrly fxpbndfd\&. Any dlbss pbth wilddbrd fxpbnsion oddurs bfforf thf Jbvb Virtubl Mbdhinf (JVM) stbrts\&. No Jbvb progrbm fvfr sffs unfxpbndfd wild dbrds fxdfpt by qufrying thf fnvironmfnt, for fxbmplf, by dblling Systfm\&.gftfnv(\f3"CLASSPATH"\fR)\&.
+.TP
+-subpbdkbgfs \fIpbdkbgf1:pbdkbgf2:\&.\&.\&.\fR
+.br
+Gfnfrbtfs dodumfntbtion from sourdf filfs in thf spfdififd pbdkbgfs bnd rfdursivfly in thfir subpbdkbgfs\&. This option is usfful whfn bdding nfw subpbdkbgfs to thf sourdf dodf bfdbusf thfy brf butombtidblly indludfd\&. Ebdh pbdkbgf brgumfnt is bny top-lfvfl subpbdkbgf (sudh bs \f3jbvb\fR) or fully qublififd pbdkbgf (sudh bs \f3jbvbx\&.swing\fR) thbt dofs not nffd to dontbin sourdf filfs\&. Argumfnts brf sfpbrbtfd by dolons on bll opfrbting systfms\&. Wild dbrds brf not bllowfd\&. Usf \f3-sourdfpbth\fR to spfdify whfrf to find thf pbdkbgfs\&. This option dofs not prodfss sourdf filfs thbt brf in thf sourdf trff but do not bflong to thf pbdkbgfs\&. Sff Prodfss Sourdf Filfs\&.
+
+For fxbmplf, thf following dommbnd gfnfrbtfs dodumfntbtion for pbdkbgfs nbmfd \f3jbvb\fR bnd \f3jbvbx\&.swing\fR bnd bll of thfir subpbdkbgfs\&.
+.sp     
+.nf     
+\f3jbvbdod \-d dods \-sourdfpbth /homf/usfr/srd  \-subpbdkbgfs jbvb:jbvbx\&.swing \fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+.TP
+-fxdludf \fIpbdkbgfnbmf1:pbdkbgfnbmf2:\&.\&.\&.\fR
+.br
+Undonditionblly fxdludfs thf spfdififd pbdkbgfs bnd thfir subpbdkbgfs from thf list formfd by \f3-subpbdkbgfs\fR\&. It fxdludfs thosf pbdkbgfs fvfn whfn thfy would othfrwisf bf indludfd by somf fbrlifr or lbtfr \f3-subpbdkbgfs\fR option\&.
+
+Thf following fxbmplf would indludf \f3jbvb\&.io\fR, \f3jbvb\&.util\fR, bnd \f3jbvb\&.mbth\fR (bmong othfrs), but would fxdludf pbdkbgfs rootfd bt \f3jbvb\&.nft\fR bnd \f3jbvb\&.lbng\fR\&. Notidf thbt this fxbmplf fxdludfs \f3jbvb\&.lbng\&.rff\fR, whidh is b subpbdkbgf of \f3jbvb\&.lbng\fR\&.
+.sp     
+.nf     
+\f3jbvbdod \-sourdfpbth /homf/usfr/srd \-subpbdkbgfs jbvb \-fxdludf \fP
+.fi     
+.nf     
+\f3    jbvb\&.nft:jbvb\&.lbng\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+.TP
+-bootdlbsspbth \fIdlbsspbthlist\fR
+.br
+Spfdififs thf pbths whfrf thf boot dlbssfs rfsidf\&. Thfsf brf typidblly thf Jbvb plbtform dlbssfs\&. Thf \f3bootdlbsspbth\fR is pbrt of thf sfbrdh pbth thf \f3jbvbdod\fR dommbnd usfs to look up sourdf bnd dlbss filfs\&. For morf informbtion, sff How Clbssfs Arf Found bt http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdhnotfs/tools/findingdlbssfs\&.html
+
+Sfpbrbtf dirfdtorifs in thf \f3dlbsspbthlist\fR pbrbmftfrs with sfmidolons (;) for Windows bnd dolons (:) for Orbdlf Solbris\&.
+.TP
+-fxtdirs \fIdirist\fR
+.br
+Spfdififs thf dirfdtorifs whfrf fxtfnsion dlbssfs rfsidf\&. Thfsf brf bny dlbssfs thbt usf thf Jbvb Extfnsion mfdhbnism\&. Thf \f3fxtdirs\fR option is pbrt of thf sfbrdh pbth thf \f3jbvbdod\fR dommbnd usfs to look up sourdf bnd dlbss filfs\&. Sff thf \f3-dlbsspbth\fR option for morf informbtion\&. Sfpbrbtf dirfdtorifs in \f3dirlist\fR with sfmidolons (;) for Windows bnd dolons (:) for Orbdlf Solbris\&.
+.TP
+-vfrbosf
+.br
+Providfs morf dftbilfd mfssbgfs whilf thf \f3jbvbdod\fR dommbnd runs\&. Without thf \f3vfrbosf\fR option, mfssbgfs bppfbr for lobding thf sourdf filfs, gfnfrbting thf dodumfntbtion (onf mfssbgf pfr sourdf filf), bnd sorting\&. Thf vfrbosf option dbusfs thf printing of bdditionbl mfssbgfs thbt spfdify thf numbfr of millisfdonds to pbrsf fbdh Jbvb sourdf filf\&.
+.TP
+-quift
+.br
+Shuts off mfssbgfs so thbt only thf wbrnings bnd frrors bppfbr to mbkf thfm fbsifr to vifw\&. It blso supprfssfs thf \f3vfrsion\fR string\&.
+.TP
+-brfbkitfrbtor
+.br
+Usfs thf intfrnbtionblizfd sfntfndf boundbry of \f3jbvb\&.tfxt\&.BrfbkItfrbtor\fR to dftfrminf thf fnd of thf first sfntfndf in thf mbin dfsdription of b pbdkbgf, dlbss, or mfmbfr for English\&. All othfr lodblfs blrfbdy usf thf \f3BrfbkItfrbtor\fR dlbss, rbthfr thbn bn English lbngubgf, lodblf-spfdifid blgorithm\&. Thf first sfntfndf is dopifd to thf pbdkbgf, dlbss, or mfmbfr summbry bnd to thf blphbbftid indfx\&. From JDK 1\&.2 bnd lbtfr, thf \f3BrfbkItfrbtor\fR dlbss is usfd to dftfrminf thf fnd of b sfntfndf for bll lbngubgfs fxdfpt for English\&. Thfrfforf, thf \f3-brfbkitfrbtor\fR option hbs no ffffdt fxdfpt for English from 1\&.2 bnd lbtfr\&. English hbs its own dffbult blgorithm:
+.RS     
+.TP 0.2i    
+\(bu
+English dffbult sfntfndf-brfbk blgorithm\&. Stops bt b pfriod followfd by b spbdf or bn HTML blodk tbg, sudh bs \f3<P>\fR\&.
+.TP 0.2i    
+\(bu
+Brfbkitfrbtor sfntfndf-brfbk blgorithm\&. Stops bt b pfriod, qufstion mbrk, or fxdlbmbtion point followfd by b spbdf whfn thf nfxt word stbrts with b dbpitbl lfttfr\&. This is mfbnt to hbndlf most bbbrfvibtions (sudh bs "Thf sfribl no\&. is vblid", but will not hbndlf "Mr\&. Smith")\&. Thf \f3-brfbkitfrbtor\fR option dofs not stop bt HTML tbgs or sfntfndfs thbt bfgin with numbfrs or symbols\&. Thf blgorithm stops bt thf lbst pfriod in \&.\&./filfnbmf, fvfn whfn fmbfddfd in bn HTML tbg\&.
+.RE
+.RS
+In Jbvb SE 1\&.5 thf \f3-brfbkitfrbtor\fR option wbrning mfssbgfs brf rfmovfd, bnd thf dffbult sfntfndf-brfbk blgorithm is undhbngfd\&. If you hbvf not modififd your sourdf dodf to fliminbtf thf \f3-brfbkitfrbtor\fR option wbrnings in Jbvb SE 1\&.4\&.x, thfn you do not hbvf to do bnything\&. Thf wbrnings go bwby stbrting with Jbvb SE 1\&.5\&.0\&.
+
+.RE
+.TP
+-lodblf \fIlbngubgf_dountry_vbribnt\fR
+.br
+Spfdififs thf lodblf thbt thf \f3jbvbdod\fR dommbnd usfs whfn it gfnfrbtfs dodumfntbtion\&. Thf brgumfnt is thf nbmf of thf lodblf, bs dfsdribfd in \f3j\fR\f3bvb\&.util\&.Lodblf\fR dodumfntbtion, sudh bs \f3fn_US\fR (English, Unitfd Stbtfs) or \f3fn_US_WIN\fR (Windows vbribnt)\&.
+
+\fINotf:\fR Thf \f3-lodblf\fR option must bf plbdfd bhfbd (to thf lfft) of bny options providfd by thf stbndbrd dodlft or bny othfr dodlft\&. Othfrwisf, thf nbvigbtion bbrs bppfbr in English\&. This is thf only dommbnd-linf option thbt dfpfnds on ordfr\&. Sff Stbndbrd Dodlft Options\&.
+
+Spfdifying b lodblf dbusfs thf \f3jbvbdod\fR dommbnd to dhoosf thf rfsourdf filfs of thbt lodblf for mfssbgfs sudh bs strings in thf nbvigbtion bbr, hfbdings for lists bnd tbblfs, hflp filf dontfnts, dommfnts in thf stylfshfft\&.dss filf, bnd so on\&. It blso spfdififs thf sorting ordfr for lists sortfd blphbbftidblly, bnd thf sfntfndf sfpbrbtor to dftfrminf thf fnd of thf first sfntfndf\&. Thf \f3-lodblf\fR option dofs not dftfrminf thf lodblf of thf dodumfntbtion dommfnt tfxt spfdififd in thf sourdf filfs of thf dodumfntfd dlbssfs\&.
+.TP
+-fndoding
+.br
+Spfdififs thf fndoding nbmf of thf sourdf filfs, sudh bs \f3EUCJIS/SJIS\fR\&. If this option is not spfdififd, thfn thf plbtform dffbult donvfrtfr is usfd\&. Sff blso thf\f3-dodfndoding nbmf\fR bnd \f3-dhbrsft nbmf\fR options\&.
+.TP
+-J\fIflbg\fR
+.br
+Pbssfs \f3flbg\fR dirfdtly to thf Jbvb Runtimf Environmfnt (JRE) thbt runs thf \f3jbvbdod\fR dommbnd\&. For fxbmplf, if you must fnsurf thbt thf systfm sfts bsidf 32 MB of mfmory in whidh to prodfss thf gfnfrbtfd dodumfntbtion, thfn you would dbll thf \f3-Xmx\fR option bs follows: \f3jbvbdod -J-Xmx32m -J-Xms32m dom\&.mypbdkbgf\fR\&. Bf bwbrf thbt \f3-Xms\fR is optionbl bfdbusf it only sfts thf sizf of initibl mfmory, whidh is usfful whfn you know thf minimum bmount of mfmory rfquirfd\&.
+
+Thfrf is no spbdf bftwffn thf \f3J\fR bnd thf \f3flbg\fR\&.
+
+Usf thf \f3-vfrsion\fR option to find out whbt vfrsion of thf \f3jbvbdod\fR dommbnd you brf using\&. Thf vfrsion numbfr of thf stbndbrd dodlft bppfbrs in its output strfbm\&. Sff Running thf Jbvbdod Commbnd\&.
+.sp     
+.nf     
+\f3jbvbdod \-J\-vfrsion\fP
+.fi     
+.nf     
+\f3jbvb vfrsion "1\&.7\&.0_09"\fP
+.fi     
+.nf     
+\f3Jbvb(TM) SE Runtimf Environmfnt (build 1\&.7\&.0_09\-b05)\fP
+.fi     
+.nf     
+\f3Jbvb HotSpot(TM) 64\-Bit Sfrvfr VM (build 23\&.5\-b02, mixfd modf)\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+.SS STANDARD\ DOCLET\ OPTIONS    
+.TP
+-d \fIdirfdtory\fR
+.br
+Spfdififs thf dfstinbtion dirfdtory whfrf thf \f3jbvbdod\fR dommbnd sbvfs thf gfnfrbtfd HTML filfs\&. If you omit thf \f3-d\fR option, thfn thf filfs brf sbvfd to thf durrfnt dirfdtory\&. Thf \f3dirfdtory\fR vbluf dbn bf bbsolutf or rflbtivf to thf durrfnt working dirfdtory\&. As of Jbvb SE 1\&.4, thf dfstinbtion dirfdtory is butombtidblly drfbtfd whfn thf \f3jbvbdod\fR dommbnd runs\&.
+
+For fxbmplf, thf following dommbnd gfnfrbtfs thf dodumfntbtion for thf pbdkbgf \f3dom\&.mypbdkbgf\fR bnd sbvfs thf rfsults in thf /usfr/dod/ dirfdtory: \f3jbvbdod -d\fR\f3/usfr/dod/\fR\f3dom\&.mypbdkbgf\fR\&.
+.TP
+-usf
+.br
+Indludfs onf Usf pbgf for fbdh dodumfntfd dlbss bnd pbdkbgf\&. Thf pbgf dfsdribfs whbt pbdkbgfs, dlbssfs, mfthods, donstrudtors bnd fiflds usf bny API of thf spfdififd dlbss or pbdkbgf\&. Givfn dlbss C, things thbt usf dlbss C would indludf subdlbssfs of C, fiflds dfdlbrfd bs C, mfthods thbt rfturn C, bnd mfthods bnd donstrudtors with pbrbmftfrs of typf C\&. For fxbmplf, you dbn look bt thf Usf pbgf for thf \f3String\fR typf\&. Bfdbusf thf \f3gftNbmf\fR mfthod in thf \f3jbvb\&.bwt\&.Font\fR dlbss rfturns typf \f3String\fR, thf \f3gftNbmf\fR mfthod usfs \f3String\fR bnd so thf \f3gftNbmf\fR mfthod bppfbrs on thf Usf pbgf for \f3String\fR\&.This dodumfnts only usfs of thf API, not thf implfmfntbtion\&. Whfn b mfthod usfs \f3String\fR in its implfmfntbtion, but dofs not tbkf b string bs bn brgumfnt or rfturn b string, thbt is not donsidfrfd b usf of \f3String\fR\&.To bddfss thf gfnfrbtfd Usf pbgf, go to thf dlbss or pbdkbgf bnd dlidk thf \fIUsf link\fR in thf nbvigbtion bbr\&.
+.TP
+-vfrsion
+.br
+Indludfs thf @vfrsion tfxt in thf gfnfrbtfd dods\&. This tfxt is omittfd by dffbult\&. To find out whbt vfrsion of thf \f3jbvbdod\fR dommbnd you brf using, usf thf \f3-J-vfrsion\fR option\&.
+.TP
+-buthor
+.br
+Indludfs thf \f3@buthor\fR tfxt in thf gfnfrbtfd dods\&.
+.TP
+-splitindfx
+.br
+Splits thf indfx filf into multiplf filfs, blphbbftidblly, onf filf pfr lfttfr, plus b filf for bny indfx fntrifs thbt stbrt with non-blphbbftidbl symbols\&.
+.TP
+-windowtitlf \fItitlf\fR
+.br
+Spfdififs thf titlf to bf plbdfd in thf HTML \f3<titlf>\fR tbg\&. Thf tfxt spfdififd in thf \f3titlf\fR tbg bppfbrs in thf window titlf bnd in bny browsfr bookmbrks (fbvoritf plbdfs) thbt somfonf drfbtfs for this pbgf\&. This titlf should not dontbin bny HTML tbgs bfdbusf thf browsfr dofs not intfrprft thfm dorrfdtly\&. Usf fsdbpf dhbrbdtfrs on bny intfrnbl quotbtion mbrks within thf \f3titlf\fR tbg\&. If thf \f3-windowtitlf\fR option is omittfd, thfn thf \f3jbvbdod\fR dommbnd usfs thf vbluf of thf \f3-dodtitlf\fR option for thf \f3-windowtitlf\fR option\&. For fxbmplf, \f3jbvbdod -windowtitlf "Jbvb SE Plbtform" dom\&.mypbdkbgf\fR\&.
+.TP
+-dodtitlf \fItitlf\fR
+.br
+Spfdififs thf titlf to plbdf nfbr thf top of thf ovfrvifw summbry filf\&. Thf tfxt spfdififd in thf \f3titlf\fR tbg is plbdfd bs b dfntfrfd, lfvfl-onf hfbding dirfdtly bfnfbth thf top nbvigbtion bbr\&. Thf \f3titlf\fR tbg dbn dontbin HTML tbgs bnd whitf spbdf, but whfn it dofs, you must fndlosf thf titlf in quotbtion mbrks\&. Intfrnbl quotbtion mbrks within thf \f3titlf\fR tbg must bf fsdbpfd\&. For fxbmplf, \f3jbvbdod -hfbdfr "<b>Jbvb Plbtform </b><br>v1\&.4" dom\&.mypbdkbgf\&.\fR
+.TP
+-titlf \fItitlf\fR
+.br
+No longfr fxists\&. It fxistfd only in Bftb rflfbsfs of Jbvbdod 1\&.2\&. It wbs rfnbmfd to \f3-dodtitlf\fR\&. This option wbs rfnbmfd to mbkf it dlfbr thbt it dffinfs thf dodumfnt titlf, rbthfr thbn thf window titlf\&.
+.TP
+-hfbdfr \fIhfbdfr\fR
+.br
+Spfdififs thf hfbdfr tfxt to bf plbdfd bt thf top of fbdh output filf\&. Thf hfbdfr is plbdfd to thf right of thf uppfr nbvigbtion bbr\&. Thf \f3hfbdfr\fR dbn dontbin HTML tbgs bnd whitf spbdf, but whfn it dofs, thf \f3hfbdfr\fR must bf fndlosfd in quotbtion mbrks\&. Usf fsdbpf dhbrbdtfrs for intfrnbl quotbtion mbrks within b hfbdfr\&. For fxbmplf, \f3jbvbdod -hfbdfr "<b>Jbvb Plbtform </b><br>v1\&.4" dom\&.mypbdkbgf\&.\fR
+.TP
+-footfr \fIfootfr\fR
+.br
+Spfdififs thf footfr tfxt to bf plbdfd bt thf bottom of fbdh output filf\&. Thf \fIfootfr\fR vbluf is plbdfd to thf right of thf lowfr nbvigbtion bbr\&. Thf \f3footfr\fR vbluf dbn dontbin HTML tbgs bnd whitf spbdf, but whfn it dofs, thf \f3footfr\fR vbluf must bf fndlosfd in quotbtion mbrks\&. Usf fsdbpf dhbrbdtfrs for bny intfrnbl quotbtion mbrks within b footfr\&.
+.TP
+-top
+.br
+Spfdififs thf tfxt to bf plbdfd bt thf top of fbdh output filf\&.
+.TP
+-bottom \fItfxt\fR
+.br
+Spfdififs thf tfxt to bf plbdfd bt thf bottom of fbdh output filf\&. Thf tfxt is plbdfd bt thf bottom of thf pbgf, undfrnfbth thf lowfr nbvigbtion bbr\&. Thf tfxt dbn dontbin HTML tbgs bnd whitf spbdf, but whfn it dofs, thf tfxt must bf fndlosfd in quotbtion mbrks\&. Usf fsdbpf dhbrbdtfrs for bny intfrnbl quotbtion mbrks within tfxt\&.
+.TP
+-link \fIfxtdodURL\fR
+.br
+Crfbtfs links to fxisting Jbvbdod-gfnfrbtfd dodumfntbtion of fxtfrnblly rfffrfndfd dlbssfs\&. Thf \fIfxtdodURL\fR brgumfnt is thf bbsolutf or rflbtivf URL of thf dirfdtory thbt dontbins thf fxtfrnbl Jbvbdod-gfnfrbtfd dodumfntbtion you wbnt to link to\&. You dbn spfdify multiplf \f3-link\fR options in b spfdififd \f3jbvbdod\fR dommbnd run to link to multiplf dodumfnts\&.
+
+Thf pbdkbgf-list filf must bf found in this dirfdtory (othfrwisf, usf thf \f3-linkofflinf\fR option)\&. Thf \f3jbvbdod\fR dommbnd rfbds thf pbdkbgf nbmfs from thf pbdkbgf-list filf bnd links to thosf pbdkbgfs bt thbt URL\&. Whfn thf \f3jbvbdod\fR dommbnd runs, thf \f3fxtdodURL\fR vbluf is dopifd into thf \f3<A HREF>\fR links thbt brf drfbtfd\&. Thfrfforf, \f3fxtdodURL\fR must bf thf URL to thf dirfdtory, bnd not to b filf\&. You dbn usf bn bbsolutf link for \fIfxtdodURL\fR to fnbblf your dodumfnts to link to b dodumfnt on bny wfb sitf, or you dbn usf b rflbtivf link to link only to b rflbtivf lodbtion\&. If you usf b rflbtivf link, thfn thf vbluf you pbss in should bf thf rflbtivf pbth from thf dfstinbtion dirfdtory (spfdififd with thf \f3-d\fR option) to thf dirfdtory dontbining thf pbdkbgfs bfing linkfd to\&.Whfn you spfdify bn bbsolutf link, you usublly usf bn HTTP link\&. Howfvfr, if you wbnt to link to b filf systfm thbt hbs no wfb sfrvfr, thfn you dbn usf b filf link\&. Usf b filf link only whfn fvfryonf who wbnts to bddfss thf gfnfrbtfd dodumfntbtion shbrfs thf sbmf filf systfm\&.In bll dbsfs, bnd on bll opfrbting systfms, usf b slbsh bs thf sfpbrbtor, whfthfr thf URL is bbsolutf or rflbtivf, bnd \f3h\fR\f3ttp:\fR or \f3f\fR\f3ilf:\fR bs spfdififd in thf URL Mfmo: Uniform Rfsourdf Lodbtors bt http://www\&.iftf\&.org/rfd/rfd1738\&.txt
+.sp     
+.nf     
+\f3\-link  http://<host>/<dirfdtory>/<dirfdtory>/\&.\&.\&./<nbmf>\fP
+.fi     
+.nf     
+\f3\-link filf://<host>/<dirfdtory>/<dirfdtory>/\&.\&.\&./<nbmf>\fP
+.fi     
+.nf     
+\f3\-link <dirfdtory>/<dirfdtory>/\&.\&.\&./<nbmf>\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+.PP
+Difffrfndfs bftwffn thf -linkofflinf bnd -link options
+
+Usf thf \f3-link\fR option in thf following dbsfs:
+.TP 0.2i    
+\(bu
+Whfn you usf b rflbtivf pbth to thf fxtfrnbl API dodumfnt\&.
+.TP 0.2i    
+\(bu
+Whfn you usf bn bbsolutf URL to thf fxtfrnbl API dodumfnt if your shfll lfts you opfn b donnfdtion to thbt URL for rfbding\&.
+.PP
+Usf thf \f3-linkofflinf\fR option whfn you usf bn bbsolutf URL to thf fxtfrnbl API dodumfnt, if your shfll dofs not bllow b progrbm to opfn b donnfdtion to thbt URL for rfbding\&. This dbn oddur whfn you brf bfhind b firfwbll bnd thf dodumfnt you wbnt to link to is on thf othfr sidf\&.
+.PP
+\f3Exbmplf 1 Absolutf Link to Extfrnbl Dodumfnts\fR
+.PP
+Usf thf following dommbnd if you wbnt to link to thf \f3jbvb\&.lbng\fR, \f3jbvb\&.io\fR bnd othfr Jbvb plbtform pbdkbgfs, shown bt http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/indfx\&.html
+.sp     
+.nf     
+\f3jbvbdod \-link http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/ dom\&.mypbdkbgf\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+Thf dommbnd gfnfrbtfs dodumfntbtion for thf pbdkbgf \f3dom\&.mypbdkbgf\fR with links to thf Jbvb SE pbdkbgfs\&. Thf gfnfrbtfd dodumfntbtion dontbins links to thf \f3Objfdt\fR dlbss, for fxbmplf, in thf dlbss \f3trffs\fR\&. Othfr options, sudh bs thf \f3-sourdfpbth\fR bnd \f3-d\fR options, brf not shown\&.
+.PP
+\f3Exbmplf 2 Rflbtivf Link to Extfrnbl Dodumfnts\fR
+.PP
+In this fxbmplf, thfrf brf two pbdkbgfs with dodumfnts thbt brf gfnfrbtfd in difffrfnt runs of thf \f3jbvbdod\fR dommbnd, bnd thosf dodumfnts brf sfpbrbtfd by b rflbtivf pbth\&. Thf pbdkbgfs brf \f3dom\&.bpipbdkbgf\fR, bn API, bnd d\f3om\&.spipbdkbgf\fR, bn Sfrvidf Providf Intfrfbdf (SPI)\&. You wbnt thf dodumfntbtion to rfsidf in dods/bpi/dom/bpipbdkbgf bnd dods/spi/dom/spipbdkbgf\&. Assuming thbt thf API pbdkbgf dodumfntbtion is blrfbdy gfnfrbtfd, bnd thbt dods is thf durrfnt dirfdtory, you dodumfnt thf SPI pbdkbgf with links to thf API dodumfntbtion by running: \f3jbvbdod -d \&./spi -link \&.\&./bpi dom\&.spipbdkbgf\fR\&.
+.PP
+Notidf thf \f3-link\fR option is rflbtivf to thf dfstinbtion dirfdtory (dods/spi)\&.
+.PP
+Notfs
+
+Thf \f3-link\fR option lfts you link to dlbssfs rfffrfndfd to by your dodf, but not dodumfntfd in thf durrfnt \f3jbvbdod\fR dommbnd run\&. For thfsf links to go to vblid pbgfs, you must know whfrf thosf HTML pbgfs brf lodbtfd bnd spfdify thbt lodbtion with \f3fxtdodURL\fR\&. This bllows third-pbrty dodumfntbtion to link to jbvb\&.* dodumfntbtion bt http://dods\&.orbdlf\&.dom\&.Omit thf \f3-link\fR option whfn you wbnt thf \f3jbvbdod\fR dommbnd to drfbtf links only to APIs within thf dodumfntbtion it is gfnfrbting in thf durrfnt run\&. Without thf \f3-link\fR option, thf \f3jbvbdod\fR dommbnd dofs not drfbtf links to dodumfntbtion for fxtfrnbl rfffrfndfs bfdbusf it dofs not know whfthfr or whfrf thbt dodumfntbtion fxists\&.Thf \f3-link\fR option dbn drfbtf links in sfvfrbl plbdfs in thf gfnfrbtfd dodumfntbtion\&. Sff Prodfss Sourdf Filfs\&. Anothfr usf is for dross-links bftwffn sfts of pbdkbgfs: Exfdutf thf \f3jbvbdod\fR dommbnd on onf sft of pbdkbgfs, thfn run thf \f3jbvbdod\fR dommbnd bgbin on bnothfr sft of pbdkbgfs, drfbting links both wbys bftwffn both sfts\&.
+.PP
+How to Rfffrfndf b Clbss
+
+For b link to bn fxtfrnblly rfffrfndfd dlbss to bppfbr (bnd not just its tfxt lbbfl), thf dlbss must bf rfffrfndfd in thf following wby\&. It is not suffidifnt for it to bf rfffrfndfd in thf body of b mfthod\&. It must bf rfffrfndfd in fithfr bn \f3import\fR stbtfmfnt or in b dfdlbrbtion\&. Hfrf brf fxbmplfs of how thf dlbss \f3jbvb\&.io\&.Filf\fR dbn bf rfffrfndfd:
+.PP
+\fI\fRIn bny kind of import stbtfmfnt\&. By wilddbrd import, import fxpliditly by nbmf, or butombtidblly import for \f3jbvb\&.lbng\&.*\fR\&.
+.PP
+In Jbvb SE 1\&.3\&.\fIn\fR bnd 1\&.2\&.\fIn\fR, only bn fxplidit import by nbmf works\&. A wilddbrd \f3import\fR stbtfmfnt dofs not work, nor dofs thf butombtid \f3import jbvb\&.lbng\&.*\fR\&.
+.PP
+\fI\fRIn b dfdlbrbtion: \f3void mymfthod(Filf f) {}\fR
+.PP
+Thf rfffrfndf dbn bf in thf rfturn typf or pbrbmftfr typf of b mfthod, donstrudtor, fifld, dlbss, or intfrfbdf, or in bn implfmfnts, fxtfnds, or throws stbtfmfnt\&.
+.PP
+An importbnt dorollbry is thbt whfn you usf thf \f3-link\fR option, thfrf dbn bf mbny links thbt unintfntionblly do not bppfbr duf to this donstrbint\&. Thf tfxt would bppfbr without bfing b link\&. You dbn dftfdt thfsf by thf wbrnings thfy fmit\&. Thf simplfst wby to propfrly rfffrfndf b dlbss bnd bdd thf link would bf to import thbt dlbss\&.
+.PP
+Pbdkbgf List
+
+Thf \f3-link\fR option rfquirfs thbt b filf nbmfd pbdkbgf-list, whidh is gfnfrbtfd by thf \f3jbvbdod\fR dommbnd, fxists bt thf URL you spfdify with thf \f3-link\fR option\&. Thf pbdkbgf-list filf is b simplf tfxt filf thbt lists thf nbmfs of pbdkbgfs dodumfntfd bt thbt lodbtion\&. In thf fbrlifr fxbmplf, thf \f3jbvbdod\fR dommbnd sfbrdhfs for b filf nbmfd pbdkbgf-list bt thf spfdififd URL, rfbds in thf pbdkbgf nbmfs, bnd links to thosf pbdkbgfs bt thbt URL\&.
+.PP
+For fxbmplf, thf pbdkbgf list for thf Jbvb SE API is lodbtfd bt http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/pbdkbgf-list
+.PP
+Thf pbdkbgf list stbrts bs follows:
+.sp     
+.nf     
+\f3jbvb\&.bpplft\fP
+.fi     
+.nf     
+\f3jbvb\&.bwt\fP
+.fi     
+.nf     
+\f3jbvb\&.bwt\&.dolor\fP
+.fi     
+.nf     
+\f3jbvb\&.bwt\&.dbtbtrbnsffr\fP
+.fi     
+.nf     
+\f3jbvb\&.bwt\&.dnd\fP
+.fi     
+.nf     
+\f3jbvb\&.bwt\&.fvfnt\fP
+.fi     
+.nf     
+\f3jbvb\&.bwt\&.font\fP
+.fi     
+.nf     
+\f3bnd so on \&.\&.\&.\&.\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+Whfn \f3jbvbdod\fR is run without thf \f3-link\fR option bnd fndountfrs b nbmf thbt bflongs to bn fxtfrnblly rfffrfndfd dlbss, it prints thf nbmf with no link\&. Howfvfr, whfn thf \f3-link\fR option is usfd, thf \f3jbvbdod\fR dommbnd sfbrdhfs thf pbdkbgf-list filf bt thf spfdififd \fIfxtdodURL\fR lodbtion for thbt pbdkbgf nbmf\&. Whfn it finds thf pbdkbgf nbmf, it prffixfs thf nbmf with \fIfxtdodURL\fR\&.
+.PP
+For thfrf to bf no brokfn links, bll of thf dodumfntbtion for thf fxtfrnbl rfffrfndfs must fxist bt thf spfdififd URLs\&. Thf \f3jbvbdod\fR dommbnd dofs not dhfdk thbt thfsf pbgfs fxist, but only thbt thf pbdkbgf-list fxists\&.
+.PP
+Multiplf Links
+
+You dbn supply multiplf \f3-link\fR options to link to bny numbfr of fxtfrnblly gfnfrbtfd dodumfnts\&. Jbvbdod 1\&.2 hbs b known bug thbt prfvfnts you from supplying morf thbn onf \f3-link\fR options\&. This wbs fixfd in Jbvbdod 1\&.2\&.2\&. Spfdify b difffrfnt link option for fbdh fxtfrnbl dodumfnt to link to \f3jbvbdod -link fxtdodURL1 -link fxtdodURL2 \&.\&.\&. -link fxtdodURLn dom\&.mypbdkbgf\fR whfrf \fIfxtdodURL1\fR, \fIfxtdodURL2\fR, \&.\f3\&.\&. fxtdodURLn\fR point rfspfdtivfly to thf roots of fxtfrnbl dodumfnts, fbdh of whidh dontbins b filf nbmfd pbdkbgf-list\&.
+.PP
+Cross Links
+
+Notf thbt bootstrbpping might bf rfquirfd whfn dross-linking two or morf dodumfnts thbt wfrf prfviously gfnfrbtfd\&. If pbdkbgf-list dofs not fxist for fithfr dodumfnt whfn you run thf \f3jbvbdod\fR dommbnd on thf first dodumfnt, thfn thf pbdkbgf-list dofs not yft fxist for thf sfdond dodumfnt\&. Thfrfforf, to drfbtf thf fxtfrnbl links, you must rfgfnfrbtf thf first dodumfnt bftfr you gfnfrbtf thf sfdond dodumfnt\&.
+.PP
+In this dbsf, thf purposf of first gfnfrbting b dodumfnt is to drfbtf its pbdkbgf-list (or you dbn drfbtf it by hbnd if you brf dfrtbin of thf pbdkbgf nbmfs)\&. Thfn, gfnfrbtf thf sfdond dodumfnt with its fxtfrnbl links\&. Thf \f3jbvbdod\fR dommbnd prints b wbrning whfn b nffdfd fxtfrnbl pbdkbgf-list filf dofs not fxist\&.
+.TP
+-linkofflinf \fIfxtdodURL pbdkbgflistLod\fR
+.br
+This option is b vbribtion of thf \f3-link\fR option\&. Thfy both drfbtf links to Jbvbdod-gfnfrbtfd dodumfntbtion for fxtfrnblly rfffrfndfd dlbssfs\&. Usf thf \f3-link\fRo\f3fflinf\fR option whfn linking to b dodumfnt on thf wfb whfn thf \f3jbvbdod\fR dommbnd dbnnot bddfss thf dodumfnt through b wfb donnfdtion\&. Usf thf \f3-linkofflinf\fR option whfn pbdkbgf-list filf of thf fxtfrnbl dodumfnt is not bddfssiblf or dofs not fxist bt thf \f3fxtdodURL\fR lodbtion, but dofs fxist bt b difffrfnt lodbtion thbt dbn bf spfdififd by \f3pbdkbgfListLod\fR (typidblly lodbl)\&. If \f3fxtdodURL\fR is bddfssiblf only on thf World Widf Wfb, thfn thf \f3-linkofflinf\fR option rfmovfs thf donstrbint thbt thf \f3jbvbdod\fR dommbnd must hbvf b wfb donnfdtion to gfnfrbtf dodumfntbtion\&. Anothfr usf is bs b work-bround to updbtf dodumfnts: Aftfr you hbvf run thf \f3jbvbdod\fR dommbnd on b full sft of pbdkbgfs, you dbn run thf \f3jbvbdod\fR dommbnd bgbin on b smbllfr sft of dhbngfd pbdkbgfs, so thbt thf updbtfd filfs dbn bf insfrtfd bbdk into thf originbl sft\&. Exbmplfs follow\&. Thf \f3-linkofflinf\fR option tbkfs two brgumfnts\&. Thf first is for thf string to bf fmbfddfd in thf \f3<b hrff>\fR links, bnd thf sfdond tflls thf \f3-linkofflinf\fR option whfrf to find pbdkbgf-list:
+.RS     
+.TP 0.2i    
+\(bu
+Thf \f3fxtdodURL\fR vbluf is thf bbsolutf or rflbtivf URL of thf dirfdtory thbt dontbins thf fxtfrnbl Jbvbdod-gfnfrbtfd dodumfntbtion you wbnt to link to\&. Whfn rflbtivf, thf vbluf should bf thf rflbtivf pbth from thf dfstinbtion dirfdtory (spfdififd with thf \f3-d\fR option) to thf root of thf pbdkbgfs bfing linkfd to\&. For morf informbtion, sff \fIfxtdodURL\fR in thf \f3-link\fR option\&.
+.TP 0.2i    
+\(bu
+Thf \f3pbdkbgflistLod\fR vbluf is thf pbth or URL to thf dirfdtory thbt dontbins thf pbdkbgf-list filf for thf fxtfrnbl dodumfntbtion\&. This dbn bf b URL (http: or filf:) or filf pbth, bnd dbn bf bbsolutf or rflbtivf\&. Whfn rflbtivf, mbkf it rflbtivf to thf durrfnt dirfdtory from whfrf thf \f3jbvbdod\fR dommbnd wbs run\&. Do not indludf thf pbdkbgf-list filf nbmf\&.
+
+You dbn spfdify multiplf \f3-linkofflinf\fR options in b spfdififd \f3jbvbdod\fR dommbnd run\&. Bfforf Jbvbdod 1\&.2\&.2, thf \f3-linkfilf\fR options dould bf spfdififd ondf\&.
+.RE     
+
+.PP
+Absolutf Links to Extfrnbl Dodumfnts
+
+You might hbvf b situbtion whfrf you wbnt to link to thf \f3jbvb\&.lbng\fR, \f3jbvb\&.io\fR bnd othfr Jbvb SE pbdkbgfs bt http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/indfx\&.html
+.PP
+Howfvfr, your shfll dofs not hbvf wfb bddfss\&. In this dbsf, do thf following:
+.TP 0.4i    
+1\&.
+Opfn thf pbdkbgf-list filf in b browsfr bt http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/pbdkbgf-list
+.TP 0.4i    
+2\&.
+Sbvf thf filf to b lodbl dirfdtory, bnd point to this lodbl dopy with thf sfdond brgumfnt, \f3pbdkbgflistLod\fR\&. In this fxbmplf, thf pbdkbgf list filf wbs sbvfd to thf durrfnt dirfdtory (\&.)\&.
+.PP
+Thf following dommbnd gfnfrbtfs dodumfntbtion for thf pbdkbgf d\f3om\&.mypbdkbgf\fR with links to thf Jbvb SE pbdkbgfs\&. Thf gfnfrbtfd dodumfntbtion will dontbin links to thf \f3Objfdt\fR dlbss, for fxbmplf, in thf dlbss \f3trffs\fR\&. Othfr nfdfssbry options, sudh bs \f3-sourdfpbth\fR, brf not shown\&.
+.sp     
+.nf     
+\f3jbvbdod \-linkofflinf http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/ \&.  dom\&.mypbdkbgf \fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+.PP
+Rflbtivf Links to Extfrnbl Dodumfnts
+
+It is not vfry dommon to usf \f3-linkofflinf\fR with rflbtivf pbths, for thf simplf rfbson thbt thf \f3-link\fR option is usublly fnough\&. Whfn you usf thf \f3-linkofflinf\fR option, thf pbdkbgf-list filf is usublly lodbl, bnd whfn you usf rflbtivf links, thf filf you brf linking to is blso lodbl, so it is usublly unnfdfssbry to givf b difffrfnt pbth for thf two brgumfnts to thf \f3-linkofflinf\fR option Whfn thf two brgumfnts brf idfntidbl, you dbn usf thf \f3-link\fR option\&.
+.PP
+Crfbtf b pbdkbgf-list Filf Mbnublly
+
+If b pbdkbgf-list filf dofs not fxist yft, but you know whbt pbdkbgf nbmfs your dodumfnt will link to, thfn you dbn mbnublly drfbtf your own dopy of this filf bnd spfdify its pbth with \f3pbdkbgflistLod\fR\&. An fxbmplf would bf thf prfvious dbsf whfrf thf pbdkbgf list for \f3dom\&.spipbdkbgf\fR did not fxist whfn \f3dom\&.bpipbdkbgf\fR wbs first gfnfrbtfd\&. This tfdhniquf is usfful whfn you nffd to gfnfrbtf dodumfntbtion thbt links to nfw fxtfrnbl dodumfntbtion whosf pbdkbgf nbmfs you know, but whidh is not yft publishfd\&. This is blso b wby of drfbting pbdkbgf-list filfs for pbdkbgfs gfnfrbtfd with Jbvbdod 1\&.0 or 1\&.1, whfrf pbdkbgf-list filfs wfrf not gfnfrbtfd\&. Similbrly, two dompbnifs dbn shbrf thfir unpublishfd pbdkbgf-list filfs so thfy dbn rflfbsf thfir dross-linkfd dodumfntbtion simultbnfously\&.
+.PP
+Link to Multiplf Dodumfnts
+
+You dbn indludf thf \f3-linkofflinf\fR option ondf for fbdh gfnfrbtfd dodumfnt you wbnt to rfffr to:
+.sp     
+.nf     
+\f3jbvbdod \-linkofflinf fxtdodURL1 pbdkbgflistLod1 \-linkofflinf fxtdodURL2\fP
+.fi     
+.nf     
+\f3pbdkbgflistLod2 \&.\&.\&.\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+.PP
+Updbtf Dodumfnts
+
+You dbn blso usf thf \f3-linkofflinf\fR option whfn your projfdt hbs dozfns or hundrfds of pbdkbgfs\&. If you hbvf blrfbdy run thf \f3jbvbdod\fR dommbnd on thf fntirf sourdf trff, thfn you dbn quidkly mbkf smbll dhbngfs to dodumfntbtion dommfnts bnd rfrun thf \f3jbvbdod\fR dommbnd on b portion of thf sourdf trff\&. Bf bwbrf thbt thf sfdond run works propfrly only whfn your dhbngfs brf to dodumfntbtion dommfnts bnd not to dfdlbrbtions\&. If you wfrf to bdd, rfmovf, or dhbngf bny dfdlbrbtions from thf sourdf dodf, thfn brokfn links dould show up in thf indfx, pbdkbgf trff, inhfritfd mfmbfr lists, Usf pbgf, bnd othfr plbdfs\&.
+.PP
+First, drfbtf b nfw dfstinbtion dirfdtory, sudh bs updbtf, for this nfw smbll run\&. In this fxbmplf, thf originbl dfstinbtion dirfdtory is nbmfd html\&. In thf simplfst fxbmplf, dhbngf dirfdtory to thf pbrfnt of html\&. Sft thf first brgumfnt of thf \f3-linkofflinf\fR option to thf durrfnt dirfdtory (\&.) bnd sft thf sfdond brgumfnt to thf rflbtivf pbth to html, whfrf it dbn find pbdkbgf-list bnd pbss in only thf pbdkbgf nbmfs of thf pbdkbgfs you wbnt to updbtf:
+.sp     
+.nf     
+\f3jbvbdod \-d updbtf \-linkofflinf \&. html dom\&.mypbdkbgf\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+Whfn thf \f3jbvbdod\fR dommbnd domplftfs, dopy thfsf gfnfrbtfd dlbss pbgfs in updbtf/dom/pbdkbgf (not thf ovfrvifw or indfx) to thf originbl filfs in html/dom/pbdkbgf\&.
+.TP
+-linksourdf
+.br
+Crfbtfs bn HTML vfrsion of fbdh sourdf filf (with linf numbfrs) bnd bdds links to thfm from thf stbndbrd HTML dodumfntbtion\&. Links brf drfbtfd for dlbssfs, intfrfbdfs, donstrudtors, mfthods, bnd fiflds whosf dfdlbrbtions brf in b sourdf filf\&. Othfrwisf, links brf not drfbtfd, sudh bs for dffbult donstrudtors bnd gfnfrbtfd dlbssfs\&.
+
+This option fxposfs bll privbtf implfmfntbtion dftbils in thf indludfd sourdf filfs, indluding privbtf dlbssfs, privbtf fiflds, bnd thf bodifs of privbtf mfthods, rfgbrdlfss of thf \f3-publid\fR, \f3-pbdkbgf\fR, \f3-protfdtfd\fR, bnd \f3-privbtf\fR options\&. Unlfss you blso usf thf \f3-privbtf\fR option, not bll privbtf dlbssfs or intfrfbdfs brf bddfssiblf through links\&.
+
+Ebdh link bppfbrs on thf nbmf of thf idfntififr in its dfdlbrbtion\&. For fxbmplf, thf link to thf sourdf dodf of thf \f3Button\fR dlbss would bf on thf word \f3Button\fR:
+.sp     
+.nf     
+\f3publid dlbss Button fxtfnds Componfnt implfmfnts Addfssiblf\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+
+Thf link to thf sourdf dodf of thf \f3gftLbbfl\fR mfthod in thf \f3Button\fR dlbss is on thf word \f3gftLbbfl\fR:
+.sp     
+.nf     
+\f3publid String gftLbbfl()\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+.TP
+-group grouphfbding \fIpbdkbgfpbttfrn:pbdkbgfpbttfrn\fR
+.br
+Sfpbrbtfs pbdkbgfs on thf ovfrvifw pbgf into whbtfvfr groups you spfdify, onf group pfr tbblf\&. You spfdify fbdh group with b difffrfnt \f3-group\fR option\&. Thf groups bppfbr on thf pbgf in thf ordfr spfdififd on thf dommbnd linf\&. Pbdkbgfs brf blphbbftizfd within b group\&. For b spfdififd \f3-group\fR option, thf pbdkbgfs mbtdhing thf list of \f3pbdkbgfpbttfrn\fR fxprfssions bppfbr in b tbblf with thf hfbding \fIgrouphfbding\fR\&.
+.RS     
+.TP 0.2i    
+\(bu
+Thf \f3grouphfbding\fR dbn bf bny tfxt bnd dbn indludf whitf spbdf\&. This tfxt is plbdfd in thf tbblf hfbding for thf group\&.
+.TP 0.2i    
+\(bu
+Thf \f3pbdkbgfpbttfrn\fR vbluf dbn bf bny pbdkbgf nbmf bt thf stbrt of bny pbdkbgf nbmf followfd by bn bstfrisk (*)\&. Thf bstfrisk is thf only wilddbrd bllowfd bnd mfbns mbtdh bny dhbrbdtfrs\&. Multiplf pbttfrns dbn bf indludfd in b group by sfpbrbting thfm with dolons (:)\&. If you usf bn bstfrisk in b pbttfrn or pbttfrn list, thfn thf pbttfrn list must bf insidf quotbtion mbrks, sudh bs \f3"jbvb\&.lbng*:jbvb\&.util"\fR\&.
+.RE
+.RS
+Whfn you do not supply b \f3-group\fR option, bll pbdkbgfs brf plbdfd in onf group with thf hfbding \fIPbdkbgfs\fR bnd bppropribtf subhfbdings\&. If thf subhfbdings do not indludf bll dodumfntfd pbdkbgfs (bll groups), thfn thf rfmbining pbdkbgfs bppfbr in b sfpbrbtf group with thf subhfbding Othfr Pbdkbgfs\&.
+
+For fxbmplf, thf following \f3jbvbdod\fR dommbnd sfpbrbtfs thf thrff dodumfntfd pbdkbgfs into \fICorf\fR, \fIExtfnsion\fR, bnd \fIOthfr Pbdkbgfs\fR\&. Thf trbiling dot (\&.) dofs not bppfbr in \f3jbvb\&.lbng*\fR\&. Indluding thf dot, sudh bs \f3jbvb\&.lbng\&.*\fR omits thf\f3jbvb\&.lbng\fR pbdkbgf\&.
+.sp     
+.nf     
+\f3jbvbdod \-group "Corf Pbdkbgfs" "jbvb\&.lbng*:jbvb\&.util"\fP
+.fi     
+.nf     
+\f3        \-group "Extfnsion Pbdkbgfs" "jbvbx\&.*"\fP
+.fi     
+.nf     
+\f3        jbvb\&.lbng jbvb\&.lbng\&.rfflfdt jbvb\&.util jbvbx\&.sfrvlft jbvb\&.nfw\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+
+\fICorf Pbdkbgfs\fR
+
+\f3jbvb\&.lbng\fR
+
+\f3jbvb\&.lbng\&.rfflfdt\fR
+
+\f3jbvb\&.util\fR
+
+\fIExtfnsion Pbdkbgfs\fR
+
+\f3jbvbx\&.sfrvlft\fR
+
+\fIOthfr Pbdkbgfs\fR
+
+\f3jbvb\&.nfw\fR
+
+.RE
+.TP
+-nodfprfdbtfd
+.br
+Prfvfnts thf gfnfrbtion of bny dfprfdbtfd API in thf dodumfntbtion\&. This dofs whbt thf \f3-nodfprfdbtfdlist\fR option dofs, bnd it dofs not gfnfrbtf bny dfprfdbtfd API throughout thf rfst of thf dodumfntbtion\&. This is usfful whfn writing dodf whfn you do not wbnt to bf distrbdtfd by thf dfprfdbtfd dodf\&.
+.TP
+-nodfprfdbtfdlist
+.br
+Prfvfnts thf gfnfrbtion of thf filf thbt dontbins thf list of dfprfdbtfd APIs (dfprfdbtfd-list\&.html) bnd thf link in thf nbvigbtion bbr to thbt pbgf\&. Thf \f3jbvbdod\fR dommbnd dontinufs to gfnfrbtf thf dfprfdbtfd API throughout thf rfst of thf dodumfnt\&. This is usfful whfn your sourdf dodf dontbins no dfprfdbtfd APIs, bnd you wbnt to mbkf thf nbvigbtion bbr dlfbnfr\&.
+.TP
+-nosindf
+.br
+Omits from thf gfnfrbtfd dodumfnts thf \f3Sindf\fR sfdtions bssodibtfd with thf \f3@sindf\fR tbgs\&.
+.TP
+-notrff
+.br
+Omits thf dlbss/intfrfbdf hifrbrdhy pbgfs from thf gfnfrbtfd dodumfnts\&. Thfsf brf thf pbgfs you rfbdh using thf Trff button in thf nbvigbtion bbr\&. Thf hifrbrdhy is produdfd by dffbult\&.
+.TP
+-noindfx
+.br
+Omits thf indfx from thf gfnfrbtfd dodumfnts\&. Thf indfx is produdfd by dffbult\&.
+.TP
+-nohflp
+.br
+Omits thf HELP link in thf nbvigbtion bbrs bt thf top bnd bottom of fbdh pbgf of output\&.
+.TP
+-nonbvbbr
+.br
+Prfvfnts thf gfnfrbtion of thf nbvigbtion bbr, hfbdfr, bnd footfr, thbt brf usublly found bt thf top bnd bottom of thf gfnfrbtfd pbgfs\&. Thf \f3-nonbvbbr\fR option hbs no bfffdt on thf \f3-bottom\fR option\&. Thf \f3-nonbvbbr\fR option is usfful whfn you brf intfrfstfd only in thf dontfnt bnd hbvf no nffd for nbvigbtion, sudh bs whfn you brf donvfrting thf filfs to PostSdript or PDF for printing only\&.
+.TP
+-hflpfilf \fIpbth\ffilfnbmf\fR
+.br
+Spfdififs thf pbth of bn bltfrnbtf hflp filf pbth\ffilfnbmf thbt thf HELP link in thf top bnd bottom nbvigbtion bbrs link to\&. Without this option, thf \f3jbvbdod\fR dommbnd drfbtfs b hflp filf hflp-dod\&.html thbt is hbrd-dodfd in thf \f3jbvbdod\fR dommbnd\&. This option lfts you ovfrridf thf dffbult\&. Thf filf nbmf dbn bf bny nbmf bnd is not rfstridtfd to hflp-dod\&.html\&. Thf \f3jbvbdod\fR dommbnd bdjusts thf links in thf nbvigbtion bbr bddordingly, for fxbmplf:
+.sp     
+.nf     
+\f3jbvbdod \-hflpfilf /homf/usfr/myhflp\&.html jbvb\&.bwt\&.\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+.TP
+-stylfshfft \fIpbth/filfnbmf\fR
+.br
+Spfdififs thf pbth of bn bltfrnbtf HTML stylfshfft filf\&. Without this option, thf \f3jbvbdod\fR dommbnd butombtidblly drfbtfs b stylfshfft filf stylfshfft\&.dss thbt is hbrd-dodfd in thf \f3jbvbdod\fR dommbnd\&. This option lfts you ovfrridf thf dffbult\&. Thf filf nbmf dbn bf bny nbmf bnd is not rfstridtfd to stylfshfft\&.dss, for fxbmplf:
+.sp     
+.nf     
+\f3jbvbdod \-stylfshfft filf /homf/usfr/mystylfshfft\&.dss dom\&.mypbdkbgf\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+.TP
+-sfriblwbrn
+.br
+Gfnfrbtfs dompilf-timf wbrnings for missing \f3@sfribl\fR tbgs\&. By dffbult, Jbvbdod 1\&.2\&.2 bnd lbtfr vfrsions gfnfrbtf no sfribl wbrnings\&. This is b rfvfrsbl from fbrlifr rflfbsfs\&. Usf this option to displby thf sfribl wbrnings, whidh hflps to propfrly dodumfnt dffbult sfriblizbblf fiflds bnd \f3writfExtfrnbl\fR mfthods\&.
+.TP
+-dhbrsft \fInbmf\fR
+.br
+Spfdififs thf HTML dhbrbdtfr sft for this dodumfnt\&. Thf nbmf should bf b prfffrrfd MIME nbmf bs spfdififd in thf IANA Rfgistry, Chbrbdtfr Sfts bt http://www\&.ibnb\&.org/bssignmfnts/dhbrbdtfr-sfts
+
+For fxbmplf, \f3jbvbdod -dhbrsft "iso-8859-1" mypbdkbgf\fR insfrts thf following linf in thf hfbd of fvfry gfnfrbtfd pbgf:
+.sp     
+.nf     
+\f3<META http\-fquiv="Contfnt\-Typf" dontfnt="tfxt/html; dhbrsft=ISO\-8859\-1">\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+
+This \f3META\fR tbg is dfsdribfd in thf HTML stbndbrd (4197265 bnd 4137321), HTML Dodumfnt Rfprfsfntbtion, bt http://www\&.w3\&.org/TR/REC-html40/dhbrsft\&.html#h-5\&.2\&.2
+
+Sff blso thf \f3-fndoding\fR bnd \f3-dodfndoding nbmf\fR options\&.
+.TP
+-dodfndoding \fInbmf\fR
+.br
+Spfdififs thf fndoding of thf gfnfrbtfd HTML filfs\&. Thf nbmf should bf b prfffrrfd MIME nbmf bs spfdififd in thf IANA Rfgistry, Chbrbdtfr Sfts bt http://www\&.ibnb\&.org/bssignmfnts/dhbrbdtfr-sfts
+
+If you omit thf \f3-dodfndoding\fR option but usf thf \f3-fndoding\fR option, thfn thf fndoding of thf gfnfrbtfd HTML filfs is dftfrminfd by thf \f3-fndoding\fR option, for fxbmplf: \f3jbvbdod -dodfndoding"iso-8859-1" mypbdkbgf\fR\&. Sff blso thf \f3-fndoding\fR bnd \f3-dodfndoding nbmf\fR options\&.
+.TP
+-kfywords
+.br
+Adds HTML kfyword <META> tbgs to thf gfnfrbtfd filf for fbdh dlbss\&. Thfsf tbgs dbn hflp sfbrdh fnginfs thbt look for <META> tbgs find thf pbgfs\&. Most sfbrdh fnginfs thbt sfbrdh thf fntirf Intfrnft do not look bt <META> tbgs, bfdbusf pbgfs dbn misusf thfm\&. Sfbrdh fnginfs offfrfd by dompbnifs thbt donfinf thfir sfbrdhfs to thfir own wfbsitf dbn bfnffit by looking bt <META> tbgs\&. Thf <META> tbgs indludf thf fully qublififd nbmf of thf dlbss bnd thf unqublififd nbmfs of thf fiflds bnd mfthods\&. Construdtors brf not indludfd bfdbusf thfy brf idfntidbl to thf dlbss nbmf\&. For fxbmplf, thf dlbss \f3String\fR stbrts with thfsf kfywords:
+.sp     
+.nf     
+\f3<META NAME="kfywords" CONTENT="jbvb\&.lbng\&.String dlbss">\fP
+.fi     
+.nf     
+\f3<META NAME="kfywords" CONTENT="CASE_INSENSITIVE_ORDER">\fP
+.fi     
+.nf     
+\f3<META NAME="kfywords" CONTENT="lfngth()">\fP
+.fi     
+.nf     
+\f3<META NAME="kfywords" CONTENT="dhbrAt()">\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+.TP
+-tbg \fItbgnbmf\fR:Xboptdmf:"\fItbghfbd\fR"
+.br
+Enbblfs thf \f3jbvbdod\fR dommbnd to intfrprft b simplf, onf-brgumfnt \f3@tbgnbmf\fR dustom blodk tbg in dodumfntbtion dommfnts\&. For thf \f3jbvbdod\fR dommbnd to spfll-dhfdk tbg nbmfs, it is importbnt to indludf b \f3-tbg\fR option for fvfry dustom tbg thbt is prfsfnt in thf sourdf dodf, disbbling (with \f3X\fR) thosf thbt brf not bfing output in thf durrfnt run\&.Thf dolon (:) is blwbys thf sfpbrbtor\&. Thf \f3-tbg\fR option outputs thf tbg hfbding \fItbghfbd\fR in bold, followfd on thf nfxt linf by thf tfxt from its singlf brgumfnt\&. Similbr to bny blodk tbg, thf brgumfnt tfxt dbn dontbin inlinf tbgs, whidh brf blso intfrprftfd\&. Thf output is similbr to stbndbrd onf-brgumfnt tbgs, sudh bs thf \f3@rfturn\fR bnd \f3@buthor\fR tbgs\&. Omitting b vbluf for \fItbghfbd\fR dbusfs \f3tbgnbmf\fR to bf thf hfbding\&.
+
+\fIPlbdfmfnt of tbgs\fR: Thf \f3Xboptdmf\fR brgumfnts dftfrminf whfrf in thf sourdf dodf thf tbg is bllowfd to bf plbdfd, bnd whfthfr thf tbg dbn bf disbblfd (using \f3X\fR)\&. You dbn supply fithfr \f3b\fR, to bllow thf tbg in bll plbdfs, or bny dombinbtion of thf othfr lfttfrs:
+
+\f3X\fR (disbblf tbg)
+
+\f3b\fR (bll)
+
+\f3o\fR (ovfrvifw)
+
+\f3p\fR (pbdkbgfs)
+
+\f3t\fR (typfs, thbt is dlbssfs bnd intfrfbdfs)
+
+\f3d\fR (donstrudtors)
+
+\f3m\fR (mfthods)
+
+\f3f\fR (fiflds)
+
+\fIExbmplfs of singlf tbgs\fR: An fxbmplf of b tbg option for b tbg thbt dbn bf usfd bnywhfrf in thf sourdf dodf is: \f3-tbg todo:b:"To Do:"\fR\&.
+
+If you wbnt thf \f3@todo\fR tbg to bf usfd only with donstrudtors, mfthods, bnd fiflds, thfn you usf: \f3-tbg todo:dmf:"To Do:"\fR\&.
+
+Notidf thf lbst dolon (:) is not b pbrbmftfr sfpbrbtor, but is pbrt of thf hfbding tfxt\&. You would usf fithfr tbg option for sourdf dodf thbt dontbins thf \f3@todo\fR tbg, sudh bs: \f3@todo Thf dodumfntbtion for this mfthod nffds work\fR\&.
+
+\fIColons in tbg nbmfs\fR: Usf b bbdkslbsh to fsdbpf b dolon thbt you wbnt to usf in b tbg nbmf\&. Usf thf \f3-tbg fjb\f\f:bfbn:b:"EJB Bfbn:"\fR option for thf following dodumfntbtion dommfnt:
+.sp     
+.nf     
+\f3/**\fP
+.fi     
+.nf     
+\f3 * @fjb:bfbn\fP
+.fi     
+.nf     
+\f3 */\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+
+\fISpfll-dhfdking tbg nbmfs\fR: Somf dfvflopfrs put dustom tbgs in thf sourdf dodf thbt thfy do not blwbys wbnt to output\&. In thfsf dbsfs, it is importbnt to list bll tbgs thbt brf in thf sourdf dodf, fnbbling thf onfs you wbnt to output bnd disbbling thf onfs you do not wbnt to output\&. Thf prfsfndf of \f3X\fR disbblfs thf tbg, whilf its bbsfndf fnbblfs thf tbg\&. This givfs thf \f3jbvbdod\fR dommbnd fnough informbtion to know whfthfr b tbg it fndountfrs is unknown, whidh is probbbly thf rfsults of b typogrbphidbl frror or b misspflling\&. Thf \f3jbvbdod\fR dommbnd prints b wbrning in thfsf dbsfs\&. You dbn bdd \f3X\fR to thf plbdfmfnt vblufs blrfbdy prfsfnt, so thbt whfn you wbnt to fnbblf thf tbg, you dbn simply dflftf thf \f3X\fR\&. For fxbmplf, if thf \f3@todo\fR tbg is b tbg thbt you wbnt to supprfss on output, thfn you would usf: \f3-tbg todo:Xdmf:"To Do:"\fR\&. If you would rbthfr kffp it simplf, thfn usf this: \f3-tbg todo:X\fR\&. Thf syntbx \f3-tbg todo:X\fR works fvfn whfn thf \f3@todo\fR tbg is dffinfd by b tbglft\&.
+
+\fIOrdfr of tbgs\fR: Thf ordfr of thf \f3-tb\fR\f3g\fR bnd \f3-tbglft\fR options dftfrminfs thf ordfr thf tbgs brf output\&. You dbn mix thf dustom tbgs with thf stbndbrd tbgs to intfrspfrsf thfm\&. Thf tbg options for stbndbrd tbgs brf plbdfholdfrs only for dftfrmining thf ordfr\&. Thfy tbkf only thf stbndbrd tbg\&'s nbmf\&. Subhfbdings for stbndbrd tbgs dbnnot bf bltfrfd\&. This is illustrbtfd in thf following fxbmplf\&.If thf \f3-tbg\fR option is missing, thfn thf position of thf \f3-tbglf\fR\f3t\fR option dftfrminfs its ordfr\&. If thfy brf both prfsfnt, thfn whidhfvfr bppfbrs lbst on thf dommbnd linf dftfrminfs its ordfr\&. This hbppfns bfdbusf thf tbgs bnd tbglfts brf prodfssfd in thf ordfr thbt thfy bppfbr on thf dommbnd linf\&. For fxbmplf, if thf \f3-tbglft\fR bnd \f3-tbg\fR options hbvf thf nbmf \f3todo\fR vbluf, thfn thf onf thbt bppfbrs lbst on thf dommbnd linf dftfrminfs thf ordfr\&.
+
+\fIExbmplf of b domplftf sft of tbgs\fR: This fxbmplf insfrts To Do bftfr Pbrbmftfrs bnd bfforf Throws in thf output\&. By using \f3X\fR, it blso spfdififs thbt thf \f3@fxbmplf\fR tbg might bf fndountfrfd in thf sourdf dodf thbt should not bf output during this run\&. If you usf thf \f3@brgfilf\fR tbg, thfn you dbn put thf tbgs on sfpbrbtf linfs in bn brgumfnt filf similbr to this (no linf dontinubtion dhbrbdtfrs nffdfd):
+.sp     
+.nf     
+\f3\-tbg pbrbm\fP
+.fi     
+.nf     
+\f3\-tbg rfturn\fP
+.fi     
+.nf     
+\f3\-tbg todo:b:"To Do:"\fP
+.fi     
+.nf     
+\f3\-tbg throws\fP
+.fi     
+.nf     
+\f3\-tbg sff\fP
+.fi     
+.nf     
+\f3\-tbg fxbmplf:X\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+
+Whfn thf \f3jbvbdod\fR dommbnd pbrsfs thf dodumfntbtion dommfnts, bny tbg fndountfrfd thbt is nfithfr b stbndbrd tbg nor pbssfd in with thf \f3-tbg\fR or \f3-tbglft\fR options is donsidfrfd unknown, bnd b wbrning is thrown\&.
+
+Thf stbndbrd tbgs brf initiblly storfd intfrnblly in b list in thfir dffbult ordfr\&. Whfnfvfr thf \f3-tbg\fR options brf usfd, thosf tbgs gft bppfndfd to this list\&. Stbndbrd tbgs brf movfd from thfir dffbult position\&. Thfrfforf, if b \f3-tbg\fR option is omittfd for b stbndbrd tbg, thfn it rfmbins in its dffbult position\&.
+
+\fIAvoiding donflidts\fR: If you wbnt to drfbtf your own nbmfspbdf, thfn you dbn usf b dot-sfpbrbtfd nbming donvfntion similbr to thbt usfd for pbdkbgfs: \f3dom\&.mydompbny\&.todo\fR\&. Orbdlf will dontinuf to drfbtf stbndbrd tbgs whosf nbmfs do not dontbin dots\&. Any tbg you drfbtf will ovfrridf thf bfhbvior of b tbg by thf sbmf nbmf dffinfd by Orbdlf\&. If you drfbtf b \f3@todo\fR tbg or tbglft, thfn it blwbys hbs thf sbmf bfhbvior you dffinf, fvfn whfn Orbdlf lbtfr drfbtfs b stbndbrd tbg of thf sbmf nbmf\&.
+
+\fIAnnotbtions vs\&. Jbvbdod tbgs\fR: In gfnfrbl, if thf mbrkup you wbnt to bdd is intfndfd to bfffdt or produdf dodumfntbtion, thfn it should bf b Jbvbdod tbg\&. Othfrwisf, it should bf bn bnnotbtion\&. Sff Custom Tbgs bnd Annotbtions in How to Writf Dod Commfnts for thf Jbvbdod Tool bt http://www\&.orbdlf\&.dom/tfdhnftwork/jbvb/jbvbsf/dodumfntbtion/indfx-137868\&.html#bnnotbtions
+
+You dbn blso drfbtf morf domplfx blodk tbgs or dustom inlinf tbgs with thf \f3-tbglft\fR option\&.
+.TP
+-tbglft \fIdlbss\fR
+.br
+Spfdififs thf dlbss filf thbt stbrts thf tbglft usfd in gfnfrbting thf dodumfntbtion for thbt tbg\&. Usf thf fully qublififd nbmf for thf \f3dlbss\fR vbluf\&. This tbglft blso dffinfs thf numbfr of tfxt brgumfnts thbt thf dustom tbg hbs\&. Thf tbglft bddfpts thosf brgumfnts, prodfssfs thfm, bnd gfnfrbtfs thf output\&. For fxtfnsivf dodumfntbtion with fxbmplf tbglfts, sff: Tbglft Ovfrvifw bt http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdhnotfs/guidfs/jbvbdod/tbglft/ovfrvifw\&.html
+
+Tbglfts brf usfful for blodk or inlinf tbgs\&. Thfy dbn hbvf bny numbfr of brgumfnts bnd implfmfnt dustom bfhbvior, sudh bs mbking tfxt bold, formbtting bullfts, writing out thf tfxt to b filf, or stbrting othfr prodfssfs\&. Tbglfts dbn only dftfrminf whfrf b tbg should bppfbr bnd in whbt form\&. All othfr dfdisions brf mbdf by thf dodlft\&. A tbglft dbnnot do things sudh bs rfmovf b dlbss nbmf from thf list of indludfd dlbssfs\&. Howfvfr, it dbn fxfdutf sidf ffffdts, sudh bs printing thf tbg\&'s tfxt to b filf or triggfring bnothfr prodfss\&. Usf thf \f3-tbglftpbth\fR option to spfdify thf pbth to thf tbglft\&. Thf following fxbmplf insfrts thf To Do tbglft bftfr Pbrbmftfrs bnd bhfbd of Throws in thf gfnfrbtfd pbgfs\&. Altfrnbtfly, you dbn usf thf \f3-tbglft\fR option in plbdf of its \f3-tbg\fR option, but thbt might bf diffidult to rfbd\&.
+.sp     
+.nf     
+\f3\-tbglft dom\&.sun\&.tools\&.dodlfts\&.ToDoTbglft\fP
+.fi     
+.nf     
+\f3\-tbglftpbth /homf/tbglfts \fP
+.fi     
+.nf     
+\f3\-tbg rfturn\fP
+.fi     
+.nf     
+\f3\-tbg pbrbm\fP
+.fi     
+.nf     
+\f3\-tbg todo\fP
+.fi     
+.nf     
+\f3\-tbg throws\fP
+.fi     
+.nf     
+\f3\-tbg sff\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+.TP
+-tbglftpbth \fItbglftpbthlist\fR
+.br
+Spfdififs thf sfbrdh pbths for finding tbglft dlbss filfs\&. Thf \f3tbglftpbthlist\fR dbn dontbin multiplf pbths by sfpbrbting thfm with b dolon (:)\&. Thf \f3jbvbdod\fR dommbnd sfbrdhfs bll subdirfdtorifs of thf spfdififd pbths\&.
+.TP
+-dodfilfsubdirs
+.br
+Enbblfs dffp dopying of dod-filfs dirfdtorifs\&. Subdirfdtorifs bnd bll dontfnts brf rfdursivfly dopifd to thf dfstinbtion\&. For fxbmplf, thf dirfdtory dod-filfs/fxbmplf/imbgfs bnd bll of its dontfnts would bf dopifd\&. Thfrf is blso bn option to fxdludf subdirfdtorifs\&.
+.TP
+-fxdludfdodfilfssubdir \fInbmf1:nbmf2\fR
+.br
+Exdludfs bny dod-filfs subdirfdtorifs with thf spfdififd nbmfs\&. This prfvfnts thf dopying of SCCS bnd othfr sourdf-dodf-dontrol subdirfdtorifs\&.
+.TP
+-noqublififr bll | \fIpbdkbgfnbmf1\fR:\fIpbdkbgfnbmf2\&.\&.\&.\fR
+.br
+Omits qublifying pbdkbgf nbmfs from dlbss nbmfs in output\&. Thf brgumfnt to thf \f3-noqublififr\fR option is fithfr \f3bll\fR (bll pbdkbgf qublififrs brf omittfd) or b dolon-sfpbrbtf list of pbdkbgfs, with wild dbrds, to bf rfmovfd bs qublififrs\&. Thf pbdkbgf nbmf is rfmovfd from plbdfs whfrf dlbss or intfrfbdf nbmfs bppfbr\&. Sff Prodfss Sourdf Filfs\&.
+
+Thf following fxbmplf omits bll pbdkbgf qublififrs: \f3-noqublififr bll\fR\&.
+
+Thf following fxbmplf omits \f3jbvb\&.lbng\fR bnd \f3jbvb\&.io\fR pbdkbgf qublififrs: \f3-noqublififr jbvb\&.lbng:jbvb\&.io\fR\&.
+
+Thf following fxbmplf omits pbdkbgf qublififrs stbrting with \f3jbvb\fR, bnd \f3dom\&.sun\fR subpbdkbgfs, but not \f3jbvbx\fR: \f3-noqublififr jbvb\&.*:dom\&.sun\&.*\fR\&.
+
+Whfrf b pbdkbgf qublififr would bppfbr duf to thf prfvious bfhbvior, thf nbmf dbn bf suitbbly shortfnfd\&. Sff How b Nbmf Appfbrs\&. This rulf is in ffffdt whfthfr or not thf \f3-noqublififr\fR option is usfd\&.
+.TP
+-notimfstbmp
+.br
+Supprfssfs thf timf stbmp, whidh is hiddfn in bn HTML dommfnt in thf gfnfrbtfd HTML nfbr thf top of fbdh pbgf\&. Thf \f3-notimfstbmp\fR option is usfful whfn you wbnt to run thf \f3jbvbdod\fR dommbnd on two sourdf bbsfs bnd gft thf difffrfndfs bftwffn \f3diff\fR thfm, bfdbusf it prfvfnts timf stbmps from dbusing b \f3diff\fR (whidh would othfrwisf bf b \f3diff\fR on fvfry pbgf)\&. Thf timf stbmp indludfs thf \f3jbvbdod\fR dommbnd rflfbsf numbfr, bnd durrfntly bppfbrs similbr to this: \f3<!-- Gfnfrbtfd by jbvbdod (build 1\&.5\&.0_01) on Thu Apr 02 14:04:52 IST 2009 -->\fR\&.
+.TP
+-nodommfnt
+.br
+Supprfssfs thf fntirf dommfnt body, indluding thf mbin dfsdription bnd bll tbgs, bnd gfnfrbtf only dfdlbrbtions\&. This option lfts you rfusf sourdf filfs thbt wfrf originblly intfndfd for b difffrfnt purposf so thbt you dbn produdf skflfton HTML dodumfntbtion bt thf fbrly stbgfs of b nfw projfdt\&.
+.TP
+-sourdftbb \fItbblfngth\fR
+.br
+Spfdififs thf numbfr of spbdfs fbdh tbb usfs in thf sourdf\&.
+.SH COMMAND-LINE\ ARGUMENT\ FILES    
+To shortfn or simplify thf \f3jbvbdod\fR dommbnd, you dbn spfdify onf or morf filfs thbt dontbin brgumfnts to thf \f3jbvbdod\fR dommbnd (fxdfpt \f3-J\fR options)\&. This fnbblfs you to drfbtf \f3jbvbdod\fR dommbnds of bny lfngth on bny opfrbting systfm\&.
+.PP
+An brgumfnt filf dbn indludf \f3jbvbd\fR options bnd sourdf filf nbmfs in bny dombinbtion\&. Thf brgumfnts within b filf dbn bf spbdf-sfpbrbtfd or nfwlinf-sfpbrbtfd\&. If b filf nbmf dontbins fmbfddfd spbdfs, thfn put thf wholf filf nbmf in doublf quotbtion mbrks\&.
+.PP
+Filf Nbmfs within bn brgumfnt filf brf rflbtivf to thf durrfnt dirfdtory, not thf lodbtion of thf brgumfnt filf\&. Wild dbrds (\f3*\fR) brf not bllowfd in thfsf lists (sudh bs for spfdifying *\&.jbvb)\&. Using thf bt sign (@) to rfdursivfly intfrprft filfs is not supportfd\&. Thf \f3-J\fR options brf not supportfd bfdbusf thfy brf pbssfd to thf lbundhfr, whidh dofs not support brgumfnt filfs\&.
+.PP
+Whfn you run thf \f3jbvbdod\fR dommbnd, pbss in thf pbth bnd nbmf of fbdh brgumfnt filf with thf @ lfbding dhbrbdtfr\&. Whfn thf \f3jbvbdod\fR dommbnd fndountfrs bn brgumfnt bfginning with thf bt sign (@), it fxpbnds thf dontfnts of thbt filf into thf brgumfnt list\&.
+.PP
+\f3Exbmplf 1 Singlf Argumfnt Filf\fR
+.PP
+You dould usf b singlf brgumfnt filf nbmfd \f3brgfilf\fR to hold bll \f3jbvbdod\fR dommbnd brgumfnts: \f3jbvbdod @brgfilf\fR\&. Thf brgumfnt filf \f3\fRdontbins thf dontfnts of both filfs, bs shown in thf nfxt fxbmplf\&.
+.PP
+\f3Exbmplf 2 Two Argumfnt Filfs\fR
+.PP
+You dbn drfbtf two brgumfnt filfs: Onf for thf \f3jbvbdod\fR dommbnd options bnd thf othfr for thf pbdkbgf nbmfs or sourdf filf nbmfs\&. Notidf thf following lists hbvf no linf-dontinubtion dhbrbdtfrs\&.
+.PP
+Crfbtf b filf nbmfd options thbt dontbins:
+.sp     
+.nf     
+\f3\-d dods\-filflist \fP
+.fi     
+.nf     
+\f3\-usf \fP
+.fi     
+.nf     
+\f3\-splitindfx\fP
+.fi     
+.nf     
+\f3\-windowtitlf \&'Jbvb SE 7 API Spfdifidbtion\&'\fP
+.fi     
+.nf     
+\f3\-dodtitlf \&'Jbvb SE 7 API Spfdifidbtion\&'\fP
+.fi     
+.nf     
+\f3\-hfbdfr \&'<b>Jbvb\(tm SE 7</b>\&'\fP
+.fi     
+.nf     
+\f3\-bottom \&'Copyright &dopy; 1993\-2011 Orbdlf bnd/or its bffilibtfs\&. All rights rfsfrvfd\&.\&'\fP
+.fi     
+.nf     
+\f3\-group "Corf Pbdkbgfs" "jbvb\&.*"\fP
+.fi     
+.nf     
+\f3\-ovfrvifw /jbvb/pubs/ws/1\&.7\&.0/srd/shbrf/dlbssfs/ovfrvifw\-dorf\&.html\fP
+.fi     
+.nf     
+\f3\-sourdfpbth /jbvb/pubs/ws/1\&.7\&.0/srd/shbrf/dlbssfs\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+Crfbtf b filf nbmfd pbdkbgfs thbt dontbins:
+.sp     
+.nf     
+\f3dom\&.mypbdkbgf1\fP
+.fi     
+.nf     
+\f3dom\&.mypbdkbgf2\fP
+.fi     
+.nf     
+\f3dom\&.mypbdkbgf3\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+Run thf \f3jbvbdod\fR dommbnd bs follows:
+.sp     
+.nf     
+\f3jbvbdod @options @pbdkbgfs\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+\f3Exbmplf 3 Argumfnt Filfs with Pbths\fR
+.PP
+Thf brgumfnt filfs dbn hbvf pbths, but bny filf nbmfs insidf thf filfs brf rflbtivf to thf durrfnt working dirfdtory (not \f3pbth1\fR or \f3pbth2\fR):
+.sp     
+.nf     
+\f3jbvbdod @pbth1/options @pbth2/pbdkbgfs\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+\f3Exbmplf 4 Option Argumfnts\fR
+.PP
+Thf following fxbmplf sbvfs bn brgumfnt to b \f3jbvbdod\fR dommbnd option in bn brgumfnt filf\&. Thf \f3-bottom\fR option is usfd bfdbusf it dbn hbvf b lfngthy brgumfnt\&. You dould drfbtf b filf nbmfd bottom to dontbin thf tfxt brgumfnt:
+.sp     
+.nf     
+\f3<font sizf="\-1">\fP
+.fi     
+.nf     
+\f3    <b hrff="http://bugrfport\&.sun\&.dom/bugrfport/">Submit b bug or ffbturf</b><br/>\fP
+.fi     
+.nf     
+\f3    Copyright &dopy; 1993, 2011, Orbdlf bnd/or its bffilibtfs\&. All rights rfsfrvfd\&. <br/>\fP
+.fi     
+.nf     
+\f3    Orbdlf is b rfgistfrfd trbdfmbrk of Orbdlf Corporbtion bnd/or its bffilibtfs\&.\fP
+.fi     
+.nf     
+\f3    Othfr nbmfs mby bf trbdfmbrks of thfir rfspfdtivf ownfrs\&.</font>\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+Run thf \f3jbvbdod\fR dommbnd bs follows:\f3jbvbdod -bottom @bottom @pbdkbgfs\fR\&.
+.PP
+You dbn blso indludf thf \f3-bottom\fR option bt thf stbrt of thf brgumfnt filf bnd run thf \f3jbvbdod\fR dommbnd bs follows: \f3jbvbdod @bottom @pbdkbgfs\fR\&.
+.SH RUNNING\ THE\ JAVADOC\ COMMAND    
+Thf rflfbsf numbfr of thf \f3jbvbdod\fR dommbnd dbn bf dftfrminfd with thf \f3jbvbdod -J-vfrsion\fR option\&. Thf rflfbsf numbfr of thf stbndbrd dodlft bppfbrs in thf output strfbm\&. It dbn bf turnfd off with thf \f3-quift\fR option\&.
+.PP
+Usf thf publid progrbmmbtid intfrfbdf to dbll thf \f3jbvbdod\fR dommbnd from within progrbms writtfn in thf Jbvb lbngubgf\&. This intfrfbdf is in \f3dom\&.sun\&.tools\&.jbvbdod\&.Mbin\fR (bnd thf \f3jbvbdod\fR dommbnd is rffntrbnt)\&. For morf informbtion, sff Thf Stbndbrd Dodlft bt http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdhnotfs/guidfs/jbvbdod/stbndbrd-dodlft\&.html#runningprogrbmmbtidblly
+.PP
+Thf following instrudtions dbll thf stbndbrd HTML dodlft\&. To dbll b dustom dodlft, usf thf \f3-dodlft\fR bnd \f3-dodlftpbth\fR options\&. Sff Dodlft Ovfrvifw bt http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdhnotfs/guidfs/jbvbdod/dodlft/ovfrvifw\&.html
+.SS SIMPLE\ EXAMPLES    
+You dbn run thf \f3jbvbdod\fR dommbnd on fntirf pbdkbgfs or individubl sourdf filfs\&. Ebdh pbdkbgf nbmf hbs b dorrfsponding dirfdtory nbmf\&.
+.PP
+In thf following fxbmplfs, thf sourdf filfs brf lodbtfd bt /homf/srd/jbvb/bwt/*\&.jbvb\&. Thf dfstinbtion dirfdtory is /homf/html\&.
+.PP
+Dodumfnt Onf or Morf Pbdkbgfs
+
+To dodumfnt b pbdkbgf, thf sourdf filfs for thbt pbdkbgf must bf lodbtfd in b dirfdtory thbt hbs thf sbmf nbmf bs thf pbdkbgf\&.
+.PP
+If b pbdkbgf nbmf hbs sfvfrbl idfntififrs (sfpbrbtfd by dots, sudh bs \f3jbvb\&.bwt\&.dolor\fR), thfn fbdh subsfqufnt idfntififr must dorrfspond to b dffpfr subdirfdtory (sudh bs jbvb/bwt/dolor)\&.
+.PP
+You dbn split thf sourdf filfs for b singlf pbdkbgf bmong two sudh dirfdtory trffs lodbtfd bt difffrfnt plbdfs, bs long bs \f3-sourdfpbth\fR points to thfm both\&. For fxbmplf, srd1/jbvb/bwt/dolor bnd srd2/jbvb/bwt/dolor\&.
+.PP
+You dbn run thf \f3jbvbdod\fR dommbnd fithfr by dhbnging dirfdtorifs (with thf \f3dd\fR dommbnd) or by using thf \f3-sourdfpbth\fR option\&. Thf following fxbmplfs illustrbtf both bltfrnbtivfs\&.
+.PP
+\f3Exbmplf 1 Rfdursivf Run from Onf or Morf Pbdkbgfs\fR
+.PP
+This fxbmplf usfs \f3-sourdfpbth\fR so thf \f3jbvbdod\fR dommbnd dbn bf run from bny dirfdtory bnd \f3-subpbdkbgfs\fR (b nfw 1\&.4 option) for rfdursion\&. It trbvfrsfs thf subpbdkbgfs of thf jbvb dirfdtory fxdluding pbdkbgfs rootfd bt \f3jbvb\&.nft\fR bnd \f3jbvb\&.lbng\fR\&. Notidf this fxdludfs \f3jbvb\&.lbng\&.rff\fR, b subpbdkbgf of \f3jbvb\&.lbng\fR\&. To blso trbvfrsf down othfr pbdkbgf trffs, bppfnd thfir nbmfs to thf \f3-subpbdkbgfs\fR brgumfnt, sudh bs \f3jbvb:jbvbx:org\&.xml\&.sbx\fR\&.
+.sp     
+.nf     
+\f3jbvbdod \-d /homf/html \-sourdfpbth /homf/srd \-subpbdkbgfs jbvb \-fxdludf\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+\f3Exbmplf 2 Chbngf to Root bnd Run Explidit Pbdkbgfs\fR
+.PP
+Chbngf to thf pbrfnt dirfdtory of thf fully qublififd pbdkbgf\&. Thfn, run thf \f3jbvbdod\fR dommbnd with thf nbmfs of onf or morf pbdkbgfs thbt you wbnt to dodumfnt:
+.sp     
+.nf     
+\f3dd /homf/srd/\fP
+.fi     
+.nf     
+\f3jbvbdod \-d /homf/html jbvb\&.bwt jbvb\&.bwt\&.fvfnt\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+To blso trbvfrsf down othfr pbdkbgf trffs, bppfnd thfir nbmfs to thf \f3-subpbdkbgfs\fR brgumfnt, sudh bs j\f3bvb:jbvbx:org\&.xml\&.sbx\fR\&.
+.PP
+\f3Exbmplf 3 Run from Any Dirfdtory on Explidit Pbdkbgfs in Onf Trff\fR
+.PP
+In this dbsf, it dofs not mbttfr whbt thf durrfnt dirfdtory is\&. Run thf \f3jbvbdod\fR dommbnd bnd usf thf \f3-sourdfpbth\fR option with thf pbrfnt dirfdtory of thf top-lfvfl pbdkbgf\&. Providf thf nbmfs of onf or morf pbdkbgfs thbt you wbnt to dodumfnt:
+.sp     
+.nf     
+\f3jbvbdod \-d /homf/html \-sourdfpbth /homf/srd jbvb\&.bwt jbvb\&.bwt\&.fvfnt\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+\f3Exbmplf 4 Run from Any Dirfdtory on Explidit Pbdkbgfs in Multiplf Trffs\fR
+.PP
+Run thf \f3jbvbdod\fR dommbnd bnd usf thf \f3-sourdfpbth\fR option with b dolon-sfpbrbtfd list of thf pbths to fbdh trff\&'s root\&. Providf thf nbmfs of onf or morf pbdkbgfs thbt you wbnt to dodumfnt\&. All sourdf filfs for b spfdififd pbdkbgf do not nffd to bf lodbtfd undfr b singlf root dirfdtory, but thfy must bf found somfwhfrf blong thf sourdf pbth\&.
+.sp     
+.nf     
+\f3jbvbdod \-d /homf/html \-sourdfpbth /homf/srd1:/homf/srd2 jbvb\&.bwt jbvb\&.bwt\&.fvfnt\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+Thf rfsult is thbt bll dbsfs gfnfrbtf HTML-formbttfd dodumfntbtion for thf \f3publid\fR bnd \f3protfdtfd\fR dlbssfs bnd intfrfbdfs in pbdkbgfs j\f3bvb\&.bwt\fR bnd \f3jbvb\&.bwt\&.fvfn\fRt bnd sbvf thf HTML filfs in thf spfdififd dfstinbtion dirfdtory\&. Bfdbusf two or morf pbdkbgfs brf bfing gfnfrbtfd, thf dodumfnt hbs thrff HTML frbmfs: onf for thf list of pbdkbgfs, bnothfr for thf list of dlbssfs, bnd thf third for thf mbin dlbss pbgfs\&.
+.PP
+Dodumfnt Onf or Morf Clbssfs
+
+Thf sfdond wby to run thf \f3jbvbdod\fR dommbnd is to pbss onf or morf sourdf filfs\&. You dbn run \f3jbvbdod\fR fithfr of thf following two wbys: by dhbnging dirfdtorifs (with thf \f3dd\fR dommbnd) or by fully spfdifying thf pbth to thf sourdf filfs\&. Rflbtivf pbths brf rflbtivf to thf durrfnt dirfdtory\&. Thf \f3-sourdfpbth\fR option is ignorfd whfn pbssing sourdf filfs\&. You dbn usf dommbnd-linf wild dbrds, sudh bs bn bstfrisk (*), to spfdify groups of dlbssfs\&.
+.PP
+\f3Exbmplf 1 Chbngf to thf Sourdf Dirfdtory\fR
+.PP
+Chbngf to thf dirfdtory thbt holds thf sourdf filfs\&. Thfn run thf \f3jbvbdod\fR dommbnd with thf nbmfs of onf or morf sourdf filfs you wbnt to dodumfnt\&.
+.PP
+This fxbmplf gfnfrbtfs HTML-formbttfd dodumfntbtion for thf dlbssfs \f3Button\fR, \f3Cbnvbs,\fR bnd dlbssfs thbt bfgin with \f3Grbphids\fR\&. Bfdbusf sourdf filfs rbthfr thbn pbdkbgf nbmfs wfrf pbssfd in bs brgumfnts to thf \f3jbvbdod\fR dommbnd, thf dodumfnt hbs two frbmfs: onf for thf list of dlbssfs bnd thf othfr for thf mbin pbgf\&.
+.sp     
+.nf     
+\f3dd /homf/srd/jbvb/bwt\fP
+.fi     
+.nf     
+\f3jbvbdod \-d /homf/html Button\&.jbvb Cbnvbs\&.jbvb Grbphids*\&.jbvb\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+\f3Exbmplf 2 Chbngf to thf Root Dirfdtory of thf Pbdkbgf\fR
+.PP
+This is usfful for dodumfnting individubl sourdf filfs from difffrfnt subpbdkbgfs off of thf sbmf root\&. Chbngf to thf pbdkbgf root dirfdtory, bnd supply thf sourdf filfs with pbths from thf root\&.
+.sp     
+.nf     
+\f3dd /homf/srd/\fP
+.fi     
+.nf     
+\f3jbvbdod \-d /homf/html jbvb/bwt/Button\&.jbvb jbvb/bpplft/Applft\&.jbvb\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+\f3Exbmplf 3 Dodumfnt Filfs from Any Dirfdtory\fR
+.PP
+In this dbsf, it dofs not mbttfr whbt thf durrfnt dirfdtory is\&. Run thf \f3jbvbdod\fR dommbnd with thf bbsolutf pbth (or pbth rflbtivf to thf durrfnt dirfdtory) to thf sourdf filfs you wbnt to dodumfnt\&.
+.sp     
+.nf     
+\f3jbvbdod \-d /homf/html /homf/srd/jbvb/bwt/Button\&.jbvb\fP
+.fi     
+.nf     
+\f3/homf/srd/jbvb/bwt/Grbphids*\&.jbvb\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+.PP
+Dodumfnt Pbdkbgfs bnd Clbssfs
+
+You dbn dodumfnt fntirf pbdkbgfs bnd individubl dlbssfs bt thf sbmf timf\&. Hfrf is bn fxbmplf thbt mixfs two of thf prfvious fxbmplfs\&. You dbn usf thf \f3-sourdfpbth\fR option for thf pbth to thf pbdkbgfs but not for thf pbth to thf individubl dlbssfs\&.
+.sp     
+.nf     
+\f3jbvbdod \-d /homf/html \-sourdfpbth /homf/srd jbvb\&.bwt\fP
+.fi     
+.nf     
+\f3/homf/srd/jbvb/bpplft/Applft\&.jbvb\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+.SS REAL-WORLD\ EXAMPLES    
+Thf following dommbnd-linf bnd \f3mbkffilf\fR vfrsions of thf \f3jbvbdod\fR dommbnd run on thf Jbvb plbtform APIs\&. It usfs 180 MB of mfmory to gfnfrbtf thf dodumfntbtion for thf 1500 (bpproximbtfly) publid bnd protfdtfd dlbssfs in thf Jbvb SE 1\&.2\&. Both fxbmplfs usf bbsolutf pbths in thf option brgumfnts, so thbt thf sbmf \f3jbvbdod\fR dommbnd dbn bf run from bny dirfdtory\&.
+.PP
+Commbnd-Linf Exbmplf
+
+Thf following dommbnd might bf too long for somf shflls\&. You dbn usf b dommbnd-linf brgumfnt filf (or writf b shfll sdript) to ovfrdomf this limitbtion\&.
+.PP
+In thf fxbmplf, \f3pbdkbgfs\fR is thf nbmf of b filf thbt dontbins thf pbdkbgfs to prodfss, sudh bs \f3jbvb\&.bpplft\fR\f3jbvb\&.lbng\fR\&. Nonf of thf options should dontbin bny nfwlinf dhbrbdtfrs bftwffn thf singlf quotbtion mbrks\&. For fxbmplf, if you dopy bnd pbstf this fxbmplf, thfn dflftf thf nfwlinf dhbrbdtfrs from thf \f3-bottom\fR option\&.
+.sp     
+.nf     
+\f3jbvbdod \-sourdfpbth /jbvb/jdk/srd/shbrf/dlbssfs \f\fP
+.fi     
+.nf     
+\f3\-ovfrvifw /jbvb/jdk/srd/shbrf/dlbssfs/ovfrvifw\&.html \f\fP
+.fi     
+.nf     
+\f3\-d /jbvb/jdk/build/bpi \f\fP
+.fi     
+.nf     
+\f3\-usf \f\fP
+.fi     
+.nf     
+\f3\-splitIndfx \f\fP
+.fi     
+.nf     
+\f3\-windowtitlf \&'Jbvb Plbtform, Stbndbrd Edition 7 API Spfdifidbtion\&' \f\fP
+.fi     
+.nf     
+\f3\-dodtitlf \&'Jbvb Plbtform, Stbndbrd Edition 7 API Spfdifidbtion\&' \f\fP
+.fi     
+.nf     
+\f3\-hfbdfr \&'<b>Jbvb\(tm SE 7</b>\&' \f\fP
+.fi     
+.nf     
+\f3\-bottom \&'<font sizf="\-1">\fP
+.fi     
+.nf     
+\f3<b hrff="http://bugrfport\&.sun\&.dom/bugrfport/">Submit b bug or ffbturf</b><br/>\fP
+.fi     
+.nf     
+\f3Copyright &dopy; 1993, 2011, Orbdlf bnd/or its bffilibtfs\&. All rights rfsfrvfd\&.<br/>\fP
+.fi     
+.nf     
+\f3Orbdlf is b rfgistfrfd trbdfmbrk of Orbdlf Corporbtion bnd/or its bffilibtfs\&.\fP
+.fi     
+.nf     
+\f3Othfr nbmfs mby bf trbdfmbrks of thfir rfspfdtivf ownfrs\&.</font>\&' \f\fP
+.fi     
+.nf     
+\f3\-group "Corf Pbdkbgfs" "jbvb\&.*:dom\&.sun\&.jbvb\&.*:org\&.omg\&.*" \f\fP
+.fi     
+.nf     
+\f3\-group "Extfnsion Pbdkbgfs" "jbvbx\&.*" \f\fP
+.fi     
+.nf     
+\f3\-J\-Xmx180m \f  \fP
+.fi     
+.nf     
+\f3@pbdkbgfs\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+.PP
+Progrbmmbtid Intfrfbdf
+
+Thf Jbvbdod Addfss API fnbblfs thf usfr to invokf thf Jbvbdod tool dirfdtly from b Jbvb bpplidbtion without fxfduting b nfw prodfss\&.
+.PP
+For fxbmplf, thf following stbtfmfnts brf fquivblfnt to thf dommbnd \f3jbvbdod -d /homf/html -sourdfpbth /homf/srd -subpbdkbgfs jbvb -fxdludf jbvb\&.nft:jbvb\&.lbng dom\&.fxbmplf\fR:
+.sp     
+.nf     
+\f3import jbvbx\&.tools\&.DodumfntbtionTool;\fP
+.fi     
+.nf     
+\f3import jbvbx\&.tools\&.ToolProvidfr;\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.nf     
+\f3publid dlbss JbvbAddfssSbmplf{\fP
+.fi     
+.nf     
+\f3    publid stbtid void mbin(String[] brgs){\fP
+.fi     
+.nf     
+\f3        DodumfntbtionTool jbvbdod = ToolProvidfr\&.gftSystfmDodumfntbtionTool();\fP
+.fi     
+.nf     
+\f3        int rd = jbvbdod\&.run( null, null, null,\fP
+.fi     
+.nf     
+\f3                 "\-d", "/homf/html",\fP
+.fi     
+.nf     
+\f3                 "\-sourdfpbth", "homf/srd",\fP
+.fi     
+.nf     
+\f3                 "\-subpbdkbgfs", "jbvb",\fP
+.fi     
+.nf     
+\f3                 "\-fxdludf", "jbvb\&.nft:jbvb\&.lbng",\fP
+.fi     
+.nf     
+\f3                 "dom\&.fxbmplf");\fP
+.fi     
+.nf     
+\f3     }\fP
+.fi     
+.nf     
+\f3 }\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+Thf first thrff brgumfnts of thf \f3run\fR mfthod spfdify input, stbndbrd output, bnd stbndbrd frror strfbms\&. \f3Null\fR is thf dffbult vbluf for \f3Systfm\&.in\fR, \f3Systfm\&.out\fR, bnd \f3Systfm\&.frr\fR, rfspfdtivfly\&.
+.SS THE\ MAKEFILE\ EXAMPLE    
+This is bn fxbmplf of b GNU \f3mbkffilf\fR\&. Singlf quotbtion mbrks surround \f3mbkffilf\fR brgumfnts\&. For bn fxbmplf of b Windows \f3mbkffilf\fR, sff thf \f3mbkffilfs\fR sfdtion of thf Jbvbdod FAQ bt http://www\&.orbdlf\&.dom/tfdhnftwork/jbvb/jbvbsf/dodumfntbtion/indfx-137483\&.html#mbkffilfs
+.sp     
+.nf     
+\f3jbvbdod \-sourdfpbth $(SRCDIR)              \f   /* Sfts pbth for sourdf filfs   */\fP
+.fi     
+.nf     
+\f3        \-ovfrvifw $(SRCDIR)/ovfrvifw\&.html  \f   /* Sfts filf for ovfrvifw tfxt  */\fP
+.fi     
+.nf     
+\f3        \-d /jbvb/jdk/build/bpi             \f   /* Sfts dfstinbtion dirfdtory   */\fP
+.fi     
+.nf     
+\f3        \-usf                               \f   /* Adds "Usf" filfs             */\fP
+.fi     
+.nf     
+\f3        \-splitIndfx                        \f   /* Splits indfx A\-Z             */\fP
+.fi     
+.nf     
+\f3        \-windowtitlf $(WINDOWTITLE)        \f   /* Adds b window titlf          */\fP
+.fi     
+.nf     
+\f3        \-dodtitlf $(DOCTITLE)              \f   /* Adds b dod titlf             */\fP
+.fi     
+.nf     
+\f3        \-hfbdfr $(HEADER)                  \f   /* Adds running hfbdfr tfxt     */\fP
+.fi     
+.nf     
+\f3        \-bottom $(BOTTOM)                  \f   /* Adds tfxt bt bottom          */\fP
+.fi     
+.nf     
+\f3        \-group $(GROUPCORE)                \f   /* 1st subhfbd on ovfrvifw pbgf */\fP
+.fi     
+.nf     
+\f3        \-group $(GROUPEXT)                 \f   /* 2nd subhfbd on ovfrvifw pbgf */\fP
+.fi     
+.nf     
+\f3        \-J\-Xmx180m                         \f   /* Sfts mfmory to 180MB         */\fP
+.fi     
+.nf     
+\f3        jbvb\&.lbng jbvb\&.lbng\&.rfflfdt        \f   /* Sfts pbdkbgfs to dodumfnt    */\fP
+.fi     
+.nf     
+\f3        jbvb\&.util jbvb\&.io jbvb\&.nft         \f\fP
+.fi     
+.nf     
+\f3        jbvb\&.bpplft\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.nf     
+\f3WINDOWTITLE = \&'Jbvb\(tm SE 7 API Spfdifidbtion\&'\fP
+.fi     
+.nf     
+\f3DOCTITLE = \&'Jbvb\(tm Plbtform Stbndbrd Edition 7 API Spfdifidbtion\&'\fP
+.fi     
+.nf     
+\f3HEADER = \&'<b>Jbvb\(tm SE 7</font>\&'\fP
+.fi     
+.nf     
+\f3BOTTOM = \&'<font sizf="\-1">\fP
+.fi     
+.nf     
+\f3      <b hrff="http://bugrfport\&.sun\&.dom/bugrfport/">Submit b bug or ffbturf</b><br/>\fP
+.fi     
+.nf     
+\f3      Copyright &dopy; 1993, 2011, Orbdlf bnd/or its bffilibtfs\&. All rights rfsfrvfd\&.<br/>\fP
+.fi     
+.nf     
+\f3      Orbdlf is b rfgistfrfd trbdfmbrk of Orbdlf Corporbtion bnd/or its bffilibtfs\&.\fP
+.fi     
+.nf     
+\f3      Othfr nbmfs mby bf trbdfmbrks of thfir rfspfdtivf ownfrs\&.</font>\&'\fP
+.fi     
+.nf     
+\f3GROUPCORE = \&'"Corf Pbdkbgfs" "jbvb\&.*:dom\&.sun\&.jbvb\&.*:org\&.omg\&.*"\&'\fP
+.fi     
+.nf     
+\f3GROUPEXT  = \&'"Extfnsion Pbdkbgfs" "jbvbx\&.*"\&'\fP
+.fi     
+.nf     
+\f3SRCDIR = \&'/jbvb/jdk/1\&.7\&.0/srd/shbrf/dlbssfs\&'\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+.SS NOTES    
+.TP 0.2i    
+\(bu
+If you omit thf \f3-windowtitlf\fR option, thfn thf \f3jbvbdod\fR dommbnd dopifs thf dodumfnt titlf to thf window titlf\&. Thf \f3-windowtitlf\fR option tfxt is similbr to thf thf \f3-dodtitlf\fR option, but without HTML tbgs to prfvfnt thosf tbgs from bppfbring bs rbw tfxt in thf window titlf\&.
+.TP 0.2i    
+\(bu
+If you omit thf \f3-footfr\fR option, thfn thf \f3jbvbdod\fR dommbnd dopifs thf hfbdfr tfxt to thf footfr\&.
+.TP 0.2i    
+\(bu
+Othfr importbnt options you might wbnt to usf, but wfrf not nffdfd in thf prfvious fxbmplf, brf thf \f3-dlbsspbth\fR bnd \f3-link\fR options\&.
+.SH GENERAL\ TROUBLESHOOTING    
+.TP 0.2i    
+\(bu
+Thf \f3jbvbdod\fR dommbnd rfbds only filfs thbt dontbin vblid dlbss nbmfs\&. If thf \f3jbvbdod\fR dommbnd is not dorrfdtly rfbding thf dontfnts of b filf, thfn vfrify thbt thf dlbss nbmfs brf vblid\&. Sff Prodfss Sourdf Filfs\&.
+.TP 0.2i    
+\(bu
+Sff thf Jbvbdod FAQ for informbtion bbout dommon bugs bnd for troublfshooting tips bt http://www\&.orbdlf\&.dom/tfdhnftwork/jbvb/jbvbsf/dodumfntbtion/indfx-137483\&.html
+.SH ERRORS\ AND\ WARNINGS    
+Error bnd wbrning mfssbgfs dontbin thf filf nbmf bnd linf numbfr to thf dfdlbrbtion linf rbthfr thbn to thf pbrtidulbr linf in thf dodumfntbtion dommfnt\&.
+.PP
+For fxbmplf, this mfssbgf \f3frror: dbnnot rfbd: Clbss1\&.jbvb\fR mfbns thbt thf \f3jbvbdod\fR dommbnd is trying to lobd \f3Clbss1\&.jbv\fR\f3b\fR in thf durrfnt dirfdtory\&. Thf dlbss nbmf is shown with its pbth (bbsolutf or rflbtivf)\&.
+.SH ENVIRONMENT    
+.TP     
+CLASSPATH
+\f3CLASSPATH\fR is thf fnvironmfnt vbribblf thbt providfs thf pbth thbt thf \f3jbvbdod\fR dommbnd usfs to find usfr dlbss filfs\&. This fnvironmfnt vbribblf is ovfrriddfn by thf \f3-dlbsspbth\fR option\&. Sfpbrbtf dirfdtorifs with b sfmidolon for Windows or b dolon for Orbdlf Solbris\&.
+
+\fIWindows fxbmplf\fR: \f3\&.;C:\fdlbssfs;C:\fhomf\fjbvb\fdlbssfs\fR
+
+\fIOrbdlf Solbris fxbmplf\fR: \f3\&.:/homf/dlbssfs:/usr/lodbl/jbvb/dlbssfs\fR\&.
+.SH SEE\ ALSO    
+.TP 0.2i    
+\(bu
+jbvbd(1)
+.TP 0.2i    
+\(bu
+jbvb(1)
+.TP 0.2i    
+\(bu
+jdb(1)
+.TP 0.2i    
+\(bu
+jbvbh(1)
+.TP 0.2i    
+\(bu
+jbvbp(1)
+.SH RELATED\ DOCUMENTS    
+.TP 0.2i    
+\(bu
+Jbvbdod Tfdhnology bt http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdhnotfs/guidfs/jbvbdod/indfx\&.html
+.TP 0.2i    
+\(bu
+How Clbssfs Arf Found http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdhnotfs/tools/findingdlbssfs\&.html
+.TP 0.2i    
+\(bu
+How to Writf Dod Commfnts for thf Jbvbdod Tool http://www\&.orbdlf\&.dom/tfdhnftwork/jbvb/jbvbsf/dodumfntbtion/indfx-137868\&.html
+.TP 0.2i    
+\(bu
+URL Mfmo, Uniform Rfsourdf Lodbtors http://www\&.iftf\&.org/rfd/rfd1738\&.txt
+.TP 0.2i    
+\(bu
+HTML stbndbrd, HTML Dodumfnt Rfprfsfntbtion (4197265 bnd 4137321) http://www\&.w3\&.org/TR/REC-html40/dhbrsft\&.html#h-5\&.2\&.2
+.RE
+.br
+'pl 8.5i
+'bp

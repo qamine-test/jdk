@@ -1,108 +1,108 @@
 /*
- * Copyright (c) 1997, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt;
+pbdkbgf jbvb.bwt;
 
-import java.awt.image.ColorModel;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
 
 /**
- * This <code>Paint</code> interface defines how color patterns
- * can be generated for {@link Graphics2D} operations.  A class
- * implementing the <code>Paint</code> interface is added to the
- * <code>Graphics2D</code> context in order to define the color
- * pattern used by the <code>draw</code> and <code>fill</code> methods.
+ * Tiis <dodf>Pbint</dodf> intfrfbdf dffinfs iow dolor pbttfrns
+ * dbn bf gfnfrbtfd for {@link Grbpiids2D} opfrbtions.  A dlbss
+ * implfmfnting tif <dodf>Pbint</dodf> intfrfbdf is bddfd to tif
+ * <dodf>Grbpiids2D</dodf> dontfxt in ordfr to dffinf tif dolor
+ * pbttfrn usfd by tif <dodf>drbw</dodf> bnd <dodf>fill</dodf> mftiods.
  * <p>
- * Instances of classes implementing <code>Paint</code> must be
- * read-only because the <code>Graphics2D</code> does not clone
- * these objects when they are set as an attribute with the
- * <code>setPaint</code> method or when the <code>Graphics2D</code>
- * object is itself cloned.
- * @see PaintContext
- * @see Color
- * @see GradientPaint
- * @see TexturePaint
- * @see Graphics2D#setPaint
- * @version 1.36, 06/05/07
+ * Instbndfs of dlbssfs implfmfnting <dodf>Pbint</dodf> must bf
+ * rfbd-only bfdbusf tif <dodf>Grbpiids2D</dodf> dofs not dlonf
+ * tifsf objfdts wifn tify brf sft bs bn bttributf witi tif
+ * <dodf>sftPbint</dodf> mftiod or wifn tif <dodf>Grbpiids2D</dodf>
+ * objfdt is itsflf dlonfd.
+ * @sff PbintContfxt
+ * @sff Color
+ * @sff GrbdifntPbint
+ * @sff TfxturfPbint
+ * @sff Grbpiids2D#sftPbint
+ * @vfrsion 1.36, 06/05/07
  */
 
-public interface Paint extends Transparency {
+publid intfrfbdf Pbint fxtfnds Trbnspbrfndy {
     /**
-     * Creates and returns a {@link PaintContext} used to
-     * generate the color pattern.
-     * The arguments to this method convey additional information
-     * about the rendering operation that may be
-     * used or ignored on various implementations of the {@code Paint} interface.
-     * A caller must pass non-{@code null} values for all of the arguments
-     * except for the {@code ColorModel} argument which may be {@code null} to
-     * indicate that no specific {@code ColorModel} type is preferred.
-     * Implementations of the {@code Paint} interface are allowed to use or ignore
-     * any of the arguments as makes sense for their function, and are
-     * not constrained to use the specified {@code ColorModel} for the returned
-     * {@code PaintContext}, even if it is not {@code null}.
-     * Implementations are allowed to throw {@code NullPointerException} for
-     * any {@code null} argument other than the {@code ColorModel} argument,
-     * but are not required to do so.
+     * Crfbtfs bnd rfturns b {@link PbintContfxt} usfd to
+     * gfnfrbtf tif dolor pbttfrn.
+     * Tif brgumfnts to tiis mftiod donvfy bdditionbl informbtion
+     * bbout tif rfndfring opfrbtion tibt mby bf
+     * usfd or ignorfd on vbrious implfmfntbtions of tif {@dodf Pbint} intfrfbdf.
+     * A dbllfr must pbss non-{@dodf null} vblufs for bll of tif brgumfnts
+     * fxdfpt for tif {@dodf ColorModfl} brgumfnt wiidi mby bf {@dodf null} to
+     * indidbtf tibt no spfdifid {@dodf ColorModfl} typf is prfffrrfd.
+     * Implfmfntbtions of tif {@dodf Pbint} intfrfbdf brf bllowfd to usf or ignorf
+     * bny of tif brgumfnts bs mbkfs sfnsf for tifir fundtion, bnd brf
+     * not donstrbinfd to usf tif spfdififd {@dodf ColorModfl} for tif rfturnfd
+     * {@dodf PbintContfxt}, fvfn if it is not {@dodf null}.
+     * Implfmfntbtions brf bllowfd to tirow {@dodf NullPointfrExdfption} for
+     * bny {@dodf null} brgumfnt otifr tibn tif {@dodf ColorModfl} brgumfnt,
+     * but brf not rfquirfd to do so.
      *
-     * @param cm the preferred {@link ColorModel} which represents the most convenient
-     *           format for the caller to receive the pixel data, or {@code null}
-     *           if there is no preference.
-     * @param deviceBounds the device space bounding box
-     *                     of the graphics primitive being rendered.
-     *                     Implementations of the {@code Paint} interface
-     *                     are allowed to throw {@code NullPointerException}
-     *                     for a {@code null} {@code deviceBounds}.
-     * @param userBounds the user space bounding box
-     *                   of the graphics primitive being rendered.
-     *                     Implementations of the {@code Paint} interface
-     *                     are allowed to throw {@code NullPointerException}
-     *                     for a {@code null} {@code userBounds}.
-     * @param xform the {@link AffineTransform} from user
-     *              space into device space.
-     *                     Implementations of the {@code Paint} interface
-     *                     are allowed to throw {@code NullPointerException}
-     *                     for a {@code null} {@code xform}.
-     * @param hints the set of hints that the context object can use to
-     *              choose between rendering alternatives.
-     *                     Implementations of the {@code Paint} interface
-     *                     are allowed to throw {@code NullPointerException}
-     *                     for a {@code null} {@code hints}.
-     * @return the {@code PaintContext} for
-     *         generating color patterns.
-     * @see PaintContext
-     * @see ColorModel
-     * @see Rectangle
-     * @see Rectangle2D
-     * @see AffineTransform
-     * @see RenderingHints
+     * @pbrbm dm tif prfffrrfd {@link ColorModfl} wiidi rfprfsfnts tif most donvfnifnt
+     *           formbt for tif dbllfr to rfdfivf tif pixfl dbtb, or {@dodf null}
+     *           if tifrf is no prfffrfndf.
+     * @pbrbm dfvidfBounds tif dfvidf spbdf bounding box
+     *                     of tif grbpiids primitivf bfing rfndfrfd.
+     *                     Implfmfntbtions of tif {@dodf Pbint} intfrfbdf
+     *                     brf bllowfd to tirow {@dodf NullPointfrExdfption}
+     *                     for b {@dodf null} {@dodf dfvidfBounds}.
+     * @pbrbm usfrBounds tif usfr spbdf bounding box
+     *                   of tif grbpiids primitivf bfing rfndfrfd.
+     *                     Implfmfntbtions of tif {@dodf Pbint} intfrfbdf
+     *                     brf bllowfd to tirow {@dodf NullPointfrExdfption}
+     *                     for b {@dodf null} {@dodf usfrBounds}.
+     * @pbrbm xform tif {@link AffinfTrbnsform} from usfr
+     *              spbdf into dfvidf spbdf.
+     *                     Implfmfntbtions of tif {@dodf Pbint} intfrfbdf
+     *                     brf bllowfd to tirow {@dodf NullPointfrExdfption}
+     *                     for b {@dodf null} {@dodf xform}.
+     * @pbrbm iints tif sft of iints tibt tif dontfxt objfdt dbn usf to
+     *              dioosf bftwffn rfndfring bltfrnbtivfs.
+     *                     Implfmfntbtions of tif {@dodf Pbint} intfrfbdf
+     *                     brf bllowfd to tirow {@dodf NullPointfrExdfption}
+     *                     for b {@dodf null} {@dodf iints}.
+     * @rfturn tif {@dodf PbintContfxt} for
+     *         gfnfrbting dolor pbttfrns.
+     * @sff PbintContfxt
+     * @sff ColorModfl
+     * @sff Rfdtbnglf
+     * @sff Rfdtbnglf2D
+     * @sff AffinfTrbnsform
+     * @sff RfndfringHints
      */
-    public PaintContext createContext(ColorModel cm,
-                                      Rectangle deviceBounds,
-                                      Rectangle2D userBounds,
-                                      AffineTransform xform,
-                                      RenderingHints hints);
+    publid PbintContfxt drfbtfContfxt(ColorModfl dm,
+                                      Rfdtbnglf dfvidfBounds,
+                                      Rfdtbnglf2D usfrBounds,
+                                      AffinfTrbnsform xform,
+                                      RfndfringHints iints);
 
 }

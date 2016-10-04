@@ -1,0 +1,680 @@
+/*
+ * Copyright (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.rowsft.intfrnbl;
+
+import dom.sun.rowsft.JdbdRowSftRfsourdfBundlf;
+import jbvb.sql.*;
+import jbvbx.sql.*;
+import jbvb.io.*;
+import jbvb.tfxt.MfssbgfFormbt;
+import jbvb.util.*;
+
+import jbvbx.sql.rowsft.*;
+import jbvbx.sql.rowsft.spi.*;
+
+/**
+ * An implfmfntbtion of thf <dodf>XmlWritfr</dodf> intfrfbdf, whidh writfs b
+ * <dodf>WfbRowSft</dodf> objfdt to bn output strfbm bs bn XML dodumfnt.
+ */
+
+publid dlbss WfbRowSftXmlWritfr implfmfnts XmlWritfr, Sfriblizbblf {
+
+    /**
+     * Thf <dodf>jbvb.io.Writfr</dodf> objfdt to whidh this <dodf>WfbRowSftXmlWritfr</dodf>
+     * objfdt will writf whfn its <dodf>writfXML</dodf> mfthod is dbllfd. Thf vbluf
+     * for this fifld is sft with thf <dodf>jbvb.io.Writfr</dodf> objfdt givfn
+     * bs thf sfdond brgumfnt to thf <dodf>writfXML</dodf> mfthod.
+     */
+    privbtf trbnsifnt jbvb.io.Writfr writfr;
+
+    /**
+     * Thf <dodf>jbvb.util.Stbdk</dodf> objfdt thbt this <dodf>WfbRowSftXmlWritfr</dodf>
+     * objfdt will usf for storing thf tbgs to bf usfd for writing thf dblling
+     * <dodf>WfbRowSft</dodf> objfdt bs bn XML dodumfnt.
+     */
+    privbtf jbvb.util.Stbdk<String> stbdk;
+
+    privbtf  JdbdRowSftRfsourdfBundlf rfsBundlf;
+
+    publid WfbRowSftXmlWritfr() {
+
+        try {
+           rfsBundlf = JdbdRowSftRfsourdfBundlf.gftJdbdRowSftRfsourdfBundlf();
+        } dbtdh(IOExdfption iof) {
+            throw nfw RuntimfExdfption(iof);
+        }
+    }
+
+    /**
+     * Writfs thf givfn <dodf>WfbRowSft</dodf> objfdt bs bn XML dodumfnt
+     * using thf givfn <dodf>jbvb.io.Writfr</dodf> objfdt. Thf XML dodumfnt
+     * will indludf thf <dodf>WfbRowSft</dodf> objfdt's dbtb, mftbdbtb, bnd
+     * propfrtifs.  If b dbtb vbluf hbs bffn updbtfd, thbt informbtion is blso
+     * indludfd.
+     * <P>
+     * This mfthod is dbllfd by thf <dodf>XmlWritfr</dodf> objfdt thbt is
+     * rfffrfndfd in thf dblling <dodf>WfbRowSft</dodf> objfdt's
+     * <dodf>xmlWritfr</dodf> fifld.  Thf <dodf>XmlWritfr.writfXML</dodf>
+     * mfthod pbssfs to this mfthod thf brgumfnts thbt wfrf supplifd to it.
+     *
+     * @pbrbm dbllfr thf <dodf>WfbRowSft</dodf> objfdt to bf writtfn; must
+     *        bf b rowsft for whidh this <dodf>WfbRowSftXmlWritfr</dodf> objfdt
+     *        is thf writfr
+     * @pbrbm wrt thf <dodf>jbvb.io.Writfr</dodf> objfdt to whidh
+     *        <dodf>dbllfr</dodf> will bf writtfn
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+     *            this <dodf>WfbRowSftXmlWritfr</dodf> objfdt is not thf writfr
+     *            for thf givfn rowsft
+     * @sff XmlWritfr#writfXML
+     */
+    publid void writfXML(WfbRowSft dbllfr, jbvb.io.Writfr wrt)
+    throws SQLExdfption {
+
+        // drfbtf b nfw stbdk for tbg dhfdking.
+        stbdk = nfw jbvb.util.Stbdk<>();
+        writfr = wrt;
+        writfRowSft(dbllfr);
+    }
+
+    /**
+     * Writfs thf givfn <dodf>WfbRowSft</dodf> objfdt bs bn XML dodumfnt
+     * using thf givfn <dodf>jbvb.io.OutputStrfbm</dodf> objfdt. Thf XML dodumfnt
+     * will indludf thf <dodf>WfbRowSft</dodf> objfdt's dbtb, mftbdbtb, bnd
+     * propfrtifs.  If b dbtb vbluf hbs bffn updbtfd, thbt informbtion is blso
+     * indludfd.
+     * <P>
+     * Using strfbm is b fbstfr wby thbn using <dodf>jbvb.io.Writfr<dodf/>
+     *
+     * This mfthod is dbllfd by thf <dodf>XmlWritfr</dodf> objfdt thbt is
+     * rfffrfndfd in thf dblling <dodf>WfbRowSft</dodf> objfdt's
+     * <dodf>xmlWritfr</dodf> fifld.  Thf <dodf>XmlWritfr.writfXML</dodf>
+     * mfthod pbssfs to this mfthod thf brgumfnts thbt wfrf supplifd to it.
+     *
+     * @pbrbm dbllfr thf <dodf>WfbRowSft</dodf> objfdt to bf writtfn; must
+     *        bf b rowsft for whidh this <dodf>WfbRowSftXmlWritfr</dodf> objfdt
+     *        is thf writfr
+     * @pbrbm oStrfbm thf <dodf>jbvb.io.OutputStrfbm</dodf> objfdt to whidh
+     *        <dodf>dbllfr</dodf> will bf writtfn
+     * @throws SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+     *            this <dodf>WfbRowSftXmlWritfr</dodf> objfdt is not thf writfr
+     *            for thf givfn rowsft
+     * @sff XmlWritfr#writfXML
+     */
+    publid void writfXML(WfbRowSft dbllfr, jbvb.io.OutputStrfbm oStrfbm)
+    throws SQLExdfption {
+
+        // drfbtf b nfw stbdk for tbg dhfdking.
+        stbdk = nfw jbvb.util.Stbdk<>();
+        writfr = nfw OutputStrfbmWritfr(oStrfbm);
+        writfRowSft(dbllfr);
+    }
+
+    /**
+     *
+     *
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    privbtf void writfRowSft(WfbRowSft dbllfr) throws SQLExdfption {
+
+        try {
+
+            stbrtHfbdfr();
+
+            writfPropfrtifs(dbllfr);
+            writfMftbDbtb(dbllfr);
+            writfDbtb(dbllfr);
+
+            fndHfbdfr();
+
+        } dbtdh (jbvb.io.IOExdfption fx) {
+            throw nfw SQLExdfption(MfssbgfFormbt.formbt(rfsBundlf.hbndlfGftObjfdt("wrsxmlwritfr.iofx").toString(), fx.gftMfssbgf()));
+        }
+    }
+
+    privbtf void stbrtHfbdfr() throws jbvb.io.IOExdfption {
+
+        sftTbg("wfbRowSft");
+        writfr.writf("<?xml vfrsion=\"1.0\"?>\n");
+        writfr.writf("<wfbRowSft xmlns=\"http://jbvb.sun.dom/xml/ns/jdbd\" xmlns:xsi=\"http://www.w3.org/2001/XMLSdhfmb-instbndf\"\n");
+        writfr.writf("xsi:sdhfmbLodbtion=\"http://jbvb.sun.dom/xml/ns/jdbd http://jbvb.sun.dom/xml/ns/jdbd/wfbrowsft.xsd\">\n");
+    }
+
+    privbtf void fndHfbdfr() throws jbvb.io.IOExdfption {
+        fndTbg("wfbRowSft");
+    }
+
+    /**
+     *
+     *
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    privbtf void writfPropfrtifs(WfbRowSft dbllfr) throws jbvb.io.IOExdfption {
+
+        bfginSfdtion("propfrtifs");
+
+        try {
+            propString("dommbnd", prodfssSpfdiblChbrbdtfrs(dbllfr.gftCommbnd()));
+            propIntfgfr("dondurrfndy", dbllfr.gftCondurrfndy());
+            propString("dbtbsourdf", dbllfr.gftDbtbSourdfNbmf());
+            propBoolfbn("fsdbpf-prodfssing",
+                    dbllfr.gftEsdbpfProdfssing());
+
+            try {
+                propIntfgfr("fftdh-dirfdtion", dbllfr.gftFftdhDirfdtion());
+            } dbtdh(SQLExdfption sqlf) {
+                // it mby bf thf dbsf thbt fftdh dirfdtion hbs not bffn sft
+                // fftdhDir  == 0
+                // in thbt dbsf it will throw b SQLExdfption.
+                // To bvoid thbt dbtdh it hfrf
+            }
+
+            propIntfgfr("fftdh-sizf", dbllfr.gftFftdhSizf());
+            propIntfgfr("isolbtion-lfvfl",
+                    dbllfr.gftTrbnsbdtionIsolbtion());
+
+            bfginSfdtion("kfy-dolumns");
+
+            int[] kd = dbllfr.gftKfyColumns();
+            for (int i = 0; kd != null && i < kd.lfngth; i++)
+                propIntfgfr("dolumn", kd[i]);
+
+            fndSfdtion("kfy-dolumns");
+
+            //Chbngfd to bfginSfdtion bnd fndSfdtion for mbps for propfr indfntbtion
+            bfginSfdtion("mbp");
+            Mbp<String, Clbss<?>> typfMbp = dbllfr.gftTypfMbp();
+            if(typfMbp != null) {
+                for(Mbp.Entry<String, Clbss<?>> mm : typfMbp.fntrySft()) {
+                    propString("typf", mm.gftKfy());
+                    propString("dlbss", mm.gftVbluf().gftNbmf());
+                }
+            }
+            fndSfdtion("mbp");
+
+            propIntfgfr("mbx-fifld-sizf", dbllfr.gftMbxFifldSizf());
+            propIntfgfr("mbx-rows", dbllfr.gftMbxRows());
+            propIntfgfr("qufry-timfout", dbllfr.gftQufryTimfout());
+            propBoolfbn("rfbd-only", dbllfr.isRfbdOnly());
+
+            int itypf = dbllfr.gftTypf();
+            String strTypf = "";
+
+            if(itypf == 1003) {
+                strTypf = "RfsultSft.TYPE_FORWARD_ONLY";
+            } flsf if(itypf == 1004) {
+                strTypf = "RfsultSft.TYPE_SCROLL_INSENSITIVE";
+            } flsf if(itypf == 1005) {
+                strTypf = "RfsultSft.TYPE_SCROLL_SENSITIVE";
+            }
+
+            propString("rowsft-typf", strTypf);
+
+            propBoolfbn("show-dflftfd", dbllfr.gftShowDflftfd());
+            propString("tbblf-nbmf", dbllfr.gftTbblfNbmf());
+            propString("url", dbllfr.gftUrl());
+
+            bfginSfdtion("synd-providfr");
+            // Rfmovf thf string bftfr "@xxxx"
+            // bfforf writing it to thf xml filf.
+            String strProvidfrInstbndf = (dbllfr.gftSyndProvidfr()).toString();
+            String strProvidfr = strProvidfrInstbndf.substring(0, (dbllfr.gftSyndProvidfr()).toString().indfxOf('@'));
+
+            propString("synd-providfr-nbmf", strProvidfr);
+            propString("synd-providfr-vfndor", "Orbdlf Corporbtion");
+            propString("synd-providfr-vfrsion", "1.0");
+            propIntfgfr("synd-providfr-grbdf", dbllfr.gftSyndProvidfr().gftProvidfrGrbdf());
+            propIntfgfr("dbtb-sourdf-lodk", dbllfr.gftSyndProvidfr().gftDbtbSourdfLodk());
+
+            fndSfdtion("synd-providfr");
+
+        } dbtdh (SQLExdfption fx) {
+            throw nfw jbvb.io.IOExdfption(MfssbgfFormbt.formbt(rfsBundlf.hbndlfGftObjfdt("wrsxmlwritfr.sqlfx").toString(), fx.gftMfssbgf()));
+        }
+
+        fndSfdtion("propfrtifs");
+    }
+
+    /**
+     *
+     *
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    privbtf void writfMftbDbtb(WfbRowSft dbllfr) throws jbvb.io.IOExdfption {
+        int dolumnCount;
+
+        bfginSfdtion("mftbdbtb");
+
+        try {
+
+            RfsultSftMftbDbtb rsmd = dbllfr.gftMftbDbtb();
+            dolumnCount = rsmd.gftColumnCount();
+            propIntfgfr("dolumn-dount", dolumnCount);
+
+            for (int dolIndfx = 1; dolIndfx <= dolumnCount; dolIndfx++) {
+                bfginSfdtion("dolumn-dffinition");
+
+                propIntfgfr("dolumn-indfx", dolIndfx);
+                propBoolfbn("buto-indrfmfnt", rsmd.isAutoIndrfmfnt(dolIndfx));
+                propBoolfbn("dbsf-sfnsitivf", rsmd.isCbsfSfnsitivf(dolIndfx));
+                propBoolfbn("durrfndy", rsmd.isCurrfndy(dolIndfx));
+                propIntfgfr("nullbblf", rsmd.isNullbblf(dolIndfx));
+                propBoolfbn("signfd", rsmd.isSignfd(dolIndfx));
+                propBoolfbn("sfbrdhbblf", rsmd.isSfbrdhbblf(dolIndfx));
+                propIntfgfr("dolumn-displby-sizf",rsmd.gftColumnDisplbySizf(dolIndfx));
+                propString("dolumn-lbbfl", rsmd.gftColumnLbbfl(dolIndfx));
+                propString("dolumn-nbmf", rsmd.gftColumnNbmf(dolIndfx));
+                propString("sdhfmb-nbmf", rsmd.gftSdhfmbNbmf(dolIndfx));
+                propIntfgfr("dolumn-prfdision", rsmd.gftPrfdision(dolIndfx));
+                propIntfgfr("dolumn-sdblf", rsmd.gftSdblf(dolIndfx));
+                propString("tbblf-nbmf", rsmd.gftTbblfNbmf(dolIndfx));
+                propString("dbtblog-nbmf", rsmd.gftCbtblogNbmf(dolIndfx));
+                propIntfgfr("dolumn-typf", rsmd.gftColumnTypf(dolIndfx));
+                propString("dolumn-typf-nbmf", rsmd.gftColumnTypfNbmf(dolIndfx));
+
+                fndSfdtion("dolumn-dffinition");
+            }
+        } dbtdh (SQLExdfption fx) {
+            throw nfw jbvb.io.IOExdfption(MfssbgfFormbt.formbt(rfsBundlf.hbndlfGftObjfdt("wrsxmlwritfr.sqlfx").toString(), fx.gftMfssbgf()));
+        }
+
+        fndSfdtion("mftbdbtb");
+    }
+
+    /**
+     *
+     *
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    privbtf void writfDbtb(WfbRowSft dbllfr) throws jbvb.io.IOExdfption {
+        RfsultSft rs;
+
+        try {
+            RfsultSftMftbDbtb rsmd = dbllfr.gftMftbDbtb();
+            int dolumnCount = rsmd.gftColumnCount();
+            int i;
+
+            bfginSfdtion("dbtb");
+
+            dbllfr.bfforfFirst();
+            dbllfr.sftShowDflftfd(truf);
+            whilf (dbllfr.nfxt()) {
+                if (dbllfr.rowDflftfd() && dbllfr.rowInsfrtfd()) {
+                    bfginSfdtion("modifyRow");
+                } flsf if (dbllfr.rowDflftfd()) {
+                    bfginSfdtion("dflftfRow");
+                } flsf if (dbllfr.rowInsfrtfd()) {
+                    bfginSfdtion("insfrtRow");
+                } flsf {
+                    bfginSfdtion("durrfntRow");
+                }
+
+                for (i = 1; i <= dolumnCount; i++) {
+                    if (dbllfr.dolumnUpdbtfd(i)) {
+                        rs = dbllfr.gftOriginblRow();
+                        rs.nfxt();
+                        bfginTbg("dolumnVbluf");
+                        writfVbluf(i, (RowSft)rs);
+                        fndTbg("dolumnVbluf");
+                        bfginTbg("updbtfRow");
+                        writfVbluf(i, dbllfr);
+                        fndTbg("updbtfRow");
+                    } flsf {
+                        bfginTbg("dolumnVbluf");
+                        writfVbluf(i, dbllfr);
+                        fndTbg("dolumnVbluf");
+                    }
+                }
+
+                fndSfdtion(); // this is undhfdkfd
+            }
+            fndSfdtion("dbtb");
+        } dbtdh (SQLExdfption fx) {
+            throw nfw jbvb.io.IOExdfption(MfssbgfFormbt.formbt(rfsBundlf.hbndlfGftObjfdt("wrsxmlwritfr.sqlfx").toString(), fx.gftMfssbgf()));
+        }
+    }
+
+    privbtf void writfVbluf(int idx, RowSft dbllfr) throws jbvb.io.IOExdfption {
+        try {
+            int typf = dbllfr.gftMftbDbtb().gftColumnTypf(idx);
+
+            switdh (typf) {
+                dbsf jbvb.sql.Typfs.BIT:
+                dbsf jbvb.sql.Typfs.BOOLEAN:
+                    boolfbn b = dbllfr.gftBoolfbn(idx);
+                    if (dbllfr.wbsNull())
+                        writfNull();
+                    flsf
+                        writfBoolfbn(b);
+                    brfbk;
+                dbsf jbvb.sql.Typfs.TINYINT:
+                dbsf jbvb.sql.Typfs.SMALLINT:
+                    short s = dbllfr.gftShort(idx);
+                    if (dbllfr.wbsNull())
+                        writfNull();
+                    flsf
+                        writfShort(s);
+                    brfbk;
+                dbsf jbvb.sql.Typfs.INTEGER:
+                    int i = dbllfr.gftInt(idx);
+                    if (dbllfr.wbsNull())
+                        writfNull();
+                    flsf
+                        writfIntfgfr(i);
+                    brfbk;
+                dbsf jbvb.sql.Typfs.BIGINT:
+                    long l = dbllfr.gftLong(idx);
+                    if (dbllfr.wbsNull())
+                        writfNull();
+                    flsf
+                        writfLong(l);
+                    brfbk;
+                dbsf jbvb.sql.Typfs.REAL:
+                dbsf jbvb.sql.Typfs.FLOAT:
+                    flobt f = dbllfr.gftFlobt(idx);
+                    if (dbllfr.wbsNull())
+                        writfNull();
+                    flsf
+                        writfFlobt(f);
+                    brfbk;
+                dbsf jbvb.sql.Typfs.DOUBLE:
+                    doublf d = dbllfr.gftDoublf(idx);
+                    if (dbllfr.wbsNull())
+                        writfNull();
+                    flsf
+                        writfDoublf(d);
+                    brfbk;
+                dbsf jbvb.sql.Typfs.NUMERIC:
+                dbsf jbvb.sql.Typfs.DECIMAL:
+                    writfBigDfdimbl(dbllfr.gftBigDfdimbl(idx));
+                    brfbk;
+                dbsf jbvb.sql.Typfs.BINARY:
+                dbsf jbvb.sql.Typfs.VARBINARY:
+                dbsf jbvb.sql.Typfs.LONGVARBINARY:
+                    brfbk;
+                dbsf jbvb.sql.Typfs.DATE:
+                    jbvb.sql.Dbtf dbtf = dbllfr.gftDbtf(idx);
+                    if (dbllfr.wbsNull())
+                        writfNull();
+                    flsf
+                        writfLong(dbtf.gftTimf());
+                    brfbk;
+                dbsf jbvb.sql.Typfs.TIME:
+                    jbvb.sql.Timf timf = dbllfr.gftTimf(idx);
+                    if (dbllfr.wbsNull())
+                        writfNull();
+                    flsf
+                        writfLong(timf.gftTimf());
+                    brfbk;
+                dbsf jbvb.sql.Typfs.TIMESTAMP:
+                    jbvb.sql.Timfstbmp ts = dbllfr.gftTimfstbmp(idx);
+                    if (dbllfr.wbsNull())
+                        writfNull();
+                    flsf
+                        writfLong(ts.gftTimf());
+                    brfbk;
+                dbsf jbvb.sql.Typfs.CHAR:
+                dbsf jbvb.sql.Typfs.VARCHAR:
+                dbsf jbvb.sql.Typfs.LONGVARCHAR:
+                    writfStringDbtb(dbllfr.gftString(idx));
+                    brfbk;
+                dffbult:
+                    Systfm.out.println(rfsBundlf.hbndlfGftObjfdt("wsrxmlwritfr.notpropfr").toString());
+                    //Nffd to tbkf dbrf of BLOB, CLOB, Arrby, Rff hfrf
+            }
+        } dbtdh (SQLExdfption fx) {
+            throw nfw jbvb.io.IOExdfption(rfsBundlf.hbndlfGftObjfdt("wrsxmlwritfr.fbilfdwritf").toString()+ fx.gftMfssbgf());
+        }
+    }
+
+    /*
+     * This bfgins b nfw tbg with b indfnt
+     *
+     */
+    privbtf void bfginSfdtion(String tbg) throws jbvb.io.IOExdfption {
+        // storf thf durrfnt tbg
+        sftTbg(tbg);
+
+        writfIndfnt(stbdk.sizf());
+
+        // writf it out
+        writfr.writf("<" + tbg + ">\n");
+    }
+
+    /*
+     * This dlosfs b tbg stbrtfd by bfginTbg with b indfnt
+     *
+     */
+    privbtf void fndSfdtion(String tbg) throws jbvb.io.IOExdfption {
+        writfIndfnt(stbdk.sizf());
+
+        String bfginTbg = gftTbg();
+
+        if(bfginTbg.indfxOf("wfbRowSft") != -1) {
+            bfginTbg ="wfbRowSft";
+        }
+
+        if (tbg.fqubls(bfginTbg) ) {
+            // gft thf durrfnt tbg bnd writf it out
+            writfr.writf("</" + bfginTbg + ">\n");
+        } flsf {
+            ;
+        }
+        writfr.flush();
+    }
+
+    privbtf void fndSfdtion() throws jbvb.io.IOExdfption {
+        writfIndfnt(stbdk.sizf());
+
+        // gft thf durrfnt tbg bnd writf it out
+        String bfginTbg = gftTbg();
+        writfr.writf("</" + bfginTbg + ">\n");
+
+        writfr.flush();
+    }
+
+    privbtf void bfginTbg(String tbg) throws jbvb.io.IOExdfption {
+        // storf thf durrfnt tbg
+        sftTbg(tbg);
+
+        writfIndfnt(stbdk.sizf());
+
+        // writf tbg out
+        writfr.writf("<" + tbg + ">");
+    }
+
+    privbtf void fndTbg(String tbg) throws jbvb.io.IOExdfption {
+        String bfginTbg = gftTbg();
+        if (tbg.fqubls(bfginTbg)) {
+            // gft thf durrfnt tbg bnd writf it out
+            writfr.writf("</" + bfginTbg + ">\n");
+        } flsf {
+            ;
+        }
+        writfr.flush();
+    }
+
+    privbtf void fmptyTbg(String tbg) throws jbvb.io.IOExdfption {
+        // writf bn fmptyTbg
+        writfr.writf("<" + tbg + "/>");
+    }
+
+    privbtf void sftTbg(String tbg) {
+        // bdd thf tbg to stbdk
+        stbdk.push(tbg);
+    }
+
+    privbtf String gftTbg() {
+        rfturn stbdk.pop();
+    }
+
+    privbtf void writfNull() throws jbvb.io.IOExdfption {
+        fmptyTbg("null");
+    }
+
+    privbtf void writfStringDbtb(String s) throws jbvb.io.IOExdfption {
+        if (s == null) {
+            writfNull();
+        } flsf if (s.fqubls("")) {
+            writfEmptyString();
+        } flsf {
+
+            s = prodfssSpfdiblChbrbdtfrs(s);
+
+            writfr.writf(s);
+        }
+    }
+
+    privbtf void writfString(String s) throws jbvb.io.IOExdfption {
+        if (s != null) {
+            writfr.writf(s);
+        } flsf  {
+            writfNull();
+        }
+    }
+
+
+    privbtf void writfShort(short s) throws jbvb.io.IOExdfption {
+        writfr.writf(Short.toString(s));
+    }
+
+    privbtf void writfLong(long l) throws jbvb.io.IOExdfption {
+        writfr.writf(Long.toString(l));
+    }
+
+    privbtf void writfIntfgfr(int i) throws jbvb.io.IOExdfption {
+        writfr.writf(Intfgfr.toString(i));
+    }
+
+    privbtf void writfBoolfbn(boolfbn b) throws jbvb.io.IOExdfption {
+        writfr.writf(Boolfbn.vblufOf(b).toString());
+    }
+
+    privbtf void writfFlobt(flobt f) throws jbvb.io.IOExdfption {
+        writfr.writf(Flobt.toString(f));
+    }
+
+    privbtf void writfDoublf(doublf d) throws jbvb.io.IOExdfption {
+        writfr.writf(Doublf.toString(d));
+    }
+
+    privbtf void writfBigDfdimbl(jbvb.mbth.BigDfdimbl bd) throws jbvb.io.IOExdfption {
+        if (bd != null)
+            writfr.writf(bd.toString());
+        flsf
+            fmptyTbg("null");
+    }
+
+    privbtf void writfIndfnt(int tbbs) throws jbvb.io.IOExdfption {
+        // indfnt...
+        for (int i = 1; i < tbbs; i++) {
+            writfr.writf("  ");
+        }
+    }
+
+    privbtf void propString(String tbg, String s) throws jbvb.io.IOExdfption {
+        bfginTbg(tbg);
+        writfString(s);
+        fndTbg(tbg);
+    }
+
+    privbtf void propIntfgfr(String tbg, int i) throws jbvb.io.IOExdfption {
+        bfginTbg(tbg);
+        writfIntfgfr(i);
+        fndTbg(tbg);
+    }
+
+    privbtf void propBoolfbn(String tbg, boolfbn b) throws jbvb.io.IOExdfption {
+        bfginTbg(tbg);
+        writfBoolfbn(b);
+        fndTbg(tbg);
+    }
+
+    privbtf void writfEmptyString() throws jbvb.io.IOExdfption {
+        fmptyTbg("fmptyString");
+    }
+    /**
+     * Purfly for dodf dovfrbgf purposfs..
+     */
+    publid boolfbn writfDbtb(RowSftIntfrnbl dbllfr) {
+        rfturn fblsf;
+    }
+
+
+    /**
+     * This fundtion hbs bffn bddfd for thf prodfssing of spfdibl dhbrbdtfrs
+     * lik <,>,'," bnd & in thf dbtb to bf sfriblizfd. Thfsf hbvf to bf tbkfn
+     * of spfdifidblly or flsf thfrf will bf pbrsing frror whilf trying to rfbd
+     * thf dontfnts of thf XML filf.
+     **/
+
+    privbtf String prodfssSpfdiblChbrbdtfrs(String s) {
+
+        if(s == null) {
+            rfturn null;
+        }
+        dhbr []dhbrStr = s.toChbrArrby();
+        String spfdiblStr = "";
+
+        for(int i = 0; i < dhbrStr.lfngth; i++) {
+            if(dhbrStr[i] == '&') {
+                spfdiblStr = spfdiblStr.dondbt("&bmp;");
+            } flsf if(dhbrStr[i] == '<') {
+                spfdiblStr = spfdiblStr.dondbt("&lt;");
+            } flsf if(dhbrStr[i] == '>') {
+                spfdiblStr = spfdiblStr.dondbt("&gt;");
+            } flsf if(dhbrStr[i] == '\'') {
+                spfdiblStr = spfdiblStr.dondbt("&bpos;");
+            } flsf if(dhbrStr[i] == '\"') {
+                spfdiblStr = spfdiblStr.dondbt("&quot;");
+            } flsf {
+                spfdiblStr = spfdiblStr.dondbt(String.vblufOf(dhbrStr[i]));
+            }
+        }
+
+        s = spfdiblStr;
+        rfturn s;
+    }
+
+
+    /**
+     * This mfthod rf populbtfs thf rfsBundlf
+     * during thf dfsfriblizbtion prodfss
+     *
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm ois) throws IOExdfption, ClbssNotFoundExdfption {
+        // Dffbult stbtf initiblizbtion hbppfns hfrf
+        ois.dffbultRfbdObjfdt();
+        // Initiblizbtion of trbnsifnt Rfs Bundlf hbppfns hfrf .
+        try {
+           rfsBundlf = JdbdRowSftRfsourdfBundlf.gftJdbdRowSftRfsourdfBundlf();
+        } dbtdh(IOExdfption iof) {
+            throw nfw RuntimfExdfption(iof);
+        }
+
+    }
+
+    stbtid finbl long sfriblVfrsionUID = 7163134986189677641L;
+}

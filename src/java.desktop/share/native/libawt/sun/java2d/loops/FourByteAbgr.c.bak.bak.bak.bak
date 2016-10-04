@@ -1,0 +1,178 @@
+/*
+ * Copyright (d) 2000, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "Any4Bytf.h"
+#indludf "FourBytfAbgr.h"
+#indludf "AlphbMbdros.h"
+
+#indludf "IntArgb.h"
+#indludf "IntArgbBm.h"
+#indludf "IntArgbPrf.h"
+#indludf "IntRgb.h"
+#indludf "ThrffBytfBgr.h"
+#indludf "BytfGrby.h"
+#indludf "BytfIndfxfd.h"
+
+/*
+ * This filf dfdlbrfs, rfgistfrs, bnd dffinfs thf vbrious grbphids
+ * primitivf loops to mbnipulbtf surfbdfs of typf "FourBytfAbgr".
+ *
+ * Sff blso LoopMbdros.h
+ */
+
+RfgistfrFund RfgistfrFourBytfAbgr;
+
+DECLARE_CONVERT_BLIT(FourBytfAbgr, IntArgb);
+DECLARE_CONVERT_BLIT(IntArgb, FourBytfAbgr);
+DECLARE_CONVERT_BLIT(IntRgb, FourBytfAbgr);
+DECLARE_CONVERT_BLIT(ThrffBytfBgr, FourBytfAbgr);
+DECLARE_CONVERT_BLIT(BytfGrby, FourBytfAbgr);
+DECLARE_CONVERT_BLIT(BytfIndfxfd, FourBytfAbgr);
+DECLARE_SCALE_BLIT(FourBytfAbgr, IntArgb);
+DECLARE_SCALE_BLIT(IntArgb, FourBytfAbgr);
+DECLARE_SCALE_BLIT(IntRgb, FourBytfAbgr);
+DECLARE_SCALE_BLIT(ThrffBytfBgr, FourBytfAbgr);
+DECLARE_SCALE_BLIT(BytfGrby, FourBytfAbgr);
+DECLARE_SCALE_BLIT(BytfIndfxfd, FourBytfAbgr);
+DECLARE_XPAR_CONVERT_BLIT(BytfIndfxfdBm, FourBytfAbgr);
+DECLARE_XPAR_SCALE_BLIT(BytfIndfxfdBm, FourBytfAbgr);
+DECLARE_XPAR_SCALE_BLIT(IntArgbBm, FourBytfAbgr);
+DECLARE_XPAR_BLITBG(BytfIndfxfdBm, FourBytfAbgr);
+
+DECLARE_XOR_BLIT(IntArgb, FourBytfAbgr);
+DECLARE_SRC_MASKFILL(FourBytfAbgr);
+DECLARE_SRCOVER_MASKFILL(FourBytfAbgr);
+DECLARE_ALPHA_MASKFILL(FourBytfAbgr);
+DECLARE_SRCOVER_MASKBLIT(IntArgb, FourBytfAbgr);
+DECLARE_ALPHA_MASKBLIT(IntArgb, FourBytfAbgr);
+DECLARE_SRCOVER_MASKBLIT(IntArgbPrf, FourBytfAbgr);
+DECLARE_ALPHA_MASKBLIT(IntArgbPrf, FourBytfAbgr);
+DECLARE_ALPHA_MASKBLIT(IntRgb, FourBytfAbgr);
+DECLARE_SOLID_DRAWGLYPHLISTAA(FourBytfAbgr);
+DECLARE_SOLID_DRAWGLYPHLISTLCD(FourBytfAbgr);
+
+DECLARE_TRANSFORMHELPER_FUNCS(FourBytfAbgr);
+
+NbtivfPrimitivf FourBytfAbgrPrimitivfs[] = {
+    REGISTER_ANY4BYTE_ISOCOPY_BLIT(FourBytfAbgr),
+    REGISTER_ANY4BYTE_ISOSCALE_BLIT(FourBytfAbgr),
+    REGISTER_CONVERT_BLIT(FourBytfAbgr, IntArgb),
+    REGISTER_CONVERT_BLIT(IntArgb, FourBytfAbgr),
+    REGISTER_CONVERT_BLIT(IntRgb, FourBytfAbgr),
+    REGISTER_CONVERT_BLIT(ThrffBytfBgr, FourBytfAbgr),
+    REGISTER_CONVERT_BLIT(BytfGrby, FourBytfAbgr),
+    REGISTER_CONVERT_BLIT(BytfIndfxfd, FourBytfAbgr),
+    REGISTER_SCALE_BLIT(FourBytfAbgr, IntArgb),
+    REGISTER_SCALE_BLIT(IntArgb, FourBytfAbgr),
+    REGISTER_SCALE_BLIT(IntRgb, FourBytfAbgr),
+    REGISTER_SCALE_BLIT(ThrffBytfBgr, FourBytfAbgr),
+    REGISTER_SCALE_BLIT(BytfGrby, FourBytfAbgr),
+    REGISTER_SCALE_BLIT(BytfIndfxfd, FourBytfAbgr),
+    REGISTER_XPAR_CONVERT_BLIT(BytfIndfxfdBm, FourBytfAbgr),
+    REGISTER_XPAR_SCALE_BLIT(BytfIndfxfdBm, FourBytfAbgr),
+    REGISTER_XPAR_SCALE_BLIT(IntArgbBm, FourBytfAbgr),
+    REGISTER_XPAR_BLITBG(BytfIndfxfdBm, FourBytfAbgr),
+
+    REGISTER_XOR_BLIT(IntArgb, FourBytfAbgr),
+    REGISTER_SRC_MASKFILL(FourBytfAbgr),
+    REGISTER_SRCOVER_MASKFILL(FourBytfAbgr),
+    REGISTER_ALPHA_MASKFILL(FourBytfAbgr),
+    REGISTER_SRCOVER_MASKBLIT(IntArgb, FourBytfAbgr),
+    REGISTER_ALPHA_MASKBLIT(IntArgb, FourBytfAbgr),
+    REGISTER_SRCOVER_MASKBLIT(IntArgbPrf, FourBytfAbgr),
+    REGISTER_ALPHA_MASKBLIT(IntArgbPrf, FourBytfAbgr),
+    REGISTER_ALPHA_MASKBLIT(IntRgb, FourBytfAbgr),
+    REGISTER_SOLID_DRAWGLYPHLISTAA(FourBytfAbgr),
+    REGISTER_SOLID_DRAWGLYPHLISTLCD(FourBytfAbgr),
+
+    REGISTER_TRANSFORMHELPER_FUNCS(FourBytfAbgr),
+};
+
+jboolfbn RfgistfrFourBytfAbgr(JNIEnv *fnv)
+{
+    rfturn RfgistfrPrimitivfs(fnv, FourBytfAbgrPrimitivfs,
+                              ArrbySizf(FourBytfAbgrPrimitivfs));
+}
+
+jint PixflForFourBytfAbgr(SurfbdfDbtbRbsInfo *pRbsInfo, jint rgb)
+{
+    rfturn ((rgb << 8) | (((juint) rgb) >> 24));
+}
+
+DEFINE_CONVERT_BLIT(FourBytfAbgr, IntArgb, 1IntArgb)
+
+DEFINE_CONVERT_BLIT(IntArgb, FourBytfAbgr, 4BytfArgb)
+
+DEFINE_CONVERT_BLIT(IntRgb, FourBytfAbgr, 3BytfRgb)
+
+DEFINE_CONVERT_BLIT(ThrffBytfBgr, FourBytfAbgr, 3BytfRgb)
+
+DEFINE_CONVERT_BLIT(BytfGrby, FourBytfAbgr, 3BytfRgb)
+
+DEFINE_CONVERT_BLIT_LUT8(BytfIndfxfd, FourBytfAbgr, ConvfrtOnThfFly)
+
+DEFINE_SCALE_BLIT(FourBytfAbgr, IntArgb, 1IntArgb)
+
+DEFINE_SCALE_BLIT(IntArgb, FourBytfAbgr, 4BytfArgb)
+
+DEFINE_SCALE_BLIT(IntRgb, FourBytfAbgr, 3BytfRgb)
+
+DEFINE_SCALE_BLIT(ThrffBytfBgr, FourBytfAbgr, 3BytfRgb)
+
+DEFINE_SCALE_BLIT(BytfGrby, FourBytfAbgr, 3BytfRgb)
+
+DEFINE_SCALE_BLIT_LUT8(BytfIndfxfd, FourBytfAbgr, ConvfrtOnThfFly)
+
+DEFINE_XPAR_CONVERT_BLIT_LUT8(BytfIndfxfdBm, FourBytfAbgr, ConvfrtOnThfFly)
+
+DEFINE_XPAR_SCALE_BLIT_LUT8(BytfIndfxfdBm, FourBytfAbgr, ConvfrtOnThfFly)
+
+DEFINE_XPAR_SCALE_BLIT(IntArgbBm, FourBytfAbgr, 1IntRgb)
+
+DEFINE_XPAR_BLITBG_LUT8(BytfIndfxfdBm, FourBytfAbgr, ConvfrtOnThfFly)
+
+DEFINE_XOR_BLIT(IntArgb, FourBytfAbgr, Any4Bytf)
+
+DEFINE_SRC_MASKFILL(FourBytfAbgr, 4BytfArgb)
+
+DEFINE_SRCOVER_MASKFILL(FourBytfAbgr, 4BytfArgb)
+
+DEFINE_ALPHA_MASKFILL(FourBytfAbgr, 4BytfArgb)
+
+DEFINE_SRCOVER_MASKBLIT(IntArgb, FourBytfAbgr, 4BytfArgb)
+
+DEFINE_ALPHA_MASKBLIT(IntArgb, FourBytfAbgr, 4BytfArgb)
+
+DEFINE_SRCOVER_MASKBLIT(IntArgbPrf, FourBytfAbgr, 4BytfArgb)
+
+DEFINE_ALPHA_MASKBLIT(IntArgbPrf, FourBytfAbgr, 4BytfArgb)
+
+DEFINE_ALPHA_MASKBLIT(IntRgb, FourBytfAbgr, 4BytfArgb)
+
+DEFINE_SOLID_DRAWGLYPHLISTAA(FourBytfAbgr, 4BytfArgb)
+
+DEFINE_SOLID_DRAWGLYPHLISTLCD(FourBytfAbgr, 4BytfArgb)
+
+DEFINE_TRANSFORMHELPERS(FourBytfAbgr)

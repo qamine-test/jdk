@@ -1,253 +1,253 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.internal.spec;
+pbdkbgf sun.sfdurity.intfrnbl.spfd;
 
-import java.security.spec.AlgorithmParameterSpec;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
 
-import javax.crypto.SecretKey;
+import jbvbx.drypto.SfdrftKfy;
 
 /**
- * Parameters for SSL/TLS key material generation.
- * This class is used to initialize KeyGenerator of the type
- * "TlsKeyMaterial". The keys returned by such KeyGenerators will be
- * instances of {@link TlsKeyMaterialSpec}.
+ * Pbrbmftfrs for SSL/TLS kfy mbtfribl gfnfrbtion.
+ * Tiis dlbss is usfd to initiblizf KfyGfnfrbtor of tif typf
+ * "TlsKfyMbtfribl". Tif kfys rfturnfd by sudi KfyGfnfrbtors will bf
+ * instbndfs of {@link TlsKfyMbtfriblSpfd}.
  *
- * <p>Instances of this class are immutable.
+ * <p>Instbndfs of tiis dlbss brf immutbblf.
  *
- * @since   1.6
- * @author  Andreas Sterbenz
- * @deprecated Sun JDK internal use only --- WILL BE REMOVED in a future
- * release.
+ * @sindf   1.6
+ * @butior  Andrfbs Stfrbfnz
+ * @dfprfdbtfd Sun JDK intfrnbl usf only --- WILL BE REMOVED in b futurf
+ * rflfbsf.
  */
-@Deprecated
-public class TlsKeyMaterialParameterSpec implements AlgorithmParameterSpec {
+@Dfprfdbtfd
+publid dlbss TlsKfyMbtfriblPbrbmftfrSpfd implfmfnts AlgoritimPbrbmftfrSpfd {
 
-    private final SecretKey masterSecret;
-    private final int majorVersion, minorVersion;
-    private final byte[] clientRandom, serverRandom;
-    private final String cipherAlgorithm;
-    private final int cipherKeyLength, ivLength, macKeyLength;
-    private final int expandedCipherKeyLength; // == 0 for domestic ciphersuites
-    private final String prfHashAlg;
-    private final int prfHashLength;
-    private final int prfBlockSize;
+    privbtf finbl SfdrftKfy mbstfrSfdrft;
+    privbtf finbl int mbjorVfrsion, minorVfrsion;
+    privbtf finbl bytf[] dlifntRbndom, sfrvfrRbndom;
+    privbtf finbl String dipifrAlgoritim;
+    privbtf finbl int dipifrKfyLfngti, ivLfngti, mbdKfyLfngti;
+    privbtf finbl int fxpbndfdCipifrKfyLfngti; // == 0 for domfstid dipifrsuitfs
+    privbtf finbl String prfHbsiAlg;
+    privbtf finbl int prfHbsiLfngti;
+    privbtf finbl int prfBlodkSizf;
 
     /**
-     * Constructs a new TlsKeyMaterialParameterSpec.
+     * Construdts b nfw TlsKfyMbtfriblPbrbmftfrSpfd.
      *
-     * @param masterSecret the master secret
-     * @param majorVersion the major number of the protocol version
-     * @param minorVersion the minor number of the protocol version
-     * @param clientRandom the client's random value
-     * @param serverRandom the server's random value
-     * @param cipherAlgorithm the algorithm name of the cipher keys to
-     *    be generated
-     * @param cipherKeyLength if 0, no cipher keys will be generated;
-     *    otherwise, the length in bytes of cipher keys to be
-     *    generated for domestic cipher suites; for cipher suites defined as
-     *    exportable, the number of key material bytes to be generated;
-     * @param expandedCipherKeyLength 0 for domestic cipher suites; for
-     *    exportable cipher suites the length in bytes of the key to be
-     *    generated.
-     * @param ivLength the length in bytes of the initialization vector
-     *    to be generated, or 0 if no initialization vector is required
-     * @param macKeyLength the length in bytes of the MAC key to be generated
-     * @param prfHashAlg the name of the TLS PRF hash algorithm to use.
-     *        Used only for TLS 1.2+.  TLS1.1 and earlier use a fixed PRF.
-     * @param prfHashLength the output length of the TLS PRF hash algorithm.
-     *        Used only for TLS 1.2+.
-     * @param prfBlockSize the input block size of the TLS PRF hash algorithm.
-     *        Used only for TLS 1.2+.
+     * @pbrbm mbstfrSfdrft tif mbstfr sfdrft
+     * @pbrbm mbjorVfrsion tif mbjor numbfr of tif protodol vfrsion
+     * @pbrbm minorVfrsion tif minor numbfr of tif protodol vfrsion
+     * @pbrbm dlifntRbndom tif dlifnt's rbndom vbluf
+     * @pbrbm sfrvfrRbndom tif sfrvfr's rbndom vbluf
+     * @pbrbm dipifrAlgoritim tif blgoritim nbmf of tif dipifr kfys to
+     *    bf gfnfrbtfd
+     * @pbrbm dipifrKfyLfngti if 0, no dipifr kfys will bf gfnfrbtfd;
+     *    otifrwisf, tif lfngti in bytfs of dipifr kfys to bf
+     *    gfnfrbtfd for domfstid dipifr suitfs; for dipifr suitfs dffinfd bs
+     *    fxportbblf, tif numbfr of kfy mbtfribl bytfs to bf gfnfrbtfd;
+     * @pbrbm fxpbndfdCipifrKfyLfngti 0 for domfstid dipifr suitfs; for
+     *    fxportbblf dipifr suitfs tif lfngti in bytfs of tif kfy to bf
+     *    gfnfrbtfd.
+     * @pbrbm ivLfngti tif lfngti in bytfs of tif initiblizbtion vfdtor
+     *    to bf gfnfrbtfd, or 0 if no initiblizbtion vfdtor is rfquirfd
+     * @pbrbm mbdKfyLfngti tif lfngti in bytfs of tif MAC kfy to bf gfnfrbtfd
+     * @pbrbm prfHbsiAlg tif nbmf of tif TLS PRF ibsi blgoritim to usf.
+     *        Usfd only for TLS 1.2+.  TLS1.1 bnd fbrlifr usf b fixfd PRF.
+     * @pbrbm prfHbsiLfngti tif output lfngti of tif TLS PRF ibsi blgoritim.
+     *        Usfd only for TLS 1.2+.
+     * @pbrbm prfBlodkSizf tif input blodk sizf of tif TLS PRF ibsi blgoritim.
+     *        Usfd only for TLS 1.2+.
      *
-     * @throws NullPointerException if masterSecret, clientRandom,
-     *   serverRandom, or cipherAlgorithm are null
-     * @throws IllegalArgumentException if the algorithm of masterSecret is
-     *   not TlsMasterSecret, or if majorVersion or minorVersion are
-     *   negative or larger than 255; or if cipherKeyLength, expandedKeyLength,
-     *   ivLength, or macKeyLength are negative
+     * @tirows NullPointfrExdfption if mbstfrSfdrft, dlifntRbndom,
+     *   sfrvfrRbndom, or dipifrAlgoritim brf null
+     * @tirows IllfgblArgumfntExdfption if tif blgoritim of mbstfrSfdrft is
+     *   not TlsMbstfrSfdrft, or if mbjorVfrsion or minorVfrsion brf
+     *   nfgbtivf or lbrgfr tibn 255; or if dipifrKfyLfngti, fxpbndfdKfyLfngti,
+     *   ivLfngti, or mbdKfyLfngti brf nfgbtivf
      */
-    public TlsKeyMaterialParameterSpec(SecretKey masterSecret,
-            int majorVersion, int minorVersion, byte[] clientRandom,
-            byte[] serverRandom, String cipherAlgorithm, int cipherKeyLength,
-            int expandedCipherKeyLength, int ivLength, int macKeyLength,
-            String prfHashAlg, int prfHashLength, int prfBlockSize) {
-        if (masterSecret.getAlgorithm().equals("TlsMasterSecret") == false) {
-            throw new IllegalArgumentException("Not a TLS master secret");
+    publid TlsKfyMbtfriblPbrbmftfrSpfd(SfdrftKfy mbstfrSfdrft,
+            int mbjorVfrsion, int minorVfrsion, bytf[] dlifntRbndom,
+            bytf[] sfrvfrRbndom, String dipifrAlgoritim, int dipifrKfyLfngti,
+            int fxpbndfdCipifrKfyLfngti, int ivLfngti, int mbdKfyLfngti,
+            String prfHbsiAlg, int prfHbsiLfngti, int prfBlodkSizf) {
+        if (mbstfrSfdrft.gftAlgoritim().fqubls("TlsMbstfrSfdrft") == fblsf) {
+            tirow nfw IllfgblArgumfntExdfption("Not b TLS mbstfr sfdrft");
         }
-        if (cipherAlgorithm == null) {
-            throw new NullPointerException();
+        if (dipifrAlgoritim == null) {
+            tirow nfw NullPointfrExdfption();
         }
-        this.masterSecret = masterSecret;
-        this.majorVersion =
-            TlsMasterSecretParameterSpec.checkVersion(majorVersion);
-        this.minorVersion =
-            TlsMasterSecretParameterSpec.checkVersion(minorVersion);
-        this.clientRandom = clientRandom.clone();
-        this.serverRandom = serverRandom.clone();
-        this.cipherAlgorithm = cipherAlgorithm;
-        this.cipherKeyLength = checkSign(cipherKeyLength);
-        this.expandedCipherKeyLength = checkSign(expandedCipherKeyLength);
-        this.ivLength = checkSign(ivLength);
-        this.macKeyLength = checkSign(macKeyLength);
-        this.prfHashAlg = prfHashAlg;
-        this.prfHashLength = prfHashLength;
-        this.prfBlockSize = prfBlockSize;
+        tiis.mbstfrSfdrft = mbstfrSfdrft;
+        tiis.mbjorVfrsion =
+            TlsMbstfrSfdrftPbrbmftfrSpfd.difdkVfrsion(mbjorVfrsion);
+        tiis.minorVfrsion =
+            TlsMbstfrSfdrftPbrbmftfrSpfd.difdkVfrsion(minorVfrsion);
+        tiis.dlifntRbndom = dlifntRbndom.dlonf();
+        tiis.sfrvfrRbndom = sfrvfrRbndom.dlonf();
+        tiis.dipifrAlgoritim = dipifrAlgoritim;
+        tiis.dipifrKfyLfngti = difdkSign(dipifrKfyLfngti);
+        tiis.fxpbndfdCipifrKfyLfngti = difdkSign(fxpbndfdCipifrKfyLfngti);
+        tiis.ivLfngti = difdkSign(ivLfngti);
+        tiis.mbdKfyLfngti = difdkSign(mbdKfyLfngti);
+        tiis.prfHbsiAlg = prfHbsiAlg;
+        tiis.prfHbsiLfngti = prfHbsiLfngti;
+        tiis.prfBlodkSizf = prfBlodkSizf;
     }
 
-    private static int checkSign(int k) {
+    privbtf stbtid int difdkSign(int k) {
         if (k < 0) {
-            throw new IllegalArgumentException("Value must not be negative");
+            tirow nfw IllfgblArgumfntExdfption("Vbluf must not bf nfgbtivf");
         }
-        return k;
+        rfturn k;
     }
 
     /**
-     * Returns the master secret.
+     * Rfturns tif mbstfr sfdrft.
      *
-     * @return the master secret.
+     * @rfturn tif mbstfr sfdrft.
      */
-    public SecretKey getMasterSecret() {
-        return masterSecret;
+    publid SfdrftKfy gftMbstfrSfdrft() {
+        rfturn mbstfrSfdrft;
     }
 
     /**
-     * Returns the major version number.
+     * Rfturns tif mbjor vfrsion numbfr.
      *
-     * @return the major version number.
+     * @rfturn tif mbjor vfrsion numbfr.
      */
-    public int getMajorVersion() {
-        return majorVersion;
+    publid int gftMbjorVfrsion() {
+        rfturn mbjorVfrsion;
     }
 
     /**
-     * Returns the minor version number.
+     * Rfturns tif minor vfrsion numbfr.
      *
-     * @return the minor version number.
+     * @rfturn tif minor vfrsion numbfr.
      */
-    public int getMinorVersion() {
-        return minorVersion;
+    publid int gftMinorVfrsion() {
+        rfturn minorVfrsion;
     }
 
     /**
-     * Returns a copy of the client's random value.
+     * Rfturns b dopy of tif dlifnt's rbndom vbluf.
      *
-     * @return a copy of the client's random value.
+     * @rfturn b dopy of tif dlifnt's rbndom vbluf.
      */
-    public byte[] getClientRandom() {
-        return clientRandom.clone();
+    publid bytf[] gftClifntRbndom() {
+        rfturn dlifntRbndom.dlonf();
     }
 
     /**
-     * Returns a copy of the server's random value.
+     * Rfturns b dopy of tif sfrvfr's rbndom vbluf.
      *
-     * @return a copy of the server's random value.
+     * @rfturn b dopy of tif sfrvfr's rbndom vbluf.
      */
-    public byte[] getServerRandom() {
-        return serverRandom.clone();
+    publid bytf[] gftSfrvfrRbndom() {
+        rfturn sfrvfrRbndom.dlonf();
     }
 
     /**
-     * Returns the cipher algorithm.
+     * Rfturns tif dipifr blgoritim.
      *
-     * @return the cipher algorithm.
+     * @rfturn tif dipifr blgoritim.
      */
-    public String getCipherAlgorithm() {
-        return cipherAlgorithm;
+    publid String gftCipifrAlgoritim() {
+        rfturn dipifrAlgoritim;
     }
 
     /**
-     * Returns the length in bytes of the encryption key to be generated.
+     * Rfturns tif lfngti in bytfs of tif fndryption kfy to bf gfnfrbtfd.
      *
-     * @return the length in bytes of the encryption key to be generated.
+     * @rfturn tif lfngti in bytfs of tif fndryption kfy to bf gfnfrbtfd.
      */
-    public int getCipherKeyLength() {
-        return cipherKeyLength;
+    publid int gftCipifrKfyLfngti() {
+        rfturn dipifrKfyLfngti;
     }
 
     /**
-     * Returns the length in bytes of the expanded encryption key to be
-     * generated. Returns zero if the expanded encryption key is not
-     * supposed to be generated.
+     * Rfturns tif lfngti in bytfs of tif fxpbndfd fndryption kfy to bf
+     * gfnfrbtfd. Rfturns zfro if tif fxpbndfd fndryption kfy is not
+     * supposfd to bf gfnfrbtfd.
      *
-     * @return the length in bytes of the expanded encryption key to be
-     *     generated.
+     * @rfturn tif lfngti in bytfs of tif fxpbndfd fndryption kfy to bf
+     *     gfnfrbtfd.
      */
-    public int getExpandedCipherKeyLength() {
-        // TLS v1.1 disables the exportable weak cipher suites.
-        if (majorVersion >= 0x03 && minorVersion >= 0x02) {
-            return 0;
+    publid int gftExpbndfdCipifrKfyLfngti() {
+        // TLS v1.1 disbblfs tif fxportbblf wfbk dipifr suitfs.
+        if (mbjorVfrsion >= 0x03 && minorVfrsion >= 0x02) {
+            rfturn 0;
         }
-        return expandedCipherKeyLength;
+        rfturn fxpbndfdCipifrKfyLfngti;
     }
 
     /**
-     * Returns the length in bytes of the initialization vector to be
-     * generated. Returns zero if the initialization vector is not
-     * supposed to be generated.
+     * Rfturns tif lfngti in bytfs of tif initiblizbtion vfdtor to bf
+     * gfnfrbtfd. Rfturns zfro if tif initiblizbtion vfdtor is not
+     * supposfd to bf gfnfrbtfd.
      *
-     * @return the length in bytes of the initialization vector to be
-     *     generated.
+     * @rfturn tif lfngti in bytfs of tif initiblizbtion vfdtor to bf
+     *     gfnfrbtfd.
      */
-    public int getIvLength() {
-        return ivLength;
+    publid int gftIvLfngti() {
+        rfturn ivLfngti;
     }
 
     /**
-     * Returns the length in bytes of the MAC key to be generated.
+     * Rfturns tif lfngti in bytfs of tif MAC kfy to bf gfnfrbtfd.
      *
-     * @return the length in bytes of the MAC key to be generated.
+     * @rfturn tif lfngti in bytfs of tif MAC kfy to bf gfnfrbtfd.
      */
-    public int getMacKeyLength() {
-        return macKeyLength;
+    publid int gftMbdKfyLfngti() {
+        rfturn mbdKfyLfngti;
     }
 
     /**
-     * Obtains the PRF hash algorithm to use in the PRF calculation.
+     * Obtbins tif PRF ibsi blgoritim to usf in tif PRF dbldulbtion.
      *
-     * @return the hash algorithm.
+     * @rfturn tif ibsi blgoritim.
      */
-    public String getPRFHashAlg() {
-        return prfHashAlg;
+    publid String gftPRFHbsiAlg() {
+        rfturn prfHbsiAlg;
     }
 
     /**
-     * Obtains the length of the PRF hash algorithm.
+     * Obtbins tif lfngti of tif PRF ibsi blgoritim.
      *
-     * @return the hash algorithm length.
+     * @rfturn tif ibsi blgoritim lfngti.
      */
-    public int getPRFHashLength() {
-        return prfHashLength;
+    publid int gftPRFHbsiLfngti() {
+        rfturn prfHbsiLfngti;
     }
 
     /**
-     * Obtains the block size of the PRF hash algorithm.
+     * Obtbins tif blodk sizf of tif PRF ibsi blgoritim.
      *
-     * @return the hash algorithm block size
+     * @rfturn tif ibsi blgoritim blodk sizf
      */
-    public int getPRFBlockSize() {
-        return prfBlockSize;
+    publid int gftPRFBlodkSizf() {
+        rfturn prfBlodkSizf;
     }
 }

@@ -1,485 +1,485 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Writtfn by Doug Lfb witi bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to tif publid dombin, bs fxplbinfd bt
+ * ittp://drfbtivfdommons.org/publiddombin/zfro/1.0/
  */
 
-package java.util.concurrent;
-import java.util.concurrent.locks.LockSupport;
+pbdkbgf jbvb.util.dondurrfnt;
+import jbvb.util.dondurrfnt.lodks.LodkSupport;
 
 /**
- * A cancellable asynchronous computation.  This class provides a base
- * implementation of {@link Future}, with methods to start and cancel
- * a computation, query to see if the computation is complete, and
- * retrieve the result of the computation.  The result can only be
- * retrieved when the computation has completed; the {@code get}
- * methods will block if the computation has not yet completed.  Once
- * the computation has completed, the computation cannot be restarted
- * or cancelled (unless the computation is invoked using
- * {@link #runAndReset}).
+ * A dbndfllbblf bsyndironous domputbtion.  Tiis dlbss providfs b bbsf
+ * implfmfntbtion of {@link Futurf}, witi mftiods to stbrt bnd dbndfl
+ * b domputbtion, qufry to sff if tif domputbtion is domplftf, bnd
+ * rftrifvf tif rfsult of tif domputbtion.  Tif rfsult dbn only bf
+ * rftrifvfd wifn tif domputbtion ibs domplftfd; tif {@dodf gft}
+ * mftiods will blodk if tif domputbtion ibs not yft domplftfd.  Ondf
+ * tif domputbtion ibs domplftfd, tif domputbtion dbnnot bf rfstbrtfd
+ * or dbndfllfd (unlfss tif domputbtion is invokfd using
+ * {@link #runAndRfsft}).
  *
- * <p>A {@code FutureTask} can be used to wrap a {@link Callable} or
- * {@link Runnable} object.  Because {@code FutureTask} implements
- * {@code Runnable}, a {@code FutureTask} can be submitted to an
- * {@link Executor} for execution.
+ * <p>A {@dodf FuturfTbsk} dbn bf usfd to wrbp b {@link Cbllbblf} or
+ * {@link Runnbblf} objfdt.  Bfdbusf {@dodf FuturfTbsk} implfmfnts
+ * {@dodf Runnbblf}, b {@dodf FuturfTbsk} dbn bf submittfd to bn
+ * {@link Exfdutor} for fxfdution.
  *
- * <p>In addition to serving as a standalone class, this class provides
- * {@code protected} functionality that may be useful when creating
- * customized task classes.
+ * <p>In bddition to sfrving bs b stbndblonf dlbss, tiis dlbss providfs
+ * {@dodf protfdtfd} fundtionblity tibt mby bf usfful wifn drfbting
+ * dustomizfd tbsk dlbssfs.
  *
- * @since 1.5
- * @author Doug Lea
- * @param <V> The result type returned by this FutureTask's {@code get} methods
+ * @sindf 1.5
+ * @butior Doug Lfb
+ * @pbrbm <V> Tif rfsult typf rfturnfd by tiis FuturfTbsk's {@dodf gft} mftiods
  */
-public class FutureTask<V> implements RunnableFuture<V> {
+publid dlbss FuturfTbsk<V> implfmfnts RunnbblfFuturf<V> {
     /*
-     * Revision notes: This differs from previous versions of this
-     * class that relied on AbstractQueuedSynchronizer, mainly to
-     * avoid surprising users about retaining interrupt status during
-     * cancellation races. Sync control in the current design relies
-     * on a "state" field updated via CAS to track completion, along
-     * with a simple Treiber stack to hold waiting threads.
+     * Rfvision notfs: Tiis difffrs from prfvious vfrsions of tiis
+     * dlbss tibt rflifd on AbstrbdtQufufdSyndironizfr, mbinly to
+     * bvoid surprising usfrs bbout rftbining intfrrupt stbtus during
+     * dbndfllbtion rbdfs. Synd dontrol in tif durrfnt dfsign rflifs
+     * on b "stbtf" fifld updbtfd vib CAS to trbdk domplftion, blong
+     * witi b simplf Trfibfr stbdk to iold wbiting tirfbds.
      *
-     * Style note: As usual, we bypass overhead of using
-     * AtomicXFieldUpdaters and instead directly use Unsafe intrinsics.
+     * Stylf notf: As usubl, wf bypbss ovfrifbd of using
+     * AtomidXFifldUpdbtfrs bnd instfbd dirfdtly usf Unsbff intrinsids.
      */
 
     /**
-     * The run state of this task, initially NEW.  The run state
-     * transitions to a terminal state only in methods set,
-     * setException, and cancel.  During completion, state may take on
-     * transient values of COMPLETING (while outcome is being set) or
-     * INTERRUPTING (only while interrupting the runner to satisfy a
-     * cancel(true)). Transitions from these intermediate to final
-     * states use cheaper ordered/lazy writes because values are unique
-     * and cannot be further modified.
+     * Tif run stbtf of tiis tbsk, initiblly NEW.  Tif run stbtf
+     * trbnsitions to b tfrminbl stbtf only in mftiods sft,
+     * sftExdfption, bnd dbndfl.  During domplftion, stbtf mby tbkf on
+     * trbnsifnt vblufs of COMPLETING (wiilf outdomf is bfing sft) or
+     * INTERRUPTING (only wiilf intfrrupting tif runnfr to sbtisfy b
+     * dbndfl(truf)). Trbnsitions from tifsf intfrmfdibtf to finbl
+     * stbtfs usf difbpfr ordfrfd/lbzy writfs bfdbusf vblufs brf uniquf
+     * bnd dbnnot bf furtifr modififd.
      *
-     * Possible state transitions:
+     * Possiblf stbtf trbnsitions:
      * NEW -> COMPLETING -> NORMAL
      * NEW -> COMPLETING -> EXCEPTIONAL
      * NEW -> CANCELLED
      * NEW -> INTERRUPTING -> INTERRUPTED
      */
-    private volatile int state;
-    private static final int NEW          = 0;
-    private static final int COMPLETING   = 1;
-    private static final int NORMAL       = 2;
-    private static final int EXCEPTIONAL  = 3;
-    private static final int CANCELLED    = 4;
-    private static final int INTERRUPTING = 5;
-    private static final int INTERRUPTED  = 6;
+    privbtf volbtilf int stbtf;
+    privbtf stbtid finbl int NEW          = 0;
+    privbtf stbtid finbl int COMPLETING   = 1;
+    privbtf stbtid finbl int NORMAL       = 2;
+    privbtf stbtid finbl int EXCEPTIONAL  = 3;
+    privbtf stbtid finbl int CANCELLED    = 4;
+    privbtf stbtid finbl int INTERRUPTING = 5;
+    privbtf stbtid finbl int INTERRUPTED  = 6;
 
-    /** The underlying callable; nulled out after running */
-    private Callable<V> callable;
-    /** The result to return or exception to throw from get() */
-    private Object outcome; // non-volatile, protected by state reads/writes
-    /** The thread running the callable; CASed during run() */
-    private volatile Thread runner;
-    /** Treiber stack of waiting threads */
-    private volatile WaitNode waiters;
+    /** Tif undfrlying dbllbblf; nullfd out bftfr running */
+    privbtf Cbllbblf<V> dbllbblf;
+    /** Tif rfsult to rfturn or fxdfption to tirow from gft() */
+    privbtf Objfdt outdomf; // non-volbtilf, protfdtfd by stbtf rfbds/writfs
+    /** Tif tirfbd running tif dbllbblf; CASfd during run() */
+    privbtf volbtilf Tirfbd runnfr;
+    /** Trfibfr stbdk of wbiting tirfbds */
+    privbtf volbtilf WbitNodf wbitfrs;
 
     /**
-     * Returns result or throws exception for completed task.
+     * Rfturns rfsult or tirows fxdfption for domplftfd tbsk.
      *
-     * @param s completed state value
+     * @pbrbm s domplftfd stbtf vbluf
      */
-    @SuppressWarnings("unchecked")
-    private V report(int s) throws ExecutionException {
-        Object x = outcome;
+    @SupprfssWbrnings("undifdkfd")
+    privbtf V rfport(int s) tirows ExfdutionExdfption {
+        Objfdt x = outdomf;
         if (s == NORMAL)
-            return (V)x;
+            rfturn (V)x;
         if (s >= CANCELLED)
-            throw new CancellationException();
-        throw new ExecutionException((Throwable)x);
+            tirow nfw CbndfllbtionExdfption();
+        tirow nfw ExfdutionExdfption((Tirowbblf)x);
     }
 
     /**
-     * Creates a {@code FutureTask} that will, upon running, execute the
-     * given {@code Callable}.
+     * Crfbtfs b {@dodf FuturfTbsk} tibt will, upon running, fxfdutf tif
+     * givfn {@dodf Cbllbblf}.
      *
-     * @param  callable the callable task
-     * @throws NullPointerException if the callable is null
+     * @pbrbm  dbllbblf tif dbllbblf tbsk
+     * @tirows NullPointfrExdfption if tif dbllbblf is null
      */
-    public FutureTask(Callable<V> callable) {
-        if (callable == null)
-            throw new NullPointerException();
-        this.callable = callable;
-        this.state = NEW;       // ensure visibility of callable
+    publid FuturfTbsk(Cbllbblf<V> dbllbblf) {
+        if (dbllbblf == null)
+            tirow nfw NullPointfrExdfption();
+        tiis.dbllbblf = dbllbblf;
+        tiis.stbtf = NEW;       // fnsurf visibility of dbllbblf
     }
 
     /**
-     * Creates a {@code FutureTask} that will, upon running, execute the
-     * given {@code Runnable}, and arrange that {@code get} will return the
-     * given result on successful completion.
+     * Crfbtfs b {@dodf FuturfTbsk} tibt will, upon running, fxfdutf tif
+     * givfn {@dodf Runnbblf}, bnd brrbngf tibt {@dodf gft} will rfturn tif
+     * givfn rfsult on suddfssful domplftion.
      *
-     * @param runnable the runnable task
-     * @param result the result to return on successful completion. If
-     * you don't need a particular result, consider using
-     * constructions of the form:
-     * {@code Future<?> f = new FutureTask<Void>(runnable, null)}
-     * @throws NullPointerException if the runnable is null
+     * @pbrbm runnbblf tif runnbblf tbsk
+     * @pbrbm rfsult tif rfsult to rfturn on suddfssful domplftion. If
+     * you don't nffd b pbrtidulbr rfsult, donsidfr using
+     * donstrudtions of tif form:
+     * {@dodf Futurf<?> f = nfw FuturfTbsk<Void>(runnbblf, null)}
+     * @tirows NullPointfrExdfption if tif runnbblf is null
      */
-    public FutureTask(Runnable runnable, V result) {
-        this.callable = Executors.callable(runnable, result);
-        this.state = NEW;       // ensure visibility of callable
+    publid FuturfTbsk(Runnbblf runnbblf, V rfsult) {
+        tiis.dbllbblf = Exfdutors.dbllbblf(runnbblf, rfsult);
+        tiis.stbtf = NEW;       // fnsurf visibility of dbllbblf
     }
 
-    public boolean isCancelled() {
-        return state >= CANCELLED;
+    publid boolfbn isCbndfllfd() {
+        rfturn stbtf >= CANCELLED;
     }
 
-    public boolean isDone() {
-        return state != NEW;
+    publid boolfbn isDonf() {
+        rfturn stbtf != NEW;
     }
 
-    public boolean cancel(boolean mayInterruptIfRunning) {
-        if (!(state == NEW &&
-              UNSAFE.compareAndSwapInt(this, stateOffset, NEW,
-                  mayInterruptIfRunning ? INTERRUPTING : CANCELLED)))
-            return false;
-        try {    // in case call to interrupt throws exception
-            if (mayInterruptIfRunning) {
+    publid boolfbn dbndfl(boolfbn mbyIntfrruptIfRunning) {
+        if (!(stbtf == NEW &&
+              UNSAFE.dompbrfAndSwbpInt(tiis, stbtfOffsft, NEW,
+                  mbyIntfrruptIfRunning ? INTERRUPTING : CANCELLED)))
+            rfturn fblsf;
+        try {    // in dbsf dbll to intfrrupt tirows fxdfption
+            if (mbyIntfrruptIfRunning) {
                 try {
-                    Thread t = runner;
+                    Tirfbd t = runnfr;
                     if (t != null)
-                        t.interrupt();
-                } finally { // final state
-                    UNSAFE.putOrderedInt(this, stateOffset, INTERRUPTED);
+                        t.intfrrupt();
+                } finblly { // finbl stbtf
+                    UNSAFE.putOrdfrfdInt(tiis, stbtfOffsft, INTERRUPTED);
                 }
             }
-        } finally {
-            finishCompletion();
+        } finblly {
+            finisiComplftion();
         }
-        return true;
+        rfturn truf;
     }
 
     /**
-     * @throws CancellationException {@inheritDoc}
+     * @tirows CbndfllbtionExdfption {@inifritDod}
      */
-    public V get() throws InterruptedException, ExecutionException {
-        int s = state;
+    publid V gft() tirows IntfrruptfdExdfption, ExfdutionExdfption {
+        int s = stbtf;
         if (s <= COMPLETING)
-            s = awaitDone(false, 0L);
-        return report(s);
+            s = bwbitDonf(fblsf, 0L);
+        rfturn rfport(s);
     }
 
     /**
-     * @throws CancellationException {@inheritDoc}
+     * @tirows CbndfllbtionExdfption {@inifritDod}
      */
-    public V get(long timeout, TimeUnit unit)
-        throws InterruptedException, ExecutionException, TimeoutException {
+    publid V gft(long timfout, TimfUnit unit)
+        tirows IntfrruptfdExdfption, ExfdutionExdfption, TimfoutExdfption {
         if (unit == null)
-            throw new NullPointerException();
-        int s = state;
+            tirow nfw NullPointfrExdfption();
+        int s = stbtf;
         if (s <= COMPLETING &&
-            (s = awaitDone(true, unit.toNanos(timeout))) <= COMPLETING)
-            throw new TimeoutException();
-        return report(s);
+            (s = bwbitDonf(truf, unit.toNbnos(timfout))) <= COMPLETING)
+            tirow nfw TimfoutExdfption();
+        rfturn rfport(s);
     }
 
     /**
-     * Protected method invoked when this task transitions to state
-     * {@code isDone} (whether normally or via cancellation). The
-     * default implementation does nothing.  Subclasses may override
-     * this method to invoke completion callbacks or perform
-     * bookkeeping. Note that you can query status inside the
-     * implementation of this method to determine whether this task
-     * has been cancelled.
+     * Protfdtfd mftiod invokfd wifn tiis tbsk trbnsitions to stbtf
+     * {@dodf isDonf} (wiftifr normblly or vib dbndfllbtion). Tif
+     * dffbult implfmfntbtion dofs notiing.  Subdlbssfs mby ovfrridf
+     * tiis mftiod to invokf domplftion dbllbbdks or pfrform
+     * bookkffping. Notf tibt you dbn qufry stbtus insidf tif
+     * implfmfntbtion of tiis mftiod to dftfrminf wiftifr tiis tbsk
+     * ibs bffn dbndfllfd.
      */
-    protected void done() { }
+    protfdtfd void donf() { }
 
     /**
-     * Sets the result of this future to the given value unless
-     * this future has already been set or has been cancelled.
+     * Sfts tif rfsult of tiis futurf to tif givfn vbluf unlfss
+     * tiis futurf ibs blrfbdy bffn sft or ibs bffn dbndfllfd.
      *
-     * <p>This method is invoked internally by the {@link #run} method
-     * upon successful completion of the computation.
+     * <p>Tiis mftiod is invokfd intfrnblly by tif {@link #run} mftiod
+     * upon suddfssful domplftion of tif domputbtion.
      *
-     * @param v the value
+     * @pbrbm v tif vbluf
      */
-    protected void set(V v) {
-        if (UNSAFE.compareAndSwapInt(this, stateOffset, NEW, COMPLETING)) {
-            outcome = v;
-            UNSAFE.putOrderedInt(this, stateOffset, NORMAL); // final state
-            finishCompletion();
+    protfdtfd void sft(V v) {
+        if (UNSAFE.dompbrfAndSwbpInt(tiis, stbtfOffsft, NEW, COMPLETING)) {
+            outdomf = v;
+            UNSAFE.putOrdfrfdInt(tiis, stbtfOffsft, NORMAL); // finbl stbtf
+            finisiComplftion();
         }
     }
 
     /**
-     * Causes this future to report an {@link ExecutionException}
-     * with the given throwable as its cause, unless this future has
-     * already been set or has been cancelled.
+     * Cbusfs tiis futurf to rfport bn {@link ExfdutionExdfption}
+     * witi tif givfn tirowbblf bs its dbusf, unlfss tiis futurf ibs
+     * blrfbdy bffn sft or ibs bffn dbndfllfd.
      *
-     * <p>This method is invoked internally by the {@link #run} method
-     * upon failure of the computation.
+     * <p>Tiis mftiod is invokfd intfrnblly by tif {@link #run} mftiod
+     * upon fbilurf of tif domputbtion.
      *
-     * @param t the cause of failure
+     * @pbrbm t tif dbusf of fbilurf
      */
-    protected void setException(Throwable t) {
-        if (UNSAFE.compareAndSwapInt(this, stateOffset, NEW, COMPLETING)) {
-            outcome = t;
-            UNSAFE.putOrderedInt(this, stateOffset, EXCEPTIONAL); // final state
-            finishCompletion();
+    protfdtfd void sftExdfption(Tirowbblf t) {
+        if (UNSAFE.dompbrfAndSwbpInt(tiis, stbtfOffsft, NEW, COMPLETING)) {
+            outdomf = t;
+            UNSAFE.putOrdfrfdInt(tiis, stbtfOffsft, EXCEPTIONAL); // finbl stbtf
+            finisiComplftion();
         }
     }
 
-    public void run() {
-        if (state != NEW ||
-            !UNSAFE.compareAndSwapObject(this, runnerOffset,
-                                         null, Thread.currentThread()))
-            return;
+    publid void run() {
+        if (stbtf != NEW ||
+            !UNSAFE.dompbrfAndSwbpObjfdt(tiis, runnfrOffsft,
+                                         null, Tirfbd.durrfntTirfbd()))
+            rfturn;
         try {
-            Callable<V> c = callable;
-            if (c != null && state == NEW) {
-                V result;
-                boolean ran;
+            Cbllbblf<V> d = dbllbblf;
+            if (d != null && stbtf == NEW) {
+                V rfsult;
+                boolfbn rbn;
                 try {
-                    result = c.call();
-                    ran = true;
-                } catch (Throwable ex) {
-                    result = null;
-                    ran = false;
-                    setException(ex);
+                    rfsult = d.dbll();
+                    rbn = truf;
+                } dbtdi (Tirowbblf fx) {
+                    rfsult = null;
+                    rbn = fblsf;
+                    sftExdfption(fx);
                 }
-                if (ran)
-                    set(result);
+                if (rbn)
+                    sft(rfsult);
             }
-        } finally {
-            // runner must be non-null until state is settled to
-            // prevent concurrent calls to run()
-            runner = null;
-            // state must be re-read after nulling runner to prevent
-            // leaked interrupts
-            int s = state;
+        } finblly {
+            // runnfr must bf non-null until stbtf is sfttlfd to
+            // prfvfnt dondurrfnt dblls to run()
+            runnfr = null;
+            // stbtf must bf rf-rfbd bftfr nulling runnfr to prfvfnt
+            // lfbkfd intfrrupts
+            int s = stbtf;
             if (s >= INTERRUPTING)
-                handlePossibleCancellationInterrupt(s);
+                ibndlfPossiblfCbndfllbtionIntfrrupt(s);
         }
     }
 
     /**
-     * Executes the computation without setting its result, and then
-     * resets this future to initial state, failing to do so if the
-     * computation encounters an exception or is cancelled.  This is
-     * designed for use with tasks that intrinsically execute more
-     * than once.
+     * Exfdutfs tif domputbtion witiout sftting its rfsult, bnd tifn
+     * rfsfts tiis futurf to initibl stbtf, fbiling to do so if tif
+     * domputbtion fndountfrs bn fxdfption or is dbndfllfd.  Tiis is
+     * dfsignfd for usf witi tbsks tibt intrinsidblly fxfdutf morf
+     * tibn ondf.
      *
-     * @return {@code true} if successfully run and reset
+     * @rfturn {@dodf truf} if suddfssfully run bnd rfsft
      */
-    protected boolean runAndReset() {
-        if (state != NEW ||
-            !UNSAFE.compareAndSwapObject(this, runnerOffset,
-                                         null, Thread.currentThread()))
-            return false;
-        boolean ran = false;
-        int s = state;
+    protfdtfd boolfbn runAndRfsft() {
+        if (stbtf != NEW ||
+            !UNSAFE.dompbrfAndSwbpObjfdt(tiis, runnfrOffsft,
+                                         null, Tirfbd.durrfntTirfbd()))
+            rfturn fblsf;
+        boolfbn rbn = fblsf;
+        int s = stbtf;
         try {
-            Callable<V> c = callable;
-            if (c != null && s == NEW) {
+            Cbllbblf<V> d = dbllbblf;
+            if (d != null && s == NEW) {
                 try {
-                    c.call(); // don't set result
-                    ran = true;
-                } catch (Throwable ex) {
-                    setException(ex);
+                    d.dbll(); // don't sft rfsult
+                    rbn = truf;
+                } dbtdi (Tirowbblf fx) {
+                    sftExdfption(fx);
                 }
             }
-        } finally {
-            // runner must be non-null until state is settled to
-            // prevent concurrent calls to run()
-            runner = null;
-            // state must be re-read after nulling runner to prevent
-            // leaked interrupts
-            s = state;
+        } finblly {
+            // runnfr must bf non-null until stbtf is sfttlfd to
+            // prfvfnt dondurrfnt dblls to run()
+            runnfr = null;
+            // stbtf must bf rf-rfbd bftfr nulling runnfr to prfvfnt
+            // lfbkfd intfrrupts
+            s = stbtf;
             if (s >= INTERRUPTING)
-                handlePossibleCancellationInterrupt(s);
+                ibndlfPossiblfCbndfllbtionIntfrrupt(s);
         }
-        return ran && s == NEW;
+        rfturn rbn && s == NEW;
     }
 
     /**
-     * Ensures that any interrupt from a possible cancel(true) is only
-     * delivered to a task while in run or runAndReset.
+     * Ensurfs tibt bny intfrrupt from b possiblf dbndfl(truf) is only
+     * dflivfrfd to b tbsk wiilf in run or runAndRfsft.
      */
-    private void handlePossibleCancellationInterrupt(int s) {
-        // It is possible for our interrupter to stall before getting a
-        // chance to interrupt us.  Let's spin-wait patiently.
+    privbtf void ibndlfPossiblfCbndfllbtionIntfrrupt(int s) {
+        // It is possiblf for our intfrruptfr to stbll bfforf gftting b
+        // dibndf to intfrrupt us.  Lft's spin-wbit pbtifntly.
         if (s == INTERRUPTING)
-            while (state == INTERRUPTING)
-                Thread.yield(); // wait out pending interrupt
+            wiilf (stbtf == INTERRUPTING)
+                Tirfbd.yifld(); // wbit out pfnding intfrrupt
 
-        // assert state == INTERRUPTED;
+        // bssfrt stbtf == INTERRUPTED;
 
-        // We want to clear any interrupt we may have received from
-        // cancel(true).  However, it is permissible to use interrupts
-        // as an independent mechanism for a task to communicate with
-        // its caller, and there is no way to clear only the
-        // cancellation interrupt.
+        // Wf wbnt to dlfbr bny intfrrupt wf mby ibvf rfdfivfd from
+        // dbndfl(truf).  Howfvfr, it is pfrmissiblf to usf intfrrupts
+        // bs bn indfpfndfnt mfdibnism for b tbsk to dommunidbtf witi
+        // its dbllfr, bnd tifrf is no wby to dlfbr only tif
+        // dbndfllbtion intfrrupt.
         //
-        // Thread.interrupted();
+        // Tirfbd.intfrruptfd();
     }
 
     /**
-     * Simple linked list nodes to record waiting threads in a Treiber
-     * stack.  See other classes such as Phaser and SynchronousQueue
-     * for more detailed explanation.
+     * Simplf linkfd list nodfs to rfdord wbiting tirfbds in b Trfibfr
+     * stbdk.  Sff otifr dlbssfs sudi bs Pibsfr bnd SyndironousQufuf
+     * for morf dftbilfd fxplbnbtion.
      */
-    static final class WaitNode {
-        volatile Thread thread;
-        volatile WaitNode next;
-        WaitNode() { thread = Thread.currentThread(); }
+    stbtid finbl dlbss WbitNodf {
+        volbtilf Tirfbd tirfbd;
+        volbtilf WbitNodf nfxt;
+        WbitNodf() { tirfbd = Tirfbd.durrfntTirfbd(); }
     }
 
     /**
-     * Removes and signals all waiting threads, invokes done(), and
-     * nulls out callable.
+     * Rfmovfs bnd signbls bll wbiting tirfbds, invokfs donf(), bnd
+     * nulls out dbllbblf.
      */
-    private void finishCompletion() {
-        // assert state > COMPLETING;
-        for (WaitNode q; (q = waiters) != null;) {
-            if (UNSAFE.compareAndSwapObject(this, waitersOffset, q, null)) {
+    privbtf void finisiComplftion() {
+        // bssfrt stbtf > COMPLETING;
+        for (WbitNodf q; (q = wbitfrs) != null;) {
+            if (UNSAFE.dompbrfAndSwbpObjfdt(tiis, wbitfrsOffsft, q, null)) {
                 for (;;) {
-                    Thread t = q.thread;
+                    Tirfbd t = q.tirfbd;
                     if (t != null) {
-                        q.thread = null;
-                        LockSupport.unpark(t);
+                        q.tirfbd = null;
+                        LodkSupport.unpbrk(t);
                     }
-                    WaitNode next = q.next;
-                    if (next == null)
-                        break;
-                    q.next = null; // unlink to help gc
-                    q = next;
+                    WbitNodf nfxt = q.nfxt;
+                    if (nfxt == null)
+                        brfbk;
+                    q.nfxt = null; // unlink to iflp gd
+                    q = nfxt;
                 }
-                break;
+                brfbk;
             }
         }
 
-        done();
+        donf();
 
-        callable = null;        // to reduce footprint
+        dbllbblf = null;        // to rfdudf footprint
     }
 
     /**
-     * Awaits completion or aborts on interrupt or timeout.
+     * Awbits domplftion or bborts on intfrrupt or timfout.
      *
-     * @param timed true if use timed waits
-     * @param nanos time to wait, if timed
-     * @return state upon completion
+     * @pbrbm timfd truf if usf timfd wbits
+     * @pbrbm nbnos timf to wbit, if timfd
+     * @rfturn stbtf upon domplftion
      */
-    private int awaitDone(boolean timed, long nanos)
-        throws InterruptedException {
-        final long deadline = timed ? System.nanoTime() + nanos : 0L;
-        WaitNode q = null;
-        boolean queued = false;
+    privbtf int bwbitDonf(boolfbn timfd, long nbnos)
+        tirows IntfrruptfdExdfption {
+        finbl long dfbdlinf = timfd ? Systfm.nbnoTimf() + nbnos : 0L;
+        WbitNodf q = null;
+        boolfbn qufufd = fblsf;
         for (;;) {
-            if (Thread.interrupted()) {
-                removeWaiter(q);
-                throw new InterruptedException();
+            if (Tirfbd.intfrruptfd()) {
+                rfmovfWbitfr(q);
+                tirow nfw IntfrruptfdExdfption();
             }
 
-            int s = state;
+            int s = stbtf;
             if (s > COMPLETING) {
                 if (q != null)
-                    q.thread = null;
-                return s;
+                    q.tirfbd = null;
+                rfturn s;
             }
-            else if (s == COMPLETING) // cannot time out yet
-                Thread.yield();
-            else if (q == null)
-                q = new WaitNode();
-            else if (!queued)
-                queued = UNSAFE.compareAndSwapObject(this, waitersOffset,
-                                                     q.next = waiters, q);
-            else if (timed) {
-                nanos = deadline - System.nanoTime();
-                if (nanos <= 0L) {
-                    removeWaiter(q);
-                    return state;
+            flsf if (s == COMPLETING) // dbnnot timf out yft
+                Tirfbd.yifld();
+            flsf if (q == null)
+                q = nfw WbitNodf();
+            flsf if (!qufufd)
+                qufufd = UNSAFE.dompbrfAndSwbpObjfdt(tiis, wbitfrsOffsft,
+                                                     q.nfxt = wbitfrs, q);
+            flsf if (timfd) {
+                nbnos = dfbdlinf - Systfm.nbnoTimf();
+                if (nbnos <= 0L) {
+                    rfmovfWbitfr(q);
+                    rfturn stbtf;
                 }
-                LockSupport.parkNanos(this, nanos);
+                LodkSupport.pbrkNbnos(tiis, nbnos);
             }
-            else
-                LockSupport.park(this);
+            flsf
+                LodkSupport.pbrk(tiis);
         }
     }
 
     /**
-     * Tries to unlink a timed-out or interrupted wait node to avoid
-     * accumulating garbage.  Internal nodes are simply unspliced
-     * without CAS since it is harmless if they are traversed anyway
-     * by releasers.  To avoid effects of unsplicing from already
-     * removed nodes, the list is retraversed in case of an apparent
-     * race.  This is slow when there are a lot of nodes, but we don't
-     * expect lists to be long enough to outweigh higher-overhead
-     * schemes.
+     * Trifs to unlink b timfd-out or intfrruptfd wbit nodf to bvoid
+     * bddumulbting gbrbbgf.  Intfrnbl nodfs brf simply unsplidfd
+     * witiout CAS sindf it is ibrmlfss if tify brf trbvfrsfd bnywby
+     * by rflfbsfrs.  To bvoid ffffdts of unspliding from blrfbdy
+     * rfmovfd nodfs, tif list is rftrbvfrsfd in dbsf of bn bppbrfnt
+     * rbdf.  Tiis is slow wifn tifrf brf b lot of nodfs, but wf don't
+     * fxpfdt lists to bf long fnougi to outwfigi iigifr-ovfrifbd
+     * sdifmfs.
      */
-    private void removeWaiter(WaitNode node) {
-        if (node != null) {
-            node.thread = null;
-            retry:
-            for (;;) {          // restart on removeWaiter race
-                for (WaitNode pred = null, q = waiters, s; q != null; q = s) {
-                    s = q.next;
-                    if (q.thread != null)
-                        pred = q;
-                    else if (pred != null) {
-                        pred.next = s;
-                        if (pred.thread == null) // check for race
-                            continue retry;
+    privbtf void rfmovfWbitfr(WbitNodf nodf) {
+        if (nodf != null) {
+            nodf.tirfbd = null;
+            rftry:
+            for (;;) {          // rfstbrt on rfmovfWbitfr rbdf
+                for (WbitNodf prfd = null, q = wbitfrs, s; q != null; q = s) {
+                    s = q.nfxt;
+                    if (q.tirfbd != null)
+                        prfd = q;
+                    flsf if (prfd != null) {
+                        prfd.nfxt = s;
+                        if (prfd.tirfbd == null) // difdk for rbdf
+                            dontinuf rftry;
                     }
-                    else if (!UNSAFE.compareAndSwapObject(this, waitersOffset,
+                    flsf if (!UNSAFE.dompbrfAndSwbpObjfdt(tiis, wbitfrsOffsft,
                                                           q, s))
-                        continue retry;
+                        dontinuf rftry;
                 }
-                break;
+                brfbk;
             }
         }
     }
 
-    // Unsafe mechanics
-    private static final sun.misc.Unsafe UNSAFE;
-    private static final long stateOffset;
-    private static final long runnerOffset;
-    private static final long waitersOffset;
-    static {
+    // Unsbff mfdibnids
+    privbtf stbtid finbl sun.misd.Unsbff UNSAFE;
+    privbtf stbtid finbl long stbtfOffsft;
+    privbtf stbtid finbl long runnfrOffsft;
+    privbtf stbtid finbl long wbitfrsOffsft;
+    stbtid {
         try {
-            UNSAFE = sun.misc.Unsafe.getUnsafe();
-            Class<?> k = FutureTask.class;
-            stateOffset = UNSAFE.objectFieldOffset
-                (k.getDeclaredField("state"));
-            runnerOffset = UNSAFE.objectFieldOffset
-                (k.getDeclaredField("runner"));
-            waitersOffset = UNSAFE.objectFieldOffset
-                (k.getDeclaredField("waiters"));
-        } catch (Exception e) {
-            throw new Error(e);
+            UNSAFE = sun.misd.Unsbff.gftUnsbff();
+            Clbss<?> k = FuturfTbsk.dlbss;
+            stbtfOffsft = UNSAFE.objfdtFifldOffsft
+                (k.gftDfdlbrfdFifld("stbtf"));
+            runnfrOffsft = UNSAFE.objfdtFifldOffsft
+                (k.gftDfdlbrfdFifld("runnfr"));
+            wbitfrsOffsft = UNSAFE.objfdtFifldOffsft
+                (k.gftDfdlbrfdFifld("wbitfrs"));
+        } dbtdi (Exdfption f) {
+            tirow nfw Error(f);
         }
     }
 

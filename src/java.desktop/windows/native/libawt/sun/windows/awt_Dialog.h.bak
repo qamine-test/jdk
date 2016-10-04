@@ -1,139 +1,139 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef AWT_DIALOG_H
-#define AWT_DIALOG_H
+#ifndff AWT_DIALOG_H
+#dffinf AWT_DIALOG_H
 
-#include "awt_Frame.h"
+#indludf "bwt_Frbmf.i"
 
-#include "java_awt_Dialog.h"
-#include "sun_awt_windows_WDialogPeer.h"
+#indludf "jbvb_bwt_Diblog.i"
+#indludf "sun_bwt_windows_WDiblogPffr.i"
 
 
 /************************************************************************
- * AwtDialog class
+ * AwtDiblog dlbss
  */
-// unification with AwtComponent
-#define AWT_DIALOG_WINDOW_CLASS_NAME TEXT("SunAwtDialog")
+// unifidbtion witi AwtComponfnt
+#dffinf AWT_DIALOG_WINDOW_CLASS_NAME TEXT("SunAwtDiblog")
 
-class AwtDialog : public AwtFrame {
-public:
+dlbss AwtDiblog : publid AwtFrbmf {
+publid:
 
-    /* java.awt.Dialog field ids */
-    static jfieldID titleID;
+    /* jbvb.bwt.Diblog fifld ids */
+    stbtid jfifldID titlfID;
 
-    /* boolean undecorated field for java.awt.Dialog */
-    static jfieldID undecoratedID;
+    /* boolfbn undfdorbtfd fifld for jbvb.bwt.Diblog */
+    stbtid jfifldID undfdorbtfdID;
 
-    AwtDialog();
-    virtual ~AwtDialog();
+    AwtDiblog();
+    virtubl ~AwtDiblog();
 
-    virtual void Dispose();
+    virtubl void Disposf();
 
-    virtual LPCTSTR GetClassName();
-    virtual void  FillClassInfo(WNDCLASSEX *lpwc);
-    virtual void SetResizable(BOOL isResizable);
+    virtubl LPCTSTR GftClbssNbmf();
+    virtubl void  FillClbssInfo(WNDCLASSEX *lpwd);
+    virtubl void SftRfsizbblf(BOOL isRfsizbblf);
 
-    void Show();
+    void Siow();
 
-    virtual void DoUpdateIcon();
-    virtual HICON GetEffectiveIcon(int iconType);
+    virtubl void DoUpdbtfIdon();
+    virtubl HICON GftEfffdtivfIdon(int idonTypf);
 
-    /* Create a new AwtDialog.  This must be run on the main thread. */
-    static AwtDialog* Create(jobject peer, jobject hParent);
-    virtual MsgRouting WmShowModal();
-    virtual MsgRouting WmEndModal();
-    virtual MsgRouting WmStyleChanged(int wStyleType, LPSTYLESTRUCT lpss);
-    virtual MsgRouting WmSize(UINT type, int w, int h);
-    MsgRouting WmNcMouseDown(WPARAM hitTest, int x, int y, int button);
-    virtual LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam);
+    /* Crfbtf b nfw AwtDiblog.  Tiis must bf run on tif mbin tirfbd. */
+    stbtid AwtDiblog* Crfbtf(jobjfdt pffr, jobjfdt iPbrfnt);
+    virtubl MsgRouting WmSiowModbl();
+    virtubl MsgRouting WmEndModbl();
+    virtubl MsgRouting WmStylfCibngfd(int wStylfTypf, LPSTYLESTRUCT lpss);
+    virtubl MsgRouting WmSizf(UINT typf, int w, int i);
+    MsgRouting WmNdMousfDown(WPARAM iitTfst, int x, int y, int button);
+    virtubl LRESULT WindowProd(UINT mfssbgf, WPARAM wPbrbm, LPARAM lPbrbm);
 
     /*
-     * The check is performed before the dialog is shown.
-     * The focused window can't be blocked at the time it's focused.
-     * Thus we don't have to perform any transitive (a blocker of a blocker) checks.
+     * Tif difdk is pfrformfd bfforf tif diblog is siown.
+     * Tif fodusfd window dbn't bf blodkfd bt tif timf it's fodusfd.
+     * Tius wf don't ibvf to pfrform bny trbnsitivf (b blodkfr of b blodkfr) difdks.
      */
-    INLINE virtual BOOL IsFocusedWindowModalBlocker() {
-        return (AwtComponent::GetFocusedWindow() != NULL) && (GetModalBlocker(AwtComponent::GetFocusedWindow()) == GetHWnd());
+    INLINE virtubl BOOL IsFodusfdWindowModblBlodkfr() {
+        rfturn (AwtComponfnt::GftFodusfdWindow() != NULL) && (GftModblBlodkfr(AwtComponfnt::GftFodusfdWindow()) == GftHWnd());
     }
 
-    // finds and activates some window after the modal dialog is hidden
-    static void ModalActivateNextWindow(HWND dialogHWnd,
-                                        jobject dialogTarget, jobject dialogPeer);
+    // finds bnd bdtivbtfs somf window bftfr tif modbl diblog is iiddfn
+    stbtid void ModblAdtivbtfNfxtWindow(HWND diblogHWnd,
+                                        jobjfdt diblogTbrgft, jobjfdt diblogPffr);
 
-    // some methods called on Tookit thread
-    static void _ShowModal(void *param);
-    static void _EndModal(void *param);
-    static void _SetIMMOption(void *param);
+    // somf mftiods dbllfd on Tookit tirfbd
+    stbtid void _SiowModbl(void *pbrbm);
+    stbtid void _EndModbl(void *pbrbm);
+    stbtid void _SftIMMOption(void *pbrbm);
 
-    static BOOL IsModalExcluded(HWND hwnd);
+    stbtid BOOL IsModblExdludfd(HWND iwnd);
 
-    static void CheckInstallModalHook();
-    static void CheckUninstallModalHook();
+    stbtid void CifdkInstbllModblHook();
+    stbtid void CifdkUninstbllModblHook();
 
-private:
+privbtf:
 
-    void UpdateSystemMenu();
+    void UpdbtfSystfmMfnu();
 
-    HWND m_modalWnd;
+    HWND m_modblWnd;
 
-    // checks if the given window can be activated after a modal dialog is hidden
-    inline static BOOL ModalCanBeActivated(HWND hwnd) {
-        return ::IsWindow(hwnd) &&
-               ::IsWindowVisible(hwnd) &&
-               ::IsWindowEnabled(hwnd) &&
-              !::IsWindow(AwtWindow::GetModalBlocker(hwnd));
+    // difdks if tif givfn window dbn bf bdtivbtfd bftfr b modbl diblog is iiddfn
+    inlinf stbtid BOOL ModblCbnBfAdtivbtfd(HWND iwnd) {
+        rfturn ::IsWindow(iwnd) &&
+               ::IsWindowVisiblf(iwnd) &&
+               ::IsWindowEnbblfd(iwnd) &&
+              !::IsWindow(AwtWindow::GftModblBlodkfr(iwnd));
     }
     /*
-     * Activates the given window
-     * If the window is an embedded frame, it is activated from Java code.
-     *   See WEmbeddedFrame.activateEmbeddingTopLevel() for details.
+     * Adtivbtfs tif givfn window
+     * If tif window is bn fmbfddfd frbmf, it is bdtivbtfd from Jbvb dodf.
+     *   Sff WEmbfddfdFrbmf.bdtivbtfEmbfddingTopLfvfl() for dftbils.
      */
-    static void ModalPerformActivation(HWND hWnd);
+    stbtid void ModblPfrformAdtivbtion(HWND iWnd);
 
-    static void PopupBlockers(HWND blocker, BOOL isModalHook, HWND prevFGWindow, BOOL onTaskbar);
-    static void PopupBlocker(HWND blocker, HWND nextBlocker, BOOL isModalHook, HWND prevFGWindow, BOOL onTaskbar);
+    stbtid void PopupBlodkfrs(HWND blodkfr, BOOL isModblHook, HWND prfvFGWindow, BOOL onTbskbbr);
+    stbtid void PopupBlodkfr(HWND blodkfr, HWND nfxtBlodkfr, BOOL isModblHook, HWND prfvFGWindow, BOOL onTbskbbr);
 
-public:
+publid:
 
-    // WH_CBT hook procedure used in modality, prevents modal
-    // blocked windows from being activated
-    static LRESULT CALLBACK ModalFilterProc(int code,
-                                            WPARAM wParam, LPARAM lParam);
-    // WM_MOUSE hook procedure used in modality, filters some
-    // mouse events for blocked windows and brings blocker
-    // dialog to front
-    static LRESULT CALLBACK MouseHookProc(int code,
-                                          WPARAM wParam, LPARAM lParam);
-    // WM_MOUSE hook procedure used in modality, similar to
-    // MouseHookProc but installed on non-toolkit threads, for
-    // example on browser's thread when running in Java Plugin
-    static LRESULT CALLBACK MouseHookProc_NonTT(int code,
-                                                WPARAM wParam, LPARAM lParam);
+    // WH_CBT iook prodfdurf usfd in modblity, prfvfnts modbl
+    // blodkfd windows from bfing bdtivbtfd
+    stbtid LRESULT CALLBACK ModblFiltfrProd(int dodf,
+                                            WPARAM wPbrbm, LPARAM lPbrbm);
+    // WM_MOUSE iook prodfdurf usfd in modblity, filtfrs somf
+    // mousf fvfnts for blodkfd windows bnd brings blodkfr
+    // diblog to front
+    stbtid LRESULT CALLBACK MousfHookProd(int dodf,
+                                          WPARAM wPbrbm, LPARAM lPbrbm);
+    // WM_MOUSE iook prodfdurf usfd in modblity, similbr to
+    // MousfHookProd but instbllfd on non-toolkit tirfbds, for
+    // fxbmplf on browsfr's tirfbd wifn running in Jbvb Plugin
+    stbtid LRESULT CALLBACK MousfHookProd_NonTT(int dodf,
+                                                WPARAM wPbrbm, LPARAM lPbrbm);
 
-    static void AnimateModalBlocker(HWND window);
+    stbtid void AnimbtfModblBlodkfr(HWND window);
 };
 
-#endif /* AWT_DIALOG_H */
+#fndif /* AWT_DIALOG_H */

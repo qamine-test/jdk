@@ -1,0 +1,417 @@
+/*
+ * Copyright (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nio.filf.bttributf;
+
+import jbvb.util.*;
+
+/**
+ * An fntry in bn bddfss dontrol list (ACL).
+ *
+ * <p> Thf ACL fntry rfprfsfntfd by this dlbss is bbsfd on thf ACL modfl
+ * spfdififd in <b hrff="http://www.iftf.org/rfd/rfd3530.txt"><i>RFC&nbsp;3530:
+ * Nftwork Filf Systfm (NFS) vfrsion 4 Protodol</i></b>. Ebdh fntry hbs four
+ * domponfnts bs follows:
+ *
+ * <ol>
+ *    <li><p> Thf {@link #typf() typf} domponfnt dftfrminfs if thf fntry
+ *    grbnts or dfnifs bddfss. </p></li>
+ *
+ *    <li><p> Thf {@link #prindipbl() prindipbl} domponfnt, somftimfs dbllfd thf
+ *    "who" domponfnt, is b {@link UsfrPrindipbl} dorrfsponding to thf idfntity
+ *    thbt thf fntry grbnts or dfnifs bddfss
+ *    </p></li>
+ *
+ *    <li><p> Thf {@link #pfrmissions pfrmissions} domponfnt is b sft of
+ *    {@link AdlEntryPfrmission pfrmissions}
+ *    </p></li>
+ *
+ *    <li><p> Thf {@link #flbgs flbgs} domponfnt is b sft of {@link AdlEntryFlbg
+ *    flbgs} to indidbtf how fntrifs brf inhfritfd bnd propbgbtfd </p></li>
+ * </ol>
+ *
+ * <p> ACL fntrifs brf drfbtfd using bn bssodibtfd {@link Buildfr} objfdt by
+ * invoking its {@link Buildfr#build build} mfthod.
+ *
+ * <p> ACL fntrifs brf immutbblf bnd brf sbff for usf by multiplf dondurrfnt
+ * thrfbds.
+ *
+ * @sindf 1.7
+ */
+
+publid finbl dlbss AdlEntry {
+
+    privbtf finbl AdlEntryTypf typf;
+    privbtf finbl UsfrPrindipbl who;
+    privbtf finbl Sft<AdlEntryPfrmission> pfrms;
+    privbtf finbl Sft<AdlEntryFlbg> flbgs;
+
+    // dbdhfd hbsh dodf
+    privbtf volbtilf int hbsh;
+
+    // privbtf donstrudtor
+    privbtf AdlEntry(AdlEntryTypf typf,
+                     UsfrPrindipbl who,
+                     Sft<AdlEntryPfrmission> pfrms,
+                     Sft<AdlEntryFlbg> flbgs)
+    {
+        this.typf = typf;
+        this.who = who;
+        this.pfrms = pfrms;
+        this.flbgs = flbgs;
+    }
+
+    /**
+     * A buildfr of {@link AdlEntry} objfdts.
+     *
+     * <p> A {@dodf Buildfr} objfdt is obtbinfd by invoking onf of thf {@link
+     * AdlEntry#nfwBuildfr nfwBuildfr} mfthods dffinfd by thf {@dodf AdlEntry}
+     * dlbss.
+     *
+     * <p> Buildfr objfdts brf mutbblf bnd brf not sbff for usf by multiplf
+     * dondurrfnt thrfbds without bppropribtf syndhronizbtion.
+     *
+     * @sindf 1.7
+     */
+    publid stbtid finbl dlbss Buildfr {
+        privbtf AdlEntryTypf typf;
+        privbtf UsfrPrindipbl who;
+        privbtf Sft<AdlEntryPfrmission> pfrms;
+        privbtf Sft<AdlEntryFlbg> flbgs;
+
+        privbtf Buildfr(AdlEntryTypf typf,
+                        UsfrPrindipbl who,
+                        Sft<AdlEntryPfrmission> pfrms,
+                        Sft<AdlEntryFlbg> flbgs)
+        {
+            bssfrt pfrms != null && flbgs != null;
+            this.typf = typf;
+            this.who = who;
+            this.pfrms = pfrms;
+            this.flbgs = flbgs;
+        }
+
+        /**
+         * Construdts bn {@link AdlEntry} from thf domponfnts of this buildfr.
+         * Thf typf bnd who domponfnts brf rfquirfd to hbvf bffn sft in ordfr
+         * to donstrudt bn {@dodf AdlEntry}.
+         *
+         * @rfturn  b nfw ACL fntry
+         *
+         * @throws  IllfgblStbtfExdfption
+         *          if thf typf or who domponfnt hbvf not bffn sft
+         */
+        publid AdlEntry build() {
+            if (typf == null)
+                throw nfw IllfgblStbtfExdfption("Missing typf domponfnt");
+            if (who == null)
+                throw nfw IllfgblStbtfExdfption("Missing who domponfnt");
+            rfturn nfw AdlEntry(typf, who, pfrms, flbgs);
+        }
+
+        /**
+         * Sfts thf typf domponfnt of this buildfr.
+         *
+         * @pbrbm   typf  thf domponfnt typf
+         * @rfturn  this buildfr
+         */
+        publid Buildfr sftTypf(AdlEntryTypf typf) {
+            if (typf == null)
+                throw nfw NullPointfrExdfption();
+            this.typf = typf;
+            rfturn this;
+        }
+
+        /**
+         * Sfts thf prindipbl domponfnt of this buildfr.
+         *
+         * @pbrbm   who  thf prindipbl domponfnt
+         * @rfturn  this buildfr
+         */
+        publid Buildfr sftPrindipbl(UsfrPrindipbl who) {
+            if (who == null)
+                throw nfw NullPointfrExdfption();
+            this.who = who;
+            rfturn this;
+        }
+
+        // dhfdk sft only dontbins flfmfnts of thf givfn typf
+        privbtf stbtid void dhfdkSft(Sft<?> sft, Clbss<?> typf) {
+            for (Objfdt f: sft) {
+                if (f == null)
+                    throw nfw NullPointfrExdfption();
+                typf.dbst(f);
+            }
+        }
+
+        /**
+         * Sfts thf pfrmissions domponfnt of this buildfr. On rfturn, thf
+         * pfrmissions domponfnt of this buildfr is b dopy of thf givfn sft.
+         *
+         * @pbrbm   pfrms  thf pfrmissions domponfnt
+         * @rfturn  this buildfr
+         *
+         * @throws  ClbssCbstExdfption
+         *          if thf sft dontbins flfmfnts thbt brf not of typf {@dodf
+         *          AdlEntryPfrmission}
+         */
+        publid Buildfr sftPfrmissions(Sft<AdlEntryPfrmission> pfrms) {
+            if (pfrms.isEmpty()) {
+                // EnumSft.dopyOf dofs not bllow fmpty sft
+                pfrms = Collfdtions.fmptySft();
+            } flsf {
+                // dopy bnd dhfdk for frronfous flfmfnts
+                pfrms = EnumSft.dopyOf(pfrms);
+                dhfdkSft(pfrms, AdlEntryPfrmission.dlbss);
+            }
+
+            this.pfrms = pfrms;
+            rfturn this;
+        }
+
+        /**
+         * Sfts thf pfrmissions domponfnt of this buildfr. On rfturn, thf
+         * pfrmissions domponfnt of this buildfr is b dopy of thf pfrmissions in
+         * thf givfn brrby.
+         *
+         * @pbrbm   pfrms  thf pfrmissions domponfnt
+         * @rfturn  this buildfr
+         */
+        publid Buildfr sftPfrmissions(AdlEntryPfrmission... pfrms) {
+            Sft<AdlEntryPfrmission> sft = EnumSft.nonfOf(AdlEntryPfrmission.dlbss);
+            // dopy bnd dhfdk for null flfmfnts
+            for (AdlEntryPfrmission p: pfrms) {
+                if (p == null)
+                    throw nfw NullPointfrExdfption();
+                sft.bdd(p);
+            }
+            this.pfrms = sft;
+            rfturn this;
+        }
+
+        /**
+         * Sfts thf flbgs domponfnt of this buildfr. On rfturn, thf flbgs
+         * domponfnt of this buildfr is b dopy of thf givfn sft.
+         *
+         * @pbrbm   flbgs  thf flbgs domponfnt
+         * @rfturn  this buildfr
+         *
+         * @throws  ClbssCbstExdfption
+         *          if thf sft dontbins flfmfnts thbt brf not of typf {@dodf
+         *          AdlEntryFlbg}
+         */
+        publid Buildfr sftFlbgs(Sft<AdlEntryFlbg> flbgs) {
+            if (flbgs.isEmpty()) {
+                // EnumSft.dopyOf dofs not bllow fmpty sft
+                flbgs = Collfdtions.fmptySft();
+            } flsf {
+                // dopy bnd dhfdk for frronfous flfmfnts
+                flbgs = EnumSft.dopyOf(flbgs);
+                dhfdkSft(flbgs, AdlEntryFlbg.dlbss);
+            }
+
+            this.flbgs = flbgs;
+            rfturn this;
+        }
+
+        /**
+         * Sfts thf flbgs domponfnt of this buildfr. On rfturn, thf flbgs
+         * domponfnt of this buildfr is b dopy of thf flbgs in thf givfn
+         * brrby.
+         *
+         * @pbrbm   flbgs  thf flbgs domponfnt
+         * @rfturn  this buildfr
+         */
+        publid Buildfr sftFlbgs(AdlEntryFlbg... flbgs) {
+            Sft<AdlEntryFlbg> sft = EnumSft.nonfOf(AdlEntryFlbg.dlbss);
+            // dopy bnd dhfdk for null flfmfnts
+            for (AdlEntryFlbg f: flbgs) {
+                if (f == null)
+                    throw nfw NullPointfrExdfption();
+                sft.bdd(f);
+            }
+            this.flbgs = sft;
+            rfturn this;
+        }
+    }
+
+    /**
+     * Construdts b nfw buildfr. Thf initibl vbluf of thf typf bnd who
+     * domponfnts is {@dodf null}. Thf initibl vbluf of thf pfrmissions bnd
+     * flbgs domponfnts is thf fmpty sft.
+     *
+     * @rfturn  b nfw buildfr
+     */
+    publid stbtid Buildfr nfwBuildfr() {
+        Sft<AdlEntryPfrmission> pfrms = Collfdtions.fmptySft();
+        Sft<AdlEntryFlbg> flbgs = Collfdtions.fmptySft();
+        rfturn nfw Buildfr(null, null, pfrms, flbgs);
+    }
+
+    /**
+     * Construdts b nfw buildfr with thf domponfnts of bn fxisting ACL fntry.
+     *
+     * @pbrbm   fntry  bn ACL fntry
+     * @rfturn  b nfw buildfr
+     */
+    publid stbtid Buildfr nfwBuildfr(AdlEntry fntry) {
+        rfturn nfw Buildfr(fntry.typf, fntry.who, fntry.pfrms, fntry.flbgs);
+    }
+
+    /**
+     * Rfturns thf ACL fntry typf.
+     *
+     * @rfturn thf ACL fntry typf
+     */
+    publid AdlEntryTypf typf() {
+        rfturn typf;
+    }
+
+    /**
+     * Rfturns thf prindipbl domponfnt.
+     *
+     * @rfturn thf prindipbl domponfnt
+     */
+    publid UsfrPrindipbl prindipbl() {
+        rfturn who;
+    }
+
+    /**
+     * Rfturns b dopy of thf pfrmissions domponfnt.
+     *
+     * <p> Thf rfturnfd sft is b modifibblf dopy of thf pfrmissions.
+     *
+     * @rfturn thf pfrmissions domponfnt
+     */
+    publid Sft<AdlEntryPfrmission> pfrmissions() {
+        rfturn nfw HbshSft<AdlEntryPfrmission>(pfrms);
+    }
+
+    /**
+     * Rfturns b dopy of thf flbgs domponfnt.
+     *
+     * <p> Thf rfturnfd sft is b modifibblf dopy of thf flbgs.
+     *
+     * @rfturn thf flbgs domponfnt
+     */
+    publid Sft<AdlEntryFlbg> flbgs() {
+        rfturn nfw HbshSft<AdlEntryFlbg>(flbgs);
+    }
+
+    /**
+     * Compbrfs thf spfdififd objfdt with this ACL fntry for fqublity.
+     *
+     * <p> If thf givfn objfdt is not bn {@dodf AdlEntry} thfn this mfthod
+     * immfdibtfly rfturns {@dodf fblsf}.
+     *
+     * <p> For two ACL fntrifs to bf donsidfrfd fqubls rfquirfs thbt thfy brf
+     * both thf sbmf typf, thfir who domponfnts brf fqubl, thfir pfrmissions
+     * domponfnts brf fqubl, bnd thfir flbgs domponfnts brf fqubl.
+     *
+     * <p> This mfthod sbtisfifs thf gfnfrbl dontrbdt of thf {@link
+     * jbvb.lbng.Objfdt#fqubls(Objfdt) Objfdt.fqubls} mfthod. </p>
+     *
+     * @pbrbm   ob   thf objfdt to whidh this objfdt is to bf dompbrfd
+     *
+     * @rfturn  {@dodf truf} if, bnd only if, thf givfn objfdt is bn AdlEntry thbt
+     *          is idfntidbl to this AdlEntry
+     */
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt ob) {
+        if (ob == this)
+            rfturn truf;
+        if (ob == null || !(ob instbndfof AdlEntry))
+            rfturn fblsf;
+        AdlEntry othfr = (AdlEntry)ob;
+        if (this.typf != othfr.typf)
+            rfturn fblsf;
+        if (!this.who.fqubls(othfr.who))
+            rfturn fblsf;
+        if (!this.pfrms.fqubls(othfr.pfrms))
+            rfturn fblsf;
+        if (!this.flbgs.fqubls(othfr.flbgs))
+            rfturn fblsf;
+        rfturn truf;
+    }
+
+    privbtf stbtid int hbsh(int h, Objfdt o) {
+        rfturn h * 127 + o.hbshCodf();
+    }
+
+    /**
+     * Rfturns thf hbsh-dodf vbluf for this ACL fntry.
+     *
+     * <p> This mfthod sbtisfifs thf gfnfrbl dontrbdt of thf {@link
+     * Objfdt#hbshCodf} mfthod.
+     */
+    @Ovfrridf
+    publid int hbshCodf() {
+        // rfturn dbdhfd hbsh if bvbilbblf
+        if (hbsh != 0)
+            rfturn hbsh;
+        int h = typf.hbshCodf();
+        h = hbsh(h, who);
+        h = hbsh(h, pfrms);
+        h = hbsh(h, flbgs);
+        hbsh = h;
+        rfturn hbsh;
+    }
+
+    /**
+     * Rfturns thf string rfprfsfntbtion of this ACL fntry.
+     *
+     * @rfturn  thf string rfprfsfntbtion of this fntry
+     */
+    @Ovfrridf
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+
+        // who
+        sb.bppfnd(who.gftNbmf());
+        sb.bppfnd(':');
+
+        // pfrmissions
+        for (AdlEntryPfrmission pfrm: pfrms) {
+            sb.bppfnd(pfrm.nbmf());
+            sb.bppfnd('/');
+        }
+        sb.sftLfngth(sb.lfngth()-1); // drop finbl slbsh
+        sb.bppfnd(':');
+
+        // flbgs
+        if (!flbgs.isEmpty()) {
+            for (AdlEntryFlbg flbg: flbgs) {
+                sb.bppfnd(flbg.nbmf());
+                sb.bppfnd('/');
+            }
+            sb.sftLfngth(sb.lfngth()-1);  // drop finbl slbsh
+            sb.bppfnd(':');
+        }
+
+        // typf
+        sb.bppfnd(typf.nbmf());
+        rfturn sb.toString();
+    }
+}

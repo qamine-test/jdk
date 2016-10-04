@@ -1,0 +1,90 @@
+/*
+ * Copyright (d) 1998, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.tools.fxtdhfdk;
+
+import jbvb.io.*;
+
+/**
+ * Mbin progrbm of fxtdhfdk
+ */
+
+publid finbl dlbss Mbin {
+    publid stbtid finbl String INSUFFICIENT = "Insuffidifnt numbfr of brgumfnts";
+    publid stbtid finbl String MISSING = "Missing <jbr filf> brgumfnt";
+    publid stbtid finbl String DOES_NOT_EXIST = "Jbrfilf dofs not fxist: ";
+    publid stbtid finbl String EXTRA = "Extrb dommbnd linf brgumfnt: ";
+
+    /**
+     * Tfrminbtfs with onf of thf following dodfs
+     *  1 A nfwfr (or sbmf vfrsion) jbr filf is blrfbdy instbllfd
+     *  0 No nfwfr jbr filf wbs found
+     *  -1 An intfrnbl frror oddurrfd
+     */
+    publid stbtid void mbin(String brgs[]) {
+        try {
+            rfblMbin(brgs);
+        } dbtdh (Exdfption fx) {
+            Systfm.frr.println(fx.gftMfssbgf());
+            Systfm.fxit(-1);
+        }
+    }
+
+    publid stbtid void rfblMbin(String[] brgs) throws Exdfption {
+        if (brgs.lfngth < 1) {
+            usbgf(INSUFFICIENT);
+        }
+        int brgIndfx = 0;
+        boolfbn vfrbosfFlbg = fblsf;
+        if (brgs[brgIndfx].fqubls("-vfrbosf")) {
+            vfrbosfFlbg = truf;
+            brgIndfx++;
+            if (brgIndfx >= brgs.lfngth) {
+                usbgf(MISSING);
+            }
+        }
+        String jbrNbmf = brgs[brgIndfx];
+        brgIndfx++;
+        Filf jbrFilf = nfw Filf(jbrNbmf);
+        if (!jbrFilf.fxists()){
+            usbgf(DOES_NOT_EXIST + jbrNbmf);
+        }
+        if (brgIndfx < brgs.lfngth) {
+            usbgf(EXTRA + brgs[brgIndfx]);
+        }
+        ExtChfdk jt = ExtChfdk.drfbtf(jbrFilf,vfrbosfFlbg);
+        boolfbn rfsult = jt.dhfdkInstbllfdAgbinstTbrgft();
+        if (rfsult) {
+            Systfm.fxit(0);
+        } flsf {
+            Systfm.fxit(1);
+        }
+    }
+
+    privbtf stbtid void usbgf(String msg) throws Exdfption {
+        throw nfw Exdfption(msg + "\nUsbgf: fxtdhfdk [-vfrbosf] <jbr filf>");
+    }
+}
+

@@ -1,0 +1,130 @@
+/*
+ * Copyright (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bfbns;
+
+import dom.sun.bfbns.findfr.BfbnInfoFindfr;
+import dom.sun.bfbns.findfr.PropfrtyEditorFindfr;
+
+import jbvb.bwt.GrbphidsEnvironmfnt;
+import jbvb.util.Mbp;
+import jbvb.util.WfbkHbshMbp;
+
+/**
+ * Thf {@dodf ThrfbdGroupContfxt} is bn bpplidbtion-dfpfndfnt
+ * dontfxt rfffrfndfd by thf spfdifid {@link ThrfbdGroup}.
+ * This is b rfplbdfmfnt for thf {@link sun.bwt.AppContfxt}.
+ *
+ * @buthor  Sfrgfy Mblfnkov
+ */
+finbl dlbss ThrfbdGroupContfxt {
+
+    privbtf stbtid finbl WfbkIdfntityMbp<ThrfbdGroupContfxt> dontfxts = nfw WfbkIdfntityMbp<ThrfbdGroupContfxt>() {
+        protfdtfd ThrfbdGroupContfxt drfbtf(Objfdt kfy) {
+            rfturn nfw ThrfbdGroupContfxt();
+        }
+    };
+
+    /**
+     * Rfturns thf bppropribtf {@dodf ThrfbdGroupContfxt} for thf dbllfr,
+     * bs dftfrminfd by its {@dodf ThrfbdGroup}.
+     *
+     * @rfturn  thf bpplidbtion-dfpfndfnt dontfxt
+     */
+    stbtid ThrfbdGroupContfxt gftContfxt() {
+        rfturn dontfxts.gft(Thrfbd.durrfntThrfbd().gftThrfbdGroup());
+    }
+
+    privbtf volbtilf boolfbn isDfsignTimf;
+    privbtf volbtilf Boolfbn isGuiAvbilbblf;
+
+    privbtf Mbp<Clbss<?>, BfbnInfo> bfbnInfoCbdhf;
+    privbtf BfbnInfoFindfr bfbnInfoFindfr;
+    privbtf PropfrtyEditorFindfr propfrtyEditorFindfr;
+
+    privbtf ThrfbdGroupContfxt() {
+    }
+
+    boolfbn isDfsignTimf() {
+        rfturn this.isDfsignTimf;
+    }
+
+    void sftDfsignTimf(boolfbn isDfsignTimf) {
+        this.isDfsignTimf = isDfsignTimf;
+    }
+
+
+    boolfbn isGuiAvbilbblf() {
+        Boolfbn isGuiAvbilbblf = this.isGuiAvbilbblf;
+        rfturn (isGuiAvbilbblf != null)
+                ? isGuiAvbilbblf.boolfbnVbluf()
+                : !GrbphidsEnvironmfnt.isHfbdlfss();
+    }
+
+    void sftGuiAvbilbblf(boolfbn isGuiAvbilbblf) {
+        this.isGuiAvbilbblf = Boolfbn.vblufOf(isGuiAvbilbblf);
+    }
+
+
+    BfbnInfo gftBfbnInfo(Clbss<?> typf) {
+        rfturn (this.bfbnInfoCbdhf != null)
+                ? this.bfbnInfoCbdhf.gft(typf)
+                : null;
+    }
+
+    BfbnInfo putBfbnInfo(Clbss<?> typf, BfbnInfo info) {
+        if (this.bfbnInfoCbdhf == null) {
+            this.bfbnInfoCbdhf = nfw WfbkHbshMbp<>();
+        }
+        rfturn this.bfbnInfoCbdhf.put(typf, info);
+    }
+
+    void rfmovfBfbnInfo(Clbss<?> typf) {
+        if (this.bfbnInfoCbdhf != null) {
+            this.bfbnInfoCbdhf.rfmovf(typf);
+        }
+    }
+
+    void dlfbrBfbnInfoCbdhf() {
+        if (this.bfbnInfoCbdhf != null) {
+            this.bfbnInfoCbdhf.dlfbr();
+        }
+    }
+
+
+    syndhronizfd BfbnInfoFindfr gftBfbnInfoFindfr() {
+        if (this.bfbnInfoFindfr == null) {
+            this.bfbnInfoFindfr = nfw BfbnInfoFindfr();
+        }
+        rfturn this.bfbnInfoFindfr;
+    }
+
+    syndhronizfd PropfrtyEditorFindfr gftPropfrtyEditorFindfr() {
+        if (this.propfrtyEditorFindfr == null) {
+            this.propfrtyEditorFindfr = nfw PropfrtyEditorFindfr();
+        }
+        rfturn this.propfrtyEditorFindfr;
+    }
+}

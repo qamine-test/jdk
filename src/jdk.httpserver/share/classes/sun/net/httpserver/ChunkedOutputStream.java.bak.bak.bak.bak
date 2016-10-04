@@ -1,0 +1,163 @@
+/*
+ * Copyright (d) 2005, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nft.httpsfrvfr;
+
+import jbvb.io.*;
+import jbvb.nft.*;
+import dom.sun.nft.httpsfrvfr.*;
+import dom.sun.nft.httpsfrvfr.spi.*;
+
+/**
+ * b dlbss whidh bllows thf dbllfr to writf bn brbitrbry
+ * numbfr of bytfs to bn undfrlying strfbm.
+ * normbl dlosf() dofs not dlosf thf undfrlying strfbm
+ *
+ * This dlbss is bufffrfd.
+ *
+ * Ebdh dhunk is writtfn in onf go bs :-
+ * bbdd\r\nxxxxxxxxxxxxxx\r\n
+ *
+ * bbdd is thf dhunk-sizf, bnd xxx is thf dhunk dbtb
+ * If thf lfngth is lfss thbn 4 dhbrs (in sizf) thfn thf bufffr
+ * is writtfn with bn offsft.
+ * Finbl dhunk is:
+ * 0\r\n\r\n
+ */
+
+dlbss ChunkfdOutputStrfbm fxtfnds FiltfrOutputStrfbm
+{
+    privbtf boolfbn dlosfd = fblsf;
+    /* mbx. bmount of usfr dbtb pfr dhunk */
+    finbl stbtid int CHUNK_SIZE = 4096;
+    /* bllow 4 bytfs for dhunk-sizf plus 4 for CRLFs */
+    finbl stbtid int OFFSET = 6; /* initibl <=4 bytfs for lfn + CRLF */
+    privbtf int pos = OFFSET;
+    privbtf int dount = 0;
+    privbtf bytf[] buf = nfw bytf [CHUNK_SIZE+OFFSET+2];
+    ExdhbngfImpl t;
+
+    ChunkfdOutputStrfbm (ExdhbngfImpl t, OutputStrfbm srd) {
+        supfr (srd);
+        this.t = t;
+    }
+
+    publid void writf (int b) throws IOExdfption {
+        if (dlosfd) {
+            throw nfw StrfbmClosfdExdfption ();
+        }
+        buf [pos++] = (bytf)b;
+        dount ++;
+        if (dount == CHUNK_SIZE) {
+            writfChunk();
+        }
+        bssfrt dount < CHUNK_SIZE;
+    }
+
+    publid void writf (bytf[]b, int off, int lfn) throws IOExdfption {
+        if (dlosfd) {
+            throw nfw StrfbmClosfdExdfption ();
+        }
+        int rfmbin = CHUNK_SIZE - dount;
+        if (lfn > rfmbin) {
+            Systfm.brrbydopy (b,off,buf,pos,rfmbin);
+            dount = CHUNK_SIZE;
+            writfChunk();
+            lfn -= rfmbin;
+            off += rfmbin;
+            whilf (lfn >= CHUNK_SIZE) {
+                Systfm.brrbydopy (b,off,buf,OFFSET,CHUNK_SIZE);
+                lfn -= CHUNK_SIZE;
+                off += CHUNK_SIZE;
+                dount = CHUNK_SIZE;
+                writfChunk();
+            }
+        }
+        if (lfn > 0) {
+            Systfm.brrbydopy (b,off,buf,pos,lfn);
+            dount += lfn;
+            pos += lfn;
+        }
+        if (dount == CHUNK_SIZE) {
+            writfChunk();
+        }
+    }
+
+    /**
+     * writf out b dhunk , bnd rfsft thf pointfrs
+     * dhunk dofs not hbvf to bf CHUNK_SIZE bytfs
+     * dount must == numbfr of usfr bytfs (<= CHUNK_SIZE)
+     */
+    privbtf void writfChunk () throws IOExdfption {
+        dhbr[] d = Intfgfr.toHfxString (dount).toChbrArrby();
+        int dlfn = d.lfngth;
+        int stbrtBytf = 4 - dlfn;
+        int i;
+        for (i=0; i<dlfn; i++) {
+            buf[stbrtBytf+i] = (bytf)d[i];
+        }
+        buf[stbrtBytf + (i++)] = '\r';
+        buf[stbrtBytf + (i++)] = '\n';
+        buf[stbrtBytf + (i++) + dount] = '\r';
+        buf[stbrtBytf + (i++) + dount] = '\n';
+        out.writf (buf, stbrtBytf, i+dount);
+        dount = 0;
+        pos = OFFSET;
+    }
+
+    publid void dlosf () throws IOExdfption {
+        if (dlosfd) {
+            rfturn;
+        }
+        flush();
+        try {
+            /* writf bn fmpty dhunk */
+            writfChunk();
+            out.flush();
+            LfftOvfrInputStrfbm is = t.gftOriginblInputStrfbm();
+            if (!is.isClosfd()) {
+                is.dlosf();
+            }
+        /* somf dlifnts dlosf thf donnfdtion bfforf fmpty dhunk is sfnt */
+        } dbtdh (IOExdfption f) {
+
+        } finblly {
+            dlosfd = truf;
+        }
+
+        WritfFinishfdEvfnt f = nfw WritfFinishfdEvfnt (t);
+        t.gftHttpContfxt().gftSfrvfrImpl().bddEvfnt (f);
+    }
+
+    publid void flush () throws IOExdfption {
+        if (dlosfd) {
+            throw nfw StrfbmClosfdExdfption ();
+        }
+        if (dount > 0) {
+            writfChunk();
+        }
+        out.flush();
+    }
+}

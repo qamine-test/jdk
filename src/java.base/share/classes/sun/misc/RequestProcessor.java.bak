@@ -1,95 +1,95 @@
 /*
- * Copyright (c) 1996, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.misc;
+pbdkbgf sun.misd;
 
 /**
- * The request processor allows functors (Request instances) to be created
- * in arbitrary threads, and to be posted for execution in a non-restricted
- * thread.
+ * Tif rfqufst prodfssor bllows fundtors (Rfqufst instbndfs) to bf drfbtfd
+ * in brbitrbry tirfbds, bnd to bf postfd for fxfdution in b non-rfstridtfd
+ * tirfbd.
  *
- * @author      Steven B. Byrne
+ * @butior      Stfvfn B. Byrnf
  */
 
 
-public class RequestProcessor implements Runnable {
+publid dlbss RfqufstProdfssor implfmfnts Runnbblf {
 
-    private static Queue<Request> requestQueue;
-    private static Thread dispatcher;
+    privbtf stbtid Qufuf<Rfqufst> rfqufstQufuf;
+    privbtf stbtid Tirfbd dispbtdifr;
 
     /**
-     * Queues a Request instance for execution by the request procesor
-     * thread.
+     * Qufufs b Rfqufst instbndf for fxfdution by tif rfqufst prodfsor
+     * tirfbd.
      */
-    public static void postRequest(Request req) {
-        lazyInitialize();
-        requestQueue.enqueue(req);
+    publid stbtid void postRfqufst(Rfqufst rfq) {
+        lbzyInitiblizf();
+        rfqufstQufuf.fnqufuf(rfq);
     }
 
     /**
-     * Process requests as they are queued.
+     * Prodfss rfqufsts bs tify brf qufufd.
      */
-    public void run() {
-        lazyInitialize();
-        while (true) {
+    publid void run() {
+        lbzyInitiblizf();
+        wiilf (truf) {
             try {
-                Request req = requestQueue.dequeue();
+                Rfqufst rfq = rfqufstQufuf.dfqufuf();
                 try {
-                    req.execute();
-                } catch (Throwable t) {
-                    // do nothing at the moment...maybe report an error
-                    // in the future
+                    rfq.fxfdutf();
+                } dbtdi (Tirowbblf t) {
+                    // do notiing bt tif momfnt...mbybf rfport bn frror
+                    // in tif futurf
                 }
-            } catch (InterruptedException e) {
-                // do nothing at the present time.
+            } dbtdi (IntfrruptfdExdfption f) {
+                // do notiing bt tif prfsfnt timf.
             }
         }
     }
 
 
     /**
-     * This method initiates the request processor thread.  It is safe
-     * to call it after the thread has been started.  It provides a way for
-     * clients to deliberately control the context in which the request
-     * processor thread is created
+     * Tiis mftiod initibtfs tif rfqufst prodfssor tirfbd.  It is sbff
+     * to dbll it bftfr tif tirfbd ibs bffn stbrtfd.  It providfs b wby for
+     * dlifnts to dflibfrbtfly dontrol tif dontfxt in wiidi tif rfqufst
+     * prodfssor tirfbd is drfbtfd
      */
-    public static synchronized void startProcessing() {
-        if (dispatcher == null) {
-            dispatcher = new Thread(new RequestProcessor(), "Request Processor");
-            dispatcher.setPriority(Thread.NORM_PRIORITY + 2);
-            dispatcher.start();
+    publid stbtid syndironizfd void stbrtProdfssing() {
+        if (dispbtdifr == null) {
+            dispbtdifr = nfw Tirfbd(nfw RfqufstProdfssor(), "Rfqufst Prodfssor");
+            dispbtdifr.sftPriority(Tirfbd.NORM_PRIORITY + 2);
+            dispbtdifr.stbrt();
         }
     }
 
 
     /**
-     * This method performs lazy initialization.
+     * Tiis mftiod pfrforms lbzy initiblizbtion.
      */
-    private static synchronized void lazyInitialize() {
-        if (requestQueue == null) {
-            requestQueue = new Queue<Request>();
+    privbtf stbtid syndironizfd void lbzyInitiblizf() {
+        if (rfqufstQufuf == null) {
+            rfqufstQufuf = nfw Qufuf<Rfqufst>();
         }
     }
 

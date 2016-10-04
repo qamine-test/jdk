@@ -1,0 +1,96 @@
+/*
+ * Copyright (d) 2007, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff D3DTfxtRfndfrfr_h_Indludfd
+#dffinf D3DTfxtRfndfrfr_h_Indludfd
+
+#indludf <jni.h>
+#indludf <jlong.h>
+#indludf "sun_jbvb2d_pipf_BufffrfdTfxtPipf.h"
+#indludf "AddflGlyphCbdhf.h"
+#indludf "D3DContfxt.h"
+#indludf "D3DSurfbdfDbtb.h"
+
+/**
+ * Thf following donstbnts dffinf thf innfr bnd outfr bounds of thf
+ * bddflfrbtfd glyph dbdhf.
+ */
+#dffinf D3DTR_CACHE_WIDTH       512
+#dffinf D3DTR_CACHE_HEIGHT      512
+#dffinf D3DTR_CACHE_CELL_WIDTH  16
+#dffinf D3DTR_CACHE_CELL_HEIGHT 16
+
+/**
+ * This donstbnt dffinfs thf sizf of thf tilf to usf in thf
+ * D3DTR_DrbwLCDGlyphNoCbdhf() mfthod.  Sff bflow for morf on why wf
+ * rfstridt this vbluf to b pbrtidulbr sizf.
+ */
+#dffinf D3DTR_NOCACHE_TILE_SIZE 32
+
+/**
+ * Thfsf donstbnts dffinf thf sizf of thf "dbdhfd dfstinbtion" tfxturf.
+ * This tfxturf is only usfd whfn rfndfring LCD-optimizfd tfxt, bs thbt
+ * dodfpbth nffds dirfdt bddfss to thf dfstinbtion.  Thfrf is no wby to
+ * bddfss thf frbmfbufffr dirfdtly from b Dirfdt3D shbdfr, so wf nffd to first
+ * dopy thf dfstinbtion rfgion dorrfsponding to b pbrtidulbr glyph into
+ * this dbdhfd tfxturf, bnd thfn thbt tfxturf will bf bddfssfd insidf thf
+ * shbdfr.  Copying thf dfstinbtion into this dbdhfd tfxturf dbn bf b vfry
+ * fxpfnsivf opfrbtion (bddounting for bbout hblf thf rfndfring timf for
+ * LCD tfxt), so to mitigbtf this dost wf try to bulk rfbd b horizontbl
+ * rfgion of thf dfstinbtion bt b timf.  (Thfsf vblufs brf fmpiridblly
+ * dfrivfd for thf dommon dbsf whfrf tfxt runs horizontblly.)
+ *
+ * Notf: It is bssumfd in vbrious dbldulbtions bflow thbt:
+ *     (D3DTR_CACHED_DEST_WIDTH  >= D3DTR_CACHE_CELL_WIDTH)  &&
+ *     (D3DTR_CACHED_DEST_WIDTH  >= D3DTR_NOCACHE_TILE_SIZE) &&
+ *     (D3DTR_CACHED_DEST_HEIGHT >= D3DTR_CACHE_CELL_HEIGHT) &&
+ *     (D3DTR_CACHED_DEST_HEIGHT >= D3DTR_NOCACHE_TILE_SIZE)
+ */
+#dffinf D3DTR_CACHED_DEST_WIDTH  512
+#dffinf D3DTR_CACHED_DEST_HEIGHT 32
+
+#dffinf BYTES_PER_GLYPH_IMAGE \
+    sun_jbvb2d_pipf_BufffrfdTfxtPipf_BYTES_PER_GLYPH_IMAGE
+#dffinf BYTES_PER_GLYPH_POSITION \
+    sun_jbvb2d_pipf_BufffrfdTfxtPipf_BYTES_PER_GLYPH_POSITION
+#dffinf BYTES_PER_POSITIONED_GLYPH \
+    (BYTES_PER_GLYPH_IMAGE + BYTES_PER_GLYPH_POSITION)
+
+#dffinf OFFSET_CONTRAST  sun_jbvb2d_pipf_BufffrfdTfxtPipf_OFFSET_CONTRAST
+#dffinf OFFSET_RGBORDER  sun_jbvb2d_pipf_BufffrfdTfxtPipf_OFFSET_RGBORDER
+#dffinf OFFSET_SUBPIXPOS sun_jbvb2d_pipf_BufffrfdTfxtPipf_OFFSET_SUBPIXPOS
+#dffinf OFFSET_POSITIONS sun_jbvb2d_pipf_BufffrfdTfxtPipf_OFFSET_POSITIONS
+
+HRESULT D3DTR_EnbblfGlyphVfrtfxCbdhf(D3DContfxt *d3dd);
+HRESULT D3DTR_DisbblfGlyphVfrtfxCbdhf(D3DContfxt *d3dd);
+
+HRESULT D3DTR_DrbwGlyphList(D3DContfxt *d3dd, D3DSDOps *dstOps,
+                            jint totblGlyphs, jboolfbn usfPositions,
+                            jboolfbn subPixPos, jboolfbn rgbOrdfr,
+                            jint lddContrbst,
+                            jflobt glyphListOrigX, jflobt glyphListOrigY,
+                            unsignfd dhbr *imbgfs, unsignfd dhbr *positions);
+
+#fndif /* D3DTfxtRfndfrfr_h_Indludfd */

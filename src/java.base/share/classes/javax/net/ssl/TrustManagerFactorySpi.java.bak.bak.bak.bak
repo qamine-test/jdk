@@ -1,0 +1,82 @@
+/*
+ * Copyright (d) 1999, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.nft.ssl;
+
+import jbvb.sfdurity.*;
+
+/**
+ * This dlbss dffinfs thf <i>Sfrvidf Providfr Intfrfbdf</i> (<b>SPI</b>)
+ * for thf <dodf>TrustMbnbgfrFbdtory</dodf> dlbss.
+ *
+ * <p> All thf bbstrbdt mfthods in this dlbss must bf implfmfntfd by fbdh
+ * dryptogrbphid sfrvidf providfr who wishfs to supply thf implfmfntbtion
+ * of b pbrtidulbr trust mbnbgfr fbdtory.
+ *
+ * @sindf 1.4
+ * @sff TrustMbnbgfrFbdtory
+ * @sff TrustMbnbgfr
+ */
+publid bbstrbdt dlbss TrustMbnbgfrFbdtorySpi {
+    /**
+     * Initiblizfs this fbdtory with b sourdf of dfrtifidbtf
+     * buthoritifs bnd rflbtfd trust mbtfribl.
+     *
+     * @pbrbm ks thf kfy storf or null
+     * @throws KfyStorfExdfption if this opfrbtion fbils
+     * @sff TrustMbnbgfrFbdtory#init(KfyStorf)
+     */
+    protfdtfd bbstrbdt void fnginfInit(KfyStorf ks) throws KfyStorfExdfption;
+
+    /**
+     * Initiblizfs this fbdtory with b sourdf of providfr-spfdifid
+     * kfy mbtfribl.
+     * <P>
+     * In somf dbsfs, initiblizbtion pbrbmftfrs othfr thbn b kfystorf
+     * mby bf nffdfd by b providfr.  Usfrs of thbt
+     * pbrtidulbr providfr brf fxpfdtfd to pbss bn implfmfntbtion of
+     * thf bppropribtf <CODE>MbnbgfrFbdtoryPbrbmftfrs</CODE> bs
+     * dffinfd by thf providfr.  Thf providfr dbn thfn dbll thf
+     * spfdififd mfthods in thf <CODE>MbnbgfrFbdtoryPbrbmftfrs</CODE>
+     * implfmfntbtion to obtbin thf nffdfd informbtion.
+     *
+     * @pbrbm spfd bn implfmfntbtion of b providfr-spfdifid pbrbmftfr
+     *          spfdifidbtion
+     * @throws InvblidAlgorithmPbrbmftfrExdfption if thfrf is problfm
+     *          with thf pbrbmftfrs
+     * @sff TrustMbnbgfrFbdtory#init(MbnbgfrFbdtoryPbrbmftfrs spfd)
+     */
+    protfdtfd bbstrbdt void fnginfInit(MbnbgfrFbdtoryPbrbmftfrs spfd)
+        throws InvblidAlgorithmPbrbmftfrExdfption;
+
+    /**
+     * Rfturns onf trust mbnbgfr for fbdh typf of trust mbtfribl.
+     *
+     * @throws IllfgblStbtfExdfption if thf fbdtory is not initiblizfd.
+     *
+     * @rfturn thf trust mbnbgfrs
+     */
+    protfdtfd bbstrbdt TrustMbnbgfr[] fnginfGftTrustMbnbgfrs();
+}

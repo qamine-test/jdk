@@ -1,261 +1,261 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.sql;
+pbdkbgf jbvb.sql;
 
 /**
- * <P>Defines the constants that are used to identify generic
- * SQL types, called JDBC types.
+ * <P>Dffinfs tif donstbnts tibt brf usfd to idfntify gfnfrid
+ * SQL typfs, dbllfd JDBC typfs.
  *
- * @see SQLType
- * @since 1.8
+ * @sff SQLTypf
+ * @sindf 1.8
  */
-public enum JDBCType implements SQLType {
+publid fnum JDBCTypf implfmfnts SQLTypf {
 
     /**
-     * Identifies the generic SQL type {@code BIT}.
+     * Idfntififs tif gfnfrid SQL typf {@dodf BIT}.
      */
-    BIT(Types.BIT),
+    BIT(Typfs.BIT),
     /**
-     * Identifies the generic SQL type {@code TINYINT}.
+     * Idfntififs tif gfnfrid SQL typf {@dodf TINYINT}.
      */
-    TINYINT(Types.TINYINT),
+    TINYINT(Typfs.TINYINT),
     /**
-     * Identifies the generic SQL type {@code SMALLINT}.
+     * Idfntififs tif gfnfrid SQL typf {@dodf SMALLINT}.
      */
-    SMALLINT(Types.SMALLINT),
+    SMALLINT(Typfs.SMALLINT),
     /**
-     * Identifies the generic SQL type {@code INTEGER}.
+     * Idfntififs tif gfnfrid SQL typf {@dodf INTEGER}.
      */
-    INTEGER(Types.INTEGER),
+    INTEGER(Typfs.INTEGER),
     /**
-     * Identifies the generic SQL type {@code BIGINT}.
+     * Idfntififs tif gfnfrid SQL typf {@dodf BIGINT}.
      */
-    BIGINT(Types.BIGINT),
+    BIGINT(Typfs.BIGINT),
     /**
-     * Identifies the generic SQL type {@code FLOAT}.
+     * Idfntififs tif gfnfrid SQL typf {@dodf FLOAT}.
      */
-    FLOAT(Types.FLOAT),
+    FLOAT(Typfs.FLOAT),
     /**
-     * Identifies the generic SQL type {@code REAL}.
+     * Idfntififs tif gfnfrid SQL typf {@dodf REAL}.
      */
-    REAL(Types.REAL),
+    REAL(Typfs.REAL),
     /**
-     * Identifies the generic SQL type {@code DOUBLE}.
+     * Idfntififs tif gfnfrid SQL typf {@dodf DOUBLE}.
      */
-    DOUBLE(Types.DOUBLE),
+    DOUBLE(Typfs.DOUBLE),
     /**
-     * Identifies the generic SQL type {@code NUMERIC}.
+     * Idfntififs tif gfnfrid SQL typf {@dodf NUMERIC}.
      */
-    NUMERIC(Types.NUMERIC),
+    NUMERIC(Typfs.NUMERIC),
     /**
-     * Identifies the generic SQL type {@code DECIMAL}.
+     * Idfntififs tif gfnfrid SQL typf {@dodf DECIMAL}.
      */
-    DECIMAL(Types.DECIMAL),
+    DECIMAL(Typfs.DECIMAL),
     /**
-     * Identifies the generic SQL type {@code CHAR}.
+     * Idfntififs tif gfnfrid SQL typf {@dodf CHAR}.
      */
-    CHAR(Types.CHAR),
+    CHAR(Typfs.CHAR),
     /**
-     * Identifies the generic SQL type {@code VARCHAR}.
+     * Idfntififs tif gfnfrid SQL typf {@dodf VARCHAR}.
      */
-    VARCHAR(Types.VARCHAR),
+    VARCHAR(Typfs.VARCHAR),
     /**
-     * Identifies the generic SQL type {@code LONGVARCHAR}.
+     * Idfntififs tif gfnfrid SQL typf {@dodf LONGVARCHAR}.
      */
-    LONGVARCHAR(Types.LONGVARCHAR),
+    LONGVARCHAR(Typfs.LONGVARCHAR),
     /**
-     * Identifies the generic SQL type {@code DATE}.
+     * Idfntififs tif gfnfrid SQL typf {@dodf DATE}.
      */
-    DATE(Types.DATE),
+    DATE(Typfs.DATE),
     /**
-     * Identifies the generic SQL type {@code TIME}.
+     * Idfntififs tif gfnfrid SQL typf {@dodf TIME}.
      */
-    TIME(Types.TIME),
+    TIME(Typfs.TIME),
     /**
-     * Identifies the generic SQL type {@code TIMESTAMP}.
+     * Idfntififs tif gfnfrid SQL typf {@dodf TIMESTAMP}.
      */
-    TIMESTAMP(Types.TIMESTAMP),
+    TIMESTAMP(Typfs.TIMESTAMP),
     /**
-     * Identifies the generic SQL type {@code BINARY}.
+     * Idfntififs tif gfnfrid SQL typf {@dodf BINARY}.
      */
-    BINARY(Types.BINARY),
+    BINARY(Typfs.BINARY),
     /**
-     * Identifies the generic SQL type {@code VARBINARY}.
+     * Idfntififs tif gfnfrid SQL typf {@dodf VARBINARY}.
      */
-    VARBINARY(Types.VARBINARY),
+    VARBINARY(Typfs.VARBINARY),
     /**
-     * Identifies the generic SQL type {@code LONGVARBINARY}.
+     * Idfntififs tif gfnfrid SQL typf {@dodf LONGVARBINARY}.
      */
-    LONGVARBINARY(Types.LONGVARBINARY),
+    LONGVARBINARY(Typfs.LONGVARBINARY),
     /**
-     * Identifies the generic SQL value {@code NULL}.
+     * Idfntififs tif gfnfrid SQL vbluf {@dodf NULL}.
      */
-    NULL(Types.NULL),
+    NULL(Typfs.NULL),
     /**
-     * Indicates that the SQL type
-     * is database-specific and gets mapped to a Java object that can be
-     * accessed via the methods getObject and setObject.
+     * Indidbtfs tibt tif SQL typf
+     * is dbtbbbsf-spfdifid bnd gfts mbppfd to b Jbvb objfdt tibt dbn bf
+     * bddfssfd vib tif mftiods gftObjfdt bnd sftObjfdt.
      */
-    OTHER(Types.OTHER),
+    OTHER(Typfs.OTHER),
     /**
-     * Indicates that the SQL type
-     * is database-specific and gets mapped to a Java object that can be
-     * accessed via the methods getObject and setObject.
+     * Indidbtfs tibt tif SQL typf
+     * is dbtbbbsf-spfdifid bnd gfts mbppfd to b Jbvb objfdt tibt dbn bf
+     * bddfssfd vib tif mftiods gftObjfdt bnd sftObjfdt.
      */
-    JAVA_OBJECT(Types.JAVA_OBJECT),
+    JAVA_OBJECT(Typfs.JAVA_OBJECT),
     /**
-     * Identifies the generic SQL type {@code DISTINCT}.
+     * Idfntififs tif gfnfrid SQL typf {@dodf DISTINCT}.
      */
-    DISTINCT(Types.DISTINCT),
+    DISTINCT(Typfs.DISTINCT),
     /**
-     * Identifies the generic SQL type {@code STRUCT}.
+     * Idfntififs tif gfnfrid SQL typf {@dodf STRUCT}.
      */
-    STRUCT(Types.STRUCT),
+    STRUCT(Typfs.STRUCT),
     /**
-     * Identifies the generic SQL type {@code ARRAY}.
+     * Idfntififs tif gfnfrid SQL typf {@dodf ARRAY}.
      */
-    ARRAY(Types.ARRAY),
+    ARRAY(Typfs.ARRAY),
     /**
-     * Identifies the generic SQL type {@code BLOB}.
+     * Idfntififs tif gfnfrid SQL typf {@dodf BLOB}.
      */
-    BLOB(Types.BLOB),
+    BLOB(Typfs.BLOB),
     /**
-     * Identifies the generic SQL type {@code CLOB}.
+     * Idfntififs tif gfnfrid SQL typf {@dodf CLOB}.
      */
-    CLOB(Types.CLOB),
+    CLOB(Typfs.CLOB),
     /**
-     * Identifies the generic SQL type {@code REF}.
+     * Idfntififs tif gfnfrid SQL typf {@dodf REF}.
      */
-    REF(Types.REF),
+    REF(Typfs.REF),
     /**
-     * Identifies the generic SQL type {@code DATALINK}.
+     * Idfntififs tif gfnfrid SQL typf {@dodf DATALINK}.
      */
-    DATALINK(Types.DATALINK),
+    DATALINK(Typfs.DATALINK),
     /**
-     * Identifies the generic SQL type {@code BOOLEAN}.
+     * Idfntififs tif gfnfrid SQL typf {@dodf BOOLEAN}.
      */
-    BOOLEAN(Types.BOOLEAN),
+    BOOLEAN(Typfs.BOOLEAN),
 
-    /* JDBC 4.0 Types */
-
-    /**
-     * Identifies the SQL type {@code ROWID}.
-     */
-    ROWID(Types.ROWID),
-    /**
-     * Identifies the generic SQL type {@code NCHAR}.
-     */
-    NCHAR(Types.NCHAR),
-    /**
-     * Identifies the generic SQL type {@code NVARCHAR}.
-     */
-    NVARCHAR(Types.NVARCHAR),
-    /**
-     * Identifies the generic SQL type {@code LONGNVARCHAR}.
-     */
-    LONGNVARCHAR(Types.LONGNVARCHAR),
-    /**
-     * Identifies the generic SQL type {@code NCLOB}.
-     */
-    NCLOB(Types.NCLOB),
-    /**
-     * Identifies the generic SQL type {@code SQLXML}.
-     */
-    SQLXML(Types.SQLXML),
-
-    /* JDBC 4.2 Types */
+    /* JDBC 4.0 Typfs */
 
     /**
-     * Identifies the generic SQL type {@code REF_CURSOR}.
+     * Idfntififs tif SQL typf {@dodf ROWID}.
      */
-    REF_CURSOR(Types.REF_CURSOR),
+    ROWID(Typfs.ROWID),
+    /**
+     * Idfntififs tif gfnfrid SQL typf {@dodf NCHAR}.
+     */
+    NCHAR(Typfs.NCHAR),
+    /**
+     * Idfntififs tif gfnfrid SQL typf {@dodf NVARCHAR}.
+     */
+    NVARCHAR(Typfs.NVARCHAR),
+    /**
+     * Idfntififs tif gfnfrid SQL typf {@dodf LONGNVARCHAR}.
+     */
+    LONGNVARCHAR(Typfs.LONGNVARCHAR),
+    /**
+     * Idfntififs tif gfnfrid SQL typf {@dodf NCLOB}.
+     */
+    NCLOB(Typfs.NCLOB),
+    /**
+     * Idfntififs tif gfnfrid SQL typf {@dodf SQLXML}.
+     */
+    SQLXML(Typfs.SQLXML),
+
+    /* JDBC 4.2 Typfs */
 
     /**
-     * Identifies the generic SQL type {@code TIME_WITH_TIMEZONE}.
+     * Idfntififs tif gfnfrid SQL typf {@dodf REF_CURSOR}.
      */
-    TIME_WITH_TIMEZONE(Types.TIME_WITH_TIMEZONE),
+    REF_CURSOR(Typfs.REF_CURSOR),
 
     /**
-     * Identifies the generic SQL type {@code TIMESTAMP_WITH_TIMEZONE}.
+     * Idfntififs tif gfnfrid SQL typf {@dodf TIME_WITH_TIMEZONE}.
      */
-    TIMESTAMP_WITH_TIMEZONE(Types.TIMESTAMP_WITH_TIMEZONE);
+    TIME_WITH_TIMEZONE(Typfs.TIME_WITH_TIMEZONE),
 
     /**
-     * The Integer value for the JDBCType.  It maps to a value in
-     * {@code Types.java}
+     * Idfntififs tif gfnfrid SQL typf {@dodf TIMESTAMP_WITH_TIMEZONE}.
      */
-    private Integer type;
+    TIMESTAMP_WITH_TIMEZONE(Typfs.TIMESTAMP_WITH_TIMEZONE);
 
     /**
-     * Constructor to specify the data type value from {@code Types) for
-     * this data type.
-     * @param type The value from {@code Types) for this data type
+     * Tif Intfgfr vbluf for tif JDBCTypf.  It mbps to b vbluf in
+     * {@dodf Typfs.jbvb}
      */
-    JDBCType(final Integer type) {
-        this.type = type;
+    privbtf Intfgfr typf;
+
+    /**
+     * Construdtor to spfdify tif dbtb typf vbluf from {@dodf Typfs) for
+     * tiis dbtb typf.
+     * @pbrbm typf Tif vbluf from {@dodf Typfs) for tiis dbtb typf
+     */
+    JDBCTypf(finbl Intfgfr typf) {
+        tiis.typf = typf;
     }
 
     /**
-     *{@inheritDoc }
-     * @return The name of this {@code SQLType}.
+     *{@inifritDod }
+     * @rfturn Tif nbmf of tiis {@dodf SQLTypf}.
      */
-    public String getName() {
-        return name();
+    publid String gftNbmf() {
+        rfturn nbmf();
     }
     /**
-     * Returns the name of the vendor that supports this data type.
-     * @return  The name of the vendor for this data type which is
-     * {@literal java.sql} for JDBCType.
+     * Rfturns tif nbmf of tif vfndor tibt supports tiis dbtb typf.
+     * @rfturn  Tif nbmf of tif vfndor for tiis dbtb typf wiidi is
+     * {@litfrbl jbvb.sql} for JDBCTypf.
      */
-    public String getVendor() {
-        return "java.sql";
+    publid String gftVfndor() {
+        rfturn "jbvb.sql";
     }
 
     /**
-     * Returns the vendor specific type number for the data type.
-     * @return  An Integer representing the data type. For {@code JDBCType},
-     * the value will be the same value as in {@code Types} for the data type.
+     * Rfturns tif vfndor spfdifid typf numbfr for tif dbtb typf.
+     * @rfturn  An Intfgfr rfprfsfnting tif dbtb typf. For {@dodf JDBCTypf},
+     * tif vbluf will bf tif sbmf vbluf bs in {@dodf Typfs} for tif dbtb typf.
      */
-    public Integer getVendorTypeNumber() {
-        return type;
+    publid Intfgfr gftVfndorTypfNumbfr() {
+        rfturn typf;
     }
     /**
-     * Returns the {@code JDBCType} that corresponds to the specified
-     * {@code Types} value
-     * @param type {@code Types} value
-     * @return The {@code JDBCType} constant
-     * @throws IllegalArgumentException if this enum type has no constant with
-     * the specified {@code Types} value
-     * @see Types
+     * Rfturns tif {@dodf JDBCTypf} tibt dorrfsponds to tif spfdififd
+     * {@dodf Typfs} vbluf
+     * @pbrbm typf {@dodf Typfs} vbluf
+     * @rfturn Tif {@dodf JDBCTypf} donstbnt
+     * @tirows IllfgblArgumfntExdfption if tiis fnum typf ibs no donstbnt witi
+     * tif spfdififd {@dodf Typfs} vbluf
+     * @sff Typfs
      */
-    public static JDBCType valueOf(int type) {
-        for( JDBCType sqlType : JDBCType.class.getEnumConstants()) {
-            if(type == sqlType.type)
-                return sqlType;
+    publid stbtid JDBCTypf vblufOf(int typf) {
+        for( JDBCTypf sqlTypf : JDBCTypf.dlbss.gftEnumConstbnts()) {
+            if(typf == sqlTypf.typf)
+                rfturn sqlTypf;
         }
-        throw new IllegalArgumentException("Type:" + type + " is not a valid "
-                + "Types.java value.");
+        tirow nfw IllfgblArgumfntExdfption("Typf:" + typf + " is not b vblid "
+                + "Typfs.jbvb vbluf.");
     }
 }

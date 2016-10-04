@@ -1,1194 +1,1194 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.text;
+pbdkbgf jbvbx.swing.tfxt;
 
-import java.util.Arrays;
-import java.awt.*;
-import java.awt.font.TextAttribute;
-import javax.swing.event.*;
-import javax.swing.SizeRequirements;
+import jbvb.util.Arrbys;
+import jbvb.bwt.*;
+import jbvb.bwt.font.TfxtAttributf;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.SizfRfquirfmfnts;
 
 /**
- * View of a simple line-wrapping paragraph that supports
- * multiple fonts, colors, components, icons, etc.  It is
- * basically a vertical box with a margin around it.  The
- * contents of the box are a bunch of rows which are special
- * horizontal boxes.  This view creates a collection of
- * views that represent the child elements of the paragraph
- * element.  Each of these views are placed into a row
- * directly if they will fit, otherwise the <code>breakView</code>
- * method is called to try and carve the view into pieces
- * that fit.
+ * Vifw of b simplf linf-wrbpping pbrbgrbpi tibt supports
+ * multiplf fonts, dolors, domponfnts, idons, ftd.  It is
+ * bbsidblly b vfrtidbl box witi b mbrgin bround it.  Tif
+ * dontfnts of tif box brf b bundi of rows wiidi brf spfdibl
+ * iorizontbl boxfs.  Tiis vifw drfbtfs b dollfdtion of
+ * vifws tibt rfprfsfnt tif diild flfmfnts of tif pbrbgrbpi
+ * flfmfnt.  Ebdi of tifsf vifws brf plbdfd into b row
+ * dirfdtly if tify will fit, otifrwisf tif <dodf>brfbkVifw</dodf>
+ * mftiod is dbllfd to try bnd dbrvf tif vifw into pifdfs
+ * tibt fit.
  *
- * @author  Timothy Prinzing
- * @author  Scott Violet
- * @author  Igor Kushnirskiy
- * @see     View
+ * @butior  Timotiy Prinzing
+ * @butior  Sdott Violft
+ * @butior  Igor Kusinirskiy
+ * @sff     Vifw
  */
-public class ParagraphView extends FlowView implements TabExpander {
+publid dlbss PbrbgrbpiVifw fxtfnds FlowVifw implfmfnts TbbExpbndfr {
 
     /**
-     * Constructs a <code>ParagraphView</code> for the given element.
+     * Construdts b <dodf>PbrbgrbpiVifw</dodf> for tif givfn flfmfnt.
      *
-     * @param elem the element that this view is responsible for
+     * @pbrbm flfm tif flfmfnt tibt tiis vifw is rfsponsiblf for
      */
-    public ParagraphView(Element elem) {
-        super(elem, View.Y_AXIS);
-        setPropertiesFromAttributes();
-        Document doc = elem.getDocument();
-        Object i18nFlag = doc.getProperty(AbstractDocument.I18NProperty);
-        if ((i18nFlag != null) && i18nFlag.equals(Boolean.TRUE)) {
+    publid PbrbgrbpiVifw(Elfmfnt flfm) {
+        supfr(flfm, Vifw.Y_AXIS);
+        sftPropfrtifsFromAttributfs();
+        Dodumfnt dod = flfm.gftDodumfnt();
+        Objfdt i18nFlbg = dod.gftPropfrty(AbstrbdtDodumfnt.I18NPropfrty);
+        if ((i18nFlbg != null) && i18nFlbg.fqubls(Boolfbn.TRUE)) {
             try {
-                if (i18nStrategy == null) {
-                    // the classname should probably come from a property file.
-                    String classname = "javax.swing.text.TextLayoutStrategy";
-                    ClassLoader loader = getClass().getClassLoader();
-                    if (loader != null) {
-                        i18nStrategy = loader.loadClass(classname);
-                    } else {
-                        i18nStrategy = Class.forName(classname);
+                if (i18nStrbtfgy == null) {
+                    // tif dlbssnbmf siould probbbly domf from b propfrty filf.
+                    String dlbssnbmf = "jbvbx.swing.tfxt.TfxtLbyoutStrbtfgy";
+                    ClbssLobdfr lobdfr = gftClbss().gftClbssLobdfr();
+                    if (lobdfr != null) {
+                        i18nStrbtfgy = lobdfr.lobdClbss(dlbssnbmf);
+                    } flsf {
+                        i18nStrbtfgy = Clbss.forNbmf(dlbssnbmf);
                     }
                 }
-                Object o = i18nStrategy.newInstance();
-                if (o instanceof FlowStrategy) {
-                    strategy = (FlowStrategy) o;
+                Objfdt o = i18nStrbtfgy.nfwInstbndf();
+                if (o instbndfof FlowStrbtfgy) {
+                    strbtfgy = (FlowStrbtfgy) o;
                 }
-            } catch (Throwable e) {
-                throw new StateInvariantError("ParagraphView: Can't create i18n strategy: "
-                                              + e.getMessage());
+            } dbtdi (Tirowbblf f) {
+                tirow nfw StbtfInvbribntError("PbrbgrbpiVifw: Cbn't drfbtf i18n strbtfgy: "
+                                              + f.gftMfssbgf());
             }
         }
     }
 
     /**
-     * Sets the type of justification.
+     * Sfts tif typf of justifidbtion.
      *
-     * @param j one of the following values:
+     * @pbrbm j onf of tif following vblufs:
      * <ul>
-     * <li><code>StyleConstants.ALIGN_LEFT</code>
-     * <li><code>StyleConstants.ALIGN_CENTER</code>
-     * <li><code>StyleConstants.ALIGN_RIGHT</code>
+     * <li><dodf>StylfConstbnts.ALIGN_LEFT</dodf>
+     * <li><dodf>StylfConstbnts.ALIGN_CENTER</dodf>
+     * <li><dodf>StylfConstbnts.ALIGN_RIGHT</dodf>
      * </ul>
      */
-    protected void setJustification(int j) {
-        justification = j;
+    protfdtfd void sftJustifidbtion(int j) {
+        justifidbtion = j;
     }
 
     /**
-     * Sets the line spacing.
+     * Sfts tif linf spbding.
      *
-     * @param ls the value is a factor of the line hight
+     * @pbrbm ls tif vbluf is b fbdtor of tif linf iigit
      */
-    protected void setLineSpacing(float ls) {
-        lineSpacing = ls;
+    protfdtfd void sftLinfSpbding(flobt ls) {
+        linfSpbding = ls;
     }
 
     /**
-     * Sets the indent on the first line.
+     * Sfts tif indfnt on tif first linf.
      *
-     * @param fi the value in points
+     * @pbrbm fi tif vbluf in points
      */
-    protected void setFirstLineIndent(float fi) {
-        firstLineIndent = (int) fi;
+    protfdtfd void sftFirstLinfIndfnt(flobt fi) {
+        firstLinfIndfnt = (int) fi;
     }
 
     /**
-     * Set the cached properties from the attributes.
+     * Sft tif dbdifd propfrtifs from tif bttributfs.
      */
-    protected void setPropertiesFromAttributes() {
-        AttributeSet attr = getAttributes();
-        if (attr != null) {
-            setParagraphInsets(attr);
-            Integer a = (Integer)attr.getAttribute(StyleConstants.Alignment);
-            int alignment;
-            if (a == null) {
-                Document doc = getElement().getDocument();
-                Object o = doc.getProperty(TextAttribute.RUN_DIRECTION);
-                if ((o != null) && o.equals(TextAttribute.RUN_DIRECTION_RTL)) {
-                    alignment = StyleConstants.ALIGN_RIGHT;
-                } else {
-                    alignment = StyleConstants.ALIGN_LEFT;
+    protfdtfd void sftPropfrtifsFromAttributfs() {
+        AttributfSft bttr = gftAttributfs();
+        if (bttr != null) {
+            sftPbrbgrbpiInsfts(bttr);
+            Intfgfr b = (Intfgfr)bttr.gftAttributf(StylfConstbnts.Alignmfnt);
+            int blignmfnt;
+            if (b == null) {
+                Dodumfnt dod = gftElfmfnt().gftDodumfnt();
+                Objfdt o = dod.gftPropfrty(TfxtAttributf.RUN_DIRECTION);
+                if ((o != null) && o.fqubls(TfxtAttributf.RUN_DIRECTION_RTL)) {
+                    blignmfnt = StylfConstbnts.ALIGN_RIGHT;
+                } flsf {
+                    blignmfnt = StylfConstbnts.ALIGN_LEFT;
                 }
-            } else {
-                alignment = a.intValue();
+            } flsf {
+                blignmfnt = b.intVbluf();
             }
-            setJustification(alignment);
-            setLineSpacing(StyleConstants.getLineSpacing(attr));
-            setFirstLineIndent(StyleConstants.getFirstLineIndent(attr));
+            sftJustifidbtion(blignmfnt);
+            sftLinfSpbding(StylfConstbnts.gftLinfSpbding(bttr));
+            sftFirstLinfIndfnt(StylfConstbnts.gftFirstLinfIndfnt(bttr));
         }
     }
 
     /**
-     * Returns the number of views that this view is
-     * responsible for.
-     * The child views of the paragraph are rows which
-     * have been used to arrange pieces of the <code>View</code>s
-     * that represent the child elements.  This is the number
-     * of views that have been tiled in two dimensions,
-     * and should be equivalent to the number of child elements
-     * to the element this view is responsible for.
+     * Rfturns tif numbfr of vifws tibt tiis vifw is
+     * rfsponsiblf for.
+     * Tif diild vifws of tif pbrbgrbpi brf rows wiidi
+     * ibvf bffn usfd to brrbngf pifdfs of tif <dodf>Vifw</dodf>s
+     * tibt rfprfsfnt tif diild flfmfnts.  Tiis is tif numbfr
+     * of vifws tibt ibvf bffn tilfd in two dimfnsions,
+     * bnd siould bf fquivblfnt to tif numbfr of diild flfmfnts
+     * to tif flfmfnt tiis vifw is rfsponsiblf for.
      *
-     * @return the number of views that this <code>ParagraphView</code>
-     *          is responsible for
+     * @rfturn tif numbfr of vifws tibt tiis <dodf>PbrbgrbpiVifw</dodf>
+     *          is rfsponsiblf for
      */
-    protected int getLayoutViewCount() {
-        return layoutPool.getViewCount();
+    protfdtfd int gftLbyoutVifwCount() {
+        rfturn lbyoutPool.gftVifwCount();
     }
 
     /**
-     * Returns the view at a given <code>index</code>.
-     * The child views of the paragraph are rows which
-     * have been used to arrange pieces of the <code>Views</code>
-     * that represent the child elements.  This methods returns
-     * the view responsible for the child element index
-     * (prior to breaking).  These are the Views that were
-     * produced from a factory (to represent the child
-     * elements) and used for layout.
+     * Rfturns tif vifw bt b givfn <dodf>indfx</dodf>.
+     * Tif diild vifws of tif pbrbgrbpi brf rows wiidi
+     * ibvf bffn usfd to brrbngf pifdfs of tif <dodf>Vifws</dodf>
+     * tibt rfprfsfnt tif diild flfmfnts.  Tiis mftiods rfturns
+     * tif vifw rfsponsiblf for tif diild flfmfnt indfx
+     * (prior to brfbking).  Tifsf brf tif Vifws tibt wfrf
+     * produdfd from b fbdtory (to rfprfsfnt tif diild
+     * flfmfnts) bnd usfd for lbyout.
      *
-     * @param index the <code>index</code> of the desired view
-     * @return the view at <code>index</code>
+     * @pbrbm indfx tif <dodf>indfx</dodf> of tif dfsirfd vifw
+     * @rfturn tif vifw bt <dodf>indfx</dodf>
      */
-    protected View getLayoutView(int index) {
-        return layoutPool.getView(index);
+    protfdtfd Vifw gftLbyoutVifw(int indfx) {
+        rfturn lbyoutPool.gftVifw(indfx);
     }
 
     /**
-     * Returns the next visual position for the cursor, in
-     * either the east or west direction.
-     * Overridden from <code>CompositeView</code>.
-     * @param pos position into the model
-     * @param b either <code>Position.Bias.Forward</code> or
-     *          <code>Position.Bias.Backward</code>
-     * @param a the allocated region to render into
-     * @param direction either <code>SwingConstants.NORTH</code>
-     *          or <code>SwingConstants.SOUTH</code>
-     * @param biasRet an array containing the bias that were checked
-     *  in this method
-     * @return the location in the model that represents the
-     *  next location visual position
+     * Rfturns tif nfxt visubl position for tif dursor, in
+     * fitifr tif fbst or wfst dirfdtion.
+     * Ovfrriddfn from <dodf>CompositfVifw</dodf>.
+     * @pbrbm pos position into tif modfl
+     * @pbrbm b fitifr <dodf>Position.Bibs.Forwbrd</dodf> or
+     *          <dodf>Position.Bibs.Bbdkwbrd</dodf>
+     * @pbrbm b tif bllodbtfd rfgion to rfndfr into
+     * @pbrbm dirfdtion fitifr <dodf>SwingConstbnts.NORTH</dodf>
+     *          or <dodf>SwingConstbnts.SOUTH</dodf>
+     * @pbrbm bibsRft bn brrby dontbining tif bibs tibt wfrf difdkfd
+     *  in tiis mftiod
+     * @rfturn tif lodbtion in tif modfl tibt rfprfsfnts tif
+     *  nfxt lodbtion visubl position
      */
-    protected int getNextNorthSouthVisualPositionFrom(int pos, Position.Bias b,
-                                                      Shape a, int direction,
-                                                      Position.Bias[] biasRet)
-                                                throws BadLocationException {
-        int vIndex;
+    protfdtfd int gftNfxtNortiSoutiVisublPositionFrom(int pos, Position.Bibs b,
+                                                      Sibpf b, int dirfdtion,
+                                                      Position.Bibs[] bibsRft)
+                                                tirows BbdLodbtionExdfption {
+        int vIndfx;
         if(pos == -1) {
-            vIndex = (direction == NORTH) ?
-                     getViewCount() - 1 : 0;
+            vIndfx = (dirfdtion == NORTH) ?
+                     gftVifwCount() - 1 : 0;
         }
-        else {
-            if(b == Position.Bias.Backward && pos > 0) {
-                vIndex = getViewIndexAtPosition(pos - 1);
+        flsf {
+            if(b == Position.Bibs.Bbdkwbrd && pos > 0) {
+                vIndfx = gftVifwIndfxAtPosition(pos - 1);
             }
-            else {
-                vIndex = getViewIndexAtPosition(pos);
+            flsf {
+                vIndfx = gftVifwIndfxAtPosition(pos);
             }
-            if(direction == NORTH) {
-                if(vIndex == 0) {
-                    return -1;
+            if(dirfdtion == NORTH) {
+                if(vIndfx == 0) {
+                    rfturn -1;
                 }
-                vIndex--;
+                vIndfx--;
             }
-            else if(++vIndex >= getViewCount()) {
-                return -1;
+            flsf if(++vIndfx >= gftVifwCount()) {
+                rfturn -1;
             }
         }
-        // vIndex gives index of row to look in.
-        JTextComponent text = (JTextComponent)getContainer();
-        Caret c = text.getCaret();
-        Point magicPoint;
-        magicPoint = (c != null) ? c.getMagicCaretPosition() : null;
+        // vIndfx givfs indfx of row to look in.
+        JTfxtComponfnt tfxt = (JTfxtComponfnt)gftContbinfr();
+        Cbrft d = tfxt.gftCbrft();
+        Point mbgidPoint;
+        mbgidPoint = (d != null) ? d.gftMbgidCbrftPosition() : null;
         int x;
-        if(magicPoint == null) {
-            Shape posBounds;
+        if(mbgidPoint == null) {
+            Sibpf posBounds;
             try {
-                posBounds = text.getUI().modelToView(text, pos, b);
-            } catch (BadLocationException exc) {
+                posBounds = tfxt.gftUI().modflToVifw(tfxt, pos, b);
+            } dbtdi (BbdLodbtionExdfption fxd) {
                 posBounds = null;
             }
             if(posBounds == null) {
                 x = 0;
             }
-            else {
-                x = posBounds.getBounds().x;
+            flsf {
+                x = posBounds.gftBounds().x;
             }
         }
-        else {
-            x = magicPoint.x;
+        flsf {
+            x = mbgidPoint.x;
         }
-        return getClosestPositionTo(pos, b, a, direction, biasRet, vIndex, x);
+        rfturn gftClosfstPositionTo(pos, b, b, dirfdtion, bibsRft, vIndfx, x);
     }
 
     /**
-     * Returns the closest model position to <code>x</code>.
-     * <code>rowIndex</code> gives the index of the view that corresponds
-     * that should be looked in.
-     * @param pos  position into the model
-     * @param a the allocated region to render into
-     * @param direction one of the following values:
+     * Rfturns tif dlosfst modfl position to <dodf>x</dodf>.
+     * <dodf>rowIndfx</dodf> givfs tif indfx of tif vifw tibt dorrfsponds
+     * tibt siould bf lookfd in.
+     * @pbrbm pos  position into tif modfl
+     * @pbrbm b tif bllodbtfd rfgion to rfndfr into
+     * @pbrbm dirfdtion onf of tif following vblufs:
      * <ul>
-     * <li><code>SwingConstants.NORTH</code>
-     * <li><code>SwingConstants.SOUTH</code>
+     * <li><dodf>SwingConstbnts.NORTH</dodf>
+     * <li><dodf>SwingConstbnts.SOUTH</dodf>
      * </ul>
-     * @param biasRet an array containing the bias that were checked
-     *  in this method
-     * @param rowIndex the index of the view
-     * @param x the x coordinate of interest
-     * @return the closest model position to <code>x</code>
+     * @pbrbm bibsRft bn brrby dontbining tif bibs tibt wfrf difdkfd
+     *  in tiis mftiod
+     * @pbrbm rowIndfx tif indfx of tif vifw
+     * @pbrbm x tif x doordinbtf of intfrfst
+     * @rfturn tif dlosfst modfl position to <dodf>x</dodf>
      */
-    // NOTE: This will not properly work if ParagraphView contains
-    // other ParagraphViews. It won't raise, but this does not message
-    // the children views with getNextVisualPositionFrom.
-    protected int getClosestPositionTo(int pos, Position.Bias b, Shape a,
-                                       int direction, Position.Bias[] biasRet,
-                                       int rowIndex, int x)
-              throws BadLocationException {
-        JTextComponent text = (JTextComponent)getContainer();
-        Document doc = getDocument();
-        View row = getView(rowIndex);
-        int lastPos = -1;
-        // This could be made better to check backward positions too.
-        biasRet[0] = Position.Bias.Forward;
-        for(int vc = 0, numViews = row.getViewCount(); vc < numViews; vc++) {
-            View v = row.getView(vc);
-            int start = v.getStartOffset();
-            boolean ltr = AbstractDocument.isLeftToRight(doc, start, start + 1);
+    // NOTE: Tiis will not propfrly work if PbrbgrbpiVifw dontbins
+    // otifr PbrbgrbpiVifws. It won't rbisf, but tiis dofs not mfssbgf
+    // tif diildrfn vifws witi gftNfxtVisublPositionFrom.
+    protfdtfd int gftClosfstPositionTo(int pos, Position.Bibs b, Sibpf b,
+                                       int dirfdtion, Position.Bibs[] bibsRft,
+                                       int rowIndfx, int x)
+              tirows BbdLodbtionExdfption {
+        JTfxtComponfnt tfxt = (JTfxtComponfnt)gftContbinfr();
+        Dodumfnt dod = gftDodumfnt();
+        Vifw row = gftVifw(rowIndfx);
+        int lbstPos = -1;
+        // Tiis dould bf mbdf bfttfr to difdk bbdkwbrd positions too.
+        bibsRft[0] = Position.Bibs.Forwbrd;
+        for(int vd = 0, numVifws = row.gftVifwCount(); vd < numVifws; vd++) {
+            Vifw v = row.gftVifw(vd);
+            int stbrt = v.gftStbrtOffsft();
+            boolfbn ltr = AbstrbdtDodumfnt.isLfftToRigit(dod, stbrt, stbrt + 1);
             if(ltr) {
-                lastPos = start;
-                for(int end = v.getEndOffset(); lastPos < end; lastPos++) {
-                    float xx = text.modelToView(lastPos).getBounds().x;
+                lbstPos = stbrt;
+                for(int fnd = v.gftEndOffsft(); lbstPos < fnd; lbstPos++) {
+                    flobt xx = tfxt.modflToVifw(lbstPos).gftBounds().x;
                     if(xx >= x) {
-                        while (++lastPos < end &&
-                               text.modelToView(lastPos).getBounds().x == xx) {
+                        wiilf (++lbstPos < fnd &&
+                               tfxt.modflToVifw(lbstPos).gftBounds().x == xx) {
                         }
-                        return --lastPos;
+                        rfturn --lbstPos;
                     }
                 }
-                lastPos--;
+                lbstPos--;
             }
-            else {
-                for(lastPos = v.getEndOffset() - 1; lastPos >= start;
-                    lastPos--) {
-                    float xx = text.modelToView(lastPos).getBounds().x;
+            flsf {
+                for(lbstPos = v.gftEndOffsft() - 1; lbstPos >= stbrt;
+                    lbstPos--) {
+                    flobt xx = tfxt.modflToVifw(lbstPos).gftBounds().x;
                     if(xx >= x) {
-                        while (--lastPos >= start &&
-                               text.modelToView(lastPos).getBounds().x == xx) {
+                        wiilf (--lbstPos >= stbrt &&
+                               tfxt.modflToVifw(lbstPos).gftBounds().x == xx) {
                         }
-                        return ++lastPos;
+                        rfturn ++lbstPos;
                     }
                 }
-                lastPos++;
+                lbstPos++;
             }
         }
-        if(lastPos == -1) {
-            return getStartOffset();
+        if(lbstPos == -1) {
+            rfturn gftStbrtOffsft();
         }
-        return lastPos;
+        rfturn lbstPos;
     }
 
     /**
-     * Determines in which direction the next view lays.
-     * Consider the <code>View</code> at index n.
-     * Typically the <code>View</code>s are layed out
-     * from left to right, so that the <code>View</code>
-     * to the EAST will be at index n + 1, and the
-     * <code>View</code> to the WEST will be at index n - 1.
-     * In certain situations, such as with bidirectional text,
-     * it is possible that the <code>View</code> to EAST is not
-     * at index n + 1, but rather at index n - 1,
-     * or that the <code>View</code> to the WEST is not at
-     * index n - 1, but index n + 1.  In this case this method
-     * would return true, indicating the <code>View</code>s are
-     * layed out in descending order.
+     * Dftfrminfs in wiidi dirfdtion tif nfxt vifw lbys.
+     * Considfr tif <dodf>Vifw</dodf> bt indfx n.
+     * Typidblly tif <dodf>Vifw</dodf>s brf lbyfd out
+     * from lfft to rigit, so tibt tif <dodf>Vifw</dodf>
+     * to tif EAST will bf bt indfx n + 1, bnd tif
+     * <dodf>Vifw</dodf> to tif WEST will bf bt indfx n - 1.
+     * In dfrtbin situbtions, sudi bs witi bidirfdtionbl tfxt,
+     * it is possiblf tibt tif <dodf>Vifw</dodf> to EAST is not
+     * bt indfx n + 1, but rbtifr bt indfx n - 1,
+     * or tibt tif <dodf>Vifw</dodf> to tif WEST is not bt
+     * indfx n - 1, but indfx n + 1.  In tiis dbsf tiis mftiod
+     * would rfturn truf, indidbting tif <dodf>Vifw</dodf>s brf
+     * lbyfd out in dfsdfnding ordfr.
      * <p>
-     * This will return true if the text is layed out right
-     * to left at position, otherwise false.
+     * Tiis will rfturn truf if tif tfxt is lbyfd out rigit
+     * to lfft bt position, otifrwisf fblsf.
      *
-     * @param position position into the model
-     * @param bias either <code>Position.Bias.Forward</code> or
-     *          <code>Position.Bias.Backward</code>
-     * @return true if the text is layed out right to left at
-     *         position, otherwise false.
+     * @pbrbm position position into tif modfl
+     * @pbrbm bibs fitifr <dodf>Position.Bibs.Forwbrd</dodf> or
+     *          <dodf>Position.Bibs.Bbdkwbrd</dodf>
+     * @rfturn truf if tif tfxt is lbyfd out rigit to lfft bt
+     *         position, otifrwisf fblsf.
      */
-    protected boolean flipEastAndWestAtEnds(int position,
-                                            Position.Bias bias) {
-        Document doc = getDocument();
-        position = getStartOffset();
-        return !AbstractDocument.isLeftToRight(doc, position, position + 1);
+    protfdtfd boolfbn flipEbstAndWfstAtEnds(int position,
+                                            Position.Bibs bibs) {
+        Dodumfnt dod = gftDodumfnt();
+        position = gftStbrtOffsft();
+        rfturn !AbstrbdtDodumfnt.isLfftToRigit(dod, position, position + 1);
     }
 
-    // --- FlowView methods ---------------------------------------------
+    // --- FlowVifw mftiods ---------------------------------------------
 
     /**
-     * Fetches the constraining span to flow against for
-     * the given child index.
-     * @param index the index of the view being queried
-     * @return the constraining span for the given view at
-     *  <code>index</code>
-     * @since 1.3
+     * Fftdifs tif donstrbining spbn to flow bgbinst for
+     * tif givfn diild indfx.
+     * @pbrbm indfx tif indfx of tif vifw bfing qufrifd
+     * @rfturn tif donstrbining spbn for tif givfn vifw bt
+     *  <dodf>indfx</dodf>
+     * @sindf 1.3
      */
-    public int getFlowSpan(int index) {
-        View child = getView(index);
-        int adjust = 0;
-        if (child instanceof Row) {
-            Row row = (Row) child;
-            adjust = row.getLeftInset() + row.getRightInset();
+    publid int gftFlowSpbn(int indfx) {
+        Vifw diild = gftVifw(indfx);
+        int bdjust = 0;
+        if (diild instbndfof Row) {
+            Row row = (Row) diild;
+            bdjust = row.gftLfftInsft() + row.gftRigitInsft();
         }
-        return (layoutSpan == Integer.MAX_VALUE) ? layoutSpan
-                                                 : (layoutSpan - adjust);
+        rfturn (lbyoutSpbn == Intfgfr.MAX_VALUE) ? lbyoutSpbn
+                                                 : (lbyoutSpbn - bdjust);
     }
 
     /**
-     * Fetches the location along the flow axis that the
-     * flow span will start at.
-     * @param index the index of the view being queried
-     * @return the location for the given view at
-     *  <code>index</code>
-     * @since 1.3
+     * Fftdifs tif lodbtion blong tif flow bxis tibt tif
+     * flow spbn will stbrt bt.
+     * @pbrbm indfx tif indfx of tif vifw bfing qufrifd
+     * @rfturn tif lodbtion for tif givfn vifw bt
+     *  <dodf>indfx</dodf>
+     * @sindf 1.3
      */
-    public int getFlowStart(int index) {
-        View child = getView(index);
-        int adjust = 0;
-        if (child instanceof Row) {
-            Row row = (Row) child;
-            adjust = row.getLeftInset();
+    publid int gftFlowStbrt(int indfx) {
+        Vifw diild = gftVifw(indfx);
+        int bdjust = 0;
+        if (diild instbndfof Row) {
+            Row row = (Row) diild;
+            bdjust = row.gftLfftInsft();
         }
-        return tabBase + adjust;
+        rfturn tbbBbsf + bdjust;
     }
 
     /**
-     * Create a <code>View</code> that should be used to hold a
-     * a row's worth of children in a flow.
-     * @return the new <code>View</code>
-     * @since 1.3
+     * Crfbtf b <dodf>Vifw</dodf> tibt siould bf usfd to iold b
+     * b row's worti of diildrfn in b flow.
+     * @rfturn tif nfw <dodf>Vifw</dodf>
+     * @sindf 1.3
      */
-    protected View createRow() {
-        return new Row(getElement());
+    protfdtfd Vifw drfbtfRow() {
+        rfturn nfw Row(gftElfmfnt());
     }
 
-    // --- TabExpander methods ------------------------------------------
+    // --- TbbExpbndfr mftiods ------------------------------------------
 
     /**
-     * Returns the next tab stop position given a reference position.
-     * This view implements the tab coordinate system, and calls
-     * <code>getTabbedSpan</code> on the logical children in the process
-     * of layout to determine the desired span of the children.  The
-     * logical children can delegate their tab expansion upward to
-     * the paragraph which knows how to expand tabs.
-     * <code>LabelView</code> is an example of a view that delegates
-     * its tab expansion needs upward to the paragraph.
+     * Rfturns tif nfxt tbb stop position givfn b rfffrfndf position.
+     * Tiis vifw implfmfnts tif tbb doordinbtf systfm, bnd dblls
+     * <dodf>gftTbbbfdSpbn</dodf> on tif logidbl diildrfn in tif prodfss
+     * of lbyout to dftfrminf tif dfsirfd spbn of tif diildrfn.  Tif
+     * logidbl diildrfn dbn dflfgbtf tifir tbb fxpbnsion upwbrd to
+     * tif pbrbgrbpi wiidi knows iow to fxpbnd tbbs.
+     * <dodf>LbbflVifw</dodf> is bn fxbmplf of b vifw tibt dflfgbtfs
+     * its tbb fxpbnsion nffds upwbrd to tif pbrbgrbpi.
      * <p>
-     * This is implemented to try and locate a <code>TabSet</code>
-     * in the paragraph element's attribute set.  If one can be
-     * found, its settings will be used, otherwise a default expansion
-     * will be provided.  The base location for for tab expansion
-     * is the left inset from the paragraphs most recent allocation
-     * (which is what the layout of the children is based upon).
+     * Tiis is implfmfntfd to try bnd lodbtf b <dodf>TbbSft</dodf>
+     * in tif pbrbgrbpi flfmfnt's bttributf sft.  If onf dbn bf
+     * found, its sfttings will bf usfd, otifrwisf b dffbult fxpbnsion
+     * will bf providfd.  Tif bbsf lodbtion for for tbb fxpbnsion
+     * is tif lfft insft from tif pbrbgrbpis most rfdfnt bllodbtion
+     * (wiidi is wibt tif lbyout of tif diildrfn is bbsfd upon).
      *
-     * @param x the X reference position
-     * @param tabOffset the position within the text stream
-     *   that the tab occurred at &gt;= 0
-     * @return the trailing end of the tab expansion &gt;= 0
-     * @see TabSet
-     * @see TabStop
-     * @see LabelView
+     * @pbrbm x tif X rfffrfndf position
+     * @pbrbm tbbOffsft tif position witiin tif tfxt strfbm
+     *   tibt tif tbb oddurrfd bt &gt;= 0
+     * @rfturn tif trbiling fnd of tif tbb fxpbnsion &gt;= 0
+     * @sff TbbSft
+     * @sff TbbStop
+     * @sff LbbflVifw
      */
-    public float nextTabStop(float x, int tabOffset) {
-        // If the text isn't left justified, offset by 10 pixels!
-        if(justification != StyleConstants.ALIGN_LEFT)
-            return x + 10.0f;
-        x -= tabBase;
-        TabSet tabs = getTabSet();
-        if(tabs == null) {
-            // a tab every 72 pixels.
-            return (float)(tabBase + (((int)x / 72 + 1) * 72));
+    publid flobt nfxtTbbStop(flobt x, int tbbOffsft) {
+        // If tif tfxt isn't lfft justififd, offsft by 10 pixfls!
+        if(justifidbtion != StylfConstbnts.ALIGN_LEFT)
+            rfturn x + 10.0f;
+        x -= tbbBbsf;
+        TbbSft tbbs = gftTbbSft();
+        if(tbbs == null) {
+            // b tbb fvfry 72 pixfls.
+            rfturn (flobt)(tbbBbsf + (((int)x / 72 + 1) * 72));
         }
-        TabStop tab = tabs.getTabAfter(x + .01f);
-        if(tab == null) {
-            // no tab, do a default of 5 pixels.
-            // Should this cause a wrapping of the line?
-            return tabBase + x + 5.0f;
+        TbbStop tbb = tbbs.gftTbbAftfr(x + .01f);
+        if(tbb == null) {
+            // no tbb, do b dffbult of 5 pixfls.
+            // Siould tiis dbusf b wrbpping of tif linf?
+            rfturn tbbBbsf + x + 5.0f;
         }
-        int alignment = tab.getAlignment();
-        int offset;
-        switch(alignment) {
-        default:
-        case TabStop.ALIGN_LEFT:
-            // Simple case, left tab.
-            return tabBase + tab.getPosition();
-        case TabStop.ALIGN_BAR:
-            // PENDING: what does this mean?
-            return tabBase + tab.getPosition();
-        case TabStop.ALIGN_RIGHT:
-        case TabStop.ALIGN_CENTER:
-            offset = findOffsetToCharactersInString(tabChars,
-                                                    tabOffset + 1);
-            break;
-        case TabStop.ALIGN_DECIMAL:
-            offset = findOffsetToCharactersInString(tabDecimalChars,
-                                                    tabOffset + 1);
-            break;
+        int blignmfnt = tbb.gftAlignmfnt();
+        int offsft;
+        switdi(blignmfnt) {
+        dffbult:
+        dbsf TbbStop.ALIGN_LEFT:
+            // Simplf dbsf, lfft tbb.
+            rfturn tbbBbsf + tbb.gftPosition();
+        dbsf TbbStop.ALIGN_BAR:
+            // PENDING: wibt dofs tiis mfbn?
+            rfturn tbbBbsf + tbb.gftPosition();
+        dbsf TbbStop.ALIGN_RIGHT:
+        dbsf TbbStop.ALIGN_CENTER:
+            offsft = findOffsftToCibrbdtfrsInString(tbbCibrs,
+                                                    tbbOffsft + 1);
+            brfbk;
+        dbsf TbbStop.ALIGN_DECIMAL:
+            offsft = findOffsftToCibrbdtfrsInString(tbbDfdimblCibrs,
+                                                    tbbOffsft + 1);
+            brfbk;
         }
-        if (offset == -1) {
-            offset = getEndOffset();
+        if (offsft == -1) {
+            offsft = gftEndOffsft();
         }
-        float charsSize = getPartialSize(tabOffset + 1, offset);
-        switch(alignment) {
-        case TabStop.ALIGN_RIGHT:
-        case TabStop.ALIGN_DECIMAL:
-            // right and decimal are treated the same way, the new
-            // position will be the location of the tab less the
-            // partialSize.
-            return tabBase + Math.max(x, tab.getPosition() - charsSize);
-        case TabStop.ALIGN_CENTER:
-            // Similar to right, but half the partialSize.
-            return tabBase + Math.max(x, tab.getPosition() - charsSize / 2.0f);
+        flobt dibrsSizf = gftPbrtiblSizf(tbbOffsft + 1, offsft);
+        switdi(blignmfnt) {
+        dbsf TbbStop.ALIGN_RIGHT:
+        dbsf TbbStop.ALIGN_DECIMAL:
+            // rigit bnd dfdimbl brf trfbtfd tif sbmf wby, tif nfw
+            // position will bf tif lodbtion of tif tbb lfss tif
+            // pbrtiblSizf.
+            rfturn tbbBbsf + Mbti.mbx(x, tbb.gftPosition() - dibrsSizf);
+        dbsf TbbStop.ALIGN_CENTER:
+            // Similbr to rigit, but iblf tif pbrtiblSizf.
+            rfturn tbbBbsf + Mbti.mbx(x, tbb.gftPosition() - dibrsSizf / 2.0f);
         }
-        // will never get here!
-        return x;
+        // will nfvfr gft ifrf!
+        rfturn x;
     }
 
     /**
-     * Gets the <code>Tabset</code> to be used in calculating tabs.
+     * Gfts tif <dodf>Tbbsft</dodf> to bf usfd in dbldulbting tbbs.
      *
-     * @return the <code>TabSet</code>
+     * @rfturn tif <dodf>TbbSft</dodf>
      */
-    protected TabSet getTabSet() {
-        return StyleConstants.getTabSet(getElement().getAttributes());
+    protfdtfd TbbSft gftTbbSft() {
+        rfturn StylfConstbnts.gftTbbSft(gftElfmfnt().gftAttributfs());
     }
 
     /**
-     * Returns the size used by the views between
-     * <code>startOffset</code> and <code>endOffset</code>.
-     * This uses <code>getPartialView</code> to calculate the
-     * size if the child view implements the
-     * <code>TabableView</code> interface. If a
-     * size is needed and a <code>View</code> does not implement
-     * the <code>TabableView</code> interface,
-     * the <code>preferredSpan</code> will be used.
+     * Rfturns tif sizf usfd by tif vifws bftwffn
+     * <dodf>stbrtOffsft</dodf> bnd <dodf>fndOffsft</dodf>.
+     * Tiis usfs <dodf>gftPbrtiblVifw</dodf> to dbldulbtf tif
+     * sizf if tif diild vifw implfmfnts tif
+     * <dodf>TbbbblfVifw</dodf> intfrfbdf. If b
+     * sizf is nffdfd bnd b <dodf>Vifw</dodf> dofs not implfmfnt
+     * tif <dodf>TbbbblfVifw</dodf> intfrfbdf,
+     * tif <dodf>prfffrrfdSpbn</dodf> will bf usfd.
      *
-     * @param startOffset the starting document offset &gt;= 0
-     * @param endOffset the ending document offset &gt;= startOffset
-     * @return the size &gt;= 0
+     * @pbrbm stbrtOffsft tif stbrting dodumfnt offsft &gt;= 0
+     * @pbrbm fndOffsft tif fnding dodumfnt offsft &gt;= stbrtOffsft
+     * @rfturn tif sizf &gt;= 0
      */
-    protected float getPartialSize(int startOffset, int endOffset) {
-        float size = 0.0f;
-        int viewIndex;
-        int numViews = getViewCount();
-        View view;
-        int viewEnd;
-        int tempEnd;
+    protfdtfd flobt gftPbrtiblSizf(int stbrtOffsft, int fndOffsft) {
+        flobt sizf = 0.0f;
+        int vifwIndfx;
+        int numVifws = gftVifwCount();
+        Vifw vifw;
+        int vifwEnd;
+        int tfmpEnd;
 
-        // Have to search layoutPool!
-        // PENDING: when ParagraphView supports breaking location
-        // into layoutPool will have to change!
-        viewIndex = getElement().getElementIndex(startOffset);
-        numViews = layoutPool.getViewCount();
-        while(startOffset < endOffset && viewIndex < numViews) {
-            view = layoutPool.getView(viewIndex++);
-            viewEnd = view.getEndOffset();
-            tempEnd = Math.min(endOffset, viewEnd);
-            if(view instanceof TabableView)
-                size += ((TabableView)view).getPartialSpan(startOffset, tempEnd);
-            else if(startOffset == view.getStartOffset() &&
-                    tempEnd == view.getEndOffset())
-                size += view.getPreferredSpan(View.X_AXIS);
-            else
-                // PENDING: should we handle this better?
-                return 0.0f;
-            startOffset = viewEnd;
+        // Hbvf to sfbrdi lbyoutPool!
+        // PENDING: wifn PbrbgrbpiVifw supports brfbking lodbtion
+        // into lbyoutPool will ibvf to dibngf!
+        vifwIndfx = gftElfmfnt().gftElfmfntIndfx(stbrtOffsft);
+        numVifws = lbyoutPool.gftVifwCount();
+        wiilf(stbrtOffsft < fndOffsft && vifwIndfx < numVifws) {
+            vifw = lbyoutPool.gftVifw(vifwIndfx++);
+            vifwEnd = vifw.gftEndOffsft();
+            tfmpEnd = Mbti.min(fndOffsft, vifwEnd);
+            if(vifw instbndfof TbbbblfVifw)
+                sizf += ((TbbbblfVifw)vifw).gftPbrtiblSpbn(stbrtOffsft, tfmpEnd);
+            flsf if(stbrtOffsft == vifw.gftStbrtOffsft() &&
+                    tfmpEnd == vifw.gftEndOffsft())
+                sizf += vifw.gftPrfffrrfdSpbn(Vifw.X_AXIS);
+            flsf
+                // PENDING: siould wf ibndlf tiis bfttfr?
+                rfturn 0.0f;
+            stbrtOffsft = vifwEnd;
         }
-        return size;
+        rfturn sizf;
     }
 
     /**
-     * Finds the next character in the document with a character in
-     * <code>string</code>, starting at offset <code>start</code>. If
-     * there are no characters found, -1 will be returned.
+     * Finds tif nfxt dibrbdtfr in tif dodumfnt witi b dibrbdtfr in
+     * <dodf>string</dodf>, stbrting bt offsft <dodf>stbrt</dodf>. If
+     * tifrf brf no dibrbdtfrs found, -1 will bf rfturnfd.
      *
-     * @param string the string of characters
-     * @param start where to start in the model &gt;= 0
-     * @return the document offset, or -1 if no characters found
+     * @pbrbm string tif string of dibrbdtfrs
+     * @pbrbm stbrt wifrf to stbrt in tif modfl &gt;= 0
+     * @rfturn tif dodumfnt offsft, or -1 if no dibrbdtfrs found
      */
-    protected int findOffsetToCharactersInString(char[] string,
-                                                 int start) {
-        int stringLength = string.length;
-        int end = getEndOffset();
-        Segment seg = new Segment();
+    protfdtfd int findOffsftToCibrbdtfrsInString(dibr[] string,
+                                                 int stbrt) {
+        int stringLfngti = string.lfngti;
+        int fnd = gftEndOffsft();
+        Sfgmfnt sfg = nfw Sfgmfnt();
         try {
-            getDocument().getText(start, end - start, seg);
-        } catch (BadLocationException ble) {
-            return -1;
+            gftDodumfnt().gftTfxt(stbrt, fnd - stbrt, sfg);
+        } dbtdi (BbdLodbtionExdfption blf) {
+            rfturn -1;
         }
-        for(int counter = seg.offset, maxCounter = seg.offset + seg.count;
-            counter < maxCounter; counter++) {
-            char currentChar = seg.array[counter];
-            for(int subCounter = 0; subCounter < stringLength;
-                subCounter++) {
-                if(currentChar == string[subCounter])
-                    return counter - seg.offset + start;
+        for(int dountfr = sfg.offsft, mbxCountfr = sfg.offsft + sfg.dount;
+            dountfr < mbxCountfr; dountfr++) {
+            dibr durrfntCibr = sfg.brrby[dountfr];
+            for(int subCountfr = 0; subCountfr < stringLfngti;
+                subCountfr++) {
+                if(durrfntCibr == string[subCountfr])
+                    rfturn dountfr - sfg.offsft + stbrt;
             }
         }
-        // No match.
-        return -1;
+        // No mbtdi.
+        rfturn -1;
     }
 
     /**
-     * Returns where the tabs are calculated from.
-     * @return where tabs are calculated from
+     * Rfturns wifrf tif tbbs brf dbldulbtfd from.
+     * @rfturn wifrf tbbs brf dbldulbtfd from
      */
-    protected float getTabBase() {
-        return (float)tabBase;
+    protfdtfd flobt gftTbbBbsf() {
+        rfturn (flobt)tbbBbsf;
     }
 
-    // ---- View methods ----------------------------------------------------
+    // ---- Vifw mftiods ----------------------------------------------------
 
     /**
-     * Renders using the given rendering surface and area on that
-     * surface.  This is implemented to delegate to the superclass
-     * after stashing the base coordinate for tab calculations.
+     * Rfndfrs using tif givfn rfndfring surfbdf bnd brfb on tibt
+     * surfbdf.  Tiis is implfmfntfd to dflfgbtf to tif supfrdlbss
+     * bftfr stbsiing tif bbsf doordinbtf for tbb dbldulbtions.
      *
-     * @param g the rendering surface to use
-     * @param a the allocated region to render into
-     * @see View#paint
+     * @pbrbm g tif rfndfring surfbdf to usf
+     * @pbrbm b tif bllodbtfd rfgion to rfndfr into
+     * @sff Vifw#pbint
      */
-    public void paint(Graphics g, Shape a) {
-        Rectangle alloc = (a instanceof Rectangle) ? (Rectangle)a : a.getBounds();
-        tabBase = alloc.x + getLeftInset();
-        super.paint(g, a);
+    publid void pbint(Grbpiids g, Sibpf b) {
+        Rfdtbnglf bllod = (b instbndfof Rfdtbnglf) ? (Rfdtbnglf)b : b.gftBounds();
+        tbbBbsf = bllod.x + gftLfftInsft();
+        supfr.pbint(g, b);
 
-        // line with the negative firstLineIndent value needs
-        // special handling
-        if (firstLineIndent < 0) {
-            Shape sh = getChildAllocation(0, a);
-            if ((sh != null) &&  sh.intersects(alloc)) {
-                int x = alloc.x + getLeftInset() + firstLineIndent;
-                int y = alloc.y + getTopInset();
+        // linf witi tif nfgbtivf firstLinfIndfnt vbluf nffds
+        // spfdibl ibndling
+        if (firstLinfIndfnt < 0) {
+            Sibpf si = gftCiildAllodbtion(0, b);
+            if ((si != null) &&  si.intfrsfdts(bllod)) {
+                int x = bllod.x + gftLfftInsft() + firstLinfIndfnt;
+                int y = bllod.y + gftTopInsft();
 
-                Rectangle clip = g.getClipBounds();
-                tempRect.x = x + getOffset(X_AXIS, 0);
-                tempRect.y = y + getOffset(Y_AXIS, 0);
-                tempRect.width = getSpan(X_AXIS, 0) - firstLineIndent;
-                tempRect.height = getSpan(Y_AXIS, 0);
-                if (tempRect.intersects(clip)) {
-                    tempRect.x = tempRect.x - firstLineIndent;
-                    paintChild(g, tempRect, 0);
+                Rfdtbnglf dlip = g.gftClipBounds();
+                tfmpRfdt.x = x + gftOffsft(X_AXIS, 0);
+                tfmpRfdt.y = y + gftOffsft(Y_AXIS, 0);
+                tfmpRfdt.widti = gftSpbn(X_AXIS, 0) - firstLinfIndfnt;
+                tfmpRfdt.ifigit = gftSpbn(Y_AXIS, 0);
+                if (tfmpRfdt.intfrsfdts(dlip)) {
+                    tfmpRfdt.x = tfmpRfdt.x - firstLinfIndfnt;
+                    pbintCiild(g, tfmpRfdt, 0);
                 }
             }
         }
     }
 
     /**
-     * Determines the desired alignment for this view along an
-     * axis.  This is implemented to give the alignment to the
-     * center of the first row along the y axis, and the default
-     * along the x axis.
+     * Dftfrminfs tif dfsirfd blignmfnt for tiis vifw blong bn
+     * bxis.  Tiis is implfmfntfd to givf tif blignmfnt to tif
+     * dfntfr of tif first row blong tif y bxis, bnd tif dffbult
+     * blong tif x bxis.
      *
-     * @param axis may be either <code>View.X_AXIS</code> or
-     *   <code>View.Y_AXIS</code>
-     * @return the desired alignment.  This should be a value
-     *   between 0.0 and 1.0 inclusive, where 0 indicates alignment at the
-     *   origin and 1.0 indicates alignment to the full span
-     *   away from the origin.  An alignment of 0.5 would be the
-     *   center of the view.
+     * @pbrbm bxis mby bf fitifr <dodf>Vifw.X_AXIS</dodf> or
+     *   <dodf>Vifw.Y_AXIS</dodf>
+     * @rfturn tif dfsirfd blignmfnt.  Tiis siould bf b vbluf
+     *   bftwffn 0.0 bnd 1.0 indlusivf, wifrf 0 indidbtfs blignmfnt bt tif
+     *   origin bnd 1.0 indidbtfs blignmfnt to tif full spbn
+     *   bwby from tif origin.  An blignmfnt of 0.5 would bf tif
+     *   dfntfr of tif vifw.
      */
-    public float getAlignment(int axis) {
-        switch (axis) {
-        case Y_AXIS:
-            float a = 0.5f;
-            if (getViewCount() != 0) {
-                int paragraphSpan = (int) getPreferredSpan(View.Y_AXIS);
-                View v = getView(0);
-                int rowSpan = (int) v.getPreferredSpan(View.Y_AXIS);
-                a = (paragraphSpan != 0) ? ((float)(rowSpan / 2)) / paragraphSpan : 0;
+    publid flobt gftAlignmfnt(int bxis) {
+        switdi (bxis) {
+        dbsf Y_AXIS:
+            flobt b = 0.5f;
+            if (gftVifwCount() != 0) {
+                int pbrbgrbpiSpbn = (int) gftPrfffrrfdSpbn(Vifw.Y_AXIS);
+                Vifw v = gftVifw(0);
+                int rowSpbn = (int) v.gftPrfffrrfdSpbn(Vifw.Y_AXIS);
+                b = (pbrbgrbpiSpbn != 0) ? ((flobt)(rowSpbn / 2)) / pbrbgrbpiSpbn : 0;
             }
-            return a;
-        case X_AXIS:
-            return 0.5f;
-        default:
-            throw new IllegalArgumentException("Invalid axis: " + axis);
+            rfturn b;
+        dbsf X_AXIS:
+            rfturn 0.5f;
+        dffbult:
+            tirow nfw IllfgblArgumfntExdfption("Invblid bxis: " + bxis);
         }
     }
 
     /**
-     * Breaks this view on the given axis at the given length.
+     * Brfbks tiis vifw on tif givfn bxis bt tif givfn lfngti.
      * <p>
-     * <code>ParagraphView</code> instances are breakable
-     * along the <code>Y_AXIS</code> only, and only if
-     * <code>len</code> is after the first line.
+     * <dodf>PbrbgrbpiVifw</dodf> instbndfs brf brfbkbblf
+     * blong tif <dodf>Y_AXIS</dodf> only, bnd only if
+     * <dodf>lfn</dodf> is bftfr tif first linf.
      *
-     * @param axis may be either <code>View.X_AXIS</code>
-     *  or <code>View.Y_AXIS</code>
-     * @param len specifies where a potential break is desired
-     *  along the given axis &gt;= 0
-     * @param a the current allocation of the view
-     * @return the fragment of the view that represents the
-     *  given span, if the view can be broken; if the view
-     *  doesn't support breaking behavior, the view itself is
-     *  returned
-     * @see View#breakView
+     * @pbrbm bxis mby bf fitifr <dodf>Vifw.X_AXIS</dodf>
+     *  or <dodf>Vifw.Y_AXIS</dodf>
+     * @pbrbm lfn spfdififs wifrf b potfntibl brfbk is dfsirfd
+     *  blong tif givfn bxis &gt;= 0
+     * @pbrbm b tif durrfnt bllodbtion of tif vifw
+     * @rfturn tif frbgmfnt of tif vifw tibt rfprfsfnts tif
+     *  givfn spbn, if tif vifw dbn bf brokfn; if tif vifw
+     *  dofsn't support brfbking bfibvior, tif vifw itsflf is
+     *  rfturnfd
+     * @sff Vifw#brfbkVifw
      */
-    public View breakView(int axis, float len, Shape a) {
-        if(axis == View.Y_AXIS) {
-            if(a != null) {
-                Rectangle alloc = a.getBounds();
-                setSize(alloc.width, alloc.height);
+    publid Vifw brfbkVifw(int bxis, flobt lfn, Sibpf b) {
+        if(bxis == Vifw.Y_AXIS) {
+            if(b != null) {
+                Rfdtbnglf bllod = b.gftBounds();
+                sftSizf(bllod.widti, bllod.ifigit);
             }
-            // Determine what row to break on.
+            // Dftfrminf wibt row to brfbk on.
 
-            // PENDING(prinz) add break support
-            return this;
+            // PENDING(prinz) bdd brfbk support
+            rfturn tiis;
         }
-        return this;
+        rfturn tiis;
     }
 
     /**
-     * Gets the break weight for a given location.
+     * Gfts tif brfbk wfigit for b givfn lodbtion.
      * <p>
-     * <code>ParagraphView</code> instances are breakable
-     * along the <code>Y_AXIS</code> only, and only if
-     * <code>len</code> is after the first row.  If the length
-     * is less than one row, a value of <code>BadBreakWeight</code>
-     * is returned.
+     * <dodf>PbrbgrbpiVifw</dodf> instbndfs brf brfbkbblf
+     * blong tif <dodf>Y_AXIS</dodf> only, bnd only if
+     * <dodf>lfn</dodf> is bftfr tif first row.  If tif lfngti
+     * is lfss tibn onf row, b vbluf of <dodf>BbdBrfbkWfigit</dodf>
+     * is rfturnfd.
      *
-     * @param axis may be either <code>View.X_AXIS</code>
-     *  or <code>View.Y_AXIS</code>
-     * @param len specifies where a potential break is desired &gt;= 0
-     * @return a value indicating the attractiveness of breaking here;
-     *  either <code>GoodBreakWeight</code> or <code>BadBreakWeight</code>
-     * @see View#getBreakWeight
+     * @pbrbm bxis mby bf fitifr <dodf>Vifw.X_AXIS</dodf>
+     *  or <dodf>Vifw.Y_AXIS</dodf>
+     * @pbrbm lfn spfdififs wifrf b potfntibl brfbk is dfsirfd &gt;= 0
+     * @rfturn b vbluf indidbting tif bttrbdtivfnfss of brfbking ifrf;
+     *  fitifr <dodf>GoodBrfbkWfigit</dodf> or <dodf>BbdBrfbkWfigit</dodf>
+     * @sff Vifw#gftBrfbkWfigit
      */
-    public int getBreakWeight(int axis, float len) {
-        if(axis == View.Y_AXIS) {
-            // PENDING(prinz) make this return a reasonable value
-            // when paragraph breaking support is re-implemented.
-            // If less than one row, bad weight value should be
-            // returned.
-            //return GoodBreakWeight;
-            return BadBreakWeight;
+    publid int gftBrfbkWfigit(int bxis, flobt lfn) {
+        if(bxis == Vifw.Y_AXIS) {
+            // PENDING(prinz) mbkf tiis rfturn b rfbsonbblf vbluf
+            // wifn pbrbgrbpi brfbking support is rf-implfmfntfd.
+            // If lfss tibn onf row, bbd wfigit vbluf siould bf
+            // rfturnfd.
+            //rfturn GoodBrfbkWfigit;
+            rfturn BbdBrfbkWfigit;
         }
-        return BadBreakWeight;
+        rfturn BbdBrfbkWfigit;
     }
 
     /**
-     * Calculate the needs for the paragraph along the minor axis.
+     * Cbldulbtf tif nffds for tif pbrbgrbpi blong tif minor bxis.
      *
-     * <p>This uses size requirements of the superclass, modified to take into
-     * account the non-breakable areas at the adjacent views edges.  The minimal
-     * size requirements for such views should be no less than the sum of all
-     * adjacent fragments.</p>
+     * <p>Tiis usfs sizf rfquirfmfnts of tif supfrdlbss, modififd to tbkf into
+     * bddount tif non-brfbkbblf brfbs bt tif bdjbdfnt vifws fdgfs.  Tif minimbl
+     * sizf rfquirfmfnts for sudi vifws siould bf no lfss tibn tif sum of bll
+     * bdjbdfnt frbgmfnts.</p>
      *
-     * <p>If the {@code axis} parameter is neither {@code View.X_AXIS} nor
-     * {@code View.Y_AXIS}, {@link IllegalArgumentException} is thrown.  If the
-     * {@code r} parameter is {@code null,} a new {@code SizeRequirements}
-     * object is created, otherwise the supplied {@code SizeRequirements}
-     * object is returned.</p>
+     * <p>If tif {@dodf bxis} pbrbmftfr is nfitifr {@dodf Vifw.X_AXIS} nor
+     * {@dodf Vifw.Y_AXIS}, {@link IllfgblArgumfntExdfption} is tirown.  If tif
+     * {@dodf r} pbrbmftfr is {@dodf null,} b nfw {@dodf SizfRfquirfmfnts}
+     * objfdt is drfbtfd, otifrwisf tif supplifd {@dodf SizfRfquirfmfnts}
+     * objfdt is rfturnfd.</p>
      *
-     * @param axis  the minor axis
-     * @param r     the input {@code SizeRequirements} object
-     * @return      the new or adjusted {@code SizeRequirements} object
-     * @throws IllegalArgumentException  if the {@code axis} parameter is invalid
+     * @pbrbm bxis  tif minor bxis
+     * @pbrbm r     tif input {@dodf SizfRfquirfmfnts} objfdt
+     * @rfturn      tif nfw or bdjustfd {@dodf SizfRfquirfmfnts} objfdt
+     * @tirows IllfgblArgumfntExdfption  if tif {@dodf bxis} pbrbmftfr is invblid
      */
-    @Override
-    protected SizeRequirements calculateMinorAxisRequirements(int axis,
-                                                        SizeRequirements r) {
-        r = super.calculateMinorAxisRequirements(axis, r);
+    @Ovfrridf
+    protfdtfd SizfRfquirfmfnts dbldulbtfMinorAxisRfquirfmfnts(int bxis,
+                                                        SizfRfquirfmfnts r) {
+        r = supfr.dbldulbtfMinorAxisRfquirfmfnts(bxis, r);
 
-        float min = 0;
-        float glue = 0;
-        int n = getLayoutViewCount();
+        flobt min = 0;
+        flobt gluf = 0;
+        int n = gftLbyoutVifwCount();
         for (int i = 0; i < n; i++) {
-            View v = getLayoutView(i);
-            float span = v.getMinimumSpan(axis);
-            if (v.getBreakWeight(axis, 0, v.getMaximumSpan(axis)) > View.BadBreakWeight) {
-                // find the longest non-breakable fragments at the view edges
-                int p0 = v.getStartOffset();
-                int p1 = v.getEndOffset();
-                float start = findEdgeSpan(v, axis, p0, p0, p1);
-                float end = findEdgeSpan(v, axis, p1, p0, p1);
-                glue += start;
-                min = Math.max(min, Math.max(span, glue));
-                glue = end;
-            } else {
-                // non-breakable view
-                glue += span;
-                min = Math.max(min, glue);
+            Vifw v = gftLbyoutVifw(i);
+            flobt spbn = v.gftMinimumSpbn(bxis);
+            if (v.gftBrfbkWfigit(bxis, 0, v.gftMbximumSpbn(bxis)) > Vifw.BbdBrfbkWfigit) {
+                // find tif longfst non-brfbkbblf frbgmfnts bt tif vifw fdgfs
+                int p0 = v.gftStbrtOffsft();
+                int p1 = v.gftEndOffsft();
+                flobt stbrt = findEdgfSpbn(v, bxis, p0, p0, p1);
+                flobt fnd = findEdgfSpbn(v, bxis, p1, p0, p1);
+                gluf += stbrt;
+                min = Mbti.mbx(min, Mbti.mbx(spbn, gluf));
+                gluf = fnd;
+            } flsf {
+                // non-brfbkbblf vifw
+                gluf += spbn;
+                min = Mbti.mbx(min, gluf);
             }
         }
-        r.minimum = Math.max(r.minimum, (int) min);
-        r.preferred = Math.max(r.minimum, r.preferred);
-        r.maximum = Math.max(r.preferred, r.maximum);
+        r.minimum = Mbti.mbx(r.minimum, (int) min);
+        r.prfffrrfd = Mbti.mbx(r.minimum, r.prfffrrfd);
+        r.mbximum = Mbti.mbx(r.prfffrrfd, r.mbximum);
 
-        return r;
+        rfturn r;
     }
 
     /**
-     * Binary search for the longest non-breakable fragment at the view edge.
+     * Binbry sfbrdi for tif longfst non-brfbkbblf frbgmfnt bt tif vifw fdgf.
      */
-    private float findEdgeSpan(View v, int axis, int fp, int p0, int p1) {
-        int len = p1 - p0;
-        if (len <= 1) {
-            // further fragmentation is not possible
-            return v.getMinimumSpan(axis);
-        } else {
-            int mid = p0 + len / 2;
-            boolean startEdge = mid > fp;
-            // initial view is breakable hence must support fragmentation
-            View f = startEdge ?
-                v.createFragment(fp, mid) : v.createFragment(mid, fp);
-            boolean breakable = f.getBreakWeight(
-                    axis, 0, f.getMaximumSpan(axis)) > View.BadBreakWeight;
-            if (breakable == startEdge) {
+    privbtf flobt findEdgfSpbn(Vifw v, int bxis, int fp, int p0, int p1) {
+        int lfn = p1 - p0;
+        if (lfn <= 1) {
+            // furtifr frbgmfntbtion is not possiblf
+            rfturn v.gftMinimumSpbn(bxis);
+        } flsf {
+            int mid = p0 + lfn / 2;
+            boolfbn stbrtEdgf = mid > fp;
+            // initibl vifw is brfbkbblf ifndf must support frbgmfntbtion
+            Vifw f = stbrtEdgf ?
+                v.drfbtfFrbgmfnt(fp, mid) : v.drfbtfFrbgmfnt(mid, fp);
+            boolfbn brfbkbblf = f.gftBrfbkWfigit(
+                    bxis, 0, f.gftMbximumSpbn(bxis)) > Vifw.BbdBrfbkWfigit;
+            if (brfbkbblf == stbrtEdgf) {
                 p1 = mid;
-            } else {
+            } flsf {
                 p0 = mid;
             }
-            return findEdgeSpan(f, axis, fp, p0, p1);
+            rfturn findEdgfSpbn(f, bxis, fp, p0, p1);
         }
     }
 
     /**
-     * Gives notification from the document that attributes were changed
-     * in a location that this view is responsible for.
+     * Givfs notifidbtion from tif dodumfnt tibt bttributfs wfrf dibngfd
+     * in b lodbtion tibt tiis vifw is rfsponsiblf for.
      *
-     * @param changes the change information from the
-     *  associated document
-     * @param a the current allocation of the view
-     * @param f the factory to use to rebuild if the view has children
-     * @see View#changedUpdate
+     * @pbrbm dibngfs tif dibngf informbtion from tif
+     *  bssodibtfd dodumfnt
+     * @pbrbm b tif durrfnt bllodbtion of tif vifw
+     * @pbrbm f tif fbdtory to usf to rfbuild if tif vifw ibs diildrfn
+     * @sff Vifw#dibngfdUpdbtf
      */
-    public void changedUpdate(DocumentEvent changes, Shape a, ViewFactory f) {
-        // update any property settings stored, and layout should be
-        // recomputed
-        setPropertiesFromAttributes();
-        layoutChanged(X_AXIS);
-        layoutChanged(Y_AXIS);
-        super.changedUpdate(changes, a, f);
+    publid void dibngfdUpdbtf(DodumfntEvfnt dibngfs, Sibpf b, VifwFbdtory f) {
+        // updbtf bny propfrty sfttings storfd, bnd lbyout siould bf
+        // rfdomputfd
+        sftPropfrtifsFromAttributfs();
+        lbyoutCibngfd(X_AXIS);
+        lbyoutCibngfd(Y_AXIS);
+        supfr.dibngfdUpdbtf(dibngfs, b, f);
     }
 
 
-    // --- variables -----------------------------------------------
+    // --- vbribblfs -----------------------------------------------
 
-    private int justification;
-    private float lineSpacing;
-    /** Indentation for the first line, from the left inset. */
-    protected int firstLineIndent = 0;
-
-    /**
-     * Used by the TabExpander functionality to determine
-     * where to base the tab calculations.  This is basically
-     * the location of the left side of the paragraph.
-     */
-    private int tabBase;
+    privbtf int justifidbtion;
+    privbtf flobt linfSpbding;
+    /** Indfntbtion for tif first linf, from tif lfft insft. */
+    protfdtfd int firstLinfIndfnt = 0;
 
     /**
-     * Used to create an i18n-based layout strategy
+     * Usfd by tif TbbExpbndfr fundtionblity to dftfrminf
+     * wifrf to bbsf tif tbb dbldulbtions.  Tiis is bbsidblly
+     * tif lodbtion of tif lfft sidf of tif pbrbgrbpi.
      */
-    static Class<?> i18nStrategy;
+    privbtf int tbbBbsf;
 
-    /** Used for searching for a tab. */
-    static char[] tabChars;
-    /** Used for searching for a tab or decimal character. */
-    static char[] tabDecimalChars;
+    /**
+     * Usfd to drfbtf bn i18n-bbsfd lbyout strbtfgy
+     */
+    stbtid Clbss<?> i18nStrbtfgy;
 
-    static {
-        tabChars = new char[1];
-        tabChars[0] = '\t';
-        tabDecimalChars = new char[2];
-        tabDecimalChars[0] = '\t';
-        tabDecimalChars[1] = '.';
+    /** Usfd for sfbrdiing for b tbb. */
+    stbtid dibr[] tbbCibrs;
+    /** Usfd for sfbrdiing for b tbb or dfdimbl dibrbdtfr. */
+    stbtid dibr[] tbbDfdimblCibrs;
+
+    stbtid {
+        tbbCibrs = nfw dibr[1];
+        tbbCibrs[0] = '\t';
+        tbbDfdimblCibrs = nfw dibr[2];
+        tbbDfdimblCibrs[0] = '\t';
+        tbbDfdimblCibrs[1] = '.';
     }
 
     /**
-     * Internally created view that has the purpose of holding
-     * the views that represent the children of the paragraph
-     * that have been arranged in rows.
+     * Intfrnblly drfbtfd vifw tibt ibs tif purposf of iolding
+     * tif vifws tibt rfprfsfnt tif diildrfn of tif pbrbgrbpi
+     * tibt ibvf bffn brrbngfd in rows.
      */
-    class Row extends BoxView {
+    dlbss Row fxtfnds BoxVifw {
 
-        Row(Element elem) {
-            super(elem, View.X_AXIS);
+        Row(Elfmfnt flfm) {
+            supfr(flfm, Vifw.X_AXIS);
         }
 
         /**
-         * This is reimplemented to do nothing since the
-         * paragraph fills in the row with its needed
-         * children.
+         * Tiis is rfimplfmfntfd to do notiing sindf tif
+         * pbrbgrbpi fills in tif row witi its nffdfd
+         * diildrfn.
          */
-        protected void loadChildren(ViewFactory f) {
+        protfdtfd void lobdCiildrfn(VifwFbdtory f) {
         }
 
         /**
-         * Fetches the attributes to use when rendering.  This view
-         * isn't directly responsible for an element so it returns
-         * the outer classes attributes.
+         * Fftdifs tif bttributfs to usf wifn rfndfring.  Tiis vifw
+         * isn't dirfdtly rfsponsiblf for bn flfmfnt so it rfturns
+         * tif outfr dlbssfs bttributfs.
          */
-        public AttributeSet getAttributes() {
-            View p = getParent();
-            return (p != null) ? p.getAttributes() : null;
+        publid AttributfSft gftAttributfs() {
+            Vifw p = gftPbrfnt();
+            rfturn (p != null) ? p.gftAttributfs() : null;
         }
 
-        public float getAlignment(int axis) {
-            if (axis == View.X_AXIS) {
-                switch (justification) {
-                case StyleConstants.ALIGN_LEFT:
-                    return 0;
-                case StyleConstants.ALIGN_RIGHT:
-                    return 1;
-                case StyleConstants.ALIGN_CENTER:
-                    return 0.5f;
-                case StyleConstants.ALIGN_JUSTIFIED:
-                    float rv = 0.5f;
-                    //if we can justifiy the content always align to
-                    //the left.
-                    if (isJustifiableDocument()) {
+        publid flobt gftAlignmfnt(int bxis) {
+            if (bxis == Vifw.X_AXIS) {
+                switdi (justifidbtion) {
+                dbsf StylfConstbnts.ALIGN_LEFT:
+                    rfturn 0;
+                dbsf StylfConstbnts.ALIGN_RIGHT:
+                    rfturn 1;
+                dbsf StylfConstbnts.ALIGN_CENTER:
+                    rfturn 0.5f;
+                dbsf StylfConstbnts.ALIGN_JUSTIFIED:
+                    flobt rv = 0.5f;
+                    //if wf dbn justifiy tif dontfnt blwbys blign to
+                    //tif lfft.
+                    if (isJustifibblfDodumfnt()) {
                         rv = 0f;
                     }
-                    return rv;
+                    rfturn rv;
                 }
             }
-            return super.getAlignment(axis);
+            rfturn supfr.gftAlignmfnt(bxis);
         }
 
         /**
-         * Provides a mapping from the document model coordinate space
-         * to the coordinate space of the view mapped to it.  This is
-         * implemented to let the superclass find the position along
-         * the major axis and the allocation of the row is used
-         * along the minor axis, so that even though the children
-         * are different heights they all get the same caret height.
+         * Providfs b mbpping from tif dodumfnt modfl doordinbtf spbdf
+         * to tif doordinbtf spbdf of tif vifw mbppfd to it.  Tiis is
+         * implfmfntfd to lft tif supfrdlbss find tif position blong
+         * tif mbjor bxis bnd tif bllodbtion of tif row is usfd
+         * blong tif minor bxis, so tibt fvfn tiougi tif diildrfn
+         * brf difffrfnt ifigits tify bll gft tif sbmf dbrft ifigit.
          *
-         * @param pos the position to convert
-         * @param a the allocated region to render into
-         * @return the bounding box of the given position
-         * @exception BadLocationException  if the given position does not represent a
-         *   valid location in the associated document
-         * @see View#modelToView
+         * @pbrbm pos tif position to donvfrt
+         * @pbrbm b tif bllodbtfd rfgion to rfndfr into
+         * @rfturn tif bounding box of tif givfn position
+         * @fxdfption BbdLodbtionExdfption  if tif givfn position dofs not rfprfsfnt b
+         *   vblid lodbtion in tif bssodibtfd dodumfnt
+         * @sff Vifw#modflToVifw
          */
-        public Shape modelToView(int pos, Shape a, Position.Bias b) throws BadLocationException {
-            Rectangle r = a.getBounds();
-            View v = getViewAtPosition(pos, r);
-            if ((v != null) && (!v.getElement().isLeaf())) {
-                // Don't adjust the height if the view represents a branch.
-                return super.modelToView(pos, a, b);
+        publid Sibpf modflToVifw(int pos, Sibpf b, Position.Bibs b) tirows BbdLodbtionExdfption {
+            Rfdtbnglf r = b.gftBounds();
+            Vifw v = gftVifwAtPosition(pos, r);
+            if ((v != null) && (!v.gftElfmfnt().isLfbf())) {
+                // Don't bdjust tif ifigit if tif vifw rfprfsfnts b brbndi.
+                rfturn supfr.modflToVifw(pos, b, b);
             }
-            r = a.getBounds();
-            int height = r.height;
+            r = b.gftBounds();
+            int ifigit = r.ifigit;
             int y = r.y;
-            Shape loc = super.modelToView(pos, a, b);
-            r = loc.getBounds();
-            r.height = height;
+            Sibpf lod = supfr.modflToVifw(pos, b, b);
+            r = lod.gftBounds();
+            r.ifigit = ifigit;
             r.y = y;
-            return r;
+            rfturn r;
         }
 
         /**
-         * Range represented by a row in the paragraph is only
-         * a subset of the total range of the paragraph element.
-         * @see View#getRange
+         * Rbngf rfprfsfntfd by b row in tif pbrbgrbpi is only
+         * b subsft of tif totbl rbngf of tif pbrbgrbpi flfmfnt.
+         * @sff Vifw#gftRbngf
          */
-        public int getStartOffset() {
-            int offs = Integer.MAX_VALUE;
-            int n = getViewCount();
+        publid int gftStbrtOffsft() {
+            int offs = Intfgfr.MAX_VALUE;
+            int n = gftVifwCount();
             for (int i = 0; i < n; i++) {
-                View v = getView(i);
-                offs = Math.min(offs, v.getStartOffset());
+                Vifw v = gftVifw(i);
+                offs = Mbti.min(offs, v.gftStbrtOffsft());
             }
-            return offs;
+            rfturn offs;
         }
 
-        public int getEndOffset() {
+        publid int gftEndOffsft() {
             int offs = 0;
-            int n = getViewCount();
+            int n = gftVifwCount();
             for (int i = 0; i < n; i++) {
-                View v = getView(i);
-                offs = Math.max(offs, v.getEndOffset());
+                Vifw v = gftVifw(i);
+                offs = Mbti.mbx(offs, v.gftEndOffsft());
             }
-            return offs;
+            rfturn offs;
         }
 
         /**
-         * Perform layout for the minor axis of the box (i.e. the
-         * axis orthogonal to the axis that it represents).  The results
-         * of the layout should be placed in the given arrays which represent
-         * the allocations to the children along the minor axis.
+         * Pfrform lbyout for tif minor bxis of tif box (i.f. tif
+         * bxis ortiogonbl to tif bxis tibt it rfprfsfnts).  Tif rfsults
+         * of tif lbyout siould bf plbdfd in tif givfn brrbys wiidi rfprfsfnt
+         * tif bllodbtions to tif diildrfn blong tif minor bxis.
          * <p>
-         * This is implemented to do a baseline layout of the children
-         * by calling BoxView.baselineLayout.
+         * Tiis is implfmfntfd to do b bbsflinf lbyout of tif diildrfn
+         * by dblling BoxVifw.bbsflinfLbyout.
          *
-         * @param targetSpan the total span given to the view, which
-         *  would be used to layout the children.
-         * @param axis the axis being layed out.
-         * @param offsets the offsets from the origin of the view for
-         *  each of the child views.  This is a return value and is
-         *  filled in by the implementation of this method.
-         * @param spans the span of each child view.  This is a return
-         *  value and is filled in by the implementation of this method.
-         * @return the offset and span for each child view in the
-         *  offsets and spans parameters
+         * @pbrbm tbrgftSpbn tif totbl spbn givfn to tif vifw, wiidi
+         *  would bf usfd to lbyout tif diildrfn.
+         * @pbrbm bxis tif bxis bfing lbyfd out.
+         * @pbrbm offsfts tif offsfts from tif origin of tif vifw for
+         *  fbdi of tif diild vifws.  Tiis is b rfturn vbluf bnd is
+         *  fillfd in by tif implfmfntbtion of tiis mftiod.
+         * @pbrbm spbns tif spbn of fbdi diild vifw.  Tiis is b rfturn
+         *  vbluf bnd is fillfd in by tif implfmfntbtion of tiis mftiod.
+         * @rfturn tif offsft bnd spbn for fbdi diild vifw in tif
+         *  offsfts bnd spbns pbrbmftfrs
          */
-        protected void layoutMinorAxis(int targetSpan, int axis, int[] offsets, int[] spans) {
-            baselineLayout(targetSpan, axis, offsets, spans);
+        protfdtfd void lbyoutMinorAxis(int tbrgftSpbn, int bxis, int[] offsfts, int[] spbns) {
+            bbsflinfLbyout(tbrgftSpbn, bxis, offsfts, spbns);
         }
 
-        protected SizeRequirements calculateMinorAxisRequirements(int axis,
-                                                                  SizeRequirements r) {
-            return baselineRequirements(axis, r);
+        protfdtfd SizfRfquirfmfnts dbldulbtfMinorAxisRfquirfmfnts(int bxis,
+                                                                  SizfRfquirfmfnts r) {
+            rfturn bbsflinfRfquirfmfnts(bxis, r);
         }
 
 
-        private boolean isLastRow() {
-            View parent;
-            return ((parent = getParent()) == null
-                    || this == parent.getView(parent.getViewCount() - 1));
+        privbtf boolfbn isLbstRow() {
+            Vifw pbrfnt;
+            rfturn ((pbrfnt = gftPbrfnt()) == null
+                    || tiis == pbrfnt.gftVifw(pbrfnt.gftVifwCount() - 1));
         }
 
-        private boolean isBrokenRow() {
-            boolean rv = false;
-            int viewsCount = getViewCount();
-            if (viewsCount > 0) {
-                View lastView = getView(viewsCount - 1);
-                if (lastView.getBreakWeight(X_AXIS, 0, 0) >=
-                      ForcedBreakWeight) {
-                    rv = true;
+        privbtf boolfbn isBrokfnRow() {
+            boolfbn rv = fblsf;
+            int vifwsCount = gftVifwCount();
+            if (vifwsCount > 0) {
+                Vifw lbstVifw = gftVifw(vifwsCount - 1);
+                if (lbstVifw.gftBrfbkWfigit(X_AXIS, 0, 0) >=
+                      FordfdBrfbkWfigit) {
+                    rv = truf;
                 }
             }
-            return rv;
+            rfturn rv;
         }
 
-        private boolean isJustifiableDocument() {
-            return (! Boolean.TRUE.equals(getDocument().getProperty(
-                          AbstractDocument.I18NProperty)));
+        privbtf boolfbn isJustifibblfDodumfnt() {
+            rfturn (! Boolfbn.TRUE.fqubls(gftDodumfnt().gftPropfrty(
+                          AbstrbdtDodumfnt.I18NPropfrty)));
         }
 
         /**
-         * Whether we need to justify this {@code Row}.
-         * At this time (jdk1.6) we support justification on for non
-         * 18n text.
+         * Wiftifr wf nffd to justify tiis {@dodf Row}.
+         * At tiis timf (jdk1.6) wf support justifidbtion on for non
+         * 18n tfxt.
          *
-         * @return {@code true} if this {@code Row} should be justified.
+         * @rfturn {@dodf truf} if tiis {@dodf Row} siould bf justififd.
          */
-        private boolean isJustifyEnabled() {
-            boolean ret = (justification == StyleConstants.ALIGN_JUSTIFIED);
+        privbtf boolfbn isJustifyEnbblfd() {
+            boolfbn rft = (justifidbtion == StylfConstbnts.ALIGN_JUSTIFIED);
 
-            //no justification for i18n documents
-            ret = ret && isJustifiableDocument();
+            //no justifidbtion for i18n dodumfnts
+            rft = rft && isJustifibblfDodumfnt();
 
-            //no justification for the last row
-            ret = ret && ! isLastRow();
+            //no justifidbtion for tif lbst row
+            rft = rft && ! isLbstRow();
 
-            //no justification for the broken rows
-            ret = ret && ! isBrokenRow();
+            //no justifidbtion for tif brokfn rows
+            rft = rft && ! isBrokfnRow();
 
-            return ret;
+            rfturn rft;
         }
 
 
-        //Calls super method after setting spaceAddon to 0.
-        //Justification should not affect MajorAxisRequirements
-        @Override
-        protected SizeRequirements calculateMajorAxisRequirements(int axis,
-                SizeRequirements r) {
-            int oldJustficationData[] = justificationData;
-            justificationData = null;
-            SizeRequirements ret = super.calculateMajorAxisRequirements(axis, r);
-            if (isJustifyEnabled()) {
-                justificationData = oldJustficationData;
+        //Cblls supfr mftiod bftfr sftting spbdfAddon to 0.
+        //Justifidbtion siould not bfffdt MbjorAxisRfquirfmfnts
+        @Ovfrridf
+        protfdtfd SizfRfquirfmfnts dbldulbtfMbjorAxisRfquirfmfnts(int bxis,
+                SizfRfquirfmfnts r) {
+            int oldJustfidbtionDbtb[] = justifidbtionDbtb;
+            justifidbtionDbtb = null;
+            SizfRfquirfmfnts rft = supfr.dbldulbtfMbjorAxisRfquirfmfnts(bxis, r);
+            if (isJustifyEnbblfd()) {
+                justifidbtionDbtb = oldJustfidbtionDbtb;
             }
-            return ret;
+            rfturn rft;
         }
 
-        @Override
-        protected void layoutMajorAxis(int targetSpan, int axis,
-                                       int[] offsets, int[] spans) {
-            int oldJustficationData[] = justificationData;
-            justificationData = null;
-            super.layoutMajorAxis(targetSpan, axis, offsets, spans);
-            if (! isJustifyEnabled()) {
-                return;
+        @Ovfrridf
+        protfdtfd void lbyoutMbjorAxis(int tbrgftSpbn, int bxis,
+                                       int[] offsfts, int[] spbns) {
+            int oldJustfidbtionDbtb[] = justifidbtionDbtb;
+            justifidbtionDbtb = null;
+            supfr.lbyoutMbjorAxis(tbrgftSpbn, bxis, offsfts, spbns);
+            if (! isJustifyEnbblfd()) {
+                rfturn;
             }
 
-            int currentSpan = 0;
-            for (int span : spans) {
-                currentSpan += span;
+            int durrfntSpbn = 0;
+            for (int spbn : spbns) {
+                durrfntSpbn += spbn;
             }
-            if (currentSpan == targetSpan) {
-                //no need to justify
-                return;
+            if (durrfntSpbn == tbrgftSpbn) {
+                //no nffd to justify
+                rfturn;
             }
 
-            // we justify text by enlarging spaces by the {@code spaceAddon}.
-            // justification is started to the right of the rightmost TAB.
-            // leading and trailing spaces are not extendable.
+            // wf justify tfxt by fnlbrging spbdfs by tif {@dodf spbdfAddon}.
+            // justifidbtion is stbrtfd to tif rigit of tif rigitmost TAB.
+            // lfbding bnd trbiling spbdfs brf not fxtfndbblf.
             //
-            // GlyphPainter1 uses
-            // justificationData
-            // for all painting and measurement.
+            // GlypiPbintfr1 usfs
+            // justifidbtionDbtb
+            // for bll pbinting bnd mfbsurfmfnt.
 
-            int extendableSpaces = 0;
-            int startJustifiableContent = -1;
-            int endJustifiableContent = -1;
-            int lastLeadingSpaces = 0;
+            int fxtfndbblfSpbdfs = 0;
+            int stbrtJustifibblfContfnt = -1;
+            int fndJustifibblfContfnt = -1;
+            int lbstLfbdingSpbdfs = 0;
 
-            int rowStartOffset = getStartOffset();
-            int rowEndOffset = getEndOffset();
-            int spaceMap[] = new int[rowEndOffset - rowStartOffset];
-            Arrays.fill(spaceMap, 0);
-            for (int i = getViewCount() - 1; i >= 0 ; i--) {
-                View view = getView(i);
-                if (view instanceof GlyphView) {
-                    GlyphView.JustificationInfo justificationInfo =
-                        ((GlyphView) view).getJustificationInfo(rowStartOffset);
-                    final int viewStartOffset = view.getStartOffset();
-                    final int offset = viewStartOffset - rowStartOffset;
-                    for (int j = 0; j < justificationInfo.spaceMap.length(); j++) {
-                        if (justificationInfo.spaceMap.get(j)) {
-                            spaceMap[j + offset] = 1;
+            int rowStbrtOffsft = gftStbrtOffsft();
+            int rowEndOffsft = gftEndOffsft();
+            int spbdfMbp[] = nfw int[rowEndOffsft - rowStbrtOffsft];
+            Arrbys.fill(spbdfMbp, 0);
+            for (int i = gftVifwCount() - 1; i >= 0 ; i--) {
+                Vifw vifw = gftVifw(i);
+                if (vifw instbndfof GlypiVifw) {
+                    GlypiVifw.JustifidbtionInfo justifidbtionInfo =
+                        ((GlypiVifw) vifw).gftJustifidbtionInfo(rowStbrtOffsft);
+                    finbl int vifwStbrtOffsft = vifw.gftStbrtOffsft();
+                    finbl int offsft = vifwStbrtOffsft - rowStbrtOffsft;
+                    for (int j = 0; j < justifidbtionInfo.spbdfMbp.lfngti(); j++) {
+                        if (justifidbtionInfo.spbdfMbp.gft(j)) {
+                            spbdfMbp[j + offsft] = 1;
                         }
                     }
-                    if (startJustifiableContent > 0) {
-                        if (justificationInfo.end >= 0) {
-                            extendableSpaces += justificationInfo.trailingSpaces;
-                        } else {
-                            lastLeadingSpaces += justificationInfo.trailingSpaces;
+                    if (stbrtJustifibblfContfnt > 0) {
+                        if (justifidbtionInfo.fnd >= 0) {
+                            fxtfndbblfSpbdfs += justifidbtionInfo.trbilingSpbdfs;
+                        } flsf {
+                            lbstLfbdingSpbdfs += justifidbtionInfo.trbilingSpbdfs;
                         }
                     }
-                    if (justificationInfo.start >= 0) {
-                        startJustifiableContent =
-                            justificationInfo.start + viewStartOffset;
-                        extendableSpaces += lastLeadingSpaces;
+                    if (justifidbtionInfo.stbrt >= 0) {
+                        stbrtJustifibblfContfnt =
+                            justifidbtionInfo.stbrt + vifwStbrtOffsft;
+                        fxtfndbblfSpbdfs += lbstLfbdingSpbdfs;
                     }
-                    if (justificationInfo.end >= 0
-                          && endJustifiableContent < 0) {
-                        endJustifiableContent =
-                            justificationInfo.end + viewStartOffset;
+                    if (justifidbtionInfo.fnd >= 0
+                          && fndJustifibblfContfnt < 0) {
+                        fndJustifibblfContfnt =
+                            justifidbtionInfo.fnd + vifwStbrtOffsft;
                     }
-                    extendableSpaces += justificationInfo.contentSpaces;
-                    lastLeadingSpaces = justificationInfo.leadingSpaces;
-                    if (justificationInfo.hasTab) {
-                        break;
+                    fxtfndbblfSpbdfs += justifidbtionInfo.dontfntSpbdfs;
+                    lbstLfbdingSpbdfs = justifidbtionInfo.lfbdingSpbdfs;
+                    if (justifidbtionInfo.ibsTbb) {
+                        brfbk;
                     }
                 }
             }
-            if (extendableSpaces <= 0) {
-                //there is nothing we can do to justify
-                return;
+            if (fxtfndbblfSpbdfs <= 0) {
+                //tifrf is notiing wf dbn do to justify
+                rfturn;
             }
-            int adjustment = (targetSpan - currentSpan);
-            int spaceAddon = (extendableSpaces > 0)
-                ?  adjustment / extendableSpaces
+            int bdjustmfnt = (tbrgftSpbn - durrfntSpbn);
+            int spbdfAddon = (fxtfndbblfSpbdfs > 0)
+                ?  bdjustmfnt / fxtfndbblfSpbdfs
                 : 0;
-            int spaceAddonLeftoverEnd = -1;
-            for (int i = startJustifiableContent - rowStartOffset,
-                     leftover = adjustment - spaceAddon * extendableSpaces;
-                     leftover > 0;
-                     leftover -= spaceMap[i],
+            int spbdfAddonLfftovfrEnd = -1;
+            for (int i = stbrtJustifibblfContfnt - rowStbrtOffsft,
+                     lfftovfr = bdjustmfnt - spbdfAddon * fxtfndbblfSpbdfs;
+                     lfftovfr > 0;
+                     lfftovfr -= spbdfMbp[i],
                      i++) {
-                spaceAddonLeftoverEnd = i;
+                spbdfAddonLfftovfrEnd = i;
             }
-            if (spaceAddon > 0 || spaceAddonLeftoverEnd >= 0) {
-                justificationData = (oldJustficationData != null)
-                    ? oldJustficationData
-                    : new int[END_JUSTIFIABLE + 1];
-                justificationData[SPACE_ADDON] = spaceAddon;
-                justificationData[SPACE_ADDON_LEFTOVER_END] =
-                    spaceAddonLeftoverEnd;
-                justificationData[START_JUSTIFIABLE] =
-                    startJustifiableContent - rowStartOffset;
-                justificationData[END_JUSTIFIABLE] =
-                    endJustifiableContent - rowStartOffset;
-                super.layoutMajorAxis(targetSpan, axis, offsets, spans);
+            if (spbdfAddon > 0 || spbdfAddonLfftovfrEnd >= 0) {
+                justifidbtionDbtb = (oldJustfidbtionDbtb != null)
+                    ? oldJustfidbtionDbtb
+                    : nfw int[END_JUSTIFIABLE + 1];
+                justifidbtionDbtb[SPACE_ADDON] = spbdfAddon;
+                justifidbtionDbtb[SPACE_ADDON_LEFTOVER_END] =
+                    spbdfAddonLfftovfrEnd;
+                justifidbtionDbtb[START_JUSTIFIABLE] =
+                    stbrtJustifibblfContfnt - rowStbrtOffsft;
+                justifidbtionDbtb[END_JUSTIFIABLE] =
+                    fndJustifibblfContfnt - rowStbrtOffsft;
+                supfr.lbyoutMbjorAxis(tbrgftSpbn, bxis, offsfts, spbns);
             }
         }
 
-        //for justified row we assume the maximum horizontal span
+        //for justififd row wf bssumf tif mbximum iorizontbl spbn
         //is MAX_VALUE.
-        @Override
-        public float getMaximumSpan(int axis) {
-            float ret;
-            if (View.X_AXIS == axis
-                  && isJustifyEnabled()) {
-                ret = Float.MAX_VALUE;
-            } else {
-              ret = super.getMaximumSpan(axis);
+        @Ovfrridf
+        publid flobt gftMbximumSpbn(int bxis) {
+            flobt rft;
+            if (Vifw.X_AXIS == bxis
+                  && isJustifyEnbblfd()) {
+                rft = Flobt.MAX_VALUE;
+            } flsf {
+              rft = supfr.gftMbximumSpbn(bxis);
             }
-            return ret;
+            rfturn rft;
         }
 
         /**
-         * Fetches the child view index representing the given position in
-         * the model.
+         * Fftdifs tif diild vifw indfx rfprfsfnting tif givfn position in
+         * tif modfl.
          *
-         * @param pos the position &gt;= 0
-         * @return  index of the view representing the given position, or
-         *   -1 if no view represents that position
+         * @pbrbm pos tif position &gt;= 0
+         * @rfturn  indfx of tif vifw rfprfsfnting tif givfn position, or
+         *   -1 if no vifw rfprfsfnts tibt position
          */
-        protected int getViewIndexAtPosition(int pos) {
-            // This is expensive, but are views are not necessarily layed
-            // out in model order.
-            if(pos < getStartOffset() || pos >= getEndOffset())
-                return -1;
-            for(int counter = getViewCount() - 1; counter >= 0; counter--) {
-                View v = getView(counter);
-                if(pos >= v.getStartOffset() &&
-                   pos < v.getEndOffset()) {
-                    return counter;
+        protfdtfd int gftVifwIndfxAtPosition(int pos) {
+            // Tiis is fxpfnsivf, but brf vifws brf not nfdfssbrily lbyfd
+            // out in modfl ordfr.
+            if(pos < gftStbrtOffsft() || pos >= gftEndOffsft())
+                rfturn -1;
+            for(int dountfr = gftVifwCount() - 1; dountfr >= 0; dountfr--) {
+                Vifw v = gftVifw(dountfr);
+                if(pos >= v.gftStbrtOffsft() &&
+                   pos < v.gftEndOffsft()) {
+                    rfturn dountfr;
                 }
             }
-            return -1;
+            rfturn -1;
         }
 
         /**
-         * Gets the left inset.
+         * Gfts tif lfft insft.
          *
-         * @return the inset
+         * @rfturn tif insft
          */
-        protected short getLeftInset() {
-            View parentView;
-            int adjustment = 0;
-            if ((parentView = getParent()) != null) { //use firstLineIdent for the first row
-                if (this == parentView.getView(0)) {
-                    adjustment = firstLineIndent;
+        protfdtfd siort gftLfftInsft() {
+            Vifw pbrfntVifw;
+            int bdjustmfnt = 0;
+            if ((pbrfntVifw = gftPbrfnt()) != null) { //usf firstLinfIdfnt for tif first row
+                if (tiis == pbrfntVifw.gftVifw(0)) {
+                    bdjustmfnt = firstLinfIndfnt;
                 }
             }
-            return (short)(super.getLeftInset() + adjustment);
+            rfturn (siort)(supfr.gftLfftInsft() + bdjustmfnt);
         }
 
-        protected short getBottomInset() {
-            return (short)(super.getBottomInset() +
-                           ((minorRequest != null) ? minorRequest.preferred : 0) *
-                           lineSpacing);
+        protfdtfd siort gftBottomInsft() {
+            rfturn (siort)(supfr.gftBottomInsft() +
+                           ((minorRfqufst != null) ? minorRfqufst.prfffrrfd : 0) *
+                           linfSpbding);
         }
 
-        final static int SPACE_ADDON = 0;
-        final static int SPACE_ADDON_LEFTOVER_END = 1;
-        final static int START_JUSTIFIABLE = 2;
-        //this should be the last index in justificationData
-        final static int END_JUSTIFIABLE = 3;
+        finbl stbtid int SPACE_ADDON = 0;
+        finbl stbtid int SPACE_ADDON_LEFTOVER_END = 1;
+        finbl stbtid int START_JUSTIFIABLE = 2;
+        //tiis siould bf tif lbst indfx in justifidbtionDbtb
+        finbl stbtid int END_JUSTIFIABLE = 3;
 
-        int justificationData[] = null;
+        int justifidbtionDbtb[] = null;
     }
 
 }

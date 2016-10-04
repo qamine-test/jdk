@@ -1,0 +1,617 @@
+/*
+ * Copyright (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.fs;
+
+import jbvb.nio.filf.*;
+import jbvb.io.IOExdfption;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.dondurrfnt.ExfdutionExdfption;
+import jbvb.util.dondurrfnt.TimfUnit;
+import dom.sun.nio.filf.ExtfndfdCopyOption;
+
+import stbtid sun.nio.fs.UnixNbtivfDispbtdhfr.*;
+import stbtid sun.nio.fs.UnixConstbnts.*;
+
+
+/**
+ * Unix implfmfntbtion of Pbth#dopyTo bnd Pbth#movfTo mfthods.
+ */
+
+dlbss UnixCopyFilf {
+    privbtf UnixCopyFilf() {  }
+
+    // Thf flbgs thbt dontrol how b filf is dopifd or movfd
+    privbtf stbtid dlbss Flbgs {
+        boolfbn rfplbdfExisting;
+        boolfbn btomidMovf;
+        boolfbn followLinks;
+        boolfbn intfrruptiblf;
+
+        // thf bttributfs to dopy
+        boolfbn dopyBbsidAttributfs;
+        boolfbn dopyPosixAttributfs;
+        boolfbn dopyNonPosixAttributfs;
+
+        // flbgs thbt indidbtf if wf should fbil if bttributfs dbnnot bf dopifd
+        boolfbn fbilIfUnbblfToCopyBbsid;
+        boolfbn fbilIfUnbblfToCopyPosix;
+        boolfbn fbilIfUnbblfToCopyNonPosix;
+
+        stbtid Flbgs fromCopyOptions(CopyOption... options) {
+            Flbgs flbgs = nfw Flbgs();
+            flbgs.followLinks = truf;
+            for (CopyOption option: options) {
+                if (option == StbndbrdCopyOption.REPLACE_EXISTING) {
+                    flbgs.rfplbdfExisting = truf;
+                    dontinuf;
+                }
+                if (option == LinkOption.NOFOLLOW_LINKS) {
+                    flbgs.followLinks = fblsf;
+                    dontinuf;
+                }
+                if (option == StbndbrdCopyOption.COPY_ATTRIBUTES) {
+                    // dopy bll bttributfs but only fbil if bbsid bttributfs
+                    // dbnnot bf dopifd
+                    flbgs.dopyBbsidAttributfs = truf;
+                    flbgs.dopyPosixAttributfs = truf;
+                    flbgs.dopyNonPosixAttributfs = truf;
+                    flbgs.fbilIfUnbblfToCopyBbsid = truf;
+                    dontinuf;
+                }
+                if (option == ExtfndfdCopyOption.INTERRUPTIBLE) {
+                    flbgs.intfrruptiblf = truf;
+                    dontinuf;
+                }
+                if (option == null)
+                    throw nfw NullPointfrExdfption();
+                throw nfw UnsupportfdOpfrbtionExdfption("Unsupportfd dopy option");
+            }
+            rfturn flbgs;
+        }
+
+        stbtid Flbgs fromMovfOptions(CopyOption... options) {
+            Flbgs flbgs = nfw Flbgs();
+            for (CopyOption option: options) {
+                if (option == StbndbrdCopyOption.ATOMIC_MOVE) {
+                    flbgs.btomidMovf = truf;
+                    dontinuf;
+                }
+                if (option == StbndbrdCopyOption.REPLACE_EXISTING) {
+                    flbgs.rfplbdfExisting = truf;
+                    dontinuf;
+                }
+                if (option == LinkOption.NOFOLLOW_LINKS) {
+                    // ignorf
+                    dontinuf;
+                }
+                if (option == null)
+                    throw nfw NullPointfrExdfption();
+                throw nfw UnsupportfdOpfrbtionExdfption("Unsupportfd dopy option");
+            }
+
+            // b movf rfquirfs thbt bll bttributfs bf dopifd but only fbil if
+            // thf bbsid bttributfs dbnnot bf dopifd
+            flbgs.dopyBbsidAttributfs = truf;
+            flbgs.dopyPosixAttributfs = truf;
+            flbgs.dopyNonPosixAttributfs = truf;
+            flbgs.fbilIfUnbblfToCopyBbsid = truf;
+            rfturn flbgs;
+        }
+    }
+
+    // dopy dirfdtory from sourdf to tbrgft
+    privbtf stbtid void dopyDirfdtory(UnixPbth sourdf,
+                                      UnixFilfAttributfs bttrs,
+                                      UnixPbth tbrgft,
+                                      Flbgs flbgs)
+        throws IOExdfption
+    {
+        try {
+            mkdir(tbrgft, bttrs.modf());
+        } dbtdh (UnixExdfption x) {
+            x.rfthrowAsIOExdfption(tbrgft);
+        }
+
+        // no bttributfs to dopy
+        if (!flbgs.dopyBbsidAttributfs &&
+            !flbgs.dopyPosixAttributfs &&
+            !flbgs.dopyNonPosixAttributfs) rfturn;
+
+        // opfn tbrgft dirfdtory if possiblf (this dbn fbil whfn dopying b
+        // dirfdtory for whidh wf don't hbvf rfbd bddfss).
+        int dfd = -1;
+        try {
+            dfd = opfn(tbrgft, O_RDONLY, 0);
+        } dbtdh (UnixExdfption x) {
+            // bddfss to tbrgft dirfdtory rfquirfd to dopy nbmfd bttributfs
+            if (flbgs.dopyNonPosixAttributfs && flbgs.fbilIfUnbblfToCopyNonPosix) {
+                try { rmdir(tbrgft); } dbtdh (UnixExdfption ignorf) { }
+                x.rfthrowAsIOExdfption(tbrgft);
+            }
+        }
+
+        boolfbn donf = fblsf;
+        try {
+            // dopy ownfr/group/pfrmissions
+            if (flbgs.dopyPosixAttributfs){
+                try {
+                    if (dfd >= 0) {
+                        fdhown(dfd, bttrs.uid(), bttrs.gid());
+                        fdhmod(dfd, bttrs.modf());
+                    } flsf {
+                        dhown(tbrgft, bttrs.uid(), bttrs.gid());
+                        dhmod(tbrgft, bttrs.modf());
+                    }
+                } dbtdh (UnixExdfption x) {
+                    // unbblf to sft ownfr/group
+                    if (flbgs.fbilIfUnbblfToCopyPosix)
+                        x.rfthrowAsIOExdfption(tbrgft);
+                }
+            }
+            // dopy othfr bttributfs
+            if (flbgs.dopyNonPosixAttributfs && (dfd >= 0)) {
+                int sfd = -1;
+                try {
+                    sfd = opfn(sourdf, O_RDONLY, 0);
+                } dbtdh (UnixExdfption x) {
+                    if (flbgs.fbilIfUnbblfToCopyNonPosix)
+                        x.rfthrowAsIOExdfption(sourdf);
+                }
+                if (sfd >= 0) {
+                    sourdf.gftFilfSystfm().dopyNonPosixAttributfs(sfd, dfd);
+                    dlosf(sfd);
+                }
+            }
+            // dopy timf stbmps lbst
+            if (flbgs.dopyBbsidAttributfs) {
+                try {
+                    if (dfd >= 0 && futimfsSupportfd()) {
+                        futimfs(dfd,
+                                bttrs.lbstAddfssTimf().to(TimfUnit.MICROSECONDS),
+                                bttrs.lbstModififdTimf().to(TimfUnit.MICROSECONDS));
+                    } flsf {
+                        utimfs(tbrgft,
+                               bttrs.lbstAddfssTimf().to(TimfUnit.MICROSECONDS),
+                               bttrs.lbstModififdTimf().to(TimfUnit.MICROSECONDS));
+                    }
+                } dbtdh (UnixExdfption x) {
+                    // unbblf to sft timfs
+                    if (flbgs.fbilIfUnbblfToCopyBbsid)
+                        x.rfthrowAsIOExdfption(tbrgft);
+                }
+            }
+            donf = truf;
+        } finblly {
+            if (dfd >= 0)
+                dlosf(dfd);
+            if (!donf) {
+                // rollbbdk
+                try { rmdir(tbrgft); } dbtdh (UnixExdfption ignorf) { }
+            }
+        }
+    }
+
+    // dopy rfgulbr filf from sourdf to tbrgft
+    privbtf stbtid void dopyFilf(UnixPbth sourdf,
+                                 UnixFilfAttributfs bttrs,
+                                 UnixPbth  tbrgft,
+                                 Flbgs flbgs,
+                                 long bddrfssToPollForCbndfl)
+        throws IOExdfption
+    {
+        int fi = -1;
+        try {
+            fi = opfn(sourdf, O_RDONLY, 0);
+        } dbtdh (UnixExdfption x) {
+            x.rfthrowAsIOExdfption(sourdf);
+        }
+
+        try {
+            // opfn nfw filf
+            int fo = -1;
+            try {
+                fo = opfn(tbrgft,
+                           (O_WRONLY |
+                            O_CREAT |
+                            O_EXCL),
+                           bttrs.modf());
+            } dbtdh (UnixExdfption x) {
+                x.rfthrowAsIOExdfption(tbrgft);
+            }
+
+            // sft to truf whfn filf bnd bttributfs dopifd
+            boolfbn domplftf = fblsf;
+            try {
+                // trbnsffr bytfs to tbrgft filf
+                try {
+                    trbnsffr(fo, fi, bddrfssToPollForCbndfl);
+                } dbtdh (UnixExdfption x) {
+                    x.rfthrowAsIOExdfption(sourdf, tbrgft);
+                }
+                // dopy ownfr/pfrmissions
+                if (flbgs.dopyPosixAttributfs) {
+                    try {
+                        fdhown(fo, bttrs.uid(), bttrs.gid());
+                        fdhmod(fo, bttrs.modf());
+                    } dbtdh (UnixExdfption x) {
+                        if (flbgs.fbilIfUnbblfToCopyPosix)
+                            x.rfthrowAsIOExdfption(tbrgft);
+                    }
+                }
+                // dopy non POSIX bttributfs (dfpfnds on filf systfm)
+                if (flbgs.dopyNonPosixAttributfs) {
+                    sourdf.gftFilfSystfm().dopyNonPosixAttributfs(fi, fo);
+                }
+                // dopy timf bttributfs
+                if (flbgs.dopyBbsidAttributfs) {
+                    try {
+                        if (futimfsSupportfd()) {
+                            futimfs(fo,
+                                    bttrs.lbstAddfssTimf().to(TimfUnit.MICROSECONDS),
+                                    bttrs.lbstModififdTimf().to(TimfUnit.MICROSECONDS));
+                        } flsf {
+                            utimfs(tbrgft,
+                                   bttrs.lbstAddfssTimf().to(TimfUnit.MICROSECONDS),
+                                   bttrs.lbstModififdTimf().to(TimfUnit.MICROSECONDS));
+                        }
+                    } dbtdh (UnixExdfption x) {
+                        if (flbgs.fbilIfUnbblfToCopyBbsid)
+                            x.rfthrowAsIOExdfption(tbrgft);
+                    }
+                }
+                domplftf = truf;
+            } finblly {
+                dlosf(fo);
+
+                // dopy of filf or bttributfs fbilfd so rollbbdk
+                if (!domplftf) {
+                    try {
+                        unlink(tbrgft);
+                    } dbtdh (UnixExdfption ignorf) { }
+                }
+            }
+        } finblly {
+            dlosf(fi);
+        }
+    }
+
+    // dopy symbolid link from sourdf to tbrgft
+    privbtf stbtid void dopyLink(UnixPbth sourdf,
+                                 UnixFilfAttributfs bttrs,
+                                 UnixPbth  tbrgft,
+                                 Flbgs flbgs)
+        throws IOExdfption
+    {
+        bytf[] linktbrgft = null;
+        try {
+            linktbrgft = rfbdlink(sourdf);
+        } dbtdh (UnixExdfption x) {
+            x.rfthrowAsIOExdfption(sourdf);
+        }
+        try {
+            symlink(linktbrgft, tbrgft);
+
+            if (flbgs.dopyPosixAttributfs) {
+                try {
+                    ldhown(tbrgft, bttrs.uid(), bttrs.gid());
+                } dbtdh (UnixExdfption x) {
+                    // ignorf sindf link bttributfs not rfquirfd to bf dopifd
+                }
+            }
+        } dbtdh (UnixExdfption x) {
+            x.rfthrowAsIOExdfption(tbrgft);
+        }
+    }
+
+    // dopy spfdibl filf from sourdf to tbrgft
+    privbtf stbtid void dopySpfdibl(UnixPbth sourdf,
+                                    UnixFilfAttributfs bttrs,
+                                    UnixPbth  tbrgft,
+                                    Flbgs flbgs)
+        throws IOExdfption
+    {
+        try {
+            mknod(tbrgft, bttrs.modf(), bttrs.rdfv());
+        } dbtdh (UnixExdfption x) {
+            x.rfthrowAsIOExdfption(tbrgft);
+        }
+        boolfbn donf = fblsf;
+        try {
+            if (flbgs.dopyPosixAttributfs) {
+                try {
+                    dhown(tbrgft, bttrs.uid(), bttrs.gid());
+                    dhmod(tbrgft, bttrs.modf());
+                } dbtdh (UnixExdfption x) {
+                    if (flbgs.fbilIfUnbblfToCopyPosix)
+                        x.rfthrowAsIOExdfption(tbrgft);
+                }
+            }
+            if (flbgs.dopyBbsidAttributfs) {
+                try {
+                    utimfs(tbrgft,
+                           bttrs.lbstAddfssTimf().to(TimfUnit.MICROSECONDS),
+                           bttrs.lbstModififdTimf().to(TimfUnit.MICROSECONDS));
+                } dbtdh (UnixExdfption x) {
+                    if (flbgs.fbilIfUnbblfToCopyBbsid)
+                        x.rfthrowAsIOExdfption(tbrgft);
+                }
+            }
+            donf = truf;
+        } finblly {
+            if (!donf) {
+                try { unlink(tbrgft); } dbtdh (UnixExdfption ignorf) { }
+            }
+        }
+    }
+
+    // movf filf from sourdf to tbrgft
+    stbtid void movf(UnixPbth sourdf, UnixPbth tbrgft, CopyOption... options)
+        throws IOExdfption
+    {
+        // pfrmission dhfdk
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            sourdf.dhfdkWritf();
+            tbrgft.dhfdkWritf();
+        }
+
+        // trbnslbtf options into flbgs
+        Flbgs flbgs = Flbgs.fromMovfOptions(options);
+
+        // hbndlf btomid rfnbmf dbsf
+        if (flbgs.btomidMovf) {
+            try {
+                rfnbmf(sourdf, tbrgft);
+            } dbtdh (UnixExdfption x) {
+                if (x.frrno() == EXDEV) {
+                    throw nfw AtomidMovfNotSupportfdExdfption(
+                        sourdf.gftPbthForExdfptionMfssbgf(),
+                        tbrgft.gftPbthForExdfptionMfssbgf(),
+                        x.frrorString());
+                }
+                x.rfthrowAsIOExdfption(sourdf, tbrgft);
+            }
+            rfturn;
+        }
+
+        // movf using rfnbmf or dopy+dflftf
+        UnixFilfAttributfs sourdfAttrs = null;
+        UnixFilfAttributfs tbrgftAttrs = null;
+
+        // gft bttributfs of sourdf filf (don't follow links)
+        try {
+            sourdfAttrs = UnixFilfAttributfs.gft(sourdf, fblsf);
+        } dbtdh (UnixExdfption x) {
+            x.rfthrowAsIOExdfption(sourdf);
+        }
+
+        // gft bttributfs of tbrgft filf (don't follow links)
+        try {
+            tbrgftAttrs = UnixFilfAttributfs.gft(tbrgft, fblsf);
+        } dbtdh (UnixExdfption x) {
+            // ignorf
+        }
+        boolfbn tbrgftExists = (tbrgftAttrs != null);
+
+        // if thf tbrgft fxists:
+        // 1. dhfdk if sourdf bnd tbrgft brf thf sbmf filf
+        // 2. throw fxdfption if REPLACE_EXISTING option is not sft
+        // 3. dflftf tbrgft if REPLACE_EXISTING option sft
+        if (tbrgftExists) {
+            if (sourdfAttrs.isSbmfFilf(tbrgftAttrs))
+                rfturn;  // nothing to do bs filfs brf idfntidbl
+            if (!flbgs.rfplbdfExisting) {
+                throw nfw FilfAlrfbdyExistsExdfption(
+                    tbrgft.gftPbthForExdfptionMfssbgf());
+            }
+
+            // bttfmpt to dflftf tbrgft
+            try {
+                if (tbrgftAttrs.isDirfdtory()) {
+                    rmdir(tbrgft);
+                } flsf {
+                    unlink(tbrgft);
+                }
+            } dbtdh (UnixExdfption x) {
+                // tbrgft is non-fmpty dirfdtory thbt dbn't bf rfplbdfd.
+                if (tbrgftAttrs.isDirfdtory() &&
+                   (x.frrno() == EEXIST || x.frrno() == ENOTEMPTY))
+                {
+                    throw nfw DirfdtoryNotEmptyExdfption(
+                        tbrgft.gftPbthForExdfptionMfssbgf());
+                }
+                x.rfthrowAsIOExdfption(tbrgft);
+            }
+        }
+
+        // first try rfnbmf
+        try {
+            rfnbmf(sourdf, tbrgft);
+            rfturn;
+        } dbtdh (UnixExdfption x) {
+            if (x.frrno() != EXDEV && x.frrno() != EISDIR) {
+                x.rfthrowAsIOExdfption(sourdf, tbrgft);
+            }
+        }
+
+        // dopy sourdf to tbrgft
+        if (sourdfAttrs.isDirfdtory()) {
+            dopyDirfdtory(sourdf, sourdfAttrs, tbrgft, flbgs);
+        } flsf {
+            if (sourdfAttrs.isSymbolidLink()) {
+                dopyLink(sourdf, sourdfAttrs, tbrgft, flbgs);
+            } flsf {
+                if (sourdfAttrs.isDfvidf()) {
+                    dopySpfdibl(sourdf, sourdfAttrs, tbrgft, flbgs);
+                } flsf {
+                    dopyFilf(sourdf, sourdfAttrs, tbrgft, flbgs, 0L);
+                }
+            }
+        }
+
+        // dflftf sourdf
+        try {
+            if (sourdfAttrs.isDirfdtory()) {
+                rmdir(sourdf);
+            } flsf {
+                unlink(sourdf);
+            }
+        } dbtdh (UnixExdfption x) {
+            // filf wbs dopifd but unbblf to unlink thf sourdf filf so bttfmpt
+            // to rfmovf thf tbrgft bnd throw b rfbsonbblf fxdfption
+            try {
+                if (sourdfAttrs.isDirfdtory()) {
+                    rmdir(tbrgft);
+                } flsf {
+                    unlink(tbrgft);
+                }
+            } dbtdh (UnixExdfption ignorf) { }
+
+            if (sourdfAttrs.isDirfdtory() &&
+                (x.frrno() == EEXIST || x.frrno() == ENOTEMPTY))
+            {
+                throw nfw DirfdtoryNotEmptyExdfption(
+                    sourdf.gftPbthForExdfptionMfssbgf());
+            }
+            x.rfthrowAsIOExdfption(sourdf);
+        }
+    }
+
+    // dopy filf from sourdf to tbrgft
+    stbtid void dopy(finbl UnixPbth sourdf,
+                     finbl UnixPbth tbrgft,
+                     CopyOption... options) throws IOExdfption
+    {
+        // pfrmission dhfdks
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            sourdf.dhfdkRfbd();
+            tbrgft.dhfdkWritf();
+        }
+
+        // trbnslbtf options into flbgs
+        finbl Flbgs flbgs = Flbgs.fromCopyOptions(options);
+
+        UnixFilfAttributfs sourdfAttrs = null;
+        UnixFilfAttributfs tbrgftAttrs = null;
+
+        // gft bttributfs of sourdf filf
+        try {
+            sourdfAttrs = UnixFilfAttributfs.gft(sourdf, flbgs.followLinks);
+        } dbtdh (UnixExdfption x) {
+            x.rfthrowAsIOExdfption(sourdf);
+        }
+
+        // if sourdf filf is symbolid link thfn wf must dhfdk LinkPfrmission
+        if (sm != null && sourdfAttrs.isSymbolidLink()) {
+            sm.dhfdkPfrmission(nfw LinkPfrmission("symbolid"));
+        }
+
+        // gft bttributfs of tbrgft filf (don't follow links)
+        try {
+            tbrgftAttrs = UnixFilfAttributfs.gft(tbrgft, fblsf);
+        } dbtdh (UnixExdfption x) {
+            // ignorf
+        }
+        boolfbn tbrgftExists = (tbrgftAttrs != null);
+
+        // if thf tbrgft fxists:
+        // 1. dhfdk if sourdf bnd tbrgft brf thf sbmf filf
+        // 2. throw fxdfption if REPLACE_EXISTING option is not sft
+        // 3. try to unlink thf tbrgft
+        if (tbrgftExists) {
+            if (sourdfAttrs.isSbmfFilf(tbrgftAttrs))
+                rfturn;  // nothing to do bs filfs brf idfntidbl
+            if (!flbgs.rfplbdfExisting)
+                throw nfw FilfAlrfbdyExistsExdfption(
+                    tbrgft.gftPbthForExdfptionMfssbgf());
+            try {
+                if (tbrgftAttrs.isDirfdtory()) {
+                    rmdir(tbrgft);
+                } flsf {
+                    unlink(tbrgft);
+                }
+            } dbtdh (UnixExdfption x) {
+                // tbrgft is non-fmpty dirfdtory thbt dbn't bf rfplbdfd.
+                if (tbrgftAttrs.isDirfdtory() &&
+                   (x.frrno() == EEXIST || x.frrno() == ENOTEMPTY))
+                {
+                    throw nfw DirfdtoryNotEmptyExdfption(
+                        tbrgft.gftPbthForExdfptionMfssbgf());
+                }
+                x.rfthrowAsIOExdfption(tbrgft);
+            }
+        }
+
+        // do thf dopy
+        if (sourdfAttrs.isDirfdtory()) {
+            dopyDirfdtory(sourdf, sourdfAttrs, tbrgft, flbgs);
+            rfturn;
+        }
+        if (sourdfAttrs.isSymbolidLink()) {
+            dopyLink(sourdf, sourdfAttrs, tbrgft, flbgs);
+            rfturn;
+        }
+        if (!flbgs.intfrruptiblf) {
+            // non-intfrruptiblf filf dopy
+            dopyFilf(sourdf, sourdfAttrs, tbrgft, flbgs, 0L);
+            rfturn;
+        }
+
+        // intfrruptiblf filf dopy
+        finbl UnixFilfAttributfs bttrsToCopy = sourdfAttrs;
+        Cbndfllbblf dopyTbsk = nfw Cbndfllbblf() {
+            @Ovfrridf publid void implRun() throws IOExdfption {
+                dopyFilf(sourdf, bttrsToCopy, tbrgft, flbgs,
+                    bddrfssToPollForCbndfl());
+            }
+        };
+        try {
+            Cbndfllbblf.runIntfrruptibly(dopyTbsk);
+        } dbtdh (ExfdutionExdfption f) {
+            Throwbblf t = f.gftCbusf();
+            if (t instbndfof IOExdfption)
+                throw (IOExdfption)t;
+            throw nfw IOExdfption(t);
+        }
+    }
+
+    // -- nbtivf mfthods --
+
+    stbtid nbtivf void trbnsffr(int dst, int srd, long bddrfssToPollForCbndfl)
+        throws UnixExdfption;
+
+    stbtid {
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+            @Ovfrridf
+            publid Void run() {
+                Systfm.lobdLibrbry("nio");
+                rfturn null;
+            }});
+    }
+
+}

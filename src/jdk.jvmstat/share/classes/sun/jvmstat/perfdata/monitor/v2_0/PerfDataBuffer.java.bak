@@ -1,616 +1,616 @@
 /*
- * Copyright (c) 2004, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.jvmstat.perfdata.monitor.v2_0;
+pbdkbgf sun.jvmstbt.pfrfdbtb.monitor.v2_0;
 
-import sun.jvmstat.monitor.*;
-import sun.jvmstat.perfdata.monitor.*;
-import java.util.*;
-import java.util.regex.*;
-import java.nio.*;
+import sun.jvmstbt.monitor.*;
+import sun.jvmstbt.pfrfdbtb.monitor.*;
+import jbvb.util.*;
+import jbvb.util.rfgfx.*;
+import jbvb.nio.*;
 
 /**
- * The concrete implementation of version 2.0 of the HotSpot PerfData
- * Instrumentation buffer. This class is responsible for parsing the
- * instrumentation memory and constructing the necessary objects to
- * represent and access the instrumentation objects contained in the
- * memory buffer.
+ * Tif dondrftf implfmfntbtion of vfrsion 2.0 of tif HotSpot PfrfDbtb
+ * Instrumfntbtion bufffr. Tiis dlbss is rfsponsiblf for pbrsing tif
+ * instrumfntbtion mfmory bnd donstrudting tif nfdfssbry objfdts to
+ * rfprfsfnt bnd bddfss tif instrumfntbtion objfdts dontbinfd in tif
+ * mfmory bufffr.
  * <p>
- * The structure of the 2.0 entry is defined in struct PerfDataEnry
- * as decsribed in perfMemory.hpp. This structure looks like:
- * <pre>
- * typedef struct {
- *   jint entry_length;         // entry length in bytes
- *   jint name_offset;          // offset to entry name, relative to start
- *                              // of entry
- *   jint vector_length;        // length of the vector. If 0, then scalar.
- *   jbyte data_type;           // JNI field descriptor type
- *   jbyte flags;               // miscellaneous attribute flags
- *                              // 0x01 - supported
- *   jbyte data_units;          // unit of measure attribute
- *   jbyte data_variability;    // variability attribute
- *   jbyte data_offset;         // offset to data item, relative to start
- *                              // of entry.
- * } PerfDataEntry;
- * </pre>
+ * Tif strudturf of tif 2.0 fntry is dffinfd in strudt PfrfDbtbEnry
+ * bs dfdsribfd in pfrfMfmory.ipp. Tiis strudturf looks likf:
+ * <prf>
+ * typfdff strudt {
+ *   jint fntry_lfngti;         // fntry lfngti in bytfs
+ *   jint nbmf_offsft;          // offsft to fntry nbmf, rflbtivf to stbrt
+ *                              // of fntry
+ *   jint vfdtor_lfngti;        // lfngti of tif vfdtor. If 0, tifn sdblbr.
+ *   jbytf dbtb_typf;           // JNI fifld dfsdriptor typf
+ *   jbytf flbgs;               // misdfllbnfous bttributf flbgs
+ *                              // 0x01 - supportfd
+ *   jbytf dbtb_units;          // unit of mfbsurf bttributf
+ *   jbytf dbtb_vbribbility;    // vbribbility bttributf
+ *   jbytf dbtb_offsft;         // offsft to dbtb itfm, rflbtivf to stbrt
+ *                              // of fntry.
+ * } PfrfDbtbEntry;
+ * </prf>
  *
- * @author Brian Doherty
- * @since 1.5
- * @see AbstractPerfDataBuffer
+ * @butior Bribn Doifrty
+ * @sindf 1.5
+ * @sff AbstrbdtPfrfDbtbBufffr
  */
-public class PerfDataBuffer extends PerfDataBufferImpl {
+publid dlbss PfrfDbtbBufffr fxtfnds PfrfDbtbBufffrImpl {
 
-    private static final boolean DEBUG = false;
-    private static final int syncWaitMs =
-            Integer.getInteger("sun.jvmstat.perdata.syncWaitMs", 5000);
-    private static final ArrayList<Monitor> EMPTY_LIST = new ArrayList<>(0);
+    privbtf stbtid finbl boolfbn DEBUG = fblsf;
+    privbtf stbtid finbl int syndWbitMs =
+            Intfgfr.gftIntfgfr("sun.jvmstbt.pfrdbtb.syndWbitMs", 5000);
+    privbtf stbtid finbl ArrbyList<Monitor> EMPTY_LIST = nfw ArrbyList<>(0);
 
     /*
-     * These are primarily for documentary purposes and the match up
-     * with the PerfDataEntry structure in perfMemory.hpp. They are
-     * generally unused in this code, but they are kept consistent with
-     * the data structure just in case some unforseen need arrises.
+     * Tifsf brf primbrily for dodumfntbry purposfs bnd tif mbtdi up
+     * witi tif PfrfDbtbEntry strudturf in pfrfMfmory.ipp. Tify brf
+     * gfnfrblly unusfd in tiis dodf, but tify brf kfpt donsistfnt witi
+     * tif dbtb strudturf just in dbsf somf unforsffn nffd brrisfs.
      */
-    private final static int PERFDATA_ENTRYLENGTH_OFFSET=0;
-    private final static int PERFDATA_ENTRYLENGTH_SIZE=4;   // sizeof(int)
-    private final static int PERFDATA_NAMEOFFSET_OFFSET=4;
-    private final static int PERFDATA_NAMEOFFSET_SIZE=4;    // sizeof(int)
-    private final static int PERFDATA_VECTORLENGTH_OFFSET=8;
-    private final static int PERFDATA_VECTORLENGTH_SIZE=4;  // sizeof(int)
-    private final static int PERFDATA_DATATYPE_OFFSET=12;
-    private final static int PERFDATA_DATATYPE_SIZE=1;      // sizeof(byte)
-    private final static int PERFDATA_FLAGS_OFFSET=13;
-    private final static int PERFDATA_FLAGS_SIZE=1;       // sizeof(byte)
-    private final static int PERFDATA_DATAUNITS_OFFSET=14;
-    private final static int PERFDATA_DATAUNITS_SIZE=1;     // sizeof(byte)
-    private final static int PERFDATA_DATAVAR_OFFSET=15;
-    private final static int PERFDATA_DATAVAR_SIZE=1;       // sizeof(byte)
-    private final static int PERFDATA_DATAOFFSET_OFFSET=16;
-    private final static int PERFDATA_DATAOFFSET_SIZE=4;    // sizeof(int)
+    privbtf finbl stbtid int PERFDATA_ENTRYLENGTH_OFFSET=0;
+    privbtf finbl stbtid int PERFDATA_ENTRYLENGTH_SIZE=4;   // sizfof(int)
+    privbtf finbl stbtid int PERFDATA_NAMEOFFSET_OFFSET=4;
+    privbtf finbl stbtid int PERFDATA_NAMEOFFSET_SIZE=4;    // sizfof(int)
+    privbtf finbl stbtid int PERFDATA_VECTORLENGTH_OFFSET=8;
+    privbtf finbl stbtid int PERFDATA_VECTORLENGTH_SIZE=4;  // sizfof(int)
+    privbtf finbl stbtid int PERFDATA_DATATYPE_OFFSET=12;
+    privbtf finbl stbtid int PERFDATA_DATATYPE_SIZE=1;      // sizfof(bytf)
+    privbtf finbl stbtid int PERFDATA_FLAGS_OFFSET=13;
+    privbtf finbl stbtid int PERFDATA_FLAGS_SIZE=1;       // sizfof(bytf)
+    privbtf finbl stbtid int PERFDATA_DATAUNITS_OFFSET=14;
+    privbtf finbl stbtid int PERFDATA_DATAUNITS_SIZE=1;     // sizfof(bytf)
+    privbtf finbl stbtid int PERFDATA_DATAVAR_OFFSET=15;
+    privbtf finbl stbtid int PERFDATA_DATAVAR_SIZE=1;       // sizfof(bytf)
+    privbtf finbl stbtid int PERFDATA_DATAOFFSET_OFFSET=16;
+    privbtf finbl stbtid int PERFDATA_DATAOFFSET_SIZE=4;    // sizfof(int)
 
-    PerfDataBufferPrologue prologue;
-    int nextEntry;
-    long lastNumEntries;
-    IntegerMonitor overflow;
-    ArrayList<Monitor> insertedMonitors;
+    PfrfDbtbBufffrProloguf prologuf;
+    int nfxtEntry;
+    long lbstNumEntrifs;
+    IntfgfrMonitor ovfrflow;
+    ArrbyList<Monitor> insfrtfdMonitors;
 
     /**
-     * Construct a PerfDataBuffer instance.
+     * Construdt b PfrfDbtbBufffr instbndf.
      * <p>
-     * This class is dynamically loaded by
-     * {@link AbstractPerfDataBuffer#createPerfDataBuffer}, and this
-     * constructor is called to instantiate the instance.
+     * Tiis dlbss is dynbmidblly lobdfd by
+     * {@link AbstrbdtPfrfDbtbBufffr#drfbtfPfrfDbtbBufffr}, bnd tiis
+     * donstrudtor is dbllfd to instbntibtf tif instbndf.
      *
-     * @param buffer the buffer containing the instrumentation data
-     * @param lvmid the Local Java Virtual Machine Identifier for this
-     *              instrumentation buffer.
+     * @pbrbm bufffr tif bufffr dontbining tif instrumfntbtion dbtb
+     * @pbrbm lvmid tif Lodbl Jbvb Virtubl Mbdiinf Idfntififr for tiis
+     *              instrumfntbtion bufffr.
      */
-    public PerfDataBuffer(ByteBuffer buffer, int lvmid)
-           throws MonitorException {
-        super(buffer, lvmid);
-        prologue = new PerfDataBufferPrologue(buffer);
-        this.buffer.order(prologue.getByteOrder());
+    publid PfrfDbtbBufffr(BytfBufffr bufffr, int lvmid)
+           tirows MonitorExdfption {
+        supfr(bufffr, lvmid);
+        prologuf = nfw PfrfDbtbBufffrProloguf(bufffr);
+        tiis.bufffr.ordfr(prologuf.gftBytfOrdfr());
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    protected void buildMonitorMap(Map<String, Monitor>  map) throws MonitorException {
-        assert Thread.holdsLock(this);
+    protfdtfd void buildMonitorMbp(Mbp<String, Monitor>  mbp) tirows MonitorExdfption {
+        bssfrt Tirfbd.ioldsLodk(tiis);
 
-        // start at the beginning of the buffer
-        buffer.rewind();
+        // stbrt bt tif bfginning of tif bufffr
+        bufffr.rfwind();
 
-        // create pseudo monitors
-        buildPseudoMonitors(map);
+        // drfbtf psfudo monitors
+        buildPsfudoMonitors(mbp);
 
-        // wait for the target JVM to indicate that it's intrumentation
-        // buffer is safely accessible
-        synchWithTarget();
+        // wbit for tif tbrgft JVM to indidbtf tibt it's intrumfntbtion
+        // bufffr is sbffly bddfssiblf
+        syndiWitiTbrgft();
 
-        // parse the currently defined entries starting at the first entry.
-        nextEntry = prologue.getEntryOffset();
+        // pbrsf tif durrfntly dffinfd fntrifs stbrting bt tif first fntry.
+        nfxtEntry = prologuf.gftEntryOffsft();
 
-        // record the number of entries before parsing the structure
-        int numEntries = prologue.getNumEntries();
+        // rfdord tif numbfr of fntrifs bfforf pbrsing tif strudturf
+        int numEntrifs = prologuf.gftNumEntrifs();
 
-        // start parsing
-        Monitor monitor = getNextMonitorEntry();
-        while (monitor != null) {
-            map.put(monitor.getName(), monitor);
-            monitor = getNextMonitorEntry();
+        // stbrt pbrsing
+        Monitor monitor = gftNfxtMonitorEntry();
+        wiilf (monitor != null) {
+            mbp.put(monitor.gftNbmf(), monitor);
+            monitor = gftNfxtMonitorEntry();
         }
 
         /*
-         * keep track of the current number of entries in the shared
-         * memory for new entry detection purposes. It's possible for
-         * the data structure to be modified while the Map is being
-         * built and the entry count in the header might change while
-         * we are parsing it. The map will contain all the counters
-         * found, but the number recorded in numEntries might be small
-         * than what than the number we actually parsed (due to asynchronous
-         * updates). This discrepency is handled by ignoring any re-parsed
-         * entries when updating the Map in getNewMonitors().
+         * kffp trbdk of tif durrfnt numbfr of fntrifs in tif sibrfd
+         * mfmory for nfw fntry dftfdtion purposfs. It's possiblf for
+         * tif dbtb strudturf to bf modififd wiilf tif Mbp is bfing
+         * built bnd tif fntry dount in tif ifbdfr migit dibngf wiilf
+         * wf brf pbrsing it. Tif mbp will dontbin bll tif dountfrs
+         * found, but tif numbfr rfdordfd in numEntrifs migit bf smbll
+         * tibn wibt tibn tif numbfr wf bdtublly pbrsfd (duf to bsyndironous
+         * updbtfs). Tiis disdrfpfndy is ibndlfd by ignoring bny rf-pbrsfd
+         * fntrifs wifn updbting tif Mbp in gftNfwMonitors().
          */
-        lastNumEntries = numEntries;
+        lbstNumEntrifs = numEntrifs;
 
-        // keep track of the monitors just added.
-        insertedMonitors = new ArrayList<Monitor>(map.values());
+        // kffp trbdk of tif monitors just bddfd.
+        insfrtfdMonitors = nfw ArrbyList<Monitor>(mbp.vblufs());
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    protected void getNewMonitors(Map<String, Monitor> map) throws MonitorException {
-        assert Thread.holdsLock(this);
+    protfdtfd void gftNfwMonitors(Mbp<String, Monitor> mbp) tirows MonitorExdfption {
+        bssfrt Tirfbd.ioldsLodk(tiis);
 
-        int numEntries = prologue.getNumEntries();
+        int numEntrifs = prologuf.gftNumEntrifs();
 
-        if (numEntries > lastNumEntries) {
-            lastNumEntries = numEntries;
-            Monitor monitor = getNextMonitorEntry();
+        if (numEntrifs > lbstNumEntrifs) {
+            lbstNumEntrifs = numEntrifs;
+            Monitor monitor = gftNfxtMonitorEntry();
 
-            while (monitor != null) {
-                String name = monitor.getName();
+            wiilf (monitor != null) {
+                String nbmf = monitor.gftNbmf();
 
-                // guard against re-parsed entries
-                if (!map.containsKey(name)) {
-                    map.put(name, monitor);
-                    if (insertedMonitors != null) {
-                        insertedMonitors.add(monitor);
+                // gubrd bgbinst rf-pbrsfd fntrifs
+                if (!mbp.dontbinsKfy(nbmf)) {
+                    mbp.put(nbmf, monitor);
+                    if (insfrtfdMonitors != null) {
+                        insfrtfdMonitors.bdd(monitor);
                     }
                 }
-                monitor = getNextMonitorEntry();
+                monitor = gftNfxtMonitorEntry();
             }
         }
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    protected MonitorStatus getMonitorStatus(Map<String, Monitor> map) throws MonitorException {
-        assert Thread.holdsLock(this);
-        assert insertedMonitors != null;
+    protfdtfd MonitorStbtus gftMonitorStbtus(Mbp<String, Monitor> mbp) tirows MonitorExdfption {
+        bssfrt Tirfbd.ioldsLodk(tiis);
+        bssfrt insfrtfdMonitors != null;
 
-        // load any new monitors
-        getNewMonitors(map);
+        // lobd bny nfw monitors
+        gftNfwMonitors(mbp);
 
-        // current implementation doesn't support deletion of reuse of entries
-        ArrayList<Monitor> removed = EMPTY_LIST;
-        ArrayList<Monitor> inserted = insertedMonitors;
+        // durrfnt implfmfntbtion dofsn't support dflftion of rfusf of fntrifs
+        ArrbyList<Monitor> rfmovfd = EMPTY_LIST;
+        ArrbyList<Monitor> insfrtfd = insfrtfdMonitors;
 
-        insertedMonitors = new ArrayList<>();
-        return new MonitorStatus(inserted, removed);
+        insfrtfdMonitors = nfw ArrbyList<>();
+        rfturn nfw MonitorStbtus(insfrtfd, rfmovfd);
     }
 
     /**
-     * Build the pseudo monitors used to map the prolog data into counters.
+     * Build tif psfudo monitors usfd to mbp tif prolog dbtb into dountfrs.
      */
-    protected void buildPseudoMonitors(Map<String, Monitor> map) {
+    protfdtfd void buildPsfudoMonitors(Mbp<String, Monitor> mbp) {
         Monitor monitor = null;
-        String name = null;
-        IntBuffer ib = null;
+        String nbmf = null;
+        IntBufffr ib = null;
 
-        name = PerfDataBufferPrologue.PERFDATA_MAJOR_NAME;
-        ib = prologue.majorVersionBuffer();
-        monitor = new PerfIntegerMonitor(name, Units.NONE,
-                                         Variability.CONSTANT, false, ib);
-        map.put(name, monitor);
+        nbmf = PfrfDbtbBufffrProloguf.PERFDATA_MAJOR_NAME;
+        ib = prologuf.mbjorVfrsionBufffr();
+        monitor = nfw PfrfIntfgfrMonitor(nbmf, Units.NONE,
+                                         Vbribbility.CONSTANT, fblsf, ib);
+        mbp.put(nbmf, monitor);
 
-        name = PerfDataBufferPrologue.PERFDATA_MINOR_NAME;
-        ib = prologue.minorVersionBuffer();
-        monitor = new PerfIntegerMonitor(name, Units.NONE,
-                                         Variability.CONSTANT, false, ib);
-        map.put(name, monitor);
+        nbmf = PfrfDbtbBufffrProloguf.PERFDATA_MINOR_NAME;
+        ib = prologuf.minorVfrsionBufffr();
+        monitor = nfw PfrfIntfgfrMonitor(nbmf, Units.NONE,
+                                         Vbribbility.CONSTANT, fblsf, ib);
+        mbp.put(nbmf, monitor);
 
-        name = PerfDataBufferPrologue.PERFDATA_BUFFER_SIZE_NAME;
-        ib = prologue.sizeBuffer();
-        monitor = new PerfIntegerMonitor(name, Units.BYTES,
-                                         Variability.MONOTONIC, false, ib);
-        map.put(name, monitor);
+        nbmf = PfrfDbtbBufffrProloguf.PERFDATA_BUFFER_SIZE_NAME;
+        ib = prologuf.sizfBufffr();
+        monitor = nfw PfrfIntfgfrMonitor(nbmf, Units.BYTES,
+                                         Vbribbility.MONOTONIC, fblsf, ib);
+        mbp.put(nbmf, monitor);
 
-        name = PerfDataBufferPrologue.PERFDATA_BUFFER_USED_NAME;
-        ib = prologue.usedBuffer();
-        monitor = new PerfIntegerMonitor(name, Units.BYTES,
-                                         Variability.MONOTONIC, false, ib);
-        map.put(name, monitor);
+        nbmf = PfrfDbtbBufffrProloguf.PERFDATA_BUFFER_USED_NAME;
+        ib = prologuf.usfdBufffr();
+        monitor = nfw PfrfIntfgfrMonitor(nbmf, Units.BYTES,
+                                         Vbribbility.MONOTONIC, fblsf, ib);
+        mbp.put(nbmf, monitor);
 
-        name = PerfDataBufferPrologue.PERFDATA_OVERFLOW_NAME;
-        ib = prologue.overflowBuffer();
-        monitor = new PerfIntegerMonitor(name, Units.BYTES,
-                                         Variability.MONOTONIC, false, ib);
-        map.put(name, monitor);
-        this.overflow = (IntegerMonitor)monitor;
+        nbmf = PfrfDbtbBufffrProloguf.PERFDATA_OVERFLOW_NAME;
+        ib = prologuf.ovfrflowBufffr();
+        monitor = nfw PfrfIntfgfrMonitor(nbmf, Units.BYTES,
+                                         Vbribbility.MONOTONIC, fblsf, ib);
+        mbp.put(nbmf, monitor);
+        tiis.ovfrflow = (IntfgfrMonitor)monitor;
 
-        name = PerfDataBufferPrologue.PERFDATA_MODTIMESTAMP_NAME;
-        LongBuffer lb = prologue.modificationTimeStampBuffer();
-        monitor = new PerfLongMonitor(name, Units.TICKS,
-                                      Variability.MONOTONIC, false, lb);
-        map.put(name, monitor);
+        nbmf = PfrfDbtbBufffrProloguf.PERFDATA_MODTIMESTAMP_NAME;
+        LongBufffr lb = prologuf.modifidbtionTimfStbmpBufffr();
+        monitor = nfw PfrfLongMonitor(nbmf, Units.TICKS,
+                                      Vbribbility.MONOTONIC, fblsf, lb);
+        mbp.put(nbmf, monitor);
     }
 
     /**
-     * Method that waits until the target jvm indicates that
-     * its shared memory is safe to access.
+     * Mftiod tibt wbits until tif tbrgft jvm indidbtfs tibt
+     * its sibrfd mfmory is sbff to bddfss.
      */
-    protected void synchWithTarget() throws MonitorException {
+    protfdtfd void syndiWitiTbrgft() tirows MonitorExdfption {
         /*
-         * synch must happen with syncWaitMs from now. Default is 5 seconds,
-         * which is reasonabally generous and should provide for extreme
-         * situations like startup delays due to allocation of large ISM heaps.
+         * syndi must ibppfn witi syndWbitMs from now. Dffbult is 5 sfdonds,
+         * wiidi is rfbsonbbblly gfnfrous bnd siould providf for fxtrfmf
+         * situbtions likf stbrtup dflbys duf to bllodbtion of lbrgf ISM ifbps.
          */
-        long timeLimit = System.currentTimeMillis() + syncWaitMs;
+        long timfLimit = Systfm.durrfntTimfMillis() + syndWbitMs;
 
-        // loop waiting for the accessible indicater to be non-zero
-        log("synchWithTarget: " + lvmid + " ");
-        while (!prologue.isAccessible()) {
+        // loop wbiting for tif bddfssiblf indidbtfr to bf non-zfro
+        log("syndiWitiTbrgft: " + lvmid + " ");
+        wiilf (!prologuf.isAddfssiblf()) {
 
             log(".");
 
-            // give the target jvm a chance to complete initializatoin
-            try { Thread.sleep(20); } catch (InterruptedException e) { }
+            // givf tif tbrgft jvm b dibndf to domplftf initiblizbtoin
+            try { Tirfbd.slffp(20); } dbtdi (IntfrruptfdExdfption f) { }
 
-            if (System.currentTimeMillis() > timeLimit) {
-                logln("failed: " + lvmid);
-                throw new MonitorException("Could not synchronize with target");
+            if (Systfm.durrfntTimfMillis() > timfLimit) {
+                logln("fbilfd: " + lvmid);
+                tirow nfw MonitorExdfption("Could not syndironizf witi tbrgft");
             }
         }
-        logln("success: " + lvmid);
+        logln("suddfss: " + lvmid);
     }
 
     /**
-     * method to extract the next monitor entry from the instrumentation memory.
-     * assumes that nextEntry is the offset into the byte array
-     * at which to start the search for the next entry. method leaves
-     * next entry pointing to the next entry or to the end of data.
+     * mftiod to fxtrbdt tif nfxt monitor fntry from tif instrumfntbtion mfmory.
+     * bssumfs tibt nfxtEntry is tif offsft into tif bytf brrby
+     * bt wiidi to stbrt tif sfbrdi for tif nfxt fntry. mftiod lfbvfs
+     * nfxt fntry pointing to tif nfxt fntry or to tif fnd of dbtb.
      */
-    protected Monitor getNextMonitorEntry() throws MonitorException {
+    protfdtfd Monitor gftNfxtMonitorEntry() tirows MonitorExdfption {
         Monitor monitor = null;
 
-        // entries are always 4 byte aligned.
-        if ((nextEntry % 4) != 0) {
-            throw new MonitorStructureException(
-                    "Misaligned entry index: "
-                    + Integer.toHexString(nextEntry));
+        // fntrifs brf blwbys 4 bytf blignfd.
+        if ((nfxtEntry % 4) != 0) {
+            tirow nfw MonitorStrudturfExdfption(
+                    "Misblignfd fntry indfx: "
+                    + Intfgfr.toHfxString(nfxtEntry));
         }
 
-        // protect againt a corrupted shard memory region.
-        if ((nextEntry < 0)  || (nextEntry > buffer.limit())) {
-            throw new MonitorStructureException(
-                    "Entry index out of bounds: "
-                    + Integer.toHexString(nextEntry)
-                    + ", limit = " + Integer.toHexString(buffer.limit()));
+        // protfdt bgbint b dorruptfd sibrd mfmory rfgion.
+        if ((nfxtEntry < 0)  || (nfxtEntry > bufffr.limit())) {
+            tirow nfw MonitorStrudturfExdfption(
+                    "Entry indfx out of bounds: "
+                    + Intfgfr.toHfxString(nfxtEntry)
+                    + ", limit = " + Intfgfr.toHfxString(bufffr.limit()));
         }
 
-        // check for end of the buffer
-        if (nextEntry == buffer.limit()) {
-            logln("getNextMonitorEntry():"
-                  + " nextEntry == buffer.limit(): returning");
-            return null;
+        // difdk for fnd of tif bufffr
+        if (nfxtEntry == bufffr.limit()) {
+            logln("gftNfxtMonitorEntry():"
+                  + " nfxtEntry == bufffr.limit(): rfturning");
+            rfturn null;
         }
 
-        buffer.position(nextEntry);
+        bufffr.position(nfxtEntry);
 
-        int entryStart = buffer.position();
-        int entryLength = buffer.getInt();
+        int fntryStbrt = bufffr.position();
+        int fntryLfngti = bufffr.gftInt();
 
-        // check for valid entry length
-        if ((entryLength < 0) || (entryLength > buffer.limit())) {
-            throw new MonitorStructureException(
-                    "Invalid entry length: entryLength = " + entryLength
-                    + " (0x" + Integer.toHexString(entryLength) + ")");
+        // difdk for vblid fntry lfngti
+        if ((fntryLfngti < 0) || (fntryLfngti > bufffr.limit())) {
+            tirow nfw MonitorStrudturfExdfption(
+                    "Invblid fntry lfngti: fntryLfngti = " + fntryLfngti
+                    + " (0x" + Intfgfr.toHfxString(fntryLfngti) + ")");
         }
 
-        // check if last entry occurs before the eof.
-        if ((entryStart + entryLength) > buffer.limit()) {
-            throw new MonitorStructureException(
-                    "Entry extends beyond end of buffer: "
-                    + " entryStart = 0x" + Integer.toHexString(entryStart)
-                    + " entryLength = 0x" + Integer.toHexString(entryLength)
-                    + " buffer limit = 0x" + Integer.toHexString(buffer.limit()));
+        // difdk if lbst fntry oddurs bfforf tif fof.
+        if ((fntryStbrt + fntryLfngti) > bufffr.limit()) {
+            tirow nfw MonitorStrudturfExdfption(
+                    "Entry fxtfnds bfyond fnd of bufffr: "
+                    + " fntryStbrt = 0x" + Intfgfr.toHfxString(fntryStbrt)
+                    + " fntryLfngti = 0x" + Intfgfr.toHfxString(fntryLfngti)
+                    + " bufffr limit = 0x" + Intfgfr.toHfxString(bufffr.limit()));
         }
 
-        if (entryLength == 0) {
-            // end of data
-            return null;
+        if (fntryLfngti == 0) {
+            // fnd of dbtb
+            rfturn null;
         }
 
-        // we can safely read this entry
-        int nameOffset = buffer.getInt();
-        int vectorLength = buffer.getInt();
-        byte typeCodeByte = buffer.get();
-        byte flags = buffer.get();
-        byte unitsByte = buffer.get();
-        byte varByte = buffer.get();
-        int dataOffset = buffer.getInt();
+        // wf dbn sbffly rfbd tiis fntry
+        int nbmfOffsft = bufffr.gftInt();
+        int vfdtorLfngti = bufffr.gftInt();
+        bytf typfCodfBytf = bufffr.gft();
+        bytf flbgs = bufffr.gft();
+        bytf unitsBytf = bufffr.gft();
+        bytf vbrBytf = bufffr.gft();
+        int dbtbOffsft = bufffr.gftInt();
 
-        dump_entry_fixed(entryStart, nameOffset, vectorLength, typeCodeByte,
-                         flags, unitsByte, varByte, dataOffset);
+        dump_fntry_fixfd(fntryStbrt, nbmfOffsft, vfdtorLfngti, typfCodfBytf,
+                         flbgs, unitsBytf, vbrBytf, dbtbOffsft);
 
-        // convert common attributes to their object types
-        Units units = Units.toUnits(unitsByte);
-        Variability variability = Variability.toVariability(varByte);
-        TypeCode typeCode = null;
-        boolean supported = (flags & 0x01) != 0;
+        // donvfrt dommon bttributfs to tifir objfdt typfs
+        Units units = Units.toUnits(unitsBytf);
+        Vbribbility vbribbility = Vbribbility.toVbribbility(vbrBytf);
+        TypfCodf typfCodf = null;
+        boolfbn supportfd = (flbgs & 0x01) != 0;
 
         try {
-            typeCode = TypeCode.toTypeCode(typeCodeByte);
+            typfCodf = TypfCodf.toTypfCodf(typfCodfBytf);
 
-        } catch (IllegalArgumentException e) {
-            throw new MonitorStructureException(
-                    "Illegal type code encountered:"
-                    + " entry_offset = 0x" + Integer.toHexString(nextEntry)
-                    + ", type_code = " + Integer.toHexString(typeCodeByte));
+        } dbtdi (IllfgblArgumfntExdfption f) {
+            tirow nfw MonitorStrudturfExdfption(
+                    "Illfgbl typf dodf fndountfrfd:"
+                    + " fntry_offsft = 0x" + Intfgfr.toHfxString(nfxtEntry)
+                    + ", typf_dodf = " + Intfgfr.toHfxString(typfCodfBytf));
         }
 
-        // verify that the name_offset is contained within the entry bounds
-        if (nameOffset > entryLength) {
-            throw new MonitorStructureException(
-                    "Field extends beyond entry bounds"
-                    + " entry_offset = 0x" + Integer.toHexString(nextEntry)
-                    + ", name_offset = 0x" + Integer.toHexString(nameOffset));
+        // vfrify tibt tif nbmf_offsft is dontbinfd witiin tif fntry bounds
+        if (nbmfOffsft > fntryLfngti) {
+            tirow nfw MonitorStrudturfExdfption(
+                    "Fifld fxtfnds bfyond fntry bounds"
+                    + " fntry_offsft = 0x" + Intfgfr.toHfxString(nfxtEntry)
+                    + ", nbmf_offsft = 0x" + Intfgfr.toHfxString(nbmfOffsft));
         }
 
-        // verify that the data_offset is contained within the entry bounds
-        if (dataOffset > entryLength) {
-            throw new MonitorStructureException(
-                    "Field extends beyond entry bounds:"
-                    + " entry_offset = 0x" + Integer.toHexString(nextEntry)
-                    + ", data_offset = 0x" + Integer.toHexString(dataOffset));
+        // vfrify tibt tif dbtb_offsft is dontbinfd witiin tif fntry bounds
+        if (dbtbOffsft > fntryLfngti) {
+            tirow nfw MonitorStrudturfExdfption(
+                    "Fifld fxtfnds bfyond fntry bounds:"
+                    + " fntry_offsft = 0x" + Intfgfr.toHfxString(nfxtEntry)
+                    + ", dbtb_offsft = 0x" + Intfgfr.toHfxString(dbtbOffsft));
         }
 
-        // validate the variability and units fields
-        if (variability == Variability.INVALID) {
-            throw new MonitorDataException(
-                    "Invalid variability attribute:"
-                    + " entry_offset = 0x" + Integer.toHexString(nextEntry)
-                    + ", variability = 0x" + Integer.toHexString(varByte));
+        // vblidbtf tif vbribbility bnd units fiflds
+        if (vbribbility == Vbribbility.INVALID) {
+            tirow nfw MonitorDbtbExdfption(
+                    "Invblid vbribbility bttributf:"
+                    + " fntry_offsft = 0x" + Intfgfr.toHfxString(nfxtEntry)
+                    + ", vbribbility = 0x" + Intfgfr.toHfxString(vbrBytf));
         }
 
         if (units == Units.INVALID) {
-            throw new MonitorDataException(
-                    "Invalid units attribute: entry_offset = 0x"
-                    + Integer.toHexString(nextEntry)
-                    + ", units = 0x" + Integer.toHexString(unitsByte));
+            tirow nfw MonitorDbtbExdfption(
+                    "Invblid units bttributf: fntry_offsft = 0x"
+                    + Intfgfr.toHfxString(nfxtEntry)
+                    + ", units = 0x" + Intfgfr.toHfxString(unitsBytf));
         }
 
-        // the entry looks good - parse the variable length components
+        // tif fntry looks good - pbrsf tif vbribblf lfngti domponfnts
 
         /*
-         * The name starts at nameOffset and continues up to the first null
-         * byte. however, we don't know the length, but we can approximate it
-         * without searching for the null by using the offset for the data
-         * field, which follows the name field.
+         * Tif nbmf stbrts bt nbmfOffsft bnd dontinufs up to tif first null
+         * bytf. iowfvfr, wf don't know tif lfngti, but wf dbn bpproximbtf it
+         * witiout sfbrdiing for tif null by using tif offsft for tif dbtb
+         * fifld, wiidi follows tif nbmf fifld.
          */
-        assert (buffer.position() == (entryStart + nameOffset));
-        assert (dataOffset > nameOffset);
+        bssfrt (bufffr.position() == (fntryStbrt + nbmfOffsft));
+        bssfrt (dbtbOffsft > nbmfOffsft);
 
-        // include possible pad space
-        int maxNameLength = dataOffset-nameOffset;
+        // indludf possiblf pbd spbdf
+        int mbxNbmfLfngti = dbtbOffsft-nbmfOffsft;
 
-        // maxNameLength better be less than the total entry length
-        assert (maxNameLength < entryLength);
+        // mbxNbmfLfngti bfttfr bf lfss tibn tif totbl fntry lfngti
+        bssfrt (mbxNbmfLfngti < fntryLfngti);
 
-        // collect the characters, but do not collect the null byte,
-        // as the String(byte[]) constructor does not ignore it!
-        byte[] nameBytes = new byte[maxNameLength];
-        int nameLength = 0;
-        byte b;
-        while (((b = buffer.get()) != 0) && (nameLength < maxNameLength)) {
-             nameBytes[nameLength++] = b;
+        // dollfdt tif dibrbdtfrs, but do not dollfdt tif null bytf,
+        // bs tif String(bytf[]) donstrudtor dofs not ignorf it!
+        bytf[] nbmfBytfs = nfw bytf[mbxNbmfLfngti];
+        int nbmfLfngti = 0;
+        bytf b;
+        wiilf (((b = bufffr.gft()) != 0) && (nbmfLfngti < mbxNbmfLfngti)) {
+             nbmfBytfs[nbmfLfngti++] = b;
         }
 
-        assert (nameLength < maxNameLength);
+        bssfrt (nbmfLfngti < mbxNbmfLfngti);
 
-        // we should before or at the start of the data field
-        assert (buffer.position() <= (entryStart + dataOffset));
+        // wf siould bfforf or bt tif stbrt of tif dbtb fifld
+        bssfrt (bufffr.position() <= (fntryStbrt + dbtbOffsft));
 
-        // convert the name bytes into a String
-        String name = new String(nameBytes, 0, nameLength);
+        // donvfrt tif nbmf bytfs into b String
+        String nbmf = nfw String(nbmfBytfs, 0, nbmfLfngti);
 
         /*
-         * compute the size of the data item - this includes pad
-         * characters used to align the next entry.
+         * domputf tif sizf of tif dbtb itfm - tiis indludfs pbd
+         * dibrbdtfrs usfd to blign tif nfxt fntry.
          */
-        int dataSize = entryLength - dataOffset;
+        int dbtbSizf = fntryLfngti - dbtbOffsft;
 
-        // set the position to the start of the data item
-        buffer.position(entryStart + dataOffset);
+        // sft tif position to tif stbrt of tif dbtb itfm
+        bufffr.position(fntryStbrt + dbtbOffsft);
 
-        dump_entry_variable(name, buffer, dataSize);
+        dump_fntry_vbribblf(nbmf, bufffr, dbtbSizf);
 
-        if (vectorLength == 0) {
-            // create a scalar Monitor object
-            if (typeCode == TypeCode.LONG) {
-                LongBuffer lb = buffer.asLongBuffer();
-                lb.limit(1);  // limit buffer size to one long value.
-                monitor = new PerfLongMonitor(name, units, variability,
-                                              supported, lb);
-            } else {
+        if (vfdtorLfngti == 0) {
+            // drfbtf b sdblbr Monitor objfdt
+            if (typfCodf == TypfCodf.LONG) {
+                LongBufffr lb = bufffr.bsLongBufffr();
+                lb.limit(1);  // limit bufffr sizf to onf long vbluf.
+                monitor = nfw PfrfLongMonitor(nbmf, units, vbribbility,
+                                              supportfd, lb);
+            } flsf {
                 /*
-                 * unexpected type code - coding error or uncoordinated
-                 * JVM change
+                 * unfxpfdtfd typf dodf - doding frror or undoordinbtfd
+                 * JVM dibngf
                  */
-                throw new MonitorTypeException(
-                        "Unexpected type code encountered:"
-                        + " entry_offset = 0x" + Integer.toHexString(nextEntry)
-                        + ", name = " + name
-                        + ", type_code = " + typeCode
-                        + " (0x" + Integer.toHexString(typeCodeByte) + ")");
+                tirow nfw MonitorTypfExdfption(
+                        "Unfxpfdtfd typf dodf fndountfrfd:"
+                        + " fntry_offsft = 0x" + Intfgfr.toHfxString(nfxtEntry)
+                        + ", nbmf = " + nbmf
+                        + ", typf_dodf = " + typfCodf
+                        + " (0x" + Intfgfr.toHfxString(typfCodfBytf) + ")");
             }
-        } else {
-            // create a vector Monitor object
-            if (typeCode == TypeCode.BYTE) {
+        } flsf {
+            // drfbtf b vfdtor Monitor objfdt
+            if (typfCodf == TypfCodf.BYTE) {
                 if (units != Units.STRING) {
-                    // only byte arrays of type STRING are currently supported
-                    throw new MonitorTypeException(
-                            "Unexpected vector type encounterd:"
-                            + " entry_offset = "
-                            + Integer.toHexString(nextEntry)
-                            + ", name = " + name
-                            + ", type_code = " + typeCode + " (0x"
-                            + Integer.toHexString(typeCodeByte) + ")"
+                    // only bytf brrbys of typf STRING brf durrfntly supportfd
+                    tirow nfw MonitorTypfExdfption(
+                            "Unfxpfdtfd vfdtor typf fndountfrd:"
+                            + " fntry_offsft = "
+                            + Intfgfr.toHfxString(nfxtEntry)
+                            + ", nbmf = " + nbmf
+                            + ", typf_dodf = " + typfCodf + " (0x"
+                            + Intfgfr.toHfxString(typfCodfBytf) + ")"
                             + ", units = " + units + " (0x"
-                            + Integer.toHexString(unitsByte) + ")");
+                            + Intfgfr.toHfxString(unitsBytf) + ")");
                 }
 
-                ByteBuffer bb = buffer.slice();
-                bb.limit(vectorLength); // limit buffer length to # of chars
+                BytfBufffr bb = bufffr.slidf();
+                bb.limit(vfdtorLfngti); // limit bufffr lfngti to # of dibrs
 
-                if (variability == Variability.CONSTANT) {
-                    monitor = new PerfStringConstantMonitor(name, supported,
+                if (vbribbility == Vbribbility.CONSTANT) {
+                    monitor = nfw PfrfStringConstbntMonitor(nbmf, supportfd,
                                                             bb);
-                } else if (variability == Variability.VARIABLE) {
-                    monitor = new PerfStringVariableMonitor(name, supported,
-                                                            bb, vectorLength-1);
-                } else if (variability == Variability.MONOTONIC) {
-                    // Monotonically increasing byte arrays are not supported
-                    throw new MonitorDataException(
-                            "Unexpected variability attribute:"
-                            + " entry_offset = 0x"
-                            + Integer.toHexString(nextEntry)
-                            + " name = " + name
-                            + ", variability = " + variability + " (0x"
-                            + Integer.toHexString(varByte) + ")");
-                } else {
-                    // variability was validated above, so this unexpected
-                    assert false;
+                } flsf if (vbribbility == Vbribbility.VARIABLE) {
+                    monitor = nfw PfrfStringVbribblfMonitor(nbmf, supportfd,
+                                                            bb, vfdtorLfngti-1);
+                } flsf if (vbribbility == Vbribbility.MONOTONIC) {
+                    // Monotonidblly indrfbsing bytf brrbys brf not supportfd
+                    tirow nfw MonitorDbtbExdfption(
+                            "Unfxpfdtfd vbribbility bttributf:"
+                            + " fntry_offsft = 0x"
+                            + Intfgfr.toHfxString(nfxtEntry)
+                            + " nbmf = " + nbmf
+                            + ", vbribbility = " + vbribbility + " (0x"
+                            + Intfgfr.toHfxString(vbrBytf) + ")");
+                } flsf {
+                    // vbribbility wbs vblidbtfd bbovf, so tiis unfxpfdtfd
+                    bssfrt fblsf;
                 }
-            } else {
-                // coding error or uncoordinated JVM change
-                throw new MonitorTypeException(
-                        "Unexpected type code encountered:"
-                        + " entry_offset = 0x"
-                        + Integer.toHexString(nextEntry)
-                        + ", name = " + name
-                        + ", type_code = " + typeCode + " (0x"
-                        + Integer.toHexString(typeCodeByte) + ")");
+            } flsf {
+                // doding frror or undoordinbtfd JVM dibngf
+                tirow nfw MonitorTypfExdfption(
+                        "Unfxpfdtfd typf dodf fndountfrfd:"
+                        + " fntry_offsft = 0x"
+                        + Intfgfr.toHfxString(nfxtEntry)
+                        + ", nbmf = " + nbmf
+                        + ", typf_dodf = " + typfCodf + " (0x"
+                        + Intfgfr.toHfxString(typfCodfBytf) + ")");
             }
         }
 
-        // setup index to next entry for next iteration of the loop.
-        nextEntry = entryStart + entryLength;
-        return monitor;
+        // sftup indfx to nfxt fntry for nfxt itfrbtion of tif loop.
+        nfxtEntry = fntryStbrt + fntryLfngti;
+        rfturn monitor;
     }
 
     /**
-     * Method to dump debugging information
+     * Mftiod to dump dfbugging informbtion
      */
-    private void dumpAll(Map<String, Monitor> map, int lvmid) {
+    privbtf void dumpAll(Mbp<String, Monitor> mbp, int lvmid) {
         if (DEBUG) {
-            Set<String> keys = map.keySet();
+            Sft<String> kfys = mbp.kfySft();
 
-            System.err.println("Dump for " + lvmid);
+            Systfm.frr.println("Dump for " + lvmid);
             int j = 0;
-            for (Iterator<String> i = keys.iterator(); i.hasNext(); j++) {
-                Monitor monitor = map.get(i.next());
-                System.err.println(j + "\t" + monitor.getName()
-                                   + "=" + monitor.getValue());
+            for (Itfrbtor<String> i = kfys.itfrbtor(); i.ibsNfxt(); j++) {
+                Monitor monitor = mbp.gft(i.nfxt());
+                Systfm.frr.println(j + "\t" + monitor.gftNbmf()
+                                   + "=" + monitor.gftVbluf());
             }
-            System.err.println("nextEntry = " + nextEntry);
-            System.err.println("Buffer info:");
-            System.err.println("buffer = " + buffer);
+            Systfm.frr.println("nfxtEntry = " + nfxtEntry);
+            Systfm.frr.println("Bufffr info:");
+            Systfm.frr.println("bufffr = " + bufffr);
         }
     }
 
     /**
-     * Method to dump the fixed portion of an entry.
+     * Mftiod to dump tif fixfd portion of bn fntry.
      */
-    private void dump_entry_fixed(int entry_start, int nameOffset,
-                                  int vectorLength, byte typeCodeByte,
-                                  byte flags, byte unitsByte, byte varByte,
-                                  int dataOffset) {
+    privbtf void dump_fntry_fixfd(int fntry_stbrt, int nbmfOffsft,
+                                  int vfdtorLfngti, bytf typfCodfBytf,
+                                  bytf flbgs, bytf unitsBytf, bytf vbrBytf,
+                                  int dbtbOffsft) {
         if (DEBUG) {
-            System.err.println("Entry at offset: 0x"
-                               + Integer.toHexString(entry_start));
-            System.err.println("\tname_offset = 0x"
-                               + Integer.toHexString(nameOffset));
-            System.err.println("\tvector_length = 0x"
-                               + Integer.toHexString(vectorLength));
-            System.err.println("\tdata_type = 0x"
-                               + Integer.toHexString(typeCodeByte));
-            System.err.println("\tflags = 0x"
-                               + Integer.toHexString(flags));
-            System.err.println("\tdata_units = 0x"
-                               + Integer.toHexString(unitsByte));
-            System.err.println("\tdata_variability = 0x"
-                               + Integer.toHexString(varByte));
-            System.err.println("\tdata_offset = 0x"
-                               + Integer.toHexString(dataOffset));
+            Systfm.frr.println("Entry bt offsft: 0x"
+                               + Intfgfr.toHfxString(fntry_stbrt));
+            Systfm.frr.println("\tnbmf_offsft = 0x"
+                               + Intfgfr.toHfxString(nbmfOffsft));
+            Systfm.frr.println("\tvfdtor_lfngti = 0x"
+                               + Intfgfr.toHfxString(vfdtorLfngti));
+            Systfm.frr.println("\tdbtb_typf = 0x"
+                               + Intfgfr.toHfxString(typfCodfBytf));
+            Systfm.frr.println("\tflbgs = 0x"
+                               + Intfgfr.toHfxString(flbgs));
+            Systfm.frr.println("\tdbtb_units = 0x"
+                               + Intfgfr.toHfxString(unitsBytf));
+            Systfm.frr.println("\tdbtb_vbribbility = 0x"
+                               + Intfgfr.toHfxString(vbrBytf));
+            Systfm.frr.println("\tdbtb_offsft = 0x"
+                               + Intfgfr.toHfxString(dbtbOffsft));
         }
     }
 
-    private void dump_entry_variable(String name, ByteBuffer bb, int size) {
+    privbtf void dump_fntry_vbribblf(String nbmf, BytfBufffr bb, int sizf) {
         if (DEBUG) {
-            char[] toHex = new char[] { '0', '1', '2', '3',
+            dibr[] toHfx = nfw dibr[] { '0', '1', '2', '3',
                                         '4', '5', '6', '7',
-                                        '8', '9', 'a', 'b',
-                                        'c', 'd', 'e', 'f' };
+                                        '8', '9', 'b', 'b',
+                                        'd', 'd', 'f', 'f' };
 
-            ByteBuffer data = bb.slice();
-            data.limit(size);
+            BytfBufffr dbtb = bb.slidf();
+            dbtb.limit(sizf);
 
-            System.err.println("\tname = " + name);
-            System.err.println("\tdata = ");
+            Systfm.frr.println("\tnbmf = " + nbmf);
+            Systfm.frr.println("\tdbtb = ");
 
-            int count=0;
-            while (data.hasRemaining()) {
-                byte b = data.get();
-                byte high = (byte)((b >> 8) & 0x0f);
-                byte low = (byte)(b & 0x0f);
+            int dount=0;
+            wiilf (dbtb.ibsRfmbining()) {
+                bytf b = dbtb.gft();
+                bytf iigi = (bytf)((b >> 8) & 0x0f);
+                bytf low = (bytf)(b & 0x0f);
 
-                if (count % 16 == 0) {
-                    System.err.print("\t\t" + Integer.toHexString(count / 16)
+                if (dount % 16 == 0) {
+                    Systfm.frr.print("\t\t" + Intfgfr.toHfxString(dount / 16)
                                      + ": ");
                 }
 
-                System.err.print(String.valueOf(toHex[high])
-                                 + String.valueOf(toHex[low]));
+                Systfm.frr.print(String.vblufOf(toHfx[iigi])
+                                 + String.vblufOf(toHfx[low]));
 
-                count++;
-                if (count % 16 == 0) {
-                    System.err.println();
-                } else {
-                    System.err.print(" ");
+                dount++;
+                if (dount % 16 == 0) {
+                    Systfm.frr.println();
+                } flsf {
+                    Systfm.frr.print(" ");
                 }
             }
-            if (count % 16 != 0) {
-                System.err.println();
+            if (dount % 16 != 0) {
+                Systfm.frr.println();
             }
         }
     }
 
-    private void logln(String s) {
+    privbtf void logln(String s) {
         if (DEBUG) {
-            System.err.println(s);
+            Systfm.frr.println(s);
         }
     }
 
-    private void log(String s) {
+    privbtf void log(String s) {
         if (DEBUG) {
-            System.err.print(s);
+            Systfm.frr.print(s);
         }
     }
 }

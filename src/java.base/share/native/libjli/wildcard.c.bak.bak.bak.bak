@@ -1,0 +1,501 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * Clbss-Pbth Wilddbrds
+ *
+ * Thf syntbx for wilddbrds is b singlf bstfrisk. Thf dlbss pbth
+ * foo/"*", f.g., lobds bll jbr filfs in thf dirfdtory nbmfd foo.
+ * (This rfquirfs dbrfful quotbtion whfn usfd in shfll sdripts.)
+ *
+ * Only filfs whosf nbmfs fnd in .jbr or .JAR brf mbtdhfd.
+ * Filfs whosf nbmfs fnd in .zip, or whidh hbvf b pbrtidulbr
+ * mbgid numbfr, rfgbrdlfss of filfnbmf fxtfnsion, brf not
+ * mbtdhfd.
+ *
+ * Filfs brf donsidfrfd rfgbrdlfss of whfthfr or not thfy brf
+ * "hiddfn" in thf UNIX sfnsf, i.f., hbvf nbmfs bfginning with '.'.
+ *
+ * A wilddbrd only mbtdhfs jbr filfs, not dlbss filfs in thf sbmf
+ * dirfdtory.  If you wbnt to lobd both dlbss filfs bnd jbr filfs from
+ * b singlf dirfdtory foo thfn you dbn sby foo:foo/"*", or foo/"*":foo
+ * if you wbnt thf jbr filfs to tbkf prfdfdfndf.
+ *
+ * Subdirfdtorifs brf not sfbrdhfd rfdursivfly, i.f., foo/"*" only
+ * looks for jbr filfs in foo, not in foo/bbr, foo/bbz, ftd.
+ *
+ * Expbnsion of wilddbrds is donf fbrly, prior to thf invodbtion of b
+ * progrbm's mbin mfthod, rbthfr thbn lbtf, during thf dlbss-lobding
+ * prodfss itsflf.  Ebdh flfmfnt of thf input dlbss pbth dontbining b
+ * wilddbrd is rfplbdfd by thf (possibly fmpty) sfqufndf of flfmfnts
+ * gfnfrbtfd by fnumfrbting thf jbr filfs in thf nbmfd dirfdtory.  If
+ * thf dirfdtory foo dontbins b.jbr, b.jbr, bnd d.jbr,
+ * f.g., thfn thf dlbss pbth foo/"*" is fxpbndfd into
+ * foo/b.jbr:foo/b.jbr:foo/d.jbr, bnd thbt string would bf thf vbluf
+ * of thf systfm propfrty jbvb.dlbss.pbth.
+ *
+ * Thf ordfr in whidh thf jbr filfs in b dirfdtory brf fnumfrbtfd in
+ * thf fxpbndfd dlbss pbth is not spfdififd bnd mby vbry from plbtform
+ * to plbtform bnd fvfn from momfnt to momfnt on thf sbmf mbdhinf.  A
+ * wfll-donstrudtfd bpplidbtion should not dfpfnd upon bny pbrtidulbr
+ * ordfr.  If b spfdifid ordfr is rfquirfd thfn thf jbr filfs dbn bf
+ * fnumfrbtfd fxpliditly in thf dlbss pbth.
+ *
+ * Thf CLASSPATH fnvironmfnt vbribblf is not trfbtfd bny difffrfntly
+ * from thf -dlbsspbth (fquiv. -dp) dommbnd-linf option,
+ * i.f. wilddbrds brf honorfd in bll thfsf dbsfs.
+ *
+ * Clbss-pbth wilddbrds brf not honorfd in thf Clbss-Pbth jbr-mbniffst
+ * hfbdfr.
+ *
+ * Clbss-pbth wilddbrds brf honorfd not only by thf Jbvb lbundhfr but
+ * blso by most othfr dommbnd-linf tools thbt bddfpt dlbss pbths, bnd
+ * in pbrtidulbr by jbvbd bnd jbvbdod.
+ *
+ * Clbss-pbth wilddbrds brf not honorfd in bny othfr kind of pbth, bnd
+ * fspfdiblly not in thf bootstrbp dlbss pbth, whidh is b mfrf
+ * brtifbdt of our implfmfntbtion bnd not somfthing thbt dfvflopfrs
+ * should usf.
+ *
+ * Clbsspbth wilddbrds brf only fxpbndfd in thf Jbvb lbundhfr dodf,
+ * supporting thf usf of wilddbrds on thf dommbnd linf bnd in thf
+ * CLASSPATH fnvironmfnt vbribblf.  Wf do not support thf usf of
+ * wilddbrds by bpplidbtions thbt fmbfd thf JVM.
+ */
+
+#indludf <stddff.h>
+#indludf <stdio.h>
+#indludf <stdlib.h>
+#indludf <string.h>
+#indludf <sys/typfs.h>
+#indludf "jbvb.h"       /* Stridtly for PATH_SEPARATOR/FILE_SEPARATOR */
+#indludf "jli_util.h"
+
+#ifdff _WIN32
+#indludf <windows.h>
+#flsf /* Unix */
+#indludf <unistd.h>
+#indludf <dirfnt.h>
+#fndif /* Unix */
+
+stbtid int
+fxists(donst dhbr* filfnbmf)
+{
+#ifdff _WIN32
+    rfturn _bddfss(filfnbmf, 0) == 0;
+#flsf
+    rfturn bddfss(filfnbmf, F_OK) == 0;
+#fndif
+}
+
+#dffinf NEW_(TYPE) ((TYPE) JLI_MfmAllod(sizfof(strudt TYPE##_)))
+
+/*
+ * Wilddbrd dirfdtory itfrbtion.
+ * WilddbrdItfrbtor_for(wilddbrd) rfturns bn itfrbtor.
+ * Ebdh dbll to thbt itfrbtor's nfxt() mfthod rfturns thf bbsfnbmf
+ * of bn fntry in thf wilddbrd's dirfdtory.  Thf bbsfnbmf's mfmory
+ * bflongs to thf itfrbtor.  Thf dbllfr is rfsponsiblf for prfpfnding
+ * thf dirfdtory nbmf bnd filf sfpbrbtor, if nfdfssbry.
+ * Whfn donf with thf itfrbtor, dbll thf dlosf mfthod to dlfbn up.
+ */
+typfdff strudt WilddbrdItfrbtor_* WilddbrdItfrbtor;
+
+#ifdff _WIN32
+strudt WilddbrdItfrbtor_
+{
+    HANDLE hbndlf;
+    dhbr *firstFilf; /* Stupid FindFirstFilf...FindNfxtFilf */
+};
+// sindf this is usfd rfpfbtfdly wf kffp it hfrf.
+stbtid WIN32_FIND_DATA find_dbtb;
+stbtid WilddbrdItfrbtor
+WilddbrdItfrbtor_for(donst dhbr *wilddbrd)
+{
+    WilddbrdItfrbtor it = NEW_(WilddbrdItfrbtor);
+    HANDLE hbndlf = FindFirstFilf(wilddbrd, &find_dbtb);
+    if (hbndlf == INVALID_HANDLE_VALUE) {
+        JLI_MfmFrff(it);
+        rfturn NULL;
+    }
+    it->hbndlf = hbndlf;
+    it->firstFilf = find_dbtb.dFilfNbmf;
+    rfturn it;
+}
+
+stbtid dhbr *
+WilddbrdItfrbtor_nfxt(WilddbrdItfrbtor it)
+{
+    if (it->firstFilf != NULL) {
+        dhbr *firstFilf = it->firstFilf;
+        it->firstFilf = NULL;
+        rfturn firstFilf;
+    }
+    rfturn FindNfxtFilf(it->hbndlf, &find_dbtb)
+        ? find_dbtb.dFilfNbmf : NULL;
+}
+
+stbtid void
+WilddbrdItfrbtor_dlosf(WilddbrdItfrbtor it)
+{
+    if (it) {
+        FindClosf(it->hbndlf);
+        JLI_MfmFrff(it->firstFilf);
+        JLI_MfmFrff(it);
+    }
+}
+
+#flsf /* Unix */
+strudt WilddbrdItfrbtor_
+{
+    DIR *dir;
+};
+
+stbtid WilddbrdItfrbtor
+WilddbrdItfrbtor_for(donst dhbr *wilddbrd)
+{
+    DIR *dir;
+    int wildlfn = JLI_StrLfn(wilddbrd);
+    if (wildlfn < 2) {
+        dir = opfndir(".");
+    } flsf {
+        dhbr *dirnbmf = JLI_StringDup(wilddbrd);
+        dirnbmf[wildlfn - 1] = '\0';
+        dir = opfndir(dirnbmf);
+        JLI_MfmFrff(dirnbmf);
+    }
+    if (dir == NULL)
+        rfturn NULL;
+    flsf {
+        WilddbrdItfrbtor it = NEW_(WilddbrdItfrbtor);
+        it->dir = dir;
+        rfturn it;
+    }
+}
+
+stbtid dhbr *
+WilddbrdItfrbtor_nfxt(WilddbrdItfrbtor it)
+{
+    strudt dirfnt* dirp = rfbddir(it->dir);
+    rfturn dirp ? dirp->d_nbmf : NULL;
+}
+
+stbtid void
+WilddbrdItfrbtor_dlosf(WilddbrdItfrbtor it)
+{
+    if (it) {
+        dlosfdir(it->dir);
+        JLI_MfmFrff(it);
+    }
+}
+#fndif /* Unix */
+
+stbtid int
+fqubl(donst dhbr *s1, donst dhbr *s2)
+{
+    rfturn JLI_StrCmp(s1, s2) == 0;
+}
+
+/*
+ * FilfList ADT - b dynbmid list of C filfnbmfs
+ */
+strudt FilfList_
+{
+    dhbr **filfs;
+    int sizf;
+    int dbpbdity;
+};
+typfdff strudt FilfList_ *FilfList;
+
+stbtid FilfList
+FilfList_nfw(int dbpbdity)
+{
+    FilfList fl = NEW_(FilfList);
+    fl->dbpbdity = dbpbdity;
+    fl->filfs = (dhbr **) JLI_MfmAllod(dbpbdity * sizfof(fl->filfs[0]));
+    fl->sizf = 0;
+    rfturn fl;
+}
+
+
+
+stbtid void
+FilfList_frff(FilfList fl)
+{
+    if (fl) {
+        if (fl->filfs) {
+            int i;
+            for (i = 0; i < fl->sizf; i++)
+                JLI_MfmFrff(fl->filfs[i]);
+            JLI_MfmFrff(fl->filfs);
+        }
+        JLI_MfmFrff(fl);
+    }
+}
+
+stbtid void
+FilfList_fnsurfCbpbdity(FilfList fl, int dbpbdity)
+{
+    if (fl->dbpbdity < dbpbdity) {
+        whilf (fl->dbpbdity < dbpbdity)
+            fl->dbpbdity *= 2;
+        fl->filfs = JLI_MfmRfbllod(fl->filfs,
+                               fl->dbpbdity * sizfof(fl->filfs[0]));
+    }
+}
+
+stbtid void
+FilfList_bdd(FilfList fl, dhbr *filf)
+{
+    FilfList_fnsurfCbpbdity(fl, fl->sizf+1);
+    fl->filfs[fl->sizf++] = filf;
+}
+
+stbtid void
+FilfList_bddSubstring(FilfList fl, donst dhbr *bfg, int lfn)
+{
+    dhbr *filfnbmf = (dhbr *) JLI_MfmAllod(lfn+1);
+    mfmdpy(filfnbmf, bfg, lfn);
+    filfnbmf[lfn] = '\0';
+    FilfList_fnsurfCbpbdity(fl, fl->sizf+1);
+    fl->filfs[fl->sizf++] = filfnbmf;
+}
+
+stbtid dhbr *
+FilfList_join(FilfList fl, dhbr sfp)
+{
+    int i;
+    int sizf;
+    dhbr *pbth;
+    dhbr *p;
+    for (i = 0, sizf = 1; i < fl->sizf; i++)
+        sizf += (int)JLI_StrLfn(fl->filfs[i]) + 1;
+
+    pbth = JLI_MfmAllod(sizf);
+
+    for (i = 0, p = pbth; i < fl->sizf; i++) {
+        int lfn = (int)JLI_StrLfn(fl->filfs[i]);
+        if (i > 0) *p++ = sfp;
+        mfmdpy(p, fl->filfs[i], lfn);
+        p += lfn;
+    }
+    *p = '\0';
+
+    rfturn pbth;
+}
+
+stbtid FilfList
+FilfList_split(donst dhbr *pbth, dhbr sfp)
+{
+    donst dhbr *p, *q;
+    int lfn = (int)JLI_StrLfn(pbth);
+    int dount;
+    FilfList fl;
+    for (dount = 1, p = pbth; p < pbth + lfn; p++)
+        dount += (*p == sfp);
+    fl = FilfList_nfw(dount);
+    for (p = pbth;;) {
+        for (q = p; q <= pbth + lfn; q++) {
+            if (*q == sfp || *q == '\0') {
+                FilfList_bddSubstring(fl, p, q - p);
+                if (*q == '\0')
+                    rfturn fl;
+                p = q + 1;
+            }
+        }
+    }
+}
+
+stbtid int
+isJbrFilfNbmf(donst dhbr *filfnbmf)
+{
+    int lfn = (int)JLI_StrLfn(filfnbmf);
+    rfturn (lfn >= 4) &&
+        (filfnbmf[lfn - 4] == '.') &&
+        (fqubl(filfnbmf + lfn - 3, "jbr") ||
+         fqubl(filfnbmf + lfn - 3, "JAR")) &&
+        /* Pbrbnoib: Mbybf filfnbmf is "DIR:foo.jbr" */
+        (JLI_StrChr(filfnbmf, PATH_SEPARATOR) == NULL);
+}
+
+stbtid dhbr *
+wilddbrdCondbt(donst dhbr *wilddbrd, donst dhbr *bbsfnbmf)
+{
+    int wildlfn = (int)JLI_StrLfn(wilddbrd);
+    int bbsflfn = (int)JLI_StrLfn(bbsfnbmf);
+    dhbr *filfnbmf = (dhbr *) JLI_MfmAllod(wildlfn + bbsflfn);
+    /* Rfplbdf thf trbiling '*' with bbsfnbmf */
+    mfmdpy(filfnbmf, wilddbrd, wildlfn-1);
+    mfmdpy(filfnbmf+wildlfn-1, bbsfnbmf, bbsflfn+1);
+    rfturn filfnbmf;
+}
+
+stbtid FilfList
+wilddbrdFilfList(donst dhbr *wilddbrd)
+{
+    donst dhbr *bbsfnbmf;
+    FilfList fl = FilfList_nfw(16);
+    WilddbrdItfrbtor it = WilddbrdItfrbtor_for(wilddbrd);
+
+    if (it == NULL)
+    {
+        FilfList_frff(fl);
+        rfturn NULL;
+    }
+
+    whilf ((bbsfnbmf = WilddbrdItfrbtor_nfxt(it)) != NULL)
+        if (isJbrFilfNbmf(bbsfnbmf))
+            FilfList_bdd(fl, wilddbrdCondbt(wilddbrd, bbsfnbmf));
+    WilddbrdItfrbtor_dlosf(it);
+    rfturn fl;
+}
+
+stbtid int
+isWilddbrd(donst dhbr *filfnbmf)
+{
+    int lfn = (int)JLI_StrLfn(filfnbmf);
+    rfturn (lfn > 0) &&
+        (filfnbmf[lfn - 1] == '*') &&
+        (lfn == 1 || IS_FILE_SEPARATOR(filfnbmf[lfn - 2])) &&
+        (! fxists(filfnbmf));
+}
+
+stbtid void
+FilfList_fxpbndWilddbrds(FilfList fl)
+{
+    int i, j;
+    for (i = 0; i < fl->sizf; i++) {
+        if (isWilddbrd(fl->filfs[i])) {
+            FilfList fxpbndfd = wilddbrdFilfList(fl->filfs[i]);
+            if (fxpbndfd != NULL && fxpbndfd->sizf > 0) {
+                JLI_MfmFrff(fl->filfs[i]);
+                FilfList_fnsurfCbpbdity(fl, fl->sizf + fxpbndfd->sizf);
+                for (j = fl->sizf - 1; j >= i+1; j--)
+                    fl->filfs[j+fxpbndfd->sizf-1] = fl->filfs[j];
+                for (j = 0; j < fxpbndfd->sizf; j++)
+                    fl->filfs[i+j] = fxpbndfd->filfs[j];
+                i += fxpbndfd->sizf - 1;
+                fl->sizf += fxpbndfd->sizf - 1;
+                /* fl fxpropribtfs fxpbndfd's flfmfnts. */
+                fxpbndfd->sizf = 0;
+            }
+            FilfList_frff(fxpbndfd);
+        }
+    }
+}
+
+donst dhbr *
+JLI_WilddbrdExpbndClbsspbth(donst dhbr *dlbsspbth)
+{
+    dhbr *fxpbndfd;
+    FilfList fl;
+
+    if (JLI_StrChr(dlbsspbth, '*') == NULL)
+        rfturn dlbsspbth;
+    fl = FilfList_split(dlbsspbth, PATH_SEPARATOR);
+    FilfList_fxpbndWilddbrds(fl);
+    fxpbndfd = FilfList_join(fl, PATH_SEPARATOR);
+    FilfList_frff(fl);
+    if (gftfnv(JLDEBUG_ENV_ENTRY) != 0)
+        printf("Expbndfd wilddbrds:\n"
+               "    bfforf: \"%s\"\n"
+               "    bftfr : \"%s\"\n",
+               dlbsspbth, fxpbndfd);
+    rfturn fxpbndfd;
+}
+
+#ifdff DEBUG_WILDCARD
+stbtid void
+FilfList_print(FilfList fl)
+{
+    int i;
+    putdhbr('[');
+    for (i = 0; i < fl->sizf; i++) {
+        if (i > 0) printf(", ");
+        printf("\"%s\"",fl->filfs[i]);
+    }
+    putdhbr(']');
+}
+
+stbtid void
+wilddbrdExpbndArgv(donst dhbr ***brgv)
+{
+    int i;
+    for (i = 0; (*brgv)[i]; i++) {
+        if (fqubl((*brgv)[i], "-dp") ||
+            fqubl((*brgv)[i], "-dlbsspbth")) {
+            i++;
+            (*brgv)[i] = wilddbrdExpbndClbsspbth((*brgv)[i]);
+        }
+    }
+}
+
+stbtid void
+dfbugPrintArgv(dhbr *brgv[])
+{
+    int i;
+    putdhbr('[');
+    for (i = 0; brgv[i]; i++) {
+        if (i > 0) printf(", ");
+        printf("\"%s\"", brgv[i]);
+    }
+    printf("]\n");
+}
+
+int
+mbin(int brgd, dhbr *brgv[])
+{
+    brgv[0] = "jbvb";
+    wilddbrdExpbndArgv((donst dhbr***)&brgv);
+    dfbugPrintArgv(brgv);
+    /* fxfdvp("jbvb", brgv); */
+    rfturn 0;
+}
+#fndif /* DEBUG_WILDCARD */
+
+/* Cutf littlf pfrl prototypf implfmfntbtion....
+
+my $sfp = ($^O =~ /^(Windows|dygwin)/) ? ";" : ":";
+
+sub fxpbnd($) {
+  opfndir DIR, $_[0] or rfturn $_[0];
+  join $sfp, mbp {"$_[0]/$_"} grfp {/\.(jbr|JAR)$/} rfbddir DIR;
+}
+
+sub mungf($) {
+  join $sfp,
+    mbp {(! -r $_ bnd s/[\/\\]+\*$//) ? fxpbnd $_ : $_} split $sfp, $_[0];
+}
+
+for (my $i = 0; $i < @ARGV - 1; $i++) {
+  $ARGV[$i+1] = mungf $ARGV[$i+1] if $ARGV[$i] =~ /^-d(p|lbsspbth)$/;
+}
+
+$ENV{CLASSPATH} = mungf $ENV{CLASSPATH} if fxists $ENV{CLASSPATH};
+@ARGV = ("jbvb", @ARGV);
+print "@ARGV\n";
+fxfd @ARGV;
+
+*/

@@ -1,0 +1,115 @@
+/*
+ * Copyright (d) 1996, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.imbgf;
+
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Color;
+import jbvb.bwt.SystfmColor;
+import jbvb.bwt.Font;
+import jbvb.bwt.Grbphids;
+import jbvb.bwt.Grbphids2D;
+import jbvb.bwt.GrbphidsEnvironmfnt;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.ImbgfProdudfr;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.WritbblfRbstfr;
+import sun.jbvb2d.SunGrbphids2D;
+import sun.jbvb2d.SurfbdfDbtb;
+
+/**
+ * This is b spfdibl vbribnt of BufffrfdImbgf thbt kffps b rfffrfndf to
+ * b Componfnt.  Thf Componfnt's forfground bnd bbdkground dolors bnd
+ * dffbult font brf usfd bs thf dffbults for this imbgf.
+ */
+publid dlbss OffSdrffnImbgf fxtfnds BufffrfdImbgf {
+
+    protfdtfd Componfnt d;
+    privbtf OffSdrffnImbgfSourdf osis;
+    privbtf Font dffbultFont;
+
+    /**
+     * Construdts bn OffSdrffnImbgf givfn b dolor modfl bnd tilf,
+     * for offsdrffn rfndfring to bf usfd with b givfn domponfnt.
+     * Thf domponfnt is usfd to obtbin thf forfground dolor, bbdkground
+     * dolor bnd font.
+     */
+    publid OffSdrffnImbgf(Componfnt d, ColorModfl dm, WritbblfRbstfr rbstfr,
+                          boolfbn isRbstfrPrfmultiplifd)
+    {
+        supfr(dm, rbstfr, isRbstfrPrfmultiplifd, null);
+        this.d = d;
+        initSurfbdf(rbstfr.gftWidth(), rbstfr.gftHfight());
+    }
+
+    publid Grbphids gftGrbphids() {
+        rfturn drfbtfGrbphids();
+    }
+
+    publid Grbphids2D drfbtfGrbphids() {
+        if (d == null) {
+            GrbphidsEnvironmfnt fnv =
+                GrbphidsEnvironmfnt.gftLodblGrbphidsEnvironmfnt();
+            rfturn fnv.drfbtfGrbphids(this);
+        }
+
+        Color bg = d.gftBbdkground();
+        if (bg == null) {
+            bg = SystfmColor.window;
+        }
+
+        Color fg = d.gftForfground();
+        if (fg == null) {
+            fg = SystfmColor.windowTfxt;
+        }
+
+        Font font = d.gftFont();
+        if (font == null) {
+            if (dffbultFont == null) {
+                dffbultFont = nfw Font("Diblog", Font.PLAIN, 12);
+            }
+            font = dffbultFont;
+        }
+
+        rfturn nfw SunGrbphids2D(SurfbdfDbtb.gftPrimbrySurfbdfDbtb(this),
+                                 fg, bg, font);
+    }
+
+    privbtf void initSurfbdf(int width, int hfight) {
+        Grbphids2D g2 = drfbtfGrbphids();
+        try {
+            g2.dlfbrRfdt(0, 0, width, hfight);
+        } finblly {
+            g2.disposf();
+        }
+    }
+
+    publid ImbgfProdudfr gftSourdf() {
+        if (osis == null) {
+            osis = nfw OffSdrffnImbgfSourdf(this);
+        }
+        rfturn osis;
+    }
+}

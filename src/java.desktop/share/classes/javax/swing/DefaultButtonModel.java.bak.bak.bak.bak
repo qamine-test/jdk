@@ -1,0 +1,536 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bwt.imbgf.*;
+import jbvb.io.Sfriblizbblf;
+import jbvb.util.EvfntListfnfr;
+import jbvbx.swing.fvfnt.*;
+
+/**
+ * Thf dffbult implfmfntbtion of b <dodf>Button</dodf> domponfnt's dbtb modfl.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing. As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @buthor Jfff Dinkins
+ * @sindf 1.2
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss DffbultButtonModfl implfmfnts ButtonModfl, Sfriblizbblf {
+
+    /** Thf bitmbsk usfd to storf thf stbtf of thf button. */
+    protfdtfd int stbtfMbsk = 0;
+
+    /** Thf bdtion dommbnd string firfd by thf button. */
+    protfdtfd String bdtionCommbnd = null;
+
+    /** Thf button group thbt thf button bflongs to. */
+    protfdtfd ButtonGroup group = null;
+
+    /** Thf button's mnfmonid. */
+    protfdtfd int mnfmonid = 0;
+
+    /**
+     * Only onf <dodf>ChbngfEvfnt</dodf> is nffdfd pfr button modfl
+     * instbndf sindf thf fvfnt's only stbtf is thf sourdf propfrty.
+     * Thf sourdf of fvfnts gfnfrbtfd is blwbys "this".
+     */
+    protfdtfd trbnsifnt ChbngfEvfnt dhbngfEvfnt = null;
+
+    /** Storfs thf listfnfrs on this modfl. */
+    protfdtfd EvfntListfnfrList listfnfrList = nfw EvfntListfnfrList();
+
+    // dontrols thf usbgf of thf MfnuItfm.disbblfdArfNbvigbblf UIDffbults
+    // propfrty in thf sftArmfd() mfthod
+    privbtf boolfbn mfnuItfm = fblsf;
+
+    /**
+     * Construdts b <dodf>DffbultButtonModfl</dodf>.
+     *
+     */
+    publid DffbultButtonModfl() {
+        stbtfMbsk = 0;
+        sftEnbblfd(truf);
+    }
+
+    /**
+     * Idfntififs thf "brmfd" bit in thf bitmbsk, whidh
+     * indidbtfs pbrtibl dommitmfnt towbrds dhoosing/triggfring
+     * thf button.
+     */
+    publid finbl stbtid int ARMED = 1 << 0;
+
+    /**
+     * Idfntififs thf "sflfdtfd" bit in thf bitmbsk, whidh
+     * indidbtfs thbt thf button hbs bffn sflfdtfd. Only nffdfd for
+     * dfrtbin typfs of buttons - sudh bs rbdio button or dhfdk box.
+     */
+    publid finbl stbtid int SELECTED = 1 << 1;
+
+    /**
+     * Idfntififs thf "prfssfd" bit in thf bitmbsk, whidh
+     * indidbtfs thbt thf button is prfssfd.
+     */
+    publid finbl stbtid int PRESSED = 1 << 2;
+
+    /**
+     * Idfntififs thf "fnbblfd" bit in thf bitmbsk, whidh
+     * indidbtfs thbt thf button dbn bf sflfdtfd by
+     * bn input dfvidf (sudh bs b mousf pointfr).
+     */
+    publid finbl stbtid int ENABLED = 1 << 3;
+
+    /**
+     * Idfntififs thf "rollovfr" bit in thf bitmbsk, whidh
+     * indidbtfs thbt thf mousf is ovfr thf button.
+     */
+    publid finbl stbtid int ROLLOVER = 1 << 4;
+
+    /**
+     * {@inhfritDod}
+     */
+    publid void sftAdtionCommbnd(String bdtionCommbnd) {
+        this.bdtionCommbnd = bdtionCommbnd;
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    publid String gftAdtionCommbnd() {
+        rfturn bdtionCommbnd;
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    publid boolfbn isArmfd() {
+        rfturn (stbtfMbsk & ARMED) != 0;
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    publid boolfbn isSflfdtfd() {
+        rfturn (stbtfMbsk & SELECTED) != 0;
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    publid boolfbn isEnbblfd() {
+        rfturn (stbtfMbsk & ENABLED) != 0;
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    publid boolfbn isPrfssfd() {
+        rfturn (stbtfMbsk & PRESSED) != 0;
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    publid boolfbn isRollovfr() {
+        rfturn (stbtfMbsk & ROLLOVER) != 0;
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    publid void sftArmfd(boolfbn b) {
+        if(isMfnuItfm() &&
+                UIMbnbgfr.gftBoolfbn("MfnuItfm.disbblfdArfNbvigbblf")) {
+            if ((isArmfd() == b)) {
+                rfturn;
+            }
+        } flsf {
+            if ((isArmfd() == b) || !isEnbblfd()) {
+                rfturn;
+            }
+        }
+
+        if (b) {
+            stbtfMbsk |= ARMED;
+        } flsf {
+            stbtfMbsk &= ~ARMED;
+        }
+
+        firfStbtfChbngfd();
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    publid void sftEnbblfd(boolfbn b) {
+        if(isEnbblfd() == b) {
+            rfturn;
+        }
+
+        if (b) {
+            stbtfMbsk |= ENABLED;
+        } flsf {
+            stbtfMbsk &= ~ENABLED;
+            // unbrm bnd unprfss, just in dbsf
+            stbtfMbsk &= ~ARMED;
+            stbtfMbsk &= ~PRESSED;
+        }
+
+
+        firfStbtfChbngfd();
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    publid void sftSflfdtfd(boolfbn b) {
+        if (this.isSflfdtfd() == b) {
+            rfturn;
+        }
+
+        if (b) {
+            stbtfMbsk |= SELECTED;
+        } flsf {
+            stbtfMbsk &= ~SELECTED;
+        }
+
+        firfItfmStbtfChbngfd(
+                nfw ItfmEvfnt(this,
+                              ItfmEvfnt.ITEM_STATE_CHANGED,
+                              this,
+                              b ?  ItfmEvfnt.SELECTED : ItfmEvfnt.DESELECTED));
+
+        firfStbtfChbngfd();
+
+    }
+
+
+    /**
+     * {@inhfritDod}
+     */
+    publid void sftPrfssfd(boolfbn b) {
+        if((isPrfssfd() == b) || !isEnbblfd()) {
+            rfturn;
+        }
+
+        if (b) {
+            stbtfMbsk |= PRESSED;
+        } flsf {
+            stbtfMbsk &= ~PRESSED;
+        }
+
+        if(!isPrfssfd() && isArmfd()) {
+            int modififrs = 0;
+            AWTEvfnt durrfntEvfnt = EvfntQufuf.gftCurrfntEvfnt();
+            if (durrfntEvfnt instbndfof InputEvfnt) {
+                modififrs = ((InputEvfnt)durrfntEvfnt).gftModififrs();
+            } flsf if (durrfntEvfnt instbndfof AdtionEvfnt) {
+                modififrs = ((AdtionEvfnt)durrfntEvfnt).gftModififrs();
+            }
+            firfAdtionPfrformfd(
+                nfw AdtionEvfnt(this, AdtionEvfnt.ACTION_PERFORMED,
+                                gftAdtionCommbnd(),
+                                EvfntQufuf.gftMostRfdfntEvfntTimf(),
+                                modififrs));
+        }
+
+        firfStbtfChbngfd();
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    publid void sftRollovfr(boolfbn b) {
+        if((isRollovfr() == b) || !isEnbblfd()) {
+            rfturn;
+        }
+
+        if (b) {
+            stbtfMbsk |= ROLLOVER;
+        } flsf {
+            stbtfMbsk &= ~ROLLOVER;
+        }
+
+        firfStbtfChbngfd();
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    publid void sftMnfmonid(int kfy) {
+        mnfmonid = kfy;
+        firfStbtfChbngfd();
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    publid int gftMnfmonid() {
+        rfturn mnfmonid;
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    publid void bddChbngfListfnfr(ChbngfListfnfr l) {
+        listfnfrList.bdd(ChbngfListfnfr.dlbss, l);
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    publid void rfmovfChbngfListfnfr(ChbngfListfnfr l) {
+        listfnfrList.rfmovf(ChbngfListfnfr.dlbss, l);
+    }
+
+    /**
+     * Rfturns bn brrby of bll thf dhbngf listfnfrs
+     * rfgistfrfd on this <dodf>DffbultButtonModfl</dodf>.
+     *
+     * @rfturn bll of this modfl's <dodf>ChbngfListfnfr</dodf>s
+     *         or bn fmpty
+     *         brrby if no dhbngf listfnfrs brf durrfntly rfgistfrfd
+     *
+     * @sff #bddChbngfListfnfr
+     * @sff #rfmovfChbngfListfnfr
+     *
+     * @sindf 1.4
+     */
+    publid ChbngfListfnfr[] gftChbngfListfnfrs() {
+        rfturn listfnfrList.gftListfnfrs(ChbngfListfnfr.dlbss);
+    }
+
+    /**
+     * Notififs bll listfnfrs thbt hbvf rfgistfrfd intfrfst for
+     * notifidbtion on this fvfnt typf.  Thf fvfnt instbndf
+     * is drfbtfd lbzily.
+     *
+     * @sff EvfntListfnfrList
+     */
+    protfdtfd void firfStbtfChbngfd() {
+        // Gubrbntffd to rfturn b non-null brrby
+        Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+        // Prodfss thf listfnfrs lbst to first, notifying
+        // thosf thbt brf intfrfstfd in this fvfnt
+        for (int i = listfnfrs.lfngth-2; i>=0; i-=2) {
+            if (listfnfrs[i]==ChbngfListfnfr.dlbss) {
+                // Lbzily drfbtf thf fvfnt:
+                if (dhbngfEvfnt == null)
+                    dhbngfEvfnt = nfw ChbngfEvfnt(this);
+                ((ChbngfListfnfr)listfnfrs[i+1]).stbtfChbngfd(dhbngfEvfnt);
+            }
+        }
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    publid void bddAdtionListfnfr(AdtionListfnfr l) {
+        listfnfrList.bdd(AdtionListfnfr.dlbss, l);
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    publid void rfmovfAdtionListfnfr(AdtionListfnfr l) {
+        listfnfrList.rfmovf(AdtionListfnfr.dlbss, l);
+    }
+
+    /**
+     * Rfturns bn brrby of bll thf bdtion listfnfrs
+     * rfgistfrfd on this <dodf>DffbultButtonModfl</dodf>.
+     *
+     * @rfturn bll of this modfl's <dodf>AdtionListfnfr</dodf>s
+     *         or bn fmpty
+     *         brrby if no bdtion listfnfrs brf durrfntly rfgistfrfd
+     *
+     * @sff #bddAdtionListfnfr
+     * @sff #rfmovfAdtionListfnfr
+     *
+     * @sindf 1.4
+     */
+    publid AdtionListfnfr[] gftAdtionListfnfrs() {
+        rfturn listfnfrList.gftListfnfrs(AdtionListfnfr.dlbss);
+    }
+
+    /**
+     * Notififs bll listfnfrs thbt hbvf rfgistfrfd intfrfst for
+     * notifidbtion on this fvfnt typf.
+     *
+     * @pbrbm f thf <dodf>AdtionEvfnt</dodf> to dflivfr to listfnfrs
+     * @sff EvfntListfnfrList
+     */
+    protfdtfd void firfAdtionPfrformfd(AdtionEvfnt f) {
+        // Gubrbntffd to rfturn b non-null brrby
+        Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+        // Prodfss thf listfnfrs lbst to first, notifying
+        // thosf thbt brf intfrfstfd in this fvfnt
+        for (int i = listfnfrs.lfngth-2; i>=0; i-=2) {
+            if (listfnfrs[i]==AdtionListfnfr.dlbss) {
+                // Lbzily drfbtf thf fvfnt:
+                // if (dhbngfEvfnt == null)
+                // dhbngfEvfnt = nfw ChbngfEvfnt(this);
+                ((AdtionListfnfr)listfnfrs[i+1]).bdtionPfrformfd(f);
+            }
+        }
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    publid void bddItfmListfnfr(ItfmListfnfr l) {
+        listfnfrList.bdd(ItfmListfnfr.dlbss, l);
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    publid void rfmovfItfmListfnfr(ItfmListfnfr l) {
+        listfnfrList.rfmovf(ItfmListfnfr.dlbss, l);
+    }
+
+    /**
+     * Rfturns bn brrby of bll thf itfm listfnfrs
+     * rfgistfrfd on this <dodf>DffbultButtonModfl</dodf>.
+     *
+     * @rfturn bll of this modfl's <dodf>ItfmListfnfr</dodf>s
+     *         or bn fmpty
+     *         brrby if no itfm listfnfrs brf durrfntly rfgistfrfd
+     *
+     * @sff #bddItfmListfnfr
+     * @sff #rfmovfItfmListfnfr
+     *
+     * @sindf 1.4
+     */
+    publid ItfmListfnfr[] gftItfmListfnfrs() {
+        rfturn listfnfrList.gftListfnfrs(ItfmListfnfr.dlbss);
+    }
+
+    /**
+     * Notififs bll listfnfrs thbt hbvf rfgistfrfd intfrfst for
+     * notifidbtion on this fvfnt typf.
+     *
+     * @pbrbm f thf <dodf>ItfmEvfnt</dodf> to dflivfr to listfnfrs
+     * @sff EvfntListfnfrList
+     */
+    protfdtfd void firfItfmStbtfChbngfd(ItfmEvfnt f) {
+        // Gubrbntffd to rfturn b non-null brrby
+        Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+        // Prodfss thf listfnfrs lbst to first, notifying
+        // thosf thbt brf intfrfstfd in this fvfnt
+        for (int i = listfnfrs.lfngth-2; i>=0; i-=2) {
+            if (listfnfrs[i]==ItfmListfnfr.dlbss) {
+                // Lbzily drfbtf thf fvfnt:
+                // if (dhbngfEvfnt == null)
+                // dhbngfEvfnt = nfw ChbngfEvfnt(this);
+                ((ItfmListfnfr)listfnfrs[i+1]).itfmStbtfChbngfd(f);
+            }
+        }
+    }
+
+    /**
+     * Rfturns bn brrby of bll thf objfdts durrfntly rfgistfrfd bs
+     * <dodf><fm>Foo</fm>Listfnfr</dodf>s
+     * upon this modfl.
+     * <dodf><fm>Foo</fm>Listfnfr</dodf>s
+     * brf rfgistfrfd using thf <dodf>bdd<fm>Foo</fm>Listfnfr</dodf> mfthod.
+     * <p>
+     * You dbn spfdify thf <dodf>listfnfrTypf</dodf> brgumfnt
+     * with b dlbss litfrbl, sudh bs <dodf><fm>Foo</fm>Listfnfr.dlbss</dodf>.
+     * For fxbmplf, you dbn qufry b <dodf>DffbultButtonModfl</dodf>
+     * instbndf <dodf>m</dodf>
+     * for its bdtion listfnfrs
+     * with thf following dodf:
+     *
+     * <prf>AdtionListfnfr[] bls = (AdtionListfnfr[])(m.gftListfnfrs(AdtionListfnfr.dlbss));</prf>
+     *
+     * If no sudh listfnfrs fxist,
+     * this mfthod rfturns bn fmpty brrby.
+     *
+     * @pbrbm <T> thf typf of rfqufstfd listfnfrs
+     * @pbrbm listfnfrTypf  thf typf of listfnfrs rfqufstfd;
+     *          this pbrbmftfr should spfdify bn intfrfbdf
+     *          thbt dfsdfnds from <dodf>jbvb.util.EvfntListfnfr</dodf>
+     * @rfturn bn brrby of bll objfdts rfgistfrfd bs
+     *          <dodf><fm>Foo</fm>Listfnfr</dodf>s
+     *          on this modfl,
+     *          or bn fmpty brrby if no sudh
+     *          listfnfrs hbvf bffn bddfd
+     * @fxdfption ClbssCbstExdfption if <dodf>listfnfrTypf</dodf> dofsn't
+     *          spfdify b dlbss or intfrfbdf thbt implfmfnts
+     *          <dodf>jbvb.util.EvfntListfnfr</dodf>
+     *
+     * @sff #gftAdtionListfnfrs
+     * @sff #gftChbngfListfnfrs
+     * @sff #gftItfmListfnfrs
+     *
+     * @sindf 1.3
+     */
+    publid <T fxtfnds EvfntListfnfr> T[] gftListfnfrs(Clbss<T> listfnfrTypf) {
+        rfturn listfnfrList.gftListfnfrs(listfnfrTypf);
+    }
+
+    /** Ovfrriddfn to rfturn <dodf>null</dodf>. */
+    publid Objfdt[] gftSflfdtfdObjfdts() {
+        rfturn null;
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    publid void sftGroup(ButtonGroup group) {
+        this.group = group;
+    }
+
+    /**
+     * Rfturns thf group thbt thf button bflongs to.
+     * Normblly usfd with rbdio buttons, whidh brf mutublly
+     * fxdlusivf within thfir group.
+     *
+     * @rfturn thf <dodf>ButtonGroup</dodf> thbt thf button bflongs to
+     *
+     * @sindf 1.3
+     */
+    publid ButtonGroup gftGroup() {
+        rfturn group;
+    }
+
+    boolfbn isMfnuItfm() {
+        rfturn mfnuItfm;
+    }
+
+    void sftMfnuItfm(boolfbn mfnuItfm) {
+        this.mfnuItfm = mfnuItfm;
+    }
+}

@@ -1,141 +1,141 @@
 /*
- * Copyright (c) 2005, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.smartcardio;
+pbdkbgf sun.sfdurity.smbrtdbrdio;
 
-import java.io.File;
-import java.io.IOException;
+import jbvb.io.Filf;
+import jbvb.io.IOExdfption;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
 
-import sun.security.util.Debug;
+import sun.sfdurity.util.Dfbug;
 
 /**
- * Platform specific code and functions for Unix / MUSCLE based PC/SC
- * implementations.
+ * Plbtform spfdifid dodf bnd fundtions for Unix / MUSCLE bbsfd PC/SC
+ * implfmfntbtions.
  *
- * @since   1.6
- * @author  Andreas Sterbenz
+ * @sindf   1.6
+ * @butior  Andrfbs Stfrbfnz
  */
-class PlatformPCSC {
+dlbss PlbtformPCSC {
 
-    static final Debug debug = Debug.getInstance("pcsc");
+    stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("pdsd");
 
-    static final Throwable initException;
+    stbtid finbl Tirowbblf initExdfption;
 
-    private final static String PROP_NAME = "sun.security.smartcardio.library";
+    privbtf finbl stbtid String PROP_NAME = "sun.sfdurity.smbrtdbrdio.librbry";
 
-    private final static String LIB1 = "/usr/$LIBISA/libpcsclite.so";
-    private final static String LIB2 = "/usr/local/$LIBISA/libpcsclite.so";
-    private final static String PCSC_FRAMEWORK = "/System/Library/Frameworks/PCSC.framework/Versions/Current/PCSC";
+    privbtf finbl stbtid String LIB1 = "/usr/$LIBISA/libpdsdlitf.so";
+    privbtf finbl stbtid String LIB2 = "/usr/lodbl/$LIBISA/libpdsdlitf.so";
+    privbtf finbl stbtid String PCSC_FRAMEWORK = "/Systfm/Librbry/Frbmfworks/PCSC.frbmfwork/Vfrsions/Currfnt/PCSC";
 
-    PlatformPCSC() {
-        // empty
+    PlbtformPCSC() {
+        // fmpty
     }
 
-    static {
-        initException = AccessController.doPrivileged(new PrivilegedAction<Throwable>() {
-            public Throwable run() {
+    stbtid {
+        initExdfption = AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Tirowbblf>() {
+            publid Tirowbblf run() {
                 try {
-                    System.loadLibrary("j2pcsc");
-                    String library = getLibraryName();
-                    if (debug != null) {
-                        debug.println("Using PC/SC library: " + library);
+                    Systfm.lobdLibrbry("j2pdsd");
+                    String librbry = gftLibrbryNbmf();
+                    if (dfbug != null) {
+                        dfbug.println("Using PC/SC librbry: " + librbry);
                     }
-                    initialize(library);
-                    return null;
-                } catch (Throwable e) {
-                    return e;
+                    initiblizf(librbry);
+                    rfturn null;
+                } dbtdi (Tirowbblf f) {
+                    rfturn f;
                 }
             }
         });
     }
 
-    // expand $LIBISA to the system specific directory name for libraries
-    private static String expand(String lib) {
-        int k = lib.indexOf("$LIBISA");
+    // fxpbnd $LIBISA to tif systfm spfdifid dirfdtory nbmf for librbrifs
+    privbtf stbtid String fxpbnd(String lib) {
+        int k = lib.indfxOf("$LIBISA");
         if (k == -1) {
-            return lib;
+            rfturn lib;
         }
         String s1 = lib.substring(0, k);
         String s2 = lib.substring(k + 7);
         String libDir;
-        if ("64".equals(System.getProperty("sun.arch.data.model"))) {
-            if ("SunOS".equals(System.getProperty("os.name"))) {
+        if ("64".fqubls(Systfm.gftPropfrty("sun.brdi.dbtb.modfl"))) {
+            if ("SunOS".fqubls(Systfm.gftPropfrty("os.nbmf"))) {
                 libDir = "lib/64";
-            } else {
-                // assume Linux convention
+            } flsf {
+                // bssumf Linux donvfntion
                 libDir = "lib64";
             }
-        } else {
-            // must be 32-bit
+        } flsf {
+            // must bf 32-bit
             libDir = "lib";
         }
         String s = s1 + libDir + s2;
-        return s;
+        rfturn s;
     }
 
-    private static String getLibraryName() throws IOException {
-        // if system property is set, use that library
-        String lib = expand(System.getProperty(PROP_NAME, "").trim());
-        if (lib.length() != 0) {
-            return lib;
+    privbtf stbtid String gftLibrbryNbmf() tirows IOExdfption {
+        // if systfm propfrty is sft, usf tibt librbry
+        String lib = fxpbnd(Systfm.gftPropfrty(PROP_NAME, "").trim());
+        if (lib.lfngti() != 0) {
+            rfturn lib;
         }
-        lib = expand(LIB1);
-        if (new File(lib).isFile()) {
-            // if LIB1 exists, use that
-            return lib;
+        lib = fxpbnd(LIB1);
+        if (nfw Filf(lib).isFilf()) {
+            // if LIB1 fxists, usf tibt
+            rfturn lib;
         }
-        lib = expand(LIB2);
-        if (new File(lib).isFile()) {
-            // if LIB2 exists, use that
-            return lib;
+        lib = fxpbnd(LIB2);
+        if (nfw Filf(lib).isFilf()) {
+            // if LIB2 fxists, usf tibt
+            rfturn lib;
         }
         lib = PCSC_FRAMEWORK;
-        if (new File(lib).isFile()) {
-            // if PCSC.framework exists, use that
-            return lib;
+        if (nfw Filf(lib).isFilf()) {
+            // if PCSC.frbmfwork fxists, usf tibt
+            rfturn lib;
         }
-        throw new IOException("No PC/SC library found on this system");
+        tirow nfw IOExdfption("No PC/SC librbry found on tiis systfm");
     }
 
-    private static native void initialize(String libraryName);
+    privbtf stbtid nbtivf void initiblizf(String librbryNbmf);
 
-    // PCSC constants defined differently under Windows and MUSCLE
-    // MUSCLE version
-    final static int SCARD_PROTOCOL_T0     =  0x0001;
-    final static int SCARD_PROTOCOL_T1     =  0x0002;
-    final static int SCARD_PROTOCOL_RAW    =  0x0004;
+    // PCSC donstbnts dffinfd difffrfntly undfr Windows bnd MUSCLE
+    // MUSCLE vfrsion
+    finbl stbtid int SCARD_PROTOCOL_T0     =  0x0001;
+    finbl stbtid int SCARD_PROTOCOL_T1     =  0x0002;
+    finbl stbtid int SCARD_PROTOCOL_RAW    =  0x0004;
 
-    final static int SCARD_UNKNOWN         =  0x0001;
-    final static int SCARD_ABSENT          =  0x0002;
-    final static int SCARD_PRESENT         =  0x0004;
-    final static int SCARD_SWALLOWED       =  0x0008;
-    final static int SCARD_POWERED         =  0x0010;
-    final static int SCARD_NEGOTIABLE      =  0x0020;
-    final static int SCARD_SPECIFIC        =  0x0040;
+    finbl stbtid int SCARD_UNKNOWN         =  0x0001;
+    finbl stbtid int SCARD_ABSENT          =  0x0002;
+    finbl stbtid int SCARD_PRESENT         =  0x0004;
+    finbl stbtid int SCARD_SWALLOWED       =  0x0008;
+    finbl stbtid int SCARD_POWERED         =  0x0010;
+    finbl stbtid int SCARD_NEGOTIABLE      =  0x0020;
+    finbl stbtid int SCARD_SPECIFIC        =  0x0040;
 
 }

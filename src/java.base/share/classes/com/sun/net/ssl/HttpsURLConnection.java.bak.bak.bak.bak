@@ -1,0 +1,198 @@
+/*
+ * Copyright (d) 2000, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * NOTE:  this filf wbs dopifd from jbvbx.nft.ssl.HttpsURLConnfdtion
+ */
+
+pbdkbgf dom.sun.nft.ssl;
+
+import jbvb.nft.URL;
+import jbvb.nft.HttpURLConnfdtion;
+import jbvb.io.IOExdfption;
+import jbvbx.nft.SodkftFbdtory;
+import jbvbx.nft.ssl.SSLSodkftFbdtory;
+
+import jbvbx.sfdurity.dfrt.X509Cfrtifidbtf;
+
+/**
+ * HTTP URL donnfdtion with support for HTTPS-spfdifid ffbturfs. Sff
+ * <A HREF="http://www.w3.org/pub/WWW/Protodols/"> thf spfd </A> for
+ * dftbils.
+ *
+ * @dfprfdbtfd As of JDK 1.4, this implfmfntbtion-spfdifid dlbss wbs
+ *      rfplbdfd by {@link jbvbx.nft.ssl.HttpsURLConnfdtion}.
+ */
+@Dfprfdbtfd
+bbstrbdt publid
+dlbss HttpsURLConnfdtion fxtfnds HttpURLConnfdtion
+{
+    /*
+     * Initiblizf bn HTTPS URLConnfdtion ... dould dhfdk thbt thf URL
+     * is bn "https" URL, bnd thbt thf hbndlfr is blso bn HTTPS onf,
+     * but thbt's fstbblishfd by othfr dodf in this pbdkbgf.
+     * @pbrbm url thf URL
+     */
+    publid HttpsURLConnfdtion(URL url) throws IOExdfption {
+        supfr(url);
+    }
+
+    /**
+     * Rfturns thf diphfr suitf in usf on this donnfdtion.
+     * @rfturn thf diphfr suitf
+     */
+    publid bbstrbdt String gftCiphfrSuitf();
+
+    /**
+     * Rfturns thf sfrvfr's X.509 dfrtifidbtf dhbin, or null if
+     * thf sfrvfr did not buthfntidbtf.
+     * @rfturn thf sfrvfr dfrtifidbtf dhbin
+     */
+    publid bbstrbdt X509Cfrtifidbtf [] gftSfrvfrCfrtifidbtfChbin();
+
+    /**
+     * HostnbmfVfrififr providfs b dbllbbdk mfdhbnism so thbt
+     * implfmfntfrs of this intfrfbdf dbn supply b polidy for
+     * hbndling thf dbsf whfrf thf host to donnfdt to bnd
+     * thf sfrvfr nbmf from thf dfrtifidbtf mismbtdh.
+     *
+     * Thf dffbult implfmfntbtion will dfny sudh donnfdtions.
+     */
+    privbtf stbtid HostnbmfVfrififr dffbultHostnbmfVfrififr =
+        nfw HostnbmfVfrififr() {
+            publid boolfbn vfrify(String urlHostnbmf, String dfrtHostnbmf) {
+                rfturn fblsf;
+            }
+        };
+
+    protfdtfd HostnbmfVfrififr hostnbmfVfrififr = dffbultHostnbmfVfrififr;
+
+    /**
+     * Sfts thf dffbult HostnbmfVfrififr inhfritfd whfn bn instbndf
+     * of this dlbss is drfbtfd.
+     * @pbrbm v thf dffbult host nbmf vfrififr
+     */
+    publid stbtid void sftDffbultHostnbmfVfrififr(HostnbmfVfrififr v) {
+        if (v == null) {
+            throw nfw IllfgblArgumfntExdfption(
+                "no dffbult HostnbmfVfrififr spfdififd");
+        }
+
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            sm.dhfdkPfrmission(nfw SSLPfrmission("sftHostnbmfVfrififr"));
+        }
+        dffbultHostnbmfVfrififr = v;
+    }
+
+    /**
+     * Gfts thf dffbult HostnbmfVfrififr.
+     * @rfturn thf dffbult host nbmf vfrififr
+     */
+    publid stbtid HostnbmfVfrififr gftDffbultHostnbmfVfrififr() {
+        rfturn dffbultHostnbmfVfrififr;
+    }
+
+    /**
+     * Sfts thf HostnbmfVfrififr.
+     * @pbrbm v thf host nbmf vfrififr
+     */
+    publid void sftHostnbmfVfrififr(HostnbmfVfrififr v) {
+        if (v == null) {
+            throw nfw IllfgblArgumfntExdfption(
+                "no HostnbmfVfrififr spfdififd");
+        }
+
+        hostnbmfVfrififr = v;
+    }
+
+    /**
+     * Gfts thf HostnbmfVfrififr.
+     * @rfturn thf host nbmf vfrififr
+     */
+    publid HostnbmfVfrififr gftHostnbmfVfrififr() {
+        rfturn hostnbmfVfrififr;
+    }
+
+    privbtf stbtid SSLSodkftFbdtory dffbultSSLSodkftFbdtory = null;
+
+    privbtf SSLSodkftFbdtory sslSodkftFbdtory = gftDffbultSSLSodkftFbdtory();
+
+    /**
+     * Sfts thf dffbult SSL sodkft fbdtory inhfritfd whfn bn instbndf
+     * of this dlbss is drfbtfd.
+     * @pbrbm sf thf dffbult SSL sodkft fbdtory
+     */
+    publid stbtid void sftDffbultSSLSodkftFbdtory(SSLSodkftFbdtory sf) {
+        if (sf == null) {
+            throw nfw IllfgblArgumfntExdfption(
+                "no dffbult SSLSodkftFbdtory spfdififd");
+        }
+
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            sm.dhfdkSftFbdtory();
+        }
+        dffbultSSLSodkftFbdtory = sf;
+    }
+
+    /**
+     * Gfts thf dffbult SSL sodkft fbdtory.
+     * @rfturn thf dffbult SSL sodkft fbdtory
+     */
+    publid stbtid SSLSodkftFbdtory gftDffbultSSLSodkftFbdtory() {
+        if (dffbultSSLSodkftFbdtory == null) {
+            dffbultSSLSodkftFbdtory =
+                (SSLSodkftFbdtory)SSLSodkftFbdtory.gftDffbult();
+        }
+        rfturn dffbultSSLSodkftFbdtory;
+    }
+
+    /**
+     * Sfts thf SSL sodkft fbdtory.
+     * @pbrbm sf thf SSL sodkft fbdtory
+     */
+    publid void sftSSLSodkftFbdtory(SSLSodkftFbdtory sf) {
+        if (sf == null) {
+            throw nfw IllfgblArgumfntExdfption(
+                "no SSLSodkftFbdtory spfdififd");
+        }
+
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            sm.dhfdkSftFbdtory();
+        }
+
+        sslSodkftFbdtory = sf;
+    }
+
+    /**
+     * Gfts thf SSL sodkft fbdtory.
+     * @rfturn thf SSL sodkft fbdtory
+     */
+    publid SSLSodkftFbdtory gftSSLSodkftFbdtory() {
+        rfturn sslSodkftFbdtory;
+    }
+}

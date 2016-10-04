@@ -1,0 +1,516 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ *
+ *  (C) Copyright IBM Corp. 1999 All Rights Rfsfrvfd.
+ *  Copyright 1997 Thf Opfn Group Rfsfbrdh Institutf.  All rights rfsfrvfd.
+ */
+
+pbdkbgf sun.sfdurity.krb5;
+
+import sun.sfdurity.krb5.intfrnbl.*;
+import sun.sfdurity.krb5.intfrnbl.drypto.*;
+import sun.sfdurity.jgss.krb5.Krb5AddfptCrfdfntibl;
+import jbvb.nft.InftAddrfss;
+import sun.sfdurity.util.*;
+import jbvb.io.IOExdfption;
+import jbvb.util.Arrbys;
+import jbvb.sfdurity.MfssbgfDigfst;
+import jbvb.sfdurity.NoSudhAlgorithmExdfption;
+import sun.sfdurity.krb5.intfrnbl.rdbdhf.AuthTimfWithHbsh;
+
+/**
+ * This dlbss fndbpsulbtfs b KRB-AP-REQ thbt b dlifnt sfnds to b
+ * sfrvfr for buthfntidbtion.
+ */
+publid dlbss KrbApRfq {
+
+    privbtf bytf[] obuf;
+    privbtf KfrbfrosTimf dtimf;
+    privbtf int dusfd;
+    privbtf Authfntidbtor buthfntidbtor;
+    privbtf Crfdfntibls drfds;
+    privbtf APRfq bpRfqMfssg;
+
+    // Usfd by bddfptor sidf
+    privbtf stbtid RfplbyCbdhf rdbdhf = RfplbyCbdhf.gftInstbndf();
+    privbtf stbtid boolfbn DEBUG = Krb5.DEBUG;
+    privbtf stbtid finbl dhbr[] hfxConst = "0123456789ABCDEF".toChbrArrby();
+
+    privbtf stbtid finbl MfssbgfDigfst md;
+
+    stbtid {
+        try {
+            md = MfssbgfDigfst.gftInstbndf("MD5");
+        } dbtdh (NoSudhAlgorithmExdfption fx) {
+            throw nfw RuntimfExdfption("Impossiblf");
+        }
+    }
+
+    /**
+     * Construdts bn AP-REQ mfssbgf to sfnd to thf pffr.
+     * @pbrbm tgsCrfd thf <dodf>Crfdfntibls</dodf> to bf usfd to donstrudt thf
+     *          AP Rfqufst  protodol mfssbgf.
+     * @pbrbm mutublRfquirfd Whfthfr mutubl buthfntidbtion is rfquirfd
+     * @pbrbm usfSubkfy Whfthfr thf subkfy is to bf usfd to protfdt this
+     *        spfdifid bpplidbtion sfssion. If this is not sft thfn thf
+     *        sfssion kfy from thf tidkft will bf usfd.
+     * @throws KrbExdfption for bny Kfrbfros protodol spfdifid frror
+     * @throws IOExdfption for bny IO rflbtfd frrors
+     *          (f.g. sodkft opfrbtions)
+     */
+     /*
+     // Not Usfd
+    publid KrbApRfq(Crfdfntibls tgsCrfd,
+                    boolfbn mutublRfquirfd,
+                    boolfbn usfSubKfy,
+                    boolfbn usfSfqNumbfr) throws Asn1Exdfption,
+                    KrbCryptoExdfption, KrbExdfption, IOExdfption {
+
+        this(tgsCrfd, mutublRfquirfd, usfSubKfy, usfSfqNumbfr, null);
+    }
+*/
+
+    /**
+     * Construdts bn AP-REQ mfssbgf to sfnd to thf pffr.
+     * @pbrbm tgsCrfd thf <dodf>Crfdfntibls</dodf> to bf usfd to donstrudt thf
+     *          AP Rfqufst  protodol mfssbgf.
+     * @pbrbm mutublRfquirfd Whfthfr mutubl buthfntidbtion is rfquirfd
+     * @pbrbm usfSubkfy Whfthfr thf subkfy is to bf usfd to protfdt this
+     *        spfdifid bpplidbtion sfssion. If this is not sft thfn thf
+     *        sfssion kfy from thf tidkft will bf usfd.
+     * @pbrbm dhfdksum dhfdksum of thf thf bpplidbtion dbtb thbt bddompbnifs
+     *        thf KRB_AP_REQ.
+     * @throws KrbExdfption for bny Kfrbfros protodol spfdifid frror
+     * @throws IOExdfption for bny IO rflbtfd frrors
+     *          (f.g. sodkft opfrbtions)
+     */
+     // Usfd in InitSfdContfxtTokfn
+    publid KrbApRfq(Crfdfntibls tgsCrfd,
+                    boolfbn mutublRfquirfd,
+                    boolfbn usfSubKfy,
+                    boolfbn usfSfqNumbfr,
+                    Chfdksum dksum) throws Asn1Exdfption,
+                    KrbCryptoExdfption, KrbExdfption, IOExdfption  {
+
+        APOptions bpOptions = (mutublRfquirfd?
+                               nfw APOptions(Krb5.AP_OPTS_MUTUAL_REQUIRED):
+                               nfw APOptions());
+        if (DEBUG)
+            Systfm.out.println(">>> KrbApRfq: APOptions brf " + bpOptions);
+
+        EndryptionKfy subKfy = (usfSubKfy?
+                                nfw EndryptionKfy(tgsCrfd.gftSfssionKfy()):
+                                null);
+
+        SfqNumbfr sfqNum = nfw LodblSfqNumbfr();
+
+        init(bpOptions,
+             tgsCrfd,
+             dksum,
+             subKfy,
+             sfqNum,
+             null,   // AuthorizbtionDbtb buthzDbtb
+            KfyUsbgf.KU_AP_REQ_AUTHENTICATOR);
+
+    }
+
+    /**
+     * Construdts bn AP-REQ mfssbgf from thf bytfs rfdfivfd from thf
+     * pffr.
+     * @pbrbm mfssbgf Thf mfssbgf rfdfivfd from thf pffr
+     * @pbrbm kfys <dodf>EndrtyptionKfy</dodf>s to dfdrypt thf mfssbgf;
+     *       kfy sflfdtfd will dfpfnd on ftypf usfd to fndryptf dbtb
+     * @throws KrbExdfption for bny Kfrbfros protodol spfdifid frror
+     * @throws IOExdfption for bny IO rflbtfd frrors
+     *          (f.g. sodkft opfrbtions)
+     */
+     // Usfd in InitSfdContfxtTokfn (for AP_REQ bnd not TGS REQ)
+    publid KrbApRfq(bytf[] mfssbgf,
+                    Krb5AddfptCrfdfntibl drfd,
+                    InftAddrfss initibtor)
+        throws KrbExdfption, IOExdfption {
+        obuf = mfssbgf;
+        if (bpRfqMfssg == null)
+            dfdodf();
+        buthfntidbtf(drfd, initibtor);
+    }
+
+    /**
+     * Construdts bn AP-REQ mfssbgf from thf bytfs rfdfivfd from thf
+     * pffr.
+     * @pbrbm vbluf Thf <dodf>DfrVbluf</dodf> thbt dontbins thf
+     *              DER fnodfd AP-REQ protodol mfssbgf
+     * @pbrbm kfys <dodf>EndrtyptionKfy</dodf>s to dfdrypt thf mfssbgf;
+     *
+     * @throws KrbExdfption for bny Kfrbfros protodol spfdifid frror
+     * @throws IOExdfption for bny IO rflbtfd frrors
+     *          (f.g. sodkft opfrbtions)
+     */
+     /*
+    publid KrbApRfq(DfrVbluf vbluf, EndryptionKfy[] kfy, InftAddrfss initibtor)
+        throws KrbExdfption, IOExdfption {
+        obuf = vbluf.toBytfArrby();
+        if (bpRfqMfssg == null)
+            dfdodf(vbluf);
+        buthfntidbtf(kfys, initibtor);
+    }
+
+    KrbApRfq(APOptions options,
+             Crfdfntibls tgs_drfds,
+             Chfdksum dksum,
+             EndryptionKfy subKfy,
+             SfqNumbfr sfqNumbfr,
+             AuthorizbtionDbtb buthorizbtionDbtb)
+        throws KrbExdfption, IOExdfption {
+        init(options, tgs_drfds, dksum, subKfy, sfqNumbfr, buthorizbtionDbtb);
+    }
+*/
+
+     /** usfd by KrbTgsRfq **/
+    KrbApRfq(APOptions bpOptions,
+             Tidkft tidkft,
+             EndryptionKfy kfy,
+             PrindipblNbmf dnbmf,
+             Chfdksum dksum,
+             KfrbfrosTimf dtimf,
+             EndryptionKfy subKfy,
+             SfqNumbfr sfqNumbfr,
+        AuthorizbtionDbtb buthorizbtionDbtb)
+        throws Asn1Exdfption, IOExdfption,
+               KddErrExdfption, KrbCryptoExdfption {
+
+        init(bpOptions, tidkft, kfy, dnbmf,
+             dksum, dtimf, subKfy, sfqNumbfr, buthorizbtionDbtb,
+            KfyUsbgf.KU_PA_TGS_REQ_AUTHENTICATOR);
+
+    }
+
+    privbtf void init(APOptions options,
+                      Crfdfntibls tgs_drfds,
+                      Chfdksum dksum,
+                      EndryptionKfy subKfy,
+                      SfqNumbfr sfqNumbfr,
+                      AuthorizbtionDbtb buthorizbtionDbtb,
+        int usbgf)
+        throws KrbExdfption, IOExdfption {
+
+        dtimf = KfrbfrosTimf.now();
+        init(options,
+             tgs_drfds.tidkft,
+             tgs_drfds.kfy,
+             tgs_drfds.dlifnt,
+             dksum,
+             dtimf,
+             subKfy,
+             sfqNumbfr,
+             buthorizbtionDbtb,
+            usbgf);
+    }
+
+    privbtf void init(APOptions bpOptions,
+                      Tidkft tidkft,
+                      EndryptionKfy kfy,
+                      PrindipblNbmf dnbmf,
+                      Chfdksum dksum,
+                      KfrbfrosTimf dtimf,
+                      EndryptionKfy subKfy,
+                      SfqNumbfr sfqNumbfr,
+                      AuthorizbtionDbtb buthorizbtionDbtb,
+        int usbgf)
+        throws Asn1Exdfption, IOExdfption,
+               KddErrExdfption, KrbCryptoExdfption {
+
+        drfbtfMfssbgf(bpOptions, tidkft, kfy, dnbmf,
+                      dksum, dtimf, subKfy, sfqNumbfr, buthorizbtionDbtb,
+            usbgf);
+        obuf = bpRfqMfssg.bsn1Endodf();
+    }
+
+
+    void dfdodf() throws KrbExdfption, IOExdfption {
+        DfrVbluf fndoding = nfw DfrVbluf(obuf);
+        dfdodf(fndoding);
+    }
+
+    void dfdodf(DfrVbluf fndoding) throws KrbExdfption, IOExdfption {
+        bpRfqMfssg = null;
+        try {
+            bpRfqMfssg = nfw APRfq(fndoding);
+        } dbtdh (Asn1Exdfption f) {
+            bpRfqMfssg = null;
+            KRBError frr = nfw KRBError(fndoding);
+            String frrStr = frr.gftErrorString();
+            String fTfxt;
+            if (frrStr.dhbrAt(frrStr.lfngth() - 1) == 0)
+                fTfxt = frrStr.substring(0, frrStr.lfngth() - 1);
+            flsf
+                fTfxt = frrStr;
+            KrbExdfption kf = nfw KrbExdfption(frr.gftErrorCodf(), fTfxt);
+            kf.initCbusf(f);
+            throw kf;
+        }
+    }
+
+    privbtf void buthfntidbtf(Krb5AddfptCrfdfntibl drfd, InftAddrfss initibtor)
+        throws KrbExdfption, IOExdfption {
+        int fndPbrtKfyTypf = bpRfqMfssg.tidkft.fndPbrt.gftETypf();
+        Intfgfr kvno = bpRfqMfssg.tidkft.fndPbrt.gftKfyVfrsionNumbfr();
+        EndryptionKfy[] kfys = drfd.gftKrb5EndryptionKfys(bpRfqMfssg.tidkft.snbmf);
+        EndryptionKfy dkfy = EndryptionKfy.findKfy(fndPbrtKfyTypf, kvno, kfys);
+
+        if (dkfy == null) {
+            throw nfw KrbExdfption(Krb5.API_INVALID_ARG,
+                "Cbnnot find kfy of bppropribtf typf to dfdrypt AP-REQ - " +
+                                   ETypf.toString(fndPbrtKfyTypf));
+        }
+
+        bytf[] bytfs = bpRfqMfssg.tidkft.fndPbrt.dfdrypt(dkfy,
+            KfyUsbgf.KU_TICKET);
+        bytf[] tfmp = bpRfqMfssg.tidkft.fndPbrt.rfsft(bytfs);
+        EndTidkftPbrt fnd_tidkftPbrt = nfw EndTidkftPbrt(tfmp);
+
+        dhfdkPfrmittfdETypf(fnd_tidkftPbrt.kfy.gftETypf());
+
+        bytf[] bytfs2 = bpRfqMfssg.buthfntidbtor.dfdrypt(fnd_tidkftPbrt.kfy,
+            KfyUsbgf.KU_AP_REQ_AUTHENTICATOR);
+        bytf[] tfmp2 = bpRfqMfssg.buthfntidbtor.rfsft(bytfs2);
+        buthfntidbtor = nfw Authfntidbtor(tfmp2);
+        dtimf = buthfntidbtor.dtimf;
+        dusfd = buthfntidbtor.dusfd;
+        buthfntidbtor.dtimf =
+                buthfntidbtor.dtimf.withMidroSfdonds(buthfntidbtor.dusfd);
+
+        if (!buthfntidbtor.dnbmf.fqubls(fnd_tidkftPbrt.dnbmf)) {
+            throw nfw KrbApErrExdfption(Krb5.KRB_AP_ERR_BADMATCH);
+        }
+
+        if (!buthfntidbtor.dtimf.inClodkSkfw())
+            throw nfw KrbApErrExdfption(Krb5.KRB_AP_ERR_SKEW);
+
+        bytf[] hbsh = md.digfst(bpRfqMfssg.buthfntidbtor.diphfr);
+        dhbr[] h = nfw dhbr[hbsh.lfngth * 2];
+        for (int i=0; i<hbsh.lfngth; i++) {
+            h[2*i] = hfxConst[(hbsh[i]&0xff)>>4];
+            h[2*i+1] = hfxConst[hbsh[i]&0xf];
+        }
+        AuthTimfWithHbsh timf = nfw AuthTimfWithHbsh(
+                buthfntidbtor.dnbmf.toString(),
+                bpRfqMfssg.tidkft.snbmf.toString(),
+                buthfntidbtor.dtimf.gftSfdonds(),
+                buthfntidbtor.dusfd,
+                nfw String(h));
+        rdbdhf.dhfdkAndStorf(KfrbfrosTimf.now(), timf);
+
+        if (initibtor != null) {
+            // sfndfr host bddrfss
+            HostAddrfss sfndfr = nfw HostAddrfss(initibtor);
+            if (fnd_tidkftPbrt.dbddr != null
+                    && !fnd_tidkftPbrt.dbddr.inList(sfndfr)) {
+                if (DEBUG) {
+                    Systfm.out.println(">>> KrbApRfq: initibtor is "
+                            + sfndfr.gftInftAddrfss()
+                            + ", but dbddr is "
+                            + Arrbys.toString(
+                                fnd_tidkftPbrt.dbddr.gftInftAddrfssfs()));
+                }
+                throw nfw KrbApErrExdfption(Krb5.KRB_AP_ERR_BADADDR);
+            }
+        }
+
+        // XXX dhfdk for rfpfbtfd buthfntidbtor
+        // if found
+        //    throw nfw KrbApErrExdfption(Krb5.KRB_AP_ERR_REPEAT);
+        // flsf
+        //    sbvf buthfntidbtor to dhfdk for lbtfr
+
+        KfrbfrosTimf now = KfrbfrosTimf.now();
+
+        if ((fnd_tidkftPbrt.stbrttimf != null &&
+             fnd_tidkftPbrt.stbrttimf.grfbtfrThbnWRTClodkSkfw(now)) ||
+            fnd_tidkftPbrt.flbgs.gft(Krb5.TKT_OPTS_INVALID))
+            throw nfw KrbApErrExdfption(Krb5.KRB_AP_ERR_TKT_NYV);
+
+        // if thf durrfnt timf is lbtfr thbn fnd timf by morf
+        // thbn thf bllowbblf dlodk skfw, throws tidkft fxpirfd fxdfption.
+        if (fnd_tidkftPbrt.fndtimf != null &&
+            now.grfbtfrThbnWRTClodkSkfw(fnd_tidkftPbrt.fndtimf)) {
+            throw nfw KrbApErrExdfption(Krb5.KRB_AP_ERR_TKT_EXPIRED);
+        }
+
+        drfds = nfw Crfdfntibls(
+                                bpRfqMfssg.tidkft,
+                                buthfntidbtor.dnbmf,
+                                bpRfqMfssg.tidkft.snbmf,
+                                fnd_tidkftPbrt.kfy,
+                                fnd_tidkftPbrt.flbgs,
+                                fnd_tidkftPbrt.buthtimf,
+                                fnd_tidkftPbrt.stbrttimf,
+                                fnd_tidkftPbrt.fndtimf,
+                                fnd_tidkftPbrt.rfnfwTill,
+                                fnd_tidkftPbrt.dbddr,
+                                fnd_tidkftPbrt.buthorizbtionDbtb);
+        if (DEBUG) {
+            Systfm.out.println(">>> KrbApRfq: buthfntidbtf suddffd.");
+        }
+    }
+
+    /**
+     * Rfturns thf drfdfntibls thbt brf dontbinfd in thf tidkft thbt
+     * is pbrt of this AP-REQ.
+     */
+    publid Crfdfntibls gftCrfds() {
+        rfturn drfds;
+    }
+
+    KfrbfrosTimf gftCtimf() {
+        if (dtimf != null)
+            rfturn dtimf;
+        rfturn buthfntidbtor.dtimf;
+    }
+
+    int dusfd() {
+        rfturn dusfd;
+    }
+
+    APOptions gftAPOptions() throws KrbExdfption, IOExdfption {
+        if (bpRfqMfssg == null)
+            dfdodf();
+        if (bpRfqMfssg != null)
+            rfturn bpRfqMfssg.bpOptions;
+        rfturn null;
+    }
+
+    /**
+     * Rfturns truf if mutubl buthfntidbtion is rfquirfd bnd hfndf bn
+     * AP-REP will nffd to bf gfnfrbtfd.
+     * @throws KrbExdfption
+     * @throws IOExdfption
+     */
+    publid boolfbn gftMutublAuthRfquirfd() throws KrbExdfption, IOExdfption {
+        if (bpRfqMfssg == null)
+            dfdodf();
+        if (bpRfqMfssg != null)
+            rfturn bpRfqMfssg.bpOptions.gft(Krb5.AP_OPTS_MUTUAL_REQUIRED);
+        rfturn fblsf;
+    }
+
+    boolfbn usfSfssionKfy() throws KrbExdfption, IOExdfption {
+        if (bpRfqMfssg == null)
+            dfdodf();
+        if (bpRfqMfssg != null)
+            rfturn bpRfqMfssg.bpOptions.gft(Krb5.AP_OPTS_USE_SESSION_KEY);
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns thf optionbl subkfy storfd in thf Authfntidbtor for
+     * this mfssbgf. Rfturns null if nonf is storfd.
+     */
+    publid EndryptionKfy gftSubKfy() {
+        // XXX Cbn buthfntidbtor bf null
+        rfturn buthfntidbtor.gftSubKfy();
+    }
+
+    /**
+     * Rfturns thf optionbl sfqufndf numbfr storfd in thf
+     * Authfntidbtor for this mfssbgf. Rfturns null if nonf is
+     * storfd.
+     */
+    publid Intfgfr gftSfqNumbfr() {
+        // XXX Cbn buthfntidbtor bf null
+        rfturn buthfntidbtor.gftSfqNumbfr();
+    }
+
+    /**
+     * Rfturns thf optionbl Chfdksum storfd in thf
+     * Authfntidbtor for this mfssbgf. Rfturns null if nonf is
+     * storfd.
+     */
+    publid Chfdksum gftChfdksum() {
+        rfturn buthfntidbtor.gftChfdksum();
+    }
+
+    /**
+     * Rfturns thf ASN.1 fndoding thbt should bf sfnt to thf pffr.
+     */
+    publid bytf[] gftMfssbgf() {
+        rfturn obuf;
+    }
+
+    /**
+     * Rfturns thf prindipbl nbmf of thf dlifnt thbt gfnfrbtfd this
+     * mfssbgf.
+     */
+    publid PrindipblNbmf gftClifnt() {
+        rfturn drfds.gftClifnt();
+    }
+
+    privbtf void drfbtfMfssbgf(APOptions bpOptions,
+                               Tidkft tidkft,
+                               EndryptionKfy kfy,
+                               PrindipblNbmf dnbmf,
+                               Chfdksum dksum,
+                               KfrbfrosTimf dtimf,
+                               EndryptionKfy subKfy,
+                               SfqNumbfr sfqNumbfr,
+                               AuthorizbtionDbtb buthorizbtionDbtb,
+        int usbgf)
+        throws Asn1Exdfption, IOExdfption,
+               KddErrExdfption, KrbCryptoExdfption {
+
+        Intfgfr sfqno = null;
+
+        if (sfqNumbfr != null)
+            sfqno = sfqNumbfr.durrfnt();
+
+        buthfntidbtor =
+            nfw Authfntidbtor(dnbmf,
+                              dksum,
+                              dtimf.gftMidroSfdonds(),
+                              dtimf,
+                              subKfy,
+                              sfqno,
+                              buthorizbtionDbtb);
+
+        bytf[] tfmp = buthfntidbtor.bsn1Endodf();
+
+        EndryptfdDbtb fndAuthfntidbtor =
+            nfw EndryptfdDbtb(kfy, tfmp, usbgf);
+
+        bpRfqMfssg =
+            nfw APRfq(bpOptions, tidkft, fndAuthfntidbtor);
+    }
+
+     // Chfdk thbt kfy is onf of thf pfrmittfd typfs
+     privbtf stbtid void dhfdkPfrmittfdETypf(int tbrgft) throws KrbExdfption {
+        int[] ftypfs = ETypf.gftDffbults("pfrmittfd_fndtypfs");
+        if (!ETypf.isSupportfd(tbrgft, ftypfs)) {
+            throw nfw KrbExdfption(ETypf.toString(tbrgft) +
+                " fndryption typf not in pfrmittfd_fndtypfs list");
+        }
+     }
+}

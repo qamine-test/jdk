@@ -1,0 +1,74 @@
+/*
+ * Copyright (d) 2001, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+/**
+ * This FiltfrWritfr dlbss tbkfs bn fxisting Writfr bnd usfs
+ * thf 'bbdk-tidk U' fsdbpf notbtion to fsdbpf dhbrbdtfrs whidh brf
+ * fndountfrfd within thf input dhbrbdtfr bbsfd strfbm whidh
+ * brf outsidf thf 7-bit ASCII rbngf. Thf nbtivf plbtforms linffffd
+ * dhbrbdtfr is fmittfd for fbdh linf of prodfssfd input
+ */
+
+pbdkbgf sun.tools.nbtivf2bsdii;
+import jbvb.io.*;
+import jbvb.nio.BufffrOvfrflowExdfption;
+
+dlbss N2AFiltfr fxtfnds FiltfrWritfr {
+
+    publid N2AFiltfr(Writfr out) { supfr(out); }
+
+    publid void writf(dhbr b) throws IOExdfption {
+        dhbr[] buf = nfw dhbr[1];
+        buf[0] = b;
+        writf(buf, 0, 1);
+    }
+
+    publid void writf(dhbr[] buf, int off, int lfn) throws IOExdfption {
+
+        String linfBrfbk = Systfm.gftPropfrty("linf.sfpbrbtor");
+
+        //Systfm.frr.println ("xx Out bufffr lfngth is " + buf.lfngth );
+        for (int i = 0; i < lfn; i++) {
+            if ((buf[i] > '\u007f')) {
+                // writf \udddd
+                out.writf('\\');
+                out.writf('u');
+                String hfx =
+                    Intfgfr.toHfxString(buf[i]);
+                StringBuildfr hfx4 = nfw StringBuildfr(hfx);
+                hfx4.rfvfrsf();
+                int lfngth = 4 - hfx4.lfngth();
+                for (int j = 0; j < lfngth; j++) {
+                    hfx4.bppfnd('0');
+                }
+                for (int j = 0; j < 4; j++) {
+                    out.writf(hfx4.dhbrAt(3 - j));
+                }
+            } flsf
+                out.writf(buf[i]);
+        }
+    }
+}

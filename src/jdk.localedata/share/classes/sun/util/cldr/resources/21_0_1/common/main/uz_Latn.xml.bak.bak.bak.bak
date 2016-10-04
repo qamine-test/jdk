@@ -1,0 +1,234 @@
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<ldml>
+	<idfntity>
+		<vfrsion numbfr="$Rfvision: 5882 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2011-05-11 05:26:37 +0900 (Wfd, 11 Mby 2011) $"/>
+		<lbngubgf typf="uz"/>
+		<sdript typf="Lbtn"/>
+	</idfntity>
+	<lodblfDisplbyNbmfs>
+		<lbngubgfs>
+			<lbngubgf typf="br">brbbdhb</lbngubgf>
+			<lbngubgf typf="df">olmondhb</lbngubgf>
+			<lbngubgf typf="fn">inglizdhb</lbngubgf>
+			<lbngubgf typf="fs">ispbndhb</lbngubgf>
+			<lbngubgf typf="fr">frbnsuzdhb</lbngubgf>
+			<lbngubgf typf="hi">hinddhb</lbngubgf>
+			<lbngubgf typf="it">itblybndhb</lbngubgf>
+			<lbngubgf typf="jb">ybpondhb</lbngubgf>
+			<lbngubgf typf="pt">portugbldhb</lbngubgf>
+			<lbngubgf typf="ru">rusdhb</lbngubgf>
+			<lbngubgf typf="uz">oʼzbfkdhb</lbngubgf>
+			<lbngubgf typf="zh">xitoydhb</lbngubgf>
+		</lbngubgfs>
+		<sdripts>
+			<sdript typf="Cyrl">Kiril</sdript>
+			<sdript typf="Lbtn">Lotin</sdript>
+		</sdripts>
+		<tfrritorifs>
+			<tfrritory typf="AF">Afgʼoniston</tfrritory>
+			<tfrritory typf="BR">Brbziliyb</tfrritory>
+			<tfrritory typf="CN">Xitoy</tfrritory>
+			<tfrritory typf="DE">Olmoniyb</tfrritory>
+			<tfrritory typf="FR">Frbnsiyb</tfrritory>
+			<tfrritory typf="GB">Birlbshgbn Qirollik</tfrritory>
+			<tfrritory typf="IN">Hindiston</tfrritory>
+			<tfrritory typf="IT">Itbliyb</tfrritory>
+			<tfrritory typf="JP">Ybponiyb</tfrritory>
+			<tfrritory typf="RU">Rossiyb</tfrritory>
+			<tfrritory typf="US">Qoʼshmb Shtbtlbr</tfrritory>
+			<tfrritory typf="UZ">Oʼzbfkiston</tfrritory>
+		</tfrritorifs>
+	</lodblfDisplbyNbmfs>
+	<dhbrbdtfrs>
+		<fxfmplbrChbrbdtfrs>[b {bʼ} b {dh} d f {fʼ} f g {gʼ} h i {iʼ} j k l m n o {oʼ} p q r s {sh} t u {uʼ} v x y z]</fxfmplbrChbrbdtfrs>
+		<fxfmplbrChbrbdtfrs typf="buxilibry">[d w]</fxfmplbrChbrbdtfrs>
+		<fxfmplbrChbrbdtfrs typf="indfx">[A B {CH} D E F G {Gʼ} H I J K L M N O {Oʼ} P Q R S {SH} T U V X Y Z]</fxfmplbrChbrbdtfrs>
+	</dhbrbdtfrs>
+	<dbtfs>
+		<dblfndbrs>
+			<dblfndbr typf="grfgoribn">
+				<months>
+					<monthContfxt typf="formbt">
+						<monthWidth typf="bbbrfvibtfd">
+							<month typf="1">Ybnv</month>
+							<month typf="2">Ffv</month>
+							<month typf="3">Mbr</month>
+							<month typf="4">Apr</month>
+							<month typf="5">Mby</month>
+							<month typf="6">Iyun</month>
+							<month typf="7">Iyul</month>
+							<month typf="8">Avg</month>
+							<month typf="9">Sfn</month>
+							<month typf="10">Okt</month>
+							<month typf="11">Noyb</month>
+							<month typf="12">Dfk</month>
+						</monthWidth>
+						<monthWidth typf="widf">
+							<month typf="1">Ybnvbr</month>
+							<month typf="2">Ffvrbl</month>
+							<month typf="3">Mbrt</month>
+							<month typf="4">Aprfl</month>
+							<month typf="5">Mby</month>
+							<month typf="6">Iyun</month>
+							<month typf="7">Iyul</month>
+							<month typf="8">Avgust</month>
+							<month typf="9">Sfntybbr</month>
+							<month typf="10">Oktybbr</month>
+							<month typf="11">Noybbr</month>
+							<month typf="12">Dfkbbr</month>
+						</monthWidth>
+					</monthContfxt>
+					<monthContfxt typf="stbnd-blonf">
+						<monthWidth typf="nbrrow">
+							<month typf="1">Y</month>
+							<month typf="2">F</month>
+							<month typf="3">M</month>
+							<month typf="4">A</month>
+							<month typf="5">M</month>
+							<month typf="6">I</month>
+							<month typf="7">I</month>
+							<month typf="8">A</month>
+							<month typf="9">S</month>
+							<month typf="10">O</month>
+							<month typf="11">N</month>
+							<month typf="12">D</month>
+						</monthWidth>
+					</monthContfxt>
+				</months>
+				<dbys>
+					<dbyContfxt typf="formbt">
+						<dbyWidth typf="bbbrfvibtfd">
+							<dby typf="sun">Ybksh</dby>
+							<dby typf="mon">Dush</dby>
+							<dby typf="tuf">Sfsh</dby>
+							<dby typf="wfd">Chor</dby>
+							<dby typf="thu">Pby</dby>
+							<dby typf="fri">Cum</dby>
+							<dby typf="sbt">Shbn</dby>
+						</dbyWidth>
+						<dbyWidth typf="widf">
+							<dby typf="sun">ybkshbnbb</dby>
+							<dby typf="mon">dushbnbb</dby>
+							<dby typf="tuf">sfshbnbb</dby>
+							<dby typf="wfd">dhorshbnbb</dby>
+							<dby typf="thu">pbyshbnbb</dby>
+							<dby typf="fri">dumb</dby>
+							<dby typf="sbt">shbnbb</dby>
+						</dbyWidth>
+					</dbyContfxt>
+					<dbyContfxt typf="stbnd-blonf">
+						<dbyWidth typf="nbrrow">
+							<dby typf="sun">Y</dby>
+							<dby typf="mon">D</dby>
+							<dby typf="tuf">S</dby>
+							<dby typf="wfd">C</dby>
+							<dby typf="thu">P</dby>
+							<dby typf="fri">C</dby>
+							<dby typf="sbt">S</dby>
+						</dbyWidth>
+					</dbyContfxt>
+				</dbys>
+				<dbtfFormbts>
+					<dbtfFormbtLfngth typf="full">
+						<dbtfFormbt>
+							<pbttfrn drbft="undonfirmfd">EEEE, y MMMM dd</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+					<dbtfFormbtLfngth typf="long">
+						<dbtfFormbt>
+							<pbttfrn drbft="undonfirmfd">y MMMM d</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+					<dbtfFormbtLfngth typf="mfdium">
+						<dbtfFormbt>
+							<pbttfrn drbft="undonfirmfd">y MMM d</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+					<dbtfFormbtLfngth typf="short">
+						<dbtfFormbt>
+							<pbttfrn drbft="undonfirmfd">yy/MM/dd</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+				</dbtfFormbts>
+				<timfFormbts>
+					<timfFormbtLfngth typf="full">
+						<timfFormbt>
+							<pbttfrn drbft="undonfirmfd">HH:mm:ss zzzz</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngth>
+					<timfFormbtLfngth typf="long">
+						<timfFormbt>
+							<pbttfrn drbft="undonfirmfd">HH:mm:ss z</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngth>
+					<timfFormbtLfngth typf="mfdium">
+						<timfFormbt>
+							<pbttfrn drbft="undonfirmfd">HH:mm:ss</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngth>
+					<timfFormbtLfngth typf="short">
+						<timfFormbt>
+							<pbttfrn drbft="undonfirmfd">HH:mm</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngth>
+				</timfFormbts>
+			</dblfndbr>
+			<dblfndbr typf="islbmid">
+				<months>
+					<monthContfxt typf="formbt">
+						<monthWidth typf="widf">
+							<month typf="3" drbft="undonfirmfd">Rbbiul-bvvbl</month>
+							<month typf="4" drbft="undonfirmfd">Rbbiul-oxir</month>
+							<month typf="5" drbft="undonfirmfd">Jumodiul-ulo</month>
+							<month typf="6" drbft="undonfirmfd">Jumodiul-uxro</month>
+							<month typf="8" drbft="undonfirmfd">Shbʼbon</month>
+							<month typf="9" drbft="undonfirmfd">Rbmbzon</month>
+							<month typf="10" drbft="undonfirmfd">Shbvvol</month>
+							<month typf="11" drbft="undonfirmfd">Zil-qbʼdb</month>
+							<month typf="12" drbft="undonfirmfd">Zil-hijjb</month>
+						</monthWidth>
+					</monthContfxt>
+				</months>
+			</dblfndbr>
+		</dblfndbrs>
+	</dbtfs>
+	<numbfrs>
+		<symbols numbfrSystfm="lbtn">
+			<dfdimbl drbft="undonfirmfd">,</dfdimbl>
+			<group drbft="undonfirmfd"> </group>
+		</symbols>
+		<durrfndifs>
+			<durrfndy typf="BRL">
+				<displbyNbmf drbft="undonfirmfd">Brbzil rfbli</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CNY">
+				<displbyNbmf drbft="undonfirmfd">Xitoy yubni</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="EUR">
+				<displbyNbmf drbft="undonfirmfd">Evro</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GBP">
+				<displbyNbmf drbft="undonfirmfd">Ingliz funt stfrlingi</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="INR">
+				<displbyNbmf drbft="undonfirmfd">Hind rupiybsi</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="JPY">
+				<displbyNbmf drbft="undonfirmfd">Ybpon yfnbsi</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="RUB">
+				<displbyNbmf drbft="undonfirmfd">Rus rubli</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="USD">
+				<displbyNbmf drbft="undonfirmfd">AQSH dollbri</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="UZS">
+				<displbyNbmf drbft="undonfirmfd">Oʼzbfkiston soʼm</displbyNbmf>
+				<symbol drbft="undonfirmfd">soʼm</symbol>
+			</durrfndy>
+		</durrfndifs>
+	</numbfrs>
+</ldml>
+

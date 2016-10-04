@@ -1,103 +1,103 @@
 /*
- * Copyright (c) 2000, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.print;
+pbdkbgf sun.print;
 
-import java.awt.Graphics;
-import java.awt.PrintGraphics;
-import java.awt.PrintJob;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.PrintGrbpiids;
+import jbvb.bwt.PrintJob;
 
 /**
- * A subclass of Graphics that can be printed to. The
- * graphics calls are forwared to another Graphics instance
- * that does the actual rendering.
+ * A subdlbss of Grbpiids tibt dbn bf printfd to. Tif
+ * grbpiids dblls brf forwbrfd to bnotifr Grbpiids instbndf
+ * tibt dofs tif bdtubl rfndfring.
  */
 
-public class ProxyPrintGraphics extends ProxyGraphics
-                                implements PrintGraphics {
+publid dlbss ProxyPrintGrbpiids fxtfnds ProxyGrbpiids
+                                implfmfnts PrintGrbpiids {
 
-    private PrintJob printJob;
+    privbtf PrintJob printJob;
 
-    public ProxyPrintGraphics(Graphics graphics, PrintJob thePrintJob) {
-        super(graphics);
-        printJob = thePrintJob;
+    publid ProxyPrintGrbpiids(Grbpiids grbpiids, PrintJob tifPrintJob) {
+        supfr(grbpiids);
+        printJob = tifPrintJob;
     }
 
     /**
-     * Returns the PrintJob object from which this PrintGraphics
-     * object originated.
+     * Rfturns tif PrintJob objfdt from wiidi tiis PrintGrbpiids
+     * objfdt originbtfd.
      */
-    public PrintJob getPrintJob() {
-        return printJob;
+    publid PrintJob gftPrintJob() {
+        rfturn printJob;
     }
 
    /**
-     * Creates a new <code>Graphics</code> object that is
-     * a copy of this <code>Graphics</code> object.
-     * @return     a new graphics context that is a copy of
-     *                       this graphics context.
+     * Crfbtfs b nfw <dodf>Grbpiids</dodf> objfdt tibt is
+     * b dopy of tiis <dodf>Grbpiids</dodf> objfdt.
+     * @rfturn     b nfw grbpiids dontfxt tibt is b dopy of
+     *                       tiis grbpiids dontfxt.
      */
-    public Graphics create() {
-        return new ProxyPrintGraphics(getGraphics().create(), printJob);
+    publid Grbpiids drfbtf() {
+        rfturn nfw ProxyPrintGrbpiids(gftGrbpiids().drfbtf(), printJob);
     }
 
 
     /**
-     * Creates a new <code>Graphics</code> object based on this
-     * <code>Graphics</code> object, but with a new translation and
-     * clip area.
-     * Refer to
-     * {@link sun.print.ProxyGraphics#createGraphics}
-     * for a complete description of this method.
+     * Crfbtfs b nfw <dodf>Grbpiids</dodf> objfdt bbsfd on tiis
+     * <dodf>Grbpiids</dodf> objfdt, but witi b nfw trbnslbtion bnd
+     * dlip brfb.
+     * Rfffr to
+     * {@link sun.print.ProxyGrbpiids#drfbtfGrbpiids}
+     * for b domplftf dfsdription of tiis mftiod.
      * <p>
-     * @param      x   the <i>x</i> coordinate.
-     * @param      y   the <i>y</i> coordinate.
-     * @param      width   the width of the clipping rectangle.
-     * @param      height   the height of the clipping rectangle.
-     * @return     a new graphics context.
-     * @see        java.awt.Graphics#translate
-     * @see        java.awt.Graphics#clipRect
+     * @pbrbm      x   tif <i>x</i> doordinbtf.
+     * @pbrbm      y   tif <i>y</i> doordinbtf.
+     * @pbrbm      widti   tif widti of tif dlipping rfdtbnglf.
+     * @pbrbm      ifigit   tif ifigit of tif dlipping rfdtbnglf.
+     * @rfturn     b nfw grbpiids dontfxt.
+     * @sff        jbvb.bwt.Grbpiids#trbnslbtf
+     * @sff        jbvb.bwt.Grbpiids#dlipRfdt
      */
-    public Graphics create(int x, int y, int width, int height) {
-        Graphics g = getGraphics().create(x, y, width, height);
-        return new ProxyPrintGraphics(g, printJob);
+    publid Grbpiids drfbtf(int x, int y, int widti, int ifigit) {
+        Grbpiids g = gftGrbpiids().drfbtf(x, y, widti, ifigit);
+        rfturn nfw ProxyPrintGrbpiids(g, printJob);
     }
 
-    public Graphics getGraphics() {
-        return super.getGraphics();
+    publid Grbpiids gftGrbpiids() {
+        rfturn supfr.gftGrbpiids();
     }
 
 
-   /* Spec implies dispose() should flush the page, but the implementation
-    * has in fact always done this on the getGraphics() call, thereby
-    * ensuring that multiple pages are cannot be rendered simultaneously.
-    * We will preserve that behaviour and there is consqeuently no need
-    * to take any action in this dispose method.
+   /* Spfd implifs disposf() siould flusi tif pbgf, but tif implfmfntbtion
+    * ibs in fbdt blwbys donf tiis on tif gftGrbpiids() dbll, tifrfby
+    * fnsuring tibt multiplf pbgfs brf dbnnot bf rfndfrfd simultbnfously.
+    * Wf will prfsfrvf tibt bfibviour bnd tifrf is donsqfufntly no nffd
+    * to tbkf bny bdtion in tiis disposf mftiod.
     */
-    public void dispose() {
-     super.dispose();
+    publid void disposf() {
+     supfr.disposf();
     }
 
 }

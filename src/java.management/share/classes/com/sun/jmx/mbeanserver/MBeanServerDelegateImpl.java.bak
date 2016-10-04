@@ -1,321 +1,321 @@
 /*
- * Copyright (c) 2002, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.jmx.mbeanserver;
+pbdkbgf dom.sun.jmx.mbfbnsfrvfr;
 
-import java.util.logging.Level;
+import jbvb.util.logging.Lfvfl;
 
-import javax.management.Attribute;
-import javax.management.AttributeList;
-import javax.management.AttributeNotFoundException;
-import javax.management.DynamicMBean;
-import javax.management.InvalidAttributeValueException;
-import javax.management.JMRuntimeException;
-import javax.management.MBeanAttributeInfo;
-import javax.management.MBeanException;
-import javax.management.MBeanInfo;
-import javax.management.MBeanRegistration;
-import javax.management.MBeanServer;
-import javax.management.MBeanServerDelegate;
-import javax.management.ObjectName;
-import javax.management.ReflectionException;
-import javax.management.RuntimeOperationsException;
+import jbvbx.mbnbgfmfnt.Attributf;
+import jbvbx.mbnbgfmfnt.AttributfList;
+import jbvbx.mbnbgfmfnt.AttributfNotFoundExdfption;
+import jbvbx.mbnbgfmfnt.DynbmidMBfbn;
+import jbvbx.mbnbgfmfnt.InvblidAttributfVblufExdfption;
+import jbvbx.mbnbgfmfnt.JMRuntimfExdfption;
+import jbvbx.mbnbgfmfnt.MBfbnAttributfInfo;
+import jbvbx.mbnbgfmfnt.MBfbnExdfption;
+import jbvbx.mbnbgfmfnt.MBfbnInfo;
+import jbvbx.mbnbgfmfnt.MBfbnRfgistrbtion;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfrDflfgbtf;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import jbvbx.mbnbgfmfnt.RfflfdtionExdfption;
+import jbvbx.mbnbgfmfnt.RuntimfOpfrbtionsExdfption;
 
-import static com.sun.jmx.defaults.JmxProperties.MBEANSERVER_LOGGER;
+import stbtid dom.sun.jmx.dffbults.JmxPropfrtifs.MBEANSERVER_LOGGER;
 
 /**
- * This class is the MBean implementation of the MBeanServerDelegate.
+ * Tiis dlbss is tif MBfbn implfmfntbtion of tif MBfbnSfrvfrDflfgbtf.
  *
- * @since 1.5
+ * @sindf 1.5
  */
-final class MBeanServerDelegateImpl
-    extends MBeanServerDelegate
-    implements DynamicMBean, MBeanRegistration {
+finbl dlbss MBfbnSfrvfrDflfgbtfImpl
+    fxtfnds MBfbnSfrvfrDflfgbtf
+    implfmfnts DynbmidMBfbn, MBfbnRfgistrbtion {
 
-    final private static String[] attributeNames = new String[] {
-        "MBeanServerId",
-        "SpecificationName",
-        "SpecificationVersion",
-        "SpecificationVendor",
-        "ImplementationName",
-        "ImplementationVersion",
-        "ImplementationVendor"
+    finbl privbtf stbtid String[] bttributfNbmfs = nfw String[] {
+        "MBfbnSfrvfrId",
+        "SpfdifidbtionNbmf",
+        "SpfdifidbtionVfrsion",
+        "SpfdifidbtionVfndor",
+        "ImplfmfntbtionNbmf",
+        "ImplfmfntbtionVfrsion",
+        "ImplfmfntbtionVfndor"
     };
 
-    private static final MBeanAttributeInfo[] attributeInfos =
-        new MBeanAttributeInfo[] {
-            new MBeanAttributeInfo("MBeanServerId","java.lang.String",
-                                   "The MBean server agent identification",
-                                   true,false,false),
-            new MBeanAttributeInfo("SpecificationName","java.lang.String",
-                                   "The full name of the JMX specification "+
-                                   "implemented by this product.",
-                                   true,false,false),
-            new MBeanAttributeInfo("SpecificationVersion","java.lang.String",
-                                   "The version of the JMX specification "+
-                                   "implemented by this product.",
-                                   true,false,false),
-            new MBeanAttributeInfo("SpecificationVendor","java.lang.String",
-                                   "The vendor of the JMX specification "+
-                                   "implemented by this product.",
-                                   true,false,false),
-            new MBeanAttributeInfo("ImplementationName","java.lang.String",
-                                   "The JMX implementation name "+
-                                   "(the name of this product)",
-                                   true,false,false),
-            new MBeanAttributeInfo("ImplementationVersion","java.lang.String",
-                                   "The JMX implementation version "+
-                                   "(the version of this product).",
-                                   true,false,false),
-            new MBeanAttributeInfo("ImplementationVendor","java.lang.String",
-                                   "the JMX implementation vendor "+
-                                   "(the vendor of this product).",
-                                   true,false,false)
+    privbtf stbtid finbl MBfbnAttributfInfo[] bttributfInfos =
+        nfw MBfbnAttributfInfo[] {
+            nfw MBfbnAttributfInfo("MBfbnSfrvfrId","jbvb.lbng.String",
+                                   "Tif MBfbn sfrvfr bgfnt idfntifidbtion",
+                                   truf,fblsf,fblsf),
+            nfw MBfbnAttributfInfo("SpfdifidbtionNbmf","jbvb.lbng.String",
+                                   "Tif full nbmf of tif JMX spfdifidbtion "+
+                                   "implfmfntfd by tiis produdt.",
+                                   truf,fblsf,fblsf),
+            nfw MBfbnAttributfInfo("SpfdifidbtionVfrsion","jbvb.lbng.String",
+                                   "Tif vfrsion of tif JMX spfdifidbtion "+
+                                   "implfmfntfd by tiis produdt.",
+                                   truf,fblsf,fblsf),
+            nfw MBfbnAttributfInfo("SpfdifidbtionVfndor","jbvb.lbng.String",
+                                   "Tif vfndor of tif JMX spfdifidbtion "+
+                                   "implfmfntfd by tiis produdt.",
+                                   truf,fblsf,fblsf),
+            nfw MBfbnAttributfInfo("ImplfmfntbtionNbmf","jbvb.lbng.String",
+                                   "Tif JMX implfmfntbtion nbmf "+
+                                   "(tif nbmf of tiis produdt)",
+                                   truf,fblsf,fblsf),
+            nfw MBfbnAttributfInfo("ImplfmfntbtionVfrsion","jbvb.lbng.String",
+                                   "Tif JMX implfmfntbtion vfrsion "+
+                                   "(tif vfrsion of tiis produdt).",
+                                   truf,fblsf,fblsf),
+            nfw MBfbnAttributfInfo("ImplfmfntbtionVfndor","jbvb.lbng.String",
+                                   "tif JMX implfmfntbtion vfndor "+
+                                   "(tif vfndor of tiis produdt).",
+                                   truf,fblsf,fblsf)
                 };
 
-    private final MBeanInfo delegateInfo;
+    privbtf finbl MBfbnInfo dflfgbtfInfo;
 
-    public MBeanServerDelegateImpl () {
-        super();
-        delegateInfo =
-            new MBeanInfo("javax.management.MBeanServerDelegate",
-                          "Represents  the MBean server from the management "+
-                          "point of view.",
-                          MBeanServerDelegateImpl.attributeInfos, null,
-                          null,getNotificationInfo());
+    publid MBfbnSfrvfrDflfgbtfImpl () {
+        supfr();
+        dflfgbtfInfo =
+            nfw MBfbnInfo("jbvbx.mbnbgfmfnt.MBfbnSfrvfrDflfgbtf",
+                          "Rfprfsfnts  tif MBfbn sfrvfr from tif mbnbgfmfnt "+
+                          "point of vifw.",
+                          MBfbnSfrvfrDflfgbtfImpl.bttributfInfos, null,
+                          null,gftNotifidbtionInfo());
     }
 
-    final public ObjectName preRegister (MBeanServer server, ObjectName name)
-        throws java.lang.Exception {
-        if (name == null) return DELEGATE_NAME;
-        else return name;
+    finbl publid ObjfdtNbmf prfRfgistfr (MBfbnSfrvfr sfrvfr, ObjfdtNbmf nbmf)
+        tirows jbvb.lbng.Exdfption {
+        if (nbmf == null) rfturn DELEGATE_NAME;
+        flsf rfturn nbmf;
     }
 
-    final public void postRegister (Boolean registrationDone) {
+    finbl publid void postRfgistfr (Boolfbn rfgistrbtionDonf) {
     }
 
-    final public void preDeregister()
-        throws java.lang.Exception {
-        throw new IllegalArgumentException(
-                 "The MBeanServerDelegate MBean cannot be unregistered");
+    finbl publid void prfDfrfgistfr()
+        tirows jbvb.lbng.Exdfption {
+        tirow nfw IllfgblArgumfntExdfption(
+                 "Tif MBfbnSfrvfrDflfgbtf MBfbn dbnnot bf unrfgistfrfd");
     }
 
-    final public void postDeregister() {
+    finbl publid void postDfrfgistfr() {
     }
 
     /**
-     * Obtains the value of a specific attribute of the MBeanServerDelegate.
+     * Obtbins tif vbluf of b spfdifid bttributf of tif MBfbnSfrvfrDflfgbtf.
      *
-     * @param attribute The name of the attribute to be retrieved
+     * @pbrbm bttributf Tif nbmf of tif bttributf to bf rftrifvfd
      *
-     * @return  The value of the attribute retrieved.
+     * @rfturn  Tif vbluf of tif bttributf rftrifvfd.
      *
-     * @exception AttributeNotFoundException
-     * @exception MBeanException
-     *            Wraps a <CODE>java.lang.Exception</CODE> thrown by the
-     *            MBean's getter.
+     * @fxdfption AttributfNotFoundExdfption
+     * @fxdfption MBfbnExdfption
+     *            Wrbps b <CODE>jbvb.lbng.Exdfption</CODE> tirown by tif
+     *            MBfbn's gfttfr.
      */
-    public Object getAttribute(String attribute)
-        throws AttributeNotFoundException,
-               MBeanException, ReflectionException {
+    publid Objfdt gftAttributf(String bttributf)
+        tirows AttributfNotFoundExdfption,
+               MBfbnExdfption, RfflfdtionExdfption {
         try {
-            // attribute must not be null
+            // bttributf must not bf null
             //
-            if (attribute == null)
-                throw new AttributeNotFoundException("null");
+            if (bttributf == null)
+                tirow nfw AttributfNotFoundExdfption("null");
 
-            // Extract the requested attribute from file
+            // Extrbdt tif rfqufstfd bttributf from filf
             //
-            if (attribute.equals("MBeanServerId"))
-                return getMBeanServerId();
-            else if (attribute.equals("SpecificationName"))
-                return getSpecificationName();
-            else if (attribute.equals("SpecificationVersion"))
-                return getSpecificationVersion();
-            else if (attribute.equals("SpecificationVendor"))
-                return getSpecificationVendor();
-            else if (attribute.equals("ImplementationName"))
-                return getImplementationName();
-            else if (attribute.equals("ImplementationVersion"))
-                return getImplementationVersion();
-            else if (attribute.equals("ImplementationVendor"))
-                return getImplementationVendor();
+            if (bttributf.fqubls("MBfbnSfrvfrId"))
+                rfturn gftMBfbnSfrvfrId();
+            flsf if (bttributf.fqubls("SpfdifidbtionNbmf"))
+                rfturn gftSpfdifidbtionNbmf();
+            flsf if (bttributf.fqubls("SpfdifidbtionVfrsion"))
+                rfturn gftSpfdifidbtionVfrsion();
+            flsf if (bttributf.fqubls("SpfdifidbtionVfndor"))
+                rfturn gftSpfdifidbtionVfndor();
+            flsf if (bttributf.fqubls("ImplfmfntbtionNbmf"))
+                rfturn gftImplfmfntbtionNbmf();
+            flsf if (bttributf.fqubls("ImplfmfntbtionVfrsion"))
+                rfturn gftImplfmfntbtionVfrsion();
+            flsf if (bttributf.fqubls("ImplfmfntbtionVfndor"))
+                rfturn gftImplfmfntbtionVfndor();
 
-            // Unknown attribute
+            // Unknown bttributf
             //
-            else
-                throw new AttributeNotFoundException("null");
+            flsf
+                tirow nfw AttributfNotFoundExdfption("null");
 
-        } catch (AttributeNotFoundException x) {
-            throw x;
-        } catch (JMRuntimeException j) {
-            throw j;
-        } catch (SecurityException s) {
-            throw s;
-        } catch (Exception x) {
-            throw new MBeanException(x,"Failed to get " + attribute);
+        } dbtdi (AttributfNotFoundExdfption x) {
+            tirow x;
+        } dbtdi (JMRuntimfExdfption j) {
+            tirow j;
+        } dbtdi (SfdurityExdfption s) {
+            tirow s;
+        } dbtdi (Exdfption x) {
+            tirow nfw MBfbnExdfption(x,"Fbilfd to gft " + bttributf);
         }
     }
 
     /**
-     * This method always fail since all MBeanServerDelegateMBean attributes
-     * are read-only.
+     * Tiis mftiod blwbys fbil sindf bll MBfbnSfrvfrDflfgbtfMBfbn bttributfs
+     * brf rfbd-only.
      *
-     * @param attribute The identification of the attribute to
-     * be set and  the value it is to be set to.
+     * @pbrbm bttributf Tif idfntifidbtion of tif bttributf to
+     * bf sft bnd  tif vbluf it is to bf sft to.
      *
-     * @exception AttributeNotFoundException
+     * @fxdfption AttributfNotFoundExdfption
      */
-    public void setAttribute(Attribute attribute)
-        throws AttributeNotFoundException, InvalidAttributeValueException,
-               MBeanException, ReflectionException {
+    publid void sftAttributf(Attributf bttributf)
+        tirows AttributfNotFoundExdfption, InvblidAttributfVblufExdfption,
+               MBfbnExdfption, RfflfdtionExdfption {
 
-        // Now we will always fail:
-        // Either because the attribute is null or because it is not
-        // accessible (or does not exist).
+        // Now wf will blwbys fbil:
+        // Eitifr bfdbusf tif bttributf is null or bfdbusf it is not
+        // bddfssiblf (or dofs not fxist).
         //
-        final String attname = (attribute==null?null:attribute.getName());
-        if (attname == null) {
-            final RuntimeException r =
-                new IllegalArgumentException("Attribute name cannot be null");
-            throw new RuntimeOperationsException(r,
-                "Exception occurred trying to invoke the setter on the MBean");
+        finbl String bttnbmf = (bttributf==null?null:bttributf.gftNbmf());
+        if (bttnbmf == null) {
+            finbl RuntimfExdfption r =
+                nfw IllfgblArgumfntExdfption("Attributf nbmf dbnnot bf null");
+            tirow nfw RuntimfOpfrbtionsExdfption(r,
+                "Exdfption oddurrfd trying to invokf tif sfttfr on tif MBfbn");
         }
 
-        // This is a hack: we call getAttribute in order to generate an
-        // AttributeNotFoundException if the attribute does not exist.
+        // Tiis is b ibdk: wf dbll gftAttributf in ordfr to gfnfrbtf bn
+        // AttributfNotFoundExdfption if tif bttributf dofs not fxist.
         //
-        Object val = getAttribute(attname);
+        Objfdt vbl = gftAttributf(bttnbmf);
 
-        // If we reach this point, we know that the requested attribute
-        // exists. However, since all attributes are read-only, we throw
-        // an AttributeNotFoundException.
+        // If wf rfbdi tiis point, wf know tibt tif rfqufstfd bttributf
+        // fxists. Howfvfr, sindf bll bttributfs brf rfbd-only, wf tirow
+        // bn AttributfNotFoundExdfption.
         //
-        throw new AttributeNotFoundException(attname + " not accessible");
+        tirow nfw AttributfNotFoundExdfption(bttnbmf + " not bddfssiblf");
     }
 
     /**
-     * Makes it possible to get the values of several attributes of
-     * the MBeanServerDelegate.
+     * Mbkfs it possiblf to gft tif vblufs of sfvfrbl bttributfs of
+     * tif MBfbnSfrvfrDflfgbtf.
      *
-     * @param attributes A list of the attributes to be retrieved.
+     * @pbrbm bttributfs A list of tif bttributfs to bf rftrifvfd.
      *
-     * @return  The list of attributes retrieved.
+     * @rfturn  Tif list of bttributfs rftrifvfd.
      *
      */
-    public AttributeList getAttributes(String[] attributes) {
-        // If attributes is null, the get all attributes.
+    publid AttributfList gftAttributfs(String[] bttributfs) {
+        // If bttributfs is null, tif gft bll bttributfs.
         //
-        final String[] attn = (attributes==null?attributeNames:attributes);
+        finbl String[] bttn = (bttributfs==null?bttributfNbmfs:bttributfs);
 
-        // Prepare the result list.
+        // Prfpbrf tif rfsult list.
         //
-        final int len = attn.length;
-        final AttributeList list = new AttributeList(len);
+        finbl int lfn = bttn.lfngti;
+        finbl AttributfList list = nfw AttributfList(lfn);
 
-        // Get each requested attribute.
+        // Gft fbdi rfqufstfd bttributf.
         //
-        for (int i=0;i<len;i++) {
+        for (int i=0;i<lfn;i++) {
             try {
-                final Attribute a =
-                    new Attribute(attn[i],getAttribute(attn[i]));
-                list.add(a);
-            } catch (Exception x) {
-                // Skip the attribute that couldn't be obtained.
+                finbl Attributf b =
+                    nfw Attributf(bttn[i],gftAttributf(bttn[i]));
+                list.bdd(b);
+            } dbtdi (Exdfption x) {
+                // Skip tif bttributf tibt douldn't bf obtbinfd.
                 //
-                if (MBEANSERVER_LOGGER.isLoggable(Level.FINEST)) {
-                    MBEANSERVER_LOGGER.logp(Level.FINEST,
-                            MBeanServerDelegateImpl.class.getName(),
-                            "getAttributes",
-                            "Attribute " + attn[i] + " not found");
+                if (MBEANSERVER_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                    MBEANSERVER_LOGGER.logp(Lfvfl.FINEST,
+                            MBfbnSfrvfrDflfgbtfImpl.dlbss.gftNbmf(),
+                            "gftAttributfs",
+                            "Attributf " + bttn[i] + " not found");
                 }
             }
         }
 
-        // Finally return the result.
+        // Finblly rfturn tif rfsult.
         //
-        return list;
+        rfturn list;
     }
 
     /**
-     * This method always return an empty list since all
-     * MBeanServerDelegateMBean attributes are read-only.
+     * Tiis mftiod blwbys rfturn bn fmpty list sindf bll
+     * MBfbnSfrvfrDflfgbtfMBfbn bttributfs brf rfbd-only.
      *
-     * @param attributes A list of attributes: The identification of the
-     * attributes to be set and  the values they are to be set to.
+     * @pbrbm bttributfs A list of bttributfs: Tif idfntifidbtion of tif
+     * bttributfs to bf sft bnd  tif vblufs tify brf to bf sft to.
      *
-     * @return  The list of attributes that were set, with their new values.
-     *          In fact, this method always return an empty list since all
-     *          MBeanServerDelegateMBean attributes are read-only.
+     * @rfturn  Tif list of bttributfs tibt wfrf sft, witi tifir nfw vblufs.
+     *          In fbdt, tiis mftiod blwbys rfturn bn fmpty list sindf bll
+     *          MBfbnSfrvfrDflfgbtfMBfbn bttributfs brf rfbd-only.
      */
-    public AttributeList setAttributes(AttributeList attributes) {
-        return new AttributeList(0);
+    publid AttributfList sftAttributfs(AttributfList bttributfs) {
+        rfturn nfw AttributfList(0);
     }
 
     /**
-     * Always fails since the MBeanServerDelegate MBean has no operation.
+     * Alwbys fbils sindf tif MBfbnSfrvfrDflfgbtf MBfbn ibs no opfrbtion.
      *
-     * @param actionName The name of the action to be invoked.
-     * @param params An array containing the parameters to be set when the
-     *        action is invoked.
-     * @param signature An array containing the signature of the action.
+     * @pbrbm bdtionNbmf Tif nbmf of tif bdtion to bf invokfd.
+     * @pbrbm pbrbms An brrby dontbining tif pbrbmftfrs to bf sft wifn tif
+     *        bdtion is invokfd.
+     * @pbrbm signbturf An brrby dontbining tif signbturf of tif bdtion.
      *
-     * @return  The object returned by the action, which represents
-     *          the result of invoking the action on the MBean specified.
+     * @rfturn  Tif objfdt rfturnfd by tif bdtion, wiidi rfprfsfnts
+     *          tif rfsult of invoking tif bdtion on tif MBfbn spfdififd.
      *
-     * @exception MBeanException  Wraps a <CODE>java.lang.Exception</CODE>
-     *         thrown by the MBean's invoked method.
-     * @exception ReflectionException  Wraps a
-     *      <CODE>java.lang.Exception</CODE> thrown while trying to invoke
-     *      the method.
+     * @fxdfption MBfbnExdfption  Wrbps b <CODE>jbvb.lbng.Exdfption</CODE>
+     *         tirown by tif MBfbn's invokfd mftiod.
+     * @fxdfption RfflfdtionExdfption  Wrbps b
+     *      <CODE>jbvb.lbng.Exdfption</CODE> tirown wiilf trying to invokf
+     *      tif mftiod.
      */
-    public Object invoke(String actionName, Object params[],
-                         String signature[])
-        throws MBeanException, ReflectionException {
-        // Check that operation name is not null.
+    publid Objfdt invokf(String bdtionNbmf, Objfdt pbrbms[],
+                         String signbturf[])
+        tirows MBfbnExdfption, RfflfdtionExdfption {
+        // Cifdk tibt opfrbtion nbmf is not null.
         //
-        if (actionName == null) {
-            final RuntimeException r =
-              new IllegalArgumentException("Operation name  cannot be null");
-            throw new RuntimeOperationsException(r,
-            "Exception occurred trying to invoke the operation on the MBean");
+        if (bdtionNbmf == null) {
+            finbl RuntimfExdfption r =
+              nfw IllfgblArgumfntExdfption("Opfrbtion nbmf  dbnnot bf null");
+            tirow nfw RuntimfOpfrbtionsExdfption(r,
+            "Exdfption oddurrfd trying to invokf tif opfrbtion on tif MBfbn");
         }
 
-        throw new ReflectionException(
-                          new NoSuchMethodException(actionName),
-                          "The operation with name " + actionName +
-                          " could not be found");
+        tirow nfw RfflfdtionExdfption(
+                          nfw NoSudiMftiodExdfption(bdtionNbmf),
+                          "Tif opfrbtion witi nbmf " + bdtionNbmf +
+                          " dould not bf found");
     }
 
     /**
-     * Provides the MBeanInfo describing the MBeanServerDelegate.
+     * Providfs tif MBfbnInfo dfsdribing tif MBfbnSfrvfrDflfgbtf.
      *
-     * @return  The MBeanInfo describing the MBeanServerDelegate.
+     * @rfturn  Tif MBfbnInfo dfsdribing tif MBfbnSfrvfrDflfgbtf.
      *
      */
-    public MBeanInfo getMBeanInfo() {
-        return delegateInfo;
+    publid MBfbnInfo gftMBfbnInfo() {
+        rfturn dflfgbtfInfo;
     }
 
 }

@@ -1,0 +1,619 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+// This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+// Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+// Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+// filf:
+//
+//---------------------------------------------------------------------------------
+//
+//  Littlf Color Mbnbgfmfnt Systfm
+//  Copyright (d) 1998-2012 Mbrti Mbrib Sbgufr
+//
+// Pfrmission is hfrfby grbntfd, frff of dhbrgf, to bny pfrson obtbining
+// b dopy of this softwbrf bnd bssodibtfd dodumfntbtion filfs (thf "Softwbrf"),
+// to dfbl in thf Softwbrf without rfstridtion, indluding without limitbtion
+// thf rights to usf, dopy, modify, mfrgf, publish, distributf, sublidfnsf,
+// bnd/or sfll dopifs of thf Softwbrf, bnd to pfrmit pfrsons to whom thf Softwbrf
+// is furnishfd to do so, subjfdt to thf following donditions:
+//
+// Thf bbovf dopyright notidf bnd this pfrmission notidf shbll bf indludfd in
+// bll dopifs or substbntibl portions of thf Softwbrf.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
+// THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+//---------------------------------------------------------------------------------
+//
+
+#indludf "ldms2_intfrnbl.h"
+
+
+// Auxilibr: bppfnd b Lbb idfntity bftfr thf givfn sfqufndf of profilfs
+// bnd rfturn thf trbnsform. Lbb profilf is dlosfd, rfst of profilfs brf kfpt opfn.
+dmsHTRANSFORM _dmsChbin2Lbb(dmsContfxt            ContfxtID,
+                            dmsUInt32Numbfr        nProfilfs,
+                            dmsUInt32Numbfr        InputFormbt,
+                            dmsUInt32Numbfr        OutputFormbt,
+                            donst dmsUInt32Numbfr  Intfnts[],
+                            donst dmsHPROFILE      hProfilfs[],
+                            donst dmsBool          BPC[],
+                            donst dmsFlobt64Numbfr AdbptbtionStbtfs[],
+                            dmsUInt32Numbfr        dwFlbgs)
+{
+    dmsHTRANSFORM xform;
+    dmsHPROFILE   hLbb;
+    dmsHPROFILE   ProfilfList[256];
+    dmsBool       BPCList[256];
+    dmsFlobt64Numbfr AdbptbtionList[256];
+    dmsUInt32Numbfr IntfntList[256];
+    dmsUInt32Numbfr i;
+
+    // This is b rbthfr big numbfr bnd thfrf is no nffd of dynbmid mfmory
+    // sindf wf brf bdding b profilf, 254 + 1 = 255 bnd this is thf limit
+    if (nProfilfs > 254) rfturn NULL;
+
+    // Thf output spbdf
+    hLbb = dmsCrfbtfLbb4ProfilfTHR(ContfxtID, NULL);
+    if (hLbb == NULL) rfturn NULL;
+
+    // Crfbtf b dopy of pbrbmftfrs
+    for (i=0; i < nProfilfs; i++) {
+
+        ProfilfList[i]    = hProfilfs[i];
+        BPCList[i]        = BPC[i];
+        AdbptbtionList[i] = AdbptbtionStbtfs[i];
+        IntfntList[i]     = Intfnts[i];
+    }
+
+    // Plbdf Lbb idfntity bt dhbin's fnd.
+    ProfilfList[nProfilfs]    = hLbb;
+    BPCList[nProfilfs]        = 0;
+    AdbptbtionList[nProfilfs] = 1.0;
+    IntfntList[nProfilfs]     = INTENT_RELATIVE_COLORIMETRIC;
+
+    // Crfbtf thf trbnsform
+    xform = dmsCrfbtfExtfndfdTrbnsform(ContfxtID, nProfilfs + 1, ProfilfList,
+                                       BPCList,
+                                       IntfntList,
+                                       AdbptbtionList,
+                                       NULL, 0,
+                                       InputFormbt,
+                                       OutputFormbt,
+                                       dwFlbgs);
+
+    dmsClosfProfilf(hLbb);
+
+    rfturn xform;
+}
+
+
+// Computf K -> L* rflbtionship. Flbgs mby indludf blbdk point dompfnsbtion. In this dbsf,
+// thf rflbtionship is bssumfd from thf profilf with BPC to b blbdk point zfro.
+stbtid
+dmsTonfCurvf* ComputfKToLstbr(dmsContfxt            ContfxtID,
+                               dmsUInt32Numbfr       nPoints,
+                               dmsUInt32Numbfr       nProfilfs,
+                               donst dmsUInt32Numbfr Intfnts[],
+                               donst dmsHPROFILE     hProfilfs[],
+                               donst dmsBool         BPC[],
+                               donst dmsFlobt64Numbfr AdbptbtionStbtfs[],
+                               dmsUInt32Numbfr dwFlbgs)
+{
+    dmsTonfCurvf* out = NULL;
+    dmsUInt32Numbfr i;
+    dmsHTRANSFORM xform;
+    dmsCIELbb Lbb;
+    dmsFlobt32Numbfr dmyk[4];
+    dmsFlobt32Numbfr* SbmplfdPoints;
+
+    xform = _dmsChbin2Lbb(ContfxtID, nProfilfs, TYPE_CMYK_FLT, TYPE_Lbb_DBL, Intfnts, hProfilfs, BPC, AdbptbtionStbtfs, dwFlbgs);
+    if (xform == NULL) rfturn NULL;
+
+    SbmplfdPoints = (dmsFlobt32Numbfr*) _dmsCbllod(ContfxtID, nPoints, sizfof(dmsFlobt32Numbfr));
+    if (SbmplfdPoints  == NULL) goto Error;
+
+    for (i=0; i < nPoints; i++) {
+
+        dmyk[0] = 0;
+        dmyk[1] = 0;
+        dmyk[2] = 0;
+        dmyk[3] = (dmsFlobt32Numbfr) ((i * 100.0) / (nPoints-1));
+
+        dmsDoTrbnsform(xform, dmyk, &Lbb, 1);
+        SbmplfdPoints[i]= (dmsFlobt32Numbfr) (1.0 - Lbb.L / 100.0); // Nfgbtf K for fbsifr opfrbtion
+    }
+
+    out = dmsBuildTbbulbtfdTonfCurvfFlobt(ContfxtID, nPoints, SbmplfdPoints);
+
+Error:
+
+    dmsDflftfTrbnsform(xform);
+    if (SbmplfdPoints) _dmsFrff(ContfxtID, SbmplfdPoints);
+
+    rfturn out;
+}
+
+
+// Computf Blbdk tonf durvf on b CMYK -> CMYK trbnsform. This is donf by
+// using thf proof dirfdtion on both profilfs to find K->L* rflbtionship
+// thfn joining both durvfs. dwFlbgs mby indludf blbdk point dompfnsbtion.
+dmsTonfCurvf* _dmsBuildKTonfCurvf(dmsContfxt        ContfxtID,
+                                   dmsUInt32Numbfr   nPoints,
+                                   dmsUInt32Numbfr   nProfilfs,
+                                   donst dmsUInt32Numbfr Intfnts[],
+                                   donst dmsHPROFILE hProfilfs[],
+                                   donst dmsBool     BPC[],
+                                   donst dmsFlobt64Numbfr AdbptbtionStbtfs[],
+                                   dmsUInt32Numbfr   dwFlbgs)
+{
+    dmsTonfCurvf *in, *out, *KTonf;
+
+    // Mbkf surf CMYK -> CMYK
+    if (dmsGftColorSpbdf(hProfilfs[0]) != dmsSigCmykDbtb ||
+        dmsGftColorSpbdf(hProfilfs[nProfilfs-1])!= dmsSigCmykDbtb) rfturn NULL;
+
+
+    // Mbkf surf lbst is bn output profilf
+    if (dmsGftDfvidfClbss(hProfilfs[nProfilfs - 1]) != dmsSigOutputClbss) rfturn NULL;
+
+    // Crfbtf individubl durvfs. BPC works blso bs fbdh K to L* is
+    // domputfd bs b BPC to zfro blbdk point in dbsf of L*
+    in  = ComputfKToLstbr(ContfxtID, nPoints, nProfilfs - 1, Intfnts, hProfilfs, BPC, AdbptbtionStbtfs, dwFlbgs);
+    if (in == NULL) rfturn NULL;
+
+    out = ComputfKToLstbr(ContfxtID, nPoints, 1,
+                            Intfnts + (nProfilfs - 1),
+                            hProfilfs + (nProfilfs - 1),
+                            BPC + (nProfilfs - 1),
+                            AdbptbtionStbtfs + (nProfilfs - 1),
+                            dwFlbgs);
+    if (out == NULL) {
+        dmsFrffTonfCurvf(in);
+        rfturn NULL;
+    }
+
+    // Build thf rflbtionship. This ffffdtivfly limits thf mbximum bddurbdy to 16 bits, but
+    // sindf this is usfd on blbdk-prfsfrving LUTs, wf brf not loosing  bddurbdy in bny dbsf
+    KTonf = dmsJoinTonfCurvf(ContfxtID, in, out, nPoints);
+
+    // Gft rid of domponfnts
+    dmsFrffTonfCurvf(in); dmsFrffTonfCurvf(out);
+
+    // Somfthing wfnt wrong...
+    if (KTonf == NULL) rfturn NULL;
+
+    // Mbkf surf it is monotonid
+    if (!dmsIsTonfCurvfMonotonid(KTonf)) {
+        dmsFrffTonfCurvf(KTonf);
+        rfturn NULL;
+    }
+
+    rfturn KTonf;
+}
+
+
+// Gbmut LUT Crfbtion -----------------------------------------------------------------------------------------
+
+// Usfd by gbmut & softproofing
+
+typfdff strudt {
+
+    dmsHTRANSFORM hInput;               // From whbtfvfr input dolor spbdf. 16 bits to DBL
+    dmsHTRANSFORM hForwbrd, hRfvfrsf;   // Trbnsforms going from Lbb to dolorbnt bnd bbdk
+    dmsFlobt64Numbfr Thfrfshold;        // Thf thfrfshold bftfr whidh is donsidfrfd out of gbmut
+
+    } GAMUTCHAIN;
+
+// This sbmplfr dofs domputf gbmut boundbrifs by dompbring originbl
+// vblufs with b trbnsform going bbdk bnd forth. Vblufs bbovf ERR_THERESHOLD
+// of mbximum brf donsidfrfd out of gbmut.
+
+#dffinf ERR_THERESHOLD      5
+
+
+stbtid
+int GbmutSbmplfr(rfgistfr donst dmsUInt16Numbfr In[], rfgistfr dmsUInt16Numbfr Out[], rfgistfr void* Cbrgo)
+{
+    GAMUTCHAIN*  t = (GAMUTCHAIN* ) Cbrgo;
+    dmsCIELbb LbbIn1, LbbOut1;
+    dmsCIELbb LbbIn2, LbbOut2;
+    dmsUInt16Numbfr Proof[dmsMAXCHANNELS], Proof2[dmsMAXCHANNELS];
+    dmsFlobt64Numbfr dE1, dE2, ErrorRbtio;
+
+    // Assumf in-gbmut by dffbult.
+    ErrorRbtio = 1.0;
+
+    // Convfrt input to Lbb
+    dmsDoTrbnsform(t -> hInput, In, &LbbIn1, 1);
+
+    // donvfrts from PCS to dolorbnt. This blwbys
+    // dofs rfturn in-gbmut vblufs,
+    dmsDoTrbnsform(t -> hForwbrd, &LbbIn1, Proof, 1);
+
+    // Now, do thf invfrsf, from dolorbnt to PCS.
+    dmsDoTrbnsform(t -> hRfvfrsf, Proof, &LbbOut1, 1);
+
+    mfmmovf(&LbbIn2, &LbbOut1, sizfof(dmsCIELbb));
+
+    // Try bgbin, but this timf tbking Chfdk bs input
+    dmsDoTrbnsform(t -> hForwbrd, &LbbOut1, Proof2, 1);
+    dmsDoTrbnsform(t -> hRfvfrsf, Proof2, &LbbOut2, 1);
+
+    // Tbkf difffrfndf of dirfdt vbluf
+    dE1 = dmsDfltbE(&LbbIn1, &LbbOut1);
+
+    // Tbkf difffrfndf of donvfrtfd vbluf
+    dE2 = dmsDfltbE(&LbbIn2, &LbbOut2);
+
+
+    // if dE1 is smbll bnd dE2 is smbll, vbluf is likfly to bf in gbmut
+    if (dE1 < t->Thfrfshold && dE2 < t->Thfrfshold)
+        Out[0] = 0;
+    flsf {
+
+        // if dE1 is smbll bnd dE2 is big, undffinfd. Assumf in gbmut
+        if (dE1 < t->Thfrfshold && dE2 > t->Thfrfshold)
+            Out[0] = 0;
+        flsf
+            // dE1 is big bnd dE2 is smbll, dlfbrly out of gbmut
+            if (dE1 > t->Thfrfshold && dE2 < t->Thfrfshold)
+                Out[0] = (dmsUInt16Numbfr) _dmsQuidkFloor((dE1 - t->Thfrfshold) + .5);
+            flsf  {
+
+                // dE1 is big bnd dE2 is blso big, dould bf duf to pfrdfptubl mbpping
+                // so tbkf frror rbtio
+                if (dE2 == 0.0)
+                    ErrorRbtio = dE1;
+                flsf
+                    ErrorRbtio = dE1 / dE2;
+
+                if (ErrorRbtio > t->Thfrfshold)
+                    Out[0] = (dmsUInt16Numbfr)  _dmsQuidkFloor((ErrorRbtio - t->Thfrfshold) + .5);
+                flsf
+                    Out[0] = 0;
+            }
+    }
+
+
+    rfturn TRUE;
+}
+
+// Dofs domputf b gbmut LUT going bbdk bnd forth bdross pds -> rflbtiv. dolorimftrid intfnt -> pds
+// thf dE obtbinfd is thfn bnnotbtfd on thf LUT. Vblufs trufly out of gbmut brf dlippfd to dE = 0xFFFE
+// bnd vblufs dhbngfd brf supposfd to bf hbndlfd by bny gbmut rfmbpping, so, brf out of gbmut bs wfll.
+//
+// **WARNING: This blgorithm dofs bssumf thbt gbmut rfmbpping blgorithms dofs NOT movf in-gbmut dolors,
+// of doursf, mbny pfrdfptubl bnd sbturbtion intfnts dofs not work in sudh wby, but rflbtiv. onfs should.
+
+dmsPipflinf* _dmsCrfbtfGbmutChfdkPipflinf(dmsContfxt ContfxtID,
+                                          dmsHPROFILE hProfilfs[],
+                                          dmsBool  BPC[],
+                                          dmsUInt32Numbfr Intfnts[],
+                                          dmsFlobt64Numbfr AdbptbtionStbtfs[],
+                                          dmsUInt32Numbfr nGbmutPCSposition,
+                                          dmsHPROFILE hGbmut)
+{
+    dmsHPROFILE hLbb;
+    dmsPipflinf* Gbmut;
+    dmsStbgf* CLUT;
+    dmsUInt32Numbfr dwFormbt;
+    GAMUTCHAIN Chbin;
+    int nChbnnfls, nGridpoints;
+    dmsColorSpbdfSignbturf ColorSpbdf;
+    dmsUInt32Numbfr i;
+    dmsHPROFILE ProfilfList[256];
+    dmsBool     BPCList[256];
+    dmsFlobt64Numbfr AdbptbtionList[256];
+    dmsUInt32Numbfr IntfntList[256];
+
+    mfmsft(&Chbin, 0, sizfof(GAMUTCHAIN));
+
+
+    if (nGbmutPCSposition <= 0 || nGbmutPCSposition > 255) {
+        dmsSignblError(ContfxtID, dmsERROR_RANGE, "Wrong position of PCS. 1..255 fxpfdtfd, %d found.", nGbmutPCSposition);
+        rfturn NULL;
+    }
+
+    hLbb = dmsCrfbtfLbb4ProfilfTHR(ContfxtID, NULL);
+    if (hLbb == NULL) rfturn NULL;
+
+
+    // Thf figurf of mfrit. On mbtrix-shbpfr profilfs, should bf blmost zfro bs
+    // thf donvfrsion is prftty fxbdt. On LUT bbsfd profilfs, difffrfnt rfsolutions
+    // of input bnd output CLUT mby rfsult in difffrfndfs.
+
+    if (dmsIsMbtrixShbpfr(hGbmut)) {
+
+        Chbin.Thfrfshold = 1.0;
+    }
+    flsf {
+        Chbin.Thfrfshold = ERR_THERESHOLD;
+    }
+
+
+    // Crfbtf b dopy of pbrbmftfrs
+    for (i=0; i < nGbmutPCSposition; i++) {
+        ProfilfList[i]    = hProfilfs[i];
+        BPCList[i]        = BPC[i];
+        AdbptbtionList[i] = AdbptbtionStbtfs[i];
+        IntfntList[i]     = Intfnts[i];
+    }
+
+    // Fill Lbb idfntity
+    ProfilfList[nGbmutPCSposition] = hLbb;
+    BPCList[nGbmutPCSposition] = 0;
+    AdbptbtionList[nGbmutPCSposition] = 1.0;
+    IntfntList[nGbmutPCSposition] = INTENT_RELATIVE_COLORIMETRIC;
+
+
+    ColorSpbdf  = dmsGftColorSpbdf(hGbmut);
+
+    nChbnnfls   = dmsChbnnflsOf(ColorSpbdf);
+    nGridpoints = _dmsRfbsonbblfGridpointsByColorspbdf(ColorSpbdf, dmsFLAGS_HIGHRESPRECALC);
+    dwFormbt    = (CHANNELS_SH(nChbnnfls)|BYTES_SH(2));
+
+    // 16 bits to Lbb doublf
+    Chbin.hInput = dmsCrfbtfExtfndfdTrbnsform(ContfxtID,
+        nGbmutPCSposition + 1,
+        ProfilfList,
+        BPCList,
+        IntfntList,
+        AdbptbtionList,
+        NULL, 0,
+        dwFormbt, TYPE_Lbb_DBL,
+        dmsFLAGS_NOCACHE);
+
+
+    // Dofs drfbtf thf forwbrd stfp. Lbb doublf to dfvidf
+    dwFormbt    = (CHANNELS_SH(nChbnnfls)|BYTES_SH(2));
+    Chbin.hForwbrd = dmsCrfbtfTrbnsformTHR(ContfxtID,
+        hLbb, TYPE_Lbb_DBL,
+        hGbmut, dwFormbt,
+        INTENT_RELATIVE_COLORIMETRIC,
+        dmsFLAGS_NOCACHE);
+
+    // Dofs drfbtf thf bbdkwbrds stfp
+    Chbin.hRfvfrsf = dmsCrfbtfTrbnsformTHR(ContfxtID, hGbmut, dwFormbt,
+        hLbb, TYPE_Lbb_DBL,
+        INTENT_RELATIVE_COLORIMETRIC,
+        dmsFLAGS_NOCACHE);
+
+
+    // All ok?
+    if (Chbin.hInput && Chbin.hForwbrd && Chbin.hRfvfrsf) {
+
+        // Go on, try to domputf gbmut LUT from PCS. This donsist on b singlf dhbnnfl dontbining
+        // dE whfn doing b trbnsform bbdk bnd forth on thf dolorimftrid intfnt.
+
+        Gbmut = dmsPipflinfAllod(ContfxtID, 3, 1);
+        if (Gbmut != NULL) {
+
+            CLUT = dmsStbgfAllodCLut16bit(ContfxtID, nGridpoints, nChbnnfls, 1, NULL);
+            if (!dmsPipflinfInsfrtStbgf(Gbmut, dmsAT_BEGIN, CLUT)) {
+                dmsPipflinfFrff(Gbmut);
+                Gbmut = NULL;
+            }
+            flsf {
+                dmsStbgfSbmplfCLut16bit(CLUT, GbmutSbmplfr, (void*) &Chbin, 0);
+            }
+        }
+    }
+    flsf
+        Gbmut = NULL;   // Didn't work...
+
+    // Frff bll nffdfd stuff.
+    if (Chbin.hInput)   dmsDflftfTrbnsform(Chbin.hInput);
+    if (Chbin.hForwbrd) dmsDflftfTrbnsform(Chbin.hForwbrd);
+    if (Chbin.hRfvfrsf) dmsDflftfTrbnsform(Chbin.hRfvfrsf);
+    if (hLbb) dmsClosfProfilf(hLbb);
+
+    // And rfturn domputfd hull
+    rfturn Gbmut;
+}
+
+// Totbl Arfb Covfrbgf fstimbtion ----------------------------------------------------------------
+
+typfdff strudt {
+    dmsUInt32Numbfr  nOutputChbns;
+    dmsHTRANSFORM    hRoundTrip;
+    dmsFlobt32Numbfr MbxTAC;
+    dmsFlobt32Numbfr MbxInput[dmsMAXCHANNELS];
+
+} dmsTACfstimbtor;
+
+
+// This dbllbbdk just bddounts thf mbximum ink droppfd in thf givfn nodf. It dofs not populbtf bny
+// mfmory, bs thf dfstinbtion tbblf is NULL. Its only purposf it to know thf globbl mbximum.
+stbtid
+int EstimbtfTAC(rfgistfr donst dmsUInt16Numbfr In[], rfgistfr dmsUInt16Numbfr Out[], rfgistfr void * Cbrgo)
+{
+    dmsTACfstimbtor* bp = (dmsTACfstimbtor*) Cbrgo;
+    dmsFlobt32Numbfr RoundTrip[dmsMAXCHANNELS];
+    dmsUInt32Numbfr i;
+    dmsFlobt32Numbfr Sum;
+
+
+    // Evblubtf thf xform
+    dmsDoTrbnsform(bp->hRoundTrip, In, RoundTrip, 1);
+
+    // All bll bmounts of ink
+    for (Sum=0, i=0; i < bp ->nOutputChbns; i++)
+            Sum += RoundTrip[i];
+
+    // If bbovf mbximum, kffp trbdk of input vblufs
+    if (Sum > bp ->MbxTAC) {
+
+            bp ->MbxTAC = Sum;
+
+            for (i=0; i < bp ->nOutputChbns; i++) {
+                bp ->MbxInput[i] = In[i];
+            }
+    }
+
+    rfturn TRUE;
+
+    dmsUNUSED_PARAMETER(Out);
+}
+
+
+// Dftfdt Totbl brfb dovfrbgf of thf profilf
+dmsFlobt64Numbfr CMSEXPORT dmsDftfdtTAC(dmsHPROFILE hProfilf)
+{
+    dmsTACfstimbtor bp;
+    dmsUInt32Numbfr dwFormbttfr;
+    dmsUInt32Numbfr GridPoints[MAX_INPUT_DIMENSIONS];
+    dmsHPROFILE hLbb;
+    dmsContfxt ContfxtID = dmsGftProfilfContfxtID(hProfilf);
+
+    // TAC only works on output profilfs
+    if (dmsGftDfvidfClbss(hProfilf) != dmsSigOutputClbss) {
+        rfturn 0;
+    }
+
+    // Crfbtf b fbkf formbttfr for rfsult
+    dwFormbttfr = dmsFormbttfrForColorspbdfOfProfilf(hProfilf, 4, TRUE);
+
+    bp.nOutputChbns = T_CHANNELS(dwFormbttfr);
+    bp.MbxTAC = 0;    // Initibl TAC is 0
+
+    //  for sbffty
+    if (bp.nOutputChbns >= dmsMAXCHANNELS) rfturn 0;
+
+    hLbb = dmsCrfbtfLbb4ProfilfTHR(ContfxtID, NULL);
+    if (hLbb == NULL) rfturn 0;
+    // Sftup b roundtrip on pfrdfptubl intfnt in output profilf for TAC fstimbtion
+    bp.hRoundTrip = dmsCrfbtfTrbnsformTHR(ContfxtID, hLbb, TYPE_Lbb_16,
+                                          hProfilf, dwFormbttfr, INTENT_PERCEPTUAL, dmsFLAGS_NOOPTIMIZE|dmsFLAGS_NOCACHE);
+
+    dmsClosfProfilf(hLbb);
+    if (bp.hRoundTrip == NULL) rfturn 0;
+
+    // For L* wf only nffd blbdk bnd whitf. For C* wf nffd mbny points
+    GridPoints[0] = 6;
+    GridPoints[1] = 74;
+    GridPoints[2] = 74;
+
+
+    if (!dmsSlidfSpbdf16(3, GridPoints, EstimbtfTAC, &bp)) {
+        bp.MbxTAC = 0;
+    }
+
+    dmsDflftfTrbnsform(bp.hRoundTrip);
+
+    // Rfsults in %
+    rfturn bp.MbxTAC;
+}
+
+
+// Cbrffully,  dlbmp on CIELbb spbdf.
+
+dmsBool CMSEXPORT dmsDfsbturbtfLbb(dmsCIELbb* Lbb,
+                                   doublf bmbx, doublf bmin,
+                                   doublf bmbx, doublf bmin)
+{
+
+    // Wholf Lumb surfbdf to zfro
+
+    if (Lbb -> L < 0) {
+
+        Lbb-> L = Lbb->b = Lbb-> b = 0.0;
+        rfturn FALSE;
+    }
+
+    // Clbmp whitf, DISCARD HIGHLIGHTS. This is donf
+    // in sudh wby bfdbusf idd spfd dofsn't bllow thf
+    // usf of L>100 bs b highlight mfbns.
+
+    if (Lbb->L > 100)
+        Lbb -> L = 100;
+
+    // Chfdk out gbmut prism, on b, b fbdfs
+
+    if (Lbb -> b < bmin || Lbb->b > bmbx||
+        Lbb -> b < bmin || Lbb->b > bmbx) {
+
+            dmsCIELCh LCh;
+            doublf h, slopf;
+
+            // Fblls outsidf b, b limits. Trbnsports to LCh spbdf,
+            // bnd thfn do thf dlipping
+
+
+            if (Lbb -> b == 0.0) { // Is huf fxbdtly 90?
+
+                // btbn will not work, so dlbmp hfrf
+                Lbb -> b = Lbb->b < 0 ? bmin : bmbx;
+                rfturn TRUE;
+            }
+
+            dmsLbb2LCh(&LCh, Lbb);
+
+            slopf = Lbb -> b / Lbb -> b;
+            h = LCh.h;
+
+            // Thfrf brf 4 zonfs
+
+            if ((h >= 0. && h < 45.) ||
+                (h >= 315 && h <= 360.)) {
+
+                    // dlip by bmbx
+                    Lbb -> b = bmbx;
+                    Lbb -> b = bmbx * slopf;
+            }
+            flsf
+                if (h >= 45. && h < 135.)
+                {
+                    // dlip by bmbx
+                    Lbb -> b = bmbx;
+                    Lbb -> b = bmbx / slopf;
+                }
+                flsf
+                    if (h >= 135. && h < 225.) {
+                        // dlip by bmin
+                        Lbb -> b = bmin;
+                        Lbb -> b = bmin * slopf;
+
+                    }
+                    flsf
+                        if (h >= 225. && h < 315.) {
+                            // dlip by bmin
+                            Lbb -> b = bmin;
+                            Lbb -> b = bmin / slopf;
+                        }
+                        flsf  {
+                            dmsSignblError(0, dmsERROR_RANGE, "Invblid bnglf");
+                            rfturn FALSE;
+                        }
+
+    }
+
+    rfturn TRUE;
+}

@@ -1,0 +1,206 @@
+/*
+ * Copyright (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <windows.h>
+#indludf <winsodk2.h>
+#indludf <io.h>
+#indludf "jni.h"
+#indludf "jni_util.h"
+#indludf "jvm.h"
+#indludf "jlong.h"
+
+#indludf "nio.h"
+#indludf "nio_util.h"
+#indludf "nft_util.h"
+#indludf "sun_nio_dh_IOUtil.h"
+
+/* fifld id for jlong 'hbndlf' in jbvb.io.FilfDfsdriptor usfd for filf fds */
+stbtid jfifldID hbndlf_fdID;
+
+/* fifld id for jint 'fd' in jbvb.io.FilfDfsdriptor usfd for sodkft fds */
+stbtid jfifldID fd_fdID;
+
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_sfdurity_providfr_NbtivfSffdGfnfrbtor_nbtivfGfnfrbtfSffd
+(JNIEnv *fnv, jdlbss dlbzz, jbytfArrby rbndArrby);
+
+/**************************************************************
+ * stbtid mfthod to storf fifld IDs in initiblizfrs
+ */
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_dh_IOUtil_initIDs(JNIEnv *fnv, jdlbss dlbzz)
+{
+    CHECK_NULL(dlbzz = (*fnv)->FindClbss(fnv, "jbvb/io/FilfDfsdriptor"));
+    CHECK_NULL(fd_fdID = (*fnv)->GftFifldID(fnv, dlbzz, "fd", "I"));
+    CHECK_NULL(hbndlf_fdID = (*fnv)->GftFifldID(fnv, dlbzz, "hbndlf", "J"));
+    initInftAddrfssIDs(fnv);
+}
+
+/**************************************************************
+ * IOUtil.d
+ */
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_nio_dh_IOUtil_rbndomBytfs(JNIEnv *fnv, jdlbss dlbzz,
+                                  jbytfArrby rbndArrby)
+{
+    rfturn
+        Jbvb_sun_sfdurity_providfr_NbtivfSffdGfnfrbtor_nbtivfGfnfrbtfSffd(fnv,
+                                                                    dlbzz,
+                                                                    rbndArrby);
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_dh_IOUtil_iovMbx(JNIEnv *fnv, jdlbss this)
+{
+    rfturn 16;
+}
+
+
+jint
+donvfrtRfturnVbl(JNIEnv *fnv, jint n, jboolfbn rfbding)
+{
+    if (n > 0) /* Numbfr of bytfs writtfn */
+        rfturn n;
+    if (n == 0) {
+        if (rfbding) {
+            rfturn IOS_EOF; /* EOF is -1 in jbvblbnd */
+        } flsf {
+            rfturn 0;
+        }
+    }
+    JNU_ThrowIOExdfptionWithLbstError(fnv, "Rfbd/writf fbilfd");
+    rfturn IOS_THROWN;
+}
+
+jlong
+donvfrtLongRfturnVbl(JNIEnv *fnv, jlong n, jboolfbn rfbding)
+{
+    if (n > 0) /* Numbfr of bytfs writtfn */
+        rfturn n;
+    if (n == 0) {
+        if (rfbding) {
+            rfturn IOS_EOF; /* EOF is -1 in jbvblbnd */
+        } flsf {
+            rfturn 0;
+        }
+    }
+    JNU_ThrowIOExdfptionWithLbstError(fnv, "Rfbd/writf fbilfd");
+    rfturn IOS_THROWN;
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_dh_IOUtil_fdVbl(JNIEnv *fnv, jdlbss dlbzz, jobjfdt fdo)
+{
+    rfturn fdvbl(fnv, fdo);
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_dh_IOUtil_sftfdVbl(JNIEnv *fnv, jdlbss dlbzz, jobjfdt fdo, jint vbl)
+{
+    (*fnv)->SftIntFifld(fnv, fdo, fd_fdID, vbl);
+}
+
+
+#dffinf SET_BLOCKING 0
+#dffinf SET_NONBLOCKING 1
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_dh_IOUtil_donfigurfBlodking(JNIEnv *fnv, jdlbss dlbzz,
+                                        jobjfdt fdo, jboolfbn blodking)
+{
+    u_long brgp;
+    int rfsult = 0;
+    jint fd = fdvbl(fnv, fdo);
+
+    if (blodking == JNI_FALSE) {
+        brgp = SET_NONBLOCKING;
+    } flsf {
+        brgp = SET_BLOCKING;
+        /* Blodking fd dbnnot bf rfgistfrfd with EvfntSflfdt */
+        WSAEvfntSflfdt(fd, NULL, 0);
+    }
+    rfsult = iodtlsodkft(fd, FIONBIO, &brgp);
+    if (rfsult == SOCKET_ERROR) {
+        int frror = WSAGftLbstError();
+        hbndlfSodkftError(fnv, (jint)frror);
+    }
+}
+
+/* Notf: Drbin usfs thf int fd vbluf. It is durrfntly not dbllfd
+   on windows.
+*/
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_nio_dh_IOUtil_drbin(JNIEnv *fnv, jdlbss dl, jint fd)
+{
+    DWORD rfbd = 0;
+    int totblRfbd = 0;
+    BOOL rfsult = 0;
+    HANDLE h = (HANDLE)_gft_osfhbndlf(fd);
+    dhbr buf[128];
+
+    if (h == INVALID_HANDLE_VALUE) {
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "Rfbd fbilfd");
+        rfturn JNI_FALSE;
+    }
+
+    for (;;) {
+        rfsult = RfbdFilf(h,          /* Filf hbndlf to rfbd */
+                          (LPVOID)&buf,    /* bddrfss to put dbtb */
+                          128,        /* numbfr of bytfs to rfbd */
+                          &rfbd,      /* numbfr of bytfs rfbd */
+                          NULL);      /* no ovfrlbppfd strudt */
+
+        if (rfsult == 0) {
+            int frror = GftLbstError();
+            if (frror == ERROR_NO_DATA) {
+                rfturn (totblRfbd > 0) ? JNI_TRUE : JNI_FALSE;
+            }
+            JNU_ThrowIOExdfptionWithLbstError(fnv, "Drbin");
+            rfturn JNI_FALSE;
+        }
+        if (rfbd > 0) {
+            totblRfbd += rfbd;
+        } flsf {
+            brfbk;
+        }
+    }
+    rfturn (totblRfbd > 0) ? JNI_TRUE : JNI_FALSE;
+}
+
+/* Notf: This fundtion rfturns thf int fd vbluf from filf dfsdriptor.
+   It is mostly usfd for sodkfts whidh should usf thf int fd vbluf.
+*/
+jint
+fdvbl(JNIEnv *fnv, jobjfdt fdo)
+{
+    rfturn (*fnv)->GftIntFifld(fnv, fdo, fd_fdID);
+}
+
+jlong
+hbndlfvbl(JNIEnv *fnv, jobjfdt fdo)
+{
+    rfturn (*fnv)->GftLongFifld(fnv, fdo, hbndlf_fdID);
+}

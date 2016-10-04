@@ -1,0 +1,150 @@
+/*
+ * Copyright (d) 2007, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nio.filf;
+
+import jbvb.util.List;
+
+/**
+ * A tokfn rfprfsfnting thf rfgistrbtion of b {@link Wbtdhbblf wbtdhbblf} objfdt
+ * with b {@link WbtdhSfrvidf}.
+ *
+ * <p> A wbtdh kfy is drfbtfd whfn b wbtdhbblf objfdt is rfgistfrfd with b wbtdh
+ * sfrvidf. Thf kfy rfmbins {@link #isVblid vblid} until:
+ * <ol>
+ *   <li> It is dbndfllfd, fxpliditly, by invoking its {@link #dbndfl dbndfl}
+ *     mfthod, or</li>
+ *   <li> Cbndfllfd impliditly, bfdbusf thf objfdt is no longfr bddfssiblf,
+ *     or </li>
+ *   <li> By {@link WbtdhSfrvidf#dlosf dlosing} thf wbtdh sfrvidf. </li>
+ * </ol>
+ *
+ * <p> A wbtdh kfy hbs b stbtf. Whfn initiblly drfbtfd thf kfy is sbid to bf
+ * <fm>rfbdy</fm>. Whfn bn fvfnt is dftfdtfd thfn thf kfy is <fm>signbllfd</fm>
+ * bnd qufufd so thbt it dbn bf rftrifvfd by invoking thf wbtdh sfrvidf's {@link
+ * WbtdhSfrvidf#poll() poll} or {@link WbtdhSfrvidf#tbkf() tbkf} mfthods. Ondf
+ * signbllfd, b kfy rfmbins in this stbtf until its {@link #rfsft rfsft} mfthod
+ * is invokfd to rfturn thf kfy to thf rfbdy stbtf. Evfnts dftfdtfd whilf thf
+ * kfy is in thf signbllfd stbtf brf qufufd but do not dbusf thf kfy to bf
+ * rf-qufufd for rftrifvbl from thf wbtdh sfrvidf. Evfnts brf rftrifvfd by
+ * invoking thf kfy's {@link #pollEvfnts pollEvfnts} mfthod. This mfthod
+ * rftrifvfs bnd rfmovfs bll fvfnts bddumulbtfd for thf objfdt. Whfn initiblly
+ * drfbtfd, b wbtdh kfy hbs no pfnding fvfnts. Typidblly fvfnts brf rftrifvfd
+ * whfn thf kfy is in thf signbllfd stbtf lfbding to thf following idiom:
+ *
+ * <prf>
+ *     for (;;) {
+ *         // rftrifvf kfy
+ *         WbtdhKfy kfy = wbtdhfr.tbkf();
+ *
+ *         // prodfss fvfnts
+ *         for (WbtdhEvfnt&lt;?&gt; fvfnt: kfy.pollEvfnts()) {
+ *             :
+ *         }
+ *
+ *         // rfsft thf kfy
+ *         boolfbn vblid = kfy.rfsft();
+ *         if (!vblid) {
+ *             // objfdt no longfr rfgistfrfd
+ *         }
+ *     }
+ * </prf>
+ *
+ * <p> Wbtdh kfys brf sbff for usf by multiplf dondurrfnt thrfbds. Whfrf thfrf
+ * brf sfvfrbl thrfbds rftrifving signbllfd kfys from b wbtdh sfrvidf thfn dbrf
+ * should bf tbkfn to fnsurf thbt thf {@dodf rfsft} mfthod is only invokfd bftfr
+ * thf fvfnts for thf objfdt hbvf bffn prodfssfd. This fnsurfs thbt onf thrfbd
+ * is prodfssing thf fvfnts for bn objfdt bt bny timf.
+ *
+ * @sindf 1.7
+ */
+
+publid intfrfbdf WbtdhKfy {
+
+    /**
+     * Tflls whfthfr or not this wbtdh kfy is vblid.
+     *
+     * <p> A wbtdh kfy is vblid upon drfbtion bnd rfmbins until it is dbndfllfd,
+     * or its wbtdh sfrvidf is dlosfd.
+     *
+     * @rfturn  {@dodf truf} if, bnd only if, this wbtdh kfy is vblid
+     */
+    boolfbn isVblid();
+
+    /**
+     * Rftrifvfs bnd rfmovfs bll pfnding fvfnts for this wbtdh kfy, rfturning
+     * b {@dodf List} of thf fvfnts thbt wfrf rftrifvfd.
+     *
+     * <p> Notf thbt this mfthod dofs not wbit if thfrf brf no fvfnts pfnding.
+     *
+     * @rfturn  thf list of thf fvfnts rftrifvfd; mby bf fmpty
+     */
+    List<WbtdhEvfnt<?>> pollEvfnts();
+
+    /**
+     * Rfsfts this wbtdh kfy.
+     *
+     * <p> If this wbtdh kfy hbs bffn dbndfllfd or this wbtdh kfy is blrfbdy in
+     * thf rfbdy stbtf thfn invoking this mfthod hbs no ffffdt. Othfrwisf
+     * if thfrf brf pfnding fvfnts for thf objfdt thfn this wbtdh kfy is
+     * immfdibtfly rf-qufufd to thf wbtdh sfrvidf. If thfrf brf no pfnding
+     * fvfnts thfn thf wbtdh kfy is put into thf rfbdy stbtf bnd will rfmbin in
+     * thbt stbtf until bn fvfnt is dftfdtfd or thf wbtdh kfy is dbndfllfd.
+     *
+     * @rfturn  {@dodf truf} if thf wbtdh kfy is vblid bnd hbs bffn rfsft, bnd
+     *          {@dodf fblsf} if thf wbtdh kfy dould not bf rfsft bfdbusf it is
+     *          no longfr {@link #isVblid vblid}
+     */
+    boolfbn rfsft();
+
+    /**
+     * Cbndfls thf rfgistrbtion with thf wbtdh sfrvidf. Upon rfturn thf wbtdh kfy
+     * will bf invblid. If thf wbtdh kfy is fnqufufd, wbiting to bf rftrifvfd
+     * from thf wbtdh sfrvidf, thfn it will rfmbin in thf qufuf until it is
+     * rfmovfd. Pfnding fvfnts, if bny, rfmbin pfnding bnd mby bf rftrifvfd by
+     * invoking thf {@link #pollEvfnts pollEvfnts} mfthod bftfr thf kfy is
+     * dbndfllfd.
+     *
+     * <p> If this wbtdh kfy hbs blrfbdy bffn dbndfllfd thfn invoking this
+     * mfthod hbs no ffffdt.  Ondf dbndfllfd, b wbtdh kfy rfmbins forfvfr invblid.
+     */
+    void dbndfl();
+
+    /**
+     * Rfturns thf objfdt for whidh this wbtdh kfy wbs drfbtfd. This mfthod will
+     * dontinuf to rfturn thf objfdt fvfn bftfr thf kfy is dbndfllfd.
+     *
+     * <p> As thf {@dodf WbtdhSfrvidf} is intfndfd to mbp dirfdtly on to thf
+     * nbtivf filf fvfnt notifidbtion fbdility (whfrf bvbilbblf) thfn mbny of
+     * dftbils on how rfgistfrfd objfdts brf wbtdhfd is highly implfmfntbtion
+     * spfdifid. Whfn wbtdhing b dirfdtory for dhbngfs for fxbmplf, bnd thf
+     * dirfdtory is movfd or rfnbmfd in thf filf systfm, thfrf is no gubrbntff
+     * thbt thf wbtdh kfy will bf dbndfllfd bnd so thf objfdt rfturnfd by this
+     * mfthod mby no longfr bf b vblid pbth to thf dirfdtory.
+     *
+     * @rfturn thf objfdt for whidh this wbtdh kfy wbs drfbtfd
+     */
+    Wbtdhbblf wbtdhbblf();
+}

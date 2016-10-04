@@ -1,153 +1,153 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.image;
+pbdkbgf jbvb.bwt.imbgf;
 
 
 /**
- * The <code>Kernel</code> class defines a matrix that describes how a
- * specified pixel and its surrounding pixels affect the value
- * computed for the pixel's position in the output image of a filtering
- * operation.  The X origin and Y origin indicate the kernel matrix element
- * that corresponds to the pixel position for which an output value is
- * being computed.
+ * Tif <dodf>Kfrnfl</dodf> dlbss dffinfs b mbtrix tibt dfsdribfs iow b
+ * spfdififd pixfl bnd its surrounding pixfls bfffdt tif vbluf
+ * domputfd for tif pixfl's position in tif output imbgf of b filtfring
+ * opfrbtion.  Tif X origin bnd Y origin indidbtf tif kfrnfl mbtrix flfmfnt
+ * tibt dorrfsponds to tif pixfl position for wiidi bn output vbluf is
+ * bfing domputfd.
  *
- * @see ConvolveOp
+ * @sff ConvolvfOp
  */
-public class Kernel implements Cloneable {
-    private int  width;
-    private int  height;
-    private int  xOrigin;
-    private int  yOrigin;
-    private float data[];
+publid dlbss Kfrnfl implfmfnts Clonfbblf {
+    privbtf int  widti;
+    privbtf int  ifigit;
+    privbtf int  xOrigin;
+    privbtf int  yOrigin;
+    privbtf flobt dbtb[];
 
-    private static native void initIDs();
-    static {
-        ColorModel.loadLibraries();
+    privbtf stbtid nbtivf void initIDs();
+    stbtid {
+        ColorModfl.lobdLibrbrifs();
         initIDs();
     }
 
     /**
-     * Constructs a <code>Kernel</code> object from an array of floats.
-     * The first <code>width</code>*<code>height</code> elements of
-     * the <code>data</code> array are copied.
-     * If the length of the <code>data</code> array is less
-     * than width*height, an <code>IllegalArgumentException</code> is thrown.
-     * The X origin is (width-1)/2 and the Y origin is (height-1)/2.
-     * @param width         width of the kernel
-     * @param height        height of the kernel
-     * @param data          kernel data in row major order
-     * @throws IllegalArgumentException if the length of <code>data</code>
-     *         is less than the product of <code>width</code> and
-     *         <code>height</code>
+     * Construdts b <dodf>Kfrnfl</dodf> objfdt from bn brrby of flobts.
+     * Tif first <dodf>widti</dodf>*<dodf>ifigit</dodf> flfmfnts of
+     * tif <dodf>dbtb</dodf> brrby brf dopifd.
+     * If tif lfngti of tif <dodf>dbtb</dodf> brrby is lfss
+     * tibn widti*ifigit, bn <dodf>IllfgblArgumfntExdfption</dodf> is tirown.
+     * Tif X origin is (widti-1)/2 bnd tif Y origin is (ifigit-1)/2.
+     * @pbrbm widti         widti of tif kfrnfl
+     * @pbrbm ifigit        ifigit of tif kfrnfl
+     * @pbrbm dbtb          kfrnfl dbtb in row mbjor ordfr
+     * @tirows IllfgblArgumfntExdfption if tif lfngti of <dodf>dbtb</dodf>
+     *         is lfss tibn tif produdt of <dodf>widti</dodf> bnd
+     *         <dodf>ifigit</dodf>
      */
-    public Kernel(int width, int height, float data[]) {
-        this.width  = width;
-        this.height = height;
-        this.xOrigin  = (width-1)>>1;
-        this.yOrigin  = (height-1)>>1;
-        int len = width*height;
-        if (data.length < len) {
-            throw new IllegalArgumentException("Data array too small "+
-                                               "(is "+data.length+
-                                               " and should be "+len);
+    publid Kfrnfl(int widti, int ifigit, flobt dbtb[]) {
+        tiis.widti  = widti;
+        tiis.ifigit = ifigit;
+        tiis.xOrigin  = (widti-1)>>1;
+        tiis.yOrigin  = (ifigit-1)>>1;
+        int lfn = widti*ifigit;
+        if (dbtb.lfngti < lfn) {
+            tirow nfw IllfgblArgumfntExdfption("Dbtb brrby too smbll "+
+                                               "(is "+dbtb.lfngti+
+                                               " bnd siould bf "+lfn);
         }
-        this.data = new float[len];
-        System.arraycopy(data, 0, this.data, 0, len);
+        tiis.dbtb = nfw flobt[lfn];
+        Systfm.brrbydopy(dbtb, 0, tiis.dbtb, 0, lfn);
 
     }
 
     /**
-     * Returns the X origin of this <code>Kernel</code>.
-     * @return the X origin.
+     * Rfturns tif X origin of tiis <dodf>Kfrnfl</dodf>.
+     * @rfturn tif X origin.
      */
-    final public int getXOrigin(){
-        return xOrigin;
+    finbl publid int gftXOrigin(){
+        rfturn xOrigin;
     }
 
     /**
-     * Returns the Y origin of this <code>Kernel</code>.
-     * @return the Y origin.
+     * Rfturns tif Y origin of tiis <dodf>Kfrnfl</dodf>.
+     * @rfturn tif Y origin.
      */
-    final public int getYOrigin() {
-        return yOrigin;
+    finbl publid int gftYOrigin() {
+        rfturn yOrigin;
     }
 
     /**
-     * Returns the width of this <code>Kernel</code>.
-     * @return the width of this <code>Kernel</code>.
+     * Rfturns tif widti of tiis <dodf>Kfrnfl</dodf>.
+     * @rfturn tif widti of tiis <dodf>Kfrnfl</dodf>.
      */
-    final public int getWidth() {
-        return width;
+    finbl publid int gftWidti() {
+        rfturn widti;
     }
 
     /**
-     * Returns the height of this <code>Kernel</code>.
-     * @return the height of this <code>Kernel</code>.
+     * Rfturns tif ifigit of tiis <dodf>Kfrnfl</dodf>.
+     * @rfturn tif ifigit of tiis <dodf>Kfrnfl</dodf>.
      */
-    final public int getHeight() {
-        return height;
+    finbl publid int gftHfigit() {
+        rfturn ifigit;
     }
 
     /**
-     * Returns the kernel data in row major order.
-     * The <code>data</code> array is returned.  If <code>data</code>
-     * is <code>null</code>, a new array is allocated.
-     * @param data  if non-null, contains the returned kernel data
-     * @return the <code>data</code> array containing the kernel data
-     *         in row major order or, if <code>data</code> is
-     *         <code>null</code>, a newly allocated array containing
-     *         the kernel data in row major order
-     * @throws IllegalArgumentException if <code>data</code> is less
-     *         than the size of this <code>Kernel</code>
+     * Rfturns tif kfrnfl dbtb in row mbjor ordfr.
+     * Tif <dodf>dbtb</dodf> brrby is rfturnfd.  If <dodf>dbtb</dodf>
+     * is <dodf>null</dodf>, b nfw brrby is bllodbtfd.
+     * @pbrbm dbtb  if non-null, dontbins tif rfturnfd kfrnfl dbtb
+     * @rfturn tif <dodf>dbtb</dodf> brrby dontbining tif kfrnfl dbtb
+     *         in row mbjor ordfr or, if <dodf>dbtb</dodf> is
+     *         <dodf>null</dodf>, b nfwly bllodbtfd brrby dontbining
+     *         tif kfrnfl dbtb in row mbjor ordfr
+     * @tirows IllfgblArgumfntExdfption if <dodf>dbtb</dodf> is lfss
+     *         tibn tif sizf of tiis <dodf>Kfrnfl</dodf>
      */
-    final public float[] getKernelData(float[] data) {
-        if (data == null) {
-            data = new float[this.data.length];
+    finbl publid flobt[] gftKfrnflDbtb(flobt[] dbtb) {
+        if (dbtb == null) {
+            dbtb = nfw flobt[tiis.dbtb.lfngti];
         }
-        else if (data.length < this.data.length) {
-            throw new IllegalArgumentException("Data array too small "+
-                                               "(should be "+this.data.length+
+        flsf if (dbtb.lfngti < tiis.dbtb.lfngti) {
+            tirow nfw IllfgblArgumfntExdfption("Dbtb brrby too smbll "+
+                                               "(siould bf "+tiis.dbtb.lfngti+
                                                " but is "+
-                                               data.length+" )");
+                                               dbtb.lfngti+" )");
         }
-        System.arraycopy(this.data, 0, data, 0, this.data.length);
+        Systfm.brrbydopy(tiis.dbtb, 0, dbtb, 0, tiis.dbtb.lfngti);
 
-        return data;
+        rfturn dbtb;
     }
 
     /**
-     * Clones this object.
-     * @return a clone of this object.
+     * Clonfs tiis objfdt.
+     * @rfturn b dlonf of tiis objfdt.
      */
-    public Object clone() {
+    publid Objfdt dlonf() {
         try {
-            return super.clone();
-        } catch (CloneNotSupportedException e) {
-            // this shouldn't happen, since we are Cloneable
-            throw new InternalError(e);
+            rfturn supfr.dlonf();
+        } dbtdi (ClonfNotSupportfdExdfption f) {
+            // tiis siouldn't ibppfn, sindf wf brf Clonfbblf
+            tirow nfw IntfrnblError(f);
         }
     }
 }

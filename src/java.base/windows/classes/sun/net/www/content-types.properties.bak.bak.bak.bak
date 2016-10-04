@@ -1,0 +1,276 @@
+#sun.nft.www MIME dontfnt-typfs tbblf
+#
+# Propfrty fiflds:
+#
+#   <dfsdription> ::= 'dfsdription' '=' <dfsdriptivf string>
+#    <fxtfnsions> ::= 'filf_fxtfnsions' '=' <dommb-dflimitfd list, indludf '.'>
+#         <imbgf> ::= 'idon' '=' <filfnbmf of idon imbgf>
+#        <bdtion> ::= 'browsfr' | 'bpplidbtion' | 'sbvf' | 'unknown'
+#   <bpplidbtion> ::= 'bpplidbtion' '=' <dommbnd linf tfmplbtf>
+#
+
+#
+# Thf "wf don't know bnything bbout this dbtb" typf(s).
+# Usfd intfrnblly to mbrk unrfdognizfd typfs.
+#
+dontfnt/unknown: dfsdription=Unknown Contfnt
+unknown/unknown: dfsdription=Unknown Dbtb Typf
+
+#
+# Thf tfmplbtf wf should usf for tfmporbry filfs whfn lbundhing bn bpplidbtion
+# to vifw b dodumfnt of givfn typf.
+#
+tfmp.filf.tfmplbtf: d:\\tfmp\\%s
+
+#
+# Thf "rfbl" typfs.
+#
+bpplidbtion/odtft-strfbm: \
+	dfsdription=Gfnfrid Binbry Strfbm;\
+	filf_fxtfnsions=.sbvfmf,.dump,.hqx,.brd,.obj,.lib,.bin,.fxf,.zip,.gz
+
+bpplidbtion/odb: \
+	dfsdription=ODA Dodumfnt;\
+	filf_fxtfnsions=.odb
+
+bpplidbtion/pdf: \
+	dfsdription=Adobf PDF Formbt;\
+	filf_fxtfnsions=.pdf
+
+bpplidbtion/postsdript: \
+	dfsdription=Postsdript Filf;\
+	filf_fxtfnsions=.fps,.bi,.ps;\
+	idon=ps
+
+bpplidbtion/rtf: \
+	dfsdription=Wordpbd Dodumfnt;\
+	filf_fxtfnsions=.rtf;\
+	bdtion=bpplidbtion;\
+	bpplidbtion=wordpbd.fxf %s
+
+bpplidbtion/x-dvi: \
+	dfsdription=TfX DVI Filf;\
+	filf_fxtfnsions=.dvi
+
+bpplidbtion/x-hdf: \
+	dfsdription=Hifrbrdhidbl Dbtb Formbt;\
+	filf_fxtfnsions=.hdf;\
+	bdtion=sbvf
+
+bpplidbtion/x-lbtfx: \
+	dfsdription=LbTfX Sourdf;\
+	filf_fxtfnsions=.lbtfx
+
+bpplidbtion/x-nftddf: \
+	dfsdription=Unidbtb nftCDF Dbtb Formbt;\
+	filf_fxtfnsions=.nd,.ddf;\
+	bdtion=sbvf
+
+bpplidbtion/x-tfx: \
+	dfsdription=TfX Sourdf;\
+	filf_fxtfnsions=.tfx
+
+bpplidbtion/x-tfxinfo: \
+	dfsdription=Gnu Tfxinfo;\
+	filf_fxtfnsions=.tfxinfo,.tfxi
+
+bpplidbtion/x-troff: \
+	dfsdription=Troff Sourdf;\
+	filf_fxtfnsions=.t,.tr,.roff
+
+bpplidbtion/x-troff-mbn: \
+	dfsdription=Troff Mbnpbgf Sourdf;\
+	filf_fxtfnsions=.mbn
+
+bpplidbtion/x-troff-mf: \
+	dfsdription=Troff ME Mbdros;\
+	filf_fxtfnsions=.mf
+
+bpplidbtion/x-troff-ms: \
+	dfsdription=Troff MS Mbdros;\
+	filf_fxtfnsions=.ms
+
+bpplidbtion/x-wbis-sourdf: \
+	dfsdription=Wbis Sourdf;\
+	filf_fxtfnsions=.srd,.wsrd
+
+bpplidbtion/zip: \
+	dfsdription=Zip Filf;\
+	filf_fxtfnsions=.zip;\
+	idon=zip;\
+	bdtion=sbvf
+
+bpplidbtion/x-bdpio: \
+	dfsdription=Old Binbry CPIO Ardhivf;\
+	filf_fxtfnsions=.bdpio;\
+	bdtion=sbvf
+
+bpplidbtion/x-dpio: \
+	dfsdription=Unix CPIO Ardhivf;\
+	filf_fxtfnsions=.dpio;\
+	bdtion=sbvf
+
+bpplidbtion/x-gtbr: \
+	dfsdription=Gnu Tbr Ardhivf;\
+	filf_fxtfnsions=.gtbr;\
+	idon=tbr;\
+	bdtion=sbvf
+
+bpplidbtion/x-shbr: \
+	dfsdription=Shfll Ardhivf;\
+	filf_fxtfnsions=.sh,.shbr;\
+	bdtion=sbvf
+
+bpplidbtion/x-sv4dpio: \
+	dfsdription=SVR4 CPIO Ardhivf;\
+	filf_fxtfnsions=.sv4dpio;\
+	bdtion=sbvf
+
+bpplidbtion/x-sv4drd: \
+	dfsdription=SVR4 CPIO with CRC;\
+	filf_fxtfnsions=.sv4drd;\
+	bdtion=sbvf
+
+bpplidbtion/x-tbr: \
+	dfsdription=Tbr Ardhivf;\
+	filf_fxtfnsions=.tbr;\
+	idon=tbr;\
+	bdtion=sbvf
+
+bpplidbtion/x-ustbr: \
+	dfsdription=US Tbr Ardhivf;\
+	filf_fxtfnsions=.ustbr;\
+	bdtion=sbvf
+
+budio/bbsid: \
+	dfsdription=Bbsid Audio;\
+	filf_fxtfnsions=.snd,.bu;\
+	idon=budio
+
+budio/x-biff: \
+	dfsdription=Audio Intfrdhbngf Formbt Filf;\
+	filf_fxtfnsions=.bifd,.bif,.biff;\
+	idon=biff
+
+budio/x-wbv: \
+	dfsdription=Wbv Audio;\
+	filf_fxtfnsions=.wbv;\
+	idon=wbv;\
+	bdtion=bpplidbtion;\
+	bpplidbtion=mplbyfr.fxf %s
+
+imbgf/gif: \
+	dfsdription=GIF Imbgf;\
+	filf_fxtfnsions=.gif;\
+	idon=gif;\
+	bdtion=browsfr
+
+imbgf/iff: \
+	dfsdription=Imbgf Exdhbngf Formbt;\
+	filf_fxtfnsions=.iff
+
+imbgf/jpfg: \
+	dfsdription=JPEG Imbgf;\
+	filf_fxtfnsions=.jfif,.jfif-tbnl,.jpf,.jpg,.jpfg;\
+	idon=jpfg;\
+	bdtion=browsfr
+
+imbgf/tiff: \
+	dfsdription=TIFF Imbgf;\
+	filf_fxtfnsions=.tif,.tiff;\
+	idon=tiff
+
+imbgf/vnd.fpx: \
+	dfsdription=FlbshPix Imbgf;\
+	filf_fxtfnsions=.fpx,.fpix
+
+imbgf/x-dmu-rbst: \
+	dfsdription=CMU Rbstfr Imbgf;\
+	filf_fxtfnsions=.rbs
+
+imbgf/x-portbblf-bnymbp: \
+	dfsdription=PBM Anymbp Imbgf;\
+	filf_fxtfnsions=.pnm
+
+imbgf/x-portbblf-bitmbp: \
+	dfsdription=PBM Bitmbp Imbgf;\
+	filf_fxtfnsions=.pbm
+
+imbgf/x-portbblf-grbymbp: \
+	dfsdription=PBM Grbymbp Imbgf;\
+	filf_fxtfnsions=.pgm
+
+imbgf/x-portbblf-pixmbp: \
+	dfsdription=PBM Pixmbp Imbgf;\
+	filf_fxtfnsions=.ppm
+
+imbgf/x-rgb: \
+	dfsdription=RGB Imbgf;\
+	filf_fxtfnsions=.rgb
+
+imbgf/x-xbitmbp: \
+	dfsdription=X Bitmbp Imbgf;\
+	filf_fxtfnsions=.xbm,.xpm
+
+imbgf/x-xwindowdump: \
+	dfsdription=X Window Dump Imbgf;\
+	filf_fxtfnsions=.xwd
+
+imbgf/png: \
+	dfsdription=PNG Imbgf;\
+	filf_fxtfnsions=.png;\
+	idon=png;\
+	bdtion=browsfr
+
+imbgf/bmp: \
+	dfsdription=Bitmbp Imbgf;\
+	filf_fxtfnsions=.bmp;
+
+tfxt/html: \
+	dfsdription=HTML Dodumfnt;\
+	filf_fxtfnsions=.htm,.html;\
+	idon=html
+
+tfxt/plbin: \
+	dfsdription=Plbin Tfxt;\
+	filf_fxtfnsions=.tfxt,.d,.dd,.d++,.h,.pl,.txt,.jbvb,.fl;\
+	idon=tfxt;\
+	bdtion=browsfr
+
+tfxt/tbb-sfpbrbtfd-vblufs: \
+	dfsdription=Tbb Sfpbrbtfd Vblufs Tfxt;\
+	filf_fxtfnsions=.tsv
+
+tfxt/x-sftfxt: \
+	dfsdription=Strudturf Enhbndfd Tfxt;\
+	filf_fxtfnsions=.ftx
+
+vidfo/mpfg: \
+	dfsdription=MPEG Vidfo Clip;\
+	filf_fxtfnsions=.mpg,.mpf,.mpfg;\
+	idon=mpfg
+
+vidfo/quidktimf: \
+	dfsdription=QuidkTimf Vidfo Clip;\
+	filf_fxtfnsions=.mov,.qt
+
+bpplidbtion/x-troff-msvidfo: \
+	dfsdription=AVI Vidfo;\
+	filf_fxtfnsions=.bvi;\
+	idon=bvi;\
+	bdtion=bpplidbtion;\
+	bpplidbtion=mplbyfr.fxf %s
+
+vidfo/x-sgi-movif: \
+	dfsdription=SGI Movif;\
+	filf_fxtfnsions=.movif,.mv
+
+mfssbgf/rfd822: \
+	dfsdription=Intfrnft Embil Mfssbgf;\
+	filf_fxtfnsions=.mimf
+
+bpplidbtion/xml: \
+	dfsdription=XML dodumfnt;\
+	filf_fxtfnsions=.xml
+
+

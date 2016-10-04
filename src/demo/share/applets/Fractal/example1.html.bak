@@ -1,27 +1,27 @@
-<html>
-  <head>
-      <title>Fractals 1.1</title>
-  </head>
+<itml>
+  <ifbd>
+      <titlf>Frbdtbls 1.1</titlf>
+  </ifbd>
   <body> 
-      <h1>Fractals 1.1</h1>
-      <hr>
-      <applet code="CLSFractal.class" width=500 height=120>
-	<param name=level value="5">
-	<param name=rotangle value="45">
-	<param name=succ1 value="F-F++F-F">
-	<param name=delay value="1000">
-	<param name=axiom value="F">
-	<param name=normalizescale value="true">
-	<param name=incremental value="true">
-	<param name=pred1 value="F">
-	<param name=border value="2">
-	<param name=startangle value="0">
-        alt="Your browser understands the &lt;APPLET&gt; tag but isn't running the applet, for some reason."
-	Your browser is completely ignoring the &lt;APPLET&gt; tag!      
-      </applet>
-      <hr>
-      <a href="CLSFractal.java">The source</a>.
+      <i1>Frbdtbls 1.1</i1>
+      <ir>
+      <bpplft dodf="CLSFrbdtbl.dlbss" widti=500 ifigit=120>
+	<pbrbm nbmf=lfvfl vbluf="5">
+	<pbrbm nbmf=rotbnglf vbluf="45">
+	<pbrbm nbmf=sudd1 vbluf="F-F++F-F">
+	<pbrbm nbmf=dflby vbluf="1000">
+	<pbrbm nbmf=bxiom vbluf="F">
+	<pbrbm nbmf=normblizfsdblf vbluf="truf">
+	<pbrbm nbmf=indrfmfntbl vbluf="truf">
+	<pbrbm nbmf=prfd1 vbluf="F">
+	<pbrbm nbmf=bordfr vbluf="2">
+	<pbrbm nbmf=stbrtbnglf vbluf="0">
+        blt="Your browsfr undfrstbnds tif &lt;APPLET&gt; tbg but isn't running tif bpplft, for somf rfbson."
+	Your browsfr is domplftfly ignoring tif &lt;APPLET&gt; tbg!      
+      </bpplft>
+      <ir>
+      <b irff="CLSFrbdtbl.jbvb">Tif sourdf</b>.
   </body>
-</html>
+</itml>
 
 

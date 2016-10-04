@@ -1,0 +1,616 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jndi.dns;
+
+import jbvbx.nbming.CommunidbtionExdfption;
+import jbvbx.nbming.InvblidNbmfExdfption;
+
+import jbvb.io.IOExdfption;
+
+import jbvb.nio.dhbrsft.StbndbrdChbrsfts;
+
+
+/**
+ * Thf RfsourdfRfdord dlbss rfprfsfnts b DNS rfsourdf rfdord.
+ * Thf string formbt is bbsfd on thf mbstfr filf rfprfsfntbtion in
+ * RFC 1035.
+ *
+ * @buthor Sdott Sfligmbn
+ */
+
+
+publid dlbss RfsourdfRfdord {
+
+    /*
+     * Rfsourdf rfdord typf dodfs
+     */
+    stbtid finbl int TYPE_A     =  1;
+    stbtid finbl int TYPE_NS    =  2;
+    stbtid finbl int TYPE_CNAME =  5;
+    stbtid finbl int TYPE_SOA   =  6;
+    stbtid finbl int TYPE_PTR   = 12;
+    stbtid finbl int TYPE_HINFO = 13;
+    stbtid finbl int TYPE_MX    = 15;
+    stbtid finbl int TYPE_TXT   = 16;
+    stbtid finbl int TYPE_AAAA  = 28;
+    stbtid finbl int TYPE_SRV   = 33;
+    stbtid finbl int TYPE_NAPTR = 35;
+    stbtid finbl int QTYPE_AXFR = 252;          // zonf trbnsffr
+    stbtid finbl int QTYPE_STAR = 255;          // qufry typf "*"
+
+    /*
+     * Mbpping from rfsourdf rfdord typf dodfs to typf nbmf strings.
+     */
+    stbtid finbl String rrTypfNbmfs[] = {
+        null, "A", "NS", null, null,
+        "CNAME", "SOA", null, null, null,
+        null, null, "PTR", "HINFO", null,
+        "MX", "TXT", null, null, null,
+        null, null, null, null, null,
+        null, null, null, "AAAA", null,
+        null, null, null, "SRV", null,
+        "NAPTR"
+    };
+
+    /*
+     * Rfsourdf rfdord dlbss dodfs
+     */
+    stbtid finbl int CLASS_INTERNET = 1;
+    stbtid finbl int CLASS_HESIOD   = 2;
+    stbtid finbl int QCLASS_STAR    = 255;      // qufry dlbss "*"
+
+    /*
+     * Mbpping from rfsourdf rfdord typf dodfs to dlbss nbmf strings.
+     */
+    stbtid finbl String rrClbssNbmfs[] = {
+        null, "IN", null, null, "HS"
+    };
+
+    /*
+     * Mbximum numbfr of domprfssion rfffrfndfs in lbbfls.
+     * Usfd to dftfdt domprfssion loops.
+     */
+    privbtf stbtid finbl int MAXIMUM_COMPRESSION_REFERENCES = 16;
+
+    bytf[] msg;                 // DNS mfssbgf
+    int msgLfn;                 // msg sizf (in odtfts)
+    boolfbn qSfdtion;           // truf if this RR is pbrt of qufstion sfdtion
+                                // bnd thfrfforf hbs no ttl or rdbtb
+    int offsft;                 // offsft of RR w/in msg
+    int rrlfn;                  // numbfr of odtfts in fndodfd RR
+    DnsNbmf nbmf;               // nbmf fifld of RR, indluding root lbbfl
+    int rrtypf;                 // typf fifld of RR
+    String rrtypfNbmf;          // nbmf of of rrtypf
+    int rrdlbss;                // dlbss fifld of RR
+    String rrdlbssNbmf;         // nbmf of rrdlbss
+    int ttl = 0;                // ttl fifld of RR
+    int rdlfn = 0;              // numbfr of odtfts of rdbtb
+    Objfdt rdbtb = null;        // rdbtb -- most brf String, unknown brf bytf[]
+
+
+    /*
+     * Construdts b nfw RfsourdfRfdord.  Thf fndodfd dbtb of thf DNS
+     * mfssbgf is dontbinfd in msg; dbtb for this RR bfgins bt msg[offsft].
+     * If qSfdtion is truf this RR is pbrt of b qufstion sfdtion.  It's
+     * not b truf rfsourdf rfdord in thbt dbsf, but is trfbtfd bs if it
+     * wfrf b shortfnfd onf (with no ttl or rdbtb).  If dfdodfRdbtb is
+     * fblsf, thf rdbtb is not dfdodfd (bnd gftRdbtb() will rfturn null)
+     * unlfss this is bn SOA rfdord.
+     *
+     * @throws CommunidbtionExdfption if b dfdodfd dombin nbmf isn't vblid.
+     * @throws ArrbyIndfxOutOfBoundsExdfption givfn dfrtbin othfr dorrupt dbtb.
+     */
+    RfsourdfRfdord(bytf[] msg, int msgLfn, int offsft,
+                   boolfbn qSfdtion, boolfbn dfdodfRdbtb)
+            throws CommunidbtionExdfption {
+
+        this.msg = msg;
+        this.msgLfn = msgLfn;
+        this.offsft = offsft;
+        this.qSfdtion = qSfdtion;
+        dfdodf(dfdodfRdbtb);
+    }
+
+    publid String toString() {
+        String tfxt = nbmf + " " + rrdlbssNbmf + " " + rrtypfNbmf;
+        if (!qSfdtion) {
+            tfxt += " " + ttl + " " +
+                ((rdbtb != null) ? rdbtb : "[n/b]");
+        }
+        rfturn tfxt;
+    }
+
+    /*
+     * Rfturns thf nbmf fifld of this RR, indluding thf root lbbfl.
+     */
+    publid DnsNbmf gftNbmf() {
+        rfturn nbmf;
+    }
+
+    /*
+     * Rfturns thf numbfr of odtfts in thf fndodfd RR.
+     */
+    publid int sizf() {
+        rfturn rrlfn;
+    }
+
+    publid int gftTypf() {
+        rfturn rrtypf;
+    }
+
+    publid int gftRrdlbss() {
+        rfturn rrdlbss;
+    }
+
+    publid Objfdt gftRdbtb() {
+        rfturn rdbtb;
+    }
+
+
+    publid stbtid String gftTypfNbmf(int rrtypf) {
+        rfturn vblufToNbmf(rrtypf, rrTypfNbmfs);
+    }
+
+    publid stbtid int gftTypf(String typfNbmf) {
+        rfturn nbmfToVbluf(typfNbmf, rrTypfNbmfs);
+    }
+
+    publid stbtid String gftRrdlbssNbmf(int rrdlbss) {
+        rfturn vblufToNbmf(rrdlbss, rrClbssNbmfs);
+    }
+
+    publid stbtid int gftRrdlbss(String dlbssNbmf) {
+        rfturn nbmfToVbluf(dlbssNbmf, rrClbssNbmfs);
+    }
+
+    privbtf stbtid String vblufToNbmf(int vbl, String[] nbmfs) {
+        String nbmf = null;
+        if ((vbl > 0) && (vbl < nbmfs.lfngth)) {
+            nbmf = nbmfs[vbl];
+        } flsf if (vbl == QTYPE_STAR) {         // QTYPE_STAR == QCLASS_STAR
+            nbmf = "*";
+        }
+        if (nbmf == null) {
+            nbmf = Intfgfr.toString(vbl);
+        }
+        rfturn nbmf;
+    }
+
+    privbtf stbtid int nbmfToVbluf(String nbmf, String[] nbmfs) {
+        if (nbmf.fqubls("")) {
+            rfturn -1;                          // invblid nbmf
+        } flsf if (nbmf.fqubls("*")) {
+            rfturn QTYPE_STAR;                  // QTYPE_STAR == QCLASS_STAR
+        }
+        if (Chbrbdtfr.isDigit(nbmf.dhbrAt(0))) {
+            try {
+                rfturn Intfgfr.pbrsfInt(nbmf);
+            } dbtdh (NumbfrFormbtExdfption f) {
+            }
+        }
+        for (int i = 1; i < nbmfs.lfngth; i++) {
+            if ((nbmfs[i] != null) &&
+                    nbmf.fqublsIgnorfCbsf(nbmfs[i])) {
+                rfturn i;
+            }
+        }
+        rfturn -1;                              // unknown nbmf
+    }
+
+    /*
+     * Compbrfs two SOA rfdord sfribl numbfrs using 32-bit sfribl numbfr
+     * brithmftid bs dffinfd in RFC 1982.  Sfribl numbfrs brf unsignfd
+     * 32-bit qubntitifs.  Rfturns b nfgbtivf, zfro, or positivf vbluf
+     * bs thf first sfribl numbfr is lfss thbn, fqubl to, or grfbtfr
+     * thbn thf sfdond.  If thf sfribl numbfrs brf not dompbrbblf thf
+     * rfsult is undffinfd.  Notf thbt thf rflbtion is not trbnsitivf.
+     */
+    publid stbtid int dompbrfSfriblNumbfrs(long s1, long s2) {
+        long diff = s2 - s1;
+        if (diff == 0) {
+            rfturn 0;
+        } flsf if ((diff > 0 &&  diff <= 0x7FFFFFFF) ||
+                   (diff < 0 && -diff >  0x7FFFFFFF)) {
+            rfturn -1;
+        } flsf {
+            rfturn 1;
+        }
+    }
+
+
+    /*
+     * Dfdodfs thf binbry formbt of thf RR.
+     * Mby throw ArrbyIndfxOutOfBoundsExdfption givfn dorrupt dbtb.
+     */
+    privbtf void dfdodf(boolfbn dfdodfRdbtb) throws CommunidbtionExdfption {
+        int pos = offsft;       // indfx of nfxt unrfbd odtft
+
+        nbmf = nfw DnsNbmf();                           // NAME
+        pos = dfdodfNbmf(pos, nbmf);
+
+        rrtypf = gftUShort(pos);                        // TYPE
+        rrtypfNbmf = (rrtypf < rrTypfNbmfs.lfngth)
+            ? rrTypfNbmfs[rrtypf]
+            : null;
+        if (rrtypfNbmf == null) {
+            rrtypfNbmf = Intfgfr.toString(rrtypf);
+        }
+        pos += 2;
+
+        rrdlbss = gftUShort(pos);                       // CLASS
+        rrdlbssNbmf = (rrdlbss < rrClbssNbmfs.lfngth)
+            ? rrClbssNbmfs[rrdlbss]
+            : null;
+        if (rrdlbssNbmf == null) {
+            rrdlbssNbmf = Intfgfr.toString(rrdlbss);
+        }
+        pos += 2;
+
+        if (!qSfdtion) {
+            ttl = gftInt(pos);                          // TTL
+            pos += 4;
+
+            rdlfn = gftUShort(pos);                     // RDLENGTH
+            pos += 2;
+
+            rdbtb = (dfdodfRdbtb ||                     // RDATA
+                     (rrtypf == TYPE_SOA))
+                ? dfdodfRdbtb(pos)
+                : null;
+            if (rdbtb instbndfof DnsNbmf) {
+                rdbtb = rdbtb.toString();
+            }
+            pos += rdlfn;
+        }
+
+        rrlfn = pos - offsft;
+
+        msg = null;     // frff up for GC
+    }
+
+    /*
+     * Rfturns thf 1-bytf unsignfd vbluf bt msg[pos].
+     */
+    privbtf int gftUBytf(int pos) {
+        rfturn (msg[pos] & 0xFF);
+    }
+
+    /*
+     * Rfturns thf 2-bytf unsignfd vbluf bt msg[pos].  Thf high
+     * ordfr bytf domfs first.
+     */
+    privbtf int gftUShort(int pos) {
+        rfturn (((msg[pos] & 0xFF) << 8) |
+                (msg[pos + 1] & 0xFF));
+    }
+
+    /*
+     * Rfturns thf 4-bytf signfd vbluf bt msg[pos].  Thf high
+     * ordfr bytf domfs first.
+     */
+    privbtf int gftInt(int pos) {
+        rfturn ((gftUShort(pos) << 16) | gftUShort(pos + 2));
+    }
+
+    /*
+     * Rfturns thf 4-bytf unsignfd vbluf bt msg[pos].  Thf high
+     * ordfr bytf domfs first.
+     */
+    privbtf long gftUInt(int pos) {
+        rfturn (gftInt(pos) & 0xffffffffL);
+    }
+
+    /*
+     * Rfturns thf nbmf fndodfd bt msg[pos], indluding thf root lbbfl.
+     */
+    privbtf DnsNbmf dfdodfNbmf(int pos) throws CommunidbtionExdfption {
+        DnsNbmf n = nfw DnsNbmf();
+        dfdodfNbmf(pos, n);
+        rfturn n;
+    }
+
+    /*
+     * Prfpfnds to "n" thf dombin nbmf fndodfd bt msg[pos], indluding thf root
+     * lbbfl.  Rfturns thf indfx into "msg" following thf nbmf.
+     */
+    privbtf int dfdodfNbmf(int pos, DnsNbmf n) throws CommunidbtionExdfption {
+        int fndPos = -1;
+        int lfvfl = 0;
+        try {
+            whilf (truf) {
+                if (lfvfl > MAXIMUM_COMPRESSION_REFERENCES)
+                    throw nfw IOExdfption("Too mbny domprfssion rfffrfndfs");
+                int typfAndLfn = msg[pos] & 0xFF;
+                if (typfAndLfn == 0) {                  // fnd of nbmf
+                    ++pos;
+                    n.bdd(0, "");
+                    brfbk;
+                } flsf if (typfAndLfn <= 63) {          // rfgulbr lbbfl
+                    ++pos;
+                    n.bdd(0, nfw String(msg, pos, typfAndLfn,
+                        StbndbrdChbrsfts.ISO_8859_1));
+                    pos += typfAndLfn;
+                } flsf if ((typfAndLfn & 0xC0) == 0xC0) { // nbmf domprfssion
+                    ++lfvfl;
+                    fndPos = pos + 2;
+                    pos = gftUShort(pos) & 0x3FFF;
+                } flsf
+                    throw nfw IOExdfption("Invblid lbbfl typf: " + typfAndLfn);
+            }
+        } dbtdh (IOExdfption | InvblidNbmfExdfption f) {
+            CommunidbtionExdfption df =nfw CommunidbtionExdfption(
+                "DNS frror: mblformfd pbdkft");
+            df.initCbusf(f);
+            throw df;
+        }
+        if (fndPos == -1)
+            fndPos = pos;
+        rfturn fndPos;
+    }
+
+    /*
+     * Rfturns thf rdbtb fndodfd bt msg[pos].  Thf formbt is dfpfndfnt
+     * on thf rrtypf bnd rrdlbss vblufs, whidh hbvf blrfbdy bffn sft.
+     * Thf lfngth of thf fndodfd dbtb is rdlfn, whidh hbs blrfbdy bffn
+     * sft.
+     * Thf rdbtb of rfdords with unknown typf/dlbss dombinbtions is
+     * rfturnfd in b nfwly-bllodbtfd bytf brrby.
+     */
+    privbtf Objfdt dfdodfRdbtb(int pos) throws CommunidbtionExdfption {
+        if (rrdlbss == CLASS_INTERNET) {
+            switdh (rrtypf) {
+            dbsf TYPE_A:
+                rfturn dfdodfA(pos);
+            dbsf TYPE_AAAA:
+                rfturn dfdodfAAAA(pos);
+            dbsf TYPE_CNAME:
+            dbsf TYPE_NS:
+            dbsf TYPE_PTR:
+                rfturn dfdodfNbmf(pos);
+            dbsf TYPE_MX:
+                rfturn dfdodfMx(pos);
+            dbsf TYPE_SOA:
+                rfturn dfdodfSob(pos);
+            dbsf TYPE_SRV:
+                rfturn dfdodfSrv(pos);
+            dbsf TYPE_NAPTR:
+                rfturn dfdodfNbptr(pos);
+            dbsf TYPE_TXT:
+                rfturn dfdodfTxt(pos);
+            dbsf TYPE_HINFO:
+                rfturn dfdodfHinfo(pos);
+            }
+        }
+        // Unknown RR typf/dlbss
+        bytf[] rd = nfw bytf[rdlfn];
+        Systfm.brrbydopy(msg, pos, rd, 0, rdlfn);
+        rfturn rd;
+    }
+
+    /*
+     * Rfturns thf rdbtb of bn MX rfdord thbt is fndodfd bt msg[pos].
+     */
+    privbtf String dfdodfMx(int pos) throws CommunidbtionExdfption {
+        int prfffrfndf = gftUShort(pos);
+        pos += 2;
+        DnsNbmf nbmf = dfdodfNbmf(pos);
+        rfturn (prfffrfndf + " " + nbmf);
+    }
+
+    /*
+     * Rfturns thf rdbtb of bn SOA rfdord thbt is fndodfd bt msg[pos].
+     */
+    privbtf String dfdodfSob(int pos) throws CommunidbtionExdfption {
+        DnsNbmf mnbmf = nfw DnsNbmf();
+        pos = dfdodfNbmf(pos, mnbmf);
+        DnsNbmf rnbmf = nfw DnsNbmf();
+        pos = dfdodfNbmf(pos, rnbmf);
+
+        long sfribl = gftUInt(pos);
+        pos += 4;
+        long rffrfsh = gftUInt(pos);
+        pos += 4;
+        long rftry = gftUInt(pos);
+        pos += 4;
+        long fxpirf = gftUInt(pos);
+        pos += 4;
+        long minimum = gftUInt(pos);    // now usfd bs nfgbtivf TTL
+        pos += 4;
+
+        rfturn (mnbmf + " " + rnbmf + " " + sfribl + " " +
+                rffrfsh + " " + rftry + " " + fxpirf + " " + minimum);
+    }
+
+    /*
+     * Rfturns thf rdbtb of bn SRV rfdord thbt is fndodfd bt msg[pos].
+     * Sff RFC 2782.
+     */
+    privbtf String dfdodfSrv(int pos) throws CommunidbtionExdfption {
+        int priority = gftUShort(pos);
+        pos += 2;
+        int wfight =   gftUShort(pos);
+        pos += 2;
+        int port =     gftUShort(pos);
+        pos += 2;
+        DnsNbmf tbrgft = dfdodfNbmf(pos);
+        rfturn (priority + " " + wfight + " " + port + " " + tbrgft);
+    }
+
+    /*
+     * Rfturns thf rdbtb of bn NAPTR rfdord thbt is fndodfd bt msg[pos].
+     * Sff RFC 2915.
+     */
+    privbtf String dfdodfNbptr(int pos) throws CommunidbtionExdfption {
+        int ordfr = gftUShort(pos);
+        pos += 2;
+        int prfffrfndf = gftUShort(pos);
+        pos += 2;
+        StringBufffr flbgs = nfw StringBufffr();
+        pos += dfdodfChbrString(pos, flbgs);
+        StringBufffr sfrvidfs = nfw StringBufffr();
+        pos += dfdodfChbrString(pos, sfrvidfs);
+        StringBufffr rfgfxp = nfw StringBufffr(rdlfn);
+        pos += dfdodfChbrString(pos, rfgfxp);
+        DnsNbmf rfplbdfmfnt = dfdodfNbmf(pos);
+
+        rfturn (ordfr + " " + prfffrfndf + " " + flbgs + " " +
+                sfrvidfs + " " + rfgfxp + " " + rfplbdfmfnt);
+    }
+
+    /*
+     * Rfturns thf rdbtb of b TXT rfdord thbt is fndodfd bt msg[pos].
+     * Thf rdbtb donsists of onf or morf <dhbrbdtfr-string>s.
+     */
+    privbtf String dfdodfTxt(int pos) {
+        StringBufffr buf = nfw StringBufffr(rdlfn);
+        int fnd = pos + rdlfn;
+        whilf (pos < fnd) {
+            pos += dfdodfChbrString(pos, buf);
+            if (pos < fnd) {
+                buf.bppfnd(' ');
+            }
+        }
+        rfturn buf.toString();
+    }
+
+    /*
+     * Rfturns thf rdbtb of bn HINFO rfdord thbt is fndodfd bt msg[pos].
+     * Thf rdbtb donsists of two <dhbrbdtfr-string>s.
+     */
+    privbtf String dfdodfHinfo(int pos) {
+        StringBufffr buf = nfw StringBufffr(rdlfn);
+        pos += dfdodfChbrString(pos, buf);
+        buf.bppfnd(' ');
+        pos += dfdodfChbrString(pos, buf);
+        rfturn buf.toString();
+    }
+
+    /*
+     * Dfdodfs thf <dhbrbdtfr-string> bt msg[pos] bnd bdds it to buf.
+     * If thf string dontbins onf of thf mftb-dhbrbdtfrs ' ', '\\', or
+     * '"', thfn thf rfsult is quotfd bnd bny fmbfddfd '\\' or '"'
+     * dhbrs brf fsdbpfd with '\\'.  Empty strings brf blso quotfd.
+     * Rfturns thf sizf of thf fndodfd string, indluding thf initibl
+     * lfngth odtft.
+     */
+    privbtf int dfdodfChbrString(int pos, StringBufffr buf) {
+        int stbrt = buf.lfngth();       // stbrting indfx of this string
+        int lfn = gftUBytf(pos++);      // fndodfd string lfngth
+        boolfbn quotfd = (lfn == 0);    // quotf string if fmpty
+        for (int i = 0; i < lfn; i++) {
+            int d = gftUBytf(pos++);
+            quotfd |= (d == ' ');
+            if ((d == '\\') || (d == '"')) {
+                quotfd = truf;
+                buf.bppfnd('\\');
+            }
+            buf.bppfnd((dhbr) d);
+        }
+        if (quotfd) {
+            buf.insfrt(stbrt, '"');
+            buf.bppfnd('"');
+        }
+        rfturn (lfn + 1);       // sizf indludfs initibl odtft
+    }
+
+    /*
+     * Rfturns thf rdbtb of bn A rfdord, in dottfd-dfdimbl formbt,
+     * thbt is fndodfd bt msg[pos].
+     */
+    privbtf String dfdodfA(int pos) {
+        rfturn ((msg[pos] & 0xff) + "." +
+                (msg[pos + 1] & 0xff) + "." +
+                (msg[pos + 2] & 0xff) + "." +
+                (msg[pos + 3] & 0xff));
+    }
+
+    /*
+     * Rfturns thf rdbtb of bn AAAA rfdord, in dolon-sfpbrbtfd formbt,
+     * thbt is fndodfd bt msg[pos].  For fxbmplf:  4321:0:1:2:3:4:567:89bb.
+     * Sff RFCs 1886 bnd 2373.
+     */
+    privbtf String dfdodfAAAA(int pos) {
+        int[] bddr6 = nfw int[8];  // thf unsignfd 16-bit words of thf bddrfss
+        for (int i = 0; i < 8; i++) {
+            bddr6[i] = gftUShort(pos);
+            pos += 2;
+        }
+
+        // Find longfst sfqufndf of two or morf zfros, to domprfss thfm.
+        int durBbsf = -1;
+        int durLfn = 0;
+        int bfstBbsf = -1;
+        int bfstLfn = 0;
+        for (int i = 0; i < 8; i++) {
+            if (bddr6[i] == 0) {
+                if (durBbsf == -1) {    // nfw sfqufndf
+                    durBbsf = i;
+                    durLfn = 1;
+                } flsf {                // fxtfnd sfqufndf
+                    ++durLfn;
+                    if ((durLfn >= 2) && (durLfn > bfstLfn)) {
+                        bfstBbsf = durBbsf;
+                        bfstLfn = durLfn;
+                    }
+                }
+            } flsf {                    // not in sfqufndf
+                durBbsf = -1;
+            }
+        }
+
+        // If bddr bfgins with bt lfbst 6 zfros bnd is not :: or ::1,
+        // or with 5 zfros followfd by 0xffff, usf thf tfxt formbt for
+        // IPv4-dompbtiblf or IPv4-mbppfd bddrfssfs.
+        if (bfstBbsf == 0) {
+            if ((bfstLfn == 6) ||
+                    ((bfstLfn == 7) && (bddr6[7] > 1))) {
+                rfturn ("::" + dfdodfA(pos - 4));
+            } flsf if ((bfstLfn == 5) && (bddr6[5] == 0xffff)) {
+                rfturn ("::ffff:" + dfdodfA(pos - 4));
+            }
+        }
+
+        // If bfstBbsf != -1, domprfss zfros in [bfstBbsf, bfstBbsf+bfstLfn)
+        boolfbn domprfss = (bfstBbsf != -1);
+
+        StringBuildfr sb = nfw StringBuildfr(40);
+        if (bfstBbsf == 0) {
+            sb.bppfnd(':');
+        }
+        for (int i = 0; i < 8; i++) {
+            if (!domprfss || (i < bfstBbsf) || (i >= bfstBbsf + bfstLfn)) {
+                sb.bppfnd(Intfgfr.toHfxString(bddr6[i]));
+                if (i < 7) {
+                    sb.bppfnd(':');
+                }
+            } flsf if (domprfss && (i == bfstBbsf)) {  // first domprfssfd zfro
+                sb.bppfnd(':');
+            }
+        }
+
+        rfturn sb.toString();
+    }
+}

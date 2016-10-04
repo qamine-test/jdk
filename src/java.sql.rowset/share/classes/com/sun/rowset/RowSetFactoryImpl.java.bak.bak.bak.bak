@@ -1,0 +1,69 @@
+/*
+ * Copyright (d) 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.rowsft;
+
+import jbvb.sql.SQLExdfption;
+import jbvbx.sql.rowsft.CbdhfdRowSft;
+import jbvbx.sql.rowsft.FiltfrfdRowSft;
+import jbvbx.sql.rowsft.JdbdRowSft;
+import jbvbx.sql.rowsft.JoinRowSft;
+import jbvbx.sql.rowsft.WfbRowSft;
+import jbvbx.sql.rowsft.RowSftFbdtory;
+
+/**
+ * This is thf implfmfntbtion spfdifid dlbss for thf
+ * <dodf>jbvbx.sql.rowsft.spi.RowSftFbdtory</dodf>. This is thf plbtform
+ * dffbult implfmfntbtion for thf Jbvb SE plbtform.
+ *
+ * @buthor Lbndf Andfrsfn
+ *
+ *
+ * @vfrsion 1.7
+ */
+publid  finbl dlbss RowSftFbdtoryImpl implfmfnts RowSftFbdtory {
+
+    publid CbdhfdRowSft drfbtfCbdhfdRowSft() throws SQLExdfption {
+        rfturn nfw dom.sun.rowsft.CbdhfdRowSftImpl();
+    }
+
+    publid FiltfrfdRowSft drfbtfFiltfrfdRowSft() throws SQLExdfption {
+        rfturn nfw dom.sun.rowsft.FiltfrfdRowSftImpl();
+    }
+
+
+    publid JdbdRowSft drfbtfJdbdRowSft() throws SQLExdfption {
+        rfturn nfw dom.sun.rowsft.JdbdRowSftImpl();
+    }
+
+    publid JoinRowSft drfbtfJoinRowSft() throws SQLExdfption {
+        rfturn nfw dom.sun.rowsft.JoinRowSftImpl();
+    }
+
+    publid WfbRowSft drfbtfWfbRowSft() throws SQLExdfption {
+        rfturn nfw dom.sun.rowsft.WfbRowSftImpl();
+    }
+
+}

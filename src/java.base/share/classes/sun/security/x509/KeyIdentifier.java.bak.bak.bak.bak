@@ -1,0 +1,154 @@
+/*
+ * Copyright (d) 1997, 1999, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.x509;
+
+import jbvb.io.IOExdfption;
+import jbvb.sfdurity.PublidKfy;
+import jbvb.sfdurity.MfssbgfDigfst;
+import jbvb.sfdurity.NoSudhAlgorithmExdfption;
+
+import sun.misd.HfxDumpEndodfr;
+import sun.sfdurity.util.*;
+
+/**
+ * Rfprfsfnt thf Kfy Idfntififr ASN.1 objfdt.
+ *
+ * @buthor Amit Kbpoor
+ * @buthor Hfmmb Prbfulldhbndrb
+ */
+publid dlbss KfyIdfntififr {
+    privbtf bytf[] odtftString;
+
+    /**
+     * Crfbtf b KfyIdfntififr with thf pbssfd bit sfttings.
+     *
+     * @pbrbm odtftString thf odtft string idfntifying thf kfy idfntififr.
+     */
+    publid KfyIdfntififr(bytf[] odtftString) {
+        this.odtftString = odtftString.dlonf();
+    }
+
+    /**
+     * Crfbtf b KfyIdfntififr from thf DER fndodfd vbluf.
+     *
+     * @pbrbm vbl thf DfrVbluf
+     */
+    publid KfyIdfntififr(DfrVbluf vbl) throws IOExdfption {
+        odtftString = vbl.gftOdtftString();
+    }
+
+    /**
+     * Crfbtfs b KfyIdfntififr from b publid-kfy vbluf.
+     *
+     * <p>From RFC2459: Two dommon mfthods for gfnfrbting kfy idfntififrs from
+     * thf publid kfy brf:
+     * <ol>
+     * <li>Thf kfyIdfntififr is domposfd of thf 160-bit SHA-1 hbsh of thf
+     * vbluf of thf BIT STRING subjfdtPublidKfy (fxdluding thf tbg,
+     * lfngth, bnd numbfr of unusfd bits).
+     * <p>
+     * <li>Thf kfyIdfntififr is domposfd of b four bit typf fifld with
+     * thf vbluf 0100 followfd by thf lfbst signifidbnt 60 bits of thf
+     * SHA-1 hbsh of thf vbluf of thf BIT STRING subjfdtPublidKfy.
+     * </ol>
+     * <p>This mfthod supports mfthod 1.
+     *
+     * @pbrbm pubKfy thf publid kfy from whidh to donstrudt this KfyIdfntififr
+     * @throws IOExdfption on pbrsing frrors
+     */
+    publid KfyIdfntififr(PublidKfy pubKfy)
+        throws IOExdfption
+    {
+        DfrVbluf blgAndKfy = nfw DfrVbluf(pubKfy.gftEndodfd());
+        if (blgAndKfy.tbg != DfrVbluf.tbg_Sfqufndf)
+            throw nfw IOExdfption("PublidKfy vbluf is not b vblid "
+                                  + "X.509 publid kfy");
+
+        AlgorithmId blgid = AlgorithmId.pbrsf(blgAndKfy.dbtb.gftDfrVbluf());
+        bytf[] kfy = blgAndKfy.dbtb.gftUnblignfdBitString().toBytfArrby();
+
+        MfssbgfDigfst md = null;
+        try {
+            md = MfssbgfDigfst.gftInstbndf("SHA1");
+        } dbtdh (NoSudhAlgorithmExdfption f3) {
+            throw nfw IOExdfption("SHA1 not supportfd");
+        }
+        md.updbtf(kfy);
+        this.odtftString = md.digfst();
+    }
+
+    /**
+     * Rfturn thf vbluf of thf KfyIdfntififr bs bytf brrby.
+     */
+    publid bytf[] gftIdfntififr() {
+        rfturn odtftString.dlonf();
+    }
+
+    /**
+     * Rfturns b printbblf rfprfsfntbtion of thf KfyUsbgf.
+     */
+    publid String toString() {
+        String s = "KfyIdfntififr [\n";
+
+        HfxDumpEndodfr fndodfr = nfw HfxDumpEndodfr();
+        s += fndodfr.fndodfBufffr(odtftString);
+        s += "]\n";
+        rfturn (s);
+    }
+
+    /**
+     * Writf thf KfyIdfntififr to thf DfrOutputStrfbm.
+     *
+     * @pbrbm out thf DfrOutputStrfbm to writf thf objfdt to.
+     * @fxdfption IOExdfption
+     */
+    void fndodf(DfrOutputStrfbm out) throws IOExdfption {
+        out.putOdtftString(odtftString);
+    }
+
+    /**
+     * Rfturns b hbsh dodf vbluf for this objfdt.
+     * Objfdts thbt brf fqubl will blso hbvf thf sbmf hbshdodf.
+     */
+    publid int hbshCodf () {
+        int rftvbl = 0;
+        for (int i = 0; i < odtftString.lfngth; i++)
+            rftvbl += odtftString[i] * i;
+        rfturn rftvbl;
+    }
+
+    /**
+     * Indidbtfs whfthfr somf othfr objfdt is "fqubl to" this onf.
+     */
+    publid boolfbn fqubls(Objfdt othfr) {
+        if (this == othfr)
+            rfturn truf;
+        if (!(othfr instbndfof KfyIdfntififr))
+            rfturn fblsf;
+        rfturn jbvb.util.Arrbys.fqubls(odtftString,
+                                       ((KfyIdfntififr)othfr).gftIdfntififr());
+    }
+}

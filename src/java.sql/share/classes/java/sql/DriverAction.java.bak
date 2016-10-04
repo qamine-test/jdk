@@ -1,66 +1,66 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.sql;
+pbdkbgf jbvb.sql;
 
 /**
- * An interface that must be implemented when a {@linkplain Driver} wants to be
- * notified by {@code DriverManager}.
+ * An intfrfbdf tibt must bf implfmfntfd wifn b {@linkplbin Drivfr} wbnts to bf
+ * notififd by {@dodf DrivfrMbnbgfr}.
  *<P>
- * A {@code DriverAction} implementation is not intended to be used
- * directly by applications. A JDBC Driver  may choose
- * to create its {@code DriverAction} implementation in a private class
- * to avoid it being called directly.
+ * A {@dodf DrivfrAdtion} implfmfntbtion is not intfndfd to bf usfd
+ * dirfdtly by bpplidbtions. A JDBC Drivfr  mby dioosf
+ * to drfbtf its {@dodf DrivfrAdtion} implfmfntbtion in b privbtf dlbss
+ * to bvoid it bfing dbllfd dirfdtly.
  * <p>
- * The JDBC driver's static initialization block must call
- * {@linkplain DriverManager#registerDriver(java.sql.Driver, java.sql.DriverAction) } in order
- * to inform {@code DriverManager} which {@code DriverAction} implementation to
- * call when the JDBC driver is de-registered.
- * @since 1.8
+ * Tif JDBC drivfr's stbtid initiblizbtion blodk must dbll
+ * {@linkplbin DrivfrMbnbgfr#rfgistfrDrivfr(jbvb.sql.Drivfr, jbvb.sql.DrivfrAdtion) } in ordfr
+ * to inform {@dodf DrivfrMbnbgfr} wiidi {@dodf DrivfrAdtion} implfmfntbtion to
+ * dbll wifn tif JDBC drivfr is df-rfgistfrfd.
+ * @sindf 1.8
  */
-public interface DriverAction {
+publid intfrfbdf DrivfrAdtion {
     /**
-     * Method called by
-     * {@linkplain DriverManager#deregisterDriver(Driver) }
-     *  to notify the JDBC driver that it was de-registered.
+     * Mftiod dbllfd by
+     * {@linkplbin DrivfrMbnbgfr#dfrfgistfrDrivfr(Drivfr) }
+     *  to notify tif JDBC drivfr tibt it wbs df-rfgistfrfd.
      * <p>
-     * The {@code deregister} method is intended only to be used by JDBC Drivers
-     * and not by applications.  JDBC drivers are recommended to not implement
-     * {@code DriverAction} in a public class.  If there are active
-     * connections to the database at the time that the {@code deregister}
-     * method is called, it is implementation specific as to whether the
-     * connections are closed or allowed to continue. Once this method is
-     * called, it is implementation specific as to whether the driver may
-     * limit the ability to create new connections to the database, invoke
-     * other {@code Driver} methods or throw a {@code SQLException}.
-     * Consult your JDBC driver's documentation for additional information
-     * on its behavior.
-     * @see DriverManager#registerDriver(java.sql.Driver, java.sql.DriverAction)
-     * @see DriverManager#deregisterDriver(Driver)
-     * @since 1.8
+     * Tif {@dodf dfrfgistfr} mftiod is intfndfd only to bf usfd by JDBC Drivfrs
+     * bnd not by bpplidbtions.  JDBC drivfrs brf rfdommfndfd to not implfmfnt
+     * {@dodf DrivfrAdtion} in b publid dlbss.  If tifrf brf bdtivf
+     * donnfdtions to tif dbtbbbsf bt tif timf tibt tif {@dodf dfrfgistfr}
+     * mftiod is dbllfd, it is implfmfntbtion spfdifid bs to wiftifr tif
+     * donnfdtions brf dlosfd or bllowfd to dontinuf. Ondf tiis mftiod is
+     * dbllfd, it is implfmfntbtion spfdifid bs to wiftifr tif drivfr mby
+     * limit tif bbility to drfbtf nfw donnfdtions to tif dbtbbbsf, invokf
+     * otifr {@dodf Drivfr} mftiods or tirow b {@dodf SQLExdfption}.
+     * Consult your JDBC drivfr's dodumfntbtion for bdditionbl informbtion
+     * on its bfibvior.
+     * @sff DrivfrMbnbgfr#rfgistfrDrivfr(jbvb.sql.Drivfr, jbvb.sql.DrivfrAdtion)
+     * @sff DrivfrMbnbgfr#dfrfgistfrDrivfr(Drivfr)
+     * @sindf 1.8
      */
-    void deregister();
+    void dfrfgistfr();
 
 }

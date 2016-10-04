@@ -1,0 +1,359 @@
+/*
+ * Copyright (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt.rfmotf;
+
+
+import dom.sun.jmx.rfmotf.util.ClbssLoggfr;
+import dom.sun.jmx.rfmotf.util.EnvHflp;
+
+import jbvb.io.IOExdfption;
+import jbvb.nft.MblformfdURLExdfption;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbshMbp;
+import jbvb.util.Itfrbtor;
+import jbvb.util.Mbp;
+
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
+
+/**
+ * <p>Fbdtory to drfbtf JMX API donnfdtor sfrvfrs.  Thfrf
+ * brf no instbndfs of this dlbss.</p>
+ *
+ * <p>Ebdh donnfdtor sfrvfr is drfbtfd by bn instbndf of {@link
+ * JMXConnfdtorSfrvfrProvidfr}.  This instbndf is found bs follows.  Supposf
+ * thf givfn {@link JMXSfrvidfURL} looks likf
+ * <dodf>"sfrvidf:jmx:<fm>protodol</fm>:<fm>rfmbindfr</fm>"</dodf>.
+ * Thfn thf fbdtory will bttfmpt to find thf bppropribtf {@link
+ * JMXConnfdtorSfrvfrProvidfr} for <dodf><fm>protodol</fm></dodf>.  Ebdh
+ * oddurrfndf of thf dhbrbdtfr <dodf>+</dodf> or <dodf>-</dodf> in
+ * <dodf><fm>protodol</fm></dodf> is rfplbdfd by <dodf>.</dodf> or
+ * <dodf>_</dodf>, rfspfdtivfly.</p>
+ *
+ * <p>A <fm>providfr pbdkbgf list</fm> is sfbrdhfd for bs follows:</p>
+ *
+ * <ol>
+ *
+ * <li>If thf <dodf>fnvironmfnt</dodf> pbrbmftfr to {@link
+ * #nfwJMXConnfdtorSfrvfr(JMXSfrvidfURL,Mbp,MBfbnSfrvfr)
+ * nfwJMXConnfdtorSfrvfr} dontbins thf kfy
+ * <dodf>jmx.rfmotf.protodol.providfr.pkgs</dodf> thfn thf bssodibtfd
+ * vbluf is thf providfr pbdkbgf list.
+ *
+ * <li>Othfrwisf, if thf systfm propfrty
+ * <dodf>jmx.rfmotf.protodol.providfr.pkgs</dodf> fxists, thfn its vbluf
+ * is thf providfr pbdkbgf list.
+ *
+ * <li>Othfrwisf, thfrf is no providfr pbdkbgf list.
+ *
+ * </ol>
+ *
+ * <p>Thf providfr pbdkbgf list is b string thbt is intfrprftfd bs b
+ * list of non-fmpty Jbvb pbdkbgf nbmfs sfpbrbtfd by vfrtidbl bbrs
+ * (<dodf>|</dodf>).  If thf string is fmpty, thfn so is thf providfr
+ * pbdkbgf list.  If thf providfr pbdkbgf list is not b String, or if
+ * it dontbins bn flfmfnt thbt is bn fmpty string, b {@link
+ * JMXProvidfrExdfption} is thrown.</p>
+ *
+ * <p>If thf providfr pbdkbgf list fxists bnd is not fmpty, thfn for
+ * fbdh flfmfnt <dodf><fm>pkg</fm></dodf> of thf list, thf fbdtory
+ * will bttfmpt to lobd thf dlbss
+ *
+ * <blodkquotf>
+ * <dodf><fm>pkg</fm>.<fm>protodol</fm>.SfrvfrProvidfr</dodf>
+ * </blodkquotf>
+
+ * <p>If thf <dodf>fnvironmfnt</dodf> pbrbmftfr to {@link
+ * #nfwJMXConnfdtorSfrvfr(JMXSfrvidfURL, Mbp, MBfbnSfrvfr)
+ * nfwJMXConnfdtorSfrvfr} dontbins thf kfy
+ * <dodf>jmx.rfmotf.protodol.providfr.dlbss.lobdfr</dodf> thfn thf
+ * bssodibtfd vbluf is thf dlbss lobdfr to usf to lobd thf providfr.
+ * If thf bssodibtfd vbluf is not bn instbndf of {@link
+ * jbvb.lbng.ClbssLobdfr}, bn {@link
+ * jbvb.lbng.IllfgblArgumfntExdfption} is thrown.</p>
+ *
+ * <p>If thf <dodf>jmx.rfmotf.protodol.providfr.dlbss.lobdfr</dodf>
+ * kfy is not prfsfnt in thf <dodf>fnvironmfnt</dodf> pbrbmftfr, thf
+ * dblling thrfbd's dontfxt dlbss lobdfr is usfd.</p>
+ *
+ * <p>If thf bttfmpt to lobd this dlbss produdfs b {@link
+ * ClbssNotFoundExdfption}, thf sfbrdh for b hbndlfr dontinufs with
+ * thf nfxt flfmfnt of thf list.</p>
+ *
+ * <p>Othfrwisf, b problfm with thf providfr found is signbllfd by b
+ * {@link JMXProvidfrExdfption} whosf {@link
+ * JMXProvidfrExdfption#gftCbusf() <fm>dbusf</fm>} indidbtfs thf
+ * undfrlying fxdfption, bs follows:</p>
+ *
+ * <ul>
+ *
+ * <li>if thf bttfmpt to lobd thf dlbss produdfs bn fxdfption othfr
+ * thbn <dodf>ClbssNotFoundExdfption</dodf>, thbt is thf
+ * <fm>dbusf</fm>;
+ *
+ * <li>if {@link Clbss#nfwInstbndf()} for thf dlbss produdfs bn
+ * fxdfption, thbt is thf <fm>dbusf</fm>.
+ *
+ * </ul>
+ *
+ * <p>If no providfr is found by thf bbovf stfps, indluding thf
+ * dffbult dbsf whfrf thfrf is no providfr pbdkbgf list, thfn thf
+ * implfmfntbtion will usf its own providfr for
+ * <dodf><fm>protodol</fm></dodf>, or it will throw b
+ * <dodf>MblformfdURLExdfption</dodf> if thfrf is nonf.  An
+ * implfmfntbtion mby dhoosf to find providfrs by othfr mfbns.  For
+ * fxbmplf, it mby support thf <b
+ * hrff="{@dodRoot}/../tfdhnotfs/guidfs/jbr/jbr.html#Sfrvidf%20Providfr">
+ * JAR donvfntions for sfrvidf providfrs</b>, whfrf thf sfrvidf
+ * intfrfbdf is <dodf>JMXConnfdtorSfrvfrProvidfr</dodf>.</p>
+ *
+ * <p>Evfry implfmfntbtion must support thf RMI donnfdtor protodol with
+ * thf dffbult RMI trbnsport, spfdififd with string <dodf>rmi</dodf>.
+ * An implfmfntbtion mby optionblly support thf RMI donnfdtor protodol
+ * with thf RMI/IIOP trbnsport, spfdififd with thf string
+ * <dodf>iiop</dodf>.</p>
+ *
+ * <p>Ondf b providfr is found, thf rfsult of thf
+ * <dodf>nfwJMXConnfdtorSfrvfr</dodf> mfthod is thf rfsult of dblling
+ * {@link
+ * JMXConnfdtorSfrvfrProvidfr#nfwJMXConnfdtorSfrvfr(JMXSfrvidfURL,
+ * Mbp, MBfbnSfrvfr) nfwJMXConnfdtorSfrvfr} on thf providfr.</p>
+ *
+ * <p>Thf <dodf>Mbp</dodf> pbrbmftfr pbssfd to thf
+ * <dodf>JMXConnfdtorSfrvfrProvidfr</dodf> is b nfw rfbd-only
+ * <dodf>Mbp</dodf> thbt dontbins bll thf fntrifs thbt wfrf in thf
+ * <dodf>fnvironmfnt</dodf> pbrbmftfr to {@link
+ * #nfwJMXConnfdtorSfrvfr(JMXSfrvidfURL,Mbp,MBfbnSfrvfr)
+ * JMXConnfdtorSfrvfrFbdtory.nfwJMXConnfdtorSfrvfr}, if thfrf wbs onf.
+ * Additionblly, if thf
+ * <dodf>jmx.rfmotf.protodol.providfr.dlbss.lobdfr</dodf> kfy is not
+ * prfsfnt in thf <dodf>fnvironmfnt</dodf> pbrbmftfr, it is bddfd to
+ * thf nfw rfbd-only <dodf>Mbp</dodf>. Thf bssodibtfd vbluf is thf
+ * dblling thrfbd's dontfxt dlbss lobdfr.</p>
+ *
+ * @sindf 1.5
+ */
+publid dlbss JMXConnfdtorSfrvfrFbdtory {
+
+    /**
+     * <p>Nbmf of thf bttributf thbt spfdififs thf dffbult dlbss
+     * lobdfr.  This dlbss lobdfr is usfd to dfsfriblizf objfdts in
+     * rfqufsts rfdfivfd from thf dlifnt, possibly bftfr donsulting bn
+     * MBfbn-spfdifid dlbss lobdfr.  Thf vbluf bssodibtfd with this
+     * bttributf is bn instbndf of {@link ClbssLobdfr}.</p>
+     */
+    publid stbtid finbl String DEFAULT_CLASS_LOADER =
+        JMXConnfdtorFbdtory.DEFAULT_CLASS_LOADER;
+
+    /**
+     * <p>Nbmf of thf bttributf thbt spfdififs thf dffbult dlbss
+     * lobdfr MBfbn nbmf.  This dlbss lobdfr is usfd to dfsfriblizf objfdts in
+     * rfqufsts rfdfivfd from thf dlifnt, possibly bftfr donsulting bn
+     * MBfbn-spfdifid dlbss lobdfr.  Thf vbluf bssodibtfd with this
+     * bttributf is bn instbndf of {@link jbvbx.mbnbgfmfnt.ObjfdtNbmf
+     * ObjfdtNbmf}.</p>
+     */
+    publid stbtid finbl String DEFAULT_CLASS_LOADER_NAME =
+        "jmx.rfmotf.dffbult.dlbss.lobdfr.nbmf";
+
+    /**
+     * <p>Nbmf of thf bttributf thbt spfdififs thf providfr pbdkbgfs
+     * thbt brf donsultfd whfn looking for thf hbndlfr for b protodol.
+     * Thf vbluf bssodibtfd with this bttributf is b string with
+     * pbdkbgf nbmfs sfpbrbtfd by vfrtidbl bbrs (<dodf>|</dodf>).</p>
+     */
+    publid stbtid finbl String PROTOCOL_PROVIDER_PACKAGES =
+        "jmx.rfmotf.protodol.providfr.pkgs";
+
+    /**
+     * <p>Nbmf of thf bttributf thbt spfdififs thf dlbss
+     * lobdfr for lobding protodol providfrs.
+     * Thf vbluf bssodibtfd with this bttributf is bn instbndf
+     * of {@link ClbssLobdfr}.</p>
+     */
+    publid stbtid finbl String PROTOCOL_PROVIDER_CLASS_LOADER =
+        "jmx.rfmotf.protodol.providfr.dlbss.lobdfr";
+
+    privbtf stbtid finbl String PROTOCOL_PROVIDER_DEFAULT_PACKAGE =
+        "dom.sun.jmx.rfmotf.protodol";
+
+    privbtf stbtid finbl ClbssLoggfr loggfr =
+        nfw ClbssLoggfr("jbvbx.mbnbgfmfnt.rfmotf.misd","JMXConnfdtorSfrvfrFbdtory");
+
+    /** Thfrf brf no instbndfs of this dlbss.  */
+    privbtf JMXConnfdtorSfrvfrFbdtory() {
+    }
+
+    privbtf stbtid JMXConnfdtorSfrvfr
+        gftConnfdtorSfrvfrAsSfrvidf(ClbssLobdfr lobdfr,
+                                    JMXSfrvidfURL url,
+                                    Mbp<String, ?> mbp,
+                                    MBfbnSfrvfr mbs)
+        throws IOExdfption {
+        Itfrbtor<JMXConnfdtorSfrvfrProvidfr> providfrs =
+                JMXConnfdtorFbdtory.
+                gftProvidfrItfrbtor(JMXConnfdtorSfrvfrProvidfr.dlbss, lobdfr);
+
+        IOExdfption fxdfption = null;
+        whilf (providfrs.hbsNfxt()) {
+            try {
+                rfturn providfrs.nfxt().nfwJMXConnfdtorSfrvfr(url, mbp, mbs);
+            } dbtdh (JMXProvidfrExdfption f) {
+                throw f;
+            } dbtdh (Exdfption f) {
+                if (loggfr.trbdfOn())
+                    loggfr.trbdf("gftConnfdtorAsSfrvidf",
+                                 "URL[" + url +
+                                 "] Sfrvidf providfr fxdfption: " + f);
+                if (!(f instbndfof MblformfdURLExdfption)) {
+                    if (fxdfption == null) {
+                        if (f instbndfof IOExdfption) {
+                            fxdfption = (IOExdfption) f;
+                        } flsf {
+                            fxdfption = EnvHflp.initCbusf(
+                                nfw IOExdfption(f.gftMfssbgf()), f);
+                        }
+                    }
+                }
+                dontinuf;
+            }
+        }
+        if (fxdfption == null)
+            rfturn null;
+        flsf
+            throw fxdfption;
+    }
+
+    /**
+     * <p>Crfbtfs b donnfdtor sfrvfr bt thf givfn bddrfss.  Thf
+     * rfsultbnt sfrvfr is not stbrtfd until its {@link
+     * JMXConnfdtorSfrvfr#stbrt() stbrt} mfthod is dbllfd.</p>
+     *
+     * @pbrbm sfrvidfURL thf bddrfss of thf nfw donnfdtor sfrvfr.  Thf
+     * bdtubl bddrfss of thf nfw donnfdtor sfrvfr, bs rfturnfd by its
+     * {@link JMXConnfdtorSfrvfr#gftAddrfss() gftAddrfss} mfthod, will
+     * not nfdfssbrily bf fxbdtly thf sbmf.  For fxbmplf, it might
+     * indludf b port numbfr if thf originbl bddrfss did not.
+     *
+     * @pbrbm fnvironmfnt b sft of bttributfs to dontrol thf nfw
+     * donnfdtor sfrvfr's bfhbvior.  This pbrbmftfr dbn bf null.
+     * Kfys in this mbp must bf Strings.  Thf bppropribtf typf of fbdh
+     * bssodibtfd vbluf dfpfnds on thf bttributf.  Thf dontfnts of
+     * <dodf>fnvironmfnt</dodf> brf not dhbngfd by this dbll.
+     *
+     * @pbrbm mbfbnSfrvfr thf MBfbn sfrvfr thbt this donnfdtor sfrvfr
+     * is bttbdhfd to.  Null if this donnfdtor sfrvfr will bf bttbdhfd
+     * to bn MBfbn sfrvfr by bfing rfgistfrfd in it.
+     *
+     * @rfturn b <dodf>JMXConnfdtorSfrvfr</dodf> rfprfsfnting thf nfw
+     * donnfdtor sfrvfr.  Ebdh suddfssful dbll to this mfthod produdfs
+     * b difffrfnt objfdt.
+     *
+     * @fxdfption NullPointfrExdfption if <dodf>sfrvidfURL</dodf> is null.
+     *
+     * @fxdfption IOExdfption if thf donnfdtor sfrvfr dbnnot bf mbdf
+     * bfdbusf of b dommunidbtion problfm.
+     *
+     * @fxdfption MblformfdURLExdfption if thfrf is no providfr for thf
+     * protodol in <dodf>sfrvidfURL</dodf>.
+     *
+     * @fxdfption JMXProvidfrExdfption if thfrf is b providfr for thf
+     * protodol in <dodf>sfrvidfURL</dodf> but it dbnnot bf usfd for
+     * somf rfbson.
+     */
+    publid stbtid JMXConnfdtorSfrvfr
+        nfwJMXConnfdtorSfrvfr(JMXSfrvidfURL sfrvidfURL,
+                              Mbp<String,?> fnvironmfnt,
+                              MBfbnSfrvfr mbfbnSfrvfr)
+            throws IOExdfption {
+        Mbp<String, Objfdt> fnvdopy;
+        if (fnvironmfnt == null)
+            fnvdopy = nfw HbshMbp<String, Objfdt>();
+        flsf {
+            EnvHflp.dhfdkAttributfs(fnvironmfnt);
+            fnvdopy = nfw HbshMbp<String, Objfdt>(fnvironmfnt);
+        }
+
+        finbl Clbss<JMXConnfdtorSfrvfrProvidfr> tbrgftIntfrfbdf =
+                JMXConnfdtorSfrvfrProvidfr.dlbss;
+        finbl ClbssLobdfr lobdfr =
+            JMXConnfdtorFbdtory.rfsolvfClbssLobdfr(fnvdopy);
+        finbl String protodol = sfrvidfURL.gftProtodol();
+        finbl String providfrClbssNbmf = "SfrvfrProvidfr";
+
+        JMXConnfdtorSfrvfrProvidfr providfr =
+            JMXConnfdtorFbdtory.gftProvidfr(sfrvidfURL,
+                                            fnvdopy,
+                                            providfrClbssNbmf,
+                                            tbrgftIntfrfbdf,
+                                            lobdfr);
+
+        IOExdfption fxdfption = null;
+        if (providfr == null) {
+            // Lobdfr is null whfn dontfxt dlbss lobdfr is sft to null
+            // bnd no lobdfr hbs bffn providfd in mbp.
+            // dom.sun.jmx.rfmotf.util.Sfrvidf dlbss fxtrbdtfd from j2sf
+            // providfr sfbrdh blgorithm dofsn't hbndlf wfll null dlbsslobdfr.
+            if (lobdfr != null) {
+                try {
+                    JMXConnfdtorSfrvfr donnfdtion =
+                        gftConnfdtorSfrvfrAsSfrvidf(lobdfr,
+                                                    sfrvidfURL,
+                                                    fnvdopy,
+                                                    mbfbnSfrvfr);
+                    if (donnfdtion != null)
+                        rfturn donnfdtion;
+                } dbtdh (JMXProvidfrExdfption f) {
+                    throw f;
+                } dbtdh (IOExdfption f) {
+                    fxdfption = f;
+                }
+            }
+            providfr =
+                JMXConnfdtorFbdtory.gftProvidfr(
+                    protodol,
+                    PROTOCOL_PROVIDER_DEFAULT_PACKAGE,
+                    JMXConnfdtorFbdtory.dlbss.gftClbssLobdfr(),
+                    providfrClbssNbmf,
+                    tbrgftIntfrfbdf);
+        }
+
+        if (providfr == null) {
+            MblformfdURLExdfption f =
+                nfw MblformfdURLExdfption("Unsupportfd protodol: " + protodol);
+            if (fxdfption == null) {
+                throw f;
+            } flsf {
+                throw EnvHflp.initCbusf(f, fxdfption);
+            }
+        }
+
+        fnvdopy = Collfdtions.unmodifibblfMbp(fnvdopy);
+
+        rfturn providfr.nfwJMXConnfdtorSfrvfr(sfrvidfURL,
+                                              fnvdopy,
+                                              mbfbnSfrvfr);
+    }
+}

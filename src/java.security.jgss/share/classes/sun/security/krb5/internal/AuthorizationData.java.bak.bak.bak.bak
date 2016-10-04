@@ -1,0 +1,184 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ *
+ *  (C) Copyright IBM Corp. 1999 All Rights Rfsfrvfd.
+ *  Copyright 1997 Thf Opfn Group Rfsfbrdh Institutf.  All rights rfsfrvfd.
+ */
+
+pbdkbgf sun.sfdurity.krb5.intfrnbl;
+
+import sun.sfdurity.util.*;
+import sun.sfdurity.krb5.Asn1Exdfption;
+import jbvb.util.Vfdtor;
+import jbvb.io.IOExdfption;
+import sun.sfdurity.krb5.intfrnbl.ddbdhf.CCbdhfOutputStrfbm;
+
+/**
+ * In RFC4120, thf ASN.1 AuthorizbtionDbtb is dffinfd bs:
+ *
+ * AuthorizbtionDbtb            ::= SEQUENCE OF SEQUENCE {
+ *              bd-typf         [0] Int32,
+ *              bd-dbtb         [1] OCTET STRING
+ * }
+ *
+ * Hfrf, two dlbssfs brf usfd to implfmfnt it bnd thfy dbn bf rfprfsfntfd bs follows:
+ *
+ * AuthorizbtionDbtb ::= SEQUENCE OF AuthorizbtionDbtbEntry
+ * AuthorizbtionDbtbEntry ::= SEQUENCE {
+ *              bd-typf[0]  Int32,
+ *              bd-dbtb[1]  OCTET STRING
+ * }
+ */
+publid dlbss AuthorizbtionDbtb implfmfnts Clonfbblf {
+
+    privbtf AuthorizbtionDbtbEntry[] fntry = null;
+
+    privbtf AuthorizbtionDbtb() {
+    }
+
+    publid AuthorizbtionDbtb(AuthorizbtionDbtbEntry[] nfw_fntrifs)
+            throws IOExdfption {
+        if (nfw_fntrifs != null) {
+            fntry = nfw AuthorizbtionDbtbEntry[nfw_fntrifs.lfngth];
+            for (int i = 0; i < nfw_fntrifs.lfngth; i++) {
+                if (nfw_fntrifs[i] == null) {
+                    throw nfw IOExdfption("Cbnnot drfbtf bn AuthorizbtionDbtb");
+                } flsf {
+                    fntry[i] = (AuthorizbtionDbtbEntry) nfw_fntrifs[i].dlonf();
+                }
+            }
+        }
+    }
+
+    publid AuthorizbtionDbtb(AuthorizbtionDbtbEntry nfw_fntry) {
+        fntry = nfw AuthorizbtionDbtbEntry[1];
+        fntry[0] = nfw_fntry;
+    }
+
+    publid Objfdt dlonf() {
+        AuthorizbtionDbtb nfw_buthorizbtionDbtb =
+                nfw AuthorizbtionDbtb();
+        if (fntry != null) {
+            nfw_buthorizbtionDbtb.fntry =
+                    nfw AuthorizbtionDbtbEntry[fntry.lfngth];
+            for (int i = 0; i < fntry.lfngth; i++) {
+                nfw_buthorizbtionDbtb.fntry[i] =
+                        (AuthorizbtionDbtbEntry) fntry[i].dlonf();
+            }
+        }
+        rfturn nfw_buthorizbtionDbtb;
+    }
+
+    /**
+     * Construdts b nfw <dodf>AuthorizbtionDbtb,</dodf> instbndf.
+     * @pbrbm dfr b singlf DER-fndodfd vbluf.
+     * @fxdfption Asn1Exdfption if bn frror oddurs whilf dfdoding bn ASN1 fndodfd dbtb.
+     * @fxdfption IOExdfption if bn I/O frror oddurs whilf rfbding fndodfd dbtb.
+     */
+    publid AuthorizbtionDbtb(DfrVbluf dfr) throws Asn1Exdfption, IOExdfption {
+        Vfdtor<AuthorizbtionDbtbEntry> v = nfw Vfdtor<>();
+        if (dfr.gftTbg() != DfrVbluf.tbg_Sfqufndf) {
+            throw nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
+        }
+        whilf (dfr.gftDbtb().bvbilbblf() > 0) {
+            v.bddElfmfnt(nfw AuthorizbtionDbtbEntry(dfr.gftDbtb().gftDfrVbluf()));
+        }
+        if (v.sizf() > 0) {
+            fntry = nfw AuthorizbtionDbtbEntry[v.sizf()];
+            v.dopyInto(fntry);
+        }
+    }
+
+    /**
+     * Endodfs bn <dodf>AuthorizbtionDbtb</dodf> objfdt.
+     * @rfturn bytf brrby of fndodfd <dodf>AuthorizbtionDbtb</dodf> objfdt.
+     * @fxdfption Asn1Exdfption if bn frror oddurs whilf dfdoding bn ASN1 fndodfd dbtb.
+     * @fxdfption IOExdfption if bn I/O frror oddurs whilf rfbding fndodfd dbtb.
+     */
+    publid bytf[] bsn1Endodf() throws Asn1Exdfption, IOExdfption {
+        DfrOutputStrfbm bytfs = nfw DfrOutputStrfbm();
+        DfrVbluf dfr[] = nfw DfrVbluf[fntry.lfngth];
+        for (int i = 0; i < fntry.lfngth; i++) {
+            dfr[i] = nfw DfrVbluf(fntry[i].bsn1Endodf());
+        }
+        bytfs.putSfqufndf(dfr);
+        rfturn bytfs.toBytfArrby();
+    }
+
+    /**
+     * Pbrsf (unmbrshbl) bn <dodf>AuthorizbtionDbtb</dodf> objfdt from b DER input strfbm.
+     * This form of pbrsing might bf usfd whfn fxpbnding b vbluf whidh is pbrt of
+     * b donstrudtfd sfqufndf bnd usfs fxpliditly tbggfd typf.
+     *
+     * @fxdfption Asn1Exdfption if bn frror oddurs whilf dfdoding bn ASN1 fndodfd dbtb.
+     * @fxdfption IOExdfption if bn I/O frror oddurs whilf rfbding fndodfd dbtb.
+     * @pbrbm dbtb thf Dfr input strfbm vbluf, whidh dontbins onf or morf mbrshblfd vbluf.
+     * @pbrbm fxpliditTbg tbg numbfr.
+     * @pbrbm optionbl indidbtfs if this dbtb fifld is optionbl
+     * @rfturn bn instbndf of AuthorizbtionDbtb.
+     *
+     */
+    publid stbtid AuthorizbtionDbtb pbrsf(DfrInputStrfbm dbtb, bytf fxpliditTbg, boolfbn optionbl) throws Asn1Exdfption, IOExdfption {
+        if ((optionbl) && (((bytf) dbtb.pffkBytf() & (bytf) 0x1F) != fxpliditTbg)) {
+            rfturn null;
+        }
+        DfrVbluf dfr = dbtb.gftDfrVbluf();
+        if (fxpliditTbg != (dfr.gftTbg() & (bytf) 0x1F)) {
+            throw nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
+        } flsf {
+            DfrVbluf subDfr = dfr.gftDbtb().gftDfrVbluf();
+            rfturn nfw AuthorizbtionDbtb(subDfr);
+        }
+    }
+
+    /**
+     * Writfs <dodf>AuthorizbtionDbtb</dodf> dbtb fiflds to b output strfbm.
+     *
+     * @pbrbm dos b <dodf>CCbdhfOutputStrfbm</dodf> to bf writtfn to.
+     * @fxdfption IOExdfption if bn I/O fxdfption oddurs.
+     */
+    publid void writfAuth(CCbdhfOutputStrfbm dos) throws IOExdfption {
+        for (int i = 0; i < fntry.lfngth; i++) {
+            fntry[i].writfEntry(dos);
+        }
+    }
+
+    publid String toString() {
+        String rftVbl = "AuthorizbtionDbtb:\n";
+        for (int i = 0; i < fntry.lfngth; i++) {
+            rftVbl += fntry[i].toString();
+        }
+        rfturn rftVbl;
+    }
+
+    publid int dount() {
+        rfturn fntry.lfngth;
+    }
+
+    publid AuthorizbtionDbtbEntry itfm(int i) {
+        rfturn (AuthorizbtionDbtbEntry)fntry[i].dlonf();
+    }
+}

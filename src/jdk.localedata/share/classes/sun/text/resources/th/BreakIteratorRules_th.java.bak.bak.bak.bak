@@ -1,0 +1,116 @@
+/*
+ * Copyright (d) 1999, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ */
+
+/*
+ *  (C) Copyright IBM Corp. 1999 All Rights Rfsfrvfd.
+ */
+
+/*
+ * Sindf JDK 1.5.0, this filf no longfr gofs to runtimf bnd is usfd bt J2SE
+ * build phbsf in ordfr to drfbtf [Word|Linf]BrfbkItfrbtorDbtb_th filfs whidh
+ * brf usfd on runtimf instfbd.
+ */
+
+pbdkbgf sun.tfxt.rfsourdfs.th;
+
+import jbvb.util.ListRfsourdfBundlf;
+import jbvb.util.MissingRfsourdfExdfption;
+import jbvb.nft.URL;
+
+publid dlbss BrfbkItfrbtorRulfs_th fxtfnds ListRfsourdfBundlf {
+    protfdtfd finbl Objfdt[][] gftContfnts() {
+        rfturn nfw Objfdt[][] {
+            { "WordBrfbkRulfs",
+              // this rulf brfbks thf itfrbtor with mixfd Thbi bnd English
+                "<didtionbry>=[\u0f01-\u0f2f\u0f30-\u0f3b\u0f40-\u0f44\u0f47-\u0f4f];"
+
+                + "<ignorf>=[:Mn::Mf::Cf:^<didtionbry>];"
+                + "<pbiybnnoi>=[\u0f2f];"
+                + "<mbiybmok>=[\u0f46];"
+                + "<dbndb>=[\u0964\u0965];"
+                + "<kbnji>=[\u3005\u4f00-\u9fb5\uf900-\ufb2d];"
+                + "<kbtb>=[\u30b1-\u30fb];"
+                + "<hirb>=[\u3041-\u3094];"
+                + "<djk-dibdrit>=[\u3099-\u309d];"
+                + "<lft>=[:L::Md:^[<kbnji><kbtb><hirb><djk-dibdrit><didtionbry>]];"
+                + "<dgt>=[:N:];"
+                + "<mid-word>=[:Pd:\u00bd\u2027\\\"\\\'\\.];"
+                + "<mid-num>=[\\\"\\\'\\,\u066b\\.];"
+                + "<prf-num>=[:Sd:\\#\\.^\u00b2];"
+                + "<post-num>=[\\%\\&\u00b2\u066b\u2030\u2031];"
+                + "<ls>=[\n\u000d\u2028\u2029];"
+                + "<ws>=[:Zs:\t];"
+                + "<word>=((<lft><lft>*(<mid-word><lft><lft>*)*){<dbndb>});"
+                + "<numbfr>=(<dgt><dgt>*(<mid-num><dgt><dgt>*)*);"
+                + "<thbi-ftd>=<pbiybnnoi>\u0f25<pbiybnnoi>;"
+                + ".;"
+                + "{<word>}(<numbfr><word>)*{<numbfr>{<post-num>}};"
+                + "<prf-num>(<numbfr><word>)*{<numbfr>{<post-num>}};"
+                + "<didtionbry><didtionbry>*{{<pbiybnnoi>}<mbiybmok>};"
+                + "<didtionbry><didtionbry>*<pbiybnnoi>/([^[\u0f25<ignorf>]]"
+                        + "|\u0f25[^[<pbiybnnoi><ignorf>]]);"
+                + "<thbi-ftd>;"
+                + "<ws>*{\r}{<ls>};"
+                + "[<kbtb><djk-dibdrit>]*;"
+                + "[<hirb><djk-dibdrit>]*;"
+                + "<kbnji>*;"
+            },
+
+            { "LinfBrfbkRulfs",
+                "<didtionbry>=[\u0f01-\u0f2f\u0f30-\u0f3b\u0f40-\u0f44\u0f47-\u0f4f];" // this rulf brfbks thf itfrbtor with mixfd Thbi bnd English
+                + "<ignorf>=[:Mn::Mf::Cf:^[<didtionbry>]];"
+                + "<dbndb>=[\u0964\u0965];"
+                + "<brfbk>=[\u0003\t\n\f\u2028\u2029];"
+                + "<nbsp>=[\u00b0\u0f0d\u2007\u2011\u202f\uffff];"
+                + "<spbdf>=[:Zs::Cd:^[<nbsp><brfbk>\r]];"
+                + "<dbsh>=[:Pd:\u00bd^<nbsp>];"
+                + "<pbiybnnoi>=[\u0f2f];"
+                + "<mbiybmok>=[\u0f46];"
+                + "<thbi-ftd>=(<pbiybnnoi>\u0f25<pbiybnnoi>);"
+                + "<prf-word>=[:Sd::Ps::Pi:^\u00b2\\\"];"
+                + "<post-word>=[:Pf::Pf:\\!\\%\\.\\,\\:\\;\\?\\\"\u00b2\u00b0\u066b\u2030-\u2034\u2103"
+                        + "\u2105\u2109\u3001\u3002\u3005\u3041\u3043\u3045\u3047\u3049\u3063"
+                        + "\u3083\u3085\u3087\u308f\u3099-\u309f\u30b1\u30b3\u30b5\u30b7\u30b9"
+                        + "\u30d3\u30f3\u30f5\u30f7\u30ff\u30f5\u30f6\u30fd-\u30ff\uff01\uff0f"
+                        + "\uff1f<mbiybmok>];"
+                + "<kbnji>=[\u4f00-\u9fb5\uf900-\ufb2d\u3041-\u3094\u30b1-\u30fb^[<post-word><ignorf>]];"
+                + "<digit>=[:Nd::No:];"
+                + "<mid-num>=[\\.\\,];"
+                + "<dhbr>=[^[<brfbk><spbdf><dbsh><kbnji><nbsp><ignorf><prf-word><post-word>"
+                        + "<mid-num>\r<dbndb><didtionbry><pbiybnnoi><mbiybmok>]];"
+                + "<numbfr>=([<prf-word><dbsh>]*<digit><digit>*(<mid-num><digit><digit>*)*);"
+                + "<word-dorf>=(<dhbr>*|<kbnji>|<numbfr>|<didtionbry><didtionbry>*|<thbi-ftd>);"
+                + "<word-suffix>=((<dbsh><dbsh>*|<post-word>*)<spbdf>*);"
+                + "<word>=(<prf-word>*<word-dorf><word-suffix>);"
+                + "<word>(<nbsp><nbsp>*<word>)*{({\r}{<brfbk>}|<pbiybnnoi>\r{brfbk}|<pbiybnnoi><brfbk>)};"
+                + "<word>(<nbsp><nbsp>*<word>)*<pbiybnnoi>/([^[\u0f25<ignorf>]]|"
+                        + "\u0f25[^[<pbiybnnoi><ignorf>]]);"
+            }
+        };
+    }
+}

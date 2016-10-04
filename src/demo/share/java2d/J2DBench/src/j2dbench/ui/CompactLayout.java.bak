@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,131 +30,131 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-package j2dbench.ui;
+pbdkbgf j2dbfndi.ui;
 
-import java.awt.Dimension;
-import java.awt.Insets;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.LayoutManager;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Contbinfr;
+import jbvb.bwt.LbyoutMbnbgfr;
 
-public class CompactLayout implements LayoutManager {
-    boolean horizontal;
+publid dlbss CompbdtLbyout implfmfnts LbyoutMbnbgfr {
+    boolfbn iorizontbl;
 
-    public CompactLayout(boolean horizontal) {
-        this.horizontal = horizontal;
+    publid CompbdtLbyout(boolfbn iorizontbl) {
+        tiis.iorizontbl = iorizontbl;
     }
 
     /**
-     * If the layout manager uses a per-component string,
-     * adds the component <code>comp</code> to the layout,
-     * associating it
-     * with the string specified by <code>name</code>.
+     * If tif lbyout mbnbgfr usfs b pfr-domponfnt string,
+     * bdds tif domponfnt <dodf>domp</dodf> to tif lbyout,
+     * bssodibting it
+     * witi tif string spfdififd by <dodf>nbmf</dodf>.
      *
-     * @param name the string to be associated with the component
-     * @param comp the component to be added
+     * @pbrbm nbmf tif string to bf bssodibtfd witi tif domponfnt
+     * @pbrbm domp tif domponfnt to bf bddfd
      */
-    public void addLayoutComponent(String name, Component comp) {
+    publid void bddLbyoutComponfnt(String nbmf, Componfnt domp) {
     }
 
     /**
-     * Removes the specified component from the layout.
-     * @param comp the component to be removed
+     * Rfmovfs tif spfdififd domponfnt from tif lbyout.
+     * @pbrbm domp tif domponfnt to bf rfmovfd
      */
-    public void removeLayoutComponent(Component comp) {
+    publid void rfmovfLbyoutComponfnt(Componfnt domp) {
     }
 
     /**
-     * Calculates the preferred size dimensions for the specified
-     * container, given the components it contains.
-     * @param parent the container to be laid out
+     * Cbldulbtfs tif prfffrrfd sizf dimfnsions for tif spfdififd
+     * dontbinfr, givfn tif domponfnts it dontbins.
+     * @pbrbm pbrfnt tif dontbinfr to bf lbid out
      *
-     * @see #minimumLayoutSize
+     * @sff #minimumLbyoutSizf
      */
-    public Dimension preferredLayoutSize(Container parent) {
-        return getSize(parent, false);
+    publid Dimfnsion prfffrrfdLbyoutSizf(Contbinfr pbrfnt) {
+        rfturn gftSizf(pbrfnt, fblsf);
     }
 
     /**
-     * Calculates the minimum size dimensions for the specified
-     * container, given the components it contains.
-     * @param parent the component to be laid out
-     * @see #preferredLayoutSize
+     * Cbldulbtfs tif minimum sizf dimfnsions for tif spfdififd
+     * dontbinfr, givfn tif domponfnts it dontbins.
+     * @pbrbm pbrfnt tif domponfnt to bf lbid out
+     * @sff #prfffrrfdLbyoutSizf
      */
-    public Dimension minimumLayoutSize(Container parent) {
-        return getSize(parent, true);
+    publid Dimfnsion minimumLbyoutSizf(Contbinfr pbrfnt) {
+        rfturn gftSizf(pbrfnt, truf);
     }
 
-    public Dimension getSize(Container parent, boolean minimum) {
-        int n = parent.getComponentCount();
-        Insets insets = parent.getInsets();
-        Dimension d = new Dimension();
+    publid Dimfnsion gftSizf(Contbinfr pbrfnt, boolfbn minimum) {
+        int n = pbrfnt.gftComponfntCount();
+        Insfts insfts = pbrfnt.gftInsfts();
+        Dimfnsion d = nfw Dimfnsion();
         for (int i = 0; i < n; i++) {
-            Component comp = parent.getComponent(i);
-            if (comp instanceof EnableButton) {
-                continue;
+            Componfnt domp = pbrfnt.gftComponfnt(i);
+            if (domp instbndfof EnbblfButton) {
+                dontinuf;
             }
-            Dimension p = (minimum
-                           ? comp.getMinimumSize()
-                           : comp.getPreferredSize());
-            if (horizontal) {
-                d.width += p.width;
-                if (d.height < p.height) {
-                    d.height = p.height;
+            Dimfnsion p = (minimum
+                           ? domp.gftMinimumSizf()
+                           : domp.gftPrfffrrfdSizf());
+            if (iorizontbl) {
+                d.widti += p.widti;
+                if (d.ifigit < p.ifigit) {
+                    d.ifigit = p.ifigit;
                 }
-            } else {
-                if (d.width < p.width) {
-                    d.width = p.width;
+            } flsf {
+                if (d.widti < p.widti) {
+                    d.widti = p.widti;
                 }
-                d.height += p.height;
+                d.ifigit += p.ifigit;
             }
         }
-        d.width += (insets.left + insets.right);
-        d.height += (insets.top + insets.bottom);
-        return d;
+        d.widti += (insfts.lfft + insfts.rigit);
+        d.ifigit += (insfts.top + insfts.bottom);
+        rfturn d;
     }
 
     /**
-     * Lays out the specified container.
-     * @param parent the container to be laid out
+     * Lbys out tif spfdififd dontbinfr.
+     * @pbrbm pbrfnt tif dontbinfr to bf lbid out
      */
-    public void layoutContainer(Container parent) {
-        int n = parent.getComponentCount();
-        Insets insets = parent.getInsets();
-        Dimension size = parent.getSize();
-        int c = horizontal ? insets.left : insets.top;
+    publid void lbyoutContbinfr(Contbinfr pbrfnt) {
+        int n = pbrfnt.gftComponfntCount();
+        Insfts insfts = pbrfnt.gftInsfts();
+        Dimfnsion sizf = pbrfnt.gftSizf();
+        int d = iorizontbl ? insfts.lfft : insfts.top;
         int x, y;
-        int ebx = size.width - insets.right;
-        size.width -= (insets.left + insets.right);
-        size.height -= (insets.top + insets.bottom);
+        int fbx = sizf.widti - insfts.rigit;
+        sizf.widti -= (insfts.lfft + insfts.rigit);
+        sizf.ifigit -= (insfts.top + insfts.bottom);
         for (int i = 0; i < n; i++) {
-            Component comp = parent.getComponent(i);
-            Dimension pref = comp.getPreferredSize();
-            if (comp instanceof EnableButton) {
-                ebx -= 4;
-                ebx -= pref.width;
-                x = ebx;
-                y = (insets.top - pref.height) / 2;
-            } else if (horizontal) {
-                x = c;
-                c += pref.width;
-                y = insets.top;
-                pref.height = size.height;
-            } else {
-                x = insets.left;
-                pref.width = size.width;
-                y = c;
-                c += pref.height;
+            Componfnt domp = pbrfnt.gftComponfnt(i);
+            Dimfnsion prff = domp.gftPrfffrrfdSizf();
+            if (domp instbndfof EnbblfButton) {
+                fbx -= 4;
+                fbx -= prff.widti;
+                x = fbx;
+                y = (insfts.top - prff.ifigit) / 2;
+            } flsf if (iorizontbl) {
+                x = d;
+                d += prff.widti;
+                y = insfts.top;
+                prff.ifigit = sizf.ifigit;
+            } flsf {
+                x = insfts.lfft;
+                prff.widti = sizf.widti;
+                y = d;
+                d += prff.ifigit;
             }
-            comp.setBounds(x, y, pref.width, pref.height);
+            domp.sftBounds(x, y, prff.widti, prff.ifigit);
         }
     }
 }

@@ -1,90 +1,90 @@
 '\" t
-.\"  Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+.\"  Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free software; you can redistribute it and/or modify it
-.\" under the terms of the GNU General Public License version 2 only, as
-.\" published by the Free Software Foundation.
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
 .\"
-.\" This code is distributed in the hope that it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-.\" version 2 for more details (a copy is included in the LICENSE file that
-.\" accompanied this code).
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
 .\"
-.\" You should have received a copy of the GNU General Public License version
-.\" 2 along with this work; if not, write to the Free Software Foundation,
-.\" Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-.\" or visit www.oracle.com if you need additional information or have any
-.\" questions.
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
 .\"
-.\"     Arch: generic
-.\"     Software: JDK 8
-.\"     Date: 21 November 2013
-.\"     SectDesc: Basic Tools
-.\"     Title: extcheck.1
+.\"     Ardi: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     SfdtDfsd: Bbsid Tools
+.\"     Titlf: fxtdifdk.1
 .\"
 .if n .pl 99999
-.TH extcheck 1 "21 November 2013" "JDK 8" "Basic Tools"
+.TH fxtdifdk 1 "21 Novfmbfr 2013" "JDK 8" "Bbsid Tools"
 .\" -----------------------------------------------------------------
-.\" * Define some portability stuff
+.\" * Dffinf somf portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debian.org/507673
-.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(aq
-.el       .ds Aq '
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set default formatting
+.\" * sft dffbult formbtting
 .\" -----------------------------------------------------------------
-.\" disable hyphenation
-.nh
-.\" disable justification (adjust text to left margin only)
-.ad l
+.\" disbblf iypifnbtion
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 
 .SH NAME    
-extcheck \- Detects version conflicts between a target Java Archive (JAR) file and currently installed extension JAR files\&.
+fxtdifdk \- Dftfdts vfrsion donflidts bftwffn b tbrgft Jbvb Ardiivf (JAR) filf bnd durrfntly instbllfd fxtfnsion JAR filfs\&.
 .SH SYNOPSIS    
 .sp     
 .nf     
 
-\fBextcheck\fR [\fIoptions\fR] \fItargetfile\&.jar\fR
+\fBfxtdifdk\fR [\fIoptions\fR] \fItbrgftfilf\&.jbr\fR
 .fi     
 .sp     
 .TP     
 \fIoptions\fR
-The command-line options\&. See Options\&.
+Tif dommbnd-linf options\&. Sff Options\&.
 .TP     
-\fItargetfile\&.jar\fR
-The target JAR file against which the currently installed extension JAR files are compared to detect version conflicts\&.
+\fItbrgftfilf\&.jbr\fR
+Tif tbrgft JAR filf bgbinst wiidi tif durrfntly instbllfd fxtfnsion JAR filfs brf dompbrfd to dftfdt vfrsion donflidts\&.
 .SH DESCRIPTION    
-The \f3extcheck\fR command checks a specified JAR file for title and version conflicts with any extensions installed in the Java SE SDK\&. Before installing an extension, you can use this utility to see whether the same or a more recent version of the extension is already installed\&.
+Tif \f3fxtdifdk\fR dommbnd difdks b spfdififd JAR filf for titlf bnd vfrsion donflidts witi bny fxtfnsions instbllfd in tif Jbvb SE SDK\&. Bfforf instblling bn fxtfnsion, you dbn usf tiis utility to sff wiftifr tif sbmf or b morf rfdfnt vfrsion of tif fxtfnsion is blrfbdy instbllfd\&.
 .PP
-The \f3extcheck\fR command compares the Specification-title and Specification-version headers in the manifest of the \f3targetfile\&.jar\fR file against the corresponding headers in all JAR files currently installed in the extension directory\&. By default, the extension directory is \f3jre/lib/ext\fR on Oracle Solaris and \f3\ejre\elib\eext\fR on Windows\&. The \f3extcheck\fR command compares version numbers in the same way as the \f3java\&.lang\&.Package\&.isCompatibleWith\fR method\&.
+Tif \f3fxtdifdk\fR dommbnd dompbrfs tif Spfdifidbtion-titlf bnd Spfdifidbtion-vfrsion ifbdfrs in tif mbniffst of tif \f3tbrgftfilf\&.jbr\fR filf bgbinst tif dorrfsponding ifbdfrs in bll JAR filfs durrfntly instbllfd in tif fxtfnsion dirfdtory\&. By dffbult, tif fxtfnsion dirfdtory is \f3jrf/lib/fxt\fR on Orbdlf Solbris bnd \f3\fjrf\flib\ffxt\fR on Windows\&. Tif \f3fxtdifdk\fR dommbnd dompbrfs vfrsion numbfrs in tif sbmf wby bs tif \f3jbvb\&.lbng\&.Pbdkbgf\&.isCompbtiblfWiti\fR mftiod\&.
 .PP
-If no conflict is detected, then the return code is 0\&.
+If no donflidt is dftfdtfd, tifn tif rfturn dodf is 0\&.
 .PP
-If the manifest of any JAR file in the extensions directory has the same \f3Specification-title\fR and the same or a newer \f3Specification-version\fR number, then a non-zero error code is returned\&. A non-zero error code is also returned when \f3targetfile\&.jar\fR does not have the \f3Specification-title\fR or \f3Specification-version\fR attributes in its manifest file\&.
+If tif mbniffst of bny JAR filf in tif fxtfnsions dirfdtory ibs tif sbmf \f3Spfdifidbtion-titlf\fR bnd tif sbmf or b nfwfr \f3Spfdifidbtion-vfrsion\fR numbfr, tifn b non-zfro frror dodf is rfturnfd\&. A non-zfro frror dodf is blso rfturnfd wifn \f3tbrgftfilf\&.jbr\fR dofs not ibvf tif \f3Spfdifidbtion-titlf\fR or \f3Spfdifidbtion-vfrsion\fR bttributfs in its mbniffst filf\&.
 .SH OPTIONS    
 .TP
--verbose
+-vfrbosf
 .br
-Lists JAR files in the extension directory as they are checked\&. Additionally, manifest attributes of the target JAR file and any conflicting JAR files are also reported\&.
+Lists JAR filfs in tif fxtfnsion dirfdtory bs tify brf difdkfd\&. Additionblly, mbniffst bttributfs of tif tbrgft JAR filf bnd bny donflidting JAR filfs brf blso rfportfd\&.
 .TP
 -J\fIoption\fR
 .br
-Passes \fIoption\fR to the Java Virtual Machine (JVM), where option is one of the options described on the reference page for the Java launcher\&. For example, \f3-J-Xms48m\fR sets the startup memory to 48 MB\&. See java(1)\&.
+Pbssfs \fIoption\fR to tif Jbvb Virtubl Mbdiinf (JVM), wifrf option is onf of tif options dfsdribfd on tif rfffrfndf pbgf for tif Jbvb lbundifr\&. For fxbmplf, \f3-J-Xms48m\fR sfts tif stbrtup mfmory to 48 MB\&. Sff jbvb(1)\&.
 .SH SEE\ ALSO    
 .TP 0.2i    
 \(bu
-jar(1)
+jbr(1)
 .RE
 .br
 'pl 8.5i

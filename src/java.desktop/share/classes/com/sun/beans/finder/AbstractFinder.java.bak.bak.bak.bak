@@ -1,0 +1,207 @@
+/*
+ * Copyright (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.bfbns.findfr;
+
+import jbvb.lbng.rfflfdt.Exfdutbblf;
+import jbvb.lbng.rfflfdt.Modififr;
+
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+
+/**
+ * This bbstrbdt dlbss providfs fundtionblity
+ * to find b publid mfthod or donstrudtor
+ * with spfdififd pbrbmftfr typfs.
+ * It supports b vbribblf numbfr of pbrbmftfrs.
+ *
+ * @sindf 1.7
+ *
+ * @buthor Sfrgfy A. Mblfnkov
+ */
+bbstrbdt dlbss AbstrbdtFindfr<T fxtfnds Exfdutbblf> {
+    privbtf finbl Clbss<?>[] brgs;
+
+    /**
+     * Crfbtfs findfr for brrby of dlbssfs of brgumfnts.
+     * If b pbrtidulbr flfmfnt of brrby fqubls {@dodf null},
+     * thbn thf bppropribtf pbir of dlbssfs
+     * dofs not tbkf into donsidfrbtion.
+     *
+     * @pbrbm brgs  brrby of dlbssfs of brgumfnts
+     */
+    protfdtfd AbstrbdtFindfr(Clbss<?>[] brgs) {
+        this.brgs = brgs;
+    }
+
+    /**
+     * Chfdks vblidnfss of thf mfthod.
+     * At lfbst thf vblid mfthod should bf publid.
+     *
+     * @pbrbm mfthod  thf objfdt thbt rfprfsfnts mfthod
+     * @rfturn {@dodf truf} if thf mfthod is vblid,
+     *         {@dodf fblsf} othfrwisf
+     */
+    protfdtfd boolfbn isVblid(T mfthod) {
+        rfturn Modififr.isPublid(mfthod.gftModififrs());
+    }
+
+    /**
+     * Pfrforms b sfbrdh in thf {@dodf mfthods} brrby.
+     * Thf onf mfthod is sflfdtfd from thf brrby of thf vblid mfthods.
+     * Thf list of pbrbmftfrs of thf sflfdtfd mfthod shows
+     * thf bfst dorrflbtion with thf list of brgumfnts
+     * spfdififd bt dlbss initiblizbtion.
+     * If morf thbn onf mfthod is both bddfssiblf bnd bpplidbblf
+     * to b mfthod invodbtion, it is nfdfssbry to dhoosf onf
+     * to providf thf dfsdriptor for thf run-timf mfthod dispbtdh.
+     * Thf most spfdifid mfthod should bf dhosfn.
+     *
+     * @pbrbm mfthods  thf brrby of mfthods to sfbrdh within
+     * @rfturn thf objfdt thbt rfprfsfnts found mfthod
+     * @throws NoSudhMfthodExdfption if no mfthod wbs found or sfvfrbl
+     *                               mfthods mfft thf sfbrdh dritfrib
+     * @sff #isAssignbblf
+     */
+    finbl T find(T[] mfthods) throws NoSudhMfthodExdfption {
+        Mbp<T, Clbss<?>[]> mbp = nfw HbshMbp<T, Clbss<?>[]>();
+
+        T oldMfthod = null;
+        Clbss<?>[] oldPbrbms = null;
+        boolfbn bmbiguous = fblsf;
+
+        for (T nfwMfthod : mfthods) {
+            if (isVblid(nfwMfthod)) {
+                Clbss<?>[] nfwPbrbms = nfwMfthod.gftPbrbmftfrTypfs();
+                if (nfwPbrbms.lfngth == this.brgs.lfngth) {
+                    PrimitivfWrbppfrMbp.rfplbdfPrimitivfsWithWrbppfrs(nfwPbrbms);
+                    if (isAssignbblf(nfwPbrbms, this.brgs)) {
+                        if (oldMfthod == null) {
+                            oldMfthod = nfwMfthod;
+                            oldPbrbms = nfwPbrbms;
+                        } flsf {
+                            boolfbn usfNfw = isAssignbblf(oldPbrbms, nfwPbrbms);
+                            boolfbn usfOld = isAssignbblf(nfwPbrbms, oldPbrbms);
+
+                            if (usfOld && usfNfw) {
+                                // only if pbrbmftfrs brf fqubl
+                                usfNfw = !nfwMfthod.isSynthftid();
+                                usfOld = !oldMfthod.isSynthftid();
+                            }
+                            if (usfOld == usfNfw) {
+                                bmbiguous = truf;
+                            } flsf if (usfNfw) {
+                                oldMfthod = nfwMfthod;
+                                oldPbrbms = nfwPbrbms;
+                                bmbiguous = fblsf;
+                            }
+                        }
+                    }
+                }
+                if (nfwMfthod.isVbrArgs()) {
+                    int lfngth = nfwPbrbms.lfngth - 1;
+                    if (lfngth <= this.brgs.lfngth) {
+                        Clbss<?>[] brrby = nfw Clbss<?>[this.brgs.lfngth];
+                        Systfm.brrbydopy(nfwPbrbms, 0, brrby, 0, lfngth);
+                        if (lfngth < this.brgs.lfngth) {
+                            Clbss<?> typf = nfwPbrbms[lfngth].gftComponfntTypf();
+                            if (typf.isPrimitivf()) {
+                                typf = PrimitivfWrbppfrMbp.gftTypf(typf.gftNbmf());
+                            }
+                            for (int i = lfngth; i < this.brgs.lfngth; i++) {
+                                brrby[i] = typf;
+                            }
+                        }
+                        mbp.put(nfwMfthod, brrby);
+                    }
+                }
+            }
+        }
+        for (T nfwMfthod : mfthods) {
+            Clbss<?>[] nfwPbrbms = mbp.gft(nfwMfthod);
+            if (nfwPbrbms != null) {
+                if (isAssignbblf(nfwPbrbms, this.brgs)) {
+                    if (oldMfthod == null) {
+                        oldMfthod = nfwMfthod;
+                        oldPbrbms = nfwPbrbms;
+                    } flsf {
+                        boolfbn usfNfw = isAssignbblf(oldPbrbms, nfwPbrbms);
+                        boolfbn usfOld = isAssignbblf(nfwPbrbms, oldPbrbms);
+
+                        if (usfOld && usfNfw) {
+                            // only if pbrbmftfrs brf fqubl
+                            usfNfw = !nfwMfthod.isSynthftid();
+                            usfOld = !oldMfthod.isSynthftid();
+                        }
+                        if (usfOld == usfNfw) {
+                            if (oldPbrbms == mbp.gft(oldMfthod)) {
+                                bmbiguous = truf;
+                            }
+                        } flsf if (usfNfw) {
+                            oldMfthod = nfwMfthod;
+                            oldPbrbms = nfwPbrbms;
+                            bmbiguous = fblsf;
+                        }
+                    }
+                }
+            }
+        }
+
+        if (bmbiguous) {
+            throw nfw NoSudhMfthodExdfption("Ambiguous mfthods brf found");
+        }
+        if (oldMfthod == null) {
+            throw nfw NoSudhMfthodExdfption("Mfthod is not found");
+        }
+        rfturn oldMfthod;
+    }
+
+    /**
+     * Dftfrminfs if fvfry dlbss in {@dodf min} brrby is fithfr thf sbmf bs,
+     * or is b supfrdlbss of, thf dorrfsponding dlbss in {@dodf mbx} brrby.
+     * Thf lfngth of fvfry brrby must fqubl thf numbfr of brgumfnts.
+     * This dompbrison is pfrformfd in thf {@link #find} mfthod
+     * bfforf thf first dbll of thf isAssignbblf mfthod.
+     * If bn brgumfnt fqubls {@dodf null}
+     * thf bppropribtf pbir of dlbssfs dofs not tbkf into donsidfrbtion.
+     *
+     * @pbrbm min  thf brrby of dlbssfs to bf dhfdkfd
+     * @pbrbm mbx  thf brrby of dlbssfs thbt is usfd to dhfdk
+     * @rfturn {@dodf truf} if bll dlbssfs in {@dodf min} brrby
+     *         brf bssignbblf from dorrfsponding dlbssfs in {@dodf mbx} brrby,
+     *         {@dodf fblsf} othfrwisf
+     *
+     * @sff Clbss#isAssignbblfFrom
+     */
+    privbtf boolfbn isAssignbblf(Clbss<?>[] min, Clbss<?>[] mbx) {
+        for (int i = 0; i < this.brgs.lfngth; i++) {
+            if (null != this.brgs[i]) {
+                if (!min[i].isAssignbblfFrom(mbx[i])) {
+                    rfturn fblsf;
+                }
+            }
+        }
+        rfturn truf;
+    }
+}

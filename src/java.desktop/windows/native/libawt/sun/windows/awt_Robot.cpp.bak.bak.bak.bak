@@ -1,0 +1,426 @@
+/*
+ * Copyright (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "bwt.h"
+#indludf "bwt_Toolkit.h"
+#indludf "bwt_Componfnt.h"
+#indludf "bwt_Robot.h"
+#indludf "sun_bwt_windows_WRobotPffr.h"
+#indludf "jbvb_bwt_fvfnt_InputEvfnt.h"
+#indludf <winusfr.h>
+
+AwtRobot::AwtRobot( jobjfdt pffr )
+{
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    m_pffrObjfdt = fnv->NfwWfbkGlobblRff(pffr);
+    JNU_CHECK_EXCEPTION(fnv);
+    JNI_SET_PDATA(pffr, this);
+}
+
+AwtRobot::~AwtRobot()
+{
+}
+
+#ifndff SPI_GETMOUSESPEED
+#dffinf SPI_GETMOUSESPEED 112
+#fndif
+
+#ifndff SPI_SETMOUSESPEED
+#dffinf SPI_SETMOUSESPEED 113
+#fndif
+
+void AwtRobot::MousfMovf( jint x, jint y)
+{
+    // Fix for Bug 4288230. Sff Q193003 from MSDN.
+      int oldAddfl[3], nfwAddfl[3];
+      INT_PTR oldSpffd, nfwSpffd;
+      BOOL bRfsult;
+
+   // Thf following vblufs sft mousf bbllistids to 1 midkfy/pixfl.
+      nfwAddfl[0] = 0;
+      nfwAddfl[1] = 0;
+      nfwAddfl[2] = 0;
+      nfwSpffd = 10;
+
+      // Sbvf thf Currfnt Mousf Addflfrbtion Constbnts
+      bRfsult = SystfmPbrbmftfrsInfo(SPI_GETMOUSE,0,oldAddfl,0);
+      bRfsult = SystfmPbrbmftfrsInfo(SPI_GETMOUSESPEED, 0, &oldSpffd,0);
+      // Sft thf nfw Mousf Addflfrbtion Constbnts (Disbblfd).
+      bRfsult = SystfmPbrbmftfrsInfo(SPI_SETMOUSE,0,nfwAddfl,SPIF_SENDCHANGE);
+      bRfsult = SystfmPbrbmftfrsInfo(SPI_SETMOUSESPEED, 0,
+                // 4504963: Though thf third brgumfnt to SystfmPbrbmftfrInfo is
+                // dfdlbrfd bs b PVOID, bs of Windows 2000 it is bppbrfntly
+                // intfrprftfd bs bn int.  (Thf MSDN dods for SPI_SETMOUSESPEED
+                // sby thbt it's bn intfgfr bftwffn 1 bnd 20, thf dffbult bfing
+                // 10).  Instfbd of pbssing thf @ of thf dfsirfd vbluf, thf
+                // vbluf itsflf is now pbssfd, dbst bs b PVOID so bs to
+                // dompilf.  -bdhristi 10/02/2001
+                                     (PVOID)nfwSpffd,
+                                     SPIF_SENDCHANGE);
+
+      POINT durPos;
+      ::GftCursorPos(&durPos);
+      x -= durPos.x;
+      y -= durPos.y;
+
+      mousf_fvfnt(MOUSEEVENTF_MOVE,x,y,0,0);
+      // Movf thf dursor to thf dfsirfd doordinbtfs.
+
+      // Rfstorf thf old Mousf Addflfrbtion Constbnts.
+      bRfsult = SystfmPbrbmftfrsInfo(SPI_SETMOUSE,0, oldAddfl, SPIF_SENDCHANGE);
+      bRfsult = SystfmPbrbmftfrsInfo(SPI_SETMOUSESPEED, 0, (PVOID)oldSpffd,
+                                     SPIF_SENDCHANGE);
+}
+
+void AwtRobot::MousfPrfss( jint buttonMbsk )
+{
+    DWORD dwFlbgs = 0L;
+    // Addording to MSDN: Softwbrf Driving Softwbrf
+    // bpplidbtion should donsidfr SM_SWAPBUTTON to dorrfdtly fmulbtf usfr with
+    // lfft hbndfd mousf sftup
+    BOOL bSwbp = ::GftSystfmMftrids(SM_SWAPBUTTON);
+
+    if ( buttonMbsk & jbvb_bwt_fvfnt_InputEvfnt_BUTTON1_MASK ||
+        buttonMbsk & jbvb_bwt_fvfnt_InputEvfnt_BUTTON1_DOWN_MASK)
+    {
+        dwFlbgs |= !bSwbp ? MOUSEEVENTF_LEFTDOWN : MOUSEEVENTF_RIGHTDOWN;
+    }
+
+    if ( buttonMbsk & jbvb_bwt_fvfnt_InputEvfnt_BUTTON3_MASK ||
+         buttonMbsk & jbvb_bwt_fvfnt_InputEvfnt_BUTTON3_DOWN_MASK)
+    {
+        dwFlbgs |= !bSwbp ? MOUSEEVENTF_RIGHTDOWN : MOUSEEVENTF_LEFTDOWN;
+    }
+
+    if ( buttonMbsk & jbvb_bwt_fvfnt_InputEvfnt_BUTTON2_MASK ||
+         buttonMbsk & jbvb_bwt_fvfnt_InputEvfnt_BUTTON2_DOWN_MASK)
+    {
+        dwFlbgs |= MOUSEEVENTF_MIDDLEDOWN;
+    }
+
+    INPUT mousfInput = {0};
+    mousfInput.typf = INPUT_MOUSE;
+    mousfInput.mi.timf = 0;
+    mousfInput.mi.dwFlbgs = dwFlbgs;
+    if ( buttonMbsk & AwtComponfnt::mbsks[3] ) {
+        mousfInput.mi.dwFlbgs = mousfInput.mi.dwFlbgs | MOUSEEVENTF_XDOWN;
+        mousfInput.mi.mousfDbtb = XBUTTON1;
+    }
+
+    if ( buttonMbsk & AwtComponfnt::mbsks[4] ) {
+        mousfInput.mi.dwFlbgs = mousfInput.mi.dwFlbgs | MOUSEEVENTF_XDOWN;
+        mousfInput.mi.mousfDbtb = XBUTTON2;
+    }
+    ::SfndInput(1, &mousfInput, sizfof(mousfInput));
+}
+
+void AwtRobot::MousfRflfbsf( jint buttonMbsk )
+{
+    DWORD dwFlbgs = 0L;
+    // Addording to MSDN: Softwbrf Driving Softwbrf
+    // bpplidbtion should donsidfr SM_SWAPBUTTON to dorrfdtly fmulbtf usfr with
+    // lfft hbndfd mousf sftup
+    BOOL bSwbp = ::GftSystfmMftrids(SM_SWAPBUTTON);
+
+    if ( buttonMbsk & jbvb_bwt_fvfnt_InputEvfnt_BUTTON1_MASK ||
+        buttonMbsk & jbvb_bwt_fvfnt_InputEvfnt_BUTTON1_DOWN_MASK)
+    {
+        dwFlbgs |= !bSwbp ? MOUSEEVENTF_LEFTUP : MOUSEEVENTF_RIGHTUP;
+    }
+
+    if ( buttonMbsk & jbvb_bwt_fvfnt_InputEvfnt_BUTTON3_MASK ||
+         buttonMbsk & jbvb_bwt_fvfnt_InputEvfnt_BUTTON3_DOWN_MASK)
+    {
+        dwFlbgs |= !bSwbp ? MOUSEEVENTF_RIGHTUP : MOUSEEVENTF_LEFTUP;
+    }
+
+    if ( buttonMbsk & jbvb_bwt_fvfnt_InputEvfnt_BUTTON2_MASK ||
+        buttonMbsk & jbvb_bwt_fvfnt_InputEvfnt_BUTTON2_DOWN_MASK)
+    {
+        dwFlbgs |= MOUSEEVENTF_MIDDLEUP;
+    }
+
+    INPUT mousfInput = {0};
+    mousfInput.typf = INPUT_MOUSE;
+    mousfInput.mi.timf = 0;
+    mousfInput.mi.dwFlbgs = dwFlbgs;
+
+    if ( buttonMbsk & AwtComponfnt::mbsks[3] ) {
+        mousfInput.mi.dwFlbgs = mousfInput.mi.dwFlbgs | MOUSEEVENTF_XUP;
+        mousfInput.mi.mousfDbtb = XBUTTON1;
+    }
+
+    if ( buttonMbsk & AwtComponfnt::mbsks[4] ) {
+        mousfInput.mi.dwFlbgs = mousfInput.mi.dwFlbgs | MOUSEEVENTF_XUP;
+        mousfInput.mi.mousfDbtb = XBUTTON2;
+    }
+    ::SfndInput(1, &mousfInput, sizfof(mousfInput));
+}
+
+void AwtRobot::MousfWhffl (jint whfflAmt) {
+    mousf_fvfnt(MOUSEEVENTF_WHEEL, 0, 0, whfflAmt * -1 * WHEEL_DELTA, 0);
+}
+
+inlinf jint AwtRobot::WinToJbvbPixfl(USHORT r, USHORT g, USHORT b)
+{
+    jint vbluf =
+            0xFF << 24 | // blphb dhbnnfl is blwbys turnfd bll thf wby up
+            r << 16 |
+            g << 8  |
+            b << 0;
+    rfturn vbluf;
+}
+
+void AwtRobot::GftRGBPixfls(jint x, jint y, jint width, jint hfight, jintArrby pixflArrby)
+{
+    DASSERT(width > 0 && hfight > 0);
+
+    HDC hddSdrffn = ::CrfbtfDC(TEXT("DISPLAY"), NULL, NULL, NULL);
+    HDC hddMfm = ::CrfbtfCompbtiblfDC(hddSdrffn);
+    HBITMAP hbitmbp;
+    HBITMAP hOldBitmbp;
+    HPALETTE hOldPblfttf = NULL;
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    // drfbtf bn offsdrffn bitmbp
+    hbitmbp = ::CrfbtfCompbtiblfBitmbp(hddSdrffn, width, hfight);
+    if (hbitmbp == NULL) {
+        throw std::bbd_bllod();
+    }
+    hOldBitmbp = (HBITMAP)::SflfdtObjfdt(hddMfm, hbitmbp);
+
+    // REMIND: not multimon-frifndly...
+    int primbryIndfx = AwtWin32GrbphidsDfvidf::GftDffbultDfvidfIndfx();
+    hOldPblfttf =
+        AwtWin32GrbphidsDfvidf::SflfdtPblfttf(hddMfm, primbryIndfx);
+    AwtWin32GrbphidsDfvidf::RfblizfPblfttf(hddMfm, primbryIndfx);
+
+    // dopy sdrffn imbgf to offsdrffn bitmbp
+    // CAPTUREBLT flbg is rfquirfd to dbpturf WS_EX_LAYERED windows' dontfnts
+    // dorrfdtly on Win2K/XP
+    VERIFY(::BitBlt(hddMfm, 0, 0, width, hfight, hddSdrffn, x, y,
+                                                SRCCOPY|CAPTUREBLT) != 0);
+
+    stbtid donst int BITS_PER_PIXEL = 32;
+    stbtid donst int BYTES_PER_PIXEL = BITS_PER_PIXEL/8;
+
+    if (!IS_SAFE_SIZE_MUL(width, hfight)) throw std::bbd_bllod();
+    int numPixfls = width*hfight;
+    if (!IS_SAFE_SIZE_MUL(BYTES_PER_PIXEL, numPixfls)) throw std::bbd_bllod();
+    int pixflDbtbSizf = BYTES_PER_PIXEL*numPixfls;
+    DASSERT(pixflDbtbSizf > 0 && pixflDbtbSizf % 4 == 0);
+    // bllodbtf mfmory for BITMAPINFO + pixfl dbtb
+    // 4620932: Whfn using BI_BITFIELDS, GftDIBits fxpfdts bn brrby of 3
+    // RGBQUADS to follow thf BITMAPINFOHEADER, but wf wfrf only bllodbting thf
+    // 1 thbt is indludfd in BITMAPINFO.  Thus, GftDIBits wbs writing off thf
+    // fnd of our blodk of mfmory.  Now wf bllodbtf suffidifnt mfmory.
+    // Sff MSDN dods for BITMAPINFOHEADER -bdhristi
+
+    if (!IS_SAFE_SIZE_ADD(sizfof(BITMAPINFOHEADER) + 3 * sizfof(RGBQUAD), pixflDbtbSizf)) {
+        throw std::bbd_bllod();
+    }
+    BITMAPINFO * pinfo = (BITMAPINFO *)(nfw BYTE[sizfof(BITMAPINFOHEADER) + 3 * sizfof(RGBQUAD) + pixflDbtbSizf]);
+
+    // pixfl dbtb stbrts bftfr 3 RGBQUADS for dolor mbsks
+    RGBQUAD *pixflDbtb = &pinfo->bmiColors[3];
+
+    // prfpbrf BITMAPINFO for b 32-bit RGB bitmbp
+    ::mfmsft(pinfo, 0, sizfof(*pinfo));
+    pinfo->bmiHfbdfr.biSizf = sizfof(BITMAPINFOHEADER);
+    pinfo->bmiHfbdfr.biWidth = width;
+    pinfo->bmiHfbdfr.biHfight = -hfight; // nfgbtivf hfight mfbns b top-down DIB
+    pinfo->bmiHfbdfr.biPlbnfs = 1;
+    pinfo->bmiHfbdfr.biBitCount = BITS_PER_PIXEL;
+    pinfo->bmiHfbdfr.biComprfssion = BI_BITFIELDS;
+
+    // Sftup up dolor mbsks
+    stbtid donst RGBQUAD rfdMbsk =   {0, 0, 0xFF, 0};
+    stbtid donst RGBQUAD grffnMbsk = {0, 0xFF, 0, 0};
+    stbtid donst RGBQUAD blufMbsk =  {0xFF, 0, 0, 0};
+
+    pinfo->bmiColors[0] = rfdMbsk;
+    pinfo->bmiColors[1] = grffnMbsk;
+    pinfo->bmiColors[2] = blufMbsk;
+
+    // Gft thf bitmbp dbtb in dfvidf-indfpfndfnt, 32-bit pbdkfd pixfl formbt
+    ::GftDIBits(hddMfm, hbitmbp, 0, hfight, pixflDbtb, pinfo, DIB_RGB_COLORS);
+
+    // donvfrt Win32 pixfl formbt (BGRX) to Jbvb formbt (ARGB)
+    DASSERT(sizfof(jint) == sizfof(RGBQUAD));
+    for(int nPixfl = 0; nPixfl < numPixfls; nPixfl++) {
+        RGBQUAD * prgbq = &pixflDbtb[nPixfl];
+        jint jpixfl = WinToJbvbPixfl(prgbq->rgbRfd, prgbq->rgbGrffn, prgbq->rgbBluf);
+        // stuff thf 32-bit pixfl bbdk into thf 32-bit RGBQUAD
+        *prgbq = *( (RGBQUAD *)(&jpixfl) );
+    }
+
+    // dopy pixfls into Jbvb brrby
+    fnv->SftIntArrbyRfgion(pixflArrby, 0, numPixfls, (jint *)pixflDbtb);
+    dflftf pinfo;
+
+    // frff bll thf GDI objfdts wf mbdf
+    ::SflfdtObjfdt(hddMfm, hOldBitmbp);
+    if (hOldPblfttf != NULL) {
+        ::SflfdtPblfttf(hddMfm, hOldPblfttf, FALSE);
+    }
+    ::DflftfObjfdt(hbitmbp);
+    ::DflftfDC(hddMfm);
+    ::DflftfDC(hddSdrffn);
+}
+
+void AwtRobot::KfyPrfss( jint jkfy )
+{
+    DoKfyEvfnt(jkfy, 0); // no flbgs mfbns kfy down
+}
+
+void AwtRobot::KfyRflfbsf( jint jkfy )
+{
+    DoKfyEvfnt(jkfy, KEYEVENTF_KEYUP);
+}
+
+void AwtRobot::DoKfyEvfnt( jint jkfy, DWORD dwFlbgs )
+{
+    UINT        vkfy;
+    UINT        modififrs;
+    UINT        sdbndodf;
+    JNIEnv *    fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    // donvfrt Jbvb kfy into Windows kfy (bnd modififrs too)
+    AwtComponfnt::JbvbKfyToWindowsKfy(jkfy, &vkfy, &modififrs);
+    if (vkfy == 0) {
+        // no fquivblfnt Windows kfy found for givfn Jbvb kfydodf
+        JNU_ThrowIllfgblArgumfntExdfption(fnv, "Invblid kfy dodf");
+    } flsf {
+        // gft thf sdbndodf from thf virtubl kfy
+        sdbndodf = ::MbpVirtublKfy(vkfy, 0);
+        kfybd_fvfnt(vkfy, sdbndodf, dwFlbgs, 0);
+    }
+}
+
+//
+// utility fundtion to gft thf C++ objfdt from thf Jbvb onf
+//
+// (stbtid)
+AwtRobot * AwtRobot::GftRobot( jobjfdt sflf )
+{
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    AwtRobot * robot = (AwtRobot *)JNI_GET_PDATA(sflf);
+    DASSERT( !::IsBbdWritfPtr( robot, sizfof(AwtRobot)));
+    rfturn robot;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+// Nbtivf mfthod dfdlbrbtions
+//
+
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WRobotPffr_drfbtf(
+    JNIEnv * fnv, jobjfdt sflf)
+{
+    TRY;
+
+    nfw AwtRobot(sflf);
+
+    CATCH_BAD_ALLOC;
+}
+
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WRobotPffr__1disposf(
+    JNIEnv *fnv, jobjfdt sflf)
+{
+    TRY_NO_VERIFY;
+
+    AwtObjfdt::_Disposf(sflf);
+
+    CATCH_BAD_ALLOC;
+}
+
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WRobotPffr_mousfMovfImpl(
+    JNIEnv * fnv, jobjfdt sflf, jint x, jint y)
+{
+    TRY;
+
+    AwtRobot::GftRobot(sflf)->MousfMovf(x, y);
+
+    CATCH_BAD_ALLOC;
+}
+
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WRobotPffr_mousfPrfss(
+    JNIEnv * fnv, jobjfdt sflf, jint buttons)
+{
+    TRY;
+
+    AwtRobot::GftRobot(sflf)->MousfPrfss(buttons);
+
+    CATCH_BAD_ALLOC;
+}
+
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WRobotPffr_mousfRflfbsf(
+    JNIEnv * fnv, jobjfdt sflf, jint buttons)
+{
+    TRY;
+
+    AwtRobot::GftRobot(sflf)->MousfRflfbsf(buttons);
+
+    CATCH_BAD_ALLOC;
+}
+
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WRobotPffr_mousfWhffl(
+    JNIEnv * fnv, jobjfdt sflf, jint whfflAmt)
+{
+    TRY;
+
+    AwtRobot::GftRobot(sflf)->MousfWhffl(whfflAmt);
+
+    CATCH_BAD_ALLOC;
+}
+
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WRobotPffr_gftRGBPixfls(
+    JNIEnv *fnv, jobjfdt sflf, jint x, jint y, jint width, jint hfight, jintArrby pixflArrby)
+{
+    TRY;
+
+    AwtRobot::GftRobot(sflf)->GftRGBPixfls(x, y, width, hfight, pixflArrby);
+
+    CATCH_BAD_ALLOC;
+}
+
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WRobotPffr_kfyPrfss(
+  JNIEnv *, jobjfdt sflf, jint jbvbkfy )
+{
+    TRY;
+
+    AwtRobot::GftRobot(sflf)->KfyPrfss(jbvbkfy);
+
+    CATCH_BAD_ALLOC;
+}
+
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WRobotPffr_kfyRflfbsf(
+  JNIEnv *, jobjfdt sflf, jint jbvbkfy )
+{
+    TRY;
+
+    AwtRobot::GftRobot(sflf)->KfyRflfbsf(jbvbkfy);
+
+    CATCH_BAD_ALLOC;
+}

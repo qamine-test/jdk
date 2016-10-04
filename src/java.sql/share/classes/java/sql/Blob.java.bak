@@ -1,303 +1,303 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.sql;
+pbdkbgf jbvb.sql;
 
-import java.io.InputStream;
+import jbvb.io.InputStrfbm;
 
 /**
- * The representation (mapping) in
- * the Java&trade; programming
- * language of an SQL
- * <code>BLOB</code> value.  An SQL <code>BLOB</code> is a built-in type
- * that stores a Binary Large Object as a column value in a row of
- * a database table. By default drivers implement <code>Blob</code> using
- * an SQL <code>locator(BLOB)</code>, which means that a
- * <code>Blob</code> object contains a logical pointer to the
- * SQL <code>BLOB</code> data rather than the data itself.
- * A <code>Blob</code> object is valid for the duration of the
- * transaction in which is was created.
+ * Tif rfprfsfntbtion (mbpping) in
+ * tif Jbvb&trbdf; progrbmming
+ * lbngubgf of bn SQL
+ * <dodf>BLOB</dodf> vbluf.  An SQL <dodf>BLOB</dodf> is b built-in typf
+ * tibt storfs b Binbry Lbrgf Objfdt bs b dolumn vbluf in b row of
+ * b dbtbbbsf tbblf. By dffbult drivfrs implfmfnt <dodf>Blob</dodf> using
+ * bn SQL <dodf>lodbtor(BLOB)</dodf>, wiidi mfbns tibt b
+ * <dodf>Blob</dodf> objfdt dontbins b logidbl pointfr to tif
+ * SQL <dodf>BLOB</dodf> dbtb rbtifr tibn tif dbtb itsflf.
+ * A <dodf>Blob</dodf> objfdt is vblid for tif durbtion of tif
+ * trbnsbdtion in wiidi is wbs drfbtfd.
  *
- * <P>Methods in the interfaces {@link ResultSet},
- * {@link CallableStatement}, and {@link PreparedStatement}, such as
- * <code>getBlob</code> and <code>setBlob</code> allow a programmer to
- * access an SQL <code>BLOB</code> value.
- * The <code>Blob</code> interface provides methods for getting the
- * length of an SQL <code>BLOB</code> (Binary Large Object) value,
- * for materializing a <code>BLOB</code> value on the client, and for
- * determining the position of a pattern of bytes within a
- * <code>BLOB</code> value. In addition, this interface has methods for updating
- * a <code>BLOB</code> value.
+ * <P>Mftiods in tif intfrfbdfs {@link RfsultSft},
+ * {@link CbllbblfStbtfmfnt}, bnd {@link PrfpbrfdStbtfmfnt}, sudi bs
+ * <dodf>gftBlob</dodf> bnd <dodf>sftBlob</dodf> bllow b progrbmmfr to
+ * bddfss bn SQL <dodf>BLOB</dodf> vbluf.
+ * Tif <dodf>Blob</dodf> intfrfbdf providfs mftiods for gftting tif
+ * lfngti of bn SQL <dodf>BLOB</dodf> (Binbry Lbrgf Objfdt) vbluf,
+ * for mbtfriblizing b <dodf>BLOB</dodf> vbluf on tif dlifnt, bnd for
+ * dftfrmining tif position of b pbttfrn of bytfs witiin b
+ * <dodf>BLOB</dodf> vbluf. In bddition, tiis intfrfbdf ibs mftiods for updbting
+ * b <dodf>BLOB</dodf> vbluf.
  * <p>
- * All methods on the <code>Blob</code> interface must be fully implemented if the
- * JDBC driver supports the data type.
+ * All mftiods on tif <dodf>Blob</dodf> intfrfbdf must bf fully implfmfntfd if tif
+ * JDBC drivfr supports tif dbtb typf.
  *
- * @since 1.2
+ * @sindf 1.2
  */
 
-public interface Blob {
+publid intfrfbdf Blob {
 
   /**
-   * Returns the number of bytes in the <code>BLOB</code> value
-   * designated by this <code>Blob</code> object.
-   * @return length of the <code>BLOB</code> in bytes
-   * @exception SQLException if there is an error accessing the
-   * length of the <code>BLOB</code>
-   * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-   * this method
-   * @since 1.2
+   * Rfturns tif numbfr of bytfs in tif <dodf>BLOB</dodf> vbluf
+   * dfsignbtfd by tiis <dodf>Blob</dodf> objfdt.
+   * @rfturn lfngti of tif <dodf>BLOB</dodf> in bytfs
+   * @fxdfption SQLExdfption if tifrf is bn frror bddfssing tif
+   * lfngti of tif <dodf>BLOB</dodf>
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * tiis mftiod
+   * @sindf 1.2
    */
-  long length() throws SQLException;
+  long lfngti() tirows SQLExdfption;
 
   /**
-   * Retrieves all or part of the <code>BLOB</code>
-   * value that this <code>Blob</code> object represents, as an array of
-   * bytes.  This <code>byte</code> array contains up to <code>length</code>
-   * consecutive bytes starting at position <code>pos</code>.
+   * Rftrifvfs bll or pbrt of tif <dodf>BLOB</dodf>
+   * vbluf tibt tiis <dodf>Blob</dodf> objfdt rfprfsfnts, bs bn brrby of
+   * bytfs.  Tiis <dodf>bytf</dodf> brrby dontbins up to <dodf>lfngti</dodf>
+   * donsfdutivf bytfs stbrting bt position <dodf>pos</dodf>.
    *
-   * @param pos the ordinal position of the first byte in the
-   *        <code>BLOB</code> value to be extracted; the first byte is at
+   * @pbrbm pos tif ordinbl position of tif first bytf in tif
+   *        <dodf>BLOB</dodf> vbluf to bf fxtrbdtfd; tif first bytf is bt
    *        position 1
-   * @param length the number of consecutive bytes to be copied; the value
-   * for length must be 0 or greater
-   * @return a byte array containing up to <code>length</code>
-   *         consecutive bytes from the <code>BLOB</code> value designated
-   *         by this <code>Blob</code> object, starting with the
-   *         byte at position <code>pos</code>
-   * @exception SQLException if there is an error accessing the
-   *            <code>BLOB</code> value; if pos is less than 1 or length is
-   * less than 0
-   * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-   * this method
-   * @see #setBytes
-   * @since 1.2
+   * @pbrbm lfngti tif numbfr of donsfdutivf bytfs to bf dopifd; tif vbluf
+   * for lfngti must bf 0 or grfbtfr
+   * @rfturn b bytf brrby dontbining up to <dodf>lfngti</dodf>
+   *         donsfdutivf bytfs from tif <dodf>BLOB</dodf> vbluf dfsignbtfd
+   *         by tiis <dodf>Blob</dodf> objfdt, stbrting witi tif
+   *         bytf bt position <dodf>pos</dodf>
+   * @fxdfption SQLExdfption if tifrf is bn frror bddfssing tif
+   *            <dodf>BLOB</dodf> vbluf; if pos is lfss tibn 1 or lfngti is
+   * lfss tibn 0
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * tiis mftiod
+   * @sff #sftBytfs
+   * @sindf 1.2
    */
-  byte[] getBytes(long pos, int length) throws SQLException;
+  bytf[] gftBytfs(long pos, int lfngti) tirows SQLExdfption;
 
   /**
-   * Retrieves the <code>BLOB</code> value designated by this
-   * <code>Blob</code> instance as a stream.
+   * Rftrifvfs tif <dodf>BLOB</dodf> vbluf dfsignbtfd by tiis
+   * <dodf>Blob</dodf> instbndf bs b strfbm.
    *
-   * @return a stream containing the <code>BLOB</code> data
-   * @exception SQLException if there is an error accessing the
-   *            <code>BLOB</code> value
-   * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-   * this method
-   * @see #setBinaryStream
-   * @since 1.2
+   * @rfturn b strfbm dontbining tif <dodf>BLOB</dodf> dbtb
+   * @fxdfption SQLExdfption if tifrf is bn frror bddfssing tif
+   *            <dodf>BLOB</dodf> vbluf
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * tiis mftiod
+   * @sff #sftBinbryStrfbm
+   * @sindf 1.2
    */
-  java.io.InputStream getBinaryStream () throws SQLException;
+  jbvb.io.InputStrfbm gftBinbryStrfbm () tirows SQLExdfption;
 
   /**
-   * Retrieves the byte position at which the specified byte array
-   * <code>pattern</code> begins within the <code>BLOB</code>
-   * value that this <code>Blob</code> object represents.  The
-   * search for <code>pattern</code> begins at position
-   * <code>start</code>.
+   * Rftrifvfs tif bytf position bt wiidi tif spfdififd bytf brrby
+   * <dodf>pbttfrn</dodf> bfgins witiin tif <dodf>BLOB</dodf>
+   * vbluf tibt tiis <dodf>Blob</dodf> objfdt rfprfsfnts.  Tif
+   * sfbrdi for <dodf>pbttfrn</dodf> bfgins bt position
+   * <dodf>stbrt</dodf>.
    *
-   * @param pattern the byte array for which to search
-   * @param start the position at which to begin searching; the
+   * @pbrbm pbttfrn tif bytf brrby for wiidi to sfbrdi
+   * @pbrbm stbrt tif position bt wiidi to bfgin sfbrdiing; tif
    *        first position is 1
-   * @return the position at which the pattern appears, else -1
-   * @exception SQLException if there is an error accessing the
-   * <code>BLOB</code> or if start is less than 1
-   * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-   * this method
-   * @since 1.2
+   * @rfturn tif position bt wiidi tif pbttfrn bppfbrs, flsf -1
+   * @fxdfption SQLExdfption if tifrf is bn frror bddfssing tif
+   * <dodf>BLOB</dodf> or if stbrt is lfss tibn 1
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * tiis mftiod
+   * @sindf 1.2
    */
-  long position(byte pattern[], long start) throws SQLException;
+  long position(bytf pbttfrn[], long stbrt) tirows SQLExdfption;
 
   /**
-   * Retrieves the byte position in the <code>BLOB</code> value
-   * designated by this <code>Blob</code> object at which
-   * <code>pattern</code> begins.  The search begins at position
-   * <code>start</code>.
+   * Rftrifvfs tif bytf position in tif <dodf>BLOB</dodf> vbluf
+   * dfsignbtfd by tiis <dodf>Blob</dodf> objfdt bt wiidi
+   * <dodf>pbttfrn</dodf> bfgins.  Tif sfbrdi bfgins bt position
+   * <dodf>stbrt</dodf>.
    *
-   * @param pattern the <code>Blob</code> object designating
-   * the <code>BLOB</code> value for which to search
-   * @param start the position in the <code>BLOB</code> value
-   *        at which to begin searching; the first position is 1
-   * @return the position at which the pattern begins, else -1
-   * @exception SQLException if there is an error accessing the
-   *            <code>BLOB</code> value or if start is less than 1
-   * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-   * this method
-   * @since 1.2
+   * @pbrbm pbttfrn tif <dodf>Blob</dodf> objfdt dfsignbting
+   * tif <dodf>BLOB</dodf> vbluf for wiidi to sfbrdi
+   * @pbrbm stbrt tif position in tif <dodf>BLOB</dodf> vbluf
+   *        bt wiidi to bfgin sfbrdiing; tif first position is 1
+   * @rfturn tif position bt wiidi tif pbttfrn bfgins, flsf -1
+   * @fxdfption SQLExdfption if tifrf is bn frror bddfssing tif
+   *            <dodf>BLOB</dodf> vbluf or if stbrt is lfss tibn 1
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * tiis mftiod
+   * @sindf 1.2
    */
-  long position(Blob pattern, long start) throws SQLException;
+  long position(Blob pbttfrn, long stbrt) tirows SQLExdfption;
 
     // -------------------------- JDBC 3.0 -----------------------------------
 
     /**
-     * Writes the given array of bytes to the <code>BLOB</code> value that
-     * this <code>Blob</code> object represents, starting at position
-     * <code>pos</code>, and returns the number of bytes written.
-     * The array of bytes will overwrite the existing bytes
-     * in the <code>Blob</code> object starting at the position
-     * <code>pos</code>.  If the end of the <code>Blob</code> value is reached
-     * while writing the array of bytes, then the length of the <code>Blob</code>
-     * value will be increased to accommodate the extra bytes.
+     * Writfs tif givfn brrby of bytfs to tif <dodf>BLOB</dodf> vbluf tibt
+     * tiis <dodf>Blob</dodf> objfdt rfprfsfnts, stbrting bt position
+     * <dodf>pos</dodf>, bnd rfturns tif numbfr of bytfs writtfn.
+     * Tif brrby of bytfs will ovfrwritf tif fxisting bytfs
+     * in tif <dodf>Blob</dodf> objfdt stbrting bt tif position
+     * <dodf>pos</dodf>.  If tif fnd of tif <dodf>Blob</dodf> vbluf is rfbdifd
+     * wiilf writing tif brrby of bytfs, tifn tif lfngti of tif <dodf>Blob</dodf>
+     * vbluf will bf indrfbsfd to bddommodbtf tif fxtrb bytfs.
      * <p>
-     * <b>Note:</b> If the value specified for <code>pos</code>
-     * is greater then the length+1 of the <code>BLOB</code> value then the
-     * behavior is undefined. Some JDBC drivers may throw a
-     * <code>SQLException</code> while other drivers may support this
-     * operation.
+     * <b>Notf:</b> If tif vbluf spfdififd for <dodf>pos</dodf>
+     * is grfbtfr tifn tif lfngti+1 of tif <dodf>BLOB</dodf> vbluf tifn tif
+     * bfibvior is undffinfd. Somf JDBC drivfrs mby tirow b
+     * <dodf>SQLExdfption</dodf> wiilf otifr drivfrs mby support tiis
+     * opfrbtion.
      *
-     * @param pos the position in the <code>BLOB</code> object at which
-     *        to start writing; the first position is 1
-     * @param bytes the array of bytes to be written to the <code>BLOB</code>
-     *        value that this <code>Blob</code> object represents
-     * @return the number of bytes written
-     * @exception SQLException if there is an error accessing the
-     *            <code>BLOB</code> value or if pos is less than 1
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this method
-     * @see #getBytes
-     * @since 1.4
+     * @pbrbm pos tif position in tif <dodf>BLOB</dodf> objfdt bt wiidi
+     *        to stbrt writing; tif first position is 1
+     * @pbrbm bytfs tif brrby of bytfs to bf writtfn to tif <dodf>BLOB</dodf>
+     *        vbluf tibt tiis <dodf>Blob</dodf> objfdt rfprfsfnts
+     * @rfturn tif numbfr of bytfs writtfn
+     * @fxdfption SQLExdfption if tifrf is bn frror bddfssing tif
+     *            <dodf>BLOB</dodf> vbluf or if pos is lfss tibn 1
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sff #gftBytfs
+     * @sindf 1.4
      */
-    int setBytes(long pos, byte[] bytes) throws SQLException;
+    int sftBytfs(long pos, bytf[] bytfs) tirows SQLExdfption;
 
     /**
-     * Writes all or part of the given <code>byte</code> array to the
-     * <code>BLOB</code> value that this <code>Blob</code> object represents
-     * and returns the number of bytes written.
-     * Writing starts at position <code>pos</code> in the <code>BLOB</code>
-     * value; <code>len</code> bytes from the given byte array are written.
-     * The array of bytes will overwrite the existing bytes
-     * in the <code>Blob</code> object starting at the position
-     * <code>pos</code>.  If the end of the <code>Blob</code> value is reached
-     * while writing the array of bytes, then the length of the <code>Blob</code>
-     * value will be increased to accommodate the extra bytes.
+     * Writfs bll or pbrt of tif givfn <dodf>bytf</dodf> brrby to tif
+     * <dodf>BLOB</dodf> vbluf tibt tiis <dodf>Blob</dodf> objfdt rfprfsfnts
+     * bnd rfturns tif numbfr of bytfs writtfn.
+     * Writing stbrts bt position <dodf>pos</dodf> in tif <dodf>BLOB</dodf>
+     * vbluf; <dodf>lfn</dodf> bytfs from tif givfn bytf brrby brf writtfn.
+     * Tif brrby of bytfs will ovfrwritf tif fxisting bytfs
+     * in tif <dodf>Blob</dodf> objfdt stbrting bt tif position
+     * <dodf>pos</dodf>.  If tif fnd of tif <dodf>Blob</dodf> vbluf is rfbdifd
+     * wiilf writing tif brrby of bytfs, tifn tif lfngti of tif <dodf>Blob</dodf>
+     * vbluf will bf indrfbsfd to bddommodbtf tif fxtrb bytfs.
      * <p>
-     * <b>Note:</b> If the value specified for <code>pos</code>
-     * is greater then the length+1 of the <code>BLOB</code> value then the
-     * behavior is undefined. Some JDBC drivers may throw a
-     * <code>SQLException</code> while other drivers may support this
-     * operation.
+     * <b>Notf:</b> If tif vbluf spfdififd for <dodf>pos</dodf>
+     * is grfbtfr tifn tif lfngti+1 of tif <dodf>BLOB</dodf> vbluf tifn tif
+     * bfibvior is undffinfd. Somf JDBC drivfrs mby tirow b
+     * <dodf>SQLExdfption</dodf> wiilf otifr drivfrs mby support tiis
+     * opfrbtion.
      *
-     * @param pos the position in the <code>BLOB</code> object at which
-     *        to start writing; the first position is 1
-     * @param bytes the array of bytes to be written to this <code>BLOB</code>
-     *        object
-     * @param offset the offset into the array <code>bytes</code> at which
-     *        to start reading the bytes to be set
-     * @param len the number of bytes to be written to the <code>BLOB</code>
-     *        value from the array of bytes <code>bytes</code>
-     * @return the number of bytes written
-     * @exception SQLException if there is an error accessing the
-     *            <code>BLOB</code> value or if pos is less than 1
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this method
-     * @see #getBytes
-     * @since 1.4
+     * @pbrbm pos tif position in tif <dodf>BLOB</dodf> objfdt bt wiidi
+     *        to stbrt writing; tif first position is 1
+     * @pbrbm bytfs tif brrby of bytfs to bf writtfn to tiis <dodf>BLOB</dodf>
+     *        objfdt
+     * @pbrbm offsft tif offsft into tif brrby <dodf>bytfs</dodf> bt wiidi
+     *        to stbrt rfbding tif bytfs to bf sft
+     * @pbrbm lfn tif numbfr of bytfs to bf writtfn to tif <dodf>BLOB</dodf>
+     *        vbluf from tif brrby of bytfs <dodf>bytfs</dodf>
+     * @rfturn tif numbfr of bytfs writtfn
+     * @fxdfption SQLExdfption if tifrf is bn frror bddfssing tif
+     *            <dodf>BLOB</dodf> vbluf or if pos is lfss tibn 1
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sff #gftBytfs
+     * @sindf 1.4
      */
-    int setBytes(long pos, byte[] bytes, int offset, int len) throws SQLException;
+    int sftBytfs(long pos, bytf[] bytfs, int offsft, int lfn) tirows SQLExdfption;
 
     /**
-     * Retrieves a stream that can be used to write to the <code>BLOB</code>
-     * value that this <code>Blob</code> object represents.  The stream begins
-     * at position <code>pos</code>.
-     * The  bytes written to the stream will overwrite the existing bytes
-     * in the <code>Blob</code> object starting at the position
-     * <code>pos</code>.  If the end of the <code>Blob</code> value is reached
-     * while writing to the stream, then the length of the <code>Blob</code>
-     * value will be increased to accommodate the extra bytes.
+     * Rftrifvfs b strfbm tibt dbn bf usfd to writf to tif <dodf>BLOB</dodf>
+     * vbluf tibt tiis <dodf>Blob</dodf> objfdt rfprfsfnts.  Tif strfbm bfgins
+     * bt position <dodf>pos</dodf>.
+     * Tif  bytfs writtfn to tif strfbm will ovfrwritf tif fxisting bytfs
+     * in tif <dodf>Blob</dodf> objfdt stbrting bt tif position
+     * <dodf>pos</dodf>.  If tif fnd of tif <dodf>Blob</dodf> vbluf is rfbdifd
+     * wiilf writing to tif strfbm, tifn tif lfngti of tif <dodf>Blob</dodf>
+     * vbluf will bf indrfbsfd to bddommodbtf tif fxtrb bytfs.
      * <p>
-     * <b>Note:</b> If the value specified for <code>pos</code>
-     * is greater then the length+1 of the <code>BLOB</code> value then the
-     * behavior is undefined. Some JDBC drivers may throw a
-     * <code>SQLException</code> while other drivers may support this
-     * operation.
+     * <b>Notf:</b> If tif vbluf spfdififd for <dodf>pos</dodf>
+     * is grfbtfr tifn tif lfngti+1 of tif <dodf>BLOB</dodf> vbluf tifn tif
+     * bfibvior is undffinfd. Somf JDBC drivfrs mby tirow b
+     * <dodf>SQLExdfption</dodf> wiilf otifr drivfrs mby support tiis
+     * opfrbtion.
      *
-     * @param pos the position in the <code>BLOB</code> value at which
-     *        to start writing; the first position is 1
-     * @return a <code>java.io.OutputStream</code> object to which data can
-     *         be written
-     * @exception SQLException if there is an error accessing the
-     *            <code>BLOB</code> value or if pos is less than 1
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this method
-     * @see #getBinaryStream
-     * @since 1.4
+     * @pbrbm pos tif position in tif <dodf>BLOB</dodf> vbluf bt wiidi
+     *        to stbrt writing; tif first position is 1
+     * @rfturn b <dodf>jbvb.io.OutputStrfbm</dodf> objfdt to wiidi dbtb dbn
+     *         bf writtfn
+     * @fxdfption SQLExdfption if tifrf is bn frror bddfssing tif
+     *            <dodf>BLOB</dodf> vbluf or if pos is lfss tibn 1
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sff #gftBinbryStrfbm
+     * @sindf 1.4
      */
-    java.io.OutputStream setBinaryStream(long pos) throws SQLException;
+    jbvb.io.OutputStrfbm sftBinbryStrfbm(long pos) tirows SQLExdfption;
 
     /**
-     * Truncates the <code>BLOB</code> value that this <code>Blob</code>
-     * object represents to be <code>len</code> bytes in length.
+     * Trundbtfs tif <dodf>BLOB</dodf> vbluf tibt tiis <dodf>Blob</dodf>
+     * objfdt rfprfsfnts to bf <dodf>lfn</dodf> bytfs in lfngti.
      * <p>
-     * <b>Note:</b> If the value specified for <code>pos</code>
-     * is greater then the length+1 of the <code>BLOB</code> value then the
-     * behavior is undefined. Some JDBC drivers may throw a
-     * <code>SQLException</code> while other drivers may support this
-     * operation.
+     * <b>Notf:</b> If tif vbluf spfdififd for <dodf>pos</dodf>
+     * is grfbtfr tifn tif lfngti+1 of tif <dodf>BLOB</dodf> vbluf tifn tif
+     * bfibvior is undffinfd. Somf JDBC drivfrs mby tirow b
+     * <dodf>SQLExdfption</dodf> wiilf otifr drivfrs mby support tiis
+     * opfrbtion.
      *
-     * @param len the length, in bytes, to which the <code>BLOB</code> value
-     *        that this <code>Blob</code> object represents should be truncated
-     * @exception SQLException if there is an error accessing the
-     *            <code>BLOB</code> value or if len is less than 0
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this method
-     * @since 1.4
+     * @pbrbm lfn tif lfngti, in bytfs, to wiidi tif <dodf>BLOB</dodf> vbluf
+     *        tibt tiis <dodf>Blob</dodf> objfdt rfprfsfnts siould bf trundbtfd
+     * @fxdfption SQLExdfption if tifrf is bn frror bddfssing tif
+     *            <dodf>BLOB</dodf> vbluf or if lfn is lfss tibn 0
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sindf 1.4
      */
-    void truncate(long len) throws SQLException;
+    void trundbtf(long lfn) tirows SQLExdfption;
 
     /**
-     * This method frees the <code>Blob</code> object and releases the resources that
-     * it holds. The object is invalid once the <code>free</code>
-     * method is called.
+     * Tiis mftiod frffs tif <dodf>Blob</dodf> objfdt bnd rflfbsfs tif rfsourdfs tibt
+     * it iolds. Tif objfdt is invblid ondf tif <dodf>frff</dodf>
+     * mftiod is dbllfd.
      * <p>
-     * After <code>free</code> has been called, any attempt to invoke a
-     * method other than <code>free</code> will result in a <code>SQLException</code>
-     * being thrown.  If <code>free</code> is called multiple times, the subsequent
-     * calls to <code>free</code> are treated as a no-op.
+     * Aftfr <dodf>frff</dodf> ibs bffn dbllfd, bny bttfmpt to invokf b
+     * mftiod otifr tibn <dodf>frff</dodf> will rfsult in b <dodf>SQLExdfption</dodf>
+     * bfing tirown.  If <dodf>frff</dodf> is dbllfd multiplf timfs, tif subsfqufnt
+     * dblls to <dodf>frff</dodf> brf trfbtfd bs b no-op.
      *
-     * @throws SQLException if an error occurs releasing
-     * the Blob's resources
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this method
-     * @since 1.6
+     * @tirows SQLExdfption if bn frror oddurs rflfbsing
+     * tif Blob's rfsourdfs
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sindf 1.6
      */
-    void free() throws SQLException;
+    void frff() tirows SQLExdfption;
 
     /**
-     * Returns an <code>InputStream</code> object that contains a partial <code>Blob</code> value,
-     * starting  with the byte specified by pos, which is length bytes in length.
+     * Rfturns bn <dodf>InputStrfbm</dodf> objfdt tibt dontbins b pbrtibl <dodf>Blob</dodf> vbluf,
+     * stbrting  witi tif bytf spfdififd by pos, wiidi is lfngti bytfs in lfngti.
      *
-     * @param pos the offset to the first byte of the partial value to be retrieved.
-     *  The first byte in the <code>Blob</code> is at position 1
-     * @param length the length in bytes of the partial value to be retrieved
-     * @return <code>InputStream</code> through which the partial <code>Blob</code> value can be read.
-     * @throws SQLException if pos is less than 1 or if pos is greater than the number of bytes
-     * in the <code>Blob</code> or if pos + length is greater than the number of bytes
-     * in the <code>Blob</code>
+     * @pbrbm pos tif offsft to tif first bytf of tif pbrtibl vbluf to bf rftrifvfd.
+     *  Tif first bytf in tif <dodf>Blob</dodf> is bt position 1
+     * @pbrbm lfngti tif lfngti in bytfs of tif pbrtibl vbluf to bf rftrifvfd
+     * @rfturn <dodf>InputStrfbm</dodf> tirougi wiidi tif pbrtibl <dodf>Blob</dodf> vbluf dbn bf rfbd.
+     * @tirows SQLExdfption if pos is lfss tibn 1 or if pos is grfbtfr tibn tif numbfr of bytfs
+     * in tif <dodf>Blob</dodf> or if pos + lfngti is grfbtfr tibn tif numbfr of bytfs
+     * in tif <dodf>Blob</dodf>
      *
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this method
-     * @since 1.6
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sindf 1.6
      */
-    InputStream getBinaryStream(long pos, long length) throws SQLException;
+    InputStrfbm gftBinbryStrfbm(long pos, long lfngti) tirows SQLExdfption;
 }

@@ -1,283 +1,283 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang.invoke;
+pbdkbgf jbvb.lbng.invokf;
 
-import java.util.concurrent.atomic.AtomicInteger;
+import jbvb.util.dondurrfnt.btomid.AtomidIntfgfr;
 
 /**
- * A {@code MutableCallSite} is a {@link CallSite} whose target variable
- * behaves like an ordinary field.
- * An {@code invokedynamic} instruction linked to a {@code MutableCallSite} delegates
- * all calls to the site's current target.
- * The {@linkplain CallSite#dynamicInvoker dynamic invoker} of a mutable call site
- * also delegates each call to the site's current target.
+ * A {@dodf MutbblfCbllSitf} is b {@link CbllSitf} wiosf tbrgft vbribblf
+ * bfibvfs likf bn ordinbry fifld.
+ * An {@dodf invokfdynbmid} instrudtion linkfd to b {@dodf MutbblfCbllSitf} dflfgbtfs
+ * bll dblls to tif sitf's durrfnt tbrgft.
+ * Tif {@linkplbin CbllSitf#dynbmidInvokfr dynbmid invokfr} of b mutbblf dbll sitf
+ * blso dflfgbtfs fbdi dbll to tif sitf's durrfnt tbrgft.
  * <p>
- * Here is an example of a mutable call site which introduces a
- * state variable into a method handle chain.
- * <!-- JavaDocExamplesTest.testMutableCallSite -->
- * <blockquote><pre>{@code
-MutableCallSite name = new MutableCallSite(MethodType.methodType(String.class));
-MethodHandle MH_name = name.dynamicInvoker();
-MethodType MT_str1 = MethodType.methodType(String.class);
-MethodHandle MH_upcase = MethodHandles.lookup()
-    .findVirtual(String.class, "toUpperCase", MT_str1);
-MethodHandle worker1 = MethodHandles.filterReturnValue(MH_name, MH_upcase);
-name.setTarget(MethodHandles.constant(String.class, "Rocky"));
-assertEquals("ROCKY", (String) worker1.invokeExact());
-name.setTarget(MethodHandles.constant(String.class, "Fred"));
-assertEquals("FRED", (String) worker1.invokeExact());
-// (mutation can be continued indefinitely)
- * }</pre></blockquote>
+ * Hfrf is bn fxbmplf of b mutbblf dbll sitf wiidi introdudfs b
+ * stbtf vbribblf into b mftiod ibndlf dibin.
+ * <!-- JbvbDodExbmplfsTfst.tfstMutbblfCbllSitf -->
+ * <blodkquotf><prf>{@dodf
+MutbblfCbllSitf nbmf = nfw MutbblfCbllSitf(MftiodTypf.mftiodTypf(String.dlbss));
+MftiodHbndlf MH_nbmf = nbmf.dynbmidInvokfr();
+MftiodTypf MT_str1 = MftiodTypf.mftiodTypf(String.dlbss);
+MftiodHbndlf MH_updbsf = MftiodHbndlfs.lookup()
+    .findVirtubl(String.dlbss, "toUppfrCbsf", MT_str1);
+MftiodHbndlf workfr1 = MftiodHbndlfs.filtfrRfturnVbluf(MH_nbmf, MH_updbsf);
+nbmf.sftTbrgft(MftiodHbndlfs.donstbnt(String.dlbss, "Rodky"));
+bssfrtEqubls("ROCKY", (String) workfr1.invokfExbdt());
+nbmf.sftTbrgft(MftiodHbndlfs.donstbnt(String.dlbss, "Frfd"));
+bssfrtEqubls("FRED", (String) workfr1.invokfExbdt());
+// (mutbtion dbn bf dontinufd indffinitfly)
+ * }</prf></blodkquotf>
  * <p>
- * The same call site may be used in several places at once.
- * <blockquote><pre>{@code
-MethodType MT_str2 = MethodType.methodType(String.class, String.class);
-MethodHandle MH_cat = lookup().findVirtual(String.class,
-  "concat", methodType(String.class, String.class));
-MethodHandle MH_dear = MethodHandles.insertArguments(MH_cat, 1, ", dear?");
-MethodHandle worker2 = MethodHandles.filterReturnValue(MH_name, MH_dear);
-assertEquals("Fred, dear?", (String) worker2.invokeExact());
-name.setTarget(MethodHandles.constant(String.class, "Wilma"));
-assertEquals("WILMA", (String) worker1.invokeExact());
-assertEquals("Wilma, dear?", (String) worker2.invokeExact());
- * }</pre></blockquote>
+ * Tif sbmf dbll sitf mby bf usfd in sfvfrbl plbdfs bt ondf.
+ * <blodkquotf><prf>{@dodf
+MftiodTypf MT_str2 = MftiodTypf.mftiodTypf(String.dlbss, String.dlbss);
+MftiodHbndlf MH_dbt = lookup().findVirtubl(String.dlbss,
+  "dondbt", mftiodTypf(String.dlbss, String.dlbss));
+MftiodHbndlf MH_dfbr = MftiodHbndlfs.insfrtArgumfnts(MH_dbt, 1, ", dfbr?");
+MftiodHbndlf workfr2 = MftiodHbndlfs.filtfrRfturnVbluf(MH_nbmf, MH_dfbr);
+bssfrtEqubls("Frfd, dfbr?", (String) workfr2.invokfExbdt());
+nbmf.sftTbrgft(MftiodHbndlfs.donstbnt(String.dlbss, "Wilmb"));
+bssfrtEqubls("WILMA", (String) workfr1.invokfExbdt());
+bssfrtEqubls("Wilmb, dfbr?", (String) workfr2.invokfExbdt());
+ * }</prf></blodkquotf>
  * <p>
- * <em>Non-synchronization of target values:</em>
- * A write to a mutable call site's target does not force other threads
- * to become aware of the updated value.  Threads which do not perform
- * suitable synchronization actions relative to the updated call site
- * may cache the old target value and delay their use of the new target
- * value indefinitely.
- * (This is a normal consequence of the Java Memory Model as applied
- * to object fields.)
+ * <fm>Non-syndironizbtion of tbrgft vblufs:</fm>
+ * A writf to b mutbblf dbll sitf's tbrgft dofs not fordf otifr tirfbds
+ * to bfdomf bwbrf of tif updbtfd vbluf.  Tirfbds wiidi do not pfrform
+ * suitbblf syndironizbtion bdtions rflbtivf to tif updbtfd dbll sitf
+ * mby dbdif tif old tbrgft vbluf bnd dflby tifir usf of tif nfw tbrgft
+ * vbluf indffinitfly.
+ * (Tiis is b normbl donsfqufndf of tif Jbvb Mfmory Modfl bs bpplifd
+ * to objfdt fiflds.)
  * <p>
- * The {@link #syncAll syncAll} operation provides a way to force threads
- * to accept a new target value, even if there is no other synchronization.
+ * Tif {@link #syndAll syndAll} opfrbtion providfs b wby to fordf tirfbds
+ * to bddfpt b nfw tbrgft vbluf, fvfn if tifrf is no otifr syndironizbtion.
  * <p>
- * For target values which will be frequently updated, consider using
- * a {@linkplain VolatileCallSite volatile call site} instead.
- * @author John Rose, JSR 292 EG
+ * For tbrgft vblufs wiidi will bf frfqufntly updbtfd, donsidfr using
+ * b {@linkplbin VolbtilfCbllSitf volbtilf dbll sitf} instfbd.
+ * @butior Join Rosf, JSR 292 EG
  */
-public class MutableCallSite extends CallSite {
+publid dlbss MutbblfCbllSitf fxtfnds CbllSitf {
     /**
-     * Creates a blank call site object with the given method type.
-     * The initial target is set to a method handle of the given type
-     * which will throw an {@link IllegalStateException} if called.
+     * Crfbtfs b blbnk dbll sitf objfdt witi tif givfn mftiod typf.
+     * Tif initibl tbrgft is sft to b mftiod ibndlf of tif givfn typf
+     * wiidi will tirow bn {@link IllfgblStbtfExdfption} if dbllfd.
      * <p>
-     * The type of the call site is permanently set to the given type.
+     * Tif typf of tif dbll sitf is pfrmbnfntly sft to tif givfn typf.
      * <p>
-     * Before this {@code CallSite} object is returned from a bootstrap method,
-     * or invoked in some other manner,
-     * it is usually provided with a more useful target method,
-     * via a call to {@link CallSite#setTarget(MethodHandle) setTarget}.
-     * @param type the method type that this call site will have
-     * @throws NullPointerException if the proposed type is null
+     * Bfforf tiis {@dodf CbllSitf} objfdt is rfturnfd from b bootstrbp mftiod,
+     * or invokfd in somf otifr mbnnfr,
+     * it is usublly providfd witi b morf usfful tbrgft mftiod,
+     * vib b dbll to {@link CbllSitf#sftTbrgft(MftiodHbndlf) sftTbrgft}.
+     * @pbrbm typf tif mftiod typf tibt tiis dbll sitf will ibvf
+     * @tirows NullPointfrExdfption if tif proposfd typf is null
      */
-    public MutableCallSite(MethodType type) {
-        super(type);
+    publid MutbblfCbllSitf(MftiodTypf typf) {
+        supfr(typf);
     }
 
     /**
-     * Creates a call site object with an initial target method handle.
-     * The type of the call site is permanently set to the initial target's type.
-     * @param target the method handle that will be the initial target of the call site
-     * @throws NullPointerException if the proposed target is null
+     * Crfbtfs b dbll sitf objfdt witi bn initibl tbrgft mftiod ibndlf.
+     * Tif typf of tif dbll sitf is pfrmbnfntly sft to tif initibl tbrgft's typf.
+     * @pbrbm tbrgft tif mftiod ibndlf tibt will bf tif initibl tbrgft of tif dbll sitf
+     * @tirows NullPointfrExdfption if tif proposfd tbrgft is null
      */
-    public MutableCallSite(MethodHandle target) {
-        super(target);
+    publid MutbblfCbllSitf(MftiodHbndlf tbrgft) {
+        supfr(tbrgft);
     }
 
     /**
-     * Returns the target method of the call site, which behaves
-     * like a normal field of the {@code MutableCallSite}.
+     * Rfturns tif tbrgft mftiod of tif dbll sitf, wiidi bfibvfs
+     * likf b normbl fifld of tif {@dodf MutbblfCbllSitf}.
      * <p>
-     * The interactions of {@code getTarget} with memory are the same
-     * as of a read from an ordinary variable, such as an array element or a
-     * non-volatile, non-final field.
+     * Tif intfrbdtions of {@dodf gftTbrgft} witi mfmory brf tif sbmf
+     * bs of b rfbd from bn ordinbry vbribblf, sudi bs bn brrby flfmfnt or b
+     * non-volbtilf, non-finbl fifld.
      * <p>
-     * In particular, the current thread may choose to reuse the result
-     * of a previous read of the target from memory, and may fail to see
-     * a recent update to the target by another thread.
+     * In pbrtidulbr, tif durrfnt tirfbd mby dioosf to rfusf tif rfsult
+     * of b prfvious rfbd of tif tbrgft from mfmory, bnd mby fbil to sff
+     * b rfdfnt updbtf to tif tbrgft by bnotifr tirfbd.
      *
-     * @return the linkage state of this call site, a method handle which can change over time
-     * @see #setTarget
+     * @rfturn tif linkbgf stbtf of tiis dbll sitf, b mftiod ibndlf wiidi dbn dibngf ovfr timf
+     * @sff #sftTbrgft
      */
-    @Override public final MethodHandle getTarget() {
-        return target;
+    @Ovfrridf publid finbl MftiodHbndlf gftTbrgft() {
+        rfturn tbrgft;
     }
 
     /**
-     * Updates the target method of this call site, as a normal variable.
-     * The type of the new target must agree with the type of the old target.
+     * Updbtfs tif tbrgft mftiod of tiis dbll sitf, bs b normbl vbribblf.
+     * Tif typf of tif nfw tbrgft must bgrff witi tif typf of tif old tbrgft.
      * <p>
-     * The interactions with memory are the same
-     * as of a write to an ordinary variable, such as an array element or a
-     * non-volatile, non-final field.
+     * Tif intfrbdtions witi mfmory brf tif sbmf
+     * bs of b writf to bn ordinbry vbribblf, sudi bs bn brrby flfmfnt or b
+     * non-volbtilf, non-finbl fifld.
      * <p>
-     * In particular, unrelated threads may fail to see the updated target
-     * until they perform a read from memory.
-     * Stronger guarantees can be created by putting appropriate operations
-     * into the bootstrap method and/or the target methods used
-     * at any given call site.
+     * In pbrtidulbr, unrflbtfd tirfbds mby fbil to sff tif updbtfd tbrgft
+     * until tify pfrform b rfbd from mfmory.
+     * Strongfr gubrbntffs dbn bf drfbtfd by putting bppropribtf opfrbtions
+     * into tif bootstrbp mftiod bnd/or tif tbrgft mftiods usfd
+     * bt bny givfn dbll sitf.
      *
-     * @param newTarget the new target
-     * @throws NullPointerException if the proposed new target is null
-     * @throws WrongMethodTypeException if the proposed new target
-     *         has a method type that differs from the previous target
-     * @see #getTarget
+     * @pbrbm nfwTbrgft tif nfw tbrgft
+     * @tirows NullPointfrExdfption if tif proposfd nfw tbrgft is null
+     * @tirows WrongMftiodTypfExdfption if tif proposfd nfw tbrgft
+     *         ibs b mftiod typf tibt difffrs from tif prfvious tbrgft
+     * @sff #gftTbrgft
      */
-    @Override public void setTarget(MethodHandle newTarget) {
-        checkTargetChange(this.target, newTarget);
-        setTargetNormal(newTarget);
+    @Ovfrridf publid void sftTbrgft(MftiodHbndlf nfwTbrgft) {
+        difdkTbrgftCibngf(tiis.tbrgft, nfwTbrgft);
+        sftTbrgftNormbl(nfwTbrgft);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    public final MethodHandle dynamicInvoker() {
-        return makeDynamicInvoker();
+    @Ovfrridf
+    publid finbl MftiodHbndlf dynbmidInvokfr() {
+        rfturn mbkfDynbmidInvokfr();
     }
 
     /**
-     * Performs a synchronization operation on each call site in the given array,
-     * forcing all other threads to throw away any cached values previously
-     * loaded from the target of any of the call sites.
+     * Pfrforms b syndironizbtion opfrbtion on fbdi dbll sitf in tif givfn brrby,
+     * fording bll otifr tirfbds to tirow bwby bny dbdifd vblufs prfviously
+     * lobdfd from tif tbrgft of bny of tif dbll sitfs.
      * <p>
-     * This operation does not reverse any calls that have already started
-     * on an old target value.
-     * (Java supports {@linkplain java.lang.Object#wait() forward time travel} only.)
+     * Tiis opfrbtion dofs not rfvfrsf bny dblls tibt ibvf blrfbdy stbrtfd
+     * on bn old tbrgft vbluf.
+     * (Jbvb supports {@linkplbin jbvb.lbng.Objfdt#wbit() forwbrd timf trbvfl} only.)
      * <p>
-     * The overall effect is to force all future readers of each call site's target
-     * to accept the most recently stored value.
-     * ("Most recently" is reckoned relative to the {@code syncAll} itself.)
-     * Conversely, the {@code syncAll} call may block until all readers have
-     * (somehow) decached all previous versions of each call site's target.
+     * Tif ovfrbll ffffdt is to fordf bll futurf rfbdfrs of fbdi dbll sitf's tbrgft
+     * to bddfpt tif most rfdfntly storfd vbluf.
+     * ("Most rfdfntly" is rfdkonfd rflbtivf to tif {@dodf syndAll} itsflf.)
+     * Convfrsfly, tif {@dodf syndAll} dbll mby blodk until bll rfbdfrs ibvf
+     * (somfiow) dfdbdifd bll prfvious vfrsions of fbdi dbll sitf's tbrgft.
      * <p>
-     * To avoid race conditions, calls to {@code setTarget} and {@code syncAll}
-     * should generally be performed under some sort of mutual exclusion.
-     * Note that reader threads may observe an updated target as early
-     * as the {@code setTarget} call that install the value
-     * (and before the {@code syncAll} that confirms the value).
-     * On the other hand, reader threads may observe previous versions of
-     * the target until the {@code syncAll} call returns
-     * (and after the {@code setTarget} that attempts to convey the updated version).
+     * To bvoid rbdf donditions, dblls to {@dodf sftTbrgft} bnd {@dodf syndAll}
+     * siould gfnfrblly bf pfrformfd undfr somf sort of mutubl fxdlusion.
+     * Notf tibt rfbdfr tirfbds mby obsfrvf bn updbtfd tbrgft bs fbrly
+     * bs tif {@dodf sftTbrgft} dbll tibt instbll tif vbluf
+     * (bnd bfforf tif {@dodf syndAll} tibt donfirms tif vbluf).
+     * On tif otifr ibnd, rfbdfr tirfbds mby obsfrvf prfvious vfrsions of
+     * tif tbrgft until tif {@dodf syndAll} dbll rfturns
+     * (bnd bftfr tif {@dodf sftTbrgft} tibt bttfmpts to donvfy tif updbtfd vfrsion).
      * <p>
-     * This operation is likely to be expensive and should be used sparingly.
-     * If possible, it should be buffered for batch processing on sets of call sites.
+     * Tiis opfrbtion is likfly to bf fxpfnsivf bnd siould bf usfd spbringly.
+     * If possiblf, it siould bf bufffrfd for bbtdi prodfssing on sfts of dbll sitfs.
      * <p>
-     * If {@code sites} contains a null element,
-     * a {@code NullPointerException} will be raised.
-     * In this case, some non-null elements in the array may be
-     * processed before the method returns abnormally.
-     * Which elements these are (if any) is implementation-dependent.
+     * If {@dodf sitfs} dontbins b null flfmfnt,
+     * b {@dodf NullPointfrExdfption} will bf rbisfd.
+     * In tiis dbsf, somf non-null flfmfnts in tif brrby mby bf
+     * prodfssfd bfforf tif mftiod rfturns bbnormblly.
+     * Wiidi flfmfnts tifsf brf (if bny) is implfmfntbtion-dfpfndfnt.
      *
-     * <h1>Java Memory Model details</h1>
-     * In terms of the Java Memory Model, this operation performs a synchronization
-     * action which is comparable in effect to the writing of a volatile variable
-     * by the current thread, and an eventual volatile read by every other thread
-     * that may access one of the affected call sites.
+     * <i1>Jbvb Mfmory Modfl dftbils</i1>
+     * In tfrms of tif Jbvb Mfmory Modfl, tiis opfrbtion pfrforms b syndironizbtion
+     * bdtion wiidi is dompbrbblf in ffffdt to tif writing of b volbtilf vbribblf
+     * by tif durrfnt tirfbd, bnd bn fvfntubl volbtilf rfbd by fvfry otifr tirfbd
+     * tibt mby bddfss onf of tif bfffdtfd dbll sitfs.
      * <p>
-     * The following effects are apparent, for each individual call site {@code S}:
+     * Tif following ffffdts brf bppbrfnt, for fbdi individubl dbll sitf {@dodf S}:
      * <ul>
-     * <li>A new volatile variable {@code V} is created, and written by the current thread.
-     *     As defined by the JMM, this write is a global synchronization event.
-     * <li>As is normal with thread-local ordering of write events,
-     *     every action already performed by the current thread is
-     *     taken to happen before the volatile write to {@code V}.
-     *     (In some implementations, this means that the current thread
-     *     performs a global release operation.)
-     * <li>Specifically, the write to the current target of {@code S} is
-     *     taken to happen before the volatile write to {@code V}.
-     * <li>The volatile write to {@code V} is placed
-     *     (in an implementation specific manner)
-     *     in the global synchronization order.
-     * <li>Consider an arbitrary thread {@code T} (other than the current thread).
-     *     If {@code T} executes a synchronization action {@code A}
-     *     after the volatile write to {@code V} (in the global synchronization order),
-     *     it is therefore required to see either the current target
-     *     of {@code S}, or a later write to that target,
-     *     if it executes a read on the target of {@code S}.
-     *     (This constraint is called "synchronization-order consistency".)
-     * <li>The JMM specifically allows optimizing compilers to elide
-     *     reads or writes of variables that are known to be useless.
-     *     Such elided reads and writes have no effect on the happens-before
-     *     relation.  Regardless of this fact, the volatile {@code V}
-     *     will not be elided, even though its written value is
-     *     indeterminate and its read value is not used.
+     * <li>A nfw volbtilf vbribblf {@dodf V} is drfbtfd, bnd writtfn by tif durrfnt tirfbd.
+     *     As dffinfd by tif JMM, tiis writf is b globbl syndironizbtion fvfnt.
+     * <li>As is normbl witi tirfbd-lodbl ordfring of writf fvfnts,
+     *     fvfry bdtion blrfbdy pfrformfd by tif durrfnt tirfbd is
+     *     tbkfn to ibppfn bfforf tif volbtilf writf to {@dodf V}.
+     *     (In somf implfmfntbtions, tiis mfbns tibt tif durrfnt tirfbd
+     *     pfrforms b globbl rflfbsf opfrbtion.)
+     * <li>Spfdifidblly, tif writf to tif durrfnt tbrgft of {@dodf S} is
+     *     tbkfn to ibppfn bfforf tif volbtilf writf to {@dodf V}.
+     * <li>Tif volbtilf writf to {@dodf V} is plbdfd
+     *     (in bn implfmfntbtion spfdifid mbnnfr)
+     *     in tif globbl syndironizbtion ordfr.
+     * <li>Considfr bn brbitrbry tirfbd {@dodf T} (otifr tibn tif durrfnt tirfbd).
+     *     If {@dodf T} fxfdutfs b syndironizbtion bdtion {@dodf A}
+     *     bftfr tif volbtilf writf to {@dodf V} (in tif globbl syndironizbtion ordfr),
+     *     it is tifrfforf rfquirfd to sff fitifr tif durrfnt tbrgft
+     *     of {@dodf S}, or b lbtfr writf to tibt tbrgft,
+     *     if it fxfdutfs b rfbd on tif tbrgft of {@dodf S}.
+     *     (Tiis donstrbint is dbllfd "syndironizbtion-ordfr donsistfndy".)
+     * <li>Tif JMM spfdifidblly bllows optimizing dompilfrs to flidf
+     *     rfbds or writfs of vbribblfs tibt brf known to bf usflfss.
+     *     Sudi flidfd rfbds bnd writfs ibvf no ffffdt on tif ibppfns-bfforf
+     *     rflbtion.  Rfgbrdlfss of tiis fbdt, tif volbtilf {@dodf V}
+     *     will not bf flidfd, fvfn tiougi its writtfn vbluf is
+     *     indftfrminbtf bnd its rfbd vbluf is not usfd.
      * </ul>
-     * Because of the last point, the implementation behaves as if a
-     * volatile read of {@code V} were performed by {@code T}
-     * immediately after its action {@code A}.  In the local ordering
-     * of actions in {@code T}, this read happens before any future
-     * read of the target of {@code S}.  It is as if the
-     * implementation arbitrarily picked a read of {@code S}'s target
-     * by {@code T}, and forced a read of {@code V} to precede it,
-     * thereby ensuring communication of the new target value.
+     * Bfdbusf of tif lbst point, tif implfmfntbtion bfibvfs bs if b
+     * volbtilf rfbd of {@dodf V} wfrf pfrformfd by {@dodf T}
+     * immfdibtfly bftfr its bdtion {@dodf A}.  In tif lodbl ordfring
+     * of bdtions in {@dodf T}, tiis rfbd ibppfns bfforf bny futurf
+     * rfbd of tif tbrgft of {@dodf S}.  It is bs if tif
+     * implfmfntbtion brbitrbrily pidkfd b rfbd of {@dodf S}'s tbrgft
+     * by {@dodf T}, bnd fordfd b rfbd of {@dodf V} to prfdfdf it,
+     * tifrfby fnsuring dommunidbtion of tif nfw tbrgft vbluf.
      * <p>
-     * As long as the constraints of the Java Memory Model are obeyed,
-     * implementations may delay the completion of a {@code syncAll}
-     * operation while other threads ({@code T} above) continue to
-     * use previous values of {@code S}'s target.
-     * However, implementations are (as always) encouraged to avoid
-     * livelock, and to eventually require all threads to take account
-     * of the updated target.
+     * As long bs tif donstrbints of tif Jbvb Mfmory Modfl brf obfyfd,
+     * implfmfntbtions mby dflby tif domplftion of b {@dodf syndAll}
+     * opfrbtion wiilf otifr tirfbds ({@dodf T} bbovf) dontinuf to
+     * usf prfvious vblufs of {@dodf S}'s tbrgft.
+     * Howfvfr, implfmfntbtions brf (bs blwbys) fndourbgfd to bvoid
+     * livflodk, bnd to fvfntublly rfquirf bll tirfbds to tbkf bddount
+     * of tif updbtfd tbrgft.
      *
-     * <p style="font-size:smaller;">
-     * <em>Discussion:</em>
-     * For performance reasons, {@code syncAll} is not a virtual method
-     * on a single call site, but rather applies to a set of call sites.
-     * Some implementations may incur a large fixed overhead cost
-     * for processing one or more synchronization operations,
-     * but a small incremental cost for each additional call site.
-     * In any case, this operation is likely to be costly, since
-     * other threads may have to be somehow interrupted
-     * in order to make them notice the updated target value.
-     * However, it may be observed that a single call to synchronize
-     * several sites has the same formal effect as many calls,
-     * each on just one of the sites.
+     * <p stylf="font-sizf:smbllfr;">
+     * <fm>Disdussion:</fm>
+     * For pfrformbndf rfbsons, {@dodf syndAll} is not b virtubl mftiod
+     * on b singlf dbll sitf, but rbtifr bpplifs to b sft of dbll sitfs.
+     * Somf implfmfntbtions mby indur b lbrgf fixfd ovfrifbd dost
+     * for prodfssing onf or morf syndironizbtion opfrbtions,
+     * but b smbll indrfmfntbl dost for fbdi bdditionbl dbll sitf.
+     * In bny dbsf, tiis opfrbtion is likfly to bf dostly, sindf
+     * otifr tirfbds mby ibvf to bf somfiow intfrruptfd
+     * in ordfr to mbkf tifm notidf tif updbtfd tbrgft vbluf.
+     * Howfvfr, it mby bf obsfrvfd tibt b singlf dbll to syndironizf
+     * sfvfrbl sitfs ibs tif sbmf formbl ffffdt bs mbny dblls,
+     * fbdi on just onf of tif sitfs.
      *
-     * <p style="font-size:smaller;">
-     * <em>Implementation Note:</em>
-     * Simple implementations of {@code MutableCallSite} may use
-     * a volatile variable for the target of a mutable call site.
-     * In such an implementation, the {@code syncAll} method can be a no-op,
-     * and yet it will conform to the JMM behavior documented above.
+     * <p stylf="font-sizf:smbllfr;">
+     * <fm>Implfmfntbtion Notf:</fm>
+     * Simplf implfmfntbtions of {@dodf MutbblfCbllSitf} mby usf
+     * b volbtilf vbribblf for tif tbrgft of b mutbblf dbll sitf.
+     * In sudi bn implfmfntbtion, tif {@dodf syndAll} mftiod dbn bf b no-op,
+     * bnd yft it will donform to tif JMM bfibvior dodumfntfd bbovf.
      *
-     * @param sites an array of call sites to be synchronized
-     * @throws NullPointerException if the {@code sites} array reference is null
-     *                              or the array contains a null
+     * @pbrbm sitfs bn brrby of dbll sitfs to bf syndironizfd
+     * @tirows NullPointfrExdfption if tif {@dodf sitfs} brrby rfffrfndf is null
+     *                              or tif brrby dontbins b null
      */
-    public static void syncAll(MutableCallSite[] sites) {
-        if (sites.length == 0)  return;
-        STORE_BARRIER.lazySet(0);
-        for (MutableCallSite site : sites) {
-            site.getClass();  // trigger NPE on first null
+    publid stbtid void syndAll(MutbblfCbllSitf[] sitfs) {
+        if (sitfs.lfngti == 0)  rfturn;
+        STORE_BARRIER.lbzySft(0);
+        for (MutbblfCbllSitf sitf : sitfs) {
+            sitf.gftClbss();  // triggfr NPE on first null
         }
         // FIXME: NYI
     }
-    private static final AtomicInteger STORE_BARRIER = new AtomicInteger();
+    privbtf stbtid finbl AtomidIntfgfr STORE_BARRIER = nfw AtomidIntfgfr();
 }

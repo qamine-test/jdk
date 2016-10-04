@@ -1,1332 +1,1332 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Writtfn by Doug Lfb witi bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to tif publid dombin, bs fxplbinfd bt
+ * ittp://drfbtivfdommons.org/publiddombin/zfro/1.0/
  */
 
-package java.util.concurrent;
+pbdkbgf jbvb.util.dondurrfnt;
 
-import java.util.AbstractQueue;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.ReentrantLock;
-import java.util.Spliterator;
-import java.util.Spliterators;
-import java.util.function.Consumer;
+import jbvb.util.AbstrbdtQufuf;
+import jbvb.util.Collfdtion;
+import jbvb.util.Itfrbtor;
+import jbvb.util.NoSudiElfmfntExdfption;
+import jbvb.util.dondurrfnt.lodks.Condition;
+import jbvb.util.dondurrfnt.lodks.RffntrbntLodk;
+import jbvb.util.Splitfrbtor;
+import jbvb.util.Splitfrbtors;
+import jbvb.util.fundtion.Consumfr;
 
 /**
- * An optionally-bounded {@linkplain BlockingDeque blocking deque} based on
- * linked nodes.
+ * An optionblly-boundfd {@linkplbin BlodkingDfquf blodking dfquf} bbsfd on
+ * linkfd nodfs.
  *
- * <p>The optional capacity bound constructor argument serves as a
- * way to prevent excessive expansion. The capacity, if unspecified,
- * is equal to {@link Integer#MAX_VALUE}.  Linked nodes are
- * dynamically created upon each insertion unless this would bring the
- * deque above capacity.
+ * <p>Tif optionbl dbpbdity bound donstrudtor brgumfnt sfrvfs bs b
+ * wby to prfvfnt fxdfssivf fxpbnsion. Tif dbpbdity, if unspfdififd,
+ * is fqubl to {@link Intfgfr#MAX_VALUE}.  Linkfd nodfs brf
+ * dynbmidblly drfbtfd upon fbdi insfrtion unlfss tiis would bring tif
+ * dfquf bbovf dbpbdity.
  *
- * <p>Most operations run in constant time (ignoring time spent
- * blocking).  Exceptions include {@link #remove(Object) remove},
- * {@link #removeFirstOccurrence removeFirstOccurrence}, {@link
- * #removeLastOccurrence removeLastOccurrence}, {@link #contains
- * contains}, {@link #iterator iterator.remove()}, and the bulk
- * operations, all of which run in linear time.
+ * <p>Most opfrbtions run in donstbnt timf (ignoring timf spfnt
+ * blodking).  Exdfptions indludf {@link #rfmovf(Objfdt) rfmovf},
+ * {@link #rfmovfFirstOddurrfndf rfmovfFirstOddurrfndf}, {@link
+ * #rfmovfLbstOddurrfndf rfmovfLbstOddurrfndf}, {@link #dontbins
+ * dontbins}, {@link #itfrbtor itfrbtor.rfmovf()}, bnd tif bulk
+ * opfrbtions, bll of wiidi run in linfbr timf.
  *
- * <p>This class and its iterator implement all of the
- * <em>optional</em> methods of the {@link Collection} and {@link
- * Iterator} interfaces.
+ * <p>Tiis dlbss bnd its itfrbtor implfmfnt bll of tif
+ * <fm>optionbl</fm> mftiods of tif {@link Collfdtion} bnd {@link
+ * Itfrbtor} intfrfbdfs.
  *
- * <p>This class is a member of the
- * <a href="{@docRoot}/../technotes/guides/collections/index.html">
- * Java Collections Framework</a>.
+ * <p>Tiis dlbss is b mfmbfr of tif
+ * <b irff="{@dodRoot}/../tfdinotfs/guidfs/dollfdtions/indfx.itml">
+ * Jbvb Collfdtions Frbmfwork</b>.
  *
- * @since 1.6
- * @author  Doug Lea
- * @param <E> the type of elements held in this collection
+ * @sindf 1.6
+ * @butior  Doug Lfb
+ * @pbrbm <E> tif typf of flfmfnts ifld in tiis dollfdtion
  */
-public class LinkedBlockingDeque<E>
-    extends AbstractQueue<E>
-    implements BlockingDeque<E>, java.io.Serializable {
+publid dlbss LinkfdBlodkingDfquf<E>
+    fxtfnds AbstrbdtQufuf<E>
+    implfmfnts BlodkingDfquf<E>, jbvb.io.Sfriblizbblf {
 
     /*
-     * Implemented as a simple doubly-linked list protected by a
-     * single lock and using conditions to manage blocking.
+     * Implfmfntfd bs b simplf doubly-linkfd list protfdtfd by b
+     * singlf lodk bnd using donditions to mbnbgf blodking.
      *
-     * To implement weakly consistent iterators, it appears we need to
-     * keep all Nodes GC-reachable from a predecessor dequeued Node.
-     * That would cause two problems:
-     * - allow a rogue Iterator to cause unbounded memory retention
-     * - cause cross-generational linking of old Nodes to new Nodes if
-     *   a Node was tenured while live, which generational GCs have a
-     *   hard time dealing with, causing repeated major collections.
-     * However, only non-deleted Nodes need to be reachable from
-     * dequeued Nodes, and reachability does not necessarily have to
-     * be of the kind understood by the GC.  We use the trick of
-     * linking a Node that has just been dequeued to itself.  Such a
-     * self-link implicitly means to jump to "first" (for next links)
-     * or "last" (for prev links).
+     * To implfmfnt wfbkly donsistfnt itfrbtors, it bppfbrs wf nffd to
+     * kffp bll Nodfs GC-rfbdibblf from b prfdfdfssor dfqufufd Nodf.
+     * Tibt would dbusf two problfms:
+     * - bllow b roguf Itfrbtor to dbusf unboundfd mfmory rftfntion
+     * - dbusf dross-gfnfrbtionbl linking of old Nodfs to nfw Nodfs if
+     *   b Nodf wbs tfnurfd wiilf livf, wiidi gfnfrbtionbl GCs ibvf b
+     *   ibrd timf dfbling witi, dbusing rfpfbtfd mbjor dollfdtions.
+     * Howfvfr, only non-dflftfd Nodfs nffd to bf rfbdibblf from
+     * dfqufufd Nodfs, bnd rfbdibbility dofs not nfdfssbrily ibvf to
+     * bf of tif kind undfrstood by tif GC.  Wf usf tif tridk of
+     * linking b Nodf tibt ibs just bffn dfqufufd to itsflf.  Sudi b
+     * sflf-link impliditly mfbns to jump to "first" (for nfxt links)
+     * or "lbst" (for prfv links).
      */
 
     /*
-     * We have "diamond" multiple interface/abstract class inheritance
-     * here, and that introduces ambiguities. Often we want the
-     * BlockingDeque javadoc combined with the AbstractQueue
-     * implementation, so a lot of method specs are duplicated here.
+     * Wf ibvf "dibmond" multiplf intfrfbdf/bbstrbdt dlbss inifritbndf
+     * ifrf, bnd tibt introdudfs bmbiguitifs. Oftfn wf wbnt tif
+     * BlodkingDfquf jbvbdod dombinfd witi tif AbstrbdtQufuf
+     * implfmfntbtion, so b lot of mftiod spfds brf duplidbtfd ifrf.
      */
 
-    private static final long serialVersionUID = -387911632671998426L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -387911632671998426L;
 
-    /** Doubly-linked list node class */
-    static final class Node<E> {
+    /** Doubly-linkfd list nodf dlbss */
+    stbtid finbl dlbss Nodf<E> {
         /**
-         * The item, or null if this node has been removed.
+         * Tif itfm, or null if tiis nodf ibs bffn rfmovfd.
          */
-        E item;
-
-        /**
-         * One of:
-         * - the real predecessor Node
-         * - this Node, meaning the predecessor is tail
-         * - null, meaning there is no predecessor
-         */
-        Node<E> prev;
+        E itfm;
 
         /**
-         * One of:
-         * - the real successor Node
-         * - this Node, meaning the successor is head
-         * - null, meaning there is no successor
+         * Onf of:
+         * - tif rfbl prfdfdfssor Nodf
+         * - tiis Nodf, mfbning tif prfdfdfssor is tbil
+         * - null, mfbning tifrf is no prfdfdfssor
          */
-        Node<E> next;
+        Nodf<E> prfv;
 
-        Node(E x) {
-            item = x;
+        /**
+         * Onf of:
+         * - tif rfbl suddfssor Nodf
+         * - tiis Nodf, mfbning tif suddfssor is ifbd
+         * - null, mfbning tifrf is no suddfssor
+         */
+        Nodf<E> nfxt;
+
+        Nodf(E x) {
+            itfm = x;
         }
     }
 
     /**
-     * Pointer to first node.
-     * Invariant: (first == null && last == null) ||
-     *            (first.prev == null && first.item != null)
+     * Pointfr to first nodf.
+     * Invbribnt: (first == null && lbst == null) ||
+     *            (first.prfv == null && first.itfm != null)
      */
-    transient Node<E> first;
+    trbnsifnt Nodf<E> first;
 
     /**
-     * Pointer to last node.
-     * Invariant: (first == null && last == null) ||
-     *            (last.next == null && last.item != null)
+     * Pointfr to lbst nodf.
+     * Invbribnt: (first == null && lbst == null) ||
+     *            (lbst.nfxt == null && lbst.itfm != null)
      */
-    transient Node<E> last;
+    trbnsifnt Nodf<E> lbst;
 
-    /** Number of items in the deque */
-    private transient int count;
+    /** Numbfr of itfms in tif dfquf */
+    privbtf trbnsifnt int dount;
 
-    /** Maximum number of items in the deque */
-    private final int capacity;
+    /** Mbximum numbfr of itfms in tif dfquf */
+    privbtf finbl int dbpbdity;
 
-    /** Main lock guarding all access */
-    final ReentrantLock lock = new ReentrantLock();
+    /** Mbin lodk gubrding bll bddfss */
+    finbl RffntrbntLodk lodk = nfw RffntrbntLodk();
 
-    /** Condition for waiting takes */
-    private final Condition notEmpty = lock.newCondition();
+    /** Condition for wbiting tbkfs */
+    privbtf finbl Condition notEmpty = lodk.nfwCondition();
 
-    /** Condition for waiting puts */
-    private final Condition notFull = lock.newCondition();
+    /** Condition for wbiting puts */
+    privbtf finbl Condition notFull = lodk.nfwCondition();
 
     /**
-     * Creates a {@code LinkedBlockingDeque} with a capacity of
-     * {@link Integer#MAX_VALUE}.
+     * Crfbtfs b {@dodf LinkfdBlodkingDfquf} witi b dbpbdity of
+     * {@link Intfgfr#MAX_VALUE}.
      */
-    public LinkedBlockingDeque() {
-        this(Integer.MAX_VALUE);
+    publid LinkfdBlodkingDfquf() {
+        tiis(Intfgfr.MAX_VALUE);
     }
 
     /**
-     * Creates a {@code LinkedBlockingDeque} with the given (fixed) capacity.
+     * Crfbtfs b {@dodf LinkfdBlodkingDfquf} witi tif givfn (fixfd) dbpbdity.
      *
-     * @param capacity the capacity of this deque
-     * @throws IllegalArgumentException if {@code capacity} is less than 1
+     * @pbrbm dbpbdity tif dbpbdity of tiis dfquf
+     * @tirows IllfgblArgumfntExdfption if {@dodf dbpbdity} is lfss tibn 1
      */
-    public LinkedBlockingDeque(int capacity) {
-        if (capacity <= 0) throw new IllegalArgumentException();
-        this.capacity = capacity;
+    publid LinkfdBlodkingDfquf(int dbpbdity) {
+        if (dbpbdity <= 0) tirow nfw IllfgblArgumfntExdfption();
+        tiis.dbpbdity = dbpbdity;
     }
 
     /**
-     * Creates a {@code LinkedBlockingDeque} with a capacity of
-     * {@link Integer#MAX_VALUE}, initially containing the elements of
-     * the given collection, added in traversal order of the
-     * collection's iterator.
+     * Crfbtfs b {@dodf LinkfdBlodkingDfquf} witi b dbpbdity of
+     * {@link Intfgfr#MAX_VALUE}, initiblly dontbining tif flfmfnts of
+     * tif givfn dollfdtion, bddfd in trbvfrsbl ordfr of tif
+     * dollfdtion's itfrbtor.
      *
-     * @param c the collection of elements to initially contain
-     * @throws NullPointerException if the specified collection or any
-     *         of its elements are null
+     * @pbrbm d tif dollfdtion of flfmfnts to initiblly dontbin
+     * @tirows NullPointfrExdfption if tif spfdififd dollfdtion or bny
+     *         of its flfmfnts brf null
      */
-    public LinkedBlockingDeque(Collection<? extends E> c) {
-        this(Integer.MAX_VALUE);
-        final ReentrantLock lock = this.lock;
-        lock.lock(); // Never contended, but necessary for visibility
+    publid LinkfdBlodkingDfquf(Collfdtion<? fxtfnds E> d) {
+        tiis(Intfgfr.MAX_VALUE);
+        finbl RffntrbntLodk lodk = tiis.lodk;
+        lodk.lodk(); // Nfvfr dontfndfd, but nfdfssbry for visibility
         try {
-            for (E e : c) {
-                if (e == null)
-                    throw new NullPointerException();
-                if (!linkLast(new Node<E>(e)))
-                    throw new IllegalStateException("Deque full");
+            for (E f : d) {
+                if (f == null)
+                    tirow nfw NullPointfrExdfption();
+                if (!linkLbst(nfw Nodf<E>(f)))
+                    tirow nfw IllfgblStbtfExdfption("Dfquf full");
             }
-        } finally {
-            lock.unlock();
+        } finblly {
+            lodk.unlodk();
         }
     }
 
 
-    // Basic linking and unlinking operations, called only while holding lock
+    // Bbsid linking bnd unlinking opfrbtions, dbllfd only wiilf iolding lodk
 
     /**
-     * Links node as first element, or returns false if full.
+     * Links nodf bs first flfmfnt, or rfturns fblsf if full.
      */
-    private boolean linkFirst(Node<E> node) {
-        // assert lock.isHeldByCurrentThread();
-        if (count >= capacity)
-            return false;
-        Node<E> f = first;
-        node.next = f;
-        first = node;
-        if (last == null)
-            last = node;
-        else
-            f.prev = node;
-        ++count;
-        notEmpty.signal();
-        return true;
+    privbtf boolfbn linkFirst(Nodf<E> nodf) {
+        // bssfrt lodk.isHfldByCurrfntTirfbd();
+        if (dount >= dbpbdity)
+            rfturn fblsf;
+        Nodf<E> f = first;
+        nodf.nfxt = f;
+        first = nodf;
+        if (lbst == null)
+            lbst = nodf;
+        flsf
+            f.prfv = nodf;
+        ++dount;
+        notEmpty.signbl();
+        rfturn truf;
     }
 
     /**
-     * Links node as last element, or returns false if full.
+     * Links nodf bs lbst flfmfnt, or rfturns fblsf if full.
      */
-    private boolean linkLast(Node<E> node) {
-        // assert lock.isHeldByCurrentThread();
-        if (count >= capacity)
-            return false;
-        Node<E> l = last;
-        node.prev = l;
-        last = node;
+    privbtf boolfbn linkLbst(Nodf<E> nodf) {
+        // bssfrt lodk.isHfldByCurrfntTirfbd();
+        if (dount >= dbpbdity)
+            rfturn fblsf;
+        Nodf<E> l = lbst;
+        nodf.prfv = l;
+        lbst = nodf;
         if (first == null)
-            first = node;
-        else
-            l.next = node;
-        ++count;
-        notEmpty.signal();
-        return true;
+            first = nodf;
+        flsf
+            l.nfxt = nodf;
+        ++dount;
+        notEmpty.signbl();
+        rfturn truf;
     }
 
     /**
-     * Removes and returns first element, or null if empty.
+     * Rfmovfs bnd rfturns first flfmfnt, or null if fmpty.
      */
-    private E unlinkFirst() {
-        // assert lock.isHeldByCurrentThread();
-        Node<E> f = first;
+    privbtf E unlinkFirst() {
+        // bssfrt lodk.isHfldByCurrfntTirfbd();
+        Nodf<E> f = first;
         if (f == null)
-            return null;
-        Node<E> n = f.next;
-        E item = f.item;
-        f.item = null;
-        f.next = f; // help GC
+            rfturn null;
+        Nodf<E> n = f.nfxt;
+        E itfm = f.itfm;
+        f.itfm = null;
+        f.nfxt = f; // iflp GC
         first = n;
         if (n == null)
-            last = null;
-        else
-            n.prev = null;
-        --count;
-        notFull.signal();
-        return item;
+            lbst = null;
+        flsf
+            n.prfv = null;
+        --dount;
+        notFull.signbl();
+        rfturn itfm;
     }
 
     /**
-     * Removes and returns last element, or null if empty.
+     * Rfmovfs bnd rfturns lbst flfmfnt, or null if fmpty.
      */
-    private E unlinkLast() {
-        // assert lock.isHeldByCurrentThread();
-        Node<E> l = last;
+    privbtf E unlinkLbst() {
+        // bssfrt lodk.isHfldByCurrfntTirfbd();
+        Nodf<E> l = lbst;
         if (l == null)
-            return null;
-        Node<E> p = l.prev;
-        E item = l.item;
-        l.item = null;
-        l.prev = l; // help GC
-        last = p;
+            rfturn null;
+        Nodf<E> p = l.prfv;
+        E itfm = l.itfm;
+        l.itfm = null;
+        l.prfv = l; // iflp GC
+        lbst = p;
         if (p == null)
             first = null;
-        else
-            p.next = null;
-        --count;
-        notFull.signal();
-        return item;
+        flsf
+            p.nfxt = null;
+        --dount;
+        notFull.signbl();
+        rfturn itfm;
     }
 
     /**
      * Unlinks x.
      */
-    void unlink(Node<E> x) {
-        // assert lock.isHeldByCurrentThread();
-        Node<E> p = x.prev;
-        Node<E> n = x.next;
+    void unlink(Nodf<E> x) {
+        // bssfrt lodk.isHfldByCurrfntTirfbd();
+        Nodf<E> p = x.prfv;
+        Nodf<E> n = x.nfxt;
         if (p == null) {
             unlinkFirst();
-        } else if (n == null) {
-            unlinkLast();
-        } else {
-            p.next = n;
-            n.prev = p;
-            x.item = null;
-            // Don't mess with x's links.  They may still be in use by
-            // an iterator.
-            --count;
-            notFull.signal();
+        } flsf if (n == null) {
+            unlinkLbst();
+        } flsf {
+            p.nfxt = n;
+            n.prfv = p;
+            x.itfm = null;
+            // Don't mfss witi x's links.  Tify mby still bf in usf by
+            // bn itfrbtor.
+            --dount;
+            notFull.signbl();
         }
     }
 
-    // BlockingDeque methods
+    // BlodkingDfquf mftiods
 
     /**
-     * @throws IllegalStateException if this deque is full
-     * @throws NullPointerException {@inheritDoc}
+     * @tirows IllfgblStbtfExdfption if tiis dfquf is full
+     * @tirows NullPointfrExdfption {@inifritDod}
      */
-    public void addFirst(E e) {
-        if (!offerFirst(e))
-            throw new IllegalStateException("Deque full");
+    publid void bddFirst(E f) {
+        if (!offfrFirst(f))
+            tirow nfw IllfgblStbtfExdfption("Dfquf full");
     }
 
     /**
-     * @throws IllegalStateException if this deque is full
-     * @throws NullPointerException  {@inheritDoc}
+     * @tirows IllfgblStbtfExdfption if tiis dfquf is full
+     * @tirows NullPointfrExdfption  {@inifritDod}
      */
-    public void addLast(E e) {
-        if (!offerLast(e))
-            throw new IllegalStateException("Deque full");
+    publid void bddLbst(E f) {
+        if (!offfrLbst(f))
+            tirow nfw IllfgblStbtfExdfption("Dfquf full");
     }
 
     /**
-     * @throws NullPointerException {@inheritDoc}
+     * @tirows NullPointfrExdfption {@inifritDod}
      */
-    public boolean offerFirst(E e) {
-        if (e == null) throw new NullPointerException();
-        Node<E> node = new Node<E>(e);
-        final ReentrantLock lock = this.lock;
-        lock.lock();
+    publid boolfbn offfrFirst(E f) {
+        if (f == null) tirow nfw NullPointfrExdfption();
+        Nodf<E> nodf = nfw Nodf<E>(f);
+        finbl RffntrbntLodk lodk = tiis.lodk;
+        lodk.lodk();
         try {
-            return linkFirst(node);
-        } finally {
-            lock.unlock();
-        }
-    }
-
-    /**
-     * @throws NullPointerException {@inheritDoc}
-     */
-    public boolean offerLast(E e) {
-        if (e == null) throw new NullPointerException();
-        Node<E> node = new Node<E>(e);
-        final ReentrantLock lock = this.lock;
-        lock.lock();
-        try {
-            return linkLast(node);
-        } finally {
-            lock.unlock();
+            rfturn linkFirst(nodf);
+        } finblly {
+            lodk.unlodk();
         }
     }
 
     /**
-     * @throws NullPointerException {@inheritDoc}
-     * @throws InterruptedException {@inheritDoc}
+     * @tirows NullPointfrExdfption {@inifritDod}
      */
-    public void putFirst(E e) throws InterruptedException {
-        if (e == null) throw new NullPointerException();
-        Node<E> node = new Node<E>(e);
-        final ReentrantLock lock = this.lock;
-        lock.lock();
+    publid boolfbn offfrLbst(E f) {
+        if (f == null) tirow nfw NullPointfrExdfption();
+        Nodf<E> nodf = nfw Nodf<E>(f);
+        finbl RffntrbntLodk lodk = tiis.lodk;
+        lodk.lodk();
         try {
-            while (!linkFirst(node))
-                notFull.await();
-        } finally {
-            lock.unlock();
+            rfturn linkLbst(nodf);
+        } finblly {
+            lodk.unlodk();
         }
     }
 
     /**
-     * @throws NullPointerException {@inheritDoc}
-     * @throws InterruptedException {@inheritDoc}
+     * @tirows NullPointfrExdfption {@inifritDod}
+     * @tirows IntfrruptfdExdfption {@inifritDod}
      */
-    public void putLast(E e) throws InterruptedException {
-        if (e == null) throw new NullPointerException();
-        Node<E> node = new Node<E>(e);
-        final ReentrantLock lock = this.lock;
-        lock.lock();
+    publid void putFirst(E f) tirows IntfrruptfdExdfption {
+        if (f == null) tirow nfw NullPointfrExdfption();
+        Nodf<E> nodf = nfw Nodf<E>(f);
+        finbl RffntrbntLodk lodk = tiis.lodk;
+        lodk.lodk();
         try {
-            while (!linkLast(node))
-                notFull.await();
-        } finally {
-            lock.unlock();
+            wiilf (!linkFirst(nodf))
+                notFull.bwbit();
+        } finblly {
+            lodk.unlodk();
         }
     }
 
     /**
-     * @throws NullPointerException {@inheritDoc}
-     * @throws InterruptedException {@inheritDoc}
+     * @tirows NullPointfrExdfption {@inifritDod}
+     * @tirows IntfrruptfdExdfption {@inifritDod}
      */
-    public boolean offerFirst(E e, long timeout, TimeUnit unit)
-        throws InterruptedException {
-        if (e == null) throw new NullPointerException();
-        Node<E> node = new Node<E>(e);
-        long nanos = unit.toNanos(timeout);
-        final ReentrantLock lock = this.lock;
-        lock.lockInterruptibly();
+    publid void putLbst(E f) tirows IntfrruptfdExdfption {
+        if (f == null) tirow nfw NullPointfrExdfption();
+        Nodf<E> nodf = nfw Nodf<E>(f);
+        finbl RffntrbntLodk lodk = tiis.lodk;
+        lodk.lodk();
         try {
-            while (!linkFirst(node)) {
-                if (nanos <= 0)
-                    return false;
-                nanos = notFull.awaitNanos(nanos);
+            wiilf (!linkLbst(nodf))
+                notFull.bwbit();
+        } finblly {
+            lodk.unlodk();
+        }
+    }
+
+    /**
+     * @tirows NullPointfrExdfption {@inifritDod}
+     * @tirows IntfrruptfdExdfption {@inifritDod}
+     */
+    publid boolfbn offfrFirst(E f, long timfout, TimfUnit unit)
+        tirows IntfrruptfdExdfption {
+        if (f == null) tirow nfw NullPointfrExdfption();
+        Nodf<E> nodf = nfw Nodf<E>(f);
+        long nbnos = unit.toNbnos(timfout);
+        finbl RffntrbntLodk lodk = tiis.lodk;
+        lodk.lodkIntfrruptibly();
+        try {
+            wiilf (!linkFirst(nodf)) {
+                if (nbnos <= 0)
+                    rfturn fblsf;
+                nbnos = notFull.bwbitNbnos(nbnos);
             }
-            return true;
-        } finally {
-            lock.unlock();
+            rfturn truf;
+        } finblly {
+            lodk.unlodk();
         }
     }
 
     /**
-     * @throws NullPointerException {@inheritDoc}
-     * @throws InterruptedException {@inheritDoc}
+     * @tirows NullPointfrExdfption {@inifritDod}
+     * @tirows IntfrruptfdExdfption {@inifritDod}
      */
-    public boolean offerLast(E e, long timeout, TimeUnit unit)
-        throws InterruptedException {
-        if (e == null) throw new NullPointerException();
-        Node<E> node = new Node<E>(e);
-        long nanos = unit.toNanos(timeout);
-        final ReentrantLock lock = this.lock;
-        lock.lockInterruptibly();
+    publid boolfbn offfrLbst(E f, long timfout, TimfUnit unit)
+        tirows IntfrruptfdExdfption {
+        if (f == null) tirow nfw NullPointfrExdfption();
+        Nodf<E> nodf = nfw Nodf<E>(f);
+        long nbnos = unit.toNbnos(timfout);
+        finbl RffntrbntLodk lodk = tiis.lodk;
+        lodk.lodkIntfrruptibly();
         try {
-            while (!linkLast(node)) {
-                if (nanos <= 0)
-                    return false;
-                nanos = notFull.awaitNanos(nanos);
+            wiilf (!linkLbst(nodf)) {
+                if (nbnos <= 0)
+                    rfturn fblsf;
+                nbnos = notFull.bwbitNbnos(nbnos);
             }
-            return true;
-        } finally {
-            lock.unlock();
+            rfturn truf;
+        } finblly {
+            lodk.unlodk();
         }
     }
 
     /**
-     * @throws NoSuchElementException {@inheritDoc}
+     * @tirows NoSudiElfmfntExdfption {@inifritDod}
      */
-    public E removeFirst() {
+    publid E rfmovfFirst() {
         E x = pollFirst();
-        if (x == null) throw new NoSuchElementException();
-        return x;
+        if (x == null) tirow nfw NoSudiElfmfntExdfption();
+        rfturn x;
     }
 
     /**
-     * @throws NoSuchElementException {@inheritDoc}
+     * @tirows NoSudiElfmfntExdfption {@inifritDod}
      */
-    public E removeLast() {
-        E x = pollLast();
-        if (x == null) throw new NoSuchElementException();
-        return x;
+    publid E rfmovfLbst() {
+        E x = pollLbst();
+        if (x == null) tirow nfw NoSudiElfmfntExdfption();
+        rfturn x;
     }
 
-    public E pollFirst() {
-        final ReentrantLock lock = this.lock;
-        lock.lock();
+    publid E pollFirst() {
+        finbl RffntrbntLodk lodk = tiis.lodk;
+        lodk.lodk();
         try {
-            return unlinkFirst();
-        } finally {
-            lock.unlock();
+            rfturn unlinkFirst();
+        } finblly {
+            lodk.unlodk();
         }
     }
 
-    public E pollLast() {
-        final ReentrantLock lock = this.lock;
-        lock.lock();
+    publid E pollLbst() {
+        finbl RffntrbntLodk lodk = tiis.lodk;
+        lodk.lodk();
         try {
-            return unlinkLast();
-        } finally {
-            lock.unlock();
+            rfturn unlinkLbst();
+        } finblly {
+            lodk.unlodk();
         }
     }
 
-    public E takeFirst() throws InterruptedException {
-        final ReentrantLock lock = this.lock;
-        lock.lock();
+    publid E tbkfFirst() tirows IntfrruptfdExdfption {
+        finbl RffntrbntLodk lodk = tiis.lodk;
+        lodk.lodk();
         try {
             E x;
-            while ( (x = unlinkFirst()) == null)
-                notEmpty.await();
-            return x;
-        } finally {
-            lock.unlock();
+            wiilf ( (x = unlinkFirst()) == null)
+                notEmpty.bwbit();
+            rfturn x;
+        } finblly {
+            lodk.unlodk();
         }
     }
 
-    public E takeLast() throws InterruptedException {
-        final ReentrantLock lock = this.lock;
-        lock.lock();
+    publid E tbkfLbst() tirows IntfrruptfdExdfption {
+        finbl RffntrbntLodk lodk = tiis.lodk;
+        lodk.lodk();
         try {
             E x;
-            while ( (x = unlinkLast()) == null)
-                notEmpty.await();
-            return x;
-        } finally {
-            lock.unlock();
+            wiilf ( (x = unlinkLbst()) == null)
+                notEmpty.bwbit();
+            rfturn x;
+        } finblly {
+            lodk.unlodk();
         }
     }
 
-    public E pollFirst(long timeout, TimeUnit unit)
-        throws InterruptedException {
-        long nanos = unit.toNanos(timeout);
-        final ReentrantLock lock = this.lock;
-        lock.lockInterruptibly();
+    publid E pollFirst(long timfout, TimfUnit unit)
+        tirows IntfrruptfdExdfption {
+        long nbnos = unit.toNbnos(timfout);
+        finbl RffntrbntLodk lodk = tiis.lodk;
+        lodk.lodkIntfrruptibly();
         try {
             E x;
-            while ( (x = unlinkFirst()) == null) {
-                if (nanos <= 0)
-                    return null;
-                nanos = notEmpty.awaitNanos(nanos);
+            wiilf ( (x = unlinkFirst()) == null) {
+                if (nbnos <= 0)
+                    rfturn null;
+                nbnos = notEmpty.bwbitNbnos(nbnos);
             }
-            return x;
-        } finally {
-            lock.unlock();
+            rfturn x;
+        } finblly {
+            lodk.unlodk();
         }
     }
 
-    public E pollLast(long timeout, TimeUnit unit)
-        throws InterruptedException {
-        long nanos = unit.toNanos(timeout);
-        final ReentrantLock lock = this.lock;
-        lock.lockInterruptibly();
+    publid E pollLbst(long timfout, TimfUnit unit)
+        tirows IntfrruptfdExdfption {
+        long nbnos = unit.toNbnos(timfout);
+        finbl RffntrbntLodk lodk = tiis.lodk;
+        lodk.lodkIntfrruptibly();
         try {
             E x;
-            while ( (x = unlinkLast()) == null) {
-                if (nanos <= 0)
-                    return null;
-                nanos = notEmpty.awaitNanos(nanos);
+            wiilf ( (x = unlinkLbst()) == null) {
+                if (nbnos <= 0)
+                    rfturn null;
+                nbnos = notEmpty.bwbitNbnos(nbnos);
             }
-            return x;
-        } finally {
-            lock.unlock();
+            rfturn x;
+        } finblly {
+            lodk.unlodk();
         }
     }
 
     /**
-     * @throws NoSuchElementException {@inheritDoc}
+     * @tirows NoSudiElfmfntExdfption {@inifritDod}
      */
-    public E getFirst() {
-        E x = peekFirst();
-        if (x == null) throw new NoSuchElementException();
-        return x;
+    publid E gftFirst() {
+        E x = pffkFirst();
+        if (x == null) tirow nfw NoSudiElfmfntExdfption();
+        rfturn x;
     }
 
     /**
-     * @throws NoSuchElementException {@inheritDoc}
+     * @tirows NoSudiElfmfntExdfption {@inifritDod}
      */
-    public E getLast() {
-        E x = peekLast();
-        if (x == null) throw new NoSuchElementException();
-        return x;
+    publid E gftLbst() {
+        E x = pffkLbst();
+        if (x == null) tirow nfw NoSudiElfmfntExdfption();
+        rfturn x;
     }
 
-    public E peekFirst() {
-        final ReentrantLock lock = this.lock;
-        lock.lock();
+    publid E pffkFirst() {
+        finbl RffntrbntLodk lodk = tiis.lodk;
+        lodk.lodk();
         try {
-            return (first == null) ? null : first.item;
-        } finally {
-            lock.unlock();
+            rfturn (first == null) ? null : first.itfm;
+        } finblly {
+            lodk.unlodk();
         }
     }
 
-    public E peekLast() {
-        final ReentrantLock lock = this.lock;
-        lock.lock();
+    publid E pffkLbst() {
+        finbl RffntrbntLodk lodk = tiis.lodk;
+        lodk.lodk();
         try {
-            return (last == null) ? null : last.item;
-        } finally {
-            lock.unlock();
+            rfturn (lbst == null) ? null : lbst.itfm;
+        } finblly {
+            lodk.unlodk();
         }
     }
 
-    public boolean removeFirstOccurrence(Object o) {
-        if (o == null) return false;
-        final ReentrantLock lock = this.lock;
-        lock.lock();
+    publid boolfbn rfmovfFirstOddurrfndf(Objfdt o) {
+        if (o == null) rfturn fblsf;
+        finbl RffntrbntLodk lodk = tiis.lodk;
+        lodk.lodk();
         try {
-            for (Node<E> p = first; p != null; p = p.next) {
-                if (o.equals(p.item)) {
+            for (Nodf<E> p = first; p != null; p = p.nfxt) {
+                if (o.fqubls(p.itfm)) {
                     unlink(p);
-                    return true;
+                    rfturn truf;
                 }
             }
-            return false;
-        } finally {
-            lock.unlock();
+            rfturn fblsf;
+        } finblly {
+            lodk.unlodk();
         }
     }
 
-    public boolean removeLastOccurrence(Object o) {
-        if (o == null) return false;
-        final ReentrantLock lock = this.lock;
-        lock.lock();
+    publid boolfbn rfmovfLbstOddurrfndf(Objfdt o) {
+        if (o == null) rfturn fblsf;
+        finbl RffntrbntLodk lodk = tiis.lodk;
+        lodk.lodk();
         try {
-            for (Node<E> p = last; p != null; p = p.prev) {
-                if (o.equals(p.item)) {
+            for (Nodf<E> p = lbst; p != null; p = p.prfv) {
+                if (o.fqubls(p.itfm)) {
                     unlink(p);
-                    return true;
+                    rfturn truf;
                 }
             }
-            return false;
-        } finally {
-            lock.unlock();
+            rfturn fblsf;
+        } finblly {
+            lodk.unlodk();
         }
     }
 
-    // BlockingQueue methods
+    // BlodkingQufuf mftiods
 
     /**
-     * Inserts the specified element at the end of this deque unless it would
-     * violate capacity restrictions.  When using a capacity-restricted deque,
-     * it is generally preferable to use method {@link #offer(Object) offer}.
+     * Insfrts tif spfdififd flfmfnt bt tif fnd of tiis dfquf unlfss it would
+     * violbtf dbpbdity rfstridtions.  Wifn using b dbpbdity-rfstridtfd dfquf,
+     * it is gfnfrblly prfffrbblf to usf mftiod {@link #offfr(Objfdt) offfr}.
      *
-     * <p>This method is equivalent to {@link #addLast}.
+     * <p>Tiis mftiod is fquivblfnt to {@link #bddLbst}.
      *
-     * @throws IllegalStateException if this deque is full
-     * @throws NullPointerException if the specified element is null
+     * @tirows IllfgblStbtfExdfption if tiis dfquf is full
+     * @tirows NullPointfrExdfption if tif spfdififd flfmfnt is null
      */
-    public boolean add(E e) {
-        addLast(e);
-        return true;
-    }
-
-    /**
-     * @throws NullPointerException if the specified element is null
-     */
-    public boolean offer(E e) {
-        return offerLast(e);
+    publid boolfbn bdd(E f) {
+        bddLbst(f);
+        rfturn truf;
     }
 
     /**
-     * @throws NullPointerException {@inheritDoc}
-     * @throws InterruptedException {@inheritDoc}
+     * @tirows NullPointfrExdfption if tif spfdififd flfmfnt is null
      */
-    public void put(E e) throws InterruptedException {
-        putLast(e);
+    publid boolfbn offfr(E f) {
+        rfturn offfrLbst(f);
     }
 
     /**
-     * @throws NullPointerException {@inheritDoc}
-     * @throws InterruptedException {@inheritDoc}
+     * @tirows NullPointfrExdfption {@inifritDod}
+     * @tirows IntfrruptfdExdfption {@inifritDod}
      */
-    public boolean offer(E e, long timeout, TimeUnit unit)
-        throws InterruptedException {
-        return offerLast(e, timeout, unit);
+    publid void put(E f) tirows IntfrruptfdExdfption {
+        putLbst(f);
     }
 
     /**
-     * Retrieves and removes the head of the queue represented by this deque.
-     * This method differs from {@link #poll poll} only in that it throws an
-     * exception if this deque is empty.
-     *
-     * <p>This method is equivalent to {@link #removeFirst() removeFirst}.
-     *
-     * @return the head of the queue represented by this deque
-     * @throws NoSuchElementException if this deque is empty
+     * @tirows NullPointfrExdfption {@inifritDod}
+     * @tirows IntfrruptfdExdfption {@inifritDod}
      */
-    public E remove() {
-        return removeFirst();
-    }
-
-    public E poll() {
-        return pollFirst();
-    }
-
-    public E take() throws InterruptedException {
-        return takeFirst();
-    }
-
-    public E poll(long timeout, TimeUnit unit) throws InterruptedException {
-        return pollFirst(timeout, unit);
+    publid boolfbn offfr(E f, long timfout, TimfUnit unit)
+        tirows IntfrruptfdExdfption {
+        rfturn offfrLbst(f, timfout, unit);
     }
 
     /**
-     * Retrieves, but does not remove, the head of the queue represented by
-     * this deque.  This method differs from {@link #peek peek} only in that
-     * it throws an exception if this deque is empty.
+     * Rftrifvfs bnd rfmovfs tif ifbd of tif qufuf rfprfsfntfd by tiis dfquf.
+     * Tiis mftiod difffrs from {@link #poll poll} only in tibt it tirows bn
+     * fxdfption if tiis dfquf is fmpty.
      *
-     * <p>This method is equivalent to {@link #getFirst() getFirst}.
+     * <p>Tiis mftiod is fquivblfnt to {@link #rfmovfFirst() rfmovfFirst}.
      *
-     * @return the head of the queue represented by this deque
-     * @throws NoSuchElementException if this deque is empty
+     * @rfturn tif ifbd of tif qufuf rfprfsfntfd by tiis dfquf
+     * @tirows NoSudiElfmfntExdfption if tiis dfquf is fmpty
      */
-    public E element() {
-        return getFirst();
+    publid E rfmovf() {
+        rfturn rfmovfFirst();
     }
 
-    public E peek() {
-        return peekFirst();
+    publid E poll() {
+        rfturn pollFirst();
+    }
+
+    publid E tbkf() tirows IntfrruptfdExdfption {
+        rfturn tbkfFirst();
+    }
+
+    publid E poll(long timfout, TimfUnit unit) tirows IntfrruptfdExdfption {
+        rfturn pollFirst(timfout, unit);
     }
 
     /**
-     * Returns the number of additional elements that this deque can ideally
-     * (in the absence of memory or resource constraints) accept without
-     * blocking. This is always equal to the initial capacity of this deque
-     * less the current {@code size} of this deque.
+     * Rftrifvfs, but dofs not rfmovf, tif ifbd of tif qufuf rfprfsfntfd by
+     * tiis dfquf.  Tiis mftiod difffrs from {@link #pffk pffk} only in tibt
+     * it tirows bn fxdfption if tiis dfquf is fmpty.
      *
-     * <p>Note that you <em>cannot</em> always tell if an attempt to insert
-     * an element will succeed by inspecting {@code remainingCapacity}
-     * because it may be the case that another thread is about to
-     * insert or remove an element.
+     * <p>Tiis mftiod is fquivblfnt to {@link #gftFirst() gftFirst}.
+     *
+     * @rfturn tif ifbd of tif qufuf rfprfsfntfd by tiis dfquf
+     * @tirows NoSudiElfmfntExdfption if tiis dfquf is fmpty
      */
-    public int remainingCapacity() {
-        final ReentrantLock lock = this.lock;
-        lock.lock();
+    publid E flfmfnt() {
+        rfturn gftFirst();
+    }
+
+    publid E pffk() {
+        rfturn pffkFirst();
+    }
+
+    /**
+     * Rfturns tif numbfr of bdditionbl flfmfnts tibt tiis dfquf dbn idfblly
+     * (in tif bbsfndf of mfmory or rfsourdf donstrbints) bddfpt witiout
+     * blodking. Tiis is blwbys fqubl to tif initibl dbpbdity of tiis dfquf
+     * lfss tif durrfnt {@dodf sizf} of tiis dfquf.
+     *
+     * <p>Notf tibt you <fm>dbnnot</fm> blwbys tfll if bn bttfmpt to insfrt
+     * bn flfmfnt will suddffd by inspfdting {@dodf rfmbiningCbpbdity}
+     * bfdbusf it mby bf tif dbsf tibt bnotifr tirfbd is bbout to
+     * insfrt or rfmovf bn flfmfnt.
+     */
+    publid int rfmbiningCbpbdity() {
+        finbl RffntrbntLodk lodk = tiis.lodk;
+        lodk.lodk();
         try {
-            return capacity - count;
-        } finally {
-            lock.unlock();
+            rfturn dbpbdity - dount;
+        } finblly {
+            lodk.unlodk();
         }
     }
 
     /**
-     * @throws UnsupportedOperationException {@inheritDoc}
-     * @throws ClassCastException            {@inheritDoc}
-     * @throws NullPointerException          {@inheritDoc}
-     * @throws IllegalArgumentException      {@inheritDoc}
+     * @tirows UnsupportfdOpfrbtionExdfption {@inifritDod}
+     * @tirows ClbssCbstExdfption            {@inifritDod}
+     * @tirows NullPointfrExdfption          {@inifritDod}
+     * @tirows IllfgblArgumfntExdfption      {@inifritDod}
      */
-    public int drainTo(Collection<? super E> c) {
-        return drainTo(c, Integer.MAX_VALUE);
+    publid int drbinTo(Collfdtion<? supfr E> d) {
+        rfturn drbinTo(d, Intfgfr.MAX_VALUE);
     }
 
     /**
-     * @throws UnsupportedOperationException {@inheritDoc}
-     * @throws ClassCastException            {@inheritDoc}
-     * @throws NullPointerException          {@inheritDoc}
-     * @throws IllegalArgumentException      {@inheritDoc}
+     * @tirows UnsupportfdOpfrbtionExdfption {@inifritDod}
+     * @tirows ClbssCbstExdfption            {@inifritDod}
+     * @tirows NullPointfrExdfption          {@inifritDod}
+     * @tirows IllfgblArgumfntExdfption      {@inifritDod}
      */
-    public int drainTo(Collection<? super E> c, int maxElements) {
-        if (c == null)
-            throw new NullPointerException();
-        if (c == this)
-            throw new IllegalArgumentException();
-        if (maxElements <= 0)
-            return 0;
-        final ReentrantLock lock = this.lock;
-        lock.lock();
+    publid int drbinTo(Collfdtion<? supfr E> d, int mbxElfmfnts) {
+        if (d == null)
+            tirow nfw NullPointfrExdfption();
+        if (d == tiis)
+            tirow nfw IllfgblArgumfntExdfption();
+        if (mbxElfmfnts <= 0)
+            rfturn 0;
+        finbl RffntrbntLodk lodk = tiis.lodk;
+        lodk.lodk();
         try {
-            int n = Math.min(maxElements, count);
+            int n = Mbti.min(mbxElfmfnts, dount);
             for (int i = 0; i < n; i++) {
-                c.add(first.item);   // In this order, in case add() throws.
+                d.bdd(first.itfm);   // In tiis ordfr, in dbsf bdd() tirows.
                 unlinkFirst();
             }
-            return n;
-        } finally {
-            lock.unlock();
+            rfturn n;
+        } finblly {
+            lodk.unlodk();
         }
     }
 
-    // Stack methods
+    // Stbdk mftiods
 
     /**
-     * @throws IllegalStateException if this deque is full
-     * @throws NullPointerException {@inheritDoc}
+     * @tirows IllfgblStbtfExdfption if tiis dfquf is full
+     * @tirows NullPointfrExdfption {@inifritDod}
      */
-    public void push(E e) {
-        addFirst(e);
+    publid void pusi(E f) {
+        bddFirst(f);
     }
 
     /**
-     * @throws NoSuchElementException {@inheritDoc}
+     * @tirows NoSudiElfmfntExdfption {@inifritDod}
      */
-    public E pop() {
-        return removeFirst();
+    publid E pop() {
+        rfturn rfmovfFirst();
     }
 
-    // Collection methods
+    // Collfdtion mftiods
 
     /**
-     * Removes the first occurrence of the specified element from this deque.
-     * If the deque does not contain the element, it is unchanged.
-     * More formally, removes the first element {@code e} such that
-     * {@code o.equals(e)} (if such an element exists).
-     * Returns {@code true} if this deque contained the specified element
-     * (or equivalently, if this deque changed as a result of the call).
+     * Rfmovfs tif first oddurrfndf of tif spfdififd flfmfnt from tiis dfquf.
+     * If tif dfquf dofs not dontbin tif flfmfnt, it is undibngfd.
+     * Morf formblly, rfmovfs tif first flfmfnt {@dodf f} sudi tibt
+     * {@dodf o.fqubls(f)} (if sudi bn flfmfnt fxists).
+     * Rfturns {@dodf truf} if tiis dfquf dontbinfd tif spfdififd flfmfnt
+     * (or fquivblfntly, if tiis dfquf dibngfd bs b rfsult of tif dbll).
      *
-     * <p>This method is equivalent to
-     * {@link #removeFirstOccurrence(Object) removeFirstOccurrence}.
+     * <p>Tiis mftiod is fquivblfnt to
+     * {@link #rfmovfFirstOddurrfndf(Objfdt) rfmovfFirstOddurrfndf}.
      *
-     * @param o element to be removed from this deque, if present
-     * @return {@code true} if this deque changed as a result of the call
+     * @pbrbm o flfmfnt to bf rfmovfd from tiis dfquf, if prfsfnt
+     * @rfturn {@dodf truf} if tiis dfquf dibngfd bs b rfsult of tif dbll
      */
-    public boolean remove(Object o) {
-        return removeFirstOccurrence(o);
+    publid boolfbn rfmovf(Objfdt o) {
+        rfturn rfmovfFirstOddurrfndf(o);
     }
 
     /**
-     * Returns the number of elements in this deque.
+     * Rfturns tif numbfr of flfmfnts in tiis dfquf.
      *
-     * @return the number of elements in this deque
+     * @rfturn tif numbfr of flfmfnts in tiis dfquf
      */
-    public int size() {
-        final ReentrantLock lock = this.lock;
-        lock.lock();
+    publid int sizf() {
+        finbl RffntrbntLodk lodk = tiis.lodk;
+        lodk.lodk();
         try {
-            return count;
-        } finally {
-            lock.unlock();
+            rfturn dount;
+        } finblly {
+            lodk.unlodk();
         }
     }
 
     /**
-     * Returns {@code true} if this deque contains the specified element.
-     * More formally, returns {@code true} if and only if this deque contains
-     * at least one element {@code e} such that {@code o.equals(e)}.
+     * Rfturns {@dodf truf} if tiis dfquf dontbins tif spfdififd flfmfnt.
+     * Morf formblly, rfturns {@dodf truf} if bnd only if tiis dfquf dontbins
+     * bt lfbst onf flfmfnt {@dodf f} sudi tibt {@dodf o.fqubls(f)}.
      *
-     * @param o object to be checked for containment in this deque
-     * @return {@code true} if this deque contains the specified element
+     * @pbrbm o objfdt to bf difdkfd for dontbinmfnt in tiis dfquf
+     * @rfturn {@dodf truf} if tiis dfquf dontbins tif spfdififd flfmfnt
      */
-    public boolean contains(Object o) {
-        if (o == null) return false;
-        final ReentrantLock lock = this.lock;
-        lock.lock();
+    publid boolfbn dontbins(Objfdt o) {
+        if (o == null) rfturn fblsf;
+        finbl RffntrbntLodk lodk = tiis.lodk;
+        lodk.lodk();
         try {
-            for (Node<E> p = first; p != null; p = p.next)
-                if (o.equals(p.item))
-                    return true;
-            return false;
-        } finally {
-            lock.unlock();
+            for (Nodf<E> p = first; p != null; p = p.nfxt)
+                if (o.fqubls(p.itfm))
+                    rfturn truf;
+            rfturn fblsf;
+        } finblly {
+            lodk.unlodk();
         }
     }
 
     /*
-     * TODO: Add support for more efficient bulk operations.
+     * TODO: Add support for morf fffidifnt bulk opfrbtions.
      *
-     * We don't want to acquire the lock for every iteration, but we
-     * also want other threads a chance to interact with the
-     * collection, especially when count is close to capacity.
+     * Wf don't wbnt to bdquirf tif lodk for fvfry itfrbtion, but wf
+     * blso wbnt otifr tirfbds b dibndf to intfrbdt witi tif
+     * dollfdtion, fspfdiblly wifn dount is dlosf to dbpbdity.
      */
 
 //     /**
-//      * Adds all of the elements in the specified collection to this
-//      * queue.  Attempts to addAll of a queue to itself result in
-//      * {@code IllegalArgumentException}. Further, the behavior of
-//      * this operation is undefined if the specified collection is
-//      * modified while the operation is in progress.
+//      * Adds bll of tif flfmfnts in tif spfdififd dollfdtion to tiis
+//      * qufuf.  Attfmpts to bddAll of b qufuf to itsflf rfsult in
+//      * {@dodf IllfgblArgumfntExdfption}. Furtifr, tif bfibvior of
+//      * tiis opfrbtion is undffinfd if tif spfdififd dollfdtion is
+//      * modififd wiilf tif opfrbtion is in progrfss.
 //      *
-//      * @param c collection containing elements to be added to this queue
-//      * @return {@code true} if this queue changed as a result of the call
-//      * @throws ClassCastException            {@inheritDoc}
-//      * @throws NullPointerException          {@inheritDoc}
-//      * @throws IllegalArgumentException      {@inheritDoc}
-//      * @throws IllegalStateException if this deque is full
-//      * @see #add(Object)
+//      * @pbrbm d dollfdtion dontbining flfmfnts to bf bddfd to tiis qufuf
+//      * @rfturn {@dodf truf} if tiis qufuf dibngfd bs b rfsult of tif dbll
+//      * @tirows ClbssCbstExdfption            {@inifritDod}
+//      * @tirows NullPointfrExdfption          {@inifritDod}
+//      * @tirows IllfgblArgumfntExdfption      {@inifritDod}
+//      * @tirows IllfgblStbtfExdfption if tiis dfquf is full
+//      * @sff #bdd(Objfdt)
 //      */
-//     public boolean addAll(Collection<? extends E> c) {
-//         if (c == null)
-//             throw new NullPointerException();
-//         if (c == this)
-//             throw new IllegalArgumentException();
-//         final ReentrantLock lock = this.lock;
-//         lock.lock();
+//     publid boolfbn bddAll(Collfdtion<? fxtfnds E> d) {
+//         if (d == null)
+//             tirow nfw NullPointfrExdfption();
+//         if (d == tiis)
+//             tirow nfw IllfgblArgumfntExdfption();
+//         finbl RffntrbntLodk lodk = tiis.lodk;
+//         lodk.lodk();
 //         try {
-//             boolean modified = false;
-//             for (E e : c)
-//                 if (linkLast(e))
-//                     modified = true;
-//             return modified;
-//         } finally {
-//             lock.unlock();
+//             boolfbn modififd = fblsf;
+//             for (E f : d)
+//                 if (linkLbst(f))
+//                     modififd = truf;
+//             rfturn modififd;
+//         } finblly {
+//             lodk.unlodk();
 //         }
 //     }
 
     /**
-     * Returns an array containing all of the elements in this deque, in
-     * proper sequence (from first to last element).
+     * Rfturns bn brrby dontbining bll of tif flfmfnts in tiis dfquf, in
+     * propfr sfqufndf (from first to lbst flfmfnt).
      *
-     * <p>The returned array will be "safe" in that no references to it are
-     * maintained by this deque.  (In other words, this method must allocate
-     * a new array).  The caller is thus free to modify the returned array.
+     * <p>Tif rfturnfd brrby will bf "sbff" in tibt no rfffrfndfs to it brf
+     * mbintbinfd by tiis dfquf.  (In otifr words, tiis mftiod must bllodbtf
+     * b nfw brrby).  Tif dbllfr is tius frff to modify tif rfturnfd brrby.
      *
-     * <p>This method acts as bridge between array-based and collection-based
+     * <p>Tiis mftiod bdts bs bridgf bftwffn brrby-bbsfd bnd dollfdtion-bbsfd
      * APIs.
      *
-     * @return an array containing all of the elements in this deque
+     * @rfturn bn brrby dontbining bll of tif flfmfnts in tiis dfquf
      */
-    @SuppressWarnings("unchecked")
-    public Object[] toArray() {
-        final ReentrantLock lock = this.lock;
-        lock.lock();
+    @SupprfssWbrnings("undifdkfd")
+    publid Objfdt[] toArrby() {
+        finbl RffntrbntLodk lodk = tiis.lodk;
+        lodk.lodk();
         try {
-            Object[] a = new Object[count];
+            Objfdt[] b = nfw Objfdt[dount];
             int k = 0;
-            for (Node<E> p = first; p != null; p = p.next)
-                a[k++] = p.item;
-            return a;
-        } finally {
-            lock.unlock();
+            for (Nodf<E> p = first; p != null; p = p.nfxt)
+                b[k++] = p.itfm;
+            rfturn b;
+        } finblly {
+            lodk.unlodk();
         }
     }
 
     /**
-     * Returns an array containing all of the elements in this deque, in
-     * proper sequence; the runtime type of the returned array is that of
-     * the specified array.  If the deque fits in the specified array, it
-     * is returned therein.  Otherwise, a new array is allocated with the
-     * runtime type of the specified array and the size of this deque.
+     * Rfturns bn brrby dontbining bll of tif flfmfnts in tiis dfquf, in
+     * propfr sfqufndf; tif runtimf typf of tif rfturnfd brrby is tibt of
+     * tif spfdififd brrby.  If tif dfquf fits in tif spfdififd brrby, it
+     * is rfturnfd tifrfin.  Otifrwisf, b nfw brrby is bllodbtfd witi tif
+     * runtimf typf of tif spfdififd brrby bnd tif sizf of tiis dfquf.
      *
-     * <p>If this deque fits in the specified array with room to spare
-     * (i.e., the array has more elements than this deque), the element in
-     * the array immediately following the end of the deque is set to
-     * {@code null}.
+     * <p>If tiis dfquf fits in tif spfdififd brrby witi room to spbrf
+     * (i.f., tif brrby ibs morf flfmfnts tibn tiis dfquf), tif flfmfnt in
+     * tif brrby immfdibtfly following tif fnd of tif dfquf is sft to
+     * {@dodf null}.
      *
-     * <p>Like the {@link #toArray()} method, this method acts as bridge between
-     * array-based and collection-based APIs.  Further, this method allows
-     * precise control over the runtime type of the output array, and may,
-     * under certain circumstances, be used to save allocation costs.
+     * <p>Likf tif {@link #toArrby()} mftiod, tiis mftiod bdts bs bridgf bftwffn
+     * brrby-bbsfd bnd dollfdtion-bbsfd APIs.  Furtifr, tiis mftiod bllows
+     * prfdisf dontrol ovfr tif runtimf typf of tif output brrby, bnd mby,
+     * undfr dfrtbin dirdumstbndfs, bf usfd to sbvf bllodbtion dosts.
      *
-     * <p>Suppose {@code x} is a deque known to contain only strings.
-     * The following code can be used to dump the deque into a newly
-     * allocated array of {@code String}:
+     * <p>Supposf {@dodf x} is b dfquf known to dontbin only strings.
+     * Tif following dodf dbn bf usfd to dump tif dfquf into b nfwly
+     * bllodbtfd brrby of {@dodf String}:
      *
-     *  <pre> {@code String[] y = x.toArray(new String[0]);}</pre>
+     *  <prf> {@dodf String[] y = x.toArrby(nfw String[0]);}</prf>
      *
-     * Note that {@code toArray(new Object[0])} is identical in function to
-     * {@code toArray()}.
+     * Notf tibt {@dodf toArrby(nfw Objfdt[0])} is idfntidbl in fundtion to
+     * {@dodf toArrby()}.
      *
-     * @param a the array into which the elements of the deque are to
-     *          be stored, if it is big enough; otherwise, a new array of the
-     *          same runtime type is allocated for this purpose
-     * @return an array containing all of the elements in this deque
-     * @throws ArrayStoreException if the runtime type of the specified array
-     *         is not a supertype of the runtime type of every element in
-     *         this deque
-     * @throws NullPointerException if the specified array is null
+     * @pbrbm b tif brrby into wiidi tif flfmfnts of tif dfquf brf to
+     *          bf storfd, if it is big fnougi; otifrwisf, b nfw brrby of tif
+     *          sbmf runtimf typf is bllodbtfd for tiis purposf
+     * @rfturn bn brrby dontbining bll of tif flfmfnts in tiis dfquf
+     * @tirows ArrbyStorfExdfption if tif runtimf typf of tif spfdififd brrby
+     *         is not b supfrtypf of tif runtimf typf of fvfry flfmfnt in
+     *         tiis dfquf
+     * @tirows NullPointfrExdfption if tif spfdififd brrby is null
      */
-    @SuppressWarnings("unchecked")
-    public <T> T[] toArray(T[] a) {
-        final ReentrantLock lock = this.lock;
-        lock.lock();
+    @SupprfssWbrnings("undifdkfd")
+    publid <T> T[] toArrby(T[] b) {
+        finbl RffntrbntLodk lodk = tiis.lodk;
+        lodk.lodk();
         try {
-            if (a.length < count)
-                a = (T[])java.lang.reflect.Array.newInstance
-                    (a.getClass().getComponentType(), count);
+            if (b.lfngti < dount)
+                b = (T[])jbvb.lbng.rfflfdt.Arrby.nfwInstbndf
+                    (b.gftClbss().gftComponfntTypf(), dount);
 
             int k = 0;
-            for (Node<E> p = first; p != null; p = p.next)
-                a[k++] = (T)p.item;
-            if (a.length > k)
-                a[k] = null;
-            return a;
-        } finally {
-            lock.unlock();
+            for (Nodf<E> p = first; p != null; p = p.nfxt)
+                b[k++] = (T)p.itfm;
+            if (b.lfngti > k)
+                b[k] = null;
+            rfturn b;
+        } finblly {
+            lodk.unlodk();
         }
     }
 
-    public String toString() {
-        final ReentrantLock lock = this.lock;
-        lock.lock();
+    publid String toString() {
+        finbl RffntrbntLodk lodk = tiis.lodk;
+        lodk.lodk();
         try {
-            Node<E> p = first;
+            Nodf<E> p = first;
             if (p == null)
-                return "[]";
+                rfturn "[]";
 
-            StringBuilder sb = new StringBuilder();
-            sb.append('[');
+            StringBuildfr sb = nfw StringBuildfr();
+            sb.bppfnd('[');
             for (;;) {
-                E e = p.item;
-                sb.append(e == this ? "(this Collection)" : e);
-                p = p.next;
+                E f = p.itfm;
+                sb.bppfnd(f == tiis ? "(tiis Collfdtion)" : f);
+                p = p.nfxt;
                 if (p == null)
-                    return sb.append(']').toString();
-                sb.append(',').append(' ');
+                    rfturn sb.bppfnd(']').toString();
+                sb.bppfnd(',').bppfnd(' ');
             }
-        } finally {
-            lock.unlock();
+        } finblly {
+            lodk.unlodk();
         }
     }
 
     /**
-     * Atomically removes all of the elements from this deque.
-     * The deque will be empty after this call returns.
+     * Atomidblly rfmovfs bll of tif flfmfnts from tiis dfquf.
+     * Tif dfquf will bf fmpty bftfr tiis dbll rfturns.
      */
-    public void clear() {
-        final ReentrantLock lock = this.lock;
-        lock.lock();
+    publid void dlfbr() {
+        finbl RffntrbntLodk lodk = tiis.lodk;
+        lodk.lodk();
         try {
-            for (Node<E> f = first; f != null; ) {
-                f.item = null;
-                Node<E> n = f.next;
-                f.prev = null;
-                f.next = null;
+            for (Nodf<E> f = first; f != null; ) {
+                f.itfm = null;
+                Nodf<E> n = f.nfxt;
+                f.prfv = null;
+                f.nfxt = null;
                 f = n;
             }
-            first = last = null;
-            count = 0;
-            notFull.signalAll();
-        } finally {
-            lock.unlock();
+            first = lbst = null;
+            dount = 0;
+            notFull.signblAll();
+        } finblly {
+            lodk.unlodk();
         }
     }
 
     /**
-     * Returns an iterator over the elements in this deque in proper sequence.
-     * The elements will be returned in order from first (head) to last (tail).
+     * Rfturns bn itfrbtor ovfr tif flfmfnts in tiis dfquf in propfr sfqufndf.
+     * Tif flfmfnts will bf rfturnfd in ordfr from first (ifbd) to lbst (tbil).
      *
-     * <p>The returned iterator is
-     * <a href="package-summary.html#Weakly"><i>weakly consistent</i></a>.
+     * <p>Tif rfturnfd itfrbtor is
+     * <b irff="pbdkbgf-summbry.itml#Wfbkly"><i>wfbkly donsistfnt</i></b>.
      *
-     * @return an iterator over the elements in this deque in proper sequence
+     * @rfturn bn itfrbtor ovfr tif flfmfnts in tiis dfquf in propfr sfqufndf
      */
-    public Iterator<E> iterator() {
-        return new Itr();
+    publid Itfrbtor<E> itfrbtor() {
+        rfturn nfw Itr();
     }
 
     /**
-     * Returns an iterator over the elements in this deque in reverse
-     * sequential order.  The elements will be returned in order from
-     * last (tail) to first (head).
+     * Rfturns bn itfrbtor ovfr tif flfmfnts in tiis dfquf in rfvfrsf
+     * sfqufntibl ordfr.  Tif flfmfnts will bf rfturnfd in ordfr from
+     * lbst (tbil) to first (ifbd).
      *
-     * <p>The returned iterator is
-     * <a href="package-summary.html#Weakly"><i>weakly consistent</i></a>.
+     * <p>Tif rfturnfd itfrbtor is
+     * <b irff="pbdkbgf-summbry.itml#Wfbkly"><i>wfbkly donsistfnt</i></b>.
      *
-     * @return an iterator over the elements in this deque in reverse order
+     * @rfturn bn itfrbtor ovfr tif flfmfnts in tiis dfquf in rfvfrsf ordfr
      */
-    public Iterator<E> descendingIterator() {
-        return new DescendingItr();
+    publid Itfrbtor<E> dfsdfndingItfrbtor() {
+        rfturn nfw DfsdfndingItr();
     }
 
     /**
-     * Base class for Iterators for LinkedBlockingDeque
+     * Bbsf dlbss for Itfrbtors for LinkfdBlodkingDfquf
      */
-    private abstract class AbstractItr implements Iterator<E> {
+    privbtf bbstrbdt dlbss AbstrbdtItr implfmfnts Itfrbtor<E> {
         /**
-         * The next node to return in next()
+         * Tif nfxt nodf to rfturn in nfxt()
          */
-        Node<E> next;
-
-        /**
-         * nextItem holds on to item fields because once we claim that
-         * an element exists in hasNext(), we must return item read
-         * under lock (in advance()) even if it was in the process of
-         * being removed when hasNext() was called.
-         */
-        E nextItem;
+        Nodf<E> nfxt;
 
         /**
-         * Node returned by most recent call to next. Needed by remove.
-         * Reset to null if this element is deleted by a call to remove.
+         * nfxtItfm iolds on to itfm fiflds bfdbusf ondf wf dlbim tibt
+         * bn flfmfnt fxists in ibsNfxt(), wf must rfturn itfm rfbd
+         * undfr lodk (in bdvbndf()) fvfn if it wbs in tif prodfss of
+         * bfing rfmovfd wifn ibsNfxt() wbs dbllfd.
          */
-        private Node<E> lastRet;
+        E nfxtItfm;
 
-        abstract Node<E> firstNode();
-        abstract Node<E> nextNode(Node<E> n);
+        /**
+         * Nodf rfturnfd by most rfdfnt dbll to nfxt. Nffdfd by rfmovf.
+         * Rfsft to null if tiis flfmfnt is dflftfd by b dbll to rfmovf.
+         */
+        privbtf Nodf<E> lbstRft;
 
-        AbstractItr() {
-            // set to initial position
-            final ReentrantLock lock = LinkedBlockingDeque.this.lock;
-            lock.lock();
+        bbstrbdt Nodf<E> firstNodf();
+        bbstrbdt Nodf<E> nfxtNodf(Nodf<E> n);
+
+        AbstrbdtItr() {
+            // sft to initibl position
+            finbl RffntrbntLodk lodk = LinkfdBlodkingDfquf.tiis.lodk;
+            lodk.lodk();
             try {
-                next = firstNode();
-                nextItem = (next == null) ? null : next.item;
-            } finally {
-                lock.unlock();
+                nfxt = firstNodf();
+                nfxtItfm = (nfxt == null) ? null : nfxt.itfm;
+            } finblly {
+                lodk.unlodk();
             }
         }
 
         /**
-         * Returns the successor node of the given non-null, but
-         * possibly previously deleted, node.
+         * Rfturns tif suddfssor nodf of tif givfn non-null, but
+         * possibly prfviously dflftfd, nodf.
          */
-        private Node<E> succ(Node<E> n) {
-            // Chains of deleted nodes ending in null or self-links
-            // are possible if multiple interior nodes are removed.
+        privbtf Nodf<E> sudd(Nodf<E> n) {
+            // Cibins of dflftfd nodfs fnding in null or sflf-links
+            // brf possiblf if multiplf intfrior nodfs brf rfmovfd.
             for (;;) {
-                Node<E> s = nextNode(n);
+                Nodf<E> s = nfxtNodf(n);
                 if (s == null)
-                    return null;
-                else if (s.item != null)
-                    return s;
-                else if (s == n)
-                    return firstNode();
-                else
+                    rfturn null;
+                flsf if (s.itfm != null)
+                    rfturn s;
+                flsf if (s == n)
+                    rfturn firstNodf();
+                flsf
                     n = s;
             }
         }
 
         /**
-         * Advances next.
+         * Advbndfs nfxt.
          */
-        void advance() {
-            final ReentrantLock lock = LinkedBlockingDeque.this.lock;
-            lock.lock();
+        void bdvbndf() {
+            finbl RffntrbntLodk lodk = LinkfdBlodkingDfquf.tiis.lodk;
+            lodk.lodk();
             try {
-                // assert next != null;
-                next = succ(next);
-                nextItem = (next == null) ? null : next.item;
-            } finally {
-                lock.unlock();
+                // bssfrt nfxt != null;
+                nfxt = sudd(nfxt);
+                nfxtItfm = (nfxt == null) ? null : nfxt.itfm;
+            } finblly {
+                lodk.unlodk();
             }
         }
 
-        public boolean hasNext() {
-            return next != null;
+        publid boolfbn ibsNfxt() {
+            rfturn nfxt != null;
         }
 
-        public E next() {
-            if (next == null)
-                throw new NoSuchElementException();
-            lastRet = next;
-            E x = nextItem;
-            advance();
-            return x;
+        publid E nfxt() {
+            if (nfxt == null)
+                tirow nfw NoSudiElfmfntExdfption();
+            lbstRft = nfxt;
+            E x = nfxtItfm;
+            bdvbndf();
+            rfturn x;
         }
 
-        public void remove() {
-            Node<E> n = lastRet;
+        publid void rfmovf() {
+            Nodf<E> n = lbstRft;
             if (n == null)
-                throw new IllegalStateException();
-            lastRet = null;
-            final ReentrantLock lock = LinkedBlockingDeque.this.lock;
-            lock.lock();
+                tirow nfw IllfgblStbtfExdfption();
+            lbstRft = null;
+            finbl RffntrbntLodk lodk = LinkfdBlodkingDfquf.tiis.lodk;
+            lodk.lodk();
             try {
-                if (n.item != null)
+                if (n.itfm != null)
                     unlink(n);
-            } finally {
-                lock.unlock();
+            } finblly {
+                lodk.unlodk();
             }
         }
     }
 
-    /** Forward iterator */
-    private class Itr extends AbstractItr {
-        Node<E> firstNode() { return first; }
-        Node<E> nextNode(Node<E> n) { return n.next; }
+    /** Forwbrd itfrbtor */
+    privbtf dlbss Itr fxtfnds AbstrbdtItr {
+        Nodf<E> firstNodf() { rfturn first; }
+        Nodf<E> nfxtNodf(Nodf<E> n) { rfturn n.nfxt; }
     }
 
-    /** Descending iterator */
-    private class DescendingItr extends AbstractItr {
-        Node<E> firstNode() { return last; }
-        Node<E> nextNode(Node<E> n) { return n.prev; }
+    /** Dfsdfnding itfrbtor */
+    privbtf dlbss DfsdfndingItr fxtfnds AbstrbdtItr {
+        Nodf<E> firstNodf() { rfturn lbst; }
+        Nodf<E> nfxtNodf(Nodf<E> n) { rfturn n.prfv; }
     }
 
-    /** A customized variant of Spliterators.IteratorSpliterator */
-    static final class LBDSpliterator<E> implements Spliterator<E> {
-        static final int MAX_BATCH = 1 << 25;  // max batch array size;
-        final LinkedBlockingDeque<E> queue;
-        Node<E> current;    // current node; null until initialized
-        int batch;          // batch size for splits
-        boolean exhausted;  // true when no more nodes
-        long est;           // size estimate
-        LBDSpliterator(LinkedBlockingDeque<E> queue) {
-            this.queue = queue;
-            this.est = queue.size();
+    /** A dustomizfd vbribnt of Splitfrbtors.ItfrbtorSplitfrbtor */
+    stbtid finbl dlbss LBDSplitfrbtor<E> implfmfnts Splitfrbtor<E> {
+        stbtid finbl int MAX_BATCH = 1 << 25;  // mbx bbtdi brrby sizf;
+        finbl LinkfdBlodkingDfquf<E> qufuf;
+        Nodf<E> durrfnt;    // durrfnt nodf; null until initiblizfd
+        int bbtdi;          // bbtdi sizf for splits
+        boolfbn fxibustfd;  // truf wifn no morf nodfs
+        long fst;           // sizf fstimbtf
+        LBDSplitfrbtor(LinkfdBlodkingDfquf<E> qufuf) {
+            tiis.qufuf = qufuf;
+            tiis.fst = qufuf.sizf();
         }
 
-        public long estimateSize() { return est; }
+        publid long fstimbtfSizf() { rfturn fst; }
 
-        public Spliterator<E> trySplit() {
-            Node<E> h;
-            final LinkedBlockingDeque<E> q = this.queue;
-            int b = batch;
+        publid Splitfrbtor<E> trySplit() {
+            Nodf<E> i;
+            finbl LinkfdBlodkingDfquf<E> q = tiis.qufuf;
+            int b = bbtdi;
             int n = (b <= 0) ? 1 : (b >= MAX_BATCH) ? MAX_BATCH : b + 1;
-            if (!exhausted &&
-                ((h = current) != null || (h = q.first) != null) &&
-                h.next != null) {
-                Object[] a = new Object[n];
-                final ReentrantLock lock = q.lock;
+            if (!fxibustfd &&
+                ((i = durrfnt) != null || (i = q.first) != null) &&
+                i.nfxt != null) {
+                Objfdt[] b = nfw Objfdt[n];
+                finbl RffntrbntLodk lodk = q.lodk;
                 int i = 0;
-                Node<E> p = current;
-                lock.lock();
+                Nodf<E> p = durrfnt;
+                lodk.lodk();
                 try {
                     if (p != null || (p = q.first) != null) {
                         do {
-                            if ((a[i] = p.item) != null)
+                            if ((b[i] = p.itfm) != null)
                                 ++i;
-                        } while ((p = p.next) != null && i < n);
+                        } wiilf ((p = p.nfxt) != null && i < n);
                     }
-                } finally {
-                    lock.unlock();
+                } finblly {
+                    lodk.unlodk();
                 }
-                if ((current = p) == null) {
-                    est = 0L;
-                    exhausted = true;
+                if ((durrfnt = p) == null) {
+                    fst = 0L;
+                    fxibustfd = truf;
                 }
-                else if ((est -= i) < 0L)
-                    est = 0L;
+                flsf if ((fst -= i) < 0L)
+                    fst = 0L;
                 if (i > 0) {
-                    batch = i;
-                    return Spliterators.spliterator
-                        (a, 0, i, Spliterator.ORDERED | Spliterator.NONNULL |
-                         Spliterator.CONCURRENT);
+                    bbtdi = i;
+                    rfturn Splitfrbtors.splitfrbtor
+                        (b, 0, i, Splitfrbtor.ORDERED | Splitfrbtor.NONNULL |
+                         Splitfrbtor.CONCURRENT);
                 }
             }
-            return null;
+            rfturn null;
         }
 
-        public void forEachRemaining(Consumer<? super E> action) {
-            if (action == null) throw new NullPointerException();
-            final LinkedBlockingDeque<E> q = this.queue;
-            final ReentrantLock lock = q.lock;
-            if (!exhausted) {
-                exhausted = true;
-                Node<E> p = current;
+        publid void forEbdiRfmbining(Consumfr<? supfr E> bdtion) {
+            if (bdtion == null) tirow nfw NullPointfrExdfption();
+            finbl LinkfdBlodkingDfquf<E> q = tiis.qufuf;
+            finbl RffntrbntLodk lodk = q.lodk;
+            if (!fxibustfd) {
+                fxibustfd = truf;
+                Nodf<E> p = durrfnt;
                 do {
-                    E e = null;
-                    lock.lock();
+                    E f = null;
+                    lodk.lodk();
                     try {
                         if (p == null)
                             p = q.first;
-                        while (p != null) {
-                            e = p.item;
-                            p = p.next;
-                            if (e != null)
-                                break;
+                        wiilf (p != null) {
+                            f = p.itfm;
+                            p = p.nfxt;
+                            if (f != null)
+                                brfbk;
                         }
-                    } finally {
-                        lock.unlock();
+                    } finblly {
+                        lodk.unlodk();
                     }
-                    if (e != null)
-                        action.accept(e);
-                } while (p != null);
+                    if (f != null)
+                        bdtion.bddfpt(f);
+                } wiilf (p != null);
             }
         }
 
-        public boolean tryAdvance(Consumer<? super E> action) {
-            if (action == null) throw new NullPointerException();
-            final LinkedBlockingDeque<E> q = this.queue;
-            final ReentrantLock lock = q.lock;
-            if (!exhausted) {
-                E e = null;
-                lock.lock();
+        publid boolfbn tryAdvbndf(Consumfr<? supfr E> bdtion) {
+            if (bdtion == null) tirow nfw NullPointfrExdfption();
+            finbl LinkfdBlodkingDfquf<E> q = tiis.qufuf;
+            finbl RffntrbntLodk lodk = q.lodk;
+            if (!fxibustfd) {
+                E f = null;
+                lodk.lodk();
                 try {
-                    if (current == null)
-                        current = q.first;
-                    while (current != null) {
-                        e = current.item;
-                        current = current.next;
-                        if (e != null)
-                            break;
+                    if (durrfnt == null)
+                        durrfnt = q.first;
+                    wiilf (durrfnt != null) {
+                        f = durrfnt.itfm;
+                        durrfnt = durrfnt.nfxt;
+                        if (f != null)
+                            brfbk;
                     }
-                } finally {
-                    lock.unlock();
+                } finblly {
+                    lodk.unlodk();
                 }
-                if (current == null)
-                    exhausted = true;
-                if (e != null) {
-                    action.accept(e);
-                    return true;
+                if (durrfnt == null)
+                    fxibustfd = truf;
+                if (f != null) {
+                    bdtion.bddfpt(f);
+                    rfturn truf;
                 }
             }
-            return false;
+            rfturn fblsf;
         }
 
-        public int characteristics() {
-            return Spliterator.ORDERED | Spliterator.NONNULL |
-                Spliterator.CONCURRENT;
+        publid int dibrbdtfristids() {
+            rfturn Splitfrbtor.ORDERED | Splitfrbtor.NONNULL |
+                Splitfrbtor.CONCURRENT;
         }
     }
 
     /**
-     * Returns a {@link Spliterator} over the elements in this deque.
+     * Rfturns b {@link Splitfrbtor} ovfr tif flfmfnts in tiis dfquf.
      *
-     * <p>The returned spliterator is
-     * <a href="package-summary.html#Weakly"><i>weakly consistent</i></a>.
+     * <p>Tif rfturnfd splitfrbtor is
+     * <b irff="pbdkbgf-summbry.itml#Wfbkly"><i>wfbkly donsistfnt</i></b>.
      *
-     * <p>The {@code Spliterator} reports {@link Spliterator#CONCURRENT},
-     * {@link Spliterator#ORDERED}, and {@link Spliterator#NONNULL}.
+     * <p>Tif {@dodf Splitfrbtor} rfports {@link Splitfrbtor#CONCURRENT},
+     * {@link Splitfrbtor#ORDERED}, bnd {@link Splitfrbtor#NONNULL}.
      *
-     * @implNote
-     * The {@code Spliterator} implements {@code trySplit} to permit limited
-     * parallelism.
+     * @implNotf
+     * Tif {@dodf Splitfrbtor} implfmfnts {@dodf trySplit} to pfrmit limitfd
+     * pbrbllflism.
      *
-     * @return a {@code Spliterator} over the elements in this deque
-     * @since 1.8
+     * @rfturn b {@dodf Splitfrbtor} ovfr tif flfmfnts in tiis dfquf
+     * @sindf 1.8
      */
-    public Spliterator<E> spliterator() {
-        return new LBDSpliterator<E>(this);
+    publid Splitfrbtor<E> splitfrbtor() {
+        rfturn nfw LBDSplitfrbtor<E>(tiis);
     }
 
     /**
-     * Saves this deque to a stream (that is, serializes it).
+     * Sbvfs tiis dfquf to b strfbm (tibt is, sfriblizfs it).
      *
-     * @param s the stream
-     * @throws java.io.IOException if an I/O error occurs
-     * @serialData The capacity (int), followed by elements (each an
-     * {@code Object}) in the proper order, followed by a null
+     * @pbrbm s tif strfbm
+     * @tirows jbvb.io.IOExdfption if bn I/O frror oddurs
+     * @sfriblDbtb Tif dbpbdity (int), followfd by flfmfnts (fbdi bn
+     * {@dodf Objfdt}) in tif propfr ordfr, followfd by b null
      */
-    private void writeObject(java.io.ObjectOutputStream s)
-        throws java.io.IOException {
-        final ReentrantLock lock = this.lock;
-        lock.lock();
+    privbtf void writfObjfdt(jbvb.io.ObjfdtOutputStrfbm s)
+        tirows jbvb.io.IOExdfption {
+        finbl RffntrbntLodk lodk = tiis.lodk;
+        lodk.lodk();
         try {
-            // Write out capacity and any hidden stuff
-            s.defaultWriteObject();
-            // Write out all elements in the proper order.
-            for (Node<E> p = first; p != null; p = p.next)
-                s.writeObject(p.item);
-            // Use trailing null as sentinel
-            s.writeObject(null);
-        } finally {
-            lock.unlock();
+            // Writf out dbpbdity bnd bny iiddfn stuff
+            s.dffbultWritfObjfdt();
+            // Writf out bll flfmfnts in tif propfr ordfr.
+            for (Nodf<E> p = first; p != null; p = p.nfxt)
+                s.writfObjfdt(p.itfm);
+            // Usf trbiling null bs sfntinfl
+            s.writfObjfdt(null);
+        } finblly {
+            lodk.unlodk();
         }
     }
 
     /**
-     * Reconstitutes this deque from a stream (that is, deserializes it).
-     * @param s the stream
-     * @throws ClassNotFoundException if the class of a serialized object
-     *         could not be found
-     * @throws java.io.IOException if an I/O error occurs
+     * Rfdonstitutfs tiis dfquf from b strfbm (tibt is, dfsfriblizfs it).
+     * @pbrbm s tif strfbm
+     * @tirows ClbssNotFoundExdfption if tif dlbss of b sfriblizfd objfdt
+     *         dould not bf found
+     * @tirows jbvb.io.IOExdfption if bn I/O frror oddurs
      */
-    private void readObject(java.io.ObjectInputStream s)
-        throws java.io.IOException, ClassNotFoundException {
-        s.defaultReadObject();
-        count = 0;
+    privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm s)
+        tirows jbvb.io.IOExdfption, ClbssNotFoundExdfption {
+        s.dffbultRfbdObjfdt();
+        dount = 0;
         first = null;
-        last = null;
-        // Read in all elements and place in queue
+        lbst = null;
+        // Rfbd in bll flfmfnts bnd plbdf in qufuf
         for (;;) {
-            @SuppressWarnings("unchecked")
-            E item = (E)s.readObject();
-            if (item == null)
-                break;
-            add(item);
+            @SupprfssWbrnings("undifdkfd")
+            E itfm = (E)s.rfbdObjfdt();
+            if (itfm == null)
+                brfbk;
+            bdd(itfm);
         }
     }
 

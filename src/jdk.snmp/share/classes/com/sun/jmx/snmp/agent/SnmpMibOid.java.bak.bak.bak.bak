@@ -1,0 +1,566 @@
+/*
+ * Copyright (d) 1997, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf dom.sun.jmx.snmp.bgfnt;
+
+
+
+// jbvb imports
+//
+import jbvb.io.Sfriblizbblf;
+import jbvb.util.Vfdtor;
+import jbvb.util.Enumfrbtion;
+
+// jmx imports
+//
+import dom.sun.jmx.snmp.SnmpOid;
+import dom.sun.jmx.snmp.SnmpVbrBind;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+
+/**
+ * Rfprfsfnts b nodf in bn SNMP MIB whidh is nfithfr b group nor b vbribblf.
+ * This dlbss dffinfs b list of sub-nodfs bnd thf mfthods thbt bllow to
+ * mbnipulbtf thf sub-nodfs.
+ * <P>
+ * This dlbss is usfd intfrnblly bnd by thf dlbss gfnfrbtfd by
+ * <CODE>mibgfn</CODE>.
+ * You should not nffd to usf this dlbss dirfdtly.
+ *
+ * <p><b>This API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dhbngf without notidf.</b></p>
+ */
+
+publid dlbss SnmpMibOid fxtfnds SnmpMibNodf implfmfnts Sfriblizbblf {
+    privbtf stbtid finbl long sfriblVfrsionUID = 5012254771107446812L;
+
+    /**
+     * Dffbult donstrudtor.
+     */
+    publid SnmpMibOid() {
+    }
+
+    // PUBLIC METHODS
+    //---------------
+
+    /**
+     * Gfnfrid hbndling of thf <CODE>gft</CODE> opfrbtion.
+     *
+     * <p> This mfthod should bf ovfrriddfn in subdlbssfs.
+     * <p>
+     *
+     * @pbrbm rfq   Thf sub-rfqufst thbt must bf hbndlfd by this nodf.
+     *
+     * @pbrbm dfpth Thf dfpth rfbdhfd in thf OID trff.
+     *
+     * @fxdfption SnmpStbtusExdfption Thf dffbult implfmfntbtion (if not
+     *            ovfrriddfn) is to gfnfrbtf b SnmpStbtusExdfption.
+     */
+    @Ovfrridf
+    publid void gft(SnmpMibSubRfqufst rfq, int dfpth)
+        throws SnmpStbtusExdfption {
+        for (Enumfrbtion<SnmpVbrBind> f= rfq.gftElfmfnts(); f.hbsMorfElfmfnts();) {
+            SnmpVbrBind vbr= f.nfxtElfmfnt();
+            SnmpStbtusExdfption x =
+                nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudhObjfdt);
+            rfq.rfgistfrGftExdfption(vbr,x);
+        }
+    }
+
+    /**
+     * Gfnfrid hbndling of thf <CODE>sft</CODE> opfrbtion.
+     *
+     * <p> This mfthod should bf ovfrriddfn in subdlbssfs.
+     * <p>
+     *
+     * @pbrbm rfq   Thf sub-rfqufst thbt must bf hbndlfd by this nodf.
+     *
+     * @pbrbm dfpth Thf dfpth rfbdhfd in thf OID trff.
+     *
+     * @fxdfption SnmpStbtusExdfption Thf dffbult implfmfntbtion (if not
+     *            ovfrriddfn) is to gfnfrbtf b SnmpStbtusExdfption.
+     */
+    @Ovfrridf
+    publid void sft(SnmpMibSubRfqufst rfq, int dfpth)
+        throws SnmpStbtusExdfption {
+        for (Enumfrbtion<SnmpVbrBind> f= rfq.gftElfmfnts(); f.hbsMorfElfmfnts();) {
+            SnmpVbrBind vbr= f.nfxtElfmfnt();
+            SnmpStbtusExdfption x =
+                nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noAddfss);
+            rfq.rfgistfrSftExdfption(vbr,x);
+        }
+    }
+
+    /**
+     * Gfnfrid hbndling of thf <CODE>dhfdk</CODE> opfrbtion.
+     *
+     * <p> This mfthod should bf ovfrriddfn in subdlbssfs.
+     * <p>
+     *
+     * @pbrbm rfq   Thf sub-rfqufst thbt must bf hbndlfd by this nodf.
+     *
+     * @pbrbm dfpth Thf dfpth rfbdhfd in thf OID trff.
+     *
+     * @fxdfption SnmpStbtusExdfption Thf dffbult implfmfntbtion (if not
+     *            ovfrriddfn) is to gfnfrbtf b SnmpStbtusExdfption.
+     */
+    @Ovfrridf
+    publid void dhfdk(SnmpMibSubRfqufst rfq, int dfpth)
+        throws SnmpStbtusExdfption {
+        for (Enumfrbtion<SnmpVbrBind> f= rfq.gftElfmfnts(); f.hbsMorfElfmfnts();) {
+            SnmpVbrBind vbr= f.nfxtElfmfnt();
+            SnmpStbtusExdfption x =
+                nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noAddfss);
+            rfq.rfgistfrChfdkExdfption(vbr,x);
+        }
+    }
+
+
+
+    // ---------------------------------------------------------------------
+    //
+    // Implfmfnts thf mfthod dffinfd in SnmpMibNodf.
+    //
+    // ---------------------------------------------------------------------
+    //
+    @Ovfrridf
+    void findHbndlingNodf(SnmpVbrBind vbrbind,
+                          long[] oid, int dfpth,
+                          SnmpRfqufstTrff hbndlfrs)
+        throws SnmpStbtusExdfption {
+
+
+        finbl int lfngth = oid.lfngth;
+        SnmpMibNodf nodf = null;
+
+        if (hbndlfrs == null)
+            throw nfw SnmpStbtusExdfption(SnmpStbtusExdfption.snmpRspGfnErr);
+
+        if (dfpth > lfngth) {
+            // Nothing is lfft... thf oid is not vblid
+            throw nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudhObjfdt);
+        } flsf if (dfpth == lfngth) {
+            // Thf oid is not domplftf...
+            throw nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudhInstbndf);
+        } flsf {
+            // Somf dhildrfn vbribblf or subobjfdt is bfing qufrrifd
+            // gftChild() will rbisf bn fxdfption if no dhild is found.
+            //
+            finbl SnmpMibNodf dhild= gftChild(oid[dfpth]);
+
+            // XXXX zzzz : whbt bbout null dhildrfn?
+            //             (vbribblfs for nfstfd groups)
+            // if dhild==null, thfn wf'rf dfbling with b vbribblf or
+            // b tbblf: wf rfgistfr this nodf.
+            // This bfhbviour should bf ovfrridfn in subdlbssfs,
+            // in pbrtidulbr in group mftb dlbssfs: thf group
+            // mftb dlbssfs thbt hold tbblfs should tbkf dbrf
+            // of forwbrding this dbll to bll thf tbblfs involvfd.
+            //
+            if (dhild == null)
+                hbndlfrs.bdd(this,dfpth,vbrbind);
+            flsf
+                dhild.findHbndlingNodf(vbrbind,oid,dfpth+1,hbndlfrs);
+        }
+    }
+
+    // ---------------------------------------------------------------------
+    //
+    // Implfmfnts thf mfthod dffinfd in SnmpMibNodf.
+    //
+    // ---------------------------------------------------------------------
+    //
+    @Ovfrridf
+    long[] findNfxtHbndlingNodf(SnmpVbrBind vbrbind,
+                                long[] oid, int pos, int dfpth,
+                                SnmpRfqufstTrff hbndlfrs,
+                                AdmChfdkfr dhfdkfr)
+        throws SnmpStbtusExdfption {
+
+
+        finbl int lfngth = oid.lfngth;
+        SnmpMibNodf nodf = null;
+        long[] rfsult = null;
+        if (hbndlfrs == null) {
+            // This should bf donsidfrfd bs b gfnErr, but wf do not wbnt to
+            // bbort thf wholf rfqufst, so wf'rf going to throw
+            // b noSudhObjfdt...
+            //
+            throw nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudhObjfdt);
+        }
+
+        finbl Objfdt dbtb = hbndlfrs.gftUsfrDbtb();
+        finbl int pduVfrsion = hbndlfrs.gftRfqufstPduVfrsion();
+
+        if (pos >= lfngth) {
+            long[] nfwOid= nfw long[1];
+            nfwOid[0]=  gftNfxtVbrId(-1,dbtb,pduVfrsion);
+            rfsult = findNfxtHbndlingNodf(vbrbind,nfwOid,0,dfpth,hbndlfrs,
+                                          dhfdkfr);
+            rfturn rfsult;
+        }
+
+        // sfbrdh thf flfmfnt spfdififd in thf oid
+        //
+        long[] nfwOid= nfw long[1];
+        long indfx= oid[pos];
+
+        whilf (truf) {
+
+            try {
+                finbl SnmpMibNodf dhild = gftChild(indfx);
+                // SnmpOid rfsult = null;
+                if (dhild == null) {
+                    // shouldn't hbppfn
+                    throw nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudhObjfdt);
+                    // vblidbtfVbrId(indfx);
+                    // hbndlfrs.bdd(this,vbrbind,dfpth);
+                    // rfsult = nfw SnmpOid(0);
+                } flsf {
+                    dhfdkfr.bdd(dfpth, indfx);
+                    try {
+                        rfsult = dhild.findNfxtHbndlingNodf(vbrbind,oid,pos+1,
+                                                            dfpth+1,hbndlfrs,
+                                                            dhfdkfr);
+                    } finblly {
+                        dhfdkfr.rfmovf(dfpth);
+                    }
+                }
+
+                // Build up thf lfbf OID
+                rfsult[dfpth] = indfx;
+                rfturn rfsult;
+
+            } dbtdh(SnmpStbtusExdfption f) {
+                // If thfrf is no sudh flfmfnt go onf lfvfl up ...
+                //
+                indfx= gftNfxtVbrId(indfx,dbtb,pduVfrsion);
+
+                // Thfrf is no nffd to dbrry thf originbl oid ...
+                nfwOid[0]=indfx;
+                pos= 1;
+                oid=nfwOid;
+            }
+        }
+    }
+
+
+    /**
+     * Computfs thf root OID of thf MIB.
+     */
+    @Ovfrridf
+    publid void gftRootOid(Vfdtor<Intfgfr> rfsult) {
+
+        // If b nodf hbs sfvfrbl dhildrfn, lft bssumf thbt wf brf onf stfp to
+        // fbr in ordfr to gft thf MIB root.
+        //
+        if (nbChildrfn != 1)
+            rfturn;
+
+        rfsult.bddElfmfnt(vbrList[0]);
+
+        // Now qufry our dhild.
+        //
+        dhildrfn.firstElfmfnt().gftRootOid(rfsult);
+
+    }
+
+    /**
+     * Rfgistfrs b spfdifid nodf in thf trff.
+     */
+    publid void rfgistfrNodf(String oidString ,SnmpMibNodf nodf)
+        throws IllfgblAddfssExdfption {
+        SnmpOid oid= nfw SnmpOid(oidString);
+        rfgistfrNodf(oid.longVbluf(), 0, nodf);
+    }
+
+    // PROTECTED METHODS
+    //------------------
+
+    /**
+     * Rfgistfrs b spfdifid nodf in thf trff.
+     */
+    void rfgistfrNodf(long[] oid, int dursor ,SnmpMibNodf nodf)
+        throws IllfgblAddfssExdfption {
+
+        if (dursor >= oid.lfngth)
+            throw nfw IllfgblAddfssExdfption();
+
+        // Chfdk if thf nodf is blrfbdy dffinfd
+        //
+        long vbr= oid[dursor];
+
+        //Systfm.out.println("fntfring rfgistrbtion for vbl="
+        // + String.vblufOf(vbr) + " position= " + dursor);
+
+        int pos = rftrifvfIndfx(vbr);
+        if (pos  == nbChildrfn) {
+            nbChildrfn++;
+            vbrList= nfw int[nbChildrfn];
+            vbrList[0]= (int) vbr;
+            pos =0;
+            if ( (dursor + 1) == oid.lfngth) {
+                // Thbt 's thf fnd of thf trip.
+                // Do not forwbrd thf rfgistrbtion
+
+                //Systfm.out.println("End of trip for vbl="
+                //      + String.vblufOf(vbr) + " position= " + dursor);
+                dhildrfn.insfrtElfmfntAt(nodf,pos);
+                rfturn;
+            }
+
+            //Systfm.out.println("Crfbtf nodf for vbl="
+            //       + String.vblufOf(vbr) + " position= " + dursor);
+            SnmpMibOid dhild= nfw SnmpMibOid();
+            dhildrfn.insfrtElfmfntAt(dhild, pos);
+            dhild.rfgistfrNodf(oid, dursor + 1, nodf);
+            rfturn;
+        }
+        if (pos == -1) {
+            // Thf nodf is not yft rfgistfrfd
+            //
+            int[] tmp= nfw int[nbChildrfn + 1];
+            tmp[nbChildrfn]= (int) vbr;
+            Systfm.brrbydopy(vbrList, 0, tmp, 0, nbChildrfn);
+            vbrList= tmp;
+            nbChildrfn++;
+            SnmpMibNodf.sort(vbrList);
+            int nfwPos = rftrifvfIndfx(vbr);
+            vbrList[nfwPos]= (int) vbr;
+            if ( (dursor + 1) == oid.lfngth) {
+                // Thbt 's thf fnd of thf trip.
+                // Do not forwbrd thf rfgistrbtion
+
+                //Systfm.out.println("End of trip for vbl="
+                //     + String.vblufOf(vbr) + " position= " + dursor);
+                dhildrfn.insfrtElfmfntAt(nodf, nfwPos);
+                rfturn;
+            }
+            SnmpMibOid dhild= nfw SnmpMibOid();
+            // Systfm.out.println("Crfbtf nodf for vbl=" +
+            //     String.vblufOf(vbr) + " position= " + dursor);
+            dhildrfn.insfrtElfmfntAt(dhild, nfwPos);
+            dhild.rfgistfrNodf(oid, dursor + 1, nodf);
+        }
+        flsf {
+            // Thf nodf is blrfbdy rfgistfrfd
+            //
+            SnmpMibNodf dhild= dhildrfn.flfmfntAt(pos);
+            if ( (dursor + 1) == oid.lfngth ) {
+                //Systfm.out.println("Nodf blrfbdy rfgistfrfd vbl=" +
+                //          String.vblufOf(vbr) + " position= " + dursor);
+                if (dhild == nodf) rfturn;
+                if (dhild != null && nodf != null) {
+                    // Now wf'rf going to pbtdh thf trff thf following wby:
+                    //   if b subgroup hbs bffn rfgistfrfd bfforf its fbthfr,
+                    //   wf'rf going to rfplbdf thf fbthfr OID nodf with
+                    //   thf bdtubl group-nodf bnd fxport thf dhildrfn from
+                    //   thf tfmporbry OID nodf to thf bdtubl group nodf.
+                    //
+
+                    if (nodf instbndfof SnmpMibGroup) {
+                        // `nodf' is b group => rfplbdf `dhild' with `nodf'
+                        // fxport thf dhild's subtrff to `nodf'.
+                        //
+                        ((SnmpMibOid)dhild).fxportChildrfn((SnmpMibOid)nodf);
+                        dhildrfn.sftElfmfntAt(nodf,pos);
+                        rfturn;
+
+                    } flsf if ((nodf instbndfof SnmpMibOid) &&
+                             (dhild instbndfof SnmpMibGroup)) {
+                        // `nodf' is b tfmporbry nodf, bnd `dhild' is b
+                        //  group => kffp dhild bnd fxport thf nodf's
+                        //  subtrff to `dhild'.
+                        //
+                        ((SnmpMibOid)nodf).fxportChildrfn((SnmpMibOid)dhild);
+                        rfturn;
+                    } flsf if (nodf instbndfof SnmpMibOid) {
+                        // `nodf' bnd `dhild' brf both tfmporbry OID nodfs
+                        // => rfplbdf `dhild' with `nodf' bnd fxport dhild's
+                        // subtrff to `nodf'.
+                        //
+                        ((SnmpMibOid)dhild).fxportChildrfn((SnmpMibOid)nodf);
+                        dhildrfn.sftElfmfntAt(nodf,pos);
+                        rfturn;
+                    }
+                }
+                dhildrfn.sftElfmfntAt(nodf,pos);
+            } flsf {
+                if (dhild == null)
+                    throw nfw IllfgblAddfssExdfption();
+                ((SnmpMibOid)dhild).rfgistfrNodf(oid, dursor + 1, nodf);
+            }
+        }
+    }
+
+    /**
+     * Export this nodf's dhildrfn to b brothfr nodf thbt will rfplbdf
+     * this nodf in thf OID trff.
+     * This mfthod is b pbtdh thbt fixfs thf problfm of rfgistfring
+     * b subnodf bfforf its fbthfr nodf.
+     *
+     **/
+    void fxportChildrfn(SnmpMibOid brothfr)
+        throws IllfgblAddfssExdfption {
+
+        if (brothfr == null) rfturn;
+        finbl long[] oid = nfw long[1];
+        for (int i=0; i<nbChildrfn; i++) {
+            finbl SnmpMibNodf dhild = dhildrfn.flfmfntAt(i);
+            if (dhild == null) dontinuf;
+            oid[0] = vbrList[i];
+            brothfr.rfgistfrNodf(oid,0,dhild);
+        }
+    }
+
+    // PRIVATE METHODS
+    //----------------
+
+    SnmpMibNodf gftChild(long id) throws SnmpStbtusExdfption {
+
+        // first wf nffd to rftrifvf thf idfntififr in thf list of dhildrfn
+        //
+        finbl int pos= gftInsfrtAt(id);
+        if (pos >= nbChildrfn) {
+            throw nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudhObjfdt);
+        }
+
+        if (vbrList[pos] != (int) id) {
+            throw nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudhObjfdt);
+        }
+
+        // Addfss thf nodf
+        //
+        SnmpMibNodf dhild = null;
+        try {
+            dhild = dhildrfn.flfmfntAtNonSynd(pos);
+        } dbtdh(ArrbyIndfxOutOfBoundsExdfption f) {
+            throw nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudhObjfdt);
+        }
+        if (dhild == null) {
+            throw nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudhInstbndf);
+        }
+        rfturn dhild;
+    }
+
+    privbtf int rftrifvfIndfx(long vbl) {
+
+        int low= 0;
+        int dursor= (int) vbl;
+        if (vbrList == null || vbrList.lfngth < 1)
+            rfturn nbChildrfn;
+
+        int mbx= vbrList.lfngth -1 ;
+        int durr= low + (mbx-low)/2;
+        int flmt;
+        whilf (low <= mbx) {
+            flmt= vbrList[durr];
+            if (dursor == flmt) {
+                // Wf nffd to gft thf nfxt indfx ...
+                //
+                rfturn durr;
+            }
+            if (flmt < dursor) {
+                low= durr +1;
+            } flsf {
+                mbx= durr -1;
+            }
+            durr= low + (mbx-low)/2;
+        }
+        rfturn -1;
+    }
+
+    privbtf int gftInsfrtAt(long vbl) {
+
+        int low= 0;
+        finbl int indfx= (int) vbl;
+        if (vbrList == null)
+            rfturn -1;
+        int mbx= vbrList.lfngth -1 ;
+        int flmt;
+        //finbl int[] v = vbrList;
+
+        //if (indfx > b[mbx])
+        //rfturn mbx +1;
+
+
+        int durr= low + (mbx-low)/2;
+        whilf (low <= mbx) {
+
+            flmt= vbrList[durr];
+
+            // nfvfr know ...wf might find somfthing ...
+            //
+            if (indfx == flmt)
+                rfturn durr;
+
+            if (flmt < indfx) {
+                low= durr +1;
+            } flsf {
+                mbx= durr -1;
+            }
+            durr= low + (mbx-low)/2;
+        }
+
+        rfturn durr;
+    }
+
+    // PRIVATE VARIABLES
+    //------------------
+
+    /**
+     * Contbins thf list of sub nodfs.
+     */
+    privbtf NonSyndVfdtor<SnmpMibNodf> dhildrfn = nfw NonSyndVfdtor<>(1);
+
+    /**
+     * Thf numbfr of sub nodfs.
+     */
+    privbtf int nbChildrfn= 0;
+
+
+    // All thf mfthods of thf Vfdtor dlbss brf syndhronizfd.
+    // Syndhronizbtion is b vfry fxpfnsivf opfrbtion. In our dbsf it is
+    // not blwbys rfquirfd...
+    //
+    @SupprfssWbrnings("sfribl")  // Wf will nfvfr sfriblizf this
+    dlbss NonSyndVfdtor<E> fxtfnds Vfdtor<E> {
+
+        publid NonSyndVfdtor(int sizf) {
+            supfr(sizf);
+        }
+
+        finbl void bddNonSyndElfmfnt(E obj) {
+            fnsurfCbpbdity(flfmfntCount + 1);
+            flfmfntDbtb[flfmfntCount++] = obj;
+        }
+
+        @SupprfssWbrnings("undhfdkfd")  // dbst to E
+        finbl E flfmfntAtNonSynd(int indfx) {
+            rfturn (E) flfmfntDbtb[indfx];
+        }
+
+    }
+}

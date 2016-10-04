@@ -1,514 +1,514 @@
 /*
- * Copyright (c) 1999, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#define USE_ERROR
-#define USE_TRACE
+#dffinf USE_ERROR
+#dffinf USE_TRACE
 
-/* include Java Sound specific headers as C code */
-extern "C" {
-#include "PLATFORM_API_WinOS_Util.h"
+/* indludf Jbvb Sound spfdifid ifbdfrs bs C dodf */
+fxtfrn "C" {
+#indludf "PLATFORM_API_WinOS_Util.i"
 }
 
 #if USE_PLATFORM_MIDI_IN == TRUE
 
-#ifdef USE_ERROR
-#include <stdio.h>
+#ifdff USE_ERROR
+#indludf <stdio.i>
 
-/* Use THIS_FILE when it is available. */
-#ifndef THIS_FILE
-    #define THIS_FILE __FILE__
-#endif
+/* Usf THIS_FILE wifn it is bvbilbblf. */
+#ifndff THIS_FILE
+    #dffinf THIS_FILE __FILE__
+#fndif
 
-#define MIDIIN_CHECK_ERROR { \
-        if (err != MMSYSERR_NOERROR) \
-            ERROR3("MIDI IN Error in %s:%d : %s\n", THIS_FILE, __LINE__, MIDI_IN_GetErrorStr((INT32) err)); \
+#dffinf MIDIIN_CHECK_ERROR { \
+        if (frr != MMSYSERR_NOERROR) \
+            ERROR3("MIDI IN Error in %s:%d : %s\n", THIS_FILE, __LINE__, MIDI_IN_GftErrorStr((INT32) frr)); \
     }
-#else
-#define MIDIIN_CHECK_ERROR
-#endif
+#flsf
+#dffinf MIDIIN_CHECK_ERROR
+#fndif
 
 /*
- * Callback from the MIDI device for all messages.
+ * Cbllbbdk from tif MIDI dfvidf for bll mfssbgfs.
  */
-//$$fb dwParam1 holds a pointer for long messages. How can that be a DWORD then ???
-void CALLBACK MIDI_IN_PutMessage( HMIDIIN hMidiIn, UINT wMsg, UINT_PTR dwInstance, UINT_PTR dwParam1, UINT_PTR dwParam2 ) {
+//$$fb dwPbrbm1 iolds b pointfr for long mfssbgfs. How dbn tibt bf b DWORD tifn ???
+void CALLBACK MIDI_IN_PutMfssbgf( HMIDIIN iMidiIn, UINT wMsg, UINT_PTR dwInstbndf, UINT_PTR dwPbrbm1, UINT_PTR dwPbrbm2 ) {
 
-    MidiDeviceHandle* handle = (MidiDeviceHandle*) dwInstance;
+    MidiDfvidfHbndlf* ibndlf = (MidiDfvidfHbndlf*) dwInstbndf;
 
-    TRACE3("> MIDI_IN_PutMessage, hMidiIn: %x, wMsg: %x, dwInstance: %x\n", hMidiIn, wMsg, dwInstance);
-    TRACE2("                      dwParam1: %x, dwParam2: %x\n", dwParam1, dwParam2);
+    TRACE3("> MIDI_IN_PutMfssbgf, iMidiIn: %x, wMsg: %x, dwInstbndf: %x\n", iMidiIn, wMsg, dwInstbndf);
+    TRACE2("                      dwPbrbm1: %x, dwPbrbm2: %x\n", dwPbrbm1, dwPbrbm2);
 
-    switch(wMsg) {
+    switdi(wMsg) {
 
-    case MIM_OPEN:
-        TRACE0("< MIDI_IN_PutMessage: MIM_OPEN\n");
-        break;
+    dbsf MIM_OPEN:
+        TRACE0("< MIDI_IN_PutMfssbgf: MIM_OPEN\n");
+        brfbk;
 
-    case MIM_CLOSE:
-        TRACE0("< MIDI_IN_PutMessage: MIM_CLOSE\n");
-        break;
+    dbsf MIM_CLOSE:
+        TRACE0("< MIDI_IN_PutMfssbgf: MIM_CLOSE\n");
+        brfbk;
 
-    case MIM_MOREDATA:
-    case MIM_DATA:
-        TRACE3("  MIDI_IN_PutMessage: MIM_MOREDATA or MIM_DATA. status=%x  data1=%x  data2=%x\n",
-               dwParam1 & 0xFF, (dwParam1 & 0xFF00)>>8, (dwParam1 & 0xFF0000)>>16);
-        if (handle!=NULL && handle->queue!=NULL && handle->platformData) {
-            MIDI_QueueAddShort(handle->queue,
-                               // queue stores packedMsg in big endian
-                               //(dwParam1 << 24) | ((dwParam1 << 8) & 0xFF0000) | ((dwParam1 >> 8) & 0xFF00),
-                               (UINT32) dwParam1,
-                               // queue uses microseconds
-                               ((INT64) dwParam2)*1000,
-                               // overwrite if queue is full
+    dbsf MIM_MOREDATA:
+    dbsf MIM_DATA:
+        TRACE3("  MIDI_IN_PutMfssbgf: MIM_MOREDATA or MIM_DATA. stbtus=%x  dbtb1=%x  dbtb2=%x\n",
+               dwPbrbm1 & 0xFF, (dwPbrbm1 & 0xFF00)>>8, (dwPbrbm1 & 0xFF0000)>>16);
+        if (ibndlf!=NULL && ibndlf->qufuf!=NULL && ibndlf->plbtformDbtb) {
+            MIDI_QufufAddSiort(ibndlf->qufuf,
+                               // qufuf storfs pbdkfdMsg in big fndibn
+                               //(dwPbrbm1 << 24) | ((dwPbrbm1 << 8) & 0xFF0000) | ((dwPbrbm1 >> 8) & 0xFF00),
+                               (UINT32) dwPbrbm1,
+                               // qufuf usfs midrosfdonds
+                               ((INT64) dwPbrbm2)*1000,
+                               // ovfrwritf if qufuf is full
                                TRUE);
-            SetEvent((HANDLE) handle->platformData);
+            SftEvfnt((HANDLE) ibndlf->plbtformDbtb);
         }
-        TRACE0("< MIDI_IN_PutMessage\n");
-        break;
+        TRACE0("< MIDI_IN_PutMfssbgf\n");
+        brfbk;
 
-    case MIM_LONGDATA:
-        TRACE1("  MIDI_IN_PutMessage: MIM_LONGDATA (%d bytes recorded)\n", (int) (((MIDIHDR*) dwParam1)->dwBytesRecorded));
-        if (handle!=NULL && handle->queue!=NULL && handle->platformData) {
-            MIDIHDR* hdr = (MIDIHDR*) dwParam1;
-            TRACE2("  MIDI_IN_PutMessage: Adding to queue: index %d, %d bytes\n", (INT32) hdr->dwUser, hdr->dwBytesRecorded);
-            MIDI_QueueAddLong(handle->queue,
-                              (UBYTE*) hdr->lpData,
-                              (UINT32) hdr->dwBytesRecorded,
-                              // sysex buffer index
-                              (INT32) hdr->dwUser,
-                              // queue uses microseconds
-                              ((INT64) dwParam2)*1000,
-                              // overwrite if queue is full
+    dbsf MIM_LONGDATA:
+        TRACE1("  MIDI_IN_PutMfssbgf: MIM_LONGDATA (%d bytfs rfdordfd)\n", (int) (((MIDIHDR*) dwPbrbm1)->dwBytfsRfdordfd));
+        if (ibndlf!=NULL && ibndlf->qufuf!=NULL && ibndlf->plbtformDbtb) {
+            MIDIHDR* idr = (MIDIHDR*) dwPbrbm1;
+            TRACE2("  MIDI_IN_PutMfssbgf: Adding to qufuf: indfx %d, %d bytfs\n", (INT32) idr->dwUsfr, idr->dwBytfsRfdordfd);
+            MIDI_QufufAddLong(ibndlf->qufuf,
+                              (UBYTE*) idr->lpDbtb,
+                              (UINT32) idr->dwBytfsRfdordfd,
+                              // sysfx bufffr indfx
+                              (INT32) idr->dwUsfr,
+                              // qufuf usfs midrosfdonds
+                              ((INT64) dwPbrbm2)*1000,
+                              // ovfrwritf if qufuf is full
                               TRUE);
-            SetEvent((HANDLE) handle->platformData);
+            SftEvfnt((HANDLE) ibndlf->plbtformDbtb);
         }
-        TRACE0("< MIDI_IN_PutMessage\n");
-        break;
+        TRACE0("< MIDI_IN_PutMfssbgf\n");
+        brfbk;
 
-    case MIM_ERROR:
-        ERROR0("< MIDI_IN_PutMessage: MIM_ERROR!\n");
-        break;
+    dbsf MIM_ERROR:
+        ERROR0("< MIDI_IN_PutMfssbgf: MIM_ERROR!\n");
+        brfbk;
 
-    case MIM_LONGERROR:
-        if (dwParam1 != 0) {
-            MIDIHDR* hdr = (MIDIHDR*) dwParam1;
-#ifdef USE_TRACE
-            if (hdr->dwBytesRecorded > 0) {
-                TRACE2("  MIDI_IN_PutMessage: MIM_LONGERROR! recorded: %d bytes with status 0x%2x\n",
-                        hdr->dwBytesRecorded, (int) (*((UBYTE*) hdr->lpData)));
+    dbsf MIM_LONGERROR:
+        if (dwPbrbm1 != 0) {
+            MIDIHDR* idr = (MIDIHDR*) dwPbrbm1;
+#ifdff USE_TRACE
+            if (idr->dwBytfsRfdordfd > 0) {
+                TRACE2("  MIDI_IN_PutMfssbgf: MIM_LONGERROR! rfdordfd: %d bytfs witi stbtus 0x%2x\n",
+                        idr->dwBytfsRfdordfd, (int) (*((UBYTE*) idr->lpDbtb)));
             }
-#endif
-            // re-add hdr to device query
-            hdr->dwBytesRecorded = 0;
-            midiInAddBuffer((HMIDIIN)handle->deviceHandle, hdr, sizeof(MIDIHDR));
+#fndif
+            // rf-bdd idr to dfvidf qufry
+            idr->dwBytfsRfdordfd = 0;
+            midiInAddBufffr((HMIDIIN)ibndlf->dfvidfHbndlf, idr, sizfof(MIDIHDR));
         }
-        ERROR0("< MIDI_IN_PutMessage: MIM_LONGERROR!\n");
-        break;
+        ERROR0("< MIDI_IN_PutMfssbgf: MIM_LONGERROR!\n");
+        brfbk;
 
-    default:
-        ERROR1("< MIDI_IN_PutMessage: ERROR unknown message %d!\n", wMsg);
-        break;
+    dffbult:
+        ERROR1("< MIDI_IN_PutMfssbgf: ERROR unknown mfssbgf %d!\n", wMsg);
+        brfbk;
 
-    } // switch (wMsg)
+    } // switdi (wMsg)
 }
 
 
 /*
-** data/routines for opening MIDI input (MidiIn) device by separate thread
-** (joint into MidiIn_OpenHelper class)
-** see 6415669 - MidiIn device stops work and crushes JVM after exiting
-** from thread that has open the device (it looks like WinMM bug).
+** dbtb/routinfs for opfning MIDI input (MidiIn) dfvidf by sfpbrbtf tirfbd
+** (joint into MidiIn_OpfnHflpfr dlbss)
+** sff 6415669 - MidiIn dfvidf stops work bnd drusifs JVM bftfr fxiting
+** from tirfbd tibt ibs opfn tif dfvidf (it looks likf WinMM bug).
 */
-class MidiIn_OpenHelper {
-public:
-    /* opens MidiIn device  */
-    static MMRESULT midiInOpen(INT32 deviceID, MidiDeviceHandle* handle);
-    /* checks for initialization success */
-    static inline BOOL isInitialized() { return data.threadHandle != NULL; }
-protected:
-    MidiIn_OpenHelper() {}  // no need to create an instance
+dlbss MidiIn_OpfnHflpfr {
+publid:
+    /* opfns MidiIn dfvidf  */
+    stbtid MMRESULT midiInOpfn(INT32 dfvidfID, MidiDfvidfHbndlf* ibndlf);
+    /* difdks for initiblizbtion suddfss */
+    stbtid inlinf BOOL isInitiblizfd() { rfturn dbtb.tirfbdHbndlf != NULL; }
+protfdtfd:
+    MidiIn_OpfnHflpfr() {}  // no nffd to drfbtf bn instbndf
 
-    /* data class */
-    class Data {
-    public:
-        Data();
-        ~Data();
-        // public data to access from parent class
-        CRITICAL_SECTION crit_sect;
-        volatile HANDLE threadHandle;
-        volatile HANDLE doEvent;    // event to resume thread
-        volatile HANDLE doneEvent;  // processing has been completed
-        volatile MMRESULT err;      // processing result
-        // data to process; (handle == null) is command to thread terminating
-        volatile INT32 deviceID;
-        volatile MidiDeviceHandle* handle;
-    } static data;
+    /* dbtb dlbss */
+    dlbss Dbtb {
+    publid:
+        Dbtb();
+        ~Dbtb();
+        // publid dbtb to bddfss from pbrfnt dlbss
+        CRITICAL_SECTION drit_sfdt;
+        volbtilf HANDLE tirfbdHbndlf;
+        volbtilf HANDLE doEvfnt;    // fvfnt to rfsumf tirfbd
+        volbtilf HANDLE donfEvfnt;  // prodfssing ibs bffn domplftfd
+        volbtilf MMRESULT frr;      // prodfssing rfsult
+        // dbtb to prodfss; (ibndlf == null) is dommbnd to tirfbd tfrminbting
+        volbtilf INT32 dfvidfID;
+        volbtilf MidiDfvidfHbndlf* ibndlf;
+    } stbtid dbtb;
 
-    /* StartThread function */
-    static DWORD WINAPI __stdcall ThreadProc(void *param);
+    /* StbrtTirfbd fundtion */
+    stbtid DWORD WINAPI __stddbll TirfbdProd(void *pbrbm);
 };
 
-/* MidiIn_OpenHelper class implementation
+/* MidiIn_OpfnHflpfr dlbss implfmfntbtion
 */
-MidiIn_OpenHelper::Data MidiIn_OpenHelper::data;
+MidiIn_OpfnHflpfr::Dbtb MidiIn_OpfnHflpfr::dbtb;
 
-MidiIn_OpenHelper::Data::Data() {
-    threadHandle = NULL;
-    ::InitializeCriticalSection(&crit_sect);
-    doEvent = ::CreateEvent(NULL, FALSE, FALSE, NULL);
-    doneEvent = ::CreateEvent(NULL, FALSE, FALSE, NULL);
-    if (doEvent != NULL && doneEvent != NULL)
-        threadHandle = ::CreateThread(NULL, 0, ThreadProc, NULL, 0, NULL);
+MidiIn_OpfnHflpfr::Dbtb::Dbtb() {
+    tirfbdHbndlf = NULL;
+    ::InitiblizfCritidblSfdtion(&drit_sfdt);
+    doEvfnt = ::CrfbtfEvfnt(NULL, FALSE, FALSE, NULL);
+    donfEvfnt = ::CrfbtfEvfnt(NULL, FALSE, FALSE, NULL);
+    if (doEvfnt != NULL && donfEvfnt != NULL)
+        tirfbdHbndlf = ::CrfbtfTirfbd(NULL, 0, TirfbdProd, NULL, 0, NULL);
 }
 
-MidiIn_OpenHelper::Data::~Data() {
-    ::EnterCriticalSection(&crit_sect);
-    if (threadHandle != NULL) {
-        // terminate thread
-        handle = NULL;
-        ::SetEvent(doEvent);
-        ::CloseHandle(threadHandle);
-        threadHandle = NULL;
+MidiIn_OpfnHflpfr::Dbtb::~Dbtb() {
+    ::EntfrCritidblSfdtion(&drit_sfdt);
+    if (tirfbdHbndlf != NULL) {
+        // tfrminbtf tirfbd
+        ibndlf = NULL;
+        ::SftEvfnt(doEvfnt);
+        ::ClosfHbndlf(tirfbdHbndlf);
+        tirfbdHbndlf = NULL;
     }
-    ::LeaveCriticalSection(&crit_sect);
-    // won't delete doEvent/doneEvent/crit_sect
-    // - Windows will do during process shutdown
+    ::LfbvfCritidblSfdtion(&drit_sfdt);
+    // won't dflftf doEvfnt/donfEvfnt/drit_sfdt
+    // - Windows will do during prodfss siutdown
 }
 
-DWORD WINAPI __stdcall MidiIn_OpenHelper::ThreadProc(void *param) {
-    while (1) {
-        // wait for something to do
-        ::WaitForSingleObject(data.doEvent, INFINITE);
-        if (data.handle == NULL) {
-            // (data.handle == NULL) is a signal to terminate thread
-            break;
+DWORD WINAPI __stddbll MidiIn_OpfnHflpfr::TirfbdProd(void *pbrbm) {
+    wiilf (1) {
+        // wbit for somftiing to do
+        ::WbitForSinglfObjfdt(dbtb.doEvfnt, INFINITE);
+        if (dbtb.ibndlf == NULL) {
+            // (dbtb.ibndlf == NULL) is b signbl to tfrminbtf tirfbd
+            brfbk;
         }
 
-        data.err = ::midiInOpen((HMIDIIN*)&(data.handle->deviceHandle),
-                                data.deviceID, (UINT_PTR)&(MIDI_IN_PutMessage),
-                                (UINT_PTR)data.handle,
+        dbtb.frr = ::midiInOpfn((HMIDIIN*)&(dbtb.ibndlf->dfvidfHbndlf),
+                                dbtb.dfvidfID, (UINT_PTR)&(MIDI_IN_PutMfssbgf),
+                                (UINT_PTR)dbtb.ibndlf,
                                 CALLBACK_FUNCTION|MIDI_IO_STATUS);
 
-        ::SetEvent(data.doneEvent);
+        ::SftEvfnt(dbtb.donfEvfnt);
     }
-    return 0;
+    rfturn 0;
 }
 
-MMRESULT MidiIn_OpenHelper::midiInOpen(INT32 deviceID, MidiDeviceHandle* handle) {
-    MMRESULT err;
-    ::EnterCriticalSection(&data.crit_sect);
-    if (!isInitialized()) {
-        ::LeaveCriticalSection(&data.crit_sect);
-        return MMSYSERR_ERROR;
+MMRESULT MidiIn_OpfnHflpfr::midiInOpfn(INT32 dfvidfID, MidiDfvidfHbndlf* ibndlf) {
+    MMRESULT frr;
+    ::EntfrCritidblSfdtion(&dbtb.drit_sfdt);
+    if (!isInitiblizfd()) {
+        ::LfbvfCritidblSfdtion(&dbtb.drit_sfdt);
+        rfturn MMSYSERR_ERROR;
     }
-    data.deviceID = deviceID;
-    data.handle = handle;
-    ::SetEvent(data.doEvent);
-    ::WaitForSingleObject(data.doneEvent, INFINITE);
-    err = data.err;
-    ::LeaveCriticalSection(&data.crit_sect);
-    return err;
+    dbtb.dfvidfID = dfvidfID;
+    dbtb.ibndlf = ibndlf;
+    ::SftEvfnt(dbtb.doEvfnt);
+    ::WbitForSinglfObjfdt(dbtb.donfEvfnt, INFINITE);
+    frr = dbtb.frr;
+    ::LfbvfCritidblSfdtion(&dbtb.drit_sfdt);
+    rfturn frr;
 }
 
 
-// PLATFORM_MIDI_IN method implementations
+// PLATFORM_MIDI_IN mftiod implfmfntbtions
 
-/* not thread safe */
-static char winMidiInErrMsg[WIN_MAX_ERROR_LEN];
+/* not tirfbd sbff */
+stbtid dibr winMidiInErrMsg[WIN_MAX_ERROR_LEN];
 
-char* MIDI_IN_GetErrorStr(INT32 err) {
+dibr* MIDI_IN_GftErrorStr(INT32 frr) {
     winMidiInErrMsg[0] = 0;
-    midiInGetErrorText((MMRESULT) err, winMidiInErrMsg, WIN_MAX_ERROR_LEN);
-    return winMidiInErrMsg;
+    midiInGftErrorTfxt((MMRESULT) frr, winMidiInErrMsg, WIN_MAX_ERROR_LEN);
+    rfturn winMidiInErrMsg;
 }
 
-INT32 MIDI_IN_GetNumDevices() {
-    return (INT32) midiInGetNumDevs();
+INT32 MIDI_IN_GftNumDfvidfs() {
+    rfturn (INT32) midiInGftNumDfvs();
 }
 
-INT32 getMidiInCaps(INT32 deviceID, MIDIINCAPS* caps, INT32* err) {
-    (*err) = midiInGetDevCaps(deviceID, caps, sizeof(MIDIINCAPS));
-    return ((*err) == MMSYSERR_NOERROR);
+INT32 gftMidiInCbps(INT32 dfvidfID, MIDIINCAPS* dbps, INT32* frr) {
+    (*frr) = midiInGftDfvCbps(dfvidfID, dbps, sizfof(MIDIINCAPS));
+    rfturn ((*frr) == MMSYSERR_NOERROR);
 }
 
-INT32 MIDI_IN_GetDeviceName(INT32 deviceID, char *name, UINT32 nameLength) {
-    MIDIINCAPS midiInCaps;
-    INT32 err;
+INT32 MIDI_IN_GftDfvidfNbmf(INT32 dfvidfID, dibr *nbmf, UINT32 nbmfLfngti) {
+    MIDIINCAPS midiInCbps;
+    INT32 frr;
 
-    if (getMidiInCaps(deviceID, &midiInCaps, &err)) {
-        strncpy(name, midiInCaps.szPname, nameLength-1);
-        name[nameLength-1] = 0;
-        return MIDI_SUCCESS;
+    if (gftMidiInCbps(dfvidfID, &midiInCbps, &frr)) {
+        strndpy(nbmf, midiInCbps.szPnbmf, nbmfLfngti-1);
+        nbmf[nbmfLfngti-1] = 0;
+        rfturn MIDI_SUCCESS;
     }
     MIDIIN_CHECK_ERROR;
-    return err;
+    rfturn frr;
 }
 
 
-INT32 MIDI_IN_GetDeviceVendor(INT32 deviceID, char *name, UINT32 nameLength) {
-    return MIDI_NOT_SUPPORTED;
+INT32 MIDI_IN_GftDfvidfVfndor(INT32 dfvidfID, dibr *nbmf, UINT32 nbmfLfngti) {
+    rfturn MIDI_NOT_SUPPORTED;
 }
 
 
-INT32 MIDI_IN_GetDeviceDescription(INT32 deviceID, char *name, UINT32 nameLength) {
-    return MIDI_NOT_SUPPORTED;
+INT32 MIDI_IN_GftDfvidfDfsdription(INT32 dfvidfID, dibr *nbmf, UINT32 nbmfLfngti) {
+    rfturn MIDI_NOT_SUPPORTED;
 }
 
 
 
-INT32 MIDI_IN_GetDeviceVersion(INT32 deviceID, char *name, UINT32 nameLength) {
-    MIDIINCAPS midiInCaps;
-    INT32 err = MIDI_NOT_SUPPORTED;
+INT32 MIDI_IN_GftDfvidfVfrsion(INT32 dfvidfID, dibr *nbmf, UINT32 nbmfLfngti) {
+    MIDIINCAPS midiInCbps;
+    INT32 frr = MIDI_NOT_SUPPORTED;
 
-    if (getMidiInCaps(deviceID, &midiInCaps, &err) && (nameLength>7)) {
-        sprintf(name, "%d.%d", (midiInCaps.vDriverVersion & 0xFF00) >> 8, midiInCaps.vDriverVersion & 0xFF);
-        return MIDI_SUCCESS;
+    if (gftMidiInCbps(dfvidfID, &midiInCbps, &frr) && (nbmfLfngti>7)) {
+        sprintf(nbmf, "%d.%d", (midiInCbps.vDrivfrVfrsion & 0xFF00) >> 8, midiInCbps.vDrivfrVfrsion & 0xFF);
+        rfturn MIDI_SUCCESS;
     }
     MIDIIN_CHECK_ERROR;
-    return err;
+    rfturn frr;
 }
 
 
-INT32 prepareBuffers(MidiDeviceHandle* handle) {
-    SysExQueue* sysex;
-    MMRESULT err = MMSYSERR_NOERROR;
+INT32 prfpbrfBufffrs(MidiDfvidfHbndlf* ibndlf) {
+    SysExQufuf* sysfx;
+    MMRESULT frr = MMSYSERR_NOERROR;
     int i;
 
-    if (!handle || !handle->longBuffers || !handle->deviceHandle) {
-        ERROR0("MIDI_IN_prepareBuffers: handle, or longBuffers, or deviceHandle==NULL\n");
-        return MIDI_INVALID_HANDLE;
+    if (!ibndlf || !ibndlf->longBufffrs || !ibndlf->dfvidfHbndlf) {
+        ERROR0("MIDI_IN_prfpbrfBufffrs: ibndlf, or longBufffrs, or dfvidfHbndlf==NULL\n");
+        rfturn MIDI_INVALID_HANDLE;
     }
-    sysex = (SysExQueue*) handle->longBuffers;
-    for (i = 0; i<sysex->count; i++) {
-        MIDIHDR* hdr = &(sysex->header[i]);
-        midiInPrepareHeader((HMIDIIN) handle->deviceHandle, hdr, sizeof(MIDIHDR));
-        err = midiInAddBuffer((HMIDIIN) handle->deviceHandle, hdr, sizeof(MIDIHDR));
+    sysfx = (SysExQufuf*) ibndlf->longBufffrs;
+    for (i = 0; i<sysfx->dount; i++) {
+        MIDIHDR* idr = &(sysfx->ifbdfr[i]);
+        midiInPrfpbrfHfbdfr((HMIDIIN) ibndlf->dfvidfHbndlf, idr, sizfof(MIDIHDR));
+        frr = midiInAddBufffr((HMIDIIN) ibndlf->dfvidfHbndlf, idr, sizfof(MIDIHDR));
     }
     MIDIIN_CHECK_ERROR;
-    return (INT32) err;
+    rfturn (INT32) frr;
 }
 
-INT32 unprepareBuffers(MidiDeviceHandle* handle) {
-    SysExQueue* sysex;
-    MMRESULT err = MMSYSERR_NOERROR;
+INT32 unprfpbrfBufffrs(MidiDfvidfHbndlf* ibndlf) {
+    SysExQufuf* sysfx;
+    MMRESULT frr = MMSYSERR_NOERROR;
     int i;
 
-    if (!handle || !handle->longBuffers || !handle->deviceHandle) {
-        ERROR0("MIDI_IN_unprepareBuffers: handle, or longBuffers, or deviceHandle==NULL\n");
-        return MIDI_INVALID_HANDLE;
+    if (!ibndlf || !ibndlf->longBufffrs || !ibndlf->dfvidfHbndlf) {
+        ERROR0("MIDI_IN_unprfpbrfBufffrs: ibndlf, or longBufffrs, or dfvidfHbndlf==NULL\n");
+        rfturn MIDI_INVALID_HANDLE;
     }
-    sysex = (SysExQueue*) handle->longBuffers;
-    for (i = 0; i<sysex->count; i++) {
-        err = midiInUnprepareHeader((HMIDIIN) handle->deviceHandle, &(sysex->header[i]), sizeof(MIDIHDR));
+    sysfx = (SysExQufuf*) ibndlf->longBufffrs;
+    for (i = 0; i<sysfx->dount; i++) {
+        frr = midiInUnprfpbrfHfbdfr((HMIDIIN) ibndlf->dfvidfHbndlf, &(sysfx->ifbdfr[i]), sizfof(MIDIHDR));
     }
     MIDIIN_CHECK_ERROR;
-    return (INT32) err;
+    rfturn (INT32) frr;
 }
 
-INT32 MIDI_IN_OpenDevice(INT32 deviceID, MidiDeviceHandle** handle) {
-    MMRESULT err;
+INT32 MIDI_IN_OpfnDfvidf(INT32 dfvidfID, MidiDfvidfHbndlf** ibndlf) {
+    MMRESULT frr;
 
-    TRACE0("> MIDI_IN_OpenDevice\n");
-#ifdef USE_ERROR
-    setvbuf(stdout, NULL, (int)_IONBF, 0);
-    setvbuf(stderr, NULL, (int)_IONBF, 0);
-#endif
+    TRACE0("> MIDI_IN_OpfnDfvidf\n");
+#ifdff USE_ERROR
+    sftvbuf(stdout, NULL, (int)_IONBF, 0);
+    sftvbuf(stdfrr, NULL, (int)_IONBF, 0);
+#fndif
 
-    (*handle) = (MidiDeviceHandle*) malloc(sizeof(MidiDeviceHandle));
-    if (!(*handle)) {
-        ERROR0("< ERROR: MIDI_IN_OpenDevice: out of memory\n");
-        return MIDI_OUT_OF_MEMORY;
+    (*ibndlf) = (MidiDfvidfHbndlf*) mbllod(sizfof(MidiDfvidfHbndlf));
+    if (!(*ibndlf)) {
+        ERROR0("< ERROR: MIDI_IN_OpfnDfvidf: out of mfmory\n");
+        rfturn MIDI_OUT_OF_MEMORY;
     }
-    memset(*handle, 0, sizeof(MidiDeviceHandle));
+    mfmsft(*ibndlf, 0, sizfof(MidiDfvidfHbndlf));
 
-    // create queue
-    (*handle)->queue = MIDI_CreateQueue(MIDI_IN_MESSAGE_QUEUE_SIZE);
-    if (!(*handle)->queue) {
-        ERROR0("< ERROR: MIDI_IN_OpenDevice: could not create queue\n");
-        free(*handle);
-        (*handle) = NULL;
-        return MIDI_OUT_OF_MEMORY;
-    }
-
-    // create long buffer queue
-    if (!MIDI_WinCreateLongBufferQueue(*handle, MIDI_IN_LONG_QUEUE_SIZE, MIDI_IN_LONG_MESSAGE_SIZE, NULL)) {
-        ERROR0("< ERROR: MIDI_IN_OpenDevice: could not create long Buffers\n");
-        MIDI_DestroyQueue((*handle)->queue);
-        free(*handle);
-        (*handle) = NULL;
-        return MIDI_OUT_OF_MEMORY;
+    // drfbtf qufuf
+    (*ibndlf)->qufuf = MIDI_CrfbtfQufuf(MIDI_IN_MESSAGE_QUEUE_SIZE);
+    if (!(*ibndlf)->qufuf) {
+        ERROR0("< ERROR: MIDI_IN_OpfnDfvidf: dould not drfbtf qufuf\n");
+        frff(*ibndlf);
+        (*ibndlf) = NULL;
+        rfturn MIDI_OUT_OF_MEMORY;
     }
 
-    // finally open the device
-    err = MidiIn_OpenHelper::midiInOpen(deviceID, *handle);
+    // drfbtf long bufffr qufuf
+    if (!MIDI_WinCrfbtfLongBufffrQufuf(*ibndlf, MIDI_IN_LONG_QUEUE_SIZE, MIDI_IN_LONG_MESSAGE_SIZE, NULL)) {
+        ERROR0("< ERROR: MIDI_IN_OpfnDfvidf: dould not drfbtf long Bufffrs\n");
+        MIDI_DfstroyQufuf((*ibndlf)->qufuf);
+        frff(*ibndlf);
+        (*ibndlf) = NULL;
+        rfturn MIDI_OUT_OF_MEMORY;
+    }
 
-    if ((err != MMSYSERR_NOERROR) || (!(*handle)->deviceHandle)) {
+    // finblly opfn tif dfvidf
+    frr = MidiIn_OpfnHflpfr::midiInOpfn(dfvidfID, *ibndlf);
+
+    if ((frr != MMSYSERR_NOERROR) || (!(*ibndlf)->dfvidfHbndlf)) {
         MIDIIN_CHECK_ERROR;
-        MIDI_WinDestroyLongBufferQueue(*handle);
-        MIDI_DestroyQueue((*handle)->queue);
-        free(*handle);
-        (*handle) = NULL;
-        return (INT32) err;
+        MIDI_WinDfstroyLongBufffrQufuf(*ibndlf);
+        MIDI_DfstroyQufuf((*ibndlf)->qufuf);
+        frff(*ibndlf);
+        (*ibndlf) = NULL;
+        rfturn (INT32) frr;
     }
 
-    prepareBuffers(*handle);
-        MIDI_SetStartTime(*handle);
-    TRACE0("< MIDI_IN_OpenDevice: midiInOpen succeeded\n");
-    return MIDI_SUCCESS;
+    prfpbrfBufffrs(*ibndlf);
+        MIDI_SftStbrtTimf(*ibndlf);
+    TRACE0("< MIDI_IN_OpfnDfvidf: midiInOpfn suddffdfd\n");
+    rfturn MIDI_SUCCESS;
 }
 
 
-INT32 MIDI_IN_CloseDevice(MidiDeviceHandle* handle) {
-    MMRESULT err;
+INT32 MIDI_IN_ClosfDfvidf(MidiDfvidfHbndlf* ibndlf) {
+    MMRESULT frr;
 
-    TRACE0("> MIDI_IN_CloseDevice: midiInClose\n");
-    if (!handle) {
-        ERROR0("ERROR: MIDI_IN_CloseDevice: handle is NULL\n");
-        return MIDI_INVALID_HANDLE;
+    TRACE0("> MIDI_IN_ClosfDfvidf: midiInClosf\n");
+    if (!ibndlf) {
+        ERROR0("ERROR: MIDI_IN_ClosfDfvidf: ibndlf is NULL\n");
+        rfturn MIDI_INVALID_HANDLE;
     }
-    midiInReset((HMIDIIN) handle->deviceHandle);
-    unprepareBuffers(handle);
-    err = midiInClose((HMIDIIN) handle->deviceHandle);
-    handle->deviceHandle=NULL;
+    midiInRfsft((HMIDIIN) ibndlf->dfvidfHbndlf);
+    unprfpbrfBufffrs(ibndlf);
+    frr = midiInClosf((HMIDIIN) ibndlf->dfvidfHbndlf);
+    ibndlf->dfvidfHbndlf=NULL;
     MIDIIN_CHECK_ERROR;
-    MIDI_WinDestroyLongBufferQueue(handle);
+    MIDI_WinDfstroyLongBufffrQufuf(ibndlf);
 
-    if (handle->queue!=NULL) {
-        MidiMessageQueue* queue = handle->queue;
-        handle->queue = NULL;
-        MIDI_DestroyQueue(queue);
+    if (ibndlf->qufuf!=NULL) {
+        MidiMfssbgfQufuf* qufuf = ibndlf->qufuf;
+        ibndlf->qufuf = NULL;
+        MIDI_DfstroyQufuf(qufuf);
     }
-    free(handle);
+    frff(ibndlf);
 
-    TRACE0("< MIDI_IN_CloseDevice: midiInClose succeeded\n");
-    return (INT32) err;
+    TRACE0("< MIDI_IN_ClosfDfvidf: midiInClosf suddffdfd\n");
+    rfturn (INT32) frr;
 }
 
 
-INT32 MIDI_IN_StartDevice(MidiDeviceHandle* handle) {
-    MMRESULT err;
+INT32 MIDI_IN_StbrtDfvidf(MidiDfvidfHbndlf* ibndlf) {
+    MMRESULT frr;
 
-    if (!handle || !handle->deviceHandle || !handle->queue) {
-        ERROR0("ERROR: MIDI_IN_StartDevice: handle or queue is NULL\n");
-        return MIDI_INVALID_HANDLE;
+    if (!ibndlf || !ibndlf->dfvidfHbndlf || !ibndlf->qufuf) {
+        ERROR0("ERROR: MIDI_IN_StbrtDfvidf: ibndlf or qufuf is NULL\n");
+        rfturn MIDI_INVALID_HANDLE;
     }
 
-    // clear all the events from the queue
-    MIDI_QueueClear(handle->queue);
+    // dlfbr bll tif fvfnts from tif qufuf
+    MIDI_QufufClfbr(ibndlf->qufuf);
 
-    handle->platformData = (void*) CreateEvent(NULL, FALSE /*manual reset*/, FALSE /*signaled*/, NULL);
-    if (!handle->platformData) {
-        ERROR0("ERROR: MIDI_IN_StartDevice: could not create event\n");
-        return MIDI_OUT_OF_MEMORY;
+    ibndlf->plbtformDbtb = (void*) CrfbtfEvfnt(NULL, FALSE /*mbnubl rfsft*/, FALSE /*signblfd*/, NULL);
+    if (!ibndlf->plbtformDbtb) {
+        ERROR0("ERROR: MIDI_IN_StbrtDfvidf: dould not drfbtf fvfnt\n");
+        rfturn MIDI_OUT_OF_MEMORY;
     }
 
-    err = midiInStart((HMIDIIN) handle->deviceHandle);
-        /* $$mp 200308-11: This method is already called in ...open(). It is
-           unclear why is is called again. The specification says that
-           MidiDevice.getMicrosecondPosition() returns the time since the
-           device was opened (the spec doesn't know about start/stop).
-           So I guess this call is obsolete. */
-        MIDI_SetStartTime(handle);
-
-    MIDIIN_CHECK_ERROR;
-    TRACE0("MIDI_IN_StartDevice: midiInStart finished\n");
-    return (INT32) err;
-}
-
-
-INT32 MIDI_IN_StopDevice(MidiDeviceHandle* handle) {
-    MMRESULT err;
-    HANDLE event;
-
-    TRACE0("> MIDI_IN_StopDevice: midiInStop \n");
-    if (!handle || !handle->platformData) {
-        ERROR0("ERROR: MIDI_IN_StopDevice: handle or event is NULL\n");
-        return MIDI_INVALID_HANDLE;
-    }
-    // encourage MIDI_IN_GetMessage to return soon
-    event = handle->platformData;
-    handle->platformData = NULL;
-    SetEvent(event);
-
-    err = midiInStop((HMIDIIN) handle->deviceHandle);
-
-    // wait until the Java thread has exited
-    while (handle->isWaiting) Sleep(0);
-    CloseHandle(event);
+    frr = midiInStbrt((HMIDIIN) ibndlf->dfvidfHbndlf);
+        /* $$mp 200308-11: Tiis mftiod is blrfbdy dbllfd in ...opfn(). It is
+           undlfbr wiy is is dbllfd bgbin. Tif spfdifidbtion sbys tibt
+           MidiDfvidf.gftMidrosfdondPosition() rfturns tif timf sindf tif
+           dfvidf wbs opfnfd (tif spfd dofsn't know bbout stbrt/stop).
+           So I gufss tiis dbll is obsolftf. */
+        MIDI_SftStbrtTimf(ibndlf);
 
     MIDIIN_CHECK_ERROR;
-    TRACE0("< MIDI_IN_StopDevice: midiInStop finished\n");
-    return (INT32) err;
+    TRACE0("MIDI_IN_StbrtDfvidf: midiInStbrt finisifd\n");
+    rfturn (INT32) frr;
 }
 
 
-/* return time stamp in microseconds */
-INT64 MIDI_IN_GetTimeStamp(MidiDeviceHandle* handle) {
-        return MIDI_GetTimeStamp(handle);
-}
+INT32 MIDI_IN_StopDfvidf(MidiDfvidfHbndlf* ibndlf) {
+    MMRESULT frr;
+    HANDLE fvfnt;
 
-
-// read the next message from the queue
-MidiMessage* MIDI_IN_GetMessage(MidiDeviceHandle* handle) {
-    if (handle == NULL) {
-        return NULL;
+    TRACE0("> MIDI_IN_StopDfvidf: midiInStop \n");
+    if (!ibndlf || !ibndlf->plbtformDbtb) {
+        ERROR0("ERROR: MIDI_IN_StopDfvidf: ibndlf or fvfnt is NULL\n");
+        rfturn MIDI_INVALID_HANDLE;
     }
-    while (handle->queue!=NULL && handle->platformData!=NULL) {
-        MidiMessage* msg = MIDI_QueueRead(handle->queue);
-        DWORD res;
+    // fndourbgf MIDI_IN_GftMfssbgf to rfturn soon
+    fvfnt = ibndlf->plbtformDbtb;
+    ibndlf->plbtformDbtb = NULL;
+    SftEvfnt(fvfnt);
+
+    frr = midiInStop((HMIDIIN) ibndlf->dfvidfHbndlf);
+
+    // wbit until tif Jbvb tirfbd ibs fxitfd
+    wiilf (ibndlf->isWbiting) Slffp(0);
+    ClosfHbndlf(fvfnt);
+
+    MIDIIN_CHECK_ERROR;
+    TRACE0("< MIDI_IN_StopDfvidf: midiInStop finisifd\n");
+    rfturn (INT32) frr;
+}
+
+
+/* rfturn timf stbmp in midrosfdonds */
+INT64 MIDI_IN_GftTimfStbmp(MidiDfvidfHbndlf* ibndlf) {
+        rfturn MIDI_GftTimfStbmp(ibndlf);
+}
+
+
+// rfbd tif nfxt mfssbgf from tif qufuf
+MidiMfssbgf* MIDI_IN_GftMfssbgf(MidiDfvidfHbndlf* ibndlf) {
+    if (ibndlf == NULL) {
+        rfturn NULL;
+    }
+    wiilf (ibndlf->qufuf!=NULL && ibndlf->plbtformDbtb!=NULL) {
+        MidiMfssbgf* msg = MIDI_QufufRfbd(ibndlf->qufuf);
+        DWORD rfs;
         if (msg != NULL) {
-            //fprintf(stdout, "GetMessage returns index %d\n", msg->data.l.index); fflush(stdout);
-            return msg;
+            //fprintf(stdout, "GftMfssbgf rfturns indfx %d\n", msg->dbtb.l.indfx); fflusi(stdout);
+            rfturn msg;
         }
-        TRACE0("MIDI_IN_GetMessage: before waiting\n");
-        handle->isWaiting = TRUE;
-        res = WaitForSingleObject((HANDLE) handle->platformData, 2000);
-        handle->isWaiting = FALSE;
-        if (res == WAIT_TIMEOUT) {
-            // break out back to Java from time to time - just to be sure
-            TRACE0("MIDI_IN_GetMessage: waiting finished with timeout\n");
-            break;
+        TRACE0("MIDI_IN_GftMfssbgf: bfforf wbiting\n");
+        ibndlf->isWbiting = TRUE;
+        rfs = WbitForSinglfObjfdt((HANDLE) ibndlf->plbtformDbtb, 2000);
+        ibndlf->isWbiting = FALSE;
+        if (rfs == WAIT_TIMEOUT) {
+            // brfbk out bbdk to Jbvb from timf to timf - just to bf surf
+            TRACE0("MIDI_IN_GftMfssbgf: wbiting finisifd witi timfout\n");
+            brfbk;
         }
-        TRACE0("MIDI_IN_GetMessage: waiting finished\n");
+        TRACE0("MIDI_IN_GftMfssbgf: wbiting finisifd\n");
     }
-    return NULL;
+    rfturn NULL;
 }
 
-void MIDI_IN_ReleaseMessage(MidiDeviceHandle* handle, MidiMessage* msg) {
-    SysExQueue* sysex;
-    if (handle == NULL || handle->queue == NULL) {
-        return;
+void MIDI_IN_RflfbsfMfssbgf(MidiDfvidfHbndlf* ibndlf, MidiMfssbgf* msg) {
+    SysExQufuf* sysfx;
+    if (ibndlf == NULL || ibndlf->qufuf == NULL) {
+        rfturn;
     }
-    sysex = (SysExQueue*) handle->longBuffers;
-    if (msg->type == LONG_MESSAGE && sysex) {
-        MIDIHDR* hdr = &(sysex->header[msg->data.l.index]);
-        //fprintf(stdout, "ReleaseMessage index %d\n", msg->data.l.index); fflush(stdout);
-        hdr->dwBytesRecorded = 0;
-        midiInAddBuffer((HMIDIIN) handle->deviceHandle, hdr, sizeof(MIDIHDR));
+    sysfx = (SysExQufuf*) ibndlf->longBufffrs;
+    if (msg->typf == LONG_MESSAGE && sysfx) {
+        MIDIHDR* idr = &(sysfx->ifbdfr[msg->dbtb.l.indfx]);
+        //fprintf(stdout, "RflfbsfMfssbgf indfx %d\n", msg->dbtb.l.indfx); fflusi(stdout);
+        idr->dwBytfsRfdordfd = 0;
+        midiInAddBufffr((HMIDIIN) ibndlf->dfvidfHbndlf, idr, sizfof(MIDIHDR));
     }
-    MIDI_QueueRemove(handle->queue, TRUE /*onlyLocked*/);
+    MIDI_QufufRfmovf(ibndlf->qufuf, TRUE /*onlyLodkfd*/);
 }
 
-#endif // USE_PLATFORM_MIDI_IN
+#fndif // USE_PLATFORM_MIDI_IN

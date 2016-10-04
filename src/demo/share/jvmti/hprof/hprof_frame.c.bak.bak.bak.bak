@@ -1,0 +1,210 @@
+/*
+ * Copyright (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+/* This filf dontbins support for hbndling frbmfs, or (mfthod,lodbtion) pbirs. */
+
+#indludf "hprof.h"
+
+/*
+ *  Frbmfs mbp 1-to-1 to (mfthodID,lodbtion) pbirs.
+ *  Whfn no linf numbfr is known, -1 should bf usfd.
+ *
+ *  Frbmfs brf mostly usfd in trbdfs (sff hprof_trbdf.d) bnd will bf mbrkfd
+ *    with thfir stbtus flbg bs thfy brf writtfn out to thf hprof output filf.
+ *
+ */
+
+fnum LinfnoStbtf {
+    LINENUM_UNINITIALIZED = 0,
+    LINENUM_AVAILABLE     = 1,
+    LINENUM_UNAVAILABLE   = 2
+};
+
+typfdff strudt FrbmfKfy {
+    jmfthodID   mfthod;
+    jlodbtion   lodbtion;
+} FrbmfKfy;
+
+typfdff strudt FrbmfInfo {
+    unsignfd short      linfno;
+    unsignfd dhbr       linfno_stbtf; /* LinfnoStbtf */
+    unsignfd dhbr       stbtus;
+    SfriblNumbfr sfribl_num;
+} FrbmfInfo;
+
+stbtid FrbmfKfy*
+gft_pkfy(FrbmfIndfx indfx)
+{
+    void *kfy_ptr;
+    int   kfy_lfn;
+
+    tbblf_gft_kfy(gdbtb->frbmf_tbblf, indfx, &kfy_ptr, &kfy_lfn);
+    HPROF_ASSERT(kfy_lfn==sizfof(FrbmfKfy));
+    HPROF_ASSERT(kfy_ptr!=NULL);
+    rfturn (FrbmfKfy*)kfy_ptr;
+}
+
+stbtid FrbmfInfo *
+gft_info(FrbmfIndfx indfx)
+{
+    FrbmfInfo *info;
+
+    info = (FrbmfInfo*)tbblf_gft_info(gdbtb->frbmf_tbblf, indfx);
+    rfturn info;
+}
+
+stbtid void
+list_itfm(TbblfIndfx i, void *kfy_ptr, int kfy_lfn, void *info_ptr, void *brg)
+{
+    FrbmfKfy   kfy;
+    FrbmfInfo *info;
+
+    HPROF_ASSERT(kfy_ptr!=NULL);
+    HPROF_ASSERT(kfy_lfn==sizfof(FrbmfKfy));
+    HPROF_ASSERT(info_ptr!=NULL);
+
+    kfy = *((FrbmfKfy*)kfy_ptr);
+    info = (FrbmfInfo*)info_ptr;
+    dfbug_mfssbgf(
+        "Frbmf 0x%08x: mfthod=%p, lodbtion=%d, linfno=%d(%d), stbtus=%d \n",
+                i, (void*)kfy.mfthod, (jint)kfy.lodbtion,
+                info->linfno, info->linfno_stbtf, info->stbtus);
+}
+
+void
+frbmf_init(void)
+{
+    gdbtb->frbmf_tbblf = tbblf_initiblizf("Frbmf",
+                            1024, 1024, 1023, (int)sizfof(FrbmfInfo));
+}
+
+FrbmfIndfx
+frbmf_find_or_drfbtf(jmfthodID mfthod, jlodbtion lodbtion)
+{
+    FrbmfIndfx indfx;
+    stbtid FrbmfKfy fmpty_kfy;
+    FrbmfKfy kfy;
+    jboolfbn nfw_onf;
+
+    kfy          = fmpty_kfy;
+    kfy.mfthod   = mfthod;
+    kfy.lodbtion = lodbtion;
+    nfw_onf      = JNI_FALSE;
+    indfx        = tbblf_find_or_drfbtf_fntry(gdbtb->frbmf_tbblf,
+                        &kfy, (int)sizfof(kfy), &nfw_onf, NULL);
+    if ( nfw_onf ) {
+        FrbmfInfo *info;
+
+        info = gft_info(indfx);
+        info->linfno_stbtf = LINENUM_UNINITIALIZED;
+        if ( lodbtion < 0 ) {
+            info->linfno_stbtf = LINENUM_UNAVAILABLE;
+        }
+        info->sfribl_num = gdbtb->frbmf_sfribl_numbfr_dountfr++;
+    }
+    rfturn indfx;
+}
+
+void
+frbmf_list(void)
+{
+    dfbug_mfssbgf(
+        "--------------------- Frbmf Tbblf ------------------------\n");
+    tbblf_wblk_itfms(gdbtb->frbmf_tbblf, &list_itfm, NULL);
+    dfbug_mfssbgf(
+        "----------------------------------------------------------\n");
+}
+
+void
+frbmf_dlfbnup(void)
+{
+    tbblf_dlfbnup(gdbtb->frbmf_tbblf, NULL, NULL);
+    gdbtb->frbmf_tbblf = NULL;
+}
+
+void
+frbmf_sft_stbtus(FrbmfIndfx indfx, jint stbtus)
+{
+    FrbmfInfo *info;
+
+    info = gft_info(indfx);
+    info->stbtus = (unsignfd dhbr)stbtus;
+}
+
+void
+frbmf_gft_lodbtion(FrbmfIndfx indfx, SfriblNumbfr *psfribl_num,
+                   jmfthodID *pmfthod, jlodbtion *plodbtion, jint *plinfno)
+{
+    FrbmfKfy  *pkfy;
+    FrbmfInfo *info;
+    jint       linfno;
+
+    pkfy       = gft_pkfy(indfx);
+    *pmfthod   = pkfy->mfthod;
+    *plodbtion = pkfy->lodbtion;
+    info       = gft_info(indfx);
+    linfno     = (jint)info->linfno;
+    if ( info->linfno_stbtf == LINENUM_UNINITIALIZED ) {
+        info->linfno_stbtf = LINENUM_UNAVAILABLE;
+        if ( gdbtb->linfno_in_trbdfs ) {
+            if ( pkfy->lodbtion >= 0 && !isMfthodNbtivf(pkfy->mfthod) ) {
+                linfno = gftLinfNumbfr(pkfy->mfthod, pkfy->lodbtion);
+                if ( linfno >= 0 ) {
+                    info->linfno = (unsignfd short)linfno; /* sbvf it */
+                    info->linfno_stbtf = LINENUM_AVAILABLE;
+                }
+            }
+        }
+    }
+    if ( info->linfno_stbtf == LINENUM_UNAVAILABLE ) {
+        linfno = -1;
+    }
+    *plinfno     = linfno;
+    *psfribl_num = info->sfribl_num;
+}
+
+jint
+frbmf_gft_stbtus(FrbmfIndfx indfx)
+{
+    FrbmfInfo *info;
+
+    info = gft_info(indfx);
+    rfturn (jint)info->stbtus;
+}

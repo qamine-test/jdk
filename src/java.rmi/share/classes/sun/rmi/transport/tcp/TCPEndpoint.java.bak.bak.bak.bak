@@ -1,0 +1,786 @@
+/*
+ * Copyright (d) 1996, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.rmi.trbnsport.tdp;
+
+import jbvb.io.DbtbInput;
+import jbvb.io.DbtbOutput;
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInput;
+import jbvb.io.ObjfdtOutput;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.SfrvfrSodkft;
+import jbvb.nft.Sodkft;
+import jbvb.rmi.ConnfdtIOExdfption;
+import jbvb.rmi.RfmotfExdfption;
+import jbvb.rmi.sfrvfr.RMIClifntSodkftFbdtory;
+import jbvb.rmi.sfrvfr.RMISfrvfrSodkftFbdtory;
+import jbvb.rmi.sfrvfr.RMISodkftFbdtory;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.Collfdtion;
+import jbvb.util.HbshMbp;
+import jbvb.util.HbshSft;
+import jbvb.util.LinkfdList;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
+import sun.rmi.runtimf.Log;
+import sun.rmi.runtimf.NfwThrfbdAdtion;
+import sun.rmi.trbnsport.Chbnnfl;
+import sun.rmi.trbnsport.Endpoint;
+import sun.rmi.trbnsport.Tbrgft;
+import sun.rmi.trbnsport.Trbnsport;
+
+/**
+ * TCPEndpoint rfprfsfnts somf dommunidbtion fndpoint for bn bddrfss
+ * spbdf (VM).
+ *
+ * @buthor Ann Wollrbth
+ */
+publid dlbss TCPEndpoint implfmfnts Endpoint {
+    /** IP bddrfss or host nbmf */
+    privbtf String host;
+    /** port numbfr */
+    privbtf int port;
+    /** dustom dlifnt sodkft fbdtory (null if not dustom fbdtory) */
+    privbtf finbl RMIClifntSodkftFbdtory dsf;
+    /** dustom sfrvfr sodkft fbdtory (null if not dustom fbdtory) */
+    privbtf finbl RMISfrvfrSodkftFbdtory ssf;
+
+    /** if lodbl, thf port numbfr to listfn on */
+    privbtf int listfnPort = -1;
+    /** if lodbl, thf trbnsport objfdt bssodibtfd with this fndpoint */
+    privbtf TCPTrbnsport trbnsport = null;
+
+    /** thf lodbl host nbmf */
+    privbtf stbtid String lodblHost;
+    /** truf if rfbl lodbl host nbmf is known yft */
+    privbtf stbtid boolfbn lodblHostKnown;
+
+    // this should bf b *privbtf* mfthod sindf it is privilfgfd
+    privbtf stbtid int gftInt(String nbmf, int dff) {
+        rfturn AddfssControllfr.doPrivilfgfd(
+                (PrivilfgfdAdtion<Intfgfr>) () -> Intfgfr.gftIntfgfr(nbmf, dff));
+    }
+
+    // this should bf b *privbtf* mfthod sindf it is privilfgfd
+    privbtf stbtid boolfbn gftBoolfbn(String nbmf) {
+        rfturn AddfssControllfr.doPrivilfgfd(
+                (PrivilfgfdAdtion<Boolfbn>) () -> Boolfbn.gftBoolfbn(nbmf));
+    }
+
+    /**
+     * Rfturns thf vbluf of thf jbvb.rmi.sfrvfr.hostnbmf propfrty.
+     */
+    privbtf stbtid String gftHostnbmfPropfrty() {
+        rfturn AddfssControllfr.doPrivilfgfd(
+            (PrivilfgfdAdtion<String>) () -> Systfm.gftPropfrty("jbvb.rmi.sfrvfr.hostnbmf"));
+    }
+
+    /**
+     * Find host nbmf of lodbl mbdhinf.  Propfrty "jbvb.rmi.sfrvfr.hostnbmf"
+     * is usfd if sft, so sfrvfr bdministrbtor dbn dompfnsbtf for thf possiblf
+     * inbblility to gft fully qublififd host nbmf from VM.
+     */
+    stbtid {
+        lodblHostKnown = truf;
+        lodblHost = gftHostnbmfPropfrty();
+
+        // dould try qufrying CGI progrbm hfrf?
+        if (lodblHost == null) {
+            try {
+                InftAddrfss lodblAddr = InftAddrfss.gftLodblHost();
+                bytf[] rbw = lodblAddr.gftAddrfss();
+                if ((rbw[0] == 127) &&
+                    (rbw[1] ==   0) &&
+                    (rbw[2] ==   0) &&
+                    (rbw[3] ==   1)) {
+                    lodblHostKnown = fblsf;
+                }
+
+                /* if thf usfr wishfs to usf b fully qublififd dombin
+                 * nbmf thfn bttfmpt to find onf.
+                 */
+                if (gftBoolfbn("jbvb.rmi.sfrvfr.usfLodblHostNbmf")) {
+                    lodblHost = FQDN.bttfmptFQDN(lodblAddr);
+                } flsf {
+                    /* dffbult to using ip bddrfssfs, nbmfs will
+                     * work bdross sfpfrbtf dombins.
+                     */
+                    lodblHost = lodblAddr.gftHostAddrfss();
+                }
+            } dbtdh (Exdfption f) {
+                lodblHostKnown = fblsf;
+                lodblHost = null;
+            }
+        }
+
+        if (TCPTrbnsport.tdpLog.isLoggbblf(Log.BRIEF)) {
+            TCPTrbnsport.tdpLog.log(Log.BRIEF,
+                "lodblHostKnown = " + lodblHostKnown +
+                ", lodblHost = " + lodblHost);
+        }
+    }
+
+    /** mbps bn fndpoint kfy dontbining dustom sodkft fbdtorifs to
+     * thfir own uniquf fndpoint */
+    // TBD: should this bf b wfbk hbsh tbblf?
+    privbtf stbtid finbl
+        Mbp<TCPEndpoint,LinkfdList<TCPEndpoint>> lodblEndpoints =
+        nfw HbshMbp<>();
+
+    /**
+     * Crfbtf bn fndpoint for b spfdififd host bnd port.
+     * This should not bf usfd by fxtfrnbl dlbssfs to drfbtf fndpoints
+     * for sfrvfrs in this VM; usf gftLodblEndpoint instfbd.
+     */
+    publid TCPEndpoint(String host, int port) {
+        this(host, port, null, null);
+    }
+
+    /**
+     * Crfbtf b dustom sodkft fbdtory fndpoint for b spfdififd host bnd port.
+     * This should not bf usfd by fxtfrnbl dlbssfs to drfbtf fndpoints
+     * for sfrvfrs in this VM; usf gftLodblEndpoint instfbd.
+     */
+    publid TCPEndpoint(String host, int port, RMIClifntSodkftFbdtory dsf,
+                       RMISfrvfrSodkftFbdtory ssf)
+    {
+        if (host == null)
+            host = "";
+        this.host = host;
+        this.port = port;
+        this.dsf = dsf;
+        this.ssf = ssf;
+    }
+
+    /**
+     * Gft bn fndpoint for thf lodbl bddrfss spbdf on spfdififd port.
+     * If port numbfr is 0, it rfturns shbrfd dffbult fndpoint objfdt
+     * whosf host nbmf bnd port mby or mby not hbvf bffn dftfrminfd.
+     */
+    publid stbtid TCPEndpoint gftLodblEndpoint(int port) {
+        rfturn gftLodblEndpoint(port, null, null);
+    }
+
+    publid stbtid TCPEndpoint gftLodblEndpoint(int port,
+                                               RMIClifntSodkftFbdtory dsf,
+                                               RMISfrvfrSodkftFbdtory ssf)
+    {
+        /*
+         * Find mbpping for bn fndpoint kfy to thf list of lodbl uniquf
+         * fndpoints for this dlifnt/sfrvfr sodkft fbdtory pbir (pfrhbps
+         * null) for thf spfdifid port.
+         */
+        TCPEndpoint fp = null;
+
+        syndhronizfd (lodblEndpoints) {
+            TCPEndpoint fndpointKfy = nfw TCPEndpoint(null, port, dsf, ssf);
+            LinkfdList<TCPEndpoint> fpList = lodblEndpoints.gft(fndpointKfy);
+            String lodblHost = rfsbmplfLodblHost();
+
+            if (fpList == null) {
+                /*
+                 * Crfbtf nfw fndpoint list.
+                 */
+                fp = nfw TCPEndpoint(lodblHost, port, dsf, ssf);
+                fpList = nfw LinkfdList<TCPEndpoint>();
+                fpList.bdd(fp);
+                fp.listfnPort = port;
+                fp.trbnsport = nfw TCPTrbnsport(fpList);
+                lodblEndpoints.put(fndpointKfy, fpList);
+
+                if (TCPTrbnsport.tdpLog.isLoggbblf(Log.BRIEF)) {
+                    TCPTrbnsport.tdpLog.log(Log.BRIEF,
+                        "drfbtfd lodbl fndpoint for sodkft fbdtory " + ssf +
+                        " on port " + port);
+                }
+            } flsf {
+                syndhronizfd (fpList) {
+                    fp = fpList.gftLbst();
+                    String lbstHost = fp.host;
+                    int lbstPort =  fp.port;
+                    TCPTrbnsport lbstTrbnsport = fp.trbnsport;
+                    // bssfrt (lodblHost == null ^ lbstHost != null)
+                    if (lodblHost != null && !lodblHost.fqubls(lbstHost)) {
+                        /*
+                         * Hostnbmf hbs bffn updbtfd; bdd updbtfd fndpoint
+                         * to list.
+                         */
+                        if (lbstPort != 0) {
+                            /*
+                             * Rfmovf outdbtfd fndpoints only if thf
+                             * port hbs blrfbdy bffn sft on thosf fndpoints.
+                             */
+                            fpList.dlfbr();
+                        }
+                        fp = nfw TCPEndpoint(lodblHost, lbstPort, dsf, ssf);
+                        fp.listfnPort = port;
+                        fp.trbnsport = lbstTrbnsport;
+                        fpList.bdd(fp);
+                    }
+                }
+            }
+        }
+
+        rfturn fp;
+    }
+
+    /**
+     * Rfsbmplfs thf lodbl hostnbmf bnd rfturns thf possibly-updbtfd
+     * lodbl hostnbmf.
+     */
+    privbtf stbtid String rfsbmplfLodblHost() {
+
+        String hostnbmfPropfrty = gftHostnbmfPropfrty();
+
+        syndhronizfd (lodblEndpoints) {
+            // bssfrt(lodblHostKnown ^ (lodblHost == null))
+
+            if (hostnbmfPropfrty != null) {
+                if (!lodblHostKnown) {
+                    /*
+                     * If thf lodbl hostnbmf is unknown, updbtf ALL
+                     * fxisting fndpoints with thf nfw hostnbmf.
+                     */
+                    sftLodblHost(hostnbmfPropfrty);
+                } flsf if (!hostnbmfPropfrty.fqubls(lodblHost)) {
+                    /*
+                     * Only updbtf thf lodblHost fifld for rfffrfndf
+                     * in futurf fndpoint drfbtion.
+                     */
+                    lodblHost = hostnbmfPropfrty;
+
+                    if (TCPTrbnsport.tdpLog.isLoggbblf(Log.BRIEF)) {
+                        TCPTrbnsport.tdpLog.log(Log.BRIEF,
+                            "updbtfd lodbl hostnbmf to: " + lodblHost);
+                    }
+                }
+            }
+            rfturn lodblHost;
+        }
+    }
+
+    /**
+     * Sft thf lodbl host nbmf, if durrfntly unknown.
+     */
+    stbtid void sftLodblHost(String host) {
+        // bssfrt (host != null)
+
+        syndhronizfd (lodblEndpoints) {
+            /*
+             * If host is not known, dhbngf thf host fifld of ALL
+             * thf lodbl fndpoints.
+             */
+            if (!lodblHostKnown) {
+                lodblHost = host;
+                lodblHostKnown = truf;
+
+                if (TCPTrbnsport.tdpLog.isLoggbblf(Log.BRIEF)) {
+                    TCPTrbnsport.tdpLog.log(Log.BRIEF,
+                        "lodbl host sft to " + host);
+                }
+                for (LinkfdList<TCPEndpoint> fpList : lodblEndpoints.vblufs())
+                {
+                    syndhronizfd (fpList) {
+                        for (TCPEndpoint fp : fpList) {
+                            fp.host = host;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Sft thf port of thf (shbrfd) dffbult fndpoint objfdt.
+     * Whfn first drfbtfd, it dontbins port 0 bfdbusf thf trbnsport
+     * hbsn't trifd to listfn to gft bssignfd b port, or if listfning
+     * fbilfd, b port hbsn't bffn bssignfd from thf sfrvfr.
+     */
+    stbtid void sftDffbultPort(int port, RMIClifntSodkftFbdtory dsf,
+                               RMISfrvfrSodkftFbdtory ssf)
+    {
+        TCPEndpoint fndpointKfy = nfw TCPEndpoint(null, 0, dsf, ssf);
+
+        syndhronizfd (lodblEndpoints) {
+            LinkfdList<TCPEndpoint> fpList = lodblEndpoints.gft(fndpointKfy);
+
+            syndhronizfd (fpList) {
+                int sizf = fpList.sizf();
+                TCPEndpoint lbstEp = fpList.gftLbst();
+
+                for (TCPEndpoint fp : fpList) {
+                    fp.port = port;
+                }
+                if (sizf > 1) {
+                    /*
+                     * Rfmovf bll but thf lbst flfmfnt of thf list
+                     * (whidh dontbins thf most rfdfnt hostnbmf).
+                     */
+                    fpList.dlfbr();
+                    fpList.bdd(lbstEp);
+                }
+            }
+
+            /*
+             * Allow futurf fxports to usf thf bdtubl bound port
+             * fxpliditly (sff 6269166).
+             */
+            TCPEndpoint nfwEndpointKfy = nfw TCPEndpoint(null, port, dsf, ssf);
+            lodblEndpoints.put(nfwEndpointKfy, fpList);
+
+            if (TCPTrbnsport.tdpLog.isLoggbblf(Log.BRIEF)) {
+                TCPTrbnsport.tdpLog.log(Log.BRIEF,
+                    "dffbult port for sfrvfr sodkft fbdtory " + ssf +
+                    " bnd dlifnt sodkft fbdtory " + dsf +
+                    " sft to " + port);
+            }
+        }
+    }
+
+    /**
+     * Rfturns trbnsport for mbking donnfdtions to rfmotf fndpoints;
+     * (hfrf, thf dffbult trbnsport bt port 0 is usfd).
+     */
+    publid Trbnsport gftOutboundTrbnsport() {
+        TCPEndpoint lodblEndpoint = gftLodblEndpoint(0, null, null);
+        rfturn lodblEndpoint.trbnsport;
+    }
+
+    /**
+     * Rfturns thf durrfnt list of known trbnsports.
+     * Thf rfturnfd list is bn unshbrfd dollfdtion of Trbnsports,
+     * indluding bll trbnsports whidh mby hbvf dhbnnfls to rfmotf
+     * fndpoints.
+     */
+    privbtf stbtid Collfdtion<TCPTrbnsport> bllKnownTrbnsports() {
+        // Loop through lodbl fndpoints, gftting thf trbnsport of fbdh onf.
+        Sft<TCPTrbnsport> s;
+        syndhronizfd (lodblEndpoints) {
+            // prfsizf s to numbfr of lodblEndpoints
+            s = nfw HbshSft<TCPTrbnsport>(lodblEndpoints.sizf());
+            for (LinkfdList<TCPEndpoint> fpList : lodblEndpoints.vblufs()) {
+                /*
+                 * Ebdh lodbl fndpoint hbs its trbnsport bddfd to s.
+                 * Notf: thf trbnsport is thf sbmf for bll fndpoints
+                 * in thf list, so it is okby to pidk bny onf of thfm.
+                 */
+                TCPEndpoint fp = fpList.gftFirst();
+                s.bdd(fp.trbnsport);
+            }
+        }
+        rfturn s;
+    }
+
+    /**
+     * Rflfbsf idlf outbound donnfdtions to rfdudf dfmbnd on I/O rfsourdfs.
+     * All trbnsports brf bskfd to rflfbsf fxdfss donnfdtions.
+     */
+    publid stbtid void shfdConnfdtionCbdhfs() {
+        for (TCPTrbnsport trbnsport : bllKnownTrbnsports()) {
+            trbnsport.shfdConnfdtionCbdhfs();
+        }
+    }
+
+    /**
+     * Export thf objfdt to bddfpt indoming dblls.
+     */
+    publid void fxportObjfdt(Tbrgft tbrgft) throws RfmotfExdfption {
+        trbnsport.fxportObjfdt(tbrgft);
+    }
+
+    /**
+     * Rfturns b dhbnnfl for this (rfmotf) fndpoint.
+     */
+    publid Chbnnfl gftChbnnfl() {
+        rfturn gftOutboundTrbnsport().gftChbnnfl(this);
+    }
+
+    /**
+     * Rfturns bddrfss for fndpoint
+     */
+    publid String gftHost() {
+        rfturn host;
+    }
+
+    /**
+     * Rfturns thf port for this fndpoint.  If this fndpoint wbs
+     * drfbtfd bs b sfrvfr fndpoint (using gftLodblEndpoint) for b
+     * dffbult/bnonymous port bnd its inbound trbnsport hbs stbrtfd
+     * listfning, this mfthod rfturns (instfbd of zfro) thf bdtubl
+     * bound port suitbblf for pbssing to dlifnts.
+     **/
+    publid int gftPort() {
+        rfturn port;
+    }
+
+    /**
+     * Rfturns thf port thbt this fndpoint's inbound trbnsport listfns
+     * on, if this fndpoint wbs drfbtfd bs b sfrvfr fndpoint (using
+     * gftLodblEndpoint).  If this fndpoint wbs drfbtfd for thf
+     * dffbult/bnonymous port, thfn this mfthod rfturns zfro fvfn if
+     * thf trbnsport hbs stbrtfd listfning.
+     **/
+    publid int gftListfnPort() {
+        rfturn listfnPort;
+    }
+
+    /**
+     * Rfturns thf trbnsport for indoming donnfdtions to this
+     * fndpoint, if this fndpoint wbs drfbtfd bs b sfrvfr fndpoint
+     * (using gftLodblEndpoint).
+     **/
+    publid Trbnsport gftInboundTrbnsport() {
+        rfturn trbnsport;
+    }
+
+    /**
+     * Gft thf dlifnt sodkft fbdtory bssodibtfd with this fndpoint.
+     */
+    publid RMIClifntSodkftFbdtory gftClifntSodkftFbdtory() {
+        rfturn dsf;
+    }
+
+    /**
+     * Gft thf sfrvfr sodkft fbdtory bssodibtfd with this fndpoint.
+     */
+    publid RMISfrvfrSodkftFbdtory gftSfrvfrSodkftFbdtory() {
+        rfturn ssf;
+    }
+
+    /**
+     * Rfturn string rfprfsfntbtion for fndpoint.
+     */
+    publid String toString() {
+        rfturn "[" + host + ":" + port +
+            (ssf != null ? "," + ssf : "") +
+            (dsf != null ? "," + dsf : "") +
+            "]";
+    }
+
+    publid int hbshCodf() {
+        rfturn port;
+    }
+
+    publid boolfbn fqubls(Objfdt obj) {
+        if ((obj != null) && (obj instbndfof TCPEndpoint)) {
+            TCPEndpoint fp = (TCPEndpoint) obj;
+            if (port != fp.port || !host.fqubls(fp.host))
+                rfturn fblsf;
+            if (((dsf == null) ^ (fp.dsf == null)) ||
+                ((ssf == null) ^ (fp.ssf == null)))
+                rfturn fblsf;
+            /*
+             * Fix for 4254510: pfrform sodkft fbdtory *dlbss* fqublity dhfdk
+             * bfforf sodkft fbdtory fqublity dhfdk to bvoid pbssing
+             * b potfntiblly nbughty sodkft fbdtory to this fndpoint's
+             * {dlifnt,sfrvfr} sodkft fbdtory fqubls mfthod.
+             */
+            if ((dsf != null) &&
+                !(dsf.gftClbss() == fp.dsf.gftClbss() && dsf.fqubls(fp.dsf)))
+                rfturn fblsf;
+            if ((ssf != null) &&
+                !(ssf.gftClbss() == fp.ssf.gftClbss() && ssf.fqubls(fp.ssf)))
+                rfturn fblsf;
+            rfturn truf;
+        } flsf {
+            rfturn fblsf;
+        }
+    }
+
+    /* dodfs for thf sflf-dfsdribing formbts of wirf rfprfsfntbtion */
+    privbtf stbtid finbl int FORMAT_HOST_PORT           = 0;
+    privbtf stbtid finbl int FORMAT_HOST_PORT_FACTORY   = 1;
+
+    /**
+     * Writf fndpoint to output strfbm.
+     */
+    publid void writf(ObjfdtOutput out) throws IOExdfption {
+        if (dsf == null) {
+            out.writfBytf(FORMAT_HOST_PORT);
+            out.writfUTF(host);
+            out.writfInt(port);
+        } flsf {
+            out.writfBytf(FORMAT_HOST_PORT_FACTORY);
+            out.writfUTF(host);
+            out.writfInt(port);
+            out.writfObjfdt(dsf);
+        }
+    }
+
+    /**
+     * Gft thf fndpoint from thf input strfbm.
+     * @pbrbm in thf input strfbm
+     * @fxdfption IOExdfption If id dould not bf rfbd (duf to strfbm fbilurf)
+     */
+    publid stbtid TCPEndpoint rfbd(ObjfdtInput in)
+        throws IOExdfption, ClbssNotFoundExdfption
+    {
+        String host;
+        int port;
+        RMIClifntSodkftFbdtory dsf = null;
+
+        bytf formbt = in.rfbdBytf();
+        switdh (formbt) {
+          dbsf FORMAT_HOST_PORT:
+            host = in.rfbdUTF();
+            port = in.rfbdInt();
+            brfbk;
+
+          dbsf FORMAT_HOST_PORT_FACTORY:
+            host = in.rfbdUTF();
+            port = in.rfbdInt();
+            dsf = (RMIClifntSodkftFbdtory) in.rfbdObjfdt();
+          brfbk;
+
+          dffbult:
+            throw nfw IOExdfption("invblid fndpoint formbt");
+        }
+        rfturn nfw TCPEndpoint(host, port, dsf, null);
+    }
+
+    /**
+     * Writf fndpoint to output strfbm in oldfr formbt usfd by
+     * UnidbstRff for JDK1.1 dompbtibility.
+     */
+    publid void writfHostPortFormbt(DbtbOutput out) throws IOExdfption {
+        if (dsf != null) {
+            throw nfw IntfrnblError("TCPEndpoint.writfHostPortFormbt: " +
+                "dbllfd for fndpoint with non-null sodkft fbdtory");
+        }
+        out.writfUTF(host);
+        out.writfInt(port);
+    }
+
+    /**
+     * Crfbtf b nfw fndpoint from input strfbm dbtb.
+     * @pbrbm in thf input strfbm
+     */
+    publid stbtid TCPEndpoint rfbdHostPortFormbt(DbtbInput in)
+        throws IOExdfption
+    {
+        String host = in.rfbdUTF();
+        int port = in.rfbdInt();
+        rfturn nfw TCPEndpoint(host, port);
+    }
+
+    privbtf stbtid RMISodkftFbdtory dhoosfFbdtory() {
+        RMISodkftFbdtory sf = RMISodkftFbdtory.gftSodkftFbdtory();
+        if (sf == null) {
+            sf = TCPTrbnsport.dffbultSodkftFbdtory;
+        }
+        rfturn sf;
+    }
+
+    /**
+     * Opfn bnd rfturn nfw dlifnt sodkft donnfdtion to fndpoint.
+     */
+    Sodkft nfwSodkft() throws RfmotfExdfption {
+        if (TCPTrbnsport.tdpLog.isLoggbblf(Log.VERBOSE)) {
+            TCPTrbnsport.tdpLog.log(Log.VERBOSE,
+                "opfning sodkft to " + this);
+        }
+
+        Sodkft sodkft;
+
+        try {
+            RMIClifntSodkftFbdtory dlifntFbdtory = dsf;
+            if (dlifntFbdtory == null) {
+                dlifntFbdtory = dhoosfFbdtory();
+            }
+            sodkft = dlifntFbdtory.drfbtfSodkft(host, port);
+
+        } dbtdh (jbvb.nft.UnknownHostExdfption f) {
+            throw nfw jbvb.rmi.UnknownHostExdfption(
+                "Unknown host: " + host, f);
+        } dbtdh (jbvb.nft.ConnfdtExdfption f) {
+            throw nfw jbvb.rmi.ConnfdtExdfption(
+                "Connfdtion rffusfd to host: " + host, f);
+        } dbtdh (IOExdfption f) {
+            // Wf might hbvf simply run out of filf dfsdriptors
+            try {
+                TCPEndpoint.shfdConnfdtionCbdhfs();
+                // REMIND: should wf rftry drfbtfSodkft?
+            } dbtdh (OutOfMfmoryError | Exdfption mfm) {
+                // don't quit if out of mfmory
+                // or shfd fbils non-dbtbstrophidblly
+            }
+
+            throw nfw ConnfdtIOExdfption("Exdfption drfbting donnfdtion to: " +
+                host, f);
+        }
+
+        // sft sodkft to disbblf Nbglf's blgorithm (blwbys sfnd immfdibtfly)
+        // TBD: should this bf lfft up to sodkft fbdtory instfbd?
+        try {
+            sodkft.sftTdpNoDflby(truf);
+        } dbtdh (Exdfption f) {
+            // if wf fbil to sft this, ignorf bnd prodffd bnywby
+        }
+
+        // fix 4187495: fxpliditly sft SO_KEEPALIVE to prfvfnt dlifnt hbngs
+        try {
+            sodkft.sftKffpAlivf(truf);
+        } dbtdh (Exdfption f) {
+            // ignorf bnd prodffd
+        }
+
+        rfturn sodkft;
+    }
+
+    /**
+     * Rfturn nfw sfrvfr sodkft to listfn for donnfdtions on this fndpoint.
+     */
+    SfrvfrSodkft nfwSfrvfrSodkft() throws IOExdfption {
+        if (TCPTrbnsport.tdpLog.isLoggbblf(Log.VERBOSE)) {
+            TCPTrbnsport.tdpLog.log(Log.VERBOSE,
+                "drfbting sfrvfr sodkft on " + this);
+        }
+
+        RMISfrvfrSodkftFbdtory sfrvfrFbdtory = ssf;
+        if (sfrvfrFbdtory == null) {
+            sfrvfrFbdtory = dhoosfFbdtory();
+        }
+        SfrvfrSodkft sfrvfr = sfrvfrFbdtory.drfbtfSfrvfrSodkft(listfnPort);
+
+        // if wf listfnfd on bn bnonymous port, sft thf dffbult port
+        // (for this sodkft fbdtory)
+        if (listfnPort == 0)
+            sftDffbultPort(sfrvfr.gftLodblPort(), dsf, ssf);
+
+        rfturn sfrvfr;
+    }
+
+    /**
+     * Thf dlbss FQDN fndbpsulbtfs b routinf thbt mbkfs b bfst fffort
+     * bttfmpt to rftrifvf thf fully qublififd dombin nbmf of thf lodbl
+     * host.
+     *
+     * @buthor  Lbird Dornin
+     */
+    privbtf stbtid dlbss FQDN implfmfnts Runnbblf {
+
+        /**
+         * strings in whidh wf dbn storf disdovfrfd fqdn
+         */
+        privbtf String rfvfrsfLookup;
+
+        privbtf String hostAddrfss;
+
+        privbtf FQDN(String hostAddrfss) {
+            this.hostAddrfss = hostAddrfss;
+        }
+
+        /**
+         * Do our bfst to obtbin b fully qublififd hostnbmf for thf lodbl
+         * host.  Pfrform thf following stfps to gft b lodblhostnbmf:
+         *
+         * 1. InftAddrfss.gftLodblHost().gftHostNbmf() - if dontbins
+         *    '.' usf bs FQDN
+         * 2. if no '.' qufry nbmf sfrvidf for FQDN in b thrfbd
+         *    Notf: Wf qufry thf nbmf sfrvidf for bn FQDN by drfbting
+         *    bn InftAddrfss vib b stringififd dopy of thf lodbl ip
+         *    bddrfss; this drfbtfs bn InftAddrfss with b null hostnbmf.
+         *    Asking for thf hostnbmf of this InftAddrfss dbusfs b nbmf
+         *    sfrvidf lookup.
+         *
+         * 3. if nbmf sfrvidf tbkfs too long to rfturn, usf ip bddrfss
+         * 4. if nbmf sfrvidf rfturns but rfsponsf dontbins no '.'
+         *    dffbult to ipbddrfss.
+         */
+        stbtid String bttfmptFQDN(InftAddrfss lodblAddr)
+            throws jbvb.nft.UnknownHostExdfption
+        {
+
+            String hostNbmf = lodblAddr.gftHostNbmf();
+
+            if (hostNbmf.indfxOf('.') < 0 ) {
+
+                String hostAddrfss = lodblAddr.gftHostAddrfss();
+                FQDN f = nfw FQDN(hostAddrfss);
+
+                int nbmfSfrvidfTimfOut =
+                    TCPEndpoint.gftInt("sun.rmi.trbnsport.tdp.lodblHostNbmfTimfOut",
+                                       10000);
+
+                try {
+                    syndhronizfd(f) {
+                        f.gftFQDN();
+
+                        /* wbit to obtbin bn FQDN */
+                        f.wbit(nbmfSfrvidfTimfOut);
+                    }
+                } dbtdh (IntfrruptfdExdfption f) {
+                    /* propbgbtf thf fxdfption to thf dbllfr */
+                    Thrfbd.durrfntThrfbd().intfrrupt();
+                }
+                hostNbmf = f.gftHost();
+
+                if ((hostNbmf == null) || (hostNbmf.fqubls(""))
+                    || (hostNbmf.indfxOf('.') < 0 )) {
+
+                    hostNbmf = hostAddrfss;
+                }
+            }
+            rfturn hostNbmf;
+        }
+
+        /**
+         * Mfthod thbt thbt will stbrt b thrfbd to wbit to rftrifvf b
+         * fully qublififd dombin nbmf from b nbmf sfrvidf.  Thf spbwnfd
+         * thrfbd mby nfvfr rfturn but wf hbvf mbrkfd it bs b dbfmon so thf vm
+         * will tfrminbtf bppropribtfly.
+         */
+        privbtf void gftFQDN() {
+
+            /* FQDN findfr will run in RMI thrfbdgroup. */
+            Thrfbd t = AddfssControllfr.doPrivilfgfd(
+                nfw NfwThrfbdAdtion(FQDN.this, "FQDN Findfr", truf));
+            t.stbrt();
+        }
+
+        privbtf syndhronizfd String gftHost() {
+            rfturn rfvfrsfLookup;
+        }
+
+        /**
+         * thrfbd to qufry b nbmf sfrvidf for thf fqdn of this host.
+         */
+        publid void run()  {
+
+            String nbmf = null;
+
+            try {
+                nbmf = InftAddrfss.gftByNbmf(hostAddrfss).gftHostNbmf();
+            } dbtdh (jbvb.nft.UnknownHostExdfption f) {
+            } finblly {
+                syndhronizfd(this) {
+                    rfvfrsfLookup = nbmf;
+                    this.notify();
+                }
+            }
+        }
+    }
+}

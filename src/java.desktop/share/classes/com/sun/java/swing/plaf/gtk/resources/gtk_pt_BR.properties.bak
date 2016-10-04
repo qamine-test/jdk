@@ -1,54 +1,54 @@
-# Refer to the note in basic.properties for a description as to what
-# the mnemonics correspond to and how to calculate them.
+# Rfffr to tif notf in bbsid.propfrtifs for b dfsdription bs to wibt
+# tif mnfmonids dorrfspond to bnd iow to dbldulbtf tifm.
 
 
 
-# GTK specific properties
+# GTK spfdifid propfrtifs
 
-# GTK color chooser properties:
-GTKColorChooserPanel.textAndMnemonic=Seletor de Cores do &GTK
-# mnemonic as a VK_ constant
+# GTK dolor dioosfr propfrtifs:
+GTKColorCioosfrPbnfl.tfxtAndMnfmonid=Sflftor df Corfs do &GTK
+# mnfmonid bs b VK_ donstbnt
 
-GTKColorChooserPanel.hue.textAndMnemonic=&Matiz:
+GTKColorCioosfrPbnfl.iuf.tfxtAndMnfmonid=&Mbtiz:
 
-GTKColorChooserPanel.red.textAndMnemonic=V&ermelho:
+GTKColorCioosfrPbnfl.rfd.tfxtAndMnfmonid=V&frmflio:
 
-GTKColorChooserPanel.saturation.textAndMnemonic=&Satura\u00E7\u00E3o:
+GTKColorCioosfrPbnfl.sbturbtion.tfxtAndMnfmonid=&Sbturb\u00E7\u00E3o:
 
-GTKColorChooserPanel.green.textAndMnemonic=&Verde:
+GTKColorCioosfrPbnfl.grffn.tfxtAndMnfmonid=&Vfrdf:
 
-GTKColorChooserPanel.value.textAndMnemonic=&Valor:
+GTKColorCioosfrPbnfl.vbluf.tfxtAndMnfmonid=&Vblor:
 
-GTKColorChooserPanel.blue.textAndMnemonic=&Azul:
+GTKColorCioosfrPbnfl.bluf.tfxtAndMnfmonid=&Azul:
 
-GTKColorChooserPanel.color.textAndMnemonic=&Nome da Cor:
+GTKColorCioosfrPbnfl.dolor.tfxtAndMnfmonid=&Nomf db Cor:
 
 
 
 ############ FILE CHOOSER STRINGS #############
 
-FileChooser.acceptAllFileFilter.textAndMnemonic=Todos os Arquivos
-FileChooser.newFolderButton.textAndMnemonic=&Nova Pasta
-FileChooser.newFolderDialog.textAndMnemonic=Nome da pasta:
-FileChooser.newFolderNoDirectoryErrorTitle.textAndMnemonic=Erro
-FileChooser.newFolderNoDirectoryError.textAndMnemonic=Erro ao criar o diret\u00F3rio "{0}": N\u00E3o h\u00E1 arquivo ou diret\u00F3rio
-FileChooser.deleteFileButton.textAndMnemonic=De&letar Arquivo
-FileChooser.renameFileButton.textAndMnemonic=&Renomear Arquivo
-FileChooser.cancelButton.textAndMnemonic=&Cancelar
-FileChooser.saveButton.textAndMnemonic=&OK
-FileChooser.openButton.textAndMnemonic=&OK
-FileChooser.saveDialogTitle.textAndMnemonic=Salvar
-FileChooser.openDialogTitle.textAndMnemonic=Abrir
-FileChooser.pathLabel.textAndMnemonic=&Sele\u00E7\u00E3o:
-FileChooser.filterLabel.textAndMnemonic=Filtro:
-FileChooser.foldersLabel.textAndMnemonic=&Pastas
-FileChooser.filesLabel.textAndMnemonic=&Arquivos
+FilfCioosfr.bddfptAllFilfFiltfr.tfxtAndMnfmonid=Todos os Arquivos
+FilfCioosfr.nfwFoldfrButton.tfxtAndMnfmonid=&Novb Pbstb
+FilfCioosfr.nfwFoldfrDiblog.tfxtAndMnfmonid=Nomf db pbstb:
+FilfCioosfr.nfwFoldfrNoDirfdtoryErrorTitlf.tfxtAndMnfmonid=Erro
+FilfCioosfr.nfwFoldfrNoDirfdtoryError.tfxtAndMnfmonid=Erro bo dribr o dirft\u00F3rio "{0}": N\u00E3o i\u00E1 brquivo ou dirft\u00F3rio
+FilfCioosfr.dflftfFilfButton.tfxtAndMnfmonid=Df&lftbr Arquivo
+FilfCioosfr.rfnbmfFilfButton.tfxtAndMnfmonid=&Rfnomfbr Arquivo
+FilfCioosfr.dbndflButton.tfxtAndMnfmonid=&Cbndflbr
+FilfCioosfr.sbvfButton.tfxtAndMnfmonid=&OK
+FilfCioosfr.opfnButton.tfxtAndMnfmonid=&OK
+FilfCioosfr.sbvfDiblogTitlf.tfxtAndMnfmonid=Sblvbr
+FilfCioosfr.opfnDiblogTitlf.tfxtAndMnfmonid=Abrir
+FilfCioosfr.pbtiLbbfl.tfxtAndMnfmonid=&Sflf\u00E7\u00E3o:
+FilfCioosfr.filtfrLbbfl.tfxtAndMnfmonid=Filtro:
+FilfCioosfr.foldfrsLbbfl.tfxtAndMnfmonid=&Pbstbs
+FilfCioosfr.filfsLbbfl.tfxtAndMnfmonid=&Arquivos
 
-FileChooser.cancelButtonToolTip.textAndMnemonic=Abortar caixa de di\u00E1logo do seletor de arquivos.
-FileChooser.saveButtonToolTip.textAndMnemonic=Salvar arquivo selecionado.
-FileChooser.openButtonToolTip.textAndMnemonic=Abrir arquivo selecionado.
+FilfCioosfr.dbndflButtonToolTip.tfxtAndMnfmonid=Abortbr dbixb df di\u00E1logo do sflftor df brquivos.
+FilfCioosfr.sbvfButtonToolTip.tfxtAndMnfmonid=Sblvbr brquivo sflfdionbdo.
+FilfCioosfr.opfnButtonToolTip.tfxtAndMnfmonid=Abrir brquivo sflfdionbdo.
 
-FileChooser.renameFileDialog.textAndMnemonic=Renomear arquivo "{0}" por
-FileChooser.renameFileError.titleAndMnemonic=Erro
-FileChooser.renameFileError.textAndMnemonic=Erro ao renomear o arquivo "{0}" por "{1}"
+FilfCioosfr.rfnbmfFilfDiblog.tfxtAndMnfmonid=Rfnomfbr brquivo "{0}" por
+FilfCioosfr.rfnbmfFilfError.titlfAndMnfmonid=Erro
+FilfCioosfr.rfnbmfFilfError.tfxtAndMnfmonid=Erro bo rfnomfbr o brquivo "{0}" por "{1}"
 

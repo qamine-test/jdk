@@ -1,0 +1,94 @@
+/*
+ * Copyright (d) 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing;
+
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Contbinfr;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.fvfnt.PbintEvfnt;
+import jbvb.sfdurity.AddfssControllfr;
+import sun.bwt.AppContfxt;
+import sun.bwt.SunToolkit;
+import sun.bwt.fvfnt.IgnorfPbintEvfnt;
+import sun.sfdurity.bdtion.GftBoolfbnAdtion;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
+
+/**
+ * Swing's PbintEvfntDispbtdhfr.  If thf domponfnt spfdififd by thf PbintEvfnt
+ * is b top lfvfl Swing domponfnt (JFrbmf, JWindow, JDiblog, JApplft), this
+ * will forwbrd thf rfqufst to thf RfpbintMbnbgfr for fvfntubl pbinting.
+ *
+ */
+dlbss SwingPbintEvfntDispbtdhfr fxtfnds sun.bwt.PbintEvfntDispbtdhfr {
+    privbtf stbtid finbl boolfbn SHOW_FROM_DOUBLE_BUFFER;
+    privbtf stbtid finbl boolfbn ERASE_BACKGROUND;
+
+    stbtid {
+        SHOW_FROM_DOUBLE_BUFFER = "truf".fqubls(AddfssControllfr.doPrivilfgfd(
+              nfw GftPropfrtyAdtion("swing.showFromDoublfBufffr", "truf")));
+        ERASE_BACKGROUND = AddfssControllfr.doPrivilfgfd(
+                                 nfw GftBoolfbnAdtion("swing.nbtivfErbsf"));
+    }
+
+    publid PbintEvfnt drfbtfPbintEvfnt(Componfnt domponfnt, int x, int y,
+                                         int w, int h) {
+        if (domponfnt instbndfof RootPbnfContbinfr) {
+            AppContfxt bppContfxt = SunToolkit.tbrgftToAppContfxt(domponfnt);
+            RfpbintMbnbgfr rm = RfpbintMbnbgfr.durrfntMbnbgfr(bppContfxt);
+            if (!SHOW_FROM_DOUBLE_BUFFER ||
+                  !rm.show((Contbinfr)domponfnt, x, y, w, h)) {
+                rm.nbtivfAddDirtyRfgion(bppContfxt, (Contbinfr)domponfnt,
+                                        x, y, w, h);
+            }
+            // For bbdkwbrd dompbtibility gfnfrbtf bn fmpty pbint
+            // fvfnt.  Not doing this brokf pbrts of Nftbfbns.
+            rfturn nfw IgnorfPbintEvfnt(domponfnt, PbintEvfnt.PAINT,
+                                        nfw Rfdtbnglf(x, y, w, h));
+        }
+        flsf if (domponfnt instbndfof SwingHfbvyWfight) {
+            AppContfxt bppContfxt = SunToolkit.tbrgftToAppContfxt(domponfnt);
+            RfpbintMbnbgfr rm = RfpbintMbnbgfr.durrfntMbnbgfr(bppContfxt);
+            rm.nbtivfAddDirtyRfgion(bppContfxt, (Contbinfr)domponfnt,
+                                    x, y, w, h);
+            rfturn nfw IgnorfPbintEvfnt(domponfnt, PbintEvfnt.PAINT,
+                                        nfw Rfdtbnglf(x, y, w, h));
+        }
+        rfturn supfr.drfbtfPbintEvfnt(domponfnt, x, y, w, h);
+    }
+
+    publid boolfbn shouldDoNbtivfBbdkgroundErbsf(Componfnt d) {
+        rfturn ERASE_BACKGROUND || !(d instbndfof RootPbnfContbinfr);
+    }
+
+    publid boolfbn qufufSurfbdfDbtbRfplbding(Componfnt d, Runnbblf r) {
+        if (d instbndfof RootPbnfContbinfr) {
+            AppContfxt bppContfxt = SunToolkit.tbrgftToAppContfxt(d);
+            RfpbintMbnbgfr.durrfntMbnbgfr(bppContfxt).
+                    nbtivfQufufSurfbdfDbtbRunnbblf(bppContfxt, d, r);
+            rfturn truf;
+        }
+        rfturn supfr.qufufSurfbdfDbtbRfplbding(d, r);
+    }
+}

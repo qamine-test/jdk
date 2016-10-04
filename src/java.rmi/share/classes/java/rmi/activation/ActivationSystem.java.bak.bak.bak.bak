@@ -1,0 +1,229 @@
+/*
+ * Copyright (d) 1997, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.rmi.bdtivbtion;
+
+import jbvb.rmi.Rfmotf;
+import jbvb.rmi.RfmotfExdfption;
+import jbvb.rmi.bdtivbtion.UnknownGroupExdfption;
+import jbvb.rmi.bdtivbtion.UnknownObjfdtExdfption;
+
+/**
+ * Thf <dodf>AdtivbtionSystfm</dodf> providfs b mfbns for rfgistfring
+ * groups bnd "bdtivbtbblf" objfdts to bf bdtivbtfd within thosf groups.
+ * Thf <dodf>AdtivbtionSystfm</dodf> works dlosfly with thf
+ * <dodf>Adtivbtor</dodf>, whidh bdtivbtfs objfdts rfgistfrfd vib thf
+ * <dodf>AdtivbtionSystfm</dodf>, bnd thf <dodf>AdtivbtionMonitor</dodf>,
+ * whidh obtbins informbtion bbout bdtivf bnd inbdtivf objfdts,
+ * bnd inbdtivf groups.
+ *
+ * @buthor      Ann Wollrbth
+ * @sff         Adtivbtor
+ * @sff         AdtivbtionMonitor
+ * @sindf       1.2
+ */
+publid intfrfbdf AdtivbtionSystfm fxtfnds Rfmotf {
+
+    /** Thf port to lookup thf bdtivbtion systfm. */
+    publid stbtid finbl int SYSTEM_PORT = 1098;
+
+    /**
+     * Thf <dodf>rfgistfrObjfdt</dodf> mfthod is usfd to rfgistfr bn
+     * bdtivbtion dfsdriptor, <dodf>dfsd</dodf>, bnd obtbin bn
+     * bdtivbtion idfntififr for b bdtivbtbblf rfmotf objfdt. Thf
+     * <dodf>AdtivbtionSystfm</dodf> drfbtfs bn
+     * <dodf>AdtivbtionID</dodf> (b bdtivbtion idfntififr) for thf
+     * objfdt spfdififd by thf dfsdriptor, <dodf>dfsd</dodf>, bnd
+     * rfdords, in stbblf storbgf, thf bdtivbtion dfsdriptor bnd its
+     * bssodibtfd idfntififr for lbtfr usf. Whfn thf <dodf>Adtivbtor</dodf>
+     * rfdfivfs bn <dodf>bdtivbtf</dodf> rfqufst for b spfdifid idfntififr, it
+     * looks up thf bdtivbtion dfsdriptor (rfgistfrfd prfviously) for
+     * thf spfdififd idfntififr bnd usfs thbt informbtion to bdtivbtf
+     * thf objfdt.
+     *
+     * @pbrbm dfsd thf objfdt's bdtivbtion dfsdriptor
+     * @rfturn thf bdtivbtion id thbt dbn bf usfd to bdtivbtf thf objfdt
+     * @fxdfption AdtivbtionExdfption if rfgistrbtion fbils (f.g., dbtbbbsf
+     * updbtf fbilurf, ftd).
+     * @fxdfption UnknownGroupExdfption if group rfffrrfd to in
+     * <dodf>dfsd</dodf> is not rfgistfrfd with this systfm
+     * @fxdfption RfmotfExdfption if rfmotf dbll fbils
+     * @sindf 1.2
+     */
+    publid AdtivbtionID rfgistfrObjfdt(AdtivbtionDfsd dfsd)
+        throws AdtivbtionExdfption, UnknownGroupExdfption, RfmotfExdfption;
+
+    /**
+     * Rfmovf thf bdtivbtion id bnd bssodibtfd dfsdriptor prfviously
+     * rfgistfrfd with thf <dodf>AdtivbtionSystfm</dodf>; thf objfdt
+     * dbn no longfr bf bdtivbtfd vib thf objfdt's bdtivbtion id.
+     *
+     * @pbrbm id thf objfdt's bdtivbtion id (from prfvious rfgistrbtion)
+     * @fxdfption AdtivbtionExdfption if unrfgistfr fbils (f.g., dbtbbbsf
+     * updbtf fbilurf, ftd).
+     * @fxdfption UnknownObjfdtExdfption if objfdt is unknown (not rfgistfrfd)
+     * @fxdfption RfmotfExdfption if rfmotf dbll fbils
+     * @sindf 1.2
+     */
+    publid void unrfgistfrObjfdt(AdtivbtionID id)
+        throws AdtivbtionExdfption, UnknownObjfdtExdfption, RfmotfExdfption;
+
+    /**
+     * Rfgistfr thf bdtivbtion group. An bdtivbtion group must bf
+     * rfgistfrfd with thf <dodf>AdtivbtionSystfm</dodf> bfforf objfdts
+     * dbn bf rfgistfrfd within thbt group.
+     *
+     * @pbrbm dfsd thf group's dfsdriptor
+     * @rfturn bn idfntififr for thf group
+     * @fxdfption AdtivbtionExdfption if group rfgistrbtion fbils
+     * @fxdfption RfmotfExdfption if rfmotf dbll fbils
+     * @sindf 1.2
+     */
+    publid AdtivbtionGroupID rfgistfrGroup(AdtivbtionGroupDfsd dfsd)
+        throws AdtivbtionExdfption, RfmotfExdfption;
+
+    /**
+     * Cbllbbdk to inform bdtivbtion systfm thbt group is now
+     * bdtivf. This dbll is mbdf intfrnblly by thf
+     * <dodf>AdtivbtionGroup.drfbtfGroup</dodf> mfthod to inform
+     * thf <dodf>AdtivbtionSystfm</dodf> thbt thf group is now
+     * bdtivf.
+     *
+     * @pbrbm id thf bdtivbtion group's idfntififr
+     * @pbrbm group thf group's instbntibtor
+     * @pbrbm indbrnbtion thf group's indbrnbtion numbfr
+     * @rfturn monitor for bdtivbtion group
+     * @fxdfption UnknownGroupExdfption if group is not rfgistfrfd
+     * @fxdfption AdtivbtionExdfption if b group for thf spfdififd
+     * <dodf>id</dodf> is blrfbdy bdtivf bnd thbt group is not fqubl
+     * to thf spfdififd <dodf>group</dodf> or thbt group hbs b difffrfnt
+     * <dodf>indbrnbtion</dodf> thbn thf spfdififd <dodf>group</dodf>
+     * @fxdfption RfmotfExdfption if rfmotf dbll fbils
+     * @sindf 1.2
+     */
+    publid AdtivbtionMonitor bdtivfGroup(AdtivbtionGroupID id,
+                                         AdtivbtionInstbntibtor group,
+                                         long indbrnbtion)
+        throws UnknownGroupExdfption, AdtivbtionExdfption, RfmotfExdfption;
+
+    /**
+     * Rfmovf thf bdtivbtion group. An bdtivbtion group mbkfs this dbll bbdk
+     * to inform thf bdtivbtor thbt thf group should bf rfmovfd (dfstroyfd).
+     * If this dbll domplftfs suddfssfully, objfdts dbn no longfr bf
+     * rfgistfrfd or bdtivbtfd within thf group. All informbtion of thf
+     * group bnd its bssodibtfd objfdts is rfmovfd from thf systfm.
+     *
+     * @pbrbm id thf bdtivbtion group's idfntififr
+     * @fxdfption AdtivbtionExdfption if unrfgistfr fbils (f.g., dbtbbbsf
+     * updbtf fbilurf, ftd).
+     * @fxdfption UnknownGroupExdfption if group is not rfgistfrfd
+     * @fxdfption RfmotfExdfption if rfmotf dbll fbils
+     * @sindf 1.2
+     */
+    publid void unrfgistfrGroup(AdtivbtionGroupID id)
+        throws AdtivbtionExdfption, UnknownGroupExdfption, RfmotfExdfption;
+
+    /**
+     * Shutdown thf bdtivbtion systfm. Dfstroys bll groups spbwnfd by
+     * thf bdtivbtion dbfmon bnd fxits thf bdtivbtion dbfmon.
+     * @fxdfption RfmotfExdfption if fbilfd to dontbdt/shutdown thf bdtivbtion
+     * dbfmon
+     * @sindf 1.2
+     */
+    publid void shutdown() throws RfmotfExdfption;
+
+    /**
+     * Sft thf bdtivbtion dfsdriptor, <dodf>dfsd</dodf> for thf objfdt with
+     * thf bdtivbtion idfntififr, <dodf>id</dodf>. Thf dhbngf will tbkf
+     * ffffdt upon subsfqufnt bdtivbtion of thf objfdt.
+     *
+     * @pbrbm id thf bdtivbtion idfntififr for thf bdtivbtbblf objfdt
+     * @pbrbm dfsd thf bdtivbtion dfsdriptor for thf bdtivbtbblf objfdt
+     * @fxdfption UnknownGroupExdfption thf group bssodibtfd with
+     * <dodf>dfsd</dodf> is not b rfgistfrfd group
+     * @fxdfption UnknownObjfdtExdfption thf bdtivbtion <dodf>id</dodf>
+     * is not rfgistfrfd
+     * @fxdfption AdtivbtionExdfption for gfnfrbl fbilurf (f.g., unbblf
+     * to updbtf log)
+     * @fxdfption RfmotfExdfption if rfmotf dbll fbils
+     * @rfturn thf prfvious vbluf of thf bdtivbtion dfsdriptor
+     * @sff #gftAdtivbtionDfsd
+     * @sindf 1.2
+     */
+    publid AdtivbtionDfsd sftAdtivbtionDfsd(AdtivbtionID id,
+                                            AdtivbtionDfsd dfsd)
+        throws AdtivbtionExdfption, UnknownObjfdtExdfption,
+            UnknownGroupExdfption, RfmotfExdfption;
+
+    /**
+     * Sft thf bdtivbtion group dfsdriptor, <dodf>dfsd</dodf> for thf objfdt
+     * with thf bdtivbtion group idfntififr, <dodf>id</dodf>. Thf dhbngf will
+     * tbkf ffffdt upon subsfqufnt bdtivbtion of thf group.
+     *
+     * @pbrbm id thf bdtivbtion group idfntififr for thf bdtivbtion group
+     * @pbrbm dfsd thf bdtivbtion group dfsdriptor for thf bdtivbtion group
+     * @fxdfption UnknownGroupExdfption thf group bssodibtfd with
+     * <dodf>id</dodf> is not b rfgistfrfd group
+     * @fxdfption AdtivbtionExdfption for gfnfrbl fbilurf (f.g., unbblf
+     * to updbtf log)
+     * @fxdfption RfmotfExdfption if rfmotf dbll fbils
+     * @rfturn thf prfvious vbluf of thf bdtivbtion group dfsdriptor
+     * @sff #gftAdtivbtionGroupDfsd
+     * @sindf 1.2
+     */
+    publid AdtivbtionGroupDfsd sftAdtivbtionGroupDfsd(AdtivbtionGroupID id,
+                                                      AdtivbtionGroupDfsd dfsd)
+       throws AdtivbtionExdfption, UnknownGroupExdfption, RfmotfExdfption;
+
+    /**
+     * Rfturns thf bdtivbtion dfsdriptor, for thf objfdt with thf bdtivbtion
+     * idfntififr, <dodf>id</dodf>.
+     *
+     * @pbrbm id thf bdtivbtion idfntififr for thf bdtivbtbblf objfdt
+     * @fxdfption UnknownObjfdtExdfption if <dodf>id</dodf> is not rfgistfrfd
+     * @fxdfption AdtivbtionExdfption for gfnfrbl fbilurf
+     * @fxdfption RfmotfExdfption if rfmotf dbll fbils
+     * @rfturn thf bdtivbtion dfsdriptor
+     * @sff #sftAdtivbtionDfsd
+     * @sindf 1.2
+     */
+    publid AdtivbtionDfsd gftAdtivbtionDfsd(AdtivbtionID id)
+       throws AdtivbtionExdfption, UnknownObjfdtExdfption, RfmotfExdfption;
+
+    /**
+     * Rfturns thf bdtivbtion group dfsdriptor, for thf group
+     * with thf bdtivbtion group idfntififr, <dodf>id</dodf>.
+     *
+     * @pbrbm id thf bdtivbtion group idfntififr for thf group
+     * @fxdfption UnknownGroupExdfption if <dodf>id</dodf> is not rfgistfrfd
+     * @fxdfption AdtivbtionExdfption for gfnfrbl fbilurf
+     * @fxdfption RfmotfExdfption if rfmotf dbll fbils
+     * @rfturn thf bdtivbtion group dfsdriptor
+     * @sff #sftAdtivbtionGroupDfsd
+     * @sindf 1.2
+     */
+    publid AdtivbtionGroupDfsd gftAdtivbtionGroupDfsd(AdtivbtionGroupID id)
+       throws AdtivbtionExdfption, UnknownGroupExdfption, RfmotfExdfption;
+}

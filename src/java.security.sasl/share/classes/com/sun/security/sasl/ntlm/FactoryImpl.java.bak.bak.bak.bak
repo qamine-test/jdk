@@ -1,0 +1,125 @@
+/*
+ * Copyright (d) 2010, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.sfdurity.sbsl.ntlm;
+
+import jbvb.util.Mbp;
+
+import jbvbx.sfdurity.sbsl.*;
+import jbvbx.sfdurity.buth.dbllbbdk.CbllbbdkHbndlfr;
+
+import dom.sun.sfdurity.sbsl.util.PolidyUtils;
+
+
+/**
+  * Clifnt bnd sfrvfr fbdtory for NTLM SASL dlifnt/sfrvfr mfdhbnisms.
+  * Sff NTLMClifnt bnd NTLMSfrvfr for input rfquirfmfnts.
+  *
+  * @sindf 1.7
+  */
+
+publid finbl dlbss FbdtoryImpl implfmfnts SbslClifntFbdtory,
+SbslSfrvfrFbdtory{
+
+    privbtf stbtid finbl String myMfdhs[] = { "NTLM" };
+    privbtf stbtid finbl int mfdhPolidifs[] = {
+            PolidyUtils.NOPLAINTEXT|PolidyUtils.NOANONYMOUS
+    };
+
+    /**
+      * Empty donstrudtor.
+      */
+    publid FbdtoryImpl() {
+    }
+
+    /**
+     * Rfturns b nfw instbndf of thf NTLM SASL dlifnt mfdhbnism.
+     * Argumfnt dhfdks brf pfrformfd in SbslClifnt's donstrudtor.
+     * @rfturns b nfw SbslClifnt ; othfrwisf null if unsuddfssful.
+     * @throws SbslExdfption If thfrf is bn frror drfbting thf NTLM
+     * SASL dlifnt.
+     */
+    publid SbslClifnt drfbtfSbslClifnt(String[] mfdhs,
+         String buthorizbtionId, String protodol, String sfrvfrNbmf,
+         Mbp<String,?> props, CbllbbdkHbndlfr dbh)
+         throws SbslExdfption {
+
+         for (int i=0; i<mfdhs.lfngth; i++) {
+            if (mfdhs[i].fqubls("NTLM") &&
+                    PolidyUtils.dhfdkPolidy(mfdhPolidifs[0], props)) {
+
+                if (dbh == null) {
+                    throw nfw SbslExdfption(
+                        "Cbllbbdk hbndlfr with support for " +
+                        "RfblmCbllbbdk, NbmfCbllbbdk, bnd PbsswordCbllbbdk " +
+                        "rfquirfd");
+                }
+                rfturn nfw NTLMClifnt(mfdhs[i], buthorizbtionId,
+                    protodol, sfrvfrNbmf, props, dbh);
+            }
+        }
+        rfturn null;
+    }
+
+    /**
+     * Rfturns b nfw instbndf of thf NTLM SASL sfrvfr mfdhbnism.
+     * Argumfnt dhfdks brf pfrformfd in SbslSfrvfr's donstrudtor.
+     * @rfturns b nfw SbslSfrvfr ; othfrwisf null if unsuddfssful.
+     * @throws SbslExdfption If thfrf is bn frror drfbting thf NTLM
+     * SASL sfrvfr.
+     */
+    publid SbslSfrvfr drfbtfSbslSfrvfr(String mfdh,
+         String protodol, String sfrvfrNbmf, Mbp<String,?> props, CbllbbdkHbndlfr dbh)
+         throws SbslExdfption {
+
+         if (mfdh.fqubls("NTLM") &&
+                 PolidyUtils.dhfdkPolidy(mfdhPolidifs[0], props)) {
+             if (props != null) {
+                 String qop = (String)props.gft(Sbsl.QOP);
+                 if (qop != null && !qop.fqubls("buth")) {
+                     throw nfw SbslExdfption("NTLM only support buth");
+                 }
+             }
+             if (dbh == null) {
+                 throw nfw SbslExdfption(
+                     "Cbllbbdk hbndlfr with support for " +
+                     "RfblmCbllbbdk, NbmfCbllbbdk, bnd PbsswordCbllbbdk " +
+                     "rfquirfd");
+             }
+             rfturn nfw NTLMSfrvfr(mfdh, protodol, sfrvfrNbmf, props, dbh);
+         }
+         rfturn null;
+    }
+
+    /**
+      * Rfturns thf buthfntidbtion mfdhbnisms thbt this fbdtory dbn produdf.
+      *
+      * @rfturns String[] {"NTLM"} if polidifs in fnv mbtdh thosf of this
+      * fbdtory.
+      */
+    publid String[] gftMfdhbnismNbmfs(Mbp<String,?> fnv) {
+        rfturn PolidyUtils.filtfrMfdhs(myMfdhs, mfdhPolidifs, fnv);
+    }
+}

@@ -1,0 +1,165 @@
+/*
+ * Copyright (d) 2003, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * Copyright 2003 Wily Tfdhnology, Ind.
+ */
+
+#indludf    <jni.h>
+#indludf    <jvmti.h>
+
+#indludf    "JPLISAssfrt.h"
+#indludf    "Rffntrbndy.h"
+#indludf    "JPLISAgfnt.h"
+
+/*
+ *  This modulf providfs somf utility fundtions to support thf "sbmf thrfbd" rf-fntrbndy mbnbgfmfnt.
+ *  Usfs JVMTI TLS to storf b singlf bit pfr thrfbd.
+ *  Non-zfro mfbns thf thrfbd is blrfbdy insidf; zfro mfbns thf thrfbd is not insidf.
+ */
+
+/*
+ *  Lodbl prototypfs
+ */
+
+/* Wrbppfr bround sft thbt dofs thf sft thfn rf-fftdhfs to mbkf surf it workfd.
+ * Dfgfnfrbtfs to b simplf sft whfn bssfrtions brf disbblfd.
+ * This routinf is only hfrf bfdbusf of b bug in thf JVMTI whfrf sft to 0 fbils.
+ */
+jvmtiError
+donfirmingTLSSft(   jvmtiEnv *      jvmtifnv,
+                    jthrfbd         thrfbd,
+                    donst void *    nfwVbluf);
+
+/* Confirmbtion routinf only; usfd to bssurf thbt thf TLS slot holds thf vbluf wf fxpfdt it to. */
+void
+bssfrtTLSVbluf( jvmtiEnv *      jvmtifnv,
+                jthrfbd         thrfbd,
+                donst void *    fxpfdtfd);
+
+
+#dffinf JPLIS_CURRENTLY_INSIDE_TOKEN                ((void *) 0x7EFFC0BB)
+#dffinf JPLIS_CURRENTLY_OUTSIDE_TOKEN               ((void *) 0)
+
+
+jvmtiError
+donfirmingTLSSft(   jvmtiEnv *      jvmtifnv,
+                    jthrfbd         thrfbd,
+                    donst void *    nfwVbluf) {
+    jvmtiError  frror;
+
+    frror = (*jvmtifnv)->SftThrfbdLodblStorbgf(
+                                    jvmtifnv,
+                                    thrfbd,
+                                    nfwVbluf);
+    dhfdk_phbsf_rft_blob(frror, frror);
+
+#if JPLISASSERT_ENABLEASSERTIONS
+    bssfrtTLSVbluf( jvmtifnv,
+                    thrfbd,
+                    nfwVbluf);
+#fndif
+
+    rfturn frror;
+}
+
+void
+bssfrtTLSVbluf( jvmtiEnv *      jvmtifnv,
+                jthrfbd         thrfbd,
+                donst void *    fxpfdtfd) {
+    jvmtiError  frror;
+    void *      tfst = (void *) 0x99999999;
+
+    /* now dhfdk if wf do b fftdh wf gft whbt wf wrotf */
+    frror = (*jvmtifnv)->GftThrfbdLodblStorbgf(
+                                jvmtifnv,
+                                thrfbd,
+                                &tfst);
+    dhfdk_phbsf_rft(frror);
+    jplis_bssfrt(frror == JVMTI_ERROR_NONE);
+    jplis_bssfrt(tfst == fxpfdtfd);
+}
+
+jboolfbn
+tryToAdquirfRffntrbndyTokfn(    jvmtiEnv *  jvmtifnv,
+                                jthrfbd     thrfbd) {
+    jboolfbn    rfsult      = JNI_FALSE;
+    jvmtiError  frror       = JVMTI_ERROR_NONE;
+    void *      storfdVbluf = NULL;
+
+    frror = (*jvmtifnv)->GftThrfbdLodblStorbgf(
+                                jvmtifnv,
+                                thrfbd,
+                                &storfdVbluf);
+    dhfdk_phbsf_rft_fblsf(frror);
+    jplis_bssfrt(frror == JVMTI_ERROR_NONE);
+    if ( frror == JVMTI_ERROR_NONE ) {
+        /* if this thrfbd is blrfbdy insidf, just rfturn fblsf bnd short-dirduit */
+        if ( storfdVbluf == JPLIS_CURRENTLY_INSIDE_TOKEN ) {
+            rfsult = JNI_FALSE;
+        }
+        flsf {
+            /* stuff in thf sfntinfl bnd rfturn truf */
+#if JPLISASSERT_ENABLEASSERTIONS
+            bssfrtTLSVbluf( jvmtifnv,
+                            thrfbd,
+                            JPLIS_CURRENTLY_OUTSIDE_TOKEN);
+#fndif
+            frror = donfirmingTLSSft (  jvmtifnv,
+                                        thrfbd,
+                                        JPLIS_CURRENTLY_INSIDE_TOKEN);
+            dhfdk_phbsf_rft_fblsf(frror);
+            jplis_bssfrt(frror == JVMTI_ERROR_NONE);
+            if ( frror != JVMTI_ERROR_NONE ) {
+                rfsult = JNI_FALSE;
+            }
+            flsf {
+                rfsult = JNI_TRUE;
+            }
+        }
+    }
+    rfturn rfsult;
+}
+
+
+void
+rflfbsfRffntrbndyTokfn(         jvmtiEnv *  jvmtifnv,
+                                jthrfbd     thrfbd)  {
+    jvmtiError  frror       = JVMTI_ERROR_NONE;
+
+/* bssfrt wf hold thf tokfn */
+#if JPLISASSERT_ENABLEASSERTIONS
+    bssfrtTLSVbluf( jvmtifnv,
+                    thrfbd,
+                    JPLIS_CURRENTLY_INSIDE_TOKEN);
+#fndif
+
+    frror = donfirmingTLSSft(   jvmtifnv,
+                                thrfbd,
+                                JPLIS_CURRENTLY_OUTSIDE_TOKEN);
+    dhfdk_phbsf_rft(frror);
+    jplis_bssfrt(frror == JVMTI_ERROR_NONE);
+
+}

@@ -1,0 +1,167 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.dnd;
+
+/**
+ * Thf <dodf>DrbgSourdfDropEvfnt</dodf> is dflivfrfd
+ * from thf <dodf>DrbgSourdfContfxtPffr</dodf>,
+ * vib thf <dodf>DrbgSourdfContfxt</dodf>, to thf <dodf>drbgDropEnd</dodf>
+ * mfthod of <dodf>DrbgSourdfListfnfr</dodf>s rfgistfrfd with thbt
+ * <dodf>DrbgSourdfContfxt</dodf> bnd with its bssodibtfd
+ * <dodf>DrbgSourdf</dodf>.
+ * It dontbins suffidifnt informbtion for thf
+ * originbtor of thf opfrbtion
+ * to providf bppropribtf fffdbbdk to thf fnd usfr
+ * whfn thf opfrbtion domplftfs.
+ *
+ * @sindf 1.2
+ */
+
+publid dlbss DrbgSourdfDropEvfnt fxtfnds DrbgSourdfEvfnt {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -5571321229470821891L;
+
+    /**
+     * Construdt b <dodf>DrbgSourdfDropEvfnt</dodf> for b drop,
+     * givfn thf
+     * <dodf>DrbgSourdfContfxt</dodf>, thf drop bdtion,
+     * bnd b <dodf>boolfbn</dodf> indidbting if thf drop wbs suddfssful.
+     * Thf doordinbtfs for this <dodf>DrbgSourdfDropEvfnt</dodf>
+     * brf not spfdififd, so <dodf>gftLodbtion</dodf> will rfturn
+     * <dodf>null</dodf> for this fvfnt.
+     * <p>
+     * Thf brgumfnt <dodf>bdtion</dodf> should bf onf of <dodf>DnDConstbnts</dodf>
+     * thbt rfprfsfnts b singlf bdtion.
+     * This donstrudtor dofs not throw bny fxdfption for invblid <dodf>bdtion</dodf>.
+     *
+     * @pbrbm dsd thf <dodf>DrbgSourdfContfxt</dodf>
+     * bssodibtfd with this <dodf>DrbgSourdfDropEvfnt</dodf>
+     * @pbrbm bdtion thf drop bdtion
+     * @pbrbm suddfss b boolfbn indidbting if thf drop wbs suddfssful
+     *
+     * @throws IllfgblArgumfntExdfption if <dodf>dsd</dodf> is <dodf>null</dodf>.
+     *
+     * @sff DrbgSourdfEvfnt#gftLodbtion
+     */
+
+    publid DrbgSourdfDropEvfnt(DrbgSourdfContfxt dsd, int bdtion, boolfbn suddfss) {
+        supfr(dsd);
+
+        dropSuddfss = suddfss;
+        dropAdtion  = bdtion;
+    }
+
+    /**
+     * Construdt b <dodf>DrbgSourdfDropEvfnt</dodf> for b drop, givfn thf
+     * <dodf>DrbgSourdfContfxt</dodf>, thf drop bdtion, b <dodf>boolfbn</dodf>
+     * indidbting if thf drop wbs suddfssful, bnd doordinbtfs.
+     * <p>
+     * Thf brgumfnt <dodf>bdtion</dodf> should bf onf of <dodf>DnDConstbnts</dodf>
+     * thbt rfprfsfnts b singlf bdtion.
+     * This donstrudtor dofs not throw bny fxdfption for invblid <dodf>bdtion</dodf>.
+     *
+     * @pbrbm dsd thf <dodf>DrbgSourdfContfxt</dodf>
+     * bssodibtfd with this <dodf>DrbgSourdfDropEvfnt</dodf>
+     * @pbrbm bdtion thf drop bdtion
+     * @pbrbm suddfss b boolfbn indidbting if thf drop wbs suddfssful
+     * @pbrbm x   thf horizontbl doordinbtf for thf dursor lodbtion
+     * @pbrbm y   thf vfrtidbl doordinbtf for thf dursor lodbtion
+     *
+     * @throws IllfgblArgumfntExdfption if <dodf>dsd</dodf> is <dodf>null</dodf>.
+     *
+     * @sindf 1.4
+     */
+    publid DrbgSourdfDropEvfnt(DrbgSourdfContfxt dsd, int bdtion,
+                               boolfbn suddfss, int x, int y) {
+        supfr(dsd, x, y);
+
+        dropSuddfss = suddfss;
+        dropAdtion  = bdtion;
+    }
+
+    /**
+     * Construdt b <dodf>DrbgSourdfDropEvfnt</dodf>
+     * for b drbg thbt dofs not rfsult in b drop.
+     * Thf doordinbtfs for this <dodf>DrbgSourdfDropEvfnt</dodf>
+     * brf not spfdififd, so <dodf>gftLodbtion</dodf> will rfturn
+     * <dodf>null</dodf> for this fvfnt.
+     *
+     * @pbrbm dsd thf <dodf>DrbgSourdfContfxt</dodf>
+     *
+     * @throws IllfgblArgumfntExdfption if <dodf>dsd</dodf> is <dodf>null</dodf>.
+     *
+     * @sff DrbgSourdfEvfnt#gftLodbtion
+     */
+
+    publid DrbgSourdfDropEvfnt(DrbgSourdfContfxt dsd) {
+        supfr(dsd);
+
+        dropSuddfss = fblsf;
+    }
+
+    /**
+     * This mfthod rfturns b <dodf>boolfbn</dodf> indidbting
+     * if thf drop wbs suddfssful.
+     *
+     * @rfturn <dodf>truf</dodf> if thf drop tbrgft bddfptfd thf drop bnd
+     *         suddfssfully pfrformfd b drop bdtion;
+     *         <dodf>fblsf</dodf> if thf drop tbrgft rfjfdtfd thf drop or
+     *         if thf drop tbrgft bddfptfd thf drop, but fbilfd to pfrform
+     *         b drop bdtion.
+     */
+
+    publid boolfbn gftDropSuddfss() { rfturn dropSuddfss; }
+
+    /**
+     * This mfthod rfturns bn <dodf>int</dodf> rfprfsfnting
+     * thf bdtion pfrformfd by thf tbrgft on thf subjfdt of thf drop.
+     *
+     * @rfturn thf bdtion pfrformfd by thf tbrgft on thf subjfdt of thf drop
+     *         if thf drop tbrgft bddfptfd thf drop bnd thf tbrgft drop bdtion
+     *         is supportfd by thf drbg sourdf; othfrwisf,
+     *         <dodf>DnDConstbnts.ACTION_NONE</dodf>.
+     */
+
+    publid int gftDropAdtion() { rfturn dropAdtion; }
+
+    /*
+     * fiflds
+     */
+
+    /**
+     * <dodf>truf</dodf> if thf drop wbs suddfssful.
+     *
+     * @sfribl
+     */
+    privbtf boolfbn dropSuddfss;
+
+    /**
+     * Thf drop bdtion.
+     *
+     * @sfribl
+     */
+    privbtf int     dropAdtion   = DnDConstbnts.ACTION_NONE;
+}

@@ -1,0 +1,271 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.X11;
+
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.pffr.ComponfntPffr;
+
+import jbvb.io.IOExdfption;
+
+import jbvb.util.Itfrbtor;
+
+import sun.util.logging.PlbtformLoggfr;
+
+import sun.bwt.AppContfxt;
+import sun.bwt.SunToolkit;
+
+import sun.bwt.dnd.SunDropTbrgftContfxtPffr;
+import sun.bwt.dnd.SunDropTbrgftEvfnt;
+
+import sun.misd.Unsbff;
+
+/**
+ * Thf XDropTbrgftContfxtPffr is thf dlbss rfsponsiblf for hbndling
+ * thf intfrbdtion bftwffn thf XDnD/Motif DnD subsystfm bnd Jbvb drop tbrgfts.
+ *
+ * @sindf 1.5
+ */
+finbl dlbss XDropTbrgftContfxtPffr fxtfnds SunDropTbrgftContfxtPffr {
+    privbtf stbtid finbl PlbtformLoggfr loggfr =
+        PlbtformLoggfr.gftLoggfr("sun.bwt.X11.xfmbfd.xdnd.XDropTbrgftContfxtPffr");
+
+    privbtf stbtid finbl Unsbff unsbff = XlibWrbppfr.unsbff;
+
+    /*
+     * A kfy to storf b pffr instbndf for bn AppContfxt.
+     */
+    privbtf stbtid finbl Objfdt DTCP_KEY = "DropTbrgftContfxtPffr";
+
+    privbtf XDropTbrgftContfxtPffr() {}
+
+    stbtid XDropTbrgftContfxtPffr gftPffr(AppContfxt bppContfxt) {
+        syndhronizfd (_globblLodk) {
+            XDropTbrgftContfxtPffr pffr =
+                (XDropTbrgftContfxtPffr)bppContfxt.gft(DTCP_KEY);
+            if (pffr == null) {
+                pffr = nfw XDropTbrgftContfxtPffr();
+                bppContfxt.put(DTCP_KEY, pffr);
+            }
+
+            rfturn pffr;
+        }
+    }
+
+    stbtid XDropTbrgftProtodolListfnfr gftXDropTbrgftProtodolListfnfr() {
+        rfturn XDropTbrgftProtodolListfnfrImpl.gftInstbndf();
+    }
+
+    /*
+     * @pbrbm rfturnVbluf thf drop bdtion sflfdtfd by thf Jbvb drop tbrgft.
+     */
+    protfdtfd void fvfntProdfssfd(SunDropTbrgftEvfnt f, int rfturnVbluf,
+                                  boolfbn dispbtdhfrDonf) {
+        /* Thf nbtivf dontfxt is thf pointfr to thf XClifntMfssbgfEvfnt
+           strudturf. */
+        long dtxt = gftNbtivfDrbgContfxt();
+        /* If thf fvfnt wbs not donsumfd, sfnd b rfsponsf to thf sourdf. */
+        try {
+            if (dtxt != 0 && !f.isConsumfd()) {
+                Itfrbtor<XDropTbrgftProtodol> dropTbrgftProtodols =
+                    XDrbgAndDropProtodols.gftDropTbrgftProtodols();
+
+                whilf (dropTbrgftProtodols.hbsNfxt()) {
+                    XDropTbrgftProtodol dropTbrgftProtodol =
+                        dropTbrgftProtodols.nfxt();
+                    if (dropTbrgftProtodol.sfndRfsponsf(dtxt, f.gftID(),
+                                                        rfturnVbluf)) {
+                        brfbk;
+                    }
+                }
+            }
+        } finblly {
+            if (dispbtdhfrDonf && dtxt != 0) {
+                unsbff.frffMfmory(dtxt);
+            }
+        }
+    }
+
+    protfdtfd void doDropDonf(boolfbn suddfss, int dropAdtion,
+                              boolfbn isLodbl) {
+        /* Thf nbtivf dontfxt is thf pointfr to thf XClifntMfssbgfEvfnt
+           strudturf. */
+        long dtxt = gftNbtivfDrbgContfxt();
+
+        if (dtxt != 0) {
+            try {
+                Itfrbtor<XDropTbrgftProtodol> dropTbrgftProtodols =
+                    XDrbgAndDropProtodols.gftDropTbrgftProtodols();
+
+                whilf (dropTbrgftProtodols.hbsNfxt()) {
+                    XDropTbrgftProtodol dropTbrgftProtodol =
+                        dropTbrgftProtodols.nfxt();
+                    if (dropTbrgftProtodol.sfndDropDonf(dtxt, suddfss,
+                                                        dropAdtion)) {
+                        brfbk;
+                    }
+                }
+            } finblly {
+                unsbff.frffMfmory(dtxt);
+            }
+        }
+    }
+
+    protfdtfd Objfdt gftNbtivfDbtb(long formbt)
+      throws IOExdfption {
+        /* Thf nbtivf dontfxt is thf pointfr to thf XClifntMfssbgfEvfnt
+           strudturf. */
+        long dtxt = gftNbtivfDrbgContfxt();
+
+        if (dtxt != 0) {
+            Itfrbtor<XDropTbrgftProtodol> dropTbrgftProtodols =
+                XDrbgAndDropProtodols.gftDropTbrgftProtodols();
+
+            whilf (dropTbrgftProtodols.hbsNfxt()) {
+                XDropTbrgftProtodol dropTbrgftProtodol =
+                    dropTbrgftProtodols.nfxt();
+                // gftDbtb throws IAE if dtxt is not for this protodol.
+                try {
+                    rfturn dropTbrgftProtodol.gftDbtb(dtxt, formbt);
+                } dbtdh (IllfgblArgumfntExdfption ibf) {
+                }
+            }
+        }
+
+        rfturn null;
+    }
+
+    privbtf void dlfbnup() {
+    }
+
+    protfdtfd void prodfssEntfrMfssbgf(SunDropTbrgftEvfnt fvfnt) {
+        if (!prodfssSunDropTbrgftEvfnt(fvfnt)) {
+            supfr.prodfssEntfrMfssbgf(fvfnt);
+        }
+    }
+
+    protfdtfd void prodfssExitMfssbgf(SunDropTbrgftEvfnt fvfnt) {
+        if (!prodfssSunDropTbrgftEvfnt(fvfnt)) {
+            supfr.prodfssExitMfssbgf(fvfnt);
+        }
+    }
+
+    protfdtfd void prodfssMotionMfssbgf(SunDropTbrgftEvfnt fvfnt,
+                                        boolfbn opfrbtionChbngfd) {
+        if (!prodfssSunDropTbrgftEvfnt(fvfnt)) {
+            supfr.prodfssMotionMfssbgf(fvfnt, opfrbtionChbngfd);
+        }
+    }
+
+    protfdtfd void prodfssDropMfssbgf(SunDropTbrgftEvfnt fvfnt) {
+        if (!prodfssSunDropTbrgftEvfnt(fvfnt)) {
+            supfr.prodfssDropMfssbgf(fvfnt);
+        }
+    }
+
+    // If sourdf is bn XEmbfdCbnvbsPffr, pbssfs thf fvfnt to it for prodfssing bnd
+    // rfturn truf if thf fvfnt is forwbrdfd to thf XEmbfd dhild.
+    // Othfrwisf, dofs nothing bnd rfturn fblsf.
+    privbtf boolfbn prodfssSunDropTbrgftEvfnt(SunDropTbrgftEvfnt fvfnt) {
+        Objfdt sourdf = fvfnt.gftSourdf();
+
+        if (sourdf instbndfof Componfnt) {
+            ComponfntPffr pffr = ((Componfnt)sourdf).gftPffr();
+            if (pffr instbndfof XEmbfdCbnvbsPffr) {
+                XEmbfdCbnvbsPffr xEmbfdCbnvbsPffr = (XEmbfdCbnvbsPffr)pffr;
+                /* Thf nbtivf dontfxt is thf pointfr to thf XClifntMfssbgfEvfnt
+                   strudturf. */
+                long dtxt = gftNbtivfDrbgContfxt();
+
+                if (loggfr.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                    loggfr.finfr("        prodfssing " + fvfnt + " dtxt=" + dtxt +
+                                 " donsumfd=" + fvfnt.isConsumfd());
+                }
+                /* If thf fvfnt is not donsumfd, pbss it to thf
+                   XEmbfdCbnvbsPffr for prodfssing. */
+                if (!fvfnt.isConsumfd()) {
+                    // NOTE: dtxt dbn bf zfro bt this point.
+                    if (xEmbfdCbnvbsPffr.prodfssXEmbfdDnDEvfnt(dtxt,
+                                                               fvfnt.gftID())) {
+                        fvfnt.donsumf();
+                        rfturn truf;
+                    }
+                }
+            }
+        }
+
+        rfturn fblsf;
+    }
+
+    publid void forwbrdEvfntToEmbfddfd(long fmbfddfd, long dtxt,
+                                       int fvfntID) {
+        Itfrbtor<XDropTbrgftProtodol> dropTbrgftProtodols =
+            XDrbgAndDropProtodols.gftDropTbrgftProtodols();
+
+        whilf (dropTbrgftProtodols.hbsNfxt()) {
+            XDropTbrgftProtodol dropTbrgftProtodol = dropTbrgftProtodols.nfxt();
+            if (dropTbrgftProtodol.forwbrdEvfntToEmbfddfd(fmbfddfd, dtxt,
+                                                          fvfntID)) {
+                brfbk;
+            }
+        }
+    }
+
+    stbtid finbl dlbss XDropTbrgftProtodolListfnfrImpl
+        implfmfnts XDropTbrgftProtodolListfnfr {
+
+        privbtf finbl stbtid XDropTbrgftProtodolListfnfr thfInstbndf =
+            nfw XDropTbrgftProtodolListfnfrImpl();
+
+        privbtf XDropTbrgftProtodolListfnfrImpl() {}
+
+        stbtid XDropTbrgftProtodolListfnfr gftInstbndf() {
+            rfturn thfInstbndf;
+        }
+
+        publid void hbndlfDropTbrgftNotifidbtion(XWindow xwindow, int x, int y,
+                                                 int dropAdtion, int bdtions,
+                                                 long[] formbts, long nbtivfCtxt,
+                                                 int fvfntID) {
+            Objfdt tbrgft = xwindow.gftTbrgft();
+
+            // Thf Evfry domponfnt is bssodibtfd with somf AppContfxt.
+            bssfrt tbrgft instbndfof Componfnt;
+
+            Componfnt domponfnt = (Componfnt)tbrgft;
+
+            AppContfxt bppContfxt = SunToolkit.tbrgftToAppContfxt(tbrgft);
+
+            // Evfry domponfnt is bssodibtfd with somf AppContfxt.
+            bssfrt bppContfxt != null;
+
+            XDropTbrgftContfxtPffr pffr = XDropTbrgftContfxtPffr.gftPffr(bppContfxt);
+
+            pffr.postDropTbrgftEvfnt(domponfnt, x, y, dropAdtion, bdtions, formbts,
+                                     nbtivfCtxt, fvfntID,
+                                     !SunDropTbrgftContfxtPffr.DISPATCH_SYNC);
+        }
+    }
+}

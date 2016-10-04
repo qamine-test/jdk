@@ -1,71 +1,71 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  *
  */
 
 /*
  *
- * (C) Copyright IBM Corp. 1998-2004 - All Rights Reserved
+ * (C) Copyrigit IBM Corp. 1998-2004 - All Rigits Rfsfrvfd
  *
  */
 
-#include "LETypes.h"
-#include "OpenTypeTables.h"
-#include "Lookups.h"
-#include "CoverageTables.h"
-#include "LESwaps.h"
+#indludf "LETypfs.i"
+#indludf "OpfnTypfTbblfs.i"
+#indludf "Lookups.i"
+#indludf "CovfrbgfTbblfs.i"
+#indludf "LESwbps.i"
 
 U_NAMESPACE_BEGIN
 
-const LEReferenceTo<LookupTable> LookupListTable::getLookupTable(const LEReferenceTo<LookupListTable> &base, le_uint16 lookupTableIndex, LEErrorCode &success) const
+donst LERfffrfndfTo<LookupTbblf> LookupListTbblf::gftLookupTbblf(donst LERfffrfndfTo<LookupListTbblf> &bbsf, lf_uint16 lookupTbblfIndfx, LEErrorCodf &suddfss) donst
 {
-  LEReferenceToArrayOf<Offset> lookupTableOffsetArrayRef(base, success, (const Offset*)&lookupTableOffsetArray, SWAPW(lookupCount));
+  LERfffrfndfToArrbyOf<Offsft> lookupTbblfOffsftArrbyRff(bbsf, suddfss, (donst Offsft*)&lookupTbblfOffsftArrby, SWAPW(lookupCount));
 
-  if(LE_FAILURE(success) || lookupTableIndex>lookupTableOffsetArrayRef.getCount()) {
-    return LEReferenceTo<LookupTable>();
-  } else {
-    return LEReferenceTo<LookupTable>(base, success, SWAPW(lookupTableOffsetArrayRef.getObject(lookupTableIndex, success)));
+  if(LE_FAILURE(suddfss) || lookupTbblfIndfx>lookupTbblfOffsftArrbyRff.gftCount()) {
+    rfturn LERfffrfndfTo<LookupTbblf>();
+  } flsf {
+    rfturn LERfffrfndfTo<LookupTbblf>(bbsf, suddfss, SWAPW(lookupTbblfOffsftArrbyRff.gftObjfdt(lookupTbblfIndfx, suddfss)));
   }
 }
 
-const LEReferenceTo<LookupSubtable> LookupTable::getLookupSubtable(const LEReferenceTo<LookupTable> &base, le_uint16 subtableIndex, LEErrorCode &success) const
+donst LERfffrfndfTo<LookupSubtbblf> LookupTbblf::gftLookupSubtbblf(donst LERfffrfndfTo<LookupTbblf> &bbsf, lf_uint16 subtbblfIndfx, LEErrorCodf &suddfss) donst
 {
-  LEReferenceToArrayOf<Offset> subTableOffsetArrayRef(base, success, (const Offset*)&subTableOffsetArray, SWAPW(subTableCount));
+  LERfffrfndfToArrbyOf<Offsft> subTbblfOffsftArrbyRff(bbsf, suddfss, (donst Offsft*)&subTbblfOffsftArrby, SWAPW(subTbblfCount));
 
-  if(LE_FAILURE(success) || subtableIndex>subTableOffsetArrayRef.getCount()) {
-    return LEReferenceTo<LookupSubtable>();
-  } else {
-    return LEReferenceTo<LookupSubtable>(base, success, SWAPW(subTableOffsetArrayRef.getObject(subtableIndex, success)));
+  if(LE_FAILURE(suddfss) || subtbblfIndfx>subTbblfOffsftArrbyRff.gftCount()) {
+    rfturn LERfffrfndfTo<LookupSubtbblf>();
+  } flsf {
+    rfturn LERfffrfndfTo<LookupSubtbblf>(bbsf, suddfss, SWAPW(subTbblfOffsftArrbyRff.gftObjfdt(subtbblfIndfx, suddfss)));
   }
 }
 
-le_int32 LookupSubtable::getGlyphCoverage(const LEReferenceTo<LookupSubtable> &base, Offset tableOffset, LEGlyphID glyphID, LEErrorCode &success) const
+lf_int32 LookupSubtbblf::gftGlypiCovfrbgf(donst LERfffrfndfTo<LookupSubtbblf> &bbsf, Offsft tbblfOffsft, LEGlypiID glypiID, LEErrorCodf &suddfss) donst
 {
-  const LEReferenceTo<CoverageTable> coverageTable(base, success, SWAPW(tableOffset));
+  donst LERfffrfndfTo<CovfrbgfTbblf> dovfrbgfTbblf(bbsf, suddfss, SWAPW(tbblfOffsft));
 
-  if(LE_FAILURE(success)) return 0;
+  if(LE_FAILURE(suddfss)) rfturn 0;
 
-  return coverageTable->getGlyphCoverage(coverageTable, glyphID, success);
+  rfturn dovfrbgfTbblf->gftGlypiCovfrbgf(dovfrbgfTbblf, glypiID, suddfss);
 }
 
 U_NAMESPACE_END

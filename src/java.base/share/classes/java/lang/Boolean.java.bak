@@ -1,335 +1,335 @@
 /*
- * Copyright (c) 1994, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang;
+pbdkbgf jbvb.lbng;
 
 /**
- * The Boolean class wraps a value of the primitive type
- * {@code boolean} in an object. An object of type
- * {@code Boolean} contains a single field whose type is
- * {@code boolean}.
+ * Tif Boolfbn dlbss wrbps b vbluf of tif primitivf typf
+ * {@dodf boolfbn} in bn objfdt. An objfdt of typf
+ * {@dodf Boolfbn} dontbins b singlf fifld wiosf typf is
+ * {@dodf boolfbn}.
  * <p>
- * In addition, this class provides many methods for
- * converting a {@code boolean} to a {@code String} and a
- * {@code String} to a {@code boolean}, as well as other
- * constants and methods useful when dealing with a
- * {@code boolean}.
+ * In bddition, tiis dlbss providfs mbny mftiods for
+ * donvfrting b {@dodf boolfbn} to b {@dodf String} bnd b
+ * {@dodf String} to b {@dodf boolfbn}, bs wfll bs otifr
+ * donstbnts bnd mftiods usfful wifn dfbling witi b
+ * {@dodf boolfbn}.
  *
- * @author  Arthur van Hoff
- * @since   1.0
+ * @butior  Artiur vbn Hoff
+ * @sindf   1.0
  */
-public final class Boolean implements java.io.Serializable,
-                                      Comparable<Boolean>
+publid finbl dlbss Boolfbn implfmfnts jbvb.io.Sfriblizbblf,
+                                      Compbrbblf<Boolfbn>
 {
     /**
-     * The {@code Boolean} object corresponding to the primitive
-     * value {@code true}.
+     * Tif {@dodf Boolfbn} objfdt dorrfsponding to tif primitivf
+     * vbluf {@dodf truf}.
      */
-    public static final Boolean TRUE = new Boolean(true);
+    publid stbtid finbl Boolfbn TRUE = nfw Boolfbn(truf);
 
     /**
-     * The {@code Boolean} object corresponding to the primitive
-     * value {@code false}.
+     * Tif {@dodf Boolfbn} objfdt dorrfsponding to tif primitivf
+     * vbluf {@dodf fblsf}.
      */
-    public static final Boolean FALSE = new Boolean(false);
+    publid stbtid finbl Boolfbn FALSE = nfw Boolfbn(fblsf);
 
     /**
-     * The Class object representing the primitive type boolean.
+     * Tif Clbss objfdt rfprfsfnting tif primitivf typf boolfbn.
      *
-     * @since   1.1
+     * @sindf   1.1
      */
-    @SuppressWarnings("unchecked")
-    public static final Class<Boolean> TYPE = (Class<Boolean>) Class.getPrimitiveClass("boolean");
+    @SupprfssWbrnings("undifdkfd")
+    publid stbtid finbl Clbss<Boolfbn> TYPE = (Clbss<Boolfbn>) Clbss.gftPrimitivfClbss("boolfbn");
 
     /**
-     * The value of the Boolean.
+     * Tif vbluf of tif Boolfbn.
      *
-     * @serial
+     * @sfribl
      */
-    private final boolean value;
+    privbtf finbl boolfbn vbluf;
 
-    /** use serialVersionUID from JDK 1.0.2 for interoperability */
-    private static final long serialVersionUID = -3665804199014368530L;
+    /** usf sfriblVfrsionUID from JDK 1.0.2 for intfropfrbbility */
+    privbtf stbtid finbl long sfriblVfrsionUID = -3665804199014368530L;
 
     /**
-     * Allocates a {@code Boolean} object representing the
-     * {@code value} argument.
+     * Allodbtfs b {@dodf Boolfbn} objfdt rfprfsfnting tif
+     * {@dodf vbluf} brgumfnt.
      *
-     * <p><b>Note: It is rarely appropriate to use this constructor.
-     * Unless a <i>new</i> instance is required, the static factory
-     * {@link #valueOf(boolean)} is generally a better choice. It is
-     * likely to yield significantly better space and time performance.</b>
+     * <p><b>Notf: It is rbrfly bppropribtf to usf tiis donstrudtor.
+     * Unlfss b <i>nfw</i> instbndf is rfquirfd, tif stbtid fbdtory
+     * {@link #vblufOf(boolfbn)} is gfnfrblly b bfttfr dioidf. It is
+     * likfly to yifld signifidbntly bfttfr spbdf bnd timf pfrformbndf.</b>
      *
-     * @param   value   the value of the {@code Boolean}.
+     * @pbrbm   vbluf   tif vbluf of tif {@dodf Boolfbn}.
      */
-    public Boolean(boolean value) {
-        this.value = value;
+    publid Boolfbn(boolfbn vbluf) {
+        tiis.vbluf = vbluf;
     }
 
     /**
-     * Allocates a {@code Boolean} object representing the value
-     * {@code true} if the string argument is not {@code null}
-     * and is equal, ignoring case, to the string {@code "true"}.
-     * Otherwise, allocate a {@code Boolean} object representing the
-     * value {@code false}. Examples:<p>
-     * {@code new Boolean("True")} produces a {@code Boolean} object
-     * that represents {@code true}.<br>
-     * {@code new Boolean("yes")} produces a {@code Boolean} object
-     * that represents {@code false}.
+     * Allodbtfs b {@dodf Boolfbn} objfdt rfprfsfnting tif vbluf
+     * {@dodf truf} if tif string brgumfnt is not {@dodf null}
+     * bnd is fqubl, ignoring dbsf, to tif string {@dodf "truf"}.
+     * Otifrwisf, bllodbtf b {@dodf Boolfbn} objfdt rfprfsfnting tif
+     * vbluf {@dodf fblsf}. Exbmplfs:<p>
+     * {@dodf nfw Boolfbn("Truf")} produdfs b {@dodf Boolfbn} objfdt
+     * tibt rfprfsfnts {@dodf truf}.<br>
+     * {@dodf nfw Boolfbn("yfs")} produdfs b {@dodf Boolfbn} objfdt
+     * tibt rfprfsfnts {@dodf fblsf}.
      *
-     * @param   s   the string to be converted to a {@code Boolean}.
+     * @pbrbm   s   tif string to bf donvfrtfd to b {@dodf Boolfbn}.
      */
-    public Boolean(String s) {
-        this(parseBoolean(s));
+    publid Boolfbn(String s) {
+        tiis(pbrsfBoolfbn(s));
     }
 
     /**
-     * Parses the string argument as a boolean.  The {@code boolean}
-     * returned represents the value {@code true} if the string argument
-     * is not {@code null} and is equal, ignoring case, to the string
-     * {@code "true"}. <p>
-     * Example: {@code Boolean.parseBoolean("True")} returns {@code true}.<br>
-     * Example: {@code Boolean.parseBoolean("yes")} returns {@code false}.
+     * Pbrsfs tif string brgumfnt bs b boolfbn.  Tif {@dodf boolfbn}
+     * rfturnfd rfprfsfnts tif vbluf {@dodf truf} if tif string brgumfnt
+     * is not {@dodf null} bnd is fqubl, ignoring dbsf, to tif string
+     * {@dodf "truf"}. <p>
+     * Exbmplf: {@dodf Boolfbn.pbrsfBoolfbn("Truf")} rfturns {@dodf truf}.<br>
+     * Exbmplf: {@dodf Boolfbn.pbrsfBoolfbn("yfs")} rfturns {@dodf fblsf}.
      *
-     * @param      s   the {@code String} containing the boolean
-     *                 representation to be parsed
-     * @return     the boolean represented by the string argument
-     * @since 1.5
+     * @pbrbm      s   tif {@dodf String} dontbining tif boolfbn
+     *                 rfprfsfntbtion to bf pbrsfd
+     * @rfturn     tif boolfbn rfprfsfntfd by tif string brgumfnt
+     * @sindf 1.5
      */
-    public static boolean parseBoolean(String s) {
-        return ((s != null) && s.equalsIgnoreCase("true"));
+    publid stbtid boolfbn pbrsfBoolfbn(String s) {
+        rfturn ((s != null) && s.fqublsIgnorfCbsf("truf"));
     }
 
     /**
-     * Returns the value of this {@code Boolean} object as a boolean
-     * primitive.
+     * Rfturns tif vbluf of tiis {@dodf Boolfbn} objfdt bs b boolfbn
+     * primitivf.
      *
-     * @return  the primitive {@code boolean} value of this object.
+     * @rfturn  tif primitivf {@dodf boolfbn} vbluf of tiis objfdt.
      */
-    public boolean booleanValue() {
-        return value;
+    publid boolfbn boolfbnVbluf() {
+        rfturn vbluf;
     }
 
     /**
-     * Returns a {@code Boolean} instance representing the specified
-     * {@code boolean} value.  If the specified {@code boolean} value
-     * is {@code true}, this method returns {@code Boolean.TRUE};
-     * if it is {@code false}, this method returns {@code Boolean.FALSE}.
-     * If a new {@code Boolean} instance is not required, this method
-     * should generally be used in preference to the constructor
-     * {@link #Boolean(boolean)}, as this method is likely to yield
-     * significantly better space and time performance.
+     * Rfturns b {@dodf Boolfbn} instbndf rfprfsfnting tif spfdififd
+     * {@dodf boolfbn} vbluf.  If tif spfdififd {@dodf boolfbn} vbluf
+     * is {@dodf truf}, tiis mftiod rfturns {@dodf Boolfbn.TRUE};
+     * if it is {@dodf fblsf}, tiis mftiod rfturns {@dodf Boolfbn.FALSE}.
+     * If b nfw {@dodf Boolfbn} instbndf is not rfquirfd, tiis mftiod
+     * siould gfnfrblly bf usfd in prfffrfndf to tif donstrudtor
+     * {@link #Boolfbn(boolfbn)}, bs tiis mftiod is likfly to yifld
+     * signifidbntly bfttfr spbdf bnd timf pfrformbndf.
      *
-     * @param  b a boolean value.
-     * @return a {@code Boolean} instance representing {@code b}.
-     * @since  1.4
+     * @pbrbm  b b boolfbn vbluf.
+     * @rfturn b {@dodf Boolfbn} instbndf rfprfsfnting {@dodf b}.
+     * @sindf  1.4
      */
-    public static Boolean valueOf(boolean b) {
-        return (b ? TRUE : FALSE);
+    publid stbtid Boolfbn vblufOf(boolfbn b) {
+        rfturn (b ? TRUE : FALSE);
     }
 
     /**
-     * Returns a {@code Boolean} with a value represented by the
-     * specified string.  The {@code Boolean} returned represents a
-     * true value if the string argument is not {@code null}
-     * and is equal, ignoring case, to the string {@code "true"}.
+     * Rfturns b {@dodf Boolfbn} witi b vbluf rfprfsfntfd by tif
+     * spfdififd string.  Tif {@dodf Boolfbn} rfturnfd rfprfsfnts b
+     * truf vbluf if tif string brgumfnt is not {@dodf null}
+     * bnd is fqubl, ignoring dbsf, to tif string {@dodf "truf"}.
      *
-     * @param   s   a string.
-     * @return  the {@code Boolean} value represented by the string.
+     * @pbrbm   s   b string.
+     * @rfturn  tif {@dodf Boolfbn} vbluf rfprfsfntfd by tif string.
      */
-    public static Boolean valueOf(String s) {
-        return parseBoolean(s) ? TRUE : FALSE;
+    publid stbtid Boolfbn vblufOf(String s) {
+        rfturn pbrsfBoolfbn(s) ? TRUE : FALSE;
     }
 
     /**
-     * Returns a {@code String} object representing the specified
-     * boolean.  If the specified boolean is {@code true}, then
-     * the string {@code "true"} will be returned, otherwise the
-     * string {@code "false"} will be returned.
+     * Rfturns b {@dodf String} objfdt rfprfsfnting tif spfdififd
+     * boolfbn.  If tif spfdififd boolfbn is {@dodf truf}, tifn
+     * tif string {@dodf "truf"} will bf rfturnfd, otifrwisf tif
+     * string {@dodf "fblsf"} will bf rfturnfd.
      *
-     * @param b the boolean to be converted
-     * @return the string representation of the specified {@code boolean}
-     * @since 1.4
+     * @pbrbm b tif boolfbn to bf donvfrtfd
+     * @rfturn tif string rfprfsfntbtion of tif spfdififd {@dodf boolfbn}
+     * @sindf 1.4
      */
-    public static String toString(boolean b) {
-        return b ? "true" : "false";
+    publid stbtid String toString(boolfbn b) {
+        rfturn b ? "truf" : "fblsf";
     }
 
     /**
-     * Returns a {@code String} object representing this Boolean's
-     * value.  If this object represents the value {@code true},
-     * a string equal to {@code "true"} is returned. Otherwise, a
-     * string equal to {@code "false"} is returned.
+     * Rfturns b {@dodf String} objfdt rfprfsfnting tiis Boolfbn's
+     * vbluf.  If tiis objfdt rfprfsfnts tif vbluf {@dodf truf},
+     * b string fqubl to {@dodf "truf"} is rfturnfd. Otifrwisf, b
+     * string fqubl to {@dodf "fblsf"} is rfturnfd.
      *
-     * @return  a string representation of this object.
+     * @rfturn  b string rfprfsfntbtion of tiis objfdt.
      */
-    public String toString() {
-        return value ? "true" : "false";
+    publid String toString() {
+        rfturn vbluf ? "truf" : "fblsf";
     }
 
     /**
-     * Returns a hash code for this {@code Boolean} object.
+     * Rfturns b ibsi dodf for tiis {@dodf Boolfbn} objfdt.
      *
-     * @return  the integer {@code 1231} if this object represents
-     * {@code true}; returns the integer {@code 1237} if this
-     * object represents {@code false}.
+     * @rfturn  tif intfgfr {@dodf 1231} if tiis objfdt rfprfsfnts
+     * {@dodf truf}; rfturns tif intfgfr {@dodf 1237} if tiis
+     * objfdt rfprfsfnts {@dodf fblsf}.
      */
-    @Override
-    public int hashCode() {
-        return Boolean.hashCode(value);
+    @Ovfrridf
+    publid int ibsiCodf() {
+        rfturn Boolfbn.ibsiCodf(vbluf);
     }
 
     /**
-     * Returns a hash code for a {@code boolean} value; compatible with
-     * {@code Boolean.hashCode()}.
+     * Rfturns b ibsi dodf for b {@dodf boolfbn} vbluf; dompbtiblf witi
+     * {@dodf Boolfbn.ibsiCodf()}.
      *
-     * @param value the value to hash
-     * @return a hash code value for a {@code boolean} value.
-     * @since 1.8
+     * @pbrbm vbluf tif vbluf to ibsi
+     * @rfturn b ibsi dodf vbluf for b {@dodf boolfbn} vbluf.
+     * @sindf 1.8
      */
-    public static int hashCode(boolean value) {
-        return value ? 1231 : 1237;
+    publid stbtid int ibsiCodf(boolfbn vbluf) {
+        rfturn vbluf ? 1231 : 1237;
     }
 
    /**
-     * Returns {@code true} if and only if the argument is not
-     * {@code null} and is a {@code Boolean} object that
-     * represents the same {@code boolean} value as this object.
+     * Rfturns {@dodf truf} if bnd only if tif brgumfnt is not
+     * {@dodf null} bnd is b {@dodf Boolfbn} objfdt tibt
+     * rfprfsfnts tif sbmf {@dodf boolfbn} vbluf bs tiis objfdt.
      *
-     * @param   obj   the object to compare with.
-     * @return  {@code true} if the Boolean objects represent the
-     *          same value; {@code false} otherwise.
+     * @pbrbm   obj   tif objfdt to dompbrf witi.
+     * @rfturn  {@dodf truf} if tif Boolfbn objfdts rfprfsfnt tif
+     *          sbmf vbluf; {@dodf fblsf} otifrwisf.
      */
-    public boolean equals(Object obj) {
-        if (obj instanceof Boolean) {
-            return value == ((Boolean)obj).booleanValue();
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj instbndfof Boolfbn) {
+            rfturn vbluf == ((Boolfbn)obj).boolfbnVbluf();
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Returns {@code true} if and only if the system property
-     * named by the argument exists and is equal to the string
-     * {@code "true"}. (Beginning with version 1.0.2 of the
-     * Java<small><sup>TM</sup></small> platform, the test of
-     * this string is case insensitive.) A system property is accessible
-     * through {@code getProperty}, a method defined by the
-     * {@code System} class.
+     * Rfturns {@dodf truf} if bnd only if tif systfm propfrty
+     * nbmfd by tif brgumfnt fxists bnd is fqubl to tif string
+     * {@dodf "truf"}. (Bfginning witi vfrsion 1.0.2 of tif
+     * Jbvb<smbll><sup>TM</sup></smbll> plbtform, tif tfst of
+     * tiis string is dbsf insfnsitivf.) A systfm propfrty is bddfssiblf
+     * tirougi {@dodf gftPropfrty}, b mftiod dffinfd by tif
+     * {@dodf Systfm} dlbss.
      * <p>
-     * If there is no property with the specified name, or if the specified
-     * name is empty or null, then {@code false} is returned.
+     * If tifrf is no propfrty witi tif spfdififd nbmf, or if tif spfdififd
+     * nbmf is fmpty or null, tifn {@dodf fblsf} is rfturnfd.
      *
-     * @param   name   the system property name.
-     * @return  the {@code boolean} value of the system property.
-     * @throws  SecurityException for the same reasons as
-     *          {@link System#getProperty(String) System.getProperty}
-     * @see     java.lang.System#getProperty(java.lang.String)
-     * @see     java.lang.System#getProperty(java.lang.String, java.lang.String)
+     * @pbrbm   nbmf   tif systfm propfrty nbmf.
+     * @rfturn  tif {@dodf boolfbn} vbluf of tif systfm propfrty.
+     * @tirows  SfdurityExdfption for tif sbmf rfbsons bs
+     *          {@link Systfm#gftPropfrty(String) Systfm.gftPropfrty}
+     * @sff     jbvb.lbng.Systfm#gftPropfrty(jbvb.lbng.String)
+     * @sff     jbvb.lbng.Systfm#gftPropfrty(jbvb.lbng.String, jbvb.lbng.String)
      */
-    public static boolean getBoolean(String name) {
-        boolean result = false;
+    publid stbtid boolfbn gftBoolfbn(String nbmf) {
+        boolfbn rfsult = fblsf;
         try {
-            result = parseBoolean(System.getProperty(name));
-        } catch (IllegalArgumentException | NullPointerException e) {
+            rfsult = pbrsfBoolfbn(Systfm.gftPropfrty(nbmf));
+        } dbtdi (IllfgblArgumfntExdfption | NullPointfrExdfption f) {
         }
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Compares this {@code Boolean} instance with another.
+     * Compbrfs tiis {@dodf Boolfbn} instbndf witi bnotifr.
      *
-     * @param   b the {@code Boolean} instance to be compared
-     * @return  zero if this object represents the same boolean value as the
-     *          argument; a positive value if this object represents true
-     *          and the argument represents false; and a negative value if
-     *          this object represents false and the argument represents true
-     * @throws  NullPointerException if the argument is {@code null}
-     * @see     Comparable
-     * @since  1.5
+     * @pbrbm   b tif {@dodf Boolfbn} instbndf to bf dompbrfd
+     * @rfturn  zfro if tiis objfdt rfprfsfnts tif sbmf boolfbn vbluf bs tif
+     *          brgumfnt; b positivf vbluf if tiis objfdt rfprfsfnts truf
+     *          bnd tif brgumfnt rfprfsfnts fblsf; bnd b nfgbtivf vbluf if
+     *          tiis objfdt rfprfsfnts fblsf bnd tif brgumfnt rfprfsfnts truf
+     * @tirows  NullPointfrExdfption if tif brgumfnt is {@dodf null}
+     * @sff     Compbrbblf
+     * @sindf  1.5
      */
-    public int compareTo(Boolean b) {
-        return compare(this.value, b.value);
+    publid int dompbrfTo(Boolfbn b) {
+        rfturn dompbrf(tiis.vbluf, b.vbluf);
     }
 
     /**
-     * Compares two {@code boolean} values.
-     * The value returned is identical to what would be returned by:
-     * <pre>
-     *    Boolean.valueOf(x).compareTo(Boolean.valueOf(y))
-     * </pre>
+     * Compbrfs two {@dodf boolfbn} vblufs.
+     * Tif vbluf rfturnfd is idfntidbl to wibt would bf rfturnfd by:
+     * <prf>
+     *    Boolfbn.vblufOf(x).dompbrfTo(Boolfbn.vblufOf(y))
+     * </prf>
      *
-     * @param  x the first {@code boolean} to compare
-     * @param  y the second {@code boolean} to compare
-     * @return the value {@code 0} if {@code x == y};
-     *         a value less than {@code 0} if {@code !x && y}; and
-     *         a value greater than {@code 0} if {@code x && !y}
-     * @since 1.7
+     * @pbrbm  x tif first {@dodf boolfbn} to dompbrf
+     * @pbrbm  y tif sfdond {@dodf boolfbn} to dompbrf
+     * @rfturn tif vbluf {@dodf 0} if {@dodf x == y};
+     *         b vbluf lfss tibn {@dodf 0} if {@dodf !x && y}; bnd
+     *         b vbluf grfbtfr tibn {@dodf 0} if {@dodf x && !y}
+     * @sindf 1.7
      */
-    public static int compare(boolean x, boolean y) {
-        return (x == y) ? 0 : (x ? 1 : -1);
+    publid stbtid int dompbrf(boolfbn x, boolfbn y) {
+        rfturn (x == y) ? 0 : (x ? 1 : -1);
     }
 
     /**
-     * Returns the result of applying the logical AND operator to the
-     * specified {@code boolean} operands.
+     * Rfturns tif rfsult of bpplying tif logidbl AND opfrbtor to tif
+     * spfdififd {@dodf boolfbn} opfrbnds.
      *
-     * @param a the first operand
-     * @param b the second operand
-     * @return the logical AND of {@code a} and {@code b}
-     * @see java.util.function.BinaryOperator
-     * @since 1.8
+     * @pbrbm b tif first opfrbnd
+     * @pbrbm b tif sfdond opfrbnd
+     * @rfturn tif logidbl AND of {@dodf b} bnd {@dodf b}
+     * @sff jbvb.util.fundtion.BinbryOpfrbtor
+     * @sindf 1.8
      */
-    public static boolean logicalAnd(boolean a, boolean b) {
-        return a && b;
+    publid stbtid boolfbn logidblAnd(boolfbn b, boolfbn b) {
+        rfturn b && b;
     }
 
     /**
-     * Returns the result of applying the logical OR operator to the
-     * specified {@code boolean} operands.
+     * Rfturns tif rfsult of bpplying tif logidbl OR opfrbtor to tif
+     * spfdififd {@dodf boolfbn} opfrbnds.
      *
-     * @param a the first operand
-     * @param b the second operand
-     * @return the logical OR of {@code a} and {@code b}
-     * @see java.util.function.BinaryOperator
-     * @since 1.8
+     * @pbrbm b tif first opfrbnd
+     * @pbrbm b tif sfdond opfrbnd
+     * @rfturn tif logidbl OR of {@dodf b} bnd {@dodf b}
+     * @sff jbvb.util.fundtion.BinbryOpfrbtor
+     * @sindf 1.8
      */
-    public static boolean logicalOr(boolean a, boolean b) {
-        return a || b;
+    publid stbtid boolfbn logidblOr(boolfbn b, boolfbn b) {
+        rfturn b || b;
     }
 
     /**
-     * Returns the result of applying the logical XOR operator to the
-     * specified {@code boolean} operands.
+     * Rfturns tif rfsult of bpplying tif logidbl XOR opfrbtor to tif
+     * spfdififd {@dodf boolfbn} opfrbnds.
      *
-     * @param a the first operand
-     * @param b the second operand
-     * @return  the logical XOR of {@code a} and {@code b}
-     * @see java.util.function.BinaryOperator
-     * @since 1.8
+     * @pbrbm b tif first opfrbnd
+     * @pbrbm b tif sfdond opfrbnd
+     * @rfturn  tif logidbl XOR of {@dodf b} bnd {@dodf b}
+     * @sff jbvb.util.fundtion.BinbryOpfrbtor
+     * @sindf 1.8
      */
-    public static boolean logicalXor(boolean a, boolean b) {
-        return a ^ b;
+    publid stbtid boolfbn logidblXor(boolfbn b, boolfbn b) {
+        rfturn b ^ b;
     }
 }

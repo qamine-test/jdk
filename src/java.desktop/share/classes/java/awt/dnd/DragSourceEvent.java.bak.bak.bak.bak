@@ -1,0 +1,185 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.dnd;
+
+import jbvb.bwt.Point;
+
+import jbvb.util.EvfntObjfdt;
+
+/**
+ * This dlbss is thf bbsf dlbss for
+ * <dodf>DrbgSourdfDrbgEvfnt</dodf> bnd
+ * <dodf>DrbgSourdfDropEvfnt</dodf>.
+ * <p>
+ * <dodf>DrbgSourdfEvfnt</dodf>s brf gfnfrbtfd whfnfvfr thf drbg fntfrs, movfs
+ * ovfr, or fxits b drop sitf, whfn thf drop bdtion dhbngfs, bnd whfn thf drbg
+ * fnds. Thf lodbtion for thf gfnfrbtfd <dodf>DrbgSourdfEvfnt</dodf> spfdififs
+ * thf mousf dursor lodbtion in sdrffn doordinbtfs bt thf momfnt this fvfnt
+ * oddurrfd.
+ * <p>
+ * In b multi-sdrffn fnvironmfnt without b virtubl dfvidf, thf dursor lodbtion is
+ * spfdififd in thf doordinbtf systfm of thf <i>initibtor</i>
+ * <dodf>GrbphidsConfigurbtion</dodf>. Thf <i>initibtor</i>
+ * <dodf>GrbphidsConfigurbtion</dodf> is thf <dodf>GrbphidsConfigurbtion</dodf>
+ * of thf <dodf>Componfnt</dodf> on whidh thf drbg gfsturf for thf durrfnt drbg
+ * opfrbtion wbs rfdognizfd. If thf dursor lodbtion is outsidf thf bounds of
+ * thf initibtor <dodf>GrbphidsConfigurbtion</dodf>, thf rfportfd doordinbtfs brf
+ * dlippfd to fit within thf bounds of thbt <dodf>GrbphidsConfigurbtion</dodf>.
+ * <p>
+ * In b multi-sdrffn fnvironmfnt with b virtubl dfvidf, thf lodbtion is spfdififd
+ * in thf dorrfsponding virtubl doordinbtf systfm. If thf dursor lodbtion is
+ * outsidf thf bounds of thf virtubl dfvidf thf rfportfd doordinbtfs brf
+ * dlippfd to fit within thf bounds of thf virtubl dfvidf.
+ *
+ * @sindf 1.2
+ */
+
+publid dlbss DrbgSourdfEvfnt fxtfnds EvfntObjfdt {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -763287114604032641L;
+
+    /**
+     * Thf <dodf>boolfbn</dodf> indidbting whfthfr thf dursor lodbtion
+     * is spfdififd for this fvfnt.
+     *
+     * @sfribl
+     */
+    privbtf finbl boolfbn lodbtionSpfdififd;
+
+    /**
+     * Thf horizontbl doordinbtf for thf dursor lodbtion bt thf momfnt this
+     * fvfnt oddurrfd if thf dursor lodbtion is spfdififd for this fvfnt;
+     * othfrwisf zfro.
+     *
+     * @sfribl
+     */
+    privbtf finbl int x;
+
+    /**
+     * Thf vfrtidbl doordinbtf for thf dursor lodbtion bt thf momfnt this fvfnt
+     * oddurrfd if thf dursor lodbtion is spfdififd for this fvfnt;
+     * othfrwisf zfro.
+     *
+     * @sfribl
+     */
+    privbtf finbl int y;
+
+    /**
+     * Construdt b <dodf>DrbgSourdfEvfnt</dodf>
+     * givfn b spfdififd <dodf>DrbgSourdfContfxt</dodf>.
+     * Thf doordinbtfs for this <dodf>DrbgSourdfEvfnt</dodf>
+     * brf not spfdififd, so <dodf>gftLodbtion</dodf> will rfturn
+     * <dodf>null</dodf> for this fvfnt.
+     *
+     * @pbrbm dsd thf <dodf>DrbgSourdfContfxt</dodf>
+     *
+     * @throws IllfgblArgumfntExdfption if <dodf>dsd</dodf> is <dodf>null</dodf>.
+     *
+     * @sff #gftLodbtion
+     */
+
+    publid DrbgSourdfEvfnt(DrbgSourdfContfxt dsd) {
+        supfr(dsd);
+        lodbtionSpfdififd = fblsf;
+        this.x = 0;
+        this.y = 0;
+    }
+
+    /**
+     * Construdt b <dodf>DrbgSourdfEvfnt</dodf> givfn b spfdififd
+     * <dodf>DrbgSourdfContfxt</dodf>, bnd doordinbtfs of thf dursor
+     * lodbtion.
+     *
+     * @pbrbm dsd thf <dodf>DrbgSourdfContfxt</dodf>
+     * @pbrbm x   thf horizontbl doordinbtf for thf dursor lodbtion
+     * @pbrbm y   thf vfrtidbl doordinbtf for thf dursor lodbtion
+     *
+     * @throws IllfgblArgumfntExdfption if <dodf>dsd</dodf> is <dodf>null</dodf>.
+     *
+     * @sindf 1.4
+     */
+    publid DrbgSourdfEvfnt(DrbgSourdfContfxt dsd, int x, int y) {
+        supfr(dsd);
+        lodbtionSpfdififd = truf;
+        this.x = x;
+        this.y = y;
+    }
+
+    /**
+     * This mfthod rfturns thf <dodf>DrbgSourdfContfxt</dodf> thbt
+     * originbtfd thf fvfnt.
+     *
+     * @rfturn thf <dodf>DrbgSourdfContfxt</dodf> thbt originbtfd thf fvfnt
+     */
+
+    publid DrbgSourdfContfxt gftDrbgSourdfContfxt() {
+        rfturn (DrbgSourdfContfxt)gftSourdf();
+    }
+
+    /**
+     * This mfthod rfturns b <dodf>Point</dodf> indidbting thf dursor
+     * lodbtion in sdrffn doordinbtfs bt thf momfnt this fvfnt oddurrfd, or
+     * <dodf>null</dodf> if thf dursor lodbtion is not spfdififd for this
+     * fvfnt.
+     *
+     * @rfturn thf <dodf>Point</dodf> indidbting thf dursor lodbtion
+     *         or <dodf>null</dodf> if thf dursor lodbtion is not spfdififd
+     * @sindf 1.4
+     */
+    publid Point gftLodbtion() {
+        if (lodbtionSpfdififd) {
+            rfturn nfw Point(x, y);
+        } flsf {
+            rfturn null;
+        }
+    }
+
+    /**
+     * This mfthod rfturns thf horizontbl doordinbtf of thf dursor lodbtion in
+     * sdrffn doordinbtfs bt thf momfnt this fvfnt oddurrfd, or zfro if thf
+     * dursor lodbtion is not spfdififd for this fvfnt.
+     *
+     * @rfturn bn intfgfr indidbting thf horizontbl doordinbtf of thf dursor
+     *         lodbtion or zfro if thf dursor lodbtion is not spfdififd
+     * @sindf 1.4
+     */
+    publid int gftX() {
+        rfturn x;
+    }
+
+    /**
+     * This mfthod rfturns thf vfrtidbl doordinbtf of thf dursor lodbtion in
+     * sdrffn doordinbtfs bt thf momfnt this fvfnt oddurrfd, or zfro if thf
+     * dursor lodbtion is not spfdififd for this fvfnt.
+     *
+     * @rfturn bn intfgfr indidbting thf vfrtidbl doordinbtf of thf dursor
+     *         lodbtion or zfro if thf dursor lodbtion is not spfdififd
+     * @sindf 1.4
+     */
+    publid int gftY() {
+        rfturn y;
+    }
+}

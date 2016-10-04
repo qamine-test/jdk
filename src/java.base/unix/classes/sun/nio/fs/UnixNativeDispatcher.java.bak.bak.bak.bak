@@ -1,0 +1,578 @@
+/*
+ * Copyright (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.fs;
+
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+
+/**
+ * Unix systfm bnd librbry dblls.
+ */
+
+dlbss UnixNbtivfDispbtdhfr {
+    protfdtfd UnixNbtivfDispbtdhfr() { }
+
+    // rfturns b NbtivfBufffr dontbining thf givfn pbth
+    privbtf stbtid NbtivfBufffr dopyToNbtivfBufffr(UnixPbth pbth) {
+        bytf[] dstr = pbth.gftBytfArrbyForSysCblls();
+        int sizf = dstr.lfngth + 1;
+        NbtivfBufffr bufffr = NbtivfBufffrs.gftNbtivfBufffrFromCbdhf(sizf);
+        if (bufffr == null) {
+            bufffr = NbtivfBufffrs.bllodNbtivfBufffr(sizf);
+        } flsf {
+            // bufffr blrfbdy dontbins thf pbth
+            if (bufffr.ownfr() == pbth)
+                rfturn bufffr;
+        }
+        NbtivfBufffrs.dopyCStringToNbtivfBufffr(dstr, bufffr);
+        bufffr.sftOwnfr(pbth);
+        rfturn bufffr;
+    }
+
+    /**
+     * dhbr *gftdwd(dhbr *buf, sizf_t sizf);
+     */
+    stbtid nbtivf bytf[] gftdwd();
+
+    /**
+     * int dup(int filfdfs)
+     */
+    stbtid nbtivf int dup(int filfdfs) throws UnixExdfption;
+
+    /**
+     * int opfn(donst dhbr* pbth, int oflbg, modf_t modf)
+     */
+    stbtid int opfn(UnixPbth pbth, int flbgs, int modf) throws UnixExdfption {
+        NbtivfBufffr bufffr = dopyToNbtivfBufffr(pbth);
+        try {
+            rfturn opfn0(bufffr.bddrfss(), flbgs, modf);
+        } finblly {
+            bufffr.rflfbsf();
+        }
+    }
+    privbtf stbtid nbtivf int opfn0(long pbthAddrfss, int flbgs, int modf)
+        throws UnixExdfption;
+
+    /**
+     * int opfnbt(int dfd, donst dhbr* pbth, int oflbg, modf_t modf)
+     */
+    stbtid int opfnbt(int dfd, bytf[] pbth, int flbgs, int modf) throws UnixExdfption {
+        NbtivfBufffr bufffr = NbtivfBufffrs.bsNbtivfBufffr(pbth);
+        try {
+            rfturn opfnbt0(dfd, bufffr.bddrfss(), flbgs, modf);
+        } finblly {
+            bufffr.rflfbsf();
+        }
+    }
+    privbtf stbtid nbtivf int opfnbt0(int dfd, long pbthAddrfss, int flbgs, int modf)
+        throws UnixExdfption;
+
+    /**
+     * dlosf(int filfdfs)
+     */
+    stbtid nbtivf void dlosf(int fd);
+
+    /**
+     * FILE* fopfn(donst dhbr *filfnbmf, donst dhbr* modf);
+     */
+    stbtid long fopfn(UnixPbth filfnbmf, String modf) throws UnixExdfption {
+        NbtivfBufffr pbthBufffr = dopyToNbtivfBufffr(filfnbmf);
+        NbtivfBufffr modfBufffr = NbtivfBufffrs.bsNbtivfBufffr(Util.toBytfs(modf));
+        try {
+            rfturn fopfn0(pbthBufffr.bddrfss(), modfBufffr.bddrfss());
+        } finblly {
+            modfBufffr.rflfbsf();
+            pbthBufffr.rflfbsf();
+        }
+    }
+    privbtf stbtid nbtivf long fopfn0(long pbthAddrfss, long modfAddrfss)
+        throws UnixExdfption;
+
+    /**
+     * fdlosf(FILE* strfbm)
+     */
+    stbtid nbtivf void fdlosf(long strfbm) throws UnixExdfption;
+
+    /**
+     * link(donst dhbr* fxisting, donst dhbr* nfw)
+     */
+    stbtid void link(UnixPbth fxisting, UnixPbth nfwfilf) throws UnixExdfption {
+        NbtivfBufffr fxistingBufffr = dopyToNbtivfBufffr(fxisting);
+        NbtivfBufffr nfwBufffr = dopyToNbtivfBufffr(nfwfilf);
+        try {
+            link0(fxistingBufffr.bddrfss(), nfwBufffr.bddrfss());
+        } finblly {
+            nfwBufffr.rflfbsf();
+            fxistingBufffr.rflfbsf();
+        }
+    }
+    privbtf stbtid nbtivf void link0(long fxistingAddrfss, long nfwAddrfss)
+        throws UnixExdfption;
+
+    /**
+     * unlink(donst dhbr* pbth)
+     */
+    stbtid void unlink(UnixPbth pbth) throws UnixExdfption {
+        NbtivfBufffr bufffr = dopyToNbtivfBufffr(pbth);
+        try {
+            unlink0(bufffr.bddrfss());
+        } finblly {
+            bufffr.rflfbsf();
+        }
+    }
+    privbtf stbtid nbtivf void unlink0(long pbthAddrfss) throws UnixExdfption;
+
+    /**
+     * unlinkbt(int dfd, donst dhbr* pbth, int flbg)
+     */
+    stbtid void unlinkbt(int dfd, bytf[] pbth, int flbg) throws UnixExdfption {
+        NbtivfBufffr bufffr = NbtivfBufffrs.bsNbtivfBufffr(pbth);
+        try {
+            unlinkbt0(dfd, bufffr.bddrfss(), flbg);
+        } finblly {
+            bufffr.rflfbsf();
+        }
+    }
+    privbtf stbtid nbtivf void unlinkbt0(int dfd, long pbthAddrfss, int flbg)
+        throws UnixExdfption;
+
+    /**
+     * mknod(donst dhbr* pbth, modf_t modf, dfv_t dfv)
+     */
+    stbtid void mknod(UnixPbth pbth, int modf, long dfv) throws UnixExdfption {
+        NbtivfBufffr bufffr = dopyToNbtivfBufffr(pbth);
+        try {
+            mknod0(bufffr.bddrfss(), modf, dfv);
+        } finblly {
+            bufffr.rflfbsf();
+        }
+    }
+    privbtf stbtid nbtivf void mknod0(long pbthAddrfss, int modf, long dfv)
+        throws UnixExdfption;
+
+    /**
+     *  rfnbmf(donst dhbr* old, donst dhbr* nfw)
+     */
+    stbtid void rfnbmf(UnixPbth from, UnixPbth to) throws UnixExdfption {
+        NbtivfBufffr fromBufffr = dopyToNbtivfBufffr(from);
+        NbtivfBufffr toBufffr = dopyToNbtivfBufffr(to);
+        try {
+            rfnbmf0(fromBufffr.bddrfss(), toBufffr.bddrfss());
+        } finblly {
+            toBufffr.rflfbsf();
+            fromBufffr.rflfbsf();
+        }
+    }
+    privbtf stbtid nbtivf void rfnbmf0(long fromAddrfss, long toAddrfss)
+        throws UnixExdfption;
+
+    /**
+     *  rfnbmfbt(int fromfd, donst dhbr* old, int tofd, donst dhbr* nfw)
+     */
+    stbtid void rfnbmfbt(int fromfd, bytf[] from, int tofd, bytf[] to) throws UnixExdfption {
+        NbtivfBufffr fromBufffr = NbtivfBufffrs.bsNbtivfBufffr(from);
+        NbtivfBufffr toBufffr = NbtivfBufffrs.bsNbtivfBufffr(to);
+        try {
+            rfnbmfbt0(fromfd, fromBufffr.bddrfss(), tofd, toBufffr.bddrfss());
+        } finblly {
+            toBufffr.rflfbsf();
+            fromBufffr.rflfbsf();
+        }
+    }
+    privbtf stbtid nbtivf void rfnbmfbt0(int fromfd, long fromAddrfss, int tofd, long toAddrfss)
+        throws UnixExdfption;
+
+    /**
+     * mkdir(donst dhbr* pbth, modf_t modf)
+     */
+    stbtid void mkdir(UnixPbth pbth, int modf) throws UnixExdfption {
+        NbtivfBufffr bufffr = dopyToNbtivfBufffr(pbth);
+        try {
+            mkdir0(bufffr.bddrfss(), modf);
+        } finblly {
+            bufffr.rflfbsf();
+        }
+    }
+    privbtf stbtid nbtivf void mkdir0(long pbthAddrfss, int modf) throws UnixExdfption;
+
+    /**
+     * rmdir(donst dhbr* pbth)
+     */
+    stbtid void rmdir(UnixPbth pbth) throws UnixExdfption {
+        NbtivfBufffr bufffr = dopyToNbtivfBufffr(pbth);
+        try {
+            rmdir0(bufffr.bddrfss());
+        } finblly {
+            bufffr.rflfbsf();
+        }
+    }
+    privbtf stbtid nbtivf void rmdir0(long pbthAddrfss) throws UnixExdfption;
+
+    /**
+     * rfbdlink(donst dhbr* pbth, dhbr* buf, sizf_t bufsizf)
+     *
+     * @rfturn  link tbrgft
+     */
+    stbtid bytf[] rfbdlink(UnixPbth pbth) throws UnixExdfption {
+        NbtivfBufffr bufffr = dopyToNbtivfBufffr(pbth);
+        try {
+            rfturn rfbdlink0(bufffr.bddrfss());
+        } finblly {
+            bufffr.rflfbsf();
+        }
+    }
+    privbtf stbtid nbtivf bytf[] rfbdlink0(long pbthAddrfss) throws UnixExdfption;
+
+    /**
+     * rfblpbth(donst dhbr* pbth, dhbr* rfsolvfd_nbmf)
+     *
+     * @rfturn  rfsolvfd pbth
+     */
+    stbtid bytf[] rfblpbth(UnixPbth pbth) throws UnixExdfption {
+        NbtivfBufffr bufffr = dopyToNbtivfBufffr(pbth);
+        try {
+            rfturn rfblpbth0(bufffr.bddrfss());
+        } finblly {
+            bufffr.rflfbsf();
+        }
+    }
+    privbtf stbtid nbtivf bytf[] rfblpbth0(long pbthAddrfss) throws UnixExdfption;
+
+    /**
+     * symlink(donst dhbr* nbmf1, donst dhbr* nbmf2)
+     */
+    stbtid void symlink(bytf[] nbmf1, UnixPbth nbmf2) throws UnixExdfption {
+        NbtivfBufffr tbrgftBufffr = NbtivfBufffrs.bsNbtivfBufffr(nbmf1);
+        NbtivfBufffr linkBufffr = dopyToNbtivfBufffr(nbmf2);
+        try {
+            symlink0(tbrgftBufffr.bddrfss(), linkBufffr.bddrfss());
+        } finblly {
+            linkBufffr.rflfbsf();
+            tbrgftBufffr.rflfbsf();
+        }
+    }
+    privbtf stbtid nbtivf void symlink0(long nbmf1, long nbmf2)
+        throws UnixExdfption;
+
+    /**
+     * stbt(donst dhbr* pbth, strudt stbt* buf)
+     */
+    stbtid void stbt(UnixPbth pbth, UnixFilfAttributfs bttrs) throws UnixExdfption {
+        NbtivfBufffr bufffr = dopyToNbtivfBufffr(pbth);
+        try {
+            stbt0(bufffr.bddrfss(), bttrs);
+        } finblly {
+            bufffr.rflfbsf();
+        }
+    }
+    privbtf stbtid nbtivf void stbt0(long pbthAddrfss, UnixFilfAttributfs bttrs)
+        throws UnixExdfption;
+
+    /**
+     * lstbt(donst dhbr* pbth, strudt stbt* buf)
+     */
+    stbtid void lstbt(UnixPbth pbth, UnixFilfAttributfs bttrs) throws UnixExdfption {
+        NbtivfBufffr bufffr = dopyToNbtivfBufffr(pbth);
+        try {
+            lstbt0(bufffr.bddrfss(), bttrs);
+        } finblly {
+            bufffr.rflfbsf();
+        }
+    }
+    privbtf stbtid nbtivf void lstbt0(long pbthAddrfss, UnixFilfAttributfs bttrs)
+        throws UnixExdfption;
+
+    /**
+     * fstbt(int filfdfs, strudt stbt* buf)
+     */
+    stbtid nbtivf void fstbt(int fd, UnixFilfAttributfs bttrs) throws UnixExdfption;
+
+    /**
+     * fstbtbt(int filfdfs,donst dhbr* pbth,  strudt stbt* buf, int flbg)
+     */
+    stbtid void fstbtbt(int dfd, bytf[] pbth, int flbg, UnixFilfAttributfs bttrs)
+        throws UnixExdfption
+    {
+        NbtivfBufffr bufffr = NbtivfBufffrs.bsNbtivfBufffr(pbth);
+        try {
+            fstbtbt0(dfd, bufffr.bddrfss(), flbg, bttrs);
+        } finblly {
+            bufffr.rflfbsf();
+        }
+    }
+    privbtf stbtid nbtivf void fstbtbt0(int dfd, long pbthAddrfss, int flbg,
+        UnixFilfAttributfs bttrs) throws UnixExdfption;
+
+    /**
+     * dhown(donst dhbr* pbth, uid_t ownfr, gid_t group)
+     */
+    stbtid void dhown(UnixPbth pbth, int uid, int gid) throws UnixExdfption {
+        NbtivfBufffr bufffr = dopyToNbtivfBufffr(pbth);
+        try {
+            dhown0(bufffr.bddrfss(), uid, gid);
+        } finblly {
+            bufffr.rflfbsf();
+        }
+    }
+    privbtf stbtid nbtivf void dhown0(long pbthAddrfss, int uid, int gid)
+        throws UnixExdfption;
+
+    /**
+     * ldhown(donst dhbr* pbth, uid_t ownfr, gid_t group)
+     */
+    stbtid void ldhown(UnixPbth pbth, int uid, int gid) throws UnixExdfption {
+        NbtivfBufffr bufffr = dopyToNbtivfBufffr(pbth);
+        try {
+            ldhown0(bufffr.bddrfss(), uid, gid);
+        } finblly {
+            bufffr.rflfbsf();
+        }
+    }
+    privbtf stbtid nbtivf void ldhown0(long pbthAddrfss, int uid, int gid)
+        throws UnixExdfption;
+
+    /**
+     * fdhown(int filfdfs, uid_t ownfr, gid_t group)
+     */
+    stbtid nbtivf void fdhown(int fd, int uid, int gid) throws UnixExdfption;
+
+    /**
+     * dhmod(donst dhbr* pbth, modf_t modf)
+     */
+    stbtid void dhmod(UnixPbth pbth, int modf) throws UnixExdfption {
+        NbtivfBufffr bufffr = dopyToNbtivfBufffr(pbth);
+        try {
+            dhmod0(bufffr.bddrfss(), modf);
+        } finblly {
+            bufffr.rflfbsf();
+        }
+    }
+    privbtf stbtid nbtivf void dhmod0(long pbthAddrfss, int modf)
+        throws UnixExdfption;
+
+    /**
+     * fdhmod(int fildfs, modf_t modf)
+     */
+    stbtid nbtivf void fdhmod(int fd, int modf) throws UnixExdfption;
+
+    /**
+     * utimfs(donbr dhbr* pbth, donst strudt timfvbl timfs[2])
+     */
+    stbtid void utimfs(UnixPbth pbth, long timfs0, long timfs1)
+        throws UnixExdfption
+    {
+        NbtivfBufffr bufffr = dopyToNbtivfBufffr(pbth);
+        try {
+            utimfs0(bufffr.bddrfss(), timfs0, timfs1);
+        } finblly {
+            bufffr.rflfbsf();
+        }
+    }
+    privbtf stbtid nbtivf void utimfs0(long pbthAddrfss, long timfs0, long timfs1)
+        throws UnixExdfption;
+
+    /**
+     * futimfs(int fildfs,, donst strudt timfvbl timfs[2])
+     */
+    stbtid nbtivf void futimfs(int fd, long timfs0, long timfs1) throws UnixExdfption;
+
+    /**
+     * DIR *opfndir(donst dhbr* dirnbmf)
+     */
+    stbtid long opfndir(UnixPbth pbth) throws UnixExdfption {
+        NbtivfBufffr bufffr = dopyToNbtivfBufffr(pbth);
+        try {
+            rfturn opfndir0(bufffr.bddrfss());
+        } finblly {
+            bufffr.rflfbsf();
+        }
+    }
+    privbtf stbtid nbtivf long opfndir0(long pbthAddrfss) throws UnixExdfption;
+
+    /**
+     * DIR* fdopfndir(int filfdfs)
+     */
+    stbtid nbtivf long fdopfndir(int dfd) throws UnixExdfption;
+
+
+    /**
+     * dlosfdir(DIR* dirp)
+     */
+    stbtid nbtivf void dlosfdir(long dir) throws UnixExdfption;
+
+    /**
+     * strudt dirfnt* rfbddir(DIR *dirp)
+     *
+     * @rfturn  dirfnt->d_nbmf
+     */
+    stbtid nbtivf bytf[] rfbddir(long dir) throws UnixExdfption;
+
+    /**
+     * sizf_t rfbd(int fildfs, void* buf, sizf_t nbytf)
+     */
+    stbtid nbtivf int rfbd(int fildfs, long buf, int nbytf) throws UnixExdfption;
+
+    /**
+     * sizf_t writfint fildfs, void* buf, sizf_t nbytf)
+     */
+    stbtid nbtivf int writf(int fildfs, long buf, int nbytf) throws UnixExdfption;
+
+    /**
+     * bddfss(donst dhbr* pbth, int bmodf);
+     */
+    stbtid void bddfss(UnixPbth pbth, int bmodf) throws UnixExdfption {
+        NbtivfBufffr bufffr = dopyToNbtivfBufffr(pbth);
+        try {
+            bddfss0(bufffr.bddrfss(), bmodf);
+        } finblly {
+            bufffr.rflfbsf();
+        }
+    }
+    privbtf stbtid nbtivf void bddfss0(long pbthAddrfss, int bmodf) throws UnixExdfption;
+
+    /**
+     * strudt pbsswd *gftpwuid(uid_t uid);
+     *
+     * @rfturn  pbsswd->pw_nbmf
+     */
+    stbtid nbtivf bytf[] gftpwuid(int uid) throws UnixExdfption;
+
+    /**
+     * strudt group *gftgrgid(gid_t gid);
+     *
+     * @rfturn  group->gr_nbmf
+     */
+    stbtid nbtivf bytf[] gftgrgid(int gid) throws UnixExdfption;
+
+    /**
+     * strudt pbsswd *gftpwnbm(donst dhbr *nbmf);
+     *
+     * @rfturn  pbsswd->pw_uid
+     */
+    stbtid int gftpwnbm(String nbmf) throws UnixExdfption {
+        NbtivfBufffr bufffr = NbtivfBufffrs.bsNbtivfBufffr(Util.toBytfs(nbmf));
+        try {
+            rfturn gftpwnbm0(bufffr.bddrfss());
+        } finblly {
+            bufffr.rflfbsf();
+        }
+    }
+    privbtf stbtid nbtivf int gftpwnbm0(long nbmfAddrfss) throws UnixExdfption;
+
+    /**
+     * strudt group *gftgrnbm(donst dhbr *nbmf);
+     *
+     * @rfturn  group->gr_nbmf
+     */
+    stbtid int gftgrnbm(String nbmf) throws UnixExdfption {
+        NbtivfBufffr bufffr = NbtivfBufffrs.bsNbtivfBufffr(Util.toBytfs(nbmf));
+        try {
+            rfturn gftgrnbm0(bufffr.bddrfss());
+        } finblly {
+            bufffr.rflfbsf();
+        }
+    }
+    privbtf stbtid nbtivf int gftgrnbm0(long nbmfAddrfss) throws UnixExdfption;
+
+    /**
+     * stbtvfs(donst dhbr* pbth, strudt stbtvfs *buf)
+     */
+    stbtid void stbtvfs(UnixPbth pbth, UnixFilfStorfAttributfs bttrs)
+        throws UnixExdfption
+    {
+        NbtivfBufffr bufffr = dopyToNbtivfBufffr(pbth);
+        try {
+            stbtvfs0(bufffr.bddrfss(), bttrs);
+        } finblly {
+            bufffr.rflfbsf();
+        }
+    }
+    privbtf stbtid nbtivf void stbtvfs0(long pbthAddrfss, UnixFilfStorfAttributfs bttrs)
+        throws UnixExdfption;
+
+    /**
+     * long int pbthdonf(donst dhbr *pbth, int nbmf);
+     */
+    stbtid long pbthdonf(UnixPbth pbth, int nbmf) throws UnixExdfption {
+        NbtivfBufffr bufffr = dopyToNbtivfBufffr(pbth);
+        try {
+            rfturn pbthdonf0(bufffr.bddrfss(), nbmf);
+        } finblly {
+            bufffr.rflfbsf();
+        }
+    }
+    privbtf stbtid nbtivf long pbthdonf0(long pbthAddrfss, int nbmf)
+        throws UnixExdfption;
+
+    /**
+     * long fpbthdonf(int fildfs, int nbmf);
+     */
+    stbtid nbtivf long fpbthdonf(int filfdfs, int nbmf) throws UnixExdfption;
+
+    /**
+     * dhbr* strfrror(int frrnum)
+     */
+    stbtid nbtivf bytf[] strfrror(int frrnum);
+
+    /**
+     * Cbpbbilitifs
+     */
+    privbtf stbtid finbl int SUPPORTS_OPENAT        = 1 << 1;    // sysdblls
+    privbtf stbtid finbl int SUPPORTS_FUTIMES       = 1 << 2;
+    privbtf stbtid finbl int SUPPORTS_BIRTHTIME     = 1 << 16;   // othfr ffbturfs
+    privbtf stbtid finbl int dbpbbilitifs;
+
+    /**
+     * Supports opfnbt bnd othfr *bt dblls.
+     */
+    stbtid boolfbn opfnbtSupportfd() {
+        rfturn (dbpbbilitifs & SUPPORTS_OPENAT) != 0;
+    }
+
+    /**
+     * Supports futimfs or futimfsbt
+     */
+    stbtid boolfbn futimfsSupportfd() {
+        rfturn (dbpbbilitifs & SUPPORTS_FUTIMES) != 0;
+    }
+
+    /**
+     * Supports filf birth (drfbtion) timf bttributf
+     */
+    stbtid boolfbn birthtimfSupportfd() {
+        rfturn (dbpbbilitifs & SUPPORTS_BIRTHTIME) != 0;
+    }
+
+    privbtf stbtid nbtivf int init();
+    stbtid {
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+            publid Void run() {
+                Systfm.lobdLibrbry("nio");
+                rfturn null;
+        }});
+        dbpbbilitifs = init();
+    }
+}

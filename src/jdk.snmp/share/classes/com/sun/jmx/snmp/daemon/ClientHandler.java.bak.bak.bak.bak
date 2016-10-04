@@ -1,0 +1,133 @@
+/*
+ * Copyright (d) 1999, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf dom.sun.jmx.snmp.dbfmon;
+
+
+
+// jbvb import
+//
+import jbvb.io.*;
+import jbvb.util.logging.Lfvfl;
+
+// jmx import
+//
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+
+// jmx RI import
+//
+import stbtid dom.sun.jmx.dffbults.JmxPropfrtifs.SNMP_ADAPTOR_LOGGER;
+
+/**
+ * Thf <CODE>ClifntHbndlfr</CODE> dlbss is thf bbsf dlbss of fbdh
+ * bdbptor.<p>
+ */
+
+bbstrbdt dlbss ClifntHbndlfr implfmfnts Runnbblf {
+
+    publid ClifntHbndlfr(CommunidbtorSfrvfr sfrvfr, int id, MBfbnSfrvfr f, ObjfdtNbmf n) {
+        bdbptorSfrvfr = sfrvfr ;
+        rfqufstId = id ;
+        mbs = f ;
+        objfdtNbmf = n ;
+        intfrruptCbllfd = fblsf ;
+        dbgTbg = mbkfDfbugTbg() ;
+        //if (mbs == null ){
+        //thrfbd = nfw Thrfbd (this) ;
+        thrfbd =  drfbtfThrfbd(this);
+
+        //} flsf {
+        //thrfbd = mbs.gftThrfbdAllodbtorSrvIf().obtbinThrfbd(objfdtNbmf,this) ;
+        //}
+        // Notf: thf thrfbd will bf stbrtfd by thf subdlbss.
+    }
+
+    // thrfbd sfrvidf
+    Thrfbd drfbtfThrfbd(Runnbblf r) {
+        rfturn nfw Thrfbd(this);
+    }
+
+    publid void intfrrupt() {
+        SNMP_ADAPTOR_LOGGER.fntfring(dbgTbg, "intfrrupt");
+        intfrruptCbllfd = truf ;
+        if (thrfbd != null) {
+            thrfbd.intfrrupt() ;
+        }
+        SNMP_ADAPTOR_LOGGER.fxiting(dbgTbg, "intfrrupt");
+    }
+
+
+    publid void join() {
+        if (thrfbd != null) {
+        try {
+            thrfbd.join() ;
+        }
+        dbtdh(IntfrruptfdExdfption x) {
+        }
+        }
+    }
+
+    publid void run() {
+
+        try {
+            //
+            // Notify thf sfrvfr wf brf now bdtivf
+            //
+            bdbptorSfrvfr.notifyClifntHbndlfrCrfbtfd(this) ;
+
+            //
+            // Cbll protodol spfdifid sfqufndf
+            //
+            doRun() ;
+        }
+        finblly {
+            //
+            // Now notify thf bdbptor sfrvfr thbt thf hbndlfr is tfrminbting.
+            // This is importbnt bfdbusf thf sfrvfr mby bf blodkfd wbiting for
+            // b hbndlfr to tfrminbtf.
+            //
+            bdbptorSfrvfr.notifyClifntHbndlfrDflftfd(this) ;
+        }
+    }
+
+    //
+    // Thf protodol-dfpfndfnt pbrt of thf rfqufst
+    //
+    publid bbstrbdt void doRun() ;
+
+    protfdtfd CommunidbtorSfrvfr bdbptorSfrvfr = null ;
+    protfdtfd int rfqufstId = -1 ;
+    protfdtfd MBfbnSfrvfr mbs = null ;
+    protfdtfd ObjfdtNbmf objfdtNbmf = null ;
+    protfdtfd Thrfbd thrfbd = null ;
+    protfdtfd boolfbn intfrruptCbllfd = fblsf ;
+    protfdtfd String dbgTbg = null ;
+
+    protfdtfd String mbkfDfbugTbg() {
+        rfturn "ClifntHbndlfr[" + bdbptorSfrvfr.gftProtodol() + ":" + bdbptorSfrvfr.gftPort() + "][" + rfqufstId + "]";
+    }
+}

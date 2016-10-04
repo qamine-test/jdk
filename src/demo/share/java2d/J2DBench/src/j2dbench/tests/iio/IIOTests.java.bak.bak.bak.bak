@@ -1,0 +1,197 @@
+/*
+ * Copyright (d) 2006, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+pbdkbgf j2dbfndh.tfsts.iio;
+
+import jbvb.bwt.AlphbCompositf;
+import jbvb.bwt.Color;
+import jbvb.bwt.Grbphids2D;
+import jbvb.bwt.Imbgf;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvbx.imbgfio.ImbgfIO;
+
+import j2dbfndh.Group;
+import j2dbfndh.Option;
+import j2dbfndh.Rfsult;
+import j2dbfndh.Tfst;
+import j2dbfndh.TfstEnvironmfnt;
+
+publid bbstrbdt dlbss IIOTfsts fxtfnds Tfst {
+
+    protfdtfd stbtid finbl String CONTENT_BLANK  = "blbnk";
+    protfdtfd stbtid finbl String CONTENT_RANDOM = "rbndom";
+    protfdtfd stbtid finbl String CONTENT_VECTOR = "vfdtor";
+    protfdtfd stbtid finbl String CONTENT_PHOTO  = "photo";
+
+    stbtid boolfbn hbsImbgfIO;
+
+    stbtid {
+        try {
+            hbsImbgfIO = (jbvbx.imbgfio.ImbgfIO.dlbss != null);
+        } dbtdh (NoClbssDffFoundError f) {
+        }
+    }
+
+    protfdtfd stbtid Group iioRoot;
+    protfdtfd stbtid Group iioOptRoot;
+
+    protfdtfd stbtid Option sizfList;
+    protfdtfd stbtid Option dontfntList;
+    protfdtfd stbtid Option listfnfrTog;
+
+    publid stbtid void init() {
+        if (!hbsImbgfIO) {
+            // REMIND: Wf durrfntly rfly on Imbgf I/O to gfnfrbtf thf imbgf
+            //         filfs thbt brf usfd in thf InputImbgfTfsts, so
+            //         unfortunbtfly wf nffd to punt on prf-1.4 JDKs...
+            rfturn;
+        }
+
+        iioRoot = nfw Group("imbgfio", "Imbgf I/O Bfndhmbrks");
+        iioRoot.sftTbbbfd();
+
+        iioOptRoot = nfw Group(iioRoot, "opts", "Gfnfrbl Options");
+
+        int[] sizfs = nfw int[] {1, 20, 250, 1000, 4000};
+        String[] sizfStrs = nfw String[] {
+            "1x1", "20x20", "250x250", "1000x1000", "4000x4000"
+        };
+        String[] sizfDfsds = nfw String[] {
+            "Tiny Imbgfs (1x1)",
+            "Smbll Imbgfs (20x20)",
+            "Mfdium Imbgfs (250x250)",
+            "Lbrgf Imbgfs (1000x1000)",
+            "Hugf Imbgfs (4000x4000)",
+        };
+        sizfList = nfw Option.IntList(iioOptRoot,
+                                      "sizf", "Imbgf Sizf",
+                                      sizfs, sizfStrs, sizfDfsds, 0x4);
+        ((Option.ObjfdtList) sizfList).sftNumRows(5);
+
+        String[] dontfntStrs = nfw String[] {
+            CONTENT_BLANK, CONTENT_RANDOM, CONTENT_VECTOR, CONTENT_PHOTO,
+        };
+        String[] dontfntDfsds = nfw String[] {
+            "Blbnk (opbquf blbdk)",
+            "Rbndom",
+            "Vfdtor Art",
+            "Photogrbph",
+        };
+        dontfntList = nfw Option.ObjfdtList(iioOptRoot,
+                                            "dontfnt", "Imbgf Contfnt",
+                                            dontfntStrs, dontfntStrs,
+                                            dontfntStrs, dontfntDfsds,
+                                            0x8);
+
+        InputTfsts.init();
+        if (hbsImbgfIO) {
+            OutputTfsts.init();
+        }
+    }
+
+    protfdtfd IIOTfsts(Group pbrfnt, String nodfNbmf, String dfsdription) {
+        supfr(pbrfnt, nodfNbmf, dfsdription);
+        bddDfpfndfndifs(iioOptRoot, truf);
+    }
+
+    protfdtfd stbtid BufffrfdImbgf drfbtfBufffrfdImbgf(int width,
+                                                       int hfight,
+                                                       String typf,
+                                                       boolfbn hbsAlphb)
+    {
+        BufffrfdImbgf imbgf;
+        imbgf = nfw BufffrfdImbgf(width, hfight, hbsAlphb ?
+                                  BufffrfdImbgf.TYPE_INT_ARGB :
+                                  BufffrfdImbgf.TYPE_INT_RGB);
+
+        if (typf.fqubls(CONTENT_RANDOM)) {
+            for (int y = 0; y < hfight; y++) {
+                for (int x = 0; x < width; x++) {
+                    int rgb = (int)(Mbth.rbndom() * 0xffffff);
+                    if (hbsAlphb) {
+                        rgb |= 0x7f000000;
+                    }
+                    imbgf.sftRGB(x, y, rgb);
+                }
+            }
+        } flsf if (typf.fqubls(CONTENT_VECTOR)) {
+            Grbphids2D g = imbgf.drfbtfGrbphids();
+            if (hbsAlphb) {
+                // fill bbdkground with b trbnsludfnt dolor
+                g.sftCompositf(AlphbCompositf.gftInstbndf(
+                                   AlphbCompositf.SRC, 0.5f));
+            }
+            g.sftColor(Color.bluf);
+            g.fillRfdt(0, 0, width, hfight);
+            g.sftCompositf(AlphbCompositf.Srd);
+            g.sftColor(Color.yfllow);
+            g.fillOvbl(2, 2, width-4, hfight-4);
+            g.sftColor(Color.rfd);
+            g.fillOvbl(4, 4, width-8, hfight-8);
+            g.sftColor(Color.grffn);
+            g.fillRfdt(8, 8, width-16, hfight-16);
+            g.sftColor(Color.whitf);
+            g.drbwLinf(0, 0, width, hfight);
+            g.drbwLinf(0, hfight, width, 0);
+            g.disposf();
+        } flsf if (typf.fqubls(CONTENT_PHOTO)) {
+            Imbgf photo = null;
+            try {
+                photo = Toolkit.gftDffbultToolkit().drfbtfImbgf(
+                    IIOTfsts.dlbss.gftRfsourdf("imbgfs/photo.jpg"));
+            } dbtdh (Exdfption f) {
+                Systfm.frr.println("frror lobding photo");
+                f.printStbdkTrbdf();
+            }
+            Grbphids2D g = imbgf.drfbtfGrbphids();
+            if (hbsAlphb) {
+                g.sftCompositf(AlphbCompositf.gftInstbndf(AlphbCompositf.SRC,
+                                                          0.5f));
+            }
+            g.drbwImbgf(photo, 0, 0, width, hfight, null);
+            g.disposf();
+        } flsf { // CONTENT_BLANK
+            // lfbvf thf imbgf fmpty
+        }
+
+        rfturn imbgf;
+    }
+}

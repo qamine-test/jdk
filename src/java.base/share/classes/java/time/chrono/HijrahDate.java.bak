@@ -1,46 +1,46 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * Copyright (c) 2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyrigit (d) 2012, Stfpifn Colfbournf & Midibfl Nbsdimfnto Sbntos
  *
- * All rights reserved.
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions brf mft:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
- *    without specific prior written permission.
+ *  * Nfitifr tif nbmf of JSR-310 nor tif nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from tiis softwbrf
+ *    witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -54,645 +54,645 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time.chrono;
+pbdkbgf jbvb.timf.dirono;
 
-import static java.time.temporal.ChronoField.ALIGNED_DAY_OF_WEEK_IN_MONTH;
-import static java.time.temporal.ChronoField.ALIGNED_DAY_OF_WEEK_IN_YEAR;
-import static java.time.temporal.ChronoField.ALIGNED_WEEK_OF_MONTH;
-import static java.time.temporal.ChronoField.ALIGNED_WEEK_OF_YEAR;
-import static java.time.temporal.ChronoField.DAY_OF_MONTH;
-import static java.time.temporal.ChronoField.MONTH_OF_YEAR;
-import static java.time.temporal.ChronoField.YEAR;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.ALIGNED_DAY_OF_WEEK_IN_MONTH;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.ALIGNED_DAY_OF_WEEK_IN_YEAR;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.ALIGNED_WEEK_OF_MONTH;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.ALIGNED_WEEK_OF_YEAR;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.DAY_OF_MONTH;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.MONTH_OF_YEAR;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.YEAR;
 
-import java.io.IOException;
-import java.io.InvalidObjectException;
-import java.io.ObjectInput;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutput;
-import java.io.Serializable;
-import java.time.Clock;
-import java.time.DateTimeException;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.ZoneId;
-import java.time.temporal.ChronoField;
-import java.time.temporal.TemporalAccessor;
-import java.time.temporal.TemporalAdjuster;
-import java.time.temporal.TemporalAmount;
-import java.time.temporal.TemporalField;
-import java.time.temporal.TemporalQuery;
-import java.time.temporal.TemporalUnit;
-import java.time.temporal.UnsupportedTemporalTypeException;
-import java.time.temporal.ValueRange;
+import jbvb.io.IOExdfption;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.ObjfdtInput;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtOutput;
+import jbvb.io.Sfriblizbblf;
+import jbvb.timf.Clodk;
+import jbvb.timf.DbtfTimfExdfption;
+import jbvb.timf.LodblDbtf;
+import jbvb.timf.LodblTimf;
+import jbvb.timf.ZonfId;
+import jbvb.timf.tfmporbl.CironoFifld;
+import jbvb.timf.tfmporbl.TfmporblAddfssor;
+import jbvb.timf.tfmporbl.TfmporblAdjustfr;
+import jbvb.timf.tfmporbl.TfmporblAmount;
+import jbvb.timf.tfmporbl.TfmporblFifld;
+import jbvb.timf.tfmporbl.TfmporblQufry;
+import jbvb.timf.tfmporbl.TfmporblUnit;
+import jbvb.timf.tfmporbl.UnsupportfdTfmporblTypfExdfption;
+import jbvb.timf.tfmporbl.VblufRbngf;
 
 /**
- * A date in the Hijrah calendar system.
+ * A dbtf in tif Hijrbi dblfndbr systfm.
  * <p>
- * This date operates using one of several variants of the
- * {@linkplain HijrahChronology Hijrah calendar}.
+ * Tiis dbtf opfrbtfs using onf of sfvfrbl vbribnts of tif
+ * {@linkplbin HijrbiCironology Hijrbi dblfndbr}.
  * <p>
- * The Hijrah calendar has a different total of days in a year than
- * Gregorian calendar, and the length of each month is based on the period
- * of a complete revolution of the moon around the earth
- * (as between successive new moons).
- * Refer to the {@link HijrahChronology} for details of supported variants.
+ * Tif Hijrbi dblfndbr ibs b difffrfnt totbl of dbys in b yfbr tibn
+ * Grfgoribn dblfndbr, bnd tif lfngti of fbdi monti is bbsfd on tif pfriod
+ * of b domplftf rfvolution of tif moon bround tif fbrti
+ * (bs bftwffn suddfssivf nfw moons).
+ * Rfffr to tif {@link HijrbiCironology} for dftbils of supportfd vbribnts.
  * <p>
- * Each HijrahDate is created bound to a particular HijrahChronology,
- * The same chronology is propagated to each HijrahDate computed from the date.
- * To use a different Hijrah variant, its HijrahChronology can be used
- * to create new HijrahDate instances.
- * Alternatively, the {@link #withVariant} method can be used to convert
- * to a new HijrahChronology.
+ * Ebdi HijrbiDbtf is drfbtfd bound to b pbrtidulbr HijrbiCironology,
+ * Tif sbmf dironology is propbgbtfd to fbdi HijrbiDbtf domputfd from tif dbtf.
+ * To usf b difffrfnt Hijrbi vbribnt, its HijrbiCironology dbn bf usfd
+ * to drfbtf nfw HijrbiDbtf instbndfs.
+ * Altfrnbtivfly, tif {@link #witiVbribnt} mftiod dbn bf usfd to donvfrt
+ * to b nfw HijrbiCironology.
  *
  * <p>
- * This is a <a href="{@docRoot}/java/lang/doc-files/ValueBased.html">value-based</a>
- * class; use of identity-sensitive operations (including reference equality
- * ({@code ==}), identity hash code, or synchronization) on instances of
- * {@code HijrahDate} may have unpredictable results and should be avoided.
- * The {@code equals} method should be used for comparisons.
+ * Tiis is b <b irff="{@dodRoot}/jbvb/lbng/dod-filfs/VblufBbsfd.itml">vbluf-bbsfd</b>
+ * dlbss; usf of idfntity-sfnsitivf opfrbtions (indluding rfffrfndf fqublity
+ * ({@dodf ==}), idfntity ibsi dodf, or syndironizbtion) on instbndfs of
+ * {@dodf HijrbiDbtf} mby ibvf unprfdidtbblf rfsults bnd siould bf bvoidfd.
+ * Tif {@dodf fqubls} mftiod siould bf usfd for dompbrisons.
  *
- * @implSpec
- * This class is immutable and thread-safe.
+ * @implSpfd
+ * Tiis dlbss is immutbblf bnd tirfbd-sbff.
  *
- * @since 1.8
+ * @sindf 1.8
  */
-public final class HijrahDate
-        extends ChronoLocalDateImpl<HijrahDate>
-        implements ChronoLocalDate, Serializable {
+publid finbl dlbss HijrbiDbtf
+        fxtfnds CironoLodblDbtfImpl<HijrbiDbtf>
+        implfmfnts CironoLodblDbtf, Sfriblizbblf {
 
     /**
-     * Serialization version.
+     * Sfriblizbtion vfrsion.
      */
-    private static final long serialVersionUID = -5207853542612002020L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -5207853542612002020L;
     /**
-     * The Chronology of this HijrahDate.
+     * Tif Cironology of tiis HijrbiDbtf.
      */
-    private final transient HijrahChronology chrono;
+    privbtf finbl trbnsifnt HijrbiCironology dirono;
     /**
-     * The proleptic year.
+     * Tif prolfptid yfbr.
      */
-    private final transient int prolepticYear;
+    privbtf finbl trbnsifnt int prolfptidYfbr;
     /**
-     * The month-of-year.
+     * Tif monti-of-yfbr.
      */
-    private final transient int monthOfYear;
+    privbtf finbl trbnsifnt int montiOfYfbr;
     /**
-     * The day-of-month.
+     * Tif dby-of-monti.
      */
-    private final transient int dayOfMonth;
+    privbtf finbl trbnsifnt int dbyOfMonti;
 
     //-------------------------------------------------------------------------
     /**
-     * Obtains an instance of {@code HijrahDate} from the Hijrah proleptic year,
-     * month-of-year and day-of-month.
+     * Obtbins bn instbndf of {@dodf HijrbiDbtf} from tif Hijrbi prolfptid yfbr,
+     * monti-of-yfbr bnd dby-of-monti.
      *
-     * @param prolepticYear  the proleptic year to represent in the Hijrah calendar
-     * @param monthOfYear  the month-of-year to represent, from 1 to 12
-     * @param dayOfMonth  the day-of-month to represent, from 1 to 30
-     * @return the Hijrah date, never null
-     * @throws DateTimeException if the value of any field is out of range
+     * @pbrbm prolfptidYfbr  tif prolfptid yfbr to rfprfsfnt in tif Hijrbi dblfndbr
+     * @pbrbm montiOfYfbr  tif monti-of-yfbr to rfprfsfnt, from 1 to 12
+     * @pbrbm dbyOfMonti  tif dby-of-monti to rfprfsfnt, from 1 to 30
+     * @rfturn tif Hijrbi dbtf, nfvfr null
+     * @tirows DbtfTimfExdfption if tif vbluf of bny fifld is out of rbngf
      */
-    static HijrahDate of(HijrahChronology chrono, int prolepticYear, int monthOfYear, int dayOfMonth) {
-        return new HijrahDate(chrono, prolepticYear, monthOfYear, dayOfMonth);
+    stbtid HijrbiDbtf of(HijrbiCironology dirono, int prolfptidYfbr, int montiOfYfbr, int dbyOfMonti) {
+        rfturn nfw HijrbiDbtf(dirono, prolfptidYfbr, montiOfYfbr, dbyOfMonti);
     }
 
     /**
-     * Returns a HijrahDate for the chronology and epochDay.
-     * @param chrono The Hijrah chronology
-     * @param epochDay the epoch day
-     * @return a HijrahDate for the epoch day; non-null
+     * Rfturns b HijrbiDbtf for tif dironology bnd fpodiDby.
+     * @pbrbm dirono Tif Hijrbi dironology
+     * @pbrbm fpodiDby tif fpodi dby
+     * @rfturn b HijrbiDbtf for tif fpodi dby; non-null
      */
-    static HijrahDate ofEpochDay(HijrahChronology chrono, long epochDay) {
-        return new HijrahDate(chrono, epochDay);
+    stbtid HijrbiDbtf ofEpodiDby(HijrbiCironology dirono, long fpodiDby) {
+        rfturn nfw HijrbiDbtf(dirono, fpodiDby);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains the current {@code HijrahDate} of the Islamic Umm Al-Qura calendar
-     * in the default time-zone.
+     * Obtbins tif durrfnt {@dodf HijrbiDbtf} of tif Islbmid Umm Al-Qurb dblfndbr
+     * in tif dffbult timf-zonf.
      * <p>
-     * This will query the {@link Clock#systemDefaultZone() system clock} in the default
-     * time-zone to obtain the current date.
+     * Tiis will qufry tif {@link Clodk#systfmDffbultZonf() systfm dlodk} in tif dffbult
+     * timf-zonf to obtbin tif durrfnt dbtf.
      * <p>
-     * Using this method will prevent the ability to use an alternate clock for testing
-     * because the clock is hard-coded.
+     * Using tiis mftiod will prfvfnt tif bbility to usf bn bltfrnbtf dlodk for tfsting
+     * bfdbusf tif dlodk is ibrd-dodfd.
      *
-     * @return the current date using the system clock and default time-zone, not null
+     * @rfturn tif durrfnt dbtf using tif systfm dlodk bnd dffbult timf-zonf, not null
      */
-    public static HijrahDate now() {
-        return now(Clock.systemDefaultZone());
+    publid stbtid HijrbiDbtf now() {
+        rfturn now(Clodk.systfmDffbultZonf());
     }
 
     /**
-     * Obtains the current {@code HijrahDate} of the Islamic Umm Al-Qura calendar
-     * in the specified time-zone.
+     * Obtbins tif durrfnt {@dodf HijrbiDbtf} of tif Islbmid Umm Al-Qurb dblfndbr
+     * in tif spfdififd timf-zonf.
      * <p>
-     * This will query the {@link Clock#system(ZoneId) system clock} to obtain the current date.
-     * Specifying the time-zone avoids dependence on the default time-zone.
+     * Tiis will qufry tif {@link Clodk#systfm(ZonfId) systfm dlodk} to obtbin tif durrfnt dbtf.
+     * Spfdifying tif timf-zonf bvoids dfpfndfndf on tif dffbult timf-zonf.
      * <p>
-     * Using this method will prevent the ability to use an alternate clock for testing
-     * because the clock is hard-coded.
+     * Using tiis mftiod will prfvfnt tif bbility to usf bn bltfrnbtf dlodk for tfsting
+     * bfdbusf tif dlodk is ibrd-dodfd.
      *
-     * @param zone  the zone ID to use, not null
-     * @return the current date using the system clock, not null
+     * @pbrbm zonf  tif zonf ID to usf, not null
+     * @rfturn tif durrfnt dbtf using tif systfm dlodk, not null
      */
-    public static HijrahDate now(ZoneId zone) {
-        return now(Clock.system(zone));
+    publid stbtid HijrbiDbtf now(ZonfId zonf) {
+        rfturn now(Clodk.systfm(zonf));
     }
 
     /**
-     * Obtains the current {@code HijrahDate} of the Islamic Umm Al-Qura calendar
-     * from the specified clock.
+     * Obtbins tif durrfnt {@dodf HijrbiDbtf} of tif Islbmid Umm Al-Qurb dblfndbr
+     * from tif spfdififd dlodk.
      * <p>
-     * This will query the specified clock to obtain the current date - today.
-     * Using this method allows the use of an alternate clock for testing.
-     * The alternate clock may be introduced using {@linkplain Clock dependency injection}.
+     * Tiis will qufry tif spfdififd dlodk to obtbin tif durrfnt dbtf - todby.
+     * Using tiis mftiod bllows tif usf of bn bltfrnbtf dlodk for tfsting.
+     * Tif bltfrnbtf dlodk mby bf introdudfd using {@linkplbin Clodk dfpfndfndy injfdtion}.
      *
-     * @param clock  the clock to use, not null
-     * @return the current date, not null
-     * @throws DateTimeException if the current date cannot be obtained
+     * @pbrbm dlodk  tif dlodk to usf, not null
+     * @rfturn tif durrfnt dbtf, not null
+     * @tirows DbtfTimfExdfption if tif durrfnt dbtf dbnnot bf obtbinfd
      */
-    public static HijrahDate now(Clock clock) {
-        return HijrahDate.ofEpochDay(HijrahChronology.INSTANCE, LocalDate.now(clock).toEpochDay());
+    publid stbtid HijrbiDbtf now(Clodk dlodk) {
+        rfturn HijrbiDbtf.ofEpodiDby(HijrbiCironology.INSTANCE, LodblDbtf.now(dlodk).toEpodiDby());
     }
 
     /**
-     * Obtains a {@code HijrahDate} of the Islamic Umm Al-Qura calendar
-     * from the proleptic-year, month-of-year and day-of-month fields.
+     * Obtbins b {@dodf HijrbiDbtf} of tif Islbmid Umm Al-Qurb dblfndbr
+     * from tif prolfptid-yfbr, monti-of-yfbr bnd dby-of-monti fiflds.
      * <p>
-     * This returns a {@code HijrahDate} with the specified fields.
-     * The day must be valid for the year and month, otherwise an exception will be thrown.
+     * Tiis rfturns b {@dodf HijrbiDbtf} witi tif spfdififd fiflds.
+     * Tif dby must bf vblid for tif yfbr bnd monti, otifrwisf bn fxdfption will bf tirown.
      *
-     * @param prolepticYear  the Hijrah proleptic-year
-     * @param month  the Hijrah month-of-year, from 1 to 12
-     * @param dayOfMonth  the Hijrah day-of-month, from 1 to 30
-     * @return the date in Hijrah calendar system, not null
-     * @throws DateTimeException if the value of any field is out of range,
-     *  or if the day-of-month is invalid for the month-year
+     * @pbrbm prolfptidYfbr  tif Hijrbi prolfptid-yfbr
+     * @pbrbm monti  tif Hijrbi monti-of-yfbr, from 1 to 12
+     * @pbrbm dbyOfMonti  tif Hijrbi dby-of-monti, from 1 to 30
+     * @rfturn tif dbtf in Hijrbi dblfndbr systfm, not null
+     * @tirows DbtfTimfExdfption if tif vbluf of bny fifld is out of rbngf,
+     *  or if tif dby-of-monti is invblid for tif monti-yfbr
      */
-    public static HijrahDate of(int prolepticYear, int month, int dayOfMonth) {
-        return HijrahChronology.INSTANCE.date(prolepticYear, month, dayOfMonth);
+    publid stbtid HijrbiDbtf of(int prolfptidYfbr, int monti, int dbyOfMonti) {
+        rfturn HijrbiCironology.INSTANCE.dbtf(prolfptidYfbr, monti, dbyOfMonti);
     }
 
     /**
-     * Obtains a {@code HijrahDate} of the Islamic Umm Al-Qura calendar from a temporal object.
+     * Obtbins b {@dodf HijrbiDbtf} of tif Islbmid Umm Al-Qurb dblfndbr from b tfmporbl objfdt.
      * <p>
-     * This obtains a date in the Hijrah calendar system based on the specified temporal.
-     * A {@code TemporalAccessor} represents an arbitrary set of date and time information,
-     * which this factory converts to an instance of {@code HijrahDate}.
+     * Tiis obtbins b dbtf in tif Hijrbi dblfndbr systfm bbsfd on tif spfdififd tfmporbl.
+     * A {@dodf TfmporblAddfssor} rfprfsfnts bn brbitrbry sft of dbtf bnd timf informbtion,
+     * wiidi tiis fbdtory donvfrts to bn instbndf of {@dodf HijrbiDbtf}.
      * <p>
-     * The conversion typically uses the {@link ChronoField#EPOCH_DAY EPOCH_DAY}
-     * field, which is standardized across calendar systems.
+     * Tif donvfrsion typidblly usfs tif {@link CironoFifld#EPOCH_DAY EPOCH_DAY}
+     * fifld, wiidi is stbndbrdizfd bdross dblfndbr systfms.
      * <p>
-     * This method matches the signature of the functional interface {@link TemporalQuery}
-     * allowing it to be used as a query via method reference, {@code HijrahDate::from}.
+     * Tiis mftiod mbtdifs tif signbturf of tif fundtionbl intfrfbdf {@link TfmporblQufry}
+     * bllowing it to bf usfd bs b qufry vib mftiod rfffrfndf, {@dodf HijrbiDbtf::from}.
      *
-     * @param temporal  the temporal object to convert, not null
-     * @return the date in Hijrah calendar system, not null
-     * @throws DateTimeException if unable to convert to a {@code HijrahDate}
+     * @pbrbm tfmporbl  tif tfmporbl objfdt to donvfrt, not null
+     * @rfturn tif dbtf in Hijrbi dblfndbr systfm, not null
+     * @tirows DbtfTimfExdfption if unbblf to donvfrt to b {@dodf HijrbiDbtf}
      */
-    public static HijrahDate from(TemporalAccessor temporal) {
-        return HijrahChronology.INSTANCE.date(temporal);
+    publid stbtid HijrbiDbtf from(TfmporblAddfssor tfmporbl) {
+        rfturn HijrbiCironology.INSTANCE.dbtf(tfmporbl);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Constructs an {@code HijrahDate} with the proleptic-year, month-of-year and
-     * day-of-month fields.
+     * Construdts bn {@dodf HijrbiDbtf} witi tif prolfptid-yfbr, monti-of-yfbr bnd
+     * dby-of-monti fiflds.
      *
-     * @param chrono The chronology to create the date with
-     * @param prolepticYear the proleptic year
-     * @param monthOfYear the month of year
-     * @param dayOfMonth the day of month
+     * @pbrbm dirono Tif dironology to drfbtf tif dbtf witi
+     * @pbrbm prolfptidYfbr tif prolfptid yfbr
+     * @pbrbm montiOfYfbr tif monti of yfbr
+     * @pbrbm dbyOfMonti tif dby of monti
      */
-    private HijrahDate(HijrahChronology chrono, int prolepticYear, int monthOfYear, int dayOfMonth) {
-        // Computing the Gregorian day checks the valid ranges
-        chrono.getEpochDay(prolepticYear, monthOfYear, dayOfMonth);
+    privbtf HijrbiDbtf(HijrbiCironology dirono, int prolfptidYfbr, int montiOfYfbr, int dbyOfMonti) {
+        // Computing tif Grfgoribn dby difdks tif vblid rbngfs
+        dirono.gftEpodiDby(prolfptidYfbr, montiOfYfbr, dbyOfMonti);
 
-        this.chrono = chrono;
-        this.prolepticYear = prolepticYear;
-        this.monthOfYear = monthOfYear;
-        this.dayOfMonth = dayOfMonth;
+        tiis.dirono = dirono;
+        tiis.prolfptidYfbr = prolfptidYfbr;
+        tiis.montiOfYfbr = montiOfYfbr;
+        tiis.dbyOfMonti = dbyOfMonti;
     }
 
     /**
-     * Constructs an instance with the Epoch Day.
+     * Construdts bn instbndf witi tif Epodi Dby.
      *
-     * @param epochDay  the epochDay
+     * @pbrbm fpodiDby  tif fpodiDby
      */
-    private HijrahDate(HijrahChronology chrono, long epochDay) {
-        int[] dateInfo = chrono.getHijrahDateInfo((int)epochDay);
+    privbtf HijrbiDbtf(HijrbiCironology dirono, long fpodiDby) {
+        int[] dbtfInfo = dirono.gftHijrbiDbtfInfo((int)fpodiDby);
 
-        this.chrono = chrono;
-        this.prolepticYear = dateInfo[0];
-        this.monthOfYear = dateInfo[1];
-        this.dayOfMonth = dateInfo[2];
+        tiis.dirono = dirono;
+        tiis.prolfptidYfbr = dbtfInfo[0];
+        tiis.montiOfYfbr = dbtfInfo[1];
+        tiis.dbyOfMonti = dbtfInfo[2];
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the chronology of this date, which is the Hijrah calendar system.
+     * Gfts tif dironology of tiis dbtf, wiidi is tif Hijrbi dblfndbr systfm.
      * <p>
-     * The {@code Chronology} represents the calendar system in use.
-     * The era and other fields in {@link ChronoField} are defined by the chronology.
+     * Tif {@dodf Cironology} rfprfsfnts tif dblfndbr systfm in usf.
+     * Tif frb bnd otifr fiflds in {@link CironoFifld} brf dffinfd by tif dironology.
      *
-     * @return the Hijrah chronology, not null
+     * @rfturn tif Hijrbi dironology, not null
      */
-    @Override
-    public HijrahChronology getChronology() {
-        return chrono;
+    @Ovfrridf
+    publid HijrbiCironology gftCironology() {
+        rfturn dirono;
     }
 
     /**
-     * Gets the era applicable at this date.
+     * Gfts tif frb bpplidbblf bt tiis dbtf.
      * <p>
-     * The Hijrah calendar system has one era, 'AH',
-     * defined by {@link HijrahEra}.
+     * Tif Hijrbi dblfndbr systfm ibs onf frb, 'AH',
+     * dffinfd by {@link HijrbiErb}.
      *
-     * @return the era applicable at this date, not null
+     * @rfturn tif frb bpplidbblf bt tiis dbtf, not null
      */
-    @Override
-    public HijrahEra getEra() {
-        return HijrahEra.AH;
+    @Ovfrridf
+    publid HijrbiErb gftErb() {
+        rfturn HijrbiErb.AH;
     }
 
     /**
-     * Returns the length of the month represented by this date.
+     * Rfturns tif lfngti of tif monti rfprfsfntfd by tiis dbtf.
      * <p>
-     * This returns the length of the month in days.
-     * Month lengths in the Hijrah calendar system vary between 29 and 30 days.
+     * Tiis rfturns tif lfngti of tif monti in dbys.
+     * Monti lfngtis in tif Hijrbi dblfndbr systfm vbry bftwffn 29 bnd 30 dbys.
      *
-     * @return the length of the month in days
+     * @rfturn tif lfngti of tif monti in dbys
      */
-    @Override
-    public int lengthOfMonth() {
-        return chrono.getMonthLength(prolepticYear, monthOfYear);
+    @Ovfrridf
+    publid int lfngtiOfMonti() {
+        rfturn dirono.gftMontiLfngti(prolfptidYfbr, montiOfYfbr);
     }
 
     /**
-     * Returns the length of the year represented by this date.
+     * Rfturns tif lfngti of tif yfbr rfprfsfntfd by tiis dbtf.
      * <p>
-     * This returns the length of the year in days.
-     * A Hijrah calendar system year is typically shorter than
-     * that of the ISO calendar system.
+     * Tiis rfturns tif lfngti of tif yfbr in dbys.
+     * A Hijrbi dblfndbr systfm yfbr is typidblly siortfr tibn
+     * tibt of tif ISO dblfndbr systfm.
      *
-     * @return the length of the year in days
+     * @rfturn tif lfngti of tif yfbr in dbys
      */
-    @Override
-    public int lengthOfYear() {
-        return chrono.getYearLength(prolepticYear);
+    @Ovfrridf
+    publid int lfngtiOfYfbr() {
+        rfturn dirono.gftYfbrLfngti(prolfptidYfbr);
     }
 
     //-----------------------------------------------------------------------
-    @Override
-    public ValueRange range(TemporalField field) {
-        if (field instanceof ChronoField) {
-            if (isSupported(field)) {
-                ChronoField f = (ChronoField) field;
-                switch (f) {
-                    case DAY_OF_MONTH: return ValueRange.of(1, lengthOfMonth());
-                    case DAY_OF_YEAR: return ValueRange.of(1, lengthOfYear());
-                    case ALIGNED_WEEK_OF_MONTH: return ValueRange.of(1, 5);  // TODO
-                    // TODO does the limited range of valid years cause years to
-                    // start/end part way through? that would affect range
+    @Ovfrridf
+    publid VblufRbngf rbngf(TfmporblFifld fifld) {
+        if (fifld instbndfof CironoFifld) {
+            if (isSupportfd(fifld)) {
+                CironoFifld f = (CironoFifld) fifld;
+                switdi (f) {
+                    dbsf DAY_OF_MONTH: rfturn VblufRbngf.of(1, lfngtiOfMonti());
+                    dbsf DAY_OF_YEAR: rfturn VblufRbngf.of(1, lfngtiOfYfbr());
+                    dbsf ALIGNED_WEEK_OF_MONTH: rfturn VblufRbngf.of(1, 5);  // TODO
+                    // TODO dofs tif limitfd rbngf of vblid yfbrs dbusf yfbrs to
+                    // stbrt/fnd pbrt wby tirougi? tibt would bfffdt rbngf
                 }
-                return getChronology().range(f);
+                rfturn gftCironology().rbngf(f);
             }
-            throw new UnsupportedTemporalTypeException("Unsupported field: " + field);
+            tirow nfw UnsupportfdTfmporblTypfExdfption("Unsupportfd fifld: " + fifld);
         }
-        return field.rangeRefinedBy(this);
+        rfturn fifld.rbngfRffinfdBy(tiis);
     }
 
-    @Override
-    public long getLong(TemporalField field) {
-        if (field instanceof ChronoField) {
-            switch ((ChronoField) field) {
-                case DAY_OF_WEEK: return getDayOfWeek();
-                case ALIGNED_DAY_OF_WEEK_IN_MONTH: return ((getDayOfWeek() - 1) % 7) + 1;
-                case ALIGNED_DAY_OF_WEEK_IN_YEAR: return ((getDayOfYear() - 1) % 7) + 1;
-                case DAY_OF_MONTH: return this.dayOfMonth;
-                case DAY_OF_YEAR: return this.getDayOfYear();
-                case EPOCH_DAY: return toEpochDay();
-                case ALIGNED_WEEK_OF_MONTH: return ((dayOfMonth - 1) / 7) + 1;
-                case ALIGNED_WEEK_OF_YEAR: return ((getDayOfYear() - 1) / 7) + 1;
-                case MONTH_OF_YEAR: return monthOfYear;
-                case PROLEPTIC_MONTH: return getProlepticMonth();
-                case YEAR_OF_ERA: return prolepticYear;
-                case YEAR: return prolepticYear;
-                case ERA: return getEraValue();
+    @Ovfrridf
+    publid long gftLong(TfmporblFifld fifld) {
+        if (fifld instbndfof CironoFifld) {
+            switdi ((CironoFifld) fifld) {
+                dbsf DAY_OF_WEEK: rfturn gftDbyOfWffk();
+                dbsf ALIGNED_DAY_OF_WEEK_IN_MONTH: rfturn ((gftDbyOfWffk() - 1) % 7) + 1;
+                dbsf ALIGNED_DAY_OF_WEEK_IN_YEAR: rfturn ((gftDbyOfYfbr() - 1) % 7) + 1;
+                dbsf DAY_OF_MONTH: rfturn tiis.dbyOfMonti;
+                dbsf DAY_OF_YEAR: rfturn tiis.gftDbyOfYfbr();
+                dbsf EPOCH_DAY: rfturn toEpodiDby();
+                dbsf ALIGNED_WEEK_OF_MONTH: rfturn ((dbyOfMonti - 1) / 7) + 1;
+                dbsf ALIGNED_WEEK_OF_YEAR: rfturn ((gftDbyOfYfbr() - 1) / 7) + 1;
+                dbsf MONTH_OF_YEAR: rfturn montiOfYfbr;
+                dbsf PROLEPTIC_MONTH: rfturn gftProlfptidMonti();
+                dbsf YEAR_OF_ERA: rfturn prolfptidYfbr;
+                dbsf YEAR: rfturn prolfptidYfbr;
+                dbsf ERA: rfturn gftErbVbluf();
             }
-            throw new UnsupportedTemporalTypeException("Unsupported field: " + field);
+            tirow nfw UnsupportfdTfmporblTypfExdfption("Unsupportfd fifld: " + fifld);
         }
-        return field.getFrom(this);
+        rfturn fifld.gftFrom(tiis);
     }
 
-    private long getProlepticMonth() {
-        return prolepticYear * 12L + monthOfYear - 1;
+    privbtf long gftProlfptidMonti() {
+        rfturn prolfptidYfbr * 12L + montiOfYfbr - 1;
     }
 
-    @Override
-    public HijrahDate with(TemporalField field, long newValue) {
-        if (field instanceof ChronoField) {
-            ChronoField f = (ChronoField) field;
-            // not using checkValidIntValue so EPOCH_DAY and PROLEPTIC_MONTH work
-            chrono.range(f).checkValidValue(newValue, f);    // TODO: validate value
-            int nvalue = (int) newValue;
-            switch (f) {
-                case DAY_OF_WEEK: return plusDays(newValue - getDayOfWeek());
-                case ALIGNED_DAY_OF_WEEK_IN_MONTH: return plusDays(newValue - getLong(ALIGNED_DAY_OF_WEEK_IN_MONTH));
-                case ALIGNED_DAY_OF_WEEK_IN_YEAR: return plusDays(newValue - getLong(ALIGNED_DAY_OF_WEEK_IN_YEAR));
-                case DAY_OF_MONTH: return resolvePreviousValid(prolepticYear, monthOfYear, nvalue);
-                case DAY_OF_YEAR: return plusDays(Math.min(nvalue, lengthOfYear()) - getDayOfYear());
-                case EPOCH_DAY: return new HijrahDate(chrono, newValue);
-                case ALIGNED_WEEK_OF_MONTH: return plusDays((newValue - getLong(ALIGNED_WEEK_OF_MONTH)) * 7);
-                case ALIGNED_WEEK_OF_YEAR: return plusDays((newValue - getLong(ALIGNED_WEEK_OF_YEAR)) * 7);
-                case MONTH_OF_YEAR: return resolvePreviousValid(prolepticYear, nvalue, dayOfMonth);
-                case PROLEPTIC_MONTH: return plusMonths(newValue - getProlepticMonth());
-                case YEAR_OF_ERA: return resolvePreviousValid(prolepticYear >= 1 ? nvalue : 1 - nvalue, monthOfYear, dayOfMonth);
-                case YEAR: return resolvePreviousValid(nvalue, monthOfYear, dayOfMonth);
-                case ERA: return resolvePreviousValid(1 - prolepticYear, monthOfYear, dayOfMonth);
+    @Ovfrridf
+    publid HijrbiDbtf witi(TfmporblFifld fifld, long nfwVbluf) {
+        if (fifld instbndfof CironoFifld) {
+            CironoFifld f = (CironoFifld) fifld;
+            // not using difdkVblidIntVbluf so EPOCH_DAY bnd PROLEPTIC_MONTH work
+            dirono.rbngf(f).difdkVblidVbluf(nfwVbluf, f);    // TODO: vblidbtf vbluf
+            int nvbluf = (int) nfwVbluf;
+            switdi (f) {
+                dbsf DAY_OF_WEEK: rfturn plusDbys(nfwVbluf - gftDbyOfWffk());
+                dbsf ALIGNED_DAY_OF_WEEK_IN_MONTH: rfturn plusDbys(nfwVbluf - gftLong(ALIGNED_DAY_OF_WEEK_IN_MONTH));
+                dbsf ALIGNED_DAY_OF_WEEK_IN_YEAR: rfturn plusDbys(nfwVbluf - gftLong(ALIGNED_DAY_OF_WEEK_IN_YEAR));
+                dbsf DAY_OF_MONTH: rfturn rfsolvfPrfviousVblid(prolfptidYfbr, montiOfYfbr, nvbluf);
+                dbsf DAY_OF_YEAR: rfturn plusDbys(Mbti.min(nvbluf, lfngtiOfYfbr()) - gftDbyOfYfbr());
+                dbsf EPOCH_DAY: rfturn nfw HijrbiDbtf(dirono, nfwVbluf);
+                dbsf ALIGNED_WEEK_OF_MONTH: rfturn plusDbys((nfwVbluf - gftLong(ALIGNED_WEEK_OF_MONTH)) * 7);
+                dbsf ALIGNED_WEEK_OF_YEAR: rfturn plusDbys((nfwVbluf - gftLong(ALIGNED_WEEK_OF_YEAR)) * 7);
+                dbsf MONTH_OF_YEAR: rfturn rfsolvfPrfviousVblid(prolfptidYfbr, nvbluf, dbyOfMonti);
+                dbsf PROLEPTIC_MONTH: rfturn plusMontis(nfwVbluf - gftProlfptidMonti());
+                dbsf YEAR_OF_ERA: rfturn rfsolvfPrfviousVblid(prolfptidYfbr >= 1 ? nvbluf : 1 - nvbluf, montiOfYfbr, dbyOfMonti);
+                dbsf YEAR: rfturn rfsolvfPrfviousVblid(nvbluf, montiOfYfbr, dbyOfMonti);
+                dbsf ERA: rfturn rfsolvfPrfviousVblid(1 - prolfptidYfbr, montiOfYfbr, dbyOfMonti);
             }
-            throw new UnsupportedTemporalTypeException("Unsupported field: " + field);
+            tirow nfw UnsupportfdTfmporblTypfExdfption("Unsupportfd fifld: " + fifld);
         }
-        return super.with(field, newValue);
+        rfturn supfr.witi(fifld, nfwVbluf);
     }
 
-    private HijrahDate resolvePreviousValid(int prolepticYear, int month, int day) {
-        int monthDays = chrono.getMonthLength(prolepticYear, month);
-        if (day > monthDays) {
-            day = monthDays;
+    privbtf HijrbiDbtf rfsolvfPrfviousVblid(int prolfptidYfbr, int monti, int dby) {
+        int montiDbys = dirono.gftMontiLfngti(prolfptidYfbr, monti);
+        if (dby > montiDbys) {
+            dby = montiDbys;
         }
-        return HijrahDate.of(chrono, prolepticYear, month, day);
+        rfturn HijrbiDbtf.of(dirono, prolfptidYfbr, monti, dby);
     }
 
     /**
-     * {@inheritDoc}
-     * @throws DateTimeException if unable to make the adjustment.
-     *     For example, if the adjuster requires an ISO chronology
-     * @throws ArithmeticException {@inheritDoc}
+     * {@inifritDod}
+     * @tirows DbtfTimfExdfption if unbblf to mbkf tif bdjustmfnt.
+     *     For fxbmplf, if tif bdjustfr rfquirfs bn ISO dironology
+     * @tirows AritimftidExdfption {@inifritDod}
      */
-    @Override
-    public  HijrahDate with(TemporalAdjuster adjuster) {
-        return super.with(adjuster);
+    @Ovfrridf
+    publid  HijrbiDbtf witi(TfmporblAdjustfr bdjustfr) {
+        rfturn supfr.witi(bdjustfr);
     }
 
     /**
-     * Returns a {@code HijrahDate} with the Chronology requested.
+     * Rfturns b {@dodf HijrbiDbtf} witi tif Cironology rfqufstfd.
      * <p>
-     * The year, month, and day are checked against the new requested
-     * HijrahChronology.  If the chronology has a shorter month length
-     * for the month, the day is reduced to be the last day of the month.
+     * Tif yfbr, monti, bnd dby brf difdkfd bgbinst tif nfw rfqufstfd
+     * HijrbiCironology.  If tif dironology ibs b siortfr monti lfngti
+     * for tif monti, tif dby is rfdudfd to bf tif lbst dby of tif monti.
      *
-     * @param chronology the new HijrahChonology, non-null
-     * @return a HijrahDate with the requested HijrahChronology, non-null
+     * @pbrbm dironology tif nfw HijrbiCionology, non-null
+     * @rfturn b HijrbiDbtf witi tif rfqufstfd HijrbiCironology, non-null
      */
-    public HijrahDate withVariant(HijrahChronology chronology) {
-        if (chrono == chronology) {
-            return this;
+    publid HijrbiDbtf witiVbribnt(HijrbiCironology dironology) {
+        if (dirono == dironology) {
+            rfturn tiis;
         }
-        // Like resolvePreviousValid the day is constrained to stay in the same month
-        int monthDays = chronology.getDayOfYear(prolepticYear, monthOfYear);
-        return HijrahDate.of(chronology, prolepticYear, monthOfYear,(dayOfMonth > monthDays) ? monthDays : dayOfMonth );
+        // Likf rfsolvfPrfviousVblid tif dby is donstrbinfd to stby in tif sbmf monti
+        int montiDbys = dironology.gftDbyOfYfbr(prolfptidYfbr, montiOfYfbr);
+        rfturn HijrbiDbtf.of(dironology, prolfptidYfbr, montiOfYfbr,(dbyOfMonti > montiDbys) ? montiDbys : dbyOfMonti );
     }
 
     /**
-     * {@inheritDoc}
-     * @throws DateTimeException {@inheritDoc}
-     * @throws ArithmeticException {@inheritDoc}
+     * {@inifritDod}
+     * @tirows DbtfTimfExdfption {@inifritDod}
+     * @tirows AritimftidExdfption {@inifritDod}
      */
-    @Override
-    public HijrahDate plus(TemporalAmount amount) {
-        return super.plus(amount);
+    @Ovfrridf
+    publid HijrbiDbtf plus(TfmporblAmount bmount) {
+        rfturn supfr.plus(bmount);
     }
 
     /**
-     * {@inheritDoc}
-     * @throws DateTimeException {@inheritDoc}
-     * @throws ArithmeticException {@inheritDoc}
+     * {@inifritDod}
+     * @tirows DbtfTimfExdfption {@inifritDod}
+     * @tirows AritimftidExdfption {@inifritDod}
      */
-    @Override
-    public HijrahDate minus(TemporalAmount amount) {
-        return super.minus(amount);
+    @Ovfrridf
+    publid HijrbiDbtf minus(TfmporblAmount bmount) {
+        rfturn supfr.minus(bmount);
     }
 
-    @Override
-    public long toEpochDay() {
-        return chrono.getEpochDay(prolepticYear, monthOfYear, dayOfMonth);
+    @Ovfrridf
+    publid long toEpodiDby() {
+        rfturn dirono.gftEpodiDby(prolfptidYfbr, montiOfYfbr, dbyOfMonti);
     }
 
     /**
-     * Gets the day-of-year field.
+     * Gfts tif dby-of-yfbr fifld.
      * <p>
-     * This method returns the primitive {@code int} value for the day-of-year.
+     * Tiis mftiod rfturns tif primitivf {@dodf int} vbluf for tif dby-of-yfbr.
      *
-     * @return the day-of-year
+     * @rfturn tif dby-of-yfbr
      */
-    private int getDayOfYear() {
-        return chrono.getDayOfYear(prolepticYear, monthOfYear) + dayOfMonth;
+    privbtf int gftDbyOfYfbr() {
+        rfturn dirono.gftDbyOfYfbr(prolfptidYfbr, montiOfYfbr) + dbyOfMonti;
     }
 
     /**
-     * Gets the day-of-week value.
+     * Gfts tif dby-of-wffk vbluf.
      *
-     * @return the day-of-week; computed from the epochday
+     * @rfturn tif dby-of-wffk; domputfd from tif fpodidby
      */
-    private int getDayOfWeek() {
-        int dow0 = (int)Math.floorMod(toEpochDay() + 3, 7);
-        return dow0 + 1;
+    privbtf int gftDbyOfWffk() {
+        int dow0 = (int)Mbti.floorMod(toEpodiDby() + 3, 7);
+        rfturn dow0 + 1;
     }
 
     /**
-     * Gets the Era of this date.
+     * Gfts tif Erb of tiis dbtf.
      *
-     * @return the Era of this date; computed from epochDay
+     * @rfturn tif Erb of tiis dbtf; domputfd from fpodiDby
      */
-    private int getEraValue() {
-        return (prolepticYear > 1 ? 1 : 0);
+    privbtf int gftErbVbluf() {
+        rfturn (prolfptidYfbr > 1 ? 1 : 0);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Checks if the year is a leap year, according to the Hijrah calendar system rules.
+     * Cifdks if tif yfbr is b lfbp yfbr, bddording to tif Hijrbi dblfndbr systfm rulfs.
      *
-     * @return true if this date is in a leap year
+     * @rfturn truf if tiis dbtf is in b lfbp yfbr
      */
-    @Override
-    public boolean isLeapYear() {
-        return chrono.isLeapYear(prolepticYear);
+    @Ovfrridf
+    publid boolfbn isLfbpYfbr() {
+        rfturn dirono.isLfbpYfbr(prolfptidYfbr);
     }
 
     //-----------------------------------------------------------------------
-    @Override
-    HijrahDate plusYears(long years) {
-        if (years == 0) {
-            return this;
+    @Ovfrridf
+    HijrbiDbtf plusYfbrs(long yfbrs) {
+        if (yfbrs == 0) {
+            rfturn tiis;
         }
-        int newYear = Math.addExact(this.prolepticYear, (int)years);
-        return resolvePreviousValid(newYear, monthOfYear, dayOfMonth);
+        int nfwYfbr = Mbti.bddExbdt(tiis.prolfptidYfbr, (int)yfbrs);
+        rfturn rfsolvfPrfviousVblid(nfwYfbr, montiOfYfbr, dbyOfMonti);
     }
 
-    @Override
-    HijrahDate plusMonths(long monthsToAdd) {
-        if (monthsToAdd == 0) {
-            return this;
+    @Ovfrridf
+    HijrbiDbtf plusMontis(long montisToAdd) {
+        if (montisToAdd == 0) {
+            rfturn tiis;
         }
-        long monthCount = prolepticYear * 12L + (monthOfYear - 1);
-        long calcMonths = monthCount + monthsToAdd;  // safe overflow
-        int newYear = chrono.checkValidYear(Math.floorDiv(calcMonths, 12L));
-        int newMonth = (int)Math.floorMod(calcMonths, 12L) + 1;
-        return resolvePreviousValid(newYear, newMonth, dayOfMonth);
+        long montiCount = prolfptidYfbr * 12L + (montiOfYfbr - 1);
+        long dbldMontis = montiCount + montisToAdd;  // sbff ovfrflow
+        int nfwYfbr = dirono.difdkVblidYfbr(Mbti.floorDiv(dbldMontis, 12L));
+        int nfwMonti = (int)Mbti.floorMod(dbldMontis, 12L) + 1;
+        rfturn rfsolvfPrfviousVblid(nfwYfbr, nfwMonti, dbyOfMonti);
     }
 
-    @Override
-    HijrahDate plusWeeks(long weeksToAdd) {
-        return super.plusWeeks(weeksToAdd);
+    @Ovfrridf
+    HijrbiDbtf plusWffks(long wffksToAdd) {
+        rfturn supfr.plusWffks(wffksToAdd);
     }
 
-    @Override
-    HijrahDate plusDays(long days) {
-        return new HijrahDate(chrono, toEpochDay() + days);
+    @Ovfrridf
+    HijrbiDbtf plusDbys(long dbys) {
+        rfturn nfw HijrbiDbtf(dirono, toEpodiDby() + dbys);
     }
 
-    @Override
-    public HijrahDate plus(long amountToAdd, TemporalUnit unit) {
-        return super.plus(amountToAdd, unit);
+    @Ovfrridf
+    publid HijrbiDbtf plus(long bmountToAdd, TfmporblUnit unit) {
+        rfturn supfr.plus(bmountToAdd, unit);
     }
 
-    @Override
-    public HijrahDate minus(long amountToSubtract, TemporalUnit unit) {
-        return super.minus(amountToSubtract, unit);
+    @Ovfrridf
+    publid HijrbiDbtf minus(long bmountToSubtrbdt, TfmporblUnit unit) {
+        rfturn supfr.minus(bmountToSubtrbdt, unit);
     }
 
-    @Override
-    HijrahDate minusYears(long yearsToSubtract) {
-        return super.minusYears(yearsToSubtract);
+    @Ovfrridf
+    HijrbiDbtf minusYfbrs(long yfbrsToSubtrbdt) {
+        rfturn supfr.minusYfbrs(yfbrsToSubtrbdt);
     }
 
-    @Override
-    HijrahDate minusMonths(long monthsToSubtract) {
-        return super.minusMonths(monthsToSubtract);
+    @Ovfrridf
+    HijrbiDbtf minusMontis(long montisToSubtrbdt) {
+        rfturn supfr.minusMontis(montisToSubtrbdt);
     }
 
-    @Override
-    HijrahDate minusWeeks(long weeksToSubtract) {
-        return super.minusWeeks(weeksToSubtract);
+    @Ovfrridf
+    HijrbiDbtf minusWffks(long wffksToSubtrbdt) {
+        rfturn supfr.minusWffks(wffksToSubtrbdt);
     }
 
-    @Override
-    HijrahDate minusDays(long daysToSubtract) {
-        return super.minusDays(daysToSubtract);
+    @Ovfrridf
+    HijrbiDbtf minusDbys(long dbysToSubtrbdt) {
+        rfturn supfr.minusDbys(dbysToSubtrbdt);
     }
 
-    @Override        // for javadoc and covariant return type
-    @SuppressWarnings("unchecked")
-    public final ChronoLocalDateTime<HijrahDate> atTime(LocalTime localTime) {
-        return (ChronoLocalDateTime<HijrahDate>)super.atTime(localTime);
+    @Ovfrridf        // for jbvbdod bnd dovbribnt rfturn typf
+    @SupprfssWbrnings("undifdkfd")
+    publid finbl CironoLodblDbtfTimf<HijrbiDbtf> btTimf(LodblTimf lodblTimf) {
+        rfturn (CironoLodblDbtfTimf<HijrbiDbtf>)supfr.btTimf(lodblTimf);
     }
 
-    @Override
-    public ChronoPeriod until(ChronoLocalDate endDate) {
-        // TODO: untested
-        HijrahDate end = getChronology().date(endDate);
-        long totalMonths = (end.prolepticYear - this.prolepticYear) * 12 + (end.monthOfYear - this.monthOfYear);  // safe
-        int days = end.dayOfMonth - this.dayOfMonth;
-        if (totalMonths > 0 && days < 0) {
-            totalMonths--;
-            HijrahDate calcDate = this.plusMonths(totalMonths);
-            days = (int) (end.toEpochDay() - calcDate.toEpochDay());  // safe
-        } else if (totalMonths < 0 && days > 0) {
-            totalMonths++;
-            days -= end.lengthOfMonth();
+    @Ovfrridf
+    publid CironoPfriod until(CironoLodblDbtf fndDbtf) {
+        // TODO: untfstfd
+        HijrbiDbtf fnd = gftCironology().dbtf(fndDbtf);
+        long totblMontis = (fnd.prolfptidYfbr - tiis.prolfptidYfbr) * 12 + (fnd.montiOfYfbr - tiis.montiOfYfbr);  // sbff
+        int dbys = fnd.dbyOfMonti - tiis.dbyOfMonti;
+        if (totblMontis > 0 && dbys < 0) {
+            totblMontis--;
+            HijrbiDbtf dbldDbtf = tiis.plusMontis(totblMontis);
+            dbys = (int) (fnd.toEpodiDby() - dbldDbtf.toEpodiDby());  // sbff
+        } flsf if (totblMontis < 0 && dbys > 0) {
+            totblMontis++;
+            dbys -= fnd.lfngtiOfMonti();
         }
-        long years = totalMonths / 12;  // safe
-        int months = (int) (totalMonths % 12);  // safe
-        return getChronology().period(Math.toIntExact(years), months, days);
+        long yfbrs = totblMontis / 12;  // sbff
+        int montis = (int) (totblMontis % 12);  // sbff
+        rfturn gftCironology().pfriod(Mbti.toIntExbdt(yfbrs), montis, dbys);
     }
 
     //-------------------------------------------------------------------------
     /**
-     * Compares this date to another date, including the chronology.
+     * Compbrfs tiis dbtf to bnotifr dbtf, indluding tif dironology.
      * <p>
-     * Compares this {@code HijrahDate} with another ensuring that the date is the same.
+     * Compbrfs tiis {@dodf HijrbiDbtf} witi bnotifr fnsuring tibt tif dbtf is tif sbmf.
      * <p>
-     * Only objects of type {@code HijrahDate} are compared, other types return false.
-     * To compare the dates of two {@code TemporalAccessor} instances, including dates
-     * in two different chronologies, use {@link ChronoField#EPOCH_DAY} as a comparator.
+     * Only objfdts of typf {@dodf HijrbiDbtf} brf dompbrfd, otifr typfs rfturn fblsf.
+     * To dompbrf tif dbtfs of two {@dodf TfmporblAddfssor} instbndfs, indluding dbtfs
+     * in two difffrfnt dironologifs, usf {@link CironoFifld#EPOCH_DAY} bs b dompbrbtor.
      *
-     * @param obj  the object to check, null returns false
-     * @return true if this is equal to the other date and the Chronologies are equal
+     * @pbrbm obj  tif objfdt to difdk, null rfturns fblsf
+     * @rfturn truf if tiis is fqubl to tif otifr dbtf bnd tif Cironologifs brf fqubl
      */
-    @Override  // override for performance
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
+    @Ovfrridf  // ovfrridf for pfrformbndf
+    publid boolfbn fqubls(Objfdt obj) {
+        if (tiis == obj) {
+            rfturn truf;
         }
-        if (obj instanceof HijrahDate) {
-            HijrahDate otherDate = (HijrahDate) obj;
-            return prolepticYear == otherDate.prolepticYear
-                && this.monthOfYear == otherDate.monthOfYear
-                && this.dayOfMonth == otherDate.dayOfMonth
-                && getChronology().equals(otherDate.getChronology());
+        if (obj instbndfof HijrbiDbtf) {
+            HijrbiDbtf otifrDbtf = (HijrbiDbtf) obj;
+            rfturn prolfptidYfbr == otifrDbtf.prolfptidYfbr
+                && tiis.montiOfYfbr == otifrDbtf.montiOfYfbr
+                && tiis.dbyOfMonti == otifrDbtf.dbyOfMonti
+                && gftCironology().fqubls(otifrDbtf.gftCironology());
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * A hash code for this date.
+     * A ibsi dodf for tiis dbtf.
      *
-     * @return a suitable hash code based only on the Chronology and the date
+     * @rfturn b suitbblf ibsi dodf bbsfd only on tif Cironology bnd tif dbtf
      */
-    @Override  // override for performance
-    public int hashCode() {
-        int yearValue = prolepticYear;
-        int monthValue = monthOfYear;
-        int dayValue = dayOfMonth;
-        return getChronology().getId().hashCode() ^ (yearValue & 0xFFFFF800)
-                ^ ((yearValue << 11) + (monthValue << 6) + (dayValue));
+    @Ovfrridf  // ovfrridf for pfrformbndf
+    publid int ibsiCodf() {
+        int yfbrVbluf = prolfptidYfbr;
+        int montiVbluf = montiOfYfbr;
+        int dbyVbluf = dbyOfMonti;
+        rfturn gftCironology().gftId().ibsiCodf() ^ (yfbrVbluf & 0xFFFFF800)
+                ^ ((yfbrVbluf << 11) + (montiVbluf << 6) + (dbyVbluf));
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Defend against malicious streams.
+     * Dfffnd bgbinst mblidious strfbms.
      *
-     * @param s the stream to read
-     * @throws InvalidObjectException always
+     * @pbrbm s tif strfbm to rfbd
+     * @tirows InvblidObjfdtExdfption blwbys
      */
-    private void readObject(ObjectInputStream s) throws InvalidObjectException {
-        throw new InvalidObjectException("Deserialization via serialization delegate");
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s) tirows InvblidObjfdtExdfption {
+        tirow nfw InvblidObjfdtExdfption("Dfsfriblizbtion vib sfriblizbtion dflfgbtf");
     }
 
     /**
-     * Writes the object using a
-     * <a href="../../../serialized-form.html#java.time.chrono.Ser">dedicated serialized form</a>.
-     * @serialData
-     * <pre>
-     *  out.writeByte(6);                 // identifies a HijrahDate
-     *  out.writeObject(chrono);          // the HijrahChronology variant
-     *  out.writeInt(get(YEAR));
-     *  out.writeByte(get(MONTH_OF_YEAR));
-     *  out.writeByte(get(DAY_OF_MONTH));
-     * </pre>
+     * Writfs tif objfdt using b
+     * <b irff="../../../sfriblizfd-form.itml#jbvb.timf.dirono.Sfr">dfdidbtfd sfriblizfd form</b>.
+     * @sfriblDbtb
+     * <prf>
+     *  out.writfBytf(6);                 // idfntififs b HijrbiDbtf
+     *  out.writfObjfdt(dirono);          // tif HijrbiCironology vbribnt
+     *  out.writfInt(gft(YEAR));
+     *  out.writfBytf(gft(MONTH_OF_YEAR));
+     *  out.writfBytf(gft(DAY_OF_MONTH));
+     * </prf>
      *
-     * @return the instance of {@code Ser}, not null
+     * @rfturn tif instbndf of {@dodf Sfr}, not null
      */
-    private Object writeReplace() {
-        return new Ser(Ser.HIJRAH_DATE_TYPE, this);
+    privbtf Objfdt writfRfplbdf() {
+        rfturn nfw Sfr(Sfr.HIJRAH_DATE_TYPE, tiis);
     }
 
-    void writeExternal(ObjectOutput out) throws IOException {
-        // HijrahChronology is implicit in the Hijrah_DATE_TYPE
-        out.writeObject(getChronology());
-        out.writeInt(get(YEAR));
-        out.writeByte(get(MONTH_OF_YEAR));
-        out.writeByte(get(DAY_OF_MONTH));
+    void writfExtfrnbl(ObjfdtOutput out) tirows IOExdfption {
+        // HijrbiCironology is implidit in tif Hijrbi_DATE_TYPE
+        out.writfObjfdt(gftCironology());
+        out.writfInt(gft(YEAR));
+        out.writfBytf(gft(MONTH_OF_YEAR));
+        out.writfBytf(gft(DAY_OF_MONTH));
     }
 
-    static HijrahDate readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
-        HijrahChronology chrono = (HijrahChronology) in.readObject();
-        int year = in.readInt();
-        int month = in.readByte();
-        int dayOfMonth = in.readByte();
-        return chrono.date(year, month, dayOfMonth);
+    stbtid HijrbiDbtf rfbdExtfrnbl(ObjfdtInput in) tirows IOExdfption, ClbssNotFoundExdfption {
+        HijrbiCironology dirono = (HijrbiCironology) in.rfbdObjfdt();
+        int yfbr = in.rfbdInt();
+        int monti = in.rfbdBytf();
+        int dbyOfMonti = in.rfbdBytf();
+        rfturn dirono.dbtf(yfbr, monti, dbyOfMonti);
     }
 
 }

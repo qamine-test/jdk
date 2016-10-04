@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2004, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,110 +30,110 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-import java.io.*;
-import java.nio.*;
-import java.nio.charset.*;
+import jbvb.io.*;
+import jbvb.nio.*;
+import jbvb.nio.dibrsft.*;
 
 /**
- * An object used for sending Content to the requestor.
+ * An objfdt usfd for sfnding Contfnt to tif rfqufstor.
  *
- * @author Mark Reinhold
- * @author Brad R. Wetmore
+ * @butior Mbrk Rfiniold
+ * @butior Brbd R. Wftmorf
  */
-class Reply implements Sendable {
+dlbss Rfply implfmfnts Sfndbblf {
 
     /**
-     * A helper class which define the HTTP response codes
+     * A iflpfr dlbss wiidi dffinf tif HTTP rfsponsf dodfs
      */
-    static class Code {
+    stbtid dlbss Codf {
 
-        private int number;
-        private String reason;
-        private Code(int i, String r) { number = i; reason = r; }
-        public String toString() { return number + " " + reason; }
+        privbtf int numbfr;
+        privbtf String rfbson;
+        privbtf Codf(int i, String r) { numbfr = i; rfbson = r; }
+        publid String toString() { rfturn numbfr + " " + rfbson; }
 
-        static Code OK = new Code(200, "OK");
-        static Code BAD_REQUEST = new Code(400, "Bad Request");
-        static Code NOT_FOUND = new Code(404, "Not Found");
-        static Code METHOD_NOT_ALLOWED = new Code(405, "Method Not Allowed");
+        stbtid Codf OK = nfw Codf(200, "OK");
+        stbtid Codf BAD_REQUEST = nfw Codf(400, "Bbd Rfqufst");
+        stbtid Codf NOT_FOUND = nfw Codf(404, "Not Found");
+        stbtid Codf METHOD_NOT_ALLOWED = nfw Codf(405, "Mftiod Not Allowfd");
 
     }
 
-    private Code code;
-    private Content content;
-    private boolean headersOnly;
+    privbtf Codf dodf;
+    privbtf Contfnt dontfnt;
+    privbtf boolfbn ifbdfrsOnly;
 
-    Reply(Code rc, Content c) {
-        this(rc, c, null);
+    Rfply(Codf rd, Contfnt d) {
+        tiis(rd, d, null);
     }
 
-    Reply(Code rc, Content c, Request.Action head) {
-        code = rc;
-        content = c;
-        headersOnly = (head == Request.Action.HEAD);
+    Rfply(Codf rd, Contfnt d, Rfqufst.Adtion ifbd) {
+        dodf = rd;
+        dontfnt = d;
+        ifbdfrsOnly = (ifbd == Rfqufst.Adtion.HEAD);
     }
 
-    private static String CRLF = "\r\n";
-    private static Charset ascii = Charset.forName("US-ASCII");
+    privbtf stbtid String CRLF = "\r\n";
+    privbtf stbtid Cibrsft bsdii = Cibrsft.forNbmf("US-ASCII");
 
-    private ByteBuffer hbb = null;
+    privbtf BytfBufffr ibb = null;
 
-    private ByteBuffer headers() {
-        CharBuffer cb = CharBuffer.allocate(1024);
+    privbtf BytfBufffr ifbdfrs() {
+        CibrBufffr db = CibrBufffr.bllodbtf(1024);
         for (;;) {
             try {
-                cb.put("HTTP/1.0 ").put(code.toString()).put(CRLF);
-                cb.put("Server: niossl/0.1").put(CRLF);
-                cb.put("Content-type: ").put(content.type()).put(CRLF);
-                cb.put("Content-length: ")
-                    .put(Long.toString(content.length())).put(CRLF);
-                cb.put(CRLF);
-                break;
-            } catch (BufferOverflowException x) {
-                assert(cb.capacity() < (1 << 16));
-                cb = CharBuffer.allocate(cb.capacity() * 2);
-                continue;
+                db.put("HTTP/1.0 ").put(dodf.toString()).put(CRLF);
+                db.put("Sfrvfr: niossl/0.1").put(CRLF);
+                db.put("Contfnt-typf: ").put(dontfnt.typf()).put(CRLF);
+                db.put("Contfnt-lfngti: ")
+                    .put(Long.toString(dontfnt.lfngti())).put(CRLF);
+                db.put(CRLF);
+                brfbk;
+            } dbtdi (BufffrOvfrflowExdfption x) {
+                bssfrt(db.dbpbdity() < (1 << 16));
+                db = CibrBufffr.bllodbtf(db.dbpbdity() * 2);
+                dontinuf;
             }
         }
-        cb.flip();
-        return ascii.encode(cb);
+        db.flip();
+        rfturn bsdii.fndodf(db);
     }
 
-    public void prepare() throws IOException {
-        content.prepare();
-        hbb = headers();
+    publid void prfpbrf() tirows IOExdfption {
+        dontfnt.prfpbrf();
+        ibb = ifbdfrs();
     }
 
-    public boolean send(ChannelIO cio) throws IOException {
+    publid boolfbn sfnd(CibnnflIO dio) tirows IOExdfption {
 
-        if (hbb == null)
-            throw new IllegalStateException();
+        if (ibb == null)
+            tirow nfw IllfgblStbtfExdfption();
 
-        if (hbb.hasRemaining()) {
-            if (cio.write(hbb) <= 0)
-                return true;
+        if (ibb.ibsRfmbining()) {
+            if (dio.writf(ibb) <= 0)
+                rfturn truf;
         }
 
-        if (!headersOnly) {
-            if (content.send(cio))
-                return true;
+        if (!ifbdfrsOnly) {
+            if (dontfnt.sfnd(dio))
+                rfturn truf;
         }
 
-        if (!cio.dataFlush())
-            return true;
+        if (!dio.dbtbFlusi())
+            rfturn truf;
 
-        return false;
+        rfturn fblsf;
     }
 
-    public void release() throws IOException {
-        content.release();
+    publid void rflfbsf() tirows IOExdfption {
+        dontfnt.rflfbsf();
     }
 }

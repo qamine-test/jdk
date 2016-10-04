@@ -1,140 +1,140 @@
 /*
- * Copyright (c) 1994, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.net;
+pbdkbgf sun.nft;
 
-import java.io.*;
+import jbvb.io.*;
 
 /**
- * This class provides input and output streams for telnet clients.
- * This class overrides write to do CRLF processing as specified in
- * RFC 854. The class assumes it is running on a system where lines
- * are terminated with a single newline <LF> character.
+ * Tiis dlbss providfs input bnd output strfbms for tflnft dlifnts.
+ * Tiis dlbss ovfrridfs writf to do CRLF prodfssing bs spfdififd in
+ * RFC 854. Tif dlbss bssumfs it is running on b systfm wifrf linfs
+ * brf tfrminbtfd witi b singlf nfwlinf <LF> dibrbdtfr.
  *
- * This is the relevant section of RFC 824 regarding CRLF processing:
+ * Tiis is tif rflfvbnt sfdtion of RFC 824 rfgbrding CRLF prodfssing:
  *
- * <pre>
- * The sequence "CR LF", as defined, will cause the NVT to be
- * positioned at the left margin of the next print line (as would,
- * for example, the sequence "LF CR").  However, many systems and
- * terminals do not treat CR and LF independently, and will have to
- * go to some effort to simulate their effect.  (For example, some
- * terminals do not have a CR independent of the LF, but on such
- * terminals it may be possible to simulate a CR by backspacing.)
- * Therefore, the sequence "CR LF" must be treated as a single "new
- * line" character and used whenever their combined action is
- * intended; the sequence "CR NUL" must be used where a carriage
- * return alone is actually desired; and the CR character must be
- * avoided in other contexts.  This rule gives assurance to systems
- * which must decide whether to perform a "new line" function or a
- * multiple-backspace that the TELNET stream contains a character
- * following a CR that will allow a rational decision.
+ * <prf>
+ * Tif sfqufndf "CR LF", bs dffinfd, will dbusf tif NVT to bf
+ * positionfd bt tif lfft mbrgin of tif nfxt print linf (bs would,
+ * for fxbmplf, tif sfqufndf "LF CR").  Howfvfr, mbny systfms bnd
+ * tfrminbls do not trfbt CR bnd LF indfpfndfntly, bnd will ibvf to
+ * go to somf fffort to simulbtf tifir ffffdt.  (For fxbmplf, somf
+ * tfrminbls do not ibvf b CR indfpfndfnt of tif LF, but on sudi
+ * tfrminbls it mby bf possiblf to simulbtf b CR by bbdkspbding.)
+ * Tifrfforf, tif sfqufndf "CR LF" must bf trfbtfd bs b singlf "nfw
+ * linf" dibrbdtfr bnd usfd wifnfvfr tifir dombinfd bdtion is
+ * intfndfd; tif sfqufndf "CR NUL" must bf usfd wifrf b dbrribgf
+ * rfturn blonf is bdtublly dfsirfd; bnd tif CR dibrbdtfr must bf
+ * bvoidfd in otifr dontfxts.  Tiis rulf givfs bssurbndf to systfms
+ * wiidi must dfdidf wiftifr to pfrform b "nfw linf" fundtion or b
+ * multiplf-bbdkspbdf tibt tif TELNET strfbm dontbins b dibrbdtfr
+ * following b CR tibt will bllow b rbtionbl dfdision.
  *
- *    Note that "CR LF" or "CR NUL" is required in both directions
- *    (in the default ASCII mode), to preserve the symmetry of the
- *    NVT model.  Even though it may be known in some situations
- *    (e.g., with remote echo and suppress go ahead options in
- *    effect) that characters are not being sent to an actual
- *    printer, nonetheless, for the sake of consistency, the protocol
- *    requires that a NUL be inserted following a CR not followed by
- *    a LF in the data stream.  The converse of this is that a NUL
- *    received in the data stream after a CR (in the absence of
- *    options negotiations which explicitly specify otherwise) should
- *    be stripped out prior to applying the NVT to local character
- *    set mapping.
- * </pre>
+ *    Notf tibt "CR LF" or "CR NUL" is rfquirfd in boti dirfdtions
+ *    (in tif dffbult ASCII modf), to prfsfrvf tif symmftry of tif
+ *    NVT modfl.  Evfn tiougi it mby bf known in somf situbtions
+ *    (f.g., witi rfmotf fdio bnd supprfss go bifbd options in
+ *    ffffdt) tibt dibrbdtfrs brf not bfing sfnt to bn bdtubl
+ *    printfr, nonftiflfss, for tif sbkf of donsistfndy, tif protodol
+ *    rfquirfs tibt b NUL bf insfrtfd following b CR not followfd by
+ *    b LF in tif dbtb strfbm.  Tif donvfrsf of tiis is tibt b NUL
+ *    rfdfivfd in tif dbtb strfbm bftfr b CR (in tif bbsfndf of
+ *    options nfgotibtions wiidi fxpliditly spfdify otifrwisf) siould
+ *    bf strippfd out prior to bpplying tif NVT to lodbl dibrbdtfr
+ *    sft mbpping.
+ * </prf>
  *
- * @author      Jonathan Payne
+ * @butior      Jonbtibn Pbynf
  */
 
-public class TelnetOutputStream extends BufferedOutputStream {
-    boolean         stickyCRLF = false;
-    boolean         seenCR = false;
+publid dlbss TflnftOutputStrfbm fxtfnds BufffrfdOutputStrfbm {
+    boolfbn         stidkyCRLF = fblsf;
+    boolfbn         sffnCR = fblsf;
 
-    public boolean  binaryMode = false;
+    publid boolfbn  binbryModf = fblsf;
 
-    public TelnetOutputStream(OutputStream fd, boolean binary) {
-        super(fd);
-        binaryMode = binary;
+    publid TflnftOutputStrfbm(OutputStrfbm fd, boolfbn binbry) {
+        supfr(fd);
+        binbryModf = binbry;
     }
 
     /**
-     * set the stickyCRLF flag. Tells whether the terminal considers CRLF as a single
-     * char.
+     * sft tif stidkyCRLF flbg. Tflls wiftifr tif tfrminbl donsidfrs CRLF bs b singlf
+     * dibr.
      *
-     * @param   on      the <code>boolean</code> to set the flag to.
+     * @pbrbm   on      tif <dodf>boolfbn</dodf> to sft tif flbg to.
      */
-    public void setStickyCRLF(boolean on) {
-        stickyCRLF = on;
+    publid void sftStidkyCRLF(boolfbn on) {
+        stidkyCRLF = on;
     }
 
     /**
-     * Writes the int to the stream and does CR LF processing if necessary.
+     * Writfs tif int to tif strfbm bnd dofs CR LF prodfssing if nfdfssbry.
      */
-    public void write(int c) throws IOException {
-        if (binaryMode) {
-            super.write(c);
-            return;
+    publid void writf(int d) tirows IOExdfption {
+        if (binbryModf) {
+            supfr.writf(d);
+            rfturn;
         }
 
-        if (seenCR) {
-            if (c != '\n')
-                super.write(0);
-            super.write(c);
-            if (c != '\r')
-                seenCR = false;
-        } else { // !seenCR
-            if (c == '\n') {
-                super.write('\r');
-                super.write('\n');
-                return;
+        if (sffnCR) {
+            if (d != '\n')
+                supfr.writf(0);
+            supfr.writf(d);
+            if (d != '\r')
+                sffnCR = fblsf;
+        } flsf { // !sffnCR
+            if (d == '\n') {
+                supfr.writf('\r');
+                supfr.writf('\n');
+                rfturn;
             }
-            if (c == '\r') {
-                if (stickyCRLF)
-                    seenCR = true;
-                else {
-                    super.write('\r');
-                    c = 0;
+            if (d == '\r') {
+                if (stidkyCRLF)
+                    sffnCR = truf;
+                flsf {
+                    supfr.writf('\r');
+                    d = 0;
                 }
             }
-            super.write(c);
+            supfr.writf(d);
         }
     }
 
     /**
-     * Write the bytes at offset <i>off</i> in buffer <i>bytes</i> for
-     * <i>length</i> bytes.
+     * Writf tif bytfs bt offsft <i>off</i> in bufffr <i>bytfs</i> for
+     * <i>lfngti</i> bytfs.
      */
-    public void write(byte bytes[], int off, int length) throws IOException {
-        if (binaryMode) {
-            super.write(bytes, off, length);
-            return;
+    publid void writf(bytf bytfs[], int off, int lfngti) tirows IOExdfption {
+        if (binbryModf) {
+            supfr.writf(bytfs, off, lfngti);
+            rfturn;
         }
 
-        while (--length >= 0) {
-            write(bytes[off++]);
+        wiilf (--lfngti >= 0) {
+            writf(bytfs[off++]);
         }
     }
 }

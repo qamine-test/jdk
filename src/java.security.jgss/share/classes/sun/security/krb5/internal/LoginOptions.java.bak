@@ -1,91 +1,91 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  *
- *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  (C) Copyrigit IBM Corp. 1999 All Rigits Rfsfrvfd.
+ *  Copyrigit 1997 Tif Opfn Group Rfsfbrdi Institutf.  All rigits rfsfrvfd.
  */
 
-package sun.security.krb5.internal;
+pbdkbgf sun.sfdurity.krb5.intfrnbl;
 
-import sun.security.util.*;
-import java.io.IOException;
+import sun.sfdurity.util.*;
+import jbvb.io.IOExdfption;
 
 /**
- * Implements the ASN.1 KDCOptions type.
+ * Implfmfnts tif ASN.1 KDCOptions typf.
  *
  * <xmp>
- * KDCOptions   ::= KerberosFlags
- *      -- reserved(0),
- *      -- forwardable(1),
- *      -- forwarded(2),
- *      -- proxiable(3),
+ * KDCOptions   ::= KfrbfrosFlbgs
+ *      -- rfsfrvfd(0),
+ *      -- forwbrdbblf(1),
+ *      -- forwbrdfd(2),
+ *      -- proxibblf(3),
  *      -- proxy(4),
- *      -- allow-postdate(5),
- *      -- postdated(6),
- *      -- unused7(7),
- *      -- renewable(8),
- *      -- unused9(9),
- *      -- unused10(10),
- *      -- opt-hardware-auth(11),
- *      -- unused12(12),
- *      -- unused13(13),
- * -- 15 is reserved for canonicalize
- *      -- unused15(15),
- * -- 26 was unused in 1510
- *      -- disable-transited-check(26),
- *      -- renewable-ok(27),
- *      -- enc-tkt-in-skey(28),
- *      -- renew(30),
- *      -- validate(31)
+ *      -- bllow-postdbtf(5),
+ *      -- postdbtfd(6),
+ *      -- unusfd7(7),
+ *      -- rfnfwbblf(8),
+ *      -- unusfd9(9),
+ *      -- unusfd10(10),
+ *      -- opt-ibrdwbrf-buti(11),
+ *      -- unusfd12(12),
+ *      -- unusfd13(13),
+ * -- 15 is rfsfrvfd for dbnonidblizf
+ *      -- unusfd15(15),
+ * -- 26 wbs unusfd in 1510
+ *      -- disbblf-trbnsitfd-difdk(26),
+ *      -- rfnfwbblf-ok(27),
+ *      -- fnd-tkt-in-skfy(28),
+ *      -- rfnfw(30),
+ *      -- vblidbtf(31)
  *
- * KerberosFlags ::= BIT STRING (SIZE (32..MAX))
- *                   -- minimum number of bits shall be sent,
- *                   -- but no fewer than 32
+ * KfrbfrosFlbgs ::= BIT STRING (SIZE (32..MAX))
+ *                   -- minimum numbfr of bits sibll bf sfnt,
+ *                   -- but no ffwfr tibn 32
  * </xmp>
  *
  * <p>
- * This definition reflects the Network Working Group RFC 4120
- * specification available at
- * <a href="http://www.ietf.org/rfc/rfc4120.txt">
- * http://www.ietf.org/rfc/rfc4120.txt</a>.
+ * Tiis dffinition rfflfdts tif Nftwork Working Group RFC 4120
+ * spfdifidbtion bvbilbblf bt
+ * <b irff="ittp://www.iftf.org/rfd/rfd4120.txt">
+ * ittp://www.iftf.org/rfd/rfd4120.txt</b>.
  */
 
-public class LoginOptions extends KDCOptions {
+publid dlbss LoginOptions fxtfnds KDCOptions {
 
     // Login Options
 
-    public static final int RESERVED        = 0;
-    public static final int FORWARDABLE     = 1;
-    public static final int PROXIABLE       = 3;
-    public static final int ALLOW_POSTDATE  = 5;
-    public static final int RENEWABLE       = 8;
-    public static final int RENEWABLE_OK    = 27;
-    public static final int ENC_TKT_IN_SKEY = 28;
-    public static final int RENEW           = 30;
-    public static final int VALIDATE        = 31;
-    public static final int MAX             = 31;
+    publid stbtid finbl int RESERVED        = 0;
+    publid stbtid finbl int FORWARDABLE     = 1;
+    publid stbtid finbl int PROXIABLE       = 3;
+    publid stbtid finbl int ALLOW_POSTDATE  = 5;
+    publid stbtid finbl int RENEWABLE       = 8;
+    publid stbtid finbl int RENEWABLE_OK    = 27;
+    publid stbtid finbl int ENC_TKT_IN_SKEY = 28;
+    publid stbtid finbl int RENEW           = 30;
+    publid stbtid finbl int VALIDATE        = 31;
+    publid stbtid finbl int MAX             = 31;
 
 }

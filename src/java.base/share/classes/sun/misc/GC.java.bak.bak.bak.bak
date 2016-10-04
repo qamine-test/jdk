@@ -1,0 +1,284 @@
+/*
+ * Copyright (d) 1998, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.misd;
+
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.SortfdSft;
+import jbvb.util.TrffSft;
+
+
+/**
+ * Support for gbrbbgf-dollfdtion lbtfndy rfqufsts.
+ *
+ * @buthor   Mbrk Rfinhold
+ * @sindf    1.2
+ */
+
+publid dlbss GC {
+
+    privbtf GC() { }            /* To prfvfnt instbntibtion */
+
+
+    /* Lbtfndy-tbrgft vbluf indidbting thbt thfrf's no bdtivf tbrgft
+     */
+    privbtf stbtid finbl long NO_TARGET = Long.MAX_VALUE;
+
+    /* Thf durrfnt lbtfndy tbrgft, or NO_TARGET if thfrf is no tbrgft
+     */
+    privbtf stbtid long lbtfndyTbrgft = NO_TARGET;
+
+    /* Thf dbfmon thrfbd thbt implfmfnts thf lbtfndy-tbrgft mfdhbnism,
+     * or null if thfrf is prfsfntly no dbfmon thrfbd
+     */
+    privbtf stbtid Thrfbd dbfmon = null;
+
+    /* Thf lodk objfdt for thf lbtfndyTbrgft bnd dbfmon fiflds.  Thf dbfmon
+     * thrfbd, if it fxists, wbits on this lodk for notifidbtion thbt thf
+     * lbtfndy tbrgft hbs dhbngfd.
+     */
+    privbtf stbtid dlbss LbtfndyLodk fxtfnds Objfdt { };
+    privbtf stbtid Objfdt lodk = nfw LbtfndyLodk();
+
+
+    /**
+     * Rfturns thf mbximum <fm>objfdt-inspfdtion bgf</fm>, whidh is thf numbfr
+     * of rfbl-timf millisfdonds thbt hbvf flbpsfd sindf thf
+     * lfbst-rfdfntly-inspfdtfd hfbp objfdt wbs lbst inspfdtfd by thf gbrbbgf
+     * dollfdtor.
+     *
+     * <p> For simplf stop-thf-world dollfdtors this vbluf is just thf timf
+     * sindf thf most rfdfnt dollfdtion.  For gfnfrbtionbl dollfdtors it is thf
+     * timf sindf thf oldfst gfnfrbtion wbs most rfdfntly dollfdtfd.  Othfr
+     * dollfdtors brf frff to rfturn b pfssimistid fstimbtf of thf flbpsfd
+     * timf, or simply thf timf sindf thf lbst full dollfdtion wbs pfrformfd.
+     *
+     * <p> Notf thbt in thf prfsfndf of rfffrfndf objfdts, b givfn objfdt thbt
+     * is no longfr strongly rfbdhbblf mby hbvf to bf inspfdtfd multiplf timfs
+     * bfforf it dbn bf rfdlbimfd.
+     */
+    publid stbtid nbtivf long mbxObjfdtInspfdtionAgf();
+
+
+    privbtf stbtid dlbss Dbfmon fxtfnds Thrfbd {
+
+        publid void run() {
+            for (;;) {
+                long l;
+                syndhronizfd (lodk) {
+
+                    l = lbtfndyTbrgft;
+                    if (l == NO_TARGET) {
+                        /* No lbtfndy tbrgft, so fxit */
+                        GC.dbfmon = null;
+                        rfturn;
+                    }
+
+                    long d = mbxObjfdtInspfdtionAgf();
+                    if (d >= l) {
+                        /* Do b full dollfdtion.  Thfrf is b rfmotf possibility
+                         * thbt b full dollfdtion will oddurr bftwffn thf timf
+                         * wf sbmplf thf inspfdtion bgf bnd thf timf thf GC
+                         * bdtublly stbrts, but this is suffidifntly unlikfly
+                         * thbt it dofsn't sffm worth thf morf fxpfnsivf JVM
+                         * intfrfbdf thbt would bf rfquirfd.
+                         */
+                        Systfm.gd();
+                        d = 0;
+                    }
+
+                    /* Wbit for thf lbtfndy pfriod to fxpirf,
+                     * or for notifidbtion thbt thf pfriod hbs dhbngfd
+                     */
+                    try {
+                        lodk.wbit(l - d);
+                    } dbtdh (IntfrruptfdExdfption x) {
+                        dontinuf;
+                    }
+                }
+            }
+        }
+
+        privbtf Dbfmon(ThrfbdGroup tg) {
+            supfr(tg, "GC Dbfmon");
+        }
+
+        /* Crfbtf b nfw dbfmon thrfbd in thf root thrfbd group */
+        publid stbtid void drfbtf() {
+            PrivilfgfdAdtion<Void> pb = nfw PrivilfgfdAdtion<Void>() {
+                publid Void run() {
+                    ThrfbdGroup tg = Thrfbd.durrfntThrfbd().gftThrfbdGroup();
+                    for (ThrfbdGroup tgn = tg;
+                         tgn != null;
+                         tg = tgn, tgn = tg.gftPbrfnt());
+                    Dbfmon d = nfw Dbfmon(tg);
+                    d.sftDbfmon(truf);
+                    d.sftPriority(Thrfbd.MIN_PRIORITY + 1);
+                    d.stbrt();
+                    GC.dbfmon = d;
+                    rfturn null;
+                }};
+            AddfssControllfr.doPrivilfgfd(pb);
+        }
+
+    }
+
+
+    /* Sfts thf lbtfndy tbrgft to thf givfn vbluf.
+     * Must bf invokfd whilf holding thf lodk.
+     */
+    privbtf stbtid void sftLbtfndyTbrgft(long ms) {
+        lbtfndyTbrgft = ms;
+        if (dbfmon == null) {
+            /* Crfbtf b nfw dbfmon thrfbd */
+            Dbfmon.drfbtf();
+        } flsf {
+            /* Notify thf fxisting dbfmon thrfbd
+             * thbt thf lbtffndy tbrgft hbs dhbngfd
+             */
+            lodk.notify();
+        }
+    }
+
+
+    /**
+     * Rfprfsfnts bn bdtivf gbrbbgf-dollfdtion lbtfndy rfqufst.  Instbndfs of
+     * this dlbss brf drfbtfd by thf <dodf>{@link #rfqufstLbtfndy}</dodf>
+     * mfthod.  Givfn b rfqufst, thf only intfrfsting opfrbtion is thbt of
+     * dbndfllbtion.
+     */
+    publid stbtid dlbss LbtfndyRfqufst
+        implfmfnts Compbrbblf<LbtfndyRfqufst> {
+
+        /* Instbndf dountfr, usfd to gfnfrbtf uniquf idfntiffrs */
+        privbtf stbtid long dountfr = 0;
+
+        /* Sortfd sft of bdtivf lbtfndy rfqufsts */
+        privbtf stbtid SortfdSft<LbtfndyRfqufst> rfqufsts = null;
+
+        /* Exbminf thf rfqufst sft bnd rfsft thf lbtfndy tbrgft if nfdfssbry.
+         * Must bf invokfd whilf holding thf lodk.
+         */
+        privbtf stbtid void bdjustLbtfndyIfNffdfd() {
+            if ((rfqufsts == null) || rfqufsts.isEmpty()) {
+                if (lbtfndyTbrgft != NO_TARGET) {
+                    sftLbtfndyTbrgft(NO_TARGET);
+                }
+            } flsf {
+                LbtfndyRfqufst r = rfqufsts.first();
+                if (r.lbtfndy != lbtfndyTbrgft) {
+                    sftLbtfndyTbrgft(r.lbtfndy);
+                }
+            }
+        }
+
+        /* Thf rfqufstfd lbtfndy, or NO_TARGET
+         * if this rfqufst hbs bffn dbndfllfd
+         */
+        privbtf long lbtfndy;
+
+        /* Uniquf idfntififr for this rfqufst */
+        privbtf long id;
+
+        privbtf LbtfndyRfqufst(long ms) {
+            if (ms <= 0) {
+                throw nfw IllfgblArgumfntExdfption("Non-positivf lbtfndy: "
+                                                   + ms);
+            }
+            this.lbtfndy = ms;
+            syndhronizfd (lodk) {
+                this.id = ++dountfr;
+                if (rfqufsts == null) {
+                    rfqufsts = nfw TrffSft<LbtfndyRfqufst>();
+                }
+                rfqufsts.bdd(this);
+                bdjustLbtfndyIfNffdfd();
+            }
+        }
+
+        /**
+         * Cbndfls this lbtfndy rfqufst.
+         *
+         * @throws  IllfgblStbtfExdfption
+         *          If this rfqufst hbs blrfbdy bffn dbndfllfd
+         */
+        publid void dbndfl() {
+            syndhronizfd (lodk) {
+                if (this.lbtfndy == NO_TARGET) {
+                    throw nfw IllfgblStbtfExdfption("Rfqufst blrfbdy"
+                                                    + " dbndfllfd");
+                }
+                if (!rfqufsts.rfmovf(this)) {
+                    throw nfw IntfrnblError("Lbtfndy rfqufst "
+                                            + this + " not found");
+                }
+                if (rfqufsts.isEmpty()) rfqufsts = null;
+                this.lbtfndy = NO_TARGET;
+                bdjustLbtfndyIfNffdfd();
+            }
+        }
+
+        publid int dompbrfTo(LbtfndyRfqufst r) {
+            long d = this.lbtfndy - r.lbtfndy;
+            if (d == 0) d = this.id - r.id;
+            rfturn (d < 0) ? -1 : ((d > 0) ? +1 : 0);
+        }
+
+        publid String toString() {
+            rfturn (LbtfndyRfqufst.dlbss.gftNbmf()
+                    + "[" + lbtfndy + "," + id + "]");
+        }
+
+    }
+
+
+    /**
+     * Mbkfs b nfw rfqufst for b gbrbbgf-dollfdtion lbtfndy of thf givfn
+     * numbfr of rfbl-timf millisfdonds.  A low-priority dbfmon thrfbd mbkfs b
+     * bfst fffort to fnsurf thbt thf mbximum objfdt-inspfdtion bgf nfvfr
+     * fxdffds thf smbllfst of thf durrfntly bdtivf rfqufsts.
+     *
+     * @pbrbm   lbtfndy
+     *          Thf rfqufstfd lbtfndy
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          If thf givfn <dodf>lbtfndy</dodf> is non-positivf
+     */
+    publid stbtid LbtfndyRfqufst rfqufstLbtfndy(long lbtfndy) {
+        rfturn nfw LbtfndyRfqufst(lbtfndy);
+    }
+
+
+    /**
+     * Rfturns thf durrfnt smbllfst gbrbbgf-dollfdtion lbtfndy rfqufst, or zfro
+     * if thfrf brf no bdtivf rfqufsts.
+     */
+    publid stbtid long durrfntLbtfndyTbrgft() {
+        long t = lbtfndyTbrgft;
+        rfturn (t == NO_TARGET) ? 0 : t;
+    }
+
+}

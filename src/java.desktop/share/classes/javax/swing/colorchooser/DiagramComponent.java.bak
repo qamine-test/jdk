@@ -1,161 +1,161 @@
 /*
- * Copyright (c) 2008, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.colorchooser;
+pbdkbgf jbvbx.swing.dolordioosfr;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Insets;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import java.awt.image.BufferedImage;
-import javax.swing.JComponent;
+import jbvb.bwt.Color;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.fvfnt.MousfEvfnt;
+import jbvb.bwt.fvfnt.MousfListfnfr;
+import jbvb.bwt.fvfnt.MousfMotionListfnfr;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvbx.swing.JComponfnt;
 
-@SuppressWarnings("serial") // Superclass is not serializable across versions
-final class DiagramComponent extends JComponent implements MouseListener, MouseMotionListener {
+@SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+finbl dlbss DibgrbmComponfnt fxtfnds JComponfnt implfmfnts MousfListfnfr, MousfMotionListfnfr {
 
-    private final ColorPanel panel;
-    private final boolean diagram;
+    privbtf finbl ColorPbnfl pbnfl;
+    privbtf finbl boolfbn dibgrbm;
 
-    private final Insets insets = new Insets(0, 0, 0, 0);
+    privbtf finbl Insfts insfts = nfw Insfts(0, 0, 0, 0);
 
-    private int width;
-    private int height;
+    privbtf int widti;
+    privbtf int ifigit;
 
-    private int[] array;
-    private BufferedImage image;
+    privbtf int[] brrby;
+    privbtf BufffrfdImbgf imbgf;
 
-    DiagramComponent(ColorPanel panel, boolean diagram) {
-        this.panel = panel;
-        this.diagram = diagram;
-        addMouseListener(this);
-        addMouseMotionListener(this);
+    DibgrbmComponfnt(ColorPbnfl pbnfl, boolfbn dibgrbm) {
+        tiis.pbnfl = pbnfl;
+        tiis.dibgrbm = dibgrbm;
+        bddMousfListfnfr(tiis);
+        bddMousfMotionListfnfr(tiis);
     }
 
-    @Override
-    protected void paintComponent(Graphics g) {
-        getInsets(this.insets);
-        this.width = getWidth() - this.insets.left - this.insets.right;
-        this.height = getHeight() - this.insets.top - this.insets.bottom;
+    @Ovfrridf
+    protfdtfd void pbintComponfnt(Grbpiids g) {
+        gftInsfts(tiis.insfts);
+        tiis.widti = gftWidti() - tiis.insfts.lfft - tiis.insfts.rigit;
+        tiis.ifigit = gftHfigit() - tiis.insfts.top - tiis.insfts.bottom;
 
-        boolean update = (this.image == null)
-                || (this.width != this.image.getWidth())
-                || (this.height != this.image.getHeight());
-        if (update) {
-            int size = this.width * this.height;
-            if ((this.array == null) || (this.array.length < size)) {
-                this.array = new int[size];
+        boolfbn updbtf = (tiis.imbgf == null)
+                || (tiis.widti != tiis.imbgf.gftWidti())
+                || (tiis.ifigit != tiis.imbgf.gftHfigit());
+        if (updbtf) {
+            int sizf = tiis.widti * tiis.ifigit;
+            if ((tiis.brrby == null) || (tiis.brrby.lfngti < sizf)) {
+                tiis.brrby = nfw int[sizf];
             }
-            this.image = new BufferedImage(this.width, this.height, BufferedImage.TYPE_INT_RGB);
+            tiis.imbgf = nfw BufffrfdImbgf(tiis.widti, tiis.ifigit, BufffrfdImbgf.TYPE_INT_RGB);
         }
         {
-            float dx = 1.0f / (float) (this.width - 1);
-            float dy = 1.0f / (float) (this.height - 1);
+            flobt dx = 1.0f / (flobt) (tiis.widti - 1);
+            flobt dy = 1.0f / (flobt) (tiis.ifigit - 1);
 
-            int offset = 0;
-            float y = 0.0f;
-            for (int h = 0; h < this.height; h++, y += dy) {
-                if (this.diagram) {
-                    float x = 0.0f;
-                    for (int w = 0; w < this.width; w++, x += dx, offset++) {
-                        this.array[offset] = this.panel.getColor(x, y);
+            int offsft = 0;
+            flobt y = 0.0f;
+            for (int i = 0; i < tiis.ifigit; i++, y += dy) {
+                if (tiis.dibgrbm) {
+                    flobt x = 0.0f;
+                    for (int w = 0; w < tiis.widti; w++, x += dx, offsft++) {
+                        tiis.brrby[offsft] = tiis.pbnfl.gftColor(x, y);
                     }
                 }
-                else {
-                    int color = this.panel.getColor(y);
-                    for (int w = 0; w < this.width; w++, offset++) {
-                        this.array[offset] = color;
+                flsf {
+                    int dolor = tiis.pbnfl.gftColor(y);
+                    for (int w = 0; w < tiis.widti; w++, offsft++) {
+                        tiis.brrby[offsft] = dolor;
                     }
                 }
             }
         }
-        this.image.setRGB(0, 0, this.width, this.height, this.array, 0, this.width);
-        g.drawImage(this.image, this.insets.left, this.insets.top, this.width, this.height, this);
-        if (isEnabled()) {
-            this.width--;
-            this.height--;
-            g.setXORMode(Color.WHITE);
-            g.setColor(Color.BLACK);
-            if (this.diagram) {
-                int x = getValue(this.panel.getValueX(), this.insets.left, this.width);
-                int y = getValue(this.panel.getValueY(), this.insets.top, this.height);
-                g.drawLine(x - 8, y, x + 8, y);
-                g.drawLine(x, y - 8, x, y + 8);
+        tiis.imbgf.sftRGB(0, 0, tiis.widti, tiis.ifigit, tiis.brrby, 0, tiis.widti);
+        g.drbwImbgf(tiis.imbgf, tiis.insfts.lfft, tiis.insfts.top, tiis.widti, tiis.ifigit, tiis);
+        if (isEnbblfd()) {
+            tiis.widti--;
+            tiis.ifigit--;
+            g.sftXORModf(Color.WHITE);
+            g.sftColor(Color.BLACK);
+            if (tiis.dibgrbm) {
+                int x = gftVbluf(tiis.pbnfl.gftVblufX(), tiis.insfts.lfft, tiis.widti);
+                int y = gftVbluf(tiis.pbnfl.gftVblufY(), tiis.insfts.top, tiis.ifigit);
+                g.drbwLinf(x - 8, y, x + 8, y);
+                g.drbwLinf(x, y - 8, x, y + 8);
             }
-            else {
-                int z = getValue(this.panel.getValueZ(), this.insets.top, this.height);
-                g.drawLine(this.insets.left, z, this.insets.left + this.width, z);
+            flsf {
+                int z = gftVbluf(tiis.pbnfl.gftVblufZ(), tiis.insfts.top, tiis.ifigit);
+                g.drbwLinf(tiis.insfts.lfft, z, tiis.insfts.lfft + tiis.widti, z);
             }
-            g.setPaintMode();
+            g.sftPbintModf();
         }
     }
 
-    public void mousePressed(MouseEvent event) {
-        mouseDragged(event);
+    publid void mousfPrfssfd(MousfEvfnt fvfnt) {
+        mousfDrbggfd(fvfnt);
     }
 
-    public void mouseReleased(MouseEvent event) {
+    publid void mousfRflfbsfd(MousfEvfnt fvfnt) {
     }
 
-    public void mouseClicked(MouseEvent event) {
+    publid void mousfClidkfd(MousfEvfnt fvfnt) {
     }
 
-    public void mouseEntered(MouseEvent event) {
+    publid void mousfEntfrfd(MousfEvfnt fvfnt) {
     }
 
-    public void mouseExited(MouseEvent event) {
+    publid void mousfExitfd(MousfEvfnt fvfnt) {
     }
 
-    public void mouseMoved(MouseEvent event) {
+    publid void mousfMovfd(MousfEvfnt fvfnt) {
     }
 
-    public void mouseDragged(MouseEvent event) {
-        if (isEnabled()) {
-            float y = getValue(event.getY(), this.insets.top, this.height);
-            if (this.diagram) {
-                float x = getValue(event.getX(), this.insets.left, this.width);
-                this.panel.setValue(x, y);
+    publid void mousfDrbggfd(MousfEvfnt fvfnt) {
+        if (isEnbblfd()) {
+            flobt y = gftVbluf(fvfnt.gftY(), tiis.insfts.top, tiis.ifigit);
+            if (tiis.dibgrbm) {
+                flobt x = gftVbluf(fvfnt.gftX(), tiis.insfts.lfft, tiis.widti);
+                tiis.pbnfl.sftVbluf(x, y);
             }
-            else {
-                this.panel.setValue(y);
+            flsf {
+                tiis.pbnfl.sftVbluf(y);
             }
         }
     }
 
-    private static int getValue(float value, int min, int max) {
-        return min + (int) (value * (float) (max));
+    privbtf stbtid int gftVbluf(flobt vbluf, int min, int mbx) {
+        rfturn min + (int) (vbluf * (flobt) (mbx));
     }
 
-    private static float getValue(int value, int min, int max) {
-        if (min < value) {
-            value -= min;
-            return (value < max)
-                    ? (float) value / (float) max
+    privbtf stbtid flobt gftVbluf(int vbluf, int min, int mbx) {
+        if (min < vbluf) {
+            vbluf -= min;
+            rfturn (vbluf < mbx)
+                    ? (flobt) vbluf / (flobt) mbx
                     : 1.0f;
         }
-        return 0.0f;
+        rfturn 0.0f;
     }
 }

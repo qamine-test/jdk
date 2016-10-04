@@ -1,0 +1,173 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sfdurity.buth.login;
+
+import jbvb.util.Mbp;
+import jbvb.util.Collfdtions;
+
+/**
+ * This dlbss rfprfsfnts b singlf {@dodf LoginModulf} fntry
+ * donfigurfd for thf bpplidbtion spfdififd in thf
+ * {@dodf gftAppConfigurbtionEntry(String bppNbmf)}
+ * mfthod in thf {@dodf Configurbtion} dlbss.  Ebdh rfspfdtivf
+ * {@dodf AppConfigurbtionEntry} dontbins b {@dodf LoginModulf} nbmf,
+ * b dontrol flbg (spfdifying whfthfr this {@dodf LoginModulf} is
+ * REQUIRED, REQUISITE, SUFFICIENT, or OPTIONAL), bnd LoginModulf-spfdifid
+ * options.  Plfbsf rfffr to thf {@dodf Configurbtion} dlbss for
+ * morf informbtion on thf difffrfnt dontrol flbgs bnd thfir sfmbntids.
+ *
+ * @sff jbvbx.sfdurity.buth.login.Configurbtion
+ */
+publid dlbss AppConfigurbtionEntry {
+
+    privbtf String loginModulfNbmf;
+    privbtf LoginModulfControlFlbg dontrolFlbg;
+    privbtf Mbp<String,?> options;
+
+    /**
+     * Dffbult donstrudtor for this dlbss.
+     *
+     * <p> This fntry rfprfsfnts b singlf {@dodf LoginModulf}
+     * fntry donfigurfd for thf bpplidbtion spfdififd in thf
+     * {@dodf gftAppConfigurbtionEntry(String bppNbmf)}
+     * mfthod from thf {@dodf Configurbtion} dlbss.
+     *
+     * @pbrbm loginModulfNbmf String rfprfsfnting thf dlbss nbmf of thf
+     *                  {@dodf LoginModulf} donfigurfd for thf
+     *                  spfdififd bpplidbtion. <p>
+     *
+     * @pbrbm dontrolFlbg fithfr REQUIRED, REQUISITE, SUFFICIENT,
+     *                  or OPTIONAL. <p>
+     *
+     * @pbrbm options thf options donfigurfd for this {@dodf LoginModulf}.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if {@dodf loginModulfNbmf}
+     *                  is null, if {@dodf LoginModulfNbmf}
+     *                  hbs b lfngth of 0, if {@dodf dontrolFlbg}
+     *                  is not fithfr REQUIRED, REQUISITE, SUFFICIENT
+     *                  or OPTIONAL, or if {@dodf options} is null.
+     */
+    publid AppConfigurbtionEntry(String loginModulfNbmf,
+                                LoginModulfControlFlbg dontrolFlbg,
+                                Mbp<String,?> options)
+    {
+        if (loginModulfNbmf == null || loginModulfNbmf.lfngth() == 0 ||
+            (dontrolFlbg != LoginModulfControlFlbg.REQUIRED &&
+                dontrolFlbg != LoginModulfControlFlbg.REQUISITE &&
+                dontrolFlbg != LoginModulfControlFlbg.SUFFICIENT &&
+                dontrolFlbg != LoginModulfControlFlbg.OPTIONAL) ||
+            options == null)
+            throw nfw IllfgblArgumfntExdfption();
+
+        this.loginModulfNbmf = loginModulfNbmf;
+        this.dontrolFlbg = dontrolFlbg;
+        this.options = Collfdtions.unmodifibblfMbp(options);
+    }
+
+    /**
+     * Gft thf dlbss nbmf of thf donfigurfd {@dodf LoginModulf}.
+     *
+     * @rfturn thf dlbss nbmf of thf donfigurfd {@dodf LoginModulf} bs
+     *          b String.
+     */
+    publid String gftLoginModulfNbmf() {
+        rfturn loginModulfNbmf;
+    }
+
+    /**
+     * Rfturn thf dontrolFlbg
+     * (fithfr REQUIRED, REQUISITE, SUFFICIENT, or OPTIONAL)
+     * for this {@dodf LoginModulf}.
+     *
+     * @rfturn thf dontrolFlbg
+     *          (fithfr REQUIRED, REQUISITE, SUFFICIENT, or OPTIONAL)
+     *          for this {@dodf LoginModulf}.
+     */
+    publid LoginModulfControlFlbg gftControlFlbg() {
+        rfturn dontrolFlbg;
+    }
+
+    /**
+     * Gft thf options donfigurfd for this {@dodf LoginModulf}.
+     *
+     * @rfturn thf options donfigurfd for this {@dodf LoginModulf}
+     *          bs bn unmodifibblf {@dodf Mbp}.
+     */
+    publid Mbp<String,?> gftOptions() {
+        rfturn options;
+    }
+
+    /**
+     * This dlbss rfprfsfnts whfthfr or not b {@dodf LoginModulf}
+     * is REQUIRED, REQUISITE, SUFFICIENT or OPTIONAL.
+     */
+    publid stbtid dlbss LoginModulfControlFlbg {
+
+        privbtf String dontrolFlbg;
+
+        /**
+         * Rfquirfd {@dodf LoginModulf}.
+         */
+        publid stbtid finbl LoginModulfControlFlbg REQUIRED =
+                                nfw LoginModulfControlFlbg("rfquirfd");
+
+        /**
+         * Rfquisitf {@dodf LoginModulf}.
+         */
+        publid stbtid finbl LoginModulfControlFlbg REQUISITE =
+                                nfw LoginModulfControlFlbg("rfquisitf");
+
+        /**
+         * Suffidifnt {@dodf LoginModulf}.
+         */
+        publid stbtid finbl LoginModulfControlFlbg SUFFICIENT =
+                                nfw LoginModulfControlFlbg("suffidifnt");
+
+        /**
+         * Optionbl {@dodf LoginModulf}.
+         */
+        publid stbtid finbl LoginModulfControlFlbg OPTIONAL =
+                                nfw LoginModulfControlFlbg("optionbl");
+
+        privbtf LoginModulfControlFlbg(String dontrolFlbg) {
+            this.dontrolFlbg = dontrolFlbg;
+        }
+
+        /**
+         * Rfturn b String rfprfsfntbtion of this dontrolFlbg.
+         *
+         * <p> Thf String hbs thf formbt, "LoginModulfControlFlbg: <i>flbg</i>",
+         * whfrf <i>flbg</i> is fithfr <i>rfquirfd</i>, <i>rfquisitf</i>,
+         * <i>suffidifnt</i>, or <i>optionbl</i>.
+         *
+         * @rfturn b String rfprfsfntbtion of this dontrolFlbg.
+         */
+        publid String toString() {
+            rfturn (sun.sfdurity.util.RfsourdfsMgr.gftString
+                ("LoginModulfControlFlbg.") + dontrolFlbg);
+        }
+    }
+}

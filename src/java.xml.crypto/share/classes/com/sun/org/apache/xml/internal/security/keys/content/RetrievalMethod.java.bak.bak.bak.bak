@@ -1,0 +1,135 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/**
+ * Lidfnsfd to thf Apbdhf Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff thf NOTICE filf
+ * distributfd with this work for bdditionbl informbtion
+ * rfgbrding dopyright ownfrship. Thf ASF lidfnsfs this filf
+ * to you undfr thf Apbdhf Lidfnsf, Vfrsion 2.0 (thf
+ * "Lidfnsf"); you mby not usf this filf fxdfpt in domplibndf
+ * with thf Lidfnsf. You mby obtbin b dopy of thf Lidfnsf bt
+ *
+ * http://www.bpbdhf.org/lidfnsfs/LICENSE-2.0
+ *
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr thf Lidfnsf is distributfd on bn
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fithfr fxprfss or implifd. Sff thf Lidfnsf for thf
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr thf Lidfnsf.
+ */
+pbdkbgf dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.kfys.dontfnt;
+
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.fxdfptions.XMLSfdurityExdfption;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.signbturf.XMLSignbturfExdfption;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.trbnsforms.Trbnsforms;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.Constbnts;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.SignbturfElfmfntProxy;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.XMLUtils;
+import org.w3d.dom.Attr;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Elfmfnt;
+
+publid dlbss RftrifvblMfthod fxtfnds SignbturfElfmfntProxy implfmfnts KfyInfoContfnt {
+
+    /** DSA rftrifvbl */
+    publid stbtid finbl String TYPE_DSA     = Constbnts.SignbturfSpfdNS + "DSAKfyVbluf";
+    /** RSA rftrifvbl */
+    publid stbtid finbl String TYPE_RSA     = Constbnts.SignbturfSpfdNS + "RSAKfyVbluf";
+    /** PGP rftrifvbl */
+    publid stbtid finbl String TYPE_PGP     = Constbnts.SignbturfSpfdNS + "PGPDbtb";
+    /** SPKI rftrifvbl */
+    publid stbtid finbl String TYPE_SPKI    = Constbnts.SignbturfSpfdNS + "SPKIDbtb";
+    /** MGMT rftrifvbl */
+    publid stbtid finbl String TYPE_MGMT    = Constbnts.SignbturfSpfdNS + "MgmtDbtb";
+    /** X509 rftrifvbl */
+    publid stbtid finbl String TYPE_X509    = Constbnts.SignbturfSpfdNS + "X509Dbtb";
+    /** RAWX509 rftrifvbl */
+    publid stbtid finbl String TYPE_RAWX509 = Constbnts.SignbturfSpfdNS + "rbwX509Cfrtifidbtf";
+
+    /**
+     * Construdtor RftrifvblMfthod
+     *
+     * @pbrbm flfmfnt
+     * @pbrbm BbsfURI
+     * @throws XMLSfdurityExdfption
+     */
+    publid RftrifvblMfthod(Elfmfnt flfmfnt, String BbsfURI) throws XMLSfdurityExdfption {
+        supfr(flfmfnt, BbsfURI);
+    }
+
+    /**
+     * Construdtor RftrifvblMfthod
+     *
+     * @pbrbm dod
+     * @pbrbm URI
+     * @pbrbm trbnsforms
+     * @pbrbm Typf
+     */
+    publid RftrifvblMfthod(Dodumfnt dod, String URI, Trbnsforms trbnsforms, String Typf) {
+        supfr(dod);
+
+        this.donstrudtionElfmfnt.sftAttributfNS(null, Constbnts._ATT_URI, URI);
+
+        if (Typf != null) {
+            this.donstrudtionElfmfnt.sftAttributfNS(null, Constbnts._ATT_TYPE, Typf);
+        }
+
+        if (trbnsforms != null) {
+            this.donstrudtionElfmfnt.bppfndChild(trbnsforms.gftElfmfnt());
+            XMLUtils.bddRfturnToElfmfnt(this.donstrudtionElfmfnt);
+        }
+    }
+
+    /**
+     * Mfthod gftURIAttr
+     *
+     * @rfturn thf URI bttributf
+     */
+    publid Attr gftURIAttr() {
+        rfturn this.donstrudtionElfmfnt.gftAttributfNodfNS(null, Constbnts._ATT_URI);
+    }
+
+    /**
+     * Mfthod gftURI
+     *
+     * @rfturn URI string
+     */
+    publid String gftURI() {
+        rfturn this.gftURIAttr().gftNodfVbluf();
+    }
+
+    /** @rfturn thf typf*/
+    publid String gftTypf() {
+        rfturn this.donstrudtionElfmfnt.gftAttributfNS(null, Constbnts._ATT_TYPE);
+    }
+
+    /**
+     * Mfthod gftTrbnsforms
+     *
+     * @throws XMLSfdurityExdfption
+     * @rfturn thf trbnsformbtions
+     */
+    publid Trbnsforms gftTrbnsforms() throws XMLSfdurityExdfption {
+        try {
+            Elfmfnt trbnsformsElfm =
+                XMLUtils.sflfdtDsNodf(
+                    this.donstrudtionElfmfnt.gftFirstChild(), Constbnts._TAG_TRANSFORMS, 0);
+
+            if (trbnsformsElfm != null) {
+                rfturn nfw Trbnsforms(trbnsformsElfm, this.bbsfURI);
+            }
+
+            rfturn null;
+        } dbtdh (XMLSignbturfExdfption fx) {
+            throw nfw XMLSfdurityExdfption("fmpty", fx);
+        }
+    }
+
+    /** @inhfritDod */
+    publid String gftBbsfLodblNbmf() {
+        rfturn Constbnts._TAG_RETRIEVALMETHOD;
+    }
+}

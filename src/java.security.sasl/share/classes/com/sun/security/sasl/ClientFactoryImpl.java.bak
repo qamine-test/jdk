@@ -1,160 +1,160 @@
 /*
- * Copyright (c) 1999, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.security.sasl;
+pbdkbgf dom.sun.sfdurity.sbsl;
 
-import javax.security.sasl.*;
-import com.sun.security.sasl.util.PolicyUtils;
+import jbvbx.sfdurity.sbsl.*;
+import dom.sun.sfdurity.sbsl.util.PolidyUtils;
 
-import java.util.Map;
-import java.io.IOException;
-import javax.security.auth.callback.Callback;
-import javax.security.auth.callback.CallbackHandler;
-import javax.security.auth.callback.NameCallback;
-import javax.security.auth.callback.PasswordCallback;
-import javax.security.auth.callback.UnsupportedCallbackException;
+import jbvb.util.Mbp;
+import jbvb.io.IOExdfption;
+import jbvbx.sfdurity.buti.dbllbbdk.Cbllbbdk;
+import jbvbx.sfdurity.buti.dbllbbdk.CbllbbdkHbndlfr;
+import jbvbx.sfdurity.buti.dbllbbdk.NbmfCbllbbdk;
+import jbvbx.sfdurity.buti.dbllbbdk.PbsswordCbllbbdk;
+import jbvbx.sfdurity.buti.dbllbbdk.UnsupportfdCbllbbdkExdfption;
 
 /**
-  * Client factory for EXTERNAL, CRAM-MD5, PLAIN.
+  * Clifnt fbdtory for EXTERNAL, CRAM-MD5, PLAIN.
   *
-  * Requires the following callbacks to be satisfied by callback handler
-  * when using CRAM-MD5 or PLAIN.
-  * - NameCallback (to get username)
-  * - PasswordCallback (to get password)
+  * Rfquirfs tif following dbllbbdks to bf sbtisfifd by dbllbbdk ibndlfr
+  * wifn using CRAM-MD5 or PLAIN.
+  * - NbmfCbllbbdk (to gft usfrnbmf)
+  * - PbsswordCbllbbdk (to gft pbssword)
   *
-  * @author Rosanna Lee
+  * @butior Rosbnnb Lff
   */
-final public class ClientFactoryImpl implements SaslClientFactory {
-    private static final String myMechs[] = {
+finbl publid dlbss ClifntFbdtoryImpl implfmfnts SbslClifntFbdtory {
+    privbtf stbtid finbl String myMfdis[] = {
         "EXTERNAL",
         "CRAM-MD5",
         "PLAIN",
     };
 
-    private static final int mechPolicies[] = {
-        // %%% RL: Policies should actually depend on the external channel
-        PolicyUtils.NOPLAINTEXT|PolicyUtils.NOACTIVE|PolicyUtils.NODICTIONARY,
-        PolicyUtils.NOPLAINTEXT|PolicyUtils.NOANONYMOUS,    // CRAM-MD5
-        PolicyUtils.NOANONYMOUS,                            // PLAIN
+    privbtf stbtid finbl int mfdiPolidifs[] = {
+        // %%% RL: Polidifs siould bdtublly dfpfnd on tif fxtfrnbl dibnnfl
+        PolidyUtils.NOPLAINTEXT|PolidyUtils.NOACTIVE|PolidyUtils.NODICTIONARY,
+        PolidyUtils.NOPLAINTEXT|PolidyUtils.NOANONYMOUS,    // CRAM-MD5
+        PolidyUtils.NOANONYMOUS,                            // PLAIN
     };
 
-    private static final int EXTERNAL = 0;
-    private static final int CRAMMD5 = 1;
-    private static final int PLAIN = 2;
+    privbtf stbtid finbl int EXTERNAL = 0;
+    privbtf stbtid finbl int CRAMMD5 = 1;
+    privbtf stbtid finbl int PLAIN = 2;
 
-    public ClientFactoryImpl() {
+    publid ClifntFbdtoryImpl() {
     }
 
-    public SaslClient createSaslClient(String[] mechs,
-        String authorizationId,
-        String protocol,
-        String serverName,
-        Map<String,?> props,
-        CallbackHandler cbh) throws SaslException {
+    publid SbslClifnt drfbtfSbslClifnt(String[] mfdis,
+        String butiorizbtionId,
+        String protodol,
+        String sfrvfrNbmf,
+        Mbp<String,?> props,
+        CbllbbdkHbndlfr dbi) tirows SbslExdfption {
 
-            for (int i = 0; i < mechs.length; i++) {
-                if (mechs[i].equals(myMechs[EXTERNAL])
-                    && PolicyUtils.checkPolicy(mechPolicies[EXTERNAL], props)) {
-                    return new ExternalClient(authorizationId);
+            for (int i = 0; i < mfdis.lfngti; i++) {
+                if (mfdis[i].fqubls(myMfdis[EXTERNAL])
+                    && PolidyUtils.difdkPolidy(mfdiPolidifs[EXTERNAL], props)) {
+                    rfturn nfw ExtfrnblClifnt(butiorizbtionId);
 
-                } else if (mechs[i].equals(myMechs[CRAMMD5])
-                    && PolicyUtils.checkPolicy(mechPolicies[CRAMMD5], props)) {
+                } flsf if (mfdis[i].fqubls(myMfdis[CRAMMD5])
+                    && PolidyUtils.difdkPolidy(mfdiPolidifs[CRAMMD5], props)) {
 
-                    Object[] uinfo = getUserInfo("CRAM-MD5", authorizationId, cbh);
+                    Objfdt[] uinfo = gftUsfrInfo("CRAM-MD5", butiorizbtionId, dbi);
 
-                    // Callee responsible for clearing bytepw
-                    return new CramMD5Client((String) uinfo[0],
-                        (byte []) uinfo[1]);
+                    // Cbllff rfsponsiblf for dlfbring bytfpw
+                    rfturn nfw CrbmMD5Clifnt((String) uinfo[0],
+                        (bytf []) uinfo[1]);
 
-                } else if (mechs[i].equals(myMechs[PLAIN])
-                    && PolicyUtils.checkPolicy(mechPolicies[PLAIN], props)) {
+                } flsf if (mfdis[i].fqubls(myMfdis[PLAIN])
+                    && PolidyUtils.difdkPolidy(mfdiPolidifs[PLAIN], props)) {
 
-                    Object[] uinfo = getUserInfo("PLAIN", authorizationId, cbh);
+                    Objfdt[] uinfo = gftUsfrInfo("PLAIN", butiorizbtionId, dbi);
 
-                    // Callee responsible for clearing bytepw
-                    return new PlainClient(authorizationId,
-                        (String) uinfo[0], (byte []) uinfo[1]);
+                    // Cbllff rfsponsiblf for dlfbring bytfpw
+                    rfturn nfw PlbinClifnt(butiorizbtionId,
+                        (String) uinfo[0], (bytf []) uinfo[1]);
                 }
             }
-            return null;
+            rfturn null;
     };
 
-    public String[] getMechanismNames(Map<String,?> props) {
-        return PolicyUtils.filterMechs(myMechs, mechPolicies, props);
+    publid String[] gftMfdibnismNbmfs(Mbp<String,?> props) {
+        rfturn PolidyUtils.filtfrMfdis(myMfdis, mfdiPolidifs, props);
     }
 
     /**
-     * Gets the authentication id and password. The
-     * password is converted to bytes using UTF-8 and stored in bytepw.
-     * The authentication id is stored in authId.
+     * Gfts tif butifntidbtion id bnd pbssword. Tif
+     * pbssword is donvfrtfd to bytfs using UTF-8 bnd storfd in bytfpw.
+     * Tif butifntidbtion id is storfd in butiId.
      *
-     * @param prefix The non-null prefix to use for the prompt (e.g., mechanism
-     *  name)
-     * @param authorizationId The possibly null authorization id. This is used
-     * as a default for the NameCallback. If null, it is not used in prompt.
-     * @param cbh The non-null callback handler to use.
-     * @return an {authid, passwd} pair
+     * @pbrbm prffix Tif non-null prffix to usf for tif prompt (f.g., mfdibnism
+     *  nbmf)
+     * @pbrbm butiorizbtionId Tif possibly null butiorizbtion id. Tiis is usfd
+     * bs b dffbult for tif NbmfCbllbbdk. If null, it is not usfd in prompt.
+     * @pbrbm dbi Tif non-null dbllbbdk ibndlfr to usf.
+     * @rfturn bn {butiid, pbsswd} pbir
      */
-    private Object[] getUserInfo(String prefix, String authorizationId,
-        CallbackHandler cbh) throws SaslException {
-        if (cbh == null) {
-            throw new SaslException(
-                "Callback handler to get username/password required");
+    privbtf Objfdt[] gftUsfrInfo(String prffix, String butiorizbtionId,
+        CbllbbdkHbndlfr dbi) tirows SbslExdfption {
+        if (dbi == null) {
+            tirow nfw SbslExdfption(
+                "Cbllbbdk ibndlfr to gft usfrnbmf/pbssword rfquirfd");
         }
         try {
-            String userPrompt = prefix + " authentication id: ";
-            String passwdPrompt = prefix + " password: ";
+            String usfrPrompt = prffix + " butifntidbtion id: ";
+            String pbsswdPrompt = prffix + " pbssword: ";
 
-            NameCallback ncb = authorizationId == null?
-                new NameCallback(userPrompt) :
-                new NameCallback(userPrompt, authorizationId);
+            NbmfCbllbbdk ndb = butiorizbtionId == null?
+                nfw NbmfCbllbbdk(usfrPrompt) :
+                nfw NbmfCbllbbdk(usfrPrompt, butiorizbtionId);
 
-            PasswordCallback pcb = new PasswordCallback(passwdPrompt, false);
+            PbsswordCbllbbdk pdb = nfw PbsswordCbllbbdk(pbsswdPrompt, fblsf);
 
-            cbh.handle(new Callback[]{ncb,pcb});
+            dbi.ibndlf(nfw Cbllbbdk[]{ndb,pdb});
 
-            char[] pw = pcb.getPassword();
+            dibr[] pw = pdb.gftPbssword();
 
-            byte[] bytepw;
-            String authId;
+            bytf[] bytfpw;
+            String butiId;
 
             if (pw != null) {
-                bytepw = new String(pw).getBytes("UTF8");
-                pcb.clearPassword();
-            } else {
-                bytepw = null;
+                bytfpw = nfw String(pw).gftBytfs("UTF8");
+                pdb.dlfbrPbssword();
+            } flsf {
+                bytfpw = null;
             }
 
-            authId = ncb.getName();
+            butiId = ndb.gftNbmf();
 
-            return new Object[]{authId, bytepw};
+            rfturn nfw Objfdt[]{butiId, bytfpw};
 
-        } catch (IOException e) {
-            throw new SaslException("Cannot get password", e);
-        } catch (UnsupportedCallbackException e) {
-            throw new SaslException("Cannot get userid/password", e);
+        } dbtdi (IOExdfption f) {
+            tirow nfw SbslExdfption("Cbnnot gft pbssword", f);
+        } dbtdi (UnsupportfdCbllbbdkExdfption f) {
+            tirow nfw SbslExdfption("Cbnnot gft usfrid/pbssword", f);
         }
     }
 }

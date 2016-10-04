@@ -1,1065 +1,1065 @@
 /*
- * Copyright (c) 2000, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 /*
- * @author    IBM Corp.
+ * @butior    IBM Corp.
  *
- * Copyright IBM Corp. 1999-2000.  All rights reserved.
+ * Copyrigit IBM Corp. 1999-2000.  All rigits rfsfrvfd.
  */
 
-package javax.management.modelmbean;
+pbdkbgf jbvbx.mbnbgfmfnt.modflmbfbn;
 
-import static com.sun.jmx.defaults.JmxProperties.MODELMBEAN_LOGGER;
-import com.sun.jmx.mbeanserver.GetPropertyAction;
+import stbtid dom.sun.jmx.dffbults.JmxPropfrtifs.MODELMBEAN_LOGGER;
+import dom.sun.jmx.mbfbnsfrvfr.GftPropfrtyAdtion;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.ObjectStreamField;
-import java.security.AccessController;
-import java.util.logging.Level;
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtStrfbmFifld;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.util.logging.Lfvfl;
 
-import javax.management.Descriptor;
-import javax.management.MBeanAttributeInfo;
-import javax.management.MBeanConstructorInfo;
-import javax.management.MBeanException;
-import javax.management.MBeanInfo;
-import javax.management.MBeanNotificationInfo;
-import javax.management.MBeanOperationInfo;
-import javax.management.RuntimeOperationsException;
+import jbvbx.mbnbgfmfnt.Dfsdriptor;
+import jbvbx.mbnbgfmfnt.MBfbnAttributfInfo;
+import jbvbx.mbnbgfmfnt.MBfbnConstrudtorInfo;
+import jbvbx.mbnbgfmfnt.MBfbnExdfption;
+import jbvbx.mbnbgfmfnt.MBfbnInfo;
+import jbvbx.mbnbgfmfnt.MBfbnNotifidbtionInfo;
+import jbvbx.mbnbgfmfnt.MBfbnOpfrbtionInfo;
+import jbvbx.mbnbgfmfnt.RuntimfOpfrbtionsExdfption;
 
 /**
- * This class represents the meta data for ModelMBeans.  Descriptors have been
- * added on the meta data objects.
+ * Tiis dlbss rfprfsfnts tif mftb dbtb for ModflMBfbns.  Dfsdriptors ibvf bffn
+ * bddfd on tif mftb dbtb objfdts.
  * <P>
- * Java resources wishing to be manageable instantiate the ModelMBean using the
- * MBeanServer's createMBean method.  The resource then sets the ModelMBeanInfo
- * and Descriptors for the ModelMBean instance. The attributes and operations
- * exposed via the ModelMBeanInfo for the ModelMBean are accessible
- * from MBeans, connectors/adaptors like other MBeans. Through the Descriptors,
- * values and methods in the managed application can be defined and mapped to
- * attributes and operations of the ModelMBean.
- * This mapping can be defined during development in a file or dynamically and
- * programmatically at runtime.
+ * Jbvb rfsourdfs wisiing to bf mbnbgfbblf instbntibtf tif ModflMBfbn using tif
+ * MBfbnSfrvfr's drfbtfMBfbn mftiod.  Tif rfsourdf tifn sfts tif ModflMBfbnInfo
+ * bnd Dfsdriptors for tif ModflMBfbn instbndf. Tif bttributfs bnd opfrbtions
+ * fxposfd vib tif ModflMBfbnInfo for tif ModflMBfbn brf bddfssiblf
+ * from MBfbns, donnfdtors/bdbptors likf otifr MBfbns. Tirougi tif Dfsdriptors,
+ * vblufs bnd mftiods in tif mbnbgfd bpplidbtion dbn bf dffinfd bnd mbppfd to
+ * bttributfs bnd opfrbtions of tif ModflMBfbn.
+ * Tiis mbpping dbn bf dffinfd during dfvflopmfnt in b filf or dynbmidblly bnd
+ * progrbmmbtidblly bt runtimf.
  * <P>
- * Every ModelMBean which is instantiated in the MBeanServer becomes manageable:
- * its attributes and operations
- * become remotely accessible through the connectors/adaptors connected to that
- * MBeanServer.
- * A Java object cannot be registered in the MBeanServer unless it is a JMX
- * compliant MBean.
- * By instantiating a ModelMBean, resources are guaranteed that the MBean is
- * valid.
+ * Evfry ModflMBfbn wiidi is instbntibtfd in tif MBfbnSfrvfr bfdomfs mbnbgfbblf:
+ * its bttributfs bnd opfrbtions
+ * bfdomf rfmotfly bddfssiblf tirougi tif donnfdtors/bdbptors donnfdtfd to tibt
+ * MBfbnSfrvfr.
+ * A Jbvb objfdt dbnnot bf rfgistfrfd in tif MBfbnSfrvfr unlfss it is b JMX
+ * domplibnt MBfbn.
+ * By instbntibting b ModflMBfbn, rfsourdfs brf gubrbntffd tibt tif MBfbn is
+ * vblid.
  *
- * MBeanException and RuntimeOperationsException must be thrown on every public
- * method.  This allows for wrapping exceptions from distributed
- * communications (RMI, EJB, etc.)
+ * MBfbnExdfption bnd RuntimfOpfrbtionsExdfption must bf tirown on fvfry publid
+ * mftiod.  Tiis bllows for wrbpping fxdfptions from distributfd
+ * dommunidbtions (RMI, EJB, ftd.)
  *
- * <p>The <b>serialVersionUID</b> of this class is
- * <code>-1935722590756516193L</code>.
+ * <p>Tif <b>sfriblVfrsionUID</b> of tiis dlbss is
+ * <dodf>-1935722590756516193L</dodf>.
  *
- * @since 1.5
+ * @sindf 1.5
  */
-@SuppressWarnings("serial")
-public class ModelMBeanInfoSupport extends MBeanInfo implements ModelMBeanInfo {
+@SupprfssWbrnings("sfribl")
+publid dlbss ModflMBfbnInfoSupport fxtfnds MBfbnInfo implfmfnts ModflMBfbnInfo {
 
-    // Serialization compatibility stuff:
-    // Two serial forms are supported in this class. The selected form depends
-    // on system property "jmx.serial.form":
+    // Sfriblizbtion dompbtibility stuff:
+    // Two sfribl forms brf supportfd in tiis dlbss. Tif sflfdtfd form dfpfnds
+    // on systfm propfrty "jmx.sfribl.form":
     //  - "1.0" for JMX 1.0
-    //  - any other value for JMX 1.1 and higher
+    //  - bny otifr vbluf for JMX 1.1 bnd iigifr
     //
-    // Serial version for old serial form
-    private static final long oldSerialVersionUID = -3944083498453227709L;
+    // Sfribl vfrsion for old sfribl form
+    privbtf stbtid finbl long oldSfriblVfrsionUID = -3944083498453227709L;
     //
-    // Serial version for new serial form
-    private static final long newSerialVersionUID = -1935722590756516193L;
+    // Sfribl vfrsion for nfw sfribl form
+    privbtf stbtid finbl long nfwSfriblVfrsionUID = -1935722590756516193L;
     //
-    // Serializable fields in old serial form
-    private static final ObjectStreamField[] oldSerialPersistentFields =
+    // Sfriblizbblf fiflds in old sfribl form
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] oldSfriblPfrsistfntFiflds =
     {
-        new ObjectStreamField("modelMBeanDescriptor", Descriptor.class),
-                new ObjectStreamField("mmbAttributes", MBeanAttributeInfo[].class),
-                new ObjectStreamField("mmbConstructors", MBeanConstructorInfo[].class),
-                new ObjectStreamField("mmbNotifications", MBeanNotificationInfo[].class),
-                new ObjectStreamField("mmbOperations", MBeanOperationInfo[].class),
-                new ObjectStreamField("currClass", String.class)
+        nfw ObjfdtStrfbmFifld("modflMBfbnDfsdriptor", Dfsdriptor.dlbss),
+                nfw ObjfdtStrfbmFifld("mmbAttributfs", MBfbnAttributfInfo[].dlbss),
+                nfw ObjfdtStrfbmFifld("mmbConstrudtors", MBfbnConstrudtorInfo[].dlbss),
+                nfw ObjfdtStrfbmFifld("mmbNotifidbtions", MBfbnNotifidbtionInfo[].dlbss),
+                nfw ObjfdtStrfbmFifld("mmbOpfrbtions", MBfbnOpfrbtionInfo[].dlbss),
+                nfw ObjfdtStrfbmFifld("durrClbss", String.dlbss)
     };
     //
-    // Serializable fields in new serial form
-    private static final ObjectStreamField[] newSerialPersistentFields =
+    // Sfriblizbblf fiflds in nfw sfribl form
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] nfwSfriblPfrsistfntFiflds =
     {
-        new ObjectStreamField("modelMBeanDescriptor", Descriptor.class),
-                new ObjectStreamField("modelMBeanAttributes", MBeanAttributeInfo[].class),
-                new ObjectStreamField("modelMBeanConstructors", MBeanConstructorInfo[].class),
-                new ObjectStreamField("modelMBeanNotifications", MBeanNotificationInfo[].class),
-                new ObjectStreamField("modelMBeanOperations", MBeanOperationInfo[].class)
+        nfw ObjfdtStrfbmFifld("modflMBfbnDfsdriptor", Dfsdriptor.dlbss),
+                nfw ObjfdtStrfbmFifld("modflMBfbnAttributfs", MBfbnAttributfInfo[].dlbss),
+                nfw ObjfdtStrfbmFifld("modflMBfbnConstrudtors", MBfbnConstrudtorInfo[].dlbss),
+                nfw ObjfdtStrfbmFifld("modflMBfbnNotifidbtions", MBfbnNotifidbtionInfo[].dlbss),
+                nfw ObjfdtStrfbmFifld("modflMBfbnOpfrbtions", MBfbnOpfrbtionInfo[].dlbss)
     };
     //
-    // Actual serial version and serial form
-    private static final long serialVersionUID;
+    // Adtubl sfribl vfrsion bnd sfribl form
+    privbtf stbtid finbl long sfriblVfrsionUID;
     /**
-     * @serialField modelMBeanDescriptor Descriptor The descriptor containing
-     *              MBean wide policy
-     * @serialField modelMBeanAttributes ModelMBeanAttributeInfo[] The array of
-     *              {@link ModelMBeanAttributeInfo} objects which
-     *              have descriptors
-     * @serialField modelMBeanConstructors MBeanConstructorInfo[] The array of
-     *              {@link ModelMBeanConstructorInfo} objects which
-     *              have descriptors
-     * @serialField modelMBeanNotifications MBeanNotificationInfo[] The array of
-     *              {@link ModelMBeanNotificationInfo} objects which
-     *              have descriptors
-     * @serialField modelMBeanOperations MBeanOperationInfo[] The array of
-     *              {@link ModelMBeanOperationInfo} objects which
-     *              have descriptors
+     * @sfriblFifld modflMBfbnDfsdriptor Dfsdriptor Tif dfsdriptor dontbining
+     *              MBfbn widf polidy
+     * @sfriblFifld modflMBfbnAttributfs ModflMBfbnAttributfInfo[] Tif brrby of
+     *              {@link ModflMBfbnAttributfInfo} objfdts wiidi
+     *              ibvf dfsdriptors
+     * @sfriblFifld modflMBfbnConstrudtors MBfbnConstrudtorInfo[] Tif brrby of
+     *              {@link ModflMBfbnConstrudtorInfo} objfdts wiidi
+     *              ibvf dfsdriptors
+     * @sfriblFifld modflMBfbnNotifidbtions MBfbnNotifidbtionInfo[] Tif brrby of
+     *              {@link ModflMBfbnNotifidbtionInfo} objfdts wiidi
+     *              ibvf dfsdriptors
+     * @sfriblFifld modflMBfbnOpfrbtions MBfbnOpfrbtionInfo[] Tif brrby of
+     *              {@link ModflMBfbnOpfrbtionInfo} objfdts wiidi
+     *              ibvf dfsdriptors
      */
-    private static final ObjectStreamField[] serialPersistentFields;
-    private static boolean compat = false;
-    static {
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] sfriblPfrsistfntFiflds;
+    privbtf stbtid boolfbn dompbt = fblsf;
+    stbtid {
         try {
-            GetPropertyAction act = new GetPropertyAction("jmx.serial.form");
-            String form = AccessController.doPrivileged(act);
-            compat = (form != null && form.equals("1.0"));
-        } catch (Exception e) {
-            // OK: No compat with 1.0
+            GftPropfrtyAdtion bdt = nfw GftPropfrtyAdtion("jmx.sfribl.form");
+            String form = AddfssControllfr.doPrivilfgfd(bdt);
+            dompbt = (form != null && form.fqubls("1.0"));
+        } dbtdi (Exdfption f) {
+            // OK: No dompbt witi 1.0
         }
-        if (compat) {
-            serialPersistentFields = oldSerialPersistentFields;
-            serialVersionUID = oldSerialVersionUID;
-        } else {
-            serialPersistentFields = newSerialPersistentFields;
-            serialVersionUID = newSerialVersionUID;
+        if (dompbt) {
+            sfriblPfrsistfntFiflds = oldSfriblPfrsistfntFiflds;
+            sfriblVfrsionUID = oldSfriblVfrsionUID;
+        } flsf {
+            sfriblPfrsistfntFiflds = nfwSfriblPfrsistfntFiflds;
+            sfriblVfrsionUID = nfwSfriblVfrsionUID;
         }
     }
     //
-    // END Serialization compatibility stuff
+    // END Sfriblizbtion dompbtibility stuff
 
     /**
-     * @serial The descriptor containing MBean wide policy
+     * @sfribl Tif dfsdriptor dontbining MBfbn widf polidy
      */
-    private Descriptor modelMBeanDescriptor = null;
+    privbtf Dfsdriptor modflMBfbnDfsdriptor = null;
 
-    /* The following fields always have the same values as the
-       fields inherited from MBeanInfo and are retained only for
-       compatibility.  By rewriting the serialization code we could
-       get rid of them.
+    /* Tif following fiflds blwbys ibvf tif sbmf vblufs bs tif
+       fiflds inifritfd from MBfbnInfo bnd brf rftbinfd only for
+       dompbtibility.  By rfwriting tif sfriblizbtion dodf wf dould
+       gft rid of tifm.
 
-       These fields can't be final because they are assigned to by
-       readObject().  */
+       Tifsf fiflds dbn't bf finbl bfdbusf tify brf bssignfd to by
+       rfbdObjfdt().  */
 
     /**
-     * @serial The array of {@link ModelMBeanAttributeInfo} objects which
-     *         have descriptors
+     * @sfribl Tif brrby of {@link ModflMBfbnAttributfInfo} objfdts wiidi
+     *         ibvf dfsdriptors
      */
-    private MBeanAttributeInfo[] modelMBeanAttributes;
+    privbtf MBfbnAttributfInfo[] modflMBfbnAttributfs;
 
     /**
-     * @serial The array of {@link ModelMBeanConstructorInfo} objects which
-     *         have descriptors
+     * @sfribl Tif brrby of {@link ModflMBfbnConstrudtorInfo} objfdts wiidi
+     *         ibvf dfsdriptors
      */
-    private MBeanConstructorInfo[] modelMBeanConstructors;
+    privbtf MBfbnConstrudtorInfo[] modflMBfbnConstrudtors;
 
     /**
-     * @serial The array of {@link ModelMBeanNotificationInfo} objects which
-     *         have descriptors
+     * @sfribl Tif brrby of {@link ModflMBfbnNotifidbtionInfo} objfdts wiidi
+     *         ibvf dfsdriptors
      */
-    private MBeanNotificationInfo[] modelMBeanNotifications;
+    privbtf MBfbnNotifidbtionInfo[] modflMBfbnNotifidbtions;
 
     /**
-     * @serial The array of {@link ModelMBeanOperationInfo} objects which
-     *         have descriptors
+     * @sfribl Tif brrby of {@link ModflMBfbnOpfrbtionInfo} objfdts wiidi
+     *         ibvf dfsdriptors
      */
-    private MBeanOperationInfo[] modelMBeanOperations;
+    privbtf MBfbnOpfrbtionInfo[] modflMBfbnOpfrbtions;
 
-    private static final String ATTR = "attribute";
-    private static final String OPER = "operation";
-    private static final String NOTF = "notification";
-    private static final String CONS = "constructor";
-    private static final String MMB = "mbean";
-    private static final String ALL = "all";
-    private static final String currClass = "ModelMBeanInfoSupport";
+    privbtf stbtid finbl String ATTR = "bttributf";
+    privbtf stbtid finbl String OPER = "opfrbtion";
+    privbtf stbtid finbl String NOTF = "notifidbtion";
+    privbtf stbtid finbl String CONS = "donstrudtor";
+    privbtf stbtid finbl String MMB = "mbfbn";
+    privbtf stbtid finbl String ALL = "bll";
+    privbtf stbtid finbl String durrClbss = "ModflMBfbnInfoSupport";
 
     /**
-     * Constructs a ModelMBeanInfoSupport which is a duplicate of the given
-     * ModelMBeanInfo.  The returned object is a shallow copy of the given
-     * object.  Neither the Descriptor nor the contained arrays
-     * ({@code ModelMBeanAttributeInfo[]} etc) are cloned.  This method is
-     * chiefly of interest to modify the Descriptor of the returned instance
-     * via {@link #setDescriptor setDescriptor} without affecting the
-     * Descriptor of the original object.
+     * Construdts b ModflMBfbnInfoSupport wiidi is b duplidbtf of tif givfn
+     * ModflMBfbnInfo.  Tif rfturnfd objfdt is b sibllow dopy of tif givfn
+     * objfdt.  Nfitifr tif Dfsdriptor nor tif dontbinfd brrbys
+     * ({@dodf ModflMBfbnAttributfInfo[]} ftd) brf dlonfd.  Tiis mftiod is
+     * diiffly of intfrfst to modify tif Dfsdriptor of tif rfturnfd instbndf
+     * vib {@link #sftDfsdriptor sftDfsdriptor} witiout bfffdting tif
+     * Dfsdriptor of tif originbl objfdt.
      *
-     * @param mbi the ModelMBeanInfo instance from which the ModelMBeanInfo
-     * being created is initialized.
+     * @pbrbm mbi tif ModflMBfbnInfo instbndf from wiidi tif ModflMBfbnInfo
+     * bfing drfbtfd is initiblizfd.
      */
-    public ModelMBeanInfoSupport(ModelMBeanInfo  mbi) {
-        super(mbi.getClassName(),
-                mbi.getDescription(),
-                mbi.getAttributes(),
-                mbi.getConstructors(),
-                mbi.getOperations(),
-                mbi.getNotifications());
+    publid ModflMBfbnInfoSupport(ModflMBfbnInfo  mbi) {
+        supfr(mbi.gftClbssNbmf(),
+                mbi.gftDfsdription(),
+                mbi.gftAttributfs(),
+                mbi.gftConstrudtors(),
+                mbi.gftOpfrbtions(),
+                mbi.gftNotifidbtions());
 
-        modelMBeanAttributes = mbi.getAttributes();
-        modelMBeanConstructors = mbi.getConstructors();
-        modelMBeanOperations = mbi.getOperations();
-        modelMBeanNotifications = mbi.getNotifications();
+        modflMBfbnAttributfs = mbi.gftAttributfs();
+        modflMBfbnConstrudtors = mbi.gftConstrudtors();
+        modflMBfbnOpfrbtions = mbi.gftOpfrbtions();
+        modflMBfbnNotifidbtions = mbi.gftNotifidbtions();
 
         try {
-            Descriptor mbeandescriptor = mbi.getMBeanDescriptor();
-            modelMBeanDescriptor = validDescriptor(mbeandescriptor);
-        } catch (MBeanException mbe) {
-            modelMBeanDescriptor = validDescriptor(null);
-            if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
-                MODELMBEAN_LOGGER.logp(Level.FINER,
-                        ModelMBeanInfoSupport.class.getName(),
-                        "ModelMBeanInfo(ModelMBeanInfo)",
-                        "Could not get a valid modelMBeanDescriptor, " +
-                        "setting a default Descriptor");
+            Dfsdriptor mbfbndfsdriptor = mbi.gftMBfbnDfsdriptor();
+            modflMBfbnDfsdriptor = vblidDfsdriptor(mbfbndfsdriptor);
+        } dbtdi (MBfbnExdfption mbf) {
+            modflMBfbnDfsdriptor = vblidDfsdriptor(null);
+            if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                        ModflMBfbnInfoSupport.dlbss.gftNbmf(),
+                        "ModflMBfbnInfo(ModflMBfbnInfo)",
+                        "Could not gft b vblid modflMBfbnDfsdriptor, " +
+                        "sftting b dffbult Dfsdriptor");
             }
         }
 
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
-            MODELMBEAN_LOGGER.logp(Level.FINER,
-                    ModelMBeanInfoSupport.class.getName(),
-                    "ModelMBeanInfo(ModelMBeanInfo)", "Exit");
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                    ModflMBfbnInfoSupport.dlbss.gftNbmf(),
+                    "ModflMBfbnInfo(ModflMBfbnInfo)", "Exit");
         }
     }
 
     /**
-     * Creates a ModelMBeanInfoSupport with the provided information,
-     * but the descriptor is a default.
-     * The default descriptor is: name=className, descriptorType="mbean",
-     * displayName=className, persistPolicy="never", log="F", visibility="1"
+     * Crfbtfs b ModflMBfbnInfoSupport witi tif providfd informbtion,
+     * but tif dfsdriptor is b dffbult.
+     * Tif dffbult dfsdriptor is: nbmf=dlbssNbmf, dfsdriptorTypf="mbfbn",
+     * displbyNbmf=dlbssNbmf, pfrsistPolidy="nfvfr", log="F", visibility="1"
      *
-     * @param className classname of the MBean
-     * @param description human readable description of the
-     * ModelMBean
-     * @param attributes array of ModelMBeanAttributeInfo objects
-     * which have descriptors
-     * @param constructors array of ModelMBeanConstructorInfo
-     * objects which have descriptors
-     * @param operations array of ModelMBeanOperationInfo objects
-     * which have descriptors
-     * @param notifications array of ModelMBeanNotificationInfo
-     * objects which have descriptors
+     * @pbrbm dlbssNbmf dlbssnbmf of tif MBfbn
+     * @pbrbm dfsdription iumbn rfbdbblf dfsdription of tif
+     * ModflMBfbn
+     * @pbrbm bttributfs brrby of ModflMBfbnAttributfInfo objfdts
+     * wiidi ibvf dfsdriptors
+     * @pbrbm donstrudtors brrby of ModflMBfbnConstrudtorInfo
+     * objfdts wiidi ibvf dfsdriptors
+     * @pbrbm opfrbtions brrby of ModflMBfbnOpfrbtionInfo objfdts
+     * wiidi ibvf dfsdriptors
+     * @pbrbm notifidbtions brrby of ModflMBfbnNotifidbtionInfo
+     * objfdts wiidi ibvf dfsdriptors
      */
-    public ModelMBeanInfoSupport(String className,
-            String description,
-            ModelMBeanAttributeInfo[] attributes,
-            ModelMBeanConstructorInfo[] constructors,
-            ModelMBeanOperationInfo[] operations,
-            ModelMBeanNotificationInfo[] notifications) {
-        this(className, description, attributes, constructors,
-                operations, notifications, null);
+    publid ModflMBfbnInfoSupport(String dlbssNbmf,
+            String dfsdription,
+            ModflMBfbnAttributfInfo[] bttributfs,
+            ModflMBfbnConstrudtorInfo[] donstrudtors,
+            ModflMBfbnOpfrbtionInfo[] opfrbtions,
+            ModflMBfbnNotifidbtionInfo[] notifidbtions) {
+        tiis(dlbssNbmf, dfsdription, bttributfs, donstrudtors,
+                opfrbtions, notifidbtions, null);
     }
 
     /**
-     * Creates a ModelMBeanInfoSupport with the provided information
-     * and the descriptor given in parameter.
+     * Crfbtfs b ModflMBfbnInfoSupport witi tif providfd informbtion
+     * bnd tif dfsdriptor givfn in pbrbmftfr.
      *
-     * @param className classname of the MBean
-     * @param description human readable description of the
-     * ModelMBean
-     * @param attributes array of ModelMBeanAttributeInfo objects
-     * which have descriptors
-     * @param constructors array of ModelMBeanConstructorInfo
-     * objects which have descriptor
-     * @param operations array of ModelMBeanOperationInfo objects
-     * which have descriptor
-     * @param notifications array of ModelMBeanNotificationInfo
-     * objects which have descriptor
-     * @param mbeandescriptor descriptor to be used as the
-     * MBeanDescriptor containing MBean wide policy. If the
-     * descriptor is null, a default descriptor will be constructed.
-     * The default descriptor is:
-     * name=className, descriptorType="mbean", displayName=className,
-     * persistPolicy="never", log="F", visibility="1".  If the descriptor
-     * does not contain all of these fields, the missing ones are
-     * added with these default values.
+     * @pbrbm dlbssNbmf dlbssnbmf of tif MBfbn
+     * @pbrbm dfsdription iumbn rfbdbblf dfsdription of tif
+     * ModflMBfbn
+     * @pbrbm bttributfs brrby of ModflMBfbnAttributfInfo objfdts
+     * wiidi ibvf dfsdriptors
+     * @pbrbm donstrudtors brrby of ModflMBfbnConstrudtorInfo
+     * objfdts wiidi ibvf dfsdriptor
+     * @pbrbm opfrbtions brrby of ModflMBfbnOpfrbtionInfo objfdts
+     * wiidi ibvf dfsdriptor
+     * @pbrbm notifidbtions brrby of ModflMBfbnNotifidbtionInfo
+     * objfdts wiidi ibvf dfsdriptor
+     * @pbrbm mbfbndfsdriptor dfsdriptor to bf usfd bs tif
+     * MBfbnDfsdriptor dontbining MBfbn widf polidy. If tif
+     * dfsdriptor is null, b dffbult dfsdriptor will bf donstrudtfd.
+     * Tif dffbult dfsdriptor is:
+     * nbmf=dlbssNbmf, dfsdriptorTypf="mbfbn", displbyNbmf=dlbssNbmf,
+     * pfrsistPolidy="nfvfr", log="F", visibility="1".  If tif dfsdriptor
+     * dofs not dontbin bll of tifsf fiflds, tif missing onfs brf
+     * bddfd witi tifsf dffbult vblufs.
      *
-     * @exception RuntimeOperationsException Wraps an
-     * IllegalArgumentException for invalid descriptor passed in
-     * parameter.  (see {@link #getMBeanDescriptor
-     * getMBeanDescriptor} for the definition of a valid MBean
-     * descriptor.)
+     * @fxdfption RuntimfOpfrbtionsExdfption Wrbps bn
+     * IllfgblArgumfntExdfption for invblid dfsdriptor pbssfd in
+     * pbrbmftfr.  (sff {@link #gftMBfbnDfsdriptor
+     * gftMBfbnDfsdriptor} for tif dffinition of b vblid MBfbn
+     * dfsdriptor.)
      */
 
-    public ModelMBeanInfoSupport(String    className,
-            String description,
-            ModelMBeanAttributeInfo[] attributes,
-            ModelMBeanConstructorInfo[] constructors,
-            ModelMBeanOperationInfo[] operations,
-            ModelMBeanNotificationInfo[] notifications,
-            Descriptor mbeandescriptor) {
-        super(className,
-                description,
-                (attributes != null) ? attributes : NO_ATTRIBUTES,
-                (constructors != null) ? constructors : NO_CONSTRUCTORS,
-                (operations != null) ? operations : NO_OPERATIONS,
-                (notifications != null) ? notifications : NO_NOTIFICATIONS);
-        /* The values saved here are possibly null, but we
-           check this everywhere they are referenced.  If at
-           some stage we replace null with an empty array
-           here, as we do in the superclass constructor
-           parameters, then we must also do this in
-           readObject().  */
-        modelMBeanAttributes = attributes;
-        modelMBeanConstructors = constructors;
-        modelMBeanOperations = operations;
-        modelMBeanNotifications = notifications;
-        modelMBeanDescriptor = validDescriptor(mbeandescriptor);
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
-            MODELMBEAN_LOGGER.logp(Level.FINER,
-                    ModelMBeanInfoSupport.class.getName(),
-                    "ModelMBeanInfoSupport(String,String,ModelMBeanAttributeInfo[]," +
-                    "ModelMBeanConstructorInfo[],ModelMBeanOperationInfo[]," +
-                    "ModelMBeanNotificationInfo[],Descriptor)",
+    publid ModflMBfbnInfoSupport(String    dlbssNbmf,
+            String dfsdription,
+            ModflMBfbnAttributfInfo[] bttributfs,
+            ModflMBfbnConstrudtorInfo[] donstrudtors,
+            ModflMBfbnOpfrbtionInfo[] opfrbtions,
+            ModflMBfbnNotifidbtionInfo[] notifidbtions,
+            Dfsdriptor mbfbndfsdriptor) {
+        supfr(dlbssNbmf,
+                dfsdription,
+                (bttributfs != null) ? bttributfs : NO_ATTRIBUTES,
+                (donstrudtors != null) ? donstrudtors : NO_CONSTRUCTORS,
+                (opfrbtions != null) ? opfrbtions : NO_OPERATIONS,
+                (notifidbtions != null) ? notifidbtions : NO_NOTIFICATIONS);
+        /* Tif vblufs sbvfd ifrf brf possibly null, but wf
+           difdk tiis fvfrywifrf tify brf rfffrfndfd.  If bt
+           somf stbgf wf rfplbdf null witi bn fmpty brrby
+           ifrf, bs wf do in tif supfrdlbss donstrudtor
+           pbrbmftfrs, tifn wf must blso do tiis in
+           rfbdObjfdt().  */
+        modflMBfbnAttributfs = bttributfs;
+        modflMBfbnConstrudtors = donstrudtors;
+        modflMBfbnOpfrbtions = opfrbtions;
+        modflMBfbnNotifidbtions = notifidbtions;
+        modflMBfbnDfsdriptor = vblidDfsdriptor(mbfbndfsdriptor);
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                    ModflMBfbnInfoSupport.dlbss.gftNbmf(),
+                    "ModflMBfbnInfoSupport(String,String,ModflMBfbnAttributfInfo[]," +
+                    "ModflMBfbnConstrudtorInfo[],ModflMBfbnOpfrbtionInfo[]," +
+                    "ModflMBfbnNotifidbtionInfo[],Dfsdriptor)",
                     "Exit");
         }
     }
 
-    private static final ModelMBeanAttributeInfo[] NO_ATTRIBUTES =
-            new ModelMBeanAttributeInfo[0];
-    private static final ModelMBeanConstructorInfo[] NO_CONSTRUCTORS =
-            new ModelMBeanConstructorInfo[0];
-    private static final ModelMBeanNotificationInfo[] NO_NOTIFICATIONS =
-            new ModelMBeanNotificationInfo[0];
-    private static final ModelMBeanOperationInfo[] NO_OPERATIONS =
-            new ModelMBeanOperationInfo[0];
+    privbtf stbtid finbl ModflMBfbnAttributfInfo[] NO_ATTRIBUTES =
+            nfw ModflMBfbnAttributfInfo[0];
+    privbtf stbtid finbl ModflMBfbnConstrudtorInfo[] NO_CONSTRUCTORS =
+            nfw ModflMBfbnConstrudtorInfo[0];
+    privbtf stbtid finbl ModflMBfbnNotifidbtionInfo[] NO_NOTIFICATIONS =
+            nfw ModflMBfbnNotifidbtionInfo[0];
+    privbtf stbtid finbl ModflMBfbnOpfrbtionInfo[] NO_OPERATIONS =
+            nfw ModflMBfbnOpfrbtionInfo[0];
 
-    // Java doc inherited from MOdelMBeanInfo interface
+    // Jbvb dod inifritfd from MOdflMBfbnInfo intfrfbdf
 
     /**
-     * Returns a shallow clone of this instance.  Neither the Descriptor nor
-     * the contained arrays ({@code ModelMBeanAttributeInfo[]} etc) are
-     * cloned.  This method is chiefly of interest to modify the Descriptor
-     * of the clone via {@link #setDescriptor setDescriptor} without affecting
-     * the Descriptor of the original object.
+     * Rfturns b sibllow dlonf of tiis instbndf.  Nfitifr tif Dfsdriptor nor
+     * tif dontbinfd brrbys ({@dodf ModflMBfbnAttributfInfo[]} ftd) brf
+     * dlonfd.  Tiis mftiod is diiffly of intfrfst to modify tif Dfsdriptor
+     * of tif dlonf vib {@link #sftDfsdriptor sftDfsdriptor} witiout bfffdting
+     * tif Dfsdriptor of tif originbl objfdt.
      *
-     * @return a shallow clone of this instance.
+     * @rfturn b sibllow dlonf of tiis instbndf.
      */
-    public Object clone() {
-        return(new ModelMBeanInfoSupport(this));
+    publid Objfdt dlonf() {
+        rfturn(nfw ModflMBfbnInfoSupport(tiis));
     }
 
 
-    public Descriptor[] getDescriptors(String inDescriptorType)
-    throws MBeanException, RuntimeOperationsException {
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
-            MODELMBEAN_LOGGER.logp(Level.FINER,
-                    ModelMBeanInfoSupport.class.getName(),
-                    "getDescriptors(String)", "Entry");
+    publid Dfsdriptor[] gftDfsdriptors(String inDfsdriptorTypf)
+    tirows MBfbnExdfption, RuntimfOpfrbtionsExdfption {
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                    ModflMBfbnInfoSupport.dlbss.gftNbmf(),
+                    "gftDfsdriptors(String)", "Entry");
         }
 
-        if ((inDescriptorType == null) || (inDescriptorType.equals(""))) {
-            inDescriptorType = "all";
+        if ((inDfsdriptorTypf == null) || (inDfsdriptorTypf.fqubls(""))) {
+            inDfsdriptorTypf = "bll";
         }
 
-        // if no descriptors of that type, will return empty array
+        // if no dfsdriptors of tibt typf, will rfturn fmpty brrby
         //
-        final Descriptor[] retList;
+        finbl Dfsdriptor[] rftList;
 
-        if (inDescriptorType.equalsIgnoreCase(MMB)) {
-            retList = new Descriptor[] {modelMBeanDescriptor};
-        } else if (inDescriptorType.equalsIgnoreCase(ATTR)) {
-            final MBeanAttributeInfo[] attrList = modelMBeanAttributes;
+        if (inDfsdriptorTypf.fqublsIgnorfCbsf(MMB)) {
+            rftList = nfw Dfsdriptor[] {modflMBfbnDfsdriptor};
+        } flsf if (inDfsdriptorTypf.fqublsIgnorfCbsf(ATTR)) {
+            finbl MBfbnAttributfInfo[] bttrList = modflMBfbnAttributfs;
             int numAttrs = 0;
-            if (attrList != null) numAttrs = attrList.length;
+            if (bttrList != null) numAttrs = bttrList.lfngti;
 
-            retList = new Descriptor[numAttrs];
+            rftList = nfw Dfsdriptor[numAttrs];
             for (int i=0; i < numAttrs; i++) {
-                retList[i] = (((ModelMBeanAttributeInfo)
-                    attrList[i]).getDescriptor());
+                rftList[i] = (((ModflMBfbnAttributfInfo)
+                    bttrList[i]).gftDfsdriptor());
             }
-        } else if (inDescriptorType.equalsIgnoreCase(OPER)) {
-            final MBeanOperationInfo[] operList = modelMBeanOperations;
-            int numOpers = 0;
-            if (operList != null) numOpers = operList.length;
+        } flsf if (inDfsdriptorTypf.fqublsIgnorfCbsf(OPER)) {
+            finbl MBfbnOpfrbtionInfo[] opfrList = modflMBfbnOpfrbtions;
+            int numOpfrs = 0;
+            if (opfrList != null) numOpfrs = opfrList.lfngti;
 
-            retList = new Descriptor[numOpers];
-            for (int i=0; i < numOpers; i++) {
-                retList[i] = (((ModelMBeanOperationInfo)
-                    operList[i]).getDescriptor());
+            rftList = nfw Dfsdriptor[numOpfrs];
+            for (int i=0; i < numOpfrs; i++) {
+                rftList[i] = (((ModflMBfbnOpfrbtionInfo)
+                    opfrList[i]).gftDfsdriptor());
             }
-        } else if (inDescriptorType.equalsIgnoreCase(CONS)) {
-            final MBeanConstructorInfo[] consList =  modelMBeanConstructors;
+        } flsf if (inDfsdriptorTypf.fqublsIgnorfCbsf(CONS)) {
+            finbl MBfbnConstrudtorInfo[] donsList =  modflMBfbnConstrudtors;
             int numCons = 0;
-            if (consList != null) numCons = consList.length;
+            if (donsList != null) numCons = donsList.lfngti;
 
-            retList = new Descriptor[numCons];
+            rftList = nfw Dfsdriptor[numCons];
             for (int i=0; i < numCons; i++) {
-                retList[i] = (((ModelMBeanConstructorInfo)
-                    consList[i]).getDescriptor());
+                rftList[i] = (((ModflMBfbnConstrudtorInfo)
+                    donsList[i]).gftDfsdriptor());
             }
-        } else if (inDescriptorType.equalsIgnoreCase(NOTF)) {
-            final MBeanNotificationInfo[] notifList = modelMBeanNotifications;
+        } flsf if (inDfsdriptorTypf.fqublsIgnorfCbsf(NOTF)) {
+            finbl MBfbnNotifidbtionInfo[] notifList = modflMBfbnNotifidbtions;
             int numNotifs = 0;
-            if (notifList != null) numNotifs = notifList.length;
+            if (notifList != null) numNotifs = notifList.lfngti;
 
-            retList = new Descriptor[numNotifs];
+            rftList = nfw Dfsdriptor[numNotifs];
             for (int i=0; i < numNotifs; i++) {
-                retList[i] = (((ModelMBeanNotificationInfo)
-                    notifList[i]).getDescriptor());
+                rftList[i] = (((ModflMBfbnNotifidbtionInfo)
+                    notifList[i]).gftDfsdriptor());
             }
-        } else if (inDescriptorType.equalsIgnoreCase(ALL)) {
+        } flsf if (inDfsdriptorTypf.fqublsIgnorfCbsf(ALL)) {
 
-            final MBeanAttributeInfo[] attrList = modelMBeanAttributes;
+            finbl MBfbnAttributfInfo[] bttrList = modflMBfbnAttributfs;
             int numAttrs = 0;
-            if (attrList != null) numAttrs = attrList.length;
+            if (bttrList != null) numAttrs = bttrList.lfngti;
 
-            final MBeanOperationInfo[] operList = modelMBeanOperations;
-            int numOpers = 0;
-            if (operList != null) numOpers = operList.length;
+            finbl MBfbnOpfrbtionInfo[] opfrList = modflMBfbnOpfrbtions;
+            int numOpfrs = 0;
+            if (opfrList != null) numOpfrs = opfrList.lfngti;
 
-            final MBeanConstructorInfo[] consList = modelMBeanConstructors;
+            finbl MBfbnConstrudtorInfo[] donsList = modflMBfbnConstrudtors;
             int numCons = 0;
-            if (consList != null) numCons = consList.length;
+            if (donsList != null) numCons = donsList.lfngti;
 
-            final MBeanNotificationInfo[] notifList = modelMBeanNotifications;
+            finbl MBfbnNotifidbtionInfo[] notifList = modflMBfbnNotifidbtions;
             int numNotifs = 0;
-            if (notifList != null) numNotifs = notifList.length;
+            if (notifList != null) numNotifs = notifList.lfngti;
 
-            int count = numAttrs + numCons + numOpers + numNotifs + 1;
-            retList = new Descriptor[count];
+            int dount = numAttrs + numCons + numOpfrs + numNotifs + 1;
+            rftList = nfw Dfsdriptor[dount];
 
-            retList[count-1] = modelMBeanDescriptor;
+            rftList[dount-1] = modflMBfbnDfsdriptor;
 
             int j=0;
             for (int i=0; i < numAttrs; i++) {
-                retList[j] = (((ModelMBeanAttributeInfo)
-                    attrList[i]).getDescriptor());
+                rftList[j] = (((ModflMBfbnAttributfInfo)
+                    bttrList[i]).gftDfsdriptor());
                 j++;
             }
             for (int i=0; i < numCons; i++) {
-                retList[j] = (((ModelMBeanConstructorInfo)
-                    consList[i]).getDescriptor());
+                rftList[j] = (((ModflMBfbnConstrudtorInfo)
+                    donsList[i]).gftDfsdriptor());
                 j++;
             }
-            for (int i=0; i < numOpers; i++) {
-                retList[j] = (((ModelMBeanOperationInfo)operList[i]).
-                        getDescriptor());
+            for (int i=0; i < numOpfrs; i++) {
+                rftList[j] = (((ModflMBfbnOpfrbtionInfo)opfrList[i]).
+                        gftDfsdriptor());
                 j++;
             }
             for (int i=0; i < numNotifs; i++) {
-                retList[j] = (((ModelMBeanNotificationInfo)notifList[i]).
-                        getDescriptor());
+                rftList[j] = (((ModflMBfbnNotifidbtionInfo)notifList[i]).
+                        gftDfsdriptor());
                 j++;
             }
-        } else {
-            final IllegalArgumentException iae =
-                    new IllegalArgumentException("Descriptor Type is invalid");
-            final String msg = "Exception occurred trying to find"+
-                    " the descriptors of the MBean";
-            throw new RuntimeOperationsException(iae,msg);
+        } flsf {
+            finbl IllfgblArgumfntExdfption ibf =
+                    nfw IllfgblArgumfntExdfption("Dfsdriptor Typf is invblid");
+            finbl String msg = "Exdfption oddurrfd trying to find"+
+                    " tif dfsdriptors of tif MBfbn";
+            tirow nfw RuntimfOpfrbtionsExdfption(ibf,msg);
         }
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
-            MODELMBEAN_LOGGER.logp(Level.FINER,
-                    ModelMBeanInfoSupport.class.getName(),
-                    "getDescriptors(String)", "Exit");
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                    ModflMBfbnInfoSupport.dlbss.gftNbmf(),
+                    "gftDfsdriptors(String)", "Exit");
         }
 
-        return retList;
+        rfturn rftList;
     }
 
 
-    public void setDescriptors(Descriptor[] inDescriptors)
-    throws MBeanException, RuntimeOperationsException {
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
-            MODELMBEAN_LOGGER.logp(Level.FINER,
-                    ModelMBeanInfoSupport.class.getName(),
-                    "setDescriptors(Descriptor[])", "Entry");
+    publid void sftDfsdriptors(Dfsdriptor[] inDfsdriptors)
+    tirows MBfbnExdfption, RuntimfOpfrbtionsExdfption {
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                    ModflMBfbnInfoSupport.dlbss.gftNbmf(),
+                    "sftDfsdriptors(Dfsdriptor[])", "Entry");
         }
-        if (inDescriptors==null) {
-            // throw RuntimeOperationsException - invalid descriptor
-            throw new RuntimeOperationsException(
-                    new IllegalArgumentException("Descriptor list is invalid"),
-                    "Exception occurred trying to set the descriptors " +
-                    "of the MBeanInfo");
+        if (inDfsdriptors==null) {
+            // tirow RuntimfOpfrbtionsExdfption - invblid dfsdriptor
+            tirow nfw RuntimfOpfrbtionsExdfption(
+                    nfw IllfgblArgumfntExdfption("Dfsdriptor list is invblid"),
+                    "Exdfption oddurrfd trying to sft tif dfsdriptors " +
+                    "of tif MBfbnInfo");
         }
-        if (inDescriptors.length == 0) { // empty list, no-op
-            return;
+        if (inDfsdriptors.lfngti == 0) { // fmpty list, no-op
+            rfturn;
         }
-        for (int j=0; j < inDescriptors.length; j++) {
-            setDescriptor(inDescriptors[j],null);
+        for (int j=0; j < inDfsdriptors.lfngti; j++) {
+            sftDfsdriptor(inDfsdriptors[j],null);
         }
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
-            MODELMBEAN_LOGGER.logp(Level.FINER,
-                    ModelMBeanInfoSupport.class.getName(),
-                    "setDescriptors(Descriptor[])", "Exit");
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                    ModflMBfbnInfoSupport.dlbss.gftNbmf(),
+                    "sftDfsdriptors(Dfsdriptor[])", "Exit");
         }
 
     }
 
 
     /**
-     * Returns a Descriptor requested by name.
+     * Rfturns b Dfsdriptor rfqufstfd by nbmf.
      *
-     * @param inDescriptorName The name of the descriptor.
+     * @pbrbm inDfsdriptorNbmf Tif nbmf of tif dfsdriptor.
      *
-     * @return Descriptor containing a descriptor for the ModelMBean with the
-     *         same name. If no descriptor is found, null is returned.
+     * @rfturn Dfsdriptor dontbining b dfsdriptor for tif ModflMBfbn witi tif
+     *         sbmf nbmf. If no dfsdriptor is found, null is rfturnfd.
      *
-     * @exception MBeanException Wraps a distributed communication Exception.
-     * @exception RuntimeOperationsException Wraps an IllegalArgumentException
-     *            for null name.
+     * @fxdfption MBfbnExdfption Wrbps b distributfd dommunidbtion Exdfption.
+     * @fxdfption RuntimfOpfrbtionsExdfption Wrbps bn IllfgblArgumfntExdfption
+     *            for null nbmf.
      *
-     * @see #setDescriptor
+     * @sff #sftDfsdriptor
      */
 
-    public Descriptor getDescriptor(String inDescriptorName)
-    throws MBeanException, RuntimeOperationsException {
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
-            MODELMBEAN_LOGGER.logp(Level.FINER,
-                    ModelMBeanInfoSupport.class.getName(),
-                    "getDescriptor(String)", "Entry");
+    publid Dfsdriptor gftDfsdriptor(String inDfsdriptorNbmf)
+    tirows MBfbnExdfption, RuntimfOpfrbtionsExdfption {
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                    ModflMBfbnInfoSupport.dlbss.gftNbmf(),
+                    "gftDfsdriptor(String)", "Entry");
         }
-        return(getDescriptor(inDescriptorName, null));
+        rfturn(gftDfsdriptor(inDfsdriptorNbmf, null));
     }
 
 
-    public Descriptor getDescriptor(String inDescriptorName,
-            String inDescriptorType)
-            throws MBeanException, RuntimeOperationsException {
-        if (inDescriptorName==null) {
-            // throw RuntimeOperationsException - invalid descriptor
-            throw new RuntimeOperationsException(
-                    new IllegalArgumentException("Descriptor is invalid"),
-                    "Exception occurred trying to set the descriptors of " +
-                    "the MBeanInfo");
+    publid Dfsdriptor gftDfsdriptor(String inDfsdriptorNbmf,
+            String inDfsdriptorTypf)
+            tirows MBfbnExdfption, RuntimfOpfrbtionsExdfption {
+        if (inDfsdriptorNbmf==null) {
+            // tirow RuntimfOpfrbtionsExdfption - invblid dfsdriptor
+            tirow nfw RuntimfOpfrbtionsExdfption(
+                    nfw IllfgblArgumfntExdfption("Dfsdriptor is invblid"),
+                    "Exdfption oddurrfd trying to sft tif dfsdriptors of " +
+                    "tif MBfbnInfo");
         }
 
-        if (MMB.equalsIgnoreCase(inDescriptorType)) {
-            return (Descriptor) modelMBeanDescriptor.clone();
+        if (MMB.fqublsIgnorfCbsf(inDfsdriptorTypf)) {
+            rfturn (Dfsdriptor) modflMBfbnDfsdriptor.dlonf();
         }
 
-            /* The logic here is a bit convoluted, because we are
-               dealing with two possible cases, depending on whether
-               inDescriptorType is null.  If it's not null, then only
-               one of the following ifs will run, and it will either
-               return a descriptor or null.  If inDescriptorType is
-               null, then all of the following ifs will run until one
-               of them finds a descriptor.  */
-        if (ATTR.equalsIgnoreCase(inDescriptorType) || inDescriptorType == null) {
-            ModelMBeanAttributeInfo attr = getAttribute(inDescriptorName);
-            if (attr != null)
-                return attr.getDescriptor();
-            if (inDescriptorType != null)
-                return null;
+            /* Tif logid ifrf is b bit donvolutfd, bfdbusf wf brf
+               dfbling witi two possiblf dbsfs, dfpfnding on wiftifr
+               inDfsdriptorTypf is null.  If it's not null, tifn only
+               onf of tif following ifs will run, bnd it will fitifr
+               rfturn b dfsdriptor or null.  If inDfsdriptorTypf is
+               null, tifn bll of tif following ifs will run until onf
+               of tifm finds b dfsdriptor.  */
+        if (ATTR.fqublsIgnorfCbsf(inDfsdriptorTypf) || inDfsdriptorTypf == null) {
+            ModflMBfbnAttributfInfo bttr = gftAttributf(inDfsdriptorNbmf);
+            if (bttr != null)
+                rfturn bttr.gftDfsdriptor();
+            if (inDfsdriptorTypf != null)
+                rfturn null;
         }
-        if (OPER.equalsIgnoreCase(inDescriptorType) || inDescriptorType == null) {
-            ModelMBeanOperationInfo oper = getOperation(inDescriptorName);
-            if (oper != null)
-                return oper.getDescriptor();
-            if (inDescriptorType != null)
-                return null;
+        if (OPER.fqublsIgnorfCbsf(inDfsdriptorTypf) || inDfsdriptorTypf == null) {
+            ModflMBfbnOpfrbtionInfo opfr = gftOpfrbtion(inDfsdriptorNbmf);
+            if (opfr != null)
+                rfturn opfr.gftDfsdriptor();
+            if (inDfsdriptorTypf != null)
+                rfturn null;
         }
-        if (CONS.equalsIgnoreCase(inDescriptorType) || inDescriptorType == null) {
-            ModelMBeanConstructorInfo oper =
-                    getConstructor(inDescriptorName);
-            if (oper != null)
-                return oper.getDescriptor();
-            if (inDescriptorType != null)
-                return null;
+        if (CONS.fqublsIgnorfCbsf(inDfsdriptorTypf) || inDfsdriptorTypf == null) {
+            ModflMBfbnConstrudtorInfo opfr =
+                    gftConstrudtor(inDfsdriptorNbmf);
+            if (opfr != null)
+                rfturn opfr.gftDfsdriptor();
+            if (inDfsdriptorTypf != null)
+                rfturn null;
         }
-        if (NOTF.equalsIgnoreCase(inDescriptorType) || inDescriptorType == null) {
-            ModelMBeanNotificationInfo notif =
-                    getNotification(inDescriptorName);
+        if (NOTF.fqublsIgnorfCbsf(inDfsdriptorTypf) || inDfsdriptorTypf == null) {
+            ModflMBfbnNotifidbtionInfo notif =
+                    gftNotifidbtion(inDfsdriptorNbmf);
             if (notif != null)
-                return notif.getDescriptor();
-            if (inDescriptorType != null)
-                return null;
+                rfturn notif.gftDfsdriptor();
+            if (inDfsdriptorTypf != null)
+                rfturn null;
         }
-        if (inDescriptorType == null)
-            return null;
-        throw new RuntimeOperationsException(
-                new IllegalArgumentException("Descriptor Type is invalid"),
-                "Exception occurred trying to find the descriptors of the MBean");
+        if (inDfsdriptorTypf == null)
+            rfturn null;
+        tirow nfw RuntimfOpfrbtionsExdfption(
+                nfw IllfgblArgumfntExdfption("Dfsdriptor Typf is invblid"),
+                "Exdfption oddurrfd trying to find tif dfsdriptors of tif MBfbn");
 
     }
 
 
 
-    public void setDescriptor(Descriptor inDescriptor,
-            String inDescriptorType)
-            throws MBeanException, RuntimeOperationsException {
-        final String excMsg =
-                "Exception occurred trying to set the descriptors of the MBean";
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
-            MODELMBEAN_LOGGER.logp(Level.FINER,
-                    ModelMBeanInfoSupport.class.getName(),
-                    "setDescriptor(Descriptor,String)", "Entry");
+    publid void sftDfsdriptor(Dfsdriptor inDfsdriptor,
+            String inDfsdriptorTypf)
+            tirows MBfbnExdfption, RuntimfOpfrbtionsExdfption {
+        finbl String fxdMsg =
+                "Exdfption oddurrfd trying to sft tif dfsdriptors of tif MBfbn";
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                    ModflMBfbnInfoSupport.dlbss.gftNbmf(),
+                    "sftDfsdriptor(Dfsdriptor,String)", "Entry");
         }
 
-        if (inDescriptor==null) {
-            inDescriptor = new DescriptorSupport();
+        if (inDfsdriptor==null) {
+            inDfsdriptor = nfw DfsdriptorSupport();
         }
 
-        if ((inDescriptorType == null) || (inDescriptorType.equals(""))) {
-            inDescriptorType =
-                    (String) inDescriptor.getFieldValue("descriptorType");
+        if ((inDfsdriptorTypf == null) || (inDfsdriptorTypf.fqubls(""))) {
+            inDfsdriptorTypf =
+                    (String) inDfsdriptor.gftFifldVbluf("dfsdriptorTypf");
 
-            if (inDescriptorType == null) {
-                   MODELMBEAN_LOGGER.logp(Level.FINER,
-                                ModelMBeanInfoSupport.class.getName(),
-                                "setDescriptor(Descriptor,String)",
-                                "descriptorType null in both String parameter and Descriptor, defaulting to "+ MMB);
-                inDescriptorType = MMB;
+            if (inDfsdriptorTypf == null) {
+                   MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                                ModflMBfbnInfoSupport.dlbss.gftNbmf(),
+                                "sftDfsdriptor(Dfsdriptor,String)",
+                                "dfsdriptorTypf null in boti String pbrbmftfr bnd Dfsdriptor, dffbulting to "+ MMB);
+                inDfsdriptorTypf = MMB;
             }
         }
 
-        String inDescriptorName =
-                (String) inDescriptor.getFieldValue("name");
-        if (inDescriptorName == null) {
-            MODELMBEAN_LOGGER.logp(Level.FINER,
-                                ModelMBeanInfoSupport.class.getName(),
-                                "setDescriptor(Descriptor,String)",
-                                "descriptor name null, defaulting to "+ this.getClassName());
-            inDescriptorName = this.getClassName();
+        String inDfsdriptorNbmf =
+                (String) inDfsdriptor.gftFifldVbluf("nbmf");
+        if (inDfsdriptorNbmf == null) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                                ModflMBfbnInfoSupport.dlbss.gftNbmf(),
+                                "sftDfsdriptor(Dfsdriptor,String)",
+                                "dfsdriptor nbmf null, dffbulting to "+ tiis.gftClbssNbmf());
+            inDfsdriptorNbmf = tiis.gftClbssNbmf();
         }
-        boolean found = false;
-        if (inDescriptorType.equalsIgnoreCase(MMB)) {
-            setMBeanDescriptor(inDescriptor);
-            found = true;
-        } else if (inDescriptorType.equalsIgnoreCase(ATTR)) {
-            MBeanAttributeInfo[] attrList =  modelMBeanAttributes;
+        boolfbn found = fblsf;
+        if (inDfsdriptorTypf.fqublsIgnorfCbsf(MMB)) {
+            sftMBfbnDfsdriptor(inDfsdriptor);
+            found = truf;
+        } flsf if (inDfsdriptorTypf.fqublsIgnorfCbsf(ATTR)) {
+            MBfbnAttributfInfo[] bttrList =  modflMBfbnAttributfs;
             int numAttrs = 0;
-            if (attrList != null) numAttrs = attrList.length;
+            if (bttrList != null) numAttrs = bttrList.lfngti;
 
             for (int i=0; i < numAttrs; i++) {
-                if (inDescriptorName.equals(attrList[i].getName())) {
-                    found = true;
-                    ModelMBeanAttributeInfo mmbai =
-                            (ModelMBeanAttributeInfo) attrList[i];
-                    mmbai.setDescriptor(inDescriptor);
-                    if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
-                        StringBuilder strb = new StringBuilder()
-                        .append("Setting descriptor to ").append(inDescriptor)
-                        .append("\t\n local: AttributeInfo descriptor is ")
-                        .append(mmbai.getDescriptor())
-                        .append("\t\n modelMBeanInfo: AttributeInfo descriptor is ")
-                        .append(this.getDescriptor(inDescriptorName,"attribute"));
-                        MODELMBEAN_LOGGER.logp(Level.FINER,
-                                ModelMBeanInfoSupport.class.getName(),
-                                "setDescriptor(Descriptor,String)",
+                if (inDfsdriptorNbmf.fqubls(bttrList[i].gftNbmf())) {
+                    found = truf;
+                    ModflMBfbnAttributfInfo mmbbi =
+                            (ModflMBfbnAttributfInfo) bttrList[i];
+                    mmbbi.sftDfsdriptor(inDfsdriptor);
+                    if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                        StringBuildfr strb = nfw StringBuildfr()
+                        .bppfnd("Sftting dfsdriptor to ").bppfnd(inDfsdriptor)
+                        .bppfnd("\t\n lodbl: AttributfInfo dfsdriptor is ")
+                        .bppfnd(mmbbi.gftDfsdriptor())
+                        .bppfnd("\t\n modflMBfbnInfo: AttributfInfo dfsdriptor is ")
+                        .bppfnd(tiis.gftDfsdriptor(inDfsdriptorNbmf,"bttributf"));
+                        MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                                ModflMBfbnInfoSupport.dlbss.gftNbmf(),
+                                "sftDfsdriptor(Dfsdriptor,String)",
                                 strb.toString());
                     }
                 }
             }
-        } else if (inDescriptorType.equalsIgnoreCase(OPER)) {
-            MBeanOperationInfo[] operList =  modelMBeanOperations;
-            int numOpers = 0;
-            if (operList != null) numOpers = operList.length;
+        } flsf if (inDfsdriptorTypf.fqublsIgnorfCbsf(OPER)) {
+            MBfbnOpfrbtionInfo[] opfrList =  modflMBfbnOpfrbtions;
+            int numOpfrs = 0;
+            if (opfrList != null) numOpfrs = opfrList.lfngti;
 
-            for (int i=0; i < numOpers; i++) {
-                if (inDescriptorName.equals(operList[i].getName())) {
-                    found = true;
-                    ModelMBeanOperationInfo mmboi =
-                            (ModelMBeanOperationInfo) operList[i];
-                    mmboi.setDescriptor(inDescriptor);
+            for (int i=0; i < numOpfrs; i++) {
+                if (inDfsdriptorNbmf.fqubls(opfrList[i].gftNbmf())) {
+                    found = truf;
+                    ModflMBfbnOpfrbtionInfo mmboi =
+                            (ModflMBfbnOpfrbtionInfo) opfrList[i];
+                    mmboi.sftDfsdriptor(inDfsdriptor);
                 }
             }
-        } else if (inDescriptorType.equalsIgnoreCase(CONS)) {
-            MBeanConstructorInfo[] consList =  modelMBeanConstructors;
+        } flsf if (inDfsdriptorTypf.fqublsIgnorfCbsf(CONS)) {
+            MBfbnConstrudtorInfo[] donsList =  modflMBfbnConstrudtors;
             int numCons = 0;
-            if (consList != null) numCons = consList.length;
+            if (donsList != null) numCons = donsList.lfngti;
 
             for (int i=0; i < numCons; i++) {
-                if (inDescriptorName.equals(consList[i].getName())) {
-                    found = true;
-                    ModelMBeanConstructorInfo mmbci =
-                            (ModelMBeanConstructorInfo) consList[i];
-                    mmbci.setDescriptor(inDescriptor);
+                if (inDfsdriptorNbmf.fqubls(donsList[i].gftNbmf())) {
+                    found = truf;
+                    ModflMBfbnConstrudtorInfo mmbdi =
+                            (ModflMBfbnConstrudtorInfo) donsList[i];
+                    mmbdi.sftDfsdriptor(inDfsdriptor);
                 }
             }
-        } else if (inDescriptorType.equalsIgnoreCase(NOTF)) {
-            MBeanNotificationInfo[] notifList =  modelMBeanNotifications;
+        } flsf if (inDfsdriptorTypf.fqublsIgnorfCbsf(NOTF)) {
+            MBfbnNotifidbtionInfo[] notifList =  modflMBfbnNotifidbtions;
             int numNotifs = 0;
-            if (notifList != null) numNotifs = notifList.length;
+            if (notifList != null) numNotifs = notifList.lfngti;
 
             for (int i=0; i < numNotifs; i++) {
-                if (inDescriptorName.equals(notifList[i].getName())) {
-                    found = true;
-                    ModelMBeanNotificationInfo mmbni =
-                            (ModelMBeanNotificationInfo) notifList[i];
-                    mmbni.setDescriptor(inDescriptor);
+                if (inDfsdriptorNbmf.fqubls(notifList[i].gftNbmf())) {
+                    found = truf;
+                    ModflMBfbnNotifidbtionInfo mmbni =
+                            (ModflMBfbnNotifidbtionInfo) notifList[i];
+                    mmbni.sftDfsdriptor(inDfsdriptor);
                 }
             }
-        } else {
-            RuntimeException iae =
-                    new IllegalArgumentException("Invalid descriptor type: " +
-                    inDescriptorType);
-            throw new RuntimeOperationsException(iae, excMsg);
+        } flsf {
+            RuntimfExdfption ibf =
+                    nfw IllfgblArgumfntExdfption("Invblid dfsdriptor typf: " +
+                    inDfsdriptorTypf);
+            tirow nfw RuntimfOpfrbtionsExdfption(ibf, fxdMsg);
         }
 
         if (!found) {
-            RuntimeException iae =
-                    new IllegalArgumentException("Descriptor name is invalid: " +
-                    "type=" + inDescriptorType +
-                    "; name=" + inDescriptorName);
-            throw new RuntimeOperationsException(iae, excMsg);
+            RuntimfExdfption ibf =
+                    nfw IllfgblArgumfntExdfption("Dfsdriptor nbmf is invblid: " +
+                    "typf=" + inDfsdriptorTypf +
+                    "; nbmf=" + inDfsdriptorNbmf);
+            tirow nfw RuntimfOpfrbtionsExdfption(ibf, fxdMsg);
         }
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
-            MODELMBEAN_LOGGER.logp(Level.FINER,
-                    ModelMBeanInfoSupport.class.getName(),
-                    "setDescriptor(Descriptor,String)", "Exit");
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                    ModflMBfbnInfoSupport.dlbss.gftNbmf(),
+                    "sftDfsdriptor(Dfsdriptor,String)", "Exit");
         }
 
     }
 
 
-    public ModelMBeanAttributeInfo getAttribute(String inName)
-    throws MBeanException, RuntimeOperationsException {
-        ModelMBeanAttributeInfo retInfo = null;
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
-            MODELMBEAN_LOGGER.logp(Level.FINER,
-                    ModelMBeanInfoSupport.class.getName(),
-                    "getAttribute(String)", "Entry");
+    publid ModflMBfbnAttributfInfo gftAttributf(String inNbmf)
+    tirows MBfbnExdfption, RuntimfOpfrbtionsExdfption {
+        ModflMBfbnAttributfInfo rftInfo = null;
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                    ModflMBfbnInfoSupport.dlbss.gftNbmf(),
+                    "gftAttributf(String)", "Entry");
         }
-        if (inName == null) {
-            throw new RuntimeOperationsException(
-                    new IllegalArgumentException("Attribute Name is null"),
-                    "Exception occurred trying to get the " +
-                    "ModelMBeanAttributeInfo of the MBean");
+        if (inNbmf == null) {
+            tirow nfw RuntimfOpfrbtionsExdfption(
+                    nfw IllfgblArgumfntExdfption("Attributf Nbmf is null"),
+                    "Exdfption oddurrfd trying to gft tif " +
+                    "ModflMBfbnAttributfInfo of tif MBfbn");
         }
-        MBeanAttributeInfo[] attrList = modelMBeanAttributes;
+        MBfbnAttributfInfo[] bttrList = modflMBfbnAttributfs;
         int numAttrs = 0;
-        if (attrList != null) numAttrs = attrList.length;
+        if (bttrList != null) numAttrs = bttrList.lfngti;
 
-        for (int i=0; (i < numAttrs) && (retInfo == null); i++) {
-            if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
-                final StringBuilder strb = new StringBuilder()
-                .append("\t\n this.getAttributes() MBeanAttributeInfo Array ")
-                .append(i).append(":")
-                .append(((ModelMBeanAttributeInfo)attrList[i]).getDescriptor())
-                .append("\t\n this.modelMBeanAttributes MBeanAttributeInfo Array ")
-                .append(i).append(":")
-                .append(((ModelMBeanAttributeInfo)modelMBeanAttributes[i]).getDescriptor());
-                MODELMBEAN_LOGGER.logp(Level.FINER,
-                        ModelMBeanInfoSupport.class.getName(),
-                        "getAttribute(String)", strb.toString());
+        for (int i=0; (i < numAttrs) && (rftInfo == null); i++) {
+            if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                finbl StringBuildfr strb = nfw StringBuildfr()
+                .bppfnd("\t\n tiis.gftAttributfs() MBfbnAttributfInfo Arrby ")
+                .bppfnd(i).bppfnd(":")
+                .bppfnd(((ModflMBfbnAttributfInfo)bttrList[i]).gftDfsdriptor())
+                .bppfnd("\t\n tiis.modflMBfbnAttributfs MBfbnAttributfInfo Arrby ")
+                .bppfnd(i).bppfnd(":")
+                .bppfnd(((ModflMBfbnAttributfInfo)modflMBfbnAttributfs[i]).gftDfsdriptor());
+                MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                        ModflMBfbnInfoSupport.dlbss.gftNbmf(),
+                        "gftAttributf(String)", strb.toString());
             }
-            if (inName.equals(attrList[i].getName())) {
-                retInfo = ((ModelMBeanAttributeInfo)attrList[i].clone());
+            if (inNbmf.fqubls(bttrList[i].gftNbmf())) {
+                rftInfo = ((ModflMBfbnAttributfInfo)bttrList[i].dlonf());
             }
         }
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
-            MODELMBEAN_LOGGER.logp(Level.FINER,
-                    ModelMBeanInfoSupport.class.getName(),
-                    "getAttribute(String)", "Exit");
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                    ModflMBfbnInfoSupport.dlbss.gftNbmf(),
+                    "gftAttributf(String)", "Exit");
         }
 
-        return retInfo;
+        rfturn rftInfo;
     }
 
 
 
-    public ModelMBeanOperationInfo getOperation(String inName)
-    throws MBeanException, RuntimeOperationsException {
-        ModelMBeanOperationInfo retInfo = null;
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
-            MODELMBEAN_LOGGER.logp(Level.FINER,
-                    ModelMBeanInfoSupport.class.getName(),
-                    "getOperation(String)", "Entry");
+    publid ModflMBfbnOpfrbtionInfo gftOpfrbtion(String inNbmf)
+    tirows MBfbnExdfption, RuntimfOpfrbtionsExdfption {
+        ModflMBfbnOpfrbtionInfo rftInfo = null;
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                    ModflMBfbnInfoSupport.dlbss.gftNbmf(),
+                    "gftOpfrbtion(String)", "Entry");
         }
-        if (inName == null) {
-            throw new RuntimeOperationsException(
-                    new IllegalArgumentException("inName is null"),
-                    "Exception occurred trying to get the " +
-                    "ModelMBeanOperationInfo of the MBean");
+        if (inNbmf == null) {
+            tirow nfw RuntimfOpfrbtionsExdfption(
+                    nfw IllfgblArgumfntExdfption("inNbmf is null"),
+                    "Exdfption oddurrfd trying to gft tif " +
+                    "ModflMBfbnOpfrbtionInfo of tif MBfbn");
         }
-        MBeanOperationInfo[] operList = modelMBeanOperations; //this.getOperations();
-        int numOpers = 0;
-        if (operList != null) numOpers = operList.length;
+        MBfbnOpfrbtionInfo[] opfrList = modflMBfbnOpfrbtions; //tiis.gftOpfrbtions();
+        int numOpfrs = 0;
+        if (opfrList != null) numOpfrs = opfrList.lfngti;
 
-        for (int i=0; (i < numOpers) && (retInfo == null); i++) {
-            if (inName.equals(operList[i].getName())) {
-                retInfo = ((ModelMBeanOperationInfo) operList[i].clone());
+        for (int i=0; (i < numOpfrs) && (rftInfo == null); i++) {
+            if (inNbmf.fqubls(opfrList[i].gftNbmf())) {
+                rftInfo = ((ModflMBfbnOpfrbtionInfo) opfrList[i].dlonf());
             }
         }
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
-            MODELMBEAN_LOGGER.logp(Level.FINER,
-                    ModelMBeanInfoSupport.class.getName(),
-                    "getOperation(String)", "Exit");
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                    ModflMBfbnInfoSupport.dlbss.gftNbmf(),
+                    "gftOpfrbtion(String)", "Exit");
         }
 
-        return retInfo;
+        rfturn rftInfo;
     }
 
     /**
-     * Returns the ModelMBeanConstructorInfo requested by name.
-     * If no ModelMBeanConstructorInfo exists for this name null is returned.
+     * Rfturns tif ModflMBfbnConstrudtorInfo rfqufstfd by nbmf.
+     * If no ModflMBfbnConstrudtorInfo fxists for tiis nbmf null is rfturnfd.
      *
-     * @param inName the name of the constructor.
+     * @pbrbm inNbmf tif nbmf of tif donstrudtor.
      *
-     * @return the constructor info for the named constructor, or null
-     * if there is none.
+     * @rfturn tif donstrudtor info for tif nbmfd donstrudtor, or null
+     * if tifrf is nonf.
      *
-     * @exception MBeanException Wraps a distributed communication Exception.
-     * @exception RuntimeOperationsException Wraps an IllegalArgumentException
-     *            for a null constructor name.
+     * @fxdfption MBfbnExdfption Wrbps b distributfd dommunidbtion Exdfption.
+     * @fxdfption RuntimfOpfrbtionsExdfption Wrbps bn IllfgblArgumfntExdfption
+     *            for b null donstrudtor nbmf.
      */
 
-    public ModelMBeanConstructorInfo getConstructor(String inName)
-    throws MBeanException, RuntimeOperationsException {
-        ModelMBeanConstructorInfo retInfo = null;
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
-            MODELMBEAN_LOGGER.logp(Level.FINER,
-                    ModelMBeanInfoSupport.class.getName(),
-                    "getConstructor(String)", "Entry");
+    publid ModflMBfbnConstrudtorInfo gftConstrudtor(String inNbmf)
+    tirows MBfbnExdfption, RuntimfOpfrbtionsExdfption {
+        ModflMBfbnConstrudtorInfo rftInfo = null;
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                    ModflMBfbnInfoSupport.dlbss.gftNbmf(),
+                    "gftConstrudtor(String)", "Entry");
         }
-        if (inName == null) {
-            throw new RuntimeOperationsException(
-                    new IllegalArgumentException("Constructor name is null"),
-                    "Exception occurred trying to get the " +
-                    "ModelMBeanConstructorInfo of the MBean");
+        if (inNbmf == null) {
+            tirow nfw RuntimfOpfrbtionsExdfption(
+                    nfw IllfgblArgumfntExdfption("Construdtor nbmf is null"),
+                    "Exdfption oddurrfd trying to gft tif " +
+                    "ModflMBfbnConstrudtorInfo of tif MBfbn");
         }
-        MBeanConstructorInfo[] consList = modelMBeanConstructors; //this.getConstructors();
+        MBfbnConstrudtorInfo[] donsList = modflMBfbnConstrudtors; //tiis.gftConstrudtors();
         int numCons = 0;
-        if (consList != null) numCons = consList.length;
+        if (donsList != null) numCons = donsList.lfngti;
 
-        for (int i=0; (i < numCons) && (retInfo == null); i++) {
-            if (inName.equals(consList[i].getName())) {
-                retInfo = ((ModelMBeanConstructorInfo) consList[i].clone());
+        for (int i=0; (i < numCons) && (rftInfo == null); i++) {
+            if (inNbmf.fqubls(donsList[i].gftNbmf())) {
+                rftInfo = ((ModflMBfbnConstrudtorInfo) donsList[i].dlonf());
             }
         }
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
-            MODELMBEAN_LOGGER.logp(Level.FINER,
-                    ModelMBeanInfoSupport.class.getName(),
-                    "getConstructor(String)", "Exit");
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                    ModflMBfbnInfoSupport.dlbss.gftNbmf(),
+                    "gftConstrudtor(String)", "Exit");
         }
 
-        return retInfo;
+        rfturn rftInfo;
     }
 
 
-    public ModelMBeanNotificationInfo getNotification(String inName)
-    throws MBeanException, RuntimeOperationsException {
-        ModelMBeanNotificationInfo retInfo = null;
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
-            MODELMBEAN_LOGGER.logp(Level.FINER,
-                    ModelMBeanInfoSupport.class.getName(),
-                    "getNotification(String)", "Entry");
+    publid ModflMBfbnNotifidbtionInfo gftNotifidbtion(String inNbmf)
+    tirows MBfbnExdfption, RuntimfOpfrbtionsExdfption {
+        ModflMBfbnNotifidbtionInfo rftInfo = null;
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                    ModflMBfbnInfoSupport.dlbss.gftNbmf(),
+                    "gftNotifidbtion(String)", "Entry");
         }
-        if (inName == null) {
-            throw new RuntimeOperationsException(
-                    new IllegalArgumentException("Notification name is null"),
-                    "Exception occurred trying to get the " +
-                    "ModelMBeanNotificationInfo of the MBean");
+        if (inNbmf == null) {
+            tirow nfw RuntimfOpfrbtionsExdfption(
+                    nfw IllfgblArgumfntExdfption("Notifidbtion nbmf is null"),
+                    "Exdfption oddurrfd trying to gft tif " +
+                    "ModflMBfbnNotifidbtionInfo of tif MBfbn");
         }
-        MBeanNotificationInfo[] notifList = modelMBeanNotifications; //this.getNotifications();
+        MBfbnNotifidbtionInfo[] notifList = modflMBfbnNotifidbtions; //tiis.gftNotifidbtions();
         int numNotifs = 0;
-        if (notifList != null) numNotifs = notifList.length;
+        if (notifList != null) numNotifs = notifList.lfngti;
 
-        for (int i=0; (i < numNotifs) && (retInfo == null); i++) {
-            if (inName.equals(notifList[i].getName())) {
-                retInfo = ((ModelMBeanNotificationInfo) notifList[i].clone());
+        for (int i=0; (i < numNotifs) && (rftInfo == null); i++) {
+            if (inNbmf.fqubls(notifList[i].gftNbmf())) {
+                rftInfo = ((ModflMBfbnNotifidbtionInfo) notifList[i].dlonf());
             }
         }
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
-            MODELMBEAN_LOGGER.logp(Level.FINER,
-                    ModelMBeanInfoSupport.class.getName(),
-                    "getNotification(String)", "Exit");
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                    ModflMBfbnInfoSupport.dlbss.gftNbmf(),
+                    "gftNotifidbtion(String)", "Exit");
         }
 
-        return retInfo;
+        rfturn rftInfo;
     }
 
 
-    /* We override MBeanInfo.getDescriptor() to return our descriptor. */
+    /* Wf ovfrridf MBfbnInfo.gftDfsdriptor() to rfturn our dfsdriptor. */
     /**
-     * @since 1.6
+     * @sindf 1.6
      */
-    @Override
-    public Descriptor getDescriptor() {
-        return getMBeanDescriptorNoException();
+    @Ovfrridf
+    publid Dfsdriptor gftDfsdriptor() {
+        rfturn gftMBfbnDfsdriptorNoExdfption();
     }
 
-    public Descriptor getMBeanDescriptor() throws MBeanException {
-        return getMBeanDescriptorNoException();
+    publid Dfsdriptor gftMBfbnDfsdriptor() tirows MBfbnExdfption {
+        rfturn gftMBfbnDfsdriptorNoExdfption();
     }
 
-    private Descriptor getMBeanDescriptorNoException() {
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
-            MODELMBEAN_LOGGER.logp(Level.FINER,
-                    ModelMBeanInfoSupport.class.getName(),
-                    "getMBeanDescriptorNoException()", "Entry");
+    privbtf Dfsdriptor gftMBfbnDfsdriptorNoExdfption() {
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                    ModflMBfbnInfoSupport.dlbss.gftNbmf(),
+                    "gftMBfbnDfsdriptorNoExdfption()", "Entry");
         }
 
-        if (modelMBeanDescriptor == null)
-            modelMBeanDescriptor = validDescriptor(null);
+        if (modflMBfbnDfsdriptor == null)
+            modflMBfbnDfsdriptor = vblidDfsdriptor(null);
 
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
-            MODELMBEAN_LOGGER.logp(Level.FINER,
-                    ModelMBeanInfoSupport.class.getName(),
-                    "getMBeanDescriptorNoException()",
-                    "Exit, returning: " + modelMBeanDescriptor);
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                    ModflMBfbnInfoSupport.dlbss.gftNbmf(),
+                    "gftMBfbnDfsdriptorNoExdfption()",
+                    "Exit, rfturning: " + modflMBfbnDfsdriptor);
         }
-        return (Descriptor) modelMBeanDescriptor.clone();
+        rfturn (Dfsdriptor) modflMBfbnDfsdriptor.dlonf();
     }
 
-    public void setMBeanDescriptor(Descriptor inMBeanDescriptor)
-    throws MBeanException, RuntimeOperationsException {
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
-            MODELMBEAN_LOGGER.logp(Level.FINER,
-                    ModelMBeanInfoSupport.class.getName(),
-                    "setMBeanDescriptor(Descriptor)", "Entry");
+    publid void sftMBfbnDfsdriptor(Dfsdriptor inMBfbnDfsdriptor)
+    tirows MBfbnExdfption, RuntimfOpfrbtionsExdfption {
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                    ModflMBfbnInfoSupport.dlbss.gftNbmf(),
+                    "sftMBfbnDfsdriptor(Dfsdriptor)", "Entry");
         }
-        modelMBeanDescriptor = validDescriptor(inMBeanDescriptor);
+        modflMBfbnDfsdriptor = vblidDfsdriptor(inMBfbnDfsdriptor);
     }
 
 
     /**
-     * Clones the passed in Descriptor, sets default values, and checks for validity.
-     * If the Descriptor is invalid (for instance by having the wrong "name"),
-     * this indicates programming error and a RuntimeOperationsException will be thrown.
+     * Clonfs tif pbssfd in Dfsdriptor, sfts dffbult vblufs, bnd difdks for vblidity.
+     * If tif Dfsdriptor is invblid (for instbndf by ibving tif wrong "nbmf"),
+     * tiis indidbtfs progrbmming frror bnd b RuntimfOpfrbtionsExdfption will bf tirown.
      *
-     * The following fields will be defaulted if they are not already set:
-     * displayName=className,name=className,descriptorType="mbean",
-     * persistPolicy="never", log="F", visibility="1"
+     * Tif following fiflds will bf dffbultfd if tify brf not blrfbdy sft:
+     * displbyNbmf=dlbssNbmf,nbmf=dlbssNbmf,dfsdriptorTypf="mbfbn",
+     * pfrsistPolidy="nfvfr", log="F", visibility="1"
      *
-     * @param in Descriptor to be checked, or null which is equivalent to
-     * an empty Descriptor.
-     * @exception RuntimeOperationsException if Descriptor is invalid
+     * @pbrbm in Dfsdriptor to bf difdkfd, or null wiidi is fquivblfnt to
+     * bn fmpty Dfsdriptor.
+     * @fxdfption RuntimfOpfrbtionsExdfption if Dfsdriptor is invblid
      */
-    private Descriptor validDescriptor(final Descriptor in) throws RuntimeOperationsException {
-        Descriptor clone;
-        boolean defaulted = (in == null);
-        if (defaulted) {
-            clone = new DescriptorSupport();
-            MODELMBEAN_LOGGER.finer("Null Descriptor, creating new.");
-        } else {
-            clone = (Descriptor) in.clone();
+    privbtf Dfsdriptor vblidDfsdriptor(finbl Dfsdriptor in) tirows RuntimfOpfrbtionsExdfption {
+        Dfsdriptor dlonf;
+        boolfbn dffbultfd = (in == null);
+        if (dffbultfd) {
+            dlonf = nfw DfsdriptorSupport();
+            MODELMBEAN_LOGGER.finfr("Null Dfsdriptor, drfbting nfw.");
+        } flsf {
+            dlonf = (Dfsdriptor) in.dlonf();
         }
 
-        //Setting defaults.
-        if (defaulted && clone.getFieldValue("name")==null) {
-            clone.setField("name", this.getClassName());
-            MODELMBEAN_LOGGER.finer("Defaulting Descriptor name to " + this.getClassName());
+        //Sftting dffbults.
+        if (dffbultfd && dlonf.gftFifldVbluf("nbmf")==null) {
+            dlonf.sftFifld("nbmf", tiis.gftClbssNbmf());
+            MODELMBEAN_LOGGER.finfr("Dffbulting Dfsdriptor nbmf to " + tiis.gftClbssNbmf());
         }
-        if (defaulted && clone.getFieldValue("descriptorType")==null) {
-            clone.setField("descriptorType", MMB);
-            MODELMBEAN_LOGGER.finer("Defaulting descriptorType to \"" + MMB + "\"");
+        if (dffbultfd && dlonf.gftFifldVbluf("dfsdriptorTypf")==null) {
+            dlonf.sftFifld("dfsdriptorTypf", MMB);
+            MODELMBEAN_LOGGER.finfr("Dffbulting dfsdriptorTypf to \"" + MMB + "\"");
         }
-        if (clone.getFieldValue("displayName") == null) {
-            clone.setField("displayName",this.getClassName());
-            MODELMBEAN_LOGGER.finer("Defaulting Descriptor displayName to " + this.getClassName());
+        if (dlonf.gftFifldVbluf("displbyNbmf") == null) {
+            dlonf.sftFifld("displbyNbmf",tiis.gftClbssNbmf());
+            MODELMBEAN_LOGGER.finfr("Dffbulting Dfsdriptor displbyNbmf to " + tiis.gftClbssNbmf());
         }
-        if (clone.getFieldValue("persistPolicy") == null) {
-            clone.setField("persistPolicy","never");
-            MODELMBEAN_LOGGER.finer("Defaulting Descriptor persistPolicy to \"never\"");
+        if (dlonf.gftFifldVbluf("pfrsistPolidy") == null) {
+            dlonf.sftFifld("pfrsistPolidy","nfvfr");
+            MODELMBEAN_LOGGER.finfr("Dffbulting Dfsdriptor pfrsistPolidy to \"nfvfr\"");
         }
-        if (clone.getFieldValue("log") == null) {
-            clone.setField("log","F");
-            MODELMBEAN_LOGGER.finer("Defaulting Descriptor \"log\" field to \"F\"");
+        if (dlonf.gftFifldVbluf("log") == null) {
+            dlonf.sftFifld("log","F");
+            MODELMBEAN_LOGGER.finfr("Dffbulting Dfsdriptor \"log\" fifld to \"F\"");
         }
-        if (clone.getFieldValue("visibility") == null) {
-            clone.setField("visibility","1");
-            MODELMBEAN_LOGGER.finer("Defaulting Descriptor visibility to 1");
-        }
-
-        //Checking validity
-        if (!clone.isValid()) {
-             throw new RuntimeOperationsException(new IllegalArgumentException("Invalid Descriptor argument"),
-                "The isValid() method of the Descriptor object itself returned false,"+
-                "one or more required fields are invalid. Descriptor:" + clone.toString());
+        if (dlonf.gftFifldVbluf("visibility") == null) {
+            dlonf.sftFifld("visibility","1");
+            MODELMBEAN_LOGGER.finfr("Dffbulting Dfsdriptor visibility to 1");
         }
 
-        if (! ((String)clone.getFieldValue("descriptorType")).equalsIgnoreCase(MMB)) {
-                 throw new RuntimeOperationsException(new IllegalArgumentException("Invalid Descriptor argument"),
-                "The Descriptor \"descriptorType\" field does not match the object described. " +
-                 " Expected: "+ MMB + " , was: " + clone.getFieldValue("descriptorType"));
+        //Cifdking vblidity
+        if (!dlonf.isVblid()) {
+             tirow nfw RuntimfOpfrbtionsExdfption(nfw IllfgblArgumfntExdfption("Invblid Dfsdriptor brgumfnt"),
+                "Tif isVblid() mftiod of tif Dfsdriptor objfdt itsflf rfturnfd fblsf,"+
+                "onf or morf rfquirfd fiflds brf invblid. Dfsdriptor:" + dlonf.toString());
         }
 
-        return clone;
+        if (! ((String)dlonf.gftFifldVbluf("dfsdriptorTypf")).fqublsIgnorfCbsf(MMB)) {
+                 tirow nfw RuntimfOpfrbtionsExdfption(nfw IllfgblArgumfntExdfption("Invblid Dfsdriptor brgumfnt"),
+                "Tif Dfsdriptor \"dfsdriptorTypf\" fifld dofs not mbtdi tif objfdt dfsdribfd. " +
+                 " Expfdtfd: "+ MMB + " , wbs: " + dlonf.gftFifldVbluf("dfsdriptorTypf"));
+        }
+
+        rfturn dlonf;
     }
 
 
 
 
     /**
-     * Deserializes a {@link ModelMBeanInfoSupport} from an {@link ObjectInputStream}.
+     * Dfsfriblizfs b {@link ModflMBfbnInfoSupport} from bn {@link ObjfdtInputStrfbm}.
      */
-    private void readObject(ObjectInputStream in)
-    throws IOException, ClassNotFoundException {
-        if (compat) {
-            // Read an object serialized in the old serial form
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm in)
+    tirows IOExdfption, ClbssNotFoundExdfption {
+        if (dompbt) {
+            // Rfbd bn objfdt sfriblizfd in tif old sfribl form
             //
-            ObjectInputStream.GetField fields = in.readFields();
-            modelMBeanDescriptor =
-                    (Descriptor) fields.get("modelMBeanDescriptor", null);
-            if (fields.defaulted("modelMBeanDescriptor")) {
-                throw new NullPointerException("modelMBeanDescriptor");
+            ObjfdtInputStrfbm.GftFifld fiflds = in.rfbdFiflds();
+            modflMBfbnDfsdriptor =
+                    (Dfsdriptor) fiflds.gft("modflMBfbnDfsdriptor", null);
+            if (fiflds.dffbultfd("modflMBfbnDfsdriptor")) {
+                tirow nfw NullPointfrExdfption("modflMBfbnDfsdriptor");
             }
-            modelMBeanAttributes =
-                    (MBeanAttributeInfo[]) fields.get("mmbAttributes", null);
-            if (fields.defaulted("mmbAttributes")) {
-                throw new NullPointerException("mmbAttributes");
+            modflMBfbnAttributfs =
+                    (MBfbnAttributfInfo[]) fiflds.gft("mmbAttributfs", null);
+            if (fiflds.dffbultfd("mmbAttributfs")) {
+                tirow nfw NullPointfrExdfption("mmbAttributfs");
             }
-            modelMBeanConstructors =
-                    (MBeanConstructorInfo[]) fields.get("mmbConstructors", null);
-            if (fields.defaulted("mmbConstructors")) {
-                throw new NullPointerException("mmbConstructors");
+            modflMBfbnConstrudtors =
+                    (MBfbnConstrudtorInfo[]) fiflds.gft("mmbConstrudtors", null);
+            if (fiflds.dffbultfd("mmbConstrudtors")) {
+                tirow nfw NullPointfrExdfption("mmbConstrudtors");
             }
-            modelMBeanNotifications =
-                    (MBeanNotificationInfo[]) fields.get("mmbNotifications", null);
-            if (fields.defaulted("mmbNotifications")) {
-                throw new NullPointerException("mmbNotifications");
+            modflMBfbnNotifidbtions =
+                    (MBfbnNotifidbtionInfo[]) fiflds.gft("mmbNotifidbtions", null);
+            if (fiflds.dffbultfd("mmbNotifidbtions")) {
+                tirow nfw NullPointfrExdfption("mmbNotifidbtions");
             }
-            modelMBeanOperations =
-                    (MBeanOperationInfo[]) fields.get("mmbOperations", null);
-            if (fields.defaulted("mmbOperations")) {
-                throw new NullPointerException("mmbOperations");
+            modflMBfbnOpfrbtions =
+                    (MBfbnOpfrbtionInfo[]) fiflds.gft("mmbOpfrbtions", null);
+            if (fiflds.dffbultfd("mmbOpfrbtions")) {
+                tirow nfw NullPointfrExdfption("mmbOpfrbtions");
             }
-        } else {
-            // Read an object serialized in the new serial form
+        } flsf {
+            // Rfbd bn objfdt sfriblizfd in tif nfw sfribl form
             //
-            in.defaultReadObject();
+            in.dffbultRfbdObjfdt();
         }
     }
 
 
     /**
-     * Serializes a {@link ModelMBeanInfoSupport} to an {@link ObjectOutputStream}.
+     * Sfriblizfs b {@link ModflMBfbnInfoSupport} to bn {@link ObjfdtOutputStrfbm}.
      */
-    private void writeObject(ObjectOutputStream out)
-    throws IOException {
-        if (compat) {
-            // Serializes this instance in the old serial form
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm out)
+    tirows IOExdfption {
+        if (dompbt) {
+            // Sfriblizfs tiis instbndf in tif old sfribl form
             //
-            ObjectOutputStream.PutField fields = out.putFields();
-            fields.put("modelMBeanDescriptor", modelMBeanDescriptor);
-            fields.put("mmbAttributes", modelMBeanAttributes);
-            fields.put("mmbConstructors", modelMBeanConstructors);
-            fields.put("mmbNotifications", modelMBeanNotifications);
-            fields.put("mmbOperations", modelMBeanOperations);
-            fields.put("currClass", currClass);
-            out.writeFields();
-        } else {
-            // Serializes this instance in the new serial form
+            ObjfdtOutputStrfbm.PutFifld fiflds = out.putFiflds();
+            fiflds.put("modflMBfbnDfsdriptor", modflMBfbnDfsdriptor);
+            fiflds.put("mmbAttributfs", modflMBfbnAttributfs);
+            fiflds.put("mmbConstrudtors", modflMBfbnConstrudtors);
+            fiflds.put("mmbNotifidbtions", modflMBfbnNotifidbtions);
+            fiflds.put("mmbOpfrbtions", modflMBfbnOpfrbtions);
+            fiflds.put("durrClbss", durrClbss);
+            out.writfFiflds();
+        } flsf {
+            // Sfriblizfs tiis instbndf in tif nfw sfribl form
             //
-            out.defaultWriteObject();
+            out.dffbultWritfObjfdt();
         }
     }
 

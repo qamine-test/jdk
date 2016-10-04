@@ -1,1471 +1,1471 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.util;
+pbdkbgf jbvb.util;
 
-import java.util.function.Consumer;
-import java.util.function.Predicate;
-import java.util.function.UnaryOperator;
+import jbvb.util.fundtion.Consumfr;
+import jbvb.util.fundtion.Prfdidbtf;
+import jbvb.util.fundtion.UnbryOpfrbtor;
 
 /**
- * Resizable-array implementation of the {@code List} interface.  Implements
- * all optional list operations, and permits all elements, including
- * {@code null}.  In addition to implementing the {@code List} interface,
- * this class provides methods to manipulate the size of the array that is
- * used internally to store the list.  (This class is roughly equivalent to
- * {@code Vector}, except that it is unsynchronized.)
+ * Rfsizbblf-brrby implfmfntbtion of tif {@dodf List} intfrfbdf.  Implfmfnts
+ * bll optionbl list opfrbtions, bnd pfrmits bll flfmfnts, indluding
+ * {@dodf null}.  In bddition to implfmfnting tif {@dodf List} intfrfbdf,
+ * tiis dlbss providfs mftiods to mbnipulbtf tif sizf of tif brrby tibt is
+ * usfd intfrnblly to storf tif list.  (Tiis dlbss is rougily fquivblfnt to
+ * {@dodf Vfdtor}, fxdfpt tibt it is unsyndironizfd.)
  *
- * <p>The {@code size}, {@code isEmpty}, {@code get}, {@code set},
- * {@code iterator}, and {@code listIterator} operations run in constant
- * time.  The {@code add} operation runs in <i>amortized constant time</i>,
- * that is, adding n elements requires O(n) time.  All of the other operations
- * run in linear time (roughly speaking).  The constant factor is low compared
- * to that for the {@code LinkedList} implementation.
+ * <p>Tif {@dodf sizf}, {@dodf isEmpty}, {@dodf gft}, {@dodf sft},
+ * {@dodf itfrbtor}, bnd {@dodf listItfrbtor} opfrbtions run in donstbnt
+ * timf.  Tif {@dodf bdd} opfrbtion runs in <i>bmortizfd donstbnt timf</i>,
+ * tibt is, bdding n flfmfnts rfquirfs O(n) timf.  All of tif otifr opfrbtions
+ * run in linfbr timf (rougily spfbking).  Tif donstbnt fbdtor is low dompbrfd
+ * to tibt for tif {@dodf LinkfdList} implfmfntbtion.
  *
- * <p>Each {@code ArrayList} instance has a <i>capacity</i>.  The capacity is
- * the size of the array used to store the elements in the list.  It is always
- * at least as large as the list size.  As elements are added to an ArrayList,
- * its capacity grows automatically.  The details of the growth policy are not
- * specified beyond the fact that adding an element has constant amortized
- * time cost.
+ * <p>Ebdi {@dodf ArrbyList} instbndf ibs b <i>dbpbdity</i>.  Tif dbpbdity is
+ * tif sizf of tif brrby usfd to storf tif flfmfnts in tif list.  It is blwbys
+ * bt lfbst bs lbrgf bs tif list sizf.  As flfmfnts brf bddfd to bn ArrbyList,
+ * its dbpbdity grows butombtidblly.  Tif dftbils of tif growti polidy brf not
+ * spfdififd bfyond tif fbdt tibt bdding bn flfmfnt ibs donstbnt bmortizfd
+ * timf dost.
  *
- * <p>An application can increase the capacity of an {@code ArrayList} instance
- * before adding a large number of elements using the {@code ensureCapacity}
- * operation.  This may reduce the amount of incremental reallocation.
+ * <p>An bpplidbtion dbn indrfbsf tif dbpbdity of bn {@dodf ArrbyList} instbndf
+ * bfforf bdding b lbrgf numbfr of flfmfnts using tif {@dodf fnsurfCbpbdity}
+ * opfrbtion.  Tiis mby rfdudf tif bmount of indrfmfntbl rfbllodbtion.
  *
- * <p><strong>Note that this implementation is not synchronized.</strong>
- * If multiple threads access an {@code ArrayList} instance concurrently,
- * and at least one of the threads modifies the list structurally, it
- * <i>must</i> be synchronized externally.  (A structural modification is
- * any operation that adds or deletes one or more elements, or explicitly
- * resizes the backing array; merely setting the value of an element is not
- * a structural modification.)  This is typically accomplished by
- * synchronizing on some object that naturally encapsulates the list.
+ * <p><strong>Notf tibt tiis implfmfntbtion is not syndironizfd.</strong>
+ * If multiplf tirfbds bddfss bn {@dodf ArrbyList} instbndf dondurrfntly,
+ * bnd bt lfbst onf of tif tirfbds modififs tif list strudturblly, it
+ * <i>must</i> bf syndironizfd fxtfrnblly.  (A strudturbl modifidbtion is
+ * bny opfrbtion tibt bdds or dflftfs onf or morf flfmfnts, or fxpliditly
+ * rfsizfs tif bbdking brrby; mfrfly sftting tif vbluf of bn flfmfnt is not
+ * b strudturbl modifidbtion.)  Tiis is typidblly bddomplisifd by
+ * syndironizing on somf objfdt tibt nbturblly fndbpsulbtfs tif list.
  *
- * If no such object exists, the list should be "wrapped" using the
- * {@link Collections#synchronizedList Collections.synchronizedList}
- * method.  This is best done at creation time, to prevent accidental
- * unsynchronized access to the list:<pre>
- *   List list = Collections.synchronizedList(new ArrayList(...));</pre>
+ * If no sudi objfdt fxists, tif list siould bf "wrbppfd" using tif
+ * {@link Collfdtions#syndironizfdList Collfdtions.syndironizfdList}
+ * mftiod.  Tiis is bfst donf bt drfbtion timf, to prfvfnt bddidfntbl
+ * unsyndironizfd bddfss to tif list:<prf>
+ *   List list = Collfdtions.syndironizfdList(nfw ArrbyList(...));</prf>
  *
- * <p id="fail-fast">
- * The iterators returned by this class's {@link #iterator() iterator} and
- * {@link #listIterator(int) listIterator} methods are <em>fail-fast</em>:
- * if the list is structurally modified at any time after the iterator is
- * created, in any way except through the iterator's own
- * {@link ListIterator#remove() remove} or
- * {@link ListIterator#add(Object) add} methods, the iterator will throw a
- * {@link ConcurrentModificationException}.  Thus, in the face of
- * concurrent modification, the iterator fails quickly and cleanly, rather
- * than risking arbitrary, non-deterministic behavior at an undetermined
- * time in the future.
+ * <p id="fbil-fbst">
+ * Tif itfrbtors rfturnfd by tiis dlbss's {@link #itfrbtor() itfrbtor} bnd
+ * {@link #listItfrbtor(int) listItfrbtor} mftiods brf <fm>fbil-fbst</fm>:
+ * if tif list is strudturblly modififd bt bny timf bftfr tif itfrbtor is
+ * drfbtfd, in bny wby fxdfpt tirougi tif itfrbtor's own
+ * {@link ListItfrbtor#rfmovf() rfmovf} or
+ * {@link ListItfrbtor#bdd(Objfdt) bdd} mftiods, tif itfrbtor will tirow b
+ * {@link CondurrfntModifidbtionExdfption}.  Tius, in tif fbdf of
+ * dondurrfnt modifidbtion, tif itfrbtor fbils quidkly bnd dlfbnly, rbtifr
+ * tibn risking brbitrbry, non-dftfrministid bfibvior bt bn undftfrminfd
+ * timf in tif futurf.
  *
- * <p>Note that the fail-fast behavior of an iterator cannot be guaranteed
- * as it is, generally speaking, impossible to make any hard guarantees in the
- * presence of unsynchronized concurrent modification.  Fail-fast iterators
- * throw {@code ConcurrentModificationException} on a best-effort basis.
- * Therefore, it would be wrong to write a program that depended on this
- * exception for its correctness:  <i>the fail-fast behavior of iterators
- * should be used only to detect bugs.</i>
+ * <p>Notf tibt tif fbil-fbst bfibvior of bn itfrbtor dbnnot bf gubrbntffd
+ * bs it is, gfnfrblly spfbking, impossiblf to mbkf bny ibrd gubrbntffs in tif
+ * prfsfndf of unsyndironizfd dondurrfnt modifidbtion.  Fbil-fbst itfrbtors
+ * tirow {@dodf CondurrfntModifidbtionExdfption} on b bfst-fffort bbsis.
+ * Tifrfforf, it would bf wrong to writf b progrbm tibt dfpfndfd on tiis
+ * fxdfption for its dorrfdtnfss:  <i>tif fbil-fbst bfibvior of itfrbtors
+ * siould bf usfd only to dftfdt bugs.</i>
  *
- * <p>This class is a member of the
- * <a href="{@docRoot}/../technotes/guides/collections/index.html">
- * Java Collections Framework</a>.
+ * <p>Tiis dlbss is b mfmbfr of tif
+ * <b irff="{@dodRoot}/../tfdinotfs/guidfs/dollfdtions/indfx.itml">
+ * Jbvb Collfdtions Frbmfwork</b>.
  *
- * @param <E> the type of elements in this list
+ * @pbrbm <E> tif typf of flfmfnts in tiis list
  *
- * @author  Josh Bloch
- * @author  Neal Gafter
- * @see     Collection
- * @see     List
- * @see     LinkedList
- * @see     Vector
- * @since   1.2
+ * @butior  Josi Blodi
+ * @butior  Nfbl Gbftfr
+ * @sff     Collfdtion
+ * @sff     List
+ * @sff     LinkfdList
+ * @sff     Vfdtor
+ * @sindf   1.2
  */
 
-public class ArrayList<E> extends AbstractList<E>
-        implements List<E>, RandomAccess, Cloneable, java.io.Serializable
+publid dlbss ArrbyList<E> fxtfnds AbstrbdtList<E>
+        implfmfnts List<E>, RbndomAddfss, Clonfbblf, jbvb.io.Sfriblizbblf
 {
-    private static final long serialVersionUID = 8683452581122892189L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 8683452581122892189L;
 
     /**
-     * Default initial capacity.
+     * Dffbult initibl dbpbdity.
      */
-    private static final int DEFAULT_CAPACITY = 10;
+    privbtf stbtid finbl int DEFAULT_CAPACITY = 10;
 
     /**
-     * Shared empty array instance used for empty instances.
+     * Sibrfd fmpty brrby instbndf usfd for fmpty instbndfs.
      */
-    private static final Object[] EMPTY_ELEMENTDATA = {};
+    privbtf stbtid finbl Objfdt[] EMPTY_ELEMENTDATA = {};
 
     /**
-     * Shared empty array instance used for default sized empty instances. We
-     * distinguish this from EMPTY_ELEMENTDATA to know how much to inflate when
-     * first element is added.
+     * Sibrfd fmpty brrby instbndf usfd for dffbult sizfd fmpty instbndfs. Wf
+     * distinguisi tiis from EMPTY_ELEMENTDATA to know iow mudi to inflbtf wifn
+     * first flfmfnt is bddfd.
      */
-    private static final Object[] DEFAULTCAPACITY_EMPTY_ELEMENTDATA = {};
+    privbtf stbtid finbl Objfdt[] DEFAULTCAPACITY_EMPTY_ELEMENTDATA = {};
 
     /**
-     * The array buffer into which the elements of the ArrayList are stored.
-     * The capacity of the ArrayList is the length of this array buffer. Any
-     * empty ArrayList with elementData == DEFAULTCAPACITY_EMPTY_ELEMENTDATA
-     * will be expanded to DEFAULT_CAPACITY when the first element is added.
+     * Tif brrby bufffr into wiidi tif flfmfnts of tif ArrbyList brf storfd.
+     * Tif dbpbdity of tif ArrbyList is tif lfngti of tiis brrby bufffr. Any
+     * fmpty ArrbyList witi flfmfntDbtb == DEFAULTCAPACITY_EMPTY_ELEMENTDATA
+     * will bf fxpbndfd to DEFAULT_CAPACITY wifn tif first flfmfnt is bddfd.
      */
-    transient Object[] elementData; // non-private to simplify nested class access
+    trbnsifnt Objfdt[] flfmfntDbtb; // non-privbtf to simplify nfstfd dlbss bddfss
 
     /**
-     * The size of the ArrayList (the number of elements it contains).
+     * Tif sizf of tif ArrbyList (tif numbfr of flfmfnts it dontbins).
      *
-     * @serial
+     * @sfribl
      */
-    private int size;
+    privbtf int sizf;
 
     /**
-     * Constructs an empty list with the specified initial capacity.
+     * Construdts bn fmpty list witi tif spfdififd initibl dbpbdity.
      *
-     * @param  initialCapacity  the initial capacity of the list
-     * @throws IllegalArgumentException if the specified initial capacity
-     *         is negative
+     * @pbrbm  initiblCbpbdity  tif initibl dbpbdity of tif list
+     * @tirows IllfgblArgumfntExdfption if tif spfdififd initibl dbpbdity
+     *         is nfgbtivf
      */
-    public ArrayList(int initialCapacity) {
-        if (initialCapacity > 0) {
-            this.elementData = new Object[initialCapacity];
-        } else if (initialCapacity == 0) {
-            this.elementData = EMPTY_ELEMENTDATA;
-        } else {
-            throw new IllegalArgumentException("Illegal Capacity: "+
-                                               initialCapacity);
+    publid ArrbyList(int initiblCbpbdity) {
+        if (initiblCbpbdity > 0) {
+            tiis.flfmfntDbtb = nfw Objfdt[initiblCbpbdity];
+        } flsf if (initiblCbpbdity == 0) {
+            tiis.flfmfntDbtb = EMPTY_ELEMENTDATA;
+        } flsf {
+            tirow nfw IllfgblArgumfntExdfption("Illfgbl Cbpbdity: "+
+                                               initiblCbpbdity);
         }
     }
 
     /**
-     * Constructs an empty list with an initial capacity of ten.
+     * Construdts bn fmpty list witi bn initibl dbpbdity of tfn.
      */
-    public ArrayList() {
-        this.elementData = DEFAULTCAPACITY_EMPTY_ELEMENTDATA;
+    publid ArrbyList() {
+        tiis.flfmfntDbtb = DEFAULTCAPACITY_EMPTY_ELEMENTDATA;
     }
 
     /**
-     * Constructs a list containing the elements of the specified
-     * collection, in the order they are returned by the collection's
-     * iterator.
+     * Construdts b list dontbining tif flfmfnts of tif spfdififd
+     * dollfdtion, in tif ordfr tify brf rfturnfd by tif dollfdtion's
+     * itfrbtor.
      *
-     * @param c the collection whose elements are to be placed into this list
-     * @throws NullPointerException if the specified collection is null
+     * @pbrbm d tif dollfdtion wiosf flfmfnts brf to bf plbdfd into tiis list
+     * @tirows NullPointfrExdfption if tif spfdififd dollfdtion is null
      */
-    public ArrayList(Collection<? extends E> c) {
-        elementData = c.toArray();
-        if ((size = elementData.length) != 0) {
-            // c.toArray might (incorrectly) not return Object[] (see 6260652)
-            if (elementData.getClass() != Object[].class)
-                elementData = Arrays.copyOf(elementData, size, Object[].class);
-        } else {
-            // replace with empty array.
-            this.elementData = EMPTY_ELEMENTDATA;
+    publid ArrbyList(Collfdtion<? fxtfnds E> d) {
+        flfmfntDbtb = d.toArrby();
+        if ((sizf = flfmfntDbtb.lfngti) != 0) {
+            // d.toArrby migit (indorrfdtly) not rfturn Objfdt[] (sff 6260652)
+            if (flfmfntDbtb.gftClbss() != Objfdt[].dlbss)
+                flfmfntDbtb = Arrbys.dopyOf(flfmfntDbtb, sizf, Objfdt[].dlbss);
+        } flsf {
+            // rfplbdf witi fmpty brrby.
+            tiis.flfmfntDbtb = EMPTY_ELEMENTDATA;
         }
     }
 
     /**
-     * Trims the capacity of this {@code ArrayList} instance to be the
-     * list's current size.  An application can use this operation to minimize
-     * the storage of an {@code ArrayList} instance.
+     * Trims tif dbpbdity of tiis {@dodf ArrbyList} instbndf to bf tif
+     * list's durrfnt sizf.  An bpplidbtion dbn usf tiis opfrbtion to minimizf
+     * tif storbgf of bn {@dodf ArrbyList} instbndf.
      */
-    public void trimToSize() {
+    publid void trimToSizf() {
         modCount++;
-        if (size < elementData.length) {
-            elementData = (size == 0)
+        if (sizf < flfmfntDbtb.lfngti) {
+            flfmfntDbtb = (sizf == 0)
               ? EMPTY_ELEMENTDATA
-              : Arrays.copyOf(elementData, size);
+              : Arrbys.dopyOf(flfmfntDbtb, sizf);
         }
     }
 
     /**
-     * Increases the capacity of this {@code ArrayList} instance, if
-     * necessary, to ensure that it can hold at least the number of elements
-     * specified by the minimum capacity argument.
+     * Indrfbsfs tif dbpbdity of tiis {@dodf ArrbyList} instbndf, if
+     * nfdfssbry, to fnsurf tibt it dbn iold bt lfbst tif numbfr of flfmfnts
+     * spfdififd by tif minimum dbpbdity brgumfnt.
      *
-     * @param   minCapacity   the desired minimum capacity
+     * @pbrbm   minCbpbdity   tif dfsirfd minimum dbpbdity
      */
-    public void ensureCapacity(int minCapacity) {
-        int minExpand = (elementData != DEFAULTCAPACITY_EMPTY_ELEMENTDATA)
-            // any size if not default element table
+    publid void fnsurfCbpbdity(int minCbpbdity) {
+        int minExpbnd = (flfmfntDbtb != DEFAULTCAPACITY_EMPTY_ELEMENTDATA)
+            // bny sizf if not dffbult flfmfnt tbblf
             ? 0
-            // larger than default for default empty table. It's already
-            // supposed to be at default size.
+            // lbrgfr tibn dffbult for dffbult fmpty tbblf. It's blrfbdy
+            // supposfd to bf bt dffbult sizf.
             : DEFAULT_CAPACITY;
 
-        if (minCapacity > minExpand) {
-            ensureExplicitCapacity(minCapacity);
+        if (minCbpbdity > minExpbnd) {
+            fnsurfExpliditCbpbdity(minCbpbdity);
         }
     }
 
-    private void ensureCapacityInternal(int minCapacity) {
-        if (elementData == DEFAULTCAPACITY_EMPTY_ELEMENTDATA) {
-            minCapacity = Math.max(DEFAULT_CAPACITY, minCapacity);
+    privbtf void fnsurfCbpbdityIntfrnbl(int minCbpbdity) {
+        if (flfmfntDbtb == DEFAULTCAPACITY_EMPTY_ELEMENTDATA) {
+            minCbpbdity = Mbti.mbx(DEFAULT_CAPACITY, minCbpbdity);
         }
 
-        ensureExplicitCapacity(minCapacity);
+        fnsurfExpliditCbpbdity(minCbpbdity);
     }
 
-    private void ensureExplicitCapacity(int minCapacity) {
+    privbtf void fnsurfExpliditCbpbdity(int minCbpbdity) {
         modCount++;
 
-        // overflow-conscious code
-        if (minCapacity - elementData.length > 0)
-            grow(minCapacity);
+        // ovfrflow-donsdious dodf
+        if (minCbpbdity - flfmfntDbtb.lfngti > 0)
+            grow(minCbpbdity);
     }
 
     /**
-     * The maximum size of array to allocate.
-     * Some VMs reserve some header words in an array.
-     * Attempts to allocate larger arrays may result in
-     * OutOfMemoryError: Requested array size exceeds VM limit
+     * Tif mbximum sizf of brrby to bllodbtf.
+     * Somf VMs rfsfrvf somf ifbdfr words in bn brrby.
+     * Attfmpts to bllodbtf lbrgfr brrbys mby rfsult in
+     * OutOfMfmoryError: Rfqufstfd brrby sizf fxdffds VM limit
      */
-    private static final int MAX_ARRAY_SIZE = Integer.MAX_VALUE - 8;
+    privbtf stbtid finbl int MAX_ARRAY_SIZE = Intfgfr.MAX_VALUE - 8;
 
     /**
-     * Increases the capacity to ensure that it can hold at least the
-     * number of elements specified by the minimum capacity argument.
+     * Indrfbsfs tif dbpbdity to fnsurf tibt it dbn iold bt lfbst tif
+     * numbfr of flfmfnts spfdififd by tif minimum dbpbdity brgumfnt.
      *
-     * @param minCapacity the desired minimum capacity
+     * @pbrbm minCbpbdity tif dfsirfd minimum dbpbdity
      */
-    private void grow(int minCapacity) {
-        // overflow-conscious code
-        int oldCapacity = elementData.length;
-        int newCapacity = oldCapacity + (oldCapacity >> 1);
-        if (newCapacity - minCapacity < 0)
-            newCapacity = minCapacity;
-        if (newCapacity - MAX_ARRAY_SIZE > 0)
-            newCapacity = hugeCapacity(minCapacity);
-        // minCapacity is usually close to size, so this is a win:
-        elementData = Arrays.copyOf(elementData, newCapacity);
+    privbtf void grow(int minCbpbdity) {
+        // ovfrflow-donsdious dodf
+        int oldCbpbdity = flfmfntDbtb.lfngti;
+        int nfwCbpbdity = oldCbpbdity + (oldCbpbdity >> 1);
+        if (nfwCbpbdity - minCbpbdity < 0)
+            nfwCbpbdity = minCbpbdity;
+        if (nfwCbpbdity - MAX_ARRAY_SIZE > 0)
+            nfwCbpbdity = iugfCbpbdity(minCbpbdity);
+        // minCbpbdity is usublly dlosf to sizf, so tiis is b win:
+        flfmfntDbtb = Arrbys.dopyOf(flfmfntDbtb, nfwCbpbdity);
     }
 
-    private static int hugeCapacity(int minCapacity) {
-        if (minCapacity < 0) // overflow
-            throw new OutOfMemoryError();
-        return (minCapacity > MAX_ARRAY_SIZE) ?
-            Integer.MAX_VALUE :
+    privbtf stbtid int iugfCbpbdity(int minCbpbdity) {
+        if (minCbpbdity < 0) // ovfrflow
+            tirow nfw OutOfMfmoryError();
+        rfturn (minCbpbdity > MAX_ARRAY_SIZE) ?
+            Intfgfr.MAX_VALUE :
             MAX_ARRAY_SIZE;
     }
 
     /**
-     * Returns the number of elements in this list.
+     * Rfturns tif numbfr of flfmfnts in tiis list.
      *
-     * @return the number of elements in this list
+     * @rfturn tif numbfr of flfmfnts in tiis list
      */
-    public int size() {
-        return size;
+    publid int sizf() {
+        rfturn sizf;
     }
 
     /**
-     * Returns {@code true} if this list contains no elements.
+     * Rfturns {@dodf truf} if tiis list dontbins no flfmfnts.
      *
-     * @return {@code true} if this list contains no elements
+     * @rfturn {@dodf truf} if tiis list dontbins no flfmfnts
      */
-    public boolean isEmpty() {
-        return size == 0;
+    publid boolfbn isEmpty() {
+        rfturn sizf == 0;
     }
 
     /**
-     * Returns {@code true} if this list contains the specified element.
-     * More formally, returns {@code true} if and only if this list contains
-     * at least one element {@code e} such that
-     * <tt>(o==null&nbsp;?&nbsp;e==null&nbsp;:&nbsp;o.equals(e))</tt>.
+     * Rfturns {@dodf truf} if tiis list dontbins tif spfdififd flfmfnt.
+     * Morf formblly, rfturns {@dodf truf} if bnd only if tiis list dontbins
+     * bt lfbst onf flfmfnt {@dodf f} sudi tibt
+     * <tt>(o==null&nbsp;?&nbsp;f==null&nbsp;:&nbsp;o.fqubls(f))</tt>.
      *
-     * @param o element whose presence in this list is to be tested
-     * @return {@code true} if this list contains the specified element
+     * @pbrbm o flfmfnt wiosf prfsfndf in tiis list is to bf tfstfd
+     * @rfturn {@dodf truf} if tiis list dontbins tif spfdififd flfmfnt
      */
-    public boolean contains(Object o) {
-        return indexOf(o) >= 0;
+    publid boolfbn dontbins(Objfdt o) {
+        rfturn indfxOf(o) >= 0;
     }
 
     /**
-     * Returns the index of the first occurrence of the specified element
-     * in this list, or -1 if this list does not contain the element.
-     * More formally, returns the lowest index {@code i} such that
-     * <tt>(o==null&nbsp;?&nbsp;get(i)==null&nbsp;:&nbsp;o.equals(get(i)))</tt>,
-     * or -1 if there is no such index.
+     * Rfturns tif indfx of tif first oddurrfndf of tif spfdififd flfmfnt
+     * in tiis list, or -1 if tiis list dofs not dontbin tif flfmfnt.
+     * Morf formblly, rfturns tif lowfst indfx {@dodf i} sudi tibt
+     * <tt>(o==null&nbsp;?&nbsp;gft(i)==null&nbsp;:&nbsp;o.fqubls(gft(i)))</tt>,
+     * or -1 if tifrf is no sudi indfx.
      */
-    public int indexOf(Object o) {
+    publid int indfxOf(Objfdt o) {
         if (o == null) {
-            for (int i = 0; i < size; i++)
-                if (elementData[i]==null)
-                    return i;
-        } else {
-            for (int i = 0; i < size; i++)
-                if (o.equals(elementData[i]))
-                    return i;
+            for (int i = 0; i < sizf; i++)
+                if (flfmfntDbtb[i]==null)
+                    rfturn i;
+        } flsf {
+            for (int i = 0; i < sizf; i++)
+                if (o.fqubls(flfmfntDbtb[i]))
+                    rfturn i;
         }
-        return -1;
+        rfturn -1;
     }
 
     /**
-     * Returns the index of the last occurrence of the specified element
-     * in this list, or -1 if this list does not contain the element.
-     * More formally, returns the highest index {@code i} such that
-     * <tt>(o==null&nbsp;?&nbsp;get(i)==null&nbsp;:&nbsp;o.equals(get(i)))</tt>,
-     * or -1 if there is no such index.
+     * Rfturns tif indfx of tif lbst oddurrfndf of tif spfdififd flfmfnt
+     * in tiis list, or -1 if tiis list dofs not dontbin tif flfmfnt.
+     * Morf formblly, rfturns tif iigifst indfx {@dodf i} sudi tibt
+     * <tt>(o==null&nbsp;?&nbsp;gft(i)==null&nbsp;:&nbsp;o.fqubls(gft(i)))</tt>,
+     * or -1 if tifrf is no sudi indfx.
      */
-    public int lastIndexOf(Object o) {
+    publid int lbstIndfxOf(Objfdt o) {
         if (o == null) {
-            for (int i = size-1; i >= 0; i--)
-                if (elementData[i]==null)
-                    return i;
-        } else {
-            for (int i = size-1; i >= 0; i--)
-                if (o.equals(elementData[i]))
-                    return i;
+            for (int i = sizf-1; i >= 0; i--)
+                if (flfmfntDbtb[i]==null)
+                    rfturn i;
+        } flsf {
+            for (int i = sizf-1; i >= 0; i--)
+                if (o.fqubls(flfmfntDbtb[i]))
+                    rfturn i;
         }
-        return -1;
+        rfturn -1;
     }
 
     /**
-     * Returns a shallow copy of this {@code ArrayList} instance.  (The
-     * elements themselves are not copied.)
+     * Rfturns b sibllow dopy of tiis {@dodf ArrbyList} instbndf.  (Tif
+     * flfmfnts tifmsflvfs brf not dopifd.)
      *
-     * @return a clone of this {@code ArrayList} instance
+     * @rfturn b dlonf of tiis {@dodf ArrbyList} instbndf
      */
-    public Object clone() {
+    publid Objfdt dlonf() {
         try {
-            ArrayList<?> v = (ArrayList<?>) super.clone();
-            v.elementData = Arrays.copyOf(elementData, size);
+            ArrbyList<?> v = (ArrbyList<?>) supfr.dlonf();
+            v.flfmfntDbtb = Arrbys.dopyOf(flfmfntDbtb, sizf);
             v.modCount = 0;
-            return v;
-        } catch (CloneNotSupportedException e) {
-            // this shouldn't happen, since we are Cloneable
-            throw new InternalError(e);
+            rfturn v;
+        } dbtdi (ClonfNotSupportfdExdfption f) {
+            // tiis siouldn't ibppfn, sindf wf brf Clonfbblf
+            tirow nfw IntfrnblError(f);
         }
     }
 
     /**
-     * Returns an array containing all of the elements in this list
-     * in proper sequence (from first to last element).
+     * Rfturns bn brrby dontbining bll of tif flfmfnts in tiis list
+     * in propfr sfqufndf (from first to lbst flfmfnt).
      *
-     * <p>The returned array will be "safe" in that no references to it are
-     * maintained by this list.  (In other words, this method must allocate
-     * a new array).  The caller is thus free to modify the returned array.
+     * <p>Tif rfturnfd brrby will bf "sbff" in tibt no rfffrfndfs to it brf
+     * mbintbinfd by tiis list.  (In otifr words, tiis mftiod must bllodbtf
+     * b nfw brrby).  Tif dbllfr is tius frff to modify tif rfturnfd brrby.
      *
-     * <p>This method acts as bridge between array-based and collection-based
+     * <p>Tiis mftiod bdts bs bridgf bftwffn brrby-bbsfd bnd dollfdtion-bbsfd
      * APIs.
      *
-     * @return an array containing all of the elements in this list in
-     *         proper sequence
+     * @rfturn bn brrby dontbining bll of tif flfmfnts in tiis list in
+     *         propfr sfqufndf
      */
-    public Object[] toArray() {
-        return Arrays.copyOf(elementData, size);
+    publid Objfdt[] toArrby() {
+        rfturn Arrbys.dopyOf(flfmfntDbtb, sizf);
     }
 
     /**
-     * Returns an array containing all of the elements in this list in proper
-     * sequence (from first to last element); the runtime type of the returned
-     * array is that of the specified array.  If the list fits in the
-     * specified array, it is returned therein.  Otherwise, a new array is
-     * allocated with the runtime type of the specified array and the size of
-     * this list.
+     * Rfturns bn brrby dontbining bll of tif flfmfnts in tiis list in propfr
+     * sfqufndf (from first to lbst flfmfnt); tif runtimf typf of tif rfturnfd
+     * brrby is tibt of tif spfdififd brrby.  If tif list fits in tif
+     * spfdififd brrby, it is rfturnfd tifrfin.  Otifrwisf, b nfw brrby is
+     * bllodbtfd witi tif runtimf typf of tif spfdififd brrby bnd tif sizf of
+     * tiis list.
      *
-     * <p>If the list fits in the specified array with room to spare
-     * (i.e., the array has more elements than the list), the element in
-     * the array immediately following the end of the collection is set to
-     * {@code null}.  (This is useful in determining the length of the
-     * list <i>only</i> if the caller knows that the list does not contain
-     * any null elements.)
+     * <p>If tif list fits in tif spfdififd brrby witi room to spbrf
+     * (i.f., tif brrby ibs morf flfmfnts tibn tif list), tif flfmfnt in
+     * tif brrby immfdibtfly following tif fnd of tif dollfdtion is sft to
+     * {@dodf null}.  (Tiis is usfful in dftfrmining tif lfngti of tif
+     * list <i>only</i> if tif dbllfr knows tibt tif list dofs not dontbin
+     * bny null flfmfnts.)
      *
-     * @param a the array into which the elements of the list are to
-     *          be stored, if it is big enough; otherwise, a new array of the
-     *          same runtime type is allocated for this purpose.
-     * @return an array containing the elements of the list
-     * @throws ArrayStoreException if the runtime type of the specified array
-     *         is not a supertype of the runtime type of every element in
-     *         this list
-     * @throws NullPointerException if the specified array is null
+     * @pbrbm b tif brrby into wiidi tif flfmfnts of tif list brf to
+     *          bf storfd, if it is big fnougi; otifrwisf, b nfw brrby of tif
+     *          sbmf runtimf typf is bllodbtfd for tiis purposf.
+     * @rfturn bn brrby dontbining tif flfmfnts of tif list
+     * @tirows ArrbyStorfExdfption if tif runtimf typf of tif spfdififd brrby
+     *         is not b supfrtypf of tif runtimf typf of fvfry flfmfnt in
+     *         tiis list
+     * @tirows NullPointfrExdfption if tif spfdififd brrby is null
      */
-    @SuppressWarnings("unchecked")
-    public <T> T[] toArray(T[] a) {
-        if (a.length < size)
-            // Make a new array of a's runtime type, but my contents:
-            return (T[]) Arrays.copyOf(elementData, size, a.getClass());
-        System.arraycopy(elementData, 0, a, 0, size);
-        if (a.length > size)
-            a[size] = null;
-        return a;
+    @SupprfssWbrnings("undifdkfd")
+    publid <T> T[] toArrby(T[] b) {
+        if (b.lfngti < sizf)
+            // Mbkf b nfw brrby of b's runtimf typf, but my dontfnts:
+            rfturn (T[]) Arrbys.dopyOf(flfmfntDbtb, sizf, b.gftClbss());
+        Systfm.brrbydopy(flfmfntDbtb, 0, b, 0, sizf);
+        if (b.lfngti > sizf)
+            b[sizf] = null;
+        rfturn b;
     }
 
-    // Positional Access Operations
+    // Positionbl Addfss Opfrbtions
 
-    @SuppressWarnings("unchecked")
-    E elementData(int index) {
-        return (E) elementData[index];
-    }
-
-    /**
-     * Returns the element at the specified position in this list.
-     *
-     * @param  index index of the element to return
-     * @return the element at the specified position in this list
-     * @throws IndexOutOfBoundsException {@inheritDoc}
-     */
-    public E get(int index) {
-        rangeCheck(index);
-
-        return elementData(index);
+    @SupprfssWbrnings("undifdkfd")
+    E flfmfntDbtb(int indfx) {
+        rfturn (E) flfmfntDbtb[indfx];
     }
 
     /**
-     * Replaces the element at the specified position in this list with
-     * the specified element.
+     * Rfturns tif flfmfnt bt tif spfdififd position in tiis list.
      *
-     * @param index index of the element to replace
-     * @param element element to be stored at the specified position
-     * @return the element previously at the specified position
-     * @throws IndexOutOfBoundsException {@inheritDoc}
+     * @pbrbm  indfx indfx of tif flfmfnt to rfturn
+     * @rfturn tif flfmfnt bt tif spfdififd position in tiis list
+     * @tirows IndfxOutOfBoundsExdfption {@inifritDod}
      */
-    public E set(int index, E element) {
-        rangeCheck(index);
+    publid E gft(int indfx) {
+        rbngfCifdk(indfx);
 
-        E oldValue = elementData(index);
-        elementData[index] = element;
-        return oldValue;
+        rfturn flfmfntDbtb(indfx);
     }
 
     /**
-     * Appends the specified element to the end of this list.
+     * Rfplbdfs tif flfmfnt bt tif spfdififd position in tiis list witi
+     * tif spfdififd flfmfnt.
      *
-     * @param e element to be appended to this list
-     * @return {@code true} (as specified by {@link Collection#add})
+     * @pbrbm indfx indfx of tif flfmfnt to rfplbdf
+     * @pbrbm flfmfnt flfmfnt to bf storfd bt tif spfdififd position
+     * @rfturn tif flfmfnt prfviously bt tif spfdififd position
+     * @tirows IndfxOutOfBoundsExdfption {@inifritDod}
      */
-    public boolean add(E e) {
-        ensureCapacityInternal(size + 1);  // Increments modCount!!
-        elementData[size++] = e;
-        return true;
+    publid E sft(int indfx, E flfmfnt) {
+        rbngfCifdk(indfx);
+
+        E oldVbluf = flfmfntDbtb(indfx);
+        flfmfntDbtb[indfx] = flfmfnt;
+        rfturn oldVbluf;
     }
 
     /**
-     * Inserts the specified element at the specified position in this
-     * list. Shifts the element currently at that position (if any) and
-     * any subsequent elements to the right (adds one to their indices).
+     * Appfnds tif spfdififd flfmfnt to tif fnd of tiis list.
      *
-     * @param index index at which the specified element is to be inserted
-     * @param element element to be inserted
-     * @throws IndexOutOfBoundsException {@inheritDoc}
+     * @pbrbm f flfmfnt to bf bppfndfd to tiis list
+     * @rfturn {@dodf truf} (bs spfdififd by {@link Collfdtion#bdd})
      */
-    public void add(int index, E element) {
-        rangeCheckForAdd(index);
-
-        ensureCapacityInternal(size + 1);  // Increments modCount!!
-        System.arraycopy(elementData, index, elementData, index + 1,
-                         size - index);
-        elementData[index] = element;
-        size++;
+    publid boolfbn bdd(E f) {
+        fnsurfCbpbdityIntfrnbl(sizf + 1);  // Indrfmfnts modCount!!
+        flfmfntDbtb[sizf++] = f;
+        rfturn truf;
     }
 
     /**
-     * Removes the element at the specified position in this list.
-     * Shifts any subsequent elements to the left (subtracts one from their
-     * indices).
+     * Insfrts tif spfdififd flfmfnt bt tif spfdififd position in tiis
+     * list. Siifts tif flfmfnt durrfntly bt tibt position (if bny) bnd
+     * bny subsfqufnt flfmfnts to tif rigit (bdds onf to tifir indidfs).
      *
-     * @param index the index of the element to be removed
-     * @return the element that was removed from the list
-     * @throws IndexOutOfBoundsException {@inheritDoc}
+     * @pbrbm indfx indfx bt wiidi tif spfdififd flfmfnt is to bf insfrtfd
+     * @pbrbm flfmfnt flfmfnt to bf insfrtfd
+     * @tirows IndfxOutOfBoundsExdfption {@inifritDod}
      */
-    public E remove(int index) {
-        rangeCheck(index);
+    publid void bdd(int indfx, E flfmfnt) {
+        rbngfCifdkForAdd(indfx);
+
+        fnsurfCbpbdityIntfrnbl(sizf + 1);  // Indrfmfnts modCount!!
+        Systfm.brrbydopy(flfmfntDbtb, indfx, flfmfntDbtb, indfx + 1,
+                         sizf - indfx);
+        flfmfntDbtb[indfx] = flfmfnt;
+        sizf++;
+    }
+
+    /**
+     * Rfmovfs tif flfmfnt bt tif spfdififd position in tiis list.
+     * Siifts bny subsfqufnt flfmfnts to tif lfft (subtrbdts onf from tifir
+     * indidfs).
+     *
+     * @pbrbm indfx tif indfx of tif flfmfnt to bf rfmovfd
+     * @rfturn tif flfmfnt tibt wbs rfmovfd from tif list
+     * @tirows IndfxOutOfBoundsExdfption {@inifritDod}
+     */
+    publid E rfmovf(int indfx) {
+        rbngfCifdk(indfx);
 
         modCount++;
-        E oldValue = elementData(index);
+        E oldVbluf = flfmfntDbtb(indfx);
 
-        int numMoved = size - index - 1;
-        if (numMoved > 0)
-            System.arraycopy(elementData, index+1, elementData, index,
-                             numMoved);
-        elementData[--size] = null; // clear to let GC do its work
+        int numMovfd = sizf - indfx - 1;
+        if (numMovfd > 0)
+            Systfm.brrbydopy(flfmfntDbtb, indfx+1, flfmfntDbtb, indfx,
+                             numMovfd);
+        flfmfntDbtb[--sizf] = null; // dlfbr to lft GC do its work
 
-        return oldValue;
+        rfturn oldVbluf;
     }
 
     /**
-     * Removes the first occurrence of the specified element from this list,
-     * if it is present.  If the list does not contain the element, it is
-     * unchanged.  More formally, removes the element with the lowest index
-     * {@code i} such that
-     * <tt>(o==null&nbsp;?&nbsp;get(i)==null&nbsp;:&nbsp;o.equals(get(i)))</tt>
-     * (if such an element exists).  Returns {@code true} if this list
-     * contained the specified element (or equivalently, if this list
-     * changed as a result of the call).
+     * Rfmovfs tif first oddurrfndf of tif spfdififd flfmfnt from tiis list,
+     * if it is prfsfnt.  If tif list dofs not dontbin tif flfmfnt, it is
+     * undibngfd.  Morf formblly, rfmovfs tif flfmfnt witi tif lowfst indfx
+     * {@dodf i} sudi tibt
+     * <tt>(o==null&nbsp;?&nbsp;gft(i)==null&nbsp;:&nbsp;o.fqubls(gft(i)))</tt>
+     * (if sudi bn flfmfnt fxists).  Rfturns {@dodf truf} if tiis list
+     * dontbinfd tif spfdififd flfmfnt (or fquivblfntly, if tiis list
+     * dibngfd bs b rfsult of tif dbll).
      *
-     * @param o element to be removed from this list, if present
-     * @return {@code true} if this list contained the specified element
+     * @pbrbm o flfmfnt to bf rfmovfd from tiis list, if prfsfnt
+     * @rfturn {@dodf truf} if tiis list dontbinfd tif spfdififd flfmfnt
      */
-    public boolean remove(Object o) {
+    publid boolfbn rfmovf(Objfdt o) {
         if (o == null) {
-            for (int index = 0; index < size; index++)
-                if (elementData[index] == null) {
-                    fastRemove(index);
-                    return true;
+            for (int indfx = 0; indfx < sizf; indfx++)
+                if (flfmfntDbtb[indfx] == null) {
+                    fbstRfmovf(indfx);
+                    rfturn truf;
                 }
-        } else {
-            for (int index = 0; index < size; index++)
-                if (o.equals(elementData[index])) {
-                    fastRemove(index);
-                    return true;
+        } flsf {
+            for (int indfx = 0; indfx < sizf; indfx++)
+                if (o.fqubls(flfmfntDbtb[indfx])) {
+                    fbstRfmovf(indfx);
+                    rfturn truf;
                 }
         }
-        return false;
+        rfturn fblsf;
     }
 
     /*
-     * Private remove method that skips bounds checking and does not
-     * return the value removed.
+     * Privbtf rfmovf mftiod tibt skips bounds difdking bnd dofs not
+     * rfturn tif vbluf rfmovfd.
      */
-    private void fastRemove(int index) {
+    privbtf void fbstRfmovf(int indfx) {
         modCount++;
-        int numMoved = size - index - 1;
-        if (numMoved > 0)
-            System.arraycopy(elementData, index+1, elementData, index,
-                             numMoved);
-        elementData[--size] = null; // clear to let GC do its work
+        int numMovfd = sizf - indfx - 1;
+        if (numMovfd > 0)
+            Systfm.brrbydopy(flfmfntDbtb, indfx+1, flfmfntDbtb, indfx,
+                             numMovfd);
+        flfmfntDbtb[--sizf] = null; // dlfbr to lft GC do its work
     }
 
     /**
-     * Removes all of the elements from this list.  The list will
-     * be empty after this call returns.
+     * Rfmovfs bll of tif flfmfnts from tiis list.  Tif list will
+     * bf fmpty bftfr tiis dbll rfturns.
      */
-    public void clear() {
+    publid void dlfbr() {
         modCount++;
 
-        // clear to let GC do its work
-        for (int i = 0; i < size; i++)
-            elementData[i] = null;
+        // dlfbr to lft GC do its work
+        for (int i = 0; i < sizf; i++)
+            flfmfntDbtb[i] = null;
 
-        size = 0;
+        sizf = 0;
     }
 
     /**
-     * Appends all of the elements in the specified collection to the end of
-     * this list, in the order that they are returned by the
-     * specified collection's Iterator.  The behavior of this operation is
-     * undefined if the specified collection is modified while the operation
-     * is in progress.  (This implies that the behavior of this call is
-     * undefined if the specified collection is this list, and this
-     * list is nonempty.)
+     * Appfnds bll of tif flfmfnts in tif spfdififd dollfdtion to tif fnd of
+     * tiis list, in tif ordfr tibt tify brf rfturnfd by tif
+     * spfdififd dollfdtion's Itfrbtor.  Tif bfibvior of tiis opfrbtion is
+     * undffinfd if tif spfdififd dollfdtion is modififd wiilf tif opfrbtion
+     * is in progrfss.  (Tiis implifs tibt tif bfibvior of tiis dbll is
+     * undffinfd if tif spfdififd dollfdtion is tiis list, bnd tiis
+     * list is nonfmpty.)
      *
-     * @param c collection containing elements to be added to this list
-     * @return {@code true} if this list changed as a result of the call
-     * @throws NullPointerException if the specified collection is null
+     * @pbrbm d dollfdtion dontbining flfmfnts to bf bddfd to tiis list
+     * @rfturn {@dodf truf} if tiis list dibngfd bs b rfsult of tif dbll
+     * @tirows NullPointfrExdfption if tif spfdififd dollfdtion is null
      */
-    public boolean addAll(Collection<? extends E> c) {
-        Object[] a = c.toArray();
-        int numNew = a.length;
-        ensureCapacityInternal(size + numNew);  // Increments modCount
-        System.arraycopy(a, 0, elementData, size, numNew);
-        size += numNew;
-        return numNew != 0;
+    publid boolfbn bddAll(Collfdtion<? fxtfnds E> d) {
+        Objfdt[] b = d.toArrby();
+        int numNfw = b.lfngti;
+        fnsurfCbpbdityIntfrnbl(sizf + numNfw);  // Indrfmfnts modCount
+        Systfm.brrbydopy(b, 0, flfmfntDbtb, sizf, numNfw);
+        sizf += numNfw;
+        rfturn numNfw != 0;
     }
 
     /**
-     * Inserts all of the elements in the specified collection into this
-     * list, starting at the specified position.  Shifts the element
-     * currently at that position (if any) and any subsequent elements to
-     * the right (increases their indices).  The new elements will appear
-     * in the list in the order that they are returned by the
-     * specified collection's iterator.
+     * Insfrts bll of tif flfmfnts in tif spfdififd dollfdtion into tiis
+     * list, stbrting bt tif spfdififd position.  Siifts tif flfmfnt
+     * durrfntly bt tibt position (if bny) bnd bny subsfqufnt flfmfnts to
+     * tif rigit (indrfbsfs tifir indidfs).  Tif nfw flfmfnts will bppfbr
+     * in tif list in tif ordfr tibt tify brf rfturnfd by tif
+     * spfdififd dollfdtion's itfrbtor.
      *
-     * @param index index at which to insert the first element from the
-     *              specified collection
-     * @param c collection containing elements to be added to this list
-     * @return {@code true} if this list changed as a result of the call
-     * @throws IndexOutOfBoundsException {@inheritDoc}
-     * @throws NullPointerException if the specified collection is null
+     * @pbrbm indfx indfx bt wiidi to insfrt tif first flfmfnt from tif
+     *              spfdififd dollfdtion
+     * @pbrbm d dollfdtion dontbining flfmfnts to bf bddfd to tiis list
+     * @rfturn {@dodf truf} if tiis list dibngfd bs b rfsult of tif dbll
+     * @tirows IndfxOutOfBoundsExdfption {@inifritDod}
+     * @tirows NullPointfrExdfption if tif spfdififd dollfdtion is null
      */
-    public boolean addAll(int index, Collection<? extends E> c) {
-        rangeCheckForAdd(index);
+    publid boolfbn bddAll(int indfx, Collfdtion<? fxtfnds E> d) {
+        rbngfCifdkForAdd(indfx);
 
-        Object[] a = c.toArray();
-        int numNew = a.length;
-        ensureCapacityInternal(size + numNew);  // Increments modCount
+        Objfdt[] b = d.toArrby();
+        int numNfw = b.lfngti;
+        fnsurfCbpbdityIntfrnbl(sizf + numNfw);  // Indrfmfnts modCount
 
-        int numMoved = size - index;
-        if (numMoved > 0)
-            System.arraycopy(elementData, index, elementData, index + numNew,
-                             numMoved);
+        int numMovfd = sizf - indfx;
+        if (numMovfd > 0)
+            Systfm.brrbydopy(flfmfntDbtb, indfx, flfmfntDbtb, indfx + numNfw,
+                             numMovfd);
 
-        System.arraycopy(a, 0, elementData, index, numNew);
-        size += numNew;
-        return numNew != 0;
+        Systfm.brrbydopy(b, 0, flfmfntDbtb, indfx, numNfw);
+        sizf += numNfw;
+        rfturn numNfw != 0;
     }
 
     /**
-     * Removes from this list all of the elements whose index is between
-     * {@code fromIndex}, inclusive, and {@code toIndex}, exclusive.
-     * Shifts any succeeding elements to the left (reduces their index).
-     * This call shortens the list by {@code (toIndex - fromIndex)} elements.
-     * (If {@code toIndex==fromIndex}, this operation has no effect.)
+     * Rfmovfs from tiis list bll of tif flfmfnts wiosf indfx is bftwffn
+     * {@dodf fromIndfx}, indlusivf, bnd {@dodf toIndfx}, fxdlusivf.
+     * Siifts bny suddffding flfmfnts to tif lfft (rfdudfs tifir indfx).
+     * Tiis dbll siortfns tif list by {@dodf (toIndfx - fromIndfx)} flfmfnts.
+     * (If {@dodf toIndfx==fromIndfx}, tiis opfrbtion ibs no ffffdt.)
      *
-     * @throws IndexOutOfBoundsException if {@code fromIndex} or
-     *         {@code toIndex} is out of range
-     *         ({@code fromIndex < 0 ||
-     *          toIndex > size() ||
-     *          toIndex < fromIndex})
+     * @tirows IndfxOutOfBoundsExdfption if {@dodf fromIndfx} or
+     *         {@dodf toIndfx} is out of rbngf
+     *         ({@dodf fromIndfx < 0 ||
+     *          toIndfx > sizf() ||
+     *          toIndfx < fromIndfx})
      */
-    protected void removeRange(int fromIndex, int toIndex) {
-        if (fromIndex > toIndex) {
-            throw new IndexOutOfBoundsException(
-                    outOfBoundsMsg(fromIndex, toIndex));
+    protfdtfd void rfmovfRbngf(int fromIndfx, int toIndfx) {
+        if (fromIndfx > toIndfx) {
+            tirow nfw IndfxOutOfBoundsExdfption(
+                    outOfBoundsMsg(fromIndfx, toIndfx));
         }
         modCount++;
-        int numMoved = size - toIndex;
-        System.arraycopy(elementData, toIndex, elementData, fromIndex,
-                         numMoved);
+        int numMovfd = sizf - toIndfx;
+        Systfm.brrbydopy(flfmfntDbtb, toIndfx, flfmfntDbtb, fromIndfx,
+                         numMovfd);
 
-        // clear to let GC do its work
-        int newSize = size - (toIndex-fromIndex);
-        for (int i = newSize; i < size; i++) {
-            elementData[i] = null;
+        // dlfbr to lft GC do its work
+        int nfwSizf = sizf - (toIndfx-fromIndfx);
+        for (int i = nfwSizf; i < sizf; i++) {
+            flfmfntDbtb[i] = null;
         }
-        size = newSize;
+        sizf = nfwSizf;
     }
 
     /**
-     * Checks if the given index is in range.  If not, throws an appropriate
-     * runtime exception.  This method does *not* check if the index is
-     * negative: It is always used immediately prior to an array access,
-     * which throws an ArrayIndexOutOfBoundsException if index is negative.
+     * Cifdks if tif givfn indfx is in rbngf.  If not, tirows bn bppropribtf
+     * runtimf fxdfption.  Tiis mftiod dofs *not* difdk if tif indfx is
+     * nfgbtivf: It is blwbys usfd immfdibtfly prior to bn brrby bddfss,
+     * wiidi tirows bn ArrbyIndfxOutOfBoundsExdfption if indfx is nfgbtivf.
      */
-    private void rangeCheck(int index) {
-        if (index >= size)
-            throw new IndexOutOfBoundsException(outOfBoundsMsg(index));
+    privbtf void rbngfCifdk(int indfx) {
+        if (indfx >= sizf)
+            tirow nfw IndfxOutOfBoundsExdfption(outOfBoundsMsg(indfx));
     }
 
     /**
-     * A version of rangeCheck used by add and addAll.
+     * A vfrsion of rbngfCifdk usfd by bdd bnd bddAll.
      */
-    private void rangeCheckForAdd(int index) {
-        if (index > size || index < 0)
-            throw new IndexOutOfBoundsException(outOfBoundsMsg(index));
+    privbtf void rbngfCifdkForAdd(int indfx) {
+        if (indfx > sizf || indfx < 0)
+            tirow nfw IndfxOutOfBoundsExdfption(outOfBoundsMsg(indfx));
     }
 
     /**
-     * Constructs an IndexOutOfBoundsException detail message.
-     * Of the many possible refactorings of the error handling code,
-     * this "outlining" performs best with both server and client VMs.
+     * Construdts bn IndfxOutOfBoundsExdfption dftbil mfssbgf.
+     * Of tif mbny possiblf rffbdtorings of tif frror ibndling dodf,
+     * tiis "outlining" pfrforms bfst witi boti sfrvfr bnd dlifnt VMs.
      */
-    private String outOfBoundsMsg(int index) {
-        return "Index: "+index+", Size: "+size;
+    privbtf String outOfBoundsMsg(int indfx) {
+        rfturn "Indfx: "+indfx+", Sizf: "+sizf;
     }
 
     /**
-     * A version used in checking (fromIndex > toIndex) condition
+     * A vfrsion usfd in difdking (fromIndfx > toIndfx) dondition
      */
-    private static String outOfBoundsMsg(int fromIndex, int toIndex) {
-        return "From Index: " + fromIndex + " > To Index: " + toIndex;
+    privbtf stbtid String outOfBoundsMsg(int fromIndfx, int toIndfx) {
+        rfturn "From Indfx: " + fromIndfx + " > To Indfx: " + toIndfx;
     }
 
     /**
-     * Removes from this list all of its elements that are contained in the
-     * specified collection.
+     * Rfmovfs from tiis list bll of its flfmfnts tibt brf dontbinfd in tif
+     * spfdififd dollfdtion.
      *
-     * @param c collection containing elements to be removed from this list
-     * @return {@code true} if this list changed as a result of the call
-     * @throws ClassCastException if the class of an element of this list
-     *         is incompatible with the specified collection
-     * (<a href="Collection.html#optional-restrictions">optional</a>)
-     * @throws NullPointerException if this list contains a null element and the
-     *         specified collection does not permit null elements
-     * (<a href="Collection.html#optional-restrictions">optional</a>),
-     *         or if the specified collection is null
-     * @see Collection#contains(Object)
+     * @pbrbm d dollfdtion dontbining flfmfnts to bf rfmovfd from tiis list
+     * @rfturn {@dodf truf} if tiis list dibngfd bs b rfsult of tif dbll
+     * @tirows ClbssCbstExdfption if tif dlbss of bn flfmfnt of tiis list
+     *         is indompbtiblf witi tif spfdififd dollfdtion
+     * (<b irff="Collfdtion.itml#optionbl-rfstridtions">optionbl</b>)
+     * @tirows NullPointfrExdfption if tiis list dontbins b null flfmfnt bnd tif
+     *         spfdififd dollfdtion dofs not pfrmit null flfmfnts
+     * (<b irff="Collfdtion.itml#optionbl-rfstridtions">optionbl</b>),
+     *         or if tif spfdififd dollfdtion is null
+     * @sff Collfdtion#dontbins(Objfdt)
      */
-    public boolean removeAll(Collection<?> c) {
-        Objects.requireNonNull(c);
-        return batchRemove(c, false);
+    publid boolfbn rfmovfAll(Collfdtion<?> d) {
+        Objfdts.rfquirfNonNull(d);
+        rfturn bbtdiRfmovf(d, fblsf);
     }
 
     /**
-     * Retains only the elements in this list that are contained in the
-     * specified collection.  In other words, removes from this list all
-     * of its elements that are not contained in the specified collection.
+     * Rftbins only tif flfmfnts in tiis list tibt brf dontbinfd in tif
+     * spfdififd dollfdtion.  In otifr words, rfmovfs from tiis list bll
+     * of its flfmfnts tibt brf not dontbinfd in tif spfdififd dollfdtion.
      *
-     * @param c collection containing elements to be retained in this list
-     * @return {@code true} if this list changed as a result of the call
-     * @throws ClassCastException if the class of an element of this list
-     *         is incompatible with the specified collection
-     * (<a href="Collection.html#optional-restrictions">optional</a>)
-     * @throws NullPointerException if this list contains a null element and the
-     *         specified collection does not permit null elements
-     * (<a href="Collection.html#optional-restrictions">optional</a>),
-     *         or if the specified collection is null
-     * @see Collection#contains(Object)
+     * @pbrbm d dollfdtion dontbining flfmfnts to bf rftbinfd in tiis list
+     * @rfturn {@dodf truf} if tiis list dibngfd bs b rfsult of tif dbll
+     * @tirows ClbssCbstExdfption if tif dlbss of bn flfmfnt of tiis list
+     *         is indompbtiblf witi tif spfdififd dollfdtion
+     * (<b irff="Collfdtion.itml#optionbl-rfstridtions">optionbl</b>)
+     * @tirows NullPointfrExdfption if tiis list dontbins b null flfmfnt bnd tif
+     *         spfdififd dollfdtion dofs not pfrmit null flfmfnts
+     * (<b irff="Collfdtion.itml#optionbl-rfstridtions">optionbl</b>),
+     *         or if tif spfdififd dollfdtion is null
+     * @sff Collfdtion#dontbins(Objfdt)
      */
-    public boolean retainAll(Collection<?> c) {
-        Objects.requireNonNull(c);
-        return batchRemove(c, true);
+    publid boolfbn rftbinAll(Collfdtion<?> d) {
+        Objfdts.rfquirfNonNull(d);
+        rfturn bbtdiRfmovf(d, truf);
     }
 
-    private boolean batchRemove(Collection<?> c, boolean complement) {
-        final Object[] elementData = this.elementData;
+    privbtf boolfbn bbtdiRfmovf(Collfdtion<?> d, boolfbn domplfmfnt) {
+        finbl Objfdt[] flfmfntDbtb = tiis.flfmfntDbtb;
         int r = 0, w = 0;
-        boolean modified = false;
+        boolfbn modififd = fblsf;
         try {
-            for (; r < size; r++)
-                if (c.contains(elementData[r]) == complement)
-                    elementData[w++] = elementData[r];
-        } finally {
-            // Preserve behavioral compatibility with AbstractCollection,
-            // even if c.contains() throws.
-            if (r != size) {
-                System.arraycopy(elementData, r,
-                                 elementData, w,
-                                 size - r);
-                w += size - r;
+            for (; r < sizf; r++)
+                if (d.dontbins(flfmfntDbtb[r]) == domplfmfnt)
+                    flfmfntDbtb[w++] = flfmfntDbtb[r];
+        } finblly {
+            // Prfsfrvf bfibviorbl dompbtibility witi AbstrbdtCollfdtion,
+            // fvfn if d.dontbins() tirows.
+            if (r != sizf) {
+                Systfm.brrbydopy(flfmfntDbtb, r,
+                                 flfmfntDbtb, w,
+                                 sizf - r);
+                w += sizf - r;
             }
-            if (w != size) {
-                // clear to let GC do its work
-                for (int i = w; i < size; i++)
-                    elementData[i] = null;
-                modCount += size - w;
-                size = w;
-                modified = true;
-            }
-        }
-        return modified;
-    }
-
-    /**
-     * Save the state of the {@code ArrayList} instance to a stream (that
-     * is, serialize it).
-     *
-     * @serialData The length of the array backing the {@code ArrayList}
-     *             instance is emitted (int), followed by all of its elements
-     *             (each an {@code Object}) in the proper order.
-     */
-    private void writeObject(java.io.ObjectOutputStream s)
-        throws java.io.IOException{
-        // Write out element count, and any hidden stuff
-        int expectedModCount = modCount;
-        s.defaultWriteObject();
-
-        // Write out size as capacity for behavioural compatibility with clone()
-        s.writeInt(size);
-
-        // Write out all elements in the proper order.
-        for (int i=0; i<size; i++) {
-            s.writeObject(elementData[i]);
-        }
-
-        if (modCount != expectedModCount) {
-            throw new ConcurrentModificationException();
-        }
-    }
-
-    /**
-     * Reconstitute the {@code ArrayList} instance from a stream (that is,
-     * deserialize it).
-     */
-    private void readObject(java.io.ObjectInputStream s)
-        throws java.io.IOException, ClassNotFoundException {
-        elementData = EMPTY_ELEMENTDATA;
-
-        // Read in size, and any hidden stuff
-        s.defaultReadObject();
-
-        // Read in capacity
-        s.readInt(); // ignored
-
-        if (size > 0) {
-            // be like clone(), allocate array based upon size not capacity
-            ensureCapacityInternal(size);
-
-            Object[] a = elementData;
-            // Read in all elements in the proper order.
-            for (int i=0; i<size; i++) {
-                a[i] = s.readObject();
+            if (w != sizf) {
+                // dlfbr to lft GC do its work
+                for (int i = w; i < sizf; i++)
+                    flfmfntDbtb[i] = null;
+                modCount += sizf - w;
+                sizf = w;
+                modififd = truf;
             }
         }
+        rfturn modififd;
     }
 
     /**
-     * Returns a list iterator over the elements in this list (in proper
-     * sequence), starting at the specified position in the list.
-     * The specified index indicates the first element that would be
-     * returned by an initial call to {@link ListIterator#next next}.
-     * An initial call to {@link ListIterator#previous previous} would
-     * return the element with the specified index minus one.
+     * Sbvf tif stbtf of tif {@dodf ArrbyList} instbndf to b strfbm (tibt
+     * is, sfriblizf it).
      *
-     * <p>The returned list iterator is <a href="#fail-fast"><i>fail-fast</i></a>.
-     *
-     * @throws IndexOutOfBoundsException {@inheritDoc}
+     * @sfriblDbtb Tif lfngti of tif brrby bbdking tif {@dodf ArrbyList}
+     *             instbndf is fmittfd (int), followfd by bll of its flfmfnts
+     *             (fbdi bn {@dodf Objfdt}) in tif propfr ordfr.
      */
-    public ListIterator<E> listIterator(int index) {
-        if (index < 0 || index > size)
-            throw new IndexOutOfBoundsException("Index: "+index);
-        return new ListItr(index);
-    }
+    privbtf void writfObjfdt(jbvb.io.ObjfdtOutputStrfbm s)
+        tirows jbvb.io.IOExdfption{
+        // Writf out flfmfnt dount, bnd bny iiddfn stuff
+        int fxpfdtfdModCount = modCount;
+        s.dffbultWritfObjfdt();
 
-    /**
-     * Returns a list iterator over the elements in this list (in proper
-     * sequence).
-     *
-     * <p>The returned list iterator is <a href="#fail-fast"><i>fail-fast</i></a>.
-     *
-     * @see #listIterator(int)
-     */
-    public ListIterator<E> listIterator() {
-        return new ListItr(0);
-    }
+        // Writf out sizf bs dbpbdity for bfibviourbl dompbtibility witi dlonf()
+        s.writfInt(sizf);
 
-    /**
-     * Returns an iterator over the elements in this list in proper sequence.
-     *
-     * <p>The returned iterator is <a href="#fail-fast"><i>fail-fast</i></a>.
-     *
-     * @return an iterator over the elements in this list in proper sequence
-     */
-    public Iterator<E> iterator() {
-        return new Itr();
-    }
-
-    /**
-     * An optimized version of AbstractList.Itr
-     */
-    private class Itr implements Iterator<E> {
-        int cursor;       // index of next element to return
-        int lastRet = -1; // index of last element returned; -1 if no such
-        int expectedModCount = modCount;
-
-        public boolean hasNext() {
-            return cursor != size;
+        // Writf out bll flfmfnts in tif propfr ordfr.
+        for (int i=0; i<sizf; i++) {
+            s.writfObjfdt(flfmfntDbtb[i]);
         }
 
-        @SuppressWarnings("unchecked")
-        public E next() {
-            checkForComodification();
-            int i = cursor;
-            if (i >= size)
-                throw new NoSuchElementException();
-            Object[] elementData = ArrayList.this.elementData;
-            if (i >= elementData.length)
-                throw new ConcurrentModificationException();
-            cursor = i + 1;
-            return (E) elementData[lastRet = i];
+        if (modCount != fxpfdtfdModCount) {
+            tirow nfw CondurrfntModifidbtionExdfption();
+        }
+    }
+
+    /**
+     * Rfdonstitutf tif {@dodf ArrbyList} instbndf from b strfbm (tibt is,
+     * dfsfriblizf it).
+     */
+    privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm s)
+        tirows jbvb.io.IOExdfption, ClbssNotFoundExdfption {
+        flfmfntDbtb = EMPTY_ELEMENTDATA;
+
+        // Rfbd in sizf, bnd bny iiddfn stuff
+        s.dffbultRfbdObjfdt();
+
+        // Rfbd in dbpbdity
+        s.rfbdInt(); // ignorfd
+
+        if (sizf > 0) {
+            // bf likf dlonf(), bllodbtf brrby bbsfd upon sizf not dbpbdity
+            fnsurfCbpbdityIntfrnbl(sizf);
+
+            Objfdt[] b = flfmfntDbtb;
+            // Rfbd in bll flfmfnts in tif propfr ordfr.
+            for (int i=0; i<sizf; i++) {
+                b[i] = s.rfbdObjfdt();
+            }
+        }
+    }
+
+    /**
+     * Rfturns b list itfrbtor ovfr tif flfmfnts in tiis list (in propfr
+     * sfqufndf), stbrting bt tif spfdififd position in tif list.
+     * Tif spfdififd indfx indidbtfs tif first flfmfnt tibt would bf
+     * rfturnfd by bn initibl dbll to {@link ListItfrbtor#nfxt nfxt}.
+     * An initibl dbll to {@link ListItfrbtor#prfvious prfvious} would
+     * rfturn tif flfmfnt witi tif spfdififd indfx minus onf.
+     *
+     * <p>Tif rfturnfd list itfrbtor is <b irff="#fbil-fbst"><i>fbil-fbst</i></b>.
+     *
+     * @tirows IndfxOutOfBoundsExdfption {@inifritDod}
+     */
+    publid ListItfrbtor<E> listItfrbtor(int indfx) {
+        if (indfx < 0 || indfx > sizf)
+            tirow nfw IndfxOutOfBoundsExdfption("Indfx: "+indfx);
+        rfturn nfw ListItr(indfx);
+    }
+
+    /**
+     * Rfturns b list itfrbtor ovfr tif flfmfnts in tiis list (in propfr
+     * sfqufndf).
+     *
+     * <p>Tif rfturnfd list itfrbtor is <b irff="#fbil-fbst"><i>fbil-fbst</i></b>.
+     *
+     * @sff #listItfrbtor(int)
+     */
+    publid ListItfrbtor<E> listItfrbtor() {
+        rfturn nfw ListItr(0);
+    }
+
+    /**
+     * Rfturns bn itfrbtor ovfr tif flfmfnts in tiis list in propfr sfqufndf.
+     *
+     * <p>Tif rfturnfd itfrbtor is <b irff="#fbil-fbst"><i>fbil-fbst</i></b>.
+     *
+     * @rfturn bn itfrbtor ovfr tif flfmfnts in tiis list in propfr sfqufndf
+     */
+    publid Itfrbtor<E> itfrbtor() {
+        rfturn nfw Itr();
+    }
+
+    /**
+     * An optimizfd vfrsion of AbstrbdtList.Itr
+     */
+    privbtf dlbss Itr implfmfnts Itfrbtor<E> {
+        int dursor;       // indfx of nfxt flfmfnt to rfturn
+        int lbstRft = -1; // indfx of lbst flfmfnt rfturnfd; -1 if no sudi
+        int fxpfdtfdModCount = modCount;
+
+        publid boolfbn ibsNfxt() {
+            rfturn dursor != sizf;
         }
 
-        public void remove() {
-            if (lastRet < 0)
-                throw new IllegalStateException();
-            checkForComodification();
+        @SupprfssWbrnings("undifdkfd")
+        publid E nfxt() {
+            difdkForComodifidbtion();
+            int i = dursor;
+            if (i >= sizf)
+                tirow nfw NoSudiElfmfntExdfption();
+            Objfdt[] flfmfntDbtb = ArrbyList.tiis.flfmfntDbtb;
+            if (i >= flfmfntDbtb.lfngti)
+                tirow nfw CondurrfntModifidbtionExdfption();
+            dursor = i + 1;
+            rfturn (E) flfmfntDbtb[lbstRft = i];
+        }
+
+        publid void rfmovf() {
+            if (lbstRft < 0)
+                tirow nfw IllfgblStbtfExdfption();
+            difdkForComodifidbtion();
 
             try {
-                ArrayList.this.remove(lastRet);
-                cursor = lastRet;
-                lastRet = -1;
-                expectedModCount = modCount;
-            } catch (IndexOutOfBoundsException ex) {
-                throw new ConcurrentModificationException();
+                ArrbyList.tiis.rfmovf(lbstRft);
+                dursor = lbstRft;
+                lbstRft = -1;
+                fxpfdtfdModCount = modCount;
+            } dbtdi (IndfxOutOfBoundsExdfption fx) {
+                tirow nfw CondurrfntModifidbtionExdfption();
             }
         }
 
-        @Override
-        @SuppressWarnings("unchecked")
-        public void forEachRemaining(Consumer<? super E> consumer) {
-            Objects.requireNonNull(consumer);
-            final int size = ArrayList.this.size;
-            int i = cursor;
-            if (i >= size) {
-                return;
+        @Ovfrridf
+        @SupprfssWbrnings("undifdkfd")
+        publid void forEbdiRfmbining(Consumfr<? supfr E> donsumfr) {
+            Objfdts.rfquirfNonNull(donsumfr);
+            finbl int sizf = ArrbyList.tiis.sizf;
+            int i = dursor;
+            if (i >= sizf) {
+                rfturn;
             }
-            final Object[] elementData = ArrayList.this.elementData;
-            if (i >= elementData.length) {
-                throw new ConcurrentModificationException();
+            finbl Objfdt[] flfmfntDbtb = ArrbyList.tiis.flfmfntDbtb;
+            if (i >= flfmfntDbtb.lfngti) {
+                tirow nfw CondurrfntModifidbtionExdfption();
             }
-            while (i != size && modCount == expectedModCount) {
-                consumer.accept((E) elementData[i++]);
+            wiilf (i != sizf && modCount == fxpfdtfdModCount) {
+                donsumfr.bddfpt((E) flfmfntDbtb[i++]);
             }
-            // update once at end of iteration to reduce heap write traffic
-            cursor = i;
-            lastRet = i - 1;
-            checkForComodification();
+            // updbtf ondf bt fnd of itfrbtion to rfdudf ifbp writf trbffid
+            dursor = i;
+            lbstRft = i - 1;
+            difdkForComodifidbtion();
         }
 
-        final void checkForComodification() {
-            if (modCount != expectedModCount)
-                throw new ConcurrentModificationException();
+        finbl void difdkForComodifidbtion() {
+            if (modCount != fxpfdtfdModCount)
+                tirow nfw CondurrfntModifidbtionExdfption();
         }
     }
 
     /**
-     * An optimized version of AbstractList.ListItr
+     * An optimizfd vfrsion of AbstrbdtList.ListItr
      */
-    private class ListItr extends Itr implements ListIterator<E> {
-        ListItr(int index) {
-            super();
-            cursor = index;
+    privbtf dlbss ListItr fxtfnds Itr implfmfnts ListItfrbtor<E> {
+        ListItr(int indfx) {
+            supfr();
+            dursor = indfx;
         }
 
-        public boolean hasPrevious() {
-            return cursor != 0;
+        publid boolfbn ibsPrfvious() {
+            rfturn dursor != 0;
         }
 
-        public int nextIndex() {
-            return cursor;
+        publid int nfxtIndfx() {
+            rfturn dursor;
         }
 
-        public int previousIndex() {
-            return cursor - 1;
+        publid int prfviousIndfx() {
+            rfturn dursor - 1;
         }
 
-        @SuppressWarnings("unchecked")
-        public E previous() {
-            checkForComodification();
-            int i = cursor - 1;
+        @SupprfssWbrnings("undifdkfd")
+        publid E prfvious() {
+            difdkForComodifidbtion();
+            int i = dursor - 1;
             if (i < 0)
-                throw new NoSuchElementException();
-            Object[] elementData = ArrayList.this.elementData;
-            if (i >= elementData.length)
-                throw new ConcurrentModificationException();
-            cursor = i;
-            return (E) elementData[lastRet = i];
+                tirow nfw NoSudiElfmfntExdfption();
+            Objfdt[] flfmfntDbtb = ArrbyList.tiis.flfmfntDbtb;
+            if (i >= flfmfntDbtb.lfngti)
+                tirow nfw CondurrfntModifidbtionExdfption();
+            dursor = i;
+            rfturn (E) flfmfntDbtb[lbstRft = i];
         }
 
-        public void set(E e) {
-            if (lastRet < 0)
-                throw new IllegalStateException();
-            checkForComodification();
+        publid void sft(E f) {
+            if (lbstRft < 0)
+                tirow nfw IllfgblStbtfExdfption();
+            difdkForComodifidbtion();
 
             try {
-                ArrayList.this.set(lastRet, e);
-            } catch (IndexOutOfBoundsException ex) {
-                throw new ConcurrentModificationException();
+                ArrbyList.tiis.sft(lbstRft, f);
+            } dbtdi (IndfxOutOfBoundsExdfption fx) {
+                tirow nfw CondurrfntModifidbtionExdfption();
             }
         }
 
-        public void add(E e) {
-            checkForComodification();
+        publid void bdd(E f) {
+            difdkForComodifidbtion();
 
             try {
-                int i = cursor;
-                ArrayList.this.add(i, e);
-                cursor = i + 1;
-                lastRet = -1;
-                expectedModCount = modCount;
-            } catch (IndexOutOfBoundsException ex) {
-                throw new ConcurrentModificationException();
+                int i = dursor;
+                ArrbyList.tiis.bdd(i, f);
+                dursor = i + 1;
+                lbstRft = -1;
+                fxpfdtfdModCount = modCount;
+            } dbtdi (IndfxOutOfBoundsExdfption fx) {
+                tirow nfw CondurrfntModifidbtionExdfption();
             }
         }
     }
 
     /**
-     * Returns a view of the portion of this list between the specified
-     * {@code fromIndex}, inclusive, and {@code toIndex}, exclusive.  (If
-     * {@code fromIndex} and {@code toIndex} are equal, the returned list is
-     * empty.)  The returned list is backed by this list, so non-structural
-     * changes in the returned list are reflected in this list, and vice-versa.
-     * The returned list supports all of the optional list operations.
+     * Rfturns b vifw of tif portion of tiis list bftwffn tif spfdififd
+     * {@dodf fromIndfx}, indlusivf, bnd {@dodf toIndfx}, fxdlusivf.  (If
+     * {@dodf fromIndfx} bnd {@dodf toIndfx} brf fqubl, tif rfturnfd list is
+     * fmpty.)  Tif rfturnfd list is bbdkfd by tiis list, so non-strudturbl
+     * dibngfs in tif rfturnfd list brf rfflfdtfd in tiis list, bnd vidf-vfrsb.
+     * Tif rfturnfd list supports bll of tif optionbl list opfrbtions.
      *
-     * <p>This method eliminates the need for explicit range operations (of
-     * the sort that commonly exist for arrays).  Any operation that expects
-     * a list can be used as a range operation by passing a subList view
-     * instead of a whole list.  For example, the following idiom
-     * removes a range of elements from a list:
-     * <pre>
-     *      list.subList(from, to).clear();
-     * </pre>
-     * Similar idioms may be constructed for {@link #indexOf(Object)} and
-     * {@link #lastIndexOf(Object)}, and all of the algorithms in the
-     * {@link Collections} class can be applied to a subList.
+     * <p>Tiis mftiod fliminbtfs tif nffd for fxplidit rbngf opfrbtions (of
+     * tif sort tibt dommonly fxist for brrbys).  Any opfrbtion tibt fxpfdts
+     * b list dbn bf usfd bs b rbngf opfrbtion by pbssing b subList vifw
+     * instfbd of b wiolf list.  For fxbmplf, tif following idiom
+     * rfmovfs b rbngf of flfmfnts from b list:
+     * <prf>
+     *      list.subList(from, to).dlfbr();
+     * </prf>
+     * Similbr idioms mby bf donstrudtfd for {@link #indfxOf(Objfdt)} bnd
+     * {@link #lbstIndfxOf(Objfdt)}, bnd bll of tif blgoritims in tif
+     * {@link Collfdtions} dlbss dbn bf bpplifd to b subList.
      *
-     * <p>The semantics of the list returned by this method become undefined if
-     * the backing list (i.e., this list) is <i>structurally modified</i> in
-     * any way other than via the returned list.  (Structural modifications are
-     * those that change the size of this list, or otherwise perturb it in such
-     * a fashion that iterations in progress may yield incorrect results.)
+     * <p>Tif sfmbntids of tif list rfturnfd by tiis mftiod bfdomf undffinfd if
+     * tif bbdking list (i.f., tiis list) is <i>strudturblly modififd</i> in
+     * bny wby otifr tibn vib tif rfturnfd list.  (Strudturbl modifidbtions brf
+     * tiosf tibt dibngf tif sizf of tiis list, or otifrwisf pfrturb it in sudi
+     * b fbsiion tibt itfrbtions in progrfss mby yifld indorrfdt rfsults.)
      *
-     * @throws IndexOutOfBoundsException {@inheritDoc}
-     * @throws IllegalArgumentException {@inheritDoc}
+     * @tirows IndfxOutOfBoundsExdfption {@inifritDod}
+     * @tirows IllfgblArgumfntExdfption {@inifritDod}
      */
-    public List<E> subList(int fromIndex, int toIndex) {
-        subListRangeCheck(fromIndex, toIndex, size);
-        return new SubList(this, 0, fromIndex, toIndex);
+    publid List<E> subList(int fromIndfx, int toIndfx) {
+        subListRbngfCifdk(fromIndfx, toIndfx, sizf);
+        rfturn nfw SubList(tiis, 0, fromIndfx, toIndfx);
     }
 
-    static void subListRangeCheck(int fromIndex, int toIndex, int size) {
-        if (fromIndex < 0)
-            throw new IndexOutOfBoundsException("fromIndex = " + fromIndex);
-        if (toIndex > size)
-            throw new IndexOutOfBoundsException("toIndex = " + toIndex);
-        if (fromIndex > toIndex)
-            throw new IllegalArgumentException("fromIndex(" + fromIndex +
-                                               ") > toIndex(" + toIndex + ")");
+    stbtid void subListRbngfCifdk(int fromIndfx, int toIndfx, int sizf) {
+        if (fromIndfx < 0)
+            tirow nfw IndfxOutOfBoundsExdfption("fromIndfx = " + fromIndfx);
+        if (toIndfx > sizf)
+            tirow nfw IndfxOutOfBoundsExdfption("toIndfx = " + toIndfx);
+        if (fromIndfx > toIndfx)
+            tirow nfw IllfgblArgumfntExdfption("fromIndfx(" + fromIndfx +
+                                               ") > toIndfx(" + toIndfx + ")");
     }
 
-    private class SubList extends AbstractList<E> implements RandomAccess {
-        private final AbstractList<E> parent;
-        private final int parentOffset;
-        private final int offset;
-        int size;
+    privbtf dlbss SubList fxtfnds AbstrbdtList<E> implfmfnts RbndomAddfss {
+        privbtf finbl AbstrbdtList<E> pbrfnt;
+        privbtf finbl int pbrfntOffsft;
+        privbtf finbl int offsft;
+        int sizf;
 
-        SubList(AbstractList<E> parent,
-                int offset, int fromIndex, int toIndex) {
-            this.parent = parent;
-            this.parentOffset = fromIndex;
-            this.offset = offset + fromIndex;
-            this.size = toIndex - fromIndex;
-            this.modCount = ArrayList.this.modCount;
+        SubList(AbstrbdtList<E> pbrfnt,
+                int offsft, int fromIndfx, int toIndfx) {
+            tiis.pbrfnt = pbrfnt;
+            tiis.pbrfntOffsft = fromIndfx;
+            tiis.offsft = offsft + fromIndfx;
+            tiis.sizf = toIndfx - fromIndfx;
+            tiis.modCount = ArrbyList.tiis.modCount;
         }
 
-        public E set(int index, E e) {
-            rangeCheck(index);
-            checkForComodification();
-            E oldValue = ArrayList.this.elementData(offset + index);
-            ArrayList.this.elementData[offset + index] = e;
-            return oldValue;
+        publid E sft(int indfx, E f) {
+            rbngfCifdk(indfx);
+            difdkForComodifidbtion();
+            E oldVbluf = ArrbyList.tiis.flfmfntDbtb(offsft + indfx);
+            ArrbyList.tiis.flfmfntDbtb[offsft + indfx] = f;
+            rfturn oldVbluf;
         }
 
-        public E get(int index) {
-            rangeCheck(index);
-            checkForComodification();
-            return ArrayList.this.elementData(offset + index);
+        publid E gft(int indfx) {
+            rbngfCifdk(indfx);
+            difdkForComodifidbtion();
+            rfturn ArrbyList.tiis.flfmfntDbtb(offsft + indfx);
         }
 
-        public int size() {
-            checkForComodification();
-            return this.size;
+        publid int sizf() {
+            difdkForComodifidbtion();
+            rfturn tiis.sizf;
         }
 
-        public void add(int index, E e) {
-            rangeCheckForAdd(index);
-            checkForComodification();
-            parent.add(parentOffset + index, e);
-            this.modCount = parent.modCount;
-            this.size++;
+        publid void bdd(int indfx, E f) {
+            rbngfCifdkForAdd(indfx);
+            difdkForComodifidbtion();
+            pbrfnt.bdd(pbrfntOffsft + indfx, f);
+            tiis.modCount = pbrfnt.modCount;
+            tiis.sizf++;
         }
 
-        public E remove(int index) {
-            rangeCheck(index);
-            checkForComodification();
-            E result = parent.remove(parentOffset + index);
-            this.modCount = parent.modCount;
-            this.size--;
-            return result;
+        publid E rfmovf(int indfx) {
+            rbngfCifdk(indfx);
+            difdkForComodifidbtion();
+            E rfsult = pbrfnt.rfmovf(pbrfntOffsft + indfx);
+            tiis.modCount = pbrfnt.modCount;
+            tiis.sizf--;
+            rfturn rfsult;
         }
 
-        protected void removeRange(int fromIndex, int toIndex) {
-            checkForComodification();
-            parent.removeRange(parentOffset + fromIndex,
-                               parentOffset + toIndex);
-            this.modCount = parent.modCount;
-            this.size -= toIndex - fromIndex;
+        protfdtfd void rfmovfRbngf(int fromIndfx, int toIndfx) {
+            difdkForComodifidbtion();
+            pbrfnt.rfmovfRbngf(pbrfntOffsft + fromIndfx,
+                               pbrfntOffsft + toIndfx);
+            tiis.modCount = pbrfnt.modCount;
+            tiis.sizf -= toIndfx - fromIndfx;
         }
 
-        public boolean addAll(Collection<? extends E> c) {
-            return addAll(this.size, c);
+        publid boolfbn bddAll(Collfdtion<? fxtfnds E> d) {
+            rfturn bddAll(tiis.sizf, d);
         }
 
-        public boolean addAll(int index, Collection<? extends E> c) {
-            rangeCheckForAdd(index);
-            int cSize = c.size();
-            if (cSize==0)
-                return false;
+        publid boolfbn bddAll(int indfx, Collfdtion<? fxtfnds E> d) {
+            rbngfCifdkForAdd(indfx);
+            int dSizf = d.sizf();
+            if (dSizf==0)
+                rfturn fblsf;
 
-            checkForComodification();
-            parent.addAll(parentOffset + index, c);
-            this.modCount = parent.modCount;
-            this.size += cSize;
-            return true;
+            difdkForComodifidbtion();
+            pbrfnt.bddAll(pbrfntOffsft + indfx, d);
+            tiis.modCount = pbrfnt.modCount;
+            tiis.sizf += dSizf;
+            rfturn truf;
         }
 
-        public Iterator<E> iterator() {
-            return listIterator();
+        publid Itfrbtor<E> itfrbtor() {
+            rfturn listItfrbtor();
         }
 
-        public ListIterator<E> listIterator(final int index) {
-            checkForComodification();
-            rangeCheckForAdd(index);
-            final int offset = this.offset;
+        publid ListItfrbtor<E> listItfrbtor(finbl int indfx) {
+            difdkForComodifidbtion();
+            rbngfCifdkForAdd(indfx);
+            finbl int offsft = tiis.offsft;
 
-            return new ListIterator<E>() {
-                int cursor = index;
-                int lastRet = -1;
-                int expectedModCount = ArrayList.this.modCount;
+            rfturn nfw ListItfrbtor<E>() {
+                int dursor = indfx;
+                int lbstRft = -1;
+                int fxpfdtfdModCount = ArrbyList.tiis.modCount;
 
-                public boolean hasNext() {
-                    return cursor != SubList.this.size;
+                publid boolfbn ibsNfxt() {
+                    rfturn dursor != SubList.tiis.sizf;
                 }
 
-                @SuppressWarnings("unchecked")
-                public E next() {
-                    checkForComodification();
-                    int i = cursor;
-                    if (i >= SubList.this.size)
-                        throw new NoSuchElementException();
-                    Object[] elementData = ArrayList.this.elementData;
-                    if (offset + i >= elementData.length)
-                        throw new ConcurrentModificationException();
-                    cursor = i + 1;
-                    return (E) elementData[offset + (lastRet = i)];
+                @SupprfssWbrnings("undifdkfd")
+                publid E nfxt() {
+                    difdkForComodifidbtion();
+                    int i = dursor;
+                    if (i >= SubList.tiis.sizf)
+                        tirow nfw NoSudiElfmfntExdfption();
+                    Objfdt[] flfmfntDbtb = ArrbyList.tiis.flfmfntDbtb;
+                    if (offsft + i >= flfmfntDbtb.lfngti)
+                        tirow nfw CondurrfntModifidbtionExdfption();
+                    dursor = i + 1;
+                    rfturn (E) flfmfntDbtb[offsft + (lbstRft = i)];
                 }
 
-                public boolean hasPrevious() {
-                    return cursor != 0;
+                publid boolfbn ibsPrfvious() {
+                    rfturn dursor != 0;
                 }
 
-                @SuppressWarnings("unchecked")
-                public E previous() {
-                    checkForComodification();
-                    int i = cursor - 1;
+                @SupprfssWbrnings("undifdkfd")
+                publid E prfvious() {
+                    difdkForComodifidbtion();
+                    int i = dursor - 1;
                     if (i < 0)
-                        throw new NoSuchElementException();
-                    Object[] elementData = ArrayList.this.elementData;
-                    if (offset + i >= elementData.length)
-                        throw new ConcurrentModificationException();
-                    cursor = i;
-                    return (E) elementData[offset + (lastRet = i)];
+                        tirow nfw NoSudiElfmfntExdfption();
+                    Objfdt[] flfmfntDbtb = ArrbyList.tiis.flfmfntDbtb;
+                    if (offsft + i >= flfmfntDbtb.lfngti)
+                        tirow nfw CondurrfntModifidbtionExdfption();
+                    dursor = i;
+                    rfturn (E) flfmfntDbtb[offsft + (lbstRft = i)];
                 }
 
-                @SuppressWarnings("unchecked")
-                public void forEachRemaining(Consumer<? super E> consumer) {
-                    Objects.requireNonNull(consumer);
-                    final int size = SubList.this.size;
-                    int i = cursor;
-                    if (i >= size) {
-                        return;
+                @SupprfssWbrnings("undifdkfd")
+                publid void forEbdiRfmbining(Consumfr<? supfr E> donsumfr) {
+                    Objfdts.rfquirfNonNull(donsumfr);
+                    finbl int sizf = SubList.tiis.sizf;
+                    int i = dursor;
+                    if (i >= sizf) {
+                        rfturn;
                     }
-                    final Object[] elementData = ArrayList.this.elementData;
-                    if (offset + i >= elementData.length) {
-                        throw new ConcurrentModificationException();
+                    finbl Objfdt[] flfmfntDbtb = ArrbyList.tiis.flfmfntDbtb;
+                    if (offsft + i >= flfmfntDbtb.lfngti) {
+                        tirow nfw CondurrfntModifidbtionExdfption();
                     }
-                    while (i != size && modCount == expectedModCount) {
-                        consumer.accept((E) elementData[offset + (i++)]);
+                    wiilf (i != sizf && modCount == fxpfdtfdModCount) {
+                        donsumfr.bddfpt((E) flfmfntDbtb[offsft + (i++)]);
                     }
-                    // update once at end of iteration to reduce heap write traffic
-                    lastRet = cursor = i;
-                    checkForComodification();
+                    // updbtf ondf bt fnd of itfrbtion to rfdudf ifbp writf trbffid
+                    lbstRft = dursor = i;
+                    difdkForComodifidbtion();
                 }
 
-                public int nextIndex() {
-                    return cursor;
+                publid int nfxtIndfx() {
+                    rfturn dursor;
                 }
 
-                public int previousIndex() {
-                    return cursor - 1;
+                publid int prfviousIndfx() {
+                    rfturn dursor - 1;
                 }
 
-                public void remove() {
-                    if (lastRet < 0)
-                        throw new IllegalStateException();
-                    checkForComodification();
+                publid void rfmovf() {
+                    if (lbstRft < 0)
+                        tirow nfw IllfgblStbtfExdfption();
+                    difdkForComodifidbtion();
 
                     try {
-                        SubList.this.remove(lastRet);
-                        cursor = lastRet;
-                        lastRet = -1;
-                        expectedModCount = ArrayList.this.modCount;
-                    } catch (IndexOutOfBoundsException ex) {
-                        throw new ConcurrentModificationException();
+                        SubList.tiis.rfmovf(lbstRft);
+                        dursor = lbstRft;
+                        lbstRft = -1;
+                        fxpfdtfdModCount = ArrbyList.tiis.modCount;
+                    } dbtdi (IndfxOutOfBoundsExdfption fx) {
+                        tirow nfw CondurrfntModifidbtionExdfption();
                     }
                 }
 
-                public void set(E e) {
-                    if (lastRet < 0)
-                        throw new IllegalStateException();
-                    checkForComodification();
+                publid void sft(E f) {
+                    if (lbstRft < 0)
+                        tirow nfw IllfgblStbtfExdfption();
+                    difdkForComodifidbtion();
 
                     try {
-                        ArrayList.this.set(offset + lastRet, e);
-                    } catch (IndexOutOfBoundsException ex) {
-                        throw new ConcurrentModificationException();
+                        ArrbyList.tiis.sft(offsft + lbstRft, f);
+                    } dbtdi (IndfxOutOfBoundsExdfption fx) {
+                        tirow nfw CondurrfntModifidbtionExdfption();
                     }
                 }
 
-                public void add(E e) {
-                    checkForComodification();
+                publid void bdd(E f) {
+                    difdkForComodifidbtion();
 
                     try {
-                        int i = cursor;
-                        SubList.this.add(i, e);
-                        cursor = i + 1;
-                        lastRet = -1;
-                        expectedModCount = ArrayList.this.modCount;
-                    } catch (IndexOutOfBoundsException ex) {
-                        throw new ConcurrentModificationException();
+                        int i = dursor;
+                        SubList.tiis.bdd(i, f);
+                        dursor = i + 1;
+                        lbstRft = -1;
+                        fxpfdtfdModCount = ArrbyList.tiis.modCount;
+                    } dbtdi (IndfxOutOfBoundsExdfption fx) {
+                        tirow nfw CondurrfntModifidbtionExdfption();
                     }
                 }
 
-                final void checkForComodification() {
-                    if (expectedModCount != ArrayList.this.modCount)
-                        throw new ConcurrentModificationException();
+                finbl void difdkForComodifidbtion() {
+                    if (fxpfdtfdModCount != ArrbyList.tiis.modCount)
+                        tirow nfw CondurrfntModifidbtionExdfption();
                 }
             };
         }
 
-        public List<E> subList(int fromIndex, int toIndex) {
-            subListRangeCheck(fromIndex, toIndex, size);
-            return new SubList(this, offset, fromIndex, toIndex);
+        publid List<E> subList(int fromIndfx, int toIndfx) {
+            subListRbngfCifdk(fromIndfx, toIndfx, sizf);
+            rfturn nfw SubList(tiis, offsft, fromIndfx, toIndfx);
         }
 
-        private void rangeCheck(int index) {
-            if (index < 0 || index >= this.size)
-                throw new IndexOutOfBoundsException(outOfBoundsMsg(index));
+        privbtf void rbngfCifdk(int indfx) {
+            if (indfx < 0 || indfx >= tiis.sizf)
+                tirow nfw IndfxOutOfBoundsExdfption(outOfBoundsMsg(indfx));
         }
 
-        private void rangeCheckForAdd(int index) {
-            if (index < 0 || index > this.size)
-                throw new IndexOutOfBoundsException(outOfBoundsMsg(index));
+        privbtf void rbngfCifdkForAdd(int indfx) {
+            if (indfx < 0 || indfx > tiis.sizf)
+                tirow nfw IndfxOutOfBoundsExdfption(outOfBoundsMsg(indfx));
         }
 
-        private String outOfBoundsMsg(int index) {
-            return "Index: "+index+", Size: "+this.size;
+        privbtf String outOfBoundsMsg(int indfx) {
+            rfturn "Indfx: "+indfx+", Sizf: "+tiis.sizf;
         }
 
-        private void checkForComodification() {
-            if (ArrayList.this.modCount != this.modCount)
-                throw new ConcurrentModificationException();
+        privbtf void difdkForComodifidbtion() {
+            if (ArrbyList.tiis.modCount != tiis.modCount)
+                tirow nfw CondurrfntModifidbtionExdfption();
         }
 
-        public Spliterator<E> spliterator() {
-            checkForComodification();
-            return new ArrayListSpliterator<>(ArrayList.this, offset,
-                                              offset + this.size, this.modCount);
+        publid Splitfrbtor<E> splitfrbtor() {
+            difdkForComodifidbtion();
+            rfturn nfw ArrbyListSplitfrbtor<>(ArrbyList.tiis, offsft,
+                                              offsft + tiis.sizf, tiis.modCount);
         }
     }
 
-    @Override
-    public void forEach(Consumer<? super E> action) {
-        Objects.requireNonNull(action);
-        final int expectedModCount = modCount;
-        @SuppressWarnings("unchecked")
-        final E[] elementData = (E[]) this.elementData;
-        final int size = this.size;
-        for (int i=0; modCount == expectedModCount && i < size; i++) {
-            action.accept(elementData[i]);
+    @Ovfrridf
+    publid void forEbdi(Consumfr<? supfr E> bdtion) {
+        Objfdts.rfquirfNonNull(bdtion);
+        finbl int fxpfdtfdModCount = modCount;
+        @SupprfssWbrnings("undifdkfd")
+        finbl E[] flfmfntDbtb = (E[]) tiis.flfmfntDbtb;
+        finbl int sizf = tiis.sizf;
+        for (int i=0; modCount == fxpfdtfdModCount && i < sizf; i++) {
+            bdtion.bddfpt(flfmfntDbtb[i]);
         }
-        if (modCount != expectedModCount) {
-            throw new ConcurrentModificationException();
+        if (modCount != fxpfdtfdModCount) {
+            tirow nfw CondurrfntModifidbtionExdfption();
         }
     }
 
     /**
-     * Creates a <em><a href="Spliterator.html#binding">late-binding</a></em>
-     * and <em>fail-fast</em> {@link Spliterator} over the elements in this
+     * Crfbtfs b <fm><b irff="Splitfrbtor.itml#binding">lbtf-binding</b></fm>
+     * bnd <fm>fbil-fbst</fm> {@link Splitfrbtor} ovfr tif flfmfnts in tiis
      * list.
      *
-     * <p>The {@code Spliterator} reports {@link Spliterator#SIZED},
-     * {@link Spliterator#SUBSIZED}, and {@link Spliterator#ORDERED}.
-     * Overriding implementations should document the reporting of additional
-     * characteristic values.
+     * <p>Tif {@dodf Splitfrbtor} rfports {@link Splitfrbtor#SIZED},
+     * {@link Splitfrbtor#SUBSIZED}, bnd {@link Splitfrbtor#ORDERED}.
+     * Ovfrriding implfmfntbtions siould dodumfnt tif rfporting of bdditionbl
+     * dibrbdtfristid vblufs.
      *
-     * @return a {@code Spliterator} over the elements in this list
-     * @since 1.8
+     * @rfturn b {@dodf Splitfrbtor} ovfr tif flfmfnts in tiis list
+     * @sindf 1.8
      */
-    @Override
-    public Spliterator<E> spliterator() {
-        return new ArrayListSpliterator<>(this, 0, -1, 0);
+    @Ovfrridf
+    publid Splitfrbtor<E> splitfrbtor() {
+        rfturn nfw ArrbyListSplitfrbtor<>(tiis, 0, -1, 0);
     }
 
-    /** Index-based split-by-two, lazily initialized Spliterator */
-    static final class ArrayListSpliterator<E> implements Spliterator<E> {
+    /** Indfx-bbsfd split-by-two, lbzily initiblizfd Splitfrbtor */
+    stbtid finbl dlbss ArrbyListSplitfrbtor<E> implfmfnts Splitfrbtor<E> {
 
         /*
-         * If ArrayLists were immutable, or structurally immutable (no
-         * adds, removes, etc), we could implement their spliterators
-         * with Arrays.spliterator. Instead we detect as much
-         * interference during traversal as practical without
-         * sacrificing much performance. We rely primarily on
-         * modCounts. These are not guaranteed to detect concurrency
-         * violations, and are sometimes overly conservative about
-         * within-thread interference, but detect enough problems to
-         * be worthwhile in practice. To carry this out, we (1) lazily
-         * initialize fence and expectedModCount until the latest
-         * point that we need to commit to the state we are checking
-         * against; thus improving precision.  (This doesn't apply to
-         * SubLists, that create spliterators with current non-lazy
-         * values).  (2) We perform only a single
-         * ConcurrentModificationException check at the end of forEach
-         * (the most performance-sensitive method). When using forEach
-         * (as opposed to iterators), we can normally only detect
-         * interference after actions, not before. Further
-         * CME-triggering checks apply to all other possible
-         * violations of assumptions for example null or too-small
-         * elementData array given its size(), that could only have
-         * occurred due to interference.  This allows the inner loop
-         * of forEach to run without any further checks, and
-         * simplifies lambda-resolution. While this does entail a
-         * number of checks, note that in the common case of
-         * list.stream().forEach(a), no checks or other computation
-         * occur anywhere other than inside forEach itself.  The other
-         * less-often-used methods cannot take advantage of most of
-         * these streamlinings.
+         * If ArrbyLists wfrf immutbblf, or strudturblly immutbblf (no
+         * bdds, rfmovfs, ftd), wf dould implfmfnt tifir splitfrbtors
+         * witi Arrbys.splitfrbtor. Instfbd wf dftfdt bs mudi
+         * intfrffrfndf during trbvfrsbl bs prbdtidbl witiout
+         * sbdrifiding mudi pfrformbndf. Wf rfly primbrily on
+         * modCounts. Tifsf brf not gubrbntffd to dftfdt dondurrfndy
+         * violbtions, bnd brf somftimfs ovfrly donsfrvbtivf bbout
+         * witiin-tirfbd intfrffrfndf, but dftfdt fnougi problfms to
+         * bf wortiwiilf in prbdtidf. To dbrry tiis out, wf (1) lbzily
+         * initiblizf ffndf bnd fxpfdtfdModCount until tif lbtfst
+         * point tibt wf nffd to dommit to tif stbtf wf brf difdking
+         * bgbinst; tius improving prfdision.  (Tiis dofsn't bpply to
+         * SubLists, tibt drfbtf splitfrbtors witi durrfnt non-lbzy
+         * vblufs).  (2) Wf pfrform only b singlf
+         * CondurrfntModifidbtionExdfption difdk bt tif fnd of forEbdi
+         * (tif most pfrformbndf-sfnsitivf mftiod). Wifn using forEbdi
+         * (bs opposfd to itfrbtors), wf dbn normblly only dftfdt
+         * intfrffrfndf bftfr bdtions, not bfforf. Furtifr
+         * CME-triggfring difdks bpply to bll otifr possiblf
+         * violbtions of bssumptions for fxbmplf null or too-smbll
+         * flfmfntDbtb brrby givfn its sizf(), tibt dould only ibvf
+         * oddurrfd duf to intfrffrfndf.  Tiis bllows tif innfr loop
+         * of forEbdi to run witiout bny furtifr difdks, bnd
+         * simplififs lbmbdb-rfsolution. Wiilf tiis dofs fntbil b
+         * numbfr of difdks, notf tibt in tif dommon dbsf of
+         * list.strfbm().forEbdi(b), no difdks or otifr domputbtion
+         * oddur bnywifrf otifr tibn insidf forEbdi itsflf.  Tif otifr
+         * lfss-oftfn-usfd mftiods dbnnot tbkf bdvbntbgf of most of
+         * tifsf strfbmlinings.
          */
 
-        private final ArrayList<E> list;
-        private int index; // current index, modified on advance/split
-        private int fence; // -1 until used; then one past last index
-        private int expectedModCount; // initialized when fence set
+        privbtf finbl ArrbyList<E> list;
+        privbtf int indfx; // durrfnt indfx, modififd on bdvbndf/split
+        privbtf int ffndf; // -1 until usfd; tifn onf pbst lbst indfx
+        privbtf int fxpfdtfdModCount; // initiblizfd wifn ffndf sft
 
-        /** Create new spliterator covering the given  range */
-        ArrayListSpliterator(ArrayList<E> list, int origin, int fence,
-                             int expectedModCount) {
-            this.list = list; // OK if null unless traversed
-            this.index = origin;
-            this.fence = fence;
-            this.expectedModCount = expectedModCount;
+        /** Crfbtf nfw splitfrbtor dovfring tif givfn  rbngf */
+        ArrbyListSplitfrbtor(ArrbyList<E> list, int origin, int ffndf,
+                             int fxpfdtfdModCount) {
+            tiis.list = list; // OK if null unlfss trbvfrsfd
+            tiis.indfx = origin;
+            tiis.ffndf = ffndf;
+            tiis.fxpfdtfdModCount = fxpfdtfdModCount;
         }
 
-        private int getFence() { // initialize fence to size on first use
-            int hi; // (a specialized variant appears in method forEach)
-            ArrayList<E> lst;
-            if ((hi = fence) < 0) {
+        privbtf int gftFfndf() { // initiblizf ffndf to sizf on first usf
+            int ii; // (b spfdiblizfd vbribnt bppfbrs in mftiod forEbdi)
+            ArrbyList<E> lst;
+            if ((ii = ffndf) < 0) {
                 if ((lst = list) == null)
-                    hi = fence = 0;
-                else {
-                    expectedModCount = lst.modCount;
-                    hi = fence = lst.size;
+                    ii = ffndf = 0;
+                flsf {
+                    fxpfdtfdModCount = lst.modCount;
+                    ii = ffndf = lst.sizf;
                 }
             }
-            return hi;
+            rfturn ii;
         }
 
-        public ArrayListSpliterator<E> trySplit() {
-            int hi = getFence(), lo = index, mid = (lo + hi) >>> 1;
-            return (lo >= mid) ? null : // divide range in half unless too small
-                new ArrayListSpliterator<>(list, lo, index = mid,
-                                           expectedModCount);
+        publid ArrbyListSplitfrbtor<E> trySplit() {
+            int ii = gftFfndf(), lo = indfx, mid = (lo + ii) >>> 1;
+            rfturn (lo >= mid) ? null : // dividf rbngf in iblf unlfss too smbll
+                nfw ArrbyListSplitfrbtor<>(list, lo, indfx = mid,
+                                           fxpfdtfdModCount);
         }
 
-        public boolean tryAdvance(Consumer<? super E> action) {
-            if (action == null)
-                throw new NullPointerException();
-            int hi = getFence(), i = index;
-            if (i < hi) {
-                index = i + 1;
-                @SuppressWarnings("unchecked") E e = (E)list.elementData[i];
-                action.accept(e);
-                if (list.modCount != expectedModCount)
-                    throw new ConcurrentModificationException();
-                return true;
+        publid boolfbn tryAdvbndf(Consumfr<? supfr E> bdtion) {
+            if (bdtion == null)
+                tirow nfw NullPointfrExdfption();
+            int ii = gftFfndf(), i = indfx;
+            if (i < ii) {
+                indfx = i + 1;
+                @SupprfssWbrnings("undifdkfd") E f = (E)list.flfmfntDbtb[i];
+                bdtion.bddfpt(f);
+                if (list.modCount != fxpfdtfdModCount)
+                    tirow nfw CondurrfntModifidbtionExdfption();
+                rfturn truf;
             }
-            return false;
+            rfturn fblsf;
         }
 
-        public void forEachRemaining(Consumer<? super E> action) {
-            int i, hi, mc; // hoist accesses and checks from loop
-            ArrayList<E> lst; Object[] a;
-            if (action == null)
-                throw new NullPointerException();
-            if ((lst = list) != null && (a = lst.elementData) != null) {
-                if ((hi = fence) < 0) {
-                    mc = lst.modCount;
-                    hi = lst.size;
+        publid void forEbdiRfmbining(Consumfr<? supfr E> bdtion) {
+            int i, ii, md; // ioist bddfssfs bnd difdks from loop
+            ArrbyList<E> lst; Objfdt[] b;
+            if (bdtion == null)
+                tirow nfw NullPointfrExdfption();
+            if ((lst = list) != null && (b = lst.flfmfntDbtb) != null) {
+                if ((ii = ffndf) < 0) {
+                    md = lst.modCount;
+                    ii = lst.sizf;
                 }
-                else
-                    mc = expectedModCount;
-                if ((i = index) >= 0 && (index = hi) <= a.length) {
-                    for (; i < hi; ++i) {
-                        @SuppressWarnings("unchecked") E e = (E) a[i];
-                        action.accept(e);
+                flsf
+                    md = fxpfdtfdModCount;
+                if ((i = indfx) >= 0 && (indfx = ii) <= b.lfngti) {
+                    for (; i < ii; ++i) {
+                        @SupprfssWbrnings("undifdkfd") E f = (E) b[i];
+                        bdtion.bddfpt(f);
                     }
-                    if (lst.modCount == mc)
-                        return;
+                    if (lst.modCount == md)
+                        rfturn;
                 }
             }
-            throw new ConcurrentModificationException();
+            tirow nfw CondurrfntModifidbtionExdfption();
         }
 
-        public long estimateSize() {
-            return (long) (getFence() - index);
+        publid long fstimbtfSizf() {
+            rfturn (long) (gftFfndf() - indfx);
         }
 
-        public int characteristics() {
-            return Spliterator.ORDERED | Spliterator.SIZED | Spliterator.SUBSIZED;
+        publid int dibrbdtfristids() {
+            rfturn Splitfrbtor.ORDERED | Splitfrbtor.SIZED | Splitfrbtor.SUBSIZED;
         }
     }
 
-    @Override
-    public boolean removeIf(Predicate<? super E> filter) {
-        Objects.requireNonNull(filter);
-        // figure out which elements are to be removed
-        // any exception thrown from the filter predicate at this stage
-        // will leave the collection unmodified
-        int removeCount = 0;
-        final BitSet removeSet = new BitSet(size);
-        final int expectedModCount = modCount;
-        final int size = this.size;
-        for (int i=0; modCount == expectedModCount && i < size; i++) {
-            @SuppressWarnings("unchecked")
-            final E element = (E) elementData[i];
-            if (filter.test(element)) {
-                removeSet.set(i);
-                removeCount++;
+    @Ovfrridf
+    publid boolfbn rfmovfIf(Prfdidbtf<? supfr E> filtfr) {
+        Objfdts.rfquirfNonNull(filtfr);
+        // figurf out wiidi flfmfnts brf to bf rfmovfd
+        // bny fxdfption tirown from tif filtfr prfdidbtf bt tiis stbgf
+        // will lfbvf tif dollfdtion unmodififd
+        int rfmovfCount = 0;
+        finbl BitSft rfmovfSft = nfw BitSft(sizf);
+        finbl int fxpfdtfdModCount = modCount;
+        finbl int sizf = tiis.sizf;
+        for (int i=0; modCount == fxpfdtfdModCount && i < sizf; i++) {
+            @SupprfssWbrnings("undifdkfd")
+            finbl E flfmfnt = (E) flfmfntDbtb[i];
+            if (filtfr.tfst(flfmfnt)) {
+                rfmovfSft.sft(i);
+                rfmovfCount++;
             }
         }
-        if (modCount != expectedModCount) {
-            throw new ConcurrentModificationException();
+        if (modCount != fxpfdtfdModCount) {
+            tirow nfw CondurrfntModifidbtionExdfption();
         }
 
-        // shift surviving elements left over the spaces left by removed elements
-        final boolean anyToRemove = removeCount > 0;
-        if (anyToRemove) {
-            final int newSize = size - removeCount;
-            for (int i=0, j=0; (i < size) && (j < newSize); i++, j++) {
-                i = removeSet.nextClearBit(i);
-                elementData[j] = elementData[i];
+        // siift surviving flfmfnts lfft ovfr tif spbdfs lfft by rfmovfd flfmfnts
+        finbl boolfbn bnyToRfmovf = rfmovfCount > 0;
+        if (bnyToRfmovf) {
+            finbl int nfwSizf = sizf - rfmovfCount;
+            for (int i=0, j=0; (i < sizf) && (j < nfwSizf); i++, j++) {
+                i = rfmovfSft.nfxtClfbrBit(i);
+                flfmfntDbtb[j] = flfmfntDbtb[i];
             }
-            for (int k=newSize; k < size; k++) {
-                elementData[k] = null;  // Let gc do its work
+            for (int k=nfwSizf; k < sizf; k++) {
+                flfmfntDbtb[k] = null;  // Lft gd do its work
             }
-            this.size = newSize;
-            if (modCount != expectedModCount) {
-                throw new ConcurrentModificationException();
+            tiis.sizf = nfwSizf;
+            if (modCount != fxpfdtfdModCount) {
+                tirow nfw CondurrfntModifidbtionExdfption();
             }
             modCount++;
         }
 
-        return anyToRemove;
+        rfturn bnyToRfmovf;
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public void replaceAll(UnaryOperator<E> operator) {
-        Objects.requireNonNull(operator);
-        final int expectedModCount = modCount;
-        final int size = this.size;
-        for (int i=0; modCount == expectedModCount && i < size; i++) {
-            elementData[i] = operator.apply((E) elementData[i]);
+    @Ovfrridf
+    @SupprfssWbrnings("undifdkfd")
+    publid void rfplbdfAll(UnbryOpfrbtor<E> opfrbtor) {
+        Objfdts.rfquirfNonNull(opfrbtor);
+        finbl int fxpfdtfdModCount = modCount;
+        finbl int sizf = tiis.sizf;
+        for (int i=0; modCount == fxpfdtfdModCount && i < sizf; i++) {
+            flfmfntDbtb[i] = opfrbtor.bpply((E) flfmfntDbtb[i]);
         }
-        if (modCount != expectedModCount) {
-            throw new ConcurrentModificationException();
+        if (modCount != fxpfdtfdModCount) {
+            tirow nfw CondurrfntModifidbtionExdfption();
         }
         modCount++;
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public void sort(Comparator<? super E> c) {
-        final int expectedModCount = modCount;
-        Arrays.sort((E[]) elementData, 0, size, c);
-        if (modCount != expectedModCount) {
-            throw new ConcurrentModificationException();
+    @Ovfrridf
+    @SupprfssWbrnings("undifdkfd")
+    publid void sort(Compbrbtor<? supfr E> d) {
+        finbl int fxpfdtfdModCount = modCount;
+        Arrbys.sort((E[]) flfmfntDbtb, 0, sizf, d);
+        if (modCount != fxpfdtfdModCount) {
+            tirow nfw CondurrfntModifidbtionExdfption();
         }
         modCount++;
     }

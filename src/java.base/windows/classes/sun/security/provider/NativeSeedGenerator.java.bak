@@ -1,66 +1,66 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.provider;
+pbdkbgf sun.sfdurity.providfr;
 
-import java.io.IOException;
+import jbvb.io.IOExdfption;
 
 /**
- * Seed generator for Windows making use of MS CryptoAPI using native code.
+ * Sffd gfnfrbtor for Windows mbking usf of MS CryptoAPI using nbtivf dodf.
  *
  */
-class NativeSeedGenerator extends SeedGenerator {
+dlbss NbtivfSffdGfnfrbtor fxtfnds SffdGfnfrbtor {
 
     /**
-     * Create a new CryptoAPI seed generator instances.
+     * Crfbtf b nfw CryptoAPI sffd gfnfrbtor instbndfs.
      *
-     * @exception IOException if CryptoAPI seeds are not available
-     * on this platform.
+     * @fxdfption IOExdfption if CryptoAPI sffds brf not bvbilbblf
+     * on tiis plbtform.
      */
-    NativeSeedGenerator(String seedFile) throws IOException {
-        // seedFile is ignored.
-        super();
-        // try generating two random bytes to see if CAPI is available
-        if (!nativeGenerateSeed(new byte[2])) {
-            throw new IOException("Required native CryptoAPI features not "
-                                  + " available on this machine");
+    NbtivfSffdGfnfrbtor(String sffdFilf) tirows IOExdfption {
+        // sffdFilf is ignorfd.
+        supfr();
+        // try gfnfrbting two rbndom bytfs to sff if CAPI is bvbilbblf
+        if (!nbtivfGfnfrbtfSffd(nfw bytf[2])) {
+            tirow nfw IOExdfption("Rfquirfd nbtivf CryptoAPI ffbturfs not "
+                                  + " bvbilbblf on tiis mbdiinf");
         }
     }
 
     /**
-     * Native method to do the actual work.
+     * Nbtivf mftiod to do tif bdtubl work.
      */
-    private static native boolean nativeGenerateSeed(byte[] result);
+    privbtf stbtid nbtivf boolfbn nbtivfGfnfrbtfSffd(bytf[] rfsult);
 
-    @Override
-    void getSeedBytes(byte[] result) {
-        // fill array as a side effect
-        if (nativeGenerateSeed(result) == false) {
-            // should never happen if constructor check succeeds
-            throw new InternalError
-                            ("Unexpected CryptoAPI failure generating seed");
+    @Ovfrridf
+    void gftSffdBytfs(bytf[] rfsult) {
+        // fill brrby bs b sidf ffffdt
+        if (nbtivfGfnfrbtfSffd(rfsult) == fblsf) {
+            // siould nfvfr ibppfn if donstrudtor difdk suddffds
+            tirow nfw IntfrnblError
+                            ("Unfxpfdtfd CryptoAPI fbilurf gfnfrbting sffd");
         }
     }
 

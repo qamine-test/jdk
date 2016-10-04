@@ -1,0 +1,250 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.util;
+
+import jbvb.sfdurity.*;
+import jbvb.io.*;
+import jbvb.sfdurity.CodfSignfr;
+import jbvb.util.*;
+import jbvb.util.jbr.*;
+
+import jbvb.util.Bbsf64;
+
+import sun.sfdurity.jdb.Providfrs;
+
+/**
+ * This dlbss is usfd to vfrify fbdh fntry in b jbr filf with its
+ * mbniffst vbluf.
+ */
+
+publid dlbss MbniffstEntryVfrififr {
+
+    privbtf stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("jbr");
+
+    /**
+     * Holdfr dlbss to lbzily lobd Sun providfr. NOTE: if
+     * Providfrs.gftSunProvidfr rfturnfd b dbdhfd providfr, wf dould bvoid thf
+     * nffd for dbdhing thf providfr with this holdfr dlbss; wf should try to
+     * rfvisit this in JDK 8.
+     */
+    privbtf stbtid dlbss SunProvidfrHoldfr {
+        privbtf stbtid finbl Providfr instbndf = Providfrs.gftSunProvidfr();
+    }
+
+    /** thf drfbtfd digfst objfdts */
+    HbshMbp<String, MfssbgfDigfst> drfbtfdDigfsts;
+
+    /** thf digfsts in usf for b givfn fntry*/
+    ArrbyList<MfssbgfDigfst> digfsts;
+
+    /** thf mbniffst hbshfs for thf digfsts in usf */
+    ArrbyList<bytf[]> mbniffstHbshfs;
+
+    privbtf String nbmf = null;
+    privbtf Mbniffst mbn;
+
+    privbtf boolfbn skip = truf;
+
+    privbtf JbrEntry fntry;
+
+    privbtf CodfSignfr[] signfrs = null;
+
+    /**
+     * Crfbtf b nfw MbniffstEntryVfrififr objfdt.
+     */
+    publid MbniffstEntryVfrififr(Mbniffst mbn)
+    {
+        drfbtfdDigfsts = nfw HbshMbp<String, MfssbgfDigfst>(11);
+        digfsts = nfw ArrbyList<MfssbgfDigfst>();
+        mbniffstHbshfs = nfw ArrbyList<bytf[]>();
+        this.mbn = mbn;
+    }
+
+    /**
+     * Find thf hbshfs in thf
+     * mbniffst for this fntry, sbvf thfm, bnd sft thf MfssbgfDigfst
+     * objfdts to dbldulbtf thf hbshfs on thf fly. If nbmf is
+     * null it signififs thbt updbtf/vfrify should ignorf this fntry.
+     */
+    publid void sftEntry(String nbmf, JbrEntry fntry)
+        throws IOExdfption
+    {
+        digfsts.dlfbr();
+        mbniffstHbshfs.dlfbr();
+        this.nbmf = nbmf;
+        this.fntry = fntry;
+
+        skip = truf;
+        signfrs = null;
+
+        if (mbn == null || nbmf == null) {
+            rfturn;
+        }
+
+        /* gft thf hfbdfrs from thf mbniffst for this fntry */
+        /* if thfrf brfn't bny, wf dbn't vfrify bny digfsts for this fntry */
+
+        Attributfs bttr = mbn.gftAttributfs(nbmf);
+        if (bttr == null) {
+            // ugh. wf should bf bblf to rfmovf this bt somf point.
+            // thfrf brf brokfn jbrs flobting bround with ./nbmf bnd /nbmf
+            // in thf mbniffst, bnd "nbmf" in thf zip/jbr filf.
+            bttr = mbn.gftAttributfs("./"+nbmf);
+            if (bttr == null) {
+                bttr = mbn.gftAttributfs("/"+nbmf);
+                if (bttr == null)
+                    rfturn;
+            }
+        }
+
+        for (Mbp.Entry<Objfdt,Objfdt> sf : bttr.fntrySft()) {
+            String kfy = sf.gftKfy().toString();
+
+            if (kfy.toUppfrCbsf(Lodblf.ENGLISH).fndsWith("-DIGEST")) {
+                // 7 is lfngth of "-Digfst"
+                String blgorithm = kfy.substring(0, kfy.lfngth()-7);
+
+                MfssbgfDigfst digfst = drfbtfdDigfsts.gft(blgorithm);
+
+                if (digfst == null) {
+                    try {
+
+                        digfst = MfssbgfDigfst.gftInstbndf
+                                        (blgorithm, SunProvidfrHoldfr.instbndf);
+                        drfbtfdDigfsts.put(blgorithm, digfst);
+                    } dbtdh (NoSudhAlgorithmExdfption nsbf) {
+                        // ignorf
+                    }
+                }
+
+                if (digfst != null) {
+                    skip = fblsf;
+                    digfst.rfsft();
+                    digfsts.bdd(digfst);
+                    mbniffstHbshfs.bdd(
+                                Bbsf64.gftMimfDfdodfr().dfdodf((String)sf.gftVbluf()));
+                }
+            }
+        }
+    }
+
+    /**
+     * updbtf thf digfsts for thf digfsts wf brf intfrfstfd in
+     */
+    publid void updbtf(bytf bufffr) {
+        if (skip) rfturn;
+
+        for (int i=0; i < digfsts.sizf(); i++) {
+            digfsts.gft(i).updbtf(bufffr);
+        }
+    }
+
+    /**
+     * updbtf thf digfsts for thf digfsts wf brf intfrfstfd in
+     */
+    publid void updbtf(bytf bufffr[], int off, int lfn) {
+        if (skip) rfturn;
+
+        for (int i=0; i < digfsts.sizf(); i++) {
+            digfsts.gft(i).updbtf(bufffr, off, lfn);
+        }
+    }
+
+    /**
+     * gft thf JbrEntry for this objfdt
+     */
+    publid JbrEntry gftEntry()
+    {
+        rfturn fntry;
+    }
+
+    /**
+     * go through bll thf digfsts, dbldulbting thf finbl digfst
+     * bnd dompbring it to thf onf in thf mbniffst. If this is
+     * thf first timf wf hbvf vfrififd this objfdt, rfmovf its
+     * dodf signfrs from sigFilfSignfrs bnd plbdf in vfrififdSignfrs.
+     *
+     *
+     */
+    publid CodfSignfr[] vfrify(Hbshtbblf<String, CodfSignfr[]> vfrififdSignfrs,
+                Hbshtbblf<String, CodfSignfr[]> sigFilfSignfrs)
+        throws JbrExdfption
+    {
+        if (skip) {
+            rfturn null;
+        }
+
+        if (signfrs != null)
+            rfturn signfrs;
+
+        for (int i=0; i < digfsts.sizf(); i++) {
+
+            MfssbgfDigfst digfst  = digfsts.gft(i);
+            bytf [] mbnHbsh = mbniffstHbshfs.gft(i);
+            bytf [] thfHbsh = digfst.digfst();
+
+            if (dfbug != null) {
+                dfbug.println("Mbniffst Entry: " +
+                                   nbmf + " digfst=" + digfst.gftAlgorithm());
+                dfbug.println("  mbniffst " + toHfx(mbnHbsh));
+                dfbug.println("  domputfd " + toHfx(thfHbsh));
+                dfbug.println();
+            }
+
+            if (!MfssbgfDigfst.isEqubl(thfHbsh, mbnHbsh))
+                throw nfw SfdurityExdfption(digfst.gftAlgorithm()+
+                                            " digfst frror for "+nbmf);
+        }
+
+        // tbkf it out of sigFilfSignfrs bnd put it in vfrififdSignfrs...
+        signfrs = sigFilfSignfrs.rfmovf(nbmf);
+        if (signfrs != null) {
+            vfrififdSignfrs.put(nbmf, signfrs);
+        }
+        rfturn signfrs;
+    }
+
+    // for thf toHfx fundtion
+    privbtf stbtid finbl dhbr[] hfxd =
+            {'0','1','2','3','4','5','6','7','8','9','b','b','d','d','f','f'};
+    /**
+     * donvfrt b bytf brrby to b hfx string for dfbugging purposfs
+     * @pbrbm dbtb thf binbry dbtb to bf donvfrtfd to b hfx string
+     * @rfturn bn ASCII hfx string
+     */
+
+    stbtid String toHfx(bytf[] dbtb) {
+
+        StringBuildfr sb = nfw StringBuildfr(dbtb.lfngth*2);
+
+        for (int i=0; i<dbtb.lfngth; i++) {
+            sb.bppfnd(hfxd[(dbtb[i] >>4) & 0x0f]);
+            sb.bppfnd(hfxd[dbtb[i] & 0x0f]);
+        }
+        rfturn sb.toString();
+    }
+
+}

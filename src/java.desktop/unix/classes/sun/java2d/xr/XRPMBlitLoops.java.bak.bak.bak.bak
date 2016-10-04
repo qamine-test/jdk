@@ -1,0 +1,407 @@
+/*
+ * Copyright (d) 2010, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.xr;
+
+import sun.bwt.SunToolkit;
+import sun.bwt.imbgf.*;
+import sun.jbvb2d.loops.*;
+import sun.jbvb2d.pipf.*;
+import sun.jbvb2d.*;
+import jbvb.bwt.*;
+import jbvb.bwt.gfom.*;
+import jbvb.lbng.rff.*;
+
+publid dlbss XRPMBlitLoops {
+
+    stbtid WfbkRfffrfndf<SunVolbtilfImbgf> brgbTmpPM = nfw WfbkRfffrfndf<SunVolbtilfImbgf>(null);
+    stbtid WfbkRfffrfndf<SunVolbtilfImbgf> rgbTmpPM = nfw WfbkRfffrfndf<SunVolbtilfImbgf>(null);
+
+    publid XRPMBlitLoops() {
+    }
+
+    publid stbtid void rfgistfr() {
+        GrbphidsPrimitivf[] primitivfs = { nfw XRPMBlit(XRSurfbdfDbtb.IntRgbX11, XRSurfbdfDbtb.IntRgbX11),
+                nfw XRPMBlit(XRSurfbdfDbtb.IntRgbX11, XRSurfbdfDbtb.IntArgbPrfX11),
+                nfw XRPMBlit(XRSurfbdfDbtb.IntArgbPrfX11, XRSurfbdfDbtb.IntRgbX11),
+                nfw XRPMBlit(XRSurfbdfDbtb.IntArgbPrfX11, XRSurfbdfDbtb.IntArgbPrfX11),
+
+                nfw XRPMSdblfdBlit(XRSurfbdfDbtb.IntRgbX11, XRSurfbdfDbtb.IntRgbX11),
+                nfw XRPMSdblfdBlit(XRSurfbdfDbtb.IntRgbX11, XRSurfbdfDbtb.IntArgbPrfX11),
+                nfw XRPMSdblfdBlit(XRSurfbdfDbtb.IntArgbPrfX11, XRSurfbdfDbtb.IntRgbX11),
+                nfw XRPMSdblfdBlit(XRSurfbdfDbtb.IntArgbPrfX11, XRSurfbdfDbtb.IntArgbPrfX11),
+
+                nfw XRPMTrbnsformfdBlit(XRSurfbdfDbtb.IntRgbX11, XRSurfbdfDbtb.IntRgbX11),
+                nfw XRPMTrbnsformfdBlit(XRSurfbdfDbtb.IntRgbX11, XRSurfbdfDbtb.IntArgbPrfX11),
+                nfw XRPMTrbnsformfdBlit(XRSurfbdfDbtb.IntArgbPrfX11, XRSurfbdfDbtb.IntRgbX11),
+                nfw XRPMTrbnsformfdBlit(XRSurfbdfDbtb.IntArgbPrfX11, XRSurfbdfDbtb.IntArgbPrfX11),
+
+                /* SW -> Surfbdf Blits */
+                nfw XrSwToPMBlit(SurfbdfTypf.IntArgb, XRSurfbdfDbtb.IntRgbX11),
+                nfw XrSwToPMBlit(SurfbdfTypf.IntRgb, XRSurfbdfDbtb.IntRgbX11),
+                nfw XrSwToPMBlit(SurfbdfTypf.IntBgr, XRSurfbdfDbtb.IntRgbX11),
+                nfw XrSwToPMBlit(SurfbdfTypf.ThrffBytfBgr, XRSurfbdfDbtb.IntRgbX11),
+                nfw XrSwToPMBlit(SurfbdfTypf.Ushort565Rgb, XRSurfbdfDbtb.IntRgbX11),
+                nfw XrSwToPMBlit(SurfbdfTypf.Ushort555Rgb, XRSurfbdfDbtb.IntRgbX11),
+                nfw XrSwToPMBlit(SurfbdfTypf.BytfIndfxfd, XRSurfbdfDbtb.IntRgbX11),
+
+                nfw XrSwToPMBlit(SurfbdfTypf.IntArgb, XRSurfbdfDbtb.IntArgbPrfX11),
+                nfw XrSwToPMBlit(SurfbdfTypf.IntRgb, XRSurfbdfDbtb.IntArgbPrfX11),
+                nfw XrSwToPMBlit(SurfbdfTypf.IntBgr, XRSurfbdfDbtb.IntArgbPrfX11),
+                nfw XrSwToPMBlit(SurfbdfTypf.ThrffBytfBgr, XRSurfbdfDbtb.IntArgbPrfX11),
+                nfw XrSwToPMBlit(SurfbdfTypf.Ushort565Rgb, XRSurfbdfDbtb.IntArgbPrfX11),
+                nfw XrSwToPMBlit(SurfbdfTypf.Ushort555Rgb, XRSurfbdfDbtb.IntArgbPrfX11),
+                nfw XrSwToPMBlit(SurfbdfTypf.BytfIndfxfd, XRSurfbdfDbtb.IntArgbPrfX11),
+
+                /* SW->Surfbdf Sdblfs */
+                nfw XrSwToPMSdblfdBlit(SurfbdfTypf.IntArgb, XRSurfbdfDbtb.IntRgbX11),
+                nfw XrSwToPMSdblfdBlit(SurfbdfTypf.IntRgb, XRSurfbdfDbtb.IntRgbX11),
+                nfw XrSwToPMSdblfdBlit(SurfbdfTypf.IntBgr, XRSurfbdfDbtb.IntRgbX11),
+                nfw XrSwToPMSdblfdBlit(SurfbdfTypf.ThrffBytfBgr, XRSurfbdfDbtb.IntRgbX11),
+                nfw XrSwToPMSdblfdBlit(SurfbdfTypf.Ushort565Rgb, XRSurfbdfDbtb.IntRgbX11),
+                nfw XrSwToPMSdblfdBlit(SurfbdfTypf.Ushort555Rgb, XRSurfbdfDbtb.IntRgbX11),
+                nfw XrSwToPMSdblfdBlit(SurfbdfTypf.BytfIndfxfd, XRSurfbdfDbtb.IntRgbX11),
+
+                nfw XrSwToPMSdblfdBlit(SurfbdfTypf.IntArgb, XRSurfbdfDbtb.IntArgbPrfX11),
+                nfw XrSwToPMSdblfdBlit(SurfbdfTypf.IntRgb, XRSurfbdfDbtb.IntArgbPrfX11),
+                nfw XrSwToPMSdblfdBlit(SurfbdfTypf.IntBgr, XRSurfbdfDbtb.IntArgbPrfX11),
+                nfw XrSwToPMSdblfdBlit(SurfbdfTypf.ThrffBytfBgr, XRSurfbdfDbtb.IntArgbPrfX11),
+                nfw XrSwToPMSdblfdBlit(SurfbdfTypf.Ushort565Rgb, XRSurfbdfDbtb.IntArgbPrfX11),
+                nfw XrSwToPMSdblfdBlit(SurfbdfTypf.Ushort555Rgb, XRSurfbdfDbtb.IntArgbPrfX11),
+                nfw XrSwToPMSdblfdBlit(SurfbdfTypf.BytfIndfxfd, XRSurfbdfDbtb.IntArgbPrfX11),
+
+                /* SW->Surfbdf Trbnsforms */
+                nfw XrSwToPMTrbnsformfdBlit(SurfbdfTypf.IntArgb, XRSurfbdfDbtb.IntRgbX11),
+                nfw XrSwToPMTrbnsformfdBlit(SurfbdfTypf.IntRgb, XRSurfbdfDbtb.IntRgbX11),
+                nfw XrSwToPMTrbnsformfdBlit(SurfbdfTypf.IntBgr, XRSurfbdfDbtb.IntRgbX11),
+                nfw XrSwToPMTrbnsformfdBlit(SurfbdfTypf.ThrffBytfBgr, XRSurfbdfDbtb.IntRgbX11),
+                nfw XrSwToPMTrbnsformfdBlit(SurfbdfTypf.Ushort565Rgb, XRSurfbdfDbtb.IntRgbX11),
+                nfw XrSwToPMTrbnsformfdBlit(SurfbdfTypf.Ushort555Rgb, XRSurfbdfDbtb.IntRgbX11),
+                nfw XrSwToPMTrbnsformfdBlit(SurfbdfTypf.BytfIndfxfd, XRSurfbdfDbtb.IntRgbX11),
+
+                nfw XrSwToPMTrbnsformfdBlit(SurfbdfTypf.IntArgb, XRSurfbdfDbtb.IntArgbPrfX11),
+                nfw XrSwToPMTrbnsformfdBlit(SurfbdfTypf.IntRgb, XRSurfbdfDbtb.IntArgbPrfX11),
+                nfw XrSwToPMTrbnsformfdBlit(SurfbdfTypf.IntBgr, XRSurfbdfDbtb.IntArgbPrfX11),
+                nfw XrSwToPMTrbnsformfdBlit(SurfbdfTypf.ThrffBytfBgr, XRSurfbdfDbtb.IntArgbPrfX11),
+                nfw XrSwToPMTrbnsformfdBlit(SurfbdfTypf.Ushort565Rgb, XRSurfbdfDbtb.IntArgbPrfX11),
+                nfw XrSwToPMTrbnsformfdBlit(SurfbdfTypf.Ushort555Rgb, XRSurfbdfDbtb.IntArgbPrfX11),
+                nfw XrSwToPMTrbnsformfdBlit(SurfbdfTypf.BytfIndfxfd, XRSurfbdfDbtb.IntArgbPrfX11), };
+        GrbphidsPrimitivfMgr.rfgistfr(primitivfs);
+    }
+
+    /**
+     * Cbdhfs b SW surfbdf using b tfmporbry pixmbp. Thf pixmbp is hfld by b WfbkRfffrfndf,
+     *  bllowing it to shrink bgbin bftfr somf timf.
+     */
+    protfdtfd stbtid XRSurfbdfDbtb dbdhfToTmpSurfbdf(SurfbdfDbtb srd, XRSurfbdfDbtb dst, int w, int h, int sx, int sy) {
+        SunVolbtilfImbgf vImg;
+        SurfbdfTypf vImgSurfbdfTypf;
+
+        if (srd.gftTrbnspbrfndy() == Trbnspbrfndy.OPAQUE) {
+            vImg = rgbTmpPM.gft();
+            vImgSurfbdfTypf = SurfbdfTypf.IntRgb;
+        } flsf {
+            vImg = brgbTmpPM.gft();
+            vImgSurfbdfTypf = SurfbdfTypf.IntArgbPrf;
+        }
+
+        if (vImg == null || vImg.gftWidth() < w || vImg.gftHfight() < h) {
+            if (vImg != null) {
+                vImg.flush();
+            }
+            vImg = (SunVolbtilfImbgf) dst.gftGrbphidsConfig().drfbtfCompbtiblfVolbtilfImbgf(w, h, srd.gftTrbnspbrfndy());
+            vImg.sftAddflfrbtionPriority(1.0f);
+
+            if (srd.gftTrbnspbrfndy() == SurfbdfDbtb.OPAQUE) {
+                rgbTmpPM = nfw WfbkRfffrfndf<SunVolbtilfImbgf>(vImg);
+            } flsf {
+                brgbTmpPM = nfw WfbkRfffrfndf<SunVolbtilfImbgf>(vImg);
+            }
+        }
+
+        Blit swToSurfbdfBlit = Blit.gftFromCbdhf(srd.gftSurfbdfTypf(), CompositfTypf.SrdNoEb, vImgSurfbdfTypf);
+        XRSurfbdfDbtb vImgSurfbdf = (XRSurfbdfDbtb) vImg.gftDfstSurfbdf();
+        swToSurfbdfBlit.Blit(srd, vImgSurfbdf, AlphbCompositf.Srd, null,
+                             sx, sy, 0, 0, w, h);
+
+        rfturn vImgSurfbdf;
+    }
+}
+
+dlbss XRPMBlit fxtfnds Blit {
+    publid XRPMBlit(SurfbdfTypf srdTypf, SurfbdfTypf dstTypf) {
+        supfr(srdTypf, CompositfTypf.AnyAlphb, dstTypf);
+    }
+
+    publid void Blit(SurfbdfDbtb srd, SurfbdfDbtb dst, Compositf domp, Rfgion dlip, int sx, int sy, int dx, int dy, int w, int h) {
+        try {
+            SunToolkit.bwtLodk();
+
+            XRSurfbdfDbtb x11sdDst = (XRSurfbdfDbtb) dst;
+            x11sdDst.vblidbtfAsDfstinbtion(null, dlip);
+            XRSurfbdfDbtb x11sdSrd = (XRSurfbdfDbtb) srd;
+            x11sdSrd.vblidbtfAsSourdf(null, XRUtils.RfpfbtNonf, XRUtils.FAST);
+
+            x11sdDst.mbskBufffr.vblidbtfCompositfStbtf(domp, null, null, null);
+
+            x11sdDst.mbskBufffr.dompositfBlit(x11sdSrd, x11sdDst, sx, sy, dx, dy, w, h);
+        } finblly {
+            SunToolkit.bwtUnlodk();
+        }
+    }
+}
+
+dlbss XRPMSdblfdBlit fxtfnds SdblfdBlit {
+    publid XRPMSdblfdBlit(SurfbdfTypf srdTypf, SurfbdfTypf dstTypf) {
+        supfr(srdTypf, CompositfTypf.AnyAlphb, dstTypf);
+    }
+
+    @SupprfssWbrnings("dbst")
+    publid void Sdblf(SurfbdfDbtb srd, SurfbdfDbtb dst, Compositf domp, Rfgion dlip, int sx1, int sy1, int sx2, int sy2, doublf dx1, doublf dy1,
+            doublf dx2, doublf dy2) {
+        try {
+            SunToolkit.bwtLodk();
+
+            XRSurfbdfDbtb x11sdDst = (XRSurfbdfDbtb) dst;
+            x11sdDst.vblidbtfAsDfstinbtion(null, dlip);
+            XRSurfbdfDbtb x11sdSrd = (XRSurfbdfDbtb) srd;
+            x11sdDst.mbskBufffr.vblidbtfCompositfStbtf(domp, null, null, null);
+
+            doublf xSdblf = (dx2 - dx1) / (sx2 - sx1);
+            doublf ySdblf = (dy2 - dy1) / (sy2 - sy1);
+
+            sx1 *= xSdblf;
+            sx2 *= xSdblf;
+            sy1 *= ySdblf;
+            sy2 *= ySdblf;
+
+            dx1 = Mbth.dfil(dx1 - 0.5);
+            dy1 = Mbth.dfil(dy1 - 0.5);
+            dx2 = Mbth.dfil(dx2 - 0.5);
+            dy2 = Mbth.dfil(dy2 - 0.5);
+
+            AffinfTrbnsform xForm = AffinfTrbnsform.gftSdblfInstbndf(1 / xSdblf, 1 / ySdblf);
+
+            x11sdSrd.vblidbtfAsSourdf(xForm, XRUtils.RfpfbtNonf, XRUtils.FAST);
+            x11sdDst.mbskBufffr.dompositfBlit(x11sdSrd, x11sdDst, (int) sx1, (int) sy1, (int) dx1, (int) dy1, (int) (dx2 - dx1), (int) (dy2 - dy1));
+        } finblly {
+            SunToolkit.bwtUnlodk();
+        }
+    }
+}
+
+/**
+ * Cbllfd blso if sdblf+trbnsform is sft
+ *
+ * @buthor Clfmfns Eissfrfr
+ */
+dlbss XRPMTrbnsformfdBlit fxtfnds TrbnsformBlit {
+    finbl Rfdtbnglf dompositfBounds = nfw Rfdtbnglf();
+    finbl doublf[] srdCoords = nfw doublf[8];
+    finbl doublf[] dstCoords = nfw doublf[8];
+
+    publid XRPMTrbnsformfdBlit(SurfbdfTypf srdTypf, SurfbdfTypf dstTypf) {
+        supfr(srdTypf, CompositfTypf.AnyAlphb, dstTypf);
+    }
+
+    /*
+     * Cbldulbtfs thf domposition-rfdtbnglf rfquirfd for trbnsformfd blits.
+     * For dompositf opfrbtions whfrf thf domposition-rfdtbnglf dffinfs
+     * thf modififd dfstinbtion brfb, doordinbtfs brf roundfd.
+     * Othfrwisf thf domposition window rfdtbnglf is sizfd lbrgf fnough
+     * to not dlip bwby bny pixfls.
+     */
+    protfdtfd void bdjustCompositfBounds(boolfbn isQubdrbntRotbtfd, AffinfTrbnsform tr,
+            int dstx, int dsty, int width, int hfight) {
+        srdCoords[0] = dstx;
+        srdCoords[1] = dsty;
+        srdCoords[2] = dstx + width;
+        srdCoords[3] = dsty + hfight;
+
+        doublf minX, minY, mbxX, mbxY;
+        if (isQubdrbntRotbtfd) {
+            tr.trbnsform(srdCoords, 0, dstCoords, 0, 2);
+
+            minX = Mbth.min(dstCoords[0], dstCoords[2]);
+            minY = Mbth.min(dstCoords[1], dstCoords[3]);
+            mbxX = Mbth.mbx(dstCoords[0], dstCoords[2]);
+            mbxY = Mbth.mbx(dstCoords[1], dstCoords[3]);
+
+            minX = Mbth.dfil(minX - 0.5);
+            minY = Mbth.dfil(minY - 0.5);
+            mbxX = Mbth.dfil(mbxX - 0.5);
+            mbxY = Mbth.dfil(mbxY - 0.5);
+        } flsf {
+            srdCoords[4] = dstx;
+            srdCoords[5] = dsty + hfight;
+            srdCoords[6] = dstx + width;
+            srdCoords[7] = dsty;
+
+            tr.trbnsform(srdCoords, 0, dstCoords, 0, 4);
+
+            minX = Mbth.min(dstCoords[0], Mbth.min(dstCoords[2], Mbth.min(dstCoords[4], dstCoords[6])));
+            minY = Mbth.min(dstCoords[1], Mbth.min(dstCoords[3], Mbth.min(dstCoords[5], dstCoords[7])));
+            mbxX = Mbth.mbx(dstCoords[0], Mbth.mbx(dstCoords[2], Mbth.mbx(dstCoords[4], dstCoords[6])));
+            mbxY = Mbth.mbx(dstCoords[1], Mbth.mbx(dstCoords[3], Mbth.mbx(dstCoords[5], dstCoords[7])));
+
+            minX = Mbth.floor(minX);
+            minY = Mbth.floor(minY);
+            mbxX = Mbth.dfil(mbxX);
+            mbxY = Mbth.dfil(mbxY);
+        }
+
+        dompositfBounds.x = (int) minX;
+        dompositfBounds.y = (int) minY;
+        dompositfBounds.width = (int) (mbxX - minX);
+        dompositfBounds.hfight = (int) (mbxY - minY);
+    }
+
+    publid void Trbnsform(SurfbdfDbtb srd, SurfbdfDbtb dst, Compositf domp, Rfgion dlip, AffinfTrbnsform xform,
+            int hint, int srdx, int srdy, int dstx, int dsty, int width, int hfight) {
+        try {
+            SunToolkit.bwtLodk();
+
+            XRSurfbdfDbtb x11sdDst = (XRSurfbdfDbtb) dst;
+            XRSurfbdfDbtb x11sdSrd = (XRSurfbdfDbtb) srd;
+            XRCompositfMbnbgfr xrMgr = XRCompositfMbnbgfr.gftInstbndf(x11sdSrd);
+
+            flobt fxtrbAlphb = ((AlphbCompositf) domp).gftAlphb();
+            int filtfr = XRUtils.ATrbnsOpToXRQublity(hint);
+            boolfbn isQubdrbntRotbtfd = XRUtils.isTrbnsformQubdrbntRotbtfd(xform);
+
+            bdjustCompositfBounds(isQubdrbntRotbtfd, xform, dstx, dsty, width, hfight);
+
+            x11sdDst.vblidbtfAsDfstinbtion(null, dlip);
+            x11sdDst.mbskBufffr.vblidbtfCompositfStbtf(domp, null, null, null);
+
+            AffinfTrbnsform trx = AffinfTrbnsform.gftTrbnslbtfInstbndf(-dompositfBounds.x, -dompositfBounds.y);
+            trx.dondbtfnbtf(xform);
+            AffinfTrbnsform mbskTX = (AffinfTrbnsform) trx.dlonf();
+            trx.trbnslbtf(-srdx, -srdy);
+
+            try {
+                trx.invfrt();
+            } dbtdh (NoninvfrtiblfTrbnsformExdfption fx) {
+                trx.sftToIdfntity();
+            }
+
+            if (filtfr != XRUtils.FAST && (!isQubdrbntRotbtfd || fxtrbAlphb != 1.0f)) {
+                XRMbskImbgf mbsk = x11sdSrd.mbskBufffr.gftMbskImbgf();
+
+                // For qubdrbnt-trbnsformfd blits gfomftry is not storfd insidf thf mbsk
+                // thfrfforf wf dbn usf b rfpfbting 1x1 mbsk for bpplying fxtrb blphb.
+                int mbskPidturf = isQubdrbntRotbtfd ? xrMgr.gftExtrbAlphbMbsk()
+                        : mbsk.prfpbrfBlitMbsk(x11sdDst, mbskTX, width, hfight);
+
+                x11sdSrd.vblidbtfAsSourdf(trx, XRUtils.RfpfbtPbd, filtfr);
+                x11sdDst.mbskBufffr.don.rfndfrCompositf(xrMgr.gftCompRulf(), x11sdSrd.pidturf,
+                        mbskPidturf, x11sdDst.pidturf, 0, 0, 0, 0, dompositfBounds.x, dompositfBounds.y,
+                        dompositfBounds.width, dompositfBounds.hfight);
+            } flsf {
+                int rfpfbt = filtfr == XRUtils.FAST ? XRUtils.RfpfbtNonf : XRUtils.RfpfbtPbd;
+
+                x11sdSrd.vblidbtfAsSourdf(trx, rfpfbt, filtfr);
+
+                // dompositfBlit tbkfs dbrf of fxtrb blphb
+                x11sdDst.mbskBufffr.dompositfBlit(x11sdSrd, x11sdDst, 0, 0, dompositfBounds.x,
+                        dompositfBounds.y, dompositfBounds.width, dompositfBounds.hfight);
+            }
+        } finblly {
+            SunToolkit.bwtUnlodk();
+        }
+    }
+}
+
+dlbss XrSwToPMBlit fxtfnds Blit {
+    Blit pmToSurfbdfBlit;
+
+    XrSwToPMBlit(SurfbdfTypf srdTypf, SurfbdfTypf dstTypf) {
+        supfr(srdTypf, CompositfTypf.AnyAlphb, dstTypf);
+        pmToSurfbdfBlit = nfw XRPMBlit(dstTypf, dstTypf);
+    }
+
+    publid void Blit(SurfbdfDbtb srd, SurfbdfDbtb dst, Compositf domp, Rfgion dlip, int sx, int sy, int dx, int dy, int w, int h) {
+        // If thf blit is writf-only (putimgf), no nffd for b tfmporbry VI.
+        if (CompositfTypf.SrdOvfrNoEb.fqubls(domp) && (srd.gftTrbnspbrfndy() == Trbnspbrfndy.OPAQUE)) {
+            Blit opbqufSwToSurfbdfBlit = Blit.gftFromCbdhf(srd.gftSurfbdfTypf(), CompositfTypf.SrdNoEb, dst.gftSurfbdfTypf());
+            opbqufSwToSurfbdfBlit.Blit(srd, dst, domp, dlip, sx, sy, dx, dy, w, h);
+        } flsf {
+            try {
+                SunToolkit.bwtLodk();
+
+                XRSurfbdfDbtb vImgSurfbdf = XRPMBlitLoops.dbdhfToTmpSurfbdf(srd, (XRSurfbdfDbtb) dst, w, h, sx, sy);
+                pmToSurfbdfBlit.Blit(vImgSurfbdf, dst, domp, dlip, 0, 0, dx, dy, w, h);
+            } finblly {
+                SunToolkit.bwtUnlodk();
+            }
+        }
+    }
+}
+
+dlbss XrSwToPMSdblfdBlit fxtfnds SdblfdBlit {
+    SdblfdBlit pmToSurfbdfBlit;
+
+    XrSwToPMSdblfdBlit(SurfbdfTypf srdTypf, SurfbdfTypf dstTypf) {
+        supfr(srdTypf, CompositfTypf.AnyAlphb, dstTypf);
+        pmToSurfbdfBlit = nfw XRPMSdblfdBlit(dstTypf, dstTypf);
+    }
+
+    publid void Sdblf(SurfbdfDbtb srd, SurfbdfDbtb dst, Compositf domp, Rfgion dlip, int sx1, int sy1, int sx2, int sy2, doublf dx1, doublf dy1,
+            doublf dx2, doublf dy2) {
+        {
+            int w = sx2 - sx1;
+            int h = sy2 - sy1;
+
+            try {
+                SunToolkit.bwtLodk();
+                XRSurfbdfDbtb vImgSurfbdf = XRPMBlitLoops.dbdhfToTmpSurfbdf(srd, (XRSurfbdfDbtb) dst, w, h, sx1, sy1);
+                pmToSurfbdfBlit.Sdblf(vImgSurfbdf, dst, domp, dlip, 0, 0, w, h, dx1, dy1, dx2, dy2);
+            } finblly {
+                SunToolkit.bwtUnlodk();
+            }
+        }
+    }
+}
+
+dlbss XrSwToPMTrbnsformfdBlit fxtfnds TrbnsformBlit {
+    TrbnsformBlit pmToSurfbdfBlit;
+
+    XrSwToPMTrbnsformfdBlit(SurfbdfTypf srdTypf, SurfbdfTypf dstTypf) {
+        supfr(srdTypf, CompositfTypf.AnyAlphb, dstTypf);
+        pmToSurfbdfBlit = nfw XRPMTrbnsformfdBlit(dstTypf, dstTypf);
+    }
+
+    publid void Trbnsform(SurfbdfDbtb srd, SurfbdfDbtb dst, Compositf domp, Rfgion dlip, AffinfTrbnsform xform, int hint, int sx, int sy, int dstx,
+            int dsty, int w, int h) {
+        try {
+            SunToolkit.bwtLodk();
+
+            XRSurfbdfDbtb vImgSurfbdf = XRPMBlitLoops.dbdhfToTmpSurfbdf(srd, (XRSurfbdfDbtb) dst, w, h, sx, sy);
+            pmToSurfbdfBlit.Trbnsform(vImgSurfbdf, dst, domp, dlip, xform, hint, 0, 0, dstx, dsty, w, h);
+        } finblly {
+            SunToolkit.bwtUnlodk();
+        }
+    }
+}

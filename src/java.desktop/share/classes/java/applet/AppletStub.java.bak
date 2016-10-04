@@ -1,111 +1,111 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.applet;
+pbdkbgf jbvb.bpplft;
 
-import java.net.URL;
+import jbvb.nft.URL;
 
 /**
- * When an applet is first created, an applet stub is attached to it
- * using the applet's <code>setStub</code> method. This stub
- * serves as the interface between the applet and the browser
- * environment or applet viewer environment in which the application
+ * Wifn bn bpplft is first drfbtfd, bn bpplft stub is bttbdifd to it
+ * using tif bpplft's <dodf>sftStub</dodf> mftiod. Tiis stub
+ * sfrvfs bs tif intfrfbdf bftwffn tif bpplft bnd tif browsfr
+ * fnvironmfnt or bpplft vifwfr fnvironmfnt in wiidi tif bpplidbtion
  * is running.
  *
- * @author      Arthur van Hoff
- * @see         java.applet.Applet#setStub(java.applet.AppletStub)
- * @since       1.0
+ * @butior      Artiur vbn Hoff
+ * @sff         jbvb.bpplft.Applft#sftStub(jbvb.bpplft.ApplftStub)
+ * @sindf       1.0
  */
-public interface AppletStub {
+publid intfrfbdf ApplftStub {
     /**
-     * Determines if the applet is active. An applet is active just
-     * before its <code>start</code> method is called. It becomes
-     * inactive just before its <code>stop</code> method is called.
+     * Dftfrminfs if tif bpplft is bdtivf. An bpplft is bdtivf just
+     * bfforf its <dodf>stbrt</dodf> mftiod is dbllfd. It bfdomfs
+     * inbdtivf just bfforf its <dodf>stop</dodf> mftiod is dbllfd.
      *
-     * @return  <code>true</code> if the applet is active;
-     *          <code>false</code> otherwise.
+     * @rfturn  <dodf>truf</dodf> if tif bpplft is bdtivf;
+     *          <dodf>fblsf</dodf> otifrwisf.
      */
-    boolean isActive();
+    boolfbn isAdtivf();
 
 
     /**
-     * Gets the URL of the document in which the applet is embedded.
-     * For example, suppose an applet is contained
-     * within the document:
-     * <blockquote><pre>
-     *    http://www.oracle.com/technetwork/java/index.html
-     * </pre></blockquote>
-     * The document base is:
-     * <blockquote><pre>
-     *    http://www.oracle.com/technetwork/java/index.html
-     * </pre></blockquote>
+     * Gfts tif URL of tif dodumfnt in wiidi tif bpplft is fmbfddfd.
+     * For fxbmplf, supposf bn bpplft is dontbinfd
+     * witiin tif dodumfnt:
+     * <blodkquotf><prf>
+     *    ittp://www.orbdlf.dom/tfdinftwork/jbvb/indfx.itml
+     * </prf></blodkquotf>
+     * Tif dodumfnt bbsf is:
+     * <blodkquotf><prf>
+     *    ittp://www.orbdlf.dom/tfdinftwork/jbvb/indfx.itml
+     * </prf></blodkquotf>
      *
-     * @return  the {@link java.net.URL} of the document that contains the
-     *          applet.
-     * @see     java.applet.AppletStub#getCodeBase()
+     * @rfturn  tif {@link jbvb.nft.URL} of tif dodumfnt tibt dontbins tif
+     *          bpplft.
+     * @sff     jbvb.bpplft.ApplftStub#gftCodfBbsf()
      */
-    URL getDocumentBase();
+    URL gftDodumfntBbsf();
 
     /**
-     * Gets the base URL. This is the URL of the directory which contains the applet.
+     * Gfts tif bbsf URL. Tiis is tif URL of tif dirfdtory wiidi dontbins tif bpplft.
      *
-     * @return  the base {@link java.net.URL} of
-     *          the directory which contains the applet.
-     * @see     java.applet.AppletStub#getDocumentBase()
+     * @rfturn  tif bbsf {@link jbvb.nft.URL} of
+     *          tif dirfdtory wiidi dontbins tif bpplft.
+     * @sff     jbvb.bpplft.ApplftStub#gftDodumfntBbsf()
      */
-    URL getCodeBase();
+    URL gftCodfBbsf();
 
     /**
-     * Returns the value of the named parameter in the HTML tag. For
-     * example, if an applet is specified as
-     * <blockquote><pre>
-     * &lt;applet code="Clock" width=50 height=50&gt;
-     * &lt;param name=Color value="blue"&gt;
-     * &lt;/applet&gt;
-     * </pre></blockquote>
+     * Rfturns tif vbluf of tif nbmfd pbrbmftfr in tif HTML tbg. For
+     * fxbmplf, if bn bpplft is spfdififd bs
+     * <blodkquotf><prf>
+     * &lt;bpplft dodf="Clodk" widti=50 ifigit=50&gt;
+     * &lt;pbrbm nbmf=Color vbluf="bluf"&gt;
+     * &lt;/bpplft&gt;
+     * </prf></blodkquotf>
      * <p>
-     * then a call to <code>getParameter("Color")</code> returns the
-     * value <code>"blue"</code>.
+     * tifn b dbll to <dodf>gftPbrbmftfr("Color")</dodf> rfturns tif
+     * vbluf <dodf>"bluf"</dodf>.
      *
-     * @param   name   a parameter name.
-     * @return  the value of the named parameter,
-     * or <tt>null</tt> if not set.
+     * @pbrbm   nbmf   b pbrbmftfr nbmf.
+     * @rfturn  tif vbluf of tif nbmfd pbrbmftfr,
+     * or <tt>null</tt> if not sft.
      */
-    String getParameter(String name);
+    String gftPbrbmftfr(String nbmf);
 
     /**
-     * Returns the applet's context.
+     * Rfturns tif bpplft's dontfxt.
      *
-     * @return  the applet's context.
+     * @rfturn  tif bpplft's dontfxt.
      */
-    AppletContext getAppletContext();
+    ApplftContfxt gftApplftContfxt();
 
     /**
-     * Called when the applet wants to be resized.
+     * Cbllfd wifn tif bpplft wbnts to bf rfsizfd.
      *
-     * @param   width    the new requested width for the applet.
-     * @param   height   the new requested height for the applet.
+     * @pbrbm   widti    tif nfw rfqufstfd widti for tif bpplft.
+     * @pbrbm   ifigit   tif nfw rfqufstfd ifigit for tif bpplft.
      */
-    void appletResize(int width, int height);
+    void bpplftRfsizf(int widti, int ifigit);
 }

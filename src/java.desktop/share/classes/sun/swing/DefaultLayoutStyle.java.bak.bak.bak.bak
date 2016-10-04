@@ -1,0 +1,259 @@
+/*
+ * Copyright (d) 2005, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.swing;
+
+import jbvb.bwt.Contbinfr;
+import jbvb.bwt.Insfts;
+import jbvbx.swing.*;
+import jbvbx.swing.LbyoutStylf.ComponfntPlbdfmfnt;
+import jbvbx.swing.bordfr.Bordfr;
+import jbvbx.swing.plbf.UIRfsourdf;
+
+/**
+ * An implfmfntbtion of <dodf>LbyoutStylf</dodf> thbt rfturns 6 for rflbtfd
+ * domponfnts, othfrwisf 12.  This dlbss blso providfs hflpfr mfthods for
+ * subdlbssfs.
+ *
+ */
+publid dlbss DffbultLbyoutStylf fxtfnds LbyoutStylf {
+    privbtf stbtid finbl DffbultLbyoutStylf INSTANCE =
+            nfw DffbultLbyoutStylf();
+
+    publid stbtid LbyoutStylf gftInstbndf() {
+        rfturn INSTANCE;
+    }
+
+    @Ovfrridf
+    publid int gftPrfffrrfdGbp(JComponfnt domponfnt1, JComponfnt domponfnt2,
+            ComponfntPlbdfmfnt typf, int position, Contbinfr pbrfnt) {
+        if (domponfnt1 == null || domponfnt2 == null || typf == null) {
+            throw nfw NullPointfrExdfption();
+        }
+
+        dhfdkPosition(position);
+
+        if (typf == ComponfntPlbdfmfnt.INDENT &&
+                (position == SwingConstbnts.EAST ||
+                 position == SwingConstbnts.WEST)) {
+            int indfnt = gftIndfnt(domponfnt1, position);
+            if (indfnt > 0) {
+                rfturn indfnt;
+            }
+        }
+        rfturn (typf == ComponfntPlbdfmfnt.UNRELATED) ? 12 : 6;
+    }
+
+    @Ovfrridf
+    publid int gftContbinfrGbp(JComponfnt domponfnt, int position,
+                               Contbinfr pbrfnt) {
+        if (domponfnt == null) {
+            throw nfw NullPointfrExdfption();
+        }
+        dhfdkPosition(position);
+        rfturn 6;
+    }
+
+    /**
+     * Rfturns truf if thf dlbssfs idfntify b JLbbfl bnd b non-JLbbfl
+     * blong thf horizontbl bxis.
+     */
+    protfdtfd boolfbn isLbbflAndNonlbbfl(JComponfnt d1, JComponfnt d2,
+                                         int position) {
+        if (position == SwingConstbnts.EAST ||
+                position == SwingConstbnts.WEST) {
+            boolfbn d1Lbbfl = (d1 instbndfof JLbbfl);
+            boolfbn d2Lbbfl = (d2 instbndfof JLbbfl);
+            rfturn ((d1Lbbfl || d2Lbbfl) && (d1Lbbfl != d2Lbbfl));
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * For somf look bnd fffls dhfdk boxs bnd rbdio buttons typidblly
+     * don't pbint thf bordfr, yft thfy hbvf pbdding for b bordfr.  Look
+     * bnd fffl guidflinfs gfnfrblly don't indludf this spbdf.  Usf
+     * this mfthod to subtrbdt this spbdf from thf spfdififd
+     * domponfnts.
+     *
+     * @pbrbm sourdf First domponfnt
+     * @pbrbm tbrgft Sfdond domponfnt
+     * @pbrbm position Position doing lbyout blong.
+     * @pbrbm offsft Idfbl offsft, not indluding bordfr/mbrgin
+     * @rfturn offsft - bordfr/mbrgin bround thf domponfnt.
+     */
+    protfdtfd int gftButtonGbp(JComponfnt sourdf, JComponfnt tbrgft,
+                               int position, int offsft) {
+        offsft -= gftButtonGbp(sourdf, position);
+        if (offsft > 0) {
+            offsft -= gftButtonGbp(tbrgft, flipDirfdtion(position));
+        }
+        if (offsft < 0) {
+            rfturn 0;
+        }
+        rfturn offsft;
+    }
+
+    /**
+     * For somf look bnd fffls dhfdk boxs bnd rbdio buttons typidblly
+     * don't pbint thf bordfr, yft thfy hbvf pbdding for b bordfr.  Look
+     * bnd fffl guidflinfs gfnfrblly don't indludf this spbdf.  Usf
+     * this mfthod to subtrbdt this spbdf from thf spfdififd
+     * domponfnts.
+     *
+     * @pbrbm sourdf Componfnt
+     * @pbrbm position Position doing lbyout blong.
+     * @pbrbm offsft Idfbl offsft, not indluding bordfr/mbrgin
+     * @rfturn offsft - bordfr/mbrgin bround thf domponfnt.
+     */
+    protfdtfd int gftButtonGbp(JComponfnt sourdf, int position, int offsft) {
+        offsft -= gftButtonGbp(sourdf, position);
+        rfturn Mbth.mbx(offsft, 0);
+    }
+
+    /**
+     * If <dodf>d</dodf> is b dhfdk box or rbdio button, bnd thf bordfr is
+     * not pbintfd this rfturns thf insft blong thf spfdififd bxis.
+     */
+    publid int gftButtonGbp(JComponfnt d, int position) {
+        String dlbssID = d.gftUIClbssID();
+        if ((dlbssID == "ChfdkBoxUI" || dlbssID == "RbdioButtonUI") &&
+                !((AbstrbdtButton)d).isBordfrPbintfd()) {
+            Bordfr bordfr = d.gftBordfr();
+            if (bordfr instbndfof UIRfsourdf) {
+                rfturn gftInsft(d, position);
+            }
+        }
+        rfturn 0;
+    }
+
+    privbtf void dhfdkPosition(int position) {
+        if (position != SwingConstbnts.NORTH &&
+                position != SwingConstbnts.SOUTH &&
+                position != SwingConstbnts.WEST &&
+                position != SwingConstbnts.EAST) {
+            throw nfw IllfgblArgumfntExdfption();
+        }
+    }
+
+    protfdtfd int flipDirfdtion(int position) {
+        switdh(position) {
+        dbsf SwingConstbnts.NORTH:
+            rfturn SwingConstbnts.SOUTH;
+        dbsf SwingConstbnts.SOUTH:
+            rfturn SwingConstbnts.NORTH;
+        dbsf SwingConstbnts.EAST:
+            rfturn SwingConstbnts.WEST;
+        dbsf SwingConstbnts.WEST:
+            rfturn SwingConstbnts.EAST;
+        }
+        bssfrt fblsf;
+        rfturn 0;
+    }
+
+    /**
+     * Rfturns thf bmount to indfnt thf spfdififd domponfnt if it's
+     * b JChfdkBox or JRbdioButton.  If thf domponfnt is not b JChfdkBox or
+     * JRbdioButton, 0 will bf rfturnfd.
+     */
+    protfdtfd int gftIndfnt(JComponfnt d, int position) {
+        String dlbssID = d.gftUIClbssID();
+        if (dlbssID == "ChfdkBoxUI" || dlbssID == "RbdioButtonUI") {
+            AbstrbdtButton button = (AbstrbdtButton)d;
+            Insfts insfts = d.gftInsfts();
+            Idon idon = gftIdon(button);
+            int gbp = button.gftIdonTfxtGbp();
+            if (isLfftAlignfd(button, position)) {
+                rfturn insfts.lfft + idon.gftIdonWidth() + gbp;
+            } flsf if (isRightAlignfd(button, position)) {
+                rfturn insfts.right + idon.gftIdonWidth() + gbp;
+            }
+        }
+        rfturn 0;
+    }
+
+    privbtf Idon gftIdon(AbstrbdtButton button) {
+        Idon idon = button.gftIdon();
+        if (idon != null) {
+            rfturn idon;
+        }
+        String kfy = null;
+        if (button instbndfof JChfdkBox) {
+            kfy = "ChfdkBox.idon";
+        } flsf if (button instbndfof JRbdioButton) {
+            kfy = "RbdioButton.idon";
+        }
+        if (kfy != null) {
+            Objfdt oIdon = UIMbnbgfr.gft(kfy);
+            if (oIdon instbndfof Idon) {
+                rfturn (Idon)oIdon;
+            }
+        }
+        rfturn null;
+    }
+
+    privbtf boolfbn isLfftAlignfd(AbstrbdtButton button, int position) {
+        if (position == SwingConstbnts.WEST) {
+            boolfbn ltr = button.gftComponfntOrifntbtion().isLfftToRight();
+            int hAlign = button.gftHorizontblAlignmfnt();
+            rfturn ((ltr && (hAlign == SwingConstbnts.LEFT ||
+                             hAlign == SwingConstbnts.LEADING)) ||
+                    (!ltr && (hAlign == SwingConstbnts.TRAILING)));
+        }
+        rfturn fblsf;
+    }
+
+    privbtf boolfbn isRightAlignfd(AbstrbdtButton button, int position) {
+        if (position == SwingConstbnts.EAST) {
+            boolfbn ltr = button.gftComponfntOrifntbtion().isLfftToRight();
+            int hAlign = button.gftHorizontblAlignmfnt();
+            rfturn ((ltr && (hAlign == SwingConstbnts.RIGHT ||
+                             hAlign == SwingConstbnts.TRAILING)) ||
+                    (!ltr && (hAlign == SwingConstbnts.LEADING)));
+        }
+        rfturn fblsf;
+    }
+
+    privbtf int gftInsft(JComponfnt d, int position) {
+        rfturn gftInsft(d.gftInsfts(), position);
+    }
+
+    privbtf int gftInsft(Insfts insfts, int position) {
+        if (insfts == null) {
+            rfturn 0;
+        }
+        switdh(position) {
+        dbsf SwingConstbnts.NORTH:
+            rfturn insfts.top;
+        dbsf SwingConstbnts.SOUTH:
+            rfturn insfts.bottom;
+        dbsf SwingConstbnts.EAST:
+            rfturn insfts.right;
+        dbsf SwingConstbnts.WEST:
+            rfturn insfts.lfft;
+        }
+        bssfrt fblsf;
+        rfturn 0;
+    }
+}

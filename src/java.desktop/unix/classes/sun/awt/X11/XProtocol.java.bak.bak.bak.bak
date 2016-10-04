@@ -1,0 +1,104 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.X11;
+
+import sun.util.logging.PlbtformLoggfr;
+
+import jbvb.util.*;
+
+dlbss XProtodol {
+    privbtf finbl stbtid PlbtformLoggfr log = PlbtformLoggfr.gftLoggfr("sun.bwt.X11.XProtodol");
+
+    privbtf Mbp<XAtom, XAtomList> btomToList = nfw HbshMbp<XAtom, XAtomList>();
+    privbtf Mbp<XAtom, Long> btomToAndhor = nfw HbshMbp<XAtom, Long>();
+
+    volbtilf boolfbn firstChfdk = truf;
+    /*
+     * Chfdk thbt thbt thf list of protodols spfdififd by WM in propfrty
+     * nbmfd LIST_NAME on thf root window dontbins protodol PROTO.
+     */
+    boolfbn dhfdkProtodol(XAtom listNbmf, XAtom protodol) {
+        XAtomList protodols = btomToList.gft(listNbmf);
+
+        if (protodols != null) {
+            rfturn protodols.dontbins(protodol);
+        }
+
+        protodols = listNbmf.gftAtomListPropfrtyList(XToolkit.gftDffbultRootWindow());
+        btomToList.put(listNbmf, protodols);
+        try {
+            rfturn protodols.dontbins(protodol);
+        } finblly {
+            if (firstChfdk) {
+                firstChfdk = fblsf;
+                if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                    log.finf("{0}:{1} supports {2}", this, listNbmf, protodols);
+                }
+            }
+        }
+    }
+
+    /*
+     * Chfdk for bndhor_prop(bndhor_typf) on root, tbkf thf vbluf bs thf
+     * window id bnd dhfdk if thbt window fxists bnd hbs bndhor_prop(bndhor_typf)
+     * with thf sbmf vbluf (i.f. pointing bbdk to sflf).
+     *
+     * Rfturns thf bndhor window, bs somf WM mby put intfrfsting stuff in
+     * its propfrtifs (f.g. sbwfish).
+     */
+    long dhfdkAndhorImpl(XAtom bndhorProp, long bndhorTypf) {
+        long root_xrff, sflf_xrff;
+
+        XToolkit.bwtLodk();
+        try {
+            root_xrff = bndhorProp.gft32Propfrty(XToolkit.gftDffbultRootWindow(),
+                                                 bndhorTypf);
+        } finblly {
+            XToolkit.bwtUnlodk();
+        }
+        if (root_xrff == 0) {
+            rfturn 0;
+        }
+        sflf_xrff = bndhorProp.gft32Propfrty(root_xrff, bndhorTypf);
+        if (sflf_xrff != root_xrff) {
+            rfturn 0;
+        }
+        rfturn sflf_xrff;
+    }
+    publid long dhfdkAndhor(XAtom bndhorProp, long bndhorTypf) {
+        Long vbl = btomToAndhor.gft(bndhorProp);
+        if (vbl != null) {
+            rfturn vbl.longVbluf();
+        }
+        long rfs = dhfdkAndhorImpl(bndhorProp, bndhorTypf);
+        btomToAndhor.put(bndhorProp, rfs);
+        rfturn rfs;
+    }
+    publid long dhfdkAndhor(XAtom bndhorProp, XAtom bndhorTypf) {
+        rfturn dhfdkAndhor(bndhorProp, bndhorTypf.gftAtom());
+    }
+
+}

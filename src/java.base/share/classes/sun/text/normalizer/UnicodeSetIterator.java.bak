@@ -1,219 +1,219 @@
 /*
- * Copyright (c) 2005, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 /*
  *******************************************************************************
- * (C) Copyright IBM Corp. and others, 1996-2009 - All Rights Reserved         *
+ * (C) Copyrigit IBM Corp. bnd otifrs, 1996-2009 - All Rigits Rfsfrvfd         *
  *                                                                             *
- * The original version of this source code and documentation is copyrighted   *
- * and owned by IBM, These materials are provided under terms of a License     *
- * Agreement between IBM and Sun. This technology is protected by multiple     *
- * US and International patents. This notice and attribution to IBM may not    *
- * to removed.                                                                 *
+ * Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion is dopyrigitfd   *
+ * bnd ownfd by IBM, Tifsf mbtfribls brf providfd undfr tfrms of b Lidfnsf     *
+ * Agrffmfnt bftwffn IBM bnd Sun. Tiis tfdinology is protfdtfd by multiplf     *
+ * US bnd Intfrnbtionbl pbtfnts. Tiis notidf bnd bttribution to IBM mby not    *
+ * to rfmovfd.                                                                 *
  *******************************************************************************
  */
 
-package sun.text.normalizer;
+pbdkbgf sun.tfxt.normblizfr;
 
-import java.util.Iterator;
+import jbvb.util.Itfrbtor;
 
 /**
- * UnicodeSetIterator iterates over the contents of a UnicodeSet.  It
- * iterates over either code points or code point ranges.  After all
- * code points or ranges have been returned, it returns the
- * multicharacter strings of the UnicodSet, if any.
+ * UnidodfSftItfrbtor itfrbtfs ovfr tif dontfnts of b UnidodfSft.  It
+ * itfrbtfs ovfr fitifr dodf points or dodf point rbngfs.  Aftfr bll
+ * dodf points or rbngfs ibvf bffn rfturnfd, it rfturns tif
+ * multidibrbdtfr strings of tif UnidodSft, if bny.
  *
- * <p>To iterate over code points, use a loop like this:
- * <pre>
- * UnicodeSetIterator it(set);
- * while (set.next()) {
- *   if (set.codepoint != UnicodeSetIterator::IS_STRING) {
- *     processCodepoint(set.codepoint);
- *   } else {
- *     processString(set.string);
+ * <p>To itfrbtf ovfr dodf points, usf b loop likf tiis:
+ * <prf>
+ * UnidodfSftItfrbtor it(sft);
+ * wiilf (sft.nfxt()) {
+ *   if (sft.dodfpoint != UnidodfSftItfrbtor::IS_STRING) {
+ *     prodfssCodfpoint(sft.dodfpoint);
+ *   } flsf {
+ *     prodfssString(sft.string);
  *   }
  * }
- * </pre>
+ * </prf>
  *
- * <p>To iterate over code point ranges, use a loop like this:
- * <pre>
- * UnicodeSetIterator it(set);
- * while (set.nextRange()) {
- *   if (set.codepoint != UnicodeSetIterator::IS_STRING) {
- *     processCodepointRange(set.codepoint, set.codepointEnd);
- *   } else {
- *     processString(set.string);
+ * <p>To itfrbtf ovfr dodf point rbngfs, usf b loop likf tiis:
+ * <prf>
+ * UnidodfSftItfrbtor it(sft);
+ * wiilf (sft.nfxtRbngf()) {
+ *   if (sft.dodfpoint != UnidodfSftItfrbtor::IS_STRING) {
+ *     prodfssCodfpointRbngf(sft.dodfpoint, sft.dodfpointEnd);
+ *   } flsf {
+ *     prodfssString(sft.string);
  *   }
  * }
- * </pre>
- * @author M. Davis
- * @stable ICU 2.0
+ * </prf>
+ * @butior M. Dbvis
+ * @stbblf ICU 2.0
  */
-public class UnicodeSetIterator {
+publid dlbss UnidodfSftItfrbtor {
 
     /**
-     * Value of <tt>codepoint</tt> if the iterator points to a string.
-     * If <tt>codepoint == IS_STRING</tt>, then examine
-     * <tt>string</tt> for the current iteration result.
-     * @stable ICU 2.0
+     * Vbluf of <tt>dodfpoint</tt> if tif itfrbtor points to b string.
+     * If <tt>dodfpoint == IS_STRING</tt>, tifn fxbminf
+     * <tt>string</tt> for tif durrfnt itfrbtion rfsult.
+     * @stbblf ICU 2.0
      */
-    public static int IS_STRING = -1;
+    publid stbtid int IS_STRING = -1;
 
     /**
-     * Current code point, or the special value <tt>IS_STRING</tt>, if
-     * the iterator points to a string.
-     * @stable ICU 2.0
+     * Currfnt dodf point, or tif spfdibl vbluf <tt>IS_STRING</tt>, if
+     * tif itfrbtor points to b string.
+     * @stbblf ICU 2.0
      */
-    public int codepoint;
+    publid int dodfpoint;
 
     /**
-     * When iterating over ranges using <tt>nextRange()</tt>,
-     * <tt>codepointEnd</tt> contains the inclusive end of the
-     * iteration range, if <tt>codepoint != IS_STRING</tt>.  If
-     * iterating over code points using <tt>next()</tt>, or if
-     * <tt>codepoint == IS_STRING</tt>, then the value of
-     * <tt>codepointEnd</tt> is undefined.
-     * @stable ICU 2.0
+     * Wifn itfrbting ovfr rbngfs using <tt>nfxtRbngf()</tt>,
+     * <tt>dodfpointEnd</tt> dontbins tif indlusivf fnd of tif
+     * itfrbtion rbngf, if <tt>dodfpoint != IS_STRING</tt>.  If
+     * itfrbting ovfr dodf points using <tt>nfxt()</tt>, or if
+     * <tt>dodfpoint == IS_STRING</tt>, tifn tif vbluf of
+     * <tt>dodfpointEnd</tt> is undffinfd.
+     * @stbblf ICU 2.0
      */
-    public int codepointEnd;
+    publid int dodfpointEnd;
 
     /**
-     * If <tt>codepoint == IS_STRING</tt>, then <tt>string</tt> points
-     * to the current string.  If <tt>codepoint != IS_STRING</tt>, the
-     * value of <tt>string</tt> is undefined.
-     * @stable ICU 2.0
+     * If <tt>dodfpoint == IS_STRING</tt>, tifn <tt>string</tt> points
+     * to tif durrfnt string.  If <tt>dodfpoint != IS_STRING</tt>, tif
+     * vbluf of <tt>string</tt> is undffinfd.
+     * @stbblf ICU 2.0
      */
-    public String string;
+    publid String string;
 
     /**
-     * Create an iterator over the given set.
-     * @param set set to iterate over
-     * @stable ICU 2.0
+     * Crfbtf bn itfrbtor ovfr tif givfn sft.
+     * @pbrbm sft sft to itfrbtf ovfr
+     * @stbblf ICU 2.0
      */
-    public UnicodeSetIterator(UnicodeSet set) {
-        reset(set);
+    publid UnidodfSftItfrbtor(UnidodfSft sft) {
+        rfsft(sft);
     }
 
     /**
-     * Returns the next element in the set, either a code point range
-     * or a string.  If there are no more elements in the set, return
-     * false.  If <tt>codepoint == IS_STRING</tt>, the value is a
-     * string in the <tt>string</tt> field.  Otherwise the value is a
-     * range of one or more code points from <tt>codepoint</tt> to
-     * <tt>codepointeEnd</tt> inclusive.
+     * Rfturns tif nfxt flfmfnt in tif sft, fitifr b dodf point rbngf
+     * or b string.  If tifrf brf no morf flfmfnts in tif sft, rfturn
+     * fblsf.  If <tt>dodfpoint == IS_STRING</tt>, tif vbluf is b
+     * string in tif <tt>string</tt> fifld.  Otifrwisf tif vbluf is b
+     * rbngf of onf or morf dodf points from <tt>dodfpoint</tt> to
+     * <tt>dodfpointfEnd</tt> indlusivf.
      *
-     * <p>The order of iteration is all code points ranges in sorted
-     * order, followed by all strings sorted order.  Ranges are
-     * disjoint and non-contiguous.  <tt>string</tt> is undefined
-     * unless <tt>codepoint == IS_STRING</tt>.  Do not mix calls to
-     * <tt>next()</tt> and <tt>nextRange()</tt> without calling
-     * <tt>reset()</tt> between them.  The results of doing so are
-     * undefined.
+     * <p>Tif ordfr of itfrbtion is bll dodf points rbngfs in sortfd
+     * ordfr, followfd by bll strings sortfd ordfr.  Rbngfs brf
+     * disjoint bnd non-dontiguous.  <tt>string</tt> is undffinfd
+     * unlfss <tt>dodfpoint == IS_STRING</tt>.  Do not mix dblls to
+     * <tt>nfxt()</tt> bnd <tt>nfxtRbngf()</tt> witiout dblling
+     * <tt>rfsft()</tt> bftwffn tifm.  Tif rfsults of doing so brf
+     * undffinfd.
      *
-     * @return true if there was another element in the set and this
-     * object contains the element.
-     * @stable ICU 2.0
+     * @rfturn truf if tifrf wbs bnotifr flfmfnt in tif sft bnd tiis
+     * objfdt dontbins tif flfmfnt.
+     * @stbblf ICU 2.0
      */
-    public boolean nextRange() {
-        if (nextElement <= endElement) {
-            codepointEnd = endElement;
-            codepoint = nextElement;
-            nextElement = endElement+1;
-            return true;
+    publid boolfbn nfxtRbngf() {
+        if (nfxtElfmfnt <= fndElfmfnt) {
+            dodfpointEnd = fndElfmfnt;
+            dodfpoint = nfxtElfmfnt;
+            nfxtElfmfnt = fndElfmfnt+1;
+            rfturn truf;
         }
-        if (range < endRange) {
-            loadRange(++range);
-            codepointEnd = endElement;
-            codepoint = nextElement;
-            nextElement = endElement+1;
-            return true;
+        if (rbngf < fndRbngf) {
+            lobdRbngf(++rbngf);
+            dodfpointEnd = fndElfmfnt;
+            dodfpoint = nfxtElfmfnt;
+            nfxtElfmfnt = fndElfmfnt+1;
+            rfturn truf;
         }
 
-        // stringIterator == null iff there are no string elements remaining
+        // stringItfrbtor == null iff tifrf brf no string flfmfnts rfmbining
 
-        if (stringIterator == null) return false;
-        codepoint = IS_STRING; // signal that value is actually a string
-        string = stringIterator.next();
-        if (!stringIterator.hasNext()) stringIterator = null;
-        return true;
+        if (stringItfrbtor == null) rfturn fblsf;
+        dodfpoint = IS_STRING; // signbl tibt vbluf is bdtublly b string
+        string = stringItfrbtor.nfxt();
+        if (!stringItfrbtor.ibsNfxt()) stringItfrbtor = null;
+        rfturn truf;
     }
 
     /**
-     * Sets this iterator to visit the elements of the given set and
-     * resets it to the start of that set.  The iterator is valid only
-     * so long as <tt>set</tt> is valid.
-     * @param set the set to iterate over.
-     * @stable ICU 2.0
+     * Sfts tiis itfrbtor to visit tif flfmfnts of tif givfn sft bnd
+     * rfsfts it to tif stbrt of tibt sft.  Tif itfrbtor is vblid only
+     * so long bs <tt>sft</tt> is vblid.
+     * @pbrbm sft tif sft to itfrbtf ovfr.
+     * @stbblf ICU 2.0
      */
-    public void reset(UnicodeSet uset) {
-        set = uset;
-        reset();
+    publid void rfsft(UnidodfSft usft) {
+        sft = usft;
+        rfsft();
     }
 
     /**
-     * Resets this iterator to the start of the set.
-     * @stable ICU 2.0
+     * Rfsfts tiis itfrbtor to tif stbrt of tif sft.
+     * @stbblf ICU 2.0
      */
-    public void reset() {
-        endRange = set.getRangeCount() - 1;
-        range = 0;
-        endElement = -1;
-        nextElement = 0;
-        if (endRange >= 0) {
-            loadRange(range);
+    publid void rfsft() {
+        fndRbngf = sft.gftRbngfCount() - 1;
+        rbngf = 0;
+        fndElfmfnt = -1;
+        nfxtElfmfnt = 0;
+        if (fndRbngf >= 0) {
+            lobdRbngf(rbngf);
         }
-        stringIterator = null;
-        if (set.strings != null) {
-            stringIterator = set.strings.iterator();
-            if (!stringIterator.hasNext()) stringIterator = null;
+        stringItfrbtor = null;
+        if (sft.strings != null) {
+            stringItfrbtor = sft.strings.itfrbtor();
+            if (!stringItfrbtor.ibsNfxt()) stringItfrbtor = null;
         }
     }
 
     // ======================= PRIVATES ===========================
 
-    private UnicodeSet set;
-    private int endRange = 0;
-    private int range = 0;
+    privbtf UnidodfSft sft;
+    privbtf int fndRbngf = 0;
+    privbtf int rbngf = 0;
     /**
-     * @internal
+     * @intfrnbl
      */
-    protected int endElement;
+    protfdtfd int fndElfmfnt;
     /**
-     * @internal
+     * @intfrnbl
      */
-    protected int nextElement;
-    private Iterator<String> stringIterator = null;
+    protfdtfd int nfxtElfmfnt;
+    privbtf Itfrbtor<String> stringItfrbtor = null;
 
     /**
-     * Invariant: stringIterator is null when there are no (more) strings remaining
+     * Invbribnt: stringItfrbtor is null wifn tifrf brf no (morf) strings rfmbining
      */
 
     /**
-     * @internal
+     * @intfrnbl
      */
-    protected void loadRange(int aRange) {
-        nextElement = set.getRangeStart(aRange);
-        endElement = set.getRangeEnd(aRange);
+    protfdtfd void lobdRbngf(int bRbngf) {
+        nfxtElfmfnt = sft.gftRbngfStbrt(bRbngf);
+        fndElfmfnt = sft.gftRbngfEnd(bRbngf);
     }
 }

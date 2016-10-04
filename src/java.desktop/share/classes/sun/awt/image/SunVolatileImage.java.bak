@@ -1,270 +1,270 @@
 /*
- * Copyright (c) 2000, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.image;
+pbdkbgf sun.bwt.imbgf;
 
-import java.awt.AlphaComposite;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.GraphicsConfiguration;
-import java.awt.ImageCapabilities;
-import java.awt.Transparency;
-import java.awt.image.BufferedImage;
-import java.awt.image.ImageObserver;
-import java.awt.image.VolatileImage;
-import sun.java2d.SunGraphics2D;
-import sun.java2d.SurfaceManagerFactory;
-import sun.java2d.DestSurfaceProvider;
-import sun.java2d.Surface;
-import static sun.java2d.pipe.hw.AccelSurface.*;
+import jbvb.bwt.AlpibCompositf;
+import jbvb.bwt.Color;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Font;
+import jbvb.bwt.Grbpiids2D;
+import jbvb.bwt.GrbpiidsConfigurbtion;
+import jbvb.bwt.ImbgfCbpbbilitifs;
+import jbvb.bwt.Trbnspbrfndy;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.ImbgfObsfrvfr;
+import jbvb.bwt.imbgf.VolbtilfImbgf;
+import sun.jbvb2d.SunGrbpiids2D;
+import sun.jbvb2d.SurfbdfMbnbgfrFbdtory;
+import sun.jbvb2d.DfstSurfbdfProvidfr;
+import sun.jbvb2d.Surfbdf;
+import stbtid sun.jbvb2d.pipf.iw.AddflSurfbdf.*;
 
 /**
- * This class is the base implementation of the VolatileImage
- * abstract class.  The class implements most of the standard Image
- * methods (width, height, etc.) but delegates all surface management
- * issues to a platform-specific VolatileSurfaceManager.  When a new instance
- * of SunVolatileImage is created, it automatically creates an
- * appropriate VolatileSurfaceManager for the GraphicsConfiguration
- * under which this SunVolatileImage was created.
+ * Tiis dlbss is tif bbsf implfmfntbtion of tif VolbtilfImbgf
+ * bbstrbdt dlbss.  Tif dlbss implfmfnts most of tif stbndbrd Imbgf
+ * mftiods (widti, ifigit, ftd.) but dflfgbtfs bll surfbdf mbnbgfmfnt
+ * issufs to b plbtform-spfdifid VolbtilfSurfbdfMbnbgfr.  Wifn b nfw instbndf
+ * of SunVolbtilfImbgf is drfbtfd, it butombtidblly drfbtfs bn
+ * bppropribtf VolbtilfSurfbdfMbnbgfr for tif GrbpiidsConfigurbtion
+ * undfr wiidi tiis SunVolbtilfImbgf wbs drfbtfd.
  */
-public class SunVolatileImage extends VolatileImage
-    implements DestSurfaceProvider
+publid dlbss SunVolbtilfImbgf fxtfnds VolbtilfImbgf
+    implfmfnts DfstSurfbdfProvidfr
 {
 
-    protected VolatileSurfaceManager volSurfaceManager;
-    protected Component comp;
-    private GraphicsConfiguration graphicsConfig;
-    private Font defaultFont;
-    private int width, height;
-    private int forcedAccelSurfaceType;
+    protfdtfd VolbtilfSurfbdfMbnbgfr volSurfbdfMbnbgfr;
+    protfdtfd Componfnt domp;
+    privbtf GrbpiidsConfigurbtion grbpiidsConfig;
+    privbtf Font dffbultFont;
+    privbtf int widti, ifigit;
+    privbtf int fordfdAddflSurfbdfTypf;
 
-    protected SunVolatileImage(Component comp,
-                               GraphicsConfiguration graphicsConfig,
-                               int width, int height, Object context,
-                               int transparency, ImageCapabilities caps,
-                               int accType)
+    protfdtfd SunVolbtilfImbgf(Componfnt domp,
+                               GrbpiidsConfigurbtion grbpiidsConfig,
+                               int widti, int ifigit, Objfdt dontfxt,
+                               int trbnspbrfndy, ImbgfCbpbbilitifs dbps,
+                               int bddTypf)
     {
-        this.comp = comp;
-        this.graphicsConfig = graphicsConfig;
-        this.width = width;
-        this.height = height;
-        this.forcedAccelSurfaceType = accType;
-        if (!(transparency == Transparency.OPAQUE ||
-            transparency == Transparency.BITMASK ||
-            transparency == Transparency.TRANSLUCENT))
+        tiis.domp = domp;
+        tiis.grbpiidsConfig = grbpiidsConfig;
+        tiis.widti = widti;
+        tiis.ifigit = ifigit;
+        tiis.fordfdAddflSurfbdfTypf = bddTypf;
+        if (!(trbnspbrfndy == Trbnspbrfndy.OPAQUE ||
+            trbnspbrfndy == Trbnspbrfndy.BITMASK ||
+            trbnspbrfndy == Trbnspbrfndy.TRANSLUCENT))
         {
-            throw new IllegalArgumentException("Unknown transparency type:" +
-                                               transparency);
+            tirow nfw IllfgblArgumfntExdfption("Unknown trbnspbrfndy typf:" +
+                                               trbnspbrfndy);
         }
-        this.transparency = transparency;
-        this.volSurfaceManager = createSurfaceManager(context, caps);
-        SurfaceManager.setManager(this, volSurfaceManager);
+        tiis.trbnspbrfndy = trbnspbrfndy;
+        tiis.volSurfbdfMbnbgfr = drfbtfSurfbdfMbnbgfr(dontfxt, dbps);
+        SurfbdfMbnbgfr.sftMbnbgfr(tiis, volSurfbdfMbnbgfr);
 
-        // post-construction initialization of the surface manager
-        volSurfaceManager.initialize();
-        // clear the background
-        volSurfaceManager.initContents();
+        // post-donstrudtion initiblizbtion of tif surfbdf mbnbgfr
+        volSurfbdfMbnbgfr.initiblizf();
+        // dlfbr tif bbdkground
+        volSurfbdfMbnbgfr.initContfnts();
     }
 
-    private SunVolatileImage(Component comp,
-                             GraphicsConfiguration graphicsConfig,
-                             int width, int height, Object context,
-                             ImageCapabilities caps)
+    privbtf SunVolbtilfImbgf(Componfnt domp,
+                             GrbpiidsConfigurbtion grbpiidsConfig,
+                             int widti, int ifigit, Objfdt dontfxt,
+                             ImbgfCbpbbilitifs dbps)
     {
-        this(comp, graphicsConfig,
-             width, height, context, Transparency.OPAQUE, caps, UNDEFINED);
+        tiis(domp, grbpiidsConfig,
+             widti, ifigit, dontfxt, Trbnspbrfndy.OPAQUE, dbps, UNDEFINED);
     }
 
-    public SunVolatileImage(Component comp, int width, int height) {
-        this(comp, width, height, null);
+    publid SunVolbtilfImbgf(Componfnt domp, int widti, int ifigit) {
+        tiis(domp, widti, ifigit, null);
     }
 
-    public SunVolatileImage(Component comp,
-                            int width, int height, Object context)
+    publid SunVolbtilfImbgf(Componfnt domp,
+                            int widti, int ifigit, Objfdt dontfxt)
     {
-        this(comp, comp.getGraphicsConfiguration(),
-             width, height, context, null);
+        tiis(domp, domp.gftGrbpiidsConfigurbtion(),
+             widti, ifigit, dontfxt, null);
     }
 
-    public SunVolatileImage(GraphicsConfiguration graphicsConfig,
-                            int width, int height, int transparency,
-                            ImageCapabilities caps)
+    publid SunVolbtilfImbgf(GrbpiidsConfigurbtion grbpiidsConfig,
+                            int widti, int ifigit, int trbnspbrfndy,
+                            ImbgfCbpbbilitifs dbps)
     {
-        this(null, graphicsConfig, width, height, null, transparency,
-             caps, UNDEFINED);
+        tiis(null, grbpiidsConfig, widti, ifigit, null, trbnspbrfndy,
+             dbps, UNDEFINED);
     }
 
-    public int getWidth() {
-        return width;
+    publid int gftWidti() {
+        rfturn widti;
     }
 
-    public int getHeight() {
-        return height;
+    publid int gftHfigit() {
+        rfturn ifigit;
     }
 
-    public GraphicsConfiguration getGraphicsConfig() {
-        return graphicsConfig;
+    publid GrbpiidsConfigurbtion gftGrbpiidsConfig() {
+        rfturn grbpiidsConfig;
     }
 
-    public void updateGraphicsConfig() {
-        // If this VImage is associated with a Component, get an updated
-        // graphicsConfig from that component.  Otherwise, keep the one
-        // that we were created with
-        if (comp != null) {
-            GraphicsConfiguration gc = comp.getGraphicsConfiguration();
-            if (gc != null) {
-                // Could potentially be null in some failure situations;
-                // better to keep the old non-null value around than to
-                // set graphicsConfig to null
-                graphicsConfig = gc;
+    publid void updbtfGrbpiidsConfig() {
+        // If tiis VImbgf is bssodibtfd witi b Componfnt, gft bn updbtfd
+        // grbpiidsConfig from tibt domponfnt.  Otifrwisf, kffp tif onf
+        // tibt wf wfrf drfbtfd witi
+        if (domp != null) {
+            GrbpiidsConfigurbtion gd = domp.gftGrbpiidsConfigurbtion();
+            if (gd != null) {
+                // Could potfntiblly bf null in somf fbilurf situbtions;
+                // bfttfr to kffp tif old non-null vbluf bround tibn to
+                // sft grbpiidsConfig to null
+                grbpiidsConfig = gd;
             }
         }
     }
 
-    public Component getComponent() {
-        return comp;
+    publid Componfnt gftComponfnt() {
+        rfturn domp;
     }
 
-    public int getForcedAccelSurfaceType() {
-        return forcedAccelSurfaceType;
+    publid int gftFordfdAddflSurfbdfTypf() {
+        rfturn fordfdAddflSurfbdfTypf;
     }
 
-    protected VolatileSurfaceManager createSurfaceManager(Object context,
-                                                          ImageCapabilities caps)
+    protfdtfd VolbtilfSurfbdfMbnbgfr drfbtfSurfbdfMbnbgfr(Objfdt dontfxt,
+                                                          ImbgfCbpbbilitifs dbps)
     {
         /**
-         * Platform-specific SurfaceManagerFactories will return a
-         * manager suited to acceleration on each platform.  But if
-         * the user is asking for a VolatileImage from a BufferedImageGC,
-         * then we need to return the appropriate unaccelerated manager.
-         * Note: this could change in the future; if some platform would
-         * like to accelerate BIGC volatile images, then this special-casing
-         * of the BIGC graphicsConfig should live in platform-specific
-         * code instead.
-         * We do the same for a Printer Device, and if user requested an
-         * unaccelerated VolatileImage by passing the capabilities object.
+         * Plbtform-spfdifid SurfbdfMbnbgfrFbdtorifs will rfturn b
+         * mbnbgfr suitfd to bddflfrbtion on fbdi plbtform.  But if
+         * tif usfr is bsking for b VolbtilfImbgf from b BufffrfdImbgfGC,
+         * tifn wf nffd to rfturn tif bppropribtf unbddflfrbtfd mbnbgfr.
+         * Notf: tiis dould dibngf in tif futurf; if somf plbtform would
+         * likf to bddflfrbtf BIGC volbtilf imbgfs, tifn tiis spfdibl-dbsing
+         * of tif BIGC grbpiidsConfig siould livf in plbtform-spfdifid
+         * dodf instfbd.
+         * Wf do tif sbmf for b Printfr Dfvidf, bnd if usfr rfqufstfd bn
+         * unbddflfrbtfd VolbtilfImbgf by pbssing tif dbpbbilitifs objfdt.
          */
-        if (graphicsConfig instanceof BufferedImageGraphicsConfig ||
-            graphicsConfig instanceof sun.print.PrinterGraphicsConfig ||
-            (caps != null && !caps.isAccelerated()))
+        if (grbpiidsConfig instbndfof BufffrfdImbgfGrbpiidsConfig ||
+            grbpiidsConfig instbndfof sun.print.PrintfrGrbpiidsConfig ||
+            (dbps != null && !dbps.isAddflfrbtfd()))
         {
-            return new BufImgVolatileSurfaceManager(this, context);
+            rfturn nfw BufImgVolbtilfSurfbdfMbnbgfr(tiis, dontfxt);
         }
-        SurfaceManagerFactory smf = SurfaceManagerFactory.getInstance();
-        return smf.createVolatileManager(this, context);
+        SurfbdfMbnbgfrFbdtory smf = SurfbdfMbnbgfrFbdtory.gftInstbndf();
+        rfturn smf.drfbtfVolbtilfMbnbgfr(tiis, dontfxt);
     }
 
-    private Color getForeground() {
-        if (comp != null) {
-            return comp.getForeground();
-        } else {
-            return Color.black;
-        }
-    }
-
-    private Color getBackground() {
-        if (comp != null) {
-            return comp.getBackground();
-        } else {
-            return Color.white;
+    privbtf Color gftForfground() {
+        if (domp != null) {
+            rfturn domp.gftForfground();
+        } flsf {
+            rfturn Color.blbdk;
         }
     }
 
-    private Font getFont() {
-        if (comp != null) {
-            return comp.getFont();
-        } else {
-            if (defaultFont == null) {
-                defaultFont = new Font("Dialog", Font.PLAIN, 12);
+    privbtf Color gftBbdkground() {
+        if (domp != null) {
+            rfturn domp.gftBbdkground();
+        } flsf {
+            rfturn Color.wiitf;
+        }
+    }
+
+    privbtf Font gftFont() {
+        if (domp != null) {
+            rfturn domp.gftFont();
+        } flsf {
+            if (dffbultFont == null) {
+                dffbultFont = nfw Font("Diblog", Font.PLAIN, 12);
             }
-            return defaultFont;
+            rfturn dffbultFont;
         }
     }
 
-    public Graphics2D createGraphics() {
-        return new SunGraphics2D(volSurfaceManager.getPrimarySurfaceData(),
-                                 getForeground(),
-                                 getBackground(),
-                                 getFont());
+    publid Grbpiids2D drfbtfGrbpiids() {
+        rfturn nfw SunGrbpiids2D(volSurfbdfMbnbgfr.gftPrimbrySurfbdfDbtb(),
+                                 gftForfground(),
+                                 gftBbdkground(),
+                                 gftFont());
     }
 
-    // Image method implementations
-    public Object getProperty(String name, ImageObserver observer) {
-        if (name == null) {
-            throw new NullPointerException("null property name is not allowed");
+    // Imbgf mftiod implfmfntbtions
+    publid Objfdt gftPropfrty(String nbmf, ImbgfObsfrvfr obsfrvfr) {
+        if (nbmf == null) {
+            tirow nfw NullPointfrExdfption("null propfrty nbmf is not bllowfd");
         }
-        return java.awt.Image.UndefinedProperty;
+        rfturn jbvb.bwt.Imbgf.UndffinfdPropfrty;
     }
 
-    public int getWidth(ImageObserver observer) {
-        return getWidth();
+    publid int gftWidti(ImbgfObsfrvfr obsfrvfr) {
+        rfturn gftWidti();
     }
 
-    public int getHeight(ImageObserver observer) {
-        return getHeight();
+    publid int gftHfigit(ImbgfObsfrvfr obsfrvfr) {
+        rfturn gftHfigit();
     }
 
     /**
-     * This method creates a BufferedImage intended for use as a "snapshot"
-     * or a backup surface.
+     * Tiis mftiod drfbtfs b BufffrfdImbgf intfndfd for usf bs b "snbpsiot"
+     * or b bbdkup surfbdf.
      */
-    public BufferedImage getBackupImage() {
-        return graphicsConfig.createCompatibleImage(getWidth(), getHeight(),
-                                                    getTransparency());
+    publid BufffrfdImbgf gftBbdkupImbgf() {
+        rfturn grbpiidsConfig.drfbtfCompbtiblfImbgf(gftWidti(), gftHfigit(),
+                                                    gftTrbnspbrfndy());
     }
 
-    public BufferedImage getSnapshot() {
-        BufferedImage bi = getBackupImage();
-        Graphics2D g = bi.createGraphics();
-        g.setComposite(AlphaComposite.Src);
-        g.drawImage(this, 0, 0, null);
-        g.dispose();
-        return bi;
+    publid BufffrfdImbgf gftSnbpsiot() {
+        BufffrfdImbgf bi = gftBbdkupImbgf();
+        Grbpiids2D g = bi.drfbtfGrbpiids();
+        g.sftCompositf(AlpibCompositf.Srd);
+        g.drbwImbgf(tiis, 0, 0, null);
+        g.disposf();
+        rfturn bi;
     }
 
-    public int validate(GraphicsConfiguration gc) {
-        return volSurfaceManager.validate(gc);
+    publid int vblidbtf(GrbpiidsConfigurbtion gd) {
+        rfturn volSurfbdfMbnbgfr.vblidbtf(gd);
     }
 
-    public boolean contentsLost() {
-        return volSurfaceManager.contentsLost();
+    publid boolfbn dontfntsLost() {
+        rfturn volSurfbdfMbnbgfr.dontfntsLost();
     }
 
-    public ImageCapabilities getCapabilities() {
-        return volSurfaceManager.getCapabilities(graphicsConfig);
+    publid ImbgfCbpbbilitifs gftCbpbbilitifs() {
+        rfturn volSurfbdfMbnbgfr.gftCbpbbilitifs(grbpiidsConfig);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      *
-     * @see sun.java2d.DestSurfaceProvider#getDestSurface
+     * @sff sun.jbvb2d.DfstSurfbdfProvidfr#gftDfstSurfbdf
      */
-    @Override
-    public Surface getDestSurface() {
-        return volSurfaceManager.getPrimarySurfaceData();
+    @Ovfrridf
+    publid Surfbdf gftDfstSurfbdf() {
+        rfturn volSurfbdfMbnbgfr.gftPrimbrySurfbdfDbtb();
     }
 }

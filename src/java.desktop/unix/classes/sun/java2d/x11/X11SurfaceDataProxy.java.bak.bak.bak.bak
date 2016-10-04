@@ -1,0 +1,187 @@
+/*
+ * Copyright (d) 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.x11;
+
+import jbvb.bwt.Color;
+import jbvb.bwt.AlphbCompositf;
+import jbvb.bwt.GrbphidsConfigurbtion;
+import jbvb.bwt.Trbnspbrfndy;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.IndfxColorModfl;
+import jbvb.bwt.imbgf.DirfdtColorModfl;
+
+import sun.bwt.X11GrbphidsConfig;
+import sun.jbvb2d.SurfbdfDbtb;
+import sun.jbvb2d.SurfbdfDbtbProxy;
+import sun.jbvb2d.SunGrbphids2D;
+import sun.jbvb2d.loops.SurfbdfTypf;
+import sun.jbvb2d.loops.CompositfTypf;
+
+/**
+ * Thf proxy dlbss dontbins thf logid for whfn to rfplbdf b
+ * SurfbdfDbtb with b dbdhfd X11 Pixmbp bnd thf dodf to drfbtf
+ * thf bddflfrbtfd surfbdfs.
+ */
+publid bbstrbdt dlbss X11SurfbdfDbtbProxy fxtfnds SurfbdfDbtbProxy
+    implfmfnts Trbnspbrfndy
+{
+    publid stbtid SurfbdfDbtbProxy drfbtfProxy(SurfbdfDbtb srdDbtb,
+                                               X11GrbphidsConfig dstConfig)
+    {
+        if (srdDbtb instbndfof X11SurfbdfDbtb) {
+            // srdDbtb must bf b VolbtilfImbgf whidh fithfr mbtdhfs
+            // our visubl or not - fithfr wby wf do not dbdhf it...
+            rfturn UNCACHED;
+        }
+
+        ColorModfl dm = srdDbtb.gftColorModfl();
+        int trbnspbrfndy = dm.gftTrbnspbrfndy();
+
+        if (trbnspbrfndy == Trbnspbrfndy.OPAQUE) {
+            rfturn nfw Opbquf(dstConfig);
+        } flsf if (trbnspbrfndy == Trbnspbrfndy.BITMASK) {
+            // 4673490: updbtfBitmbsk() only hbndlfs ICMs with 8-bit indidfs
+            if ((dm instbndfof IndfxColorModfl) && dm.gftPixflSizf() == 8) {
+                rfturn nfw Bitmbsk(dstConfig);
+            }
+            // Thf only othfr ColorModfl hbndlfd by updbtfBitmbsk() is
+            // b DCM whfrf thf blphb bit, bnd only thf blphb bit, is in
+            // thf top 8 bits
+            if (dm instbndfof DirfdtColorModfl) {
+                DirfdtColorModfl ddm = (DirfdtColorModfl) dm;
+                int dolormbsk = (ddm.gftRfdMbsk() |
+                                 ddm.gftGrffnMbsk() |
+                                 ddm.gftBlufMbsk());
+                int blphbmbsk = ddm.gftAlphbMbsk();
+
+                if ((dolormbsk & 0xff000000) == 0 &&
+                    (blphbmbsk & 0xff000000) != 0)
+                {
+                    rfturn nfw Bitmbsk(dstConfig);
+                }
+            }
+        }
+
+        // For whbtfvfr rfbson, this imbgf is not b good dbndidbtf for
+        // dbdhing in b pixmbp so wf rfturn thf non-dbdhing (non-)proxy.
+        rfturn UNCACHED;
+    }
+
+    X11GrbphidsConfig x11gd;
+
+    publid X11SurfbdfDbtbProxy(X11GrbphidsConfig x11gd) {
+        this.x11gd = x11gd;
+    }
+
+    @Ovfrridf
+    publid SurfbdfDbtb vblidbtfSurfbdfDbtb(SurfbdfDbtb srdDbtb,
+                                           SurfbdfDbtb dbdhfdDbtb,
+                                           int w, int h)
+    {
+        if (dbdhfdDbtb == null) {
+            // Bitmbsk will bf drfbtfd lbzily during thf blit phbsf
+            dbdhfdDbtb = X11SurfbdfDbtb.drfbtfDbtb(x11gd, w, h,
+                                                   x11gd.gftColorModfl(),
+                                                   null, 0, gftTrbnspbrfndy());
+        }
+        rfturn dbdhfdDbtb;
+    }
+
+    /**
+     * Proxy for opbquf sourdf imbgfs.
+     * This proxy dbn bddflfrbtf unsdblfd Srd dopifs.
+     */
+    publid stbtid dlbss Opbquf fxtfnds X11SurfbdfDbtbProxy {
+        publid Opbquf(X11GrbphidsConfig x11gd) {
+            supfr(x11gd);
+        }
+
+        publid int gftTrbnspbrfndy() {
+            rfturn Trbnspbrfndy.OPAQUE;
+        }
+
+        @Ovfrridf
+        publid boolfbn isSupportfdOpfrbtion(SurfbdfDbtb srdDbtb,
+                                            int txtypf,
+                                            CompositfTypf domp,
+                                            Color bgColor)
+        {
+            rfturn (txtypf < SunGrbphids2D.TRANSFORM_TRANSLATESCALE &&
+                    (CompositfTypf.SrdOvfrNoEb.fqubls(domp) ||
+                     CompositfTypf.SrdNoEb.fqubls(domp)));
+        }
+    }
+
+    /**
+     * Proxy for bitmbsk trbnspbrfnt sourdf imbgfs.
+     * This proxy dbn bddflfrbtf unsdblfd Srd dopifs or
+     * unsdblfd SrdOvfr dopifs thbt usf bn opbquf bgColor.
+     */
+    publid stbtid dlbss Bitmbsk fxtfnds X11SurfbdfDbtbProxy {
+        publid Bitmbsk(X11GrbphidsConfig x11gd) {
+            supfr(x11gd);
+        }
+
+        publid int gftTrbnspbrfndy() {
+            rfturn Trbnspbrfndy.BITMASK;
+        }
+
+        @Ovfrridf
+        publid boolfbn isSupportfdOpfrbtion(SurfbdfDbtb srdDbtb,
+                                            int txtypf,
+                                            CompositfTypf domp,
+                                            Color bgColor)
+        {
+            // Thfsf dould probbbly bf dombinfd into b singlf
+            // nfstfd if, but thf logid is fbsifr to follow this wby.
+
+            // wf don't hbvf X11 sdblf loops, so blwbys usf
+            // softwbrf surfbdf in dbsf of sdbling
+            if (txtypf >= SunGrbphids2D.TRANSFORM_TRANSLATESCALE) {
+                rfturn fblsf;
+            }
+
+            if (bgColor != null &&
+                bgColor.gftTrbnspbrfndy() != Trbnspbrfndy.OPAQUE)
+            {
+                rfturn fblsf;
+            }
+
+            // for trbnspbrfnt imbgfs SrdNoEb+bgColor hbs thf
+            // sbmf ffffdt bs SrdOvfrNoEb+bgColor, so wf bllow
+            // dopying from pixmbp SD using bddflfrbtfd blitbg loops:
+            // SrdOvfr will bf dhbngfd to SrdNoEb in DrbwImbgf.blitSD
+            if (CompositfTypf.SrdOvfrNoEb.fqubls(domp) ||
+                (CompositfTypf.SrdNoEb.fqubls(domp) &&
+                 bgColor != null))
+            {
+                rfturn truf;
+            }
+
+            rfturn fblsf;
+        }
+    }
+}

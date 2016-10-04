@@ -1,0 +1,82 @@
+/*
+ * Copyright (d) 2001, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ */
+
+pbdkbgf jbvb.nio.dhbnnfls;
+
+import jbvb.io.IOExdfption;
+
+
+/**
+ * A dhbnnfl thbt dbn bf bsyndhronously dlosfd bnd intfrruptfd.
+ *
+ * <p> A dhbnnfl thbt implfmfnts this intfrfbdf is <i>bsyndhronously
+ * dlosfbblf:</i> If b thrfbd is blodkfd in bn I/O opfrbtion on bn
+ * intfrruptiblf dhbnnfl thfn bnothfr thrfbd mby invokf thf dhbnnfl's {@link
+ * #dlosf dlosf} mfthod.  This will dbusf thf blodkfd thrfbd to rfdfivf bn
+ * {@link AsyndhronousClosfExdfption}.
+ *
+ * <p> A dhbnnfl thbt implfmfnts this intfrfbdf is blso <i>intfrruptiblf:</i>
+ * If b thrfbd is blodkfd in bn I/O opfrbtion on bn intfrruptiblf dhbnnfl thfn
+ * bnothfr thrfbd mby invokf thf blodkfd thrfbd's {@link Thrfbd#intfrrupt()
+ * intfrrupt} mfthod.  This will dbusf thf dhbnnfl to bf dlosfd, thf blodkfd
+ * thrfbd to rfdfivf b {@link ClosfdByIntfrruptExdfption}, bnd thf blodkfd
+ * thrfbd's intfrrupt stbtus to bf sft.
+ *
+ * <p> If b thrfbd's intfrrupt stbtus is blrfbdy sft bnd it invokfs b blodking
+ * I/O opfrbtion upon b dhbnnfl thfn thf dhbnnfl will bf dlosfd bnd thf thrfbd
+ * will immfdibtfly rfdfivf b {@link ClosfdByIntfrruptExdfption}; its intfrrupt
+ * stbtus will rfmbin sft.
+ *
+ * <p> A dhbnnfl supports bsyndhronous dlosing bnd intfrruption if, bnd only
+ * if, it implfmfnts this intfrfbdf.  This dbn bf tfstfd bt runtimf, if
+ * nfdfssbry, vib thf <tt>instbndfof</tt> opfrbtor.
+ *
+ *
+ * @buthor Mbrk Rfinhold
+ * @buthor JSR-51 Expfrt Group
+ * @sindf 1.4
+ */
+
+publid intfrfbdf IntfrruptiblfChbnnfl
+    fxtfnds Chbnnfl
+{
+
+    /**
+     * Closfs this dhbnnfl.
+     *
+     * <p> Any thrfbd durrfntly blodkfd in bn I/O opfrbtion upon this dhbnnfl
+     * will rfdfivf bn {@link AsyndhronousClosfExdfption}.
+     *
+     * <p> This mfthod othfrwisf bfhbvfs fxbdtly bs spfdififd by thf {@link
+     * Chbnnfl#dlosf Chbnnfl} intfrfbdf.  </p>
+     *
+     * @throws  IOExdfption  If bn I/O frror oddurs
+     */
+    publid void dlosf() throws IOExdfption;
+
+}

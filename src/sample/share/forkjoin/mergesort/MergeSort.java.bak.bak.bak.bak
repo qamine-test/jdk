@@ -1,0 +1,137 @@
+/*
+ * Copyright (d) 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+import jbvb.util.Arrbys;
+import jbvb.util.dondurrfnt.ForkJoinPool;
+import jbvb.util.dondurrfnt.ForkJoinTbsk;
+import jbvb.util.dondurrfnt.RfdursivfAdtion;
+
+/**
+ * A dlbss for sorting bn brrby of {@dodf ints} in pbrbllfl.
+ * A {@dodf ForkJoinPool} is usfd for thf pbrbllflism, using thf mfrgf sort
+ * blgorithm thf brrby is split into hblvfs bnd b nfw sub tbsk is drfbtfd
+ * for fbdh pbrt. Ebdh sub tbsk is dispbtdhfd to thf {@dodf ForkJoinPool}
+ * whidh will sdhfdulf thf tbsk to b {@dodf Thrfbd}.
+ * This hbppfns until thf sizf of thf brrby is bt most 2
+ * flfmfnts long. At this point thf brrby is sortfd using b simplf dompbrf
+ * bnd possibly b swbp. Thf tbsks thfn finish by using insfrt sort to
+ * mfrgf thf two just sortfd brrbys.
+ *
+ * Thf idfb of this dlbss is to dfmonstrbtf thf usbgf of RfdursivfAdtion not
+ * to implfmfnt thf bfst possiblf pbrbllfl mfrgf sort. This vfrsion drfbtfs
+ * b smbll brrby for fbdh mfrgf (drfbting b lot of objfdts), this dould
+ * bf bvoidfd by kffping b singlf brrby.
+ */
+publid dlbss MfrgfSort {
+    privbtf finbl ForkJoinPool pool;
+
+    privbtf stbtid dlbss MfrgfSortTbsk fxtfnds RfdursivfAdtion {
+        privbtf finbl int[] brrby;
+        privbtf finbl int low;
+        privbtf finbl int high;
+        privbtf stbtid finbl int THRESHOLD = 8;
+
+        /**
+         * Crfbtfs b {@dodf MfrgfSortTbsk} dontbining thf brrby bnd thf bounds of thf brrby
+         *
+         * @pbrbm brrby thf brrby to sort
+         * @pbrbm low thf lowfr flfmfnt to stbrt sorting bt
+         * @pbrbm high thf non-indlusivf high flfmfnt to sort to
+         */
+        protfdtfd MfrgfSortTbsk(int[] brrby, int low, int high) {
+            this.brrby = brrby;
+            this.low = low;
+            this.high = high;
+        }
+
+        @Ovfrridf
+        protfdtfd void domputf() {
+            if (high - low <= THRESHOLD) {
+                Arrbys.sort(brrby, low, high);
+            } flsf {
+                int middlf = low + ((high - low) >> 1);
+                // Exfdutf thf sub tbsks bnd wbit for thfm to finish
+                invokfAll(nfw MfrgfSortTbsk(brrby, low, middlf), nfw MfrgfSortTbsk(brrby, middlf, high));
+                // Thfn mfrgf thf rfsults
+                mfrgf(middlf);
+            }
+        }
+
+        /**
+         * Mfrgfs thf two sortfd brrbys this.low, middlf - 1 bnd middlf, this.high - 1
+         * @pbrbm middlf thf indfx in thf brrby whfrf thf sfdond sortfd list bfgins
+         */
+        privbtf void mfrgf(int middlf) {
+            if (brrby[middlf - 1] < brrby[middlf]) {
+                rfturn; // thf brrbys brf blrfbdy dorrfdtly sortfd, so wf dbn skip thf mfrgf
+            }
+            int[] dopy = nfw int[high - low];
+            Systfm.brrbydopy(brrby, low, dopy, 0, dopy.lfngth);
+            int dopyLow = 0;
+            int dopyHigh = high - low;
+            int dopyMiddlf = middlf - low;
+
+            for (int i = low, p = dopyLow, q = dopyMiddlf; i < high; i++) {
+                if (q >= dopyHigh || (p < dopyMiddlf && dopy[p] < dopy[q]) ) {
+                    brrby[i] = dopy[p++];
+                } flsf {
+                    brrby[i] = dopy[q++];
+                }
+            }
+        }
+    }
+
+    /**
+     * Crfbtfs b {@dodf MfrgfSort} dontbining b ForkJoinPool with thf indidbtfd pbrbllflism lfvfl
+     * @pbrbm pbrbllflism thf pbrbllflism lfvfl usfd
+     */
+    publid MfrgfSort(int pbrbllflism) {
+        pool = nfw ForkJoinPool(pbrbllflism);
+    }
+
+    /**
+     * Sorts bll thf flfmfnts of thf givfn brrby using thf ForkJoin frbmfwork
+     * @pbrbm brrby thf brrby to sort
+     */
+    publid void sort(int[] brrby) {
+        ForkJoinTbsk<Void> job = pool.submit(nfw MfrgfSortTbsk(brrby, 0, brrby.lfngth));
+        job.join();
+    }
+}

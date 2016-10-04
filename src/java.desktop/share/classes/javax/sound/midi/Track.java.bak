@@ -1,274 +1,274 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.sound.midi;
+pbdkbgf jbvbx.sound.midi;
 
-import java.util.Vector;
-import java.util.ArrayList;
-import java.util.HashSet;
-import com.sun.media.sound.MidiUtils;
+import jbvb.util.Vfdtor;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbsiSft;
+import dom.sun.mfdib.sound.MidiUtils;
 
 /**
- * A MIDI track is an independent stream of MIDI events (time-stamped MIDI
- * data) that can be stored along with other tracks in a standard MIDI file.
- * The MIDI specification allows only 16 channels of MIDI data, but tracks
- * are a way to get around this limitation.  A MIDI file can contain any number
- * of tracks, each containing its own stream of up to 16 channels of MIDI data.
+ * A MIDI trbdk is bn indfpfndfnt strfbm of MIDI fvfnts (timf-stbmpfd MIDI
+ * dbtb) tibt dbn bf storfd blong witi otifr trbdks in b stbndbrd MIDI filf.
+ * Tif MIDI spfdifidbtion bllows only 16 dibnnfls of MIDI dbtb, but trbdks
+ * brf b wby to gft bround tiis limitbtion.  A MIDI filf dbn dontbin bny numbfr
+ * of trbdks, fbdi dontbining its own strfbm of up to 16 dibnnfls of MIDI dbtb.
  * <p>
- * A <code>Track</code> occupies a middle level in the hierarchy of data played
- * by a <code>{@link Sequencer}</code>: sequencers play sequences, which contain tracks,
- * which contain MIDI events.  A sequencer may provide controls that mute
- * or solo individual tracks.
+ * A <dodf>Trbdk</dodf> oddupifs b middlf lfvfl in tif iifrbrdiy of dbtb plbyfd
+ * by b <dodf>{@link Sfqufndfr}</dodf>: sfqufndfrs plby sfqufndfs, wiidi dontbin trbdks,
+ * wiidi dontbin MIDI fvfnts.  A sfqufndfr mby providf dontrols tibt mutf
+ * or solo individubl trbdks.
  * <p>
- * The timing information and resolution for a track is controlled by and stored
- * in the sequence containing the track. A given <code>Track</code>
- * is considered to belong to the particular <code>{@link Sequence}</code> that
- * maintains its timing. For this reason, a new (empty) track is created by calling the
- * <code>{@link Sequence#createTrack}</code> method, rather than by directly invoking a
- * <code>Track</code> constructor.
+ * Tif timing informbtion bnd rfsolution for b trbdk is dontrollfd by bnd storfd
+ * in tif sfqufndf dontbining tif trbdk. A givfn <dodf>Trbdk</dodf>
+ * is donsidfrfd to bflong to tif pbrtidulbr <dodf>{@link Sfqufndf}</dodf> tibt
+ * mbintbins its timing. For tiis rfbson, b nfw (fmpty) trbdk is drfbtfd by dblling tif
+ * <dodf>{@link Sfqufndf#drfbtfTrbdk}</dodf> mftiod, rbtifr tibn by dirfdtly invoking b
+ * <dodf>Trbdk</dodf> donstrudtor.
  * <p>
- * The <code>Track</code> class provides methods to edit the track by adding
- * or removing <code>MidiEvent</code> objects from it.  These operations keep
- * the event list in the correct time order.  Methods are also
- * included to obtain the track's size, in terms of either the number of events
- * it contains or its duration in ticks.
+ * Tif <dodf>Trbdk</dodf> dlbss providfs mftiods to fdit tif trbdk by bdding
+ * or rfmoving <dodf>MidiEvfnt</dodf> objfdts from it.  Tifsf opfrbtions kffp
+ * tif fvfnt list in tif dorrfdt timf ordfr.  Mftiods brf blso
+ * indludfd to obtbin tif trbdk's sizf, in tfrms of fitifr tif numbfr of fvfnts
+ * it dontbins or its durbtion in tidks.
  *
- * @see Sequencer#setTrackMute
- * @see Sequencer#setTrackSolo
+ * @sff Sfqufndfr#sftTrbdkMutf
+ * @sff Sfqufndfr#sftTrbdkSolo
  *
- * @author Kara Kytle
- * @author Florian Bomers
+ * @butior Kbrb Kytlf
+ * @butior Floribn Bomfrs
  */
-public class Track {
+publid dlbss Trbdk {
 
-    // TODO: use arrays for faster access
+    // TODO: usf brrbys for fbstfr bddfss
 
-    // the list containing the events
-    private ArrayList<MidiEvent> eventsList = new ArrayList<>();
+    // tif list dontbining tif fvfnts
+    privbtf ArrbyList<MidiEvfnt> fvfntsList = nfw ArrbyList<>();
 
-    // use a hashset to detect duplicate events in add(MidiEvent)
-    private HashSet<MidiEvent> set = new HashSet<>();
+    // usf b ibsisft to dftfdt duplidbtf fvfnts in bdd(MidiEvfnt)
+    privbtf HbsiSft<MidiEvfnt> sft = nfw HbsiSft<>();
 
-    private MidiEvent eotEvent;
+    privbtf MidiEvfnt fotEvfnt;
 
 
     /**
-     * Package-private constructor.  Constructs a new, empty Track object,
-     * which initially contains one event, the meta-event End of Track.
+     * Pbdkbgf-privbtf donstrudtor.  Construdts b nfw, fmpty Trbdk objfdt,
+     * wiidi initiblly dontbins onf fvfnt, tif mftb-fvfnt End of Trbdk.
      */
-    Track() {
-        // start with the end of track event
-        MetaMessage eot = new ImmutableEndOfTrack();
-        eotEvent = new MidiEvent(eot, 0);
-        eventsList.add(eotEvent);
-        set.add(eotEvent);
+    Trbdk() {
+        // stbrt witi tif fnd of trbdk fvfnt
+        MftbMfssbgf fot = nfw ImmutbblfEndOfTrbdk();
+        fotEvfnt = nfw MidiEvfnt(fot, 0);
+        fvfntsList.bdd(fotEvfnt);
+        sft.bdd(fotEvfnt);
     }
 
     /**
-     * Adds a new event to the track.  However, if the event is already
-     * contained in the track, it is not added again.  The list of events
-     * is kept in time order, meaning that this event inserted at the
-     * appropriate place in the list, not necessarily at the end.
+     * Adds b nfw fvfnt to tif trbdk.  Howfvfr, if tif fvfnt is blrfbdy
+     * dontbinfd in tif trbdk, it is not bddfd bgbin.  Tif list of fvfnts
+     * is kfpt in timf ordfr, mfbning tibt tiis fvfnt insfrtfd bt tif
+     * bppropribtf plbdf in tif list, not nfdfssbrily bt tif fnd.
      *
-     * @param event the event to add
-     * @return <code>true</code> if the event did not already exist in the
-     * track and was added, otherwise <code>false</code>
+     * @pbrbm fvfnt tif fvfnt to bdd
+     * @rfturn <dodf>truf</dodf> if tif fvfnt did not blrfbdy fxist in tif
+     * trbdk bnd wbs bddfd, otifrwisf <dodf>fblsf</dodf>
      */
-    public boolean add(MidiEvent event) {
-        if (event == null) {
-            return false;
+    publid boolfbn bdd(MidiEvfnt fvfnt) {
+        if (fvfnt == null) {
+            rfturn fblsf;
         }
-        synchronized(eventsList) {
+        syndironizfd(fvfntsList) {
 
-            if (!set.contains(event)) {
-                int eventsCount = eventsList.size();
+            if (!sft.dontbins(fvfnt)) {
+                int fvfntsCount = fvfntsList.sizf();
 
-                // get the last event
-                MidiEvent lastEvent = null;
-                if (eventsCount > 0) {
-                    lastEvent = eventsList.get(eventsCount - 1);
+                // gft tif lbst fvfnt
+                MidiEvfnt lbstEvfnt = null;
+                if (fvfntsCount > 0) {
+                    lbstEvfnt = fvfntsList.gft(fvfntsCount - 1);
                 }
-                // sanity check that we have a correct end-of-track
-                if (lastEvent != eotEvent) {
-                    // if there is no eot event, add our immutable instance again
-                    if (lastEvent != null) {
-                        // set eotEvent's tick to the last tick of the track
-                        eotEvent.setTick(lastEvent.getTick());
-                    } else {
-                        // if the events list is empty, just set the tick to 0
-                        eotEvent.setTick(0);
+                // sbnity difdk tibt wf ibvf b dorrfdt fnd-of-trbdk
+                if (lbstEvfnt != fotEvfnt) {
+                    // if tifrf is no fot fvfnt, bdd our immutbblf instbndf bgbin
+                    if (lbstEvfnt != null) {
+                        // sft fotEvfnt's tidk to tif lbst tidk of tif trbdk
+                        fotEvfnt.sftTidk(lbstEvfnt.gftTidk());
+                    } flsf {
+                        // if tif fvfnts list is fmpty, just sft tif tidk to 0
+                        fotEvfnt.sftTidk(0);
                     }
-                    // we needn't check for a duplicate of eotEvent in "eventsList",
-                    // since then it would appear in the set.
-                    eventsList.add(eotEvent);
-                    set.add(eotEvent);
-                    eventsCount = eventsList.size();
+                    // wf nffdn't difdk for b duplidbtf of fotEvfnt in "fvfntsList",
+                    // sindf tifn it would bppfbr in tif sft.
+                    fvfntsList.bdd(fotEvfnt);
+                    sft.bdd(fotEvfnt);
+                    fvfntsCount = fvfntsList.sizf();
                 }
 
-                // first see if we are trying to add
-                // and endoftrack event.
-                if (MidiUtils.isMetaEndOfTrack(event.getMessage())) {
-                    // since end of track event is useful
-                    // for delays at the end of a track, we want to keep
-                    // the tick value requested here if it is greater
-                    // than the one on the eot we are maintaining.
-                    // Otherwise, we only want a single eot event, so ignore.
-                    if (event.getTick() > eotEvent.getTick()) {
-                        eotEvent.setTick(event.getTick());
+                // first sff if wf brf trying to bdd
+                // bnd fndoftrbdk fvfnt.
+                if (MidiUtils.isMftbEndOfTrbdk(fvfnt.gftMfssbgf())) {
+                    // sindf fnd of trbdk fvfnt is usfful
+                    // for dflbys bt tif fnd of b trbdk, wf wbnt to kffp
+                    // tif tidk vbluf rfqufstfd ifrf if it is grfbtfr
+                    // tibn tif onf on tif fot wf brf mbintbining.
+                    // Otifrwisf, wf only wbnt b singlf fot fvfnt, so ignorf.
+                    if (fvfnt.gftTidk() > fotEvfnt.gftTidk()) {
+                        fotEvfnt.sftTidk(fvfnt.gftTidk());
                     }
-                    return true;
+                    rfturn truf;
                 }
 
-                // prevent duplicates
-                set.add(event);
+                // prfvfnt duplidbtfs
+                sft.bdd(fvfnt);
 
-                // insert event such that events is sorted in increasing
-                // tick order
-                int i = eventsCount;
+                // insfrt fvfnt sudi tibt fvfnts is sortfd in indrfbsing
+                // tidk ordfr
+                int i = fvfntsCount;
                 for ( ; i > 0; i--) {
-                    if (event.getTick() >= (eventsList.get(i-1)).getTick()) {
-                        break;
+                    if (fvfnt.gftTidk() >= (fvfntsList.gft(i-1)).gftTidk()) {
+                        brfbk;
                     }
                 }
-                if (i == eventsCount) {
-                    // we're adding an event after the
-                    // tick value of our eot, so push the eot out.
-                    // Always add at the end for better performance:
-                    // this saves all the checks and arraycopy when inserting
+                if (i == fvfntsCount) {
+                    // wf'rf bdding bn fvfnt bftfr tif
+                    // tidk vbluf of our fot, so pusi tif fot out.
+                    // Alwbys bdd bt tif fnd for bfttfr pfrformbndf:
+                    // tiis sbvfs bll tif difdks bnd brrbydopy wifn insfrting
 
-                    // overwrite eot with new event
-                    eventsList.set(eventsCount - 1, event);
-                    // set new time of eot, if necessary
-                    if (eotEvent.getTick() < event.getTick()) {
-                        eotEvent.setTick(event.getTick());
+                    // ovfrwritf fot witi nfw fvfnt
+                    fvfntsList.sft(fvfntsCount - 1, fvfnt);
+                    // sft nfw timf of fot, if nfdfssbry
+                    if (fotEvfnt.gftTidk() < fvfnt.gftTidk()) {
+                        fotEvfnt.sftTidk(fvfnt.gftTidk());
                     }
-                    // add eot again at the end
-                    eventsList.add(eotEvent);
-                } else {
-                    eventsList.add(i, event);
+                    // bdd fot bgbin bt tif fnd
+                    fvfntsList.bdd(fotEvfnt);
+                } flsf {
+                    fvfntsList.bdd(i, fvfnt);
                 }
-                return true;
+                rfturn truf;
             }
         }
 
-        return false;
+        rfturn fblsf;
     }
 
 
     /**
-     * Removes the specified event from the track.
-     * @param event the event to remove
-     * @return <code>true</code> if the event existed in the track and was removed,
-     * otherwise <code>false</code>
+     * Rfmovfs tif spfdififd fvfnt from tif trbdk.
+     * @pbrbm fvfnt tif fvfnt to rfmovf
+     * @rfturn <dodf>truf</dodf> if tif fvfnt fxistfd in tif trbdk bnd wbs rfmovfd,
+     * otifrwisf <dodf>fblsf</dodf>
      */
-    public boolean remove(MidiEvent event) {
+    publid boolfbn rfmovf(MidiEvfnt fvfnt) {
 
-        // this implementation allows removing the EOT event.
-        // pretty bad, but would probably be too risky to
-        // change behavior now, in case someone does tricks like:
+        // tiis implfmfntbtion bllows rfmoving tif EOT fvfnt.
+        // prftty bbd, but would probbbly bf too risky to
+        // dibngf bfibvior now, in dbsf somfonf dofs tridks likf:
         //
-        // while (track.size() > 0) track.remove(track.get(track.size() - 1));
+        // wiilf (trbdk.sizf() > 0) trbdk.rfmovf(trbdk.gft(trbdk.sizf() - 1));
 
-        // also, would it make sense to adjust the EOT's time
-        // to the last event, if the last non-EOT event is removed?
-        // Or: document that the ticks() length will not be reduced
-        // by deleting events (unless the EOT event is removed)
-        synchronized(eventsList) {
-            if (set.remove(event)) {
-                int i = eventsList.indexOf(event);
+        // blso, would it mbkf sfnsf to bdjust tif EOT's timf
+        // to tif lbst fvfnt, if tif lbst non-EOT fvfnt is rfmovfd?
+        // Or: dodumfnt tibt tif tidks() lfngti will not bf rfdudfd
+        // by dflfting fvfnts (unlfss tif EOT fvfnt is rfmovfd)
+        syndironizfd(fvfntsList) {
+            if (sft.rfmovf(fvfnt)) {
+                int i = fvfntsList.indfxOf(fvfnt);
                 if (i >= 0) {
-                    eventsList.remove(i);
-                    return true;
+                    fvfntsList.rfmovf(i);
+                    rfturn truf;
                 }
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
 
     /**
-     * Obtains the event at the specified index.
-     * @param index the location of the desired event in the event vector
-     * @throws ArrayIndexOutOfBoundsException  if the
-     * specified index is negative or not less than the current size of
-     * this track.
-     * @see #size
-     * @return the event at the specified index
+     * Obtbins tif fvfnt bt tif spfdififd indfx.
+     * @pbrbm indfx tif lodbtion of tif dfsirfd fvfnt in tif fvfnt vfdtor
+     * @tirows ArrbyIndfxOutOfBoundsExdfption  if tif
+     * spfdififd indfx is nfgbtivf or not lfss tibn tif durrfnt sizf of
+     * tiis trbdk.
+     * @sff #sizf
+     * @rfturn tif fvfnt bt tif spfdififd indfx
      */
-    public MidiEvent get(int index) throws ArrayIndexOutOfBoundsException {
+    publid MidiEvfnt gft(int indfx) tirows ArrbyIndfxOutOfBoundsExdfption {
         try {
-            synchronized(eventsList) {
-                return eventsList.get(index);
+            syndironizfd(fvfntsList) {
+                rfturn fvfntsList.gft(indfx);
             }
-        } catch (IndexOutOfBoundsException ioobe) {
-            throw new ArrayIndexOutOfBoundsException(ioobe.getMessage());
+        } dbtdi (IndfxOutOfBoundsExdfption ioobf) {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption(ioobf.gftMfssbgf());
         }
     }
 
 
     /**
-     * Obtains the number of events in this track.
-     * @return the size of the track's event vector
+     * Obtbins tif numbfr of fvfnts in tiis trbdk.
+     * @rfturn tif sizf of tif trbdk's fvfnt vfdtor
      */
-    public int size() {
-        synchronized(eventsList) {
-            return eventsList.size();
+    publid int sizf() {
+        syndironizfd(fvfntsList) {
+            rfturn fvfntsList.sizf();
         }
     }
 
 
     /**
-     * Obtains the length of the track, expressed in MIDI ticks.  (The
-     * duration of a tick in seconds is determined by the timing resolution
-     * of the <code>Sequence</code> containing this track, and also by
-     * the tempo of the music as set by the sequencer.)
-     * @return the duration, in ticks
-     * @see Sequence#Sequence(float, int)
-     * @see Sequencer#setTempoInBPM(float)
-     * @see Sequencer#getTickPosition()
+     * Obtbins tif lfngti of tif trbdk, fxprfssfd in MIDI tidks.  (Tif
+     * durbtion of b tidk in sfdonds is dftfrminfd by tif timing rfsolution
+     * of tif <dodf>Sfqufndf</dodf> dontbining tiis trbdk, bnd blso by
+     * tif tfmpo of tif musid bs sft by tif sfqufndfr.)
+     * @rfturn tif durbtion, in tidks
+     * @sff Sfqufndf#Sfqufndf(flobt, int)
+     * @sff Sfqufndfr#sftTfmpoInBPM(flobt)
+     * @sff Sfqufndfr#gftTidkPosition()
      */
-    public long ticks() {
-        long ret = 0;
-        synchronized (eventsList) {
-            if (eventsList.size() > 0) {
-                ret = (eventsList.get(eventsList.size() - 1)).getTick();
+    publid long tidks() {
+        long rft = 0;
+        syndironizfd (fvfntsList) {
+            if (fvfntsList.sizf() > 0) {
+                rft = (fvfntsList.gft(fvfntsList.sizf() - 1)).gftTidk();
             }
         }
-        return ret;
+        rfturn rft;
     }
 
-    private static class ImmutableEndOfTrack extends MetaMessage {
-        private ImmutableEndOfTrack() {
-            super(new byte[3]);
-            data[0] = (byte) META;
-            data[1] = MidiUtils.META_END_OF_TRACK_TYPE;
-            data[2] = 0;
+    privbtf stbtid dlbss ImmutbblfEndOfTrbdk fxtfnds MftbMfssbgf {
+        privbtf ImmutbblfEndOfTrbdk() {
+            supfr(nfw bytf[3]);
+            dbtb[0] = (bytf) META;
+            dbtb[1] = MidiUtils.META_END_OF_TRACK_TYPE;
+            dbtb[2] = 0;
         }
 
-        public void setMessage(int type, byte[] data, int length) throws InvalidMidiDataException {
-            throw new InvalidMidiDataException("cannot modify end of track message");
+        publid void sftMfssbgf(int typf, bytf[] dbtb, int lfngti) tirows InvblidMidiDbtbExdfption {
+            tirow nfw InvblidMidiDbtbExdfption("dbnnot modify fnd of trbdk mfssbgf");
         }
     }
 

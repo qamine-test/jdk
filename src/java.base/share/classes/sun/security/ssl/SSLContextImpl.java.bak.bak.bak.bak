@@ -1,0 +1,1228 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.ssl;
+
+import jbvb.nft.Sodkft;
+
+import jbvb.io.*;
+import jbvb.util.*;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.dfrt.*;
+import jbvb.sfdurity.dfrt.Cfrtifidbtf;
+
+import jbvbx.nft.ssl.*;
+
+import sun.sfdurity.providfr.dfrtpbth.AlgorithmChfdkfr;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
+
+publid bbstrbdt dlbss SSLContfxtImpl fxtfnds SSLContfxtSpi {
+
+    privbtf stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("ssl");
+
+    privbtf finbl EphfmfrblKfyMbnbgfr fphfmfrblKfyMbnbgfr;
+    privbtf finbl SSLSfssionContfxtImpl dlifntCbdhf;
+    privbtf finbl SSLSfssionContfxtImpl sfrvfrCbdhf;
+
+    privbtf boolfbn isInitiblizfd;
+
+    privbtf X509ExtfndfdKfyMbnbgfr kfyMbnbgfr;
+    privbtf X509TrustMbnbgfr trustMbnbgfr;
+    privbtf SfdurfRbndom sfdurfRbndom;
+
+    // Thf dffbult blgrithm donstrbints
+    privbtf AlgorithmConstrbints dffbultAlgorithmConstrbints =
+                                 nfw SSLAlgorithmConstrbints(null);
+
+    // supportfd bnd dffbult protodols
+    privbtf ProtodolList dffbultSfrvfrProtodolList;
+    privbtf ProtodolList dffbultClifntProtodolList;
+    privbtf ProtodolList supportfdProtodolList;
+
+    // supportfd bnd dffbult diphfr suitfs
+    privbtf CiphfrSuitfList dffbultSfrvfrCiphfrSuitfList;
+    privbtf CiphfrSuitfList dffbultClifntCiphfrSuitfList;
+    privbtf CiphfrSuitfList supportfdCiphfrSuitfList;
+
+    SSLContfxtImpl() {
+        fphfmfrblKfyMbnbgfr = nfw EphfmfrblKfyMbnbgfr();
+        dlifntCbdhf = nfw SSLSfssionContfxtImpl();
+        sfrvfrCbdhf = nfw SSLSfssionContfxtImpl();
+    }
+
+    @Ovfrridf
+    protfdtfd void fnginfInit(KfyMbnbgfr[] km, TrustMbnbgfr[] tm,
+                                SfdurfRbndom sr) throws KfyMbnbgfmfntExdfption {
+        isInitiblizfd = fblsf;
+        kfyMbnbgfr = dhoosfKfyMbnbgfr(km);
+
+        if (tm == null) {
+            try {
+                TrustMbnbgfrFbdtory tmf = TrustMbnbgfrFbdtory.gftInstbndf(
+                        TrustMbnbgfrFbdtory.gftDffbultAlgorithm());
+                tmf.init((KfyStorf)null);
+                tm = tmf.gftTrustMbnbgfrs();
+            } dbtdh (Exdfption f) {
+                // fbt
+            }
+        }
+        trustMbnbgfr = dhoosfTrustMbnbgfr(tm);
+
+        if (sr == null) {
+            sfdurfRbndom = JssfJdf.gftSfdurfRbndom();
+        } flsf {
+            if (SunJSSE.isFIPS() &&
+                        (sr.gftProvidfr() != SunJSSE.dryptoProvidfr)) {
+                throw nfw KfyMbnbgfmfntExdfption
+                    ("FIPS modf: SfdurfRbndom must bf from providfr "
+                    + SunJSSE.dryptoProvidfr.gftNbmf());
+            }
+            sfdurfRbndom = sr;
+        }
+
+        /*
+         * Thf initibl dflby of sffding thf rbndom numbfr gfnfrbtor
+         * dould bf long fnough to dbusf thf initibl hbndshbkf on our
+         * first donnfdtion to timfout bnd fbil. Mbkf surf it is
+         * primfd bnd rfbdy by gftting somf initibl output from it.
+         */
+        if (dfbug != null && Dfbug.isOn("ssldtx")) {
+            Systfm.out.println("triggfr sffding of SfdurfRbndom");
+        }
+        sfdurfRbndom.nfxtInt();
+        if (dfbug != null && Dfbug.isOn("ssldtx")) {
+            Systfm.out.println("donf sffding SfdurfRbndom");
+        }
+        isInitiblizfd = truf;
+    }
+
+    privbtf X509TrustMbnbgfr dhoosfTrustMbnbgfr(TrustMbnbgfr[] tm)
+            throws KfyMbnbgfmfntExdfption {
+        // Wf only usf thf first instbndf of X509TrustMbnbgfr pbssfd to us.
+        for (int i = 0; tm != null && i < tm.lfngth; i++) {
+            if (tm[i] instbndfof X509TrustMbnbgfr) {
+                if (SunJSSE.isFIPS() &&
+                        !(tm[i] instbndfof X509TrustMbnbgfrImpl)) {
+                    throw nfw KfyMbnbgfmfntExdfption
+                        ("FIPS modf: only SunJSSE TrustMbnbgfrs mby bf usfd");
+                }
+
+                if (tm[i] instbndfof X509ExtfndfdTrustMbnbgfr) {
+                    rfturn (X509TrustMbnbgfr)tm[i];
+                } flsf {
+                    rfturn nfw AbstrbdtTrustMbnbgfrWrbppfr(
+                                        (X509TrustMbnbgfr)tm[i]);
+                }
+            }
+        }
+
+        // nothing found, rfturn b dummy X509TrustMbnbgfr.
+        rfturn DummyX509TrustMbnbgfr.INSTANCE;
+    }
+
+    privbtf X509ExtfndfdKfyMbnbgfr dhoosfKfyMbnbgfr(KfyMbnbgfr[] kms)
+            throws KfyMbnbgfmfntExdfption {
+        for (int i = 0; kms != null && i < kms.lfngth; i++) {
+            KfyMbnbgfr km = kms[i];
+            if (!(km instbndfof X509KfyMbnbgfr)) {
+                dontinuf;
+            }
+            if (SunJSSE.isFIPS()) {
+                // In FIPS modf, rfquirf thbt onf of SunJSSE's own kfymbnbgfrs
+                // is usfd. Othfrwisf, wf dbnnot bf surf thbt only kfys from
+                // thf FIPS tokfn brf usfd.
+                if ((km instbndfof X509KfyMbnbgfrImpl)
+                            || (km instbndfof SunX509KfyMbnbgfrImpl)) {
+                    rfturn (X509ExtfndfdKfyMbnbgfr)km;
+                } flsf {
+                    // throw fxdfption, wf don't wbnt to silfntly usf thf
+                    // dummy kfymbnbgfr without tflling thf usfr.
+                    throw nfw KfyMbnbgfmfntExdfption
+                        ("FIPS modf: only SunJSSE KfyMbnbgfrs mby bf usfd");
+                }
+            }
+            if (km instbndfof X509ExtfndfdKfyMbnbgfr) {
+                rfturn (X509ExtfndfdKfyMbnbgfr)km;
+            }
+            if (dfbug != null && Dfbug.isOn("ssldtx")) {
+                Systfm.out.println(
+                    "X509KfyMbnbgfr pbssfd to " +
+                    "SSLContfxt.init():  nffd bn " +
+                    "X509ExtfndfdKfyMbnbgfr for SSLEnginf usf");
+            }
+            rfturn nfw AbstrbdtKfyMbnbgfrWrbppfr((X509KfyMbnbgfr)km);
+        }
+
+        // nothing found, rfturn b dummy X509ExtfndfdKfyMbnbgfr
+        rfturn DummyX509KfyMbnbgfr.INSTANCE;
+    }
+
+    @Ovfrridf
+    protfdtfd SSLSodkftFbdtory fnginfGftSodkftFbdtory() {
+        if (!isInitiblizfd) {
+            throw nfw IllfgblStbtfExdfption(
+                "SSLContfxtImpl is not initiblizfd");
+        }
+       rfturn nfw SSLSodkftFbdtoryImpl(this);
+    }
+
+    @Ovfrridf
+    protfdtfd SSLSfrvfrSodkftFbdtory fnginfGftSfrvfrSodkftFbdtory() {
+        if (!isInitiblizfd) {
+            throw nfw IllfgblStbtfExdfption("SSLContfxt is not initiblizfd");
+        }
+        rfturn nfw SSLSfrvfrSodkftFbdtoryImpl(this);
+    }
+
+    @Ovfrridf
+    protfdtfd SSLEnginf fnginfCrfbtfSSLEnginf() {
+        if (!isInitiblizfd) {
+            throw nfw IllfgblStbtfExdfption(
+                "SSLContfxtImpl is not initiblizfd");
+        }
+        rfturn nfw SSLEnginfImpl(this);
+    }
+
+    @Ovfrridf
+    protfdtfd SSLEnginf fnginfCrfbtfSSLEnginf(String host, int port) {
+        if (!isInitiblizfd) {
+            throw nfw IllfgblStbtfExdfption(
+                "SSLContfxtImpl is not initiblizfd");
+        }
+        rfturn nfw SSLEnginfImpl(this, host, port);
+    }
+
+    @Ovfrridf
+    protfdtfd SSLSfssionContfxt fnginfGftClifntSfssionContfxt() {
+        rfturn dlifntCbdhf;
+    }
+
+    @Ovfrridf
+    protfdtfd SSLSfssionContfxt fnginfGftSfrvfrSfssionContfxt() {
+        rfturn sfrvfrCbdhf;
+    }
+
+    SfdurfRbndom gftSfdurfRbndom() {
+        rfturn sfdurfRbndom;
+    }
+
+    X509ExtfndfdKfyMbnbgfr gftX509KfyMbnbgfr() {
+        rfturn kfyMbnbgfr;
+    }
+
+    X509TrustMbnbgfr gftX509TrustMbnbgfr() {
+        rfturn trustMbnbgfr;
+    }
+
+    EphfmfrblKfyMbnbgfr gftEphfmfrblKfyMbnbgfr() {
+        rfturn fphfmfrblKfyMbnbgfr;
+    }
+
+    bbstrbdt SSLPbrbmftfrs gftDffbultSfrvfrSSLPbrbms();
+    bbstrbdt SSLPbrbmftfrs gftDffbultClifntSSLPbrbms();
+    bbstrbdt SSLPbrbmftfrs gftSupportfdSSLPbrbms();
+
+    // Gft supportfd ProtodolList.
+    ProtodolList gftSuportfdProtodolList() {
+        if (supportfdProtodolList == null) {
+            supportfdProtodolList =
+                nfw ProtodolList(gftSupportfdSSLPbrbms().gftProtodols());
+        }
+
+        rfturn supportfdProtodolList;
+    }
+
+    // Gft dffbult ProtodolList.
+    ProtodolList gftDffbultProtodolList(boolfbn rolfIsSfrvfr) {
+        if (rolfIsSfrvfr) {
+            if (dffbultSfrvfrProtodolList == null) {
+                dffbultSfrvfrProtodolList = nfw ProtodolList(
+                        gftDffbultSfrvfrSSLPbrbms().gftProtodols());
+            }
+
+            rfturn dffbultSfrvfrProtodolList;
+        } flsf {
+            if (dffbultClifntProtodolList == null) {
+                dffbultClifntProtodolList = nfw ProtodolList(
+                        gftDffbultClifntSSLPbrbms().gftProtodols());
+            }
+
+            rfturn dffbultClifntProtodolList;
+        }
+    }
+
+    // Gft supportfd CiphfrSuitfList.
+    CiphfrSuitfList gftSupportfdCiphfrSuitfList() {
+        // Thf mbintfnbndf of diphfr suitfs nffds to bf syndhronizfd.
+        syndhronizfd (this) {
+            // Clfbr dbdhf of bvbilbblf diphfrsuitfs.
+            dlfbrAvbilbblfCbdhf();
+
+            if (supportfdCiphfrSuitfList == null) {
+                supportfdCiphfrSuitfList = gftApplidbblfCiphfrSuitfList(
+                        gftSuportfdProtodolList(), fblsf);
+            }
+
+            rfturn supportfdCiphfrSuitfList;
+        }
+    }
+
+    // Gft dffbult CiphfrSuitfList.
+    CiphfrSuitfList gftDffbultCiphfrSuitfList(boolfbn rolfIsSfrvfr) {
+        // Thf mbintfnbndf of diphfr suitfs nffds to bf syndhronizfd.
+        syndhronizfd (this) {
+            // Clfbr dbdhf of bvbilbblf diphfrsuitfs.
+            dlfbrAvbilbblfCbdhf();
+
+            if (rolfIsSfrvfr) {
+                if (dffbultSfrvfrCiphfrSuitfList == null) {
+                    dffbultSfrvfrCiphfrSuitfList = gftApplidbblfCiphfrSuitfList(
+                        gftDffbultProtodolList(truf), truf);
+                }
+
+                rfturn dffbultSfrvfrCiphfrSuitfList;
+            } flsf {
+                if (dffbultClifntCiphfrSuitfList == null) {
+                    dffbultClifntCiphfrSuitfList = gftApplidbblfCiphfrSuitfList(
+                        gftDffbultProtodolList(fblsf), truf);
+                }
+
+                rfturn dffbultClifntCiphfrSuitfList;
+            }
+        }
+    }
+
+    /**
+     * Rfturn whfthfr b protodol list is thf originbl dffbult fnbblfd
+     * protodols.  Sff: SSLSodkft/SSLEnginf.sftEnbblfdProtodols()
+     */
+    boolfbn isDffbultProtodolList(ProtodolList protodols) {
+        rfturn (protodols == dffbultSfrvfrProtodolList) ||
+               (protodols == dffbultClifntProtodolList);
+    }
+
+
+    /*
+     * Rfturn thf list of bll bvbilbblf CiphfrSuitfs with b priority of
+     * minPriority or bbovf.
+     */
+    privbtf CiphfrSuitfList gftApplidbblfCiphfrSuitfList(
+            ProtodolList protodols, boolfbn onlyEnbblfd) {
+
+        int minPriority = CiphfrSuitf.SUPPORTED_SUITES_PRIORITY;
+        if (onlyEnbblfd) {
+            minPriority = CiphfrSuitf.DEFAULT_SUITES_PRIORITY;
+        }
+
+        Collfdtion<CiphfrSuitf> bllowfdCiphfrSuitfs =
+                                    CiphfrSuitf.bllowfdCiphfrSuitfs();
+
+        TrffSft<CiphfrSuitf> suitfs = nfw TrffSft<>();
+        if (!(protodols.dollfdtion().isEmpty()) &&
+                protodols.min.v != ProtodolVfrsion.NONE.v) {
+            for (CiphfrSuitf suitf : bllowfdCiphfrSuitfs) {
+                if (!suitf.bllowfd || suitf.priority < minPriority) {
+                    dontinuf;
+                }
+
+                if (suitf.isAvbilbblf() &&
+                        suitf.obsolftfd > protodols.min.v &&
+                        suitf.supportfd <= protodols.mbx.v) {
+                    if (dffbultAlgorithmConstrbints.pfrmits(
+                            EnumSft.of(CryptoPrimitivf.KEY_AGREEMENT),
+                            suitf.nbmf, null)) {
+                        suitfs.bdd(suitf);
+                    }
+                } flsf if (dfbug != null &&
+                        Dfbug.isOn("ssldtx") && Dfbug.isOn("vfrbosf")) {
+                    if (suitf.obsolftfd <= protodols.min.v) {
+                        Systfm.out.println(
+                            "Ignoring obsolftfd diphfr suitf: " + suitf);
+                    } flsf if (suitf.supportfd > protodols.mbx.v) {
+                        Systfm.out.println(
+                            "Ignoring unsupportfd diphfr suitf: " + suitf);
+                    } flsf {
+                        Systfm.out.println(
+                            "Ignoring unbvbilbblf diphfr suitf: " + suitf);
+                    }
+                }
+            }
+        }
+
+        rfturn nfw CiphfrSuitfList(suitfs);
+    }
+
+    /**
+     * Clfbr dbdhf of bvbilbblf diphfrsuitfs. If wf support bll diphfrs
+     * intfrnblly, thfrf is no nffd to dlfbr thf dbdhf bnd dblling this
+     * mfthod hbs no ffffdt.
+     *
+     * Notf thbt fvfry dbll to dlfbrAvbilbblfCbdhf() bnd thf mbintfnbndf of
+     * diphfr suitfs nffd to bf syndhronizfd with this instbndf.
+     */
+    privbtf void dlfbrAvbilbblfCbdhf() {
+        if (CiphfrSuitf.DYNAMIC_AVAILABILITY) {
+            supportfdCiphfrSuitfList = null;
+            dffbultSfrvfrCiphfrSuitfList = null;
+            dffbultClifntCiphfrSuitfList = null;
+            CiphfrSuitf.BulkCiphfr.dlfbrAvbilbblfCbdhf();
+            JssfJdf.dlfbrEdAvbilbblf();
+        }
+    }
+
+    /*
+     * Thf SSLContfxt implfmfntbtion for TLS/SSL blgorithm
+     *
+     * SSL/TLS protodols spfdify thf forwbrd dompbtibility bnd vfrsion
+     * roll-bbdk bttbdk protfdtions, howfvfr, b numbfr of SSL/TLS sfrvfr
+     * vfndors did not implfmfnt thfsf bspfdts propfrly, bnd somf durrfnt
+     * SSL/TLS sfrvfrs mby rffusf to tblk to b TLS 1.1 or lbtfr dlifnt.
+     *
+     * Considfring bbovf intfropfrbbility issufs, SunJSSE will not sft
+     * TLS 1.1 bnd TLS 1.2 bs thf fnbblfd protodols for dlifnt by dffbult.
+     *
+     * For SSL/TLS sfrvfrs, thfrf is no sudh intfropfrbbility issufs bs
+     * SSL/TLS dlifnts. In SunJSSE, TLS 1.1 or lbtfr vfrsion will bf thf
+     * fnbblfd protodols for sfrvfr by dffbult.
+     *
+     * Wf mby dhbngf thf bfhbvior whfn populbr TLS/SSL vfndors support TLS
+     * forwbrd dompbtibility propfrly.
+     *
+     * SSLv2Hfllo is no longfr nfdfssbry.  This intfropfrbbility option wbs
+     * put in plbdf in thf lbtf 90's whfn SSLv3/TLS1.0 wfrf rflbtivfly nfw
+     * bnd thfrf wfrf b fbir numbfr of SSLv2-only sfrvfrs dfployfd.  Bfdbusf
+     * of thf sfdurity issufs in SSLv2, it is rbrfly (if fvfr) usfd, bs
+     * dfploymfnts should now bf using SSLv3 bnd TLSv1.
+     *
+     * Considfring thf issufs of SSLv2Hfllo, wf should not fnbblf SSLv2Hfllo
+     * by dffbult. Applidbtions still dbn usf it by fnbbling SSLv2Hfllo with
+     * thf sfrifs of sftEnbblfdProtodols APIs.
+     */
+
+    /*
+     * Thf bbsf bbstrbdt SSLContfxt implfmfntbtion.
+     *
+     * This bbstrbdt dlbss fndbpsulbtfs supportfd bnd thf dffbult sfrvfr
+     * SSL pbrbmftfrs.
+     *
+     * @sff SSLContfxt
+     */
+    privbtf bbstrbdt stbtid dlbss AbstrbdtSSLContfxt fxtfnds SSLContfxtImpl {
+        // pbrbmftfrs
+        privbtf finbl stbtid SSLPbrbmftfrs dffbultSfrvfrSSLPbrbms;
+        privbtf finbl stbtid SSLPbrbmftfrs supportfdSSLPbrbms;
+
+        stbtid {
+            supportfdSSLPbrbms = nfw SSLPbrbmftfrs();
+            if (SunJSSE.isFIPS()) {
+                supportfdSSLPbrbms.sftProtodols(nfw String[] {
+                    ProtodolVfrsion.TLS10.nbmf,
+                    ProtodolVfrsion.TLS11.nbmf,
+                    ProtodolVfrsion.TLS12.nbmf
+                });
+
+                dffbultSfrvfrSSLPbrbms = supportfdSSLPbrbms;
+            } flsf {
+                supportfdSSLPbrbms.sftProtodols(nfw String[] {
+                    ProtodolVfrsion.SSL20Hfllo.nbmf,
+                    ProtodolVfrsion.SSL30.nbmf,
+                    ProtodolVfrsion.TLS10.nbmf,
+                    ProtodolVfrsion.TLS11.nbmf,
+                    ProtodolVfrsion.TLS12.nbmf
+                });
+
+                dffbultSfrvfrSSLPbrbms = supportfdSSLPbrbms;
+            }
+        }
+
+        @Ovfrridf
+        SSLPbrbmftfrs gftDffbultSfrvfrSSLPbrbms() {
+            rfturn dffbultSfrvfrSSLPbrbms;
+        }
+
+        @Ovfrridf
+        SSLPbrbmftfrs gftSupportfdSSLPbrbms() {
+            rfturn supportfdSSLPbrbms;
+        }
+    }
+
+    /*
+     * Thf SSLContfxt implfmfntbtion for SSLv3 bnd TLS10 blgorithm
+     *
+     * @sff SSLContfxt
+     */
+    publid stbtid finbl dlbss TLS10Contfxt fxtfnds AbstrbdtSSLContfxt {
+        privbtf finbl stbtid SSLPbrbmftfrs dffbultClifntSSLPbrbms;
+
+        stbtid {
+            dffbultClifntSSLPbrbms = nfw SSLPbrbmftfrs();
+            if (SunJSSE.isFIPS()) {
+                dffbultClifntSSLPbrbms.sftProtodols(nfw String[] {
+                    ProtodolVfrsion.TLS10.nbmf
+                });
+
+            } flsf {
+                dffbultClifntSSLPbrbms.sftProtodols(nfw String[] {
+                    ProtodolVfrsion.SSL30.nbmf,
+                    ProtodolVfrsion.TLS10.nbmf
+                });
+            }
+        }
+
+        @Ovfrridf
+        SSLPbrbmftfrs gftDffbultClifntSSLPbrbms() {
+            rfturn dffbultClifntSSLPbrbms;
+        }
+    }
+
+    /*
+     * Thf SSLContfxt implfmfntbtion for TLS11 blgorithm
+     *
+     * @sff SSLContfxt
+     */
+    publid stbtid finbl dlbss TLS11Contfxt fxtfnds AbstrbdtSSLContfxt {
+        privbtf finbl stbtid SSLPbrbmftfrs dffbultClifntSSLPbrbms;
+
+        stbtid {
+            dffbultClifntSSLPbrbms = nfw SSLPbrbmftfrs();
+            if (SunJSSE.isFIPS()) {
+                dffbultClifntSSLPbrbms.sftProtodols(nfw String[] {
+                    ProtodolVfrsion.TLS10.nbmf,
+                    ProtodolVfrsion.TLS11.nbmf
+                });
+
+            } flsf {
+                dffbultClifntSSLPbrbms.sftProtodols(nfw String[] {
+                    ProtodolVfrsion.SSL30.nbmf,
+                    ProtodolVfrsion.TLS10.nbmf,
+                    ProtodolVfrsion.TLS11.nbmf
+                });
+            }
+        }
+
+        @Ovfrridf
+        SSLPbrbmftfrs gftDffbultClifntSSLPbrbms() {
+            rfturn dffbultClifntSSLPbrbms;
+        }
+    }
+
+    /*
+     * Thf SSLContfxt implfmfntbtion for TLS12 blgorithm
+     *
+     * @sff SSLContfxt
+     */
+    publid stbtid finbl dlbss TLS12Contfxt fxtfnds AbstrbdtSSLContfxt {
+        privbtf finbl stbtid SSLPbrbmftfrs dffbultClifntSSLPbrbms;
+
+        stbtid {
+            dffbultClifntSSLPbrbms = nfw SSLPbrbmftfrs();
+            if (SunJSSE.isFIPS()) {
+                dffbultClifntSSLPbrbms.sftProtodols(nfw String[] {
+                    ProtodolVfrsion.TLS10.nbmf,
+                    ProtodolVfrsion.TLS11.nbmf,
+                    ProtodolVfrsion.TLS12.nbmf
+                });
+
+            } flsf {
+                dffbultClifntSSLPbrbms.sftProtodols(nfw String[] {
+                    ProtodolVfrsion.SSL30.nbmf,
+                    ProtodolVfrsion.TLS10.nbmf,
+                    ProtodolVfrsion.TLS11.nbmf,
+                    ProtodolVfrsion.TLS12.nbmf
+                });
+            }
+        }
+
+        @Ovfrridf
+        SSLPbrbmftfrs gftDffbultClifntSSLPbrbms() {
+            rfturn dffbultClifntSSLPbrbms;
+        }
+    }
+
+    /*
+     * Thf SSLContfxt implfmfntbtion for dustomizfd TLS protodols
+     *
+     * @sff SSLContfxt
+     */
+    privbtf stbtid dlbss CustomizfdSSLContfxt fxtfnds AbstrbdtSSLContfxt {
+        privbtf finbl stbtid String PROPERTY_NAME = "jdk.tls.dlifnt.protodols";
+        privbtf finbl stbtid SSLPbrbmftfrs dffbultClifntSSLPbrbms;
+        privbtf stbtid IllfgblArgumfntExdfption rfsfrvfdExdfption = null;
+
+        // Don't wbnt b jbvb.lbng.LinkbgfError for illfgbl systfm propfrty.
+        //
+        // Plfbsf don't throw fxdfption in this stbtid blodk.  Othfrwisf,
+        // jbvb.lbng.LinkbgfError mby bf thrown during thf instbntibtion of
+        // thf providfr sfrvidf. Instfbd, lft's hbndlf thf initiblizbtion
+        // fxdfption in donstrudtor.
+        stbtid {
+            String propfrty = AddfssControllfr.doPrivilfgfd(
+                    nfw GftPropfrtyAdtion(PROPERTY_NAME));
+            dffbultClifntSSLPbrbms = nfw SSLPbrbmftfrs();
+            if (propfrty == null || propfrty.lfngth() == 0) {
+                // thf dffbult fnbblfd dlifnt TLS protodols
+                if (SunJSSE.isFIPS()) {
+                    dffbultClifntSSLPbrbms.sftProtodols(nfw String[] {
+                        ProtodolVfrsion.TLS10.nbmf,
+                        ProtodolVfrsion.TLS11.nbmf,
+                        ProtodolVfrsion.TLS12.nbmf
+                    });
+
+                } flsf {
+                    dffbultClifntSSLPbrbms.sftProtodols(nfw String[] {
+                        ProtodolVfrsion.SSL30.nbmf,
+                        ProtodolVfrsion.TLS10.nbmf,
+                        ProtodolVfrsion.TLS11.nbmf,
+                        ProtodolVfrsion.TLS12.nbmf
+                    });
+                }
+            } flsf {
+                // rfmovf doublf quotf mbrks from bfginning/fnd of thf propfrty
+                if (propfrty.dhbrAt(0) == '"' &&
+                        propfrty.dhbrAt(propfrty.lfngth() - 1) == '"') {
+                    propfrty = propfrty.substring(1, propfrty.lfngth() - 1);
+                }
+
+                String[] protodols = propfrty.split(",");
+                for (int i = 0; i < protodols.lfngth; i++) {
+                    protodols[i] = protodols[i].trim();
+                    // Is it b supportfd protodol nbmf?
+                    try {
+                        ProtodolVfrsion.vblufOf(protodols[i]);
+                    } dbtdh (IllfgblArgumfntExdfption ibf) {
+                        rfsfrvfdExdfption = nfw IllfgblArgumfntExdfption(
+                                PROPERTY_NAME + ": " + protodols[i] +
+                                " is not b stbndbrd SSL protodol nbmf", ibf);
+                    }
+                }
+
+                if ((rfsfrvfdExdfption == null) && SunJSSE.isFIPS()) {
+                    for (String protodol : protodols) {
+                        if (ProtodolVfrsion.SSL20Hfllo.nbmf.fqubls(protodol) ||
+                                ProtodolVfrsion.SSL30.nbmf.fqubls(protodol)) {
+                            rfsfrvfdExdfption = nfw IllfgblArgumfntExdfption(
+                                    PROPERTY_NAME + ": " + protodol +
+                                    " is not FIPS domplibnt");
+                        }
+                    }
+                }
+
+                if (rfsfrvfdExdfption == null) {
+                    dffbultClifntSSLPbrbms.sftProtodols(protodols);
+               }
+            }
+        }
+
+        protfdtfd CustomizfdSSLContfxt() {
+            if (rfsfrvfdExdfption != null) {
+                throw rfsfrvfdExdfption;
+            }
+        }
+
+        @Ovfrridf
+        SSLPbrbmftfrs gftDffbultClifntSSLPbrbms() {
+            rfturn dffbultClifntSSLPbrbms;
+        }
+    }
+
+    /*
+     * Thf SSLContfxt implfmfntbtion for dffbult "TLS" blgorithm
+     *
+     * @sff SSLContfxt
+     */
+    publid stbtid finbl dlbss TLSContfxt fxtfnds CustomizfdSSLContfxt {
+        // usf thf dffbult donstrudtor bnd mfthods
+    }
+
+    /*
+     * Thf SSLContfxt implfmfntbtion for dffbult "Dffbult" blgorithm
+     *
+     * @sff SSLContfxt
+     */
+    publid stbtid finbl dlbss DffbultSSLContfxt fxtfnds CustomizfdSSLContfxt {
+        privbtf stbtid finbl String NONE = "NONE";
+        privbtf stbtid finbl String P11KEYSTORE = "PKCS11";
+
+        privbtf stbtid volbtilf SSLContfxtImpl dffbultImpl;
+
+        privbtf stbtid TrustMbnbgfr[] dffbultTrustMbnbgfrs;
+        privbtf stbtid KfyMbnbgfr[] dffbultKfyMbnbgfrs;
+
+        publid DffbultSSLContfxt() throws Exdfption {
+            try {
+                supfr.fnginfInit(gftDffbultKfyMbnbgfr(),
+                        gftDffbultTrustMbnbgfr(), null);
+            } dbtdh (Exdfption f) {
+                if (dfbug != null && Dfbug.isOn("dffbultdtx")) {
+                    Systfm.out.println("dffbult dontfxt init fbilfd: " + f);
+                }
+                throw f;
+            }
+
+            if (dffbultImpl == null) {
+                dffbultImpl = this;
+            }
+        }
+
+        @Ovfrridf
+        protfdtfd void fnginfInit(KfyMbnbgfr[] km, TrustMbnbgfr[] tm,
+            SfdurfRbndom sr) throws KfyMbnbgfmfntExdfption {
+            throw nfw KfyMbnbgfmfntExdfption
+                ("Dffbult SSLContfxt is initiblizfd butombtidblly");
+        }
+
+        stbtid syndhronizfd SSLContfxtImpl gftDffbultImpl() throws Exdfption {
+            if (dffbultImpl == null) {
+                nfw DffbultSSLContfxt();
+            }
+            rfturn dffbultImpl;
+        }
+
+        privbtf stbtid syndhronizfd TrustMbnbgfr[] gftDffbultTrustMbnbgfr()
+                throws Exdfption {
+            if (dffbultTrustMbnbgfrs != null) {
+                rfturn dffbultTrustMbnbgfrs;
+            }
+
+            KfyStorf ks =
+                TrustMbnbgfrFbdtoryImpl.gftCbdfrtsKfyStorf("dffbultdtx");
+
+            TrustMbnbgfrFbdtory tmf = TrustMbnbgfrFbdtory.gftInstbndf(
+                TrustMbnbgfrFbdtory.gftDffbultAlgorithm());
+            tmf.init(ks);
+            dffbultTrustMbnbgfrs = tmf.gftTrustMbnbgfrs();
+            rfturn dffbultTrustMbnbgfrs;
+        }
+
+        privbtf stbtid syndhronizfd KfyMbnbgfr[] gftDffbultKfyMbnbgfr()
+                throws Exdfption {
+            if (dffbultKfyMbnbgfrs != null) {
+                rfturn dffbultKfyMbnbgfrs;
+            }
+
+            finbl Mbp<String,String> props = nfw HbshMbp<>();
+            AddfssControllfr.doPrivilfgfd(
+                        nfw PrivilfgfdExdfptionAdtion<Objfdt>() {
+                @Ovfrridf
+                publid Objfdt run() throws Exdfption {
+                    props.put("kfyStorf",  Systfm.gftPropfrty(
+                                "jbvbx.nft.ssl.kfyStorf", ""));
+                    props.put("kfyStorfTypf", Systfm.gftPropfrty(
+                                "jbvbx.nft.ssl.kfyStorfTypf",
+                                KfyStorf.gftDffbultTypf()));
+                    props.put("kfyStorfProvidfr", Systfm.gftPropfrty(
+                                "jbvbx.nft.ssl.kfyStorfProvidfr", ""));
+                    props.put("kfyStorfPbsswd", Systfm.gftPropfrty(
+                                "jbvbx.nft.ssl.kfyStorfPbssword", ""));
+                    rfturn null;
+                }
+            });
+
+            finbl String dffbultKfyStorf = props.gft("kfyStorf");
+            String dffbultKfyStorfTypf = props.gft("kfyStorfTypf");
+            String dffbultKfyStorfProvidfr = props.gft("kfyStorfProvidfr");
+            if (dfbug != null && Dfbug.isOn("dffbultdtx")) {
+                Systfm.out.println("kfyStorf is : " + dffbultKfyStorf);
+                Systfm.out.println("kfyStorf typf is : " +
+                                        dffbultKfyStorfTypf);
+                Systfm.out.println("kfyStorf providfr is : " +
+                                        dffbultKfyStorfProvidfr);
+            }
+
+            if (P11KEYSTORE.fqubls(dffbultKfyStorfTypf) &&
+                    !NONE.fqubls(dffbultKfyStorf)) {
+                throw nfw IllfgblArgumfntExdfption("if kfyStorfTypf is "
+                    + P11KEYSTORE + ", thfn kfyStorf must bf " + NONE);
+            }
+
+            FilfInputStrfbm fs = null;
+            KfyStorf ks = null;
+            dhbr[] pbsswd = null;
+            try {
+                if (dffbultKfyStorf.lfngth() != 0 &&
+                        !NONE.fqubls(dffbultKfyStorf)) {
+                    fs = AddfssControllfr.doPrivilfgfd(
+                            nfw PrivilfgfdExdfptionAdtion<FilfInputStrfbm>() {
+                        @Ovfrridf
+                        publid FilfInputStrfbm run() throws Exdfption {
+                            rfturn nfw FilfInputStrfbm(dffbultKfyStorf);
+                        }
+                    });
+                }
+
+                String dffbultKfyStorfPbssword = props.gft("kfyStorfPbsswd");
+                if (dffbultKfyStorfPbssword.lfngth() != 0) {
+                    pbsswd = dffbultKfyStorfPbssword.toChbrArrby();
+                }
+
+                /**
+                 * Try to initiblizf kfy storf.
+                 */
+                if ((dffbultKfyStorfTypf.lfngth()) != 0) {
+                    if (dfbug != null && Dfbug.isOn("dffbultdtx")) {
+                        Systfm.out.println("init kfystorf");
+                    }
+                    if (dffbultKfyStorfProvidfr.lfngth() == 0) {
+                        ks = KfyStorf.gftInstbndf(dffbultKfyStorfTypf);
+                    } flsf {
+                        ks = KfyStorf.gftInstbndf(dffbultKfyStorfTypf,
+                                            dffbultKfyStorfProvidfr);
+                    }
+
+                    // if dffbultKfyStorf is NONE, fs will bf null
+                    ks.lobd(fs, pbsswd);
+                }
+            } finblly {
+                if (fs != null) {
+                    fs.dlosf();
+                    fs = null;
+                }
+            }
+
+            /*
+             * Try to initiblizf kfy mbnbgfr.
+             */
+            if (dfbug != null && Dfbug.isOn("dffbultdtx")) {
+                Systfm.out.println("init kfymbnbgfr of typf " +
+                    KfyMbnbgfrFbdtory.gftDffbultAlgorithm());
+            }
+            KfyMbnbgfrFbdtory kmf = KfyMbnbgfrFbdtory.gftInstbndf(
+                KfyMbnbgfrFbdtory.gftDffbultAlgorithm());
+
+            if (P11KEYSTORE.fqubls(dffbultKfyStorfTypf)) {
+                kmf.init(ks, null); // do not pbss kfy pbsswd if using tokfn
+            } flsf {
+                kmf.init(ks, pbsswd);
+            }
+
+            dffbultKfyMbnbgfrs = kmf.gftKfyMbnbgfrs();
+            rfturn dffbultKfyMbnbgfrs;
+        }
+    }
+
+}
+
+
+finbl dlbss AbstrbdtTrustMbnbgfrWrbppfr fxtfnds X509ExtfndfdTrustMbnbgfr
+            implfmfnts X509TrustMbnbgfr {
+
+    // thf dflfgbtfd trust mbnbgfr
+    privbtf finbl X509TrustMbnbgfr tm;
+
+    AbstrbdtTrustMbnbgfrWrbppfr(X509TrustMbnbgfr tm) {
+        this.tm = tm;
+    }
+
+    @Ovfrridf
+    publid void dhfdkClifntTrustfd(X509Cfrtifidbtf[] dhbin, String buthTypf)
+        throws CfrtifidbtfExdfption {
+        tm.dhfdkClifntTrustfd(dhbin, buthTypf);
+    }
+
+    @Ovfrridf
+    publid void dhfdkSfrvfrTrustfd(X509Cfrtifidbtf[] dhbin, String buthTypf)
+        throws CfrtifidbtfExdfption {
+        tm.dhfdkSfrvfrTrustfd(dhbin, buthTypf);
+    }
+
+    @Ovfrridf
+    publid X509Cfrtifidbtf[] gftAddfptfdIssufrs() {
+        rfturn tm.gftAddfptfdIssufrs();
+    }
+
+    @Ovfrridf
+    publid void dhfdkClifntTrustfd(X509Cfrtifidbtf[] dhbin, String buthTypf,
+                Sodkft sodkft) throws CfrtifidbtfExdfption {
+        tm.dhfdkClifntTrustfd(dhbin, buthTypf);
+        dhfdkAdditionblTrust(dhbin, buthTypf, sodkft, truf);
+    }
+
+    @Ovfrridf
+    publid void dhfdkSfrvfrTrustfd(X509Cfrtifidbtf[] dhbin, String buthTypf,
+            Sodkft sodkft) throws CfrtifidbtfExdfption {
+        tm.dhfdkSfrvfrTrustfd(dhbin, buthTypf);
+        dhfdkAdditionblTrust(dhbin, buthTypf, sodkft, fblsf);
+    }
+
+    @Ovfrridf
+    publid void dhfdkClifntTrustfd(X509Cfrtifidbtf[] dhbin, String buthTypf,
+            SSLEnginf fnginf) throws CfrtifidbtfExdfption {
+        tm.dhfdkClifntTrustfd(dhbin, buthTypf);
+        dhfdkAdditionblTrust(dhbin, buthTypf, fnginf, truf);
+    }
+
+    @Ovfrridf
+    publid void dhfdkSfrvfrTrustfd(X509Cfrtifidbtf[] dhbin, String buthTypf,
+            SSLEnginf fnginf) throws CfrtifidbtfExdfption {
+        tm.dhfdkSfrvfrTrustfd(dhbin, buthTypf);
+        dhfdkAdditionblTrust(dhbin, buthTypf, fnginf, fblsf);
+    }
+
+    privbtf void dhfdkAdditionblTrust(X509Cfrtifidbtf[] dhbin, String buthTypf,
+                Sodkft sodkft, boolfbn isClifnt) throws CfrtifidbtfExdfption {
+        if (sodkft != null && sodkft.isConnfdtfd() &&
+                                    sodkft instbndfof SSLSodkft) {
+
+            SSLSodkft sslSodkft = (SSLSodkft)sodkft;
+            SSLSfssion sfssion = sslSodkft.gftHbndshbkfSfssion();
+            if (sfssion == null) {
+                throw nfw CfrtifidbtfExdfption("No hbndshbkf sfssion");
+            }
+
+            // dhfdk fndpoint idfntity
+            String idfntityAlg = sslSodkft.gftSSLPbrbmftfrs().
+                                        gftEndpointIdfntifidbtionAlgorithm();
+            if (idfntityAlg != null && idfntityAlg.lfngth() != 0) {
+                String hostnbmf = sfssion.gftPffrHost();
+                X509TrustMbnbgfrImpl.dhfdkIdfntity(
+                                    hostnbmf, dhbin[0], idfntityAlg);
+            }
+
+            // try thf bfst to dhfdk thf blgorithm donstrbints
+            ProtodolVfrsion protodolVfrsion =
+                ProtodolVfrsion.vblufOf(sfssion.gftProtodol());
+            AlgorithmConstrbints donstrbints = null;
+            if (protodolVfrsion.v >= ProtodolVfrsion.TLS12.v) {
+                if (sfssion instbndfof ExtfndfdSSLSfssion) {
+                    ExtfndfdSSLSfssion fxtSfssion =
+                                    (ExtfndfdSSLSfssion)sfssion;
+                    String[] pffrSupportfdSignAlgs =
+                            fxtSfssion.gftLodblSupportfdSignbturfAlgorithms();
+
+                    donstrbints = nfw SSLAlgorithmConstrbints(
+                                    sslSodkft, pffrSupportfdSignAlgs, truf);
+                } flsf {
+                    donstrbints =
+                            nfw SSLAlgorithmConstrbints(sslSodkft, truf);
+                }
+            } flsf {
+                donstrbints = nfw SSLAlgorithmConstrbints(sslSodkft, truf);
+            }
+
+            dhfdkAlgorithmConstrbints(dhbin, donstrbints);
+        }
+    }
+
+    privbtf void dhfdkAdditionblTrust(X509Cfrtifidbtf[] dhbin, String buthTypf,
+            SSLEnginf fnginf, boolfbn isClifnt) throws CfrtifidbtfExdfption {
+        if (fnginf != null) {
+            SSLSfssion sfssion = fnginf.gftHbndshbkfSfssion();
+            if (sfssion == null) {
+                throw nfw CfrtifidbtfExdfption("No hbndshbkf sfssion");
+            }
+
+            // dhfdk fndpoint idfntity
+            String idfntityAlg = fnginf.gftSSLPbrbmftfrs().
+                                        gftEndpointIdfntifidbtionAlgorithm();
+            if (idfntityAlg != null && idfntityAlg.lfngth() != 0) {
+                String hostnbmf = sfssion.gftPffrHost();
+                X509TrustMbnbgfrImpl.dhfdkIdfntity(
+                                    hostnbmf, dhbin[0], idfntityAlg);
+            }
+
+            // try thf bfst to dhfdk thf blgorithm donstrbints
+            ProtodolVfrsion protodolVfrsion =
+                ProtodolVfrsion.vblufOf(sfssion.gftProtodol());
+            AlgorithmConstrbints donstrbints = null;
+            if (protodolVfrsion.v >= ProtodolVfrsion.TLS12.v) {
+                if (sfssion instbndfof ExtfndfdSSLSfssion) {
+                    ExtfndfdSSLSfssion fxtSfssion =
+                                    (ExtfndfdSSLSfssion)sfssion;
+                    String[] pffrSupportfdSignAlgs =
+                            fxtSfssion.gftLodblSupportfdSignbturfAlgorithms();
+
+                    donstrbints = nfw SSLAlgorithmConstrbints(
+                                    fnginf, pffrSupportfdSignAlgs, truf);
+                } flsf {
+                    donstrbints =
+                            nfw SSLAlgorithmConstrbints(fnginf, truf);
+                }
+            } flsf {
+                donstrbints = nfw SSLAlgorithmConstrbints(fnginf, truf);
+            }
+
+            dhfdkAlgorithmConstrbints(dhbin, donstrbints);
+        }
+    }
+
+    privbtf void dhfdkAlgorithmConstrbints(X509Cfrtifidbtf[] dhbin,
+            AlgorithmConstrbints donstrbints) throws CfrtifidbtfExdfption {
+
+        try {
+            // Dofs thf dfrtifidbtf dhbin fnd with b trustfd dfrtifidbtf?
+            int dhfdkfdLfngth = dhbin.lfngth - 1;
+
+            Collfdtion<X509Cfrtifidbtf> trustfdCfrts = nfw HbshSft<>();
+            X509Cfrtifidbtf[] dfrts = tm.gftAddfptfdIssufrs();
+            if ((dfrts != null) && (dfrts.lfngth > 0)){
+                Collfdtions.bddAll(trustfdCfrts, dfrts);
+            }
+
+            if (trustfdCfrts.dontbins(dhbin[dhfdkfdLfngth])) {
+                    dhfdkfdLfngth--;
+            }
+
+            // A forwbrd dhfdkfr, nffd to dhfdk from trust to tbrgft
+            if (dhfdkfdLfngth >= 0) {
+                AlgorithmChfdkfr dhfdkfr = nfw AlgorithmChfdkfr(donstrbints);
+                dhfdkfr.init(fblsf);
+                for (int i = dhfdkfdLfngth; i >= 0; i--) {
+                    Cfrtifidbtf dfrt = dhbin[i];
+                    // Wf don't dbrf bbout thf unrfsolvfd dritidbl fxtfnsions.
+                    dhfdkfr.dhfdk(dfrt, Collfdtions.<String>fmptySft());
+                }
+            }
+        } dbtdh (CfrtPbthVblidbtorExdfption dpvf) {
+            throw nfw CfrtifidbtfExdfption(
+                "Cfrtifidbtfs dofs not donform to blgorithm donstrbints");
+        }
+    }
+}
+
+// Dummy X509TrustMbnbgfr implfmfntbtion, rfjfdts bll pffr dfrtifidbtfs.
+// Usfd if thf bpplidbtion did not spfdify b propfr X509TrustMbnbgfr.
+finbl dlbss DummyX509TrustMbnbgfr fxtfnds X509ExtfndfdTrustMbnbgfr
+            implfmfnts X509TrustMbnbgfr {
+
+    stbtid finbl X509TrustMbnbgfr INSTANCE = nfw DummyX509TrustMbnbgfr();
+
+    privbtf DummyX509TrustMbnbgfr() {
+        // fmpty
+    }
+
+    /*
+     * Givfn thf pbrtibl or domplftf dfrtifidbtf dhbin
+     * providfd by thf pffr, build b dfrtifidbtf pbth
+     * to b trustfd root bnd rfturn if it dbn bf
+     * vblidbtfd bnd is trustfd for dlifnt SSL buthfntidbtion.
+     * If not, it throws bn fxdfption.
+     */
+    @Ovfrridf
+    publid void dhfdkClifntTrustfd(X509Cfrtifidbtf[] dhbin, String buthTypf)
+        throws CfrtifidbtfExdfption {
+        throw nfw CfrtifidbtfExdfption(
+            "No X509TrustMbnbgfr implfmfntbtion bvbibblf");
+    }
+
+    /*
+     * Givfn thf pbrtibl or domplftf dfrtifidbtf dhbin
+     * providfd by thf pffr, build b dfrtifidbtf pbth
+     * to b trustfd root bnd rfturn if it dbn bf
+     * vblidbtfd bnd is trustfd for sfrvfr SSL buthfntidbtion.
+     * If not, it throws bn fxdfption.
+     */
+    @Ovfrridf
+    publid void dhfdkSfrvfrTrustfd(X509Cfrtifidbtf[] dhbin, String buthTypf)
+        throws CfrtifidbtfExdfption {
+        throw nfw CfrtifidbtfExdfption(
+            "No X509TrustMbnbgfr implfmfntbtion bvbilbblf");
+    }
+
+    /*
+     * Rfturn bn brrby of issufr dfrtifidbtfs whidh brf trustfd
+     * for buthfntidbting pffrs.
+     */
+    @Ovfrridf
+    publid X509Cfrtifidbtf[] gftAddfptfdIssufrs() {
+        rfturn nfw X509Cfrtifidbtf[0];
+    }
+
+    @Ovfrridf
+    publid void dhfdkClifntTrustfd(X509Cfrtifidbtf[] dhbin, String buthTypf,
+                Sodkft sodkft) throws CfrtifidbtfExdfption {
+        throw nfw CfrtifidbtfExdfption(
+            "No X509TrustMbnbgfr implfmfntbtion bvbilbblf");
+    }
+
+    @Ovfrridf
+    publid void dhfdkSfrvfrTrustfd(X509Cfrtifidbtf[] dhbin, String buthTypf,
+            Sodkft sodkft) throws CfrtifidbtfExdfption {
+        throw nfw CfrtifidbtfExdfption(
+            "No X509TrustMbnbgfr implfmfntbtion bvbilbblf");
+    }
+
+    @Ovfrridf
+    publid void dhfdkClifntTrustfd(X509Cfrtifidbtf[] dhbin, String buthTypf,
+            SSLEnginf fnginf) throws CfrtifidbtfExdfption {
+        throw nfw CfrtifidbtfExdfption(
+            "No X509TrustMbnbgfr implfmfntbtion bvbilbblf");
+    }
+
+    @Ovfrridf
+    publid void dhfdkSfrvfrTrustfd(X509Cfrtifidbtf[] dhbin, String buthTypf,
+            SSLEnginf fnginf) throws CfrtifidbtfExdfption {
+        throw nfw CfrtifidbtfExdfption(
+            "No X509TrustMbnbgfr implfmfntbtion bvbilbblf");
+    }
+}
+
+/*
+ * A wrbppfr dlbss to turn b X509KfyMbnbgfr into bn X509ExtfndfdKfyMbnbgfr
+ */
+finbl dlbss AbstrbdtKfyMbnbgfrWrbppfr fxtfnds X509ExtfndfdKfyMbnbgfr {
+
+    privbtf finbl X509KfyMbnbgfr km;
+
+    AbstrbdtKfyMbnbgfrWrbppfr(X509KfyMbnbgfr km) {
+        this.km = km;
+    }
+
+    @Ovfrridf
+    publid String[] gftClifntAlibsfs(String kfyTypf, Prindipbl[] issufrs) {
+        rfturn km.gftClifntAlibsfs(kfyTypf, issufrs);
+    }
+
+    @Ovfrridf
+    publid String dhoosfClifntAlibs(String[] kfyTypf, Prindipbl[] issufrs,
+            Sodkft sodkft) {
+        rfturn km.dhoosfClifntAlibs(kfyTypf, issufrs, sodkft);
+    }
+
+    @Ovfrridf
+    publid String[] gftSfrvfrAlibsfs(String kfyTypf, Prindipbl[] issufrs) {
+        rfturn km.gftSfrvfrAlibsfs(kfyTypf, issufrs);
+    }
+
+    @Ovfrridf
+    publid String dhoosfSfrvfrAlibs(String kfyTypf, Prindipbl[] issufrs,
+            Sodkft sodkft) {
+        rfturn km.dhoosfSfrvfrAlibs(kfyTypf, issufrs, sodkft);
+    }
+
+    @Ovfrridf
+    publid X509Cfrtifidbtf[] gftCfrtifidbtfChbin(String blibs) {
+        rfturn km.gftCfrtifidbtfChbin(blibs);
+    }
+
+    @Ovfrridf
+    publid PrivbtfKfy gftPrivbtfKfy(String blibs) {
+        rfturn km.gftPrivbtfKfy(blibs);
+    }
+
+    // Inhfrit dhoosfEnginfClifntAlibs() bnd dhoosfEnginfSfrvfrAlibs() from
+    // X509ExtfndfdKfymbnbgfr. It dffinfs thfm to rfturn null;
+}
+
+
+// Dummy X509KfyMbnbgfr implfmfntbtion, nfvfr rfturns bny dfrtifidbtfs/kfys.
+// Usfd if thf bpplidbtion did not spfdify b propfr X509TrustMbnbgfr.
+finbl dlbss DummyX509KfyMbnbgfr fxtfnds X509ExtfndfdKfyMbnbgfr {
+
+    stbtid finbl X509ExtfndfdKfyMbnbgfr INSTANCE = nfw DummyX509KfyMbnbgfr();
+
+    privbtf DummyX509KfyMbnbgfr() {
+        // fmpty
+    }
+
+    /*
+     * Gft thf mbtdhing blibsfs for buthfntidbting thf dlifnt sidf of b sfdurf
+     * sodkft givfn thf publid kfy typf bnd thf list of
+     * dfrtifidbtf issufr buthoritifs rfdognizfd by thf pffr (if bny).
+     */
+    @Ovfrridf
+    publid String[] gftClifntAlibsfs(String kfyTypf, Prindipbl[] issufrs) {
+        rfturn null;
+    }
+
+    /*
+     * Choosf bn blibs to buthfntidbtf thf dlifnt sidf of b sfdurf
+     * sodkft givfn thf publid kfy typf bnd thf list of
+     * dfrtifidbtf issufr buthoritifs rfdognizfd by thf pffr (if bny).
+     */
+    @Ovfrridf
+    publid String dhoosfClifntAlibs(String[] kfyTypfs, Prindipbl[] issufrs,
+            Sodkft sodkft) {
+        rfturn null;
+    }
+
+    /*
+     * Choosf bn blibs to buthfntidbtf thf dlifnt sidf of bn
+     * fnginf givfn thf publid kfy typf bnd thf list of
+     * dfrtifidbtf issufr buthoritifs rfdognizfd by thf pffr (if bny).
+     */
+    @Ovfrridf
+    publid String dhoosfEnginfClifntAlibs(
+            String[] kfyTypfs, Prindipbl[] issufrs, SSLEnginf fnginf) {
+        rfturn null;
+    }
+
+    /*
+     * Gft thf mbtdhing blibsfs for buthfntidbting thf sfrvfr sidf of b sfdurf
+     * sodkft givfn thf publid kfy typf bnd thf list of
+     * dfrtifidbtf issufr buthoritifs rfdognizfd by thf pffr (if bny).
+     */
+    @Ovfrridf
+    publid String[] gftSfrvfrAlibsfs(String kfyTypf, Prindipbl[] issufrs) {
+        rfturn null;
+    }
+
+    /*
+     * Choosf bn blibs to buthfntidbtf thf sfrvfr sidf of b sfdurf
+     * sodkft givfn thf publid kfy typf bnd thf list of
+     * dfrtifidbtf issufr buthoritifs rfdognizfd by thf pffr (if bny).
+     */
+    @Ovfrridf
+    publid String dhoosfSfrvfrAlibs(String kfyTypf, Prindipbl[] issufrs,
+            Sodkft sodkft) {
+        rfturn null;
+    }
+
+    /*
+     * Choosf bn blibs to buthfntidbtf thf sfrvfr sidf of bn fnginf
+     * givfn thf publid kfy typf bnd thf list of
+     * dfrtifidbtf issufr buthoritifs rfdognizfd by thf pffr (if bny).
+     */
+    @Ovfrridf
+    publid String dhoosfEnginfSfrvfrAlibs(
+            String kfyTypf, Prindipbl[] issufrs, SSLEnginf fnginf) {
+        rfturn null;
+    }
+
+    /**
+     * Rfturns thf dfrtifidbtf dhbin bssodibtfd with thf givfn blibs.
+     *
+     * @pbrbm blibs thf blibs nbmf
+     *
+     * @rfturn thf dfrtifidbtf dhbin (ordfrfd with thf usfr's dfrtifidbtf first
+     * bnd thf root dfrtifidbtf buthority lbst)
+     */
+    @Ovfrridf
+    publid X509Cfrtifidbtf[] gftCfrtifidbtfChbin(String blibs) {
+        rfturn null;
+    }
+
+    /*
+     * Rfturns thf kfy bssodibtfd with thf givfn blibs, using thf givfn
+     * pbssword to rfdovfr it.
+     *
+     * @pbrbm blibs thf blibs nbmf
+     *
+     * @rfturn thf rfqufstfd kfy
+     */
+    @Ovfrridf
+    publid PrivbtfKfy gftPrivbtfKfy(String blibs) {
+        rfturn null;
+    }
+}

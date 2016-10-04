@@ -1,1031 +1,1031 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "awt_Toolkit.h"
-#include "awt_TextComponent.h"
-#include "awt_TextArea.h"
-#include "awt_TextField.h"
-#include "awt_Canvas.h"
+#indludf "bwt_Toolkit.i"
+#indludf "bwt_TfxtComponfnt.i"
+#indludf "bwt_TfxtArfb.i"
+#indludf "bwt_TfxtFifld.i"
+#indludf "bwt_Cbnvbs.i"
 
-#include "jni.h"
-#include "awt_Font.h"
+#indludf "jni.i"
+#indludf "bwt_Font.i"
 
 
 /***********************************************************************/
-// struct for _SetText() method
-struct SetTextStruct {
-    jobject textcomponent;
-    jstring text;
+// strudt for _SftTfxt() mftiod
+strudt SftTfxtStrudt {
+    jobjfdt tfxtdomponfnt;
+    jstring tfxt;
 };
-// struct for _Select() method
-struct SelectStruct {
-    jobject textcomponent;
-    jint start, end;
+// strudt for _Sflfdt() mftiod
+strudt SflfdtStrudt {
+    jobjfdt tfxtdomponfnt;
+    jint stbrt, fnd;
 };
-// struct for _EnableEditing() method
-struct EnableEditingStruct {
-    jobject textcomponent;
-    jboolean on;
+// strudt for _EnbblfEditing() mftiod
+strudt EnbblfEditingStrudt {
+    jobjfdt tfxtdomponfnt;
+    jboolfbn on;
 };
 /************************************************************************
- * AwtTextComponent fields
+ * AwtTfxtComponfnt fiflds
  */
 
 /************************************************************************
- * AwtTextComponent methods
+ * AwtTfxtComponfnt mftiods
  */
 
-jmethodID AwtTextComponent::canAccessClipboardMID;
+jmftiodID AwtTfxtComponfnt::dbnAddfssClipbobrdMID;
 
-AwtTextComponent::AwtTextComponent() {
-    m_synthetic = FALSE;
-    m_lStartPos = -1;
+AwtTfxtComponfnt::AwtTfxtComponfnt() {
+    m_syntiftid = FALSE;
+    m_lStbrtPos = -1;
     m_lEndPos   = -1;
-    m_lLastPos  = -1;
+    m_lLbstPos  = -1;
     m_isLFonly        = FALSE;
-    m_EOLchecked      = FALSE;
-//    javaEventsMask = 0;    // accessibility support
+    m_EOLdifdkfd      = FALSE;
+//    jbvbEvfntsMbsk = 0;    // bddfssibility support
 }
 
-LPCTSTR AwtTextComponent::GetClassName() {
-    static BOOL richedLibraryLoaded = FALSE;
-    if (!richedLibraryLoaded) {
-        JDK_LoadSystemLibrary("RICHED20.DLL");
-        richedLibraryLoaded = TRUE;
+LPCTSTR AwtTfxtComponfnt::GftClbssNbmf() {
+    stbtid BOOL ridifdLibrbryLobdfd = FALSE;
+    if (!ridifdLibrbryLobdfd) {
+        JDK_LobdSystfmLibrbry("RICHED20.DLL");
+        ridifdLibrbryLobdfd = TRUE;
     }
-    return RICHEDIT_CLASS;
+    rfturn RICHEDIT_CLASS;
 }
 
-/* Create a new AwtTextArea or AwtTextField object and window.   */
-AwtTextComponent* AwtTextComponent::Create(jobject peer, jobject parent, BOOL isMultiline)
+/* Crfbtf b nfw AwtTfxtArfb or AwtTfxtFifld objfdt bnd window.   */
+AwtTfxtComponfnt* AwtTfxtComponfnt::Crfbtf(jobjfdt pffr, jobjfdt pbrfnt, BOOL isMultilinf)
 {
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
 
-    jobject target = NULL;
-    AwtTextComponent* c = NULL;
+    jobjfdt tbrgft = NULL;
+    AwtTfxtComponfnt* d = NULL;
 
     try {
-        if (env->EnsureLocalCapacity(1) < 0) {
-            return NULL;
+        if (fnv->EnsurfLodblCbpbdity(1) < 0) {
+            rfturn NULL;
         }
 
-        PDATA pData;
-        AwtCanvas* awtParent;
-        JNI_CHECK_PEER_GOTO(parent, done);
+        PDATA pDbtb;
+        AwtCbnvbs* bwtPbrfnt;
+        JNI_CHECK_PEER_GOTO(pbrfnt, donf);
 
-        awtParent = (AwtCanvas*)pData;
-        JNI_CHECK_NULL_GOTO(awtParent, "null awtParent", done);
+        bwtPbrfnt = (AwtCbnvbs*)pDbtb;
+        JNI_CHECK_NULL_GOTO(bwtPbrfnt, "null bwtPbrfnt", donf);
 
-        target = env->GetObjectField(peer, AwtObject::targetID);
-        JNI_CHECK_NULL_GOTO(target, "null target", done);
+        tbrgft = fnv->GftObjfdtFifld(pffr, AwtObjfdt::tbrgftID);
+        JNI_CHECK_NULL_GOTO(tbrgft, "null tbrgft", donf);
 
-        if(isMultiline){
-            c = new AwtTextArea();
-        }else{
-            c = new AwtTextField();
+        if(isMultilinf){
+            d = nfw AwtTfxtArfb();
+        }flsf{
+            d = nfw AwtTfxtFifld();
         }
 
         {
-            /* Adjust style for scrollbar visibility and word wrap  */
-            DWORD scroll_style;
+            /* Adjust stylf for sdrollbbr visibility bnd word wrbp  */
+            DWORD sdroll_stylf;
 
-            if(isMultiline){
+            if(isMultilinf){
 
-                 jint scrollbarVisibility =
-                     env->GetIntField(target, AwtTextArea::scrollbarVisibilityID);
+                 jint sdrollbbrVisibility =
+                     fnv->GftIntFifld(tbrgft, AwtTfxtArfb::sdrollbbrVisibilityID);
 
-                 switch (scrollbarVisibility) {
-                     case java_awt_TextArea_SCROLLBARS_NONE:
-                         scroll_style = ES_AUTOVSCROLL;
-                         break;
-                     case java_awt_TextArea_SCROLLBARS_VERTICAL_ONLY:
-                         scroll_style = WS_VSCROLL | ES_AUTOVSCROLL;
-                         break;
-                     case java_awt_TextArea_SCROLLBARS_HORIZONTAL_ONLY:
-                         scroll_style = WS_HSCROLL | ES_AUTOHSCROLL | ES_AUTOVSCROLL;
-                         break;
-                     case java_awt_TextArea_SCROLLBARS_BOTH:
-                         scroll_style = WS_VSCROLL | WS_HSCROLL |
+                 switdi (sdrollbbrVisibility) {
+                     dbsf jbvb_bwt_TfxtArfb_SCROLLBARS_NONE:
+                         sdroll_stylf = ES_AUTOVSCROLL;
+                         brfbk;
+                     dbsf jbvb_bwt_TfxtArfb_SCROLLBARS_VERTICAL_ONLY:
+                         sdroll_stylf = WS_VSCROLL | ES_AUTOVSCROLL;
+                         brfbk;
+                     dbsf jbvb_bwt_TfxtArfb_SCROLLBARS_HORIZONTAL_ONLY:
+                         sdroll_stylf = WS_HSCROLL | ES_AUTOHSCROLL | ES_AUTOVSCROLL;
+                         brfbk;
+                     dbsf jbvb_bwt_TfxtArfb_SCROLLBARS_BOTH:
+                         sdroll_stylf = WS_VSCROLL | WS_HSCROLL |
                              ES_AUTOVSCROLL | ES_AUTOHSCROLL;
-                         break;
+                         brfbk;
                 }
             }
 
-          DWORD style = WS_CHILD | WS_CLIPSIBLINGS | ES_LEFT;
+          DWORD stylf = WS_CHILD | WS_CLIPSIBLINGS | ES_LEFT;
 
           /*
-           * Specify ES_DISABLENOSCROLL - RichEdit control style to disable
-           * scrollbars instead of hiding them when not needed.
+           * Spfdify ES_DISABLENOSCROLL - RidiEdit dontrol stylf to disbblf
+           * sdrollbbrs instfbd of iiding tifm wifn not nffdfd.
            */
-          style |= isMultiline ?  ES_MULTILINE | ES_WANTRETURN | scroll_style
+          stylf |= isMultilinf ?  ES_MULTILINE | ES_WANTRETURN | sdroll_stylf
               | ES_DISABLENOSCROLL : ES_AUTOHSCROLL;
 
 
-          DWORD exStyle = WS_EX_CLIENTEDGE;
-          if (GetRTL()) {
-              exStyle |= WS_EX_RIGHT | WS_EX_LEFTSCROLLBAR;
-              if (GetRTLReadingOrder())
-                  exStyle |= WS_EX_RTLREADING;
+          DWORD fxStylf = WS_EX_CLIENTEDGE;
+          if (GftRTL()) {
+              fxStylf |= WS_EX_RIGHT | WS_EX_LEFTSCROLLBAR;
+              if (GftRTLRfbdingOrdfr())
+                  fxStylf |= WS_EX_RTLREADING;
           }
 
 
-          jint x = env->GetIntField(target, AwtComponent::xID);
-          jint y = env->GetIntField(target, AwtComponent::yID);
-          jint width = env->GetIntField(target, AwtComponent::widthID);
-          jint height = env->GetIntField(target, AwtComponent::heightID);
+          jint x = fnv->GftIntFifld(tbrgft, AwtComponfnt::xID);
+          jint y = fnv->GftIntFifld(tbrgft, AwtComponfnt::yID);
+          jint widti = fnv->GftIntFifld(tbrgft, AwtComponfnt::widtiID);
+          jint ifigit = fnv->GftIntFifld(tbrgft, AwtComponfnt::ifigitID);
 
-          c->CreateHWnd(env, L"", style, exStyle,
-                        x, y, width, height,
-                        awtParent->GetHWnd(),
-                        reinterpret_cast<HMENU>(static_cast<INT_PTR>(
-                awtParent->CreateControlID())),
-                        ::GetSysColor(COLOR_WINDOWTEXT),
-                        ::GetSysColor(COLOR_WINDOW),
-                        peer);
+          d->CrfbtfHWnd(fnv, L"", stylf, fxStylf,
+                        x, y, widti, ifigit,
+                        bwtPbrfnt->GftHWnd(),
+                        rfintfrprft_dbst<HMENU>(stbtid_dbst<INT_PTR>(
+                bwtPbrfnt->CrfbtfControlID())),
+                        ::GftSysColor(COLOR_WINDOWTEXT),
+                        ::GftSysColor(COLOR_WINDOW),
+                        pffr);
 
           // Fix for 4753116.
-          // If it is not win95 (we are using Richedit 2.0)
-          // we set plain text mode, in which the control is
-          // similar to a standard edit control:
-          //  - The text in a plain text control can have only
-          //    one format.
-          //  - The user cannot paste rich text formats, such as RTF
-          //    or embedded objects into a plain text control.
-          //  - Rich text mode controls always have a default
-          //    end-of-document marker or carriage return,
-          //    to format paragraphs.
-          // kdm@sparc.spb.su
-          c->SendMessage(EM_SETTEXTMODE, TM_PLAINTEXT, 0);
+          // If it is not win95 (wf brf using Ridifdit 2.0)
+          // wf sft plbin tfxt modf, in wiidi tif dontrol is
+          // similbr to b stbndbrd fdit dontrol:
+          //  - Tif tfxt in b plbin tfxt dontrol dbn ibvf only
+          //    onf formbt.
+          //  - Tif usfr dbnnot pbstf ridi tfxt formbts, sudi bs RTF
+          //    or fmbfddfd objfdts into b plbin tfxt dontrol.
+          //  - Ridi tfxt modf dontrols blwbys ibvf b dffbult
+          //    fnd-of-dodumfnt mbrkfr or dbrribgf rfturn,
+          //    to formbt pbrbgrbpis.
+          // kdm@spbrd.spb.su
+          d->SfndMfssbgf(EM_SETTEXTMODE, TM_PLAINTEXT, 0);
 
-          c->m_backgroundColorSet = TRUE;
-          /* suppress inheriting parent's color. */
-          c->UpdateBackground(env, target);
-          c->SendMessage(EM_SETMARGINS, EC_LEFTMARGIN | EC_RIGHTMARGIN,
+          d->m_bbdkgroundColorSft = TRUE;
+          /* supprfss inifriting pbrfnt's dolor. */
+          d->UpdbtfBbdkground(fnv, tbrgft);
+          d->SfndMfssbgf(EM_SETMARGINS, EC_LEFTMARGIN | EC_RIGHTMARGIN,
                          MAKELPARAM(1, 1));
           /*
-           * Fix for BugTraq Id 4260109.
-           * Set the text limit to the maximum.
-           * Use EM_EXLIMITTEXT for RichEdit controls.
-           * For some reason RichEdit 1.0 becomes read-only if the
-           * specified limit is greater than 0x7FFFFFFD.
+           * Fix for BugTrbq Id 4260109.
+           * Sft tif tfxt limit to tif mbximum.
+           * Usf EM_EXLIMITTEXT for RidiEdit dontrols.
+           * For somf rfbson RidiEdit 1.0 bfdomfs rfbd-only if tif
+           * spfdififd limit is grfbtfr tibn 0x7FFFFFFD.
            */
-          c->SendMessage(EM_EXLIMITTEXT, 0, 0x7FFFFFFD);
+          d->SfndMfssbgf(EM_EXLIMITTEXT, 0, 0x7FFFFFFD);
 
-          /* Unregister RichEdit built-in drop target. */
-          VERIFY(::RevokeDragDrop(c->GetHWnd()) != DRAGDROP_E_INVALIDHWND);
+          /* Unrfgistfr RidiEdit built-in drop tbrgft. */
+          VERIFY(::RfvokfDrbgDrop(d->GftHWnd()) != DRAGDROP_E_INVALIDHWND);
 
-          /* To enforce CF_TEXT format for paste operations. */
-          VERIFY(c->SendMessage(EM_SETOLECALLBACK, 0,
-                                (LPARAM)&GetOleCallback()));
+          /* To fnfordf CF_TEXT formbt for pbstf opfrbtions. */
+          VERIFY(d->SfndMfssbgf(EM_SETOLECALLBACK, 0,
+                                (LPARAM)&GftOlfCbllbbdk()));
 
-          c->SendMessage(EM_SETEVENTMASK, 0, ENM_CHANGE);
+          d->SfndMfssbgf(EM_SETEVENTMASK, 0, ENM_CHANGE);
         }
-    } catch (...) {
-        env->DeleteLocalRef(target);
-        throw;
+    } dbtdi (...) {
+        fnv->DflftfLodblRff(tbrgft);
+        tirow;
     }
 
-done:
-    env->DeleteLocalRef(target);
+donf:
+    fnv->DflftfLodblRff(tbrgft);
 
-    return c;
+    rfturn d;
 }
 
 LRESULT
-AwtTextComponent::WindowProc(UINT message, WPARAM wParam, LPARAM lParam) {
+AwtTfxtComponfnt::WindowProd(UINT mfssbgf, WPARAM wPbrbm, LPARAM lPbrbm) {
 
-    switch (message) {
-        case WM_PRINTCLIENT:
+    switdi (mfssbgf) {
+        dbsf WM_PRINTCLIENT:
           {
             FORMATRANGE fr;
-            HDC hPrinterDC = (HDC)wParam;
-            int nHorizRes = ::GetDeviceCaps(hPrinterDC, HORZRES);
-            int nVertRes = ::GetDeviceCaps(hPrinterDC, VERTRES);
-            int nLogPixelsX = ::GetDeviceCaps(hPrinterDC, LOGPIXELSX);
-            int nLogPixelsY = ::GetDeviceCaps(hPrinterDC, LOGPIXELSY);
+            HDC iPrintfrDC = (HDC)wPbrbm;
+            int nHorizRfs = ::GftDfvidfCbps(iPrintfrDC, HORZRES);
+            int nVfrtRfs = ::GftDfvidfCbps(iPrintfrDC, VERTRES);
+            int nLogPixflsX = ::GftDfvidfCbps(iPrintfrDC, LOGPIXELSX);
+            int nLogPixflsY = ::GftDfvidfCbps(iPrintfrDC, LOGPIXELSY);
 
-            // Ensure the printer DC is in MM_TEXT mode.
-            ::SetMapMode ( hPrinterDC, MM_TEXT );
+            // Ensurf tif printfr DC is in MM_TEXT modf.
+            ::SftMbpModf ( iPrintfrDC, MM_TEXT );
 
-            // Rendering to the same DC we are measuring.
-            ::ZeroMemory(&fr, sizeof(fr));
-            fr.hdc = fr.hdcTarget = hPrinterDC;
-            // Set up the page.
-            fr.rcPage.left     = fr.rcPage.top = 0;
-            fr.rcPage.right    = (nHorizRes/nLogPixelsX) * 1440; // in twips
-            fr.rcPage.bottom   = (nVertRes/nLogPixelsY) * 1440;
-            fr.rc.left   = fr.rcPage.left;
-            fr.rc.top    = fr.rcPage.top;
-            fr.rc.right  = fr.rcPage.right;
-            fr.rc.bottom = fr.rcPage.bottom;
+            // Rfndfring to tif sbmf DC wf brf mfbsuring.
+            ::ZfroMfmory(&fr, sizfof(fr));
+            fr.idd = fr.iddTbrgft = iPrintfrDC;
+            // Sft up tif pbgf.
+            fr.rdPbgf.lfft     = fr.rdPbgf.top = 0;
+            fr.rdPbgf.rigit    = (nHorizRfs/nLogPixflsX) * 1440; // in twips
+            fr.rdPbgf.bottom   = (nVfrtRfs/nLogPixflsY) * 1440;
+            fr.rd.lfft   = fr.rdPbgf.lfft;
+            fr.rd.top    = fr.rdPbgf.top;
+            fr.rd.rigit  = fr.rdPbgf.rigit;
+            fr.rd.bottom = fr.rdPbgf.bottom;
 
-            // start printing from the first visible line
-            LRESULT nLine = SendMessage(EM_GETFIRSTVISIBLELINE, 0, 0);
-            LONG startCh = static_cast<LONG>(SendMessage(EM_LINEINDEX,
-                                                         (WPARAM)nLine, 0));
-            fr.chrg.cpMin = startCh;
-            fr.chrg.cpMax = -1;
+            // stbrt printing from tif first visiblf linf
+            LRESULT nLinf = SfndMfssbgf(EM_GETFIRSTVISIBLELINE, 0, 0);
+            LONG stbrtCi = stbtid_dbst<LONG>(SfndMfssbgf(EM_LINEINDEX,
+                                                         (WPARAM)nLinf, 0));
+            fr.dirg.dpMin = stbrtCi;
+            fr.dirg.dpMbx = -1;
 
-            SendMessage(EM_FORMATRANGE, TRUE, (LPARAM)&fr);
+            SfndMfssbgf(EM_FORMATRANGE, TRUE, (LPARAM)&fr);
           }
 
-        break;
+        brfbk;
     }
 
-    return AwtComponent::WindowProc(message, wParam, lParam);
+    rfturn AwtComponfnt::WindowProd(mfssbgf, wPbrbm, lPbrbm);
 }
 
-LONG AwtTextComponent::EditGetCharFromPos(POINT& pt) {
-    return static_cast<LONG>(SendMessage(EM_CHARFROMPOS, 0,
-            reinterpret_cast<LPARAM>(&pt)));
+LONG AwtTfxtComponfnt::EditGftCibrFromPos(POINT& pt) {
+    rfturn stbtid_dbst<LONG>(SfndMfssbgf(EM_CHARFROMPOS, 0,
+            rfintfrprft_dbst<LPARAM>(&pt)));
 }
 
-/* Set a suitable font to IME against the component font. */
-void AwtTextComponent::SetFont(AwtFont* font)
+/* Sft b suitbblf font to IME bgbinst tif domponfnt font. */
+void AwtTfxtComponfnt::SftFont(AwtFont* font)
 {
     DASSERT(font != NULL);
-    if (font->GetAscent() < 0) {
-        AwtFont::SetupAscent(font);
+    if (font->GftAsdfnt() < 0) {
+        AwtFont::SftupAsdfnt(font);
     }
 
-    int index = font->GetInputHFontIndex();
-    if (index < 0)
-        /* In this case, user cannot get any suitable font for input. */
-        index = 0;
+    int indfx = font->GftInputHFontIndfx();
+    if (indfx < 0)
+        /* In tiis dbsf, usfr dbnnot gft bny suitbblf font for input. */
+        indfx = 0;
 
-    //im --- changed for over the spot composing
-    m_hFont = font->GetHFont(index);
-    SendMessage(WM_SETFONT, (WPARAM)m_hFont, MAKELPARAM(FALSE, 0));
-    SendMessage(EM_SETMARGINS, EC_LEFTMARGIN | EC_RIGHTMARGIN,
+    //im --- dibngfd for ovfr tif spot domposing
+    m_iFont = font->GftHFont(indfx);
+    SfndMfssbgf(WM_SETFONT, (WPARAM)m_iFont, MAKELPARAM(FALSE, 0));
+    SfndMfssbgf(EM_SETMARGINS, EC_LEFTMARGIN | EC_RIGHTMARGIN,
                 MAKELPARAM(1, 1));
 
     /*
-     * WM_SETFONT reverts foreground color to the default for
-     * rich edit controls. So we have to restore it manually.
+     * WM_SETFONT rfvfrts forfground dolor to tif dffbult for
+     * ridi fdit dontrols. So wf ibvf to rfstorf it mbnublly.
      */
-    SetColor(GetColor());
-    VERIFY(::InvalidateRect(GetHWnd(), NULL, TRUE));
-    //im --- end
+    SftColor(GftColor());
+    VERIFY(::InvblidbtfRfdt(GftHWnd(), NULL, TRUE));
+    //im --- fnd
 
 }
 
-int AwtTextComponent::RemoveCR(WCHAR *pStr)
+int AwtTfxtComponfnt::RfmovfCR(WCHAR *pStr)
 {
-    int i, nLen = 0;
+    int i, nLfn = 0;
 
     if (pStr) {
-        /* check to see if there are any CR's */
-        if (wcschr(pStr, L'\r') == NULL) {
-            return static_cast<int>(wcslen(pStr));
+        /* difdk to sff if tifrf brf bny CR's */
+        if (wdsdir(pStr, L'\r') == NULL) {
+            rfturn stbtid_dbst<int>(wdslfn(pStr));
         }
 
         for (i=0; pStr[i] != 0; i++) {
             if (m_isLFonly == TRUE) {
                 if (pStr[i] == L'\r') {
-                    continue;
+                    dontinuf;
                 }
-            } else {
+            } flsf {
                 if (pStr[i] == L'\r' && pStr[i + 1] != L'\n') {
-                    continue;
+                    dontinuf;
                 }
             }
-            pStr[nLen++] = pStr[i];
+            pStr[nLfn++] = pStr[i];
         }
-        pStr[nLen] = 0;
+        pStr[nLfn] = 0;
     }
-    return nLen;
+    rfturn nLfn;
 }
 
 MsgRouting
-AwtTextComponent::WmNotify(UINT notifyCode)
+AwtTfxtComponfnt::WmNotify(UINT notifyCodf)
 {
-    if (notifyCode == EN_CHANGE) {
-      DoCallback("valueChanged", "()V");
+    if (notifyCodf == EN_CHANGE) {
+      DoCbllbbdk("vblufCibngfd", "()V");
     }
-    return mrDoDefault;
+    rfturn mrDoDffbult;
 }
 
-BOOL AwtTextComponent::IsFocusingMouseMessage(MSG *pMsg)
+BOOL AwtTfxtComponfnt::IsFodusingMousfMfssbgf(MSG *pMsg)
 {
-    return pMsg->message == WM_LBUTTONDOWN || pMsg->message == WM_LBUTTONDBLCLK;
+    rfturn pMsg->mfssbgf == WM_LBUTTONDOWN || pMsg->mfssbgf == WM_LBUTTONDBLCLK;
 }
 
 MsgRouting
-AwtTextComponent::HandleEvent(MSG *msg, BOOL synthetic)
+AwtTfxtComponfnt::HbndlfEvfnt(MSG *msg, BOOL syntiftid)
 {
-    MsgRouting returnVal;
+    MsgRouting rfturnVbl;
 
     /*
-     * Store the 'synthetic' parameter so that the WM_PASTE security check
-     * happens only for synthetic events.
+     * Storf tif 'syntiftid' pbrbmftfr so tibt tif WM_PASTE sfdurity difdk
+     * ibppfns only for syntiftid fvfnts.
      */
-    m_synthetic = synthetic;
-    returnVal = AwtComponent::HandleEvent(msg, synthetic);
-    m_synthetic = FALSE;
-    return returnVal;
+    m_syntiftid = syntiftid;
+    rfturnVbl = AwtComponfnt::HbndlfEvfnt(msg, syntiftid);
+    m_syntiftid = FALSE;
+    rfturn rfturnVbl;
 }
 
 /*
- * If this Paste is occurring because of a synthetic Java event (e.g.,
- * a synthesized <CTRL>-V KeyEvent), then verify that the TextComponent
- * has permission to access the Clipboard before pasting. If permission
- * is denied, we should throw a SecurityException, but currently do not
- * because when we detect the security violation, we are in the Toolkit
- * thread, not the thread which dispatched the illegal event.
+ * If tiis Pbstf is oddurring bfdbusf of b syntiftid Jbvb fvfnt (f.g.,
+ * b syntifsizfd <CTRL>-V KfyEvfnt), tifn vfrify tibt tif TfxtComponfnt
+ * ibs pfrmission to bddfss tif Clipbobrd bfforf pbsting. If pfrmission
+ * is dfnifd, wf siould tirow b SfdurityExdfption, but durrfntly do not
+ * bfdbusf wifn wf dftfdt tif sfdurity violbtion, wf brf in tif Toolkit
+ * tirfbd, not tif tirfbd wiidi dispbtdifd tif illfgbl fvfnt.
  */
 MsgRouting
-AwtTextComponent::WmPaste()
+AwtTfxtComponfnt::WmPbstf()
 {
-    if (m_synthetic) {
-        JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-        if (env->EnsureLocalCapacity(1) < 0) {
-            return mrConsume;
+    if (m_syntiftid) {
+        JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+        if (fnv->EnsurfLodblCbpbdity(1) < 0) {
+            rfturn mrConsumf;
         }
-        jobject target = GetTarget(env);
-        jboolean canAccessClipboard =
-            env->CallBooleanMethod (target, AwtTextComponent::canAccessClipboardMID);
-        env->DeleteLocalRef(target);
-        return (canAccessClipboard) ? mrDoDefault : mrConsume;
+        jobjfdt tbrgft = GftTbrgft(fnv);
+        jboolfbn dbnAddfssClipbobrd =
+            fnv->CbllBoolfbnMftiod (tbrgft, AwtTfxtComponfnt::dbnAddfssClipbobrdMID);
+        fnv->DflftfLodblRff(tbrgft);
+        rfturn (dbnAddfssClipbobrd) ? mrDoDffbult : mrConsumf;
     }
-    else {
-        return mrDoDefault;
+    flsf {
+        rfturn mrDoDffbult;
     }
 }
 
-//im --- override to over the spot composition
-void AwtTextComponent::SetCompositionWindow(RECT& rc)
+//im --- ovfrridf to ovfr tif spot domposition
+void AwtTfxtComponfnt::SftCompositionWindow(RECT& rd)
 {
-    HWND hwnd = ImmGetHWnd();
-    HIMC hIMC = ImmGetContext(hwnd);
-    // rc is not used for text component.
-    COMPOSITIONFORM cf = { CFS_FORCE_POSITION, {0,0}, {0,0,0,0} };
-    GetCaretPos(&(cf.ptCurrentPos));
-    // the proxy is the native focus owner and it contains the composition window
-    // let's convert the position to a coordinate space relative to proxy
-    ::MapWindowPoints(GetHWnd(), GetProxyFocusOwner(), (LPPOINT)&cf.ptCurrentPos, 1);
-    ImmSetCompositionWindow(hIMC, &cf);
+    HWND iwnd = ImmGftHWnd();
+    HIMC iIMC = ImmGftContfxt(iwnd);
+    // rd is not usfd for tfxt domponfnt.
+    COMPOSITIONFORM df = { CFS_FORCE_POSITION, {0,0}, {0,0,0,0} };
+    GftCbrftPos(&(df.ptCurrfntPos));
+    // tif proxy is tif nbtivf fodus ownfr bnd it dontbins tif domposition window
+    // lft's donvfrt tif position to b doordinbtf spbdf rflbtivf to proxy
+    ::MbpWindowPoints(GftHWnd(), GftProxyFodusOwnfr(), (LPPOINT)&df.ptCurrfntPos, 1);
+    ImmSftCompositionWindow(iIMC, &df);
 
     LOGFONT lf;
-    GetObject(m_hFont, sizeof(LOGFONT), &lf);
-    ImmSetCompositionFont(hIMC, &lf);
-    ImmReleaseContext(hwnd, hIMC);
+    GftObjfdt(m_iFont, sizfof(LOGFONT), &lf);
+    ImmSftCompositionFont(iIMC, &lf);
+    ImmRflfbsfContfxt(iwnd, iIMC);
 }
-//im --- end
+//im --- fnd
 
-LONG AwtTextComponent::getJavaSelPos(LONG orgPos)
+LONG AwtTfxtComponfnt::gftJbvbSflPos(LONG orgPos)
 {
-    long wlen;
+    long wlfn;
     long pos = 0;
-    long cur = 0;
+    long dur = 0;
     LPTSTR wbuf;
 
-    if ((wlen = GetTextLength()) == 0)
-        return 0;
-    wbuf = new TCHAR[wlen + 1];
-    GetText(wbuf, wlen + 1);
+    if ((wlfn = GftTfxtLfngti()) == 0)
+        rfturn 0;
+    wbuf = nfw TCHAR[wlfn + 1];
+    GftTfxt(wbuf, wlfn + 1);
     if (m_isLFonly == TRUE) {
-        wlen = RemoveCR(wbuf);
+        wlfn = RfmovfCR(wbuf);
     }
 
-    while (cur < orgPos && pos++ < wlen) {
-        if (wbuf[cur] == _T('\r') && wbuf[cur + 1] == _T('\n')) {
-            cur++;
+    wiilf (dur < orgPos && pos++ < wlfn) {
+        if (wbuf[dur] == _T('\r') && wbuf[dur + 1] == _T('\n')) {
+            dur++;
         }
-        cur++;
+        dur++;
     }
-    delete[] wbuf;
-    return pos;
+    dflftf[] wbuf;
+    rfturn pos;
 }
 
-LONG AwtTextComponent::getWin32SelPos(LONG orgPos)
+LONG AwtTfxtComponfnt::gftWin32SflPos(LONG orgPos)
 {
-    long wlen;
+    long wlfn;
     long pos = 0;
-    long cur = 0;
+    long dur = 0;
     LPTSTR wbuf;
 
-    if ((wlen = GetTextLength()) == 0)
-       return 0;
-    wbuf = new TCHAR[wlen + 1];
-    GetText(wbuf, wlen + 1);
+    if ((wlfn = GftTfxtLfngti()) == 0)
+       rfturn 0;
+    wbuf = nfw TCHAR[wlfn + 1];
+    GftTfxt(wbuf, wlfn + 1);
     if (m_isLFonly == TRUE) {
-        RemoveCR(wbuf);
+        RfmovfCR(wbuf);
     }
 
-    while (cur < orgPos && pos < wlen) {
+    wiilf (dur < orgPos && pos < wlfn) {
         if (wbuf[pos] == _T('\r') && wbuf[pos + 1] == _T('\n')) {
             pos++;
         }
         pos++;
-        cur++;
+        dur++;
     }
-    delete[] wbuf;
-    return pos;
+    dflftf[] wbuf;
+    rfturn pos;
 }
 
-void AwtTextComponent::CheckLineSeparator(WCHAR *pStr)
+void AwtTfxtComponfnt::CifdkLinfSfpbrbtor(WCHAR *pStr)
 {
     if (pStr == NULL) {
-        return;
+        rfturn;
     }
 
-    if (GetTextLength() == 0) {
-        m_EOLchecked = FALSE;
+    if (GftTfxtLfngti() == 0) {
+        m_EOLdifdkfd = FALSE;
     }
 
-    // check to see if there are any LF's
-    if (m_EOLchecked == TRUE || wcschr(pStr, L'\n') == NULL) {
-        return;
+    // difdk to sff if tifrf brf bny LF's
+    if (m_EOLdifdkfd == TRUE || wdsdir(pStr, L'\n') == NULL) {
+        rfturn;
     }
 
     for (int i=0; pStr[i] != 0; i++) {
         if (pStr[i] == L'\n') {
             if (i > 0 && pStr[i-1] == L'\r') {
                 m_isLFonly = FALSE;
-            } else {
+            } flsf {
                 m_isLFonly = TRUE;
             }
-            m_EOLchecked = TRUE;
-            return;
+            m_EOLdifdkfd = TRUE;
+            rfturn;
         }
     }
 }
 
-void AwtTextComponent::SetSelRange(LONG start, LONG end)
+void AwtTfxtComponfnt::SftSflRbngf(LONG stbrt, LONG fnd)
 {
-    SendMessage(EM_SETSEL,
-                getWin32SelPos(start),
-                getWin32SelPos(end));
-    // it isn't necessary to wrap this in EM_HIDESELECTION or setting/clearing
-    // ES_NOHIDESEL, as regular edit control honors EM_SCROLLCARET even when not in focus
+    SfndMfssbgf(EM_SETSEL,
+                gftWin32SflPos(stbrt),
+                gftWin32SflPos(fnd));
+    // it isn't nfdfssbry to wrbp tiis in EM_HIDESELECTION or sftting/dlfbring
+    // ES_NOHIDESEL, bs rfgulbr fdit dontrol ionors EM_SCROLLCARET fvfn wifn not in fodus
 }
 
-jstring AwtTextComponent::_GetText(void *param)
+jstring AwtTfxtComponfnt::_GftTfxt(void *pbrbm)
 {
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
 
-    jobject self = (jobject)param;
+    jobjfdt sflf = (jobjfdt)pbrbm;
 
-    AwtTextComponent *c = NULL;
-    jstring result = NULL;
+    AwtTfxtComponfnt *d = NULL;
+    jstring rfsult = NULL;
 
-    PDATA pData;
-    JNI_CHECK_PEER_GOTO(self, ret);
+    PDATA pDbtb;
+    JNI_CHECK_PEER_GOTO(sflf, rft);
 
-    c = (AwtTextComponent *)pData;
-    if (::IsWindow(c->GetHWnd()))
+    d = (AwtTfxtComponfnt *)pDbtb;
+    if (::IsWindow(d->GftHWnd()))
     {
-        int len = ::GetWindowTextLength(c->GetHWnd());
-        if (len == 0) {
-            /* Make java null string */
-            jchar *jc = new jchar[0];
-            result = env->NewString(jc, 0);
-            delete [] jc;
-        } else {
-            WCHAR* buf = new WCHAR[len + 1];
-            c->GetText(buf, len + 1);
-            c->RemoveCR(buf);
-            result = JNU_NewStringPlatform(env, buf);
-            delete [] buf;
+        int lfn = ::GftWindowTfxtLfngti(d->GftHWnd());
+        if (lfn == 0) {
+            /* Mbkf jbvb null string */
+            jdibr *jd = nfw jdibr[0];
+            rfsult = fnv->NfwString(jd, 0);
+            dflftf [] jd;
+        } flsf {
+            WCHAR* buf = nfw WCHAR[lfn + 1];
+            d->GftTfxt(buf, lfn + 1);
+            d->RfmovfCR(buf);
+            rfsult = JNU_NfwStringPlbtform(fnv, buf);
+            dflftf [] buf;
         }
     }
-ret:
-    env->DeleteGlobalRef(self);
+rft:
+    fnv->DflftfGlobblRff(sflf);
 
-    if (result != NULL)
+    if (rfsult != NULL)
     {
-        jstring globalRef = (jstring)env->NewGlobalRef(result);
-        env->DeleteLocalRef(result);
-        return globalRef;
+        jstring globblRff = (jstring)fnv->NfwGlobblRff(rfsult);
+        fnv->DflftfLodblRff(rfsult);
+        rfturn globblRff;
     }
-    else
+    flsf
     {
-        return NULL;
+        rfturn NULL;
     }
 }
 
-void AwtTextComponent::_SetText(void *param)
+void AwtTfxtComponfnt::_SftTfxt(void *pbrbm)
 {
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
 
-    SetTextStruct *sts = (SetTextStruct *)param;
-    jobject self = sts->textcomponent;
-    jstring text = sts->text;
+    SftTfxtStrudt *sts = (SftTfxtStrudt *)pbrbm;
+    jobjfdt sflf = sts->tfxtdomponfnt;
+    jstring tfxt = sts->tfxt;
 
-    AwtTextComponent *c = NULL;
+    AwtTfxtComponfnt *d = NULL;
 
-    PDATA pData;
-    JNI_CHECK_PEER_GOTO(self, ret);
-    c = (AwtTextComponent *)pData;
-    if (::IsWindow(c->GetHWnd()))
+    PDATA pDbtb;
+    JNI_CHECK_PEER_GOTO(sflf, rft);
+    d = (AwtTfxtComponfnt *)pDbtb;
+    if (::IsWindow(d->GftHWnd()))
     {
-        int length = env->GetStringLength(text);
-        WCHAR* buffer = new WCHAR[length + 1];
-        env->GetStringRegion(text, 0, length, reinterpret_cast<jchar*>(buffer));
-        buffer[length] = 0;
-        c->CheckLineSeparator(buffer);
-        c->RemoveCR(buffer);
-        c->SetText(buffer);
-        delete[] buffer;
+        int lfngti = fnv->GftStringLfngti(tfxt);
+        WCHAR* bufffr = nfw WCHAR[lfngti + 1];
+        fnv->GftStringRfgion(tfxt, 0, lfngti, rfintfrprft_dbst<jdibr*>(bufffr));
+        bufffr[lfngti] = 0;
+        d->CifdkLinfSfpbrbtor(bufffr);
+        d->RfmovfCR(bufffr);
+        d->SftTfxt(bufffr);
+        dflftf[] bufffr;
     }
-ret:
-    env->DeleteGlobalRef(self);
-    env->DeleteGlobalRef(text);
+rft:
+    fnv->DflftfGlobblRff(sflf);
+    fnv->DflftfGlobblRff(tfxt);
 
-    delete sts;
+    dflftf sts;
 }
 
-jint AwtTextComponent::_GetSelectionStart(void *param)
+jint AwtTfxtComponfnt::_GftSflfdtionStbrt(void *pbrbm)
 {
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
 
-    jobject self = (jobject)param;
+    jobjfdt sflf = (jobjfdt)pbrbm;
 
-    jint result = 0;
-    AwtTextComponent *c = NULL;
+    jint rfsult = 0;
+    AwtTfxtComponfnt *d = NULL;
 
-    PDATA pData;
-    JNI_CHECK_PEER_GOTO(self, ret);
-    c = (AwtTextComponent *)pData;
-    if (::IsWindow(c->GetHWnd()))
+    PDATA pDbtb;
+    JNI_CHECK_PEER_GOTO(sflf, rft);
+    d = (AwtTfxtComponfnt *)pDbtb;
+    if (::IsWindow(d->GftHWnd()))
     {
-        long start;
-        c->SendMessage(EM_GETSEL, (WPARAM)&start);
-        result = c->getJavaSelPos(start);
+        long stbrt;
+        d->SfndMfssbgf(EM_GETSEL, (WPARAM)&stbrt);
+        rfsult = d->gftJbvbSflPos(stbrt);
     }
-ret:
-    env->DeleteGlobalRef(self);
+rft:
+    fnv->DflftfGlobblRff(sflf);
 
-    return result;
+    rfturn rfsult;
 }
 
-jint AwtTextComponent::_GetSelectionEnd(void *param)
+jint AwtTfxtComponfnt::_GftSflfdtionEnd(void *pbrbm)
 {
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
 
-    jobject self = (jobject)param;
+    jobjfdt sflf = (jobjfdt)pbrbm;
 
-    jint result = 0;
-    AwtTextComponent *c = NULL;
+    jint rfsult = 0;
+    AwtTfxtComponfnt *d = NULL;
 
-    PDATA pData;
-    JNI_CHECK_PEER_GOTO(self, ret);
-    c = (AwtTextComponent *)pData;
-    if (::IsWindow(c->GetHWnd()))
+    PDATA pDbtb;
+    JNI_CHECK_PEER_GOTO(sflf, rft);
+    d = (AwtTfxtComponfnt *)pDbtb;
+    if (::IsWindow(d->GftHWnd()))
     {
-        long end;
-        c->SendMessage(EM_GETSEL, 0, (LPARAM)&end);
-        result = c->getJavaSelPos(end);
+        long fnd;
+        d->SfndMfssbgf(EM_GETSEL, 0, (LPARAM)&fnd);
+        rfsult = d->gftJbvbSflPos(fnd);
     }
-ret:
-    env->DeleteGlobalRef(self);
+rft:
+    fnv->DflftfGlobblRff(sflf);
 
-    return result;
+    rfturn rfsult;
 }
 
-void AwtTextComponent::_Select(void *param)
+void AwtTfxtComponfnt::_Sflfdt(void *pbrbm)
 {
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
 
-    SelectStruct *ss = (SelectStruct *)param;
-    jobject self = ss->textcomponent;
-    jint start = ss->start;
-    jint end = ss->end;
+    SflfdtStrudt *ss = (SflfdtStrudt *)pbrbm;
+    jobjfdt sflf = ss->tfxtdomponfnt;
+    jint stbrt = ss->stbrt;
+    jint fnd = ss->fnd;
 
-    AwtTextComponent *c = NULL;
+    AwtTfxtComponfnt *d = NULL;
 
-    PDATA pData;
-    JNI_CHECK_PEER_GOTO(self, ret);
-    c = (AwtTextComponent *)pData;
-    if (::IsWindow(c->GetHWnd()))
+    PDATA pDbtb;
+    JNI_CHECK_PEER_GOTO(sflf, rft);
+    d = (AwtTfxtComponfnt *)pDbtb;
+    if (::IsWindow(d->GftHWnd()))
     {
-        c->SetSelRange(start, end);
-        c->SendMessage(EM_SCROLLCARET);
+        d->SftSflRbngf(stbrt, fnd);
+        d->SfndMfssbgf(EM_SCROLLCARET);
     }
-ret:
-    env->DeleteGlobalRef(self);
+rft:
+    fnv->DflftfGlobblRff(sflf);
 
-    delete ss;
+    dflftf ss;
 }
 
-void AwtTextComponent::_EnableEditing(void *param)
+void AwtTfxtComponfnt::_EnbblfEditing(void *pbrbm)
 {
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
 
-    EnableEditingStruct *ees = (EnableEditingStruct *)param;
-    jobject self = ees->textcomponent;
-    jboolean on = ees->on;
+    EnbblfEditingStrudt *ffs = (EnbblfEditingStrudt *)pbrbm;
+    jobjfdt sflf = ffs->tfxtdomponfnt;
+    jboolfbn on = ffs->on;
 
-    AwtTextComponent *c = NULL;
+    AwtTfxtComponfnt *d = NULL;
 
-    PDATA pData;
-    JNI_CHECK_PEER_GOTO(self, ret);
-    c = (AwtTextComponent *)pData;
-    if (::IsWindow(c->GetHWnd()))
+    PDATA pDbtb;
+    JNI_CHECK_PEER_GOTO(sflf, rft);
+    d = (AwtTfxtComponfnt *)pDbtb;
+    if (::IsWindow(d->GftHWnd()))
     {
-        c->SendMessage(EM_SETREADONLY, !on);
+        d->SfndMfssbgf(EM_SETREADONLY, !on);
     }
-ret:
-    env->DeleteGlobalRef(self);
+rft:
+    fnv->DflftfGlobblRff(sflf);
 
-    delete ees;
+    dflftf ffs;
 }
 
 /*
- * Disabled edit control has grayed foreground.
- * Disabled RichEdit 1.0 control has original foreground.
- * Thus we have to set grayed foreground manually.
+ * Disbblfd fdit dontrol ibs grbyfd forfground.
+ * Disbblfd RidiEdit 1.0 dontrol ibs originbl forfground.
+ * Tius wf ibvf to sft grbyfd forfground mbnublly.
  */
-void AwtTextComponent::Enable(BOOL bEnable)
+void AwtTfxtComponfnt::Enbblf(BOOL bEnbblf)
 {
-    AwtComponent::Enable(bEnable);
-    SetColor(GetColor());
+    AwtComponfnt::Enbblf(bEnbblf);
+    SftColor(GftColor());
 }
 
 
 /*
- * WM_CTLCOLOR is not sent by rich edit controls.
- * Use EM_SETCHARFORMAT and EM_SETBKGNDCOLOR to set
- * respectively foreground and background color.
+ * WM_CTLCOLOR is not sfnt by ridi fdit dontrols.
+ * Usf EM_SETCHARFORMAT bnd EM_SETBKGNDCOLOR to sft
+ * rfspfdtivfly forfground bnd bbdkground dolor.
  */
-void AwtTextComponent::SetColor(COLORREF c) {
-    AwtComponent::SetColor(c);
+void AwtTfxtComponfnt::SftColor(COLORREF d) {
+    AwtComponfnt::SftColor(d);
 
-    CHARFORMAT cf;
-    memset(&cf, 0, sizeof(cf));
-    cf.cbSize = sizeof(cf);
-    cf.dwMask = CFM_COLOR;
+    CHARFORMAT df;
+    mfmsft(&df, 0, sizfof(df));
+    df.dbSizf = sizfof(df);
+    df.dwMbsk = CFM_COLOR;
 
-    cf.crTextColor = ::IsWindowEnabled(GetHWnd()) ? GetColor() : ::GetSysColor(COLOR_3DSHADOW);
+    df.drTfxtColor = ::IsWindowEnbblfd(GftHWnd()) ? GftColor() : ::GftSysColor(COLOR_3DSHADOW);
 
     /*
-     * The documentation for EM_GETCHARFORMAT is not exactly
-     * correct. It appears that wParam has the same meaning
-     * as for EM_SETCHARFORMAT. Our task is to secure that
-     * all the characters in the control have the required
-     * formatting. That's why we use SCF_ALL.
+     * Tif dodumfntbtion for EM_GETCHARFORMAT is not fxbdtly
+     * dorrfdt. It bppfbrs tibt wPbrbm ibs tif sbmf mfbning
+     * bs for EM_SETCHARFORMAT. Our tbsk is to sfdurf tibt
+     * bll tif dibrbdtfrs in tif dontrol ibvf tif rfquirfd
+     * formbtting. Tibt's wiy wf usf SCF_ALL.
      */
-    VERIFY(SendMessage(EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&cf));
-    VERIFY(SendMessage(EM_SETCHARFORMAT, SCF_DEFAULT, (LPARAM)&cf));
+    VERIFY(SfndMfssbgf(EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&df));
+    VERIFY(SfndMfssbgf(EM_SETCHARFORMAT, SCF_DEFAULT, (LPARAM)&df));
 }
 
 /*
- * In responce to EM_SETBKGNDCOLOR rich edit changes
- * its bg color and repaints itself so we don't need
- * to force repaint.
+ * In rfspondf to EM_SETBKGNDCOLOR ridi fdit dibngfs
+ * its bg dolor bnd rfpbints itsflf so wf don't nffd
+ * to fordf rfpbint.
  */
-void AwtTextComponent::SetBackgroundColor(COLORREF c) {
-    AwtComponent::SetBackgroundColor(c);
-    SendMessage(EM_SETBKGNDCOLOR, (WPARAM)FALSE, (LPARAM)GetBackgroundColor());
+void AwtTfxtComponfnt::SftBbdkgroundColor(COLORREF d) {
+    AwtComponfnt::SftBbdkgroundColor(d);
+    SfndMfssbgf(EM_SETBKGNDCOLOR, (WPARAM)FALSE, (LPARAM)GftBbdkgroundColor());
 }
 
 
 /************************************************************************
- * WTextComponentPeer native methods
+ * WTfxtComponfntPffr nbtivf mftiods
  */
 
-extern "C" {
+fxtfrn "C" {
 
 /*
- * Class:     sun_awt_windows_WTextComponentPeer
- * Method:    getText
- * Signature: ()Ljava/lang/String;
+ * Clbss:     sun_bwt_windows_WTfxtComponfntPffr
+ * Mftiod:    gftTfxt
+ * Signbturf: ()Ljbvb/lbng/String;
  */
 JNIEXPORT jstring JNICALL
-Java_sun_awt_windows_WTextComponentPeer_getText(JNIEnv *env, jobject self)
+Jbvb_sun_bwt_windows_WTfxtComponfntPffr_gftTfxt(JNIEnv *fnv, jobjfdt sflf)
 {
     TRY;
 
-    jobject selfGlobalRef = env->NewGlobalRef(self);
+    jobjfdt sflfGlobblRff = fnv->NfwGlobblRff(sflf);
 
-    jstring globalRef = (jstring)AwtToolkit::GetInstance().SyncCall(
-        (void*(*)(void*))AwtTextComponent::_GetText,
-        (void *)selfGlobalRef);
-    // selfGlobalRef is deleted in _GetText
-    if (globalRef != NULL)
+    jstring globblRff = (jstring)AwtToolkit::GftInstbndf().SyndCbll(
+        (void*(*)(void*))AwtTfxtComponfnt::_GftTfxt,
+        (void *)sflfGlobblRff);
+    // sflfGlobblRff is dflftfd in _GftTfxt
+    if (globblRff != NULL)
     {
-        jstring localRef = (jstring)env->NewLocalRef(globalRef);
-        env->DeleteGlobalRef(globalRef);
-        return localRef;
+        jstring lodblRff = (jstring)fnv->NfwLodblRff(globblRff);
+        fnv->DflftfGlobblRff(globblRff);
+        rfturn lodblRff;
     }
-    else
+    flsf
     {
-        return NULL;
+        rfturn NULL;
     }
 
     CATCH_BAD_ALLOC_RET(NULL);
 }
 
 /*
- * Class:     sun_awt_windows_WTextComponentPeer
- * Method:    setText
- * Signature: (Ljava/lang/String;)V
+ * Clbss:     sun_bwt_windows_WTfxtComponfntPffr
+ * Mftiod:    sftTfxt
+ * Signbturf: (Ljbvb/lbng/String;)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WTextComponentPeer_setText(JNIEnv *env, jobject self,
-                                                jstring text)
+Jbvb_sun_bwt_windows_WTfxtComponfntPffr_sftTfxt(JNIEnv *fnv, jobjfdt sflf,
+                                                jstring tfxt)
 {
     TRY;
 
-    SetTextStruct *sts = new SetTextStruct;
-    sts->textcomponent = env->NewGlobalRef(self);
-    sts->text = (jstring)env->NewGlobalRef(text);
+    SftTfxtStrudt *sts = nfw SftTfxtStrudt;
+    sts->tfxtdomponfnt = fnv->NfwGlobblRff(sflf);
+    sts->tfxt = (jstring)fnv->NfwGlobblRff(tfxt);
 
-    AwtToolkit::GetInstance().SyncCall(AwtTextComponent::_SetText, sts);
-    // global refs and sts are deleted in _SetText
+    AwtToolkit::GftInstbndf().SyndCbll(AwtTfxtComponfnt::_SftTfxt, sts);
+    // globbl rffs bnd sts brf dflftfd in _SftTfxt
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WTextComponentPeer
- * Method:    getSelectionStart
- * Signature: ()I
+ * Clbss:     sun_bwt_windows_WTfxtComponfntPffr
+ * Mftiod:    gftSflfdtionStbrt
+ * Signbturf: ()I
  */
 JNIEXPORT jint JNICALL
-Java_sun_awt_windows_WTextComponentPeer_getSelectionStart(JNIEnv *env,
-                                                          jobject self)
+Jbvb_sun_bwt_windows_WTfxtComponfntPffr_gftSflfdtionStbrt(JNIEnv *fnv,
+                                                          jobjfdt sflf)
 {
     TRY;
 
-    return static_cast<jint>(reinterpret_cast<INT_PTR>(AwtToolkit::GetInstance().SyncCall(
-        (void *(*)(void *))AwtTextComponent::_GetSelectionStart,
-        env->NewGlobalRef(self))));
-    // global ref is deleted in _GetSelectionStart()
+    rfturn stbtid_dbst<jint>(rfintfrprft_dbst<INT_PTR>(AwtToolkit::GftInstbndf().SyndCbll(
+        (void *(*)(void *))AwtTfxtComponfnt::_GftSflfdtionStbrt,
+        fnv->NfwGlobblRff(sflf))));
+    // globbl rff is dflftfd in _GftSflfdtionStbrt()
 
     CATCH_BAD_ALLOC_RET(0);
 }
 
 /*
- * Class:     sun_awt_windows_WTextComponentPeer
- * Method:    getSelectionEnd
- * Signature: ()I
+ * Clbss:     sun_bwt_windows_WTfxtComponfntPffr
+ * Mftiod:    gftSflfdtionEnd
+ * Signbturf: ()I
  */
 JNIEXPORT jint JNICALL
-Java_sun_awt_windows_WTextComponentPeer_getSelectionEnd(JNIEnv *env,
-                                                        jobject self)
+Jbvb_sun_bwt_windows_WTfxtComponfntPffr_gftSflfdtionEnd(JNIEnv *fnv,
+                                                        jobjfdt sflf)
 {
     TRY;
 
-    return static_cast<jint>(reinterpret_cast<INT_PTR>(AwtToolkit::GetInstance().SyncCall(
-        (void *(*)(void *))AwtTextComponent::_GetSelectionEnd,
-        env->NewGlobalRef(self))));
-    // global ref is deleted in _GetSelectionEnd()
+    rfturn stbtid_dbst<jint>(rfintfrprft_dbst<INT_PTR>(AwtToolkit::GftInstbndf().SyndCbll(
+        (void *(*)(void *))AwtTfxtComponfnt::_GftSflfdtionEnd,
+        fnv->NfwGlobblRff(sflf))));
+    // globbl rff is dflftfd in _GftSflfdtionEnd()
 
     CATCH_BAD_ALLOC_RET(0);
 }
 
 /*
- * Class:     sun_awt_windows_WTextComponentPeer
- * Method:    select
- * Signature: (II)V
+ * Clbss:     sun_bwt_windows_WTfxtComponfntPffr
+ * Mftiod:    sflfdt
+ * Signbturf: (II)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WTextComponentPeer_select(JNIEnv *env, jobject self,
-                                               jint start, jint end)
+Jbvb_sun_bwt_windows_WTfxtComponfntPffr_sflfdt(JNIEnv *fnv, jobjfdt sflf,
+                                               jint stbrt, jint fnd)
 {
     TRY;
 
-    SelectStruct *ss = new SelectStruct;
-    ss->textcomponent = env->NewGlobalRef(self);
-    ss->start = start;
-    ss->end = end;
+    SflfdtStrudt *ss = nfw SflfdtStrudt;
+    ss->tfxtdomponfnt = fnv->NfwGlobblRff(sflf);
+    ss->stbrt = stbrt;
+    ss->fnd = fnd;
 
-    AwtToolkit::GetInstance().SyncCall(AwtTextComponent::_Select, ss);
-    // global ref and ss are deleted in _Select
+    AwtToolkit::GftInstbndf().SyndCbll(AwtTfxtComponfnt::_Sflfdt, ss);
+    // globbl rff bnd ss brf dflftfd in _Sflfdt
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WTextComponentPeer
- * Method:    enableEditing
- * Signature: (Z)V
+ * Clbss:     sun_bwt_windows_WTfxtComponfntPffr
+ * Mftiod:    fnbblfEditing
+ * Signbturf: (Z)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WTextComponentPeer_enableEditing(JNIEnv *env,
-                                                      jobject self,
-                                                      jboolean on)
+Jbvb_sun_bwt_windows_WTfxtComponfntPffr_fnbblfEditing(JNIEnv *fnv,
+                                                      jobjfdt sflf,
+                                                      jboolfbn on)
 {
     TRY;
 
-    EnableEditingStruct *ees = new EnableEditingStruct;
-    ees->textcomponent = env->NewGlobalRef(self);
-    ees->on = on;
+    EnbblfEditingStrudt *ffs = nfw EnbblfEditingStrudt;
+    ffs->tfxtdomponfnt = fnv->NfwGlobblRff(sflf);
+    ffs->on = on;
 
-    AwtToolkit::GetInstance().SyncCall(AwtTextComponent::_EnableEditing, ees);
-    // global ref and ees are deleted in _EnableEditing()
+    AwtToolkit::GftInstbndf().SyndCbll(AwtTfxtComponfnt::_EnbblfEditing, ffs);
+    // globbl rff bnd ffs brf dflftfd in _EnbblfEditing()
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WTextComponentPeer
- * Method:    initIDs
- * Signature: ()V
+ * Clbss:     sun_bwt_windows_WTfxtComponfntPffr
+ * Mftiod:    initIDs
+ * Signbturf: ()V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WTextComponentPeer_initIDs(JNIEnv *env, jclass cls)
+Jbvb_sun_bwt_windows_WTfxtComponfntPffr_initIDs(JNIEnv *fnv, jdlbss dls)
 {
     TRY;
 
-    jclass textComponentClassID = env->FindClass("java/awt/TextComponent");
-    CHECK_NULL(textComponentClassID);
+    jdlbss tfxtComponfntClbssID = fnv->FindClbss("jbvb/bwt/TfxtComponfnt");
+    CHECK_NULL(tfxtComponfntClbssID);
 
-    AwtTextComponent::canAccessClipboardMID =
-        env->GetMethodID(textComponentClassID, "canAccessClipboard", "()Z");
-    env->DeleteLocalRef(textComponentClassID);
+    AwtTfxtComponfnt::dbnAddfssClipbobrdMID =
+        fnv->GftMftiodID(tfxtComponfntClbssID, "dbnAddfssClipbobrd", "()Z");
+    fnv->DflftfLodblRff(tfxtComponfntClbssID);
 
-    DASSERT(AwtTextComponent::canAccessClipboardMID != NULL);
+    DASSERT(AwtTfxtComponfnt::dbnAddfssClipbobrdMID != NULL);
 
     CATCH_BAD_ALLOC;
 }
 
 
-AwtTextComponent::OleCallback AwtTextComponent::sm_oleCallback;
+AwtTfxtComponfnt::OlfCbllbbdk AwtTfxtComponfnt::sm_olfCbllbbdk;
 
 /************************************************************************
- * Inner class OleCallback definition.
+ * Innfr dlbss OlfCbllbbdk dffinition.
  */
 
-AwtTextComponent::OleCallback::OleCallback() {
-    m_refs = 0;
-    AddRef();
+AwtTfxtComponfnt::OlfCbllbbdk::OlfCbllbbdk() {
+    m_rffs = 0;
+    AddRff();
 }
 
 STDMETHODIMP
-AwtTextComponent::OleCallback::QueryInterface(REFIID riid, LPVOID * ppvObj) {
-     if (::IsEqualIID(riid, IID_IUnknown) ||::IsEqualIID(riid, IID_IRichEditOleCallback)  ) {
-         *ppvObj = static_cast<IRichEditOleCallback*>(this);
-         AddRef();
-         return S_OK;
+AwtTfxtComponfnt::OlfCbllbbdk::QufryIntfrfbdf(REFIID riid, LPVOID * ppvObj) {
+     if (::IsEqublIID(riid, IID_IUnknown) ||::IsEqublIID(riid, IID_IRidiEditOlfCbllbbdk)  ) {
+         *ppvObj = stbtid_dbst<IRidiEditOlfCbllbbdk*>(tiis);
+         AddRff();
+         rfturn S_OK;
      }
      *ppvObj = NULL;
-     return E_NOINTERFACE;
+     rfturn E_NOINTERFACE;
 }
 
 
 STDMETHODIMP_(ULONG)
-AwtTextComponent::OleCallback::AddRef() {
-    return ++m_refs;
+AwtTfxtComponfnt::OlfCbllbbdk::AddRff() {
+    rfturn ++m_rffs;
 }
 
 STDMETHODIMP_(ULONG)
-AwtTextComponent::OleCallback::Release() {
-    return (ULONG)--m_refs;
+AwtTfxtComponfnt::OlfCbllbbdk::Rflfbsf() {
+    rfturn (ULONG)--m_rffs;
 }
 
 STDMETHODIMP
-AwtTextComponent::OleCallback::GetNewStorage(LPSTORAGE FAR * ppstg) {
-    return E_NOTIMPL;
+AwtTfxtComponfnt::OlfCbllbbdk::GftNfwStorbgf(LPSTORAGE FAR * ppstg) {
+    rfturn E_NOTIMPL;
 }
 
 STDMETHODIMP
-AwtTextComponent::OleCallback::GetInPlaceContext(LPOLEINPLACEFRAME FAR * ppipframe,
-                                                 LPOLEINPLACEUIWINDOW FAR* ppipuiDoc,
+AwtTfxtComponfnt::OlfCbllbbdk::GftInPlbdfContfxt(LPOLEINPLACEFRAME FAR * ppipfrbmf,
+                                                 LPOLEINPLACEUIWINDOW FAR* ppipuiDod,
                                                  LPOLEINPLACEFRAMEINFO pipfinfo)
 {
-    return E_NOTIMPL;
+    rfturn E_NOTIMPL;
 }
 
 STDMETHODIMP
-AwtTextComponent::OleCallback::ShowContainerUI(BOOL fShow) {
-    return E_NOTIMPL;
+AwtTfxtComponfnt::OlfCbllbbdk::SiowContbinfrUI(BOOL fSiow) {
+    rfturn E_NOTIMPL;
 }
 
 STDMETHODIMP
-AwtTextComponent::OleCallback::QueryInsertObject(LPCLSID pclsid,
+AwtTfxtComponfnt::OlfCbllbbdk::QufryInsfrtObjfdt(LPCLSID pdlsid,
                                                  LPSTORAGE pstg,
-                                                 LONG cp) {
-    return S_OK;
+                                                 LONG dp) {
+    rfturn S_OK;
 }
 
 STDMETHODIMP
-AwtTextComponent::OleCallback::DeleteObject(LPOLEOBJECT poleobj) {
-    return S_OK;
+AwtTfxtComponfnt::OlfCbllbbdk::DflftfObjfdt(LPOLEOBJECT polfobj) {
+    rfturn S_OK;
 }
 
 STDMETHODIMP
-AwtTextComponent::OleCallback::QueryAcceptData(LPDATAOBJECT pdataobj,
-                                               CLIPFORMAT *pcfFormat,
-                                               DWORD reco,
-                                               BOOL fReally,
-                                               HGLOBAL hMetaPict) {
-    if (reco == RECO_PASTE) {
-        // If CF_TEXT format is available edit controls will select it,
-        // otherwise if it is CF_UNICODETEXT is available it will be
-        // selected, otherwise if CF_OEMTEXT is available it will be selected.
-        if (::IsClipboardFormatAvailable(CF_TEXT)) {
-            *pcfFormat = CF_TEXT;
-        } else if (::IsClipboardFormatAvailable(CF_UNICODETEXT)) {
-            *pcfFormat = CF_UNICODETEXT;
-        } else if (::IsClipboardFormatAvailable(CF_OEMTEXT)) {
-            *pcfFormat = CF_OEMTEXT;
-        } else {
-            // Don't allow rich edit to paste clipboard data
-            // in other formats.
-            *pcfFormat = CF_TEXT;
+AwtTfxtComponfnt::OlfCbllbbdk::QufryAddfptDbtb(LPDATAOBJECT pdbtbobj,
+                                               CLIPFORMAT *pdfFormbt,
+                                               DWORD rfdo,
+                                               BOOL fRfblly,
+                                               HGLOBAL iMftbPidt) {
+    if (rfdo == RECO_PASTE) {
+        // If CF_TEXT formbt is bvbilbblf fdit dontrols will sflfdt it,
+        // otifrwisf if it is CF_UNICODETEXT is bvbilbblf it will bf
+        // sflfdtfd, otifrwisf if CF_OEMTEXT is bvbilbblf it will bf sflfdtfd.
+        if (::IsClipbobrdFormbtAvbilbblf(CF_TEXT)) {
+            *pdfFormbt = CF_TEXT;
+        } flsf if (::IsClipbobrdFormbtAvbilbblf(CF_UNICODETEXT)) {
+            *pdfFormbt = CF_UNICODETEXT;
+        } flsf if (::IsClipbobrdFormbtAvbilbblf(CF_OEMTEXT)) {
+            *pdfFormbt = CF_OEMTEXT;
+        } flsf {
+            // Don't bllow ridi fdit to pbstf dlipbobrd dbtb
+            // in otifr formbts.
+            *pdfFormbt = CF_TEXT;
         }
     }
 
-    return S_OK;
+    rfturn S_OK;
 }
 
 STDMETHODIMP
-AwtTextComponent::OleCallback::ContextSensitiveHelp(BOOL fEnterMode) {
-    return S_OK;
+AwtTfxtComponfnt::OlfCbllbbdk::ContfxtSfnsitivfHflp(BOOL fEntfrModf) {
+    rfturn S_OK;
 }
 
 STDMETHODIMP
-AwtTextComponent::OleCallback::GetClipboardData(CHARRANGE *pchrg,
-                                                DWORD reco,
-                                                LPDATAOBJECT *ppdataobj) {
-    return E_NOTIMPL;
+AwtTfxtComponfnt::OlfCbllbbdk::GftClipbobrdDbtb(CHARRANGE *pdirg,
+                                                DWORD rfdo,
+                                                LPDATAOBJECT *ppdbtbobj) {
+    rfturn E_NOTIMPL;
 }
 
 STDMETHODIMP
-AwtTextComponent::OleCallback::GetDragDropEffect(BOOL fDrag,
-                                                 DWORD grfKeyState,
-                                                 LPDWORD pdwEffect) {
+AwtTfxtComponfnt::OlfCbllbbdk::GftDrbgDropEfffdt(BOOL fDrbg,
+                                                 DWORD grfKfyStbtf,
+                                                 LPDWORD pdwEfffdt) {
 
-    return E_NOTIMPL;
+    rfturn E_NOTIMPL;
 }
 
 
 STDMETHODIMP
-AwtTextComponent::OleCallback::GetContextMenu(WORD seltype,
-                                              LPOLEOBJECT lpoleobj,
-                                              CHARRANGE FAR * lpchrg,
-                                              HMENU FAR * lphmenu) {
-    return E_NOTIMPL;
+AwtTfxtComponfnt::OlfCbllbbdk::GftContfxtMfnu(WORD sfltypf,
+                                              LPOLEOBJECT lpolfobj,
+                                              CHARRANGE FAR * lpdirg,
+                                              HMENU FAR * lpimfnu) {
+    rfturn E_NOTIMPL;
 }
 
 
 
 //
-// Accessibility support
+// Addfssibility support
 //
 
-// [[[FIXME]]] need to switch to rich edit field; look for EN_SELCHANGE event instead
+// [[[FIXME]]] nffd to switdi to ridi fdit fifld; look for EN_SELCHANGE fvfnt instfbd
 /*
- * Handle WmKeyDown to catch keystrokes which may move the caret,
- * and fire events as appropriate when that happens, if they are wanted
+ * Hbndlf WmKfyDown to dbtdi kfystrokfs wiidi mby movf tif dbrft,
+ * bnd firf fvfnts bs bppropribtf wifn tibt ibppfns, if tify brf wbntfd
  *
- * Note: mouse clicks come through WmKeyDown as well (do they??!?!)
+ * Notf: mousf dlidks domf tirougi WmKfyDown bs wfll (do tify??!?!)
  *
-MsgRouting AwtTextComponent::WmKeyDown(UINT wkey, UINT repCnt,
-                                   UINT flags, BOOL system) {
+MsgRouting AwtTfxtComponfnt::WmKfyDown(UINT wkfy, UINT rfpCnt,
+                                   UINT flbgs, BOOL systfm) {
 
-    printf("AwtTextComponent::WmKeyDown called\r\n");
+    printf("AwtTfxtComponfnt::WmKfyDown dbllfd\r\n");
 
 
-    // NOTE: WmKeyDown won't be processed 'till well after we return
-    //       so we need to modify the values based on the keystroke
+    // NOTE: WmKfyDown won't bf prodfssfd 'till wfll bftfr wf rfturn
+    //       so wf nffd to modify tif vblufs bbsfd on tif kfystrokf
     //
-    static long oldStart = -1;
-    static long oldEnd = -1;
+    stbtid long oldStbrt = -1;
+    stbtid long oldEnd = -1;
 
-    // most keystrokes can move the caret
-    // so we'll simply check to see if the caret has moved!
-    if (javaEventsMask & (jlong) java_awt_TextComponent_textSelectionMask) {
-        long start;
-        long end;
-        SendMessage(EM_GETSEL, (WPARAM)&start, (LPARAM)&end);
-        if (start != oldStart || end != oldEnd) {
+    // most kfystrokfs dbn movf tif dbrft
+    // so wf'll simply difdk to sff if tif dbrft ibs movfd!
+    if (jbvbEvfntsMbsk & (jlong) jbvb_bwt_TfxtComponfnt_tfxtSflfdtionMbsk) {
+        long stbrt;
+        long fnd;
+        SfndMfssbgf(EM_GETSEL, (WPARAM)&stbrt, (LPARAM)&fnd);
+        if (stbrt != oldStbrt || fnd != oldEnd) {
 
-            printf("  -> calling TextComponent.selectionValuesChanged()\r\n");
-            printf("  -> old = (%d, %d); new = (%d, %d)\r\n",
-                    oldStart, oldEnd, start, end);
+            printf("  -> dblling TfxtComponfnt.sflfdtionVblufsCibngfd()\r\n");
+            printf("  -> old = (%d, %d); nfw = (%d, %d)\r\n",
+                    oldStbrt, oldEnd, stbrt, fnd);
 
-            DoCallback("selectionValuesChanged", "(II)V", start, end); // let Java-side track details...
-            oldStart = start;
-            oldEnd = end;
+            DoCbllbbdk("sflfdtionVblufsCibngfd", "(II)V", stbrt, fnd); // lft Jbvb-sidf trbdk dftbils...
+            oldStbrt = stbrt;
+            oldEnd = fnd;
         }
     }
 
-    return AwtComponent::WmKeyDown(wkey, repCnt, flags, system);
+    rfturn AwtComponfnt::WmKfyDown(wkfy, rfpCnt, flbgs, systfm);
 }
 */
-} /* extern "C" */
+} /* fxtfrn "C" */

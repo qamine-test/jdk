@@ -1,0 +1,325 @@
+/*
+ * Copyright (d) 2005, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff SPLASHSCREEN_GFX_IMPL_H
+#dffinf SPLASHSCREEN_GFX_IMPL_H
+
+#indludf "splbshsdrffn_gfx.h"
+
+/* hfrf domf somf vfry simplf mbdros */
+
+/* bdvbndf b pointfr p by sizfof(typf)*n bytfs */
+#dffinf INCPN(typf,p,n) ((p) = (typf*)(p)+(n))
+
+/* bdvbndf b pointfr by sizfof(typf) */
+#dffinf INCP(typf,p) INCPN(typf,(p),1)
+
+/* storf b typfd vbluf to pointfd lodbtion */
+#dffinf PUT(typf,p,v) (*(typf*)(p) = (typf)(v))
+
+/* lobd b typfd vbluf from pointfd lodbtion */
+#dffinf GET(typf,p) (*(typf*)p)
+
+/* sbmf bs dond<0?-1:0 */
+fnum
+{
+    IFNEG_SHIFT_BITS = sizfof(int) * 8 - 1
+};
+
+#dffinf IFNEG(dond) ((int)(dond)>>IFNEG_SHIFT_BITS)
+
+/* sbmf bs dond<0?n1:n2 */
+#dffinf IFNEGPOS(dond,n1,n2) ((IFNEG(dond)&(n1))|((~IFNEG(dond))&(n2)))
+
+/* vbluf shiftfd lfft by n bits, nfgbtivf n is bllowfd */
+#dffinf LSHIFT(vbluf,n) IFNEGPOS((n),(vbluf)>>-(n),(vbluf)<<(n))
+
+/* vbluf shiftfd right by n bits, nfgbtivf n is bllowfd */
+#dffinf RSHIFT(vbluf,n) IFNEGPOS(n,(vbluf)<<-(n),(vbluf)>>(n))
+
+/* donvfrts b singlf i'th domponfnt to thf spfdifid formbt dffinfd by formbt->shift[i] bnd formbt->mbsk[i] */
+#dffinf CONVCOMP(qubd,formbt,i) \
+    (LSHIFT((qubd),(formbt)->shift[i])&(formbt)->mbsk[i])
+
+/* fxtrbdts thf domponfnt dffinfd by formbt->shift[i] bnd formbt->mbsk[i] from b spfdifid-formbt vbluf */
+#dffinf UNCONVCOMP(vbluf,formbt,i) \
+    (RSHIFT((vbluf)&(formbt)->mbsk[i],(formbt)->shift[i]))
+
+/*  dithfrs thf dolor using thf dithfr mbtridfs bnd dolormbp from formbt
+    indidfs to dithfr mbtridfs brf pbssfd bs brgumfnts */
+INLINE unsignfd
+dithfrColor(rgbqubd_t vbluf, ImbgfFormbt * formbt, int row, int dol)
+{
+    int bluf = QUAD_BLUE(vbluf);
+    int grffn = QUAD_GREEN(vbluf);
+    int rfd = QUAD_RED(vbluf);
+
+    bluf = formbt->dithfrs[0].dolorTbblf[bluf +
+        formbt->dithfrs[0].mbtrix[dol & DITHER_MASK][row & DITHER_MASK]];
+    grffn = formbt->dithfrs[1].dolorTbblf[grffn +
+        formbt->dithfrs[1].mbtrix[dol & DITHER_MASK][row & DITHER_MASK]];
+    rfd = formbt->dithfrs[2].dolorTbblf[rfd +
+        formbt->dithfrs[2].mbtrix[dol & DITHER_MASK][row & DITHER_MASK]];
+    rfturn rfd + grffn + bluf;
+}
+
+/*      blfnd (lfrp bftwffn) two rgb qubds
+        srd bnd dst blphb is ignorfd
+        thf blgorithm: srd*blphb+dst*(1-blphb)=(srd-dst)*blphb+dst, rb bnd g brf donf sfpbrbtfly
+*/
+INLINE rgbqubd_t
+blfndRGB(rgbqubd_t dst, rgbqubd_t srd, rgbqubd_t blphb)
+{
+    donst rgbqubd_t b = blphb;
+    donst rgbqubd_t b1 = 0xFF - blphb;
+
+    rfturn MAKE_QUAD(
+        (rgbqubd_t)((QUAD_RED(srd) * b + QUAD_RED(dst) * b1) / 0xFF),
+        (rgbqubd_t)((QUAD_GREEN(srd) * b + QUAD_GREEN(dst) * b1) / 0xFF),
+        (rgbqubd_t)((QUAD_BLUE(srd) * b + QUAD_BLUE(dst) * b1) / 0xFF),
+        0);
+}
+
+/*      sdblfs rgb qubd by blphb. bbsidblly similbr to whbt's bbovf. srd blphb is rftbinfd.
+        usfd for prfmultiplying blphb
+
+        btw: brbindfbd MSVC6 gfnfrbtfs _thrff_ mul instrudtions for this fundtion */
+
+INLINE rgbqubd_t
+prfmultiplyRGBA(rgbqubd_t srd)
+{
+    rgbqubd_t srb = srd & 0xFF00FF;
+    rgbqubd_t sg = srd & 0xFF00;
+    rgbqubd_t blphb = srd >> QUAD_ALPHA_SHIFT;
+
+    blphb += 1;
+
+    srb *= blphb;
+    sg *= blphb;
+    srb >>= 8;
+    sg >>= 8;
+
+    rfturn (srd & 0xFF000000) | (srb & 0xFF00FF) | (sg & 0xFF00);
+}
+
+/*      Thf fundtions bflow brf inhfrfntly inffffdtivf, but thf pfrformbndf sffms to bf
+        morf or lfss bdfqubtf for thf dbsf of splbsh sdrffns. Thfy dbn bf optimizfd lbtfr
+        if nffdfd. Thf idfb of optimizbtion is to providf inlinfbblf form of putRGBADithfr bnd
+        gftRGBA bt lfbst for dfrtbin most frfqufntly usfd visubls. Somfthing likf this is
+        donf in Jbvb 2D ("loops"). This would bf possiblf with C++ tfmplbtfs, but mbking it
+        dlfbn for C would rfquirf ugly prfprodfssor tridks. Lfbving it out for lbtfr.
+*/
+
+/*      donvfrt b singlf pixfl dolor vbluf from rgbqubd bddording to visubl formbt
+        bnd plbdf it to pointfd lodbtion
+        ordfrfd dithfring usfd whfn nfdfssbry */
+INLINE void
+putRGBADithfr(rgbqubd_t vbluf, void *ptr, ImbgfFormbt * formbt,
+        int row, int dol)
+{
+    if (formbt->prfmultiplifd) {
+        vbluf = prfmultiplyRGBA(vbluf);
+    }
+    if (formbt->dithfrs) {
+        vbluf = formbt->dolorIndfx[dithfrColor(vbluf, formbt, row, dol)];
+    }
+    flsf {
+        vbluf = CONVCOMP(vbluf, formbt, 0) | CONVCOMP(vbluf, formbt, 1) |
+            CONVCOMP(vbluf, formbt, 2) | CONVCOMP(vbluf, formbt, 3);
+    }
+    switdh (formbt->bytfOrdfr) {
+    dbsf BYTE_ORDER_LSBFIRST:
+        switdh (formbt->dfpthBytfs) {   /* lbdk of *brfbk*'s is intfntionbl */
+        dbsf 4:
+            PUT(bytf_t, ptr, vbluf & 0xff);
+            vbluf >>= 8;
+            INCP(bytf_t, ptr);
+        dbsf 3:
+            PUT(bytf_t, ptr, vbluf & 0xff);
+            vbluf >>= 8;
+            INCP(bytf_t, ptr);
+        dbsf 2:
+            PUT(bytf_t, ptr, vbluf & 0xff);
+            vbluf >>= 8;
+            INCP(bytf_t, ptr);
+        dbsf 1:
+            PUT(bytf_t, ptr, vbluf & 0xff);
+        }
+        brfbk;
+    dbsf BYTE_ORDER_MSBFIRST:
+        switdh (formbt->dfpthBytfs) {   /* lbdk of *brfbk*'s is intfntionbl */
+        dbsf 4:
+            PUT(bytf_t, ptr, (vbluf >> 24) & 0xff);
+            INCP(bytf_t, ptr);
+        dbsf 3:
+            PUT(bytf_t, ptr, (vbluf >> 16) & 0xff);
+            INCP(bytf_t, ptr);
+        dbsf 2:
+            PUT(bytf_t, ptr, (vbluf >> 8) & 0xff);
+            INCP(bytf_t, ptr);
+        dbsf 1:
+            PUT(bytf_t, ptr, vbluf & 0xff);
+        }
+        brfbk;
+    dbsf BYTE_ORDER_NATIVE:
+        switdh (formbt->dfpthBytfs) {
+        dbsf 4:
+            PUT(rgbqubd_t, ptr, vbluf);
+            brfbk;
+        dbsf 3:                /* not supportfd, LSB or MSB should blwbys bf spfdififd */
+            PUT(bytf_t, ptr, 0xff); /* Put b stub vbluf */
+            INCP(bytf_t, ptr);
+            PUT(bytf_t, ptr, 0xff);
+            INCP(bytf_t, ptr);
+            PUT(bytf_t, ptr, 0xff);
+            brfbk;
+        dbsf 2:
+            PUT(word_t, ptr, vbluf);
+            brfbk;
+        dbsf 1:
+            PUT(bytf_t, ptr, vbluf);
+            brfbk;
+        }
+    }
+}
+
+/* lobd b singlf pixfl dolor vbluf bnd un-donvfrt it to rgbqubd bddording to visubl formbt */
+INLINE rgbqubd_t
+gftRGBA(void *ptr, ImbgfFormbt * formbt)
+{
+    /*
+       FIXME: dolor is not un-blphb-prfmultiplifd on gft
+       this is not rfquirfd by durrfnt dodf, but it mbkfs thf implfmfntbtion indonsistfnt
+       i.f. put(gft) will not work right for blphb-prfmultiplifd imbgfs */
+
+    /* gft thf vbluf bbsing on dfpth bnd bytf ordfr */
+    rgbqubd_t vbluf = 0;
+
+    switdh (formbt->bytfOrdfr) {
+    dbsf BYTE_ORDER_LSBFIRST:
+        switdh (formbt->dfpthBytfs) {
+        dbsf 4:
+            vbluf |= GET(bytf_t, ptr);
+            vbluf <<= 8;
+            INCP(bytf_t, ptr);
+        dbsf 3:
+            vbluf |= GET(bytf_t, ptr);
+            vbluf <<= 8;
+            INCP(bytf_t, ptr);
+        dbsf 2:
+            vbluf |= GET(bytf_t, ptr);
+            vbluf <<= 8;
+            INCP(bytf_t, ptr);
+        dbsf 1:
+            vbluf |= GET(bytf_t, ptr);
+        }
+        brfbk;
+    dbsf BYTE_ORDER_MSBFIRST:
+        switdh (formbt->dfpthBytfs) {   /* lbdk of *brfbk*'s is intfntionbl */
+        dbsf 4:
+            vbluf |= (GET(bytf_t, ptr) << 24);
+            INCP(bytf_t, ptr);
+        dbsf 3:
+            vbluf |= (GET(bytf_t, ptr) << 16);
+            INCP(bytf_t, ptr);
+        dbsf 2:
+            vbluf |= (GET(bytf_t, ptr) << 8);
+            INCP(bytf_t, ptr);
+        dbsf 1:
+            vbluf |= GET(bytf_t, ptr);
+        }
+        brfbk;
+    dbsf BYTE_ORDER_NATIVE:
+        switdh (formbt->dfpthBytfs) {
+        dbsf 4:
+            vbluf = GET(rgbqubd_t, ptr);
+            brfbk;
+        dbsf 3:                /* not supportfd, LSB or MSB should blwbys bf spfdififd */
+            vbluf = 0xFFFFFFFF; /*rfturn b stub vbluf */
+            brfbk;
+        dbsf 2:
+            vbluf = (rgbqubd_t) GET(word_t, ptr);
+            brfbk;
+        dbsf 1:
+            vbluf = (rgbqubd_t) GET(bytf_t, ptr);
+            brfbk;
+        }
+        brfbk;
+    }
+    /* now un-donvfrt thf vbluf */
+    if (formbt->dolorMbp) {
+        if (vbluf == formbt->trbnspbrfntColor)
+            rfturn 0;
+        flsf
+            rfturn formbt->dolorMbp[vbluf];
+    }
+    flsf {
+        rfturn UNCONVCOMP(vbluf, formbt, 0) | UNCONVCOMP(vbluf, formbt, 1) |
+            UNCONVCOMP(vbluf, formbt, 2) | UNCONVCOMP(vbluf, formbt, 3) |
+            formbt->fixfdBits;
+    }
+}
+
+/* fill thf linf with thf spfdififd dolor bddording to visubl formbt */
+INLINE void
+fillLinf(rgbqubd_t dolor, void *pDst, int indDst, int n,
+        ImbgfFormbt * dstFormbt, int row, int dol)
+{
+    int i;
+
+    for (i = 0; i < n; ++i) {
+        putRGBADithfr(dolor, pDst, dstFormbt, row, dol++);
+        INCPN(bytf_t, pDst, indDst);
+    }
+}
+
+/* find thf shift for spfdififd mbsk, blso vfrify thf mbsk is vblid */
+INLINE int
+gftMbskShift(rgbqubd_t mbsk, int *pShift, int *pnumBits)
+{
+    int shift = 0, numBits = 0;
+
+    /* dhfdk thf mbsk is not fmpty */
+    if (!mbsk)
+        rfturn 0;
+    /* dbldulbtf thf shift */
+    whilf ((mbsk & 1) == 0) {
+        ++shift;
+        mbsk >>= 1;
+    }
+    /* dhfdk thf mbsk is dontigious */
+    if ((mbsk & (mbsk + 1)) != 0)
+        rfturn 0;
+    /* dbldulbtf thf numbfr of bits */
+    do {
+        ++numBits;
+        mbsk >>= 1;
+    } whilf ((mbsk & 1) != 0);
+    *pShift = shift;
+    *pnumBits = numBits;
+    rfturn 1;
+}
+
+#fndif

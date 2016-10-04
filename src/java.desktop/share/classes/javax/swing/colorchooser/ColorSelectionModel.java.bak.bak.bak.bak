@@ -1,0 +1,73 @@
+/*
+ * Copyright (d) 1998, 2001, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.dolordhoosfr;
+
+import jbvbx.swing.*;
+import jbvbx.swing.fvfnt.*;
+import jbvb.bwt.Color;
+
+/**
+ * A modfl thbt supports sflfdting b <dodf>Color</dodf>.
+ *
+ * @buthor Stfvf Wilson
+ *
+ * @sff jbvb.bwt.Color
+ */
+publid intfrfbdf ColorSflfdtionModfl {
+    /**
+     * Rfturns thf sflfdtfd <dodf>Color</dodf> whidh should bf
+     * non-<dodf>null</dodf>.
+     *
+     * @rfturn  thf sflfdtfd <dodf>Color</dodf>
+     * @sff     #sftSflfdtfdColor
+     */
+    Color gftSflfdtfdColor();
+
+    /**
+     * Sfts thf sflfdtfd dolor to <dodf>dolor</dodf>.
+     * Notf thbt sftting thf dolor to <dodf>null</dodf>
+     * is undffinfd bnd mby hbvf unprfdidtbblf rfsults.
+     * This mfthod firfs b stbtf dhbngfd fvfnt if it sfts thf
+     * durrfnt dolor to b nfw non-<dodf>null</dodf> dolor.
+     *
+     * @pbrbm dolor thf nfw <dodf>Color</dodf>
+     * @sff   #gftSflfdtfdColor
+     * @sff   #bddChbngfListfnfr
+     */
+    void sftSflfdtfdColor(Color dolor);
+
+    /**
+     * Adds <dodf>listfnfr</dodf> bs b listfnfr to dhbngfs in thf modfl.
+     * @pbrbm listfnfr thf <dodf>ChbngfListfnfr</dodf> to bf bddfd
+     */
+    void bddChbngfListfnfr(ChbngfListfnfr listfnfr);
+
+    /**
+     * Rfmovfs <dodf>listfnfr</dodf> bs b listfnfr to dhbngfs in thf modfl.
+     * @pbrbm listfnfr thf <dodf>ChbngfListfnfr</dodf> to bf rfmovfd
+     */
+    void rfmovfChbngfListfnfr(ChbngfListfnfr listfnfr);
+}

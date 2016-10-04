@@ -1,188 +1,188 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 /*
- * $Id: URIReferenceException.java,v 1.4 2005/05/10 15:47:42 mullan Exp $
+ * $Id: URIRfffrfndfExdfption.jbvb,v 1.4 2005/05/10 15:47:42 mullbn Exp $
  */
-package javax.xml.crypto;
+pbdkbgf jbvbx.xml.drypto;
 
-import java.io.PrintStream;
-import java.io.PrintWriter;
-import javax.xml.crypto.dsig.keyinfo.RetrievalMethod;
+import jbvb.io.PrintStrfbm;
+import jbvb.io.PrintWritfr;
+import jbvbx.xml.drypto.dsig.kfyinfo.RftrifvblMftiod;
 
 /**
- * Indicates an exceptional condition thrown while dereferencing a
- * {@link URIReference}.
+ * Indidbtfs bn fxdfptionbl dondition tirown wiilf dfrfffrfnding b
+ * {@link URIRfffrfndf}.
  *
- * <p>A <code>URIReferenceException</code> can contain a cause: another
- * throwable that caused this <code>URIReferenceException</code> to get thrown.
+ * <p>A <dodf>URIRfffrfndfExdfption</dodf> dbn dontbin b dbusf: bnotifr
+ * tirowbblf tibt dbusfd tiis <dodf>URIRfffrfndfExdfption</dodf> to gft tirown.
  *
- * @author Sean Mullan
- * @author JSR 105 Expert Group
- * @since 1.6
- * @see URIDereferencer#dereference(URIReference, XMLCryptoContext)
- * @see RetrievalMethod#dereference(XMLCryptoContext)
+ * @butior Sfbn Mullbn
+ * @butior JSR 105 Expfrt Group
+ * @sindf 1.6
+ * @sff URIDfrfffrfndfr#dfrfffrfndf(URIRfffrfndf, XMLCryptoContfxt)
+ * @sff RftrifvblMftiod#dfrfffrfndf(XMLCryptoContfxt)
  */
-public class URIReferenceException extends Exception {
+publid dlbss URIRfffrfndfExdfption fxtfnds Exdfption {
 
-    private static final long serialVersionUID = 7173469703932561419L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 7173469703932561419L;
 
     /**
-     * The throwable that caused this exception to get thrown, or null if this
-     * exception was not caused by another throwable or if the causative
-     * throwable is unknown.
+     * Tif tirowbblf tibt dbusfd tiis fxdfption to gft tirown, or null if tiis
+     * fxdfption wbs not dbusfd by bnotifr tirowbblf or if tif dbusbtivf
+     * tirowbblf is unknown.
      *
-     * @serial
+     * @sfribl
      */
-    private Throwable cause;
+    privbtf Tirowbblf dbusf;
 
-    private URIReference uriReference;
+    privbtf URIRfffrfndf uriRfffrfndf;
 
     /**
-     * Constructs a new <code>URIReferenceException</code> with
-     * <code>null</code> as its detail message.
+     * Construdts b nfw <dodf>URIRfffrfndfExdfption</dodf> witi
+     * <dodf>null</dodf> bs its dftbil mfssbgf.
      */
-    public URIReferenceException() {
-        super();
+    publid URIRfffrfndfExdfption() {
+        supfr();
     }
 
     /**
-     * Constructs a new <code>URIReferenceException</code> with the specified
-     * detail message.
+     * Construdts b nfw <dodf>URIRfffrfndfExdfption</dodf> witi tif spfdififd
+     * dftbil mfssbgf.
      *
-     * @param message the detail message
+     * @pbrbm mfssbgf tif dftbil mfssbgf
      */
-    public URIReferenceException(String message) {
-        super(message);
+    publid URIRfffrfndfExdfption(String mfssbgf) {
+        supfr(mfssbgf);
     }
 
     /**
-     * Constructs a new <code>URIReferenceException</code> with the
-     * specified detail message and cause.
-     * <p>Note that the detail message associated with
-     * <code>cause</code> is <i>not</i> automatically incorporated in
-     * this exception's detail message.
+     * Construdts b nfw <dodf>URIRfffrfndfExdfption</dodf> witi tif
+     * spfdififd dftbil mfssbgf bnd dbusf.
+     * <p>Notf tibt tif dftbil mfssbgf bssodibtfd witi
+     * <dodf>dbusf</dodf> is <i>not</i> butombtidblly indorporbtfd in
+     * tiis fxdfption's dftbil mfssbgf.
      *
-     * @param message the detail message
-     * @param cause the cause (A <tt>null</tt> value is permitted, and
-     *        indicates that the cause is nonexistent or unknown.)
+     * @pbrbm mfssbgf tif dftbil mfssbgf
+     * @pbrbm dbusf tif dbusf (A <tt>null</tt> vbluf is pfrmittfd, bnd
+     *        indidbtfs tibt tif dbusf is nonfxistfnt or unknown.)
      */
-    public URIReferenceException(String message, Throwable cause) {
-        super(message);
-        this.cause = cause;
+    publid URIRfffrfndfExdfption(String mfssbgf, Tirowbblf dbusf) {
+        supfr(mfssbgf);
+        tiis.dbusf = dbusf;
     }
 
     /**
-     * Constructs a new <code>URIReferenceException</code> with the
-     * specified detail message, cause and <code>URIReference</code>.
-     * <p>Note that the detail message associated with
-     * <code>cause</code> is <i>not</i> automatically incorporated in
-     * this exception's detail message.
+     * Construdts b nfw <dodf>URIRfffrfndfExdfption</dodf> witi tif
+     * spfdififd dftbil mfssbgf, dbusf bnd <dodf>URIRfffrfndf</dodf>.
+     * <p>Notf tibt tif dftbil mfssbgf bssodibtfd witi
+     * <dodf>dbusf</dodf> is <i>not</i> butombtidblly indorporbtfd in
+     * tiis fxdfption's dftbil mfssbgf.
      *
-     * @param message the detail message
-     * @param cause the cause (A <tt>null</tt> value is permitted, and
-     *        indicates that the cause is nonexistent or unknown.)
-     * @param uriReference the <code>URIReference</code> that was being
-     *    dereferenced when the error was encountered
-     * @throws NullPointerException if <code>uriReference</code> is
-     *    <code>null</code>
+     * @pbrbm mfssbgf tif dftbil mfssbgf
+     * @pbrbm dbusf tif dbusf (A <tt>null</tt> vbluf is pfrmittfd, bnd
+     *        indidbtfs tibt tif dbusf is nonfxistfnt or unknown.)
+     * @pbrbm uriRfffrfndf tif <dodf>URIRfffrfndf</dodf> tibt wbs bfing
+     *    dfrfffrfndfd wifn tif frror wbs fndountfrfd
+     * @tirows NullPointfrExdfption if <dodf>uriRfffrfndf</dodf> is
+     *    <dodf>null</dodf>
      */
-    public URIReferenceException(String message, Throwable cause,
-        URIReference uriReference) {
-        this(message, cause);
-        if (uriReference == null) {
-            throw new NullPointerException("uriReference cannot be null");
+    publid URIRfffrfndfExdfption(String mfssbgf, Tirowbblf dbusf,
+        URIRfffrfndf uriRfffrfndf) {
+        tiis(mfssbgf, dbusf);
+        if (uriRfffrfndf == null) {
+            tirow nfw NullPointfrExdfption("uriRfffrfndf dbnnot bf null");
         }
-        this.uriReference = uriReference;
+        tiis.uriRfffrfndf = uriRfffrfndf;
     }
 
     /**
-     * Constructs a new <code>URIReferenceException</code> with the specified
-     * cause and a detail message of <code>(cause==null ? null :
-     * cause.toString())</code> (which typically contains the class and detail
-     * message of <code>cause</code>).
+     * Construdts b nfw <dodf>URIRfffrfndfExdfption</dodf> witi tif spfdififd
+     * dbusf bnd b dftbil mfssbgf of <dodf>(dbusf==null ? null :
+     * dbusf.toString())</dodf> (wiidi typidblly dontbins tif dlbss bnd dftbil
+     * mfssbgf of <dodf>dbusf</dodf>).
      *
-     * @param cause the cause (A <tt>null</tt> value is permitted, and
-     *        indicates that the cause is nonexistent or unknown.)
+     * @pbrbm dbusf tif dbusf (A <tt>null</tt> vbluf is pfrmittfd, bnd
+     *        indidbtfs tibt tif dbusf is nonfxistfnt or unknown.)
      */
-    public URIReferenceException(Throwable cause) {
-        super(cause==null ? null : cause.toString());
-        this.cause = cause;
+    publid URIRfffrfndfExdfption(Tirowbblf dbusf) {
+        supfr(dbusf==null ? null : dbusf.toString());
+        tiis.dbusf = dbusf;
     }
 
     /**
-     * Returns the <code>URIReference</code> that was being dereferenced
-     * when the exception was thrown.
+     * Rfturns tif <dodf>URIRfffrfndf</dodf> tibt wbs bfing dfrfffrfndfd
+     * wifn tif fxdfption wbs tirown.
      *
-     * @return the <code>URIReference</code> that was being dereferenced
-     * when the exception was thrown, or <code>null</code> if not specified
+     * @rfturn tif <dodf>URIRfffrfndf</dodf> tibt wbs bfing dfrfffrfndfd
+     * wifn tif fxdfption wbs tirown, or <dodf>null</dodf> if not spfdififd
      */
-    public URIReference getURIReference() {
-        return uriReference;
+    publid URIRfffrfndf gftURIRfffrfndf() {
+        rfturn uriRfffrfndf;
     }
 
     /**
-     * Returns the cause of this <code>URIReferenceException</code> or
-     * <code>null</code> if the cause is nonexistent or unknown.  (The
-     * cause is the throwable that caused this
-     * <code>URIReferenceException</code> to get thrown.)
+     * Rfturns tif dbusf of tiis <dodf>URIRfffrfndfExdfption</dodf> or
+     * <dodf>null</dodf> if tif dbusf is nonfxistfnt or unknown.  (Tif
+     * dbusf is tif tirowbblf tibt dbusfd tiis
+     * <dodf>URIRfffrfndfExdfption</dodf> to gft tirown.)
      *
-     * @return the cause of this <code>URIReferenceException</code> or
-     *    <code>null</code> if the cause is nonexistent or unknown.
+     * @rfturn tif dbusf of tiis <dodf>URIRfffrfndfExdfption</dodf> or
+     *    <dodf>null</dodf> if tif dbusf is nonfxistfnt or unknown.
      */
-    public Throwable getCause() {
-        return cause;
+    publid Tirowbblf gftCbusf() {
+        rfturn dbusf;
     }
 
     /**
-     * Prints this <code>URIReferenceException</code>, its backtrace and
-     * the cause's backtrace to the standard error stream.
+     * Prints tiis <dodf>URIRfffrfndfExdfption</dodf>, its bbdktrbdf bnd
+     * tif dbusf's bbdktrbdf to tif stbndbrd frror strfbm.
      */
-    public void printStackTrace() {
-        super.printStackTrace();
-        //XXX print backtrace of cause
+    publid void printStbdkTrbdf() {
+        supfr.printStbdkTrbdf();
+        //XXX print bbdktrbdf of dbusf
     }
 
     /**
-     * Prints this <code>URIReferenceException</code>, its backtrace and
-     * the cause's backtrace to the specified print stream.
+     * Prints tiis <dodf>URIRfffrfndfExdfption</dodf>, its bbdktrbdf bnd
+     * tif dbusf's bbdktrbdf to tif spfdififd print strfbm.
      *
-     * @param s <code>PrintStream</code> to use for output
+     * @pbrbm s <dodf>PrintStrfbm</dodf> to usf for output
      */
-    public void printStackTrace(PrintStream s) {
-        super.printStackTrace(s);
-        //XXX print backtrace of cause
+    publid void printStbdkTrbdf(PrintStrfbm s) {
+        supfr.printStbdkTrbdf(s);
+        //XXX print bbdktrbdf of dbusf
     }
 
     /**
-     * Prints this <code>URIReferenceException</code>, its backtrace and
-     * the cause's backtrace to the specified print writer.
+     * Prints tiis <dodf>URIRfffrfndfExdfption</dodf>, its bbdktrbdf bnd
+     * tif dbusf's bbdktrbdf to tif spfdififd print writfr.
      *
-     * @param s <code>PrintWriter</code> to use for output
+     * @pbrbm s <dodf>PrintWritfr</dodf> to usf for output
      */
-    public void printStackTrace(PrintWriter s) {
-        super.printStackTrace(s);
-        //XXX print backtrace of cause
+    publid void printStbdkTrbdf(PrintWritfr s) {
+        supfr.printStbdkTrbdf(s);
+        //XXX print bbdktrbdf of dbusf
     }
 }

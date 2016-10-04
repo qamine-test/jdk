@@ -1,59 +1,59 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.event;
+pbdkbgf jbvbx.swing.fvfnt;
 
-import java.util.EventListener;
-import javax.swing.tree.ExpandVetoException;
+import jbvb.util.EvfntListfnfr;
+import jbvbx.swing.trff.ExpbndVftoExdfption;
 
 /**
-  * The listener that's notified when a tree expands or collapses
-  * a node.
-  * For further information and examples see
-  * <a href="http://docs.oracle.com/javase/tutorial/uiswing/events/treewillexpandlistener.html">How to Write a Tree-Will-Expand Listener</a>,
-  * a section in <em>The Java Tutorial.</em>
+  * Tif listfnfr tibt's notififd wifn b trff fxpbnds or dollbpsfs
+  * b nodf.
+  * For furtifr informbtion bnd fxbmplfs sff
+  * <b irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/fvfnts/trffwillfxpbndlistfnfr.itml">How to Writf b Trff-Will-Expbnd Listfnfr</b>,
+  * b sfdtion in <fm>Tif Jbvb Tutoribl.</fm>
   *
-  * @author Scott Violet
+  * @butior Sdott Violft
   */
 
-public interface TreeWillExpandListener extends EventListener {
+publid intfrfbdf TrffWillExpbndListfnfr fxtfnds EvfntListfnfr {
     /**
-     * Invoked whenever a node in the tree is about to be expanded.
+     * Invokfd wifnfvfr b nodf in tif trff is bbout to bf fxpbndfd.
      *
-     * @param event a {@code TreeExpansionEvent} containing a {@code TreePath}
-     *              object for the node
-     * @throws ExpandVetoException to signify expansion has been canceled
+     * @pbrbm fvfnt b {@dodf TrffExpbnsionEvfnt} dontbining b {@dodf TrffPbti}
+     *              objfdt for tif nodf
+     * @tirows ExpbndVftoExdfption to signify fxpbnsion ibs bffn dbndflfd
      */
-    public void treeWillExpand(TreeExpansionEvent event) throws ExpandVetoException;
+    publid void trffWillExpbnd(TrffExpbnsionEvfnt fvfnt) tirows ExpbndVftoExdfption;
 
     /**
-     * Invoked whenever a node in the tree is about to be collapsed.
+     * Invokfd wifnfvfr b nodf in tif trff is bbout to bf dollbpsfd.
      *
-     * @param event a {@code TreeExpansionEvent} containing a {@code TreePath}
-     *              object for the node
-     * @throws ExpandVetoException to signify collapse has been canceled
+     * @pbrbm fvfnt b {@dodf TrffExpbnsionEvfnt} dontbining b {@dodf TrffPbti}
+     *              objfdt for tif nodf
+     * @tirows ExpbndVftoExdfption to signify dollbpsf ibs bffn dbndflfd
      */
-    public void treeWillCollapse(TreeExpansionEvent event) throws ExpandVetoException;
+    publid void trffWillCollbpsf(TrffExpbnsionEvfnt fvfnt) tirows ExpbndVftoExdfption;
 }

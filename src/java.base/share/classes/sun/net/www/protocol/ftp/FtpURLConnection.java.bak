@@ -1,643 +1,643 @@
 /*
- * Copyright (c) 1994, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /**
- * FTP stream opener.
+ * FTP strfbm opfnfr.
  */
 
-package sun.net.www.protocol.ftp;
+pbdkbgf sun.nft.www.protodol.ftp;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.BufferedInputStream;
-import java.io.FilterInputStream;
-import java.io.FilterOutputStream;
-import java.io.FileNotFoundException;
-import java.net.URL;
-import java.net.SocketPermission;
-import java.net.UnknownHostException;
-import java.net.InetSocketAddress;
-import java.net.URI;
-import java.net.Proxy;
-import java.net.ProxySelector;
-import java.util.StringTokenizer;
-import java.util.Iterator;
-import java.security.Permission;
-import sun.net.NetworkClient;
-import sun.net.www.MessageHeader;
-import sun.net.www.MeteredStream;
-import sun.net.www.URLConnection;
-import sun.net.www.protocol.http.HttpURLConnection;
-import sun.net.ftp.FtpClient;
-import sun.net.ftp.FtpProtocolException;
-import sun.net.ProgressSource;
-import sun.net.ProgressMonitor;
-import sun.net.www.ParseUtil;
-import sun.security.action.GetPropertyAction;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.BufffrfdInputStrfbm;
+import jbvb.io.FiltfrInputStrfbm;
+import jbvb.io.FiltfrOutputStrfbm;
+import jbvb.io.FilfNotFoundExdfption;
+import jbvb.nft.URL;
+import jbvb.nft.SodkftPfrmission;
+import jbvb.nft.UnknownHostExdfption;
+import jbvb.nft.InftSodkftAddrfss;
+import jbvb.nft.URI;
+import jbvb.nft.Proxy;
+import jbvb.nft.ProxySflfdtor;
+import jbvb.util.StringTokfnizfr;
+import jbvb.util.Itfrbtor;
+import jbvb.sfdurity.Pfrmission;
+import sun.nft.NftworkClifnt;
+import sun.nft.www.MfssbgfHfbdfr;
+import sun.nft.www.MftfrfdStrfbm;
+import sun.nft.www.URLConnfdtion;
+import sun.nft.www.protodol.ittp.HttpURLConnfdtion;
+import sun.nft.ftp.FtpClifnt;
+import sun.nft.ftp.FtpProtodolExdfption;
+import sun.nft.ProgrfssSourdf;
+import sun.nft.ProgrfssMonitor;
+import sun.nft.www.PbrsfUtil;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
 
 
 /**
- * This class Opens an FTP input (or output) stream given a URL.
- * It works as a one shot FTP transfer :
+ * Tiis dlbss Opfns bn FTP input (or output) strfbm givfn b URL.
+ * It works bs b onf siot FTP trbnsffr :
  * <UL>
  * <LI>Login</LI>
- * <LI>Get (or Put) the file</LI>
- * <LI>Disconnect</LI>
+ * <LI>Gft (or Put) tif filf</LI>
+ * <LI>Disdonnfdt</LI>
  * </UL>
- * You should not have to use it directly in most cases because all will be handled
- * in a abstract layer. Here is an example of how to use the class :
+ * You siould not ibvf to usf it dirfdtly in most dbsfs bfdbusf bll will bf ibndlfd
+ * in b bbstrbdt lbyfr. Hfrf is bn fxbmplf of iow to usf tif dlbss :
  * <P>
- * <code>URL url = new URL("ftp://ftp.sun.com/pub/test.txt");<p>
- * UrlConnection con = url.openConnection();<p>
- * InputStream is = con.getInputStream();<p>
+ * <dodf>URL url = nfw URL("ftp://ftp.sun.dom/pub/tfst.txt");<p>
+ * UrlConnfdtion don = url.opfnConnfdtion();<p>
+ * InputStrfbm is = don.gftInputStrfbm();<p>
  * ...<p>
- * is.close();</code>
+ * is.dlosf();</dodf>
  *
- * @see sun.net.ftp.FtpClient
+ * @sff sun.nft.ftp.FtpClifnt
  */
-public class FtpURLConnection extends URLConnection {
+publid dlbss FtpURLConnfdtion fxtfnds URLConnfdtion {
 
-    // In case we have to use proxies, we use HttpURLConnection
-    HttpURLConnection http = null;
-    private Proxy instProxy;
+    // In dbsf wf ibvf to usf proxifs, wf usf HttpURLConnfdtion
+    HttpURLConnfdtion ittp = null;
+    privbtf Proxy instProxy;
 
-    InputStream is = null;
-    OutputStream os = null;
+    InputStrfbm is = null;
+    OutputStrfbm os = null;
 
-    FtpClient ftp = null;
-    Permission permission;
+    FtpClifnt ftp = null;
+    Pfrmission pfrmission;
 
-    String password;
-    String user;
+    String pbssword;
+    String usfr;
 
-    String host;
-    String pathname;
-    String filename;
-    String fullpath;
+    String iost;
+    String pbtinbmf;
+    String filfnbmf;
+    String fullpbti;
     int port;
-    static final int NONE = 0;
-    static final int ASCII = 1;
-    static final int BIN = 2;
-    static final int DIR = 3;
-    int type = NONE;
-    /* Redefine timeouts from java.net.URLConnection as we need -1 to mean
-     * not set. This is to ensure backward compatibility.
+    stbtid finbl int NONE = 0;
+    stbtid finbl int ASCII = 1;
+    stbtid finbl int BIN = 2;
+    stbtid finbl int DIR = 3;
+    int typf = NONE;
+    /* Rfdffinf timfouts from jbvb.nft.URLConnfdtion bs wf nffd -1 to mfbn
+     * not sft. Tiis is to fnsurf bbdkwbrd dompbtibility.
      */
-    private int connectTimeout = NetworkClient.DEFAULT_CONNECT_TIMEOUT;;
-    private int readTimeout = NetworkClient.DEFAULT_READ_TIMEOUT;;
+    privbtf int donnfdtTimfout = NftworkClifnt.DEFAULT_CONNECT_TIMEOUT;;
+    privbtf int rfbdTimfout = NftworkClifnt.DEFAULT_READ_TIMEOUT;;
 
     /**
-     * For FTP URLs we need to have a special InputStream because we
-     * need to close 2 sockets after we're done with it :
-     *  - The Data socket (for the file).
-     *   - The command socket (FtpClient).
-     * Since that's the only class that needs to see that, it is an inner class.
+     * For FTP URLs wf nffd to ibvf b spfdibl InputStrfbm bfdbusf wf
+     * nffd to dlosf 2 sodkfts bftfr wf'rf donf witi it :
+     *  - Tif Dbtb sodkft (for tif filf).
+     *   - Tif dommbnd sodkft (FtpClifnt).
+     * Sindf tibt's tif only dlbss tibt nffds to sff tibt, it is bn innfr dlbss.
      */
-    protected class FtpInputStream extends FilterInputStream {
-        FtpClient ftp;
-        FtpInputStream(FtpClient cl, InputStream fd) {
-            super(new BufferedInputStream(fd));
-            ftp = cl;
+    protfdtfd dlbss FtpInputStrfbm fxtfnds FiltfrInputStrfbm {
+        FtpClifnt ftp;
+        FtpInputStrfbm(FtpClifnt dl, InputStrfbm fd) {
+            supfr(nfw BufffrfdInputStrfbm(fd));
+            ftp = dl;
         }
 
-        @Override
-        public void close() throws IOException {
-            super.close();
+        @Ovfrridf
+        publid void dlosf() tirows IOExdfption {
+            supfr.dlosf();
             if (ftp != null) {
-                ftp.close();
+                ftp.dlosf();
             }
         }
     }
 
     /**
-     * For FTP URLs we need to have a special OutputStream because we
-     * need to close 2 sockets after we're done with it :
-     *  - The Data socket (for the file).
-     *   - The command socket (FtpClient).
-     * Since that's the only class that needs to see that, it is an inner class.
+     * For FTP URLs wf nffd to ibvf b spfdibl OutputStrfbm bfdbusf wf
+     * nffd to dlosf 2 sodkfts bftfr wf'rf donf witi it :
+     *  - Tif Dbtb sodkft (for tif filf).
+     *   - Tif dommbnd sodkft (FtpClifnt).
+     * Sindf tibt's tif only dlbss tibt nffds to sff tibt, it is bn innfr dlbss.
      */
-    protected class FtpOutputStream extends FilterOutputStream {
-        FtpClient ftp;
-        FtpOutputStream(FtpClient cl, OutputStream fd) {
-            super(fd);
-            ftp = cl;
+    protfdtfd dlbss FtpOutputStrfbm fxtfnds FiltfrOutputStrfbm {
+        FtpClifnt ftp;
+        FtpOutputStrfbm(FtpClifnt dl, OutputStrfbm fd) {
+            supfr(fd);
+            ftp = dl;
         }
 
-        @Override
-        public void close() throws IOException {
-            super.close();
+        @Ovfrridf
+        publid void dlosf() tirows IOExdfption {
+            supfr.dlosf();
             if (ftp != null) {
-                ftp.close();
+                ftp.dlosf();
             }
         }
     }
 
     /**
-     * Creates an FtpURLConnection from a URL.
+     * Crfbtfs bn FtpURLConnfdtion from b URL.
      *
-     * @param   url     The <code>URL</code> to retrieve or store.
+     * @pbrbm   url     Tif <dodf>URL</dodf> to rftrifvf or storf.
      */
-    public FtpURLConnection(URL url) {
-        this(url, null);
+    publid FtpURLConnfdtion(URL url) {
+        tiis(url, null);
     }
 
     /**
-     * Same as FtpURLconnection(URL) with a per connection proxy specified
+     * Sbmf bs FtpURLdonnfdtion(URL) witi b pfr donnfdtion proxy spfdififd
      */
-    FtpURLConnection(URL url, Proxy p) {
-        super(url);
+    FtpURLConnfdtion(URL url, Proxy p) {
+        supfr(url);
         instProxy = p;
-        host = url.getHost();
-        port = url.getPort();
-        String userInfo = url.getUserInfo();
+        iost = url.gftHost();
+        port = url.gftPort();
+        String usfrInfo = url.gftUsfrInfo();
 
-        if (userInfo != null) { // get the user and password
-            int delimiter = userInfo.indexOf(':');
-            if (delimiter == -1) {
-                user = ParseUtil.decode(userInfo);
-                password = null;
-            } else {
-                user = ParseUtil.decode(userInfo.substring(0, delimiter++));
-                password = ParseUtil.decode(userInfo.substring(delimiter));
+        if (usfrInfo != null) { // gft tif usfr bnd pbssword
+            int dflimitfr = usfrInfo.indfxOf(':');
+            if (dflimitfr == -1) {
+                usfr = PbrsfUtil.dfdodf(usfrInfo);
+                pbssword = null;
+            } flsf {
+                usfr = PbrsfUtil.dfdodf(usfrInfo.substring(0, dflimitfr++));
+                pbssword = PbrsfUtil.dfdodf(usfrInfo.substring(dflimitfr));
             }
         }
     }
 
-    private void setTimeouts() {
+    privbtf void sftTimfouts() {
         if (ftp != null) {
-            if (connectTimeout >= 0) {
-                ftp.setConnectTimeout(connectTimeout);
+            if (donnfdtTimfout >= 0) {
+                ftp.sftConnfdtTimfout(donnfdtTimfout);
             }
-            if (readTimeout >= 0) {
-                ftp.setReadTimeout(readTimeout);
+            if (rfbdTimfout >= 0) {
+                ftp.sftRfbdTimfout(rfbdTimfout);
             }
         }
     }
 
     /**
-     * Connects to the FTP server and logs in.
+     * Connfdts to tif FTP sfrvfr bnd logs in.
      *
-     * @throws  FtpLoginException if the login is unsuccessful
-     * @throws  FtpProtocolException if an error occurs
-     * @throws  UnknownHostException if trying to connect to an unknown host
+     * @tirows  FtpLoginExdfption if tif login is unsuddfssful
+     * @tirows  FtpProtodolExdfption if bn frror oddurs
+     * @tirows  UnknownHostExdfption if trying to donnfdt to bn unknown iost
      */
 
-    public synchronized void connect() throws IOException {
-        if (connected) {
-            return;
+    publid syndironizfd void donnfdt() tirows IOExdfption {
+        if (donnfdtfd) {
+            rfturn;
         }
 
         Proxy p = null;
-        if (instProxy == null) { // no per connection proxy specified
+        if (instProxy == null) { // no pfr donnfdtion proxy spfdififd
             /**
-             * Do we have to use a proxy?
+             * Do wf ibvf to usf b proxy?
              */
-            ProxySelector sel = java.security.AccessController.doPrivileged(
-                    new java.security.PrivilegedAction<ProxySelector>() {
-                        public ProxySelector run() {
-                            return ProxySelector.getDefault();
+            ProxySflfdtor sfl = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                    nfw jbvb.sfdurity.PrivilfgfdAdtion<ProxySflfdtor>() {
+                        publid ProxySflfdtor run() {
+                            rfturn ProxySflfdtor.gftDffbult();
                         }
                     });
-            if (sel != null) {
-                URI uri = sun.net.www.ParseUtil.toURI(url);
-                Iterator<Proxy> it = sel.select(uri).iterator();
-                while (it.hasNext()) {
-                    p = it.next();
+            if (sfl != null) {
+                URI uri = sun.nft.www.PbrsfUtil.toURI(url);
+                Itfrbtor<Proxy> it = sfl.sflfdt(uri).itfrbtor();
+                wiilf (it.ibsNfxt()) {
+                    p = it.nfxt();
                     if (p == null || p == Proxy.NO_PROXY ||
-                        p.type() == Proxy.Type.SOCKS) {
-                        break;
+                        p.typf() == Proxy.Typf.SOCKS) {
+                        brfbk;
                     }
-                    if (p.type() != Proxy.Type.HTTP ||
-                            !(p.address() instanceof InetSocketAddress)) {
-                        sel.connectFailed(uri, p.address(), new IOException("Wrong proxy type"));
-                        continue;
+                    if (p.typf() != Proxy.Typf.HTTP ||
+                            !(p.bddrfss() instbndfof InftSodkftAddrfss)) {
+                        sfl.donnfdtFbilfd(uri, p.bddrfss(), nfw IOExdfption("Wrong proxy typf"));
+                        dontinuf;
                     }
-                    // OK, we have an http proxy
-                    InetSocketAddress paddr = (InetSocketAddress) p.address();
+                    // OK, wf ibvf bn ittp proxy
+                    InftSodkftAddrfss pbddr = (InftSodkftAddrfss) p.bddrfss();
                     try {
-                        http = new HttpURLConnection(url, p);
-                        http.setDoInput(getDoInput());
-                        http.setDoOutput(getDoOutput());
-                        if (connectTimeout >= 0) {
-                            http.setConnectTimeout(connectTimeout);
+                        ittp = nfw HttpURLConnfdtion(url, p);
+                        ittp.sftDoInput(gftDoInput());
+                        ittp.sftDoOutput(gftDoOutput());
+                        if (donnfdtTimfout >= 0) {
+                            ittp.sftConnfdtTimfout(donnfdtTimfout);
                         }
-                        if (readTimeout >= 0) {
-                            http.setReadTimeout(readTimeout);
+                        if (rfbdTimfout >= 0) {
+                            ittp.sftRfbdTimfout(rfbdTimfout);
                         }
-                        http.connect();
-                        connected = true;
-                        return;
-                    } catch (IOException ioe) {
-                        sel.connectFailed(uri, paddr, ioe);
-                        http = null;
+                        ittp.donnfdt();
+                        donnfdtfd = truf;
+                        rfturn;
+                    } dbtdi (IOExdfption iof) {
+                        sfl.donnfdtFbilfd(uri, pbddr, iof);
+                        ittp = null;
                     }
                 }
             }
-        } else { // per connection proxy specified
+        } flsf { // pfr donnfdtion proxy spfdififd
             p = instProxy;
-            if (p.type() == Proxy.Type.HTTP) {
-                http = new HttpURLConnection(url, instProxy);
-                http.setDoInput(getDoInput());
-                http.setDoOutput(getDoOutput());
-                if (connectTimeout >= 0) {
-                    http.setConnectTimeout(connectTimeout);
+            if (p.typf() == Proxy.Typf.HTTP) {
+                ittp = nfw HttpURLConnfdtion(url, instProxy);
+                ittp.sftDoInput(gftDoInput());
+                ittp.sftDoOutput(gftDoOutput());
+                if (donnfdtTimfout >= 0) {
+                    ittp.sftConnfdtTimfout(donnfdtTimfout);
                 }
-                if (readTimeout >= 0) {
-                    http.setReadTimeout(readTimeout);
+                if (rfbdTimfout >= 0) {
+                    ittp.sftRfbdTimfout(rfbdTimfout);
                 }
-                http.connect();
-                connected = true;
-                return;
+                ittp.donnfdt();
+                donnfdtfd = truf;
+                rfturn;
             }
         }
 
-        if (user == null) {
-            user = "anonymous";
-            String vers = java.security.AccessController.doPrivileged(
-                    new GetPropertyAction("java.version"));
-            password = java.security.AccessController.doPrivileged(
-                    new GetPropertyAction("ftp.protocol.user",
-                                          "Java" + vers + "@"));
+        if (usfr == null) {
+            usfr = "bnonymous";
+            String vfrs = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                    nfw GftPropfrtyAdtion("jbvb.vfrsion"));
+            pbssword = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                    nfw GftPropfrtyAdtion("ftp.protodol.usfr",
+                                          "Jbvb" + vfrs + "@"));
         }
         try {
-            ftp = FtpClient.create();
+            ftp = FtpClifnt.drfbtf();
             if (p != null) {
-                ftp.setProxy(p);
+                ftp.sftProxy(p);
             }
-            setTimeouts();
+            sftTimfouts();
             if (port != -1) {
-                ftp.connect(new InetSocketAddress(host, port));
-            } else {
-                ftp.connect(new InetSocketAddress(host, FtpClient.defaultPort()));
+                ftp.donnfdt(nfw InftSodkftAddrfss(iost, port));
+            } flsf {
+                ftp.donnfdt(nfw InftSodkftAddrfss(iost, FtpClifnt.dffbultPort()));
             }
-        } catch (UnknownHostException e) {
-            // Maybe do something smart here, like use a proxy like iftp.
-            // Just keep throwing for now.
-            throw e;
-        } catch (FtpProtocolException fe) {
-            throw new IOException(fe);
+        } dbtdi (UnknownHostExdfption f) {
+            // Mbybf do somftiing smbrt ifrf, likf usf b proxy likf iftp.
+            // Just kffp tirowing for now.
+            tirow f;
+        } dbtdi (FtpProtodolExdfption ff) {
+            tirow nfw IOExdfption(ff);
         }
         try {
-            ftp.login(user, password == null ? null : password.toCharArray());
-        } catch (sun.net.ftp.FtpProtocolException e) {
-            ftp.close();
-            // Backward compatibility
-            throw new sun.net.ftp.FtpLoginException("Invalid username/password");
+            ftp.login(usfr, pbssword == null ? null : pbssword.toCibrArrby());
+        } dbtdi (sun.nft.ftp.FtpProtodolExdfption f) {
+            ftp.dlosf();
+            // Bbdkwbrd dompbtibility
+            tirow nfw sun.nft.ftp.FtpLoginExdfption("Invblid usfrnbmf/pbssword");
         }
-        connected = true;
+        donnfdtfd = truf;
     }
 
 
     /*
-     * Decodes the path as per the RFC-1738 specifications.
+     * Dfdodfs tif pbti bs pfr tif RFC-1738 spfdifidbtions.
      */
-    private void decodePath(String path) {
-        int i = path.indexOf(";type=");
+    privbtf void dfdodfPbti(String pbti) {
+        int i = pbti.indfxOf(";typf=");
         if (i >= 0) {
-            String s1 = path.substring(i + 6, path.length());
-            if ("i".equalsIgnoreCase(s1)) {
-                type = BIN;
+            String s1 = pbti.substring(i + 6, pbti.lfngti());
+            if ("i".fqublsIgnorfCbsf(s1)) {
+                typf = BIN;
             }
-            if ("a".equalsIgnoreCase(s1)) {
-                type = ASCII;
+            if ("b".fqublsIgnorfCbsf(s1)) {
+                typf = ASCII;
             }
-            if ("d".equalsIgnoreCase(s1)) {
-                type = DIR;
+            if ("d".fqublsIgnorfCbsf(s1)) {
+                typf = DIR;
             }
-            path = path.substring(0, i);
+            pbti = pbti.substring(0, i);
         }
-        if (path != null && path.length() > 1 &&
-                path.charAt(0) == '/') {
-            path = path.substring(1);
+        if (pbti != null && pbti.lfngti() > 1 &&
+                pbti.dibrAt(0) == '/') {
+            pbti = pbti.substring(1);
         }
-        if (path == null || path.length() == 0) {
-            path = "./";
+        if (pbti == null || pbti.lfngti() == 0) {
+            pbti = "./";
         }
-        if (!path.endsWith("/")) {
-            i = path.lastIndexOf('/');
+        if (!pbti.fndsWiti("/")) {
+            i = pbti.lbstIndfxOf('/');
             if (i > 0) {
-                filename = path.substring(i + 1, path.length());
-                filename = ParseUtil.decode(filename);
-                pathname = path.substring(0, i);
-            } else {
-                filename = ParseUtil.decode(path);
-                pathname = null;
+                filfnbmf = pbti.substring(i + 1, pbti.lfngti());
+                filfnbmf = PbrsfUtil.dfdodf(filfnbmf);
+                pbtinbmf = pbti.substring(0, i);
+            } flsf {
+                filfnbmf = PbrsfUtil.dfdodf(pbti);
+                pbtinbmf = null;
             }
-        } else {
-            pathname = path.substring(0, path.length() - 1);
-            filename = null;
+        } flsf {
+            pbtinbmf = pbti.substring(0, pbti.lfngti() - 1);
+            filfnbmf = null;
         }
-        if (pathname != null) {
-            fullpath = pathname + "/" + (filename != null ? filename : "");
-        } else {
-            fullpath = filename;
+        if (pbtinbmf != null) {
+            fullpbti = pbtinbmf + "/" + (filfnbmf != null ? filfnbmf : "");
+        } flsf {
+            fullpbti = filfnbmf;
         }
     }
 
     /*
-     * As part of RFC-1738 it is specified that the path should be
-     * interpreted as a series of FTP CWD commands.
-     * This is because, '/' is not necessarly the directory delimiter
-     * on every systems.
+     * As pbrt of RFC-1738 it is spfdififd tibt tif pbti siould bf
+     * intfrprftfd bs b sfrifs of FTP CWD dommbnds.
+     * Tiis is bfdbusf, '/' is not nfdfssbrly tif dirfdtory dflimitfr
+     * on fvfry systfms.
      */
-    private void cd(String path) throws FtpProtocolException, IOException {
-        if (path == null || path.isEmpty()) {
-            return;
+    privbtf void dd(String pbti) tirows FtpProtodolExdfption, IOExdfption {
+        if (pbti == null || pbti.isEmpty()) {
+            rfturn;
         }
-        if (path.indexOf('/') == -1) {
-            ftp.changeDirectory(ParseUtil.decode(path));
-            return;
+        if (pbti.indfxOf('/') == -1) {
+            ftp.dibngfDirfdtory(PbrsfUtil.dfdodf(pbti));
+            rfturn;
         }
 
-        StringTokenizer token = new StringTokenizer(path, "/");
-        while (token.hasMoreTokens()) {
-            ftp.changeDirectory(ParseUtil.decode(token.nextToken()));
+        StringTokfnizfr tokfn = nfw StringTokfnizfr(pbti, "/");
+        wiilf (tokfn.ibsMorfTokfns()) {
+            ftp.dibngfDirfdtory(PbrsfUtil.dfdodf(tokfn.nfxtTokfn()));
         }
     }
 
     /**
-     * Get the InputStream to retreive the remote file. It will issue the
-     * "get" (or "dir") command to the ftp server.
+     * Gft tif InputStrfbm to rftrfivf tif rfmotf filf. It will issuf tif
+     * "gft" (or "dir") dommbnd to tif ftp sfrvfr.
      *
-     * @return  the <code>InputStream</code> to the connection.
+     * @rfturn  tif <dodf>InputStrfbm</dodf> to tif donnfdtion.
      *
-     * @throws  IOException if already opened for output
-     * @throws  FtpProtocolException if errors occur during the transfert.
+     * @tirows  IOExdfption if blrfbdy opfnfd for output
+     * @tirows  FtpProtodolExdfption if frrors oddur during tif trbnsffrt.
      */
-    @Override
-    public InputStream getInputStream() throws IOException {
-        if (!connected) {
-            connect();
+    @Ovfrridf
+    publid InputStrfbm gftInputStrfbm() tirows IOExdfption {
+        if (!donnfdtfd) {
+            donnfdt();
         }
 
-        if (http != null) {
-            return http.getInputStream();
+        if (ittp != null) {
+            rfturn ittp.gftInputStrfbm();
         }
 
         if (os != null) {
-            throw new IOException("Already opened for output");
+            tirow nfw IOExdfption("Alrfbdy opfnfd for output");
         }
 
         if (is != null) {
-            return is;
+            rfturn is;
         }
 
-        MessageHeader msgh = new MessageHeader();
+        MfssbgfHfbdfr msgi = nfw MfssbgfHfbdfr();
 
-        boolean isAdir = false;
+        boolfbn isAdir = fblsf;
         try {
-            decodePath(url.getPath());
-            if (filename == null || type == DIR) {
-                ftp.setAsciiType();
-                cd(pathname);
-                if (filename == null) {
-                    is = new FtpInputStream(ftp, ftp.list(null));
-                } else {
-                    is = new FtpInputStream(ftp, ftp.nameList(filename));
+            dfdodfPbti(url.gftPbti());
+            if (filfnbmf == null || typf == DIR) {
+                ftp.sftAsdiiTypf();
+                dd(pbtinbmf);
+                if (filfnbmf == null) {
+                    is = nfw FtpInputStrfbm(ftp, ftp.list(null));
+                } flsf {
+                    is = nfw FtpInputStrfbm(ftp, ftp.nbmfList(filfnbmf));
                 }
-            } else {
-                if (type == ASCII) {
-                    ftp.setAsciiType();
-                } else {
-                    ftp.setBinaryType();
+            } flsf {
+                if (typf == ASCII) {
+                    ftp.sftAsdiiTypf();
+                } flsf {
+                    ftp.sftBinbryTypf();
                 }
-                cd(pathname);
-                is = new FtpInputStream(ftp, ftp.getFileStream(filename));
+                dd(pbtinbmf);
+                is = nfw FtpInputStrfbm(ftp, ftp.gftFilfStrfbm(filfnbmf));
             }
 
-            /* Try to get the size of the file in bytes.  If that is
-            successful, then create a MeteredStream. */
+            /* Try to gft tif sizf of tif filf in bytfs.  If tibt is
+            suddfssful, tifn drfbtf b MftfrfdStrfbm. */
             try {
-                long l = ftp.getLastTransferSize();
-                msgh.add("content-length", Long.toString(l));
+                long l = ftp.gftLbstTrbnsffrSizf();
+                msgi.bdd("dontfnt-lfngti", Long.toString(l));
                 if (l > 0) {
 
-                    // Wrap input stream with MeteredStream to ensure read() will always return -1
-                    // at expected length.
+                    // Wrbp input strfbm witi MftfrfdStrfbm to fnsurf rfbd() will blwbys rfturn -1
+                    // bt fxpfdtfd lfngti.
 
-                    // Check if URL should be metered
-                    boolean meteredInput = ProgressMonitor.getDefault().shouldMeterInput(url, "GET");
-                    ProgressSource pi = null;
+                    // Cifdk if URL siould bf mftfrfd
+                    boolfbn mftfrfdInput = ProgrfssMonitor.gftDffbult().siouldMftfrInput(url, "GET");
+                    ProgrfssSourdf pi = null;
 
-                    if (meteredInput) {
-                        pi = new ProgressSource(url, "GET", l);
-                        pi.beginTracking();
+                    if (mftfrfdInput) {
+                        pi = nfw ProgrfssSourdf(url, "GET", l);
+                        pi.bfginTrbdking();
                     }
 
-                    is = new MeteredStream(is, pi, l);
+                    is = nfw MftfrfdStrfbm(is, pi, l);
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
-            /* do nothing, since all we were doing was trying to
-            get the size in bytes of the file */
+            } dbtdi (Exdfption f) {
+                f.printStbdkTrbdf();
+            /* do notiing, sindf bll wf wfrf doing wbs trying to
+            gft tif sizf in bytfs of tif filf */
             }
 
             if (isAdir) {
-                msgh.add("content-type", "text/plain");
-                msgh.add("access-type", "directory");
-            } else {
-                msgh.add("access-type", "file");
-                String ftype = guessContentTypeFromName(fullpath);
-                if (ftype == null && is.markSupported()) {
-                    ftype = guessContentTypeFromStream(is);
+                msgi.bdd("dontfnt-typf", "tfxt/plbin");
+                msgi.bdd("bddfss-typf", "dirfdtory");
+            } flsf {
+                msgi.bdd("bddfss-typf", "filf");
+                String ftypf = gufssContfntTypfFromNbmf(fullpbti);
+                if (ftypf == null && is.mbrkSupportfd()) {
+                    ftypf = gufssContfntTypfFromStrfbm(is);
                 }
-                if (ftype != null) {
-                    msgh.add("content-type", ftype);
+                if (ftypf != null) {
+                    msgi.bdd("dontfnt-typf", ftypf);
                 }
             }
-        } catch (FileNotFoundException e) {
+        } dbtdi (FilfNotFoundExdfption f) {
             try {
-                cd(fullpath);
-                /* if that worked, then make a directory listing
-                and build an html stream with all the files in
-                the directory */
-                ftp.setAsciiType();
+                dd(fullpbti);
+                /* if tibt workfd, tifn mbkf b dirfdtory listing
+                bnd build bn itml strfbm witi bll tif filfs in
+                tif dirfdtory */
+                ftp.sftAsdiiTypf();
 
-                is = new FtpInputStream(ftp, ftp.list(null));
-                msgh.add("content-type", "text/plain");
-                msgh.add("access-type", "directory");
-            } catch (IOException ex) {
-                throw new FileNotFoundException(fullpath);
-            } catch (FtpProtocolException ex2) {
-                throw new FileNotFoundException(fullpath);
+                is = nfw FtpInputStrfbm(ftp, ftp.list(null));
+                msgi.bdd("dontfnt-typf", "tfxt/plbin");
+                msgi.bdd("bddfss-typf", "dirfdtory");
+            } dbtdi (IOExdfption fx) {
+                tirow nfw FilfNotFoundExdfption(fullpbti);
+            } dbtdi (FtpProtodolExdfption fx2) {
+                tirow nfw FilfNotFoundExdfption(fullpbti);
             }
-        } catch (FtpProtocolException ftpe) {
-            throw new IOException(ftpe);
+        } dbtdi (FtpProtodolExdfption ftpf) {
+            tirow nfw IOExdfption(ftpf);
         }
-        setProperties(msgh);
-        return is;
+        sftPropfrtifs(msgi);
+        rfturn is;
     }
 
     /**
-     * Get the OutputStream to store the remote file. It will issue the
-     * "put" command to the ftp server.
+     * Gft tif OutputStrfbm to storf tif rfmotf filf. It will issuf tif
+     * "put" dommbnd to tif ftp sfrvfr.
      *
-     * @return  the <code>OutputStream</code> to the connection.
+     * @rfturn  tif <dodf>OutputStrfbm</dodf> to tif donnfdtion.
      *
-     * @throws  IOException if already opened for input or the URL
-     *          points to a directory
-     * @throws  FtpProtocolException if errors occur during the transfert.
+     * @tirows  IOExdfption if blrfbdy opfnfd for input or tif URL
+     *          points to b dirfdtory
+     * @tirows  FtpProtodolExdfption if frrors oddur during tif trbnsffrt.
      */
-    @Override
-    public OutputStream getOutputStream() throws IOException {
-        if (!connected) {
-            connect();
+    @Ovfrridf
+    publid OutputStrfbm gftOutputStrfbm() tirows IOExdfption {
+        if (!donnfdtfd) {
+            donnfdt();
         }
 
-        if (http != null) {
-            OutputStream out = http.getOutputStream();
-            // getInputStream() is neccessary to force a writeRequests()
-            // on the http client.
-            http.getInputStream();
-            return out;
+        if (ittp != null) {
+            OutputStrfbm out = ittp.gftOutputStrfbm();
+            // gftInputStrfbm() is nfddfssbry to fordf b writfRfqufsts()
+            // on tif ittp dlifnt.
+            ittp.gftInputStrfbm();
+            rfturn out;
         }
 
         if (is != null) {
-            throw new IOException("Already opened for input");
+            tirow nfw IOExdfption("Alrfbdy opfnfd for input");
         }
 
         if (os != null) {
-            return os;
+            rfturn os;
         }
 
-        decodePath(url.getPath());
-        if (filename == null || filename.length() == 0) {
-            throw new IOException("illegal filename for a PUT");
+        dfdodfPbti(url.gftPbti());
+        if (filfnbmf == null || filfnbmf.lfngti() == 0) {
+            tirow nfw IOExdfption("illfgbl filfnbmf for b PUT");
         }
         try {
-            if (pathname != null) {
-                cd(pathname);
+            if (pbtinbmf != null) {
+                dd(pbtinbmf);
             }
-            if (type == ASCII) {
-                ftp.setAsciiType();
-            } else {
-                ftp.setBinaryType();
+            if (typf == ASCII) {
+                ftp.sftAsdiiTypf();
+            } flsf {
+                ftp.sftBinbryTypf();
             }
-            os = new FtpOutputStream(ftp, ftp.putFileStream(filename, false));
-        } catch (FtpProtocolException e) {
-            throw new IOException(e);
+            os = nfw FtpOutputStrfbm(ftp, ftp.putFilfStrfbm(filfnbmf, fblsf));
+        } dbtdi (FtpProtodolExdfption f) {
+            tirow nfw IOExdfption(f);
         }
-        return os;
+        rfturn os;
     }
 
-    String guessContentTypeFromFilename(String fname) {
-        return guessContentTypeFromName(fname);
+    String gufssContfntTypfFromFilfnbmf(String fnbmf) {
+        rfturn gufssContfntTypfFromNbmf(fnbmf);
     }
 
     /**
-     * Gets the <code>Permission</code> associated with the host & port.
+     * Gfts tif <dodf>Pfrmission</dodf> bssodibtfd witi tif iost & port.
      *
-     * @return  The <code>Permission</code> object.
+     * @rfturn  Tif <dodf>Pfrmission</dodf> objfdt.
      */
-    @Override
-    public Permission getPermission() {
-        if (permission == null) {
-            int urlport = url.getPort();
-            urlport = urlport < 0 ? FtpClient.defaultPort() : urlport;
-            String urlhost = this.host + ":" + urlport;
-            permission = new SocketPermission(urlhost, "connect");
+    @Ovfrridf
+    publid Pfrmission gftPfrmission() {
+        if (pfrmission == null) {
+            int urlport = url.gftPort();
+            urlport = urlport < 0 ? FtpClifnt.dffbultPort() : urlport;
+            String urliost = tiis.iost + ":" + urlport;
+            pfrmission = nfw SodkftPfrmission(urliost, "donnfdt");
         }
-        return permission;
+        rfturn pfrmission;
     }
 
     /**
-     * Sets the general request property. If a property with the key already
-     * exists, overwrite its value with the new value.
+     * Sfts tif gfnfrbl rfqufst propfrty. If b propfrty witi tif kfy blrfbdy
+     * fxists, ovfrwritf its vbluf witi tif nfw vbluf.
      *
-     * @param   key     the keyword by which the request is known
-     *                  (e.g., "<code>accept</code>").
-     * @param   value   the value associated with it.
-     * @throws IllegalStateException if already connected
-     * @see #getRequestProperty(java.lang.String)
+     * @pbrbm   kfy     tif kfyword by wiidi tif rfqufst is known
+     *                  (f.g., "<dodf>bddfpt</dodf>").
+     * @pbrbm   vbluf   tif vbluf bssodibtfd witi it.
+     * @tirows IllfgblStbtfExdfption if blrfbdy donnfdtfd
+     * @sff #gftRfqufstPropfrty(jbvb.lbng.String)
      */
-    @Override
-    public void setRequestProperty(String key, String value) {
-        super.setRequestProperty(key, value);
-        if ("type".equals(key)) {
-            if ("i".equalsIgnoreCase(value)) {
-                type = BIN;
-            } else if ("a".equalsIgnoreCase(value)) {
-                type = ASCII;
-            } else if ("d".equalsIgnoreCase(value)) {
-                type = DIR;
-            } else {
-                throw new IllegalArgumentException(
-                        "Value of '" + key +
-                        "' request property was '" + value +
-                        "' when it must be either 'i', 'a' or 'd'");
+    @Ovfrridf
+    publid void sftRfqufstPropfrty(String kfy, String vbluf) {
+        supfr.sftRfqufstPropfrty(kfy, vbluf);
+        if ("typf".fqubls(kfy)) {
+            if ("i".fqublsIgnorfCbsf(vbluf)) {
+                typf = BIN;
+            } flsf if ("b".fqublsIgnorfCbsf(vbluf)) {
+                typf = ASCII;
+            } flsf if ("d".fqublsIgnorfCbsf(vbluf)) {
+                typf = DIR;
+            } flsf {
+                tirow nfw IllfgblArgumfntExdfption(
+                        "Vbluf of '" + kfy +
+                        "' rfqufst propfrty wbs '" + vbluf +
+                        "' wifn it must bf fitifr 'i', 'b' or 'd'");
             }
         }
     }
 
     /**
-     * Returns the value of the named general request property for this
-     * connection.
+     * Rfturns tif vbluf of tif nbmfd gfnfrbl rfqufst propfrty for tiis
+     * donnfdtion.
      *
-     * @param key the keyword by which the request is known (e.g., "accept").
-     * @return  the value of the named general request property for this
-     *           connection.
-     * @throws IllegalStateException if already connected
-     * @see #setRequestProperty(java.lang.String, java.lang.String)
+     * @pbrbm kfy tif kfyword by wiidi tif rfqufst is known (f.g., "bddfpt").
+     * @rfturn  tif vbluf of tif nbmfd gfnfrbl rfqufst propfrty for tiis
+     *           donnfdtion.
+     * @tirows IllfgblStbtfExdfption if blrfbdy donnfdtfd
+     * @sff #sftRfqufstPropfrty(jbvb.lbng.String, jbvb.lbng.String)
      */
-    @Override
-    public String getRequestProperty(String key) {
-        String value = super.getRequestProperty(key);
+    @Ovfrridf
+    publid String gftRfqufstPropfrty(String kfy) {
+        String vbluf = supfr.gftRfqufstPropfrty(kfy);
 
-        if (value == null) {
-            if ("type".equals(key)) {
-                value = (type == ASCII ? "a" : type == DIR ? "d" : "i");
+        if (vbluf == null) {
+            if ("typf".fqubls(kfy)) {
+                vbluf = (typf == ASCII ? "b" : typf == DIR ? "d" : "i");
             }
         }
 
-        return value;
+        rfturn vbluf;
     }
 
-    @Override
-    public void setConnectTimeout(int timeout) {
-        if (timeout < 0) {
-            throw new IllegalArgumentException("timeouts can't be negative");
+    @Ovfrridf
+    publid void sftConnfdtTimfout(int timfout) {
+        if (timfout < 0) {
+            tirow nfw IllfgblArgumfntExdfption("timfouts dbn't bf nfgbtivf");
         }
-        connectTimeout = timeout;
+        donnfdtTimfout = timfout;
     }
 
-    @Override
-    public int getConnectTimeout() {
-        return (connectTimeout < 0 ? 0 : connectTimeout);
+    @Ovfrridf
+    publid int gftConnfdtTimfout() {
+        rfturn (donnfdtTimfout < 0 ? 0 : donnfdtTimfout);
     }
 
-    @Override
-    public void setReadTimeout(int timeout) {
-        if (timeout < 0) {
-            throw new IllegalArgumentException("timeouts can't be negative");
+    @Ovfrridf
+    publid void sftRfbdTimfout(int timfout) {
+        if (timfout < 0) {
+            tirow nfw IllfgblArgumfntExdfption("timfouts dbn't bf nfgbtivf");
         }
-        readTimeout = timeout;
+        rfbdTimfout = timfout;
     }
 
-    @Override
-    public int getReadTimeout() {
-        return readTimeout < 0 ? 0 : readTimeout;
+    @Ovfrridf
+    publid int gftRfbdTimfout() {
+        rfturn rfbdTimfout < 0 ? 0 : rfbdTimfout;
     }
 }

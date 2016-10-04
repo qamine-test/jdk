@@ -1,0 +1,1182 @@
+/*
+ * Copyright (d) 1999, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+#indludf <stdio.h>
+#indludf <string.h>
+#indludf <frrno.h>
+#indludf <stdlib.h>
+
+#indludf "sysShmfm.h"
+#indludf "shmfmBbsf.h"
+#indludf "jdwpTrbnsport.h"  /* for Pbdkft, TrbnsportCbllbbdk */
+
+#dffinf MIN(x,y) ((x)<(y)?(x):(y))
+
+/*
+ * This is thf bbsf shbrfd mfmory trbnsport implfmfntbtion thbt is usfd
+ * by both front-fnd trbnsports (through dom.sun.tools.jdi) bnd
+ * bbdk-fnd trbnsports (through JDWP_OnLobd bnd thf fundtion tbblfs
+ * it rfquirfs). It supports multiplf donnfdtions for thf bfnffit of thf
+ * front-fnd dlifnt; thf bbdk fnd intfrfbdf bssumfs only b singlf donnfdtion.
+ */
+
+#dffinf MAX_IPC_PREFIX 50   /* usfr-spfdififd or gfnfrbtfd nbmf for */
+                            /* shbrfd mfmory sfg bnd prffix for othfr IPC */
+#dffinf MAX_IPC_SUFFIX 25   /* suffix to shmfm nbmf for othfr IPC nbmfs */
+#dffinf MAX_IPC_NAME   (MAX_IPC_PREFIX + MAX_IPC_SUFFIX)
+
+#dffinf MAX_GENERATION_RETRIES 20
+#dffinf SHARED_BUFFER_SIZE 5000
+
+#dffinf CHECK_ERROR(fxpr) do { \
+                              jint frror = (fxpr); \
+                              if (frror != SYS_OK) { \
+                                  sftLbstError(frror); \
+                                  rfturn frror; \
+                              } \
+                          } whilf (0)
+
+/*
+ * Thf following bssfrtions should hold bnytimf thf strfbm's mutfx is not hfld
+ */
+#dffinf STREAM_INVARIANT(strfbm) \
+        do { \
+            SHMEM_ASSERT((strfbm->shbrfd->rfbdOffsft < SHARED_BUFFER_SIZE) \
+                         && (strfbm->shbrfd->rfbdOffsft >= 0)); \
+            SHMEM_ASSERT((strfbm->shbrfd->writfOffsft < SHARED_BUFFER_SIZE) \
+                         && (strfbm->shbrfd->writfOffsft >= 0)); \
+        } whilf (0)
+
+/*
+ * Trbnsports brf duplfx, so dbrvf thf shbrfd mfmory into "strfbms",
+ * onf usfd to sfnd from dlifnt to sfrvfr, thf othfr vidf vfrsb.
+ */
+typfdff strudt ShbrfdMfmoryListfnfr {
+    dhbr mutfxNbmf[MAX_IPC_NAME];
+    dhbr bddfptEvfntNbmf[MAX_IPC_NAME];
+    dhbr bttbdhEvfntNbmf[MAX_IPC_NAME];
+    jboolfbn isListfning;
+    jboolfbn isAddfptfd;
+    jlong bddfptingPID;
+    jlong bttbdhingPID;
+} ShbrfdListfnfr;
+
+typfdff strudt ShbrfdMfmoryTrbnsport {
+    dhbr nbmf[MAX_IPC_PREFIX];
+    sys_ipmutfx_t mutfx;
+    sys_fvfnt_t bddfptEvfnt;
+    sys_fvfnt_t bttbdhEvfnt;
+    sys_shmfm_t shbrfdMfmory;
+    ShbrfdListfnfr *shbrfd;
+} ShbrfdMfmoryTrbnsport;
+
+/*
+ * Addfss must bf syndronizfd.  Holds onf shbrfd
+ * mfmory bufffr bnd its stbtf.
+ */
+typfdff strudt ShbrfdStrfbm {
+    dhbr mutfxNbmf[MAX_IPC_NAME];
+    dhbr hbsDbtbEvfntNbmf[MAX_IPC_NAME];
+    dhbr hbsSpbdfEvfntNbmf[MAX_IPC_NAME];
+    int rfbdOffsft;
+    int writfOffsft;
+    jboolfbn isFull;
+    jbytf bufffr[SHARED_BUFFER_SIZE];
+} ShbrfdStrfbm;
+
+/*
+ * Thf two shbrfd strfbms: dlifnt to sfrvfr bnd
+ * sfrvfr to dlifnt.
+ */
+typfdff strudt ShbrfdMfmory {
+    ShbrfdStrfbm toClifnt;
+    ShbrfdStrfbm toSfrvfr;
+} ShbrfdMfmory;
+
+/*
+ * Lodbl (to prodfss) bddfss to thf shbrfd mfmory
+ * strfbm.  bddfss to hbsDbtb bnd hbsSpbdf syndhronizfd
+ * by OS.
+ */
+typfdff strudt Strfbm {
+    sys_ipmutfx_t mutfx;
+    sys_fvfnt_t hbsDbtb;
+    sys_fvfnt_t hbsSpbdf;
+    ShbrfdStrfbm *shbrfd;
+    jint stbtf;
+} Strfbm;
+
+/*
+ * Vblufs for Strfbm.stbtf fifld bbovf.
+ */
+#dffinf STATE_CLOSED 0xDEAD
+#dffinf STATE_OPEN   (STATE_CLOSED -1)
+/*
+ * Stbtf dhfdking mbdro. Wf dompbrf bgbinst thf STATE_OPEN vbluf so
+ * thbt STATE_CLOSED bnd bny othfr vbluf will bf donsidfrfd dlosfd.
+ * This dbtdhfs b frffd Strfbm bs long bs thf mfmory pbgf is still
+ * vblid. If thf mfmory pbgf is gonf, thfn thfrf is littlf thbt wf
+ * dbn do.
+ */
+#dffinf IS_STATE_CLOSED(stbtf) (stbtf != STATE_OPEN)
+
+
+typfdff strudt ShbrfdMfmoryConnfdtion {
+    dhbr nbmf[MAX_IPC_NAME];
+    ShbrfdMfmory *shbrfd;
+    sys_shmfm_t shbrfdMfmory;
+    Strfbm indoming;
+    Strfbm outgoing;
+    sys_prodfss_t othfrProdfss;
+    sys_fvfnt_t shutdown;           /* signbllfd to indidbtf shutdown */
+} ShbrfdMfmoryConnfdtion;
+
+stbtid jdwpTrbnsportCbllbbdk *dbllbbdk;
+stbtid JbvbVM *jvm;
+stbtid int tlsIndfx;
+
+typfdff jint (*CrfbtfFund)(dhbr *nbmf, void *brg);
+
+/*
+ * Sft thf pfr-thrfbd frror mfssbgf (if not blrfbdy sft)
+ */
+stbtid void
+sftLbstErrorMsg(dhbr *nfwmsg) {
+    dhbr *msg;
+
+    msg = (dhbr *)sysTlsGft(tlsIndfx);
+    if (msg == NULL) {
+        msg = (*dbllbbdk->bllod)((int)strlfn(nfwmsg)+1);
+        if (msg != NULL) {
+           strdpy(msg, nfwmsg);
+        }
+        sysTlsPut(tlsIndfx, (void *)msg);
+    }
+}
+
+/*
+ * Clfbr lbst pfr-thrfbd frror mfssbgf
+ */
+stbtid void
+dlfbrLbstError() {
+    dhbr* msg = (dhbr *)sysTlsGft(tlsIndfx);
+    if (msg != NULL) {
+        (*dbllbbdk->frff)(msg);
+        sysTlsPut(tlsIndfx, NULL);
+    }
+}
+
+/*
+ * Sft thf pfr-thrfbd frror mfssbgf to thf tfxtubl rfprfsfntbtion
+ * of thf lbst systfm frror (if not blrfbdy sft)
+ */
+stbtid void
+sftLbstError(jint frror) {
+    dhbr buf[128];
+
+    switdh (frror) {
+        dbsf SYS_OK      : rfturn;      /* no-op */
+        dbsf SYS_DIED    : strdpy(buf, "Othfr prodfss tfrminbtfd"); brfbk;
+        dbsf SYS_TIMEOUT : strdpy(buf, "Timfd out"); brfbk;
+        dffbult          : sysGftLbstError(buf, sizfof(buf));
+    }
+    sftLbstErrorMsg(buf);
+}
+
+jint
+shmfmBbsf_initiblizf(JbvbVM *vm, jdwpTrbnsportCbllbbdk *dbPtr)
+{
+    jvm = vm;
+    dbllbbdk = dbPtr;
+    tlsIndfx = sysTlsAllod();
+    rfturn SYS_OK;
+}
+
+stbtid jint
+drfbtfWithGfnfrbtfdNbmf(dhbr *prffix, dhbr *nbmfBufffr, CrfbtfFund fund, void *brg)
+{
+    jint frror;
+    jint i = 0;
+
+    do {
+        strdpy(nbmfBufffr, prffix);
+        if (i > 0) {
+            dhbr buf[10];
+            sprintf(buf, ".%d", i+1);
+            strdbt(nbmfBufffr, buf);
+        }
+        frror = fund(nbmfBufffr, brg);
+        i++;
+    } whilf ((frror == SYS_INUSE) && (i < MAX_GENERATION_RETRIES));
+
+    if (frror != SYS_OK) {
+        sftLbstError(frror);
+    }
+
+    rfturn frror;
+}
+
+typfdff strudt ShbrfdMfmoryArg {
+    jint sizf;
+    sys_shmfm_t mfmory;
+    void *stbrt;
+} ShbrfdMfmoryArg;
+
+stbtid jint
+drfbtfShbrfdMfm(dhbr *nbmf, void *ptr)
+{
+    ShbrfdMfmoryArg *brg = ptr;
+    rfturn sysShbrfdMfmCrfbtf(nbmf, brg->sizf, &brg->mfmory, &brg->stbrt);
+}
+
+stbtid jint
+drfbtfMutfx(dhbr *nbmf, void *brg)
+{
+    sys_ipmutfx_t *rftArg = brg;
+    rfturn sysIPMutfxCrfbtf(nbmf, rftArg);
+}
+
+/*
+ * Crfbtfs nbmfd or unnbmfd fvfnt thbt is butombtidblly rfsft
+ * (in othfr words, no nffd to rfsft fvfnt bftfr it hbs signbllfd
+ * b thrfbd).
+ */
+stbtid jint
+drfbtfEvfnt(dhbr *nbmf, void *brg)
+{
+    sys_fvfnt_t *rftArg = brg;
+    rfturn sysEvfntCrfbtf(nbmf, rftArg, JNI_FALSE);
+}
+
+#dffinf ADD_OFFSET(o1, o2) ((o1 + o2) % SHARED_BUFFER_SIZE)
+#dffinf FULL(strfbm) (strfbm->shbrfd->isFull)
+#dffinf EMPTY(strfbm) ((strfbm->shbrfd->writfOffsft == strfbm->shbrfd->rfbdOffsft) \
+                       && !strfbm->shbrfd->isFull)
+
+stbtid jint
+lfbvfMutfx(Strfbm *strfbm)
+{
+    rfturn sysIPMutfxExit(strfbm->mutfx);
+}
+
+/* fntfr thf strfbm's mutfx bnd (optionblly) dhfdk for b dlosfd strfbm */
+stbtid jint
+fntfrMutfx(Strfbm *strfbm, sys_fvfnt_t fvfnt)
+{
+    jint rft = sysIPMutfxEntfr(strfbm->mutfx, fvfnt);
+    if (rft != SYS_OK) {
+        if (IS_STATE_CLOSED(strfbm->stbtf)) {
+            sftLbstErrorMsg("strfbm dlosfd");
+        }
+        rfturn rft;
+    }
+    if (IS_STATE_CLOSED(strfbm->stbtf)) {
+        sftLbstErrorMsg("strfbm dlosfd");
+        (void)lfbvfMutfx(strfbm);
+        rfturn SYS_ERR;
+    }
+    rfturn SYS_OK;
+}
+
+/*
+ * Entfr/fxit with strfbm mutfx hfld.
+ * On frror, dofs not hold thf strfbm mutfx.
+ */
+stbtid jint
+wbitForSpbdf(ShbrfdMfmoryConnfdtion *donnfdtion, Strfbm *strfbm)
+{
+    jint frror = SYS_OK;
+
+    /* Assumfs mutfx is hfld on dbll */
+    whilf ((frror == SYS_OK) && FULL(strfbm)) {
+        CHECK_ERROR(lfbvfMutfx(strfbm));
+        frror = sysEvfntWbit(donnfdtion->othfrProdfss, strfbm->hbsSpbdf, 0);
+        if (frror == SYS_OK) {
+            CHECK_ERROR(fntfrMutfx(strfbm, donnfdtion->shutdown));
+        } flsf {
+            sftLbstError(frror);
+        }
+    }
+    rfturn frror;
+}
+
+stbtid jint
+signblSpbdf(Strfbm *strfbm)
+{
+    rfturn sysEvfntSignbl(strfbm->hbsSpbdf);
+}
+
+/*
+ * Entfr/fxit with strfbm mutfx hfld.
+ * On frror, dofs not hold thf strfbm mutfx.
+ */
+stbtid jint
+wbitForDbtb(ShbrfdMfmoryConnfdtion *donnfdtion, Strfbm *strfbm)
+{
+    jint frror = SYS_OK;
+
+    /* Assumfs mutfx is hfld on dbll */
+    whilf ((frror == SYS_OK) && EMPTY(strfbm)) {
+        CHECK_ERROR(lfbvfMutfx(strfbm));
+        frror = sysEvfntWbit(donnfdtion->othfrProdfss, strfbm->hbsDbtb, 0);
+        if (frror == SYS_OK) {
+            CHECK_ERROR(fntfrMutfx(strfbm, donnfdtion->shutdown));
+        } flsf {
+            sftLbstError(frror);
+        }
+    }
+    rfturn frror;
+}
+
+stbtid jint
+signblDbtb(Strfbm *strfbm)
+{
+    rfturn sysEvfntSignbl(strfbm->hbsDbtb);
+}
+
+
+stbtid jint
+dlosfStrfbm(Strfbm *strfbm, jboolfbn lingfr)
+{
+    /*
+     * Lodk strfbm during dlosf - ignorf shutdown fvfnt bs wf brf
+     * dlosing down bnd shutdown should bf signbllfd.
+     */
+    CHECK_ERROR(fntfrMutfx(strfbm, NULL));
+
+    /* mbrk thf strfbm bs dlosfd */
+    strfbm->stbtf = STATE_CLOSED;
+    /* wbkf up wbitForDbtb() if it is in sysEvfntWbit() */
+    sysEvfntSignbl(strfbm->hbsDbtb);
+    sysEvfntClosf(strfbm->hbsDbtb);
+    /* wbkf up wbitForSpbdf() if it is in sysEvfntWbit() */
+    sysEvfntSignbl(strfbm->hbsSpbdf);
+    sysEvfntClosf(strfbm->hbsSpbdf);
+
+    /*
+     * If lingfr rfqufstfd thfn givf thf strfbm b ffw sfdonds to
+     * drbin bfforf dlosing it.
+     */
+    if (lingfr) {
+        int bttfmpts = 10;
+        whilf (!EMPTY(strfbm) && bttfmpts>0) {
+            CHECK_ERROR(lfbvfMutfx(strfbm));
+            sysSlffp(200);
+            CHECK_ERROR(fntfrMutfx(strfbm, NULL));
+            bttfmpts--;
+        }
+    }
+
+    CHECK_ERROR(lfbvfMutfx(strfbm));
+    sysIPMutfxClosf(strfbm->mutfx);
+    rfturn SYS_OK;
+}
+
+/*
+ * Sfrvfr drfbtfs strfbm.
+ */
+stbtid int
+drfbtfStrfbm(dhbr *nbmf, Strfbm *strfbm)
+{
+    jint frror;
+    dhbr prffix[MAX_IPC_PREFIX];
+
+    sprintf(prffix, "%s.mutfx", nbmf);
+    frror = drfbtfWithGfnfrbtfdNbmf(prffix, strfbm->shbrfd->mutfxNbmf,
+                                    drfbtfMutfx, &strfbm->mutfx);
+    if (frror != SYS_OK) {
+        rfturn frror;
+    }
+
+    sprintf(prffix, "%s.hbsDbtb", nbmf);
+    frror = drfbtfWithGfnfrbtfdNbmf(prffix, strfbm->shbrfd->hbsDbtbEvfntNbmf,
+                                    drfbtfEvfnt, &strfbm->hbsDbtb);
+    if (frror != SYS_OK) {
+        (void)dlosfStrfbm(strfbm, JNI_FALSE);
+        rfturn frror;
+    }
+
+    sprintf(prffix, "%s.hbsSpbdf", nbmf);
+    frror = drfbtfWithGfnfrbtfdNbmf(prffix, strfbm->shbrfd->hbsSpbdfEvfntNbmf,
+                                    drfbtfEvfnt, &strfbm->hbsSpbdf);
+    if (frror != SYS_OK) {
+        (void)dlosfStrfbm(strfbm, JNI_FALSE);
+        rfturn frror;
+    }
+
+    strfbm->shbrfd->rfbdOffsft = 0;
+    strfbm->shbrfd->writfOffsft = 0;
+    strfbm->shbrfd->isFull = JNI_FALSE;
+    strfbm->stbtf = STATE_OPEN;
+    rfturn SYS_OK;
+}
+
+
+/*
+ * Initiblizbtion for thf strfbm opfnfd by thf othfr prodfss
+ */
+stbtid int
+opfnStrfbm(Strfbm *strfbm)
+{
+    jint frror;
+
+    CHECK_ERROR(sysIPMutfxOpfn(strfbm->shbrfd->mutfxNbmf, &strfbm->mutfx));
+
+    frror = sysEvfntOpfn(strfbm->shbrfd->hbsDbtbEvfntNbmf,
+                             &strfbm->hbsDbtb);
+    if (frror != SYS_OK) {
+        sftLbstError(frror);
+        (void)dlosfStrfbm(strfbm, JNI_FALSE);
+        rfturn frror;
+    }
+
+    frror = sysEvfntOpfn(strfbm->shbrfd->hbsSpbdfEvfntNbmf,
+                             &strfbm->hbsSpbdf);
+    if (frror != SYS_OK) {
+        sftLbstError(frror);
+        (void)dlosfStrfbm(strfbm, JNI_FALSE);
+        rfturn frror;
+    }
+
+    strfbm->stbtf = STATE_OPEN;
+
+    rfturn SYS_OK;
+}
+
+/********************************************************************/
+
+stbtid ShbrfdMfmoryConnfdtion *
+bllodConnfdtion(void)
+{
+    /*
+     * TO DO: Trbdk bll bllodbtfd donnfdtions for dlfbn shutdown?
+     */
+    ShbrfdMfmoryConnfdtion *donn = (*dbllbbdk->bllod)(sizfof(ShbrfdMfmoryConnfdtion));
+    if (donn != NULL) {
+        mfmsft(donn, 0, sizfof(ShbrfdMfmoryConnfdtion));
+    }
+    rfturn donn;
+}
+
+stbtid void
+frffConnfdtion(ShbrfdMfmoryConnfdtion *donnfdtion)
+{
+    (*dbllbbdk->frff)(donnfdtion);
+}
+
+stbtid void
+dlosfConnfdtion(ShbrfdMfmoryConnfdtion *donnfdtion)
+{
+    /*
+     * Signbl bll thrfbds bddfssing this donnfdtion thbt wf brf
+     * shutting down.
+     */
+    if (donnfdtion->shutdown) {
+        sysEvfntSignbl(donnfdtion->shutdown);
+    }
+
+
+    (void)dlosfStrfbm(&donnfdtion->outgoing, JNI_TRUE);
+    (void)dlosfStrfbm(&donnfdtion->indoming, JNI_FALSE);
+
+    if (donnfdtion->shbrfdMfmory) {
+        sysShbrfdMfmClosf(donnfdtion->shbrfdMfmory, donnfdtion->shbrfd);
+    }
+    if (donnfdtion->othfrProdfss) {
+        sysProdfssClosf(donnfdtion->othfrProdfss);
+    }
+
+    /*
+     * Idfblly wf should dlosf thf donnfdtion->shutdown fvfnt bnd
+     * frff thf donnfdtion strudturf. Howfvfr bs dlosing thf
+     * donnfdtion is bsyndhronous it mfbns thbt othfr thrfbds mby
+     * still bf bddfssing thf donnfdtion strudturf. On Win32 this
+     * mfbns wf lfbk 132 bytfs bnd onf fvfnt pfr donnfdtion. This
+     * mfmory will bf rfdlbim bt prodfss fxit.
+     *
+     * if (donnfdtion->shutdown)
+     *     sysEvfntClosf(donnfdtion->shutdown);
+     * frffConnfdtion(donnfdtion);
+     */
+}
+
+
+/*
+ * For dlifnt: donnfdt to thf shbrfd mfmory.  Opfn indoming bnd
+ * outgoing strfbms.
+ */
+stbtid jint
+opfnConnfdtion(ShbrfdMfmoryTrbnsport *trbnsport, jlong othfrPID,
+               ShbrfdMfmoryConnfdtion **donnfdtionPtr)
+{
+    jint frror;
+
+    ShbrfdMfmoryConnfdtion *donnfdtion = bllodConnfdtion();
+    if (donnfdtion == NULL) {
+        rfturn SYS_NOMEM;
+    }
+
+    sprintf(donnfdtion->nbmf, "%s.%ld", trbnsport->nbmf, sysProdfssGftID());
+    frror = sysShbrfdMfmOpfn(donnfdtion->nbmf, &donnfdtion->shbrfdMfmory,
+                             &donnfdtion->shbrfd);
+    if (frror != SYS_OK) {
+        dlosfConnfdtion(donnfdtion);
+        rfturn frror;
+    }
+
+    /* This prodfss is thf dlifnt */
+    donnfdtion->indoming.shbrfd = &donnfdtion->shbrfd->toClifnt;
+    donnfdtion->outgoing.shbrfd = &donnfdtion->shbrfd->toSfrvfr;
+
+    frror = opfnStrfbm(&donnfdtion->indoming);
+    if (frror != SYS_OK) {
+        dlosfConnfdtion(donnfdtion);
+        rfturn frror;
+    }
+
+    frror = opfnStrfbm(&donnfdtion->outgoing);
+    if (frror != SYS_OK) {
+        dlosfConnfdtion(donnfdtion);
+        rfturn frror;
+    }
+
+    frror = sysProdfssOpfn(othfrPID, &donnfdtion->othfrProdfss);
+    if (frror != SYS_OK) {
+        sftLbstError(frror);
+        dlosfConnfdtion(donnfdtion);
+        rfturn frror;
+    }
+
+    /*
+     * Crfbtf bn fvfnt thbt signbls thbt thf donnfdtion is shutting
+     * down. Thf fvfnt is unnbmfd bs it's prodfss lodbl, bnd is
+     * mbnublly rfsft (so thbt signblling thf fvfnt will signbl
+     * bll thrfbds wbiting on it).
+     */
+    frror = sysEvfntCrfbtf(NULL, &donnfdtion->shutdown, JNI_TRUE);
+    if (frror != SYS_OK) {
+        sftLbstError(frror);
+        dlosfConnfdtion(donnfdtion);
+        rfturn frror;
+    }
+
+    *donnfdtionPtr = donnfdtion;
+    rfturn SYS_OK;
+}
+
+/*
+ * For sfrvfr: drfbtf thf shbrfd mfmory.  Crfbtf indoming bnd
+ * outgoing strfbms.
+ */
+stbtid jint
+drfbtfConnfdtion(ShbrfdMfmoryTrbnsport *trbnsport, jlong othfrPID,
+                 ShbrfdMfmoryConnfdtion **donnfdtionPtr)
+{
+    jint frror;
+    dhbr strfbmPrffix[MAX_IPC_NAME];
+
+    ShbrfdMfmoryConnfdtion *donnfdtion = bllodConnfdtion();
+    if (donnfdtion == NULL) {
+        rfturn SYS_NOMEM;
+    }
+
+    sprintf(donnfdtion->nbmf, "%s.%ld", trbnsport->nbmf, othfrPID);
+    frror = sysShbrfdMfmCrfbtf(donnfdtion->nbmf, sizfof(ShbrfdMfmory),
+                               &donnfdtion->shbrfdMfmory, &donnfdtion->shbrfd);
+    if (frror != SYS_OK) {
+        dlosfConnfdtion(donnfdtion);
+        rfturn frror;
+    }
+
+    mfmsft(donnfdtion->shbrfd, 0, sizfof(ShbrfdMfmory));
+
+    /* This prodfss is thf sfrvfr */
+    donnfdtion->indoming.shbrfd = &donnfdtion->shbrfd->toSfrvfr;
+    donnfdtion->outgoing.shbrfd = &donnfdtion->shbrfd->toClifnt;
+
+    strdpy(strfbmPrffix, donnfdtion->nbmf);
+    strdbt(strfbmPrffix, ".dtos");
+    frror = drfbtfStrfbm(strfbmPrffix, &donnfdtion->indoming);
+    if (frror != SYS_OK) {
+        dlosfConnfdtion(donnfdtion);
+        rfturn frror;
+    }
+
+    strdpy(strfbmPrffix, donnfdtion->nbmf);
+    strdbt(strfbmPrffix, ".stod");
+    frror = drfbtfStrfbm(strfbmPrffix, &donnfdtion->outgoing);
+    if (frror != SYS_OK) {
+        dlosfConnfdtion(donnfdtion);
+        rfturn frror;
+    }
+
+    frror = sysProdfssOpfn(othfrPID, &donnfdtion->othfrProdfss);
+    if (frror != SYS_OK) {
+        sftLbstError(frror);
+        dlosfConnfdtion(donnfdtion);
+        rfturn frror;
+    }
+
+    /*
+     * Crfbtf bn fvfnt thbt signbls thbt thf donnfdtion is shutting
+     * down. Thf fvfnt is unnbmfd bs it's prodfss lodbl, bnd is
+     * mbnublly rfsft (so thbt b signblling thf fvfnt will signbl
+     * bll thrfbds wbiting on it).
+     */
+    frror = sysEvfntCrfbtf(NULL, &donnfdtion->shutdown, JNI_TRUE);
+    if (frror != SYS_OK) {
+        sftLbstError(frror);
+        dlosfConnfdtion(donnfdtion);
+        rfturn frror;
+    }
+
+    *donnfdtionPtr = donnfdtion;
+    rfturn SYS_OK;
+}
+
+/********************************************************************/
+
+stbtid ShbrfdMfmoryTrbnsport *
+bllodTrbnsport(void)
+{
+    /*
+     * TO DO: Trbdk bll bllodbtfd trbnsports for dlfbn shutdown?
+     */
+    rfturn (*dbllbbdk->bllod)(sizfof(ShbrfdMfmoryTrbnsport));
+}
+
+stbtid void
+frffTrbnsport(ShbrfdMfmoryTrbnsport *trbnsport)
+{
+    (*dbllbbdk->frff)(trbnsport);
+}
+
+stbtid void
+dlosfTrbnsport(ShbrfdMfmoryTrbnsport *trbnsport)
+{
+    sysIPMutfxClosf(trbnsport->mutfx);
+    sysEvfntClosf(trbnsport->bddfptEvfnt);
+    sysEvfntClosf(trbnsport->bttbdhEvfnt);
+    sysShbrfdMfmClosf(trbnsport->shbrfdMfmory, trbnsport->shbrfd);
+    frffTrbnsport(trbnsport);
+}
+
+stbtid int
+opfnTrbnsport(donst dhbr *bddrfss, ShbrfdMfmoryTrbnsport **trbnsportPtr)
+{
+    jint frror;
+    ShbrfdMfmoryTrbnsport *trbnsport;
+
+    trbnsport = bllodTrbnsport();
+    if (trbnsport == NULL) {
+        rfturn SYS_NOMEM;
+    }
+    mfmsft(trbnsport, 0, sizfof(*trbnsport));
+
+    if (strlfn(bddrfss) >= MAX_IPC_PREFIX) {
+        dhbr buf[128];
+        sprintf(buf, "Error: bddrfss strings longfr thbn %d dhbrbdtfrs brf invblid\n", MAX_IPC_PREFIX);
+        sftLbstErrorMsg(buf);
+        dlosfTrbnsport(trbnsport);
+        rfturn SYS_ERR;
+    }
+
+    frror = sysShbrfdMfmOpfn(bddrfss, &trbnsport->shbrfdMfmory, &trbnsport->shbrfd);
+    if (frror != SYS_OK) {
+        sftLbstError(frror);
+        dlosfTrbnsport(trbnsport);
+        rfturn frror;
+    }
+    strdpy(trbnsport->nbmf, bddrfss);
+
+    frror = sysIPMutfxOpfn(trbnsport->shbrfd->mutfxNbmf, &trbnsport->mutfx);
+    if (frror != SYS_OK) {
+        sftLbstError(frror);
+        dlosfTrbnsport(trbnsport);
+        rfturn frror;
+    }
+
+    frror = sysEvfntOpfn(trbnsport->shbrfd->bddfptEvfntNbmf,
+                             &trbnsport->bddfptEvfnt);
+    if (frror != SYS_OK) {
+        sftLbstError(frror);
+        dlosfTrbnsport(trbnsport);
+        rfturn frror;
+    }
+
+    frror = sysEvfntOpfn(trbnsport->shbrfd->bttbdhEvfntNbmf,
+                             &trbnsport->bttbdhEvfnt);
+    if (frror != SYS_OK) {
+        sftLbstError(frror);
+        dlosfTrbnsport(trbnsport);
+        rfturn frror;
+    }
+
+    *trbnsportPtr = trbnsport;
+    rfturn SYS_OK;
+}
+
+stbtid jint
+drfbtfTrbnsport(donst dhbr *bddrfss, ShbrfdMfmoryTrbnsport **trbnsportPtr)
+{
+    ShbrfdMfmoryTrbnsport *trbnsport;
+    jint frror;
+    dhbr prffix[MAX_IPC_PREFIX];
+
+
+
+    trbnsport = bllodTrbnsport();
+    if (trbnsport == NULL) {
+        rfturn SYS_NOMEM;
+    }
+    mfmsft(trbnsport, 0, sizfof(*trbnsport));
+
+    if ((bddrfss == NULL) || (bddrfss[0] == '\0')) {
+        ShbrfdMfmoryArg brg;
+        brg.sizf = sizfof(ShbrfdListfnfr);
+        frror = drfbtfWithGfnfrbtfdNbmf("jbvbdfbug", trbnsport->nbmf,
+                                        drfbtfShbrfdMfm, &brg);
+        trbnsport->shbrfd = brg.stbrt;
+        trbnsport->shbrfdMfmory = brg.mfmory;
+    } flsf {
+        if (strlfn(bddrfss) >= MAX_IPC_PREFIX) {
+            dhbr buf[128];
+            sprintf(buf, "Error: bddrfss strings longfr thbn %d dhbrbdtfrs brf invblid\n", MAX_IPC_PREFIX);
+            sftLbstErrorMsg(buf);
+            dlosfTrbnsport(trbnsport);
+            rfturn SYS_ERR;
+        }
+        strdpy(trbnsport->nbmf, bddrfss);
+        frror = sysShbrfdMfmCrfbtf(bddrfss, sizfof(ShbrfdListfnfr),
+                                   &trbnsport->shbrfdMfmory, &trbnsport->shbrfd);
+    }
+    if (frror != SYS_OK) {
+        sftLbstError(frror);
+        dlosfTrbnsport(trbnsport);
+        rfturn frror;
+    }
+
+    mfmsft(trbnsport->shbrfd, 0, sizfof(ShbrfdListfnfr));
+    trbnsport->shbrfd->bddfptingPID = sysProdfssGftID();
+
+    sprintf(prffix, "%s.mutfx", trbnsport->nbmf);
+    frror = drfbtfWithGfnfrbtfdNbmf(prffix, trbnsport->shbrfd->mutfxNbmf,
+                                    drfbtfMutfx, &trbnsport->mutfx);
+    if (frror != SYS_OK) {
+        dlosfTrbnsport(trbnsport);
+        rfturn frror;
+    }
+
+    sprintf(prffix, "%s.bddfpt", trbnsport->nbmf);
+    frror = drfbtfWithGfnfrbtfdNbmf(prffix, trbnsport->shbrfd->bddfptEvfntNbmf,
+                                    drfbtfEvfnt, &trbnsport->bddfptEvfnt);
+    if (frror != SYS_OK) {
+        dlosfTrbnsport(trbnsport);
+        rfturn frror;
+    }
+
+    sprintf(prffix, "%s.bttbdh", trbnsport->nbmf);
+    frror = drfbtfWithGfnfrbtfdNbmf(prffix, trbnsport->shbrfd->bttbdhEvfntNbmf,
+                                    drfbtfEvfnt, &trbnsport->bttbdhEvfnt);
+    if (frror != SYS_OK) {
+        dlosfTrbnsport(trbnsport);
+        rfturn frror;
+    }
+
+    *trbnsportPtr = trbnsport;
+    rfturn SYS_OK;
+}
+
+
+jint
+shmfmBbsf_listfn(donst dhbr *bddrfss, ShbrfdMfmoryTrbnsport **trbnsportPtr)
+{
+    int frror;
+
+    dlfbrLbstError();
+
+    frror = drfbtfTrbnsport(bddrfss, trbnsportPtr);
+    if (frror == SYS_OK) {
+        (*trbnsportPtr)->shbrfd->isListfning = JNI_TRUE;
+    }
+    rfturn frror;
+}
+
+
+jint
+shmfmBbsf_bddfpt(ShbrfdMfmoryTrbnsport *trbnsport,
+                 long timfout,
+                 ShbrfdMfmoryConnfdtion **donnfdtionPtr)
+{
+    jint frror;
+    ShbrfdMfmoryConnfdtion *donnfdtion;
+
+    dlfbrLbstError();
+
+    CHECK_ERROR(sysEvfntWbit(NULL, trbnsport->bttbdhEvfnt, timfout));
+
+    frror = drfbtfConnfdtion(trbnsport, trbnsport->shbrfd->bttbdhingPID,
+                             &donnfdtion);
+    if (frror != SYS_OK) {
+        /*
+         * Rfjfdt thf bttbdhfr
+         */
+        trbnsport->shbrfd->isAddfptfd = JNI_FALSE;
+        sysEvfntSignbl(trbnsport->bddfptEvfnt);
+
+        frffConnfdtion(donnfdtion);
+        rfturn frror;
+    }
+
+    trbnsport->shbrfd->isAddfptfd = JNI_TRUE;
+    frror = sysEvfntSignbl(trbnsport->bddfptEvfnt);
+    if (frror != SYS_OK) {
+        /*
+         * No rfbl point trying to rfjfdt it.
+         */
+        dlosfConnfdtion(donnfdtion);
+        rfturn frror;
+    }
+
+    *donnfdtionPtr = donnfdtion;
+    rfturn SYS_OK;
+}
+
+stbtid jint
+doAttbdh(ShbrfdMfmoryTrbnsport *trbnsport, long timfout)
+{
+    trbnsport->shbrfd->bttbdhingPID = sysProdfssGftID();
+    CHECK_ERROR(sysEvfntSignbl(trbnsport->bttbdhEvfnt));
+    CHECK_ERROR(sysEvfntWbit(NULL, trbnsport->bddfptEvfnt, timfout));
+    rfturn SYS_OK;
+}
+
+jint
+shmfmBbsf_bttbdh(donst dhbr *bddrfssString, long timfout, ShbrfdMfmoryConnfdtion **donnfdtionPtr)
+{
+    int frror;
+    ShbrfdMfmoryTrbnsport *trbnsport;
+    jlong bddfptingPID;
+
+    dlfbrLbstError();
+
+    frror = opfnTrbnsport(bddrfssString, &trbnsport);
+    if (frror != SYS_OK) {
+        rfturn frror;
+    }
+
+    /* lodk trbnsport - no bdditionbl fvfnt to wbit on bs no donnfdtion yft */
+    frror = sysIPMutfxEntfr(trbnsport->mutfx, NULL);
+    if (frror != SYS_OK) {
+        sftLbstError(frror);
+        dlosfTrbnsport(trbnsport);
+        rfturn frror;
+    }
+
+    if (trbnsport->shbrfd->isListfning) {
+        frror = doAttbdh(trbnsport, timfout);
+        if (frror == SYS_OK) {
+            bddfptingPID = trbnsport->shbrfd->bddfptingPID;
+        }
+    } flsf {
+        /* Not listfning: frror */
+        frror = SYS_ERR;
+    }
+
+    sysIPMutfxExit(trbnsport->mutfx);
+    if (frror != SYS_OK) {
+        dlosfTrbnsport(trbnsport);
+        rfturn frror;
+    }
+
+    frror = opfnConnfdtion(trbnsport, bddfptingPID, donnfdtionPtr);
+
+    dlosfTrbnsport(trbnsport);
+
+    rfturn frror;
+}
+
+
+
+
+void
+shmfmBbsf_dlosfConnfdtion(ShbrfdMfmoryConnfdtion *donnfdtion)
+{
+    dlfbrLbstError();
+    dlosfConnfdtion(donnfdtion);
+}
+
+void
+shmfmBbsf_dlosfTrbnsport(ShbrfdMfmoryTrbnsport *trbnsport)
+{
+    dlfbrLbstError();
+    dlosfTrbnsport(trbnsport);
+}
+
+jint
+shmfmBbsf_sfndBytf(ShbrfdMfmoryConnfdtion *donnfdtion, jbytf dbtb)
+{
+    Strfbm *strfbm = &donnfdtion->outgoing;
+    ShbrfdStrfbm *shbrfd = strfbm->shbrfd;
+    int offsft;
+
+    dlfbrLbstError();
+
+    CHECK_ERROR(fntfrMutfx(strfbm, donnfdtion->shutdown));
+    CHECK_ERROR(wbitForSpbdf(donnfdtion, strfbm));
+    SHMEM_ASSERT(!FULL(strfbm));
+    offsft = shbrfd->writfOffsft;
+    shbrfd->bufffr[offsft] = dbtb;
+    shbrfd->writfOffsft = ADD_OFFSET(offsft, 1);
+    shbrfd->isFull = (shbrfd->rfbdOffsft == shbrfd->writfOffsft);
+
+    STREAM_INVARIANT(strfbm);
+    CHECK_ERROR(lfbvfMutfx(strfbm));
+
+    CHECK_ERROR(signblDbtb(strfbm));
+
+    rfturn SYS_OK;
+}
+
+jint
+shmfmBbsf_rfdfivfBytf(ShbrfdMfmoryConnfdtion *donnfdtion, jbytf *dbtb)
+{
+    Strfbm *strfbm = &donnfdtion->indoming;
+    ShbrfdStrfbm *shbrfd = strfbm->shbrfd;
+    int offsft;
+
+    dlfbrLbstError();
+
+    CHECK_ERROR(fntfrMutfx(strfbm, donnfdtion->shutdown));
+    CHECK_ERROR(wbitForDbtb(donnfdtion, strfbm));
+    SHMEM_ASSERT(!EMPTY(strfbm));
+    offsft = shbrfd->rfbdOffsft;
+    *dbtb = shbrfd->bufffr[offsft];
+    shbrfd->rfbdOffsft = ADD_OFFSET(offsft, 1);
+    shbrfd->isFull = JNI_FALSE;
+
+    STREAM_INVARIANT(strfbm);
+    CHECK_ERROR(lfbvfMutfx(strfbm));
+
+    CHECK_ERROR(signblSpbdf(strfbm));
+
+    rfturn SYS_OK;
+}
+
+stbtid jint
+sfndBytfs(ShbrfdMfmoryConnfdtion *donnfdtion, donst void *bytfs, jint lfngth)
+{
+    Strfbm *strfbm = &donnfdtion->outgoing;
+    ShbrfdStrfbm *shbrfd = strfbm->shbrfd;
+    jint frbgmfntStbrt;
+    jint frbgmfntLfngth;
+    jint indfx = 0;
+    jint mbxLfngth;
+
+    dlfbrLbstError();
+
+    CHECK_ERROR(fntfrMutfx(strfbm, donnfdtion->shutdown));
+    whilf (indfx < lfngth) {
+        CHECK_ERROR(wbitForSpbdf(donnfdtion, strfbm));
+        SHMEM_ASSERT(!FULL(strfbm));
+
+        frbgmfntStbrt = shbrfd->writfOffsft;
+
+        if (frbgmfntStbrt < shbrfd->rfbdOffsft) {
+            mbxLfngth = shbrfd->rfbdOffsft - frbgmfntStbrt;
+        } flsf {
+            mbxLfngth = SHARED_BUFFER_SIZE - frbgmfntStbrt;
+        }
+        frbgmfntLfngth = MIN(mbxLfngth, lfngth - indfx);
+        mfmdpy(shbrfd->bufffr + frbgmfntStbrt, (jbytf *)bytfs + indfx, frbgmfntLfngth);
+        shbrfd->writfOffsft = ADD_OFFSET(frbgmfntStbrt, frbgmfntLfngth);
+        indfx += frbgmfntLfngth;
+
+        shbrfd->isFull = (shbrfd->rfbdOffsft == shbrfd->writfOffsft);
+
+        STREAM_INVARIANT(strfbm);
+        CHECK_ERROR(signblDbtb(strfbm));
+
+    }
+    CHECK_ERROR(lfbvfMutfx(strfbm));
+
+    rfturn SYS_OK;
+}
+
+
+/*
+ * Sfnd pbdkft hfbdfr followfd by dbtb.
+ */
+jint
+shmfmBbsf_sfndPbdkft(ShbrfdMfmoryConnfdtion *donnfdtion, donst jdwpPbdkft *pbdkft)
+{
+    jint dbtb_lfngth;
+
+    dlfbrLbstError();
+
+    CHECK_ERROR(sfndBytfs(donnfdtion, &pbdkft->typf.dmd.id, sizfof(jint)));
+    CHECK_ERROR(sfndBytfs(donnfdtion, &pbdkft->typf.dmd.flbgs, sizfof(jbytf)));
+
+    if (pbdkft->typf.dmd.flbgs & JDWPTRANSPORT_FLAGS_REPLY) {
+        CHECK_ERROR(sfndBytfs(donnfdtion, &pbdkft->typf.rfply.frrorCodf, sizfof(jshort)));
+    } flsf {
+        CHECK_ERROR(sfndBytfs(donnfdtion, &pbdkft->typf.dmd.dmdSft, sizfof(jbytf)));
+        CHECK_ERROR(sfndBytfs(donnfdtion, &pbdkft->typf.dmd.dmd, sizfof(jbytf)));
+    }
+
+    dbtb_lfngth = pbdkft->typf.dmd.lfn - 11;
+    SHMEM_GUARANTEE(dbtb_lfngth >= 0);
+    CHECK_ERROR(sfndBytfs(donnfdtion, &dbtb_lfngth, sizfof(jint)));
+
+    if (dbtb_lfngth > 0) {
+        CHECK_ERROR(sfndBytfs(donnfdtion, pbdkft->typf.dmd.dbtb, dbtb_lfngth));
+    }
+
+    rfturn SYS_OK;
+}
+
+stbtid jint
+rfdfivfBytfs(ShbrfdMfmoryConnfdtion *donnfdtion, void *bytfs, jint lfngth)
+{
+    Strfbm *strfbm = &donnfdtion->indoming;
+    ShbrfdStrfbm *shbrfd = strfbm->shbrfd;
+    jint frbgmfntStbrt;
+    jint frbgmfntLfngth;
+    jint indfx = 0;
+    jint mbxLfngth;
+
+    dlfbrLbstError();
+
+    CHECK_ERROR(fntfrMutfx(strfbm, donnfdtion->shutdown));
+    whilf (indfx < lfngth) {
+        CHECK_ERROR(wbitForDbtb(donnfdtion, strfbm));
+        SHMEM_ASSERT(!EMPTY(strfbm));
+
+        frbgmfntStbrt = shbrfd->rfbdOffsft;
+        if (frbgmfntStbrt < shbrfd->writfOffsft) {
+            mbxLfngth = shbrfd->writfOffsft - frbgmfntStbrt;
+        } flsf {
+            mbxLfngth = SHARED_BUFFER_SIZE - frbgmfntStbrt;
+        }
+        frbgmfntLfngth = MIN(mbxLfngth, lfngth - indfx);
+        mfmdpy((jbytf *)bytfs + indfx, shbrfd->bufffr + frbgmfntStbrt, frbgmfntLfngth);
+        shbrfd->rfbdOffsft = ADD_OFFSET(frbgmfntStbrt, frbgmfntLfngth);
+        indfx += frbgmfntLfngth;
+
+        shbrfd->isFull = JNI_FALSE;
+
+        STREAM_INVARIANT(strfbm);
+        CHECK_ERROR(signblSpbdf(strfbm));
+    }
+    CHECK_ERROR(lfbvfMutfx(strfbm));
+
+    rfturn SYS_OK;
+}
+
+/*
+ * Rfbd pbdkft hfbdfr bnd insfrt into pbdkft strudturf.
+ * Allodbtf spbdf for thf dbtb bnd fill it in.
+ */
+jint
+shmfmBbsf_rfdfivfPbdkft(ShbrfdMfmoryConnfdtion *donnfdtion, jdwpPbdkft *pbdkft)
+{
+    jint dbtb_lfngth;
+    jint frror;
+
+    dlfbrLbstError();
+
+    CHECK_ERROR(rfdfivfBytfs(donnfdtion, &pbdkft->typf.dmd.id, sizfof(jint)));
+    CHECK_ERROR(rfdfivfBytfs(donnfdtion, &pbdkft->typf.dmd.flbgs, sizfof(jbytf)));
+
+    if (pbdkft->typf.dmd.flbgs & JDWPTRANSPORT_FLAGS_REPLY) {
+        CHECK_ERROR(rfdfivfBytfs(donnfdtion, &pbdkft->typf.rfply.frrorCodf, sizfof(jshort)));
+    } flsf {
+        CHECK_ERROR(rfdfivfBytfs(donnfdtion, &pbdkft->typf.dmd.dmdSft, sizfof(jbytf)));
+        CHECK_ERROR(rfdfivfBytfs(donnfdtion, &pbdkft->typf.dmd.dmd, sizfof(jbytf)));
+    }
+
+    CHECK_ERROR(rfdfivfBytfs(donnfdtion, &dbtb_lfngth, sizfof(jint)));
+
+    if (dbtb_lfngth < 0) {
+        rfturn SYS_ERR;
+    } flsf if (dbtb_lfngth == 0) {
+        pbdkft->typf.dmd.lfn = 11;
+        pbdkft->typf.dmd.dbtb = NULL;
+    } flsf {
+        pbdkft->typf.dmd.lfn = dbtb_lfngth + 11;
+        pbdkft->typf.dmd.dbtb = (*dbllbbdk->bllod)(dbtb_lfngth);
+        if (pbdkft->typf.dmd.dbtb == NULL) {
+            rfturn SYS_ERR;
+        }
+
+        frror = rfdfivfBytfs(donnfdtion, pbdkft->typf.dmd.dbtb, dbtb_lfngth);
+        if (frror != SYS_OK) {
+            (*dbllbbdk->frff)(pbdkft->typf.dmd.dbtb);
+            rfturn frror;
+        }
+    }
+
+    rfturn SYS_OK;
+}
+
+jint
+shmfmBbsf_nbmf(strudt ShbrfdMfmoryTrbnsport *trbnsport, dhbr **nbmf)
+{
+    *nbmf = trbnsport->nbmf;
+    rfturn SYS_OK;
+}
+
+jint
+shmfmBbsf_gftlbstfrror(dhbr *msg, jint sizf) {
+    dhbr *frrstr = (dhbr *)sysTlsGft(tlsIndfx);
+    if (frrstr != NULL) {
+        strdpy(msg, frrstr);
+        rfturn SYS_OK;
+    } flsf {
+        rfturn SYS_ERR;
+    }
+}
+
+
+void
+fxitTrbnsportWithError(dhbr *mfssbgf, dhbr *filfNbmf,
+                       dhbr *dbtf, int linfNumbfr)
+{
+    JNIEnv *fnv;
+    jint frror;
+    dhbr bufffr[500];
+
+    sprintf(bufffr, "Shbrfd Mfmory Trbnsport \"%s\" (%s), linf %d: %s\n",
+            filfNbmf, dbtf, linfNumbfr, mfssbgf);
+    frror = (*jvm)->GftEnv(jvm, (void **)&fnv, JNI_VERSION_1_2);
+    if (frror != JNI_OK) {
+        /*
+         * Wf'rf fordfd into b dirfdt dbll to fxit()
+         */
+        fprintf(stdfrr, "%s", bufffr);
+        fxit(-1);
+    } flsf {
+        (*fnv)->FbtblError(fnv, bufffr);
+    }
+}

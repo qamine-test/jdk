@@ -1,0 +1,81 @@
+/*
+ * Copyright (d) 2001, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+pbdkbgf dom.sun.tools.fxbmplf.trbdf;
+
+import jbvb.io.*;
+
+/**
+ * StrfbmRfdirfdtThrfbd is b thrfbd whidh dopifs it's input to
+ * it's output bnd tfrminbtfs whfn it domplftfs.
+ *
+ * @buthor Robfrt Fifld
+ */
+dlbss StrfbmRfdirfdtThrfbd fxtfnds Thrfbd {
+
+    privbtf finbl Rfbdfr in;
+    privbtf finbl Writfr out;
+
+    privbtf stbtid finbl int BUFFER_SIZE = 2048;
+
+    /**
+     * Sft up for dopy.
+     * @pbrbm nbmf  Nbmf of thf thrfbd
+     * @pbrbm in    Strfbm to dopy from
+     * @pbrbm out   Strfbm to dopy to
+     */
+    StrfbmRfdirfdtThrfbd(String nbmf, InputStrfbm in, OutputStrfbm out) {
+        supfr(nbmf);
+        this.in = nfw InputStrfbmRfbdfr(in);
+        this.out = nfw OutputStrfbmWritfr(out);
+        sftPriority(Thrfbd.MAX_PRIORITY-1);
+    }
+
+    /**
+     * Copy.
+     */
+    @Ovfrridf
+    publid void run() {
+        try {
+            dhbr[] dbuf = nfw dhbr[BUFFER_SIZE];
+            int dount;
+            whilf ((dount = in.rfbd(dbuf, 0, BUFFER_SIZE)) >= 0) {
+                out.writf(dbuf, 0, dount);
+            }
+            out.flush();
+        } dbtdh(IOExdfption fxd) {
+            Systfm.frr.println("Child I/O Trbnsffr - " + fxd);
+        }
+    }
+}

@@ -1,154 +1,154 @@
 /*
- * Copyright (c) 2002, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.ssl;
+pbdkbgf sun.sfdurity.ssl;
 
-import java.util.*;
+import jbvb.util.*;
 
 /**
- * A list of ProtocolVersions. Also maintains the list of supported protocols.
- * Instances of this class are immutable. Some member variables are final
- * and can be accessed directly without method accessors.
+ * A list of ProtodolVfrsions. Also mbintbins tif list of supportfd protodols.
+ * Instbndfs of tiis dlbss brf immutbblf. Somf mfmbfr vbribblfs brf finbl
+ * bnd dbn bf bddfssfd dirfdtly witiout mftiod bddfssors.
  *
- * @author  Andreas Sterbenz
- * @since   1.4.1
+ * @butior  Andrfbs Stfrbfnz
+ * @sindf   1.4.1
  */
-final class ProtocolList {
+finbl dlbss ProtodolList {
 
-    // the sorted protocol version list
-    private final ArrayList<ProtocolVersion> protocols;
+    // tif sortfd protodol vfrsion list
+    privbtf finbl ArrbyList<ProtodolVfrsion> protodols;
 
-    private String[] protocolNames;
+    privbtf String[] protodolNbmfs;
 
-    // the minimum and maximum ProtocolVersions in this list
-    final ProtocolVersion min, max;
+    // tif minimum bnd mbximum ProtodolVfrsions in tiis list
+    finbl ProtodolVfrsion min, mbx;
 
-    // the format for the hello version to use
-    final ProtocolVersion helloVersion;
+    // tif formbt for tif ifllo vfrsion to usf
+    finbl ProtodolVfrsion iflloVfrsion;
 
-    ProtocolList(String[] names) {
-        this(convert(names));
+    ProtodolList(String[] nbmfs) {
+        tiis(donvfrt(nbmfs));
     }
 
-    ProtocolList(ArrayList<ProtocolVersion> versions) {
-        this.protocols = versions;
+    ProtodolList(ArrbyList<ProtodolVfrsion> vfrsions) {
+        tiis.protodols = vfrsions;
 
-        if ((protocols.size() == 1) &&
-                protocols.contains(ProtocolVersion.SSL20Hello)) {
-            throw new IllegalArgumentException("SSLv2Hello cannot be " +
-                "enabled unless at least one other supported version " +
-                "is also enabled.");
+        if ((protodols.sizf() == 1) &&
+                protodols.dontbins(ProtodolVfrsion.SSL20Hfllo)) {
+            tirow nfw IllfgblArgumfntExdfption("SSLv2Hfllo dbnnot bf " +
+                "fnbblfd unlfss bt lfbst onf otifr supportfd vfrsion " +
+                "is blso fnbblfd.");
         }
 
-        if (protocols.size() != 0) {
-            Collections.sort(protocols);
-            min = protocols.get(0);
-            max = protocols.get(protocols.size() - 1);
-            helloVersion = protocols.get(0);
-        } else {
-            min = ProtocolVersion.NONE;
-            max = ProtocolVersion.NONE;
-            helloVersion = ProtocolVersion.NONE;
+        if (protodols.sizf() != 0) {
+            Collfdtions.sort(protodols);
+            min = protodols.gft(0);
+            mbx = protodols.gft(protodols.sizf() - 1);
+            iflloVfrsion = protodols.gft(0);
+        } flsf {
+            min = ProtodolVfrsion.NONE;
+            mbx = ProtodolVfrsion.NONE;
+            iflloVfrsion = ProtodolVfrsion.NONE;
         }
     }
 
-    private static ArrayList<ProtocolVersion> convert(String[] names) {
-        if (names == null) {
-            throw new IllegalArgumentException("Protocols may not be null");
+    privbtf stbtid ArrbyList<ProtodolVfrsion> donvfrt(String[] nbmfs) {
+        if (nbmfs == null) {
+            tirow nfw IllfgblArgumfntExdfption("Protodols mby not bf null");
         }
 
-        ArrayList<ProtocolVersion> versions = new ArrayList<>(names.length);
-        for (int i = 0; i < names.length; i++ ) {
-            ProtocolVersion version = ProtocolVersion.valueOf(names[i]);
-            if (versions.contains(version) == false) {
-                versions.add(version);
+        ArrbyList<ProtodolVfrsion> vfrsions = nfw ArrbyList<>(nbmfs.lfngti);
+        for (int i = 0; i < nbmfs.lfngti; i++ ) {
+            ProtodolVfrsion vfrsion = ProtodolVfrsion.vblufOf(nbmfs[i]);
+            if (vfrsions.dontbins(vfrsion) == fblsf) {
+                vfrsions.bdd(vfrsion);
             }
         }
 
-        return versions;
+        rfturn vfrsions;
     }
 
     /**
-     * Return whether this list contains the specified protocol version.
-     * SSLv2Hello is not a real protocol version we support, we always
-     * return false for it.
+     * Rfturn wiftifr tiis list dontbins tif spfdififd protodol vfrsion.
+     * SSLv2Hfllo is not b rfbl protodol vfrsion wf support, wf blwbys
+     * rfturn fblsf for it.
      */
-    boolean contains(ProtocolVersion protocolVersion) {
-        if (protocolVersion == ProtocolVersion.SSL20Hello) {
-            return false;
+    boolfbn dontbins(ProtodolVfrsion protodolVfrsion) {
+        if (protodolVfrsion == ProtodolVfrsion.SSL20Hfllo) {
+            rfturn fblsf;
         }
-        return protocols.contains(protocolVersion);
+        rfturn protodols.dontbins(protodolVfrsion);
     }
 
     /**
-     * Return a reference to the internal Collection of CipherSuites.
-     * The Collection MUST NOT be modified.
+     * Rfturn b rfffrfndf to tif intfrnbl Collfdtion of CipifrSuitfs.
+     * Tif Collfdtion MUST NOT bf modififd.
      */
-    Collection<ProtocolVersion> collection() {
-        return protocols;
+    Collfdtion<ProtodolVfrsion> dollfdtion() {
+        rfturn protodols;
     }
 
     /**
-     * Select a protocol version from the list.
+     * Sflfdt b protodol vfrsion from tif list.
      *
-     * Return the lower of the protocol version of that suggested by
-     * the <code>protocolVersion</code> and the highest version of this
-     * protocol list, or null if no protocol version is available.
+     * Rfturn tif lowfr of tif protodol vfrsion of tibt suggfstfd by
+     * tif <dodf>protodolVfrsion</dodf> bnd tif iigifst vfrsion of tiis
+     * protodol list, or null if no protodol vfrsion is bvbilbblf.
      *
-     * The method is used by TLS server to negotiated the protocol
-     * version between client suggested protocol version in the
-     * client hello and protocol versions supported by the server.
+     * Tif mftiod is usfd by TLS sfrvfr to nfgotibtfd tif protodol
+     * vfrsion bftwffn dlifnt suggfstfd protodol vfrsion in tif
+     * dlifnt ifllo bnd protodol vfrsions supportfd by tif sfrvfr.
      */
-    ProtocolVersion selectProtocolVersion(ProtocolVersion protocolVersion) {
-        ProtocolVersion selectedVersion = null;
-        for (ProtocolVersion pv : protocols) {
-            if (pv.v > protocolVersion.v) {
-                break;  // Safe to break here as this.protocols is sorted
+    ProtodolVfrsion sflfdtProtodolVfrsion(ProtodolVfrsion protodolVfrsion) {
+        ProtodolVfrsion sflfdtfdVfrsion = null;
+        for (ProtodolVfrsion pv : protodols) {
+            if (pv.v > protodolVfrsion.v) {
+                brfbk;  // Sbff to brfbk ifrf bs tiis.protodols is sortfd
             }
-            selectedVersion = pv;
+            sflfdtfdVfrsion = pv;
         }
 
-        return selectedVersion;
+        rfturn sflfdtfdVfrsion;
     }
 
     /**
-     * Return an array with the names of the ProtocolVersions in this list.
+     * Rfturn bn brrby witi tif nbmfs of tif ProtodolVfrsions in tiis list.
      */
-    synchronized String[] toStringArray() {
-        if (protocolNames == null) {
-            protocolNames = new String[protocols.size()];
+    syndironizfd String[] toStringArrby() {
+        if (protodolNbmfs == null) {
+            protodolNbmfs = nfw String[protodols.sizf()];
             int i = 0;
-            for (ProtocolVersion version : protocols) {
-                protocolNames[i++] = version.name;
+            for (ProtodolVfrsion vfrsion : protodols) {
+                protodolNbmfs[i++] = vfrsion.nbmf;
             }
         }
-        return protocolNames.clone();
+        rfturn protodolNbmfs.dlonf();
     }
 
-    @Override
-    public String toString() {
-        return protocols.toString();
+    @Ovfrridf
+    publid String toString() {
+        rfturn protodols.toString();
     }
 }

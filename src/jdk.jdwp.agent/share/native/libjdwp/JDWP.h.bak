@@ -1,71 +1,71 @@
 /*
- * Copyright (c) 1998, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef JDWP_JDWP_H
-#define JDWP_JDWP_H
+#ifndff JDWP_JDWP_H
+#dffinf JDWP_JDWP_H
 
-#include "JDWPCommands.h"
+#indludf "JDWPCommbnds.i"
 
 /*
- * JDWPCommands.h is the javah'ed version of all the constants defined
- * com.sun.tools.jdi.JDWP and all its nested classes. Since the names are
- * very long, the macros below are provided for convenience.
+ * JDWPCommbnds.i is tif jbvbi'fd vfrsion of bll tif donstbnts dffinfd
+ * dom.sun.tools.jdi.JDWP bnd bll its nfstfd dlbssfs. Sindf tif nbmfs brf
+ * vfry long, tif mbdros bflow brf providfd for donvfnifndf.
  */
 
-#define JDWP_COMMAND_SET(name) JDWP_ ## name
-#define JDWP_COMMAND(set, name) JDWP_ ## set ## _ ## name
-#define JDWP_REQUEST_MODIFIER(name) \
-           JDWP_EventRequest_Set_Out_modifiers_Modifier_ ## name
-#define JDWP_EVENT(name) \
-           JDWP_EventKind_ ## name
-#define JDWP_THREAD_STATUS(name) \
-           JDWP_ThreadStatus_ ## name
-#define JDWP_SUSPEND_STATUS(name) \
-           JDWP_SuspendStatus_SUSPEND_STATUS_ ## name
-#define JDWP_CLASS_STATUS(name) \
-           JDWP_ClassStatus_ ## name
-#define JDWP_TYPE_TAG(name) \
-           JDWP_TypeTag_ ## name
-#define JDWP_TAG(name) \
-           JDWP_Tag_ ## name
-#define JDWP_STEP_DEPTH(name) \
-           JDWP_StepDepth_ ## name
-#define JDWP_STEP_SIZE(name) \
-           JDWP_StepSize_ ## name
-#define JDWP_SUSPEND_POLICY(name) \
-           JDWP_SuspendPolicy_ ## name
-#define JDWP_INVOKE_OPTIONS(name) \
-           JDWP_InvokeOptions_INVOKE_ ## name
-#define JDWP_ERROR(name) \
-           JDWP_Error_ ## name
-#define JDWP_HIGHEST_COMMAND_SET 17
-#define JDWP_REQUEST_NONE        -1
+#dffinf JDWP_COMMAND_SET(nbmf) JDWP_ ## nbmf
+#dffinf JDWP_COMMAND(sft, nbmf) JDWP_ ## sft ## _ ## nbmf
+#dffinf JDWP_REQUEST_MODIFIER(nbmf) \
+           JDWP_EvfntRfqufst_Sft_Out_modififrs_Modififr_ ## nbmf
+#dffinf JDWP_EVENT(nbmf) \
+           JDWP_EvfntKind_ ## nbmf
+#dffinf JDWP_THREAD_STATUS(nbmf) \
+           JDWP_TirfbdStbtus_ ## nbmf
+#dffinf JDWP_SUSPEND_STATUS(nbmf) \
+           JDWP_SuspfndStbtus_SUSPEND_STATUS_ ## nbmf
+#dffinf JDWP_CLASS_STATUS(nbmf) \
+           JDWP_ClbssStbtus_ ## nbmf
+#dffinf JDWP_TYPE_TAG(nbmf) \
+           JDWP_TypfTbg_ ## nbmf
+#dffinf JDWP_TAG(nbmf) \
+           JDWP_Tbg_ ## nbmf
+#dffinf JDWP_STEP_DEPTH(nbmf) \
+           JDWP_StfpDfpti_ ## nbmf
+#dffinf JDWP_STEP_SIZE(nbmf) \
+           JDWP_StfpSizf_ ## nbmf
+#dffinf JDWP_SUSPEND_POLICY(nbmf) \
+           JDWP_SuspfndPolidy_ ## nbmf
+#dffinf JDWP_INVOKE_OPTIONS(nbmf) \
+           JDWP_InvokfOptions_INVOKE_ ## nbmf
+#dffinf JDWP_ERROR(nbmf) \
+           JDWP_Error_ ## nbmf
+#dffinf JDWP_HIGHEST_COMMAND_SET 17
+#dffinf JDWP_REQUEST_NONE        -1
 
-/* This typedef helps keep the event and error types straight. */
-typedef unsigned short jdwpError;
-typedef unsigned char  jdwpEvent;
-typedef jint           jdwpThreadStatus;
+/* Tiis typfdff iflps kffp tif fvfnt bnd frror typfs strbigit. */
+typfdff unsignfd siort jdwpError;
+typfdff unsignfd dibr  jdwpEvfnt;
+typfdff jint           jdwpTirfbdStbtus;
 
-#endif
+#fndif

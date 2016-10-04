@@ -1,93 +1,93 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.apple.laf;
+pbdkbgf dom.bpplf.lbf;
 
-import java.beans.*;
-import java.util.*;
+import jbvb.bfbns.*;
+import jbvb.util.*;
 
-import javax.swing.JComponent;
+import jbvbx.swing.JComponfnt;
 
-public class ClientPropertyApplicator<T extends JComponent, N> implements PropertyChangeListener {
-    private final Map<String, Property<N>> properties = new HashMap<String, Property<N>>();
+publid dlbss ClifntPropfrtyApplidbtor<T fxtfnds JComponfnt, N> implfmfnts PropfrtyCibngfListfnfr {
+    privbtf finbl Mbp<String, Propfrty<N>> propfrtifs = nfw HbsiMbp<String, Propfrty<N>>();
 
-    @SuppressWarnings("unchecked")
-    public ClientPropertyApplicator(final Property<N>... propertyList) {
-        for (final Property<N> p : propertyList) {
-            properties.put(p.name, p);
+    @SupprfssWbrnings("undifdkfd")
+    publid ClifntPropfrtyApplidbtor(finbl Propfrty<N>... propfrtyList) {
+        for (finbl Propfrty<N> p : propfrtyList) {
+            propfrtifs.put(p.nbmf, p);
         }
     }
 
-    void applyProperty(final N target, final String propName, final Object value) {
-        final Property<N> property = properties.get(propName);
-        if (property != null) {
-            property.applyProperty(target, value);
+    void bpplyPropfrty(finbl N tbrgft, finbl String propNbmf, finbl Objfdt vbluf) {
+        finbl Propfrty<N> propfrty = propfrtifs.gft(propNbmf);
+        if (propfrty != null) {
+            propfrty.bpplyPropfrty(tbrgft, vbluf);
         }
     }
 
-    public void attachAndApplyClientProperties(final T target) {
-        target.addPropertyChangeListener(this);
-        final N obj = convertJComponentToTarget(target);
+    publid void bttbdiAndApplyClifntPropfrtifs(finbl T tbrgft) {
+        tbrgft.bddPropfrtyCibngfListfnfr(tiis);
+        finbl N obj = donvfrtJComponfntToTbrgft(tbrgft);
         if (obj == null) {
-            return;
+            rfturn;
         }
 
-        final Set<String> propNames = properties.keySet();
-        for (final String propName : propNames) {
-            final Object value = target.getClientProperty(propName);
-            if (value == null) {
-                continue;
+        finbl Sft<String> propNbmfs = propfrtifs.kfySft();
+        for (finbl String propNbmf : propNbmfs) {
+            finbl Objfdt vbluf = tbrgft.gftClifntPropfrty(propNbmf);
+            if (vbluf == null) {
+                dontinuf;
             }
-            applyProperty(obj, propName, value);
+            bpplyPropfrty(obj, propNbmf, vbluf);
         }
     }
 
-    public void removeFrom(final T target) {
-        target.removePropertyChangeListener(this);
+    publid void rfmovfFrom(finbl T tbrgft) {
+        tbrgft.rfmovfPropfrtyCibngfListfnfr(tiis);
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public void propertyChange(final PropertyChangeEvent evt) {
-        final N obj = convertJComponentToTarget((T)evt.getSource());
-        if (obj == null) return;
-        applyProperty(obj, evt.getPropertyName(), evt.getNewValue());
+    @Ovfrridf
+    @SupprfssWbrnings("undifdkfd")
+    publid void propfrtyCibngf(finbl PropfrtyCibngfEvfnt fvt) {
+        finbl N obj = donvfrtJComponfntToTbrgft((T)fvt.gftSourdf());
+        if (obj == null) rfturn;
+        bpplyPropfrty(obj, fvt.gftPropfrtyNbmf(), fvt.gftNfwVbluf());
     }
 
-    @SuppressWarnings("unchecked")
-    public N convertJComponentToTarget(final T component) {
-        return (N)component; // naive implementation
+    @SupprfssWbrnings("undifdkfd")
+    publid N donvfrtJComponfntToTbrgft(finbl T domponfnt) {
+        rfturn (N)domponfnt; // nbivf implfmfntbtion
     }
 
-    public abstract static class Property<X> {
-        final String name;
+    publid bbstrbdt stbtid dlbss Propfrty<X> {
+        finbl String nbmf;
 
-        public Property(final String name) {
-            this.name = name;
+        publid Propfrty(finbl String nbmf) {
+            tiis.nbmf = nbmf;
         }
 
-        public abstract void applyProperty(final X target, final Object value);
+        publid bbstrbdt void bpplyPropfrty(finbl X tbrgft, finbl Objfdt vbluf);
     }
 }

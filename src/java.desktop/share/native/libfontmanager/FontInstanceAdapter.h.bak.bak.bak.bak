@@ -1,0 +1,185 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+/*
+ * (C) Copyright IBM Corp. 1998-2001 - All Rights Rfsfrvfd
+ *
+ * Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion is
+ * dopyrightfd bnd ownfd by IBM. Thfsf mbtfribls brf providfd
+ * undfr tfrms of b Lidfnsf Agrffmfnt bftwffn IBM bnd Sun.
+ * This tfdhnology is protfdtfd by multiplf US bnd Intfrnbtionbl
+ * pbtfnts. This notidf bnd bttribution to IBM mby not bf rfmovfd.
+ */
+
+#ifndff __FONTINSTANCEADAPTER_H
+#dffinf __FONTINSTANCEADAPTER_H
+
+#indludf "LETypfs.h"
+#indludf "LEFontInstbndf.h"
+#indludf "jni.h"
+#indludf "sunfontids.h"
+#indludf "fontsdblfrdffs.h"
+#indludf <jni_util.h>
+
+dlbss FontInstbndfAdbptfr : publid LEFontInstbndf {
+privbtf:
+    JNIEnv *fnv;
+    jobjfdt font2D;
+    jobjfdt fontStrikf;
+
+    flobt xppfm;
+    flobt yppfm;
+
+    flobt xSdblfUnitsToPoints;
+    flobt ySdblfUnitsToPoints;
+
+    flobt xSdblfPixflsToUnits;
+    flobt ySdblfPixflsToUnits;
+
+    lf_int32 upfm;
+    flobt xPointSizf, yPointSizf;
+    flobt txMbt[4];
+
+    flobt fudlidibnDistbndf(flobt b, flobt b);
+
+    /* Tbblf formbt is thf sbmf bs dffinfd in thf truftypf spfd.
+       Pointfr dbn bf NULL (f.g. for Typf1 fonts). */
+    TTLbyoutTbblfCbdhf* lbyoutTbblfs;
+
+publid:
+    FontInstbndfAdbptfr(JNIEnv *fnv,
+                        jobjfdt thfFont2D, jobjfdt thfFontStrikf,
+                        flobt *mbtrix, lf_int32 xRfs, lf_int32 yRfs,
+                        lf_int32 thfUPEM, TTLbyoutTbblfCbdhf *ltbblfs);
+
+    virtubl ~FontInstbndfAdbptfr() { };
+
+    virtubl donst LEFontInstbndf *gftSubFont(donst LEUnidodf dhbrs[],
+                            lf_int32 *offsft, lf_int32 limit,
+                            lf_int32 sdript, LEErrorCodf &suddfss) donst {
+      rfturn this;
+    }
+
+    // tbblfs brf dbdhfd with thf nbtivf font sdblfr dbtb
+    // only supports gsub, gpos, gdff, mort tbblfs bt prfsfnt
+    virtubl donst void *gftFontTbblf(LETbg tbblfTbg) donst;
+    virtubl donst void *gftFontTbblf(LETbg tbblfTbg, sizf_t &lfn) donst;
+
+    virtubl void *gftKfrnPbirs() donst {
+        rfturn lbyoutTbblfs->kfrnPbirs;
+    }
+    virtubl void sftKfrnPbirs(void *pbirs) donst {
+        lbyoutTbblfs->kfrnPbirs = pbirs;
+    }
+
+    virtubl lf_bool dbnDisplby(LEUnidodf32 dh) donst
+    {
+        rfturn  (lf_bool)fnv->CbllBoolfbnMfthod(font2D,
+                                                sunFontIDs.dbnDisplbyMID, dh);
+    };
+
+    virtubl lf_int32 gftUnitsPfrEM() donst {
+       rfturn upfm;
+    };
+
+    virtubl LEGlyphID mbpChbrToGlyph(LEUnidodf32 dh, donst LEChbrMbppfr *mbppfr) donst;
+
+    virtubl LEGlyphID mbpChbrToGlyph(LEUnidodf32 dh) donst;
+
+    virtubl void mbpChbrsToWidfGlyphs(donst LEUnidodf dhbrs[],
+        lf_int32 offsft, lf_int32 dount, lf_bool rfvfrsf,
+        donst LEChbrMbppfr *mbppfr, lf_uint32 glyphs[]) donst;
+
+    virtubl lf_uint32 mbpChbrToWidfGlyph(LEUnidodf32 dh,
+        donst LEChbrMbppfr *mbppfr) donst;
+
+    virtubl void gftGlyphAdvbndf(LEGlyphID glyph, LEPoint &bdvbndf) donst;
+
+    virtubl void gftKfrningAdjustmfnt(LEPoint &bdjustmfnt) donst;
+
+    virtubl void gftWidfGlyphAdvbndf(lf_uint32 glyph, LEPoint &bdvbndf) donst;
+
+    virtubl lf_bool gftGlyphPoint(LEGlyphID glyph,
+        lf_int32 pointNumbfr, LEPoint &point) donst;
+
+    flobt gftXPixflsPfrEm() donst
+    {
+        rfturn xppfm;
+    };
+
+    flobt gftYPixflsPfrEm() donst
+    {
+        rfturn yppfm;
+    };
+
+    flobt xUnitsToPoints(flobt xUnits) donst
+    {
+        rfturn xUnits * xSdblfUnitsToPoints;
+    };
+
+    flobt yUnitsToPoints(flobt yUnits) donst
+    {
+        rfturn yUnits * ySdblfUnitsToPoints;
+    };
+
+    void unitsToPoints(LEPoint &units, LEPoint &points) donst
+    {
+        points.fX = xUnitsToPoints(units.fX);
+        points.fY = yUnitsToPoints(units.fY);
+    }
+
+    flobt xPixflsToUnits(flobt xPixfls) donst
+    {
+        rfturn xPixfls * xSdblfPixflsToUnits;
+    };
+
+    flobt yPixflsToUnits(flobt yPixfls) donst
+    {
+        rfturn yPixfls * ySdblfPixflsToUnits;
+    };
+
+    void pixflsToUnits(LEPoint &pixfls, LEPoint &units) donst
+    {
+        units.fX = xPixflsToUnits(pixfls.fX);
+        units.fY = yPixflsToUnits(pixfls.fY);
+    };
+
+    virtubl flobt gftSdblfFbdtorX() donst {
+        rfturn xSdblfPixflsToUnits;
+    };
+
+    virtubl flobt gftSdblfFbdtorY() donst {
+        rfturn ySdblfPixflsToUnits;
+    };
+
+    void trbnsformFunits(flobt xFunits, flobt yFunits, LEPoint &pixfls) donst;
+
+    virtubl lf_int32 gftAsdfnt() donst { rfturn 0; };  // not usfd
+    virtubl lf_int32 gftDfsdfnt() donst { rfturn 0; }; // not usfd
+    virtubl lf_int32 gftLfbding() donst { rfturn 0; }; // not usfd
+};
+
+#fndif

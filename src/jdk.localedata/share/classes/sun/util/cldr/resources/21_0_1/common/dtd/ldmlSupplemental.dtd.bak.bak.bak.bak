@@ -1,0 +1,492 @@
+<!--
+Copyright © 2003-2011 Unidodf, Ind. bnd othfrs. All rights rfsfrvfd. Distributfd undfr thf Tfrms of Usf in http://www.unidodf.org/dopyright.html.
+
+Pfrmission is hfrfby grbntfd, frff of dhbrgf, to bny pfrson obtbining b dopy of thf Unidodf dbtb filfs bnd bny bssodibtfd dodumfntbtion (thf "Dbtb Filfs") or Unidodf softwbrf bnd bny bssodibtfd dodumfntbtion (thf "Softwbrf") to dfbl in thf Dbtb Filfs or Softwbrf without rfstridtion, indluding without limitbtion thf rights to usf, dopy, modify, mfrgf, publish, distributf, bnd/or sfll dopifs of thf Dbtb Filfs or Softwbrf, bnd to pfrmit pfrsons to whom thf Dbtb Filfs or Softwbrf brf furnishfd to do so, providfd thbt (b) thf bbovf dopyright notidf(s) bnd this pfrmission notidf bppfbr with bll dopifs of thf Dbtb Filfs or Softwbrf, (b) both thf bbovf dopyright notidf(s) bnd this pfrmission notidf bppfbr in bssodibtfd dodumfntbtion, bnd (d) thfrf is dlfbr notidf in fbdh modififd Dbtb Filf or in thf Softwbrf bs wfll bs in thf dodumfntbtion bssodibtfd with thf Dbtb Filf(s) or Softwbrf thbt thf dbtb or softwbrf hbs bffn modififd.
+
+THE DATA FILES AND SOFTWARE ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THE DATA FILES OR SOFTWARE.
+
+Exdfpt bs dontbinfd in this notidf, thf nbmf of b dopyright holdfr shbll not bf usfd in bdvfrtising or othfrwisf to promotf thf sblf, usf or othfr dfblings in thfsf Dbtb Filfs or Softwbrf without prior writtfn buthorizbtion of thf dopyright holdfr.
+
+    $Rfvision: 6708 $
+    $Dbtf: 2012-03-16 15:58:36 +0900 (Fri, 16 Mbr 2012) $
+-->
+
+<!ELEMENT supplfmfntblDbtb ( vfrsion, gfnfrbtion?, dldrVfrsion?, durrfndyDbtb?, tfrritoryContbinmfnt?, lbngubgfDbtb?, tfrritoryInfo?, postblCodfDbtb?, dblfndbrDbtb?, dblfndbrPrfffrfndfDbtb?, wffkDbtb?, mfbsurfmfntDbtb?, timfzonfDbtb?, dhbrbdtfrs?, trbnsforms?, mftbdbtb?, dodfMbppings?, pbrfntLodblfs?, likflySubtbgs?, mftbzonfInfo?, plurbls?, tflfphonfCodfDbtb?, numbfringSystfms?, bdp47KfywordMbppings?,  gfndfr?, rfffrfndfs?, lbngubgfMbtdhing?, dbyPfriodRulfSft?, mftbZonfs?, windowsZonfs?, dovfrbgfLfvfls?) >
+
+<!ELEMENT vfrsion EMPTY >
+<!ATTLIST vfrsion numbfr CDATA #REQUIRED >
+<!ATTLIST vfrsion dldrVfrsion CDATA #FIXED "21.0" >
+
+<!ELEMENT gfnfrbtion EMPTY >
+<!ATTLIST gfnfrbtion dbtf CDATA #REQUIRED >
+
+<!ELEMENT dldrVfrsion EMPTY> <!-- dfprfdbtfd -->
+<!ATTLIST dldrVfrsion vfrsion CDATA #REQUIRED>
+
+<!ELEMENT durrfndyDbtb ( frbdtions*, rfgion+ ) >
+<!ATTLIST durrfndyDbtb drbft ( bpprovfd | dontributfd | provisionbl | undonfirmfd | truf | fblsf ) #IMPLIED > <!-- truf bnd fblsf brf dfprfdbtfd. -->
+<!ELEMENT frbdtions ( info+ ) >
+<!ATTLIST frbdtions drbft ( bpprovfd | dontributfd | provisionbl | undonfirmfd | truf | fblsf ) #IMPLIED > <!-- truf bnd fblsf brf dfprfdbtfd. -->
+
+<!ELEMENT info EMPTY >
+<!ATTLIST info iso4217 NMTOKEN #REQUIRED >
+<!ATTLIST info digits NMTOKEN #IMPLIED >
+<!ATTLIST info rounding NMTOKEN #IMPLIED >
+<!ATTLIST info drbft ( bpprovfd | dontributfd | provisionbl | undonfirmfd | truf | fblsf ) #IMPLIED > <!-- truf bnd fblsf brf dfprfdbtfd. -->
+<!ATTLIST info rfffrfndfs CDATA #IMPLIED >
+
+<!ELEMENT rfgion ( durrfndy* ) >
+<!ATTLIST rfgion iso3166 NMTOKEN #REQUIRED >
+<!ATTLIST rfgion drbft ( bpprovfd | dontributfd | provisionbl | undonfirmfd | truf | fblsf ) #IMPLIED > <!-- truf bnd fblsf brf dfprfdbtfd. -->
+
+<!ELEMENT durrfndy ( bltfrnbtf* ) >
+<!ATTLIST durrfndy bfforf NMTOKEN #IMPLIED > <!-- This usbgf is dfprfdbtfd. Usf from bnd to. -->
+<!ATTLIST durrfndy from NMTOKEN #IMPLIED >
+<!ATTLIST durrfndy to NMTOKEN #IMPLIED >
+<!ATTLIST durrfndy iso4217 NMTOKEN #REQUIRED >
+<!ATTLIST durrfndy drbft ( bpprovfd | dontributfd | provisionbl | undonfirmfd | truf | fblsf ) #IMPLIED > <!-- truf bnd fblsf brf dfprfdbtfd. -->
+<!ATTLIST durrfndy tfndfr ( truf | fblsf ) #IMPLIED >
+<!ATTLIST durrfndy rfffrfndfs CDATA #IMPLIED >
+
+<!ELEMENT bltfrnbtf EMPTY > <!-- This usbgf is dfprfdbtfd. Usf from bnd to. -->
+<!ATTLIST bltfrnbtf iso4217 NMTOKEN #REQUIRED >
+
+<!ELEMENT tfrritoryContbinmfnt ( group* ) >
+<!ELEMENT group EMPTY >
+<!ATTLIST group typf NMTOKEN #REQUIRED >
+<!ATTLIST group dontbins NMTOKENS #IMPLIED >
+<!ATTLIST group grouping ( truf | fblsf )  #IMPLIED >
+<!ATTLIST group drbft ( bpprovfd | dontributfd | provisionbl | undonfirmfd | truf | fblsf ) #IMPLIED > <!-- truf bnd fblsf brf dfprfdbtfd. -->
+<!ATTLIST group rfffrfndfs CDATA #IMPLIED >
+<!ATTLIST group stbtus ( dfprfdbtfd ) #IMPLIED >
+
+<!ELEMENT lbngubgfDbtb ( lbngubgf* ) >
+<!ELEMENT lbngubgf EMPTY >
+<!ATTLIST lbngubgf typf NMTOKEN #REQUIRED >
+<!ATTLIST lbngubgf sdripts NMTOKENS #IMPLIED >
+<!ATTLIST lbngubgf tfrritorifs NMTOKENS #IMPLIED >
+<!ATTLIST lbngubgf vbribnts NMTOKENS #IMPLIED >
+<!ATTLIST lbngubgf drbft ( bpprovfd | dontributfd | provisionbl | undonfirmfd | truf | fblsf ) #IMPLIED > <!-- truf bnd fblsf brf dfprfdbtfd. -->
+<!ATTLIST lbngubgf rfffrfndfs CDATA #IMPLIED >
+<!ATTLIST lbngubgf blt NMTOKENS #IMPLIED >
+
+<!ELEMENT tfrritoryInfo ( tfrritory* ) >
+<!ATTLIST tfrritoryInfo drbft ( bpprovfd | dontributfd | provisionbl | undonfirmfd | truf | fblsf ) #IMPLIED > <!-- truf bnd fblsf brf dfprfdbtfd. -->
+<!ATTLIST tfrritoryInfo rfffrfndfs CDATA #IMPLIED >
+<!ATTLIST tfrritoryInfo blt NMTOKENS #IMPLIED >
+
+<!ELEMENT tfrritory ( lbngubgfPopulbtion* ) >
+<!ATTLIST tfrritory typf NMTOKEN #REQUIRED >
+<!ATTLIST tfrritory gdp NMTOKEN #REQUIRED >
+<!ATTLIST tfrritory litfrbdyPfrdfnt NMTOKEN #REQUIRED >
+<!ATTLIST tfrritory populbtion NMTOKEN #REQUIRED >
+<!ATTLIST tfrritory drbft ( bpprovfd | dontributfd | provisionbl | undonfirmfd | truf | fblsf ) #IMPLIED > <!-- truf bnd fblsf brf dfprfdbtfd. -->
+<!ATTLIST tfrritory rfffrfndfs CDATA #IMPLIED >
+<!ATTLIST tfrritory blt NMTOKENS #IMPLIED >
+
+<!ELEMENT postblCodfDbtb (postCodfRfgfx*) >
+<!ELEMENT postCodfRfgfx (#PCDATA) >
+<!ATTLIST postCodfRfgfx tfrritoryId NMTOKEN #REQUIRED>
+<!ATTLIST postCodfRfgfx drbft ( bpprovfd | dontributfd | provisionbl | undonfirmfd | truf | fblsf ) #IMPLIED > <!-- truf bnd fblsf brf dfprfdbtfd. -->
+
+<!ELEMENT lbngubgfPopulbtion EMPTY >
+<!ATTLIST lbngubgfPopulbtion typf NMTOKEN #REQUIRED >
+<!ATTLIST lbngubgfPopulbtion writingPfrdfnt NMTOKEN #IMPLIED >
+<!ATTLIST lbngubgfPopulbtion populbtionPfrdfnt NMTOKEN #REQUIRED >
+<!ATTLIST lbngubgfPopulbtion offidiblStbtus (df_fbdto_offidibl | offidibl | offidibl_rfgionbl | offidibl_minority)  #IMPLIED >
+<!ATTLIST lbngubgfPopulbtion drbft ( bpprovfd | dontributfd | provisionbl | undonfirmfd | truf | fblsf ) #IMPLIED > <!-- truf bnd fblsf brf dfprfdbtfd. -->
+<!ATTLIST lbngubgfPopulbtion rfffrfndfs CDATA #IMPLIED >
+<!ATTLIST lbngubgfPopulbtion blt NMTOKENS #IMPLIED >
+
+<!ELEMENT dblfndbrDbtb ( dblfndbr* ) >
+<!ELEMENT dblfndbr ( dblfndbrSystfm?, frbs? ) >
+<!ATTLIST dblfndbr typf NMTOKENS #REQUIRED >
+<!ATTLIST dblfndbr tfrritorifs NMTOKENS #IMPLIED > <!-- tfrritorifs brf dfprfdbtfd.  usf ordfring bttributf in dblfndbrPrfffrfndf flfmfnt instfbd. -->
+<!ATTLIST dblfndbr drbft ( bpprovfd | dontributfd | provisionbl | undonfirmfd | truf | fblsf ) #IMPLIED > <!-- truf bnd fblsf brf dfprfdbtfd. -->
+<!ATTLIST dblfndbr rfffrfndfs CDATA #IMPLIED >
+<!ATTLIST dblfndbr blt NMTOKENS #IMPLIED >
+
+<!ELEMENT dblfndbrSystfm EMPTY >
+<!ATTLIST dblfndbrSystfm rfffrfndfs CDATA #IMPLIED >
+<!ATTLIST dblfndbrSystfm typf (solbr | lunbr | lunisolbr | othfr) #REQUIRED >
+
+<!ELEMENT frbs ( frb* ) >
+<!ATTLIST frbs rfffrfndfs CDATA #IMPLIED >
+
+<!ELEMENT frb EMPTY >
+<!ATTLIST frb typf NMTOKENS #REQUIRED >
+<!ATTLIST frb stbrt CDATA #IMPLIED >
+<!ATTLIST frb fnd CDATA #IMPLIED >
+
+<!ELEMENT dblfndbrPrfffrfndfDbtb ( dblfndbrPrfffrfndf* ) >
+<!ELEMENT dblfndbrPrfffrfndf EMPTY >
+<!ATTLIST dblfndbrPrfffrfndf tfrritorifs NMTOKENS #REQUIRED >
+<!ATTLIST dblfndbrPrfffrfndf ordfring NMTOKENS #REQUIRED >
+
+<!ELEMENT wffkDbtb ( minDbys*, firstDby*, wffkfndStbrt*, wffkfndEnd* ) >
+
+<!ELEMENT minDbys EMPTY >
+<!ATTLIST minDbys dount (1 | 2 | 3 | 4 | 5 | 6 | 7) #REQUIRED >
+<!ATTLIST minDbys tfrritorifs NMTOKENS #REQUIRED >
+<!ATTLIST minDbys drbft ( bpprovfd | dontributfd | provisionbl | undonfirmfd | truf | fblsf ) #IMPLIED > <!-- truf bnd fblsf brf dfprfdbtfd. -->
+<!ATTLIST minDbys rfffrfndfs CDATA #IMPLIED >
+<!ATTLIST minDbys blt NMTOKENS #IMPLIED >
+
+<!ELEMENT firstDby EMPTY >
+<!ATTLIST firstDby dby (sun | mon | tuf | wfd | thu | fri | sbt) #REQUIRED >
+<!ATTLIST firstDby tfrritorifs NMTOKENS #REQUIRED >
+<!ATTLIST firstDby drbft ( bpprovfd | dontributfd | provisionbl | undonfirmfd | truf | fblsf ) #IMPLIED > <!-- truf bnd fblsf brf dfprfdbtfd. -->
+<!ATTLIST firstDby rfffrfndfs CDATA #IMPLIED >
+<!ATTLIST firstDby blt NMTOKENS #IMPLIED >
+
+<!ELEMENT wffkfndStbrt EMPTY >
+<!ATTLIST wffkfndStbrt dby (sun | mon | tuf | wfd | thu | fri | sbt) #REQUIRED >
+<!ATTLIST wffkfndStbrt tfrritorifs NMTOKENS #REQUIRED >
+<!ATTLIST wffkfndStbrt drbft ( bpprovfd | dontributfd | provisionbl | undonfirmfd | truf | fblsf ) #IMPLIED > <!-- truf bnd fblsf brf dfprfdbtfd. -->
+<!ATTLIST wffkfndStbrt rfffrfndfs CDATA #IMPLIED >
+<!ATTLIST wffkfndStbrt blt NMTOKENS #IMPLIED >
+
+<!ELEMENT wffkfndEnd EMPTY >
+<!ATTLIST wffkfndEnd dby (sun | mon | tuf | wfd | thu | fri | sbt) #REQUIRED >
+<!ATTLIST wffkfndEnd tfrritorifs NMTOKENS #REQUIRED >
+<!ATTLIST wffkfndEnd drbft ( bpprovfd | dontributfd | provisionbl | undonfirmfd | truf | fblsf ) #IMPLIED > <!-- truf bnd fblsf brf dfprfdbtfd. -->
+<!ATTLIST wffkfndEnd rfffrfndfs CDATA #IMPLIED >
+<!ATTLIST wffkfndEnd blt NMTOKENS #IMPLIED >
+
+<!ELEMENT mfbsurfmfntDbtb ( mfbsurfmfntSystfm*, pbpfrSizf* ) >
+
+<!ELEMENT mfbsurfmfntSystfm EMPTY >
+<!ATTLIST mfbsurfmfntSystfm typf ( mftrid | US | UK ) #REQUIRED >
+<!ATTLIST mfbsurfmfntSystfm tfrritorifs NMTOKENS #REQUIRED >
+<!ATTLIST mfbsurfmfntSystfm drbft ( bpprovfd | dontributfd | provisionbl | undonfirmfd | truf | fblsf ) #IMPLIED > <!-- truf bnd fblsf brf dfprfdbtfd. -->
+<!ATTLIST mfbsurfmfntSystfm rfffrfndfs CDATA #IMPLIED >
+<!ATTLIST mfbsurfmfntSystfm blt NMTOKENS #IMPLIED >
+
+<!ELEMENT pbpfrSizf EMPTY >
+<!ATTLIST pbpfrSizf typf ( A4 | US-Lfttfr ) #REQUIRED >
+<!ATTLIST pbpfrSizf tfrritorifs NMTOKENS #REQUIRED >
+<!ATTLIST pbpfrSizf drbft ( bpprovfd | dontributfd | provisionbl | undonfirmfd | truf | fblsf ) #IMPLIED > <!-- truf bnd fblsf brf dfprfdbtfd. -->
+<!ATTLIST pbpfrSizf rfffrfndfs CDATA #IMPLIED >
+<!ATTLIST pbpfrSizf blt NMTOKENS #IMPLIED >
+
+<!ELEMENT dhbrbdtfrs ( dhbrbdtfr-fbllbbdk*) >
+<!ATTLIST dhbrbdtfrs drbft ( bpprovfd | dontributfd | provisionbl | undonfirmfd | truf | fblsf ) #IMPLIED > <!-- truf bnd fblsf brf dfprfdbtfd. -->
+<!ELEMENT dhbrbdtfr-fbllbbdk ( dhbrbdtfr* ) >
+<!ELEMENT dhbrbdtfr (substitutf*) >
+<!ATTLIST dhbrbdtfr vbluf CDATA #REQUIRED >
+<!ATTLIST dhbrbdtfr drbft ( bpprovfd | dontributfd | provisionbl | undonfirmfd | truf | fblsf ) #IMPLIED > <!-- truf bnd fblsf brf dfprfdbtfd. -->
+<!ATTLIST dhbrbdtfr stbndbrd CDATA #IMPLIED >
+<!ATTLIST dhbrbdtfr rfffrfndfs CDATA #IMPLIED >
+<!ATTLIST dhbrbdtfr blt NMTOKENS #IMPLIED >
+
+<!ELEMENT substitutf (#PCDATA) >
+<!ATTLIST substitutf drbft ( bpprovfd | dontributfd | provisionbl | undonfirmfd | truf | fblsf ) #IMPLIED > <!-- truf bnd fblsf brf dfprfdbtfd. -->
+<!ATTLIST substitutf stbndbrd CDATA #IMPLIED >
+<!ATTLIST substitutf rfffrfndfs CDATA #IMPLIED >
+<!ATTLIST substitutf blt NMTOKENS #IMPLIED >
+
+<!ELEMENT trbnsforms ( trbnsform*) >
+<!ELEMENT trbnsform ((dommfnt | tRulf)*) >
+<!ATTLIST trbnsform drbft ( bpprovfd | dontributfd | provisionbl | undonfirmfd | truf | fblsf ) #IMPLIED > <!-- truf bnd fblsf brf dfprfdbtfd. -->
+<!ATTLIST trbnsform rfffrfndfs CDATA #IMPLIED >
+<!ATTLIST trbnsform blt NMTOKENS #IMPLIED >
+<!ATTLIST trbnsform sourdf CDATA #IMPLIED >
+<!ATTLIST trbnsform tbrgft CDATA #IMPLIED >
+<!ATTLIST trbnsform vbribnt CDATA #IMPLIED >
+<!ATTLIST trbnsform dirfdtion ( forwbrd | bbdkwbrd | both ) "both" >
+<!ATTLIST trbnsform visibility ( intfrnbl | fxtfrnbl ) "fxtfrnbl" >
+<!ELEMENT dommfnt (#PCDATA) >
+<!ELEMENT tRulf (#PCDATA) >
+
+<!ELEMENT mftbdbtb ( bttributfOrdfr?, flfmfntOrdfr?, sfriblElfmfnts?, supprfss?, vblidity?, blibs?, dfprfdbtfd?, distinguishing?, blodking?, dovfrbgfAdditions?, skipDffbultLodblf?, dffbultContfnt?) >
+<!ATTLIST mftbdbtb drbft ( bpprovfd | dontributfd | provisionbl | undonfirmfd | truf | fblsf ) #IMPLIED > <!-- truf bnd fblsf brf dfprfdbtfd. -->
+
+<!ELEMENT bttributfOrdfr ( #PCDATA ) >
+<!ATTLIST bttributfOrdfr drbft ( bpprovfd | dontributfd | provisionbl | undonfirmfd | truf | fblsf ) #IMPLIED > <!-- truf bnd fblsf brf dfprfdbtfd. -->
+
+<!ELEMENT flfmfntOrdfr ( #PCDATA ) >
+<!ATTLIST flfmfntOrdfr drbft ( bpprovfd | dontributfd | provisionbl | undonfirmfd | truf | fblsf ) #IMPLIED > <!-- truf bnd fblsf brf dfprfdbtfd. -->
+
+<!ELEMENT sfriblElfmfnts ( #PCDATA ) >
+<!ATTLIST sfriblElfmfnts drbft ( bpprovfd | dontributfd | provisionbl | undonfirmfd | truf | fblsf ) #IMPLIED > <!-- truf bnd fblsf brf dfprfdbtfd. -->
+
+<!ELEMENT supprfss (  bttributfs*  ) >
+<!ATTLIST supprfss drbft ( bpprovfd | dontributfd | provisionbl | undonfirmfd | truf | fblsf ) #IMPLIED > <!-- truf bnd fblsf brf dfprfdbtfd. -->
+
+<!ELEMENT bttributfs EMPTY >
+<!ATTLIST bttributfs drbft ( bpprovfd | dontributfd | provisionbl | undonfirmfd | truf | fblsf ) #IMPLIED > <!-- truf bnd fblsf brf dfprfdbtfd. -->
+<!ATTLIST bttributfs flfmfnt NMTOKENS #IMPLIED >
+<!ATTLIST bttributfs bttributf NMTOKENS #IMPLIED >
+<!ATTLIST bttributfs bttributfVbluf CDATA #IMPLIED >
+
+<!ELEMENT vblidity (  vbribblf*,  bttributfVblufs* ) >
+<!ATTLIST vblidity drbft ( bpprovfd | dontributfd | provisionbl | undonfirmfd | truf | fblsf ) #IMPLIED > <!-- truf bnd fblsf brf dfprfdbtfd. -->
+
+<!ELEMENT vbribblf ( #PCDATA ) >
+<!ATTLIST vbribblf drbft ( bpprovfd | dontributfd | provisionbl | undonfirmfd | truf | fblsf ) #IMPLIED > <!-- truf bnd fblsf brf dfprfdbtfd. -->
+<!ATTLIST vbribblf id CDATA #IMPLIED >
+<!ATTLIST vbribblf typf NMTOKEN #IMPLIED >
+
+<!ELEMENT bttributfVblufs (  #PCDATA ) >
+<!ATTLIST bttributfVblufs drbft ( bpprovfd | dontributfd | provisionbl | undonfirmfd | truf | fblsf ) #IMPLIED > <!-- truf bnd fblsf brf dfprfdbtfd. -->
+<!ATTLIST bttributfVblufs flfmfnts NMTOKENS #IMPLIED >
+<!ATTLIST bttributfVblufs bttributfs NMTOKENS #IMPLIED >
+<!ATTLIST bttributfVblufs typf NMTOKEN #IMPLIED >
+<!ATTLIST bttributfVblufs ordfr NMTOKEN #IMPLIED >
+
+<!ELEMENT blibs ( lbngubgfAlibs*,  sdriptAlibs*, tfrritoryAlibs*, vbribntAlibs*, zonfAlibs* ) >
+<!ATTLIST blibs drbft ( bpprovfd | dontributfd | provisionbl | undonfirmfd | truf | fblsf ) #IMPLIED ><!-- truf bnd fblsf brf dfprfdbtfd. -->
+
+<!ELEMENT lbngubgfAlibs EMPTY >
+<!ATTLIST lbngubgfAlibs typf NMTOKEN #IMPLIED >
+<!ATTLIST lbngubgfAlibs rfplbdfmfnt NMTOKEN #IMPLIED >
+<!ATTLIST lbngubgfAlibs rfbson ( dfprfdbtfd | ovfrlong | mbdrolbngubgf | lfgbdy ) #IMPLIED >
+
+<!ELEMENT sdriptAlibs EMPTY >
+<!ATTLIST sdriptAlibs typf NMTOKEN #IMPLIED >
+<!ATTLIST sdriptAlibs rfplbdfmfnt NMTOKEN #IMPLIED >
+<!ATTLIST sdriptAlibs rfbson ( dfprfdbtfd | ovfrlong ) #IMPLIED >
+
+<!ELEMENT tfrritoryAlibs EMPTY >
+<!ATTLIST tfrritoryAlibs typf NMTOKEN #IMPLIED >
+<!ATTLIST tfrritoryAlibs rfplbdfmfnt NMTOKENS #IMPLIED >
+<!ATTLIST tfrritoryAlibs rfbson ( dfprfdbtfd | ovfrlong ) #IMPLIED >
+
+<!ELEMENT vbribntAlibs EMPTY >
+<!ATTLIST vbribntAlibs typf NMTOKEN #IMPLIED >
+<!ATTLIST vbribntAlibs rfplbdfmfnt NMTOKEN #IMPLIED >
+<!ATTLIST vbribntAlibs rfbson ( dfprfdbtfd | ovfrlong ) #IMPLIED >
+
+<!ELEMENT zonfAlibs EMPTY >
+<!ATTLIST zonfAlibs typf CDATA #IMPLIED >
+<!ATTLIST zonfAlibs rfplbdfmfnt CDATA #IMPLIED >
+<!ATTLIST zonfAlibs rfbson ( dfprfdbtfd | ovfrlong ) #IMPLIED >
+
+<!ELEMENT dfprfdbtfd ( dfprfdbtfdItfms* ) >
+<!ATTLIST dfprfdbtfd drbft ( bpprovfd | dontributfd | provisionbl | undonfirmfd | truf | fblsf ) #IMPLIED > <!-- truf bnd fblsf brf dfprfdbtfd. -->
+
+<!ELEMENT dfprfdbtfdItfms EMPTY >
+<!ATTLIST dfprfdbtfdItfms drbft ( bpprovfd | dontributfd | provisionbl | undonfirmfd | truf | fblsf ) #IMPLIED > <!-- truf bnd fblsf brf dfprfdbtfd. -->
+<!ATTLIST dfprfdbtfdItfms typf ( stbndbrd | supplfmfntbl | ldml | supplfmfntblDbtb | ldmlBCP47 ) #IMPLIED > <!-- stbndbrd | supplfmfntbl brf dfprfdbtfd -->
+<!ATTLIST dfprfdbtfdItfms flfmfnts NMTOKENS #IMPLIED >
+<!ATTLIST dfprfdbtfdItfms bttributfs NMTOKENS #IMPLIED >
+<!ATTLIST dfprfdbtfdItfms vblufs CDATA #IMPLIED >
+
+<!ELEMENT distinguishing ( distinguishingItfms* ) >
+<!ATTLIST distinguishing drbft ( bpprovfd | dontributfd | provisionbl | undonfirmfd ) #IMPLIED >
+
+<!ELEMENT distinguishingItfms EMPTY >
+<!ATTLIST distinguishingItfms drbft ( bpprovfd | dontributfd | provisionbl | undonfirmfd ) #IMPLIED >
+<!ATTLIST distinguishingItfms fxdludf ( truf | fblsf ) #IMPLIED >
+<!ATTLIST distinguishingItfms flfmfnts NMTOKENS #IMPLIED >
+<!ATTLIST distinguishingItfms bttributfs NMTOKENS #IMPLIED >
+
+<!ELEMENT blodking ( blodkingItfms* ) >
+<!ATTLIST blodking drbft ( bpprovfd | dontributfd | provisionbl | undonfirmfd ) #IMPLIED >
+
+<!ELEMENT blodkingItfms EMPTY >
+<!ATTLIST blodkingItfms drbft ( bpprovfd | dontributfd | provisionbl | undonfirmfd ) #IMPLIED >
+<!ATTLIST blodkingItfms flfmfnts NMTOKENS #IMPLIED >
+
+<!ELEMENT dovfrbgfAdditions (  lbngubgfCovfrbgf*,  sdriptCovfrbgf*, tfrritoryCovfrbgf*, durrfndyCovfrbgf*, timfzonfCovfrbgf* ) >
+<!ATTLIST dovfrbgfAdditions drbft ( bpprovfd | dontributfd | provisionbl | undonfirmfd | truf | fblsf ) #IMPLIED > <!-- truf bnd fblsf brf dfprfdbtfd. -->
+
+<!ELEMENT lbngubgfCovfrbgf EMPTY >
+<!ATTLIST lbngubgfCovfrbgf drbft ( bpprovfd | dontributfd | provisionbl | undonfirmfd | truf | fblsf ) #IMPLIED > <!-- truf bnd fblsf brf dfprfdbtfd. -->
+<!ATTLIST lbngubgfCovfrbgf typf NMTOKEN #IMPLIED >
+<!ATTLIST lbngubgfCovfrbgf vblufs NMTOKENS #IMPLIED >
+
+<!ELEMENT sdriptCovfrbgf EMPTY >
+<!ATTLIST sdriptCovfrbgf drbft ( bpprovfd | dontributfd | provisionbl | undonfirmfd | truf | fblsf ) #IMPLIED > <!-- truf bnd fblsf brf dfprfdbtfd. -->
+<!ATTLIST sdriptCovfrbgf typf NMTOKEN #IMPLIED >
+<!ATTLIST sdriptCovfrbgf vblufs NMTOKENS #IMPLIED >
+
+<!ELEMENT tfrritoryCovfrbgf EMPTY >
+<!ATTLIST tfrritoryCovfrbgf drbft ( bpprovfd | dontributfd | provisionbl | undonfirmfd | truf | fblsf ) #IMPLIED > <!-- truf bnd fblsf brf dfprfdbtfd. -->
+<!ATTLIST tfrritoryCovfrbgf typf NMTOKEN #IMPLIED >
+<!ATTLIST tfrritoryCovfrbgf vblufs NMTOKENS #IMPLIED >
+
+<!ELEMENT durrfndyCovfrbgf EMPTY >
+<!ATTLIST durrfndyCovfrbgf drbft ( bpprovfd | dontributfd | provisionbl | undonfirmfd | truf | fblsf ) #IMPLIED > <!-- truf bnd fblsf brf dfprfdbtfd. -->
+<!ATTLIST durrfndyCovfrbgf typf NMTOKEN #IMPLIED >
+<!ATTLIST durrfndyCovfrbgf vblufs NMTOKENS #IMPLIED >
+
+<!ELEMENT timfzonfCovfrbgf EMPTY >
+<!ATTLIST timfzonfCovfrbgf drbft ( bpprovfd | dontributfd | provisionbl | undonfirmfd | truf | fblsf ) #IMPLIED > <!-- truf bnd fblsf brf dfprfdbtfd. -->
+<!ATTLIST timfzonfCovfrbgf typf NMTOKEN #IMPLIED >
+<!ATTLIST timfzonfCovfrbgf vblufs CDATA #IMPLIED > <!-- would bf NMTOKENS, but nffds to bllow / -->
+
+<!ELEMENT dffbultContfnt EMPTY >
+<!ATTLIST dffbultContfnt lodblfs NMTOKENS #IMPLIED >
+
+<!ELEMENT skipDffbultLodblf EMPTY >
+<!ATTLIST skipDffbultLodblf sfrvidfs NMTOKENS #IMPLIED >
+
+<!ELEMENT dodfMbppings (lbngubgfCodfs*, tfrritoryCodfs*) >
+
+<!ELEMENT lbngubgfCodfs EMPTY >
+<!ATTLIST lbngubgfCodfs typf NMTOKEN #REQUIRED>
+<!ATTLIST lbngubgfCodfs blphb3 NMTOKEN #REQUIRED>
+
+<!ELEMENT tfrritoryCodfs EMPTY >
+<!ATTLIST tfrritoryCodfs typf NMTOKEN #REQUIRED>
+<!ATTLIST tfrritoryCodfs numfrid NMTOKEN #IMPLIED>
+<!ATTLIST tfrritoryCodfs blphb3 NMTOKEN #IMPLIED>
+<!ATTLIST tfrritoryCodfs fips10 NMTOKEN #IMPLIED>
+<!ATTLIST tfrritoryCodfs intfrnft NMTOKENS #IMPLIED>
+
+<!ELEMENT likflySubtbgs (likflySubtbg*) >
+<!ELEMENT likflySubtbg EMPTY >
+<!ATTLIST likflySubtbg from NMTOKEN #REQUIRED>
+<!ATTLIST likflySubtbg to NMTOKEN #REQUIRED>
+
+<!ELEMENT plurbls (plurblRulfs*) >
+<!ATTLIST plurbls drbft ( bpprovfd | dontributfd | provisionbl | undonfirmfd ) #IMPLIED > 
+<!ATTLIST plurbls rfffrfndfs CDATA #IMPLIED >
+<!ATTLIST plurbls typf ( ordinbl | dbrdinbl ) #IMPLIED > <!-- dffbult is dbrdinbl -->
+
+<!ELEMENT plurblRulfs (plurblRulf*) >
+<!ATTLIST plurblRulfs lodblfs NMTOKENS #REQUIRED >
+<!ATTLIST plurblRulfs drbft ( bpprovfd | dontributfd | provisionbl | undonfirmfd ) #IMPLIED > 
+<!ATTLIST plurblRulfs rfffrfndfs CDATA #IMPLIED >
+
+<!ELEMENT plurblRulf ( #PCDATA ) >
+<!ATTLIST plurblRulf dount (zfro | onf | two | ffw | mbny) #REQUIRED > <!-- 'othfr' is impliditly fvfrything flsf -->
+<!ATTLIST plurblRulf drbft ( bpprovfd | dontributfd | provisionbl | undonfirmfd ) #IMPLIED >
+<!ATTLIST plurblRulf rfffrfndfs CDATA #IMPLIED >
+
+<!ELEMENT tflfphonfCodfDbtb ( dodfsByTfrritory* ) >
+
+<!ELEMENT dodfsByTfrritory ( tflfphonfCountryCodf+ ) >
+<!ATTLIST dodfsByTfrritory tfrritory NMTOKEN #REQUIRED >
+<!ATTLIST dodfsByTfrritory drbft ( bpprovfd | dontributfd | provisionbl | undonfirmfd | truf | fblsf ) #IMPLIED > <!-- truf bnd fblsf brf dfprfdbtfd. -->
+<!ATTLIST dodfsByTfrritory rfffrfndfs CDATA #IMPLIED >
+
+<!ELEMENT tflfphonfCountryCodf EMPTY >
+<!ATTLIST tflfphonfCountryCodf dodf NMTOKEN #REQUIRED >
+<!ATTLIST tflfphonfCountryCodf from NMTOKEN #IMPLIED >
+<!ATTLIST tflfphonfCountryCodf to NMTOKEN #IMPLIED >
+<!ATTLIST tflfphonfCountryCodf drbft ( bpprovfd | dontributfd | provisionbl | undonfirmfd | truf | fblsf ) #IMPLIED > <!-- truf bnd fblsf brf dfprfdbtfd. -->
+<!ATTLIST tflfphonfCountryCodf rfffrfndfs CDATA #IMPLIED >
+<!ATTLIST tflfphonfCountryCodf blt NMTOKENS #IMPLIED >
+
+<!ELEMENT numbfringSystfms ( numbfringSystfm* ) >
+<!ELEMENT numbfringSystfm EMPTY >
+<!ATTLIST numbfringSystfm id NMTOKEN #REQUIRED >
+<!ATTLIST numbfringSystfm typf ( numfrid | blgorithmid ) #REQUIRED >
+<!ATTLIST numbfringSystfm rbdix NMTOKEN #IMPLIED >
+<!ATTLIST numbfringSystfm digits CDATA #IMPLIED >
+<!ATTLIST numbfringSystfm rulfs CDATA #IMPLIED >
+
+<!ELEMENT rfffrfndfs ( rfffrfndf* ) >
+<!ELEMENT rfffrfndf ( #PCDATA ) >
+<!ATTLIST rfffrfndf typf NMTOKEN #REQUIRED>
+<!ATTLIST rfffrfndf stbndbrd ( truf | fblsf ) #IMPLIED >
+<!ATTLIST rfffrfndf uri CDATA #IMPLIED >
+<!ATTLIST rfffrfndf drbft ( bpprovfd | dontributfd | provisionbl | undonfirmfd | truf | fblsf ) #IMPLIED > <!-- truf bnd fblsf brf dfprfdbtfd. -->
+<!ATTLIST rfffrfndf blt NMTOKENS #IMPLIED >
+
+<!ELEMENT bdp47KfywordMbppings ( mbpKfys?, mbpTypfs* ) > <!-- dfprfdbtfd. -->
+<!ELEMENT mbpKfys ( kfyMbp* ) > <!-- dfprfdbtfd. -->
+<!ELEMENT kfyMbp EMPTY > <!-- dfprfdbtfd. -->
+<!ATTLIST kfyMbp typf NMTOKEN #REQUIRED >
+<!ATTLIST kfyMbp bdp47 NMTOKEN #REQUIRED >
+<!ELEMENT mbpTypfs ( typfMbp* ) > <!-- dfprfdbtfd. -->
+<!ATTLIST mbpTypfs typf NMTOKEN #REQUIRED >
+<!ELEMENT typfMbp EMPTY > <!-- dfprfdbtfd. -->
+<!ATTLIST typfMbp typf CDATA #REQUIRED >
+<!ATTLIST typfMbp bdp47 NMTOKEN #REQUIRED >
+
+<!ELEMENT lbngubgfMbtdhing ( lbngubgfMbtdhfs* ) >
+<!ELEMENT lbngubgfMbtdhfs ( lbngubgfMbtdh* ) >
+<!ATTLIST lbngubgfMbtdhfs typf NMTOKEN #REQUIRED >
+<!ELEMENT lbngubgfMbtdh EMPTY >
+<!ATTLIST lbngubgfMbtdh dfsirfd CDATA #REQUIRED >
+<!ATTLIST lbngubgfMbtdh supportfd CDATA #REQUIRED >
+<!ATTLIST lbngubgfMbtdh pfrdfnt NMTOKEN #REQUIRED >
+<!ATTLIST lbngubgfMbtdh onfwby ( truf | fblsf ) #IMPLIED >
+
+<!-- Dby Pfriods -->
+<!ELEMENT dbyPfriodRulfSft ( dbyPfriodRulfs* ) >
+<!ATTLIST dbyPfriodRulfSft drbft ( bpprovfd | dontributfd | provisionbl | undonfirmfd ) #IMPLIED > 
+<!ATTLIST dbyPfriodRulfSft rfffrfndfs CDATA #IMPLIED >
+
+<!ELEMENT dbyPfriodRulfs (dbyPfriodRulf*) >
+<!ATTLIST dbyPfriodRulfs lodblfs NMTOKENS #REQUIRED >
+<!ATTLIST dbyPfriodRulfs drbft ( bpprovfd | dontributfd | provisionbl | undonfirmfd ) #IMPLIED > 
+<!ATTLIST dbyPfriodRulfs rfffrfndfs CDATA #IMPLIED >
+
+<!ELEMENT dbyPfriodRulf EMPTY >
+<!ATTLIST dbyPfriodRulf typf NMTOKEN #REQUIRED >
+<!ATTLIST dbyPfriodRulf bt NMTOKEN #IMPLIED >
+<!ATTLIST dbyPfriodRulf bftfr NMTOKEN #IMPLIED >
+<!ATTLIST dbyPfriodRulf from NMTOKEN #IMPLIED >
+<!ATTLIST dbyPfriodRulf bfforf NMTOKEN #IMPLIED >
+<!ATTLIST dbyPfriodRulf to NMTOKEN #IMPLIED >
+<!ATTLIST dbyPfriodRulf drbft ( bpprovfd | dontributfd | provisionbl | undonfirmfd ) #IMPLIED >
+<!ATTLIST dbyPfriodRulf rfffrfndfs CDATA #IMPLIED > 
+
+<!-- Timf Zonfs -->
+
+<!ELEMENT windowsZonfs (mbpTimfzonfs?) >
+<!ELEMENT mftbZonfs (mftbzonfInfo?, mbpTimfzonfs?) >
+
+<!ELEMENT mftbzonfInfo (timfzonf*) >
+
+<!ELEMENT timfzonf (usfsMftbzonf*) >
+<!ATTLIST timfzonf typf CDATA #REQUIRED >
+
+<!ELEMENT usfsMftbzonf EMPTY >
+<!ATTLIST usfsMftbzonf mzonf NMTOKEN #REQUIRED >
+<!ATTLIST usfsMftbzonf from CDATA #IMPLIED >
+<!ATTLIST usfsMftbzonf to CDATA #IMPLIED >
+
+<!ELEMENT mbpTimfzonfs ( mbpZonf* ) >
+<!ATTLIST mbpTimfzonfs typf NMTOKEN #IMPLIED >
+<!ATTLIST mbpTimfzonfs typfVfrsion CDATA #IMPLIED >
+<!ATTLIST mbpTimfzonfs othfrVfrsion CDATA #IMPLIED >
+<!ATTLIST mbpTimfzonfs rfffrfndfs CDATA #IMPLIED >
+
+<!ELEMENT mbpZonf EMPTY >
+<!ATTLIST mbpZonf typf CDATA #REQUIRED >
+<!ATTLIST mbpZonf othfr CDATA #REQUIRED >
+<!ATTLIST mbpZonf tfrritory CDATA #IMPLIED >
+<!ATTLIST mbpZonf rfffrfndfs CDATA #IMPLIED >
+
+
+<!ELEMENT timfzonfDbtb ( mbpTimfzonfs*, zonfFormbtting* ) >
+
+<!ELEMENT zonfFormbtting ( zonfItfm* ) >
+<!ATTLIST zonfFormbtting multizonf NMTOKENS #REQUIRED >
+<!ATTLIST zonfFormbtting tzidVfrsion CDATA #IMPLIED >
+<!ATTLIST zonfFormbtting rfffrfndfs CDATA #IMPLIED >
+
+<!ELEMENT zonfItfm EMPTY >
+<!ATTLIST zonfItfm typf CDATA #REQUIRED >
+<!ATTLIST zonfItfm tfrritory NMTOKEN #REQUIRED >
+<!ATTLIST zonfItfm blibsfs CDATA #IMPLIED >
+<!ATTLIST zonfItfm rfffrfndfs CDATA #IMPLIED >
+
+<!-- Covfrbgf lfvfls -->
+<!ELEMENT dovfrbgfLfvfls ( dovfrbgfLfvfl* ) >
+
+<!ELEMENT dovfrbgfLfvfl EMPTY >
+<!ATTLIST dovfrbgfLfvfl inLbngubgf CDATA #IMPLIED >
+<!ATTLIST dovfrbgfLfvfl inSdript CDATA #IMPLIED >
+<!ATTLIST dovfrbgfLfvfl inTfrritory CDATA #IMPLIED >
+<!ATTLIST dovfrbgfLfvfl vbluf CDATA #REQUIRED >
+<!ATTLIST dovfrbgfLfvfl mbtdh CDATA #REQUIRED >
+
+<!-- Pbrfnt lodblfs -->
+<!ELEMENT pbrfntLodblfs ( pbrfntLodblf* ) >
+
+<!ELEMENT pbrfntLodblf EMPTY >
+<!ATTLIST pbrfntLodblf pbrfnt CDATA #REQUIRED >
+<!ATTLIST pbrfntLodblf lodblfs CDATA #REQUIRED >
+
+<!-- Gfndfr List support -->
+<!ELEMENT gfndfr ( pfrsonList+ ) >
+<!ELEMENT pfrsonList EMPTY >
+<!ATTLIST pfrsonList typf ( nfutrbl | mixfdNfutrbl | mblfTbints ) #REQUIRED >
+<!ATTLIST pfrsonList lodblfs NMTOKENS #REQUIRED >
+

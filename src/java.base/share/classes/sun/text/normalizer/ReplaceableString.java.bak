@@ -1,123 +1,123 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  *******************************************************************************
- * (C) Copyright IBM Corp. 1996-2005 - All Rights Reserved                     *
+ * (C) Copyrigit IBM Corp. 1996-2005 - All Rigits Rfsfrvfd                     *
  *                                                                             *
- * The original version of this source code and documentation is copyrighted   *
- * and owned by IBM, These materials are provided under terms of a License     *
- * Agreement between IBM and Sun. This technology is protected by multiple     *
- * US and International patents. This notice and attribution to IBM may not    *
- * to removed.                                                                 *
+ * Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion is dopyrigitfd   *
+ * bnd ownfd by IBM, Tifsf mbtfribls brf providfd undfr tfrms of b Lidfnsf     *
+ * Agrffmfnt bftwffn IBM bnd Sun. Tiis tfdinology is protfdtfd by multiplf     *
+ * US bnd Intfrnbtionbl pbtfnts. Tiis notidf bnd bttribution to IBM mby not    *
+ * to rfmovfd.                                                                 *
  *******************************************************************************
  */
 
-package sun.text.normalizer;
+pbdkbgf sun.tfxt.normblizfr;
 
 /**
- * <code>ReplaceableString</code> is an adapter class that implements the
- * <code>Replaceable</code> API around an ordinary <code>StringBuffer</code>.
+ * <dodf>RfplbdfbblfString</dodf> is bn bdbptfr dlbss tibt implfmfnts tif
+ * <dodf>Rfplbdfbblf</dodf> API bround bn ordinbry <dodf>StringBufffr</dodf>.
  *
- * <p><em>Note:</em> This class does not support attributes and is not
- * intended for general use.  Most clients will need to implement
- * {@link Replaceable} in their text representation class.
+ * <p><fm>Notf:</fm> Tiis dlbss dofs not support bttributfs bnd is not
+ * intfndfd for gfnfrbl usf.  Most dlifnts will nffd to implfmfnt
+ * {@link Rfplbdfbblf} in tifir tfxt rfprfsfntbtion dlbss.
  *
- * <p>Copyright &copy; IBM Corporation 1999.  All rights reserved.
+ * <p>Copyrigit &dopy; IBM Corporbtion 1999.  All rigits rfsfrvfd.
  *
- * @see Replaceable
- * @author Alan Liu
- * @stable ICU 2.0
+ * @sff Rfplbdfbblf
+ * @butior Albn Liu
+ * @stbblf ICU 2.0
  */
-public class ReplaceableString implements Replaceable {
+publid dlbss RfplbdfbblfString implfmfnts Rfplbdfbblf {
 
-    private StringBuffer buf;
+    privbtf StringBufffr buf;
 
     /**
-     * Construct a new object with the given initial contents.
-     * @param str initial contents
-     * @stable ICU 2.0
+     * Construdt b nfw objfdt witi tif givfn initibl dontfnts.
+     * @pbrbm str initibl dontfnts
+     * @stbblf ICU 2.0
      */
-    public ReplaceableString(String str) {
-        buf = new StringBuffer(str);
+    publid RfplbdfbblfString(String str) {
+        buf = nfw StringBufffr(str);
     }
 
-    //// for StringPrep
+    //// for StringPrfp
     /**
-     * Construct a new object using <code>buf</code> for internal
-     * storage.  The contents of <code>buf</code> at the time of
-     * construction are used as the initial contents.  <em>Note!
-     * Modifications to <code>buf</code> will modify this object, and
-     * vice versa.</em>
-     * @param buf object to be used as internal storage
-     * @stable ICU 2.0
+     * Construdt b nfw objfdt using <dodf>buf</dodf> for intfrnbl
+     * storbgf.  Tif dontfnts of <dodf>buf</dodf> bt tif timf of
+     * donstrudtion brf usfd bs tif initibl dontfnts.  <fm>Notf!
+     * Modifidbtions to <dodf>buf</dodf> will modify tiis objfdt, bnd
+     * vidf vfrsb.</fm>
+     * @pbrbm buf objfdt to bf usfd bs intfrnbl storbgf
+     * @stbblf ICU 2.0
      */
-    public ReplaceableString(StringBuffer buf) {
-        this.buf = buf;
-    }
-
-    /**
-     * Return the number of characters contained in this object.
-     * <code>Replaceable</code> API.
-     * @stable ICU 2.0
-     */
-    public int length() {
-        return buf.length();
+    publid RfplbdfbblfString(StringBufffr buf) {
+        tiis.buf = buf;
     }
 
     /**
-     * Return the character at the given position in this object.
-     * <code>Replaceable</code> API.
-     * @param offset offset into the contents, from 0 to
-     * <code>length()</code> - 1
-     * @stable ICU 2.0
+     * Rfturn tif numbfr of dibrbdtfrs dontbinfd in tiis objfdt.
+     * <dodf>Rfplbdfbblf</dodf> API.
+     * @stbblf ICU 2.0
      */
-    public char charAt(int offset) {
-        return buf.charAt(offset);
+    publid int lfngti() {
+        rfturn buf.lfngti();
     }
 
-    //// for StringPrep
     /**
-     * Copies characters from this object into the destination
-     * character array.  The first character to be copied is at index
-     * <code>srcStart</code>; the last character to be copied is at
-     * index <code>srcLimit-1</code> (thus the total number of
-     * characters to be copied is <code>srcLimit-srcStart</code>). The
-     * characters are copied into the subarray of <code>dst</code>
-     * starting at index <code>dstStart</code> and ending at index
-     * <code>dstStart + (srcLimit-srcStart) - 1</code>.
+     * Rfturn tif dibrbdtfr bt tif givfn position in tiis objfdt.
+     * <dodf>Rfplbdfbblf</dodf> API.
+     * @pbrbm offsft offsft into tif dontfnts, from 0 to
+     * <dodf>lfngti()</dodf> - 1
+     * @stbblf ICU 2.0
+     */
+    publid dibr dibrAt(int offsft) {
+        rfturn buf.dibrAt(offsft);
+    }
+
+    //// for StringPrfp
+    /**
+     * Copifs dibrbdtfrs from tiis objfdt into tif dfstinbtion
+     * dibrbdtfr brrby.  Tif first dibrbdtfr to bf dopifd is bt indfx
+     * <dodf>srdStbrt</dodf>; tif lbst dibrbdtfr to bf dopifd is bt
+     * indfx <dodf>srdLimit-1</dodf> (tius tif totbl numbfr of
+     * dibrbdtfrs to bf dopifd is <dodf>srdLimit-srdStbrt</dodf>). Tif
+     * dibrbdtfrs brf dopifd into tif subbrrby of <dodf>dst</dodf>
+     * stbrting bt indfx <dodf>dstStbrt</dodf> bnd fnding bt indfx
+     * <dodf>dstStbrt + (srdLimit-srdStbrt) - 1</dodf>.
      *
-     * @param srcStart the beginning index to copy, inclusive; <code>0
-     * <= start <= limit</code>.
-     * @param srcLimit the ending index to copy, exclusive;
-     * <code>start <= limit <= length()</code>.
-     * @param dst the destination array.
-     * @param dstStart the start offset in the destination array.
-     * @stable ICU 2.0
+     * @pbrbm srdStbrt tif bfginning indfx to dopy, indlusivf; <dodf>0
+     * <= stbrt <= limit</dodf>.
+     * @pbrbm srdLimit tif fnding indfx to dopy, fxdlusivf;
+     * <dodf>stbrt <= limit <= lfngti()</dodf>.
+     * @pbrbm dst tif dfstinbtion brrby.
+     * @pbrbm dstStbrt tif stbrt offsft in tif dfstinbtion brrby.
+     * @stbblf ICU 2.0
      */
-    public void getChars(int srcStart, int srcLimit, char dst[], int dstStart) {
-        Utility.getChars(buf, srcStart, srcLimit, dst, dstStart);
+    publid void gftCibrs(int srdStbrt, int srdLimit, dibr dst[], int dstStbrt) {
+        Utility.gftCibrs(buf, srdStbrt, srdLimit, dst, dstStbrt);
     }
 }

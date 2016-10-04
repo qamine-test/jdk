@@ -1,0 +1,431 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sql.rowsft.spi;
+
+import jbvbx.sql.*;
+
+/**
+ * Thf syndhronizbtion mfdhbnism thbt providfs rfbdfr/writfr dbpbbilitifs for
+ * disdonnfdtfd <dodf>RowSft</dodf> objfdts.
+ * A <dodf>SyndProvidfr</dodf> implfmfntbtion is b dlbss thbt fxtfnds thf
+ * <dodf>SyndProvidfr</dodf> bbstrbdt dlbss.
+ * <P>
+ * A <dodf>SyndProvidfr</dodf> implfmfntbtion is
+ * idfntififd by b uniquf ID, whidh is its fully qublififd dlbss nbmf.
+ * This nbmf must bf rfgistfrfd with thf
+ * <dodf>SyndFbdtory</dodf> SPI, thus mbking thf implfmfntbtion bvbilbblf to
+ * bll <dodf>RowSft</dodf> implfmfntbtions.
+ * Thf fbdtory mfdhbnism in thf rfffrfndf implfmfntbtion usfs this nbmf to instbntibtf
+ * thf implfmfntbtion, whidh dbn thfn providf b <dodf>RowSft</dodf> objfdt with its
+ * rfbdfr (b <dodf>jbvbx.sql.RowSftRfbdfr</dodf> objfdt) bnd its writfr (b
+ * <dodf>jbvbx.sql.RowSftWritfr</dodf> objfdt).
+ * <P>
+ * Thf Jdbd <dodf>RowSft</dodf> Implfmfntbtions spfdifidbtion providfs two
+ * rfffrfndf implfmfntbtions of thf <dodf>SyndProvidfr</dodf> bbstrbdt dlbss:
+ * <dodf>RIOptimistidProvidfr</dodf> bnd <dodf>RIXMLProvidfr</dodf>.
+ * Thf <dodf>RIOptimistidProvidfr</dodf> dbn sft bny <dodf>RowSft</dodf>
+ * implfmfntbtion with b <dodf>RowSftRfbdfr</dodf> objfdt bnd b
+ * <dodf>RowSftWritfr</dodf> objfdt.  Howfvfr, only thf <dodf>RIXMLProvidfr</dodf>
+ * implfmfntbtion dbn sft bn <dodf>XmlRfbdfr</dodf> objfdt bnd bn
+ * <dodf>XmlWritfr</dodf> objfdt. A <dodf>WfbRowSft</dodf> objfdt usfs thf
+ * <dodf>XmlRfbdfr</dodf> objfdt to rfbd dbtb in XML formbt to populbtf itsflf with thbt
+ * dbtb.  It usfs thf <dodf>XmlWritfr</dodf> objfdt to writf itsflf to b strfbm or
+ * <dodf>jbvb.io.Writfr</dodf> objfdt in XML formbt.
+ *
+ * <h3>1.0 Nbming Convfntion for Implfmfntbtions</h3>
+ * As b guidf  to nbming <dodf>SyndProvidfr</dodf>
+ * implfmfntbtions, thf following should bf notfd:
+ * <UL>
+ * <li>Thf nbmf for b <dodf>SyndProvidfr</dodf> implfmfntbtion
+ * is its fully qublififd dlbss nbmf.
+ * <li>It is rfdommfndfd thbt vfndors supply b
+ * <dodf>SyndProvidfr</dodf> implfmfntbtion in b pbdkbgf nbmfd <dodf>providfrs</dodf>.
+ * </UL>
+ * <p>
+ * For instbndf, if b vfndor nbmfd Frfd, Ind. offfrfd b
+ * <dodf>SyndProvidfr</dodf> implfmfntbtion, you dould hbvf thf following:
+ * <PRE>
+ *     Vfndor nbmf:  Frfd, Ind.
+ *     Dombin nbmf of vfndor:  dom.frfd
+ *     Pbdkbgf nbmf:  dom.frfd.providfrs
+ *     SyndProvidfr implfmfntbtion dlbss nbmf:  HighAvbilbbilityProvidfr
+ *
+ *     Fully qublififd dlbss nbmf of SyndProvidfr implfmfntbtion:
+ *                        dom.frfd.providfrs.HighAvbilbbilityProvidfr
+ * </PRE>
+ * <P>
+ * Thf following linf of dodf usfs thf fully qublififd nbmf to rfgistfr
+ * this implfmfntbtion with thf <dodf>SyndFbdtory</dodf> stbtid instbndf.
+ * <PRE>
+ *     SyndFbdtory.rfgistfrProvidfr(
+ *                          "dom.frfd.providfrs.HighAvbilbbilityProvidfr");
+ * </PRE>
+ * <P>
+ * Thf dffbult <dodf>SyndProvidfr</dodf> objfdt providfd with thf rfffrfndf
+ * implfmfntbtion usfs thf following nbmf:
+ * <prf>
+ *     dom.sun.rowsft.providfrs.RIOptimistidProvidfr
+ * </prf>
+ * <p>
+ * A vfndor dbn rfgistfr b <dodf>SyndProvidfr</dodf> implfmfntbtion dlbss nbmf
+ * with Orbdlf Corporbtion by sfnding fmbil to jdbd@sun.dom.
+ * Orbdlf will mbintbin b dbtbbbsf listing thf
+ * bvbilbblf <dodf>SyndProvidfr</dodf> implfmfntbtions for usf with domplibnt
+ * <dodf>RowSft</dodf> implfmfntbtions.  This dbtbbbsf will bf similbr to thf
+ * onf blrfbdy mbintbinfd to list bvbilbblf JDBC drivfrs.
+ * <P>
+ * Vfndors should rfffr to thf rfffrfndf implfmfntbtion syndhronizbtion
+ * providfrs for bdditionbl guidbndf on how to implfmfnt b nfw
+ * <dodf>SyndProvidfr</dodf> implfmfntbtion.
+ *
+ * <h3>2.0 How b <dodf>RowSft</dodf> Objfdt Gfts Its Providfr</h3>
+ *
+ * A disdonnfdtfd <dodf>Rowsft</dodf> objfdt mby gft bddfss to b
+ * <dodf>SyndProvidfr</dodf> objfdt in onf of thf following two wbys:
+ * <UL>
+ *  <LI>Using b donstrudtor<BR>
+ *      <PRE>
+ *       CbdhfdRowSft drs = nfw CbdhfdRowSft(
+ *                  "dom.frfd.providfrs.HighAvbilbbilitySyndProvidfr");
+ *      </PRE>
+ *  <LI>Using thf <dodf>sftSyndProvidfr</dodf> mfthod
+ *      <PRE>
+ *       CbdhfdRowSft drs = nfw CbdhfdRowSft();
+ *       drs.sftSyndProvidfr("dom.frfd.providfrs.HighAvbilbbilitySyndProvidfr");
+ *      </PRE>
+
+ * </UL>
+ * <p>
+ * By dffbult, thf rfffrfndf implfmfntbtions of thf <dodf>RowSft</dodf> syndhronizbtion
+ * providfrs brf blwbys bvbilbblf to thf Jbvb plbtform.
+ * If no othfr pluggbblf syndhronizbtion providfrs hbvf bffn dorrfdtly
+ * rfgistfrfd, thf <dodf>SyndFbdtory</dodf> will butombtidblly gfnfrbtf
+ * bn instbndf of thf dffbult <dodf>SyndProvidfr</dodf> rfffrfndf implfmfntbtion.
+ * Thus, in thf prfdfding dodf frbgmfnt, if no implfmfntbtion nbmfd
+ * <dodf>dom.frfd.providfrs.HighAvbilbbilitySyndProvidfr</dodf> hbs bffn
+ * rfgistfrfd with thf <dodf>SyndFbdtory</dodf> instbndf, <i>drs</i> will bf
+ * bssignfd thf dffbult providfr in thf rfffrfndf implfmfntbtion, whidh is
+ * <dodf>dom.sun.rowsft.providfrs.RIOptimistidProvidfr</dodf>.
+ *
+ * <h3>3.0 Violbtions bnd Syndhronizbtion Issufs</h3>
+ * If bn updbtf bftwffn b disdonnfdtfd <dodf>RowSft</dodf> objfdt
+ * bnd b dbtb sourdf violbtfs
+ * thf originbl qufry or thf undfrlying dbtb sourdf donstrbints, this will
+ * rfsult in undffinfd bfhbvior for bll disdonnfdtfd <dodf>RowSft</dodf> implfmfntbtions
+ * bnd thfir dfsignbtfd <dodf>SyndProvidfr</dodf> implfmfntbtions.
+ * Not dffining thf bfhbvior whfn sudh violbtions oddur offfrs grfbtfr flfxibility
+ * for b <dodf>SyndProvidfr</dodf>
+ * implfmfntbtion to dftfrminf its own bfst doursf of bdtion.
+ * <p>
+ * A <dodf>SyndProvidfr</dodf> implfmfntbtion
+ * mby dhoosf to implfmfnt b spfdifid hbndlfr to
+ * hbndlf b subsft of qufry violbtions.
+ * Howfvfr if bn originbl qufry violbtion or b morf gfnfrbl dbtb sourdf donstrbint
+ * violbtion is not hbndlfd by thf <dodf>SyndProvidfr</dodf> implfmfntbtion,
+ * bll <dodf>SyndProvidfr</dodf>
+ * objfdts must throw b <dodf>SyndProvidfrExdfption</dodf>.
+ *
+ * <h3>4.0 Updbtbblf SQL VIEWs</h3>
+ * It is possiblf for bny disdonnfdtfd or donnfdtfd <dodf>RowSft</dodf> objfdt to bf populbtfd
+ * from bn SQL qufry thbt is formulbtfd originblly from bn SQL <dodf>VIEW</dodf>.
+ * Whilf in mbny dbsfs it is possiblf for bn updbtf to bf pfrformfd to bn
+ * undfrlying vifw, sudh bn updbtf rfquirfs bdditionbl mftbdbtb, whidh mby vbry.
+ * Thf <dodf>SyndProvidfr</dodf> dlbss providfs two donstbnts to indidbtf whfthfr
+ * bn implfmfntbtion supports updbting bn SQL <dodf>VIEW</dodf>.
+ * <ul>
+ * <li><dodf><b>NONUPDATABLE_VIEW_SYNC</b></dodf> - Indidbtfs thbt b <dodf>SyndProvidfr</dodf>
+ * implfmfntbtion dofs not support syndhronizbtion with bn SQL <dodf>VIEW</dodf> bs thf
+ * undfrlying sourdf of dbtb for thf <dodf>RowSft</dodf> objfdt.
+ * <li><dodf><b>UPDATABLE_VIEW_SYNC</b></dodf> - Indidbtfs thbt b
+ * <dodf>SyndProvidfr</dodf> implfmfntbtion
+ * supports syndhronizbtion with bn SQL <dodf>VIEW</dodf> bs thf undfrlying sourdf
+ * of dbtb.
+ * </ul>
+ * <P>
+ * Thf dffbult is for b <dodf>RowSft</dodf> objfdt not to bf updbtbblf if it wbs
+ * populbtfd with dbtb from bn SQL <dodf>VIEW</dodf>.
+ *
+ * <h3>5.0 <dodf>SyndProvidfr</dodf> Constbnts</h3>
+ * Thf <dodf>SyndProvidfr</dodf> dlbss providfs thrff sfts of donstbnts thbt
+ * brf usfd bs rfturn vblufs or pbrbmftfrs for <dodf>SyndProvidfr</dodf> mfthods.
+ * <dodf>SyndProvidfr</dodf> objfdts mby bf implfmfntfd to pfrform syndhronizbtion
+ * bftwffn b <dodf>RowSft</dodf> objfdt bnd its undfrlying dbtb sourdf with vbrying
+ * dfgrffs of of dbrf. Thf first group of donstbnts indidbtf how syndhronizbtion
+ * is hbndlfd. For fxbmplf, <dodf>GRADE_NONE</dodf> indidbtfs thbt b
+ * <dodf>SyndProvidfr</dodf> objfdt will not tbkf bny dbrf to sff whbt dbtb is
+ * vblid bnd will simply writf thf <dodf>RowSft</dodf> dbtb to thf dbtb sourdf.
+ * <dodf>GRADE_MODIFIED_AT_COMMIT</dodf> indidbtfs thbt thf providfr will dhfdk
+ * only modififd dbtb for vblidity.  Othfr grbdfs dhfdk bll dbtb for vblidity
+ * or sft lodks whfn dbtb is modififd or lobdfd.
+ * <OL>
+ *  <LI>Constbnts to indidbtf thf syndhronizbtion grbdf of b
+ *     <dodf>SyndProvidfr</dodf> objfdt
+ *   <UL>
+ *    <LI>SyndProvidfr.GRADE_NONE
+ *    <LI>SyndProvidfr.GRADE_MODIFIED_AT_COMMIT
+ *    <LI>SyndProvidfr.GRADE_CHECK_ALL_AT_COMMIT
+ *    <LI>SyndProvidfr.GRADE_LOCK_WHEN_MODIFIED
+ *    <LI>SyndProvidfr.GRADE_LOCK_WHEN_LOADED
+ *   </UL>
+ *  <LI>Constbnts to indidbtf whbt lodks brf sft on thf dbtb sourdf
+ *   <UL>
+ *     <LI>SyndProvidfr.DATASOURCE_NO_LOCK
+ *     <LI>SyndProvidfr.DATASOURCE_ROW_LOCK
+ *     <LI>SyndProvidfr.DATASOURCE_TABLE_LOCK
+ *     <LI>SyndProvidfr.DATASOURCE_DB_LOCK
+ *   </UL>
+ *  <LI>Constbnts to indidbtf whfthfr b <dodf>SyndProvidfr</dodf> objfdt dbn
+ *       pfrform updbtfs to bn SQL <dodf>VIEW</dodf> <BR>
+ *       Thfsf donstbnts brf fxplbinfd in thf prfdfding sfdtion (4.0).
+ *   <UL>
+ *     <LI>SyndProvidfr.UPDATABLE_VIEW_SYNC
+ *     <LI>SyndProvidfr.NONUPDATABLE_VIEW_SYNC
+ *   </UL>
+ * </OL>
+ *
+ * @buthor Jonbthbn Brudf
+ * @sff jbvbx.sql.rowsft.spi.SyndFbdtory
+ * @sff jbvbx.sql.rowsft.spi.SyndFbdtoryExdfption
+ * @sindf 1.5
+ */
+publid bbstrbdt dlbss SyndProvidfr {
+
+   /**
+    * Crfbtfs b dffbult <dodf>SyndProvidfr</dodf> objfdt.
+    */
+    publid SyndProvidfr() {
+    }
+
+    /**
+     * Rfturns thf uniquf idfntififr for this <dodf>SyndProvidfr</dodf> objfdt.
+     *
+     * @rfturn b <dodf>String</dodf> objfdt with thf fully qublififd dlbss nbmf of
+     *         this <dodf>SyndProvidfr</dodf> objfdt
+     */
+    publid bbstrbdt String gftProvidfrID();
+
+    /**
+     * Rfturns b <dodf>jbvbx.sql.RowSftRfbdfr</dodf> objfdt, whidh dbn bf usfd to
+     * populbtf b <dodf>RowSft</dodf> objfdt with dbtb.
+     *
+     * @rfturn b <dodf>jbvbx.sql.RowSftRfbdfr</dodf> objfdt
+     */
+    publid bbstrbdt RowSftRfbdfr gftRowSftRfbdfr();
+
+    /**
+     * Rfturns b <dodf>jbvbx.sql.RowSftWritfr</dodf> objfdt, whidh dbn bf
+     * usfd to writf b <dodf>RowSft</dodf> objfdt's dbtb bbdk to thf
+     * undfrlying dbtb sourdf.
+     *
+     * @rfturn b <dodf>jbvbx.sql.RowSftWritfr</dodf> objfdt
+     */
+    publid bbstrbdt RowSftWritfr gftRowSftWritfr();
+
+    /**
+     * Rfturns b donstbnt indidbting thf
+     * grbdf of syndhronizbtion b <dodf>RowSft</dodf> objfdt dbn fxpfdt from
+     * this <dodf>SyndProvidfr</dodf> objfdt.
+     *
+     * @rfturn bn int thbt is onf of thf following donstbnts:
+     *           SyndProvidfr.GRADE_NONE,
+     *           SyndProvidfr.GRADE_CHECK_MODIFIED_AT_COMMIT,
+     *           SyndProvidfr.GRADE_CHECK_ALL_AT_COMMIT,
+     *           SyndProvidfr.GRADE_LOCK_WHEN_MODIFIED,
+     *           SyndProvidfr.GRADE_LOCK_WHEN_LOADED
+     */
+    publid bbstrbdt int gftProvidfrGrbdf();
+
+
+    /**
+     * Sfts b lodk on thf undfrlying dbtb sourdf bt thf lfvfl indidbtfd by
+     * <i>dbtbsourdf_lodk</i>. This should dbusf thf
+     * <dodf>SyndProvidfr</dodf> to bdjust its bfhbvior by indrfbsing or
+     * dfdrfbsing thf lfvfl of optimism it providfs for b suddfssful
+     * syndhronizbtion.
+     *
+     * @pbrbm dbtbsourdf_lodk onf of thf following donstbnts indidbting thf sfvfrity
+     *           lfvfl of dbtb sourdf lodk rfquirfd:
+     * <prf>
+     *           SyndProvidfr.DATASOURCE_NO_LOCK,
+     *           SyndProvidfr.DATASOURCE_ROW_LOCK,
+     *           SyndProvidfr.DATASOURCE_TABLE_LOCK,
+     *           SyndProvidfr.DATASOURCE_DB_LOCK,
+     * </prf>
+     * @throws SyndProvidfrExdfption if bn unsupportfd dbtb sourdf lodking lfvfl
+     *           is sft.
+     * @sff #gftDbtbSourdfLodk
+     */
+    publid bbstrbdt void sftDbtbSourdfLodk(int dbtbsourdf_lodk)
+        throws SyndProvidfrExdfption;
+
+    /**
+     * Rfturns thf durrfnt dbtb sourdf lodk sfvfrity lfvfl bdtivf in this
+     * <dodf>SyndProvidfr</dodf> implfmfntbtion.
+     *
+     * @rfturn b donstbnt indidbting thf durrfnt lfvfl of dbtb sourdf lodk
+     *        bdtivf in this <dodf>SyndProvidfr</dodf> objfdt;
+     *         onf of thf following:
+     * <prf>
+     *           SyndProvidfr.DATASOURCE_NO_LOCK,
+     *           SyndProvidfr.DATASOURCE_ROW_LOCK,
+     *           SyndProvidfr.DATASOURCE_TABLE_LOCK,
+     *           SyndProvidfr.DATASOURCE_DB_LOCK
+     * </prf>
+     * @throws SyndProvidfrExdfption if bn frror oddurs dftfrmining thf dbtb
+     *        sourdf lodking lfvfl.
+     * @sff #sftDbtbSourdfLodk
+
+     */
+    publid bbstrbdt int gftDbtbSourdfLodk()
+        throws SyndProvidfrExdfption;
+
+    /**
+     * Rfturns whfthfr this <dodf>SyndProvidfr</dodf> implfmfntbtion
+     * dbn pfrform syndhronizbtion bftwffn b <dodf>RowSft</dodf> objfdt
+     * bnd thf SQL <dodf>VIEW</dodf> in thf dbtb sourdf from whidh
+     * thf <dodf>RowSft</dodf> objfdt got its dbtb.
+     *
+     * @rfturn bn <dodf>int</dodf> sbying whfthfr this <dodf>SyndProvidfr</dodf>
+     *         objfdt supports updbting bn SQL <dodf>VIEW</dodf>; onf of thf
+     *         following:
+     *            SyndProvidfr.UPDATABLE_VIEW_SYNC,
+     *            SyndProvidfr.NONUPDATABLE_VIEW_SYNC
+     */
+    publid bbstrbdt int supportsUpdbtbblfVifw();
+
+    /**
+     * Rfturns thf rflfbsf vfrsion of this <dodf>SyndProvidfr</dodf> instbndf.
+     *
+     * @rfturn b <dodf>String</dodf> dftbiling thf rflfbsf vfrsion of thf
+     *     <dodf>SyndProvidfr</dodf> implfmfntbtion
+     */
+    publid bbstrbdt String gftVfrsion();
+
+    /**
+     * Rfturns thf vfndor nbmf of this <dodf>SyndProvidfr</dodf> instbndf
+     *
+     * @rfturn b <dodf>String</dodf> dftbiling thf vfndor nbmf of this
+     *     <dodf>SyndProvidfr</dodf> implfmfntbtion
+     */
+    publid bbstrbdt String gftVfndor();
+
+    /*
+     * Stbndbrd dfsdription of syndhronizbtion grbdfs thbt b SyndProvidfr
+     * dould providf.
+     */
+
+    /**
+     * Indidbtfs thbt no syndhronizbtion with thf originbting dbtb sourdf is
+     * providfd. A <dodf>SyndProvidfr</dodf>
+     * implfmfntbtion rfturning this grbdf will simply bttfmpt to writf
+     * updbtfs in thf <dodf>RowSft</dodf> objfdt to thf undfrlying dbtb
+     * sourdf without dhfdking thf vblidity of bny dbtb.
+     *
+     */
+    publid stbtid finbl int GRADE_NONE = 1;
+
+    /**
+     * Indidbtfs b low lfvfl optimistid syndhronizbtion grbdf with
+     * rfspfdt to thf originbting dbtb sourdf.
+     *
+     * A <dodf>SyndProvidfr</dodf> implfmfntbtion
+     * rfturning this grbdf will dhfdk only rows thbt hbvf dhbngfd.
+     *
+     */
+    publid stbtid finbl int GRADE_CHECK_MODIFIED_AT_COMMIT = 2;
+
+    /**
+     * Indidbtfs b high lfvfl optimistid syndhronizbtion grbdf with
+     * rfspfdt to thf originbting dbtb sourdf.
+     *
+     * A <dodf>SyndProvidfr</dodf> implfmfntbtion
+     * rfturning this grbdf will dhfdk bll rows, indluding rows thbt hbvf not
+     * dhbngfd.
+     */
+    publid stbtid finbl int GRADE_CHECK_ALL_AT_COMMIT = 3;
+
+    /**
+     * Indidbtfs b pfssimistid syndhronizbtion grbdf with
+     * rfspfdt to thf originbting dbtb sourdf.
+     *
+     * A <dodf>SyndProvidfr</dodf>
+     * implfmfntbtion rfturning this grbdf will lodk thf row in thf originbting
+     * dbtb sourdf.
+     */
+    publid stbtid finbl int GRADE_LOCK_WHEN_MODIFIED = 4;
+
+    /**
+     * Indidbtfs thf most pfssimistid syndhronizbtion grbdf with
+     * rfspfdt to thf originbting
+     * dbtb sourdf. A <dodf>SyndProvidfr</dodf>
+     * implfmfntbtion rfturning this grbdf will lodk thf fntirf vifw bnd/or
+     * tbblf bfffdtfd by thf originbl stbtfmfnt usfd to populbtf b
+     * <dodf>RowSft</dodf> objfdt.
+     */
+    publid stbtid finbl int GRADE_LOCK_WHEN_LOADED = 5;
+
+    /**
+     * Indidbtfs thbt no lodks rfmbin on thf originbting dbtb sourdf. This is thf dffbult
+     * lodk sftting for bll <dodf>SyndProvidfr</dodf> implfmfntbtions unlfss
+     * othfrwisf dirfdtfd by b <dodf>RowSft</dodf> objfdt.
+     */
+    publid stbtid finbl int DATASOURCE_NO_LOCK = 1;
+
+    /**
+     * Indidbtfs thbt b lodk is plbdfd on thf rows thbt brf toudhfd by thf originbl
+     * SQL stbtfmfnt usfd to populbtf thf <dodf>RowSft</dodf> objfdt
+     * thbt is using this <dodf>SyndProvidfr</dodf> objfdt.
+     */
+    publid stbtid finbl int DATASOURCE_ROW_LOCK = 2;
+
+    /**
+     * Indidbtfs thbt b lodk is plbdfd on bll tbblfs thbt brf toudhfd by thf originbl
+     * SQL stbtfmfnt usfd to populbtf thf <dodf>RowSft</dodf> objfdt
+     * thbt is using this <dodf>SyndProvidfr</dodf> objfdt.
+     */
+    publid stbtid finbl int DATASOURCE_TABLE_LOCK = 3;
+
+    /**
+     * Indidbtfs thbt b lodk is plbdfd on thf fntirf dbtb sourdf thbt is thf sourdf of
+     * dbtb for thf <dodf>RowSft</dodf> objfdt
+     * thbt is using this <dodf>SyndProvidfr</dodf> objfdt.
+     */
+    publid stbtid finbl int DATASOURCE_DB_LOCK = 4;
+
+    /**
+     * Indidbtfs thbt b <dodf>SyndProvidfr</dodf> implfmfntbtion
+     * supports syndhronizbtion bftwffn b <dodf>RowSft</dodf> objfdt bnd
+     * thf SQL <dodf>VIEW</dodf> usfd to populbtf it.
+     */
+    publid stbtid finbl int UPDATABLE_VIEW_SYNC = 5;
+
+    /**
+     * Indidbtfs thbt b <dodf>SyndProvidfr</dodf> implfmfntbtion
+     * dofs <B>not</B> support syndhronizbtion bftwffn b <dodf>RowSft</dodf>
+     * objfdt bnd thf SQL <dodf>VIEW</dodf> usfd to populbtf it.
+     */
+    publid stbtid finbl int NONUPDATABLE_VIEW_SYNC = 6;
+}

@@ -1,0 +1,255 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/**
+ * Lidfnsfd to thf Apbdhf Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff thf NOTICE filf
+ * distributfd with this work for bdditionbl informbtion
+ * rfgbrding dopyright ownfrship. Thf ASF lidfnsfs this filf
+ * to you undfr thf Apbdhf Lidfnsf, Vfrsion 2.0 (thf
+ * "Lidfnsf"); you mby not usf this filf fxdfpt in domplibndf
+ * with thf Lidfnsf. You mby obtbin b dopy of thf Lidfnsf bt
+ *
+ * http://www.bpbdhf.org/lidfnsfs/LICENSE-2.0
+ *
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr thf Lidfnsf is distributfd on bn
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fithfr fxprfss or implifd. Sff thf Lidfnsf for thf
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr thf Lidfnsf.
+ */
+pbdkbgf dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.blgorithms;
+
+import jbvb.sfdurity.MfssbgfDigfst;
+import jbvb.sfdurity.NoSudhProvidfrExdfption;
+
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.signbturf.XMLSignbturfExdfption;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.Constbnts;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.EndryptionConstbnts;
+import org.w3d.dom.Dodumfnt;
+
+/**
+ * Digfst Mfssbgf wrbppfr & sflfdtor dlbss.
+ *
+ * <prf>
+ * MfssbgfDigfstAlgorithm.gftInstbndf()
+ * </prf>
+ */
+publid dlbss MfssbgfDigfstAlgorithm fxtfnds Algorithm {
+
+    /** Mfssbgf Digfst - NOT RECOMMENDED MD5*/
+    publid stbtid finbl String ALGO_ID_DIGEST_NOT_RECOMMENDED_MD5 =
+        Constbnts.MorfAlgorithmsSpfdNS + "md5";
+    /** Digfst - Rfquirfd SHA1*/
+    publid stbtid finbl String ALGO_ID_DIGEST_SHA1 = Constbnts.SignbturfSpfdNS + "shb1";
+    /** Mfssbgf Digfst - RECOMMENDED SHA256*/
+    publid stbtid finbl String ALGO_ID_DIGEST_SHA256 =
+        EndryptionConstbnts.EndryptionSpfdNS + "shb256";
+    /** Mfssbgf Digfst - OPTIONAL SHA384*/
+    publid stbtid finbl String ALGO_ID_DIGEST_SHA384 =
+        Constbnts.MorfAlgorithmsSpfdNS + "shb384";
+    /** Mfssbgf Digfst - OPTIONAL SHA512*/
+    publid stbtid finbl String ALGO_ID_DIGEST_SHA512 =
+        EndryptionConstbnts.EndryptionSpfdNS + "shb512";
+    /** Mfssbgf Digfst - OPTIONAL RIPEMD-160*/
+    publid stbtid finbl String ALGO_ID_DIGEST_RIPEMD160 =
+        EndryptionConstbnts.EndryptionSpfdNS + "ripfmd160";
+
+    /** Fifld blgorithm storfs thf bdtubl {@link jbvb.sfdurity.MfssbgfDigfst} */
+    privbtf finbl MfssbgfDigfst blgorithm;
+
+    /**
+     * Construdtor for thf brbvf who pbss thfir own mfssbgf digfst blgorithms bnd thf
+     * dorrfsponding URI.
+     * @pbrbm dod
+     * @pbrbm blgorithmURI
+     */
+    privbtf MfssbgfDigfstAlgorithm(Dodumfnt dod, String blgorithmURI)
+        throws XMLSignbturfExdfption {
+        supfr(dod, blgorithmURI);
+
+        blgorithm = gftDigfstInstbndf(blgorithmURI);
+    }
+
+    /**
+     * Fbdtory mfthod for donstrudting b mfssbgf digfst blgorithm by nbmf.
+     *
+     * @pbrbm dod
+     * @pbrbm blgorithmURI
+     * @rfturn Thf MfssbgfDigfstAlgorithm flfmfnt to bttbdh in dodumfnt bnd to digfst
+     * @throws XMLSignbturfExdfption
+     */
+    publid stbtid MfssbgfDigfstAlgorithm gftInstbndf(
+        Dodumfnt dod, String blgorithmURI
+    ) throws XMLSignbturfExdfption {
+        rfturn nfw MfssbgfDigfstAlgorithm(dod, blgorithmURI);
+    }
+
+    privbtf stbtid MfssbgfDigfst gftDigfstInstbndf(String blgorithmURI) throws XMLSignbturfExdfption {
+        String blgorithmID = JCEMbppfr.trbnslbtfURItoJCEID(blgorithmURI);
+
+        if (blgorithmID == null) {
+            Objfdt[] fxArgs = { blgorithmURI };
+            throw nfw XMLSignbturfExdfption("blgorithms.NoSudhMbp", fxArgs);
+        }
+
+        MfssbgfDigfst md;
+        String providfr = JCEMbppfr.gftProvidfrId();
+        try {
+            if (providfr == null) {
+                md = MfssbgfDigfst.gftInstbndf(blgorithmID);
+            } flsf {
+                md = MfssbgfDigfst.gftInstbndf(blgorithmID, providfr);
+            }
+        } dbtdh (jbvb.sfdurity.NoSudhAlgorithmExdfption fx) {
+            Objfdt[] fxArgs = { blgorithmID, fx.gftLodblizfdMfssbgf() };
+
+            throw nfw XMLSignbturfExdfption("blgorithms.NoSudhAlgorithm", fxArgs);
+        } dbtdh (NoSudhProvidfrExdfption fx) {
+            Objfdt[] fxArgs = { blgorithmID, fx.gftLodblizfdMfssbgf() };
+
+            throw nfw XMLSignbturfExdfption("blgorithms.NoSudhAlgorithm", fxArgs);
+        }
+
+        rfturn md;
+    }
+
+    /**
+     * Rfturns thf bdtubl {@link jbvb.sfdurity.MfssbgfDigfst} blgorithm objfdt
+     *
+     * @rfturn thf bdtubl {@link jbvb.sfdurity.MfssbgfDigfst} blgorithm objfdt
+     */
+    publid jbvb.sfdurity.MfssbgfDigfst gftAlgorithm() {
+        rfturn blgorithm;
+    }
+
+    /**
+     * Proxy mfthod for {@link jbvb.sfdurity.MfssbgfDigfst#isEqubl}
+     * whidh is fxfdutfd on thf intfrnbl {@link jbvb.sfdurity.MfssbgfDigfst} objfdt.
+     *
+     * @pbrbm digfstb
+     * @pbrbm digfstb
+     * @rfturn thf rfsult of thf {@link jbvb.sfdurity.MfssbgfDigfst#isEqubl} mfthod
+     */
+    publid stbtid boolfbn isEqubl(bytf[] digfstb, bytf[] digfstb) {
+        rfturn jbvb.sfdurity.MfssbgfDigfst.isEqubl(digfstb, digfstb);
+    }
+
+    /**
+     * Proxy mfthod for {@link jbvb.sfdurity.MfssbgfDigfst#digfst()}
+     * whidh is fxfdutfd on thf intfrnbl {@link jbvb.sfdurity.MfssbgfDigfst} objfdt.
+     *
+     * @rfturn thf rfsult of thf {@link jbvb.sfdurity.MfssbgfDigfst#digfst()} mfthod
+     */
+    publid bytf[] digfst() {
+        rfturn blgorithm.digfst();
+    }
+
+    /**
+     * Proxy mfthod for {@link jbvb.sfdurity.MfssbgfDigfst#digfst(bytf[])}
+     * whidh is fxfdutfd on thf intfrnbl {@link jbvb.sfdurity.MfssbgfDigfst} objfdt.
+     *
+     * @pbrbm input
+     * @rfturn thf rfsult of thf {@link jbvb.sfdurity.MfssbgfDigfst#digfst(bytf[])} mfthod
+     */
+    publid bytf[] digfst(bytf input[]) {
+        rfturn blgorithm.digfst(input);
+    }
+
+    /**
+     * Proxy mfthod for {@link jbvb.sfdurity.MfssbgfDigfst#digfst(bytf[], int, int)}
+     * whidh is fxfdutfd on thf intfrnbl {@link jbvb.sfdurity.MfssbgfDigfst} objfdt.
+     *
+     * @pbrbm buf
+     * @pbrbm offsft
+     * @pbrbm lfn
+     * @rfturn thf rfsult of thf {@link jbvb.sfdurity.MfssbgfDigfst#digfst(bytf[], int, int)} mfthod
+     * @throws jbvb.sfdurity.DigfstExdfption
+     */
+    publid int digfst(bytf buf[], int offsft, int lfn) throws jbvb.sfdurity.DigfstExdfption {
+        rfturn blgorithm.digfst(buf, offsft, lfn);
+    }
+
+    /**
+     * Proxy mfthod for {@link jbvb.sfdurity.MfssbgfDigfst#gftAlgorithm}
+     * whidh is fxfdutfd on thf intfrnbl {@link jbvb.sfdurity.MfssbgfDigfst} objfdt.
+     *
+     * @rfturn thf rfsult of thf {@link jbvb.sfdurity.MfssbgfDigfst#gftAlgorithm} mfthod
+     */
+    publid String gftJCEAlgorithmString() {
+        rfturn blgorithm.gftAlgorithm();
+    }
+
+    /**
+     * Proxy mfthod for {@link jbvb.sfdurity.MfssbgfDigfst#gftProvidfr}
+     * whidh is fxfdutfd on thf intfrnbl {@link jbvb.sfdurity.MfssbgfDigfst} objfdt.
+     *
+     * @rfturn thf rfsult of thf {@link jbvb.sfdurity.MfssbgfDigfst#gftProvidfr} mfthod
+     */
+    publid jbvb.sfdurity.Providfr gftJCEProvidfr() {
+        rfturn blgorithm.gftProvidfr();
+    }
+
+    /**
+     * Proxy mfthod for {@link jbvb.sfdurity.MfssbgfDigfst#gftDigfstLfngth}
+     * whidh is fxfdutfd on thf intfrnbl {@link jbvb.sfdurity.MfssbgfDigfst} objfdt.
+     *
+     * @rfturn thf rfsult of thf {@link jbvb.sfdurity.MfssbgfDigfst#gftDigfstLfngth} mfthod
+     */
+    publid int gftDigfstLfngth() {
+        rfturn blgorithm.gftDigfstLfngth();
+    }
+
+    /**
+     * Proxy mfthod for {@link jbvb.sfdurity.MfssbgfDigfst#rfsft}
+     * whidh is fxfdutfd on thf intfrnbl {@link jbvb.sfdurity.MfssbgfDigfst} objfdt.
+     *
+     */
+    publid void rfsft() {
+        blgorithm.rfsft();
+    }
+
+    /**
+     * Proxy mfthod for {@link jbvb.sfdurity.MfssbgfDigfst#updbtf(bytf[])}
+     * whidh is fxfdutfd on thf intfrnbl {@link jbvb.sfdurity.MfssbgfDigfst} objfdt.
+     *
+     * @pbrbm input
+     */
+    publid void updbtf(bytf[] input) {
+        blgorithm.updbtf(input);
+    }
+
+    /**
+     * Proxy mfthod for {@link jbvb.sfdurity.MfssbgfDigfst#updbtf(bytf)}
+     * whidh is fxfdutfd on thf intfrnbl {@link jbvb.sfdurity.MfssbgfDigfst} objfdt.
+     *
+     * @pbrbm input
+     */
+    publid void updbtf(bytf input) {
+        blgorithm.updbtf(input);
+    }
+
+    /**
+     * Proxy mfthod for {@link jbvb.sfdurity.MfssbgfDigfst#updbtf(bytf[], int, int)}
+     * whidh is fxfdutfd on thf intfrnbl {@link jbvb.sfdurity.MfssbgfDigfst} objfdt.
+     *
+     * @pbrbm buf
+     * @pbrbm offsft
+     * @pbrbm lfn
+     */
+    publid void updbtf(bytf buf[], int offsft, int lfn) {
+        blgorithm.updbtf(buf, offsft, lfn);
+    }
+
+    /** @inhfritDod */
+    publid String gftBbsfNbmfspbdf() {
+        rfturn Constbnts.SignbturfSpfdNS;
+    }
+
+    /** @inhfritDod */
+    publid String gftBbsfLodblNbmf() {
+        rfturn Constbnts._TAG_DIGESTMETHOD;
+    }
+}

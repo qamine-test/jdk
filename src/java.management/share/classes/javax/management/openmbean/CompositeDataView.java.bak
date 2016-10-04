@@ -1,128 +1,128 @@
 /*
- * Copyright (c) 2005, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management.openmbean;
+pbdkbgf jbvbx.mbnbgfmfnt.opfnmbfbn;
 
 /**
- * <p>A Java class can implement this interface to indicate how it is
- * to be converted into a {@code CompositeData} by the MXBean framework.</p>
+ * <p>A Jbvb dlbss dbn implfmfnt tiis intfrfbdf to indidbtf iow it is
+ * to bf donvfrtfd into b {@dodf CompositfDbtb} by tif MXBfbn frbmfwork.</p>
  *
- * <p>A typical way to use this class is to add extra items to the
- * {@code CompositeData} in addition to the ones that are declared in the
- * {@code CompositeType} supplied by the MXBean framework.  To do this,
- * you must create another {@code CompositeType} that has all the same items,
- * plus your extra items.</p>
+ * <p>A typidbl wby to usf tiis dlbss is to bdd fxtrb itfms to tif
+ * {@dodf CompositfDbtb} in bddition to tif onfs tibt brf dfdlbrfd in tif
+ * {@dodf CompositfTypf} supplifd by tif MXBfbn frbmfwork.  To do tiis,
+ * you must drfbtf bnotifr {@dodf CompositfTypf} tibt ibs bll tif sbmf itfms,
+ * plus your fxtrb itfms.</p>
  *
- * <p>For example, suppose you have a class {@code Measure} that consists of
- * a String called {@code units} and a {@code value} that is either a
- * {@code long} or a {@code double}.  It might look like this:</p>
+ * <p>For fxbmplf, supposf you ibvf b dlbss {@dodf Mfbsurf} tibt donsists of
+ * b String dbllfd {@dodf units} bnd b {@dodf vbluf} tibt is fitifr b
+ * {@dodf long} or b {@dodf doublf}.  It migit look likf tiis:</p>
  *
- * <pre>
- * public class Measure implements CompositeDataView {
- *     private String units;
- *     private Number value; // a Long or a Double
+ * <prf>
+ * publid dlbss Mfbsurf implfmfnts CompositfDbtbVifw {
+ *     privbtf String units;
+ *     privbtf Numbfr vbluf; // b Long or b Doublf
  *
- *     public Measure(String units, Number value) {
- *         this.units = units;
- *         this.value = value;
+ *     publid Mfbsurf(String units, Numbfr vbluf) {
+ *         tiis.units = units;
+ *         tiis.vbluf = vbluf;
  *     }
  *
- *     public static Measure from(CompositeData cd) {
- *         return new Measure((String) cd.get("units"),
- *                            (Number) cd.get("value"));
+ *     publid stbtid Mfbsurf from(CompositfDbtb dd) {
+ *         rfturn nfw Mfbsurf((String) dd.gft("units"),
+ *                            (Numbfr) dd.gft("vbluf"));
  *     }
  *
- *     public String getUnits() {
- *         return units;
+ *     publid String gftUnits() {
+ *         rfturn units;
  *     }
  *
- *     // Can't be called getValue(), because Number is not a valid type
- *     // in an MXBean, so the implied "value" property would be rejected.
- *     public Number _getValue() {
- *         return value;
+ *     // Cbn't bf dbllfd gftVbluf(), bfdbusf Numbfr is not b vblid typf
+ *     // in bn MXBfbn, so tif implifd "vbluf" propfrty would bf rfjfdtfd.
+ *     publid Numbfr _gftVbluf() {
+ *         rfturn vbluf;
  *     }
  *
- *     public CompositeData toCompositeData(CompositeType ct) {
+ *     publid CompositfDbtb toCompositfDbtb(CompositfTypf dt) {
  *         try {
- *             {@code List<String> itemNames = new ArrayList<String>(ct.keySet());}
- *             {@code List<String> itemDescriptions = new ArrayList<String>();}
- *             {@code List<OpenType<?>> itemTypes = new ArrayList<OpenType<?>>();}
- *             for (String item : itemNames) {
- *                 itemDescriptions.add(ct.getDescription(item));
- *                 itemTypes.add(ct.getType(item));
+ *             {@dodf List<String> itfmNbmfs = nfw ArrbyList<String>(dt.kfySft());}
+ *             {@dodf List<String> itfmDfsdriptions = nfw ArrbyList<String>();}
+ *             {@dodf List<OpfnTypf<?>> itfmTypfs = nfw ArrbyList<OpfnTypf<?>>();}
+ *             for (String itfm : itfmNbmfs) {
+ *                 itfmDfsdriptions.bdd(dt.gftDfsdription(itfm));
+ *                 itfmTypfs.bdd(dt.gftTypf(itfm));
  *             }
- *             itemNames.add("value");
- *             itemDescriptions.add("long or double value of the measure");
- *             itemTypes.add((value instanceof Long) ? SimpleType.LONG :
- *                           SimpleType.DOUBLE);
- *             CompositeType xct =
- *                 new CompositeType(ct.getTypeName(),
- *                                   ct.getDescription(),
- *                                   itemNames.toArray(new String[0]),
- *                                   itemDescriptions.toArray(new String[0]),
- *                                   itemTypes.toArray(new OpenType&lt;?&gt;[0]));
- *             CompositeData cd =
- *                 new CompositeDataSupport(xct,
- *                                          new String[] {"units", "value"},
- *                                          new Object[] {units, value});
- *             assert ct.isValue(cd);  // check we've done it right
- *             return cd;
- *         } catch (Exception e) {
- *             throw new RuntimeException(e);
+ *             itfmNbmfs.bdd("vbluf");
+ *             itfmDfsdriptions.bdd("long or doublf vbluf of tif mfbsurf");
+ *             itfmTypfs.bdd((vbluf instbndfof Long) ? SimplfTypf.LONG :
+ *                           SimplfTypf.DOUBLE);
+ *             CompositfTypf xdt =
+ *                 nfw CompositfTypf(dt.gftTypfNbmf(),
+ *                                   dt.gftDfsdription(),
+ *                                   itfmNbmfs.toArrby(nfw String[0]),
+ *                                   itfmDfsdriptions.toArrby(nfw String[0]),
+ *                                   itfmTypfs.toArrby(nfw OpfnTypf&lt;?&gt;[0]));
+ *             CompositfDbtb dd =
+ *                 nfw CompositfDbtbSupport(xdt,
+ *                                          nfw String[] {"units", "vbluf"},
+ *                                          nfw Objfdt[] {units, vbluf});
+ *             bssfrt dt.isVbluf(dd);  // difdk wf'vf donf it rigit
+ *             rfturn dd;
+ *         } dbtdi (Exdfption f) {
+ *             tirow nfw RuntimfExdfption(f);
  *         }
  *     }
  * }
- * </pre>
+ * </prf>
  *
- * <p>The {@code CompositeType} that will appear in the {@code openType} field
- * of the {@link javax.management.Descriptor Descriptor} for an attribute or
- * operation of this type will show only the {@code units} item, but the actual
- * {@code CompositeData} that is generated will have both {@code units} and
- * {@code value}.</p>
+ * <p>Tif {@dodf CompositfTypf} tibt will bppfbr in tif {@dodf opfnTypf} fifld
+ * of tif {@link jbvbx.mbnbgfmfnt.Dfsdriptor Dfsdriptor} for bn bttributf or
+ * opfrbtion of tiis typf will siow only tif {@dodf units} itfm, but tif bdtubl
+ * {@dodf CompositfDbtb} tibt is gfnfrbtfd will ibvf boti {@dodf units} bnd
+ * {@dodf vbluf}.</p>
  *
- * @see javax.management.MXBean
+ * @sff jbvbx.mbnbgfmfnt.MXBfbn
  *
- * @since 1.6
+ * @sindf 1.6
  */
-public interface CompositeDataView {
+publid intfrfbdf CompositfDbtbVifw {
     /**
-     * <p>Return a {@code CompositeData} corresponding to the values in
-     * this object.  The returned value should usually be an instance of
-     * {@link CompositeDataSupport}, or a class that serializes as a
-     * {@code CompositeDataSupport} via a {@code writeReplace} method.
-     * Otherwise, a remote client that receives the object might not be
-     * able to reconstruct it.
+     * <p>Rfturn b {@dodf CompositfDbtb} dorrfsponding to tif vblufs in
+     * tiis objfdt.  Tif rfturnfd vbluf siould usublly bf bn instbndf of
+     * {@link CompositfDbtbSupport}, or b dlbss tibt sfriblizfs bs b
+     * {@dodf CompositfDbtbSupport} vib b {@dodf writfRfplbdf} mftiod.
+     * Otifrwisf, b rfmotf dlifnt tibt rfdfivfs tif objfdt migit not bf
+     * bblf to rfdonstrudt it.
      *
-     * @param ct The expected {@code CompositeType} of the returned
-     * value.  If the returned value is {@code cd}, then
-     * {@code cd.getCompositeType().equals(ct)} should be true.
-     * Typically this will be because {@code cd} is a
-     * {@link CompositeDataSupport} constructed with {@code ct} as its
-     * {@code CompositeType}.
+     * @pbrbm dt Tif fxpfdtfd {@dodf CompositfTypf} of tif rfturnfd
+     * vbluf.  If tif rfturnfd vbluf is {@dodf dd}, tifn
+     * {@dodf dd.gftCompositfTypf().fqubls(dt)} siould bf truf.
+     * Typidblly tiis will bf bfdbusf {@dodf dd} is b
+     * {@link CompositfDbtbSupport} donstrudtfd witi {@dodf dt} bs its
+     * {@dodf CompositfTypf}.
      *
-     * @return the {@code CompositeData}.
+     * @rfturn tif {@dodf CompositfDbtb}.
      */
-    public CompositeData toCompositeData(CompositeType ct);
+    publid CompositfDbtb toCompositfDbtb(CompositfTypf dt);
 }

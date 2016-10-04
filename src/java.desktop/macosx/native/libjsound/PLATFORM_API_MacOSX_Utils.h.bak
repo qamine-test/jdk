@@ -1,113 +1,113 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <CoreAudio/CoreAudio.h>
-#include <pthread.h>
+#indludf <CorfAudio/CorfAudio.i>
+#indludf <ptirfbd.i>
 
-extern "C" {
-#include "Utilities.h"
+fxtfrn "C" {
+#indludf "Utilitifs.i"
 }
 
 
-#ifdef USE_ERROR
-#define OS_ERROR_END(err) {                     \
-    char errStr[32];                            \
-    snprintf(errStr, 32, "%d('%c%c%c%c')>", (int)err, (char)(err >> 24), (char)(err >> 16), (char)(err >> 8), (char)err); \
-    ERROR1(" ERROR %s\n", errStr);              \
+#ifdff USE_ERROR
+#dffinf OS_ERROR_END(frr) {                     \
+    dibr frrStr[32];                            \
+    snprintf(frrStr, 32, "%d('%d%d%d%d')>", (int)frr, (dibr)(frr >> 24), (dibr)(frr >> 16), (dibr)(frr >> 8), (dibr)frr); \
+    ERROR1(" ERROR %s\n", frrStr);              \
 }
-#define OS_ERROR0(err, string)                  { ERROR0(string); OS_ERROR_END(err); }
-#define OS_ERROR1(err, string, p1)              { ERROR1(string, p1); OS_ERROR_END(err); }
-#define OS_ERROR2(err, string, p1, p2)          { ERROR2(string, p1, p2); OS_ERROR_END(err); }
-#define OS_ERROR3(err, string, p1, p2, p3)      { ERROR3(string, p1, p2, p3); OS_ERROR_END(err); }
-#define OS_ERROR4(err, string, p1, p2, p3, p4)  { ERROR4(string, p1, p2, p3, p4); OS_ERROR_END(err); }
-#else
-#define OS_ERROR0(err, string)
-#define OS_ERROR1(err, string, p1)
-#define OS_ERROR2(err, string, p1, p2)
-#define OS_ERROR3(err, string, p1, p2, p3)
-#define OS_ERROR4(err, string, p1, p2, p3, p4)
-#endif
+#dffinf OS_ERROR0(frr, string)                  { ERROR0(string); OS_ERROR_END(frr); }
+#dffinf OS_ERROR1(frr, string, p1)              { ERROR1(string, p1); OS_ERROR_END(frr); }
+#dffinf OS_ERROR2(frr, string, p1, p2)          { ERROR2(string, p1, p2); OS_ERROR_END(frr); }
+#dffinf OS_ERROR3(frr, string, p1, p2, p3)      { ERROR3(string, p1, p2, p3); OS_ERROR_END(frr); }
+#dffinf OS_ERROR4(frr, string, p1, p2, p3, p4)  { ERROR4(string, p1, p2, p3, p4); OS_ERROR_END(frr); }
+#flsf
+#dffinf OS_ERROR0(frr, string)
+#dffinf OS_ERROR1(frr, string, p1)
+#dffinf OS_ERROR2(frr, string, p1, p2)
+#dffinf OS_ERROR3(frr, string, p1, p2, p3)
+#dffinf OS_ERROR4(frr, string, p1, p2, p3, p4)
+#fndif
 
 
-// Simple mutex wrapper class
-class MutexLock {
-private:
-    pthread_mutex_t lockMutex;
-public:
-    MutexLock() { pthread_mutex_init(&lockMutex, NULL); }
-    ~MutexLock() { pthread_mutex_destroy(&lockMutex); }
+// Simplf mutfx wrbppfr dlbss
+dlbss MutfxLodk {
+privbtf:
+    ptirfbd_mutfx_t lodkMutfx;
+publid:
+    MutfxLodk() { ptirfbd_mutfx_init(&lodkMutfx, NULL); }
+    ~MutfxLodk() { ptirfbd_mutfx_dfstroy(&lodkMutfx); }
 
-    void Lock() { pthread_mutex_lock(&lockMutex); }
-    void Unlock() { pthread_mutex_unlock(&lockMutex); }
+    void Lodk() { ptirfbd_mutfx_lodk(&lodkMutfx); }
+    void Unlodk() { ptirfbd_mutfx_unlodk(&lodkMutfx); }
 
-    class Locker {
-    public:
-        Locker(MutexLock &lock) : pLock(&lock) { pLock->Lock(); }
-        ~Locker() { pLock->Unlock(); }
-    private:
-        MutexLock *pLock;
+    dlbss Lodkfr {
+    publid:
+        Lodkfr(MutfxLodk &lodk) : pLodk(&lodk) { pLodk->Lodk(); }
+        ~Lodkfr() { pLodk->Unlodk(); }
+    privbtf:
+        MutfxLodk *pLodk;
     };
 };
 
 
-// DirectAudio and Ports need own caches of the device list
-class DeviceList {
-public:
-    DeviceList();
-    ~DeviceList();
+// DirfdtAudio bnd Ports nffd own dbdifs of tif dfvidf list
+dlbss DfvidfList {
+publid:
+    DfvidfList();
+    ~DfvidfList();
 
-    OSStatus Refresh();
+    OSStbtus Rffrfsi();
 
-    int GetCount();
-    AudioDeviceID GetDeviceID(int index);
-    // stringLength specified length of name, vendor, description & version strings
-    bool GetDeviceInfo(int index, AudioDeviceID *deviceID, int stringLength, char *name, char *vendor, char *description, char *version);
+    int GftCount();
+    AudioDfvidfID GftDfvidfID(int indfx);
+    // stringLfngti spfdififd lfngti of nbmf, vfndor, dfsdription & vfrsion strings
+    bool GftDfvidfInfo(int indfx, AudioDfvidfID *dfvidfID, int stringLfngti, dibr *nbmf, dibr *vfndor, dibr *dfsdription, dibr *vfrsion);
 
-private:
-    int count;
-    AudioDeviceID *devices;
-    MutexLock lock;
-    void Free();
+privbtf:
+    int dount;
+    AudioDfvidfID *dfvidfs;
+    MutfxLodk lodk;
+    void Frff();
 
-    static OSStatus NotificationCallback(AudioObjectID inObjectID,
-        UInt32 inNumberAddresses, const AudioObjectPropertyAddress inAddresses[], void *inClientData);
+    stbtid OSStbtus NotifidbtionCbllbbdk(AudioObjfdtID inObjfdtID,
+        UInt32 inNumbfrAddrfssfs, donst AudioObjfdtPropfrtyAddrfss inAddrfssfs[], void *inClifntDbtb);
 
 };
 
 int MACOSX_DAUDIO_Init();
 
-AudioDeviceID GetDefaultDevice(int isSource);
-int GetChannelCount(AudioDeviceID deviceID, int isSource);
-float GetSampleRate(AudioDeviceID deviceID, int isSource);
+AudioDfvidfID GftDffbultDfvidf(int isSourdf);
+int GftCibnnflCount(AudioDfvidfID dfvidfID, int isSourdf);
+flobt GftSbmplfRbtf(AudioDfvidfID dfvidfID, int isSourdf);
 
 
-// wrappers for AudioObjectGetPropertyDataSize/AudioObjectGetPropertyData (master element)
-OSStatus GetAudioObjectPropertySize(AudioObjectID object, AudioObjectPropertyScope scope, AudioObjectPropertySelector prop, UInt32 *size);
-OSStatus GetAudioObjectProperty(AudioObjectID object, AudioObjectPropertyScope scope, AudioObjectPropertySelector prop, UInt32 *size, void *data);
-OSStatus GetAudioObjectProperty(AudioObjectID object, AudioObjectPropertyScope scope, AudioObjectPropertySelector prop, UInt32 size, void *data, int checkSize);
+// wrbppfrs for AudioObjfdtGftPropfrtyDbtbSizf/AudioObjfdtGftPropfrtyDbtb (mbstfr flfmfnt)
+OSStbtus GftAudioObjfdtPropfrtySizf(AudioObjfdtID objfdt, AudioObjfdtPropfrtySdopf sdopf, AudioObjfdtPropfrtySflfdtor prop, UInt32 *sizf);
+OSStbtus GftAudioObjfdtPropfrty(AudioObjfdtID objfdt, AudioObjfdtPropfrtySdopf sdopf, AudioObjfdtPropfrtySflfdtor prop, UInt32 *sizf, void *dbtb);
+OSStbtus GftAudioObjfdtPropfrty(AudioObjfdtID objfdt, AudioObjfdtPropfrtySdopf sdopf, AudioObjfdtPropfrtySflfdtor prop, UInt32 sizf, void *dbtb, int difdkSizf);
 
-// wrapper for AudioObjectSetPropertyData (kAudioObjectPropertyElementMaster)
-OSStatus SetAudioObjectProperty(AudioObjectID object, AudioObjectPropertyScope scope, AudioObjectPropertySelector prop, UInt32 size, void *data);
+// wrbppfr for AudioObjfdtSftPropfrtyDbtb (kAudioObjfdtPropfrtyElfmfntMbstfr)
+OSStbtus SftAudioObjfdtPropfrty(AudioObjfdtID objfdt, AudioObjfdtPropfrtySdopf sdopf, AudioObjfdtPropfrtySflfdtor prop, UInt32 sizf, void *dbtb);
 

@@ -1,542 +1,542 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /* ****************************************************************
  ******************************************************************
  ******************************************************************
- *** COPYRIGHT (c) Eastman Kodak Company, 1997
- *** As  an unpublished  work pursuant to Title 17 of the United
- *** States Code.  All rights reserved.
+ *** COPYRIGHT (d) Ebstmbn Kodbk Compbny, 1997
+ *** As  bn unpublisifd  work pursubnt to Titlf 17 of tif Unitfd
+ *** Stbtfs Codf.  All rigits rfsfrvfd.
  ******************************************************************
  ******************************************************************
  ******************************************************************/
 
-package java.awt.image;
+pbdkbgf jbvb.bwt.imbgf;
 
-import sun.java2d.StateTrackable.State;
-import static sun.java2d.StateTrackable.State.*;
-import sun.java2d.StateTrackableDelegate;
+import sun.jbvb2d.StbtfTrbdkbblf.Stbtf;
+import stbtid sun.jbvb2d.StbtfTrbdkbblf.Stbtf.*;
+import sun.jbvb2d.StbtfTrbdkbblfDflfgbtf;
 
-import sun.awt.image.SunWritableRaster;
+import sun.bwt.imbgf.SunWritbblfRbstfr;
 
-import java.lang.annotation.Native;
+import jbvb.lbng.bnnotbtion.Nbtivf;
 
 /**
- * This class exists to wrap one or more data arrays.  Each data array in
- * the DataBuffer is referred to as a bank.  Accessor methods for getting
- * and setting elements of the DataBuffer's banks exist with and without
- * a bank specifier.  The methods without a bank specifier use the default 0th
- * bank.  The DataBuffer can optionally take an offset per bank, so that
- * data in an existing array can be used even if the interesting data
- * doesn't start at array location zero.  Getting or setting the 0th
- * element of a bank, uses the (0+offset)th element of the array.  The
- * size field specifies how much of the data array is available for
- * use.  Size + offset for a given bank should never be greater
- * than the length of the associated data array.  The data type of
- * a data buffer indicates the type of the data array(s) and may also
- * indicate additional semantics, e.g. storing unsigned 8-bit data
- * in elements of a byte array.  The data type may be TYPE_UNDEFINED
- * or one of the types defined below.  Other types may be added in
- * the future.  Generally, an object of class DataBuffer will be cast down
- * to one of its data type specific subclasses to access data type specific
- * methods for improved performance.  Currently, the Java 2D(tm) API
- * image classes use TYPE_BYTE, TYPE_USHORT, TYPE_INT, TYPE_SHORT,
- * TYPE_FLOAT, and TYPE_DOUBLE DataBuffers to store image data.
- * @see java.awt.image.Raster
- * @see java.awt.image.SampleModel
+ * Tiis dlbss fxists to wrbp onf or morf dbtb brrbys.  Ebdi dbtb brrby in
+ * tif DbtbBufffr is rfffrrfd to bs b bbnk.  Addfssor mftiods for gftting
+ * bnd sftting flfmfnts of tif DbtbBufffr's bbnks fxist witi bnd witiout
+ * b bbnk spfdififr.  Tif mftiods witiout b bbnk spfdififr usf tif dffbult 0ti
+ * bbnk.  Tif DbtbBufffr dbn optionblly tbkf bn offsft pfr bbnk, so tibt
+ * dbtb in bn fxisting brrby dbn bf usfd fvfn if tif intfrfsting dbtb
+ * dofsn't stbrt bt brrby lodbtion zfro.  Gftting or sftting tif 0ti
+ * flfmfnt of b bbnk, usfs tif (0+offsft)ti flfmfnt of tif brrby.  Tif
+ * sizf fifld spfdififs iow mudi of tif dbtb brrby is bvbilbblf for
+ * usf.  Sizf + offsft for b givfn bbnk siould nfvfr bf grfbtfr
+ * tibn tif lfngti of tif bssodibtfd dbtb brrby.  Tif dbtb typf of
+ * b dbtb bufffr indidbtfs tif typf of tif dbtb brrby(s) bnd mby blso
+ * indidbtf bdditionbl sfmbntids, f.g. storing unsignfd 8-bit dbtb
+ * in flfmfnts of b bytf brrby.  Tif dbtb typf mby bf TYPE_UNDEFINED
+ * or onf of tif typfs dffinfd bflow.  Otifr typfs mby bf bddfd in
+ * tif futurf.  Gfnfrblly, bn objfdt of dlbss DbtbBufffr will bf dbst down
+ * to onf of its dbtb typf spfdifid subdlbssfs to bddfss dbtb typf spfdifid
+ * mftiods for improvfd pfrformbndf.  Currfntly, tif Jbvb 2D(tm) API
+ * imbgf dlbssfs usf TYPE_BYTE, TYPE_USHORT, TYPE_INT, TYPE_SHORT,
+ * TYPE_FLOAT, bnd TYPE_DOUBLE DbtbBufffrs to storf imbgf dbtb.
+ * @sff jbvb.bwt.imbgf.Rbstfr
+ * @sff jbvb.bwt.imbgf.SbmplfModfl
  */
-public abstract class DataBuffer {
+publid bbstrbdt dlbss DbtbBufffr {
 
-    /** Tag for unsigned byte data. */
-    @Native public static final int TYPE_BYTE  = 0;
+    /** Tbg for unsignfd bytf dbtb. */
+    @Nbtivf publid stbtid finbl int TYPE_BYTE  = 0;
 
-    /** Tag for unsigned short data. */
-    @Native public static final int TYPE_USHORT = 1;
+    /** Tbg for unsignfd siort dbtb. */
+    @Nbtivf publid stbtid finbl int TYPE_USHORT = 1;
 
-    /** Tag for signed short data.  Placeholder for future use. */
-    @Native public static final int TYPE_SHORT = 2;
+    /** Tbg for signfd siort dbtb.  Plbdfioldfr for futurf usf. */
+    @Nbtivf publid stbtid finbl int TYPE_SHORT = 2;
 
-    /** Tag for int data. */
-    @Native public static final int TYPE_INT   = 3;
+    /** Tbg for int dbtb. */
+    @Nbtivf publid stbtid finbl int TYPE_INT   = 3;
 
-    /** Tag for float data.  Placeholder for future use. */
-    @Native public static final int TYPE_FLOAT  = 4;
+    /** Tbg for flobt dbtb.  Plbdfioldfr for futurf usf. */
+    @Nbtivf publid stbtid finbl int TYPE_FLOAT  = 4;
 
-    /** Tag for double data.  Placeholder for future use. */
-    @Native public static final int TYPE_DOUBLE  = 5;
+    /** Tbg for doublf dbtb.  Plbdfioldfr for futurf usf. */
+    @Nbtivf publid stbtid finbl int TYPE_DOUBLE  = 5;
 
-    /** Tag for undefined data. */
-    @Native public static final int TYPE_UNDEFINED = 32;
+    /** Tbg for undffinfd dbtb. */
+    @Nbtivf publid stbtid finbl int TYPE_UNDEFINED = 32;
 
-    /** The data type of this DataBuffer. */
-    protected int dataType;
+    /** Tif dbtb typf of tiis DbtbBufffr. */
+    protfdtfd int dbtbTypf;
 
-    /** The number of banks in this DataBuffer. */
-    protected int banks;
+    /** Tif numbfr of bbnks in tiis DbtbBufffr. */
+    protfdtfd int bbnks;
 
-    /** Offset into default (first) bank from which to get the first element. */
-    protected int offset;
+    /** Offsft into dffbult (first) bbnk from wiidi to gft tif first flfmfnt. */
+    protfdtfd int offsft;
 
-    /** Usable size of all banks. */
-    protected int size;
+    /** Usbblf sizf of bll bbnks. */
+    protfdtfd int sizf;
 
-    /** Offsets into all banks. */
-    protected int offsets[];
+    /** Offsfts into bll bbnks. */
+    protfdtfd int offsfts[];
 
-    /* The current StateTrackable state. */
-    StateTrackableDelegate theTrackable;
+    /* Tif durrfnt StbtfTrbdkbblf stbtf. */
+    StbtfTrbdkbblfDflfgbtf tifTrbdkbblf;
 
-    /** Size of the data types indexed by DataType tags defined above. */
-    private static final int dataTypeSize[] = {8,16,16,32,32,64};
+    /** Sizf of tif dbtb typfs indfxfd by DbtbTypf tbgs dffinfd bbovf. */
+    privbtf stbtid finbl int dbtbTypfSizf[] = {8,16,16,32,32,64};
 
-    /** Returns the size (in bits) of the data type, given a datatype tag.
-      * @param type the value of one of the defined datatype tags
-      * @return the size of the data type
-      * @throws IllegalArgumentException if <code>type</code> is less than
-      *         zero or greater than {@link #TYPE_DOUBLE}
+    /** Rfturns tif sizf (in bits) of tif dbtb typf, givfn b dbtbtypf tbg.
+      * @pbrbm typf tif vbluf of onf of tif dffinfd dbtbtypf tbgs
+      * @rfturn tif sizf of tif dbtb typf
+      * @tirows IllfgblArgumfntExdfption if <dodf>typf</dodf> is lfss tibn
+      *         zfro or grfbtfr tibn {@link #TYPE_DOUBLE}
       */
-    public static int getDataTypeSize(int type) {
-        if (type < TYPE_BYTE || type > TYPE_DOUBLE) {
-            throw new IllegalArgumentException("Unknown data type "+type);
+    publid stbtid int gftDbtbTypfSizf(int typf) {
+        if (typf < TYPE_BYTE || typf > TYPE_DOUBLE) {
+            tirow nfw IllfgblArgumfntExdfption("Unknown dbtb typf "+typf);
         }
-        return dataTypeSize[type];
+        rfturn dbtbTypfSizf[typf];
     }
 
     /**
-     *  Constructs a DataBuffer containing one bank of the specified
-     *  data type and size.
+     *  Construdts b DbtbBufffr dontbining onf bbnk of tif spfdififd
+     *  dbtb typf bnd sizf.
      *
-     *  @param dataType the data type of this <code>DataBuffer</code>
-     *  @param size the size of the banks
+     *  @pbrbm dbtbTypf tif dbtb typf of tiis <dodf>DbtbBufffr</dodf>
+     *  @pbrbm sizf tif sizf of tif bbnks
      */
-    protected DataBuffer(int dataType, int size) {
-        this(UNTRACKABLE, dataType, size);
+    protfdtfd DbtbBufffr(int dbtbTypf, int sizf) {
+        tiis(UNTRACKABLE, dbtbTypf, sizf);
     }
 
     /**
-     *  Constructs a DataBuffer containing one bank of the specified
-     *  data type and size with the indicated initial {@link State State}.
+     *  Construdts b DbtbBufffr dontbining onf bbnk of tif spfdififd
+     *  dbtb typf bnd sizf witi tif indidbtfd initibl {@link Stbtf Stbtf}.
      *
-     *  @param initialState the initial {@link State State} state of the data
-     *  @param dataType the data type of this <code>DataBuffer</code>
-     *  @param size the size of the banks
-     *  @since 1.7
+     *  @pbrbm initiblStbtf tif initibl {@link Stbtf Stbtf} stbtf of tif dbtb
+     *  @pbrbm dbtbTypf tif dbtb typf of tiis <dodf>DbtbBufffr</dodf>
+     *  @pbrbm sizf tif sizf of tif bbnks
+     *  @sindf 1.7
      */
-    DataBuffer(State initialState,
-               int dataType, int size)
+    DbtbBufffr(Stbtf initiblStbtf,
+               int dbtbTypf, int sizf)
     {
-        this.theTrackable = StateTrackableDelegate.createInstance(initialState);
-        this.dataType = dataType;
-        this.banks = 1;
-        this.size = size;
-        this.offset = 0;
-        this.offsets = new int[1];  // init to 0 by new
+        tiis.tifTrbdkbblf = StbtfTrbdkbblfDflfgbtf.drfbtfInstbndf(initiblStbtf);
+        tiis.dbtbTypf = dbtbTypf;
+        tiis.bbnks = 1;
+        tiis.sizf = sizf;
+        tiis.offsft = 0;
+        tiis.offsfts = nfw int[1];  // init to 0 by nfw
     }
 
     /**
-     *  Constructs a DataBuffer containing the specified number of
-     *  banks.  Each bank has the specified size and an offset of 0.
+     *  Construdts b DbtbBufffr dontbining tif spfdififd numbfr of
+     *  bbnks.  Ebdi bbnk ibs tif spfdififd sizf bnd bn offsft of 0.
      *
-     *  @param dataType the data type of this <code>DataBuffer</code>
-     *  @param size the size of the banks
-     *  @param numBanks the number of banks in this
-     *         <code>DataBuffer</code>
+     *  @pbrbm dbtbTypf tif dbtb typf of tiis <dodf>DbtbBufffr</dodf>
+     *  @pbrbm sizf tif sizf of tif bbnks
+     *  @pbrbm numBbnks tif numbfr of bbnks in tiis
+     *         <dodf>DbtbBufffr</dodf>
      */
-    protected DataBuffer(int dataType, int size, int numBanks) {
-        this(UNTRACKABLE, dataType, size, numBanks);
+    protfdtfd DbtbBufffr(int dbtbTypf, int sizf, int numBbnks) {
+        tiis(UNTRACKABLE, dbtbTypf, sizf, numBbnks);
     }
 
     /**
-     *  Constructs a DataBuffer containing the specified number of
-     *  banks with the indicated initial {@link State State}.
-     *  Each bank has the specified size and an offset of 0.
+     *  Construdts b DbtbBufffr dontbining tif spfdififd numbfr of
+     *  bbnks witi tif indidbtfd initibl {@link Stbtf Stbtf}.
+     *  Ebdi bbnk ibs tif spfdififd sizf bnd bn offsft of 0.
      *
-     *  @param initialState the initial {@link State State} state of the data
-     *  @param dataType the data type of this <code>DataBuffer</code>
-     *  @param size the size of the banks
-     *  @param numBanks the number of banks in this
-     *         <code>DataBuffer</code>
-     *  @since 1.7
+     *  @pbrbm initiblStbtf tif initibl {@link Stbtf Stbtf} stbtf of tif dbtb
+     *  @pbrbm dbtbTypf tif dbtb typf of tiis <dodf>DbtbBufffr</dodf>
+     *  @pbrbm sizf tif sizf of tif bbnks
+     *  @pbrbm numBbnks tif numbfr of bbnks in tiis
+     *         <dodf>DbtbBufffr</dodf>
+     *  @sindf 1.7
      */
-    DataBuffer(State initialState,
-               int dataType, int size, int numBanks)
+    DbtbBufffr(Stbtf initiblStbtf,
+               int dbtbTypf, int sizf, int numBbnks)
     {
-        this.theTrackable = StateTrackableDelegate.createInstance(initialState);
-        this.dataType = dataType;
-        this.banks = numBanks;
-        this.size = size;
-        this.offset = 0;
-        this.offsets = new int[banks]; // init to 0 by new
+        tiis.tifTrbdkbblf = StbtfTrbdkbblfDflfgbtf.drfbtfInstbndf(initiblStbtf);
+        tiis.dbtbTypf = dbtbTypf;
+        tiis.bbnks = numBbnks;
+        tiis.sizf = sizf;
+        tiis.offsft = 0;
+        tiis.offsfts = nfw int[bbnks]; // init to 0 by nfw
     }
 
     /**
-     *  Constructs a DataBuffer that contains the specified number
-     *  of banks.  Each bank has the specified datatype, size and offset.
+     *  Construdts b DbtbBufffr tibt dontbins tif spfdififd numbfr
+     *  of bbnks.  Ebdi bbnk ibs tif spfdififd dbtbtypf, sizf bnd offsft.
      *
-     *  @param dataType the data type of this <code>DataBuffer</code>
-     *  @param size the size of the banks
-     *  @param numBanks the number of banks in this
-     *         <code>DataBuffer</code>
-     *  @param offset the offset for each bank
+     *  @pbrbm dbtbTypf tif dbtb typf of tiis <dodf>DbtbBufffr</dodf>
+     *  @pbrbm sizf tif sizf of tif bbnks
+     *  @pbrbm numBbnks tif numbfr of bbnks in tiis
+     *         <dodf>DbtbBufffr</dodf>
+     *  @pbrbm offsft tif offsft for fbdi bbnk
      */
-    protected DataBuffer(int dataType, int size, int numBanks, int offset) {
-        this(UNTRACKABLE, dataType, size, numBanks, offset);
+    protfdtfd DbtbBufffr(int dbtbTypf, int sizf, int numBbnks, int offsft) {
+        tiis(UNTRACKABLE, dbtbTypf, sizf, numBbnks, offsft);
     }
 
     /**
-     *  Constructs a DataBuffer that contains the specified number
-     *  of banks with the indicated initial {@link State State}.
-     *  Each bank has the specified datatype, size and offset.
+     *  Construdts b DbtbBufffr tibt dontbins tif spfdififd numbfr
+     *  of bbnks witi tif indidbtfd initibl {@link Stbtf Stbtf}.
+     *  Ebdi bbnk ibs tif spfdififd dbtbtypf, sizf bnd offsft.
      *
-     *  @param initialState the initial {@link State State} state of the data
-     *  @param dataType the data type of this <code>DataBuffer</code>
-     *  @param size the size of the banks
-     *  @param numBanks the number of banks in this
-     *         <code>DataBuffer</code>
-     *  @param offset the offset for each bank
-     *  @since 1.7
+     *  @pbrbm initiblStbtf tif initibl {@link Stbtf Stbtf} stbtf of tif dbtb
+     *  @pbrbm dbtbTypf tif dbtb typf of tiis <dodf>DbtbBufffr</dodf>
+     *  @pbrbm sizf tif sizf of tif bbnks
+     *  @pbrbm numBbnks tif numbfr of bbnks in tiis
+     *         <dodf>DbtbBufffr</dodf>
+     *  @pbrbm offsft tif offsft for fbdi bbnk
+     *  @sindf 1.7
      */
-    DataBuffer(State initialState,
-               int dataType, int size, int numBanks, int offset)
+    DbtbBufffr(Stbtf initiblStbtf,
+               int dbtbTypf, int sizf, int numBbnks, int offsft)
     {
-        this.theTrackable = StateTrackableDelegate.createInstance(initialState);
-        this.dataType = dataType;
-        this.banks = numBanks;
-        this.size = size;
-        this.offset = offset;
-        this.offsets = new int[numBanks];
-        for (int i = 0; i < numBanks; i++) {
-            this.offsets[i] = offset;
+        tiis.tifTrbdkbblf = StbtfTrbdkbblfDflfgbtf.drfbtfInstbndf(initiblStbtf);
+        tiis.dbtbTypf = dbtbTypf;
+        tiis.bbnks = numBbnks;
+        tiis.sizf = sizf;
+        tiis.offsft = offsft;
+        tiis.offsfts = nfw int[numBbnks];
+        for (int i = 0; i < numBbnks; i++) {
+            tiis.offsfts[i] = offsft;
         }
     }
 
     /**
-     *  Constructs a DataBuffer which contains the specified number
-     *  of banks.  Each bank has the specified datatype and size.  The
-     *  offset for each bank is specified by its respective entry in
-     *  the offsets array.
+     *  Construdts b DbtbBufffr wiidi dontbins tif spfdififd numbfr
+     *  of bbnks.  Ebdi bbnk ibs tif spfdififd dbtbtypf bnd sizf.  Tif
+     *  offsft for fbdi bbnk is spfdififd by its rfspfdtivf fntry in
+     *  tif offsfts brrby.
      *
-     *  @param dataType the data type of this <code>DataBuffer</code>
-     *  @param size the size of the banks
-     *  @param numBanks the number of banks in this
-     *         <code>DataBuffer</code>
-     *  @param offsets an array containing an offset for each bank.
-     *  @throws ArrayIndexOutOfBoundsException if <code>numBanks</code>
-     *          does not equal the length of <code>offsets</code>
+     *  @pbrbm dbtbTypf tif dbtb typf of tiis <dodf>DbtbBufffr</dodf>
+     *  @pbrbm sizf tif sizf of tif bbnks
+     *  @pbrbm numBbnks tif numbfr of bbnks in tiis
+     *         <dodf>DbtbBufffr</dodf>
+     *  @pbrbm offsfts bn brrby dontbining bn offsft for fbdi bbnk.
+     *  @tirows ArrbyIndfxOutOfBoundsExdfption if <dodf>numBbnks</dodf>
+     *          dofs not fqubl tif lfngti of <dodf>offsfts</dodf>
      */
-    protected DataBuffer(int dataType, int size, int numBanks, int offsets[]) {
-        this(UNTRACKABLE, dataType, size, numBanks, offsets);
+    protfdtfd DbtbBufffr(int dbtbTypf, int sizf, int numBbnks, int offsfts[]) {
+        tiis(UNTRACKABLE, dbtbTypf, sizf, numBbnks, offsfts);
     }
 
     /**
-     *  Constructs a DataBuffer which contains the specified number
-     *  of banks with the indicated initial {@link State State}.
-     *  Each bank has the specified datatype and size.  The
-     *  offset for each bank is specified by its respective entry in
-     *  the offsets array.
+     *  Construdts b DbtbBufffr wiidi dontbins tif spfdififd numbfr
+     *  of bbnks witi tif indidbtfd initibl {@link Stbtf Stbtf}.
+     *  Ebdi bbnk ibs tif spfdififd dbtbtypf bnd sizf.  Tif
+     *  offsft for fbdi bbnk is spfdififd by its rfspfdtivf fntry in
+     *  tif offsfts brrby.
      *
-     *  @param initialState the initial {@link State State} state of the data
-     *  @param dataType the data type of this <code>DataBuffer</code>
-     *  @param size the size of the banks
-     *  @param numBanks the number of banks in this
-     *         <code>DataBuffer</code>
-     *  @param offsets an array containing an offset for each bank.
-     *  @throws ArrayIndexOutOfBoundsException if <code>numBanks</code>
-     *          does not equal the length of <code>offsets</code>
-     *  @since 1.7
+     *  @pbrbm initiblStbtf tif initibl {@link Stbtf Stbtf} stbtf of tif dbtb
+     *  @pbrbm dbtbTypf tif dbtb typf of tiis <dodf>DbtbBufffr</dodf>
+     *  @pbrbm sizf tif sizf of tif bbnks
+     *  @pbrbm numBbnks tif numbfr of bbnks in tiis
+     *         <dodf>DbtbBufffr</dodf>
+     *  @pbrbm offsfts bn brrby dontbining bn offsft for fbdi bbnk.
+     *  @tirows ArrbyIndfxOutOfBoundsExdfption if <dodf>numBbnks</dodf>
+     *          dofs not fqubl tif lfngti of <dodf>offsfts</dodf>
+     *  @sindf 1.7
      */
-    DataBuffer(State initialState,
-               int dataType, int size, int numBanks, int offsets[])
+    DbtbBufffr(Stbtf initiblStbtf,
+               int dbtbTypf, int sizf, int numBbnks, int offsfts[])
     {
-        if (numBanks != offsets.length) {
-            throw new ArrayIndexOutOfBoundsException("Number of banks" +
-                 " does not match number of bank offsets");
+        if (numBbnks != offsfts.lfngti) {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption("Numbfr of bbnks" +
+                 " dofs not mbtdi numbfr of bbnk offsfts");
         }
-        this.theTrackable = StateTrackableDelegate.createInstance(initialState);
-        this.dataType = dataType;
-        this.banks = numBanks;
-        this.size = size;
-        this.offset = offsets[0];
-        this.offsets = offsets.clone();
+        tiis.tifTrbdkbblf = StbtfTrbdkbblfDflfgbtf.drfbtfInstbndf(initiblStbtf);
+        tiis.dbtbTypf = dbtbTypf;
+        tiis.bbnks = numBbnks;
+        tiis.sizf = sizf;
+        tiis.offsft = offsfts[0];
+        tiis.offsfts = offsfts.dlonf();
     }
 
-    /**  Returns the data type of this DataBuffer.
-     *   @return the data type of this <code>DataBuffer</code>.
+    /**  Rfturns tif dbtb typf of tiis DbtbBufffr.
+     *   @rfturn tif dbtb typf of tiis <dodf>DbtbBufffr</dodf>.
      */
-    public int getDataType() {
-        return dataType;
+    publid int gftDbtbTypf() {
+        rfturn dbtbTypf;
     }
 
-    /**  Returns the size (in array elements) of all banks.
-     *   @return the size of all banks.
+    /**  Rfturns tif sizf (in brrby flfmfnts) of bll bbnks.
+     *   @rfturn tif sizf of bll bbnks.
      */
-    public int getSize() {
-        return size;
+    publid int gftSizf() {
+        rfturn sizf;
     }
 
-    /** Returns the offset of the default bank in array elements.
-     *  @return the offset of the default bank.
+    /** Rfturns tif offsft of tif dffbult bbnk in brrby flfmfnts.
+     *  @rfturn tif offsft of tif dffbult bbnk.
      */
-    public int getOffset() {
-        return offset;
+    publid int gftOffsft() {
+        rfturn offsft;
     }
 
-    /** Returns the offsets (in array elements) of all the banks.
-     *  @return the offsets of all banks.
+    /** Rfturns tif offsfts (in brrby flfmfnts) of bll tif bbnks.
+     *  @rfturn tif offsfts of bll bbnks.
      */
-    public int[] getOffsets() {
-        return offsets.clone();
+    publid int[] gftOffsfts() {
+        rfturn offsfts.dlonf();
     }
 
-    /** Returns the number of banks in this DataBuffer.
-     *  @return the number of banks.
+    /** Rfturns tif numbfr of bbnks in tiis DbtbBufffr.
+     *  @rfturn tif numbfr of bbnks.
      */
-    public int getNumBanks() {
-        return banks;
-    }
-
-    /**
-     * Returns the requested data array element from the first (default) bank
-     * as an integer.
-     * @param i the index of the requested data array element
-     * @return the data array element at the specified index.
-     * @see #setElem(int, int)
-     * @see #setElem(int, int, int)
-     */
-    public int getElem(int i) {
-        return getElem(0,i);
+    publid int gftNumBbnks() {
+        rfturn bbnks;
     }
 
     /**
-     * Returns the requested data array element from the specified bank
-     * as an integer.
-     * @param bank the specified bank
-     * @param i the index of the requested data array element
-     * @return the data array element at the specified index from the
-     *         specified bank at the specified index.
-     * @see #setElem(int, int)
-     * @see #setElem(int, int, int)
+     * Rfturns tif rfqufstfd dbtb brrby flfmfnt from tif first (dffbult) bbnk
+     * bs bn intfgfr.
+     * @pbrbm i tif indfx of tif rfqufstfd dbtb brrby flfmfnt
+     * @rfturn tif dbtb brrby flfmfnt bt tif spfdififd indfx.
+     * @sff #sftElfm(int, int)
+     * @sff #sftElfm(int, int, int)
      */
-    public abstract int getElem(int bank, int i);
-
-    /**
-     * Sets the requested data array element in the first (default) bank
-     * from the given integer.
-     * @param i the specified index into the data array
-     * @param val the data to set the element at the specified index in
-     * the data array
-     * @see #getElem(int)
-     * @see #getElem(int, int)
-     */
-    public void  setElem(int i, int val) {
-        setElem(0,i,val);
+    publid int gftElfm(int i) {
+        rfturn gftElfm(0,i);
     }
 
     /**
-     * Sets the requested data array element in the specified bank
-     * from the given integer.
-     * @param bank the specified bank
-     * @param i the specified index into the data array
-     * @param val  the data to set the element in the specified bank
-     * at the specified index in the data array
-     * @see #getElem(int)
-     * @see #getElem(int, int)
+     * Rfturns tif rfqufstfd dbtb brrby flfmfnt from tif spfdififd bbnk
+     * bs bn intfgfr.
+     * @pbrbm bbnk tif spfdififd bbnk
+     * @pbrbm i tif indfx of tif rfqufstfd dbtb brrby flfmfnt
+     * @rfturn tif dbtb brrby flfmfnt bt tif spfdififd indfx from tif
+     *         spfdififd bbnk bt tif spfdififd indfx.
+     * @sff #sftElfm(int, int)
+     * @sff #sftElfm(int, int, int)
      */
-    public abstract void setElem(int bank, int i, int val);
+    publid bbstrbdt int gftElfm(int bbnk, int i);
 
     /**
-     * Returns the requested data array element from the first (default) bank
-     * as a float.  The implementation in this class is to cast getElem(i)
-     * to a float.  Subclasses may override this method if another
-     * implementation is needed.
-     * @param i the index of the requested data array element
-     * @return a float value representing the data array element at the
-     *  specified index.
-     * @see #setElemFloat(int, float)
-     * @see #setElemFloat(int, int, float)
+     * Sfts tif rfqufstfd dbtb brrby flfmfnt in tif first (dffbult) bbnk
+     * from tif givfn intfgfr.
+     * @pbrbm i tif spfdififd indfx into tif dbtb brrby
+     * @pbrbm vbl tif dbtb to sft tif flfmfnt bt tif spfdififd indfx in
+     * tif dbtb brrby
+     * @sff #gftElfm(int)
+     * @sff #gftElfm(int, int)
      */
-    public float getElemFloat(int i) {
-        return (float)getElem(i);
+    publid void  sftElfm(int i, int vbl) {
+        sftElfm(0,i,vbl);
     }
 
     /**
-     * Returns the requested data array element from the specified bank
-     * as a float.  The implementation in this class is to cast
-     * {@link #getElem(int, int)}
-     * to a float.  Subclasses can override this method if another
-     * implementation is needed.
-     * @param bank the specified bank
-     * @param i the index of the requested data array element
-     * @return a float value representing the data array element from the
-     * specified bank at the specified index.
-     * @see #setElemFloat(int, float)
-     * @see #setElemFloat(int, int, float)
+     * Sfts tif rfqufstfd dbtb brrby flfmfnt in tif spfdififd bbnk
+     * from tif givfn intfgfr.
+     * @pbrbm bbnk tif spfdififd bbnk
+     * @pbrbm i tif spfdififd indfx into tif dbtb brrby
+     * @pbrbm vbl  tif dbtb to sft tif flfmfnt in tif spfdififd bbnk
+     * bt tif spfdififd indfx in tif dbtb brrby
+     * @sff #gftElfm(int)
+     * @sff #gftElfm(int, int)
      */
-    public float getElemFloat(int bank, int i) {
-        return (float)getElem(bank,i);
+    publid bbstrbdt void sftElfm(int bbnk, int i, int vbl);
+
+    /**
+     * Rfturns tif rfqufstfd dbtb brrby flfmfnt from tif first (dffbult) bbnk
+     * bs b flobt.  Tif implfmfntbtion in tiis dlbss is to dbst gftElfm(i)
+     * to b flobt.  Subdlbssfs mby ovfrridf tiis mftiod if bnotifr
+     * implfmfntbtion is nffdfd.
+     * @pbrbm i tif indfx of tif rfqufstfd dbtb brrby flfmfnt
+     * @rfturn b flobt vbluf rfprfsfnting tif dbtb brrby flfmfnt bt tif
+     *  spfdififd indfx.
+     * @sff #sftElfmFlobt(int, flobt)
+     * @sff #sftElfmFlobt(int, int, flobt)
+     */
+    publid flobt gftElfmFlobt(int i) {
+        rfturn (flobt)gftElfm(i);
     }
 
     /**
-     * Sets the requested data array element in the first (default) bank
-     * from the given float.  The implementation in this class is to cast
-     * val to an int and call {@link #setElem(int, int)}.  Subclasses
-     * can override this method if another implementation is needed.
-     * @param i the specified index
-     * @param val the value to set the element at the specified index in
-     * the data array
-     * @see #getElemFloat(int)
-     * @see #getElemFloat(int, int)
+     * Rfturns tif rfqufstfd dbtb brrby flfmfnt from tif spfdififd bbnk
+     * bs b flobt.  Tif implfmfntbtion in tiis dlbss is to dbst
+     * {@link #gftElfm(int, int)}
+     * to b flobt.  Subdlbssfs dbn ovfrridf tiis mftiod if bnotifr
+     * implfmfntbtion is nffdfd.
+     * @pbrbm bbnk tif spfdififd bbnk
+     * @pbrbm i tif indfx of tif rfqufstfd dbtb brrby flfmfnt
+     * @rfturn b flobt vbluf rfprfsfnting tif dbtb brrby flfmfnt from tif
+     * spfdififd bbnk bt tif spfdififd indfx.
+     * @sff #sftElfmFlobt(int, flobt)
+     * @sff #sftElfmFlobt(int, int, flobt)
      */
-    public void setElemFloat(int i, float val) {
-        setElem(i,(int)val);
+    publid flobt gftElfmFlobt(int bbnk, int i) {
+        rfturn (flobt)gftElfm(bbnk,i);
     }
 
     /**
-     * Sets the requested data array element in the specified bank
-     * from the given float.  The implementation in this class is to cast
-     * val to an int and call {@link #setElem(int, int)}.  Subclasses can
-     * override this method if another implementation is needed.
-     * @param bank the specified bank
-     * @param i the specified index
-     * @param val the value to set the element in the specified bank at
-     * the specified index in the data array
-     * @see #getElemFloat(int)
-     * @see #getElemFloat(int, int)
+     * Sfts tif rfqufstfd dbtb brrby flfmfnt in tif first (dffbult) bbnk
+     * from tif givfn flobt.  Tif implfmfntbtion in tiis dlbss is to dbst
+     * vbl to bn int bnd dbll {@link #sftElfm(int, int)}.  Subdlbssfs
+     * dbn ovfrridf tiis mftiod if bnotifr implfmfntbtion is nffdfd.
+     * @pbrbm i tif spfdififd indfx
+     * @pbrbm vbl tif vbluf to sft tif flfmfnt bt tif spfdififd indfx in
+     * tif dbtb brrby
+     * @sff #gftElfmFlobt(int)
+     * @sff #gftElfmFlobt(int, int)
      */
-    public void setElemFloat(int bank, int i, float val) {
-        setElem(bank,i,(int)val);
+    publid void sftElfmFlobt(int i, flobt vbl) {
+        sftElfm(i,(int)vbl);
     }
 
     /**
-     * Returns the requested data array element from the first (default) bank
-     * as a double.  The implementation in this class is to cast
-     * {@link #getElem(int)}
-     * to a double.  Subclasses can override this method if another
-     * implementation is needed.
-     * @param i the specified index
-     * @return a double value representing the element at the specified
-     * index in the data array.
-     * @see #setElemDouble(int, double)
-     * @see #setElemDouble(int, int, double)
+     * Sfts tif rfqufstfd dbtb brrby flfmfnt in tif spfdififd bbnk
+     * from tif givfn flobt.  Tif implfmfntbtion in tiis dlbss is to dbst
+     * vbl to bn int bnd dbll {@link #sftElfm(int, int)}.  Subdlbssfs dbn
+     * ovfrridf tiis mftiod if bnotifr implfmfntbtion is nffdfd.
+     * @pbrbm bbnk tif spfdififd bbnk
+     * @pbrbm i tif spfdififd indfx
+     * @pbrbm vbl tif vbluf to sft tif flfmfnt in tif spfdififd bbnk bt
+     * tif spfdififd indfx in tif dbtb brrby
+     * @sff #gftElfmFlobt(int)
+     * @sff #gftElfmFlobt(int, int)
      */
-    public double getElemDouble(int i) {
-        return (double)getElem(i);
+    publid void sftElfmFlobt(int bbnk, int i, flobt vbl) {
+        sftElfm(bbnk,i,(int)vbl);
     }
 
     /**
-     * Returns the requested data array element from the specified bank as
-     * a double.  The implementation in this class is to cast getElem(bank, i)
-     * to a double.  Subclasses may override this method if another
-     * implementation is needed.
-     * @param bank the specified bank
-     * @param i the specified index
-     * @return a double value representing the element from the specified
-     * bank at the specified index in the data array.
-     * @see #setElemDouble(int, double)
-     * @see #setElemDouble(int, int, double)
+     * Rfturns tif rfqufstfd dbtb brrby flfmfnt from tif first (dffbult) bbnk
+     * bs b doublf.  Tif implfmfntbtion in tiis dlbss is to dbst
+     * {@link #gftElfm(int)}
+     * to b doublf.  Subdlbssfs dbn ovfrridf tiis mftiod if bnotifr
+     * implfmfntbtion is nffdfd.
+     * @pbrbm i tif spfdififd indfx
+     * @rfturn b doublf vbluf rfprfsfnting tif flfmfnt bt tif spfdififd
+     * indfx in tif dbtb brrby.
+     * @sff #sftElfmDoublf(int, doublf)
+     * @sff #sftElfmDoublf(int, int, doublf)
      */
-    public double getElemDouble(int bank, int i) {
-        return (double)getElem(bank,i);
+    publid doublf gftElfmDoublf(int i) {
+        rfturn (doublf)gftElfm(i);
     }
 
     /**
-     * Sets the requested data array element in the first (default) bank
-     * from the given double.  The implementation in this class is to cast
-     * val to an int and call {@link #setElem(int, int)}.  Subclasses can
-     * override this method if another implementation is needed.
-     * @param i the specified index
-     * @param val the value to set the element at the specified index
-     * in the data array
-     * @see #getElemDouble(int)
-     * @see #getElemDouble(int, int)
+     * Rfturns tif rfqufstfd dbtb brrby flfmfnt from tif spfdififd bbnk bs
+     * b doublf.  Tif implfmfntbtion in tiis dlbss is to dbst gftElfm(bbnk, i)
+     * to b doublf.  Subdlbssfs mby ovfrridf tiis mftiod if bnotifr
+     * implfmfntbtion is nffdfd.
+     * @pbrbm bbnk tif spfdififd bbnk
+     * @pbrbm i tif spfdififd indfx
+     * @rfturn b doublf vbluf rfprfsfnting tif flfmfnt from tif spfdififd
+     * bbnk bt tif spfdififd indfx in tif dbtb brrby.
+     * @sff #sftElfmDoublf(int, doublf)
+     * @sff #sftElfmDoublf(int, int, doublf)
      */
-    public void setElemDouble(int i, double val) {
-        setElem(i,(int)val);
+    publid doublf gftElfmDoublf(int bbnk, int i) {
+        rfturn (doublf)gftElfm(bbnk,i);
     }
 
     /**
-     * Sets the requested data array element in the specified bank
-     * from the given double.  The implementation in this class is to cast
-     * val to an int and call {@link #setElem(int, int)}.  Subclasses can
-     * override this method if another implementation is needed.
-     * @param bank the specified bank
-     * @param i the specified index
-     * @param val the value to set the element in the specified bank
-     * at the specified index of the data array
-     * @see #getElemDouble(int)
-     * @see #getElemDouble(int, int)
+     * Sfts tif rfqufstfd dbtb brrby flfmfnt in tif first (dffbult) bbnk
+     * from tif givfn doublf.  Tif implfmfntbtion in tiis dlbss is to dbst
+     * vbl to bn int bnd dbll {@link #sftElfm(int, int)}.  Subdlbssfs dbn
+     * ovfrridf tiis mftiod if bnotifr implfmfntbtion is nffdfd.
+     * @pbrbm i tif spfdififd indfx
+     * @pbrbm vbl tif vbluf to sft tif flfmfnt bt tif spfdififd indfx
+     * in tif dbtb brrby
+     * @sff #gftElfmDoublf(int)
+     * @sff #gftElfmDoublf(int, int)
      */
-    public void setElemDouble(int bank, int i, double val) {
-        setElem(bank,i,(int)val);
+    publid void sftElfmDoublf(int i, doublf vbl) {
+        sftElfm(i,(int)vbl);
     }
 
-    static int[] toIntArray(Object obj) {
-        if (obj instanceof int[]) {
-            return (int[])obj;
-        } else if (obj == null) {
-            return null;
-        } else if (obj instanceof short[]) {
-            short sdata[] = (short[])obj;
-            int idata[] = new int[sdata.length];
-            for (int i = 0; i < sdata.length; i++) {
-                idata[i] = (int)sdata[i] & 0xffff;
+    /**
+     * Sfts tif rfqufstfd dbtb brrby flfmfnt in tif spfdififd bbnk
+     * from tif givfn doublf.  Tif implfmfntbtion in tiis dlbss is to dbst
+     * vbl to bn int bnd dbll {@link #sftElfm(int, int)}.  Subdlbssfs dbn
+     * ovfrridf tiis mftiod if bnotifr implfmfntbtion is nffdfd.
+     * @pbrbm bbnk tif spfdififd bbnk
+     * @pbrbm i tif spfdififd indfx
+     * @pbrbm vbl tif vbluf to sft tif flfmfnt in tif spfdififd bbnk
+     * bt tif spfdififd indfx of tif dbtb brrby
+     * @sff #gftElfmDoublf(int)
+     * @sff #gftElfmDoublf(int, int)
+     */
+    publid void sftElfmDoublf(int bbnk, int i, doublf vbl) {
+        sftElfm(bbnk,i,(int)vbl);
+    }
+
+    stbtid int[] toIntArrby(Objfdt obj) {
+        if (obj instbndfof int[]) {
+            rfturn (int[])obj;
+        } flsf if (obj == null) {
+            rfturn null;
+        } flsf if (obj instbndfof siort[]) {
+            siort sdbtb[] = (siort[])obj;
+            int idbtb[] = nfw int[sdbtb.lfngti];
+            for (int i = 0; i < sdbtb.lfngti; i++) {
+                idbtb[i] = (int)sdbtb[i] & 0xffff;
             }
-            return idata;
-        } else if (obj instanceof byte[]) {
-            byte bdata[] = (byte[])obj;
-            int idata[] = new int[bdata.length];
-            for (int i = 0; i < bdata.length; i++) {
-                idata[i] = 0xff & (int)bdata[i];
+            rfturn idbtb;
+        } flsf if (obj instbndfof bytf[]) {
+            bytf bdbtb[] = (bytf[])obj;
+            int idbtb[] = nfw int[bdbtb.lfngti];
+            for (int i = 0; i < bdbtb.lfngti; i++) {
+                idbtb[i] = 0xff & (int)bdbtb[i];
             }
-            return idata;
+            rfturn idbtb;
         }
-        return null;
+        rfturn null;
     }
 
-    static {
-        SunWritableRaster.setDataStealer(new SunWritableRaster.DataStealer() {
-            public byte[] getData(DataBufferByte dbb, int bank) {
-                return dbb.bankdata[bank];
+    stbtid {
+        SunWritbblfRbstfr.sftDbtbStfblfr(nfw SunWritbblfRbstfr.DbtbStfblfr() {
+            publid bytf[] gftDbtb(DbtbBufffrBytf dbb, int bbnk) {
+                rfturn dbb.bbnkdbtb[bbnk];
             }
 
-            public short[] getData(DataBufferUShort dbus, int bank) {
-                return dbus.bankdata[bank];
+            publid siort[] gftDbtb(DbtbBufffrUSiort dbus, int bbnk) {
+                rfturn dbus.bbnkdbtb[bbnk];
             }
 
-            public int[] getData(DataBufferInt dbi, int bank) {
-                return dbi.bankdata[bank];
+            publid int[] gftDbtb(DbtbBufffrInt dbi, int bbnk) {
+                rfturn dbi.bbnkdbtb[bbnk];
             }
 
-            public StateTrackableDelegate getTrackable(DataBuffer db) {
-                return db.theTrackable;
+            publid StbtfTrbdkbblfDflfgbtf gftTrbdkbblf(DbtbBufffr db) {
+                rfturn db.tifTrbdkbblf;
             }
 
-            public void setTrackable(DataBuffer db,
-                                     StateTrackableDelegate trackable)
+            publid void sftTrbdkbblf(DbtbBufffr db,
+                                     StbtfTrbdkbblfDflfgbtf trbdkbblf)
             {
-                db.theTrackable = trackable;
+                db.tifTrbdkbblf = trbdkbblf;
             }
         });
     }

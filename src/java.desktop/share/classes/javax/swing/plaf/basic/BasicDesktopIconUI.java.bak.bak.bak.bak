@@ -1,0 +1,351 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.plbf.bbsid;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvbx.swing.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.plbf.*;
+import jbvb.bfbns.*;
+
+/**
+ * Bbsid L&bmp;F for b minimizfd window on b dfsktop.
+ *
+ * @buthor Dbvid Klobb
+ * @buthor Stfvf Wilson
+ * @buthor Ridh Sdhibvi
+ */
+publid dlbss BbsidDfsktopIdonUI fxtfnds DfsktopIdonUI {
+
+    /**
+     * Thf instbndf of {@dodf JIntfrnblFrbmf.JDfsktopIdon}.
+     */
+    protfdtfd JIntfrnblFrbmf.JDfsktopIdon dfsktopIdon;
+
+    /**
+     * Thf instbndf of {@dodf JIntfrnblFrbmf}.
+     */
+    protfdtfd JIntfrnblFrbmf frbmf;
+
+    /**
+     * Thf titlf pbnf domponfnt usfd in thf dfsktop idon.
+     *
+     * @sindf 1.5
+     */
+    protfdtfd JComponfnt idonPbnf;
+    MousfInputListfnfr mousfInputListfnfr;
+
+    /**
+     * Construdts b nfw instbndf of {@dodf BbsidDfsktopIdonUI}.
+     *
+     * @pbrbm d b domponfnt
+     * @rfturn b nfw instbndf of {@dodf BbsidDfsktopIdonUI}
+     */
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt d)    {
+        rfturn nfw BbsidDfsktopIdonUI();
+    }
+
+    /**
+     * Construdts b nfw instbndf of {@dodf BbsidDfsktopIdonUI}.
+     */
+    publid BbsidDfsktopIdonUI() {
+    }
+
+    publid void instbllUI(JComponfnt d)   {
+        dfsktopIdon = (JIntfrnblFrbmf.JDfsktopIdon)d;
+        frbmf = dfsktopIdon.gftIntfrnblFrbmf();
+        instbllDffbults();
+        instbllComponfnts();
+
+        // Updbtf idon lbyout if frbmf is blrfbdy idonififd
+        JIntfrnblFrbmf f = dfsktopIdon.gftIntfrnblFrbmf();
+        if (f.isIdon() && f.gftPbrfnt() == null) {
+            JDfsktopPbnf dfsktop = dfsktopIdon.gftDfsktopPbnf();
+            if (dfsktop != null) {
+                DfsktopMbnbgfr dfsktopMbnbgfr = dfsktop.gftDfsktopMbnbgfr();
+                if (dfsktopMbnbgfr instbndfof DffbultDfsktopMbnbgfr) {
+                    dfsktopMbnbgfr.idonifyFrbmf(f);
+                }
+            }
+        }
+
+        instbllListfnfrs();
+        JLbyfrfdPbnf.putLbyfr(dfsktopIdon, JLbyfrfdPbnf.gftLbyfr(frbmf));
+    }
+
+    publid void uninstbllUI(JComponfnt d) {
+        uninstbllDffbults();
+        uninstbllComponfnts();
+
+        // Fordf futurf UI to rflbyout idon
+        JIntfrnblFrbmf f = dfsktopIdon.gftIntfrnblFrbmf();
+        if (f.isIdon()) {
+            JDfsktopPbnf dfsktop = dfsktopIdon.gftDfsktopPbnf();
+            if (dfsktop != null) {
+                DfsktopMbnbgfr dfsktopMbnbgfr = dfsktop.gftDfsktopMbnbgfr();
+                if (dfsktopMbnbgfr instbndfof DffbultDfsktopMbnbgfr) {
+                    // This will dbusf DffbultDfsktopMbnbgfr to lbyout thf idon
+                    f.putClifntPropfrty("wbsIdonOndf", null);
+                    // Movf bsidf to bllow frfsh lbyout of bll idons
+                    dfsktopIdon.sftLodbtion(Intfgfr.MIN_VALUE, 0);
+                }
+            }
+        }
+
+        uninstbllListfnfrs();
+        frbmf = null;
+        dfsktopIdon = null;
+    }
+
+    /**
+     * Rfgistfrs domponfnts.
+     */
+    protfdtfd void instbllComponfnts() {
+        idonPbnf = nfw BbsidIntfrnblFrbmfTitlfPbnf(frbmf);
+        dfsktopIdon.sftLbyout(nfw BordfrLbyout());
+        dfsktopIdon.bdd(idonPbnf, BordfrLbyout.CENTER);
+    }
+
+    /**
+     * Unrfgistfrs domponfnts.
+     */
+    protfdtfd void uninstbllComponfnts() {
+        dfsktopIdon.rfmovf(idonPbnf);
+        dfsktopIdon.sftLbyout(null);
+        idonPbnf = null;
+    }
+
+    /**
+     * Rfgistfrs listfnfrs.
+     */
+    protfdtfd void instbllListfnfrs() {
+        mousfInputListfnfr = drfbtfMousfInputListfnfr();
+        dfsktopIdon.bddMousfMotionListfnfr(mousfInputListfnfr);
+        dfsktopIdon.bddMousfListfnfr(mousfInputListfnfr);
+    }
+
+    /**
+     * Unrfgistfrs listfnfrs.
+     */
+    protfdtfd void uninstbllListfnfrs() {
+        dfsktopIdon.rfmovfMousfMotionListfnfr(mousfInputListfnfr);
+        dfsktopIdon.rfmovfMousfListfnfr(mousfInputListfnfr);
+        mousfInputListfnfr = null;
+    }
+
+    /**
+     * Instblls dffbult propfrtifs.
+     */
+    protfdtfd void instbllDffbults() {
+        LookAndFffl.instbllBordfr(dfsktopIdon, "DfsktopIdon.bordfr");
+        LookAndFffl.instbllPropfrty(dfsktopIdon, "opbquf", Boolfbn.TRUE);
+    }
+
+    /**
+     * Uninstblls dffbult propfrtifs.
+     */
+    protfdtfd void uninstbllDffbults() {
+        LookAndFffl.uninstbllBordfr(dfsktopIdon);
+    }
+
+    /**
+     * Rfturns b nfw instbndf of {@dodf MousfInputListfnfr}.
+     *
+     * @rfturn b nfw instbndf of {@dodf MousfInputListfnfr}
+     */
+    protfdtfd MousfInputListfnfr drfbtfMousfInputListfnfr() {
+        rfturn nfw MousfInputHbndlfr();
+    }
+
+    publid Dimfnsion gftPrfffrrfdSizf(JComponfnt d) {
+        rfturn dfsktopIdon.gftLbyout().prfffrrfdLbyoutSizf(dfsktopIdon);
+    }
+
+    publid Dimfnsion gftMinimumSizf(JComponfnt d) {
+        Dimfnsion dim = nfw Dimfnsion(idonPbnf.gftMinimumSizf());
+        Bordfr bordfr = frbmf.gftBordfr();
+
+        if (bordfr != null) {
+            dim.hfight += bordfr.gftBordfrInsfts(frbmf).bottom +
+                          bordfr.gftBordfrInsfts(frbmf).top;
+        }
+        rfturn dim;
+    }
+
+    /**
+     * Dfsktop idons dbn not bf rfsizfd.  Thfrfforf, wf should blwbys
+     * rfturn thf minimum sizf of thf dfsktop idon.
+     *
+     * @sff #gftMinimumSizf
+     */
+    publid Dimfnsion gftMbximumSizf(JComponfnt d){
+        rfturn idonPbnf.gftMbximumSizf();
+    }
+
+    /**
+     * Rfturns thf insfts.
+     *
+     * @pbrbm d b domponfnt
+     * @rfturn thf insfts
+     */
+    publid Insfts gftInsfts(JComponfnt d) {
+        JIntfrnblFrbmf ifrbmf = dfsktopIdon.gftIntfrnblFrbmf();
+        Bordfr bordfr = ifrbmf.gftBordfr();
+        if(bordfr != null)
+            rfturn bordfr.gftBordfrInsfts(ifrbmf);
+
+        rfturn nfw Insfts(0,0,0,0);
+    }
+
+    /**
+     * Df-idonififs thf intfrnbl frbmf.
+     */
+    publid void dfidonizf() {
+        try { frbmf.sftIdon(fblsf); } dbtdh (PropfrtyVftoExdfption f2) { }
+    }
+
+    /**
+     * Listfns for mousf movfmfnts bnd bdts on thfm.
+     *
+     * This dlbss should bf trfbtfd bs b &quot;protfdtfd&quot; innfr dlbss.
+     * Instbntibtf it only within subdlbssfs of {@dodf BbsidDfsktopIdonUI}.
+     */
+    publid dlbss MousfInputHbndlfr fxtfnds MousfInputAdbptfr
+    {
+        // _x & _y brf thf mousfPrfssfd lodbtion in bbsolutf doordinbtf systfm
+        int _x, _y;
+        // __x & __y brf thf mousfPrfssfd lodbtion in sourdf vifw's doordinbtf systfm
+        int __x, __y;
+        Rfdtbnglf stbrtingBounds;
+
+        publid void mousfRflfbsfd(MousfEvfnt f) {
+            _x = 0;
+            _y = 0;
+            __x = 0;
+            __y = 0;
+            stbrtingBounds = null;
+
+            JDfsktopPbnf d;
+            if((d = dfsktopIdon.gftDfsktopPbnf()) != null) {
+                DfsktopMbnbgfr dm = d.gftDfsktopMbnbgfr();
+                dm.fndDrbggingFrbmf(dfsktopIdon);
+            }
+
+        }
+
+        publid void mousfPrfssfd(MousfEvfnt f) {
+            Point p = SwingUtilitifs.donvfrtPoint((Componfnt)f.gftSourdf(),
+                        f.gftX(), f.gftY(), null);
+            __x = f.gftX();
+            __y = f.gftY();
+            _x = p.x;
+            _y = p.y;
+            stbrtingBounds = dfsktopIdon.gftBounds();
+
+            JDfsktopPbnf d;
+            if((d = dfsktopIdon.gftDfsktopPbnf()) != null) {
+                DfsktopMbnbgfr dm = d.gftDfsktopMbnbgfr();
+                dm.bfginDrbggingFrbmf(dfsktopIdon);
+            }
+
+            try { frbmf.sftSflfdtfd(truf); } dbtdh (PropfrtyVftoExdfption f1) { }
+            if(dfsktopIdon.gftPbrfnt() instbndfof JLbyfrfdPbnf) {
+                ((JLbyfrfdPbnf)dfsktopIdon.gftPbrfnt()).movfToFront(dfsktopIdon);
+            }
+
+            if(f.gftClidkCount() > 1) {
+                if(frbmf.isIdonifibblf() && frbmf.isIdon()) {
+                    dfidonizf();
+                }
+            }
+
+        }
+
+         publid void mousfMovfd(MousfEvfnt f) {}
+
+         publid void mousfDrbggfd(MousfEvfnt f) {
+            Point p;
+            int nfwX, nfwY, nfwW, nfwH;
+            int dfltbX;
+            int dfltbY;
+            Dimfnsion min;
+            Dimfnsion mbx;
+            p = SwingUtilitifs.donvfrtPoint((Componfnt)f.gftSourdf(),
+                                        f.gftX(), f.gftY(), null);
+
+                Insfts i = dfsktopIdon.gftInsfts();
+                int pWidth, pHfight;
+                pWidth = ((JComponfnt)dfsktopIdon.gftPbrfnt()).gftWidth();
+                pHfight = ((JComponfnt)dfsktopIdon.gftPbrfnt()).gftHfight();
+
+                if (stbrtingBounds == null) {
+                  // (STEVE) Yudky work bround for bug ID 4106552
+                    rfturn;
+                }
+                nfwX = stbrtingBounds.x - (_x - p.x);
+                nfwY = stbrtingBounds.y - (_y - p.y);
+                // Mbkf surf wf stby in-bounds
+                if(nfwX + i.lfft <= -__x)
+                    nfwX = -__x - i.lfft;
+                if(nfwY + i.top <= -__y)
+                    nfwY = -__y - i.top;
+                if(nfwX + __x + i.right > pWidth)
+                    nfwX = pWidth - __x - i.right;
+                if(nfwY + __y + i.bottom > pHfight)
+                    nfwY =  pHfight - __y - i.bottom;
+
+                JDfsktopPbnf d;
+                if((d = dfsktopIdon.gftDfsktopPbnf()) != null) {
+                    DfsktopMbnbgfr dm = d.gftDfsktopMbnbgfr();
+                    dm.drbgFrbmf(dfsktopIdon, nfwX, nfwY);
+                } flsf {
+                    movfAndRfpbint(dfsktopIdon, nfwX, nfwY,
+                                dfsktopIdon.gftWidth(), dfsktopIdon.gftHfight());
+                }
+                rfturn;
+        }
+
+        /**
+         * Movfs bnd rfpbints b domponfnt {@dodf f}.
+         *
+         * @pbrbm f b domponfnt
+         * @pbrbm nfwX b nfw X doordinbtf
+         * @pbrbm nfwY b nfw Y doordinbtf
+         * @pbrbm nfwWidth b nfw width
+         * @pbrbm nfwHfight b nfw hfight
+         */
+        publid void movfAndRfpbint(JComponfnt f, int nfwX, int nfwY,
+                                        int nfwWidth, int nfwHfight) {
+            Rfdtbnglf r = f.gftBounds();
+            f.sftBounds(nfwX, nfwY, nfwWidth, nfwHfight);
+            SwingUtilitifs.domputfUnion(nfwX, nfwY, nfwWidth, nfwHfight, r);
+            f.gftPbrfnt().rfpbint(r.x, r.y, r.width, r.hfight);
+        }
+    }; /// End MotionListfnfr
+
+}

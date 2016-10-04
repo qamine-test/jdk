@@ -1,373 +1,373 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.net;
+pbdkbgf jbvb.nft;
 
-import java.io.FileDescriptor;
-import java.io.IOException;
-import java.io.InterruptedIOException;
-import java.util.Set;
-import java.util.HashSet;
+import jbvb.io.FilfDfsdriptor;
+import jbvb.io.IOExdfption;
+import jbvb.io.IntfrruptfdIOExdfption;
+import jbvb.util.Sft;
+import jbvb.util.HbsiSft;
 
 /**
- * Abstract datagram and multicast socket implementation base class.
- * @author Pavani Diwanji
- * @since  1.1
+ * Abstrbdt dbtbgrbm bnd multidbst sodkft implfmfntbtion bbsf dlbss.
+ * @butior Pbvbni Diwbnji
+ * @sindf  1.1
  */
 
-public abstract class DatagramSocketImpl implements SocketOptions {
+publid bbstrbdt dlbss DbtbgrbmSodkftImpl implfmfnts SodkftOptions {
 
     /**
-     * The local port number.
+     * Tif lodbl port numbfr.
      */
-    protected int localPort;
+    protfdtfd int lodblPort;
 
     /**
-     * The file descriptor object.
+     * Tif filf dfsdriptor objfdt.
      */
-    protected FileDescriptor fd;
+    protfdtfd FilfDfsdriptor fd;
 
     /**
-     * The DatagramSocket or MulticastSocket
-     * that owns this impl
+     * Tif DbtbgrbmSodkft or MultidbstSodkft
+     * tibt owns tiis impl
      */
-    DatagramSocket socket;
+    DbtbgrbmSodkft sodkft;
 
-    void setDatagramSocket(DatagramSocket socket) {
-        this.socket = socket;
+    void sftDbtbgrbmSodkft(DbtbgrbmSodkft sodkft) {
+        tiis.sodkft = sodkft;
     }
 
-    DatagramSocket getDatagramSocket() {
-        return socket;
-    }
-
-    /**
-     * Creates a datagram socket.
-     * @exception SocketException if there is an error in the
-     * underlying protocol, such as a TCP error.
-     */
-    protected abstract void create() throws SocketException;
-
-    /**
-     * Binds a datagram socket to a local port and address.
-     * @param lport the local port
-     * @param laddr the local address
-     * @exception SocketException if there is an error in the
-     * underlying protocol, such as a TCP error.
-     */
-    protected abstract void bind(int lport, InetAddress laddr) throws SocketException;
-
-    /**
-     * Sends a datagram packet. The packet contains the data and the
-     * destination address to send the packet to.
-     * @param p the packet to be sent.
-     * @exception IOException if an I/O exception occurs while sending the
-     * datagram packet.
-     * @exception  PortUnreachableException may be thrown if the socket is connected
-     * to a currently unreachable destination. Note, there is no guarantee that
-     * the exception will be thrown.
-     */
-    protected abstract void send(DatagramPacket p) throws IOException;
-
-    /**
-     * Connects a datagram socket to a remote destination. This associates the remote
-     * address with the local socket so that datagrams may only be sent to this destination
-     * and received from this destination. This may be overridden to call a native
-     * system connect.
-     *
-     * <p>If the remote destination to which the socket is connected does not
-     * exist, or is otherwise unreachable, and if an ICMP destination unreachable
-     * packet has been received for that address, then a subsequent call to
-     * send or receive may throw a PortUnreachableException.
-     * Note, there is no guarantee that the exception will be thrown.
-     * @param address the remote InetAddress to connect to
-     * @param port the remote port number
-     * @exception   SocketException may be thrown if the socket cannot be
-     * connected to the remote destination
-     * @since 1.4
-     */
-    protected void connect(InetAddress address, int port) throws SocketException {}
-
-    /**
-     * Disconnects a datagram socket from its remote destination.
-     * @since 1.4
-     */
-    protected void disconnect() {}
-
-    /**
-     * Peek at the packet to see who it is from. Updates the specified {@code InetAddress}
-     * to the address which the packet came from.
-     * @param i an InetAddress object
-     * @return the port number which the packet came from.
-     * @exception IOException if an I/O exception occurs
-     * @exception  PortUnreachableException may be thrown if the socket is connected
-     *       to a currently unreachable destination. Note, there is no guarantee that the
-     *       exception will be thrown.
-     */
-    protected abstract int peek(InetAddress i) throws IOException;
-
-    /**
-     * Peek at the packet to see who it is from. The data is copied into the specified
-     * {@code DatagramPacket}. The data is returned,
-     * but not consumed, so that a subsequent peekData/receive operation
-     * will see the same data.
-     * @param p the Packet Received.
-     * @return the port number which the packet came from.
-     * @exception IOException if an I/O exception occurs
-     * @exception  PortUnreachableException may be thrown if the socket is connected
-     *       to a currently unreachable destination. Note, there is no guarantee that the
-     *       exception will be thrown.
-     * @since 1.4
-     */
-    protected abstract int peekData(DatagramPacket p) throws IOException;
-    /**
-     * Receive the datagram packet.
-     * @param p the Packet Received.
-     * @exception IOException if an I/O exception occurs
-     * while receiving the datagram packet.
-     * @exception  PortUnreachableException may be thrown if the socket is connected
-     *       to a currently unreachable destination. Note, there is no guarantee that the
-     *       exception will be thrown.
-     */
-    protected abstract void receive(DatagramPacket p) throws IOException;
-
-    /**
-     * Set the TTL (time-to-live) option.
-     * @param ttl a byte specifying the TTL value
-     *
-     * @deprecated use setTimeToLive instead.
-     * @exception IOException if an I/O exception occurs while setting
-     * the time-to-live option.
-     * @see #getTTL()
-     */
-    @Deprecated
-    protected abstract void setTTL(byte ttl) throws IOException;
-
-    /**
-     * Retrieve the TTL (time-to-live) option.
-     *
-     * @exception IOException if an I/O exception occurs
-     * while retrieving the time-to-live option
-     * @deprecated use getTimeToLive instead.
-     * @return a byte representing the TTL value
-     * @see #setTTL(byte)
-     */
-    @Deprecated
-    protected abstract byte getTTL() throws IOException;
-
-    /**
-     * Set the TTL (time-to-live) option.
-     * @param ttl an {@code int} specifying the time-to-live value
-     * @exception IOException if an I/O exception occurs
-     * while setting the time-to-live option.
-     * @see #getTimeToLive()
-     */
-    protected abstract void setTimeToLive(int ttl) throws IOException;
-
-    /**
-     * Retrieve the TTL (time-to-live) option.
-     * @exception IOException if an I/O exception occurs
-     * while retrieving the time-to-live option
-     * @return an {@code int} representing the time-to-live value
-     * @see #setTimeToLive(int)
-     */
-    protected abstract int getTimeToLive() throws IOException;
-
-    /**
-     * Join the multicast group.
-     * @param inetaddr multicast address to join.
-     * @exception IOException if an I/O exception occurs
-     * while joining the multicast group.
-     */
-    protected abstract void join(InetAddress inetaddr) throws IOException;
-
-    /**
-     * Leave the multicast group.
-     * @param inetaddr multicast address to leave.
-     * @exception IOException if an I/O exception occurs
-     * while leaving the multicast group.
-     */
-    protected abstract void leave(InetAddress inetaddr) throws IOException;
-
-    /**
-     * Join the multicast group.
-     * @param mcastaddr address to join.
-     * @param netIf specifies the local interface to receive multicast
-     *        datagram packets
-     * @throws IOException if an I/O exception occurs while joining
-     * the multicast group
-     * @since 1.4
-     */
-    protected abstract void joinGroup(SocketAddress mcastaddr,
-                                      NetworkInterface netIf)
-        throws IOException;
-
-    /**
-     * Leave the multicast group.
-     * @param mcastaddr address to leave.
-     * @param netIf specified the local interface to leave the group at
-     * @throws IOException if an I/O exception occurs while leaving
-     * the multicast group
-     * @since 1.4
-     */
-    protected abstract void leaveGroup(SocketAddress mcastaddr,
-                                       NetworkInterface netIf)
-        throws IOException;
-
-    /**
-     * Close the socket.
-     */
-    protected abstract void close();
-
-    /**
-     * Gets the local port.
-     * @return an {@code int} representing the local port value
-     */
-    protected int getLocalPort() {
-        return localPort;
+    DbtbgrbmSodkft gftDbtbgrbmSodkft() {
+        rfturn sodkft;
     }
 
     /**
-     * Gets the datagram socket file descriptor.
-     * @return a {@code FileDescriptor} object representing the datagram socket
-     * file descriptor
+     * Crfbtfs b dbtbgrbm sodkft.
+     * @fxdfption SodkftExdfption if tifrf is bn frror in tif
+     * undfrlying protodol, sudi bs b TCP frror.
      */
-    protected FileDescriptor getFileDescriptor() {
-        return fd;
+    protfdtfd bbstrbdt void drfbtf() tirows SodkftExdfption;
+
+    /**
+     * Binds b dbtbgrbm sodkft to b lodbl port bnd bddrfss.
+     * @pbrbm lport tif lodbl port
+     * @pbrbm lbddr tif lodbl bddrfss
+     * @fxdfption SodkftExdfption if tifrf is bn frror in tif
+     * undfrlying protodol, sudi bs b TCP frror.
+     */
+    protfdtfd bbstrbdt void bind(int lport, InftAddrfss lbddr) tirows SodkftExdfption;
+
+    /**
+     * Sfnds b dbtbgrbm pbdkft. Tif pbdkft dontbins tif dbtb bnd tif
+     * dfstinbtion bddrfss to sfnd tif pbdkft to.
+     * @pbrbm p tif pbdkft to bf sfnt.
+     * @fxdfption IOExdfption if bn I/O fxdfption oddurs wiilf sfnding tif
+     * dbtbgrbm pbdkft.
+     * @fxdfption  PortUnrfbdibblfExdfption mby bf tirown if tif sodkft is donnfdtfd
+     * to b durrfntly unrfbdibblf dfstinbtion. Notf, tifrf is no gubrbntff tibt
+     * tif fxdfption will bf tirown.
+     */
+    protfdtfd bbstrbdt void sfnd(DbtbgrbmPbdkft p) tirows IOExdfption;
+
+    /**
+     * Connfdts b dbtbgrbm sodkft to b rfmotf dfstinbtion. Tiis bssodibtfs tif rfmotf
+     * bddrfss witi tif lodbl sodkft so tibt dbtbgrbms mby only bf sfnt to tiis dfstinbtion
+     * bnd rfdfivfd from tiis dfstinbtion. Tiis mby bf ovfrriddfn to dbll b nbtivf
+     * systfm donnfdt.
+     *
+     * <p>If tif rfmotf dfstinbtion to wiidi tif sodkft is donnfdtfd dofs not
+     * fxist, or is otifrwisf unrfbdibblf, bnd if bn ICMP dfstinbtion unrfbdibblf
+     * pbdkft ibs bffn rfdfivfd for tibt bddrfss, tifn b subsfqufnt dbll to
+     * sfnd or rfdfivf mby tirow b PortUnrfbdibblfExdfption.
+     * Notf, tifrf is no gubrbntff tibt tif fxdfption will bf tirown.
+     * @pbrbm bddrfss tif rfmotf InftAddrfss to donnfdt to
+     * @pbrbm port tif rfmotf port numbfr
+     * @fxdfption   SodkftExdfption mby bf tirown if tif sodkft dbnnot bf
+     * donnfdtfd to tif rfmotf dfstinbtion
+     * @sindf 1.4
+     */
+    protfdtfd void donnfdt(InftAddrfss bddrfss, int port) tirows SodkftExdfption {}
+
+    /**
+     * Disdonnfdts b dbtbgrbm sodkft from its rfmotf dfstinbtion.
+     * @sindf 1.4
+     */
+    protfdtfd void disdonnfdt() {}
+
+    /**
+     * Pffk bt tif pbdkft to sff wio it is from. Updbtfs tif spfdififd {@dodf InftAddrfss}
+     * to tif bddrfss wiidi tif pbdkft dbmf from.
+     * @pbrbm i bn InftAddrfss objfdt
+     * @rfturn tif port numbfr wiidi tif pbdkft dbmf from.
+     * @fxdfption IOExdfption if bn I/O fxdfption oddurs
+     * @fxdfption  PortUnrfbdibblfExdfption mby bf tirown if tif sodkft is donnfdtfd
+     *       to b durrfntly unrfbdibblf dfstinbtion. Notf, tifrf is no gubrbntff tibt tif
+     *       fxdfption will bf tirown.
+     */
+    protfdtfd bbstrbdt int pffk(InftAddrfss i) tirows IOExdfption;
+
+    /**
+     * Pffk bt tif pbdkft to sff wio it is from. Tif dbtb is dopifd into tif spfdififd
+     * {@dodf DbtbgrbmPbdkft}. Tif dbtb is rfturnfd,
+     * but not donsumfd, so tibt b subsfqufnt pffkDbtb/rfdfivf opfrbtion
+     * will sff tif sbmf dbtb.
+     * @pbrbm p tif Pbdkft Rfdfivfd.
+     * @rfturn tif port numbfr wiidi tif pbdkft dbmf from.
+     * @fxdfption IOExdfption if bn I/O fxdfption oddurs
+     * @fxdfption  PortUnrfbdibblfExdfption mby bf tirown if tif sodkft is donnfdtfd
+     *       to b durrfntly unrfbdibblf dfstinbtion. Notf, tifrf is no gubrbntff tibt tif
+     *       fxdfption will bf tirown.
+     * @sindf 1.4
+     */
+    protfdtfd bbstrbdt int pffkDbtb(DbtbgrbmPbdkft p) tirows IOExdfption;
+    /**
+     * Rfdfivf tif dbtbgrbm pbdkft.
+     * @pbrbm p tif Pbdkft Rfdfivfd.
+     * @fxdfption IOExdfption if bn I/O fxdfption oddurs
+     * wiilf rfdfiving tif dbtbgrbm pbdkft.
+     * @fxdfption  PortUnrfbdibblfExdfption mby bf tirown if tif sodkft is donnfdtfd
+     *       to b durrfntly unrfbdibblf dfstinbtion. Notf, tifrf is no gubrbntff tibt tif
+     *       fxdfption will bf tirown.
+     */
+    protfdtfd bbstrbdt void rfdfivf(DbtbgrbmPbdkft p) tirows IOExdfption;
+
+    /**
+     * Sft tif TTL (timf-to-livf) option.
+     * @pbrbm ttl b bytf spfdifying tif TTL vbluf
+     *
+     * @dfprfdbtfd usf sftTimfToLivf instfbd.
+     * @fxdfption IOExdfption if bn I/O fxdfption oddurs wiilf sftting
+     * tif timf-to-livf option.
+     * @sff #gftTTL()
+     */
+    @Dfprfdbtfd
+    protfdtfd bbstrbdt void sftTTL(bytf ttl) tirows IOExdfption;
+
+    /**
+     * Rftrifvf tif TTL (timf-to-livf) option.
+     *
+     * @fxdfption IOExdfption if bn I/O fxdfption oddurs
+     * wiilf rftrifving tif timf-to-livf option
+     * @dfprfdbtfd usf gftTimfToLivf instfbd.
+     * @rfturn b bytf rfprfsfnting tif TTL vbluf
+     * @sff #sftTTL(bytf)
+     */
+    @Dfprfdbtfd
+    protfdtfd bbstrbdt bytf gftTTL() tirows IOExdfption;
+
+    /**
+     * Sft tif TTL (timf-to-livf) option.
+     * @pbrbm ttl bn {@dodf int} spfdifying tif timf-to-livf vbluf
+     * @fxdfption IOExdfption if bn I/O fxdfption oddurs
+     * wiilf sftting tif timf-to-livf option.
+     * @sff #gftTimfToLivf()
+     */
+    protfdtfd bbstrbdt void sftTimfToLivf(int ttl) tirows IOExdfption;
+
+    /**
+     * Rftrifvf tif TTL (timf-to-livf) option.
+     * @fxdfption IOExdfption if bn I/O fxdfption oddurs
+     * wiilf rftrifving tif timf-to-livf option
+     * @rfturn bn {@dodf int} rfprfsfnting tif timf-to-livf vbluf
+     * @sff #sftTimfToLivf(int)
+     */
+    protfdtfd bbstrbdt int gftTimfToLivf() tirows IOExdfption;
+
+    /**
+     * Join tif multidbst group.
+     * @pbrbm inftbddr multidbst bddrfss to join.
+     * @fxdfption IOExdfption if bn I/O fxdfption oddurs
+     * wiilf joining tif multidbst group.
+     */
+    protfdtfd bbstrbdt void join(InftAddrfss inftbddr) tirows IOExdfption;
+
+    /**
+     * Lfbvf tif multidbst group.
+     * @pbrbm inftbddr multidbst bddrfss to lfbvf.
+     * @fxdfption IOExdfption if bn I/O fxdfption oddurs
+     * wiilf lfbving tif multidbst group.
+     */
+    protfdtfd bbstrbdt void lfbvf(InftAddrfss inftbddr) tirows IOExdfption;
+
+    /**
+     * Join tif multidbst group.
+     * @pbrbm mdbstbddr bddrfss to join.
+     * @pbrbm nftIf spfdififs tif lodbl intfrfbdf to rfdfivf multidbst
+     *        dbtbgrbm pbdkfts
+     * @tirows IOExdfption if bn I/O fxdfption oddurs wiilf joining
+     * tif multidbst group
+     * @sindf 1.4
+     */
+    protfdtfd bbstrbdt void joinGroup(SodkftAddrfss mdbstbddr,
+                                      NftworkIntfrfbdf nftIf)
+        tirows IOExdfption;
+
+    /**
+     * Lfbvf tif multidbst group.
+     * @pbrbm mdbstbddr bddrfss to lfbvf.
+     * @pbrbm nftIf spfdififd tif lodbl intfrfbdf to lfbvf tif group bt
+     * @tirows IOExdfption if bn I/O fxdfption oddurs wiilf lfbving
+     * tif multidbst group
+     * @sindf 1.4
+     */
+    protfdtfd bbstrbdt void lfbvfGroup(SodkftAddrfss mdbstbddr,
+                                       NftworkIntfrfbdf nftIf)
+        tirows IOExdfption;
+
+    /**
+     * Closf tif sodkft.
+     */
+    protfdtfd bbstrbdt void dlosf();
+
+    /**
+     * Gfts tif lodbl port.
+     * @rfturn bn {@dodf int} rfprfsfnting tif lodbl port vbluf
+     */
+    protfdtfd int gftLodblPort() {
+        rfturn lodblPort;
     }
 
     /**
-     * Called to set a socket option.
-     *
-     * @param name The socket option
-     *
-     * @param value The value of the socket option. A value of {@code null}
-     *              may be valid for some options.
-     *
-     * @throws UnsupportedOperationException if the DatagramSocketImpl does not
-     *         support the option
-     *
-     * @throws NullPointerException if name is {@code null}
-     *
-     * @since 1.9
+     * Gfts tif dbtbgrbm sodkft filf dfsdriptor.
+     * @rfturn b {@dodf FilfDfsdriptor} objfdt rfprfsfnting tif dbtbgrbm sodkft
+     * filf dfsdriptor
      */
-    protected <T> void setOption(SocketOption<T> name, T value) throws IOException {
-        if (name == StandardSocketOptions.SO_SNDBUF) {
-            setOption(SocketOptions.SO_SNDBUF, value);
-        } else if (name == StandardSocketOptions.SO_RCVBUF) {
-            setOption(SocketOptions.SO_RCVBUF, value);
-        } else if (name == StandardSocketOptions.SO_REUSEADDR) {
-            setOption(SocketOptions.SO_REUSEADDR, value);
-        } else if (name == StandardSocketOptions.IP_TOS) {
-            setOption(SocketOptions.IP_TOS, value);
-        } else if (name == StandardSocketOptions.IP_MULTICAST_IF &&
-            (getDatagramSocket() instanceof MulticastSocket)) {
-            setOption(SocketOptions.IP_MULTICAST_IF2, value);
-        } else if (name == StandardSocketOptions.IP_MULTICAST_TTL &&
-            (getDatagramSocket() instanceof MulticastSocket)) {
-            if (! (value instanceof Integer)) {
-                throw new IllegalArgumentException("not an integer");
+    protfdtfd FilfDfsdriptor gftFilfDfsdriptor() {
+        rfturn fd;
+    }
+
+    /**
+     * Cbllfd to sft b sodkft option.
+     *
+     * @pbrbm nbmf Tif sodkft option
+     *
+     * @pbrbm vbluf Tif vbluf of tif sodkft option. A vbluf of {@dodf null}
+     *              mby bf vblid for somf options.
+     *
+     * @tirows UnsupportfdOpfrbtionExdfption if tif DbtbgrbmSodkftImpl dofs not
+     *         support tif option
+     *
+     * @tirows NullPointfrExdfption if nbmf is {@dodf null}
+     *
+     * @sindf 1.9
+     */
+    protfdtfd <T> void sftOption(SodkftOption<T> nbmf, T vbluf) tirows IOExdfption {
+        if (nbmf == StbndbrdSodkftOptions.SO_SNDBUF) {
+            sftOption(SodkftOptions.SO_SNDBUF, vbluf);
+        } flsf if (nbmf == StbndbrdSodkftOptions.SO_RCVBUF) {
+            sftOption(SodkftOptions.SO_RCVBUF, vbluf);
+        } flsf if (nbmf == StbndbrdSodkftOptions.SO_REUSEADDR) {
+            sftOption(SodkftOptions.SO_REUSEADDR, vbluf);
+        } flsf if (nbmf == StbndbrdSodkftOptions.IP_TOS) {
+            sftOption(SodkftOptions.IP_TOS, vbluf);
+        } flsf if (nbmf == StbndbrdSodkftOptions.IP_MULTICAST_IF &&
+            (gftDbtbgrbmSodkft() instbndfof MultidbstSodkft)) {
+            sftOption(SodkftOptions.IP_MULTICAST_IF2, vbluf);
+        } flsf if (nbmf == StbndbrdSodkftOptions.IP_MULTICAST_TTL &&
+            (gftDbtbgrbmSodkft() instbndfof MultidbstSodkft)) {
+            if (! (vbluf instbndfof Intfgfr)) {
+                tirow nfw IllfgblArgumfntExdfption("not bn intfgfr");
             }
-            setTimeToLive((Integer)value);
-        } else if (name == StandardSocketOptions.IP_MULTICAST_LOOP &&
-            (getDatagramSocket() instanceof MulticastSocket)) {
-            setOption(SocketOptions.IP_MULTICAST_LOOP, value);
-        } else {
-            throw new UnsupportedOperationException("unsupported option");
+            sftTimfToLivf((Intfgfr)vbluf);
+        } flsf if (nbmf == StbndbrdSodkftOptions.IP_MULTICAST_LOOP &&
+            (gftDbtbgrbmSodkft() instbndfof MultidbstSodkft)) {
+            sftOption(SodkftOptions.IP_MULTICAST_LOOP, vbluf);
+        } flsf {
+            tirow nfw UnsupportfdOpfrbtionExdfption("unsupportfd option");
         }
     }
 
     /**
-     * Called to get a socket option.
+     * Cbllfd to gft b sodkft option.
      *
-     * @param name The socket option
+     * @pbrbm nbmf Tif sodkft option
      *
-     * @throws UnsupportedOperationException if the DatagramSocketImpl does not
-     *         support the option
+     * @tirows UnsupportfdOpfrbtionExdfption if tif DbtbgrbmSodkftImpl dofs not
+     *         support tif option
      *
-     * @throws NullPointerException if name is {@code null}
+     * @tirows NullPointfrExdfption if nbmf is {@dodf null}
      *
-     * @since 1.9
+     * @sindf 1.9
      */
-    @SuppressWarnings("unchecked")
-    protected <T> T getOption(SocketOption<T> name) throws IOException {
-        if (name == StandardSocketOptions.SO_SNDBUF) {
-            return (T) getOption(SocketOptions.SO_SNDBUF);
-        } else if (name == StandardSocketOptions.SO_RCVBUF) {
-            return (T) getOption(SocketOptions.SO_RCVBUF);
-        } else if (name == StandardSocketOptions.SO_REUSEADDR) {
-            return (T) getOption(SocketOptions.SO_REUSEADDR);
-        } else if (name == StandardSocketOptions.IP_TOS) {
-            return (T) getOption(SocketOptions.IP_TOS);
-        } else if (name == StandardSocketOptions.IP_MULTICAST_IF &&
-            (getDatagramSocket() instanceof MulticastSocket)) {
-            return (T) getOption(SocketOptions.IP_MULTICAST_IF2);
-        } else if (name == StandardSocketOptions.IP_MULTICAST_TTL &&
-            (getDatagramSocket() instanceof MulticastSocket)) {
-            Integer ttl = getTimeToLive();
-            return (T)ttl;
-        } else if (name == StandardSocketOptions.IP_MULTICAST_LOOP &&
-            (getDatagramSocket() instanceof MulticastSocket)) {
-            return (T) getOption(SocketOptions.IP_MULTICAST_LOOP);
-        } else {
-            throw new UnsupportedOperationException("unsupported option");
+    @SupprfssWbrnings("undifdkfd")
+    protfdtfd <T> T gftOption(SodkftOption<T> nbmf) tirows IOExdfption {
+        if (nbmf == StbndbrdSodkftOptions.SO_SNDBUF) {
+            rfturn (T) gftOption(SodkftOptions.SO_SNDBUF);
+        } flsf if (nbmf == StbndbrdSodkftOptions.SO_RCVBUF) {
+            rfturn (T) gftOption(SodkftOptions.SO_RCVBUF);
+        } flsf if (nbmf == StbndbrdSodkftOptions.SO_REUSEADDR) {
+            rfturn (T) gftOption(SodkftOptions.SO_REUSEADDR);
+        } flsf if (nbmf == StbndbrdSodkftOptions.IP_TOS) {
+            rfturn (T) gftOption(SodkftOptions.IP_TOS);
+        } flsf if (nbmf == StbndbrdSodkftOptions.IP_MULTICAST_IF &&
+            (gftDbtbgrbmSodkft() instbndfof MultidbstSodkft)) {
+            rfturn (T) gftOption(SodkftOptions.IP_MULTICAST_IF2);
+        } flsf if (nbmf == StbndbrdSodkftOptions.IP_MULTICAST_TTL &&
+            (gftDbtbgrbmSodkft() instbndfof MultidbstSodkft)) {
+            Intfgfr ttl = gftTimfToLivf();
+            rfturn (T)ttl;
+        } flsf if (nbmf == StbndbrdSodkftOptions.IP_MULTICAST_LOOP &&
+            (gftDbtbgrbmSodkft() instbndfof MultidbstSodkft)) {
+            rfturn (T) gftOption(SodkftOptions.IP_MULTICAST_LOOP);
+        } flsf {
+            tirow nfw UnsupportfdOpfrbtionExdfption("unsupportfd option");
         }
     }
 
-    private static final  Set<SocketOption<?>> dgSocketOptions =
-        new HashSet<>();
+    privbtf stbtid finbl  Sft<SodkftOption<?>> dgSodkftOptions =
+        nfw HbsiSft<>();
 
-    private static final  Set<SocketOption<?>> mcSocketOptions =
-        new HashSet<>();
+    privbtf stbtid finbl  Sft<SodkftOption<?>> mdSodkftOptions =
+        nfw HbsiSft<>();
 
-    static {
-        dgSocketOptions.add(StandardSocketOptions.SO_SNDBUF);
-        dgSocketOptions.add(StandardSocketOptions.SO_RCVBUF);
-        dgSocketOptions.add(StandardSocketOptions.SO_REUSEADDR);
-        dgSocketOptions.add(StandardSocketOptions.IP_TOS);
+    stbtid {
+        dgSodkftOptions.bdd(StbndbrdSodkftOptions.SO_SNDBUF);
+        dgSodkftOptions.bdd(StbndbrdSodkftOptions.SO_RCVBUF);
+        dgSodkftOptions.bdd(StbndbrdSodkftOptions.SO_REUSEADDR);
+        dgSodkftOptions.bdd(StbndbrdSodkftOptions.IP_TOS);
 
-        mcSocketOptions.add(StandardSocketOptions.SO_SNDBUF);
-        mcSocketOptions.add(StandardSocketOptions.SO_RCVBUF);
-        mcSocketOptions.add(StandardSocketOptions.SO_REUSEADDR);
-        mcSocketOptions.add(StandardSocketOptions.IP_TOS);
-        mcSocketOptions.add(StandardSocketOptions.IP_MULTICAST_IF);
-        mcSocketOptions.add(StandardSocketOptions.IP_MULTICAST_TTL);
-        mcSocketOptions.add(StandardSocketOptions.IP_MULTICAST_LOOP);
+        mdSodkftOptions.bdd(StbndbrdSodkftOptions.SO_SNDBUF);
+        mdSodkftOptions.bdd(StbndbrdSodkftOptions.SO_RCVBUF);
+        mdSodkftOptions.bdd(StbndbrdSodkftOptions.SO_REUSEADDR);
+        mdSodkftOptions.bdd(StbndbrdSodkftOptions.IP_TOS);
+        mdSodkftOptions.bdd(StbndbrdSodkftOptions.IP_MULTICAST_IF);
+        mdSodkftOptions.bdd(StbndbrdSodkftOptions.IP_MULTICAST_TTL);
+        mdSodkftOptions.bdd(StbndbrdSodkftOptions.IP_MULTICAST_LOOP);
     };
 
     /**
-     * Returns a set of SocketOptions supported by this impl
-     * and by this impl's socket (DatagramSocket or MulticastSocket)
+     * Rfturns b sft of SodkftOptions supportfd by tiis impl
+     * bnd by tiis impl's sodkft (DbtbgrbmSodkft or MultidbstSodkft)
      *
-     * @return a Set of SocketOptions
+     * @rfturn b Sft of SodkftOptions
      */
-    protected Set<SocketOption<?>> supportedOptions() {
-        if (getDatagramSocket() instanceof MulticastSocket) {
-            return mcSocketOptions;
-        } else {
-            return dgSocketOptions;
+    protfdtfd Sft<SodkftOption<?>> supportfdOptions() {
+        if (gftDbtbgrbmSodkft() instbndfof MultidbstSodkft) {
+            rfturn mdSodkftOptions;
+        } flsf {
+            rfturn dgSodkftOptions;
         }
     }
 }

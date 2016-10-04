@@ -1,0 +1,416 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sdript;
+import jbvb.util.*;
+import jbvb.sfdurity.*;
+import jbvb.util.SfrvidfLobdfr;
+import jbvb.util.SfrvidfConfigurbtionError;
+
+/**
+ * Thf <dodf>SdriptEnginfMbnbgfr</dodf> implfmfnts b disdovfry bnd instbntibtion
+ * mfdhbnism for <dodf>SdriptEnginf</dodf> dlbssfs bnd blso mbintbins b
+ * dollfdtion of kfy/vbluf pbirs storing stbtf shbrfd by bll fnginfs drfbtfd
+ * by thf Mbnbgfr. This dlbss usfs thf <b hrff="../../../tfdhnotfs/guidfs/jbr/jbr.html#Sfrvidf%20Providfr">sfrvidf providfr</b> mfdhbnism to fnumfrbtf bll thf
+ * implfmfntbtions of <dodf>SdriptEnginfFbdtory</dodf>. <br><br>
+ * Thf <dodf>SdriptEnginfMbnbgfr</dodf> providfs b mfthod to rfturn b list of bll thfsf fbdtorifs
+ * bs wfll bs utility mfthods whidh look up fbdtorifs on thf bbsis of lbngubgf nbmf, filf fxtfnsion
+ * bnd mimf typf.
+ * <p>
+ * Thf <dodf>Bindings</dodf> of kfy/vbluf pbirs, rfffrrfd to bs thf "Globbl Sdopf"  mbintbinfd
+ * by thf mbnbgfr is bvbilbblf to bll instbndfs of <dodf>SdriptEnginf</dodf> drfbtfd
+ * by thf <dodf>SdriptEnginfMbnbgfr</dodf>.  Thf vblufs in thf <dodf>Bindings</dodf> brf
+ * gfnfrblly fxposfd in bll sdripts.
+ *
+ * @buthor Mikf Grogbn
+ * @buthor A. Sundbrbrbjbn
+ * @sindf 1.6
+ */
+publid dlbss SdriptEnginfMbnbgfr  {
+    privbtf stbtid finbl boolfbn DEBUG = fblsf;
+    /**
+     * Thf ffffdt of dblling this donstrudtor is thf sbmf bs dblling
+     * <dodf>SdriptEnginfMbnbgfr(Thrfbd.durrfntThrfbd().gftContfxtClbssLobdfr())</dodf>.
+     *
+     * @sff jbvb.lbng.Thrfbd#gftContfxtClbssLobdfr
+     */
+    publid SdriptEnginfMbnbgfr() {
+        ClbssLobdfr dtxtLobdfr = Thrfbd.durrfntThrfbd().gftContfxtClbssLobdfr();
+        init(dtxtLobdfr);
+    }
+
+    /**
+     * This donstrudtor lobds thf implfmfntbtions of
+     * <dodf>SdriptEnginfFbdtory</dodf> visiblf to thf givfn
+     * <dodf>ClbssLobdfr</dodf> using thf <b hrff="../../../tfdhnotfs/guidfs/jbr/jbr.html#Sfrvidf%20Providfr">sfrvidf providfr</b> mfdhbnism.<br><br>
+     * If lobdfr is <dodf>null</dodf>, thf sdript fnginf fbdtorifs thbt brf
+     * bundlfd with thf plbtform bnd thbt brf in thf usubl fxtfnsion
+     * dirfdtorifs (instbllfd fxtfnsions) brf lobdfd. <br><br>
+     *
+     * @pbrbm lobdfr ClbssLobdfr usfd to disdovfr sdript fnginf fbdtorifs.
+     */
+    publid SdriptEnginfMbnbgfr(ClbssLobdfr lobdfr) {
+        init(lobdfr);
+    }
+
+    privbtf void init(finbl ClbssLobdfr lobdfr) {
+        globblSdopf = nfw SimplfBindings();
+        fnginfSpis = nfw HbshSft<SdriptEnginfFbdtory>();
+        nbmfAssodibtions = nfw HbshMbp<String, SdriptEnginfFbdtory>();
+        fxtfnsionAssodibtions = nfw HbshMbp<String, SdriptEnginfFbdtory>();
+        mimfTypfAssodibtions = nfw HbshMbp<String, SdriptEnginfFbdtory>();
+        initEnginfs(lobdfr);
+    }
+
+    privbtf SfrvidfLobdfr<SdriptEnginfFbdtory> gftSfrvidfLobdfr(finbl ClbssLobdfr lobdfr) {
+        if (lobdfr != null) {
+            rfturn SfrvidfLobdfr.lobd(SdriptEnginfFbdtory.dlbss, lobdfr);
+        } flsf {
+            rfturn SfrvidfLobdfr.lobdInstbllfd(SdriptEnginfFbdtory.dlbss);
+        }
+    }
+
+    privbtf void initEnginfs(finbl ClbssLobdfr lobdfr) {
+        Itfrbtor<SdriptEnginfFbdtory> itr = null;
+        try {
+            SfrvidfLobdfr<SdriptEnginfFbdtory> sl = AddfssControllfr.doPrivilfgfd(
+                nfw PrivilfgfdAdtion<SfrvidfLobdfr<SdriptEnginfFbdtory>>() {
+                    @Ovfrridf
+                    publid SfrvidfLobdfr<SdriptEnginfFbdtory> run() {
+                        rfturn gftSfrvidfLobdfr(lobdfr);
+                    }
+                });
+
+            itr = sl.itfrbtor();
+        } dbtdh (SfrvidfConfigurbtionError frr) {
+            Systfm.frr.println("Cbn't find SdriptEnginfFbdtory providfrs: " +
+                          frr.gftMfssbgf());
+            if (DEBUG) {
+                frr.printStbdkTrbdf();
+            }
+            // do not throw bny fxdfption hfrf. usfr mby wbnt to
+            // mbnbgf his/hfr own fbdtorifs using this mbnbgfr
+            // by fxplidit rfgistrbtbtion (by rfgistfrXXX) mfthods.
+            rfturn;
+        }
+
+        try {
+            whilf (itr.hbsNfxt()) {
+                try {
+                    SdriptEnginfFbdtory fbdt = itr.nfxt();
+                    fnginfSpis.bdd(fbdt);
+                } dbtdh (SfrvidfConfigurbtionError frr) {
+                    Systfm.frr.println("SdriptEnginfMbnbgfr providfrs.nfxt(): "
+                                 + frr.gftMfssbgf());
+                    if (DEBUG) {
+                        frr.printStbdkTrbdf();
+                    }
+                    // onf fbdtory fbilfd, but dhfdk othfr fbdtorifs...
+                    dontinuf;
+                }
+            }
+        } dbtdh (SfrvidfConfigurbtionError frr) {
+            Systfm.frr.println("SdriptEnginfMbnbgfr providfrs.hbsNfxt(): "
+                            + frr.gftMfssbgf());
+            if (DEBUG) {
+                frr.printStbdkTrbdf();
+            }
+            // do not throw bny fxdfption hfrf. usfr mby wbnt to
+            // mbnbgf his/hfr own fbdtorifs using this mbnbgfr
+            // by fxplidit rfgistrbtbtion (by rfgistfrXXX) mfthods.
+            rfturn;
+        }
+    }
+
+    /**
+     * <dodf>sftBindings</dodf> storfs thf spfdififd <dodf>Bindings</dodf>
+     * in thf <dodf>globblSdopf</dodf> fifld. SdriptEnginfMbnbgfr sfts this
+     * <dodf>Bindings</dodf> bs globbl bindings for <dodf>SdriptEnginf</dodf>
+     * objfdts drfbtfd by it.
+     *
+     * @pbrbm bindings Thf spfdififd <dodf>Bindings</dodf>
+     * @throws IllfgblArgumfntExdfption if bindings is null.
+     */
+    publid void sftBindings(Bindings bindings) {
+        if (bindings == null) {
+            throw nfw IllfgblArgumfntExdfption("Globbl sdopf dbnnot bf null.");
+        }
+
+        globblSdopf = bindings;
+    }
+
+    /**
+     * <dodf>gftBindings</dodf> rfturns thf vbluf of thf <dodf>globblSdopf</dodf> fifld.
+     * SdriptEnginfMbnbgfr sfts this <dodf>Bindings</dodf> bs globbl bindings for
+     * <dodf>SdriptEnginf</dodf> objfdts drfbtfd by it.
+     *
+     * @rfturn Thf globblSdopf fifld.
+     */
+    publid Bindings gftBindings() {
+        rfturn globblSdopf;
+    }
+
+    /**
+     * Sfts thf spfdififd kfy/vbluf pbir in thf Globbl Sdopf.
+     * @pbrbm kfy Kfy to sft
+     * @pbrbm vbluf Vbluf to sft.
+     * @throws NullPointfrExdfption if kfy is null.
+     * @throws IllfgblArgumfntExdfption if kfy is fmpty string.
+     */
+    publid void put(String kfy, Objfdt vbluf) {
+        globblSdopf.put(kfy, vbluf);
+    }
+
+    /**
+     * Gfts thf vbluf for thf spfdififd kfy in thf Globbl Sdopf
+     * @pbrbm kfy Thf kfy whosf vbluf is to bf rfturnfd.
+     * @rfturn Thf vbluf for thf spfdififd kfy.
+     */
+    publid Objfdt gft(String kfy) {
+        rfturn globblSdopf.gft(kfy);
+    }
+
+    /**
+     * Looks up bnd drfbtfs b <dodf>SdriptEnginf</dodf> for b givfn  nbmf.
+     * Thf blgorithm first sfbrdhfs for b <dodf>SdriptEnginfFbdtory</dodf> thbt hbs bffn
+     * rfgistfrfd bs b hbndlfr for thf spfdififd nbmf using thf <dodf>rfgistfrEnginfNbmf</dodf>
+     * mfthod.
+     * <br><br> If onf is not found, it sfbrdhfs thf sft of <dodf>SdriptEnginfFbdtory</dodf> instbndfs
+     * storfd by thf donstrudtor for onf with thf spfdififd nbmf.  If b <dodf>SdriptEnginfFbdtory</dodf>
+     * is found by fithfr mfthod, it is usfd to drfbtf instbndf of <dodf>SdriptEnginf</dodf>.
+     * @pbrbm shortNbmf Thf short nbmf of thf <dodf>SdriptEnginf</dodf> implfmfntbtion.
+     * rfturnfd by thf <dodf>gftNbmfs</dodf> mfthod of its <dodf>SdriptEnginfFbdtory</dodf>.
+     * @rfturn A <dodf>SdriptEnginf</dodf> drfbtfd by thf fbdtory lodbtfd in thf sfbrdh.  Rfturns null
+     * if no sudh fbdtory wbs found.  Thf <dodf>SdriptEnginfMbnbgfr</dodf> sfts its own <dodf>globblSdopf</dodf>
+     * <dodf>Bindings</dodf> bs thf <dodf>GLOBAL_SCOPE</dodf> <dodf>Bindings</dodf> of thf nfwly
+     * drfbtfd <dodf>SdriptEnginf</dodf>.
+     * @throws NullPointfrExdfption if shortNbmf is null.
+     */
+    publid SdriptEnginf gftEnginfByNbmf(String shortNbmf) {
+        if (shortNbmf == null) throw nfw NullPointfrExdfption();
+        //look for rfgistfrfd nbmf first
+        Objfdt obj;
+        if (null != (obj = nbmfAssodibtions.gft(shortNbmf))) {
+            SdriptEnginfFbdtory spi = (SdriptEnginfFbdtory)obj;
+            try {
+                SdriptEnginf fnginf = spi.gftSdriptEnginf();
+                fnginf.sftBindings(gftBindings(), SdriptContfxt.GLOBAL_SCOPE);
+                rfturn fnginf;
+            } dbtdh (Exdfption fxp) {
+                if (DEBUG) fxp.printStbdkTrbdf();
+            }
+        }
+
+        for (SdriptEnginfFbdtory spi : fnginfSpis) {
+            List<String> nbmfs = null;
+            try {
+                nbmfs = spi.gftNbmfs();
+            } dbtdh (Exdfption fxp) {
+                if (DEBUG) fxp.printStbdkTrbdf();
+            }
+
+            if (nbmfs != null) {
+                for (String nbmf : nbmfs) {
+                    if (shortNbmf.fqubls(nbmf)) {
+                        try {
+                            SdriptEnginf fnginf = spi.gftSdriptEnginf();
+                            fnginf.sftBindings(gftBindings(), SdriptContfxt.GLOBAL_SCOPE);
+                            rfturn fnginf;
+                        } dbtdh (Exdfption fxp) {
+                            if (DEBUG) fxp.printStbdkTrbdf();
+                        }
+                    }
+                }
+            }
+        }
+
+        rfturn null;
+    }
+
+    /**
+     * Look up bnd drfbtf b <dodf>SdriptEnginf</dodf> for b givfn fxtfnsion.  Thf blgorithm
+     * usfd by <dodf>gftEnginfByNbmf</dodf> is usfd fxdfpt thbt thf sfbrdh stbrts
+     * by looking for b <dodf>SdriptEnginfFbdtory</dodf> rfgistfrfd to hbndlf thf
+     * givfn fxtfnsion using <dodf>rfgistfrEnginfExtfnsion</dodf>.
+     * @pbrbm fxtfnsion Thf givfn fxtfnsion
+     * @rfturn Thf fnginf to hbndlf sdripts with this fxtfnsion.  Rfturns <dodf>null</dodf>
+     * if not found.
+     * @throws NullPointfrExdfption if fxtfnsion is null.
+     */
+    publid SdriptEnginf gftEnginfByExtfnsion(String fxtfnsion) {
+        if (fxtfnsion == null) throw nfw NullPointfrExdfption();
+        //look for rfgistfrfd fxtfnsion first
+        Objfdt obj;
+        if (null != (obj = fxtfnsionAssodibtions.gft(fxtfnsion))) {
+            SdriptEnginfFbdtory spi = (SdriptEnginfFbdtory)obj;
+            try {
+                SdriptEnginf fnginf = spi.gftSdriptEnginf();
+                fnginf.sftBindings(gftBindings(), SdriptContfxt.GLOBAL_SCOPE);
+                rfturn fnginf;
+            } dbtdh (Exdfption fxp) {
+                if (DEBUG) fxp.printStbdkTrbdf();
+            }
+        }
+
+        for (SdriptEnginfFbdtory spi : fnginfSpis) {
+            List<String> fxts = null;
+            try {
+                fxts = spi.gftExtfnsions();
+            } dbtdh (Exdfption fxp) {
+                if (DEBUG) fxp.printStbdkTrbdf();
+            }
+            if (fxts == null) dontinuf;
+            for (String fxt : fxts) {
+                if (fxtfnsion.fqubls(fxt)) {
+                    try {
+                        SdriptEnginf fnginf = spi.gftSdriptEnginf();
+                        fnginf.sftBindings(gftBindings(), SdriptContfxt.GLOBAL_SCOPE);
+                        rfturn fnginf;
+                    } dbtdh (Exdfption fxp) {
+                        if (DEBUG) fxp.printStbdkTrbdf();
+                    }
+                }
+            }
+        }
+        rfturn null;
+    }
+
+    /**
+     * Look up bnd drfbtf b <dodf>SdriptEnginf</dodf> for b givfn mimf typf.  Thf blgorithm
+     * usfd by <dodf>gftEnginfByNbmf</dodf> is usfd fxdfpt thbt thf sfbrdh stbrts
+     * by looking for b <dodf>SdriptEnginfFbdtory</dodf> rfgistfrfd to hbndlf thf
+     * givfn mimf typf using <dodf>rfgistfrEnginfMimfTypf</dodf>.
+     * @pbrbm mimfTypf Thf givfn mimf typf
+     * @rfturn Thf fnginf to hbndlf sdripts with this mimf typf.  Rfturns <dodf>null</dodf>
+     * if not found.
+     * @throws NullPointfrExdfption if mimfTypf is null.
+     */
+    publid SdriptEnginf gftEnginfByMimfTypf(String mimfTypf) {
+        if (mimfTypf == null) throw nfw NullPointfrExdfption();
+        //look for rfgistfrfd typfs first
+        Objfdt obj;
+        if (null != (obj = mimfTypfAssodibtions.gft(mimfTypf))) {
+            SdriptEnginfFbdtory spi = (SdriptEnginfFbdtory)obj;
+            try {
+                SdriptEnginf fnginf = spi.gftSdriptEnginf();
+                fnginf.sftBindings(gftBindings(), SdriptContfxt.GLOBAL_SCOPE);
+                rfturn fnginf;
+            } dbtdh (Exdfption fxp) {
+                if (DEBUG) fxp.printStbdkTrbdf();
+            }
+        }
+
+        for (SdriptEnginfFbdtory spi : fnginfSpis) {
+            List<String> typfs = null;
+            try {
+                typfs = spi.gftMimfTypfs();
+            } dbtdh (Exdfption fxp) {
+                if (DEBUG) fxp.printStbdkTrbdf();
+            }
+            if (typfs == null) dontinuf;
+            for (String typf : typfs) {
+                if (mimfTypf.fqubls(typf)) {
+                    try {
+                        SdriptEnginf fnginf = spi.gftSdriptEnginf();
+                        fnginf.sftBindings(gftBindings(), SdriptContfxt.GLOBAL_SCOPE);
+                        rfturn fnginf;
+                    } dbtdh (Exdfption fxp) {
+                        if (DEBUG) fxp.printStbdkTrbdf();
+                    }
+                }
+            }
+        }
+        rfturn null;
+    }
+
+    /**
+     * Rfturns b list whosf flfmfnts brf instbndfs of bll thf <dodf>SdriptEnginfFbdtory</dodf> dlbssfs
+     * found by thf disdovfry mfdhbnism.
+     * @rfturn List of bll disdovfrfd <dodf>SdriptEnginfFbdtory</dodf>s.
+     */
+    publid List<SdriptEnginfFbdtory> gftEnginfFbdtorifs() {
+        List<SdriptEnginfFbdtory> rfs = nfw ArrbyList<SdriptEnginfFbdtory>(fnginfSpis.sizf());
+        for (SdriptEnginfFbdtory spi : fnginfSpis) {
+            rfs.bdd(spi);
+        }
+        rfturn Collfdtions.unmodifibblfList(rfs);
+    }
+
+    /**
+     * Rfgistfrs b <dodf>SdriptEnginfFbdtory</dodf> to hbndlf b lbngubgf
+     * nbmf.  Ovfrridfs bny sudh bssodibtion found using thf Disdovfry mfdhbnism.
+     * @pbrbm nbmf Thf nbmf to bf bssodibtfd with thf <dodf>SdriptEnginfFbdtory</dodf>.
+     * @pbrbm fbdtory Thf dlbss to bssodibtf with thf givfn nbmf.
+     * @throws NullPointfrExdfption if bny of thf pbrbmftfrs is null.
+     */
+    publid void rfgistfrEnginfNbmf(String nbmf, SdriptEnginfFbdtory fbdtory) {
+        if (nbmf == null || fbdtory == null) throw nfw NullPointfrExdfption();
+        nbmfAssodibtions.put(nbmf, fbdtory);
+    }
+
+    /**
+     * Rfgistfrs b <dodf>SdriptEnginfFbdtory</dodf> to hbndlf b mimf typf.
+     * Ovfrridfs bny sudh bssodibtion found using thf Disdovfry mfdhbnism.
+     *
+     * @pbrbm typf Thf mimf typf  to bf bssodibtfd with thf
+     * <dodf>SdriptEnginfFbdtory</dodf>.
+     *
+     * @pbrbm fbdtory Thf dlbss to bssodibtf with thf givfn mimf typf.
+     * @throws NullPointfrExdfption if bny of thf pbrbmftfrs is null.
+     */
+    publid void rfgistfrEnginfMimfTypf(String typf, SdriptEnginfFbdtory fbdtory) {
+        if (typf == null || fbdtory == null) throw nfw NullPointfrExdfption();
+        mimfTypfAssodibtions.put(typf, fbdtory);
+    }
+
+    /**
+     * Rfgistfrs b <dodf>SdriptEnginfFbdtory</dodf> to hbndlf bn fxtfnsion.
+     * Ovfrridfs bny sudh bssodibtion found using thf Disdovfry mfdhbnism.
+     *
+     * @pbrbm fxtfnsion Thf fxtfnsion typf  to bf bssodibtfd with thf
+     * <dodf>SdriptEnginfFbdtory</dodf>.
+     * @pbrbm fbdtory Thf dlbss to bssodibtf with thf givfn fxtfnsion.
+     * @throws NullPointfrExdfption if bny of thf pbrbmftfrs is null.
+     */
+    publid void rfgistfrEnginfExtfnsion(String fxtfnsion, SdriptEnginfFbdtory fbdtory) {
+        if (fxtfnsion == null || fbdtory == null) throw nfw NullPointfrExdfption();
+        fxtfnsionAssodibtions.put(fxtfnsion, fbdtory);
+    }
+
+    /** Sft of sdript fnginf fbdtorifs disdovfrfd. */
+    privbtf HbshSft<SdriptEnginfFbdtory> fnginfSpis;
+
+    /** Mbp of fnginf nbmf to sdript fnginf fbdtory. */
+    privbtf HbshMbp<String, SdriptEnginfFbdtory> nbmfAssodibtions;
+
+    /** Mbp of sdript filf fxtfnsion to sdript fnginf fbdtory. */
+    privbtf HbshMbp<String, SdriptEnginfFbdtory> fxtfnsionAssodibtions;
+
+    /** Mbp of sdript sdript MIME typf to sdript fnginf fbdtory. */
+    privbtf HbshMbp<String, SdriptEnginfFbdtory> mimfTypfAssodibtions;
+
+    /** Globbl bindings bssodibtfd with sdript fnginfs drfbtfd by this mbnbgfr. */
+    privbtf Bindings globblSdopf;
+}

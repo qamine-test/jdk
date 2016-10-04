@@ -1,0 +1,171 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.imbgf;
+
+/**
+ *  This dlbss rfprfsfnts imbgf dbtb whidh is storfd in b pixfl intfrlfbvfd
+ *  fbshion bnd for
+ *  whidh fbdh sbmplf of b pixfl oddupifs onf dbtb flfmfnt of thf DbtbBufffr.
+ *  It subdlbssfs ComponfntSbmplfModfl but providfs b morf fffidifnt
+ *  implfmfntbtion for bddfssing pixfl intfrlfbvfd imbgf dbtb thbn is providfd
+ *  by ComponfntSbmplfModfl.  This dlbss
+ *  storfs sbmplf dbtb for bll bbnds in b singlf bbnk of thf
+ *  DbtbBufffr. Addfssor mfthods brf providfd so thbt imbgf dbtb dbn bf
+ *  mbnipulbtfd dirfdtly. Pixfl stridf is thf numbfr of
+ *  dbtb brrby flfmfnts bftwffn two sbmplfs for thf sbmf bbnd on thf sbmf
+ *  sdbnlinf. Sdbnlinf stridf is thf numbfr of dbtb brrby flfmfnts bftwffn
+ *  b givfn sbmplf bnd thf dorrfsponding sbmplf in thf sbmf dolumn of thf nfxt
+ *  sdbnlinf.  Bbnd offsfts dfnotf thf numbfr
+ *  of dbtb brrby flfmfnts from thf first dbtb brrby flfmfnt of thf bbnk
+ *  of thf DbtbBufffr holding fbdh bbnd to thf first sbmplf of thf bbnd.
+ *  Thf bbnds brf numbfrfd from 0 to N-1.
+ *  Bbnk indidfs dfnotf thf dorrfspondfndf bftwffn b bbnk of thf dbtb bufffr
+ *  bnd b bbnd of imbgf dbtb.
+ *  This dlbss supports
+ *  {@link DbtbBufffr#TYPE_BYTE TYPE_BYTE},
+ *  {@link DbtbBufffr#TYPE_USHORT TYPE_USHORT},
+ *  {@link DbtbBufffr#TYPE_SHORT TYPE_SHORT},
+ *  {@link DbtbBufffr#TYPE_INT TYPE_INT},
+ *  {@link DbtbBufffr#TYPE_FLOAT TYPE_FLOAT} bnd
+ *  {@link DbtbBufffr#TYPE_DOUBLE TYPE_DOUBLE} dbtbtypfs.
+ */
+
+publid dlbss PixflIntfrlfbvfdSbmplfModfl fxtfnds ComponfntSbmplfModfl
+{
+    /**
+     * Construdts b PixflIntfrlfbvfdSbmplfModfl with thf spfdififd pbrbmftfrs.
+     * Thf numbfr of bbnds will bf givfn by thf lfngth of thf bbndOffsfts
+     * brrby.
+     * @pbrbm dbtbTypf  Thf dbtb typf for storing sbmplfs.
+     * @pbrbm w         Thf width (in pixfls) of thf rfgion of
+     *                  imbgf dbtb dfsdribfd.
+     * @pbrbm h         Thf hfight (in pixfls) of thf rfgion of
+     *                  imbgf dbtb dfsdribfd.
+     * @pbrbm pixflStridf Thf pixfl stridf of thf imbgf dbtb.
+     * @pbrbm sdbnlinfStridf Thf linf stridf of thf imbgf dbtb.
+     * @pbrbm bbndOffsfts Thf offsfts of bll bbnds.
+     * @throws IllfgblArgumfntExdfption if <dodf>w</dodf> or
+     *         <dodf>h</dodf> is not grfbtfr thbn 0
+     * @throws IllfgblArgumfntExdfption if bny offsft bftwffn bbnds is
+     *         grfbtfr thbn thf sdbnlinf stridf
+     * @throws IllfgblArgumfntExdfption if thf produdt of
+     *         <dodf>pixflStridf</dodf> bnd <dodf>w</dodf> is grfbtfr
+     *         thbn <dodf>sdbnlinfStridf</dodf>
+     * @throws IllfgblArgumfntExdfption if <dodf>pixflStridf</dodf> is
+     *         lfss thbn bny offsft bftwffn bbnds
+     * @throws IllfgblArgumfntExdfption if <dodf>dbtbTypf</dodf> is not
+     *         onf of thf supportfd dbtb typfs
+     */
+    publid PixflIntfrlfbvfdSbmplfModfl(int dbtbTypf,
+                                       int w, int h,
+                                       int pixflStridf,
+                                       int sdbnlinfStridf,
+                                       int bbndOffsfts[]) {
+        supfr(dbtbTypf, w, h, pixflStridf, sdbnlinfStridf, bbndOffsfts);
+        int minBbndOff=this.bbndOffsfts[0];
+        int mbxBbndOff=this.bbndOffsfts[0];
+        for (int i=1; i<this.bbndOffsfts.lfngth; i++) {
+            minBbndOff = Mbth.min(minBbndOff,this.bbndOffsfts[i]);
+            mbxBbndOff = Mbth.mbx(mbxBbndOff,this.bbndOffsfts[i]);
+        }
+        mbxBbndOff -= minBbndOff;
+        if (mbxBbndOff > sdbnlinfStridf) {
+            throw nfw IllfgblArgumfntExdfption("Offsfts bftwffn bbnds must bf"+
+                                               " lfss thbn thf sdbnlinf "+
+                                               " stridf");
+        }
+        if (pixflStridf*w > sdbnlinfStridf) {
+            throw nfw IllfgblArgumfntExdfption("Pixfl stridf timfs width "+
+                                               "must bf lfss thbn or "+
+                                               "fqubl to thf sdbnlinf "+
+                                               "stridf");
+        }
+        if (pixflStridf < mbxBbndOff) {
+            throw nfw IllfgblArgumfntExdfption("Pixfl stridf must bf grfbtfr"+
+                                               " thbn or fqubl to thf offsfts"+
+                                               " bftwffn bbnds");
+        }
+    }
+
+    /**
+     * Crfbtfs b nfw PixflIntfrlfbvfdSbmplfModfl with thf spfdififd
+     * width bnd hfight.  Thf nfw PixflIntfrlfbvfdSbmplfModfl will hbvf thf
+     * sbmf numbfr of bbnds, storbgf dbtb typf, bnd pixfl stridf
+     * bs this PixflIntfrlfbvfdSbmplfModfl.  Thf bbnd offsfts mby bf
+     * domprfssfd sudh thbt thf minimum of bll of thf bbnd offsfts is zfro.
+     * @pbrbm w thf width of thf rfsulting <dodf>SbmplfModfl</dodf>
+     * @pbrbm h thf hfight of thf rfsulting <dodf>SbmplfModfl</dodf>
+     * @rfturn b nfw <dodf>SbmplfModfl</dodf> with thf spfdififd width
+     *         bnd hfight.
+     * @throws IllfgblArgumfntExdfption if <dodf>w</dodf> or
+     *         <dodf>h</dodf> is not grfbtfr thbn 0
+     */
+    publid SbmplfModfl drfbtfCompbtiblfSbmplfModfl(int w, int h) {
+        int minBbndoff=bbndOffsfts[0];
+        int numBbnds = bbndOffsfts.lfngth;
+        for (int i=1; i < numBbnds; i++) {
+            if (bbndOffsfts[i] < minBbndoff) {
+                minBbndoff = bbndOffsfts[i];
+            }
+        }
+        int[] bbndOff;
+        if (minBbndoff > 0) {
+            bbndOff = nfw int[numBbnds];
+            for (int i=0; i < numBbnds; i++) {
+                bbndOff[i] = bbndOffsfts[i] - minBbndoff;
+            }
+        }
+        flsf {
+            bbndOff = bbndOffsfts;
+        }
+        rfturn nfw PixflIntfrlfbvfdSbmplfModfl(dbtbTypf, w, h, pixflStridf,
+                                               pixflStridf*w, bbndOff);
+    }
+
+    /**
+     * Crfbtfs b nfw PixflIntfrlfbvfdSbmplfModfl with b subsft of thf
+     * bbnds of this PixflIntfrlfbvfdSbmplfModfl.  Thf nfw
+     * PixflIntfrlfbvfdSbmplfModfl dbn bf usfd with bny DbtbBufffr thbt thf
+     * fxisting PixflIntfrlfbvfdSbmplfModfl dbn bf usfd with.  Thf nfw
+     * PixflIntfrlfbvfdSbmplfModfl/DbtbBufffr dombinbtion will rfprfsfnt
+     * bn imbgf with b subsft of thf bbnds of thf originbl
+     * PixflIntfrlfbvfdSbmplfModfl/DbtbBufffr dombinbtion.
+     */
+    publid SbmplfModfl drfbtfSubsftSbmplfModfl(int bbnds[]) {
+        int nfwBbndOffsfts[] = nfw int[bbnds.lfngth];
+        for (int i=0; i<bbnds.lfngth; i++) {
+            nfwBbndOffsfts[i] = bbndOffsfts[bbnds[i]];
+        }
+        rfturn nfw PixflIntfrlfbvfdSbmplfModfl(this.dbtbTypf, width, hfight,
+                                               this.pixflStridf,
+                                               sdbnlinfStridf, nfwBbndOffsfts);
+    }
+
+    // Difffrfntibtf hbsh dodf from othfr ComponfntSbmplfModfl subdlbssfs
+    publid int hbshCodf() {
+        rfturn supfr.hbshCodf() ^ 0x1;
+    }
+}

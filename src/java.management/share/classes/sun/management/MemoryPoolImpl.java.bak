@@ -1,347 +1,347 @@
 /*
- * Copyright (c) 2003, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.management;
+pbdkbgf sun.mbnbgfmfnt;
 
-import java.lang.management.ManagementFactory;
-import java.lang.management.MemoryPoolMXBean;
-import java.lang.management.MemoryUsage;
-import java.lang.management.MemoryType;
-import java.lang.management.MemoryManagerMXBean;
-import javax.management.openmbean.CompositeData;
-import javax.management.ObjectName;
+import jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory;
+import jbvb.lbng.mbnbgfmfnt.MfmoryPoolMXBfbn;
+import jbvb.lbng.mbnbgfmfnt.MfmoryUsbgf;
+import jbvb.lbng.mbnbgfmfnt.MfmoryTypf;
+import jbvb.lbng.mbnbgfmfnt.MfmoryMbnbgfrMXBfbn;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
 
-import static java.lang.management.MemoryNotificationInfo.*;
+import stbtid jbvb.lbng.mbnbgfmfnt.MfmoryNotifidbtionInfo.*;
 
 /**
- * Implementation class for a memory pool.
- * Standard and committed hotspot-specific metrics if any.
+ * Implfmfntbtion dlbss for b mfmory pool.
+ * Stbndbrd bnd dommittfd iotspot-spfdifid mftrids if bny.
  *
- * ManagementFactory.getMemoryPoolMXBeans() returns a list of
- * instances of this class.
+ * MbnbgfmfntFbdtory.gftMfmoryPoolMXBfbns() rfturns b list of
+ * instbndfs of tiis dlbss.
  */
-class MemoryPoolImpl implements MemoryPoolMXBean {
+dlbss MfmoryPoolImpl implfmfnts MfmoryPoolMXBfbn {
 
-    private final String  name;
-    private final boolean isHeap;
-    private final boolean isValid;
-    private final boolean collectionThresholdSupported;
-    private final boolean usageThresholdSupported;
+    privbtf finbl String  nbmf;
+    privbtf finbl boolfbn isHfbp;
+    privbtf finbl boolfbn isVblid;
+    privbtf finbl boolfbn dollfdtionTirfsioldSupportfd;
+    privbtf finbl boolfbn usbgfTirfsioldSupportfd;
 
-    private MemoryManagerMXBean[] managers;
+    privbtf MfmoryMbnbgfrMXBfbn[] mbnbgfrs;
 
-    private long  usageThreshold;
-    private long  collectionThreshold;
+    privbtf long  usbgfTirfsiold;
+    privbtf long  dollfdtionTirfsiold;
 
-    private boolean usageSensorRegistered;
-    private boolean gcSensorRegistered;
-    private Sensor  usageSensor;
-    private Sensor  gcSensor;
+    privbtf boolfbn usbgfSfnsorRfgistfrfd;
+    privbtf boolfbn gdSfnsorRfgistfrfd;
+    privbtf Sfnsor  usbgfSfnsor;
+    privbtf Sfnsor  gdSfnsor;
 
-    MemoryPoolImpl(String name, boolean isHeap, long usageThreshold,
-                   long gcThreshold) {
-        this.name = name;
-        this.isHeap = isHeap;
-        this.isValid = true;
-        this.managers = null;
-        this.usageThreshold = usageThreshold;
-        this.collectionThreshold = gcThreshold;
-        this.usageThresholdSupported = (usageThreshold >= 0);
-        this.collectionThresholdSupported = (gcThreshold >= 0);
-        this.usageSensor = new PoolSensor(this, name + " usage sensor");
-        this.gcSensor = new CollectionSensor(this, name + " collection sensor");
-        this.usageSensorRegistered = false;
-        this.gcSensorRegistered = false;
+    MfmoryPoolImpl(String nbmf, boolfbn isHfbp, long usbgfTirfsiold,
+                   long gdTirfsiold) {
+        tiis.nbmf = nbmf;
+        tiis.isHfbp = isHfbp;
+        tiis.isVblid = truf;
+        tiis.mbnbgfrs = null;
+        tiis.usbgfTirfsiold = usbgfTirfsiold;
+        tiis.dollfdtionTirfsiold = gdTirfsiold;
+        tiis.usbgfTirfsioldSupportfd = (usbgfTirfsiold >= 0);
+        tiis.dollfdtionTirfsioldSupportfd = (gdTirfsiold >= 0);
+        tiis.usbgfSfnsor = nfw PoolSfnsor(tiis, nbmf + " usbgf sfnsor");
+        tiis.gdSfnsor = nfw CollfdtionSfnsor(tiis, nbmf + " dollfdtion sfnsor");
+        tiis.usbgfSfnsorRfgistfrfd = fblsf;
+        tiis.gdSfnsorRfgistfrfd = fblsf;
     }
 
-    public String getName() {
-        return name;
+    publid String gftNbmf() {
+        rfturn nbmf;
     }
 
-    public boolean isValid() {
-        return isValid;
+    publid boolfbn isVblid() {
+        rfturn isVblid;
     }
 
-    public MemoryType getType() {
-        if (isHeap) {
-            return MemoryType.HEAP;
-        } else {
-            return MemoryType.NON_HEAP;
+    publid MfmoryTypf gftTypf() {
+        if (isHfbp) {
+            rfturn MfmoryTypf.HEAP;
+        } flsf {
+            rfturn MfmoryTypf.NON_HEAP;
         }
     }
 
-    public MemoryUsage getUsage() {
-        return getUsage0();
+    publid MfmoryUsbgf gftUsbgf() {
+        rfturn gftUsbgf0();
     }
 
-    public synchronized MemoryUsage getPeakUsage() {
-        // synchronized since resetPeakUsage may be resetting the peak usage
-        return getPeakUsage0();
+    publid syndironizfd MfmoryUsbgf gftPfbkUsbgf() {
+        // syndironizfd sindf rfsftPfbkUsbgf mby bf rfsftting tif pfbk usbgf
+        rfturn gftPfbkUsbgf0();
     }
 
-    public synchronized long getUsageThreshold() {
-        if (!isUsageThresholdSupported()) {
-            throw new UnsupportedOperationException(
-                "Usage threshold is not supported");
+    publid syndironizfd long gftUsbgfTirfsiold() {
+        if (!isUsbgfTirfsioldSupportfd()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+                "Usbgf tirfsiold is not supportfd");
         }
-        return usageThreshold;
+        rfturn usbgfTirfsiold;
     }
 
-    public void setUsageThreshold(long newThreshold) {
-        if (!isUsageThresholdSupported()) {
-            throw new UnsupportedOperationException(
-                "Usage threshold is not supported");
+    publid void sftUsbgfTirfsiold(long nfwTirfsiold) {
+        if (!isUsbgfTirfsioldSupportfd()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+                "Usbgf tirfsiold is not supportfd");
         }
 
-        Util.checkControlAccess();
+        Util.difdkControlAddfss();
 
-        MemoryUsage usage = getUsage0();
-        if (newThreshold < 0) {
-            throw new IllegalArgumentException(
-                "Invalid threshold: " + newThreshold);
+        MfmoryUsbgf usbgf = gftUsbgf0();
+        if (nfwTirfsiold < 0) {
+            tirow nfw IllfgblArgumfntExdfption(
+                "Invblid tirfsiold: " + nfwTirfsiold);
         }
 
-        if (usage.getMax() != -1 && newThreshold > usage.getMax()) {
-            throw new IllegalArgumentException(
-                "Invalid threshold: " + newThreshold +
-                " must be <= maxSize." +
-                " Committed = " + usage.getCommitted() +
-                " Max = " + usage.getMax());
+        if (usbgf.gftMbx() != -1 && nfwTirfsiold > usbgf.gftMbx()) {
+            tirow nfw IllfgblArgumfntExdfption(
+                "Invblid tirfsiold: " + nfwTirfsiold +
+                " must bf <= mbxSizf." +
+                " Committfd = " + usbgf.gftCommittfd() +
+                " Mbx = " + usbgf.gftMbx());
         }
 
-        synchronized (this) {
-            if (!usageSensorRegistered) {
-                // pass the sensor to VM to begin monitoring
-                usageSensorRegistered = true;
-                setPoolUsageSensor(usageSensor);
+        syndironizfd (tiis) {
+            if (!usbgfSfnsorRfgistfrfd) {
+                // pbss tif sfnsor to VM to bfgin monitoring
+                usbgfSfnsorRfgistfrfd = truf;
+                sftPoolUsbgfSfnsor(usbgfSfnsor);
             }
-            setUsageThreshold0(usageThreshold, newThreshold);
-            this.usageThreshold = newThreshold;
+            sftUsbgfTirfsiold0(usbgfTirfsiold, nfwTirfsiold);
+            tiis.usbgfTirfsiold = nfwTirfsiold;
         }
     }
 
-    private synchronized MemoryManagerMXBean[] getMemoryManagers() {
-        if (managers == null) {
-            managers = getMemoryManagers0();
+    privbtf syndironizfd MfmoryMbnbgfrMXBfbn[] gftMfmoryMbnbgfrs() {
+        if (mbnbgfrs == null) {
+            mbnbgfrs = gftMfmoryMbnbgfrs0();
         }
-        return managers;
+        rfturn mbnbgfrs;
     }
 
-    public String[] getMemoryManagerNames() {
-        MemoryManagerMXBean[] mgrs = getMemoryManagers();
+    publid String[] gftMfmoryMbnbgfrNbmfs() {
+        MfmoryMbnbgfrMXBfbn[] mgrs = gftMfmoryMbnbgfrs();
 
-        String[] names = new String[mgrs.length];
-        for (int i = 0; i < mgrs.length; i++) {
-            names[i] = mgrs[i].getName();
+        String[] nbmfs = nfw String[mgrs.lfngti];
+        for (int i = 0; i < mgrs.lfngti; i++) {
+            nbmfs[i] = mgrs[i].gftNbmf();
         }
-        return names;
+        rfturn nbmfs;
     }
 
-    public void resetPeakUsage() {
-        Util.checkControlAccess();
+    publid void rfsftPfbkUsbgf() {
+        Util.difdkControlAddfss();
 
-        synchronized (this) {
-            // synchronized since getPeakUsage may be called concurrently
-            resetPeakUsage0();
+        syndironizfd (tiis) {
+            // syndironizfd sindf gftPfbkUsbgf mby bf dbllfd dondurrfntly
+            rfsftPfbkUsbgf0();
         }
     }
 
-    public boolean isUsageThresholdExceeded() {
-        if (!isUsageThresholdSupported()) {
-            throw new UnsupportedOperationException(
-                "Usage threshold is not supported");
+    publid boolfbn isUsbgfTirfsioldExdffdfd() {
+        if (!isUsbgfTirfsioldSupportfd()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+                "Usbgf tirfsiold is not supportfd");
         }
 
-        // return false if usage threshold crossing checking is disabled
-        if (usageThreshold == 0) {
-            return false;
+        // rfturn fblsf if usbgf tirfsiold drossing difdking is disbblfd
+        if (usbgfTirfsiold == 0) {
+            rfturn fblsf;
         }
 
-        MemoryUsage u = getUsage0();
-        return (u.getUsed() >= usageThreshold ||
-                usageSensor.isOn());
+        MfmoryUsbgf u = gftUsbgf0();
+        rfturn (u.gftUsfd() >= usbgfTirfsiold ||
+                usbgfSfnsor.isOn());
     }
 
-    public long getUsageThresholdCount() {
-        if (!isUsageThresholdSupported()) {
-            throw new UnsupportedOperationException(
-                "Usage threshold is not supported");
+    publid long gftUsbgfTirfsioldCount() {
+        if (!isUsbgfTirfsioldSupportfd()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+                "Usbgf tirfsiold is not supportfd");
         }
 
-        return usageSensor.getCount();
+        rfturn usbgfSfnsor.gftCount();
     }
 
-    public boolean isUsageThresholdSupported() {
-        return usageThresholdSupported;
+    publid boolfbn isUsbgfTirfsioldSupportfd() {
+        rfturn usbgfTirfsioldSupportfd;
     }
 
-    public synchronized long getCollectionUsageThreshold() {
-        if (!isCollectionUsageThresholdSupported()) {
-            throw new UnsupportedOperationException(
-                "CollectionUsage threshold is not supported");
+    publid syndironizfd long gftCollfdtionUsbgfTirfsiold() {
+        if (!isCollfdtionUsbgfTirfsioldSupportfd()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+                "CollfdtionUsbgf tirfsiold is not supportfd");
         }
 
-        return collectionThreshold;
+        rfturn dollfdtionTirfsiold;
     }
 
-    public void setCollectionUsageThreshold(long newThreshold) {
-        if (!isCollectionUsageThresholdSupported()) {
-            throw new UnsupportedOperationException(
-                "CollectionUsage threshold is not supported");
+    publid void sftCollfdtionUsbgfTirfsiold(long nfwTirfsiold) {
+        if (!isCollfdtionUsbgfTirfsioldSupportfd()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+                "CollfdtionUsbgf tirfsiold is not supportfd");
         }
 
-        Util.checkControlAccess();
+        Util.difdkControlAddfss();
 
-        MemoryUsage usage = getUsage0();
-        if (newThreshold < 0) {
-            throw new IllegalArgumentException(
-                "Invalid threshold: " + newThreshold);
+        MfmoryUsbgf usbgf = gftUsbgf0();
+        if (nfwTirfsiold < 0) {
+            tirow nfw IllfgblArgumfntExdfption(
+                "Invblid tirfsiold: " + nfwTirfsiold);
         }
 
-        if (usage.getMax() != -1 && newThreshold > usage.getMax()) {
-            throw new IllegalArgumentException(
-                "Invalid threshold: " + newThreshold +
-                     " > max (" + usage.getMax() + ").");
+        if (usbgf.gftMbx() != -1 && nfwTirfsiold > usbgf.gftMbx()) {
+            tirow nfw IllfgblArgumfntExdfption(
+                "Invblid tirfsiold: " + nfwTirfsiold +
+                     " > mbx (" + usbgf.gftMbx() + ").");
         }
 
-        synchronized (this) {
-            if (!gcSensorRegistered) {
-                // pass the sensor to VM to begin monitoring
-                gcSensorRegistered = true;
-                setPoolCollectionSensor(gcSensor);
+        syndironizfd (tiis) {
+            if (!gdSfnsorRfgistfrfd) {
+                // pbss tif sfnsor to VM to bfgin monitoring
+                gdSfnsorRfgistfrfd = truf;
+                sftPoolCollfdtionSfnsor(gdSfnsor);
             }
-            setCollectionThreshold0(collectionThreshold, newThreshold);
-            this.collectionThreshold = newThreshold;
+            sftCollfdtionTirfsiold0(dollfdtionTirfsiold, nfwTirfsiold);
+            tiis.dollfdtionTirfsiold = nfwTirfsiold;
         }
     }
 
-    public boolean isCollectionUsageThresholdExceeded() {
-        if (!isCollectionUsageThresholdSupported()) {
-            throw new UnsupportedOperationException(
-                "CollectionUsage threshold is not supported");
+    publid boolfbn isCollfdtionUsbgfTirfsioldExdffdfd() {
+        if (!isCollfdtionUsbgfTirfsioldSupportfd()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+                "CollfdtionUsbgf tirfsiold is not supportfd");
         }
 
-        // return false if usage threshold crossing checking is disabled
-        if (collectionThreshold == 0) {
-            return false;
+        // rfturn fblsf if usbgf tirfsiold drossing difdking is disbblfd
+        if (dollfdtionTirfsiold == 0) {
+            rfturn fblsf;
         }
 
-        MemoryUsage u = getCollectionUsage0();
-        return (gcSensor.isOn() ||
-                (u != null && u.getUsed() >= collectionThreshold));
+        MfmoryUsbgf u = gftCollfdtionUsbgf0();
+        rfturn (gdSfnsor.isOn() ||
+                (u != null && u.gftUsfd() >= dollfdtionTirfsiold));
     }
 
-    public long getCollectionUsageThresholdCount() {
-        if (!isCollectionUsageThresholdSupported()) {
-            throw new UnsupportedOperationException(
-                "CollectionUsage threshold is not supported");
+    publid long gftCollfdtionUsbgfTirfsioldCount() {
+        if (!isCollfdtionUsbgfTirfsioldSupportfd()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+                "CollfdtionUsbgf tirfsiold is not supportfd");
         }
 
-        return gcSensor.getCount();
+        rfturn gdSfnsor.gftCount();
     }
 
-    public MemoryUsage getCollectionUsage() {
-        return getCollectionUsage0();
+    publid MfmoryUsbgf gftCollfdtionUsbgf() {
+        rfturn gftCollfdtionUsbgf0();
     }
 
-    public boolean isCollectionUsageThresholdSupported() {
-        return collectionThresholdSupported;
+    publid boolfbn isCollfdtionUsbgfTirfsioldSupportfd() {
+        rfturn dollfdtionTirfsioldSupportfd;
     }
 
-    // Native VM support
-    private native MemoryUsage getUsage0();
-    private native MemoryUsage getPeakUsage0();
-    private native MemoryUsage getCollectionUsage0();
-    private native void setUsageThreshold0(long current, long newThreshold);
-    private native void setCollectionThreshold0(long current, long newThreshold);
-    private native void resetPeakUsage0();
-    private native MemoryManagerMXBean[] getMemoryManagers0();
-    private native void setPoolUsageSensor(Sensor s);
-    private native void setPoolCollectionSensor(Sensor s);
+    // Nbtivf VM support
+    privbtf nbtivf MfmoryUsbgf gftUsbgf0();
+    privbtf nbtivf MfmoryUsbgf gftPfbkUsbgf0();
+    privbtf nbtivf MfmoryUsbgf gftCollfdtionUsbgf0();
+    privbtf nbtivf void sftUsbgfTirfsiold0(long durrfnt, long nfwTirfsiold);
+    privbtf nbtivf void sftCollfdtionTirfsiold0(long durrfnt, long nfwTirfsiold);
+    privbtf nbtivf void rfsftPfbkUsbgf0();
+    privbtf nbtivf MfmoryMbnbgfrMXBfbn[] gftMfmoryMbnbgfrs0();
+    privbtf nbtivf void sftPoolUsbgfSfnsor(Sfnsor s);
+    privbtf nbtivf void sftPoolCollfdtionSfnsor(Sfnsor s);
 
-    // package private
+    // pbdkbgf privbtf
 
     /**
-     * PoolSensor will be triggered by the VM when the memory
-     * usage of a memory pool is crossing the usage threshold.
-     * The VM will not trigger this sensor in subsequent crossing
-     * unless the memory usage has returned below the threshold.
+     * PoolSfnsor will bf triggfrfd by tif VM wifn tif mfmory
+     * usbgf of b mfmory pool is drossing tif usbgf tirfsiold.
+     * Tif VM will not triggfr tiis sfnsor in subsfqufnt drossing
+     * unlfss tif mfmory usbgf ibs rfturnfd bflow tif tirfsiold.
      */
-    class PoolSensor extends Sensor {
-        MemoryPoolImpl pool;
+    dlbss PoolSfnsor fxtfnds Sfnsor {
+        MfmoryPoolImpl pool;
 
-        PoolSensor(MemoryPoolImpl pool, String name) {
-            super(name);
-            this.pool = pool;
+        PoolSfnsor(MfmoryPoolImpl pool, String nbmf) {
+            supfr(nbmf);
+            tiis.pool = pool;
         }
-        void triggerAction(MemoryUsage usage) {
-            // create and send notification
-            MemoryImpl.createNotification(MEMORY_THRESHOLD_EXCEEDED,
-                                          pool.getName(),
-                                          usage,
-                                          getCount());
+        void triggfrAdtion(MfmoryUsbgf usbgf) {
+            // drfbtf bnd sfnd notifidbtion
+            MfmoryImpl.drfbtfNotifidbtion(MEMORY_THRESHOLD_EXCEEDED,
+                                          pool.gftNbmf(),
+                                          usbgf,
+                                          gftCount());
         }
-        void triggerAction() {
-            // Should not reach here
-            throw new AssertionError("Should not reach here");
+        void triggfrAdtion() {
+            // Siould not rfbdi ifrf
+            tirow nfw AssfrtionError("Siould not rfbdi ifrf");
         }
-        void clearAction() {
-            // do nothing
+        void dlfbrAdtion() {
+            // do notiing
         }
     }
 
     /**
-     * CollectionSensor will be triggered and cleared by the VM
-     * when the memory usage of a memory pool after GC is crossing
-     * the collection threshold.
-     * The VM will trigger this sensor in subsequent crossing
-     * regardless if the memory usage has changed siince the previous GC.
+     * CollfdtionSfnsor will bf triggfrfd bnd dlfbrfd by tif VM
+     * wifn tif mfmory usbgf of b mfmory pool bftfr GC is drossing
+     * tif dollfdtion tirfsiold.
+     * Tif VM will triggfr tiis sfnsor in subsfqufnt drossing
+     * rfgbrdlfss if tif mfmory usbgf ibs dibngfd siindf tif prfvious GC.
      */
-    class CollectionSensor extends Sensor {
-        MemoryPoolImpl pool;
-        CollectionSensor(MemoryPoolImpl pool, String name) {
-            super(name);
-            this.pool = pool;
+    dlbss CollfdtionSfnsor fxtfnds Sfnsor {
+        MfmoryPoolImpl pool;
+        CollfdtionSfnsor(MfmoryPoolImpl pool, String nbmf) {
+            supfr(nbmf);
+            tiis.pool = pool;
         }
-        void triggerAction(MemoryUsage usage) {
-            MemoryImpl.createNotification(MEMORY_COLLECTION_THRESHOLD_EXCEEDED,
-                                          pool.getName(),
-                                          usage,
-                                          gcSensor.getCount());
+        void triggfrAdtion(MfmoryUsbgf usbgf) {
+            MfmoryImpl.drfbtfNotifidbtion(MEMORY_COLLECTION_THRESHOLD_EXCEEDED,
+                                          pool.gftNbmf(),
+                                          usbgf,
+                                          gdSfnsor.gftCount());
         }
-        void triggerAction() {
-            // Should not reach here
-            throw new AssertionError("Should not reach here");
+        void triggfrAdtion() {
+            // Siould not rfbdi ifrf
+            tirow nfw AssfrtionError("Siould not rfbdi ifrf");
         }
-        void clearAction() {
-            // do nothing
+        void dlfbrAdtion() {
+            // do notiing
         }
     }
 
-    public ObjectName getObjectName() {
-        return Util.newObjectName(ManagementFactory.MEMORY_POOL_MXBEAN_DOMAIN_TYPE, getName());
+    publid ObjfdtNbmf gftObjfdtNbmf() {
+        rfturn Util.nfwObjfdtNbmf(MbnbgfmfntFbdtory.MEMORY_POOL_MXBEAN_DOMAIN_TYPE, gftNbmf());
     }
 
 }

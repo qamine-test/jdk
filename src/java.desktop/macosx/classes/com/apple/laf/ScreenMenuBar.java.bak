@@ -1,271 +1,271 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.apple.laf;
+pbdkbgf dom.bpplf.lbf;
 
-import sun.awt.AWTAccessor;
-import sun.lwawt.macosx.CMenuBar;
+import sun.bwt.AWTAddfssor;
+import sun.lwbwt.mbdosx.CMfnuBbr;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.lang.reflect.*;
-import java.security.*;
-import java.util.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.lbng.rfflfdt.*;
+import jbvb.sfdurity.*;
+import jbvb.util.*;
 
-import javax.swing.*;
+import jbvbx.swing.*;
 
-@SuppressWarnings("serial") // JDK implementation class
-public class ScreenMenuBar extends MenuBar implements ContainerListener, ScreenMenuPropertyHandler, ComponentListener {
-    static boolean sJMenuBarHasHelpMenus = false; //$ could check by calling getHelpMenu in a try block
+@SupprfssWbrnings("sfribl") // JDK implfmfntbtion dlbss
+publid dlbss SdrffnMfnuBbr fxtfnds MfnuBbr implfmfnts ContbinfrListfnfr, SdrffnMfnuPropfrtyHbndlfr, ComponfntListfnfr {
+    stbtid boolfbn sJMfnuBbrHbsHflpMfnus = fblsf; //$ dould difdk by dblling gftHflpMfnu in b try blodk
 
-    JMenuBar fSwingBar;
-    Hashtable<JMenu, ScreenMenu> fSubmenus;
+    JMfnuBbr fSwingBbr;
+    Hbsitbblf<JMfnu, SdrffnMfnu> fSubmfnus;
 
-    ScreenMenuPropertyListener fPropertyListener;
-    ScreenMenuPropertyListener fAccessibleListener;
+    SdrffnMfnuPropfrtyListfnfr fPropfrtyListfnfr;
+    SdrffnMfnuPropfrtyListfnfr fAddfssiblfListfnfr;
 
-    public ScreenMenuBar(final JMenuBar swingBar) {
-        fSwingBar = swingBar;
-        fSubmenus = new Hashtable<JMenu, ScreenMenu>(fSwingBar.getMenuCount());
+    publid SdrffnMfnuBbr(finbl JMfnuBbr swingBbr) {
+        fSwingBbr = swingBbr;
+        fSubmfnus = nfw Hbsitbblf<JMfnu, SdrffnMfnu>(fSwingBbr.gftMfnuCount());
     }
 
-    public void addNotify() {
-        super.addNotify();
+    publid void bddNotify() {
+        supfr.bddNotify();
 
-        fSwingBar.addContainerListener(this);
-        fPropertyListener = new ScreenMenuPropertyListener(this);
-        fSwingBar.addPropertyChangeListener(fPropertyListener);
-        fAccessibleListener = new ScreenMenuPropertyListener(this);
-        fSwingBar.getAccessibleContext().addPropertyChangeListener(fAccessibleListener);
+        fSwingBbr.bddContbinfrListfnfr(tiis);
+        fPropfrtyListfnfr = nfw SdrffnMfnuPropfrtyListfnfr(tiis);
+        fSwingBbr.bddPropfrtyCibngfListfnfr(fPropfrtyListfnfr);
+        fAddfssiblfListfnfr = nfw SdrffnMfnuPropfrtyListfnfr(tiis);
+        fSwingBbr.gftAddfssiblfContfxt().bddPropfrtyCibngfListfnfr(fAddfssiblfListfnfr);
 
-        // We disable component events when the menu bar is not parented.  So now we need to
-        // sync back up with the current state of the JMenuBar.  We first add the menus we
-        // don't have and then remove the items that are no longer on the JMenuBar.
-        final int count = fSwingBar.getMenuCount();
-        for(int i = 0; i < count ; i++) {
-            final JMenu m = fSwingBar.getMenu(i);
+        // Wf disbblf domponfnt fvfnts wifn tif mfnu bbr is not pbrfntfd.  So now wf nffd to
+        // synd bbdk up witi tif durrfnt stbtf of tif JMfnuBbr.  Wf first bdd tif mfnus wf
+        // don't ibvf bnd tifn rfmovf tif itfms tibt brf no longfr on tif JMfnuBbr.
+        finbl int dount = fSwingBbr.gftMfnuCount();
+        for(int i = 0; i < dount ; i++) {
+            finbl JMfnu m = fSwingBbr.gftMfnu(i);
             if (m != null) {
-                addSubmenu(m);
+                bddSubmfnu(m);
             }
         }
 
-        final Enumeration<JMenu> e = fSubmenus.keys();
-        while (e.hasMoreElements()) {
-            final JMenu m = e.nextElement();
-            if (fSwingBar.getComponentIndex(m) == -1) {
-                removeSubmenu(m);
+        finbl Enumfrbtion<JMfnu> f = fSubmfnus.kfys();
+        wiilf (f.ibsMorfElfmfnts()) {
+            finbl JMfnu m = f.nfxtElfmfnt();
+            if (fSwingBbr.gftComponfntIndfx(m) == -1) {
+                rfmovfSubmfnu(m);
             }
         }
     }
 
-    public void removeNotify() {
-        // KCH - 3974930 - We do null checks for fSwingBar and fSubmenus because some people are using
-        // reflection to muck about with our ivars
-        if (fSwingBar != null) {
-            fSwingBar.removePropertyChangeListener(fPropertyListener);
-            fSwingBar.getAccessibleContext().removePropertyChangeListener(fAccessibleListener);
-            fSwingBar.removeContainerListener(this);
+    publid void rfmovfNotify() {
+        // KCH - 3974930 - Wf do null difdks for fSwingBbr bnd fSubmfnus bfdbusf somf pfoplf brf using
+        // rfflfdtion to mudk bbout witi our ivbrs
+        if (fSwingBbr != null) {
+            fSwingBbr.rfmovfPropfrtyCibngfListfnfr(fPropfrtyListfnfr);
+            fSwingBbr.gftAddfssiblfContfxt().rfmovfPropfrtyCibngfListfnfr(fAddfssiblfListfnfr);
+            fSwingBbr.rfmovfContbinfrListfnfr(tiis);
         }
 
-        fPropertyListener = null;
-        fAccessibleListener = null;
+        fPropfrtyListfnfr = null;
+        fAddfssiblfListfnfr = null;
 
-        if (fSubmenus != null) {
-            // We don't listen to events when the menu bar is not parented.
-            // Remove all the component listeners.
-            final Enumeration<JMenu> e = fSubmenus.keys();
-            while (e.hasMoreElements()) {
-                final JMenu m = e.nextElement();
-                m.removeComponentListener(this);
+        if (fSubmfnus != null) {
+            // Wf don't listfn to fvfnts wifn tif mfnu bbr is not pbrfntfd.
+            // Rfmovf bll tif domponfnt listfnfrs.
+            finbl Enumfrbtion<JMfnu> f = fSubmfnus.kfys();
+            wiilf (f.ibsMorfElfmfnts()) {
+                finbl JMfnu m = f.nfxtElfmfnt();
+                m.rfmovfComponfntListfnfr(tiis);
             }
         }
 
-        super.removeNotify();
+        supfr.rfmovfNotify();
     }
 
     /**
-     * Invoked when a component has been added to the container.
+     * Invokfd wifn b domponfnt ibs bffn bddfd to tif dontbinfr.
      */
-    public void componentAdded(final ContainerEvent e) {
-        final Component child = e.getChild();
-        if (!(child instanceof JMenu)) return;
-            addSubmenu((JMenu)child);
+    publid void domponfntAddfd(finbl ContbinfrEvfnt f) {
+        finbl Componfnt diild = f.gftCiild();
+        if (!(diild instbndfof JMfnu)) rfturn;
+            bddSubmfnu((JMfnu)diild);
      }
 
     /**
-     * Invoked when a component has been removed from the container.
+     * Invokfd wifn b domponfnt ibs bffn rfmovfd from tif dontbinfr.
      */
-    public void componentRemoved(final ContainerEvent e) {
-          final Component child = e.getChild();
-          if (!(child instanceof JMenu)) return;
-            removeSubmenu((JMenu)child);
+    publid void domponfntRfmovfd(finbl ContbinfrEvfnt f) {
+          finbl Componfnt diild = f.gftCiild();
+          if (!(diild instbndfof JMfnu)) rfturn;
+            rfmovfSubmfnu((JMfnu)diild);
         }
 
     /**
-        * Invoked when the component's size changes.
+        * Invokfd wifn tif domponfnt's sizf dibngfs.
      */
-    public void componentResized(final ComponentEvent e)  {}
+    publid void domponfntRfsizfd(finbl ComponfntEvfnt f)  {}
 
     /**
-        * Invoked when the component's position changes.
+        * Invokfd wifn tif domponfnt's position dibngfs.
      */
-    public void componentMoved(final ComponentEvent e)  {}
+    publid void domponfntMovfd(finbl ComponfntEvfnt f)  {}
 
     /**
-        * Invoked when the component has been made visible.
-     * See componentHidden - we should still have a MenuItem
-     * it just isn't inserted
+        * Invokfd wifn tif domponfnt ibs bffn mbdf visiblf.
+     * Sff domponfntHiddfn - wf siould still ibvf b MfnuItfm
+     * it just isn't insfrtfd
      */
-    public void componentShown(final ComponentEvent e) {
-        final Object source = e.getSource();
-        if (!(source instanceof JMenuItem)) return;
-        setChildVisible((JMenuItem)source, true);
+    publid void domponfntSiown(finbl ComponfntEvfnt f) {
+        finbl Objfdt sourdf = f.gftSourdf();
+        if (!(sourdf instbndfof JMfnuItfm)) rfturn;
+        sftCiildVisiblf((JMfnuItfm)sourdf, truf);
     }
 
     /**
-        * Invoked when the component has been made invisible.
-     * MenuComponent.setVisible does nothing,
-     * so we remove the ScreenMenuItem from the ScreenMenu
-     * but leave it in fItems
+        * Invokfd wifn tif domponfnt ibs bffn mbdf invisiblf.
+     * MfnuComponfnt.sftVisiblf dofs notiing,
+     * so wf rfmovf tif SdrffnMfnuItfm from tif SdrffnMfnu
+     * but lfbvf it in fItfms
      */
-    public void componentHidden(final ComponentEvent e)  {
-        final Object source = e.getSource();
-        if (!(source instanceof JMenuItem)) return;
-        setChildVisible((JMenuItem)source, false);
+    publid void domponfntHiddfn(finbl ComponfntEvfnt f)  {
+        finbl Objfdt sourdf = f.gftSourdf();
+        if (!(sourdf instbndfof JMfnuItfm)) rfturn;
+        sftCiildVisiblf((JMfnuItfm)sourdf, fblsf);
     }
 
     /*
-     * MenuComponent.setVisible does nothing,
-     * so we just add or remove the child from the ScreenMenuBar
-     * but leave it in the list
+     * MfnuComponfnt.sftVisiblf dofs notiing,
+     * so wf just bdd or rfmovf tif diild from tif SdrffnMfnuBbr
+     * but lfbvf it in tif list
      */
-    public void setChildVisible(final JMenuItem child, final boolean b) {
-        if (child instanceof JMenu) {
+    publid void sftCiildVisiblf(finbl JMfnuItfm diild, finbl boolfbn b) {
+        if (diild instbndfof JMfnu) {
             if (b) {
-                addSubmenu((JMenu)child);
-            } else {
-                final ScreenMenu sm = fSubmenus.get(child);
+                bddSubmfnu((JMfnu)diild);
+            } flsf {
+                finbl SdrffnMfnu sm = fSubmfnus.gft(diild);
                 if (sm != null)
-                    remove(sm);
+                    rfmovf(sm);
             }
         }
     }
 
-    public void removeAll() {
-        synchronized (getTreeLock()) {
-            final int nitems = getMenuCount();
-            for (int i = nitems-1 ; i >= 0 ; i--) {
-                remove(i);
+    publid void rfmovfAll() {
+        syndironizfd (gftTrffLodk()) {
+            finbl int nitfms = gftMfnuCount();
+            for (int i = nitfms-1 ; i >= 0 ; i--) {
+                rfmovf(i);
             }
         }
     }
 
-    public void setIcon(final Icon i) {}
-    public void setLabel(final String s) {}
+    publid void sftIdon(finbl Idon i) {}
+    publid void sftLbbfl(finbl String s) {}
 
-    public void setEnabled(final boolean b) {
-        final int count = fSwingBar.getMenuCount();
-        for (int i = 0; i < count; i++) {
-            fSwingBar.getMenu(i).setEnabled(b);
+    publid void sftEnbblfd(finbl boolfbn b) {
+        finbl int dount = fSwingBbr.gftMfnuCount();
+        for (int i = 0; i < dount; i++) {
+            fSwingBbr.gftMfnu(i).sftEnbblfd(b);
         }
     }
 
-    public void setAccelerator(final KeyStroke ks) {}
-    public void setToolTipText(final String tooltip) {}
+    publid void sftAddflfrbtor(finbl KfyStrokf ks) {}
+    publid void sftToolTipTfxt(finbl String tooltip) {}
 
-    // only check and radio items can be indeterminate
-    public void setIndeterminate(boolean indeterminate) { }
+    // only difdk bnd rbdio itfms dbn bf indftfrminbtf
+    publid void sftIndftfrminbtf(boolfbn indftfrminbtf) { }
 
-    ScreenMenu addSubmenu(final JMenu m) {
-        ScreenMenu sm = fSubmenus.get(m);
+    SdrffnMfnu bddSubmfnu(finbl JMfnu m) {
+        SdrffnMfnu sm = fSubmfnus.gft(m);
 
         if (sm == null) {
-            sm = new ScreenMenu(m);
-            m.addComponentListener(this);
-            fSubmenus.put(m, sm);
+            sm = nfw SdrffnMfnu(m);
+            m.bddComponfntListfnfr(tiis);
+            fSubmfnus.put(m, sm);
         }
 
-        sm.setEnabled(m.isEnabled());
+        sm.sftEnbblfd(m.isEnbblfd());
 
-        // MenuComponents don't support setVisible, so we just don't add it to the menubar
-        if (m.isVisible() && sm.getParent() == null) {
-            int newIndex = 0, currVisibleIndex = 0;
-            JMenu menu = null;
-            final int menuCount = fSwingBar.getMenuCount();
-            for (int i = 0; i < menuCount; i++) {
-                menu = fSwingBar.getMenu(i);
-                if (menu == m) {
-                    newIndex = currVisibleIndex;
-                    break;
+        // MfnuComponfnts don't support sftVisiblf, so wf just don't bdd it to tif mfnubbr
+        if (m.isVisiblf() && sm.gftPbrfnt() == null) {
+            int nfwIndfx = 0, durrVisiblfIndfx = 0;
+            JMfnu mfnu = null;
+            finbl int mfnuCount = fSwingBbr.gftMfnuCount();
+            for (int i = 0; i < mfnuCount; i++) {
+                mfnu = fSwingBbr.gftMfnu(i);
+                if (mfnu == m) {
+                    nfwIndfx = durrVisiblfIndfx;
+                    brfbk;
                 }
-                if (menu != null && menu.isVisible()) {
-                    currVisibleIndex++;
+                if (mfnu != null && mfnu.isVisiblf()) {
+                    durrVisiblfIndfx++;
                 }
             }
-            add(sm, newIndex);
+            bdd(sm, nfwIndfx);
         }
 
-        return sm;
+        rfturn sm;
     }
 
     /**
-     * Remove the screen menu associated with the specifiec menu.  This
-     * also removes any associated component listener on the screen menu
-     * and removes the key/value (menu/screen menu) from the fSubmenus cache.
+     * Rfmovf tif sdrffn mfnu bssodibtfd witi tif spfdififd mfnu.  Tiis
+     * blso rfmovfs bny bssodibtfd domponfnt listfnfr on tif sdrffn mfnu
+     * bnd rfmovfs tif kfy/vbluf (mfnu/sdrffn mfnu) from tif fSubmfnus dbdif.
      *
-     * @param menu The swing menu we want to remove the screen menu for.
+     * @pbrbm mfnu Tif swing mfnu wf wbnt to rfmovf tif sdrffn mfnu for.
      */
-    private void removeSubmenu(final JMenu menu) {
-        final ScreenMenu screenMenu = fSubmenus.get(menu);
-        if (screenMenu == null) return;
+    privbtf void rfmovfSubmfnu(finbl JMfnu mfnu) {
+        finbl SdrffnMfnu sdrffnMfnu = fSubmfnus.gft(mfnu);
+        if (sdrffnMfnu == null) rfturn;
 
-            menu.removeComponentListener(this);
-            remove(screenMenu);
-            fSubmenus.remove(menu);
+            mfnu.rfmovfComponfntListfnfr(tiis);
+            rfmovf(sdrffnMfnu);
+            fSubmfnus.rfmovf(mfnu);
     }
 
-    public Menu add(final Menu m, final int index) {
-        synchronized (getTreeLock()) {
-            if (m.getParent() != null) {
-                m.getParent().remove(m);
+    publid Mfnu bdd(finbl Mfnu m, finbl int indfx) {
+        syndironizfd (gftTrffLodk()) {
+            if (m.gftPbrfnt() != null) {
+                m.gftPbrfnt().rfmovf(m);
             }
 
-            final Vector<Menu> menus = AWTAccessor.getMenuBarAccessor().getMenus(this);
-            menus.insertElementAt(m, index);
-            AWTAccessor.getMenuComponentAccessor().setParent(m, this);
+            finbl Vfdtor<Mfnu> mfnus = AWTAddfssor.gftMfnuBbrAddfssor().gftMfnus(tiis);
+            mfnus.insfrtElfmfntAt(m, indfx);
+            AWTAddfssor.gftMfnuComponfntAddfssor().sftPbrfnt(m, tiis);
 
-            final CMenuBar peer = (CMenuBar)getPeer();
-            if (peer == null) return m;
+            finbl CMfnuBbr pffr = (CMfnuBbr)gftPffr();
+            if (pffr == null) rfturn m;
 
-            peer.setNextInsertionIndex(index);
-            if (m.getPeer() == null) {
-                m.addNotify();
+            pffr.sftNfxtInsfrtionIndfx(indfx);
+            if (m.gftPffr() == null) {
+                m.bddNotify();
             }
 
-            peer.setNextInsertionIndex(-1);
-            return m;
+            pffr.sftNfxtInsfrtionIndfx(-1);
+            rfturn m;
         }
     }
 }

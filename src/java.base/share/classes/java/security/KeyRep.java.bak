@@ -1,196 +1,196 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.security;
+pbdkbgf jbvb.sfdurity;
 
-import java.io.*;
-import java.util.Locale;
+import jbvb.io.*;
+import jbvb.util.Lodblf;
 
-import java.security.spec.PKCS8EncodedKeySpec;
-import java.security.spec.X509EncodedKeySpec;
-import java.security.spec.InvalidKeySpecException;
+import jbvb.sfdurity.spfd.PKCS8EndodfdKfySpfd;
+import jbvb.sfdurity.spfd.X509EndodfdKfySpfd;
+import jbvb.sfdurity.spfd.InvblidKfySpfdExdfption;
 
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.SecretKeySpec;
+import jbvbx.drypto.SfdrftKfyFbdtory;
+import jbvbx.drypto.spfd.SfdrftKfySpfd;
 
 /**
- * Standardized representation for serialized Key objects.
+ * Stbndbrdizfd rfprfsfntbtion for sfriblizfd Kfy objfdts.
  *
  * <p>
  *
- * Note that a serialized Key may contain sensitive information
- * which should not be exposed in untrusted environments.  See the
- * <a href="../../../platform/serialization/spec/security.html">
- * Security Appendix</a>
- * of the Serialization Specification for more information.
+ * Notf tibt b sfriblizfd Kfy mby dontbin sfnsitivf informbtion
+ * wiidi siould not bf fxposfd in untrustfd fnvironmfnts.  Sff tif
+ * <b irff="../../../plbtform/sfriblizbtion/spfd/sfdurity.itml">
+ * Sfdurity Appfndix</b>
+ * of tif Sfriblizbtion Spfdifidbtion for morf informbtion.
  *
- * @see Key
- * @see KeyFactory
- * @see javax.crypto.spec.SecretKeySpec
- * @see java.security.spec.X509EncodedKeySpec
- * @see java.security.spec.PKCS8EncodedKeySpec
+ * @sff Kfy
+ * @sff KfyFbdtory
+ * @sff jbvbx.drypto.spfd.SfdrftKfySpfd
+ * @sff jbvb.sfdurity.spfd.X509EndodfdKfySpfd
+ * @sff jbvb.sfdurity.spfd.PKCS8EndodfdKfySpfd
  *
- * @since 1.5
+ * @sindf 1.5
  */
 
-public class KeyRep implements Serializable {
+publid dlbss KfyRfp implfmfnts Sfriblizbblf {
 
-    private static final long serialVersionUID = -4757683898830641853L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -4757683898830641853L;
 
     /**
-     * Key type.
+     * Kfy typf.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public static enum Type {
+    publid stbtid fnum Typf {
 
-        /** Type for secret keys. */
+        /** Typf for sfdrft kfys. */
         SECRET,
 
-        /** Type for public keys. */
+        /** Typf for publid kfys. */
         PUBLIC,
 
-        /** Type for private keys. */
+        /** Typf for privbtf kfys. */
         PRIVATE,
 
     }
 
-    private static final String PKCS8 = "PKCS#8";
-    private static final String X509 = "X.509";
-    private static final String RAW = "RAW";
+    privbtf stbtid finbl String PKCS8 = "PKCS#8";
+    privbtf stbtid finbl String X509 = "X.509";
+    privbtf stbtid finbl String RAW = "RAW";
 
     /**
-     * Either one of Type.SECRET, Type.PUBLIC, or Type.PRIVATE
+     * Eitifr onf of Typf.SECRET, Typf.PUBLIC, or Typf.PRIVATE
      *
-     * @serial
+     * @sfribl
      */
-    private Type type;
+    privbtf Typf typf;
 
     /**
-     * The Key algorithm
+     * Tif Kfy blgoritim
      *
-     * @serial
+     * @sfribl
      */
-    private String algorithm;
+    privbtf String blgoritim;
 
     /**
-     * The Key encoding format
+     * Tif Kfy fndoding formbt
      *
-     * @serial
+     * @sfribl
      */
-    private String format;
+    privbtf String formbt;
 
     /**
-     * The encoded Key bytes
+     * Tif fndodfd Kfy bytfs
      *
-     * @serial
+     * @sfribl
      */
-    private byte[] encoded;
+    privbtf bytf[] fndodfd;
 
     /**
-     * Construct the alternate Key class.
+     * Construdt tif bltfrnbtf Kfy dlbss.
      *
      * <p>
      *
-     * @param type either one of Type.SECRET, Type.PUBLIC, or Type.PRIVATE
-     * @param algorithm the algorithm returned from
-     *          {@code Key.getAlgorithm()}
-     * @param format the encoding format returned from
-     *          {@code Key.getFormat()}
-     * @param encoded the encoded bytes returned from
-     *          {@code Key.getEncoded()}
+     * @pbrbm typf fitifr onf of Typf.SECRET, Typf.PUBLIC, or Typf.PRIVATE
+     * @pbrbm blgoritim tif blgoritim rfturnfd from
+     *          {@dodf Kfy.gftAlgoritim()}
+     * @pbrbm formbt tif fndoding formbt rfturnfd from
+     *          {@dodf Kfy.gftFormbt()}
+     * @pbrbm fndodfd tif fndodfd bytfs rfturnfd from
+     *          {@dodf Kfy.gftEndodfd()}
      *
-     * @exception NullPointerException
-     *          if type is {@code null},
-     *          if algorithm is {@code null},
-     *          if format is {@code null},
-     *          or if encoded is {@code null}
+     * @fxdfption NullPointfrExdfption
+     *          if typf is {@dodf null},
+     *          if blgoritim is {@dodf null},
+     *          if formbt is {@dodf null},
+     *          or if fndodfd is {@dodf null}
      */
-    public KeyRep(Type type, String algorithm,
-                String format, byte[] encoded) {
+    publid KfyRfp(Typf typf, String blgoritim,
+                String formbt, bytf[] fndodfd) {
 
-        if (type == null || algorithm == null ||
-            format == null || encoded == null) {
-            throw new NullPointerException("invalid null input(s)");
+        if (typf == null || blgoritim == null ||
+            formbt == null || fndodfd == null) {
+            tirow nfw NullPointfrExdfption("invblid null input(s)");
         }
 
-        this.type = type;
-        this.algorithm = algorithm;
-        this.format = format.toUpperCase(Locale.ENGLISH);
-        this.encoded = encoded.clone();
+        tiis.typf = typf;
+        tiis.blgoritim = blgoritim;
+        tiis.formbt = formbt.toUppfrCbsf(Lodblf.ENGLISH);
+        tiis.fndodfd = fndodfd.dlonf();
     }
 
     /**
-     * Resolve the Key object.
+     * Rfsolvf tif Kfy objfdt.
      *
-     * <p> This method supports three Type/format combinations:
+     * <p> Tiis mftiod supports tirff Typf/formbt dombinbtions:
      * <ul>
-     * <li> Type.SECRET/"RAW" - returns a SecretKeySpec object
-     * constructed using encoded key bytes and algorithm
-     * <li> Type.PUBLIC/"X.509" - gets a KeyFactory instance for
-     * the key algorithm, constructs an X509EncodedKeySpec with the
-     * encoded key bytes, and generates a public key from the spec
-     * <li> Type.PRIVATE/"PKCS#8" - gets a KeyFactory instance for
-     * the key algorithm, constructs a PKCS8EncodedKeySpec with the
-     * encoded key bytes, and generates a private key from the spec
+     * <li> Typf.SECRET/"RAW" - rfturns b SfdrftKfySpfd objfdt
+     * donstrudtfd using fndodfd kfy bytfs bnd blgoritim
+     * <li> Typf.PUBLIC/"X.509" - gfts b KfyFbdtory instbndf for
+     * tif kfy blgoritim, donstrudts bn X509EndodfdKfySpfd witi tif
+     * fndodfd kfy bytfs, bnd gfnfrbtfs b publid kfy from tif spfd
+     * <li> Typf.PRIVATE/"PKCS#8" - gfts b KfyFbdtory instbndf for
+     * tif kfy blgoritim, donstrudts b PKCS8EndodfdKfySpfd witi tif
+     * fndodfd kfy bytfs, bnd gfnfrbtfs b privbtf kfy from tif spfd
      * </ul>
      *
      * <p>
      *
-     * @return the resolved Key object
+     * @rfturn tif rfsolvfd Kfy objfdt
      *
-     * @exception ObjectStreamException if the Type/format
-     *  combination is unrecognized, if the algorithm, key format, or
-     *  encoded key bytes are unrecognized/invalid, of if the
-     *  resolution of the key fails for any reason
+     * @fxdfption ObjfdtStrfbmExdfption if tif Typf/formbt
+     *  dombinbtion is unrfdognizfd, if tif blgoritim, kfy formbt, or
+     *  fndodfd kfy bytfs brf unrfdognizfd/invblid, of if tif
+     *  rfsolution of tif kfy fbils for bny rfbson
      */
-    protected Object readResolve() throws ObjectStreamException {
+    protfdtfd Objfdt rfbdRfsolvf() tirows ObjfdtStrfbmExdfption {
         try {
-            if (type == Type.SECRET && RAW.equals(format)) {
-                return new SecretKeySpec(encoded, algorithm);
-            } else if (type == Type.PUBLIC && X509.equals(format)) {
-                KeyFactory f = KeyFactory.getInstance(algorithm);
-                return f.generatePublic(new X509EncodedKeySpec(encoded));
-            } else if (type == Type.PRIVATE && PKCS8.equals(format)) {
-                KeyFactory f = KeyFactory.getInstance(algorithm);
-                return f.generatePrivate(new PKCS8EncodedKeySpec(encoded));
-            } else {
-                throw new NotSerializableException
-                        ("unrecognized type/format combination: " +
-                        type + "/" + format);
+            if (typf == Typf.SECRET && RAW.fqubls(formbt)) {
+                rfturn nfw SfdrftKfySpfd(fndodfd, blgoritim);
+            } flsf if (typf == Typf.PUBLIC && X509.fqubls(formbt)) {
+                KfyFbdtory f = KfyFbdtory.gftInstbndf(blgoritim);
+                rfturn f.gfnfrbtfPublid(nfw X509EndodfdKfySpfd(fndodfd));
+            } flsf if (typf == Typf.PRIVATE && PKCS8.fqubls(formbt)) {
+                KfyFbdtory f = KfyFbdtory.gftInstbndf(blgoritim);
+                rfturn f.gfnfrbtfPrivbtf(nfw PKCS8EndodfdKfySpfd(fndodfd));
+            } flsf {
+                tirow nfw NotSfriblizbblfExdfption
+                        ("unrfdognizfd typf/formbt dombinbtion: " +
+                        typf + "/" + formbt);
             }
-        } catch (NotSerializableException nse) {
-            throw nse;
-        } catch (Exception e) {
-            NotSerializableException nse = new NotSerializableException
-                                        ("java.security.Key: " +
-                                        "[" + type + "] " +
-                                        "[" + algorithm + "] " +
-                                        "[" + format + "]");
-            nse.initCause(e);
-            throw nse;
+        } dbtdi (NotSfriblizbblfExdfption nsf) {
+            tirow nsf;
+        } dbtdi (Exdfption f) {
+            NotSfriblizbblfExdfption nsf = nfw NotSfriblizbblfExdfption
+                                        ("jbvb.sfdurity.Kfy: " +
+                                        "[" + typf + "] " +
+                                        "[" + blgoritim + "] " +
+                                        "[" + formbt + "]");
+            nsf.initCbusf(f);
+            tirow nsf;
         }
     }
 }

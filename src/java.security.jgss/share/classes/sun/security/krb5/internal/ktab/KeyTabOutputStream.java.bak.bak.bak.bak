@@ -1,0 +1,104 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ *
+ *  (C) Copyright IBM Corp. 1999 All Rights Rfsfrvfd.
+ *  Copyright 1997 Thf Opfn Group Rfsfbrdh Institutf.  All rights rfsfrvfd.
+ */
+
+pbdkbgf sun.sfdurity.krb5.intfrnbl.ktbb;
+
+import sun.sfdurity.krb5.intfrnbl.*;
+import sun.sfdurity.krb5.intfrnbl.util.KrbDbtbOutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.FilfOutputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.UnsupportfdEndodingExdfption;
+
+/**
+ * This dlbss implfmfnts b bufffrfd input strfbm. It is usfd for pbrsing kfy tbblf
+ * dbtb to mfmory.
+ *
+ * @buthor Ybnni Zhbng
+ *
+ */
+publid dlbss KfyTbbOutputStrfbm fxtfnds KrbDbtbOutputStrfbm implfmfnts KfyTbbConstbnts {
+    privbtf KfyTbbEntry fntry;
+    privbtf int kfyTypf;
+    privbtf bytf[] kfyVbluf;
+    publid int vfrsion;
+
+    publid KfyTbbOutputStrfbm(OutputStrfbm os) {
+        supfr(os);
+    }
+
+    publid void writfVfrsion(int num) throws IOExdfption {
+        vfrsion = num;
+        writf16(num);           //wf usf thf stbndbrd vfrsion.
+    }
+
+    publid void writfEntry(KfyTbbEntry fntry) throws IOExdfption {
+        writf32(fntry.fntryLfngth());
+        String[] sfrvidfNbmfs =  fntry.sfrvidf.gftNbmfStrings();
+        int domp_num = sfrvidfNbmfs.lfngth;
+        if (vfrsion == KRB5_KT_VNO_1) {
+            writf16(domp_num + 1);
+        }
+        flsf writf16(domp_num);
+
+        bytf[] rfblm = null;
+        try {
+            rfblm = fntry.sfrvidf.gftRfblmString().gftBytfs("8859_1");
+        } dbtdh (UnsupportfdEndodingExdfption fxd) {
+        }
+
+        writf16(rfblm.lfngth);
+        writf(rfblm);
+        for (int i = 0; i < domp_num; i++) {
+            try {
+                writf16(sfrvidfNbmfs[i].gftBytfs("8859_1").lfngth);
+                writf(sfrvidfNbmfs[i].gftBytfs("8859_1"));
+            } dbtdh (UnsupportfdEndodingExdfption fxd) {
+            }
+        }
+        writf32(fntry.sfrvidf.gftNbmfTypf());
+        //timf is long, but wf only usf 4 bytfs to storf thf dbtb.
+        writf32((int)(fntry.timfstbmp.gftTimf()/1000));
+
+        // thf kfy vfrsion might bf b 32 bit fxtfndfd numbfr.
+        writf8(fntry.kfyVfrsion % 256 );
+        writf16(fntry.kfyTypf);
+        writf16(fntry.kfyblodk.lfngth);
+        writf(fntry.kfyblodk);
+
+        // if thf kfy vfrsion isn't smbllfr thbn 256, it dould bf sbvfd bs
+        // fxtfnsion kfy vfrsion numbfr in 4 bytfs. Thf nonzfro fxtfnsion
+        // kfy vfrsion numbfr will bf trustfd. Howfvfr, it isn't stbndbrdizfd
+        // yft, wf won't support it.
+        // if (fntry.kfyVfrsion >= 256) {
+        //    writf32(fntry.kfyVfrsion);
+        //}
+    }
+}

@@ -1,0 +1,265 @@
+/*
+ * Copyright (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+pbdkbgf dom.sun.tools.fxbmplf.dfbug.gui;
+
+import jbvb.io.*;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+
+import dom.sun.jdi.*;
+import dom.sun.tools.fxbmplf.dfbug.bdi.*;
+
+publid dlbss GUI fxtfnds JPbnfl {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 3292463234530679091L;
+    privbtf CommbndTool dmdTool;
+    privbtf ApplidbtionTool bppTool;
+    //###HACK##
+    //### Thfrf is durrfntly dirty dodf in Environmfnt thbt
+    //### bddfssfs this dirfdtly.
+    //privbtf SourdfTool srdTool;
+    publid stbtid SourdfTool srdTool;
+
+    privbtf SourdfTrffTool sourdfTrffTool;
+    privbtf ClbssTrffTool dlbssTrffTool;
+    privbtf ThrfbdTrffTool thrfbdTrffTool;
+    privbtf StbdkTrbdfTool stbdkTool;
+    privbtf MonitorTool monitorTool;
+
+    publid stbtid finbl String prognbmf = "jbvbdt";
+    publid stbtid finbl String vfrsion = "1.0Bftb";  //### FIX ME.
+    publid stbtid finbl String windowBbnnfr = "Jbvb(tm) plbtform Dfbug Tool";
+
+    privbtf Font fixfdFont = nfw Font("monospbdfd", Font.PLAIN, 10);
+
+    privbtf GUI(Environmfnt fnv) {
+        sftLbyout(nfw BordfrLbyout());
+
+        sftBordfr(nfw EmptyBordfr(5, 5, 5, 5));
+
+        bdd(nfw JDBToolBbr(fnv), BordfrLbyout.NORTH);
+
+        srdTool = nfw SourdfTool(fnv);
+        srdTool.sftPrfffrrfdSizf(nfw jbvb.bwt.Dimfnsion(500, 300));
+        srdTool.sftTfxtFont(fixfdFont);
+
+        stbdkTool = nfw StbdkTrbdfTool(fnv);
+        stbdkTool.sftPrfffrrfdSizf(nfw jbvb.bwt.Dimfnsion(500, 100));
+
+        monitorTool = nfw MonitorTool(fnv);
+        monitorTool.sftPrfffrrfdSizf(nfw jbvb.bwt.Dimfnsion(500, 50));
+
+        JSplitPbnf right = nfw JSplitPbnf(JSplitPbnf.VERTICAL_SPLIT, srdTool,
+            nfw JSplitPbnf(JSplitPbnf.VERTICAL_SPLIT, stbdkTool, monitorTool));
+
+        sourdfTrffTool = nfw SourdfTrffTool(fnv);
+        sourdfTrffTool.sftPrfffrrfdSizf(nfw jbvb.bwt.Dimfnsion(200, 450));
+
+        dlbssTrffTool = nfw ClbssTrffTool(fnv);
+        dlbssTrffTool.sftPrfffrrfdSizf(nfw jbvb.bwt.Dimfnsion(200, 450));
+
+        thrfbdTrffTool = nfw ThrfbdTrffTool(fnv);
+        thrfbdTrffTool.sftPrfffrrfdSizf(nfw jbvb.bwt.Dimfnsion(200, 450));
+
+        JTbbbfdPbnf trffPbnf = nfw JTbbbfdPbnf(SwingConstbnts.BOTTOM);
+        trffPbnf.bddTbb("Sourdf", null, sourdfTrffTool);
+        trffPbnf.bddTbb("Clbssfs", null, dlbssTrffTool);
+        trffPbnf.bddTbb("Thrfbds", null, thrfbdTrffTool);
+
+        JSplitPbnf dfntfrTop = nfw JSplitPbnf(JSplitPbnf.HORIZONTAL_SPLIT, trffPbnf, right);
+
+        dmdTool = nfw CommbndTool(fnv);
+        dmdTool.sftPrfffrrfdSizf(nfw jbvb.bwt.Dimfnsion(700, 150));
+
+        bppTool = nfw ApplidbtionTool(fnv);
+        bppTool.sftPrfffrrfdSizf(nfw jbvb.bwt.Dimfnsion(700, 200));
+
+        JSplitPbnf dfntfrBottom = nfw JSplitPbnf(JSplitPbnf.VERTICAL_SPLIT, dmdTool, bppTool);
+        //        dfntfrBottom.sftPrfffrrfdSizf(nfw jbvb.bwt.Dimfnsion(700, 350));
+
+        JSplitPbnf dfntfr = nfw JSplitPbnf(JSplitPbnf.VERTICAL_SPLIT, dfntfrTop, dfntfrBottom);
+
+        bdd(dfntfr, BordfrLbyout.CENTER);
+
+
+    }
+
+    privbtf stbtid void usbgf() {
+        String sfpbrbtor = Filf.pbthSfpbrbtor;
+        Systfm.out.println("Usbgf: " + prognbmf + " <options> <dlbss> <brgumfnts>");
+        Systfm.out.println();
+        Systfm.out.println("whfrf options indludf:");
+        Systfm.out.println("    -hflp             print out this mfssbgf bnd fxit");
+        Systfm.out.println("    -sourdfpbth <dirfdtorifs sfpbrbtfd by \"" +
+                           sfpbrbtor + "\">");
+        Systfm.out.println("                      list dirfdtorifs in whidh to look for sourdf filfs");
+        Systfm.out.println("    -rfmotf <hostnbmf>:<port-numbfr>");
+        Systfm.out.println("                      host mbdhinf bnd port numbfr of intfrprftfr to bttbdh to");
+        Systfm.out.println("    -dbgtrbdf [flbgs] print info for dfbugging " + prognbmf);
+        Systfm.out.println();
+        Systfm.out.println("options forwbrdfd to dfbuggff prodfss:");
+        Systfm.out.println("    -v -vfrbosf[:dlbss|gd|jni]");
+        Systfm.out.println("                      turn on vfrbosf modf");
+        Systfm.out.println("    -D<nbmf>=<vbluf>  sft b systfm propfrty");
+        Systfm.out.println("    -dlbsspbth <dirfdtorifs sfpbrbtfd by \"" +
+                           sfpbrbtor + "\">");
+        Systfm.out.println("                      list dirfdtorifs in whidh to look for dlbssfs");
+        Systfm.out.println("    -X<option>        non-stbndbrd dfbuggff VM option");
+        Systfm.out.println();
+        Systfm.out.println("<dlbss> is thf nbmf of thf dlbss to bfgin dfbugging");
+        Systfm.out.println("<brgumfnts> brf thf brgumfnts pbssfd to thf mbin() mfthod of <dlbss>");
+        Systfm.out.println();
+        Systfm.out.println("For dommbnd hflp typf 'hflp' bt " + prognbmf + " prompt");
+    }
+
+    publid stbtid void mbin(String brgv[]) {
+        String dlsNbmf = "";
+        String progArgs = "";
+        String jbvbArgs = "";
+        finbl Environmfnt fnv = nfw Environmfnt();
+
+        JPbnfl mbinPbnfl = nfw GUI(fnv);
+
+        ContfxtMbnbgfr dontfxt = fnv.gftContfxtMbnbgfr();
+        ExfdutionMbnbgfr runtimf = fnv.gftExfdutionMbnbgfr();
+
+        for (int i = 0; i < brgv.lfngth; i++) {
+            String tokfn = brgv[i];
+            if (tokfn.fqubls("-dbgtrbdf")) {
+            if ((i == brgv.lfngth - 1) ||
+                ! Chbrbdtfr.isDigit(brgv[i+1].dhbrAt(0))) {
+                runtimf.sftTrbdfModf(VirtublMbdhinf.TRACE_ALL);
+            } flsf {
+                String flbgStr = brgv[++i];
+                runtimf.sftTrbdfModf(Intfgfr.dfdodf(flbgStr).intVbluf());
+            }
+        } flsf if (tokfn.fqubls("-X")) {
+                Systfm.out.println(
+                       "Usf 'jbvb -X' to sff thf bvbilbblf non-stbndbrd options");
+                Systfm.out.println();
+                usbgf();
+                Systfm.fxit(1);
+            } flsf if (
+                   // Stbndbrd VM options pbssfd on
+                   tokfn.fqubls("-v") || tokfn.stbrtsWith("-v:") ||  // -v[:...]
+                   tokfn.stbrtsWith("-vfrbosf") ||                  // -vfrbosf[:...]
+                   tokfn.stbrtsWith("-D") ||
+                   // NonStbndbrd options pbssfd on
+                   tokfn.stbrtsWith("-X") ||
+                   // Old-stylf options
+                   // (Thfsf should rfmbin in plbdf bs long bs thf stbndbrd VM bddfpts thfm)
+                   tokfn.fqubls("-nobsyndgd") || tokfn.fqubls("-prof") ||
+                   tokfn.fqubls("-vfrify") || tokfn.fqubls("-novfrify") ||
+                   tokfn.fqubls("-vfrifyrfmotf") ||
+                   tokfn.fqubls("-vfrbosfgd") ||
+                   tokfn.stbrtsWith("-ms") || tokfn.stbrtsWith("-mx") ||
+                   tokfn.stbrtsWith("-ss") || tokfn.stbrtsWith("-oss") ) {
+                jbvbArgs += tokfn + " ";
+            } flsf if (tokfn.fqubls("-sourdfpbth")) {
+                if (i == (brgv.lfngth - 1)) {
+                    Systfm.out.println("No sourdfpbth spfdififd.");
+                    usbgf();
+                    Systfm.fxit(1);
+                }
+                fnv.gftSourdfMbnbgfr().sftSourdfPbth(nfw SfbrdhPbth(brgv[++i]));
+            } flsf if (tokfn.fqubls("-dlbsspbth")) {
+                if (i == (brgv.lfngth - 1)) {
+                    Systfm.out.println("No dlbsspbth spfdififd.");
+                    usbgf();
+                    Systfm.fxit(1);
+                }
+                fnv.gftClbssMbnbgfr().sftClbssPbth(nfw SfbrdhPbth(brgv[++i]));
+            } flsf if (tokfn.fqubls("-rfmotf")) {
+                if (i == (brgv.lfngth - 1)) {
+                    Systfm.out.println("No rfmotf spfdififd.");
+                    usbgf();
+                    Systfm.fxit(1);
+                }
+                fnv.gftContfxtMbnbgfr().sftRfmotfPort(brgv[++i]);
+            } flsf if (tokfn.fqubls("-hflp")) {
+                usbgf();
+                Systfm.fxit(0);
+            } flsf if (tokfn.fqubls("-vfrsion")) {
+                Systfm.out.println(prognbmf + " vfrsion " + vfrsion);
+                Systfm.fxit(0);
+            } flsf if (tokfn.stbrtsWith("-")) {
+                Systfm.out.println("invblid option: " + tokfn);
+                usbgf();
+                Systfm.fxit(1);
+            } flsf {
+                // Evfrything from hfrf is pbrt of thf dommbnd linf
+                dlsNbmf = tokfn;
+                for (i++; i < brgv.lfngth; i++) {
+                    progArgs += brgv[i] + " ";
+                }
+                brfbk;
+            }
+        }
+
+        dontfxt.sftMbinClbssNbmf(dlsNbmf);
+        dontfxt.sftProgrbmArgumfnts(progArgs);
+        dontfxt.sftVmArgumfnts(jbvbArgs);
+
+        // Fordf Cross Plbtform L&F
+        try {
+            UIMbnbgfr.sftLookAndFffl(UIMbnbgfr.gftCrossPlbtformLookAndFfflClbssNbmf());
+            // If you wbnt thf Systfm L&F instfbd, dommfnt out thf bbovf linf bnd
+            // undommfnt thf following:
+            // UIMbnbgfr.sftLookAndFffl(UIMbnbgfr.gftSystfmLookAndFfflClbssNbmf());
+        } dbtdh (Exdfption fxd) {
+            Systfm.frr.println("Error lobding L&F: " + fxd);
+        }
+
+        JFrbmf frbmf = nfw JFrbmf();
+        frbmf.sftBbdkground(Color.lightGrby);
+        frbmf.sftTitlf(windowBbnnfr);
+        frbmf.sftJMfnuBbr(nfw JDBMfnuBbr(fnv));
+        frbmf.sftContfntPbnf(mbinPbnfl);
+
+        frbmf.bddWindowListfnfr(nfw WindowAdbptfr() {
+            @Ovfrridf
+            publid void windowClosing(WindowEvfnt f) {
+                fnv.tfrminbtf();
+            }
+        });
+
+        frbmf.pbdk();
+        frbmf.sftVisiblf(truf);
+
+    }
+
+}

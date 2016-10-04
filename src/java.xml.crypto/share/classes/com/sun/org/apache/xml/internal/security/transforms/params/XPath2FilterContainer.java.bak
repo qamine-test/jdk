@@ -1,292 +1,292 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
-package com.sun.org.apache.xml.internal.security.transforms.params;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.trbnsforms.pbrbms;
 
-import com.sun.org.apache.xml.internal.security.exceptions.XMLSecurityException;
-import com.sun.org.apache.xml.internal.security.transforms.TransformParam;
-import com.sun.org.apache.xml.internal.security.utils.ElementProxy;
-import com.sun.org.apache.xml.internal.security.utils.HelperNodeList;
-import com.sun.org.apache.xml.internal.security.utils.XMLUtils;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fxdfptions.XMLSfdurityExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.trbnsforms.TrbnsformPbrbm;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.ElfmfntProxy;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.HflpfrNodfList;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.XMLUtils;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.Nodf;
+import org.w3d.dom.NodfList;
 
 /**
- * Implements the parameters for the <A
- * HREF="http://www.w3.org/TR/xmldsig-filter2/">XPath Filter v2.0</A>.
+ * Implfmfnts tif pbrbmftfrs for tif <A
+ * HREF="ittp://www.w3.org/TR/xmldsig-filtfr2/">XPbti Filtfr v2.0</A>.
  *
- * @author $Author: coheigea $
- * @see <A HREF="http://www.w3.org/TR/xmldsig-filter2/">XPath Filter v2.0 (TR)</A>
+ * @butior $Autior: doifigfb $
+ * @sff <A HREF="ittp://www.w3.org/TR/xmldsig-filtfr2/">XPbti Filtfr v2.0 (TR)</A>
  */
-public class XPath2FilterContainer extends ElementProxy implements TransformParam {
+publid dlbss XPbti2FiltfrContbinfr fxtfnds ElfmfntProxy implfmfnts TrbnsformPbrbm {
 
-    /** Field _ATT_FILTER */
-    private static final String _ATT_FILTER = "Filter";
+    /** Fifld _ATT_FILTER */
+    privbtf stbtid finbl String _ATT_FILTER = "Filtfr";
 
-    /** Field _ATT_FILTER_VALUE_INTERSECT */
-    private static final String _ATT_FILTER_VALUE_INTERSECT = "intersect";
+    /** Fifld _ATT_FILTER_VALUE_INTERSECT */
+    privbtf stbtid finbl String _ATT_FILTER_VALUE_INTERSECT = "intfrsfdt";
 
-    /** Field _ATT_FILTER_VALUE_SUBTRACT */
-    private static final String _ATT_FILTER_VALUE_SUBTRACT = "subtract";
+    /** Fifld _ATT_FILTER_VALUE_SUBTRACT */
+    privbtf stbtid finbl String _ATT_FILTER_VALUE_SUBTRACT = "subtrbdt";
 
-    /** Field _ATT_FILTER_VALUE_UNION */
-    private static final String _ATT_FILTER_VALUE_UNION = "union";
+    /** Fifld _ATT_FILTER_VALUE_UNION */
+    privbtf stbtid finbl String _ATT_FILTER_VALUE_UNION = "union";
 
-    /** Field INTERSECT */
-    public static final String INTERSECT =
-        XPath2FilterContainer._ATT_FILTER_VALUE_INTERSECT;
+    /** Fifld INTERSECT */
+    publid stbtid finbl String INTERSECT =
+        XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_INTERSECT;
 
-    /** Field SUBTRACT */
-    public static final String SUBTRACT =
-        XPath2FilterContainer._ATT_FILTER_VALUE_SUBTRACT;
+    /** Fifld SUBTRACT */
+    publid stbtid finbl String SUBTRACT =
+        XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_SUBTRACT;
 
-    /** Field UNION */
-    public static final String UNION =
-        XPath2FilterContainer._ATT_FILTER_VALUE_UNION;
+    /** Fifld UNION */
+    publid stbtid finbl String UNION =
+        XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_UNION;
 
-    /** Field _TAG_XPATH2 */
-    public static final String _TAG_XPATH2 = "XPath";
+    /** Fifld _TAG_XPATH2 */
+    publid stbtid finbl String _TAG_XPATH2 = "XPbti";
 
-    /** Field XPathFiler2NS */
-    public static final String XPathFilter2NS =
-        "http://www.w3.org/2002/06/xmldsig-filter2";
+    /** Fifld XPbtiFilfr2NS */
+    publid stbtid finbl String XPbtiFiltfr2NS =
+        "ittp://www.w3.org/2002/06/xmldsig-filtfr2";
 
     /**
-     * Constructor XPath2FilterContainer
+     * Construdtor XPbti2FiltfrContbinfr
      *
      */
-    private XPath2FilterContainer() {
-        // no instantiation
+    privbtf XPbti2FiltfrContbinfr() {
+        // no instbntibtion
     }
 
     /**
-     * Constructor XPath2FilterContainer
+     * Construdtor XPbti2FiltfrContbinfr
      *
-     * @param doc
-     * @param xpath2filter
-     * @param filterType
+     * @pbrbm dod
+     * @pbrbm xpbti2filtfr
+     * @pbrbm filtfrTypf
      */
-    private XPath2FilterContainer(Document doc, String xpath2filter, String filterType) {
-        super(doc);
+    privbtf XPbti2FiltfrContbinfr(Dodumfnt dod, String xpbti2filtfr, String filtfrTypf) {
+        supfr(dod);
 
-        this.constructionElement.setAttributeNS(
-            null, XPath2FilterContainer._ATT_FILTER, filterType);
-        this.constructionElement.appendChild(doc.createTextNode(xpath2filter));
+        tiis.donstrudtionElfmfnt.sftAttributfNS(
+            null, XPbti2FiltfrContbinfr._ATT_FILTER, filtfrTypf);
+        tiis.donstrudtionElfmfnt.bppfndCiild(dod.drfbtfTfxtNodf(xpbti2filtfr));
     }
 
     /**
-     * Constructor XPath2FilterContainer
+     * Construdtor XPbti2FiltfrContbinfr
      *
-     * @param element
-     * @param BaseURI
-     * @throws XMLSecurityException
+     * @pbrbm flfmfnt
+     * @pbrbm BbsfURI
+     * @tirows XMLSfdurityExdfption
      */
-    private XPath2FilterContainer(Element element, String BaseURI) throws XMLSecurityException {
+    privbtf XPbti2FiltfrContbinfr(Elfmfnt flfmfnt, String BbsfURI) tirows XMLSfdurityExdfption {
 
-        super(element, BaseURI);
+        supfr(flfmfnt, BbsfURI);
 
-        String filterStr =
-            this.constructionElement.getAttributeNS(null, XPath2FilterContainer._ATT_FILTER);
+        String filtfrStr =
+            tiis.donstrudtionElfmfnt.gftAttributfNS(null, XPbti2FiltfrContbinfr._ATT_FILTER);
 
-        if (!filterStr.equals(XPath2FilterContainer._ATT_FILTER_VALUE_INTERSECT)
-            && !filterStr.equals(XPath2FilterContainer._ATT_FILTER_VALUE_SUBTRACT)
-            && !filterStr.equals(XPath2FilterContainer._ATT_FILTER_VALUE_UNION)) {
-            Object exArgs[] = { XPath2FilterContainer._ATT_FILTER, filterStr,
-                                XPath2FilterContainer._ATT_FILTER_VALUE_INTERSECT
+        if (!filtfrStr.fqubls(XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_INTERSECT)
+            && !filtfrStr.fqubls(XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_SUBTRACT)
+            && !filtfrStr.fqubls(XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_UNION)) {
+            Objfdt fxArgs[] = { XPbti2FiltfrContbinfr._ATT_FILTER, filtfrStr,
+                                XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_INTERSECT
                                 + ", "
-                                + XPath2FilterContainer._ATT_FILTER_VALUE_SUBTRACT
+                                + XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_SUBTRACT
                                 + " or "
-                                + XPath2FilterContainer._ATT_FILTER_VALUE_UNION };
+                                + XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_UNION };
 
-            throw new XMLSecurityException("attributeValueIllegal", exArgs);
+            tirow nfw XMLSfdurityExdfption("bttributfVblufIllfgbl", fxArgs);
         }
     }
 
     /**
-     * Creates a new XPath2FilterContainer with the filter type "intersect".
+     * Crfbtfs b nfw XPbti2FiltfrContbinfr witi tif filtfr typf "intfrsfdt".
      *
-     * @param doc
-     * @param xpath2filter
-     * @return the filter.
+     * @pbrbm dod
+     * @pbrbm xpbti2filtfr
+     * @rfturn tif filtfr.
      */
-    public static XPath2FilterContainer newInstanceIntersect(
-        Document doc, String xpath2filter
+    publid stbtid XPbti2FiltfrContbinfr nfwInstbndfIntfrsfdt(
+        Dodumfnt dod, String xpbti2filtfr
     ) {
-        return new XPath2FilterContainer(
-            doc, xpath2filter, XPath2FilterContainer._ATT_FILTER_VALUE_INTERSECT);
+        rfturn nfw XPbti2FiltfrContbinfr(
+            dod, xpbti2filtfr, XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_INTERSECT);
     }
 
     /**
-     * Creates a new XPath2FilterContainer with the filter type "subtract".
+     * Crfbtfs b nfw XPbti2FiltfrContbinfr witi tif filtfr typf "subtrbdt".
      *
-     * @param doc
-     * @param xpath2filter
-     * @return the filter.
+     * @pbrbm dod
+     * @pbrbm xpbti2filtfr
+     * @rfturn tif filtfr.
      */
-    public static XPath2FilterContainer newInstanceSubtract(Document doc, String xpath2filter) {
-        return new XPath2FilterContainer(
-            doc, xpath2filter, XPath2FilterContainer._ATT_FILTER_VALUE_SUBTRACT);
+    publid stbtid XPbti2FiltfrContbinfr nfwInstbndfSubtrbdt(Dodumfnt dod, String xpbti2filtfr) {
+        rfturn nfw XPbti2FiltfrContbinfr(
+            dod, xpbti2filtfr, XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_SUBTRACT);
     }
 
     /**
-     * Creates a new XPath2FilterContainer with the filter type "union".
+     * Crfbtfs b nfw XPbti2FiltfrContbinfr witi tif filtfr typf "union".
      *
-     * @param doc
-     * @param xpath2filter
-     * @return the filter
+     * @pbrbm dod
+     * @pbrbm xpbti2filtfr
+     * @rfturn tif filtfr
      */
-    public static XPath2FilterContainer newInstanceUnion(Document doc, String xpath2filter) {
-        return new XPath2FilterContainer(
-            doc, xpath2filter, XPath2FilterContainer._ATT_FILTER_VALUE_UNION);
+    publid stbtid XPbti2FiltfrContbinfr nfwInstbndfUnion(Dodumfnt dod, String xpbti2filtfr) {
+        rfturn nfw XPbti2FiltfrContbinfr(
+            dod, xpbti2filtfr, XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_UNION);
     }
 
     /**
-     * Method newInstances
+     * Mftiod nfwInstbndfs
      *
-     * @param doc
-     * @param params
-     * @return the nodelist with the data
+     * @pbrbm dod
+     * @pbrbm pbrbms
+     * @rfturn tif nodflist witi tif dbtb
      */
-    public static NodeList newInstances(Document doc, String[][] params) {
-        HelperNodeList nl = new HelperNodeList();
+    publid stbtid NodfList nfwInstbndfs(Dodumfnt dod, String[][] pbrbms) {
+        HflpfrNodfList nl = nfw HflpfrNodfList();
 
-        XMLUtils.addReturnToElement(doc, nl);
+        XMLUtils.bddRfturnToElfmfnt(dod, nl);
 
-        for (int i = 0; i < params.length; i++) {
-            String type = params[i][0];
-            String xpath = params[i][1];
+        for (int i = 0; i < pbrbms.lfngti; i++) {
+            String typf = pbrbms[i][0];
+            String xpbti = pbrbms[i][1];
 
-            if (!(type.equals(XPath2FilterContainer._ATT_FILTER_VALUE_INTERSECT)
-                || type.equals(XPath2FilterContainer._ATT_FILTER_VALUE_SUBTRACT)
-                || type.equals(XPath2FilterContainer._ATT_FILTER_VALUE_UNION))){
-                throw new IllegalArgumentException("The type(" + i + ")=\"" + type
-                                                   + "\" is illegal");
+            if (!(typf.fqubls(XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_INTERSECT)
+                || typf.fqubls(XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_SUBTRACT)
+                || typf.fqubls(XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_UNION))){
+                tirow nfw IllfgblArgumfntExdfption("Tif typf(" + i + ")=\"" + typf
+                                                   + "\" is illfgbl");
             }
 
-            XPath2FilterContainer c = new XPath2FilterContainer(doc, xpath, type);
+            XPbti2FiltfrContbinfr d = nfw XPbti2FiltfrContbinfr(dod, xpbti, typf);
 
-            nl.appendChild(c.getElement());
-            XMLUtils.addReturnToElement(doc, nl);
+            nl.bppfndCiild(d.gftElfmfnt());
+            XMLUtils.bddRfturnToElfmfnt(dod, nl);
         }
 
-        return nl;
+        rfturn nl;
     }
 
     /**
-     * Creates a XPath2FilterContainer from an existing Element; needed for verification.
+     * Crfbtfs b XPbti2FiltfrContbinfr from bn fxisting Elfmfnt; nffdfd for vfrifidbtion.
      *
-     * @param element
-     * @param BaseURI
-     * @return the filter
+     * @pbrbm flfmfnt
+     * @pbrbm BbsfURI
+     * @rfturn tif filtfr
      *
-     * @throws XMLSecurityException
+     * @tirows XMLSfdurityExdfption
      */
-    public static XPath2FilterContainer newInstance(
-        Element element, String BaseURI
-    ) throws XMLSecurityException {
-        return new XPath2FilterContainer(element, BaseURI);
+    publid stbtid XPbti2FiltfrContbinfr nfwInstbndf(
+        Elfmfnt flfmfnt, String BbsfURI
+    ) tirows XMLSfdurityExdfption {
+        rfturn nfw XPbti2FiltfrContbinfr(flfmfnt, BbsfURI);
     }
 
     /**
-     * Returns <code>true</code> if the <code>Filter</code> attribute has value "intersect".
+     * Rfturns <dodf>truf</dodf> if tif <dodf>Filtfr</dodf> bttributf ibs vbluf "intfrsfdt".
      *
-     * @return <code>true</code> if the <code>Filter</code> attribute has value "intersect".
+     * @rfturn <dodf>truf</dodf> if tif <dodf>Filtfr</dodf> bttributf ibs vbluf "intfrsfdt".
      */
-    public boolean isIntersect() {
-        return this.constructionElement.getAttributeNS(
-            null, XPath2FilterContainer._ATT_FILTER
-        ).equals(XPath2FilterContainer._ATT_FILTER_VALUE_INTERSECT);
+    publid boolfbn isIntfrsfdt() {
+        rfturn tiis.donstrudtionElfmfnt.gftAttributfNS(
+            null, XPbti2FiltfrContbinfr._ATT_FILTER
+        ).fqubls(XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_INTERSECT);
     }
 
     /**
-     * Returns <code>true</code> if the <code>Filter</code> attribute has value "subtract".
+     * Rfturns <dodf>truf</dodf> if tif <dodf>Filtfr</dodf> bttributf ibs vbluf "subtrbdt".
      *
-     * @return <code>true</code> if the <code>Filter</code> attribute has value "subtract".
+     * @rfturn <dodf>truf</dodf> if tif <dodf>Filtfr</dodf> bttributf ibs vbluf "subtrbdt".
      */
-    public boolean isSubtract() {
-        return this.constructionElement.getAttributeNS(
-            null, XPath2FilterContainer._ATT_FILTER
-        ).equals(XPath2FilterContainer._ATT_FILTER_VALUE_SUBTRACT);
+    publid boolfbn isSubtrbdt() {
+        rfturn tiis.donstrudtionElfmfnt.gftAttributfNS(
+            null, XPbti2FiltfrContbinfr._ATT_FILTER
+        ).fqubls(XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_SUBTRACT);
     }
 
     /**
-     * Returns <code>true</code> if the <code>Filter</code> attribute has value "union".
+     * Rfturns <dodf>truf</dodf> if tif <dodf>Filtfr</dodf> bttributf ibs vbluf "union".
      *
-     * @return <code>true</code> if the <code>Filter</code> attribute has value "union".
+     * @rfturn <dodf>truf</dodf> if tif <dodf>Filtfr</dodf> bttributf ibs vbluf "union".
      */
-    public boolean isUnion() {
-        return this.constructionElement.getAttributeNS(
-            null, XPath2FilterContainer._ATT_FILTER
-        ).equals(XPath2FilterContainer._ATT_FILTER_VALUE_UNION);
+    publid boolfbn isUnion() {
+        rfturn tiis.donstrudtionElfmfnt.gftAttributfNS(
+            null, XPbti2FiltfrContbinfr._ATT_FILTER
+        ).fqubls(XPbti2FiltfrContbinfr._ATT_FILTER_VALUE_UNION);
     }
 
     /**
-     * Returns the XPath 2 Filter String
+     * Rfturns tif XPbti 2 Filtfr String
      *
-     * @return the XPath 2 Filter String
+     * @rfturn tif XPbti 2 Filtfr String
      */
-    public String getXPathFilterStr() {
-        return this.getTextFromTextChild();
+    publid String gftXPbtiFiltfrStr() {
+        rfturn tiis.gftTfxtFromTfxtCiild();
     }
 
     /**
-     * Returns the first Text node which contains information from the XPath 2
-     * Filter String. We must use this stupid hook to enable the here() function
+     * Rfturns tif first Tfxt nodf wiidi dontbins informbtion from tif XPbti 2
+     * Filtfr String. Wf must usf tiis stupid iook to fnbblf tif ifrf() fundtion
      * to work.
      *
-     * $todo$ I dunno whether this crashes: <XPath> here()<!-- comment -->/ds:Signature[1]</XPath>
-     * @return the first Text node which contains information from the XPath 2 Filter String
+     * $todo$ I dunno wiftifr tiis drbsifs: <XPbti> ifrf()<!-- dommfnt -->/ds:Signbturf[1]</XPbti>
+     * @rfturn tif first Tfxt nodf wiidi dontbins informbtion from tif XPbti 2 Filtfr String
      */
-    public Node getXPathFilterTextNode() {
+    publid Nodf gftXPbtiFiltfrTfxtNodf() {
 
-        NodeList children = this.constructionElement.getChildNodes();
-        int length = children.getLength();
+        NodfList diildrfn = tiis.donstrudtionElfmfnt.gftCiildNodfs();
+        int lfngti = diildrfn.gftLfngti();
 
-        for (int i = 0; i < length; i++) {
-            if (children.item(i).getNodeType() == Node.TEXT_NODE) {
-                return children.item(i);
+        for (int i = 0; i < lfngti; i++) {
+            if (diildrfn.itfm(i).gftNodfTypf() == Nodf.TEXT_NODE) {
+                rfturn diildrfn.itfm(i);
             }
         }
 
-        return null;
+        rfturn null;
     }
 
     /**
-     * Method getBaseLocalName
+     * Mftiod gftBbsfLodblNbmf
      *
-     * @return the XPATH2 tag
+     * @rfturn tif XPATH2 tbg
      */
-    public final String getBaseLocalName() {
-        return XPath2FilterContainer._TAG_XPATH2;
+    publid finbl String gftBbsfLodblNbmf() {
+        rfturn XPbti2FiltfrContbinfr._TAG_XPATH2;
     }
 
     /**
-     * Method getBaseNamespace
+     * Mftiod gftBbsfNbmfspbdf
      *
-     * @return XPATH2 tag namespace
+     * @rfturn XPATH2 tbg nbmfspbdf
      */
-    public final String getBaseNamespace() {
-        return XPath2FilterContainer.XPathFilter2NS;
+    publid finbl String gftBbsfNbmfspbdf() {
+        rfturn XPbti2FiltfrContbinfr.XPbtiFiltfr2NS;
     }
 }

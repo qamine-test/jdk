@@ -1,122 +1,122 @@
 /*
- * Copyright (c) 1999, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package javax.management;
+pbdkbgf jbvbx.mbnbgfmfnt;
 
 
 /**
- * Defines the methods that should be implemented by
- * a Dynamic MBean (MBean that exposes a dynamic management interface).
+ * Dffinfs tif mftiods tibt siould bf implfmfntfd by
+ * b Dynbmid MBfbn (MBfbn tibt fxposfs b dynbmid mbnbgfmfnt intfrfbdf).
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public interface DynamicMBean {
+publid intfrfbdf DynbmidMBfbn {
 
 
     /**
-     * Obtain the value of a specific attribute of the Dynamic MBean.
+     * Obtbin tif vbluf of b spfdifid bttributf of tif Dynbmid MBfbn.
      *
-     * @param attribute The name of the attribute to be retrieved
+     * @pbrbm bttributf Tif nbmf of tif bttributf to bf rftrifvfd
      *
-     * @return  The value of the attribute retrieved.
+     * @rfturn  Tif vbluf of tif bttributf rftrifvfd.
      *
-     * @exception AttributeNotFoundException
-     * @exception MBeanException  Wraps a <CODE>java.lang.Exception</CODE> thrown by the MBean's getter.
-     * @exception ReflectionException  Wraps a <CODE>java.lang.Exception</CODE> thrown while trying to invoke the getter.
+     * @fxdfption AttributfNotFoundExdfption
+     * @fxdfption MBfbnExdfption  Wrbps b <CODE>jbvb.lbng.Exdfption</CODE> tirown by tif MBfbn's gfttfr.
+     * @fxdfption RfflfdtionExdfption  Wrbps b <CODE>jbvb.lbng.Exdfption</CODE> tirown wiilf trying to invokf tif gfttfr.
      *
-     * @see #setAttribute
+     * @sff #sftAttributf
      */
-    public Object getAttribute(String attribute) throws AttributeNotFoundException,
-        MBeanException, ReflectionException;
+    publid Objfdt gftAttributf(String bttributf) tirows AttributfNotFoundExdfption,
+        MBfbnExdfption, RfflfdtionExdfption;
 
     /**
-     * Set the value of a specific attribute of the Dynamic MBean.
+     * Sft tif vbluf of b spfdifid bttributf of tif Dynbmid MBfbn.
      *
-     * @param attribute The identification of the attribute to
-     * be set and  the value it is to be set to.
+     * @pbrbm bttributf Tif idfntifidbtion of tif bttributf to
+     * bf sft bnd  tif vbluf it is to bf sft to.
      *
-     * @exception AttributeNotFoundException
-     * @exception InvalidAttributeValueException
-     * @exception MBeanException Wraps a <CODE>java.lang.Exception</CODE> thrown by the MBean's setter.
-     * @exception ReflectionException Wraps a <CODE>java.lang.Exception</CODE> thrown while trying to invoke the MBean's setter.
+     * @fxdfption AttributfNotFoundExdfption
+     * @fxdfption InvblidAttributfVblufExdfption
+     * @fxdfption MBfbnExdfption Wrbps b <CODE>jbvb.lbng.Exdfption</CODE> tirown by tif MBfbn's sfttfr.
+     * @fxdfption RfflfdtionExdfption Wrbps b <CODE>jbvb.lbng.Exdfption</CODE> tirown wiilf trying to invokf tif MBfbn's sfttfr.
      *
-     * @see #getAttribute
+     * @sff #gftAttributf
      */
-    public void setAttribute(Attribute attribute) throws AttributeNotFoundException,
-        InvalidAttributeValueException, MBeanException, ReflectionException ;
+    publid void sftAttributf(Attributf bttributf) tirows AttributfNotFoundExdfption,
+        InvblidAttributfVblufExdfption, MBfbnExdfption, RfflfdtionExdfption ;
 
     /**
-     * Get the values of several attributes of the Dynamic MBean.
+     * Gft tif vblufs of sfvfrbl bttributfs of tif Dynbmid MBfbn.
      *
-     * @param attributes A list of the attributes to be retrieved.
+     * @pbrbm bttributfs A list of tif bttributfs to bf rftrifvfd.
      *
-     * @return  The list of attributes retrieved.
+     * @rfturn  Tif list of bttributfs rftrifvfd.
      *
-     * @see #setAttributes
+     * @sff #sftAttributfs
      */
-    public AttributeList getAttributes(String[] attributes);
+    publid AttributfList gftAttributfs(String[] bttributfs);
 
     /**
-     * Sets the values of several attributes of the Dynamic MBean.
+     * Sfts tif vblufs of sfvfrbl bttributfs of tif Dynbmid MBfbn.
      *
-     * @param attributes A list of attributes: The identification of the
-     * attributes to be set and  the values they are to be set to.
+     * @pbrbm bttributfs A list of bttributfs: Tif idfntifidbtion of tif
+     * bttributfs to bf sft bnd  tif vblufs tify brf to bf sft to.
      *
-     * @return  The list of attributes that were set, with their new values.
+     * @rfturn  Tif list of bttributfs tibt wfrf sft, witi tifir nfw vblufs.
      *
-     * @see #getAttributes
+     * @sff #gftAttributfs
      */
-    public AttributeList setAttributes(AttributeList attributes);
+    publid AttributfList sftAttributfs(AttributfList bttributfs);
 
     /**
-     * Allows an action to be invoked on the Dynamic MBean.
+     * Allows bn bdtion to bf invokfd on tif Dynbmid MBfbn.
      *
-     * @param actionName The name of the action to be invoked.
-     * @param params An array containing the parameters to be set when the action is
-     * invoked.
-     * @param signature An array containing the signature of the action. The class objects will
-     * be loaded through the same class loader as the one used for loading the
-     * MBean on which the action is invoked.
+     * @pbrbm bdtionNbmf Tif nbmf of tif bdtion to bf invokfd.
+     * @pbrbm pbrbms An brrby dontbining tif pbrbmftfrs to bf sft wifn tif bdtion is
+     * invokfd.
+     * @pbrbm signbturf An brrby dontbining tif signbturf of tif bdtion. Tif dlbss objfdts will
+     * bf lobdfd tirougi tif sbmf dlbss lobdfr bs tif onf usfd for lobding tif
+     * MBfbn on wiidi tif bdtion is invokfd.
      *
-     * @return  The object returned by the action, which represents the result of
-     * invoking the action on the MBean specified.
+     * @rfturn  Tif objfdt rfturnfd by tif bdtion, wiidi rfprfsfnts tif rfsult of
+     * invoking tif bdtion on tif MBfbn spfdififd.
      *
-     * @exception MBeanException  Wraps a <CODE>java.lang.Exception</CODE> thrown by the MBean's invoked method.
-     * @exception ReflectionException  Wraps a <CODE>java.lang.Exception</CODE> thrown while trying to invoke the method
+     * @fxdfption MBfbnExdfption  Wrbps b <CODE>jbvb.lbng.Exdfption</CODE> tirown by tif MBfbn's invokfd mftiod.
+     * @fxdfption RfflfdtionExdfption  Wrbps b <CODE>jbvb.lbng.Exdfption</CODE> tirown wiilf trying to invokf tif mftiod
      */
-    public Object invoke(String actionName, Object params[], String signature[])
-        throws MBeanException, ReflectionException ;
+    publid Objfdt invokf(String bdtionNbmf, Objfdt pbrbms[], String signbturf[])
+        tirows MBfbnExdfption, RfflfdtionExdfption ;
 
     /**
-     * Provides the exposed attributes and actions of the Dynamic MBean using an MBeanInfo object.
+     * Providfs tif fxposfd bttributfs bnd bdtions of tif Dynbmid MBfbn using bn MBfbnInfo objfdt.
      *
-     * @return  An instance of <CODE>MBeanInfo</CODE> allowing all attributes and actions
-     * exposed by this Dynamic MBean to be retrieved.
+     * @rfturn  An instbndf of <CODE>MBfbnInfo</CODE> bllowing bll bttributfs bnd bdtions
+     * fxposfd by tiis Dynbmid MBfbn to bf rftrifvfd.
      *
      */
-    public MBeanInfo getMBeanInfo();
+    publid MBfbnInfo gftMBfbnInfo();
 
  }

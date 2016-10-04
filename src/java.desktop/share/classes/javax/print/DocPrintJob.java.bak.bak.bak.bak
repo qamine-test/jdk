@@ -1,0 +1,176 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.print;
+
+import jbvbx.print.bttributf.PrintJobAttributfSft;
+import jbvbx.print.bttributf.PrintRfqufstAttributfSft;
+import jbvbx.print.fvfnt.PrintJobAttributfListfnfr;
+import jbvbx.print.fvfnt.PrintJobListfnfr;
+import jbvbx.print.PrintExdfption;
+
+/**
+ *
+ * This intfrfbdf rfprfsfnts b print job thbt dbn print b spfdififd
+ * dodumfnt with b sft of job bttributfs.  An objfdt implfmfnting
+ * this intfrfbdf is obtbinfd from b print sfrvidf.
+ *
+ */
+
+publid intfrfbdf DodPrintJob {
+
+    /**
+     * Dftfrminfs thf {@link PrintSfrvidf} objfdt to whidh this print job
+     * objfdt is bound.
+     *
+     * @rfturn  <dodf>PrintSfrvidf</dodf> objfdt.
+     *
+     */
+    publid PrintSfrvidf gftPrintSfrvidf();
+
+    /**
+     * Obtbins this Print Job's sft of printing bttributfs.
+     * Thf rfturnfd bttributf sft objfdt is unmodifibblf.
+     * Thf rfturnfd bttributf sft objfdt is b "snbpshot" of this Print Job's
+     * bttributf sft bt thf timf of thf {@link #gftAttributfs()} mfthod
+     * dbll; thbt is, thf rfturnfd bttributf sft's objfdt's dontfnts will
+     * not bf updbtfd if this Print Job's bttributf sft's dontfnts dhbngf
+     * in thf futurf. To dftfdt dhbngfs in bttributf vblufs, dbll
+     * <dodf>gftAttributfs()</dodf> bgbin bnd dompbrf thf nfw bttributf
+     * sft to thf prfvious bttributf sft; bltfrnbtivfly, rfgistfr b
+     * listfnfr for print job fvfnts.
+     * Thf rfturnfd vbluf mby bf bn fmpty sft but should not bf null.
+     * @rfturn thf print job bttributfs
+     */
+     publid PrintJobAttributfSft gftAttributfs();
+
+    /**
+     * Rfgistfrs b listfnfr for fvfnt oddurring during this print job.
+     * If listfnfr is null, no fxdfption is thrown bnd no bdtion is
+     * pfrformfd.
+     * If listfnfr is blrfbdy rfgistfrfd, it will bf rfgistfrfd bgbin.
+     * @sff #rfmovfPrintJobListfnfr
+     *
+     * @pbrbm listfnfr  Thf objfdt implfmfnting thf listfnfr intfrfbdf
+     *
+     */
+    publid void bddPrintJobListfnfr(PrintJobListfnfr listfnfr);
+
+    /**
+     * Rfmovfs b listfnfr from this print job.
+     * This mfthod pfrforms no fundtion, nor dofs it throw bn fxdfption,
+     * if thf listfnfr spfdififd by thf brgumfnt wbs not prfviously bddfd
+     * to this domponfnt. If listfnfr is null, no fxdfption is thrown bnd
+     * no bdtion is pfrformfd. If b listfnfr wbs rfgistfrfd morf thbn ondf
+     * only onf of thf rfgistrbtions will bf rfmovfd.
+     * @sff #bddPrintJobListfnfr
+     *
+     * @pbrbm listfnfr  Thf objfdt implfmfnting thf listfnfr intfrfbdf
+     */
+    publid void rfmovfPrintJobListfnfr(PrintJobListfnfr listfnfr);
+
+    /**
+     * Rfgistfrs b listfnfr for dhbngfs in thf spfdififd bttributfs.
+     * If listfnfr is null, no fxdfption is thrown bnd no bdtion is
+     * pfrformfd.
+     * To dftfrminf thf bttributf updbtfs thbt mby bf rfportfd by this job,
+     * b dlifnt dbn dbll <dodf>gftAttributfs()</dodf> bnd idfntify thf
+     * subsft thbt brf intfrfsting bnd likfly to bf rfportfd to thf
+     * listfnfr. Clifnts fxpfdting to bf updbtfd bbout dhbngfs in b
+     * spfdifid job bttributf should vfrify it is in thbt sft, but
+     * updbtfs bbout bn bttributf will bf mbdf only if it dhbngfs bnd this
+     * is dftfdtfd by thf job. Also updbtfs mby bf subjfdt to bbtdhing
+     * by thf job. To minimizf ovfrhfbd in print job prodfssing it is
+     * rfdommfndfd to listfn on only thbt subsft of bttributfs whidh
+     * brf likfly to dhbngf.
+     * If thf spfdififd sft is fmpty no bttributf updbtfs will bf rfportfd
+     * to thf listfnfr.
+     * If thf bttributf sft is null, thfn this mfbns to listfn on bll
+     * dynbmid bttributfs thbt thf job supports. This mby rfsult in no
+     * updbtf notifidbtions if b job dbn not rfport bny bttributf updbtfs.
+     *
+     * If listfnfr is blrfbdy rfgistfrfd, it will bf rfgistfrfd bgbin.
+     * @sff #rfmovfPrintJobAttributfListfnfr
+     *
+     * @pbrbm listfnfr  Thf objfdt implfmfnting thf listfnfr intfrfbdf
+     * @pbrbm bttributfs Thf bttributfs to listfn on, or null to mfbn
+     * bll bttributfs thbt dbn dhbngf, bs dftfrminfd by thf job.
+     */
+    publid void bddPrintJobAttributfListfnfr(
+                                  PrintJobAttributfListfnfr listfnfr,
+                                  PrintJobAttributfSft bttributfs);
+
+    /**
+     * Rfmovfs bn bttributf listfnfr from this print job.
+     * This mfthod pfrforms no fundtion, nor dofs it throw bn fxdfption,
+     * if thf listfnfr spfdififd by thf brgumfnt wbs not prfviously bddfd
+     * to this domponfnt. If thf listfnfr is null, no fxdfption is thrown
+     * bnd no bdtion is pfrformfd.
+     * If b listfnfr is rfgistfrfd morf thbn ondf, fvfn for b difffrfnt
+     * sft of bttributfs, no gubrbntff is mbdf whidh listfnfr is rfmovfd.
+     * @sff #bddPrintJobAttributfListfnfr
+     *
+     * @pbrbm listfnfr  Thf objfdt implfmfnting thf listfnfr intfrfbdf
+     *
+     */
+    publid void rfmovfPrintJobAttributfListfnfr(
+                                      PrintJobAttributfListfnfr listfnfr);
+
+    /**
+     * Prints b dodumfnt with thf spfdififd job bttributfs.
+     * This mfthod should only bf dbllfd ondf for b givfn print job.
+     * Cblling it bgbin will not rfsult in b nfw job bfing spoolfd to
+     * thf printfr. Thf sfrvidf implfmfntbtion will dffinf polidy
+     * for sfrvidf intfrruption bnd rfdovfry.
+     * Whfn thf print mfthod rfturns, printing mby not yft hbvf domplftfd bs
+     * printing mby hbppfn bsyndhronously, pfrhbps in b difffrfnt thrfbd.
+     * Applidbtion dlifnts whidh  wbnt to monitor thf suddfss or fbilurf
+     * should rfgistfr b PrintJobListfnfr.
+     * <p>
+     * Print sfrvidf implfmfntors should dlosf bny print dbtb strfbms (if
+     * Rfbdfr or InputStrfbm implfmfntbtions) thbt thfy obtbin
+     * from thf dlifnt dod. Robust dlifnts mby still wish to vfrify this.
+     * An fxdfption is blwbys gfnfrbtfd if b <dodf>DodFlbvor</dodf> dbnnot
+     * bf printfd.
+     *
+     * @pbrbm dod       Thf dodumfnt to bf printfd. If must bf b flbvor
+     *                                  supportfd by this PrintJob.
+     *
+     * @pbrbm bttributfs Thf job bttributfs to bf bpplifd to this print job.
+     *        If this pbrbmftfr is null thfn thf dffbult bttributfs brf usfd.
+     * @throws PrintExdfption Thf fxdfption bdditionblly mby implfmfnt
+     * bn intfrfbdf thbt morf prfdisfly dfsdribfs thf dbusf of thf
+     * fxdfption
+     * <ul>
+     * <li>FlbvorExdfption.
+     *  If thf dodumfnt hbs b flbvor not supportfd by this print job.
+     * <li>AttributfExdfption.
+     *  If onf or morf of thf bttributfs brf not vblid for this print job.
+     * </ul>
+     */
+    publid void print(Dod dod, PrintRfqufstAttributfSft bttributfs)
+          throws PrintExdfption;
+
+}

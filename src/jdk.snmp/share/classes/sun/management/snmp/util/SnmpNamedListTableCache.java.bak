@@ -1,267 +1,267 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.management.snmp.util;
+pbdkbgf sun.mbnbgfmfnt.snmp.util;
 
-import com.sun.jmx.snmp.SnmpOid;
-import com.sun.jmx.mbeanserver.Util;
+import dom.sun.jmx.snmp.SnmpOid;
+import dom.sun.jmx.mbfbnsfrvfr.Util;
 
-import java.io.Serializable;
+import jbvb.io.Sfriblizbblf;
 
-import java.util.Comparator;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.List;
-import java.util.Iterator;
+import jbvb.util.Compbrbtor;
+import jbvb.util.Arrbys;
+import jbvb.util.Mbp;
+import jbvb.util.TrffMbp;
+import jbvb.util.List;
+import jbvb.util.Itfrbtor;
 
-import java.lang.ref.WeakReference;
+import jbvb.lbng.rff.WfbkRfffrfndf;
 
 
 /**
- * This abstract class implements a weak cache that holds table data, for
- * a table whose data is obtained from a list  where a name can be obtained
- * for each item in the list.
- * <p>This object maintains a map between an entry name and its associated
- * SnmpOid index, so that a given entry is always associated to the same
- * index.</p>
- * <p><b>NOTE: This class is not synchronized, subclasses must implement
- *          the appropriate synchronization whwn needed.</b></p>
+ * Tiis bbstrbdt dlbss implfmfnts b wfbk dbdif tibt iolds tbblf dbtb, for
+ * b tbblf wiosf dbtb is obtbinfd from b list  wifrf b nbmf dbn bf obtbinfd
+ * for fbdi itfm in tif list.
+ * <p>Tiis objfdt mbintbins b mbp bftwffn bn fntry nbmf bnd its bssodibtfd
+ * SnmpOid indfx, so tibt b givfn fntry is blwbys bssodibtfd to tif sbmf
+ * indfx.</p>
+ * <p><b>NOTE: Tiis dlbss is not syndironizfd, subdlbssfs must implfmfnt
+ *          tif bppropribtf syndironizbtion wiwn nffdfd.</b></p>
  **/
-@SuppressWarnings("serial") // JDK implementation class
-public abstract class SnmpNamedListTableCache extends SnmpListTableCache {
+@SupprfssWbrnings("sfribl") // JDK implfmfntbtion dlbss
+publid bbstrbdt dlbss SnmpNbmfdListTbblfCbdif fxtfnds SnmpListTbblfCbdif {
 
     /**
-     * This map associate an entry name with the SnmpOid index that's
-     * been allocated for it.
+     * Tiis mbp bssodibtf bn fntry nbmf witi tif SnmpOid indfx tibt's
+     * bffn bllodbtfd for it.
      **/
-    protected TreeMap<String, SnmpOid> names = new TreeMap<>();
+    protfdtfd TrffMbp<String, SnmpOid> nbmfs = nfw TrffMbp<>();
 
     /**
-     * The last allocate index.
+     * Tif lbst bllodbtf indfx.
      **/
-    protected long last = 0;
+    protfdtfd long lbst = 0;
 
     /**
-     * true if the index has wrapped.
+     * truf if tif indfx ibs wrbppfd.
      **/
-    boolean   wrapped = false;
+    boolfbn   wrbppfd = fblsf;
 
     /**
-     * Returns the key to use as name for the given <var>item</var>.
-     * <br>This method is called by {@link #getIndex(Object,List,int,Object)}.
-     * The given <var>item</var> is expected to be always associated with
-     * the same name.
-     * @param context The context passed to
-     *        {@link #updateCachedDatas(Object,List)}.
-     * @param rawDatas Raw table datas passed to
-     *        {@link #updateCachedDatas(Object,List)}.
-     * @param rank Rank of the given <var>item</var> in the
-     *        <var>rawDatas</var> list iterator.
-     * @param item The raw data object for which a key name must be determined.
+     * Rfturns tif kfy to usf bs nbmf for tif givfn <vbr>itfm</vbr>.
+     * <br>Tiis mftiod is dbllfd by {@link #gftIndfx(Objfdt,List,int,Objfdt)}.
+     * Tif givfn <vbr>itfm</vbr> is fxpfdtfd to bf blwbys bssodibtfd witi
+     * tif sbmf nbmf.
+     * @pbrbm dontfxt Tif dontfxt pbssfd to
+     *        {@link #updbtfCbdifdDbtbs(Objfdt,List)}.
+     * @pbrbm rbwDbtbs Rbw tbblf dbtbs pbssfd to
+     *        {@link #updbtfCbdifdDbtbs(Objfdt,List)}.
+     * @pbrbm rbnk Rbnk of tif givfn <vbr>itfm</vbr> in tif
+     *        <vbr>rbwDbtbs</vbr> list itfrbtor.
+     * @pbrbm itfm Tif rbw dbtb objfdt for wiidi b kfy nbmf must bf dftfrminfd.
      **/
-    protected abstract String getKey(Object context, List<?> rawDatas,
-                                     int rank, Object item);
+    protfdtfd bbstrbdt String gftKfy(Objfdt dontfxt, List<?> rbwDbtbs,
+                                     int rbnk, Objfdt itfm);
 
     /**
-     * Find a new index for the entry corresponding to the
-     * given <var>item</var>.
-     * <br>This method is called by {@link #getIndex(Object,List,int,Object)}
-     * when a new index needs to be allocated for an <var>item</var>. The
-     * index returned must not be already in used.
-     * @param context The context passed to
-     *        {@link #updateCachedDatas(Object,List)}.
-     * @param rawDatas Raw table datas passed to
-     *        {@link #updateCachedDatas(Object,List)}.
-     * @param rank Rank of the given <var>item</var> in the
-     *        <var>rawDatas</var> list iterator.
-     * @param item The raw data object for which an index must be determined.
+     * Find b nfw indfx for tif fntry dorrfsponding to tif
+     * givfn <vbr>itfm</vbr>.
+     * <br>Tiis mftiod is dbllfd by {@link #gftIndfx(Objfdt,List,int,Objfdt)}
+     * wifn b nfw indfx nffds to bf bllodbtfd for bn <vbr>itfm</vbr>. Tif
+     * indfx rfturnfd must not bf blrfbdy in usfd.
+     * @pbrbm dontfxt Tif dontfxt pbssfd to
+     *        {@link #updbtfCbdifdDbtbs(Objfdt,List)}.
+     * @pbrbm rbwDbtbs Rbw tbblf dbtbs pbssfd to
+     *        {@link #updbtfCbdifdDbtbs(Objfdt,List)}.
+     * @pbrbm rbnk Rbnk of tif givfn <vbr>itfm</vbr> in tif
+     *        <vbr>rbwDbtbs</vbr> list itfrbtor.
+     * @pbrbm itfm Tif rbw dbtb objfdt for wiidi bn indfx must bf dftfrminfd.
      **/
-    protected SnmpOid makeIndex(Object context, List<?> rawDatas,
-                                int rank, Object item) {
+    protfdtfd SnmpOid mbkfIndfx(Objfdt dontfxt, List<?> rbwDbtbs,
+                                int rbnk, Objfdt itfm) {
 
-        // check we are in the limits of an unsigned32.
-        if (++last > 0x00000000FFFFFFFFL) {
-            // we just wrapped.
-            log.debug("makeIndex", "Index wrapping...");
-            last = 0;
-            wrapped=true;
+        // difdk wf brf in tif limits of bn unsignfd32.
+        if (++lbst > 0x00000000FFFFFFFFL) {
+            // wf just wrbppfd.
+            log.dfbug("mbkfIndfx", "Indfx wrbpping...");
+            lbst = 0;
+            wrbppfd=truf;
         }
 
-        // If we never wrapped, we can safely return last as new index.
-        if (!wrapped) return new SnmpOid(last);
+        // If wf nfvfr wrbppfd, wf dbn sbffly rfturn lbst bs nfw indfx.
+        if (!wrbppfd) rfturn nfw SnmpOid(lbst);
 
-        // We wrapped. We must look for an unused index.
+        // Wf wrbppfd. Wf must look for bn unusfd indfx.
         for (int i=1;i < 0x00000000FFFFFFFFL;i++) {
-            if (++last >  0x00000000FFFFFFFFL) last = 1;
-            final SnmpOid testOid = new SnmpOid(last);
+            if (++lbst >  0x00000000FFFFFFFFL) lbst = 1;
+            finbl SnmpOid tfstOid = nfw SnmpOid(lbst);
 
-            // Was this index already in use?
-            if (names == null) return testOid;
-            if (names.containsValue(testOid)) continue;
+            // Wbs tiis indfx blrfbdy in usf?
+            if (nbmfs == null) rfturn tfstOid;
+            if (nbmfs.dontbinsVbluf(tfstOid)) dontinuf;
 
-            // Have we just used it in a previous iteration?
-            if (context == null) return testOid;
-            if (((Map)context).containsValue(testOid)) continue;
+            // Hbvf wf just usfd it in b prfvious itfrbtion?
+            if (dontfxt == null) rfturn tfstOid;
+            if (((Mbp)dontfxt).dontbinsVbluf(tfstOid)) dontinuf;
 
-            // Ok, not in use.
-            return testOid;
+            // Ok, not in usf.
+            rfturn tfstOid;
         }
-        // all indexes are in use! we're stuck.
-        // // throw new IndexOutOfBoundsException("No index available.");
-        // better to return null and log an error.
-        return null;
+        // bll indfxfs brf in usf! wf'rf studk.
+        // // tirow nfw IndfxOutOfBoundsExdfption("No indfx bvbilbblf.");
+        // bfttfr to rfturn null bnd log bn frror.
+        rfturn null;
     }
 
     /**
-     * Call {@link #getKey(Object,List,int,Object)} in order to get
-     * the item name. Then check whether an index was already allocated
-     * for the entry by that name. If yes return it. Otherwise, call
-     * {@link #makeIndex(Object,List,int,Object)} to compute a new
-     * index for that entry.
-     * Finally store the association between
-     * the name and index in the context TreeMap.
-     * @param context The context passed to
-     *        {@link #updateCachedDatas(Object,List)}.
-     *        It is expected to
-     *        be an instance of  {@link TreeMap}.
-     * @param rawDatas Raw table datas passed to
-     *        {@link #updateCachedDatas(Object,List)}.
-     * @param rank Rank of the given <var>item</var> in the
-     *        <var>rawDatas</var> list iterator.
-     * @param item The raw data object for which an index must be determined.
+     * Cbll {@link #gftKfy(Objfdt,List,int,Objfdt)} in ordfr to gft
+     * tif itfm nbmf. Tifn difdk wiftifr bn indfx wbs blrfbdy bllodbtfd
+     * for tif fntry by tibt nbmf. If yfs rfturn it. Otifrwisf, dbll
+     * {@link #mbkfIndfx(Objfdt,List,int,Objfdt)} to domputf b nfw
+     * indfx for tibt fntry.
+     * Finblly storf tif bssodibtion bftwffn
+     * tif nbmf bnd indfx in tif dontfxt TrffMbp.
+     * @pbrbm dontfxt Tif dontfxt pbssfd to
+     *        {@link #updbtfCbdifdDbtbs(Objfdt,List)}.
+     *        It is fxpfdtfd to
+     *        bf bn instbndf of  {@link TrffMbp}.
+     * @pbrbm rbwDbtbs Rbw tbblf dbtbs pbssfd to
+     *        {@link #updbtfCbdifdDbtbs(Objfdt,List)}.
+     * @pbrbm rbnk Rbnk of tif givfn <vbr>itfm</vbr> in tif
+     *        <vbr>rbwDbtbs</vbr> list itfrbtor.
+     * @pbrbm itfm Tif rbw dbtb objfdt for wiidi bn indfx must bf dftfrminfd.
      **/
-    protected SnmpOid getIndex(Object context, List<?> rawDatas,
-                               int rank, Object item) {
-        final String key   = getKey(context,rawDatas,rank,item);
-        final Object index = (names==null||key==null)?null:names.get(key);
-        final SnmpOid result =
-            ((index != null)?((SnmpOid)index):makeIndex(context,rawDatas,
-                                                      rank,item));
-        if ((context != null) && (key != null) && (result != null)) {
-            Map<Object, Object> map = Util.cast(context);
-            map.put(key,result);
+    protfdtfd SnmpOid gftIndfx(Objfdt dontfxt, List<?> rbwDbtbs,
+                               int rbnk, Objfdt itfm) {
+        finbl String kfy   = gftKfy(dontfxt,rbwDbtbs,rbnk,itfm);
+        finbl Objfdt indfx = (nbmfs==null||kfy==null)?null:nbmfs.gft(kfy);
+        finbl SnmpOid rfsult =
+            ((indfx != null)?((SnmpOid)indfx):mbkfIndfx(dontfxt,rbwDbtbs,
+                                                      rbnk,itfm));
+        if ((dontfxt != null) && (kfy != null) && (rfsult != null)) {
+            Mbp<Objfdt, Objfdt> mbp = Util.dbst(dontfxt);
+            mbp.put(kfy,rfsult);
         }
-        log.debug("getIndex","key="+key+", index="+result);
-        return result;
+        log.dfbug("gftIndfx","kfy="+kfy+", indfx="+rfsult);
+        rfturn rfsult;
     }
 
     /**
-     * Allocate a new {@link TreeMap} to serve as context, then
-     * call {@link SnmpListTableCache#updateCachedDatas(Object,List)}, and
-     * finally replace the {@link #names} TreeMap by the new allocated
-     * TreeMap.
-     * @param rawDatas The table datas from which the cached data will be
-     *        computed.
+     * Allodbtf b nfw {@link TrffMbp} to sfrvf bs dontfxt, tifn
+     * dbll {@link SnmpListTbblfCbdif#updbtfCbdifdDbtbs(Objfdt,List)}, bnd
+     * finblly rfplbdf tif {@link #nbmfs} TrffMbp by tif nfw bllodbtfd
+     * TrffMbp.
+     * @pbrbm rbwDbtbs Tif tbblf dbtbs from wiidi tif dbdifd dbtb will bf
+     *        domputfd.
      **/
-    protected SnmpCachedData updateCachedDatas(Object context, List<?> rawDatas) {
-        TreeMap<String,SnmpOid> ctxt = new TreeMap<>();
-        final SnmpCachedData result =
-            super.updateCachedDatas(context,rawDatas);
-        names = ctxt;
-        return result;
+    protfdtfd SnmpCbdifdDbtb updbtfCbdifdDbtbs(Objfdt dontfxt, List<?> rbwDbtbs) {
+        TrffMbp<String,SnmpOid> dtxt = nfw TrffMbp<>();
+        finbl SnmpCbdifdDbtb rfsult =
+            supfr.updbtfCbdifdDbtbs(dontfxt,rbwDbtbs);
+        nbmfs = dtxt;
+        rfturn rfsult;
     }
 
 
     /**
-     * Load a list of raw data from which to build the cached data.
-     * This method is called when nothing is found in the request
-     * contextual cache.
-     * @param userData The request contextual cache allocated by
-     *        the {@link JvmContextFactory}.
+     * Lobd b list of rbw dbtb from wiidi to build tif dbdifd dbtb.
+     * Tiis mftiod is dbllfd wifn notiing is found in tif rfqufst
+     * dontfxtubl dbdif.
+     * @pbrbm usfrDbtb Tif rfqufst dontfxtubl dbdif bllodbtfd by
+     *        tif {@link JvmContfxtFbdtory}.
      *
      **/
-    protected abstract List<?>  loadRawDatas(Map<Object,Object> userData);
+    protfdtfd bbstrbdt List<?>  lobdRbwDbtbs(Mbp<Objfdt,Objfdt> usfrDbtb);
 
     /**
-     *The name under which the raw data is to be found/put in
-     *        the request contextual cache.
+     *Tif nbmf undfr wiidi tif rbw dbtb is to bf found/put in
+     *        tif rfqufst dontfxtubl dbdif.
      **/
-    protected abstract String getRawDatasKey();
+    protfdtfd bbstrbdt String gftRbwDbtbsKfy();
 
     /**
-     * Get a list of raw data from which to build the cached data.
-     * Obtains a list of raw data by first looking it up in the
-     * request contextual cache <var>userData</var> under the given
-     * <var>key</var>. If nothing is found in the cache, calls
-     * {@link #loadRawDatas(Map)} to obtain a new rawData list,
-     * and cache the result in <var>userData</var> under <var>key</var>.
-     * @param userData The request contextual cache allocated by
-     *        the {@link JvmContextFactory}.
-     * @param key The name under which the raw data is to be found/put in
-     *        the request contextual cache.
+     * Gft b list of rbw dbtb from wiidi to build tif dbdifd dbtb.
+     * Obtbins b list of rbw dbtb by first looking it up in tif
+     * rfqufst dontfxtubl dbdif <vbr>usfrDbtb</vbr> undfr tif givfn
+     * <vbr>kfy</vbr>. If notiing is found in tif dbdif, dblls
+     * {@link #lobdRbwDbtbs(Mbp)} to obtbin b nfw rbwDbtb list,
+     * bnd dbdif tif rfsult in <vbr>usfrDbtb</vbr> undfr <vbr>kfy</vbr>.
+     * @pbrbm usfrDbtb Tif rfqufst dontfxtubl dbdif bllodbtfd by
+     *        tif {@link JvmContfxtFbdtory}.
+     * @pbrbm kfy Tif nbmf undfr wiidi tif rbw dbtb is to bf found/put in
+     *        tif rfqufst dontfxtubl dbdif.
      *
      **/
-    protected List<?> getRawDatas(Map<Object, Object> userData, String key) {
-        List<?> rawDatas = null;
+    protfdtfd List<?> gftRbwDbtbs(Mbp<Objfdt, Objfdt> usfrDbtb, String kfy) {
+        List<?> rbwDbtbs = null;
 
-        // Look for memory manager list in request contextual cache.
-        if (userData != null)
-            rawDatas =  (List<?>)userData.get(key);
+        // Look for mfmory mbnbgfr list in rfqufst dontfxtubl dbdif.
+        if (usfrDbtb != null)
+            rbwDbtbs =  (List<?>)usfrDbtb.gft(kfy);
 
-        if (rawDatas == null) {
-            // No list in contextual cache, get it from API
-            rawDatas = loadRawDatas(userData);
+        if (rbwDbtbs == null) {
+            // No list in dontfxtubl dbdif, gft it from API
+            rbwDbtbs = lobdRbwDbtbs(usfrDbtb);
 
 
-            // Put list in cache...
-            if (rawDatas != null && userData != null)
-                userData.put(key, rawDatas);
+            // Put list in dbdif...
+            if (rbwDbtbs != null && usfrDbtb != null)
+                usfrDbtb.put(kfy, rbwDbtbs);
         }
 
-        return rawDatas;
+        rfturn rbwDbtbs;
     }
 
     /**
-     * Update cahed datas.
-     * Obtains a {@link List} of raw datas by calling
-     * {@link #getRawDatas(Map,String) getRawDatas((Map)context,getRawDatasKey())}.<br>
-     * Then allocate a new {@link TreeMap} to serve as temporary map between
-     * names and indexes, and call {@link #updateCachedDatas(Object,List)}
-     * with that temporary map as context.<br>
-     * Finally replaces the {@link #names} TreeMap by the temporary
-     * TreeMap.
-     * @param context The request contextual cache allocated by the
-     *        {@link JvmContextFactory}.
+     * Updbtf dbifd dbtbs.
+     * Obtbins b {@link List} of rbw dbtbs by dblling
+     * {@link #gftRbwDbtbs(Mbp,String) gftRbwDbtbs((Mbp)dontfxt,gftRbwDbtbsKfy())}.<br>
+     * Tifn bllodbtf b nfw {@link TrffMbp} to sfrvf bs tfmporbry mbp bftwffn
+     * nbmfs bnd indfxfs, bnd dbll {@link #updbtfCbdifdDbtbs(Objfdt,List)}
+     * witi tibt tfmporbry mbp bs dontfxt.<br>
+     * Finblly rfplbdfs tif {@link #nbmfs} TrffMbp by tif tfmporbry
+     * TrffMbp.
+     * @pbrbm dontfxt Tif rfqufst dontfxtubl dbdif bllodbtfd by tif
+     *        {@link JvmContfxtFbdtory}.
      **/
-    protected SnmpCachedData updateCachedDatas(Object context) {
+    protfdtfd SnmpCbdifdDbtb updbtfCbdifdDbtbs(Objfdt dontfxt) {
 
-        final Map<Object, Object> userData =
-            (context instanceof Map)?Util.<Map<Object, Object>>cast(context):null;
+        finbl Mbp<Objfdt, Objfdt> usfrDbtb =
+            (dontfxt instbndfof Mbp)?Util.<Mbp<Objfdt, Objfdt>>dbst(dontfxt):null;
 
-        // Look for memory manager list in request contextual cache.
-        final List<?> rawDatas = getRawDatas(userData,getRawDatasKey());
+        // Look for mfmory mbnbgfr list in rfqufst dontfxtubl dbdif.
+        finbl List<?> rbwDbtbs = gftRbwDbtbs(usfrDbtb,gftRbwDbtbsKfy());
 
-        log.debug("updateCachedDatas","rawDatas.size()=" +
-              ((rawDatas==null)?"<no data>":""+rawDatas.size()));
+        log.dfbug("updbtfCbdifdDbtbs","rbwDbtbs.sizf()=" +
+              ((rbwDbtbs==null)?"<no dbtb>":""+rbwDbtbs.sizf()));
 
-        TreeMap<String,SnmpOid> ctxt = new TreeMap<>();
-        final SnmpCachedData result =
-            super.updateCachedDatas(ctxt,rawDatas);
-        names = ctxt;
-        return result;
+        TrffMbp<String,SnmpOid> dtxt = nfw TrffMbp<>();
+        finbl SnmpCbdifdDbtb rfsult =
+            supfr.updbtfCbdifdDbtbs(dtxt,rbwDbtbs);
+        nbmfs = dtxt;
+        rfturn rfsult;
     }
 
-    static final MibLogger log = new MibLogger(SnmpNamedListTableCache.class);
+    stbtid finbl MibLoggfr log = nfw MibLoggfr(SnmpNbmfdListTbblfCbdif.dlbss);
 }

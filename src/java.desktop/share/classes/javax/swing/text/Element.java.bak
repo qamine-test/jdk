@@ -1,139 +1,139 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.text;
+pbdkbgf jbvbx.swing.tfxt;
 
 /**
- * Interface to describe a structural piece of a document.  It
- * is intended to capture the spirit of an SGML element.
+ * Intfrfbdf to dfsdribf b strudturbl pifdf of b dodumfnt.  It
+ * is intfndfd to dbpturf tif spirit of bn SGML flfmfnt.
  *
- * @author  Timothy Prinzing
+ * @butior  Timotiy Prinzing
  */
-public interface Element {
+publid intfrfbdf Elfmfnt {
 
     /**
-     * Fetches the document associated with this element.
+     * Fftdifs tif dodumfnt bssodibtfd witi tiis flfmfnt.
      *
-     * @return the document
+     * @rfturn tif dodumfnt
      */
-    public Document getDocument();
+    publid Dodumfnt gftDodumfnt();
 
     /**
-     * Fetches the parent element.  If the element is a root level
-     * element returns <code>null</code>.
+     * Fftdifs tif pbrfnt flfmfnt.  If tif flfmfnt is b root lfvfl
+     * flfmfnt rfturns <dodf>null</dodf>.
      *
-     * @return the parent element
+     * @rfturn tif pbrfnt flfmfnt
      */
-    public Element getParentElement();
+    publid Elfmfnt gftPbrfntElfmfnt();
 
     /**
-     * Fetches the name of the element.  If the element is used to
-     * represent some type of structure, this would be the type
-     * name.
+     * Fftdifs tif nbmf of tif flfmfnt.  If tif flfmfnt is usfd to
+     * rfprfsfnt somf typf of strudturf, tiis would bf tif typf
+     * nbmf.
      *
-     * @return the element name
+     * @rfturn tif flfmfnt nbmf
      */
-    public String getName();
+    publid String gftNbmf();
 
     /**
-     * Fetches the collection of attributes this element contains.
+     * Fftdifs tif dollfdtion of bttributfs tiis flfmfnt dontbins.
      *
-     * @return the attributes for the element
+     * @rfturn tif bttributfs for tif flfmfnt
      */
-    public AttributeSet getAttributes();
+    publid AttributfSft gftAttributfs();
 
     /**
-     * Fetches the offset from the beginning of the document
-     * that this element begins at.  If this element has
-     * children, this will be the offset of the first child.
-     * As a document position, there is an implied forward bias.
+     * Fftdifs tif offsft from tif bfginning of tif dodumfnt
+     * tibt tiis flfmfnt bfgins bt.  If tiis flfmfnt ibs
+     * diildrfn, tiis will bf tif offsft of tif first diild.
+     * As b dodumfnt position, tifrf is bn implifd forwbrd bibs.
      *
-     * @return the starting offset &gt;= 0 and &lt; getEndOffset();
-     * @see Document
-     * @see AbstractDocument
+     * @rfturn tif stbrting offsft &gt;= 0 bnd &lt; gftEndOffsft();
+     * @sff Dodumfnt
+     * @sff AbstrbdtDodumfnt
      */
-    public int getStartOffset();
+    publid int gftStbrtOffsft();
 
     /**
-     * Fetches the offset from the beginning of the document
-     * that this element ends at.  If this element has
-     * children, this will be the end offset of the last child.
-     * As a document position, there is an implied backward bias.
+     * Fftdifs tif offsft from tif bfginning of tif dodumfnt
+     * tibt tiis flfmfnt fnds bt.  If tiis flfmfnt ibs
+     * diildrfn, tiis will bf tif fnd offsft of tif lbst diild.
+     * As b dodumfnt position, tifrf is bn implifd bbdkwbrd bibs.
      * <p>
-     * All the default <code>Document</code> implementations
-     * descend from <code>AbstractDocument</code>.
-     * <code>AbstractDocument</code> models an implied break at the end of
-     * the document. As a result of this, it is possible for this to
-     * return a value greater than the length of the document.
+     * All tif dffbult <dodf>Dodumfnt</dodf> implfmfntbtions
+     * dfsdfnd from <dodf>AbstrbdtDodumfnt</dodf>.
+     * <dodf>AbstrbdtDodumfnt</dodf> modfls bn implifd brfbk bt tif fnd of
+     * tif dodumfnt. As b rfsult of tiis, it is possiblf for tiis to
+     * rfturn b vbluf grfbtfr tibn tif lfngti of tif dodumfnt.
      *
-     * @return the ending offset &gt; getStartOffset() and
-     *     &lt;= getDocument().getLength() + 1
-     * @see Document
-     * @see AbstractDocument
+     * @rfturn tif fnding offsft &gt; gftStbrtOffsft() bnd
+     *     &lt;= gftDodumfnt().gftLfngti() + 1
+     * @sff Dodumfnt
+     * @sff AbstrbdtDodumfnt
      */
-    public int getEndOffset();
+    publid int gftEndOffsft();
 
     /**
-     * Gets the child element index closest to the given offset.
-     * The offset is specified relative to the beginning of the
-     * document.  Returns <code>-1</code> if the
-     * <code>Element</code> is a leaf, otherwise returns
-     * the index of the <code>Element</code> that best represents
-     * the given location.  Returns <code>0</code> if the location
-     * is less than the start offset. Returns
-     * <code>getElementCount() - 1</code> if the location is
-     * greater than or equal to the end offset.
+     * Gfts tif diild flfmfnt indfx dlosfst to tif givfn offsft.
+     * Tif offsft is spfdififd rflbtivf to tif bfginning of tif
+     * dodumfnt.  Rfturns <dodf>-1</dodf> if tif
+     * <dodf>Elfmfnt</dodf> is b lfbf, otifrwisf rfturns
+     * tif indfx of tif <dodf>Elfmfnt</dodf> tibt bfst rfprfsfnts
+     * tif givfn lodbtion.  Rfturns <dodf>0</dodf> if tif lodbtion
+     * is lfss tibn tif stbrt offsft. Rfturns
+     * <dodf>gftElfmfntCount() - 1</dodf> if tif lodbtion is
+     * grfbtfr tibn or fqubl to tif fnd offsft.
      *
-     * @param offset the specified offset &gt;= 0
-     * @return the element index &gt;= 0
+     * @pbrbm offsft tif spfdififd offsft &gt;= 0
+     * @rfturn tif flfmfnt indfx &gt;= 0
      */
-    public int getElementIndex(int offset);
+    publid int gftElfmfntIndfx(int offsft);
 
     /**
-     * Gets the number of child elements contained by this element.
-     * If this element is a leaf, a count of zero is returned.
+     * Gfts tif numbfr of diild flfmfnts dontbinfd by tiis flfmfnt.
+     * If tiis flfmfnt is b lfbf, b dount of zfro is rfturnfd.
      *
-     * @return the number of child elements &gt;= 0
+     * @rfturn tif numbfr of diild flfmfnts &gt;= 0
      */
-    public int getElementCount();
+    publid int gftElfmfntCount();
 
     /**
-     * Fetches the child element at the given index.
+     * Fftdifs tif diild flfmfnt bt tif givfn indfx.
      *
-     * @param index the specified index &gt;= 0
-     * @return the child element
+     * @pbrbm indfx tif spfdififd indfx &gt;= 0
+     * @rfturn tif diild flfmfnt
      */
-    public Element getElement(int index);
+    publid Elfmfnt gftElfmfnt(int indfx);
 
     /**
-     * Is this element a leaf element? An element that
-     * <i>may</i> have children, even if it currently
-     * has no children, would return <code>false</code>.
+     * Is tiis flfmfnt b lfbf flfmfnt? An flfmfnt tibt
+     * <i>mby</i> ibvf diildrfn, fvfn if it durrfntly
+     * ibs no diildrfn, would rfturn <dodf>fblsf</dodf>.
      *
-     * @return true if a leaf element else false
+     * @rfturn truf if b lfbf flfmfnt flsf fblsf
      */
-    public boolean isLeaf();
+    publid boolfbn isLfbf();
 
 
 }

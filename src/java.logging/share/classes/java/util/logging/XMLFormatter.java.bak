@@ -1,268 +1,268 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package java.util.logging;
+pbdkbgf jbvb.util.logging;
 
-import java.io.*;
-import java.nio.charset.Charset;
-import java.util.*;
+import jbvb.io.*;
+import jbvb.nio.dibrsft.Cibrsft;
+import jbvb.util.*;
 
 /**
- * Format a LogRecord into a standard XML format.
+ * Formbt b LogRfdord into b stbndbrd XML formbt.
  * <p>
- * The DTD specification is provided as Appendix A to the
- * Java Logging APIs specification.
+ * Tif DTD spfdifidbtion is providfd bs Appfndix A to tif
+ * Jbvb Logging APIs spfdifidbtion.
  * <p>
- * The XMLFormatter can be used with arbitrary character encodings,
- * but it is recommended that it normally be used with UTF-8.  The
- * character encoding can be set on the output Handler.
+ * Tif XMLFormbttfr dbn bf usfd witi brbitrbry dibrbdtfr fndodings,
+ * but it is rfdommfndfd tibt it normblly bf usfd witi UTF-8.  Tif
+ * dibrbdtfr fndoding dbn bf sft on tif output Hbndlfr.
  *
- * @since 1.4
+ * @sindf 1.4
  */
 
-public class XMLFormatter extends Formatter {
-    private LogManager manager = LogManager.getLogManager();
+publid dlbss XMLFormbttfr fxtfnds Formbttfr {
+    privbtf LogMbnbgfr mbnbgfr = LogMbnbgfr.gftLogMbnbgfr();
 
-    // Append a two digit number.
-    private void a2(StringBuilder sb, int x) {
+    // Appfnd b two digit numbfr.
+    privbtf void b2(StringBuildfr sb, int x) {
         if (x < 10) {
-            sb.append('0');
+            sb.bppfnd('0');
         }
-        sb.append(x);
+        sb.bppfnd(x);
     }
 
-    // Append the time and date in ISO 8601 format
-    private void appendISO8601(StringBuilder sb, long millis) {
-        GregorianCalendar cal = new GregorianCalendar();
-        cal.setTimeInMillis(millis);
-        sb.append(cal.get(Calendar.YEAR));
-        sb.append('-');
-        a2(sb, cal.get(Calendar.MONTH) + 1);
-        sb.append('-');
-        a2(sb, cal.get(Calendar.DAY_OF_MONTH));
-        sb.append('T');
-        a2(sb, cal.get(Calendar.HOUR_OF_DAY));
-        sb.append(':');
-        a2(sb, cal.get(Calendar.MINUTE));
-        sb.append(':');
-        a2(sb, cal.get(Calendar.SECOND));
+    // Appfnd tif timf bnd dbtf in ISO 8601 formbt
+    privbtf void bppfndISO8601(StringBuildfr sb, long millis) {
+        GrfgoribnCblfndbr dbl = nfw GrfgoribnCblfndbr();
+        dbl.sftTimfInMillis(millis);
+        sb.bppfnd(dbl.gft(Cblfndbr.YEAR));
+        sb.bppfnd('-');
+        b2(sb, dbl.gft(Cblfndbr.MONTH) + 1);
+        sb.bppfnd('-');
+        b2(sb, dbl.gft(Cblfndbr.DAY_OF_MONTH));
+        sb.bppfnd('T');
+        b2(sb, dbl.gft(Cblfndbr.HOUR_OF_DAY));
+        sb.bppfnd(':');
+        b2(sb, dbl.gft(Cblfndbr.MINUTE));
+        sb.bppfnd(':');
+        b2(sb, dbl.gft(Cblfndbr.SECOND));
     }
 
-    // Append to the given StringBuilder an escaped version of the
-    // given text string where XML special characters have been escaped.
-    // For a null string we append "<null>"
-    private void escape(StringBuilder sb, String text) {
-        if (text == null) {
-            text = "<null>";
+    // Appfnd to tif givfn StringBuildfr bn fsdbpfd vfrsion of tif
+    // givfn tfxt string wifrf XML spfdibl dibrbdtfrs ibvf bffn fsdbpfd.
+    // For b null string wf bppfnd "<null>"
+    privbtf void fsdbpf(StringBuildfr sb, String tfxt) {
+        if (tfxt == null) {
+            tfxt = "<null>";
         }
-        for (int i = 0; i < text.length(); i++) {
-            char ch = text.charAt(i);
-            if (ch == '<') {
-                sb.append("&lt;");
-            } else if (ch == '>') {
-                sb.append("&gt;");
-            } else if (ch == '&') {
-                sb.append("&amp;");
-            } else {
-                sb.append(ch);
+        for (int i = 0; i < tfxt.lfngti(); i++) {
+            dibr di = tfxt.dibrAt(i);
+            if (di == '<') {
+                sb.bppfnd("&lt;");
+            } flsf if (di == '>') {
+                sb.bppfnd("&gt;");
+            } flsf if (di == '&') {
+                sb.bppfnd("&bmp;");
+            } flsf {
+                sb.bppfnd(di);
             }
         }
     }
 
     /**
-     * Format the given message to XML.
+     * Formbt tif givfn mfssbgf to XML.
      * <p>
-     * This method can be overridden in a subclass.
-     * It is recommended to use the {@link Formatter#formatMessage}
-     * convenience method to localize and format the message field.
+     * Tiis mftiod dbn bf ovfrriddfn in b subdlbss.
+     * It is rfdommfndfd to usf tif {@link Formbttfr#formbtMfssbgf}
+     * donvfnifndf mftiod to lodblizf bnd formbt tif mfssbgf fifld.
      *
-     * @param record the log record to be formatted.
-     * @return a formatted log record
+     * @pbrbm rfdord tif log rfdord to bf formbttfd.
+     * @rfturn b formbttfd log rfdord
      */
-    public String format(LogRecord record) {
-        StringBuilder sb = new StringBuilder(500);
-        sb.append("<record>\n");
+    publid String formbt(LogRfdord rfdord) {
+        StringBuildfr sb = nfw StringBuildfr(500);
+        sb.bppfnd("<rfdord>\n");
 
-        sb.append("  <date>");
-        appendISO8601(sb, record.getMillis());
-        sb.append("</date>\n");
+        sb.bppfnd("  <dbtf>");
+        bppfndISO8601(sb, rfdord.gftMillis());
+        sb.bppfnd("</dbtf>\n");
 
-        sb.append("  <millis>");
-        sb.append(record.getMillis());
-        sb.append("</millis>\n");
+        sb.bppfnd("  <millis>");
+        sb.bppfnd(rfdord.gftMillis());
+        sb.bppfnd("</millis>\n");
 
-        sb.append("  <sequence>");
-        sb.append(record.getSequenceNumber());
-        sb.append("</sequence>\n");
+        sb.bppfnd("  <sfqufndf>");
+        sb.bppfnd(rfdord.gftSfqufndfNumbfr());
+        sb.bppfnd("</sfqufndf>\n");
 
-        String name = record.getLoggerName();
-        if (name != null) {
-            sb.append("  <logger>");
-            escape(sb, name);
-            sb.append("</logger>\n");
+        String nbmf = rfdord.gftLoggfrNbmf();
+        if (nbmf != null) {
+            sb.bppfnd("  <loggfr>");
+            fsdbpf(sb, nbmf);
+            sb.bppfnd("</loggfr>\n");
         }
 
-        sb.append("  <level>");
-        escape(sb, record.getLevel().toString());
-        sb.append("</level>\n");
+        sb.bppfnd("  <lfvfl>");
+        fsdbpf(sb, rfdord.gftLfvfl().toString());
+        sb.bppfnd("</lfvfl>\n");
 
-        if (record.getSourceClassName() != null) {
-            sb.append("  <class>");
-            escape(sb, record.getSourceClassName());
-            sb.append("</class>\n");
+        if (rfdord.gftSourdfClbssNbmf() != null) {
+            sb.bppfnd("  <dlbss>");
+            fsdbpf(sb, rfdord.gftSourdfClbssNbmf());
+            sb.bppfnd("</dlbss>\n");
         }
 
-        if (record.getSourceMethodName() != null) {
-            sb.append("  <method>");
-            escape(sb, record.getSourceMethodName());
-            sb.append("</method>\n");
+        if (rfdord.gftSourdfMftiodNbmf() != null) {
+            sb.bppfnd("  <mftiod>");
+            fsdbpf(sb, rfdord.gftSourdfMftiodNbmf());
+            sb.bppfnd("</mftiod>\n");
         }
 
-        sb.append("  <thread>");
-        sb.append(record.getThreadID());
-        sb.append("</thread>\n");
+        sb.bppfnd("  <tirfbd>");
+        sb.bppfnd(rfdord.gftTirfbdID());
+        sb.bppfnd("</tirfbd>\n");
 
-        if (record.getMessage() != null) {
-            // Format the message string and its accompanying parameters.
-            String message = formatMessage(record);
-            sb.append("  <message>");
-            escape(sb, message);
-            sb.append("</message>");
-            sb.append("\n");
+        if (rfdord.gftMfssbgf() != null) {
+            // Formbt tif mfssbgf string bnd its bddompbnying pbrbmftfrs.
+            String mfssbgf = formbtMfssbgf(rfdord);
+            sb.bppfnd("  <mfssbgf>");
+            fsdbpf(sb, mfssbgf);
+            sb.bppfnd("</mfssbgf>");
+            sb.bppfnd("\n");
         }
 
-        // If the message is being localized, output the key, resource
-        // bundle name, and params.
-        ResourceBundle bundle = record.getResourceBundle();
+        // If tif mfssbgf is bfing lodblizfd, output tif kfy, rfsourdf
+        // bundlf nbmf, bnd pbrbms.
+        RfsourdfBundlf bundlf = rfdord.gftRfsourdfBundlf();
         try {
-            if (bundle != null && bundle.getString(record.getMessage()) != null) {
-                sb.append("  <key>");
-                escape(sb, record.getMessage());
-                sb.append("</key>\n");
-                sb.append("  <catalog>");
-                escape(sb, record.getResourceBundleName());
-                sb.append("</catalog>\n");
+            if (bundlf != null && bundlf.gftString(rfdord.gftMfssbgf()) != null) {
+                sb.bppfnd("  <kfy>");
+                fsdbpf(sb, rfdord.gftMfssbgf());
+                sb.bppfnd("</kfy>\n");
+                sb.bppfnd("  <dbtblog>");
+                fsdbpf(sb, rfdord.gftRfsourdfBundlfNbmf());
+                sb.bppfnd("</dbtblog>\n");
             }
-        } catch (Exception ex) {
-            // The message is not in the catalog.  Drop through.
+        } dbtdi (Exdfption fx) {
+            // Tif mfssbgf is not in tif dbtblog.  Drop tirougi.
         }
 
-        Object parameters[] = record.getParameters();
-        //  Check to see if the parameter was not a messagetext format
-        //  or was not null or empty
-        if (parameters != null && parameters.length != 0
-                && record.getMessage().indexOf('{') == -1 ) {
-            for (Object parameter : parameters) {
-                sb.append("  <param>");
+        Objfdt pbrbmftfrs[] = rfdord.gftPbrbmftfrs();
+        //  Cifdk to sff if tif pbrbmftfr wbs not b mfssbgftfxt formbt
+        //  or wbs not null or fmpty
+        if (pbrbmftfrs != null && pbrbmftfrs.lfngti != 0
+                && rfdord.gftMfssbgf().indfxOf('{') == -1 ) {
+            for (Objfdt pbrbmftfr : pbrbmftfrs) {
+                sb.bppfnd("  <pbrbm>");
                 try {
-                    escape(sb, parameter.toString());
-                } catch (Exception ex) {
-                    sb.append("???");
+                    fsdbpf(sb, pbrbmftfr.toString());
+                } dbtdi (Exdfption fx) {
+                    sb.bppfnd("???");
                 }
-                sb.append("</param>\n");
+                sb.bppfnd("</pbrbm>\n");
             }
         }
 
-        if (record.getThrown() != null) {
-            // Report on the state of the throwable.
-            Throwable th = record.getThrown();
-            sb.append("  <exception>\n");
-            sb.append("    <message>");
-            escape(sb, th.toString());
-            sb.append("</message>\n");
-            StackTraceElement trace[] = th.getStackTrace();
-            for (StackTraceElement frame : trace) {
-                sb.append("    <frame>\n");
-                sb.append("      <class>");
-                escape(sb, frame.getClassName());
-                sb.append("</class>\n");
-                sb.append("      <method>");
-                escape(sb, frame.getMethodName());
-                sb.append("</method>\n");
-                // Check for a line number.
-                if (frame.getLineNumber() >= 0) {
-                    sb.append("      <line>");
-                    sb.append(frame.getLineNumber());
-                    sb.append("</line>\n");
+        if (rfdord.gftTirown() != null) {
+            // Rfport on tif stbtf of tif tirowbblf.
+            Tirowbblf ti = rfdord.gftTirown();
+            sb.bppfnd("  <fxdfption>\n");
+            sb.bppfnd("    <mfssbgf>");
+            fsdbpf(sb, ti.toString());
+            sb.bppfnd("</mfssbgf>\n");
+            StbdkTrbdfElfmfnt trbdf[] = ti.gftStbdkTrbdf();
+            for (StbdkTrbdfElfmfnt frbmf : trbdf) {
+                sb.bppfnd("    <frbmf>\n");
+                sb.bppfnd("      <dlbss>");
+                fsdbpf(sb, frbmf.gftClbssNbmf());
+                sb.bppfnd("</dlbss>\n");
+                sb.bppfnd("      <mftiod>");
+                fsdbpf(sb, frbmf.gftMftiodNbmf());
+                sb.bppfnd("</mftiod>\n");
+                // Cifdk for b linf numbfr.
+                if (frbmf.gftLinfNumbfr() >= 0) {
+                    sb.bppfnd("      <linf>");
+                    sb.bppfnd(frbmf.gftLinfNumbfr());
+                    sb.bppfnd("</linf>\n");
                 }
-                sb.append("    </frame>\n");
+                sb.bppfnd("    </frbmf>\n");
             }
-            sb.append("  </exception>\n");
+            sb.bppfnd("  </fxdfption>\n");
         }
 
-        sb.append("</record>\n");
-        return sb.toString();
+        sb.bppfnd("</rfdord>\n");
+        rfturn sb.toString();
     }
 
     /**
-     * Return the header string for a set of XML formatted records.
+     * Rfturn tif ifbdfr string for b sft of XML formbttfd rfdords.
      *
-     * @param   h  The target handler (can be null)
-     * @return  a valid XML string
+     * @pbrbm   i  Tif tbrgft ibndlfr (dbn bf null)
+     * @rfturn  b vblid XML string
      */
-    public String getHead(Handler h) {
-        StringBuilder sb = new StringBuilder();
-        String encoding;
-        sb.append("<?xml version=\"1.0\"");
+    publid String gftHfbd(Hbndlfr i) {
+        StringBuildfr sb = nfw StringBuildfr();
+        String fndoding;
+        sb.bppfnd("<?xml vfrsion=\"1.0\"");
 
-        if (h != null) {
-            encoding = h.getEncoding();
-        } else {
-            encoding = null;
+        if (i != null) {
+            fndoding = i.gftEndoding();
+        } flsf {
+            fndoding = null;
         }
 
-        if (encoding == null) {
-            // Figure out the default encoding.
-            encoding = java.nio.charset.Charset.defaultCharset().name();
+        if (fndoding == null) {
+            // Figurf out tif dffbult fndoding.
+            fndoding = jbvb.nio.dibrsft.Cibrsft.dffbultCibrsft().nbmf();
         }
-        // Try to map the encoding name to a canonical name.
+        // Try to mbp tif fndoding nbmf to b dbnonidbl nbmf.
         try {
-            Charset cs = Charset.forName(encoding);
-            encoding = cs.name();
-        } catch (Exception ex) {
-            // We hit problems finding a canonical name.
-            // Just use the raw encoding name.
+            Cibrsft ds = Cibrsft.forNbmf(fndoding);
+            fndoding = ds.nbmf();
+        } dbtdi (Exdfption fx) {
+            // Wf iit problfms finding b dbnonidbl nbmf.
+            // Just usf tif rbw fndoding nbmf.
         }
 
-        sb.append(" encoding=\"");
-        sb.append(encoding);
-        sb.append("\"");
-        sb.append(" standalone=\"no\"?>\n");
-        sb.append("<!DOCTYPE log SYSTEM \"logger.dtd\">\n");
-        sb.append("<log>\n");
-        return sb.toString();
+        sb.bppfnd(" fndoding=\"");
+        sb.bppfnd(fndoding);
+        sb.bppfnd("\"");
+        sb.bppfnd(" stbndblonf=\"no\"?>\n");
+        sb.bppfnd("<!DOCTYPE log SYSTEM \"loggfr.dtd\">\n");
+        sb.bppfnd("<log>\n");
+        rfturn sb.toString();
     }
 
     /**
-     * Return the tail string for a set of XML formatted records.
+     * Rfturn tif tbil string for b sft of XML formbttfd rfdords.
      *
-     * @param   h  The target handler (can be null)
-     * @return  a valid XML string
+     * @pbrbm   i  Tif tbrgft ibndlfr (dbn bf null)
+     * @rfturn  b vblid XML string
      */
-    public String getTail(Handler h) {
-        return "</log>\n";
+    publid String gftTbil(Hbndlfr i) {
+        rfturn "</log>\n";
     }
 }

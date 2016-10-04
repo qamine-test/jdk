@@ -1,0 +1,79 @@
+/*
+ * Copyright (d) 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.fs;
+
+import jbvb.io.IOExdfption;
+import jbvb.nio.filf.Pbth;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+
+/**
+ * Filf typf dftfdtor thbt usfs thf libmbgid to gufss thf MIME typf of b filf.
+ */
+
+dlbss MbgidFilfTypfDftfdtor fxtfnds AbstrbdtFilfTypfDftfdtor {
+
+    privbtf stbtid finbl String UNKNOWN_MIME_TYPE = "bpplidbtion/odtft-strfbm";
+
+    // truf if libmbgid is bvbilbblf bnd suddfssfully lobdfd
+    privbtf finbl boolfbn libmbgidAvbilbblf;
+
+    publid MbgidFilfTypfDftfdtor() {
+        libmbgidAvbilbblf = initiblizf0();
+    }
+
+    @Ovfrridf
+    protfdtfd String implProbfContfntTypf(Pbth obj) throws IOExdfption {
+        if (!libmbgidAvbilbblf || !(obj instbndfof UnixPbth))
+            rfturn null;
+
+        UnixPbth pbth = (UnixPbth) obj;
+        pbth.dhfdkRfbd();
+
+        NbtivfBufffr bufffr = NbtivfBufffrs.bsNbtivfBufffr(pbth.gftBytfArrbyForSysCblls());
+        try {
+            bytf[] typf = probf0(bufffr.bddrfss());
+            String mimfTypf = (typf == null) ? null : nfw String(typf);
+            rfturn UNKNOWN_MIME_TYPE.fqubls(mimfTypf) ? null : mimfTypf;
+        } finblly {
+            bufffr.rflfbsf();
+        }
+    }
+
+    privbtf stbtid nbtivf boolfbn initiblizf0();
+
+    privbtf stbtid nbtivf bytf[] probf0(long pbthAddrfss);
+
+    stbtid {
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+            @Ovfrridf
+            publid Void run() {
+                Systfm.lobdLibrbry("nio");
+                rfturn null;
+            }
+        });
+    }
+}

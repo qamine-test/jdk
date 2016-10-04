@@ -1,167 +1,167 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang.ref;
+pbdkbgf jbvb.lbng.rff;
 
 /**
- * Reference queues, to which registered reference objects are appended by the
- * garbage collector after the appropriate reachability changes are detected.
+ * Rfffrfndf qufufs, to wiidi rfgistfrfd rfffrfndf objfdts brf bppfndfd by tif
+ * gbrbbgf dollfdtor bftfr tif bppropribtf rfbdibbility dibngfs brf dftfdtfd.
  *
- * @author   Mark Reinhold
- * @since    1.2
+ * @butior   Mbrk Rfiniold
+ * @sindf    1.2
  */
 
-public class ReferenceQueue<T> {
+publid dlbss RfffrfndfQufuf<T> {
 
     /**
-     * Constructs a new reference-object queue.
+     * Construdts b nfw rfffrfndf-objfdt qufuf.
      */
-    public ReferenceQueue() { }
+    publid RfffrfndfQufuf() { }
 
-    private static class Null<S> extends ReferenceQueue<S> {
-        boolean enqueue(Reference<? extends S> r) {
-            return false;
+    privbtf stbtid dlbss Null<S> fxtfnds RfffrfndfQufuf<S> {
+        boolfbn fnqufuf(Rfffrfndf<? fxtfnds S> r) {
+            rfturn fblsf;
         }
     }
 
-    static ReferenceQueue<Object> NULL = new Null<>();
-    static ReferenceQueue<Object> ENQUEUED = new Null<>();
+    stbtid RfffrfndfQufuf<Objfdt> NULL = nfw Null<>();
+    stbtid RfffrfndfQufuf<Objfdt> ENQUEUED = nfw Null<>();
 
-    static private class Lock { };
-    private Lock lock = new Lock();
-    private volatile Reference<? extends T> head = null;
-    private long queueLength = 0;
+    stbtid privbtf dlbss Lodk { };
+    privbtf Lodk lodk = nfw Lodk();
+    privbtf volbtilf Rfffrfndf<? fxtfnds T> ifbd = null;
+    privbtf long qufufLfngti = 0;
 
-    boolean enqueue(Reference<? extends T> r) { /* Called only by Reference class */
-        synchronized (lock) {
-            // Check that since getting the lock this reference hasn't already been
-            // enqueued (and even then removed)
-            ReferenceQueue<?> queue = r.queue;
-            if ((queue == NULL) || (queue == ENQUEUED)) {
-                return false;
+    boolfbn fnqufuf(Rfffrfndf<? fxtfnds T> r) { /* Cbllfd only by Rfffrfndf dlbss */
+        syndironizfd (lodk) {
+            // Cifdk tibt sindf gftting tif lodk tiis rfffrfndf ibsn't blrfbdy bffn
+            // fnqufufd (bnd fvfn tifn rfmovfd)
+            RfffrfndfQufuf<?> qufuf = r.qufuf;
+            if ((qufuf == NULL) || (qufuf == ENQUEUED)) {
+                rfturn fblsf;
             }
-            assert queue == this;
-            r.queue = ENQUEUED;
-            r.next = (head == null) ? r : head;
-            head = r;
-            queueLength++;
-            if (r instanceof FinalReference) {
-                sun.misc.VM.addFinalRefCount(1);
+            bssfrt qufuf == tiis;
+            r.qufuf = ENQUEUED;
+            r.nfxt = (ifbd == null) ? r : ifbd;
+            ifbd = r;
+            qufufLfngti++;
+            if (r instbndfof FinblRfffrfndf) {
+                sun.misd.VM.bddFinblRffCount(1);
             }
-            lock.notifyAll();
-            return true;
+            lodk.notifyAll();
+            rfturn truf;
         }
     }
 
-    @SuppressWarnings("unchecked")
-    private Reference<? extends T> reallyPoll() {       /* Must hold lock */
-        Reference<? extends T> r = head;
+    @SupprfssWbrnings("undifdkfd")
+    privbtf Rfffrfndf<? fxtfnds T> rfbllyPoll() {       /* Must iold lodk */
+        Rfffrfndf<? fxtfnds T> r = ifbd;
         if (r != null) {
-            head = (r.next == r) ?
+            ifbd = (r.nfxt == r) ?
                 null :
-                r.next; // Unchecked due to the next field having a raw type in Reference
-            r.queue = NULL;
-            r.next = r;
-            queueLength--;
-            if (r instanceof FinalReference) {
-                sun.misc.VM.addFinalRefCount(-1);
+                r.nfxt; // Undifdkfd duf to tif nfxt fifld ibving b rbw typf in Rfffrfndf
+            r.qufuf = NULL;
+            r.nfxt = r;
+            qufufLfngti--;
+            if (r instbndfof FinblRfffrfndf) {
+                sun.misd.VM.bddFinblRffCount(-1);
             }
-            return r;
+            rfturn r;
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Polls this queue to see if a reference object is available.  If one is
-     * available without further delay then it is removed from the queue and
-     * returned.  Otherwise this method immediately returns <tt>null</tt>.
+     * Polls tiis qufuf to sff if b rfffrfndf objfdt is bvbilbblf.  If onf is
+     * bvbilbblf witiout furtifr dflby tifn it is rfmovfd from tif qufuf bnd
+     * rfturnfd.  Otifrwisf tiis mftiod immfdibtfly rfturns <tt>null</tt>.
      *
-     * @return  A reference object, if one was immediately available,
-     *          otherwise <code>null</code>
+     * @rfturn  A rfffrfndf objfdt, if onf wbs immfdibtfly bvbilbblf,
+     *          otifrwisf <dodf>null</dodf>
      */
-    public Reference<? extends T> poll() {
-        if (head == null)
-            return null;
-        synchronized (lock) {
-            return reallyPoll();
+    publid Rfffrfndf<? fxtfnds T> poll() {
+        if (ifbd == null)
+            rfturn null;
+        syndironizfd (lodk) {
+            rfturn rfbllyPoll();
         }
     }
 
     /**
-     * Removes the next reference object in this queue, blocking until either
-     * one becomes available or the given timeout period expires.
+     * Rfmovfs tif nfxt rfffrfndf objfdt in tiis qufuf, blodking until fitifr
+     * onf bfdomfs bvbilbblf or tif givfn timfout pfriod fxpirfs.
      *
-     * <p> This method does not offer real-time guarantees: It schedules the
-     * timeout as if by invoking the {@link Object#wait(long)} method.
+     * <p> Tiis mftiod dofs not offfr rfbl-timf gubrbntffs: It sdifdulfs tif
+     * timfout bs if by invoking tif {@link Objfdt#wbit(long)} mftiod.
      *
-     * @param  timeout  If positive, block for up to <code>timeout</code>
-     *                  milliseconds while waiting for a reference to be
-     *                  added to this queue.  If zero, block indefinitely.
+     * @pbrbm  timfout  If positivf, blodk for up to <dodf>timfout</dodf>
+     *                  millisfdonds wiilf wbiting for b rfffrfndf to bf
+     *                  bddfd to tiis qufuf.  If zfro, blodk indffinitfly.
      *
-     * @return  A reference object, if one was available within the specified
-     *          timeout period, otherwise <code>null</code>
+     * @rfturn  A rfffrfndf objfdt, if onf wbs bvbilbblf witiin tif spfdififd
+     *          timfout pfriod, otifrwisf <dodf>null</dodf>
      *
-     * @throws  IllegalArgumentException
-     *          If the value of the timeout argument is negative
+     * @tirows  IllfgblArgumfntExdfption
+     *          If tif vbluf of tif timfout brgumfnt is nfgbtivf
      *
-     * @throws  InterruptedException
-     *          If the timeout wait is interrupted
+     * @tirows  IntfrruptfdExdfption
+     *          If tif timfout wbit is intfrruptfd
      */
-    public Reference<? extends T> remove(long timeout)
-        throws IllegalArgumentException, InterruptedException
+    publid Rfffrfndf<? fxtfnds T> rfmovf(long timfout)
+        tirows IllfgblArgumfntExdfption, IntfrruptfdExdfption
     {
-        if (timeout < 0) {
-            throw new IllegalArgumentException("Negative timeout value");
+        if (timfout < 0) {
+            tirow nfw IllfgblArgumfntExdfption("Nfgbtivf timfout vbluf");
         }
-        synchronized (lock) {
-            Reference<? extends T> r = reallyPoll();
-            if (r != null) return r;
-            long start = (timeout == 0) ? 0 : System.nanoTime();
+        syndironizfd (lodk) {
+            Rfffrfndf<? fxtfnds T> r = rfbllyPoll();
+            if (r != null) rfturn r;
+            long stbrt = (timfout == 0) ? 0 : Systfm.nbnoTimf();
             for (;;) {
-                lock.wait(timeout);
-                r = reallyPoll();
-                if (r != null) return r;
-                if (timeout != 0) {
-                    long end = System.nanoTime();
-                    timeout -= (end - start) / 1000_000;
-                    if (timeout <= 0) return null;
-                    start = end;
+                lodk.wbit(timfout);
+                r = rfbllyPoll();
+                if (r != null) rfturn r;
+                if (timfout != 0) {
+                    long fnd = Systfm.nbnoTimf();
+                    timfout -= (fnd - stbrt) / 1000_000;
+                    if (timfout <= 0) rfturn null;
+                    stbrt = fnd;
                 }
             }
         }
     }
 
     /**
-     * Removes the next reference object in this queue, blocking until one
-     * becomes available.
+     * Rfmovfs tif nfxt rfffrfndf objfdt in tiis qufuf, blodking until onf
+     * bfdomfs bvbilbblf.
      *
-     * @return A reference object, blocking until one becomes available
-     * @throws  InterruptedException  If the wait is interrupted
+     * @rfturn A rfffrfndf objfdt, blodking until onf bfdomfs bvbilbblf
+     * @tirows  IntfrruptfdExdfption  If tif wbit is intfrruptfd
      */
-    public Reference<? extends T> remove() throws InterruptedException {
-        return remove(0);
+    publid Rfffrfndf<? fxtfnds T> rfmovf() tirows IntfrruptfdExdfption {
+        rfturn rfmovf(0);
     }
 
 }

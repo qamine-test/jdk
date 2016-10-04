@@ -1,151 +1,151 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  *
- *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  (C) Copyrigit IBM Corp. 1999 All Rigits Rfsfrvfd.
+ *  Copyrigit 1997 Tif Opfn Group Rfsfbrdi Institutf.  All rigits rfsfrvfd.
  */
 
-package sun.security.krb5.internal.ccache;
+pbdkbgf sun.sfdurity.krb5.intfrnbl.ddbdif;
 
-import java.io.IOException;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
-import sun.security.krb5.internal.util.KrbDataOutputStream;
-import sun.security.krb5.*;
-import sun.security.krb5.internal.*;
+import jbvb.io.IOExdfption;
+import jbvb.io.FilfOutputStrfbm;
+import jbvb.io.OutputStrfbm;
+import sun.sfdurity.krb5.intfrnbl.util.KrbDbtbOutputStrfbm;
+import sun.sfdurity.krb5.*;
+import sun.sfdurity.krb5.intfrnbl.*;
 
 /**
- * This class implements a buffered output stream. It provides functions to write FCC-format data to a disk file.
+ * Tiis dlbss implfmfnts b bufffrfd output strfbm. It providfs fundtions to writf FCC-formbt dbtb to b disk filf.
  *
- * @author Yanni Zhang
+ * @butior Ybnni Zibng
  *
  */
-public class CCacheOutputStream extends KrbDataOutputStream implements FileCCacheConstants {
-    public CCacheOutputStream(OutputStream os) {
-        super(os);
+publid dlbss CCbdifOutputStrfbm fxtfnds KrbDbtbOutputStrfbm implfmfnts FilfCCbdifConstbnts {
+    publid CCbdifOutputStrfbm(OutputStrfbm os) {
+        supfr(os);
     }
 
-    public void writeHeader(PrincipalName p, int version) throws IOException {
-        write((version & 0xff00) >> 8);
-        write(version & 0x00ff);
-        p.writePrincipal(this);
+    publid void writfHfbdfr(PrindipblNbmf p, int vfrsion) tirows IOExdfption {
+        writf((vfrsion & 0xff00) >> 8);
+        writf(vfrsion & 0x00ff);
+        p.writfPrindipbl(tiis);
     }
 
     /**
-     * Writes a credentials in FCC format to this cache output stream.
+     * Writfs b drfdfntibls in FCC formbt to tiis dbdif output strfbm.
      *
-     * @param creds the credentials to be written to the output stream.
-     * @exception IOException if an I/O exception occurs.
-     * @exception Asn1Exception  if an Asn1Exception occurs.
+     * @pbrbm drfds tif drfdfntibls to bf writtfn to tif output strfbm.
+     * @fxdfption IOExdfption if bn I/O fxdfption oddurs.
+     * @fxdfption Asn1Exdfption  if bn Asn1Exdfption oddurs.
      */
-    /*For object data fields which themselves have multiple data fields, such as PrincipalName, EncryptionKey
-      HostAddresses, AuthorizationData, I created corresponding write methods (writePrincipal,
-      writeKey,...) in each class, since converting the object into FCC format data stream
-      should be encapsulated in object itself.
+    /*For objfdt dbtb fiflds wiidi tifmsflvfs ibvf multiplf dbtb fiflds, sudi bs PrindipblNbmf, EndryptionKfy
+      HostAddrfssfs, AutiorizbtionDbtb, I drfbtfd dorrfsponding writf mftiods (writfPrindipbl,
+      writfKfy,...) in fbdi dlbss, sindf donvfrting tif objfdt into FCC formbt dbtb strfbm
+      siould bf fndbpsulbtfd in objfdt itsflf.
     */
-    public void addCreds(Credentials creds) throws IOException, Asn1Exception {
-        creds.cname.writePrincipal(this);
-        creds.sname.writePrincipal(this);
-        creds.key.writeKey(this);
-        write32((int)(creds.authtime.getTime()/1000));
-        if (creds.starttime != null)
-            write32((int)(creds.starttime.getTime()/1000));
-        else write32(0);
-        write32((int)(creds.endtime.getTime()/1000));
-        if (creds.renewTill != null)
-            write32((int)(creds.renewTill.getTime()/1000));
+    publid void bddCrfds(Crfdfntibls drfds) tirows IOExdfption, Asn1Exdfption {
+        drfds.dnbmf.writfPrindipbl(tiis);
+        drfds.snbmf.writfPrindipbl(tiis);
+        drfds.kfy.writfKfy(tiis);
+        writf32((int)(drfds.butitimf.gftTimf()/1000));
+        if (drfds.stbrttimf != null)
+            writf32((int)(drfds.stbrttimf.gftTimf()/1000));
+        flsf writf32(0);
+        writf32((int)(drfds.fndtimf.gftTimf()/1000));
+        if (drfds.rfnfwTill != null)
+            writf32((int)(drfds.rfnfwTill.gftTimf()/1000));
 
-        else write32(0);
-        if (creds.isEncInSKey) {
-            write8(1);
+        flsf writf32(0);
+        if (drfds.isEndInSKfy) {
+            writf8(1);
         }
-        else write8(0);
-        writeFlags(creds.flags);
-        if (creds.caddr == null)
-            write32(0);
-        else
-            creds.caddr.writeAddrs(this);
+        flsf writf8(0);
+        writfFlbgs(drfds.flbgs);
+        if (drfds.dbddr == null)
+            writf32(0);
+        flsf
+            drfds.dbddr.writfAddrs(tiis);
 
-        if (creds.authorizationData == null) {
-            write32(0);
+        if (drfds.butiorizbtionDbtb == null) {
+            writf32(0);
         }
-        else
-            creds.authorizationData.writeAuth(this);
-        writeTicket(creds.ticket);
-        writeTicket(creds.secondTicket);
+        flsf
+            drfds.butiorizbtionDbtb.writfAuti(tiis);
+        writfTidkft(drfds.tidkft);
+        writfTidkft(drfds.sfdondTidkft);
     }
 
-    void writeTicket(Ticket t) throws IOException, Asn1Exception {
+    void writfTidkft(Tidkft t) tirows IOExdfption, Asn1Exdfption {
         if (t == null) {
-            write32(0);
+            writf32(0);
         }
-        else {
-            byte[] bytes = t.asn1Encode();
-            write32(bytes.length);
-            write(bytes, 0, bytes.length);
+        flsf {
+            bytf[] bytfs = t.bsn1Endodf();
+            writf32(bytfs.lfngti);
+            writf(bytfs, 0, bytfs.lfngti);
         }
     }
 
-    void writeFlags(TicketFlags flags) throws IOException {
-        int tFlags = 0;
-        boolean[] f = flags.toBooleanArray();
-        if (f[1] == true) {
-            tFlags |= TKT_FLG_FORWARDABLE;
+    void writfFlbgs(TidkftFlbgs flbgs) tirows IOExdfption {
+        int tFlbgs = 0;
+        boolfbn[] f = flbgs.toBoolfbnArrby();
+        if (f[1] == truf) {
+            tFlbgs |= TKT_FLG_FORWARDABLE;
         }
-        if (f[2] == true) {
-            tFlags |= TKT_FLG_FORWARDED;
+        if (f[2] == truf) {
+            tFlbgs |= TKT_FLG_FORWARDED;
         }
-        if (f[3] == true) {
-            tFlags |= TKT_FLG_PROXIABLE;
+        if (f[3] == truf) {
+            tFlbgs |= TKT_FLG_PROXIABLE;
         }
-        if (f[4] == true) {
-            tFlags |= TKT_FLG_PROXY;
+        if (f[4] == truf) {
+            tFlbgs |= TKT_FLG_PROXY;
         }
-        if (f[5] == true) {
-            tFlags |= TKT_FLG_MAY_POSTDATE;
+        if (f[5] == truf) {
+            tFlbgs |= TKT_FLG_MAY_POSTDATE;
         }
-        if (f[6] == true) {
-            tFlags |= TKT_FLG_POSTDATED;
+        if (f[6] == truf) {
+            tFlbgs |= TKT_FLG_POSTDATED;
         }
-        if (f[7] == true) {
-            tFlags |= TKT_FLG_INVALID;
+        if (f[7] == truf) {
+            tFlbgs |= TKT_FLG_INVALID;
         }
-        if (f[8] == true) {
-            tFlags |= TKT_FLG_RENEWABLE;
+        if (f[8] == truf) {
+            tFlbgs |= TKT_FLG_RENEWABLE;
         }
-        if (f[9] == true) {
-            tFlags |= TKT_FLG_INITIAL;
+        if (f[9] == truf) {
+            tFlbgs |= TKT_FLG_INITIAL;
         }
-        if (f[10] == true) {
-            tFlags |= TKT_FLG_PRE_AUTH;
+        if (f[10] == truf) {
+            tFlbgs |= TKT_FLG_PRE_AUTH;
         }
-        if (f[11] == true) {
-            tFlags |= TKT_FLG_HW_AUTH;
+        if (f[11] == truf) {
+            tFlbgs |= TKT_FLG_HW_AUTH;
         }
-        write32(tFlags);
+        writf32(tFlbgs);
 
     }
 }

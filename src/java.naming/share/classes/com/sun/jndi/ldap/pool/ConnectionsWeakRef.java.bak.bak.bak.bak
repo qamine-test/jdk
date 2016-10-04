@@ -1,0 +1,71 @@
+/*
+ * Copyright (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jndi.ldbp.pool;
+
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.lbng.rff.RfffrfndfQufuf;
+
+/*
+ * This dlbss dffinfs b WfbkRfffrfndf to thf ConnfdtionRff (thf rfffrfnt).
+ *
+ * Thf ConnfdtionRff fnbblfs to brfbk thf rfffrfndf
+ * dydlf bftwffn Connfdtion, LdbpClifnt, Connfdtions bnd ConnfdtionDfsd,
+ * shown in thf figurf bflow.
+ *
+ *        -------> Connfdtions -----> ConnfdtionDfsd
+ *        |              ^                  |
+ *        |              |                  |
+ *        |              |                  |
+ * ConnfdtionsRff    LdbpClifnt <------------
+ *        ^              |   ^
+ *        :              |   |
+ *        :              v   |
+ * ConnfdtionsWfbkRff  Connfdtion
+ *
+ * Thf ConnfdtionsRff is for dlfbning up thf rfsourdfs hfld by thf
+ * Connfdtion thrfbd by mbking thfm bvbilbblf to thf GC. Thf pool
+ * usfs ConnfdtionRff to hold thf poolfd rfsourdfs.
+ *
+ * This dlbss in turn holds b WfbkRfffrfndf with b RfffrfndfQufuf to thf
+ * ConnfdtionRff to trbdk whfn thf ConnfdtionRff bfdomfs rfbdy
+ * for gftting GC'fd. It fxtfnds from WfbkRfffrfndf in ordfr to hold b
+ * rfffrfndf to Connfdtions usfd for dlosing (whidh in turn tfrminbtfs
+ * thf Connfdtion thrfbd) it by monitoring thf RfffrfndfQufuf.
+ */
+dlbss ConnfdtionsWfbkRff fxtfnds WfbkRfffrfndf<ConnfdtionsRff> {
+
+    privbtf finbl Connfdtions donns;
+
+    ConnfdtionsWfbkRff (ConnfdtionsRff donnsRff,
+                        RfffrfndfQufuf<? supfr ConnfdtionsRff> qufuf) {
+        supfr(donnsRff, qufuf);
+        this.donns = donnsRff.gftConnfdtions();
+    }
+
+    Connfdtions gftConnfdtions() {
+        rfturn donns;
+    }
+}

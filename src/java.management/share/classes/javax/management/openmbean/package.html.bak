@@ -1,154 +1,154 @@
-<html>
-<head>
-<title>javax.management.openmbean package</title>
+<itml>
+<ifbd>
+<titlf>jbvbx.mbnbgfmfnt.opfnmbfbn pbdkbgf</titlf>
 <!--
-Copyright (c) 2001, 2011, Oracle and/or its affiliates. All rights reserved.
+Copyrigit (d) 2001, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
-This code is free software; you can redistribute it and/or modify it
-under the terms of the GNU General Public License version 2 only, as
-published by the Free Software Foundation.  Oracle designates this
-particular file as subject to the "Classpath" exception as provided
-by Oracle in the LICENSE file that accompanied this code.
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
 
-This code is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-version 2 for more details (a copy is included in the LICENSE file that
-accompanied this code).
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+bddompbnifd tiis dodf).
 
-You should have received a copy of the GNU General Public License version
-2 along with this work; if not, write to the Free Software Foundation,
-Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 
-Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-or visit www.oracle.com if you need additional information or have any
-questions.
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+qufstions.
 -->
-</head>
-<body bgcolor="white">
+</ifbd>
+<body bgdolor="wiitf">
 
-    <p>Provides the open data types and Open MBean descriptor classes.
-      An <em>Open MBean</em> is an MBean where the types of attributes
-      and of operation parameters and return values are built using a
-      small set of predefined Java classes.  Open MBeans facilitate
-      operation with remote management programs that do not necessarily
-      have access to application-specific types, including non-Java
-      programs.</p>
+    <p>Providfs tif opfn dbtb typfs bnd Opfn MBfbn dfsdriptor dlbssfs.
+      An <fm>Opfn MBfbn</fm> is bn MBfbn wifrf tif typfs of bttributfs
+      bnd of opfrbtion pbrbmftfrs bnd rfturn vblufs brf built using b
+      smbll sft of prfdffinfd Jbvb dlbssfs.  Opfn MBfbns fbdilitbtf
+      opfrbtion witi rfmotf mbnbgfmfnt progrbms tibt do not nfdfssbrily
+      ibvf bddfss to bpplidbtion-spfdifid typfs, indluding non-Jbvb
+      progrbms.</p>
 
-    <p>Every MBean has an {@link javax.management.MBeanInfo
-      MBeanInfo} with information about the MBean itself, and its
-      attributes, operations, constructors, and notifications.  In an
-      Open MBean, this <code>MBeanInfo</code> implements the {@link
-      javax.management.openmbean.OpenMBeanInfo OpenMBeanInfo}
-      interface, usually by being an instance of {@link
-      javax.management.openmbean.OpenMBeanInfoSupport
-      OpenMBeanInfoSupport}.</p>
+    <p>Evfry MBfbn ibs bn {@link jbvbx.mbnbgfmfnt.MBfbnInfo
+      MBfbnInfo} witi informbtion bbout tif MBfbn itsflf, bnd its
+      bttributfs, opfrbtions, donstrudtors, bnd notifidbtions.  In bn
+      Opfn MBfbn, tiis <dodf>MBfbnInfo</dodf> implfmfnts tif {@link
+      jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnMBfbnInfo OpfnMBfbnInfo}
+      intfrfbdf, usublly by bfing bn instbndf of {@link
+      jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnMBfbnInfoSupport
+      OpfnMBfbnInfoSupport}.</p>
 
-    <p>The attribute information returned by {@link
-      javax.management.MBeanInfo#getAttributes()
-      MBeanInfo.getAttributes} for an Open MBean is an array of
-      objects implementing {@link
-      javax.management.openmbean.OpenMBeanAttributeInfo
-      OpenMBeanAttributeInfo}, usually instances of {@link
-      javax.management.openmbean.OpenMBeanAttributeInfoSupport
-      OpenMBeanAttributeInfoSupport}.  In addition to the usual
-      information about attributes, an
-      <code>OpenMBeanAttributeInfo</code> specifies the {@link
-      javax.management.openmbean.OpenType OpenType} of the attribute.
-      The possible <code>OpenType</code> values are predefined, which
-      is what ensures that remote managers will understand them.</p>
+    <p>Tif bttributf informbtion rfturnfd by {@link
+      jbvbx.mbnbgfmfnt.MBfbnInfo#gftAttributfs()
+      MBfbnInfo.gftAttributfs} for bn Opfn MBfbn is bn brrby of
+      objfdts implfmfnting {@link
+      jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnMBfbnAttributfInfo
+      OpfnMBfbnAttributfInfo}, usublly instbndfs of {@link
+      jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnMBfbnAttributfInfoSupport
+      OpfnMBfbnAttributfInfoSupport}.  In bddition to tif usubl
+      informbtion bbout bttributfs, bn
+      <dodf>OpfnMBfbnAttributfInfo</dodf> spfdififs tif {@link
+      jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnTypf OpfnTypf} of tif bttributf.
+      Tif possiblf <dodf>OpfnTypf</dodf> vblufs brf prfdffinfd, wiidi
+      is wibt fnsurfs tibt rfmotf mbnbgfrs will undfrstbnd tifm.</p>
 
-    <p>Similar remarks apply to the parameter types of operations and
-      constructors, and to the return types of operations.</p>
+    <p>Similbr rfmbrks bpply to tif pbrbmftfr typfs of opfrbtions bnd
+      donstrudtors, bnd to tif rfturn typfs of opfrbtions.</p>
 
-    <p>There is a distinction between an attribute's Java language
-      type, as returned by {@link
-      javax.management.MBeanAttributeInfo#getType() getType()}, and
-      its <code>OpenType</code>, as returned by {@link
-      javax.management.openmbean.OpenMBeanAttributeInfo#getOpenType()
-      getOpenType()}.  For example, if the Java language type is
-      <code>java.lang.String</code>, the <code>OpenType</code> will be
-      {@link javax.management.openmbean.SimpleType#STRING
-      SimpleType.String}.  If the Java language type is {@link
-      javax.management.openmbean.CompositeData}, the
-      <code>OpenType</code> will be a {@link
-      javax.management.openmbean.CompositeType CompositeType} that
-      describes the items in the <code>CompositeData</code> instances
-      for the attribute.</p>
+    <p>Tifrf is b distindtion bftwffn bn bttributf's Jbvb lbngubgf
+      typf, bs rfturnfd by {@link
+      jbvbx.mbnbgfmfnt.MBfbnAttributfInfo#gftTypf() gftTypf()}, bnd
+      its <dodf>OpfnTypf</dodf>, bs rfturnfd by {@link
+      jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnMBfbnAttributfInfo#gftOpfnTypf()
+      gftOpfnTypf()}.  For fxbmplf, if tif Jbvb lbngubgf typf is
+      <dodf>jbvb.lbng.String</dodf>, tif <dodf>OpfnTypf</dodf> will bf
+      {@link jbvbx.mbnbgfmfnt.opfnmbfbn.SimplfTypf#STRING
+      SimplfTypf.String}.  If tif Jbvb lbngubgf typf is {@link
+      jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb}, tif
+      <dodf>OpfnTypf</dodf> will bf b {@link
+      jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfTypf CompositfTypf} tibt
+      dfsdribfs tif itfms in tif <dodf>CompositfDbtb</dodf> instbndfs
+      for tif bttributf.</p>
 
-    <h2><a name="constraints">Default values and constraints</a></h2>
+    <i2><b nbmf="donstrbints">Dffbult vblufs bnd donstrbints</b></i2>
 
-    <p>In Open MBeans, attributes and parameters can have default values
-      and/or constraints associated with them in the {@code
-      OpenMBeanAttributeInfo} or {@code OpenMBeanParameterInfo}.
-      There are two ways to specify these constraints.  Either the
-      values are directly specified as parameters to one of the
-      constructors of {@code OpenMBeanAttributeInfoSupport} or
-      {@code OpenMBeanParameterInfoSupport}, for example
+    <p>In Opfn MBfbns, bttributfs bnd pbrbmftfrs dbn ibvf dffbult vblufs
+      bnd/or donstrbints bssodibtfd witi tifm in tif {@dodf
+      OpfnMBfbnAttributfInfo} or {@dodf OpfnMBfbnPbrbmftfrInfo}.
+      Tifrf brf two wbys to spfdify tifsf donstrbints.  Eitifr tif
+      vblufs brf dirfdtly spfdififd bs pbrbmftfrs to onf of tif
+      donstrudtors of {@dodf OpfnMBfbnAttributfInfoSupport} or
+      {@dodf OpfnMBfbnPbrbmftfrInfoSupport}, for fxbmplf
       {@link
-      javax.management.openmbean.OpenMBeanParameterInfoSupport#OpenMBeanParameterInfoSupport(
-      String, String, OpenType, Object, Object[])}; or the values are
-      specified in a {@link javax.management.Descriptor Descriptor} given
-      as a parameter to one of the constructors.</p>
+      jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnMBfbnPbrbmftfrInfoSupport#OpfnMBfbnPbrbmftfrInfoSupport(
+      String, String, OpfnTypf, Objfdt, Objfdt[])}; or tif vblufs brf
+      spfdififd in b {@link jbvbx.mbnbgfmfnt.Dfsdriptor Dfsdriptor} givfn
+      bs b pbrbmftfr to onf of tif donstrudtors.</p>
 
-    <p>When a {@code Descriptor} is used, the fields of interest are
-      these:</p>
+    <p>Wifn b {@dodf Dfsdriptor} is usfd, tif fiflds of intfrfst brf
+      tifsf:</p>
 
     <ul>
 
-      <li>{@code defaultValue} defines the value returned by
-	{@link javax.management.openmbean.OpenMBeanParameterInfo#getDefaultValue()
-	getDefaultValue()};
+      <li>{@dodf dffbultVbluf} dffinfs tif vbluf rfturnfd by
+	{@link jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnMBfbnPbrbmftfrInfo#gftDffbultVbluf()
+	gftDffbultVbluf()};
 
-      <li>{@code minValue} defines the value returned by {@link
-	javax.management.openmbean.OpenMBeanParameterInfo#getMinValue() getMinValue()};
+      <li>{@dodf minVbluf} dffinfs tif vbluf rfturnfd by {@link
+	jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnMBfbnPbrbmftfrInfo#gftMinVbluf() gftMinVbluf()};
 
-      <li>{@code maxValue} defines the value returned by {@link
-	javax.management.openmbean.OpenMBeanParameterInfo#getMaxValue() getMaxValue()};
+      <li>{@dodf mbxVbluf} dffinfs tif vbluf rfturnfd by {@link
+	jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnMBfbnPbrbmftfrInfo#gftMbxVbluf() gftMbxVbluf()};
 
-      <li>{@code legalValues} defines the values returned by {@link
-	javax.management.openmbean.OpenMBeanParameterInfo#getLegalValues() getLegalValues()}.
+      <li>{@dodf lfgblVblufs} dffinfs tif vblufs rfturnfd by {@link
+	jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnMBfbnPbrbmftfrInfo#gftLfgblVblufs() gftLfgblVblufs()}.
 
     </ul>
 
-    <p>For {@code defaultValue}, {@code minValue}, and {@code
-      maxValue}, the associated value must either be of the Java type
-      corresponding to {@code openType}, or be a string that can be
-      converted into that type.  The conversion uses the static method
-      {@code valueOf(String)} if it finds one; otherwise a constructor
-      with a single {@code String} parameter if it finds one; otherwise
-      it fails.</p>
+    <p>For {@dodf dffbultVbluf}, {@dodf minVbluf}, bnd {@dodf
+      mbxVbluf}, tif bssodibtfd vbluf must fitifr bf of tif Jbvb typf
+      dorrfsponding to {@dodf opfnTypf}, or bf b string tibt dbn bf
+      donvfrtfd into tibt typf.  Tif donvfrsion usfs tif stbtid mftiod
+      {@dodf vblufOf(String)} if it finds onf; otifrwisf b donstrudtor
+      witi b singlf {@dodf String} pbrbmftfr if it finds onf; otifrwisf
+      it fbils.</p>
 
-    <p>For {@code legalValues}, the associated value must be either
-      an array or a {@code Set}, and the elements of the array or set
-      must be convertible as described for {@code defaultValue} etc.</p>
+    <p>For {@dodf lfgblVblufs}, tif bssodibtfd vbluf must bf fitifr
+      bn brrby or b {@dodf Sft}, bnd tif flfmfnts of tif brrby or sft
+      must bf donvfrtiblf bs dfsdribfd for {@dodf dffbultVbluf} ftd.</p>
 
-    <p>The following conditions must be met for these fields:</p>
+    <p>Tif following donditions must bf mft for tifsf fiflds:</p>
 
     <ul>
-      <li>the values must be of the appropriate type, or be strings
-	that can be converted to the appropriate type as explained
-	above;
+      <li>tif vblufs must bf of tif bppropribtf typf, or bf strings
+	tibt dbn bf donvfrtfd to tif bppropribtf typf bs fxplbinfd
+	bbovf;
 
-      <li>if {@code legalValues} is present then neither {@code
-	minValue} nor {@code maxValue} must be present;
+      <li>if {@dodf lfgblVblufs} is prfsfnt tifn nfitifr {@dodf
+	minVbluf} nor {@dodf mbxVbluf} must bf prfsfnt;
 
-      <li>if {@code defaultValue} is present then it must satisfy the
-	constraints defined by {@code legalValues}, {@code minValue}, or
-	{@code maxValue} when any of these is also present;
+      <li>if {@dodf dffbultVbluf} is prfsfnt tifn it must sbtisfy tif
+	donstrbints dffinfd by {@dodf lfgblVblufs}, {@dodf minVbluf}, or
+	{@dodf mbxVbluf} wifn bny of tifsf is blso prfsfnt;
 
-      <li>if {@code minValue} and {@code maxValue} are both present
-	then {@code minValue} must not be greater than {@code maxValue}.
+      <li>if {@dodf minVbluf} bnd {@dodf mbxVbluf} brf boti prfsfnt
+	tifn {@dodf minVbluf} must not bf grfbtfr tibn {@dodf mbxVbluf}.
     </ul>
 
-    @see <a href="{@docRoot}/../technotes/guides/jmx/">
-      Java Platform documentation on JMX technology</a>,
-    in particular the 
-    <a href="{@docRoot}/../technotes/guides/jmx/JMX_1_4_specification.pdf">
-      JMX Specification, version 1.4</a>
+    @sff <b irff="{@dodRoot}/../tfdinotfs/guidfs/jmx/">
+      Jbvb Plbtform dodumfntbtion on JMX tfdinology</b>,
+    in pbrtidulbr tif 
+    <b irff="{@dodRoot}/../tfdinotfs/guidfs/jmx/JMX_1_4_spfdifidbtion.pdf">
+      JMX Spfdifidbtion, vfrsion 1.4</b>
 
-    @since 1.5
+    @sindf 1.5
 
 </BODY>
 </HTML>

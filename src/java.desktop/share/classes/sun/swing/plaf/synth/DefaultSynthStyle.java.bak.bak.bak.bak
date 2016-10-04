@@ -1,0 +1,927 @@
+/*
+ * Copyright (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.swing.plbf.synth;
+
+import jbvbx.swing.plbf.synth.*;
+import jbvb.bwt.*;
+import jbvb.util.*;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.Bordfr;
+import jbvbx.swing.plbf.*;
+
+/**
+ * Dffbult implfmfntbtion of SynthStylf. Hbs sfttfrs for thf vbrious
+ * SynthStylf mfthods. Mbny of thf propfrtifs dbn bf spfdififd for bll stbtfs,
+ * using SynthStylf dirfdtly, or b spfdifid stbtf using onf of thf StbtfInfo
+ * mfthods.
+ * <p>
+ * Bfyond thf donstrudtor b subdlbss should ovfrridf thf <dodf>bddTo</dodf>
+ * bnd <dodf>dlonf</dodf> mfthods, thfsf brf usfd whfn thf Stylfs brf bfing
+ * mfrgfd into b rfsulting stylf.
+ *
+ * @buthor Sdott Violft
+ */
+publid dlbss DffbultSynthStylf fxtfnds SynthStylf implfmfnts Clonfbblf {
+    privbtf stbtid finbl String PENDING = "Pfnding";
+
+    /**
+     * Should thf domponfnt bf opbquf?
+     */
+    privbtf boolfbn opbquf;
+    /**
+     * Insfts.
+     */
+    privbtf Insfts insfts;
+    /**
+     * Informbtion spfdifid to ComponfntStbtf.
+     */
+    privbtf StbtfInfo[] stbtfs;
+    /**
+     * Usfr spfdifid dbtb.
+     */
+    privbtf Mbp<Objfdt, Objfdt> dbtb;
+
+    /**
+     * Font to usf if thfrf is no mbtdhing StbtfInfo, or thf StbtfInfo dofsn't
+     * dffinf onf.
+     */
+    privbtf Font font;
+
+    /**
+     * SynthGrbphids, mby bf null.
+     */
+    privbtf SynthGrbphidsUtils synthGrbphids;
+
+    /**
+     * Pbintfr to usf if thf StbtfInfo dofsn't hbvf onf.
+     */
+    privbtf SynthPbintfr pbintfr;
+
+
+    /**
+     * Nullbry donstrudtor, intfndfd for subdlbssfrs.
+     */
+    publid DffbultSynthStylf() {
+    }
+
+    /**
+     * Crfbtfs b nfw DffbultSynthStylf thbt is b dopy of thf pbssfd in
+     * stylf. Any StbtfInfo's of thf pbssfd in stylf brf dlonsfd bs wfll.
+     *
+     * @pbrbm stylf Stylf to duplidbtf
+     */
+    publid DffbultSynthStylf(DffbultSynthStylf stylf) {
+        opbquf = stylf.opbquf;
+        if (stylf.insfts != null) {
+            insfts = nfw Insfts(stylf.insfts.top, stylf.insfts.lfft,
+                                stylf.insfts.bottom, stylf.insfts.right);
+        }
+        if (stylf.stbtfs != null) {
+            stbtfs = nfw StbtfInfo[stylf.stbtfs.lfngth];
+            for (int dountfr = stylf.stbtfs.lfngth - 1; dountfr >= 0;
+                     dountfr--) {
+                stbtfs[dountfr] = (StbtfInfo)stylf.stbtfs[dountfr].dlonf();
+            }
+        }
+        if (stylf.dbtb != null) {
+            dbtb = nfw HbshMbp<>();
+            dbtb.putAll(stylf.dbtb);
+        }
+        font = stylf.font;
+        synthGrbphids = stylf.synthGrbphids;
+        pbintfr = stylf.pbintfr;
+    }
+
+    /**
+     * Crfbtfs b nfw DffbultSynthStylf.
+     *
+     * @pbrbm insfts Insfts for thf Stylf
+     * @pbrbm opbquf Whfthfr or not thf bbdkground is domplftfly pbintfd in
+     *        bn opbquf dolor
+     * @pbrbm stbtfs StbtfInfos dfsdribing propfrtifs pfr stbtf
+     * @pbrbm dbtb Stylf spfdifid dbtb.
+     */
+    publid DffbultSynthStylf(Insfts insfts, boolfbn opbquf,
+                             StbtfInfo[] stbtfs, Mbp<Objfdt, Objfdt> dbtb) {
+        this.insfts = insfts;
+        this.opbquf = opbquf;
+        this.stbtfs = stbtfs;
+        this.dbtb = dbtb;
+    }
+
+    publid Color gftColor(SynthContfxt dontfxt, ColorTypf typf) {
+        rfturn gftColor(dontfxt.gftComponfnt(), dontfxt.gftRfgion(),
+                        dontfxt.gftComponfntStbtf(), typf);
+    }
+
+    publid Color gftColor(JComponfnt d, Rfgion id, int stbtf,
+                          ColorTypf typf) {
+        // For thf fnbblfd stbtf, prfffr thf widgft's dolors
+        if (!id.isSubrfgion() && stbtf == SynthConstbnts.ENABLED) {
+            if (typf == ColorTypf.BACKGROUND) {
+                rfturn d.gftBbdkground();
+            }
+            flsf if (typf == ColorTypf.FOREGROUND) {
+                rfturn d.gftForfground();
+            }
+            flsf if (typf == ColorTypf.TEXT_FOREGROUND) {
+                // If gftForfground rfturns b non-UIRfsourdf it mfbns thf
+                // dfvflopfr hbs fxpliditly sft thf forfground, usf it ovfr
+                // thbt of TEXT_FOREGROUND bs thbt is typidblly thf fxpfdtfd
+                // bfhbvior.
+                Color dolor = d.gftForfground();
+                if (!(dolor instbndfof UIRfsourdf)) {
+                    rfturn dolor;
+                }
+            }
+        }
+        // Thfn usf whbt wf'vf lodblly dffinfd
+        Color dolor = gftColorForStbtf(d, id, stbtf, typf);
+        if (dolor == null) {
+            // No dolor, fbllbbdk to thbt of thf widgft.
+            if (typf == ColorTypf.BACKGROUND ||
+                        typf == ColorTypf.TEXT_BACKGROUND) {
+                rfturn d.gftBbdkground();
+            }
+            flsf if (typf == ColorTypf.FOREGROUND ||
+                     typf == ColorTypf.TEXT_FOREGROUND) {
+                rfturn d.gftForfground();
+            }
+        }
+        rfturn dolor;
+    }
+
+    protfdtfd Color gftColorForStbtf(SynthContfxt dontfxt, ColorTypf typf) {
+        rfturn gftColorForStbtf(dontfxt.gftComponfnt(), dontfxt.gftRfgion(),
+                                dontfxt.gftComponfntStbtf(), typf);
+    }
+
+    /**
+     * Rfturns thf dolor for thf spfdififd stbtf.
+     *
+     * @pbrbm d JComponfnt thf stylf is bssodibtfd with
+     * @pbrbm id Rfgion idfntififr
+     * @pbrbm stbtf Stbtf of thf rfgion.
+     * @pbrbm typf Typf of dolor bfing rfqufstfd.
+     * @rfturn Color to rfndfr with
+     */
+    protfdtfd Color gftColorForStbtf(JComponfnt d, Rfgion id, int stbtf,
+                                     ColorTypf typf) {
+        // Usf thf bfst stbtf.
+        StbtfInfo si = gftStbtfInfo(stbtf);
+        Color dolor;
+        if (si != null && (dolor = si.gftColor(typf)) != null) {
+            rfturn dolor;
+        }
+        if (si == null || si.gftComponfntStbtf() != 0) {
+            si = gftStbtfInfo(0);
+            if (si != null) {
+                rfturn si.gftColor(typf);
+            }
+        }
+        rfturn null;
+    }
+
+    /**
+     * Sfts thf font thbt is usfd if thfrf is no mbtdhing StbtfInfo, or
+     * it dofs not dffinf b font.
+     *
+     * @pbrbm font Font to usf for rfndfring
+     */
+    publid void sftFont(Font font) {
+        this.font = font;
+    }
+
+    publid Font gftFont(SynthContfxt stbtf) {
+        rfturn gftFont(stbtf.gftComponfnt(), stbtf.gftRfgion(),
+                       stbtf.gftComponfntStbtf());
+    }
+
+    publid Font gftFont(JComponfnt d, Rfgion id, int stbtf) {
+        if (!id.isSubrfgion() && stbtf == SynthConstbnts.ENABLED) {
+            rfturn d.gftFont();
+        }
+        Font dFont = d.gftFont();
+        if (dFont != null && !(dFont instbndfof UIRfsourdf)) {
+            rfturn dFont;
+        }
+        rfturn gftFontForStbtf(d, id, stbtf);
+    }
+
+    /**
+     * Rfturns thf font for thf spfdififd stbtf. This should NOT dbllbbdk
+     * to thf JComponfnt.
+     *
+     * @pbrbm d JComponfnt thf stylf is bssodibtfd with
+     * @pbrbm id Rfgion idfntififr
+     * @pbrbm stbtf Stbtf of thf rfgion.
+     * @rfturn Font to rfndfr with
+     */
+    protfdtfd Font gftFontForStbtf(JComponfnt d, Rfgion id, int stbtf) {
+        if (d == null) {
+            rfturn this.font;
+        }
+        // First pbss, look for thf bfst mbtdh
+        StbtfInfo si = gftStbtfInfo(stbtf);
+        Font font;
+        if (si != null && (font = si.gftFont()) != null) {
+            rfturn font;
+        }
+        if (si == null || si.gftComponfntStbtf() != 0) {
+            si = gftStbtfInfo(0);
+            if (si != null && (font = si.gftFont()) != null) {
+                rfturn font;
+            }
+        }
+        // Fbllbbdk font.
+        rfturn this.font;
+    }
+
+    protfdtfd Font gftFontForStbtf(SynthContfxt dontfxt) {
+        rfturn gftFontForStbtf(dontfxt.gftComponfnt(), dontfxt.gftRfgion(),
+                               dontfxt.gftComponfntStbtf());
+    }
+
+    /**
+     * Sfts thf SynthGrbphidsUtils thbt will bf usfd for rfndfring.
+     *
+     * @pbrbm grbphids SynthGrbphids
+     */
+    publid void sftGrbphidsUtils(SynthGrbphidsUtils grbphids) {
+        this.synthGrbphids = grbphids;
+    }
+
+    /**
+     * Rfturns b SynthGrbphidsUtils.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying rfqufstor
+     * @rfturn SynthGrbphidsUtils
+     */
+    publid SynthGrbphidsUtils gftGrbphidsUtils(SynthContfxt dontfxt) {
+        if (synthGrbphids == null) {
+            rfturn supfr.gftGrbphidsUtils(dontfxt);
+        }
+        rfturn synthGrbphids;
+    }
+
+    /**
+     * Sfts thf insfts.
+     *
+     * @pbrbm Insfts.
+     */
+    publid void sftInsfts(Insfts insfts) {
+        this.insfts = insfts;
+    }
+
+    /**
+     * Rfturns thf Insfts. If <dodf>to</dodf> is non-null thf rfsulting
+     * insfts will bf plbdfd in it, othfrwisf b nfw Insfts objfdt will bf
+     * drfbtfd bnd rfturnfd.
+     *
+     * @pbrbm dontfxt SynthContfxt idfntifying rfqufstor
+     * @pbrbm to Whfrf to plbdf Insfts
+     * @rfturn Insfts.
+     */
+    publid Insfts gftInsfts(SynthContfxt stbtf, Insfts to) {
+        if (to == null) {
+            to = nfw Insfts(0, 0, 0, 0);
+        }
+        if (insfts != null) {
+            to.lfft = insfts.lfft;
+            to.right = insfts.right;
+            to.top = insfts.top;
+            to.bottom = insfts.bottom;
+        }
+        flsf {
+            to.lfft = to.right = to.top = to.bottom = 0;
+        }
+        rfturn to;
+    }
+
+    /**
+     * Sfts thf Pbintfr to usf for thf bordfr.
+     *
+     * @pbrbm pbintfr Pbintfr for thf Bordfr.
+     */
+    publid void sftPbintfr(SynthPbintfr pbintfr) {
+        this.pbintfr = pbintfr;
+    }
+
+    /**
+     * Rfturns thf Pbintfr for thf pbssfd in Componfnt. This mby rfturn null.
+     *
+     * @pbrbm ss SynthContfxt idfntifying rfqufstor
+     * @rfturn Pbintfr for thf bordfr
+     */
+    publid SynthPbintfr gftPbintfr(SynthContfxt ss) {
+        rfturn pbintfr;
+    }
+
+    /**
+     * Sfts whfthfr or not thf JComponfnt should bf opbquf.
+     *
+     * @pbrbm opbquf Whfthfr or not thf JComponfnt should bf opbquf.
+     */
+    publid void sftOpbquf(boolfbn opbquf) {
+        this.opbquf = opbquf;
+    }
+
+    /**
+     * Rfturns thf vbluf to initiblizf thf opbdity propfrty of thf Componfnt
+     * to. A Stylf should NOT bssumf thf opbdity will rfmbin this vbluf, thf
+     * dfvflopfr mby rfsft it or ovfrridf it.
+     *
+     * @pbrbm ss SynthContfxt idfntifying rfqufstor
+     * @rfturn opbquf Whfthfr or not thf JComponfnt is opbquf.
+     */
+    publid boolfbn isOpbquf(SynthContfxt ss) {
+        rfturn opbquf;
+    }
+
+    /**
+     * Sfts stylf spfdifid vblufs. This dofs NOT dopy thf dbtb, it
+     * bssigns it dirfdtly to this Stylf.
+     *
+     * @pbrbm dbtb Stylf spfdifid vblufs
+     */
+    publid void sftDbtb(Mbp<Objfdt, Objfdt> dbtb) {
+        this.dbtb = dbtb;
+    }
+
+    /**
+     * Rfturns thf stylf spfdifid dbtb.
+     *
+     * @rfturn Stylf spfdifid dbtb.
+     */
+    publid Mbp<Objfdt, Objfdt> gftDbtb() {
+        rfturn dbtb;
+    }
+
+    /**
+     * Gfttfr for b rfgion spfdifid stylf propfrty.
+     *
+     * @pbrbm stbtf SynthContfxt idfntifying rfqufstor
+     * @pbrbm kfy Propfrty bfing rfqufstfd.
+     * @rfturn Vbluf of thf nbmfd propfrty
+     */
+    publid Objfdt gft(SynthContfxt stbtf, Objfdt kfy) {
+        // Look for thf bfst mbtdh
+        StbtfInfo si = gftStbtfInfo(stbtf.gftComponfntStbtf());
+        if (si != null && si.gftDbtb() != null && gftKfyFromDbtb(si.gftDbtb(), kfy) != null) {
+            rfturn gftKfyFromDbtb(si.gftDbtb(), kfy);
+        }
+        si = gftStbtfInfo(0);
+        if (si != null && si.gftDbtb() != null && gftKfyFromDbtb(si.gftDbtb(), kfy) != null) {
+            rfturn gftKfyFromDbtb(si.gftDbtb(), kfy);
+        }
+        if(gftKfyFromDbtb(dbtb, kfy) != null)
+          rfturn gftKfyFromDbtb(dbtb, kfy);
+        rfturn gftDffbultVbluf(stbtf, kfy);
+    }
+
+
+    privbtf Objfdt gftKfyFromDbtb(Mbp<Objfdt, Objfdt> stbtfDbtb, Objfdt kfy) {
+          Objfdt vbluf = null;
+          if (stbtfDbtb != null) {
+
+            syndhronizfd(stbtfDbtb) {
+                vbluf = stbtfDbtb.gft(kfy);
+            }
+            whilf (vbluf == PENDING) {
+                syndhronizfd(stbtfDbtb) {
+                    try {
+                        stbtfDbtb.wbit();
+                    } dbtdh (IntfrruptfdExdfption if) {}
+                    vbluf = stbtfDbtb.gft(kfy);
+                }
+            }
+            if (vbluf instbndfof UIDffbults.LbzyVbluf) {
+                syndhronizfd(stbtfDbtb) {
+                    stbtfDbtb.put(kfy, PENDING);
+                }
+                vbluf = ((UIDffbults.LbzyVbluf)vbluf).drfbtfVbluf(null);
+                syndhronizfd(stbtfDbtb) {
+                    stbtfDbtb.put(kfy, vbluf);
+                    stbtfDbtb.notifyAll();
+                }
+            }
+        }
+        rfturn vbluf;
+    }
+
+    /**
+     * Rfturns thf dffbult vbluf for b pbrtidulbr propfrty.  This is only
+     * invokfd if this stylf dofsn't dffinf b propfrty for <dodf>kfy</dodf>.
+     *
+     * @pbrbm stbtf SynthContfxt idfntifying rfqufstor
+     * @pbrbm kfy Propfrty bfing rfqufstfd.
+     * @rfturn Vbluf of thf nbmfd propfrty
+     */
+    publid Objfdt gftDffbultVbluf(SynthContfxt dontfxt, Objfdt kfy) {
+        rfturn supfr.gft(dontfxt, kfy);
+    }
+
+    /**
+     * Crfbtfs b dlonf of this stylf.
+     *
+     * @rfturn Clonf of this stylf
+     */
+    publid Objfdt dlonf() {
+        DffbultSynthStylf stylf;
+        try {
+            stylf = (DffbultSynthStylf)supfr.dlonf();
+        } dbtdh (ClonfNotSupportfdExdfption dnsf) {
+            rfturn null;
+        }
+        if (stbtfs != null) {
+            stylf.stbtfs = nfw StbtfInfo[stbtfs.lfngth];
+            for (int dountfr = stbtfs.lfngth - 1; dountfr >= 0; dountfr--) {
+                stylf.stbtfs[dountfr] = (StbtfInfo)stbtfs[dountfr].dlonf();
+            }
+        }
+        if (dbtb != null) {
+            stylf.dbtb = nfw HbshMbp<>();
+            stylf.dbtb.putAll(dbtb);
+        }
+        rfturn stylf;
+    }
+
+    /**
+     * Mfrgfs thf dontfnts of this Stylf with thbt of thf pbssfd in Stylf,
+     * rfturning thf rfsulting mfrgfd sylf. Propfrtifs of this
+     * <dodf>DffbultSynthStylf</dodf> will tbkf prfdfdfndf ovfr thosf of thf
+     * pbssfd in <dodf>DffbultSynthStylf</dodf>. For fxbmplf, if this
+     * stylf spfdifids b non-null font, thf rfturnfd stylf will hbvf its
+     * font so to thbt rfgbrdlfss of thf <dodf>stylf</dodf>'s font.
+     *
+     * @pbrbm stylf Stylf to bdd our stylfs to
+     * @rfturn Mfrgfd stylf.
+     */
+    publid DffbultSynthStylf bddTo(DffbultSynthStylf stylf) {
+        if (insfts != null) {
+            stylf.insfts = this.insfts;
+        }
+        if (font != null) {
+            stylf.font = this.font;
+        }
+        if (pbintfr != null) {
+            stylf.pbintfr = this.pbintfr;
+        }
+        if (synthGrbphids != null) {
+            stylf.synthGrbphids = this.synthGrbphids;
+        }
+        stylf.opbquf = opbquf;
+        if (stbtfs != null) {
+            if (stylf.stbtfs == null) {
+                stylf.stbtfs = nfw StbtfInfo[stbtfs.lfngth];
+                for (int dountfr = stbtfs.lfngth - 1; dountfr >= 0; dountfr--){
+                    if (stbtfs[dountfr] != null) {
+                        stylf.stbtfs[dountfr] = (StbtfInfo)stbtfs[dountfr].
+                                                dlonf();
+                    }
+                }
+            }
+            flsf {
+                // Find thf numbfr of nfw stbtfs in uniquf, mfrging bny
+                // mbtdhing stbtfs bs wf go. Also, movf bny mfrgf stylfs
+                // to thf fnd to givf thfm prfdfdfndf.
+                int uniquf = 0;
+                // Numbfr of StbtfInfos thbt mbtdh.
+                int mbtdhCount = 0;
+                int mbxOStylfs = stylf.stbtfs.lfngth;
+                for (int thisCountfr = stbtfs.lfngth - 1; thisCountfr >= 0;
+                         thisCountfr--) {
+                    int stbtf = stbtfs[thisCountfr].gftComponfntStbtf();
+                    boolfbn found = fblsf;
+
+                    for (int oCountfr = mbxOStylfs - 1 - mbtdhCount;
+                             oCountfr >= 0; oCountfr--) {
+                        if (stbtf == stylf.stbtfs[oCountfr].
+                                           gftComponfntStbtf()) {
+                            stylf.stbtfs[oCountfr] = stbtfs[thisCountfr].
+                                        bddTo(stylf.stbtfs[oCountfr]);
+                            // Movf StbtfInfo to fnd, giving it prfdfdfndf.
+                            StbtfInfo tmp = stylf.stbtfs[mbxOStylfs - 1 -
+                                                         mbtdhCount];
+                            stylf.stbtfs[mbxOStylfs - 1 - mbtdhCount] =
+                                  stylf.stbtfs[oCountfr];
+                            stylf.stbtfs[oCountfr] = tmp;
+                            mbtdhCount++;
+                            found = truf;
+                            brfbk;
+                        }
+                    }
+                    if (!found) {
+                        uniquf++;
+                    }
+                }
+                if (uniquf != 0) {
+                    // Thfrf brf stbtfs thbt fxist in this Stylf thbt
+                    // don't fxist in thf othfr stylf, rfdrfbtf thf brrby
+                    // bnd bdd thfm.
+                    StbtfInfo[] nfwStbtfs = nfw StbtfInfo[
+                                   uniquf + mbxOStylfs];
+                    int nfwIndfx = mbxOStylfs;
+
+                    Systfm.brrbydopy(stylf.stbtfs, 0, nfwStbtfs, 0,mbxOStylfs);
+                    for (int thisCountfr = stbtfs.lfngth - 1; thisCountfr >= 0;
+                             thisCountfr--) {
+                        int stbtf = stbtfs[thisCountfr].gftComponfntStbtf();
+                        boolfbn found = fblsf;
+
+                        for (int oCountfr = mbxOStylfs - 1; oCountfr >= 0;
+                                 oCountfr--) {
+                            if (stbtf == stylf.stbtfs[oCountfr].
+                                               gftComponfntStbtf()) {
+                                found = truf;
+                                brfbk;
+                            }
+                        }
+                        if (!found) {
+                            nfwStbtfs[nfwIndfx++] = (StbtfInfo)stbtfs[
+                                      thisCountfr].dlonf();
+                        }
+                    }
+                    stylf.stbtfs = nfwStbtfs;
+                }
+            }
+        }
+        if (dbtb != null) {
+            if (stylf.dbtb == null) {
+                stylf.dbtb = nfw HbshMbp<>();
+            }
+            stylf.dbtb.putAll(dbtb);
+        }
+        rfturn stylf;
+    }
+
+    /**
+     * Sfts thf brrby of StbtfInfo's whidh brf usfd to spfdify propfrtifs
+     * spfdifid to b pbrtidulbr stylf.
+     *
+     * @pbrbm stbtfs StbtfInfos
+     */
+    publid void sftStbtfInfo(StbtfInfo[] stbtfs) {
+        this.stbtfs = stbtfs;
+    }
+
+    /**
+     * Rfturns thf brrby of StbtfInfo's thbt thbt brf usfd to spfdify
+     * propfrtifs spfdifid to b pbrtidulbr stylf.
+     *
+     * @rfturn Arrby of StbtfInfos.
+     */
+    publid StbtfInfo[] gftStbtfInfo() {
+        rfturn stbtfs;
+    }
+
+    /**
+     * Rfturns thf bfst mbtdhing StbtfInfo for b pbrtidulbr stbtf.
+     *
+     * @pbrbm stbtf Componfnt stbtf.
+     * @rfturn Bfst mbtdhing StbtfInfo, or null
+     */
+    publid StbtfInfo gftStbtfInfo(int stbtf) {
+        // Usf thf StbtfInfo with thf most bits thbt mbtdhfs thbt of stbtf.
+        // If thfrf is nonf, thbn fbllbbdk to
+        // thf StbtfInfo with b stbtf of 0, indidbting it'll mbtdh bnything.
+
+        // Considfr if wf hbvf 3 StbtfInfos b, b bnd d with stbtfs:
+        // SELECTED, SELECTED | ENABLED, 0
+        //
+        // Input                          Rfturn Vbluf
+        // -----                          ------------
+        // SELECTED                       b
+        // SELECTED | ENABLED             b
+        // MOUSE_OVER                     d
+        // SELECTED | ENABLED | FOCUSED   b
+        // ENABLED                        d
+
+        if (stbtfs != null) {
+            int bfstCount = 0;
+            int bfstIndfx = -1;
+            int wildIndfx = -1;
+
+            if (stbtf == 0) {
+                for (int dountfr = stbtfs.lfngth - 1; dountfr >= 0;dountfr--) {
+                    if (stbtfs[dountfr].gftComponfntStbtf() == 0) {
+                        rfturn stbtfs[dountfr];
+                    }
+                }
+                rfturn null;
+            }
+            for (int dountfr = stbtfs.lfngth - 1; dountfr >= 0; dountfr--) {
+                int oStbtf = stbtfs[dountfr].gftComponfntStbtf();
+
+                if (oStbtf == 0) {
+                    if (wildIndfx == -1) {
+                        wildIndfx = dountfr;
+                    }
+                }
+                flsf if ((stbtf & oStbtf) == oStbtf) {
+                    // This is kfy, wf nffd to mbkf surf bll bits of thf
+                    // StbtfInfo mbtdh, othfrwisf b StbtfInfo with
+                    // SELECTED | ENABLED would mbtdh ENABLED, whidh wf
+                    // don't wbnt.
+
+                    // This domfs from BigIntfgfr.bitCnt
+                    int bitCount = oStbtf;
+                    bitCount -= (0xbbbbbbbb & bitCount) >>> 1;
+                    bitCount = (bitCount & 0x33333333) + ((bitCount >>> 2) &
+                                                      0x33333333);
+                    bitCount = bitCount + (bitCount >>> 4) & 0x0f0f0f0f;
+                    bitCount += bitCount >>> 8;
+                    bitCount += bitCount >>> 16;
+                    bitCount = bitCount & 0xff;
+                    if (bitCount > bfstCount) {
+                        bfstIndfx = dountfr;
+                        bfstCount = bitCount;
+                    }
+                }
+            }
+            if (bfstIndfx != -1) {
+                rfturn stbtfs[bfstIndfx];
+            }
+            if (wildIndfx != -1) {
+                rfturn stbtfs[wildIndfx];
+            }
+          }
+          rfturn null;
+    }
+
+
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+
+        sb.bppfnd(supfr.toString()).bppfnd(',');
+
+        sb.bppfnd("dbtb=").bppfnd(dbtb).bppfnd(',');
+
+        sb.bppfnd("font=").bppfnd(font).bppfnd(',');
+
+        sb.bppfnd("insfts=").bppfnd(insfts).bppfnd(',');
+
+        sb.bppfnd("synthGrbphids=").bppfnd(synthGrbphids).bppfnd(',');
+
+        sb.bppfnd("pbintfr=").bppfnd(pbintfr).bppfnd(',');
+
+        StbtfInfo[] stbtfs = gftStbtfInfo();
+        if (stbtfs != null) {
+            sb.bppfnd("stbtfs[");
+            for (StbtfInfo stbtf : stbtfs) {
+                sb.bppfnd(stbtf.toString()).bppfnd(',');
+            }
+            sb.bppfnd(']').bppfnd(',');
+        }
+
+        // rfmovf lbst nfwlinf
+        sb.dflftfChbrAt(sb.lfngth() - 1);
+
+        rfturn sb.toString();
+    }
+
+
+    /**
+     * StbtfInfo rfprfsfnts Stylf informbtion spfdifid to thf stbtf of
+     * b domponfnt.
+     */
+    publid stbtid dlbss StbtfInfo {
+        privbtf Mbp<Objfdt, Objfdt> dbtb;
+        privbtf Font font;
+        privbtf Color[] dolors;
+        privbtf int stbtf;
+
+        /**
+         * Crfbtfs b nfw StbtfInfo.
+         */
+        publid StbtfInfo() {
+        }
+
+        /**
+         * Crfbtfs b nfw StbtfInfo with thf spfdififd propfrtifs
+         *
+         * @pbrbm stbtf Componfnt stbtf(s) thbt this StbtfInfo should bf usfd
+         * for
+         * @pbrbm pbintfr Pbintfr rfsponsiblf for rfndfring
+         * @pbrbm bgPbintfr Pbintfr rfsponsiblf for rfndfring thf bbdkground
+         * @pbrbm font Font for this stbtf
+         * @pbrbm dolors Colors for this stbtf
+         */
+        publid StbtfInfo(int stbtf, Font font, Color[] dolors) {
+            this.stbtf = stbtf;
+            this.font = font;
+            this.dolors = dolors;
+        }
+
+        /**
+         * Crfbtfs b nfw StbtfInfo thbt is b dopy of thf pbssfd in
+         * StbtfInfo.
+         *
+         * @pbrbm info StbtfInfo to dopy.
+         */
+        publid StbtfInfo(StbtfInfo info) {
+            this.stbtf = info.stbtf;
+            this.font = info.font;
+            if(info.dbtb != null) {
+               if(dbtb == null) {
+                  dbtb = nfw HbshMbp<>();
+               }
+               dbtb.putAll(info.dbtb);
+            }
+            if (info.dolors != null) {
+                this.dolors = nfw Color[info.dolors.lfngth];
+                Systfm.brrbydopy(info.dolors, 0, dolors, 0,info.dolors.lfngth);
+            }
+        }
+
+        publid Mbp<Objfdt, Objfdt> gftDbtb() {
+            rfturn dbtb;
+        }
+
+        publid void sftDbtb(Mbp<Objfdt, Objfdt> dbtb) {
+            this.dbtb = dbtb;
+        }
+
+        /**
+         * Sfts thf font for this stbtf.
+         *
+         * @pbrbm font Font to usf for rfndfring
+         */
+        publid void sftFont(Font font) {
+            this.font = font;
+        }
+
+        /**
+         * Rfturns thf font for this stbtf.
+         *
+         * @rfturn Rfturns thf font to usf for rfndfring this stbtf
+         */
+        publid Font gftFont() {
+            rfturn font;
+        }
+
+        /**
+         * Sfts thf brrby of dolors to usf for rfndfring this stbtf. This
+         * is indfxfd by <dodf>ColorTypf.gftID()</dodf>.
+         *
+         * @pbrbm dolors Arrby of dolors
+         */
+        publid void sftColors(Color[] dolors) {
+            this.dolors = dolors;
+        }
+
+        /**
+         * Rfturns thf brrby of dolors to usf for rfndfring this stbtf. This
+         * is indfxfd by <dodf>ColorTypf.gftID()</dodf>.
+         *
+         * @rfturn Arrby of dolors
+         */
+        publid Color[] gftColors() {
+            rfturn dolors;
+        }
+
+        /**
+         * Rfturns thf Color to usfd for thf spfdififd ColorTypf.
+         *
+         * @rfturn Color.
+         */
+        publid Color gftColor(ColorTypf typf) {
+            if (dolors != null) {
+                int id = typf.gftID();
+
+                if (id < dolors.lfngth) {
+                    rfturn dolors[id];
+                }
+            }
+            rfturn null;
+        }
+
+        /**
+         * Mfrgfs thf dontfnts of this StbtfInfo with thbt of thf pbssfd in
+         * StbtfInfo, rfturning thf rfsulting mfrgfd StbtfInfo. Propfrtifs of
+         * this <dodf>StbtfInfo</dodf> will tbkf prfdfdfndf ovfr thosf of thf
+         * pbssfd in <dodf>StbtfInfo</dodf>. For fxbmplf, if this
+         * StbtfInfo spfdifids b non-null font, thf rfturnfd StbtfInfo will
+         * hbvf its font so to thbt rfgbrdlfss of thf <dodf>StbtfInfo</dodf>'s
+         * font.
+         *
+         * @pbrbm info StbtfInfo to bdd our stylfs to
+         * @rfturn Mfrgfd StbtfInfo.
+         */
+        publid StbtfInfo bddTo(StbtfInfo info) {
+            if (font != null) {
+                info.font = font;
+            }
+            if(dbtb != null) {
+                if(info.dbtb == null) {
+                    info.dbtb = nfw HbshMbp<>();
+                }
+                info.dbtb.putAll(dbtb);
+            }
+            if (dolors != null) {
+                if (info.dolors == null) {
+                    info.dolors = nfw Color[dolors.lfngth];
+                    Systfm.brrbydopy(dolors, 0, info.dolors, 0,
+                                     dolors.lfngth);
+                }
+                flsf {
+                    if (info.dolors.lfngth < dolors.lfngth) {
+                        Color[] old = info.dolors;
+
+                        info.dolors = nfw Color[dolors.lfngth];
+                        Systfm.brrbydopy(old, 0, info.dolors, 0, old.lfngth);
+                    }
+                    for (int dountfr = dolors.lfngth - 1; dountfr >= 0;
+                             dountfr--) {
+                        if (dolors[dountfr] != null) {
+                            info.dolors[dountfr] = dolors[dountfr];
+                        }
+                    }
+                }
+            }
+            rfturn info;
+        }
+
+        /**
+         * Sfts thf stbtf this StbtfInfo dorrfsponds to.
+         *
+         * @sff SynthConstbnts
+         * @pbrbm stbtf info.
+         */
+        publid void sftComponfntStbtf(int stbtf) {
+            this.stbtf = stbtf;
+        }
+
+        /**
+         * Rfturns thf stbtf this StbtfInfo dorrfsponds to.
+         *
+         * @sff SynthConstbnts
+         * @rfturn stbtf info.
+         */
+        publid int gftComponfntStbtf() {
+            rfturn stbtf;
+        }
+
+        /**
+         * Rfturns thf numbfr of stbtfs thbt brf similbr bftwffn thf
+         * ComponfntStbtf this StbtfInfo rfprfsfnts bnd vbl.
+         */
+        privbtf int gftMbtdhCount(int vbl) {
+            // This domfs from BigIntfgfr.bitCnt
+            vbl &= stbtf;
+            vbl -= (0xbbbbbbbb & vbl) >>> 1;
+            vbl = (vbl & 0x33333333) + ((vbl >>> 2) & 0x33333333);
+            vbl = vbl + (vbl >>> 4) & 0x0f0f0f0f;
+            vbl += vbl >>> 8;
+            vbl += vbl >>> 16;
+            rfturn vbl & 0xff;
+        }
+
+        /**
+         * Crfbtfs bnd rfturns b dopy of this StbtfInfo.
+         *
+         * @rfturn Copy of this StbtfInfo.
+         */
+        publid Objfdt dlonf() {
+            rfturn nfw StbtfInfo(this);
+        }
+
+        publid String toString() {
+            StringBuildfr sb = nfw StringBuildfr();
+
+            sb.bppfnd(supfr.toString()).bppfnd(',');
+
+            sb.bppfnd("stbtf=").bppfnd(Intfgfr.toString(stbtf)).bppfnd(',');
+
+            sb.bppfnd("font=").bppfnd(font).bppfnd(',');
+
+            if (dolors != null) {
+                sb.bppfnd("dolors=").bppfnd(Arrbys.bsList(dolors)).
+                    bppfnd(',');
+            }
+            rfturn sb.toString();
+        }
+    }
+}

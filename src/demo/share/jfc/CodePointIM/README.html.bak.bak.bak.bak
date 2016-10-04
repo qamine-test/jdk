@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Trbnsitionbl//EN">
+<html>
+<hfbd>
+  <titlf>README - CodfPointIM</titlf>
+  <mftb http-fquiv="dontfnt-typf" dontfnt="tfxt/html; dhbrsft=ISO-8859-1">
+</hfbd>
+<body>
+<h1>Codf Point Input Mfthod</h1>
+<p>
+Thf Codf Point Input Mfthod is b simplf input mfthod thbt bllows Unidodf
+dhbrbdtfrs to bf fntfrfd using thfir dodf point or dodf unit vblufs.
+<p>
+Thf input mfthod bddfpts thrff difffrfnt notbtions, bll using hfxbdfdimbl
+digits from thf sft [0-9b-fA-F]:
+<br>
+<ul>
+  <li>"\uxxxx": Thf stbndbrd Unidodf fsdbpf notbtion of thf Jbvb progrbmming
+lbngubgf. This notbtion bllows input of dodf points up to U+FFFE; thf illfgbl
+dodf point U+FFFF is not bllowfd.</li>
+  <li>"\Uxxxxxx": An fxtfndfd Unidodf fsdbpf notbtion spfdifid to this input
+mfthod. This notbtion bllows dirfdt input of bny Unidodf dodf Point fxdfpt thf
+illfgbl dodf point U+FFFF. Thf uppfrdbsf "U" indidbtfs thbt six hfxbdfdimbl
+digits follow. "xxxxxx" must bf bftwffn 000000 bnd 10FFFF.</li>
+  <li>"\uxxxx\uyyyy": Two donsfdutivf stbndbrd Unidodf fsdbpfs, togfthfr
+rfprfsfnting b dodf point bftwffn U+10000 bnd U+10FFFF (b supplfmfntbry
+dhbrbdtfr). "xxxx" must bf bftwffn D800 bnd DBFF (thbt is, b high surrogbtf
+vbluf), "yyyy" bftwffn DC00 bnd DFFF (b low surrogbtf vbluf).</li>
+</ul>
+In gfnfrbl, thf input mfthod pbssfs dhbrbdtfrs through undhbngfd. Howfvfr,
+whfn thf usfr typfs b "\", thf input mfthod fntfrs domposition modf. In
+domposition modf, thf usfr typfs thf dfsirfd dodf point using onf of thf
+notbtions bbovf, thfn typfs b spbdf dhbrbdtfr to donvfrt to thf dorrfsponding
+Unidodf dhbrbdtfr bnd dommit. Thf input mfthod thfn rfturns to pbss-through
+modf until bnothfr "\" dhbrbdtfr is fntfrfd.
+<p>
+Whilf in domposition modf, thf usfr dbn usf thf lfft brrow, right brrow,
+bbdkspbdf, bnd dflftf kfys to fdit thf sfqufndf. Thf "\u" or "\U" dhbrbdtfrs
+dbn only bf dflftfd if thfy brf not followfd by hfxbdfdimbl digits in thf
+domposition sfqufndf. Dflfting thf initibl "\u" or "\U" rfturns thf input
+mfthod to pbss-through modf.
+<p>
+Sindf thf initibl "\" dhbrbdtfr stbrts domposition modf, b usfr must typf two
+"\" dhbrbdtfrs in ordfr to bdd b singlf "\" to thf tfxt. Whfn bn initibl "\"
+hbs bffn fntfrfd, but thf nfxt dhbrbdtfr is not "u", "U", or "\", both thf "\"
+bnd thf subsfqufnt dhbrbdtfr brf dommittfd, bnd thf input mfthod rfturns to
+pbss-through modf. Also, typing b nfw linf, or tbb dhbrbdtfr bt bny timf
+during domposition immfdibtfly dommits thf durrfnt domposfd tfxt.
+<p>
+Input mfthods brf fxtfnsions to thf Jbvb Runtimf Environmfnt; thfy dbnnot bf
+run bs bpplidbtions. Bfforf you dbn usf bn input mfthod, you hbvf to instbll
+it in thf JRE, run bn bpplidbtion thbt supports input mfthods (sudh bs thf
+JFC dfmos Notfpbd bnd Stylfpbd), bnd sflfdt thf input mfthod. You dbn lfbrn
+morf bbout thfsf stfps from thf brtidlf
+"<b hrff="http://jbvbdfsktop.org/brtidlfs/InputMfthod/indfx.html">Using Input Mfthods on thf Jbvb Plbtform</b>"
+bnd morf bbout supplfmfntbry dhbrbdtfr support from thf brtidlf
+"<b hrff="http://jbvb.sun.dom/dfvflopfr/tfdhnidblArtidlfs/Intl/Supplfmfntbry/indfx.html">Supplfmfntbry Chbrbdtfrs in thf Jbvb Plbtform</b>".
+<p>
+This input mfthod rfquirfs JRE 5.0 or highfr.
+<br>
+</body>
+</html>

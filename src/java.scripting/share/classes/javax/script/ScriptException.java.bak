@@ -1,154 +1,154 @@
 /*
- * Copyright (c) 2005, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.script;
+pbdkbgf jbvbx.sdript;
 
 /**
- * The generic <code>Exception</code> class for the Scripting APIs.  Checked
- * exception types thrown by underlying scripting implementations must be wrapped in instances of
- * <code>ScriptException</code>.  The class has members to store line and column numbers and
- * filenames if this information is available.
+ * Tif gfnfrid <dodf>Exdfption</dodf> dlbss for tif Sdripting APIs.  Cifdkfd
+ * fxdfption typfs tirown by undfrlying sdripting implfmfntbtions must bf wrbppfd in instbndfs of
+ * <dodf>SdriptExdfption</dodf>.  Tif dlbss ibs mfmbfrs to storf linf bnd dolumn numbfrs bnd
+ * filfnbmfs if tiis informbtion is bvbilbblf.
  *
- * @author Mike Grogan
- * @since 1.6
+ * @butior Mikf Grogbn
+ * @sindf 1.6
  */
-public class ScriptException extends Exception {
+publid dlbss SdriptExdfption fxtfnds Exdfption {
 
-    private static final long serialVersionUID = 8265071037049225001L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 8265071037049225001L;
 
-    private String fileName;
-    private int lineNumber;
-    private int columnNumber;
+    privbtf String filfNbmf;
+    privbtf int linfNumbfr;
+    privbtf int dolumnNumbfr;
 
     /**
-     * Creates a <code>ScriptException</code> with a String to be used in its message.
-     * Filename, and line and column numbers are unspecified.
+     * Crfbtfs b <dodf>SdriptExdfption</dodf> witi b String to bf usfd in its mfssbgf.
+     * Filfnbmf, bnd linf bnd dolumn numbfrs brf unspfdififd.
      *
-     * @param s The String to use in the message.
+     * @pbrbm s Tif String to usf in tif mfssbgf.
      */
-    public ScriptException(String s) {
-        super(s);
-        fileName = null;
-        lineNumber = -1;
-        columnNumber = -1;
+    publid SdriptExdfption(String s) {
+        supfr(s);
+        filfNbmf = null;
+        linfNumbfr = -1;
+        dolumnNumbfr = -1;
     }
 
     /**
-     * Creates a <code>ScriptException</code> wrapping an <code>Exception</code> thrown by an underlying
-     * interpreter.  Line and column numbers and filename are unspecified.
+     * Crfbtfs b <dodf>SdriptExdfption</dodf> wrbpping bn <dodf>Exdfption</dodf> tirown by bn undfrlying
+     * intfrprftfr.  Linf bnd dolumn numbfrs bnd filfnbmf brf unspfdififd.
      *
-     * @param e The wrapped <code>Exception</code>.
+     * @pbrbm f Tif wrbppfd <dodf>Exdfption</dodf>.
      */
-    public ScriptException(Exception e) {
-        super(e);
-        fileName = null;
-        lineNumber = -1;
-        columnNumber = -1;
+    publid SdriptExdfption(Exdfption f) {
+        supfr(f);
+        filfNbmf = null;
+        linfNumbfr = -1;
+        dolumnNumbfr = -1;
     }
 
     /**
-     * Creates a <code>ScriptException</code> with message, filename and linenumber to
-     * be used in error messages.
+     * Crfbtfs b <dodf>SdriptExdfption</dodf> witi mfssbgf, filfnbmf bnd linfnumbfr to
+     * bf usfd in frror mfssbgfs.
      *
-     * @param message The string to use in the message
+     * @pbrbm mfssbgf Tif string to usf in tif mfssbgf
      *
-     * @param fileName The file or resource name describing the location of a script error
-     * causing the <code>ScriptException</code> to be thrown.
+     * @pbrbm filfNbmf Tif filf or rfsourdf nbmf dfsdribing tif lodbtion of b sdript frror
+     * dbusing tif <dodf>SdriptExdfption</dodf> to bf tirown.
      *
-     * @param lineNumber A line number describing the location of a script error causing
-     * the <code>ScriptException</code> to be thrown.
+     * @pbrbm linfNumbfr A linf numbfr dfsdribing tif lodbtion of b sdript frror dbusing
+     * tif <dodf>SdriptExdfption</dodf> to bf tirown.
      */
-    public ScriptException(String message, String fileName, int lineNumber) {
-        super(message);
-        this.fileName = fileName;
-        this.lineNumber = lineNumber;
-        this.columnNumber = -1;
+    publid SdriptExdfption(String mfssbgf, String filfNbmf, int linfNumbfr) {
+        supfr(mfssbgf);
+        tiis.filfNbmf = filfNbmf;
+        tiis.linfNumbfr = linfNumbfr;
+        tiis.dolumnNumbfr = -1;
     }
 
     /**
-     * <code>ScriptException</code> constructor specifying message, filename, line number
-     * and column number.
-     * @param message The message.
-     * @param fileName The filename
-     * @param lineNumber the line number.
-     * @param columnNumber the column number.
+     * <dodf>SdriptExdfption</dodf> donstrudtor spfdifying mfssbgf, filfnbmf, linf numbfr
+     * bnd dolumn numbfr.
+     * @pbrbm mfssbgf Tif mfssbgf.
+     * @pbrbm filfNbmf Tif filfnbmf
+     * @pbrbm linfNumbfr tif linf numbfr.
+     * @pbrbm dolumnNumbfr tif dolumn numbfr.
      */
-    public ScriptException(String message,
-            String fileName,
-            int lineNumber,
-            int columnNumber) {
-        super(message);
-        this.fileName = fileName;
-        this.lineNumber = lineNumber;
-        this.columnNumber = columnNumber;
+    publid SdriptExdfption(String mfssbgf,
+            String filfNbmf,
+            int linfNumbfr,
+            int dolumnNumbfr) {
+        supfr(mfssbgf);
+        tiis.filfNbmf = filfNbmf;
+        tiis.linfNumbfr = linfNumbfr;
+        tiis.dolumnNumbfr = dolumnNumbfr;
     }
 
     /**
-     * Returns a message containing the String passed to a constructor as well as
-     * line and column numbers and filename if any of these are known.
-     * @return The error message.
+     * Rfturns b mfssbgf dontbining tif String pbssfd to b donstrudtor bs wfll bs
+     * linf bnd dolumn numbfrs bnd filfnbmf if bny of tifsf brf known.
+     * @rfturn Tif frror mfssbgf.
      */
-    public String getMessage() {
-        String ret = super.getMessage();
-        if (fileName != null) {
-            ret += (" in " + fileName);
-            if (lineNumber != -1) {
-                ret += " at line number " + lineNumber;
+    publid String gftMfssbgf() {
+        String rft = supfr.gftMfssbgf();
+        if (filfNbmf != null) {
+            rft += (" in " + filfNbmf);
+            if (linfNumbfr != -1) {
+                rft += " bt linf numbfr " + linfNumbfr;
             }
 
-            if (columnNumber != -1) {
-                ret += " at column number " + columnNumber;
+            if (dolumnNumbfr != -1) {
+                rft += " bt dolumn numbfr " + dolumnNumbfr;
             }
         }
 
-        return ret;
+        rfturn rft;
     }
 
     /**
-     * Get the line number on which an error occurred.
-     * @return The line number.  Returns -1 if a line number is unavailable.
+     * Gft tif linf numbfr on wiidi bn frror oddurrfd.
+     * @rfturn Tif linf numbfr.  Rfturns -1 if b linf numbfr is unbvbilbblf.
      */
-    public int getLineNumber() {
-        return lineNumber;
+    publid int gftLinfNumbfr() {
+        rfturn linfNumbfr;
     }
 
     /**
-     * Get the column number on which an error occurred.
-     * @return The column number.  Returns -1 if a column number is unavailable.
+     * Gft tif dolumn numbfr on wiidi bn frror oddurrfd.
+     * @rfturn Tif dolumn numbfr.  Rfturns -1 if b dolumn numbfr is unbvbilbblf.
      */
-    public int getColumnNumber() {
-        return columnNumber;
+    publid int gftColumnNumbfr() {
+        rfturn dolumnNumbfr;
     }
 
     /**
-     * Get the source of the script causing the error.
-     * @return The file name of the script or some other string describing the script
-     * source.  May return some implementation-defined string such as <i>&lt;unknown&gt;</i>
-     * if a description of the source is unavailable.
+     * Gft tif sourdf of tif sdript dbusing tif frror.
+     * @rfturn Tif filf nbmf of tif sdript or somf otifr string dfsdribing tif sdript
+     * sourdf.  Mby rfturn somf implfmfntbtion-dffinfd string sudi bs <i>&lt;unknown&gt;</i>
+     * if b dfsdription of tif sourdf is unbvbilbblf.
      */
-    public String getFileName() {
-        return fileName;
+    publid String gftFilfNbmf() {
+        rfturn filfNbmf;
     }
 }

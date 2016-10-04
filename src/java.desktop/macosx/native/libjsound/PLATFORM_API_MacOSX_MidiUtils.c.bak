@@ -1,459 +1,459 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
 **
-**    Overview:
-**      Implementation of the functions used for both MIDI in and MIDI out.
+**    Ovfrvifw:
+**      Implfmfntbtion of tif fundtions usfd for boti MIDI in bnd MIDI out.
 **
-**      Java package com.sun.media.sound defines the AbstractMidiDevice class
-**      which encapsulates functionalities shared by both MidiInDevice and
-**      MidiOutDevice classes in the same package.
+**      Jbvb pbdkbgf dom.sun.mfdib.sound dffinfs tif AbstrbdtMidiDfvidf dlbss
+**      wiidi fndbpsulbtfs fundtionblitifs sibrfd by boti MidiInDfvidf bnd
+**      MidiOutDfvidf dlbssfs in tif sbmf pbdkbgf.
 **
-**      The Java layer classes MidiInDevice and MidiOutDevice in turn map to
-**      the MIDIEndpointRef data type in the CoreMIDI framework, which
-**      represents a source or destination for a standard 16-channel MIDI data
-**      stream.
+**      Tif Jbvb lbyfr dlbssfs MidiInDfvidf bnd MidiOutDfvidf in turn mbp to
+**      tif MIDIEndpointRff dbtb typf in tif CorfMIDI frbmfwork, wiidi
+**      rfprfsfnts b sourdf or dfstinbtion for b stbndbrd 16-dibnnfl MIDI dbtb
+**      strfbm.
 */
 /*****************************************************************************/
 
-//#define USE_ERROR
-//#define USE_TRACE
+//#dffinf USE_ERROR
+//#dffinf USE_TRACE
 
-/* Use THIS_FILE when it is available. */
-#ifndef THIS_FILE
-    #define THIS_FILE __FILE__
-#endif
+/* Usf THIS_FILE wifn it is bvbilbblf. */
+#ifndff THIS_FILE
+    #dffinf THIS_FILE __FILE__
+#fndif
 
 #if (USE_PLATFORM_MIDI_IN == TRUE) || (USE_PLATFORM_MIDI_OUT == TRUE)
 
-#include "PLATFORM_API_MacOSX_MidiUtils.h"
-#include <pthread.h>
-#include <assert.h>
+#indludf "PLATFORM_API_MbdOSX_MidiUtils.i"
+#indludf <ptirfbd.i>
+#indludf <bssfrt.i>
 
-// Constant character string definitions of CoreMIDI's corresponding error codes.
+// Constbnt dibrbdtfr string dffinitions of CorfMIDI's dorrfsponding frror dodfs.
 
-static const char* strMIDIInvalidClient =
-                        "An invalid MIDIClientRef was passed.";
-static const char* strMIDIInvalidPort =
-                        "An invalid MIDIPortRef was passed.";
-static const char* strMIDIWrongEndpointType =
-                        "A source endpoint was passed to a function expecting a destination, or vice versa.";
-static const char* strMIDINoConnection =
-                        "Attempt to close a non-existant connection.";
-static const char* strMIDIUnknownEndpoint =
-                        "An invalid MIDIEndpointRef was passed.";
-static const char* strMIDIUnknownProperty =
-                        "Attempt to query a property not set on the object.";
-static const char* strMIDIWrongPropertyType =
-                        "Attempt to set a property with a value not of the correct type.";
-static const char* strMIDINoCurrentSetup =
-                        "Internal error; there is no current MIDI setup object.";
-static const char* strMIDIMessageSendErr =
-                        "Communication with MIDIServer failed.";
-static const char* strMIDIServerStartErr =
-                        "Unable to start MIDIServer.";
-static const char* strMIDISetupFormatErr =
-                        "Unable to read the saved state.";
-static const char* strMIDIWrongThread =
-                        "A driver is calling a non-I/O function in the server from a thread other than"
-                        "the server's main thread.";
-static const char* strMIDIObjectNotFound =
-                        "The requested object does not exist.";
-static const char* strMIDIIDNotUnique =
-                        "Attempt to set a non-unique kMIDIPropertyUniqueID on an object.";
+stbtid donst dibr* strMIDIInvblidClifnt =
+                        "An invblid MIDIClifntRff wbs pbssfd.";
+stbtid donst dibr* strMIDIInvblidPort =
+                        "An invblid MIDIPortRff wbs pbssfd.";
+stbtid donst dibr* strMIDIWrongEndpointTypf =
+                        "A sourdf fndpoint wbs pbssfd to b fundtion fxpfdting b dfstinbtion, or vidf vfrsb.";
+stbtid donst dibr* strMIDINoConnfdtion =
+                        "Attfmpt to dlosf b non-fxistbnt donnfdtion.";
+stbtid donst dibr* strMIDIUnknownEndpoint =
+                        "An invblid MIDIEndpointRff wbs pbssfd.";
+stbtid donst dibr* strMIDIUnknownPropfrty =
+                        "Attfmpt to qufry b propfrty not sft on tif objfdt.";
+stbtid donst dibr* strMIDIWrongPropfrtyTypf =
+                        "Attfmpt to sft b propfrty witi b vbluf not of tif dorrfdt typf.";
+stbtid donst dibr* strMIDINoCurrfntSftup =
+                        "Intfrnbl frror; tifrf is no durrfnt MIDI sftup objfdt.";
+stbtid donst dibr* strMIDIMfssbgfSfndErr =
+                        "Communidbtion witi MIDISfrvfr fbilfd.";
+stbtid donst dibr* strMIDISfrvfrStbrtErr =
+                        "Unbblf to stbrt MIDISfrvfr.";
+stbtid donst dibr* strMIDISftupFormbtErr =
+                        "Unbblf to rfbd tif sbvfd stbtf.";
+stbtid donst dibr* strMIDIWrongTirfbd =
+                        "A drivfr is dblling b non-I/O fundtion in tif sfrvfr from b tirfbd otifr tibn"
+                        "tif sfrvfr's mbin tirfbd.";
+stbtid donst dibr* strMIDIObjfdtNotFound =
+                        "Tif rfqufstfd objfdt dofs not fxist.";
+stbtid donst dibr* strMIDIIDNotUniquf =
+                        "Attfmpt to sft b non-uniquf kMIDIPropfrtyUniqufID on bn objfdt.";
 
-static const char* midi_strerror(int err) {
+stbtid donst dibr* midi_strfrror(int frr) {
 /*
-    @enum           Error Constants
-    @abstract       The error constants unique to Core MIDI.
-    @discussion     These are the error constants that are unique to Core MIDI. Note that Core MIDI
-                    functions may return other codes that are not listed here.
+    @fnum           Error Constbnts
+    @bbstrbdt       Tif frror donstbnts uniquf to Corf MIDI.
+    @disdussion     Tifsf brf tif frror donstbnts tibt brf uniquf to Corf MIDI. Notf tibt Corf MIDI
+                    fundtions mby rfturn otifr dodfs tibt brf not listfd ifrf.
 */
-    const char* strerr;
+    donst dibr* strfrr;
 
-    switch (err) {
-    case kMIDIInvalidClient:
-        strerr = strMIDIInvalidClient;
-        break;
-    case kMIDIInvalidPort:
-        strerr = strMIDIInvalidPort;
-        break;
-    case kMIDIWrongEndpointType:
-        strerr = strMIDIWrongEndpointType;
-        break;
-    case kMIDINoConnection:
-        strerr = strMIDINoConnection;
-        break;
-    case kMIDIUnknownEndpoint:
-        strerr = strMIDIUnknownEndpoint;
-        break;
-    case kMIDIUnknownProperty:
-        strerr = strMIDIUnknownProperty;
-        break;
-    case kMIDIWrongPropertyType:
-        strerr = strMIDIWrongPropertyType;
-        break;
-    case kMIDINoCurrentSetup:
-        strerr = strMIDINoCurrentSetup;
-        break;
-    case kMIDIMessageSendErr:
-        strerr = strMIDIMessageSendErr;
-        break;
-    case kMIDIServerStartErr:
-        strerr = strMIDIServerStartErr;
-        break;
-    case kMIDISetupFormatErr:
-        strerr = strMIDISetupFormatErr;
-        break;
-    case kMIDIWrongThread:
-        strerr = strMIDIWrongThread;
-        break;
-    case kMIDIObjectNotFound:
-        strerr = strMIDIObjectNotFound;
-        break;
-    case kMIDIIDNotUnique:
-        strerr = strMIDIIDNotUnique;
-        break;
-    default:
-        strerr = "Unknown error.";
-        break;
+    switdi (frr) {
+    dbsf kMIDIInvblidClifnt:
+        strfrr = strMIDIInvblidClifnt;
+        brfbk;
+    dbsf kMIDIInvblidPort:
+        strfrr = strMIDIInvblidPort;
+        brfbk;
+    dbsf kMIDIWrongEndpointTypf:
+        strfrr = strMIDIWrongEndpointTypf;
+        brfbk;
+    dbsf kMIDINoConnfdtion:
+        strfrr = strMIDINoConnfdtion;
+        brfbk;
+    dbsf kMIDIUnknownEndpoint:
+        strfrr = strMIDIUnknownEndpoint;
+        brfbk;
+    dbsf kMIDIUnknownPropfrty:
+        strfrr = strMIDIUnknownPropfrty;
+        brfbk;
+    dbsf kMIDIWrongPropfrtyTypf:
+        strfrr = strMIDIWrongPropfrtyTypf;
+        brfbk;
+    dbsf kMIDINoCurrfntSftup:
+        strfrr = strMIDINoCurrfntSftup;
+        brfbk;
+    dbsf kMIDIMfssbgfSfndErr:
+        strfrr = strMIDIMfssbgfSfndErr;
+        brfbk;
+    dbsf kMIDISfrvfrStbrtErr:
+        strfrr = strMIDISfrvfrStbrtErr;
+        brfbk;
+    dbsf kMIDISftupFormbtErr:
+        strfrr = strMIDISftupFormbtErr;
+        brfbk;
+    dbsf kMIDIWrongTirfbd:
+        strfrr = strMIDIWrongTirfbd;
+        brfbk;
+    dbsf kMIDIObjfdtNotFound:
+        strfrr = strMIDIObjfdtNotFound;
+        brfbk;
+    dbsf kMIDIIDNotUniquf:
+        strfrr = strMIDIIDNotUniquf;
+        brfbk;
+    dffbult:
+        strfrr = "Unknown frror.";
+        brfbk;
     }
-    return strerr;
+    rfturn strfrr;
 }
 
-const char* MIDI_Utils_GetErrorMsg(int err) {
-    return midi_strerror(err);
+donst dibr* MIDI_Utils_GftErrorMsg(int frr) {
+    rfturn midi_strfrror(frr);
 }
 
 
-void MIDI_Utils_PrintError(int err) {
-#ifdef USE_ERROR
-    const char* s = MIDI_Utils_GetErrorMsg(err);
+void MIDI_Utils_PrintError(int frr) {
+#ifdff USE_ERROR
+    donst dibr* s = MIDI_Utils_GftErrorMsg(frr);
     if (s != NULL) {
-        fprintf(stderr, "%s\n", s);
+        fprintf(stdfrr, "%s\n", s);
     }
-#endif
+#fndif
 }
 
 
-// Note direction is either MIDI_IN or MIDI_OUT.
-INT32 MIDI_Utils_GetNumDevices(int direction) {
-    int num_endpoints;
-    if (direction == MIDI_IN) {
-        num_endpoints = MIDIGetNumberOfSources();
-    //fprintf(stdout, "MIDIGetNumberOfSources() returns %d\n", num_endpoints);
-    } else if (direction == MIDI_OUT) {
-        num_endpoints = MIDIGetNumberOfDestinations();
-        //printf(stdout, "MIDIGetNumberOfDestinations() returns %d\n", num_endpoints);
-    } else {
-        assert((direction == MIDI_IN || direction == MIDI_OUT));
-        num_endpoints = 0;
+// Notf dirfdtion is fitifr MIDI_IN or MIDI_OUT.
+INT32 MIDI_Utils_GftNumDfvidfs(int dirfdtion) {
+    int num_fndpoints;
+    if (dirfdtion == MIDI_IN) {
+        num_fndpoints = MIDIGftNumbfrOfSourdfs();
+    //fprintf(stdout, "MIDIGftNumbfrOfSourdfs() rfturns %d\n", num_fndpoints);
+    } flsf if (dirfdtion == MIDI_OUT) {
+        num_fndpoints = MIDIGftNumbfrOfDfstinbtions();
+        //printf(stdout, "MIDIGftNumbfrOfDfstinbtions() rfturns %d\n", num_fndpoints);
+    } flsf {
+        bssfrt((dirfdtion == MIDI_IN || dirfdtion == MIDI_OUT));
+        num_fndpoints = 0;
     }
-    return (INT32) num_endpoints;
+    rfturn (INT32) num_fndpoints;
 }
 
-// Wraps calls to CFStringGetCStringPtr and CFStringGetCString to make sure
-// we extract the c characters into the buffer and null-terminate it.
-static void CFStringExtractCString(CFStringRef cfs, char* buffer, UINT32 bufferSize, CFStringEncoding encoding) {
-    const char* ptr = CFStringGetCStringPtr(cfs, encoding);
+// Wrbps dblls to CFStringGftCStringPtr bnd CFStringGftCString to mbkf surf
+// wf fxtrbdt tif d dibrbdtfrs into tif bufffr bnd null-tfrminbtf it.
+stbtid void CFStringExtrbdtCString(CFStringRff dfs, dibr* bufffr, UINT32 bufffrSizf, CFStringEndoding fndoding) {
+    donst dibr* ptr = CFStringGftCStringPtr(dfs, fndoding);
     if (ptr) {
-        strlcpy(buffer, ptr, bufferSize);
-    } else {
-        if (! CFStringGetCString(cfs, buffer, bufferSize, encoding)) {
-            // There's an error in conversion, make sure we null-terminate the buffer.
-            buffer[bufferSize - 1] = '\0';
+        strldpy(bufffr, ptr, bufffrSizf);
+    } flsf {
+        if (! CFStringGftCString(dfs, bufffr, bufffrSizf, fndoding)) {
+            // Tifrf's bn frror in donvfrsion, mbkf surf wf null-tfrminbtf tif bufffr.
+            bufffr[bufffrSizf - 1] = '\0';
         }
     }
 }
 
 //
-// @see com.sun.media.sound.AbstractMidiDeviceProvider.getDeviceInfo().
-static int getEndpointProperty(int direction, INT32 deviceID, char *buffer, int bufferLength, CFStringRef propertyID) {
+// @sff dom.sun.mfdib.sound.AbstrbdtMidiDfvidfProvidfr.gftDfvidfInfo().
+stbtid int gftEndpointPropfrty(int dirfdtion, INT32 dfvidfID, dibr *bufffr, int bufffrLfngti, CFStringRff propfrtyID) {
 
-    if (deviceID < 0) {
-        return MIDI_INVALID_DEVICEID;
+    if (dfvidfID < 0) {
+        rfturn MIDI_INVALID_DEVICEID;
     }
 
-    MIDIEndpointRef endpoint;
+    MIDIEndpointRff fndpoint;
 
-    if (direction == MIDI_IN) {
-        endpoint = MIDIGetSource(deviceID);
-    } else if (direction == MIDI_OUT) {
-        endpoint = MIDIGetDestination(deviceID);
-    } else {
-        return MIDI_INVALID_ARGUMENT;
+    if (dirfdtion == MIDI_IN) {
+        fndpoint = MIDIGftSourdf(dfvidfID);
+    } flsf if (dirfdtion == MIDI_OUT) {
+        fndpoint = MIDIGftDfstinbtion(dfvidfID);
+    } flsf {
+        rfturn MIDI_INVALID_ARGUMENT;
     }
 
-    if (!endpoint) {
-        return MIDI_INVALID_DEVICEID;
+    if (!fndpoint) {
+        rfturn MIDI_INVALID_DEVICEID;
     }
 
-    int status = MIDI_SUCCESS;
-    if (propertyID == kMIDIPropertyDriverVersion) {
-        SInt32 driverVersion;
-        status = MIDIObjectGetIntegerProperty(endpoint, kMIDIPropertyDriverVersion, &driverVersion);
-        if (status != MIDI_SUCCESS) return status;
-        snprintf(buffer,
-                 bufferLength,
+    int stbtus = MIDI_SUCCESS;
+    if (propfrtyID == kMIDIPropfrtyDrivfrVfrsion) {
+        SInt32 drivfrVfrsion;
+        stbtus = MIDIObjfdtGftIntfgfrPropfrty(fndpoint, kMIDIPropfrtyDrivfrVfrsion, &drivfrVfrsion);
+        if (stbtus != MIDI_SUCCESS) rfturn stbtus;
+        snprintf(bufffr,
+                 bufffrLfngti,
                  "%d",
-                 (int) driverVersion);
+                 (int) drivfrVfrsion);
     }
-    else {
-        CFStringRef pname;
-        status = MIDIObjectGetStringProperty(endpoint, propertyID, &pname);
-        if (status != MIDI_SUCCESS) return status;
-        CFStringExtractCString(pname, buffer, bufferLength, 0);
+    flsf {
+        CFStringRff pnbmf;
+        stbtus = MIDIObjfdtGftStringPropfrty(fndpoint, propfrtyID, &pnbmf);
+        if (stbtus != MIDI_SUCCESS) rfturn stbtus;
+        CFStringExtrbdtCString(pnbmf, bufffr, bufffrLfngti, 0);
     }
-    return MIDI_ERROR_NONE;
+    rfturn MIDI_ERROR_NONE;
 }
 
-// A simple utility which encapsulates CoreAudio's HostTime APIs.
-// It returns the current host time in nanoseconds which when subtracted from
-// a previous getCurrentTimeInNanos() result produces the delta in nanos.
-static UInt64 getCurrentTimeInNanos() {
-    UInt64 hostTime = AudioGetCurrentHostTime();
-    UInt64 nanos = AudioConvertHostTimeToNanos(hostTime);
-    return nanos;
-}
-
-
-INT32 MIDI_Utils_GetDeviceName(int direction, INT32 deviceID, char *name, UINT32 bufferLength) {
-    return getEndpointProperty(direction, deviceID, name, bufferLength, kMIDIPropertyName);
+// A simplf utility wiidi fndbpsulbtfs CorfAudio's HostTimf APIs.
+// It rfturns tif durrfnt iost timf in nbnosfdonds wiidi wifn subtrbdtfd from
+// b prfvious gftCurrfntTimfInNbnos() rfsult produdfs tif dfltb in nbnos.
+stbtid UInt64 gftCurrfntTimfInNbnos() {
+    UInt64 iostTimf = AudioGftCurrfntHostTimf();
+    UInt64 nbnos = AudioConvfrtHostTimfToNbnos(iostTimf);
+    rfturn nbnos;
 }
 
 
-INT32 MIDI_Utils_GetDeviceVendor(int direction, INT32 deviceID, char *name, UINT32 bufferLength) {
-    return getEndpointProperty(direction, deviceID, name, bufferLength, kMIDIPropertyManufacturer);
+INT32 MIDI_Utils_GftDfvidfNbmf(int dirfdtion, INT32 dfvidfID, dibr *nbmf, UINT32 bufffrLfngti) {
+    rfturn gftEndpointPropfrty(dirfdtion, dfvidfID, nbmf, bufffrLfngti, kMIDIPropfrtyNbmf);
 }
 
 
-INT32 MIDI_Utils_GetDeviceDescription(int direction, INT32 deviceID, char *name, UINT32 bufferLength) {
-    return getEndpointProperty(direction, deviceID, name, bufferLength, kMIDIPropertyDisplayName);
+INT32 MIDI_Utils_GftDfvidfVfndor(int dirfdtion, INT32 dfvidfID, dibr *nbmf, UINT32 bufffrLfngti) {
+    rfturn gftEndpointPropfrty(dirfdtion, dfvidfID, nbmf, bufffrLfngti, kMIDIPropfrtyMbnufbdturfr);
 }
 
 
-INT32 MIDI_Utils_GetDeviceVersion(int direction, INT32 deviceID, char *name, UINT32 bufferLength) {
-    return getEndpointProperty(direction, deviceID, name, bufferLength, kMIDIPropertyDriverVersion);
+INT32 MIDI_Utils_GftDfvidfDfsdription(int dirfdtion, INT32 dfvidfID, dibr *nbmf, UINT32 bufffrLfngti) {
+    rfturn gftEndpointPropfrty(dirfdtion, dfvidfID, nbmf, bufffrLfngti, kMIDIPropfrtyDisplbyNbmf);
 }
 
 
-static MIDIClientRef client = (MIDIClientRef) NULL;
-static MIDIPortRef inPort = (MIDIPortRef) NULL;
-static MIDIPortRef outPort = (MIDIPortRef) NULL;
+INT32 MIDI_Utils_GftDfvidfVfrsion(int dirfdtion, INT32 dfvidfID, dibr *nbmf, UINT32 bufffrLfngti) {
+    rfturn gftEndpointPropfrty(dirfdtion, dfvidfID, nbmf, bufffrLfngti, kMIDIPropfrtyDrivfrVfrsion);
+}
 
-// Each MIDIPacket can contain more than one midi messages.
-// This function processes the packet and adds the messages to the specified message queue.
-// @see also src/share/native/com/sun/media/sound/PlatformMidi.h.
-static void processMessagesForPacket(const MIDIPacket* packet, MacMidiDeviceHandle* handle) {
-    const UInt8* data;
-    UInt16 length;
-    UInt8 byte;
-    UInt8 pendingMessageStatus;
-    UInt8 pendingData[2];
-    UInt16 pendingDataIndex, pendingDataLength;
-    UINT32 packedMsg;
-    MIDITimeStamp ts = packet->timeStamp;
 
-    pendingMessageStatus = 0;
-    pendingDataIndex = pendingDataLength = 0;
+stbtid MIDIClifntRff dlifnt = (MIDIClifntRff) NULL;
+stbtid MIDIPortRff inPort = (MIDIPortRff) NULL;
+stbtid MIDIPortRff outPort = (MIDIPortRff) NULL;
 
-    data = packet->data;
-    length = packet->length;
-    while (length--) {
-        bool byteIsInvalid = FALSE;
+// Ebdi MIDIPbdkft dbn dontbin morf tibn onf midi mfssbgfs.
+// Tiis fundtion prodfssfs tif pbdkft bnd bdds tif mfssbgfs to tif spfdififd mfssbgf qufuf.
+// @sff blso srd/sibrf/nbtivf/dom/sun/mfdib/sound/PlbtformMidi.i.
+stbtid void prodfssMfssbgfsForPbdkft(donst MIDIPbdkft* pbdkft, MbdMidiDfvidfHbndlf* ibndlf) {
+    donst UInt8* dbtb;
+    UInt16 lfngti;
+    UInt8 bytf;
+    UInt8 pfndingMfssbgfStbtus;
+    UInt8 pfndingDbtb[2];
+    UInt16 pfndingDbtbIndfx, pfndingDbtbLfngti;
+    UINT32 pbdkfdMsg;
+    MIDITimfStbmp ts = pbdkft->timfStbmp;
 
-        byte = *data++;
-        packedMsg = byte;
+    pfndingMfssbgfStbtus = 0;
+    pfndingDbtbIndfx = pfndingDbtbLfngti = 0;
 
-        if (byte >= 0xF8) {
-            // Each RealTime Category message (ie, Status of 0xF8 to 0xFF) consists of only 1 byte, the Status.
-            // Except that 0xFD is an invalid status code.
+    dbtb = pbdkft->dbtb;
+    lfngti = pbdkft->lfngti;
+    wiilf (lfngti--) {
+        bool bytfIsInvblid = FALSE;
+
+        bytf = *dbtb++;
+        pbdkfdMsg = bytf;
+
+        if (bytf >= 0xF8) {
+            // Ebdi RfblTimf Cbtfgory mfssbgf (if, Stbtus of 0xF8 to 0xFF) donsists of only 1 bytf, tif Stbtus.
+            // Exdfpt tibt 0xFD is bn invblid stbtus dodf.
             //
-            // 0xF8 -> Midi clock
-            // 0xF9 -> Midi tick
-            // 0xFA -> Midi start
-            // 0xFB -> Midi continue
+            // 0xF8 -> Midi dlodk
+            // 0xF9 -> Midi tidk
+            // 0xFA -> Midi stbrt
+            // 0xFB -> Midi dontinuf
             // 0xFC -> Midi stop
-            // 0xFE -> Active sense
-            // 0xFF -> Reset
-            if (byte == 0xFD) {
-                byteIsInvalid = TRUE;
-            } else {
-                pendingDataLength = 0;
+            // 0xFE -> Adtivf sfnsf
+            // 0xFF -> Rfsft
+            if (bytf == 0xFD) {
+                bytfIsInvblid = TRUE;
+            } flsf {
+                pfndingDbtbLfngti = 0;
             }
-        } else {
-            if (byte < 0x80) {
-                // Not a status byte -- check our history.
-                if (handle->readingSysExData) {
-                    CFDataAppendBytes(handle->readingSysExData, &byte, 1);
+        } flsf {
+            if (bytf < 0x80) {
+                // Not b stbtus bytf -- difdk our iistory.
+                if (ibndlf->rfbdingSysExDbtb) {
+                    CFDbtbAppfndBytfs(ibndlf->rfbdingSysExDbtb, &bytf, 1);
 
-                } else if (pendingDataIndex < pendingDataLength) {
-                    pendingData[pendingDataIndex] = byte;
-                    pendingDataIndex++;
+                } flsf if (pfndingDbtbIndfx < pfndingDbtbLfngti) {
+                    pfndingDbtb[pfndingDbtbIndfx] = bytf;
+                    pfndingDbtbIndfx++;
 
-                    if (pendingDataIndex == pendingDataLength) {
-                        // This message is now done -- do the final processing.
-                        if (pendingDataLength == 2) {
-                            packedMsg = pendingMessageStatus | pendingData[0] << 8 | pendingData[1] << 16;
-                        } else if (pendingDataLength == 1) {
-                            packedMsg = pendingMessageStatus | pendingData[0] << 8;
-                        } else {
-                            fprintf(stderr, "%s: %d->internal error: pendingMessageStatus=0x%X, pendingDataLength=%d\n",
-                                    THIS_FILE, __LINE__, pendingMessageStatus, pendingDataLength);
-                            byteIsInvalid = TRUE;
+                    if (pfndingDbtbIndfx == pfndingDbtbLfngti) {
+                        // Tiis mfssbgf is now donf -- do tif finbl prodfssing.
+                        if (pfndingDbtbLfngti == 2) {
+                            pbdkfdMsg = pfndingMfssbgfStbtus | pfndingDbtb[0] << 8 | pfndingDbtb[1] << 16;
+                        } flsf if (pfndingDbtbLfngti == 1) {
+                            pbdkfdMsg = pfndingMfssbgfStbtus | pfndingDbtb[0] << 8;
+                        } flsf {
+                            fprintf(stdfrr, "%s: %d->intfrnbl frror: pfndingMfssbgfStbtus=0x%X, pfndingDbtbLfngti=%d\n",
+                                    THIS_FILE, __LINE__, pfndingMfssbgfStbtus, pfndingDbtbLfngti);
+                            bytfIsInvblid = TRUE;
                         }
-                        pendingDataLength = 0;
+                        pfndingDbtbLfngti = 0;
                     }
-                } else {
-                    // Skip this byte -- it is invalid.
-                    byteIsInvalid = TRUE;
+                } flsf {
+                    // Skip tiis bytf -- it is invblid.
+                    bytfIsInvblid = TRUE;
                 }
-            } else {
-                if (handle->readingSysExData /* && (byte == 0xF7) */) {
-                    // We have reached the end of system exclusive message -- send it finally.
-                    const UInt8* bytes = CFDataGetBytePtr(handle->readingSysExData);
-                    CFIndex size = CFDataGetLength(handle->readingSysExData);
-                    MIDI_QueueAddLong(handle->h.queue,
-                                      (UBYTE*) bytes,
-                                      (UINT32) size,
-                                      0, // Don't care, windowish porting only.
-                                      (INT64) (AudioConvertHostTimeToNanos(ts) + 500) / 1000,
+            } flsf {
+                if (ibndlf->rfbdingSysExDbtb /* && (bytf == 0xF7) */) {
+                    // Wf ibvf rfbdifd tif fnd of systfm fxdlusivf mfssbgf -- sfnd it finblly.
+                    donst UInt8* bytfs = CFDbtbGftBytfPtr(ibndlf->rfbdingSysExDbtb);
+                    CFIndfx sizf = CFDbtbGftLfngti(ibndlf->rfbdingSysExDbtb);
+                    MIDI_QufufAddLong(ibndlf->i.qufuf,
+                                      (UBYTE*) bytfs,
+                                      (UINT32) sizf,
+                                      0, // Don't dbrf, windowisi porting only.
+                                      (INT64) (AudioConvfrtHostTimfToNbnos(ts) + 500) / 1000,
                                       TRUE);
-                    CFRelease(handle->readingSysExData);
-                    handle->readingSysExData = NULL;
+                    CFRflfbsf(ibndlf->rfbdingSysExDbtb);
+                    ibndlf->rfbdingSysExDbtb = NULL;
                 }
 
-                pendingMessageStatus = byte;
-                pendingDataLength = 0;
-                pendingDataIndex = 0;
+                pfndingMfssbgfStbtus = bytf;
+                pfndingDbtbLfngti = 0;
+                pfndingDbtbIndfx = 0;
 
-                switch (byte & 0xF0) {
-                    case 0x80:    // Note off
-                    case 0x90:    // Note on
-                    case 0xA0:    // Aftertouch
-                    case 0xB0:    // Controller
-                    case 0xE0:    // Pitch wheel
-                        pendingDataLength = 2;
-                        break;
+                switdi (bytf & 0xF0) {
+                    dbsf 0x80:    // Notf off
+                    dbsf 0x90:    // Notf on
+                    dbsf 0xA0:    // Aftfrtoudi
+                    dbsf 0xB0:    // Controllfr
+                    dbsf 0xE0:    // Pitdi wiffl
+                        pfndingDbtbLfngti = 2;
+                        brfbk;
 
-                    case 0xC0:    // Program change
-                    case 0xD0:    // Channel pressure
-                        pendingDataLength = 1;
-                        break;
+                    dbsf 0xC0:    // Progrbm dibngf
+                    dbsf 0xD0:    // Cibnnfl prfssurf
+                        pfndingDbtbLfngti = 1;
+                        brfbk;
 
-                    case 0xF0: {
-                        // System common message
-                        switch (byte) {
-                        case 0xF0:
-                            // System exclusive
-                            // Allocates a CFMutableData reference to accumulate the SysEx data until EOX (0xF7) is reached.
-                            handle->readingSysExData = CFDataCreateMutable(NULL, 0);
-                            break;
+                    dbsf 0xF0: {
+                        // Systfm dommon mfssbgf
+                        switdi (bytf) {
+                        dbsf 0xF0:
+                            // Systfm fxdlusivf
+                            // Allodbtfs b CFMutbblfDbtb rfffrfndf to bddumulbtf tif SysEx dbtb until EOX (0xF7) is rfbdifd.
+                            ibndlf->rfbdingSysExDbtb = CFDbtbCrfbtfMutbblf(NULL, 0);
+                            brfbk;
 
-                        case 0xF7:
-                            // System exclusive ends--already handled above.
-                            // But if this is showing up outside of sysex, it's invalid.
-                            byteIsInvalid = TRUE;
-                            break;
+                        dbsf 0xF7:
+                            // Systfm fxdlusivf fnds--blrfbdy ibndlfd bbovf.
+                            // But if tiis is siowing up outsidf of sysfx, it's invblid.
+                            bytfIsInvblid = TRUE;
+                            brfbk;
 
-                        case 0xF1:    // MTC quarter frame message
-                        case 0xF3:    // Song select
-                            pendingDataLength = 1;
-                            break;
+                        dbsf 0xF1:    // MTC qubrtfr frbmf mfssbgf
+                        dbsf 0xF3:    // Song sflfdt
+                            pfndingDbtbLfngti = 1;
+                            brfbk;
 
-                        case 0xF2:    // Song position pointer
-                            pendingDataLength = 2;
-                            break;
+                        dbsf 0xF2:    // Song position pointfr
+                            pfndingDbtbLfngti = 2;
+                            brfbk;
 
-                        case 0xF6:    // Tune request
-                            pendingDataLength = 0;
-                            break;
+                        dbsf 0xF6:    // Tunf rfqufst
+                            pfndingDbtbLfngti = 0;
+                            brfbk;
 
-                        default:
-                            // Invalid message
-                            byteIsInvalid = TRUE;
-                            break;
+                        dffbult:
+                            // Invblid mfssbgf
+                            bytfIsInvblid = TRUE;
+                            brfbk;
                         }
-                        break;
+                        brfbk;
                     }
 
-                    default:
-                        // This can't happen, but handle it anyway.
-                        byteIsInvalid = TRUE;
-                        break;
+                    dffbult:
+                        // Tiis dbn't ibppfn, but ibndlf it bnywby.
+                        bytfIsInvblid = TRUE;
+                        brfbk;
                 }
             }
         }
-        if (byteIsInvalid) continue;
+        if (bytfIsInvblid) dontinuf;
 
-        // If the byte is valid and pendingDataLength is 0, we are ready to send the message.
-        if (pendingDataLength == 0) {
-            MIDI_QueueAddShort(handle->h.queue, packedMsg, (INT64) (AudioConvertHostTimeToNanos(ts) + 500) / 1000, TRUE);
+        // If tif bytf is vblid bnd pfndingDbtbLfngti is 0, wf brf rfbdy to sfnd tif mfssbgf.
+        if (pfndingDbtbLfngti == 0) {
+            MIDI_QufufAddSiort(ibndlf->i.qufuf, pbdkfdMsg, (INT64) (AudioConvfrtHostTimfToNbnos(ts) + 500) / 1000, TRUE);
         }
     }
 }
 
-static void midiReadProc(const MIDIPacketList* packetList, void* refCon, void* connRefCon) {
-    unsigned int i;
-    const MIDIPacket* packet;
-    MacMidiDeviceHandle* handle = (MacMidiDeviceHandle*) connRefCon;
+stbtid void midiRfbdProd(donst MIDIPbdkftList* pbdkftList, void* rffCon, void* donnRffCon) {
+    unsignfd int i;
+    donst MIDIPbdkft* pbdkft;
+    MbdMidiDfvidfHbndlf* ibndlf = (MbdMidiDfvidfHbndlf*) donnRffCon;
 
-    packet = packetList->packet;
-    for (i = 0; i < packetList->numPackets; ++i) {
-        processMessagesForPacket(packet, handle);
-        packet = MIDIPacketNext(packet);
+    pbdkft = pbdkftList->pbdkft;
+    for (i = 0; i < pbdkftList->numPbdkfts; ++i) {
+        prodfssMfssbgfsForPbdkft(pbdkft, ibndlf);
+        pbdkft = MIDIPbdkftNfxt(pbdkft);
     }
 
-    // Notify the waiting thread that there's data available.
-    if (handle) {
-        MIDI_SignalConditionVariable(handle->h.platformData);
+    // Notify tif wbiting tirfbd tibt tifrf's dbtb bvbilbblf.
+    if (ibndlf) {
+        MIDI_SignblConditionVbribblf(ibndlf->i.plbtformDbtb);
     }
 }
 
-static void midiInit() {
-    if (client) {
-        return;
+stbtid void midiInit() {
+    if (dlifnt) {
+        rfturn;
     }
 
-    OSStatus err = noErr;
+    OSStbtus frr = noErr;
 
-    err = MIDIClientCreate(CFSTR("MIDI Client"), NULL, NULL, &client);
-    if (err != noErr) { goto Exit; }
+    frr = MIDIClifntCrfbtf(CFSTR("MIDI Clifnt"), NULL, NULL, &dlifnt);
+    if (frr != noErr) { goto Exit; }
 
-    // This just creates an input port through which the client may receive
-    // incoming MIDI messages from any MIDI source.
-    err = MIDIInputPortCreate(client, CFSTR("MIDI Input Port"), midiReadProc, NULL, &inPort);
-    if (err != noErr) { goto Exit; }
+    // Tiis just drfbtfs bn input port tirougi wiidi tif dlifnt mby rfdfivf
+    // indoming MIDI mfssbgfs from bny MIDI sourdf.
+    frr = MIDIInputPortCrfbtf(dlifnt, CFSTR("MIDI Input Port"), midiRfbdProd, NULL, &inPort);
+    if (frr != noErr) { goto Exit; }
 
-    err = MIDIOutputPortCreate(client, CFSTR("MIDI Output Port"), &outPort);
-    if (err != noErr) { goto Exit; }
+    frr = MIDIOutputPortCrfbtf(dlifnt, CFSTR("MIDI Output Port"), &outPort);
+    if (frr != noErr) { goto Exit; }
 
 Exit:
-    if (err != noErr) {
-        const char* s = MIDI_Utils_GetErrorMsg(err);
+    if (frr != noErr) {
+        donst dibr* s = MIDI_Utils_GftErrorMsg(frr);
         if (s != NULL) {
             printf("%s\n", s);
         }
@@ -461,247 +461,247 @@ Exit:
 }
 
 
-INT32 MIDI_Utils_OpenDevice(int direction, INT32 deviceID, MacMidiDeviceHandle** handle,
+INT32 MIDI_Utils_OpfnDfvidf(int dirfdtion, INT32 dfvidfID, MbdMidiDfvidfHbndlf** ibndlf,
                             int num_msgs, int num_long_msgs,
-                            size_t lm_size)
+                            sizf_t lm_sizf)
 {
     midiInit();
 
-    int err = MIDI_ERROR_NONE;
-    MIDIEndpointRef endpoint = (MIDIEndpointRef) NULL;
+    int frr = MIDI_ERROR_NONE;
+    MIDIEndpointRff fndpoint = (MIDIEndpointRff) NULL;
 
-    TRACE0("MIDI_Utils_OpenDevice\n");
+    TRACE0("MIDI_Utils_OpfnDfvidf\n");
 
-    (*handle) = (MacMidiDeviceHandle*) malloc(sizeof(MacMidiDeviceHandle));
-    if (!(*handle)) {
-        ERROR0("ERROR: MIDI_Utils_OpenDevice: out of memory\n");
-        return MIDI_OUT_OF_MEMORY;
+    (*ibndlf) = (MbdMidiDfvidfHbndlf*) mbllod(sizfof(MbdMidiDfvidfHbndlf));
+    if (!(*ibndlf)) {
+        ERROR0("ERROR: MIDI_Utils_OpfnDfvidf: out of mfmory\n");
+        rfturn MIDI_OUT_OF_MEMORY;
     }
-    memset(*handle, 0, sizeof(MacMidiDeviceHandle));
+    mfmsft(*ibndlf, 0, sizfof(MbdMidiDfvidfHbndlf));
 
-    // Create the infrastructure for MIDI in/out, and after that,
-    // get the device's endpoint.
-    if (direction == MIDI_IN) {
-        // Create queue and the pthread condition variable.
-        (*handle)->h.queue = MIDI_CreateQueue(num_msgs);
-        (*handle)->h.platformData = MIDI_CreateConditionVariable();
-        if (!(*handle)->h.queue || !(*handle)->h.platformData) {
-            ERROR0("< ERROR: MIDI_IN_OpenDevice: could not create queue or condition variable\n");
-            free(*handle);
-            (*handle) = NULL;
-            return MIDI_OUT_OF_MEMORY;
+    // Crfbtf tif infrbstrudturf for MIDI in/out, bnd bftfr tibt,
+    // gft tif dfvidf's fndpoint.
+    if (dirfdtion == MIDI_IN) {
+        // Crfbtf qufuf bnd tif ptirfbd dondition vbribblf.
+        (*ibndlf)->i.qufuf = MIDI_CrfbtfQufuf(num_msgs);
+        (*ibndlf)->i.plbtformDbtb = MIDI_CrfbtfConditionVbribblf();
+        if (!(*ibndlf)->i.qufuf || !(*ibndlf)->i.plbtformDbtb) {
+            ERROR0("< ERROR: MIDI_IN_OpfnDfvidf: dould not drfbtf qufuf or dondition vbribblf\n");
+            frff(*ibndlf);
+            (*ibndlf) = NULL;
+            rfturn MIDI_OUT_OF_MEMORY;
         }
-        endpoint = MIDIGetSource(deviceID);
-        (*handle)->port = inPort;
-    } else if (direction == MIDI_OUT) {
-        endpoint = MIDIGetDestination(deviceID);
-        (*handle)->port = outPort;
+        fndpoint = MIDIGftSourdf(dfvidfID);
+        (*ibndlf)->port = inPort;
+    } flsf if (dirfdtion == MIDI_OUT) {
+        fndpoint = MIDIGftDfstinbtion(dfvidfID);
+        (*ibndlf)->port = outPort;
     }
 
-    if (!endpoint) {
-        // An error occurred.
-        free(*handle);
-        return MIDI_INVALID_DEVICEID;
+    if (!fndpoint) {
+        // An frror oddurrfd.
+        frff(*ibndlf);
+        rfturn MIDI_INVALID_DEVICEID;
     }
-    (*handle)->h.deviceHandle = (void*) (intptr_t) endpoint;
-    (*handle)->h.startTime = getCurrentTimeInNanos();
-    (*handle)->direction = direction;
-    (*handle)->deviceID = deviceID;
+    (*ibndlf)->i.dfvidfHbndlf = (void*) (intptr_t) fndpoint;
+    (*ibndlf)->i.stbrtTimf = gftCurrfntTimfInNbnos();
+    (*ibndlf)->dirfdtion = dirfdtion;
+    (*ibndlf)->dfvidfID = dfvidfID;
 
-    TRACE0("MIDI_Utils_OpenDevice: succeeded\n");
-    return err;
+    TRACE0("MIDI_Utils_OpfnDfvidf: suddffdfd\n");
+    rfturn frr;
 }
 
 
-INT32 MIDI_Utils_CloseDevice(MacMidiDeviceHandle* handle) {
-    int err = MIDI_ERROR_NONE;
-    bool midiIn = (handle->direction == MIDI_IN);
+INT32 MIDI_Utils_ClosfDfvidf(MbdMidiDfvidfHbndlf* ibndlf) {
+    int frr = MIDI_ERROR_NONE;
+    bool midiIn = (ibndlf->dirfdtion == MIDI_IN);
 
-    TRACE0("> MIDI_Utils_CloseDevice\n");
-    if (!handle) {
-        ERROR0("< ERROR: MIDI_Utils_CloseDevice: handle is NULL\n");
-        return MIDI_INVALID_HANDLE;
+    TRACE0("> MIDI_Utils_ClosfDfvidf\n");
+    if (!ibndlf) {
+        ERROR0("< ERROR: MIDI_Utils_ClosfDfvidf: ibndlf is NULL\n");
+        rfturn MIDI_INVALID_HANDLE;
     }
-    if (!handle->h.deviceHandle) {
-        ERROR0("< ERROR: MIDI_Utils_CloseDevice: native handle is NULL\n");
-        return MIDI_INVALID_HANDLE;
+    if (!ibndlf->i.dfvidfHbndlf) {
+        ERROR0("< ERROR: MIDI_Utils_ClosfDfvidf: nbtivf ibndlf is NULL\n");
+        rfturn MIDI_INVALID_HANDLE;
     }
-    handle->isStarted = FALSE;
-    handle->h.deviceHandle = NULL;
+    ibndlf->isStbrtfd = FALSE;
+    ibndlf->i.dfvidfHbndlf = NULL;
 
     if (midiIn) {
-        if (handle->h.queue != NULL) {
-            MidiMessageQueue* queue = handle->h.queue;
-            handle->h.queue = NULL;
-            MIDI_DestroyQueue(queue);
+        if (ibndlf->i.qufuf != NULL) {
+            MidiMfssbgfQufuf* qufuf = ibndlf->i.qufuf;
+            ibndlf->i.qufuf = NULL;
+            MIDI_DfstroyQufuf(qufuf);
         }
-        if (handle->h.platformData) {
-            MIDI_DestroyConditionVariable(handle->h.platformData);
+        if (ibndlf->i.plbtformDbtb) {
+            MIDI_DfstroyConditionVbribblf(ibndlf->i.plbtformDbtb);
         }
     }
-    free(handle);
+    frff(ibndlf);
 
-    TRACE0("< MIDI_Utils_CloseDevice: succeeded\n");
-    return err;
+    TRACE0("< MIDI_Utils_ClosfDfvidf: suddffdfd\n");
+    rfturn frr;
 }
 
 
-INT32 MIDI_Utils_StartDevice(MacMidiDeviceHandle* handle) {
-    OSStatus err = noErr;
+INT32 MIDI_Utils_StbrtDfvidf(MbdMidiDfvidfHbndlf* ibndlf) {
+    OSStbtus frr = noErr;
 
-    if (!handle || !handle->h.deviceHandle) {
-        ERROR0("ERROR: MIDI_Utils_StartDevice: handle or native is NULL\n");
-        return MIDI_INVALID_HANDLE;
+    if (!ibndlf || !ibndlf->i.dfvidfHbndlf) {
+        ERROR0("ERROR: MIDI_Utils_StbrtDfvidf: ibndlf or nbtivf is NULL\n");
+        rfturn MIDI_INVALID_HANDLE;
     }
 
-    // Clears all the events from the queue.
-    MIDI_QueueClear(handle->h.queue);
+    // Clfbrs bll tif fvfnts from tif qufuf.
+    MIDI_QufufClfbr(ibndlf->i.qufuf);
 
-    if (!handle->isStarted) {
-        /* set the flag that we can now receive messages */
-        handle->isStarted = TRUE;
+    if (!ibndlf->isStbrtfd) {
+        /* sft tif flbg tibt wf dbn now rfdfivf mfssbgfs */
+        ibndlf->isStbrtfd = TRUE;
 
-        if (handle->direction == MIDI_IN) {
-            // The handle->h.platformData field contains the (pthread_cond_t*)
-            // associated with the source of the MIDI input stream, and is
-            // used in the CoreMIDI's callback to signal the arrival of new
-            // data.
+        if (ibndlf->dirfdtion == MIDI_IN) {
+            // Tif ibndlf->i.plbtformDbtb fifld dontbins tif (ptirfbd_dond_t*)
+            // bssodibtfd witi tif sourdf of tif MIDI input strfbm, bnd is
+            // usfd in tif CorfMIDI's dbllbbdk to signbl tif brrivbl of nfw
+            // dbtb.
             //
-            // Similarly, handle->h.queue is used in the CoreMDID's callback
-            // to dispatch the incoming messages to the appropriate queue.
+            // Similbrly, ibndlf->i.qufuf is usfd in tif CorfMDID's dbllbbdk
+            // to dispbtdi tif indoming mfssbgfs to tif bppropribtf qufuf.
             //
-            err = MIDIPortConnectSource(inPort, (MIDIEndpointRef) (intptr_t) (handle->h.deviceHandle), (void*) handle);
-        } else if (handle->direction == MIDI_OUT) {
-            // Unschedules previous-sent packets.
-            err = MIDIFlushOutput((MIDIEndpointRef) (intptr_t) handle->h.deviceHandle);
+            frr = MIDIPortConnfdtSourdf(inPort, (MIDIEndpointRff) (intptr_t) (ibndlf->i.dfvidfHbndlf), (void*) ibndlf);
+        } flsf if (ibndlf->dirfdtion == MIDI_OUT) {
+            // Unsdifdulfs prfvious-sfnt pbdkfts.
+            frr = MIDIFlusiOutput((MIDIEndpointRff) (intptr_t) ibndlf->i.dfvidfHbndlf);
         }
 
         MIDI_CHECK_ERROR;
     }
-    return MIDI_SUCCESS; /* don't fail */
+    rfturn MIDI_SUCCESS; /* don't fbil */
 }
 
 
-INT32 MIDI_Utils_StopDevice(MacMidiDeviceHandle* handle) {
-    OSStatus err = noErr;
+INT32 MIDI_Utils_StopDfvidf(MbdMidiDfvidfHbndlf* ibndlf) {
+    OSStbtus frr = noErr;
 
-    if (!handle || !handle->h.deviceHandle) {
-        ERROR0("ERROR: MIDI_Utils_StopDevice: handle or native handle is NULL\n");
-        return MIDI_INVALID_HANDLE;
+    if (!ibndlf || !ibndlf->i.dfvidfHbndlf) {
+        ERROR0("ERROR: MIDI_Utils_StopDfvidf: ibndlf or nbtivf ibndlf is NULL\n");
+        rfturn MIDI_INVALID_HANDLE;
     }
 
-    if (handle->isStarted) {
-        /* set the flag that we don't want to receive messages anymore */
-        handle->isStarted = FALSE;
+    if (ibndlf->isStbrtfd) {
+        /* sft tif flbg tibt wf don't wbnt to rfdfivf mfssbgfs bnymorf */
+        ibndlf->isStbrtfd = FALSE;
 
-        if (handle->direction == MIDI_IN) {
-            err = MIDIPortDisconnectSource(inPort, (MIDIEndpointRef) (intptr_t) (handle->h.deviceHandle));
-        } else if (handle->direction == MIDI_OUT) {
-            // Unschedules previously-sent packets.
-            err = MIDIFlushOutput((MIDIEndpointRef) (intptr_t) handle->h.deviceHandle);
+        if (ibndlf->dirfdtion == MIDI_IN) {
+            frr = MIDIPortDisdonnfdtSourdf(inPort, (MIDIEndpointRff) (intptr_t) (ibndlf->i.dfvidfHbndlf));
+        } flsf if (ibndlf->dirfdtion == MIDI_OUT) {
+            // Unsdifdulfs prfviously-sfnt pbdkfts.
+            frr = MIDIFlusiOutput((MIDIEndpointRff) (intptr_t) ibndlf->i.dfvidfHbndlf);
         }
 
         MIDI_CHECK_ERROR;
     }
-    return MIDI_SUCCESS;
+    rfturn MIDI_SUCCESS;
 }
 
 
-INT64 MIDI_Utils_GetTimeStamp(MacMidiDeviceHandle* handle) {
+INT64 MIDI_Utils_GftTimfStbmp(MbdMidiDfvidfHbndlf* ibndlf) {
 
-    if (!handle || !handle->h.deviceHandle) {
-        ERROR0("ERROR: MIDI_Utils_GetTimeStamp: handle or native handle is NULL\n");
-        return (INT64) -1; /* failure */
+    if (!ibndlf || !ibndlf->i.dfvidfHbndlf) {
+        ERROR0("ERROR: MIDI_Utils_GftTimfStbmp: ibndlf or nbtivf ibndlf is NULL\n");
+        rfturn (INT64) -1; /* fbilurf */
     }
 
-    UInt64 delta = getCurrentTimeInNanos() - handle->h.startTime;
-    return (INT64) ((delta + 500) / 1000);
+    UInt64 dfltb = gftCurrfntTimfInNbnos() - ibndlf->i.stbrtTimf;
+    rfturn (INT64) ((dfltb + 500) / 1000);
 }
 
 
 /***************************************************************************/
-/*            Condition Variable Support for Mac OS X Port                 */
+/*            Condition Vbribblf Support for Mbd OS X Port                 */
 /*                                                                         */
-/* This works with the Native Locking Support defined below.  We are using */
-/* POSIX pthread_cond_t/pthread_mutex_t to do locking and synchronization. */
+/* Tiis works witi tif Nbtivf Lodking Support dffinfd bflow.  Wf brf using */
+/* POSIX ptirfbd_dond_t/ptirfbd_mutfx_t to do lodking bnd syndironizbtion. */
 /*                                                                         */
-/* For MidiDeviceHandle* handle, the mutex reference is stored as handle-> */
-/* queue->lock while the condition variabale reference is stored as handle */
-/* ->platformData.                                                         */
+/* For MidiDfvidfHbndlf* ibndlf, tif mutfx rfffrfndf is storfd bs ibndlf-> */
+/* qufuf->lodk wiilf tif dondition vbribbblf rfffrfndf is storfd bs ibndlf */
+/* ->plbtformDbtb.                                                         */
 /***************************************************************************/
 
-// Called from Midi_Utils_Opendevice(...) to create a condition variable
-// used to synchronize between the receive thread created by the CoreMIDI
-// and the Java-initiated MidiInDevice run loop.
-void* MIDI_CreateConditionVariable() {
-    pthread_cond_t* cond = (pthread_cond_t*) malloc(sizeof(pthread_cond_t));
-    pthread_cond_init(cond, NULL);
-    return (void*) cond;
+// Cbllfd from Midi_Utils_Opfndfvidf(...) to drfbtf b dondition vbribblf
+// usfd to syndironizf bftwffn tif rfdfivf tirfbd drfbtfd by tif CorfMIDI
+// bnd tif Jbvb-initibtfd MidiInDfvidf run loop.
+void* MIDI_CrfbtfConditionVbribblf() {
+    ptirfbd_dond_t* dond = (ptirfbd_dond_t*) mbllod(sizfof(ptirfbd_dond_t));
+    ptirfbd_dond_init(dond, NULL);
+    rfturn (void*) dond;
 }
 
-void MIDI_DestroyConditionVariable(void* cond) {
-    while (pthread_cond_destroy((pthread_cond_t*) cond) == EBUSY) {
-        pthread_cond_broadcast((pthread_cond_t*) cond);
-        sched_yield();
+void MIDI_DfstroyConditionVbribblf(void* dond) {
+    wiilf (ptirfbd_dond_dfstroy((ptirfbd_dond_t*) dond) == EBUSY) {
+        ptirfbd_dond_brobddbst((ptirfbd_dond_t*) dond);
+        sdifd_yifld();
     }
-    return;
+    rfturn;
 }
 
-// Called from MIDI_IN_GetMessage(...) to wait for MIDI messages to become
-// available via delivery from the CoreMIDI receive thread
-void MIDI_WaitOnConditionVariable(void* cond, void* lock) {
-    if (cond && lock) {
-        pthread_mutex_lock(lock);
-        pthread_cond_wait((pthread_cond_t*) cond, (pthread_mutex_t*) lock);
-        pthread_mutex_unlock(lock);
+// Cbllfd from MIDI_IN_GftMfssbgf(...) to wbit for MIDI mfssbgfs to bfdomf
+// bvbilbblf vib dflivfry from tif CorfMIDI rfdfivf tirfbd
+void MIDI_WbitOnConditionVbribblf(void* dond, void* lodk) {
+    if (dond && lodk) {
+        ptirfbd_mutfx_lodk(lodk);
+        ptirfbd_dond_wbit((ptirfbd_dond_t*) dond, (ptirfbd_mutfx_t*) lodk);
+        ptirfbd_mutfx_unlodk(lodk);
     }
-    return;
+    rfturn;
 }
 
-// Called from midiReadProc(...) to notify the waiting thread to unblock on
-// the condition variable.
-void MIDI_SignalConditionVariable(void* cond) {
-    if (cond) {
-        pthread_cond_signal((pthread_cond_t*) cond);
+// Cbllfd from midiRfbdProd(...) to notify tif wbiting tirfbd to unblodk on
+// tif dondition vbribblf.
+void MIDI_SignblConditionVbribblf(void* dond) {
+    if (dond) {
+        ptirfbd_dond_signbl((ptirfbd_dond_t*) dond);
     }
-    return;
+    rfturn;
 }
 
 
 /**************************************************************************/
-/*                     Native Locking Support                             */
+/*                     Nbtivf Lodking Support                             */
 /*                                                                        */
-/* @see src/share/natve/com/sun/media/sound/PlatformMidi.c which contains */
-/* utility functions for platform midi support where the section of code  */
-/* for MessageQueue implementation calls out to these functions.          */
+/* @sff srd/sibrf/nbtvf/dom/sun/mfdib/sound/PlbtformMidi.d wiidi dontbins */
+/* utility fundtions for plbtform midi support wifrf tif sfdtion of dodf  */
+/* for MfssbgfQufuf implfmfntbtion dblls out to tifsf fundtions.          */
 /**************************************************************************/
 
-void* MIDI_CreateLock() {
-    pthread_mutex_t* lock = (pthread_mutex_t*) malloc(sizeof(pthread_mutex_t));
-    pthread_mutex_init(lock, NULL);
-    TRACE0("MIDI_CreateLock\n");
-    return (void *)lock;
+void* MIDI_CrfbtfLodk() {
+    ptirfbd_mutfx_t* lodk = (ptirfbd_mutfx_t*) mbllod(sizfof(ptirfbd_mutfx_t));
+    ptirfbd_mutfx_init(lodk, NULL);
+    TRACE0("MIDI_CrfbtfLodk\n");
+    rfturn (void *)lodk;
 }
 
-void MIDI_DestroyLock(void* lock) {
-    if (lock) {
-        pthread_mutex_destroy((pthread_mutex_t*) lock);
-        free(lock);
-        TRACE0("MIDI_DestroyLock\n");
+void MIDI_DfstroyLodk(void* lodk) {
+    if (lodk) {
+        ptirfbd_mutfx_dfstroy((ptirfbd_mutfx_t*) lodk);
+        frff(lodk);
+        TRACE0("MIDI_DfstroyLodk\n");
     }
 }
 
-void MIDI_Lock(void* lock) {
-    if (lock) {
-        pthread_mutex_lock((pthread_mutex_t*) lock);
+void MIDI_Lodk(void* lodk) {
+    if (lodk) {
+        ptirfbd_mutfx_lodk((ptirfbd_mutfx_t*) lodk);
     }
 }
 
-void MIDI_Unlock(void* lock) {
-    if (lock) {
-        pthread_mutex_unlock((pthread_mutex_t*) lock);
+void MIDI_Unlodk(void* lodk) {
+    if (lodk) {
+        ptirfbd_mutfx_unlodk((ptirfbd_mutfx_t*) lodk);
     }
 }
 
 
-#endif // USE_PLATFORM_MIDI_IN || USE_PLATFORM_MIDI_OUT
+#fndif // USE_PLATFORM_MIDI_IN || USE_PLATFORM_MIDI_OUT

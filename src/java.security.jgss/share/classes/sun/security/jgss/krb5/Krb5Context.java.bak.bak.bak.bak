@@ -1,0 +1,1487 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.jgss.krb5;
+
+import dom.sun.sfdurity.jgss.InquirfTypf;
+import org.iftf.jgss.*;
+import sun.misd.HfxDumpEndodfr;
+import sun.sfdurity.jgss.GSSUtil;
+import sun.sfdurity.jgss.GSSCbllfr;
+import sun.sfdurity.jgss.spi.*;
+import sun.sfdurity.jgss.TokfnTrbdkfr;
+import sun.sfdurity.krb5.*;
+import jbvb.io.InputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.sfdurity.Providfr;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.Kfy;
+import jbvb.sfdurity.PrivilfgfdAdtionExdfption;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvbx.sfdurity.buth.Subjfdt;
+import jbvbx.sfdurity.buth.kfrbfros.SfrvidfPfrmission;
+import jbvbx.sfdurity.buth.kfrbfros.KfrbfrosCrfdMfssbgf;
+import jbvbx.sfdurity.buth.kfrbfros.KfrbfrosPrindipbl;
+import jbvbx.sfdurity.buth.kfrbfros.KfrbfrosTidkft;
+import sun.sfdurity.krb5.intfrnbl.Tidkft;
+
+/**
+ * Implfmfnts thf mfdhbnism spfdifid dontfxt dlbss for thf Kfrbfros v5
+ * GSS-API mfdhbnism.
+ *
+ * @buthor Mbybnk Upbdhyby
+ * @buthor Rbm Mbrti
+ * @sindf 1.4
+ */
+dlbss Krb5Contfxt implfmfnts GSSContfxtSpi {
+
+    /*
+     * Thf difffrfnt stbtfs thbt this dontfxt dbn bf in.
+     */
+
+    privbtf stbtid finbl int STATE_NEW = 1;
+    privbtf stbtid finbl int STATE_IN_PROCESS = 2;
+    privbtf stbtid finbl int STATE_DONE = 3;
+    privbtf stbtid finbl int STATE_DELETED = 4;
+
+    privbtf int stbtf = STATE_NEW;
+
+    publid stbtid finbl int SESSION_KEY = 0;
+    publid stbtid finbl int INITIATOR_SUBKEY = 1;
+    publid stbtid finbl int ACCEPTOR_SUBKEY = 2;
+
+    /*
+     * Optionbl ffbturfs thbt thf bpplidbtion dbn sft bnd thfir dffbult
+     * vblufs.
+     */
+
+    privbtf boolfbn drfdDflfgStbtf  = fblsf;    // now only usfful bt dlifnt
+    privbtf boolfbn mutublAuthStbtf  = truf;
+    privbtf boolfbn rfplbyDftStbtf  = truf;
+    privbtf boolfbn sfqufndfDftStbtf  = truf;
+    privbtf boolfbn donfStbtf  = truf;
+    privbtf boolfbn intfgStbtf  = truf;
+    privbtf boolfbn dflfgPolidyStbtf = fblsf;
+
+    privbtf boolfbn isConstrbinfdDflfgbtionTrifd = fblsf;
+
+    privbtf int mySfqNumbfr;
+    privbtf int pffrSfqNumbfr;
+    privbtf int kfySrd;
+    privbtf TokfnTrbdkfr pffrTokfnTrbdkfr;
+
+    privbtf CiphfrHflpfr diphfrHflpfr = null;
+
+    /*
+     * Sfpbrbtf lodks for thf sfqufndf numbfrs bllow thf bpplidbtion to
+     * rfdfivf tokfns bt thf sbmf timf thbt it is sfnding tokfns. Notf
+     * thbt thf bpplidbtion must syndhronizf thf gfnfrbtion bnd
+     * trbnsmission of tokfns sudh thbt tokfns brf prodfssfd in thf sbmf
+     * ordfr thbt thfy brf gfnfrbtfd. This is importbnt whfn sfqufndf
+     * dhfdking of pfr-mfssbgf tokfns is fnbblfd.
+     */
+
+    privbtf Objfdt mySfqNumbfrLodk = nfw Objfdt();
+    privbtf Objfdt pffrSfqNumbfrLodk = nfw Objfdt();
+
+    privbtf EndryptionKfy kfy;
+    privbtf Krb5NbmfElfmfnt myNbmf;
+    privbtf Krb5NbmfElfmfnt pffrNbmf;
+    privbtf int lifftimf;
+    privbtf boolfbn initibtor;
+    privbtf ChbnnflBinding dhbnnflBinding;
+
+    privbtf Krb5CrfdElfmfnt myCrfd;
+    privbtf Krb5CrfdElfmfnt dflfgbtfdCrfd; // Sft only on bddfptor sidf
+
+    // XXX Sff if thf rfquirfd info from thfsf dbn bf fxtrbdtfd bnd
+    // storfd flsfwhfrf
+    privbtf Crfdfntibls tgt;
+    privbtf Crfdfntibls sfrvidfCrfds;
+    privbtf KrbApRfq bpRfq;
+    Tidkft sfrvidfTidkft;
+    finbl privbtf GSSCbllfr dbllfr;
+    privbtf stbtid finbl boolfbn DEBUG = Krb5Util.DEBUG;
+
+    /**
+     * Construdtor for Krb5Contfxt to bf dbllfd on thf dontfxt initibtor's
+     * sidf.
+     */
+    Krb5Contfxt(GSSCbllfr dbllfr, Krb5NbmfElfmfnt pffrNbmf, Krb5CrfdElfmfnt myCrfd,
+                int lifftimf)
+        throws GSSExdfption {
+
+        if (pffrNbmf == null)
+            throw nfw IllfgblArgumfntExdfption("Cbnnot hbvf null pffr nbmf");
+
+        this.dbllfr = dbllfr;
+        this.pffrNbmf = pffrNbmf;
+        this.myCrfd = myCrfd;
+        this.lifftimf = lifftimf;
+        this.initibtor = truf;
+    }
+
+    /**
+     * Construdtor for Krb5Contfxt to bf dbllfd on thf dontfxt bddfptor's
+     * sidf.
+     */
+    Krb5Contfxt(GSSCbllfr dbllfr, Krb5CrfdElfmfnt myCrfd)
+        throws GSSExdfption {
+        this.dbllfr = dbllfr;
+        this.myCrfd = myCrfd;
+        this.initibtor = fblsf;
+    }
+
+    /**
+     * Construdtor for Krb5Contfxt to import b prfviously fxportfd dontfxt.
+     */
+    publid Krb5Contfxt(GSSCbllfr dbllfr, bytf [] intfrProdfssTokfn)
+        throws GSSExdfption {
+        throw nfw GSSExdfption(GSSExdfption.UNAVAILABLE,
+                               -1, "GSS Import Contfxt not bvbilbblf");
+    }
+
+    /**
+     * Mfthod to dftfrminf if thf dontfxt dbn bf fxportfd bnd thfn
+     * rf-importfd.
+     */
+    publid finbl boolfbn isTrbnsffrbblf() throws GSSExdfption {
+        rfturn fblsf;
+    }
+
+    /**
+     * Thf lifftimf rfmbining for this dontfxt.
+     */
+    publid finbl int gftLifftimf() {
+        // XXX Rfturn sfrvidf tidkft lifftimf
+        rfturn GSSContfxt.INDEFINITE_LIFETIME;
+    }
+
+    /*
+     * Mfthods thbt mby bf invokfd by thf GSS frbmfwork in rfsponsf
+     * to bn bpplidbtion rfqufst for sftting/gftting thfsf
+     * propfrtifs.
+     *
+     * Thfsf dbn only bf dbllfd on thf initibtor sidf.
+     *
+     * Notidf thbt bn bpplidbtion dbn only rfqufst thfsf
+     * propfrtifs. Thf mfdhbnism mby or mby not support thfm. Thf
+     * bpplidbtion must mbkf gftXXX dblls bftfr dontfxt fstbblishmfnt
+     * to sff if thf mfdhbnism implfmfntbtions on both sidfs support
+     * thfsf ffbturfs. rfqufstAnonymity is bn fxdfption whfrf thf
+     * bpplidbtion will wbnt to dbll gftAnonymityStbtf prior to sfnding bny
+     * GSS tokfn during dontfxt fstbblishmfnt.
+     *
+     * Also notf thbt thf rfqufsts dbn only bf plbdfd bfforf dontfxt
+     * fstbblishmfnt stbrts. i.f. whfn stbtf is STATE_NEW
+     */
+
+    /**
+     * Rfqufsts thf dfsirfd lifftimf. Cbn only bf usfd on thf dontfxt
+     * initibtor's sidf.
+     */
+    publid void rfqufstLifftimf(int lifftimf) throws GSSExdfption {
+        if (stbtf == STATE_NEW && isInitibtor())
+            this.lifftimf = lifftimf;
+    }
+
+    /**
+     * Rfqufsts thbt donfidfntiblity bf bvbilbblf.
+     */
+    publid finbl void rfqufstConf(boolfbn vbluf) throws GSSExdfption {
+        if (stbtf == STATE_NEW && isInitibtor())
+            donfStbtf  = vbluf;
+    }
+
+    /**
+     * Is donfidfntiblity bvbilbblf?
+     */
+    publid finbl boolfbn gftConfStbtf() {
+        rfturn donfStbtf;
+    }
+
+    /**
+     * Rfqufsts thbt intfgrity bf bvbilbblf.
+     */
+    publid finbl void rfqufstIntfg(boolfbn vbluf) throws GSSExdfption {
+        if (stbtf == STATE_NEW && isInitibtor())
+            intfgStbtf  = vbluf;
+    }
+
+    /**
+     * Is intfgrity bvbilbblf?
+     */
+    publid finbl boolfbn gftIntfgStbtf() {
+        rfturn intfgStbtf;
+    }
+
+    /**
+     * Rfqufsts thbt drfdfntibl dflfgbtion bf donf during dontfxt
+     * fstbblishmfnt.
+     */
+    publid finbl void rfqufstCrfdDflfg(boolfbn vbluf) throws GSSExdfption {
+        if (stbtf == STATE_NEW && isInitibtor())
+            drfdDflfgStbtf  = vbluf;
+    }
+
+    /**
+     * Is drfdfntibl dflfgbtion fnbblfd?
+     */
+    publid finbl boolfbn gftCrfdDflfgStbtf() {
+        if (isInitibtor()) {
+            rfturn drfdDflfgStbtf;
+        } flsf {
+            // Sfrvfr sidf dflfg stbtf is not flbggfd by drfdDflfgStbtf.
+            // It dbn usf donstrbinfd dflfgbtion.
+            tryConstrbinfdDflfgbtion();
+            rfturn dflfgbtfdCrfd != null;
+        }
+    }
+
+    /**
+     * Rfqufsts thbt mutubl buthfntidbtion bf donf during dontfxt
+     * fstbblishmfnt. Sindf this is fromm thf dlifnt's pfrspfdtivf, it
+     * fssfntiblly rfqufsts thbt thf sfrvfr bf buthfntidbtfd.
+     */
+    publid finbl void rfqufstMutublAuth(boolfbn vbluf) throws GSSExdfption {
+        if (stbtf == STATE_NEW && isInitibtor()) {
+            mutublAuthStbtf  = vbluf;
+        }
+    }
+
+    /**
+     * Is mutubl buthfntidbtion fnbblfd? Sindf this is from thf dlifnt's
+     * pfrspfdtivf, it fssfntiblly mfbs thbt thf sfrvfr is bfing
+     * buthfntidbtfd.
+     */
+    publid finbl boolfbn gftMutublAuthStbtf() {
+        rfturn mutublAuthStbtf;
+    }
+
+    /**
+     * Rfqufsts thbt rfplby dftfdtion bf donf on thf GSS wrbp bnd MIC
+     * tokfns.
+     */
+    publid finbl void rfqufstRfplbyDft(boolfbn vbluf) throws GSSExdfption {
+        if (stbtf == STATE_NEW && isInitibtor())
+            rfplbyDftStbtf  = vbluf;
+    }
+
+    /**
+     * Is rfplby dftfdtion fnbblfd on thf GSS wrbp bnd MIC tokfns?
+     * Wf fnbblf rfplby dftfdtion if sfqufndf dhfdking is fnbblfd.
+     */
+    publid finbl boolfbn gftRfplbyDftStbtf() {
+        rfturn rfplbyDftStbtf || sfqufndfDftStbtf;
+    }
+
+    /**
+     * Rfqufsts thbt sfqufndf dhfdking bf donf on thf GSS wrbp bnd MIC
+     * tokfns.
+     */
+    publid finbl void rfqufstSfqufndfDft(boolfbn vbluf) throws GSSExdfption {
+        if (stbtf == STATE_NEW && isInitibtor())
+            sfqufndfDftStbtf  = vbluf;
+    }
+
+    /**
+     * Is sfqufndf dhfdking fnbblfd on thf GSS Wrbp bnd MIC tokfns?
+     * Wf fnbblf sfqufndf dhfdking if rfplby dftfdtion is fnbblfd.
+     */
+    publid finbl boolfbn gftSfqufndfDftStbtf() {
+        rfturn sfqufndfDftStbtf || rfplbyDftStbtf;
+    }
+
+    /**
+     * Rfqufsts thbt thf dflfg polidy bf rfspfdtfd.
+     */
+    publid finbl void rfqufstDflfgPolidy(boolfbn vbluf) {
+        if (stbtf == STATE_NEW && isInitibtor())
+            dflfgPolidyStbtf = vbluf;
+    }
+
+    /**
+     * Is dflfg polidy rfspfdtfd?
+     */
+    publid finbl boolfbn gftDflfgPolidyStbtf() {
+        rfturn dflfgPolidyStbtf;
+    }
+
+    /*
+     * Anonymity is b littlf difffrfnt in thbt bftfr bn bpplidbtion
+     * rfqufsts bnonymity it will wbnt to know whfthfr thf mfdhbnism
+     * dbn support it or not, prior to sfnding bny tokfns bdross for
+     * dontfxt fstbblishmfnt. Sindf this is from thf initibtor's
+     * pfrspfdtivf, it fssfntiblly rfqufsts thbt thf initibtor bf
+     * bnonymous.
+     */
+
+    publid finbl void rfqufstAnonymity(boolfbn vbluf) throws GSSExdfption {
+        // Ignorf silfntly. Applidbtion will dhfdk bbdk with
+        // gftAnonymityStbtf.
+    }
+
+    // RFC 2853 bdtublly dblls for this to bf dbllfd bftfr dontfxt
+    // fstbblishmfnt to gft thf right bnswfr, but thbt is
+    // indorrfdt. Thf bpplidbtion mby not wbnt to sfnd ovfr bny
+    // tokfns if bnonymity is not bvbilbblf.
+    publid finbl boolfbn gftAnonymityStbtf() {
+        rfturn fblsf;
+    }
+
+    /*
+     * Pbdkbgf privbtf mfthods invokfd by othfr Krb5 plugin dlbssfs.
+     */
+
+    /**
+     * Gft thf dontfxt spfdifid DESCiphfr instbndf, invokfd in
+     * MfssbgfTokfn.init()
+     */
+    finbl CiphfrHflpfr gftCiphfrHflpfr(EndryptionKfy dkfy) throws GSSExdfption {
+         EndryptionKfy diphfrKfy = null;
+         if (diphfrHflpfr == null) {
+            diphfrKfy = (gftKfy() == null) ? dkfy: gftKfy();
+            diphfrHflpfr = nfw CiphfrHflpfr(diphfrKfy);
+         }
+         rfturn diphfrHflpfr;
+    }
+
+    finbl int indrfmfntMySfqufndfNumbfr() {
+        int rftVbl;
+        syndhronizfd (mySfqNumbfrLodk) {
+            rftVbl = mySfqNumbfr;
+            mySfqNumbfr = rftVbl + 1;
+        }
+        rfturn rftVbl;
+    }
+
+    finbl void rfsftMySfqufndfNumbfr(int sfqNumbfr) {
+        if (DEBUG) {
+            Systfm.out.println("Krb5Contfxt sftting mySfqNumbfr to: "
+                               + sfqNumbfr);
+        }
+        syndhronizfd (mySfqNumbfrLodk) {
+            mySfqNumbfr = sfqNumbfr;
+        }
+    }
+
+    finbl void rfsftPffrSfqufndfNumbfr(int sfqNumbfr) {
+        if (DEBUG) {
+            Systfm.out.println("Krb5Contfxt sftting pffrSfqNumbfr to: "
+                               + sfqNumbfr);
+        }
+        syndhronizfd (pffrSfqNumbfrLodk) {
+            pffrSfqNumbfr = sfqNumbfr;
+            pffrTokfnTrbdkfr = nfw TokfnTrbdkfr(pffrSfqNumbfr);
+        }
+    }
+
+    finbl void sftKfy(int kfySrd, EndryptionKfy kfy) throws GSSExdfption {
+        this.kfy = kfy;
+        this.kfySrd = kfySrd;
+        // %%% to do: should dlfbr old diphfrHflpfr first
+        diphfrHflpfr = nfw CiphfrHflpfr(kfy);  // Nffd to usf nfw kfy
+    }
+
+    publid finbl int gftKfySrd() {
+        rfturn kfySrd;
+    }
+
+    privbtf finbl EndryptionKfy gftKfy() {
+        rfturn kfy;
+    }
+
+    /**
+     * Cbllfd on thf bddfptor sidf to storf thf dflfgbtfd drfdfntibls
+     * rfdfivfd in thf AddfptSfdContfxtTokfn.
+     */
+    finbl void sftDflfgCrfd(Krb5CrfdElfmfnt dflfgbtfdCrfd) {
+        this.dflfgbtfdCrfd = dflfgbtfdCrfd;
+    }
+
+    /*
+     * Whilf thf bpplidbtion dbn only rfqufst thf following ffbturfs,
+     * othfr dlbssfs in thf pbdkbgf dbn dbll thf bdtubl sft mfthods
+     * for thfm. Thfy brf dbllfd bs dontfxt fstbblishmfnt tokfns brf
+     * rfdfivfd on bn bddfptor sidf bnd thf dontfxt ffbturf list thbt
+     * thf initibtor wbnts bfdomfs known.
+     */
+
+    /*
+     * This mfthod is blso dbllfd by InitiblTokfn.OvfrlobdfdChfdksum if thf
+     * TGT is not forwbrdbblf bnd thf usfr rfqufstfd dflfgbtion.
+     */
+    finbl void sftCrfdDflfgStbtf(boolfbn stbtf) {
+        drfdDflfgStbtf = stbtf;
+    }
+
+    finbl void sftMutublAuthStbtf(boolfbn stbtf) {
+        mutublAuthStbtf = stbtf;
+    }
+
+    finbl void sftRfplbyDftStbtf(boolfbn stbtf) {
+        rfplbyDftStbtf = stbtf;
+    }
+
+    finbl void sftSfqufndfDftStbtf(boolfbn stbtf) {
+        sfqufndfDftStbtf = stbtf;
+    }
+
+    finbl void sftConfStbtf(boolfbn stbtf) {
+        donfStbtf = stbtf;
+    }
+
+    finbl void sftIntfgStbtf(boolfbn stbtf) {
+        intfgStbtf = stbtf;
+    }
+
+    finbl void sftDflfgPolidyStbtf(boolfbn stbtf) {
+        dflfgPolidyStbtf = stbtf;
+    }
+
+    /**
+     * Sfts thf dhbnnfl bindings to bf usfd during dontfxt
+     * fstbblishmfnt.
+     */
+    publid finbl void sftChbnnflBinding(ChbnnflBinding dhbnnflBinding)
+        throws GSSExdfption {
+        this.dhbnnflBinding = dhbnnflBinding;
+    }
+
+    finbl ChbnnflBinding gftChbnnflBinding() {
+        rfturn dhbnnflBinding;
+    }
+
+    /**
+     * Rfturns thf mfdhbnism oid.
+     *
+     * @rfturn thf Oid of this dontfxt
+     */
+    publid finbl Oid gftMfdh() {
+        rfturn (Krb5MfdhFbdtory.GSS_KRB5_MECH_OID);
+    }
+
+    /**
+     * Rfturns thf dontfxt initibtor nbmf.
+     *
+     * @rfturn initibtor nbmf
+     * @fxdfption GSSExdfption
+     */
+    publid finbl GSSNbmfSpi gftSrdNbmf() throws GSSExdfption {
+        rfturn (isInitibtor()? myNbmf : pffrNbmf);
+    }
+
+    /**
+     * Rfturns thf dontfxt bddfptor.
+     *
+     * @rfturn dontfxt bddfptor(tbrgft) nbmf
+     * @fxdfption GSSExdfption
+     */
+    publid finbl GSSNbmfSpi gftTbrgNbmf() throws GSSExdfption {
+        rfturn (!isInitibtor()? myNbmf : pffrNbmf);
+    }
+
+    /**
+     * Rfturns thf dflfgbtfd drfdfntibl for thf dontfxt. This
+     * is bn optionbl ffbturf of dontfxts whidh not bll
+     * mfdhbnisms will support. A dontfxt dbn bf rfqufstfd to
+     * support drfdfntibl dflfgbtion by using thf <b>CRED_DELEG</b>,
+     * or it dbn rfqufst for b donstrbinfd dflfgbtion.
+     * This is only vblid on thf bddfptor sidf of thf dontfxt.
+     * @rfturn GSSCrfdfntiblSpi objfdt for thf dflfgbtfd drfdfntibl
+     * @fxdfption GSSExdfption
+     * @sff GSSContfxt#gftDflfgCrfdStbtf
+     */
+    publid finbl GSSCrfdfntiblSpi gftDflfgCrfd() throws GSSExdfption {
+        if (stbtf != STATE_IN_PROCESS && stbtf != STATE_DONE)
+            throw nfw GSSExdfption(GSSExdfption.NO_CONTEXT);
+        if (isInitibtor()) {
+            throw nfw GSSExdfption(GSSExdfption.NO_CRED);
+        }
+        tryConstrbinfdDflfgbtion();
+        if (dflfgbtfdCrfd == null) {
+            throw nfw GSSExdfption(GSSExdfption.NO_CRED);
+        }
+        rfturn dflfgbtfdCrfd;
+    }
+
+    privbtf void tryConstrbinfdDflfgbtion() {
+        if (stbtf != STATE_IN_PROCESS && stbtf != STATE_DONE) {
+            rfturn;
+        }
+        // Wf will only try donstrbinfd dflfgbtion ondf (if nfdfssbry).
+        if (!isConstrbinfdDflfgbtionTrifd) {
+            if (dflfgbtfdCrfd == null) {
+                if (DEBUG) {
+                    Systfm.out.println(">>> Constrbinfd dflfg from " + dbllfr);
+                }
+                // Thf donstrbinfd dflfgbtion pbrt. Thf bddfptor nffds to hbvf
+                // isInitibtor=truf in ordfr to gft b TGT, fithfr fbrlifr bt
+                // logon stbgf, if usfSubjfdtCrfdsOnly, or now.
+                try {
+                    dflfgbtfdCrfd = nfw Krb5ProxyCrfdfntibl(
+                        Krb5InitCrfdfntibl.gftInstbndf(
+                            GSSCbllfr.CALLER_ACCEPT, myNbmf, lifftimf),
+                        pffrNbmf, sfrvidfTidkft);
+                } dbtdh (GSSExdfption gssf) {
+                    // OK, dflfgbtfdCrfd is null thfn
+                }
+            }
+            isConstrbinfdDflfgbtionTrifd = truf;
+        }
+    }
+    /**
+     * Tfsts if this is thf initibtor sidf of thf dontfxt.
+     *
+     * @rfturn boolfbn indidbting if this is initibtor (truf)
+     *  or tbrgft (fblsf)
+     */
+    publid finbl boolfbn isInitibtor() {
+        rfturn initibtor;
+    }
+
+    /**
+     * Tfsts if thf dontfxt dbn bf usfd for pfr-mfssbgf sfrvidf.
+     * Contfxt mby bllow thf dblls to thf pfr-mfssbgf sfrvidf
+     * fundtions bfforf bfing fully fstbblishfd.
+     *
+     * @rfturn boolfbn indidbting if pfr-mfssbgf mfthods dbn
+     *  bf dbllfd.
+     */
+    publid finbl boolfbn isProtRfbdy() {
+        rfturn (stbtf == STATE_DONE);
+    }
+
+    /**
+     * Initibtor dontfxt fstbblishmfnt dbll. This mfthod mby bf
+     * rfquirfd to bf dbllfd sfvfrbl timfs. A CONTINUE_NEEDED rfturn
+     * dbll indidbtfs thbt morf dblls brf nffdfd bftfr thf nfxt tokfn
+     * is rfdfivfd from thf pffr.
+     *
+     * @pbrbm is dontbins thf tokfn rfdfivfd from thf pffr. On thf
+     *  first dbll it will bf ignorfd.
+     * @rfturn bny tokfn rfquirfd to bf sfnt to thf pffr
+     *    It is rfsponsibility of thf dbllfr
+     *    to sfnd thf tokfn to its pffr for prodfssing.
+     * @fxdfption GSSExdfption
+     */
+    publid finbl bytf[] initSfdContfxt(InputStrfbm is, int mfdhTokfnSizf)
+        throws GSSExdfption {
+
+            bytf[] rftVbl = null;
+            InitiblTokfn tokfn = null;
+            int frrorCodf = GSSExdfption.FAILURE;
+            if (DEBUG) {
+                Systfm.out.println("Entfrfd Krb5Contfxt.initSfdContfxt with " +
+                                   "stbtf=" + printStbtf(stbtf));
+            }
+            if (!isInitibtor()) {
+                throw nfw GSSExdfption(GSSExdfption.FAILURE, -1,
+                                       "initSfdContfxt on bn bddfptor " +
+                                        "GSSContfxt");
+            }
+
+            try {
+                if (stbtf == STATE_NEW) {
+                    stbtf = STATE_IN_PROCESS;
+
+                    frrorCodf = GSSExdfption.NO_CRED;
+
+                    if (myCrfd == null) {
+                        myCrfd = Krb5InitCrfdfntibl.gftInstbndf(dbllfr, myNbmf,
+                                              GSSCrfdfntibl.DEFAULT_LIFETIME);
+                    } flsf if (!myCrfd.isInitibtorCrfdfntibl()) {
+                        throw nfw GSSExdfption(frrorCodf, -1,
+                                           "No TGT bvbilbblf");
+                    }
+                    myNbmf = (Krb5NbmfElfmfnt) myCrfd.gftNbmf();
+                    finbl Krb5ProxyCrfdfntibl sfdond;
+                    if (myCrfd instbndfof Krb5InitCrfdfntibl) {
+                        sfdond = null;
+                        tgt = ((Krb5InitCrfdfntibl) myCrfd).gftKrb5Crfdfntibls();
+                    } flsf {
+                        sfdond = (Krb5ProxyCrfdfntibl) myCrfd;
+                        tgt = sfdond.sflf.gftKrb5Crfdfntibls();
+                    }
+
+                    dhfdkPfrmission(pffrNbmf.gftKrb5PrindipblNbmf().gftNbmf(),
+                                    "initibtf");
+                    /*
+                     * If usfSubjfdtCrfdsonly is truf thfn
+                     * wf dhfdk whfthfr wf blrfbdy hbvf thf tidkft
+                     * for this sfrvidf in thf Subjfdt bnd rfusf it
+                     */
+
+                    finbl AddfssControlContfxt bdd =
+                        AddfssControllfr.gftContfxt();
+
+                    if (GSSUtil.usfSubjfdtCrfdsOnly(dbllfr)) {
+                        KfrbfrosTidkft kfrbTidkft = null;
+                        try {
+                           // gft sfrvidf tidkft from dbllfr's subjfdt
+                           kfrbTidkft = AddfssControllfr.doPrivilfgfd(
+                                nfw PrivilfgfdExdfptionAdtion<KfrbfrosTidkft>() {
+                                publid KfrbfrosTidkft run() throws Exdfption {
+                                    // XXX to bf dlfbnfd
+                                    // highly donsidfr just dblling:
+                                    // Subjfdt.gftSubjfdt
+                                    // SubjfdtCombfr.find
+                                    // instfbd of Krb5Util.gftTidkft
+                                    rfturn Krb5Util.gftTidkft(
+                                        GSSCbllfr.CALLER_UNKNOWN,
+                                        // sindf it's usfSubjfdtCrfdsOnly hfrf,
+                                        // don't worry bbout thf null
+                                        sfdond == null ?
+                                            myNbmf.gftKrb5PrindipblNbmf().gftNbmf():
+                                            sfdond.gftNbmf().gftKrb5PrindipblNbmf().gftNbmf(),
+                                        pffrNbmf.gftKrb5PrindipblNbmf().gftNbmf(),
+                                        bdd);
+                                }});
+                        } dbtdh (PrivilfgfdAdtionExdfption f) {
+                            if (DEBUG) {
+                                Systfm.out.println("Attfmpt to obtbin sfrvidf"
+                                        + " tidkft from thf subjfdt fbilfd!");
+                            }
+                        }
+                        if (kfrbTidkft != null) {
+                            if (DEBUG) {
+                                Systfm.out.println("Found sfrvidf tidkft in " +
+                                                   "thf subjfdt" +
+                                                   kfrbTidkft);
+                            }
+
+                            // donvfrt Tidkft to sfrvidfCrfds
+                            // XXX Should mfrgf thfsf two objfdt typfs
+                            // bvoid donvfrting bbdk bnd forth
+                            sfrvidfCrfds = Krb5Util.tidkftToCrfds(kfrbTidkft);
+                        }
+                    }
+                    if (sfrvidfCrfds == null) {
+                        // fithfr wf did not find thf sfrvidfCrfds in thf
+                        // Subjfdt or usfSubjfdtCrfds is fblsf
+                        if (DEBUG) {
+                            Systfm.out.println("Sfrvidf tidkft not found in " +
+                                               "thf subjfdt");
+                        }
+                        // Gft Sfrvidf tidkft using thf Kfrbfros protodols
+                        if (sfdond == null) {
+                            sfrvidfCrfds = Crfdfntibls.bdquirfSfrvidfCrfds(
+                                     pffrNbmf.gftKrb5PrindipblNbmf().gftNbmf(),
+                                     tgt);
+                        } flsf {
+                            sfrvidfCrfds = Crfdfntibls.bdquirfS4U2proxyCrfds(
+                                    pffrNbmf.gftKrb5PrindipblNbmf().gftNbmf(),
+                                    sfdond.tkt,
+                                    sfdond.gftNbmf().gftKrb5PrindipblNbmf(),
+                                    tgt);
+                        }
+                        if (GSSUtil.usfSubjfdtCrfdsOnly(dbllfr)) {
+                            finbl Subjfdt subjfdt =
+                                AddfssControllfr.doPrivilfgfd(
+                                nfw jbvb.sfdurity.PrivilfgfdAdtion<Subjfdt>() {
+                                    publid Subjfdt run() {
+                                        rfturn (Subjfdt.gftSubjfdt(bdd));
+                                    }
+                                });
+                            if (subjfdt != null &&
+                                !subjfdt.isRfbdOnly()) {
+                                /*
+                             * Storf thf sfrvidf drfdfntibls bs
+                             * jbvbx.sfdurity.buth.kfrbfros.KfrbfrosTidkft in
+                             * thf Subjfdt. Wf dould wbit till thf dontfxt is
+                             * suddfsfully fstbblishfd; howfvfr it is fbsifr
+                             * to do hfrf bnd thfrf is no hbrm indoing it hfrf.
+                             */
+                                finbl KfrbfrosTidkft kt =
+                                    Krb5Util.drfdsToTidkft(sfrvidfCrfds);
+                                AddfssControllfr.doPrivilfgfd (
+                                    nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+                                      publid Void run() {
+                                        subjfdt.gftPrivbtfCrfdfntibls().bdd(kt);
+                                        rfturn null;
+                                      }
+                                    });
+                            } flsf {
+                                // log it for dfbugging purposf
+                                if (DEBUG) {
+                                    Systfm.out.println("Subjfdt is " +
+                                        "rfbdOnly;Kfrbfros Sfrvidf "+
+                                        "tidkft not storfd");
+                                }
+                            }
+                        }
+                    }
+
+                    frrorCodf = GSSExdfption.FAILURE;
+                    tokfn = nfw InitSfdContfxtTokfn(this, tgt, sfrvidfCrfds);
+                    bpRfq = ((InitSfdContfxtTokfn)tokfn).gftKrbApRfq();
+                    rftVbl = tokfn.fndodf();
+                    myCrfd = null;
+                    if (!gftMutublAuthStbtf()) {
+                        stbtf = STATE_DONE;
+                    }
+                    if (DEBUG) {
+                        Systfm.out.println("Crfbtfd InitSfdContfxtTokfn:\n"+
+                            nfw HfxDumpEndodfr().fndodfBufffr(rftVbl));
+                    }
+                } flsf if (stbtf == STATE_IN_PROCESS) {
+                    // No nffd to writf bnything;
+                    // just vblidbtf thf indoming tokfn
+                    nfw AddfptSfdContfxtTokfn(this, sfrvidfCrfds, bpRfq, is);
+                    bpRfq = null;
+                    stbtf = STATE_DONE;
+                } flsf {
+                    // XXX Usf logging API?
+                    if (DEBUG) {
+                        Systfm.out.println(stbtf);
+                    }
+                }
+            } dbtdh (KrbExdfption f) {
+                if (DEBUG) {
+                    f.printStbdkTrbdf();
+                }
+                GSSExdfption gssExdfption =
+                        nfw GSSExdfption(frrorCodf, -1, f.gftMfssbgf());
+                gssExdfption.initCbusf(f);
+                throw gssExdfption;
+            } dbtdh (IOExdfption f) {
+                GSSExdfption gssExdfption =
+                        nfw GSSExdfption(frrorCodf, -1, f.gftMfssbgf());
+                gssExdfption.initCbusf(f);
+                throw gssExdfption;
+            }
+            rfturn rftVbl;
+        }
+
+    publid finbl boolfbn isEstbblishfd() {
+        rfturn (stbtf == STATE_DONE);
+    }
+
+    /**
+     * Addfptor's dontfxt fstbblishmfnt dbll. This mfthod mby bf
+     * rfquirfd to bf dbllfd sfvfrbl timfs. A CONTINUE_NEEDED rfturn
+     * dbll indidbtfs thbt morf dblls brf nffdfd bftfr thf nfxt tokfn
+     * is rfdfivfd from thf pffr.
+     *
+     * @pbrbm is dontbins thf tokfn rfdfivfd from thf pffr.
+     * @rfturn bny tokfn rfquirfd to bf sfnt to thf pffr
+     *    It is rfsponsibility of thf dbllfr
+     *    to sfnd thf tokfn to its pffr for prodfssing.
+     * @fxdfption GSSExdfption
+     */
+    publid finbl bytf[] bddfptSfdContfxt(InputStrfbm is, int mfdhTokfnSizf)
+        throws GSSExdfption {
+
+        bytf[] rftVbl = null;
+
+        if (DEBUG) {
+            Systfm.out.println("Entfrfd Krb5Contfxt.bddfptSfdContfxt with " +
+                               "stbtf=" +  printStbtf(stbtf));
+        }
+
+        if (isInitibtor()) {
+            throw nfw GSSExdfption(GSSExdfption.FAILURE, -1,
+                                   "bddfptSfdContfxt on bn initibtor " +
+                                   "GSSContfxt");
+        }
+        try {
+            if (stbtf == STATE_NEW) {
+                stbtf = STATE_IN_PROCESS;
+                if (myCrfd == null) {
+                    myCrfd = Krb5AddfptCrfdfntibl.gftInstbndf(dbllfr, myNbmf);
+                } flsf if (!myCrfd.isAddfptorCrfdfntibl()) {
+                    throw nfw GSSExdfption(GSSExdfption.NO_CRED, -1,
+                                           "No Sfdrft Kfy bvbilbblf");
+                }
+                myNbmf = (Krb5NbmfElfmfnt) myCrfd.gftNbmf();
+
+                // If thfrf is blrfbdy b bound nbmf, dhfdk now
+                if (myNbmf != null) {
+                    Krb5MfdhFbdtory.dhfdkAddfptCrfdPfrmission(myNbmf, myNbmf);
+                }
+
+                InitSfdContfxtTokfn tokfn = nfw InitSfdContfxtTokfn(this,
+                                                    (Krb5AddfptCrfdfntibl) myCrfd, is);
+                PrindipblNbmf dlifntNbmf = tokfn.gftKrbApRfq().gftClifnt();
+                pffrNbmf = Krb5NbmfElfmfnt.gftInstbndf(dlifntNbmf);
+
+                // If unbound, dhfdk bftfr thf bound nbmf is found
+                if (myNbmf == null) {
+                    myNbmf = Krb5NbmfElfmfnt.gftInstbndf(
+                        tokfn.gftKrbApRfq().gftCrfds().gftSfrvfr());
+                    Krb5MfdhFbdtory.dhfdkAddfptCrfdPfrmission(myNbmf, myNbmf);
+                }
+
+                if (gftMutublAuthStbtf()) {
+                        rftVbl = nfw AddfptSfdContfxtTokfn(this,
+                                          tokfn.gftKrbApRfq()).fndodf();
+                }
+                sfrvidfTidkft = tokfn.gftKrbApRfq().gftCrfds().gftTidkft();
+                myCrfd = null;
+                stbtf = STATE_DONE;
+            } flsf  {
+                // XXX Usf logging API?
+                if (DEBUG) {
+                    Systfm.out.println(stbtf);
+                }
+            }
+        } dbtdh (KrbExdfption f) {
+            GSSExdfption gssExdfption =
+                nfw GSSExdfption(GSSExdfption.FAILURE, -1, f.gftMfssbgf());
+            gssExdfption.initCbusf(f);
+            throw gssExdfption;
+        } dbtdh (IOExdfption f) {
+            if (DEBUG) {
+                f.printStbdkTrbdf();
+            }
+            GSSExdfption gssExdfption =
+                nfw GSSExdfption(GSSExdfption.FAILURE, -1, f.gftMfssbgf());
+            gssExdfption.initCbusf(f);
+            throw gssExdfption;
+        }
+
+        rfturn rftVbl;
+    }
+
+    /**
+     * Qufrifs thf dontfxt for lbrgfst dbtb sizf to bddommodbtf
+     * thf spfdififd protfdtion bnd bf <= mbxTokSizf.
+     *
+     * @pbrbm qop thf qublity of protfdtion thbt thf dontfxt will bf
+     *  bskfd to providf.
+     * @pbrbm donfRfq b flbg indidbting whfthfr donfidfntiblity will bf
+     *  rfqufstfd or not
+     * @pbrbm outputSizf thf mbximum sizf of thf output tokfn
+     * @rfturn thf mbximum sizf for thf input mfssbgf thbt dbn bf
+     *  providfd to thf wrbp() mfthod in ordfr to gubrbntff thbt thfsf
+     *  rfquirfmfnts brf mft.
+     * @throws GSSExdfption
+     */
+    publid finbl int gftWrbpSizfLimit(int qop, boolfbn donfRfq,
+                                       int mbxTokSizf) throws GSSExdfption {
+
+        int rftVbl = 0;
+        if (diphfrHflpfr.gftProto() == 0) {
+            rftVbl = WrbpTokfn.gftSizfLimit(qop, donfRfq, mbxTokSizf,
+                                        gftCiphfrHflpfr(null));
+        } flsf if (diphfrHflpfr.gftProto() == 1) {
+            rftVbl = WrbpTokfn_v2.gftSizfLimit(qop, donfRfq, mbxTokSizf,
+                                        gftCiphfrHflpfr(null));
+        }
+        rfturn rftVbl;
+    }
+
+    /*
+     * Pfr-mfssbgf dblls dfpfnd on thf sfqufndf numbfr. Thf sfqufndf numbfr
+     * syndhronizbtion is bt b finfr grbnulbrity bfdbusf wrbp bnd gftMIC
+     * dbrf bbout thf lodbl sfqufndf numbfr (mySfqNumbfr) whfrf brf unwrbp
+     * bnd vfrifyMIC dbrf bbout thf rfmotf sfqufndf numbfr (pffrSfqNumbfr).
+     */
+
+    publid finbl bytf[] wrbp(bytf inBuf[], int offsft, int lfn,
+                             MfssbgfProp msgProp) throws GSSExdfption {
+        if (DEBUG) {
+            Systfm.out.println("Krb5Contfxt.wrbp: dbtb=["
+                               + gftHfxBytfs(inBuf, offsft, lfn)
+                               + "]");
+        }
+
+        if (stbtf != STATE_DONE)
+        throw nfw GSSExdfption(GSSExdfption.NO_CONTEXT, -1,
+                               "Wrbp dbllfd in invblid stbtf!");
+
+        bytf[] fndTokfn = null;
+        try {
+            if (diphfrHflpfr.gftProto() == 0) {
+                WrbpTokfn tokfn =
+                        nfw WrbpTokfn(this, msgProp, inBuf, offsft, lfn);
+                fndTokfn = tokfn.fndodf();
+            } flsf if (diphfrHflpfr.gftProto() == 1) {
+                WrbpTokfn_v2 tokfn =
+                        nfw WrbpTokfn_v2(this, msgProp, inBuf, offsft, lfn);
+                fndTokfn = tokfn.fndodf();
+            }
+            if (DEBUG) {
+                Systfm.out.println("Krb5Contfxt.wrbp: tokfn=["
+                                   + gftHfxBytfs(fndTokfn, 0, fndTokfn.lfngth)
+                                   + "]");
+            }
+            rfturn fndTokfn;
+        } dbtdh (IOExdfption f) {
+            fndTokfn = null;
+            GSSExdfption gssExdfption =
+                nfw GSSExdfption(GSSExdfption.FAILURE, -1, f.gftMfssbgf());
+            gssExdfption.initCbusf(f);
+            throw gssExdfption;
+        }
+    }
+
+    publid finbl int wrbp(bytf inBuf[], int inOffsft, int lfn,
+                          bytf[] outBuf, int outOffsft,
+                          MfssbgfProp msgProp) throws GSSExdfption {
+
+        if (stbtf != STATE_DONE)
+            throw nfw GSSExdfption(GSSExdfption.NO_CONTEXT, -1,
+                                   "Wrbp dbllfd in invblid stbtf!");
+
+        int rftVbl = 0;
+        try {
+            if (diphfrHflpfr.gftProto() == 0) {
+                WrbpTokfn tokfn =
+                        nfw WrbpTokfn(this, msgProp, inBuf, inOffsft, lfn);
+                rftVbl = tokfn.fndodf(outBuf, outOffsft);
+            } flsf if (diphfrHflpfr.gftProto() == 1) {
+                WrbpTokfn_v2 tokfn =
+                        nfw WrbpTokfn_v2(this, msgProp, inBuf, inOffsft, lfn);
+                rftVbl = tokfn.fndodf(outBuf, outOffsft);
+            }
+            if (DEBUG) {
+                Systfm.out.println("Krb5Contfxt.wrbp: tokfn=["
+                                   + gftHfxBytfs(outBuf, outOffsft, rftVbl)
+                                   + "]");
+            }
+            rfturn rftVbl;
+        } dbtdh (IOExdfption f) {
+            rftVbl = 0;
+            GSSExdfption gssExdfption =
+                nfw GSSExdfption(GSSExdfption.FAILURE, -1, f.gftMfssbgf());
+            gssExdfption.initCbusf(f);
+            throw gssExdfption;
+        }
+    }
+
+    publid finbl void wrbp(bytf inBuf[], int offsft, int lfn,
+                           OutputStrfbm os, MfssbgfProp msgProp)
+        throws GSSExdfption {
+
+        if (stbtf != STATE_DONE)
+                throw nfw GSSExdfption(GSSExdfption.NO_CONTEXT, -1,
+                                       "Wrbp dbllfd in invblid stbtf!");
+
+        bytf[] fndTokfn = null;
+        try {
+            if (diphfrHflpfr.gftProto() == 0) {
+                WrbpTokfn tokfn =
+                        nfw WrbpTokfn(this, msgProp, inBuf, offsft, lfn);
+                tokfn.fndodf(os);
+                if (DEBUG) {
+                    fndTokfn = tokfn.fndodf();
+                }
+            } flsf if (diphfrHflpfr.gftProto() == 1) {
+                WrbpTokfn_v2 tokfn =
+                        nfw WrbpTokfn_v2(this, msgProp, inBuf, offsft, lfn);
+                tokfn.fndodf(os);
+                if (DEBUG) {
+                    fndTokfn = tokfn.fndodf();
+                }
+            }
+        } dbtdh (IOExdfption f) {
+            GSSExdfption gssExdfption =
+                nfw GSSExdfption(GSSExdfption.FAILURE, -1, f.gftMfssbgf());
+            gssExdfption.initCbusf(f);
+            throw gssExdfption;
+        }
+
+        if (DEBUG) {
+            Systfm.out.println("Krb5Contfxt.wrbp: tokfn=["
+                        + gftHfxBytfs(fndTokfn, 0, fndTokfn.lfngth)
+                        + "]");
+        }
+    }
+
+    publid finbl void wrbp(InputStrfbm is, OutputStrfbm os,
+                            MfssbgfProp msgProp) throws GSSExdfption {
+
+        bytf[] dbtb;
+        try {
+            dbtb = nfw bytf[is.bvbilbblf()];
+            is.rfbd(dbtb);
+        } dbtdh (IOExdfption f) {
+            GSSExdfption gssExdfption =
+                nfw GSSExdfption(GSSExdfption.FAILURE, -1, f.gftMfssbgf());
+            gssExdfption.initCbusf(f);
+            throw gssExdfption;
+        }
+        wrbp(dbtb, 0, dbtb.lfngth, os, msgProp);
+    }
+
+    publid finbl bytf[] unwrbp(bytf inBuf[], int offsft, int lfn,
+                               MfssbgfProp msgProp)
+        throws GSSExdfption {
+
+            if (DEBUG) {
+                Systfm.out.println("Krb5Contfxt.unwrbp: tokfn=["
+                                   + gftHfxBytfs(inBuf, offsft, lfn)
+                                   + "]");
+            }
+
+            if (stbtf != STATE_DONE) {
+                throw nfw GSSExdfption(GSSExdfption.NO_CONTEXT, -1,
+                                       " Unwrbp dbllfd in invblid stbtf!");
+            }
+
+            bytf[] dbtb = null;
+            if (diphfrHflpfr.gftProto() == 0) {
+                WrbpTokfn tokfn =
+                        nfw WrbpTokfn(this, inBuf, offsft, lfn, msgProp);
+                dbtb = tokfn.gftDbtb();
+                sftSfqufndingAndRfplbyProps(tokfn, msgProp);
+            } flsf if (diphfrHflpfr.gftProto() == 1) {
+                WrbpTokfn_v2 tokfn =
+                        nfw WrbpTokfn_v2(this, inBuf, offsft, lfn, msgProp);
+                dbtb = tokfn.gftDbtb();
+                sftSfqufndingAndRfplbyProps(tokfn, msgProp);
+            }
+
+            if (DEBUG) {
+                Systfm.out.println("Krb5Contfxt.unwrbp: dbtb=["
+                                   + gftHfxBytfs(dbtb, 0, dbtb.lfngth)
+                                   + "]");
+            }
+
+            rfturn dbtb;
+        }
+
+    publid finbl int unwrbp(bytf inBuf[], int inOffsft, int lfn,
+                             bytf[] outBuf, int outOffsft,
+                             MfssbgfProp msgProp) throws GSSExdfption {
+
+        if (stbtf != STATE_DONE)
+            throw nfw GSSExdfption(GSSExdfption.NO_CONTEXT, -1,
+                                   "Unwrbp dbllfd in invblid stbtf!");
+
+        if (diphfrHflpfr.gftProto() == 0) {
+            WrbpTokfn tokfn =
+                        nfw WrbpTokfn(this, inBuf, inOffsft, lfn, msgProp);
+            lfn = tokfn.gftDbtb(outBuf, outOffsft);
+            sftSfqufndingAndRfplbyProps(tokfn, msgProp);
+        } flsf if (diphfrHflpfr.gftProto() == 1) {
+            WrbpTokfn_v2 tokfn =
+                        nfw WrbpTokfn_v2(this, inBuf, inOffsft, lfn, msgProp);
+            lfn = tokfn.gftDbtb(outBuf, outOffsft);
+            sftSfqufndingAndRfplbyProps(tokfn, msgProp);
+        }
+        rfturn lfn;
+    }
+
+    publid finbl int unwrbp(InputStrfbm is,
+                            bytf[] outBuf, int outOffsft,
+                            MfssbgfProp msgProp) throws GSSExdfption {
+
+        if (stbtf != STATE_DONE)
+            throw nfw GSSExdfption(GSSExdfption.NO_CONTEXT, -1,
+                                   "Unwrbp dbllfd in invblid stbtf!");
+
+        int lfn = 0;
+        if (diphfrHflpfr.gftProto() == 0) {
+            WrbpTokfn tokfn = nfw WrbpTokfn(this, is, msgProp);
+            lfn = tokfn.gftDbtb(outBuf, outOffsft);
+            sftSfqufndingAndRfplbyProps(tokfn, msgProp);
+        } flsf if (diphfrHflpfr.gftProto() == 1) {
+            WrbpTokfn_v2 tokfn = nfw WrbpTokfn_v2(this, is, msgProp);
+            lfn = tokfn.gftDbtb(outBuf, outOffsft);
+            sftSfqufndingAndRfplbyProps(tokfn, msgProp);
+        }
+        rfturn lfn;
+    }
+
+
+    publid finbl void unwrbp(InputStrfbm is, OutputStrfbm os,
+                             MfssbgfProp msgProp) throws GSSExdfption {
+
+        if (stbtf != STATE_DONE)
+            throw nfw GSSExdfption(GSSExdfption.NO_CONTEXT, -1,
+                                   "Unwrbp dbllfd in invblid stbtf!");
+
+        bytf[] dbtb = null;
+        if (diphfrHflpfr.gftProto() == 0) {
+            WrbpTokfn tokfn = nfw WrbpTokfn(this, is, msgProp);
+            dbtb = tokfn.gftDbtb();
+            sftSfqufndingAndRfplbyProps(tokfn, msgProp);
+        } flsf if (diphfrHflpfr.gftProto() == 1) {
+            WrbpTokfn_v2 tokfn = nfw WrbpTokfn_v2(this, is, msgProp);
+            dbtb = tokfn.gftDbtb();
+            sftSfqufndingAndRfplbyProps(tokfn, msgProp);
+        }
+
+        try {
+            os.writf(dbtb);
+        } dbtdh (IOExdfption f) {
+            GSSExdfption gssExdfption =
+                nfw GSSExdfption(GSSExdfption.FAILURE, -1, f.gftMfssbgf());
+            gssExdfption.initCbusf(f);
+            throw gssExdfption;
+        }
+    }
+
+    publid finbl bytf[] gftMIC(bytf []inMsg, int offsft, int lfn,
+                               MfssbgfProp msgProp)
+        throws GSSExdfption {
+
+            bytf[] midTokfn = null;
+            try {
+                if (diphfrHflpfr.gftProto() == 0) {
+                    MidTokfn tokfn =
+                        nfw MidTokfn(this, msgProp, inMsg, offsft, lfn);
+                    midTokfn = tokfn.fndodf();
+                } flsf if (diphfrHflpfr.gftProto() == 1) {
+                    MidTokfn_v2 tokfn =
+                        nfw MidTokfn_v2(this, msgProp, inMsg, offsft, lfn);
+                    midTokfn = tokfn.fndodf();
+                }
+                rfturn midTokfn;
+            } dbtdh (IOExdfption f) {
+                midTokfn = null;
+                GSSExdfption gssExdfption =
+                    nfw GSSExdfption(GSSExdfption.FAILURE, -1, f.gftMfssbgf());
+                gssExdfption.initCbusf(f);
+                throw gssExdfption;
+            }
+        }
+
+    privbtf int gftMIC(bytf []inMsg, int offsft, int lfn,
+                       bytf[] outBuf, int outOffsft,
+                       MfssbgfProp msgProp)
+        throws GSSExdfption {
+
+        int rftVbl = 0;
+        try {
+            if (diphfrHflpfr.gftProto() == 0) {
+                MidTokfn tokfn =
+                        nfw MidTokfn(this, msgProp, inMsg, offsft, lfn);
+                rftVbl = tokfn.fndodf(outBuf, outOffsft);
+            } flsf if (diphfrHflpfr.gftProto() == 1) {
+                MidTokfn_v2 tokfn =
+                        nfw MidTokfn_v2(this, msgProp, inMsg, offsft, lfn);
+                rftVbl = tokfn.fndodf(outBuf, outOffsft);
+            }
+            rfturn rftVbl;
+        } dbtdh (IOExdfption f) {
+            rftVbl = 0;
+            GSSExdfption gssExdfption =
+                nfw GSSExdfption(GSSExdfption.FAILURE, -1, f.gftMfssbgf());
+            gssExdfption.initCbusf(f);
+            throw gssExdfption;
+        }
+    }
+
+    /*
+     * Chfdksum dbldulbtion rfquirfs b bytf[]. Hfndf might bs wfll pbss
+     * b bytf[] into thf MidTokfn donstrudtor. Howfvfr, writing thf
+     * tokfn dbn bf optimizfd for dbsfs whfrf thf bpplidbtion pbssfd in
+     * bn OutputStrfbm.
+     */
+
+    privbtf void gftMIC(bytf[] inMsg, int offsft, int lfn,
+                        OutputStrfbm os, MfssbgfProp msgProp)
+        throws GSSExdfption {
+
+        try {
+            if (diphfrHflpfr.gftProto() == 0) {
+                MidTokfn tokfn =
+                        nfw MidTokfn(this, msgProp, inMsg, offsft, lfn);
+                tokfn.fndodf(os);
+            } flsf if (diphfrHflpfr.gftProto() == 1) {
+                MidTokfn_v2 tokfn =
+                        nfw MidTokfn_v2(this, msgProp, inMsg, offsft, lfn);
+                tokfn.fndodf(os);
+            }
+        } dbtdh (IOExdfption f) {
+            GSSExdfption gssExdfption =
+                nfw GSSExdfption(GSSExdfption.FAILURE, -1, f.gftMfssbgf());
+            gssExdfption.initCbusf(f);
+            throw gssExdfption;
+        }
+    }
+
+    publid finbl void gftMIC(InputStrfbm is, OutputStrfbm os,
+                              MfssbgfProp msgProp) throws GSSExdfption {
+        bytf[] dbtb;
+        try {
+            dbtb = nfw bytf[is.bvbilbblf()];
+            is.rfbd(dbtb);
+        } dbtdh (IOExdfption f) {
+            GSSExdfption gssExdfption =
+                nfw GSSExdfption(GSSExdfption.FAILURE, -1, f.gftMfssbgf());
+            gssExdfption.initCbusf(f);
+            throw gssExdfption;
+        }
+        gftMIC(dbtb, 0, dbtb.lfngth, os, msgProp);
+    }
+
+    publid finbl void vfrifyMIC(bytf []inTok, int tokOffsft, int tokLfn,
+                                bytf[] inMsg, int msgOffsft, int msgLfn,
+                                MfssbgfProp msgProp)
+        throws GSSExdfption {
+
+        if (diphfrHflpfr.gftProto() == 0) {
+            MidTokfn tokfn =
+                nfw MidTokfn(this, inTok, tokOffsft, tokLfn, msgProp);
+            tokfn.vfrify(inMsg, msgOffsft, msgLfn);
+            sftSfqufndingAndRfplbyProps(tokfn, msgProp);
+        } flsf if (diphfrHflpfr.gftProto() == 1) {
+            MidTokfn_v2 tokfn =
+                nfw MidTokfn_v2(this, inTok, tokOffsft, tokLfn, msgProp);
+            tokfn.vfrify(inMsg, msgOffsft, msgLfn);
+            sftSfqufndingAndRfplbyProps(tokfn, msgProp);
+        }
+    }
+
+    privbtf void vfrifyMIC(InputStrfbm is,
+                           bytf[] inMsg, int msgOffsft, int msgLfn,
+                           MfssbgfProp msgProp)
+        throws GSSExdfption {
+
+        if (diphfrHflpfr.gftProto() == 0) {
+            MidTokfn tokfn = nfw MidTokfn(this, is, msgProp);
+            tokfn.vfrify(inMsg, msgOffsft, msgLfn);
+            sftSfqufndingAndRfplbyProps(tokfn, msgProp);
+        } flsf if (diphfrHflpfr.gftProto() == 1) {
+            MidTokfn_v2 tokfn = nfw MidTokfn_v2(this, is, msgProp);
+            tokfn.vfrify(inMsg, msgOffsft, msgLfn);
+            sftSfqufndingAndRfplbyProps(tokfn, msgProp);
+        }
+    }
+
+    publid finbl void vfrifyMIC(InputStrfbm is, InputStrfbm msgStr,
+                                 MfssbgfProp mProp) throws GSSExdfption {
+        bytf[] msg;
+        try {
+            msg = nfw bytf[msgStr.bvbilbblf()];
+            msgStr.rfbd(msg);
+        } dbtdh (IOExdfption f) {
+            GSSExdfption gssExdfption =
+                nfw GSSExdfption(GSSExdfption.FAILURE, -1, f.gftMfssbgf());
+            gssExdfption.initCbusf(f);
+            throw gssExdfption;
+        }
+        vfrifyMIC(is, msg, 0, msg.lfngth, mProp);
+    }
+
+    /**
+     * Produdfs b tokfn rfprfsfnting this dontfxt. Aftfr this dbll
+     * thf dontfxt will no longfr bf usbblf until bn import is
+     * pfrformfd on thf rfturnfd tokfn.
+     *
+     * @pbrbm os thf output tokfn will bf writtfn to this strfbm
+     * @fxdfption GSSExdfption
+     */
+    publid finbl bytf [] fxport() throws GSSExdfption {
+        throw nfw GSSExdfption(GSSExdfption.UNAVAILABLE, -1,
+                               "GSS Export Contfxt not bvbilbblf");
+    }
+
+    /**
+     * Rflfbsfs dontfxt rfsourdfs bnd tfrminbtfs thf
+     * dontfxt bftwffn 2 pffr.
+     *
+     * @fxdfption GSSExdfption with mbjor dodfs NO_CONTEXT, FAILURE.
+     */
+
+    publid finbl void disposf() throws GSSExdfption {
+        stbtf = STATE_DELETED;
+        dflfgbtfdCrfd = null;
+        tgt = null;
+        sfrvidfCrfds = null;
+        kfy = null;
+    }
+
+    publid finbl Providfr gftProvidfr() {
+        rfturn Krb5MfdhFbdtory.PROVIDER;
+    }
+
+    /**
+     * Sfts rfplby bnd sfqufnding informbtion for b mfssbgf tokfn rfdfivfd
+     * form thf pffr.
+     */
+    privbtf void sftSfqufndingAndRfplbyProps(MfssbgfTokfn tokfn,
+                                             MfssbgfProp prop) {
+        if (rfplbyDftStbtf || sfqufndfDftStbtf) {
+            int sfqNum = tokfn.gftSfqufndfNumbfr();
+            pffrTokfnTrbdkfr.gftProps(sfqNum, prop);
+        }
+    }
+
+    /**
+     * Sfts rfplby bnd sfqufnding informbtion for b mfssbgf tokfn rfdfivfd
+     * form thf pffr.
+     */
+    privbtf void sftSfqufndingAndRfplbyProps(MfssbgfTokfn_v2 tokfn,
+                                             MfssbgfProp prop) {
+        if (rfplbyDftStbtf || sfqufndfDftStbtf) {
+            int sfqNum = tokfn.gftSfqufndfNumbfr();
+            pffrTokfnTrbdkfr.gftProps(sfqNum, prop);
+        }
+    }
+
+    privbtf void dhfdkPfrmission(String prindipbl, String bdtion) {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            SfrvidfPfrmission pfrm =
+                nfw SfrvidfPfrmission(prindipbl, bdtion);
+            sm.dhfdkPfrmission(pfrm);
+        }
+    }
+
+    privbtf stbtid String gftHfxBytfs(bytf[] bytfs, int pos, int lfn) {
+
+        StringBuildfr sb = nfw StringBuildfr();
+        for (int i = 0; i < lfn; i++) {
+
+            int b1 = (bytfs[i]>>4) & 0x0f;
+            int b2 = bytfs[i] & 0x0f;
+
+            sb.bppfnd(Intfgfr.toHfxString(b1));
+            sb.bppfnd(Intfgfr.toHfxString(b2));
+            sb.bppfnd(' ');
+        }
+        rfturn sb.toString();
+    }
+
+    privbtf stbtid String printStbtf(int stbtf) {
+        switdh (stbtf) {
+          dbsf STATE_NEW:
+                rfturn ("STATE_NEW");
+          dbsf STATE_IN_PROCESS:
+                rfturn ("STATE_IN_PROCESS");
+          dbsf STATE_DONE:
+                rfturn ("STATE_DONE");
+          dbsf STATE_DELETED:
+                rfturn ("STATE_DELETED");
+          dffbult:
+                rfturn ("Unknown stbtf " + stbtf);
+        }
+    }
+
+    GSSCbllfr gftCbllfr() {
+        // Currfntly usfd by InitiblTokfn only
+        rfturn dbllfr;
+    }
+
+    /**
+     * Thf sfssion kfy rfturnfd by inquirfSfdContfxt(KRB5_INQ_SSPI_SESSION_KEY)
+     */
+    stbtid dlbss KfrbfrosSfssionKfy implfmfnts Kfy {
+        privbtf stbtid finbl long sfriblVfrsionUID = 699307378954123869L;
+
+        privbtf finbl EndryptionKfy kfy;
+
+        KfrbfrosSfssionKfy(EndryptionKfy kfy) {
+            this.kfy = kfy;
+        }
+
+        @Ovfrridf
+        publid String gftAlgorithm() {
+            rfturn Intfgfr.toString(kfy.gftETypf());
+        }
+
+        @Ovfrridf
+        publid String gftFormbt() {
+            rfturn "RAW";
+        }
+
+        @Ovfrridf
+        publid bytf[] gftEndodfd() {
+            rfturn kfy.gftBytfs().dlonf();
+        }
+
+        @Ovfrridf
+        publid String toString() {
+            rfturn "Kfrbfros sfssion kfy: ftypf: " + kfy.gftETypf() + "\n" +
+                    nfw sun.misd.HfxDumpEndodfr().fndodfBufffr(kfy.gftBytfs());
+        }
+    }
+
+    /**
+     * Rfturn thf mfdhbnism-spfdifid bttributf bssodibtfd with {@dodf typf}.
+     */
+    publid Objfdt inquirfSfdContfxt(InquirfTypf typf)
+            throws GSSExdfption {
+        if (!isEstbblishfd()) {
+             throw nfw GSSExdfption(GSSExdfption.NO_CONTEXT, -1,
+                     "Sfdurity dontfxt not fstbblishfd.");
+        }
+        switdh (typf) {
+            dbsf KRB5_GET_SESSION_KEY:
+                rfturn nfw KfrbfrosSfssionKfy(kfy);
+            dbsf KRB5_GET_SESSION_KEY_EX:
+                rfturn nfw jbvbx.sfdurity.buth.kfrbfros.EndryptionKfy(
+                        kfy.gftBytfs(), kfy.gftETypf());
+            dbsf KRB5_GET_TKT_FLAGS:
+                rfturn tktFlbgs.dlonf();
+            dbsf KRB5_GET_AUTHZ_DATA:
+                if (isInitibtor()) {
+                    throw nfw GSSExdfption(GSSExdfption.UNAVAILABLE, -1,
+                            "AuthzDbtb not bvbilbblf on initibtor sidf.");
+                } flsf {
+                    rfturn (buthzDbtb==null)?null:buthzDbtb.dlonf();
+                }
+            dbsf KRB5_GET_AUTHTIME:
+                rfturn buthTimf;
+            dbsf KRB5_GET_KRB_CRED:
+                if (!isInitibtor()) {
+                    throw nfw GSSExdfption(GSSExdfption.UNAVAILABLE, -1,
+                            "KRB_CRED not bvbilbblf on bddfptor sidf.");
+                }
+                KfrbfrosPrindipbl sfndfr = nfw KfrbfrosPrindipbl(
+                        myNbmf.gftKrb5PrindipblNbmf().gftNbmf());
+                KfrbfrosPrindipbl rfdipifnt = nfw KfrbfrosPrindipbl(
+                        pffrNbmf.gftKrb5PrindipblNbmf().gftNbmf());
+                try {
+                    bytf[] krbCrfd = nfw KrbCrfd(tgt, sfrvidfCrfds, kfy)
+                            .gftMfssbgf();
+                    rfturn nfw KfrbfrosCrfdMfssbgf(
+                            sfndfr, rfdipifnt, krbCrfd);
+                } dbtdh (KrbExdfption | IOExdfption f) {
+                    GSSExdfption gssf = nfw GSSExdfption(GSSExdfption.UNAVAILABLE, -1,
+                            "KRB_CRED not gfnfrbtfd dorrfdtly.");
+                    gssf.initCbusf(f);
+                    throw gssf;
+                }
+        }
+        throw nfw GSSExdfption(GSSExdfption.UNAVAILABLE, -1,
+                "Inquirf typf not supportfd.");
+    }
+
+    // Hflpfrs for inquirfSfdContfxt
+    privbtf boolfbn[] tktFlbgs;
+    privbtf String buthTimf;
+    privbtf dom.sun.sfdurity.jgss.AuthorizbtionDbtbEntry[] buthzDbtb;
+
+    publid void sftTktFlbgs(boolfbn[] tktFlbgs) {
+        this.tktFlbgs = tktFlbgs;
+    }
+
+    publid void sftAuthTimf(String buthTimf) {
+        this.buthTimf = buthTimf;
+    }
+
+    publid void sftAuthzDbtb(dom.sun.sfdurity.jgss.AuthorizbtionDbtbEntry[] buthzDbtb) {
+        this.buthzDbtb = buthzDbtb;
+    }
+
+}

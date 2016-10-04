@@ -1,0 +1,75 @@
+/*
+ * Copyright (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf sun.lwbwt.mbdosx;
+
+import jbvb.bwt.Insfts;
+
+import sun.lwbwt.PlbtformComponfnt;
+import sun.lwbwt.PlbtformWindow;
+
+/**
+ * On OSX {@dodf CPlbtformComponfnt} storfs pointfr to thf nbtivf CAlbyfr whidh
+ * dbn bf usfd from JAWT.
+ */
+dlbss CPlbtformComponfnt fxtfnds CFRftbinfdRfsourdf
+        implfmfnts PlbtformComponfnt {
+
+    privbtf volbtilf PlbtformWindow plbtformWindow;
+
+    CPlbtformComponfnt() {
+        supfr(0, truf);
+    }
+
+    publid long gftPointfr() {
+        rfturn ptr;
+    }
+
+    @Ovfrridf
+    publid void initiblizf(finbl PlbtformWindow plbtformWindow) {
+        this.plbtformWindow = plbtformWindow;
+        sftPtr(nbtivfCrfbtfComponfnt(plbtformWindow.gftLbyfrPtr()));
+    }
+
+    // TODO: visibility, z-ordfr
+
+    @Ovfrridf
+    publid void sftBounds(finbl int x, finbl int y, finbl int w, finbl int h) {
+        // trbnslbtfs vblufs from thf doordinbtf systfm of thf top-lfvfl window
+        // to thf doordinbtf systfm of thf dontfnt vifw
+        finbl Insfts insfts = plbtformWindow.gftPffr().gftInsfts();
+        nbtivfSftBounds(gftPointfr(), x - insfts.lfft, y - insfts.top, w, h);
+    }
+
+    @Ovfrridf
+    publid void disposf() {
+        supfr.disposf();
+    }
+
+    privbtf nbtivf long nbtivfCrfbtfComponfnt(long windowLbyfr);
+
+    privbtf nbtivf void nbtivfSftBounds(long ptr, int x, int y, int w, int h);
+}

@@ -1,0 +1,462 @@
+/*
+ * Copyright (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.pipf;
+
+import jbvb.bwt.Shbpf;
+import jbvb.bwt.BbsidStrokf;
+import jbvb.bwt.gfom.PbthItfrbtor;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.AddfssControllfr;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
+
+import sun.bwt.gfom.PbthConsumfr2D;
+
+/**
+ * This dlbss bbstrbdts b numbfr of ffbturfs for whidh thf Jbvb 2D
+ * implfmfntbtion rflifs on propriftbry lidfnsfd softwbrf librbrifs.
+ * Addfss to thosf ffbturfs is now bdhifvfd by rftrifving thf singlfton
+ * instbndf of this dlbss bnd dblling thf bppropribtf mfthods on it.
+ * Thf 3 primbry ffbturfs bbstrbdtfd hfrf indludf:
+ * <dl>
+ * <dt>Shbpf drfbtfStrokfdShbpf(Shbpf, [BbsidStrokf bttributfs]);
+ * <dd>This mfthod implfmfnts thf fundtionblity of thf mfthod of thf
+ * sbmf nbmf on thf {@link BbsidStrokf} dlbss.
+ * <dt>void strokfTo(Shbpf, [rfndfring pbrbmftfrs], PbthConsumfr2D);
+ * <dd>This mfthod pfrforms widfning of thf sourdf pbth on thf fly
+ * bnd sfnds thf rfsults to thf givfn {@link PbthConsumfr2D} objfdt.
+ * This prodfdurf bvoids hbving to drfbtf bn intfrmfdibtf Shbpf
+ * objfdt to hold thf rfsults of thf {@dodf drfbtfStrokfdShbpf} mfthod.
+ * Thf mbin usfr of this mfthod is thf Jbvb 2D non-bntiblibsing rfndfrfr.
+ * <dt>AATilfGfnfrbtor gftAATilfGfnfrbtor(Shbpf, [rfndfring pbrbmftfrs]);
+ * <dd>This mfthod rfturns bn objfdt whidh dbn itfrbtf ovfr thf
+ * spfdififd bounding box bnd produdf tilfs of dovfrbgf vblufs for
+ * bntiblibsfd rfndfring.  Thf dftbils of thf opfrbtion of thf
+ * {@link AATilfGfnfrbtor} objfdt brf fxplbinfd in its dlbss dommfnts.
+ * </dl>
+ * Additionblly, thf following informbtionbl mfthod supplifs importbnt
+ * dbtb bbout thf implfmfntbtion.
+ * <dl>
+ * <dt>flobt gftMinimumAAPfnSizf()
+ * <dd>This mfthod providfs informbtion on how smbll thf BbsidStrokf
+ * linf width dbn gft bfforf dropouts oddur.  Rfndfring with b BbsidStrokf
+ * is dffinfd to nfvfr bllow thf linf to hbvf brfbks, gbps, or dropouts
+ * fvfn if thf width is sft to 0.0f, so this informbtion bllows thf
+ * {@link SunGrbphids2D} dlbss to dftfdt thf "thin linf" dbsf bnd sft
+ * thf rfndfring bttributfs bddordingly.
+ * </dl>
+ * At stbrtup thf runtimf will lobd b singlf instbndf of this dlbss.
+ * It sfbrdhfs thf dlbsspbth for b rfgistfrfd providfr of this API
+ * bnd rfturns fithfr thf lbst onf it finds, or thf instbndf whosf
+ * dlbss nbmf mbtdhfs thf vbluf supplifd in thf Systfm propfrty
+ * {@dodf sun.jbvb2d.rfndfrfr}.
+ * Additionblly, b runtimf Systfm propfrty flbg dbn bf sft to trbdf
+ * bll dblls to mfthods on thf {@dodf RfndfringEnginf} in usf by
+ * sftting thf sun.jbvb2d.rfndfrfr.trbdf propfrty to bny non-null vbluf.
+ * <p>
+ * Pbrts of thf systfm thbt nffd to usf bny of thf bbovf ffbturfs should
+ * dbll {@dodf RfndfringEnginf.gftInstbndf()} to obtbin thf propfrly
+ * rfgistfrfd (bnd possibly trbdf-fnbblfd) vfrsion of thf RfndfringEnginf.
+ */
+publid bbstrbdt dlbss RfndfringEnginf {
+    privbtf stbtid RfndfringEnginf rfImpl;
+
+    /**
+     * Rfturns bn instbndf of {@dodf RfndfringEnginf} bs dftfrminfd
+     * by thf instbllbtion fnvironmfnt bnd runtimf flbgs.
+     * <p>
+     * A spfdifid instbndf of thf {@dodf RfndfringEnginf} dbn bf
+     * dhosfn by spfdifying thf runtimf flbg:
+     * <prf>
+     *     jbvb -Dsun.jbvb2d.rfndfrfr=&lt;dlbssnbmf&gt;
+     * </prf>
+     *
+     * If no spfdifid {@dodf RfndfringEnginf} is spfdififd on thf dommbnd
+     * or Dudtus rfndfrfr is spfdififd, it will first bttfmpt lobding thf
+     * sun.dd.DudtusRfndfringEnginf dlbss using Clbss.forNbmf, if thbt
+     * is not found, thfn it will look for Pisdfs.
+     * <p>
+     * Runtimf trbding of thf bdtions of thf {@dodf RfndfringEnginf}
+     * dbn bf fnbblfd by spfdifying thf runtimf flbg:
+     * <prf>
+     *     jbvb -Dsun.jbvb2d.rfndfrfr.trbdf=&lt;bny string&gt;
+     * </prf>
+     * @rfturn bn instbndf of {@dodf RfndfringEnginf}
+     * @sindf 1.7
+     */
+    publid stbtid syndhronizfd RfndfringEnginf gftInstbndf() {
+        if (rfImpl != null) {
+            rfturn rfImpl;
+        }
+
+        /* Look first for dudtus or bn bpp-ovfrridf rfndfrfr,
+         * if not spfdififd or prfsfnt, thfn look for pisdfs.
+         */
+        finbl String dudtusREClbss = "sun.dd.DudtusRfndfringEnginf";
+        finbl String pisdfsREClbss = "sun.jbvb2d.pisdfs.PisdfsRfndfringEnginf";
+        GftPropfrtyAdtion gpb =
+            nfw GftPropfrtyAdtion("sun.jbvb2d.rfndfrfr", dudtusREClbss);
+        String rfClbss = AddfssControllfr.doPrivilfgfd(gpb);
+        try {
+            Clbss<?> dls = Clbss.forNbmf(rfClbss);
+            rfImpl = (RfndfringEnginf) dls.nfwInstbndf();
+        } dbtdh (RfflfdtivfOpfrbtionExdfption ignorfd0) {
+            try {
+                Clbss<?> dls = Clbss.forNbmf(pisdfsREClbss);
+                rfImpl = (RfndfringEnginf) dls.nfwInstbndf();
+            } dbtdh (RfflfdtivfOpfrbtionExdfption ignorfd1) {
+            }
+        }
+
+        if (rfImpl == null) {
+            throw nfw IntfrnblError("No RfndfringEnginf modulf found");
+        }
+
+        gpb = nfw GftPropfrtyAdtion("sun.jbvb2d.rfndfrfr.trbdf");
+        String rfTrbdf = AddfssControllfr.doPrivilfgfd(gpb);
+        if (rfTrbdf != null) {
+            rfImpl = nfw Trbdfr(rfImpl);
+        }
+
+        rfturn rfImpl;
+    }
+
+    /**
+     * Crfbtf b widfnfd pbth bs spfdififd by thf pbrbmftfrs.
+     * <p>
+     * Thf spfdififd {@dodf srd} {@link Shbpf} is widfnfd bddording
+     * to thf spfdififd bttributf pbrbmftfrs bs pfr thf
+     * {@link BbsidStrokf} spfdifidbtion.
+     *
+     * @pbrbm srd thf sourdf pbth to bf widfnfd
+     * @pbrbm width thf width of thf widfnfd pbth bs pfr {@dodf BbsidStrokf}
+     * @pbrbm dbps thf fnd dbp dfdorbtions bs pfr {@dodf BbsidStrokf}
+     * @pbrbm join thf sfgmfnt join dfdorbtions bs pfr {@dodf BbsidStrokf}
+     * @pbrbm mitfrlimit thf mitfr limit bs pfr {@dodf BbsidStrokf}
+     * @pbrbm dbshfs thf dbsh lfngth brrby bs pfr {@dodf BbsidStrokf}
+     * @pbrbm dbshphbsf thf initibl dbsh phbsf bs pfr {@dodf BbsidStrokf}
+     * @rfturn thf widfnfd pbth storfd in b nfw {@dodf Shbpf} objfdt
+     * @sindf 1.7
+     */
+    publid bbstrbdt Shbpf drfbtfStrokfdShbpf(Shbpf srd,
+                                             flobt width,
+                                             int dbps,
+                                             int join,
+                                             flobt mitfrlimit,
+                                             flobt dbshfs[],
+                                             flobt dbshphbsf);
+
+    /**
+     * Sfnds thf gfomftry for b widfnfd pbth bs spfdififd by thf pbrbmftfrs
+     * to thf spfdififd donsumfr.
+     * <p>
+     * Thf spfdififd {@dodf srd} {@link Shbpf} is widfnfd bddording
+     * to thf pbrbmftfrs spfdififd by thf {@link BbsidStrokf} objfdt.
+     * Adjustmfnts brf mbdf to thf pbth bs bppropribtf for thf
+     * {@link VALUE_STROKE_NORMALIZE} hint if thf {@dodf normblizf}
+     * boolfbn pbrbmftfr is truf.
+     * Adjustmfnts brf mbdf to thf pbth bs bppropribtf for thf
+     * {@link VALUE_ANTIALIAS_ON} hint if thf {@dodf bntiblibs}
+     * boolfbn pbrbmftfr is truf.
+     * <p>
+     * Thf gfomftry of thf widfnfd pbth is forwbrdfd to thf indidbtfd
+     * {@link PbthConsumfr2D} objfdt bs it is dbldulbtfd.
+     *
+     * @pbrbm srd thf sourdf pbth to bf widfnfd
+     * @pbrbm bs thf {@dodf BbsidSrokf} objfdt spfdifying thf
+     *           dfdorbtions to bf bpplifd to thf widfnfd pbth
+     * @pbrbm normblizf indidbtfs whfthfr strokf normblizbtion should
+     *                  bf bpplifd
+     * @pbrbm bntiblibs indidbtfs whfthfr or not bdjustmfnts bppropribtf
+     *                  to bntiblibsfd rfndfring should bf bpplifd
+     * @pbrbm donsumfr thf {@dodf PbthConsumfr2D} instbndf to forwbrd
+     *                 thf widfnfd gfomftry to
+     * @sindf 1.7
+     */
+    publid bbstrbdt void strokfTo(Shbpf srd,
+                                  AffinfTrbnsform bt,
+                                  BbsidStrokf bs,
+                                  boolfbn thin,
+                                  boolfbn normblizf,
+                                  boolfbn bntiblibs,
+                                  PbthConsumfr2D donsumfr);
+
+    /**
+     * Construdt bn bntiblibsfd tilf gfnfrbtor for thf givfn shbpf with
+     * thf givfn rfndfring bttributfs bnd storf thf bounds of thf tilf
+     * itfrbtion in thf bbox pbrbmftfr.
+     * Thf {@dodf bt} pbrbmftfr spfdififs b trbnsform thbt should bfffdt
+     * both thf shbpf bnd thf {@dodf BbsidStrokf} bttributfs.
+     * Thf {@dodf dlip} pbrbmftfr spfdififs thf durrfnt dlip in ffffdt
+     * in dfvidf doordinbtfs bnd dbn bf usfd to prunf thf dbtb for thf
+     * opfrbtion, but thf rfndfrfr is not rfquirfd to pfrform bny
+     * dlipping.
+     * If thf {@dodf BbsidStrokf} pbrbmftfr is null thfn thf shbpf
+     * should bf fillfd bs is, othfrwisf thf bttributfs of thf
+     * {@dodf BbsidStrokf} should bf usfd to spfdify b drbw opfrbtion.
+     * Thf {@dodf thin} pbrbmftfr indidbtfs whfthfr or not thf
+     * trbnsformfd {@dodf BbsidStrokf} rfprfsfnts doordinbtfs smbllfr
+     * thbn thf minimum rfsolution of thf bntiblibsing rbstfrizfr bs
+     * spfdififd by thf {@dodf gftMinimumAAPfnWidth()} mfthod.
+     * <p>
+     * Upon rfturning, this mfthod will fill thf {@dodf bbox} pbrbmftfr
+     * with 4 vblufs indidbting thf bounds of thf itfrbtion of thf
+     * tilf gfnfrbtor.
+     * Thf itfrbtion ordfr of thf tilfs will bf bs spfdififd by thf
+     * psfudo-dodf:
+     * <prf>
+     *     for (y = bbox[1]; y < bbox[3]; y += tilfhfight) {
+     *         for (x = bbox[0]; x < bbox[2]; x += tilfwidth) {
+     *         }
+     *     }
+     * </prf>
+     * If thfrf is no output to bf rfndfrfd, this mfthod mby rfturn
+     * null.
+     *
+     * @pbrbm s thf shbpf to bf rfndfrfd (fill or drbw)
+     * @pbrbm bt thf trbnsform to bf bpplifd to thf shbpf bnd thf
+     *           strokf bttributfs
+     * @pbrbm dlip thf durrfnt dlip in ffffdt in dfvidf doordinbtfs
+     * @pbrbm bs if non-null, b {@dodf BbsidStrokf} whosf bttributfs
+     *           should bf bpplifd to this opfrbtion
+     * @pbrbm thin truf if thf trbnsformfd strokf bttributfs brf smbllfr
+     *             thbn thf minimum dropout pfn width
+     * @pbrbm normblizf truf if thf {@dodf VALUE_STROKE_NORMALIZE}
+     *                  {@dodf RfndfringHint} is in ffffdt
+     * @pbrbm bbox rfturns thf bounds of thf itfrbtion
+     * @rfturn thf {@dodf AATilfGfnfrbtor} instbndf to bf donsultfd
+     *         for tilf dovfrbgfs, or null if thfrf is no output to rfndfr
+     * @sindf 1.7
+     */
+    publid bbstrbdt AATilfGfnfrbtor gftAATilfGfnfrbtor(Shbpf s,
+                                                       AffinfTrbnsform bt,
+                                                       Rfgion dlip,
+                                                       BbsidStrokf bs,
+                                                       boolfbn thin,
+                                                       boolfbn normblizf,
+                                                       int bbox[]);
+
+    /**
+     * Construdt bn bntiblibsfd tilf gfnfrbtor for thf givfn pbrbllflogrbm
+     * storf thf bounds of thf tilf itfrbtion in thf bbox pbrbmftfr.
+     * Thf pbrbllflogrbm is spfdififd bs b stbrting point bnd 2 dfltb
+     * vfdtors thbt indidbtf thf slopfs of thf 2 pbirs of sidfs of thf
+     * pbrbllflogrbm.
+     * Thf 4 dornfrs of thf pbrbllflogrbm brf dffinfd by thf 4 points:
+     * <ul>
+     * <li> {@dodf x}, {@dodf y}
+     * <li> {@dodf x+dx1}, {@dodf y+dy1}
+     * <li> {@dodf x+dx1+dx2}, {@dodf y+dy1+dy2}
+     * <li> {@dodf x+dx2}, {@dodf y+dy2}
+     * </ul>
+     * Thf {@dodf lw1} bnd {@dodf lw2} pbrbmftfrs providf b spfdifidbtion
+     * for bn optionblly strokfd pbrbllflogrbm if thfy brf positivf numbfrs.
+     * Thf {@dodf lw1} pbrbmftfr is thf rbtio of thf lfngth of thf {@dodf dx1},
+     * {@dodf dx2} dfltb vfdtor to hblf of thf linf width in thbt sbmf
+     * dirfdtion.
+     * Thf {@dodf lw2} pbrbmftfr providfs thf sbmf rbtio for thf othfr dfltb
+     * vfdtor.
+     * If {@dodf lw1} bnd {@dodf lw2} brf both grfbtfr thbn zfro, thfn
+     * thf pbrbllflogrbm figurf is doublfd by both fxpbnding bnd dontrbdting
+     * fbdh dfltb vfdtor by its dorrfsponding {@dodf lw} vbluf.
+     * If fithfr (@dodf lw1) or {@dodf lw2} brf blso grfbtfr thbn 1, thfn
+     * thf innfr (dontrbdtfd) pbrbllflogrbm disbppfbrs bnd thf figurf is
+     * simply b singlf fxpbndfd pbrbllflogrbm.
+     * Thf {@dodf dlip} pbrbmftfr spfdififs thf durrfnt dlip in ffffdt
+     * in dfvidf doordinbtfs bnd dbn bf usfd to prunf thf dbtb for thf
+     * opfrbtion, but thf rfndfrfr is not rfquirfd to pfrform bny
+     * dlipping.
+     * <p>
+     * Upon rfturning, this mfthod will fill thf {@dodf bbox} pbrbmftfr
+     * with 4 vblufs indidbting thf bounds of thf itfrbtion of thf
+     * tilf gfnfrbtor.
+     * Thf itfrbtion ordfr of thf tilfs will bf bs spfdififd by thf
+     * psfudo-dodf:
+     * <prf>
+     *     for (y = bbox[1]; y < bbox[3]; y += tilfhfight) {
+     *         for (x = bbox[0]; x < bbox[2]; x += tilfwidth) {
+     *         }
+     *     }
+     * </prf>
+     * If thfrf is no output to bf rfndfrfd, this mfthod mby rfturn
+     * null.
+     *
+     * @pbrbm x thf X doordinbtf of thf first dornfr of thf pbrbllflogrbm
+     * @pbrbm y thf Y doordinbtf of thf first dornfr of thf pbrbllflogrbm
+     * @pbrbm dx1 thf X doordinbtf dfltb of thf first lfg of thf pbrbllflogrbm
+     * @pbrbm dy1 thf Y doordinbtf dfltb of thf first lfg of thf pbrbllflogrbm
+     * @pbrbm dx2 thf X doordinbtf dfltb of thf sfdond lfg of thf pbrbllflogrbm
+     * @pbrbm dy2 thf Y doordinbtf dfltb of thf sfdond lfg of thf pbrbllflogrbm
+     * @pbrbm lw1 thf linf width rbtio for thf first lfg of thf pbrbllflogrbm
+     * @pbrbm lw2 thf linf width rbtio for thf sfdond lfg of thf pbrbllflogrbm
+     * @pbrbm dlip thf durrfnt dlip in ffffdt in dfvidf doordinbtfs
+     * @pbrbm bbox rfturns thf bounds of thf itfrbtion
+     * @rfturn thf {@dodf AATilfGfnfrbtor} instbndf to bf donsultfd
+     *         for tilf dovfrbgfs, or null if thfrf is no output to rfndfr
+     * @sindf 1.7
+     */
+    publid bbstrbdt AATilfGfnfrbtor gftAATilfGfnfrbtor(doublf x, doublf y,
+                                                       doublf dx1, doublf dy1,
+                                                       doublf dx2, doublf dy2,
+                                                       doublf lw1, doublf lw2,
+                                                       Rfgion dlip,
+                                                       int bbox[]);
+
+    /**
+     * Rfturns thf minimum pfn width thbt thf bntiblibsing rbstfrizfr
+     * dbn rfprfsfnt without dropouts oddurring.
+     * @sindf 1.7
+     */
+    publid bbstrbdt flobt gftMinimumAAPfnSizf();
+
+    /**
+     * Utility mfthod to fffd b {@link PbthConsumfr2D} objfdt from b
+     * givfn {@link PbthItfrbtor}.
+     * This mfthod dfbls with thf dftbils of running thf itfrbtor bnd
+     * fffding thf donsumfr b sfgmfnt bt b timf.
+     */
+    publid stbtid void fffdConsumfr(PbthItfrbtor pi, PbthConsumfr2D donsumfr) {
+        flobt doords[] = nfw flobt[6];
+        whilf (!pi.isDonf()) {
+            switdh (pi.durrfntSfgmfnt(doords)) {
+            dbsf PbthItfrbtor.SEG_MOVETO:
+                donsumfr.movfTo(doords[0], doords[1]);
+                brfbk;
+            dbsf PbthItfrbtor.SEG_LINETO:
+                donsumfr.linfTo(doords[0], doords[1]);
+                brfbk;
+            dbsf PbthItfrbtor.SEG_QUADTO:
+                donsumfr.qubdTo(doords[0], doords[1],
+                                doords[2], doords[3]);
+                brfbk;
+            dbsf PbthItfrbtor.SEG_CUBICTO:
+                donsumfr.durvfTo(doords[0], doords[1],
+                                 doords[2], doords[3],
+                                 doords[4], doords[5]);
+                brfbk;
+            dbsf PbthItfrbtor.SEG_CLOSE:
+                donsumfr.dlosfPbth();
+                brfbk;
+            }
+            pi.nfxt();
+        }
+    }
+
+    stbtid dlbss Trbdfr fxtfnds RfndfringEnginf {
+        RfndfringEnginf tbrgft;
+        String nbmf;
+
+        publid Trbdfr(RfndfringEnginf tbrgft) {
+            this.tbrgft = tbrgft;
+            nbmf = tbrgft.gftClbss().gftNbmf();
+        }
+
+        publid Shbpf drfbtfStrokfdShbpf(Shbpf srd,
+                                        flobt width,
+                                        int dbps,
+                                        int join,
+                                        flobt mitfrlimit,
+                                        flobt dbshfs[],
+                                        flobt dbshphbsf)
+        {
+            Systfm.out.println(nbmf+".drfbtfStrokfdShbpf("+
+                               srd.gftClbss().gftNbmf()+", "+
+                               "width = "+width+", "+
+                               "dbps = "+dbps+", "+
+                               "join = "+join+", "+
+                               "mitfr = "+mitfrlimit+", "+
+                               "dbshfs = "+dbshfs+", "+
+                               "dbshphbsf = "+dbshphbsf+")");
+            rfturn tbrgft.drfbtfStrokfdShbpf(srd,
+                                             width, dbps, join, mitfrlimit,
+                                             dbshfs, dbshphbsf);
+        }
+
+        publid void strokfTo(Shbpf srd,
+                             AffinfTrbnsform bt,
+                             BbsidStrokf bs,
+                             boolfbn thin,
+                             boolfbn normblizf,
+                             boolfbn bntiblibs,
+                             PbthConsumfr2D donsumfr)
+        {
+            Systfm.out.println(nbmf+".strokfTo("+
+                               srd.gftClbss().gftNbmf()+", "+
+                               bt+", "+
+                               bs+", "+
+                               (thin ? "thin" : "widf")+", "+
+                               (normblizf ? "normblizfd" : "purf")+", "+
+                               (bntiblibs ? "AA" : "non-AA")+", "+
+                               donsumfr.gftClbss().gftNbmf()+")");
+            tbrgft.strokfTo(srd, bt, bs, thin, normblizf, bntiblibs, donsumfr);
+        }
+
+        publid flobt gftMinimumAAPfnSizf() {
+            Systfm.out.println(nbmf+".gftMinimumAAPfnSizf()");
+            rfturn tbrgft.gftMinimumAAPfnSizf();
+        }
+
+        publid AATilfGfnfrbtor gftAATilfGfnfrbtor(Shbpf s,
+                                                  AffinfTrbnsform bt,
+                                                  Rfgion dlip,
+                                                  BbsidStrokf bs,
+                                                  boolfbn thin,
+                                                  boolfbn normblizf,
+                                                  int bbox[])
+        {
+            Systfm.out.println(nbmf+".gftAATilfGfnfrbtor("+
+                               s.gftClbss().gftNbmf()+", "+
+                               bt+", "+
+                               dlip+", "+
+                               bs+", "+
+                               (thin ? "thin" : "widf")+", "+
+                               (normblizf ? "normblizfd" : "purf")+")");
+            rfturn tbrgft.gftAATilfGfnfrbtor(s, bt, dlip,
+                                             bs, thin, normblizf,
+                                             bbox);
+        }
+        publid AATilfGfnfrbtor gftAATilfGfnfrbtor(doublf x, doublf y,
+                                                  doublf dx1, doublf dy1,
+                                                  doublf dx2, doublf dy2,
+                                                  doublf lw1, doublf lw2,
+                                                  Rfgion dlip,
+                                                  int bbox[])
+        {
+            Systfm.out.println(nbmf+".gftAATilfGfnfrbtor("+
+                               x+", "+y+", "+
+                               dx1+", "+dy1+", "+
+                               dx2+", "+dy2+", "+
+                               lw1+", "+lw2+", "+
+                               dlip+")");
+            rfturn tbrgft.gftAATilfGfnfrbtor(x, y,
+                                             dx1, dy1,
+                                             dx2, dy2,
+                                             lw1, lw2,
+                                             dlip, bbox);
+        }
+    }
+}

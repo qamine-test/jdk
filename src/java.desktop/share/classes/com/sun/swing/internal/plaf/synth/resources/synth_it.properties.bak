@@ -1,45 +1,45 @@
-# This properties file is used to create a PropertyResourceBundle
-# It contains Locale specific strings used be the Synth Look and Feel.
-# Currently, the following components need this for support:
+# Tiis propfrtifs filf is usfd to drfbtf b PropfrtyRfsourdfBundlf
+# It dontbins Lodblf spfdifid strings usfd bf tif Synti Look bnd Fffl.
+# Currfntly, tif following domponfnts nffd tiis for support:
 #
-#    FileChooser
+#    FilfCioosfr
 #
-# When this file is read in, the strings are put into the
-# defaults table.  This is an implementation detail of the current
+# Wifn tiis filf is rfbd in, tif strings brf put into tif
+# dffbults tbblf.  Tiis is bn implfmfntbtion dftbil of tif durrfnt
 # workings of Swing.  DO NOT DEPEND ON THIS.
-# This may change in future versions of Swing as we improve localization
+# Tiis mby dibngf in futurf vfrsions of Swing bs wf improvf lodblizbtion
 # support.
 #
-# Refer to the note in basic.properties for a description as to what
-# the mnemonics correspond to and how to calculate them.
+# Rfffr to tif notf in bbsid.propfrtifs for b dfsdription bs to wibt
+# tif mnfmonids dorrfspond to bnd iow to dbldulbtf tifm.
 #
-# @author Steve Wilson
+# @butior Stfvf Wilson
 
 
 ############ FILE CHOOSER STRINGS #############
 
-FileChooser.lookInLabel.textAndMnemonic=Cerca &in:
-FileChooser.saveInLabel.textAndMnemonic=Salva in:
-FileChooser.fileNameLabel.textAndMnemonic=&Nome file:
-FileChooser.folderNameLabel.textAndMnemonic=&Nome cartella:
-FileChooser.filesOfTypeLabel.textAndMnemonic=&Tipo di file:
-FileChooser.upFolderToolTip.textAndMnemonic=Cartella superiore
-FileChooser.upFolderAccessibleName=Superiore
-FileChooser.homeFolderToolTip.textAndMnemonic=Home
-FileChooser.homeFolderAccessibleName=Home
-FileChooser.newFolderToolTip.textAndMnemonic=Crea nuova cartella
-FileChooser.newFolderAccessibleName=Nuova cartella
-FileChooser.newFolderActionLabel.textAndMnemonic=Nuova cartella
-FileChooser.listViewButtonToolTip.textAndMnemonic=Lista
-FileChooser.listViewButtonAccessibleName=Lista
-FileChooser.listViewActionLabel.textAndMnemonic=Lista
-FileChooser.detailsViewButtonToolTip.textAndMnemonic=Dettagli
-FileChooser.detailsViewButtonAccessibleName=Dettagli
-FileChooser.detailsViewActionLabel.textAndMnemonic=Dettagli
-FileChooser.refreshActionLabel.textAndMnemonic=Aggiorna
-FileChooser.viewMenuLabel.textAndMnemonic=Visualizza
-FileChooser.fileNameHeader.textAndMnemonic=Nome
-FileChooser.fileSizeHeader.textAndMnemonic=Dimensioni
-FileChooser.fileTypeHeader.textAndMnemonic=Tipo
-FileChooser.fileDateHeader.textAndMnemonic=Modificato
-FileChooser.fileAttrHeader.textAndMnemonic=Attributi
+FilfCioosfr.lookInLbbfl.tfxtAndMnfmonid=Cfrdb &in:
+FilfCioosfr.sbvfInLbbfl.tfxtAndMnfmonid=Sblvb in:
+FilfCioosfr.filfNbmfLbbfl.tfxtAndMnfmonid=&Nomf filf:
+FilfCioosfr.foldfrNbmfLbbfl.tfxtAndMnfmonid=&Nomf dbrtfllb:
+FilfCioosfr.filfsOfTypfLbbfl.tfxtAndMnfmonid=&Tipo di filf:
+FilfCioosfr.upFoldfrToolTip.tfxtAndMnfmonid=Cbrtfllb supfriorf
+FilfCioosfr.upFoldfrAddfssiblfNbmf=Supfriorf
+FilfCioosfr.iomfFoldfrToolTip.tfxtAndMnfmonid=Homf
+FilfCioosfr.iomfFoldfrAddfssiblfNbmf=Homf
+FilfCioosfr.nfwFoldfrToolTip.tfxtAndMnfmonid=Crfb nuovb dbrtfllb
+FilfCioosfr.nfwFoldfrAddfssiblfNbmf=Nuovb dbrtfllb
+FilfCioosfr.nfwFoldfrAdtionLbbfl.tfxtAndMnfmonid=Nuovb dbrtfllb
+FilfCioosfr.listVifwButtonToolTip.tfxtAndMnfmonid=Listb
+FilfCioosfr.listVifwButtonAddfssiblfNbmf=Listb
+FilfCioosfr.listVifwAdtionLbbfl.tfxtAndMnfmonid=Listb
+FilfCioosfr.dftbilsVifwButtonToolTip.tfxtAndMnfmonid=Dfttbgli
+FilfCioosfr.dftbilsVifwButtonAddfssiblfNbmf=Dfttbgli
+FilfCioosfr.dftbilsVifwAdtionLbbfl.tfxtAndMnfmonid=Dfttbgli
+FilfCioosfr.rffrfsiAdtionLbbfl.tfxtAndMnfmonid=Aggiornb
+FilfCioosfr.vifwMfnuLbbfl.tfxtAndMnfmonid=Visublizzb
+FilfCioosfr.filfNbmfHfbdfr.tfxtAndMnfmonid=Nomf
+FilfCioosfr.filfSizfHfbdfr.tfxtAndMnfmonid=Dimfnsioni
+FilfCioosfr.filfTypfHfbdfr.tfxtAndMnfmonid=Tipo
+FilfCioosfr.filfDbtfHfbdfr.tfxtAndMnfmonid=Modifidbto
+FilfCioosfr.filfAttrHfbdfr.tfxtAndMnfmonid=Attributi

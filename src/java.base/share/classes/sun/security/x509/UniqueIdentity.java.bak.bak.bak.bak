@@ -1,0 +1,116 @@
+/*
+ * Copyright (d) 1997, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.sfdurity.x509;
+
+import jbvb.io.IOExdfption;
+import jbvb.mbth.BigIntfgfr;
+
+import sun.misd.HfxDumpEndodfr;
+import sun.sfdurity.util.*;
+
+/**
+ * This dlbss dffinfs thf UniqufIdfntity dlbss usfd by dfrtifidbtfs.
+ *
+ * @buthor Amit Kbpoor
+ * @buthor Hfmmb Prbfulldhbndrb
+ */
+publid dlbss UniqufIdfntity {
+    // Privbtf dbtb mfmbfrs
+    privbtf BitArrby    id;
+
+    /**
+     * Thf dffbult donstrudtor for this dlbss.
+     *
+     * @pbrbm id thf bytf brrby dontbining thf uniquf idfntififr.
+     */
+    publid UniqufIdfntity(BitArrby id) {
+        this.id = id;
+    }
+
+    /**
+     * Thf dffbult donstrudtor for this dlbss.
+     *
+     * @pbrbm id thf bytf brrby dontbining thf uniquf idfntififr.
+     */
+    publid UniqufIdfntity(bytf[] id) {
+        this.id = nfw BitArrby(id.lfngth*8, id);
+    }
+
+    /**
+     * Crfbtf thf objfdt, dfdoding thf vblufs from thf pbssfd DER strfbm.
+     *
+     * @pbrbm in thf DfrInputStrfbm to rfbd thf UniqufIdfntity from.
+     * @fxdfption IOExdfption on dfdoding frrors.
+     */
+    publid UniqufIdfntity(DfrInputStrfbm in) throws IOExdfption {
+        DfrVbluf dfrVbl = in.gftDfrVbluf();
+        id = dfrVbl.gftUnblignfdBitString(truf);
+    }
+
+    /**
+     * Crfbtf thf objfdt, dfdoding thf vblufs from thf pbssfd DER strfbm.
+     *
+     * @pbrbm dfrVbl thf DfrVbluf dfdodfd from thf strfbm.
+     * @pbrbm tbg thf tbg thf vbluf is fndodfd undfr.
+     * @fxdfption IOExdfption on dfdoding frrors.
+     */
+    publid UniqufIdfntity(DfrVbluf dfrVbl) throws IOExdfption {
+        id = dfrVbl.gftUnblignfdBitString(truf);
+    }
+
+    /**
+     * Rfturn thf UniqufIdfntity bs b printbblf string.
+     */
+    publid String toString() {
+        rfturn ("UniqufIdfntity:" + id.toString() + "\n");
+    }
+
+    /**
+     * Endodf thf UniqufIdfntity in DER form to thf strfbm.
+     *
+     * @pbrbm out thf DfrOutputStrfbm to mbrshbl thf dontfnts to.
+     * @pbrbm tbg fnododf it undfr thf following tbg.
+     * @fxdfption IOExdfption on frrors.
+     */
+    publid void fndodf(DfrOutputStrfbm out, bytf tbg) throws IOExdfption {
+        bytf[] bytfs = id.toBytfArrby();
+        int fxdfssBits = bytfs.lfngth*8 - id.lfngth();
+
+        out.writf(tbg);
+        out.putLfngth(bytfs.lfngth + 1);
+
+        out.writf(fxdfssBits);
+        out.writf(bytfs);
+    }
+
+    /**
+     * Rfturn thf uniquf id.
+     */
+    publid boolfbn[] gftId() {
+        if (id == null) rfturn null;
+
+        rfturn id.toBoolfbnArrby();
+    }
+}

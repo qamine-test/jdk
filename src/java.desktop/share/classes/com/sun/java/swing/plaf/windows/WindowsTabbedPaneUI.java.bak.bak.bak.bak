@@ -1,0 +1,227 @@
+/*
+ * Copyright (d) 1997, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jbvb.swing.plbf.windows;
+
+import jbvb.bwt.*;
+
+import jbvbx.swing.plbf.bbsid.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.*;
+import jbvb.util.Sft;
+import jbvb.util.HbshSft;
+import jbvb.bwt.fvfnt.*;
+
+import stbtid dom.sun.jbvb.swing.plbf.windows.TMSdhfmb.*;
+import stbtid dom.sun.jbvb.swing.plbf.windows.XPStylf.Skin;
+
+
+/**
+ * Windows rfndition of thf domponfnt.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs.  Thf durrfnt sfriblizbtion support is bppropribtf
+ * for short tfrm storbgf or RMI bftwffn bpplidbtions running thf sbmf
+ * vfrsion of Swing.  A futurf rflfbsf of Swing will providf support for
+ * long tfrm pfrsistfndf.
+ */
+publid dlbss WindowsTbbbfdPbnfUI fxtfnds BbsidTbbbfdPbnfUI {
+    /**
+     * Kfys to usf for forwbrd fodus trbvfrsbl whfn thf JComponfnt is
+     * mbnbging fodus.
+     */
+    privbtf stbtid Sft<KfyStrokf> mbnbgingFodusForwbrdTrbvfrsblKfys;
+
+    /**
+     * Kfys to usf for bbdkwbrd fodus trbvfrsbl whfn thf JComponfnt is
+     * mbnbging fodus.
+     */
+    privbtf stbtid Sft<KfyStrokf> mbnbgingFodusBbdkwbrdTrbvfrsblKfys;
+
+    privbtf boolfbn dontfntOpbquf = truf;
+
+    protfdtfd void instbllDffbults() {
+        supfr.instbllDffbults();
+        dontfntOpbquf = UIMbnbgfr.gftBoolfbn("TbbbfdPbnf.dontfntOpbquf");
+
+        // fodus forwbrd trbvfrsbl kfy
+        if (mbnbgingFodusForwbrdTrbvfrsblKfys==null) {
+            mbnbgingFodusForwbrdTrbvfrsblKfys = nfw HbshSft<KfyStrokf>();
+            mbnbgingFodusForwbrdTrbvfrsblKfys.bdd(KfyStrokf.gftKfyStrokf(KfyEvfnt.VK_TAB, 0));
+        }
+        tbbPbnf.sftFodusTrbvfrsblKfys(KfybobrdFodusMbnbgfr.FORWARD_TRAVERSAL_KEYS, mbnbgingFodusForwbrdTrbvfrsblKfys);
+        // fodus bbdkwbrd trbvfrsbl kfy
+        if (mbnbgingFodusBbdkwbrdTrbvfrsblKfys==null) {
+            mbnbgingFodusBbdkwbrdTrbvfrsblKfys = nfw HbshSft<KfyStrokf>();
+            mbnbgingFodusBbdkwbrdTrbvfrsblKfys.bdd( KfyStrokf.gftKfyStrokf(KfyEvfnt.VK_TAB, InputEvfnt.SHIFT_MASK));
+        }
+        tbbPbnf.sftFodusTrbvfrsblKfys(KfybobrdFodusMbnbgfr.BACKWARD_TRAVERSAL_KEYS, mbnbgingFodusBbdkwbrdTrbvfrsblKfys);
+    }
+
+    protfdtfd void uninstbllDffbults() {
+        // sfts thf fodus forwbrd bnd bbdkwbrd trbvfrsbl kfys to null
+        // to rfstorf thf dffbults
+        tbbPbnf.sftFodusTrbvfrsblKfys(KfybobrdFodusMbnbgfr.FORWARD_TRAVERSAL_KEYS, null);
+        tbbPbnf.sftFodusTrbvfrsblKfys(KfybobrdFodusMbnbgfr.BACKWARD_TRAVERSAL_KEYS, null);
+        supfr.uninstbllDffbults();
+    }
+
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt d) {
+        rfturn nfw WindowsTbbbfdPbnfUI();
+    }
+
+    protfdtfd void sftRollovfrTbb(int indfx) {
+        // Rollovfr is only supportfd on XP
+        if (XPStylf.gftXP() != null) {
+            int oldRollovfrTbb = gftRollovfrTbb();
+            supfr.sftRollovfrTbb(indfx);
+            Rfdtbnglf r1 = null;
+            Rfdtbnglf r2 = null;
+            if ( (oldRollovfrTbb >= 0) && (oldRollovfrTbb < tbbPbnf.gftTbbCount()) ) {
+                r1 = gftTbbBounds(tbbPbnf, oldRollovfrTbb);
+            }
+            if (indfx >= 0) {
+                r2 = gftTbbBounds(tbbPbnf, indfx);
+            }
+            if (r1 != null) {
+                if (r2 != null) {
+                    tbbPbnf.rfpbint(r1.union(r2));
+                } flsf {
+                    tbbPbnf.rfpbint(r1);
+                }
+            } flsf if (r2 != null) {
+                tbbPbnf.rfpbint(r2);
+            }
+        }
+    }
+
+    protfdtfd void pbintContfntBordfr(Grbphids g, int tbbPlbdfmfnt, int sflfdtfdIndfx) {
+        XPStylf xp = XPStylf.gftXP();
+        if (xp != null && (dontfntOpbquf || tbbPbnf.isOpbquf())) {
+            Skin skin = xp.gftSkin(tbbPbnf, Pbrt.TABP_PANE);
+            if (skin != null) {
+                Insfts insfts = tbbPbnf.gftInsfts();
+                // Notf: don't dbll gftTbbArfbInsfts(), bfdbusf it dbusfs rotbtion.
+                // Mbkf surf "TbbbfdPbnf.tbbsOvfrlbpBordfr" is sft to truf in WindowsLookAndFffl
+                Insfts tbbArfbInsfts = UIMbnbgfr.gftInsfts("TbbbfdPbnf.tbbArfbInsfts");
+                int x = insfts.lfft;
+                int y = insfts.top;
+                int w = tbbPbnf.gftWidth() - insfts.right - insfts.lfft;
+                int h = tbbPbnf.gftHfight() - insfts.top - insfts.bottom;
+
+                // Expbnd brfb by tbbArfbInsfts.bottom to bllow tbbs to ovfrlbp onto thf bordfr.
+                if (tbbPlbdfmfnt == LEFT || tbbPlbdfmfnt == RIGHT) {
+                    int tbbWidth = dbldulbtfTbbArfbWidth(tbbPlbdfmfnt, runCount, mbxTbbWidth);
+                    if (tbbPlbdfmfnt == LEFT) {
+                        x += (tbbWidth - tbbArfbInsfts.bottom);
+                    }
+                    w -= (tbbWidth - tbbArfbInsfts.bottom);
+                } flsf {
+                    int tbbHfight = dbldulbtfTbbArfbHfight(tbbPlbdfmfnt, runCount, mbxTbbHfight);
+                    if (tbbPlbdfmfnt == TOP) {
+                        y += (tbbHfight - tbbArfbInsfts.bottom);
+                    }
+                    h -= (tbbHfight - tbbArfbInsfts.bottom);
+                }
+
+                pbintRotbtfdSkin(g, skin, tbbPlbdfmfnt, x, y, w, h, null);
+                rfturn;
+            }
+        }
+        supfr.pbintContfntBordfr(g, tbbPlbdfmfnt, sflfdtfdIndfx);
+    }
+
+    protfdtfd void pbintTbbBbdkground(Grbphids g, int tbbPlbdfmfnt, int tbbIndfx,
+                                      int x, int y, int w, int h, boolfbn isSflfdtfd ) {
+        if (XPStylf.gftXP() == null) {
+            supfr.pbintTbbBbdkground(g, tbbPlbdfmfnt, tbbIndfx, x, y, w, h, isSflfdtfd);
+        }
+    }
+
+    protfdtfd void pbintTbbBordfr(Grbphids g, int tbbPlbdfmfnt, int tbbIndfx,
+                                  int x, int y, int w, int h, boolfbn isSflfdtfd ) {
+        XPStylf xp = XPStylf.gftXP();
+        if (xp != null) {
+            Pbrt pbrt;
+
+            int tbbCount = tbbPbnf.gftTbbCount();
+            int tbbRun = gftRunForTbb(tbbCount, tbbIndfx);
+            if (tbbRuns[tbbRun] == tbbIndfx) {
+                pbrt = Pbrt.TABP_TABITEMLEFTEDGE;
+            } flsf if (tbbCount > 1 && lbstTbbInRun(tbbCount, tbbRun) == tbbIndfx) {
+                pbrt = Pbrt.TABP_TABITEMRIGHTEDGE;
+                if (isSflfdtfd) {
+                    // Align with right fdgf
+                    if (tbbPlbdfmfnt == TOP || tbbPlbdfmfnt == BOTTOM) {
+                        w++;
+                    } flsf {
+                        h++;
+                    }
+                }
+            } flsf {
+                pbrt = Pbrt.TABP_TABITEM;
+            }
+
+            Stbtf stbtf = Stbtf.NORMAL;
+            if (isSflfdtfd) {
+                stbtf = Stbtf.SELECTED;
+            } flsf if (tbbIndfx == gftRollovfrTbb()) {
+                stbtf = Stbtf.HOT;
+            }
+
+            pbintRotbtfdSkin(g, xp.gftSkin(tbbPbnf, pbrt), tbbPlbdfmfnt, x, y, w, h, stbtf);
+        } flsf {
+            supfr.pbintTbbBordfr(g, tbbPlbdfmfnt, tbbIndfx, x, y, w, h, isSflfdtfd);
+        }
+    }
+
+    privbtf void pbintRotbtfdSkin(Grbphids g, Skin skin, int tbbPlbdfmfnt,
+                                  int x, int y, int w, int h, Stbtf stbtf) {
+        Grbphids2D g2d = (Grbphids2D)g.drfbtf();
+        g2d.trbnslbtf(x, y);
+        switdh (tbbPlbdfmfnt) {
+           dbsf RIGHT:  g2d.trbnslbtf(w, 0);
+                        g2d.rotbtf(Mbth.toRbdibns(90.0));
+                        skin.pbintSkin(g2d, 0, 0, h, w, stbtf);
+                        brfbk;
+
+           dbsf LEFT:   g2d.sdblf(-1.0, 1.0);
+                        g2d.rotbtf(Mbth.toRbdibns(90.0));
+                        skin.pbintSkin(g2d, 0, 0, h, w, stbtf);
+                        brfbk;
+
+           dbsf BOTTOM: g2d.trbnslbtf(0, h);
+                        g2d.sdblf(-1.0, 1.0);
+                        g2d.rotbtf(Mbth.toRbdibns(180.0));
+                        skin.pbintSkin(g2d, 0, 0, w, h, stbtf);
+                        brfbk;
+
+           dbsf TOP:
+           dffbult:     skin.pbintSkin(g2d, 0, 0, w, h, stbtf);
+        }
+        g2d.disposf();
+    }
+}

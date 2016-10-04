@@ -1,76 +1,76 @@
 /*
- * Copyright (c) 1999, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management.monitor;
+pbdkbgf jbvbx.mbnbgfmfnt.monitor;
 
 
 // jmx imports
 //
-import javax.management.ObjectName;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
 
 /**
- * Provides definitions of the notifications sent by monitor MBeans.
+ * Providfs dffinitions of tif notifidbtions sfnt by monitor MBfbns.
  * <P>
- * The notification source and a set of parameters concerning the monitor MBean's state
- * need to be specified when creating a new object of this class.
+ * Tif notifidbtion sourdf bnd b sft of pbrbmftfrs dondfrning tif monitor MBfbn's stbtf
+ * nffd to bf spfdififd wifn drfbting b nfw objfdt of tiis dlbss.
  *
- * The list of notifications fired by the monitor MBeans is the following:
+ * Tif list of notifidbtions firfd by tif monitor MBfbns is tif following:
  *
  * <UL>
- * <LI>Common to all kind of monitors:
+ * <LI>Common to bll kind of monitors:
  *     <UL>
- *     <LI>The observed object is not registered in the MBean server.
- *     <LI>The observed attribute is not contained in the observed object.
- *     <LI>The type of the observed attribute is not correct.
- *     <LI>Any exception (except the cases described above) occurs when trying to get the value of the observed attribute.
+ *     <LI>Tif obsfrvfd objfdt is not rfgistfrfd in tif MBfbn sfrvfr.
+ *     <LI>Tif obsfrvfd bttributf is not dontbinfd in tif obsfrvfd objfdt.
+ *     <LI>Tif typf of tif obsfrvfd bttributf is not dorrfdt.
+ *     <LI>Any fxdfption (fxdfpt tif dbsfs dfsdribfd bbovf) oddurs wifn trying to gft tif vbluf of tif obsfrvfd bttributf.
  *     </UL>
- * <LI>Common to the counter and the gauge monitors:
+ * <LI>Common to tif dountfr bnd tif gbugf monitors:
  *     <UL>
- *     <LI>The threshold high or threshold low are not of the same type as the gauge (gauge monitors).
- *     <LI>The threshold or the offset or the modulus are not of the same type as the counter (counter monitors).
+ *     <LI>Tif tirfsiold iigi or tirfsiold low brf not of tif sbmf typf bs tif gbugf (gbugf monitors).
+ *     <LI>Tif tirfsiold or tif offsft or tif modulus brf not of tif sbmf typf bs tif dountfr (dountfr monitors).
  *     </UL>
- * <LI>Counter monitors only:
+ * <LI>Countfr monitors only:
  *     <UL>
- *     <LI>The observed attribute has reached the threshold value.
+ *     <LI>Tif obsfrvfd bttributf ibs rfbdifd tif tirfsiold vbluf.
  *     </UL>
- * <LI>Gauge monitors only:
+ * <LI>Gbugf monitors only:
  *     <UL>
- *     <LI>The observed attribute has exceeded the threshold high value.
- *     <LI>The observed attribute has exceeded the threshold low value.
+ *     <LI>Tif obsfrvfd bttributf ibs fxdffdfd tif tirfsiold iigi vbluf.
+ *     <LI>Tif obsfrvfd bttributf ibs fxdffdfd tif tirfsiold low vbluf.
  *     </UL>
  * <LI>String monitors only:
  *     <UL>
- *     <LI>The observed attribute has matched the "string to compare" value.
- *     <LI>The observed attribute has differed from the "string to compare" value.
+ *     <LI>Tif obsfrvfd bttributf ibs mbtdifd tif "string to dompbrf" vbluf.
+ *     <LI>Tif obsfrvfd bttributf ibs difffrfd from tif "string to dompbrf" vbluf.
  *     </UL>
  * </UL>
  *
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public class MonitorNotification extends javax.management.Notification {
+publid dlbss MonitorNotifidbtion fxtfnds jbvbx.mbnbgfmfnt.Notifidbtion {
 
 
     /*
@@ -80,74 +80,74 @@ public class MonitorNotification extends javax.management.Notification {
      */
 
     /**
-     * Notification type denoting that the observed object is not registered in the MBean server.
-     * This notification is fired by all kinds of monitors.
-     * <BR>The value of this notification type is <CODE>jmx.monitor.error.mbean</CODE>.
+     * Notifidbtion typf dfnoting tibt tif obsfrvfd objfdt is not rfgistfrfd in tif MBfbn sfrvfr.
+     * Tiis notifidbtion is firfd by bll kinds of monitors.
+     * <BR>Tif vbluf of tiis notifidbtion typf is <CODE>jmx.monitor.frror.mbfbn</CODE>.
      */
-    public static final String OBSERVED_OBJECT_ERROR = "jmx.monitor.error.mbean";
+    publid stbtid finbl String OBSERVED_OBJECT_ERROR = "jmx.monitor.frror.mbfbn";
 
     /**
-     * Notification type denoting that the observed attribute is not contained in the observed object.
-     * This notification is fired by all kinds of monitors.
-     * <BR>The value of this notification type is <CODE>jmx.monitor.error.attribute</CODE>.
+     * Notifidbtion typf dfnoting tibt tif obsfrvfd bttributf is not dontbinfd in tif obsfrvfd objfdt.
+     * Tiis notifidbtion is firfd by bll kinds of monitors.
+     * <BR>Tif vbluf of tiis notifidbtion typf is <CODE>jmx.monitor.frror.bttributf</CODE>.
      */
-    public static final String OBSERVED_ATTRIBUTE_ERROR = "jmx.monitor.error.attribute";
+    publid stbtid finbl String OBSERVED_ATTRIBUTE_ERROR = "jmx.monitor.frror.bttributf";
 
     /**
-     * Notification type denoting that the type of the observed attribute is not correct.
-     * This notification is fired by all kinds of monitors.
-     * <BR>The value of this notification type is <CODE>jmx.monitor.error.type</CODE>.
+     * Notifidbtion typf dfnoting tibt tif typf of tif obsfrvfd bttributf is not dorrfdt.
+     * Tiis notifidbtion is firfd by bll kinds of monitors.
+     * <BR>Tif vbluf of tiis notifidbtion typf is <CODE>jmx.monitor.frror.typf</CODE>.
      */
-    public static final String OBSERVED_ATTRIBUTE_TYPE_ERROR = "jmx.monitor.error.type";
+    publid stbtid finbl String OBSERVED_ATTRIBUTE_TYPE_ERROR = "jmx.monitor.frror.typf";
 
     /**
-     * Notification type denoting that the type of the thresholds, offset or modulus is not correct.
-     * This notification is fired by counter and gauge monitors.
-     * <BR>The value of this notification type is <CODE>jmx.monitor.error.threshold</CODE>.
+     * Notifidbtion typf dfnoting tibt tif typf of tif tirfsiolds, offsft or modulus is not dorrfdt.
+     * Tiis notifidbtion is firfd by dountfr bnd gbugf monitors.
+     * <BR>Tif vbluf of tiis notifidbtion typf is <CODE>jmx.monitor.frror.tirfsiold</CODE>.
      */
-    public static final String THRESHOLD_ERROR = "jmx.monitor.error.threshold";
+    publid stbtid finbl String THRESHOLD_ERROR = "jmx.monitor.frror.tirfsiold";
 
     /**
-     * Notification type denoting that a non-predefined error type has occurred when trying to get the value of the observed attribute.
-     * This notification is fired by all kinds of monitors.
-     * <BR>The value of this notification type is <CODE>jmx.monitor.error.runtime</CODE>.
+     * Notifidbtion typf dfnoting tibt b non-prfdffinfd frror typf ibs oddurrfd wifn trying to gft tif vbluf of tif obsfrvfd bttributf.
+     * Tiis notifidbtion is firfd by bll kinds of monitors.
+     * <BR>Tif vbluf of tiis notifidbtion typf is <CODE>jmx.monitor.frror.runtimf</CODE>.
      */
-    public static final String RUNTIME_ERROR = "jmx.monitor.error.runtime";
+    publid stbtid finbl String RUNTIME_ERROR = "jmx.monitor.frror.runtimf";
 
     /**
-     * Notification type denoting that the observed attribute has reached the threshold value.
-     * This notification is only fired by counter monitors.
-     * <BR>The value of this notification type is <CODE>jmx.monitor.counter.threshold</CODE>.
+     * Notifidbtion typf dfnoting tibt tif obsfrvfd bttributf ibs rfbdifd tif tirfsiold vbluf.
+     * Tiis notifidbtion is only firfd by dountfr monitors.
+     * <BR>Tif vbluf of tiis notifidbtion typf is <CODE>jmx.monitor.dountfr.tirfsiold</CODE>.
      */
-    public static final String THRESHOLD_VALUE_EXCEEDED = "jmx.monitor.counter.threshold";
+    publid stbtid finbl String THRESHOLD_VALUE_EXCEEDED = "jmx.monitor.dountfr.tirfsiold";
 
     /**
-     * Notification type denoting that the observed attribute has exceeded the threshold high value.
-     * This notification is only fired by gauge monitors.
-     * <BR>The value of this notification type is <CODE>jmx.monitor.gauge.high</CODE>.
+     * Notifidbtion typf dfnoting tibt tif obsfrvfd bttributf ibs fxdffdfd tif tirfsiold iigi vbluf.
+     * Tiis notifidbtion is only firfd by gbugf monitors.
+     * <BR>Tif vbluf of tiis notifidbtion typf is <CODE>jmx.monitor.gbugf.iigi</CODE>.
      */
-    public static final String THRESHOLD_HIGH_VALUE_EXCEEDED = "jmx.monitor.gauge.high";
+    publid stbtid finbl String THRESHOLD_HIGH_VALUE_EXCEEDED = "jmx.monitor.gbugf.iigi";
 
     /**
-     * Notification type denoting that the observed attribute has exceeded the threshold low value.
-     * This notification is only fired by gauge monitors.
-     * <BR>The value of this notification type is <CODE>jmx.monitor.gauge.low</CODE>.
+     * Notifidbtion typf dfnoting tibt tif obsfrvfd bttributf ibs fxdffdfd tif tirfsiold low vbluf.
+     * Tiis notifidbtion is only firfd by gbugf monitors.
+     * <BR>Tif vbluf of tiis notifidbtion typf is <CODE>jmx.monitor.gbugf.low</CODE>.
      */
-    public static final String THRESHOLD_LOW_VALUE_EXCEEDED = "jmx.monitor.gauge.low";
+    publid stbtid finbl String THRESHOLD_LOW_VALUE_EXCEEDED = "jmx.monitor.gbugf.low";
 
     /**
-     * Notification type denoting that the observed attribute has matched the "string to compare" value.
-     * This notification is only fired by string monitors.
-     * <BR>The value of this notification type is <CODE>jmx.monitor.string.matches</CODE>.
+     * Notifidbtion typf dfnoting tibt tif obsfrvfd bttributf ibs mbtdifd tif "string to dompbrf" vbluf.
+     * Tiis notifidbtion is only firfd by string monitors.
+     * <BR>Tif vbluf of tiis notifidbtion typf is <CODE>jmx.monitor.string.mbtdifs</CODE>.
      */
-    public static final String STRING_TO_COMPARE_VALUE_MATCHED = "jmx.monitor.string.matches";
+    publid stbtid finbl String STRING_TO_COMPARE_VALUE_MATCHED = "jmx.monitor.string.mbtdifs";
 
     /**
-     * Notification type denoting that the observed attribute has differed from the "string to compare" value.
-     * This notification is only fired by string monitors.
-     * <BR>The value of this notification type is <CODE>jmx.monitor.string.differs</CODE>.
+     * Notifidbtion typf dfnoting tibt tif obsfrvfd bttributf ibs difffrfd from tif "string to dompbrf" vbluf.
+     * Tiis notifidbtion is only firfd by string monitors.
+     * <BR>Tif vbluf of tiis notifidbtion typf is <CODE>jmx.monitor.string.difffrs</CODE>.
      */
-    public static final String STRING_TO_COMPARE_VALUE_DIFFERED = "jmx.monitor.string.differs";
+    publid stbtid finbl String STRING_TO_COMPARE_VALUE_DIFFERED = "jmx.monitor.string.difffrs";
 
 
     /*
@@ -156,30 +156,30 @@ public class MonitorNotification extends javax.management.Notification {
      * ------------------------------------------
      */
 
-    /* Serial version */
-    private static final long serialVersionUID = -4608189663661929204L;
+    /* Sfribl vfrsion */
+    privbtf stbtid finbl long sfriblVfrsionUID = -4608189663661929204L;
 
     /**
-     * @serial Monitor notification observed object.
+     * @sfribl Monitor notifidbtion obsfrvfd objfdt.
      */
-    private ObjectName observedObject = null;
+    privbtf ObjfdtNbmf obsfrvfdObjfdt = null;
 
     /**
-     * @serial Monitor notification observed attribute.
+     * @sfribl Monitor notifidbtion obsfrvfd bttributf.
      */
-    private String observedAttribute = null;
+    privbtf String obsfrvfdAttributf = null;
 
     /**
-     * @serial Monitor notification derived gauge.
+     * @sfribl Monitor notifidbtion dfrivfd gbugf.
      */
-    private Object derivedGauge = null;
+    privbtf Objfdt dfrivfdGbugf = null;
 
     /**
-     * @serial Monitor notification release mechanism.
-     *         This value is used to keep the threshold/string (depending on the
-     *         monitor type) that triggered off this notification.
+     * @sfribl Monitor notifidbtion rflfbsf mfdibnism.
+     *         Tiis vbluf is usfd to kffp tif tirfsiold/string (dfpfnding on tif
+     *         monitor typf) tibt triggfrfd off tiis notifidbtion.
      */
-    private Object trigger = null;
+    privbtf Objfdt triggfr = null;
 
 
     /*
@@ -189,26 +189,26 @@ public class MonitorNotification extends javax.management.Notification {
      */
 
     /**
-     * Creates a monitor notification object.
+     * Crfbtfs b monitor notifidbtion objfdt.
      *
-     * @param type The notification type.
-     * @param source The notification producer.
-     * @param sequenceNumber The notification sequence number within the source object.
-     * @param timeStamp The notification emission date.
-     * @param msg The notification message.
-     * @param obsObj The object observed by the producer of this notification.
-     * @param obsAtt The attribute observed by the producer of this notification.
-     * @param derGauge The derived gauge.
-     * @param trigger The threshold/string (depending on the monitor type) that triggered the notification.
+     * @pbrbm typf Tif notifidbtion typf.
+     * @pbrbm sourdf Tif notifidbtion produdfr.
+     * @pbrbm sfqufndfNumbfr Tif notifidbtion sfqufndf numbfr witiin tif sourdf objfdt.
+     * @pbrbm timfStbmp Tif notifidbtion fmission dbtf.
+     * @pbrbm msg Tif notifidbtion mfssbgf.
+     * @pbrbm obsObj Tif objfdt obsfrvfd by tif produdfr of tiis notifidbtion.
+     * @pbrbm obsAtt Tif bttributf obsfrvfd by tif produdfr of tiis notifidbtion.
+     * @pbrbm dfrGbugf Tif dfrivfd gbugf.
+     * @pbrbm triggfr Tif tirfsiold/string (dfpfnding on tif monitor typf) tibt triggfrfd tif notifidbtion.
      */
-    MonitorNotification(String type, Object source, long sequenceNumber, long timeStamp, String msg,
-                               ObjectName obsObj, String obsAtt, Object derGauge, Object trigger) {
+    MonitorNotifidbtion(String typf, Objfdt sourdf, long sfqufndfNumbfr, long timfStbmp, String msg,
+                               ObjfdtNbmf obsObj, String obsAtt, Objfdt dfrGbugf, Objfdt triggfr) {
 
-        super(type, source, sequenceNumber, timeStamp, msg);
-        this.observedObject = obsObj;
-        this.observedAttribute = obsAtt;
-        this.derivedGauge = derGauge;
-        this.trigger = trigger;
+        supfr(typf, sourdf, sfqufndfNumbfr, timfStbmp, msg);
+        tiis.obsfrvfdObjfdt = obsObj;
+        tiis.obsfrvfdAttributf = obsAtt;
+        tiis.dfrivfdGbugf = dfrGbugf;
+        tiis.triggfr = triggfr;
     }
 
     /*
@@ -221,39 +221,39 @@ public class MonitorNotification extends javax.management.Notification {
     //--------------------
 
     /**
-     * Gets the observed object of this monitor notification.
+     * Gfts tif obsfrvfd objfdt of tiis monitor notifidbtion.
      *
-     * @return The observed object.
+     * @rfturn Tif obsfrvfd objfdt.
      */
-    public ObjectName getObservedObject() {
-        return observedObject;
+    publid ObjfdtNbmf gftObsfrvfdObjfdt() {
+        rfturn obsfrvfdObjfdt;
     }
 
     /**
-     * Gets the observed attribute of this monitor notification.
+     * Gfts tif obsfrvfd bttributf of tiis monitor notifidbtion.
      *
-     * @return The observed attribute.
+     * @rfturn Tif obsfrvfd bttributf.
      */
-    public String getObservedAttribute() {
-        return observedAttribute;
+    publid String gftObsfrvfdAttributf() {
+        rfturn obsfrvfdAttributf;
     }
 
     /**
-     * Gets the derived gauge of this monitor notification.
+     * Gfts tif dfrivfd gbugf of tiis monitor notifidbtion.
      *
-     * @return The derived gauge.
+     * @rfturn Tif dfrivfd gbugf.
      */
-    public Object getDerivedGauge() {
-        return derivedGauge;
+    publid Objfdt gftDfrivfdGbugf() {
+        rfturn dfrivfdGbugf;
     }
 
     /**
-     * Gets the threshold/string (depending on the monitor type) that triggered off this monitor notification.
+     * Gfts tif tirfsiold/string (dfpfnding on tif monitor typf) tibt triggfrfd off tiis monitor notifidbtion.
      *
-     * @return The trigger.
+     * @rfturn Tif triggfr.
      */
-    public Object getTrigger() {
-        return trigger;
+    publid Objfdt gftTriggfr() {
+        rfturn triggfr;
     }
 
 }

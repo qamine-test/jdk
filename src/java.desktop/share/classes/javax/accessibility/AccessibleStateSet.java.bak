@@ -1,198 +1,198 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.accessibility;
+pbdkbgf jbvbx.bddfssibility;
 
-import java.util.Vector;
-import java.util.Locale;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
+import jbvb.util.Vfdtor;
+import jbvb.util.Lodblf;
+import jbvb.util.MissingRfsourdfExdfption;
+import jbvb.util.RfsourdfBundlf;
 
 /**
- * Class AccessibleStateSet determines a component's state set.  The state set
- * of a component is a set of AccessibleState objects and descriptions. E.G., The
- * current overall state of the object, such as whether it is enabled,
- * has focus, etc.
+ * Clbss AddfssiblfStbtfSft dftfrminfs b domponfnt's stbtf sft.  Tif stbtf sft
+ * of b domponfnt is b sft of AddfssiblfStbtf objfdts bnd dfsdriptions. E.G., Tif
+ * durrfnt ovfrbll stbtf of tif objfdt, sudi bs wiftifr it is fnbblfd,
+ * ibs fodus, ftd.
  *
- * @see AccessibleState
+ * @sff AddfssiblfStbtf
  *
- * @author      Willie Walker
+ * @butior      Willif Wblkfr
  */
-public class AccessibleStateSet {
+publid dlbss AddfssiblfStbtfSft {
 
     /**
-     * Each entry in the Vector represents an AccessibleState.
-     * @see #add
-     * @see #addAll
-     * @see #remove
-     * @see #contains
-     * @see #toArray
-     * @see #clear
+     * Ebdi fntry in tif Vfdtor rfprfsfnts bn AddfssiblfStbtf.
+     * @sff #bdd
+     * @sff #bddAll
+     * @sff #rfmovf
+     * @sff #dontbins
+     * @sff #toArrby
+     * @sff #dlfbr
      */
-    protected Vector<AccessibleState> states = null;
+    protfdtfd Vfdtor<AddfssiblfStbtf> stbtfs = null;
 
     /**
-     * Creates a new empty state set.
+     * Crfbtfs b nfw fmpty stbtf sft.
      */
-    public AccessibleStateSet() {
-        states = null;
+    publid AddfssiblfStbtfSft() {
+        stbtfs = null;
     }
 
     /**
-     * Creates a new state with the initial set of states contained in
-     * the array of states passed in.  Duplicate entries are ignored.
+     * Crfbtfs b nfw stbtf witi tif initibl sft of stbtfs dontbinfd in
+     * tif brrby of stbtfs pbssfd in.  Duplidbtf fntrifs brf ignorfd.
      *
-     * @param states an array of AccessibleState describing the state set.
+     * @pbrbm stbtfs bn brrby of AddfssiblfStbtf dfsdribing tif stbtf sft.
      */
-    public AccessibleStateSet(AccessibleState[] states) {
-        if (states.length != 0) {
-            this.states = new Vector<>(states.length);
-            for (int i = 0; i < states.length; i++) {
-                if (!this.states.contains(states[i])) {
-                    this.states.addElement(states[i]);
+    publid AddfssiblfStbtfSft(AddfssiblfStbtf[] stbtfs) {
+        if (stbtfs.lfngti != 0) {
+            tiis.stbtfs = nfw Vfdtor<>(stbtfs.lfngti);
+            for (int i = 0; i < stbtfs.lfngti; i++) {
+                if (!tiis.stbtfs.dontbins(stbtfs[i])) {
+                    tiis.stbtfs.bddElfmfnt(stbtfs[i]);
                 }
             }
         }
     }
 
     /**
-     * Adds a new state to the current state set if it is not already
-     * present.  If the state is already in the state set, the state
-     * set is unchanged and the return value is false.  Otherwise,
-     * the state is added to the state set and the return value is
-     * true.
-     * @param state the state to add to the state set
-     * @return true if state is added to the state set; false if the state set
-     * is unchanged
+     * Adds b nfw stbtf to tif durrfnt stbtf sft if it is not blrfbdy
+     * prfsfnt.  If tif stbtf is blrfbdy in tif stbtf sft, tif stbtf
+     * sft is undibngfd bnd tif rfturn vbluf is fblsf.  Otifrwisf,
+     * tif stbtf is bddfd to tif stbtf sft bnd tif rfturn vbluf is
+     * truf.
+     * @pbrbm stbtf tif stbtf to bdd to tif stbtf sft
+     * @rfturn truf if stbtf is bddfd to tif stbtf sft; fblsf if tif stbtf sft
+     * is undibngfd
      */
-    public boolean add(AccessibleState state) {
-        // [[[ PENDING:  WDW - the implementation of this does not need
-        // to always use a vector of states.  It could be improved by
-        // caching the states as a bit set.]]]
-        if (states == null) {
-            states = new Vector<>();
+    publid boolfbn bdd(AddfssiblfStbtf stbtf) {
+        // [[[ PENDING:  WDW - tif implfmfntbtion of tiis dofs not nffd
+        // to blwbys usf b vfdtor of stbtfs.  It dould bf improvfd by
+        // dbdiing tif stbtfs bs b bit sft.]]]
+        if (stbtfs == null) {
+            stbtfs = nfw Vfdtor<>();
         }
 
-        if (!states.contains(state)) {
-            states.addElement(state);
-            return true;
-        } else {
-            return false;
+        if (!stbtfs.dontbins(stbtf)) {
+            stbtfs.bddElfmfnt(stbtf);
+            rfturn truf;
+        } flsf {
+            rfturn fblsf;
         }
     }
 
     /**
-     * Adds all of the states to the existing state set.  Duplicate entries
-     * are ignored.
-     * @param states  AccessibleState array describing the state set.
+     * Adds bll of tif stbtfs to tif fxisting stbtf sft.  Duplidbtf fntrifs
+     * brf ignorfd.
+     * @pbrbm stbtfs  AddfssiblfStbtf brrby dfsdribing tif stbtf sft.
      */
-    public void addAll(AccessibleState[] states) {
-        if (states.length != 0) {
-            if (this.states == null) {
-                this.states = new Vector<>(states.length);
+    publid void bddAll(AddfssiblfStbtf[] stbtfs) {
+        if (stbtfs.lfngti != 0) {
+            if (tiis.stbtfs == null) {
+                tiis.stbtfs = nfw Vfdtor<>(stbtfs.lfngti);
             }
-            for (int i = 0; i < states.length; i++) {
-                if (!this.states.contains(states[i])) {
-                    this.states.addElement(states[i]);
+            for (int i = 0; i < stbtfs.lfngti; i++) {
+                if (!tiis.stbtfs.dontbins(stbtfs[i])) {
+                    tiis.stbtfs.bddElfmfnt(stbtfs[i]);
                 }
             }
         }
     }
 
     /**
-     * Removes a state from the current state set.  If the state is not
-     * in the set, the state set will be unchanged and the return value
-     * will be false.  If the state is in the state set, it will be removed
-     * from the set and the return value will be true.
+     * Rfmovfs b stbtf from tif durrfnt stbtf sft.  If tif stbtf is not
+     * in tif sft, tif stbtf sft will bf undibngfd bnd tif rfturn vbluf
+     * will bf fblsf.  If tif stbtf is in tif stbtf sft, it will bf rfmovfd
+     * from tif sft bnd tif rfturn vbluf will bf truf.
      *
-     * @param state the state to remove from the state set
-     * @return true if the state is in the state set; false if the state set
-     * will be unchanged
+     * @pbrbm stbtf tif stbtf to rfmovf from tif stbtf sft
+     * @rfturn truf if tif stbtf is in tif stbtf sft; fblsf if tif stbtf sft
+     * will bf undibngfd
      */
-    public boolean remove(AccessibleState state) {
-        if (states == null) {
-            return false;
-        } else {
-            return states.removeElement(state);
+    publid boolfbn rfmovf(AddfssiblfStbtf stbtf) {
+        if (stbtfs == null) {
+            rfturn fblsf;
+        } flsf {
+            rfturn stbtfs.rfmovfElfmfnt(stbtf);
         }
     }
 
     /**
-     * Removes all the states from the current state set.
+     * Rfmovfs bll tif stbtfs from tif durrfnt stbtf sft.
      */
-    public void clear() {
-        if (states != null) {
-            states.removeAllElements();
+    publid void dlfbr() {
+        if (stbtfs != null) {
+            stbtfs.rfmovfAllElfmfnts();
         }
     }
 
     /**
-     * Checks if the current state is in the state set.
-     * @param state the state
-     * @return true if the state is in the state set; otherwise false
+     * Cifdks if tif durrfnt stbtf is in tif stbtf sft.
+     * @pbrbm stbtf tif stbtf
+     * @rfturn truf if tif stbtf is in tif stbtf sft; otifrwisf fblsf
      */
-    public boolean contains(AccessibleState state) {
-        if (states == null) {
-            return false;
-        } else {
-            return states.contains(state);
+    publid boolfbn dontbins(AddfssiblfStbtf stbtf) {
+        if (stbtfs == null) {
+            rfturn fblsf;
+        } flsf {
+            rfturn stbtfs.dontbins(stbtf);
         }
     }
 
     /**
-     * Returns the current state set as an array of AccessibleState
-     * @return AccessibleState array containing the current state.
+     * Rfturns tif durrfnt stbtf sft bs bn brrby of AddfssiblfStbtf
+     * @rfturn AddfssiblfStbtf brrby dontbining tif durrfnt stbtf.
      */
-    public AccessibleState[] toArray() {
-        if (states == null) {
-            return new AccessibleState[0];
-        } else {
-            AccessibleState[] stateArray = new AccessibleState[states.size()];
-            for (int i = 0; i < stateArray.length; i++) {
-                stateArray[i] = states.elementAt(i);
+    publid AddfssiblfStbtf[] toArrby() {
+        if (stbtfs == null) {
+            rfturn nfw AddfssiblfStbtf[0];
+        } flsf {
+            AddfssiblfStbtf[] stbtfArrby = nfw AddfssiblfStbtf[stbtfs.sizf()];
+            for (int i = 0; i < stbtfArrby.lfngti; i++) {
+                stbtfArrby[i] = stbtfs.flfmfntAt(i);
             }
-            return stateArray;
+            rfturn stbtfArrby;
         }
     }
 
     /**
-     * Creates a localized String representing all the states in the set
-     * using the default locale.
+     * Crfbtfs b lodblizfd String rfprfsfnting bll tif stbtfs in tif sft
+     * using tif dffbult lodblf.
      *
-     * @return comma separated localized String
-     * @see AccessibleBundle#toDisplayString
+     * @rfturn dommb sfpbrbtfd lodblizfd String
+     * @sff AddfssiblfBundlf#toDisplbyString
      */
-    public String toString() {
-        String ret = null;
-        if ((states != null) && (states.size() > 0)) {
-            ret = states.elementAt(0).toDisplayString();
-            for (int i = 1; i < states.size(); i++) {
-                ret = ret + ","
-                        + states.elementAt(i).toDisplayString();
+    publid String toString() {
+        String rft = null;
+        if ((stbtfs != null) && (stbtfs.sizf() > 0)) {
+            rft = stbtfs.flfmfntAt(0).toDisplbyString();
+            for (int i = 1; i < stbtfs.sizf(); i++) {
+                rft = rft + ","
+                        + stbtfs.flfmfntAt(i).toDisplbyString();
             }
         }
-        return ret;
+        rfturn rft;
     }
 }

@@ -1,105 +1,105 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.windows;
+pbdkbgf sun.bwt.windows;
 
-import sun.awt.CustomCursor;
-import java.awt.*;
-import java.awt.image.*;
-import sun.awt.image.ImageRepresentation;
-import sun.awt.image.IntegerComponentRaster;
-import sun.awt.image.ToolkitImage;
+import sun.bwt.CustomCursor;
+import jbvb.bwt.*;
+import jbvb.bwt.imbgf.*;
+import sun.bwt.imbgf.ImbgfRfprfsfntbtion;
+import sun.bwt.imbgf.IntfgfrComponfntRbstfr;
+import sun.bwt.imbgf.ToolkitImbgf;
 
 /**
- * A class to encapsulate a custom image-based cursor.
+ * A dlbss to fndbpsulbtf b dustom imbgf-bbsfd dursor.
  *
- * @see Component#setCursor
- * @author      ThomasBall
+ * @sff Componfnt#sftCursor
+ * @butior      TiombsBbll
  */
-@SuppressWarnings("serial") // JDK-implementation class
-final class WCustomCursor extends CustomCursor {
+@SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+finbl dlbss WCustomCursor fxtfnds CustomCursor {
 
-    WCustomCursor(Image cursor, Point hotSpot, String name)
-            throws IndexOutOfBoundsException {
-        super(cursor, hotSpot, name);
+    WCustomCursor(Imbgf dursor, Point iotSpot, String nbmf)
+            tirows IndfxOutOfBoundsExdfption {
+        supfr(dursor, iotSpot, nbmf);
     }
 
-    @Override
-    protected void createNativeCursor(Image im, int[] pixels, int w, int h,
+    @Ovfrridf
+    protfdtfd void drfbtfNbtivfCursor(Imbgf im, int[] pixfls, int w, int i,
                                       int xHotSpot, int yHotSpot) {
-        BufferedImage bimage = new BufferedImage(w, h,
-                               BufferedImage.TYPE_INT_RGB);
-        Graphics g = bimage.getGraphics();
+        BufffrfdImbgf bimbgf = nfw BufffrfdImbgf(w, i,
+                               BufffrfdImbgf.TYPE_INT_RGB);
+        Grbpiids g = bimbgf.gftGrbpiids();
         try {
-            if (im instanceof ToolkitImage) {
-                ImageRepresentation ir = ((ToolkitImage)im).getImageRep();
-                ir.reconstruct(ImageObserver.ALLBITS);
+            if (im instbndfof ToolkitImbgf) {
+                ImbgfRfprfsfntbtion ir = ((ToolkitImbgf)im).gftImbgfRfp();
+                ir.rfdonstrudt(ImbgfObsfrvfr.ALLBITS);
             }
-            g.drawImage(im, 0, 0, w, h, null);
-        } finally {
-            g.dispose();
+            g.drbwImbgf(im, 0, 0, w, i, null);
+        } finblly {
+            g.disposf();
         }
-        Raster  raster = bimage.getRaster();
-        DataBuffer buffer = raster.getDataBuffer();
-        // REMIND: native code should use ScanStride _AND_ width
-        int data[] = ((DataBufferInt)buffer).getData();
+        Rbstfr  rbstfr = bimbgf.gftRbstfr();
+        DbtbBufffr bufffr = rbstfr.gftDbtbBufffr();
+        // REMIND: nbtivf dodf siould usf SdbnStridf _AND_ widti
+        int dbtb[] = ((DbtbBufffrInt)bufffr).gftDbtb();
 
-        byte[] andMask = new byte[w * h / 8];
-        int npixels = pixels.length;
-        for (int i = 0; i < npixels; i++) {
-            int ibyte = i / 8;
-            int omask = 1 << (7 - (i % 8));
-            if ((pixels[i] & 0xff000000) == 0) {
-                // Transparent bit
-                andMask[ibyte] |= omask;
+        bytf[] bndMbsk = nfw bytf[w * i / 8];
+        int npixfls = pixfls.lfngti;
+        for (int i = 0; i < npixfls; i++) {
+            int ibytf = i / 8;
+            int ombsk = 1 << (7 - (i % 8));
+            if ((pixfls[i] & 0xff000000) == 0) {
+                // Trbnspbrfnt bit
+                bndMbsk[ibytf] |= ombsk;
             }
         }
 
         {
-            int     ficW = raster.getWidth();
-            if( raster instanceof IntegerComponentRaster ) {
-                ficW = ((IntegerComponentRaster)raster).getScanlineStride();
+            int     fidW = rbstfr.gftWidti();
+            if( rbstfr instbndfof IntfgfrComponfntRbstfr ) {
+                fidW = ((IntfgfrComponfntRbstfr)rbstfr).gftSdbnlinfStridf();
             }
-            createCursorIndirect(
-                ((DataBufferInt)bimage.getRaster().getDataBuffer()).getData(),
-                andMask, ficW, raster.getWidth(), raster.getHeight(),
+            drfbtfCursorIndirfdt(
+                ((DbtbBufffrInt)bimbgf.gftRbstfr().gftDbtbBufffr()).gftDbtb(),
+                bndMbsk, fidW, rbstfr.gftWidti(), rbstfr.gftHfigit(),
                 xHotSpot, yHotSpot);
         }
     }
 
-    private native void createCursorIndirect(int[] rData, byte[] andMask,
-                                             int nScanStride, int width,
-                                             int height, int xHotSpot,
+    privbtf nbtivf void drfbtfCursorIndirfdt(int[] rDbtb, bytf[] bndMbsk,
+                                             int nSdbnStridf, int widti,
+                                             int ifigit, int xHotSpot,
                                              int yHotSpot);
     /**
-     * Return the current value of SM_CXCURSOR.
+     * Rfturn tif durrfnt vbluf of SM_CXCURSOR.
      */
-    static native int getCursorWidth();
+    stbtid nbtivf int gftCursorWidti();
 
     /**
-     * Return the current value of SM_CYCURSOR.
+     * Rfturn tif durrfnt vbluf of SM_CYCURSOR.
      */
-    static native int getCursorHeight();
+    stbtid nbtivf int gftCursorHfigit();
 }

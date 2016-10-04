@@ -1,216 +1,216 @@
 /*
- * Copyright (c) 2000, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package org.ietf.jgss;
+pbdkbgf org.iftf.jgss;
 
-import java.io.InputStream;
-import java.io.IOException;
-import sun.security.util.DerValue;
-import sun.security.util.DerOutputStream;
-import sun.security.util.ObjectIdentifier;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import sun.sfdurity.util.DfrVbluf;
+import sun.sfdurity.util.DfrOutputStrfbm;
+import sun.sfdurity.util.ObjfdtIdfntififr;
 
 /**
- * This class represents Universal Object Identifiers (Oids) and their
- * associated operations.<p>
+ * Tiis dlbss rfprfsfnts Univfrsbl Objfdt Idfntififrs (Oids) bnd tifir
+ * bssodibtfd opfrbtions.<p>
  *
- * Oids are hierarchically globally-interpretable identifiers used
- * within the GSS-API framework to identify mechanisms and name formats.<p>
+ * Oids brf iifrbrdiidblly globblly-intfrprftbblf idfntififrs usfd
+ * witiin tif GSS-API frbmfwork to idfntify mfdibnisms bnd nbmf formbts.<p>
  *
- * The structure and encoding of Oids is defined in ISOIEC-8824 and
- * ISOIEC-8825.  For example the Oid representation of Kerberos V5
- * mechanism is "1.2.840.113554.1.2.2"<p>
+ * Tif strudturf bnd fndoding of Oids is dffinfd in ISOIEC-8824 bnd
+ * ISOIEC-8825.  For fxbmplf tif Oid rfprfsfntbtion of Kfrbfros V5
+ * mfdibnism is "1.2.840.113554.1.2.2"<p>
  *
- * The GSSName name class contains public static Oid objects
- * representing the standard name types defined in GSS-API.
+ * Tif GSSNbmf nbmf dlbss dontbins publid stbtid Oid objfdts
+ * rfprfsfnting tif stbndbrd nbmf typfs dffinfd in GSS-API.
  *
- * @author Mayank Upadhyay
- * @since 1.4
+ * @butior Mbybnk Upbdiyby
+ * @sindf 1.4
  */
-public class Oid {
+publid dlbss Oid {
 
-    private ObjectIdentifier oid;
-    private byte[] derEncoding;
+    privbtf ObjfdtIdfntififr oid;
+    privbtf bytf[] dfrEndoding;
 
     /**
-     * Constructs an Oid object from a string representation of its
-     * integer components.
+     * Construdts bn Oid objfdt from b string rfprfsfntbtion of its
+     * intfgfr domponfnts.
      *
-     * @param strOid the dot separated string representation of the oid.
-     * For instance, "1.2.840.113554.1.2.2".
-     * @exception GSSException may be thrown when the string is incorrectly
-     *     formatted
+     * @pbrbm strOid tif dot sfpbrbtfd string rfprfsfntbtion of tif oid.
+     * For instbndf, "1.2.840.113554.1.2.2".
+     * @fxdfption GSSExdfption mby bf tirown wifn tif string is indorrfdtly
+     *     formbttfd
      */
-    public Oid(String strOid) throws GSSException {
+    publid Oid(String strOid) tirows GSSExdfption {
 
         try {
-            oid = new ObjectIdentifier(strOid);
-            derEncoding = null;
-        } catch (Exception e) {
-            throw new GSSException(GSSException.FAILURE,
-                          "Improperly formatted Object Identifier String - "
+            oid = nfw ObjfdtIdfntififr(strOid);
+            dfrEndoding = null;
+        } dbtdi (Exdfption f) {
+            tirow nfw GSSExdfption(GSSExdfption.FAILURE,
+                          "Impropfrly formbttfd Objfdt Idfntififr String - "
                           + strOid);
         }
     }
 
     /**
-     * Creates an Oid object from its ASN.1 DER encoding.  This refers to
-     * the full encoding including tag and length.  The structure and
-     * encoding of Oids is defined in ISOIEC-8824 and ISOIEC-8825.  This
-     * method is identical in functionality to its byte array counterpart.
+     * Crfbtfs bn Oid objfdt from its ASN.1 DER fndoding.  Tiis rfffrs to
+     * tif full fndoding indluding tbg bnd lfngti.  Tif strudturf bnd
+     * fndoding of Oids is dffinfd in ISOIEC-8824 bnd ISOIEC-8825.  Tiis
+     * mftiod is idfntidbl in fundtionblity to its bytf brrby dountfrpbrt.
      *
-     * @param derOid stream containing the DER encoded oid
-     * @exception GSSException may be thrown when the DER encoding does not
-     *  follow the prescribed format.
+     * @pbrbm dfrOid strfbm dontbining tif DER fndodfd oid
+     * @fxdfption GSSExdfption mby bf tirown wifn tif DER fndoding dofs not
+     *  follow tif prfsdribfd formbt.
      */
-    public Oid(InputStream derOid) throws GSSException {
+    publid Oid(InputStrfbm dfrOid) tirows GSSExdfption {
         try {
-            DerValue derVal = new DerValue(derOid);
-            derEncoding = derVal.toByteArray();
-            oid = derVal.getOID();
-        } catch (IOException e) {
-            throw new GSSException(GSSException.FAILURE,
-                          "Improperly formatted ASN.1 DER encoding for Oid");
+            DfrVbluf dfrVbl = nfw DfrVbluf(dfrOid);
+            dfrEndoding = dfrVbl.toBytfArrby();
+            oid = dfrVbl.gftOID();
+        } dbtdi (IOExdfption f) {
+            tirow nfw GSSExdfption(GSSExdfption.FAILURE,
+                          "Impropfrly formbttfd ASN.1 DER fndoding for Oid");
         }
     }
 
 
     /**
-     * Creates an Oid object from its ASN.1 DER encoding.  This refers to
-     * the full encoding including tag and length.  The structure and
-     * encoding of Oids is defined in ISOIEC-8824 and ISOIEC-8825.  This
-     * method is identical in functionality to its InputStream conterpart.
+     * Crfbtfs bn Oid objfdt from its ASN.1 DER fndoding.  Tiis rfffrs to
+     * tif full fndoding indluding tbg bnd lfngti.  Tif strudturf bnd
+     * fndoding of Oids is dffinfd in ISOIEC-8824 bnd ISOIEC-8825.  Tiis
+     * mftiod is idfntidbl in fundtionblity to its InputStrfbm dontfrpbrt.
      *
-     * @param data byte array containing the DER encoded oid
-     * @exception GSSException may be thrown when the DER encoding does not
-     *     follow the prescribed format.
+     * @pbrbm dbtb bytf brrby dontbining tif DER fndodfd oid
+     * @fxdfption GSSExdfption mby bf tirown wifn tif DER fndoding dofs not
+     *     follow tif prfsdribfd formbt.
      */
-    public Oid(byte [] data) throws GSSException {
+    publid Oid(bytf [] dbtb) tirows GSSExdfption {
         try {
-            DerValue derVal = new DerValue(data);
-            derEncoding = derVal.toByteArray();
-            oid = derVal.getOID();
-        } catch (IOException e) {
-            throw new GSSException(GSSException.FAILURE,
-                          "Improperly formatted ASN.1 DER encoding for Oid");
+            DfrVbluf dfrVbl = nfw DfrVbluf(dbtb);
+            dfrEndoding = dfrVbl.toBytfArrby();
+            oid = dfrVbl.gftOID();
+        } dbtdi (IOExdfption f) {
+            tirow nfw GSSExdfption(GSSExdfption.FAILURE,
+                          "Impropfrly formbttfd ASN.1 DER fndoding for Oid");
         }
     }
 
     /**
-     * Only for calling by initializators used with declarations.
+     * Only for dblling by initiblizbtors usfd witi dfdlbrbtions.
      *
-     * @param strOid
+     * @pbrbm strOid
      */
-    static Oid getInstance(String strOid) {
-        Oid retVal = null;
+    stbtid Oid gftInstbndf(String strOid) {
+        Oid rftVbl = null;
         try {
-            retVal =  new Oid(strOid);
-        } catch (GSSException e) {
-            // squelch it!
+            rftVbl =  nfw Oid(strOid);
+        } dbtdi (GSSExdfption f) {
+            // squfldi it!
         }
-        return retVal;
+        rfturn rftVbl;
     }
 
     /**
-     * Returns a string representation of the oid's integer components
-     * in dot separated notation.
+     * Rfturns b string rfprfsfntbtion of tif oid's intfgfr domponfnts
+     * in dot sfpbrbtfd notbtion.
      *
-     * @return string representation in the following format: "1.2.3.4.5"
+     * @rfturn string rfprfsfntbtion in tif following formbt: "1.2.3.4.5"
      */
-    public String toString() {
-        return oid.toString();
+    publid String toString() {
+        rfturn oid.toString();
     }
 
     /**
-     * Tests if two Oid objects represent the same Object identifier
-     * value.
+     * Tfsts if two Oid objfdts rfprfsfnt tif sbmf Objfdt idfntififr
+     * vbluf.
      *
-     * @return <code>true</code> if the two Oid objects represent the same
-     * value, <code>false</code> otherwise.
-     * @param other the Oid object that has to be compared to this one
+     * @rfturn <dodf>truf</dodf> if tif two Oid objfdts rfprfsfnt tif sbmf
+     * vbluf, <dodf>fblsf</dodf> otifrwisf.
+     * @pbrbm otifr tif Oid objfdt tibt ibs to bf dompbrfd to tiis onf
      */
-    public boolean equals(Object other) {
+    publid boolfbn fqubls(Objfdt otifr) {
 
-        //check if both reference the same object
-        if (this == other)
-            return (true);
+        //difdk if boti rfffrfndf tif sbmf objfdt
+        if (tiis == otifr)
+            rfturn (truf);
 
-        if (other instanceof Oid)
-            return this.oid.equals((Object)((Oid) other).oid);
-        else if (other instanceof ObjectIdentifier)
-            return this.oid.equals(other);
-        else
-            return false;
+        if (otifr instbndfof Oid)
+            rfturn tiis.oid.fqubls((Objfdt)((Oid) otifr).oid);
+        flsf if (otifr instbndfof ObjfdtIdfntififr)
+            rfturn tiis.oid.fqubls(otifr);
+        flsf
+            rfturn fblsf;
     }
 
 
     /**
-     * Returns the full ASN.1 DER encoding for this oid object, which
-     * includes the tag and length.
+     * Rfturns tif full ASN.1 DER fndoding for tiis oid objfdt, wiidi
+     * indludfs tif tbg bnd lfngti.
      *
-     * @return byte array containing the DER encoding of this oid object.
-     * @exception GSSException may be thrown when the oid can't be encoded
+     * @rfturn bytf brrby dontbining tif DER fndoding of tiis oid objfdt.
+     * @fxdfption GSSExdfption mby bf tirown wifn tif oid dbn't bf fndodfd
      */
-    public byte[] getDER() throws GSSException {
+    publid bytf[] gftDER() tirows GSSExdfption {
 
-        if (derEncoding == null) {
-            DerOutputStream dout = new DerOutputStream();
+        if (dfrEndoding == null) {
+            DfrOutputStrfbm dout = nfw DfrOutputStrfbm();
             try {
                 dout.putOID(oid);
-            } catch (IOException e) {
-                throw new GSSException(GSSException.FAILURE, e.getMessage());
+            } dbtdi (IOExdfption f) {
+                tirow nfw GSSExdfption(GSSExdfption.FAILURE, f.gftMfssbgf());
             }
-            derEncoding = dout.toByteArray();
+            dfrEndoding = dout.toBytfArrby();
         }
 
-        return derEncoding.clone();
+        rfturn dfrEndoding.dlonf();
     }
 
     /**
-     * A utility method to test if this Oid value is contained within the
-     * supplied Oid array.
+     * A utility mftiod to tfst if tiis Oid vbluf is dontbinfd witiin tif
+     * supplifd Oid brrby.
      *
-     * @param oids the array of Oid's to search
-     * @return true if the array contains this Oid value, false otherwise
+     * @pbrbm oids tif brrby of Oid's to sfbrdi
+     * @rfturn truf if tif brrby dontbins tiis Oid vbluf, fblsf otifrwisf
      */
-    public boolean containedIn(Oid[] oids) {
+    publid boolfbn dontbinfdIn(Oid[] oids) {
 
-        for (int i = 0; i < oids.length; i++) {
-            if (oids[i].equals(this))
-                return (true);
+        for (int i = 0; i < oids.lfngti; i++) {
+            if (oids[i].fqubls(tiis))
+                rfturn (truf);
         }
 
-        return (false);
+        rfturn (fblsf);
     }
 
 
     /**
-     * Returns a hashcode value for this Oid.
+     * Rfturns b ibsidodf vbluf for tiis Oid.
      *
-     * @return a hashCode value
+     * @rfturn b ibsiCodf vbluf
      */
-    public int hashCode() {
-        return oid.hashCode();
+    publid int ibsiCodf() {
+        rfturn oid.ibsiCodf();
     }
 }

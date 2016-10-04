@@ -1,0 +1,231 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.rmi.trbnsport.tdp;
+
+import jbvb.io.*;
+
+/**
+ * MultiplfxOutputStrfbm mbnbgfs sfnding dbtb ovfr b donnfdtion mbnbgfd
+ * by b ConnfdtionMultiplfxfr objfdt.  Dbtb writtfn is bufffrfd until thf
+ * intfrnbl bufffr is full or thf flush() mfthod is dbllfd, bt whidh
+ * point it bttfmpts to push b pbdkft of bytfs through to thf rfmotf
+ * fndpoint.  This will nfvfr push morf bytfs thbn thf bmount blrfbdy
+ * rfqufstfd by thf rfmotf fndpoint (to prfvfnt rfdfivf bufffr from
+ * ovfrflowing), so if thf writf() bnd flush() mfthods will blodk
+ * until thfir opfrbtion dbn domplftf if fnough bytfs dbnnot bf
+ * pushfd immfdibtfly.
+ *
+ * @buthor Pftfr Jonfs
+ */
+finbl dlbss MultiplfxOutputStrfbm fxtfnds OutputStrfbm {
+
+    /** objfdt mbnbging multiplfxfd donnfdtion */
+    privbtf ConnfdtionMultiplfxfr mbnbgfr;
+
+    /** informbtion bbout thf donnfdtion this is thf output strfbm for */
+    privbtf MultiplfxConnfdtionInfo info;
+
+    /** output bufffr */
+    privbtf bytf bufffr[];
+
+    /** durrfnt position to writf to in output bufffr */
+    privbtf int pos = 0;
+
+    /** pfnding numbfr of bytfs rfqufstfd by rfmotf fndpoint */
+    privbtf int rfqufstfd = 0;
+
+    /** truf if this donnfdtion hbs bffn disdonnfdtfd */
+    privbtf boolfbn disdonnfdtfd = fblsf;
+
+    /**
+     * lodk bdquirfd to bddfss shbrfd vbribblfs:
+     * rfqufstfd & disdonnfdtfd
+     * WARNING:  Any of thf mfthods mbnbgfr.sfnd*() should not bf
+     * invokfd whilf this lodk is hfld, sindf thfy dould potfntiblly
+     * blodk if thf undfrlying donnfdtion's trbnsport bufffrs brf
+     * full, bnd thf mbnbgfr mby nffd to bdquirf this lodk to prodfss
+     * bnd donsumf dbtb doming ovfr thf undfrlying donnfdtion.
+     */
+    privbtf Objfdt lodk = nfw Objfdt();
+
+    /**
+     * Crfbtf b nfw MultiplfxOutputStrfbm for thf givfn mbnbgfr.
+     * @pbrbm mbnbgfr objfdt thbt mbnbgfs this donnfdtion
+     * @pbrbm info strudturf for donnfdtion this strfbm writfs to
+     * @pbrbm bufffrLfngth lfngth of output bufffr
+     */
+    MultiplfxOutputStrfbm(
+        ConnfdtionMultiplfxfr    mbnbgfr,
+        MultiplfxConnfdtionInfo  info,
+        int                      bufffrLfngth)
+    {
+        this.mbnbgfr = mbnbgfr;
+        this.info    = info;
+
+        bufffr = nfw bytf[bufffrLfngth];
+        pos = 0;
+    }
+
+    /**
+     * Writf b bytf ovfr donnfdtion.
+     * @pbrbm b bytf of dbtb to writf
+     */
+    publid syndhronizfd void writf(int b) throws IOExdfption
+    {
+        whilf (pos >= bufffr.lfngth)
+            push();
+        bufffr[pos ++] = (bytf) b;
+    }
+
+    /**
+     * Writf b subbrrby of bytfs ovfr donnfdtion.
+     * @pbrbm b brrby dontbining bytfs to writf
+     * @pbrbm off offsft of bfginning of bytfs to writf
+     * @pbrbm lfn numbfr of bytfs to writf
+     */
+    publid syndhronizfd void writf(bytf b[], int off, int lfn)
+        throws IOExdfption
+    {
+        if (lfn <= 0)
+            rfturn;
+
+        // if fnough frff spbdf in output bufffr, just dopy into thfrf
+        int frffSpbdf = bufffr.lfngth - pos;
+        if (lfn <= frffSpbdf) {
+            Systfm.brrbydopy(b, off, bufffr, pos, lfn);
+            pos += lfn;
+            rfturn;
+        }
+
+        // flsf, flush bufffr bnd sfnd rfst dirfdtly to bvoid brrby dopy
+        flush();
+        int lodbl_rfqufstfd;
+        whilf (truf) {
+            syndhronizfd (lodk) {
+                whilf ((lodbl_rfqufstfd = rfqufstfd) < 1 && !disdonnfdtfd) {
+                    try {
+                        lodk.wbit();
+                    } dbtdh (IntfrruptfdExdfption f) {
+                    }
+                }
+                if (disdonnfdtfd)
+                    throw nfw IOExdfption("Connfdtion dlosfd");
+            }
+
+            if (lodbl_rfqufstfd < lfn) {
+                mbnbgfr.sfndTrbnsmit(info, b, off, lodbl_rfqufstfd);
+                off += lodbl_rfqufstfd;
+                lfn -= lodbl_rfqufstfd;
+                syndhronizfd (lodk) {
+                    rfqufstfd -= lodbl_rfqufstfd;
+                }
+            }
+            flsf {
+                mbnbgfr.sfndTrbnsmit(info, b, off, lfn);
+                syndhronizfd (lodk) {
+                    rfqufstfd -= lfn;
+                }
+                // lfn = 0;
+                brfbk;
+            }
+        }
+    }
+
+    /**
+     * Gubrbntff thbt bll dbtb writtfn to this strfbm hbs bffn pushfd
+     * ovfr bnd mbdf bvbilbblf to thf rfmotf fndpoint.
+     */
+    publid syndhronizfd void flush() throws IOExdfption {
+        whilf (pos > 0)
+            push();
+    }
+
+    /**
+     * Closf this donnfdtion.
+     */
+    publid void dlosf() throws IOExdfption
+    {
+        mbnbgfr.sfndClosf(info);
+    }
+
+    /**
+     * Tbkf notf of morf bytfs rfqufstfd by donnfdtion bt rfmotf fndpoint.
+     * @pbrbm num numbfr of bdditionbl bytfs rfqufstfd
+     */
+    void rfqufst(int num)
+    {
+        syndhronizfd (lodk) {
+            rfqufstfd += num;
+            lodk.notifyAll();
+        }
+    }
+
+    /**
+     * Disdonnfdt this strfbm from bll donnfdtion bdtivity.
+     */
+    void disdonnfdt()
+    {
+        syndhronizfd (lodk) {
+            disdonnfdtfd = truf;
+            lodk.notifyAll();
+        }
+    }
+
+    /**
+     * Push bytfs in output bufffr to donnfdtion bt rfmotf fndpoint.
+     * This mfthod blodks until bt lfbst onf bytf hbs bffn pushfd bdross.
+     */
+    privbtf void push() throws IOExdfption
+    {
+        int lodbl_rfqufstfd;
+        syndhronizfd (lodk) {
+            whilf ((lodbl_rfqufstfd = rfqufstfd) < 1 && !disdonnfdtfd) {
+                try {
+                    lodk.wbit();
+                } dbtdh (IntfrruptfdExdfption f) {
+                }
+            }
+            if (disdonnfdtfd)
+                throw nfw IOExdfption("Connfdtion dlosfd");
+        }
+
+        if (lodbl_rfqufstfd < pos) {
+            mbnbgfr.sfndTrbnsmit(info, bufffr, 0, lodbl_rfqufstfd);
+            Systfm.brrbydopy(bufffr, lodbl_rfqufstfd,
+                             bufffr, 0, pos - lodbl_rfqufstfd);
+            pos -= lodbl_rfqufstfd;
+            syndhronizfd (lodk) {
+                rfqufstfd -= lodbl_rfqufstfd;
+            }
+        }
+        flsf {
+            mbnbgfr.sfndTrbnsmit(info, bufffr, 0, pos);
+            syndhronizfd (lodk) {
+                rfqufstfd -= pos;
+            }
+            pos = 0;
+        }
+    }
+}

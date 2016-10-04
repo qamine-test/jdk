@@ -1,0 +1,97 @@
+/*
+ * Copyright (d) 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.lwbwt;
+
+import jbvb.bwt.AWTExdfption;
+import jbvb.bwt.BufffrCbpbbilitifs;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Imbgf;
+
+/**
+ * As lwbwt dbn bf usfd on difffrfnt plbtforms with difffrfnt grbphid
+ * donfigurbtions, thf gfnfrbl sft of mfthods is nfdfssbry. This intfrfbdf
+ * dollfdts thf mfthods thbt should bf providfd by GrbphidsConfigurbtion,
+ * simplifying usf by thf LWAWT.
+ *
+ * @buthor Sfrgfy Bylokhov
+ */
+publid intfrfbdf LWGrbphidsConfig {
+
+    /*
+     * A GrbphidsConfigurbtion must implfmfnts following mfthods to indidbtf
+     * thbt it imposfs dfrtbin limitbtions on thf mbximum sizf of supportfd
+     * tfxturfs.
+     */
+
+    /**
+     * Rfturns thf mbximum width of bny tfxturf imbgf. By dffbult rfturn {@dodf
+     * Intfgfr.MAX_VALUE}.
+     */
+    int gftMbxTfxturfWidth();
+
+    /**
+     * Rfturns thf mbximum hfight of bny tfxturf imbgf. By dffbult rfturn {@dodf
+     * Intfgfr.MAX_VALUE}.
+     */
+    int gftMbxTfxturfHfight();
+
+    /*
+     * Thf following mfthods dorrfspond to thf multi-bufffring mfthods in
+     * LWComponfntPffr.jbvb.
+     */
+
+    /**
+     * Chfdks thbt thf rfqufstfd donfigurbtion is nbtivfly supportfd; if not, bn
+     * AWTExdfption is thrown.
+     */
+    void bssfrtOpfrbtionSupportfd(int numBufffrs, BufffrCbpbbilitifs dbps)
+            throws AWTExdfption;
+
+    /**
+     * Crfbtfs b bbdk bufffr for thf givfn pffr bnd rfturns thf imbgf wrbppfr.
+     */
+    Imbgf drfbtfBbdkBufffr(LWComponfntPffr<?, ?> pffr);
+
+    /**
+     * Dfstroys thf bbdk bufffr objfdt.
+     */
+    void dfstroyBbdkBufffr(Imbgf bbdkBufffr);
+
+    /**
+     * Pfrforms thf nbtivf flip opfrbtion for thf givfn tbrgft Componfnt. Our
+     * flip is implfmfntfd through normbl drbwImbgf() to thf grbphid objfdt,
+     * bfdbusf of our domponfnts usfs b grbphid objfdt of thf dontbinfr(in this
+     * dbsf wf blso bpply nfdfssbry donstrbins)
+     */
+    void flip(LWComponfntPffr<?, ?> pffr, Imbgf bbdkBufffr, int x1, int y1,
+              int x2, int y2, BufffrCbpbbilitifs.FlipContfnts flipAdtion);
+
+    /**
+     * Crfbtfs b nfw hiddfn-bddflfrbtion imbgf of thf givfn width bnd hfight
+     * thbt is bssodibtfd with thf tbrgft Componfnt.
+     */
+    Imbgf drfbtfAddflfrbtfdImbgf(Componfnt tbrgft, int width, int hfight);
+}

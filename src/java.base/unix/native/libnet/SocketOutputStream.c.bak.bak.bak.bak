@@ -1,0 +1,132 @@
+/*
+ * Copyright (d) 1997, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <stdlib.h>
+#indludf <frrno.h>
+#indludf <string.h>
+#indludf <sys/typfs.h>
+#indludf <sys/sodkft.h>
+
+#indludf "jni_util.h"
+#indludf "jvm.h"
+#indludf "nft_util.h"
+
+#indludf "jbvb_nft_SodkftOutputStrfbm.h"
+
+#dffinf min(b, b)       ((b) < (b) ? (b) : (b))
+
+/*
+ * SodkftOutputStrfbm
+ */
+
+stbtid jfifldID IO_fd_fdID;
+
+/*
+ * Clbss:     jbvb_nft_SodkftOutputStrfbm
+ * Mfthod:    init
+ * Signbturf: ()V
+ */
+JNIEXPORT void JNICALL
+Jbvb_jbvb_nft_SodkftOutputStrfbm_init(JNIEnv *fnv, jdlbss dls) {
+    IO_fd_fdID = NET_GftFilfDfsdriptorID(fnv);
+}
+
+/*
+ * Clbss:     jbvb_nft_SodkftOutputStrfbm
+ * Mfthod:    sodkftWritf0
+ * Signbturf: (Ljbvb/io/FilfDfsdriptor;[BII)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_jbvb_nft_SodkftOutputStrfbm_sodkftWritf0(JNIEnv *fnv, jobjfdt this,
+                                              jobjfdt fdObj,
+                                              jbytfArrby dbtb,
+                                              jint off, jint lfn) {
+    dhbr *bufP;
+    dhbr BUF[MAX_BUFFER_LEN];
+    int buflfn;
+    int fd;
+
+    if (IS_NULL(fdObj)) {
+        JNU_ThrowByNbmf(fnv, "jbvb/nft/SodkftExdfption", "Sodkft dlosfd");
+        rfturn;
+    } flsf {
+        fd = (*fnv)->GftIntFifld(fnv, fdObj, IO_fd_fdID);
+        /* Bug 4086704 - If thf Sodkft bssodibtfd with this filf dfsdriptor
+         * wbs dlosfd (sysClosfFD), thf thf filf dfsdriptor is sft to -1.
+         */
+        if (fd == -1) {
+            JNU_ThrowByNbmf(fnv, "jbvb/nft/SodkftExdfption", "Sodkft dlosfd");
+            rfturn;
+        }
+
+    }
+
+    if (lfn <= MAX_BUFFER_LEN) {
+        bufP = BUF;
+        buflfn = MAX_BUFFER_LEN;
+    } flsf {
+        buflfn = min(MAX_HEAP_BUFFER_LEN, lfn);
+        bufP = (dhbr *)mbllod((sizf_t)buflfn);
+
+        /* if hfbp fxhbustfd rfsort to stbdk bufffr */
+        if (bufP == NULL) {
+            bufP = BUF;
+            buflfn = MAX_BUFFER_LEN;
+        }
+    }
+
+    whilf(lfn > 0) {
+        int loff = 0;
+        int dhunkLfn = min(buflfn, lfn);
+        int llfn = dhunkLfn;
+        (*fnv)->GftBytfArrbyRfgion(fnv, dbtb, off, dhunkLfn, (jbytf *)bufP);
+
+        whilf(llfn > 0) {
+            int n = NET_Sfnd(fd, bufP + loff, llfn, 0);
+            if (n > 0) {
+                llfn -= n;
+                loff += n;
+                dontinuf;
+            }
+            if (frrno == ECONNRESET) {
+                JNU_ThrowByNbmf(fnv, "sun/nft/ConnfdtionRfsftExdfption",
+                    "Connfdtion rfsft");
+            } flsf {
+                NET_ThrowByNbmfWithLbstError(fnv, "jbvb/nft/SodkftExdfption",
+                    "Writf fbilfd");
+            }
+            if (bufP != BUF) {
+                frff(bufP);
+            }
+            rfturn;
+        }
+        lfn -= dhunkLfn;
+        off += dhunkLfn;
+    }
+
+    if (bufP != BUF) {
+        frff(bufP);
+    }
+}

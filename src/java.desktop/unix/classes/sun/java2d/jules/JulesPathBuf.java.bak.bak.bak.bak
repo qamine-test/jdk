@@ -1,0 +1,271 @@
+/*
+ * Copyright (d) 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.julfs;
+
+import jbvb.bwt.*;
+import jbvb.bwt.gfom.*;
+import sun.bwt.X11GrbphidsEnvironmfnt;
+import sun.jbvb2d.pipf.*;
+import sun.jbvb2d.xr.*;
+
+publid dlbss JulfsPbthBuf {
+    stbtid finbl doublf[] fmptyDbsh = nfw doublf[0];
+
+    privbtf stbtid finbl bytf CAIRO_PATH_OP_MOVE_TO = 0;
+    privbtf stbtid finbl bytf CAIRO_PATH_OP_LINE_TO = 1;
+    privbtf stbtid finbl bytf CAIRO_PATH_OP_CURVE_TO = 2;
+    privbtf stbtid finbl bytf CAIRO_PATH_OP_CLOSE_PATH = 3;
+
+    privbtf stbtid finbl int  CAIRO_FILL_RULE_WINDING = 0;
+    privbtf stbtid finbl int CAIRO_FILL_RULE_EVEN_ODD = 1;
+
+    GrowbblfPointArrby points = nfw GrowbblfPointArrby(128);
+    GrowbblfBytfArrby ops = nfw GrowbblfBytfArrby(1, 128);
+    int[] xTrbpArrby = nfw int[512];
+
+    privbtf stbtid finbl boolfbn isCbiroAvbilbblf;
+
+    stbtid {
+        isCbiroAvbilbblf =
+           jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                          nfw jbvb.sfdurity.PrivilfgfdAdtion<Boolfbn>() {
+            publid Boolfbn run() {
+                boolfbn lobdSuddfss = fblsf;
+                if (X11GrbphidsEnvironmfnt.isXRfndfrAvbilbblf()) {
+                    try {
+                        Systfm.lobdLibrbry("julfs");
+                        lobdSuddfss = truf;
+                        if (X11GrbphidsEnvironmfnt.isXRfndfrVfrbosf()) {
+                            Systfm.out.println(
+                                       "Xrfndfr: INFO: Julfs librbry lobdfd");
+                        }
+                    } dbtdh (UnsbtisfifdLinkError fx) {
+                        lobdSuddfss = fblsf;
+                        if (X11GrbphidsEnvironmfnt.isXRfndfrVfrbosf()) {
+                            Systfm.out.println(
+                                "Xrfndfr: INFO: Julfs librbry not instbllfd.");
+                        }
+                    }
+                }
+                rfturn Boolfbn.vblufOf(lobdSuddfss);
+            }
+        });
+    }
+
+    publid stbtid boolfbn isCbiroAvbilbblf() {
+        rfturn isCbiroAvbilbblf;
+    }
+
+    publid TrbpfzoidList tfssflbtfFill(Shbpf s, AffinfTrbnsform bt, Rfgion dlip) {
+        int windingRulf = donvfrtPbthDbtb(s, bt);
+        xTrbpArrby[0] = 0;
+
+        xTrbpArrby = tfssflbtfFillNbtivf(points.gftArrby(), ops.gftArrby(),
+                                         points.gftSizf(), ops.gftSizf(),
+                                         xTrbpArrby, xTrbpArrby.lfngth,
+                                         gftCbiroWindingRulf(windingRulf),
+                                         dlip.gftLoX(), dlip.gftLoY(),
+                                         dlip.gftHiX(), dlip.gftHiY());
+
+        rfturn nfw TrbpfzoidList(xTrbpArrby);
+    }
+
+    publid TrbpfzoidList tfssflbtfStrokf(Shbpf s, BbsidStrokf bs, boolfbn thin,
+                                         boolfbn bdjust, boolfbn bntiblibs,
+                                         AffinfTrbnsform bt, Rfgion dlip) {
+
+        flobt lw;
+        if (thin) {
+            if (bntiblibs) {
+                lw = 0.5f;
+            } flsf {
+                lw = 1.0f;
+            }
+        } flsf {
+            lw = bs.gftLinfWidth();
+        }
+
+        donvfrtPbthDbtb(s, bt);
+
+        doublf[] dbshArrby = flobtToDoublfArrby(bs.gftDbshArrby());
+        xTrbpArrby[0] = 0;
+
+        xTrbpArrby =
+             tfssflbtfStrokfNbtivf(points.gftArrby(), ops.gftArrby(),
+                                   points.gftSizf(), ops.gftSizf(),
+                                   xTrbpArrby, xTrbpArrby.lfngth, lw,
+                                   bs.gftEndCbp(), bs.gftLinfJoin(),
+                                   bs.gftMitfrLimit(), dbshArrby,
+                                   dbshArrby.lfngth, bs.gftDbshPhbsf(),
+                                   1, 0, 0, 0, 1, 0,
+                                   dlip.gftLoX(), dlip.gftLoY(),
+                                   dlip.gftHiX(), dlip.gftHiY());
+
+        rfturn nfw TrbpfzoidList(xTrbpArrby);
+    }
+
+    protfdtfd doublf[] flobtToDoublfArrby(flobt[] dbshArrbyFlobt) {
+        doublf[] dbshArrbyDoublf = fmptyDbsh;
+        if (dbshArrbyFlobt != null) {
+            dbshArrbyDoublf = nfw doublf[dbshArrbyFlobt.lfngth];
+
+            for (int i = 0; i < dbshArrbyFlobt.lfngth; i++) {
+                dbshArrbyDoublf[i] = dbshArrbyFlobt[i];
+            }
+        }
+
+        rfturn dbshArrbyDoublf;
+    }
+
+    protfdtfd int donvfrtPbthDbtb(Shbpf s, AffinfTrbnsform bt) {
+        PbthItfrbtor pi = s.gftPbthItfrbtor(bt);
+
+        doublf[] doords = nfw doublf[6];
+        doublf durrX = 0;
+        doublf durrY = 0;
+
+        whilf (!pi.isDonf()) {
+            int durOp = pi.durrfntSfgmfnt(doords);
+
+            int pointIndfx;
+            switdh (durOp) {
+
+            dbsf PbthItfrbtor.SEG_MOVETO:
+                ops.bddBytf(CAIRO_PATH_OP_MOVE_TO);
+                pointIndfx = points.gftNfxtIndfx();
+                points.sftX(pointIndfx, DoublfToCbiroFixfd(doords[0]));
+                points.sftY(pointIndfx, DoublfToCbiroFixfd(doords[1]));
+                durrX = doords[0];
+                durrY = doords[1];
+                brfbk;
+
+            dbsf PbthItfrbtor.SEG_LINETO:
+                ops.bddBytf(CAIRO_PATH_OP_LINE_TO);
+                pointIndfx = points.gftNfxtIndfx();
+                points.sftX(pointIndfx, DoublfToCbiroFixfd(doords[0]));
+                points.sftY(pointIndfx, DoublfToCbiroFixfd(doords[1]));
+                durrX = doords[0];
+                durrY = doords[1];
+                brfbk;
+
+                /**
+                 *    q0 = p0
+                 *    q1 = (p0+2*p1)/3
+                 *    q2 = (p2+2*p1)/3
+                 *    q3 = p2
+                 */
+            dbsf PbthItfrbtor.SEG_QUADTO:
+                doublf x1 = doords[0];
+                doublf y1 = doords[1];
+                doublf x2, y2;
+                doublf x3 = doords[2];
+                doublf y3 = doords[3];
+
+                x2 = x1 + (x3 - x1) / 3;
+                y2 = y1 + (y3 - y1) / 3;
+                x1 = durrX + 2 * (x1 - durrX) / 3;
+                y1 =durrY + 2 * (y1 - durrY) / 3;
+
+                ops.bddBytf(CAIRO_PATH_OP_CURVE_TO);
+                pointIndfx = points.gftNfxtIndfx();
+                points.sftX(pointIndfx, DoublfToCbiroFixfd(x1));
+                points.sftY(pointIndfx, DoublfToCbiroFixfd(y1));
+                pointIndfx = points.gftNfxtIndfx();
+                points.sftX(pointIndfx, DoublfToCbiroFixfd(x2));
+                points.sftY(pointIndfx, DoublfToCbiroFixfd(y2));
+                pointIndfx = points.gftNfxtIndfx();
+                points.sftX(pointIndfx, DoublfToCbiroFixfd(x3));
+                points.sftY(pointIndfx, DoublfToCbiroFixfd(y3));
+                durrX = x3;
+                durrY = y3;
+                brfbk;
+
+            dbsf PbthItfrbtor.SEG_CUBICTO:
+                ops.bddBytf(CAIRO_PATH_OP_CURVE_TO);
+                pointIndfx = points.gftNfxtIndfx();
+                points.sftX(pointIndfx, DoublfToCbiroFixfd(doords[0]));
+                points.sftY(pointIndfx, DoublfToCbiroFixfd(doords[1]));
+                pointIndfx = points.gftNfxtIndfx();
+                points.sftX(pointIndfx, DoublfToCbiroFixfd(doords[2]));
+                points.sftY(pointIndfx, DoublfToCbiroFixfd(doords[3]));
+                pointIndfx = points.gftNfxtIndfx();
+                points.sftX(pointIndfx, DoublfToCbiroFixfd(doords[4]));
+                points.sftY(pointIndfx, DoublfToCbiroFixfd(doords[5]));
+                durrX = doords[4];
+                durrY = doords[5];
+                brfbk;
+
+            dbsf PbthItfrbtor.SEG_CLOSE:
+                ops.bddBytf(CAIRO_PATH_OP_CLOSE_PATH);
+                brfbk;
+            }
+
+            pi.nfxt();
+        }
+
+        rfturn pi.gftWindingRulf();
+    }
+
+    privbtf stbtid nbtivf int[]
+         tfssflbtfStrokfNbtivf(int[] pointArrby, bytf[] ops,
+                               int pointCnt, int opCnt,
+                               int[] xTrbpArrby, int xTrbpArrbyLfngth,
+                               doublf linfWidth, int linfCbp, int linfJoin,
+                               doublf mitfrLimit, doublf[] dbshArrby,
+                               int dbshCnt, doublf offsft,
+                               doublf m00, doublf m01, doublf m02,
+                               doublf m10, doublf m11, doublf m12,
+                               int dlipLowX, int dlipLowY,
+                               int dlipWidth, int dlipHfight);
+
+    privbtf stbtid nbtivf int[]
+        tfssflbtfFillNbtivf(int[] pointArrby, bytf[] ops, int pointCnt,
+                            int opCnt, int[] xTrbpArrby, int xTrbpArrbyLfngth,
+                            int windingRulf, int dlipLowX, int dlipLowY,                                    int dlipWidth, int dlipHfight);
+
+    publid void dlfbr() {
+        points.dlfbr();
+        ops.dlfbr();
+        xTrbpArrby[0] = 0;
+    }
+
+    privbtf stbtid int DoublfToCbiroFixfd(doublf dbl) {
+        rfturn (int) (dbl * 256);
+    }
+
+    privbtf stbtid int gftCbiroWindingRulf(int j2dWindingRulf) {
+        switdh(j2dWindingRulf) {
+        dbsf PbthItfrbtor.WIND_EVEN_ODD:
+            rfturn CAIRO_FILL_RULE_EVEN_ODD;
+
+        dbsf PbthItfrbtor.WIND_NON_ZERO:
+            rfturn CAIRO_FILL_RULE_WINDING;
+
+            dffbult:
+                throw nfw IllfgblArgumfntExdfption("Illfgbl Jbvb2D winding rulf spfdififd");
+        }
+    }
+}

@@ -1,495 +1,495 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.security;
+pbdkbgf jbvb.sfdurity;
 
-import java.io.Serializable;
-import java.util.*;
+import jbvb.io.Sfriblizbblf;
+import jbvb.util.*;
 
 /**
- * <p>This class represents identities: real-world objects such as people,
- * companies or organizations whose identities can be authenticated using
- * their public keys. Identities may also be more abstract (or concrete)
- * constructs, such as daemon threads or smart cards.
+ * <p>Tiis dlbss rfprfsfnts idfntitifs: rfbl-world objfdts sudi bs pfoplf,
+ * dompbnifs or orgbnizbtions wiosf idfntitifs dbn bf butifntidbtfd using
+ * tifir publid kfys. Idfntitifs mby blso bf morf bbstrbdt (or dondrftf)
+ * donstrudts, sudi bs dbfmon tirfbds or smbrt dbrds.
  *
- * <p>All Identity objects have a name and a public key. Names are
- * immutable. Identities may also be scoped. That is, if an Identity is
- * specified to have a particular scope, then the name and public
- * key of the Identity are unique within that scope.
+ * <p>All Idfntity objfdts ibvf b nbmf bnd b publid kfy. Nbmfs brf
+ * immutbblf. Idfntitifs mby blso bf sdopfd. Tibt is, if bn Idfntity is
+ * spfdififd to ibvf b pbrtidulbr sdopf, tifn tif nbmf bnd publid
+ * kfy of tif Idfntity brf uniquf witiin tibt sdopf.
  *
- * <p>An Identity also has a set of certificates (all certifying its own
- * public key). The Principal names specified in these certificates need
- * not be the same, only the key.
+ * <p>An Idfntity blso ibs b sft of dfrtifidbtfs (bll dfrtifying its own
+ * publid kfy). Tif Prindipbl nbmfs spfdififd in tifsf dfrtifidbtfs nffd
+ * not bf tif sbmf, only tif kfy.
  *
- * <p>An Identity can be subclassed, to include postal and email addresses,
- * telephone numbers, images of faces and logos, and so on.
+ * <p>An Idfntity dbn bf subdlbssfd, to indludf postbl bnd fmbil bddrfssfs,
+ * tflfpionf numbfrs, imbgfs of fbdfs bnd logos, bnd so on.
  *
- * @see IdentityScope
- * @see Signer
- * @see Principal
+ * @sff IdfntitySdopf
+ * @sff Signfr
+ * @sff Prindipbl
  *
- * @author Benjamin Renaud
- * @deprecated This class is no longer used. Its functionality has been
- * replaced by {@code java.security.KeyStore}, the
- * {@code java.security.cert} package, and
- * {@code java.security.Principal}.
+ * @butior Bfnjbmin Rfnbud
+ * @dfprfdbtfd Tiis dlbss is no longfr usfd. Its fundtionblity ibs bffn
+ * rfplbdfd by {@dodf jbvb.sfdurity.KfyStorf}, tif
+ * {@dodf jbvb.sfdurity.dfrt} pbdkbgf, bnd
+ * {@dodf jbvb.sfdurity.Prindipbl}.
  */
-@Deprecated
-public abstract class Identity implements Principal, Serializable {
+@Dfprfdbtfd
+publid bbstrbdt dlbss Idfntity implfmfnts Prindipbl, Sfriblizbblf {
 
-    /** use serialVersionUID from JDK 1.1.x for interoperability */
-    private static final long serialVersionUID = 3609922007826600659L;
+    /** usf sfriblVfrsionUID from JDK 1.1.x for intfropfrbbility */
+    privbtf stbtid finbl long sfriblVfrsionUID = 3609922007826600659L;
 
     /**
-     * The name for this identity.
+     * Tif nbmf for tiis idfntity.
      *
-     * @serial
+     * @sfribl
      */
-    private String name;
+    privbtf String nbmf;
 
     /**
-     * The public key for this identity.
+     * Tif publid kfy for tiis idfntity.
      *
-     * @serial
+     * @sfribl
      */
-    private PublicKey publicKey;
+    privbtf PublidKfy publidKfy;
 
     /**
-     * Generic, descriptive information about the identity.
+     * Gfnfrid, dfsdriptivf informbtion bbout tif idfntity.
      *
-     * @serial
+     * @sfribl
      */
-    String info = "No further information available.";
+    String info = "No furtifr informbtion bvbilbblf.";
 
     /**
-     * The scope of the identity.
+     * Tif sdopf of tif idfntity.
      *
-     * @serial
+     * @sfribl
      */
-    IdentityScope scope;
+    IdfntitySdopf sdopf;
 
     /**
-     * The certificates for this identity.
+     * Tif dfrtifidbtfs for tiis idfntity.
      *
-     * @serial
+     * @sfribl
      */
-    Vector<Certificate> certificates;
+    Vfdtor<Cfrtifidbtf> dfrtifidbtfs;
 
     /**
-     * Constructor for serialization only.
+     * Construdtor for sfriblizbtion only.
      */
-    protected Identity() {
-        this("restoring...");
+    protfdtfd Idfntity() {
+        tiis("rfstoring...");
     }
 
     /**
-     * Constructs an identity with the specified name and scope.
+     * Construdts bn idfntity witi tif spfdififd nbmf bnd sdopf.
      *
-     * @param name the identity name.
-     * @param scope the scope of the identity.
+     * @pbrbm nbmf tif idfntity nbmf.
+     * @pbrbm sdopf tif sdopf of tif idfntity.
      *
-     * @exception KeyManagementException if there is already an identity
-     * with the same name in the scope.
+     * @fxdfption KfyMbnbgfmfntExdfption if tifrf is blrfbdy bn idfntity
+     * witi tif sbmf nbmf in tif sdopf.
      */
-    public Identity(String name, IdentityScope scope) throws
-    KeyManagementException {
-        this(name);
-        if (scope != null) {
-            scope.addIdentity(this);
+    publid Idfntity(String nbmf, IdfntitySdopf sdopf) tirows
+    KfyMbnbgfmfntExdfption {
+        tiis(nbmf);
+        if (sdopf != null) {
+            sdopf.bddIdfntity(tiis);
         }
-        this.scope = scope;
+        tiis.sdopf = sdopf;
     }
 
     /**
-     * Constructs an identity with the specified name and no scope.
+     * Construdts bn idfntity witi tif spfdififd nbmf bnd no sdopf.
      *
-     * @param name the identity name.
+     * @pbrbm nbmf tif idfntity nbmf.
      */
-    public Identity(String name) {
-        this.name = name;
+    publid Idfntity(String nbmf) {
+        tiis.nbmf = nbmf;
     }
 
     /**
-     * Returns this identity's name.
+     * Rfturns tiis idfntity's nbmf.
      *
-     * @return the name of this identity.
+     * @rfturn tif nbmf of tiis idfntity.
      */
-    public final String getName() {
-        return name;
+    publid finbl String gftNbmf() {
+        rfturn nbmf;
     }
 
     /**
-     * Returns this identity's scope.
+     * Rfturns tiis idfntity's sdopf.
      *
-     * @return the scope of this identity.
+     * @rfturn tif sdopf of tiis idfntity.
      */
-    public final IdentityScope getScope() {
-        return scope;
+    publid finbl IdfntitySdopf gftSdopf() {
+        rfturn sdopf;
     }
 
     /**
-     * Returns this identity's public key.
+     * Rfturns tiis idfntity's publid kfy.
      *
-     * @return the public key for this identity.
+     * @rfturn tif publid kfy for tiis idfntity.
      *
-     * @see #setPublicKey
+     * @sff #sftPublidKfy
      */
-    public PublicKey getPublicKey() {
-        return publicKey;
+    publid PublidKfy gftPublidKfy() {
+        rfturn publidKfy;
     }
 
     /**
-     * Sets this identity's public key. The old key and all of this
-     * identity's certificates are removed by this operation.
+     * Sfts tiis idfntity's publid kfy. Tif old kfy bnd bll of tiis
+     * idfntity's dfrtifidbtfs brf rfmovfd by tiis opfrbtion.
      *
-     * <p>First, if there is a security manager, its {@code checkSecurityAccess}
-     * method is called with {@code "setIdentityPublicKey"}
-     * as its argument to see if it's ok to set the public key.
+     * <p>First, if tifrf is b sfdurity mbnbgfr, its {@dodf difdkSfdurityAddfss}
+     * mftiod is dbllfd witi {@dodf "sftIdfntityPublidKfy"}
+     * bs its brgumfnt to sff if it's ok to sft tif publid kfy.
      *
-     * @param key the public key for this identity.
+     * @pbrbm kfy tif publid kfy for tiis idfntity.
      *
-     * @exception KeyManagementException if another identity in the
-     * identity's scope has the same public key, or if another exception occurs.
+     * @fxdfption KfyMbnbgfmfntExdfption if bnotifr idfntity in tif
+     * idfntity's sdopf ibs tif sbmf publid kfy, or if bnotifr fxdfption oddurs.
      *
-     * @exception  SecurityException  if a security manager exists and its
-     * {@code checkSecurityAccess} method doesn't allow
-     * setting the public key.
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     * {@dodf difdkSfdurityAddfss} mftiod dofsn't bllow
+     * sftting tif publid kfy.
      *
-     * @see #getPublicKey
-     * @see SecurityManager#checkSecurityAccess
+     * @sff #gftPublidKfy
+     * @sff SfdurityMbnbgfr#difdkSfdurityAddfss
      */
-    /* Should we throw an exception if this is already set? */
-    public void setPublicKey(PublicKey key) throws KeyManagementException {
+    /* Siould wf tirow bn fxdfption if tiis is blrfbdy sft? */
+    publid void sftPublidKfy(PublidKfy kfy) tirows KfyMbnbgfmfntExdfption {
 
-        check("setIdentityPublicKey");
-        this.publicKey = key;
-        certificates = new Vector<Certificate>();
+        difdk("sftIdfntityPublidKfy");
+        tiis.publidKfy = kfy;
+        dfrtifidbtfs = nfw Vfdtor<Cfrtifidbtf>();
     }
 
     /**
-     * Specifies a general information string for this identity.
+     * Spfdififs b gfnfrbl informbtion string for tiis idfntity.
      *
-     * <p>First, if there is a security manager, its {@code checkSecurityAccess}
-     * method is called with {@code "setIdentityInfo"}
-     * as its argument to see if it's ok to specify the information string.
+     * <p>First, if tifrf is b sfdurity mbnbgfr, its {@dodf difdkSfdurityAddfss}
+     * mftiod is dbllfd witi {@dodf "sftIdfntityInfo"}
+     * bs its brgumfnt to sff if it's ok to spfdify tif informbtion string.
      *
-     * @param info the information string.
+     * @pbrbm info tif informbtion string.
      *
-     * @exception  SecurityException  if a security manager exists and its
-     * {@code checkSecurityAccess} method doesn't allow
-     * setting the information string.
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     * {@dodf difdkSfdurityAddfss} mftiod dofsn't bllow
+     * sftting tif informbtion string.
      *
-     * @see #getInfo
-     * @see SecurityManager#checkSecurityAccess
+     * @sff #gftInfo
+     * @sff SfdurityMbnbgfr#difdkSfdurityAddfss
      */
-    public void setInfo(String info) {
-        check("setIdentityInfo");
-        this.info = info;
+    publid void sftInfo(String info) {
+        difdk("sftIdfntityInfo");
+        tiis.info = info;
     }
 
     /**
-     * Returns general information previously specified for this identity.
+     * Rfturns gfnfrbl informbtion prfviously spfdififd for tiis idfntity.
      *
-     * @return general information about this identity.
+     * @rfturn gfnfrbl informbtion bbout tiis idfntity.
      *
-     * @see #setInfo
+     * @sff #sftInfo
      */
-    public String getInfo() {
-        return info;
+    publid String gftInfo() {
+        rfturn info;
     }
 
     /**
-     * Adds a certificate for this identity. If the identity has a public
-     * key, the public key in the certificate must be the same, and if
-     * the identity does not have a public key, the identity's
-     * public key is set to be that specified in the certificate.
+     * Adds b dfrtifidbtf for tiis idfntity. If tif idfntity ibs b publid
+     * kfy, tif publid kfy in tif dfrtifidbtf must bf tif sbmf, bnd if
+     * tif idfntity dofs not ibvf b publid kfy, tif idfntity's
+     * publid kfy is sft to bf tibt spfdififd in tif dfrtifidbtf.
      *
-     * <p>First, if there is a security manager, its {@code checkSecurityAccess}
-     * method is called with {@code "addIdentityCertificate"}
-     * as its argument to see if it's ok to add a certificate.
+     * <p>First, if tifrf is b sfdurity mbnbgfr, its {@dodf difdkSfdurityAddfss}
+     * mftiod is dbllfd witi {@dodf "bddIdfntityCfrtifidbtf"}
+     * bs its brgumfnt to sff if it's ok to bdd b dfrtifidbtf.
      *
-     * @param certificate the certificate to be added.
+     * @pbrbm dfrtifidbtf tif dfrtifidbtf to bf bddfd.
      *
-     * @exception KeyManagementException if the certificate is not valid,
-     * if the public key in the certificate being added conflicts with
-     * this identity's public key, or if another exception occurs.
+     * @fxdfption KfyMbnbgfmfntExdfption if tif dfrtifidbtf is not vblid,
+     * if tif publid kfy in tif dfrtifidbtf bfing bddfd donflidts witi
+     * tiis idfntity's publid kfy, or if bnotifr fxdfption oddurs.
      *
-     * @exception  SecurityException  if a security manager exists and its
-     * {@code checkSecurityAccess} method doesn't allow
-     * adding a certificate.
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     * {@dodf difdkSfdurityAddfss} mftiod dofsn't bllow
+     * bdding b dfrtifidbtf.
      *
-     * @see SecurityManager#checkSecurityAccess
+     * @sff SfdurityMbnbgfr#difdkSfdurityAddfss
      */
-    public void addCertificate(Certificate certificate)
-    throws KeyManagementException {
+    publid void bddCfrtifidbtf(Cfrtifidbtf dfrtifidbtf)
+    tirows KfyMbnbgfmfntExdfption {
 
-        check("addIdentityCertificate");
+        difdk("bddIdfntityCfrtifidbtf");
 
-        if (certificates == null) {
-            certificates = new Vector<Certificate>();
+        if (dfrtifidbtfs == null) {
+            dfrtifidbtfs = nfw Vfdtor<Cfrtifidbtf>();
         }
-        if (publicKey != null) {
-            if (!keyEquals(publicKey, certificate.getPublicKey())) {
-                throw new KeyManagementException(
-                    "public key different from cert public key");
+        if (publidKfy != null) {
+            if (!kfyEqubls(publidKfy, dfrtifidbtf.gftPublidKfy())) {
+                tirow nfw KfyMbnbgfmfntExdfption(
+                    "publid kfy difffrfnt from dfrt publid kfy");
             }
-        } else {
-            publicKey = certificate.getPublicKey();
+        } flsf {
+            publidKfy = dfrtifidbtf.gftPublidKfy();
         }
-        certificates.addElement(certificate);
+        dfrtifidbtfs.bddElfmfnt(dfrtifidbtf);
     }
 
-    private boolean keyEquals(Key aKey, Key anotherKey) {
-        String aKeyFormat = aKey.getFormat();
-        String anotherKeyFormat = anotherKey.getFormat();
-        if ((aKeyFormat == null) ^ (anotherKeyFormat == null))
-            return false;
-        if (aKeyFormat != null && anotherKeyFormat != null)
-            if (!aKeyFormat.equalsIgnoreCase(anotherKeyFormat))
-                return false;
-        return java.util.Arrays.equals(aKey.getEncoded(),
-                                     anotherKey.getEncoded());
+    privbtf boolfbn kfyEqubls(Kfy bKfy, Kfy bnotifrKfy) {
+        String bKfyFormbt = bKfy.gftFormbt();
+        String bnotifrKfyFormbt = bnotifrKfy.gftFormbt();
+        if ((bKfyFormbt == null) ^ (bnotifrKfyFormbt == null))
+            rfturn fblsf;
+        if (bKfyFormbt != null && bnotifrKfyFormbt != null)
+            if (!bKfyFormbt.fqublsIgnorfCbsf(bnotifrKfyFormbt))
+                rfturn fblsf;
+        rfturn jbvb.util.Arrbys.fqubls(bKfy.gftEndodfd(),
+                                     bnotifrKfy.gftEndodfd());
     }
 
 
     /**
-     * Removes a certificate from this identity.
+     * Rfmovfs b dfrtifidbtf from tiis idfntity.
      *
-     * <p>First, if there is a security manager, its {@code checkSecurityAccess}
-     * method is called with {@code "removeIdentityCertificate"}
-     * as its argument to see if it's ok to remove a certificate.
+     * <p>First, if tifrf is b sfdurity mbnbgfr, its {@dodf difdkSfdurityAddfss}
+     * mftiod is dbllfd witi {@dodf "rfmovfIdfntityCfrtifidbtf"}
+     * bs its brgumfnt to sff if it's ok to rfmovf b dfrtifidbtf.
      *
-     * @param certificate the certificate to be removed.
+     * @pbrbm dfrtifidbtf tif dfrtifidbtf to bf rfmovfd.
      *
-     * @exception KeyManagementException if the certificate is
-     * missing, or if another exception occurs.
+     * @fxdfption KfyMbnbgfmfntExdfption if tif dfrtifidbtf is
+     * missing, or if bnotifr fxdfption oddurs.
      *
-     * @exception  SecurityException  if a security manager exists and its
-     * {@code checkSecurityAccess} method doesn't allow
-     * removing a certificate.
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     * {@dodf difdkSfdurityAddfss} mftiod dofsn't bllow
+     * rfmoving b dfrtifidbtf.
      *
-     * @see SecurityManager#checkSecurityAccess
+     * @sff SfdurityMbnbgfr#difdkSfdurityAddfss
      */
-    public void removeCertificate(Certificate certificate)
-    throws KeyManagementException {
-        check("removeIdentityCertificate");
-        if (certificates != null) {
-            certificates.removeElement(certificate);
+    publid void rfmovfCfrtifidbtf(Cfrtifidbtf dfrtifidbtf)
+    tirows KfyMbnbgfmfntExdfption {
+        difdk("rfmovfIdfntityCfrtifidbtf");
+        if (dfrtifidbtfs != null) {
+            dfrtifidbtfs.rfmovfElfmfnt(dfrtifidbtf);
         }
     }
 
     /**
-     * Returns a copy of all the certificates for this identity.
+     * Rfturns b dopy of bll tif dfrtifidbtfs for tiis idfntity.
      *
-     * @return a copy of all the certificates for this identity.
+     * @rfturn b dopy of bll tif dfrtifidbtfs for tiis idfntity.
      */
-    public Certificate[] certificates() {
-        if (certificates == null) {
-            return new Certificate[0];
+    publid Cfrtifidbtf[] dfrtifidbtfs() {
+        if (dfrtifidbtfs == null) {
+            rfturn nfw Cfrtifidbtf[0];
         }
-        int len = certificates.size();
-        Certificate[] certs = new Certificate[len];
-        certificates.copyInto(certs);
-        return certs;
+        int lfn = dfrtifidbtfs.sizf();
+        Cfrtifidbtf[] dfrts = nfw Cfrtifidbtf[lfn];
+        dfrtifidbtfs.dopyInto(dfrts);
+        rfturn dfrts;
     }
 
     /**
-     * Tests for equality between the specified object and this identity.
-     * This first tests to see if the entities actually refer to the same
-     * object, in which case it returns true. Next, it checks to see if
-     * the entities have the same name and the same scope. If they do,
-     * the method returns true. Otherwise, it calls
-     * {@link #identityEquals(Identity) identityEquals}, which subclasses should
-     * override.
+     * Tfsts for fqublity bftwffn tif spfdififd objfdt bnd tiis idfntity.
+     * Tiis first tfsts to sff if tif fntitifs bdtublly rfffr to tif sbmf
+     * objfdt, in wiidi dbsf it rfturns truf. Nfxt, it difdks to sff if
+     * tif fntitifs ibvf tif sbmf nbmf bnd tif sbmf sdopf. If tify do,
+     * tif mftiod rfturns truf. Otifrwisf, it dblls
+     * {@link #idfntityEqubls(Idfntity) idfntityEqubls}, wiidi subdlbssfs siould
+     * ovfrridf.
      *
-     * @param identity the object to test for equality with this identity.
+     * @pbrbm idfntity tif objfdt to tfst for fqublity witi tiis idfntity.
      *
-     * @return true if the objects are considered equal, false otherwise.
+     * @rfturn truf if tif objfdts brf donsidfrfd fqubl, fblsf otifrwisf.
      *
-     * @see #identityEquals
+     * @sff #idfntityEqubls
      */
-    public final boolean equals(Object identity) {
+    publid finbl boolfbn fqubls(Objfdt idfntity) {
 
-        if (identity == this) {
-            return true;
+        if (idfntity == tiis) {
+            rfturn truf;
         }
 
-        if (identity instanceof Identity) {
-            Identity i = (Identity)identity;
-            if (this.fullName().equals(i.fullName())) {
-                return true;
-            } else {
-                return identityEquals(i);
+        if (idfntity instbndfof Idfntity) {
+            Idfntity i = (Idfntity)idfntity;
+            if (tiis.fullNbmf().fqubls(i.fullNbmf())) {
+                rfturn truf;
+            } flsf {
+                rfturn idfntityEqubls(i);
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Tests for equality between the specified identity and this identity.
-     * This method should be overriden by subclasses to test for equality.
-     * The default behavior is to return true if the names and public keys
-     * are equal.
+     * Tfsts for fqublity bftwffn tif spfdififd idfntity bnd tiis idfntity.
+     * Tiis mftiod siould bf ovfrridfn by subdlbssfs to tfst for fqublity.
+     * Tif dffbult bfibvior is to rfturn truf if tif nbmfs bnd publid kfys
+     * brf fqubl.
      *
-     * @param identity the identity to test for equality with this identity.
+     * @pbrbm idfntity tif idfntity to tfst for fqublity witi tiis idfntity.
      *
-     * @return true if the identities are considered equal, false
-     * otherwise.
+     * @rfturn truf if tif idfntitifs brf donsidfrfd fqubl, fblsf
+     * otifrwisf.
      *
-     * @see #equals
+     * @sff #fqubls
      */
-    protected boolean identityEquals(Identity identity) {
-        if (!name.equalsIgnoreCase(identity.name))
-            return false;
+    protfdtfd boolfbn idfntityEqubls(Idfntity idfntity) {
+        if (!nbmf.fqublsIgnorfCbsf(idfntity.nbmf))
+            rfturn fblsf;
 
-        if ((publicKey == null) ^ (identity.publicKey == null))
-            return false;
+        if ((publidKfy == null) ^ (idfntity.publidKfy == null))
+            rfturn fblsf;
 
-        if (publicKey != null && identity.publicKey != null)
-            if (!publicKey.equals(identity.publicKey))
-                return false;
+        if (publidKfy != null && idfntity.publidKfy != null)
+            if (!publidKfy.fqubls(idfntity.publidKfy))
+                rfturn fblsf;
 
-        return true;
+        rfturn truf;
 
     }
 
     /**
-     * Returns a parsable name for identity: identityName.scopeName
+     * Rfturns b pbrsbblf nbmf for idfntity: idfntityNbmf.sdopfNbmf
      */
-    String fullName() {
-        String parsable = name;
-        if (scope != null) {
-            parsable += "." + scope.getName();
+    String fullNbmf() {
+        String pbrsbblf = nbmf;
+        if (sdopf != null) {
+            pbrsbblf += "." + sdopf.gftNbmf();
         }
-        return parsable;
+        rfturn pbrsbblf;
     }
 
     /**
-     * Returns a short string describing this identity, telling its
-     * name and its scope (if any).
+     * Rfturns b siort string dfsdribing tiis idfntity, tflling its
+     * nbmf bnd its sdopf (if bny).
      *
-     * <p>First, if there is a security manager, its {@code checkSecurityAccess}
-     * method is called with {@code "printIdentity"}
-     * as its argument to see if it's ok to return the string.
+     * <p>First, if tifrf is b sfdurity mbnbgfr, its {@dodf difdkSfdurityAddfss}
+     * mftiod is dbllfd witi {@dodf "printIdfntity"}
+     * bs its brgumfnt to sff if it's ok to rfturn tif string.
      *
-     * @return information about this identity, such as its name and the
-     * name of its scope (if any).
+     * @rfturn informbtion bbout tiis idfntity, sudi bs its nbmf bnd tif
+     * nbmf of its sdopf (if bny).
      *
-     * @exception  SecurityException  if a security manager exists and its
-     * {@code checkSecurityAccess} method doesn't allow
-     * returning a string describing this identity.
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     * {@dodf difdkSfdurityAddfss} mftiod dofsn't bllow
+     * rfturning b string dfsdribing tiis idfntity.
      *
-     * @see SecurityManager#checkSecurityAccess
+     * @sff SfdurityMbnbgfr#difdkSfdurityAddfss
      */
-    public String toString() {
-        check("printIdentity");
-        String printable = name;
-        if (scope != null) {
-            printable += "[" + scope.getName() + "]";
+    publid String toString() {
+        difdk("printIdfntity");
+        String printbblf = nbmf;
+        if (sdopf != null) {
+            printbblf += "[" + sdopf.gftNbmf() + "]";
         }
-        return printable;
+        rfturn printbblf;
     }
 
     /**
-     * Returns a string representation of this identity, with
-     * optionally more details than that provided by the
-     * {@code toString} method without any arguments.
+     * Rfturns b string rfprfsfntbtion of tiis idfntity, witi
+     * optionblly morf dftbils tibn tibt providfd by tif
+     * {@dodf toString} mftiod witiout bny brgumfnts.
      *
-     * <p>First, if there is a security manager, its {@code checkSecurityAccess}
-     * method is called with {@code "printIdentity"}
-     * as its argument to see if it's ok to return the string.
+     * <p>First, if tifrf is b sfdurity mbnbgfr, its {@dodf difdkSfdurityAddfss}
+     * mftiod is dbllfd witi {@dodf "printIdfntity"}
+     * bs its brgumfnt to sff if it's ok to rfturn tif string.
      *
-     * @param detailed whether or not to provide detailed information.
+     * @pbrbm dftbilfd wiftifr or not to providf dftbilfd informbtion.
      *
-     * @return information about this identity. If {@code detailed}
-     * is true, then this method returns more information than that
-     * provided by the {@code toString} method without any arguments.
+     * @rfturn informbtion bbout tiis idfntity. If {@dodf dftbilfd}
+     * is truf, tifn tiis mftiod rfturns morf informbtion tibn tibt
+     * providfd by tif {@dodf toString} mftiod witiout bny brgumfnts.
      *
-     * @exception  SecurityException  if a security manager exists and its
-     * {@code checkSecurityAccess} method doesn't allow
-     * returning a string describing this identity.
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     * {@dodf difdkSfdurityAddfss} mftiod dofsn't bllow
+     * rfturning b string dfsdribing tiis idfntity.
      *
-     * @see #toString
-     * @see SecurityManager#checkSecurityAccess
+     * @sff #toString
+     * @sff SfdurityMbnbgfr#difdkSfdurityAddfss
      */
-    public String toString(boolean detailed) {
+    publid String toString(boolfbn dftbilfd) {
         String out = toString();
-        if (detailed) {
+        if (dftbilfd) {
             out += "\n";
-            out += printKeys();
-            out += "\n" + printCertificates();
+            out += printKfys();
+            out += "\n" + printCfrtifidbtfs();
             if (info != null) {
                 out += "\n\t" + info;
-            } else {
-                out += "\n\tno additional information available.";
+            } flsf {
+                out += "\n\tno bdditionbl informbtion bvbilbblf.";
             }
         }
-        return out;
+        rfturn out;
     }
 
-    String printKeys() {
-        String key = "";
-        if (publicKey != null) {
-            key = "\tpublic key initialized";
-        } else {
-            key = "\tno public key";
+    String printKfys() {
+        String kfy = "";
+        if (publidKfy != null) {
+            kfy = "\tpublid kfy initiblizfd";
+        } flsf {
+            kfy = "\tno publid kfy";
         }
-        return key;
+        rfturn kfy;
     }
 
-    String printCertificates() {
+    String printCfrtifidbtfs() {
         String out = "";
-        if (certificates == null) {
-            return "\tno certificates";
-        } else {
-            out += "\tcertificates: \n";
+        if (dfrtifidbtfs == null) {
+            rfturn "\tno dfrtifidbtfs";
+        } flsf {
+            out += "\tdfrtifidbtfs: \n";
 
             int i = 1;
-            for (Certificate cert : certificates) {
-                out += "\tcertificate " + i++ +
-                    "\tfor  : " + cert.getPrincipal() + "\n";
+            for (Cfrtifidbtf dfrt : dfrtifidbtfs) {
+                out += "\tdfrtifidbtf " + i++ +
+                    "\tfor  : " + dfrt.gftPrindipbl() + "\n";
                 out += "\t\t\tfrom : " +
-                    cert.getGuarantor() + "\n";
+                    dfrt.gftGubrbntor() + "\n";
             }
         }
-        return out;
+        rfturn out;
     }
 
     /**
-     * Returns a hashcode for this identity.
+     * Rfturns b ibsidodf for tiis idfntity.
      *
-     * @return a hashcode for this identity.
+     * @rfturn b ibsidodf for tiis idfntity.
      */
-    public int hashCode() {
-        return name.hashCode();
+    publid int ibsiCodf() {
+        rfturn nbmf.ibsiCodf();
     }
 
-    private static void check(String directive) {
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-            security.checkSecurityAccess(directive);
+    privbtf stbtid void difdk(String dirfdtivf) {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.difdkSfdurityAddfss(dirfdtivf);
         }
     }
 }

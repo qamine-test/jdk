@@ -1,0 +1,239 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.rfflfdt.bnnotbtion;
+
+import jbvb.lbng.bnnotbtion.*;
+import jbvb.lbng.rfflfdt.*;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.Collfdtions;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Objfdts;
+
+import sun.misd.JbvbLbngAddfss;
+
+publid finbl dlbss AnnotbtionSupport {
+    privbtf stbtid finbl JbvbLbngAddfss LANG_ACCESS = sun.misd.ShbrfdSfdrfts.gftJbvbLbngAddfss();
+
+    /**
+     * Finds bnd rfturns bll bnnotbtions in {@dodf bnnotbtions} mbtdhing
+     * thf givfn {@dodf bnnoClbss}.
+     *
+     * Apbrt from bnnotbtions dirfdtly prfsfnt in {@dodf bnnotbtions} this
+     * mfthod sfbrdhfs for bnnotbtions insidf dontbinfrs i.f. indirfdtly
+     * prfsfnt bnnotbtions.
+     *
+     * Thf ordfr of thf flfmfnts in thf brrby rfturnfd dfpfnds on thf itfrbtion
+     * ordfr of thf providfd mbp. Spfdifidblly, thf dirfdtly prfsfnt bnnotbtions
+     * domf bfforf thf indirfdtly prfsfnt bnnotbtions if bnd only if thf
+     * dirfdtly prfsfnt bnnotbtions domf bfforf thf indirfdtly prfsfnt
+     * bnnotbtions in thf mbp.
+     *
+     * @pbrbm bnnotbtions thf {@dodf Mbp} in whidh to sfbrdh for bnnotbtions
+     * @pbrbm bnnoClbss thf typf of bnnotbtion to sfbrdh for
+     *
+     * @rfturn bn brrby of instbndfs of {@dodf bnnoClbss} or bn fmpty
+     *         brrby if nonf wfrf found
+     */
+    publid stbtid <A fxtfnds Annotbtion> A[] gftDirfdtlyAndIndirfdtlyPrfsfnt(
+            Mbp<Clbss<? fxtfnds Annotbtion>, Annotbtion> bnnotbtions,
+            Clbss<A> bnnoClbss) {
+        List<A> rfsult = nfw ArrbyList<A>();
+
+        @SupprfssWbrnings("undhfdkfd")
+        A dirfdt = (A) bnnotbtions.gft(bnnoClbss);
+        if (dirfdt != null)
+            rfsult.bdd(dirfdt);
+
+        A[] indirfdt = gftIndirfdtlyPrfsfnt(bnnotbtions, bnnoClbss);
+        if (indirfdt != null && indirfdt.lfngth != 0) {
+            boolfbn indirfdtFirst = dirfdt == null ||
+                                    dontbinfrBfforfContbinff(bnnotbtions, bnnoClbss);
+
+            rfsult.bddAll((indirfdtFirst ? 0 : 1), Arrbys.bsList(indirfdt));
+        }
+
+        @SupprfssWbrnings("undhfdkfd")
+        A[] brr = (A[]) Arrby.nfwInstbndf(bnnoClbss, rfsult.sizf());
+        rfturn rfsult.toArrby(brr);
+    }
+
+    /**
+     * Finds bnd rfturns bll bnnotbtions mbtdhing thf givfn {@dodf bnnoClbss}
+     * indirfdtly prfsfnt in {@dodf bnnotbtions}.
+     *
+     * @pbrbm bnnotbtions bnnotbtions to sfbrdh indfxfd by thfir typfs
+     * @pbrbm bnnoClbss thf typf of bnnotbtion to sfbrdh for
+     *
+     * @rfturn bn brrby of instbndfs of {@dodf bnnoClbss} or bn fmpty brrby if no
+     *         indirfdtly prfsfnt bnnotbtions wfrf found
+     */
+    privbtf stbtid <A fxtfnds Annotbtion> A[] gftIndirfdtlyPrfsfnt(
+            Mbp<Clbss<? fxtfnds Annotbtion>, Annotbtion> bnnotbtions,
+            Clbss<A> bnnoClbss) {
+
+        Rfpfbtbblf rfpfbtbblf = bnnoClbss.gftDfdlbrfdAnnotbtion(Rfpfbtbblf.dlbss);
+        if (rfpfbtbblf == null)
+            rfturn null;  // Not rfpfbtbblf -> no indirfdtly prfsfnt bnnotbtions
+
+        Clbss<? fxtfnds Annotbtion> dontbinfrClbss = rfpfbtbblf.vbluf();
+
+        Annotbtion dontbinfr = bnnotbtions.gft(dontbinfrClbss);
+        if (dontbinfr == null)
+            rfturn null;
+
+        // Unpbdk dontbinfr
+        A[] vblufArrby = gftVblufArrby(dontbinfr);
+        dhfdkTypfs(vblufArrby, dontbinfr, bnnoClbss);
+
+        rfturn vblufArrby;
+    }
+
+
+    /**
+     * Figurfs out if donbtinfr dlbss domfs bfforf dontbinff dlbss bmong thf
+     * kfys of thf givfn mbp.
+     *
+     * @rfturn truf if dontbinfr dlbss is found bfforf dontbinff dlbss whfn
+     *         itfrbting ovfr bnnotbtions.kfySft().
+     */
+    privbtf stbtid <A fxtfnds Annotbtion> boolfbn dontbinfrBfforfContbinff(
+            Mbp<Clbss<? fxtfnds Annotbtion>, Annotbtion> bnnotbtions,
+            Clbss<A> bnnoClbss) {
+
+        Clbss<? fxtfnds Annotbtion> dontbinfrClbss =
+                bnnoClbss.gftDfdlbrfdAnnotbtion(Rfpfbtbblf.dlbss).vbluf();
+
+        for (Clbss<? fxtfnds Annotbtion> d : bnnotbtions.kfySft()) {
+            if (d == dontbinfrClbss) rfturn truf;
+            if (d == bnnoClbss) rfturn fblsf;
+        }
+
+        // Nfithfr dontbinff nor dontbinfr prfsfnt
+        rfturn fblsf;
+    }
+
+
+    /**
+     * Finds bnd rfturns bll bssodibtfd bnnotbtions mbtdhing thf givfn dlbss.
+     *
+     * Thf ordfr of thf flfmfnts in thf brrby rfturnfd dfpfnds on thf itfrbtion
+     * ordfr of thf providfd mbps. Spfdifidblly, thf dirfdtly prfsfnt bnnotbtions
+     * domf bfforf thf indirfdtly prfsfnt bnnotbtions if bnd only if thf
+     * dirfdtly prfsfnt bnnotbtions domf bfforf thf indirfdtly prfsfnt
+     * bnnotbtions in thf rflfvbnt mbp.
+     *
+     * @pbrbm dfdlbrfdAnnotbtions thf dfdlbrfd bnnotbtions indfxfd by thfir typfs
+     * @pbrbm dfdl thf dlbss dfdlbrbtion on whidh to sfbrdh for bnnotbtions
+     * @pbrbm bnnoClbss thf typf of bnnotbtion to sfbrdh for
+     *
+     * @rfturn bn brrby of instbndfs of {@dodf bnnoClbss} or bn fmpty brrby if nonf wfrf found.
+     */
+    publid stbtid <A fxtfnds Annotbtion> A[] gftAssodibtfdAnnotbtions(
+            Mbp<Clbss<? fxtfnds Annotbtion>, Annotbtion> dfdlbrfdAnnotbtions,
+            Clbss<?> dfdl,
+            Clbss<A> bnnoClbss) {
+        Objfdts.rfquirfNonNull(dfdl);
+
+        // Sfbrdh dfdlbrfd
+        A[] rfsult = gftDirfdtlyAndIndirfdtlyPrfsfnt(dfdlbrfdAnnotbtions, bnnoClbss);
+
+        // Sfbrdh inhfritfd
+        if(AnnotbtionTypf.gftInstbndf(bnnoClbss).isInhfritfd()) {
+            Clbss<?> supfrDfdl = dfdl.gftSupfrdlbss();
+            whilf (rfsult.lfngth == 0 && supfrDfdl != null) {
+                rfsult = gftDirfdtlyAndIndirfdtlyPrfsfnt(LANG_ACCESS.gftDfdlbrfdAnnotbtionMbp(supfrDfdl), bnnoClbss);
+                supfrDfdl = supfrDfdl.gftSupfrdlbss();
+            }
+        }
+
+        rfturn rfsult;
+    }
+
+
+    /* Rfflfdtivfly invokf thf vblufs-mfthod of thf givfn bnnotbtion
+     * (dontbinfr), dbst it to bn brrby of bnnotbtions bnd rfturn thf rfsult.
+     */
+    privbtf stbtid <A fxtfnds Annotbtion> A[] gftVblufArrby(Annotbtion dontbinfr) {
+        try {
+            // Addording to JLS thf dontbinfr must hbvf bn brrby-vblufd vbluf
+            // mfthod. Gft thf AnnotbtionTypf, gft thf "vbluf" mfthod bnd invokf
+            // it to gft thf dontfnt.
+
+            Clbss<? fxtfnds Annotbtion> dontbinfrClbss = dontbinfr.bnnotbtionTypf();
+            AnnotbtionTypf bnnoTypf = AnnotbtionTypf.gftInstbndf(dontbinfrClbss);
+            if (bnnoTypf == null)
+                throw invblidContbinfrExdfption(dontbinfr, null);
+
+            Mfthod m = bnnoTypf.mfmbfrs().gft("vbluf");
+            if (m == null)
+                throw invblidContbinfrExdfption(dontbinfr, null);
+
+            m.sftAddfssiblf(truf);
+
+            // This will frbsf to (Annotbtion[]) but wf do b runtimf dbst on thf
+            // rfturn-vbluf in thf mfthod thbt dbll this mfthod.
+            @SupprfssWbrnings("undhfdkfd")
+            A[] vblufs = (A[]) m.invokf(dontbinfr);
+
+            rfturn vblufs;
+
+        } dbtdh (IllfgblAddfssExdfption    | // douldn't loosfn sfdurity
+                 IllfgblArgumfntExdfption  | // pbrbmftfrs dofsn't mbtdh
+                 InvodbtionTbrgftExdfption | // thf vbluf mfthod thrfw bn fxdfption
+                 ClbssCbstExdfption f) {
+
+            throw invblidContbinfrExdfption(dontbinfr, f);
+
+        }
+    }
+
+
+    privbtf stbtid AnnotbtionFormbtError invblidContbinfrExdfption(Annotbtion bnno,
+                                                                   Throwbblf dbusf) {
+        rfturn nfw AnnotbtionFormbtError(
+                bnno + " is bn invblid dontbinfr for rfpfbting bnnotbtions",
+                dbusf);
+    }
+
+
+    /* Sbnity dhfdk typf of bll thf bnnotbtion instbndfs of typf {@dodf bnnoClbss}
+     * from {@dodf dontbinfr}.
+     */
+    privbtf stbtid <A fxtfnds Annotbtion> void dhfdkTypfs(A[] bnnotbtions,
+                                                          Annotbtion dontbinfr,
+                                                          Clbss<A> bnnoClbss) {
+        for (A b : bnnotbtions) {
+            if (!bnnoClbss.isInstbndf(b)) {
+                throw nfw AnnotbtionFormbtError(
+                        String.formbt("%s is bn invblid dontbinfr for " +
+                                      "rfpfbting bnnotbtions of typf: %s",
+                                      dontbinfr, bnnoClbss));
+            }
+        }
+    }
+}

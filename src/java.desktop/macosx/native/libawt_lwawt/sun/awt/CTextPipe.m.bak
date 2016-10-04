@@ -1,708 +1,708 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-//  Native side of the Quartz text pipe, paints on Quartz Surface Datas.
-//  Interesting Docs : /Developer/Documentation/Cocoa/TasksAndConcepts/ProgrammingTopics/FontHandling/FontHandling.html
+//  Nbtivf sidf of tif Qubrtz tfxt pipf, pbints on Qubrtz Surfbdf Dbtbs.
+//  Intfrfsting Dods : /Dfvflopfr/Dodumfntbtion/Codob/TbsksAndCondfpts/ProgrbmmingTopids/FontHbndling/FontHbndling.itml
 
-#import "sun_awt_SunHints.h"
-#import "sun_lwawt_macosx_CTextPipe.h"
-#import "sun_java2d_OSXSurfaceData.h"
+#import "sun_bwt_SunHints.i"
+#import "sun_lwbwt_mbdosx_CTfxtPipf.i"
+#import "sun_jbvb2d_OSXSurfbdfDbtb.i"
 
-#import <JavaNativeFoundation/JavaNativeFoundation.h>
+#import <JbvbNbtivfFoundbtion/JbvbNbtivfFoundbtion.i>
 
-#import "CoreTextSupport.h"
-#import "QuartzSurfaceData.h"
-#include "AWTStrike.h"
+#import "CorfTfxtSupport.i"
+#import "QubrtzSurfbdfDbtb.i"
+#indludf "AWTStrikf.i"
 
-/* Use THIS_FILE when it is available. */
-#ifndef THIS_FILE
-    #define THIS_FILE __FILE__
-#endif
+/* Usf THIS_FILE wifn it is bvbilbblf. */
+#ifndff THIS_FILE
+    #dffinf THIS_FILE __FILE__
+#fndif
 
-static const CGAffineTransform sInverseTX = { 1, 0, 0, -1, 0, 0 };
-
-
-#pragma mark --- CoreText Support ---
+stbtid donst CGAffinfTrbnsform sInvfrsfTX = { 1, 0, 0, -1, 0, 0 };
 
 
-// Translates a Unicode into a CGGlyph/CTFontRef pair
-// Returns the substituted font, and places the appropriate glyph into "glyphRef"
-CTFontRef JavaCT_CopyCTFallbackFontAndGlyphForUnicode
-(const AWTFont *font, const UTF16Char *charRef, CGGlyph *glyphRef, int count) {
-    CTFontRef fallback = JRSFontCreateFallbackFontForCharacters((CTFontRef)font->fFont, charRef, count);
-    if (fallback == NULL)
+#prbgmb mbrk --- CorfTfxt Support ---
+
+
+// Trbnslbtfs b Unidodf into b CGGlypi/CTFontRff pbir
+// Rfturns tif substitutfd font, bnd plbdfs tif bppropribtf glypi into "glypiRff"
+CTFontRff JbvbCT_CopyCTFbllbbdkFontAndGlypiForUnidodf
+(donst AWTFont *font, donst UTF16Cibr *dibrRff, CGGlypi *glypiRff, int dount) {
+    CTFontRff fbllbbdk = JRSFontCrfbtfFbllbbdkFontForCibrbdtfrs((CTFontRff)font->fFont, dibrRff, dount);
+    if (fbllbbdk == NULL)
     {
-        // use the original font if we somehow got duped into trying to fallback something we can't
-        fallback = (CTFontRef)font->fFont;
-        CFRetain(fallback);
+        // usf tif originbl font if wf somfiow got dupfd into trying to fbllbbdk somftiing wf dbn't
+        fbllbbdk = (CTFontRff)font->fFont;
+        CFRftbin(fbllbbdk);
     }
 
-    CTFontGetGlyphsForCharacters(fallback, charRef, glyphRef, count);
-    return fallback;
+    CTFontGftGlypisForCibrbdtfrs(fbllbbdk, dibrRff, glypiRff, dount);
+    rfturn fbllbbdk;
 }
 
-// Translates a Java glyph code int (might be a negative unicode value) into a CGGlyph/CTFontRef pair
-// Returns the substituted font, and places the appropriate glyph into "glyph"
-CTFontRef JavaCT_CopyCTFallbackFontAndGlyphForJavaGlyphCode
-(const AWTFont *font, const jint glyphCode, CGGlyph *glyphRef)
+// Trbnslbtfs b Jbvb glypi dodf int (migit bf b nfgbtivf unidodf vbluf) into b CGGlypi/CTFontRff pbir
+// Rfturns tif substitutfd font, bnd plbdfs tif bppropribtf glypi into "glypi"
+CTFontRff JbvbCT_CopyCTFbllbbdkFontAndGlypiForJbvbGlypiCodf
+(donst AWTFont *font, donst jint glypiCodf, CGGlypi *glypiRff)
 {
-    // negative glyph codes are really unicodes, which were placed there by the mapper
-    // to indicate we should use CoreText to substitute the character
-    if (glyphCode >= 0)
+    // nfgbtivf glypi dodfs brf rfblly unidodfs, wiidi wfrf plbdfd tifrf by tif mbppfr
+    // to indidbtf wf siould usf CorfTfxt to substitutf tif dibrbdtfr
+    if (glypiCodf >= 0)
     {
-        *glyphRef = glyphCode;
-        CFRetain(font->fFont);
-        return (CTFontRef)font->fFont;
+        *glypiRff = glypiCodf;
+        CFRftbin(font->fFont);
+        rfturn (CTFontRff)font->fFont;
     }
 
-    UTF16Char character = -glyphCode;
-    return JavaCT_CopyCTFallbackFontAndGlyphForUnicode(font, &character, glyphRef, 1);
+    UTF16Cibr dibrbdtfr = -glypiCodf;
+    rfturn JbvbCT_CopyCTFbllbbdkFontAndGlypiForUnidodf(font, &dibrbdtfr, glypiRff, 1);
 }
 
-// Breakup a 32 bit unicode value into the component surrogate pairs
-void JavaCT_BreakupUnicodeIntoSurrogatePairs(int uniChar, UTF16Char charRef[]) {
-    int value = uniChar - 0x10000;
-    UTF16Char low_surrogate = (value & 0x3FF) | LO_SURROGATE_START;
-    UTF16Char high_surrogate = (((int)(value & 0xFFC00)) >> 10) | HI_SURROGATE_START;
-    charRef[0] = high_surrogate;
-    charRef[1] = low_surrogate;
+// Brfbkup b 32 bit unidodf vbluf into tif domponfnt surrogbtf pbirs
+void JbvbCT_BrfbkupUnidodfIntoSurrogbtfPbirs(int uniCibr, UTF16Cibr dibrRff[]) {
+    int vbluf = uniCibr - 0x10000;
+    UTF16Cibr low_surrogbtf = (vbluf & 0x3FF) | LO_SURROGATE_START;
+    UTF16Cibr iigi_surrogbtf = (((int)(vbluf & 0xFFC00)) >> 10) | HI_SURROGATE_START;
+    dibrRff[0] = iigi_surrogbtf;
+    dibrRff[1] = low_surrogbtf;
 }
 
 
 
 /*
- * Callback for CoreText which uses the CoreTextProviderStruct to feed CT UniChars
- * We only use it for one-off lines, and don't attempt to fragment our strings
+ * Cbllbbdk for CorfTfxt wiidi usfs tif CorfTfxtProvidfrStrudt to fffd CT UniCibrs
+ * Wf only usf it for onf-off linfs, bnd don't bttfmpt to frbgmfnt our strings
  */
-const UniChar *Java_CTProvider
-(CFIndex stringIndex, CFIndex *charCount, CFDictionaryRef *attributes, void *refCon)
+donst UniCibr *Jbvb_CTProvidfr
+(CFIndfx stringIndfx, CFIndfx *dibrCount, CFDidtionbryRff *bttributfs, void *rffCon)
 {
-    // if we have a zero length string we can just return NULL for the string
-    // or if the index anything other than 0 we are not using core text
-    // correctly since we only have one run.
-    if (stringIndex != 0)
+    // if wf ibvf b zfro lfngti string wf dbn just rfturn NULL for tif string
+    // or if tif indfx bnytiing otifr tibn 0 wf brf not using dorf tfxt
+    // dorrfdtly sindf wf only ibvf onf run.
+    if (stringIndfx != 0)
     {
-        return NULL;
+        rfturn NULL;
     }
 
-    CTS_ProviderStruct *ctps = (CTS_ProviderStruct *)refCon;
-    *charCount = ctps->length;
-    *attributes = ctps->attributes;
-    return ctps->unicodes;
+    CTS_ProvidfrStrudt *dtps = (CTS_ProvidfrStrudt *)rffCon;
+    *dibrCount = dtps->lfngti;
+    *bttributfs = dtps->bttributfs;
+    rfturn dtps->unidodfs;
 }
 
 
 /*
- *    Gets a Dictionary filled with common details we want to use for CoreText when we are interacting
- *    with it from Java.
+ *    Gfts b Didtionbry fillfd witi dommon dftbils wf wbnt to usf for CorfTfxt wifn wf brf intfrbdting
+ *    witi it from Jbvb.
  */
-static NSDictionary* ctsDictionaryFor(const NSFont *font, BOOL useFractionalMetrics)
+stbtid NSDidtionbry* dtsDidtionbryFor(donst NSFont *font, BOOL usfFrbdtionblMftrids)
 {
-    NSNumber *gZeroNumber = [NSNumber numberWithInt:0];
-    NSNumber *gOneNumber = [NSNumber numberWithInt:1];
+    NSNumbfr *gZfroNumbfr = [NSNumbfr numbfrWitiInt:0];
+    NSNumbfr *gOnfNumbfr = [NSNumbfr numbfrWitiInt:1];
 
-    return [NSDictionary dictionaryWithObjectsAndKeys:
-             font, NSFontAttributeName,
-             gOneNumber,  (id)kCTForegroundColorFromContextAttributeName,
-             useFractionalMetrics ? gZeroNumber : gOneNumber, @"CTIntegerMetrics", // force integer hack in CoreText to help with Java's integer assumptions
-             gZeroNumber, NSLigatureAttributeName,
-             gZeroNumber, NSKernAttributeName,
+    rfturn [NSDidtionbry didtionbryWitiObjfdtsAndKfys:
+             font, NSFontAttributfNbmf,
+             gOnfNumbfr,  (id)kCTForfgroundColorFromContfxtAttributfNbmf,
+             usfFrbdtionblMftrids ? gZfroNumbfr : gOnfNumbfr, @"CTIntfgfrMftrids", // fordf intfgfr ibdk in CorfTfxt to iflp witi Jbvb's intfgfr bssumptions
+             gZfroNumbfr, NSLigbturfAttributfNbmf,
+             gZfroNumbfr, NSKfrnAttributfNbmf,
              nil];
 }
 
-// Itterates though each glyph, and if a transform is present for that glyph, apply it to the CGContext, and strike the glyph.
-// If there is no per-glyph transform, just strike the glyph. Advances must also be transformed on-the-spot as well.
-void JavaCT_DrawGlyphVector
-(const QuartzSDOps *qsdo, const AWTStrike *strike, const BOOL useSubstituion, const int uniChars[], const CGGlyph glyphs[], CGSize advances[], const jint g_gvTXIndicesAsInts[], const jdouble g_gvTransformsAsDoubles[], const CFIndex length)
+// Ittfrbtfs tiougi fbdi glypi, bnd if b trbnsform is prfsfnt for tibt glypi, bpply it to tif CGContfxt, bnd strikf tif glypi.
+// If tifrf is no pfr-glypi trbnsform, just strikf tif glypi. Advbndfs must blso bf trbnsformfd on-tif-spot bs wfll.
+void JbvbCT_DrbwGlypiVfdtor
+(donst QubrtzSDOps *qsdo, donst AWTStrikf *strikf, donst BOOL usfSubstituion, donst int uniCibrs[], donst CGGlypi glypis[], CGSizf bdvbndfs[], donst jint g_gvTXIndidfsAsInts[], donst jdoublf g_gvTrbnsformsAsDoublfs[], donst CFIndfx lfngti)
 {
     CGPoint pt = { 0, 0 };
 
-    // get our baseline transform and font
-    CGContextRef cgRef = qsdo->cgRef;
-    CGAffineTransform ctmText = CGContextGetTextMatrix(cgRef);
+    // gft our bbsflinf trbnsform bnd font
+    CGContfxtRff dgRff = qsdo->dgRff;
+    CGAffinfTrbnsform dtmTfxt = CGContfxtGftTfxtMbtrix(dgRff);
 
-    BOOL saved = false;
+    BOOL sbvfd = fblsf;
 
-    CGAffineTransform invTx = CGAffineTransformInvert(strike->fTx);
+    CGAffinfTrbnsform invTx = CGAffinfTrbnsformInvfrt(strikf->fTx);
 
-    NSInteger i;
-    for (i = 0; i < length; i++)
+    NSIntfgfr i;
+    for (i = 0; i < lfngti; i++)
     {
-        CGGlyph glyph = glyphs[i];
-        int uniChar = uniChars[i];
-        // if we found a unichar instead of a glyph code, get the fallback font,
-        // find the glyph code for the fallback font, and set the font on the current context
-        if (uniChar != 0)
+        CGGlypi glypi = glypis[i];
+        int uniCibr = uniCibrs[i];
+        // if wf found b unidibr instfbd of b glypi dodf, gft tif fbllbbdk font,
+        // find tif glypi dodf for tif fbllbbdk font, bnd sft tif font on tif durrfnt dontfxt
+        if (uniCibr != 0)
         {
-            CTFontRef fallback;
-            if (uniChar > 0xFFFF) {
-                UTF16Char charRef[2];
-                JavaCT_BreakupUnicodeIntoSurrogatePairs(uniChar, charRef);
-                CGGlyph glyphTmp[2];
-                fallback = JavaCT_CopyCTFallbackFontAndGlyphForUnicode(strike->fAWTFont, (const UTF16Char *)&charRef, (CGGlyph *)&glyphTmp, 2);
-                glyph = glyphTmp[0];
-            } else {
-                const UTF16Char u = uniChar;
-                fallback = JavaCT_CopyCTFallbackFontAndGlyphForUnicode(strike->fAWTFont, &u, (CGGlyph *)&glyph, 1);
+            CTFontRff fbllbbdk;
+            if (uniCibr > 0xFFFF) {
+                UTF16Cibr dibrRff[2];
+                JbvbCT_BrfbkupUnidodfIntoSurrogbtfPbirs(uniCibr, dibrRff);
+                CGGlypi glypiTmp[2];
+                fbllbbdk = JbvbCT_CopyCTFbllbbdkFontAndGlypiForUnidodf(strikf->fAWTFont, (donst UTF16Cibr *)&dibrRff, (CGGlypi *)&glypiTmp, 2);
+                glypi = glypiTmp[0];
+            } flsf {
+                donst UTF16Cibr u = uniCibr;
+                fbllbbdk = JbvbCT_CopyCTFbllbbdkFontAndGlypiForUnidodf(strikf->fAWTFont, &u, (CGGlypi *)&glypi, 1);
             }
-            if (fallback) {
-                const CGFontRef cgFallback = CTFontCopyGraphicsFont(fallback, NULL);
-                CFRelease(fallback);
+            if (fbllbbdk) {
+                donst CGFontRff dgFbllbbdk = CTFontCopyGrbpiidsFont(fbllbbdk, NULL);
+                CFRflfbsf(fbllbbdk);
 
-                if (cgFallback) {
-                    if (!saved) {
-                        CGContextSaveGState(cgRef);
-                        saved = true;
+                if (dgFbllbbdk) {
+                    if (!sbvfd) {
+                        CGContfxtSbvfGStbtf(dgRff);
+                        sbvfd = truf;
                     }
-                    CGContextSetFont(cgRef, cgFallback);
-                    CFRelease(cgFallback);
+                    CGContfxtSftFont(dgRff, dgFbllbbdk);
+                    CFRflfbsf(dgFbllbbdk);
                 }
             }
-        } else {
-            if (saved) {
-                CGContextRestoreGState(cgRef);
-                saved = false;
+        } flsf {
+            if (sbvfd) {
+                CGContfxtRfstorfGStbtf(dgRff);
+                sbvfd = fblsf;
             }
         }
 
-        // if we have per-glyph transformations
-        int tin = (g_gvTXIndicesAsInts == NULL) ? -1 : (g_gvTXIndicesAsInts[i] - 1) * 6;
+        // if wf ibvf pfr-glypi trbnsformbtions
+        int tin = (g_gvTXIndidfsAsInts == NULL) ? -1 : (g_gvTXIndidfsAsInts[i] - 1) * 6;
         if (tin < 0)
         {
-            CGContextShowGlyphsAtPoint(cgRef, pt.x, pt.y, &glyph, 1);
+            CGContfxtSiowGlypisAtPoint(dgRff, pt.x, pt.y, &glypi, 1);
         }
-        else
+        flsf
         {
-            CGAffineTransform tx = CGAffineTransformMake(
-                                                         (CGFloat)g_gvTransformsAsDoubles[tin + 0], (CGFloat)g_gvTransformsAsDoubles[tin + 2],
-                                                         (CGFloat)g_gvTransformsAsDoubles[tin + 1], (CGFloat)g_gvTransformsAsDoubles[tin + 3],
+            CGAffinfTrbnsform tx = CGAffinfTrbnsformMbkf(
+                                                         (CGFlobt)g_gvTrbnsformsAsDoublfs[tin + 0], (CGFlobt)g_gvTrbnsformsAsDoublfs[tin + 2],
+                                                         (CGFlobt)g_gvTrbnsformsAsDoublfs[tin + 1], (CGFlobt)g_gvTrbnsformsAsDoublfs[tin + 3],
                                                          0, 0);
 
-            CGPoint txOffset = { (CGFloat)g_gvTransformsAsDoubles[tin + 4], (CGFloat)g_gvTransformsAsDoubles[tin + 5] };
+            CGPoint txOffsft = { (CGFlobt)g_gvTrbnsformsAsDoublfs[tin + 4], (CGFlobt)g_gvTrbnsformsAsDoublfs[tin + 5] };
 
-            txOffset = CGPointApplyAffineTransform(txOffset, invTx);
+            txOffsft = CGPointApplyAffinfTrbnsform(txOffsft, invTx);
 
-            // apply the transform, strike the glyph, can change the transform back
-            CGContextSetTextMatrix(cgRef, CGAffineTransformConcat(ctmText, tx));
-            CGContextShowGlyphsAtPoint(cgRef, txOffset.x + pt.x, txOffset.y + pt.y, &glyph, 1);
-            CGContextSetTextMatrix(cgRef, ctmText);
+            // bpply tif trbnsform, strikf tif glypi, dbn dibngf tif trbnsform bbdk
+            CGContfxtSftTfxtMbtrix(dgRff, CGAffinfTrbnsformCondbt(dtmTfxt, tx));
+            CGContfxtSiowGlypisAtPoint(dgRff, txOffsft.x + pt.x, txOffsft.y + pt.y, &glypi, 1);
+            CGContfxtSftTfxtMbtrix(dgRff, dtmTfxt);
 
-            // transform the measured advance for this strike
-            advances[i] = CGSizeApplyAffineTransform(advances[i], tx);
-            advances[i].width += txOffset.x;
-            advances[i].height += txOffset.y;
+            // trbnsform tif mfbsurfd bdvbndf for tiis strikf
+            bdvbndfs[i] = CGSizfApplyAffinfTrbnsform(bdvbndfs[i], tx);
+            bdvbndfs[i].widti += txOffsft.x;
+            bdvbndfs[i].ifigit += txOffsft.y;
         }
 
-        // move our next x,y
-        pt.x += advances[i].width;
-        pt.y += advances[i].height;
+        // movf our nfxt x,y
+        pt.x += bdvbndfs[i].widti;
+        pt.y += bdvbndfs[i].ifigit;
 
     }
-    // reset the font on the context after striking a unicode with CoreText
-    if (saved) {
-        CGContextRestoreGState(cgRef);
+    // rfsft tif font on tif dontfxt bftfr striking b unidodf witi CorfTfxt
+    if (sbvfd) {
+        CGContfxtRfstorfGStbtf(dgRff);
     }
 }
 
-// Using the Quartz Surface Data context, draw a hot-substituted character run
-void JavaCT_DrawTextUsingQSD(JNIEnv *env, const QuartzSDOps *qsdo, const AWTStrike *strike, const jchar *chars, const jsize length)
+// Using tif Qubrtz Surfbdf Dbtb dontfxt, drbw b iot-substitutfd dibrbdtfr run
+void JbvbCT_DrbwTfxtUsingQSD(JNIEnv *fnv, donst QubrtzSDOps *qsdo, donst AWTStrikf *strikf, donst jdibr *dibrs, donst jsizf lfngti)
 {
-    CGContextRef cgRef = qsdo->cgRef;
+    CGContfxtRff dgRff = qsdo->dgRff;
 
-    AWTFont *awtFont = strike->fAWTFont;
-    CGFloat ptSize = strike->fSize;
-    CGAffineTransform tx = strike->fFontTx;
+    AWTFont *bwtFont = strikf->fAWTFont;
+    CGFlobt ptSizf = strikf->fSizf;
+    CGAffinfTrbnsform tx = strikf->fFontTx;
 
-    NSFont *nsFont = [NSFont fontWithName:[awtFont->fFont fontName] size:ptSize];
+    NSFont *nsFont = [NSFont fontWitiNbmf:[bwtFont->fFont fontNbmf] sizf:ptSizf];
 
-    if (ptSize != 0) {
-        CGFloat invScale = 1 / ptSize;
-        tx = CGAffineTransformConcat(tx, CGAffineTransformMakeScale(invScale, invScale));
-        CGContextConcatCTM(cgRef, tx);
+    if (ptSizf != 0) {
+        CGFlobt invSdblf = 1 / ptSizf;
+        tx = CGAffinfTrbnsformCondbt(tx, CGAffinfTrbnsformMbkfSdblf(invSdblf, invSdblf));
+        CGContfxtCondbtCTM(dgRff, tx);
     }
 
-    CGContextSetTextMatrix(cgRef, CGAffineTransformIdentity); // resets the damage from CoreText
+    CGContfxtSftTfxtMbtrix(dgRff, CGAffinfTrbnsformIdfntity); // rfsfts tif dbmbgf from CorfTfxt
 
-    NSString *string = [NSString stringWithCharacters:chars length:length];
+    NSString *string = [NSString stringWitiCibrbdtfrs:dibrs lfngti:lfngti];
     /*
-       The calls below were used previously but for unknown reason did not 
-       render using the right font (see bug 7183516) when attribString is not 
-       initialized with font dictionary attributes.  It seems that "options" 
-       in CTTypesetterCreateWithAttributedStringAndOptions which contains the 
-       font dictionary is ignored.
+       Tif dblls bflow wfrf usfd prfviously but for unknown rfbson did not 
+       rfndfr using tif rigit font (sff bug 7183516) wifn bttribString is not 
+       initiblizfd witi font didtionbry bttributfs.  It sffms tibt "options" 
+       in CTTypfsfttfrCrfbtfWitiAttributfdStringAndOptions wiidi dontbins tif 
+       font didtionbry is ignorfd.
 
-    NSAttributedString *attribString = [[NSAttributedString alloc] initWithString:string];
+    NSAttributfdString *bttribString = [[NSAttributfdString bllod] initWitiString:string];
 
-    CTTypesetterRef typeSetterRef = CTTypesetterCreateWithAttributedStringAndOptions((CFAttributedStringRef) attribString, (CFDictionaryRef) ctsDictionaryFor(nsFont, JRSFontStyleUsesFractionalMetrics(strike->fStyle)));
+    CTTypfsfttfrRff typfSfttfrRff = CTTypfsfttfrCrfbtfWitiAttributfdStringAndOptions((CFAttributfdStringRff) bttribString, (CFDidtionbryRff) dtsDidtionbryFor(nsFont, JRSFontStylfUsfsFrbdtionblMftrids(strikf->fStylf)));
     */
-    NSAttributedString *attribString = [[NSAttributedString alloc]
-        initWithString:string
-        attributes:ctsDictionaryFor(nsFont, JRSFontStyleUsesFractionalMetrics(strike->fStyle))];
+    NSAttributfdString *bttribString = [[NSAttributfdString bllod]
+        initWitiString:string
+        bttributfs:dtsDidtionbryFor(nsFont, JRSFontStylfUsfsFrbdtionblMftrids(strikf->fStylf))];
     
-    CTTypesetterRef typeSetterRef = CTTypesetterCreateWithAttributedString((CFAttributedStringRef) attribString);
+    CTTypfsfttfrRff typfSfttfrRff = CTTypfsfttfrCrfbtfWitiAttributfdString((CFAttributfdStringRff) bttribString);
 
-    CFRange range = {0, length};
-    CTLineRef lineRef = CTTypesetterCreateLine(typeSetterRef, range);
+    CFRbngf rbngf = {0, lfngti};
+    CTLinfRff linfRff = CTTypfsfttfrCrfbtfLinf(typfSfttfrRff, rbngf);
 
-    CTLineDraw(lineRef, cgRef);
+    CTLinfDrbw(linfRff, dgRff);
 
-    [attribString release];
-    CFRelease(lineRef);
-    CFRelease(typeSetterRef);
+    [bttribString rflfbsf];
+    CFRflfbsf(linfRff);
+    CFRflfbsf(typfSfttfrRff);
 }
 
 
 /*----------------------
-    DrawTextContext is the funnel for all of our CoreText drawing.
-    All three JNI apis call through this method.
+    DrbwTfxtContfxt is tif funnfl for bll of our CorfTfxt drbwing.
+    All tirff JNI bpis dbll tirougi tiis mftiod.
  ----------------------*/
-static void DrawTextContext
-(JNIEnv *env, QuartzSDOps *qsdo, const AWTStrike *strike, const jchar *chars, const jsize length, const jdouble x, const jdouble y)
+stbtid void DrbwTfxtContfxt
+(JNIEnv *fnv, QubrtzSDOps *qsdo, donst AWTStrikf *strikf, donst jdibr *dibrs, donst jsizf lfngti, donst jdoublf x, donst jdoublf y)
 {
-    if (length == 0)
+    if (lfngti == 0)
     {
-        return;
+        rfturn;
     }
 
-    qsdo->BeginSurface(env, qsdo, SD_Text);
-    if (qsdo->cgRef == NULL)
+    qsdo->BfginSurfbdf(fnv, qsdo, SD_Tfxt);
+    if (qsdo->dgRff == NULL)
     {
-        qsdo->FinishSurface(env, qsdo);
-        return;
+        qsdo->FinisiSurfbdf(fnv, qsdo);
+        rfturn;
     }
 
-    CGContextRef cgRef = qsdo->cgRef;
+    CGContfxtRff dgRff = qsdo->dgRff;
 
 
-    CGContextSaveGState(cgRef);
-    JRSFontSetRenderingStyleOnContext(cgRef, strike->fStyle);
+    CGContfxtSbvfGStbtf(dgRff);
+    JRSFontSftRfndfringStylfOnContfxt(dgRff, strikf->fStylf);
 
-    // we want to translate before we transform (scale or rotate) <rdar://4042541> (vm)
-    CGContextTranslateCTM(cgRef, x, y);
+    // wf wbnt to trbnslbtf bfforf wf trbnsform (sdblf or rotbtf) <rdbr://4042541> (vm)
+    CGContfxtTrbnslbtfCTM(dgRff, x, y);
 
-    AWTFont *awtfont = strike->fAWTFont; //(AWTFont *)(qsdo->fontInfo.awtfont);
-    NSCharacterSet *charSet = [awtfont->fFont coveredCharacterSet];
+    AWTFont *bwtfont = strikf->fAWTFont; //(AWTFont *)(qsdo->fontInfo.bwtfont);
+    NSCibrbdtfrSft *dibrSft = [bwtfont->fFont dovfrfdCibrbdtfrSft];
 
-    JavaCT_DrawTextUsingQSD(env, qsdo, strike, chars, length);   // Draw with CoreText
+    JbvbCT_DrbwTfxtUsingQSD(fnv, qsdo, strikf, dibrs, lfngti);   // Drbw witi CorfTfxt
 
-    CGContextRestoreGState(cgRef);
+    CGContfxtRfstorfGStbtf(dgRff);
 
-    qsdo->FinishSurface(env, qsdo);
+    qsdo->FinisiSurfbdf(fnv, qsdo);
 }
 
-#pragma mark --- Glyph Vector Pipeline ---
+#prbgmb mbrk --- Glypi Vfdtor Pipflinf ---
 
 /*-----------------------------------
-    Glyph Vector Pipeline
+    Glypi Vfdtor Pipflinf
 
-    doDrawGlyphs() has been separated into several pipelined functions to increase performance,
-    and improve accountability for JNI resources, malloc'd memory, and error handling.
+    doDrbwGlypis() ibs bffn sfpbrbtfd into sfvfrbl pipflinfd fundtions to indrfbsf pfrformbndf,
+    bnd improvf bddountbbility for JNI rfsourdfs, mbllod'd mfmory, bnd frror ibndling.
 
-    Each stage of the pipeline is responsible for doing only one major thing, like allocating buffers,
-    aquiring transform arrays from JNI, filling buffers, or striking glyphs. All resources or memory
-    acquired at a given stage, must be released in that stage. Any error that occurs (like a failed malloc)
-    is to be handled in the stage it occurs in, and is to return immediatly after freeing it's resources.
+    Ebdi stbgf of tif pipflinf is rfsponsiblf for doing only onf mbjor tiing, likf bllodbting bufffrs,
+    bquiring trbnsform brrbys from JNI, filling bufffrs, or striking glypis. All rfsourdfs or mfmory
+    bdquirfd bt b givfn stbgf, must bf rflfbsfd in tibt stbgf. Any frror tibt oddurs (likf b fbilfd mbllod)
+    is to bf ibndlfd in tif stbgf it oddurs in, bnd is to rfturn immfdibtly bftfr frffing it's rfsourdfs.
 
 -----------------------------------*/
 
-static JNF_CLASS_CACHE(jc_StandardGlyphVector, "sun/font/StandardGlyphVector");
+stbtid JNF_CLASS_CACHE(jd_StbndbrdGlypiVfdtor, "sun/font/StbndbrdGlypiVfdtor");
 
-// Checks the GlyphVector Java object for any transforms that were applied to individual characters. If none are present,
-// strike the glyphs immediately in Core Graphics. Otherwise, obtain the arrays, and defer to above.
-static inline void doDrawGlyphsPipe_checkForPerGlyphTransforms
-(JNIEnv *env, QuartzSDOps *qsdo, const AWTStrike *strike, jobject gVector, BOOL useSubstituion, int *uniChars, CGGlyph *glyphs, CGSize *advances, size_t length)
+// Cifdks tif GlypiVfdtor Jbvb objfdt for bny trbnsforms tibt wfrf bpplifd to individubl dibrbdtfrs. If nonf brf prfsfnt,
+// strikf tif glypis immfdibtfly in Corf Grbpiids. Otifrwisf, obtbin tif brrbys, bnd dfffr to bbovf.
+stbtid inlinf void doDrbwGlypisPipf_difdkForPfrGlypiTrbnsforms
+(JNIEnv *fnv, QubrtzSDOps *qsdo, donst AWTStrikf *strikf, jobjfdt gVfdtor, BOOL usfSubstituion, int *uniCibrs, CGGlypi *glypis, CGSizf *bdvbndfs, sizf_t lfngti)
 {
-    // if we have no character substitution, and no per-glyph transformations - strike now!
-    static JNF_MEMBER_CACHE(jm_StandardGlyphVector_gti, jc_StandardGlyphVector, "gti", "Lsun/font/StandardGlyphVector$GlyphTransformInfo;");
-    jobject gti = JNFGetObjectField(env, gVector, jm_StandardGlyphVector_gti);
+    // if wf ibvf no dibrbdtfr substitution, bnd no pfr-glypi trbnsformbtions - strikf now!
+    stbtid JNF_MEMBER_CACHE(jm_StbndbrdGlypiVfdtor_gti, jd_StbndbrdGlypiVfdtor, "gti", "Lsun/font/StbndbrdGlypiVfdtor$GlypiTrbnsformInfo;");
+    jobjfdt gti = JNFGftObjfdtFifld(fnv, gVfdtor, jm_StbndbrdGlypiVfdtor_gti);
     if (gti == 0)
     {
-        if (useSubstituion)
+        if (usfSubstituion)
         {
-            // quasi-simple case, substitution, but no per-glyph transforms
-            JavaCT_DrawGlyphVector(qsdo, strike, TRUE, uniChars, glyphs, advances, NULL, NULL, length);
+            // qubsi-simplf dbsf, substitution, but no pfr-glypi trbnsforms
+            JbvbCT_DrbwGlypiVfdtor(qsdo, strikf, TRUE, uniCibrs, glypis, bdvbndfs, NULL, NULL, lfngti);
         }
-        else
+        flsf
         {
-            // fast path, straight to CG without per-glyph transforms
-            CGContextShowGlyphsWithAdvances(qsdo->cgRef, glyphs, advances, length);
+            // fbst pbti, strbigit to CG witiout pfr-glypi trbnsforms
+            CGContfxtSiowGlypisWitiAdvbndfs(qsdo->dgRff, glypis, bdvbndfs, lfngti);
         }
-        return;
+        rfturn;
     }
 
-    static JNF_CLASS_CACHE(jc_StandardGlyphVector_GlyphTransformInfo, "sun/font/StandardGlyphVector$GlyphTransformInfo");
-    static JNF_MEMBER_CACHE(jm_StandardGlyphVector_GlyphTransformInfo_transforms, jc_StandardGlyphVector_GlyphTransformInfo, "transforms", "[D");
-    jdoubleArray g_gtiTransformsArray = JNFGetObjectField(env, gti, jm_StandardGlyphVector_GlyphTransformInfo_transforms); //(*env)->GetObjectField(env, gti, g_gtiTransforms);
-    if (g_gtiTransformsArray == NULL) {
-        return;
+    stbtid JNF_CLASS_CACHE(jd_StbndbrdGlypiVfdtor_GlypiTrbnsformInfo, "sun/font/StbndbrdGlypiVfdtor$GlypiTrbnsformInfo");
+    stbtid JNF_MEMBER_CACHE(jm_StbndbrdGlypiVfdtor_GlypiTrbnsformInfo_trbnsforms, jd_StbndbrdGlypiVfdtor_GlypiTrbnsformInfo, "trbnsforms", "[D");
+    jdoublfArrby g_gtiTrbnsformsArrby = JNFGftObjfdtFifld(fnv, gti, jm_StbndbrdGlypiVfdtor_GlypiTrbnsformInfo_trbnsforms); //(*fnv)->GftObjfdtFifld(fnv, gti, g_gtiTrbnsforms);
+    if (g_gtiTrbnsformsArrby == NULL) {
+        rfturn;
     } 
-    jdouble *g_gvTransformsAsDoubles = (*env)->GetPrimitiveArrayCritical(env, g_gtiTransformsArray, NULL);
-    if (g_gvTransformsAsDoubles == NULL) {
-        (*env)->DeleteLocalRef(env, g_gtiTransformsArray);
-        return;
+    jdoublf *g_gvTrbnsformsAsDoublfs = (*fnv)->GftPrimitivfArrbyCritidbl(fnv, g_gtiTrbnsformsArrby, NULL);
+    if (g_gvTrbnsformsAsDoublfs == NULL) {
+        (*fnv)->DflftfLodblRff(fnv, g_gtiTrbnsformsArrby);
+        rfturn;
     } 
 
-    static JNF_MEMBER_CACHE(jm_StandardGlyphVector_GlyphTransformInfo_indices, jc_StandardGlyphVector_GlyphTransformInfo, "indices", "[I");
-    jintArray g_gtiTXIndicesArray = JNFGetObjectField(env, gti, jm_StandardGlyphVector_GlyphTransformInfo_indices);
-    jint *g_gvTXIndicesAsInts = (*env)->GetPrimitiveArrayCritical(env, g_gtiTXIndicesArray, NULL);
-    if (g_gvTXIndicesAsInts == NULL) {
-        (*env)->ReleasePrimitiveArrayCritical(env, g_gtiTransformsArray, g_gvTransformsAsDoubles, JNI_ABORT);
-        (*env)->DeleteLocalRef(env, g_gtiTransformsArray);
-        (*env)->DeleteLocalRef(env, g_gtiTXIndicesArray);
-        return;
+    stbtid JNF_MEMBER_CACHE(jm_StbndbrdGlypiVfdtor_GlypiTrbnsformInfo_indidfs, jd_StbndbrdGlypiVfdtor_GlypiTrbnsformInfo, "indidfs", "[I");
+    jintArrby g_gtiTXIndidfsArrby = JNFGftObjfdtFifld(fnv, gti, jm_StbndbrdGlypiVfdtor_GlypiTrbnsformInfo_indidfs);
+    jint *g_gvTXIndidfsAsInts = (*fnv)->GftPrimitivfArrbyCritidbl(fnv, g_gtiTXIndidfsArrby, NULL);
+    if (g_gvTXIndidfsAsInts == NULL) {
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, g_gtiTrbnsformsArrby, g_gvTrbnsformsAsDoublfs, JNI_ABORT);
+        (*fnv)->DflftfLodblRff(fnv, g_gtiTrbnsformsArrby);
+        (*fnv)->DflftfLodblRff(fnv, g_gtiTXIndidfsArrby);
+        rfturn;
     }
-    // slowest case, we have per-glyph transforms, and possibly glyph substitution as well
-    JavaCT_DrawGlyphVector(qsdo, strike, useSubstituion, uniChars, glyphs, advances, g_gvTXIndicesAsInts, g_gvTransformsAsDoubles, length);
+    // slowfst dbsf, wf ibvf pfr-glypi trbnsforms, bnd possibly glypi substitution bs wfll
+    JbvbCT_DrbwGlypiVfdtor(qsdo, strikf, usfSubstituion, uniCibrs, glypis, bdvbndfs, g_gvTXIndidfsAsInts, g_gvTrbnsformsAsDoublfs, lfngti);
 
-    (*env)->ReleasePrimitiveArrayCritical(env, g_gtiTransformsArray, g_gvTransformsAsDoubles, JNI_ABORT);
-    (*env)->ReleasePrimitiveArrayCritical(env, g_gtiTXIndicesArray, g_gvTXIndicesAsInts, JNI_ABORT);
+    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, g_gtiTrbnsformsArrby, g_gvTrbnsformsAsDoublfs, JNI_ABORT);
+    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, g_gtiTXIndidfsArrby, g_gvTXIndidfsAsInts, JNI_ABORT);
 
-    (*env)->DeleteLocalRef(env, g_gtiTransformsArray);
-    (*env)->DeleteLocalRef(env, g_gtiTXIndicesArray);
+    (*fnv)->DflftfLodblRff(fnv, g_gtiTrbnsformsArrby);
+    (*fnv)->DflftfLodblRff(fnv, g_gtiTXIndidfsArrby);
 }
 
-// Retrieves advances for translated unicodes
-// Uses "glyphs" as a temporary buffer for the glyph-to-unicode translation
-void JavaCT_GetAdvancesForUnichars
-(const NSFont *font, const int uniChars[], CGGlyph glyphs[], const size_t length, CGSize advances[])
+// Rftrifvfs bdvbndfs for trbnslbtfd unidodfs
+// Usfs "glypis" bs b tfmporbry bufffr for tif glypi-to-unidodf trbnslbtion
+void JbvbCT_GftAdvbndfsForUnidibrs
+(donst NSFont *font, donst int uniCibrs[], CGGlypi glypis[], donst sizf_t lfngti, CGSizf bdvbndfs[])
 {
-    // cycle over each spot, and if we discovered a unicode to substitute, we have to calculate the advance for it
-    size_t i;
-    for (i = 0; i < length; i++)
+    // dydlf ovfr fbdi spot, bnd if wf disdovfrfd b unidodf to substitutf, wf ibvf to dbldulbtf tif bdvbndf for it
+    sizf_t i;
+    for (i = 0; i < lfngti; i++)
     {
-        UniChar uniChar = uniChars[i];
-        if (uniChar == 0) continue;
+        UniCibr uniCibr = uniCibrs[i];
+        if (uniCibr == 0) dontinuf;
 
-        CGGlyph glyph = 0;
-        const CTFontRef fallback = JRSFontCreateFallbackFontForCharacters((CTFontRef)font, &uniChar, 1);
-        if (fallback) {
-            CTFontGetGlyphsForCharacters(fallback, &uniChar, &glyph, 1);
-            CTFontGetAdvancesForGlyphs(fallback, kCTFontDefaultOrientation, &glyph, &(advances[i]), 1);
-            CFRelease(fallback);
+        CGGlypi glypi = 0;
+        donst CTFontRff fbllbbdk = JRSFontCrfbtfFbllbbdkFontForCibrbdtfrs((CTFontRff)font, &uniCibr, 1);
+        if (fbllbbdk) {
+            CTFontGftGlypisForCibrbdtfrs(fbllbbdk, &uniCibr, &glypi, 1);
+            CTFontGftAdvbndfsForGlypis(fbllbbdk, kCTFontDffbultOrifntbtion, &glypi, &(bdvbndfs[i]), 1);
+            CFRflfbsf(fbllbbdk);
         }
 
-        glyphs[i] = glyph;
+        glypis[i] = glypi;
     }
 }
 
-// Fills the glyph buffer with glyphs from the GlyphVector object. Also checks to see if the glyph's positions have been
-// already caculated from GlyphVector, or we simply ask Core Graphics to make some advances for us. Pre-calculated positions
-// are translated into advances, since CG only understands advances.
-static inline void doDrawGlyphsPipe_fillGlyphAndAdvanceBuffers
-(JNIEnv *env, QuartzSDOps *qsdo, const AWTStrike *strike, jobject gVector, CGGlyph *glyphs, int *uniChars, CGSize *advances, size_t length, jintArray glyphsArray)
+// Fills tif glypi bufffr witi glypis from tif GlypiVfdtor objfdt. Also difdks to sff if tif glypi's positions ibvf bffn
+// blrfbdy dbdulbtfd from GlypiVfdtor, or wf simply bsk Corf Grbpiids to mbkf somf bdvbndfs for us. Prf-dbldulbtfd positions
+// brf trbnslbtfd into bdvbndfs, sindf CG only undfrstbnds bdvbndfs.
+stbtid inlinf void doDrbwGlypisPipf_fillGlypiAndAdvbndfBufffrs
+(JNIEnv *fnv, QubrtzSDOps *qsdo, donst AWTStrikf *strikf, jobjfdt gVfdtor, CGGlypi *glypis, int *uniCibrs, CGSizf *bdvbndfs, sizf_t lfngti, jintArrby glypisArrby)
 {
-    // fill the glyph buffer
-    jint *glyphsAsInts = (*env)->GetPrimitiveArrayCritical(env, glyphsArray, NULL);
-    if (glyphsAsInts == NULL) {
-        return;
+    // fill tif glypi bufffr
+    jint *glypisAsInts = (*fnv)->GftPrimitivfArrbyCritidbl(fnv, glypisArrby, NULL);
+    if (glypisAsInts == NULL) {
+        rfturn;
     }
 
-    // if a glyph code from Java is negative, that means it is really a unicode value
-    // which we can use in CoreText to strike the character in another font
-    size_t i;
-    BOOL complex = NO;
-    for (i = 0; i < length; i++)
+    // if b glypi dodf from Jbvb is nfgbtivf, tibt mfbns it is rfblly b unidodf vbluf
+    // wiidi wf dbn usf in CorfTfxt to strikf tif dibrbdtfr in bnotifr font
+    sizf_t i;
+    BOOL domplfx = NO;
+    for (i = 0; i < lfngti; i++)
     {
-        jint code = glyphsAsInts[i];
-        if (code < 0)
+        jint dodf = glypisAsInts[i];
+        if (dodf < 0)
         {
-            complex = YES;
-            uniChars[i] = -code;
-            glyphs[i] = 0;
+            domplfx = YES;
+            uniCibrs[i] = -dodf;
+            glypis[i] = 0;
         }
-        else
+        flsf
         {
-            uniChars[i] = 0;
-            glyphs[i] = code;
+            uniCibrs[i] = 0;
+            glypis[i] = dodf;
         }
     }
 
-    (*env)->ReleasePrimitiveArrayCritical(env, glyphsArray, glyphsAsInts, JNI_ABORT);
+    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, glypisArrby, glypisAsInts, JNI_ABORT);
 
-    // fill the advance buffer
-    static JNF_MEMBER_CACHE(jm_StandardGlyphVector_positions, jc_StandardGlyphVector, "positions", "[F");
-    jfloatArray posArray = JNFGetObjectField(env, gVector, jm_StandardGlyphVector_positions);
-    jfloat *positions = NULL;
-    if (posArray != NULL) {
-        // in this case, the positions have already been pre-calculated for us on the Java side
-        positions = (*env)->GetPrimitiveArrayCritical(env, posArray, NULL);
+    // fill tif bdvbndf bufffr
+    stbtid JNF_MEMBER_CACHE(jm_StbndbrdGlypiVfdtor_positions, jd_StbndbrdGlypiVfdtor, "positions", "[F");
+    jflobtArrby posArrby = JNFGftObjfdtFifld(fnv, gVfdtor, jm_StbndbrdGlypiVfdtor_positions);
+    jflobt *positions = NULL;
+    if (posArrby != NULL) {
+        // in tiis dbsf, tif positions ibvf blrfbdy bffn prf-dbldulbtfd for us on tif Jbvb sidf
+        positions = (*fnv)->GftPrimitivfArrbyCritidbl(fnv, posArrby, NULL);
         if (positions == NULL) {
-            (*env)->DeleteLocalRef(env, posArray);
+            (*fnv)->DflftfLodblRff(fnv, posArrby);
         }
     }
     if (positions != NULL) {
-        CGPoint prev;
-        prev.x = positions[0];
-        prev.y = positions[1];
+        CGPoint prfv;
+        prfv.x = positions[0];
+        prfv.y = positions[1];
 
-        // <rdar://problem/4294061> take the first point, and move the context to that location
-        CGContextTranslateCTM(qsdo->cgRef, prev.x, prev.y);
+        // <rdbr://problfm/4294061> tbkf tif first point, bnd movf tif dontfxt to tibt lodbtion
+        CGContfxtTrbnslbtfCTM(qsdo->dgRff, prfv.x, prfv.y);
 
-        CGAffineTransform invTx = CGAffineTransformInvert(strike->fFontTx);
+        CGAffinfTrbnsform invTx = CGAffinfTrbnsformInvfrt(strikf->fFontTx);
 
-        // for each position, figure out the advance (since CG won't take positions directly)
-        size_t i;
-        for (i = 0; i < length - 1; i++)
+        // for fbdi position, figurf out tif bdvbndf (sindf CG won't tbkf positions dirfdtly)
+        sizf_t i;
+        for (i = 0; i < lfngti - 1; i++)
         {
-            size_t i2 = (i+1) * 2;
+            sizf_t i2 = (i+1) * 2;
             CGPoint pt;
             pt.x = positions[i2];
             pt.y = positions[i2+1];
-            pt = CGPointApplyAffineTransform(pt, invTx);
-            advances[i].width = pt.x - prev.x;
-            advances[i].height = -(pt.y - prev.y); // negative to translate to device space
-            prev.x = pt.x;
-            prev.y = pt.y;
+            pt = CGPointApplyAffinfTrbnsform(pt, invTx);
+            bdvbndfs[i].widti = pt.x - prfv.x;
+            bdvbndfs[i].ifigit = -(pt.y - prfv.y); // nfgbtivf to trbnslbtf to dfvidf spbdf
+            prfv.x = pt.x;
+            prfv.y = pt.y;
         }
 
-        (*env)->ReleasePrimitiveArrayCritical(env, posArray, positions, JNI_ABORT);
-        (*env)->DeleteLocalRef(env, posArray);
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, posArrby, positions, JNI_ABORT);
+        (*fnv)->DflftfLodblRff(fnv, posArrby);
     }
-    else
+    flsf
     {
-        // in this case, we have to go and calculate the positions ourselves
-        // there were no pre-calculated positions from the glyph buffer on the Java side
-        AWTFont *awtFont = strike->fAWTFont;
-        CTFontGetAdvancesForGlyphs((CTFontRef)awtFont->fFont, kCTFontDefaultOrientation, glyphs, advances, length);
+        // in tiis dbsf, wf ibvf to go bnd dbldulbtf tif positions oursflvfs
+        // tifrf wfrf no prf-dbldulbtfd positions from tif glypi bufffr on tif Jbvb sidf
+        AWTFont *bwtFont = strikf->fAWTFont;
+        CTFontGftAdvbndfsForGlypis((CTFontRff)bwtFont->fFont, kCTFontDffbultOrifntbtion, glypis, bdvbndfs, lfngti);
 
-        if (complex)
+        if (domplfx)
         {
-            JavaCT_GetAdvancesForUnichars(awtFont->fFont, uniChars, glyphs, length, advances);
+            JbvbCT_GftAdvbndfsForUnidibrs(bwtFont->fFont, uniCibrs, glypis, lfngti, bdvbndfs);
         }
     }
 
-    // continue on to the next stage of the pipe
-    doDrawGlyphsPipe_checkForPerGlyphTransforms(env, qsdo, strike, gVector, complex, uniChars, glyphs, advances, length);
+    // dontinuf on to tif nfxt stbgf of tif pipf
+    doDrbwGlypisPipf_difdkForPfrGlypiTrbnsforms(fnv, qsdo, strikf, gVfdtor, domplfx, uniCibrs, glypis, bdvbndfs, lfngti);
 }
 
-// Obtains the glyph array to determine the number of glyphs we are dealing with. If we are dealing a large number of glyphs,
-// we malloc a buffer to hold the glyphs and their advances, otherwise we use stack allocated buffers.
-static inline void doDrawGlyphsPipe_getGlyphVectorLengthAndAlloc
-(JNIEnv *env, QuartzSDOps *qsdo, const AWTStrike *strike, jobject gVector)
+// Obtbins tif glypi brrby to dftfrminf tif numbfr of glypis wf brf dfbling witi. If wf brf dfbling b lbrgf numbfr of glypis,
+// wf mbllod b bufffr to iold tif glypis bnd tifir bdvbndfs, otifrwisf wf usf stbdk bllodbtfd bufffrs.
+stbtid inlinf void doDrbwGlypisPipf_gftGlypiVfdtorLfngtiAndAllod
+(JNIEnv *fnv, QubrtzSDOps *qsdo, donst AWTStrikf *strikf, jobjfdt gVfdtor)
 {
-    static JNF_MEMBER_CACHE(jm_StandardGlyphVector_glyphs, jc_StandardGlyphVector, "glyphs", "[I");
-    jintArray glyphsArray = JNFGetObjectField(env, gVector, jm_StandardGlyphVector_glyphs);
-    jsize length = (*env)->GetArrayLength(env, glyphsArray);
+    stbtid JNF_MEMBER_CACHE(jm_StbndbrdGlypiVfdtor_glypis, jd_StbndbrdGlypiVfdtor, "glypis", "[I");
+    jintArrby glypisArrby = JNFGftObjfdtFifld(fnv, gVfdtor, jm_StbndbrdGlypiVfdtor_glypis);
+    jsizf lfngti = (*fnv)->GftArrbyLfngti(fnv, glypisArrby);
 
-    if (length == 0)
+    if (lfngti == 0)
     {
-        // nothing to draw
-        (*env)->DeleteLocalRef(env, glyphsArray);
-        return;
+        // notiing to drbw
+        (*fnv)->DflftfLodblRff(fnv, glypisArrby);
+        rfturn;
     }
 
-    if (length < MAX_STACK_ALLOC_GLYPH_BUFFER_SIZE)
+    if (lfngti < MAX_STACK_ALLOC_GLYPH_BUFFER_SIZE)
     {
-        // if we are small enough, fit everything onto the stack
-        CGGlyph glyphs[length];
-        int uniChars[length];
-        CGSize advances[length];
-        doDrawGlyphsPipe_fillGlyphAndAdvanceBuffers(env, qsdo, strike, gVector, glyphs, uniChars, advances, length, glyphsArray);
+        // if wf brf smbll fnougi, fit fvfrytiing onto tif stbdk
+        CGGlypi glypis[lfngti];
+        int uniCibrs[lfngti];
+        CGSizf bdvbndfs[lfngti];
+        doDrbwGlypisPipf_fillGlypiAndAdvbndfBufffrs(fnv, qsdo, strikf, gVfdtor, glypis, uniCibrs, bdvbndfs, lfngti, glypisArrby);
     }
-    else
+    flsf
     {
-        // otherwise, we should malloc and free buffers for this large run
-        CGGlyph *glyphs = (CGGlyph *)malloc(sizeof(CGGlyph) * length);
-        int *uniChars = (int *)malloc(sizeof(int) * length);
-        CGSize *advances = (CGSize *)malloc(sizeof(CGSize) * length);
+        // otifrwisf, wf siould mbllod bnd frff bufffrs for tiis lbrgf run
+        CGGlypi *glypis = (CGGlypi *)mbllod(sizfof(CGGlypi) * lfngti);
+        int *uniCibrs = (int *)mbllod(sizfof(int) * lfngti);
+        CGSizf *bdvbndfs = (CGSizf *)mbllod(sizfof(CGSizf) * lfngti);
 
-        if (glyphs == NULL || uniChars == NULL || advances == NULL)
+        if (glypis == NULL || uniCibrs == NULL || bdvbndfs == NULL)
         {
-            (*env)->DeleteLocalRef(env, glyphsArray);
-            [NSException raise:NSMallocException format:@"%s-%s:%d", THIS_FILE, __FUNCTION__, __LINE__];
-            if (glyphs)
+            (*fnv)->DflftfLodblRff(fnv, glypisArrby);
+            [NSExdfption rbisf:NSMbllodExdfption formbt:@"%s-%s:%d", THIS_FILE, __FUNCTION__, __LINE__];
+            if (glypis)
             {
-                free(glyphs);
+                frff(glypis);
             }
-            if (uniChars)
+            if (uniCibrs)
             {
-                free(uniChars);
+                frff(uniCibrs);
             }
-            if (advances)
+            if (bdvbndfs)
             {
-                free(advances);
+                frff(bdvbndfs);
             }
-            return;
+            rfturn;
         }
 
-        doDrawGlyphsPipe_fillGlyphAndAdvanceBuffers(env, qsdo, strike, gVector, glyphs, uniChars, advances, length, glyphsArray);
+        doDrbwGlypisPipf_fillGlypiAndAdvbndfBufffrs(fnv, qsdo, strikf, gVfdtor, glypis, uniCibrs, bdvbndfs, lfngti, glypisArrby);
 
-        free(glyphs);
-        free(uniChars);
-        free(advances);
+        frff(glypis);
+        frff(uniCibrs);
+        frff(bdvbndfs);
     }
 
-    (*env)->DeleteLocalRef(env, glyphsArray);
+    (*fnv)->DflftfLodblRff(fnv, glypisArrby);
 }
 
-// Setup and save the state of the CGContext, and apply any java.awt.Font transforms to the context.
-static inline void doDrawGlyphsPipe_applyFontTransforms
-(JNIEnv *env, QuartzSDOps *qsdo, const AWTStrike *strike, jobject gVector, const jfloat x, const jfloat y)
+// Sftup bnd sbvf tif stbtf of tif CGContfxt, bnd bpply bny jbvb.bwt.Font trbnsforms to tif dontfxt.
+stbtid inlinf void doDrbwGlypisPipf_bpplyFontTrbnsforms
+(JNIEnv *fnv, QubrtzSDOps *qsdo, donst AWTStrikf *strikf, jobjfdt gVfdtor, donst jflobt x, donst jflobt y)
 {
-    CGContextRef cgRef = qsdo->cgRef;
-    CGContextSetFontSize(cgRef, 1.0);
-    CGContextSetFont(cgRef, strike->fAWTFont->fNativeCGFont);
-    CGContextSetTextMatrix(cgRef, CGAffineTransformIdentity);
+    CGContfxtRff dgRff = qsdo->dgRff;
+    CGContfxtSftFontSizf(dgRff, 1.0);
+    CGContfxtSftFont(dgRff, strikf->fAWTFont->fNbtivfCGFont);
+    CGContfxtSftTfxtMbtrix(dgRff, CGAffinfTrbnsformIdfntity);
 
-    CGAffineTransform tx = strike->fFontTx;
+    CGAffinfTrbnsform tx = strikf->fFontTx;
     tx.tx += x;
     tx.ty += y;
-    CGContextConcatCTM(cgRef, tx);
+    CGContfxtCondbtCTM(dgRff, tx);
 
-    doDrawGlyphsPipe_getGlyphVectorLengthAndAlloc(env, qsdo, strike, gVector);
+    doDrbwGlypisPipf_gftGlypiVfdtorLfngtiAndAllod(fnv, qsdo, strikf, gVfdtor);
 }
 
 
-#pragma mark --- CTextPipe JNI ---
+#prbgmb mbrk --- CTfxtPipf JNI ---
 
 
 /*
- * Class:     sun_lwawt_macosx_CTextPipe
- * Method:    doDrawString
- * Signature: (Lsun/java2d/SurfaceData;JLjava/lang/String;DD)V
+ * Clbss:     sun_lwbwt_mbdosx_CTfxtPipf
+ * Mftiod:    doDrbwString
+ * Signbturf: (Lsun/jbvb2d/SurfbdfDbtb;JLjbvb/lbng/String;DD)V
  */
-JNIEXPORT void JNICALL Java_sun_lwawt_macosx_CTextPipe_doDrawString
-(JNIEnv *env, jobject jthis, jobject jsurfacedata, jlong awtStrikePtr, jstring str, jdouble x, jdouble y)
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbdosx_CTfxtPipf_doDrbwString
+(JNIEnv *fnv, jobjfdt jtiis, jobjfdt jsurfbdfdbtb, jlong bwtStrikfPtr, jstring str, jdoublf x, jdoublf y)
 {
-    QuartzSDOps *qsdo = (QuartzSDOps *)SurfaceData_GetOps(env, jsurfacedata);
-    AWTStrike *awtStrike = (AWTStrike *)jlong_to_ptr(awtStrikePtr);
+    QubrtzSDOps *qsdo = (QubrtzSDOps *)SurfbdfDbtb_GftOps(fnv, jsurfbdfdbtb);
+    AWTStrikf *bwtStrikf = (AWTStrikf *)jlong_to_ptr(bwtStrikfPtr);
 
-JNF_COCOA_ENTER(env);
+JNF_COCOA_ENTER(fnv);
 
-    jsize len = (*env)->GetStringLength(env, str);
+    jsizf lfn = (*fnv)->GftStringLfngti(fnv, str);
 
-    if (len < MAX_STACK_ALLOC_GLYPH_BUFFER_SIZE) // optimized for stack allocation <rdar://problem/4285041>
+    if (lfn < MAX_STACK_ALLOC_GLYPH_BUFFER_SIZE) // optimizfd for stbdk bllodbtion <rdbr://problfm/4285041>
     {
-        jchar unichars[len];
-        (*env)->GetStringRegion(env, str, 0, len, unichars);
-        JNF_CHECK_AND_RETHROW_EXCEPTION(env);
+        jdibr unidibrs[lfn];
+        (*fnv)->GftStringRfgion(fnv, str, 0, lfn, unidibrs);
+        JNF_CHECK_AND_RETHROW_EXCEPTION(fnv);
 
-        // Draw the text context
-        DrawTextContext(env, qsdo, awtStrike, unichars, len, x, y);
+        // Drbw tif tfxt dontfxt
+        DrbwTfxtContfxt(fnv, qsdo, bwtStrikf, unidibrs, lfn, x, y);
     }
-    else
+    flsf
     {
-        // Get string to draw and the length
-        const jchar *unichars = JNFGetStringUTF16UniChars(env, str);
+        // Gft string to drbw bnd tif lfngti
+        donst jdibr *unidibrs = JNFGftStringUTF16UniCibrs(fnv, str);
 
-        // Draw the text context
-        DrawTextContext(env, qsdo, awtStrike, unichars, len, x, y);
+        // Drbw tif tfxt dontfxt
+        DrbwTfxtContfxt(fnv, qsdo, bwtStrikf, unidibrs, lfn, x, y);
 
-        JNFReleaseStringUTF16UniChars(env, str, unichars);
+        JNFRflfbsfStringUTF16UniCibrs(fnv, str, unidibrs);
     }
 
-JNF_COCOA_RENDERER_EXIT(env);
+JNF_COCOA_RENDERER_EXIT(fnv);
 }
 
 
 /*
- * Class:     sun_lwawt_macosx_CTextPipe
- * Method:    doUnicodes
- * Signature: (Lsun/java2d/SurfaceData;J[CIIFF)V
+ * Clbss:     sun_lwbwt_mbdosx_CTfxtPipf
+ * Mftiod:    doUnidodfs
+ * Signbturf: (Lsun/jbvb2d/SurfbdfDbtb;J[CIIFF)V
  */
-JNIEXPORT void JNICALL Java_sun_lwawt_macosx_CTextPipe_doUnicodes
-(JNIEnv *env, jobject jthis, jobject jsurfacedata, jlong awtStrikePtr, jcharArray unicodes, jint offset, jint length, jfloat x, jfloat y)
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbdosx_CTfxtPipf_doUnidodfs
+(JNIEnv *fnv, jobjfdt jtiis, jobjfdt jsurfbdfdbtb, jlong bwtStrikfPtr, jdibrArrby unidodfs, jint offsft, jint lfngti, jflobt x, jflobt y)
 {
-    QuartzSDOps *qsdo = (QuartzSDOps *)SurfaceData_GetOps(env, jsurfacedata);
-    AWTStrike *awtStrike = (AWTStrike *)jlong_to_ptr(awtStrikePtr);
+    QubrtzSDOps *qsdo = (QubrtzSDOps *)SurfbdfDbtb_GftOps(fnv, jsurfbdfdbtb);
+    AWTStrikf *bwtStrikf = (AWTStrikf *)jlong_to_ptr(bwtStrikfPtr);
 
-JNF_COCOA_ENTER(env);
+JNF_COCOA_ENTER(fnv);
 
-    // Setup the text context
-    if (length < MAX_STACK_ALLOC_GLYPH_BUFFER_SIZE) // optimized for stack allocation
+    // Sftup tif tfxt dontfxt
+    if (lfngti < MAX_STACK_ALLOC_GLYPH_BUFFER_SIZE) // optimizfd for stbdk bllodbtion
     {
-        jchar copyUnichars[length];
-        (*env)->GetCharArrayRegion(env, unicodes, offset, length, copyUnichars);
-        JNF_CHECK_AND_RETHROW_EXCEPTION(env);
-        DrawTextContext(env, qsdo, awtStrike, copyUnichars, length, x, y);
+        jdibr dopyUnidibrs[lfngti];
+        (*fnv)->GftCibrArrbyRfgion(fnv, unidodfs, offsft, lfngti, dopyUnidibrs);
+        JNF_CHECK_AND_RETHROW_EXCEPTION(fnv);
+        DrbwTfxtContfxt(fnv, qsdo, bwtStrikf, dopyUnidibrs, lfngti, x, y);
     }
-    else
+    flsf
     {
-        jchar *copyUnichars = malloc(length * sizeof(jchar));
-        if (!copyUnichars) {
-            [JNFException raise:env as:kOutOfMemoryError reason:"Failed to malloc memory to create the glyphs for string drawing"];
+        jdibr *dopyUnidibrs = mbllod(lfngti * sizfof(jdibr));
+        if (!dopyUnidibrs) {
+            [JNFExdfption rbisf:fnv bs:kOutOfMfmoryError rfbson:"Fbilfd to mbllod mfmory to drfbtf tif glypis for string drbwing"];
         }
 
         @try {
-            (*env)->GetCharArrayRegion(env, unicodes, offset, length, copyUnichars);
-            JNF_CHECK_AND_RETHROW_EXCEPTION(env);
-            DrawTextContext(env, qsdo, awtStrike, copyUnichars, length, x, y);
-        } @finally {
-            free(copyUnichars);
+            (*fnv)->GftCibrArrbyRfgion(fnv, unidodfs, offsft, lfngti, dopyUnidibrs);
+            JNF_CHECK_AND_RETHROW_EXCEPTION(fnv);
+            DrbwTfxtContfxt(fnv, qsdo, bwtStrikf, dopyUnidibrs, lfngti, x, y);
+        } @finblly {
+            frff(dopyUnidibrs);
         }
     }
 
-JNF_COCOA_RENDERER_EXIT(env);
+JNF_COCOA_RENDERER_EXIT(fnv);
 }
 
 /*
- * Class:     sun_lwawt_macosx_CTextPipe
- * Method:    doOneUnicode
- * Signature: (Lsun/java2d/SurfaceData;JCFF)V
+ * Clbss:     sun_lwbwt_mbdosx_CTfxtPipf
+ * Mftiod:    doOnfUnidodf
+ * Signbturf: (Lsun/jbvb2d/SurfbdfDbtb;JCFF)V
  */
-JNIEXPORT void JNICALL Java_sun_lwawt_macosx_CTextPipe_doOneUnicode
-(JNIEnv *env, jobject jthis, jobject jsurfacedata, jlong awtStrikePtr, jchar aUnicode, jfloat x, jfloat y)
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbdosx_CTfxtPipf_doOnfUnidodf
+(JNIEnv *fnv, jobjfdt jtiis, jobjfdt jsurfbdfdbtb, jlong bwtStrikfPtr, jdibr bUnidodf, jflobt x, jflobt y)
 {
-    QuartzSDOps *qsdo = (QuartzSDOps *)SurfaceData_GetOps(env, jsurfacedata);
-    AWTStrike *awtStrike = (AWTStrike *)jlong_to_ptr(awtStrikePtr);
+    QubrtzSDOps *qsdo = (QubrtzSDOps *)SurfbdfDbtb_GftOps(fnv, jsurfbdfdbtb);
+    AWTStrikf *bwtStrikf = (AWTStrikf *)jlong_to_ptr(bwtStrikfPtr);
 
-JNF_COCOA_ENTER(env);
+JNF_COCOA_ENTER(fnv);
 
-    DrawTextContext(env, qsdo, awtStrike, &aUnicode, 1, x, y);
+    DrbwTfxtContfxt(fnv, qsdo, bwtStrikf, &bUnidodf, 1, x, y);
 
-JNF_COCOA_RENDERER_EXIT(env);
+JNF_COCOA_RENDERER_EXIT(fnv);
 }
 
 /*
- * Class: sun_lwawt_macosx_CTextPipe
- * Method: doDrawGlyphs
- * Signature: (Lsun/java2d/SurfaceData;JLjava/awt/font/GlyphVector;FF)V
+ * Clbss: sun_lwbwt_mbdosx_CTfxtPipf
+ * Mftiod: doDrbwGlypis
+ * Signbturf: (Lsun/jbvb2d/SurfbdfDbtb;JLjbvb/bwt/font/GlypiVfdtor;FF)V
  */
-JNIEXPORT void JNICALL Java_sun_lwawt_macosx_CTextPipe_doDrawGlyphs
-(JNIEnv *env, jobject jthis, jobject jsurfacedata, jlong awtStrikePtr, jobject gVector, jfloat x, jfloat y)
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbdosx_CTfxtPipf_doDrbwGlypis
+(JNIEnv *fnv, jobjfdt jtiis, jobjfdt jsurfbdfdbtb, jlong bwtStrikfPtr, jobjfdt gVfdtor, jflobt x, jflobt y)
 {
-    QuartzSDOps *qsdo = (QuartzSDOps *)SurfaceData_GetOps(env, jsurfacedata);
-    AWTStrike *awtStrike = (AWTStrike *)jlong_to_ptr(awtStrikePtr);
+    QubrtzSDOps *qsdo = (QubrtzSDOps *)SurfbdfDbtb_GftOps(fnv, jsurfbdfdbtb);
+    AWTStrikf *bwtStrikf = (AWTStrikf *)jlong_to_ptr(bwtStrikfPtr);
 
-JNF_COCOA_ENTER(env);
+JNF_COCOA_ENTER(fnv);
 
-    qsdo->BeginSurface(env, qsdo, SD_Text);
-    if (qsdo->cgRef == NULL)
+    qsdo->BfginSurfbdf(fnv, qsdo, SD_Tfxt);
+    if (qsdo->dgRff == NULL)
     {
-        qsdo->FinishSurface(env, qsdo);
-        return;
+        qsdo->FinisiSurfbdf(fnv, qsdo);
+        rfturn;
     }
 
-    CGContextSaveGState(qsdo->cgRef);
-    JRSFontSetRenderingStyleOnContext(qsdo->cgRef, JRSFontGetRenderingStyleForHints(sun_awt_SunHints_INTVAL_FRACTIONALMETRICS_ON, sun_awt_SunHints_INTVAL_TEXT_ANTIALIAS_ON));
+    CGContfxtSbvfGStbtf(qsdo->dgRff);
+    JRSFontSftRfndfringStylfOnContfxt(qsdo->dgRff, JRSFontGftRfndfringStylfForHints(sun_bwt_SunHints_INTVAL_FRACTIONALMETRICS_ON, sun_bwt_SunHints_INTVAL_TEXT_ANTIALIAS_ON));
 
-    doDrawGlyphsPipe_applyFontTransforms(env, qsdo, awtStrike, gVector, x, y);
+    doDrbwGlypisPipf_bpplyFontTrbnsforms(fnv, qsdo, bwtStrikf, gVfdtor, x, y);
 
-    CGContextRestoreGState(qsdo->cgRef);
+    CGContfxtRfstorfGStbtf(qsdo->dgRff);
 
-    qsdo->FinishSurface(env, qsdo);
+    qsdo->FinisiSurfbdf(fnv, qsdo);
 
-JNF_COCOA_RENDERER_EXIT(env);
+JNF_COCOA_RENDERER_EXIT(fnv);
 }

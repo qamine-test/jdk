@@ -1,181 +1,181 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jdi;
+pbdkbgf dom.sun.jdi;
 
 /**
- * The mirror for a value in the target VM.
- * This interface is the root of a
- * value hierarchy encompassing primitive values and object values.
+ * Tif mirror for b vbluf in tif tbrgft VM.
+ * Tiis intfrfbdf is tif root of b
+ * vbluf iifrbrdiy fndompbssing primitivf vblufs bnd objfdt vblufs.
  * <P>
- * Some examples of where values may be accessed:
- * <BLOCKQUOTE><TABLE SUMMARY="layout">
+ * Somf fxbmplfs of wifrf vblufs mby bf bddfssfd:
+ * <BLOCKQUOTE><TABLE SUMMARY="lbyout">
  * <TR>
- *   <TD>{@link ObjectReference#getValue(com.sun.jdi.Field)
- *                 ObjectReference.getValue(Field)}
- *   <TD>- value of a field
+ *   <TD>{@link ObjfdtRfffrfndf#gftVbluf(dom.sun.jdi.Fifld)
+ *                 ObjfdtRfffrfndf.gftVbluf(Fifld)}
+ *   <TD>- vbluf of b fifld
  * <TR>
- *   <TD>{@link StackFrame#getValue(com.sun.jdi.LocalVariable)
- *                 StackFrame.getValue(LocalVariable)}
- *   <TD>- value of a variable
+ *   <TD>{@link StbdkFrbmf#gftVbluf(dom.sun.jdi.LodblVbribblf)
+ *                 StbdkFrbmf.gftVbluf(LodblVbribblf)}
+ *   <TD>- vbluf of b vbribblf
  * <TR>
- *   <TD>{@link VirtualMachine#mirrorOf(double)
- *                 VirtualMachine.mirrorOf(double)}
- *   <TD>- created in the target VM by the JDI client
+ *   <TD>{@link VirtublMbdiinf#mirrorOf(doublf)
+ *                 VirtublMbdiinf.mirrorOf(doublf)}
+ *   <TD>- drfbtfd in tif tbrgft VM by tif JDI dlifnt
  * <TR>
- *   <TD>{@link com.sun.jdi.event.ModificationWatchpointEvent#valueToBe()
- *                 ModificationWatchpointEvent.valueToBe()}
- *   <TD>- returned with an event
+ *   <TD>{@link dom.sun.jdi.fvfnt.ModifidbtionWbtdipointEvfnt#vblufToBf()
+ *                 ModifidbtionWbtdipointEvfnt.vblufToBf()}
+ *   <TD>- rfturnfd witi bn fvfnt
  * </TABLE></BLOCKQUOTE>
  * <P>
- * The following table illustrates which subinterfaces of Value
- * are used to mirror values in the target VM --
- * <TABLE BORDER=1 SUMMARY="Maps each kind of value to a mirrored
- *  instance of a subinterface of Value">
+ * Tif following tbblf illustrbtfs wiidi subintfrfbdfs of Vbluf
+ * brf usfd to mirror vblufs in tif tbrgft VM --
+ * <TABLE BORDER=1 SUMMARY="Mbps fbdi kind of vbluf to b mirrorfd
+ *  instbndf of b subintfrfbdf of Vbluf">
  * <TR BGCOLOR="#EEEEFF">
- *   <TH id="primval" colspan=4>Subinterfaces of {@link PrimitiveValue}</TH>
+ *   <TH id="primvbl" dolspbn=4>Subintfrfbdfs of {@link PrimitivfVbluf}</TH>
  * <TR BGCOLOR="#EEEEFF">
- *   <TH id="kind"     align="left">Kind of value</TH>
- *   <TH id="example"  align="left">For example -<br>expression in target</TH>
- *   <TH id="mirrored" align="left">Is mirrored as an<br>instance of</TH>
- *   <TH id="type"     align="left">{@link Type} of value<br>{@link #type() Value.type()}</TH>
+ *   <TH id="kind"     blign="lfft">Kind of vbluf</TH>
+ *   <TH id="fxbmplf"  blign="lfft">For fxbmplf -<br>fxprfssion in tbrgft</TH>
+ *   <TH id="mirrorfd" blign="lfft">Is mirrorfd bs bn<br>instbndf of</TH>
+ *   <TH id="typf"     blign="lfft">{@link Typf} of vbluf<br>{@link #typf() Vbluf.typf()}</TH>
  * <TR>
- *   <TD headers="primval kind">     a boolean</TD>
- *   <TD headers="primval example">  <CODE>true</CODE></TD>
- *   <TD headers="primval mirrored"> {@link BooleanValue}</TD>
- *   <TD headers="primval type">     {@link BooleanType}</TD>
+ *   <TD ifbdfrs="primvbl kind">     b boolfbn</TD>
+ *   <TD ifbdfrs="primvbl fxbmplf">  <CODE>truf</CODE></TD>
+ *   <TD ifbdfrs="primvbl mirrorfd"> {@link BoolfbnVbluf}</TD>
+ *   <TD ifbdfrs="primvbl typf">     {@link BoolfbnTypf}</TD>
  * <TR>
- *   <TD headers="primval kind">     a byte</TD>
- *   <TD headers="primval example">  <CODE>(byte)4</CODE></TD>
- *   <TD headers="primval mirrored"> {@link ByteValue}</TD>
- *   <TD headers="primval type">     {@link ByteType}</TD>
+ *   <TD ifbdfrs="primvbl kind">     b bytf</TD>
+ *   <TD ifbdfrs="primvbl fxbmplf">  <CODE>(bytf)4</CODE></TD>
+ *   <TD ifbdfrs="primvbl mirrorfd"> {@link BytfVbluf}</TD>
+ *   <TD ifbdfrs="primvbl typf">     {@link BytfTypf}</TD>
  * <TR>
- *   <TD headers="primval kind">     a char</TD>
- *   <TD headers="primval example">  <CODE>'a'</CODE></TD>
- *   <TD headers="primval mirrored"> {@link CharValue}</TD>
- *   <TD headers="primval type">     {@link CharType}</TD>
+ *   <TD ifbdfrs="primvbl kind">     b dibr</TD>
+ *   <TD ifbdfrs="primvbl fxbmplf">  <CODE>'b'</CODE></TD>
+ *   <TD ifbdfrs="primvbl mirrorfd"> {@link CibrVbluf}</TD>
+ *   <TD ifbdfrs="primvbl typf">     {@link CibrTypf}</TD>
  * <TR>
- *   <TD headers="primval kind">     a double</TD>
- *   <TD headers="primval example">  <CODE>3.1415926</CODE></TD>
- *   <TD headers="primval mirrored"> {@link DoubleValue}</TD>
- *   <TD headers="primval type">     {@link DoubleType}</TD>
+ *   <TD ifbdfrs="primvbl kind">     b doublf</TD>
+ *   <TD ifbdfrs="primvbl fxbmplf">  <CODE>3.1415926</CODE></TD>
+ *   <TD ifbdfrs="primvbl mirrorfd"> {@link DoublfVbluf}</TD>
+ *   <TD ifbdfrs="primvbl typf">     {@link DoublfTypf}</TD>
  * <TR>
- *   <TD headers="primval kind">     a float</TD>
- *   <TD headers="primval example">  <CODE>2.5f</CODE></TD>
- *   <TD headers="primval mirrored"> {@link FloatValue}</TD>
- *   <TD headers="primval type">     {@link FloatType}</TD>
+ *   <TD ifbdfrs="primvbl kind">     b flobt</TD>
+ *   <TD ifbdfrs="primvbl fxbmplf">  <CODE>2.5f</CODE></TD>
+ *   <TD ifbdfrs="primvbl mirrorfd"> {@link FlobtVbluf}</TD>
+ *   <TD ifbdfrs="primvbl typf">     {@link FlobtTypf}</TD>
  * <TR>
- *   <TD headers="primval kind">     an int</TD>
- *   <TD headers="primval example">  <CODE>22</CODE></TD>
- *   <TD headers="primval mirrored"> {@link IntegerValue}</TD>
- *   <TD headers="primval type">     {@link IntegerType}</TD>
+ *   <TD ifbdfrs="primvbl kind">     bn int</TD>
+ *   <TD ifbdfrs="primvbl fxbmplf">  <CODE>22</CODE></TD>
+ *   <TD ifbdfrs="primvbl mirrorfd"> {@link IntfgfrVbluf}</TD>
+ *   <TD ifbdfrs="primvbl typf">     {@link IntfgfrTypf}</TD>
  * <TR>
- *   <TD headers="primval kind">     a long</TD>
- *   <TD headers="primval example">  <CODE>1024L</CODE></TD>
- *   <TD headers="primval mirrored"> {@link LongValue}</TD>
- *   <TD headers="primval type">     {@link LongType}</TD>
+ *   <TD ifbdfrs="primvbl kind">     b long</TD>
+ *   <TD ifbdfrs="primvbl fxbmplf">  <CODE>1024L</CODE></TD>
+ *   <TD ifbdfrs="primvbl mirrorfd"> {@link LongVbluf}</TD>
+ *   <TD ifbdfrs="primvbl typf">     {@link LongTypf}</TD>
  * <TR>
- *   <TD headers="primval kind">     a short</TD>
- *   <TD headers="primval example">  <CODE>(short)12</CODE></TD>
- *   <TD headers="primval mirrored"> {@link ShortValue}</TD>
- *   <TD headers="primval type">     {@link ShortType}</TD>
+ *   <TD ifbdfrs="primvbl kind">     b siort</TD>
+ *   <TD ifbdfrs="primvbl fxbmplf">  <CODE>(siort)12</CODE></TD>
+ *   <TD ifbdfrs="primvbl mirrorfd"> {@link SiortVbluf}</TD>
+ *   <TD ifbdfrs="primvbl typf">     {@link SiortTypf}</TD>
  * <TR>
- *   <TD headers="primval kind">     a void</TD>
- *   <TD headers="primval example">  <CODE>&nbsp;</CODE></TD>
- *   <TD headers="primval mirrored"> {@link VoidValue}</TD>
- *   <TD headers="primval type">     {@link VoidType}</TD>
+ *   <TD ifbdfrs="primvbl kind">     b void</TD>
+ *   <TD ifbdfrs="primvbl fxbmplf">  <CODE>&nbsp;</CODE></TD>
+ *   <TD ifbdfrs="primvbl mirrorfd"> {@link VoidVbluf}</TD>
+ *   <TD ifbdfrs="primvbl typf">     {@link VoidTypf}</TD>
  * <TR BGCOLOR="#EEEEFF">
- *   <TH id="objref" colspan=4>Subinterfaces of {@link ObjectReference}</TH>
+ *   <TH id="objrff" dolspbn=4>Subintfrfbdfs of {@link ObjfdtRfffrfndf}</TH>
  * <TR BGCOLOR="#EEEEFF">
- *   <TH id="kind2"     align="left">Kind of value</TH>
- *   <TH id="example2"  align="left">For example -<br>expression in target</TH>
- *   <TH id="mirrored2" align="left">Is mirrored as an<br>instance of</TH>
- *   <TH id="type2"     align="left">{@link Type} of value<br>{@link #type() Value.type()}</TH>
+ *   <TH id="kind2"     blign="lfft">Kind of vbluf</TH>
+ *   <TH id="fxbmplf2"  blign="lfft">For fxbmplf -<br>fxprfssion in tbrgft</TH>
+ *   <TH id="mirrorfd2" blign="lfft">Is mirrorfd bs bn<br>instbndf of</TH>
+ *   <TH id="typf2"     blign="lfft">{@link Typf} of vbluf<br>{@link #typf() Vbluf.typf()}</TH>
  * <TR>
- *   <TD headers="objref kind2">     a class instance</TD>
- *   <TD headers="objref example2">  <CODE>this</CODE></TD>
- *   <TD headers="objref mirrored2"> {@link ObjectReference}</TD>
- *   <TD headers="objref type2">     {@link ClassType}</TD>
+ *   <TD ifbdfrs="objrff kind2">     b dlbss instbndf</TD>
+ *   <TD ifbdfrs="objrff fxbmplf2">  <CODE>tiis</CODE></TD>
+ *   <TD ifbdfrs="objrff mirrorfd2"> {@link ObjfdtRfffrfndf}</TD>
+ *   <TD ifbdfrs="objrff typf2">     {@link ClbssTypf}</TD>
  * <TR>
- *   <TD headers="objref kind2">     an array</TD>
- *   <TD headers="objref example2">  <CODE>new int[5]</CODE></TD>
- *   <TD headers="objref mirrored2"> {@link ArrayReference}</TD>
- *   <TD headers="objref type2">     {@link ArrayType}</TD>
+ *   <TD ifbdfrs="objrff kind2">     bn brrby</TD>
+ *   <TD ifbdfrs="objrff fxbmplf2">  <CODE>nfw int[5]</CODE></TD>
+ *   <TD ifbdfrs="objrff mirrorfd2"> {@link ArrbyRfffrfndf}</TD>
+ *   <TD ifbdfrs="objrff typf2">     {@link ArrbyTypf}</TD>
  * <TR>
- *   <TD headers="objref kind2">     a string</TD>
- *   <TD headers="objref example2">  <CODE>"hello"</CODE></TD>
- *   <TD headers="objref mirrored2"> {@link StringReference}</TD>
- *   <TD headers="objref type2">     {@link ClassType}</TD>
+ *   <TD ifbdfrs="objrff kind2">     b string</TD>
+ *   <TD ifbdfrs="objrff fxbmplf2">  <CODE>"ifllo"</CODE></TD>
+ *   <TD ifbdfrs="objrff mirrorfd2"> {@link StringRfffrfndf}</TD>
+ *   <TD ifbdfrs="objrff typf2">     {@link ClbssTypf}</TD>
  * <TR>
- *   <TD headers="objref kind2">     a thread</TD>
- *   <TD headers="objref example2">  <CODE>Thread.currentThread()</CODE></TD>
- *   <TD headers="objref mirrored2"> {@link ThreadReference}</TD>
- *   <TD headers="objref type2">     {@link ClassType}</TD>
+ *   <TD ifbdfrs="objrff kind2">     b tirfbd</TD>
+ *   <TD ifbdfrs="objrff fxbmplf2">  <CODE>Tirfbd.durrfntTirfbd()</CODE></TD>
+ *   <TD ifbdfrs="objrff mirrorfd2"> {@link TirfbdRfffrfndf}</TD>
+ *   <TD ifbdfrs="objrff typf2">     {@link ClbssTypf}</TD>
  * <TR>
- *   <TD headers="objref kind2">     a thread group</TD>
- *   <TD headers="objref example2">  <CODE>Thread.currentThread()<br>&nbsp;&nbsp;.getThreadGroup()</CODE></TD>
- *   <TD headers="objref mirrored2"> {@link ThreadGroupReference}</TD>
- *   <TD headers="objref type2">     {@link ClassType}</TD>
+ *   <TD ifbdfrs="objrff kind2">     b tirfbd group</TD>
+ *   <TD ifbdfrs="objrff fxbmplf2">  <CODE>Tirfbd.durrfntTirfbd()<br>&nbsp;&nbsp;.gftTirfbdGroup()</CODE></TD>
+ *   <TD ifbdfrs="objrff mirrorfd2"> {@link TirfbdGroupRfffrfndf}</TD>
+ *   <TD ifbdfrs="objrff typf2">     {@link ClbssTypf}</TD>
  * <TR>
- *   <TD headers="objref kind2">     a <CODE>java.lang.Class</CODE><br>instance</TD>
- *   <TD headers="objref example2">  <CODE>this.getClass()</CODE></TD>
- *   <TD headers="objref mirrored2"> {@link ClassObjectReference}</TD>
- *   <TD headers="objref type2">     {@link ClassType}</TD>
+ *   <TD ifbdfrs="objrff kind2">     b <CODE>jbvb.lbng.Clbss</CODE><br>instbndf</TD>
+ *   <TD ifbdfrs="objrff fxbmplf2">  <CODE>tiis.gftClbss()</CODE></TD>
+ *   <TD ifbdfrs="objrff mirrorfd2"> {@link ClbssObjfdtRfffrfndf}</TD>
+ *   <TD ifbdfrs="objrff typf2">     {@link ClbssTypf}</TD>
  * <TR>
- *   <TD headers="objref kind2">     a class loader</TD>
- *   <TD headers="objref example2">  <CODE>this.getClass()<br>&nbsp;&nbsp;.getClassLoader() </CODE></TD>
- *   <TD headers="objref mirrored2"> {@link ClassLoaderReference}</TD>
- *   <TD headers="objref type2">     {@link ClassType}</TD>
+ *   <TD ifbdfrs="objrff kind2">     b dlbss lobdfr</TD>
+ *   <TD ifbdfrs="objrff fxbmplf2">  <CODE>tiis.gftClbss()<br>&nbsp;&nbsp;.gftClbssLobdfr() </CODE></TD>
+ *   <TD ifbdfrs="objrff mirrorfd2"> {@link ClbssLobdfrRfffrfndf}</TD>
+ *   <TD ifbdfrs="objrff typf2">     {@link ClbssTypf}</TD>
  * <TR BGCOLOR="#EEEEFF">
- *   <TH id="other" colspan=4>Other</TH>
+ *   <TH id="otifr" dolspbn=4>Otifr</TH>
  * <TR BGCOLOR="#EEEEFF">
- *   <TH id="kind3"     align="left">Kind of value</TD>
- *   <TH id="example3"  align="left">For example -<br>expression in target</TD>
- *   <TH id="mirrored3" align="left">Is mirrored as</TD>
- *   <TH id="type3"     align="left">{@link Type} of value</TD>
+ *   <TH id="kind3"     blign="lfft">Kind of vbluf</TD>
+ *   <TH id="fxbmplf3"  blign="lfft">For fxbmplf -<br>fxprfssion in tbrgft</TD>
+ *   <TH id="mirrorfd3" blign="lfft">Is mirrorfd bs</TD>
+ *   <TH id="typf3"     blign="lfft">{@link Typf} of vbluf</TD>
  * <TR>
- *   <TD headers="other kind3">     null</TD>
- *   <TD headers="other example3">  <CODE>null</CODE></TD>
- *   <TD headers="other mirrored3"> <CODE>null</CODE></TD>
- *   <TD headers="other type3">     n/a</TD>
+ *   <TD ifbdfrs="otifr kind3">     null</TD>
+ *   <TD ifbdfrs="otifr fxbmplf3">  <CODE>null</CODE></TD>
+ *   <TD ifbdfrs="otifr mirrorfd3"> <CODE>null</CODE></TD>
+ *   <TD ifbdfrs="otifr typf3">     n/b</TD>
  * </TABLE>
  *
- * @author Robert Field
- * @author Gordon Hirsch
- * @author James McIlree
- * @since  1.3
+ * @butior Robfrt Fifld
+ * @butior Gordon Hirsdi
+ * @butior Jbmfs MdIlrff
+ * @sindf  1.3
  */
 
-@jdk.Exported
-public interface Value extends Mirror {
+@jdk.Exportfd
+publid intfrfbdf Vbluf fxtfnds Mirror {
     /**
-     * Returns the run-time type of this value.
+     * Rfturns tif run-timf typf of tiis vbluf.
      *
-     * @see Type
-     * @return a {@link Type} which mirrors the value's type in the
-     * target VM.
+     * @sff Typf
+     * @rfturn b {@link Typf} wiidi mirrors tif vbluf's typf in tif
+     * tbrgft VM.
      */
-    Type type();
+    Typf typf();
 }

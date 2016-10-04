@@ -1,129 +1,129 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.net;
+pbdkbgf jbvb.nft;
 
-import java.util.List;
-import java.util.Map;
+import jbvb.util.List;
+import jbvb.util.Mbp;
 
 /**
- * A CookieStore object represents a storage for cookie. Can store and retrieve
- * cookies.
+ * A CookifStorf objfdt rfprfsfnts b storbgf for dookif. Cbn storf bnd rftrifvf
+ * dookifs.
  *
- * <p>{@link CookieManager} will call {@code CookieStore.add} to save cookies
- * for every incoming HTTP response, and call {@code CookieStore.get} to
- * retrieve cookie for every outgoing HTTP request. A CookieStore
- * is responsible for removing HttpCookie instances which have expired.
+ * <p>{@link CookifMbnbgfr} will dbll {@dodf CookifStorf.bdd} to sbvf dookifs
+ * for fvfry indoming HTTP rfsponsf, bnd dbll {@dodf CookifStorf.gft} to
+ * rftrifvf dookif for fvfry outgoing HTTP rfqufst. A CookifStorf
+ * is rfsponsiblf for rfmoving HttpCookif instbndfs wiidi ibvf fxpirfd.
  *
- * @author Edward Wang
- * @since 1.6
+ * @butior Edwbrd Wbng
+ * @sindf 1.6
  */
-public interface CookieStore {
+publid intfrfbdf CookifStorf {
     /**
-     * Adds one HTTP cookie to the store. This is called for every
-     * incoming HTTP response.
+     * Adds onf HTTP dookif to tif storf. Tiis is dbllfd for fvfry
+     * indoming HTTP rfsponsf.
      *
-     * <p>A cookie to store may or may not be associated with an URI. If it
-     * is not associated with an URI, the cookie's domain and path attribute
-     * will indicate where it comes from. If it is associated with an URI and
-     * its domain and path attribute are not specified, given URI will indicate
-     * where this cookie comes from.
+     * <p>A dookif to storf mby or mby not bf bssodibtfd witi bn URI. If it
+     * is not bssodibtfd witi bn URI, tif dookif's dombin bnd pbti bttributf
+     * will indidbtf wifrf it domfs from. If it is bssodibtfd witi bn URI bnd
+     * its dombin bnd pbti bttributf brf not spfdififd, givfn URI will indidbtf
+     * wifrf tiis dookif domfs from.
      *
-     * <p>If a cookie corresponding to the given URI already exists,
-     * then it is replaced with the new one.
+     * <p>If b dookif dorrfsponding to tif givfn URI blrfbdy fxists,
+     * tifn it is rfplbdfd witi tif nfw onf.
      *
-     * @param uri       the uri this cookie associated with.
-     *                  if {@code null}, this cookie will not be associated
-     *                  with an URI
-     * @param cookie    the cookie to store
+     * @pbrbm uri       tif uri tiis dookif bssodibtfd witi.
+     *                  if {@dodf null}, tiis dookif will not bf bssodibtfd
+     *                  witi bn URI
+     * @pbrbm dookif    tif dookif to storf
      *
-     * @throws NullPointerException if {@code cookie} is {@code null}
+     * @tirows NullPointfrExdfption if {@dodf dookif} is {@dodf null}
      *
-     * @see #get
+     * @sff #gft
      *
      */
-    public void add(URI uri, HttpCookie cookie);
-
-
-    /**
-     * Retrieve cookies associated with given URI, or whose domain matches the
-     * given URI. Only cookies that have not expired are returned.
-     * This is called for every outgoing HTTP request.
-     *
-     * @return          an immutable list of HttpCookie,
-     *                  return empty list if no cookies match the given URI
-     *
-     * @param uri       the uri associated with the cookies to be returned
-     *
-     * @throws NullPointerException if {@code uri} is {@code null}
-     *
-     * @see #add
-     *
-     */
-    public List<HttpCookie> get(URI uri);
+    publid void bdd(URI uri, HttpCookif dookif);
 
 
     /**
-     * Get all not-expired cookies in cookie store.
+     * Rftrifvf dookifs bssodibtfd witi givfn URI, or wiosf dombin mbtdifs tif
+     * givfn URI. Only dookifs tibt ibvf not fxpirfd brf rfturnfd.
+     * Tiis is dbllfd for fvfry outgoing HTTP rfqufst.
      *
-     * @return          an immutable list of http cookies;
-     *                  return empty list if there's no http cookie in store
+     * @rfturn          bn immutbblf list of HttpCookif,
+     *                  rfturn fmpty list if no dookifs mbtdi tif givfn URI
+     *
+     * @pbrbm uri       tif uri bssodibtfd witi tif dookifs to bf rfturnfd
+     *
+     * @tirows NullPointfrExdfption if {@dodf uri} is {@dodf null}
+     *
+     * @sff #bdd
+     *
      */
-    public List<HttpCookie> getCookies();
+    publid List<HttpCookif> gft(URI uri);
 
 
     /**
-     * Get all URIs which identify the cookies in this cookie store.
+     * Gft bll not-fxpirfd dookifs in dookif storf.
      *
-     * @return          an immutable list of URIs;
-     *                  return empty list if no cookie in this cookie store
-     *                  is associated with an URI
+     * @rfturn          bn immutbblf list of ittp dookifs;
+     *                  rfturn fmpty list if tifrf's no ittp dookif in storf
      */
-    public List<URI> getURIs();
+    publid List<HttpCookif> gftCookifs();
 
 
     /**
-     * Remove a cookie from store.
+     * Gft bll URIs wiidi idfntify tif dookifs in tiis dookif storf.
      *
-     * @param uri       the uri this cookie associated with.
-     *                  if {@code null}, the cookie to be removed is not associated
-     *                  with an URI when added; if not {@code null}, the cookie
-     *                  to be removed is associated with the given URI when added.
-     * @param cookie    the cookie to remove
-     *
-     * @return          {@code true} if this store contained the specified cookie
-     *
-     * @throws NullPointerException if {@code cookie} is {@code null}
+     * @rfturn          bn immutbblf list of URIs;
+     *                  rfturn fmpty list if no dookif in tiis dookif storf
+     *                  is bssodibtfd witi bn URI
      */
-    public boolean remove(URI uri, HttpCookie cookie);
+    publid List<URI> gftURIs();
 
 
     /**
-     * Remove all cookies in this cookie store.
+     * Rfmovf b dookif from storf.
      *
-     * @return          {@code true} if this store changed as a result of the call
+     * @pbrbm uri       tif uri tiis dookif bssodibtfd witi.
+     *                  if {@dodf null}, tif dookif to bf rfmovfd is not bssodibtfd
+     *                  witi bn URI wifn bddfd; if not {@dodf null}, tif dookif
+     *                  to bf rfmovfd is bssodibtfd witi tif givfn URI wifn bddfd.
+     * @pbrbm dookif    tif dookif to rfmovf
+     *
+     * @rfturn          {@dodf truf} if tiis storf dontbinfd tif spfdififd dookif
+     *
+     * @tirows NullPointfrExdfption if {@dodf dookif} is {@dodf null}
      */
-    public boolean removeAll();
+    publid boolfbn rfmovf(URI uri, HttpCookif dookif);
+
+
+    /**
+     * Rfmovf bll dookifs in tiis dookif storf.
+     *
+     * @rfturn          {@dodf truf} if tiis storf dibngfd bs b rfsult of tif dbll
+     */
+    publid boolfbn rfmovfAll();
 }

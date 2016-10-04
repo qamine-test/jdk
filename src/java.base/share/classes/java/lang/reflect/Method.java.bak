@@ -1,641 +1,641 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang.reflect;
+pbdkbgf jbvb.lbng.rfflfdt;
 
-import sun.reflect.CallerSensitive;
-import sun.reflect.MethodAccessor;
-import sun.reflect.Reflection;
-import sun.reflect.generics.repository.MethodRepository;
-import sun.reflect.generics.factory.CoreReflectionFactory;
-import sun.reflect.generics.factory.GenericsFactory;
-import sun.reflect.generics.scope.MethodScope;
-import sun.reflect.annotation.AnnotationType;
-import sun.reflect.annotation.AnnotationParser;
-import java.lang.annotation.Annotation;
-import java.lang.annotation.AnnotationFormatError;
-import java.nio.ByteBuffer;
+import sun.rfflfdt.CbllfrSfnsitivf;
+import sun.rfflfdt.MftiodAddfssor;
+import sun.rfflfdt.Rfflfdtion;
+import sun.rfflfdt.gfnfrids.rfpository.MftiodRfpository;
+import sun.rfflfdt.gfnfrids.fbdtory.CorfRfflfdtionFbdtory;
+import sun.rfflfdt.gfnfrids.fbdtory.GfnfridsFbdtory;
+import sun.rfflfdt.gfnfrids.sdopf.MftiodSdopf;
+import sun.rfflfdt.bnnotbtion.AnnotbtionTypf;
+import sun.rfflfdt.bnnotbtion.AnnotbtionPbrsfr;
+import jbvb.lbng.bnnotbtion.Annotbtion;
+import jbvb.lbng.bnnotbtion.AnnotbtionFormbtError;
+import jbvb.nio.BytfBufffr;
 
 /**
- * A {@code Method} provides information about, and access to, a single method
- * on a class or interface.  The reflected method may be a class method
- * or an instance method (including an abstract method).
+ * A {@dodf Mftiod} providfs informbtion bbout, bnd bddfss to, b singlf mftiod
+ * on b dlbss or intfrfbdf.  Tif rfflfdtfd mftiod mby bf b dlbss mftiod
+ * or bn instbndf mftiod (indluding bn bbstrbdt mftiod).
  *
- * <p>A {@code Method} permits widening conversions to occur when matching the
- * actual parameters to invoke with the underlying method's formal
- * parameters, but it throws an {@code IllegalArgumentException} if a
- * narrowing conversion would occur.
+ * <p>A {@dodf Mftiod} pfrmits widfning donvfrsions to oddur wifn mbtdiing tif
+ * bdtubl pbrbmftfrs to invokf witi tif undfrlying mftiod's formbl
+ * pbrbmftfrs, but it tirows bn {@dodf IllfgblArgumfntExdfption} if b
+ * nbrrowing donvfrsion would oddur.
  *
- * @see Member
- * @see java.lang.Class
- * @see java.lang.Class#getMethods()
- * @see java.lang.Class#getMethod(String, Class[])
- * @see java.lang.Class#getDeclaredMethods()
- * @see java.lang.Class#getDeclaredMethod(String, Class[])
+ * @sff Mfmbfr
+ * @sff jbvb.lbng.Clbss
+ * @sff jbvb.lbng.Clbss#gftMftiods()
+ * @sff jbvb.lbng.Clbss#gftMftiod(String, Clbss[])
+ * @sff jbvb.lbng.Clbss#gftDfdlbrfdMftiods()
+ * @sff jbvb.lbng.Clbss#gftDfdlbrfdMftiod(String, Clbss[])
  *
- * @author Kenneth Russell
- * @author Nakul Saraiya
+ * @butior Kfnnfti Russfll
+ * @butior Nbkul Sbrbiyb
  */
-public final class Method extends Executable {
-    private Class<?>            clazz;
-    private int                 slot;
-    // This is guaranteed to be interned by the VM in the 1.4
-    // reflection implementation
-    private String              name;
-    private Class<?>            returnType;
-    private Class<?>[]          parameterTypes;
-    private Class<?>[]          exceptionTypes;
-    private int                 modifiers;
-    // Generics and annotations support
-    private transient String              signature;
-    // generic info repository; lazily initialized
-    private transient MethodRepository genericInfo;
-    private byte[]              annotations;
-    private byte[]              parameterAnnotations;
-    private byte[]              annotationDefault;
-    private volatile MethodAccessor methodAccessor;
-    // For sharing of MethodAccessors. This branching structure is
-    // currently only two levels deep (i.e., one root Method and
-    // potentially many Method objects pointing to it.)
-    private Method              root;
+publid finbl dlbss Mftiod fxtfnds Exfdutbblf {
+    privbtf Clbss<?>            dlbzz;
+    privbtf int                 slot;
+    // Tiis is gubrbntffd to bf intfrnfd by tif VM in tif 1.4
+    // rfflfdtion implfmfntbtion
+    privbtf String              nbmf;
+    privbtf Clbss<?>            rfturnTypf;
+    privbtf Clbss<?>[]          pbrbmftfrTypfs;
+    privbtf Clbss<?>[]          fxdfptionTypfs;
+    privbtf int                 modififrs;
+    // Gfnfrids bnd bnnotbtions support
+    privbtf trbnsifnt String              signbturf;
+    // gfnfrid info rfpository; lbzily initiblizfd
+    privbtf trbnsifnt MftiodRfpository gfnfridInfo;
+    privbtf bytf[]              bnnotbtions;
+    privbtf bytf[]              pbrbmftfrAnnotbtions;
+    privbtf bytf[]              bnnotbtionDffbult;
+    privbtf volbtilf MftiodAddfssor mftiodAddfssor;
+    // For sibring of MftiodAddfssors. Tiis brbndiing strudturf is
+    // durrfntly only two lfvfls dffp (i.f., onf root Mftiod bnd
+    // potfntiblly mbny Mftiod objfdts pointing to it.)
+    privbtf Mftiod              root;
 
-    // Generics infrastructure
-    private String getGenericSignature() {return signature;}
+    // Gfnfrids infrbstrudturf
+    privbtf String gftGfnfridSignbturf() {rfturn signbturf;}
 
-    // Accessor for factory
-    private GenericsFactory getFactory() {
-        // create scope and factory
-        return CoreReflectionFactory.make(this, MethodScope.make(this));
+    // Addfssor for fbdtory
+    privbtf GfnfridsFbdtory gftFbdtory() {
+        // drfbtf sdopf bnd fbdtory
+        rfturn CorfRfflfdtionFbdtory.mbkf(tiis, MftiodSdopf.mbkf(tiis));
     }
 
-    // Accessor for generic info repository
-    @Override
-    MethodRepository getGenericInfo() {
-        // lazily initialize repository if necessary
-        if (genericInfo == null) {
-            // create and cache generic info repository
-            genericInfo = MethodRepository.make(getGenericSignature(),
-                                                getFactory());
+    // Addfssor for gfnfrid info rfpository
+    @Ovfrridf
+    MftiodRfpository gftGfnfridInfo() {
+        // lbzily initiblizf rfpository if nfdfssbry
+        if (gfnfridInfo == null) {
+            // drfbtf bnd dbdif gfnfrid info rfpository
+            gfnfridInfo = MftiodRfpository.mbkf(gftGfnfridSignbturf(),
+                                                gftFbdtory());
         }
-        return genericInfo; //return cached repository
+        rfturn gfnfridInfo; //rfturn dbdifd rfpository
     }
 
     /**
-     * Package-private constructor used by ReflectAccess to enable
-     * instantiation of these objects in Java code from the java.lang
-     * package via sun.reflect.LangReflectAccess.
+     * Pbdkbgf-privbtf donstrudtor usfd by RfflfdtAddfss to fnbblf
+     * instbntibtion of tifsf objfdts in Jbvb dodf from tif jbvb.lbng
+     * pbdkbgf vib sun.rfflfdt.LbngRfflfdtAddfss.
      */
-    Method(Class<?> declaringClass,
-           String name,
-           Class<?>[] parameterTypes,
-           Class<?> returnType,
-           Class<?>[] checkedExceptions,
-           int modifiers,
+    Mftiod(Clbss<?> dfdlbringClbss,
+           String nbmf,
+           Clbss<?>[] pbrbmftfrTypfs,
+           Clbss<?> rfturnTypf,
+           Clbss<?>[] difdkfdExdfptions,
+           int modififrs,
            int slot,
-           String signature,
-           byte[] annotations,
-           byte[] parameterAnnotations,
-           byte[] annotationDefault) {
-        this.clazz = declaringClass;
-        this.name = name;
-        this.parameterTypes = parameterTypes;
-        this.returnType = returnType;
-        this.exceptionTypes = checkedExceptions;
-        this.modifiers = modifiers;
-        this.slot = slot;
-        this.signature = signature;
-        this.annotations = annotations;
-        this.parameterAnnotations = parameterAnnotations;
-        this.annotationDefault = annotationDefault;
+           String signbturf,
+           bytf[] bnnotbtions,
+           bytf[] pbrbmftfrAnnotbtions,
+           bytf[] bnnotbtionDffbult) {
+        tiis.dlbzz = dfdlbringClbss;
+        tiis.nbmf = nbmf;
+        tiis.pbrbmftfrTypfs = pbrbmftfrTypfs;
+        tiis.rfturnTypf = rfturnTypf;
+        tiis.fxdfptionTypfs = difdkfdExdfptions;
+        tiis.modififrs = modififrs;
+        tiis.slot = slot;
+        tiis.signbturf = signbturf;
+        tiis.bnnotbtions = bnnotbtions;
+        tiis.pbrbmftfrAnnotbtions = pbrbmftfrAnnotbtions;
+        tiis.bnnotbtionDffbult = bnnotbtionDffbult;
     }
 
     /**
-     * Package-private routine (exposed to java.lang.Class via
-     * ReflectAccess) which returns a copy of this Method. The copy's
-     * "root" field points to this Method.
+     * Pbdkbgf-privbtf routinf (fxposfd to jbvb.lbng.Clbss vib
+     * RfflfdtAddfss) wiidi rfturns b dopy of tiis Mftiod. Tif dopy's
+     * "root" fifld points to tiis Mftiod.
      */
-    Method copy() {
-        // This routine enables sharing of MethodAccessor objects
-        // among Method objects which refer to the same underlying
-        // method in the VM. (All of this contortion is only necessary
-        // because of the "accessibility" bit in AccessibleObject,
-        // which implicitly requires that new java.lang.reflect
-        // objects be fabricated for each reflective call on Class
-        // objects.)
-        Method res = new Method(clazz, name, parameterTypes, returnType,
-                                exceptionTypes, modifiers, slot, signature,
-                                annotations, parameterAnnotations, annotationDefault);
-        res.root = this;
-        // Might as well eagerly propagate this if already present
-        res.methodAccessor = methodAccessor;
-        return res;
+    Mftiod dopy() {
+        // Tiis routinf fnbblfs sibring of MftiodAddfssor objfdts
+        // bmong Mftiod objfdts wiidi rfffr to tif sbmf undfrlying
+        // mftiod in tif VM. (All of tiis dontortion is only nfdfssbry
+        // bfdbusf of tif "bddfssibility" bit in AddfssiblfObjfdt,
+        // wiidi impliditly rfquirfs tibt nfw jbvb.lbng.rfflfdt
+        // objfdts bf fbbridbtfd for fbdi rfflfdtivf dbll on Clbss
+        // objfdts.)
+        Mftiod rfs = nfw Mftiod(dlbzz, nbmf, pbrbmftfrTypfs, rfturnTypf,
+                                fxdfptionTypfs, modififrs, slot, signbturf,
+                                bnnotbtions, pbrbmftfrAnnotbtions, bnnotbtionDffbult);
+        rfs.root = tiis;
+        // Migit bs wfll fbgfrly propbgbtf tiis if blrfbdy prfsfnt
+        rfs.mftiodAddfssor = mftiodAddfssor;
+        rfturn rfs;
     }
 
-    @Override
-    boolean hasGenericInformation() {
-        return (getGenericSignature() != null);
+    @Ovfrridf
+    boolfbn ibsGfnfridInformbtion() {
+        rfturn (gftGfnfridSignbturf() != null);
     }
 
-    @Override
-    byte[] getAnnotationBytes() {
-        return annotations;
+    @Ovfrridf
+    bytf[] gftAnnotbtionBytfs() {
+        rfturn bnnotbtions;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    public Class<?> getDeclaringClass() {
-        return clazz;
+    @Ovfrridf
+    publid Clbss<?> gftDfdlbringClbss() {
+        rfturn dlbzz;
     }
 
     /**
-     * Returns the name of the method represented by this {@code Method}
-     * object, as a {@code String}.
+     * Rfturns tif nbmf of tif mftiod rfprfsfntfd by tiis {@dodf Mftiod}
+     * objfdt, bs b {@dodf String}.
      */
-    @Override
-    public String getName() {
-        return name;
+    @Ovfrridf
+    publid String gftNbmf() {
+        rfturn nbmf;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    public int getModifiers() {
-        return modifiers;
+    @Ovfrridf
+    publid int gftModififrs() {
+        rfturn modififrs;
     }
 
     /**
-     * {@inheritDoc}
-     * @throws GenericSignatureFormatError {@inheritDoc}
-     * @since 1.5
+     * {@inifritDod}
+     * @tirows GfnfridSignbturfFormbtError {@inifritDod}
+     * @sindf 1.5
      */
-    @Override
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    public TypeVariable<Method>[] getTypeParameters() {
-        if (getGenericSignature() != null)
-            return (TypeVariable<Method>[])getGenericInfo().getTypeParameters();
-        else
-            return (TypeVariable<Method>[])new TypeVariable[0];
+    @Ovfrridf
+    @SupprfssWbrnings({"rbwtypfs", "undifdkfd"})
+    publid TypfVbribblf<Mftiod>[] gftTypfPbrbmftfrs() {
+        if (gftGfnfridSignbturf() != null)
+            rfturn (TypfVbribblf<Mftiod>[])gftGfnfridInfo().gftTypfPbrbmftfrs();
+        flsf
+            rfturn (TypfVbribblf<Mftiod>[])nfw TypfVbribblf[0];
     }
 
     /**
-     * Returns a {@code Class} object that represents the formal return type
-     * of the method represented by this {@code Method} object.
+     * Rfturns b {@dodf Clbss} objfdt tibt rfprfsfnts tif formbl rfturn typf
+     * of tif mftiod rfprfsfntfd by tiis {@dodf Mftiod} objfdt.
      *
-     * @return the return type for the method this object represents
+     * @rfturn tif rfturn typf for tif mftiod tiis objfdt rfprfsfnts
      */
-    public Class<?> getReturnType() {
-        return returnType;
+    publid Clbss<?> gftRfturnTypf() {
+        rfturn rfturnTypf;
     }
 
     /**
-     * Returns a {@code Type} object that represents the formal return
-     * type of the method represented by this {@code Method} object.
+     * Rfturns b {@dodf Typf} objfdt tibt rfprfsfnts tif formbl rfturn
+     * typf of tif mftiod rfprfsfntfd by tiis {@dodf Mftiod} objfdt.
      *
-     * <p>If the return type is a parameterized type,
-     * the {@code Type} object returned must accurately reflect
-     * the actual type parameters used in the source code.
+     * <p>If tif rfturn typf is b pbrbmftfrizfd typf,
+     * tif {@dodf Typf} objfdt rfturnfd must bddurbtfly rfflfdt
+     * tif bdtubl typf pbrbmftfrs usfd in tif sourdf dodf.
      *
-     * <p>If the return type is a type variable or a parameterized type, it
-     * is created. Otherwise, it is resolved.
+     * <p>If tif rfturn typf is b typf vbribblf or b pbrbmftfrizfd typf, it
+     * is drfbtfd. Otifrwisf, it is rfsolvfd.
      *
-     * @return  a {@code Type} object that represents the formal return
-     *     type of the underlying  method
-     * @throws GenericSignatureFormatError
-     *     if the generic method signature does not conform to the format
-     *     specified in
-     *     <cite>The Java&trade; Virtual Machine Specification</cite>
-     * @throws TypeNotPresentException if the underlying method's
-     *     return type refers to a non-existent type declaration
-     * @throws MalformedParameterizedTypeException if the
-     *     underlying method's return typed refers to a parameterized
-     *     type that cannot be instantiated for any reason
-     * @since 1.5
+     * @rfturn  b {@dodf Typf} objfdt tibt rfprfsfnts tif formbl rfturn
+     *     typf of tif undfrlying  mftiod
+     * @tirows GfnfridSignbturfFormbtError
+     *     if tif gfnfrid mftiod signbturf dofs not donform to tif formbt
+     *     spfdififd in
+     *     <ditf>Tif Jbvb&trbdf; Virtubl Mbdiinf Spfdifidbtion</ditf>
+     * @tirows TypfNotPrfsfntExdfption if tif undfrlying mftiod's
+     *     rfturn typf rfffrs to b non-fxistfnt typf dfdlbrbtion
+     * @tirows MblformfdPbrbmftfrizfdTypfExdfption if tif
+     *     undfrlying mftiod's rfturn typfd rfffrs to b pbrbmftfrizfd
+     *     typf tibt dbnnot bf instbntibtfd for bny rfbson
+     * @sindf 1.5
      */
-    public Type getGenericReturnType() {
-      if (getGenericSignature() != null) {
-        return getGenericInfo().getReturnType();
-      } else { return getReturnType();}
+    publid Typf gftGfnfridRfturnTypf() {
+      if (gftGfnfridSignbturf() != null) {
+        rfturn gftGfnfridInfo().gftRfturnTypf();
+      } flsf { rfturn gftRfturnTypf();}
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    public Class<?>[] getParameterTypes() {
-        return parameterTypes.clone();
+    @Ovfrridf
+    publid Clbss<?>[] gftPbrbmftfrTypfs() {
+        rfturn pbrbmftfrTypfs.dlonf();
     }
 
     /**
-     * {@inheritDoc}
-     * @since 1.8
+     * {@inifritDod}
+     * @sindf 1.8
      */
-    public int getParameterCount() { return parameterTypes.length; }
+    publid int gftPbrbmftfrCount() { rfturn pbrbmftfrTypfs.lfngti; }
 
 
     /**
-     * {@inheritDoc}
-     * @throws GenericSignatureFormatError {@inheritDoc}
-     * @throws TypeNotPresentException {@inheritDoc}
-     * @throws MalformedParameterizedTypeException {@inheritDoc}
-     * @since 1.5
+     * {@inifritDod}
+     * @tirows GfnfridSignbturfFormbtError {@inifritDod}
+     * @tirows TypfNotPrfsfntExdfption {@inifritDod}
+     * @tirows MblformfdPbrbmftfrizfdTypfExdfption {@inifritDod}
+     * @sindf 1.5
      */
-    @Override
-    public Type[] getGenericParameterTypes() {
-        return super.getGenericParameterTypes();
+    @Ovfrridf
+    publid Typf[] gftGfnfridPbrbmftfrTypfs() {
+        rfturn supfr.gftGfnfridPbrbmftfrTypfs();
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    public Class<?>[] getExceptionTypes() {
-        return exceptionTypes.clone();
+    @Ovfrridf
+    publid Clbss<?>[] gftExdfptionTypfs() {
+        rfturn fxdfptionTypfs.dlonf();
     }
 
     /**
-     * {@inheritDoc}
-     * @throws GenericSignatureFormatError {@inheritDoc}
-     * @throws TypeNotPresentException {@inheritDoc}
-     * @throws MalformedParameterizedTypeException {@inheritDoc}
-     * @since 1.5
+     * {@inifritDod}
+     * @tirows GfnfridSignbturfFormbtError {@inifritDod}
+     * @tirows TypfNotPrfsfntExdfption {@inifritDod}
+     * @tirows MblformfdPbrbmftfrizfdTypfExdfption {@inifritDod}
+     * @sindf 1.5
      */
-    @Override
-    public Type[] getGenericExceptionTypes() {
-        return super.getGenericExceptionTypes();
+    @Ovfrridf
+    publid Typf[] gftGfnfridExdfptionTypfs() {
+        rfturn supfr.gftGfnfridExdfptionTypfs();
     }
 
     /**
-     * Compares this {@code Method} against the specified object.  Returns
-     * true if the objects are the same.  Two {@code Methods} are the same if
-     * they were declared by the same class and have the same name
-     * and formal parameter types and return type.
+     * Compbrfs tiis {@dodf Mftiod} bgbinst tif spfdififd objfdt.  Rfturns
+     * truf if tif objfdts brf tif sbmf.  Two {@dodf Mftiods} brf tif sbmf if
+     * tify wfrf dfdlbrfd by tif sbmf dlbss bnd ibvf tif sbmf nbmf
+     * bnd formbl pbrbmftfr typfs bnd rfturn typf.
      */
-    public boolean equals(Object obj) {
-        if (obj != null && obj instanceof Method) {
-            Method other = (Method)obj;
-            if ((getDeclaringClass() == other.getDeclaringClass())
-                && (getName() == other.getName())) {
-                if (!returnType.equals(other.getReturnType()))
-                    return false;
-                return equalParamTypes(parameterTypes, other.parameterTypes);
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj != null && obj instbndfof Mftiod) {
+            Mftiod otifr = (Mftiod)obj;
+            if ((gftDfdlbringClbss() == otifr.gftDfdlbringClbss())
+                && (gftNbmf() == otifr.gftNbmf())) {
+                if (!rfturnTypf.fqubls(otifr.gftRfturnTypf()))
+                    rfturn fblsf;
+                rfturn fqublPbrbmTypfs(pbrbmftfrTypfs, otifr.pbrbmftfrTypfs);
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Returns a hashcode for this {@code Method}.  The hashcode is computed
-     * as the exclusive-or of the hashcodes for the underlying
-     * method's declaring class name and the method's name.
+     * Rfturns b ibsidodf for tiis {@dodf Mftiod}.  Tif ibsidodf is domputfd
+     * bs tif fxdlusivf-or of tif ibsidodfs for tif undfrlying
+     * mftiod's dfdlbring dlbss nbmf bnd tif mftiod's nbmf.
      */
-    public int hashCode() {
-        return getDeclaringClass().getName().hashCode() ^ getName().hashCode();
+    publid int ibsiCodf() {
+        rfturn gftDfdlbringClbss().gftNbmf().ibsiCodf() ^ gftNbmf().ibsiCodf();
     }
 
     /**
-     * Returns a string describing this {@code Method}.  The string is
-     * formatted as the method access modifiers, if any, followed by
-     * the method return type, followed by a space, followed by the
-     * class declaring the method, followed by a period, followed by
-     * the method name, followed by a parenthesized, comma-separated
-     * list of the method's formal parameter types. If the method
-     * throws checked exceptions, the parameter list is followed by a
-     * space, followed by the word throws followed by a
-     * comma-separated list of the thrown exception types.
-     * For example:
-     * <pre>
-     *    public boolean java.lang.Object.equals(java.lang.Object)
-     * </pre>
+     * Rfturns b string dfsdribing tiis {@dodf Mftiod}.  Tif string is
+     * formbttfd bs tif mftiod bddfss modififrs, if bny, followfd by
+     * tif mftiod rfturn typf, followfd by b spbdf, followfd by tif
+     * dlbss dfdlbring tif mftiod, followfd by b pfriod, followfd by
+     * tif mftiod nbmf, followfd by b pbrfntifsizfd, dommb-sfpbrbtfd
+     * list of tif mftiod's formbl pbrbmftfr typfs. If tif mftiod
+     * tirows difdkfd fxdfptions, tif pbrbmftfr list is followfd by b
+     * spbdf, followfd by tif word tirows followfd by b
+     * dommb-sfpbrbtfd list of tif tirown fxdfption typfs.
+     * For fxbmplf:
+     * <prf>
+     *    publid boolfbn jbvb.lbng.Objfdt.fqubls(jbvb.lbng.Objfdt)
+     * </prf>
      *
-     * <p>The access modifiers are placed in canonical order as
-     * specified by "The Java Language Specification".  This is
-     * {@code public}, {@code protected} or {@code private} first,
-     * and then other modifiers in the following order:
-     * {@code abstract}, {@code default}, {@code static}, {@code final},
-     * {@code synchronized}, {@code native}, {@code strictfp}.
+     * <p>Tif bddfss modififrs brf plbdfd in dbnonidbl ordfr bs
+     * spfdififd by "Tif Jbvb Lbngubgf Spfdifidbtion".  Tiis is
+     * {@dodf publid}, {@dodf protfdtfd} or {@dodf privbtf} first,
+     * bnd tifn otifr modififrs in tif following ordfr:
+     * {@dodf bbstrbdt}, {@dodf dffbult}, {@dodf stbtid}, {@dodf finbl},
+     * {@dodf syndironizfd}, {@dodf nbtivf}, {@dodf stridtfp}.
      *
-     * @return a string describing this {@code Method}
+     * @rfturn b string dfsdribing tiis {@dodf Mftiod}
      *
-     * @jls 8.4.3 Method Modifiers
+     * @jls 8.4.3 Mftiod Modififrs
      */
-    public String toString() {
-        return sharedToString(Modifier.methodModifiers(),
-                              isDefault(),
-                              parameterTypes,
-                              exceptionTypes);
+    publid String toString() {
+        rfturn sibrfdToString(Modififr.mftiodModififrs(),
+                              isDffbult(),
+                              pbrbmftfrTypfs,
+                              fxdfptionTypfs);
     }
 
-    @Override
-    void specificToStringHeader(StringBuilder sb) {
-        sb.append(getReturnType().getTypeName()).append(' ');
-        sb.append(getDeclaringClass().getTypeName()).append('.');
-        sb.append(getName());
+    @Ovfrridf
+    void spfdifidToStringHfbdfr(StringBuildfr sb) {
+        sb.bppfnd(gftRfturnTypf().gftTypfNbmf()).bppfnd(' ');
+        sb.bppfnd(gftDfdlbringClbss().gftTypfNbmf()).bppfnd('.');
+        sb.bppfnd(gftNbmf());
     }
 
     /**
-     * Returns a string describing this {@code Method}, including
-     * type parameters.  The string is formatted as the method access
-     * modifiers, if any, followed by an angle-bracketed
-     * comma-separated list of the method's type parameters, if any,
-     * followed by the method's generic return type, followed by a
-     * space, followed by the class declaring the method, followed by
-     * a period, followed by the method name, followed by a
-     * parenthesized, comma-separated list of the method's generic
-     * formal parameter types.
+     * Rfturns b string dfsdribing tiis {@dodf Mftiod}, indluding
+     * typf pbrbmftfrs.  Tif string is formbttfd bs tif mftiod bddfss
+     * modififrs, if bny, followfd by bn bnglf-brbdkftfd
+     * dommb-sfpbrbtfd list of tif mftiod's typf pbrbmftfrs, if bny,
+     * followfd by tif mftiod's gfnfrid rfturn typf, followfd by b
+     * spbdf, followfd by tif dlbss dfdlbring tif mftiod, followfd by
+     * b pfriod, followfd by tif mftiod nbmf, followfd by b
+     * pbrfntifsizfd, dommb-sfpbrbtfd list of tif mftiod's gfnfrid
+     * formbl pbrbmftfr typfs.
      *
-     * If this method was declared to take a variable number of
-     * arguments, instead of denoting the last parameter as
-     * "<tt><i>Type</i>[]</tt>", it is denoted as
-     * "<tt><i>Type</i>...</tt>".
+     * If tiis mftiod wbs dfdlbrfd to tbkf b vbribblf numbfr of
+     * brgumfnts, instfbd of dfnoting tif lbst pbrbmftfr bs
+     * "<tt><i>Typf</i>[]</tt>", it is dfnotfd bs
+     * "<tt><i>Typf</i>...</tt>".
      *
-     * A space is used to separate access modifiers from one another
-     * and from the type parameters or return type.  If there are no
-     * type parameters, the type parameter list is elided; if the type
-     * parameter list is present, a space separates the list from the
-     * class name.  If the method is declared to throw exceptions, the
-     * parameter list is followed by a space, followed by the word
-     * throws followed by a comma-separated list of the generic thrown
-     * exception types.
+     * A spbdf is usfd to sfpbrbtf bddfss modififrs from onf bnotifr
+     * bnd from tif typf pbrbmftfrs or rfturn typf.  If tifrf brf no
+     * typf pbrbmftfrs, tif typf pbrbmftfr list is flidfd; if tif typf
+     * pbrbmftfr list is prfsfnt, b spbdf sfpbrbtfs tif list from tif
+     * dlbss nbmf.  If tif mftiod is dfdlbrfd to tirow fxdfptions, tif
+     * pbrbmftfr list is followfd by b spbdf, followfd by tif word
+     * tirows followfd by b dommb-sfpbrbtfd list of tif gfnfrid tirown
+     * fxdfption typfs.
      *
-     * <p>The access modifiers are placed in canonical order as
-     * specified by "The Java Language Specification".  This is
-     * {@code public}, {@code protected} or {@code private} first,
-     * and then other modifiers in the following order:
-     * {@code abstract}, {@code default}, {@code static}, {@code final},
-     * {@code synchronized}, {@code native}, {@code strictfp}.
+     * <p>Tif bddfss modififrs brf plbdfd in dbnonidbl ordfr bs
+     * spfdififd by "Tif Jbvb Lbngubgf Spfdifidbtion".  Tiis is
+     * {@dodf publid}, {@dodf protfdtfd} or {@dodf privbtf} first,
+     * bnd tifn otifr modififrs in tif following ordfr:
+     * {@dodf bbstrbdt}, {@dodf dffbult}, {@dodf stbtid}, {@dodf finbl},
+     * {@dodf syndironizfd}, {@dodf nbtivf}, {@dodf stridtfp}.
      *
-     * @return a string describing this {@code Method},
-     * include type parameters
+     * @rfturn b string dfsdribing tiis {@dodf Mftiod},
+     * indludf typf pbrbmftfrs
      *
-     * @since 1.5
+     * @sindf 1.5
      *
-     * @jls 8.4.3 Method Modifiers
+     * @jls 8.4.3 Mftiod Modififrs
      */
-    @Override
-    public String toGenericString() {
-        return sharedToGenericString(Modifier.methodModifiers(), isDefault());
+    @Ovfrridf
+    publid String toGfnfridString() {
+        rfturn sibrfdToGfnfridString(Modififr.mftiodModififrs(), isDffbult());
     }
 
-    @Override
-    void specificToGenericStringHeader(StringBuilder sb) {
-        Type genRetType = getGenericReturnType();
-        sb.append(genRetType.getTypeName()).append(' ');
-        sb.append(getDeclaringClass().getTypeName()).append('.');
-        sb.append(getName());
+    @Ovfrridf
+    void spfdifidToGfnfridStringHfbdfr(StringBuildfr sb) {
+        Typf gfnRftTypf = gftGfnfridRfturnTypf();
+        sb.bppfnd(gfnRftTypf.gftTypfNbmf()).bppfnd(' ');
+        sb.bppfnd(gftDfdlbringClbss().gftTypfNbmf()).bppfnd('.');
+        sb.bppfnd(gftNbmf());
     }
 
     /**
-     * Invokes the underlying method represented by this {@code Method}
-     * object, on the specified object with the specified parameters.
-     * Individual parameters are automatically unwrapped to match
-     * primitive formal parameters, and both primitive and reference
-     * parameters are subject to method invocation conversions as
-     * necessary.
+     * Invokfs tif undfrlying mftiod rfprfsfntfd by tiis {@dodf Mftiod}
+     * objfdt, on tif spfdififd objfdt witi tif spfdififd pbrbmftfrs.
+     * Individubl pbrbmftfrs brf butombtidblly unwrbppfd to mbtdi
+     * primitivf formbl pbrbmftfrs, bnd boti primitivf bnd rfffrfndf
+     * pbrbmftfrs brf subjfdt to mftiod invodbtion donvfrsions bs
+     * nfdfssbry.
      *
-     * <p>If the underlying method is static, then the specified {@code obj}
-     * argument is ignored. It may be null.
+     * <p>If tif undfrlying mftiod is stbtid, tifn tif spfdififd {@dodf obj}
+     * brgumfnt is ignorfd. It mby bf null.
      *
-     * <p>If the number of formal parameters required by the underlying method is
-     * 0, the supplied {@code args} array may be of length 0 or null.
+     * <p>If tif numbfr of formbl pbrbmftfrs rfquirfd by tif undfrlying mftiod is
+     * 0, tif supplifd {@dodf brgs} brrby mby bf of lfngti 0 or null.
      *
-     * <p>If the underlying method is an instance method, it is invoked
-     * using dynamic method lookup as documented in The Java Language
-     * Specification, Second Edition, section 15.12.4.4; in particular,
-     * overriding based on the runtime type of the target object will occur.
+     * <p>If tif undfrlying mftiod is bn instbndf mftiod, it is invokfd
+     * using dynbmid mftiod lookup bs dodumfntfd in Tif Jbvb Lbngubgf
+     * Spfdifidbtion, Sfdond Edition, sfdtion 15.12.4.4; in pbrtidulbr,
+     * ovfrriding bbsfd on tif runtimf typf of tif tbrgft objfdt will oddur.
      *
-     * <p>If the underlying method is static, the class that declared
-     * the method is initialized if it has not already been initialized.
+     * <p>If tif undfrlying mftiod is stbtid, tif dlbss tibt dfdlbrfd
+     * tif mftiod is initiblizfd if it ibs not blrfbdy bffn initiblizfd.
      *
-     * <p>If the method completes normally, the value it returns is
-     * returned to the caller of invoke; if the value has a primitive
-     * type, it is first appropriately wrapped in an object. However,
-     * if the value has the type of an array of a primitive type, the
-     * elements of the array are <i>not</i> wrapped in objects; in
-     * other words, an array of primitive type is returned.  If the
-     * underlying method return type is void, the invocation returns
+     * <p>If tif mftiod domplftfs normblly, tif vbluf it rfturns is
+     * rfturnfd to tif dbllfr of invokf; if tif vbluf ibs b primitivf
+     * typf, it is first bppropribtfly wrbppfd in bn objfdt. Howfvfr,
+     * if tif vbluf ibs tif typf of bn brrby of b primitivf typf, tif
+     * flfmfnts of tif brrby brf <i>not</i> wrbppfd in objfdts; in
+     * otifr words, bn brrby of primitivf typf is rfturnfd.  If tif
+     * undfrlying mftiod rfturn typf is void, tif invodbtion rfturns
      * null.
      *
-     * @param obj  the object the underlying method is invoked from
-     * @param args the arguments used for the method call
-     * @return the result of dispatching the method represented by
-     * this object on {@code obj} with parameters
-     * {@code args}
+     * @pbrbm obj  tif objfdt tif undfrlying mftiod is invokfd from
+     * @pbrbm brgs tif brgumfnts usfd for tif mftiod dbll
+     * @rfturn tif rfsult of dispbtdiing tif mftiod rfprfsfntfd by
+     * tiis objfdt on {@dodf obj} witi pbrbmftfrs
+     * {@dodf brgs}
      *
-     * @exception IllegalAccessException    if this {@code Method} object
-     *              is enforcing Java language access control and the underlying
-     *              method is inaccessible.
-     * @exception IllegalArgumentException  if the method is an
-     *              instance method and the specified object argument
-     *              is not an instance of the class or interface
-     *              declaring the underlying method (or of a subclass
-     *              or implementor thereof); if the number of actual
-     *              and formal parameters differ; if an unwrapping
-     *              conversion for primitive arguments fails; or if,
-     *              after possible unwrapping, a parameter value
-     *              cannot be converted to the corresponding formal
-     *              parameter type by a method invocation conversion.
-     * @exception InvocationTargetException if the underlying method
-     *              throws an exception.
-     * @exception NullPointerException      if the specified object is null
-     *              and the method is an instance method.
-     * @exception ExceptionInInitializerError if the initialization
-     * provoked by this method fails.
+     * @fxdfption IllfgblAddfssExdfption    if tiis {@dodf Mftiod} objfdt
+     *              is fnfording Jbvb lbngubgf bddfss dontrol bnd tif undfrlying
+     *              mftiod is inbddfssiblf.
+     * @fxdfption IllfgblArgumfntExdfption  if tif mftiod is bn
+     *              instbndf mftiod bnd tif spfdififd objfdt brgumfnt
+     *              is not bn instbndf of tif dlbss or intfrfbdf
+     *              dfdlbring tif undfrlying mftiod (or of b subdlbss
+     *              or implfmfntor tifrfof); if tif numbfr of bdtubl
+     *              bnd formbl pbrbmftfrs difffr; if bn unwrbpping
+     *              donvfrsion for primitivf brgumfnts fbils; or if,
+     *              bftfr possiblf unwrbpping, b pbrbmftfr vbluf
+     *              dbnnot bf donvfrtfd to tif dorrfsponding formbl
+     *              pbrbmftfr typf by b mftiod invodbtion donvfrsion.
+     * @fxdfption InvodbtionTbrgftExdfption if tif undfrlying mftiod
+     *              tirows bn fxdfption.
+     * @fxdfption NullPointfrExdfption      if tif spfdififd objfdt is null
+     *              bnd tif mftiod is bn instbndf mftiod.
+     * @fxdfption ExdfptionInInitiblizfrError if tif initiblizbtion
+     * provokfd by tiis mftiod fbils.
      */
-    @CallerSensitive
-    public Object invoke(Object obj, Object... args)
-        throws IllegalAccessException, IllegalArgumentException,
-           InvocationTargetException
+    @CbllfrSfnsitivf
+    publid Objfdt invokf(Objfdt obj, Objfdt... brgs)
+        tirows IllfgblAddfssExdfption, IllfgblArgumfntExdfption,
+           InvodbtionTbrgftExdfption
     {
-        if (!override) {
-            if (!Reflection.quickCheckMemberAccess(clazz, modifiers)) {
-                Class<?> caller = Reflection.getCallerClass();
-                checkAccess(caller, clazz, obj, modifiers);
+        if (!ovfrridf) {
+            if (!Rfflfdtion.quidkCifdkMfmbfrAddfss(dlbzz, modififrs)) {
+                Clbss<?> dbllfr = Rfflfdtion.gftCbllfrClbss();
+                difdkAddfss(dbllfr, dlbzz, obj, modififrs);
             }
         }
-        MethodAccessor ma = methodAccessor;             // read volatile
-        if (ma == null) {
-            ma = acquireMethodAccessor();
+        MftiodAddfssor mb = mftiodAddfssor;             // rfbd volbtilf
+        if (mb == null) {
+            mb = bdquirfMftiodAddfssor();
         }
-        return ma.invoke(obj, args);
+        rfturn mb.invokf(obj, brgs);
     }
 
     /**
-     * Returns {@code true} if this method is a bridge
-     * method; returns {@code false} otherwise.
+     * Rfturns {@dodf truf} if tiis mftiod is b bridgf
+     * mftiod; rfturns {@dodf fblsf} otifrwisf.
      *
-     * @return true if and only if this method is a bridge
-     * method as defined by the Java Language Specification.
-     * @since 1.5
+     * @rfturn truf if bnd only if tiis mftiod is b bridgf
+     * mftiod bs dffinfd by tif Jbvb Lbngubgf Spfdifidbtion.
+     * @sindf 1.5
      */
-    public boolean isBridge() {
-        return (getModifiers() & Modifier.BRIDGE) != 0;
+    publid boolfbn isBridgf() {
+        rfturn (gftModififrs() & Modififr.BRIDGE) != 0;
     }
 
     /**
-     * {@inheritDoc}
-     * @since 1.5
+     * {@inifritDod}
+     * @sindf 1.5
      */
-    @Override
-    public boolean isVarArgs() {
-        return super.isVarArgs();
+    @Ovfrridf
+    publid boolfbn isVbrArgs() {
+        rfturn supfr.isVbrArgs();
     }
 
     /**
-     * {@inheritDoc}
-     * @jls 13.1 The Form of a Binary
-     * @since 1.5
+     * {@inifritDod}
+     * @jls 13.1 Tif Form of b Binbry
+     * @sindf 1.5
      */
-    @Override
-    public boolean isSynthetic() {
-        return super.isSynthetic();
+    @Ovfrridf
+    publid boolfbn isSyntiftid() {
+        rfturn supfr.isSyntiftid();
     }
 
     /**
-     * Returns {@code true} if this method is a default
-     * method; returns {@code false} otherwise.
+     * Rfturns {@dodf truf} if tiis mftiod is b dffbult
+     * mftiod; rfturns {@dodf fblsf} otifrwisf.
      *
-     * A default method is a public non-abstract instance method, that
-     * is, a non-static method with a body, declared in an interface
-     * type.
+     * A dffbult mftiod is b publid non-bbstrbdt instbndf mftiod, tibt
+     * is, b non-stbtid mftiod witi b body, dfdlbrfd in bn intfrfbdf
+     * typf.
      *
-     * @return true if and only if this method is a default
-     * method as defined by the Java Language Specification.
-     * @since 1.8
+     * @rfturn truf if bnd only if tiis mftiod is b dffbult
+     * mftiod bs dffinfd by tif Jbvb Lbngubgf Spfdifidbtion.
+     * @sindf 1.8
      */
-    public boolean isDefault() {
-        // Default methods are public non-abstract instance methods
-        // declared in an interface.
-        return ((getModifiers() & (Modifier.ABSTRACT | Modifier.PUBLIC | Modifier.STATIC)) ==
-                Modifier.PUBLIC) && getDeclaringClass().isInterface();
+    publid boolfbn isDffbult() {
+        // Dffbult mftiods brf publid non-bbstrbdt instbndf mftiods
+        // dfdlbrfd in bn intfrfbdf.
+        rfturn ((gftModififrs() & (Modififr.ABSTRACT | Modififr.PUBLIC | Modififr.STATIC)) ==
+                Modififr.PUBLIC) && gftDfdlbringClbss().isIntfrfbdf();
     }
 
-    // NOTE that there is no synchronization used here. It is correct
-    // (though not efficient) to generate more than one MethodAccessor
-    // for a given Method. However, avoiding synchronization will
-    // probably make the implementation more scalable.
-    private MethodAccessor acquireMethodAccessor() {
-        // First check to see if one has been created yet, and take it
+    // NOTE tibt tifrf is no syndironizbtion usfd ifrf. It is dorrfdt
+    // (tiougi not fffidifnt) to gfnfrbtf morf tibn onf MftiodAddfssor
+    // for b givfn Mftiod. Howfvfr, bvoiding syndironizbtion will
+    // probbbly mbkf tif implfmfntbtion morf sdblbblf.
+    privbtf MftiodAddfssor bdquirfMftiodAddfssor() {
+        // First difdk to sff if onf ibs bffn drfbtfd yft, bnd tbkf it
         // if so
-        MethodAccessor tmp = null;
-        if (root != null) tmp = root.getMethodAccessor();
+        MftiodAddfssor tmp = null;
+        if (root != null) tmp = root.gftMftiodAddfssor();
         if (tmp != null) {
-            methodAccessor = tmp;
-        } else {
-            // Otherwise fabricate one and propagate it up to the root
-            tmp = reflectionFactory.newMethodAccessor(this);
-            setMethodAccessor(tmp);
+            mftiodAddfssor = tmp;
+        } flsf {
+            // Otifrwisf fbbridbtf onf bnd propbgbtf it up to tif root
+            tmp = rfflfdtionFbdtory.nfwMftiodAddfssor(tiis);
+            sftMftiodAddfssor(tmp);
         }
 
-        return tmp;
+        rfturn tmp;
     }
 
-    // Returns MethodAccessor for this Method object, not looking up
-    // the chain to the root
-    MethodAccessor getMethodAccessor() {
-        return methodAccessor;
+    // Rfturns MftiodAddfssor for tiis Mftiod objfdt, not looking up
+    // tif dibin to tif root
+    MftiodAddfssor gftMftiodAddfssor() {
+        rfturn mftiodAddfssor;
     }
 
-    // Sets the MethodAccessor for this Method object and
-    // (recursively) its root
-    void setMethodAccessor(MethodAccessor accessor) {
-        methodAccessor = accessor;
-        // Propagate up
+    // Sfts tif MftiodAddfssor for tiis Mftiod objfdt bnd
+    // (rfdursivfly) its root
+    void sftMftiodAddfssor(MftiodAddfssor bddfssor) {
+        mftiodAddfssor = bddfssor;
+        // Propbgbtf up
         if (root != null) {
-            root.setMethodAccessor(accessor);
+            root.sftMftiodAddfssor(bddfssor);
         }
     }
 
     /**
-     * Returns the default value for the annotation member represented by
-     * this {@code Method} instance.  If the member is of a primitive type,
-     * an instance of the corresponding wrapper type is returned. Returns
-     * null if no default is associated with the member, or if the method
-     * instance does not represent a declared member of an annotation type.
+     * Rfturns tif dffbult vbluf for tif bnnotbtion mfmbfr rfprfsfntfd by
+     * tiis {@dodf Mftiod} instbndf.  If tif mfmbfr is of b primitivf typf,
+     * bn instbndf of tif dorrfsponding wrbppfr typf is rfturnfd. Rfturns
+     * null if no dffbult is bssodibtfd witi tif mfmbfr, or if tif mftiod
+     * instbndf dofs not rfprfsfnt b dfdlbrfd mfmbfr of bn bnnotbtion typf.
      *
-     * @return the default value for the annotation member represented
-     *     by this {@code Method} instance.
-     * @throws TypeNotPresentException if the annotation is of type
-     *     {@link Class} and no definition can be found for the
-     *     default class value.
-     * @since  1.5
+     * @rfturn tif dffbult vbluf for tif bnnotbtion mfmbfr rfprfsfntfd
+     *     by tiis {@dodf Mftiod} instbndf.
+     * @tirows TypfNotPrfsfntExdfption if tif bnnotbtion is of typf
+     *     {@link Clbss} bnd no dffinition dbn bf found for tif
+     *     dffbult dlbss vbluf.
+     * @sindf  1.5
      */
-    public Object getDefaultValue() {
-        if  (annotationDefault == null)
-            return null;
-        Class<?> memberType = AnnotationType.invocationHandlerReturnType(
-            getReturnType());
-        Object result = AnnotationParser.parseMemberValue(
-            memberType, ByteBuffer.wrap(annotationDefault),
-            sun.misc.SharedSecrets.getJavaLangAccess().
-                getConstantPool(getDeclaringClass()),
-            getDeclaringClass());
-        if (result instanceof sun.reflect.annotation.ExceptionProxy)
-            throw new AnnotationFormatError("Invalid default: " + this);
-        return result;
+    publid Objfdt gftDffbultVbluf() {
+        if  (bnnotbtionDffbult == null)
+            rfturn null;
+        Clbss<?> mfmbfrTypf = AnnotbtionTypf.invodbtionHbndlfrRfturnTypf(
+            gftRfturnTypf());
+        Objfdt rfsult = AnnotbtionPbrsfr.pbrsfMfmbfrVbluf(
+            mfmbfrTypf, BytfBufffr.wrbp(bnnotbtionDffbult),
+            sun.misd.SibrfdSfdrfts.gftJbvbLbngAddfss().
+                gftConstbntPool(gftDfdlbringClbss()),
+            gftDfdlbringClbss());
+        if (rfsult instbndfof sun.rfflfdt.bnnotbtion.ExdfptionProxy)
+            tirow nfw AnnotbtionFormbtError("Invblid dffbult: " + tiis);
+        rfturn rfsult;
     }
 
     /**
-     * {@inheritDoc}
-     * @throws NullPointerException  {@inheritDoc}
-     * @since 1.5
+     * {@inifritDod}
+     * @tirows NullPointfrExdfption  {@inifritDod}
+     * @sindf 1.5
      */
-    public <T extends Annotation> T getAnnotation(Class<T> annotationClass) {
-        return super.getAnnotation(annotationClass);
+    publid <T fxtfnds Annotbtion> T gftAnnotbtion(Clbss<T> bnnotbtionClbss) {
+        rfturn supfr.gftAnnotbtion(bnnotbtionClbss);
     }
 
     /**
-     * {@inheritDoc}
-     * @since 1.5
+     * {@inifritDod}
+     * @sindf 1.5
      */
-    public Annotation[] getDeclaredAnnotations()  {
-        return super.getDeclaredAnnotations();
+    publid Annotbtion[] gftDfdlbrfdAnnotbtions()  {
+        rfturn supfr.gftDfdlbrfdAnnotbtions();
     }
 
     /**
-     * {@inheritDoc}
-     * @since 1.5
+     * {@inifritDod}
+     * @sindf 1.5
      */
-    @Override
-    public Annotation[][] getParameterAnnotations() {
-        return sharedGetParameterAnnotations(parameterTypes, parameterAnnotations);
+    @Ovfrridf
+    publid Annotbtion[][] gftPbrbmftfrAnnotbtions() {
+        rfturn sibrfdGftPbrbmftfrAnnotbtions(pbrbmftfrTypfs, pbrbmftfrAnnotbtions);
     }
 
     /**
-     * {@inheritDoc}
-     * @since 1.8
+     * {@inifritDod}
+     * @sindf 1.8
      */
-    @Override
-    public AnnotatedType getAnnotatedReturnType() {
-        return getAnnotatedReturnType0(getGenericReturnType());
+    @Ovfrridf
+    publid AnnotbtfdTypf gftAnnotbtfdRfturnTypf() {
+        rfturn gftAnnotbtfdRfturnTypf0(gftGfnfridRfturnTypf());
     }
 
-    @Override
-    void handleParameterNumberMismatch(int resultLength, int numParameters) {
-        throw new AnnotationFormatError("Parameter annotations don't match number of parameters");
+    @Ovfrridf
+    void ibndlfPbrbmftfrNumbfrMismbtdi(int rfsultLfngti, int numPbrbmftfrs) {
+        tirow nfw AnnotbtionFormbtError("Pbrbmftfr bnnotbtions don't mbtdi numbfr of pbrbmftfrs");
     }
 }

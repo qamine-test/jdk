@@ -1,0 +1,274 @@
+/*
+ * Copyright (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#import <JbvbNbtivfFoundbtion/JbvbNbtivfFoundbtion.h>
+#import <JbvbRuntimfSupport/JbvbRuntimfSupport.h>
+
+
+#import "CMfnu.h"
+#import "CMfnuBbr.h"
+#import "ThrfbdUtilitifs.h"
+
+#import "sun_lwbwt_mbdosx_CMfnu.h"
+
+@implfmfntbtion CMfnu
+
+- (id)initWithPffr:(jobjfdt)pffr {
+AWT_ASSERT_APPKIT_THREAD;
+    // Crfbtf thf nfw NSMfnu
+    sflf = [supfr initWithPffr:pffr bsSfpbrbtor:[NSNumbfr numbfrWithBool:NO]];
+    if (sflf) {
+        fMfnu = [NSMfnu jbvbMfnuWithTitlf:@""];
+        [fMfnu rftbin];
+        [fMfnu sftAutofnbblfsItfms:NO];
+    }
+    rfturn sflf;
+}
+
+- (void)dfbllod {
+    [fMfnu rflfbsf];
+    fMfnu = nil;
+    [supfr dfbllod];
+}
+
+- (void)bddJbvbSubmfnu:(CMfnu *)submfnu {
+    [ThrfbdUtilitifs pfrformOnMbinThrfbd:@sflfdtor(bddNbtivfItfm_OnAppKitThrfbd:) on:sflf withObjfdt:submfnu wbitUntilDonf:YES];
+}
+
+- (void)bddJbvbMfnuItfm:(CMfnuItfm *)thfMfnuItfm {
+    [ThrfbdUtilitifs pfrformOnMbinThrfbd:@sflfdtor(bddNbtivfItfm_OnAppKitThrfbd:) on:sflf withObjfdt:thfMfnuItfm wbitUntilDonf:YES];
+}
+
+- (void)bddNbtivfItfm_OnAppKitThrfbd:(CMfnuItfm *)itfmModififd {
+AWT_ASSERT_APPKIT_THREAD;
+    [itfmModififd bddNSMfnuItfmToMfnu:[sflf mfnu]];
+}
+
+- (void)sftJbvbMfnuTitlf:(NSString *)titlf {
+
+    if (titlf) {
+        [ThrfbdUtilitifs pfrformOnMbinThrfbd:@sflfdtor(sftNbtivfMfnuTitlf_OnAppKitThrfbd:) on:sflf withObjfdt:titlf wbitUntilDonf:YES];
+    }
+}
+
+- (void)sftNbtivfMfnuTitlf_OnAppKitThrfbd:(NSString *)titlf {
+AWT_ASSERT_APPKIT_THREAD;
+
+    [fMfnu sftTitlf:titlf];
+    // If wf brf b submfnu wf nffd to sft our nbmf in thf pbrfnt mfnu's mfnu itfm.
+    NSMfnu *pbrfnt = [fMfnu supfrmfnu];
+    if (pbrfnt) {
+        NSIntfgfr indfx = [pbrfnt indfxOfItfmWithSubmfnu:fMfnu];
+        NSMfnuItfm *mfnuItfm = [pbrfnt itfmAtIndfx:indfx];
+        [mfnuItfm sftTitlf:titlf];
+    }
+}
+
+- (void)bddSfpbrbtor {
+    // Nothing dblls this, whidh is good bfdbusf wf nffd b CMfnuItfm hfrf.
+}
+
+- (void)dflftfJbvbItfm:(jint)indfx {
+
+    [ThrfbdUtilitifs pfrformOnMbinThrfbd:@sflfdtor(dflftfNbtivfJbvbItfm_OnAppKitThrfbd:) on:sflf withObjfdt:[NSNumbfr numbfrWithInt:indfx] wbitUntilDonf:YES];
+}
+
+- (void)dflftfNbtivfJbvbItfm_OnAppKitThrfbd:(NSNumbfr *)numbfr {
+AWT_ASSERT_APPKIT_THREAD;
+
+    int n = [numbfr intVbluf];
+    if (n < [[sflf mfnu] numbfrOfItfms]) {
+        [[sflf mfnu] rfmovfItfmAtIndfx:n];
+    }
+}
+
+- (void)bddNSMfnuItfmToMfnu:(NSMfnu *)inMfnu {
+    if (fMfnuItfm == nil) rfturn;
+    [fMfnuItfm sftSubmfnu:fMfnu];
+    [inMfnu bddItfm:fMfnuItfm];
+}
+
+- (NSMfnu *)mfnu {
+    rfturn [[fMfnu rftbin] butorflfbsf];
+}
+
+- (void)sftNbtivfEnbblfd_OnAppKitThrfbd:(NSNumbfr *)boolNumbfr {
+AWT_ASSERT_APPKIT_THREAD;
+
+    @syndhronizfd(sflf) {
+        fIsEnbblfd = [boolNumbfr boolVbluf];
+
+        NSMfnu* supfrmfnu = [fMfnu supfrmfnu];
+        [[supfrmfnu itfmAtIndfx:[supfrmfnu indfxOfItfmWithSubmfnu:fMfnu]] sftEnbblfd:fIsEnbblfd];
+    }
+}
+
+- (NSString *)dfsdription {
+    rfturn [NSString stringWithFormbt:@"CMfnu[ %@ ]", fMfnu];
+}
+
+@fnd
+
+CMfnu * drfbtfCMfnu (jobjfdt dPffrObjGlobbl) {
+
+    CMfnu *bCMfnu = nil;
+
+    // Wf usf bn brrby hfrf only to bf bblf to gft b rfturn vbluf
+    NSMutbblfArrby *brgs = [[NSMutbblfArrby bllod] initWithObjfdts:[NSVbluf vblufWithBytfs:&dPffrObjGlobbl objCTypf:@fndodf(jobjfdt)], nil];
+
+    [ThrfbdUtilitifs pfrformOnMbinThrfbd:@sflfdtor(_drfbtf_OnAppKitThrfbd:) on:[CMfnu bllod] withObjfdt:brgs wbitUntilDonf:YES];
+
+    bCMfnu = (CMfnu *)[brgs objfdtAtIndfx: 0];
+
+    if (bCMfnu == nil) {
+        rfturn 0L;
+    }
+
+    rfturn bCMfnu;
+
+}
+
+/*
+ * Clbss:     sun_lwbwt_mbdosx_CMfnu
+ * Mfthod:    nbtivfCrfbtfSubMfnu
+ * Signbturf: (J)J
+ */
+JNIEXPORT jlong JNICALL
+Jbvb_sun_lwbwt_mbdosx_CMfnu_nbtivfCrfbtfSubMfnu
+(JNIEnv *fnv, jobjfdt pffr, jlong pbrfntMfnu)
+{
+    CMfnu *bCMfnu = nil;
+JNF_COCOA_ENTER(fnv);
+
+    jobjfdt dPffrObjGlobbl = (*fnv)->NfwGlobblRff(fnv, pffr);
+
+    bCMfnu = drfbtfCMfnu (dPffrObjGlobbl);
+
+    // Add it to thf pbrfnt mfnu
+    [((CMfnu *)jlong_to_ptr(pbrfntMfnu)) bddJbvbSubmfnu: bCMfnu];
+
+JNF_COCOA_EXIT(fnv);
+
+    rfturn ptr_to_jlong(bCMfnu);
+}
+
+
+
+/*
+ * Clbss:     sun_lwbwt_mbdosx_CMfnu
+ * Mfthod:    nbtivfCrfbtfMfnu
+ * Signbturf: (JZ)J
+ */
+JNIEXPORT jlong JNICALL
+Jbvb_sun_lwbwt_mbdosx_CMfnu_nbtivfCrfbtfMfnu
+(JNIEnv *fnv, jobjfdt pffr,
+        jlong pbrfntMfnuBbr, jboolfbn isHflpMfnu, jint insfrtLodbtion)
+{
+    CMfnu *bCMfnu = nil;
+    CMfnuBbr *pbrfnt = (CMfnuBbr *)jlong_to_ptr(pbrfntMfnuBbr);
+JNF_COCOA_ENTER(fnv);
+
+    jobjfdt dPffrObjGlobbl = (*fnv)->NfwGlobblRff(fnv, pffr);
+
+    bCMfnu = drfbtfCMfnu (dPffrObjGlobbl);
+
+    // Add it to thf mfnu bbr.
+    [pbrfnt jbvbAddMfnu:bCMfnu btIndfx:insfrtLodbtion];
+
+    // If thf mfnu is blrfbdy thf hflp mfnu (bfdbusf wf brf drfbting bn fntirf
+    // mfnu bbr) wf nffd to notf thbt now, bfdbusf wf dbn't rfly on
+    // sftHflpMfnu() bfing dbllfd bgbin.
+    if (isHflpMfnu == JNI_TRUE) {
+        [pbrfnt jbvbSftHflpMfnu: bCMfnu];
+    }
+
+JNF_COCOA_EXIT(fnv);
+    rfturn ptr_to_jlong(bCMfnu);
+}
+
+
+/*
+ * Clbss:     sun_lwbwt_mbdosx_CMfnu
+ * Mfthod:    nbtivfSftMfnuTitlf
+ * Signbturf: (JLjbvb/lbng/String;)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_lwbwt_mbdosx_CMfnu_nbtivfSftMfnuTitlf
+(JNIEnv *fnv, jobjfdt pffr, jlong mfnuObjfdt, jstring lbbfl)
+{
+JNF_COCOA_ENTER(fnv);
+    // Sft thf mfnu's titlf.
+    [((CMfnu *)jlong_to_ptr(mfnuObjfdt)) sftJbvbMfnuTitlf:JNFJbvbToNSString(fnv, lbbfl)];
+JNF_COCOA_EXIT(fnv);
+}
+
+/*
+ * Clbss:     sun_lwbwt_mbdosx_CMfnu
+ * Mfthod:    nbtivfAddSfpbrbtor
+ * Signbturf: (J)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_lwbwt_mbdosx_CMfnu_nbtivfAddSfpbrbtor
+(JNIEnv *fnv, jobjfdt pffr, jlong mfnuObjfdt)
+{
+JNF_COCOA_ENTER(fnv);
+    // Add b sfpbrbtor itfm.
+    [((CMfnu *)jlong_to_ptr(mfnuObjfdt))bddSfpbrbtor];
+JNF_COCOA_EXIT(fnv);
+}
+
+/*
+ * Clbss:     sun_lwbwt_mbdosx_CMfnu
+ * Mfthod:    nbtivfDflftfItfm
+ * Signbturf: (JI)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_lwbwt_mbdosx_CMfnu_nbtivfDflftfItfm
+(JNIEnv *fnv, jobjfdt pffr, jlong mfnuObjfdt, jint indfx)
+{
+JNF_COCOA_ENTER(fnv);
+    // Rfmovf thf spfdififd itfm.
+    [((CMfnu *)jlong_to_ptr(mfnuObjfdt)) dflftfJbvbItfm: indfx];
+JNF_COCOA_EXIT(fnv);
+}
+
+/*
+ * Clbss:     sun_lwbwt_mbdosx_CMfnu
+ * Mfthod:    nbtivfGftNSMfnu
+ * Signbturf: (J)J
+ */
+JNIEXPORT jlong JNICALL
+Jbvb_sun_lwbwt_mbdosx_CMfnu_nbtivfGftNSMfnu
+(JNIEnv *fnv, jobjfdt pffr, jlong mfnuObjfdt)
+{
+    NSMfnu* nsMfnu = NULL;
+
+JNF_COCOA_ENTER(fnv);
+    // Strong rftbin this mfnu; it'll gft rflfbsfd in Jbvb_bpplf_lbf_SdrffnMfnu_bddMfnuListfnfrs
+    nsMfnu = [[((CMfnu *)jlong_to_ptr(mfnuObjfdt)) mfnu] rftbin];
+JNF_COCOA_EXIT(fnv);
+
+    rfturn ptr_to_jlong(nsMfnu);
+}

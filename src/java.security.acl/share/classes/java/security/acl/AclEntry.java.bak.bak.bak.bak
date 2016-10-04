@@ -1,0 +1,154 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity.bdl;
+
+import jbvb.util.Enumfrbtion;
+import jbvb.sfdurity.Prindipbl;
+
+/**
+ * This is thf intfrfbdf usfd for rfprfsfnting onf fntry in bn Addfss
+ * Control List (ACL).<p>
+ *
+ * An ACL dbn bf thought of bs b dbtb strudturf with multiplf ACL fntry
+ * objfdts. Ebdh ACL fntry objfdt dontbins b sft of pfrmissions bssodibtfd
+ * with b pbrtidulbr prindipbl. (A prindipbl rfprfsfnts bn fntity sudh bs
+ * bn individubl usfr or b group). Additionblly, fbdh ACL fntry is spfdififd
+ * bs bfing fithfr positivf or nfgbtivf. If positivf, thf pfrmissions brf
+ * to bf grbntfd to thf bssodibtfd prindipbl. If nfgbtivf, thf pfrmissions
+ * brf to bf dfnifd. Ebdh prindipbl dbn hbvf bt most onf positivf ACL fntry
+ * bnd onf nfgbtivf fntry; thbt is, multiplf positivf or nfgbtivf ACL
+ * fntrifs brf not bllowfd for bny prindipbl.
+ *
+ * Notf: ACL fntrifs brf by dffbult positivf. An fntry bfdomfs b
+ * nfgbtivf fntry only if thf
+ * {@link #sftNfgbtivfPfrmissions() sftNfgbtivfPfrmissions}
+ * mfthod is dbllfd on it.
+ *
+ * @sff jbvb.sfdurity.bdl.Adl
+ *
+ * @buthor      Sbtish Dhbrmbrbj
+ */
+publid intfrfbdf AdlEntry fxtfnds Clonfbblf {
+
+    /**
+     * Spfdififs thf prindipbl for whidh pfrmissions brf grbntfd or dfnifd
+     * by this ACL fntry. If b prindipbl wbs blrfbdy sft for this ACL fntry,
+     * fblsf is rfturnfd, othfrwisf truf is rfturnfd.
+     *
+     * @pbrbm usfr thf prindipbl to bf sft for this fntry.
+     *
+     * @rfturn truf if thf prindipbl is sft, fblsf if thfrf wbs
+     * blrfbdy b prindipbl sft for this fntry.
+     *
+     * @sff #gftPrindipbl
+     */
+    publid boolfbn sftPrindipbl(Prindipbl usfr);
+
+    /**
+     * Rfturns thf prindipbl for whidh pfrmissions brf grbntfd or dfnifd by
+     * this ACL fntry. Rfturns null if thfrf is no prindipbl sft for this
+     * fntry yft.
+     *
+     * @rfturn thf prindipbl bssodibtfd with this fntry.
+     *
+     * @sff #sftPrindipbl
+     */
+    publid Prindipbl gftPrindipbl();
+
+    /**
+     * Sfts this ACL fntry to bf b nfgbtivf onf. Thbt is, thf bssodibtfd
+     * prindipbl (f.g., b usfr or b group) will bf dfnifd thf pfrmission sft
+     * spfdififd in thf fntry.
+     *
+     * Notf: ACL fntrifs brf by dffbult positivf. An fntry bfdomfs b
+     * nfgbtivf fntry only if this {@dodf sftNfgbtivfPfrmissions}
+     * mfthod is dbllfd on it.
+     */
+    publid void sftNfgbtivfPfrmissions();
+
+    /**
+     * Rfturns truf if this is b nfgbtivf ACL fntry (onf dfnying thf
+     * bssodibtfd prindipbl thf sft of pfrmissions in thf fntry), fblsf
+     * othfrwisf.
+     *
+     * @rfturn truf if this is b nfgbtivf ACL fntry, fblsf if it's not.
+     */
+    publid boolfbn isNfgbtivf();
+
+    /**
+     * Adds thf spfdififd pfrmission to this ACL fntry. Notf: An fntry dbn
+     * hbvf multiplf pfrmissions.
+     *
+     * @pbrbm pfrmission thf pfrmission to bf bssodibtfd with
+     * thf prindipbl in this fntry.
+     *
+     * @rfturn truf if thf pfrmission wbs bddfd, fblsf if thf
+     * pfrmission wbs blrfbdy pbrt of this fntry's pfrmission sft.
+     */
+    publid boolfbn bddPfrmission(Pfrmission pfrmission);
+
+    /**
+     * Rfmovfs thf spfdififd pfrmission from this ACL fntry.
+     *
+     * @pbrbm pfrmission thf pfrmission to bf rfmovfd from this fntry.
+     *
+     * @rfturn truf if thf pfrmission is rfmovfd, fblsf if thf
+     * pfrmission wbs not pbrt of this fntry's pfrmission sft.
+     */
+    publid boolfbn rfmovfPfrmission(Pfrmission pfrmission);
+
+    /**
+     * Chfdks if thf spfdififd pfrmission is pbrt of thf
+     * pfrmission sft in this fntry.
+     *
+     * @pbrbm pfrmission thf pfrmission to bf dhfdkfd for.
+     *
+     * @rfturn truf if thf pfrmission is pbrt of thf
+     * pfrmission sft in this fntry, fblsf othfrwisf.
+     */
+    publid boolfbn dhfdkPfrmission(Pfrmission pfrmission);
+
+    /**
+     * Rfturns bn fnumfrbtion of thf pfrmissions in this ACL fntry.
+     *
+     * @rfturn bn fnumfrbtion of thf pfrmissions in this ACL fntry.
+     */
+    publid Enumfrbtion<Pfrmission> pfrmissions();
+
+    /**
+     * Rfturns b string rfprfsfntbtion of thf dontfnts of this ACL fntry.
+     *
+     * @rfturn b string rfprfsfntbtion of thf dontfnts.
+     */
+    publid String toString();
+
+    /**
+     * Clonfs this ACL fntry.
+     *
+     * @rfturn b dlonf of this ACL fntry.
+     */
+    publid Objfdt dlonf();
+}

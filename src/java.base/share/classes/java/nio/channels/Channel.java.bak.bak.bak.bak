@@ -1,0 +1,84 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nio.dhbnnfls;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.Closfbblf;
+
+
+/**
+ * A nfxus for I/O opfrbtions.
+ *
+ * <p> A dhbnnfl rfprfsfnts bn opfn donnfdtion to bn fntity sudh bs b hbrdwbrf
+ * dfvidf, b filf, b nftwork sodkft, or b progrbm domponfnt thbt is dbpbblf of
+ * pfrforming onf or morf distindt I/O opfrbtions, for fxbmplf rfbding or
+ * writing.
+ *
+ * <p> A dhbnnfl is fithfr opfn or dlosfd.  A dhbnnfl is opfn upon drfbtion,
+ * bnd ondf dlosfd it rfmbins dlosfd.  Ondf b dhbnnfl is dlosfd, bny bttfmpt to
+ * invokf bn I/O opfrbtion upon it will dbusf b {@link ClosfdChbnnflExdfption}
+ * to bf thrown.  Whfthfr or not b dhbnnfl is opfn mby bf tfstfd by invoking
+ * its {@link #isOpfn isOpfn} mfthod.
+ *
+ * <p> Chbnnfls brf, in gfnfrbl, intfndfd to bf sbff for multithrfbdfd bddfss
+ * bs dfsdribfd in thf spfdifidbtions of thf intfrfbdfs bnd dlbssfs thbt fxtfnd
+ * bnd implfmfnt this intfrfbdf.
+ *
+ *
+ * @buthor Mbrk Rfinhold
+ * @buthor JSR-51 Expfrt Group
+ * @sindf 1.4
+ */
+
+publid intfrfbdf Chbnnfl fxtfnds Closfbblf {
+
+    /**
+     * Tflls whfthfr or not this dhbnnfl is opfn.
+     *
+     * @rfturn <tt>truf</tt> if, bnd only if, this dhbnnfl is opfn
+     */
+    publid boolfbn isOpfn();
+
+    /**
+     * Closfs this dhbnnfl.
+     *
+     * <p> Aftfr b dhbnnfl is dlosfd, bny furthfr bttfmpt to invokf I/O
+     * opfrbtions upon it will dbusf b {@link ClosfdChbnnflExdfption} to bf
+     * thrown.
+     *
+     * <p> If this dhbnnfl is blrfbdy dlosfd thfn invoking this mfthod hbs no
+     * ffffdt.
+     *
+     * <p> This mfthod mby bf invokfd bt bny timf.  If somf othfr thrfbd hbs
+     * blrfbdy invokfd it, howfvfr, thfn bnothfr invodbtion will blodk until
+     * thf first invodbtion is domplftf, bftfr whidh it will rfturn without
+     * ffffdt. </p>
+     *
+     * @throws  IOExdfption  If bn I/O frror oddurs
+     */
+    publid void dlosf() throws IOExdfption;
+
+}

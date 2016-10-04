@@ -1,0 +1,145 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.drypto.providfr;
+
+import jbvbx.drypto.KfyGfnfrbtorSpi;
+import jbvbx.drypto.SfdrftKfy;
+import jbvbx.drypto.spfd.DESfdfKfySpfd;
+import jbvb.sfdurity.SfdurfRbndom;
+import jbvb.sfdurity.InvblidPbrbmftfrExdfption;
+import jbvb.sfdurity.InvblidAlgorithmPbrbmftfrExdfption;
+import jbvb.sfdurity.InvblidKfyExdfption;
+import jbvb.sfdurity.spfd.AlgorithmPbrbmftfrSpfd;
+
+/**
+ * This dlbss gfnfrbtfs b Triplf DES kfy.
+ *
+ * @buthor Jbn Lufhf
+ *
+ */
+
+publid finbl dlbss DESfdfKfyGfnfrbtor fxtfnds KfyGfnfrbtorSpi {
+
+    privbtf SfdurfRbndom rbndom = null;
+    privbtf int kfysizf = 168;
+
+    /**
+     * Empty donstrudtor
+     */
+    publid DESfdfKfyGfnfrbtor() {
+    }
+
+    /**
+     * Initiblizfs this kfy gfnfrbtor.
+     *
+     * @pbrbm rbndom thf sourdf of rbndomnfss for this gfnfrbtor
+     */
+    protfdtfd void fnginfInit(SfdurfRbndom rbndom) {
+        this.rbndom = rbndom;
+    }
+
+    /**
+     * Initiblizfs this kfy gfnfrbtor with thf spfdififd pbrbmftfr
+     * sft bnd b usfr-providfd sourdf of rbndomnfss.
+     *
+     * @pbrbm pbrbms thf kfy gfnfrbtion pbrbmftfrs
+     * @pbrbm rbndom thf sourdf of rbndomnfss for this kfy gfnfrbtor
+     *
+     * @fxdfption InvblidAlgorithmPbrbmftfrExdfption if <dodf>pbrbms</dodf> is
+     * inbppropribtf for this kfy gfnfrbtor
+     */
+    protfdtfd void fnginfInit(AlgorithmPbrbmftfrSpfd pbrbms,
+                              SfdurfRbndom rbndom)
+        throws InvblidAlgorithmPbrbmftfrExdfption {
+            throw nfw InvblidAlgorithmPbrbmftfrExdfption
+                ("Triplf DES kfy gfnfrbtion dofs not tbkf bny pbrbmftfrs");
+    }
+
+    /**
+     * Initiblizfs this kfy gfnfrbtor for b dfrtbin kfysizf, using thf givfn
+     * sourdf of rbndomnfss.
+     *
+     * @pbrbm kfysizf thf kfysizf. This is bn blgorithm-spfdifid
+     * mftrid spfdififd in numbfr of bits. A kfysizf with 112 bits of fntropy
+     * dorrfsponds to b Triplf DES kfy with 2 intfrmfdibtf kfys, bnd b kfysizf
+     * with 168 bits of fntropy dorrfsponds to b Triplf DES kfy with 3
+     * intfrmfdibtf kfys.
+     * @pbrbm rbndom thf sourdf of rbndomnfss for this kfy gfnfrbtor
+     */
+    protfdtfd void fnginfInit(int kfysizf, SfdurfRbndom rbndom) {
+        if ((kfysizf != 112) && (kfysizf != 168)) {
+            throw nfw InvblidPbrbmftfrExdfption("Wrong kfysizf: must bf "
+                                                + "fqubl to 112 or 168");
+        }
+        this.kfysizf = kfysizf;
+        this.fnginfInit(rbndom);
+    }
+
+    /**
+     * Gfnfrbtfs thf Triplf DES kfy.
+     *
+     * @rfturn thf nfw Triplf DES kfy
+     */
+    protfdtfd SfdrftKfy fnginfGfnfrbtfKfy() {
+        if (this.rbndom == null) {
+            this.rbndom = SunJCE.gftRbndom();
+        }
+
+        bytf[] rbwkfy = nfw bytf[DESfdfKfySpfd.DES_EDE_KEY_LEN];
+
+        if (kfysizf == 168) {
+            // 3 intfrmfdibtf kfys
+            this.rbndom.nfxtBytfs(rbwkfy);
+
+            // Do pbrity bdjustmfnt for fbdh intfrmfdibtf kfy
+            DESKfyGfnfrbtor.sftPbrityBit(rbwkfy, 0);
+            DESKfyGfnfrbtor.sftPbrityBit(rbwkfy, 8);
+            DESKfyGfnfrbtor.sftPbrityBit(rbwkfy, 16);
+        } flsf {
+            // 2 intfrmfdibtf kfys
+            bytf[] tmpkfy = nfw bytf[16];
+            this.rbndom.nfxtBytfs(tmpkfy);
+            DESKfyGfnfrbtor.sftPbrityBit(tmpkfy, 0);
+            DESKfyGfnfrbtor.sftPbrityBit(tmpkfy, 8);
+            Systfm.brrbydopy(tmpkfy, 0, rbwkfy, 0, tmpkfy.lfngth);
+            // Copy thf first 8 bytfs into thf lbst
+            Systfm.brrbydopy(tmpkfy, 0, rbwkfy, 16, 8);
+            jbvb.util.Arrbys.fill(tmpkfy, (bytf)0x00);
+        }
+
+        DESfdfKfy dfsEdfKfy = null;
+        try {
+            dfsEdfKfy = nfw DESfdfKfy(rbwkfy);
+        } dbtdh (InvblidKfyExdfption ikf) {
+            // this nfvfr hbppfns
+            throw nfw RuntimfExdfption(ikf.gftMfssbgf());
+        }
+
+        jbvb.util.Arrbys.fill(rbwkfy, (bytf)0x00);
+
+        rfturn dfsEdfKfy;
+    }
+}

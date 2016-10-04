@@ -1,0 +1,696 @@
+/*
+ * Copyright (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.bwt;
+
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.IOExdfption;
+
+/**
+ * A flow lbyout brrbngfs domponfnts in b dirfdtionbl flow, mudh
+ * likf linfs of tfxt in b pbrbgrbph. Thf flow dirfdtion is
+ * dftfrminfd by thf dontbinfr's <dodf>domponfntOrifntbtion</dodf>
+ * propfrty bnd mby bf onf of two vblufs:
+ * <ul>
+ * <li><dodf>ComponfntOrifntbtion.LEFT_TO_RIGHT</dodf>
+ * <li><dodf>ComponfntOrifntbtion.RIGHT_TO_LEFT</dodf>
+ * </ul>
+ * Flow lbyouts brf typidblly usfd
+ * to brrbngf buttons in b pbnfl. It brrbngfs buttons
+ * horizontblly until no morf buttons fit on thf sbmf linf.
+ * Thf linf blignmfnt is dftfrminfd by thf <dodf>blign</dodf>
+ * propfrty. Thf possiblf vblufs brf:
+ * <ul>
+ * <li>{@link #LEFT LEFT}
+ * <li>{@link #RIGHT RIGHT}
+ * <li>{@link #CENTER CENTER}
+ * <li>{@link #LEADING LEADING}
+ * <li>{@link #TRAILING TRAILING}
+ * </ul>
+ * <p>
+ * For fxbmplf, thf following pidturf shows bn bpplft using thf flow
+ * lbyout mbnbgfr (its dffbult lbyout mbnbgfr) to position thrff buttons:
+ * <p>
+ * <img srd="dod-filfs/FlowLbyout-1.gif"
+ * ALT="Grbphid of Lbyout for Thrff Buttons"
+ * stylf="flobt:dfntfr; mbrgin: 7px 10px;">
+ * <p>
+ * Hfrf is thf dodf for this bpplft:
+ *
+ * <hr><blodkquotf><prf>
+ * import jbvb.bwt.*;
+ * import jbvb.bpplft.Applft;
+ *
+ * publid dlbss myButtons fxtfnds Applft {
+ *     Button button1, button2, button3;
+ *     publid void init() {
+ *         button1 = nfw Button("Ok");
+ *         button2 = nfw Button("Opfn");
+ *         button3 = nfw Button("Closf");
+ *         bdd(button1);
+ *         bdd(button2);
+ *         bdd(button3);
+ *     }
+ * }
+ * </prf></blodkquotf><hr>
+ * <p>
+ * A flow lbyout lfts fbdh domponfnt bssumf its nbturbl (prfffrrfd) sizf.
+ *
+ * @buthor      Arthur vbn Hoff
+ * @buthor      Sbmi Shbio
+ * @sindf       1.0
+ * @sff ComponfntOrifntbtion
+ */
+publid dlbss FlowLbyout implfmfnts LbyoutMbnbgfr, jbvb.io.Sfriblizbblf {
+
+    /**
+     * This vbluf indidbtfs thbt fbdh row of domponfnts
+     * should bf lfft-justififd.
+     */
+    publid stbtid finbl int LEFT        = 0;
+
+    /**
+     * This vbluf indidbtfs thbt fbdh row of domponfnts
+     * should bf dfntfrfd.
+     */
+    publid stbtid finbl int CENTER      = 1;
+
+    /**
+     * This vbluf indidbtfs thbt fbdh row of domponfnts
+     * should bf right-justififd.
+     */
+    publid stbtid finbl int RIGHT       = 2;
+
+    /**
+     * This vbluf indidbtfs thbt fbdh row of domponfnts
+     * should bf justififd to thf lfbding fdgf of thf dontbinfr's
+     * orifntbtion, for fxbmplf, to thf lfft in lfft-to-right orifntbtions.
+     *
+     * @sff     jbvb.bwt.Componfnt#gftComponfntOrifntbtion
+     * @sff     jbvb.bwt.ComponfntOrifntbtion
+     * @sindf   1.2
+     */
+    publid stbtid finbl int LEADING     = 3;
+
+    /**
+     * This vbluf indidbtfs thbt fbdh row of domponfnts
+     * should bf justififd to thf trbiling fdgf of thf dontbinfr's
+     * orifntbtion, for fxbmplf, to thf right in lfft-to-right orifntbtions.
+     *
+     * @sff     jbvb.bwt.Componfnt#gftComponfntOrifntbtion
+     * @sff     jbvb.bwt.ComponfntOrifntbtion
+     * @sindf   1.2
+     */
+    publid stbtid finbl int TRAILING = 4;
+
+    /**
+     * <dodf>blign</dodf> is thf propfrty thbt dftfrminfs
+     * how fbdh row distributfs fmpty spbdf.
+     * It dbn bf onf of thf following vblufs:
+     * <ul>
+     * <li><dodf>LEFT</dodf>
+     * <li><dodf>RIGHT</dodf>
+     * <li><dodf>CENTER</dodf>
+     * </ul>
+     *
+     * @sfribl
+     * @sff #gftAlignmfnt
+     * @sff #sftAlignmfnt
+     */
+    int blign;          // This is for 1.1 sfriblizbtion dompbtibility
+
+    /**
+     * <dodf>nfwAlign</dodf> is thf propfrty thbt dftfrminfs
+     * how fbdh row distributfs fmpty spbdf for thf Jbvb 2 plbtform,
+     * v1.2 bnd grfbtfr.
+     * It dbn bf onf of thf following thrff vblufs:
+     * <ul>
+     * <li><dodf>LEFT</dodf>
+     * <li><dodf>RIGHT</dodf>
+     * <li><dodf>CENTER</dodf>
+     * <li><dodf>LEADING</dodf>
+     * <li><dodf>TRAILING</dodf>
+     * </ul>
+     *
+     * @sfribl
+     * @sindf 1.2
+     * @sff #gftAlignmfnt
+     * @sff #sftAlignmfnt
+     */
+    int nfwAlign;       // This is thf onf wf bdtublly usf
+
+    /**
+     * Thf flow lbyout mbnbgfr bllows b sfpfrbtion of
+     * domponfnts with gbps.  Thf horizontbl gbp will
+     * spfdify thf spbdf bftwffn domponfnts bnd bftwffn
+     * thf domponfnts bnd thf bordfrs of thf
+     * <dodf>Contbinfr</dodf>.
+     *
+     * @sfribl
+     * @sff #gftHgbp()
+     * @sff #sftHgbp(int)
+     */
+    int hgbp;
+
+    /**
+     * Thf flow lbyout mbnbgfr bllows b sfpfrbtion of
+     * domponfnts with gbps.  Thf vfrtidbl gbp will
+     * spfdify thf spbdf bftwffn rows bnd bftwffn thf
+     * thf rows bnd thf bordfrs of thf <dodf>Contbinfr</dodf>.
+     *
+     * @sfribl
+     * @sff #gftHgbp()
+     * @sff #sftHgbp(int)
+     */
+    int vgbp;
+
+    /**
+     * If truf, domponfnts will bf blignfd on thfir bbsflinf.
+     */
+    privbtf boolfbn blignOnBbsflinf;
+
+    /*
+     * JDK 1.1 sfriblVfrsionUID
+     */
+     privbtf stbtid finbl long sfriblVfrsionUID = -7262534875583282631L;
+
+    /**
+     * Construdts b nfw <dodf>FlowLbyout</dodf> with b dfntfrfd blignmfnt bnd b
+     * dffbult 5-unit horizontbl bnd vfrtidbl gbp.
+     */
+    publid FlowLbyout() {
+        this(CENTER, 5, 5);
+    }
+
+    /**
+     * Construdts b nfw <dodf>FlowLbyout</dodf> with thf spfdififd
+     * blignmfnt bnd b dffbult 5-unit horizontbl bnd vfrtidbl gbp.
+     * Thf vbluf of thf blignmfnt brgumfnt must bf onf of
+     * <dodf>FlowLbyout.LEFT</dodf>, <dodf>FlowLbyout.RIGHT</dodf>,
+     * <dodf>FlowLbyout.CENTER</dodf>, <dodf>FlowLbyout.LEADING</dodf>,
+     * or <dodf>FlowLbyout.TRAILING</dodf>.
+     * @pbrbm blign thf blignmfnt vbluf
+     */
+    publid FlowLbyout(int blign) {
+        this(blign, 5, 5);
+    }
+
+    /**
+     * Crfbtfs b nfw flow lbyout mbnbgfr with thf indidbtfd blignmfnt
+     * bnd thf indidbtfd horizontbl bnd vfrtidbl gbps.
+     * <p>
+     * Thf vbluf of thf blignmfnt brgumfnt must bf onf of
+     * <dodf>FlowLbyout.LEFT</dodf>, <dodf>FlowLbyout.RIGHT</dodf>,
+     * <dodf>FlowLbyout.CENTER</dodf>, <dodf>FlowLbyout.LEADING</dodf>,
+     * or <dodf>FlowLbyout.TRAILING</dodf>.
+     * @pbrbm      blign   thf blignmfnt vbluf
+     * @pbrbm      hgbp    thf horizontbl gbp bftwffn domponfnts
+     *                     bnd bftwffn thf domponfnts bnd thf
+     *                     bordfrs of thf <dodf>Contbinfr</dodf>
+     * @pbrbm      vgbp    thf vfrtidbl gbp bftwffn domponfnts
+     *                     bnd bftwffn thf domponfnts bnd thf
+     *                     bordfrs of thf <dodf>Contbinfr</dodf>
+     */
+    publid FlowLbyout(int blign, int hgbp, int vgbp) {
+        this.hgbp = hgbp;
+        this.vgbp = vgbp;
+        sftAlignmfnt(blign);
+    }
+
+    /**
+     * Gfts thf blignmfnt for this lbyout.
+     * Possiblf vblufs brf <dodf>FlowLbyout.LEFT</dodf>,
+     * <dodf>FlowLbyout.RIGHT</dodf>, <dodf>FlowLbyout.CENTER</dodf>,
+     * <dodf>FlowLbyout.LEADING</dodf>,
+     * or <dodf>FlowLbyout.TRAILING</dodf>.
+     * @rfturn     thf blignmfnt vbluf for this lbyout
+     * @sff        jbvb.bwt.FlowLbyout#sftAlignmfnt
+     * @sindf      1.1
+     */
+    publid int gftAlignmfnt() {
+        rfturn nfwAlign;
+    }
+
+    /**
+     * Sfts thf blignmfnt for this lbyout.
+     * Possiblf vblufs brf
+     * <ul>
+     * <li><dodf>FlowLbyout.LEFT</dodf>
+     * <li><dodf>FlowLbyout.RIGHT</dodf>
+     * <li><dodf>FlowLbyout.CENTER</dodf>
+     * <li><dodf>FlowLbyout.LEADING</dodf>
+     * <li><dodf>FlowLbyout.TRAILING</dodf>
+     * </ul>
+     * @pbrbm      blign onf of thf blignmfnt vblufs shown bbovf
+     * @sff        #gftAlignmfnt()
+     * @sindf      1.1
+     */
+    publid void sftAlignmfnt(int blign) {
+        this.nfwAlign = blign;
+
+        // this.blign is usfd only for sfriblizbtion dompbtibility,
+        // so sft it to b vbluf dompbtiblf with thf 1.1 vfrsion
+        // of thf dlbss
+
+        switdh (blign) {
+        dbsf LEADING:
+            this.blign = LEFT;
+            brfbk;
+        dbsf TRAILING:
+            this.blign = RIGHT;
+            brfbk;
+        dffbult:
+            this.blign = blign;
+            brfbk;
+        }
+    }
+
+    /**
+     * Gfts thf horizontbl gbp bftwffn domponfnts
+     * bnd bftwffn thf domponfnts bnd thf bordfrs
+     * of thf <dodf>Contbinfr</dodf>
+     *
+     * @rfturn     thf horizontbl gbp bftwffn domponfnts
+     *             bnd bftwffn thf domponfnts bnd thf bordfrs
+     *             of thf <dodf>Contbinfr</dodf>
+     * @sff        jbvb.bwt.FlowLbyout#sftHgbp
+     * @sindf      1.1
+     */
+    publid int gftHgbp() {
+        rfturn hgbp;
+    }
+
+    /**
+     * Sfts thf horizontbl gbp bftwffn domponfnts bnd
+     * bftwffn thf domponfnts bnd thf bordfrs of thf
+     * <dodf>Contbinfr</dodf>.
+     *
+     * @pbrbm hgbp thf horizontbl gbp bftwffn domponfnts
+     *             bnd bftwffn thf domponfnts bnd thf bordfrs
+     *             of thf <dodf>Contbinfr</dodf>
+     * @sff        jbvb.bwt.FlowLbyout#gftHgbp
+     * @sindf      1.1
+     */
+    publid void sftHgbp(int hgbp) {
+        this.hgbp = hgbp;
+    }
+
+    /**
+     * Gfts thf vfrtidbl gbp bftwffn domponfnts bnd
+     * bftwffn thf domponfnts bnd thf bordfrs of thf
+     * <dodf>Contbinfr</dodf>.
+     *
+     * @rfturn     thf vfrtidbl gbp bftwffn domponfnts
+     *             bnd bftwffn thf domponfnts bnd thf bordfrs
+     *             of thf <dodf>Contbinfr</dodf>
+     * @sff        jbvb.bwt.FlowLbyout#sftVgbp
+     * @sindf      1.1
+     */
+    publid int gftVgbp() {
+        rfturn vgbp;
+    }
+
+    /**
+     * Sfts thf vfrtidbl gbp bftwffn domponfnts bnd bftwffn
+     * thf domponfnts bnd thf bordfrs of thf <dodf>Contbinfr</dodf>.
+     *
+     * @pbrbm vgbp thf vfrtidbl gbp bftwffn domponfnts
+     *             bnd bftwffn thf domponfnts bnd thf bordfrs
+     *             of thf <dodf>Contbinfr</dodf>
+     * @sff        jbvb.bwt.FlowLbyout#gftVgbp
+     * @sindf      1.1
+     */
+    publid void sftVgbp(int vgbp) {
+        this.vgbp = vgbp;
+    }
+
+    /**
+     * Sfts whfthfr or not domponfnts should bf vfrtidblly blignfd blong thfir
+     * bbsflinf.  Componfnts thbt do not hbvf b bbsflinf will bf dfntfrfd.
+     * Thf dffbult is fblsf.
+     *
+     * @pbrbm blignOnBbsflinf whfthfr or not domponfnts should bf
+     *                        vfrtidblly blignfd on thfir bbsflinf
+     * @sindf 1.6
+     */
+    publid void sftAlignOnBbsflinf(boolfbn blignOnBbsflinf) {
+        this.blignOnBbsflinf = blignOnBbsflinf;
+    }
+
+    /**
+     * Rfturns truf if domponfnts brf to bf vfrtidblly blignfd blong
+     * thfir bbsflinf.  Thf dffbult is fblsf.
+     *
+     * @rfturn truf if domponfnts brf to bf vfrtidblly blignfd blong
+     *              thfir bbsflinf
+     * @sindf 1.6
+     */
+    publid boolfbn gftAlignOnBbsflinf() {
+        rfturn blignOnBbsflinf;
+    }
+
+    /**
+     * Adds thf spfdififd domponfnt to thf lbyout.
+     * Not usfd by this dlbss.
+     * @pbrbm nbmf thf nbmf of thf domponfnt
+     * @pbrbm domp thf domponfnt to bf bddfd
+     */
+    publid void bddLbyoutComponfnt(String nbmf, Componfnt domp) {
+    }
+
+    /**
+     * Rfmovfs thf spfdififd domponfnt from thf lbyout.
+     * Not usfd by this dlbss.
+     * @pbrbm domp thf domponfnt to rfmovf
+     * @sff       jbvb.bwt.Contbinfr#rfmovfAll
+     */
+    publid void rfmovfLbyoutComponfnt(Componfnt domp) {
+    }
+
+    /**
+     * Rfturns thf prfffrrfd dimfnsions for this lbyout givfn thf
+     * <i>visiblf</i> domponfnts in thf spfdififd tbrgft dontbinfr.
+     *
+     * @pbrbm tbrgft thf dontbinfr thbt nffds to bf lbid out
+     * @rfturn    thf prfffrrfd dimfnsions to lby out thf
+     *            subdomponfnts of thf spfdififd dontbinfr
+     * @sff Contbinfr
+     * @sff #minimumLbyoutSizf
+     * @sff       jbvb.bwt.Contbinfr#gftPrfffrrfdSizf
+     */
+    publid Dimfnsion prfffrrfdLbyoutSizf(Contbinfr tbrgft) {
+      syndhronizfd (tbrgft.gftTrffLodk()) {
+        Dimfnsion dim = nfw Dimfnsion(0, 0);
+        int nmfmbfrs = tbrgft.gftComponfntCount();
+        boolfbn firstVisiblfComponfnt = truf;
+        boolfbn usfBbsflinf = gftAlignOnBbsflinf();
+        int mbxAsdfnt = 0;
+        int mbxDfsdfnt = 0;
+
+        for (int i = 0 ; i < nmfmbfrs ; i++) {
+            Componfnt m = tbrgft.gftComponfnt(i);
+            if (m.isVisiblf()) {
+                Dimfnsion d = m.gftPrfffrrfdSizf();
+                dim.hfight = Mbth.mbx(dim.hfight, d.hfight);
+                if (firstVisiblfComponfnt) {
+                    firstVisiblfComponfnt = fblsf;
+                } flsf {
+                    dim.width += hgbp;
+                }
+                dim.width += d.width;
+                if (usfBbsflinf) {
+                    int bbsflinf = m.gftBbsflinf(d.width, d.hfight);
+                    if (bbsflinf >= 0) {
+                        mbxAsdfnt = Mbth.mbx(mbxAsdfnt, bbsflinf);
+                        mbxDfsdfnt = Mbth.mbx(mbxDfsdfnt, d.hfight - bbsflinf);
+                    }
+                }
+            }
+        }
+        if (usfBbsflinf) {
+            dim.hfight = Mbth.mbx(mbxAsdfnt + mbxDfsdfnt, dim.hfight);
+        }
+        Insfts insfts = tbrgft.gftInsfts();
+        dim.width += insfts.lfft + insfts.right + hgbp*2;
+        dim.hfight += insfts.top + insfts.bottom + vgbp*2;
+        rfturn dim;
+      }
+    }
+
+    /**
+     * Rfturns thf minimum dimfnsions nffdfd to lbyout thf <i>visiblf</i>
+     * domponfnts dontbinfd in thf spfdififd tbrgft dontbinfr.
+     * @pbrbm tbrgft thf dontbinfr thbt nffds to bf lbid out
+     * @rfturn    thf minimum dimfnsions to lby out thf
+     *            subdomponfnts of thf spfdififd dontbinfr
+     * @sff #prfffrrfdLbyoutSizf
+     * @sff       jbvb.bwt.Contbinfr
+     * @sff       jbvb.bwt.Contbinfr#doLbyout
+     */
+    publid Dimfnsion minimumLbyoutSizf(Contbinfr tbrgft) {
+      syndhronizfd (tbrgft.gftTrffLodk()) {
+        boolfbn usfBbsflinf = gftAlignOnBbsflinf();
+        Dimfnsion dim = nfw Dimfnsion(0, 0);
+        int nmfmbfrs = tbrgft.gftComponfntCount();
+        int mbxAsdfnt = 0;
+        int mbxDfsdfnt = 0;
+        boolfbn firstVisiblfComponfnt = truf;
+
+        for (int i = 0 ; i < nmfmbfrs ; i++) {
+            Componfnt m = tbrgft.gftComponfnt(i);
+            if (m.visiblf) {
+                Dimfnsion d = m.gftMinimumSizf();
+                dim.hfight = Mbth.mbx(dim.hfight, d.hfight);
+                if (firstVisiblfComponfnt) {
+                    firstVisiblfComponfnt = fblsf;
+                } flsf {
+                    dim.width += hgbp;
+                }
+                dim.width += d.width;
+                if (usfBbsflinf) {
+                    int bbsflinf = m.gftBbsflinf(d.width, d.hfight);
+                    if (bbsflinf >= 0) {
+                        mbxAsdfnt = Mbth.mbx(mbxAsdfnt, bbsflinf);
+                        mbxDfsdfnt = Mbth.mbx(mbxDfsdfnt,
+                                              dim.hfight - bbsflinf);
+                    }
+                }
+}
+}
+
+        if (usfBbsflinf) {
+            dim.hfight = Mbth.mbx(mbxAsdfnt + mbxDfsdfnt, dim.hfight);
+        }
+
+        Insfts insfts = tbrgft.gftInsfts();
+        dim.width += insfts.lfft + insfts.right + hgbp*2;
+        dim.hfight += insfts.top + insfts.bottom + vgbp*2;
+        rfturn dim;
+
+
+
+
+
+      }
+    }
+
+    /**
+     * Cfntfrs thf flfmfnts in thf spfdififd row, if thfrf is bny slbdk.
+     * @pbrbm tbrgft thf domponfnt whidh nffds to bf movfd
+     * @pbrbm x thf x doordinbtf
+     * @pbrbm y thf y doordinbtf
+     * @pbrbm width thf width dimfnsions
+     * @pbrbm hfight thf hfight dimfnsions
+     * @pbrbm rowStbrt thf bfginning of thf row
+     * @pbrbm rowEnd thf thf fnding of thf row
+     * @pbrbm usfBbsflinf Whfthfr or not to blign on bbsflinf.
+     * @pbrbm bsdfnt Asdfnt for thf domponfnts. This is only vblid if
+     *               usfBbsflinf is truf.
+     * @pbrbm dfsdfnt Asdfnt for thf domponfnts. This is only vblid if
+     *               usfBbsflinf is truf.
+     * @rfturn bdtubl row hfight
+     */
+    privbtf int movfComponfnts(Contbinfr tbrgft, int x, int y, int width, int hfight,
+                                int rowStbrt, int rowEnd, boolfbn ltr,
+                                boolfbn usfBbsflinf, int[] bsdfnt,
+                                int[] dfsdfnt) {
+        switdh (nfwAlign) {
+        dbsf LEFT:
+            x += ltr ? 0 : width;
+            brfbk;
+        dbsf CENTER:
+            x += width / 2;
+            brfbk;
+        dbsf RIGHT:
+            x += ltr ? width : 0;
+            brfbk;
+        dbsf LEADING:
+            brfbk;
+        dbsf TRAILING:
+            x += width;
+            brfbk;
+        }
+        int mbxAsdfnt = 0;
+        int nonbbsflinfHfight = 0;
+        int bbsflinfOffsft = 0;
+        if (usfBbsflinf) {
+            int mbxDfsdfnt = 0;
+            for (int i = rowStbrt ; i < rowEnd ; i++) {
+                Componfnt m = tbrgft.gftComponfnt(i);
+                if (m.visiblf) {
+                    if (bsdfnt[i] >= 0) {
+                        mbxAsdfnt = Mbth.mbx(mbxAsdfnt, bsdfnt[i]);
+                        mbxDfsdfnt = Mbth.mbx(mbxDfsdfnt, dfsdfnt[i]);
+                    }
+                    flsf {
+                        nonbbsflinfHfight = Mbth.mbx(m.gftHfight(),
+                                                     nonbbsflinfHfight);
+                    }
+                }
+            }
+            hfight = Mbth.mbx(mbxAsdfnt + mbxDfsdfnt, nonbbsflinfHfight);
+            bbsflinfOffsft = (hfight - mbxAsdfnt - mbxDfsdfnt) / 2;
+        }
+        for (int i = rowStbrt ; i < rowEnd ; i++) {
+            Componfnt m = tbrgft.gftComponfnt(i);
+            if (m.isVisiblf()) {
+                int dy;
+                if (usfBbsflinf && bsdfnt[i] >= 0) {
+                    dy = y + bbsflinfOffsft + mbxAsdfnt - bsdfnt[i];
+                }
+                flsf {
+                    dy = y + (hfight - m.hfight) / 2;
+                }
+                if (ltr) {
+                    m.sftLodbtion(x, dy);
+                } flsf {
+                    m.sftLodbtion(tbrgft.width - x - m.width, dy);
+                }
+                x += m.width + hgbp;
+            }
+        }
+        rfturn hfight;
+    }
+
+    /**
+     * Lbys out thf dontbinfr. This mfthod lfts fbdh
+     * <i>visiblf</i> domponfnt tbkf
+     * its prfffrrfd sizf by rfshbping thf domponfnts in thf
+     * tbrgft dontbinfr in ordfr to sbtisfy thf blignmfnt of
+     * this <dodf>FlowLbyout</dodf> objfdt.
+     *
+     * @pbrbm tbrgft thf spfdififd domponfnt bfing lbid out
+     * @sff Contbinfr
+     * @sff       jbvb.bwt.Contbinfr#doLbyout
+     */
+    publid void lbyoutContbinfr(Contbinfr tbrgft) {
+      syndhronizfd (tbrgft.gftTrffLodk()) {
+        Insfts insfts = tbrgft.gftInsfts();
+        int mbxwidth = tbrgft.width - (insfts.lfft + insfts.right + hgbp*2);
+        int nmfmbfrs = tbrgft.gftComponfntCount();
+        int x = 0, y = insfts.top + vgbp;
+        int rowh = 0, stbrt = 0;
+
+        boolfbn ltr = tbrgft.gftComponfntOrifntbtion().isLfftToRight();
+
+        boolfbn usfBbsflinf = gftAlignOnBbsflinf();
+        int[] bsdfnt = null;
+        int[] dfsdfnt = null;
+
+        if (usfBbsflinf) {
+            bsdfnt = nfw int[nmfmbfrs];
+            dfsdfnt = nfw int[nmfmbfrs];
+        }
+
+        for (int i = 0 ; i < nmfmbfrs ; i++) {
+            Componfnt m = tbrgft.gftComponfnt(i);
+            if (m.isVisiblf()) {
+                Dimfnsion d = m.gftPrfffrrfdSizf();
+                m.sftSizf(d.width, d.hfight);
+
+                if (usfBbsflinf) {
+                    int bbsflinf = m.gftBbsflinf(d.width, d.hfight);
+                    if (bbsflinf >= 0) {
+                        bsdfnt[i] = bbsflinf;
+                        dfsdfnt[i] = d.hfight - bbsflinf;
+                    }
+                    flsf {
+                        bsdfnt[i] = -1;
+                    }
+                }
+                if ((x == 0) || ((x + d.width) <= mbxwidth)) {
+                    if (x > 0) {
+                        x += hgbp;
+                    }
+                    x += d.width;
+                    rowh = Mbth.mbx(rowh, d.hfight);
+                } flsf {
+                    rowh = movfComponfnts(tbrgft, insfts.lfft + hgbp, y,
+                                   mbxwidth - x, rowh, stbrt, i, ltr,
+                                   usfBbsflinf, bsdfnt, dfsdfnt);
+                    x = d.width;
+                    y += vgbp + rowh;
+                    rowh = d.hfight;
+                    stbrt = i;
+                }
+            }
+        }
+        movfComponfnts(tbrgft, insfts.lfft + hgbp, y, mbxwidth - x, rowh,
+                       stbrt, nmfmbfrs, ltr, usfBbsflinf, bsdfnt, dfsdfnt);
+      }
+    }
+
+    //
+    // thf intfrnbl sfribl vfrsion whidh sbys whidh vfrsion wbs writtfn
+    // - 0 (dffbult) for vfrsions bfforf thf Jbvb 2 plbtform, v1.2
+    // - 1 for vfrsion >= Jbvb 2 plbtform v1.2, whidh indludfs "nfwAlign" fifld
+    //
+    privbtf stbtid finbl int durrfntSfriblVfrsion = 1;
+    /**
+     * This rfprfsfnt thf <dodf>durrfntSfriblVfrsion</dodf>
+     * whidh is bfin usfd.  It will bf onf of two vblufs :
+     * <dodf>0</dodf> vfrsions bfforf Jbvb 2 plbtform v1.2..
+     * <dodf>1</dodf> vfrsions bftfr  Jbvb 2 plbtform v1.2..
+     *
+     * @sfribl
+     * @sindf 1.2
+     */
+    privbtf int sfriblVfrsionOnStrfbm = durrfntSfriblVfrsion;
+
+    /**
+     * Rfbds this objfdt out of b sfriblizbtion strfbm, hbndling
+     * objfdts writtfn by oldfr vfrsions of thf dlbss thbt didn't dontbin bll
+     * of thf fiflds wf usf now..
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm strfbm)
+         throws IOExdfption, ClbssNotFoundExdfption
+    {
+        strfbm.dffbultRfbdObjfdt();
+
+        if (sfriblVfrsionOnStrfbm < 1) {
+            // "nfwAlign" fifld wbsn't prfsfnt, so usf thf old "blign" fifld.
+            sftAlignmfnt(this.blign);
+        }
+        sfriblVfrsionOnStrfbm = durrfntSfriblVfrsion;
+    }
+
+    /**
+     * Rfturns b string rfprfsfntbtion of this <dodf>FlowLbyout</dodf>
+     * objfdt bnd its vblufs.
+     * @rfturn     b string rfprfsfntbtion of this lbyout
+     */
+    publid String toString() {
+        String str = "";
+        switdh (blign) {
+          dbsf LEFT:        str = ",blign=lfft"; brfbk;
+          dbsf CENTER:      str = ",blign=dfntfr"; brfbk;
+          dbsf RIGHT:       str = ",blign=right"; brfbk;
+          dbsf LEADING:     str = ",blign=lfbding"; brfbk;
+          dbsf TRAILING:    str = ",blign=trbiling"; brfbk;
+        }
+        rfturn gftClbss().gftNbmf() + "[hgbp=" + hgbp + ",vgbp=" + vgbp + str + "]";
+    }
+
+
+}

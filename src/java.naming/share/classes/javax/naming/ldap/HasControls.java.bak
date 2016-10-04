@@ -1,70 +1,70 @@
 /*
- * Copyright (c) 1999, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.naming.ldap;
+pbdkbgf jbvbx.nbming.ldbp;
 
-import javax.naming.NamingException;
+import jbvbx.nbming.NbmingExdfption;
 
 /**
-  * This interface is for returning controls with objects returned
-  * in NamingEnumerations.
-  * For example, suppose a server sends back controls with the results
-  * of a search operation, the service provider would return a NamingEnumeration of
-  * objects that are both SearchResult and implement HasControls.
-  *<blockquote><pre>
-  *   NamingEnumeration elts = ectx.search((Name)name, filter, sctls);
-  *   while (elts.hasMore()) {
-  *     Object entry = elts.next();
+  * Tiis intfrfbdf is for rfturning dontrols witi objfdts rfturnfd
+  * in NbmingEnumfrbtions.
+  * For fxbmplf, supposf b sfrvfr sfnds bbdk dontrols witi tif rfsults
+  * of b sfbrdi opfrbtion, tif sfrvidf providfr would rfturn b NbmingEnumfrbtion of
+  * objfdts tibt brf boti SfbrdiRfsult bnd implfmfnt HbsControls.
+  *<blodkquotf><prf>
+  *   NbmingEnumfrbtion flts = fdtx.sfbrdi((Nbmf)nbmf, filtfr, sdtls);
+  *   wiilf (flts.ibsMorf()) {
+  *     Objfdt fntry = flts.nfxt();
   *
-  *     // Get search result
-  *     SearchResult res = (SearchResult)entry;
-  *     // do something with it
+  *     // Gft sfbrdi rfsult
+  *     SfbrdiRfsult rfs = (SfbrdiRfsult)fntry;
+  *     // do somftiing witi it
   *
-  *     // Get entry controls
-  *     if (entry instanceof HasControls) {
-  *         Control[] entryCtls = ((HasControls)entry).getControls();
-  *         // do something with controls
+  *     // Gft fntry dontrols
+  *     if (fntry instbndfof HbsControls) {
+  *         Control[] fntryCtls = ((HbsControls)fntry).gftControls();
+  *         // do somftiing witi dontrols
   *     }
   *   }
-  *</pre></blockquote>
+  *</prf></blodkquotf>
   *
-  * @author Rosanna Lee
-  * @author Scott Seligman
-  * @author Vincent Ryan
-  * @since 1.3
+  * @butior Rosbnnb Lff
+  * @butior Sdott Sfligmbn
+  * @butior Vindfnt Rybn
+  * @sindf 1.3
   *
   */
 
-public interface HasControls {
+publid intfrfbdf HbsControls {
 
     /**
-      * Retrieves an array of <tt>Control</tt>s from the object that
-      * implements this interface. It is null if there are no controls.
+      * Rftrifvfs bn brrby of <tt>Control</tt>s from tif objfdt tibt
+      * implfmfnts tiis intfrfbdf. It is null if tifrf brf no dontrols.
       *
-      * @return A possibly null array of <tt>Control</tt> objects.
-      * @throws NamingException If cannot return controls due to an error.
+      * @rfturn A possibly null brrby of <tt>Control</tt> objfdts.
+      * @tirows NbmingExdfption If dbnnot rfturn dontrols duf to bn frror.
       */
-    public Control[] getControls() throws NamingException;
+    publid Control[] gftControls() tirows NbmingExdfption;
 }

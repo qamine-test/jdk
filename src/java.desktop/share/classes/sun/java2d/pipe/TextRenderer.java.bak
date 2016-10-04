@@ -1,97 +1,97 @@
 /*
- * Copyright (c) 2000, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d.pipe;
+pbdkbgf sun.jbvb2d.pipf;
 
-import java.awt.Rectangle;
-import java.awt.Shape;
-import java.awt.Font;
-import java.awt.font.GlyphVector;
-import sun.java2d.SunGraphics2D;
-import sun.java2d.loops.FontInfo;
-import sun.font.GlyphList;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Sibpf;
+import jbvb.bwt.Font;
+import jbvb.bwt.font.GlypiVfdtor;
+import sun.jbvb2d.SunGrbpiids2D;
+import sun.jbvb2d.loops.FontInfo;
+import sun.font.GlypiList;
 
 /*
- * This class uses the alpha graybits arrays from a GlyphList object to
- * drive a CompositePipe in much the same way as the antialiasing renderer.
+ * Tiis dlbss usfs tif blpib grbybits brrbys from b GlypiList objfdt to
+ * drivf b CompositfPipf in mudi tif sbmf wby bs tif bntiblibsing rfndfrfr.
  */
-public class TextRenderer extends GlyphListPipe {
+publid dlbss TfxtRfndfrfr fxtfnds GlypiListPipf {
 
-    CompositePipe outpipe;
+    CompositfPipf outpipf;
 
-    public TextRenderer(CompositePipe pipe) {
-        outpipe = pipe;
+    publid TfxtRfndfrfr(CompositfPipf pipf) {
+        outpipf = pipf;
     }
 
-    protected void drawGlyphList(SunGraphics2D sg2d, GlyphList gl) {
-        int num = gl.getNumGlyphs();
-        Region clipRegion = sg2d.getCompClip();
-        int cx1 = clipRegion.getLoX();
-        int cy1 = clipRegion.getLoY();
-        int cx2 = clipRegion.getHiX();
-        int cy2 = clipRegion.getHiY();
-        Object ctx = null;
+    protfdtfd void drbwGlypiList(SunGrbpiids2D sg2d, GlypiList gl) {
+        int num = gl.gftNumGlypis();
+        Rfgion dlipRfgion = sg2d.gftCompClip();
+        int dx1 = dlipRfgion.gftLoX();
+        int dy1 = dlipRfgion.gftLoY();
+        int dx2 = dlipRfgion.gftHiX();
+        int dy2 = dlipRfgion.gftHiY();
+        Objfdt dtx = null;
         try {
-            int[] bounds = gl.getBounds();
-            Rectangle r = new Rectangle(bounds[0], bounds[1],
+            int[] bounds = gl.gftBounds();
+            Rfdtbnglf r = nfw Rfdtbnglf(bounds[0], bounds[1],
                                         bounds[2] - bounds[0],
                                         bounds[3] - bounds[1]);
-            Shape s = sg2d.untransformShape(r);
-            ctx = outpipe.startSequence(sg2d, s, r, bounds);
+            Sibpf s = sg2d.untrbnsformSibpf(r);
+            dtx = outpipf.stbrtSfqufndf(sg2d, s, r, bounds);
             for (int i = 0; i < num; i++) {
-                gl.setGlyphIndex(i);
-                int metrics[] = gl.getMetrics();
-                int gx1 = metrics[0];
-                int gy1 = metrics[1];
-                int w = metrics[2];
+                gl.sftGlypiIndfx(i);
+                int mftrids[] = gl.gftMftrids();
+                int gx1 = mftrids[0];
+                int gy1 = mftrids[1];
+                int w = mftrids[2];
                 int gx2 = gx1 + w;
-                int gy2 = gy1 + metrics[3];
+                int gy2 = gy1 + mftrids[3];
                 int off = 0;
-                if (gx1 < cx1) {
-                    off = cx1 - gx1;
-                    gx1 = cx1;
+                if (gx1 < dx1) {
+                    off = dx1 - gx1;
+                    gx1 = dx1;
                 }
-                if (gy1 < cy1) {
-                    off += (cy1 - gy1) * w;
-                    gy1 = cy1;
+                if (gy1 < dy1) {
+                    off += (dy1 - gy1) * w;
+                    gy1 = dy1;
                 }
-                if (gx2 > cx2) gx2 = cx2;
-                if (gy2 > cy2) gy2 = cy2;
+                if (gx2 > dx2) gx2 = dx2;
+                if (gy2 > dy2) gy2 = dy2;
                 if (gx2 > gx1 && gy2 > gy1 &&
-                    outpipe.needTile(ctx, gx1, gy1, gx2 - gx1, gy2 - gy1))
+                    outpipf.nffdTilf(dtx, gx1, gy1, gx2 - gx1, gy2 - gy1))
                 {
-                    byte alpha[] = gl.getGrayBits();
-                    outpipe.renderPathTile(ctx, alpha, off, w,
+                    bytf blpib[] = gl.gftGrbyBits();
+                    outpipf.rfndfrPbtiTilf(dtx, blpib, off, w,
                                            gx1, gy1, gx2 - gx1, gy2 - gy1);
-                } else {
-                    outpipe.skipTile(ctx, gx1, gy1);
+                } flsf {
+                    outpipf.skipTilf(dtx, gx1, gy1);
                 }
             }
-        } finally {
-            if (ctx != null) {
-                outpipe.endSequence(ctx);
+        } finblly {
+            if (dtx != null) {
+                outpipf.fndSfqufndf(dtx);
             }
         }
     }

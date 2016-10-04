@@ -1,0 +1,87 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng.bnnotbtion;
+
+/**
+ * Indidbtfs thf dontfxts in whidh bn bnnotbtion typf is bpplidbblf. Thf
+ * dfdlbrbtion dontfxts bnd typf dontfxts in whidh bn bnnotbtion typf mby bf
+ * bpplidbblf brf spfdififd in JLS 9.6.4.1, bnd dfnotfd in sourdf dodf by fnum
+ * donstbnts of {@link ElfmfntTypf jbvb.lbng.bnnotbtion.ElfmfntTypf}.
+ *
+ * <p>If bn {@dodf @Tbrgft} mftb-bnnotbtion is not prfsfnt on bn bnnotbtion typf
+ * {@dodf T} , thfn bn bnnotbtion of typf {@dodf T} mby bf writtfn bs b
+ * modififr for bny dfdlbrbtion fxdfpt b typf pbrbmftfr dfdlbrbtion.
+ *
+ * <p>If bn {@dodf @Tbrgft} mftb-bnnotbtion is prfsfnt, thf dompilfr will fnfordf
+ * thf usbgf rfstridtions indidbtfd by {@dodf ElfmfntTypf}
+ * fnum donstbnts, in linf with JLS 9.7.4.
+ *
+ * <p>For fxbmplf, this {@dodf @Tbrgft} mftb-bnnotbtion indidbtfs thbt thf
+ * dfdlbrfd typf is itsflf b mftb-bnnotbtion typf.  It dbn only bf usfd on
+ * bnnotbtion typf dfdlbrbtions:
+ * <prf>
+ *    &#064;Tbrgft(ElfmfntTypf.ANNOTATION_TYPE)
+ *    publid &#064;intfrfbdf MftbAnnotbtionTypf {
+ *        ...
+ *    }
+ * </prf>
+ *
+ * <p>This {@dodf @Tbrgft} mftb-bnnotbtion indidbtfs thbt thf dfdlbrfd typf is
+ * intfndfd solfly for usf bs b mfmbfr typf in domplfx bnnotbtion typf
+ * dfdlbrbtions.  It dbnnot bf usfd to bnnotbtf bnything dirfdtly:
+ * <prf>
+ *    &#064;Tbrgft({})
+ *    publid &#064;intfrfbdf MfmbfrTypf {
+ *        ...
+ *    }
+ * </prf>
+ *
+ * <p>It is b dompilf-timf frror for b singlf {@dodf ElfmfntTypf} donstbnt to
+ * bppfbr morf thbn ondf in bn {@dodf @Tbrgft} bnnotbtion.  For fxbmplf, thf
+ * following {@dodf @Tbrgft} mftb-bnnotbtion is illfgbl:
+ * <prf>
+ *    &#064;Tbrgft({ElfmfntTypf.FIELD, ElfmfntTypf.METHOD, ElfmfntTypf.FIELD})
+ *    publid &#064;intfrfbdf Bogus {
+ *        ...
+ *    }
+ * </prf>
+ *
+ * @sindf 1.5
+ * @jls 9.6.4.1 @Tbrgft
+ * @jls 9.7.4 Whfrf Annotbtions Mby Appfbr
+ */
+@Dodumfntfd
+@Rftfntion(RftfntionPolidy.RUNTIME)
+@Tbrgft(ElfmfntTypf.ANNOTATION_TYPE)
+publid @intfrfbdf Tbrgft {
+    /**
+     * Rfturns bn brrby of thf kinds of flfmfnts bn bnnotbtion typf
+     * dbn bf bpplifd to.
+     * @rfturn bn brrby of thf kinds of flfmfnts bn bnnotbtion typf
+     * dbn bf bpplifd to
+     */
+    ElfmfntTypf[] vbluf();
+}

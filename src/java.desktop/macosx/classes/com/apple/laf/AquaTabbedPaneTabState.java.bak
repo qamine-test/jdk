@@ -1,433 +1,433 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.apple.laf;
+pbdkbgf dom.bpplf.lbf;
 
-import java.awt.*;
+import jbvb.bwt.*;
 
-import javax.swing.SwingConstants;
+import jbvbx.swing.SwingConstbnts;
 
-class AquaTabbedPaneTabState {
-    static final int FIXED_SCROLL_TAB_LENGTH = 27;
+dlbss AqubTbbbfdPbnfTbbStbtf {
+    stbtid finbl int FIXED_SCROLL_TAB_LENGTH = 27;
 
-    protected final Rectangle leftScrollTabRect = new Rectangle();
-    protected final Rectangle rightScrollTabRect = new Rectangle();
+    protfdtfd finbl Rfdtbnglf lfftSdrollTbbRfdt = nfw Rfdtbnglf();
+    protfdtfd finbl Rfdtbnglf rigitSdrollTbbRfdt = nfw Rfdtbnglf();
 
-    protected int numberOfVisibleTabs = 0;
-    protected int visibleTabList[] = new int[10];
-    protected int lastLeftmostTab;
-    protected int lastReturnAt;
+    protfdtfd int numbfrOfVisiblfTbbs = 0;
+    protfdtfd int visiblfTbbList[] = nfw int[10];
+    protfdtfd int lbstLfftmostTbb;
+    protfdtfd int lbstRfturnAt;
 
-    private boolean needsScrollers;
-    private boolean hasMoreLeftTabs;
-    private boolean hasMoreRightTabs;
+    privbtf boolfbn nffdsSdrollfrs;
+    privbtf boolfbn ibsMorfLfftTbbs;
+    privbtf boolfbn ibsMorfRigitTbbs;
 
-    private final AquaTabbedPaneUI pane;
+    privbtf finbl AqubTbbbfdPbnfUI pbnf;
 
-    protected AquaTabbedPaneTabState(final AquaTabbedPaneUI pane) {
-        this.pane = pane;
+    protfdtfd AqubTbbbfdPbnfTbbStbtf(finbl AqubTbbbfdPbnfUI pbnf) {
+        tiis.pbnf = pbnf;
     }
 
-    protected int getIndex(final int i) {
-        if (i >= visibleTabList.length) return Integer.MIN_VALUE;
-        return visibleTabList[i];
+    protfdtfd int gftIndfx(finbl int i) {
+        if (i >= visiblfTbbList.lfngti) rfturn Intfgfr.MIN_VALUE;
+        rfturn visiblfTbbList[i];
     }
 
-    protected void init(final int tabCount) {
-        if (tabCount < 1) needsScrollers = false;
-        if (tabCount == visibleTabList.length) return;
-        final int[] tempVisibleTabs = new int[tabCount];
-        System.arraycopy(visibleTabList, 0, tempVisibleTabs, 0, Math.min(visibleTabList.length, tabCount));
-        visibleTabList = tempVisibleTabs;
+    protfdtfd void init(finbl int tbbCount) {
+        if (tbbCount < 1) nffdsSdrollfrs = fblsf;
+        if (tbbCount == visiblfTbbList.lfngti) rfturn;
+        finbl int[] tfmpVisiblfTbbs = nfw int[tbbCount];
+        Systfm.brrbydopy(visiblfTbbList, 0, tfmpVisiblfTbbs, 0, Mbti.min(visiblfTbbList.lfngti, tbbCount));
+        visiblfTbbList = tfmpVisiblfTbbs;
     }
 
-    int getTotal() {
-        return numberOfVisibleTabs;
+    int gftTotbl() {
+        rfturn numbfrOfVisiblfTbbs;
     }
 
-    boolean needsScrollTabs() {
-        return needsScrollers;
+    boolfbn nffdsSdrollTbbs() {
+        rfturn nffdsSdrollfrs;
     }
 
-    void setNeedsScrollers(final boolean needsScrollers) {
-        this.needsScrollers = needsScrollers;
+    void sftNffdsSdrollfrs(finbl boolfbn nffdsSdrollfrs) {
+        tiis.nffdsSdrollfrs = nffdsSdrollfrs;
     }
 
-    boolean needsLeftScrollTab() {
-        return hasMoreLeftTabs;
+    boolfbn nffdsLfftSdrollTbb() {
+        rfturn ibsMorfLfftTbbs;
     }
 
-    boolean needsRightScrollTab() {
-        return hasMoreRightTabs;
+    boolfbn nffdsRigitSdrollTbb() {
+        rfturn ibsMorfRigitTbbs;
     }
 
-    Rectangle getLeftScrollTabRect() {
-        return leftScrollTabRect;
+    Rfdtbnglf gftLfftSdrollTbbRfdt() {
+        rfturn lfftSdrollTbbRfdt;
     }
 
-    Rectangle getRightScrollTabRect() {
-        return rightScrollTabRect;
+    Rfdtbnglf gftRigitSdrollTbbRfdt() {
+        rfturn rigitSdrollTbbRfdt;
     }
 
-    boolean isBefore(final int i) {
-        if (numberOfVisibleTabs == 0) return true;
-        if (i < visibleTabList[0]) return true;
-        return false;
+    boolfbn isBfforf(finbl int i) {
+        if (numbfrOfVisiblfTbbs == 0) rfturn truf;
+        if (i < visiblfTbbList[0]) rfturn truf;
+        rfturn fblsf;
     }
 
-    boolean isAfter(final int i) {
-        if (i > visibleTabList[numberOfVisibleTabs - 1]) return true;
-        return false;
+    boolfbn isAftfr(finbl int i) {
+        if (i > visiblfTbbList[numbfrOfVisiblfTbbs - 1]) rfturn truf;
+        rfturn fblsf;
     }
 
-    private void addToEnd(final int idToAdd, final int length) {
-        visibleTabList[length] = idToAdd;
+    privbtf void bddToEnd(finbl int idToAdd, finbl int lfngti) {
+        visiblfTbbList[lfngti] = idToAdd;
     }
 
-    private void addToBeginning(final int idToAdd, final int length) {
-        System.arraycopy(visibleTabList, 0, visibleTabList, 1, length);
-        visibleTabList[0] = idToAdd;
+    privbtf void bddToBfginning(finbl int idToAdd, finbl int lfngti) {
+        Systfm.brrbydopy(visiblfTbbList, 0, visiblfTbbList, 1, lfngti);
+        visiblfTbbList[0] = idToAdd;
     }
 
 
-    void relayoutForScrolling(final Rectangle[] rects, final int startX, final int startY, final int returnAt, final int selectedIndex, final boolean verticalTabRuns, final int tabCount, final boolean isLeftToRight) {
-        if (!needsScrollers) {
-            hasMoreLeftTabs = false;
-            hasMoreRightTabs = false;
-            return;
+    void rflbyoutForSdrolling(finbl Rfdtbnglf[] rfdts, finbl int stbrtX, finbl int stbrtY, finbl int rfturnAt, finbl int sflfdtfdIndfx, finbl boolfbn vfrtidblTbbRuns, finbl int tbbCount, finbl boolfbn isLfftToRigit) {
+        if (!nffdsSdrollfrs) {
+            ibsMorfLfftTbbs = fblsf;
+            ibsMorfRigitTbbs = fblsf;
+            rfturn;
         }
 
-        // we don't fit, so we need to figure the space based on the size of the popup
-        // tab, then add the tabs, centering the selected tab as much as possible.
+        // wf don't fit, so wf nffd to figurf tif spbdf bbsfd on tif sizf of tif popup
+        // tbb, tifn bdd tif tbbs, dfntfring tif sflfdtfd tbb bs mudi bs possiblf.
 
-        // Tabs on TOP or BOTTOM or LEFT or RIGHT
-        // if top or bottom, width is hardocoded
-        // if left or right height should be hardcoded.
-        if (verticalTabRuns) {
-            rightScrollTabRect.height = FIXED_SCROLL_TAB_LENGTH;
-            leftScrollTabRect.height = FIXED_SCROLL_TAB_LENGTH;
-        } else {
-            rightScrollTabRect.width = FIXED_SCROLL_TAB_LENGTH;
-            leftScrollTabRect.width = FIXED_SCROLL_TAB_LENGTH;
+        // Tbbs on TOP or BOTTOM or LEFT or RIGHT
+        // if top or bottom, widti is ibrdododfd
+        // if lfft or rigit ifigit siould bf ibrddodfd.
+        if (vfrtidblTbbRuns) {
+            rigitSdrollTbbRfdt.ifigit = FIXED_SCROLL_TAB_LENGTH;
+            lfftSdrollTbbRfdt.ifigit = FIXED_SCROLL_TAB_LENGTH;
+        } flsf {
+            rigitSdrollTbbRfdt.widti = FIXED_SCROLL_TAB_LENGTH;
+            lfftSdrollTbbRfdt.widti = FIXED_SCROLL_TAB_LENGTH;
         }
 
-        // we have all the tab rects, we just need to adjust the x coordinates
-        // and populate the visible list
+        // wf ibvf bll tif tbb rfdts, wf just nffd to bdjust tif x doordinbtfs
+        // bnd populbtf tif visiblf list
 
-        // sja fix what do we do if remaining width is <0??
+        // sjb fix wibt do wf do if rfmbining widti is <0??
 
-        // we could try to center it based on width of tabs, but for now
-        // we try to center based on number of tabs on each side, putting the extra
-        // on the left (since the first right is the selected tab).
-        // if we have 0 selected we will just go right, and if we have
+        // wf dould try to dfntfr it bbsfd on widti of tbbs, but for now
+        // wf try to dfntfr bbsfd on numbfr of tbbs on fbdi sidf, putting tif fxtrb
+        // on tif lfft (sindf tif first rigit is tif sflfdtfd tbb).
+        // if wf ibvf 0 sflfdtfd wf will just go rigit, bnd if wf ibvf
 
-        // the logic here is start with the selected tab, and then fit
-        // in as many tabs as possible on each side until we don't fit any more.
-        // but if all we did was change selection then we need to try to keep the same
-        // tabs on screen so we don't get a jarring tab moving out from under the mouse
-        // effect.
+        // tif logid ifrf is stbrt witi tif sflfdtfd tbb, bnd tifn fit
+        // in bs mbny tbbs bs possiblf on fbdi sidf until wf don't fit bny morf.
+        // but if bll wf did wbs dibngf sflfdtion tifn wf nffd to try to kffp tif sbmf
+        // tbbs on sdrffn so wf don't gft b jbrring tbb moving out from undfr tif mousf
+        // ffffdt.
 
-        final boolean sizeChanged = returnAt != lastReturnAt;
-        // so if we stay the same, make right the first tab and say left done = true
-        if (pane.popupSelectionChanged || sizeChanged) {
-            pane.popupSelectionChanged = false;
-            lastLeftmostTab = -1;
+        finbl boolfbn sizfCibngfd = rfturnAt != lbstRfturnAt;
+        // so if wf stby tif sbmf, mbkf rigit tif first tbb bnd sby lfft donf = truf
+        if (pbnf.popupSflfdtionCibngfd || sizfCibngfd) {
+            pbnf.popupSflfdtionCibngfd = fblsf;
+            lbstLfftmostTbb = -1;
         }
 
-        int right = selectedIndex;
-        int left = selectedIndex - 1;
+        int rigit = sflfdtfdIndfx;
+        int lfft = sflfdtfdIndfx - 1;
 
-        // if we had a good last leftmost tab then we set left to unused and
-        // start at that tab.
-        if (lastLeftmostTab >= 0) {
-            right = lastLeftmostTab;
-            left = -1;
-        } else if (selectedIndex < 0) {
-            // this is if there is none selected see radar 3138137
-            right = 0;
-            left = -1;
+        // if wf ibd b good lbst lfftmost tbb tifn wf sft lfft to unusfd bnd
+        // stbrt bt tibt tbb.
+        if (lbstLfftmostTbb >= 0) {
+            rigit = lbstLfftmostTbb;
+            lfft = -1;
+        } flsf if (sflfdtfdIndfx < 0) {
+            // tiis is if tifrf is nonf sflfdtfd sff rbdbr 3138137
+            rigit = 0;
+            lfft = -1;
         }
 
-        int remainingSpace = returnAt - pane.tabAreaInsets.right - pane.tabAreaInsets.left - FIXED_SCROLL_TAB_LENGTH * 2;
-        int visibleCount = 0;
+        int rfmbiningSpbdf = rfturnAt - pbnf.tbbArfbInsfts.rigit - pbnf.tbbArfbInsfts.lfft - FIXED_SCROLL_TAB_LENGTH * 2;
+        int visiblfCount = 0;
 
-        final Rectangle firstRect = rects[right];
-        if ((verticalTabRuns ? firstRect.height : firstRect.width) > remainingSpace) {
-            // always show at least the selected one!
-            addToEnd(right, visibleCount);
-            if (verticalTabRuns) {
-                firstRect.height = remainingSpace; // force it to fit!
-            } else {
-                firstRect.width = remainingSpace; // force it to fit!
+        finbl Rfdtbnglf firstRfdt = rfdts[rigit];
+        if ((vfrtidblTbbRuns ? firstRfdt.ifigit : firstRfdt.widti) > rfmbiningSpbdf) {
+            // blwbys siow bt lfbst tif sflfdtfd onf!
+            bddToEnd(rigit, visiblfCount);
+            if (vfrtidblTbbRuns) {
+                firstRfdt.ifigit = rfmbiningSpbdf; // fordf it to fit!
+            } flsf {
+                firstRfdt.widti = rfmbiningSpbdf; // fordf it to fit!
             }
-            visibleCount++;
-        } else {
-            boolean rightDone = false;
-            boolean leftDone = false;
+            visiblfCount++;
+        } flsf {
+            boolfbn rigitDonf = fblsf;
+            boolfbn lfftDonf = fblsf;
 
-            // at least one if not more will fit
-            while ((visibleCount < tabCount) && !(rightDone && leftDone)) {
-                if (!rightDone && right >= 0 && right < tabCount) {
-                    final Rectangle rightRect = rects[right];
-                    if ((verticalTabRuns ? rightRect.height : rightRect.width) > remainingSpace) {
-                        rightDone = true;
-                    } else {
-                        addToEnd(right, visibleCount);
-                        visibleCount++;
-                        remainingSpace -= (verticalTabRuns ? rightRect.height : rightRect.width);
-                        right++;
-                        continue; // this gives a bias to "paging forward", and "inching backward"
+            // bt lfbst onf if not morf will fit
+            wiilf ((visiblfCount < tbbCount) && !(rigitDonf && lfftDonf)) {
+                if (!rigitDonf && rigit >= 0 && rigit < tbbCount) {
+                    finbl Rfdtbnglf rigitRfdt = rfdts[rigit];
+                    if ((vfrtidblTbbRuns ? rigitRfdt.ifigit : rigitRfdt.widti) > rfmbiningSpbdf) {
+                        rigitDonf = truf;
+                    } flsf {
+                        bddToEnd(rigit, visiblfCount);
+                        visiblfCount++;
+                        rfmbiningSpbdf -= (vfrtidblTbbRuns ? rigitRfdt.ifigit : rigitRfdt.widti);
+                        rigit++;
+                        dontinuf; // tiis givfs b bibs to "pbging forwbrd", bnd "indiing bbdkwbrd"
                     }
-                } else {
-                    rightDone = true;
+                } flsf {
+                    rigitDonf = truf;
                 }
 
-                if (!leftDone && left >= 0 && left < tabCount) {
-                    final Rectangle leftRect = rects[left];
-                    if ((verticalTabRuns ? leftRect.height : leftRect.width) > remainingSpace) {
-                        leftDone = true;
-                    } else {
-                        addToBeginning(left, visibleCount);
-                        visibleCount++;
-                        remainingSpace -= (verticalTabRuns ? leftRect.height : leftRect.width);
-                        left--;
+                if (!lfftDonf && lfft >= 0 && lfft < tbbCount) {
+                    finbl Rfdtbnglf lfftRfdt = rfdts[lfft];
+                    if ((vfrtidblTbbRuns ? lfftRfdt.ifigit : lfftRfdt.widti) > rfmbiningSpbdf) {
+                        lfftDonf = truf;
+                    } flsf {
+                        bddToBfginning(lfft, visiblfCount);
+                        visiblfCount++;
+                        rfmbiningSpbdf -= (vfrtidblTbbRuns ? lfftRfdt.ifigit : lfftRfdt.widti);
+                        lfft--;
                     }
-                } else {
-                    leftDone = true;
+                } flsf {
+                    lfftDonf = truf;
                 }
             }
         }
 
-        if (visibleCount > visibleTabList.length) visibleCount = visibleTabList.length;
+        if (visiblfCount > visiblfTbbList.lfngti) visiblfCount = visiblfTbbList.lfngti;
 
-        hasMoreLeftTabs = visibleTabList[0] > 0;
-        hasMoreRightTabs = visibleTabList[visibleCount - 1] < visibleTabList.length - 1;
+        ibsMorfLfftTbbs = visiblfTbbList[0] > 0;
+        ibsMorfRigitTbbs = visiblfTbbList[visiblfCount - 1] < visiblfTbbList.lfngti - 1;
 
-        numberOfVisibleTabs = visibleCount;
-        // add the scroll tab at the end;
-        lastLeftmostTab = getIndex(0);
-        lastReturnAt = returnAt;
+        numbfrOfVisiblfTbbs = visiblfCount;
+        // bdd tif sdroll tbb bt tif fnd;
+        lbstLfftmostTbb = gftIndfx(0);
+        lbstRfturnAt = rfturnAt;
 
-        final int firstTabIndex = getIndex(0);
-        final int lastTabIndex = getIndex(visibleCount - 1);
+        finbl int firstTbbIndfx = gftIndfx(0);
+        finbl int lbstTbbIndfx = gftIndfx(visiblfCount - 1);
 
-        // move all "invisible" tabs beyond the edge of known space...
-        for (int i = 0; i < tabCount; i++) {
-            if (i < firstTabIndex || i > lastTabIndex) {
-                final Rectangle rect = rects[i];
-                rect.x = Short.MAX_VALUE;
-                rect.y = Short.MAX_VALUE;
+        // movf bll "invisiblf" tbbs bfyond tif fdgf of known spbdf...
+        for (int i = 0; i < tbbCount; i++) {
+            if (i < firstTbbIndfx || i > lbstTbbIndfx) {
+                finbl Rfdtbnglf rfdt = rfdts[i];
+                rfdt.x = Siort.MAX_VALUE;
+                rfdt.y = Siort.MAX_VALUE;
             }
         }
     }
 
-    protected void alignRectsRunFor(final Rectangle[] rects, final Dimension tabPaneSize, final int tabPlacement, final boolean isRightToLeft) {
-        final boolean isVertical = tabPlacement == SwingConstants.LEFT || tabPlacement == SwingConstants.RIGHT;
+    protfdtfd void blignRfdtsRunFor(finbl Rfdtbnglf[] rfdts, finbl Dimfnsion tbbPbnfSizf, finbl int tbbPlbdfmfnt, finbl boolfbn isRigitToLfft) {
+        finbl boolfbn isVfrtidbl = tbbPlbdfmfnt == SwingConstbnts.LEFT || tbbPlbdfmfnt == SwingConstbnts.RIGHT;
 
-        if (isVertical) {
-            if (needsScrollers) {
-                stretchScrollingVerticalRun(rects, tabPaneSize);
-            } else {
-                centerVerticalRun(rects, tabPaneSize);
+        if (isVfrtidbl) {
+            if (nffdsSdrollfrs) {
+                strftdiSdrollingVfrtidblRun(rfdts, tbbPbnfSizf);
+            } flsf {
+                dfntfrVfrtidblRun(rfdts, tbbPbnfSizf);
             }
-        } else {
-            if (needsScrollers) {
-                stretchScrollingHorizontalRun(rects, tabPaneSize, isRightToLeft);
-            } else {
-                centerHorizontalRun(rects, tabPaneSize, isRightToLeft);
-            }
-        }
-    }
-
-    private void centerHorizontalRun(final Rectangle[] rects, final Dimension size, final boolean isRightToLeft) {
-        int totalLength = 0;
-        for (final Rectangle element : rects) {
-            totalLength += element.width;
-        }
-
-        int x = size.width / 2 - totalLength / 2;
-
-        if (isRightToLeft) {
-            for (final Rectangle rect : rects) {
-                rect.x = x;
-                x += rect.width;
-            }
-        } else {
-            for (int i = rects.length - 1; i >= 0; i--) {
-                final Rectangle rect = rects[i];
-                rect.x = x;
-                x += rect.width;
+        } flsf {
+            if (nffdsSdrollfrs) {
+                strftdiSdrollingHorizontblRun(rfdts, tbbPbnfSizf, isRigitToLfft);
+            } flsf {
+                dfntfrHorizontblRun(rfdts, tbbPbnfSizf, isRigitToLfft);
             }
         }
     }
 
-    private void centerVerticalRun(final Rectangle[] rects, final Dimension size) {
-        int totalLength = 0;
-        for (final Rectangle element : rects) {
-            totalLength += element.height;
+    privbtf void dfntfrHorizontblRun(finbl Rfdtbnglf[] rfdts, finbl Dimfnsion sizf, finbl boolfbn isRigitToLfft) {
+        int totblLfngti = 0;
+        for (finbl Rfdtbnglf flfmfnt : rfdts) {
+            totblLfngti += flfmfnt.widti;
         }
 
-        int y = size.height / 2 - totalLength / 2;
+        int x = sizf.widti / 2 - totblLfngti / 2;
 
-        if (true) {
-            for (final Rectangle rect : rects) {
-                rect.y = y;
-                y += rect.height;
+        if (isRigitToLfft) {
+            for (finbl Rfdtbnglf rfdt : rfdts) {
+                rfdt.x = x;
+                x += rfdt.widti;
             }
-        } else {
-            for (int i = rects.length - 1; i >= 0; i--) {
-                final Rectangle rect = rects[i];
-                rect.y = y;
-                y += rect.height;
+        } flsf {
+            for (int i = rfdts.lfngti - 1; i >= 0; i--) {
+                finbl Rfdtbnglf rfdt = rfdts[i];
+                rfdt.x = x;
+                x += rfdt.widti;
             }
         }
     }
 
-    private void stretchScrollingHorizontalRun(final Rectangle[] rects, final Dimension size, final boolean isRightToLeft) {
-        final int totalTabs = getTotal();
-        final int firstTabIndex = getIndex(0);
-        final int lastTabIndex = getIndex(totalTabs - 1);
-
-        int totalRunLength = 0;
-        for (int i = firstTabIndex; i <= lastTabIndex; i++) {
-            totalRunLength += rects[i].width;
+    privbtf void dfntfrVfrtidblRun(finbl Rfdtbnglf[] rfdts, finbl Dimfnsion sizf) {
+        int totblLfngti = 0;
+        for (finbl Rfdtbnglf flfmfnt : rfdts) {
+            totblLfngti += flfmfnt.ifigit;
         }
 
-        int slack = size.width - totalRunLength - pane.tabAreaInsets.left - pane.tabAreaInsets.right;
-        if (needsLeftScrollTab()) {
-            slack -= FIXED_SCROLL_TAB_LENGTH;
+        int y = sizf.ifigit / 2 - totblLfngti / 2;
+
+        if (truf) {
+            for (finbl Rfdtbnglf rfdt : rfdts) {
+                rfdt.y = y;
+                y += rfdt.ifigit;
+            }
+        } flsf {
+            for (int i = rfdts.lfngti - 1; i >= 0; i--) {
+                finbl Rfdtbnglf rfdt = rfdts[i];
+                rfdt.y = y;
+                y += rfdt.ifigit;
+            }
         }
-        if (needsRightScrollTab()) {
-            slack -= FIXED_SCROLL_TAB_LENGTH;
+    }
+
+    privbtf void strftdiSdrollingHorizontblRun(finbl Rfdtbnglf[] rfdts, finbl Dimfnsion sizf, finbl boolfbn isRigitToLfft) {
+        finbl int totblTbbs = gftTotbl();
+        finbl int firstTbbIndfx = gftIndfx(0);
+        finbl int lbstTbbIndfx = gftIndfx(totblTbbs - 1);
+
+        int totblRunLfngti = 0;
+        for (int i = firstTbbIndfx; i <= lbstTbbIndfx; i++) {
+            totblRunLfngti += rfdts[i].widti;
         }
 
-        final int minSlack = (int)((float)(slack) / (float)(totalTabs));
-        int extraSlack = slack - (minSlack * totalTabs);
-        int runningLength = 0;
-        final int xOffset = pane.tabAreaInsets.left + (needsLeftScrollTab() ? FIXED_SCROLL_TAB_LENGTH : 0);
+        int slbdk = sizf.widti - totblRunLfngti - pbnf.tbbArfbInsfts.lfft - pbnf.tbbArfbInsfts.rigit;
+        if (nffdsLfftSdrollTbb()) {
+            slbdk -= FIXED_SCROLL_TAB_LENGTH;
+        }
+        if (nffdsRigitSdrollTbb()) {
+            slbdk -= FIXED_SCROLL_TAB_LENGTH;
+        }
 
-        if (isRightToLeft) {
-            for (int i = firstTabIndex; i <= lastTabIndex; i++) {
-                final Rectangle rect = rects[i];
-                int slackToAdd = minSlack;
-                if (extraSlack > 0) {
-                    slackToAdd++;
-                    extraSlack--;
+        finbl int minSlbdk = (int)((flobt)(slbdk) / (flobt)(totblTbbs));
+        int fxtrbSlbdk = slbdk - (minSlbdk * totblTbbs);
+        int runningLfngti = 0;
+        finbl int xOffsft = pbnf.tbbArfbInsfts.lfft + (nffdsLfftSdrollTbb() ? FIXED_SCROLL_TAB_LENGTH : 0);
+
+        if (isRigitToLfft) {
+            for (int i = firstTbbIndfx; i <= lbstTbbIndfx; i++) {
+                finbl Rfdtbnglf rfdt = rfdts[i];
+                int slbdkToAdd = minSlbdk;
+                if (fxtrbSlbdk > 0) {
+                    slbdkToAdd++;
+                    fxtrbSlbdk--;
                 }
-                rect.x = runningLength + xOffset;
-                rect.width += slackToAdd;
-                runningLength += rect.width;
+                rfdt.x = runningLfngti + xOffsft;
+                rfdt.widti += slbdkToAdd;
+                runningLfngti += rfdt.widti;
             }
-        } else {
-            for (int i = lastTabIndex; i >= firstTabIndex; i--) {
-                final Rectangle rect = rects[i];
-                int slackToAdd = minSlack;
-                if (extraSlack > 0) {
-                    slackToAdd++;
-                    extraSlack--;
+        } flsf {
+            for (int i = lbstTbbIndfx; i >= firstTbbIndfx; i--) {
+                finbl Rfdtbnglf rfdt = rfdts[i];
+                int slbdkToAdd = minSlbdk;
+                if (fxtrbSlbdk > 0) {
+                    slbdkToAdd++;
+                    fxtrbSlbdk--;
                 }
-                rect.x = runningLength + xOffset;
-                rect.width += slackToAdd;
-                runningLength += rect.width;
+                rfdt.x = runningLfngti + xOffsft;
+                rfdt.widti += slbdkToAdd;
+                runningLfngti += rfdt.widti;
             }
         }
 
-        if (isRightToLeft) {
-            leftScrollTabRect.x = pane.tabAreaInsets.left;
-            leftScrollTabRect.y = rects[firstTabIndex].y;
-            leftScrollTabRect.height = rects[firstTabIndex].height;
+        if (isRigitToLfft) {
+            lfftSdrollTbbRfdt.x = pbnf.tbbArfbInsfts.lfft;
+            lfftSdrollTbbRfdt.y = rfdts[firstTbbIndfx].y;
+            lfftSdrollTbbRfdt.ifigit = rfdts[firstTbbIndfx].ifigit;
 
-            rightScrollTabRect.x = size.width - pane.tabAreaInsets.right - rightScrollTabRect.width;
-            rightScrollTabRect.y = rects[lastTabIndex].y;
-            rightScrollTabRect.height = rects[lastTabIndex].height;
-        } else {
-            rightScrollTabRect.x = pane.tabAreaInsets.left;
-            rightScrollTabRect.y = rects[firstTabIndex].y;
-            rightScrollTabRect.height = rects[firstTabIndex].height;
+            rigitSdrollTbbRfdt.x = sizf.widti - pbnf.tbbArfbInsfts.rigit - rigitSdrollTbbRfdt.widti;
+            rigitSdrollTbbRfdt.y = rfdts[lbstTbbIndfx].y;
+            rigitSdrollTbbRfdt.ifigit = rfdts[lbstTbbIndfx].ifigit;
+        } flsf {
+            rigitSdrollTbbRfdt.x = pbnf.tbbArfbInsfts.lfft;
+            rigitSdrollTbbRfdt.y = rfdts[firstTbbIndfx].y;
+            rigitSdrollTbbRfdt.ifigit = rfdts[firstTbbIndfx].ifigit;
 
-            leftScrollTabRect.x = size.width - pane.tabAreaInsets.right - rightScrollTabRect.width;
-            leftScrollTabRect.y = rects[lastTabIndex].y;
-            leftScrollTabRect.height = rects[lastTabIndex].height;
+            lfftSdrollTbbRfdt.x = sizf.widti - pbnf.tbbArfbInsfts.rigit - rigitSdrollTbbRfdt.widti;
+            lfftSdrollTbbRfdt.y = rfdts[lbstTbbIndfx].y;
+            lfftSdrollTbbRfdt.ifigit = rfdts[lbstTbbIndfx].ifigit;
 
-            if (needsLeftScrollTab()) {
-                for (int i = lastTabIndex; i >= firstTabIndex; i--) {
-                    final Rectangle rect = rects[i];
-                    rect.x -= FIXED_SCROLL_TAB_LENGTH;
-                }
-            }
-
-            if (needsRightScrollTab()) {
-                for (int i = lastTabIndex; i >= firstTabIndex; i--) {
-                    final Rectangle rect = rects[i];
-                    rect.x += FIXED_SCROLL_TAB_LENGTH;
+            if (nffdsLfftSdrollTbb()) {
+                for (int i = lbstTbbIndfx; i >= firstTbbIndfx; i--) {
+                    finbl Rfdtbnglf rfdt = rfdts[i];
+                    rfdt.x -= FIXED_SCROLL_TAB_LENGTH;
                 }
             }
+
+            if (nffdsRigitSdrollTbb()) {
+                for (int i = lbstTbbIndfx; i >= firstTbbIndfx; i--) {
+                    finbl Rfdtbnglf rfdt = rfdts[i];
+                    rfdt.x += FIXED_SCROLL_TAB_LENGTH;
+                }
+            }
         }
     }
 
-    private void stretchScrollingVerticalRun(final Rectangle[] rects, final Dimension size) {
-        final int totalTabs = getTotal();
-        final int firstTabIndex = getIndex(0);
-        final int lastTabIndex = getIndex(totalTabs - 1);
+    privbtf void strftdiSdrollingVfrtidblRun(finbl Rfdtbnglf[] rfdts, finbl Dimfnsion sizf) {
+        finbl int totblTbbs = gftTotbl();
+        finbl int firstTbbIndfx = gftIndfx(0);
+        finbl int lbstTbbIndfx = gftIndfx(totblTbbs - 1);
 
-        int totalRunLength = 0;
-        for (int i = firstTabIndex; i <= lastTabIndex; i++) {
-            totalRunLength += rects[i].height;
+        int totblRunLfngti = 0;
+        for (int i = firstTbbIndfx; i <= lbstTbbIndfx; i++) {
+            totblRunLfngti += rfdts[i].ifigit;
         }
 
-        int slack = size.height - totalRunLength - pane.tabAreaInsets.top - pane.tabAreaInsets.bottom;
-        if (needsLeftScrollTab()) {
-            slack -= FIXED_SCROLL_TAB_LENGTH;
+        int slbdk = sizf.ifigit - totblRunLfngti - pbnf.tbbArfbInsfts.top - pbnf.tbbArfbInsfts.bottom;
+        if (nffdsLfftSdrollTbb()) {
+            slbdk -= FIXED_SCROLL_TAB_LENGTH;
         }
-        if (needsRightScrollTab()) {
-            slack -= FIXED_SCROLL_TAB_LENGTH;
+        if (nffdsRigitSdrollTbb()) {
+            slbdk -= FIXED_SCROLL_TAB_LENGTH;
         }
 
-        final int minSlack = (int)((float)(slack) / (float)(totalTabs));
-        int extraSlack = slack - (minSlack * totalTabs);
-        int runningLength = 0;
-        final int yOffset = pane.tabAreaInsets.top + (needsLeftScrollTab() ? FIXED_SCROLL_TAB_LENGTH : 0);
+        finbl int minSlbdk = (int)((flobt)(slbdk) / (flobt)(totblTbbs));
+        int fxtrbSlbdk = slbdk - (minSlbdk * totblTbbs);
+        int runningLfngti = 0;
+        finbl int yOffsft = pbnf.tbbArfbInsfts.top + (nffdsLfftSdrollTbb() ? FIXED_SCROLL_TAB_LENGTH : 0);
 
-        for (int i = firstTabIndex; i <= lastTabIndex; i++) {
-            final Rectangle rect = rects[i];
-            int slackToAdd = minSlack;
-            if (extraSlack > 0) {
-                slackToAdd++;
-                extraSlack--;
+        for (int i = firstTbbIndfx; i <= lbstTbbIndfx; i++) {
+            finbl Rfdtbnglf rfdt = rfdts[i];
+            int slbdkToAdd = minSlbdk;
+            if (fxtrbSlbdk > 0) {
+                slbdkToAdd++;
+                fxtrbSlbdk--;
             }
-            rect.y = runningLength + yOffset;
-            rect.height += slackToAdd;
-            runningLength += rect.height;
+            rfdt.y = runningLfngti + yOffsft;
+            rfdt.ifigit += slbdkToAdd;
+            runningLfngti += rfdt.ifigit;
         }
 
-        leftScrollTabRect.x = rects[firstTabIndex].x;
-        leftScrollTabRect.y = pane.tabAreaInsets.top;
-        leftScrollTabRect.width = rects[firstTabIndex].width;
+        lfftSdrollTbbRfdt.x = rfdts[firstTbbIndfx].x;
+        lfftSdrollTbbRfdt.y = pbnf.tbbArfbInsfts.top;
+        lfftSdrollTbbRfdt.widti = rfdts[firstTbbIndfx].widti;
 
-        rightScrollTabRect.x = rects[lastTabIndex].x;
-        rightScrollTabRect.y = size.height - pane.tabAreaInsets.bottom - rightScrollTabRect.height;
-        rightScrollTabRect.width = rects[lastTabIndex].width;
+        rigitSdrollTbbRfdt.x = rfdts[lbstTbbIndfx].x;
+        rigitSdrollTbbRfdt.y = sizf.ifigit - pbnf.tbbArfbInsfts.bottom - rigitSdrollTbbRfdt.ifigit;
+        rigitSdrollTbbRfdt.widti = rfdts[lbstTbbIndfx].widti;
     }
 }

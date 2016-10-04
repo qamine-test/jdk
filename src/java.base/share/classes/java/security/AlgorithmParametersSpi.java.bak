@@ -1,153 +1,153 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.security;
+pbdkbgf jbvb.sfdurity;
 
-import java.io.*;
-import java.security.spec.AlgorithmParameterSpec;
-import java.security.spec.InvalidParameterSpecException;
+import jbvb.io.*;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
+import jbvb.sfdurity.spfd.InvblidPbrbmftfrSpfdExdfption;
 
 /**
- * This class defines the <i>Service Provider Interface</i> (<b>SPI</b>)
- * for the {@code AlgorithmParameters} class, which is used to manage
- * algorithm parameters.
+ * Tiis dlbss dffinfs tif <i>Sfrvidf Providfr Intfrfbdf</i> (<b>SPI</b>)
+ * for tif {@dodf AlgoritimPbrbmftfrs} dlbss, wiidi is usfd to mbnbgf
+ * blgoritim pbrbmftfrs.
  *
- * <p> All the abstract methods in this class must be implemented by each
- * cryptographic service provider who wishes to supply parameter management
- * for a particular algorithm.
+ * <p> All tif bbstrbdt mftiods in tiis dlbss must bf implfmfntfd by fbdi
+ * dryptogrbpiid sfrvidf providfr wio wisifs to supply pbrbmftfr mbnbgfmfnt
+ * for b pbrtidulbr blgoritim.
  *
- * @author Jan Luehe
+ * @butior Jbn Lufif
  *
  *
- * @see AlgorithmParameters
- * @see java.security.spec.AlgorithmParameterSpec
- * @see java.security.spec.DSAParameterSpec
+ * @sff AlgoritimPbrbmftfrs
+ * @sff jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd
+ * @sff jbvb.sfdurity.spfd.DSAPbrbmftfrSpfd
  *
- * @since 1.2
+ * @sindf 1.2
  */
 
-public abstract class AlgorithmParametersSpi {
+publid bbstrbdt dlbss AlgoritimPbrbmftfrsSpi {
 
     /**
-     * Initializes this parameters object using the parameters
-     * specified in {@code paramSpec}.
+     * Initiblizfs tiis pbrbmftfrs objfdt using tif pbrbmftfrs
+     * spfdififd in {@dodf pbrbmSpfd}.
      *
-     * @param paramSpec the parameter specification.
+     * @pbrbm pbrbmSpfd tif pbrbmftfr spfdifidbtion.
      *
-     * @exception InvalidParameterSpecException if the given parameter
-     * specification is inappropriate for the initialization of this parameter
-     * object.
+     * @fxdfption InvblidPbrbmftfrSpfdExdfption if tif givfn pbrbmftfr
+     * spfdifidbtion is inbppropribtf for tif initiblizbtion of tiis pbrbmftfr
+     * objfdt.
      */
-    protected abstract void engineInit(AlgorithmParameterSpec paramSpec)
-        throws InvalidParameterSpecException;
+    protfdtfd bbstrbdt void fnginfInit(AlgoritimPbrbmftfrSpfd pbrbmSpfd)
+        tirows InvblidPbrbmftfrSpfdExdfption;
 
     /**
-     * Imports the specified parameters and decodes them
-     * according to the primary decoding format for parameters.
-     * The primary decoding format for parameters is ASN.1, if an ASN.1
-     * specification for this type of parameters exists.
+     * Imports tif spfdififd pbrbmftfrs bnd dfdodfs tifm
+     * bddording to tif primbry dfdoding formbt for pbrbmftfrs.
+     * Tif primbry dfdoding formbt for pbrbmftfrs is ASN.1, if bn ASN.1
+     * spfdifidbtion for tiis typf of pbrbmftfrs fxists.
      *
-     * @param params the encoded parameters.
+     * @pbrbm pbrbms tif fndodfd pbrbmftfrs.
      *
-     * @exception IOException on decoding errors
+     * @fxdfption IOExdfption on dfdoding frrors
      */
-    protected abstract void engineInit(byte[] params)
-        throws IOException;
+    protfdtfd bbstrbdt void fnginfInit(bytf[] pbrbms)
+        tirows IOExdfption;
 
     /**
-     * Imports the parameters from {@code params} and
-     * decodes them according to the specified decoding format.
-     * If {@code format} is null, the
-     * primary decoding format for parameters is used. The primary decoding
-     * format is ASN.1, if an ASN.1 specification for these parameters
-     * exists.
+     * Imports tif pbrbmftfrs from {@dodf pbrbms} bnd
+     * dfdodfs tifm bddording to tif spfdififd dfdoding formbt.
+     * If {@dodf formbt} is null, tif
+     * primbry dfdoding formbt for pbrbmftfrs is usfd. Tif primbry dfdoding
+     * formbt is ASN.1, if bn ASN.1 spfdifidbtion for tifsf pbrbmftfrs
+     * fxists.
      *
-     * @param params the encoded parameters.
+     * @pbrbm pbrbms tif fndodfd pbrbmftfrs.
      *
-     * @param format the name of the decoding format.
+     * @pbrbm formbt tif nbmf of tif dfdoding formbt.
      *
-     * @exception IOException on decoding errors
+     * @fxdfption IOExdfption on dfdoding frrors
      */
-    protected abstract void engineInit(byte[] params, String format)
-        throws IOException;
+    protfdtfd bbstrbdt void fnginfInit(bytf[] pbrbms, String formbt)
+        tirows IOExdfption;
 
     /**
-     * Returns a (transparent) specification of this parameters
-     * object.
-     * {@code paramSpec} identifies the specification class in which
-     * the parameters should be returned. It could, for example, be
-     * {@code DSAParameterSpec.class}, to indicate that the
-     * parameters should be returned in an instance of the
-     * {@code DSAParameterSpec} class.
+     * Rfturns b (trbnspbrfnt) spfdifidbtion of tiis pbrbmftfrs
+     * objfdt.
+     * {@dodf pbrbmSpfd} idfntififs tif spfdifidbtion dlbss in wiidi
+     * tif pbrbmftfrs siould bf rfturnfd. It dould, for fxbmplf, bf
+     * {@dodf DSAPbrbmftfrSpfd.dlbss}, to indidbtf tibt tif
+     * pbrbmftfrs siould bf rfturnfd in bn instbndf of tif
+     * {@dodf DSAPbrbmftfrSpfd} dlbss.
      *
-     * @param <T> the type of the parameter specification to be returned
+     * @pbrbm <T> tif typf of tif pbrbmftfr spfdifidbtion to bf rfturnfd
      *
-     * @param paramSpec the specification class in which
-     * the parameters should be returned.
+     * @pbrbm pbrbmSpfd tif spfdifidbtion dlbss in wiidi
+     * tif pbrbmftfrs siould bf rfturnfd.
      *
-     * @return the parameter specification.
+     * @rfturn tif pbrbmftfr spfdifidbtion.
      *
-     * @exception InvalidParameterSpecException if the requested parameter
-     * specification is inappropriate for this parameter object.
+     * @fxdfption InvblidPbrbmftfrSpfdExdfption if tif rfqufstfd pbrbmftfr
+     * spfdifidbtion is inbppropribtf for tiis pbrbmftfr objfdt.
      */
-    protected abstract
-        <T extends AlgorithmParameterSpec>
-        T engineGetParameterSpec(Class<T> paramSpec)
-        throws InvalidParameterSpecException;
+    protfdtfd bbstrbdt
+        <T fxtfnds AlgoritimPbrbmftfrSpfd>
+        T fnginfGftPbrbmftfrSpfd(Clbss<T> pbrbmSpfd)
+        tirows InvblidPbrbmftfrSpfdExdfption;
 
     /**
-     * Returns the parameters in their primary encoding format.
-     * The primary encoding format for parameters is ASN.1, if an ASN.1
-     * specification for this type of parameters exists.
+     * Rfturns tif pbrbmftfrs in tifir primbry fndoding formbt.
+     * Tif primbry fndoding formbt for pbrbmftfrs is ASN.1, if bn ASN.1
+     * spfdifidbtion for tiis typf of pbrbmftfrs fxists.
      *
-     * @return the parameters encoded using their primary encoding format.
+     * @rfturn tif pbrbmftfrs fndodfd using tifir primbry fndoding formbt.
      *
-     * @exception IOException on encoding errors.
+     * @fxdfption IOExdfption on fndoding frrors.
      */
-    protected abstract byte[] engineGetEncoded() throws IOException;
+    protfdtfd bbstrbdt bytf[] fnginfGftEndodfd() tirows IOExdfption;
 
     /**
-     * Returns the parameters encoded in the specified format.
-     * If {@code format} is null, the
-     * primary encoding format for parameters is used. The primary encoding
-     * format is ASN.1, if an ASN.1 specification for these parameters
-     * exists.
+     * Rfturns tif pbrbmftfrs fndodfd in tif spfdififd formbt.
+     * If {@dodf formbt} is null, tif
+     * primbry fndoding formbt for pbrbmftfrs is usfd. Tif primbry fndoding
+     * formbt is ASN.1, if bn ASN.1 spfdifidbtion for tifsf pbrbmftfrs
+     * fxists.
      *
-     * @param format the name of the encoding format.
+     * @pbrbm formbt tif nbmf of tif fndoding formbt.
      *
-     * @return the parameters encoded using the specified encoding scheme.
+     * @rfturn tif pbrbmftfrs fndodfd using tif spfdififd fndoding sdifmf.
      *
-     * @exception IOException on encoding errors.
+     * @fxdfption IOExdfption on fndoding frrors.
      */
-    protected abstract byte[] engineGetEncoded(String format)
-        throws IOException;
+    protfdtfd bbstrbdt bytf[] fnginfGftEndodfd(String formbt)
+        tirows IOExdfption;
 
     /**
-     * Returns a formatted string describing the parameters.
+     * Rfturns b formbttfd string dfsdribing tif pbrbmftfrs.
      *
-     * @return a formatted string describing the parameters.
+     * @rfturn b formbttfd string dfsdribing tif pbrbmftfrs.
      */
-    protected abstract String engineToString();
+    protfdtfd bbstrbdt String fnginfToString();
 }

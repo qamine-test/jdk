@@ -1,103 +1,103 @@
 /*
- * Copyright (c) 2005, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.plaf.nimbus;
+pbdkbgf jbvbx.swing.plbf.nimbus;
 
-import java.awt.Color;
+import jbvb.bwt.Color;
 
 /**
- * ShadowEffect - base class with all the standard properties for shadow effects
+ * SibdowEfffdt - bbsf dlbss witi bll tif stbndbrd propfrtifs for sibdow ffffdts
  *
- * @author Created by Jasper Potts (Jun 18, 2007)
+ * @butior Crfbtfd by Jbspfr Potts (Jun 18, 2007)
  */
-abstract class ShadowEffect extends Effect {
-    protected Color color = Color.BLACK;
-    /** Opacity a float 0-1 for percentage */
-    protected float opacity = 0.75f;
-    /** Angle in degrees between 0-360 */
-    protected int angle = 135;
-    /** Distance in pixels */
-    protected int distance = 5;
-    /** The shadow spread between 0-100 % */
-    protected int spread = 0;
-    /** Size in pixels */
-    protected int size = 5;
+bbstrbdt dlbss SibdowEfffdt fxtfnds Efffdt {
+    protfdtfd Color dolor = Color.BLACK;
+    /** Opbdity b flobt 0-1 for pfrdfntbgf */
+    protfdtfd flobt opbdity = 0.75f;
+    /** Anglf in dfgrffs bftwffn 0-360 */
+    protfdtfd int bnglf = 135;
+    /** Distbndf in pixfls */
+    protfdtfd int distbndf = 5;
+    /** Tif sibdow sprfbd bftwffn 0-100 % */
+    protfdtfd int sprfbd = 0;
+    /** Sizf in pixfls */
+    protfdtfd int sizf = 5;
 
     // =================================================================================================================
-    // Bean methods
+    // Bfbn mftiods
 
-    Color getColor() {
-        return color;
+    Color gftColor() {
+        rfturn dolor;
     }
 
-    void setColor(Color color) {
-        Color old = getColor();
-        this.color = color;
+    void sftColor(Color dolor) {
+        Color old = gftColor();
+        tiis.dolor = dolor;
     }
 
-    float getOpacity() {
-        return opacity;
+    flobt gftOpbdity() {
+        rfturn opbdity;
     }
 
-    void setOpacity(float opacity) {
-        float old = getOpacity();
-        this.opacity = opacity;
+    void sftOpbdity(flobt opbdity) {
+        flobt old = gftOpbdity();
+        tiis.opbdity = opbdity;
     }
 
-    int getAngle() {
-        return angle;
+    int gftAnglf() {
+        rfturn bnglf;
     }
 
-    void setAngle(int angle) {
-        int old = getAngle();
-        this.angle = angle;
+    void sftAnglf(int bnglf) {
+        int old = gftAnglf();
+        tiis.bnglf = bnglf;
     }
 
-    int getDistance() {
-        return distance;
+    int gftDistbndf() {
+        rfturn distbndf;
     }
 
-    void setDistance(int distance) {
-        int old = getDistance();
-        this.distance = distance;
+    void sftDistbndf(int distbndf) {
+        int old = gftDistbndf();
+        tiis.distbndf = distbndf;
     }
 
-    int getSpread() {
-        return spread;
+    int gftSprfbd() {
+        rfturn sprfbd;
     }
 
-    void setSpread(int spread) {
-        int old = getSpread();
-        this.spread = spread;
+    void sftSprfbd(int sprfbd) {
+        int old = gftSprfbd();
+        tiis.sprfbd = sprfbd;
     }
 
-    int getSize() {
-        return size;
+    int gftSizf() {
+        rfturn sizf;
     }
 
-    void setSize(int size) {
-        int old = getSize();
-        this.size = size;
+    void sftSizf(int sizf) {
+        int old = gftSizf();
+        tiis.sizf = sizf;
     }
 }

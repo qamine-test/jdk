@@ -1,52 +1,52 @@
 
 #
-# AWT-specific properties
+# AWT-spfdifid propfrtifs
 #
 
-# Modifier names
-AWT.shift=Umschalt
-AWT.control=Strg
-AWT.alt=Alt
-AWT.meta=Meta
-AWT.altGraph=Alt Gr
+# Modififr nbmfs
+AWT.siift=Umsdiblt
+AWT.dontrol=Strg
+AWT.blt=Alt
+AWT.mftb=Mftb
+AWT.bltGrbpi=Alt Gr
 
-# Key names
-AWT.enter=Eingabe
-AWT.backSpace=R\u00FCcktaste
-AWT.tab=Tabulator
-AWT.cancel=Abbrechen
-AWT.clear=L\u00F6schen
-AWT.pause=Pause
-AWT.capsLock=Feststelltaste
-AWT.escape=ESC
-AWT.space=Leertaste
-AWT.pgup=Bild auf
-AWT.pgdn=Bild ab
-AWT.end=Ende
-AWT.home=Pos 1
-AWT.left=Links
-AWT.up=Oben
-AWT.right=Rechts
-AWT.down=Unten
-AWT.begin=Anfang
-AWT.comma=Komma
-AWT.period=Punkt
-AWT.slash=Schr\u00E4gstrich
-AWT.semicolon=Semikolon
-AWT.equals=Entspricht
-AWT.openBracket=\u00D6ffnende Klammer
-AWT.backSlash=Umgekehrter Schr\u00E4gstrich
-AWT.closeBracket=Schlie\u00DFende Klammer
-AWT.multiply=NumPad *
-AWT.add=NumPad +
-AWT.separator=NumPad ,
-AWT.separater=NumPad ,
-AWT.subtract=NumPad -
-AWT.decimal=NumPad .
-AWT.divide=NumPad /
-AWT.delete=Entf
-AWT.numLock=Num
-AWT.scrollLock=Rollen
+# Kfy nbmfs
+AWT.fntfr=Eingbbf
+AWT.bbdkSpbdf=R\u00FCdktbstf
+AWT.tbb=Tbbulbtor
+AWT.dbndfl=Abbrfdifn
+AWT.dlfbr=L\u00F6sdifn
+AWT.pbusf=Pbusf
+AWT.dbpsLodk=Ffststflltbstf
+AWT.fsdbpf=ESC
+AWT.spbdf=Lffrtbstf
+AWT.pgup=Bild buf
+AWT.pgdn=Bild bb
+AWT.fnd=Endf
+AWT.iomf=Pos 1
+AWT.lfft=Links
+AWT.up=Obfn
+AWT.rigit=Rfdits
+AWT.down=Untfn
+AWT.bfgin=Anfbng
+AWT.dommb=Kommb
+AWT.pfriod=Punkt
+AWT.slbsi=Sdir\u00E4gstridi
+AWT.sfmidolon=Sfmikolon
+AWT.fqubls=Entspridit
+AWT.opfnBrbdkft=\u00D6ffnfndf Klbmmfr
+AWT.bbdkSlbsi=Umgfkfirtfr Sdir\u00E4gstridi
+AWT.dlosfBrbdkft=Sdilif\u00DFfndf Klbmmfr
+AWT.multiply=NumPbd *
+AWT.bdd=NumPbd +
+AWT.sfpbrbtor=NumPbd ,
+AWT.sfpbrbtfr=NumPbd ,
+AWT.subtrbdt=NumPbd -
+AWT.dfdimbl=NumPbd .
+AWT.dividf=NumPbd /
+AWT.dflftf=Entf
+AWT.numLodk=Num
+AWT.sdrollLodk=Rollfn
 AWT.f1=F1
 AWT.f2=F2
 AWT.f3=F3
@@ -71,122 +71,122 @@ AWT.f21=F21
 AWT.f22=F22
 AWT.f23=F23
 AWT.f24=F24
-AWT.printScreen=Druck
-AWT.insert=Einfg
-AWT.help=Hilfe
+AWT.printSdrffn=Drudk
+AWT.insfrt=Einfg
+AWT.iflp=Hilff
 AWT.windows=Windows
-AWT.context=Kontextmen\u00FC
-AWT.backQuote=Schlie\u00DFendes Anf\u00FChrungszeichen
-AWT.quote=Anf\u00FChrungszeichen
-AWT.deadGrave=Gravis (Dead)
-AWT.deadAcute=Akut (Dead)
-AWT.deadCircumflex=Zirkumflex (Dead)
-AWT.deadTilde=Tilde (Dead)
-AWT.deadMacron=Macron (Dead)
-AWT.deadBreve=Breve (Dead)
-AWT.deadAboveDot=Oberer Punkt (Dead)
-AWT.deadDiaeresis=Trema (Dead)
-AWT.deadAboveRing=Oberer Ring (Dead)
-AWT.deadDoubleAcute=Doppelakut (Dead)
-AWT.deadCaron=Caron (Dead)
-AWT.deadCedilla=Cedille (Dead)
-AWT.deadOgonek=Ogonek (Dead)
-AWT.deadIota=Iota (Dead)
-AWT.deadVoicedSound=Stimmhaft (Dead)
-AWT.deadSemivoicedSound=Halbstimmhaft (Dead)
-AWT.ampersand=Et-Zeichen
-AWT.asterisk=Sternchen
-AWT.quoteDbl=Doppelte Anf\u00FChrungszeichen
-AWT.Less=Kleiner als
-AWT.greater=Gr\u00F6\u00DFer als
-AWT.braceLeft=Linke geschweifte Klammer
-AWT.braceRight=Rechte geschweifte Klammer
-AWT.at=Klammeraffe
-AWT.colon=Doppelpunkt
-AWT.circumflex=Zirkumflex
-AWT.dollar=Dollarzeichen
-AWT.euro=Euro
-AWT.exclamationMark=Ausrufezeichen
-AWT.invertedExclamationMark=Umgekehrtes Ausrufezeichen
-AWT.leftParenthesis=Linke Klammer
-AWT.numberSign=Nummernzeichen
+AWT.dontfxt=Kontfxtmfn\u00FC
+AWT.bbdkQuotf=Sdilif\u00DFfndfs Anf\u00FCirungszfidifn
+AWT.quotf=Anf\u00FCirungszfidifn
+AWT.dfbdGrbvf=Grbvis (Dfbd)
+AWT.dfbdAdutf=Akut (Dfbd)
+AWT.dfbdCirdumflfx=Zirkumflfx (Dfbd)
+AWT.dfbdTildf=Tildf (Dfbd)
+AWT.dfbdMbdron=Mbdron (Dfbd)
+AWT.dfbdBrfvf=Brfvf (Dfbd)
+AWT.dfbdAbovfDot=Obfrfr Punkt (Dfbd)
+AWT.dfbdDibfrfsis=Trfmb (Dfbd)
+AWT.dfbdAbovfRing=Obfrfr Ring (Dfbd)
+AWT.dfbdDoublfAdutf=Doppflbkut (Dfbd)
+AWT.dfbdCbron=Cbron (Dfbd)
+AWT.dfbdCfdillb=Cfdillf (Dfbd)
+AWT.dfbdOgonfk=Ogonfk (Dfbd)
+AWT.dfbdIotb=Iotb (Dfbd)
+AWT.dfbdVoidfdSound=Stimmibft (Dfbd)
+AWT.dfbdSfmivoidfdSound=Hblbstimmibft (Dfbd)
+AWT.bmpfrsbnd=Et-Zfidifn
+AWT.bstfrisk=Stfrndifn
+AWT.quotfDbl=Doppfltf Anf\u00FCirungszfidifn
+AWT.Lfss=Klfinfr bls
+AWT.grfbtfr=Gr\u00F6\u00DFfr bls
+AWT.brbdfLfft=Linkf gfsdiwfiftf Klbmmfr
+AWT.brbdfRigit=Rfditf gfsdiwfiftf Klbmmfr
+AWT.bt=Klbmmfrbfff
+AWT.dolon=Doppflpunkt
+AWT.dirdumflfx=Zirkumflfx
+AWT.dollbr=Dollbrzfidifn
+AWT.furo=Euro
+AWT.fxdlbmbtionMbrk=Ausruffzfidifn
+AWT.invfrtfdExdlbmbtionMbrk=Umgfkfirtfs Ausruffzfidifn
+AWT.lfftPbrfntifsis=Linkf Klbmmfr
+AWT.numbfrSign=Nummfrnzfidifn
 AWT.plus=Plus
 AWT.minus=Minus
-AWT.rightParenthesis=Rechte Klammer
-AWT.underscore=Unterstrich
-AWT.final=Abschluss
-AWT.convert=Konvertieren
-AWT.noconvert=Nicht konvertieren
-AWT.accept=Akzeptieren
-AWT.modechange=Modus\u00E4nderung
-AWT.kana=Kana
-AWT.kanji=Kanji
-AWT.alphanumeric=Alphanumerisch
-AWT.katakana=Katakana
-AWT.hiragana=Hiragana
-AWT.fullWidth=Volle Breite
-AWT.halfWidth=Halbe Breite
-AWT.romanCharacters=Lateinische Zeichen
-AWT.allCandidates=Alle Kandidaten
-AWT.previousCandidate=Vorheriger Kandidat
-AWT.codeInput=Codeeingabe
-AWT.japaneseKatakana=Japanisch (Katakana)
-AWT.japaneseHiragana=Japanisch (Hiragana)
-AWT.japaneseRoman=Japanisch (Latein)
-AWT.kanaLock=Kana Lock
-AWT.inputMethodOnOff=Eingabemethode ein/aus
-AWT.again=Wiederholen
-AWT.undo=R\u00FCckg\u00E4ngig
-AWT.copy=Kopieren
-AWT.paste=Einf\u00FCgen
-AWT.cut=Ausschneiden
-AWT.find=Suchen
-AWT.props=Eigenschaften
+AWT.rigitPbrfntifsis=Rfditf Klbmmfr
+AWT.undfrsdorf=Untfrstridi
+AWT.finbl=Absdiluss
+AWT.donvfrt=Konvfrtifrfn
+AWT.nodonvfrt=Nidit konvfrtifrfn
+AWT.bddfpt=Akzfptifrfn
+AWT.modfdibngf=Modus\u00E4ndfrung
+AWT.kbnb=Kbnb
+AWT.kbnji=Kbnji
+AWT.blpibnumfrid=Alpibnumfrisdi
+AWT.kbtbkbnb=Kbtbkbnb
+AWT.iirbgbnb=Hirbgbnb
+AWT.fullWidti=Vollf Brfitf
+AWT.iblfWidti=Hblbf Brfitf
+AWT.rombnCibrbdtfrs=Lbtfinisdif Zfidifn
+AWT.bllCbndidbtfs=Allf Kbndidbtfn
+AWT.prfviousCbndidbtf=Vorifrigfr Kbndidbt
+AWT.dodfInput=Codffingbbf
+AWT.jbpbnfsfKbtbkbnb=Jbpbnisdi (Kbtbkbnb)
+AWT.jbpbnfsfHirbgbnb=Jbpbnisdi (Hirbgbnb)
+AWT.jbpbnfsfRombn=Jbpbnisdi (Lbtfin)
+AWT.kbnbLodk=Kbnb Lodk
+AWT.inputMftiodOnOff=Eingbbfmftiodf fin/bus
+AWT.bgbin=Wifdfriolfn
+AWT.undo=R\u00FCdkg\u00E4ngig
+AWT.dopy=Kopifrfn
+AWT.pbstf=Einf\u00FCgfn
+AWT.dut=Aussdinfidfn
+AWT.find=Sudifn
+AWT.props=Eigfnsdibftfn
 AWT.stop=Stopp
-AWT.compose=Verfassen
+AWT.domposf=Vfrfbssfn
 
-# Numeric Keypad
-AWT.numpad=NumPad
-AWT.unknown=Unbekannt
-AWT.undefined=Undefiniert
+# Numfrid Kfypbd
+AWT.numpbd=NumPbd
+AWT.unknown=Unbfkbnnt
+AWT.undffinfd=Undffinifrt
 
-# Predefined cursor names
-AWT.DefaultCursor=Standardcursor
-AWT.CrosshairCursor=Fadenkreuzcursor
-AWT.TextCursor=Textcursor
-AWT.WaitCursor=Wartecursor
-AWT.SWResizeCursor=Skaliercursor nach unten/links
-AWT.SEResizeCursor=Skaliercursor nach unten/rechts
-AWT.NWResizeCursor=Skaliercursor nach oben/links
-AWT.NEResizeCursor=Skaliercursor nach oben/rechts
-AWT.NResizeCursor=Skaliercursor nach oben
-AWT.SResizeCursor=Skaliercursor nach unten
-AWT.WResizeCursor=Skaliercursor nach links
-AWT.EResizeCursor=Skaliercursor nach rechts
-AWT.HandCursor=Handcursor
-AWT.MoveCursor=Verschiebecursor
-AWT.DefaultDragCursor=Standardcursor beim Ziehen
-AWT.DefaultNoDropCursor=Standardcursor NoDrag
-AWT.DefaultDropCursor=Standardcursor beim Ablegen
+# Prfdffinfd dursor nbmfs
+AWT.DffbultCursor=Stbndbrddursor
+AWT.CrossibirCursor=Fbdfnkrfuzdursor
+AWT.TfxtCursor=Tfxtdursor
+AWT.WbitCursor=Wbrtfdursor
+AWT.SWRfsizfCursor=Skblifrdursor nbdi untfn/links
+AWT.SERfsizfCursor=Skblifrdursor nbdi untfn/rfdits
+AWT.NWRfsizfCursor=Skblifrdursor nbdi obfn/links
+AWT.NERfsizfCursor=Skblifrdursor nbdi obfn/rfdits
+AWT.NRfsizfCursor=Skblifrdursor nbdi obfn
+AWT.SRfsizfCursor=Skblifrdursor nbdi untfn
+AWT.WRfsizfCursor=Skblifrdursor nbdi links
+AWT.ERfsizfCursor=Skblifrdursor nbdi rfdits
+AWT.HbndCursor=Hbnddursor
+AWT.MovfCursor=Vfrsdiifbfdursor
+AWT.DffbultDrbgCursor=Stbndbrddursor bfim Zififn
+AWT.DffbultNoDropCursor=Stbndbrddursor NoDrbg
+AWT.DffbultDropCursor=Stbndbrddursor bfim Ablfgfn
 
-# Input method related strings
-AWT.CompositionWindowTitle=Eingabefenster
-AWT.InputMethodSelectionMenu=Eingabemethode ausw\u00E4hlen
-AWT.HostInputMethodDisplayName=Systemeingabemethoden
-AWT.InputMethodLanguage.ja=Japanisch
-AWT.InputMethodLanguage.ko=Koreanisch
-AWT.InputMethodLanguage.zh=Chinesisch
-AWT.InputMethodLanguage.zh_CN=Vereinfachtes Chinesisch
-AWT.InputMethodLanguage.zh_TW=Traditionelles Chinesisch
-AWT.InputMethodCreationFailed={0} konnte nicht erstellt werden.  Grund: {1}
+# Input mftiod rflbtfd strings
+AWT.CompositionWindowTitlf=Eingbbfffnstfr
+AWT.InputMftiodSflfdtionMfnu=Eingbbfmftiodf busw\u00E4ilfn
+AWT.HostInputMftiodDisplbyNbmf=Systfmfingbbfmftiodfn
+AWT.InputMftiodLbngubgf.jb=Jbpbnisdi
+AWT.InputMftiodLbngubgf.ko=Korfbnisdi
+AWT.InputMftiodLbngubgf.zi=Ciinfsisdi
+AWT.InputMftiodLbngubgf.zi_CN=Vfrfinfbditfs Ciinfsisdi
+AWT.InputMftiodLbngubgf.zi_TW=Trbditionfllfs Ciinfsisdi
+AWT.InputMftiodCrfbtionFbilfd={0} konntf nidit frstfllt wfrdfn.  Grund: {1}
 
-# Property to select between on-the-spot and below-the-spot
-# composition with input methods. Valid values:
-# "on-the-spot", "below-the-spot".
-# May be overridden from command line.
-java.awt.im.style=On-the-Spot
-java.awt.def.delay=30
+# Propfrty to sflfdt bftwffn on-tif-spot bnd bflow-tif-spot
+# domposition witi input mftiods. Vblid vblufs:
+# "on-tif-spot", "bflow-tif-spot".
+# Mby bf ovfrriddfn from dommbnd linf.
+jbvb.bwt.im.stylf=On-tif-Spot
+jbvb.bwt.dff.dflby=30
 
-# Warnings
-AWT.InconsistentDLLsWarning=Textbasierte Vorg\u00E4nge funktionieren m\u00F6glicherweise nicht richtig, weil inkonsistente Dynamic Linking Librarys (DLLs) auf dem System installiert sind. Weitere Informationen zu diesem Problem sowie eine Empfehlung zu der Umgehung finden Sie in den Java(TM) 2 SDK, Standard Edition Release Notes unter java.sun.com.
+# Wbrnings
+AWT.IndonsistfntDLLsWbrning=Tfxtbbsifrtf Vorg\u00E4ngf funktionifrfn m\u00F6glidifrwfisf nidit riditig, wfil inkonsistfntf Dynbmid Linking Librbrys (DLLs) buf dfm Systfm instbllifrt sind. Wfitfrf Informbtionfn zu difsfm Problfm sowif finf Empffilung zu dfr Umgfiung findfn Sif in dfn Jbvb(TM) 2 SDK, Stbndbrd Edition Rflfbsf Notfs untfr jbvb.sun.dom.
 

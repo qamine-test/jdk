@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,398 +30,398 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
 /*
  *
- * Example of using the java.lang.management API to sort threads
- * by CPU usage.
+ * Exbmplf of using tif jbvb.lbng.mbnbgfmfnt API to sort tirfbds
+ * by CPU usbgf.
  *
- * JTop class can be run as a standalone application.
- * It first establishs a connection to a target VM specified
- * by the given hostname and port number where the JMX agent
- * to be connected.  It then polls for the thread information
- * and the CPU consumption of each thread to display every 2
- * seconds.
+ * JTop dlbss dbn bf run bs b stbndblonf bpplidbtion.
+ * It first fstbblisis b donnfdtion to b tbrgft VM spfdififd
+ * by tif givfn iostnbmf bnd port numbfr wifrf tif JMX bgfnt
+ * to bf donnfdtfd.  It tifn polls for tif tirfbd informbtion
+ * bnd tif CPU donsumption of fbdi tirfbd to displby fvfry 2
+ * sfdonds.
  *
- * It is also used by JTopPlugin which is a JConsolePlugin
- * that can be used with JConsole (see README.txt). The JTop
- * GUI will be added as a JConsole tab by the JTop plugin.
+ * It is blso usfd by JTopPlugin wiidi is b JConsolfPlugin
+ * tibt dbn bf usfd witi JConsolf (sff README.txt). Tif JTop
+ * GUI will bf bddfd bs b JConsolf tbb by tif JTop plugin.
  *
- * @see com.sun.tools.jconsole.JConsolePlugin
+ * @sff dom.sun.tools.jdonsolf.JConsolfPlugin
  *
- * @author Mandy Chung
+ * @butior Mbndy Ciung
  */
-import java.lang.management.*;
-import javax.management.*;
-import javax.management.remote.*;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.SortedMap;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.TreeMap;
-import java.util.concurrent.ExecutionException;
-import java.text.NumberFormat;
-import java.net.MalformedURLException;
-import static java.lang.management.ManagementFactory.*;
+import jbvb.lbng.mbnbgfmfnt.*;
+import jbvbx.mbnbgfmfnt.*;
+import jbvbx.mbnbgfmfnt.rfmotf.*;
+import jbvb.io.IOExdfption;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtions;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
+import jbvb.util.SortfdMbp;
+import jbvb.util.Timfr;
+import jbvb.util.TimfrTbsk;
+import jbvb.util.TrffMbp;
+import jbvb.util.dondurrfnt.ExfdutionExdfption;
+import jbvb.tfxt.NumbfrFormbt;
+import jbvb.nft.MblformfdURLExdfption;
+import stbtid jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory.*;
 
-import java.awt.*;
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.table.*;
+import jbvb.bwt.*;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.tbblf.*;
 
 /**
- * JTop is a JPanel to display thread's name, CPU time, and its state
- * in a table.
+ * JTop is b JPbnfl to displby tirfbd's nbmf, CPU timf, bnd its stbtf
+ * in b tbblf.
  */
-public class JTop extends JPanel {
+publid dlbss JTop fxtfnds JPbnfl {
 
-    private static class StatusBar extends JPanel {
-        private static final long serialVersionUID = -6483392381797633018L;
-        private final JLabel statusText;
+    privbtf stbtid dlbss StbtusBbr fxtfnds JPbnfl {
+        privbtf stbtid finbl long sfriblVfrsionUID = -6483392381797633018L;
+        privbtf finbl JLbbfl stbtusTfxt;
 
-        public StatusBar(boolean defaultVisible) {
-            super(new GridLayout(1, 1));
-            statusText = new JLabel();
-            statusText.setVisible(defaultVisible);
-            add(statusText);
+        publid StbtusBbr(boolfbn dffbultVisiblf) {
+            supfr(nfw GridLbyout(1, 1));
+            stbtusTfxt = nfw JLbbfl();
+            stbtusTfxt.sftVisiblf(dffbultVisiblf);
+            bdd(stbtusTfxt);
         }
 
-        @Override
-        public Dimension getMaximumSize() {
-            Dimension maximum = super.getMaximumSize();
-            Dimension minimum = getMinimumSize();
-            return new Dimension(maximum.width, minimum.height);
+        @Ovfrridf
+        publid Dimfnsion gftMbximumSizf() {
+            Dimfnsion mbximum = supfr.gftMbximumSizf();
+            Dimfnsion minimum = gftMinimumSizf();
+            rfturn nfw Dimfnsion(mbximum.widti, minimum.ifigit);
         }
 
-        public void setMessage(String text) {
-            statusText.setText(text);
-            statusText.setVisible(true);
+        publid void sftMfssbgf(String tfxt) {
+            stbtusTfxt.sftTfxt(tfxt);
+            stbtusTfxt.sftVisiblf(truf);
         }
     }
-    private static final long serialVersionUID = -1499762160973870696L;
-    private MBeanServerConnection server;
-    private ThreadMXBean tmbean;
-    private MyTableModel tmodel;
-    private final StatusBar statusBar;
-    public JTop() {
-        super(new GridBagLayout());
+    privbtf stbtid finbl long sfriblVfrsionUID = -1499762160973870696L;
+    privbtf MBfbnSfrvfrConnfdtion sfrvfr;
+    privbtf TirfbdMXBfbn tmbfbn;
+    privbtf MyTbblfModfl tmodfl;
+    privbtf finbl StbtusBbr stbtusBbr;
+    publid JTop() {
+        supfr(nfw GridBbgLbyout());
 
-        tmodel = new MyTableModel();
-        JTable table = new JTable(tmodel);
-        table.setPreferredScrollableViewportSize(new Dimension(500, 300));
+        tmodfl = nfw MyTbblfModfl();
+        JTbblf tbblf = nfw JTbblf(tmodfl);
+        tbblf.sftPrfffrrfdSdrollbblfVifwportSizf(nfw Dimfnsion(500, 300));
 
-        // Set the renderer to format Double
-        table.setDefaultRenderer(Double.class, new DoubleRenderer());
-        // Add some space
-        table.setIntercellSpacing(new Dimension(6,3));
-        table.setRowHeight(table.getRowHeight() + 4);
+        // Sft tif rfndfrfr to formbt Doublf
+        tbblf.sftDffbultRfndfrfr(Doublf.dlbss, nfw DoublfRfndfrfr());
+        // Add somf spbdf
+        tbblf.sftIntfrdfllSpbding(nfw Dimfnsion(6,3));
+        tbblf.sftRowHfigit(tbblf.gftRowHfigit() + 4);
 
-        // Create the scroll pane and add the table to it.
-        JScrollPane scrollPane = new JScrollPane(table);
+        // Crfbtf tif sdroll pbnf bnd bdd tif tbblf to it.
+        JSdrollPbnf sdrollPbnf = nfw JSdrollPbnf(tbblf);
 
-        // Add the scroll pane to this panel.
-        GridBagConstraints c1 = new GridBagConstraints();
-        c1.fill = GridBagConstraints.BOTH;
-        c1.gridy = 0;
-        c1.gridx = 0;
-        c1.weightx = 1;
-        c1.weighty = 1;
-        add(scrollPane, c1);
+        // Add tif sdroll pbnf to tiis pbnfl.
+        GridBbgConstrbints d1 = nfw GridBbgConstrbints();
+        d1.fill = GridBbgConstrbints.BOTH;
+        d1.gridy = 0;
+        d1.gridx = 0;
+        d1.wfigitx = 1;
+        d1.wfigity = 1;
+        bdd(sdrollPbnf, d1);
 
-        statusBar = new StatusBar(false);
-        GridBagConstraints c2 = new GridBagConstraints();
-        c2.fill = GridBagConstraints.HORIZONTAL;
-        c2.gridy = 1;
-        c2.gridx = 0;
-        c2.weightx = 1.0;
-        c2.weighty = 0.0;
-        add(statusBar, c2);
+        stbtusBbr = nfw StbtusBbr(fblsf);
+        GridBbgConstrbints d2 = nfw GridBbgConstrbints();
+        d2.fill = GridBbgConstrbints.HORIZONTAL;
+        d2.gridy = 1;
+        d2.gridx = 0;
+        d2.wfigitx = 1.0;
+        d2.wfigity = 0.0;
+        bdd(stbtusBbr, d2);
     }
 
-    // Set the MBeanServerConnection object for communicating
-    // with the target VM
-    public void setMBeanServerConnection(MBeanServerConnection mbs) {
-        this.server = mbs;
+    // Sft tif MBfbnSfrvfrConnfdtion objfdt for dommunidbting
+    // witi tif tbrgft VM
+    publid void sftMBfbnSfrvfrConnfdtion(MBfbnSfrvfrConnfdtion mbs) {
+        tiis.sfrvfr = mbs;
         try {
-            this.tmbean = newPlatformMXBeanProxy(server,
+            tiis.tmbfbn = nfwPlbtformMXBfbnProxy(sfrvfr,
                                                  THREAD_MXBEAN_NAME,
-                                                 ThreadMXBean.class);
-        } catch (IOException e) {
-            e.printStackTrace();
+                                                 TirfbdMXBfbn.dlbss);
+        } dbtdi (IOExdfption f) {
+            f.printStbdkTrbdf();
         }
-        if (!tmbean.isThreadCpuTimeSupported()) {
-            statusBar.setMessage("Monitored VM does not support thread CPU time measurement");
-        } else {
+        if (!tmbfbn.isTirfbdCpuTimfSupportfd()) {
+            stbtusBbr.sftMfssbgf("Monitorfd VM dofs not support tirfbd CPU timf mfbsurfmfnt");
+        } flsf {
             try {
-                tmbean.setThreadCpuTimeEnabled(true);
-            } catch (SecurityException e) {
-                statusBar.setMessage("Monitored VM does not have permission for enabling thread cpu time measurement");
+                tmbfbn.sftTirfbdCpuTimfEnbblfd(truf);
+            } dbtdi (SfdurityExdfption f) {
+                stbtusBbr.sftMfssbgf("Monitorfd VM dofs not ibvf pfrmission for fnbbling tirfbd dpu timf mfbsurfmfnt");
             }
         }
     }
 
-    class MyTableModel extends AbstractTableModel {
-        private static final long serialVersionUID = -7877310288576779514L;
-        private String[] columnNames = {"ThreadName",
-                                        "CPU(sec)",
-                                        "State"};
-        // List of all threads. The key of each entry is the CPU time
-        // and its value is the ThreadInfo object with no stack trace.
-        private List<Map.Entry<Long, ThreadInfo>> threadList =
-            Collections.emptyList();
+    dlbss MyTbblfModfl fxtfnds AbstrbdtTbblfModfl {
+        privbtf stbtid finbl long sfriblVfrsionUID = -7877310288576779514L;
+        privbtf String[] dolumnNbmfs = {"TirfbdNbmf",
+                                        "CPU(sfd)",
+                                        "Stbtf"};
+        // List of bll tirfbds. Tif kfy of fbdi fntry is tif CPU timf
+        // bnd its vbluf is tif TirfbdInfo objfdt witi no stbdk trbdf.
+        privbtf List<Mbp.Entry<Long, TirfbdInfo>> tirfbdList =
+            Collfdtions.fmptyList();
 
-        public MyTableModel() {
+        publid MyTbblfModfl() {
         }
 
-        @Override
-        public int getColumnCount() {
-            return columnNames.length;
+        @Ovfrridf
+        publid int gftColumnCount() {
+            rfturn dolumnNbmfs.lfngti;
         }
 
-        @Override
-        public int getRowCount() {
-            return threadList.size();
+        @Ovfrridf
+        publid int gftRowCount() {
+            rfturn tirfbdList.sizf();
         }
 
-        @Override
-        public String getColumnName(int col) {
-            return columnNames[col];
+        @Ovfrridf
+        publid String gftColumnNbmf(int dol) {
+            rfturn dolumnNbmfs[dol];
         }
 
-        @Override
-        public Object getValueAt(int row, int col) {
-            Map.Entry<Long, ThreadInfo> me = threadList.get(row);
-            switch (col) {
-                case 0 :
-                    // Column 0 shows the thread name
-                    return me.getValue().getThreadName();
-                case 1 :
-                    // Column 1 shows the CPU usage
-                    long ns = me.getKey().longValue();
-                    double sec = ns / 1000000000;
-                    return new Double(sec);
-                case 2 :
-                    // Column 2 shows the thread state
-                    return me.getValue().getThreadState();
-                default:
-                    return null;
+        @Ovfrridf
+        publid Objfdt gftVblufAt(int row, int dol) {
+            Mbp.Entry<Long, TirfbdInfo> mf = tirfbdList.gft(row);
+            switdi (dol) {
+                dbsf 0 :
+                    // Column 0 siows tif tirfbd nbmf
+                    rfturn mf.gftVbluf().gftTirfbdNbmf();
+                dbsf 1 :
+                    // Column 1 siows tif CPU usbgf
+                    long ns = mf.gftKfy().longVbluf();
+                    doublf sfd = ns / 1000000000;
+                    rfturn nfw Doublf(sfd);
+                dbsf 2 :
+                    // Column 2 siows tif tirfbd stbtf
+                    rfturn mf.gftVbluf().gftTirfbdStbtf();
+                dffbult:
+                    rfturn null;
             }
         }
 
-        @Override
-        public Class<?> getColumnClass(int c) {
-            return getValueAt(0, c).getClass();
+        @Ovfrridf
+        publid Clbss<?> gftColumnClbss(int d) {
+            rfturn gftVblufAt(0, d).gftClbss();
         }
 
-        void setThreadList(List<Map.Entry<Long, ThreadInfo>> list) {
-            threadList = list;
+        void sftTirfbdList(List<Mbp.Entry<Long, TirfbdInfo>> list) {
+            tirfbdList = list;
         }
     }
 
     /**
-     * Get the thread list with CPU consumption and the ThreadInfo
-     * for each thread sorted by the CPU time.
+     * Gft tif tirfbd list witi CPU donsumption bnd tif TirfbdInfo
+     * for fbdi tirfbd sortfd by tif CPU timf.
      */
-    private List<Map.Entry<Long, ThreadInfo>> getThreadList() {
-        // Get all threads and their ThreadInfo objects
-        // with no stack trace
-        long[] tids = tmbean.getAllThreadIds();
-        ThreadInfo[] tinfos = tmbean.getThreadInfo(tids);
+    privbtf List<Mbp.Entry<Long, TirfbdInfo>> gftTirfbdList() {
+        // Gft bll tirfbds bnd tifir TirfbdInfo objfdts
+        // witi no stbdk trbdf
+        long[] tids = tmbfbn.gftAllTirfbdIds();
+        TirfbdInfo[] tinfos = tmbfbn.gftTirfbdInfo(tids);
 
-        // build a map with key = CPU time and value = ThreadInfo
-        SortedMap<Long, ThreadInfo> map = new TreeMap<Long, ThreadInfo>();
-        for (int i = 0; i < tids.length; i++) {
-            long cpuTime = tmbean.getThreadCpuTime(tids[i]);
-            // filter out threads that have been terminated
-            if (cpuTime != -1 && tinfos[i] != null) {
-                map.put(new Long(cpuTime), tinfos[i]);
+        // build b mbp witi kfy = CPU timf bnd vbluf = TirfbdInfo
+        SortfdMbp<Long, TirfbdInfo> mbp = nfw TrffMbp<Long, TirfbdInfo>();
+        for (int i = 0; i < tids.lfngti; i++) {
+            long dpuTimf = tmbfbn.gftTirfbdCpuTimf(tids[i]);
+            // filtfr out tirfbds tibt ibvf bffn tfrminbtfd
+            if (dpuTimf != -1 && tinfos[i] != null) {
+                mbp.put(nfw Long(dpuTimf), tinfos[i]);
             }
         }
 
-        // build the thread list and sort it with CPU time
-        // in decreasing order
-        Set<Map.Entry<Long, ThreadInfo>> set = map.entrySet();
-        List<Map.Entry<Long, ThreadInfo>> list =
-            new ArrayList<Map.Entry<Long, ThreadInfo>>(set);
-        Collections.reverse(list);
-        return list;
+        // build tif tirfbd list bnd sort it witi CPU timf
+        // in dfdrfbsing ordfr
+        Sft<Mbp.Entry<Long, TirfbdInfo>> sft = mbp.fntrySft();
+        List<Mbp.Entry<Long, TirfbdInfo>> list =
+            nfw ArrbyList<Mbp.Entry<Long, TirfbdInfo>>(sft);
+        Collfdtions.rfvfrsf(list);
+        rfturn list;
     }
 
 
     /**
-     * Format Double with 4 fraction digits
+     * Formbt Doublf witi 4 frbdtion digits
      */
-    class DoubleRenderer extends DefaultTableCellRenderer {
-        private static final long serialVersionUID = 1704639497162584382L;
-        NumberFormat formatter;
-        public DoubleRenderer() {
-            super();
-            setHorizontalAlignment(JLabel.RIGHT);
+    dlbss DoublfRfndfrfr fxtfnds DffbultTbblfCfllRfndfrfr {
+        privbtf stbtid finbl long sfriblVfrsionUID = 1704639497162584382L;
+        NumbfrFormbt formbttfr;
+        publid DoublfRfndfrfr() {
+            supfr();
+            sftHorizontblAlignmfnt(JLbbfl.RIGHT);
         }
 
-        @Override
-        public void setValue(Object value) {
-            if (formatter==null) {
-                formatter = NumberFormat.getInstance();
-                formatter.setMinimumFractionDigits(4);
+        @Ovfrridf
+        publid void sftVbluf(Objfdt vbluf) {
+            if (formbttfr==null) {
+                formbttfr = NumbfrFormbt.gftInstbndf();
+                formbttfr.sftMinimumFrbdtionDigits(4);
             }
-            setText((value == null) ? "" : formatter.format(value));
+            sftTfxt((vbluf == null) ? "" : formbttfr.formbt(vbluf));
         }
     }
 
-    // SwingWorker responsible for updating the GUI
+    // SwingWorkfr rfsponsiblf for updbting tif GUI
     //
-    // It first gets the thread and CPU usage information as a
-    // background task done by a worker thread so that
-    // it will not block the event dispatcher thread.
+    // It first gfts tif tirfbd bnd CPU usbgf informbtion bs b
+    // bbdkground tbsk donf by b workfr tirfbd so tibt
+    // it will not blodk tif fvfnt dispbtdifr tirfbd.
     //
-    // When the worker thread finishes, the event dispatcher
-    // thread will invoke the done() method which will update
-    // the UI.
-    class Worker extends SwingWorker<List<Map.Entry<Long, ThreadInfo>>,Object> {
-        private MyTableModel tmodel;
-        Worker(MyTableModel tmodel) {
-            this.tmodel = tmodel;
+    // Wifn tif workfr tirfbd finisifs, tif fvfnt dispbtdifr
+    // tirfbd will invokf tif donf() mftiod wiidi will updbtf
+    // tif UI.
+    dlbss Workfr fxtfnds SwingWorkfr<List<Mbp.Entry<Long, TirfbdInfo>>,Objfdt> {
+        privbtf MyTbblfModfl tmodfl;
+        Workfr(MyTbblfModfl tmodfl) {
+            tiis.tmodfl = tmodfl;
         }
 
-        // Get the current thread info and CPU time
-        @Override
-        public List<Map.Entry<Long, ThreadInfo>> doInBackground() {
-            return getThreadList();
+        // Gft tif durrfnt tirfbd info bnd CPU timf
+        @Ovfrridf
+        publid List<Mbp.Entry<Long, TirfbdInfo>> doInBbdkground() {
+            rfturn gftTirfbdList();
         }
 
-        // fire table data changed to trigger GUI update
-        // when doInBackground() is finished
-        @Override
-        protected void done() {
+        // firf tbblf dbtb dibngfd to triggfr GUI updbtf
+        // wifn doInBbdkground() is finisifd
+        @Ovfrridf
+        protfdtfd void donf() {
             try {
-                // Set table model with the new thread list
-                tmodel.setThreadList(get());
-                // refresh the table model
-                tmodel.fireTableDataChanged();
-            } catch (InterruptedException e) {
-            } catch (ExecutionException e) {
+                // Sft tbblf modfl witi tif nfw tirfbd list
+                tmodfl.sftTirfbdList(gft());
+                // rffrfsi tif tbblf modfl
+                tmodfl.firfTbblfDbtbCibngfd();
+            } dbtdi (IntfrruptfdExdfption f) {
+            } dbtdi (ExfdutionExdfption f) {
             }
         }
     }
 
-    // Return a new SwingWorker for UI update
-    public SwingWorker<?,?> newSwingWorker() {
-        return new Worker(tmodel);
+    // Rfturn b nfw SwingWorkfr for UI updbtf
+    publid SwingWorkfr<?,?> nfwSwingWorkfr() {
+        rfturn nfw Workfr(tmodfl);
     }
 
-    public static void main(String[] args) throws Exception {
-        // Validate the input arguments
-        if (args.length != 1) {
-            usage();
+    publid stbtid void mbin(String[] brgs) tirows Exdfption {
+        // Vblidbtf tif input brgumfnts
+        if (brgs.lfngti != 1) {
+            usbgf();
         }
 
-        String[] arg2 = args[0].split(":");
-        if (arg2.length != 2) {
-            usage();
+        String[] brg2 = brgs[0].split(":");
+        if (brg2.lfngti != 2) {
+            usbgf();
         }
-        String hostname = arg2[0];
+        String iostnbmf = brg2[0];
         int port = -1;
         try {
-            port = Integer.parseInt(arg2[1]);
-        } catch (NumberFormatException x) {
-            usage();
+            port = Intfgfr.pbrsfInt(brg2[1]);
+        } dbtdi (NumbfrFormbtExdfption x) {
+            usbgf();
         }
         if (port < 0) {
-            usage();
+            usbgf();
         }
 
-        // Create the JTop Panel
-        final JTop jtop = new JTop();
-        // Set up the MBeanServerConnection to the target VM
-        MBeanServerConnection server = connect(hostname, port);
-        jtop.setMBeanServerConnection(server);
+        // Crfbtf tif JTop Pbnfl
+        finbl JTop jtop = nfw JTop();
+        // Sft up tif MBfbnSfrvfrConnfdtion to tif tbrgft VM
+        MBfbnSfrvfrConnfdtion sfrvfr = donnfdt(iostnbmf, port);
+        jtop.sftMBfbnSfrvfrConnfdtion(sfrvfr);
 
-        // A timer task to update GUI per each interval
-        TimerTask timerTask = new TimerTask() {
-            @Override
-            public void run() {
-                // Schedule the SwingWorker to update the GUI
-                jtop.newSwingWorker().execute();
+        // A timfr tbsk to updbtf GUI pfr fbdi intfrvbl
+        TimfrTbsk timfrTbsk = nfw TimfrTbsk() {
+            @Ovfrridf
+            publid void run() {
+                // Sdifdulf tif SwingWorkfr to updbtf tif GUI
+                jtop.nfwSwingWorkfr().fxfdutf();
             }
         };
 
-        // Create the standalone window with JTop panel
-        // by the event dispatcher thread
-        SwingUtilities.invokeAndWait(new Runnable() {
-            @Override
-            public void run() {
-                createAndShowGUI(jtop);
+        // Crfbtf tif stbndblonf window witi JTop pbnfl
+        // by tif fvfnt dispbtdifr tirfbd
+        SwingUtilitifs.invokfAndWbit(nfw Runnbblf() {
+            @Ovfrridf
+            publid void run() {
+                drfbtfAndSiowGUI(jtop);
             }
         });
 
-        // refresh every 2 seconds
-        Timer timer = new Timer("JTop Sampling thread");
-        timer.schedule(timerTask, 0, 2000);
+        // rffrfsi fvfry 2 sfdonds
+        Timfr timfr = nfw Timfr("JTop Sbmpling tirfbd");
+        timfr.sdifdulf(timfrTbsk, 0, 2000);
 
     }
 
-    // Establish a connection with the remote application
+    // Estbblisi b donnfdtion witi tif rfmotf bpplidbtion
     //
-    // You can modify the urlPath to the address of the JMX agent
-    // of your application if it has a different URL.
+    // You dbn modify tif urlPbti to tif bddrfss of tif JMX bgfnt
+    // of your bpplidbtion if it ibs b difffrfnt URL.
     //
-    // You can also modify the following code to take
-    // username and password for client authentication.
-    private static MBeanServerConnection connect(String hostname, int port) {
-        // Create an RMI connector client and connect it to
-        // the RMI connector server
-        String urlPath = "/jndi/rmi://" + hostname + ":" + port + "/jmxrmi";
-        MBeanServerConnection server = null;
+    // You dbn blso modify tif following dodf to tbkf
+    // usfrnbmf bnd pbssword for dlifnt butifntidbtion.
+    privbtf stbtid MBfbnSfrvfrConnfdtion donnfdt(String iostnbmf, int port) {
+        // Crfbtf bn RMI donnfdtor dlifnt bnd donnfdt it to
+        // tif RMI donnfdtor sfrvfr
+        String urlPbti = "/jndi/rmi://" + iostnbmf + ":" + port + "/jmxrmi";
+        MBfbnSfrvfrConnfdtion sfrvfr = null;
         try {
-            JMXServiceURL url = new JMXServiceURL("rmi", "", 0, urlPath);
-            JMXConnector jmxc = JMXConnectorFactory.connect(url);
-            server = jmxc.getMBeanServerConnection();
-        } catch (MalformedURLException e) {
-            // should not reach here
-        } catch (IOException e) {
-            System.err.println("\nCommunication error: " + e.getMessage());
-            System.exit(1);
+            JMXSfrvidfURL url = nfw JMXSfrvidfURL("rmi", "", 0, urlPbti);
+            JMXConnfdtor jmxd = JMXConnfdtorFbdtory.donnfdt(url);
+            sfrvfr = jmxd.gftMBfbnSfrvfrConnfdtion();
+        } dbtdi (MblformfdURLExdfption f) {
+            // siould not rfbdi ifrf
+        } dbtdi (IOExdfption f) {
+            Systfm.frr.println("\nCommunidbtion frror: " + f.gftMfssbgf());
+            Systfm.fxit(1);
         }
-        return server;
+        rfturn sfrvfr;
     }
 
-    private static void usage() {
-        System.out.println("Usage: java JTop <hostname>:<port>");
-        System.exit(1);
+    privbtf stbtid void usbgf() {
+        Systfm.out.println("Usbgf: jbvb JTop <iostnbmf>:<port>");
+        Systfm.fxit(1);
     }
     /**
-     * Create the GUI and show it.  For thread safety,
-     * this method should be invoked from the
-     * event-dispatching thread.
+     * Crfbtf tif GUI bnd siow it.  For tirfbd sbffty,
+     * tiis mftiod siould bf invokfd from tif
+     * fvfnt-dispbtdiing tirfbd.
      */
-    private static void createAndShowGUI(JPanel jtop) {
-        // Create and set up the window.
-        JFrame frame = new JFrame("JTop");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    privbtf stbtid void drfbtfAndSiowGUI(JPbnfl jtop) {
+        // Crfbtf bnd sft up tif window.
+        JFrbmf frbmf = nfw JFrbmf("JTop");
+        frbmf.sftDffbultClosfOpfrbtion(JFrbmf.EXIT_ON_CLOSE);
 
-        // Create and set up the content pane.
-        JComponent contentPane = (JComponent) frame.getContentPane();
-        contentPane.add(jtop, BorderLayout.CENTER);
-        contentPane.setOpaque(true); //content panes must be opaque
-        contentPane.setBorder(new EmptyBorder(12, 12, 12, 12));
-        frame.setContentPane(contentPane);
+        // Crfbtf bnd sft up tif dontfnt pbnf.
+        JComponfnt dontfntPbnf = (JComponfnt) frbmf.gftContfntPbnf();
+        dontfntPbnf.bdd(jtop, BordfrLbyout.CENTER);
+        dontfntPbnf.sftOpbquf(truf); //dontfnt pbnfs must bf opbquf
+        dontfntPbnf.sftBordfr(nfw EmptyBordfr(12, 12, 12, 12));
+        frbmf.sftContfntPbnf(dontfntPbnf);
 
-        // Display the window.
-        frame.pack();
-        frame.setVisible(true);
+        // Displby tif window.
+        frbmf.pbdk();
+        frbmf.sftVisiblf(truf);
     }
 
 }

@@ -1,142 +1,142 @@
 /*
- * Copyright (c) 2000, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef Ushort555Rgb_h_Included
-#define Ushort555Rgb_h_Included
+#ifndff Usiort555Rgb_i_Indludfd
+#dffinf Usiort555Rgb_i_Indludfd
 
 /*
- * This file contains macro and type definitions used by the macros in
- * LoopMacros.h to manipulate a surface of type "Ushort555Rgb".
+ * Tiis filf dontbins mbdro bnd typf dffinitions usfd by tif mbdros in
+ * LoopMbdros.i to mbnipulbtf b surfbdf of typf "Usiort555Rgb".
  */
 
-typedef jushort Ushort555RgbPixelType;
-typedef jushort Ushort555RgbDataType;
+typfdff jusiort Usiort555RgbPixflTypf;
+typfdff jusiort Usiort555RgbDbtbTypf;
 
-#define Ushort555RgbIsOpaque 1
+#dffinf Usiort555RgbIsOpbquf 1
 
-#define Ushort555RgbPixelStride         2
+#dffinf Usiort555RgbPixflStridf         2
 
-#define DeclareUshort555RgbLoadVars(PREFIX)
-#define DeclareUshort555RgbStoreVars(PREFIX)
-#define SetUshort555RgbStoreVarsYPos(PREFIX, pRasInfo, y)
-#define SetUshort555RgbStoreVarsXPos(PREFIX, pRasInfo, x)
-#define InitUshort555RgbLoadVars(PREFIX, pRasInfo)
-#define InitUshort555RgbStoreVarsY(PREFIX, pRasInfo)
-#define InitUshort555RgbStoreVarsX(PREFIX, pRasInfo)
-#define NextUshort555RgbStoreVarsX(PREFIX)
-#define NextUshort555RgbStoreVarsY(PREFIX)
-#define DeclareUshort555RgbPixelData(PREFIX)
-#define ExtractUshort555RgbPixelData(PIXEL, PREFIX)
+#dffinf DfdlbrfUsiort555RgbLobdVbrs(PREFIX)
+#dffinf DfdlbrfUsiort555RgbStorfVbrs(PREFIX)
+#dffinf SftUsiort555RgbStorfVbrsYPos(PREFIX, pRbsInfo, y)
+#dffinf SftUsiort555RgbStorfVbrsXPos(PREFIX, pRbsInfo, x)
+#dffinf InitUsiort555RgbLobdVbrs(PREFIX, pRbsInfo)
+#dffinf InitUsiort555RgbStorfVbrsY(PREFIX, pRbsInfo)
+#dffinf InitUsiort555RgbStorfVbrsX(PREFIX, pRbsInfo)
+#dffinf NfxtUsiort555RgbStorfVbrsX(PREFIX)
+#dffinf NfxtUsiort555RgbStorfVbrsY(PREFIX)
+#dffinf DfdlbrfUsiort555RgbPixflDbtb(PREFIX)
+#dffinf ExtrbdtUsiort555RgbPixflDbtb(PIXEL, PREFIX)
 
-#define Ushort555RgbXparLutEntry                -1
-#define Ushort555RgbIsXparLutEntry(pix)         (pix < 0)
-#define StoreUshort555RgbNonXparFromArgb        StoreUshort555RgbFrom1IntArgb
+#dffinf Usiort555RgbXpbrLutEntry                -1
+#dffinf Usiort555RgbIsXpbrLutEntry(pix)         (pix < 0)
+#dffinf StorfUsiort555RgbNonXpbrFromArgb        StorfUsiort555RgbFrom1IntArgb
 
 
-#define ComposeUshort555RgbFrom3ByteRgb(r, g, b) \
-    (Ushort555RgbPixelType)((((r) >> 3) << 10) | \
+#dffinf ComposfUsiort555RgbFrom3BytfRgb(r, g, b) \
+    (Usiort555RgbPixflTypf)((((r) >> 3) << 10) | \
                             (((g) >> 3) <<  5) | \
                             (((b) >> 3) <<  0))
 
-#define IntArgbToUshort555Rgb(rgb) \
-    (Ushort555RgbPixelType)((((rgb) >> (16 + 3 - 10)) & 0x7c00) | \
-                            (((rgb) >> ( 8 + 3 -  5)) & 0x03e0) | \
+#dffinf IntArgbToUsiort555Rgb(rgb) \
+    (Usiort555RgbPixflTypf)((((rgb) >> (16 + 3 - 10)) & 0x7d00) | \
+                            (((rgb) >> ( 8 + 3 -  5)) & 0x03f0) | \
                             (((rgb) >> ( 0 + 3 -  0)) & 0x001f))
 
-#define Ushort555RgbPixelFromArgb(pixel, rgb, pRasInfo) \
-    (pixel) = IntArgbToUshort555Rgb(rgb)
+#dffinf Usiort555RgbPixflFromArgb(pixfl, rgb, pRbsInfo) \
+    (pixfl) = IntArgbToUsiort555Rgb(rgb)
 
-#define StoreUshort555RgbPixel(pRas, x, pixel) \
-    ((pRas)[x] = (jushort) (pixel))
+#dffinf StorfUsiort555RgbPixfl(pRbs, x, pixfl) \
+    ((pRbs)[x] = (jusiort) (pixfl))
 
-#define StoreUshort555RgbPixelData(pPix, x, pixel, PREFIX) \
-    StoreUshort555RgbPixel(pPix, x, pixel)
+#dffinf StorfUsiort555RgbPixflDbtb(pPix, x, pixfl, PREFIX) \
+    StorfUsiort555RgbPixfl(pPix, x, pixfl)
 
 
-#define LoadUshort555RgbTo3ByteRgb(pRas, PREFIX, x, r, g, b) \
+#dffinf LobdUsiort555RgbTo3BytfRgb(pRbs, PREFIX, x, r, g, b) \
     do { \
-        jushort pixel = (pRas)[x]; \
-        (r) = ((pixel) >> 10) & 0x1f; \
+        jusiort pixfl = (pRbs)[x]; \
+        (r) = ((pixfl) >> 10) & 0x1f; \
         (r) = ((r) << 3) | ((r) >> 2); \
-        (g) = ((pixel) >>  5) & 0x1f; \
+        (g) = ((pixfl) >>  5) & 0x1f; \
         (g) = ((g) << 3) | ((g) >> 2); \
-        (b) = ((pixel) >>  0) & 0x1f; \
+        (b) = ((pixfl) >>  0) & 0x1f; \
         (b) = ((b) << 3) | ((b) >> 2); \
-    } while (0)
+    } wiilf (0)
 
-#define LoadUshort555RgbTo4ByteArgb(pRas, PREFIX, x, a, r, g, b) \
+#dffinf LobdUsiort555RgbTo4BytfArgb(pRbs, PREFIX, x, b, r, g, b) \
     do { \
-        LoadUshort555RgbTo3ByteRgb(pRas, PREFIX, x, r, g, b) \
-        (a) = 0xff; \
-    } while (0)
+        LobdUsiort555RgbTo3BytfRgb(pRbs, PREFIX, x, r, g, b) \
+        (b) = 0xff; \
+    } wiilf (0)
 
-#define StoreUshort555RgbFrom1IntRgb(pRas, PREFIX, x, rgb) \
-    StoreUshort555RgbFrom1IntArgb(pRas, PREFIX, x, rgb)
+#dffinf StorfUsiort555RgbFrom1IntRgb(pRbs, PREFIX, x, rgb) \
+    StorfUsiort555RgbFrom1IntArgb(pRbs, PREFIX, x, rgb)
 
-#define StoreUshort555RgbFrom1IntArgb(pRas, PREFIX, x, rgb) \
-    (pRas)[x] = IntArgbToUshort555Rgb(rgb)
+#dffinf StorfUsiort555RgbFrom1IntArgb(pRbs, PREFIX, x, rgb) \
+    (pRbs)[x] = IntArgbToUsiort555Rgb(rgb)
 
-#define StoreUshort555RgbFrom3ByteRgb(pRas, PREFIX, x, r, g, b) \
-    (pRas)[x] = (jushort) ComposeUshort555RgbFrom3ByteRgb(r, g, b)
+#dffinf StorfUsiort555RgbFrom3BytfRgb(pRbs, PREFIX, x, r, g, b) \
+    (pRbs)[x] = (jusiort) ComposfUsiort555RgbFrom3BytfRgb(r, g, b)
 
-#define StoreUshort555RgbFrom4ByteArgb(pRas, PREFIX, x, a, r, g, b) \
-    StoreUshort555RgbFrom3ByteRgb(pRas, PREFIX, x, r, g, b)
+#dffinf StorfUsiort555RgbFrom4BytfArgb(pRbs, PREFIX, x, b, r, g, b) \
+    StorfUsiort555RgbFrom3BytfRgb(pRbs, PREFIX, x, r, g, b)
 
 
-#define DeclareUshort555RgbAlphaLoadData(PREFIX)
-#define InitUshort555RgbAlphaLoadData(PREFIX, pRasInfo)
+#dffinf DfdlbrfUsiort555RgbAlpibLobdDbtb(PREFIX)
+#dffinf InitUsiort555RgbAlpibLobdDbtb(PREFIX, pRbsInfo)
 
-#define LoadAlphaFromUshort555RgbFor4ByteArgb(pRas, PREFIX, COMP_PREFIX) \
+#dffinf LobdAlpibFromUsiort555RgbFor4BytfArgb(pRbs, PREFIX, COMP_PREFIX) \
     COMP_PREFIX ## A = 0xff
 
-#define Postload4ByteArgbFromUshort555Rgb(pRas, PREFIX, COMP_PREFIX) \
-    LoadUshort555RgbTo3ByteRgb(pRas, PREFIX, 0, COMP_PREFIX ## R, \
+#dffinf Postlobd4BytfArgbFromUsiort555Rgb(pRbs, PREFIX, COMP_PREFIX) \
+    LobdUsiort555RgbTo3BytfRgb(pRbs, PREFIX, 0, COMP_PREFIX ## R, \
                                COMP_PREFIX ## G, COMP_PREFIX ## B)
 
 
-#define Ushort555RgbIsPremultiplied     0
+#dffinf Usiort555RgbIsPrfmultiplifd     0
 
-#define DeclareUshort555RgbBlendFillVars(PREFIX) \
-    jushort PREFIX;
+#dffinf DfdlbrfUsiort555RgbBlfndFillVbrs(PREFIX) \
+    jusiort PREFIX;
 
-#define ClearUshort555RgbBlendFillVars(PREFIX, argb) \
+#dffinf ClfbrUsiort555RgbBlfndFillVbrs(PREFIX, brgb) \
     PREFIX = 0
 
-#define InitUshort555RgbBlendFillVarsNonPre(PREFIX, argb, COMP_PREFIX) \
-    PREFIX = (jushort) ComposeUshort555RgbFrom3ByteRgb(COMP_PREFIX ## R, \
+#dffinf InitUsiort555RgbBlfndFillVbrsNonPrf(PREFIX, brgb, COMP_PREFIX) \
+    PREFIX = (jusiort) ComposfUsiort555RgbFrom3BytfRgb(COMP_PREFIX ## R, \
                                                        COMP_PREFIX ## G, \
                                                        COMP_PREFIX ## B)
 
-#define InitUshort555RgbBlendFillVarsPre(PREFIX, argb, COMP_PREFIX)
+#dffinf InitUsiort555RgbBlfndFillVbrsPrf(PREFIX, brgb, COMP_PREFIX)
 
-#define StoreUshort555RgbBlendFill(pRas, PREFIX, x, argb, COMP_PREFIX) \
-    (pRas)[x] = PREFIX
+#dffinf StorfUsiort555RgbBlfndFill(pRbs, PREFIX, x, brgb, COMP_PREFIX) \
+    (pRbs)[x] = PREFIX
 
-#define StoreUshort555RgbFrom4ByteArgbComps(pRas, PREFIX, x, COMP_PREFIX) \
-    StoreUshort555RgbFrom4ByteArgb(pRas, PREFIX, x, \
+#dffinf StorfUsiort555RgbFrom4BytfArgbComps(pRbs, PREFIX, x, COMP_PREFIX) \
+    StorfUsiort555RgbFrom4BytfArgb(pRbs, PREFIX, x, \
                                    COMP_PREFIX ## A, COMP_PREFIX ## R, \
                                    COMP_PREFIX ## G, COMP_PREFIX ## B)
 
-#endif /* Ushort555Rgb_h_Included */
+#fndif /* Usiort555Rgb_i_Indludfd */

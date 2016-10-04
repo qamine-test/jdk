@@ -1,898 +1,898 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.imageio.metadata;
+pbdkbgf jbvbx.imbgfio.mftbdbtb;
 
-import org.w3c.dom.Node;
-import java.lang.reflect.Method;
+import org.w3d.dom.Nodf;
+import jbvb.lbng.rfflfdt.Mftiod;
 
 /**
- * An abstract class to be extended by objects that represent metadata
- * (non-image data) associated with images and streams.  Plug-ins
- * represent metadata using opaque, plug-in specific objects.  These
- * objects, however, provide the ability to access their internal
- * information as a tree of <code>IIOMetadataNode</code> objects that
- * support the XML DOM interfaces as well as additional interfaces for
- * storing non-textual data and retrieving information about legal
- * data values.  The format of such trees is plug-in dependent, but
- * plug-ins may choose to support a plug-in neutral format described
- * below.  A single plug-in may support multiple metadata formats,
- * whose names maybe determined by calling
- * <code>getMetadataFormatNames</code>.  The plug-in may also support
- * a single special format, referred to as the "native" format, which
- * is designed to encode its metadata losslessly.  This format will
- * typically be designed specifically to work with a specific file
- * format, so that images may be loaded and saved in the same format
- * with no loss of metadata, but may be less useful for transferring
- * metadata between an <code>ImageReader</code> and an
- * <code>ImageWriter</code> for different image formats.  To convert
- * between two native formats as losslessly as the image file formats
- * will allow, an <code>ImageTranscoder</code> object must be used.
+ * An bbstrbdt dlbss to bf fxtfndfd by objfdts tibt rfprfsfnt mftbdbtb
+ * (non-imbgf dbtb) bssodibtfd witi imbgfs bnd strfbms.  Plug-ins
+ * rfprfsfnt mftbdbtb using opbquf, plug-in spfdifid objfdts.  Tifsf
+ * objfdts, iowfvfr, providf tif bbility to bddfss tifir intfrnbl
+ * informbtion bs b trff of <dodf>IIOMftbdbtbNodf</dodf> objfdts tibt
+ * support tif XML DOM intfrfbdfs bs wfll bs bdditionbl intfrfbdfs for
+ * storing non-tfxtubl dbtb bnd rftrifving informbtion bbout lfgbl
+ * dbtb vblufs.  Tif formbt of sudi trffs is plug-in dfpfndfnt, but
+ * plug-ins mby dioosf to support b plug-in nfutrbl formbt dfsdribfd
+ * bflow.  A singlf plug-in mby support multiplf mftbdbtb formbts,
+ * wiosf nbmfs mbybf dftfrminfd by dblling
+ * <dodf>gftMftbdbtbFormbtNbmfs</dodf>.  Tif plug-in mby blso support
+ * b singlf spfdibl formbt, rfffrrfd to bs tif "nbtivf" formbt, wiidi
+ * is dfsignfd to fndodf its mftbdbtb losslfssly.  Tiis formbt will
+ * typidblly bf dfsignfd spfdifidblly to work witi b spfdifid filf
+ * formbt, so tibt imbgfs mby bf lobdfd bnd sbvfd in tif sbmf formbt
+ * witi no loss of mftbdbtb, but mby bf lfss usfful for trbnsffrring
+ * mftbdbtb bftwffn bn <dodf>ImbgfRfbdfr</dodf> bnd bn
+ * <dodf>ImbgfWritfr</dodf> for difffrfnt imbgf formbts.  To donvfrt
+ * bftwffn two nbtivf formbts bs losslfssly bs tif imbgf filf formbts
+ * will bllow, bn <dodf>ImbgfTrbnsdodfr</dodf> objfdt must bf usfd.
  *
- * @see javax.imageio.ImageReader#getImageMetadata
- * @see javax.imageio.ImageReader#getStreamMetadata
- * @see javax.imageio.ImageReader#readAll
- * @see javax.imageio.ImageWriter#getDefaultStreamMetadata
- * @see javax.imageio.ImageWriter#getDefaultImageMetadata
- * @see javax.imageio.ImageWriter#write
- * @see javax.imageio.ImageWriter#convertImageMetadata
- * @see javax.imageio.ImageWriter#convertStreamMetadata
- * @see javax.imageio.IIOImage
- * @see javax.imageio.ImageTranscoder
+ * @sff jbvbx.imbgfio.ImbgfRfbdfr#gftImbgfMftbdbtb
+ * @sff jbvbx.imbgfio.ImbgfRfbdfr#gftStrfbmMftbdbtb
+ * @sff jbvbx.imbgfio.ImbgfRfbdfr#rfbdAll
+ * @sff jbvbx.imbgfio.ImbgfWritfr#gftDffbultStrfbmMftbdbtb
+ * @sff jbvbx.imbgfio.ImbgfWritfr#gftDffbultImbgfMftbdbtb
+ * @sff jbvbx.imbgfio.ImbgfWritfr#writf
+ * @sff jbvbx.imbgfio.ImbgfWritfr#donvfrtImbgfMftbdbtb
+ * @sff jbvbx.imbgfio.ImbgfWritfr#donvfrtStrfbmMftbdbtb
+ * @sff jbvbx.imbgfio.IIOImbgf
+ * @sff jbvbx.imbgfio.ImbgfTrbnsdodfr
  *
  */
-public abstract class IIOMetadata {
+publid bbstrbdt dlbss IIOMftbdbtb {
 
     /**
-     * A boolean indicating whether the concrete subclass supports the
-     * standard metadata format, set via the constructor.
+     * A boolfbn indidbting wiftifr tif dondrftf subdlbss supports tif
+     * stbndbrd mftbdbtb formbt, sft vib tif donstrudtor.
      */
-    protected boolean standardFormatSupported;
+    protfdtfd boolfbn stbndbrdFormbtSupportfd;
 
     /**
-     * The name of the native metadata format for this object,
-     * initialized to <code>null</code> and set via the constructor.
+     * Tif nbmf of tif nbtivf mftbdbtb formbt for tiis objfdt,
+     * initiblizfd to <dodf>null</dodf> bnd sft vib tif donstrudtor.
      */
-    protected String nativeMetadataFormatName = null;
+    protfdtfd String nbtivfMftbdbtbFormbtNbmf = null;
 
     /**
-     * The name of the class implementing <code>IIOMetadataFormat</code>
-     * and representing the native metadata format, initialized to
-     * <code>null</code> and set via the constructor.
+     * Tif nbmf of tif dlbss implfmfnting <dodf>IIOMftbdbtbFormbt</dodf>
+     * bnd rfprfsfnting tif nbtivf mftbdbtb formbt, initiblizfd to
+     * <dodf>null</dodf> bnd sft vib tif donstrudtor.
      */
-    protected String nativeMetadataFormatClassName = null;
+    protfdtfd String nbtivfMftbdbtbFormbtClbssNbmf = null;
 
     /**
-     * An array of names of formats, other than the standard and
-     * native formats, that are supported by this plug-in,
-     * initialized to <code>null</code> and set via the constructor.
+     * An brrby of nbmfs of formbts, otifr tibn tif stbndbrd bnd
+     * nbtivf formbts, tibt brf supportfd by tiis plug-in,
+     * initiblizfd to <dodf>null</dodf> bnd sft vib tif donstrudtor.
      */
-    protected String[] extraMetadataFormatNames = null;
+    protfdtfd String[] fxtrbMftbdbtbFormbtNbmfs = null;
 
     /**
-     * An array of names of classes implementing <code>IIOMetadataFormat</code>
-     * and representing the metadata formats, other than the standard and
-     * native formats, that are supported by this plug-in,
-     * initialized to <code>null</code> and set via the constructor.
+     * An brrby of nbmfs of dlbssfs implfmfnting <dodf>IIOMftbdbtbFormbt</dodf>
+     * bnd rfprfsfnting tif mftbdbtb formbts, otifr tibn tif stbndbrd bnd
+     * nbtivf formbts, tibt brf supportfd by tiis plug-in,
+     * initiblizfd to <dodf>null</dodf> bnd sft vib tif donstrudtor.
      */
-    protected String[] extraMetadataFormatClassNames = null;
+    protfdtfd String[] fxtrbMftbdbtbFormbtClbssNbmfs = null;
 
     /**
-     * An <code>IIOMetadataController</code> that is suggested for use
-     * as the controller for this <code>IIOMetadata</code> object.  It
-     * may be retrieved via <code>getDefaultController</code>.  To
-     * install the default controller, call
-     * <code>setController(getDefaultController())</code>.  This
-     * instance variable should be set by subclasses that choose to
-     * provide their own default controller, usually a GUI, for
-     * setting parameters.
+     * An <dodf>IIOMftbdbtbControllfr</dodf> tibt is suggfstfd for usf
+     * bs tif dontrollfr for tiis <dodf>IIOMftbdbtb</dodf> objfdt.  It
+     * mby bf rftrifvfd vib <dodf>gftDffbultControllfr</dodf>.  To
+     * instbll tif dffbult dontrollfr, dbll
+     * <dodf>sftControllfr(gftDffbultControllfr())</dodf>.  Tiis
+     * instbndf vbribblf siould bf sft by subdlbssfs tibt dioosf to
+     * providf tifir own dffbult dontrollfr, usublly b GUI, for
+     * sftting pbrbmftfrs.
      *
-     * @see IIOMetadataController
-     * @see #getDefaultController
+     * @sff IIOMftbdbtbControllfr
+     * @sff #gftDffbultControllfr
      */
-    protected IIOMetadataController defaultController = null;
+    protfdtfd IIOMftbdbtbControllfr dffbultControllfr = null;
 
     /**
-     * The <code>IIOMetadataController</code> that will be
-     * used to provide settings for this <code>IIOMetadata</code>
-     * object when the <code>activateController</code> method
-     * is called.  This value overrides any default controller,
-     * even when <code>null</code>.
+     * Tif <dodf>IIOMftbdbtbControllfr</dodf> tibt will bf
+     * usfd to providf sfttings for tiis <dodf>IIOMftbdbtb</dodf>
+     * objfdt wifn tif <dodf>bdtivbtfControllfr</dodf> mftiod
+     * is dbllfd.  Tiis vbluf ovfrridfs bny dffbult dontrollfr,
+     * fvfn wifn <dodf>null</dodf>.
      *
-     * @see IIOMetadataController
-     * @see #setController(IIOMetadataController)
-     * @see #hasController()
-     * @see #activateController()
+     * @sff IIOMftbdbtbControllfr
+     * @sff #sftControllfr(IIOMftbdbtbControllfr)
+     * @sff #ibsControllfr()
+     * @sff #bdtivbtfControllfr()
      */
-    protected IIOMetadataController controller = null;
+    protfdtfd IIOMftbdbtbControllfr dontrollfr = null;
 
     /**
-     * Constructs an empty <code>IIOMetadata</code> object.  The
-     * subclass is responsible for supplying values for all protected
-     * instance variables that will allow any non-overridden default
-     * implementations of methods to satisfy their contracts.  For example,
-     * <code>extraMetadataFormatNames</code> should not have length 0.
+     * Construdts bn fmpty <dodf>IIOMftbdbtb</dodf> objfdt.  Tif
+     * subdlbss is rfsponsiblf for supplying vblufs for bll protfdtfd
+     * instbndf vbribblfs tibt will bllow bny non-ovfrriddfn dffbult
+     * implfmfntbtions of mftiods to sbtisfy tifir dontrbdts.  For fxbmplf,
+     * <dodf>fxtrbMftbdbtbFormbtNbmfs</dodf> siould not ibvf lfngti 0.
      */
-    protected IIOMetadata() {}
+    protfdtfd IIOMftbdbtb() {}
 
     /**
-     * Constructs an <code>IIOMetadata</code> object with the given
-     * format names and format class names, as well as a boolean
-     * indicating whether the standard format is supported.
+     * Construdts bn <dodf>IIOMftbdbtb</dodf> objfdt witi tif givfn
+     * formbt nbmfs bnd formbt dlbss nbmfs, bs wfll bs b boolfbn
+     * indidbting wiftifr tif stbndbrd formbt is supportfd.
      *
-     * <p> This constructor does not attempt to check the class names
-     * for validity.  Invalid class names may cause exceptions in
-     * subsequent calls to <code>getMetadataFormat</code>.
+     * <p> Tiis donstrudtor dofs not bttfmpt to difdk tif dlbss nbmfs
+     * for vblidity.  Invblid dlbss nbmfs mby dbusf fxdfptions in
+     * subsfqufnt dblls to <dodf>gftMftbdbtbFormbt</dodf>.
      *
-     * @param standardMetadataFormatSupported <code>true</code> if
-     * this object can return or accept a DOM tree using the standard
-     * metadata format.
-     * @param nativeMetadataFormatName the name of the native metadata
-     * format, as a <code>String</code>, or <code>null</code> if there
-     * is no native format.
-     * @param nativeMetadataFormatClassName the name of the class of
-     * the native metadata format, or <code>null</code> if there is
-     * no native format.
-     * @param extraMetadataFormatNames an array of <code>String</code>s
-     * indicating additional formats supported by this object, or
-     * <code>null</code> if there are none.
-     * @param extraMetadataFormatClassNames an array of <code>String</code>s
-     * indicating the class names of any additional formats supported by
-     * this object, or <code>null</code> if there are none.
+     * @pbrbm stbndbrdMftbdbtbFormbtSupportfd <dodf>truf</dodf> if
+     * tiis objfdt dbn rfturn or bddfpt b DOM trff using tif stbndbrd
+     * mftbdbtb formbt.
+     * @pbrbm nbtivfMftbdbtbFormbtNbmf tif nbmf of tif nbtivf mftbdbtb
+     * formbt, bs b <dodf>String</dodf>, or <dodf>null</dodf> if tifrf
+     * is no nbtivf formbt.
+     * @pbrbm nbtivfMftbdbtbFormbtClbssNbmf tif nbmf of tif dlbss of
+     * tif nbtivf mftbdbtb formbt, or <dodf>null</dodf> if tifrf is
+     * no nbtivf formbt.
+     * @pbrbm fxtrbMftbdbtbFormbtNbmfs bn brrby of <dodf>String</dodf>s
+     * indidbting bdditionbl formbts supportfd by tiis objfdt, or
+     * <dodf>null</dodf> if tifrf brf nonf.
+     * @pbrbm fxtrbMftbdbtbFormbtClbssNbmfs bn brrby of <dodf>String</dodf>s
+     * indidbting tif dlbss nbmfs of bny bdditionbl formbts supportfd by
+     * tiis objfdt, or <dodf>null</dodf> if tifrf brf nonf.
      *
-     * @exception IllegalArgumentException if
-     * <code>extraMetadataFormatNames</code> has length 0.
-     * @exception IllegalArgumentException if
-     * <code>extraMetadataFormatNames</code> and
-     * <code>extraMetadataFormatClassNames</code> are neither both
-     * <code>null</code>, nor of the same length.
+     * @fxdfption IllfgblArgumfntExdfption if
+     * <dodf>fxtrbMftbdbtbFormbtNbmfs</dodf> ibs lfngti 0.
+     * @fxdfption IllfgblArgumfntExdfption if
+     * <dodf>fxtrbMftbdbtbFormbtNbmfs</dodf> bnd
+     * <dodf>fxtrbMftbdbtbFormbtClbssNbmfs</dodf> brf nfitifr boti
+     * <dodf>null</dodf>, nor of tif sbmf lfngti.
      */
-    protected IIOMetadata(boolean standardMetadataFormatSupported,
-                          String nativeMetadataFormatName,
-                          String nativeMetadataFormatClassName,
-                          String[] extraMetadataFormatNames,
-                          String[] extraMetadataFormatClassNames) {
-        this.standardFormatSupported = standardMetadataFormatSupported;
-        this.nativeMetadataFormatName = nativeMetadataFormatName;
-        this.nativeMetadataFormatClassName = nativeMetadataFormatClassName;
-        if (extraMetadataFormatNames != null) {
-            if (extraMetadataFormatNames.length == 0) {
-                throw new IllegalArgumentException
-                    ("extraMetadataFormatNames.length == 0!");
+    protfdtfd IIOMftbdbtb(boolfbn stbndbrdMftbdbtbFormbtSupportfd,
+                          String nbtivfMftbdbtbFormbtNbmf,
+                          String nbtivfMftbdbtbFormbtClbssNbmf,
+                          String[] fxtrbMftbdbtbFormbtNbmfs,
+                          String[] fxtrbMftbdbtbFormbtClbssNbmfs) {
+        tiis.stbndbrdFormbtSupportfd = stbndbrdMftbdbtbFormbtSupportfd;
+        tiis.nbtivfMftbdbtbFormbtNbmf = nbtivfMftbdbtbFormbtNbmf;
+        tiis.nbtivfMftbdbtbFormbtClbssNbmf = nbtivfMftbdbtbFormbtClbssNbmf;
+        if (fxtrbMftbdbtbFormbtNbmfs != null) {
+            if (fxtrbMftbdbtbFormbtNbmfs.lfngti == 0) {
+                tirow nfw IllfgblArgumfntExdfption
+                    ("fxtrbMftbdbtbFormbtNbmfs.lfngti == 0!");
             }
-            if (extraMetadataFormatClassNames == null) {
-                throw new IllegalArgumentException
-                    ("extraMetadataFormatNames != null && extraMetadataFormatClassNames == null!");
+            if (fxtrbMftbdbtbFormbtClbssNbmfs == null) {
+                tirow nfw IllfgblArgumfntExdfption
+                    ("fxtrbMftbdbtbFormbtNbmfs != null && fxtrbMftbdbtbFormbtClbssNbmfs == null!");
             }
-            if (extraMetadataFormatClassNames.length !=
-                extraMetadataFormatNames.length) {
-                throw new IllegalArgumentException
-                    ("extraMetadataFormatClassNames.length != extraMetadataFormatNames.length!");
+            if (fxtrbMftbdbtbFormbtClbssNbmfs.lfngti !=
+                fxtrbMftbdbtbFormbtNbmfs.lfngti) {
+                tirow nfw IllfgblArgumfntExdfption
+                    ("fxtrbMftbdbtbFormbtClbssNbmfs.lfngti != fxtrbMftbdbtbFormbtNbmfs.lfngti!");
             }
-            this.extraMetadataFormatNames = extraMetadataFormatNames.clone();
-            this.extraMetadataFormatClassNames = extraMetadataFormatClassNames.clone();
-        } else {
-            if (extraMetadataFormatClassNames != null) {
-                throw new IllegalArgumentException
-                    ("extraMetadataFormatNames == null && extraMetadataFormatClassNames != null!");
+            tiis.fxtrbMftbdbtbFormbtNbmfs = fxtrbMftbdbtbFormbtNbmfs.dlonf();
+            tiis.fxtrbMftbdbtbFormbtClbssNbmfs = fxtrbMftbdbtbFormbtClbssNbmfs.dlonf();
+        } flsf {
+            if (fxtrbMftbdbtbFormbtClbssNbmfs != null) {
+                tirow nfw IllfgblArgumfntExdfption
+                    ("fxtrbMftbdbtbFormbtNbmfs == null && fxtrbMftbdbtbFormbtClbssNbmfs != null!");
             }
         }
     }
 
     /**
-     * Returns <code>true</code> if the standard metadata format is
-     * supported by <code>getMetadataFormat</code>,
-     * <code>getAsTree</code>, <code>setFromTree</code>, and
-     * <code>mergeTree</code>.
+     * Rfturns <dodf>truf</dodf> if tif stbndbrd mftbdbtb formbt is
+     * supportfd by <dodf>gftMftbdbtbFormbt</dodf>,
+     * <dodf>gftAsTrff</dodf>, <dodf>sftFromTrff</dodf>, bnd
+     * <dodf>mfrgfTrff</dodf>.
      *
-     * <p> The default implementation returns the value of the
-     * <code>standardFormatSupported</code> instance variable.
+     * <p> Tif dffbult implfmfntbtion rfturns tif vbluf of tif
+     * <dodf>stbndbrdFormbtSupportfd</dodf> instbndf vbribblf.
      *
-     * @return <code>true</code> if the standard metadata format
-     * is supported.
+     * @rfturn <dodf>truf</dodf> if tif stbndbrd mftbdbtb formbt
+     * is supportfd.
      *
-     * @see #getAsTree
-     * @see #setFromTree
-     * @see #mergeTree
-     * @see #getMetadataFormat
+     * @sff #gftAsTrff
+     * @sff #sftFromTrff
+     * @sff #mfrgfTrff
+     * @sff #gftMftbdbtbFormbt
      */
-    public boolean isStandardMetadataFormatSupported() {
-        return standardFormatSupported;
+    publid boolfbn isStbndbrdMftbdbtbFormbtSupportfd() {
+        rfturn stbndbrdFormbtSupportfd;
     }
 
     /**
-     * Returns <code>true</code> if this object does not support the
-     * <code>mergeTree</code>, <code>setFromTree</code>, and
-     * <code>reset</code> methods.
+     * Rfturns <dodf>truf</dodf> if tiis objfdt dofs not support tif
+     * <dodf>mfrgfTrff</dodf>, <dodf>sftFromTrff</dodf>, bnd
+     * <dodf>rfsft</dodf> mftiods.
      *
-     * @return true if this <code>IIOMetadata</code> object cannot be
-     * modified.
+     * @rfturn truf if tiis <dodf>IIOMftbdbtb</dodf> objfdt dbnnot bf
+     * modififd.
      */
-    public abstract boolean isReadOnly();
+    publid bbstrbdt boolfbn isRfbdOnly();
 
     /**
-     * Returns the name of the "native" metadata format for this
-     * plug-in, which typically allows for lossless encoding and
-     * transmission of the metadata stored in the format handled by
-     * this plug-in.  If no such format is supported,
-     * <code>null</code>will be returned.
+     * Rfturns tif nbmf of tif "nbtivf" mftbdbtb formbt for tiis
+     * plug-in, wiidi typidblly bllows for losslfss fndoding bnd
+     * trbnsmission of tif mftbdbtb storfd in tif formbt ibndlfd by
+     * tiis plug-in.  If no sudi formbt is supportfd,
+     * <dodf>null</dodf>will bf rfturnfd.
      *
-     * <p> The structure and contents of the "native" metadata format
-     * are defined by the plug-in that created this
-     * <code>IIOMetadata</code> object.  Plug-ins for simple formats
-     * will usually create a dummy node for the root, and then a
-     * series of child nodes representing individual tags, chunks, or
-     * keyword/value pairs.  A plug-in may choose whether or not to
-     * document its native format.
+     * <p> Tif strudturf bnd dontfnts of tif "nbtivf" mftbdbtb formbt
+     * brf dffinfd by tif plug-in tibt drfbtfd tiis
+     * <dodf>IIOMftbdbtb</dodf> objfdt.  Plug-ins for simplf formbts
+     * will usublly drfbtf b dummy nodf for tif root, bnd tifn b
+     * sfrifs of diild nodfs rfprfsfnting individubl tbgs, diunks, or
+     * kfyword/vbluf pbirs.  A plug-in mby dioosf wiftifr or not to
+     * dodumfnt its nbtivf formbt.
      *
-     * <p> The default implementation returns the value of the
-     * <code>nativeMetadataFormatName</code> instance variable.
+     * <p> Tif dffbult implfmfntbtion rfturns tif vbluf of tif
+     * <dodf>nbtivfMftbdbtbFormbtNbmf</dodf> instbndf vbribblf.
      *
-     * @return the name of the native format, or <code>null</code>.
+     * @rfturn tif nbmf of tif nbtivf formbt, or <dodf>null</dodf>.
      *
-     * @see #getExtraMetadataFormatNames
-     * @see #getMetadataFormatNames
+     * @sff #gftExtrbMftbdbtbFormbtNbmfs
+     * @sff #gftMftbdbtbFormbtNbmfs
      */
-    public String getNativeMetadataFormatName() {
-        return nativeMetadataFormatName;
+    publid String gftNbtivfMftbdbtbFormbtNbmf() {
+        rfturn nbtivfMftbdbtbFormbtNbmf;
     }
 
     /**
-     * Returns an array of <code>String</code>s containing the names
-     * of additional metadata formats, other than the native and standard
-     * formats, recognized by this plug-in's
-     * <code>getAsTree</code>, <code>setFromTree</code>, and
-     * <code>mergeTree</code> methods.  If there are no such additional
-     * formats, <code>null</code> is returned.
+     * Rfturns bn brrby of <dodf>String</dodf>s dontbining tif nbmfs
+     * of bdditionbl mftbdbtb formbts, otifr tibn tif nbtivf bnd stbndbrd
+     * formbts, rfdognizfd by tiis plug-in's
+     * <dodf>gftAsTrff</dodf>, <dodf>sftFromTrff</dodf>, bnd
+     * <dodf>mfrgfTrff</dodf> mftiods.  If tifrf brf no sudi bdditionbl
+     * formbts, <dodf>null</dodf> is rfturnfd.
      *
-     * <p> The default implementation returns a clone of the
-     * <code>extraMetadataFormatNames</code> instance variable.
+     * <p> Tif dffbult implfmfntbtion rfturns b dlonf of tif
+     * <dodf>fxtrbMftbdbtbFormbtNbmfs</dodf> instbndf vbribblf.
      *
-     * @return an array of <code>String</code>s with length at least
-     * 1, or <code>null</code>.
+     * @rfturn bn brrby of <dodf>String</dodf>s witi lfngti bt lfbst
+     * 1, or <dodf>null</dodf>.
      *
-     * @see #getAsTree
-     * @see #setFromTree
-     * @see #mergeTree
-     * @see #getNativeMetadataFormatName
-     * @see #getMetadataFormatNames
+     * @sff #gftAsTrff
+     * @sff #sftFromTrff
+     * @sff #mfrgfTrff
+     * @sff #gftNbtivfMftbdbtbFormbtNbmf
+     * @sff #gftMftbdbtbFormbtNbmfs
      */
-    public String[] getExtraMetadataFormatNames() {
-        if (extraMetadataFormatNames == null) {
-            return null;
+    publid String[] gftExtrbMftbdbtbFormbtNbmfs() {
+        if (fxtrbMftbdbtbFormbtNbmfs == null) {
+            rfturn null;
         }
-        return extraMetadataFormatNames.clone();
+        rfturn fxtrbMftbdbtbFormbtNbmfs.dlonf();
     }
 
     /**
-     * Returns an array of <code>String</code>s containing the names
-     * of all metadata formats, including the native and standard
-     * formats, recognized by this plug-in's <code>getAsTree</code>,
-     * <code>setFromTree</code>, and <code>mergeTree</code> methods.
-     * If there are no such formats, <code>null</code> is returned.
+     * Rfturns bn brrby of <dodf>String</dodf>s dontbining tif nbmfs
+     * of bll mftbdbtb formbts, indluding tif nbtivf bnd stbndbrd
+     * formbts, rfdognizfd by tiis plug-in's <dodf>gftAsTrff</dodf>,
+     * <dodf>sftFromTrff</dodf>, bnd <dodf>mfrgfTrff</dodf> mftiods.
+     * If tifrf brf no sudi formbts, <dodf>null</dodf> is rfturnfd.
      *
-     * <p> The default implementation calls
-     * <code>getNativeMetadataFormatName</code>,
-     * <code>isStandardMetadataFormatSupported</code>, and
-     * <code>getExtraMetadataFormatNames</code> and returns the
-     * combined results.
+     * <p> Tif dffbult implfmfntbtion dblls
+     * <dodf>gftNbtivfMftbdbtbFormbtNbmf</dodf>,
+     * <dodf>isStbndbrdMftbdbtbFormbtSupportfd</dodf>, bnd
+     * <dodf>gftExtrbMftbdbtbFormbtNbmfs</dodf> bnd rfturns tif
+     * dombinfd rfsults.
      *
-     * @return an array of <code>String</code>s.
+     * @rfturn bn brrby of <dodf>String</dodf>s.
      *
-     * @see #getNativeMetadataFormatName
-     * @see #isStandardMetadataFormatSupported
-     * @see #getExtraMetadataFormatNames
+     * @sff #gftNbtivfMftbdbtbFormbtNbmf
+     * @sff #isStbndbrdMftbdbtbFormbtSupportfd
+     * @sff #gftExtrbMftbdbtbFormbtNbmfs
      */
-    public String[] getMetadataFormatNames() {
-        String nativeName = getNativeMetadataFormatName();
-        String standardName = isStandardMetadataFormatSupported() ?
-            IIOMetadataFormatImpl.standardMetadataFormatName : null;
-        String[] extraNames = getExtraMetadataFormatNames();
+    publid String[] gftMftbdbtbFormbtNbmfs() {
+        String nbtivfNbmf = gftNbtivfMftbdbtbFormbtNbmf();
+        String stbndbrdNbmf = isStbndbrdMftbdbtbFormbtSupportfd() ?
+            IIOMftbdbtbFormbtImpl.stbndbrdMftbdbtbFormbtNbmf : null;
+        String[] fxtrbNbmfs = gftExtrbMftbdbtbFormbtNbmfs();
 
-        int numFormats = 0;
-        if (nativeName != null) {
-            ++numFormats;
+        int numFormbts = 0;
+        if (nbtivfNbmf != null) {
+            ++numFormbts;
         }
-        if (standardName != null) {
-            ++numFormats;
+        if (stbndbrdNbmf != null) {
+            ++numFormbts;
         }
-        if (extraNames != null) {
-            numFormats += extraNames.length;
+        if (fxtrbNbmfs != null) {
+            numFormbts += fxtrbNbmfs.lfngti;
         }
-        if (numFormats == 0) {
-            return null;
+        if (numFormbts == 0) {
+            rfturn null;
         }
 
-        String[] formats = new String[numFormats];
-        int index = 0;
-        if (nativeName != null) {
-            formats[index++] = nativeName;
+        String[] formbts = nfw String[numFormbts];
+        int indfx = 0;
+        if (nbtivfNbmf != null) {
+            formbts[indfx++] = nbtivfNbmf;
         }
-        if (standardName != null) {
-            formats[index++] = standardName;
+        if (stbndbrdNbmf != null) {
+            formbts[indfx++] = stbndbrdNbmf;
         }
-        if (extraNames != null) {
-            for (int i = 0; i < extraNames.length; i++) {
-                formats[index++] = extraNames[i];
+        if (fxtrbNbmfs != null) {
+            for (int i = 0; i < fxtrbNbmfs.lfngti; i++) {
+                formbts[indfx++] = fxtrbNbmfs[i];
             }
         }
 
-        return formats;
+        rfturn formbts;
     }
 
     /**
-     * Returns an <code>IIOMetadataFormat</code> object describing the
-     * given metadata format, or <code>null</code> if no description
-     * is available.  The supplied name must be one of those returned
-     * by <code>getMetadataFormatNames</code> (<i>i.e.</i>, either the
-     * native format name, the standard format name, or one of those
-     * returned by <code>getExtraMetadataFormatNames</code>).
+     * Rfturns bn <dodf>IIOMftbdbtbFormbt</dodf> objfdt dfsdribing tif
+     * givfn mftbdbtb formbt, or <dodf>null</dodf> if no dfsdription
+     * is bvbilbblf.  Tif supplifd nbmf must bf onf of tiosf rfturnfd
+     * by <dodf>gftMftbdbtbFormbtNbmfs</dodf> (<i>i.f.</i>, fitifr tif
+     * nbtivf formbt nbmf, tif stbndbrd formbt nbmf, or onf of tiosf
+     * rfturnfd by <dodf>gftExtrbMftbdbtbFormbtNbmfs</dodf>).
      *
-     * <p> The default implementation checks the name against the
-     * global standard metadata format name, and returns that format
-     * if it is supported.  Otherwise, it checks against the native
-     * format names followed by any additional format names.  If a
-     * match is found, it retrieves the name of the
-     * <code>IIOMetadataFormat</code> class from
-     * <code>nativeMetadataFormatClassName</code> or
-     * <code>extraMetadataFormatClassNames</code> as appropriate, and
-     * constructs an instance of that class using its
-     * <code>getInstance</code> method.
+     * <p> Tif dffbult implfmfntbtion difdks tif nbmf bgbinst tif
+     * globbl stbndbrd mftbdbtb formbt nbmf, bnd rfturns tibt formbt
+     * if it is supportfd.  Otifrwisf, it difdks bgbinst tif nbtivf
+     * formbt nbmfs followfd by bny bdditionbl formbt nbmfs.  If b
+     * mbtdi is found, it rftrifvfs tif nbmf of tif
+     * <dodf>IIOMftbdbtbFormbt</dodf> dlbss from
+     * <dodf>nbtivfMftbdbtbFormbtClbssNbmf</dodf> or
+     * <dodf>fxtrbMftbdbtbFormbtClbssNbmfs</dodf> bs bppropribtf, bnd
+     * donstrudts bn instbndf of tibt dlbss using its
+     * <dodf>gftInstbndf</dodf> mftiod.
      *
-     * @param formatName the desired metadata format.
+     * @pbrbm formbtNbmf tif dfsirfd mftbdbtb formbt.
      *
-     * @return an <code>IIOMetadataFormat</code> object.
+     * @rfturn bn <dodf>IIOMftbdbtbFormbt</dodf> objfdt.
      *
-     * @exception IllegalArgumentException if <code>formatName</code>
-     * is <code>null</code> or is not one of the names recognized by
-     * the plug-in.
-     * @exception IllegalStateException if the class corresponding to
-     * the format name cannot be loaded.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>formbtNbmf</dodf>
+     * is <dodf>null</dodf> or is not onf of tif nbmfs rfdognizfd by
+     * tif plug-in.
+     * @fxdfption IllfgblStbtfExdfption if tif dlbss dorrfsponding to
+     * tif formbt nbmf dbnnot bf lobdfd.
      */
-    public IIOMetadataFormat getMetadataFormat(String formatName) {
-        if (formatName == null) {
-            throw new IllegalArgumentException("formatName == null!");
+    publid IIOMftbdbtbFormbt gftMftbdbtbFormbt(String formbtNbmf) {
+        if (formbtNbmf == null) {
+            tirow nfw IllfgblArgumfntExdfption("formbtNbmf == null!");
         }
-        if (standardFormatSupported
-            && formatName.equals
-                (IIOMetadataFormatImpl.standardMetadataFormatName)) {
-            return IIOMetadataFormatImpl.getStandardFormatInstance();
+        if (stbndbrdFormbtSupportfd
+            && formbtNbmf.fqubls
+                (IIOMftbdbtbFormbtImpl.stbndbrdMftbdbtbFormbtNbmf)) {
+            rfturn IIOMftbdbtbFormbtImpl.gftStbndbrdFormbtInstbndf();
         }
-        String formatClassName = null;
-        if (formatName.equals(nativeMetadataFormatName)) {
-            formatClassName = nativeMetadataFormatClassName;
-        } else if (extraMetadataFormatNames != null) {
-            for (int i = 0; i < extraMetadataFormatNames.length; i++) {
-                if (formatName.equals(extraMetadataFormatNames[i])) {
-                    formatClassName = extraMetadataFormatClassNames[i];
-                    break;  // out of for
+        String formbtClbssNbmf = null;
+        if (formbtNbmf.fqubls(nbtivfMftbdbtbFormbtNbmf)) {
+            formbtClbssNbmf = nbtivfMftbdbtbFormbtClbssNbmf;
+        } flsf if (fxtrbMftbdbtbFormbtNbmfs != null) {
+            for (int i = 0; i < fxtrbMftbdbtbFormbtNbmfs.lfngti; i++) {
+                if (formbtNbmf.fqubls(fxtrbMftbdbtbFormbtNbmfs[i])) {
+                    formbtClbssNbmf = fxtrbMftbdbtbFormbtClbssNbmfs[i];
+                    brfbk;  // out of for
                 }
             }
         }
-        if (formatClassName == null) {
-            throw new IllegalArgumentException("Unsupported format name");
+        if (formbtClbssNbmf == null) {
+            tirow nfw IllfgblArgumfntExdfption("Unsupportfd formbt nbmf");
         }
         try {
-            Class<?> cls = null;
-            final Object o = this;
+            Clbss<?> dls = null;
+            finbl Objfdt o = tiis;
 
-            // firstly we try to use classloader used for loading
-            // the IIOMetadata implemantation for this plugin.
-            ClassLoader loader =
-                java.security.AccessController.doPrivileged(
-                    new java.security.PrivilegedAction<ClassLoader>() {
-                            public ClassLoader run() {
-                                return o.getClass().getClassLoader();
+            // firstly wf try to usf dlbsslobdfr usfd for lobding
+            // tif IIOMftbdbtb implfmbntbtion for tiis plugin.
+            ClbssLobdfr lobdfr =
+                jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                    nfw jbvb.sfdurity.PrivilfgfdAdtion<ClbssLobdfr>() {
+                            publid ClbssLobdfr run() {
+                                rfturn o.gftClbss().gftClbssLobdfr();
                             }
                         });
 
             try {
-                cls = Class.forName(formatClassName, true,
-                                    loader);
-            } catch (ClassNotFoundException e) {
-                // we failed to load IIOMetadataFormat class by
-                // using IIOMetadata classloader.Next try is to
-                // use thread context classloader.
-                loader =
-                    java.security.AccessController.doPrivileged(
-                        new java.security.PrivilegedAction<ClassLoader>() {
-                                public ClassLoader run() {
-                                    return Thread.currentThread().getContextClassLoader();
+                dls = Clbss.forNbmf(formbtClbssNbmf, truf,
+                                    lobdfr);
+            } dbtdi (ClbssNotFoundExdfption f) {
+                // wf fbilfd to lobd IIOMftbdbtbFormbt dlbss by
+                // using IIOMftbdbtb dlbsslobdfr.Nfxt try is to
+                // usf tirfbd dontfxt dlbsslobdfr.
+                lobdfr =
+                    jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                        nfw jbvb.sfdurity.PrivilfgfdAdtion<ClbssLobdfr>() {
+                                publid ClbssLobdfr run() {
+                                    rfturn Tirfbd.durrfntTirfbd().gftContfxtClbssLobdfr();
                                 }
                         });
                 try {
-                    cls = Class.forName(formatClassName, true,
-                                        loader);
-                } catch (ClassNotFoundException e1) {
-                    // finally we try to use system classloader in case
-                    // if we failed to load IIOMetadataFormat implementation
-                    // class above.
-                    cls = Class.forName(formatClassName, true,
-                                        ClassLoader.getSystemClassLoader());
+                    dls = Clbss.forNbmf(formbtClbssNbmf, truf,
+                                        lobdfr);
+                } dbtdi (ClbssNotFoundExdfption f1) {
+                    // finblly wf try to usf systfm dlbsslobdfr in dbsf
+                    // if wf fbilfd to lobd IIOMftbdbtbFormbt implfmfntbtion
+                    // dlbss bbovf.
+                    dls = Clbss.forNbmf(formbtClbssNbmf, truf,
+                                        ClbssLobdfr.gftSystfmClbssLobdfr());
                 }
             }
 
-            Method meth = cls.getMethod("getInstance");
-            return (IIOMetadataFormat) meth.invoke(null);
-        } catch (Exception e) {
-            RuntimeException ex =
-                new IllegalStateException ("Can't obtain format");
-            ex.initCause(e);
-            throw ex;
+            Mftiod mfti = dls.gftMftiod("gftInstbndf");
+            rfturn (IIOMftbdbtbFormbt) mfti.invokf(null);
+        } dbtdi (Exdfption f) {
+            RuntimfExdfption fx =
+                nfw IllfgblStbtfExdfption ("Cbn't obtbin formbt");
+            fx.initCbusf(f);
+            tirow fx;
         }
 
     }
 
     /**
-     * Returns an XML DOM <code>Node</code> object that represents the
-     * root of a tree of metadata contained within this object
-     * according to the conventions defined by a given metadata
-     * format.
+     * Rfturns bn XML DOM <dodf>Nodf</dodf> objfdt tibt rfprfsfnts tif
+     * root of b trff of mftbdbtb dontbinfd witiin tiis objfdt
+     * bddording to tif donvfntions dffinfd by b givfn mftbdbtb
+     * formbt.
      *
-     * <p> The names of the available metadata formats may be queried
-     * using the <code>getMetadataFormatNames</code> method.
+     * <p> Tif nbmfs of tif bvbilbblf mftbdbtb formbts mby bf qufrifd
+     * using tif <dodf>gftMftbdbtbFormbtNbmfs</dodf> mftiod.
      *
-     * @param formatName the desired metadata format.
+     * @pbrbm formbtNbmf tif dfsirfd mftbdbtb formbt.
      *
-     * @return an XML DOM <code>Node</code> object forming the
-     * root of a tree.
+     * @rfturn bn XML DOM <dodf>Nodf</dodf> objfdt forming tif
+     * root of b trff.
      *
-     * @exception IllegalArgumentException if <code>formatName</code>
-     * is <code>null</code> or is not one of the names returned by
-     * <code>getMetadataFormatNames</code>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>formbtNbmf</dodf>
+     * is <dodf>null</dodf> or is not onf of tif nbmfs rfturnfd by
+     * <dodf>gftMftbdbtbFormbtNbmfs</dodf>.
      *
-     * @see #getMetadataFormatNames
-     * @see #setFromTree
-     * @see #mergeTree
+     * @sff #gftMftbdbtbFormbtNbmfs
+     * @sff #sftFromTrff
+     * @sff #mfrgfTrff
      */
-    public abstract Node getAsTree(String formatName);
+    publid bbstrbdt Nodf gftAsTrff(String formbtNbmf);
 
     /**
-     * Alters the internal state of this <code>IIOMetadata</code>
-     * object from a tree of XML DOM <code>Node</code>s whose syntax
-     * is defined by the given metadata format.  The previous state is
-     * altered only as necessary to accommodate the nodes that are
-     * present in the given tree.  If the tree structure or contents
-     * are invalid, an <code>IIOInvalidTreeException</code> will be
-     * thrown.
+     * Altfrs tif intfrnbl stbtf of tiis <dodf>IIOMftbdbtb</dodf>
+     * objfdt from b trff of XML DOM <dodf>Nodf</dodf>s wiosf syntbx
+     * is dffinfd by tif givfn mftbdbtb formbt.  Tif prfvious stbtf is
+     * bltfrfd only bs nfdfssbry to bddommodbtf tif nodfs tibt brf
+     * prfsfnt in tif givfn trff.  If tif trff strudturf or dontfnts
+     * brf invblid, bn <dodf>IIOInvblidTrffExdfption</dodf> will bf
+     * tirown.
      *
-     * <p> As the semantics of how a tree or subtree may be merged with
-     * another tree are completely format-specific, plug-in authors may
-     * implement this method in whatever manner is most appropriate for
-     * the format, including simply replacing all existing state with the
-     * contents of the given tree.
+     * <p> As tif sfmbntids of iow b trff or subtrff mby bf mfrgfd witi
+     * bnotifr trff brf domplftfly formbt-spfdifid, plug-in butiors mby
+     * implfmfnt tiis mftiod in wibtfvfr mbnnfr is most bppropribtf for
+     * tif formbt, indluding simply rfplbding bll fxisting stbtf witi tif
+     * dontfnts of tif givfn trff.
      *
-     * @param formatName the desired metadata format.
-     * @param root an XML DOM <code>Node</code> object forming the
-     * root of a tree.
+     * @pbrbm formbtNbmf tif dfsirfd mftbdbtb formbt.
+     * @pbrbm root bn XML DOM <dodf>Nodf</dodf> objfdt forming tif
+     * root of b trff.
      *
-     * @exception IllegalStateException if this object is read-only.
-     * @exception IllegalArgumentException if <code>formatName</code>
-     * is <code>null</code> or is not one of the names returned by
-     * <code>getMetadataFormatNames</code>.
-     * @exception IllegalArgumentException if <code>root</code> is
-     * <code>null</code>.
-     * @exception IIOInvalidTreeException if the tree cannot be parsed
-     * successfully using the rules of the given format.
+     * @fxdfption IllfgblStbtfExdfption if tiis objfdt is rfbd-only.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>formbtNbmf</dodf>
+     * is <dodf>null</dodf> or is not onf of tif nbmfs rfturnfd by
+     * <dodf>gftMftbdbtbFormbtNbmfs</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>root</dodf> is
+     * <dodf>null</dodf>.
+     * @fxdfption IIOInvblidTrffExdfption if tif trff dbnnot bf pbrsfd
+     * suddfssfully using tif rulfs of tif givfn formbt.
      *
-     * @see #getMetadataFormatNames
-     * @see #getAsTree
-     * @see #setFromTree
+     * @sff #gftMftbdbtbFormbtNbmfs
+     * @sff #gftAsTrff
+     * @sff #sftFromTrff
      */
-    public abstract void mergeTree(String formatName, Node root)
-        throws IIOInvalidTreeException;
+    publid bbstrbdt void mfrgfTrff(String formbtNbmf, Nodf root)
+        tirows IIOInvblidTrffExdfption;
 
     /**
-     * Returns an <code>IIOMetadataNode</code> representing the chroma
-     * information of the standard <code>javax_imageio_1.0</code>
-     * metadata format, or <code>null</code> if no such information is
-     * available.  This method is intended to be called by the utility
-     * routine <code>getStandardTree</code>.
+     * Rfturns bn <dodf>IIOMftbdbtbNodf</dodf> rfprfsfnting tif diromb
+     * informbtion of tif stbndbrd <dodf>jbvbx_imbgfio_1.0</dodf>
+     * mftbdbtb formbt, or <dodf>null</dodf> if no sudi informbtion is
+     * bvbilbblf.  Tiis mftiod is intfndfd to bf dbllfd by tif utility
+     * routinf <dodf>gftStbndbrdTrff</dodf>.
      *
-     * <p> The default implementation returns <code>null</code>.
+     * <p> Tif dffbult implfmfntbtion rfturns <dodf>null</dodf>.
      *
-     * <p> Subclasses should override this method to produce an
-     * appropriate subtree if they wish to support the standard
-     * metadata format.
+     * <p> Subdlbssfs siould ovfrridf tiis mftiod to produdf bn
+     * bppropribtf subtrff if tify wisi to support tif stbndbrd
+     * mftbdbtb formbt.
      *
-     * @return an <code>IIOMetadataNode</code>, or <code>null</code>.
+     * @rfturn bn <dodf>IIOMftbdbtbNodf</dodf>, or <dodf>null</dodf>.
      *
-     * @see #getStandardTree
+     * @sff #gftStbndbrdTrff
      */
-    protected IIOMetadataNode getStandardChromaNode() {
-        return null;
+    protfdtfd IIOMftbdbtbNodf gftStbndbrdCirombNodf() {
+        rfturn null;
     }
 
     /**
-     * Returns an <code>IIOMetadataNode</code> representing the
-     * compression information of the standard
-     * <code>javax_imageio_1.0</code> metadata format, or
-     * <code>null</code> if no such information is available.  This
-     * method is intended to be called by the utility routine
-     * <code>getStandardTree</code>.
+     * Rfturns bn <dodf>IIOMftbdbtbNodf</dodf> rfprfsfnting tif
+     * domprfssion informbtion of tif stbndbrd
+     * <dodf>jbvbx_imbgfio_1.0</dodf> mftbdbtb formbt, or
+     * <dodf>null</dodf> if no sudi informbtion is bvbilbblf.  Tiis
+     * mftiod is intfndfd to bf dbllfd by tif utility routinf
+     * <dodf>gftStbndbrdTrff</dodf>.
      *
-     * <p> The default implementation returns <code>null</code>.
+     * <p> Tif dffbult implfmfntbtion rfturns <dodf>null</dodf>.
      *
-     * <p> Subclasses should override this method to produce an
-     * appropriate subtree if they wish to support the standard
-     * metadata format.
+     * <p> Subdlbssfs siould ovfrridf tiis mftiod to produdf bn
+     * bppropribtf subtrff if tify wisi to support tif stbndbrd
+     * mftbdbtb formbt.
      *
-     * @return an <code>IIOMetadataNode</code>, or <code>null</code>.
+     * @rfturn bn <dodf>IIOMftbdbtbNodf</dodf>, or <dodf>null</dodf>.
      *
-     * @see #getStandardTree
+     * @sff #gftStbndbrdTrff
      */
-    protected IIOMetadataNode getStandardCompressionNode() {
-        return null;
+    protfdtfd IIOMftbdbtbNodf gftStbndbrdComprfssionNodf() {
+        rfturn null;
     }
 
     /**
-     * Returns an <code>IIOMetadataNode</code> representing the data
-     * format information of the standard
-     * <code>javax_imageio_1.0</code> metadata format, or
-     * <code>null</code> if no such information is available.  This
-     * method is intended to be called by the utility routine
-     * <code>getStandardTree</code>.
+     * Rfturns bn <dodf>IIOMftbdbtbNodf</dodf> rfprfsfnting tif dbtb
+     * formbt informbtion of tif stbndbrd
+     * <dodf>jbvbx_imbgfio_1.0</dodf> mftbdbtb formbt, or
+     * <dodf>null</dodf> if no sudi informbtion is bvbilbblf.  Tiis
+     * mftiod is intfndfd to bf dbllfd by tif utility routinf
+     * <dodf>gftStbndbrdTrff</dodf>.
      *
-     * <p> The default implementation returns <code>null</code>.
+     * <p> Tif dffbult implfmfntbtion rfturns <dodf>null</dodf>.
      *
-     * <p> Subclasses should override this method to produce an
-     * appropriate subtree if they wish to support the standard
-     * metadata format.
+     * <p> Subdlbssfs siould ovfrridf tiis mftiod to produdf bn
+     * bppropribtf subtrff if tify wisi to support tif stbndbrd
+     * mftbdbtb formbt.
      *
-     * @return an <code>IIOMetadataNode</code>, or <code>null</code>.
+     * @rfturn bn <dodf>IIOMftbdbtbNodf</dodf>, or <dodf>null</dodf>.
      *
-     * @see #getStandardTree
+     * @sff #gftStbndbrdTrff
      */
-    protected IIOMetadataNode getStandardDataNode() {
-        return null;
+    protfdtfd IIOMftbdbtbNodf gftStbndbrdDbtbNodf() {
+        rfturn null;
     }
 
     /**
-     * Returns an <code>IIOMetadataNode</code> representing the
-     * dimension information of the standard
-     * <code>javax_imageio_1.0</code> metadata format, or
-     * <code>null</code> if no such information is available.  This
-     * method is intended to be called by the utility routine
-     * <code>getStandardTree</code>.
+     * Rfturns bn <dodf>IIOMftbdbtbNodf</dodf> rfprfsfnting tif
+     * dimfnsion informbtion of tif stbndbrd
+     * <dodf>jbvbx_imbgfio_1.0</dodf> mftbdbtb formbt, or
+     * <dodf>null</dodf> if no sudi informbtion is bvbilbblf.  Tiis
+     * mftiod is intfndfd to bf dbllfd by tif utility routinf
+     * <dodf>gftStbndbrdTrff</dodf>.
      *
-     * <p> The default implementation returns <code>null</code>.
+     * <p> Tif dffbult implfmfntbtion rfturns <dodf>null</dodf>.
      *
-     * <p> Subclasses should override this method to produce an
-     * appropriate subtree if they wish to support the standard
-     * metadata format.
+     * <p> Subdlbssfs siould ovfrridf tiis mftiod to produdf bn
+     * bppropribtf subtrff if tify wisi to support tif stbndbrd
+     * mftbdbtb formbt.
      *
-     * @return an <code>IIOMetadataNode</code>, or <code>null</code>.
+     * @rfturn bn <dodf>IIOMftbdbtbNodf</dodf>, or <dodf>null</dodf>.
      *
-     * @see #getStandardTree
+     * @sff #gftStbndbrdTrff
      */
-    protected IIOMetadataNode getStandardDimensionNode() {
-        return null;
+    protfdtfd IIOMftbdbtbNodf gftStbndbrdDimfnsionNodf() {
+        rfturn null;
     }
 
     /**
-     * Returns an <code>IIOMetadataNode</code> representing the document
-     * information of the standard <code>javax_imageio_1.0</code>
-     * metadata format, or <code>null</code> if no such information is
-     * available.  This method is intended to be called by the utility
-     * routine <code>getStandardTree</code>.
+     * Rfturns bn <dodf>IIOMftbdbtbNodf</dodf> rfprfsfnting tif dodumfnt
+     * informbtion of tif stbndbrd <dodf>jbvbx_imbgfio_1.0</dodf>
+     * mftbdbtb formbt, or <dodf>null</dodf> if no sudi informbtion is
+     * bvbilbblf.  Tiis mftiod is intfndfd to bf dbllfd by tif utility
+     * routinf <dodf>gftStbndbrdTrff</dodf>.
      *
-     * <p> The default implementation returns <code>null</code>.
+     * <p> Tif dffbult implfmfntbtion rfturns <dodf>null</dodf>.
      *
-     * <p> Subclasses should override this method to produce an
-     * appropriate subtree if they wish to support the standard
-     * metadata format.
+     * <p> Subdlbssfs siould ovfrridf tiis mftiod to produdf bn
+     * bppropribtf subtrff if tify wisi to support tif stbndbrd
+     * mftbdbtb formbt.
      *
-     * @return an <code>IIOMetadataNode</code>, or <code>null</code>.
+     * @rfturn bn <dodf>IIOMftbdbtbNodf</dodf>, or <dodf>null</dodf>.
      *
-     * @see #getStandardTree
+     * @sff #gftStbndbrdTrff
      */
-    protected IIOMetadataNode getStandardDocumentNode() {
-        return null;
+    protfdtfd IIOMftbdbtbNodf gftStbndbrdDodumfntNodf() {
+        rfturn null;
     }
 
     /**
-     * Returns an <code>IIOMetadataNode</code> representing the textual
-     * information of the standard <code>javax_imageio_1.0</code>
-     * metadata format, or <code>null</code> if no such information is
-     * available.  This method is intended to be called by the utility
-     * routine <code>getStandardTree</code>.
+     * Rfturns bn <dodf>IIOMftbdbtbNodf</dodf> rfprfsfnting tif tfxtubl
+     * informbtion of tif stbndbrd <dodf>jbvbx_imbgfio_1.0</dodf>
+     * mftbdbtb formbt, or <dodf>null</dodf> if no sudi informbtion is
+     * bvbilbblf.  Tiis mftiod is intfndfd to bf dbllfd by tif utility
+     * routinf <dodf>gftStbndbrdTrff</dodf>.
      *
-     * <p> The default implementation returns <code>null</code>.
+     * <p> Tif dffbult implfmfntbtion rfturns <dodf>null</dodf>.
      *
-     * <p> Subclasses should override this method to produce an
-     * appropriate subtree if they wish to support the standard
-     * metadata format.
+     * <p> Subdlbssfs siould ovfrridf tiis mftiod to produdf bn
+     * bppropribtf subtrff if tify wisi to support tif stbndbrd
+     * mftbdbtb formbt.
      *
-     * @return an <code>IIOMetadataNode</code>, or <code>null</code>.
+     * @rfturn bn <dodf>IIOMftbdbtbNodf</dodf>, or <dodf>null</dodf>.
      *
-     * @see #getStandardTree
+     * @sff #gftStbndbrdTrff
      */
-    protected IIOMetadataNode getStandardTextNode() {
-        return null;
+    protfdtfd IIOMftbdbtbNodf gftStbndbrdTfxtNodf() {
+        rfturn null;
     }
 
     /**
-     * Returns an <code>IIOMetadataNode</code> representing the tiling
-     * information of the standard <code>javax_imageio_1.0</code>
-     * metadata format, or <code>null</code> if no such information is
-     * available.  This method is intended to be called by the utility
-     * routine <code>getStandardTree</code>.
+     * Rfturns bn <dodf>IIOMftbdbtbNodf</dodf> rfprfsfnting tif tiling
+     * informbtion of tif stbndbrd <dodf>jbvbx_imbgfio_1.0</dodf>
+     * mftbdbtb formbt, or <dodf>null</dodf> if no sudi informbtion is
+     * bvbilbblf.  Tiis mftiod is intfndfd to bf dbllfd by tif utility
+     * routinf <dodf>gftStbndbrdTrff</dodf>.
      *
-     * <p> The default implementation returns <code>null</code>.
+     * <p> Tif dffbult implfmfntbtion rfturns <dodf>null</dodf>.
      *
-     * <p> Subclasses should override this method to produce an
-     * appropriate subtree if they wish to support the standard
-     * metadata format.
+     * <p> Subdlbssfs siould ovfrridf tiis mftiod to produdf bn
+     * bppropribtf subtrff if tify wisi to support tif stbndbrd
+     * mftbdbtb formbt.
      *
-     * @return an <code>IIOMetadataNode</code>, or <code>null</code>.
+     * @rfturn bn <dodf>IIOMftbdbtbNodf</dodf>, or <dodf>null</dodf>.
      *
-     * @see #getStandardTree
+     * @sff #gftStbndbrdTrff
      */
-    protected IIOMetadataNode getStandardTileNode() {
-        return null;
+    protfdtfd IIOMftbdbtbNodf gftStbndbrdTilfNodf() {
+        rfturn null;
     }
 
     /**
-     * Returns an <code>IIOMetadataNode</code> representing the
-     * transparency information of the standard
-     * <code>javax_imageio_1.0</code> metadata format, or
-     * <code>null</code> if no such information is available.  This
-     * method is intended to be called by the utility routine
-     * <code>getStandardTree</code>.
+     * Rfturns bn <dodf>IIOMftbdbtbNodf</dodf> rfprfsfnting tif
+     * trbnspbrfndy informbtion of tif stbndbrd
+     * <dodf>jbvbx_imbgfio_1.0</dodf> mftbdbtb formbt, or
+     * <dodf>null</dodf> if no sudi informbtion is bvbilbblf.  Tiis
+     * mftiod is intfndfd to bf dbllfd by tif utility routinf
+     * <dodf>gftStbndbrdTrff</dodf>.
      *
-     * <p> The default implementation returns <code>null</code>.
+     * <p> Tif dffbult implfmfntbtion rfturns <dodf>null</dodf>.
      *
-     * <p> Subclasses should override this method to produce an
-     * appropriate subtree if they wish to support the standard
-     * metadata format.
+     * <p> Subdlbssfs siould ovfrridf tiis mftiod to produdf bn
+     * bppropribtf subtrff if tify wisi to support tif stbndbrd
+     * mftbdbtb formbt.
      *
-     * @return an <code>IIOMetadataNode</code>, or <code>null</code>.
+     * @rfturn bn <dodf>IIOMftbdbtbNodf</dodf>, or <dodf>null</dodf>.
      */
-    protected IIOMetadataNode getStandardTransparencyNode() {
-        return null;
+    protfdtfd IIOMftbdbtbNodf gftStbndbrdTrbnspbrfndyNodf() {
+        rfturn null;
     }
 
     /**
-     * Appends a new node to an existing node, if the new node is
-     * non-<code>null</code>.
+     * Appfnds b nfw nodf to bn fxisting nodf, if tif nfw nodf is
+     * non-<dodf>null</dodf>.
      */
-    private void append(IIOMetadataNode root, IIOMetadataNode node) {
-        if (node != null) {
-            root.appendChild(node);
+    privbtf void bppfnd(IIOMftbdbtbNodf root, IIOMftbdbtbNodf nodf) {
+        if (nodf != null) {
+            root.bppfndCiild(nodf);
         }
     }
 
     /**
-     * A utility method to return a tree of
-     * <code>IIOMetadataNode</code>s representing the metadata
-     * contained within this object according to the conventions of
-     * the standard <code>javax_imageio_1.0</code> metadata format.
+     * A utility mftiod to rfturn b trff of
+     * <dodf>IIOMftbdbtbNodf</dodf>s rfprfsfnting tif mftbdbtb
+     * dontbinfd witiin tiis objfdt bddording to tif donvfntions of
+     * tif stbndbrd <dodf>jbvbx_imbgfio_1.0</dodf> mftbdbtb formbt.
      *
-     * <p> This method calls the various <code>getStandard*Node</code>
-     * methods to supply each of the subtrees rooted at the children
-     * of the root node.  If any of those methods returns
-     * <code>null</code>, the corresponding subtree will be omitted.
-     * If all of them return <code>null</code>, a tree consisting of a
-     * single root node will be returned.
+     * <p> Tiis mftiod dblls tif vbrious <dodf>gftStbndbrd*Nodf</dodf>
+     * mftiods to supply fbdi of tif subtrffs rootfd bt tif diildrfn
+     * of tif root nodf.  If bny of tiosf mftiods rfturns
+     * <dodf>null</dodf>, tif dorrfsponding subtrff will bf omittfd.
+     * If bll of tifm rfturn <dodf>null</dodf>, b trff donsisting of b
+     * singlf root nodf will bf rfturnfd.
      *
-     * @return an <code>IIOMetadataNode</code> representing the root
-     * of a metadata tree in the <code>javax_imageio_1.0</code>
-     * format.
+     * @rfturn bn <dodf>IIOMftbdbtbNodf</dodf> rfprfsfnting tif root
+     * of b mftbdbtb trff in tif <dodf>jbvbx_imbgfio_1.0</dodf>
+     * formbt.
      *
-     * @see #getStandardChromaNode
-     * @see #getStandardCompressionNode
-     * @see #getStandardDataNode
-     * @see #getStandardDimensionNode
-     * @see #getStandardDocumentNode
-     * @see #getStandardTextNode
-     * @see #getStandardTileNode
-     * @see #getStandardTransparencyNode
+     * @sff #gftStbndbrdCirombNodf
+     * @sff #gftStbndbrdComprfssionNodf
+     * @sff #gftStbndbrdDbtbNodf
+     * @sff #gftStbndbrdDimfnsionNodf
+     * @sff #gftStbndbrdDodumfntNodf
+     * @sff #gftStbndbrdTfxtNodf
+     * @sff #gftStbndbrdTilfNodf
+     * @sff #gftStbndbrdTrbnspbrfndyNodf
      */
-    protected final IIOMetadataNode getStandardTree() {
-        IIOMetadataNode root = new IIOMetadataNode
-                (IIOMetadataFormatImpl.standardMetadataFormatName);
-        append(root, getStandardChromaNode());
-        append(root, getStandardCompressionNode());
-        append(root, getStandardDataNode());
-        append(root, getStandardDimensionNode());
-        append(root, getStandardDocumentNode());
-        append(root, getStandardTextNode());
-        append(root, getStandardTileNode());
-        append(root, getStandardTransparencyNode());
-        return root;
+    protfdtfd finbl IIOMftbdbtbNodf gftStbndbrdTrff() {
+        IIOMftbdbtbNodf root = nfw IIOMftbdbtbNodf
+                (IIOMftbdbtbFormbtImpl.stbndbrdMftbdbtbFormbtNbmf);
+        bppfnd(root, gftStbndbrdCirombNodf());
+        bppfnd(root, gftStbndbrdComprfssionNodf());
+        bppfnd(root, gftStbndbrdDbtbNodf());
+        bppfnd(root, gftStbndbrdDimfnsionNodf());
+        bppfnd(root, gftStbndbrdDodumfntNodf());
+        bppfnd(root, gftStbndbrdTfxtNodf());
+        bppfnd(root, gftStbndbrdTilfNodf());
+        bppfnd(root, gftStbndbrdTrbnspbrfndyNodf());
+        rfturn root;
     }
 
     /**
-     * Sets the internal state of this <code>IIOMetadata</code> object
-     * from a tree of XML DOM <code>Node</code>s whose syntax is
-     * defined by the given metadata format.  The previous state is
-     * discarded.  If the tree's structure or contents are invalid, an
-     * <code>IIOInvalidTreeException</code> will be thrown.
+     * Sfts tif intfrnbl stbtf of tiis <dodf>IIOMftbdbtb</dodf> objfdt
+     * from b trff of XML DOM <dodf>Nodf</dodf>s wiosf syntbx is
+     * dffinfd by tif givfn mftbdbtb formbt.  Tif prfvious stbtf is
+     * disdbrdfd.  If tif trff's strudturf or dontfnts brf invblid, bn
+     * <dodf>IIOInvblidTrffExdfption</dodf> will bf tirown.
      *
-     * <p> The default implementation calls <code>reset</code>
-     * followed by <code>mergeTree(formatName, root)</code>.
+     * <p> Tif dffbult implfmfntbtion dblls <dodf>rfsft</dodf>
+     * followfd by <dodf>mfrgfTrff(formbtNbmf, root)</dodf>.
      *
-     * @param formatName the desired metadata format.
-     * @param root an XML DOM <code>Node</code> object forming the
-     * root of a tree.
+     * @pbrbm formbtNbmf tif dfsirfd mftbdbtb formbt.
+     * @pbrbm root bn XML DOM <dodf>Nodf</dodf> objfdt forming tif
+     * root of b trff.
      *
-     * @exception IllegalStateException if this object is read-only.
-     * @exception IllegalArgumentException if <code>formatName</code>
-     * is <code>null</code> or is not one of the names returned by
-     * <code>getMetadataFormatNames</code>.
-     * @exception IllegalArgumentException if <code>root</code> is
-     * <code>null</code>.
-     * @exception IIOInvalidTreeException if the tree cannot be parsed
-     * successfully using the rules of the given format.
+     * @fxdfption IllfgblStbtfExdfption if tiis objfdt is rfbd-only.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>formbtNbmf</dodf>
+     * is <dodf>null</dodf> or is not onf of tif nbmfs rfturnfd by
+     * <dodf>gftMftbdbtbFormbtNbmfs</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>root</dodf> is
+     * <dodf>null</dodf>.
+     * @fxdfption IIOInvblidTrffExdfption if tif trff dbnnot bf pbrsfd
+     * suddfssfully using tif rulfs of tif givfn formbt.
      *
-     * @see #getMetadataFormatNames
-     * @see #getAsTree
-     * @see #mergeTree
+     * @sff #gftMftbdbtbFormbtNbmfs
+     * @sff #gftAsTrff
+     * @sff #mfrgfTrff
      */
-    public void setFromTree(String formatName, Node root)
-        throws IIOInvalidTreeException {
-        reset();
-        mergeTree(formatName, root);
+    publid void sftFromTrff(String formbtNbmf, Nodf root)
+        tirows IIOInvblidTrffExdfption {
+        rfsft();
+        mfrgfTrff(formbtNbmf, root);
     }
 
     /**
-     * Resets all the data stored in this object to default values,
-     * usually to the state this object was in immediately after
-     * construction, though the precise semantics are plug-in specific.
-     * Note that there are many possible default values, depending on
-     * how the object was created.
+     * Rfsfts bll tif dbtb storfd in tiis objfdt to dffbult vblufs,
+     * usublly to tif stbtf tiis objfdt wbs in immfdibtfly bftfr
+     * donstrudtion, tiougi tif prfdisf sfmbntids brf plug-in spfdifid.
+     * Notf tibt tifrf brf mbny possiblf dffbult vblufs, dfpfnding on
+     * iow tif objfdt wbs drfbtfd.
      *
-     * @exception IllegalStateException if this object is read-only.
+     * @fxdfption IllfgblStbtfExdfption if tiis objfdt is rfbd-only.
      *
-     * @see javax.imageio.ImageReader#getStreamMetadata
-     * @see javax.imageio.ImageReader#getImageMetadata
-     * @see javax.imageio.ImageWriter#getDefaultStreamMetadata
-     * @see javax.imageio.ImageWriter#getDefaultImageMetadata
+     * @sff jbvbx.imbgfio.ImbgfRfbdfr#gftStrfbmMftbdbtb
+     * @sff jbvbx.imbgfio.ImbgfRfbdfr#gftImbgfMftbdbtb
+     * @sff jbvbx.imbgfio.ImbgfWritfr#gftDffbultStrfbmMftbdbtb
+     * @sff jbvbx.imbgfio.ImbgfWritfr#gftDffbultImbgfMftbdbtb
      */
-    public abstract void reset();
+    publid bbstrbdt void rfsft();
 
     /**
-     * Sets the <code>IIOMetadataController</code> to be used
-     * to provide settings for this <code>IIOMetadata</code>
-     * object when the <code>activateController</code> method
-     * is called, overriding any default controller.  If the
-     * argument is <code>null</code>, no controller will be
-     * used, including any default.  To restore the default, use
-     * <code>setController(getDefaultController())</code>.
+     * Sfts tif <dodf>IIOMftbdbtbControllfr</dodf> to bf usfd
+     * to providf sfttings for tiis <dodf>IIOMftbdbtb</dodf>
+     * objfdt wifn tif <dodf>bdtivbtfControllfr</dodf> mftiod
+     * is dbllfd, ovfrriding bny dffbult dontrollfr.  If tif
+     * brgumfnt is <dodf>null</dodf>, no dontrollfr will bf
+     * usfd, indluding bny dffbult.  To rfstorf tif dffbult, usf
+     * <dodf>sftControllfr(gftDffbultControllfr())</dodf>.
      *
-     * <p> The default implementation sets the <code>controller</code>
-     * instance variable to the supplied value.
+     * <p> Tif dffbult implfmfntbtion sfts tif <dodf>dontrollfr</dodf>
+     * instbndf vbribblf to tif supplifd vbluf.
      *
-     * @param controller An appropriate
-     * <code>IIOMetadataController</code>, or <code>null</code>.
+     * @pbrbm dontrollfr An bppropribtf
+     * <dodf>IIOMftbdbtbControllfr</dodf>, or <dodf>null</dodf>.
      *
-     * @see IIOMetadataController
-     * @see #getController
-     * @see #getDefaultController
-     * @see #hasController
-     * @see #activateController()
+     * @sff IIOMftbdbtbControllfr
+     * @sff #gftControllfr
+     * @sff #gftDffbultControllfr
+     * @sff #ibsControllfr
+     * @sff #bdtivbtfControllfr()
      */
-    public void setController(IIOMetadataController controller) {
-        this.controller = controller;
+    publid void sftControllfr(IIOMftbdbtbControllfr dontrollfr) {
+        tiis.dontrollfr = dontrollfr;
     }
 
     /**
-     * Returns whatever <code>IIOMetadataController</code> is currently
-     * installed.  This could be the default if there is one,
-     * <code>null</code>, or the argument of the most recent call
-     * to <code>setController</code>.
+     * Rfturns wibtfvfr <dodf>IIOMftbdbtbControllfr</dodf> is durrfntly
+     * instbllfd.  Tiis dould bf tif dffbult if tifrf is onf,
+     * <dodf>null</dodf>, or tif brgumfnt of tif most rfdfnt dbll
+     * to <dodf>sftControllfr</dodf>.
      *
-     * <p> The default implementation returns the value of the
-     * <code>controller</code> instance variable.
+     * <p> Tif dffbult implfmfntbtion rfturns tif vbluf of tif
+     * <dodf>dontrollfr</dodf> instbndf vbribblf.
      *
-     * @return the currently installed
-     * <code>IIOMetadataController</code>, or <code>null</code>.
+     * @rfturn tif durrfntly instbllfd
+     * <dodf>IIOMftbdbtbControllfr</dodf>, or <dodf>null</dodf>.
      *
-     * @see IIOMetadataController
-     * @see #setController
-     * @see #getDefaultController
-     * @see #hasController
-     * @see #activateController()
+     * @sff IIOMftbdbtbControllfr
+     * @sff #sftControllfr
+     * @sff #gftDffbultControllfr
+     * @sff #ibsControllfr
+     * @sff #bdtivbtfControllfr()
      */
-    public IIOMetadataController getController() {
-        return controller;
+    publid IIOMftbdbtbControllfr gftControllfr() {
+        rfturn dontrollfr;
     }
 
     /**
-     * Returns the default <code>IIOMetadataController</code>, if there
-     * is one, regardless of the currently installed controller.  If
-     * there is no default controller, returns <code>null</code>.
+     * Rfturns tif dffbult <dodf>IIOMftbdbtbControllfr</dodf>, if tifrf
+     * is onf, rfgbrdlfss of tif durrfntly instbllfd dontrollfr.  If
+     * tifrf is no dffbult dontrollfr, rfturns <dodf>null</dodf>.
      *
-     * <p> The default implementation returns the value of the
-     * <code>defaultController</code> instance variable.
+     * <p> Tif dffbult implfmfntbtion rfturns tif vbluf of tif
+     * <dodf>dffbultControllfr</dodf> instbndf vbribblf.
      *
-     * @return the default <code>IIOMetadataController</code>, or
-     * <code>null</code>.
+     * @rfturn tif dffbult <dodf>IIOMftbdbtbControllfr</dodf>, or
+     * <dodf>null</dodf>.
      *
-     * @see IIOMetadataController
-     * @see #setController(IIOMetadataController)
-     * @see #getController
-     * @see #hasController
-     * @see #activateController()
+     * @sff IIOMftbdbtbControllfr
+     * @sff #sftControllfr(IIOMftbdbtbControllfr)
+     * @sff #gftControllfr
+     * @sff #ibsControllfr
+     * @sff #bdtivbtfControllfr()
      */
-    public IIOMetadataController getDefaultController() {
-        return defaultController;
+    publid IIOMftbdbtbControllfr gftDffbultControllfr() {
+        rfturn dffbultControllfr;
     }
 
     /**
-     * Returns <code>true</code> if there is a controller installed
-     * for this <code>IIOMetadata</code> object.
+     * Rfturns <dodf>truf</dodf> if tifrf is b dontrollfr instbllfd
+     * for tiis <dodf>IIOMftbdbtb</dodf> objfdt.
      *
-     * <p> The default implementation returns <code>true</code> if the
-     * <code>getController</code> method returns a
-     * non-<code>null</code> value.
+     * <p> Tif dffbult implfmfntbtion rfturns <dodf>truf</dodf> if tif
+     * <dodf>gftControllfr</dodf> mftiod rfturns b
+     * non-<dodf>null</dodf> vbluf.
      *
-     * @return <code>true</code> if a controller is installed.
+     * @rfturn <dodf>truf</dodf> if b dontrollfr is instbllfd.
      *
-     * @see IIOMetadataController
-     * @see #setController(IIOMetadataController)
-     * @see #getController
-     * @see #getDefaultController
-     * @see #activateController()
+     * @sff IIOMftbdbtbControllfr
+     * @sff #sftControllfr(IIOMftbdbtbControllfr)
+     * @sff #gftControllfr
+     * @sff #gftDffbultControllfr
+     * @sff #bdtivbtfControllfr()
      */
-    public boolean hasController() {
-        return (getController() != null);
+    publid boolfbn ibsControllfr() {
+        rfturn (gftControllfr() != null);
     }
 
     /**
-     * Activates the installed <code>IIOMetadataController</code> for
-     * this <code>IIOMetadata</code> object and returns the resulting
-     * value.  When this method returns <code>true</code>, all values for this
-     * <code>IIOMetadata</code> object will be ready for the next write
-     * operation.  If <code>false</code> is
-     * returned, no settings in this object will have been disturbed
-     * (<i>i.e.</i>, the user canceled the operation).
+     * Adtivbtfs tif instbllfd <dodf>IIOMftbdbtbControllfr</dodf> for
+     * tiis <dodf>IIOMftbdbtb</dodf> objfdt bnd rfturns tif rfsulting
+     * vbluf.  Wifn tiis mftiod rfturns <dodf>truf</dodf>, bll vblufs for tiis
+     * <dodf>IIOMftbdbtb</dodf> objfdt will bf rfbdy for tif nfxt writf
+     * opfrbtion.  If <dodf>fblsf</dodf> is
+     * rfturnfd, no sfttings in tiis objfdt will ibvf bffn disturbfd
+     * (<i>i.f.</i>, tif usfr dbndflfd tif opfrbtion).
      *
-     * <p> Ordinarily, the controller will be a GUI providing a user
-     * interface for a subclass of <code>IIOMetadata</code> for a
-     * particular plug-in.  Controllers need not be GUIs, however.
+     * <p> Ordinbrily, tif dontrollfr will bf b GUI providing b usfr
+     * intfrfbdf for b subdlbss of <dodf>IIOMftbdbtb</dodf> for b
+     * pbrtidulbr plug-in.  Controllfrs nffd not bf GUIs, iowfvfr.
      *
-     * <p> The default implementation calls <code>getController</code>
-     * and the calls <code>activate</code> on the returned object if
-     * <code>hasController</code> returns <code>true</code>.
+     * <p> Tif dffbult implfmfntbtion dblls <dodf>gftControllfr</dodf>
+     * bnd tif dblls <dodf>bdtivbtf</dodf> on tif rfturnfd objfdt if
+     * <dodf>ibsControllfr</dodf> rfturns <dodf>truf</dodf>.
      *
-     * @return <code>true</code> if the controller completed normally.
+     * @rfturn <dodf>truf</dodf> if tif dontrollfr domplftfd normblly.
      *
-     * @exception IllegalStateException if there is no controller
-     * currently installed.
+     * @fxdfption IllfgblStbtfExdfption if tifrf is no dontrollfr
+     * durrfntly instbllfd.
      *
-     * @see IIOMetadataController
-     * @see #setController(IIOMetadataController)
-     * @see #getController
-     * @see #getDefaultController
-     * @see #hasController
+     * @sff IIOMftbdbtbControllfr
+     * @sff #sftControllfr(IIOMftbdbtbControllfr)
+     * @sff #gftControllfr
+     * @sff #gftDffbultControllfr
+     * @sff #ibsControllfr
      */
-    public boolean activateController() {
-        if (!hasController()) {
-            throw new IllegalStateException("hasController() == false!");
+    publid boolfbn bdtivbtfControllfr() {
+        if (!ibsControllfr()) {
+            tirow nfw IllfgblStbtfExdfption("ibsControllfr() == fblsf!");
         }
-        return getController().activate(this);
+        rfturn gftControllfr().bdtivbtf(tiis);
     }
 }

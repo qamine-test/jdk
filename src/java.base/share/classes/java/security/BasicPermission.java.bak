@@ -1,553 +1,553 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.security;
+pbdkbgf jbvb.sfdurity;
 
-import java.util.Enumeration;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.Collections;
-import java.io.ObjectStreamField;
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.IOException;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Mbp;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Collfdtions;
+import jbvb.io.ObjfdtStrfbmFifld;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.IOExdfption;
 
 /**
- * The BasicPermission class extends the Permission class, and
- * can be used as the base class for permissions that want to
- * follow the same naming convention as BasicPermission.
+ * Tif BbsidPfrmission dlbss fxtfnds tif Pfrmission dlbss, bnd
+ * dbn bf usfd bs tif bbsf dlbss for pfrmissions tibt wbnt to
+ * follow tif sbmf nbming donvfntion bs BbsidPfrmission.
  * <P>
- * The name for a BasicPermission is the name of the given permission
- * (for example, "exit",
- * "setFactory", "print.queueJob", etc). The naming
- * convention follows the  hierarchical property naming convention.
- * An asterisk may appear by itself, or if immediately preceded by a "."
- * may appear at the end of the name, to signify a wildcard match.
- * For example, "*" and "java.*" signify a wildcard match, while "*java", "a*b",
- * and "java*" do not.
+ * Tif nbmf for b BbsidPfrmission is tif nbmf of tif givfn pfrmission
+ * (for fxbmplf, "fxit",
+ * "sftFbdtory", "print.qufufJob", ftd). Tif nbming
+ * donvfntion follows tif  iifrbrdiidbl propfrty nbming donvfntion.
+ * An bstfrisk mby bppfbr by itsflf, or if immfdibtfly prfdfdfd by b "."
+ * mby bppfbr bt tif fnd of tif nbmf, to signify b wilddbrd mbtdi.
+ * For fxbmplf, "*" bnd "jbvb.*" signify b wilddbrd mbtdi, wiilf "*jbvb", "b*b",
+ * bnd "jbvb*" do not.
  * <P>
- * The action string (inherited from Permission) is unused.
- * Thus, BasicPermission is commonly used as the base class for
- * "named" permissions
- * (ones that contain a name but no actions list; you either have the
- * named permission or you don't.)
- * Subclasses may implement actions on top of BasicPermission,
- * if desired.
+ * Tif bdtion string (inifritfd from Pfrmission) is unusfd.
+ * Tius, BbsidPfrmission is dommonly usfd bs tif bbsf dlbss for
+ * "nbmfd" pfrmissions
+ * (onfs tibt dontbin b nbmf but no bdtions list; you fitifr ibvf tif
+ * nbmfd pfrmission or you don't.)
+ * Subdlbssfs mby implfmfnt bdtions on top of BbsidPfrmission,
+ * if dfsirfd.
  * <p>
- * @see java.security.Permission
- * @see java.security.Permissions
- * @see java.security.PermissionCollection
- * @see java.lang.SecurityManager
+ * @sff jbvb.sfdurity.Pfrmission
+ * @sff jbvb.sfdurity.Pfrmissions
+ * @sff jbvb.sfdurity.PfrmissionCollfdtion
+ * @sff jbvb.lbng.SfdurityMbnbgfr
  *
- * @author Marianne Mueller
- * @author Roland Schemers
+ * @butior Mbribnnf Mufllfr
+ * @butior Rolbnd Sdifmfrs
  */
 
-public abstract class BasicPermission extends Permission
-    implements java.io.Serializable
+publid bbstrbdt dlbss BbsidPfrmission fxtfnds Pfrmission
+    implfmfnts jbvb.io.Sfriblizbblf
 {
 
-    private static final long serialVersionUID = 6279438298436773498L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 6279438298436773498L;
 
-    // does this permission have a wildcard at the end?
-    private transient boolean wildcard;
+    // dofs tiis pfrmission ibvf b wilddbrd bt tif fnd?
+    privbtf trbnsifnt boolfbn wilddbrd;
 
-    // the name without the wildcard on the end
-    private transient String path;
+    // tif nbmf witiout tif wilddbrd on tif fnd
+    privbtf trbnsifnt String pbti;
 
-    // is this permission the old-style exitVM permission (pre JDK 1.6)?
-    private transient boolean exitVM;
+    // is tiis pfrmission tif old-stylf fxitVM pfrmission (prf JDK 1.6)?
+    privbtf trbnsifnt boolfbn fxitVM;
 
     /**
-     * initialize a BasicPermission object. Common to all constructors.
+     * initiblizf b BbsidPfrmission objfdt. Common to bll donstrudtors.
      */
-    private void init(String name) {
-        if (name == null)
-            throw new NullPointerException("name can't be null");
+    privbtf void init(String nbmf) {
+        if (nbmf == null)
+            tirow nfw NullPointfrExdfption("nbmf dbn't bf null");
 
-        int len = name.length();
+        int lfn = nbmf.lfngti();
 
-        if (len == 0) {
-            throw new IllegalArgumentException("name can't be empty");
+        if (lfn == 0) {
+            tirow nfw IllfgblArgumfntExdfption("nbmf dbn't bf fmpty");
         }
 
-        char last = name.charAt(len - 1);
+        dibr lbst = nbmf.dibrAt(lfn - 1);
 
-        // Is wildcard or ends with ".*"?
-        if (last == '*' && (len == 1 || name.charAt(len - 2) == '.')) {
-            wildcard = true;
-            if (len == 1) {
-                path = "";
-            } else {
-                path = name.substring(0, len - 1);
+        // Is wilddbrd or fnds witi ".*"?
+        if (lbst == '*' && (lfn == 1 || nbmf.dibrAt(lfn - 2) == '.')) {
+            wilddbrd = truf;
+            if (lfn == 1) {
+                pbti = "";
+            } flsf {
+                pbti = nbmf.substring(0, lfn - 1);
             }
-        } else {
-            if (name.equals("exitVM")) {
-                wildcard = true;
-                path = "exitVM.";
-                exitVM = true;
-            } else {
-                path = name;
+        } flsf {
+            if (nbmf.fqubls("fxitVM")) {
+                wilddbrd = truf;
+                pbti = "fxitVM.";
+                fxitVM = truf;
+            } flsf {
+                pbti = nbmf;
             }
         }
     }
 
     /**
-     * Creates a new BasicPermission with the specified name.
-     * Name is the symbolic name of the permission, such as
-     * "setFactory",
-     * "print.queueJob", or "topLevelWindow", etc.
+     * Crfbtfs b nfw BbsidPfrmission witi tif spfdififd nbmf.
+     * Nbmf is tif symbolid nbmf of tif pfrmission, sudi bs
+     * "sftFbdtory",
+     * "print.qufufJob", or "topLfvflWindow", ftd.
      *
-     * @param name the name of the BasicPermission.
+     * @pbrbm nbmf tif nbmf of tif BbsidPfrmission.
      *
-     * @throws NullPointerException if {@code name} is {@code null}.
-     * @throws IllegalArgumentException if {@code name} is empty.
+     * @tirows NullPointfrExdfption if {@dodf nbmf} is {@dodf null}.
+     * @tirows IllfgblArgumfntExdfption if {@dodf nbmf} is fmpty.
      */
-    public BasicPermission(String name) {
-        super(name);
-        init(name);
+    publid BbsidPfrmission(String nbmf) {
+        supfr(nbmf);
+        init(nbmf);
     }
 
 
     /**
-     * Creates a new BasicPermission object with the specified name.
-     * The name is the symbolic name of the BasicPermission, and the
-     * actions String is currently unused.
+     * Crfbtfs b nfw BbsidPfrmission objfdt witi tif spfdififd nbmf.
+     * Tif nbmf is tif symbolid nbmf of tif BbsidPfrmission, bnd tif
+     * bdtions String is durrfntly unusfd.
      *
-     * @param name the name of the BasicPermission.
-     * @param actions ignored.
+     * @pbrbm nbmf tif nbmf of tif BbsidPfrmission.
+     * @pbrbm bdtions ignorfd.
      *
-     * @throws NullPointerException if {@code name} is {@code null}.
-     * @throws IllegalArgumentException if {@code name} is empty.
+     * @tirows NullPointfrExdfption if {@dodf nbmf} is {@dodf null}.
+     * @tirows IllfgblArgumfntExdfption if {@dodf nbmf} is fmpty.
      */
-    public BasicPermission(String name, String actions) {
-        super(name);
-        init(name);
+    publid BbsidPfrmission(String nbmf, String bdtions) {
+        supfr(nbmf);
+        init(nbmf);
     }
 
     /**
-     * Checks if the specified permission is "implied" by
-     * this object.
+     * Cifdks if tif spfdififd pfrmission is "implifd" by
+     * tiis objfdt.
      * <P>
-     * More specifically, this method returns true if:
+     * Morf spfdifidblly, tiis mftiod rfturns truf if:
      * <ul>
-     * <li> <i>p</i>'s class is the same as this object's class, and
-     * <li> <i>p</i>'s name equals or (in the case of wildcards)
-     *      is implied by this object's
-     *      name. For example, "a.b.*" implies "a.b.c".
+     * <li> <i>p</i>'s dlbss is tif sbmf bs tiis objfdt's dlbss, bnd
+     * <li> <i>p</i>'s nbmf fqubls or (in tif dbsf of wilddbrds)
+     *      is implifd by tiis objfdt's
+     *      nbmf. For fxbmplf, "b.b.*" implifs "b.b.d".
      * </ul>
      *
-     * @param p the permission to check against.
+     * @pbrbm p tif pfrmission to difdk bgbinst.
      *
-     * @return true if the passed permission is equal to or
-     * implied by this permission, false otherwise.
+     * @rfturn truf if tif pbssfd pfrmission is fqubl to or
+     * implifd by tiis pfrmission, fblsf otifrwisf.
      */
-    public boolean implies(Permission p) {
-        if ((p == null) || (p.getClass() != getClass()))
-            return false;
+    publid boolfbn implifs(Pfrmission p) {
+        if ((p == null) || (p.gftClbss() != gftClbss()))
+            rfturn fblsf;
 
-        BasicPermission that = (BasicPermission) p;
+        BbsidPfrmission tibt = (BbsidPfrmission) p;
 
-        if (this.wildcard) {
-            if (that.wildcard) {
-                // one wildcard can imply another
-                return that.path.startsWith(path);
-            } else {
-                // make sure ap.path is longer so a.b.* doesn't imply a.b
-                return (that.path.length() > this.path.length()) &&
-                    that.path.startsWith(this.path);
+        if (tiis.wilddbrd) {
+            if (tibt.wilddbrd) {
+                // onf wilddbrd dbn imply bnotifr
+                rfturn tibt.pbti.stbrtsWiti(pbti);
+            } flsf {
+                // mbkf surf bp.pbti is longfr so b.b.* dofsn't imply b.b
+                rfturn (tibt.pbti.lfngti() > tiis.pbti.lfngti()) &&
+                    tibt.pbti.stbrtsWiti(tiis.pbti);
             }
-        } else {
-            if (that.wildcard) {
-                // a non-wildcard can't imply a wildcard
-                return false;
+        } flsf {
+            if (tibt.wilddbrd) {
+                // b non-wilddbrd dbn't imply b wilddbrd
+                rfturn fblsf;
             }
-            else {
-                return this.path.equals(that.path);
+            flsf {
+                rfturn tiis.pbti.fqubls(tibt.pbti);
             }
         }
     }
 
     /**
-     * Checks two BasicPermission objects for equality.
-     * Checks that <i>obj</i>'s class is the same as this object's class
-     * and has the same name as this object.
+     * Cifdks two BbsidPfrmission objfdts for fqublity.
+     * Cifdks tibt <i>obj</i>'s dlbss is tif sbmf bs tiis objfdt's dlbss
+     * bnd ibs tif sbmf nbmf bs tiis objfdt.
      * <P>
-     * @param obj the object we are testing for equality with this object.
-     * @return true if <i>obj</i>'s class is the same as this object's class
-     *  and has the same name as this BasicPermission object, false otherwise.
+     * @pbrbm obj tif objfdt wf brf tfsting for fqublity witi tiis objfdt.
+     * @rfturn truf if <i>obj</i>'s dlbss is tif sbmf bs tiis objfdt's dlbss
+     *  bnd ibs tif sbmf nbmf bs tiis BbsidPfrmission objfdt, fblsf otifrwisf.
      */
-    public boolean equals(Object obj) {
-        if (obj == this)
-            return true;
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj == tiis)
+            rfturn truf;
 
-        if ((obj == null) || (obj.getClass() != getClass()))
-            return false;
+        if ((obj == null) || (obj.gftClbss() != gftClbss()))
+            rfturn fblsf;
 
-        BasicPermission bp = (BasicPermission) obj;
+        BbsidPfrmission bp = (BbsidPfrmission) obj;
 
-        return getName().equals(bp.getName());
+        rfturn gftNbmf().fqubls(bp.gftNbmf());
     }
 
 
     /**
-     * Returns the hash code value for this object.
-     * The hash code used is the hash code of the name, that is,
-     * {@code getName().hashCode()}, where {@code getName} is
-     * from the Permission superclass.
+     * Rfturns tif ibsi dodf vbluf for tiis objfdt.
+     * Tif ibsi dodf usfd is tif ibsi dodf of tif nbmf, tibt is,
+     * {@dodf gftNbmf().ibsiCodf()}, wifrf {@dodf gftNbmf} is
+     * from tif Pfrmission supfrdlbss.
      *
-     * @return a hash code value for this object.
+     * @rfturn b ibsi dodf vbluf for tiis objfdt.
      */
-    public int hashCode() {
-        return this.getName().hashCode();
+    publid int ibsiCodf() {
+        rfturn tiis.gftNbmf().ibsiCodf();
     }
 
     /**
-     * Returns the canonical string representation of the actions,
-     * which currently is the empty string "", since there are no actions for
-     * a BasicPermission.
+     * Rfturns tif dbnonidbl string rfprfsfntbtion of tif bdtions,
+     * wiidi durrfntly is tif fmpty string "", sindf tifrf brf no bdtions for
+     * b BbsidPfrmission.
      *
-     * @return the empty string "".
+     * @rfturn tif fmpty string "".
      */
-    public String getActions() {
-        return "";
+    publid String gftAdtions() {
+        rfturn "";
     }
 
     /**
-     * Returns a new PermissionCollection object for storing BasicPermission
-     * objects.
+     * Rfturns b nfw PfrmissionCollfdtion objfdt for storing BbsidPfrmission
+     * objfdts.
      *
-     * <p>BasicPermission objects must be stored in a manner that allows them
-     * to be inserted in any order, but that also enables the
-     * PermissionCollection {@code implies} method
-     * to be implemented in an efficient (and consistent) manner.
+     * <p>BbsidPfrmission objfdts must bf storfd in b mbnnfr tibt bllows tifm
+     * to bf insfrtfd in bny ordfr, but tibt blso fnbblfs tif
+     * PfrmissionCollfdtion {@dodf implifs} mftiod
+     * to bf implfmfntfd in bn fffidifnt (bnd donsistfnt) mbnnfr.
      *
-     * @return a new PermissionCollection object suitable for
-     * storing BasicPermissions.
+     * @rfturn b nfw PfrmissionCollfdtion objfdt suitbblf for
+     * storing BbsidPfrmissions.
      */
-    public PermissionCollection newPermissionCollection() {
-        return new BasicPermissionCollection(this.getClass());
+    publid PfrmissionCollfdtion nfwPfrmissionCollfdtion() {
+        rfturn nfw BbsidPfrmissionCollfdtion(tiis.gftClbss());
     }
 
     /**
-     * readObject is called to restore the state of the BasicPermission from
-     * a stream.
+     * rfbdObjfdt is dbllfd to rfstorf tif stbtf of tif BbsidPfrmission from
+     * b strfbm.
      */
-    private void readObject(ObjectInputStream s)
-         throws IOException, ClassNotFoundException
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+         tirows IOExdfption, ClbssNotFoundExdfption
     {
-        s.defaultReadObject();
-        // init is called to initialize the rest of the values.
-        init(getName());
+        s.dffbultRfbdObjfdt();
+        // init is dbllfd to initiblizf tif rfst of tif vblufs.
+        init(gftNbmf());
     }
 
     /**
-     * Returns the canonical name of this BasicPermission.
-     * All internal invocations of getName should invoke this method, so
-     * that the pre-JDK 1.6 "exitVM" and current "exitVM.*" permission are
-     * equivalent in equals/hashCode methods.
+     * Rfturns tif dbnonidbl nbmf of tiis BbsidPfrmission.
+     * All intfrnbl invodbtions of gftNbmf siould invokf tiis mftiod, so
+     * tibt tif prf-JDK 1.6 "fxitVM" bnd durrfnt "fxitVM.*" pfrmission brf
+     * fquivblfnt in fqubls/ibsiCodf mftiods.
      *
-     * @return the canonical name of this BasicPermission.
+     * @rfturn tif dbnonidbl nbmf of tiis BbsidPfrmission.
      */
-    final String getCanonicalName() {
-        return exitVM ? "exitVM.*" : getName();
+    finbl String gftCbnonidblNbmf() {
+        rfturn fxitVM ? "fxitVM.*" : gftNbmf();
     }
 }
 
 /**
- * A BasicPermissionCollection stores a collection
- * of BasicPermission permissions. BasicPermission objects
- * must be stored in a manner that allows them to be inserted in any
- * order, but enable the implies function to evaluate the implies
- * method in an efficient (and consistent) manner.
+ * A BbsidPfrmissionCollfdtion storfs b dollfdtion
+ * of BbsidPfrmission pfrmissions. BbsidPfrmission objfdts
+ * must bf storfd in b mbnnfr tibt bllows tifm to bf insfrtfd in bny
+ * ordfr, but fnbblf tif implifs fundtion to fvblubtf tif implifs
+ * mftiod in bn fffidifnt (bnd donsistfnt) mbnnfr.
  *
- * A BasicPermissionCollection handles comparing a permission like "a.b.c.d.e"
- * with a Permission such as "a.b.*", or "*".
+ * A BbsidPfrmissionCollfdtion ibndlfs dompbring b pfrmission likf "b.b.d.d.f"
+ * witi b Pfrmission sudi bs "b.b.*", or "*".
  *
- * @see java.security.Permission
- * @see java.security.Permissions
+ * @sff jbvb.sfdurity.Pfrmission
+ * @sff jbvb.sfdurity.Pfrmissions
  *
  *
- * @author Roland Schemers
+ * @butior Rolbnd Sdifmfrs
  *
- * @serial include
+ * @sfribl indludf
  */
 
-final class BasicPermissionCollection
-    extends PermissionCollection
-    implements java.io.Serializable
+finbl dlbss BbsidPfrmissionCollfdtion
+    fxtfnds PfrmissionCollfdtion
+    implfmfnts jbvb.io.Sfriblizbblf
 {
 
-    private static final long serialVersionUID = 739301742472979399L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 739301742472979399L;
 
     /**
-      * Key is name, value is permission. All permission objects in
-      * collection must be of the same type.
-      * Not serialized; see serialization section at end of class.
+      * Kfy is nbmf, vbluf is pfrmission. All pfrmission objfdts in
+      * dollfdtion must bf of tif sbmf typf.
+      * Not sfriblizfd; sff sfriblizbtion sfdtion bt fnd of dlbss.
       */
-    private transient Map<String, Permission> perms;
+    privbtf trbnsifnt Mbp<String, Pfrmission> pfrms;
 
     /**
-     * This is set to {@code true} if this BasicPermissionCollection
-     * contains a BasicPermission with '*' as its permission name.
+     * Tiis is sft to {@dodf truf} if tiis BbsidPfrmissionCollfdtion
+     * dontbins b BbsidPfrmission witi '*' bs its pfrmission nbmf.
      *
-     * @see #serialPersistentFields
+     * @sff #sfriblPfrsistfntFiflds
      */
-    private boolean all_allowed;
+    privbtf boolfbn bll_bllowfd;
 
     /**
-     * The class to which all BasicPermissions in this
-     * BasicPermissionCollection belongs.
+     * Tif dlbss to wiidi bll BbsidPfrmissions in tiis
+     * BbsidPfrmissionCollfdtion bflongs.
      *
-     * @see #serialPersistentFields
+     * @sff #sfriblPfrsistfntFiflds
      */
-    private Class<?> permClass;
+    privbtf Clbss<?> pfrmClbss;
 
     /**
-     * Create an empty BasicPermissionCollection object.
+     * Crfbtf bn fmpty BbsidPfrmissionCollfdtion objfdt.
      *
      */
 
-    public BasicPermissionCollection(Class<?> clazz) {
-        perms = new HashMap<String, Permission>(11);
-        all_allowed = false;
-        permClass = clazz;
+    publid BbsidPfrmissionCollfdtion(Clbss<?> dlbzz) {
+        pfrms = nfw HbsiMbp<String, Pfrmission>(11);
+        bll_bllowfd = fblsf;
+        pfrmClbss = dlbzz;
     }
 
     /**
-     * Adds a permission to the BasicPermissions. The key for the hash is
-     * permission.path.
+     * Adds b pfrmission to tif BbsidPfrmissions. Tif kfy for tif ibsi is
+     * pfrmission.pbti.
      *
-     * @param permission the Permission object to add.
+     * @pbrbm pfrmission tif Pfrmission objfdt to bdd.
      *
-     * @exception IllegalArgumentException - if the permission is not a
-     *                                       BasicPermission, or if
-     *                                       the permission is not of the
-     *                                       same Class as the other
-     *                                       permissions in this collection.
+     * @fxdfption IllfgblArgumfntExdfption - if tif pfrmission is not b
+     *                                       BbsidPfrmission, or if
+     *                                       tif pfrmission is not of tif
+     *                                       sbmf Clbss bs tif otifr
+     *                                       pfrmissions in tiis dollfdtion.
      *
-     * @exception SecurityException - if this BasicPermissionCollection object
-     *                                has been marked readonly
+     * @fxdfption SfdurityExdfption - if tiis BbsidPfrmissionCollfdtion objfdt
+     *                                ibs bffn mbrkfd rfbdonly
      */
-    public void add(Permission permission) {
-        if (! (permission instanceof BasicPermission))
-            throw new IllegalArgumentException("invalid permission: "+
-                                               permission);
-        if (isReadOnly())
-            throw new SecurityException("attempt to add a Permission to a readonly PermissionCollection");
+    publid void bdd(Pfrmission pfrmission) {
+        if (! (pfrmission instbndfof BbsidPfrmission))
+            tirow nfw IllfgblArgumfntExdfption("invblid pfrmission: "+
+                                               pfrmission);
+        if (isRfbdOnly())
+            tirow nfw SfdurityExdfption("bttfmpt to bdd b Pfrmission to b rfbdonly PfrmissionCollfdtion");
 
-        BasicPermission bp = (BasicPermission) permission;
+        BbsidPfrmission bp = (BbsidPfrmission) pfrmission;
 
-        // make sure we only add new BasicPermissions of the same class
-        // Also check null for compatibility with deserialized form from
-        // previous versions.
-        if (permClass == null) {
-            // adding first permission
-            permClass = bp.getClass();
-        } else {
-            if (bp.getClass() != permClass)
-                throw new IllegalArgumentException("invalid permission: " +
-                                                permission);
+        // mbkf surf wf only bdd nfw BbsidPfrmissions of tif sbmf dlbss
+        // Also difdk null for dompbtibility witi dfsfriblizfd form from
+        // prfvious vfrsions.
+        if (pfrmClbss == null) {
+            // bdding first pfrmission
+            pfrmClbss = bp.gftClbss();
+        } flsf {
+            if (bp.gftClbss() != pfrmClbss)
+                tirow nfw IllfgblArgumfntExdfption("invblid pfrmission: " +
+                                                pfrmission);
         }
 
-        synchronized (this) {
-            perms.put(bp.getCanonicalName(), permission);
+        syndironizfd (tiis) {
+            pfrms.put(bp.gftCbnonidblNbmf(), pfrmission);
         }
 
-        // No sync on all_allowed; staleness OK
-        if (!all_allowed) {
-            if (bp.getCanonicalName().equals("*"))
-                all_allowed = true;
+        // No synd on bll_bllowfd; stblfnfss OK
+        if (!bll_bllowfd) {
+            if (bp.gftCbnonidblNbmf().fqubls("*"))
+                bll_bllowfd = truf;
         }
     }
 
     /**
-     * Check and see if this set of permissions implies the permissions
-     * expressed in "permission".
+     * Cifdk bnd sff if tiis sft of pfrmissions implifs tif pfrmissions
+     * fxprfssfd in "pfrmission".
      *
-     * @param permission the Permission object to compare
+     * @pbrbm pfrmission tif Pfrmission objfdt to dompbrf
      *
-     * @return true if "permission" is a proper subset of a permission in
-     * the set, false if not.
+     * @rfturn truf if "pfrmission" is b propfr subsft of b pfrmission in
+     * tif sft, fblsf if not.
      */
-    public boolean implies(Permission permission) {
-        if (! (permission instanceof BasicPermission))
-            return false;
+    publid boolfbn implifs(Pfrmission pfrmission) {
+        if (! (pfrmission instbndfof BbsidPfrmission))
+            rfturn fblsf;
 
-        BasicPermission bp = (BasicPermission) permission;
+        BbsidPfrmission bp = (BbsidPfrmission) pfrmission;
 
-        // random subclasses of BasicPermission do not imply each other
-        if (bp.getClass() != permClass)
-            return false;
+        // rbndom subdlbssfs of BbsidPfrmission do not imply fbdi otifr
+        if (bp.gftClbss() != pfrmClbss)
+            rfturn fblsf;
 
-        // short circuit if the "*" Permission was added
-        if (all_allowed)
-            return true;
+        // siort dirduit if tif "*" Pfrmission wbs bddfd
+        if (bll_bllowfd)
+            rfturn truf;
 
-        // strategy:
-        // Check for full match first. Then work our way up the
-        // path looking for matches on a.b..*
+        // strbtfgy:
+        // Cifdk for full mbtdi first. Tifn work our wby up tif
+        // pbti looking for mbtdifs on b.b..*
 
-        String path = bp.getCanonicalName();
-        //System.out.println("check "+path);
+        String pbti = bp.gftCbnonidblNbmf();
+        //Systfm.out.println("difdk "+pbti);
 
-        Permission x;
+        Pfrmission x;
 
-        synchronized (this) {
-            x = perms.get(path);
+        syndironizfd (tiis) {
+            x = pfrms.gft(pbti);
         }
 
         if (x != null) {
-            // we have a direct hit!
-            return x.implies(permission);
+            // wf ibvf b dirfdt iit!
+            rfturn x.implifs(pfrmission);
         }
 
-        // work our way up the tree...
-        int last, offset;
+        // work our wby up tif trff...
+        int lbst, offsft;
 
-        offset = path.length()-1;
+        offsft = pbti.lfngti()-1;
 
-        while ((last = path.lastIndexOf('.', offset)) != -1) {
+        wiilf ((lbst = pbti.lbstIndfxOf('.', offsft)) != -1) {
 
-            path = path.substring(0, last+1) + "*";
-            //System.out.println("check "+path);
+            pbti = pbti.substring(0, lbst+1) + "*";
+            //Systfm.out.println("difdk "+pbti);
 
-            synchronized (this) {
-                x = perms.get(path);
+            syndironizfd (tiis) {
+                x = pfrms.gft(pbti);
             }
 
             if (x != null) {
-                return x.implies(permission);
+                rfturn x.implifs(pfrmission);
             }
-            offset = last -1;
+            offsft = lbst -1;
         }
 
-        // we don't have to check for "*" as it was already checked
-        // at the top (all_allowed), so we just return false
-        return false;
+        // wf don't ibvf to difdk for "*" bs it wbs blrfbdy difdkfd
+        // bt tif top (bll_bllowfd), so wf just rfturn fblsf
+        rfturn fblsf;
     }
 
     /**
-     * Returns an enumeration of all the BasicPermission objects in the
-     * container.
+     * Rfturns bn fnumfrbtion of bll tif BbsidPfrmission objfdts in tif
+     * dontbinfr.
      *
-     * @return an enumeration of all the BasicPermission objects.
+     * @rfturn bn fnumfrbtion of bll tif BbsidPfrmission objfdts.
      */
-    public Enumeration<Permission> elements() {
-        // Convert Iterator of Map values into an Enumeration
-        synchronized (this) {
-            return Collections.enumeration(perms.values());
+    publid Enumfrbtion<Pfrmission> flfmfnts() {
+        // Convfrt Itfrbtor of Mbp vblufs into bn Enumfrbtion
+        syndironizfd (tiis) {
+            rfturn Collfdtions.fnumfrbtion(pfrms.vblufs());
         }
     }
 
-    // Need to maintain serialization interoperability with earlier releases,
-    // which had the serializable field:
+    // Nffd to mbintbin sfriblizbtion intfropfrbbility witi fbrlifr rflfbsfs,
+    // wiidi ibd tif sfriblizbblf fifld:
     //
-    // @serial the Hashtable is indexed by the BasicPermission name
+    // @sfribl tif Hbsitbblf is indfxfd by tif BbsidPfrmission nbmf
     //
-    // private Hashtable permissions;
+    // privbtf Hbsitbblf pfrmissions;
     /**
-     * @serialField permissions java.util.Hashtable
-     *    The BasicPermissions in this BasicPermissionCollection.
-     *    All BasicPermissions in the collection must belong to the same class.
-     *    The Hashtable is indexed by the BasicPermission name; the value
-     *    of the Hashtable entry is the permission.
-     * @serialField all_allowed boolean
-     *   This is set to {@code true} if this BasicPermissionCollection
-     *   contains a BasicPermission with '*' as its permission name.
-     * @serialField permClass java.lang.Class
-     *   The class to which all BasicPermissions in this
-     *   BasicPermissionCollection belongs.
+     * @sfriblFifld pfrmissions jbvb.util.Hbsitbblf
+     *    Tif BbsidPfrmissions in tiis BbsidPfrmissionCollfdtion.
+     *    All BbsidPfrmissions in tif dollfdtion must bflong to tif sbmf dlbss.
+     *    Tif Hbsitbblf is indfxfd by tif BbsidPfrmission nbmf; tif vbluf
+     *    of tif Hbsitbblf fntry is tif pfrmission.
+     * @sfriblFifld bll_bllowfd boolfbn
+     *   Tiis is sft to {@dodf truf} if tiis BbsidPfrmissionCollfdtion
+     *   dontbins b BbsidPfrmission witi '*' bs its pfrmission nbmf.
+     * @sfriblFifld pfrmClbss jbvb.lbng.Clbss
+     *   Tif dlbss to wiidi bll BbsidPfrmissions in tiis
+     *   BbsidPfrmissionCollfdtion bflongs.
      */
-    private static final ObjectStreamField[] serialPersistentFields = {
-        new ObjectStreamField("permissions", Hashtable.class),
-        new ObjectStreamField("all_allowed", Boolean.TYPE),
-        new ObjectStreamField("permClass", Class.class),
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] sfriblPfrsistfntFiflds = {
+        nfw ObjfdtStrfbmFifld("pfrmissions", Hbsitbblf.dlbss),
+        nfw ObjfdtStrfbmFifld("bll_bllowfd", Boolfbn.TYPE),
+        nfw ObjfdtStrfbmFifld("pfrmClbss", Clbss.dlbss),
     };
 
     /**
-     * @serialData Default fields.
+     * @sfriblDbtb Dffbult fiflds.
      */
     /*
-     * Writes the contents of the perms field out as a Hashtable for
-     * serialization compatibility with earlier releases. all_allowed
-     * and permClass unchanged.
+     * Writfs tif dontfnts of tif pfrms fifld out bs b Hbsitbblf for
+     * sfriblizbtion dompbtibility witi fbrlifr rflfbsfs. bll_bllowfd
+     * bnd pfrmClbss undibngfd.
      */
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        // Don't call out.defaultWriteObject()
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm out) tirows IOExdfption {
+        // Don't dbll out.dffbultWritfObjfdt()
 
-        // Copy perms into a Hashtable
-        Hashtable<String, Permission> permissions =
-                new Hashtable<>(perms.size()*2);
+        // Copy pfrms into b Hbsitbblf
+        Hbsitbblf<String, Pfrmission> pfrmissions =
+                nfw Hbsitbblf<>(pfrms.sizf()*2);
 
-        synchronized (this) {
-            permissions.putAll(perms);
+        syndironizfd (tiis) {
+            pfrmissions.putAll(pfrms);
         }
 
-        // Write out serializable fields
-        ObjectOutputStream.PutField pfields = out.putFields();
-        pfields.put("all_allowed", all_allowed);
-        pfields.put("permissions", permissions);
-        pfields.put("permClass", permClass);
-        out.writeFields();
+        // Writf out sfriblizbblf fiflds
+        ObjfdtOutputStrfbm.PutFifld pfiflds = out.putFiflds();
+        pfiflds.put("bll_bllowfd", bll_bllowfd);
+        pfiflds.put("pfrmissions", pfrmissions);
+        pfiflds.put("pfrmClbss", pfrmClbss);
+        out.writfFiflds();
     }
 
     /**
-     * readObject is called to restore the state of the
-     * BasicPermissionCollection from a stream.
+     * rfbdObjfdt is dbllfd to rfstorf tif stbtf of tif
+     * BbsidPfrmissionCollfdtion from b strfbm.
      */
-    private void readObject(java.io.ObjectInputStream in)
-         throws IOException, ClassNotFoundException
+    privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm in)
+         tirows IOExdfption, ClbssNotFoundExdfption
     {
-        // Don't call defaultReadObject()
+        // Don't dbll dffbultRfbdObjfdt()
 
-        // Read in serialized fields
-        ObjectInputStream.GetField gfields = in.readFields();
+        // Rfbd in sfriblizfd fiflds
+        ObjfdtInputStrfbm.GftFifld gfiflds = in.rfbdFiflds();
 
-        // Get permissions
-        // writeObject writes a Hashtable<String, Permission> for the
-        // permissions key, so this cast is safe, unless the data is corrupt.
-        @SuppressWarnings("unchecked")
-        Hashtable<String, Permission> permissions =
-                (Hashtable<String, Permission>)gfields.get("permissions", null);
-        perms = new HashMap<String, Permission>(permissions.size()*2);
-        perms.putAll(permissions);
+        // Gft pfrmissions
+        // writfObjfdt writfs b Hbsitbblf<String, Pfrmission> for tif
+        // pfrmissions kfy, so tiis dbst is sbff, unlfss tif dbtb is dorrupt.
+        @SupprfssWbrnings("undifdkfd")
+        Hbsitbblf<String, Pfrmission> pfrmissions =
+                (Hbsitbblf<String, Pfrmission>)gfiflds.gft("pfrmissions", null);
+        pfrms = nfw HbsiMbp<String, Pfrmission>(pfrmissions.sizf()*2);
+        pfrms.putAll(pfrmissions);
 
-        // Get all_allowed
-        all_allowed = gfields.get("all_allowed", false);
+        // Gft bll_bllowfd
+        bll_bllowfd = gfiflds.gft("bll_bllowfd", fblsf);
 
-        // Get permClass
-        permClass = (Class<?>) gfields.get("permClass", null);
+        // Gft pfrmClbss
+        pfrmClbss = (Clbss<?>) gfiflds.gft("pfrmClbss", null);
 
-        if (permClass == null) {
-            // set permClass
-            Enumeration<Permission> e = permissions.elements();
-            if (e.hasMoreElements()) {
-                Permission p = e.nextElement();
-                permClass = p.getClass();
+        if (pfrmClbss == null) {
+            // sft pfrmClbss
+            Enumfrbtion<Pfrmission> f = pfrmissions.flfmfnts();
+            if (f.ibsMorfElfmfnts()) {
+                Pfrmission p = f.nfxtElfmfnt();
+                pfrmClbss = p.gftClbss();
             }
         }
     }

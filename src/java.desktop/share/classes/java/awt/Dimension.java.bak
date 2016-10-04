@@ -1,239 +1,239 @@
 /*
- * Copyright (c) 1995, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt;
+pbdkbgf jbvb.bwt;
 
-import java.awt.geom.Dimension2D;
-import java.beans.Transient;
+import jbvb.bwt.gfom.Dimfnsion2D;
+import jbvb.bfbns.Trbnsifnt;
 
 /**
- * The <code>Dimension</code> class encapsulates the width and
- * height of a component (in integer precision) in a single object.
- * The class is
- * associated with certain properties of components. Several methods
- * defined by the <code>Component</code> class and the
- * <code>LayoutManager</code> interface return a
- * <code>Dimension</code> object.
+ * Tif <dodf>Dimfnsion</dodf> dlbss fndbpsulbtfs tif widti bnd
+ * ifigit of b domponfnt (in intfgfr prfdision) in b singlf objfdt.
+ * Tif dlbss is
+ * bssodibtfd witi dfrtbin propfrtifs of domponfnts. Sfvfrbl mftiods
+ * dffinfd by tif <dodf>Componfnt</dodf> dlbss bnd tif
+ * <dodf>LbyoutMbnbgfr</dodf> intfrfbdf rfturn b
+ * <dodf>Dimfnsion</dodf> objfdt.
  * <p>
- * Normally the values of <code>width</code>
- * and <code>height</code> are non-negative integers.
- * The constructors that allow you to create a dimension do
- * not prevent you from setting a negative value for these properties.
- * If the value of <code>width</code> or <code>height</code> is
- * negative, the behavior of some methods defined by other objects is
- * undefined.
+ * Normblly tif vblufs of <dodf>widti</dodf>
+ * bnd <dodf>ifigit</dodf> brf non-nfgbtivf intfgfrs.
+ * Tif donstrudtors tibt bllow you to drfbtf b dimfnsion do
+ * not prfvfnt you from sftting b nfgbtivf vbluf for tifsf propfrtifs.
+ * If tif vbluf of <dodf>widti</dodf> or <dodf>ifigit</dodf> is
+ * nfgbtivf, tif bfibvior of somf mftiods dffinfd by otifr objfdts is
+ * undffinfd.
  *
- * @author      Sami Shaio
- * @author      Arthur van Hoff
- * @see         java.awt.Component
- * @see         java.awt.LayoutManager
- * @since       1.0
+ * @butior      Sbmi Sibio
+ * @butior      Artiur vbn Hoff
+ * @sff         jbvb.bwt.Componfnt
+ * @sff         jbvb.bwt.LbyoutMbnbgfr
+ * @sindf       1.0
  */
-public class Dimension extends Dimension2D implements java.io.Serializable {
+publid dlbss Dimfnsion fxtfnds Dimfnsion2D implfmfnts jbvb.io.Sfriblizbblf {
 
     /**
-     * The width dimension; negative values can be used.
+     * Tif widti dimfnsion; nfgbtivf vblufs dbn bf usfd.
      *
-     * @serial
-     * @see #getSize
-     * @see #setSize
-     * @since 1.0
+     * @sfribl
+     * @sff #gftSizf
+     * @sff #sftSizf
+     * @sindf 1.0
      */
-    public int width;
+    publid int widti;
 
     /**
-     * The height dimension; negative values can be used.
+     * Tif ifigit dimfnsion; nfgbtivf vblufs dbn bf usfd.
      *
-     * @serial
-     * @see #getSize
-     * @see #setSize
-     * @since 1.0
+     * @sfribl
+     * @sff #gftSizf
+     * @sff #sftSizf
+     * @sindf 1.0
      */
-    public int height;
+    publid int ifigit;
 
     /*
-     * JDK 1.1 serialVersionUID
+     * JDK 1.1 sfriblVfrsionUID
      */
-     private static final long serialVersionUID = 4723952579491349524L;
+     privbtf stbtid finbl long sfriblVfrsionUID = 4723952579491349524L;
 
     /**
-     * Initialize JNI field and method IDs
+     * Initiblizf JNI fifld bnd mftiod IDs
      */
-    private static native void initIDs();
+    privbtf stbtid nbtivf void initIDs();
 
-    static {
-        /* ensure that the necessary native libraries are loaded */
-        Toolkit.loadLibraries();
-        if (!GraphicsEnvironment.isHeadless()) {
+    stbtid {
+        /* fnsurf tibt tif nfdfssbry nbtivf librbrifs brf lobdfd */
+        Toolkit.lobdLibrbrifs();
+        if (!GrbpiidsEnvironmfnt.isHfbdlfss()) {
             initIDs();
         }
     }
 
     /**
-     * Creates an instance of <code>Dimension</code> with a width
-     * of zero and a height of zero.
+     * Crfbtfs bn instbndf of <dodf>Dimfnsion</dodf> witi b widti
+     * of zfro bnd b ifigit of zfro.
      */
-    public Dimension() {
-        this(0, 0);
+    publid Dimfnsion() {
+        tiis(0, 0);
     }
 
     /**
-     * Creates an instance of <code>Dimension</code> whose width
-     * and height are the same as for the specified dimension.
+     * Crfbtfs bn instbndf of <dodf>Dimfnsion</dodf> wiosf widti
+     * bnd ifigit brf tif sbmf bs for tif spfdififd dimfnsion.
      *
-     * @param    d   the specified dimension for the
-     *               <code>width</code> and
-     *               <code>height</code> values
+     * @pbrbm    d   tif spfdififd dimfnsion for tif
+     *               <dodf>widti</dodf> bnd
+     *               <dodf>ifigit</dodf> vblufs
      */
-    public Dimension(Dimension d) {
-        this(d.width, d.height);
+    publid Dimfnsion(Dimfnsion d) {
+        tiis(d.widti, d.ifigit);
     }
 
     /**
-     * Constructs a <code>Dimension</code> and initializes
-     * it to the specified width and specified height.
+     * Construdts b <dodf>Dimfnsion</dodf> bnd initiblizfs
+     * it to tif spfdififd widti bnd spfdififd ifigit.
      *
-     * @param width the specified width
-     * @param height the specified height
+     * @pbrbm widti tif spfdififd widti
+     * @pbrbm ifigit tif spfdififd ifigit
      */
-    public Dimension(int width, int height) {
-        this.width = width;
-        this.height = height;
+    publid Dimfnsion(int widti, int ifigit) {
+        tiis.widti = widti;
+        tiis.ifigit = ifigit;
     }
 
     /**
-     * {@inheritDoc}
-     * @since 1.2
+     * {@inifritDod}
+     * @sindf 1.2
      */
-    public double getWidth() {
-        return width;
+    publid doublf gftWidti() {
+        rfturn widti;
     }
 
     /**
-     * {@inheritDoc}
-     * @since 1.2
+     * {@inifritDod}
+     * @sindf 1.2
      */
-    public double getHeight() {
-        return height;
+    publid doublf gftHfigit() {
+        rfturn ifigit;
     }
 
     /**
-     * Sets the size of this <code>Dimension</code> object to
-     * the specified width and height in double precision.
-     * Note that if <code>width</code> or <code>height</code>
-     * are larger than <code>Integer.MAX_VALUE</code>, they will
-     * be reset to <code>Integer.MAX_VALUE</code>.
+     * Sfts tif sizf of tiis <dodf>Dimfnsion</dodf> objfdt to
+     * tif spfdififd widti bnd ifigit in doublf prfdision.
+     * Notf tibt if <dodf>widti</dodf> or <dodf>ifigit</dodf>
+     * brf lbrgfr tibn <dodf>Intfgfr.MAX_VALUE</dodf>, tify will
+     * bf rfsft to <dodf>Intfgfr.MAX_VALUE</dodf>.
      *
-     * @param width  the new width for the <code>Dimension</code> object
-     * @param height the new height for the <code>Dimension</code> object
-     * @since 1.2
+     * @pbrbm widti  tif nfw widti for tif <dodf>Dimfnsion</dodf> objfdt
+     * @pbrbm ifigit tif nfw ifigit for tif <dodf>Dimfnsion</dodf> objfdt
+     * @sindf 1.2
      */
-    public void setSize(double width, double height) {
-        this.width = (int) Math.ceil(width);
-        this.height = (int) Math.ceil(height);
+    publid void sftSizf(doublf widti, doublf ifigit) {
+        tiis.widti = (int) Mbti.dfil(widti);
+        tiis.ifigit = (int) Mbti.dfil(ifigit);
     }
 
     /**
-     * Gets the size of this <code>Dimension</code> object.
-     * This method is included for completeness, to parallel the
-     * <code>getSize</code> method defined by <code>Component</code>.
+     * Gfts tif sizf of tiis <dodf>Dimfnsion</dodf> objfdt.
+     * Tiis mftiod is indludfd for domplftfnfss, to pbrbllfl tif
+     * <dodf>gftSizf</dodf> mftiod dffinfd by <dodf>Componfnt</dodf>.
      *
-     * @return   the size of this dimension, a new instance of
-     *           <code>Dimension</code> with the same width and height
-     * @see      java.awt.Dimension#setSize
-     * @see      java.awt.Component#getSize
-     * @since    1.1
+     * @rfturn   tif sizf of tiis dimfnsion, b nfw instbndf of
+     *           <dodf>Dimfnsion</dodf> witi tif sbmf widti bnd ifigit
+     * @sff      jbvb.bwt.Dimfnsion#sftSizf
+     * @sff      jbvb.bwt.Componfnt#gftSizf
+     * @sindf    1.1
      */
-    @Transient
-    public Dimension getSize() {
-        return new Dimension(width, height);
+    @Trbnsifnt
+    publid Dimfnsion gftSizf() {
+        rfturn nfw Dimfnsion(widti, ifigit);
     }
 
     /**
-     * Sets the size of this <code>Dimension</code> object to the specified size.
-     * This method is included for completeness, to parallel the
-     * <code>setSize</code> method defined by <code>Component</code>.
-     * @param    d  the new size for this <code>Dimension</code> object
-     * @see      java.awt.Dimension#getSize
-     * @see      java.awt.Component#setSize
-     * @since    1.1
+     * Sfts tif sizf of tiis <dodf>Dimfnsion</dodf> objfdt to tif spfdififd sizf.
+     * Tiis mftiod is indludfd for domplftfnfss, to pbrbllfl tif
+     * <dodf>sftSizf</dodf> mftiod dffinfd by <dodf>Componfnt</dodf>.
+     * @pbrbm    d  tif nfw sizf for tiis <dodf>Dimfnsion</dodf> objfdt
+     * @sff      jbvb.bwt.Dimfnsion#gftSizf
+     * @sff      jbvb.bwt.Componfnt#sftSizf
+     * @sindf    1.1
      */
-    public void setSize(Dimension d) {
-        setSize(d.width, d.height);
+    publid void sftSizf(Dimfnsion d) {
+        sftSizf(d.widti, d.ifigit);
     }
 
     /**
-     * Sets the size of this <code>Dimension</code> object
-     * to the specified width and height.
-     * This method is included for completeness, to parallel the
-     * <code>setSize</code> method defined by <code>Component</code>.
+     * Sfts tif sizf of tiis <dodf>Dimfnsion</dodf> objfdt
+     * to tif spfdififd widti bnd ifigit.
+     * Tiis mftiod is indludfd for domplftfnfss, to pbrbllfl tif
+     * <dodf>sftSizf</dodf> mftiod dffinfd by <dodf>Componfnt</dodf>.
      *
-     * @param    width   the new width for this <code>Dimension</code> object
-     * @param    height  the new height for this <code>Dimension</code> object
-     * @see      java.awt.Dimension#getSize
-     * @see      java.awt.Component#setSize
-     * @since    1.1
+     * @pbrbm    widti   tif nfw widti for tiis <dodf>Dimfnsion</dodf> objfdt
+     * @pbrbm    ifigit  tif nfw ifigit for tiis <dodf>Dimfnsion</dodf> objfdt
+     * @sff      jbvb.bwt.Dimfnsion#gftSizf
+     * @sff      jbvb.bwt.Componfnt#sftSizf
+     * @sindf    1.1
      */
-    public void setSize(int width, int height) {
-        this.width = width;
-        this.height = height;
+    publid void sftSizf(int widti, int ifigit) {
+        tiis.widti = widti;
+        tiis.ifigit = ifigit;
     }
 
     /**
-     * Checks whether two dimension objects have equal values.
+     * Cifdks wiftifr two dimfnsion objfdts ibvf fqubl vblufs.
      */
-    public boolean equals(Object obj) {
-        if (obj instanceof Dimension) {
-            Dimension d = (Dimension)obj;
-            return (width == d.width) && (height == d.height);
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj instbndfof Dimfnsion) {
+            Dimfnsion d = (Dimfnsion)obj;
+            rfturn (widti == d.widti) && (ifigit == d.ifigit);
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Returns the hash code for this <code>Dimension</code>.
+     * Rfturns tif ibsi dodf for tiis <dodf>Dimfnsion</dodf>.
      *
-     * @return    a hash code for this <code>Dimension</code>
+     * @rfturn    b ibsi dodf for tiis <dodf>Dimfnsion</dodf>
      */
-    public int hashCode() {
-        int sum = width + height;
-        return sum * (sum + 1)/2 + width;
+    publid int ibsiCodf() {
+        int sum = widti + ifigit;
+        rfturn sum * (sum + 1)/2 + widti;
     }
 
     /**
-     * Returns a string representation of the values of this
-     * <code>Dimension</code> object's <code>height</code> and
-     * <code>width</code> fields. This method is intended to be used only
-     * for debugging purposes, and the content and format of the returned
-     * string may vary between implementations. The returned string may be
-     * empty but may not be <code>null</code>.
+     * Rfturns b string rfprfsfntbtion of tif vblufs of tiis
+     * <dodf>Dimfnsion</dodf> objfdt's <dodf>ifigit</dodf> bnd
+     * <dodf>widti</dodf> fiflds. Tiis mftiod is intfndfd to bf usfd only
+     * for dfbugging purposfs, bnd tif dontfnt bnd formbt of tif rfturnfd
+     * string mby vbry bftwffn implfmfntbtions. Tif rfturnfd string mby bf
+     * fmpty but mby not bf <dodf>null</dodf>.
      *
-     * @return  a string representation of this <code>Dimension</code>
-     *          object
+     * @rfturn  b string rfprfsfntbtion of tiis <dodf>Dimfnsion</dodf>
+     *          objfdt
      */
-    public String toString() {
-        return getClass().getName() + "[width=" + width + ",height=" + height + "]";
+    publid String toString() {
+        rfturn gftClbss().gftNbmf() + "[widti=" + widti + ",ifigit=" + ifigit + "]";
     }
 }

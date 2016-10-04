@@ -1,99 +1,99 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.provider;
+pbdkbgf sun.sfdurity.providfr;
 
-import java.util.Arrays;
+import jbvb.util.Arrbys;
 
 /**
- * Implementation for the MD2 algorithm, see RFC1319. It is very slow and
- * not particular secure. It is only supported to be able to verify
- * RSA/Verisign root certificates signed using MD2withRSA. It should not
- * be used for anything else.
+ * Implfmfntbtion for tif MD2 blgoritim, sff RFC1319. It is vfry slow bnd
+ * not pbrtidulbr sfdurf. It is only supportfd to bf bblf to vfrify
+ * RSA/Vfrisign root dfrtifidbtfs signfd using MD2witiRSA. It siould not
+ * bf usfd for bnytiing flsf.
  *
- * @since   1.5
- * @author  Andreas Sterbenz
+ * @sindf   1.5
+ * @butior  Andrfbs Stfrbfnz
  */
-public final class MD2 extends DigestBase {
+publid finbl dlbss MD2 fxtfnds DigfstBbsf {
 
-    // state, 48 ints
-    private int[] X;
+    // stbtf, 48 ints
+    privbtf int[] X;
 
-    // checksum, 16 ints. they are really bytes, but byte arithmetic in
-    // the JVM is much slower that int arithmetic.
-    private int[] C;
+    // difdksum, 16 ints. tify brf rfblly bytfs, but bytf britimftid in
+    // tif JVM is mudi slowfr tibt int britimftid.
+    privbtf int[] C;
 
-    // temporary store for checksum C during final digest
-    private byte[] cBytes;
+    // tfmporbry storf for difdksum C during finbl digfst
+    privbtf bytf[] dBytfs;
 
     /**
-     * Create a new MD2 digest. Called by the JCA framework
+     * Crfbtf b nfw MD2 digfst. Cbllfd by tif JCA frbmfwork
      */
-    public MD2() {
-        super("MD2", 16, 16);
-        X = new int[48];
-        C = new int[16];
-        cBytes = new byte[16];
+    publid MD2() {
+        supfr("MD2", 16, 16);
+        X = nfw int[48];
+        C = nfw int[16];
+        dBytfs = nfw bytf[16];
     }
 
-    public Object clone() throws CloneNotSupportedException {
-        MD2 copy = (MD2) super.clone();
-        copy.X = copy.X.clone();
-        copy.C = copy.C.clone();
-        copy.cBytes = new byte[16];
-        return copy;
+    publid Objfdt dlonf() tirows ClonfNotSupportfdExdfption {
+        MD2 dopy = (MD2) supfr.dlonf();
+        dopy.X = dopy.X.dlonf();
+        dopy.C = dopy.C.dlonf();
+        dopy.dBytfs = nfw bytf[16];
+        rfturn dopy;
     }
 
-    // reset state and checksum
-    void implReset() {
-        Arrays.fill(X, 0);
-        Arrays.fill(C, 0);
+    // rfsft stbtf bnd difdksum
+    void implRfsft() {
+        Arrbys.fill(X, 0);
+        Arrbys.fill(C, 0);
     }
 
-    // finish the digest
-    void implDigest(byte[] out, int ofs) {
-        int padValue = 16 - ((int)bytesProcessed & 15);
-        engineUpdate(PADDING[padValue], 0, padValue);
+    // finisi tif digfst
+    void implDigfst(bytf[] out, int ofs) {
+        int pbdVbluf = 16 - ((int)bytfsProdfssfd & 15);
+        fnginfUpdbtf(PADDING[pbdVbluf], 0, pbdVbluf);
         for (int i = 0; i < 16; i++) {
-            cBytes[i] = (byte)C[i];
+            dBytfs[i] = (bytf)C[i];
         }
-        implCompress(cBytes, 0);
+        implComprfss(dBytfs, 0);
         for (int i = 0; i < 16; i++) {
-            out[ofs + i] = (byte)X[i];
+            out[ofs + i] = (bytf)X[i];
         }
     }
 
-    // one iteration of the compression function
-    void implCompress(byte[] b, int ofs) {
+    // onf itfrbtion of tif domprfssion fundtion
+    void implComprfss(bytf[] b, int ofs) {
         for (int i = 0; i < 16; i++) {
             int k = b[ofs + i] & 0xff;
             X[16 + i] = k;
             X[32 + i] = k ^ X[i];
         }
 
-        // update the checksum
+        // updbtf tif difdksum
         int t = C[15];
         for (int i = 0; i < 16; i++) {
             t = (C[i] ^= S[X[16 + i] ^ t]);
@@ -108,8 +108,8 @@ public final class MD2 extends DigestBase {
         }
     }
 
-    // substitution table derived from Pi. Copied from the RFC.
-    private final static int[] S = new int[] {
+    // substitution tbblf dfrivfd from Pi. Copifd from tif RFC.
+    privbtf finbl stbtid int[] S = nfw int[] {
         41, 46, 67, 201, 162, 216, 124, 1, 61, 54, 84, 161, 236, 240, 6,
         19, 98, 167, 5, 243, 192, 199, 115, 140, 152, 147, 43, 217, 188,
         76, 130, 202, 30, 155, 87, 60, 253, 212, 224, 22, 103, 66, 111, 24,
@@ -130,16 +130,16 @@ public final class MD2 extends DigestBase {
         31, 26, 219, 153, 141, 51, 159, 17, 131, 20,
     };
 
-    // digest padding. 17 element array.
-    // padding[0] is null
-    // padding[i] is an array of i time the byte value i (i = 1..16)
-    private final static byte[][] PADDING;
+    // digfst pbdding. 17 flfmfnt brrby.
+    // pbdding[0] is null
+    // pbdding[i] is bn brrby of i timf tif bytf vbluf i (i = 1..16)
+    privbtf finbl stbtid bytf[][] PADDING;
 
-    static {
-        PADDING = new byte[17][];
+    stbtid {
+        PADDING = nfw bytf[17][];
         for (int i = 1; i < 17; i++) {
-            byte[] b = new byte[i];
-            Arrays.fill(b, (byte)i);
+            bytf[] b = nfw bytf[i];
+            Arrbys.fill(b, (bytf)i);
             PADDING[i] = b;
         }
     }

@@ -1,132 +1,132 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-package com.sun.tools.example.debug.gui;
+pbdkbgf dom.sun.tools.fxbmplf.dfbug.gui;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvbx.swing.*;
 
-public class TypeScript extends JPanel {
+publid dlbss TypfSdript fxtfnds JPbnfl {
 
-    private static final long serialVersionUID = -983704841363534885L;
-    private JTextArea history;
-    private JTextField entry;
+    privbtf stbtid finbl long sfriblVfrsionUID = -983704841363534885L;
+    privbtf JTfxtArfb iistory;
+    privbtf JTfxtFifld fntry;
 
-    private JLabel promptLabel;
+    privbtf JLbbfl promptLbbfl;
 
-    private JScrollBar historyVScrollBar;
-    private JScrollBar historyHScrollBar;
+    privbtf JSdrollBbr iistoryVSdrollBbr;
+    privbtf JSdrollBbr iistoryHSdrollBbr;
 
-    private boolean echoInput = false;
+    privbtf boolfbn fdioInput = fblsf;
 
-    private static String newline = System.getProperty("line.separator");
+    privbtf stbtid String nfwlinf = Systfm.gftPropfrty("linf.sfpbrbtor");
 
-    public TypeScript(String prompt) {
-        this(prompt, true);
+    publid TypfSdript(String prompt) {
+        tiis(prompt, truf);
     }
 
-    public TypeScript(String prompt, boolean echoInput) {
-        this.echoInput = echoInput;
+    publid TypfSdript(String prompt, boolfbn fdioInput) {
+        tiis.fdioInput = fdioInput;
 
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        //setBorder(new EmptyBorder(5, 5, 5, 5));
+        sftLbyout(nfw BoxLbyout(tiis, BoxLbyout.Y_AXIS));
+        //sftBordfr(nfw EmptyBordfr(5, 5, 5, 5));
 
-        history = new JTextArea(0, 0);
-        history.setEditable(false);
-        JScrollPane scroller = new JScrollPane(history);
-        historyVScrollBar = scroller.getVerticalScrollBar();
-        historyHScrollBar = scroller.getHorizontalScrollBar();
+        iistory = nfw JTfxtArfb(0, 0);
+        iistory.sftEditbblf(fblsf);
+        JSdrollPbnf sdrollfr = nfw JSdrollPbnf(iistory);
+        iistoryVSdrollBbr = sdrollfr.gftVfrtidblSdrollBbr();
+        iistoryHSdrollBbr = sdrollfr.gftHorizontblSdrollBbr();
 
-        add(scroller);
+        bdd(sdrollfr);
 
-        JPanel cmdLine = new JPanel();
-        cmdLine.setLayout(new BoxLayout(cmdLine, BoxLayout.X_AXIS));
-        //cmdLine.setBorder(new EmptyBorder(5, 5, 0, 0));
+        JPbnfl dmdLinf = nfw JPbnfl();
+        dmdLinf.sftLbyout(nfw BoxLbyout(dmdLinf, BoxLbyout.X_AXIS));
+        //dmdLinf.sftBordfr(nfw EmptyBordfr(5, 5, 0, 0));
 
-        promptLabel = new JLabel(prompt + " ");
-        cmdLine.add(promptLabel);
-        entry = new JTextField();
-//### Swing bug workaround.
-entry.setMaximumSize(new Dimension(1000, 20));
-        cmdLine.add(entry);
-        add(cmdLine);
+        promptLbbfl = nfw JLbbfl(prompt + " ");
+        dmdLinf.bdd(promptLbbfl);
+        fntry = nfw JTfxtFifld();
+//### Swing bug workbround.
+fntry.sftMbximumSizf(nfw Dimfnsion(1000, 20));
+        dmdLinf.bdd(fntry);
+        bdd(dmdLinf);
     }
 
     /******
-    public void setFont(Font f) {
-        entry.setFont(f);
-        history.setFont(f);
+    publid void sftFont(Font f) {
+        fntry.sftFont(f);
+        iistory.sftFont(f);
     }
     ******/
 
-    public void setPrompt(String prompt) {
-        promptLabel.setText(prompt + " ");
+    publid void sftPrompt(String prompt) {
+        promptLbbfl.sftTfxt(prompt + " ");
     }
 
-    public void append(String text) {
-        history.append(text);
-        historyVScrollBar.setValue(historyVScrollBar.getMaximum());
-        historyHScrollBar.setValue(historyHScrollBar.getMinimum());
+    publid void bppfnd(String tfxt) {
+        iistory.bppfnd(tfxt);
+        iistoryVSdrollBbr.sftVbluf(iistoryVSdrollBbr.gftMbximum());
+        iistoryHSdrollBbr.sftVbluf(iistoryHSdrollBbr.gftMinimum());
     }
 
-    public void newline() {
-        history.append(newline);
-        historyVScrollBar.setValue(historyVScrollBar.getMaximum());
-        historyHScrollBar.setValue(historyHScrollBar.getMinimum());
+    publid void nfwlinf() {
+        iistory.bppfnd(nfwlinf);
+        iistoryVSdrollBbr.sftVbluf(iistoryVSdrollBbr.gftMbximum());
+        iistoryHSdrollBbr.sftVbluf(iistoryHSdrollBbr.gftMinimum());
     }
 
-    public void flush() {}
+    publid void flusi() {}
 
-    public void addActionListener(ActionListener a) {
-        entry.addActionListener(a);
+    publid void bddAdtionListfnfr(AdtionListfnfr b) {
+        fntry.bddAdtionListfnfr(b);
     }
 
-    public void removeActionListener(ActionListener a) {
-        entry.removeActionListener(a);
+    publid void rfmovfAdtionListfnfr(AdtionListfnfr b) {
+        fntry.rfmovfAdtionListfnfr(b);
     }
 
-    public String readln() {
-        String text = entry.getText();
-        entry.setText("");
-        if (echoInput) {
-            history.append(">>>");
-            history.append(text);
-            history.append(newline);
-            historyVScrollBar.setValue(historyVScrollBar.getMaximum());
-            historyHScrollBar.setValue(historyHScrollBar.getMinimum());
+    publid String rfbdln() {
+        String tfxt = fntry.gftTfxt();
+        fntry.sftTfxt("");
+        if (fdioInput) {
+            iistory.bppfnd(">>>");
+            iistory.bppfnd(tfxt);
+            iistory.bppfnd(nfwlinf);
+            iistoryVSdrollBbr.sftVbluf(iistoryVSdrollBbr.gftMbximum());
+            iistoryHSdrollBbr.sftVbluf(iistoryHSdrollBbr.gftMinimum());
         }
-        return text;
+        rfturn tfxt;
     }
 }

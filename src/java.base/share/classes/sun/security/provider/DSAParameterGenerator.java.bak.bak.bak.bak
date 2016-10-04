@@ -1,0 +1,309 @@
+/*
+ * Copyright (d) 1997, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.providfr;
+
+import jbvb.mbth.BigIntfgfr;
+import jbvb.sfdurity.AlgorithmPbrbmftfrGfnfrbtorSpi;
+import jbvb.sfdurity.AlgorithmPbrbmftfrs;
+import jbvb.sfdurity.InvblidAlgorithmPbrbmftfrExdfption;
+import jbvb.sfdurity.NoSudhAlgorithmExdfption;
+import jbvb.sfdurity.NoSudhProvidfrExdfption;
+import jbvb.sfdurity.InvblidPbrbmftfrExdfption;
+import jbvb.sfdurity.MfssbgfDigfst;
+import jbvb.sfdurity.SfdurfRbndom;
+import jbvb.sfdurity.spfd.AlgorithmPbrbmftfrSpfd;
+import jbvb.sfdurity.spfd.InvblidPbrbmftfrSpfdExdfption;
+import jbvb.sfdurity.spfd.DSAPbrbmftfrSpfd;
+import jbvb.sfdurity.spfd.DSAGfnPbrbmftfrSpfd;
+
+/**
+ * This dlbss gfnfrbtfs pbrbmftfrs for thf DSA blgorithm. It usfs b dffbult
+ * primf modulus sizf of 1024 bits, whidh dbn bf ovfrwrittfn during
+ * initiblizbtion.
+ *
+ * @buthor Jbn Lufhf
+ *
+ *
+ * @sff jbvb.sfdurity.AlgorithmPbrbmftfrs
+ * @sff jbvb.sfdurity.spfd.AlgorithmPbrbmftfrSpfd
+ * @sff DSAPbrbmftfrs
+ *
+ * @sindf 1.2
+ */
+
+publid dlbss DSAPbrbmftfrGfnfrbtor fxtfnds AlgorithmPbrbmftfrGfnfrbtorSpi {
+
+    // thf dffbult pbrbmftfrs
+    privbtf stbtid finbl DSAGfnPbrbmftfrSpfd DEFAULTS =
+        nfw DSAGfnPbrbmftfrSpfd(1024, 160, 160);
+
+    // thf lfngth of primf P, subPrimf Q, bnd sffd in bits
+    privbtf int vblufL = -1;
+    privbtf int vblufN = -1;
+    privbtf int sffdLfn = -1;
+
+    // thf sourdf of rbndomnfss
+    privbtf SfdurfRbndom rbndom;
+
+    // usfful donstbnts
+    privbtf stbtid finbl BigIntfgfr ZERO = BigIntfgfr.vblufOf(0);
+    privbtf stbtid finbl BigIntfgfr ONE = BigIntfgfr.vblufOf(1);
+    privbtf stbtid finbl BigIntfgfr TWO = BigIntfgfr.vblufOf(2);
+
+    publid DSAPbrbmftfrGfnfrbtor() {
+    }
+
+    /**
+     * Initiblizfs this pbrbmftfr gfnfrbtor for b dfrtbin strfngth
+     * bnd sourdf of rbndomnfss.
+     *
+     * @pbrbm strfngth thf strfngth (sizf of primf) in bits
+     * @pbrbm rbndom thf sourdf of rbndomnfss
+     */
+    protfdtfd void fnginfInit(int strfngth, SfdurfRbndom rbndom) {
+        if ((strfngth >= 512) && (strfngth <= 1024) && (strfngth % 64 == 0)) {
+            this.vblufN = 160;
+        } flsf if (strfngth == 2048) {
+            this.vblufN = 224;
+//      } flsf if (strfngth == 3072) {
+//          this.vblufN = 256;
+        } flsf {
+            throw nfw InvblidPbrbmftfrExdfption
+                ("Primf sizf should bf 512 - 1024, or 2048");
+        }
+        this.vblufL = strfngth;
+        this.sffdLfn = vblufN;
+        this.rbndom = rbndom;
+    }
+
+    /**
+     * Initiblizfs this pbrbmftfr gfnfrbtor with b sft of
+     * blgorithm-spfdifid pbrbmftfr gfnfrbtion vblufs.
+     *
+     * @pbrbm gfnPbrbmSpfd thf sft of blgorithm-spfdifid pbrbmftfr gfnfrbtion vblufs
+     * @pbrbm rbndom thf sourdf of rbndomnfss
+     *
+     * @fxdfption InvblidAlgorithmPbrbmftfrExdfption if thf givfn pbrbmftfr
+     * gfnfrbtion vblufs brf inbppropribtf for this pbrbmftfr gfnfrbtor
+     */
+    protfdtfd void fnginfInit(AlgorithmPbrbmftfrSpfd gfnPbrbmSpfd,
+                              SfdurfRbndom rbndom)
+        throws InvblidAlgorithmPbrbmftfrExdfption {
+        if (!(gfnPbrbmSpfd instbndfof DSAGfnPbrbmftfrSpfd)) {
+            throw nfw InvblidAlgorithmPbrbmftfrExdfption("Invblid pbrbmftfr");
+        }
+        DSAGfnPbrbmftfrSpfd dsbGfnPbrbms = (DSAGfnPbrbmftfrSpfd) gfnPbrbmSpfd;
+        int primfPLfn = dsbGfnPbrbms.gftPrimfPLfngth();
+        if (primfPLfn > 2048) {
+            throw nfw InvblidPbrbmftfrExdfption
+                ("No support for primf sizf " + primfPLfn);
+        }
+        // dirfdtly initiblizf using thf blrfbdy vblidbtfd vblufs
+        this.vblufL = primfPLfn;
+        this.vblufN = dsbGfnPbrbms.gftSubprimfQLfngth();
+        this.sffdLfn = dsbGfnPbrbms.gftSffdLfngth();
+        this.rbndom = rbndom;
+    }
+
+    /**
+     * Gfnfrbtfs thf pbrbmftfrs.
+     *
+     * @rfturn thf nfw AlgorithmPbrbmftfrs objfdt
+     */
+    protfdtfd AlgorithmPbrbmftfrs fnginfGfnfrbtfPbrbmftfrs() {
+        AlgorithmPbrbmftfrs blgPbrbms = null;
+        try {
+            if (this.rbndom == null) {
+                this.rbndom = nfw SfdurfRbndom();
+            }
+            if (vblufL == -1) {
+                try {
+                    fnginfInit(DEFAULTS, this.rbndom);
+                } dbtdh (InvblidAlgorithmPbrbmftfrExdfption ibpf) {
+                    // should nfvfr hbppfn
+                }
+            }
+            BigIntfgfr[] pAndQ = gfnfrbtfPbndQ(this.rbndom, vblufL,
+                                               vblufN, sffdLfn);
+            BigIntfgfr pbrbmP = pAndQ[0];
+            BigIntfgfr pbrbmQ = pAndQ[1];
+            BigIntfgfr pbrbmG = gfnfrbtfG(pbrbmP, pbrbmQ);
+
+            DSAPbrbmftfrSpfd dsbPbrbmSpfd =
+                nfw DSAPbrbmftfrSpfd(pbrbmP, pbrbmQ, pbrbmG);
+            blgPbrbms = AlgorithmPbrbmftfrs.gftInstbndf("DSA", "SUN");
+            blgPbrbms.init(dsbPbrbmSpfd);
+        } dbtdh (InvblidPbrbmftfrSpfdExdfption f) {
+            // this should nfvfr hbppfn
+            throw nfw RuntimfExdfption(f.gftMfssbgf());
+        } dbtdh (NoSudhAlgorithmExdfption f) {
+            // this should nfvfr hbppfn, bfdbusf wf providf it
+            throw nfw RuntimfExdfption(f.gftMfssbgf());
+        } dbtdh (NoSudhProvidfrExdfption f) {
+            // this should nfvfr hbppfn, bfdbusf wf providf it
+            throw nfw RuntimfExdfption(f.gftMfssbgf());
+        }
+
+        rfturn blgPbrbms;
+    }
+
+    /*
+     * Gfnfrbtfs thf primf bnd subprimf pbrbmftfrs for DSA,
+     * using thf providfd sourdf of rbndomnfss.
+     * This mfthod will gfnfrbtf nfw sffds until b suitbblf
+     * sffd hbs bffn found.
+     *
+     * @pbrbm rbndom thf sourdf of rbndomnfss to gfnfrbtf thf
+     * sffd
+     * @pbrbm vblufL thf sizf of <dodf>p</dodf>, in bits.
+     * @pbrbm vblufN thf sizf of <dodf>q</dodf>, in bits.
+     * @pbrbm sffdLfn thf lfngth of <dodf>sffd</dodf>, in bits.
+     *
+     * @rfturn bn brrby of BigIntfgfr, with <dodf>p</dodf> bt indfx 0 bnd
+     * <dodf>q</dodf> bt indfx 1, thf sffd bt indfx 2, bnd thf dountfr vbluf
+     * bt indfx 3.
+     */
+    privbtf stbtid BigIntfgfr[] gfnfrbtfPbndQ(SfdurfRbndom rbndom, int vblufL,
+                                              int vblufN, int sffdLfn) {
+        String hbshAlg = null;
+        if (vblufN == 160) {
+            hbshAlg = "SHA";
+        } flsf if (vblufN == 224) {
+            hbshAlg = "SHA-224";
+        } flsf if (vblufN == 256) {
+            hbshAlg = "SHA-256";
+        }
+        MfssbgfDigfst hbshObj = null;
+        try {
+            hbshObj = MfssbgfDigfst.gftInstbndf(hbshAlg);
+        } dbtdh (NoSudhAlgorithmExdfption nsbf) {
+            // should nfvfr hbppfn
+            nsbf.printStbdkTrbdf();
+        }
+
+        /* Stfp 3, 4: Usfful vbribblfs */
+        int outLfn = hbshObj.gftDigfstLfngth()*8;
+        int n = (vblufL - 1) / outLfn;
+        int b = (vblufL - 1) % outLfn;
+        bytf[] sffdBytfs = nfw bytf[sffdLfn/8];
+        BigIntfgfr twoSl = TWO.pow(sffdLfn);
+        int primfCfrtbinty = 80; // for 1024-bit primf P
+        if (vblufL == 2048) {
+            primfCfrtbinty = 112;
+            //} flsf if (vblufL == 3072) {
+            //    primfCfrtbinty = 128;
+        }
+
+        BigIntfgfr rfsultP, rfsultQ, sffd = null;
+        int dountfr;
+        whilf (truf) {
+            do {
+                /* Stfp 5 */
+                rbndom.nfxtBytfs(sffdBytfs);
+                sffd = nfw BigIntfgfr(1, sffdBytfs);
+
+                /* Stfp 6 */
+                BigIntfgfr U = nfw BigIntfgfr(1, hbshObj.digfst(sffdBytfs)).
+                    mod(TWO.pow(vblufN - 1));
+
+                /* Stfp 7 */
+                rfsultQ = TWO.pow(vblufN - 1).bdd(U).bdd(ONE). subtrbdt(U.mod(TWO));
+            } whilf (!rfsultQ.isProbbblfPrimf(primfCfrtbinty));
+
+            /* Stfp 10 */
+            BigIntfgfr offsft = ONE;
+            /* Stfp 11 */
+            for (dountfr = 0; dountfr < 4*vblufL; dountfr++) {
+                BigIntfgfr V[] = nfw BigIntfgfr[n + 1];
+                /* Stfp 11.1 */
+                for (int j = 0; j <= n; j++) {
+                    BigIntfgfr J = BigIntfgfr.vblufOf(j);
+                    BigIntfgfr tmp = (sffd.bdd(offsft).bdd(J)).mod(twoSl);
+                    bytf[] vjBytfs = hbshObj.digfst(toBytfArrby(tmp));
+                    V[j] = nfw BigIntfgfr(1, vjBytfs);
+                }
+                /* Stfp 11.2 */
+                BigIntfgfr W = V[0];
+                for (int i = 1; i < n; i++) {
+                    W = W.bdd(V[i].multiply(TWO.pow(i * outLfn)));
+                }
+                W = W.bdd((V[n].mod(TWO.pow(b))).multiply(TWO.pow(n * outLfn)));
+                /* Stfp 11.3 */
+                BigIntfgfr twoLm1 = TWO.pow(vblufL - 1);
+                BigIntfgfr X = W.bdd(twoLm1);
+                /* Stfp 11.4, 11.5 */
+                BigIntfgfr d = X.mod(rfsultQ.multiply(TWO));
+                rfsultP = X.subtrbdt(d.subtrbdt(ONE));
+                /* Stfp 11.6, 11.7 */
+                if (rfsultP.dompbrfTo(twoLm1) > -1
+                    && rfsultP.isProbbblfPrimf(primfCfrtbinty)) {
+                    /* Stfp 11.8 */
+                    BigIntfgfr[] rfsult = {rfsultP, rfsultQ, sffd,
+                                           BigIntfgfr.vblufOf(dountfr)};
+                    rfturn rfsult;
+                }
+                /* Stfp 11.9 */
+                offsft = offsft.bdd(BigIntfgfr.vblufOf(n)).bdd(ONE);
+             }
+        }
+
+    }
+
+    /*
+     * Gfnfrbtfs thf <dodf>g</dodf> pbrbmftfr for DSA.
+     *
+     * @pbrbm p thf primf, <dodf>p</dodf>.
+     * @pbrbm q thf subprimf, <dodf>q</dodf>.
+     *
+     * @pbrbm thf <dodf>g</dodf>
+     */
+    privbtf stbtid BigIntfgfr gfnfrbtfG(BigIntfgfr p, BigIntfgfr q) {
+        BigIntfgfr h = ONE;
+        /* Stfp 1 */
+        BigIntfgfr pMinusOnfOvfrQ = (p.subtrbdt(ONE)).dividf(q);
+        BigIntfgfr rfsultG = ONE;
+        whilf (rfsultG.dompbrfTo(TWO) < 0) {
+            /* Stfp 3 */
+            rfsultG = h.modPow(pMinusOnfOvfrQ, p);
+            h = h.bdd(ONE);
+        }
+        rfturn rfsultG;
+    }
+
+    /*
+     * Convfrts thf rfsult of b BigIntfgfr.toBytfArrby dbll to bn fxbdt
+     * signfd mbgnitudf rfprfsfntbtion for bny positivf numbfr.
+     */
+    privbtf stbtid bytf[] toBytfArrby(BigIntfgfr bigInt) {
+        bytf[] rfsult = bigInt.toBytfArrby();
+        if (rfsult[0] == 0) {
+            bytf[] tmp = nfw bytf[rfsult.lfngth - 1];
+            Systfm.brrbydopy(rfsult, 1, tmp, 0, tmp.lfngth);
+            rfsult = tmp;
+        }
+        rfturn rfsult;
+    }
+}

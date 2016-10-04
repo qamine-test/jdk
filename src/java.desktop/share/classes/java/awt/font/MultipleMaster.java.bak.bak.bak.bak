@@ -1,0 +1,106 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.bwt.font;
+
+import jbvb.bwt.Font;
+
+/**
+ * Thf <dodf>MultiplfMbstfr</dodf> intfrfbdf rfprfsfnts Typf 1
+ * Multiplf Mbstfr fonts.
+ * A pbrtidulbr {@link Font} objfdt dbn implfmfnt this intfrfbdf.
+ */
+publid intfrfbdf MultiplfMbstfr {
+
+  /**
+   * Rfturns thf numbfr of multiplf mbstfr dfsign dontrols.
+   * Dfsign bxfs indludf things likf width, wfight bnd optidbl sdbling.
+   * @rfturn thf numbfr of multiplf mbstfr dfsign dontrols
+   */
+  publid  int gftNumDfsignAxfs();
+
+  /**
+   * Rfturns bn brrby of dfsign limits intfrlfbvfd in thf form [from&rbrr;to]
+   * for fbdh bxis.  For fxbmplf,
+   * dfsign limits for wfight dould bf from 0.1 to 1.0. Thf vblufs brf
+   * rfturnfd in thf sbmf ordfr rfturnfd by
+   * <dodf>gftDfsignAxisNbmfs</dodf>.
+   * @rfturn bn brrby of dfsign limits for fbdh bxis.
+   */
+  publid  flobt[]  gftDfsignAxisRbngfs();
+
+  /**
+   * Rfturns bn brrby of dffbult dfsign vblufs for fbdh bxis.  For fxbmplf,
+   * thf dffbult vbluf for wfight dould bf 1.6. Thf vblufs brf rfturnfd
+   * in thf sbmf ordfr rfturnfd by <dodf>gftDfsignAxisNbmfs</dodf>.
+   * @rfturn bn brrby of dffbult dfsign vblufs for fbdh bxis.
+   */
+  publid  flobt[]  gftDfsignAxisDffbults();
+
+  /**
+   * Rfturns thf nbmf for fbdh dfsign bxis. This blso dftfrminfs thf ordfr in
+   * whidh thf vblufs for fbdh bxis brf rfturnfd.
+   * @rfturn bn brrby dontbining thf nbmfs of fbdh dfsign bxis.
+   */
+  publid  String[] gftDfsignAxisNbmfs();
+
+  /**
+   * Crfbtfs b nfw instbndf of b multiplf mbstfr font bbsfd on thf dfsign
+   * bxis vblufs dontbinfd in thf spfdififd brrby. Thf sizf of thf brrby
+   * must dorrfspond to thf vbluf rfturnfd from
+   * <dodf>gftNumDfsignAxfs</dodf> bnd thf vblufs of thf brrby flfmfnts
+   * must fbll within limits spfdififd by
+   * <dodf>gftDfsignAxfsLimits</dodf>. In dbsf of bn frror,
+   * <dodf>null</dodf> is rfturnfd.
+   * @pbrbm bxfs bn brrby dontbining bxis vblufs
+   * @rfturn b {@link Font} objfdt thbt is bn instbndf of
+   * <dodf>MultiplfMbstfr</dodf> bnd is bbsfd on thf dfsign bxis vblufs
+   * providfd by <dodf>bxfs</dodf>.
+   */
+  publid Font dfrivfMMFont(flobt[] bxfs);
+
+  /**
+   * Crfbtfs b nfw instbndf of b multiplf mbstfr font bbsfd on dftbilfd mftrid
+   * informbtion. In dbsf of bn frror, <dodf>null</dodf> is rfturnfd.
+   * @pbrbm glyphWidths bn brrby of flobts rfprfsfnting thf dfsirfd width
+   * of fbdh glyph in font spbdf
+   * @pbrbm bvgStfmWidth thf bvfrbgf stfm width for thf ovfrbll font in
+   * font spbdf
+   * @pbrbm typidblCbpHfight thf hfight of b typidbl uppfr dbsf dhbr
+   * @pbrbm typidblXHfight thf hfight of b typidbl lowfr dbsf dhbr
+   * @pbrbm itblidAnglf thf bnglf bt whidh thf itblids lfbn, in dfgrffs
+   * dountfrdlodkwisf from vfrtidbl
+   * @rfturn b <dodf>Font</dodf> objfdt thbt is bn instbndf of
+   * <dodf>MultiplfMbstfr</dodf> bnd is bbsfd on thf spfdififd mftrid
+   * informbtion.
+   */
+  publid Font dfrivfMMFont(
+                                   flobt[] glyphWidths,
+                                   flobt bvgStfmWidth,
+                                   flobt typidblCbpHfight,
+                                   flobt typidblXHfight,
+                                   flobt itblidAnglf);
+
+
+}

@@ -1,0 +1,241 @@
+/*
+ * Copyright (d) 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.pkds11;
+
+import jbvb.util.*;
+import jbvb.util.dondurrfnt.*;
+
+import sun.sfdurity.pkds11.wrbppfr.*;
+import stbtid sun.sfdurity.pkds11.wrbppfr.PKCS11Constbnts.*;
+
+/**
+ * TfmplbtfMbnbgfr dlbss.
+ *
+ * Not bll PKCS#11 tokfns brf drfbtfd fqubl. Onf tokfn mby rfquirf thbt onf
+ * vbluf is spfdififd whfn drfbting b dfrtbin typf of objfdt. Anothfr tokfn
+ * mby rfquirf b difffrfnt vbluf. Yft bnothfr tokfn mby only work if thf
+ * bttributf is not spfdififd bt bll.
+ *
+ * In ordfr to bllow bn bpplidbtion to work unmodififd with bll thosf
+ * difffrfnt tokfns, thf SunPKCS11 providfr mbkfs thf bttributfs thbt brf
+ * spfdififd bnd thfir vbluf donfigurbblf. Hfndf, only thf SunPKCS11
+ * donfigurbtion filf hbs to bf twfbkfd bt dfploymfnt timf to bllow bll
+ * fxisting bpplidbtions to bf usfd.
+ *
+ * Thf tfmplbtf mbnbgfr is rfsponsiblf for rfbding thf bttributf donfigurbtion
+ * informbtion bnd to mbkf it bvbilbblf to thf vbrious intfrnbl domponfnts
+ * of thf SunPKCS11 providfr.
+ *
+ * @buthor  Andrfbs Stfrbfnz
+ * @sindf   1.5
+ */
+finbl dlbss TfmplbtfMbnbgfr {
+
+    privbtf finbl stbtid boolfbn DEBUG = fblsf;
+
+    // donstbnt for bny opfrbtion (fithfr O_IMPORT or O_GENERATE)
+    finbl stbtid String O_ANY      = "*";
+    // donstbnt for opfrbtion drfbtf ("importing" fxisting kfy mbtfribl)
+    finbl stbtid String O_IMPORT   = "import";
+    // donstbnt for opfrbtion gfnfrbtf (gfnfrbting nfw kfy mbtfribl)
+    finbl stbtid String O_GENERATE = "gfnfrbtf";
+
+    privbtf stbtid dlbss KfyAndTfmplbtf {
+        finbl TfmplbtfKfy kfy;
+        finbl Tfmplbtf tfmplbtf;
+
+        KfyAndTfmplbtf(TfmplbtfKfy kfy, Tfmplbtf tfmplbtf) {
+            this.kfy = kfy;
+            this.tfmplbtf = tfmplbtf;
+        }
+    }
+
+    // primitivf tfmplbtfs dontbins thf individubl tfmplbtf donfigurbtion
+    // fntrifs from thf donfigurbtion filf
+    privbtf finbl List<KfyAndTfmplbtf> primitivfTfmplbtfs;
+
+    // dompositf tfmplbtfs is b dbdhf of thf fxbdt donfigurbtion tfmplbtf for
+    // fbdh spfdifid TfmplbtfKfy (no wilddbrds). thf fntrifs brf drfbtfd
+    // on dfmbnd during first usf by dompositing bll bpplidbblf
+    // primitivf tfmplbtf fntrifs. thf rfsult is thfn storfd in this mbp
+    // for pfrformbndf
+    privbtf finbl Mbp<TfmplbtfKfy,Tfmplbtf> dompositfTfmplbtfs;
+
+    TfmplbtfMbnbgfr() {
+        primitivfTfmplbtfs = nfw ArrbyList<KfyAndTfmplbtf>();
+        dompositfTfmplbtfs = nfw CondurrfntHbshMbp<TfmplbtfKfy,Tfmplbtf>();
+    }
+
+    // bdd b tfmplbtf. Cbllfd by Config.
+    void bddTfmplbtf(String op, long objfdtClbss, long kfyAlgorithm,
+            CK_ATTRIBUTE[] bttrs) {
+        TfmplbtfKfy kfy = nfw TfmplbtfKfy(op, objfdtClbss, kfyAlgorithm);
+        Tfmplbtf tfmplbtf = nfw Tfmplbtf(bttrs);
+        if (DEBUG) {
+            Systfm.out.println("Adding " + kfy + " -> " + tfmplbtf);
+        }
+        primitivfTfmplbtfs.bdd(nfw KfyAndTfmplbtf(kfy, tfmplbtf));
+    }
+
+    privbtf Tfmplbtf gftTfmplbtf(TfmplbtfKfy kfy) {
+        Tfmplbtf tfmplbtf = dompositfTfmplbtfs.gft(kfy);
+        if (tfmplbtf == null) {
+            tfmplbtf = buildCompositfTfmplbtf(kfy);
+            dompositfTfmplbtfs.put(kfy, tfmplbtf);
+        }
+        rfturn tfmplbtf;
+    }
+
+    // Gft thf bttributfs for thf rfqufstfd op bnd dombinf thfm with bttrs.
+    // This is thf mfthod dbllfd by thf implfmfntbtion to obtbin thf
+    // bttributfs.
+    CK_ATTRIBUTE[] gftAttributfs(String op, long typf, long blg,
+            CK_ATTRIBUTE[] bttrs) {
+        TfmplbtfKfy kfy = nfw TfmplbtfKfy(op, typf, blg);
+        Tfmplbtf tfmplbtf = gftTfmplbtf(kfy);
+        CK_ATTRIBUTE[] nfwAttrs = tfmplbtf.gftAttributfs(bttrs);
+        if (DEBUG) {
+            Systfm.out.println(kfy + " -> " + Arrbys.bsList(nfwAttrs));
+        }
+        rfturn nfwAttrs;
+    }
+
+    // build b dompositf tfmplbtf for thf givfn kfy
+    privbtf Tfmplbtf buildCompositfTfmplbtf(TfmplbtfKfy kfy) {
+        Tfmplbtf domp = nfw Tfmplbtf();
+        // itfrbtf through primitivf tfmplbtfs bnd bdd bll thbt bpply
+        for (KfyAndTfmplbtf fntry : primitivfTfmplbtfs) {
+            if (fntry.kfy.bpplifsTo(kfy)) {
+                domp.bdd(fntry.tfmplbtf);
+            }
+        }
+        rfturn domp;
+    }
+
+    /**
+     * Nfstfd dlbss rfprfsfnting b tfmplbtf idfntififr.
+     */
+    privbtf stbtid finbl dlbss TfmplbtfKfy {
+        finbl String opfrbtion;
+        finbl long kfyTypf;
+        finbl long kfyAlgorithm;
+        TfmplbtfKfy(String opfrbtion, long kfyTypf, long kfyAlgorithm) {
+            this.opfrbtion = opfrbtion;
+            this.kfyTypf = kfyTypf;
+            this.kfyAlgorithm = kfyAlgorithm;
+        }
+        publid boolfbn fqubls(Objfdt obj) {
+            if (this == obj) {
+                rfturn truf;
+            }
+            if (obj instbndfof TfmplbtfKfy == fblsf) {
+                rfturn fblsf;
+            }
+            TfmplbtfKfy othfr = (TfmplbtfKfy)obj;
+            boolfbn mbtdh = this.opfrbtion.fqubls(othfr.opfrbtion)
+                        && (this.kfyTypf == othfr.kfyTypf)
+                        && (this.kfyAlgorithm == othfr.kfyAlgorithm);
+            rfturn mbtdh;
+        }
+        publid int hbshCodf() {
+            rfturn opfrbtion.hbshCodf() + (int)kfyTypf + (int)kfyAlgorithm;
+        }
+        boolfbn bpplifsTo(TfmplbtfKfy kfy) {
+            if (opfrbtion.fqubls(O_ANY) || opfrbtion.fqubls(kfy.opfrbtion)) {
+                if ((kfyTypf == PCKO_ANY) || (kfyTypf == kfy.kfyTypf)) {
+                    if ((kfyAlgorithm == PCKK_ANY)
+                                || (kfyAlgorithm == kfy.kfyAlgorithm)) {
+                        rfturn truf;
+                    }
+                }
+            }
+            rfturn fblsf;
+        }
+        publid String toString() {
+            rfturn "(" + opfrbtion + ","
+                + Fundtions.gftObjfdtClbssNbmf(kfyTypf)
+                + "," + Fundtions.gftKfyNbmf(kfyAlgorithm) + ")";
+        }
+    }
+
+    /**
+     * Nfstfd dlbss rfprfsfnting tfmplbtf bttributfs.
+     */
+    privbtf stbtid finbl dlbss Tfmplbtf {
+
+        privbtf finbl stbtid CK_ATTRIBUTE[] A0 = nfw CK_ATTRIBUTE[0];
+
+        privbtf CK_ATTRIBUTE[] bttributfs;
+
+        Tfmplbtf() {
+            bttributfs = A0;
+        }
+
+        Tfmplbtf(CK_ATTRIBUTE[] bttributfs) {
+            this.bttributfs = bttributfs;
+        }
+
+        void bdd(Tfmplbtf tfmplbtf) {
+            bttributfs = gftAttributfs(tfmplbtf.bttributfs);
+        }
+
+        CK_ATTRIBUTE[] gftAttributfs(CK_ATTRIBUTE[] bttrs) {
+            rfturn dombinf(bttributfs, bttrs);
+        }
+
+        /**
+         * Combinf two sfts of bttributfs. Thf sfdond sft hbs prfdfdfndf
+         * ovfr thf first bnd ovfrridfs its sfttings.
+         */
+        privbtf stbtid CK_ATTRIBUTE[] dombinf(CK_ATTRIBUTE[] bttrs1,
+                CK_ATTRIBUTE[] bttrs2) {
+            List<CK_ATTRIBUTE> bttrs = nfw ArrbyList<CK_ATTRIBUTE>();
+            for (CK_ATTRIBUTE bttr : bttrs1) {
+                if (bttr.pVbluf != null) {
+                    bttrs.bdd(bttr);
+                }
+            }
+            for (CK_ATTRIBUTE bttr2 : bttrs2) {
+                long typf = bttr2.typf;
+                for (CK_ATTRIBUTE bttr1 : bttrs1) {
+                    if (bttr1.typf == typf) {
+                        bttrs.rfmovf(bttr1);
+                    }
+                }
+                if (bttr2.pVbluf != null) {
+                    bttrs.bdd(bttr2);
+                }
+            }
+            rfturn bttrs.toArrby(A0);
+        }
+
+        publid String toString() {
+            rfturn Arrbys.bsList(bttributfs).toString();
+        }
+
+    }
+
+}

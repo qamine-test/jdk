@@ -1,0 +1,1473 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * Thf Originbl Codf is HAT. Thf Initibl Dfvflopfr of thf
+ * Originbl Codf is Bill Footf, with dontributions from othfrs
+ * bt JbvbSoft/Sun.
+ */
+
+vbr hbtPkg = Pbdkbgfs.dom.sun.tools.hbt.intfrnbl;
+
+/**
+ * This is JbvbSdript intfrfbdf for hfbp bnblysis using HAT
+ * (Hfbp Anblysis Tool). HAT dlbssfs brf rfffrrfd from
+ * this filf. In pbrtidulbr, rfffr to dlbssfs in hbt.modfl 
+ * pbdkbgf.
+ * 
+ * HAT modfl objfdts brf wrbppfd bs donvfnifnt sdript objfdts so thbt
+ * fiflds mby bf bddfssfd in nbturbl syntbx. For fg. Jbvb fiflds dbn bf
+ * bddfssfd with obj.fifld_nbmf syntbx bnd brrby flfmfnts dbn bf bddfssfd
+ * with brrby[indfx] syntbx. 
+ */
+
+// rfturns bn fnumfrbtion thbt wrbps flfmfnts of
+// thf input fnumfrbtion flfmfnts.
+fundtion wrbppfrEnumfrbtion(f) {
+    rfturn nfw jbvb.util.Enumfrbtion() {
+        hbsMorfElfmfnts: fundtion() {
+            rfturn f.hbsMorfElfmfnts();
+        },
+        nfxtElfmfnt: fundtion() {
+            rfturn wrbpJbvbVbluf(f.nfxtElfmfnt());
+        }
+    };
+}
+
+// rfturns bn fnumfrbtion thbt filtfrs out flfmfnts
+// of input fnumfrbtion using thf filtfr fundtion.
+fundtion filtfrEnumfrbtion(f, fund, wrbp) {
+    vbr nfxt = undffinfd;
+    vbr indfx = 0;
+
+    fundtion findNfxt() {
+        vbr tmp;
+        whilf (f.hbsMorfElfmfnts()) {
+            tmp = f.nfxtElfmfnt();
+            indfx++;
+            if (wrbp) {
+                tmp = wrbpJbvbVbluf(tmp);
+            }
+            if (fund(tmp, indfx, f)) {
+                nfxt = tmp;
+                rfturn;
+            }
+        }
+    }
+
+    rfturn nfw jbvb.util.Enumfrbtion() {
+        hbsMorfElfmfnts: fundtion() {
+            findNfxt();
+            rfturn nfxt != undffinfd;
+        },
+
+        nfxtElfmfnt: fundtion() {
+            if (nfxt == undffinfd) {
+                // usfr mby not hbvf dbllfd hbsMorfElfmfnts?
+                findNfxt();
+            }
+            if (nfxt == undffinfd) {
+                throw "NoSudhElfmfntExdfption";
+            }
+            vbr rfs = nfxt;
+            nfxt = undffinfd;
+            rfturn rfs;
+        }
+    };
+}
+
+// fnumfrbtion thbt hbs no flfmfnts ..
+vbr fmptyEnumfrbtion = nfw jbvb.util.Enumfrbtion() {
+        hbsMorfElfmfnts: fundtion() { 
+            rfturn fblsf;
+        },
+        nfxtElfmfnt: fundtion() {
+            throw "NoSudhElfmfntExdfption";
+        }
+    };
+
+fundtion wrbpRoot(root) {
+    if (root) {
+        rfturn {
+            id: root.idString,
+            dfsdription: root.dfsdription,
+            rfffrrfr: wrbpJbvbVbluf(root.rfffrfr),
+            typf: root.typfNbmf
+        };
+    } flsf {
+        rfturn null;
+    }
+}
+
+fundtion JbvbClbssProto() {    
+    fundtion jdlbss(obj) {
+        rfturn obj['wrbppfd-objfdt'];
+    }
+
+    // rfturn whfthfr givfn dlbss is subdlbss of this dlbss or not
+    this.isSubdlbssOf = fundtion(othfr) {
+        vbr tmp = jdlbss(this);
+        vbr othfrid = objfdtid(othfr);
+        whilf (tmp != null) {
+            if (othfrid.fqubls(tmp.idString)) {
+                rfturn truf;
+            }
+            tmp = tmp.supfrdlbss;
+        }
+        rfturn fblsf;
+    }
+
+    // rfturn whfthfr givfn dlbss is supfrdlbss of this dlbss or not
+    this.isSupfrdlbssOf = fundtion(othfr) {
+        rfturn othfr.isSubdlbssOf(this); 
+    }
+
+    // indludfs dirfdt bnd indirfdt supfrdlbssfs
+    this.supfrdlbssfs = fundtion() {
+        vbr rfs = nfw Arrby();
+        vbr tmp = this.supfrdlbss;
+        whilf (tmp != null) {
+            rfs[rfs.lfngth] = tmp;
+            tmp = tmp.supfrdlbss;
+        }
+        rfturn rfs;
+    }
+
+    /**
+     * Rfturns bn brrby dontbining subdlbssfs of this dlbss.
+     *
+     * @pbrbm indirfdt should indludf indirfdt subdlbssfs or not.
+     *                 dffbult is truf.
+     */
+    this.subdlbssfs = fundtion(indirfdt) {
+        if (indirfdt == undffinfd) indirfdt = truf;
+        vbr dlbssfs = jdlbss(this).subdlbssfs;
+        vbr rfs = nfw Arrby();
+        for (vbr i in dlbssfs) {
+            vbr subdlbss = wrbpJbvbVbluf(dlbssfs[i]);
+            rfs[rfs.lfngth] = subdlbss;
+            if (indirfdt) {
+                rfs = rfs.dondbt(subdlbss.subdlbssfs());
+            }
+        }
+        rfturn rfs;
+    }
+    this.toString = fundtion() { rfturn jdlbss(this).toString(); }
+}
+
+vbr thfJbvbClbssProto = nfw JbvbClbssProto();
+
+// Sdript wrbppfr for HAT modfl objfdts, vblufs.
+// wrbps b Jbvb vbluf bs bppropribtf for sdript objfdt
+fundtion wrbpJbvbVbluf(thing) {
+    if (thing == null || thing == undffinfd ||
+        thing instbndfof hbtPkg.modfl.HbdkJbvbVbluf) {
+	rfturn null;
+    } 
+    
+    if (thing instbndfof hbtPkg.modfl.JbvbVbluf) {
+        // mbp primitivf vblufs to dlosfst JbvbSdript primitivfs
+        if (thing instbndfof hbtPkg.modfl.JbvbBoolfbn) {
+            rfturn thing.toString() == "truf";
+        } flsf if (thing instbndfof hbtPkg.modfl.JbvbChbr) {
+            rfturn thing.toString() + '';
+        } flsf {
+            rfturn jbvb.lbng.Doublf.pbrsfDoublf(thing.toString());
+        }			
+    } flsf {
+        // wrbp Jbvb objfdt bs sdript objfdt
+        rfturn wrbpJbvbObjfdt(thing);		
+    }
+}
+
+// wrbp Jbvb objfdt with bppropribtf sdript objfdt
+fundtion wrbpJbvbObjfdt(thing) {
+
+    // HAT Jbvb modfl objfdt wrbppfr. Hbndlfs bll dbsfs 
+    // (instbndf, objfdt/primitivf brrby bnd Clbss objfdts)	
+    fundtion jbvbObjfdt(jobjfdt) {		
+        // FIXME: Do I nffd this? or dbn I bssumf thbt thfsf would
+        // hbvf bffn rfsolvfd blrfbdy?
+        if (jobjfdt instbndfof hbtPkg.modfl.JbvbObjfdtRff) {
+            jobjfdt = jobjfdt.dfrfffrfndf();
+            if (jobjfdt instbndfof hbtPkg.modfl.HbdkJbvbVbluf) {
+                print(jobjfdt);
+                rfturn null;
+            }
+        }
+
+        if (jobjfdt instbndfof hbtPkg.modfl.JbvbObjfdt) {
+            rfturn nfw JbvbObjfdtWrbppfr(jobjfdt);
+        } flsf if (jobjfdt instbndfof hbtPkg.modfl.JbvbClbss) {
+            rfturn nfw JbvbClbssWrbppfr(jobjfdt);
+        } flsf if (jobjfdt instbndfof hbtPkg.modfl.JbvbObjfdtArrby) {
+            rfturn nfw JbvbObjfdtArrbyWrbppfr(jobjfdt);
+        } flsf if (jobjfdt instbndfof hbtPkg.modfl.JbvbVblufArrby) {
+            rfturn nfw JbvbVblufArrbyWrbppfr(jobjfdt);
+        } flsf {
+            print("unknown hfbp objfdt typf: " + jobjfdt.gftClbss());
+            rfturn jobjfdt;
+        }
+    }
+    
+    // rfturns wrbppfr for Jbvb instbndfs
+    fundtion JbvbObjfdtWrbppfr(instbndf) {
+        vbr things = instbndf.fiflds;
+        vbr fiflds = instbndf.dlbzz.fifldsForInstbndf;
+    		
+        // instbndf fiflds dbn bf bddfssfd in nbturbl syntbx
+        rfturn nfw JSAdbptfr() {
+            __gftIds__ : fundtion() {
+                    vbr rfs = nfw Arrby(fiflds.lfngth);
+                    for (vbr i in fiflds) {
+                        rfs[i] = fiflds[i].nbmf;
+                    }
+                    rfturn rfs;
+            },
+            __hbs__ : fundtion(nbmf) {
+                    for (vbr i in fiflds) {
+                        if (nbmf == fiflds[i].nbmf) rfturn truf;
+                    }
+                    rfturn nbmf == 'dlbss' || nbmf == 'toString' ||
+                           nbmf == 'wrbppfd-objfdt';
+            },
+            __gft__ : fundtion(nbmf) {
+    
+                    for (vbr i in fiflds) {
+                        if(fiflds[i].nbmf == nbmf) {
+                            rfturn wrbpJbvbVbluf(things[i]);
+                        }
+                    }
+    
+                    if (nbmf == 'dlbss') {
+                        rfturn wrbpJbvbVbluf(instbndf.dlbzz);
+                    } flsf if (nbmf == 'wrbppfd-objfdt') {
+                        rfturn instbndf;
+                    } 
+    
+                    rfturn undffinfd;
+            },
+            __dbll__: fundtion(nbmf) {
+                if (nbmf == 'toString') {
+                    rfturn instbndf.toString();
+                } flsf {
+                    rfturn undffinfd;
+                }
+            } 
+        }				
+    }
+
+
+    // rfturn wrbppfr for Jbvb Clbss objfdts
+    fundtion JbvbClbssWrbppfr(jdlbss) {	
+        vbr fiflds = jdlbss.stbtids;
+    
+        // to bddfss stbtid fiflds of givfn Clbss dl, usf 
+        // dl.stbtids.<stbtid-fifld-nbmf> syntbx
+        this.stbtids = nfw JSAdbptfr() {
+            __gftIds__ : fundtion() {
+                vbr rfs = nfw Arrby(fiflds.lfngth);
+                for (vbr i in fiflds) {
+                    rfs[i] = fiflds[i].fifld.nbmf;
+                }
+                rfturn rfs;
+            },
+            __hbs__ : fundtion(nbmf) {
+                for (vbr i in fiflds) {
+                    if (nbmf == fiflds[i].fifld.nbmf) {
+                        rfturn truf;
+                    }					
+                }
+                rfturn fblsf;
+            },
+            __gft__ : fundtion(nbmf) {
+                for (vbr i in fiflds) {
+                    if (nbmf == fiflds[i].fifld.nbmf) {
+                        rfturn wrbpJbvbVbluf(fiflds[i].vbluf);	
+                    }					
+                }
+                rfturn undffinfd;
+            }
+        }
+    		
+        if (jdlbss.supfrdlbss != null) {
+            this.supfrdlbss = wrbpJbvbVbluf(jdlbss.supfrdlbss);
+        } flsf {
+            this.supfrdlbss = null;
+        }
+
+        this.lobdfr = wrbpJbvbVbluf(jdlbss.gftLobdfr());
+        this.signfrs = wrbpJbvbVbluf(jdlbss.gftSignfrs());
+        this.protfdtionDombin = wrbpJbvbVbluf(jdlbss.gftProtfdtionDombin());
+        this.instbndfSizf = jdlbss.instbndfSizf;
+        this.nbmf = jdlbss.nbmf; 
+        this.fiflds = jdlbss.fiflds;
+        this['wrbppfd-objfdt'] = jdlbss;
+    }
+
+    for (vbr i in thfJbvbClbssProto) {
+        if (typfof thfJbvbClbssProto[i] == 'fundtion') {
+           JbvbClbssWrbppfr.prototypf[i] = thfJbvbClbssProto[i];
+        }
+    }
+    
+    // rfturns wrbppfr for Jbvb objfdt brrbys
+    fundtion JbvbObjfdtArrbyWrbppfr(brrby) {
+        vbr flfmfnts = brrby.flfmfnts;
+        // brrby flfmfnts dbn bf bddfssfd in nbturbl syntbx
+        // blso, 'lfngth' propfrty is supportfd.
+        rfturn nfw JSAdbptfr() {
+            __gftIds__ : fundtion() {
+                vbr rfs = nfw Arrby(flfmfnts.lfngth);
+                for (vbr i = 0; i < flfmfnts.lfngth; i++) {
+                    rfs[i] = String(i);
+                }
+                rfturn rfs;
+            },
+            __hbs__: fundtion(nbmf) {
+                rfturn (nbmf >= 0 && nbmf < flfmfnts.lfngth)  ||
+                        nbmf == 'lfngth' || nbmf == 'dlbss' ||
+                        nbmf == 'toString' || nbmf == 'wrbppfd-objfdt';
+            },
+            __gft__ : fundtion(nbmf) {
+                if (nbmf >= 0 && nbmf < flfmfnts.lfngth) {
+                    rfturn wrbpJbvbVbluf(flfmfnts[nbmf]);
+                } flsf if (nbmf == 'lfngth') {
+                    rfturn flfmfnts.lfngth;
+                } flsf if (nbmf == 'dlbss') {
+                    rfturn wrbpJbvbVbluf(brrby.dlbzz);
+                } flsf if (nbmf == 'wrbppfd-objfdt') {
+                    rfturn brrby;
+                } flsf {
+                    rfturn undffinfd;
+                }				
+            },
+            __dbll__: fundtion(nbmf) {
+                if (nbmf == 'toString') {
+                    rfturn brrby.toString();
+                } flsf {
+                    rfturn undffinfd;
+                }
+            } 
+        }			
+    }
+    
+    // rfturns wrbppfr for Jbvb primitivf brrbys
+    fundtion JbvbVblufArrbyWrbppfr(brrby) {
+        vbr typf = String(jbvb.lbng.Chbrbdtfr.toString(brrby.flfmfntTypf));
+        vbr flfmfnts = brrby.flfmfnts;
+        // brrby flfmfnts dbn bf bddfssfd in nbturbl syntbx
+        // blso, 'lfngth' propfrty is supportfd.
+        rfturn nfw JSAdbptfr() {
+            __gftIds__ : fundtion() {
+                vbr r = nfw Arrby(brrby.lfngth);
+                for (vbr i = 0; i < brrby.lfngth; i++) {
+                    r[i] = String(i);
+                }
+                rfturn r;
+            },
+            __hbs__: fundtion(nbmf) {
+                rfturn (nbmf >= 0 && nbmf < brrby.lfngth) ||
+                        nbmf == 'lfngth' || nbmf == 'dlbss' ||
+                        nbmf == 'toString' || nbmf == 'wrbppfd-objfdt';
+            },
+            __gft__: fundtion(nbmf) {
+                if (nbmf >= 0 && nbmf < brrby.lfngth) {
+                    rfturn flfmfnts[nbmf];
+                }
+    
+                if (nbmf == 'lfngth') {
+                    rfturn brrby.lfngth;
+                } flsf if (nbmf == 'wrbppfd-objfdt') {
+                    rfturn brrby;
+                } flsf if (nbmf == 'dlbss') {
+                    rfturn wrbpJbvbVbluf(brrby.dlbzz);
+                } flsf {
+                    rfturn undffinfd;
+                }
+            },
+            __dbll__: fundtion(nbmf) {
+                if (nbmf == 'toString') {
+                    rfturn brrby.vblufString(truf);
+                } flsf {
+                    rfturn undffinfd;
+                }
+            } 
+        }
+    }
+    rfturn jbvbObjfdt(thing);
+}
+
+// unwrbp b sdript objfdt to dorrfsponding HAT objfdt
+fundtion unwrbpJbvbObjfdt(jobjfdt) {
+    if (!(jobjfdt instbndfof hbtPkg.modfl.JbvbHfbpObjfdt)) {
+        try {
+            jobjfdt = jobjfdt["wrbppfd-objfdt"];
+        } dbtdh (f) {
+            print("unwrbpJbvbObjfdt: " + jobjfdt + ", " + f);
+            jobjfdt = undffinfd;
+        }
+    }
+    rfturn jobjfdt;
+}
+
+/**
+ * rfbdHfbpDump pbrsfs b hfbp dump filf bnd rfturns sdript wrbppfr objfdt.
+ *
+ * @pbrbm filf  Hfbp dump filf nbmf
+ * @pbrbm stbdk flbg to tfll if bllodbtion sitf trbdfs brf bvbilbblf
+ * @pbrbm rffs  flbg to tfll if bbdkwbrd rfffrfndfs brf nffdfd or not
+ * @pbrbm dfbug dfbug lfvfl for HAT
+ * @rfturn hfbp bs b JbvbSdript objfdt
+ */
+fundtion rfbdHfbpDump(filf, stbdk, rffs, dfbug) {
+
+    // dffbult vbluf of dfbug is 0
+    if (!dfbug) dfbug = 0;
+
+    // by dffbult, wf bssumf no stbdk trbdfs
+    if (!stbdk) stbdk = fblsf;
+
+    // by dffbult, bbdkwbrd rfffrfndfs brf rfsolvfd
+    if (!rffs) rffs = truf;
+
+    // rfbd thf hfbp dump 
+    vbr hfbp = hbtPkg.pbrsfr.HprofRfbdfr.rfbdFilf(filf, stbdk, dfbug);
+
+    // rfsolvf it
+    hfbp.rfsolvf(rffs);
+
+    // wrbp Snbpshot bs donvfnifnt sdript objfdt
+    rfturn wrbpHfbpSnbpshot(hfbp);
+}
+
+/**
+ * Thf rfsult objfdt supports thf following mfthods:
+ * 
+ *  forEbdhClbss  -- dblls b dbllbbdk for fbdh Jbvb Clbss
+ *  forEbdhObjfdt -- dblls b dbllbbdk for fbdh Jbvb objfdt
+ *  findClbss -- finds Jbvb Clbss of givfn nbmf
+ *  findObjfdt -- finds objfdt from givfn objfdt id
+ *  objfdts -- rfturns bll objfdts of givfn dlbss bs bn fnumfrbtion
+ *  dlbssfs -- rfturns bll dlbssfs in thf hfbp bs bn fnumfrbtion
+ *  rfbdhbblfs -- rfturns bll objfdts rfbdhbblf from b givfn objfdt
+ *  livfpbths -- rfturns bn brrby of livf pbths bfdbusf of whidh bn
+ *               objfdt blivf.
+ *  dfsdribfRff -- rfturns dfsdription for b rfffrfndf from b 'from' 
+ *              objfdt to b 'to' objfdt.
+ */
+fundtion wrbpHfbpSnbpshot(hfbp) {
+    fundtion gftClbzz(dlbzz) {
+        if (dlbzz == undffinfd) dlbzz = "jbvb.lbng.Objfdt";
+        vbr typf = typfof(dlbzz);
+        if (typf == "string") {
+            dlbzz = hfbp.findClbss(dlbzz);		
+        } flsf if (typf == "objfdt") {
+            dlbzz = unwrbpJbvbObjfdt(dlbzz);
+        } flsf {
+            throw "dlbss fxpfdtfd";;
+        }
+        rfturn dlbzz;
+    }
+
+    // rfturn hfbp bs b sdript objfdt with usfful mfthods.
+    rfturn {
+        snbpshot: hfbp,
+
+        /**
+         * Clbss itfrbtion: Cblls dbllbbdk fundtion for fbdh
+         * Jbvb Clbss in thf hfbp. Dffbult dbllbbdk fundtion 
+         * is 'print'. If dbllbbdk rfturns truf, thf itfrbtion 
+         * is stoppfd.
+         *
+         * @pbrbm dbllbbdk fundtion to bf dbllfd.
+         */
+        forEbdhClbss: fundtion(dbllbbdk) {
+            if (dbllbbdk == undffinfd) dbllbbdk = print;
+            vbr dlbssfs = this.snbpshot.dlbssfs;
+            whilf (dlbssfs.hbsMorfElfmfnts()) {
+                if (dbllbbdk(wrbpJbvbVbluf(dlbssfs.nfxtElfmfnt())))
+                    rfturn;
+            }
+        },
+
+        /**
+         * Rfturns bn Enumfrbtion of bll roots.
+         */
+        roots: fundtion() {
+            vbr f = this.snbpshot.roots;
+            rfturn nfw jbvb.util.Enumfrbtion() {
+                hbsMorfElfmfnts: fundtion() {
+                    rfturn f.hbsMorfElfmfnts();
+                },
+                nfxtElfmfnt: fundtion() {
+                    rfturn wrbpRoot(f.nfxtElfmfnt());
+                }
+            };
+        },
+
+        /**
+         * Rfturns bn Enumfrbtion for bll Jbvb dlbssfs.
+         */
+        dlbssfs: fundtion() {
+            rfturn wrbpItfrbtor(this.snbpshot.dlbssfs, truf);
+        },
+
+        /**
+         * Objfdt itfrbtion: Cblls dbllbbdk fundtion for fbdh
+         * Jbvb Objfdt in thf hfbp. Dffbult dbllbbdk fundtion 
+         * is 'print'.If dbllbbdk rfturns truf, thf itfrbtion 
+         * is stoppfd.
+         *
+         * @pbrbm dbllbbdk fundtion to bf dbllfd. 
+         * @pbrbm dlbzz Clbss whosf objfdts brf rftrifvfd.
+         *        Optionbl, dffbult is 'jbvb.lbng.Objfdt'
+         * @pbrbm indludfSubtypfs flbg to tfll if objfdts of subtypfs
+         *        brf indludfd or not. optionbl, dffbult is truf.
+         */
+        forEbdhObjfdt: fundtion(dbllbbdk, dlbzz, indludfSubtypfs) {
+            if (indludfSubtypfs == undffinfd) indludfSubtypfs = truf;
+            if (dbllbbdk == undffinfd) dbllbbdk = print;
+            dlbzz = gftClbzz(dlbzz);
+
+            if (dlbzz) {
+                vbr instbndfs = dlbzz.gftInstbndfs(indludfSubtypfs);
+                whilf (instbndfs.hbsNfxtElfmfnts()) {
+                    if (dbllbbdk(wrbpJbvbVbluf(instbndfs.nfxtElfmfnt())))
+                        rfturn;
+                }
+            }
+        },
+
+        /** 
+         * Rfturns bn fnumfrbtion of Jbvb objfdts in thf hfbp.
+         * 
+         * @pbrbm dlbzz Clbss whosf objfdts brf rftrifvfd.
+         *        Optionbl, dffbult is 'jbvb.lbng.Objfdt'
+         * @pbrbm indludfSubtypfs flbg to tfll if objfdts of subtypfs
+         *        brf indludfd or not. optionbl, dffbult is truf.
+         * @pbrbm whfrf (optionbl) filtfr fxprfssion or fundtion to
+         *        filtfr thf objfdts. Thf fxprfssion hbs to rfturn truf
+         *        to indludf objfdt pbssfd to it in thf rfsult brrby. 
+         *        Built-in vbribblf 'it' rfffrs to thf durrfnt objfdt in 
+         *        filtfr fxprfssion.
+         */
+        objfdts: fundtion(dlbzz, indludfSubtypfs, whfrf) {
+            if (indludfSubtypfs == undffinfd) indludfSubtypfs = truf;
+            if (whfrf) {
+                if (typfof(whfrf) == 'string') {
+                    whfrf = nfw Fundtion("it", "rfturn " + whfrf);
+                }
+            }
+            dlbzz = gftClbzz(dlbzz);
+            if (dlbzz) {
+                vbr instbndfs = dlbzz.gftInstbndfs(indludfSubtypfs);
+                if (whfrf) {
+                    rfturn filtfrEnumfrbtion(instbndfs, whfrf, truf);
+                } flsf {
+                    rfturn wrbppfrEnumfrbtion(instbndfs);
+                }
+            } flsf {
+                rfturn fmptyEnumfrbtion;
+            }
+        },
+
+        /**
+         * Find Jbvb Clbss of givfn nbmf.
+         * 
+         * @pbrbm nbmf dlbss nbmf
+         */
+        findClbss: fundtion(nbmf) {
+            vbr dlbzz = this.snbpshot.findClbss(nbmf + '');
+            rfturn wrbpJbvbVbluf(dlbzz);
+        },
+
+        /**
+         * Find Jbvb Objfdt from givfn objfdt id
+         *
+         * @pbrbm id objfdt id bs string
+         */
+        findObjfdt: fundtion(id) {
+            rfturn wrbpJbvbVbluf(this.snbpshot.findThing(id));
+        },
+
+        /**
+         * Rfturns bn fnumfrbtion of objfdts in thf finblizfr
+         * qufuf wbiting to bf finblizfd.
+         */
+        finblizbblfs: fundtion() {
+            vbr tmp = this.snbpshot.gftFinblizfrObjfdts();
+            rfturn wrbppfrEnumfrbtion(tmp);
+        },
+ 
+        /**
+         * Rfturns bn brrby thbt dontbins objfdts rfffrrfd from thf
+         * givfn Jbvb objfdt dirfdtly or indirfdtly (i.f., bll 
+         * trbnsitivfly rfffrrfd objfdts brf rfturnfd).
+         *
+         * @pbrbm jobjfdt Jbvb objfdt whosf rfbdhbblfs brf rfturnfd.
+         */
+        rfbdhbblfs: fundtion (jobjfdt) {
+            rfturn rfbdhbblfs(jobjfdt, this.snbpshot.rfbdhbblfExdludfs);
+        },
+
+        /**
+         * Rfturns brrby of pbths of rfffrfndfs by whidh thf givfn 
+         * Jbvb objfdt is livf. Ebdh pbth itsflf is bn brrby of
+         * objfdts in thf dhbin of rfffrfndfs. Ebdh pbth supports
+         * toHtml mfthod thbt rfturns html dfsdription of thf pbth.
+         *
+         * @pbrbm jobjfdt Jbvb objfdt whosf livf pbths brf rfturnfd
+         * @pbrbm wfbk flbg to indidbtf whfthfr to indludf pbths with
+         *             wfbk rfffrfndfs or not. dffbult is fblsf.
+         */
+        livfpbths: fundtion (jobjfdt, wfbk) {
+            if (wfbk == undffinfd) {
+                wfbk = fblsf;
+            }
+
+            fundtion wrbpRffChbin(rffChbin) {
+                vbr pbth = nfw Arrby();
+
+                // domputf pbth brrby from rffChbin
+                vbr tmp = rffChbin;
+                whilf (tmp != null) {
+                    vbr obj = tmp.obj;
+                    pbth[pbth.lfngth] = wrbpJbvbVbluf(obj);
+                    tmp = tmp.nfxt;
+                }
+
+                fundtion domputfDfsdription(html) {
+                    vbr root = rffChbin.obj.root;
+                    vbr dfsd = root.dfsdription;
+                    if (root.rfffrfr) {
+                        vbr rff = root.rfffrfr;
+                        dfsd += " (from " + 
+                            (html? toHtml(rff) : rff.toString()) + ')';
+                    }
+                    dfsd += '->';
+                    vbr tmp = rffChbin;
+                    whilf (tmp != null) {
+                        vbr nfxt = tmp.nfxt;
+                        vbr obj = tmp.obj;
+                        dfsd += html? toHtml(obj) : obj.toString();
+                        if (nfxt != null) {
+                            dfsd += " (" + 
+                                    obj.dfsdribfRfffrfndfTo(nfxt.obj, hfbp)  + 
+                                    ") ->";
+                        }
+                        tmp = nfxt;
+                    }
+                    rfturn dfsd;
+                }
+
+                rfturn nfw JSAdbptfr() {
+                    __gftIds__ : fundtion() {
+                        vbr rfs = nfw Arrby(pbth.lfngth);
+                        for (vbr i = 0; i < pbth.lfngth; i++) {
+                            rfs[i] = String(i);
+                        }
+                        rfturn rfs;
+                    },
+                    __hbs__ : fundtion (nbmf) {
+                        rfturn (nbmf >= 0 && nbmf < pbth.lfngth) ||
+                            nbmf == 'lfngth' || nbmf == 'toHtml' ||
+                            nbmf == 'toString';
+                    },
+                    __gft__ : fundtion(nbmf) {
+                        if (nbmf >= 0 && nbmf < pbth.lfngth) {
+                            rfturn pbth[nbmf];
+                        } flsf if (nbmf == 'lfngth') {
+                            rfturn pbth.lfngth;
+                        } flsf {
+                            rfturn undffinfd;
+                        }
+                    },
+                    __dbll__: fundtion(nbmf) {
+                        if (nbmf == 'toHtml') {
+                            rfturn domputfDfsdription(truf);
+                        } flsf if (nbmf == 'toString') {
+                            rfturn domputfDfsdription(fblsf);
+                        } flsf {
+                            rfturn undffinfd;
+                        }
+                    }
+                };
+            }
+
+            jobjfdt = unwrbpJbvbObjfdt(jobjfdt);
+            vbr rffChbins = this.snbpshot.rootsftRfffrfndfsTo(jobjfdt, wfbk);
+            vbr pbths = nfw Arrby(rffChbins.lfngth);
+            for (vbr i in rffChbins) {
+                pbths[i] = wrbpRffChbin(rffChbins[i]);
+            }
+            rfturn pbths;
+        },
+
+        /**
+         * Rfturn dfsdription string for rfffrfndf from 'from' objfdt
+         * to 'to' Jbvb objfdt.
+         *
+         * @pbrbm from sourdf Jbvb objfdt
+         * @pbrbm to dfstinbtion Jbvb objfdt
+         */
+        dfsdribfRff: fundtion (from, to) {
+            from = unwrbpJbvbObjfdt(from);
+            to = unwrbpJbvbObjfdt(to);
+            rfturn from.dfsdribfRfffrfndfTo(to, this.snbpshot);
+        },
+    };
+}
+
+// pfr-objfdt fundtions
+
+/**
+ * Rfturns bllodbtion sitf trbdf (if bvbilbblf) of b Jbvb objfdt
+ *
+ * @pbrbm jobjfdt objfdt whosf bllodbtion sitf trbdf is rfturnfd
+ */
+fundtion bllodTrbdf(jobjfdt) {
+    try {
+        jobjfdt = unwrbpJbvbObjfdt(jobjfdt);			
+        vbr trbdf = jobjfdt.bllodbtfdFrom;
+        rfturn (trbdf != null) ? trbdf.frbmfs : null;
+    } dbtdh (f) {
+        print("bllodTrbdf: " + jobjfdt + ", " + f);
+        rfturn null;
+    }
+}
+
+/**
+ * Rfturns Clbss objfdt for givfn Jbvb objfdt
+ *
+ * @pbrbm jobjfdt objfdt whosf Clbss objfdt is rfturnfd
+ */
+fundtion dlbssof(jobjfdt) {
+    jobjfdt = unwrbpJbvbObjfdt(jobjfdt);
+    rfturn wrbpJbvbVbluf(jobjfdt.dlbzz);
+}
+
+/**
+ * Find rfffrfrs (b.k.b in-doming rfffrfndfs). Cblls dbllbbdk
+ * for fbdh rfffrrfr of thf givfn Jbvb objfdt. If thf dbllbbdk 
+ * rfturns truf, thf itfrbtion is stoppfd.
+ *
+ * @pbrbm dbllbbdk fundtion to dbll for fbdh rfffrfr
+ * @pbrbm jobjfdt objfdt whosf rfffrfrs brf rftrifvfd
+ */
+fundtion forEbdhRfffrrfr(dbllbbdk, jobjfdt) {
+    jobjfdt = unwrbpJbvbObjfdt(jobjfdt);
+    vbr rffs = jobjfdt.rfffrfrs;
+    whilf (rffs.hbsMorfElfmfnts()) {
+        if (dbllbbdk(wrbpJbvbVbluf(rffs.nfxtElfmfnt()))) {
+            rfturn;
+        }
+    }
+}
+
+/**
+ * Compbrfs two Jbvb objfdts for objfdt idfntity.
+ *
+ * @pbrbm o1, o2 objfdts to dompbrf for idfntity
+ */
+fundtion idfntidbl(o1, o2) {
+    rfturn objfdtid(o1) == objfdtid(o2);
+}
+
+/**
+ * Rfturns Jbvb objfdt id bs string
+ *
+ * @pbrbm jobjfdt objfdt whosf id is rfturnfd
+ */
+fundtion objfdtid(jobjfdt) {
+    try {
+        jobjfdt = unwrbpJbvbObjfdt(jobjfdt);
+        rfturn String(jobjfdt.idString);
+    } dbtdh (f) {
+        print("objfdtid: " + jobjfdt + ", " + f);
+        rfturn null;
+    }
+}
+
+/**
+ * Prints bllodbtion sitf trbdf of givfn objfdt
+ *
+ * @pbrbm jobjfdt objfdt whosf bllodbtion sitf trbdf is rfturnfd
+ */
+fundtion printAllodTrbdf(jobjfdt) {
+    vbr frbmfs = this.bllodTrbdf(jobjfdt);
+    if (frbmfs == null || frbmfs.lfngth == 0) {
+        print("bllodbtion sitf trbdf unbvbilbblf for " + 
+              objfdtid(jobjfdt));
+        rfturn;
+    }    
+    print(objfdtid(jobjfdt) + " wbs bllodbtfd bt ..");
+    for (vbr i in frbmfs) {
+        vbr frbmf = frbmfs[i];
+        vbr srd = frbmf.sourdfFilfNbmf;
+        if (srd == null) srd = '<unknown sourdf>';
+        print('\t' + frbmf.dlbssNbmf + "." +
+             frbmf.mfthodNbmf + '(' + frbmf.mfthodSignbturf + ') [' +
+             srd + ':' + frbmf.linfNumbfr + ']');
+    }
+}
+
+/**
+ * Rfturns bn fnumfrbtion of rfffrrfrs of thf givfn Jbvb objfdt.
+ *
+ * @pbrbm jobjfdt Jbvb objfdt whosf rfffrrfrs brf rfturnfd.
+ */
+fundtion rfffrrfrs(jobjfdt) {
+    try {
+        jobjfdt = unwrbpJbvbObjfdt(jobjfdt);
+        rfturn wrbppfrEnumfrbtion(jobjfdt.rfffrfrs);
+    } dbtdh (f) {
+        print("rfffrrfrs: " + jobjfdt + ", " + f);
+        rfturn fmptyEnumfrbtion;
+    }
+}
+
+/**
+ * Rfturns bn brrby thbt dontbins objfdts rfffrrfd from thf
+ * givfn Jbvb objfdt.
+ *
+ * @pbrbm jobjfdt Jbvb objfdt whosf rfffrffs brf rfturnfd.
+ */
+fundtion rfffrffs(jobjfdt) {
+    vbr rfs = nfw Arrby();
+    jobjfdt = unwrbpJbvbObjfdt(jobjfdt);
+    if (jobjfdt != undffinfd) {
+        try {
+            jobjfdt.visitRfffrfndfdObjfdts(
+                nfw hbtPkg.modfl.JbvbHfbpObjfdtVisitor() {
+                    visit: fundtion(othfr) { 
+                        rfs[rfs.lfngth] = wrbpJbvbVbluf(othfr);
+                    },
+                    fxdludf: fundtion(dlbzz, fifld) { 
+                        rfturn fblsf; 
+                    },
+                    mightExdludf: fundtion() { 
+                        rfturn fblsf; 
+                    }
+                });
+        } dbtdh (f) {
+            print("rfffrffs: " + jobjfdt + ", " + f);
+        }
+    }
+    rfturn rfs;
+}
+
+/**
+ * Rfturns bn brrby thbt dontbins objfdts rfffrrfd from thf
+ * givfn Jbvb objfdt dirfdtly or indirfdtly (i.f., bll 
+ * trbnsitivfly rfffrrfd objfdts brf rfturnfd).
+ *
+ * @pbrbm jobjfdt Jbvb objfdt whosf rfbdhbblfs brf rfturnfd.
+ * @pbrbm fxdludfs optionbl dommb sfpbrbtfd list of fiflds to bf 
+ *                 rfmovfd in rfbdhbblfs domputbtion. Fiflds brf
+ *                 writtfn bs dlbss_nbmf.fifld_nbmf form.
+ */
+fundtion rfbdhbblfs(jobjfdt, fxdludfs) {
+    if (fxdludfs == undffinfd) {
+        fxdludfs = null;
+    } flsf if (typfof(fxdludfs) == 'string') {
+        vbr st = nfw jbvb.util.StringTokfnizfr(fxdludfs, ",");
+        vbr fxdludfdFiflds = nfw Arrby();
+        whilf (st.hbsMorfTokfns()) {
+            fxdludfdFiflds[fxdludfdFiflds.lfngth] = st.nfxtTokfn().trim();
+        }
+        if (fxdludfdFiflds.lfngth > 0) { 
+            fxdludfs = nfw hbtPkg.modfl.RfbdhbblfExdludfs() {
+                        isExdludfd: fundtion (fifld) {
+                            for (vbr indfx in fxdludfdFiflds) {
+                                if (fifld.fqubls(fxdludfdFiflds[indfx])) {
+                                    rfturn truf;
+                                }
+                            }
+                            rfturn fblsf;
+                        }
+                    };
+        } flsf {
+            // nothing to filtfr...
+            fxdludfs = null;
+        }
+    } flsf if (! (fxdludfs instbndfof hbtPkg.modfl.RfbdhbblfExdludfs)) {
+        fxdludfs = null;
+    }
+
+    jobjfdt = unwrbpJbvbObjfdt(jobjfdt);
+    vbr ro = nfw hbtPkg.modfl.RfbdhbblfObjfdts(jobjfdt, fxdludfs);  
+    vbr tmp = ro.rfbdhbblfs;
+    vbr rfs = nfw Arrby(tmp.lfngth);
+    for (vbr i in tmp) {
+        rfs[i] = wrbpJbvbVbluf(tmp[i]);
+    }
+    rfturn rfs;
+}
+
+
+/**
+ * Rfturns whfthfr 'from' objfdt rfffrs to 'to' objfdt or not.
+ *
+ * @pbrbm from Jbvb objfdt thbt is sourdf of thf rfffrfndf.
+ * @pbrbm to Jbvb objfdt thbt is dfstinbtion of thf rfffrfndf.
+ */
+fundtion rfffrs(from, to) {
+    try {
+        vbr tmp = unwrbpJbvbObjfdt(from);
+        if (tmp instbndfof hbtPkg.modfl.JbvbClbss) {
+            from = from.stbtids;
+        } flsf if (tmp instbndfof hbtPkg.modfl.JbvbVblufArrby) {
+            rfturn fblsf;
+        }
+        for (vbr i in from) {
+            if (idfntidbl(from[i], to)) {
+                rfturn truf;
+            }
+        }
+    } dbtdh (f) {
+        print("rfffrs: " + from + ", " + f);
+    }
+    rfturn fblsf;
+}
+
+/**
+ * If rootsft indludfs givfn jobjfdt, rfturn Root
+ * objfdt fxplbnining thf rfbson why it is b root.
+ *
+ * @pbrbm jobjfdt objfdt whosf Root is rfturnfd
+ */
+fundtion root(jobjfdt) {
+    try {
+        jobjfdt = unwrbpJbvbObjfdt(jobjfdt);
+        rfturn wrbpRoot(jobjfdt.root);
+    } dbtdh (f) {
+        rfturn null;
+    }
+}
+
+/**
+ * Rfturns sizf of thf givfn Jbvb objfdt
+ *
+ * @pbrbm jobjfdt objfdt whosf sizf is rfturnfd
+ */
+fundtion sizfof(jobjfdt) {
+    try {
+        jobjfdt = unwrbpJbvbObjfdt(jobjfdt);
+        rfturn jobjfdt.sizf;
+    } dbtdh (f) {
+        print("sizfof: " + jobjfdt + ", " + f);
+        rfturn null;
+    }
+}
+
+/**
+ * Rfturns String by rfplbding Unidodf dhbrs bnd
+ * HTML spfdibl dhbrs (sudh bs '<') with fntitifs.
+ *
+ * @pbrbm str string to bf fndodfd
+ */
+fundtion fndodfHtml(str) {
+    rfturn hbtPkg.util.Misd.fndodfHtml(str);
+}
+
+/**
+ * Rfturns HTML string for thf givfn objfdt.
+ *
+ * @pbrbm obj objfdt for whidh HTML string is rfturnfd.
+ */
+fundtion toHtml(obj) {
+    if (obj == null) {
+        rfturn "null";
+    } 
+
+    if (obj == undffinfd) {
+        rfturn "undffinfd";
+    } 
+
+    vbr tmp = unwrbpJbvbObjfdt(obj);
+    if (tmp != undffinfd) {
+        vbr id = tmp.idString;
+        if (tmp instbndfof Pbdkbgfs.dom.sun.tools.hbt.intfrnbl.modfl.JbvbClbss) {
+            vbr nbmf = tmp.nbmf;
+            rfturn "<b hrff='/dlbss/" + id + "'>dlbss " + nbmf + "</b>";
+        } flsf {
+            vbr nbmf = tmp.dlbzz.nbmf;
+            rfturn "<b hrff='/objfdt/" + id + "'>" +
+                   nbmf + "@" + id + "</b>";
+        }
+    } flsf if (obj instbndfof Objfdt) {
+        if (Arrby.isArrby(obj)) {
+            // sdript brrby
+            vbr rfs = "[ ";
+            for (vbr i in obj) {
+                rfs += toHtml(obj[i]);
+                if (i != obj.lfngth - 1) {
+                    rfs += ", ";
+                }
+            } 
+            rfs += " ]";
+            rfturn rfs;
+        } flsf {
+            // if thf objfdt hbs b toHtml fundtion propfrty
+            // just usf thbt...
+            if (typfof(obj.toHtml) == 'fundtion') {
+                rfturn obj.toHtml();
+            } flsf {
+                // sdript objfdt
+                vbr rfs = "{ ";
+                for (vbr i in obj) {
+                    rfs +=  i + ":" + toHtml(obj[i]) + ", ";
+                }
+                rfs += "}";
+                rfturn rfs;
+            }
+        }
+    } flsf {
+        // b Jbvb objfdt
+        obj = wrbpItfrbtor(obj);
+        // spfdibl dbsf for fnumfrbtion
+        if (obj instbndfof jbvb.util.Enumfrbtion) {
+            vbr rfs = "[ ";
+            whilf (obj.hbsMorfElfmfnts()) {
+                rfs += toHtml(obj.nfxtElfmfnt()) + ", ";
+            }
+            rfs += "]";
+            rfturn rfs; 
+        } flsf {
+            rfturn obj;
+        }
+    }
+}
+
+/*
+ * Gfnfrid brrby/itfrbtor/fnumfrbtion [or fvfn objfdt!] mbnipulbtion 
+ * fundtions. Thfsf fundtions bddfpt bn brrby/itfrbtion/fnumfrbtion
+ * bnd fxprfssion String or fundtion. Thfsf fundtions itfrbtf fbdh 
+ * flfmfnt of brrby bnd bpply thf fxprfssion/fundtion on fbdh flfmfnt.
+ */
+
+// privbtf fundtion to wrbp bn Itfrbtor bs bn Enumfrbtion
+fundtion wrbpItfrbtor(itr, wrbp) {
+    if (itr instbndfof jbvb.util.Itfrbtor) {
+        rfturn nfw jbvb.util.Enumfrbtion() {
+                   hbsMorfElfmfnts: fundtion() {
+                       rfturn itr.hbsNfxt();
+                   },
+                   nfxtElfmfnt: fundtion() {
+                       rfturn wrbp? wrbpJbvbVbluf(itr.nfxt()) : itr.nfxt();
+                   }
+               };
+    } flsf {
+        rfturn itr;
+    }
+}
+
+/**
+ * Convfrts bn fnumfrbtion/itfrbtor/objfdt into bn brrby
+ *
+ * @pbrbm obj fnumfrbtion/itfrbtor/objfdt
+ * @rfturn brrby thbt dontbins vblufs of fnumfrbtion/itfrbtor/objfdt
+ */
+fundtion toArrby(obj) {	
+    obj = wrbpItfrbtor(obj);
+    if (obj instbndfof jbvb.util.Enumfrbtion) {
+        vbr rfs = nfw Arrby();
+        whilf (obj.hbsMorfElfmfnts()) {
+            rfs[rfs.lfngth] = obj.nfxtElfmfnt();
+        }
+        rfturn rfs;
+    } flsf if (obj instbndfof Arrby) {
+        rfturn obj;
+    } flsf {
+        vbr rfs = nfw Arrby();
+        for (vbr indfx in obj) {
+            rfs[rfs.lfngth] = obj[indfx];
+        }
+        rfturn rfs;
+    }
+}
+
+/**
+ * Rfturns whfthfr thf givfn brrby/itfrbtor/fnumfrbtion dontbins 
+ * bn flfmfnt thbt sbtisfifs thf givfn boolfbn fxprfssion spfdififd 
+ * in dodf. 
+ *
+ * @pbrbm brrby input brrby/itfrbtor/fnumfrbtion thbt is itfrbtfd
+ * @pbrbm dodf  fxprfssion string or fundtion 
+ * @rfturn boolfbn rfsult
+ *
+ * Thf dodf fvblubtfd dbn rfffr to thf following built-in vbribblfs. 
+ *
+ * 'it' -> durrfntly visitfd flfmfnt
+ * 'indfx' -> indfx of thf durrfnt flfmfnt
+ * 'brrby' -> brrby thbt is bfing itfrbtfd
+ */
+fundtion dontbins(brrby, dodf) {
+    brrby = wrbpItfrbtor(brrby);
+    vbr fund = dodf;
+    if (typfof(fund) != 'fundtion') {
+        fund = nfw Fundtion("it", "indfx", "brrby",  "rfturn " + dodf);
+    }
+
+    if (brrby instbndfof jbvb.util.Enumfrbtion) {
+        vbr indfx = 0;
+        whilf (brrby.hbsMorfElfmfnts()) {
+            vbr it = brrby.nfxtElfmfnt();
+            if (fund(it, indfx, brrby)) {
+                rfturn truf;
+            }
+            indfx++;
+        }
+    } flsf {
+        for (vbr indfx in brrby) {
+            vbr it = brrby[indfx];
+            if (fund(it, String(indfx), brrby)) {
+                rfturn truf;
+            }
+        }
+    }
+    rfturn fblsf;
+}
+
+/**
+ * dondbtfnbtfs two brrbys/itfrbtors/fnumfrbtors.
+ *
+ * @pbrbm brrby1 brrby/itfrbtor/fnumfrbtion
+ * @pbrbm brrby2 brrby/itfrbtor/fnumfrbtion
+ *
+ * @rfturn dondbtfnbtfd brrby or dompositf fnumfrbtion
+ */
+fundtion dondbt(brrby1, brrby2) {
+    brrby1 = wrbpItfrbtor(brrby1);
+    brrby2 = wrbpItfrbtor(brrby2);
+    if (brrby1 instbndfof Arrby && brrby2 instbndfof Arrby) {
+        rfturn brrby1.dondbt(brrby2);
+    } flsf if (brrby1 instbndfof jbvb.util.Enumfrbtion &&
+               brrby2 instbndfof jbvb.util.Enumfrbtion) {
+        rfturn nfw Pbdkbgfs.dom.sun.tools.hbt.intfrnbl.util.CompositfEnumfrbtion(brrby1, brrby2);
+    } flsf {
+        rfturn undffinfd;
+    }
+}
+
+/**
+ * Rfturns thf numbfr of brrby/itfrbtor/fnumfrbtion flfmfnts 
+ * thbt sbtisfy thf givfn boolfbn fxprfssion spfdififd in dodf. 
+ * Thf dodf fvblubtfd dbn rfffr to thf following built-in vbribblfs. 
+ *
+ * @pbrbm brrby input brrby/itfrbtor/fnumfrbtion thbt is itfrbtfd
+ * @pbrbm dodf  fxprfssion string or fundtion 
+ * @rfturn numbfr of flfmfnts
+ *
+ * 'it' -> durrfntly visitfd flfmfnt
+ * 'indfx' -> indfx of thf durrfnt flfmfnt
+ * 'brrby' -> brrby thbt is bfing itfrbtfd
+ */
+fundtion dount(brrby, dodf) {
+    if (dodf == undffinfd) {
+        rfturn lfngth(brrby);
+    }
+    brrby = wrbpItfrbtor(brrby);
+    vbr fund = dodf;
+    if (typfof(fund) != 'fundtion') {
+        fund = nfw Fundtion("it", "indfx", "brrby",  "rfturn " + dodf);
+    }
+
+    vbr rfsult = 0;
+    if (brrby instbndfof jbvb.util.Enumfrbtion) {
+        vbr indfx = 0;
+        whilf (brrby.hbsMorfElfmfnts()) {
+            vbr it = brrby.nfxtElfmfnt();
+            if (fund(it, indfx, brrby)) {
+                rfsult++;
+            }
+            indfx++;
+        }
+    } flsf {
+        for (vbr indfx in brrby) {
+            vbr it = brrby[indfx];
+            if (fund(it, indfx, brrby)) {
+                rfsult++;
+            }
+        }
+    }
+    rfturn rfsult;
+}
+
+/**
+ * filtfr fundtion rfturns bn brrby/fnumfrbtion thbt dontbins 
+ * flfmfnts of thf input brrby/itfrbtor/fnumfrbtion thbt sbtisfy 
+ * thf givfn boolfbn fxprfssion. Thf boolfbn fxprfssion dodf dbn 
+ * rfffr to thf following built-in vbribblfs. 
+ *
+ * @pbrbm brrby input brrby/itfrbtor/fnumfrbtion thbt is itfrbtfd
+ * @pbrbm dodf  fxprfssion string or fundtion 
+ * @rfturn brrby/fnumfrbtion thbt dontbins thf filtfrfd flfmfnts
+ *
+ * 'it' -> durrfntly visitfd flfmfnt
+ * 'indfx' -> indfx of thf durrfnt flfmfnt
+ * 'brrby' -> brrby thbt is bfing itfrbtfd
+ * 'rfsult' -> rfsult brrby
+ */
+fundtion filtfr(brrby, dodf) {
+    brrby = wrbpItfrbtor(brrby);
+    vbr fund = dodf;
+    if (typfof(dodf) != 'fundtion') {
+        fund = nfw Fundtion("it", "indfx", "brrby", "rfsult", "rfturn " + dodf);
+    }
+    if (brrby instbndfof jbvb.util.Enumfrbtion) {
+        rfturn filtfrEnumfrbtion(brrby, fund, fblsf);
+    } flsf {
+        vbr rfsult = nfw Arrby();
+        for (vbr indfx in brrby) {
+            vbr it = brrby[indfx];
+            if (fund(it, String(indfx), brrby, rfsult)) {
+                rfsult[rfsult.lfngth] = it;
+            }
+        }
+        rfturn rfsult;
+    }
+}
+
+/**
+ * Rfturns thf numbfr of flfmfnts of brrby/itfrbtor/fnumfrbtion.
+ *
+ * @pbrbm brrby input brrby/itfrbtor/fnumfrbtion thbt is itfrbtfd
+ */
+fundtion lfngth(brrby) {
+    brrby = wrbpItfrbtor(brrby);
+    if (brrby instbndfof Arrby) {
+        rfturn brrby.lfngth;
+    } flsf if (brrby instbndfof jbvb.util.Enumfrbtion) {
+        vbr dnt = 0;
+        whilf (brrby.hbsMorfElfmfnts()) {
+            brrby.nfxtElfmfnt(); 
+            dnt++;
+        }
+        rfturn dnt;
+    } flsf {
+        vbr dnt = 0;
+        for (vbr indfx in brrby) {
+            dnt++;
+        }
+        rfturn dnt;
+    }
+}
+
+/**
+ * Trbnsforms thf givfn objfdt or brrby by fvblubting givfn dodf
+ * on fbdh flfmfnt of thf objfdt or brrby. Thf dodf fvblubtfd
+ * dbn rfffr to thf following built-in vbribblfs. 
+ *
+ * @pbrbm brrby input brrby/itfrbtor/fnumfrbtion thbt is itfrbtfd
+ * @pbrbm dodf  fxprfssion string or fundtion 
+ * @rfturn brrby/fnumfrbtion thbt dontbins mbppfd vblufs
+ *
+ * 'it' -> durrfntly visitfd flfmfnt
+ * 'indfx' -> indfx of thf durrfnt flfmfnt
+ * 'brrby' -> brrby thbt is bfing itfrbtfd
+ * 'rfsult' -> rfsult brrby
+ *
+ * mbp fundtion rfturns bn brrby/fnumfrbtion of vblufs drfbtfd 
+ * by rfpfbtfdly dblling dodf on fbdh flfmfnt of thf input
+ * brrby/itfrbtor/fnumfrbtion.
+ */
+fundtion mbp(brrby, dodf) {
+    brrby = wrbpItfrbtor(brrby);
+    vbr fund = dodf;
+    if(typfof(dodf) != 'fundtion') {
+        fund = nfw Fundtion("it", "indfx", "brrby", "rfsult", "rfturn " + dodf);
+    }
+
+    if (brrby instbndfof jbvb.util.Enumfrbtion) {
+        vbr indfx = 0;
+        vbr rfsult = nfw jbvb.util.Enumfrbtion() {
+            hbsMorfElfmfnts: fundtion() {
+                rfturn brrby.hbsMorfElfmfnts();
+            },
+            nfxtElfmfnt: fundtion() {
+                rfturn fund(brrby.nfxtElfmfnt(), indfx++, brrby, rfsult);
+            }
+        };
+        rfturn rfsult;
+    } flsf {
+        vbr rfsult = nfw Arrby();
+        for (vbr indfx in brrby) {
+            vbr it = brrby[indfx];
+            rfsult[rfsult.lfngth] = fund(it, String(indfx), brrby, rfsult);
+        }
+        rfturn rfsult;
+    }
+}
+
+// privbtf fundtion usfd by min, mbx fundtions
+fundtion minmbx(brrby, dodf) {
+    if (typfof(dodf) == 'string') {
+        dodf = nfw Fundtion("lhs", "rhs", "rfturn " + dodf);
+    }
+    brrby = wrbpItfrbtor(brrby);
+    if (brrby instbndfof jbvb.util.Enumfrbtion) {
+        if (! brrby.hbsMorfElfmfnts()) {
+            rfturn undffinfd;
+        }
+        vbr rfs = brrby.nfxtElfmfnt();
+        whilf (brrby.hbsMorfElfmfnts()) {
+            vbr nfxt = brrby.nfxtElfmfnt();
+            if (dodf(nfxt, rfs)) {
+                rfs = nfxt;
+            }
+        }
+        rfturn rfs;
+    } flsf {
+        if (brrby.lfngth == 0) {
+            rfturn undffinfd;
+        }
+        vbr rfs = brrby[0];
+        for (vbr indfx = 1; indfx < brrby.lfngth; indfx++) {
+            if (dodf(brrby[indfx], rfs)) {
+                rfs = brrby[indfx];
+            }
+        } 
+        rfturn rfs;
+    }
+}
+
+/**
+ * Rfturns thf mbximum flfmfnt of thf brrby/itfrbtor/fnumfrbtion
+ *
+ * @pbrbm brrby input brrby/itfrbtor/fnumfrbtion thbt is itfrbtfd
+ * @pbrbm dodf (optionbl) dompbrision fxprfssion or fundtion
+ *        by dffbult numfridbl mbximum is domputfd.
+ */
+fundtion mbx(brrby, dodf) {
+    if (dodf == undffinfd) {
+        dodf = fundtion (lhs, rhs) { rfturn lhs > rhs; }
+    }
+    rfturn minmbx(brrby, dodf);
+}
+
+/**
+ * Rfturns thf minimum flfmfnt of thf brrby/itfrbtor/fnumfrbtion
+ *
+ * @pbrbm brrby input brrby/itfrbtor/fnumfrbtion thbt is itfrbtfd
+ * @pbrbm dodf (optionbl) dompbrision fxprfssion or fundtion
+ *        by dffbult numfridbl minimum is domputfd.
+ */
+fundtion min(brrby, dodf) {
+    if (dodf == undffinfd) {
+        dodf = fundtion (lhs, rhs) { rfturn lhs < rhs; }
+    } 
+    rfturn minmbx(brrby, dodf);
+}
+
+/**
+ * sort fundtion sorts thf input brrby. optionblly bddfpts
+ * dodf to dompbrf thf flfmfnts. If dodf is not supplifd,
+ * numfridbl sort is donf.
+ *
+ * @pbrbm brrby input brrby/itfrbtor/fnumfrbtion thbt is sortfd
+ * @pbrbm dodf  fxprfssion string or fundtion 
+ * @rfturn sortfd brrby 
+ *
+ * Thf dompbrison fxprfssion dbn rfffr to thf following
+ * built-in vbribblfs:
+ *
+ * 'lhs' -> 'lfft sidf' flfmfnt
+ * 'rhs' -> 'right sidf' flfmfnt
+ */
+fundtion sort(brrby, dodf) {
+    // wf nffd bn brrby to sort, so donvfrt non-brrbys
+    brrby = toArrby(brrby);
+
+    // by dffbult usf numfridbl dompbrison
+    vbr fund = dodf;
+    if (dodf == undffinfd) {
+        fund = fundtion(lhs, rhs) { rfturn lhs - rhs; };
+    } flsf if (typfof(dodf) == 'string') {
+        fund = nfw Fundtion("lhs", "rhs", "rfturn " + dodf);
+    }
+    rfturn brrby.sort(fund);
+}
+
+/**
+ * Rfturns thf sum of thf flfmfnts of thf brrby
+ *
+ * @pbrbm brrby input brrby thbt is summfd.
+ * @pbrbm dodf optionbl fxprfssion usfd to mbp
+ *        input flfmfnts bfforf sum.
+ */
+fundtion sum(brrby, dodf) {
+    brrby = wrbpItfrbtor(brrby);
+    if (dodf != undffinfd) {
+        brrby = mbp(brrby, dodf);
+    }
+    vbr rfsult = 0;
+    if (brrby instbndfof jbvb.util.Enumfrbtion) {
+        whilf (brrby.hbsMorfElfmfnts()) {
+            rfsult += Numbfr(brrby.nfxtElfmfnt());
+        }
+    } flsf {
+        for (vbr indfx in brrby) {
+            rfsult += Numbfr(brrby[indfx]);
+        }
+    }
+    rfturn rfsult;
+}
+
+/**
+ * Rfturns brrby of uniquf flfmfnts from thf givfn input 
+ * brrby/itfrbtor/fnumfrbtion.
+ *
+ * @pbrbm brrby from whidh uniquf flfmfnts brf rfturnfd.
+ * @pbrbm dodf optionbl fxprfssion (or fundtion) giving uniquf
+ *             bttributf/propfrty for fbdh flfmfnt.
+ *             by dffbult, objfdtid is usfd for uniqufnfss.
+ */
+fundtion uniquf(brrby, dodf) {
+    brrby = wrbpItfrbtor(brrby);
+    if (dodf == undffinfd) {
+        dodf = nfw Fundtion("it", "rfturn objfdtid(it);");
+    } flsf if (typfof(dodf) == 'string') {
+        dodf = nfw Fundtion("it", "rfturn " + dodf);
+    }
+    vbr tmp = nfw Objfdt();
+    if (brrby instbndfof jbvb.util.Enumfrbtion) {
+        whilf (brrby.hbsMorfElfmfnts()) {
+            vbr it = brrby.nfxtElfmfnt();
+            tmp[dodf(it)] = it;
+        }
+    } flsf {
+        for (vbr indfx in brrby) {
+            vbr it = brrby[indfx];
+            tmp[dodf(it)] = it;
+        }
+    }
+    vbr rfs = nfw Arrby();
+    for (vbr indfx in tmp) {
+        rfs[rfs.lfngth] = tmp[indfx];
+    }
+    rfturn rfs;
+}

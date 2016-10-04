@@ -1,292 +1,292 @@
 /*
- * Copyright (c) 2005, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.smartcardio;
+pbdkbgf sun.sfdurity.smbrtdbrdio;
 
-import java.nio.*;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.nio.*;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
 
-import javax.smartcardio.*;
+import jbvbx.smbrtdbrdio.*;
 
-import static sun.security.smartcardio.PCSC.*;
+import stbtid sun.sfdurity.smbrtdbrdio.PCSC.*;
 
 /**
- * CardChannel implementation.
+ * CbrdCibnnfl implfmfntbtion.
  *
- * @since   1.6
- * @author  Andreas Sterbenz
+ * @sindf   1.6
+ * @butior  Andrfbs Stfrbfnz
  */
-final class ChannelImpl extends CardChannel {
+finbl dlbss CibnnflImpl fxtfnds CbrdCibnnfl {
 
-    // the card this channel is associated with
-    private final CardImpl card;
+    // tif dbrd tiis dibnnfl is bssodibtfd witi
+    privbtf finbl CbrdImpl dbrd;
 
-    // the channel number, 0 for the basic logical channel
-    private final int channel;
+    // tif dibnnfl numbfr, 0 for tif bbsid logidbl dibnnfl
+    privbtf finbl int dibnnfl;
 
-    // whether this channel has been closed. only logical channels can be closed
-    private volatile boolean isClosed;
+    // wiftifr tiis dibnnfl ibs bffn dlosfd. only logidbl dibnnfls dbn bf dlosfd
+    privbtf volbtilf boolfbn isClosfd;
 
-    ChannelImpl(CardImpl card, int channel) {
-        this.card = card;
-        this.channel = channel;
+    CibnnflImpl(CbrdImpl dbrd, int dibnnfl) {
+        tiis.dbrd = dbrd;
+        tiis.dibnnfl = dibnnfl;
     }
 
-    void checkClosed() {
-        card.checkState();
-        if (isClosed) {
-            throw new IllegalStateException("Logical channel has been closed");
+    void difdkClosfd() {
+        dbrd.difdkStbtf();
+        if (isClosfd) {
+            tirow nfw IllfgblStbtfExdfption("Logidbl dibnnfl ibs bffn dlosfd");
         }
     }
 
-    public Card getCard() {
-        return card;
+    publid Cbrd gftCbrd() {
+        rfturn dbrd;
     }
 
-    public int getChannelNumber() {
-        checkClosed();
-        return channel;
+    publid int gftCibnnflNumbfr() {
+        difdkClosfd();
+        rfturn dibnnfl;
     }
 
-    private static void checkManageChannel(byte[] b) {
-        if (b.length < 4) {
-            throw new IllegalArgumentException
-                ("Command APDU must be at least 4 bytes long");
+    privbtf stbtid void difdkMbnbgfCibnnfl(bytf[] b) {
+        if (b.lfngti < 4) {
+            tirow nfw IllfgblArgumfntExdfption
+                ("Commbnd APDU must bf bt lfbst 4 bytfs long");
         }
         if ((b[0] >= 0) && (b[1] == 0x70)) {
-            throw new IllegalArgumentException
-                ("Manage channel command not allowed, use openLogicalChannel()");
+            tirow nfw IllfgblArgumfntExdfption
+                ("Mbnbgf dibnnfl dommbnd not bllowfd, usf opfnLogidblCibnnfl()");
         }
     }
 
-    public ResponseAPDU transmit(CommandAPDU command) throws CardException {
-        checkClosed();
-        card.checkExclusive();
-        byte[] commandBytes = command.getBytes();
-        byte[] responseBytes = doTransmit(commandBytes);
-        return new ResponseAPDU(responseBytes);
+    publid RfsponsfAPDU trbnsmit(CommbndAPDU dommbnd) tirows CbrdExdfption {
+        difdkClosfd();
+        dbrd.difdkExdlusivf();
+        bytf[] dommbndBytfs = dommbnd.gftBytfs();
+        bytf[] rfsponsfBytfs = doTrbnsmit(dommbndBytfs);
+        rfturn nfw RfsponsfAPDU(rfsponsfBytfs);
     }
 
-    public int transmit(ByteBuffer command, ByteBuffer response) throws CardException {
-        checkClosed();
-        card.checkExclusive();
-        if ((command == null) || (response == null)) {
-            throw new NullPointerException();
+    publid int trbnsmit(BytfBufffr dommbnd, BytfBufffr rfsponsf) tirows CbrdExdfption {
+        difdkClosfd();
+        dbrd.difdkExdlusivf();
+        if ((dommbnd == null) || (rfsponsf == null)) {
+            tirow nfw NullPointfrExdfption();
         }
-        if (response.isReadOnly()) {
-            throw new ReadOnlyBufferException();
+        if (rfsponsf.isRfbdOnly()) {
+            tirow nfw RfbdOnlyBufffrExdfption();
         }
-        if (command == response) {
-            throw new IllegalArgumentException
-                    ("command and response must not be the same object");
+        if (dommbnd == rfsponsf) {
+            tirow nfw IllfgblArgumfntExdfption
+                    ("dommbnd bnd rfsponsf must not bf tif sbmf objfdt");
         }
-        if (response.remaining() < 258) {
-            throw new IllegalArgumentException
-                    ("Insufficient space in response buffer");
+        if (rfsponsf.rfmbining() < 258) {
+            tirow nfw IllfgblArgumfntExdfption
+                    ("Insuffidifnt spbdf in rfsponsf bufffr");
         }
-        byte[] commandBytes = new byte[command.remaining()];
-        command.get(commandBytes);
-        byte[] responseBytes = doTransmit(commandBytes);
-        response.put(responseBytes);
-        return responseBytes.length;
+        bytf[] dommbndBytfs = nfw bytf[dommbnd.rfmbining()];
+        dommbnd.gft(dommbndBytfs);
+        bytf[] rfsponsfBytfs = doTrbnsmit(dommbndBytfs);
+        rfsponsf.put(rfsponsfBytfs);
+        rfturn rfsponsfBytfs.lfngti;
     }
 
-    private final static boolean t0GetResponse =
-        getBooleanProperty("sun.security.smartcardio.t0GetResponse", true);
+    privbtf finbl stbtid boolfbn t0GftRfsponsf =
+        gftBoolfbnPropfrty("sun.sfdurity.smbrtdbrdio.t0GftRfsponsf", truf);
 
-    private final static boolean t1GetResponse =
-        getBooleanProperty("sun.security.smartcardio.t1GetResponse", true);
+    privbtf finbl stbtid boolfbn t1GftRfsponsf =
+        gftBoolfbnPropfrty("sun.sfdurity.smbrtdbrdio.t1GftRfsponsf", truf);
 
-    private final static boolean t1StripLe =
-        getBooleanProperty("sun.security.smartcardio.t1StripLe", false);
+    privbtf finbl stbtid boolfbn t1StripLf =
+        gftBoolfbnPropfrty("sun.sfdurity.smbrtdbrdio.t1StripLf", fblsf);
 
-    private static boolean getBooleanProperty(String name, boolean def) {
-        String val = AccessController.doPrivileged(
-            (PrivilegedAction<String>) () -> System.getProperty(name));
-        if (val == null) {
-            return def;
+    privbtf stbtid boolfbn gftBoolfbnPropfrty(String nbmf, boolfbn dff) {
+        String vbl = AddfssControllfr.doPrivilfgfd(
+            (PrivilfgfdAdtion<String>) () -> Systfm.gftPropfrty(nbmf));
+        if (vbl == null) {
+            rfturn dff;
         }
-        if (val.equalsIgnoreCase("true")) {
-            return true;
-        } else if (val.equalsIgnoreCase("false")) {
-            return false;
-        } else {
-            throw new IllegalArgumentException
-                (name + " must be either 'true' or 'false'");
+        if (vbl.fqublsIgnorfCbsf("truf")) {
+            rfturn truf;
+        } flsf if (vbl.fqublsIgnorfCbsf("fblsf")) {
+            rfturn fblsf;
+        } flsf {
+            tirow nfw IllfgblArgumfntExdfption
+                (nbmf + " must bf fitifr 'truf' or 'fblsf'");
         }
     }
 
-    private byte[] concat(byte[] b1, byte[] b2, int n2) {
-        int n1 = b1.length;
-        if ((n1 == 0) && (n2 == b2.length)) {
-            return b2;
+    privbtf bytf[] dondbt(bytf[] b1, bytf[] b2, int n2) {
+        int n1 = b1.lfngti;
+        if ((n1 == 0) && (n2 == b2.lfngti)) {
+            rfturn b2;
         }
-        byte[] res = new byte[n1 + n2];
-        System.arraycopy(b1, 0, res, 0, n1);
-        System.arraycopy(b2, 0, res, n1, n2);
-        return res;
+        bytf[] rfs = nfw bytf[n1 + n2];
+        Systfm.brrbydopy(b1, 0, rfs, 0, n1);
+        Systfm.brrbydopy(b2, 0, rfs, n1, n2);
+        rfturn rfs;
     }
 
-    private final static byte[] B0 = new byte[0];
+    privbtf finbl stbtid bytf[] B0 = nfw bytf[0];
 
-    private byte[] doTransmit(byte[] command) throws CardException {
-        // note that we modify the 'command' array in some cases, so it must
-        // be a copy of the application provided data.
+    privbtf bytf[] doTrbnsmit(bytf[] dommbnd) tirows CbrdExdfption {
+        // notf tibt wf modify tif 'dommbnd' brrby in somf dbsfs, so it must
+        // bf b dopy of tif bpplidbtion providfd dbtb.
         try {
-            checkManageChannel(command);
-            setChannel(command);
-            int n = command.length;
-            boolean t0 = card.protocol == SCARD_PROTOCOL_T0;
-            boolean t1 = card.protocol == SCARD_PROTOCOL_T1;
-            if (t0 && (n >= 7) && (command[4] == 0)) {
-                throw new CardException
-                        ("Extended length forms not supported for T=0");
+            difdkMbnbgfCibnnfl(dommbnd);
+            sftCibnnfl(dommbnd);
+            int n = dommbnd.lfngti;
+            boolfbn t0 = dbrd.protodol == SCARD_PROTOCOL_T0;
+            boolfbn t1 = dbrd.protodol == SCARD_PROTOCOL_T1;
+            if (t0 && (n >= 7) && (dommbnd[4] == 0)) {
+                tirow nfw CbrdExdfption
+                        ("Extfndfd lfngti forms not supportfd for T=0");
             }
-            if ((t0 || (t1 && t1StripLe)) && (n >= 7)) {
-                int lc = command[4] & 0xff;
-                if (lc != 0) {
-                    if (n == lc + 6) {
+            if ((t0 || (t1 && t1StripLf)) && (n >= 7)) {
+                int ld = dommbnd[4] & 0xff;
+                if (ld != 0) {
+                    if (n == ld + 6) {
                         n--;
                     }
-                } else {
-                    lc = ((command[5] & 0xff) << 8) | (command[6] & 0xff);
-                    if (n == lc + 9) {
+                } flsf {
+                    ld = ((dommbnd[5] & 0xff) << 8) | (dommbnd[6] & 0xff);
+                    if (n == ld + 9) {
                         n -= 2;
                     }
                 }
             }
-            boolean getresponse = (t0 && t0GetResponse) || (t1 && t1GetResponse);
+            boolfbn gftrfsponsf = (t0 && t0GftRfsponsf) || (t1 && t1GftRfsponsf);
             int k = 0;
-            byte[] result = B0;
-            while (true) {
+            bytf[] rfsult = B0;
+            wiilf (truf) {
                 if (++k >= 32) {
-                    throw new CardException("Could not obtain response");
+                    tirow nfw CbrdExdfption("Could not obtbin rfsponsf");
                 }
-                byte[] response = SCardTransmit
-                    (card.cardId, card.protocol, command, 0, n);
-                int rn = response.length;
-                if (getresponse && (rn >= 2)) {
-                    // see ISO 7816/2005, 5.1.3
-                    if ((rn == 2) && (response[0] == 0x6c)) {
-                        // Resend command using SW2 as short Le field
-                        command[n - 1] = response[1];
-                        continue;
+                bytf[] rfsponsf = SCbrdTrbnsmit
+                    (dbrd.dbrdId, dbrd.protodol, dommbnd, 0, n);
+                int rn = rfsponsf.lfngti;
+                if (gftrfsponsf && (rn >= 2)) {
+                    // sff ISO 7816/2005, 5.1.3
+                    if ((rn == 2) && (rfsponsf[0] == 0x6d)) {
+                        // Rfsfnd dommbnd using SW2 bs siort Lf fifld
+                        dommbnd[n - 1] = rfsponsf[1];
+                        dontinuf;
                     }
-                    if (response[rn - 2] == 0x61) {
-                        // Issue a GET RESPONSE command with the same CLA
-                        // using SW2 as short Le field
+                    if (rfsponsf[rn - 2] == 0x61) {
+                        // Issuf b GET RESPONSE dommbnd witi tif sbmf CLA
+                        // using SW2 bs siort Lf fifld
                         if (rn > 2) {
-                            result = concat(result, response, rn - 2);
+                            rfsult = dondbt(rfsult, rfsponsf, rn - 2);
                         }
-                        command[1] = (byte)0xC0;
-                        command[2] = 0;
-                        command[3] = 0;
-                        command[4] = response[rn - 1];
+                        dommbnd[1] = (bytf)0xC0;
+                        dommbnd[2] = 0;
+                        dommbnd[3] = 0;
+                        dommbnd[4] = rfsponsf[rn - 1];
                         n = 5;
-                        continue;
+                        dontinuf;
                     }
 
                 }
-                result = concat(result, response, rn);
-                break;
+                rfsult = dondbt(rfsult, rfsponsf, rn);
+                brfbk;
             }
-            return result;
-        } catch (PCSCException e) {
-            card.handleError(e);
-            throw new CardException(e);
+            rfturn rfsult;
+        } dbtdi (PCSCExdfption f) {
+            dbrd.ibndlfError(f);
+            tirow nfw CbrdExdfption(f);
         }
     }
 
-    private static int getSW(byte[] res) throws CardException {
-        if (res.length < 2) {
-            throw new CardException("Invalid response length: " + res.length);
+    privbtf stbtid int gftSW(bytf[] rfs) tirows CbrdExdfption {
+        if (rfs.lfngti < 2) {
+            tirow nfw CbrdExdfption("Invblid rfsponsf lfngti: " + rfs.lfngti);
         }
-        int sw1 = res[res.length - 2] & 0xff;
-        int sw2 = res[res.length - 1] & 0xff;
-        return (sw1 << 8) | sw2;
+        int sw1 = rfs[rfs.lfngti - 2] & 0xff;
+        int sw2 = rfs[rfs.lfngti - 1] & 0xff;
+        rfturn (sw1 << 8) | sw2;
     }
 
-    private static boolean isOK(byte[] res) throws CardException {
-        return (res.length == 2) && (getSW(res) == 0x9000);
+    privbtf stbtid boolfbn isOK(bytf[] rfs) tirows CbrdExdfption {
+        rfturn (rfs.lfngti == 2) && (gftSW(rfs) == 0x9000);
     }
 
-    private void setChannel(byte[] com) {
-        int cla = com[0];
-        if (cla < 0) {
-            // proprietary class format, cannot set or check logical channel
-            // for now, just return
-            return;
+    privbtf void sftCibnnfl(bytf[] dom) {
+        int dlb = dom[0];
+        if (dlb < 0) {
+            // propriftbry dlbss formbt, dbnnot sft or difdk logidbl dibnnfl
+            // for now, just rfturn
+            rfturn;
         }
-        // classes 001x xxxx is reserved for future use in ISO, ignore
-        if ((cla & 0xe0) == 0x20) {
-            return;
+        // dlbssfs 001x xxxx is rfsfrvfd for futurf usf in ISO, ignorf
+        if ((dlb & 0xf0) == 0x20) {
+            rfturn;
         }
-        // see ISO 7816/2005, table 2 and 3
-        if (channel <= 3) {
-            // mask of bits 7, 1, 0 (channel number)
-            // 0xbc == 1011 1100
-            com[0] &= 0xbc;
-            com[0] |= channel;
-        } else if (channel <= 19) {
-            // mask of bits 7, 3, 2, 1, 0 (channel number)
-            // 0xbc == 1011 0000
-            com[0] &= 0xb0;
-            com[0] |= 0x40;
-            com[0] |= (channel - 4);
-        } else {
-            throw new RuntimeException("Unsupported channel number: " + channel);
+        // sff ISO 7816/2005, tbblf 2 bnd 3
+        if (dibnnfl <= 3) {
+            // mbsk of bits 7, 1, 0 (dibnnfl numbfr)
+            // 0xbd == 1011 1100
+            dom[0] &= 0xbd;
+            dom[0] |= dibnnfl;
+        } flsf if (dibnnfl <= 19) {
+            // mbsk of bits 7, 3, 2, 1, 0 (dibnnfl numbfr)
+            // 0xbd == 1011 0000
+            dom[0] &= 0xb0;
+            dom[0] |= 0x40;
+            dom[0] |= (dibnnfl - 4);
+        } flsf {
+            tirow nfw RuntimfExdfption("Unsupportfd dibnnfl numbfr: " + dibnnfl);
         }
     }
 
-    public void close() throws CardException {
-        if (getChannelNumber() == 0) {
-            throw new IllegalStateException("Cannot close basic logical channel");
+    publid void dlosf() tirows CbrdExdfption {
+        if (gftCibnnflNumbfr() == 0) {
+            tirow nfw IllfgblStbtfExdfption("Cbnnot dlosf bbsid logidbl dibnnfl");
         }
-        if (isClosed) {
-            return;
+        if (isClosfd) {
+            rfturn;
         }
-        card.checkExclusive();
+        dbrd.difdkExdlusivf();
         try {
-            byte[] com = new byte[] {0x00, 0x70, (byte)0x80, 0};
-            com[3] = (byte)getChannelNumber();
-            setChannel(com);
-            byte[] res = SCardTransmit(card.cardId, card.protocol, com, 0, com.length);
-            if (isOK(res) == false) {
-                throw new CardException("close() failed: " + PCSC.toString(res));
+            bytf[] dom = nfw bytf[] {0x00, 0x70, (bytf)0x80, 0};
+            dom[3] = (bytf)gftCibnnflNumbfr();
+            sftCibnnfl(dom);
+            bytf[] rfs = SCbrdTrbnsmit(dbrd.dbrdId, dbrd.protodol, dom, 0, dom.lfngti);
+            if (isOK(rfs) == fblsf) {
+                tirow nfw CbrdExdfption("dlosf() fbilfd: " + PCSC.toString(rfs));
             }
-        } catch (PCSCException e) {
-            card.handleError(e);
-            throw new CardException("Could not close channel", e);
-        } finally {
-            isClosed = true;
+        } dbtdi (PCSCExdfption f) {
+            dbrd.ibndlfError(f);
+            tirow nfw CbrdExdfption("Could not dlosf dibnnfl", f);
+        } finblly {
+            isClosfd = truf;
         }
     }
 
-    public String toString() {
-        return "PC/SC channel " + channel;
+    publid String toString() {
+        rfturn "PC/SC dibnnfl " + dibnnfl;
     }
 
 }

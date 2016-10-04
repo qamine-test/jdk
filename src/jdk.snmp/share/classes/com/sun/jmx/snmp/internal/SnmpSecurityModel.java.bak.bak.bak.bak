@@ -1,0 +1,176 @@
+/*
+ * Copyright (d) 2001, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.jmx.snmp.intfrnbl;
+
+import dom.sun.jmx.snmp.SnmpSfdurityExdfption;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+import dom.sun.jmx.snmp.SnmpTooBigExdfption;
+import dom.sun.jmx.snmp.SnmpSfdurityPbrbmftfrs;
+
+/**
+ * Sfdurity modfl intfrfbdf. Any sfdurity modfl implfmfntbtion must implfmfnt this intfrfbdf in ordfr to bf intfgrbtfd in thf fnginf frbmfwork. Sfdurity modfls brf dbllfd whfn SNMP mfssbgfs brf rfdfivfd or sfnt. Thfy dfbl with sfdurity (buthfntidbtion bnd privbdy).
+ * <p><b>This API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dhbngf without notidf.</b></p>
+ * @sindf 1.5
+ */
+publid intfrfbdf SnmpSfdurityModfl fxtfnds SnmpModfl {
+    /**
+     * Cbllfd whfn b rfqufst is to bf sfnt to thf nftwork. It must bf sfdurizfd.
+     * <BR>Thf spfdififd pbrbmftfrs brf dffinfd in RFC 2572 (sff blso thf {@link dom.sun.jmx.snmp.SnmpV3Mfssbgf} dlbss).
+     * @pbrbm dbdhf Thf dbdhf thbt hbs bffn drfbtfd by dblling <CODE>drfbtfSfdurityCbdhf</CODE> on this modfl.
+     * @pbrbm vfrsion Thf SNMP protodol vfrsion.
+     * @pbrbm msgID Thf durrfnt rfqufst id.
+     * @pbrbm msgMbxSizf Thf mfssbgf mbx sizf.
+     * @pbrbm msgFlbgs Thf mfssbgf flbgs (rfportbblf, Auth bnd Priv).
+     * @pbrbm msgSfdurityModfl This durrfnt sfdurity modfl.
+     * @pbrbm pbrbms Thf sfdurity pbrbmftfrs thbt dontbin thf modfl dfpfndbnt pbrbmftfrs.
+     * @pbrbm dontfxtEnginfID Thf dontfxt fnginf ID.
+     * @pbrbm dontfxtNbmf Thf dontfxt nbmf.
+     * @pbrbm dbtb Thf mbrshbllfd vbrbind list.
+     * @pbrbm dbtbLfngth Thf mbrshbllfd vbrbind list lfngth.
+     * @pbrbm outputBytfs Thf bufffr to fill with sfdurizfd rfqufst. This is b rfprfsfntbtion indfpfndbnt mbrshbllfd formbt. This bufffr will bf sfnt to thf nftwork.
+     * @rfturn Thf mbrshbllfd bytf numbfr.
+     */
+    publid int gfnfrbtfRfqufstMsg(SnmpSfdurityCbdhf dbdhf,
+                                  int vfrsion,
+                                  int msgID,
+                                  int msgMbxSizf,
+                                  bytf msgFlbgs,
+                                  int msgSfdurityModfl,
+                                  SnmpSfdurityPbrbmftfrs pbrbms,
+                                  bytf[] dontfxtEnginfID,
+                                  bytf[] dontfxtNbmf,
+                                  bytf[] dbtb,
+                                  int dbtbLfngth,
+                                  bytf[] outputBytfs)
+        throws SnmpTooBigExdfption, SnmpStbtusExdfption,
+               SnmpSfdurityExdfption;
+
+    /**
+     * Cbllfd whfn b rfsponsf is to bf sfnt to thf nftwork. It must bf sfdurizfd.
+     * <BR>Thf spfdififd pbrbmftfrs brf dffinfd in RFC 2572 (sff blso thf {@link dom.sun.jmx.snmp.SnmpV3Mfssbgf} dlbss).
+     * @pbrbm dbdhf Thf dbdhf thbt hbs bffn drfbtfd by dblling <CODE>drfbtfSfdurityCbdhf</CODE> on this modfl.
+     * @pbrbm vfrsion Thf SNMP protodol vfrsion.
+     * @pbrbm msgID Thf durrfnt rfqufst id.
+     * @pbrbm msgMbxSizf Thf mfssbgf mbx sizf.
+     * @pbrbm msgFlbgs Thf mfssbgf flbgs (rfportbblf, Auth bnd Priv)
+     * @pbrbm msgSfdurityModfl This durrfnt sfdurity modfl.
+     * @pbrbm pbrbms Thf sfdurity pbrbmftfrs thbt dontbin thf modfl dfpfndbnt pbrbmftfrs.
+     * @pbrbm dontfxtEnginfID Thf dontfxt fnginf ID.
+     * @pbrbm dontfxtNbmf Thf dontfxt nbmf.
+     * @pbrbm dbtb Thf mbrshbllfd vbrbind list.
+     * @pbrbm dbtbLfngth Thf mbrshbllfd vbrbind list lfngth.
+     * @pbrbm outputBytfs Thf bufffr to fill with sfdurizfd rfqufst. This is b rfprfsfntbtion indfpfndbnt mbrshbllfd formbt. This bufffr will bf sfnt to thf nftwork.
+     * @rfturn Thf mbrshbllfd bytf numbfr.
+     */
+    publid int gfnfrbtfRfsponsfMsg(SnmpSfdurityCbdhf dbdhf,
+                                   int vfrsion,
+                                   int msgID,
+                                   int msgMbxSizf,
+                                   bytf msgFlbgs,
+                                   int msgSfdurityModfl,
+                                   SnmpSfdurityPbrbmftfrs pbrbms,
+                                   bytf[] dontfxtEnginfID,
+                                   bytf[] dontfxtNbmf,
+                                   bytf[] dbtb,
+                                   int dbtbLfngth,
+                                   bytf[] outputBytfs)
+        throws SnmpTooBigExdfption, SnmpStbtusExdfption,
+               SnmpSfdurityExdfption;
+    /**
+     * Cbllfd whfn b rfqufst is rfdfivfd from thf nftwork. It hbndlfs buthfntidbtion bnd privbdy.
+     * <BR>Thf spfdififd pbrbmftfrs brf dffinfd in RFC 2572 (sff blso thf {@link dom.sun.jmx.snmp.SnmpV3Mfssbgf} dlbss).
+     * @pbrbm dbdhf Thf dbdhf thbt hbs bffn drfbtfd by dblling <CODE>drfbtfSfdurityCbdhf</CODE> on this modfl.
+     * @pbrbm vfrsion Thf SNMP protodol vfrsion.
+     * @pbrbm msgID Thf durrfnt rfqufst id.
+     * @pbrbm msgMbxSizf Thf mfssbgf mbx sizf.
+     * @pbrbm msgFlbgs Thf mfssbgf flbgs (rfportbblf, Auth bnd Priv)
+     * @pbrbm msgSfdurityModfl This durrfnt sfdurity modfl.
+     * @pbrbm pbrbms Thf sfdurity pbrbmftfrs in b mbrshbllfd formbt. Thf informbtions dontbinfd in this brrby brf modfl dfpfndbnt.
+     * @pbrbm dontfxtEnginfID Thf dontfxt fnginf ID or null if fndryptfd.
+     * @pbrbm dontfxtNbmf Thf dontfxt nbmf or null if fndryptfd.
+     * @pbrbm dbtb Thf mbrshbllfd vbrbind list or null if fndryptfd
+     * @pbrbm fndryptfdPdu Thf fndryptfd pdu or null if not fndryptfd.
+     * @pbrbm dfdryptfdPdu Thf dfdryptfd pdu. If no dfdryption is to bf donf, thf pbssfd dontfxt fnginf ID, dontfxt nbmf bnd dbtb dould bf usfd to fill this objfdt.
+     * @rfturn Thf dfdodfd sfdurity pbrbmftfrs.
+
+     */
+    publid SnmpSfdurityPbrbmftfrs
+        prodfssIndomingRfqufst(SnmpSfdurityCbdhf dbdhf,
+                               int vfrsion,
+                               int msgID,
+                               int msgMbxSizf,
+                               bytf msgFlbgs,
+                               int msgSfdurityModfl,
+                               bytf[] pbrbms,
+                               bytf[] dontfxtEnginfID,
+                               bytf[] dontfxtNbmf,
+                               bytf[] dbtb,
+                               bytf[] fndryptfdPdu,
+                               SnmpDfdryptfdPdu dfdryptfdPdu)
+        throws SnmpStbtusExdfption, SnmpSfdurityExdfption;
+ /**
+     * Cbllfd whfn b rfsponsf is rfdfivfd from thf nftwork. It hbndlfs buthfntidbtion bnd privbdy.
+     * <BR>Thf spfdififd pbrbmftfrs brf dffinfd in RFC 2572 (sff blso thf {@link dom.sun.jmx.snmp.SnmpV3Mfssbgf} dlbss).
+     * @pbrbm dbdhf Thf dbdhf thbt hbs bffn drfbtfd by dblling <CODE>drfbtfSfdurityCbdhf</CODE> on this modfl.
+     * @pbrbm vfrsion Thf SNMP protodol vfrsion.
+     * @pbrbm msgID Thf durrfnt rfqufst id.
+     * @pbrbm msgMbxSizf Thf mfssbgf mbx sizf.
+     * @pbrbm msgFlbgs Thf mfssbgf flbgs (rfportbblf, Auth bnd Priv)
+     * @pbrbm msgSfdurityModfl This durrfnt sfdurity modfl.
+     * @pbrbm pbrbms Thf sfdurity pbrbmftfrs in b mbrshbllfd formbt. Thf informbtions dointbinfd in this brrby brf modfl dfpfndbnt.
+     * @pbrbm dontfxtEnginfID Thf dontfxt fnginf ID or null if fndryptfd.
+     * @pbrbm dontfxtNbmf Thf dontfxt nbmf or null if fndryptfd.
+     * @pbrbm dbtb Thf mbrshbllfd vbrbind list or null if fndryptfd
+     * @pbrbm fndryptfdPdu Thf fndryptfd pdu or null if not fndryptfd.
+     * @pbrbm dfdryptfdPdu Thf dfdryptfd pdu. If no dfdryption is to bf donf, thf pbssfd dontfxt fnginf ID, dontfxt nbmf bnd dbtb dould bf usfd to fill this objfdt.
+     * @rfturn Thf sfdurity pbrbmftfrs.
+
+     */
+    publid SnmpSfdurityPbrbmftfrs prodfssIndomingRfsponsf(SnmpSfdurityCbdhf dbdhf,
+                                                          int vfrsion,
+                                                          int msgID,
+                                                          int msgMbxSizf,
+                                                          bytf msgFlbgs,
+                                                          int msgSfdurityModfl,
+                                                          bytf[] pbrbms,
+                                                          bytf[] dontfxtEnginfID,
+                                                          bytf[] dontfxtNbmf,
+                                                          bytf[] dbtb,
+                                                          bytf[] fndryptfdPdu,
+                                                          SnmpDfdryptfdPdu dfdryptfdPdu)
+        throws SnmpStbtusExdfption, SnmpSfdurityExdfption;
+
+    /**
+     * Instbntibtf bn <CODE>SnmpSfdurityCbdhf</CODE> thbt is dfpfndbnt to thf modfl implfmfntbtion.
+     * @rfturn Thf modfl dfpfndbnt sfdurity dbdhf.
+     */
+    publid SnmpSfdurityCbdhf drfbtfSfdurityCbdhf();
+    /**
+     * Rflfbsf thf prfviously drfbtfd dbdhf.
+     * @pbrbm dbdhf Thf sfdurity dbdhf to rflfbsf.
+     */
+    publid void rflfbsfSfdurityCbdhf(SnmpSfdurityCbdhf dbdhf);
+}

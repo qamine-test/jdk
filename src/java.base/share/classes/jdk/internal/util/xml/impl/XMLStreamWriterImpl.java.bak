@@ -1,633 +1,633 @@
 /*
- * Copyright (c) 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package jdk.internal.util.xml.impl;
+pbdkbgf jdk.intfrnbl.util.xml.impl;
 
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
-import java.nio.charset.IllegalCharsetNameException;
-import java.nio.charset.UnsupportedCharsetException;
-import jdk.internal.util.xml.XMLStreamException;
-import jdk.internal.util.xml.XMLStreamWriter;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.UnsupportfdEndodingExdfption;
+import jbvb.nio.dibrsft.Cibrsft;
+import jbvb.nio.dibrsft.IllfgblCibrsftNbmfExdfption;
+import jbvb.nio.dibrsft.UnsupportfdCibrsftExdfption;
+import jdk.intfrnbl.util.xml.XMLStrfbmExdfption;
+import jdk.intfrnbl.util.xml.XMLStrfbmWritfr;
 
 /**
- * Implementation of a reduced version of XMLStreamWriter
+ * Implfmfntbtion of b rfdudfd vfrsion of XMLStrfbmWritfr
  *
- * @author Joe Wang
+ * @butior Jof Wbng
  */
-public class XMLStreamWriterImpl implements XMLStreamWriter {
-    //Document state
+publid dlbss XMLStrfbmWritfrImpl implfmfnts XMLStrfbmWritfr {
+    //Dodumfnt stbtf
 
-    static final int STATE_XML_DECL = 1;
-    static final int STATE_PROLOG = 2;
-    static final int STATE_DTD_DECL = 3;
-    static final int STATE_ELEMENT = 4;
-    //Element state
-    static final int ELEMENT_STARTTAG_OPEN = 10;
-    static final int ELEMENT_STARTTAG_CLOSE = 11;
-    static final int ELEMENT_ENDTAG_OPEN = 12;
-    static final int ELEMENT_ENDTAG_CLOSE = 13;
-    public static final char CLOSE_START_TAG = '>';
-    public static final char OPEN_START_TAG = '<';
-    public static final String OPEN_END_TAG = "</";
-    public static final char CLOSE_END_TAG = '>';
-    public static final String START_CDATA = "<![CDATA[";
-    public static final String END_CDATA = "]]>";
-    public static final String CLOSE_EMPTY_ELEMENT = "/>";
-    public static final String ENCODING_PREFIX = "&#x";
-    public static final char SPACE = ' ';
-    public static final char AMPERSAND = '&';
-    public static final char DOUBLEQUOT = '"';
-    public static final char SEMICOLON = ';';
-    //current state
-    private int _state = 0;
-    private Element _currentEle;
-    private XMLWriter _writer;
-    private String _encoding;
+    stbtid finbl int STATE_XML_DECL = 1;
+    stbtid finbl int STATE_PROLOG = 2;
+    stbtid finbl int STATE_DTD_DECL = 3;
+    stbtid finbl int STATE_ELEMENT = 4;
+    //Elfmfnt stbtf
+    stbtid finbl int ELEMENT_STARTTAG_OPEN = 10;
+    stbtid finbl int ELEMENT_STARTTAG_CLOSE = 11;
+    stbtid finbl int ELEMENT_ENDTAG_OPEN = 12;
+    stbtid finbl int ELEMENT_ENDTAG_CLOSE = 13;
+    publid stbtid finbl dibr CLOSE_START_TAG = '>';
+    publid stbtid finbl dibr OPEN_START_TAG = '<';
+    publid stbtid finbl String OPEN_END_TAG = "</";
+    publid stbtid finbl dibr CLOSE_END_TAG = '>';
+    publid stbtid finbl String START_CDATA = "<![CDATA[";
+    publid stbtid finbl String END_CDATA = "]]>";
+    publid stbtid finbl String CLOSE_EMPTY_ELEMENT = "/>";
+    publid stbtid finbl String ENCODING_PREFIX = "&#x";
+    publid stbtid finbl dibr SPACE = ' ';
+    publid stbtid finbl dibr AMPERSAND = '&';
+    publid stbtid finbl dibr DOUBLEQUOT = '"';
+    publid stbtid finbl dibr SEMICOLON = ';';
+    //durrfnt stbtf
+    privbtf int _stbtf = 0;
+    privbtf Elfmfnt _durrfntElf;
+    privbtf XMLWritfr _writfr;
+    privbtf String _fndoding;
     /**
-     * This flag can be used to turn escaping off for content. It does
-     * not apply to attribute content.
+     * Tiis flbg dbn bf usfd to turn fsdbping off for dontfnt. It dofs
+     * not bpply to bttributf dontfnt.
      */
-    boolean _escapeCharacters = true;
-    //pretty print by default
-    private boolean _doIndent = true;
-    //The system line separator for writing out line breaks.
-    private char[] _lineSep =
-            System.getProperty("line.separator").toCharArray();
+    boolfbn _fsdbpfCibrbdtfrs = truf;
+    //prftty print by dffbult
+    privbtf boolfbn _doIndfnt = truf;
+    //Tif systfm linf sfpbrbtor for writing out linf brfbks.
+    privbtf dibr[] _linfSfp =
+            Systfm.gftPropfrty("linf.sfpbrbtor").toCibrArrby();
 
-    public XMLStreamWriterImpl(OutputStream os) throws XMLStreamException {
-        this(os, XMLStreamWriter.DEFAULT_ENCODING);
+    publid XMLStrfbmWritfrImpl(OutputStrfbm os) tirows XMLStrfbmExdfption {
+        tiis(os, XMLStrfbmWritfr.DEFAULT_ENCODING);
     }
 
-    public XMLStreamWriterImpl(OutputStream os, String encoding)
-        throws XMLStreamException
+    publid XMLStrfbmWritfrImpl(OutputStrfbm os, String fndoding)
+        tirows XMLStrfbmExdfption
     {
-        Charset cs = null;
-        if (encoding == null) {
-            _encoding = XMLStreamWriter.DEFAULT_ENCODING;
-        } else {
+        Cibrsft ds = null;
+        if (fndoding == null) {
+            _fndoding = XMLStrfbmWritfr.DEFAULT_ENCODING;
+        } flsf {
             try {
-                cs = getCharset(encoding);
-            } catch (UnsupportedEncodingException e) {
-                throw new XMLStreamException(e);
+                ds = gftCibrsft(fndoding);
+            } dbtdi (UnsupportfdEndodingExdfption f) {
+                tirow nfw XMLStrfbmExdfption(f);
             }
 
-            this._encoding = encoding;
+            tiis._fndoding = fndoding;
         }
 
-        _writer = new XMLWriter(os, encoding, cs);
+        _writfr = nfw XMLWritfr(os, fndoding, ds);
     }
 
     /**
-     * Write the XML Declaration. Defaults the XML version to 1.0, and the
-     * encoding to utf-8.
+     * Writf tif XML Dfdlbrbtion. Dffbults tif XML vfrsion to 1.0, bnd tif
+     * fndoding to utf-8.
      *
-     * @throws XMLStreamException
+     * @tirows XMLStrfbmExdfption
      */
-    public void writeStartDocument() throws XMLStreamException {
-        writeStartDocument(_encoding, XMLStreamWriter.DEFAULT_XML_VERSION);
+    publid void writfStbrtDodumfnt() tirows XMLStrfbmExdfption {
+        writfStbrtDodumfnt(_fndoding, XMLStrfbmWritfr.DEFAULT_XML_VERSION);
     }
 
     /**
-     * Write the XML Declaration. Defaults the encoding to utf-8
+     * Writf tif XML Dfdlbrbtion. Dffbults tif fndoding to utf-8
      *
-     * @param version version of the xml document
-     * @throws XMLStreamException
+     * @pbrbm vfrsion vfrsion of tif xml dodumfnt
+     * @tirows XMLStrfbmExdfption
      */
-    public void writeStartDocument(String version) throws XMLStreamException {
-        writeStartDocument(_encoding, version, null);
+    publid void writfStbrtDodumfnt(String vfrsion) tirows XMLStrfbmExdfption {
+        writfStbrtDodumfnt(_fndoding, vfrsion, null);
     }
 
     /**
-     * Write the XML Declaration. Note that the encoding parameter does not set
-     * the actual encoding of the underlying output. That must be set when the
-     * instance of the XMLStreamWriter is created
+     * Writf tif XML Dfdlbrbtion. Notf tibt tif fndoding pbrbmftfr dofs not sft
+     * tif bdtubl fndoding of tif undfrlying output. Tibt must bf sft wifn tif
+     * instbndf of tif XMLStrfbmWritfr is drfbtfd
      *
-     * @param encoding encoding of the xml declaration
-     * @param version version of the xml document
-     * @throws XMLStreamException If given encoding does not match encoding of the
-     * underlying stream
+     * @pbrbm fndoding fndoding of tif xml dfdlbrbtion
+     * @pbrbm vfrsion vfrsion of tif xml dodumfnt
+     * @tirows XMLStrfbmExdfption If givfn fndoding dofs not mbtdi fndoding of tif
+     * undfrlying strfbm
      */
-    public void writeStartDocument(String encoding, String version) throws XMLStreamException {
-        writeStartDocument(encoding, version, null);
+    publid void writfStbrtDodumfnt(String fndoding, String vfrsion) tirows XMLStrfbmExdfption {
+        writfStbrtDodumfnt(fndoding, vfrsion, null);
     }
 
     /**
-     * Write the XML Declaration. Note that the encoding parameter does not set
-     * the actual encoding of the underlying output. That must be set when the
-     * instance of the XMLStreamWriter is created
+     * Writf tif XML Dfdlbrbtion. Notf tibt tif fndoding pbrbmftfr dofs not sft
+     * tif bdtubl fndoding of tif undfrlying output. Tibt must bf sft wifn tif
+     * instbndf of tif XMLStrfbmWritfr is drfbtfd
      *
-     * @param encoding encoding of the xml declaration
-     * @param version version of the xml document
-     * @param standalone indicate if the xml document is standalone
-     * @throws XMLStreamException If given encoding does not match encoding of the
-     * underlying stream
+     * @pbrbm fndoding fndoding of tif xml dfdlbrbtion
+     * @pbrbm vfrsion vfrsion of tif xml dodumfnt
+     * @pbrbm stbndblonf indidbtf if tif xml dodumfnt is stbndblonf
+     * @tirows XMLStrfbmExdfption If givfn fndoding dofs not mbtdi fndoding of tif
+     * undfrlying strfbm
      */
-    public void writeStartDocument(String encoding, String version, String standalone)
-        throws XMLStreamException
+    publid void writfStbrtDodumfnt(String fndoding, String vfrsion, String stbndblonf)
+        tirows XMLStrfbmExdfption
     {
-        if (_state > 0) {
-            throw new XMLStreamException("XML declaration must be as the first line in the XML document.");
+        if (_stbtf > 0) {
+            tirow nfw XMLStrfbmExdfption("XML dfdlbrbtion must bf bs tif first linf in tif XML dodumfnt.");
         }
-        _state = STATE_XML_DECL;
-        String enc = encoding;
-        if (enc == null) {
-            enc = _encoding;
-        } else {
-            //check if the encoding is supported
+        _stbtf = STATE_XML_DECL;
+        String fnd = fndoding;
+        if (fnd == null) {
+            fnd = _fndoding;
+        } flsf {
+            //difdk if tif fndoding is supportfd
             try {
-                getCharset(encoding);
-            } catch (UnsupportedEncodingException e) {
-                throw new XMLStreamException(e);
+                gftCibrsft(fndoding);
+            } dbtdi (UnsupportfdEndodingExdfption f) {
+                tirow nfw XMLStrfbmExdfption(f);
             }
         }
 
-        if (version == null) {
-            version = XMLStreamWriter.DEFAULT_XML_VERSION;
+        if (vfrsion == null) {
+            vfrsion = XMLStrfbmWritfr.DEFAULT_XML_VERSION;
         }
 
-        _writer.write("<?xml version=\"");
-        _writer.write(version);
-        _writer.write(DOUBLEQUOT);
+        _writfr.writf("<?xml vfrsion=\"");
+        _writfr.writf(vfrsion);
+        _writfr.writf(DOUBLEQUOT);
 
-        if (enc != null) {
-            _writer.write(" encoding=\"");
-            _writer.write(enc);
-            _writer.write(DOUBLEQUOT);
+        if (fnd != null) {
+            _writfr.writf(" fndoding=\"");
+            _writfr.writf(fnd);
+            _writfr.writf(DOUBLEQUOT);
         }
 
-        if (standalone != null) {
-            _writer.write(" standalone=\"");
-            _writer.write(standalone);
-            _writer.write(DOUBLEQUOT);
+        if (stbndblonf != null) {
+            _writfr.writf(" stbndblonf=\"");
+            _writfr.writf(stbndblonf);
+            _writfr.writf(DOUBLEQUOT);
         }
-        _writer.write("?>");
-        writeLineSeparator();
+        _writfr.writf("?>");
+        writfLinfSfpbrbtor();
     }
 
     /**
-     * Write a DTD section.  This string represents the entire doctypedecl production
-     * from the XML 1.0 specification.
+     * Writf b DTD sfdtion.  Tiis string rfprfsfnts tif fntirf dodtypfdfdl produdtion
+     * from tif XML 1.0 spfdifidbtion.
      *
-     * @param dtd the DTD to be written
-     * @throws XMLStreamException
+     * @pbrbm dtd tif DTD to bf writtfn
+     * @tirows XMLStrfbmExdfption
      */
-    public void writeDTD(String dtd) throws XMLStreamException {
-        if (_currentEle != null && _currentEle.getState() == ELEMENT_STARTTAG_OPEN) {
-            closeStartTag();
+    publid void writfDTD(String dtd) tirows XMLStrfbmExdfption {
+        if (_durrfntElf != null && _durrfntElf.gftStbtf() == ELEMENT_STARTTAG_OPEN) {
+            dlosfStbrtTbg();
         }
-        _writer.write(dtd);
-        writeLineSeparator();
+        _writfr.writf(dtd);
+        writfLinfSfpbrbtor();
     }
 
     /**
-     * Writes a start tag to the output.
-     * @param localName local name of the tag, may not be null
-     * @throws XMLStreamException
+     * Writfs b stbrt tbg to tif output.
+     * @pbrbm lodblNbmf lodbl nbmf of tif tbg, mby not bf null
+     * @tirows XMLStrfbmExdfption
      */
-    public void writeStartElement(String localName) throws XMLStreamException {
-        if (localName == null || localName.length() == 0) {
-            throw new XMLStreamException("Local Name cannot be null or empty");
+    publid void writfStbrtElfmfnt(String lodblNbmf) tirows XMLStrfbmExdfption {
+        if (lodblNbmf == null || lodblNbmf.lfngti() == 0) {
+            tirow nfw XMLStrfbmExdfption("Lodbl Nbmf dbnnot bf null or fmpty");
         }
 
-        _state = STATE_ELEMENT;
-        if (_currentEle != null && _currentEle.getState() == ELEMENT_STARTTAG_OPEN) {
-            closeStartTag();
+        _stbtf = STATE_ELEMENT;
+        if (_durrfntElf != null && _durrfntElf.gftStbtf() == ELEMENT_STARTTAG_OPEN) {
+            dlosfStbrtTbg();
         }
 
-        _currentEle = new Element(_currentEle, localName, false);
-        openStartTag();
+        _durrfntElf = nfw Elfmfnt(_durrfntElf, lodblNbmf, fblsf);
+        opfnStbrtTbg();
 
-        _writer.write(localName);
+        _writfr.writf(lodblNbmf);
     }
 
     /**
-     * Writes an empty element tag to the output
-     * @param localName local name of the tag, may not be null
-     * @throws XMLStreamException
+     * Writfs bn fmpty flfmfnt tbg to tif output
+     * @pbrbm lodblNbmf lodbl nbmf of tif tbg, mby not bf null
+     * @tirows XMLStrfbmExdfption
      */
-    public void writeEmptyElement(String localName) throws XMLStreamException {
-        if (_currentEle != null && _currentEle.getState() == ELEMENT_STARTTAG_OPEN) {
-            closeStartTag();
+    publid void writfEmptyElfmfnt(String lodblNbmf) tirows XMLStrfbmExdfption {
+        if (_durrfntElf != null && _durrfntElf.gftStbtf() == ELEMENT_STARTTAG_OPEN) {
+            dlosfStbrtTbg();
         }
 
-        _currentEle = new Element(_currentEle, localName, true);
+        _durrfntElf = nfw Elfmfnt(_durrfntElf, lodblNbmf, truf);
 
-        openStartTag();
-        _writer.write(localName);
+        opfnStbrtTbg();
+        _writfr.writf(lodblNbmf);
     }
 
     /**
-     * Writes an attribute to the output stream without a prefix.
-     * @param localName the local name of the attribute
-     * @param value the value of the attribute
-     * @throws IllegalStateException if the current state does not allow Attribute writing
-     * @throws XMLStreamException
+     * Writfs bn bttributf to tif output strfbm witiout b prffix.
+     * @pbrbm lodblNbmf tif lodbl nbmf of tif bttributf
+     * @pbrbm vbluf tif vbluf of tif bttributf
+     * @tirows IllfgblStbtfExdfption if tif durrfnt stbtf dofs not bllow Attributf writing
+     * @tirows XMLStrfbmExdfption
      */
-    public void writeAttribute(String localName, String value) throws XMLStreamException {
-        if (_currentEle.getState() != ELEMENT_STARTTAG_OPEN) {
-            throw new XMLStreamException(
-                    "Attribute not associated with any element");
+    publid void writfAttributf(String lodblNbmf, String vbluf) tirows XMLStrfbmExdfption {
+        if (_durrfntElf.gftStbtf() != ELEMENT_STARTTAG_OPEN) {
+            tirow nfw XMLStrfbmExdfption(
+                    "Attributf not bssodibtfd witi bny flfmfnt");
         }
 
-        _writer.write(SPACE);
-        _writer.write(localName);
-        _writer.write("=\"");
-        writeXMLContent(
-                value,
-                true, // true = escapeChars
-                true);  // true = escapeDoubleQuotes
-        _writer.write(DOUBLEQUOT);
+        _writfr.writf(SPACE);
+        _writfr.writf(lodblNbmf);
+        _writfr.writf("=\"");
+        writfXMLContfnt(
+                vbluf,
+                truf, // truf = fsdbpfCibrs
+                truf);  // truf = fsdbpfDoublfQuotfs
+        _writfr.writf(DOUBLEQUOT);
     }
 
-    public void writeEndDocument() throws XMLStreamException {
-        if (_currentEle != null && _currentEle.getState() == ELEMENT_STARTTAG_OPEN) {
-            closeStartTag();
+    publid void writfEndDodumfnt() tirows XMLStrfbmExdfption {
+        if (_durrfntElf != null && _durrfntElf.gftStbtf() == ELEMENT_STARTTAG_OPEN) {
+            dlosfStbrtTbg();
         }
 
         /**
-         * close unclosed elements if any
+         * dlosf undlosfd flfmfnts if bny
          */
-        while (_currentEle != null) {
+        wiilf (_durrfntElf != null) {
 
-            if (!_currentEle.isEmpty()) {
-                _writer.write(OPEN_END_TAG);
-                _writer.write(_currentEle.getLocalName());
-                _writer.write(CLOSE_END_TAG);
+            if (!_durrfntElf.isEmpty()) {
+                _writfr.writf(OPEN_END_TAG);
+                _writfr.writf(_durrfntElf.gftLodblNbmf());
+                _writfr.writf(CLOSE_END_TAG);
             }
 
-            _currentEle = _currentEle.getParent();
+            _durrfntElf = _durrfntElf.gftPbrfnt();
         }
     }
 
-    public void writeEndElement() throws XMLStreamException {
-        if (_currentEle != null && _currentEle.getState() == ELEMENT_STARTTAG_OPEN) {
-            closeStartTag();
+    publid void writfEndElfmfnt() tirows XMLStrfbmExdfption {
+        if (_durrfntElf != null && _durrfntElf.gftStbtf() == ELEMENT_STARTTAG_OPEN) {
+            dlosfStbrtTbg();
         }
 
-        if (_currentEle == null) {
-            throw new XMLStreamException("No element was found to write");
+        if (_durrfntElf == null) {
+            tirow nfw XMLStrfbmExdfption("No flfmfnt wbs found to writf");
         }
 
-        if (_currentEle.isEmpty()) {
-            return;
+        if (_durrfntElf.isEmpty()) {
+            rfturn;
         }
 
-        _writer.write(OPEN_END_TAG);
-        _writer.write(_currentEle.getLocalName());
-        _writer.write(CLOSE_END_TAG);
-        writeLineSeparator();
+        _writfr.writf(OPEN_END_TAG);
+        _writfr.writf(_durrfntElf.gftLodblNbmf());
+        _writfr.writf(CLOSE_END_TAG);
+        writfLinfSfpbrbtor();
 
-        _currentEle = _currentEle.getParent();
+        _durrfntElf = _durrfntElf.gftPbrfnt();
     }
 
-    public void writeCData(String cdata) throws XMLStreamException {
-        if (cdata == null) {
-            throw new XMLStreamException("cdata cannot be null");
+    publid void writfCDbtb(String ddbtb) tirows XMLStrfbmExdfption {
+        if (ddbtb == null) {
+            tirow nfw XMLStrfbmExdfption("ddbtb dbnnot bf null");
         }
 
-        if (_currentEle != null && _currentEle.getState() == ELEMENT_STARTTAG_OPEN) {
-            closeStartTag();
+        if (_durrfntElf != null && _durrfntElf.gftStbtf() == ELEMENT_STARTTAG_OPEN) {
+            dlosfStbrtTbg();
         }
 
-        _writer.write(START_CDATA);
-        _writer.write(cdata);
-        _writer.write(END_CDATA);
+        _writfr.writf(START_CDATA);
+        _writfr.writf(ddbtb);
+        _writfr.writf(END_CDATA);
     }
 
-    public void writeCharacters(String data) throws XMLStreamException {
-        if (_currentEle != null && _currentEle.getState() == ELEMENT_STARTTAG_OPEN) {
-            closeStartTag();
+    publid void writfCibrbdtfrs(String dbtb) tirows XMLStrfbmExdfption {
+        if (_durrfntElf != null && _durrfntElf.gftStbtf() == ELEMENT_STARTTAG_OPEN) {
+            dlosfStbrtTbg();
         }
 
-        writeXMLContent(data);
+        writfXMLContfnt(dbtb);
     }
 
-    public void writeCharacters(char[] data, int start, int len)
-            throws XMLStreamException {
-        if (_currentEle != null && _currentEle.getState() == ELEMENT_STARTTAG_OPEN) {
-            closeStartTag();
+    publid void writfCibrbdtfrs(dibr[] dbtb, int stbrt, int lfn)
+            tirows XMLStrfbmExdfption {
+        if (_durrfntElf != null && _durrfntElf.gftStbtf() == ELEMENT_STARTTAG_OPEN) {
+            dlosfStbrtTbg();
         }
 
-        writeXMLContent(data, start, len, _escapeCharacters);
-    }
-
-    /**
-     * Close this XMLStreamWriter by closing underlying writer.
-     */
-    public void close() throws XMLStreamException {
-        if (_writer != null) {
-            _writer.close();
-        }
-        _writer = null;
-        _currentEle = null;
-        _state = 0;
+        writfXMLContfnt(dbtb, stbrt, lfn, _fsdbpfCibrbdtfrs);
     }
 
     /**
-     * Flush this XMLStreamWriter by flushing underlying writer.
+     * Closf tiis XMLStrfbmWritfr by dlosing undfrlying writfr.
      */
-    public void flush() throws XMLStreamException {
-        if (_writer != null) {
-            _writer.flush();
+    publid void dlosf() tirows XMLStrfbmExdfption {
+        if (_writfr != null) {
+            _writfr.dlosf();
+        }
+        _writfr = null;
+        _durrfntElf = null;
+        _stbtf = 0;
+    }
+
+    /**
+     * Flusi tiis XMLStrfbmWritfr by flusiing undfrlying writfr.
+     */
+    publid void flusi() tirows XMLStrfbmExdfption {
+        if (_writfr != null) {
+            _writfr.flusi();
         }
     }
 
     /**
-     * Set the flag to indicate if the writer should add line separator
-     * @param doIndent
+     * Sft tif flbg to indidbtf if tif writfr siould bdd linf sfpbrbtor
+     * @pbrbm doIndfnt
      */
-    public void setDoIndent(boolean doIndent) {
-        _doIndent = doIndent;
+    publid void sftDoIndfnt(boolfbn doIndfnt) {
+        _doIndfnt = doIndfnt;
     }
 
     /**
-     * Writes XML content to underlying writer. Escapes characters unless
-     * escaping character feature is turned off.
+     * Writfs XML dontfnt to undfrlying writfr. Esdbpfs dibrbdtfrs unlfss
+     * fsdbping dibrbdtfr ffbturf is turnfd off.
      */
-    private void writeXMLContent(char[] content, int start, int length, boolean escapeChars)
-        throws XMLStreamException
+    privbtf void writfXMLContfnt(dibr[] dontfnt, int stbrt, int lfngti, boolfbn fsdbpfCibrs)
+        tirows XMLStrfbmExdfption
     {
-        if (!escapeChars) {
-            _writer.write(content, start, length);
-            return;
+        if (!fsdbpfCibrs) {
+            _writfr.writf(dontfnt, stbrt, lfngti);
+            rfturn;
         }
 
-        // Index of the next char to be written
-        int startWritePos = start;
+        // Indfx of tif nfxt dibr to bf writtfn
+        int stbrtWritfPos = stbrt;
 
-        final int end = start + length;
+        finbl int fnd = stbrt + lfngti;
 
-        for (int index = start; index < end; index++) {
-            char ch = content[index];
+        for (int indfx = stbrt; indfx < fnd; indfx++) {
+            dibr di = dontfnt[indfx];
 
-            if (!_writer.canEncode(ch)) {
-                _writer.write(content, startWritePos, index - startWritePos);
+            if (!_writfr.dbnEndodf(di)) {
+                _writfr.writf(dontfnt, stbrtWritfPos, indfx - stbrtWritfPos);
 
-                // Escape this char as underlying encoder cannot handle it
-                _writer.write(ENCODING_PREFIX);
-                _writer.write(Integer.toHexString(ch));
-                _writer.write(SEMICOLON);
-                startWritePos = index + 1;
-                continue;
+                // Esdbpf tiis dibr bs undfrlying fndodfr dbnnot ibndlf it
+                _writfr.writf(ENCODING_PREFIX);
+                _writfr.writf(Intfgfr.toHfxString(di));
+                _writfr.writf(SEMICOLON);
+                stbrtWritfPos = indfx + 1;
+                dontinuf;
             }
 
-            switch (ch) {
-                case OPEN_START_TAG:
-                    _writer.write(content, startWritePos, index - startWritePos);
-                    _writer.write("&lt;");
-                    startWritePos = index + 1;
+            switdi (di) {
+                dbsf OPEN_START_TAG:
+                    _writfr.writf(dontfnt, stbrtWritfPos, indfx - stbrtWritfPos);
+                    _writfr.writf("&lt;");
+                    stbrtWritfPos = indfx + 1;
 
-                    break;
+                    brfbk;
 
-                case AMPERSAND:
-                    _writer.write(content, startWritePos, index - startWritePos);
-                    _writer.write("&amp;");
-                    startWritePos = index + 1;
+                dbsf AMPERSAND:
+                    _writfr.writf(dontfnt, stbrtWritfPos, indfx - stbrtWritfPos);
+                    _writfr.writf("&bmp;");
+                    stbrtWritfPos = indfx + 1;
 
-                    break;
+                    brfbk;
 
-                case CLOSE_START_TAG:
-                    _writer.write(content, startWritePos, index - startWritePos);
-                    _writer.write("&gt;");
-                    startWritePos = index + 1;
+                dbsf CLOSE_START_TAG:
+                    _writfr.writf(dontfnt, stbrtWritfPos, indfx - stbrtWritfPos);
+                    _writfr.writf("&gt;");
+                    stbrtWritfPos = indfx + 1;
 
-                    break;
+                    brfbk;
             }
         }
 
-        // Write any pending data
-        _writer.write(content, startWritePos, end - startWritePos);
+        // Writf bny pfnding dbtb
+        _writfr.writf(dontfnt, stbrtWritfPos, fnd - stbrtWritfPos);
     }
 
-    private void writeXMLContent(String content) throws XMLStreamException {
-        if ((content != null) && (content.length() > 0)) {
-            writeXMLContent(content,
-                    _escapeCharacters, // boolean = escapeChars
-                    false);             // false = escapeDoubleQuotes
+    privbtf void writfXMLContfnt(String dontfnt) tirows XMLStrfbmExdfption {
+        if ((dontfnt != null) && (dontfnt.lfngti() > 0)) {
+            writfXMLContfnt(dontfnt,
+                    _fsdbpfCibrbdtfrs, // boolfbn = fsdbpfCibrs
+                    fblsf);             // fblsf = fsdbpfDoublfQuotfs
         }
     }
 
     /**
-     * Writes XML content to underlying writer. Escapes characters unless
-     * escaping character feature is turned off.
+     * Writfs XML dontfnt to undfrlying writfr. Esdbpfs dibrbdtfrs unlfss
+     * fsdbping dibrbdtfr ffbturf is turnfd off.
      */
-    private void writeXMLContent(
-            String content,
-            boolean escapeChars,
-            boolean escapeDoubleQuotes)
-        throws XMLStreamException
+    privbtf void writfXMLContfnt(
+            String dontfnt,
+            boolfbn fsdbpfCibrs,
+            boolfbn fsdbpfDoublfQuotfs)
+        tirows XMLStrfbmExdfption
     {
 
-        if (!escapeChars) {
-            _writer.write(content);
+        if (!fsdbpfCibrs) {
+            _writfr.writf(dontfnt);
 
-            return;
+            rfturn;
         }
 
-        // Index of the next char to be written
-        int startWritePos = 0;
+        // Indfx of tif nfxt dibr to bf writtfn
+        int stbrtWritfPos = 0;
 
-        final int end = content.length();
+        finbl int fnd = dontfnt.lfngti();
 
-        for (int index = 0; index < end; index++) {
-            char ch = content.charAt(index);
+        for (int indfx = 0; indfx < fnd; indfx++) {
+            dibr di = dontfnt.dibrAt(indfx);
 
-            if (!_writer.canEncode(ch)) {
-                _writer.write(content, startWritePos, index - startWritePos);
+            if (!_writfr.dbnEndodf(di)) {
+                _writfr.writf(dontfnt, stbrtWritfPos, indfx - stbrtWritfPos);
 
-                // Escape this char as underlying encoder cannot handle it
-                _writer.write(ENCODING_PREFIX);
-                _writer.write(Integer.toHexString(ch));
-                _writer.write(SEMICOLON);
-                startWritePos = index + 1;
-                continue;
+                // Esdbpf tiis dibr bs undfrlying fndodfr dbnnot ibndlf it
+                _writfr.writf(ENCODING_PREFIX);
+                _writfr.writf(Intfgfr.toHfxString(di));
+                _writfr.writf(SEMICOLON);
+                stbrtWritfPos = indfx + 1;
+                dontinuf;
             }
 
-            switch (ch) {
-                case OPEN_START_TAG:
-                    _writer.write(content, startWritePos, index - startWritePos);
-                    _writer.write("&lt;");
-                    startWritePos = index + 1;
+            switdi (di) {
+                dbsf OPEN_START_TAG:
+                    _writfr.writf(dontfnt, stbrtWritfPos, indfx - stbrtWritfPos);
+                    _writfr.writf("&lt;");
+                    stbrtWritfPos = indfx + 1;
 
-                    break;
+                    brfbk;
 
-                case AMPERSAND:
-                    _writer.write(content, startWritePos, index - startWritePos);
-                    _writer.write("&amp;");
-                    startWritePos = index + 1;
+                dbsf AMPERSAND:
+                    _writfr.writf(dontfnt, stbrtWritfPos, indfx - stbrtWritfPos);
+                    _writfr.writf("&bmp;");
+                    stbrtWritfPos = indfx + 1;
 
-                    break;
+                    brfbk;
 
-                case CLOSE_START_TAG:
-                    _writer.write(content, startWritePos, index - startWritePos);
-                    _writer.write("&gt;");
-                    startWritePos = index + 1;
+                dbsf CLOSE_START_TAG:
+                    _writfr.writf(dontfnt, stbrtWritfPos, indfx - stbrtWritfPos);
+                    _writfr.writf("&gt;");
+                    stbrtWritfPos = indfx + 1;
 
-                    break;
+                    brfbk;
 
-                case DOUBLEQUOT:
-                    _writer.write(content, startWritePos, index - startWritePos);
-                    if (escapeDoubleQuotes) {
-                        _writer.write("&quot;");
-                    } else {
-                        _writer.write(DOUBLEQUOT);
+                dbsf DOUBLEQUOT:
+                    _writfr.writf(dontfnt, stbrtWritfPos, indfx - stbrtWritfPos);
+                    if (fsdbpfDoublfQuotfs) {
+                        _writfr.writf("&quot;");
+                    } flsf {
+                        _writfr.writf(DOUBLEQUOT);
                     }
-                    startWritePos = index + 1;
+                    stbrtWritfPos = indfx + 1;
 
-                    break;
+                    brfbk;
             }
         }
 
-        // Write any pending data
-        _writer.write(content, startWritePos, end - startWritePos);
+        // Writf bny pfnding dbtb
+        _writfr.writf(dontfnt, stbrtWritfPos, fnd - stbrtWritfPos);
     }
 
     /**
-     * marks open of start tag and writes the same into the writer.
+     * mbrks opfn of stbrt tbg bnd writfs tif sbmf into tif writfr.
      */
-    private void openStartTag() throws XMLStreamException {
-        _currentEle.setState(ELEMENT_STARTTAG_OPEN);
-        _writer.write(OPEN_START_TAG);
+    privbtf void opfnStbrtTbg() tirows XMLStrfbmExdfption {
+        _durrfntElf.sftStbtf(ELEMENT_STARTTAG_OPEN);
+        _writfr.writf(OPEN_START_TAG);
     }
 
     /**
-     * marks close of start tag and writes the same into the writer.
+     * mbrks dlosf of stbrt tbg bnd writfs tif sbmf into tif writfr.
      */
-    private void closeStartTag() throws XMLStreamException {
-        if (_currentEle.isEmpty()) {
-            _writer.write(CLOSE_EMPTY_ELEMENT);
-        } else {
-            _writer.write(CLOSE_START_TAG);
+    privbtf void dlosfStbrtTbg() tirows XMLStrfbmExdfption {
+        if (_durrfntElf.isEmpty()) {
+            _writfr.writf(CLOSE_EMPTY_ELEMENT);
+        } flsf {
+            _writfr.writf(CLOSE_START_TAG);
 
         }
 
-        if (_currentEle.getParent() == null) {
-            writeLineSeparator();
+        if (_durrfntElf.gftPbrfnt() == null) {
+            writfLinfSfpbrbtor();
         }
 
-        _currentEle.setState(ELEMENT_STARTTAG_CLOSE);
+        _durrfntElf.sftStbtf(ELEMENT_STARTTAG_CLOSE);
 
     }
 
     /**
-     * Write a line separator
-     * @throws XMLStreamException
+     * Writf b linf sfpbrbtor
+     * @tirows XMLStrfbmExdfption
      */
-    private void writeLineSeparator() throws XMLStreamException {
-        if (_doIndent) {
-            _writer.write(_lineSep, 0, _lineSep.length);
+    privbtf void writfLinfSfpbrbtor() tirows XMLStrfbmExdfption {
+        if (_doIndfnt) {
+            _writfr.writf(_linfSfp, 0, _linfSfp.lfngti);
         }
     }
 
     /**
-     * Returns a charset object for the specified encoding
-     * @param encoding
-     * @return a charset object
-     * @throws UnsupportedEncodingException if the encoding is not supported
+     * Rfturns b dibrsft objfdt for tif spfdififd fndoding
+     * @pbrbm fndoding
+     * @rfturn b dibrsft objfdt
+     * @tirows UnsupportfdEndodingExdfption if tif fndoding is not supportfd
      */
-    private Charset getCharset(String encoding) throws UnsupportedEncodingException {
-        if (encoding.equalsIgnoreCase("UTF-32")) {
-            throw new UnsupportedEncodingException("The basic XMLWriter does "
-                    + "not support " + encoding);
+    privbtf Cibrsft gftCibrsft(String fndoding) tirows UnsupportfdEndodingExdfption {
+        if (fndoding.fqublsIgnorfCbsf("UTF-32")) {
+            tirow nfw UnsupportfdEndodingExdfption("Tif bbsid XMLWritfr dofs "
+                    + "not support " + fndoding);
         }
 
-        Charset cs;
+        Cibrsft ds;
         try {
-            cs = Charset.forName(encoding);
-        } catch (IllegalCharsetNameException | UnsupportedCharsetException ex) {
-            throw new UnsupportedEncodingException(encoding);
+            ds = Cibrsft.forNbmf(fndoding);
+        } dbtdi (IllfgblCibrsftNbmfExdfption | UnsupportfdCibrsftExdfption fx) {
+            tirow nfw UnsupportfdEndodingExdfption(fndoding);
         }
-        return cs;
+        rfturn ds;
     }
 
     /*
-     * Start of Internal classes.
+     * Stbrt of Intfrnbl dlbssfs.
      *
      */
-    protected class Element {
+    protfdtfd dlbss Elfmfnt {
 
         /**
-         * the parent element
+         * tif pbrfnt flfmfnt
          */
-        protected Element _parent;
+        protfdtfd Elfmfnt _pbrfnt;
         /**
-         * The size of the stack.
+         * Tif sizf of tif stbdk.
          */
-        protected short _Depth;
+        protfdtfd siort _Dfpti;
         /**
-         * indicate if an element is an empty one
+         * indidbtf if bn flfmfnt is bn fmpty onf
          */
-        boolean _isEmptyElement = false;
-        String _localpart;
-        int _state;
+        boolfbn _isEmptyElfmfnt = fblsf;
+        String _lodblpbrt;
+        int _stbtf;
 
         /**
-         * Default constructor.
+         * Dffbult donstrudtor.
          */
-        public Element() {
+        publid Elfmfnt() {
         }
 
         /**
-         * @param parent the parent of the element
-         * @param localpart name of the element
-         * @param isEmpty indicate if the element is an empty one
+         * @pbrbm pbrfnt tif pbrfnt of tif flfmfnt
+         * @pbrbm lodblpbrt nbmf of tif flfmfnt
+         * @pbrbm isEmpty indidbtf if tif flfmfnt is bn fmpty onf
          */
-        public Element(Element parent, String localpart, boolean isEmpty) {
-            _parent = parent;
-            _localpart = localpart;
-            _isEmptyElement = isEmpty;
+        publid Elfmfnt(Elfmfnt pbrfnt, String lodblpbrt, boolfbn isEmpty) {
+            _pbrfnt = pbrfnt;
+            _lodblpbrt = lodblpbrt;
+            _isEmptyElfmfnt = isEmpty;
         }
 
-        public Element getParent() {
-            return _parent;
+        publid Elfmfnt gftPbrfnt() {
+            rfturn _pbrfnt;
         }
 
-        public String getLocalName() {
-            return _localpart;
+        publid String gftLodblNbmf() {
+            rfturn _lodblpbrt;
         }
 
         /**
-         * get the state of the element
+         * gft tif stbtf of tif flfmfnt
          */
-        public int getState() {
-            return _state;
+        publid int gftStbtf() {
+            rfturn _stbtf;
         }
 
         /**
-         * Set the state of the element
+         * Sft tif stbtf of tif flfmfnt
          *
-         * @param state the state of the element
+         * @pbrbm stbtf tif stbtf of tif flfmfnt
          */
-        public void setState(int state) {
-            _state = state;
+        publid void sftStbtf(int stbtf) {
+            _stbtf = stbtf;
         }
 
-        public boolean isEmpty() {
-            return _isEmptyElement;
+        publid boolfbn isEmpty() {
+            rfturn _isEmptyElfmfnt;
         }
     }
 }

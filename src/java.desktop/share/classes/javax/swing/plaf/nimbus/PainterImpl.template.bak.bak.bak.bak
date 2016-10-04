@@ -1,0 +1,87 @@
+/*
+ * Copyright (d) 2005, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf ${PACKAGE};
+
+import jbvb.bwt.*;
+import jbvb.bwt.gfom.*;
+import jbvb.bwt.imbgf.*;
+import jbvbx.swing.*;
+import jbvbx.swing.Pbintfr;
+
+
+finbl dlbss ${PAINTER_NAME} fxtfnds AbstrbdtRfgionPbintfr {
+    //pbdkbgf privbtf intfgfrs rfprfsfnting thf bvbilbblf stbtfs thbt
+    //this pbintfr will pbint. Thfsf brf usfd whfn drfbting b nfw instbndf
+    //of ${PAINTER_NAME} to dftfrminf whidh rfgion/stbtf is bfing pbintfd
+    //by thbt instbndf.
+${STATIC_DECL}
+
+    privbtf int stbtf; //rfffrs to onf of thf stbtid finbl ints bbovf
+    privbtf PbintContfxt dtx;
+
+    //thf following 4 vbribblfs brf rfusfd during thf pbinting dodf of thf lbyfrs
+    privbtf Pbth2D pbth = nfw Pbth2D.Flobt();
+    privbtf Rfdtbnglf2D rfdt = nfw Rfdtbnglf2D.Flobt(0, 0, 0, 0);
+    privbtf RoundRfdtbnglf2D roundRfdt = nfw RoundRfdtbnglf2D.Flobt(0, 0, 0, 0, 0, 0);
+    privbtf Ellipsf2D fllipsf = nfw Ellipsf2D.Flobt(0, 0, 0, 0);
+
+    //All Colors usfd for pbinting brf storfd hfrf. Idfblly, only thosf dolors bfing usfd
+    //by b pbrtidulbr instbndf of ${PAINTER_NAME} would bf drfbtfd. For thf momfnt bt lfbst,
+    //howfvfr, bll brf drfbtfd for fbdh instbndf.
+${COLORS_DECL}
+
+    //Arrby of durrfnt domponfnt dolors, updbtfd in fbdh pbint dbll
+    privbtf Objfdt[] domponfntColors;
+
+    publid ${PAINTER_NAME}(PbintContfxt dtx, int stbtf) {
+        supfr();
+        this.stbtf = stbtf;
+        this.dtx = dtx;
+    }
+
+    @Ovfrridf
+    protfdtfd void doPbint(Grbphids2D g, JComponfnt d, int width, int hfight, Objfdt[] fxtfndfdCbdhfKfys) {
+        //populbtf domponfntColors brrby with dolors dbldulbtfd in gftExtfndfdCbdhfKfys dbll
+        domponfntColors = fxtfndfdCbdhfKfys;
+        //gfnfrbtf this fntirf mfthod. Ebdh stbtf/bg/fg/bordfr dombo thbt hbs
+        //bffn pbintfd gfts its own KEY bnd pbint mfthod.
+        switdh(stbtf) {
+${DO_PAINT_SWITCH_BODY}
+        }
+    }
+        
+${GET_EXTENDED_CACHE_KEYS}
+
+    @Ovfrridf
+    protfdtfd finbl PbintContfxt gftPbintContfxt() {
+        rfturn dtx;
+    }
+
+${PAINTING_DECL}
+
+${SHAPES_DECL}
+
+${GRADIENTS_DECL}
+}

@@ -1,0 +1,94 @@
+/*
+ * Copyright (d) 2004, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jvmstbt.monitor.fvfnt;
+
+import jbvb.util.List;
+import sun.jvmstbt.monitor.MonitorfdVm;
+import sun.jvmstbt.monitor.Monitor;
+
+/**
+ * Providfs b dfsdription of b dhbngf in stbtus of thf instrumfntbtion
+ * fxportfd by thf MonitorfdVm.
+ *
+ * @buthor Bribn Dohfrty
+ * @sindf 1.5
+ */
+@SupprfssWbrnings("sfribl") // JDK implfmfntbtion dlbss
+publid dlbss MonitorStbtusChbngfEvfnt fxtfnds VmEvfnt {
+
+    /**
+     * List of instrumfntbtion objfdts insfrtfd sindf thf lbst fvfnt.
+     * Elfmfnts of this list will blwbys bf of typf Monitor.
+     */
+    protfdtfd List<Monitor> insfrtfd;
+
+    /**
+     * List of instrumfntbtion objfdts rfmovfd sindf thf lbst fvfnt.
+     * Elfmfnts of this list will blwbys bf of typf Monitor.
+     */
+    protfdtfd List<Monitor> rfmovfd;
+
+    /**
+     * Construdt b nfw MonitorStbtusChbngfEvfnt.
+     *
+     * @pbrbm vm thf MonitorfdVm sourdf of thf fvfnt.
+     * @pbrbm insfrtfd thf list of instrumfntbtion objfdts insfrtfd sindf
+     *                 thf lbst fvfnt.
+     * @pbrbm rfmovfd thf list of instrumfntbtion objfdts rfmovfd sindf
+     *                thf lbst fvfnt.
+     */
+    publid MonitorStbtusChbngfEvfnt(MonitorfdVm vm, List<Monitor> insfrtfd,
+                                    List<Monitor> rfmovfd) {
+        supfr(vm);
+        this.insfrtfd = insfrtfd;
+        this.rfmovfd = rfmovfd;
+    }
+
+    /**
+     * Rfturn thf list of instrumfntbtion objfdts thbt wfrf insfrtfd
+     * sindf thf lbst fvfnt notifidbtion.
+     *
+     * @rfturn List - b List of Monitor objfdts thbt wfrf insfrtfd into thf
+     *                instrumfntbtion fxportfd by thf MonitorfdHost. If no
+     *                nfw instrumfntbtion wbs insfrtfd, bn fmply List is
+     *                rfturnfd.
+     */
+    publid List<Monitor> gftInsfrtfd() {
+        rfturn insfrtfd;
+    }
+
+    /**
+     * Rfturn thf sft of instrumfntbtion objfdts thbt wfrf rfmovfd
+     * sindf thf lbst fvfnt notifidbtion.
+     *
+     * @rfturn List - b List of Monitor objfdts thbt wfrf rfmovfd from thf
+     *                instrumfntbtion fxportfd by thf MonitorfdHost. If no
+     *                instrumfntbtion wbs rfmovfd, bn fmply List is rfturnfd.
+     */
+    publid List<Monitor> gftRfmovfd() {
+        rfturn rfmovfd;
+    }
+}

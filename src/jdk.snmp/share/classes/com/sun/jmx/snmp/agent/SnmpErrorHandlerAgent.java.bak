@@ -1,213 +1,213 @@
 /*
- * Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jmx.snmp.agent;
+pbdkbgf dom.sun.jmx.snmp.bgfnt;
 
-import java.io.Serializable;
-import java.util.Enumeration;
-import java.util.logging.Level;
+import jbvb.io.Sfriblizbblf;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.logging.Lfvfl;
 
-import javax.management.ObjectName;
-import javax.management.MBeanServer;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
 
-import static com.sun.jmx.defaults.JmxProperties.SNMP_ADAPTOR_LOGGER;
-import com.sun.jmx.snmp.SnmpStatusException;
-import com.sun.jmx.snmp.SnmpDefinitions;
-import com.sun.jmx.snmp.SnmpVarBind;
+import stbtid dom.sun.jmx.dffbults.JmxPropfrtifs.SNMP_ADAPTOR_LOGGER;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+import dom.sun.jmx.snmp.SnmpDffinitions;
+import dom.sun.jmx.snmp.SnmpVbrBind;
 
 /**
- * A simple MIB agent that implements SNMP calls (get, set, getnext and getbulk) in a way that only errors or exceptions are returned. Every call done on this agent fails. Error handling is done according to the manager's SNMP protocol version.
- * <P>It is used by <CODE>SnmpAdaptorServer</CODE> for its default agent behavior. When a received Oid doesn't match, this agent is called to fill the result list with errors.</P>
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
- * @since 1.5
+ * A simplf MIB bgfnt tibt implfmfnts SNMP dblls (gft, sft, gftnfxt bnd gftbulk) in b wby tibt only frrors or fxdfptions brf rfturnfd. Evfry dbll donf on tiis bgfnt fbils. Error ibndling is donf bddording to tif mbnbgfr's SNMP protodol vfrsion.
+ * <P>It is usfd by <CODE>SnmpAdbptorSfrvfr</CODE> for its dffbult bgfnt bfibvior. Wifn b rfdfivfd Oid dofsn't mbtdi, tiis bgfnt is dbllfd to fill tif rfsult list witi frrors.</P>
+ * <p><b>Tiis API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dibngf witiout notidf.</b></p>
+ * @sindf 1.5
  *
  */
 
-public class SnmpErrorHandlerAgent extends SnmpMibAgent
-        implements Serializable {
-    private static final long serialVersionUID = 7751082923508885650L;
+publid dlbss SnmpErrorHbndlfrAgfnt fxtfnds SnmpMibAgfnt
+        implfmfnts Sfriblizbblf {
+    privbtf stbtid finbl long sfriblVfrsionUID = 7751082923508885650L;
 
-    public SnmpErrorHandlerAgent() {}
+    publid SnmpErrorHbndlfrAgfnt() {}
 
     /**
-     * Initializes the MIB (with no registration of the MBeans into the
-     * MBean server). Does nothing.
+     * Initiblizfs tif MIB (witi no rfgistrbtion of tif MBfbns into tif
+     * MBfbn sfrvfr). Dofs notiing.
      *
-     * @exception IllegalAccessException The MIB cannot be initialized.
+     * @fxdfption IllfgblAddfssExdfption Tif MIB dbnnot bf initiblizfd.
      */
 
-    @Override
-    public void init() throws IllegalAccessException {
+    @Ovfrridf
+    publid void init() tirows IllfgblAddfssExdfption {
     }
 
     /**
-     * Initializes the MIB but each single MBean representing the MIB
-     * is inserted into the MBean server.
+     * Initiblizfs tif MIB but fbdi singlf MBfbn rfprfsfnting tif MIB
+     * is insfrtfd into tif MBfbn sfrvfr.
      *
-     * @param server The MBean server to register the service with.
-     * @param name The object name.
+     * @pbrbm sfrvfr Tif MBfbn sfrvfr to rfgistfr tif sfrvidf witi.
+     * @pbrbm nbmf Tif objfdt nbmf.
      *
-     * @return The passed name parameter.
+     * @rfturn Tif pbssfd nbmf pbrbmftfr.
      *
-     * @exception java.lang.Exception
+     * @fxdfption jbvb.lbng.Exdfption
      */
 
-    @Override
-    public ObjectName preRegister(MBeanServer server, ObjectName name)
-        throws Exception {
-        return name;
+    @Ovfrridf
+    publid ObjfdtNbmf prfRfgistfr(MBfbnSfrvfr sfrvfr, ObjfdtNbmf nbmf)
+        tirows Exdfption {
+        rfturn nbmf;
     }
 
     /**
-     * Gets the root object identifier of the MIB.
-     * <P>The root object identifier is the object identifier uniquely
-     * identifying the MIB.
+     * Gfts tif root objfdt idfntififr of tif MIB.
+     * <P>Tif root objfdt idfntififr is tif objfdt idfntififr uniqufly
+     * idfntifying tif MIB.
      *
-     * @return The returned oid is null.
+     * @rfturn Tif rfturnfd oid is null.
      */
 
-    @Override
-    public long[] getRootOid() {
-        return null;
+    @Ovfrridf
+    publid long[] gftRootOid() {
+        rfturn null;
     }
 
     /**
-     * Processes a <CODE>get</CODE> operation. It will throw an exception for V1 requests or it will set exceptions within the list for V2 requests.
+     * Prodfssfs b <CODE>gft</CODE> opfrbtion. It will tirow bn fxdfption for V1 rfqufsts or it will sft fxdfptions witiin tif list for V2 rfqufsts.
      *
-     * @param inRequest The SnmpMibRequest object holding the list of variable to be retrieved.
+     * @pbrbm inRfqufst Tif SnmpMibRfqufst objfdt iolding tif list of vbribblf to bf rftrifvfd.
      *
-     * @exception SnmpStatusException An error occurred during the operation.
+     * @fxdfption SnmpStbtusExdfption An frror oddurrfd during tif opfrbtion.
      */
 
-    @Override
-    public void get(SnmpMibRequest inRequest) throws SnmpStatusException {
+    @Ovfrridf
+    publid void gft(SnmpMibRfqufst inRfqufst) tirows SnmpStbtusExdfption {
 
-        SNMP_ADAPTOR_LOGGER.logp(Level.FINEST,
-                SnmpErrorHandlerAgent.class.getName(),
-                "get", "Get in Exception");
+        SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST,
+                SnmpErrorHbndlfrAgfnt.dlbss.gftNbmf(),
+                "gft", "Gft in Exdfption");
 
-        if(inRequest.getVersion() == SnmpDefinitions.snmpVersionOne)
-            throw new SnmpStatusException(SnmpStatusException.noSuchName);
+        if(inRfqufst.gftVfrsion() == SnmpDffinitions.snmpVfrsionOnf)
+            tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiNbmf);
 
-        Enumeration<SnmpVarBind> l = inRequest.getElements();
-        while(l.hasMoreElements()) {
-            SnmpVarBind varbind = l.nextElement();
-            varbind.setNoSuchObject();
+        Enumfrbtion<SnmpVbrBind> l = inRfqufst.gftElfmfnts();
+        wiilf(l.ibsMorfElfmfnts()) {
+            SnmpVbrBind vbrbind = l.nfxtElfmfnt();
+            vbrbind.sftNoSudiObjfdt();
         }
     }
 
     /**
-     * Checks if a <CODE>set</CODE> operation can be performed.
-     * If the operation can not be performed, the method should emit a
-     * <CODE>SnmpStatusException</CODE>.
+     * Cifdks if b <CODE>sft</CODE> opfrbtion dbn bf pfrformfd.
+     * If tif opfrbtion dbn not bf pfrformfd, tif mftiod siould fmit b
+     * <CODE>SnmpStbtusExdfption</CODE>.
      *
-     * @param inRequest The SnmpMibRequest object holding the list of variables to
-     *            be set. This list is composed of
-     *            <CODE>SnmpVarBind</CODE> objects.
+     * @pbrbm inRfqufst Tif SnmpMibRfqufst objfdt iolding tif list of vbribblfs to
+     *            bf sft. Tiis list is domposfd of
+     *            <CODE>SnmpVbrBind</CODE> objfdts.
      *
-     * @exception SnmpStatusException The <CODE>set</CODE> operation
-     *    cannot be performed.
+     * @fxdfption SnmpStbtusExdfption Tif <CODE>sft</CODE> opfrbtion
+     *    dbnnot bf pfrformfd.
      */
 
-    @Override
-    public void check(SnmpMibRequest inRequest) throws SnmpStatusException {
+    @Ovfrridf
+    publid void difdk(SnmpMibRfqufst inRfqufst) tirows SnmpStbtusExdfption {
 
-        SNMP_ADAPTOR_LOGGER.logp(Level.FINEST,
-                SnmpErrorHandlerAgent.class.getName(),
-                "check", "Check in Exception");
+        SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST,
+                SnmpErrorHbndlfrAgfnt.dlbss.gftNbmf(),
+                "difdk", "Cifdk in Exdfption");
 
-        throw new SnmpStatusException(SnmpDefinitions.snmpRspNotWritable);
+        tirow nfw SnmpStbtusExdfption(SnmpDffinitions.snmpRspNotWritbblf);
     }
 
     /**
-     * Processes a <CODE>set</CODE> operation. Should never be called (check previously called having failed).
+     * Prodfssfs b <CODE>sft</CODE> opfrbtion. Siould nfvfr bf dbllfd (difdk prfviously dbllfd ibving fbilfd).
      *
-     * @param inRequest The SnmpMibRequest object holding the list of variable to be set.
+     * @pbrbm inRfqufst Tif SnmpMibRfqufst objfdt iolding tif list of vbribblf to bf sft.
      *
-     * @exception SnmpStatusException An error occurred during the operation.
+     * @fxdfption SnmpStbtusExdfption An frror oddurrfd during tif opfrbtion.
      */
 
-    @Override
-    public void set(SnmpMibRequest inRequest) throws SnmpStatusException {
+    @Ovfrridf
+    publid void sft(SnmpMibRfqufst inRfqufst) tirows SnmpStbtusExdfption {
 
-        SNMP_ADAPTOR_LOGGER.logp(Level.FINEST,
-                SnmpErrorHandlerAgent.class.getName(),
-                "set", "Set in Exception, CANNOT be called");
+        SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST,
+                SnmpErrorHbndlfrAgfnt.dlbss.gftNbmf(),
+                "sft", "Sft in Exdfption, CANNOT bf dbllfd");
 
-        throw new SnmpStatusException(SnmpDefinitions.snmpRspNotWritable);
+        tirow nfw SnmpStbtusExdfption(SnmpDffinitions.snmpRspNotWritbblf);
     }
 
     /**
-     * Processes a <CODE>getNext</CODE> operation. It will throw an exception for V1 requests or it will set exceptions within the list for V2 requests..
+     * Prodfssfs b <CODE>gftNfxt</CODE> opfrbtion. It will tirow bn fxdfption for V1 rfqufsts or it will sft fxdfptions witiin tif list for V2 rfqufsts..
      *
-     * @param inRequest The SnmpMibRequest object holding the list of variables to be retrieved.
+     * @pbrbm inRfqufst Tif SnmpMibRfqufst objfdt iolding tif list of vbribblfs to bf rftrifvfd.
      *
-     * @exception SnmpStatusException An error occurred during the operation.
+     * @fxdfption SnmpStbtusExdfption An frror oddurrfd during tif opfrbtion.
      */
 
-    @Override
-    public void getNext(SnmpMibRequest inRequest) throws SnmpStatusException {
+    @Ovfrridf
+    publid void gftNfxt(SnmpMibRfqufst inRfqufst) tirows SnmpStbtusExdfption {
 
-        SNMP_ADAPTOR_LOGGER.logp(Level.FINEST,
-                SnmpErrorHandlerAgent.class.getName(),
-                "getNext", "GetNext in Exception");
+        SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST,
+                SnmpErrorHbndlfrAgfnt.dlbss.gftNbmf(),
+                "gftNfxt", "GftNfxt in Exdfption");
 
-        if(inRequest.getVersion() == SnmpDefinitions.snmpVersionOne)
-            throw new SnmpStatusException(SnmpStatusException.noSuchName);
+        if(inRfqufst.gftVfrsion() == SnmpDffinitions.snmpVfrsionOnf)
+            tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiNbmf);
 
-        Enumeration<SnmpVarBind> l = inRequest.getElements();
-        while(l.hasMoreElements()) {
-            SnmpVarBind varbind = l.nextElement();
-            varbind.setEndOfMibView();
+        Enumfrbtion<SnmpVbrBind> l = inRfqufst.gftElfmfnts();
+        wiilf(l.ibsMorfElfmfnts()) {
+            SnmpVbrBind vbrbind = l.nfxtElfmfnt();
+            vbrbind.sftEndOfMibVifw();
         }
     }
 
     /**
-     * Processes a <CODE>getBulk</CODE> operation. It will throw an exception if the request is a V1 one or it will set exceptions within the list for V2 ones.
+     * Prodfssfs b <CODE>gftBulk</CODE> opfrbtion. It will tirow bn fxdfption if tif rfqufst is b V1 onf or it will sft fxdfptions witiin tif list for V2 onfs.
      *
-     * @param inRequest The SnmpMibRequest object holding the list of variable to be retrieved.
+     * @pbrbm inRfqufst Tif SnmpMibRfqufst objfdt iolding tif list of vbribblf to bf rftrifvfd.
      *
-     * @exception SnmpStatusException An error occurred during the operation.
+     * @fxdfption SnmpStbtusExdfption An frror oddurrfd during tif opfrbtion.
      */
 
-    @Override
-    public void getBulk(SnmpMibRequest inRequest, int nonRepeat, int maxRepeat)
-        throws SnmpStatusException {
+    @Ovfrridf
+    publid void gftBulk(SnmpMibRfqufst inRfqufst, int nonRfpfbt, int mbxRfpfbt)
+        tirows SnmpStbtusExdfption {
 
-        SNMP_ADAPTOR_LOGGER.logp(Level.FINEST,
-                SnmpErrorHandlerAgent.class.getName(),
-                "getBulk", "GetBulk in Exception");
+        SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST,
+                SnmpErrorHbndlfrAgfnt.dlbss.gftNbmf(),
+                "gftBulk", "GftBulk in Exdfption");
 
-        if(inRequest.getVersion() == SnmpDefinitions.snmpVersionOne)
-            throw new SnmpStatusException(SnmpDefinitions.snmpRspGenErr, 0);
+        if(inRfqufst.gftVfrsion() == SnmpDffinitions.snmpVfrsionOnf)
+            tirow nfw SnmpStbtusExdfption(SnmpDffinitions.snmpRspGfnErr, 0);
 
-        Enumeration<SnmpVarBind> l = inRequest.getElements();
-        while(l.hasMoreElements()) {
-            SnmpVarBind varbind = l.nextElement();
-            varbind.setEndOfMibView();
+        Enumfrbtion<SnmpVbrBind> l = inRfqufst.gftElfmfnts();
+        wiilf(l.ibsMorfElfmfnts()) {
+            SnmpVbrBind vbrbind = l.nfxtElfmfnt();
+            vbrbind.sftEndOfMibVifw();
         }
     }
 

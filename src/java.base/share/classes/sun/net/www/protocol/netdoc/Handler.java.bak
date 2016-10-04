@@ -1,98 +1,98 @@
 /*
- * Copyright (c) 1996, 1998, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 1998, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*-
- * netdoc urls point either into the local filesystem or externally
- * through an http url, with network documents being preferred.  Useful for
- * FAQs & other documents which are likely to be changing over time at the
- * central site, and where the user will want the most recent edition.
+ * nftdod urls point fitifr into tif lodbl filfsystfm or fxtfrnblly
+ * tirougi bn ittp url, witi nftwork dodumfnts bfing prfffrrfd.  Usfful for
+ * FAQs & otifr dodumfnts wiidi brf likfly to bf dibnging ovfr timf bt tif
+ * dfntrbl sitf, bnd wifrf tif usfr will wbnt tif most rfdfnt fdition.
  *
- * @author Steven B. Byrne
+ * @butior Stfvfn B. Byrnf
  */
 
-package sun.net.www.protocol.netdoc;
+pbdkbgf sun.nft.www.protodol.nftdod;
 
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.MalformedURLException;
-import java.net.URLStreamHandler;
-import java.io.InputStream;
-import java.io.IOException;
+import jbvb.nft.URL;
+import jbvb.nft.URLConnfdtion;
+import jbvb.nft.MblformfdURLExdfption;
+import jbvb.nft.URLStrfbmHbndlfr;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
 
-public class Handler extends URLStreamHandler {
-    static URL base;
+publid dlbss Hbndlfr fxtfnds URLStrfbmHbndlfr {
+    stbtid URL bbsf;
 
     /*
-     * Attempt to find a load the given url using the default (network)
-     * documentation location.  If that fails, use the local copy
+     * Attfmpt to find b lobd tif givfn url using tif dffbult (nftwork)
+     * dodumfntbtion lodbtion.  If tibt fbils, usf tif lodbl dopy
      */
-    public synchronized URLConnection openConnection(URL u)
-        throws IOException
+    publid syndironizfd URLConnfdtion opfnConnfdtion(URL u)
+        tirows IOExdfption
     {
-        URLConnection uc = null;
+        URLConnfdtion ud = null;
         URL ru;
 
-        Boolean tmp = java.security.AccessController.doPrivileged(
-            new sun.security.action.GetBooleanAction("newdoc.localonly"));
-        boolean localonly = tmp.booleanValue();
+        Boolfbn tmp = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw sun.sfdurity.bdtion.GftBoolfbnAdtion("nfwdod.lodblonly"));
+        boolfbn lodblonly = tmp.boolfbnVbluf();
 
-        String docurl = java.security.AccessController.doPrivileged(
-            new sun.security.action.GetPropertyAction("doc.url"));
+        String dodurl = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw sun.sfdurity.bdtion.GftPropfrtyAdtion("dod.url"));
 
-        String file = u.getFile();
-        if (!localonly) {
+        String filf = u.gftFilf();
+        if (!lodblonly) {
             try {
-                if (base == null) {
-                    base = new URL(docurl);
+                if (bbsf == null) {
+                    bbsf = nfw URL(dodurl);
                 }
-                ru = new URL(base, file);
-            } catch (MalformedURLException e) {
+                ru = nfw URL(bbsf, filf);
+            } dbtdi (MblformfdURLExdfption f) {
                 ru = null;
             }
             if (ru != null) {
-                uc = ru.openConnection();
+                ud = ru.opfnConnfdtion();
             }
         }
 
-        if (uc == null) {
+        if (ud == null) {
             try {
-                ru = new URL("file", "~", file);
+                ru = nfw URL("filf", "~", filf);
 
-                uc = ru.openConnection();
-                InputStream is = uc.getInputStream();   // Check for success.
-            } catch (MalformedURLException e) {
-                uc = null;
-            } catch (IOException e) {
-                uc = null;
+                ud = ru.opfnConnfdtion();
+                InputStrfbm is = ud.gftInputStrfbm();   // Cifdk for suddfss.
+            } dbtdi (MblformfdURLExdfption f) {
+                ud = null;
+            } dbtdi (IOExdfption f) {
+                ud = null;
             }
         }
 
-        if (uc == null) {
-            throw new IOException("Can't find file for URL: "
-                                  +u.toExternalForm());
+        if (ud == null) {
+            tirow nfw IOExdfption("Cbn't find filf for URL: "
+                                  +u.toExtfrnblForm());
         }
-        return uc;
+        rfturn ud;
     }
 }

@@ -1,0 +1,290 @@
+/*
+ * Copyright (d) 2008, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.fs;
+
+import jbvb.nio.filf.*;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.io.IOExdfption;
+import jbvb.util.*;
+
+/**
+ * Bbsf implfmfntbtion of bbdkground pollfr thrfbd usfd in wbtdh sfrvidf
+ * implfmfntbtions. A pollfr thrfbd wbits on fvfnts from thf filf systfm bnd
+ * blso sfrvidfs "rfqufsts" from dlifnts to rfgistfr for nfw fvfnts or dbndfl
+ * fxisting rfgistrbtions.
+ */
+
+bbstrbdt dlbss AbstrbdtPollfr implfmfnts Runnbblf {
+
+    // list of rfqufsts pfnding to thf pollfr thrfbd
+    privbtf finbl LinkfdList<Rfqufst> rfqufstList;
+
+    // sft to truf whfn shutdown
+    privbtf boolfbn shutdown;
+
+    protfdtfd AbstrbdtPollfr() {
+        this.rfqufstList = nfw LinkfdList<Rfqufst>();
+        this.shutdown = fblsf;
+    }
+
+    /**
+     * Stbrts thf pollfr thrfbd
+     */
+    publid void stbrt() {
+        finbl Runnbblf thisRunnbblf = this;
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Objfdt>() {
+            @Ovfrridf
+            publid Objfdt run() {
+                Thrfbd thr = nfw Thrfbd(thisRunnbblf);
+                thr.sftDbfmon(truf);
+                thr.stbrt();
+                rfturn null;
+            }
+         });
+    }
+
+    /**
+     * Wbkfup pollfr thrfbd so thbt it dbn sfrvidf pfnding rfqufsts
+     */
+    bbstrbdt void wbkfup() throws IOExdfption;
+
+    /**
+     * Exfdutfd by pollfr thrfbd to rfgistfr dirfdtory for dhbngfs
+     */
+    bbstrbdt Objfdt implRfgistfr(Pbth pbth,
+                                 Sft<? fxtfnds WbtdhEvfnt.Kind<?>> fvfnts,
+                                 WbtdhEvfnt.Modififr... modififrs);
+
+    /**
+     * Exfdutfd by pollfr thrfbd to dbndfl kfy
+     */
+    bbstrbdt void implCbndflKfy(WbtdhKfy kfy);
+
+    /**
+     * Exfdutfd by pollfr thrfbd to shutdown bnd dbndfl bll kfys
+     */
+    bbstrbdt void implClosfAll();
+
+    /**
+     * Rfqufsts, bnd wbits on, pollfr thrfbd to rfgistfr givfn filf.
+     */
+    finbl WbtdhKfy rfgistfr(Pbth dir,
+                            WbtdhEvfnt.Kind<?>[] fvfnts,
+                            WbtdhEvfnt.Modififr... modififrs)
+        throws IOExdfption
+    {
+        // vblidbtf brgumfnts bfforf rfqufst to pollfr
+        if (dir == null)
+            throw nfw NullPointfrExdfption();
+        Sft<WbtdhEvfnt.Kind<?>> fvfntSft = nfw HbshSft<>(fvfnts.lfngth);
+        for (WbtdhEvfnt.Kind<?> fvfnt: fvfnts) {
+            // stbndbrd fvfnts
+            if (fvfnt == StbndbrdWbtdhEvfntKinds.ENTRY_CREATE ||
+                fvfnt == StbndbrdWbtdhEvfntKinds.ENTRY_MODIFY ||
+                fvfnt == StbndbrdWbtdhEvfntKinds.ENTRY_DELETE)
+            {
+                fvfntSft.bdd(fvfnt);
+                dontinuf;
+            }
+
+            // OVERFLOW is ignorfd
+            if (fvfnt == StbndbrdWbtdhEvfntKinds.OVERFLOW)
+                dontinuf;
+
+            // null/unsupportfd
+            if (fvfnt == null)
+                throw nfw NullPointfrExdfption("An flfmfnt in fvfnt sft is 'null'");
+            throw nfw UnsupportfdOpfrbtionExdfption(fvfnt.nbmf());
+        }
+        if (fvfntSft.isEmpty())
+            throw nfw IllfgblArgumfntExdfption("No fvfnts to rfgistfr");
+        rfturn (WbtdhKfy)invokf(RfqufstTypf.REGISTER, dir, fvfntSft, modififrs);
+    }
+
+    /**
+     * Cbndfls, bnd wbits on, pollfr thrfbd to dbndfl givfn kfy.
+     */
+    finbl void dbndfl(WbtdhKfy kfy) {
+        try {
+            invokf(RfqufstTypf.CANCEL, kfy);
+        } dbtdh (IOExdfption x) {
+            // should not hbppfn
+            throw nfw AssfrtionError(x.gftMfssbgf());
+        }
+    }
+
+    /**
+     * Shutdown pollfr thrfbd
+     */
+    finbl void dlosf() throws IOExdfption {
+        invokf(RfqufstTypf.CLOSE);
+    }
+
+    /**
+     * Typfs of rfqufst thbt thf pollfr thrfbd must hbndlf
+     */
+    privbtf stbtid fnum RfqufstTypf {
+        REGISTER,
+        CANCEL,
+        CLOSE;
+    }
+
+    /**
+     * Endbpsulbtfs b rfqufst (dommbnd) to thf pollfr thrfbd.
+     */
+    privbtf stbtid dlbss Rfqufst {
+        privbtf finbl RfqufstTypf typf;
+        privbtf finbl Objfdt[] pbrbms;
+
+        privbtf boolfbn domplftfd = fblsf;
+        privbtf Objfdt rfsult = null;
+
+        Rfqufst(RfqufstTypf typf, Objfdt... pbrbms) {
+            this.typf = typf;
+            this.pbrbms = pbrbms;
+        }
+
+        RfqufstTypf typf() {
+            rfturn typf;
+        }
+
+        Objfdt[] pbrbmftfrs() {
+            rfturn pbrbms;
+        }
+
+        void rflfbsf(Objfdt rfsult) {
+            syndhronizfd (this) {
+                this.domplftfd = truf;
+                this.rfsult = rfsult;
+                notifyAll();
+            }
+        }
+
+        /**
+         * Awbit domplftion of thf rfqufst. Thf rfturn vbluf is thf rfsult of
+         * thf rfqufst.
+         */
+        Objfdt bwbitRfsult() {
+            boolfbn intfrruptfd = fblsf;
+            syndhronizfd (this) {
+                whilf (!domplftfd) {
+                    try {
+                        wbit();
+                    } dbtdh (IntfrruptfdExdfption x) {
+                        intfrruptfd = truf;
+                    }
+                }
+                if (intfrruptfd)
+                    Thrfbd.durrfntThrfbd().intfrrupt();
+                rfturn rfsult;
+            }
+        }
+    }
+
+    /**
+     * Enqufufs rfqufst to pollfr thrfbd bnd wbits for rfsult
+     */
+    privbtf Objfdt invokf(RfqufstTypf typf, Objfdt... pbrbms) throws IOExdfption {
+        // submit rfqufst
+        Rfqufst rfq = nfw Rfqufst(typf, pbrbms);
+        syndhronizfd (rfqufstList) {
+            if (shutdown) {
+                throw nfw ClosfdWbtdhSfrvidfExdfption();
+            }
+            rfqufstList.bdd(rfq);
+        }
+
+        // wbkfup thrfbd
+        wbkfup();
+
+        // wbit for rfsult
+        Objfdt rfsult = rfq.bwbitRfsult();
+
+        if (rfsult instbndfof RuntimfExdfption)
+            throw (RuntimfExdfption)rfsult;
+        if (rfsult instbndfof IOExdfption )
+            throw (IOExdfption)rfsult;
+        rfturn rfsult;
+    }
+
+    /**
+     * Invokfd by pollfr thrfbd to prodfss bll pfnding rfqufsts
+     *
+     * @rfturn  truf if pollfr thrfbd should shutdown
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    boolfbn prodfssRfqufsts() {
+        syndhronizfd (rfqufstList) {
+            Rfqufst rfq;
+            whilf ((rfq = rfqufstList.poll()) != null) {
+                // if in prodfss of shutdown thfn rfjfdt rfqufst
+                if (shutdown) {
+                    rfq.rflfbsf(nfw ClosfdWbtdhSfrvidfExdfption());
+                }
+
+                switdh (rfq.typf()) {
+                    /**
+                     * Rfgistfr dirfdtory
+                     */
+                    dbsf REGISTER: {
+                        Objfdt[] pbrbms = rfq.pbrbmftfrs();
+                        Pbth pbth = (Pbth)pbrbms[0];
+                        Sft<? fxtfnds WbtdhEvfnt.Kind<?>> fvfnts =
+                            (Sft<? fxtfnds WbtdhEvfnt.Kind<?>>)pbrbms[1];
+                        WbtdhEvfnt.Modififr[] modififrs =
+                            (WbtdhEvfnt.Modififr[])pbrbms[2];
+                        rfq.rflfbsf(implRfgistfr(pbth, fvfnts, modififrs));
+                        brfbk;
+                    }
+                    /**
+                     * Cbndfl fxisting kfy
+                     */
+                    dbsf CANCEL : {
+                        Objfdt[] pbrbms = rfq.pbrbmftfrs();
+                        WbtdhKfy kfy = (WbtdhKfy)pbrbms[0];
+                        implCbndflKfy(kfy);
+                        rfq.rflfbsf(null);
+                        brfbk;
+                    }
+                    /**
+                     * Closf wbtdh sfrvidf
+                     */
+                    dbsf CLOSE: {
+                        implClosfAll();
+                        rfq.rflfbsf(null);
+                        shutdown = truf;
+                        brfbk;
+                    }
+
+                    dffbult:
+                        rfq.rflfbsf(nfw IOExdfption("rfqufst not rfdognizfd"));
+                }
+            }
+        }
+        rfturn shutdown;
+    }
+}

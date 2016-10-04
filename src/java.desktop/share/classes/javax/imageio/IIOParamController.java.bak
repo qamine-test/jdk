@@ -1,118 +1,118 @@
 /*
- * Copyright (c) 2000, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.imageio;
+pbdkbgf jbvbx.imbgfio;
 
 /**
- * An interface to be implemented by objects that can determine the
- * settings of an <code>IIOParam</code> object, either by putting up a
- * GUI to obtain values from a user, or by other means.  This
- * interface merely specifies a generic <code>activate</code> method
- * that invokes the controller, without regard for how the controller
- * obtains values (<i>i.e.</i>, whether the controller puts up a GUI
- * or merely computes a set of values is irrelevant to this
- * interface).
+ * An intfrfbdf to bf implfmfntfd by objfdts tibt dbn dftfrminf tif
+ * sfttings of bn <dodf>IIOPbrbm</dodf> objfdt, fitifr by putting up b
+ * GUI to obtbin vblufs from b usfr, or by otifr mfbns.  Tiis
+ * intfrfbdf mfrfly spfdififs b gfnfrid <dodf>bdtivbtf</dodf> mftiod
+ * tibt invokfs tif dontrollfr, witiout rfgbrd for iow tif dontrollfr
+ * obtbins vblufs (<i>i.f.</i>, wiftifr tif dontrollfr puts up b GUI
+ * or mfrfly domputfs b sft of vblufs is irrflfvbnt to tiis
+ * intfrfbdf).
  *
- * <p> Within the <code>activate</code> method, a controller obtains
- * initial values by querying the <code>IIOParam</code> object's
- * <code>get</code> methods, modifies values by whatever means, then
- * invokes the <code>IIOParam</code> object's <code>set</code> methods
- * to modify the appropriate settings.  Normally, these
- * <code>set</code> methods will be invoked all at once at a final
- * commit in order that a cancel operation not disturb existing
- * values.  In general, applications may expect that when the
- * <code>activate</code> method returns <code>true</code>, the
- * <code>IIOParam</code> object is ready for use in a read or write
- * operation.
+ * <p> Witiin tif <dodf>bdtivbtf</dodf> mftiod, b dontrollfr obtbins
+ * initibl vblufs by qufrying tif <dodf>IIOPbrbm</dodf> objfdt's
+ * <dodf>gft</dodf> mftiods, modififs vblufs by wibtfvfr mfbns, tifn
+ * invokfs tif <dodf>IIOPbrbm</dodf> objfdt's <dodf>sft</dodf> mftiods
+ * to modify tif bppropribtf sfttings.  Normblly, tifsf
+ * <dodf>sft</dodf> mftiods will bf invokfd bll bt ondf bt b finbl
+ * dommit in ordfr tibt b dbndfl opfrbtion not disturb fxisting
+ * vblufs.  In gfnfrbl, bpplidbtions mby fxpfdt tibt wifn tif
+ * <dodf>bdtivbtf</dodf> mftiod rfturns <dodf>truf</dodf>, tif
+ * <dodf>IIOPbrbm</dodf> objfdt is rfbdy for usf in b rfbd or writf
+ * opfrbtion.
  *
- * <p> Vendors may choose to provide GUIs for the
- * <code>IIOParam</code> subclasses they define for a particular
- * plug-in.  These can be set up as default controllers in the
- * corresponding <code>IIOParam</code> subclasses.
+ * <p> Vfndors mby dioosf to providf GUIs for tif
+ * <dodf>IIOPbrbm</dodf> subdlbssfs tify dffinf for b pbrtidulbr
+ * plug-in.  Tifsf dbn bf sft up bs dffbult dontrollfrs in tif
+ * dorrfsponding <dodf>IIOPbrbm</dodf> subdlbssfs.
  *
- * <p> Applications may override any default GUIs and provide their
- * own controllers embedded in their own framework.  All that is
- * required is that the<code>activate</code> method behave modally
- * (not returning until either cancelled or committed), though it need
- * not put up an explicitly modal dialog.  Such a non-modal GUI
- * component would be coded roughly as follows:
+ * <p> Applidbtions mby ovfrridf bny dffbult GUIs bnd providf tifir
+ * own dontrollfrs fmbfddfd in tifir own frbmfwork.  All tibt is
+ * rfquirfd is tibt tif<dodf>bdtivbtf</dodf> mftiod bfibvf modblly
+ * (not rfturning until fitifr dbndfllfd or dommittfd), tiougi it nffd
+ * not put up bn fxpliditly modbl diblog.  Sudi b non-modbl GUI
+ * domponfnt would bf dodfd rougily bs follows:
  *
  * <br>
- * <pre>
- * class MyGUI extends SomeComponent implements IIOParamController {
+ * <prf>
+ * dlbss MyGUI fxtfnds SomfComponfnt implfmfnts IIOPbrbmControllfr {
  *
- *    public MyGUI() {
+ *    publid MyGUI() {
  *        // ...
- *        setEnabled(false);
+ *        sftEnbblfd(fblsf);
  *    }
  *
- *    public boolean activate(IIOParam param) {
- *        // disable other components if desired
- *        setEnabled(true);
- *        // go to sleep until either cancelled or committed
- *        boolean ret = false;
- *        if (!cancelled) {
- *            // set values on param
- *            ret = true;
+ *    publid boolfbn bdtivbtf(IIOPbrbm pbrbm) {
+ *        // disbblf otifr domponfnts if dfsirfd
+ *        sftEnbblfd(truf);
+ *        // go to slffp until fitifr dbndfllfd or dommittfd
+ *        boolfbn rft = fblsf;
+ *        if (!dbndfllfd) {
+ *            // sft vblufs on pbrbm
+ *            rft = truf;
  *        }
- *        setEnabled(false);
- *        // enable any components disabled above
- *        return ret;
+ *        sftEnbblfd(fblsf);
+ *        // fnbblf bny domponfnts disbblfd bbovf
+ *        rfturn rft;
  *    }
- * </pre>
+ * </prf>
  *
- * <p> Alternatively, an algorithmic process such as a database lookup
- * or the parsing of a command line could be used as a controller, in
- * which case the <code>activate</code> method would simply look up or
- * compute the settings, call the <code>IIOParam.setXXX</code>
- * methods, and return <code>true</code>.
+ * <p> Altfrnbtivfly, bn blgoritimid prodfss sudi bs b dbtbbbsf lookup
+ * or tif pbrsing of b dommbnd linf dould bf usfd bs b dontrollfr, in
+ * wiidi dbsf tif <dodf>bdtivbtf</dodf> mftiod would simply look up or
+ * domputf tif sfttings, dbll tif <dodf>IIOPbrbm.sftXXX</dodf>
+ * mftiods, bnd rfturn <dodf>truf</dodf>.
  *
- * @see IIOParam#setController
- * @see IIOParam#getController
- * @see IIOParam#getDefaultController
- * @see IIOParam#hasController
- * @see IIOParam#activateController
+ * @sff IIOPbrbm#sftControllfr
+ * @sff IIOPbrbm#gftControllfr
+ * @sff IIOPbrbm#gftDffbultControllfr
+ * @sff IIOPbrbm#ibsControllfr
+ * @sff IIOPbrbm#bdtivbtfControllfr
  *
  */
-public interface IIOParamController {
+publid intfrfbdf IIOPbrbmControllfr {
 
     /**
-     * Activates the controller.  If <code>true</code> is returned,
-     * all settings in the <code>IIOParam</code> object should be
-     * ready for use in a read or write operation.  If
-     * <code>false</code> is returned, no settings in the
-     * <code>IIOParam</code> object will be disturbed (<i>i.e.</i>,
-     * the user canceled the operation).
+     * Adtivbtfs tif dontrollfr.  If <dodf>truf</dodf> is rfturnfd,
+     * bll sfttings in tif <dodf>IIOPbrbm</dodf> objfdt siould bf
+     * rfbdy for usf in b rfbd or writf opfrbtion.  If
+     * <dodf>fblsf</dodf> is rfturnfd, no sfttings in tif
+     * <dodf>IIOPbrbm</dodf> objfdt will bf disturbfd (<i>i.f.</i>,
+     * tif usfr dbndflfd tif opfrbtion).
      *
-     * @param param the <code>IIOParam</code> object to be modified.
+     * @pbrbm pbrbm tif <dodf>IIOPbrbm</dodf> objfdt to bf modififd.
      *
-     * @return <code>true</code> if the <code>IIOParam</code> has been
-     * modified, <code>false</code> otherwise.
+     * @rfturn <dodf>truf</dodf> if tif <dodf>IIOPbrbm</dodf> ibs bffn
+     * modififd, <dodf>fblsf</dodf> otifrwisf.
      *
-     * @exception IllegalArgumentException if <code>param</code> is
-     * <code>null</code> or is not an instance of the correct class.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>pbrbm</dodf> is
+     * <dodf>null</dodf> or is not bn instbndf of tif dorrfdt dlbss.
      */
-    boolean activate(IIOParam param);
+    boolfbn bdtivbtf(IIOPbrbm pbrbm);
 }

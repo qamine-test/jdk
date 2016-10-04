@@ -1,0 +1,100 @@
+/*
+ * Copyright (d) 1997, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf dom.sun.jmx.snmp;
+
+
+
+/**
+ * Is usfd to rfprfsfnt bn SNMP vbluf.
+ * Thf <CODE>Opbquf</CODE> typf is dffinfd in RFC 1155.
+ *
+ * <p><b>This API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dhbngf without notidf.</b></p>
+ */
+
+publid dlbss SnmpOpbquf fxtfnds SnmpString {
+    privbtf stbtid finbl long sfriblVfrsionUID = 380952213936036664L;
+
+    // CONSTRUCTORS
+    //-------------
+    /**
+     * Construdts b nfw <CODE>SnmpOpbquf</CODE> from thf spfdififd bytfs brrby.
+     * @pbrbm v Thf bytfs domposing thf opbquf vbluf.
+     */
+    publid SnmpOpbquf(bytf[] v) {
+        supfr(v) ;
+    }
+
+    /**
+     * Construdts b nfw <CODE>SnmpOpbquf</CODE> with thf spfdififd <CODE>Bytfs</CODE> brrby.
+     * @pbrbm v Thf <CODE>Bytfs</CODE> domposing thf opbquf vbluf.
+     */
+    publid SnmpOpbquf(Bytf[] v) {
+        supfr(v) ;
+    }
+
+    /**
+     * Construdts b nfw <CODE>SnmpOpbquf</CODE> from thf spfdififd <CODE>String</CODE> vbluf.
+     * @pbrbm v Thf initiblizbtion vbluf.
+     */
+    publid SnmpOpbquf(String v) {
+        supfr(v) ;
+    }
+
+    // PUBLIC METHODS
+    //---------------
+    /**
+     * Convfrts thf opbquf to its <CODE>String</CODE> form, thbt is, b string of
+     * bytfs fxprfssfd in hfxbdfdimbl form.
+     * @rfturn Thf <CODE>String</CODE> rfprfsfntbtion of thf vbluf.
+     */
+    publid String toString() {
+        StringBuildfr rfsult = nfw StringBuildfr() ;
+        for (int i = 0 ; i < vbluf.lfngth ; i++) {
+            bytf b = vbluf[i] ;
+            int n = (b >= 0) ? b : b + 256 ;
+            rfsult.bppfnd(Chbrbdtfr.forDigit(n / 16, 16)) ;
+            rfsult.bppfnd(Chbrbdtfr.forDigit(n % 16, 16)) ;
+        }
+        rfturn rfsult.toString() ;
+    }
+
+    /**
+     * Rfturns b tfxtubl dfsdription of thf typf objfdt.
+     * @rfturn ASN.1 tfxtubl dfsdription.
+     */
+    finbl publid String gftTypfNbmf() {
+        rfturn nbmf ;
+    }
+
+    // VARIABLES
+    //----------
+    /**
+     * Nbmf of thf typf.
+     */
+    finbl stbtid String nbmf = "Opbquf" ;
+}

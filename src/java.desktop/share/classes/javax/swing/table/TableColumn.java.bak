@@ -1,837 +1,837 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.table;
+pbdkbgf jbvbx.swing.tbblf;
 
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.event.SwingPropertyChangeSupport;
-import java.lang.Integer;
-import java.awt.Color;
-import java.awt.Component;
-import java.io.Serializable;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.fvfnt.SwingPropfrtyCibngfSupport;
+import jbvb.lbng.Intfgfr;
+import jbvb.bwt.Color;
+import jbvb.bwt.Componfnt;
+import jbvb.io.Sfriblizbblf;
+import jbvb.bfbns.PropfrtyCibngfEvfnt;
+import jbvb.bfbns.PropfrtyCibngfListfnfr;
 
 /**
- *  A <code>TableColumn</code> represents all the attributes of a column in a
- *  <code>JTable</code>, such as width, resizability, minimum and maximum width.
- *  In addition, the <code>TableColumn</code> provides slots for a renderer and
- *  an editor that can be used to display and edit the values in this column.
+ *  A <dodf>TbblfColumn</dodf> rfprfsfnts bll tif bttributfs of b dolumn in b
+ *  <dodf>JTbblf</dodf>, sudi bs widti, rfsizbbility, minimum bnd mbximum widti.
+ *  In bddition, tif <dodf>TbblfColumn</dodf> providfs slots for b rfndfrfr bnd
+ *  bn fditor tibt dbn bf usfd to displby bnd fdit tif vblufs in tiis dolumn.
  *  <p>
- *  It is also possible to specify renderers and editors on a per type basis
- *  rather than a per column basis - see the
- *  <code>setDefaultRenderer</code> method in the <code>JTable</code> class.
- *  This default mechanism is only used when the renderer (or
- *  editor) in the <code>TableColumn</code> is <code>null</code>.
+ *  It is blso possiblf to spfdify rfndfrfrs bnd fditors on b pfr typf bbsis
+ *  rbtifr tibn b pfr dolumn bbsis - sff tif
+ *  <dodf>sftDffbultRfndfrfr</dodf> mftiod in tif <dodf>JTbblf</dodf> dlbss.
+ *  Tiis dffbult mfdibnism is only usfd wifn tif rfndfrfr (or
+ *  fditor) in tif <dodf>TbblfColumn</dodf> is <dodf>null</dodf>.
  * <p>
- *  The <code>TableColumn</code> stores the link between the columns in the
- *  <code>JTable</code> and the columns in the <code>TableModel</code>.
- *  The <code>modelIndex</code> is the column in the
- *  <code>TableModel</code>, which will be queried for the data values for the
- *  cells in this column. As the column moves around in the view this
- *  <code>modelIndex</code> does not change.
+ *  Tif <dodf>TbblfColumn</dodf> storfs tif link bftwffn tif dolumns in tif
+ *  <dodf>JTbblf</dodf> bnd tif dolumns in tif <dodf>TbblfModfl</dodf>.
+ *  Tif <dodf>modflIndfx</dodf> is tif dolumn in tif
+ *  <dodf>TbblfModfl</dodf>, wiidi will bf qufrifd for tif dbtb vblufs for tif
+ *  dflls in tiis dolumn. As tif dolumn movfs bround in tif vifw tiis
+ *  <dodf>modflIndfx</dodf> dofs not dibngf.
  *  <p>
- * <b>Note:</b> Some implementations may assume that all
- *    <code>TableColumnModel</code>s are unique, therefore we would
- *    recommend that the same <code>TableColumn</code> instance
- *    not be added more than once to a <code>TableColumnModel</code>.
- *    To show <code>TableColumn</code>s with the same column of
- *    data from the model, create a new instance with the same
- *    <code>modelIndex</code>.
+ * <b>Notf:</b> Somf implfmfntbtions mby bssumf tibt bll
+ *    <dodf>TbblfColumnModfl</dodf>s brf uniquf, tifrfforf wf would
+ *    rfdommfnd tibt tif sbmf <dodf>TbblfColumn</dodf> instbndf
+ *    not bf bddfd morf tibn ondf to b <dodf>TbblfColumnModfl</dodf>.
+ *    To siow <dodf>TbblfColumn</dodf>s witi tif sbmf dolumn of
+ *    dbtb from tif modfl, drfbtf b nfw instbndf witi tif sbmf
+ *    <dodf>modflIndfx</dodf>.
  *  <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @author Alan Chung
- * @author Philip Milne
- * @see javax.swing.table.TableColumnModel
+ * @butior Albn Ciung
+ * @butior Piilip Milnf
+ * @sff jbvbx.swing.tbblf.TbblfColumnModfl
  *
- * @see javax.swing.table.DefaultTableColumnModel
- * @see javax.swing.table.JTableHeader#getDefaultRenderer()
- * @see JTable#getDefaultRenderer(Class)
- * @see JTable#getDefaultEditor(Class)
- * @see JTable#getCellRenderer(int, int)
- * @see JTable#getCellEditor(int, int)
+ * @sff jbvbx.swing.tbblf.DffbultTbblfColumnModfl
+ * @sff jbvbx.swing.tbblf.JTbblfHfbdfr#gftDffbultRfndfrfr()
+ * @sff JTbblf#gftDffbultRfndfrfr(Clbss)
+ * @sff JTbblf#gftDffbultEditor(Clbss)
+ * @sff JTbblf#gftCfllRfndfrfr(int, int)
+ * @sff JTbblf#gftCfllEditor(int, int)
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class TableColumn extends Object implements Serializable {
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss TbblfColumn fxtfnds Objfdt implfmfnts Sfriblizbblf {
 
     /**
-     * Obsolete as of Java 2 platform v1.3.  Please use string literals to identify
-     * properties.
+     * Obsolftf bs of Jbvb 2 plbtform v1.3.  Plfbsf usf string litfrbls to idfntify
+     * propfrtifs.
      */
     /*
-     * Warning: The value of this constant, "columWidth" is wrong as the
-     * name of the property is "columnWidth".
+     * Wbrning: Tif vbluf of tiis donstbnt, "dolumWidti" is wrong bs tif
+     * nbmf of tif propfrty is "dolumnWidti".
      */
-    public final static String COLUMN_WIDTH_PROPERTY = "columWidth";
+    publid finbl stbtid String COLUMN_WIDTH_PROPERTY = "dolumWidti";
 
     /**
-     * Obsolete as of Java 2 platform v1.3.  Please use string literals to identify
-     * properties.
+     * Obsolftf bs of Jbvb 2 plbtform v1.3.  Plfbsf usf string litfrbls to idfntify
+     * propfrtifs.
      */
-    public final static String HEADER_VALUE_PROPERTY = "headerValue";
+    publid finbl stbtid String HEADER_VALUE_PROPERTY = "ifbdfrVbluf";
 
     /**
-     * Obsolete as of Java 2 platform v1.3.  Please use string literals to identify
-     * properties.
+     * Obsolftf bs of Jbvb 2 plbtform v1.3.  Plfbsf usf string litfrbls to idfntify
+     * propfrtifs.
      */
-    public final static String HEADER_RENDERER_PROPERTY = "headerRenderer";
+    publid finbl stbtid String HEADER_RENDERER_PROPERTY = "ifbdfrRfndfrfr";
 
     /**
-     * Obsolete as of Java 2 platform v1.3.  Please use string literals to identify
-     * properties.
+     * Obsolftf bs of Jbvb 2 plbtform v1.3.  Plfbsf usf string litfrbls to idfntify
+     * propfrtifs.
      */
-    public final static String CELL_RENDERER_PROPERTY = "cellRenderer";
+    publid finbl stbtid String CELL_RENDERER_PROPERTY = "dfllRfndfrfr";
 
 //
-//  Instance Variables
+//  Instbndf Vbribblfs
 //
 
     /**
-      * The index of the column in the model which is to be displayed by
-      * this <code>TableColumn</code>. As columns are moved around in the
-      * view <code>modelIndex</code> remains constant.
+      * Tif indfx of tif dolumn in tif modfl wiidi is to bf displbyfd by
+      * tiis <dodf>TbblfColumn</dodf>. As dolumns brf movfd bround in tif
+      * vifw <dodf>modflIndfx</dodf> rfmbins donstbnt.
       */
-    protected int       modelIndex;
+    protfdtfd int       modflIndfx;
 
     /**
-     *  This object is not used internally by the drawing machinery of
-     *  the <code>JTable</code>; identifiers may be set in the
-     *  <code>TableColumn</code> as as an
-     *  optional way to tag and locate table columns. The table package does
-     *  not modify or invoke any methods in these identifier objects other
-     *  than the <code>equals</code> method which is used in the
-     *  <code>getColumnIndex()</code> method in the
-     *  <code>DefaultTableColumnModel</code>.
+     *  Tiis objfdt is not usfd intfrnblly by tif drbwing mbdiinfry of
+     *  tif <dodf>JTbblf</dodf>; idfntififrs mby bf sft in tif
+     *  <dodf>TbblfColumn</dodf> bs bs bn
+     *  optionbl wby to tbg bnd lodbtf tbblf dolumns. Tif tbblf pbdkbgf dofs
+     *  not modify or invokf bny mftiods in tifsf idfntififr objfdts otifr
+     *  tibn tif <dodf>fqubls</dodf> mftiod wiidi is usfd in tif
+     *  <dodf>gftColumnIndfx()</dodf> mftiod in tif
+     *  <dodf>DffbultTbblfColumnModfl</dodf>.
      */
-    protected Object    identifier;
+    protfdtfd Objfdt    idfntififr;
 
-    /** The width of the column. */
-    protected int       width;
+    /** Tif widti of tif dolumn. */
+    protfdtfd int       widti;
 
-    /** The minimum width of the column. */
-    protected int       minWidth;
+    /** Tif minimum widti of tif dolumn. */
+    protfdtfd int       minWidti;
 
-    /** The preferred width of the column. */
-    private int         preferredWidth;
+    /** Tif prfffrrfd widti of tif dolumn. */
+    privbtf int         prfffrrfdWidti;
 
-    /** The maximum width of the column. */
-    protected int       maxWidth;
+    /** Tif mbximum widti of tif dolumn. */
+    protfdtfd int       mbxWidti;
 
-    /** The renderer used to draw the header of the column. */
-    protected TableCellRenderer headerRenderer;
+    /** Tif rfndfrfr usfd to drbw tif ifbdfr of tif dolumn. */
+    protfdtfd TbblfCfllRfndfrfr ifbdfrRfndfrfr;
 
-    /** The header value of the column. */
-    protected Object            headerValue;
+    /** Tif ifbdfr vbluf of tif dolumn. */
+    protfdtfd Objfdt            ifbdfrVbluf;
 
-    /** The renderer used to draw the data cells of the column. */
-    protected TableCellRenderer cellRenderer;
+    /** Tif rfndfrfr usfd to drbw tif dbtb dflls of tif dolumn. */
+    protfdtfd TbblfCfllRfndfrfr dfllRfndfrfr;
 
-    /** The editor used to edit the data cells of the column. */
-    protected TableCellEditor   cellEditor;
+    /** Tif fditor usfd to fdit tif dbtb dflls of tif dolumn. */
+    protfdtfd TbblfCfllEditor   dfllEditor;
 
-    /** If true, the user is allowed to resize the column; the default is true. */
-    protected boolean   isResizable;
+    /** If truf, tif usfr is bllowfd to rfsizf tif dolumn; tif dffbult is truf. */
+    protfdtfd boolfbn   isRfsizbblf;
 
     /**
-     * This field was not used in previous releases and there are
-     * currently no plans to support it in the future.
+     * Tiis fifld wbs not usfd in prfvious rflfbsfs bnd tifrf brf
+     * durrfntly no plbns to support it in tif futurf.
      *
-     * @deprecated as of Java 2 platform v1.3
+     * @dfprfdbtfd bs of Jbvb 2 plbtform v1.3
      */
     /*
-     *  Counter used to disable posting of resizing notifications until the
-     *  end of the resize.
+     *  Countfr usfd to disbblf posting of rfsizing notifidbtions until tif
+     *  fnd of tif rfsizf.
      */
-    @Deprecated
-    transient protected int     resizedPostingDisableCount;
+    @Dfprfdbtfd
+    trbnsifnt protfdtfd int     rfsizfdPostingDisbblfCount;
 
     /**
-     * If any <code>PropertyChangeListeners</code> have been registered, the
-     * <code>changeSupport</code> field describes them.
+     * If bny <dodf>PropfrtyCibngfListfnfrs</dodf> ibvf bffn rfgistfrfd, tif
+     * <dodf>dibngfSupport</dodf> fifld dfsdribfs tifm.
      */
-    private SwingPropertyChangeSupport changeSupport;
+    privbtf SwingPropfrtyCibngfSupport dibngfSupport;
 
 //
-// Constructors
+// Construdtors
 //
 
     /**
-     *  Cover method, using a default model index of 0,
-     *  default width of 75, a <code>null</code> renderer and a
-     *  <code>null</code> editor.
-     *  This method is intended for serialization.
-     *  @see #TableColumn(int, int, TableCellRenderer, TableCellEditor)
+     *  Covfr mftiod, using b dffbult modfl indfx of 0,
+     *  dffbult widti of 75, b <dodf>null</dodf> rfndfrfr bnd b
+     *  <dodf>null</dodf> fditor.
+     *  Tiis mftiod is intfndfd for sfriblizbtion.
+     *  @sff #TbblfColumn(int, int, TbblfCfllRfndfrfr, TbblfCfllEditor)
      */
-    public TableColumn() {
-        this(0);
+    publid TbblfColumn() {
+        tiis(0);
     }
 
     /**
-     *  Cover method, using a default width of 75, a <code>null</code>
-     *  renderer and a <code>null</code> editor.
-     *  @see #TableColumn(int, int, TableCellRenderer, TableCellEditor)
+     *  Covfr mftiod, using b dffbult widti of 75, b <dodf>null</dodf>
+     *  rfndfrfr bnd b <dodf>null</dodf> fditor.
+     *  @sff #TbblfColumn(int, int, TbblfCfllRfndfrfr, TbblfCfllEditor)
      *
-     *  @param modelIndex  the index of the column in the model
-     *  that supplies the data for this column in the table;
-     *  the model index remains the same even when columns
-     *  are reordered in the view
+     *  @pbrbm modflIndfx  tif indfx of tif dolumn in tif modfl
+     *  tibt supplifs tif dbtb for tiis dolumn in tif tbblf;
+     *  tif modfl indfx rfmbins tif sbmf fvfn wifn dolumns
+     *  brf rfordfrfd in tif vifw
      */
-    public TableColumn(int modelIndex) {
-        this(modelIndex, 75, null, null);
+    publid TbblfColumn(int modflIndfx) {
+        tiis(modflIndfx, 75, null, null);
     }
 
     /**
-     *  Cover method, using a <code>null</code> renderer and a
-     *  <code>null</code> editor.
-     *  @see #TableColumn(int, int, TableCellRenderer, TableCellEditor)
+     *  Covfr mftiod, using b <dodf>null</dodf> rfndfrfr bnd b
+     *  <dodf>null</dodf> fditor.
+     *  @sff #TbblfColumn(int, int, TbblfCfllRfndfrfr, TbblfCfllEditor)
      *
-     *  @param modelIndex  the index of the column in the model
-     *  that supplies the data for this column in the table;
-     *  the model index remains the same even when columns
-     *  are reordered in the view
-     *  @param width  this column's preferred width and initial width
+     *  @pbrbm modflIndfx  tif indfx of tif dolumn in tif modfl
+     *  tibt supplifs tif dbtb for tiis dolumn in tif tbblf;
+     *  tif modfl indfx rfmbins tif sbmf fvfn wifn dolumns
+     *  brf rfordfrfd in tif vifw
+     *  @pbrbm widti  tiis dolumn's prfffrrfd widti bnd initibl widti
      */
-    public TableColumn(int modelIndex, int width) {
-        this(modelIndex, width, null, null);
+    publid TbblfColumn(int modflIndfx, int widti) {
+        tiis(modflIndfx, widti, null, null);
     }
 
     /**
-     *  Creates and initializes an instance of
-     *  <code>TableColumn</code> with the specified model index,
-     *  width, cell renderer, and cell editor;
-     *  all <code>TableColumn</code> constructors delegate to this one.
-     *  The value of <code>width</code> is used
-     *  for both the initial and preferred width;
-     *  if <code>width</code> is negative,
-     *  they're set to 0.
-     *  The minimum width is set to 15 unless the initial width is less,
-     *  in which case the minimum width is set to
-     *  the initial width.
+     *  Crfbtfs bnd initiblizfs bn instbndf of
+     *  <dodf>TbblfColumn</dodf> witi tif spfdififd modfl indfx,
+     *  widti, dfll rfndfrfr, bnd dfll fditor;
+     *  bll <dodf>TbblfColumn</dodf> donstrudtors dflfgbtf to tiis onf.
+     *  Tif vbluf of <dodf>widti</dodf> is usfd
+     *  for boti tif initibl bnd prfffrrfd widti;
+     *  if <dodf>widti</dodf> is nfgbtivf,
+     *  tify'rf sft to 0.
+     *  Tif minimum widti is sft to 15 unlfss tif initibl widti is lfss,
+     *  in wiidi dbsf tif minimum widti is sft to
+     *  tif initibl widti.
      *
      *  <p>
-     *  When the <code>cellRenderer</code>
-     *  or <code>cellEditor</code> parameter is <code>null</code>,
-     *  a default value provided by the <code>JTable</code>
-     *  <code>getDefaultRenderer</code>
-     *  or <code>getDefaultEditor</code> method, respectively,
-     *  is used to
-     *  provide defaults based on the type of the data in this column.
-     *  This column-centric rendering strategy can be circumvented by overriding
-     *  the <code>getCellRenderer</code> methods in <code>JTable</code>.
+     *  Wifn tif <dodf>dfllRfndfrfr</dodf>
+     *  or <dodf>dfllEditor</dodf> pbrbmftfr is <dodf>null</dodf>,
+     *  b dffbult vbluf providfd by tif <dodf>JTbblf</dodf>
+     *  <dodf>gftDffbultRfndfrfr</dodf>
+     *  or <dodf>gftDffbultEditor</dodf> mftiod, rfspfdtivfly,
+     *  is usfd to
+     *  providf dffbults bbsfd on tif typf of tif dbtb in tiis dolumn.
+     *  Tiis dolumn-dfntrid rfndfring strbtfgy dbn bf dirdumvfntfd by ovfrriding
+     *  tif <dodf>gftCfllRfndfrfr</dodf> mftiods in <dodf>JTbblf</dodf>.
      *
-     * @param modelIndex the index of the column
-     *  in the model that supplies the data for this column in the table;
-     *  the model index remains the same
-     *  even when columns are reordered in the view
-     * @param width this column's preferred width and initial width
-     * @param cellRenderer the object used to render values in this column
-     * @param cellEditor the object used to edit values in this column
-     * @see #getMinWidth()
-     * @see JTable#getDefaultRenderer(Class)
-     * @see JTable#getDefaultEditor(Class)
-     * @see JTable#getCellRenderer(int, int)
-     * @see JTable#getCellEditor(int, int)
+     * @pbrbm modflIndfx tif indfx of tif dolumn
+     *  in tif modfl tibt supplifs tif dbtb for tiis dolumn in tif tbblf;
+     *  tif modfl indfx rfmbins tif sbmf
+     *  fvfn wifn dolumns brf rfordfrfd in tif vifw
+     * @pbrbm widti tiis dolumn's prfffrrfd widti bnd initibl widti
+     * @pbrbm dfllRfndfrfr tif objfdt usfd to rfndfr vblufs in tiis dolumn
+     * @pbrbm dfllEditor tif objfdt usfd to fdit vblufs in tiis dolumn
+     * @sff #gftMinWidti()
+     * @sff JTbblf#gftDffbultRfndfrfr(Clbss)
+     * @sff JTbblf#gftDffbultEditor(Clbss)
+     * @sff JTbblf#gftCfllRfndfrfr(int, int)
+     * @sff JTbblf#gftCfllEditor(int, int)
      */
-    public TableColumn(int modelIndex, int width,
-                                 TableCellRenderer cellRenderer,
-                                 TableCellEditor cellEditor) {
-        super();
-        this.modelIndex = modelIndex;
-        preferredWidth = this.width = Math.max(width, 0);
+    publid TbblfColumn(int modflIndfx, int widti,
+                                 TbblfCfllRfndfrfr dfllRfndfrfr,
+                                 TbblfCfllEditor dfllEditor) {
+        supfr();
+        tiis.modflIndfx = modflIndfx;
+        prfffrrfdWidti = tiis.widti = Mbti.mbx(widti, 0);
 
-        this.cellRenderer = cellRenderer;
-        this.cellEditor = cellEditor;
+        tiis.dfllRfndfrfr = dfllRfndfrfr;
+        tiis.dfllEditor = dfllEditor;
 
-        // Set other instance variables to default values.
-        minWidth = Math.min(15, this.width);
-        maxWidth = Integer.MAX_VALUE;
-        isResizable = true;
-        resizedPostingDisableCount = 0;
-        headerValue = null;
+        // Sft otifr instbndf vbribblfs to dffbult vblufs.
+        minWidti = Mbti.min(15, tiis.widti);
+        mbxWidti = Intfgfr.MAX_VALUE;
+        isRfsizbblf = truf;
+        rfsizfdPostingDisbblfCount = 0;
+        ifbdfrVbluf = null;
     }
 
 //
-// Modifying and Querying attributes
+// Modifying bnd Qufrying bttributfs
 //
 
-    private void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
-        if (changeSupport != null) {
-            changeSupport.firePropertyChange(propertyName, oldValue, newValue);
+    privbtf void firfPropfrtyCibngf(String propfrtyNbmf, Objfdt oldVbluf, Objfdt nfwVbluf) {
+        if (dibngfSupport != null) {
+            dibngfSupport.firfPropfrtyCibngf(propfrtyNbmf, oldVbluf, nfwVbluf);
         }
     }
 
-    private void firePropertyChange(String propertyName, int oldValue, int newValue) {
-        if (oldValue != newValue) {
-            firePropertyChange(propertyName, Integer.valueOf(oldValue), Integer.valueOf(newValue));
+    privbtf void firfPropfrtyCibngf(String propfrtyNbmf, int oldVbluf, int nfwVbluf) {
+        if (oldVbluf != nfwVbluf) {
+            firfPropfrtyCibngf(propfrtyNbmf, Intfgfr.vblufOf(oldVbluf), Intfgfr.vblufOf(nfwVbluf));
         }
     }
 
-    private void firePropertyChange(String propertyName, boolean oldValue, boolean newValue) {
-        if (oldValue != newValue) {
-            firePropertyChange(propertyName, Boolean.valueOf(oldValue), Boolean.valueOf(newValue));
+    privbtf void firfPropfrtyCibngf(String propfrtyNbmf, boolfbn oldVbluf, boolfbn nfwVbluf) {
+        if (oldVbluf != nfwVbluf) {
+            firfPropfrtyCibngf(propfrtyNbmf, Boolfbn.vblufOf(oldVbluf), Boolfbn.vblufOf(nfwVbluf));
         }
     }
 
     /**
-     * Sets the model index for this column. The model index is the
-     * index of the column in the model that will be displayed by this
-     * <code>TableColumn</code>. As the <code>TableColumn</code>
-     * is moved around in the view the model index remains constant.
-     * @param  modelIndex  the new modelIndex
-     * @beaninfo
-     *  bound: true
-     *  description: The model index.
+     * Sfts tif modfl indfx for tiis dolumn. Tif modfl indfx is tif
+     * indfx of tif dolumn in tif modfl tibt will bf displbyfd by tiis
+     * <dodf>TbblfColumn</dodf>. As tif <dodf>TbblfColumn</dodf>
+     * is movfd bround in tif vifw tif modfl indfx rfmbins donstbnt.
+     * @pbrbm  modflIndfx  tif nfw modflIndfx
+     * @bfbninfo
+     *  bound: truf
+     *  dfsdription: Tif modfl indfx.
      */
-    public void setModelIndex(int modelIndex) {
-        int old = this.modelIndex;
-        this.modelIndex = modelIndex;
-        firePropertyChange("modelIndex", old, modelIndex);
+    publid void sftModflIndfx(int modflIndfx) {
+        int old = tiis.modflIndfx;
+        tiis.modflIndfx = modflIndfx;
+        firfPropfrtyCibngf("modflIndfx", old, modflIndfx);
     }
 
     /**
-     * Returns the model index for this column.
-     * @return the <code>modelIndex</code> property
+     * Rfturns tif modfl indfx for tiis dolumn.
+     * @rfturn tif <dodf>modflIndfx</dodf> propfrty
      */
-    public int getModelIndex() {
-        return modelIndex;
+    publid int gftModflIndfx() {
+        rfturn modflIndfx;
     }
 
     /**
-     * Sets the <code>TableColumn</code>'s identifier to
-     * <code>anIdentifier</code>. <p>
-     * Note: identifiers are not used by the <code>JTable</code>,
-     * they are purely a
-     * convenience for the external tagging and location of columns.
+     * Sfts tif <dodf>TbblfColumn</dodf>'s idfntififr to
+     * <dodf>bnIdfntififr</dodf>. <p>
+     * Notf: idfntififrs brf not usfd by tif <dodf>JTbblf</dodf>,
+     * tify brf purfly b
+     * donvfnifndf for tif fxtfrnbl tbgging bnd lodbtion of dolumns.
      *
-     * @param      identifier           an identifier for this column
-     * @see        #getIdentifier
-     * @beaninfo
-     *  bound: true
-     *  description: A unique identifier for this column.
+     * @pbrbm      idfntififr           bn idfntififr for tiis dolumn
+     * @sff        #gftIdfntififr
+     * @bfbninfo
+     *  bound: truf
+     *  dfsdription: A uniquf idfntififr for tiis dolumn.
      */
-    public void setIdentifier(Object identifier) {
-        Object old = this.identifier;
-        this.identifier = identifier;
-        firePropertyChange("identifier", old, identifier);
+    publid void sftIdfntififr(Objfdt idfntififr) {
+        Objfdt old = tiis.idfntififr;
+        tiis.idfntififr = idfntififr;
+        firfPropfrtyCibngf("idfntififr", old, idfntififr);
     }
 
 
     /**
-     *  Returns the <code>identifier</code> object for this column.
-     *  Note identifiers are not used by <code>JTable</code>,
-     *  they are purely a convenience for external use.
-     *  If the <code>identifier</code> is <code>null</code>,
-     *  <code>getIdentifier()</code> returns <code>getHeaderValue</code>
-     *  as a default.
+     *  Rfturns tif <dodf>idfntififr</dodf> objfdt for tiis dolumn.
+     *  Notf idfntififrs brf not usfd by <dodf>JTbblf</dodf>,
+     *  tify brf purfly b donvfnifndf for fxtfrnbl usf.
+     *  If tif <dodf>idfntififr</dodf> is <dodf>null</dodf>,
+     *  <dodf>gftIdfntififr()</dodf> rfturns <dodf>gftHfbdfrVbluf</dodf>
+     *  bs b dffbult.
      *
-     * @return  the <code>identifier</code> property
-     * @see     #setIdentifier
+     * @rfturn  tif <dodf>idfntififr</dodf> propfrty
+     * @sff     #sftIdfntififr
      */
-    public Object getIdentifier() {
-        return (identifier != null) ? identifier : getHeaderValue();
+    publid Objfdt gftIdfntififr() {
+        rfturn (idfntififr != null) ? idfntififr : gftHfbdfrVbluf();
 
     }
 
     /**
-     * Sets the <code>Object</code> whose string representation will be
-     * used as the value for the <code>headerRenderer</code>.  When the
-     * <code>TableColumn</code> is created, the default <code>headerValue</code>
-     * is <code>null</code>.
-     * @param headerValue  the new headerValue
-     * @see       #getHeaderValue
-     * @beaninfo
-     *  bound: true
-     *  description: The text to be used by the header renderer.
+     * Sfts tif <dodf>Objfdt</dodf> wiosf string rfprfsfntbtion will bf
+     * usfd bs tif vbluf for tif <dodf>ifbdfrRfndfrfr</dodf>.  Wifn tif
+     * <dodf>TbblfColumn</dodf> is drfbtfd, tif dffbult <dodf>ifbdfrVbluf</dodf>
+     * is <dodf>null</dodf>.
+     * @pbrbm ifbdfrVbluf  tif nfw ifbdfrVbluf
+     * @sff       #gftHfbdfrVbluf
+     * @bfbninfo
+     *  bound: truf
+     *  dfsdription: Tif tfxt to bf usfd by tif ifbdfr rfndfrfr.
      */
-    public void setHeaderValue(Object headerValue) {
-        Object old = this.headerValue;
-        this.headerValue = headerValue;
-        firePropertyChange("headerValue", old, headerValue);
+    publid void sftHfbdfrVbluf(Objfdt ifbdfrVbluf) {
+        Objfdt old = tiis.ifbdfrVbluf;
+        tiis.ifbdfrVbluf = ifbdfrVbluf;
+        firfPropfrtyCibngf("ifbdfrVbluf", old, ifbdfrVbluf);
     }
 
     /**
-     * Returns the <code>Object</code> used as the value for the header
-     * renderer.
+     * Rfturns tif <dodf>Objfdt</dodf> usfd bs tif vbluf for tif ifbdfr
+     * rfndfrfr.
      *
-     * @return  the <code>headerValue</code> property
-     * @see     #setHeaderValue
+     * @rfturn  tif <dodf>ifbdfrVbluf</dodf> propfrty
+     * @sff     #sftHfbdfrVbluf
      */
-    public Object getHeaderValue() {
-        return headerValue;
+    publid Objfdt gftHfbdfrVbluf() {
+        rfturn ifbdfrVbluf;
     }
 
     //
-    // Renderers and Editors
+    // Rfndfrfrs bnd Editors
     //
 
     /**
-     * Sets the <code>TableCellRenderer</code> used to draw the
-     * <code>TableColumn</code>'s header to <code>headerRenderer</code>.
+     * Sfts tif <dodf>TbblfCfllRfndfrfr</dodf> usfd to drbw tif
+     * <dodf>TbblfColumn</dodf>'s ifbdfr to <dodf>ifbdfrRfndfrfr</dodf>.
      * <p>
-     * It is the header renderers responsibility to render the sorting
-     * indicator.  If you are using sorting and specify a renderer your
-     * renderer must render the sorting indication.
+     * It is tif ifbdfr rfndfrfrs rfsponsibility to rfndfr tif sorting
+     * indidbtor.  If you brf using sorting bnd spfdify b rfndfrfr your
+     * rfndfrfr must rfndfr tif sorting indidbtion.
      *
-     * @param headerRenderer  the new headerRenderer
+     * @pbrbm ifbdfrRfndfrfr  tif nfw ifbdfrRfndfrfr
      *
-     * @see       #getHeaderRenderer
-     * @beaninfo
-     *  bound: true
-     *  description: The header renderer.
+     * @sff       #gftHfbdfrRfndfrfr
+     * @bfbninfo
+     *  bound: truf
+     *  dfsdription: Tif ifbdfr rfndfrfr.
      */
-    public void setHeaderRenderer(TableCellRenderer headerRenderer) {
-        TableCellRenderer old = this.headerRenderer;
-        this.headerRenderer = headerRenderer;
-        firePropertyChange("headerRenderer", old, headerRenderer);
+    publid void sftHfbdfrRfndfrfr(TbblfCfllRfndfrfr ifbdfrRfndfrfr) {
+        TbblfCfllRfndfrfr old = tiis.ifbdfrRfndfrfr;
+        tiis.ifbdfrRfndfrfr = ifbdfrRfndfrfr;
+        firfPropfrtyCibngf("ifbdfrRfndfrfr", old, ifbdfrRfndfrfr);
     }
 
     /**
-     * Returns the <code>TableCellRenderer</code> used to draw the header of the
-     * <code>TableColumn</code>. When the <code>headerRenderer</code> is
-     * <code>null</code>, the <code>JTableHeader</code>
-     * uses its <code>defaultRenderer</code>. The default value for a
-     * <code>headerRenderer</code> is <code>null</code>.
+     * Rfturns tif <dodf>TbblfCfllRfndfrfr</dodf> usfd to drbw tif ifbdfr of tif
+     * <dodf>TbblfColumn</dodf>. Wifn tif <dodf>ifbdfrRfndfrfr</dodf> is
+     * <dodf>null</dodf>, tif <dodf>JTbblfHfbdfr</dodf>
+     * usfs its <dodf>dffbultRfndfrfr</dodf>. Tif dffbult vbluf for b
+     * <dodf>ifbdfrRfndfrfr</dodf> is <dodf>null</dodf>.
      *
-     * @return  the <code>headerRenderer</code> property
-     * @see     #setHeaderRenderer
-     * @see     #setHeaderValue
-     * @see     javax.swing.table.JTableHeader#getDefaultRenderer()
+     * @rfturn  tif <dodf>ifbdfrRfndfrfr</dodf> propfrty
+     * @sff     #sftHfbdfrRfndfrfr
+     * @sff     #sftHfbdfrVbluf
+     * @sff     jbvbx.swing.tbblf.JTbblfHfbdfr#gftDffbultRfndfrfr()
      */
-    public TableCellRenderer getHeaderRenderer() {
-        return headerRenderer;
+    publid TbblfCfllRfndfrfr gftHfbdfrRfndfrfr() {
+        rfturn ifbdfrRfndfrfr;
     }
 
     /**
-     * Sets the <code>TableCellRenderer</code> used by <code>JTable</code>
-     * to draw individual values for this column.
+     * Sfts tif <dodf>TbblfCfllRfndfrfr</dodf> usfd by <dodf>JTbblf</dodf>
+     * to drbw individubl vblufs for tiis dolumn.
      *
-     * @param cellRenderer  the new cellRenderer
-     * @see     #getCellRenderer
-     * @beaninfo
-     *  bound: true
-     *  description: The renderer to use for cell values.
+     * @pbrbm dfllRfndfrfr  tif nfw dfllRfndfrfr
+     * @sff     #gftCfllRfndfrfr
+     * @bfbninfo
+     *  bound: truf
+     *  dfsdription: Tif rfndfrfr to usf for dfll vblufs.
      */
-    public void setCellRenderer(TableCellRenderer cellRenderer) {
-        TableCellRenderer old = this.cellRenderer;
-        this.cellRenderer = cellRenderer;
-        firePropertyChange("cellRenderer", old, cellRenderer);
+    publid void sftCfllRfndfrfr(TbblfCfllRfndfrfr dfllRfndfrfr) {
+        TbblfCfllRfndfrfr old = tiis.dfllRfndfrfr;
+        tiis.dfllRfndfrfr = dfllRfndfrfr;
+        firfPropfrtyCibngf("dfllRfndfrfr", old, dfllRfndfrfr);
     }
 
     /**
-     * Returns the <code>TableCellRenderer</code> used by the
-     * <code>JTable</code> to draw
-     * values for this column.  The <code>cellRenderer</code> of the column
-     * not only controls the visual look for the column, but is also used to
-     * interpret the value object supplied by the <code>TableModel</code>.
-     * When the <code>cellRenderer</code> is <code>null</code>,
-     * the <code>JTable</code> uses a default renderer based on the
-     * class of the cells in that column. The default value for a
-     * <code>cellRenderer</code> is <code>null</code>.
+     * Rfturns tif <dodf>TbblfCfllRfndfrfr</dodf> usfd by tif
+     * <dodf>JTbblf</dodf> to drbw
+     * vblufs for tiis dolumn.  Tif <dodf>dfllRfndfrfr</dodf> of tif dolumn
+     * not only dontrols tif visubl look for tif dolumn, but is blso usfd to
+     * intfrprft tif vbluf objfdt supplifd by tif <dodf>TbblfModfl</dodf>.
+     * Wifn tif <dodf>dfllRfndfrfr</dodf> is <dodf>null</dodf>,
+     * tif <dodf>JTbblf</dodf> usfs b dffbult rfndfrfr bbsfd on tif
+     * dlbss of tif dflls in tibt dolumn. Tif dffbult vbluf for b
+     * <dodf>dfllRfndfrfr</dodf> is <dodf>null</dodf>.
      *
-     * @return  the <code>cellRenderer</code> property
-     * @see     #setCellRenderer
-     * @see     JTable#setDefaultRenderer
+     * @rfturn  tif <dodf>dfllRfndfrfr</dodf> propfrty
+     * @sff     #sftCfllRfndfrfr
+     * @sff     JTbblf#sftDffbultRfndfrfr
      */
-    public TableCellRenderer getCellRenderer() {
-        return cellRenderer;
+    publid TbblfCfllRfndfrfr gftCfllRfndfrfr() {
+        rfturn dfllRfndfrfr;
     }
 
     /**
-     * Sets the editor to used by when a cell in this column is edited.
+     * Sfts tif fditor to usfd by wifn b dfll in tiis dolumn is fditfd.
      *
-     * @param cellEditor  the new cellEditor
-     * @see     #getCellEditor
-     * @beaninfo
-     *  bound: true
-     *  description: The editor to use for cell values.
+     * @pbrbm dfllEditor  tif nfw dfllEditor
+     * @sff     #gftCfllEditor
+     * @bfbninfo
+     *  bound: truf
+     *  dfsdription: Tif fditor to usf for dfll vblufs.
      */
-    public void setCellEditor(TableCellEditor cellEditor){
-        TableCellEditor old = this.cellEditor;
-        this.cellEditor = cellEditor;
-        firePropertyChange("cellEditor", old, cellEditor);
+    publid void sftCfllEditor(TbblfCfllEditor dfllEditor){
+        TbblfCfllEditor old = tiis.dfllEditor;
+        tiis.dfllEditor = dfllEditor;
+        firfPropfrtyCibngf("dfllEditor", old, dfllEditor);
     }
 
     /**
-     * Returns the <code>TableCellEditor</code> used by the
-     * <code>JTable</code> to edit values for this column.  When the
-     * <code>cellEditor</code> is <code>null</code>, the <code>JTable</code>
-     * uses a default editor based on the
-     * class of the cells in that column. The default value for a
-     * <code>cellEditor</code> is <code>null</code>.
+     * Rfturns tif <dodf>TbblfCfllEditor</dodf> usfd by tif
+     * <dodf>JTbblf</dodf> to fdit vblufs for tiis dolumn.  Wifn tif
+     * <dodf>dfllEditor</dodf> is <dodf>null</dodf>, tif <dodf>JTbblf</dodf>
+     * usfs b dffbult fditor bbsfd on tif
+     * dlbss of tif dflls in tibt dolumn. Tif dffbult vbluf for b
+     * <dodf>dfllEditor</dodf> is <dodf>null</dodf>.
      *
-     * @return  the <code>cellEditor</code> property
-     * @see     #setCellEditor
-     * @see     JTable#setDefaultEditor
+     * @rfturn  tif <dodf>dfllEditor</dodf> propfrty
+     * @sff     #sftCfllEditor
+     * @sff     JTbblf#sftDffbultEditor
      */
-    public TableCellEditor getCellEditor() {
-        return cellEditor;
+    publid TbblfCfllEditor gftCfllEditor() {
+        rfturn dfllEditor;
     }
 
     /**
-     * This method should not be used to set the widths of columns in the
-     * <code>JTable</code>, use <code>setPreferredWidth</code> instead.
-     * Like a layout manager in the
-     * AWT, the <code>JTable</code> adjusts a column's width automatically
-     * whenever the
-     * table itself changes size, or a column's preferred width is changed.
-     * Setting widths programmatically therefore has no long term effect.
+     * Tiis mftiod siould not bf usfd to sft tif widtis of dolumns in tif
+     * <dodf>JTbblf</dodf>, usf <dodf>sftPrfffrrfdWidti</dodf> instfbd.
+     * Likf b lbyout mbnbgfr in tif
+     * AWT, tif <dodf>JTbblf</dodf> bdjusts b dolumn's widti butombtidblly
+     * wifnfvfr tif
+     * tbblf itsflf dibngfs sizf, or b dolumn's prfffrrfd widti is dibngfd.
+     * Sftting widtis progrbmmbtidblly tifrfforf ibs no long tfrm ffffdt.
      * <p>
-     * This method sets this column's width to <code>width</code>.
-     * If <code>width</code> exceeds the minimum or maximum width,
-     * it is adjusted to the appropriate limiting value.
-     * @param  width  the new width
-     * @see     #getWidth
-     * @see     #setMinWidth
-     * @see     #setMaxWidth
-     * @see     #setPreferredWidth
-     * @see     JTable#doLayout()
-     * @beaninfo
-     *  bound: true
-     *  description: The width of the column.
+     * Tiis mftiod sfts tiis dolumn's widti to <dodf>widti</dodf>.
+     * If <dodf>widti</dodf> fxdffds tif minimum or mbximum widti,
+     * it is bdjustfd to tif bppropribtf limiting vbluf.
+     * @pbrbm  widti  tif nfw widti
+     * @sff     #gftWidti
+     * @sff     #sftMinWidti
+     * @sff     #sftMbxWidti
+     * @sff     #sftPrfffrrfdWidti
+     * @sff     JTbblf#doLbyout()
+     * @bfbninfo
+     *  bound: truf
+     *  dfsdription: Tif widti of tif dolumn.
      */
-    public void setWidth(int width) {
-        int old = this.width;
-        this.width = Math.min(Math.max(width, minWidth), maxWidth);
-        firePropertyChange("width", old, this.width);
+    publid void sftWidti(int widti) {
+        int old = tiis.widti;
+        tiis.widti = Mbti.min(Mbti.mbx(widti, minWidti), mbxWidti);
+        firfPropfrtyCibngf("widti", old, tiis.widti);
     }
 
     /**
-     * Returns the width of the <code>TableColumn</code>. The default width is
+     * Rfturns tif widti of tif <dodf>TbblfColumn</dodf>. Tif dffbult widti is
      * 75.
      *
-     * @return  the <code>width</code> property
-     * @see     #setWidth
+     * @rfturn  tif <dodf>widti</dodf> propfrty
+     * @sff     #sftWidti
      */
-    public int getWidth() {
-        return width;
+    publid int gftWidti() {
+        rfturn widti;
     }
 
     /**
-     * Sets this column's preferred width to <code>preferredWidth</code>.
-     * If <code>preferredWidth</code> exceeds the minimum or maximum width,
-     * it is adjusted to the appropriate limiting value.
+     * Sfts tiis dolumn's prfffrrfd widti to <dodf>prfffrrfdWidti</dodf>.
+     * If <dodf>prfffrrfdWidti</dodf> fxdffds tif minimum or mbximum widti,
+     * it is bdjustfd to tif bppropribtf limiting vbluf.
      * <p>
-     * For details on how the widths of columns in the <code>JTable</code>
-     * (and <code>JTableHeader</code>) are calculated from the
-     * <code>preferredWidth</code>,
-     * see the <code>doLayout</code> method in <code>JTable</code>.
+     * For dftbils on iow tif widtis of dolumns in tif <dodf>JTbblf</dodf>
+     * (bnd <dodf>JTbblfHfbdfr</dodf>) brf dbldulbtfd from tif
+     * <dodf>prfffrrfdWidti</dodf>,
+     * sff tif <dodf>doLbyout</dodf> mftiod in <dodf>JTbblf</dodf>.
      *
-     * @param  preferredWidth the new preferred width
-     * @see     #getPreferredWidth
-     * @see     JTable#doLayout()
-     * @beaninfo
-     *  bound: true
-     *  description: The preferred width of the column.
+     * @pbrbm  prfffrrfdWidti tif nfw prfffrrfd widti
+     * @sff     #gftPrfffrrfdWidti
+     * @sff     JTbblf#doLbyout()
+     * @bfbninfo
+     *  bound: truf
+     *  dfsdription: Tif prfffrrfd widti of tif dolumn.
      */
-    public void setPreferredWidth(int preferredWidth) {
-        int old = this.preferredWidth;
-        this.preferredWidth = Math.min(Math.max(preferredWidth, minWidth), maxWidth);
-        firePropertyChange("preferredWidth", old, this.preferredWidth);
+    publid void sftPrfffrrfdWidti(int prfffrrfdWidti) {
+        int old = tiis.prfffrrfdWidti;
+        tiis.prfffrrfdWidti = Mbti.min(Mbti.mbx(prfffrrfdWidti, minWidti), mbxWidti);
+        firfPropfrtyCibngf("prfffrrfdWidti", old, tiis.prfffrrfdWidti);
     }
 
     /**
-     * Returns the preferred width of the <code>TableColumn</code>.
-     * The default preferred width is 75.
+     * Rfturns tif prfffrrfd widti of tif <dodf>TbblfColumn</dodf>.
+     * Tif dffbult prfffrrfd widti is 75.
      *
-     * @return  the <code>preferredWidth</code> property
-     * @see     #setPreferredWidth
+     * @rfturn  tif <dodf>prfffrrfdWidti</dodf> propfrty
+     * @sff     #sftPrfffrrfdWidti
      */
-    public int getPreferredWidth() {
-        return preferredWidth;
+    publid int gftPrfffrrfdWidti() {
+        rfturn prfffrrfdWidti;
     }
 
     /**
-     * Sets the <code>TableColumn</code>'s minimum width to
-     * <code>minWidth</code>,
-     * adjusting the new minimum width if necessary to ensure that
-     * 0 &lt;= <code>minWidth</code> &lt;= <code>maxWidth</code>.
-     * For example, if the <code>minWidth</code> argument is negative,
-     * this method sets the <code>minWidth</code> property to 0.
-     *
-     * <p>
-     * If the value of the
-     * <code>width</code> or <code>preferredWidth</code> property
-     * is less than the new minimum width,
-     * this method sets that property to the new minimum width.
-     *
-     * @param minWidth  the new minimum width
-     * @see     #getMinWidth
-     * @see     #setPreferredWidth
-     * @see     #setMaxWidth
-     * @beaninfo
-     *  bound: true
-     *  description: The minimum width of the column.
-     */
-    public void setMinWidth(int minWidth) {
-        int old = this.minWidth;
-        this.minWidth = Math.max(Math.min(minWidth, maxWidth), 0);
-        if (width < this.minWidth) {
-            setWidth(this.minWidth);
-        }
-        if (preferredWidth < this.minWidth) {
-            setPreferredWidth(this.minWidth);
-        }
-        firePropertyChange("minWidth", old, this.minWidth);
-    }
-
-    /**
-     * Returns the minimum width for the <code>TableColumn</code>. The
-     * <code>TableColumn</code>'s width can't be made less than this either
-     * by the user or programmatically.
-     *
-     * @return  the <code>minWidth</code> property
-     * @see     #setMinWidth
-     * @see     #TableColumn(int, int, TableCellRenderer, TableCellEditor)
-     */
-    public int getMinWidth() {
-        return minWidth;
-    }
-
-    /**
-     * Sets the <code>TableColumn</code>'s maximum width to
-     * <code>maxWidth</code> or,
-     * if <code>maxWidth</code> is less than the minimum width,
-     * to the minimum width.
+     * Sfts tif <dodf>TbblfColumn</dodf>'s minimum widti to
+     * <dodf>minWidti</dodf>,
+     * bdjusting tif nfw minimum widti if nfdfssbry to fnsurf tibt
+     * 0 &lt;= <dodf>minWidti</dodf> &lt;= <dodf>mbxWidti</dodf>.
+     * For fxbmplf, if tif <dodf>minWidti</dodf> brgumfnt is nfgbtivf,
+     * tiis mftiod sfts tif <dodf>minWidti</dodf> propfrty to 0.
      *
      * <p>
-     * If the value of the
-     * <code>width</code> or <code>preferredWidth</code> property
-     * is more than the new maximum width,
-     * this method sets that property to the new maximum width.
+     * If tif vbluf of tif
+     * <dodf>widti</dodf> or <dodf>prfffrrfdWidti</dodf> propfrty
+     * is lfss tibn tif nfw minimum widti,
+     * tiis mftiod sfts tibt propfrty to tif nfw minimum widti.
      *
-     * @param maxWidth  the new maximum width
-     * @see     #getMaxWidth
-     * @see     #setPreferredWidth
-     * @see     #setMinWidth
-     * @beaninfo
-     *  bound: true
-     *  description: The maximum width of the column.
+     * @pbrbm minWidti  tif nfw minimum widti
+     * @sff     #gftMinWidti
+     * @sff     #sftPrfffrrfdWidti
+     * @sff     #sftMbxWidti
+     * @bfbninfo
+     *  bound: truf
+     *  dfsdription: Tif minimum widti of tif dolumn.
      */
-    public void setMaxWidth(int maxWidth) {
-        int old = this.maxWidth;
-        this.maxWidth = Math.max(minWidth, maxWidth);
-        if (width > this.maxWidth) {
-            setWidth(this.maxWidth);
+    publid void sftMinWidti(int minWidti) {
+        int old = tiis.minWidti;
+        tiis.minWidti = Mbti.mbx(Mbti.min(minWidti, mbxWidti), 0);
+        if (widti < tiis.minWidti) {
+            sftWidti(tiis.minWidti);
         }
-        if (preferredWidth > this.maxWidth) {
-            setPreferredWidth(this.maxWidth);
+        if (prfffrrfdWidti < tiis.minWidti) {
+            sftPrfffrrfdWidti(tiis.minWidti);
         }
-        firePropertyChange("maxWidth", old, this.maxWidth);
+        firfPropfrtyCibngf("minWidti", old, tiis.minWidti);
     }
 
     /**
-     * Returns the maximum width for the <code>TableColumn</code>. The
-     * <code>TableColumn</code>'s width can't be made larger than this
-     * either by the user or programmatically.  The default maxWidth
-     * is Integer.MAX_VALUE.
+     * Rfturns tif minimum widti for tif <dodf>TbblfColumn</dodf>. Tif
+     * <dodf>TbblfColumn</dodf>'s widti dbn't bf mbdf lfss tibn tiis fitifr
+     * by tif usfr or progrbmmbtidblly.
      *
-     * @return  the <code>maxWidth</code> property
-     * @see     #setMaxWidth
+     * @rfturn  tif <dodf>minWidti</dodf> propfrty
+     * @sff     #sftMinWidti
+     * @sff     #TbblfColumn(int, int, TbblfCfllRfndfrfr, TbblfCfllEditor)
      */
-    public int getMaxWidth() {
-        return maxWidth;
+    publid int gftMinWidti() {
+        rfturn minWidti;
     }
 
     /**
-     * Sets whether this column can be resized.
+     * Sfts tif <dodf>TbblfColumn</dodf>'s mbximum widti to
+     * <dodf>mbxWidti</dodf> or,
+     * if <dodf>mbxWidti</dodf> is lfss tibn tif minimum widti,
+     * to tif minimum widti.
      *
-     * @param isResizable  if true, resizing is allowed; otherwise false
-     * @see     #getResizable
-     * @beaninfo
-     *  bound: true
-     *  description: Whether or not this column can be resized.
-     */
-    public void setResizable(boolean isResizable) {
-        boolean old = this.isResizable;
-        this.isResizable = isResizable;
-        firePropertyChange("isResizable", old, this.isResizable);
-    }
-
-    /**
-     * Returns true if the user is allowed to resize the
-     * <code>TableColumn</code>'s
-     * width, false otherwise. You can change the width programmatically
-     * regardless of this setting.  The default is true.
+     * <p>
+     * If tif vbluf of tif
+     * <dodf>widti</dodf> or <dodf>prfffrrfdWidti</dodf> propfrty
+     * is morf tibn tif nfw mbximum widti,
+     * tiis mftiod sfts tibt propfrty to tif nfw mbximum widti.
      *
-     * @return  the <code>isResizable</code> property
-     * @see     #setResizable
+     * @pbrbm mbxWidti  tif nfw mbximum widti
+     * @sff     #gftMbxWidti
+     * @sff     #sftPrfffrrfdWidti
+     * @sff     #sftMinWidti
+     * @bfbninfo
+     *  bound: truf
+     *  dfsdription: Tif mbximum widti of tif dolumn.
      */
-    public boolean getResizable() {
-        return isResizable;
-    }
-
-    /**
-     * Resizes the <code>TableColumn</code> to fit the width of its header cell.
-     * This method does nothing if the header renderer is <code>null</code>
-     * (the default case). Otherwise, it sets the minimum, maximum and preferred
-     * widths of this column to the widths of the minimum, maximum and preferred
-     * sizes of the Component delivered by the header renderer.
-     * The transient "width" property of this TableColumn is also set to the
-     * preferred width. Note this method is not used internally by the table
-     * package.
-     *
-     * @see     #setPreferredWidth
-     */
-    public void sizeWidthToFit() {
-        if (headerRenderer == null) {
-            return;
+    publid void sftMbxWidti(int mbxWidti) {
+        int old = tiis.mbxWidti;
+        tiis.mbxWidti = Mbti.mbx(minWidti, mbxWidti);
+        if (widti > tiis.mbxWidti) {
+            sftWidti(tiis.mbxWidti);
         }
-        Component c = headerRenderer.getTableCellRendererComponent(null,
-                                getHeaderValue(), false, false, 0, 0);
-
-        setMinWidth(c.getMinimumSize().width);
-        setMaxWidth(c.getMaximumSize().width);
-        setPreferredWidth(c.getPreferredSize().width);
-
-        setWidth(getPreferredWidth());
+        if (prfffrrfdWidti > tiis.mbxWidti) {
+            sftPrfffrrfdWidti(tiis.mbxWidti);
+        }
+        firfPropfrtyCibngf("mbxWidti", old, tiis.mbxWidti);
     }
 
     /**
-     * This field was not used in previous releases and there are
-     * currently no plans to support it in the future.
+     * Rfturns tif mbximum widti for tif <dodf>TbblfColumn</dodf>. Tif
+     * <dodf>TbblfColumn</dodf>'s widti dbn't bf mbdf lbrgfr tibn tiis
+     * fitifr by tif usfr or progrbmmbtidblly.  Tif dffbult mbxWidti
+     * is Intfgfr.MAX_VALUE.
      *
-     * @deprecated as of Java 2 platform v1.3
+     * @rfturn  tif <dodf>mbxWidti</dodf> propfrty
+     * @sff     #sftMbxWidti
      */
-    @Deprecated
-    public void disableResizedPosting() {
-        resizedPostingDisableCount++;
+    publid int gftMbxWidti() {
+        rfturn mbxWidti;
     }
 
     /**
-     * This field was not used in previous releases and there are
-     * currently no plans to support it in the future.
+     * Sfts wiftifr tiis dolumn dbn bf rfsizfd.
      *
-     * @deprecated as of Java 2 platform v1.3
+     * @pbrbm isRfsizbblf  if truf, rfsizing is bllowfd; otifrwisf fblsf
+     * @sff     #gftRfsizbblf
+     * @bfbninfo
+     *  bound: truf
+     *  dfsdription: Wiftifr or not tiis dolumn dbn bf rfsizfd.
      */
-    @Deprecated
-    public void enableResizedPosting() {
-        resizedPostingDisableCount--;
+    publid void sftRfsizbblf(boolfbn isRfsizbblf) {
+        boolfbn old = tiis.isRfsizbblf;
+        tiis.isRfsizbblf = isRfsizbblf;
+        firfPropfrtyCibngf("isRfsizbblf", old, tiis.isRfsizbblf);
+    }
+
+    /**
+     * Rfturns truf if tif usfr is bllowfd to rfsizf tif
+     * <dodf>TbblfColumn</dodf>'s
+     * widti, fblsf otifrwisf. You dbn dibngf tif widti progrbmmbtidblly
+     * rfgbrdlfss of tiis sftting.  Tif dffbult is truf.
+     *
+     * @rfturn  tif <dodf>isRfsizbblf</dodf> propfrty
+     * @sff     #sftRfsizbblf
+     */
+    publid boolfbn gftRfsizbblf() {
+        rfturn isRfsizbblf;
+    }
+
+    /**
+     * Rfsizfs tif <dodf>TbblfColumn</dodf> to fit tif widti of its ifbdfr dfll.
+     * Tiis mftiod dofs notiing if tif ifbdfr rfndfrfr is <dodf>null</dodf>
+     * (tif dffbult dbsf). Otifrwisf, it sfts tif minimum, mbximum bnd prfffrrfd
+     * widtis of tiis dolumn to tif widtis of tif minimum, mbximum bnd prfffrrfd
+     * sizfs of tif Componfnt dflivfrfd by tif ifbdfr rfndfrfr.
+     * Tif trbnsifnt "widti" propfrty of tiis TbblfColumn is blso sft to tif
+     * prfffrrfd widti. Notf tiis mftiod is not usfd intfrnblly by tif tbblf
+     * pbdkbgf.
+     *
+     * @sff     #sftPrfffrrfdWidti
+     */
+    publid void sizfWidtiToFit() {
+        if (ifbdfrRfndfrfr == null) {
+            rfturn;
+        }
+        Componfnt d = ifbdfrRfndfrfr.gftTbblfCfllRfndfrfrComponfnt(null,
+                                gftHfbdfrVbluf(), fblsf, fblsf, 0, 0);
+
+        sftMinWidti(d.gftMinimumSizf().widti);
+        sftMbxWidti(d.gftMbximumSizf().widti);
+        sftPrfffrrfdWidti(d.gftPrfffrrfdSizf().widti);
+
+        sftWidti(gftPrfffrrfdWidti());
+    }
+
+    /**
+     * Tiis fifld wbs not usfd in prfvious rflfbsfs bnd tifrf brf
+     * durrfntly no plbns to support it in tif futurf.
+     *
+     * @dfprfdbtfd bs of Jbvb 2 plbtform v1.3
+     */
+    @Dfprfdbtfd
+    publid void disbblfRfsizfdPosting() {
+        rfsizfdPostingDisbblfCount++;
+    }
+
+    /**
+     * Tiis fifld wbs not usfd in prfvious rflfbsfs bnd tifrf brf
+     * durrfntly no plbns to support it in tif futurf.
+     *
+     * @dfprfdbtfd bs of Jbvb 2 plbtform v1.3
+     */
+    @Dfprfdbtfd
+    publid void fnbblfRfsizfdPosting() {
+        rfsizfdPostingDisbblfCount--;
     }
 
 //
-// Property Change Support
+// Propfrty Cibngf Support
 //
 
     /**
-     * Adds a <code>PropertyChangeListener</code> to the listener list.
-     * The listener is registered for all properties.
+     * Adds b <dodf>PropfrtyCibngfListfnfr</dodf> to tif listfnfr list.
+     * Tif listfnfr is rfgistfrfd for bll propfrtifs.
      * <p>
-     * A <code>PropertyChangeEvent</code> will get fired in response to an
-     * explicit call to <code>setFont</code>, <code>setBackground</code>,
-     * or <code>setForeground</code> on the
-     * current component.  Note that if the current component is
-     * inheriting its foreground, background, or font from its
-     * container, then no event will be fired in response to a
-     * change in the inherited property.
+     * A <dodf>PropfrtyCibngfEvfnt</dodf> will gft firfd in rfsponsf to bn
+     * fxplidit dbll to <dodf>sftFont</dodf>, <dodf>sftBbdkground</dodf>,
+     * or <dodf>sftForfground</dodf> on tif
+     * durrfnt domponfnt.  Notf tibt if tif durrfnt domponfnt is
+     * inifriting its forfground, bbdkground, or font from its
+     * dontbinfr, tifn no fvfnt will bf firfd in rfsponsf to b
+     * dibngf in tif inifritfd propfrty.
      *
-     * @param listener  the listener to be added
+     * @pbrbm listfnfr  tif listfnfr to bf bddfd
      *
      */
-    public synchronized void addPropertyChangeListener(
-                                PropertyChangeListener listener) {
-        if (changeSupport == null) {
-            changeSupport = new SwingPropertyChangeSupport(this);
+    publid syndironizfd void bddPropfrtyCibngfListfnfr(
+                                PropfrtyCibngfListfnfr listfnfr) {
+        if (dibngfSupport == null) {
+            dibngfSupport = nfw SwingPropfrtyCibngfSupport(tiis);
         }
-        changeSupport.addPropertyChangeListener(listener);
+        dibngfSupport.bddPropfrtyCibngfListfnfr(listfnfr);
     }
 
     /**
-     * Removes a <code>PropertyChangeListener</code> from the listener list.
-     * The <code>PropertyChangeListener</code> to be removed was registered
-     * for all properties.
+     * Rfmovfs b <dodf>PropfrtyCibngfListfnfr</dodf> from tif listfnfr list.
+     * Tif <dodf>PropfrtyCibngfListfnfr</dodf> to bf rfmovfd wbs rfgistfrfd
+     * for bll propfrtifs.
      *
-     * @param listener  the listener to be removed
+     * @pbrbm listfnfr  tif listfnfr to bf rfmovfd
      *
      */
 
-    public synchronized void removePropertyChangeListener(
-                                PropertyChangeListener listener) {
-        if (changeSupport != null) {
-            changeSupport.removePropertyChangeListener(listener);
+    publid syndironizfd void rfmovfPropfrtyCibngfListfnfr(
+                                PropfrtyCibngfListfnfr listfnfr) {
+        if (dibngfSupport != null) {
+            dibngfSupport.rfmovfPropfrtyCibngfListfnfr(listfnfr);
         }
     }
 
     /**
-     * Returns an array of all the <code>PropertyChangeListener</code>s added
-     * to this TableColumn with addPropertyChangeListener().
+     * Rfturns bn brrby of bll tif <dodf>PropfrtyCibngfListfnfr</dodf>s bddfd
+     * to tiis TbblfColumn witi bddPropfrtyCibngfListfnfr().
      *
-     * @return all of the <code>PropertyChangeListener</code>s added or an empty
-     *         array if no listeners have been added
-     * @since 1.4
+     * @rfturn bll of tif <dodf>PropfrtyCibngfListfnfr</dodf>s bddfd or bn fmpty
+     *         brrby if no listfnfrs ibvf bffn bddfd
+     * @sindf 1.4
      */
-    public synchronized PropertyChangeListener[] getPropertyChangeListeners() {
-        if (changeSupport == null) {
-            return new PropertyChangeListener[0];
+    publid syndironizfd PropfrtyCibngfListfnfr[] gftPropfrtyCibngfListfnfrs() {
+        if (dibngfSupport == null) {
+            rfturn nfw PropfrtyCibngfListfnfr[0];
         }
-        return changeSupport.getPropertyChangeListeners();
+        rfturn dibngfSupport.gftPropfrtyCibngfListfnfrs();
     }
 
 //
-// Protected Methods
+// Protfdtfd Mftiods
 //
 
     /**
-     * As of Java 2 platform v1.3, this method is not called by the <code>TableColumn</code>
-     * constructor.  Previously this method was used by the
-     * <code>TableColumn</code> to create a default header renderer.
-     * As of Java 2 platform v1.3, the default header renderer is <code>null</code>.
-     * <code>JTableHeader</code> now provides its own shared default
-     * renderer, just as the <code>JTable</code> does for its cell renderers.
+     * As of Jbvb 2 plbtform v1.3, tiis mftiod is not dbllfd by tif <dodf>TbblfColumn</dodf>
+     * donstrudtor.  Prfviously tiis mftiod wbs usfd by tif
+     * <dodf>TbblfColumn</dodf> to drfbtf b dffbult ifbdfr rfndfrfr.
+     * As of Jbvb 2 plbtform v1.3, tif dffbult ifbdfr rfndfrfr is <dodf>null</dodf>.
+     * <dodf>JTbblfHfbdfr</dodf> now providfs its own sibrfd dffbult
+     * rfndfrfr, just bs tif <dodf>JTbblf</dodf> dofs for its dfll rfndfrfrs.
      *
-     * @return the default header renderer
-     * @see javax.swing.table.JTableHeader#createDefaultRenderer()
+     * @rfturn tif dffbult ifbdfr rfndfrfr
+     * @sff jbvbx.swing.tbblf.JTbblfHfbdfr#drfbtfDffbultRfndfrfr()
      */
-    protected TableCellRenderer createDefaultHeaderRenderer() {
-        DefaultTableCellRenderer label = new DefaultTableCellRenderer() {
-            public Component getTableCellRendererComponent(JTable table, Object value,
-                         boolean isSelected, boolean hasFocus, int row, int column) {
-                if (table != null) {
-                    JTableHeader header = table.getTableHeader();
-                    if (header != null) {
-                        setForeground(header.getForeground());
-                        setBackground(header.getBackground());
-                        setFont(header.getFont());
+    protfdtfd TbblfCfllRfndfrfr drfbtfDffbultHfbdfrRfndfrfr() {
+        DffbultTbblfCfllRfndfrfr lbbfl = nfw DffbultTbblfCfllRfndfrfr() {
+            publid Componfnt gftTbblfCfllRfndfrfrComponfnt(JTbblf tbblf, Objfdt vbluf,
+                         boolfbn isSflfdtfd, boolfbn ibsFodus, int row, int dolumn) {
+                if (tbblf != null) {
+                    JTbblfHfbdfr ifbdfr = tbblf.gftTbblfHfbdfr();
+                    if (ifbdfr != null) {
+                        sftForfground(ifbdfr.gftForfground());
+                        sftBbdkground(ifbdfr.gftBbdkground());
+                        sftFont(ifbdfr.gftFont());
                     }
                 }
 
-                setText((value == null) ? "" : value.toString());
-                setBorder(UIManager.getBorder("TableHeader.cellBorder"));
-                return this;
+                sftTfxt((vbluf == null) ? "" : vbluf.toString());
+                sftBordfr(UIMbnbgfr.gftBordfr("TbblfHfbdfr.dfllBordfr"));
+                rfturn tiis;
             }
         };
-        label.setHorizontalAlignment(JLabel.CENTER);
-        return label;
+        lbbfl.sftHorizontblAlignmfnt(JLbbfl.CENTER);
+        rfturn lbbfl;
     }
 
-} // End of class TableColumn
+} // End of dlbss TbblfColumn

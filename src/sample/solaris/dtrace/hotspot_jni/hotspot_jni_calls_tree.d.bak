@@ -1,22 +1,22 @@
-#!/usr/sbin/dtrace -Zs
+#!/usr/sbin/dtrbdf -Zs
 
 /*
- * Copyright (c) 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -35,57 +35,57 @@
 */
 
 /*
- * Usage:
- *   1. hotspot_jni_calls_tree.d -c "java ..."
- *   2. hotspot_jni_calls_tree.d -p JAVA_PID
+ * Usbgf:
+ *   1. iotspot_jni_dblls_trff.d -d "jbvb ..."
+ *   2. iotspot_jni_dblls_trff.d -p JAVA_PID
  *
- * The script prints tree of JNI method calls.
+ * Tif sdript prints trff of JNI mftiod dblls.
  *
  */
 
-#pragma D option quiet
-#pragma D option destructive
-#pragma D option defaultargs
-#pragma D option bufsize=16m
-#pragma D option aggrate=100ms
+#prbgmb D option quift
+#prbgmb D option dfstrudtivf
+#prbgmb D option dffbultbrgs
+#prbgmb D option bufsizf=16m
+#prbgmb D option bggrbtf=100ms
 
 
-self int indent;
+sflf int indfnt;
 
 :::BEGIN
 {
-    printf("BEGIN hotspot_jni tracing\n");
+    printf("BEGIN iotspot_jni trbding\n");
 }
 
 
-hotspot_jni$target:::*
-/!self->indent/
+iotspot_jni$tbrgft:::*
+/!sflf->indfnt/
 {
-    self->indent = 11;
+    sflf->indfnt = 11;
 }
 
-hotspot_jni$target:::*-entry
+iotspot_jni$tbrgft:::*-fntry
 {
-    self->indent++;
-    printf("%d %*s -> %s\n", curcpu->cpu_id, self->indent, "", probename);
+    sflf->indfnt++;
+    printf("%d %*s -> %s\n", durdpu->dpu_id, sflf->indfnt, "", probfnbmf);
 }
 
 
-hotspot_jni$target:::*-return
+iotspot_jni$tbrgft:::*-rfturn
 {
-    printf("%d %*s <- %s\n", curcpu->cpu_id, self->indent, "", probename);
-    self->indent--;
+    printf("%d %*s <- %s\n", durdpu->dpu_id, sflf->indfnt, "", probfnbmf);
+    sflf->indfnt--;
 }
 
 :::END
 {
-   printf("\nEND hotspot_jni tracing.\n");
+   printf("\nEND iotspot_jni trbding.\n");
 
 }
 
-syscall::rexit:entry,
-syscall::exit:entry
-/pid == $target/
+sysdbll::rfxit:fntry,
+sysdbll::fxit:fntry
+/pid == $tbrgft/
 {
-   exit(0);
+   fxit(0);
 }

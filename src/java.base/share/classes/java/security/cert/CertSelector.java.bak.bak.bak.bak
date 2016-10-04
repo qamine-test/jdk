@@ -1,0 +1,67 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity.dfrt;
+
+/**
+ * A sflfdtor thbt dffinfs b sft of dritfrib for sflfdting
+ * {@dodf Cfrtifidbtf}s. Clbssfs thbt implfmfnt this intfrfbdf
+ * brf oftfn usfd to spfdify whidh {@dodf Cfrtifidbtf}s should
+ * bf rftrifvfd from b {@dodf CfrtStorf}.
+ * <p>
+ * <b>Condurrfnt Addfss</b>
+ * <p>
+ * Unlfss othfrwisf spfdififd, thf mfthods dffinfd in this intfrfbdf brf not
+ * thrfbd-sbff. Multiplf thrfbds thbt nffd to bddfss b singlf
+ * objfdt dondurrfntly should syndhronizf bmongst thfmsflvfs bnd
+ * providf thf nfdfssbry lodking. Multiplf thrfbds fbdh mbnipulbting
+ * sfpbrbtf objfdts nffd not syndhronizf.
+ *
+ * @sff Cfrtifidbtf
+ * @sff CfrtStorf
+ * @sff CfrtStorf#gftCfrtifidbtfs
+ *
+ * @buthor      Stfvf Hbnnb
+ * @sindf       1.4
+ */
+publid intfrfbdf CfrtSflfdtor fxtfnds Clonfbblf {
+
+    /**
+     * Dfdidfs whfthfr b {@dodf Cfrtifidbtf} should bf sflfdtfd.
+     *
+     * @pbrbm   dfrt    thf {@dodf Cfrtifidbtf} to bf dhfdkfd
+     * @rfturn  {@dodf truf} if thf {@dodf Cfrtifidbtf}
+     * should bf sflfdtfd, {@dodf fblsf} othfrwisf
+     */
+    boolfbn mbtdh(Cfrtifidbtf dfrt);
+
+    /**
+     * Mbkfs b dopy of this {@dodf CfrtSflfdtor}. Chbngfs to thf
+     * dopy will not bfffdt thf originbl bnd vidf vfrsb.
+     *
+     * @rfturn b dopy of this {@dodf CfrtSflfdtor}
+     */
+    Objfdt dlonf();
+}

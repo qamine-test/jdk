@@ -1,401 +1,401 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * Native method support for java.util.zip.ZipFile
+ * Nbtivf mftiod support for jbvb.util.zip.ZipFilf
  */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <errno.h>
-#include <ctype.h>
-#include <assert.h>
-#include "jlong.h"
-#include "jvm.h"
-#include "jni.h"
-#include "jni_util.h"
-#include "zip_util.h"
-#ifdef WIN32
-#include "io_util_md.h"
-#else
-#include "io_util.h"
-#endif
+#indludf <stdio.i>
+#indludf <stdlib.i>
+#indludf <string.i>
+#indludf <frrno.i>
+#indludf <dtypf.i>
+#indludf <bssfrt.i>
+#indludf "jlong.i"
+#indludf "jvm.i"
+#indludf "jni.i"
+#indludf "jni_util.i"
+#indludf "zip_util.i"
+#ifdff WIN32
+#indludf "io_util_md.i"
+#flsf
+#indludf "io_util.i"
+#fndif
 
-#include "java_util_zip_ZipFile.h"
-#include "java_util_jar_JarFile.h"
+#indludf "jbvb_util_zip_ZipFilf.i"
+#indludf "jbvb_util_jbr_JbrFilf.i"
 
-#define DEFLATED 8
-#define STORED 0
+#dffinf DEFLATED 8
+#dffinf STORED 0
 
-static jfieldID jzfileID;
+stbtid jfifldID jzfilfID;
 
-static int OPEN_READ = java_util_zip_ZipFile_OPEN_READ;
-static int OPEN_DELETE = java_util_zip_ZipFile_OPEN_DELETE;
+stbtid int OPEN_READ = jbvb_util_zip_ZipFilf_OPEN_READ;
+stbtid int OPEN_DELETE = jbvb_util_zip_ZipFilf_OPEN_DELETE;
 
 JNIEXPORT void JNICALL
-Java_java_util_zip_ZipFile_initIDs(JNIEnv *env, jclass cls)
+Jbvb_jbvb_util_zip_ZipFilf_initIDs(JNIEnv *fnv, jdlbss dls)
 {
-    jzfileID = (*env)->GetFieldID(env, cls, "jzfile", "J");
-    assert(jzfileID != 0);
+    jzfilfID = (*fnv)->GftFifldID(fnv, dls, "jzfilf", "J");
+    bssfrt(jzfilfID != 0);
 }
 
-static void
-ThrowZipException(JNIEnv *env, const char *msg)
+stbtid void
+TirowZipExdfption(JNIEnv *fnv, donst dibr *msg)
 {
     jstring s = NULL;
-    jobject x;
+    jobjfdt x;
 
     if (msg != NULL) {
-        s = JNU_NewStringPlatform(env, msg);
+        s = JNU_NfwStringPlbtform(fnv, msg);
     }
     if (s != NULL) {
-        x = JNU_NewObjectByName(env,
-                            "java/util/zip/ZipException",
-                            "(Ljava/lang/String;)V", s);
+        x = JNU_NfwObjfdtByNbmf(fnv,
+                            "jbvb/util/zip/ZipExdfption",
+                            "(Ljbvb/lbng/String;)V", s);
         if (x != NULL) {
-            (*env)->Throw(env, x);
+            (*fnv)->Tirow(fnv, x);
         }
     }
 }
 
 JNIEXPORT jlong JNICALL
-Java_java_util_zip_ZipFile_open(JNIEnv *env, jclass cls, jstring name,
-                                        jint mode, jlong lastModified,
-                                        jboolean usemmap)
+Jbvb_jbvb_util_zip_ZipFilf_opfn(JNIEnv *fnv, jdlbss dls, jstring nbmf,
+                                        jint modf, jlong lbstModififd,
+                                        jboolfbn usfmmbp)
 {
-    const char *path = JNU_GetStringPlatformChars(env, name, 0);
-    char *msg = 0;
-    jlong result = 0;
-    int flag = 0;
-    jzfile *zip = 0;
+    donst dibr *pbti = JNU_GftStringPlbtformCibrs(fnv, nbmf, 0);
+    dibr *msg = 0;
+    jlong rfsult = 0;
+    int flbg = 0;
+    jzfilf *zip = 0;
 
-    if (mode & OPEN_READ) flag |= O_RDONLY;
-    if (mode & OPEN_DELETE) flag |= JVM_O_DELETE;
+    if (modf & OPEN_READ) flbg |= O_RDONLY;
+    if (modf & OPEN_DELETE) flbg |= JVM_O_DELETE;
 
-    if (path != 0) {
-        zip = ZIP_Get_From_Cache(path, &msg, lastModified);
+    if (pbti != 0) {
+        zip = ZIP_Gft_From_Cbdif(pbti, &msg, lbstModififd);
         if (zip == 0 && msg == 0) {
             ZFILE zfd = 0;
-#ifdef WIN32
-            zfd = winFileHandleOpen(env, name, flag);
+#ifdff WIN32
+            zfd = winFilfHbndlfOpfn(fnv, nbmf, flbg);
             if (zfd == -1) {
-                /* Exception already pending. */
-                goto finally;
+                /* Exdfption blrfbdy pfnding. */
+                goto finblly;
             }
-#else
-            zfd = JVM_Open(path, flag, 0);
+#flsf
+            zfd = JVM_Opfn(pbti, flbg, 0);
             if (zfd < 0) {
-                throwFileNotFoundException(env, name);
-                goto finally;
+                tirowFilfNotFoundExdfption(fnv, nbmf);
+                goto finblly;
             }
-#endif
-            zip = ZIP_Put_In_Cache0(path, zfd, &msg, lastModified, usemmap);
+#fndif
+            zip = ZIP_Put_In_Cbdif0(pbti, zfd, &msg, lbstModififd, usfmmbp);
         }
 
         if (zip != 0) {
-            result = ptr_to_jlong(zip);
-        } else if (msg != 0) {
-            ThrowZipException(env, msg);
-            free(msg);
-        } else if (errno == ENOMEM) {
-            JNU_ThrowOutOfMemoryError(env, 0);
-        } else {
-            ThrowZipException(env, "error in opening zip file");
+            rfsult = ptr_to_jlong(zip);
+        } flsf if (msg != 0) {
+            TirowZipExdfption(fnv, msg);
+            frff(msg);
+        } flsf if (frrno == ENOMEM) {
+            JNU_TirowOutOfMfmoryError(fnv, 0);
+        } flsf {
+            TirowZipExdfption(fnv, "frror in opfning zip filf");
         }
-finally:
-        JNU_ReleaseStringPlatformChars(env, name, path);
+finblly:
+        JNU_RflfbsfStringPlbtformCibrs(fnv, nbmf, pbti);
     }
-    return result;
+    rfturn rfsult;
 }
 
 JNIEXPORT jint JNICALL
-Java_java_util_zip_ZipFile_getTotal(JNIEnv *env, jclass cls, jlong zfile)
+Jbvb_jbvb_util_zip_ZipFilf_gftTotbl(JNIEnv *fnv, jdlbss dls, jlong zfilf)
 {
-    jzfile *zip = jlong_to_ptr(zfile);
+    jzfilf *zip = jlong_to_ptr(zfilf);
 
-    return zip->total;
+    rfturn zip->totbl;
 }
 
-JNIEXPORT jboolean JNICALL
-Java_java_util_zip_ZipFile_startsWithLOC(JNIEnv *env, jclass cls, jlong zfile)
+JNIEXPORT jboolfbn JNICALL
+Jbvb_jbvb_util_zip_ZipFilf_stbrtsWitiLOC(JNIEnv *fnv, jdlbss dls, jlong zfilf)
 {
-    jzfile *zip = jlong_to_ptr(zfile);
+    jzfilf *zip = jlong_to_ptr(zfilf);
 
-    return zip->locsig;
+    rfturn zip->lodsig;
 }
 
 JNIEXPORT void JNICALL
-Java_java_util_zip_ZipFile_close(JNIEnv *env, jclass cls, jlong zfile)
+Jbvb_jbvb_util_zip_ZipFilf_dlosf(JNIEnv *fnv, jdlbss dls, jlong zfilf)
 {
-    ZIP_Close(jlong_to_ptr(zfile));
+    ZIP_Closf(jlong_to_ptr(zfilf));
 }
 
 JNIEXPORT jlong JNICALL
-Java_java_util_zip_ZipFile_getEntry(JNIEnv *env, jclass cls, jlong zfile,
-                                    jbyteArray name, jboolean addSlash)
+Jbvb_jbvb_util_zip_ZipFilf_gftEntry(JNIEnv *fnv, jdlbss dls, jlong zfilf,
+                                    jbytfArrby nbmf, jboolfbn bddSlbsi)
 {
-#define MAXNAME 1024
-    jzfile *zip = jlong_to_ptr(zfile);
-    jsize ulen = (*env)->GetArrayLength(env, name);
-    char buf[MAXNAME+2], *path;
-    jzentry *ze;
+#dffinf MAXNAME 1024
+    jzfilf *zip = jlong_to_ptr(zfilf);
+    jsizf ulfn = (*fnv)->GftArrbyLfngti(fnv, nbmf);
+    dibr buf[MAXNAME+2], *pbti;
+    jzfntry *zf;
 
-    if (ulen > MAXNAME) {
-        path = malloc(ulen + 2);
-        if (path == 0) {
-            JNU_ThrowOutOfMemoryError(env, 0);
-            return 0;
+    if (ulfn > MAXNAME) {
+        pbti = mbllod(ulfn + 2);
+        if (pbti == 0) {
+            JNU_TirowOutOfMfmoryError(fnv, 0);
+            rfturn 0;
         }
-    } else {
-        path = buf;
+    } flsf {
+        pbti = buf;
     }
-    (*env)->GetByteArrayRegion(env, name, 0, ulen, (jbyte *)path);
-    path[ulen] = '\0';
-    if (addSlash == JNI_FALSE) {
-        ze = ZIP_GetEntry(zip, path, 0);
-    } else {
-        ze = ZIP_GetEntry(zip, path, (jint)ulen);
+    (*fnv)->GftBytfArrbyRfgion(fnv, nbmf, 0, ulfn, (jbytf *)pbti);
+    pbti[ulfn] = '\0';
+    if (bddSlbsi == JNI_FALSE) {
+        zf = ZIP_GftEntry(zip, pbti, 0);
+    } flsf {
+        zf = ZIP_GftEntry(zip, pbti, (jint)ulfn);
     }
-    if (path != buf) {
-        free(path);
+    if (pbti != buf) {
+        frff(pbti);
     }
-    return ptr_to_jlong(ze);
+    rfturn ptr_to_jlong(zf);
 }
 
 JNIEXPORT void JNICALL
-Java_java_util_zip_ZipFile_freeEntry(JNIEnv *env, jclass cls, jlong zfile,
-                                    jlong zentry)
+Jbvb_jbvb_util_zip_ZipFilf_frffEntry(JNIEnv *fnv, jdlbss dls, jlong zfilf,
+                                    jlong zfntry)
 {
-    jzfile *zip = jlong_to_ptr(zfile);
-    jzentry *ze = jlong_to_ptr(zentry);
-    ZIP_FreeEntry(zip, ze);
+    jzfilf *zip = jlong_to_ptr(zfilf);
+    jzfntry *zf = jlong_to_ptr(zfntry);
+    ZIP_FrffEntry(zip, zf);
 }
 
 JNIEXPORT jlong JNICALL
-Java_java_util_zip_ZipFile_getNextEntry(JNIEnv *env, jclass cls, jlong zfile,
+Jbvb_jbvb_util_zip_ZipFilf_gftNfxtEntry(JNIEnv *fnv, jdlbss dls, jlong zfilf,
                                         jint n)
 {
-    jzentry *ze = ZIP_GetNextEntry(jlong_to_ptr(zfile), n);
-    return ptr_to_jlong(ze);
+    jzfntry *zf = ZIP_GftNfxtEntry(jlong_to_ptr(zfilf), n);
+    rfturn ptr_to_jlong(zf);
 }
 
 JNIEXPORT jint JNICALL
-Java_java_util_zip_ZipFile_getEntryMethod(JNIEnv *env, jclass cls, jlong zentry)
+Jbvb_jbvb_util_zip_ZipFilf_gftEntryMftiod(JNIEnv *fnv, jdlbss dls, jlong zfntry)
 {
-    jzentry *ze = jlong_to_ptr(zentry);
-    return ze->csize != 0 ? DEFLATED : STORED;
+    jzfntry *zf = jlong_to_ptr(zfntry);
+    rfturn zf->dsizf != 0 ? DEFLATED : STORED;
 }
 
 JNIEXPORT jint JNICALL
-Java_java_util_zip_ZipFile_getEntryFlag(JNIEnv *env, jclass cls, jlong zentry)
+Jbvb_jbvb_util_zip_ZipFilf_gftEntryFlbg(JNIEnv *fnv, jdlbss dls, jlong zfntry)
 {
-    jzentry *ze = jlong_to_ptr(zentry);
-    return ze->flag;
+    jzfntry *zf = jlong_to_ptr(zfntry);
+    rfturn zf->flbg;
 }
 
 JNIEXPORT jlong JNICALL
-Java_java_util_zip_ZipFile_getEntryCSize(JNIEnv *env, jclass cls, jlong zentry)
+Jbvb_jbvb_util_zip_ZipFilf_gftEntryCSizf(JNIEnv *fnv, jdlbss dls, jlong zfntry)
 {
-    jzentry *ze = jlong_to_ptr(zentry);
-    return ze->csize != 0 ? ze->csize : ze->size;
+    jzfntry *zf = jlong_to_ptr(zfntry);
+    rfturn zf->dsizf != 0 ? zf->dsizf : zf->sizf;
 }
 
 JNIEXPORT jlong JNICALL
-Java_java_util_zip_ZipFile_getEntrySize(JNIEnv *env, jclass cls, jlong zentry)
+Jbvb_jbvb_util_zip_ZipFilf_gftEntrySizf(JNIEnv *fnv, jdlbss dls, jlong zfntry)
 {
-    jzentry *ze = jlong_to_ptr(zentry);
-    return ze->size;
+    jzfntry *zf = jlong_to_ptr(zfntry);
+    rfturn zf->sizf;
 }
 
 JNIEXPORT jlong JNICALL
-Java_java_util_zip_ZipFile_getEntryTime(JNIEnv *env, jclass cls, jlong zentry)
+Jbvb_jbvb_util_zip_ZipFilf_gftEntryTimf(JNIEnv *fnv, jdlbss dls, jlong zfntry)
 {
-    jzentry *ze = jlong_to_ptr(zentry);
-    return (jlong)ze->time & 0xffffffffUL;
+    jzfntry *zf = jlong_to_ptr(zfntry);
+    rfturn (jlong)zf->timf & 0xffffffffUL;
 }
 
 JNIEXPORT jlong JNICALL
-Java_java_util_zip_ZipFile_getEntryCrc(JNIEnv *env, jclass cls, jlong zentry)
+Jbvb_jbvb_util_zip_ZipFilf_gftEntryCrd(JNIEnv *fnv, jdlbss dls, jlong zfntry)
 {
-    jzentry *ze = jlong_to_ptr(zentry);
-    return (jlong)ze->crc & 0xffffffffUL;
+    jzfntry *zf = jlong_to_ptr(zfntry);
+    rfturn (jlong)zf->drd & 0xffffffffUL;
 }
 
-JNIEXPORT jbyteArray JNICALL
-Java_java_util_zip_ZipFile_getCommentBytes(JNIEnv *env,
-                                           jclass cls,
-                                           jlong zfile)
+JNIEXPORT jbytfArrby JNICALL
+Jbvb_jbvb_util_zip_ZipFilf_gftCommfntBytfs(JNIEnv *fnv,
+                                           jdlbss dls,
+                                           jlong zfilf)
 {
-    jzfile *zip = jlong_to_ptr(zfile);
-    jbyteArray jba = NULL;
+    jzfilf *zip = jlong_to_ptr(zfilf);
+    jbytfArrby jbb = NULL;
 
-    if (zip->comment != NULL) {
-        if ((jba = (*env)->NewByteArray(env, zip->clen)) == NULL)
-            return NULL;
-        (*env)->SetByteArrayRegion(env, jba, 0, zip->clen, (jbyte*)zip->comment);
+    if (zip->dommfnt != NULL) {
+        if ((jbb = (*fnv)->NfwBytfArrby(fnv, zip->dlfn)) == NULL)
+            rfturn NULL;
+        (*fnv)->SftBytfArrbyRfgion(fnv, jbb, 0, zip->dlfn, (jbytf*)zip->dommfnt);
     }
-    return jba;
+    rfturn jbb;
 }
 
-JNIEXPORT jbyteArray JNICALL
-Java_java_util_zip_ZipFile_getEntryBytes(JNIEnv *env,
-                                         jclass cls,
-                                         jlong zentry, jint type)
+JNIEXPORT jbytfArrby JNICALL
+Jbvb_jbvb_util_zip_ZipFilf_gftEntryBytfs(JNIEnv *fnv,
+                                         jdlbss dls,
+                                         jlong zfntry, jint typf)
 {
-    jzentry *ze = jlong_to_ptr(zentry);
-    int len = 0;
-    jbyteArray jba = NULL;
-    switch (type) {
-    case java_util_zip_ZipFile_JZENTRY_NAME:
-        if (ze->name != 0) {
-            len = (int)strlen(ze->name);
-            // Unlike for extra and comment, we never return null for
-            // an (extremely rarely seen) empty name
-            if ((jba = (*env)->NewByteArray(env, len)) == NULL)
-                break;
-            (*env)->SetByteArrayRegion(env, jba, 0, len, (jbyte *)ze->name);
+    jzfntry *zf = jlong_to_ptr(zfntry);
+    int lfn = 0;
+    jbytfArrby jbb = NULL;
+    switdi (typf) {
+    dbsf jbvb_util_zip_ZipFilf_JZENTRY_NAME:
+        if (zf->nbmf != 0) {
+            lfn = (int)strlfn(zf->nbmf);
+            // Unlikf for fxtrb bnd dommfnt, wf nfvfr rfturn null for
+            // bn (fxtrfmfly rbrfly sffn) fmpty nbmf
+            if ((jbb = (*fnv)->NfwBytfArrby(fnv, lfn)) == NULL)
+                brfbk;
+            (*fnv)->SftBytfArrbyRfgion(fnv, jbb, 0, lfn, (jbytf *)zf->nbmf);
         }
-        break;
-    case java_util_zip_ZipFile_JZENTRY_EXTRA:
-        if (ze->extra != 0) {
-            unsigned char *bp = (unsigned char *)&ze->extra[0];
-            len = (bp[0] | (bp[1] << 8));
-            if (len <= 0 || (jba = (*env)->NewByteArray(env, len)) == NULL)
-                break;
-            (*env)->SetByteArrayRegion(env, jba, 0, len, &ze->extra[2]);
+        brfbk;
+    dbsf jbvb_util_zip_ZipFilf_JZENTRY_EXTRA:
+        if (zf->fxtrb != 0) {
+            unsignfd dibr *bp = (unsignfd dibr *)&zf->fxtrb[0];
+            lfn = (bp[0] | (bp[1] << 8));
+            if (lfn <= 0 || (jbb = (*fnv)->NfwBytfArrby(fnv, lfn)) == NULL)
+                brfbk;
+            (*fnv)->SftBytfArrbyRfgion(fnv, jbb, 0, lfn, &zf->fxtrb[2]);
         }
-        break;
-    case java_util_zip_ZipFile_JZENTRY_COMMENT:
-        if (ze->comment != 0) {
-            len = (int)strlen(ze->comment);
-            if (len == 0 || (jba = (*env)->NewByteArray(env, len)) == NULL)
-                break;
-            (*env)->SetByteArrayRegion(env, jba, 0, len, (jbyte*)ze->comment);
+        brfbk;
+    dbsf jbvb_util_zip_ZipFilf_JZENTRY_COMMENT:
+        if (zf->dommfnt != 0) {
+            lfn = (int)strlfn(zf->dommfnt);
+            if (lfn == 0 || (jbb = (*fnv)->NfwBytfArrby(fnv, lfn)) == NULL)
+                brfbk;
+            (*fnv)->SftBytfArrbyRfgion(fnv, jbb, 0, lfn, (jbytf*)zf->dommfnt);
         }
-        break;
+        brfbk;
     }
-    return jba;
+    rfturn jbb;
 }
 
 JNIEXPORT jint JNICALL
-Java_java_util_zip_ZipFile_read(JNIEnv *env, jclass cls, jlong zfile,
-                                jlong zentry, jlong pos, jbyteArray bytes,
-                                jint off, jint len)
+Jbvb_jbvb_util_zip_ZipFilf_rfbd(JNIEnv *fnv, jdlbss dls, jlong zfilf,
+                                jlong zfntry, jlong pos, jbytfArrby bytfs,
+                                jint off, jint lfn)
 {
-    jzfile *zip = jlong_to_ptr(zfile);
-    char *msg;
+    jzfilf *zip = jlong_to_ptr(zfilf);
+    dibr *msg;
 
-#define BUFSIZE 8192
-    /* copy via tmp stack buffer: */
-    jbyte buf[BUFSIZE];
+#dffinf BUFSIZE 8192
+    /* dopy vib tmp stbdk bufffr: */
+    jbytf buf[BUFSIZE];
 
-    if (len > BUFSIZE) {
-        len = BUFSIZE;
+    if (lfn > BUFSIZE) {
+        lfn = BUFSIZE;
     }
 
-    ZIP_Lock(zip);
-    len = ZIP_Read(zip, jlong_to_ptr(zentry), pos, buf, len);
+    ZIP_Lodk(zip);
+    lfn = ZIP_Rfbd(zip, jlong_to_ptr(zfntry), pos, buf, lfn);
     msg = zip->msg;
-    ZIP_Unlock(zip);
-    if (len != -1) {
-        (*env)->SetByteArrayRegion(env, bytes, off, len, buf);
+    ZIP_Unlodk(zip);
+    if (lfn != -1) {
+        (*fnv)->SftBytfArrbyRfgion(fnv, bytfs, off, lfn, buf);
     }
 
-    if (len == -1) {
+    if (lfn == -1) {
         if (msg != 0) {
-            ThrowZipException(env, msg);
-        } else {
-            char errmsg[128];
-            sprintf(errmsg, "errno: %d, error: %s\n",
-                    errno, "Error reading ZIP file");
-            JNU_ThrowIOExceptionWithLastError(env, errmsg);
+            TirowZipExdfption(fnv, msg);
+        } flsf {
+            dibr frrmsg[128];
+            sprintf(frrmsg, "frrno: %d, frror: %s\n",
+                    frrno, "Error rfbding ZIP filf");
+            JNU_TirowIOExdfptionWitiLbstError(fnv, frrmsg);
         }
     }
 
-    return len;
+    rfturn lfn;
 }
 
 /*
- * Returns an array of strings representing the names of all entries
- * that begin with "META-INF/" (case ignored). This native method is
- * used in JarFile as an optimization when looking up manifest and
- * signature file entries. Returns null if no entries were found.
+ * Rfturns bn brrby of strings rfprfsfnting tif nbmfs of bll fntrifs
+ * tibt bfgin witi "META-INF/" (dbsf ignorfd). Tiis nbtivf mftiod is
+ * usfd in JbrFilf bs bn optimizbtion wifn looking up mbniffst bnd
+ * signbturf filf fntrifs. Rfturns null if no fntrifs wfrf found.
  */
-JNIEXPORT jobjectArray JNICALL
-Java_java_util_jar_JarFile_getMetaInfEntryNames(JNIEnv *env, jobject obj)
+JNIEXPORT jobjfdtArrby JNICALL
+Jbvb_jbvb_util_jbr_JbrFilf_gftMftbInfEntryNbmfs(JNIEnv *fnv, jobjfdt obj)
 {
-    jlong zfile = (*env)->GetLongField(env, obj, jzfileID);
-    jzfile *zip;
-    int i, count;
-    jobjectArray result = 0;
+    jlong zfilf = (*fnv)->GftLongFifld(fnv, obj, jzfilfID);
+    jzfilf *zip;
+    int i, dount;
+    jobjfdtArrby rfsult = 0;
 
-    if (zfile == 0) {
-        JNU_ThrowByName(env,
-                        "java/lang/IllegalStateException", "zip file closed");
-        return NULL;
+    if (zfilf == 0) {
+        JNU_TirowByNbmf(fnv,
+                        "jbvb/lbng/IllfgblStbtfExdfption", "zip filf dlosfd");
+        rfturn NULL;
     }
-    zip = jlong_to_ptr(zfile);
+    zip = jlong_to_ptr(zfilf);
 
-    /* count the number of valid ZIP metanames */
-    count = 0;
-    if (zip->metanames != 0) {
-        for (i = 0; i < zip->metacount; i++) {
-            if (zip->metanames[i] != 0) {
-                count++;
+    /* dount tif numbfr of vblid ZIP mftbnbmfs */
+    dount = 0;
+    if (zip->mftbnbmfs != 0) {
+        for (i = 0; i < zip->mftbdount; i++) {
+            if (zip->mftbnbmfs[i] != 0) {
+                dount++;
             }
         }
     }
 
-    /* If some names were found then build array of java strings */
-    if (count > 0) {
-        jclass cls = JNU_ClassString(env);
-        CHECK_NULL_RETURN(cls, NULL);
-        result = (*env)->NewObjectArray(env, count, cls, 0);
-        CHECK_NULL_RETURN(result, NULL);
-        if (result != 0) {
-            for (i = 0; i < count; i++) {
-                jstring str = (*env)->NewStringUTF(env, zip->metanames[i]);
+    /* If somf nbmfs wfrf found tifn build brrby of jbvb strings */
+    if (dount > 0) {
+        jdlbss dls = JNU_ClbssString(fnv);
+        CHECK_NULL_RETURN(dls, NULL);
+        rfsult = (*fnv)->NfwObjfdtArrby(fnv, dount, dls, 0);
+        CHECK_NULL_RETURN(rfsult, NULL);
+        if (rfsult != 0) {
+            for (i = 0; i < dount; i++) {
+                jstring str = (*fnv)->NfwStringUTF(fnv, zip->mftbnbmfs[i]);
                 if (str == 0) {
-                    break;
+                    brfbk;
                 }
-                (*env)->SetObjectArrayElement(env, result, i, str);
-                (*env)->DeleteLocalRef(env, str);
+                (*fnv)->SftObjfdtArrbyElfmfnt(fnv, rfsult, i, str);
+                (*fnv)->DflftfLodblRff(fnv, str);
             }
         }
     }
-    return result;
+    rfturn rfsult;
 }
 
 JNIEXPORT jstring JNICALL
-Java_java_util_zip_ZipFile_getZipMessage(JNIEnv *env, jclass cls, jlong zfile)
+Jbvb_jbvb_util_zip_ZipFilf_gftZipMfssbgf(JNIEnv *fnv, jdlbss dls, jlong zfilf)
 {
-    jzfile *zip = jlong_to_ptr(zfile);
-    char *msg = zip->msg;
+    jzfilf *zip = jlong_to_ptr(zfilf);
+    dibr *msg = zip->msg;
     if (msg == NULL) {
-        return NULL;
+        rfturn NULL;
     }
-    return JNU_NewStringPlatform(env, msg);
+    rfturn JNU_NfwStringPlbtform(fnv, msg);
 }

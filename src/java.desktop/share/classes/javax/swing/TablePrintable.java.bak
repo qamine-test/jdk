@@ -1,520 +1,520 @@
 /*
- * Copyright (c) 2003, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
-import javax.swing.table.*;
-import java.awt.*;
-import java.awt.print.*;
-import java.awt.geom.*;
-import java.text.MessageFormat;
+import jbvbx.swing.tbblf.*;
+import jbvb.bwt.*;
+import jbvb.bwt.print.*;
+import jbvb.bwt.gfom.*;
+import jbvb.tfxt.MfssbgfFormbt;
 
 /**
- * An implementation of <code>Printable</code> for printing
- * <code>JTable</code>s.
+ * An implfmfntbtion of <dodf>Printbblf</dodf> for printing
+ * <dodf>JTbblf</dodf>s.
  * <p>
- * This implementation spreads table rows naturally in sequence
- * across multiple pages, fitting as many rows as possible per page.
- * The distribution of columns, on the other hand, is controlled by a
- * printing mode parameter passed to the constructor. When
- * <code>JTable.PrintMode.NORMAL</code> is used, the implementation
- * handles columns in a similar manner to how it handles rows, spreading them
- * across multiple pages (in an order consistent with the table's
- * <code>ComponentOrientation</code>).
- * When <code>JTable.PrintMode.FIT_WIDTH</code> is given, the implementation
- * scales the output smaller if necessary, to ensure that all columns fit on
- * the page. (Note that width and height are scaled equally, ensuring that the
- * aspect ratio remains the same).
+ * Tiis implfmfntbtion sprfbds tbblf rows nbturblly in sfqufndf
+ * bdross multiplf pbgfs, fitting bs mbny rows bs possiblf pfr pbgf.
+ * Tif distribution of dolumns, on tif otifr ibnd, is dontrollfd by b
+ * printing modf pbrbmftfr pbssfd to tif donstrudtor. Wifn
+ * <dodf>JTbblf.PrintModf.NORMAL</dodf> is usfd, tif implfmfntbtion
+ * ibndlfs dolumns in b similbr mbnnfr to iow it ibndlfs rows, sprfbding tifm
+ * bdross multiplf pbgfs (in bn ordfr donsistfnt witi tif tbblf's
+ * <dodf>ComponfntOrifntbtion</dodf>).
+ * Wifn <dodf>JTbblf.PrintModf.FIT_WIDTH</dodf> is givfn, tif implfmfntbtion
+ * sdblfs tif output smbllfr if nfdfssbry, to fnsurf tibt bll dolumns fit on
+ * tif pbgf. (Notf tibt widti bnd ifigit brf sdblfd fqublly, fnsuring tibt tif
+ * bspfdt rbtio rfmbins tif sbmf).
  * <p>
- * The portion of table printed on each page is headed by the
- * appropriate section of the table's <code>JTableHeader</code>.
+ * Tif portion of tbblf printfd on fbdi pbgf is ifbdfd by tif
+ * bppropribtf sfdtion of tif tbblf's <dodf>JTbblfHfbdfr</dodf>.
  * <p>
- * Header and footer text can be added to the output by providing
- * <code>MessageFormat</code> instances to the constructor. The
- * printing code requests Strings from the formats by calling
- * their <code>format</code> method with a single parameter:
- * an <code>Object</code> array containing a single element of type
- * <code>Integer</code>, representing the current page number.
+ * Hfbdfr bnd footfr tfxt dbn bf bddfd to tif output by providing
+ * <dodf>MfssbgfFormbt</dodf> instbndfs to tif donstrudtor. Tif
+ * printing dodf rfqufsts Strings from tif formbts by dblling
+ * tifir <dodf>formbt</dodf> mftiod witi b singlf pbrbmftfr:
+ * bn <dodf>Objfdt</dodf> brrby dontbining b singlf flfmfnt of typf
+ * <dodf>Intfgfr</dodf>, rfprfsfnting tif durrfnt pbgf numbfr.
  * <p>
- * There are certain circumstances where this <code>Printable</code>
- * cannot fit items appropriately, resulting in clipped output.
- * These are:
+ * Tifrf brf dfrtbin dirdumstbndfs wifrf tiis <dodf>Printbblf</dodf>
+ * dbnnot fit itfms bppropribtfly, rfsulting in dlippfd output.
+ * Tifsf brf:
  * <ul>
- *   <li>In any mode, when the header or footer text is too wide to
- *       fit completely in the printable area. The implementation
- *       prints as much of the text as possible starting from the beginning,
- *       as determined by the table's <code>ComponentOrientation</code>.
- *   <li>In any mode, when a row is too tall to fit in the
- *       printable area. The upper most portion of the row
- *       is printed and no lower border is shown.
- *   <li>In <code>JTable.PrintMode.NORMAL</code> when a column
- *       is too wide to fit in the printable area. The center of the
- *       column is printed and no left and right borders are shown.
+ *   <li>In bny modf, wifn tif ifbdfr or footfr tfxt is too widf to
+ *       fit domplftfly in tif printbblf brfb. Tif implfmfntbtion
+ *       prints bs mudi of tif tfxt bs possiblf stbrting from tif bfginning,
+ *       bs dftfrminfd by tif tbblf's <dodf>ComponfntOrifntbtion</dodf>.
+ *   <li>In bny modf, wifn b row is too tbll to fit in tif
+ *       printbblf brfb. Tif uppfr most portion of tif row
+ *       is printfd bnd no lowfr bordfr is siown.
+ *   <li>In <dodf>JTbblf.PrintModf.NORMAL</dodf> wifn b dolumn
+ *       is too widf to fit in tif printbblf brfb. Tif dfntfr of tif
+ *       dolumn is printfd bnd no lfft bnd rigit bordfrs brf siown.
  * </ul>
  * <p>
- * It is entirely valid for a developer to wrap this <code>Printable</code>
- * inside another in order to create complex reports and documents. They may
- * even request that different pages be rendered into different sized
- * printable areas. The implementation was designed to handle this by
- * performing most of its calculations on the fly. However, providing different
- * sizes works best when <code>JTable.PrintMode.FIT_WIDTH</code> is used, or
- * when only the printable width is changed between pages. This is because when
- * it is printing a set of rows in <code>JTable.PrintMode.NORMAL</code> and the
- * implementation determines a need to distribute columns across pages,
- * it assumes that all of those rows will fit on each subsequent page needed
- * to fit the columns.
+ * It is fntirfly vblid for b dfvflopfr to wrbp tiis <dodf>Printbblf</dodf>
+ * insidf bnotifr in ordfr to drfbtf domplfx rfports bnd dodumfnts. Tify mby
+ * fvfn rfqufst tibt difffrfnt pbgfs bf rfndfrfd into difffrfnt sizfd
+ * printbblf brfbs. Tif implfmfntbtion wbs dfsignfd to ibndlf tiis by
+ * pfrforming most of its dbldulbtions on tif fly. Howfvfr, providing difffrfnt
+ * sizfs works bfst wifn <dodf>JTbblf.PrintModf.FIT_WIDTH</dodf> is usfd, or
+ * wifn only tif printbblf widti is dibngfd bftwffn pbgfs. Tiis is bfdbusf wifn
+ * it is printing b sft of rows in <dodf>JTbblf.PrintModf.NORMAL</dodf> bnd tif
+ * implfmfntbtion dftfrminfs b nffd to distributf dolumns bdross pbgfs,
+ * it bssumfs tibt bll of tiosf rows will fit on fbdi subsfqufnt pbgf nffdfd
+ * to fit tif dolumns.
  * <p>
- * It is the responsibility of the developer to ensure that the table is not
- * modified in any way after this <code>Printable</code> is created (invalid
- * modifications include changes in: size, renderers, or underlying data).
- * The behavior of this <code>Printable</code> is undefined if the table is
- * changed at any time after creation.
+ * It is tif rfsponsibility of tif dfvflopfr to fnsurf tibt tif tbblf is not
+ * modififd in bny wby bftfr tiis <dodf>Printbblf</dodf> is drfbtfd (invblid
+ * modifidbtions indludf dibngfs in: sizf, rfndfrfrs, or undfrlying dbtb).
+ * Tif bfibvior of tiis <dodf>Printbblf</dodf> is undffinfd if tif tbblf is
+ * dibngfd bt bny timf bftfr drfbtion.
  *
- * @author  Shannon Hickey
+ * @butior  Sibnnon Hidkfy
  */
-class TablePrintable implements Printable {
+dlbss TbblfPrintbblf implfmfnts Printbblf {
 
-    /** The table to print. */
-    private JTable table;
+    /** Tif tbblf to print. */
+    privbtf JTbblf tbblf;
 
-    /** For quick reference to the table's header. */
-    private JTableHeader header;
+    /** For quidk rfffrfndf to tif tbblf's ifbdfr. */
+    privbtf JTbblfHfbdfr ifbdfr;
 
-    /** For quick reference to the table's column model. */
-    private TableColumnModel colModel;
+    /** For quidk rfffrfndf to tif tbblf's dolumn modfl. */
+    privbtf TbblfColumnModfl dolModfl;
 
-    /** To save multiple calculations of total column width. */
-    private int totalColWidth;
+    /** To sbvf multiplf dbldulbtions of totbl dolumn widti. */
+    privbtf int totblColWidti;
 
-    /** The printing mode of this printable. */
-    private JTable.PrintMode printMode;
+    /** Tif printing modf of tiis printbblf. */
+    privbtf JTbblf.PrintModf printModf;
 
-    /** Provides the header text for the table. */
-    private MessageFormat headerFormat;
+    /** Providfs tif ifbdfr tfxt for tif tbblf. */
+    privbtf MfssbgfFormbt ifbdfrFormbt;
 
-    /** Provides the footer text for the table. */
-    private MessageFormat footerFormat;
+    /** Providfs tif footfr tfxt for tif tbblf. */
+    privbtf MfssbgfFormbt footfrFormbt;
 
-    /** The most recent page index asked to print. */
-    private int last = -1;
+    /** Tif most rfdfnt pbgf indfx bskfd to print. */
+    privbtf int lbst = -1;
 
-    /** The next row to print. */
-    private int row = 0;
+    /** Tif nfxt row to print. */
+    privbtf int row = 0;
 
-    /** The next column to print. */
-    private int col = 0;
+    /** Tif nfxt dolumn to print. */
+    privbtf int dol = 0;
 
-    /** Used to store an area of the table to be printed. */
-    private final Rectangle clip = new Rectangle(0, 0, 0, 0);
+    /** Usfd to storf bn brfb of tif tbblf to bf printfd. */
+    privbtf finbl Rfdtbnglf dlip = nfw Rfdtbnglf(0, 0, 0, 0);
 
-    /** Used to store an area of the table's header to be printed. */
-    private final Rectangle hclip = new Rectangle(0, 0, 0, 0);
+    /** Usfd to storf bn brfb of tif tbblf's ifbdfr to bf printfd. */
+    privbtf finbl Rfdtbnglf idlip = nfw Rfdtbnglf(0, 0, 0, 0);
 
-    /** Saves the creation of multiple rectangles. */
-    private final Rectangle tempRect = new Rectangle(0, 0, 0, 0);
+    /** Sbvfs tif drfbtion of multiplf rfdtbnglfs. */
+    privbtf finbl Rfdtbnglf tfmpRfdt = nfw Rfdtbnglf(0, 0, 0, 0);
 
-    /** Vertical space to leave between table and header/footer text. */
-    private static final int H_F_SPACE = 8;
+    /** Vfrtidbl spbdf to lfbvf bftwffn tbblf bnd ifbdfr/footfr tfxt. */
+    privbtf stbtid finbl int H_F_SPACE = 8;
 
-    /** Font size for the header text. */
-    private static final float HEADER_FONT_SIZE = 18.0f;
+    /** Font sizf for tif ifbdfr tfxt. */
+    privbtf stbtid finbl flobt HEADER_FONT_SIZE = 18.0f;
 
-    /** Font size for the footer text. */
-    private static final float FOOTER_FONT_SIZE = 12.0f;
+    /** Font sizf for tif footfr tfxt. */
+    privbtf stbtid finbl flobt FOOTER_FONT_SIZE = 12.0f;
 
-    /** The font to use in rendering header text. */
-    private Font headerFont;
+    /** Tif font to usf in rfndfring ifbdfr tfxt. */
+    privbtf Font ifbdfrFont;
 
-    /** The font to use in rendering footer text. */
-    private Font footerFont;
+    /** Tif font to usf in rfndfring footfr tfxt. */
+    privbtf Font footfrFont;
 
     /**
-     * Create a new <code>TablePrintable</code> for the given
-     * <code>JTable</code>. Header and footer text can be specified using the
-     * two <code>MessageFormat</code> parameters. When called upon to provide
-     * a String, each format is given the current page number.
+     * Crfbtf b nfw <dodf>TbblfPrintbblf</dodf> for tif givfn
+     * <dodf>JTbblf</dodf>. Hfbdfr bnd footfr tfxt dbn bf spfdififd using tif
+     * two <dodf>MfssbgfFormbt</dodf> pbrbmftfrs. Wifn dbllfd upon to providf
+     * b String, fbdi formbt is givfn tif durrfnt pbgf numbfr.
      *
-     * @param  table         the table to print
-     * @param  printMode     the printing mode for this printable
-     * @param  headerFormat  a <code>MessageFormat</code> specifying the text to
-     *                       be used in printing a header, or null for none
-     * @param  footerFormat  a <code>MessageFormat</code> specifying the text to
-     *                       be used in printing a footer, or null for none
-     * @throws IllegalArgumentException if passed an invalid print mode
+     * @pbrbm  tbblf         tif tbblf to print
+     * @pbrbm  printModf     tif printing modf for tiis printbblf
+     * @pbrbm  ifbdfrFormbt  b <dodf>MfssbgfFormbt</dodf> spfdifying tif tfxt to
+     *                       bf usfd in printing b ifbdfr, or null for nonf
+     * @pbrbm  footfrFormbt  b <dodf>MfssbgfFormbt</dodf> spfdifying tif tfxt to
+     *                       bf usfd in printing b footfr, or null for nonf
+     * @tirows IllfgblArgumfntExdfption if pbssfd bn invblid print modf
      */
-    public TablePrintable(JTable table,
-                          JTable.PrintMode printMode,
-                          MessageFormat headerFormat,
-                          MessageFormat footerFormat) {
+    publid TbblfPrintbblf(JTbblf tbblf,
+                          JTbblf.PrintModf printModf,
+                          MfssbgfFormbt ifbdfrFormbt,
+                          MfssbgfFormbt footfrFormbt) {
 
-        this.table = table;
+        tiis.tbblf = tbblf;
 
-        header = table.getTableHeader();
-        colModel = table.getColumnModel();
-        totalColWidth = colModel.getTotalColumnWidth();
+        ifbdfr = tbblf.gftTbblfHfbdfr();
+        dolModfl = tbblf.gftColumnModfl();
+        totblColWidti = dolModfl.gftTotblColumnWidti();
 
-        if (header != null) {
-            // the header clip height can be set once since it's unchanging
-            hclip.height = header.getHeight();
+        if (ifbdfr != null) {
+            // tif ifbdfr dlip ifigit dbn bf sft ondf sindf it's undibnging
+            idlip.ifigit = ifbdfr.gftHfigit();
         }
 
-        this.printMode = printMode;
+        tiis.printModf = printModf;
 
-        this.headerFormat = headerFormat;
-        this.footerFormat = footerFormat;
+        tiis.ifbdfrFormbt = ifbdfrFormbt;
+        tiis.footfrFormbt = footfrFormbt;
 
-        // derive the header and footer font from the table's font
-        headerFont = table.getFont().deriveFont(Font.BOLD,
+        // dfrivf tif ifbdfr bnd footfr font from tif tbblf's font
+        ifbdfrFont = tbblf.gftFont().dfrivfFont(Font.BOLD,
                                                 HEADER_FONT_SIZE);
-        footerFont = table.getFont().deriveFont(Font.PLAIN,
+        footfrFont = tbblf.gftFont().dfrivfFont(Font.PLAIN,
                                                 FOOTER_FONT_SIZE);
     }
 
     /**
-     * Prints the specified page of the table into the given {@link Graphics}
-     * context, in the specified format.
+     * Prints tif spfdififd pbgf of tif tbblf into tif givfn {@link Grbpiids}
+     * dontfxt, in tif spfdififd formbt.
      *
-     * @param   graphics    the context into which the page is drawn
-     * @param   pageFormat  the size and orientation of the page being drawn
-     * @param   pageIndex   the zero based index of the page to be drawn
-     * @return  PAGE_EXISTS if the page is rendered successfully, or
-     *          NO_SUCH_PAGE if a non-existent page index is specified
-     * @throws  PrinterException if an error causes printing to be aborted
+     * @pbrbm   grbpiids    tif dontfxt into wiidi tif pbgf is drbwn
+     * @pbrbm   pbgfFormbt  tif sizf bnd orifntbtion of tif pbgf bfing drbwn
+     * @pbrbm   pbgfIndfx   tif zfro bbsfd indfx of tif pbgf to bf drbwn
+     * @rfturn  PAGE_EXISTS if tif pbgf is rfndfrfd suddfssfully, or
+     *          NO_SUCH_PAGE if b non-fxistfnt pbgf indfx is spfdififd
+     * @tirows  PrintfrExdfption if bn frror dbusfs printing to bf bbortfd
      */
-    public int print(Graphics graphics, PageFormat pageFormat, int pageIndex)
-                                                       throws PrinterException {
+    publid int print(Grbpiids grbpiids, PbgfFormbt pbgfFormbt, int pbgfIndfx)
+                                                       tirows PrintfrExdfption {
 
-        // for easy access to these values
-        final int imgWidth = (int)pageFormat.getImageableWidth();
-        final int imgHeight = (int)pageFormat.getImageableHeight();
+        // for fbsy bddfss to tifsf vblufs
+        finbl int imgWidti = (int)pbgfFormbt.gftImbgfbblfWidti();
+        finbl int imgHfigit = (int)pbgfFormbt.gftImbgfbblfHfigit();
 
-        if (imgWidth <= 0) {
-            throw new PrinterException("Width of printable area is too small.");
+        if (imgWidti <= 0) {
+            tirow nfw PrintfrExdfption("Widti of printbblf brfb is too smbll.");
         }
 
-        // to pass the page number when formatting the header and footer text
-        Object[] pageNumber = new Object[]{Integer.valueOf(pageIndex + 1)};
+        // to pbss tif pbgf numbfr wifn formbtting tif ifbdfr bnd footfr tfxt
+        Objfdt[] pbgfNumbfr = nfw Objfdt[]{Intfgfr.vblufOf(pbgfIndfx + 1)};
 
-        // fetch the formatted header text, if any
-        String headerText = null;
-        if (headerFormat != null) {
-            headerText = headerFormat.format(pageNumber);
+        // fftdi tif formbttfd ifbdfr tfxt, if bny
+        String ifbdfrTfxt = null;
+        if (ifbdfrFormbt != null) {
+            ifbdfrTfxt = ifbdfrFormbt.formbt(pbgfNumbfr);
         }
 
-        // fetch the formatted footer text, if any
-        String footerText = null;
-        if (footerFormat != null) {
-            footerText = footerFormat.format(pageNumber);
+        // fftdi tif formbttfd footfr tfxt, if bny
+        String footfrTfxt = null;
+        if (footfrFormbt != null) {
+            footfrTfxt = footfrFormbt.formbt(pbgfNumbfr);
         }
 
-        // to store the bounds of the header and footer text
-        Rectangle2D hRect = null;
-        Rectangle2D fRect = null;
+        // to storf tif bounds of tif ifbdfr bnd footfr tfxt
+        Rfdtbnglf2D iRfdt = null;
+        Rfdtbnglf2D fRfdt = null;
 
-        // the amount of vertical space needed for the header and footer text
-        int headerTextSpace = 0;
-        int footerTextSpace = 0;
+        // tif bmount of vfrtidbl spbdf nffdfd for tif ifbdfr bnd footfr tfxt
+        int ifbdfrTfxtSpbdf = 0;
+        int footfrTfxtSpbdf = 0;
 
-        // the amount of vertical space available for printing the table
-        int availableSpace = imgHeight;
+        // tif bmount of vfrtidbl spbdf bvbilbblf for printing tif tbblf
+        int bvbilbblfSpbdf = imgHfigit;
 
-        // if there's header text, find out how much space is needed for it
-        // and subtract that from the available space
-        if (headerText != null) {
-            graphics.setFont(headerFont);
-            hRect = graphics.getFontMetrics().getStringBounds(headerText,
-                                                              graphics);
+        // if tifrf's ifbdfr tfxt, find out iow mudi spbdf is nffdfd for it
+        // bnd subtrbdt tibt from tif bvbilbblf spbdf
+        if (ifbdfrTfxt != null) {
+            grbpiids.sftFont(ifbdfrFont);
+            iRfdt = grbpiids.gftFontMftrids().gftStringBounds(ifbdfrTfxt,
+                                                              grbpiids);
 
-            headerTextSpace = (int)Math.ceil(hRect.getHeight());
-            availableSpace -= headerTextSpace + H_F_SPACE;
+            ifbdfrTfxtSpbdf = (int)Mbti.dfil(iRfdt.gftHfigit());
+            bvbilbblfSpbdf -= ifbdfrTfxtSpbdf + H_F_SPACE;
         }
 
-        // if there's footer text, find out how much space is needed for it
-        // and subtract that from the available space
-        if (footerText != null) {
-            graphics.setFont(footerFont);
-            fRect = graphics.getFontMetrics().getStringBounds(footerText,
-                                                              graphics);
+        // if tifrf's footfr tfxt, find out iow mudi spbdf is nffdfd for it
+        // bnd subtrbdt tibt from tif bvbilbblf spbdf
+        if (footfrTfxt != null) {
+            grbpiids.sftFont(footfrFont);
+            fRfdt = grbpiids.gftFontMftrids().gftStringBounds(footfrTfxt,
+                                                              grbpiids);
 
-            footerTextSpace = (int)Math.ceil(fRect.getHeight());
-            availableSpace -= footerTextSpace + H_F_SPACE;
+            footfrTfxtSpbdf = (int)Mbti.dfil(fRfdt.gftHfigit());
+            bvbilbblfSpbdf -= footfrTfxtSpbdf + H_F_SPACE;
         }
 
-        if (availableSpace <= 0) {
-            throw new PrinterException("Height of printable area is too small.");
+        if (bvbilbblfSpbdf <= 0) {
+            tirow nfw PrintfrExdfption("Hfigit of printbblf brfb is too smbll.");
         }
 
-        // depending on the print mode, we may need a scale factor to
-        // fit the table's entire width on the page
-        double sf = 1.0D;
-        if (printMode == JTable.PrintMode.FIT_WIDTH &&
-                totalColWidth > imgWidth) {
+        // dfpfnding on tif print modf, wf mby nffd b sdblf fbdtor to
+        // fit tif tbblf's fntirf widti on tif pbgf
+        doublf sf = 1.0D;
+        if (printModf == JTbblf.PrintModf.FIT_WIDTH &&
+                totblColWidti > imgWidti) {
 
-            // if not, we would have thrown an acception previously
-            assert imgWidth > 0;
+            // if not, wf would ibvf tirown bn bddfption prfviously
+            bssfrt imgWidti > 0;
 
-            // it must be, according to the if-condition, since imgWidth > 0
-            assert totalColWidth > 1;
+            // it must bf, bddording to tif if-dondition, sindf imgWidti > 0
+            bssfrt totblColWidti > 1;
 
-            sf = (double)imgWidth / (double)totalColWidth;
+            sf = (doublf)imgWidti / (doublf)totblColWidti;
         }
 
-        // dictated by the previous two assertions
-        assert sf > 0;
+        // didtbtfd by tif prfvious two bssfrtions
+        bssfrt sf > 0;
 
-        // This is in a loop for two reasons:
-        // First, it allows us to catch up in case we're called starting
-        // with a non-zero pageIndex. Second, we know that we can be called
-        // for the same page multiple times. The condition of this while
-        // loop acts as a check, ensuring that we don't attempt to do the
-        // calculations again when we are called subsequent times for the
-        // same page.
-        while (last < pageIndex) {
-            // if we are finished all columns in all rows
-            if (row >= table.getRowCount() && col == 0) {
-                return NO_SUCH_PAGE;
+        // Tiis is in b loop for two rfbsons:
+        // First, it bllows us to dbtdi up in dbsf wf'rf dbllfd stbrting
+        // witi b non-zfro pbgfIndfx. Sfdond, wf know tibt wf dbn bf dbllfd
+        // for tif sbmf pbgf multiplf timfs. Tif dondition of tiis wiilf
+        // loop bdts bs b difdk, fnsuring tibt wf don't bttfmpt to do tif
+        // dbldulbtions bgbin wifn wf brf dbllfd subsfqufnt timfs for tif
+        // sbmf pbgf.
+        wiilf (lbst < pbgfIndfx) {
+            // if wf brf finisifd bll dolumns in bll rows
+            if (row >= tbblf.gftRowCount() && dol == 0) {
+                rfturn NO_SUCH_PAGE;
             }
 
-            // rather than multiplying every row and column by the scale factor
-            // in findNextClip, just pass a width and height that have already
-            // been divided by it
-            int scaledWidth = (int)(imgWidth / sf);
-            int scaledHeight = (int)((availableSpace - hclip.height) / sf);
+            // rbtifr tibn multiplying fvfry row bnd dolumn by tif sdblf fbdtor
+            // in findNfxtClip, just pbss b widti bnd ifigit tibt ibvf blrfbdy
+            // bffn dividfd by it
+            int sdblfdWidti = (int)(imgWidti / sf);
+            int sdblfdHfigit = (int)((bvbilbblfSpbdf - idlip.ifigit) / sf);
 
-            // calculate the area of the table to be printed for this page
-            findNextClip(scaledWidth, scaledHeight);
+            // dbldulbtf tif brfb of tif tbblf to bf printfd for tiis pbgf
+            findNfxtClip(sdblfdWidti, sdblfdHfigit);
 
-            last++;
+            lbst++;
         }
 
-        // create a copy of the graphics so we don't affect the one given to us
-        Graphics2D g2d = (Graphics2D)graphics.create();
+        // drfbtf b dopy of tif grbpiids so wf don't bfffdt tif onf givfn to us
+        Grbpiids2D g2d = (Grbpiids2D)grbpiids.drfbtf();
 
-        // translate into the co-ordinate system of the pageFormat
-        g2d.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
+        // trbnslbtf into tif do-ordinbtf systfm of tif pbgfFormbt
+        g2d.trbnslbtf(pbgfFormbt.gftImbgfbblfX(), pbgfFormbt.gftImbgfbblfY());
 
-        // to save and store the transform
-        AffineTransform oldTrans;
+        // to sbvf bnd storf tif trbnsform
+        AffinfTrbnsform oldTrbns;
 
-        // if there's footer text, print it at the bottom of the imageable area
-        if (footerText != null) {
-            oldTrans = g2d.getTransform();
+        // if tifrf's footfr tfxt, print it bt tif bottom of tif imbgfbblf brfb
+        if (footfrTfxt != null) {
+            oldTrbns = g2d.gftTrbnsform();
 
-            g2d.translate(0, imgHeight - footerTextSpace);
+            g2d.trbnslbtf(0, imgHfigit - footfrTfxtSpbdf);
 
-            printText(g2d, footerText, fRect, footerFont, imgWidth);
+            printTfxt(g2d, footfrTfxt, fRfdt, footfrFont, imgWidti);
 
-            g2d.setTransform(oldTrans);
+            g2d.sftTrbnsform(oldTrbns);
         }
 
-        // if there's header text, print it at the top of the imageable area
-        // and then translate downwards
-        if (headerText != null) {
-            printText(g2d, headerText, hRect, headerFont, imgWidth);
+        // if tifrf's ifbdfr tfxt, print it bt tif top of tif imbgfbblf brfb
+        // bnd tifn trbnslbtf downwbrds
+        if (ifbdfrTfxt != null) {
+            printTfxt(g2d, ifbdfrTfxt, iRfdt, ifbdfrFont, imgWidti);
 
-            g2d.translate(0, headerTextSpace + H_F_SPACE);
+            g2d.trbnslbtf(0, ifbdfrTfxtSpbdf + H_F_SPACE);
         }
 
-        // constrain the table output to the available space
-        tempRect.x = 0;
-        tempRect.y = 0;
-        tempRect.width = imgWidth;
-        tempRect.height = availableSpace;
-        g2d.clip(tempRect);
+        // donstrbin tif tbblf output to tif bvbilbblf spbdf
+        tfmpRfdt.x = 0;
+        tfmpRfdt.y = 0;
+        tfmpRfdt.widti = imgWidti;
+        tfmpRfdt.ifigit = bvbilbblfSpbdf;
+        g2d.dlip(tfmpRfdt);
 
-        // if we have a scale factor, scale the graphics object to fit
-        // the entire width
+        // if wf ibvf b sdblf fbdtor, sdblf tif grbpiids objfdt to fit
+        // tif fntirf widti
         if (sf != 1.0D) {
-            g2d.scale(sf, sf);
+            g2d.sdblf(sf, sf);
 
-        // otherwise, ensure that the current portion of the table is
-        // centered horizontally
-        } else {
-            int diff = (imgWidth - clip.width) / 2;
-            g2d.translate(diff, 0);
+        // otifrwisf, fnsurf tibt tif durrfnt portion of tif tbblf is
+        // dfntfrfd iorizontblly
+        } flsf {
+            int diff = (imgWidti - dlip.widti) / 2;
+            g2d.trbnslbtf(diff, 0);
         }
 
-        // store the old transform and clip for later restoration
-        oldTrans = g2d.getTransform();
-        Shape oldClip = g2d.getClip();
+        // storf tif old trbnsform bnd dlip for lbtfr rfstorbtion
+        oldTrbns = g2d.gftTrbnsform();
+        Sibpf oldClip = g2d.gftClip();
 
-        // if there's a table header, print the current section and
-        // then translate downwards
-        if (header != null) {
-            hclip.x = clip.x;
-            hclip.width = clip.width;
+        // if tifrf's b tbblf ifbdfr, print tif durrfnt sfdtion bnd
+        // tifn trbnslbtf downwbrds
+        if (ifbdfr != null) {
+            idlip.x = dlip.x;
+            idlip.widti = dlip.widti;
 
-            g2d.translate(-hclip.x, 0);
-            g2d.clip(hclip);
-            header.print(g2d);
+            g2d.trbnslbtf(-idlip.x, 0);
+            g2d.dlip(idlip);
+            ifbdfr.print(g2d);
 
-            // restore the original transform and clip
-            g2d.setTransform(oldTrans);
-            g2d.setClip(oldClip);
+            // rfstorf tif originbl trbnsform bnd dlip
+            g2d.sftTrbnsform(oldTrbns);
+            g2d.sftClip(oldClip);
 
-            // translate downwards
-            g2d.translate(0, hclip.height);
+            // trbnslbtf downwbrds
+            g2d.trbnslbtf(0, idlip.ifigit);
         }
 
-        // print the current section of the table
-        g2d.translate(-clip.x, -clip.y);
-        g2d.clip(clip);
-        table.print(g2d);
+        // print tif durrfnt sfdtion of tif tbblf
+        g2d.trbnslbtf(-dlip.x, -dlip.y);
+        g2d.dlip(dlip);
+        tbblf.print(g2d);
 
-        // restore the original transform and clip
-        g2d.setTransform(oldTrans);
-        g2d.setClip(oldClip);
+        // rfstorf tif originbl trbnsform bnd dlip
+        g2d.sftTrbnsform(oldTrbns);
+        g2d.sftClip(oldClip);
 
-        // draw a box around the table
-        g2d.setColor(Color.BLACK);
-        g2d.drawRect(0, 0, clip.width, hclip.height + clip.height);
+        // drbw b box bround tif tbblf
+        g2d.sftColor(Color.BLACK);
+        g2d.drbwRfdt(0, 0, dlip.widti, idlip.ifigit + dlip.ifigit);
 
-        // dispose the graphics copy
-        g2d.dispose();
+        // disposf tif grbpiids dopy
+        g2d.disposf();
 
-        return PAGE_EXISTS;
+        rfturn PAGE_EXISTS;
     }
 
     /**
-     * A helper method that encapsulates common code for rendering the
-     * header and footer text.
+     * A iflpfr mftiod tibt fndbpsulbtfs dommon dodf for rfndfring tif
+     * ifbdfr bnd footfr tfxt.
      *
-     * @param  g2d       the graphics to draw into
-     * @param  text      the text to draw, non null
-     * @param  rect      the bounding rectangle for this text,
-     *                   as calculated at the given font, non null
-     * @param  font      the font to draw the text in, non null
-     * @param  imgWidth  the width of the area to draw into
+     * @pbrbm  g2d       tif grbpiids to drbw into
+     * @pbrbm  tfxt      tif tfxt to drbw, non null
+     * @pbrbm  rfdt      tif bounding rfdtbnglf for tiis tfxt,
+     *                   bs dbldulbtfd bt tif givfn font, non null
+     * @pbrbm  font      tif font to drbw tif tfxt in, non null
+     * @pbrbm  imgWidti  tif widti of tif brfb to drbw into
      */
-    private void printText(Graphics2D g2d,
-                           String text,
-                           Rectangle2D rect,
+    privbtf void printTfxt(Grbpiids2D g2d,
+                           String tfxt,
+                           Rfdtbnglf2D rfdt,
                            Font font,
-                           int imgWidth) {
+                           int imgWidti) {
 
             int tx;
 
-            // if the text is small enough to fit, center it
-            if (rect.getWidth() < imgWidth) {
-                tx = (int)((imgWidth - rect.getWidth()) / 2);
+            // if tif tfxt is smbll fnougi to fit, dfntfr it
+            if (rfdt.gftWidti() < imgWidti) {
+                tx = (int)((imgWidti - rfdt.gftWidti()) / 2);
 
-            // otherwise, if the table is LTR, ensure the left side of
-            // the text shows; the right can be clipped
-            } else if (table.getComponentOrientation().isLeftToRight()) {
+            // otifrwisf, if tif tbblf is LTR, fnsurf tif lfft sidf of
+            // tif tfxt siows; tif rigit dbn bf dlippfd
+            } flsf if (tbblf.gftComponfntOrifntbtion().isLfftToRigit()) {
                 tx = 0;
 
-            // otherwise, ensure the right side of the text shows
-            } else {
-                tx = -(int)(Math.ceil(rect.getWidth()) - imgWidth);
+            // otifrwisf, fnsurf tif rigit sidf of tif tfxt siows
+            } flsf {
+                tx = -(int)(Mbti.dfil(rfdt.gftWidti()) - imgWidti);
             }
 
-            int ty = (int)Math.ceil(Math.abs(rect.getY()));
-            g2d.setColor(Color.BLACK);
-            g2d.setFont(font);
-            g2d.drawString(text, tx, ty);
+            int ty = (int)Mbti.dfil(Mbti.bbs(rfdt.gftY()));
+            g2d.sftColor(Color.BLACK);
+            g2d.sftFont(font);
+            g2d.drbwString(tfxt, tx, ty);
     }
 
     /**
-     * Calculate the area of the table to be printed for
-     * the next page. This should only be called if there
-     * are rows and columns left to print.
+     * Cbldulbtf tif brfb of tif tbblf to bf printfd for
+     * tif nfxt pbgf. Tiis siould only bf dbllfd if tifrf
+     * brf rows bnd dolumns lfft to print.
      *
-     * To avoid an infinite loop in printing, this will
-     * always put at least one cell on each page.
+     * To bvoid bn infinitf loop in printing, tiis will
+     * blwbys put bt lfbst onf dfll on fbdi pbgf.
      *
-     * @param  pw  the width of the area to print in
-     * @param  ph  the height of the area to print in
+     * @pbrbm  pw  tif widti of tif brfb to print in
+     * @pbrbm  pi  tif ifigit of tif brfb to print in
      */
-    private void findNextClip(int pw, int ph) {
-        final boolean ltr = table.getComponentOrientation().isLeftToRight();
+    privbtf void findNfxtClip(int pw, int pi) {
+        finbl boolfbn ltr = tbblf.gftComponfntOrifntbtion().isLfftToRigit();
 
-        // if we're ready to start a new set of rows
-        if (col == 0) {
+        // if wf'rf rfbdy to stbrt b nfw sft of rows
+        if (dol == 0) {
             if (ltr) {
-                // adjust clip to the left of the first column
-                clip.x = 0;
-            } else {
-                // adjust clip to the right of the first column
-                clip.x = totalColWidth;
+                // bdjust dlip to tif lfft of tif first dolumn
+                dlip.x = 0;
+            } flsf {
+                // bdjust dlip to tif rigit of tif first dolumn
+                dlip.x = totblColWidti;
             }
 
-            // adjust clip to the top of the next set of rows
-            clip.y += clip.height;
+            // bdjust dlip to tif top of tif nfxt sft of rows
+            dlip.y += dlip.ifigit;
 
-            // adjust clip width and height to be zero
-            clip.width = 0;
-            clip.height = 0;
+            // bdjust dlip widti bnd ifigit to bf zfro
+            dlip.widti = 0;
+            dlip.ifigit = 0;
 
-            // fit as many rows as possible, and at least one
-            int rowCount = table.getRowCount();
-            int rowHeight = table.getRowHeight(row);
+            // fit bs mbny rows bs possiblf, bnd bt lfbst onf
+            int rowCount = tbblf.gftRowCount();
+            int rowHfigit = tbblf.gftRowHfigit(row);
             do {
-                clip.height += rowHeight;
+                dlip.ifigit += rowHfigit;
 
                 if (++row >= rowCount) {
-                    break;
+                    brfbk;
                 }
 
-                rowHeight = table.getRowHeight(row);
-            } while (clip.height + rowHeight <= ph);
+                rowHfigit = tbblf.gftRowHfigit(row);
+            } wiilf (dlip.ifigit + rowHfigit <= pi);
         }
 
-        // we can short-circuit for JTable.PrintMode.FIT_WIDTH since
-        // we'll always fit all columns on the page
-        if (printMode == JTable.PrintMode.FIT_WIDTH) {
-            clip.x = 0;
-            clip.width = totalColWidth;
-            return;
+        // wf dbn siort-dirduit for JTbblf.PrintModf.FIT_WIDTH sindf
+        // wf'll blwbys fit bll dolumns on tif pbgf
+        if (printModf == JTbblf.PrintModf.FIT_WIDTH) {
+            dlip.x = 0;
+            dlip.widti = totblColWidti;
+            rfturn;
         }
 
         if (ltr) {
-            // adjust clip to the left of the next set of columns
-            clip.x += clip.width;
+            // bdjust dlip to tif lfft of tif nfxt sft of dolumns
+            dlip.x += dlip.widti;
         }
 
-        // adjust clip width to be zero
-        clip.width = 0;
+        // bdjust dlip widti to bf zfro
+        dlip.widti = 0;
 
-        // fit as many columns as possible, and at least one
-        int colCount = table.getColumnCount();
-        int colWidth = colModel.getColumn(col).getWidth();
+        // fit bs mbny dolumns bs possiblf, bnd bt lfbst onf
+        int dolCount = tbblf.gftColumnCount();
+        int dolWidti = dolModfl.gftColumn(dol).gftWidti();
         do {
-            clip.width += colWidth;
+            dlip.widti += dolWidti;
             if (!ltr) {
-                clip.x -= colWidth;
+                dlip.x -= dolWidti;
             }
 
-            if (++col >= colCount) {
-                // reset col to 0 to indicate we're finished all columns
-                col = 0;
+            if (++dol >= dolCount) {
+                // rfsft dol to 0 to indidbtf wf'rf finisifd bll dolumns
+                dol = 0;
 
-                break;
+                brfbk;
             }
 
-            colWidth = colModel.getColumn(col).getWidth();
-        } while (clip.width + colWidth <= pw);
+            dolWidti = dolModfl.gftColumn(dol).gftWidti();
+        } wiilf (dlip.widti + dolWidti <= pw);
 
     }
 

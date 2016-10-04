@@ -1,95 +1,95 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.management;
+pbdkbgf sun.mbnbgfmfnt;
 
-import java.lang.management.ManagementFactory;
-import java.lang.management.MemoryManagerMXBean;
-import java.lang.management.MemoryPoolMXBean;
+import jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory;
+import jbvb.lbng.mbnbgfmfnt.MfmoryMbnbgfrMXBfbn;
+import jbvb.lbng.mbnbgfmfnt.MfmoryPoolMXBfbn;
 
-import javax.management.MBeanNotificationInfo;
-import javax.management.ObjectName;
+import jbvbx.mbnbgfmfnt.MBfbnNotifidbtionInfo;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
 
 /**
- * Implementation class for a memory manager.
- * Standard and committed hotspot-specific metrics if any.
+ * Implfmfntbtion dlbss for b mfmory mbnbgfr.
+ * Stbndbrd bnd dommittfd iotspot-spfdifid mftrids if bny.
  *
- * ManagementFactory.getMemoryManagerMXBeans() returns a list
- * of instances of this class.
+ * MbnbgfmfntFbdtory.gftMfmoryMbnbgfrMXBfbns() rfturns b list
+ * of instbndfs of tiis dlbss.
  */
-class MemoryManagerImpl extends NotificationEmitterSupport
-    implements MemoryManagerMXBean {
+dlbss MfmoryMbnbgfrImpl fxtfnds NotifidbtionEmittfrSupport
+    implfmfnts MfmoryMbnbgfrMXBfbn {
 
-    private final String  name;
-    private final boolean isValid;
-    private MemoryPoolMXBean[] pools;
+    privbtf finbl String  nbmf;
+    privbtf finbl boolfbn isVblid;
+    privbtf MfmoryPoolMXBfbn[] pools;
 
-    MemoryManagerImpl(String name) {
-        this.name = name;
-        this.isValid = true;
-        this.pools = null;
+    MfmoryMbnbgfrImpl(String nbmf) {
+        tiis.nbmf = nbmf;
+        tiis.isVblid = truf;
+        tiis.pools = null;
     }
 
-    public String getName() {
-        return name;
+    publid String gftNbmf() {
+        rfturn nbmf;
     }
 
-    public boolean isValid() {
-        return isValid;
+    publid boolfbn isVblid() {
+        rfturn isVblid;
     }
 
-    public String[] getMemoryPoolNames() {
-        MemoryPoolMXBean[] ps = getMemoryPools();
+    publid String[] gftMfmoryPoolNbmfs() {
+        MfmoryPoolMXBfbn[] ps = gftMfmoryPools();
 
-        String[] names = new String[ps.length];
-        for (int i = 0; i < ps.length; i++) {
-            names[i] = ps[i].getName();
+        String[] nbmfs = nfw String[ps.lfngti];
+        for (int i = 0; i < ps.lfngti; i++) {
+            nbmfs[i] = ps[i].gftNbmf();
         }
-        return names;
+        rfturn nbmfs;
     }
 
-    synchronized MemoryPoolMXBean[] getMemoryPools() {
+    syndironizfd MfmoryPoolMXBfbn[] gftMfmoryPools() {
         if (pools == null) {
-            pools = getMemoryPools0();
+            pools = gftMfmoryPools0();
         }
-        return pools;
+        rfturn pools;
     }
-    private native MemoryPoolMXBean[] getMemoryPools0();
+    privbtf nbtivf MfmoryPoolMXBfbn[] gftMfmoryPools0();
 
-    private MBeanNotificationInfo[] notifInfo = null;
-    public MBeanNotificationInfo[] getNotificationInfo() {
-        synchronized (this) {
+    privbtf MBfbnNotifidbtionInfo[] notifInfo = null;
+    publid MBfbnNotifidbtionInfo[] gftNotifidbtionInfo() {
+        syndironizfd (tiis) {
             if(notifInfo == null) {
-                notifInfo = new MBeanNotificationInfo[0];
+                notifInfo = nfw MBfbnNotifidbtionInfo[0];
             }
         }
-        return notifInfo;
+        rfturn notifInfo;
     }
 
-    public ObjectName getObjectName() {
-        return Util.newObjectName(ManagementFactory.MEMORY_MANAGER_MXBEAN_DOMAIN_TYPE, getName());
+    publid ObjfdtNbmf gftObjfdtNbmf() {
+        rfturn Util.nfwObjfdtNbmf(MbnbgfmfntFbdtory.MEMORY_MANAGER_MXBEAN_DOMAIN_TYPE, gftNbmf());
     }
 
 }

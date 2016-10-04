@@ -1,103 +1,103 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package com.sun.java.swing.plaf.windows;
+pbdkbgf dom.sun.jbvb.swing.plbf.windows;
 
-import javax.swing.DefaultDesktopManager;
-import javax.swing.JInternalFrame;
-import javax.swing.JLayeredPane;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.beans.PropertyVetoException;
-import java.util.Vector;
-import java.lang.ref.WeakReference;
+import jbvbx.swing.DffbultDfsktopMbnbgfr;
+import jbvbx.swing.JIntfrnblFrbmf;
+import jbvbx.swing.JLbyfrfdPbnf;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Contbinfr;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bfbns.PropfrtyVftoExdfption;
+import jbvb.util.Vfdtor;
+import jbvb.lbng.rff.WfbkRfffrfndf;
 
 /**
- * This class implements a DesktopManager which more closely follows
- * the MDI model than the DefaultDesktopManager.  Unlike the
- * DefaultDesktopManager policy, MDI requires that the selected
- * and activated child frames are the same, and that that frame
- * always be the top-most window.
+ * Tiis dlbss implfmfnts b DfsktopMbnbgfr wiidi morf dlosfly follows
+ * tif MDI modfl tibn tif DffbultDfsktopMbnbgfr.  Unlikf tif
+ * DffbultDfsktopMbnbgfr polidy, MDI rfquirfs tibt tif sflfdtfd
+ * bnd bdtivbtfd diild frbmfs brf tif sbmf, bnd tibt tibt frbmf
+ * blwbys bf tif top-most window.
  * <p>
- * The maximized state is managed by the DesktopManager with MDI,
- * instead of just being a property of the individual child frame.
- * This means that if the currently selected window is maximized
- * and another window is selected, that new window will be maximized.
+ * Tif mbximizfd stbtf is mbnbgfd by tif DfsktopMbnbgfr witi MDI,
+ * instfbd of just bfing b propfrty of tif individubl diild frbmf.
+ * Tiis mfbns tibt if tif durrfntly sflfdtfd window is mbximizfd
+ * bnd bnotifr window is sflfdtfd, tibt nfw window will bf mbximizfd.
  *
- * @see javax.swing.DefaultDesktopManager
- * @author Thomas Ball
+ * @sff jbvbx.swing.DffbultDfsktopMbnbgfr
+ * @butior Tiombs Bbll
  */
-@SuppressWarnings("serial") // JDK-implementation class
-public class WindowsDesktopManager extends DefaultDesktopManager
-        implements java.io.Serializable, javax.swing.plaf.UIResource {
+@SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+publid dlbss WindowsDfsktopMbnbgfr fxtfnds DffbultDfsktopMbnbgfr
+        implfmfnts jbvb.io.Sfriblizbblf, jbvbx.swing.plbf.UIRfsourdf {
 
-    /* The frame which is currently selected/activated.
-     * We store this value to enforce MDI's single-selection model.
+    /* Tif frbmf wiidi is durrfntly sflfdtfd/bdtivbtfd.
+     * Wf storf tiis vbluf to fnfordf MDI's singlf-sflfdtion modfl.
      */
-    private WeakReference<JInternalFrame> currentFrameRef;
+    privbtf WfbkRfffrfndf<JIntfrnblFrbmf> durrfntFrbmfRff;
 
-    public void activateFrame(JInternalFrame f) {
-        JInternalFrame currentFrame = currentFrameRef != null ?
-            currentFrameRef.get() : null;
+    publid void bdtivbtfFrbmf(JIntfrnblFrbmf f) {
+        JIntfrnblFrbmf durrfntFrbmf = durrfntFrbmfRff != null ?
+            durrfntFrbmfRff.gft() : null;
         try {
-            super.activateFrame(f);
-            if (currentFrame != null && f != currentFrame) {
-                // If the current frame is maximized, transfer that
-                // attribute to the frame being activated.
-                if (currentFrame.isMaximum() &&
-                    (f.getClientProperty("JInternalFrame.frameType") !=
-                    "optionDialog") ) {
-                    //Special case.  If key binding was used to select next
-                    //frame instead of minimizing the icon via the minimize
-                    //icon.
-                    if (!currentFrame.isIcon()) {
-                        currentFrame.setMaximum(false);
-                        if (f.isMaximizable()) {
-                            if (!f.isMaximum()) {
-                                f.setMaximum(true);
-                            } else if (f.isMaximum() && f.isIcon()) {
-                                f.setIcon(false);
-                            } else {
-                                f.setMaximum(false);
+            supfr.bdtivbtfFrbmf(f);
+            if (durrfntFrbmf != null && f != durrfntFrbmf) {
+                // If tif durrfnt frbmf is mbximizfd, trbnsffr tibt
+                // bttributf to tif frbmf bfing bdtivbtfd.
+                if (durrfntFrbmf.isMbximum() &&
+                    (f.gftClifntPropfrty("JIntfrnblFrbmf.frbmfTypf") !=
+                    "optionDiblog") ) {
+                    //Spfdibl dbsf.  If kfy binding wbs usfd to sflfdt nfxt
+                    //frbmf instfbd of minimizing tif idon vib tif minimizf
+                    //idon.
+                    if (!durrfntFrbmf.isIdon()) {
+                        durrfntFrbmf.sftMbximum(fblsf);
+                        if (f.isMbximizbblf()) {
+                            if (!f.isMbximum()) {
+                                f.sftMbximum(truf);
+                            } flsf if (f.isMbximum() && f.isIdon()) {
+                                f.sftIdon(fblsf);
+                            } flsf {
+                                f.sftMbximum(fblsf);
                             }
                         }
                     }
                 }
-                if (currentFrame.isSelected()) {
-                    currentFrame.setSelected(false);
+                if (durrfntFrbmf.isSflfdtfd()) {
+                    durrfntFrbmf.sftSflfdtfd(fblsf);
                 }
             }
 
-            if (!f.isSelected()) {
-                f.setSelected(true);
+            if (!f.isSflfdtfd()) {
+                f.sftSflfdtfd(truf);
             }
-        } catch (PropertyVetoException e) {}
-        if (f != currentFrame) {
-            currentFrameRef = new WeakReference<JInternalFrame>(f);
+        } dbtdi (PropfrtyVftoExdfption f) {}
+        if (f != durrfntFrbmf) {
+            durrfntFrbmfRff = nfw WfbkRfffrfndf<JIntfrnblFrbmf>(f);
         }
     }
 

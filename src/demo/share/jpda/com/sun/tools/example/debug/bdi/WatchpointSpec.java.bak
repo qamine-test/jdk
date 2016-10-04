@@ -1,101 +1,101 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-package com.sun.tools.example.debug.bdi;
+pbdkbgf dom.sun.tools.fxbmplf.dfbug.bdi;
 
-public abstract class WatchpointSpec extends EventRequestSpec {
-    final String fieldId;
+publid bbstrbdt dlbss WbtdipointSpfd fxtfnds EvfntRfqufstSpfd {
+    finbl String fifldId;
 
-    WatchpointSpec(EventRequestSpecList specs,
-                   ReferenceTypeSpec refSpec, String fieldId) {
-        super(specs, refSpec);
-        this.fieldId = fieldId;
-//        if (!isJavaIdentifier(fieldId)) {
-//            throw new MalformedMemberNameException(fieldId);
+    WbtdipointSpfd(EvfntRfqufstSpfdList spfds,
+                   RfffrfndfTypfSpfd rffSpfd, String fifldId) {
+        supfr(spfds, rffSpfd);
+        tiis.fifldId = fifldId;
+//        if (!isJbvbIdfntififr(fifldId)) {
+//            tirow nfw MblformfdMfmbfrNbmfExdfption(fifldId);
 //        }
     }
 
-    @Override
-    void notifySet(SpecListener listener, SpecEvent evt) {
-        listener.watchpointSet(evt);
+    @Ovfrridf
+    void notifySft(SpfdListfnfr listfnfr, SpfdEvfnt fvt) {
+        listfnfr.wbtdipointSft(fvt);
     }
 
-    @Override
-    void notifyDeferred(SpecListener listener, SpecEvent evt) {
-        listener.watchpointDeferred(evt);
+    @Ovfrridf
+    void notifyDfffrrfd(SpfdListfnfr listfnfr, SpfdEvfnt fvt) {
+        listfnfr.wbtdipointDfffrrfd(fvt);
     }
 
-    @Override
-    void notifyResolved(SpecListener listener, SpecEvent evt) {
-        listener.watchpointResolved(evt);
+    @Ovfrridf
+    void notifyRfsolvfd(SpfdListfnfr listfnfr, SpfdEvfnt fvt) {
+        listfnfr.wbtdipointRfsolvfd(fvt);
     }
 
-    @Override
-    void notifyDeleted(SpecListener listener, SpecEvent evt) {
-        listener.watchpointDeleted(evt);
+    @Ovfrridf
+    void notifyDflftfd(SpfdListfnfr listfnfr, SpfdEvfnt fvt) {
+        listfnfr.wbtdipointDflftfd(fvt);
     }
 
-    @Override
-    void notifyError(SpecListener listener, SpecErrorEvent evt) {
-        listener.watchpointError(evt);
+    @Ovfrridf
+    void notifyError(SpfdListfnfr listfnfr, SpfdErrorEvfnt fvt) {
+        listfnfr.wbtdipointError(fvt);
     }
 
-    @Override
-    public int hashCode() {
-        return refSpec.hashCode() + fieldId.hashCode() +
-            getClass().hashCode();
+    @Ovfrridf
+    publid int ibsiCodf() {
+        rfturn rffSpfd.ibsiCodf() + fifldId.ibsiCodf() +
+            gftClbss().ibsiCodf();
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof WatchpointSpec) {
-            WatchpointSpec watchpoint = (WatchpointSpec)obj;
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj instbndfof WbtdipointSpfd) {
+            WbtdipointSpfd wbtdipoint = (WbtdipointSpfd)obj;
 
-            return fieldId.equals(watchpoint.fieldId) &&
-                   refSpec.equals(watchpoint.refSpec) &&
-                   getClass().equals(watchpoint.getClass());
-        } else {
-            return false;
+            rfturn fifldId.fqubls(wbtdipoint.fifldId) &&
+                   rffSpfd.fqubls(wbtdipoint.rffSpfd) &&
+                   gftClbss().fqubls(wbtdipoint.gftClbss());
+        } flsf {
+            rfturn fblsf;
         }
     }
 
-    @Override
-    public String errorMessageFor(Exception e) {
-        if (e instanceof NoSuchFieldException) {
-            return ("No field " + fieldId + " in " + refSpec);
-        } else {
-            return super.errorMessageFor(e);
+    @Ovfrridf
+    publid String frrorMfssbgfFor(Exdfption f) {
+        if (f instbndfof NoSudiFifldExdfption) {
+            rfturn ("No fifld " + fifldId + " in " + rffSpfd);
+        } flsf {
+            rfturn supfr.frrorMfssbgfFor(f);
         }
     }
 }

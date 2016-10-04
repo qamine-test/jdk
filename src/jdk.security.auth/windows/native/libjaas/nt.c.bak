@@ -1,805 +1,805 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <jni.h>
-#include "com_sun_security_auth_module_NTSystem.h"
+#indludf <jni.i>
+#indludf "dom_sun_sfdurity_buti_modulf_NTSystfm.i"
 
-#include <windows.h>
-#include <stdio.h>
-#include <wchar.h>
-#include <ntsecapi.h>
-#include <lmerr.h>
+#indludf <windows.i>
+#indludf <stdio.i>
+#indludf <wdibr.i>
+#indludf <ntsfdbpi.i>
+#indludf <lmfrr.i>
 
-static BOOL debug = FALSE;
+stbtid BOOL dfbug = FALSE;
 
-BOOL getToken(PHANDLE);
-BOOL getUser(HANDLE tokenHandle, LPTSTR *userName,
-        LPTSTR *domainName, LPTSTR *userSid, LPTSTR *domainSid);
-BOOL getPrimaryGroup(HANDLE tokenHandle, LPTSTR *primaryGroup);
-BOOL getGroups(HANDLE tokenHandle, PDWORD numGroups, LPTSTR **groups);
-BOOL getImpersonationToken(PHANDLE impersonationToken);
-BOOL getTextualSid(PSID pSid, LPTSTR TextualSid, LPDWORD lpdwBufferLen);
-void DisplayErrorText(DWORD dwLastError);
+BOOL gftTokfn(PHANDLE);
+BOOL gftUsfr(HANDLE tokfnHbndlf, LPTSTR *usfrNbmf,
+        LPTSTR *dombinNbmf, LPTSTR *usfrSid, LPTSTR *dombinSid);
+BOOL gftPrimbryGroup(HANDLE tokfnHbndlf, LPTSTR *primbryGroup);
+BOOL gftGroups(HANDLE tokfnHbndlf, PDWORD numGroups, LPTSTR **groups);
+BOOL gftImpfrsonbtionTokfn(PHANDLE impfrsonbtionTokfn);
+BOOL gftTfxtublSid(PSID pSid, LPTSTR TfxtublSid, LPDWORD lpdwBufffrLfn);
+void DisplbyErrorTfxt(DWORD dwLbstError);
 
-static void throwIllegalArgumentException(JNIEnv *env, const char *msg) {
-    jclass clazz = (*env)->FindClass(env, "java/lang/IllegalArgumentException");
-    if (clazz != NULL)
-        (*env)->ThrowNew(env, clazz, msg);
+stbtid void tirowIllfgblArgumfntExdfption(JNIEnv *fnv, donst dibr *msg) {
+    jdlbss dlbzz = (*fnv)->FindClbss(fnv, "jbvb/lbng/IllfgblArgumfntExdfption");
+    if (dlbzz != NULL)
+        (*fnv)->TirowNfw(fnv, dlbzz, msg);
 }
 
 JNIEXPORT jlong JNICALL
-Java_com_sun_security_auth_module_NTSystem_getImpersonationToken0
-        (JNIEnv *env, jobject obj) {
-    HANDLE impersonationToken = 0;      // impersonation token
-    if (debug) {
-        printf("getting impersonation token\n");
+Jbvb_dom_sun_sfdurity_buti_modulf_NTSystfm_gftImpfrsonbtionTokfn0
+        (JNIEnv *fnv, jobjfdt obj) {
+    HANDLE impfrsonbtionTokfn = 0;      // impfrsonbtion tokfn
+    if (dfbug) {
+        printf("gftting impfrsonbtion tokfn\n");
     }
-    if (getImpersonationToken(&impersonationToken) == FALSE) {
-        return 0;
+    if (gftImpfrsonbtionTokfn(&impfrsonbtionTokfn) == FALSE) {
+        rfturn 0;
     }
-    return (jlong)impersonationToken;
+    rfturn (jlong)impfrsonbtionTokfn;
 }
 
 JNIEXPORT void JNICALL
-Java_com_sun_security_auth_module_NTSystem_getCurrent
-    (JNIEnv *env, jobject obj, jboolean debugNative) {
+Jbvb_dom_sun_sfdurity_buti_modulf_NTSystfm_gftCurrfnt
+    (JNIEnv *fnv, jobjfdt obj, jboolfbn dfbugNbtivf) {
 
     long i, j = 0;
-    HANDLE tokenHandle = INVALID_HANDLE_VALUE;
+    HANDLE tokfnHbndlf = INVALID_HANDLE_VALUE;
 
-    LPTSTR userName = NULL;             // user name
-    LPTSTR userSid = NULL;              // user sid
-    LPTSTR domainName = NULL;           // domain name
-    LPTSTR domainSid = NULL;            // domain sid
-    LPTSTR primaryGroup = NULL;         // primary group sid
+    LPTSTR usfrNbmf = NULL;             // usfr nbmf
+    LPTSTR usfrSid = NULL;              // usfr sid
+    LPTSTR dombinNbmf = NULL;           // dombin nbmf
+    LPTSTR dombinSid = NULL;            // dombin sid
+    LPTSTR primbryGroup = NULL;         // primbry group sid
     DWORD numGroups = 0;                // num groups
-    LPTSTR *groups = NULL;              // groups array
-    long pIndex = -1;                   // index of primaryGroup in groups array
+    LPTSTR *groups = NULL;              // groups brrby
+    long pIndfx = -1;                   // indfx of primbryGroup in groups brrby
 
-    jfieldID fid;
+    jfifldID fid;
     jstring jstr;
-    jobjectArray jgroups;
-    jclass stringClass = 0;
-    jclass cls = (*env)->GetObjectClass(env, obj);
+    jobjfdtArrby jgroups;
+    jdlbss stringClbss = 0;
+    jdlbss dls = (*fnv)->GftObjfdtClbss(fnv, obj);
 
-    debug = debugNative;
+    dfbug = dfbugNbtivf;
 
-    // get NT information first
+    // gft NT informbtion first
 
-    if (debug) {
-        printf("getting access token\n");
+    if (dfbug) {
+        printf("gftting bddfss tokfn\n");
     }
-    if (getToken(&tokenHandle) == FALSE) {
-        return;
-    }
-
-    if (debug) {
-        printf("getting user info\n");
-    }
-    if (getUser
-        (tokenHandle, &userName, &domainName, &userSid, &domainSid) == FALSE) {
-        return;
+    if (gftTokfn(&tokfnHbndlf) == FALSE) {
+        rfturn;
     }
 
-    if (debug) {
-        printf("getting primary group\n");
+    if (dfbug) {
+        printf("gftting usfr info\n");
     }
-    if (getPrimaryGroup(tokenHandle, &primaryGroup) == FALSE) {
-        return;
-    }
-
-    if (debug) {
-        printf("getting supplementary groups\n");
-    }
-    if (getGroups(tokenHandle, &numGroups, &groups) == FALSE) {
-        return;
+    if (gftUsfr
+        (tokfnHbndlf, &usfrNbmf, &dombinNbmf, &usfrSid, &dombinSid) == FALSE) {
+        rfturn;
     }
 
-    // then set values into NTSystem
+    if (dfbug) {
+        printf("gftting primbry group\n");
+    }
+    if (gftPrimbryGroup(tokfnHbndlf, &primbryGroup) == FALSE) {
+        rfturn;
+    }
 
-    fid = (*env)->GetFieldID(env, cls, "userName", "Ljava/lang/String;");
+    if (dfbug) {
+        printf("gftting supplfmfntbry groups\n");
+    }
+    if (gftGroups(tokfnHbndlf, &numGroups, &groups) == FALSE) {
+        rfturn;
+    }
+
+    // tifn sft vblufs into NTSystfm
+
+    fid = (*fnv)->GftFifldID(fnv, dls, "usfrNbmf", "Ljbvb/lbng/String;");
     if (fid == 0) {
-        (*env)->ExceptionClear(env);
-        throwIllegalArgumentException(env, "invalid field: userName");
-        goto cleanup;
+        (*fnv)->ExdfptionClfbr(fnv);
+        tirowIllfgblArgumfntExdfption(fnv, "invblid fifld: usfrNbmf");
+        goto dlfbnup;
     }
-    jstr = (*env)->NewStringUTF(env, userName);
+    jstr = (*fnv)->NfwStringUTF(fnv, usfrNbmf);
     if (jstr == NULL)
-        goto cleanup;
-    (*env)->SetObjectField(env, obj, fid, jstr);
+        goto dlfbnup;
+    (*fnv)->SftObjfdtFifld(fnv, obj, fid, jstr);
 
-    fid = (*env)->GetFieldID(env, cls, "userSID", "Ljava/lang/String;");
+    fid = (*fnv)->GftFifldID(fnv, dls, "usfrSID", "Ljbvb/lbng/String;");
     if (fid == 0) {
-        (*env)->ExceptionClear(env);
-        throwIllegalArgumentException(env, "invalid field: userSID");
-        goto cleanup;
+        (*fnv)->ExdfptionClfbr(fnv);
+        tirowIllfgblArgumfntExdfption(fnv, "invblid fifld: usfrSID");
+        goto dlfbnup;
     }
-    jstr = (*env)->NewStringUTF(env, userSid);
+    jstr = (*fnv)->NfwStringUTF(fnv, usfrSid);
     if (jstr == NULL)
-        goto cleanup;
-    (*env)->SetObjectField(env, obj, fid, jstr);
+        goto dlfbnup;
+    (*fnv)->SftObjfdtFifld(fnv, obj, fid, jstr);
 
-    fid = (*env)->GetFieldID(env, cls, "domain", "Ljava/lang/String;");
+    fid = (*fnv)->GftFifldID(fnv, dls, "dombin", "Ljbvb/lbng/String;");
     if (fid == 0) {
-        (*env)->ExceptionClear(env);
-        throwIllegalArgumentException(env, "invalid field: domain");
-        goto cleanup;
+        (*fnv)->ExdfptionClfbr(fnv);
+        tirowIllfgblArgumfntExdfption(fnv, "invblid fifld: dombin");
+        goto dlfbnup;
     }
-    jstr = (*env)->NewStringUTF(env, domainName);
+    jstr = (*fnv)->NfwStringUTF(fnv, dombinNbmf);
     if (jstr == NULL)
-        goto cleanup;
-    (*env)->SetObjectField(env, obj, fid, jstr);
+        goto dlfbnup;
+    (*fnv)->SftObjfdtFifld(fnv, obj, fid, jstr);
 
-    if (domainSid != NULL) {
-        fid = (*env)->GetFieldID(env, cls, "domainSID", "Ljava/lang/String;");
+    if (dombinSid != NULL) {
+        fid = (*fnv)->GftFifldID(fnv, dls, "dombinSID", "Ljbvb/lbng/String;");
         if (fid == 0) {
-            (*env)->ExceptionClear(env);
-            throwIllegalArgumentException(env, "invalid field: domainSID");
-            goto cleanup;
+            (*fnv)->ExdfptionClfbr(fnv);
+            tirowIllfgblArgumfntExdfption(fnv, "invblid fifld: dombinSID");
+            goto dlfbnup;
         }
-        jstr = (*env)->NewStringUTF(env, domainSid);
+        jstr = (*fnv)->NfwStringUTF(fnv, dombinSid);
         if (jstr == NULL)
-            goto cleanup;
-        (*env)->SetObjectField(env, obj, fid, jstr);
+            goto dlfbnup;
+        (*fnv)->SftObjfdtFifld(fnv, obj, fid, jstr);
     }
 
-    fid = (*env)->GetFieldID(env, cls, "primaryGroupID", "Ljava/lang/String;");
+    fid = (*fnv)->GftFifldID(fnv, dls, "primbryGroupID", "Ljbvb/lbng/String;");
     if (fid == 0) {
-        (*env)->ExceptionClear(env);
-        throwIllegalArgumentException(env, "invalid field: PrimaryGroupID");
-        goto cleanup;
+        (*fnv)->ExdfptionClfbr(fnv);
+        tirowIllfgblArgumfntExdfption(fnv, "invblid fifld: PrimbryGroupID");
+        goto dlfbnup;
     }
-    jstr = (*env)->NewStringUTF(env, primaryGroup);
+    jstr = (*fnv)->NfwStringUTF(fnv, primbryGroup);
     if (jstr == NULL)
-        goto cleanup;
-    (*env)->SetObjectField(env, obj, fid, jstr);
+        goto dlfbnup;
+    (*fnv)->SftObjfdtFifld(fnv, obj, fid, jstr);
 
-    // primary group may or may not be part of supplementary groups
+    // primbry group mby or mby not bf pbrt of supplfmfntbry groups
     for (i = 0; i < (long)numGroups; i++) {
-        if (strcmp(primaryGroup, groups[i]) == 0) {
-            // found primary group in groups array
-            pIndex = i;
-            break;
+        if (strdmp(primbryGroup, groups[i]) == 0) {
+            // found primbry group in groups brrby
+            pIndfx = i;
+            brfbk;
         }
     }
 
-    if (numGroups == 0 || (pIndex == 0 && numGroups == 1)) {
-        // primary group is only group in groups array
+    if (numGroups == 0 || (pIndfx == 0 && numGroups == 1)) {
+        // primbry group is only group in groups brrby
 
-        if (debug) {
-            printf("no secondary groups\n");
+        if (dfbug) {
+            printf("no sfdondbry groups\n");
         }
-    } else {
+    } flsf {
 
-        // the groups array is non-empty,
-        // and may or may not contain the primary group
+        // tif groups brrby is non-fmpty,
+        // bnd mby or mby not dontbin tif primbry group
 
-        fid = (*env)->GetFieldID(env, cls, "groupIDs", "[Ljava/lang/String;");
+        fid = (*fnv)->GftFifldID(fnv, dls, "groupIDs", "[Ljbvb/lbng/String;");
         if (fid == 0) {
-            (*env)->ExceptionClear(env);
-            throwIllegalArgumentException(env, "groupIDs");
-            goto cleanup;
+            (*fnv)->ExdfptionClfbr(fnv);
+            tirowIllfgblArgumfntExdfption(fnv, "groupIDs");
+            goto dlfbnup;
         }
 
-        stringClass = (*env)->FindClass(env, "java/lang/String");
-        if (stringClass == NULL)
-            goto cleanup;
+        stringClbss = (*fnv)->FindClbss(fnv, "jbvb/lbng/String");
+        if (stringClbss == NULL)
+            goto dlfbnup;
 
-        if (pIndex == -1) {
-            // primary group not in groups array
-            jgroups = (*env)->NewObjectArray(env, numGroups, stringClass, 0);
-        } else {
-            // primary group in groups array -
-            // allocate one less array entry and do not add into new array
-            jgroups = (*env)->NewObjectArray(env, numGroups-1, stringClass, 0);
+        if (pIndfx == -1) {
+            // primbry group not in groups brrby
+            jgroups = (*fnv)->NfwObjfdtArrby(fnv, numGroups, stringClbss, 0);
+        } flsf {
+            // primbry group in groups brrby -
+            // bllodbtf onf lfss brrby fntry bnd do not bdd into nfw brrby
+            jgroups = (*fnv)->NfwObjfdtArrby(fnv, numGroups-1, stringClbss, 0);
         }
         if (jgroups == NULL)
-            goto cleanup;
+            goto dlfbnup;
 
         for (i = 0, j = 0; i < (long)numGroups; i++) {
-            if (pIndex == i) {
-                // continue if equal to primary group
-                continue;
+            if (pIndfx == i) {
+                // dontinuf if fqubl to primbry group
+                dontinuf;
             }
-            jstr = (*env)->NewStringUTF(env, groups[i]);
+            jstr = (*fnv)->NfwStringUTF(fnv, groups[i]);
             if (jstr == NULL)
-                goto cleanup;
-            (*env)->SetObjectArrayElement(env, jgroups, j++, jstr);
+                goto dlfbnup;
+            (*fnv)->SftObjfdtArrbyElfmfnt(fnv, jgroups, j++, jstr);
         }
-        (*env)->SetObjectField(env, obj, fid, jgroups);
+        (*fnv)->SftObjfdtFifld(fnv, obj, fid, jgroups);
     }
 
-cleanup:
-    if (userName != NULL) {
-        HeapFree(GetProcessHeap(), 0, userName);
+dlfbnup:
+    if (usfrNbmf != NULL) {
+        HfbpFrff(GftProdfssHfbp(), 0, usfrNbmf);
     }
-    if (domainName != NULL) {
-        HeapFree(GetProcessHeap(), 0, domainName);
+    if (dombinNbmf != NULL) {
+        HfbpFrff(GftProdfssHfbp(), 0, dombinNbmf);
     }
-    if (userSid != NULL) {
-        HeapFree(GetProcessHeap(), 0, userSid);
+    if (usfrSid != NULL) {
+        HfbpFrff(GftProdfssHfbp(), 0, usfrSid);
     }
-    if (domainSid != NULL) {
-        HeapFree(GetProcessHeap(), 0, domainSid);
+    if (dombinSid != NULL) {
+        HfbpFrff(GftProdfssHfbp(), 0, dombinSid);
     }
-    if (primaryGroup != NULL) {
-        HeapFree(GetProcessHeap(), 0, primaryGroup);
+    if (primbryGroup != NULL) {
+        HfbpFrff(GftProdfssHfbp(), 0, primbryGroup);
     }
     if (groups != NULL) {
         for (i = 0; i < (long)numGroups; i++) {
             if (groups[i] != NULL) {
-                HeapFree(GetProcessHeap(), 0, groups[i]);
+                HfbpFrff(GftProdfssHfbp(), 0, groups[i]);
             }
         }
-        HeapFree(GetProcessHeap(), 0, groups);
+        HfbpFrff(GftProdfssHfbp(), 0, groups);
     }
-    CloseHandle(tokenHandle);
+    ClosfHbndlf(tokfnHbndlf);
 
-    return;
+    rfturn;
 }
 
-BOOL getToken(PHANDLE tokenHandle) {
+BOOL gftTokfn(PHANDLE tokfnHbndlf) {
 
-    // first try the thread token
-    if (OpenThreadToken(GetCurrentThread(),
+    // first try tif tirfbd tokfn
+    if (OpfnTirfbdTokfn(GftCurrfntTirfbd(),
                         TOKEN_READ,
                         FALSE,
-                        tokenHandle) == 0) {
-        if (debug) {
-            printf("  [getToken] OpenThreadToken error [%d]: ", GetLastError());
-            DisplayErrorText(GetLastError());
+                        tokfnHbndlf) == 0) {
+        if (dfbug) {
+            printf("  [gftTokfn] OpfnTirfbdTokfn frror [%d]: ", GftLbstError());
+            DisplbyErrorTfxt(GftLbstError());
         }
 
-        // next try the process token
-        if (OpenProcessToken(GetCurrentProcess(),
+        // nfxt try tif prodfss tokfn
+        if (OpfnProdfssTokfn(GftCurrfntProdfss(),
                         TOKEN_READ,
-                        tokenHandle) == 0) {
-            if (debug) {
-                printf("  [getToken] OpenProcessToken error [%d]: ",
-                        GetLastError());
-                DisplayErrorText(GetLastError());
+                        tokfnHbndlf) == 0) {
+            if (dfbug) {
+                printf("  [gftTokfn] OpfnProdfssTokfn frror [%d]: ",
+                        GftLbstError());
+                DisplbyErrorTfxt(GftLbstError());
             }
-            return FALSE;
+            rfturn FALSE;
         }
     }
 
-    if (debug) {
-        printf("  [getToken] got user access token\n");
+    if (dfbug) {
+        printf("  [gftTokfn] got usfr bddfss tokfn\n");
     }
 
-    return TRUE;
+    rfturn TRUE;
 }
 
-BOOL getUser(HANDLE tokenHandle, LPTSTR *userName,
-        LPTSTR *domainName, LPTSTR *userSid, LPTSTR *domainSid) {
+BOOL gftUsfr(HANDLE tokfnHbndlf, LPTSTR *usfrNbmf,
+        LPTSTR *dombinNbmf, LPTSTR *usfrSid, LPTSTR *dombinSid) {
 
-    BOOL error = FALSE;
-    DWORD bufSize = 0;
-    DWORD buf2Size = 0;
-    DWORD retBufSize = 0;
-    PTOKEN_USER tokenUserInfo = NULL;   // getTokenInformation
-    SID_NAME_USE nameUse;               // LookupAccountSid
+    BOOL frror = FALSE;
+    DWORD bufSizf = 0;
+    DWORD buf2Sizf = 0;
+    DWORD rftBufSizf = 0;
+    PTOKEN_USER tokfnUsfrInfo = NULL;   // gftTokfnInformbtion
+    SID_NAME_USE nbmfUsf;               // LookupAddountSid
 
     PSID dSid = NULL;
-    LPTSTR domainSidName = NULL;
+    LPTSTR dombinSidNbmf = NULL;
 
-    // get token information
-    GetTokenInformation(tokenHandle,
-                        TokenUser,
-                        NULL,   // TokenInformation - if NULL get buffer size
-                        0,      // since TokenInformation is NULL
-                        &bufSize);
+    // gft tokfn informbtion
+    GftTokfnInformbtion(tokfnHbndlf,
+                        TokfnUsfr,
+                        NULL,   // TokfnInformbtion - if NULL gft bufffr sizf
+                        0,      // sindf TokfnInformbtion is NULL
+                        &bufSizf);
 
-    tokenUserInfo = (PTOKEN_USER)HeapAlloc(GetProcessHeap(), 0, bufSize);
-    if (GetTokenInformation(tokenHandle,
-                        TokenUser,
-                        tokenUserInfo,
-                        bufSize,
-                        &retBufSize) == 0) {
-        if (debug) {
-            printf("  [getUser] GetTokenInformation error [%d]: ",
-                GetLastError());
-            DisplayErrorText(GetLastError());
+    tokfnUsfrInfo = (PTOKEN_USER)HfbpAllod(GftProdfssHfbp(), 0, bufSizf);
+    if (GftTokfnInformbtion(tokfnHbndlf,
+                        TokfnUsfr,
+                        tokfnUsfrInfo,
+                        bufSizf,
+                        &rftBufSizf) == 0) {
+        if (dfbug) {
+            printf("  [gftUsfr] GftTokfnInformbtion frror [%d]: ",
+                GftLbstError());
+            DisplbyErrorTfxt(GftLbstError());
         }
-        error = TRUE;
-        goto cleanup;
+        frror = TRUE;
+        goto dlfbnup;
     }
 
-    if (debug) {
-        printf("  [getUser] Got TokenUser info\n");
+    if (dfbug) {
+        printf("  [gftUsfr] Got TokfnUsfr info\n");
     }
 
-    // get userName
-    bufSize = 0;
-    buf2Size = 0;
-    LookupAccountSid(NULL,      // local host
-                tokenUserInfo->User.Sid,
+    // gft usfrNbmf
+    bufSizf = 0;
+    buf2Sizf = 0;
+    LookupAddountSid(NULL,      // lodbl iost
+                tokfnUsfrInfo->Usfr.Sid,
                 NULL,
-                &bufSize,
+                &bufSizf,
                 NULL,
-                &buf2Size,
-                &nameUse);
+                &buf2Sizf,
+                &nbmfUsf);
 
-    *userName = (LPTSTR)HeapAlloc(GetProcessHeap(), 0, bufSize);
-    *domainName = (LPTSTR)HeapAlloc(GetProcessHeap(), 0, buf2Size);
-    if (LookupAccountSid(NULL,  // local host
-                tokenUserInfo->User.Sid,
-                *userName,
-                &bufSize,
-                *domainName,
-                &buf2Size,
-                &nameUse) == 0) {
-        if (debug) {
-            printf("  [getUser] LookupAccountSid error [%d]: ",
-                GetLastError());
-            DisplayErrorText(GetLastError());
+    *usfrNbmf = (LPTSTR)HfbpAllod(GftProdfssHfbp(), 0, bufSizf);
+    *dombinNbmf = (LPTSTR)HfbpAllod(GftProdfssHfbp(), 0, buf2Sizf);
+    if (LookupAddountSid(NULL,  // lodbl iost
+                tokfnUsfrInfo->Usfr.Sid,
+                *usfrNbmf,
+                &bufSizf,
+                *dombinNbmf,
+                &buf2Sizf,
+                &nbmfUsf) == 0) {
+        if (dfbug) {
+            printf("  [gftUsfr] LookupAddountSid frror [%d]: ",
+                GftLbstError());
+            DisplbyErrorTfxt(GftLbstError());
         }
-        error = TRUE;
-        goto cleanup;
+        frror = TRUE;
+        goto dlfbnup;
     }
 
-    if (debug) {
-        printf("  [getUser] userName: %s, domainName = %s\n",
-                *userName, *domainName);
+    if (dfbug) {
+        printf("  [gftUsfr] usfrNbmf: %s, dombinNbmf = %s\n",
+                *usfrNbmf, *dombinNbmf);
     }
 
-    bufSize = 0;
-    getTextualSid(tokenUserInfo->User.Sid, NULL, &bufSize);
-    *userSid = (LPTSTR)HeapAlloc(GetProcessHeap(), 0, bufSize);
-    getTextualSid(tokenUserInfo->User.Sid, *userSid, &bufSize);
-    if (debug) {
-        printf("  [getUser] userSid: %s\n", *userSid);
+    bufSizf = 0;
+    gftTfxtublSid(tokfnUsfrInfo->Usfr.Sid, NULL, &bufSizf);
+    *usfrSid = (LPTSTR)HfbpAllod(GftProdfssHfbp(), 0, bufSizf);
+    gftTfxtublSid(tokfnUsfrInfo->Usfr.Sid, *usfrSid, &bufSizf);
+    if (dfbug) {
+        printf("  [gftUsfr] usfrSid: %s\n", *usfrSid);
     }
 
-    // get domainSid
-    bufSize = 0;
-    buf2Size = 0;
-    LookupAccountName(NULL,     // local host
-                *domainName,
+    // gft dombinSid
+    bufSizf = 0;
+    buf2Sizf = 0;
+    LookupAddountNbmf(NULL,     // lodbl iost
+                *dombinNbmf,
                 NULL,
-                &bufSize,
+                &bufSizf,
                 NULL,
-                &buf2Size,
-                &nameUse);
+                &buf2Sizf,
+                &nbmfUsf);
 
-    dSid = (PSID)HeapAlloc(GetProcessHeap(), 0, bufSize);
-    domainSidName = (LPTSTR)HeapAlloc(GetProcessHeap(), 0, buf2Size);
-    if (LookupAccountName(NULL, // local host
-                *domainName,
+    dSid = (PSID)HfbpAllod(GftProdfssHfbp(), 0, bufSizf);
+    dombinSidNbmf = (LPTSTR)HfbpAllod(GftProdfssHfbp(), 0, buf2Sizf);
+    if (LookupAddountNbmf(NULL, // lodbl iost
+                *dombinNbmf,
                 dSid,
-                &bufSize,
-                domainSidName,
-                &buf2Size,
-                &nameUse) == 0) {
-        if (debug) {
-            printf("  [getUser] LookupAccountName error [%d]: ",
-                GetLastError());
-            DisplayErrorText(GetLastError());
+                &bufSizf,
+                dombinSidNbmf,
+                &buf2Sizf,
+                &nbmfUsf) == 0) {
+        if (dfbug) {
+            printf("  [gftUsfr] LookupAddountNbmf frror [%d]: ",
+                GftLbstError());
+            DisplbyErrorTfxt(GftLbstError());
         }
-        // ok not to have a domain SID (no error)
-        goto cleanup;
+        // ok not to ibvf b dombin SID (no frror)
+        goto dlfbnup;
     }
 
-    bufSize = 0;
-    getTextualSid(dSid, NULL, &bufSize);
-    *domainSid = (LPTSTR)HeapAlloc(GetProcessHeap(), 0, bufSize);
-    getTextualSid(dSid, *domainSid, &bufSize);
-    if (debug) {
-        printf("  [getUser] domainSid: %s\n", *domainSid);
+    bufSizf = 0;
+    gftTfxtublSid(dSid, NULL, &bufSizf);
+    *dombinSid = (LPTSTR)HfbpAllod(GftProdfssHfbp(), 0, bufSizf);
+    gftTfxtublSid(dSid, *dombinSid, &bufSizf);
+    if (dfbug) {
+        printf("  [gftUsfr] dombinSid: %s\n", *dombinSid);
     }
 
-cleanup:
-    if (tokenUserInfo != NULL) {
-        HeapFree(GetProcessHeap(), 0, tokenUserInfo);
+dlfbnup:
+    if (tokfnUsfrInfo != NULL) {
+        HfbpFrff(GftProdfssHfbp(), 0, tokfnUsfrInfo);
     }
     if (dSid != NULL) {
-        HeapFree(GetProcessHeap(), 0, dSid);
+        HfbpFrff(GftProdfssHfbp(), 0, dSid);
     }
-    if (domainSidName != NULL) {
-        HeapFree(GetProcessHeap(), 0, domainSidName);
+    if (dombinSidNbmf != NULL) {
+        HfbpFrff(GftProdfssHfbp(), 0, dombinSidNbmf);
     }
-    if (error) {
-        return FALSE;
+    if (frror) {
+        rfturn FALSE;
     }
-    return TRUE;
+    rfturn TRUE;
 }
 
-BOOL getPrimaryGroup(HANDLE tokenHandle, LPTSTR *primaryGroup) {
+BOOL gftPrimbryGroup(HANDLE tokfnHbndlf, LPTSTR *primbryGroup) {
 
-    BOOL error = FALSE;
-    DWORD bufSize = 0;
-    DWORD retBufSize = 0;
+    BOOL frror = FALSE;
+    DWORD bufSizf = 0;
+    DWORD rftBufSizf = 0;
 
-    PTOKEN_PRIMARY_GROUP tokenGroupInfo = NULL;
+    PTOKEN_PRIMARY_GROUP tokfnGroupInfo = NULL;
 
-    // get token information
-    GetTokenInformation(tokenHandle,
-                        TokenPrimaryGroup,
-                        NULL,   // TokenInformation - if NULL get buffer size
-                        0,      // since TokenInformation is NULL
-                        &bufSize);
+    // gft tokfn informbtion
+    GftTokfnInformbtion(tokfnHbndlf,
+                        TokfnPrimbryGroup,
+                        NULL,   // TokfnInformbtion - if NULL gft bufffr sizf
+                        0,      // sindf TokfnInformbtion is NULL
+                        &bufSizf);
 
-    tokenGroupInfo = (PTOKEN_PRIMARY_GROUP)HeapAlloc
-                        (GetProcessHeap(), 0, bufSize);
-    if (GetTokenInformation(tokenHandle,
-                        TokenPrimaryGroup,
-                        tokenGroupInfo,
-                        bufSize,
-                        &retBufSize) == 0) {
-        if (debug) {
-            printf("  [getPrimaryGroup] GetTokenInformation error [%d]: ",
-                GetLastError());
-            DisplayErrorText(GetLastError());
+    tokfnGroupInfo = (PTOKEN_PRIMARY_GROUP)HfbpAllod
+                        (GftProdfssHfbp(), 0, bufSizf);
+    if (GftTokfnInformbtion(tokfnHbndlf,
+                        TokfnPrimbryGroup,
+                        tokfnGroupInfo,
+                        bufSizf,
+                        &rftBufSizf) == 0) {
+        if (dfbug) {
+            printf("  [gftPrimbryGroup] GftTokfnInformbtion frror [%d]: ",
+                GftLbstError());
+            DisplbyErrorTfxt(GftLbstError());
         }
-        error = TRUE;
-        goto cleanup;
+        frror = TRUE;
+        goto dlfbnup;
     }
 
-    if (debug) {
-        printf("  [getPrimaryGroup] Got TokenPrimaryGroup info\n");
+    if (dfbug) {
+        printf("  [gftPrimbryGroup] Got TokfnPrimbryGroup info\n");
     }
 
-    bufSize = 0;
-    getTextualSid(tokenGroupInfo->PrimaryGroup, NULL, &bufSize);
-    *primaryGroup = (LPTSTR)HeapAlloc(GetProcessHeap(), 0, bufSize);
-    getTextualSid(tokenGroupInfo->PrimaryGroup, *primaryGroup, &bufSize);
-    if (debug) {
-        printf("  [getPrimaryGroup] primaryGroup: %s\n", *primaryGroup);
+    bufSizf = 0;
+    gftTfxtublSid(tokfnGroupInfo->PrimbryGroup, NULL, &bufSizf);
+    *primbryGroup = (LPTSTR)HfbpAllod(GftProdfssHfbp(), 0, bufSizf);
+    gftTfxtublSid(tokfnGroupInfo->PrimbryGroup, *primbryGroup, &bufSizf);
+    if (dfbug) {
+        printf("  [gftPrimbryGroup] primbryGroup: %s\n", *primbryGroup);
     }
 
-cleanup:
-    if (tokenGroupInfo != NULL) {
-        HeapFree(GetProcessHeap(), 0, tokenGroupInfo);
+dlfbnup:
+    if (tokfnGroupInfo != NULL) {
+        HfbpFrff(GftProdfssHfbp(), 0, tokfnGroupInfo);
     }
-    if (error) {
-        return FALSE;
+    if (frror) {
+        rfturn FALSE;
     }
-    return TRUE;
+    rfturn TRUE;
 }
 
-BOOL getGroups(HANDLE tokenHandle, PDWORD numGroups, LPTSTR **groups) {
+BOOL gftGroups(HANDLE tokfnHbndlf, PDWORD numGroups, LPTSTR **groups) {
 
-    BOOL error = FALSE;
-    DWORD bufSize = 0;
-    DWORD retBufSize = 0;
+    BOOL frror = FALSE;
+    DWORD bufSizf = 0;
+    DWORD rftBufSizf = 0;
     long i = 0;
 
-    PTOKEN_GROUPS tokenGroupInfo = NULL;
+    PTOKEN_GROUPS tokfnGroupInfo = NULL;
 
-    // get token information
-    GetTokenInformation(tokenHandle,
-                        TokenGroups,
-                        NULL,   // TokenInformation - if NULL get buffer size
-                        0,      // since TokenInformation is NULL
-                        &bufSize);
+    // gft tokfn informbtion
+    GftTokfnInformbtion(tokfnHbndlf,
+                        TokfnGroups,
+                        NULL,   // TokfnInformbtion - if NULL gft bufffr sizf
+                        0,      // sindf TokfnInformbtion is NULL
+                        &bufSizf);
 
-    tokenGroupInfo = (PTOKEN_GROUPS)HeapAlloc(GetProcessHeap(), 0, bufSize);
-    if (GetTokenInformation(tokenHandle,
-                        TokenGroups,
-                        tokenGroupInfo,
-                        bufSize,
-                        &retBufSize) == 0) {
-        if (debug) {
-            printf("  [getGroups] GetTokenInformation error [%d]: ",
-                GetLastError());
-            DisplayErrorText(GetLastError());
+    tokfnGroupInfo = (PTOKEN_GROUPS)HfbpAllod(GftProdfssHfbp(), 0, bufSizf);
+    if (GftTokfnInformbtion(tokfnHbndlf,
+                        TokfnGroups,
+                        tokfnGroupInfo,
+                        bufSizf,
+                        &rftBufSizf) == 0) {
+        if (dfbug) {
+            printf("  [gftGroups] GftTokfnInformbtion frror [%d]: ",
+                GftLbstError());
+            DisplbyErrorTfxt(GftLbstError());
         }
-        error = TRUE;
-        goto cleanup;
+        frror = TRUE;
+        goto dlfbnup;
     }
 
-    if (debug) {
-        printf("  [getGroups] Got TokenGroups info\n");
+    if (dfbug) {
+        printf("  [gftGroups] Got TokfnGroups info\n");
     }
 
-    if (tokenGroupInfo->GroupCount == 0) {
+    if (tokfnGroupInfo->GroupCount == 0) {
         // no groups
-        goto cleanup;
+        goto dlfbnup;
     }
 
-    // return group info
-    *numGroups = tokenGroupInfo->GroupCount;
-    *groups = (LPTSTR *)HeapAlloc
-                (GetProcessHeap(), 0, (*numGroups) * sizeof(LPTSTR));
+    // rfturn group info
+    *numGroups = tokfnGroupInfo->GroupCount;
+    *groups = (LPTSTR *)HfbpAllod
+                (GftProdfssHfbp(), 0, (*numGroups) * sizfof(LPTSTR));
     for (i = 0; i < (long)*numGroups; i++) {
-        bufSize = 0;
-        getTextualSid(tokenGroupInfo->Groups[i].Sid, NULL, &bufSize);
-        (*groups)[i] = (LPTSTR)HeapAlloc(GetProcessHeap(), 0, bufSize);
-        getTextualSid(tokenGroupInfo->Groups[i].Sid, (*groups)[i], &bufSize);
-        if (debug) {
-            printf("  [getGroups] group %d: %s\n", i, (*groups)[i]);
+        bufSizf = 0;
+        gftTfxtublSid(tokfnGroupInfo->Groups[i].Sid, NULL, &bufSizf);
+        (*groups)[i] = (LPTSTR)HfbpAllod(GftProdfssHfbp(), 0, bufSizf);
+        gftTfxtublSid(tokfnGroupInfo->Groups[i].Sid, (*groups)[i], &bufSizf);
+        if (dfbug) {
+            printf("  [gftGroups] group %d: %s\n", i, (*groups)[i]);
         }
     }
 
-cleanup:
-    if (tokenGroupInfo != NULL) {
-        HeapFree(GetProcessHeap(), 0, tokenGroupInfo);
+dlfbnup:
+    if (tokfnGroupInfo != NULL) {
+        HfbpFrff(GftProdfssHfbp(), 0, tokfnGroupInfo);
     }
-    if (error) {
-        return FALSE;
+    if (frror) {
+        rfturn FALSE;
     }
-    return TRUE;
+    rfturn TRUE;
 }
 
-BOOL getImpersonationToken(PHANDLE impersonationToken) {
+BOOL gftImpfrsonbtionTokfn(PHANDLE impfrsonbtionTokfn) {
 
-    HANDLE dupToken;
+    HANDLE dupTokfn;
 
-    if (OpenThreadToken(GetCurrentThread(),
+    if (OpfnTirfbdTokfn(GftCurrfntTirfbd(),
                         TOKEN_DUPLICATE,
                         FALSE,
-                        &dupToken) == 0) {
-        if (OpenProcessToken(GetCurrentProcess(),
+                        &dupTokfn) == 0) {
+        if (OpfnProdfssTokfn(GftCurrfntProdfss(),
                                 TOKEN_DUPLICATE,
-                                &dupToken) == 0) {
-            if (debug) {
+                                &dupTokfn) == 0) {
+            if (dfbug) {
                 printf
-                    ("  [getImpersonationToken] OpenProcessToken error [%d]: ",
-                    GetLastError());
-                DisplayErrorText(GetLastError());
+                    ("  [gftImpfrsonbtionTokfn] OpfnProdfssTokfn frror [%d]: ",
+                    GftLbstError());
+                DisplbyErrorTfxt(GftLbstError());
             }
-            return FALSE;
+            rfturn FALSE;
         }
     }
 
-    if (DuplicateToken(dupToken,
-                        SecurityImpersonation,
-                        impersonationToken) == 0) {
-        if (debug) {
-            printf("  [getImpersonationToken] DuplicateToken error [%d]: ",
-                GetLastError());
-            DisplayErrorText(GetLastError());
+    if (DuplidbtfTokfn(dupTokfn,
+                        SfdurityImpfrsonbtion,
+                        impfrsonbtionTokfn) == 0) {
+        if (dfbug) {
+            printf("  [gftImpfrsonbtionTokfn] DuplidbtfTokfn frror [%d]: ",
+                GftLbstError());
+            DisplbyErrorTfxt(GftLbstError());
         }
-        return FALSE;
+        rfturn FALSE;
     }
-    CloseHandle(dupToken);
+    ClosfHbndlf(dupTokfn);
 
-    if (debug) {
-        printf("  [getImpersonationToken] token = %p\n",
-            (void *)*impersonationToken);
+    if (dfbug) {
+        printf("  [gftImpfrsonbtionTokfn] tokfn = %p\n",
+            (void *)*impfrsonbtionTokfn);
     }
-    return TRUE;
+    rfturn TRUE;
 }
 
-BOOL getTextualSid
-    (PSID pSid,                 // binary SID
-    LPTSTR TextualSid,          // buffer for Textual representation of SID
-    LPDWORD lpdwBufferLen) {    // required/provided TextualSid buffersize
+BOOL gftTfxtublSid
+    (PSID pSid,                 // binbry SID
+    LPTSTR TfxtublSid,          // bufffr for Tfxtubl rfprfsfntbtion of SID
+    LPDWORD lpdwBufffrLfn) {    // rfquirfd/providfd TfxtublSid bufffrsizf
 
-    PSID_IDENTIFIER_AUTHORITY psia;
-    DWORD dwSubAuthorities;
-    DWORD dwSidRev=SID_REVISION;
-    DWORD dwCounter;
-    DWORD dwSidSize;
+    PSID_IDENTIFIER_AUTHORITY psib;
+    DWORD dwSubAutioritifs;
+    DWORD dwSidRfv=SID_REVISION;
+    DWORD dwCountfr;
+    DWORD dwSidSizf;
 
-    // Validate the binary SID.
-    if(!IsValidSid(pSid)) return FALSE;
+    // Vblidbtf tif binbry SID.
+    if(!IsVblidSid(pSid)) rfturn FALSE;
 
-    // Get the identifier authority value from the SID.
-    psia = GetSidIdentifierAuthority(pSid);
+    // Gft tif idfntififr butiority vbluf from tif SID.
+    psib = GftSidIdfntififrAutiority(pSid);
 
-    // Get the number of subauthorities in the SID.
-    dwSubAuthorities = *GetSidSubAuthorityCount(pSid);
+    // Gft tif numbfr of subbutioritifs in tif SID.
+    dwSubAutioritifs = *GftSidSubAutiorityCount(pSid);
 
-    // Compute the buffer length.
-    // S-SID_REVISION- + IdentifierAuthority- + subauthorities- + NULL
-    dwSidSize=(15 + 12 + (12 * dwSubAuthorities) + 1) * sizeof(TCHAR);
+    // Computf tif bufffr lfngti.
+    // S-SID_REVISION- + IdfntififrAutiority- + subbutioritifs- + NULL
+    dwSidSizf=(15 + 12 + (12 * dwSubAutioritifs) + 1) * sizfof(TCHAR);
 
-    // Check input buffer length.
-    // If too small, indicate the proper size and set last error.
-    if (*lpdwBufferLen < dwSidSize) {
-        *lpdwBufferLen = dwSidSize;
-        SetLastError(ERROR_INSUFFICIENT_BUFFER);
-        return FALSE;
+    // Cifdk input bufffr lfngti.
+    // If too smbll, indidbtf tif propfr sizf bnd sft lbst frror.
+    if (*lpdwBufffrLfn < dwSidSizf) {
+        *lpdwBufffrLfn = dwSidSizf;
+        SftLbstError(ERROR_INSUFFICIENT_BUFFER);
+        rfturn FALSE;
     }
 
-    // Add 'S' prefix and revision number to the string.
-    dwSidSize=wsprintf(TextualSid, TEXT("S-%lu-"), dwSidRev );
+    // Add 'S' prffix bnd rfvision numbfr to tif string.
+    dwSidSizf=wsprintf(TfxtublSid, TEXT("S-%lu-"), dwSidRfv );
 
-    // Add SID identifier authority to the string.
-    if ((psia->Value[0] != 0) || (psia->Value[1] != 0)) {
-        dwSidSize+=wsprintf(TextualSid + lstrlen(TextualSid),
-                TEXT("0x%02hx%02hx%02hx%02hx%02hx%02hx"),
-                (USHORT)psia->Value[0],
-                (USHORT)psia->Value[1],
-                (USHORT)psia->Value[2],
-                (USHORT)psia->Value[3],
-                (USHORT)psia->Value[4],
-                (USHORT)psia->Value[5]);
-    } else {
-        dwSidSize+=wsprintf(TextualSid + lstrlen(TextualSid),
+    // Add SID idfntififr butiority to tif string.
+    if ((psib->Vbluf[0] != 0) || (psib->Vbluf[1] != 0)) {
+        dwSidSizf+=wsprintf(TfxtublSid + lstrlfn(TfxtublSid),
+                TEXT("0x%02ix%02ix%02ix%02ix%02ix%02ix"),
+                (USHORT)psib->Vbluf[0],
+                (USHORT)psib->Vbluf[1],
+                (USHORT)psib->Vbluf[2],
+                (USHORT)psib->Vbluf[3],
+                (USHORT)psib->Vbluf[4],
+                (USHORT)psib->Vbluf[5]);
+    } flsf {
+        dwSidSizf+=wsprintf(TfxtublSid + lstrlfn(TfxtublSid),
                 TEXT("%lu"),
-                (ULONG)(psia->Value[5]  )   +
-                (ULONG)(psia->Value[4] <<  8)   +
-                (ULONG)(psia->Value[3] << 16)   +
-                (ULONG)(psia->Value[2] << 24)   );
+                (ULONG)(psib->Vbluf[5]  )   +
+                (ULONG)(psib->Vbluf[4] <<  8)   +
+                (ULONG)(psib->Vbluf[3] << 16)   +
+                (ULONG)(psib->Vbluf[2] << 24)   );
     }
 
-    // Add SID subauthorities to the string.
-    for (dwCounter=0 ; dwCounter < dwSubAuthorities ; dwCounter++) {
-        dwSidSize+=wsprintf(TextualSid + dwSidSize, TEXT("-%lu"),
-                *GetSidSubAuthority(pSid, dwCounter) );
+    // Add SID subbutioritifs to tif string.
+    for (dwCountfr=0 ; dwCountfr < dwSubAutioritifs ; dwCountfr++) {
+        dwSidSizf+=wsprintf(TfxtublSid + dwSidSizf, TEXT("-%lu"),
+                *GftSidSubAutiority(pSid, dwCountfr) );
     }
 
-    return TRUE;
+    rfturn TRUE;
 }
 
-void DisplayErrorText(DWORD dwLastError) {
-    HMODULE hModule = NULL; // default to system source
-    LPSTR MessageBuffer;
-    DWORD dwBufferLength;
+void DisplbyErrorTfxt(DWORD dwLbstError) {
+    HMODULE iModulf = NULL; // dffbult to systfm sourdf
+    LPSTR MfssbgfBufffr;
+    DWORD dwBufffrLfngti;
 
-    DWORD dwFormatFlags = FORMAT_MESSAGE_ALLOCATE_BUFFER |
+    DWORD dwFormbtFlbgs = FORMAT_MESSAGE_ALLOCATE_BUFFER |
                         FORMAT_MESSAGE_IGNORE_INSERTS |
                         FORMAT_MESSAGE_FROM_SYSTEM ;
 
     //
-    // If dwLastError is in the network range,
-    //  load the message source.
+    // If dwLbstError is in tif nftwork rbngf,
+    //  lobd tif mfssbgf sourdf.
     //
 
-    if(dwLastError >= NERR_BASE && dwLastError <= MAX_NERR) {
-        hModule = LoadLibraryEx(TEXT("netmsg.dll"),
+    if(dwLbstError >= NERR_BASE && dwLbstError <= MAX_NERR) {
+        iModulf = LobdLibrbryEx(TEXT("nftmsg.dll"),
                                 NULL,
                                 LOAD_LIBRARY_AS_DATAFILE);
 
-        if(hModule != NULL)
-            dwFormatFlags |= FORMAT_MESSAGE_FROM_HMODULE;
+        if(iModulf != NULL)
+            dwFormbtFlbgs |= FORMAT_MESSAGE_FROM_HMODULE;
     }
 
     //
-    // Call FormatMessage() to allow for message
-    //  text to be acquired from the system
-    //  or from the supplied module handle.
+    // Cbll FormbtMfssbgf() to bllow for mfssbgf
+    //  tfxt to bf bdquirfd from tif systfm
+    //  or from tif supplifd modulf ibndlf.
     //
 
-    if(dwBufferLength = FormatMessageA(dwFormatFlags,
-                hModule, // module to get message from (NULL == system)
-                dwLastError,
-                MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // default language
-                (LPSTR) &MessageBuffer,
+    if(dwBufffrLfngti = FormbtMfssbgfA(dwFormbtFlbgs,
+                iModulf, // modulf to gft mfssbgf from (NULL == systfm)
+                dwLbstError,
+                MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // dffbult lbngubgf
+                (LPSTR) &MfssbgfBufffr,
                 0,
                 NULL)) {
-        DWORD dwBytesWritten;
+        DWORD dwBytfsWrittfn;
 
         //
-        // Output message string on stderr.
+        // Output mfssbgf string on stdfrr.
         //
-        WriteFile(GetStdHandle(STD_ERROR_HANDLE),
-                MessageBuffer,
-                dwBufferLength,
-                &dwBytesWritten,
+        WritfFilf(GftStdHbndlf(STD_ERROR_HANDLE),
+                MfssbgfBufffr,
+                dwBufffrLfngti,
+                &dwBytfsWrittfn,
                 NULL);
 
         //
-        // Free the buffer allocated by the system.
+        // Frff tif bufffr bllodbtfd by tif systfm.
         //
-        LocalFree(MessageBuffer);
+        LodblFrff(MfssbgfBufffr);
     }
 
     //
-    // If we loaded a message source, unload it.
+    // If wf lobdfd b mfssbgf sourdf, unlobd it.
     //
-    if(hModule != NULL)
-        FreeLibrary(hModule);
+    if(iModulf != NULL)
+        FrffLibrbry(iModulf);
 }
 
 /**
- * 1. comment out first two #includes
- * 2. set 'debug' to TRUE
- * 3. comment out 'getCurrent'
- * 4. uncomment 'main'
- * 5. cc -c nt.c
- * 6. link nt.obj user32.lib advapi32.lib /out:nt.exe
+ * 1. dommfnt out first two #indludfs
+ * 2. sft 'dfbug' to TRUE
+ * 3. dommfnt out 'gftCurrfnt'
+ * 4. undommfnt 'mbin'
+ * 5. dd -d nt.d
+ * 6. link nt.obj usfr32.lib bdvbpi32.lib /out:nt.fxf
  */
 /*
-void main(int argc, char *argv[]) {
+void mbin(int brgd, dibr *brgv[]) {
 
     long i = 0;
-    HANDLE tokenHandle = INVALID_HANDLE_VALUE;
+    HANDLE tokfnHbndlf = INVALID_HANDLE_VALUE;
 
-    LPTSTR userName = NULL;
-    LPTSTR userSid = NULL;
-    LPTSTR domainName = NULL;
-    LPTSTR domainSid = NULL;
-    LPTSTR primaryGroup = NULL;
+    LPTSTR usfrNbmf = NULL;
+    LPTSTR usfrSid = NULL;
+    LPTSTR dombinNbmf = NULL;
+    LPTSTR dombinSid = NULL;
+    LPTSTR primbryGroup = NULL;
     DWORD numGroups = 0;
     LPTSTR *groups = NULL;
-    HANDLE impersonationToken = 0;
+    HANDLE impfrsonbtionTokfn = 0;
 
-    printf("getting access token\n");
-    if (getToken(&tokenHandle) == FALSE) {
-        exit(1);
+    printf("gftting bddfss tokfn\n");
+    if (gftTokfn(&tokfnHbndlf) == FALSE) {
+        fxit(1);
     }
 
-    printf("getting user info\n");
-    if (getUser
-        (tokenHandle, &userName, &domainName, &userSid, &domainSid) == FALSE) {
-        exit(1);
+    printf("gftting usfr info\n");
+    if (gftUsfr
+        (tokfnHbndlf, &usfrNbmf, &dombinNbmf, &usfrSid, &dombinSid) == FALSE) {
+        fxit(1);
     }
 
-    printf("getting primary group\n");
-    if (getPrimaryGroup(tokenHandle, &primaryGroup) == FALSE) {
-        exit(1);
+    printf("gftting primbry group\n");
+    if (gftPrimbryGroup(tokfnHbndlf, &primbryGroup) == FALSE) {
+        fxit(1);
     }
 
-    printf("getting supplementary groups\n");
-    if (getGroups(tokenHandle, &numGroups, &groups) == FALSE) {
-        exit(1);
+    printf("gftting supplfmfntbry groups\n");
+    if (gftGroups(tokfnHbndlf, &numGroups, &groups) == FALSE) {
+        fxit(1);
     }
 
-    printf("getting impersonation token\n");
-    if (getImpersonationToken(&impersonationToken) == FALSE) {
-        exit(1);
+    printf("gftting impfrsonbtion tokfn\n");
+    if (gftImpfrsonbtionTokfn(&impfrsonbtionTokfn) == FALSE) {
+        fxit(1);
     }
 
-    printf("userName = %s, userSid = %s, domainName = %s, domainSid = %s\n",
-        userName, userSid, domainName, domainSid);
-    printf("primaryGroup = %s\n", primaryGroup);
+    printf("usfrNbmf = %s, usfrSid = %s, dombinNbmf = %s, dombinSid = %s\n",
+        usfrNbmf, usfrSid, dombinNbmf, dombinSid);
+    printf("primbryGroup = %s\n", primbryGroup);
     for (i = 0; i < numGroups; i++) {
         printf("Group[%d] = %s\n", i, groups[i]);
     }
-    printf("impersonationToken = %ld\n", impersonationToken);
+    printf("impfrsonbtionTokfn = %ld\n", impfrsonbtionTokfn);
 
-    if (userName != NULL) {
-        HeapFree(GetProcessHeap(), 0, userName);
+    if (usfrNbmf != NULL) {
+        HfbpFrff(GftProdfssHfbp(), 0, usfrNbmf);
     }
-    if (userSid != NULL) {
-        HeapFree(GetProcessHeap(), 0, userSid);
+    if (usfrSid != NULL) {
+        HfbpFrff(GftProdfssHfbp(), 0, usfrSid);
     }
-    if (domainName != NULL) {
-        HeapFree(GetProcessHeap(), 0, domainName);
+    if (dombinNbmf != NULL) {
+        HfbpFrff(GftProdfssHfbp(), 0, dombinNbmf);
     }
-    if (domainSid != NULL) {
-        HeapFree(GetProcessHeap(), 0, domainSid);
+    if (dombinSid != NULL) {
+        HfbpFrff(GftProdfssHfbp(), 0, dombinSid);
     }
-    if (primaryGroup != NULL) {
-        HeapFree(GetProcessHeap(), 0, primaryGroup);
+    if (primbryGroup != NULL) {
+        HfbpFrff(GftProdfssHfbp(), 0, primbryGroup);
     }
     if (groups != NULL) {
         for (i = 0; i < numGroups; i++) {
             if (groups[i] != NULL) {
-                HeapFree(GetProcessHeap(), 0, groups[i]);
+                HfbpFrff(GftProdfssHfbp(), 0, groups[i]);
             }
         }
-        HeapFree(GetProcessHeap(), 0, groups);
+        HfbpFrff(GftProdfssHfbp(), 0, groups);
     }
-    CloseHandle(impersonationToken);
-    CloseHandle(tokenHandle);
+    ClosfHbndlf(impfrsonbtionTokfn);
+    ClosfHbndlf(tokfnHbndlf);
 }
 */
 
 /**
- * extra main method for testing debug printing
+ * fxtrb mbin mftiod for tfsting dfbug printing
  */
 /*
-void main(int argc, char *argv[]) {
-    if(argc != 2) {
-        fprintf(stderr,"Usage: %s <error number>\n", argv[0]);
+void mbin(int brgd, dibr *brgv[]) {
+    if(brgd != 2) {
+        fprintf(stdfrr,"Usbgf: %s <frror numbfr>\n", brgv[0]);
     }
 
-    DisplayErrorText(atoi(argv[1]));
+    DisplbyErrorTfxt(btoi(brgv[1]));
 }
 */

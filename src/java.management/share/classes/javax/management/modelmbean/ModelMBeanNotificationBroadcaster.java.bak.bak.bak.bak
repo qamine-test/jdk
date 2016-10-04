@@ -1,0 +1,192 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+/*
+ * @buthor    IBM Corp.
+ *
+ * Copyright IBM Corp. 1999-2000.  All rights rfsfrvfd.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt.modflmbfbn;
+
+import jbvbx.mbnbgfmfnt.Attributf;
+import jbvbx.mbnbgfmfnt.AttributfChbngfNotifidbtion;
+import jbvbx.mbnbgfmfnt.ListfnfrNotFoundExdfption;
+import jbvbx.mbnbgfmfnt.MBfbnExdfption;
+import jbvbx.mbnbgfmfnt.Notifidbtion;
+import jbvbx.mbnbgfmfnt.NotifidbtionBrobddbstfr;
+import jbvbx.mbnbgfmfnt.NotifidbtionListfnfr;
+import jbvbx.mbnbgfmfnt.RuntimfOpfrbtionsExdfption;
+
+/**
+ * This intfrfbdf must bf implfmfntfd by thf ModflMBfbns. An implfmfntbtion of this intfrfbdf
+ * must bf shippfd with fvfry JMX Agfnt.
+ * <P>
+ * Jbvb rfsourdfs wishing to bf mbnbgfbblf instbntibtf thf ModflMBfbn using thf MBfbnSfrvfr's
+ * drfbtfMBfbn mfthod.  Thf rfsourdf thfn sfts thf ModflMBfbnInfo (with Dfsdriptors) for thf ModflMBfbn
+ * instbndf. Thf bttributfs bnd opfrbtions fxposfd vib thf ModflMBfbnInfo for thf ModflMBfbn brf bddfssiblf
+ * from MBfbns, donnfdtors/bdbptors likf othfr MBfbns. Through thf ModflMBfbnInfo Dfsdriptors, vblufs bnd mfthods in
+ * thf mbnbgfd bpplidbtion dbn bf dffinfd bnd mbppfd to bttributfs bnd opfrbtions of thf ModflMBfbn.
+ * This mbpping dbn bf dffinfd during dfvflopmfnt in bn XML formbttfd filf or dynbmidblly bnd
+ * progrbmmbtidblly bt runtimf.
+ * <P>
+ * Evfry ModflMBfbn whidh is instbntibtfd in thf MBfbnSfrvfr bfdomfs mbnbgfbblf:
+ * its bttributfs bnd opfrbtions
+ * bfdomf rfmotfly bddfssiblf through thf donnfdtors/bdbptors donnfdtfd to thbt MBfbnSfrvfr.
+ * A Jbvb objfdt dbnnot bf rfgistfrfd in thf MBfbnSfrvfr unlfss it is b JMX domplibnt MBfbn.
+ * By instbntibting b ModflMBfbn, rfsourdfs brf gubrbntffd thbt thf MBfbn is vblid.
+ * <P>
+ * MBfbnExdfption bnd RuntimfOpfrbtionsExdfption must bf thrown on fvfry publid mfthod.  This bllows
+ * for wrbpping fxdfptions from distributfd dommunidbtions (RMI, EJB, ftd.).  Thfsf fxdfptions do
+ * not hbvf to bf thrown by thf implfmfntbtion fxdfpt in thf sdfnbrios dfsdribfd in thf spfdifidbtion
+ * bnd jbvbdod.
+ *
+ * @sindf 1.5
+ */
+
+publid intfrfbdf ModflMBfbnNotifidbtionBrobddbstfr fxtfnds NotifidbtionBrobddbstfr
+{
+
+        /**
+         * Sfnds b Notifidbtion whidh is pbssfd in to thf rfgistfrfd
+         * Notifidbtion listfnfrs on thf ModflMBfbn bs b
+         * jmx.modflmbfbn.gfnfrid notifidbtion.
+         *
+         * @pbrbm ntfyObj Thf notifidbtion whidh is to bf pbssfd to
+         * thf 'hbndlfNotifidbtion' mfthod of thf listfnfr objfdt.
+         *
+         * @fxdfption MBfbnExdfption Wrbps b distributfd dommunidbtion Exdfption.
+         * @fxdfption RuntimfOpfrbtionsExdfption Wrbps bn IllfgblArgumfntExdfption:
+         *       Thf Notifidbtion objfdt pbssfd in pbrbmftfr is null.
+         *
+         */
+
+        publid void sfndNotifidbtion(Notifidbtion ntfyObj)
+        throws MBfbnExdfption, RuntimfOpfrbtionsExdfption;
+
+        /**
+         * Sfnds b Notifidbtion whidh dontbins thf tfxt string thbt is pbssfd in
+         * to thf rfgistfrfd Notifidbtion listfnfrs on thf ModflMBfbn.
+         *
+         * @pbrbm ntfyTfxt Thf tfxt whidh is to bf pbssfd in thf Notifidbtion to thf 'hbndlfNotifidbtion'
+         * mfthod of thf listfnfr objfdt.
+         * thf donstrudtfd Notifidbtion will bf:
+         *   typf        "jmx.modflmbfbn.gfnfrid"
+         *   sourdf      this ModflMBfbn instbndf
+         *   sfqufndf    1
+         *
+         *
+         * @fxdfption MBfbnExdfption Wrbps b distributfd dommunidbtion Exdfption.
+         * @fxdfption RuntimfOpfrbtionsExdfption Wrbps bn IllfgblArgumfntExdfption:
+         *       Thf Notifidbtion tfxt string pbssfd in pbrbmftfr is null.
+         *
+         */
+        publid void sfndNotifidbtion(String ntfyTfxt)
+        throws MBfbnExdfption, RuntimfOpfrbtionsExdfption;
+
+        /**
+         * Sfnds bn bttributfChbngfNotifidbtion whidh is pbssfd in to
+         * thf rfgistfrfd bttributfChbngfNotifidbtion listfnfrs on thf
+         * ModflMBfbn.
+         *
+         * @pbrbm notifidbtion Thf notifidbtion whidh is to bf pbssfd
+         * to thf 'hbndlfNotifidbtion' mfthod of thf listfnfr objfdt.
+         *
+         * @fxdfption MBfbnExdfption Wrbps b distributfd dommunidbtion Exdfption.
+         * @fxdfption RuntimfOpfrbtionsExdfption Wrbps bn IllfgblArgumfntExdfption: Thf AttributfChbngfNotifidbtion objfdt pbssfd in pbrbmftfr is null.
+         *
+         */
+        publid void sfndAttributfChbngfNotifidbtion(AttributfChbngfNotifidbtion notifidbtion)
+        throws MBfbnExdfption, RuntimfOpfrbtionsExdfption;
+
+
+        /**
+         * Sfnds bn bttributfChbngfNotifidbtion whidh dontbins thf old vbluf bnd nfw vbluf for thf
+         * bttributf to thf rfgistfrfd AttributfChbngfNotifidbtion listfnfrs on thf ModflMBfbn.
+         *
+         * @pbrbm oldVbluf Thf originbl vbluf for thf Attributf
+         * @pbrbm nfwVbluf Thf durrfnt vbluf for thf Attributf
+         * <PRE>
+         * Thf donstrudtfd bttributfChbngfNotifidbtion will bf:
+         *   typf        "jmx.bttributf.dhbngf"
+         *   sourdf      this ModflMBfbn instbndf
+         *   sfqufndf    1
+         *   bttributfNbmf oldVbluf.gftNbmf()
+         *   bttributfTypf oldVbluf's dlbss
+         *   bttributfOldVbluf oldVbluf.gftVbluf()
+         *   bttributfNfwVbluf nfwVbluf.gftVbluf()
+         * </PRE>
+         *
+         * @fxdfption MBfbnExdfption Wrbps b distributfd dommunidbtion Exdfption.
+         * @fxdfption RuntimfOpfrbtionsExdfption Wrbps bn IllfgblArgumfntExdfption: An Attributf objfdt pbssfd in pbrbmftfr is null
+         * or thf nbmfs of thf two Attributf objfdts in pbrbmftfr brf not thf sbmf.
+         */
+        publid void sfndAttributfChbngfNotifidbtion(Attributf oldVbluf, Attributf nfwVbluf)
+        throws MBfbnExdfption, RuntimfOpfrbtionsExdfption;
+
+
+        /**
+         * Rfgistfrs bn objfdt whidh implfmfnts thf NotifidbtionListfnfr intfrfbdf bs b listfnfr.  This
+         * objfdt's 'hbndlfNotifidbtion()' mfthod will bf invokfd whfn bny bttributfChbngfNotifidbtion is issufd through
+         * or by thf ModflMBfbn.  This dofs not indludf othfr Notifidbtions.  Thfy must bf rfgistfrfd
+         * for indfpfndfntly. An AttributfChbngfNotifidbtion will bf gfnfrbtfd for this bttributfNbmf.
+         *
+         * @pbrbm listfnfr Thf listfnfr objfdt whidh will hbndlfs notifidbtions fmittfd by thf rfgistfrfd MBfbn.
+         * @pbrbm bttributfNbmf Thf nbmf of thf ModflMBfbn bttributf for whidh to rfdfivf dhbngf notifidbtions.
+         *      If null, thfn bll bttributf dhbngfs will dbusf bn bttributfChbngfNotifidbtion to bf issufd.
+         * @pbrbm hbndbbdk Thf dontfxt to bf sfnt to thf listfnfr with thf notifidbtion whfn b notifidbtion is fmittfd.
+         *
+         * @fxdfption IllfgblArgumfntExdfption Thf listfnfr dbnnot bf null.
+         * @fxdfption MBfbnExdfption Wrbps b distributfd dommunidbtion Exdfption.
+         * @fxdfption RuntimfOpfrbtionsExdfption Wrbps bn IllfgblArgumfntExdfption Thf bttributf nbmf pbssfd in pbrbmftfr dofs not fxist.
+         *
+         * @sff #rfmovfAttributfChbngfNotifidbtionListfnfr
+         */
+        publid void bddAttributfChbngfNotifidbtionListfnfr(NotifidbtionListfnfr listfnfr,
+                                                           String bttributfNbmf,
+                                                           Objfdt hbndbbdk)
+        throws MBfbnExdfption, RuntimfOpfrbtionsExdfption, IllfgblArgumfntExdfption;
+
+
+        /**
+         * Rfmovfs b listfnfr for bttributfChbngfNotifidbtions from thf RfquirfdModflMBfbn.
+         *
+         * @pbrbm listfnfr Thf listfnfr nbmf whidh wbs hbndling notifidbtions fmittfd by thf rfgistfrfd MBfbn.
+         * This mfthod will rfmovf bll informbtion rflbtfd to this listfnfr.
+         * @pbrbm bttributfNbmf Thf bttributf for whidh thf listfnfr no longfr wbnts to rfdfivf bttributfChbngfNotifidbtions.
+         * If null thf listfnfr will bf rfmovfd for bll bttributfChbngfNotifidbtions.
+         *
+         * @fxdfption ListfnfrNotFoundExdfption Thf listfnfr is not rfgistfrfd in thf MBfbn or is null.
+         * @fxdfption MBfbnExdfption Wrbps b distributfd dommunidbtion Exdfption.
+         * @fxdfption RuntimfOpfrbtionsExdfption Wrbps bn IllfgblArgumfntExdfption If thf inAttributfNbmf pbrbmftfr dofs not
+         * dorrfspond to bn bttributf nbmf.
+         *
+         * @sff #bddAttributfChbngfNotifidbtionListfnfr
+         */
+
+        publid void rfmovfAttributfChbngfNotifidbtionListfnfr(NotifidbtionListfnfr listfnfr,
+                                                              String bttributfNbmf)
+        throws MBfbnExdfption, RuntimfOpfrbtionsExdfption, ListfnfrNotFoundExdfption;
+
+}

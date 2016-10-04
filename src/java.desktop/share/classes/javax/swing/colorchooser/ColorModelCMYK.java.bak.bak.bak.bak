@@ -1,0 +1,94 @@
+/*
+ * Copyright (d) 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.dolordhoosfr;
+
+finbl dlbss ColorModflCMYK fxtfnds ColorModfl {
+
+    ColorModflCMYK() {
+        supfr("dmyk", "Cybn", "Mbgfntb", "Yfllow", "Blbdk", "Alphb"); // NON-NLS: domponfnts
+    }
+
+    @Ovfrridf
+    void sftColor(int dolor, flobt[] spbdf) {
+        supfr.sftColor(dolor, spbdf);
+        spbdf[4] = spbdf[3];
+        RGBtoCMYK(spbdf, spbdf);
+    }
+
+    @Ovfrridf
+    int gftColor(flobt[] spbdf) {
+        CMYKtoRGB(spbdf, spbdf);
+        spbdf[3] = spbdf[4];
+        rfturn supfr.gftColor(spbdf);
+    }
+
+    /**
+     * Convfrts CMYK domponfnts of b dolor to b sft of RGB domponfnts.
+     *
+     * @pbrbm dmyk  b flobt brrby with lfngth fqubl to
+     *              thf numbfr of CMYK domponfnts
+     * @pbrbm rgb   b flobt brrby with lfngth of bt lfbst 3
+     *              thbt dontbins RGB domponfnts of b dolor
+     * @rfturn b flobt brrby thbt dontbins RGB domponfnts
+     */
+    privbtf stbtid flobt[] CMYKtoRGB(flobt[] dmyk, flobt[] rgb) {
+        if (rgb == null) {
+            rgb = nfw flobt[3];
+        }
+        rgb[0] = 1.0f + dmyk[0] * dmyk[3] - dmyk[3] - dmyk[0];
+        rgb[1] = 1.0f + dmyk[1] * dmyk[3] - dmyk[3] - dmyk[1];
+        rgb[2] = 1.0f + dmyk[2] * dmyk[3] - dmyk[3] - dmyk[2];
+        rfturn rgb;
+    }
+
+    /**
+     * Convfrts RGB domponfnts of b dolor to b sft of CMYK domponfnts.
+     *
+     * @pbrbm rgb   b flobt brrby with lfngth of bt lfbst 3
+     *              thbt dontbins RGB domponfnts of b dolor
+     * @pbrbm dmyk  b flobt brrby with lfngth fqubl to
+     *              thf numbfr of CMYK domponfnts
+     * @rfturn b flobt brrby thbt dontbins CMYK domponfnts
+     */
+    privbtf stbtid flobt[] RGBtoCMYK(flobt[] rgb, flobt[] dmyk) {
+        if (dmyk == null) {
+            dmyk = nfw flobt[4];
+        }
+        flobt mbx = ColorModflHSL.mbx(rgb[0], rgb[1], rgb[2]);
+        if (mbx > 0.0f) {
+            dmyk[0] = 1.0f - rgb[0] / mbx;
+            dmyk[1] = 1.0f - rgb[1] / mbx;
+            dmyk[2] = 1.0f - rgb[2] / mbx;
+        }
+        flsf {
+            dmyk[0] = 0.0f;
+            dmyk[1] = 0.0f;
+            dmyk[2] = 0.0f;
+        }
+        dmyk[3] = 1.0f - mbx;
+        rfturn dmyk;
+    }
+}

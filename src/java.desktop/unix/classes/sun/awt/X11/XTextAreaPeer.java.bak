@@ -1,1506 +1,1506 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.X11;
+pbdkbgf sun.bwt.X11;
 
-import java.awt.*;
-import java.awt.peer.ComponentPeer;
-import java.awt.peer.TextAreaPeer;
-import java.awt.event.*;
-import javax.swing.event.DocumentListener;
-import javax.swing.event.DocumentEvent;
-import javax.swing.JTextArea;
-import javax.swing.JComponent;
-import javax.swing.JScrollPane;
-import javax.swing.JScrollBar;
-import javax.swing.plaf.ComponentUI;
-import com.sun.java.swing.plaf.motif.MotifTextAreaUI;
-import javax.swing.plaf.UIResource;
-import javax.swing.UIDefaults;
-import javax.swing.border.Border;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.AbstractBorder;
-import javax.swing.JButton;
-import javax.swing.JViewport;
-import javax.swing.InputMap;
-import javax.swing.SwingUtilities;
-import javax.swing.TransferHandler;
-import javax.swing.plaf.basic.BasicArrowButton;
-import javax.swing.plaf.basic.BasicScrollBarUI;
-import javax.swing.plaf.basic.BasicScrollPaneUI;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import javax.swing.text.Caret;
-import javax.swing.text.DefaultCaret;
-import javax.swing.text.JTextComponent;
+import jbvb.bwt.*;
+import jbvb.bwt.pffr.ComponfntPffr;
+import jbvb.bwt.pffr.TfxtArfbPffr;
+import jbvb.bwt.fvfnt.*;
+import jbvbx.swing.fvfnt.DodumfntListfnfr;
+import jbvbx.swing.fvfnt.DodumfntEvfnt;
+import jbvbx.swing.JTfxtArfb;
+import jbvbx.swing.JComponfnt;
+import jbvbx.swing.JSdrollPbnf;
+import jbvbx.swing.JSdrollBbr;
+import jbvbx.swing.plbf.ComponfntUI;
+import dom.sun.jbvb.swing.plbf.motif.MotifTfxtArfbUI;
+import jbvbx.swing.plbf.UIRfsourdf;
+import jbvbx.swing.UIDffbults;
+import jbvbx.swing.bordfr.Bordfr;
+import jbvbx.swing.bordfr.EmptyBordfr;
+import jbvbx.swing.bordfr.CompoundBordfr;
+import jbvbx.swing.bordfr.AbstrbdtBordfr;
+import jbvbx.swing.JButton;
+import jbvbx.swing.JVifwport;
+import jbvbx.swing.InputMbp;
+import jbvbx.swing.SwingUtilitifs;
+import jbvbx.swing.TrbnsffrHbndlfr;
+import jbvbx.swing.plbf.bbsid.BbsidArrowButton;
+import jbvbx.swing.plbf.bbsid.BbsidSdrollBbrUI;
+import jbvbx.swing.plbf.bbsid.BbsidSdrollPbnfUI;
+import jbvb.bfbns.PropfrtyCibngfEvfnt;
+import jbvb.bfbns.PropfrtyCibngfListfnfr;
+import jbvbx.swing.tfxt.Cbrft;
+import jbvbx.swing.tfxt.DffbultCbrft;
+import jbvbx.swing.tfxt.JTfxtComponfnt;
 
-import javax.swing.plaf.BorderUIResource;
-import java.awt.im.InputMethodRequests;
-import sun.awt.CausedFocusEvent;
-import sun.awt.AWTAccessor;
-import sun.awt.SunToolkit;
+import jbvbx.swing.plbf.BordfrUIRfsourdf;
+import jbvb.bwt.im.InputMftiodRfqufsts;
+import sun.bwt.CbusfdFodusEvfnt;
+import sun.bwt.AWTAddfssor;
+import sun.bwt.SunToolkit;
 
-final class XTextAreaPeer extends XComponentPeer implements TextAreaPeer {
+finbl dlbss XTfxtArfbPffr fxtfnds XComponfntPffr implfmfnts TfxtArfbPffr {
 
-    private final AWTTextPane textPane;
-    private final AWTTextArea jtext;
-    private final boolean firstChangeSkipped;
+    privbtf finbl AWTTfxtPbnf tfxtPbnf;
+    privbtf finbl AWTTfxtArfb jtfxt;
+    privbtf finbl boolfbn firstCibngfSkippfd;
 
-    private final JavaMouseEventHandler javaMouseEventHandler =
-            new JavaMouseEventHandler(this);
+    privbtf finbl JbvbMousfEvfntHbndlfr jbvbMousfEvfntHbndlfr =
+            nfw JbvbMousfEvfntHbndlfr(tiis);
 
     /**
-     * Create a Text area.
+     * Crfbtf b Tfxt brfb.
      */
-    XTextAreaPeer(TextArea target) {
-        super(target);
+    XTfxtArfbPffr(TfxtArfb tbrgft) {
+        supfr(tbrgft);
 
-        // some initializations require that target be set even
-        // though init(target) has not been called
-        this.target = target;
+        // somf initiblizbtions rfquirf tibt tbrgft bf sft fvfn
+        // tiougi init(tbrgft) ibs not bffn dbllfd
+        tiis.tbrgft = tbrgft;
 
-        //ComponentAccessor.enableEvents(target,AWTEvent.MOUSE_WHEEL_EVENT_MASK);
+        //ComponfntAddfssor.fnbblfEvfnts(tbrgft,AWTEvfnt.MOUSE_WHEEL_EVENT_MASK);
 
-        String text = target.getText();
-        jtext = new AWTTextArea(text, this);
-        jtext.setWrapStyleWord(true);
-        jtext.getDocument().addDocumentListener(jtext);
-        XToolkit.specialPeerMap.put(jtext,this);
-        textPane = new AWTTextPane(jtext,this, target.getParent());
+        String tfxt = tbrgft.gftTfxt();
+        jtfxt = nfw AWTTfxtArfb(tfxt, tiis);
+        jtfxt.sftWrbpStylfWord(truf);
+        jtfxt.gftDodumfnt().bddDodumfntListfnfr(jtfxt);
+        XToolkit.spfdiblPffrMbp.put(jtfxt,tiis);
+        tfxtPbnf = nfw AWTTfxtPbnf(jtfxt,tiis, tbrgft.gftPbrfnt());
 
-        setBounds(x, y, width, height, SET_BOUNDS);
-        textPane.setVisible(true);
-        textPane.validate();
+        sftBounds(x, y, widti, ifigit, SET_BOUNDS);
+        tfxtPbnf.sftVisiblf(truf);
+        tfxtPbnf.vblidbtf();
 
-        AWTAccessor.ComponentAccessor compAccessor = AWTAccessor.getComponentAccessor();
-        foreground = compAccessor.getForeground(target);
-        if (foreground == null)  {
-            foreground = SystemColor.textText;
+        AWTAddfssor.ComponfntAddfssor dompAddfssor = AWTAddfssor.gftComponfntAddfssor();
+        forfground = dompAddfssor.gftForfground(tbrgft);
+        if (forfground == null)  {
+            forfground = SystfmColor.tfxtTfxt;
         }
-        setForeground(foreground);
+        sftForfground(forfground);
 
-        background = compAccessor.getBackground(target);
-        if (background == null) {
-            if (target.isEditable()) background = SystemColor.text;
-            else background = SystemColor.control;
+        bbdkground = dompAddfssor.gftBbdkground(tbrgft);
+        if (bbdkground == null) {
+            if (tbrgft.isEditbblf()) bbdkground = SystfmColor.tfxt;
+            flsf bbdkground = SystfmColor.dontrol;
         }
-        setBackground(background);
+        sftBbdkground(bbdkground);
 
-        if (!target.isBackgroundSet()) {
-            // This is a way to set the background color of the TextArea
-            // without calling setBackground - go through accessor
-            compAccessor.setBackground(target, background);
+        if (!tbrgft.isBbdkgroundSft()) {
+            // Tiis is b wby to sft tif bbdkground dolor of tif TfxtArfb
+            // witiout dblling sftBbdkground - go tirougi bddfssor
+            dompAddfssor.sftBbdkground(tbrgft, bbdkground);
         }
-        if (!target.isForegroundSet()) {
-            target.setForeground(SystemColor.textText);
+        if (!tbrgft.isForfgroundSft()) {
+            tbrgft.sftForfground(SystfmColor.tfxtTfxt);
         }
 
-        setFont(font);
+        sftFont(font);
 
-        // set the text of this object to the text of its target
-        setTextImpl(target.getText());  //?? should this be setText
+        // sft tif tfxt of tiis objfdt to tif tfxt of its tbrgft
+        sftTfxtImpl(tbrgft.gftTfxt());  //?? siould tiis bf sftTfxt
 
-        int start = target.getSelectionStart();
-        int end = target.getSelectionEnd();
+        int stbrt = tbrgft.gftSflfdtionStbrt();
+        int fnd = tbrgft.gftSflfdtionEnd();
         // Fix for 5100200
-        // Restoring Motif behaviour
-        // Since the end position of the selected text can be greater then the length of the text,
-        // so we should set caret to max position of the text
-        setCaretPosition(Math.min(end, text.length()));
-        if (end > start) {
-            // Should be called after setText() and setCaretPosition()
-            select(start, end);
+        // Rfstoring Motif bfibviour
+        // Sindf tif fnd position of tif sflfdtfd tfxt dbn bf grfbtfr tifn tif lfngti of tif tfxt,
+        // so wf siould sft dbrft to mbx position of tif tfxt
+        sftCbrftPosition(Mbti.min(fnd, tfxt.lfngti()));
+        if (fnd > stbrt) {
+            // Siould bf dbllfd bftfr sftTfxt() bnd sftCbrftPosition()
+            sflfdt(stbrt, fnd);
         }
-        setEditable(target.isEditable());
-        setScrollBarVisibility();
-        // After this line we should not change the component's text
-        firstChangeSkipped = true;
+        sftEditbblf(tbrgft.isEditbblf());
+        sftSdrollBbrVisibility();
+        // Aftfr tiis linf wf siould not dibngf tif domponfnt's tfxt
+        firstCibngfSkippfd = truf;
     }
 
-    @Override
-    public void dispose() {
-        XToolkit.specialPeerMap.remove(jtext);
-        // visible caret has a timer thread which must be stopped
-        jtext.getCaret().setVisible(false);
-        jtext.removeNotify();
-        textPane.removeNotify();
-        super.dispose();
+    @Ovfrridf
+    publid void disposf() {
+        XToolkit.spfdiblPffrMbp.rfmovf(jtfxt);
+        // visiblf dbrft ibs b timfr tirfbd wiidi must bf stoppfd
+        jtfxt.gftCbrft().sftVisiblf(fblsf);
+        jtfxt.rfmovfNotify();
+        tfxtPbnf.rfmovfNotify();
+        supfr.disposf();
     }
 
     /*
-     * The method overrides one from XComponentPeer
-     * If ignoreSubComponents=={@code true} it calls super.
-     * If ignoreSubComponents=={@code false} it uses the XTextArea machinery
-     * to change cursor appropriately. In particular it changes the cursor to
-     * default if over scrollbars.
+     * Tif mftiod ovfrridfs onf from XComponfntPffr
+     * If ignorfSubComponfnts=={@dodf truf} it dblls supfr.
+     * If ignorfSubComponfnts=={@dodf fblsf} it usfs tif XTfxtArfb mbdiinfry
+     * to dibngf dursor bppropribtfly. In pbrtidulbr it dibngfs tif dursor to
+     * dffbult if ovfr sdrollbbrs.
      */
-    @Override
-    public void pSetCursor(Cursor cursor, boolean ignoreSubComponents) {
-        if (ignoreSubComponents ||
-            javaMouseEventHandler == null) {
-            super.pSetCursor(cursor, true);
-            return;
+    @Ovfrridf
+    publid void pSftCursor(Cursor dursor, boolfbn ignorfSubComponfnts) {
+        if (ignorfSubComponfnts ||
+            jbvbMousfEvfntHbndlfr == null) {
+            supfr.pSftCursor(dursor, truf);
+            rfturn;
         }
 
-        Point cursorPos = new Point();
-        ((XGlobalCursorManager)XGlobalCursorManager.getCursorManager()).getCursorPos(cursorPos);
+        Point dursorPos = nfw Point();
+        ((XGlobblCursorMbnbgfr)XGlobblCursorMbnbgfr.gftCursorMbnbgfr()).gftCursorPos(dursorPos);
 
-        final Point onScreen = getLocationOnScreen();
-        Point localPoint = new Point(cursorPos.x - onScreen.x, cursorPos.y - onScreen.y );
+        finbl Point onSdrffn = gftLodbtionOnSdrffn();
+        Point lodblPoint = nfw Point(dursorPos.x - onSdrffn.x, dursorPos.y - onSdrffn.y );
 
-        javaMouseEventHandler.setPointerToUnderPoint(localPoint);
-        javaMouseEventHandler.setCursor();
+        jbvbMousfEvfntHbndlfr.sftPointfrToUndfrPoint(lodblPoint);
+        jbvbMousfEvfntHbndlfr.sftCursor();
     }
 
-    private void setScrollBarVisibility() {
-        int visibility = ((TextArea)target).getScrollbarVisibility();
-        jtext.setLineWrap(false);
+    privbtf void sftSdrollBbrVisibility() {
+        int visibility = ((TfxtArfb)tbrgft).gftSdrollbbrVisibility();
+        jtfxt.sftLinfWrbp(fblsf);
 
-        if (visibility == TextArea.SCROLLBARS_NONE) {
-            textPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-            textPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-            jtext.setLineWrap(true);
+        if (visibility == TfxtArfb.SCROLLBARS_NONE) {
+            tfxtPbnf.sftHorizontblSdrollBbrPolidy(JSdrollPbnf.HORIZONTAL_SCROLLBAR_NEVER);
+            tfxtPbnf.sftVfrtidblSdrollBbrPolidy(JSdrollPbnf.VERTICAL_SCROLLBAR_NEVER);
+            jtfxt.sftLinfWrbp(truf);
         }
-        else if (visibility == TextArea.SCROLLBARS_BOTH) {
+        flsf if (visibility == TfxtArfb.SCROLLBARS_BOTH) {
 
-            textPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-            textPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+            tfxtPbnf.sftHorizontblSdrollBbrPolidy(JSdrollPbnf.HORIZONTAL_SCROLLBAR_ALWAYS);
+            tfxtPbnf.sftVfrtidblSdrollBbrPolidy(JSdrollPbnf.VERTICAL_SCROLLBAR_ALWAYS);
         }
-        else if (visibility == TextArea.SCROLLBARS_VERTICAL_ONLY) {
-            textPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-            textPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-            jtext.setLineWrap(true);
+        flsf if (visibility == TfxtArfb.SCROLLBARS_VERTICAL_ONLY) {
+            tfxtPbnf.sftHorizontblSdrollBbrPolidy(JSdrollPbnf.HORIZONTAL_SCROLLBAR_NEVER);
+            tfxtPbnf.sftVfrtidblSdrollBbrPolidy(JSdrollPbnf.VERTICAL_SCROLLBAR_ALWAYS);
+            jtfxt.sftLinfWrbp(truf);
         }
-        else if (visibility == TextArea.SCROLLBARS_HORIZONTAL_ONLY) {
-            textPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-            textPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        flsf if (visibility == TfxtArfb.SCROLLBARS_HORIZONTAL_ONLY) {
+            tfxtPbnf.sftVfrtidblSdrollBbrPolidy(JSdrollPbnf.VERTICAL_SCROLLBAR_NEVER);
+            tfxtPbnf.sftHorizontblSdrollBbrPolidy(JSdrollPbnf.HORIZONTAL_SCROLLBAR_ALWAYS);
         }
     }
 
     /**
-     * Compute minimum size.
+     * Computf minimum sizf.
      */
-    @Override
-    public Dimension getMinimumSize() {
-        return getMinimumSize(10, 60);
+    @Ovfrridf
+    publid Dimfnsion gftMinimumSizf() {
+        rfturn gftMinimumSizf(10, 60);
     }
 
-    @Override
-    public Dimension getPreferredSize(int rows, int cols) {
-        return getMinimumSize(rows, cols);
+    @Ovfrridf
+    publid Dimfnsion gftPrfffrrfdSizf(int rows, int dols) {
+        rfturn gftMinimumSizf(rows, dols);
     }
 
     /**
-     * @see java.awt.peer.TextAreaPeer
+     * @sff jbvb.bwt.pffr.TfxtArfbPffr
      */
-    @Override
-    public Dimension getMinimumSize(int rows, int cols) {
-        /*    Dimension d = null;
-              if (jtext != null) {
-              d = jtext.getMinimumSize(rows,cols);
+    @Ovfrridf
+    publid Dimfnsion gftMinimumSizf(int rows, int dols) {
+        /*    Dimfnsion d = null;
+              if (jtfxt != null) {
+              d = jtfxt.gftMinimumSizf(rows,dols);
               }
-              return d;
+              rfturn d;
         */
 
-        int vsbwidth=0;
-        int hsbheight=0;
+        int vsbwidti=0;
+        int isbifigit=0;
 
-        JScrollBar vsb = textPane.getVerticalScrollBar();
+        JSdrollBbr vsb = tfxtPbnf.gftVfrtidblSdrollBbr();
         if (vsb != null) {
-            vsbwidth = vsb.getMinimumSize().width;
+            vsbwidti = vsb.gftMinimumSizf().widti;
         }
 
-        JScrollBar hsb = textPane.getHorizontalScrollBar();
-        if (hsb != null) {
-            hsbheight = hsb.getMinimumSize().height;
+        JSdrollBbr isb = tfxtPbnf.gftHorizontblSdrollBbr();
+        if (isb != null) {
+            isbifigit = isb.gftMinimumSizf().ifigit;
         }
 
-        Font f = jtext.getFont();
-        FontMetrics fm = jtext.getFontMetrics(f);
+        Font f = jtfxt.gftFont();
+        FontMftrids fm = jtfxt.gftFontMftrids(f);
 
-        return new Dimension(fm.charWidth('0') * cols + /*2*XMARGIN +*/ vsbwidth,
-                             fm.getHeight() * rows + /*2*YMARGIN +*/ hsbheight);
+        rfturn nfw Dimfnsion(fm.dibrWidti('0') * dols + /*2*XMARGIN +*/ vsbwidti,
+                             fm.gftHfigit() * rows + /*2*YMARGIN +*/ isbifigit);
     }
 
-    @Override
-    public boolean isFocusable() {
-        return true;
+    @Ovfrridf
+    publid boolfbn isFodusbblf() {
+        rfturn truf;
     }
 
-    @Override
-    public void setVisible(boolean b) {
-        super.setVisible(b);
-        if (textPane != null)
-            textPane.setVisible(b);
+    @Ovfrridf
+    publid void sftVisiblf(boolfbn b) {
+        supfr.sftVisiblf(b);
+        if (tfxtPbnf != null)
+            tfxtPbnf.sftVisiblf(b);
     }
 
-    void repaintText() {
-        jtext.repaintNow();
+    void rfpbintTfxt() {
+        jtfxt.rfpbintNow();
     }
 
-    @Override
-    public void focusGained(FocusEvent e) {
-        super.focusGained(e);
-        jtext.forwardFocusGained(e);
+    @Ovfrridf
+    publid void fodusGbinfd(FodusEvfnt f) {
+        supfr.fodusGbinfd(f);
+        jtfxt.forwbrdFodusGbinfd(f);
     }
 
-    @Override
-    public void focusLost(FocusEvent e) {
-        super.focusLost(e);
-        jtext.forwardFocusLost(e);
+    @Ovfrridf
+    publid void fodusLost(FodusEvfnt f) {
+        supfr.fodusLost(f);
+        jtfxt.forwbrdFodusLost(f);
     }
 
     /**
-     * Paint the component
-     * this method is called when the repaint instruction has been used
+     * Pbint tif domponfnt
+     * tiis mftiod is dbllfd wifn tif rfpbint instrudtion ibs bffn usfd
      */
-    @Override
-    public void repaint() {
-        if (textPane  != null)  {
-            //textPane.validate();
-            textPane.repaint();
+    @Ovfrridf
+    publid void rfpbint() {
+        if (tfxtPbnf  != null)  {
+            //tfxtPbnf.vblidbtf();
+            tfxtPbnf.rfpbint();
         }
     }
 
-    @Override
-    void paintPeer(final Graphics g) {
-        if (textPane  != null)  {
-            textPane.paint(g);
+    @Ovfrridf
+    void pbintPffr(finbl Grbpiids g) {
+        if (tfxtPbnf  != null)  {
+            tfxtPbnf.pbint(g);
         }
     }
 
-    @Override
-    public void setBounds(int x, int y, int width, int height, int op) {
-        super.setBounds(x, y, width, height, op);
-        if (textPane != null) {
+    @Ovfrridf
+    publid void sftBounds(int x, int y, int widti, int ifigit, int op) {
+        supfr.sftBounds(x, y, widti, ifigit, op);
+        if (tfxtPbnf != null) {
             /*
-             * Fixed 6277332, 6198290:
-             * the coordinates is coming (to peer): relatively to closest HW parent
-             * the coordinates is setting (to textPane): relatively to closest ANY parent
-             * the parent of peer is target.getParent()
-             * the parent of textPane is the same
-             * see 6277332, 6198290 for more information
+             * Fixfd 6277332, 6198290:
+             * tif doordinbtfs is doming (to pffr): rflbtivfly to dlosfst HW pbrfnt
+             * tif doordinbtfs is sftting (to tfxtPbnf): rflbtivfly to dlosfst ANY pbrfnt
+             * tif pbrfnt of pffr is tbrgft.gftPbrfnt()
+             * tif pbrfnt of tfxtPbnf is tif sbmf
+             * sff 6277332, 6198290 for morf informbtion
              */
-            int childX = x;
-            int childY = y;
-            Component parent = target.getParent();
-            // we up to heavyweight parent in order to be sure
-            // that the coordinates of the text pane is relatively to closest parent
-            while (parent.isLightweight()){
-                childX -= parent.getX();
-                childY -= parent.getY();
-                parent = parent.getParent();
+            int diildX = x;
+            int diildY = y;
+            Componfnt pbrfnt = tbrgft.gftPbrfnt();
+            // wf up to ifbvywfigit pbrfnt in ordfr to bf surf
+            // tibt tif doordinbtfs of tif tfxt pbnf is rflbtivfly to dlosfst pbrfnt
+            wiilf (pbrfnt.isLigitwfigit()){
+                diildX -= pbrfnt.gftX();
+                diildY -= pbrfnt.gftY();
+                pbrfnt = pbrfnt.gftPbrfnt();
             }
-            textPane.setBounds(childX,childY,width,height);
-            textPane.validate();
+            tfxtPbnf.sftBounds(diildX,diildY,widti,ifigit);
+            tfxtPbnf.vblidbtf();
         }
     }
 
-    @Override
-    void handleJavaKeyEvent(KeyEvent e) {
-        AWTAccessor.getComponentAccessor().processEvent(jtext,e);
+    @Ovfrridf
+    void ibndlfJbvbKfyEvfnt(KfyEvfnt f) {
+        AWTAddfssor.gftComponfntAddfssor().prodfssEvfnt(jtfxt,f);
     }
 
-    @Override
-    public boolean handlesWheelScrolling() { return true; }
+    @Ovfrridf
+    publid boolfbn ibndlfsWifflSdrolling() { rfturn truf; }
 
-    @Override
-    void handleJavaMouseWheelEvent(MouseWheelEvent e) {
-        AWTAccessor.getComponentAccessor().processEvent(textPane, e);
+    @Ovfrridf
+    void ibndlfJbvbMousfWifflEvfnt(MousfWifflEvfnt f) {
+        AWTAddfssor.gftComponfntAddfssor().prodfssEvfnt(tfxtPbnf, f);
     }
 
-    @Override
-    public void handleJavaMouseEvent( MouseEvent e ) {
-        super.handleJavaMouseEvent( e );
-        javaMouseEventHandler.handle( e );
+    @Ovfrridf
+    publid void ibndlfJbvbMousfEvfnt( MousfEvfnt f ) {
+        supfr.ibndlfJbvbMousfEvfnt( f );
+        jbvbMousfEvfntHbndlfr.ibndlf( f );
     }
 
-    @Override
-    void handleJavaInputMethodEvent(InputMethodEvent e) {
-        if (jtext != null)
-            jtext.processInputMethodEventPublic(e);
+    @Ovfrridf
+    void ibndlfJbvbInputMftiodEvfnt(InputMftiodEvfnt f) {
+        if (jtfxt != null)
+            jtfxt.prodfssInputMftiodEvfntPublid(f);
     }
 
     /**
-     * @see java.awt.peer.TextComponentPeer
+     * @sff jbvb.bwt.pffr.TfxtComponfntPffr
      */
-    @Override
-    public void select(int s, int e) {
-        jtext.select(s, e);
-        // Fixed 5100806
-        // We must take care that Swing components repainted correctly
-        jtext.repaint();
+    @Ovfrridf
+    publid void sflfdt(int s, int f) {
+        jtfxt.sflfdt(s, f);
+        // Fixfd 5100806
+        // Wf must tbkf dbrf tibt Swing domponfnts rfpbintfd dorrfdtly
+        jtfxt.rfpbint();
     }
 
-    @Override
-    public void setBackground(Color c) {
-        super.setBackground(c);
-//          synchronized (getStateLock()) {
-//              background = c;
+    @Ovfrridf
+    publid void sftBbdkground(Color d) {
+        supfr.sftBbdkground(d);
+//          syndironizfd (gftStbtfLodk()) {
+//              bbdkground = d;
 //          }
-        if (jtext != null) {
-            jtext.setBackground(c);
-            jtext.setSelectedTextColor(c);
+        if (jtfxt != null) {
+            jtfxt.sftBbdkground(d);
+            jtfxt.sftSflfdtfdTfxtColor(d);
         }
-//          repaintText();
+//          rfpbintTfxt();
     }
 
-    @Override
-    public void setForeground(Color c) {
-        super.setForeground(c);
-//          synchronized (getStateLock()) {
-//              foreground = c;
+    @Ovfrridf
+    publid void sftForfground(Color d) {
+        supfr.sftForfground(d);
+//          syndironizfd (gftStbtfLodk()) {
+//              forfground = d;
 //          }
-        if (jtext != null) {
-            jtext.setForeground(foreground);
-            jtext.setSelectionColor(foreground);
-            jtext.setCaretColor(foreground);
+        if (jtfxt != null) {
+            jtfxt.sftForfground(forfground);
+            jtfxt.sftSflfdtionColor(forfground);
+            jtfxt.sftCbrftColor(forfground);
         }
-//          repaintText();
+//          rfpbintTfxt();
     }
 
-    @Override
-    public void setFont(Font f) {
-        super.setFont(f);
-//          synchronized (getStateLock()) {
+    @Ovfrridf
+    publid void sftFont(Font f) {
+        supfr.sftFont(f);
+//          syndironizfd (gftStbtfLodk()) {
 //              font = f;
 //          }
-        if (jtext != null) {
-            jtext.setFont(font);
+        if (jtfxt != null) {
+            jtfxt.sftFont(font);
         }
-        textPane.validate();
+        tfxtPbnf.vblidbtf();
     }
 
     /**
-     * @see java.awt.peer.TextComponentPeer
+     * @sff jbvb.bwt.pffr.TfxtComponfntPffr
      */
-    @Override
-    public void setEditable(boolean editable) {
-        if (jtext != null) jtext.setEditable(editable);
-        repaintText();
+    @Ovfrridf
+    publid void sftEditbblf(boolfbn fditbblf) {
+        if (jtfxt != null) jtfxt.sftEditbblf(fditbblf);
+        rfpbintTfxt();
     }
 
     /**
-     * @see java.awt.peer.ComponentPeer
+     * @sff jbvb.bwt.pffr.ComponfntPffr
      */
-    @Override
-    public void setEnabled(boolean enabled) {
-        super.setEnabled(enabled);
-        if (jtext != null) {
-            jtext.setEnabled(enabled);
-            jtext.repaint();
+    @Ovfrridf
+    publid void sftEnbblfd(boolfbn fnbblfd) {
+        supfr.sftEnbblfd(fnbblfd);
+        if (jtfxt != null) {
+            jtfxt.sftEnbblfd(fnbblfd);
+            jtfxt.rfpbint();
         }
     }
 
     /**
-     * @see java.awt.peer.TextComponentPeer
+     * @sff jbvb.bwt.pffr.TfxtComponfntPffr
      */
-    @Override
-    public InputMethodRequests getInputMethodRequests() {
-        if (jtext != null) return jtext.getInputMethodRequests();
-        else  return null;
+    @Ovfrridf
+    publid InputMftiodRfqufsts gftInputMftiodRfqufsts() {
+        if (jtfxt != null) rfturn jtfxt.gftInputMftiodRfqufsts();
+        flsf  rfturn null;
     }
 
     /**
-     * @see java.awt.peer.TextComponentPeer
+     * @sff jbvb.bwt.pffr.TfxtComponfntPffr
      */
-    @Override
-    public int getSelectionStart() {
-        return jtext.getSelectionStart();
+    @Ovfrridf
+    publid int gftSflfdtionStbrt() {
+        rfturn jtfxt.gftSflfdtionStbrt();
     }
 
     /**
-     * @see java.awt.peer.TextComponentPeer
+     * @sff jbvb.bwt.pffr.TfxtComponfntPffr
      */
-    @Override
-    public int getSelectionEnd() {
-        return jtext.getSelectionEnd();
+    @Ovfrridf
+    publid int gftSflfdtionEnd() {
+        rfturn jtfxt.gftSflfdtionEnd();
     }
 
     /**
-     * @see java.awt.peer.TextComponentPeer
+     * @sff jbvb.bwt.pffr.TfxtComponfntPffr
      */
-    @Override
-    public String getText() {
-        return jtext.getText();
+    @Ovfrridf
+    publid String gftTfxt() {
+        rfturn jtfxt.gftTfxt();
     }
 
     /**
-     * @see java.awt.peer.TextComponentPeer
+     * @sff jbvb.bwt.pffr.TfxtComponfntPffr
      */
-    @Override
-    public void setText(String text) {
-        setTextImpl(text);
-        repaintText();
+    @Ovfrridf
+    publid void sftTfxt(String tfxt) {
+        sftTfxtImpl(tfxt);
+        rfpbintTfxt();
     }
 
-    private void setTextImpl(String txt) {
-        if (jtext != null) {
-            // JTextArea.setText() posts two different events (remove & insert).
-            // Since we make no differences between text events,
-            // the document listener has to be disabled while
-            // JTextArea.setText() is called.
-            jtext.getDocument().removeDocumentListener(jtext);
-            jtext.setText(txt);
-            if (firstChangeSkipped) {
-                postEvent(new TextEvent(target, TextEvent.TEXT_VALUE_CHANGED));
+    privbtf void sftTfxtImpl(String txt) {
+        if (jtfxt != null) {
+            // JTfxtArfb.sftTfxt() posts two difffrfnt fvfnts (rfmovf & insfrt).
+            // Sindf wf mbkf no difffrfndfs bftwffn tfxt fvfnts,
+            // tif dodumfnt listfnfr ibs to bf disbblfd wiilf
+            // JTfxtArfb.sftTfxt() is dbllfd.
+            jtfxt.gftDodumfnt().rfmovfDodumfntListfnfr(jtfxt);
+            jtfxt.sftTfxt(txt);
+            if (firstCibngfSkippfd) {
+                postEvfnt(nfw TfxtEvfnt(tbrgft, TfxtEvfnt.TEXT_VALUE_CHANGED));
             }
-            jtext.getDocument().addDocumentListener(jtext);
+            jtfxt.gftDodumfnt().bddDodumfntListfnfr(jtfxt);
         }
     }
 
     /**
-     * insert the text "txt on position "pos" in the array lines
-     * @see java.awt.peer.TextAreaPeer
+     * insfrt tif tfxt "txt on position "pos" in tif brrby linfs
+     * @sff jbvb.bwt.pffr.TfxtArfbPffr
      */
-    @Override
-    public void insert(String txt, int p) {
-        if (jtext != null) {
-            boolean doScroll = (p >= jtext.getDocument().getLength() && jtext.getDocument().getLength() != 0);
-            jtext.insert(txt,p);
-            textPane.validate();
-            if (doScroll) {
-                JScrollBar bar = textPane.getVerticalScrollBar();
-                if (bar != null) {
-                    bar.setValue(bar.getMaximum()-bar.getVisibleAmount());
+    @Ovfrridf
+    publid void insfrt(String txt, int p) {
+        if (jtfxt != null) {
+            boolfbn doSdroll = (p >= jtfxt.gftDodumfnt().gftLfngti() && jtfxt.gftDodumfnt().gftLfngti() != 0);
+            jtfxt.insfrt(txt,p);
+            tfxtPbnf.vblidbtf();
+            if (doSdroll) {
+                JSdrollBbr bbr = tfxtPbnf.gftVfrtidblSdrollBbr();
+                if (bbr != null) {
+                    bbr.sftVbluf(bbr.gftMbximum()-bbr.gftVisiblfAmount());
                 }
             }
         }
     }
 
     /**
-     * replace the text between the position "s" and "e" with "txt"
-     * @see java.awt.peer.TextAreaPeer
+     * rfplbdf tif tfxt bftwffn tif position "s" bnd "f" witi "txt"
+     * @sff jbvb.bwt.pffr.TfxtArfbPffr
      */
-    @Override
-    public void replaceRange(String txt, int s, int e) {
-        if (jtext != null) {
-            // JTextArea.replaceRange() posts two different events.
-            // Since we make no differences between text events,
-            // the document listener has to be disabled while
-            // JTextArea.replaceRange() is called.
-            jtext.getDocument().removeDocumentListener(jtext);
-            jtext.replaceRange(txt, s, e);
-            postEvent(new TextEvent(target, TextEvent.TEXT_VALUE_CHANGED));
-            jtext.getDocument().addDocumentListener(jtext);
+    @Ovfrridf
+    publid void rfplbdfRbngf(String txt, int s, int f) {
+        if (jtfxt != null) {
+            // JTfxtArfb.rfplbdfRbngf() posts two difffrfnt fvfnts.
+            // Sindf wf mbkf no difffrfndfs bftwffn tfxt fvfnts,
+            // tif dodumfnt listfnfr ibs to bf disbblfd wiilf
+            // JTfxtArfb.rfplbdfRbngf() is dbllfd.
+            jtfxt.gftDodumfnt().rfmovfDodumfntListfnfr(jtfxt);
+            jtfxt.rfplbdfRbngf(txt, s, f);
+            postEvfnt(nfw TfxtEvfnt(tbrgft, TfxtEvfnt.TEXT_VALUE_CHANGED));
+            jtfxt.gftDodumfnt().bddDodumfntListfnfr(jtfxt);
         }
     }
 
     /**
-     * to be implemented.
-     * @see java.awt.peer.TextComponentPeer
+     * to bf implfmfntfd.
+     * @sff jbvb.bwt.pffr.TfxtComponfntPffr
      */
-    @Override
-    public void setCaretPosition(int position) {
-        jtext.setCaretPosition(position);
+    @Ovfrridf
+    publid void sftCbrftPosition(int position) {
+        jtfxt.sftCbrftPosition(position);
     }
 
     /**
-     * to be implemented.
-     * @see java.awt.peer.TextComponentPeer
+     * to bf implfmfntfd.
+     * @sff jbvb.bwt.pffr.TfxtComponfntPffr
      */
-    @Override
-    public int getCaretPosition() {
-        return jtext.getCaretPosition();
+    @Ovfrridf
+    publid int gftCbrftPosition() {
+        rfturn jtfxt.gftCbrftPosition();
     }
 
-    final class AWTTextAreaUI extends MotifTextAreaUI {
+    finbl dlbss AWTTfxtArfbUI fxtfnds MotifTfxtArfbUI {
 
-        private JTextArea jta;
+        privbtf JTfxtArfb jtb;
 
-        @Override
-        protected String getPropertyPrefix() { return "TextArea"; }
+        @Ovfrridf
+        protfdtfd String gftPropfrtyPrffix() { rfturn "TfxtArfb"; }
 
-        @Override
-        public void installUI(JComponent c) {
-            super.installUI(c);
+        @Ovfrridf
+        publid void instbllUI(JComponfnt d) {
+            supfr.instbllUI(d);
 
-            jta = (JTextArea) c;
+            jtb = (JTfxtArfb) d;
 
-            JTextArea editor = jta;
+            JTfxtArfb fditor = jtb;
 
-            UIDefaults uidefaults = XToolkit.getUIDefaults();
+            UIDffbults uidffbults = XToolkit.gftUIDffbults();
 
-            String prefix = getPropertyPrefix();
-            Font f = editor.getFont();
-            if ((f == null) || (f instanceof UIResource)) {
-                editor.setFont(uidefaults.getFont(prefix + ".font"));
+            String prffix = gftPropfrtyPrffix();
+            Font f = fditor.gftFont();
+            if ((f == null) || (f instbndfof UIRfsourdf)) {
+                fditor.sftFont(uidffbults.gftFont(prffix + ".font"));
             }
 
-            Color bg = editor.getBackground();
-            if ((bg == null) || (bg instanceof UIResource)) {
-                editor.setBackground(uidefaults.getColor(prefix + ".background"));
+            Color bg = fditor.gftBbdkground();
+            if ((bg == null) || (bg instbndfof UIRfsourdf)) {
+                fditor.sftBbdkground(uidffbults.gftColor(prffix + ".bbdkground"));
             }
 
-            Color fg = editor.getForeground();
-            if ((fg == null) || (fg instanceof UIResource)) {
-                editor.setForeground(uidefaults.getColor(prefix + ".foreground"));
+            Color fg = fditor.gftForfground();
+            if ((fg == null) || (fg instbndfof UIRfsourdf)) {
+                fditor.sftForfground(uidffbults.gftColor(prffix + ".forfground"));
             }
 
-            Color color = editor.getCaretColor();
-            if ((color == null) || (color instanceof UIResource)) {
-                editor.setCaretColor(uidefaults.getColor(prefix + ".caretForeground"));
+            Color dolor = fditor.gftCbrftColor();
+            if ((dolor == null) || (dolor instbndfof UIRfsourdf)) {
+                fditor.sftCbrftColor(uidffbults.gftColor(prffix + ".dbrftForfground"));
             }
 
-            Color s = editor.getSelectionColor();
-            if ((s == null) || (s instanceof UIResource)) {
-                editor.setSelectionColor(uidefaults.getColor(prefix + ".selectionBackground"));
+            Color s = fditor.gftSflfdtionColor();
+            if ((s == null) || (s instbndfof UIRfsourdf)) {
+                fditor.sftSflfdtionColor(uidffbults.gftColor(prffix + ".sflfdtionBbdkground"));
             }
 
-            Color sfg = editor.getSelectedTextColor();
-            if ((sfg == null) || (sfg instanceof UIResource)) {
-                editor.setSelectedTextColor(uidefaults.getColor(prefix + ".selectionForeground"));
+            Color sfg = fditor.gftSflfdtfdTfxtColor();
+            if ((sfg == null) || (sfg instbndfof UIRfsourdf)) {
+                fditor.sftSflfdtfdTfxtColor(uidffbults.gftColor(prffix + ".sflfdtionForfground"));
             }
 
-            Color dfg = editor.getDisabledTextColor();
-            if ((dfg == null) || (dfg instanceof UIResource)) {
-                editor.setDisabledTextColor(uidefaults.getColor(prefix + ".inactiveForeground"));
+            Color dfg = fditor.gftDisbblfdTfxtColor();
+            if ((dfg == null) || (dfg instbndfof UIRfsourdf)) {
+                fditor.sftDisbblfdTfxtColor(uidffbults.gftColor(prffix + ".inbdtivfForfground"));
             }
 
-            Border b = new BevelBorder(false,SystemColor.controlDkShadow,SystemColor.controlLtHighlight);
-            editor.setBorder(new BorderUIResource.CompoundBorderUIResource(
-                b,new EmptyBorder(2, 2, 2, 2)));
+            Bordfr b = nfw BfvflBordfr(fblsf,SystfmColor.dontrolDkSibdow,SystfmColor.dontrolLtHigiligit);
+            fditor.sftBordfr(nfw BordfrUIRfsourdf.CompoundBordfrUIRfsourdf(
+                b,nfw EmptyBordfr(2, 2, 2, 2)));
 
-            Insets margin = editor.getMargin();
-            if (margin == null || margin instanceof UIResource) {
-                editor.setMargin(uidefaults.getInsets(prefix + ".margin"));
-            }
-        }
-
-        @Override
-        protected void installKeyboardActions() {
-            super.installKeyboardActions();
-
-            JTextComponent comp = getComponent();
-
-            UIDefaults uidefaults = XToolkit.getUIDefaults();
-
-            String prefix = getPropertyPrefix();
-
-            InputMap map = (InputMap)uidefaults.get(prefix + ".focusInputMap");
-
-            if (map != null) {
-                SwingUtilities.replaceUIInputMap(comp, JComponent.WHEN_FOCUSED,
-                                                 map);
+            Insfts mbrgin = fditor.gftMbrgin();
+            if (mbrgin == null || mbrgin instbndfof UIRfsourdf) {
+                fditor.sftMbrgin(uidffbults.gftInsfts(prffix + ".mbrgin"));
             }
         }
 
-        @Override
-        protected Caret createCaret() {
-            return new XAWTCaret();
+        @Ovfrridf
+        protfdtfd void instbllKfybobrdAdtions() {
+            supfr.instbllKfybobrdAdtions();
+
+            JTfxtComponfnt domp = gftComponfnt();
+
+            UIDffbults uidffbults = XToolkit.gftUIDffbults();
+
+            String prffix = gftPropfrtyPrffix();
+
+            InputMbp mbp = (InputMbp)uidffbults.gft(prffix + ".fodusInputMbp");
+
+            if (mbp != null) {
+                SwingUtilitifs.rfplbdfUIInputMbp(domp, JComponfnt.WHEN_FOCUSED,
+                                                 mbp);
+            }
+        }
+
+        @Ovfrridf
+        protfdtfd Cbrft drfbtfCbrft() {
+            rfturn nfw XAWTCbrft();
         }
     }
 
-    @SuppressWarnings("serial") // JDK-implementation class
-    static final class XAWTCaret extends DefaultCaret {
-        @Override
-        public void focusGained(FocusEvent e) {
-            super.focusGained(e);
-            if (getComponent().isEnabled()){
-                // Make sure the cursor is visible in case of non-editable TextArea
-                super.setVisible(true);
+    @SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+    stbtid finbl dlbss XAWTCbrft fxtfnds DffbultCbrft {
+        @Ovfrridf
+        publid void fodusGbinfd(FodusEvfnt f) {
+            supfr.fodusGbinfd(f);
+            if (gftComponfnt().isEnbblfd()){
+                // Mbkf surf tif dursor is visiblf in dbsf of non-fditbblf TfxtArfb
+                supfr.sftVisiblf(truf);
             }
-            getComponent().repaint();
+            gftComponfnt().rfpbint();
         }
 
-        @Override
-        public void focusLost(FocusEvent e) {
-            super.focusLost(e);
-            getComponent().repaint();
+        @Ovfrridf
+        publid void fodusLost(FodusEvfnt f) {
+            supfr.fodusLost(f);
+            gftComponfnt().rfpbint();
         }
 
-        // Fix for 5100950: textarea.getSelectedText() returns the de-selected text, on XToolkit
-        // Restoring Motif behaviour
-        // If the text is unhighlighted then we should sets the selection range to zero
-        @Override
-        public void setSelectionVisible(boolean vis) {
+        // Fix for 5100950: tfxtbrfb.gftSflfdtfdTfxt() rfturns tif df-sflfdtfd tfxt, on XToolkit
+        // Rfstoring Motif bfibviour
+        // If tif tfxt is uniigiligitfd tifn wf siould sfts tif sflfdtion rbngf to zfro
+        @Ovfrridf
+        publid void sftSflfdtionVisiblf(boolfbn vis) {
             if (vis){
-                super.setSelectionVisible(vis);
-            }else{
-                // In order to de-select the selection
-                setDot(getDot());
+                supfr.sftSflfdtionVisiblf(vis);
+            }flsf{
+                // In ordfr to df-sflfdt tif sflfdtion
+                sftDot(gftDot());
             }
         }
     }
 
-    @SuppressWarnings("serial") // JDK-implementation class
-    final class XAWTScrollBarButton extends BasicArrowButton {
+    @SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+    finbl dlbss XAWTSdrollBbrButton fxtfnds BbsidArrowButton {
 
-        private UIDefaults uidefaults = XToolkit.getUIDefaults();
-        private Color darkShadow = SystemColor.controlShadow;
-        private Color lightShadow = SystemColor.controlLtHighlight;
-        private Color buttonBack = uidefaults.getColor("ScrollBar.track");
+        privbtf UIDffbults uidffbults = XToolkit.gftUIDffbults();
+        privbtf Color dbrkSibdow = SystfmColor.dontrolSibdow;
+        privbtf Color ligitSibdow = SystfmColor.dontrolLtHigiligit;
+        privbtf Color buttonBbdk = uidffbults.gftColor("SdrollBbr.trbdk");
 
-        XAWTScrollBarButton(int direction) {
-            super(direction);
+        XAWTSdrollBbrButton(int dirfdtion) {
+            supfr(dirfdtion);
 
-            switch (direction) {
-            case NORTH:
-            case SOUTH:
-            case EAST:
-            case WEST:
-                this.direction = direction;
-                break;
-            default:
-                throw new IllegalArgumentException("invalid direction");
+            switdi (dirfdtion) {
+            dbsf NORTH:
+            dbsf SOUTH:
+            dbsf EAST:
+            dbsf WEST:
+                tiis.dirfdtion = dirfdtion;
+                brfbk;
+            dffbult:
+                tirow nfw IllfgblArgumfntExdfption("invblid dirfdtion");
             }
 
-            setRequestFocusEnabled(false);
-            setOpaque(true);
-            setBackground(uidefaults.getColor("ScrollBar.thumb"));
-            setForeground(uidefaults.getColor("ScrollBar.foreground"));
+            sftRfqufstFodusEnbblfd(fblsf);
+            sftOpbquf(truf);
+            sftBbdkground(uidffbults.gftColor("SdrollBbr.tiumb"));
+            sftForfground(uidffbults.gftColor("SdrollBbr.forfground"));
         }
 
-        @Override
-        public Dimension getPreferredSize() {
-            switch (direction) {
-            case NORTH:
-            case SOUTH:
-                return new Dimension(11, 12);
-            case EAST:
-            case WEST:
-            default:
-                return new Dimension(12, 11);
+        @Ovfrridf
+        publid Dimfnsion gftPrfffrrfdSizf() {
+            switdi (dirfdtion) {
+            dbsf NORTH:
+            dbsf SOUTH:
+                rfturn nfw Dimfnsion(11, 12);
+            dbsf EAST:
+            dbsf WEST:
+            dffbult:
+                rfturn nfw Dimfnsion(12, 11);
             }
         }
 
-        @Override
-        public Dimension getMinimumSize() {
-            return getPreferredSize();
+        @Ovfrridf
+        publid Dimfnsion gftMinimumSizf() {
+            rfturn gftPrfffrrfdSizf();
         }
 
-        @Override
-        public Dimension getMaximumSize() {
-            return getPreferredSize();
+        @Ovfrridf
+        publid Dimfnsion gftMbximumSizf() {
+            rfturn gftPrfffrrfdSizf();
         }
 
-        @Override
-        public boolean isFocusTraversable() {
-            return false;
+        @Ovfrridf
+        publid boolfbn isFodusTrbvfrsbblf() {
+            rfturn fblsf;
         }
 
-        @Override
-        public void paint(Graphics g)
+        @Ovfrridf
+        publid void pbint(Grbpiids g)
         {
-            int w = getWidth();
-            int h = getHeight();
+            int w = gftWidti();
+            int i = gftHfigit();
 
-            if (isOpaque()) {
-                g.setColor(buttonBack);
-                g.fillRect(0, 0, w, h);
+            if (isOpbquf()) {
+                g.sftColor(buttonBbdk);
+                g.fillRfdt(0, 0, w, i);
             }
 
-            boolean isPressed = getModel().isPressed();
-            Color lead = (isPressed) ? darkShadow : lightShadow;
-            Color trail = (isPressed) ? lightShadow : darkShadow;
-            Color fill = getBackground();
+            boolfbn isPrfssfd = gftModfl().isPrfssfd();
+            Color lfbd = (isPrfssfd) ? dbrkSibdow : ligitSibdow;
+            Color trbil = (isPrfssfd) ? ligitSibdow : dbrkSibdow;
+            Color fill = gftBbdkground();
 
-            int cx = w / 2;
-            int cy = h / 2;
-            int s = Math.min(w, h);
+            int dx = w / 2;
+            int dy = i / 2;
+            int s = Mbti.min(w, i);
 
-            switch (direction) {
-            case NORTH:
-                g.setColor(lead);
-                g.drawLine(cx, 0, cx, 0);
-                for (int x = cx - 1, y = 1, dx = 1; y <= s - 2; y += 2) {
-                    g.setColor(lead);
-                    g.drawLine(x, y, x, y);
+            switdi (dirfdtion) {
+            dbsf NORTH:
+                g.sftColor(lfbd);
+                g.drbwLinf(dx, 0, dx, 0);
+                for (int x = dx - 1, y = 1, dx = 1; y <= s - 2; y += 2) {
+                    g.sftColor(lfbd);
+                    g.drbwLinf(x, y, x, y);
                     if (y >= (s - 2)) {
-                        g.drawLine(x, y + 1, x, y + 1);
+                        g.drbwLinf(x, y + 1, x, y + 1);
                     }
-                    g.setColor(fill);
-                    g.drawLine(x + 1, y, x + dx, y);
+                    g.sftColor(fill);
+                    g.drbwLinf(x + 1, y, x + dx, y);
                     if (y < (s - 2)) {
-                        g.drawLine(x, y + 1, x + dx + 1, y + 1);
+                        g.drbwLinf(x, y + 1, x + dx + 1, y + 1);
                     }
-                    g.setColor(trail);
-                    g.drawLine(x + dx + 1, y, x + dx + 1, y);
+                    g.sftColor(trbil);
+                    g.drbwLinf(x + dx + 1, y, x + dx + 1, y);
                     if (y >= (s - 2)) {
-                        g.drawLine(x + 1, y + 1, x + dx + 1, y + 1);
+                        g.drbwLinf(x + 1, y + 1, x + dx + 1, y + 1);
                     }
                     dx += 2;
                     x -= 1;
                 }
-                break;
+                brfbk;
 
-            case SOUTH:
-                g.setColor(trail);
-                g.drawLine(cx, s, cx, s);
-                for (int x = cx - 1, y = s - 1, dx = 1; y >= 1; y -= 2) {
-                    g.setColor(lead);
-                    g.drawLine(x, y, x, y);
+            dbsf SOUTH:
+                g.sftColor(trbil);
+                g.drbwLinf(dx, s, dx, s);
+                for (int x = dx - 1, y = s - 1, dx = 1; y >= 1; y -= 2) {
+                    g.sftColor(lfbd);
+                    g.drbwLinf(x, y, x, y);
                     if (y <= 2) {
-                        g.drawLine(x, y - 1, x + dx + 1, y - 1);
+                        g.drbwLinf(x, y - 1, x + dx + 1, y - 1);
                     }
-                    g.setColor(fill);
-                    g.drawLine(x + 1, y, x + dx, y);
+                    g.sftColor(fill);
+                    g.drbwLinf(x + 1, y, x + dx, y);
                     if (y > 2) {
-                        g.drawLine(x, y - 1, x + dx + 1, y - 1);
+                        g.drbwLinf(x, y - 1, x + dx + 1, y - 1);
                     }
-                    g.setColor(trail);
-                    g.drawLine(x + dx + 1, y, x + dx + 1, y);
+                    g.sftColor(trbil);
+                    g.drbwLinf(x + dx + 1, y, x + dx + 1, y);
 
                     dx += 2;
                     x -= 1;
                 }
-                break;
+                brfbk;
 
-            case EAST:
-                g.setColor(lead);
-                g.drawLine(s, cy, s, cy);
-                for (int y = cy - 1, x = s - 1, dy = 1; x >= 1; x -= 2) {
-                    g.setColor(lead);
-                    g.drawLine(x, y, x, y);
+            dbsf EAST:
+                g.sftColor(lfbd);
+                g.drbwLinf(s, dy, s, dy);
+                for (int y = dy - 1, x = s - 1, dy = 1; x >= 1; x -= 2) {
+                    g.sftColor(lfbd);
+                    g.drbwLinf(x, y, x, y);
                     if (x <= 2) {
-                        g.drawLine(x - 1, y, x - 1, y + dy + 1);
+                        g.drbwLinf(x - 1, y, x - 1, y + dy + 1);
                     }
-                    g.setColor(fill);
-                    g.drawLine(x, y + 1, x, y + dy);
+                    g.sftColor(fill);
+                    g.drbwLinf(x, y + 1, x, y + dy);
                     if (x > 2) {
-                        g.drawLine(x - 1, y, x - 1, y + dy + 1);
+                        g.drbwLinf(x - 1, y, x - 1, y + dy + 1);
                     }
-                    g.setColor(trail);
-                    g.drawLine(x, y + dy + 1, x, y + dy + 1);
+                    g.sftColor(trbil);
+                    g.drbwLinf(x, y + dy + 1, x, y + dy + 1);
 
                     dy += 2;
                     y -= 1;
                 }
-                break;
+                brfbk;
 
-            case WEST:
-                g.setColor(trail);
-                g.drawLine(0, cy, 0, cy);
-                for (int y = cy - 1, x = 1, dy = 1; x <= s - 2; x += 2) {
-                    g.setColor(lead);
-                    g.drawLine(x, y, x, y);
+            dbsf WEST:
+                g.sftColor(trbil);
+                g.drbwLinf(0, dy, 0, dy);
+                for (int y = dy - 1, x = 1, dy = 1; x <= s - 2; x += 2) {
+                    g.sftColor(lfbd);
+                    g.drbwLinf(x, y, x, y);
                     if (x >= (s - 2)) {
-                        g.drawLine(x + 1, y, x + 1, y);
+                        g.drbwLinf(x + 1, y, x + 1, y);
                     }
-                    g.setColor(fill);
-                    g.drawLine(x, y + 1, x, y + dy);
+                    g.sftColor(fill);
+                    g.drbwLinf(x, y + 1, x, y + dy);
                     if (x < (s - 2)) {
-                        g.drawLine(x + 1, y, x + 1, y + dy + 1);
+                        g.drbwLinf(x + 1, y, x + 1, y + dy + 1);
                     }
-                    g.setColor(trail);
-                    g.drawLine(x, y + dy + 1, x, y + dy + 1);
+                    g.sftColor(trbil);
+                    g.drbwLinf(x, y + dy + 1, x, y + dy + 1);
                     if (x >= (s - 2)) {
-                        g.drawLine(x + 1, y + 1, x + 1, y + dy + 1);
+                        g.drbwLinf(x + 1, y + 1, x + 1, y + dy + 1);
                     }
                     dy += 2;
                     y -= 1;
                 }
-                break;
+                brfbk;
             }
         }
     }
 
-    final class XAWTScrollBarUI extends BasicScrollBarUI {
+    finbl dlbss XAWTSdrollBbrUI fxtfnds BbsidSdrollBbrUI {
 
-        @Override
-        protected void installDefaults()
+        @Ovfrridf
+        protfdtfd void instbllDffbults()
         {
-            super.installDefaults();
-            scrollbar.setBorder(new BevelBorder(false,SystemColor.controlDkShadow,SystemColor.controlLtHighlight) );
+            supfr.instbllDffbults();
+            sdrollbbr.sftBordfr(nfw BfvflBordfr(fblsf,SystfmColor.dontrolDkSibdow,SystfmColor.dontrolLtHigiligit) );
         }
 
-        @Override
-        protected void configureScrollBarColors() {
-            UIDefaults uidefaults = XToolkit.getUIDefaults();
-            Color bg = scrollbar.getBackground();
-            if (bg == null || bg instanceof UIResource) {
-                scrollbar.setBackground(uidefaults.getColor("ScrollBar.background"));
+        @Ovfrridf
+        protfdtfd void donfigurfSdrollBbrColors() {
+            UIDffbults uidffbults = XToolkit.gftUIDffbults();
+            Color bg = sdrollbbr.gftBbdkground();
+            if (bg == null || bg instbndfof UIRfsourdf) {
+                sdrollbbr.sftBbdkground(uidffbults.gftColor("SdrollBbr.bbdkground"));
             }
 
-            Color fg = scrollbar.getForeground();
-            if (fg == null || fg instanceof UIResource) {
-                scrollbar.setForeground(uidefaults.getColor("ScrollBar.foreground"));
+            Color fg = sdrollbbr.gftForfground();
+            if (fg == null || fg instbndfof UIRfsourdf) {
+                sdrollbbr.sftForfground(uidffbults.gftColor("SdrollBbr.forfground"));
             }
 
-            thumbHighlightColor = uidefaults.getColor("ScrollBar.thumbHighlight");
-            thumbLightShadowColor = uidefaults.getColor("ScrollBar.thumbShadow");
-            thumbDarkShadowColor = uidefaults.getColor("ScrollBar.thumbDarkShadow");
-            thumbColor = uidefaults.getColor("ScrollBar.thumb");
-            trackColor = uidefaults.getColor("ScrollBar.track");
+            tiumbHigiligitColor = uidffbults.gftColor("SdrollBbr.tiumbHigiligit");
+            tiumbLigitSibdowColor = uidffbults.gftColor("SdrollBbr.tiumbSibdow");
+            tiumbDbrkSibdowColor = uidffbults.gftColor("SdrollBbr.tiumbDbrkSibdow");
+            tiumbColor = uidffbults.gftColor("SdrollBbr.tiumb");
+            trbdkColor = uidffbults.gftColor("SdrollBbr.trbdk");
 
-            trackHighlightColor = uidefaults.getColor("ScrollBar.trackHighlight");
-
-        }
-
-        @Override
-        protected JButton createDecreaseButton(int orientation) {
-            JButton b = new XAWTScrollBarButton(orientation);
-            return b;
+            trbdkHigiligitColor = uidffbults.gftColor("SdrollBbr.trbdkHigiligit");
 
         }
 
-        @Override
-        protected JButton createIncreaseButton(int orientation) {
-            JButton b = new XAWTScrollBarButton(orientation);
-            return b;
+        @Ovfrridf
+        protfdtfd JButton drfbtfDfdrfbsfButton(int orifntbtion) {
+            JButton b = nfw XAWTSdrollBbrButton(orifntbtion);
+            rfturn b;
+
         }
 
-        public JButton getDecreaseButton(){
-            return decrButton;
+        @Ovfrridf
+        protfdtfd JButton drfbtfIndrfbsfButton(int orifntbtion) {
+            JButton b = nfw XAWTSdrollBbrButton(orifntbtion);
+            rfturn b;
         }
 
-        public JButton getIncreaseButton(){
-            return incrButton;
+        publid JButton gftDfdrfbsfButton(){
+            rfturn dfdrButton;
         }
 
-        @Override
-        public void paint(Graphics g, JComponent c) {
-            paintTrack(g, c, getTrackBounds());
-            Rectangle thumbBounds = getThumbBounds();
-            paintThumb(g, c, thumbBounds);
+        publid JButton gftIndrfbsfButton(){
+            rfturn indrButton;
         }
 
-        @Override
-        public void paintThumb(Graphics g, JComponent c, Rectangle thumbBounds)
+        @Ovfrridf
+        publid void pbint(Grbpiids g, JComponfnt d) {
+            pbintTrbdk(g, d, gftTrbdkBounds());
+            Rfdtbnglf tiumbBounds = gftTiumbBounds();
+            pbintTiumb(g, d, tiumbBounds);
+        }
+
+        @Ovfrridf
+        publid void pbintTiumb(Grbpiids g, JComponfnt d, Rfdtbnglf tiumbBounds)
         {
-            if(!scrollbar.isEnabled()) {
-                return;
+            if(!sdrollbbr.isEnbblfd()) {
+                rfturn;
             }
 
-            if (thumbBounds.isEmpty())
-                thumbBounds = getTrackBounds();
+            if (tiumbBounds.isEmpty())
+                tiumbBounds = gftTrbdkBounds();
 
-            int w = thumbBounds.width;
-            int h = thumbBounds.height;
+            int w = tiumbBounds.widti;
+            int i = tiumbBounds.ifigit;
 
-            g.translate(thumbBounds.x, thumbBounds.y);
-            g.setColor(thumbColor);
-            g.fillRect(0, 0, w-1, h-1);
+            g.trbnslbtf(tiumbBounds.x, tiumbBounds.y);
+            g.sftColor(tiumbColor);
+            g.fillRfdt(0, 0, w-1, i-1);
 
-            g.setColor(thumbHighlightColor);
-            g.drawLine(0, 0, 0, h-1);
-            g.drawLine(1, 0, w-1, 0);
+            g.sftColor(tiumbHigiligitColor);
+            g.drbwLinf(0, 0, 0, i-1);
+            g.drbwLinf(1, 0, w-1, 0);
 
-            g.setColor(thumbLightShadowColor);
-            g.drawLine(1, h-1, w-1, h-1);
-            g.drawLine(w-1, 1, w-1, h-2);
+            g.sftColor(tiumbLigitSibdowColor);
+            g.drbwLinf(1, i-1, w-1, i-1);
+            g.drbwLinf(w-1, 1, w-1, i-2);
 
-            g.translate(-thumbBounds.x, -thumbBounds.y);
+            g.trbnslbtf(-tiumbBounds.x, -tiumbBounds.y);
         }
     }
 
-    @SuppressWarnings("serial") // JDK-implementation class
-    final class AWTTextArea extends JTextArea implements DocumentListener {
+    @SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+    finbl dlbss AWTTfxtArfb fxtfnds JTfxtArfb implfmfnts DodumfntListfnfr {
 
-        private boolean isFocused = false;
-        private final XTextAreaPeer peer;
+        privbtf boolfbn isFodusfd = fblsf;
+        privbtf finbl XTfxtArfbPffr pffr;
 
-        AWTTextArea(String text, XTextAreaPeer peer) {
-            super(text);
-            setFocusable(false);
-            this.peer = peer;
+        AWTTfxtArfb(String tfxt, XTfxtArfbPffr pffr) {
+            supfr(tfxt);
+            sftFodusbblf(fblsf);
+            tiis.pffr = pffr;
         }
 
-        @Override
-        public void insertUpdate(DocumentEvent e) {
-            if (peer != null) {
-                peer.postEvent(new TextEvent(peer.target,
-                                             TextEvent.TEXT_VALUE_CHANGED));
+        @Ovfrridf
+        publid void insfrtUpdbtf(DodumfntEvfnt f) {
+            if (pffr != null) {
+                pffr.postEvfnt(nfw TfxtEvfnt(pffr.tbrgft,
+                                             TfxtEvfnt.TEXT_VALUE_CHANGED));
             }
         }
 
-        @Override
-        public void removeUpdate(DocumentEvent e) {
-            if (peer != null) {
-                peer.postEvent(new TextEvent(peer.target,
-                                             TextEvent.TEXT_VALUE_CHANGED));
+        @Ovfrridf
+        publid void rfmovfUpdbtf(DodumfntEvfnt f) {
+            if (pffr != null) {
+                pffr.postEvfnt(nfw TfxtEvfnt(pffr.tbrgft,
+                                             TfxtEvfnt.TEXT_VALUE_CHANGED));
             }
         }
 
-        @Override
-        public void changedUpdate(DocumentEvent e) {
-            if (peer != null) {
-                peer.postEvent(new TextEvent(peer.target,
-                                             TextEvent.TEXT_VALUE_CHANGED));
+        @Ovfrridf
+        publid void dibngfdUpdbtf(DodumfntEvfnt f) {
+            if (pffr != null) {
+                pffr.postEvfnt(nfw TfxtEvfnt(pffr.tbrgft,
+                                             TfxtEvfnt.TEXT_VALUE_CHANGED));
             }
         }
 
-        void forwardFocusGained( FocusEvent e) {
-            isFocused = true;
-            FocusEvent fe = CausedFocusEvent.retarget(e, this);
-            super.processFocusEvent(fe);
+        void forwbrdFodusGbinfd( FodusEvfnt f) {
+            isFodusfd = truf;
+            FodusEvfnt ff = CbusfdFodusEvfnt.rftbrgft(f, tiis);
+            supfr.prodfssFodusEvfnt(ff);
         }
 
 
-        void forwardFocusLost( FocusEvent e) {
-            isFocused = false;
-            FocusEvent fe = CausedFocusEvent.retarget(e, this);
-            super.processFocusEvent(fe);
+        void forwbrdFodusLost( FodusEvfnt f) {
+            isFodusfd = fblsf;
+            FodusEvfnt ff = CbusfdFodusEvfnt.rftbrgft(f, tiis);
+            supfr.prodfssFodusEvfnt(ff);
         }
 
-        @Override
-        public boolean hasFocus() {
-            return isFocused;
+        @Ovfrridf
+        publid boolfbn ibsFodus() {
+            rfturn isFodusfd;
         }
 
-        public void repaintNow() {
-            paintImmediately(getBounds());
+        publid void rfpbintNow() {
+            pbintImmfdibtfly(gftBounds());
         }
 
-        public void processMouseEventPublic(MouseEvent e) {
-            processMouseEvent(e);
+        publid void prodfssMousfEvfntPublid(MousfEvfnt f) {
+            prodfssMousfEvfnt(f);
         }
 
-        public void processMouseMotionEventPublic(MouseEvent e) {
-            processMouseMotionEvent(e);
+        publid void prodfssMousfMotionEvfntPublid(MousfEvfnt f) {
+            prodfssMousfMotionEvfnt(f);
         }
 
-        public void processInputMethodEventPublic(InputMethodEvent e) {
-            processInputMethodEvent(e);
+        publid void prodfssInputMftiodEvfntPublid(InputMftiodEvfnt f) {
+            prodfssInputMftiodEvfnt(f);
         }
 
-        @Override
-        public void updateUI() {
-            ComponentUI ui = new AWTTextAreaUI();
-            setUI(ui);
+        @Ovfrridf
+        publid void updbtfUI() {
+            ComponfntUI ui = nfw AWTTfxtArfbUI();
+            sftUI(ui);
         }
 
-        // Fix for 4915454 - override the default implementation to avoid
-        // loading SystemFlavorMap and associated classes.
-        @Override
-        public void setTransferHandler(TransferHandler newHandler) {
-            TransferHandler oldHandler = (TransferHandler)
-                getClientProperty(AWTAccessor.getClientPropertyKeyAccessor()
-                                      .getJComponent_TRANSFER_HANDLER());
-            putClientProperty(AWTAccessor.getClientPropertyKeyAccessor()
-                                  .getJComponent_TRANSFER_HANDLER(),
-                              newHandler);
+        // Fix for 4915454 - ovfrridf tif dffbult implfmfntbtion to bvoid
+        // lobding SystfmFlbvorMbp bnd bssodibtfd dlbssfs.
+        @Ovfrridf
+        publid void sftTrbnsffrHbndlfr(TrbnsffrHbndlfr nfwHbndlfr) {
+            TrbnsffrHbndlfr oldHbndlfr = (TrbnsffrHbndlfr)
+                gftClifntPropfrty(AWTAddfssor.gftClifntPropfrtyKfyAddfssor()
+                                      .gftJComponfnt_TRANSFER_HANDLER());
+            putClifntPropfrty(AWTAddfssor.gftClifntPropfrtyKfyAddfssor()
+                                  .gftJComponfnt_TRANSFER_HANDLER(),
+                              nfwHbndlfr);
 
-            firePropertyChange("transferHandler", oldHandler, newHandler);
+            firfPropfrtyCibngf("trbnsffrHbndlfr", oldHbndlfr, nfwHbndlfr);
         }
     }
 
-    final class XAWTScrollPaneUI extends BasicScrollPaneUI {
+    finbl dlbss XAWTSdrollPbnfUI fxtfnds BbsidSdrollPbnfUI {
 
-        private final Border vsbMarginBorderR = new EmptyBorder(0, 2, 0, 0);
-        private final Border vsbMarginBorderL = new EmptyBorder(0, 0, 0, 2);
-        private final Border hsbMarginBorder = new EmptyBorder(2, 0, 0, 0);
+        privbtf finbl Bordfr vsbMbrginBordfrR = nfw EmptyBordfr(0, 2, 0, 0);
+        privbtf finbl Bordfr vsbMbrginBordfrL = nfw EmptyBordfr(0, 0, 0, 2);
+        privbtf finbl Bordfr isbMbrginBordfr = nfw EmptyBordfr(2, 0, 0, 0);
 
-        private Border vsbBorder;
-        private Border hsbBorder;
+        privbtf Bordfr vsbBordfr;
+        privbtf Bordfr isbBordfr;
 
-        private PropertyChangeListener propertyChangeHandler;
+        privbtf PropfrtyCibngfListfnfr propfrtyCibngfHbndlfr;
 
-        @Override
-        protected void installListeners(JScrollPane scrollPane) {
-            super.installListeners(scrollPane);
-            propertyChangeHandler = createPropertyChangeHandler();
-            scrollPane.addPropertyChangeListener(propertyChangeHandler);
+        @Ovfrridf
+        protfdtfd void instbllListfnfrs(JSdrollPbnf sdrollPbnf) {
+            supfr.instbllListfnfrs(sdrollPbnf);
+            propfrtyCibngfHbndlfr = drfbtfPropfrtyCibngfHbndlfr();
+            sdrollPbnf.bddPropfrtyCibngfListfnfr(propfrtyCibngfHbndlfr);
         }
 
-        @Override
-        public void paint(Graphics g, JComponent c) {
-            Border vpBorder = scrollpane.getViewportBorder();
-            if (vpBorder != null) {
-                Rectangle r = scrollpane.getViewportBorderBounds();
-                vpBorder.paintBorder(scrollpane, g, r.x, r.y, r.width, r.height);
+        @Ovfrridf
+        publid void pbint(Grbpiids g, JComponfnt d) {
+            Bordfr vpBordfr = sdrollpbnf.gftVifwportBordfr();
+            if (vpBordfr != null) {
+                Rfdtbnglf r = sdrollpbnf.gftVifwportBordfrBounds();
+                vpBordfr.pbintBordfr(sdrollpbnf, g, r.x, r.y, r.widti, r.ifigit);
             }
         }
 
-        protected void uninstallListeners(JScrollPane scrollPane) {
-            super.uninstallListeners(scrollPane);
-            scrollPane.removePropertyChangeListener(propertyChangeHandler);
+        protfdtfd void uninstbllListfnfrs(JSdrollPbnf sdrollPbnf) {
+            supfr.uninstbllListfnfrs(sdrollPbnf);
+            sdrollPbnf.rfmovfPropfrtyCibngfListfnfr(propfrtyCibngfHbndlfr);
         }
 
-        private PropertyChangeListener createPropertyChangeHandler() {
-            return new PropertyChangeListener() {
-                    @Override
-                    public void propertyChange(PropertyChangeEvent e) {
-                        String propertyName = e.getPropertyName();
+        privbtf PropfrtyCibngfListfnfr drfbtfPropfrtyCibngfHbndlfr() {
+            rfturn nfw PropfrtyCibngfListfnfr() {
+                    @Ovfrridf
+                    publid void propfrtyCibngf(PropfrtyCibngfEvfnt f) {
+                        String propfrtyNbmf = f.gftPropfrtyNbmf();
 
-                        if (propertyName.equals("componentOrientation")) {
-                            JScrollPane pane = (JScrollPane)e.getSource();
-                            JScrollBar vsb = pane.getVerticalScrollBar();
+                        if (propfrtyNbmf.fqubls("domponfntOrifntbtion")) {
+                            JSdrollPbnf pbnf = (JSdrollPbnf)f.gftSourdf();
+                            JSdrollBbr vsb = pbnf.gftVfrtidblSdrollBbr();
                             if (vsb != null) {
-                                if (isLeftToRight(pane)) {
-                                    vsbBorder = new CompoundBorder(new EmptyBorder(0, 4, 0, -4),
-                                                                   vsb.getBorder());
-                                } else {
-                                    vsbBorder = new CompoundBorder(new EmptyBorder(0, -4, 0, 4),
-                                                                   vsb.getBorder());
+                                if (isLfftToRigit(pbnf)) {
+                                    vsbBordfr = nfw CompoundBordfr(nfw EmptyBordfr(0, 4, 0, -4),
+                                                                   vsb.gftBordfr());
+                                } flsf {
+                                    vsbBordfr = nfw CompoundBordfr(nfw EmptyBordfr(0, -4, 0, 4),
+                                                                   vsb.gftBordfr());
                                 }
-                                vsb.setBorder(vsbBorder);
+                                vsb.sftBordfr(vsbBordfr);
                             }
                         }
                     }};
         }
 
-        boolean isLeftToRight( Component c ) {
-            return c.getComponentOrientation().isLeftToRight();
+        boolfbn isLfftToRigit( Componfnt d ) {
+            rfturn d.gftComponfntOrifntbtion().isLfftToRigit();
         }
 
-        @Override
-        protected void installDefaults(JScrollPane scrollpane) {
-            Border b = scrollpane.getBorder();
-            UIDefaults uidefaults = XToolkit.getUIDefaults();
-            scrollpane.setBorder(uidefaults.getBorder("ScrollPane.border"));
-            scrollpane.setBackground(uidefaults.getColor("ScrollPane.background"));
-            scrollpane.setViewportBorder(uidefaults.getBorder("TextField.border"));
-            JScrollBar vsb = scrollpane.getVerticalScrollBar();
+        @Ovfrridf
+        protfdtfd void instbllDffbults(JSdrollPbnf sdrollpbnf) {
+            Bordfr b = sdrollpbnf.gftBordfr();
+            UIDffbults uidffbults = XToolkit.gftUIDffbults();
+            sdrollpbnf.sftBordfr(uidffbults.gftBordfr("SdrollPbnf.bordfr"));
+            sdrollpbnf.sftBbdkground(uidffbults.gftColor("SdrollPbnf.bbdkground"));
+            sdrollpbnf.sftVifwportBordfr(uidffbults.gftBordfr("TfxtFifld.bordfr"));
+            JSdrollBbr vsb = sdrollpbnf.gftVfrtidblSdrollBbr();
             if (vsb != null) {
-                if (isLeftToRight(scrollpane)) {
-                    vsbBorder = new CompoundBorder(vsbMarginBorderR,
-                                                   vsb.getBorder());
+                if (isLfftToRigit(sdrollpbnf)) {
+                    vsbBordfr = nfw CompoundBordfr(vsbMbrginBordfrR,
+                                                   vsb.gftBordfr());
                 }
-                else {
-                    vsbBorder = new CompoundBorder(vsbMarginBorderL,
-                                                   vsb.getBorder());
+                flsf {
+                    vsbBordfr = nfw CompoundBordfr(vsbMbrginBordfrL,
+                                                   vsb.gftBordfr());
                 }
-                vsb.setBorder(vsbBorder);
+                vsb.sftBordfr(vsbBordfr);
             }
 
-            JScrollBar hsb = scrollpane.getHorizontalScrollBar();
-            if (hsb != null) {
-                hsbBorder = new CompoundBorder(hsbMarginBorder, hsb.getBorder());
-                hsb.setBorder(hsbBorder);
+            JSdrollBbr isb = sdrollpbnf.gftHorizontblSdrollBbr();
+            if (isb != null) {
+                isbBordfr = nfw CompoundBordfr(isbMbrginBordfr, isb.gftBordfr());
+                isb.sftBordfr(isbBordfr);
             }
         }
 
-        @Override
-        protected void uninstallDefaults(JScrollPane c) {
-            super.uninstallDefaults(c);
+        @Ovfrridf
+        protfdtfd void uninstbllDffbults(JSdrollPbnf d) {
+            supfr.uninstbllDffbults(d);
 
-            JScrollBar vsb = scrollpane.getVerticalScrollBar();
+            JSdrollBbr vsb = sdrollpbnf.gftVfrtidblSdrollBbr();
             if (vsb != null) {
-                if (vsb.getBorder() == vsbBorder) {
-                    vsb.setBorder(null);
+                if (vsb.gftBordfr() == vsbBordfr) {
+                    vsb.sftBordfr(null);
                 }
-                vsbBorder = null;
+                vsbBordfr = null;
             }
 
-            JScrollBar hsb = scrollpane.getHorizontalScrollBar();
-            if (hsb != null) {
-                if (hsb.getBorder() == hsbBorder) {
-                    hsb.setBorder(null);
+            JSdrollBbr isb = sdrollpbnf.gftHorizontblSdrollBbr();
+            if (isb != null) {
+                if (isb.gftBordfr() == isbBordfr) {
+                    isb.sftBordfr(null);
                 }
-                hsbBorder = null;
+                isbBordfr = null;
             }
         }
     }
 
-    @SuppressWarnings("serial") // JDK-implementation class
-    private class AWTTextPane extends JScrollPane implements FocusListener {
+    @SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+    privbtf dlbss AWTTfxtPbnf fxtfnds JSdrollPbnf implfmfnts FodusListfnfr {
 
-        private final JTextArea jtext;
-        private final XWindow xwin;
+        privbtf finbl JTfxtArfb jtfxt;
+        privbtf finbl XWindow xwin;
 
-        private final Color control = SystemColor.control;
-        private final Color focus = SystemColor.activeCaptionBorder;
+        privbtf finbl Color dontrol = SystfmColor.dontrol;
+        privbtf finbl Color fodus = SystfmColor.bdtivfCbptionBordfr;
 
-        AWTTextPane(JTextArea jt, XWindow xwin, Container parent) {
-            super(jt);
-            this.xwin = xwin;
-            setDoubleBuffered(true);
-            jt.addFocusListener(this);
-            AWTAccessor.getComponentAccessor().setParent(this,parent);
-            setViewportBorder(new BevelBorder(false,SystemColor.controlDkShadow,SystemColor.controlLtHighlight) );
-            this.jtext = jt;
-            setFocusable(false);
-            addNotify();
+        AWTTfxtPbnf(JTfxtArfb jt, XWindow xwin, Contbinfr pbrfnt) {
+            supfr(jt);
+            tiis.xwin = xwin;
+            sftDoublfBufffrfd(truf);
+            jt.bddFodusListfnfr(tiis);
+            AWTAddfssor.gftComponfntAddfssor().sftPbrfnt(tiis,pbrfnt);
+            sftVifwportBordfr(nfw BfvflBordfr(fblsf,SystfmColor.dontrolDkSibdow,SystfmColor.dontrolLtHigiligit) );
+            tiis.jtfxt = jt;
+            sftFodusbblf(fblsf);
+            bddNotify();
         }
 
-        @Override
-        public void invalidate() {
-            synchronized (getTreeLock()) {
-                final Container parent = getParent();
-                AWTAccessor.getComponentAccessor().setParent(this, null);
+        @Ovfrridf
+        publid void invblidbtf() {
+            syndironizfd (gftTrffLodk()) {
+                finbl Contbinfr pbrfnt = gftPbrfnt();
+                AWTAddfssor.gftComponfntAddfssor().sftPbrfnt(tiis, null);
                 try {
-                    super.invalidate();
-                } finally {
-                    AWTAccessor.getComponentAccessor().setParent(this, parent);
+                    supfr.invblidbtf();
+                } finblly {
+                    AWTAddfssor.gftComponfntAddfssor().sftPbrfnt(tiis, pbrfnt);
                 }
             }
         }
 
-        @Override
-        public void focusGained(FocusEvent e) {
-            Graphics g = getGraphics();
-            Rectangle r = getViewportBorderBounds();
-            g.setColor(focus);
-            g.drawRect(r.x,r.y,r.width,r.height);
-            g.dispose();
+        @Ovfrridf
+        publid void fodusGbinfd(FodusEvfnt f) {
+            Grbpiids g = gftGrbpiids();
+            Rfdtbnglf r = gftVifwportBordfrBounds();
+            g.sftColor(fodus);
+            g.drbwRfdt(r.x,r.y,r.widti,r.ifigit);
+            g.disposf();
         }
 
-        @Override
-        public void focusLost(FocusEvent e) {
-            Graphics g = getGraphics();
-            Rectangle r = getViewportBorderBounds();
-            g.setColor(control);
-            g.drawRect(r.x,r.y,r.width,r.height);
-            g.dispose();
+        @Ovfrridf
+        publid void fodusLost(FodusEvfnt f) {
+            Grbpiids g = gftGrbpiids();
+            Rfdtbnglf r = gftVifwportBordfrBounds();
+            g.sftColor(dontrol);
+            g.drbwRfdt(r.x,r.y,r.widti,r.ifigit);
+            g.disposf();
         }
 
-        public Window getRealParent() {
-            return (Window) xwin.target;
+        publid Window gftRfblPbrfnt() {
+            rfturn (Window) xwin.tbrgft;
         }
 
-        @Override
-        public ComponentPeer getPeer() {
-            return (ComponentPeer) (xwin);
+        @Ovfrridf
+        publid ComponfntPffr gftPffr() {
+            rfturn (ComponfntPffr) (xwin);
         }
 
-        @Override
-        public void updateUI() {
-            ComponentUI ui = new XAWTScrollPaneUI();
-            setUI(ui);
+        @Ovfrridf
+        publid void updbtfUI() {
+            ComponfntUI ui = nfw XAWTSdrollPbnfUI();
+            sftUI(ui);
         }
 
-        @Override
-        public JScrollBar createVerticalScrollBar() {
-            return new XAWTScrollBar(JScrollBar.VERTICAL);
+        @Ovfrridf
+        publid JSdrollBbr drfbtfVfrtidblSdrollBbr() {
+            rfturn nfw XAWTSdrollBbr(JSdrollBbr.VERTICAL);
         }
 
-        @Override
-        public JScrollBar createHorizontalScrollBar() {
-            return new XAWTScrollBar(JScrollBar.HORIZONTAL);
+        @Ovfrridf
+        publid JSdrollBbr drfbtfHorizontblSdrollBbr() {
+            rfturn nfw XAWTSdrollBbr(JSdrollBbr.HORIZONTAL);
         }
 
-        public JTextArea getTextArea () {
-            return this.jtext;
+        publid JTfxtArfb gftTfxtArfb () {
+            rfturn tiis.jtfxt;
         }
 
-        @Override
-        public Graphics getGraphics() {
-            return xwin.getGraphics();
+        @Ovfrridf
+        publid Grbpiids gftGrbpiids() {
+            rfturn xwin.gftGrbpiids();
         }
 
-        @SuppressWarnings("serial") // JDK-implementation class
-        final class XAWTScrollBar extends ScrollBar {
+        @SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+        finbl dlbss XAWTSdrollBbr fxtfnds SdrollBbr {
 
-            XAWTScrollBar(int i) {
-                super(i);
-                setFocusable(false);
+            XAWTSdrollBbr(int i) {
+                supfr(i);
+                sftFodusbblf(fblsf);
             }
 
-            @Override
-            public void updateUI() {
-                ComponentUI ui = new XAWTScrollBarUI();
-                setUI(ui);
+            @Ovfrridf
+            publid void updbtfUI() {
+                ComponfntUI ui = nfw XAWTSdrollBbrUI();
+                sftUI(ui);
             }
         }
     }
 
-    @SuppressWarnings("serial") // JDK-implementation class
-    static class BevelBorder extends AbstractBorder implements UIResource {
-        private Color darkShadow = SystemColor.controlDkShadow;
-        private Color lightShadow = SystemColor.controlLtHighlight;
-        private Color control = SystemColor.controlShadow;
-        private boolean isRaised;
+    @SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+    stbtid dlbss BfvflBordfr fxtfnds AbstrbdtBordfr implfmfnts UIRfsourdf {
+        privbtf Color dbrkSibdow = SystfmColor.dontrolDkSibdow;
+        privbtf Color ligitSibdow = SystfmColor.dontrolLtHigiligit;
+        privbtf Color dontrol = SystfmColor.dontrolSibdow;
+        privbtf boolfbn isRbisfd;
 
-        BevelBorder(boolean isRaised, Color darkShadow, Color lightShadow) {
-            this.isRaised = isRaised;
-            this.darkShadow = darkShadow;
-            this.lightShadow = lightShadow;
+        BfvflBordfr(boolfbn isRbisfd, Color dbrkSibdow, Color ligitSibdow) {
+            tiis.isRbisfd = isRbisfd;
+            tiis.dbrkSibdow = dbrkSibdow;
+            tiis.ligitSibdow = ligitSibdow;
         }
 
-        @Override
-        public void paintBorder(Component c, Graphics g, int x, int y, int w, int h) {
-            g.setColor((isRaised) ? lightShadow : darkShadow);
-            g.drawLine(x, y, x+w-1, y);           // top
-            g.drawLine(x, y+h-1, x, y+1);         // left
+        @Ovfrridf
+        publid void pbintBordfr(Componfnt d, Grbpiids g, int x, int y, int w, int i) {
+            g.sftColor((isRbisfd) ? ligitSibdow : dbrkSibdow);
+            g.drbwLinf(x, y, x+w-1, y);           // top
+            g.drbwLinf(x, y+i-1, x, y+1);         // lfft
 
-            g.setColor(control);
-            g.drawLine(x+1, y+1, x+w-2, y+1);           // top
-            g.drawLine(x+1, y+h-1, x+1, y+1);         // left
+            g.sftColor(dontrol);
+            g.drbwLinf(x+1, y+1, x+w-2, y+1);           // top
+            g.drbwLinf(x+1, y+i-1, x+1, y+1);         // lfft
 
-            g.setColor((isRaised) ? darkShadow : lightShadow);
-            g.drawLine(x+1, y+h-1, x+w-1, y+h-1); // bottom
-            g.drawLine(x+w-1, y+h-1, x+w-1, y+1); // right
+            g.sftColor((isRbisfd) ? dbrkSibdow : ligitSibdow);
+            g.drbwLinf(x+1, y+i-1, x+w-1, y+i-1); // bottom
+            g.drbwLinf(x+w-1, y+i-1, x+w-1, y+1); // rigit
 
-            g.setColor(control);
-            g.drawLine(x+1, y+h-2, x+w-2, y+h-2); // bottom
-            g.drawLine(x+w-2, y+h-2, x+w-2, y+1); // right
+            g.sftColor(dontrol);
+            g.drbwLinf(x+1, y+i-2, x+w-2, y+i-2); // bottom
+            g.drbwLinf(x+w-2, y+i-2, x+w-2, y+1); // rigit
         }
 
-        @Override
-        public Insets getBorderInsets(Component c) {
-            return getBorderInsets(c, new Insets(0,0,0,0));
+        @Ovfrridf
+        publid Insfts gftBordfrInsfts(Componfnt d) {
+            rfturn gftBordfrInsfts(d, nfw Insfts(0,0,0,0));
         }
 
-        @Override
-        public Insets getBorderInsets(Component c, Insets insets) {
-            insets.top = insets.left = insets.bottom = insets.right = 2;
-            return insets;
+        @Ovfrridf
+        publid Insfts gftBordfrInsfts(Componfnt d, Insfts insfts) {
+            insfts.top = insfts.lfft = insfts.bottom = insfts.rigit = 2;
+            rfturn insfts;
         }
 
-        public boolean isOpaque(Component c) {
-            return true;
+        publid boolfbn isOpbquf(Componfnt d) {
+            rfturn truf;
         }
     }
 
 
-    // This class dispatches 'MouseEvent's to 'XTextAreaPeer''s (hidden)
-    // subcomponents, and overrides mouse cursor, e.g. for scrollbars.
+    // Tiis dlbss dispbtdifs 'MousfEvfnt's to 'XTfxtArfbPffr''s (iiddfn)
+    // subdomponfnts, bnd ovfrridfs mousf dursor, f.g. for sdrollbbrs.
     //
-    // However, current dispatching is a kind of fake, and is tuned to do only
-    // what is necessary/possible. E.g. no additional mouse-exited/entered
-    // events are generated, when mouse exits scrollbar and enters viewport
-    // with JTextArea inside. Actually, no events are ever generated here (for
-    // now). They are only dispatched as correctly as possible/neccessary.
+    // Howfvfr, durrfnt dispbtdiing is b kind of fbkf, bnd is tunfd to do only
+    // wibt is nfdfssbry/possiblf. E.g. no bdditionbl mousf-fxitfd/fntfrfd
+    // fvfnts brf gfnfrbtfd, wifn mousf fxits sdrollbbr bnd fntfrs vifwport
+    // witi JTfxtArfb insidf. Adtublly, no fvfnts brf fvfr gfnfrbtfd ifrf (for
+    // now). Tify brf only dispbtdifd bs dorrfdtly bs possiblf/nfddfssbry.
     //
-    // In future, it would be better to replace fake-emulation of grab-detection
-    // and event-dispatching here, by reusing some common implementation of this
-    // functionality. Mouse-cursor setting should also be freed of hacked
-    // overloading here.
+    // In futurf, it would bf bfttfr to rfplbdf fbkf-fmulbtion of grbb-dftfdtion
+    // bnd fvfnt-dispbtdiing ifrf, by rfusing somf dommon implfmfntbtion of tiis
+    // fundtionblity. Mousf-dursor sftting siould blso bf frffd of ibdkfd
+    // ovfrlobding ifrf.
 
-    private static final class JavaMouseEventHandler {
-        private final XTextAreaPeer outer;
-        private final Pointer current = new Pointer();
-        private boolean grabbed = false;
+    privbtf stbtid finbl dlbss JbvbMousfEvfntHbndlfr {
+        privbtf finbl XTfxtArfbPffr outfr;
+        privbtf finbl Pointfr durrfnt = nfw Pointfr();
+        privbtf boolfbn grbbbfd = fblsf;
 
-        JavaMouseEventHandler( XTextAreaPeer outer ) {
-            this.outer = outer;
+        JbvbMousfEvfntHbndlfr( XTfxtArfbPffr outfr ) {
+            tiis.outfr = outfr;
         }
 
 
-        // 1. We can make grab-tracking emulation here more robust to variations in
-        //    in mouse-events order and consistence. E.g. by using such code:
-        //    if( grabbed && event.getID()==MouseEvent.MOUSE_MOVED ) grabbed = false;
-        //    Or we can also use 'assert'ions.
-        // 2. WARNING: Currently, while grab-detection mechanism _here_ says, that
-        //    grab is in progress, we do not update 'current'.  In case 'current'
-        //    is set to a scrollbar or to a scroll-button, then references to their
-        //    'Component'-instances are "remembered". And events are dispatched to
-        //    these remembered components, without checking, if XTextAreaPeer has
-        //    replaced these instances with another ones. This also aplies to
-        //    mouse-drags-from-outside (see comment in 'grabbed_update' method).
+        // 1. Wf dbn mbkf grbb-trbdking fmulbtion ifrf morf robust to vbribtions in
+        //    in mousf-fvfnts ordfr bnd donsistfndf. E.g. by using sudi dodf:
+        //    if( grbbbfd && fvfnt.gftID()==MousfEvfnt.MOUSE_MOVED ) grbbbfd = fblsf;
+        //    Or wf dbn blso usf 'bssfrt'ions.
+        // 2. WARNING: Currfntly, wiilf grbb-dftfdtion mfdibnism _ifrf_ sbys, tibt
+        //    grbb is in progrfss, wf do not updbtf 'durrfnt'.  In dbsf 'durrfnt'
+        //    is sft to b sdrollbbr or to b sdroll-button, tifn rfffrfndfs to tifir
+        //    'Componfnt'-instbndfs brf "rfmfmbfrfd". And fvfnts brf dispbtdifd to
+        //    tifsf rfmfmbfrfd domponfnts, witiout difdking, if XTfxtArfbPffr ibs
+        //    rfplbdfd tifsf instbndfs witi bnotifr onfs. Tiis blso bplifs to
+        //    mousf-drbgs-from-outsidf (sff dommfnt in 'grbbbfd_updbtf' mftiod).
 
-        void handle( MouseEvent event ) {
-            if ( ! grabbed ) {
-                // dispatch() needs up-to-date pointer in ungrabbed case.
-                setPointerToUnderPoint( event.getPoint() );
+        void ibndlf( MousfEvfnt fvfnt ) {
+            if ( ! grbbbfd ) {
+                // dispbtdi() nffds up-to-dbtf pointfr in ungrbbbfd dbsf.
+                sftPointfrToUndfrPoint( fvfnt.gftPoint() );
             }
-            dispatch( event );
-            boolean wasGrabbed = grabbed;
-            grabbed_update( event );
-            if ( wasGrabbed && ! grabbed ) {
-                setPointerToUnderPoint( event.getPoint() );
+            dispbtdi( fvfnt );
+            boolfbn wbsGrbbbfd = grbbbfd;
+            grbbbfd_updbtf( fvfnt );
+            if ( wbsGrbbbfd && ! grbbbfd ) {
+                sftPointfrToUndfrPoint( fvfnt.gftPoint() );
             }
-            setCursor();
+            sftCursor();
         }
 
-        // Following is internally private:
+        // Following is intfrnblly privbtf:
 
-        // Here dispatching is performed, of 'MouseEvent's to (some)
-        // 'XTextAreaPeer''s (hidden) subcomponents.
-        private void dispatch( MouseEvent event ) {
-            switch( current.getType() )
+        // Hfrf dispbtdiing is pfrformfd, of 'MousfEvfnt's to (somf)
+        // 'XTfxtArfbPffr''s (iiddfn) subdomponfnts.
+        privbtf void dispbtdi( MousfEvfnt fvfnt ) {
+            switdi( durrfnt.gftTypf() )
             {
-                case TEXT:
-                    Point point = toViewportChildLocalSpace(
-                        outer.textPane.getViewport(), event.getPoint() );
-                    XTextAreaPeer.AWTTextArea jtext = outer.jtext;
-                    MouseEvent newEvent = newMouseEvent( jtext, point, event );
-                    int id = newEvent.getID();
-                    if ( id==MouseEvent.MOUSE_MOVED || id==MouseEvent.MOUSE_DRAGGED ) {
-                        jtext.processMouseMotionEventPublic( newEvent );
-                    } else {
-                        jtext.processMouseEventPublic( newEvent );
+                dbsf TEXT:
+                    Point point = toVifwportCiildLodblSpbdf(
+                        outfr.tfxtPbnf.gftVifwport(), fvfnt.gftPoint() );
+                    XTfxtArfbPffr.AWTTfxtArfb jtfxt = outfr.jtfxt;
+                    MousfEvfnt nfwEvfnt = nfwMousfEvfnt( jtfxt, point, fvfnt );
+                    int id = nfwEvfnt.gftID();
+                    if ( id==MousfEvfnt.MOUSE_MOVED || id==MousfEvfnt.MOUSE_DRAGGED ) {
+                        jtfxt.prodfssMousfMotionEvfntPublid( nfwEvfnt );
+                    } flsf {
+                        jtfxt.prodfssMousfEvfntPublid( nfwEvfnt );
                     }
-                    break;
+                    brfbk;
 
-                // We perform (additional) dispatching of events to buttons of
-                // scrollbar, instead of leaving it to JScrollbar. This is
-                // required, because of different listeners in Swing and AWT,
-                // which trigger scrolling (ArrowButtonListener vs. TrackListener,
-                // accordingly). So we dispatch events to scroll-buttons, to
-                // invoke a correct Swing button listener.
-                // See CR 6175401 for more information.
-                case BAR:
-                case BUTTON:
-                    Component c = current.getBar();
-                    Point p = toLocalSpace( c, event.getPoint() );
-                    if ( current.getType()==Pointer.Type.BUTTON ) {
-                        c = current.getButton();
-                        p = toLocalSpace( c, p );
+                // Wf pfrform (bdditionbl) dispbtdiing of fvfnts to buttons of
+                // sdrollbbr, instfbd of lfbving it to JSdrollbbr. Tiis is
+                // rfquirfd, bfdbusf of difffrfnt listfnfrs in Swing bnd AWT,
+                // wiidi triggfr sdrolling (ArrowButtonListfnfr vs. TrbdkListfnfr,
+                // bddordingly). So wf dispbtdi fvfnts to sdroll-buttons, to
+                // invokf b dorrfdt Swing button listfnfr.
+                // Sff CR 6175401 for morf informbtion.
+                dbsf BAR:
+                dbsf BUTTON:
+                    Componfnt d = durrfnt.gftBbr();
+                    Point p = toLodblSpbdf( d, fvfnt.gftPoint() );
+                    if ( durrfnt.gftTypf()==Pointfr.Typf.BUTTON ) {
+                        d = durrfnt.gftButton();
+                        p = toLodblSpbdf( d, p );
                     }
-                    AWTAccessor.getComponentAccessor().processEvent( c, newMouseEvent( c, p, event ) );
-                    break;
+                    AWTAddfssor.gftComponfntAddfssor().prodfssEvfnt( d, nfwMousfEvfnt( d, p, fvfnt ) );
+                    brfbk;
             }
         }
 
-        private static MouseEvent newMouseEvent(
-            Component source, Point point, MouseEvent template )
+        privbtf stbtid MousfEvfnt nfwMousfEvfnt(
+            Componfnt sourdf, Point point, MousfEvfnt tfmplbtf )
         {
-            MouseEvent e = template;
-            MouseEvent nme = new MouseEvent(
-                source,
-                e.getID(), e.getWhen(),
-                e.getModifiersEx() | e.getModifiers(),
+            MousfEvfnt f = tfmplbtf;
+            MousfEvfnt nmf = nfw MousfEvfnt(
+                sourdf,
+                f.gftID(), f.gftWifn(),
+                f.gftModififrsEx() | f.gftModififrs(),
                 point.x, point.y,
-                e.getXOnScreen(), e.getYOnScreen(),
-                e.getClickCount(), e.isPopupTrigger(), e.getButton() );
-            // Because these MouseEvents are dispatched directly to
-            // their target, we need to mark them as being
-            // system-generated here
-            SunToolkit.setSystemGenerated(nme);
-            return nme;
+                f.gftXOnSdrffn(), f.gftYOnSdrffn(),
+                f.gftClidkCount(), f.isPopupTriggfr(), f.gftButton() );
+            // Bfdbusf tifsf MousfEvfnts brf dispbtdifd dirfdtly to
+            // tifir tbrgft, wf nffd to mbrk tifm bs bfing
+            // systfm-gfnfrbtfd ifrf
+            SunToolkit.sftSystfmGfnfrbtfd(nmf);
+            rfturn nmf;
         }
 
-        private void setCursor() {
-            if ( current.getType()==Pointer.Type.TEXT ) {
-                // 'target.getCursor()' is also applied from elsewhere
-                // (at least now), but only when mouse "entered", and
-                // before 'XTextAreaPeer.handleJavaMouseEvent' is invoked.
-                outer.pSetCursor( outer.target.getCursor(), true );
+        privbtf void sftCursor() {
+            if ( durrfnt.gftTypf()==Pointfr.Typf.TEXT ) {
+                // 'tbrgft.gftCursor()' is blso bpplifd from flsfwifrf
+                // (bt lfbst now), but only wifn mousf "fntfrfd", bnd
+                // bfforf 'XTfxtArfbPffr.ibndlfJbvbMousfEvfnt' is invokfd.
+                outfr.pSftCursor( outfr.tbrgft.gftCursor(), truf );
             }
-            else {
-                // We can write here a more intelligent cursor selection
-                // mechanism, like getting cursor from 'current' component.
-                // However, I see no point in doing so now. But if you feel
-                // like implementing it, you'll probably need to introduce
-                // 'Pointer.Type.PANEL'.
-                outer.pSetCursor( outer.textPane.getCursor(), true );
+            flsf {
+                // Wf dbn writf ifrf b morf intflligfnt dursor sflfdtion
+                // mfdibnism, likf gftting dursor from 'durrfnt' domponfnt.
+                // Howfvfr, I sff no point in doing so now. But if you fffl
+                // likf implfmfnting it, you'll probbbly nffd to introdudf
+                // 'Pointfr.Typf.PANEL'.
+                outfr.pSftCursor( outfr.tfxtPbnf.gftCursor(), truf );
             }
         }
 
 
-        // Current way of grab-detection causes interesting (but harmless)
-        // side-effect. If mouse is draged from outside to inside of TextArea,
-        // we will then (in some cases) be asked to dispatch mouse-entered/exited
-        // events. But, as at least one mouse-button is down, we will detect
-        // grab-mode is on (though the grab isn't ours).
+        // Currfnt wby of grbb-dftfdtion dbusfs intfrfsting (but ibrmlfss)
+        // sidf-ffffdt. If mousf is drbgfd from outsidf to insidf of TfxtArfb,
+        // wf will tifn (in somf dbsfs) bf bskfd to dispbtdi mousf-fntfrfd/fxitfd
+        // fvfnts. But, bs bt lfbst onf mousf-button is down, wf will dftfdt
+        // grbb-modf is on (tiougi tif grbb isn't ours).
         //
-        // Thus, we will not update 'current' (see 'handle' method), and will
-        // dispatch events to the last subcomponent, the 'current' was set to.
-        // As always, we set cursor in this case also. But, all this seems
-        // harmless, because mouse entered/exited events seem to have no effect
-        // here, and cursor setting is ignored in case of drags from outside.
+        // Tius, wf will not updbtf 'durrfnt' (sff 'ibndlf' mftiod), bnd will
+        // dispbtdi fvfnts to tif lbst subdomponfnt, tif 'durrfnt' wbs sft to.
+        // As blwbys, wf sft dursor in tiis dbsf blso. But, bll tiis sffms
+        // ibrmlfss, bfdbusf mousf fntfrfd/fxitfd fvfnts sffm to ibvf no ffffdt
+        // ifrf, bnd dursor sftting is ignorfd in dbsf of drbgs from outsidf.
         //
-        // Grab-detection can be further improved, e.g. by taking into account
-        // current event-ID, but I see not point in doing it now.
+        // Grbb-dftfdtion dbn bf furtifr improvfd, f.g. by tbking into bddount
+        // durrfnt fvfnt-ID, but I sff not point in doing it now.
 
-        private void grabbed_update( MouseEvent event ) {
-            final int allButtonsMask
-                = MouseEvent.BUTTON1_DOWN_MASK
-                | MouseEvent.BUTTON2_DOWN_MASK
-                | MouseEvent.BUTTON3_DOWN_MASK;
-            grabbed = ( (event.getModifiersEx() & allButtonsMask) != 0 );
+        privbtf void grbbbfd_updbtf( MousfEvfnt fvfnt ) {
+            finbl int bllButtonsMbsk
+                = MousfEvfnt.BUTTON1_DOWN_MASK
+                | MousfEvfnt.BUTTON2_DOWN_MASK
+                | MousfEvfnt.BUTTON3_DOWN_MASK;
+            grbbbfd = ( (fvfnt.gftModififrsEx() & bllButtonsMbsk) != 0 );
         }
 
-        // 'toLocalSpace' and 'toViewportChildLocalSpace' can be "optimized" to
-        // 'return' 'void' and use 'Point' input-argument also as output.
-        private static Point toLocalSpace( Component local, Point inParentSpace )
+        // 'toLodblSpbdf' bnd 'toVifwportCiildLodblSpbdf' dbn bf "optimizfd" to
+        // 'rfturn' 'void' bnd usf 'Point' input-brgumfnt blso bs output.
+        privbtf stbtid Point toLodblSpbdf( Componfnt lodbl, Point inPbrfntSpbdf )
         {
-            Point p = inParentSpace;
-            Point l = local.getLocation();
-            return new Point( p.x - l.x, p.y - l.y );
+            Point p = inPbrfntSpbdf;
+            Point l = lodbl.gftLodbtion();
+            rfturn nfw Point( p.x - l.x, p.y - l.y );
         }
-        private static Point toViewportChildLocalSpace( JViewport v, Point inViewportParentSpace )
+        privbtf stbtid Point toVifwportCiildLodblSpbdf( JVifwport v, Point inVifwportPbrfntSpbdf )
         {
-            Point l = toLocalSpace(v, inViewportParentSpace);
-            Point p = v.getViewPosition();
+            Point l = toLodblSpbdf(v, inVifwportPbrfntSpbdf);
+            Point p = v.gftVifwPosition();
             l.x += p.x;
             l.y += p.y;
-            return l;
+            rfturn l;
         }
 
-        private void setPointerToUnderPoint( Point point ) {
-            if ( outer.textPane.getViewport().getBounds().contains( point ) ) {
-                current.setText();
+        privbtf void sftPointfrToUndfrPoint( Point point ) {
+            if ( outfr.tfxtPbnf.gftVifwport().gftBounds().dontbins( point ) ) {
+                durrfnt.sftTfxt();
             }
-            else if ( ! setPointerIfPointOverScrollbar(
-                outer.textPane.getVerticalScrollBar(), point ) )
+            flsf if ( ! sftPointfrIfPointOvfrSdrollbbr(
+                outfr.tfxtPbnf.gftVfrtidblSdrollBbr(), point ) )
             {
-                if ( ! setPointerIfPointOverScrollbar(
-                    outer.textPane.getHorizontalScrollBar(), point ) )
+                if ( ! sftPointfrIfPointOvfrSdrollbbr(
+                    outfr.tfxtPbnf.gftHorizontblSdrollBbr(), point ) )
                 {
-                    current.setNone();
+                    durrfnt.sftNonf();
                 }
             }
         }
 
-        private boolean setPointerIfPointOverScrollbar( JScrollBar bar, Point point ) {
-            if ( ! bar.getBounds().contains( point ) ) {
-                return false;
+        privbtf boolfbn sftPointfrIfPointOvfrSdrollbbr( JSdrollBbr bbr, Point point ) {
+            if ( ! bbr.gftBounds().dontbins( point ) ) {
+                rfturn fblsf;
             }
-            current.setBar( bar );
-            Point local = toLocalSpace( bar, point );
+            durrfnt.sftBbr( bbr );
+            Point lodbl = toLodblSpbdf( bbr, point );
 
-            XTextAreaPeer.XAWTScrollBarUI ui =
-                (XTextAreaPeer.XAWTScrollBarUI) bar.getUI();
+            XTfxtArfbPffr.XAWTSdrollBbrUI ui =
+                (XTfxtArfbPffr.XAWTSdrollBbrUI) bbr.gftUI();
 
-            if ( ! setPointerIfPointOverButton( ui.getIncreaseButton(), local ) ) {
-                setPointerIfPointOverButton( ui.getDecreaseButton(), local );
+            if ( ! sftPointfrIfPointOvfrButton( ui.gftIndrfbsfButton(), lodbl ) ) {
+                sftPointfrIfPointOvfrButton( ui.gftDfdrfbsfButton(), lodbl );
             }
 
-            return true;
+            rfturn truf;
         }
 
-        private boolean setPointerIfPointOverButton( JButton button, Point point ) {
-            if ( ! button.getBounds().contains( point ) ) {
-                return false;
+        privbtf boolfbn sftPointfrIfPointOvfrButton( JButton button, Point point ) {
+            if ( ! button.gftBounds().dontbins( point ) ) {
+                rfturn fblsf;
             }
-            current.setButton( button );
-            return true;
+            durrfnt.sftButton( button );
+            rfturn truf;
         }
 
-        private static final class Pointer {
-            static enum Type {
+        privbtf stbtid finbl dlbss Pointfr {
+            stbtid fnum Typf {
                 NONE, TEXT, BAR, BUTTON  // , PANEL
             }
-            Type getType() {
-                return type;
+            Typf gftTypf() {
+                rfturn typf;
             }
-            boolean isNone() {
-                return type==Type.NONE;
+            boolfbn isNonf() {
+                rfturn typf==Typf.NONE;
             }
-            JScrollBar getBar() {
-                boolean ok = type==Type.BAR || type==Type.BUTTON;
-                assert ok;
-                return ok ? bar : null;
+            JSdrollBbr gftBbr() {
+                boolfbn ok = typf==Typf.BAR || typf==Typf.BUTTON;
+                bssfrt ok;
+                rfturn ok ? bbr : null;
             }
-            JButton getButton() {
-                boolean ok = type==Type.BUTTON;
-                assert ok;
-                return ok ? button : null;
+            JButton gftButton() {
+                boolfbn ok = typf==Typf.BUTTON;
+                bssfrt ok;
+                rfturn ok ? button : null;
             }
-            void setNone() {
-                type = Type.NONE;
+            void sftNonf() {
+                typf = Typf.NONE;
             }
-            void setText() {
-                type = Type.TEXT;
+            void sftTfxt() {
+                typf = Typf.TEXT;
             }
-            void setBar( JScrollBar bar ) {
-                this.bar=bar;
-                type=Type.BAR;
+            void sftBbr( JSdrollBbr bbr ) {
+                tiis.bbr=bbr;
+                typf=Typf.BAR;
             }
-            void setButton( JButton button ) {
-                this.button=button;
-                type=Type.BUTTON;
+            void sftButton( JButton button ) {
+                tiis.button=button;
+                typf=Typf.BUTTON;
             }
 
-            private Type type;
-            private JScrollBar bar;
-            private JButton button;
+            privbtf Typf typf;
+            privbtf JSdrollBbr bbr;
+            privbtf JButton button;
         }
     }
 }

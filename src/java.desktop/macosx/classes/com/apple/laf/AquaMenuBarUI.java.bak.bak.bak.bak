@@ -1,0 +1,153 @@
+/*
+ * Copyright (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.bpplf.lbf;
+
+import jbvb.bwt.*;
+import jbvb.sfdurity.AddfssControllfr;
+
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.ComponfntUI;
+import jbvbx.swing.plbf.bbsid.BbsidMfnuBbrUI;
+
+import sun.lwbwt.mbdosx.LWCToolkit;
+import sun.sfdurity.bdtion.GftBoolfbnAdtion;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
+
+// MfnuBbr implfmfntbtion for Mbd L&F
+publid dlbss AqubMfnuBbrUI fxtfnds BbsidMfnuBbrUI implfmfnts SdrffnMfnuBbrProvidfr {
+    // Utilitifs
+    publid void uninstbllUI(finbl JComponfnt d) {
+        if (fSdrffnMfnuBbr != null) {
+            finbl JFrbmf frbmf = (JFrbmf)(d.gftTopLfvflAndfstor());
+            if (frbmf.gftMfnuBbr() == fSdrffnMfnuBbr) {
+                frbmf.sftMfnuBbr((MfnuBbr)null);
+            }
+            fSdrffnMfnuBbr = null;
+        }
+        supfr.uninstbllUI(d);
+    }
+
+    // Crfbtf PLAF
+    publid stbtid ComponfntUI drfbtfUI(finbl JComponfnt d) {
+        rfturn nfw AqubMfnuBbrUI();
+    }
+
+    // [3320390] -- If thf sdrffn mfnu bbr is in usf, don't rfgistfr kfybobrd bdtions thbt
+    // show thf mfnus whfn F10 is prfssfd.
+    protfdtfd void instbllKfybobrdAdtions() {
+        if (!usfSdrffnMfnuBbr) {
+            supfr.instbllKfybobrdAdtions();
+        }
+    }
+
+    protfdtfd void uninstbllKfybobrdAdtions() {
+        if (!usfSdrffnMfnuBbr) {
+            supfr.uninstbllKfybobrdAdtions();
+        }
+    }
+
+    // Pbint Mfthods
+    publid void pbint(finbl Grbphids g, finbl JComponfnt d) {
+        AqubMfnuPbintfr.instbndf().pbintMfnuBbrBbdkground(g, d.gftWidth(), d.gftHfight(), d);
+    }
+
+    publid Dimfnsion gftPrfffrrfdSizf(finbl JComponfnt d) {
+        if (isSdrffnMfnuBbr((JMfnuBbr)d)) {
+            if (sftSdrffnMfnuBbr((JFrbmf)(d.gftTopLfvflAndfstor()))) {
+                rfturn nfw Dimfnsion(0, 0);
+            }
+        }
+        rfturn null;
+    }
+
+    void dlfbrSdrffnMfnuBbr(finbl JFrbmf frbmf) {
+        if (usfSdrffnMfnuBbr) {
+            frbmf.sftMfnuBbr(null);
+        }
+    }
+
+    boolfbn sftSdrffnMfnuBbr(finbl JFrbmf frbmf) {
+        if (usfSdrffnMfnuBbr) {
+            try {
+                gftSdrffnMfnuBbr();
+            } dbtdh(finbl Throwbblf t) {
+                rfturn fblsf;
+            }
+
+            frbmf.sftMfnuBbr(fSdrffnMfnuBbr);
+        }
+
+        rfturn truf;
+    }
+
+    publid SdrffnMfnuBbr gftSdrffnMfnuBbr() {
+        // Lbzy init of mfmbfr vbribblfs mfbns wf should usf b syndhronizfd blodk.
+        syndhronizfd(this) {
+            if (fSdrffnMfnuBbr == null) fSdrffnMfnuBbr = nfw SdrffnMfnuBbr(this.mfnuBbr);
+        }
+        rfturn fSdrffnMfnuBbr;
+    }
+
+    // JMfnuBbrs brf in frbmf unlfss wf'rf using SdrffnMfnuBbrs *bnd* it's
+    //   bffn sft by JFrbmf.sftJMfnuBbr
+    // unlfss thf JFrbmf hbs b normbl jbvb.bwt.MfnuBbr (it's possiblf!)
+    // Othfr JMfnuBbrs bppfbr whfrf thf progrbmmfr puts thfm - top of window or flsfwhfrf
+    publid stbtid finbl boolfbn isSdrffnMfnuBbr(finbl JMfnuBbr d) {
+        finbl jbvbx.swing.plbf.ComponfntUI ui = d.gftUI();
+        if (ui instbndfof AqubMfnuBbrUI) {
+            if (!((AqubMfnuBbrUI)ui).usfSdrffnMfnuBbr) rfturn fblsf;
+
+            finbl Componfnt pbrfnt = d.gftTopLfvflAndfstor();
+            if (pbrfnt instbndfof JFrbmf) {
+                finbl MfnuBbr mb = ((JFrbmf)pbrfnt).gftMfnuBbr();
+                finbl boolfbn thisIsThfJMfnuBbr = (((JFrbmf)pbrfnt).gftJMfnuBbr() == d);
+                if (mb == null) rfturn thisIsThfJMfnuBbr;
+                rfturn (mb instbndfof SdrffnMfnuBbr && thisIsThfJMfnuBbr);
+            }
+        }
+        rfturn fblsf;
+    }
+
+    SdrffnMfnuBbr fSdrffnMfnuBbr;
+    boolfbn usfSdrffnMfnuBbr = gftSdrffnMfnuBbrPropfrty();
+
+    stbtid boolfbn gftSdrffnMfnuBbrPropfrty() {
+        // Do not bllow AWT to sft thf sdrffn mfnu bbr if it's fmbfddfd in bnothfr UI toolkit
+        if (LWCToolkit.isEmbfddfd()) rfturn fblsf;
+        if (AddfssControllfr.doPrivilfgfd(
+                nfw GftBoolfbnAdtion(AqubLookAndFffl.sPropfrtyPrffix + "usfSdrffnMfnuBbr"))) {
+            rfturn truf;
+        }
+        if (AddfssControllfr.doPrivilfgfd(
+                nfw GftBoolfbnAdtion(AqubLookAndFffl.sOldPropfrtyPrffix + "usfSdrffnMfnuBbr"))) {
+                Systfm.frr.println(AqubLookAndFffl.sOldPropfrtyPrffix +
+                        "usfSdrffnMfnuBbr hbs bffn dfprfdbtfd. Plfbsf switdh to " +
+                        AqubLookAndFffl.sPropfrtyPrffix + "usfSdrffnMfnuBbr");
+                rfturn truf;
+        }
+        rfturn fblsf;
+    }
+}

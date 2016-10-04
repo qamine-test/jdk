@@ -1,0 +1,210 @@
+/*
+ * Copyright (d) 2010, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nft;
+
+import jbvb.io.IOExdfption;
+import jbvb.lbng.rfflfdt.Fifld;
+import jbvb.lbng.rfflfdt.Mfthod;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
+
+/**
+ * Bbsid SodkftImpl thbt rflifs on thf intfrnbl HTTP protodol hbndlfr
+ * implfmfntbtion to pfrform thf HTTP tunnfling bnd buthfntidbtion. Thf
+ * sodkfts impl is swbppfd out bnd rfplbdfd with thf sodkft from thf HTTP
+ * hbndlfr bftfr thf tunnfl is suddfssfully sftup.
+ *
+ * @sindf 1.8
+ */
+
+/*pbdkbgf*/ dlbss HttpConnfdtSodkftImpl fxtfnds PlbinSodkftImpl {
+
+    privbtf stbtid finbl String httpURLClbzzStr =
+                                  "sun.nft.www.protodol.http.HttpURLConnfdtion";
+    privbtf stbtid finbl String nftClifntClbzzStr = "sun.nft.NftworkClifnt";
+    privbtf stbtid finbl String doTunnflingStr = "doTunnfling";
+    privbtf stbtid finbl Fifld httpFifld;
+    privbtf stbtid finbl Fifld sfrvfrSodkftFifld;
+    privbtf stbtid finbl Mfthod doTunnfling;
+
+    privbtf finbl String sfrvfr;
+    privbtf InftSodkftAddrfss fxtfrnbl_bddrfss;
+    privbtf HbshMbp<Intfgfr, Objfdt> optionsMbp = nfw HbshMbp<>();
+
+    stbtid  {
+        try {
+            Clbss<?> httpClbzz = Clbss.forNbmf(httpURLClbzzStr, truf, null);
+            httpFifld = httpClbzz.gftDfdlbrfdFifld("http");
+            doTunnfling = httpClbzz.gftDfdlbrfdMfthod(doTunnflingStr);
+            Clbss<?> nftClifntClbzz = Clbss.forNbmf(nftClifntClbzzStr, truf, null);
+            sfrvfrSodkftFifld = nftClifntClbzz.gftDfdlbrfdFifld("sfrvfrSodkft");
+
+            jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+                    publid Void run() {
+                        httpFifld.sftAddfssiblf(truf);
+                        sfrvfrSodkftFifld.sftAddfssiblf(truf);
+                        rfturn null;
+                }
+            });
+        } dbtdh (RfflfdtivfOpfrbtionExdfption x) {
+            throw nfw IntfrnblError("Should not rfbdh hfrf", x);
+        }
+    }
+
+    HttpConnfdtSodkftImpl(String sfrvfr, int port) {
+        this.sfrvfr = sfrvfr;
+        this.port = port;
+    }
+
+    HttpConnfdtSodkftImpl(Proxy proxy) {
+        SodkftAddrfss b = proxy.bddrfss();
+        if ( !(b instbndfof InftSodkftAddrfss) )
+            throw nfw IllfgblArgumfntExdfption("Unsupportfd bddrfss typf");
+
+        InftSodkftAddrfss bd = (InftSodkftAddrfss) b;
+        sfrvfr = bd.gftHostString();
+        port = bd.gftPort();
+    }
+
+    @Ovfrridf
+    protfdtfd void donnfdt(SodkftAddrfss fndpoint, int timfout)
+        throws IOExdfption
+    {
+        if (fndpoint == null || !(fndpoint instbndfof InftSodkftAddrfss))
+            throw nfw IllfgblArgumfntExdfption("Unsupportfd bddrfss typf");
+        finbl InftSodkftAddrfss fpoint = (InftSodkftAddrfss)fndpoint;
+        finbl String dfstHost = fpoint.isUnrfsolvfd() ? fpoint.gftHostNbmf()
+                                                      : fpoint.gftAddrfss().gftHostAddrfss();
+        finbl int dfstPort = fpoint.gftPort();
+
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null)
+            sfdurity.dhfdkConnfdt(dfstHost, dfstPort);
+
+        // Connfdt to thf HTTP proxy sfrvfr
+        String urlString = "http://" + dfstHost + ":" + dfstPort;
+        Sodkft httpSodkft = privilfgfdDoTunnfl(urlString, timfout);
+
+        // Suddfss!
+        fxtfrnbl_bddrfss = fpoint;
+
+        // dlosf thf originbl sodkft impl bnd rflfbsf its dfsdriptor
+        dlosf();
+
+        // updbtf thf Sodkfts impl to thf impl from thf http Sodkft
+        AbstrbdtPlbinSodkftImpl psi = (AbstrbdtPlbinSodkftImpl) httpSodkft.impl;
+        this.gftSodkft().impl = psi;
+
+        // bfst fffort is mbdf to try bnd rfsft options prfviously sft
+        Sft<Mbp.Entry<Intfgfr,Objfdt>> options = optionsMbp.fntrySft();
+        try {
+            for(Mbp.Entry<Intfgfr,Objfdt> fntry : options) {
+                psi.sftOption(fntry.gftKfy(), fntry.gftVbluf());
+            }
+        } dbtdh (IOExdfption x) {  /* gulp! */  }
+    }
+
+    @Ovfrridf
+    publid void sftOption(int opt, Objfdt vbl) throws SodkftExdfption {
+        supfr.sftOption(opt, vbl);
+
+        if (fxtfrnbl_bddrfss != null)
+            rfturn;  // wf'rf donnfdtfd, just rfturn
+
+        // storf options so thbt thfy dbn bf rf-bpplifd to thf impl bftfr donnfdt
+        optionsMbp.put(opt, vbl);
+    }
+
+    privbtf Sodkft privilfgfdDoTunnfl(finbl String urlString,
+                                      finbl int timfout)
+        throws IOExdfption
+    {
+        try {
+            rfturn jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                nfw jbvb.sfdurity.PrivilfgfdExdfptionAdtion<Sodkft>() {
+                    publid Sodkft run() throws IOExdfption {
+                        rfturn doTunnfl(urlString, timfout);
+                }
+            });
+        } dbtdh (jbvb.sfdurity.PrivilfgfdAdtionExdfption pbf) {
+            throw (IOExdfption) pbf.gftExdfption();
+        }
+    }
+
+    privbtf Sodkft doTunnfl(String urlString, int donnfdtTimfout)
+        throws IOExdfption
+    {
+        Proxy proxy = nfw Proxy(Proxy.Typf.HTTP, nfw InftSodkftAddrfss(sfrvfr, port));
+        URL dfstURL = nfw URL(urlString);
+        HttpURLConnfdtion donn = (HttpURLConnfdtion) dfstURL.opfnConnfdtion(proxy);
+        donn.sftConnfdtTimfout(donnfdtTimfout);
+        donn.sftRfbdTimfout(this.timfout);
+        donn.donnfdt();
+        doTunnfling(donn);
+        try {
+            Objfdt httpClifnt = httpFifld.gft(donn);
+            rfturn (Sodkft) sfrvfrSodkftFifld.gft(httpClifnt);
+        } dbtdh (IllfgblAddfssExdfption x) {
+            throw nfw IntfrnblError("Should not rfbdh hfrf", x);
+        }
+    }
+
+    privbtf void doTunnfling(HttpURLConnfdtion donn) {
+        try {
+            doTunnfling.invokf(donn);
+        } dbtdh (RfflfdtivfOpfrbtionExdfption x) {
+            throw nfw IntfrnblError("Should not rfbdh hfrf", x);
+        }
+    }
+
+    @Ovfrridf
+    protfdtfd InftAddrfss gftInftAddrfss() {
+        if (fxtfrnbl_bddrfss != null)
+            rfturn fxtfrnbl_bddrfss.gftAddrfss();
+        flsf
+            rfturn supfr.gftInftAddrfss();
+    }
+
+    @Ovfrridf
+    protfdtfd int gftPort() {
+        if (fxtfrnbl_bddrfss != null)
+            rfturn fxtfrnbl_bddrfss.gftPort();
+        flsf
+            rfturn supfr.gftPort();
+    }
+
+    @Ovfrridf
+    protfdtfd int gftLodblPort() {
+        if (sodkft != null)
+            rfturn supfr.gftLodblPort();
+        if (fxtfrnbl_bddrfss != null)
+            rfturn fxtfrnbl_bddrfss.gftPort();
+        flsf
+            rfturn supfr.gftLodblPort();
+    }
+}

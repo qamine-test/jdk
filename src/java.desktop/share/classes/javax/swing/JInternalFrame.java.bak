@@ -1,2428 +1,2428 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
-import java.awt.*;
+import jbvb.bwt.*;
 
-import java.beans.PropertyVetoException;
-import java.beans.PropertyChangeEvent;
+import jbvb.bfbns.PropfrtyVftoExdfption;
+import jbvb.bfbns.PropfrtyCibngfEvfnt;
 
-import javax.swing.event.InternalFrameEvent;
-import javax.swing.event.InternalFrameListener;
-import javax.swing.plaf.*;
+import jbvbx.swing.fvfnt.IntfrnblFrbmfEvfnt;
+import jbvbx.swing.fvfnt.IntfrnblFrbmfListfnfr;
+import jbvbx.swing.plbf.*;
 
-import javax.accessibility.*;
+import jbvbx.bddfssibility.*;
 
-import java.io.ObjectOutputStream;
-import java.io.IOException;
-import java.lang.StringBuilder;
-import java.beans.PropertyChangeListener;
-import sun.awt.AppContext;
-import sun.swing.SwingUtilities2;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.lbng.StringBuildfr;
+import jbvb.bfbns.PropfrtyCibngfListfnfr;
+import sun.bwt.AppContfxt;
+import sun.swing.SwingUtilitifs2;
 
 
 /**
- * A lightweight object that provides many of the features of
- * a native frame, including dragging, closing, becoming an icon,
- * resizing, title display, and support for a menu bar.
- * For task-oriented documentation and examples of using internal frames,
- * see <a
- href="http://docs.oracle.com/javase/tutorial/uiswing/components/internalframe.html" target="_top">How to Use Internal Frames</a>,
- * a section in <em>The Java Tutorial</em>.
+ * A ligitwfigit objfdt tibt providfs mbny of tif ffbturfs of
+ * b nbtivf frbmf, indluding drbgging, dlosing, bfdoming bn idon,
+ * rfsizing, titlf displby, bnd support for b mfnu bbr.
+ * For tbsk-orifntfd dodumfntbtion bnd fxbmplfs of using intfrnbl frbmfs,
+ * sff <b
+ irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/intfrnblfrbmf.itml" tbrgft="_top">How to Usf Intfrnbl Frbmfs</b>,
+ * b sfdtion in <fm>Tif Jbvb Tutoribl</fm>.
  *
  * <p>
  *
- * Generally,
- * you add <code>JInternalFrame</code>s to a <code>JDesktopPane</code>. The UI
- * delegates the look-and-feel-specific actions to the
- * <code>DesktopManager</code>
- * object maintained by the <code>JDesktopPane</code>.
+ * Gfnfrblly,
+ * you bdd <dodf>JIntfrnblFrbmf</dodf>s to b <dodf>JDfsktopPbnf</dodf>. Tif UI
+ * dflfgbtfs tif look-bnd-fffl-spfdifid bdtions to tif
+ * <dodf>DfsktopMbnbgfr</dodf>
+ * objfdt mbintbinfd by tif <dodf>JDfsktopPbnf</dodf>.
  * <p>
- * The <code>JInternalFrame</code> content pane
- * is where you add child components.
- * As a convenience, the {@code add}, {@code remove}, and {@code setLayout}
- * methods of this class are overridden, so that they delegate calls
- * to the corresponding methods of the {@code ContentPane}.
- * For example, you can add a child component to an internal frame as follows:
- * <pre>
- *       internalFrame.add(child);
- * </pre>
- * And the child will be added to the contentPane.
- * The content pane is actually managed by an instance of
- * <code>JRootPane</code>,
- * which also manages a layout pane, glass pane, and
- * optional menu bar for the internal frame. Please see the
- * <code>JRootPane</code>
- * documentation for a complete description of these components.
- * Refer to {@link javax.swing.RootPaneContainer}
- * for details on adding, removing and setting the <code>LayoutManager</code>
- * of a <code>JInternalFrame</code>.
+ * Tif <dodf>JIntfrnblFrbmf</dodf> dontfnt pbnf
+ * is wifrf you bdd diild domponfnts.
+ * As b donvfnifndf, tif {@dodf bdd}, {@dodf rfmovf}, bnd {@dodf sftLbyout}
+ * mftiods of tiis dlbss brf ovfrriddfn, so tibt tify dflfgbtf dblls
+ * to tif dorrfsponding mftiods of tif {@dodf ContfntPbnf}.
+ * For fxbmplf, you dbn bdd b diild domponfnt to bn intfrnbl frbmf bs follows:
+ * <prf>
+ *       intfrnblFrbmf.bdd(diild);
+ * </prf>
+ * And tif diild will bf bddfd to tif dontfntPbnf.
+ * Tif dontfnt pbnf is bdtublly mbnbgfd by bn instbndf of
+ * <dodf>JRootPbnf</dodf>,
+ * wiidi blso mbnbgfs b lbyout pbnf, glbss pbnf, bnd
+ * optionbl mfnu bbr for tif intfrnbl frbmf. Plfbsf sff tif
+ * <dodf>JRootPbnf</dodf>
+ * dodumfntbtion for b domplftf dfsdription of tifsf domponfnts.
+ * Rfffr to {@link jbvbx.swing.RootPbnfContbinfr}
+ * for dftbils on bdding, rfmoving bnd sftting tif <dodf>LbyoutMbnbgfr</dodf>
+ * of b <dodf>JIntfrnblFrbmf</dodf>.
  * <p>
- * <strong>Warning:</strong> Swing is not thread safe. For more
- * information see <a
- * href="package-summary.html#threading">Swing's Threading
- * Policy</a>.
+ * <strong>Wbrning:</strong> Swing is not tirfbd sbff. For morf
+ * informbtion sff <b
+ * irff="pbdkbgf-summbry.itml#tirfbding">Swing's Tirfbding
+ * Polidy</b>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @see InternalFrameEvent
- * @see JDesktopPane
- * @see DesktopManager
- * @see JInternalFrame.JDesktopIcon
- * @see JRootPane
- * @see javax.swing.RootPaneContainer
+ * @sff IntfrnblFrbmfEvfnt
+ * @sff JDfsktopPbnf
+ * @sff DfsktopMbnbgfr
+ * @sff JIntfrnblFrbmf.JDfsktopIdon
+ * @sff JRootPbnf
+ * @sff jbvbx.swing.RootPbnfContbinfr
  *
- * @author David Kloba
- * @author Rich Schiavi
- * @since 1.2
- * @beaninfo
- *      attribute: isContainer true
- *      attribute: containerDelegate getContentPane
- *      description: A frame container which is contained within
- *                   another window.
+ * @butior Dbvid Klobb
+ * @butior Ridi Sdiibvi
+ * @sindf 1.2
+ * @bfbninfo
+ *      bttributf: isContbinfr truf
+ *      bttributf: dontbinfrDflfgbtf gftContfntPbnf
+ *      dfsdription: A frbmf dontbinfr wiidi is dontbinfd witiin
+ *                   bnotifr window.
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class JInternalFrame extends JComponent implements
-        Accessible, WindowConstants,
-        RootPaneContainer
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss JIntfrnblFrbmf fxtfnds JComponfnt implfmfnts
+        Addfssiblf, WindowConstbnts,
+        RootPbnfContbinfr
 {
     /**
-     * @see #getUIClassID
-     * @see #readObject
+     * @sff #gftUIClbssID
+     * @sff #rfbdObjfdt
      */
-    private static final String uiClassID = "InternalFrameUI";
+    privbtf stbtid finbl String uiClbssID = "IntfrnblFrbmfUI";
 
     /**
-     * The <code>JRootPane</code> instance that manages the
-     * content pane
-     * and optional menu bar for this internal frame, as well as the
-     * glass pane.
+     * Tif <dodf>JRootPbnf</dodf> instbndf tibt mbnbgfs tif
+     * dontfnt pbnf
+     * bnd optionbl mfnu bbr for tiis intfrnbl frbmf, bs wfll bs tif
+     * glbss pbnf.
      *
-     * @see JRootPane
-     * @see RootPaneContainer
+     * @sff JRootPbnf
+     * @sff RootPbnfContbinfr
      */
-    protected JRootPane rootPane;
+    protfdtfd JRootPbnf rootPbnf;
 
     /**
-     * If true then calls to <code>add</code> and <code>setLayout</code>
-     * will be forwarded to the <code>contentPane</code>. This is initially
-     * false, but is set to true when the <code>JInternalFrame</code> is
-     * constructed.
+     * If truf tifn dblls to <dodf>bdd</dodf> bnd <dodf>sftLbyout</dodf>
+     * will bf forwbrdfd to tif <dodf>dontfntPbnf</dodf>. Tiis is initiblly
+     * fblsf, but is sft to truf wifn tif <dodf>JIntfrnblFrbmf</dodf> is
+     * donstrudtfd.
      *
-     * @see #isRootPaneCheckingEnabled
-     * @see #setRootPaneCheckingEnabled
-     * @see javax.swing.RootPaneContainer
+     * @sff #isRootPbnfCifdkingEnbblfd
+     * @sff #sftRootPbnfCifdkingEnbblfd
+     * @sff jbvbx.swing.RootPbnfContbinfr
      */
-    protected boolean rootPaneCheckingEnabled = false;
+    protfdtfd boolfbn rootPbnfCifdkingEnbblfd = fblsf;
 
-    /** The frame can be closed. */
-    protected boolean closable;
-    /** The frame has been closed. */
-    protected boolean isClosed;
-    /** The frame can be expanded to the size of the desktop pane. */
-    protected boolean maximizable;
+    /** Tif frbmf dbn bf dlosfd. */
+    protfdtfd boolfbn dlosbblf;
+    /** Tif frbmf ibs bffn dlosfd. */
+    protfdtfd boolfbn isClosfd;
+    /** Tif frbmf dbn bf fxpbndfd to tif sizf of tif dfsktop pbnf. */
+    protfdtfd boolfbn mbximizbblf;
     /**
-     * The frame has been expanded to its maximum size.
-     * @see #maximizable
+     * Tif frbmf ibs bffn fxpbndfd to its mbximum sizf.
+     * @sff #mbximizbblf
      */
-    protected boolean isMaximum;
+    protfdtfd boolfbn isMbximum;
     /**
-     * The frame can "iconified" (shrunk down and displayed as
-     * an icon-image).
-     * @see JInternalFrame.JDesktopIcon
-     * @see #setIconifiable
+     * Tif frbmf dbn "idonififd" (sirunk down bnd displbyfd bs
+     * bn idon-imbgf).
+     * @sff JIntfrnblFrbmf.JDfsktopIdon
+     * @sff #sftIdonifibblf
      */
-    protected boolean iconable;
+    protfdtfd boolfbn idonbblf;
     /**
-     * The frame has been iconified.
-     * @see #isIcon()
+     * Tif frbmf ibs bffn idonififd.
+     * @sff #isIdon()
      */
-    protected boolean isIcon;
-    /** The frame's size can be changed. */
-    protected boolean resizable;
-    /** The frame is currently selected. */
-    protected boolean isSelected;
-    /** The icon shown in the top-left corner of this internal frame. */
-    protected Icon frameIcon;
-    /** The title displayed in this internal frame's title bar. */
-    protected String  title;
+    protfdtfd boolfbn isIdon;
+    /** Tif frbmf's sizf dbn bf dibngfd. */
+    protfdtfd boolfbn rfsizbblf;
+    /** Tif frbmf is durrfntly sflfdtfd. */
+    protfdtfd boolfbn isSflfdtfd;
+    /** Tif idon siown in tif top-lfft dornfr of tiis intfrnbl frbmf. */
+    protfdtfd Idon frbmfIdon;
+    /** Tif titlf displbyfd in tiis intfrnbl frbmf's titlf bbr. */
+    protfdtfd String  titlf;
     /**
-     * The icon that is displayed when this internal frame is iconified.
-     * @see #iconable
+     * Tif idon tibt is displbyfd wifn tiis intfrnbl frbmf is idonififd.
+     * @sff #idonbblf
      */
-    protected JDesktopIcon desktopIcon;
+    protfdtfd JDfsktopIdon dfsktopIdon;
 
-    private Cursor lastCursor;
+    privbtf Cursor lbstCursor;
 
-    private boolean opened;
+    privbtf boolfbn opfnfd;
 
-    private Rectangle normalBounds = null;
+    privbtf Rfdtbnglf normblBounds = null;
 
-    private int defaultCloseOperation = DISPOSE_ON_CLOSE;
-
-    /**
-     * Contains the Component that focus is to go when
-     * <code>restoreSubcomponentFocus</code> is invoked, that is,
-     * <code>restoreSubcomponentFocus</code> sets this to the value returned
-     * from <code>getMostRecentFocusOwner</code>.
-     */
-    private Component lastFocusOwner;
-
-    /** Bound property name. */
-    public final static String CONTENT_PANE_PROPERTY = "contentPane";
-    /** Bound property name. */
-    public final static String MENU_BAR_PROPERTY = "JMenuBar";
-    /** Bound property name. */
-    public final static String TITLE_PROPERTY = "title";
-    /** Bound property name. */
-    public final static String LAYERED_PANE_PROPERTY = "layeredPane";
-    /** Bound property name. */
-    public final static String ROOT_PANE_PROPERTY = "rootPane";
-    /** Bound property name. */
-    public final static String GLASS_PANE_PROPERTY = "glassPane";
-    /** Bound property name. */
-    public final static String FRAME_ICON_PROPERTY = "frameIcon";
+    privbtf int dffbultClosfOpfrbtion = DISPOSE_ON_CLOSE;
 
     /**
-     * Constrained property name indicated that this frame has
-     * selected status.
+     * Contbins tif Componfnt tibt fodus is to go wifn
+     * <dodf>rfstorfSubdomponfntFodus</dodf> is invokfd, tibt is,
+     * <dodf>rfstorfSubdomponfntFodus</dodf> sfts tiis to tif vbluf rfturnfd
+     * from <dodf>gftMostRfdfntFodusOwnfr</dodf>.
      */
-    public final static String IS_SELECTED_PROPERTY = "selected";
-    /** Constrained property name indicating that the internal frame is closed. */
-    public final static String IS_CLOSED_PROPERTY = "closed";
-    /** Constrained property name indicating that the internal frame is maximized. */
-    public final static String IS_MAXIMUM_PROPERTY = "maximum";
-    /** Constrained property name indicating that the internal frame is iconified. */
-    public final static String IS_ICON_PROPERTY = "icon";
+    privbtf Componfnt lbstFodusOwnfr;
 
-    private static final Object PROPERTY_CHANGE_LISTENER_KEY =
-        new StringBuilder("InternalFramePropertyChangeListener");
+    /** Bound propfrty nbmf. */
+    publid finbl stbtid String CONTENT_PANE_PROPERTY = "dontfntPbnf";
+    /** Bound propfrty nbmf. */
+    publid finbl stbtid String MENU_BAR_PROPERTY = "JMfnuBbr";
+    /** Bound propfrty nbmf. */
+    publid finbl stbtid String TITLE_PROPERTY = "titlf";
+    /** Bound propfrty nbmf. */
+    publid finbl stbtid String LAYERED_PANE_PROPERTY = "lbyfrfdPbnf";
+    /** Bound propfrty nbmf. */
+    publid finbl stbtid String ROOT_PANE_PROPERTY = "rootPbnf";
+    /** Bound propfrty nbmf. */
+    publid finbl stbtid String GLASS_PANE_PROPERTY = "glbssPbnf";
+    /** Bound propfrty nbmf. */
+    publid finbl stbtid String FRAME_ICON_PROPERTY = "frbmfIdon";
 
-    private static void addPropertyChangeListenerIfNecessary() {
-        if (AppContext.getAppContext().get(PROPERTY_CHANGE_LISTENER_KEY) ==
+    /**
+     * Constrbinfd propfrty nbmf indidbtfd tibt tiis frbmf ibs
+     * sflfdtfd stbtus.
+     */
+    publid finbl stbtid String IS_SELECTED_PROPERTY = "sflfdtfd";
+    /** Constrbinfd propfrty nbmf indidbting tibt tif intfrnbl frbmf is dlosfd. */
+    publid finbl stbtid String IS_CLOSED_PROPERTY = "dlosfd";
+    /** Constrbinfd propfrty nbmf indidbting tibt tif intfrnbl frbmf is mbximizfd. */
+    publid finbl stbtid String IS_MAXIMUM_PROPERTY = "mbximum";
+    /** Constrbinfd propfrty nbmf indidbting tibt tif intfrnbl frbmf is idonififd. */
+    publid finbl stbtid String IS_ICON_PROPERTY = "idon";
+
+    privbtf stbtid finbl Objfdt PROPERTY_CHANGE_LISTENER_KEY =
+        nfw StringBuildfr("IntfrnblFrbmfPropfrtyCibngfListfnfr");
+
+    privbtf stbtid void bddPropfrtyCibngfListfnfrIfNfdfssbry() {
+        if (AppContfxt.gftAppContfxt().gft(PROPERTY_CHANGE_LISTENER_KEY) ==
             null) {
-            PropertyChangeListener focusListener =
-                new FocusPropertyChangeListener();
+            PropfrtyCibngfListfnfr fodusListfnfr =
+                nfw FodusPropfrtyCibngfListfnfr();
 
-            AppContext.getAppContext().put(PROPERTY_CHANGE_LISTENER_KEY,
-                focusListener);
+            AppContfxt.gftAppContfxt().put(PROPERTY_CHANGE_LISTENER_KEY,
+                fodusListfnfr);
 
-            KeyboardFocusManager.getCurrentKeyboardFocusManager().
-                addPropertyChangeListener(focusListener);
+            KfybobrdFodusMbnbgfr.gftCurrfntKfybobrdFodusMbnbgfr().
+                bddPropfrtyCibngfListfnfr(fodusListfnfr);
         }
     }
 
-    private static class FocusPropertyChangeListener implements
-        PropertyChangeListener {
-        public void propertyChange(PropertyChangeEvent e) {
-            if (e.getPropertyName() == "permanentFocusOwner") {
-                updateLastFocusOwner((Component)e.getNewValue());
+    privbtf stbtid dlbss FodusPropfrtyCibngfListfnfr implfmfnts
+        PropfrtyCibngfListfnfr {
+        publid void propfrtyCibngf(PropfrtyCibngfEvfnt f) {
+            if (f.gftPropfrtyNbmf() == "pfrmbnfntFodusOwnfr") {
+                updbtfLbstFodusOwnfr((Componfnt)f.gftNfwVbluf());
             }
         }
     }
 
-    private static void updateLastFocusOwner(Component component) {
-        if (component != null) {
-            Component parent = component;
-            while (parent != null && !(parent instanceof Window)) {
-                if (parent instanceof JInternalFrame) {
-                    // Update lastFocusOwner for parent.
-                    ((JInternalFrame)parent).setLastFocusOwner(component);
+    privbtf stbtid void updbtfLbstFodusOwnfr(Componfnt domponfnt) {
+        if (domponfnt != null) {
+            Componfnt pbrfnt = domponfnt;
+            wiilf (pbrfnt != null && !(pbrfnt instbndfof Window)) {
+                if (pbrfnt instbndfof JIntfrnblFrbmf) {
+                    // Updbtf lbstFodusOwnfr for pbrfnt.
+                    ((JIntfrnblFrbmf)pbrfnt).sftLbstFodusOwnfr(domponfnt);
                 }
-                parent = parent.getParent();
+                pbrfnt = pbrfnt.gftPbrfnt();
             }
         }
     }
 
     /**
-     * Creates a non-resizable, non-closable, non-maximizable,
-     * non-iconifiable <code>JInternalFrame</code> with no title.
+     * Crfbtfs b non-rfsizbblf, non-dlosbblf, non-mbximizbblf,
+     * non-idonifibblf <dodf>JIntfrnblFrbmf</dodf> witi no titlf.
      */
-    public JInternalFrame() {
-        this("", false, false, false, false);
+    publid JIntfrnblFrbmf() {
+        tiis("", fblsf, fblsf, fblsf, fblsf);
     }
 
     /**
-     * Creates a non-resizable, non-closable, non-maximizable,
-     * non-iconifiable <code>JInternalFrame</code> with the specified title.
-     * Note that passing in a <code>null</code> <code>title</code> results in
-     * unspecified behavior and possibly an exception.
+     * Crfbtfs b non-rfsizbblf, non-dlosbblf, non-mbximizbblf,
+     * non-idonifibblf <dodf>JIntfrnblFrbmf</dodf> witi tif spfdififd titlf.
+     * Notf tibt pbssing in b <dodf>null</dodf> <dodf>titlf</dodf> rfsults in
+     * unspfdififd bfibvior bnd possibly bn fxdfption.
      *
-     * @param title  the non-<code>null</code> <code>String</code>
-     *     to display in the title bar
+     * @pbrbm titlf  tif non-<dodf>null</dodf> <dodf>String</dodf>
+     *     to displby in tif titlf bbr
      */
-    public JInternalFrame(String title) {
-        this(title, false, false, false, false);
+    publid JIntfrnblFrbmf(String titlf) {
+        tiis(titlf, fblsf, fblsf, fblsf, fblsf);
     }
 
     /**
-     * Creates a non-closable, non-maximizable, non-iconifiable
-     * <code>JInternalFrame</code> with the specified title
-     * and resizability.
+     * Crfbtfs b non-dlosbblf, non-mbximizbblf, non-idonifibblf
+     * <dodf>JIntfrnblFrbmf</dodf> witi tif spfdififd titlf
+     * bnd rfsizbbility.
      *
-     * @param title      the <code>String</code> to display in the title bar
-     * @param resizable  if <code>true</code>, the internal frame can be resized
+     * @pbrbm titlf      tif <dodf>String</dodf> to displby in tif titlf bbr
+     * @pbrbm rfsizbblf  if <dodf>truf</dodf>, tif intfrnbl frbmf dbn bf rfsizfd
      */
-    public JInternalFrame(String title, boolean resizable) {
-        this(title, resizable, false, false, false);
+    publid JIntfrnblFrbmf(String titlf, boolfbn rfsizbblf) {
+        tiis(titlf, rfsizbblf, fblsf, fblsf, fblsf);
     }
 
     /**
-     * Creates a non-maximizable, non-iconifiable <code>JInternalFrame</code>
-     * with the specified title, resizability, and
-     * closability.
+     * Crfbtfs b non-mbximizbblf, non-idonifibblf <dodf>JIntfrnblFrbmf</dodf>
+     * witi tif spfdififd titlf, rfsizbbility, bnd
+     * dlosbbility.
      *
-     * @param title      the <code>String</code> to display in the title bar
-     * @param resizable  if <code>true</code>, the internal frame can be resized
-     * @param closable   if <code>true</code>, the internal frame can be closed
+     * @pbrbm titlf      tif <dodf>String</dodf> to displby in tif titlf bbr
+     * @pbrbm rfsizbblf  if <dodf>truf</dodf>, tif intfrnbl frbmf dbn bf rfsizfd
+     * @pbrbm dlosbblf   if <dodf>truf</dodf>, tif intfrnbl frbmf dbn bf dlosfd
      */
-    public JInternalFrame(String title, boolean resizable, boolean closable) {
-        this(title, resizable, closable, false, false);
+    publid JIntfrnblFrbmf(String titlf, boolfbn rfsizbblf, boolfbn dlosbblf) {
+        tiis(titlf, rfsizbblf, dlosbblf, fblsf, fblsf);
     }
 
     /**
-     * Creates a non-iconifiable <code>JInternalFrame</code>
-     * with the specified title,
-     * resizability, closability, and maximizability.
+     * Crfbtfs b non-idonifibblf <dodf>JIntfrnblFrbmf</dodf>
+     * witi tif spfdififd titlf,
+     * rfsizbbility, dlosbbility, bnd mbximizbbility.
      *
-     * @param title       the <code>String</code> to display in the title bar
-     * @param resizable   if <code>true</code>, the internal frame can be resized
-     * @param closable    if <code>true</code>, the internal frame can be closed
-     * @param maximizable if <code>true</code>, the internal frame can be maximized
+     * @pbrbm titlf       tif <dodf>String</dodf> to displby in tif titlf bbr
+     * @pbrbm rfsizbblf   if <dodf>truf</dodf>, tif intfrnbl frbmf dbn bf rfsizfd
+     * @pbrbm dlosbblf    if <dodf>truf</dodf>, tif intfrnbl frbmf dbn bf dlosfd
+     * @pbrbm mbximizbblf if <dodf>truf</dodf>, tif intfrnbl frbmf dbn bf mbximizfd
      */
-    public JInternalFrame(String title, boolean resizable, boolean closable,
-                          boolean maximizable) {
-        this(title, resizable, closable, maximizable, false);
+    publid JIntfrnblFrbmf(String titlf, boolfbn rfsizbblf, boolfbn dlosbblf,
+                          boolfbn mbximizbblf) {
+        tiis(titlf, rfsizbblf, dlosbblf, mbximizbblf, fblsf);
     }
 
     /**
-     * Creates a <code>JInternalFrame</code> with the specified title,
-     * resizability, closability, maximizability, and iconifiability.
-     * All <code>JInternalFrame</code> constructors use this one.
+     * Crfbtfs b <dodf>JIntfrnblFrbmf</dodf> witi tif spfdififd titlf,
+     * rfsizbbility, dlosbbility, mbximizbbility, bnd idonifibbility.
+     * All <dodf>JIntfrnblFrbmf</dodf> donstrudtors usf tiis onf.
      *
-     * @param title       the <code>String</code> to display in the title bar
-     * @param resizable   if <code>true</code>, the internal frame can be resized
-     * @param closable    if <code>true</code>, the internal frame can be closed
-     * @param maximizable if <code>true</code>, the internal frame can be maximized
-     * @param iconifiable if <code>true</code>, the internal frame can be iconified
+     * @pbrbm titlf       tif <dodf>String</dodf> to displby in tif titlf bbr
+     * @pbrbm rfsizbblf   if <dodf>truf</dodf>, tif intfrnbl frbmf dbn bf rfsizfd
+     * @pbrbm dlosbblf    if <dodf>truf</dodf>, tif intfrnbl frbmf dbn bf dlosfd
+     * @pbrbm mbximizbblf if <dodf>truf</dodf>, tif intfrnbl frbmf dbn bf mbximizfd
+     * @pbrbm idonifibblf if <dodf>truf</dodf>, tif intfrnbl frbmf dbn bf idonififd
      */
-    public JInternalFrame(String title, boolean resizable, boolean closable,
-                                boolean maximizable, boolean iconifiable) {
+    publid JIntfrnblFrbmf(String titlf, boolfbn rfsizbblf, boolfbn dlosbblf,
+                                boolfbn mbximizbblf, boolfbn idonifibblf) {
 
-        setRootPane(createRootPane());
-        setLayout(new BorderLayout());
-        this.title = title;
-        this.resizable = resizable;
-        this.closable = closable;
-        this.maximizable = maximizable;
-        isMaximum = false;
-        this.iconable = iconifiable;
-        isIcon = false;
-        setVisible(false);
-        setRootPaneCheckingEnabled(true);
-        desktopIcon = new JDesktopIcon(this);
-        updateUI();
-        sun.awt.SunToolkit.checkAndSetPolicy(this);
-        addPropertyChangeListenerIfNecessary();
+        sftRootPbnf(drfbtfRootPbnf());
+        sftLbyout(nfw BordfrLbyout());
+        tiis.titlf = titlf;
+        tiis.rfsizbblf = rfsizbblf;
+        tiis.dlosbblf = dlosbblf;
+        tiis.mbximizbblf = mbximizbblf;
+        isMbximum = fblsf;
+        tiis.idonbblf = idonifibblf;
+        isIdon = fblsf;
+        sftVisiblf(fblsf);
+        sftRootPbnfCifdkingEnbblfd(truf);
+        dfsktopIdon = nfw JDfsktopIdon(tiis);
+        updbtfUI();
+        sun.bwt.SunToolkit.difdkAndSftPolidy(tiis);
+        bddPropfrtyCibngfListfnfrIfNfdfssbry();
     }
 
     /**
-     * Called by the constructor to set up the <code>JRootPane</code>.
-     * @return  a new <code>JRootPane</code>
-     * @see JRootPane
+     * Cbllfd by tif donstrudtor to sft up tif <dodf>JRootPbnf</dodf>.
+     * @rfturn  b nfw <dodf>JRootPbnf</dodf>
+     * @sff JRootPbnf
      */
-    protected JRootPane createRootPane() {
-        return new JRootPane();
+    protfdtfd JRootPbnf drfbtfRootPbnf() {
+        rfturn nfw JRootPbnf();
     }
 
     /**
-     * Returns the look-and-feel object that renders this component.
+     * Rfturns tif look-bnd-fffl objfdt tibt rfndfrs tiis domponfnt.
      *
-     * @return the <code>InternalFrameUI</code> object that renders
-     *          this component
+     * @rfturn tif <dodf>IntfrnblFrbmfUI</dodf> objfdt tibt rfndfrs
+     *          tiis domponfnt
      */
-    public InternalFrameUI getUI() {
-        return (InternalFrameUI)ui;
+    publid IntfrnblFrbmfUI gftUI() {
+        rfturn (IntfrnblFrbmfUI)ui;
     }
 
     /**
-     * Sets the UI delegate for this <code>JInternalFrame</code>.
-     * @param ui  the UI delegate
-     * @beaninfo
-     *        bound: true
-     *       hidden: true
-     *    attribute: visualUpdate true
-     *  description: The UI object that implements the Component's LookAndFeel.
+     * Sfts tif UI dflfgbtf for tiis <dodf>JIntfrnblFrbmf</dodf>.
+     * @pbrbm ui  tif UI dflfgbtf
+     * @bfbninfo
+     *        bound: truf
+     *       iiddfn: truf
+     *    bttributf: visublUpdbtf truf
+     *  dfsdription: Tif UI objfdt tibt implfmfnts tif Componfnt's LookAndFffl.
      */
-    public void setUI(InternalFrameUI ui) {
-        boolean checkingEnabled = isRootPaneCheckingEnabled();
+    publid void sftUI(IntfrnblFrbmfUI ui) {
+        boolfbn difdkingEnbblfd = isRootPbnfCifdkingEnbblfd();
         try {
-            setRootPaneCheckingEnabled(false);
-            super.setUI(ui);
+            sftRootPbnfCifdkingEnbblfd(fblsf);
+            supfr.sftUI(ui);
         }
-        finally {
-            setRootPaneCheckingEnabled(checkingEnabled);
+        finblly {
+            sftRootPbnfCifdkingEnbblfd(difdkingEnbblfd);
         }
     }
 
     /**
-     * Notification from the <code>UIManager</code> that the look and feel
-     * has changed.
-     * Replaces the current UI object with the latest version from the
-     * <code>UIManager</code>.
+     * Notifidbtion from tif <dodf>UIMbnbgfr</dodf> tibt tif look bnd fffl
+     * ibs dibngfd.
+     * Rfplbdfs tif durrfnt UI objfdt witi tif lbtfst vfrsion from tif
+     * <dodf>UIMbnbgfr</dodf>.
      *
-     * @see JComponent#updateUI
+     * @sff JComponfnt#updbtfUI
      */
-    public void updateUI() {
-        setUI((InternalFrameUI)UIManager.getUI(this));
-        invalidate();
-        if (desktopIcon != null) {
-            desktopIcon.updateUIWhenHidden();
+    publid void updbtfUI() {
+        sftUI((IntfrnblFrbmfUI)UIMbnbgfr.gftUI(tiis));
+        invblidbtf();
+        if (dfsktopIdon != null) {
+            dfsktopIdon.updbtfUIWifnHiddfn();
         }
     }
 
-    /* This method is called if <code>updateUI</code> was called
-     * on the associated
-     * JDesktopIcon.  It's necessary to avoid infinite recursion.
+    /* Tiis mftiod is dbllfd if <dodf>updbtfUI</dodf> wbs dbllfd
+     * on tif bssodibtfd
+     * JDfsktopIdon.  It's nfdfssbry to bvoid infinitf rfdursion.
      */
-    void updateUIWhenHidden() {
-        setUI((InternalFrameUI)UIManager.getUI(this));
-        invalidate();
-        Component[] children = getComponents();
-        if (children != null) {
-            for (Component child : children) {
-                SwingUtilities.updateComponentTreeUI(child);
+    void updbtfUIWifnHiddfn() {
+        sftUI((IntfrnblFrbmfUI)UIMbnbgfr.gftUI(tiis));
+        invblidbtf();
+        Componfnt[] diildrfn = gftComponfnts();
+        if (diildrfn != null) {
+            for (Componfnt diild : diildrfn) {
+                SwingUtilitifs.updbtfComponfntTrffUI(diild);
             }
         }
     }
 
 
     /**
-     * Returns the name of the look-and-feel
-     * class that renders this component.
+     * Rfturns tif nbmf of tif look-bnd-fffl
+     * dlbss tibt rfndfrs tiis domponfnt.
      *
-     * @return the string "InternalFrameUI"
+     * @rfturn tif string "IntfrnblFrbmfUI"
      *
-     * @see JComponent#getUIClassID
-     * @see UIDefaults#getUI
+     * @sff JComponfnt#gftUIClbssID
+     * @sff UIDffbults#gftUI
      *
-     * @beaninfo
-     *     description: UIClassID
+     * @bfbninfo
+     *     dfsdription: UIClbssID
      */
-    public String getUIClassID() {
-        return uiClassID;
+    publid String gftUIClbssID() {
+        rfturn uiClbssID;
     }
 
     /**
-     * Returns whether calls to <code>add</code> and
-     * <code>setLayout</code> are forwarded to the <code>contentPane</code>.
+     * Rfturns wiftifr dblls to <dodf>bdd</dodf> bnd
+     * <dodf>sftLbyout</dodf> brf forwbrdfd to tif <dodf>dontfntPbnf</dodf>.
      *
-     * @return true if <code>add</code> and <code>setLayout</code>
-     *         are forwarded; false otherwise
+     * @rfturn truf if <dodf>bdd</dodf> bnd <dodf>sftLbyout</dodf>
+     *         brf forwbrdfd; fblsf otifrwisf
      *
-     * @see #addImpl
-     * @see #setLayout
-     * @see #setRootPaneCheckingEnabled
-     * @see javax.swing.RootPaneContainer
+     * @sff #bddImpl
+     * @sff #sftLbyout
+     * @sff #sftRootPbnfCifdkingEnbblfd
+     * @sff jbvbx.swing.RootPbnfContbinfr
      */
-    protected boolean isRootPaneCheckingEnabled() {
-        return rootPaneCheckingEnabled;
+    protfdtfd boolfbn isRootPbnfCifdkingEnbblfd() {
+        rfturn rootPbnfCifdkingEnbblfd;
     }
 
     /**
-     * Sets whether calls to <code>add</code> and
-     * <code>setLayout</code> are forwarded to the <code>contentPane</code>.
+     * Sfts wiftifr dblls to <dodf>bdd</dodf> bnd
+     * <dodf>sftLbyout</dodf> brf forwbrdfd to tif <dodf>dontfntPbnf</dodf>.
      *
-     * @param enabled  true if <code>add</code> and <code>setLayout</code>
-     *        are forwarded, false if they should operate directly on the
-     *        <code>JInternalFrame</code>.
+     * @pbrbm fnbblfd  truf if <dodf>bdd</dodf> bnd <dodf>sftLbyout</dodf>
+     *        brf forwbrdfd, fblsf if tify siould opfrbtf dirfdtly on tif
+     *        <dodf>JIntfrnblFrbmf</dodf>.
      *
-     * @see #addImpl
-     * @see #setLayout
-     * @see #isRootPaneCheckingEnabled
-     * @see javax.swing.RootPaneContainer
-     * @beaninfo
-     *      hidden: true
-     * description: Whether the add and setLayout methods are forwarded
+     * @sff #bddImpl
+     * @sff #sftLbyout
+     * @sff #isRootPbnfCifdkingEnbblfd
+     * @sff jbvbx.swing.RootPbnfContbinfr
+     * @bfbninfo
+     *      iiddfn: truf
+     * dfsdription: Wiftifr tif bdd bnd sftLbyout mftiods brf forwbrdfd
      */
-    protected void setRootPaneCheckingEnabled(boolean enabled) {
-        rootPaneCheckingEnabled = enabled;
+    protfdtfd void sftRootPbnfCifdkingEnbblfd(boolfbn fnbblfd) {
+        rootPbnfCifdkingEnbblfd = fnbblfd;
     }
 
     /**
-     * Adds the specified child <code>Component</code>.
-     * This method is overridden to conditionally forward calls to the
-     * <code>contentPane</code>.
-     * By default, children are added to the <code>contentPane</code> instead
-     * of the frame, refer to {@link javax.swing.RootPaneContainer} for
-     * details.
+     * Adds tif spfdififd diild <dodf>Componfnt</dodf>.
+     * Tiis mftiod is ovfrriddfn to donditionblly forwbrd dblls to tif
+     * <dodf>dontfntPbnf</dodf>.
+     * By dffbult, diildrfn brf bddfd to tif <dodf>dontfntPbnf</dodf> instfbd
+     * of tif frbmf, rfffr to {@link jbvbx.swing.RootPbnfContbinfr} for
+     * dftbils.
      *
-     * @param comp the component to be enhanced
-     * @param constraints the constraints to be respected
-     * @param index the index
-     * @exception IllegalArgumentException if <code>index</code> is invalid
-     * @exception IllegalArgumentException if adding the container's parent
-     *                  to itself
-     * @exception IllegalArgumentException if adding a window to a container
+     * @pbrbm domp tif domponfnt to bf fnibndfd
+     * @pbrbm donstrbints tif donstrbints to bf rfspfdtfd
+     * @pbrbm indfx tif indfx
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>indfx</dodf> is invblid
+     * @fxdfption IllfgblArgumfntExdfption if bdding tif dontbinfr's pbrfnt
+     *                  to itsflf
+     * @fxdfption IllfgblArgumfntExdfption if bdding b window to b dontbinfr
      *
-     * @see #setRootPaneCheckingEnabled
-     * @see javax.swing.RootPaneContainer
+     * @sff #sftRootPbnfCifdkingEnbblfd
+     * @sff jbvbx.swing.RootPbnfContbinfr
      */
-    protected void addImpl(Component comp, Object constraints, int index) {
-        if(isRootPaneCheckingEnabled()) {
-            getContentPane().add(comp, constraints, index);
+    protfdtfd void bddImpl(Componfnt domp, Objfdt donstrbints, int indfx) {
+        if(isRootPbnfCifdkingEnbblfd()) {
+            gftContfntPbnf().bdd(domp, donstrbints, indfx);
         }
-        else {
-            super.addImpl(comp, constraints, index);
-        }
-    }
-
-    /**
-     * Removes the specified component from the container. If
-     * <code>comp</code> is not a child of the <code>JInternalFrame</code>
-     * this will forward the call to the <code>contentPane</code>.
-     *
-     * @param comp the component to be removed
-     * @throws NullPointerException if <code>comp</code> is null
-     * @see #add
-     * @see javax.swing.RootPaneContainer
-     */
-    public void remove(Component comp) {
-        int oldCount = getComponentCount();
-        super.remove(comp);
-        if (oldCount == getComponentCount()) {
-            getContentPane().remove(comp);
+        flsf {
+            supfr.bddImpl(domp, donstrbints, indfx);
         }
     }
 
+    /**
+     * Rfmovfs tif spfdififd domponfnt from tif dontbinfr. If
+     * <dodf>domp</dodf> is not b diild of tif <dodf>JIntfrnblFrbmf</dodf>
+     * tiis will forwbrd tif dbll to tif <dodf>dontfntPbnf</dodf>.
+     *
+     * @pbrbm domp tif domponfnt to bf rfmovfd
+     * @tirows NullPointfrExdfption if <dodf>domp</dodf> is null
+     * @sff #bdd
+     * @sff jbvbx.swing.RootPbnfContbinfr
+     */
+    publid void rfmovf(Componfnt domp) {
+        int oldCount = gftComponfntCount();
+        supfr.rfmovf(domp);
+        if (oldCount == gftComponfntCount()) {
+            gftContfntPbnf().rfmovf(domp);
+        }
+    }
+
 
     /**
-     * Ensures that, by default, the layout of this component cannot be set.
-     * Overridden to conditionally forward the call to the
-     * <code>contentPane</code>.
-     * Refer to {@link javax.swing.RootPaneContainer} for
-     * more information.
+     * Ensurfs tibt, by dffbult, tif lbyout of tiis domponfnt dbnnot bf sft.
+     * Ovfrriddfn to donditionblly forwbrd tif dbll to tif
+     * <dodf>dontfntPbnf</dodf>.
+     * Rfffr to {@link jbvbx.swing.RootPbnfContbinfr} for
+     * morf informbtion.
      *
-     * @param manager the <code>LayoutManager</code>
-     * @see #setRootPaneCheckingEnabled
+     * @pbrbm mbnbgfr tif <dodf>LbyoutMbnbgfr</dodf>
+     * @sff #sftRootPbnfCifdkingEnbblfd
      */
-    public void setLayout(LayoutManager manager) {
-        if(isRootPaneCheckingEnabled()) {
-            getContentPane().setLayout(manager);
+    publid void sftLbyout(LbyoutMbnbgfr mbnbgfr) {
+        if(isRootPbnfCifdkingEnbblfd()) {
+            gftContfntPbnf().sftLbyout(mbnbgfr);
         }
-        else {
-            super.setLayout(manager);
+        flsf {
+            supfr.sftLbyout(mbnbgfr);
         }
     }
 
 
 //////////////////////////////////////////////////////////////////////////
-/// Property Methods
+/// Propfrty Mftiods
 //////////////////////////////////////////////////////////////////////////
 
     /**
-     * Returns the current <code>JMenuBar</code> for this
-     * <code>JInternalFrame</code>, or <code>null</code>
-     * if no menu bar has been set.
-     * @return the current menu bar, or <code>null</code> if none has been set
+     * Rfturns tif durrfnt <dodf>JMfnuBbr</dodf> for tiis
+     * <dodf>JIntfrnblFrbmf</dodf>, or <dodf>null</dodf>
+     * if no mfnu bbr ibs bffn sft.
+     * @rfturn tif durrfnt mfnu bbr, or <dodf>null</dodf> if nonf ibs bffn sft
      *
-     * @deprecated As of Swing version 1.0.3,
-     * replaced by <code>getJMenuBar()</code>.
+     * @dfprfdbtfd As of Swing vfrsion 1.0.3,
+     * rfplbdfd by <dodf>gftJMfnuBbr()</dodf>.
      */
-    @Deprecated
-    public JMenuBar getMenuBar() {
-      return getRootPane().getMenuBar();
+    @Dfprfdbtfd
+    publid JMfnuBbr gftMfnuBbr() {
+      rfturn gftRootPbnf().gftMfnuBbr();
     }
 
     /**
-     * Returns the current <code>JMenuBar</code> for this
-     * <code>JInternalFrame</code>, or <code>null</code>
-     * if no menu bar has been set.
+     * Rfturns tif durrfnt <dodf>JMfnuBbr</dodf> for tiis
+     * <dodf>JIntfrnblFrbmf</dodf>, or <dodf>null</dodf>
+     * if no mfnu bbr ibs bffn sft.
      *
-     * @return  the <code>JMenuBar</code> used by this internal frame
-     * @see #setJMenuBar
+     * @rfturn  tif <dodf>JMfnuBbr</dodf> usfd by tiis intfrnbl frbmf
+     * @sff #sftJMfnuBbr
      */
-    public JMenuBar getJMenuBar() {
-        return getRootPane().getJMenuBar();
+    publid JMfnuBbr gftJMfnuBbr() {
+        rfturn gftRootPbnf().gftJMfnuBbr();
     }
 
     /**
-     * Sets the <code>menuBar</code> property for this <code>JInternalFrame</code>.
+     * Sfts tif <dodf>mfnuBbr</dodf> propfrty for tiis <dodf>JIntfrnblFrbmf</dodf>.
      *
-     * @param m  the <code>JMenuBar</code> to use in this internal frame
-     * @see #getJMenuBar
-     * @deprecated As of Swing version 1.0.3
-     *  replaced by <code>setJMenuBar(JMenuBar m)</code>.
+     * @pbrbm m  tif <dodf>JMfnuBbr</dodf> to usf in tiis intfrnbl frbmf
+     * @sff #gftJMfnuBbr
+     * @dfprfdbtfd As of Swing vfrsion 1.0.3
+     *  rfplbdfd by <dodf>sftJMfnuBbr(JMfnuBbr m)</dodf>.
      */
-    @Deprecated
-    public void setMenuBar(JMenuBar m) {
-        JMenuBar oldValue = getMenuBar();
-        getRootPane().setJMenuBar(m);
-        firePropertyChange(MENU_BAR_PROPERTY, oldValue, m);
+    @Dfprfdbtfd
+    publid void sftMfnuBbr(JMfnuBbr m) {
+        JMfnuBbr oldVbluf = gftMfnuBbr();
+        gftRootPbnf().sftJMfnuBbr(m);
+        firfPropfrtyCibngf(MENU_BAR_PROPERTY, oldVbluf, m);
     }
 
     /**
-     * Sets the <code>menuBar</code> property for this <code>JInternalFrame</code>.
+     * Sfts tif <dodf>mfnuBbr</dodf> propfrty for tiis <dodf>JIntfrnblFrbmf</dodf>.
      *
-     * @param m  the <code>JMenuBar</code> to use in this internal frame
-     * @see #getJMenuBar
-     * @beaninfo
-     *     bound: true
-     *     preferred: true
-     *     description: The menu bar for accessing pulldown menus
-     *                  from this internal frame.
+     * @pbrbm m  tif <dodf>JMfnuBbr</dodf> to usf in tiis intfrnbl frbmf
+     * @sff #gftJMfnuBbr
+     * @bfbninfo
+     *     bound: truf
+     *     prfffrrfd: truf
+     *     dfsdription: Tif mfnu bbr for bddfssing pulldown mfnus
+     *                  from tiis intfrnbl frbmf.
      */
-    public void setJMenuBar(JMenuBar m){
-        JMenuBar oldValue = getMenuBar();
-        getRootPane().setJMenuBar(m);
-        firePropertyChange(MENU_BAR_PROPERTY, oldValue, m);
+    publid void sftJMfnuBbr(JMfnuBbr m){
+        JMfnuBbr oldVbluf = gftMfnuBbr();
+        gftRootPbnf().sftJMfnuBbr(m);
+        firfPropfrtyCibngf(MENU_BAR_PROPERTY, oldVbluf, m);
     }
 
-    // implements javax.swing.RootPaneContainer
+    // implfmfnts jbvbx.swing.RootPbnfContbinfr
     /**
-     * Returns the content pane for this internal frame.
-     * @return the content pane
+     * Rfturns tif dontfnt pbnf for tiis intfrnbl frbmf.
+     * @rfturn tif dontfnt pbnf
      */
-    public Container getContentPane() {
-        return getRootPane().getContentPane();
-    }
-
-
-    /**
-     * Sets this <code>JInternalFrame</code>'s <code>contentPane</code>
-     * property.
-     *
-     * @param c  the content pane for this internal frame
-     *
-     * @exception java.awt.IllegalComponentStateException (a runtime
-     *           exception) if the content pane parameter is <code>null</code>
-     * @see RootPaneContainer#getContentPane
-     * @beaninfo
-     *     bound: true
-     *     hidden: true
-     *     description: The client area of the internal frame where child
-     *                  components are normally inserted.
-     */
-    public void setContentPane(Container c) {
-        Container oldValue = getContentPane();
-        getRootPane().setContentPane(c);
-        firePropertyChange(CONTENT_PANE_PROPERTY, oldValue, c);
-    }
-
-    /**
-     * Returns the layered pane for this internal frame.
-     *
-     * @return a <code>JLayeredPane</code> object
-     * @see RootPaneContainer#setLayeredPane
-     * @see RootPaneContainer#getLayeredPane
-     */
-    public JLayeredPane getLayeredPane() {
-        return getRootPane().getLayeredPane();
-    }
-
-    /**
-     * Sets this <code>JInternalFrame</code>'s
-     * <code>layeredPane</code> property.
-     *
-     * @param layered the <code>JLayeredPane</code> for this internal frame
-     *
-     * @exception java.awt.IllegalComponentStateException (a runtime
-     *           exception) if the layered pane parameter is <code>null</code>
-     * @see RootPaneContainer#setLayeredPane
-     * @beaninfo
-     *     hidden: true
-     *     bound: true
-     *     description: The pane which holds the various desktop layers.
-     */
-    public void setLayeredPane(JLayeredPane layered) {
-        JLayeredPane oldValue = getLayeredPane();
-        getRootPane().setLayeredPane(layered);
-        firePropertyChange(LAYERED_PANE_PROPERTY, oldValue, layered);
-    }
-
-    /**
-     * Returns the glass pane for this internal frame.
-     *
-     * @return the glass pane
-     * @see RootPaneContainer#setGlassPane
-     */
-    public Component getGlassPane() {
-        return getRootPane().getGlassPane();
-    }
-
-    /**
-     * Sets this <code>JInternalFrame</code>'s
-     * <code>glassPane</code> property.
-     *
-     * @param glass the glass pane for this internal frame
-     * @see RootPaneContainer#getGlassPane
-     * @beaninfo
-     *     bound: true
-     *     hidden: true
-     *     description: A transparent pane used for menu rendering.
-     */
-    public void setGlassPane(Component glass) {
-        Component oldValue = getGlassPane();
-        getRootPane().setGlassPane(glass);
-        firePropertyChange(GLASS_PANE_PROPERTY, oldValue, glass);
-    }
-
-    /**
-     * Returns the <code>rootPane</code> object for this internal frame.
-     *
-     * @return the <code>rootPane</code> property
-     * @see RootPaneContainer#getRootPane
-     */
-    public JRootPane getRootPane() {
-        return rootPane;
+    publid Contbinfr gftContfntPbnf() {
+        rfturn gftRootPbnf().gftContfntPbnf();
     }
 
 
     /**
-     * Sets the <code>rootPane</code> property
-     * for this <code>JInternalFrame</code>.
-     * This method is called by the constructor.
+     * Sfts tiis <dodf>JIntfrnblFrbmf</dodf>'s <dodf>dontfntPbnf</dodf>
+     * propfrty.
      *
-     * @param root  the new <code>JRootPane</code> object
-     * @beaninfo
-     *     bound: true
-     *     hidden: true
-     *     description: The root pane used by this internal frame.
+     * @pbrbm d  tif dontfnt pbnf for tiis intfrnbl frbmf
+     *
+     * @fxdfption jbvb.bwt.IllfgblComponfntStbtfExdfption (b runtimf
+     *           fxdfption) if tif dontfnt pbnf pbrbmftfr is <dodf>null</dodf>
+     * @sff RootPbnfContbinfr#gftContfntPbnf
+     * @bfbninfo
+     *     bound: truf
+     *     iiddfn: truf
+     *     dfsdription: Tif dlifnt brfb of tif intfrnbl frbmf wifrf diild
+     *                  domponfnts brf normblly insfrtfd.
      */
-    protected void setRootPane(JRootPane root) {
-        if(rootPane != null) {
-            remove(rootPane);
+    publid void sftContfntPbnf(Contbinfr d) {
+        Contbinfr oldVbluf = gftContfntPbnf();
+        gftRootPbnf().sftContfntPbnf(d);
+        firfPropfrtyCibngf(CONTENT_PANE_PROPERTY, oldVbluf, d);
+    }
+
+    /**
+     * Rfturns tif lbyfrfd pbnf for tiis intfrnbl frbmf.
+     *
+     * @rfturn b <dodf>JLbyfrfdPbnf</dodf> objfdt
+     * @sff RootPbnfContbinfr#sftLbyfrfdPbnf
+     * @sff RootPbnfContbinfr#gftLbyfrfdPbnf
+     */
+    publid JLbyfrfdPbnf gftLbyfrfdPbnf() {
+        rfturn gftRootPbnf().gftLbyfrfdPbnf();
+    }
+
+    /**
+     * Sfts tiis <dodf>JIntfrnblFrbmf</dodf>'s
+     * <dodf>lbyfrfdPbnf</dodf> propfrty.
+     *
+     * @pbrbm lbyfrfd tif <dodf>JLbyfrfdPbnf</dodf> for tiis intfrnbl frbmf
+     *
+     * @fxdfption jbvb.bwt.IllfgblComponfntStbtfExdfption (b runtimf
+     *           fxdfption) if tif lbyfrfd pbnf pbrbmftfr is <dodf>null</dodf>
+     * @sff RootPbnfContbinfr#sftLbyfrfdPbnf
+     * @bfbninfo
+     *     iiddfn: truf
+     *     bound: truf
+     *     dfsdription: Tif pbnf wiidi iolds tif vbrious dfsktop lbyfrs.
+     */
+    publid void sftLbyfrfdPbnf(JLbyfrfdPbnf lbyfrfd) {
+        JLbyfrfdPbnf oldVbluf = gftLbyfrfdPbnf();
+        gftRootPbnf().sftLbyfrfdPbnf(lbyfrfd);
+        firfPropfrtyCibngf(LAYERED_PANE_PROPERTY, oldVbluf, lbyfrfd);
+    }
+
+    /**
+     * Rfturns tif glbss pbnf for tiis intfrnbl frbmf.
+     *
+     * @rfturn tif glbss pbnf
+     * @sff RootPbnfContbinfr#sftGlbssPbnf
+     */
+    publid Componfnt gftGlbssPbnf() {
+        rfturn gftRootPbnf().gftGlbssPbnf();
+    }
+
+    /**
+     * Sfts tiis <dodf>JIntfrnblFrbmf</dodf>'s
+     * <dodf>glbssPbnf</dodf> propfrty.
+     *
+     * @pbrbm glbss tif glbss pbnf for tiis intfrnbl frbmf
+     * @sff RootPbnfContbinfr#gftGlbssPbnf
+     * @bfbninfo
+     *     bound: truf
+     *     iiddfn: truf
+     *     dfsdription: A trbnspbrfnt pbnf usfd for mfnu rfndfring.
+     */
+    publid void sftGlbssPbnf(Componfnt glbss) {
+        Componfnt oldVbluf = gftGlbssPbnf();
+        gftRootPbnf().sftGlbssPbnf(glbss);
+        firfPropfrtyCibngf(GLASS_PANE_PROPERTY, oldVbluf, glbss);
+    }
+
+    /**
+     * Rfturns tif <dodf>rootPbnf</dodf> objfdt for tiis intfrnbl frbmf.
+     *
+     * @rfturn tif <dodf>rootPbnf</dodf> propfrty
+     * @sff RootPbnfContbinfr#gftRootPbnf
+     */
+    publid JRootPbnf gftRootPbnf() {
+        rfturn rootPbnf;
+    }
+
+
+    /**
+     * Sfts tif <dodf>rootPbnf</dodf> propfrty
+     * for tiis <dodf>JIntfrnblFrbmf</dodf>.
+     * Tiis mftiod is dbllfd by tif donstrudtor.
+     *
+     * @pbrbm root  tif nfw <dodf>JRootPbnf</dodf> objfdt
+     * @bfbninfo
+     *     bound: truf
+     *     iiddfn: truf
+     *     dfsdription: Tif root pbnf usfd by tiis intfrnbl frbmf.
+     */
+    protfdtfd void sftRootPbnf(JRootPbnf root) {
+        if(rootPbnf != null) {
+            rfmovf(rootPbnf);
         }
-        JRootPane oldValue = getRootPane();
-        rootPane = root;
-        if(rootPane != null) {
-            boolean checkingEnabled = isRootPaneCheckingEnabled();
+        JRootPbnf oldVbluf = gftRootPbnf();
+        rootPbnf = root;
+        if(rootPbnf != null) {
+            boolfbn difdkingEnbblfd = isRootPbnfCifdkingEnbblfd();
             try {
-                setRootPaneCheckingEnabled(false);
-                add(rootPane, BorderLayout.CENTER);
+                sftRootPbnfCifdkingEnbblfd(fblsf);
+                bdd(rootPbnf, BordfrLbyout.CENTER);
             }
-            finally {
-                setRootPaneCheckingEnabled(checkingEnabled);
+            finblly {
+                sftRootPbnfCifdkingEnbblfd(difdkingEnbblfd);
             }
         }
-        firePropertyChange(ROOT_PANE_PROPERTY, oldValue, root);
+        firfPropfrtyCibngf(ROOT_PANE_PROPERTY, oldVbluf, root);
     }
 
     /**
-     * Sets whether this <code>JInternalFrame</code> can be closed by
-     * some user action.
-     * @param b a boolean value, where <code>true</code> means this internal frame can be closed
-     * @beaninfo
-     *     preferred: true
-     *           bound: true
-     *     description: Indicates whether this internal frame can be closed.
+     * Sfts wiftifr tiis <dodf>JIntfrnblFrbmf</dodf> dbn bf dlosfd by
+     * somf usfr bdtion.
+     * @pbrbm b b boolfbn vbluf, wifrf <dodf>truf</dodf> mfbns tiis intfrnbl frbmf dbn bf dlosfd
+     * @bfbninfo
+     *     prfffrrfd: truf
+     *           bound: truf
+     *     dfsdription: Indidbtfs wiftifr tiis intfrnbl frbmf dbn bf dlosfd.
      */
-    public void setClosable(boolean b) {
-        Boolean oldValue = closable ? Boolean.TRUE : Boolean.FALSE;
-        Boolean newValue = b ? Boolean.TRUE : Boolean.FALSE;
-        closable = b;
-        firePropertyChange("closable", oldValue, newValue);
+    publid void sftClosbblf(boolfbn b) {
+        Boolfbn oldVbluf = dlosbblf ? Boolfbn.TRUE : Boolfbn.FALSE;
+        Boolfbn nfwVbluf = b ? Boolfbn.TRUE : Boolfbn.FALSE;
+        dlosbblf = b;
+        firfPropfrtyCibngf("dlosbblf", oldVbluf, nfwVbluf);
     }
 
     /**
-     * Returns whether this <code>JInternalFrame</code> can be closed by
-     * some user action.
-     * @return <code>true</code> if this internal frame can be closed
+     * Rfturns wiftifr tiis <dodf>JIntfrnblFrbmf</dodf> dbn bf dlosfd by
+     * somf usfr bdtion.
+     * @rfturn <dodf>truf</dodf> if tiis intfrnbl frbmf dbn bf dlosfd
      */
-    public boolean isClosable() {
-        return closable;
+    publid boolfbn isClosbblf() {
+        rfturn dlosbblf;
     }
 
     /**
-     * Returns whether this <code>JInternalFrame</code> is currently closed.
-     * @return <code>true</code> if this internal frame is closed, <code>false</code> otherwise
+     * Rfturns wiftifr tiis <dodf>JIntfrnblFrbmf</dodf> is durrfntly dlosfd.
+     * @rfturn <dodf>truf</dodf> if tiis intfrnbl frbmf is dlosfd, <dodf>fblsf</dodf> otifrwisf
      */
-    public boolean isClosed() {
-        return isClosed;
+    publid boolfbn isClosfd() {
+        rfturn isClosfd;
     }
 
     /**
-     * Closes this internal frame if the argument is <code>true</code>.
-     * Do not invoke this method with a <code>false</code> argument;
-     * the result of invoking <code>setClosed(false)</code>
-     * is unspecified.
+     * Closfs tiis intfrnbl frbmf if tif brgumfnt is <dodf>truf</dodf>.
+     * Do not invokf tiis mftiod witi b <dodf>fblsf</dodf> brgumfnt;
+     * tif rfsult of invoking <dodf>sftClosfd(fblsf)</dodf>
+     * is unspfdififd.
      *
      * <p>
      *
-     * If the internal frame is already closed,
-     * this method does nothing and returns immediately.
-     * Otherwise,
-     * this method begins by firing
-     * an <code>INTERNAL_FRAME_CLOSING</code> event.
-     * Then this method sets the <code>closed</code> property to <code>true</code>
-     * unless a listener vetoes the property change.
-     * This method finishes by making the internal frame
-     * invisible and unselected,
-     * and then firing an <code>INTERNAL_FRAME_CLOSED</code> event.
+     * If tif intfrnbl frbmf is blrfbdy dlosfd,
+     * tiis mftiod dofs notiing bnd rfturns immfdibtfly.
+     * Otifrwisf,
+     * tiis mftiod bfgins by firing
+     * bn <dodf>INTERNAL_FRAME_CLOSING</dodf> fvfnt.
+     * Tifn tiis mftiod sfts tif <dodf>dlosfd</dodf> propfrty to <dodf>truf</dodf>
+     * unlfss b listfnfr vftofs tif propfrty dibngf.
+     * Tiis mftiod finisifs by mbking tif intfrnbl frbmf
+     * invisiblf bnd unsflfdtfd,
+     * bnd tifn firing bn <dodf>INTERNAL_FRAME_CLOSED</dodf> fvfnt.
      *
      * <p>
      *
-     * <b>Note:</b>
-     * To reuse an internal frame that has been closed,
-     * you must add it to a container
-     * (even if you never removed it from its previous container).
-     * Typically, this container will be the <code>JDesktopPane</code>
-     * that previously contained the internal frame.
+     * <b>Notf:</b>
+     * To rfusf bn intfrnbl frbmf tibt ibs bffn dlosfd,
+     * you must bdd it to b dontbinfr
+     * (fvfn if you nfvfr rfmovfd it from its prfvious dontbinfr).
+     * Typidblly, tiis dontbinfr will bf tif <dodf>JDfsktopPbnf</dodf>
+     * tibt prfviously dontbinfd tif intfrnbl frbmf.
      *
-     * @param b must be <code>true</code>
+     * @pbrbm b must bf <dodf>truf</dodf>
      *
-     * @exception PropertyVetoException when the attempt to set the
-     *            property is vetoed by the <code>JInternalFrame</code>
+     * @fxdfption PropfrtyVftoExdfption wifn tif bttfmpt to sft tif
+     *            propfrty is vftofd by tif <dodf>JIntfrnblFrbmf</dodf>
      *
-     * @see #isClosed()
-     * @see #setDefaultCloseOperation
-     * @see #dispose
-     * @see javax.swing.event.InternalFrameEvent#INTERNAL_FRAME_CLOSING
+     * @sff #isClosfd()
+     * @sff #sftDffbultClosfOpfrbtion
+     * @sff #disposf
+     * @sff jbvbx.swing.fvfnt.IntfrnblFrbmfEvfnt#INTERNAL_FRAME_CLOSING
      *
-     * @beaninfo
-     *           bound: true
-     *     constrained: true
-     *     description: Indicates whether this internal frame has been closed.
+     * @bfbninfo
+     *           bound: truf
+     *     donstrbinfd: truf
+     *     dfsdription: Indidbtfs wiftifr tiis intfrnbl frbmf ibs bffn dlosfd.
      */
-    public void setClosed(boolean b) throws PropertyVetoException {
-        if (isClosed == b) {
-            return;
+    publid void sftClosfd(boolfbn b) tirows PropfrtyVftoExdfption {
+        if (isClosfd == b) {
+            rfturn;
         }
 
-        Boolean oldValue = isClosed ? Boolean.TRUE : Boolean.FALSE;
-        Boolean newValue = b ? Boolean.TRUE : Boolean.FALSE;
+        Boolfbn oldVbluf = isClosfd ? Boolfbn.TRUE : Boolfbn.FALSE;
+        Boolfbn nfwVbluf = b ? Boolfbn.TRUE : Boolfbn.FALSE;
         if (b) {
-          fireInternalFrameEvent(InternalFrameEvent.INTERNAL_FRAME_CLOSING);
+          firfIntfrnblFrbmfEvfnt(IntfrnblFrbmfEvfnt.INTERNAL_FRAME_CLOSING);
         }
-        fireVetoableChange(IS_CLOSED_PROPERTY, oldValue, newValue);
-        isClosed = b;
-        if (isClosed) {
-          setVisible(false);
+        firfVftobblfCibngf(IS_CLOSED_PROPERTY, oldVbluf, nfwVbluf);
+        isClosfd = b;
+        if (isClosfd) {
+          sftVisiblf(fblsf);
         }
-        firePropertyChange(IS_CLOSED_PROPERTY, oldValue, newValue);
-        if (isClosed) {
-          dispose();
-        } else if (!opened) {
-          /* this bogus -- we haven't defined what
-             setClosed(false) means. */
-          //        fireInternalFrameEvent(InternalFrameEvent.INTERNAL_FRAME_OPENED);
-          //            opened = true;
+        firfPropfrtyCibngf(IS_CLOSED_PROPERTY, oldVbluf, nfwVbluf);
+        if (isClosfd) {
+          disposf();
+        } flsf if (!opfnfd) {
+          /* tiis bogus -- wf ibvfn't dffinfd wibt
+             sftClosfd(fblsf) mfbns. */
+          //        firfIntfrnblFrbmfEvfnt(IntfrnblFrbmfEvfnt.INTERNAL_FRAME_OPENED);
+          //            opfnfd = truf;
         }
     }
 
     /**
-     * Sets whether the <code>JInternalFrame</code> can be resized by some
-     * user action.
+     * Sfts wiftifr tif <dodf>JIntfrnblFrbmf</dodf> dbn bf rfsizfd by somf
+     * usfr bdtion.
      *
-     * @param b  a boolean, where <code>true</code> means this internal frame can be resized
-     * @beaninfo
-     *     preferred: true
-     *           bound: true
-     *     description: Determines whether this internal frame can be resized
-     *                  by the user.
+     * @pbrbm b  b boolfbn, wifrf <dodf>truf</dodf> mfbns tiis intfrnbl frbmf dbn bf rfsizfd
+     * @bfbninfo
+     *     prfffrrfd: truf
+     *           bound: truf
+     *     dfsdription: Dftfrminfs wiftifr tiis intfrnbl frbmf dbn bf rfsizfd
+     *                  by tif usfr.
      */
-    public void setResizable(boolean b) {
-        Boolean oldValue = resizable ? Boolean.TRUE : Boolean.FALSE;
-        Boolean newValue = b ? Boolean.TRUE : Boolean.FALSE;
-        resizable = b;
-        firePropertyChange("resizable", oldValue, newValue);
+    publid void sftRfsizbblf(boolfbn b) {
+        Boolfbn oldVbluf = rfsizbblf ? Boolfbn.TRUE : Boolfbn.FALSE;
+        Boolfbn nfwVbluf = b ? Boolfbn.TRUE : Boolfbn.FALSE;
+        rfsizbblf = b;
+        firfPropfrtyCibngf("rfsizbblf", oldVbluf, nfwVbluf);
     }
 
     /**
-     * Returns whether the <code>JInternalFrame</code> can be resized
-     * by some user action.
+     * Rfturns wiftifr tif <dodf>JIntfrnblFrbmf</dodf> dbn bf rfsizfd
+     * by somf usfr bdtion.
      *
-     * @return <code>true</code> if this internal frame can be resized, <code>false</code> otherwise
+     * @rfturn <dodf>truf</dodf> if tiis intfrnbl frbmf dbn bf rfsizfd, <dodf>fblsf</dodf> otifrwisf
      */
-    public boolean isResizable() {
-        // don't allow resizing when maximized.
-        return isMaximum ? false : resizable;
+    publid boolfbn isRfsizbblf() {
+        // don't bllow rfsizing wifn mbximizfd.
+        rfturn isMbximum ? fblsf : rfsizbblf;
     }
 
     /**
-     * Sets the <code>iconable</code> property,
-     * which must be <code>true</code>
-     * for the user to be able to
-     * make the <code>JInternalFrame</code> an icon.
-     * Some look and feels might not implement iconification;
-     * they will ignore this property.
+     * Sfts tif <dodf>idonbblf</dodf> propfrty,
+     * wiidi must bf <dodf>truf</dodf>
+     * for tif usfr to bf bblf to
+     * mbkf tif <dodf>JIntfrnblFrbmf</dodf> bn idon.
+     * Somf look bnd fffls migit not implfmfnt idonifidbtion;
+     * tify will ignorf tiis propfrty.
      *
-     * @param b  a boolean, where <code>true</code> means this internal frame can be iconified
-     * @beaninfo
-     *     preferred: true
-               bound: true
-     *     description: Determines whether this internal frame can be iconified.
+     * @pbrbm b  b boolfbn, wifrf <dodf>truf</dodf> mfbns tiis intfrnbl frbmf dbn bf idonififd
+     * @bfbninfo
+     *     prfffrrfd: truf
+               bound: truf
+     *     dfsdription: Dftfrminfs wiftifr tiis intfrnbl frbmf dbn bf idonififd.
      */
-    public void setIconifiable(boolean b) {
-        Boolean oldValue = iconable ? Boolean.TRUE : Boolean.FALSE;
-        Boolean newValue = b ? Boolean.TRUE : Boolean.FALSE;
-        iconable = b;
-        firePropertyChange("iconable", oldValue, newValue);
+    publid void sftIdonifibblf(boolfbn b) {
+        Boolfbn oldVbluf = idonbblf ? Boolfbn.TRUE : Boolfbn.FALSE;
+        Boolfbn nfwVbluf = b ? Boolfbn.TRUE : Boolfbn.FALSE;
+        idonbblf = b;
+        firfPropfrtyCibngf("idonbblf", oldVbluf, nfwVbluf);
     }
 
     /**
-     * Gets the <code>iconable</code> property,
-     * which by default is <code>false</code>.
+     * Gfts tif <dodf>idonbblf</dodf> propfrty,
+     * wiidi by dffbult is <dodf>fblsf</dodf>.
      *
-     * @return the value of the <code>iconable</code> property.
+     * @rfturn tif vbluf of tif <dodf>idonbblf</dodf> propfrty.
      *
-     * @see #setIconifiable
+     * @sff #sftIdonifibblf
      */
-    public boolean isIconifiable() {
-        return iconable;
+    publid boolfbn isIdonifibblf() {
+        rfturn idonbblf;
     }
 
     /**
-     * Returns whether the <code>JInternalFrame</code> is currently iconified.
+     * Rfturns wiftifr tif <dodf>JIntfrnblFrbmf</dodf> is durrfntly idonififd.
      *
-     * @return <code>true</code> if this internal frame is iconified
+     * @rfturn <dodf>truf</dodf> if tiis intfrnbl frbmf is idonififd
      */
-    public boolean isIcon() {
-        return isIcon;
+    publid boolfbn isIdon() {
+        rfturn isIdon;
     }
 
     /**
-     * Iconifies or de-iconifies this internal frame,
-     * if the look and feel supports iconification.
-     * If the internal frame's state changes to iconified,
-     * this method fires an <code>INTERNAL_FRAME_ICONIFIED</code> event.
-     * If the state changes to de-iconified,
-     * an <code>INTERNAL_FRAME_DEICONIFIED</code> event is fired.
+     * Idonififs or df-idonififs tiis intfrnbl frbmf,
+     * if tif look bnd fffl supports idonifidbtion.
+     * If tif intfrnbl frbmf's stbtf dibngfs to idonififd,
+     * tiis mftiod firfs bn <dodf>INTERNAL_FRAME_ICONIFIED</dodf> fvfnt.
+     * If tif stbtf dibngfs to df-idonififd,
+     * bn <dodf>INTERNAL_FRAME_DEICONIFIED</dodf> fvfnt is firfd.
      *
-     * @param b a boolean, where <code>true</code> means to iconify this internal frame and
-     *          <code>false</code> means to de-iconify it
-     * @exception PropertyVetoException when the attempt to set the
-     *            property is vetoed by the <code>JInternalFrame</code>
+     * @pbrbm b b boolfbn, wifrf <dodf>truf</dodf> mfbns to idonify tiis intfrnbl frbmf bnd
+     *          <dodf>fblsf</dodf> mfbns to df-idonify it
+     * @fxdfption PropfrtyVftoExdfption wifn tif bttfmpt to sft tif
+     *            propfrty is vftofd by tif <dodf>JIntfrnblFrbmf</dodf>
      *
-     * @see InternalFrameEvent#INTERNAL_FRAME_ICONIFIED
-     * @see InternalFrameEvent#INTERNAL_FRAME_DEICONIFIED
+     * @sff IntfrnblFrbmfEvfnt#INTERNAL_FRAME_ICONIFIED
+     * @sff IntfrnblFrbmfEvfnt#INTERNAL_FRAME_DEICONIFIED
      *
-     * @beaninfo
-     *           bound: true
-     *     constrained: true
-     *     description: The image displayed when this internal frame is minimized.
+     * @bfbninfo
+     *           bound: truf
+     *     donstrbinfd: truf
+     *     dfsdription: Tif imbgf displbyfd wifn tiis intfrnbl frbmf is minimizfd.
      */
-    public void setIcon(boolean b) throws PropertyVetoException {
-        if (isIcon == b) {
-            return;
+    publid void sftIdon(boolfbn b) tirows PropfrtyVftoExdfption {
+        if (isIdon == b) {
+            rfturn;
         }
 
-        /* If an internal frame is being iconified before it has a
-           parent, (e.g., client wants it to start iconic), create the
-           parent if possible so that we can place the icon in its
-           proper place on the desktop. I am not sure the call to
-           validate() is necessary, since we are not going to display
-           this frame yet */
-        firePropertyChange("ancestor", null, getParent());
+        /* If bn intfrnbl frbmf is bfing idonififd bfforf it ibs b
+           pbrfnt, (f.g., dlifnt wbnts it to stbrt idonid), drfbtf tif
+           pbrfnt if possiblf so tibt wf dbn plbdf tif idon in its
+           propfr plbdf on tif dfsktop. I bm not surf tif dbll to
+           vblidbtf() is nfdfssbry, sindf wf brf not going to displby
+           tiis frbmf yft */
+        firfPropfrtyCibngf("bndfstor", null, gftPbrfnt());
 
-        Boolean oldValue = isIcon ? Boolean.TRUE : Boolean.FALSE;
-        Boolean newValue = b ? Boolean.TRUE : Boolean.FALSE;
-        fireVetoableChange(IS_ICON_PROPERTY, oldValue, newValue);
-        isIcon = b;
-        firePropertyChange(IS_ICON_PROPERTY, oldValue, newValue);
+        Boolfbn oldVbluf = isIdon ? Boolfbn.TRUE : Boolfbn.FALSE;
+        Boolfbn nfwVbluf = b ? Boolfbn.TRUE : Boolfbn.FALSE;
+        firfVftobblfCibngf(IS_ICON_PROPERTY, oldVbluf, nfwVbluf);
+        isIdon = b;
+        firfPropfrtyCibngf(IS_ICON_PROPERTY, oldVbluf, nfwVbluf);
         if (b)
-          fireInternalFrameEvent(InternalFrameEvent.INTERNAL_FRAME_ICONIFIED);
-        else
-          fireInternalFrameEvent(InternalFrameEvent.INTERNAL_FRAME_DEICONIFIED);
+          firfIntfrnblFrbmfEvfnt(IntfrnblFrbmfEvfnt.INTERNAL_FRAME_ICONIFIED);
+        flsf
+          firfIntfrnblFrbmfEvfnt(IntfrnblFrbmfEvfnt.INTERNAL_FRAME_DEICONIFIED);
     }
 
     /**
-     * Sets the <code>maximizable</code> property,
-     * which determines whether the <code>JInternalFrame</code>
-     * can be maximized by
-     * some user action.
-     * Some look and feels might not support maximizing internal frames;
-     * they will ignore this property.
+     * Sfts tif <dodf>mbximizbblf</dodf> propfrty,
+     * wiidi dftfrminfs wiftifr tif <dodf>JIntfrnblFrbmf</dodf>
+     * dbn bf mbximizfd by
+     * somf usfr bdtion.
+     * Somf look bnd fffls migit not support mbximizing intfrnbl frbmfs;
+     * tify will ignorf tiis propfrty.
      *
-     * @param b <code>true</code> to specify that this internal frame should be maximizable; <code>false</code> to specify that it should not be
-     * @beaninfo
-     *         bound: true
-     *     preferred: true
-     *     description: Determines whether this internal frame can be maximized.
+     * @pbrbm b <dodf>truf</dodf> to spfdify tibt tiis intfrnbl frbmf siould bf mbximizbblf; <dodf>fblsf</dodf> to spfdify tibt it siould not bf
+     * @bfbninfo
+     *         bound: truf
+     *     prfffrrfd: truf
+     *     dfsdription: Dftfrminfs wiftifr tiis intfrnbl frbmf dbn bf mbximizfd.
      */
-    public void setMaximizable(boolean b) {
-        Boolean oldValue = maximizable ? Boolean.TRUE : Boolean.FALSE;
-        Boolean newValue = b ? Boolean.TRUE : Boolean.FALSE;
-        maximizable = b;
-        firePropertyChange("maximizable", oldValue, newValue);
+    publid void sftMbximizbblf(boolfbn b) {
+        Boolfbn oldVbluf = mbximizbblf ? Boolfbn.TRUE : Boolfbn.FALSE;
+        Boolfbn nfwVbluf = b ? Boolfbn.TRUE : Boolfbn.FALSE;
+        mbximizbblf = b;
+        firfPropfrtyCibngf("mbximizbblf", oldVbluf, nfwVbluf);
     }
 
     /**
-     * Gets the value of the <code>maximizable</code> property.
+     * Gfts tif vbluf of tif <dodf>mbximizbblf</dodf> propfrty.
      *
-     * @return the value of the <code>maximizable</code> property
-     * @see #setMaximizable
+     * @rfturn tif vbluf of tif <dodf>mbximizbblf</dodf> propfrty
+     * @sff #sftMbximizbblf
      */
-    public boolean isMaximizable() {
-        return maximizable;
+    publid boolfbn isMbximizbblf() {
+        rfturn mbximizbblf;
     }
 
     /**
-     * Returns whether the <code>JInternalFrame</code> is currently maximized.
+     * Rfturns wiftifr tif <dodf>JIntfrnblFrbmf</dodf> is durrfntly mbximizfd.
      *
-     * @return <code>true</code> if this internal frame is maximized, <code>false</code> otherwise
+     * @rfturn <dodf>truf</dodf> if tiis intfrnbl frbmf is mbximizfd, <dodf>fblsf</dodf> otifrwisf
      */
-    public boolean isMaximum() {
-        return isMaximum;
+    publid boolfbn isMbximum() {
+        rfturn isMbximum;
     }
 
     /**
-     * Maximizes and restores this internal frame.  A maximized frame is resized to
-     * fully fit the <code>JDesktopPane</code> area associated with the
-     * <code>JInternalFrame</code>.
-     * A restored frame's size is set to the <code>JInternalFrame</code>'s
-     * actual size.
+     * Mbximizfs bnd rfstorfs tiis intfrnbl frbmf.  A mbximizfd frbmf is rfsizfd to
+     * fully fit tif <dodf>JDfsktopPbnf</dodf> brfb bssodibtfd witi tif
+     * <dodf>JIntfrnblFrbmf</dodf>.
+     * A rfstorfd frbmf's sizf is sft to tif <dodf>JIntfrnblFrbmf</dodf>'s
+     * bdtubl sizf.
      *
-     * @param b  a boolean, where <code>true</code> maximizes this internal frame and <code>false</code>
-     *           restores it
-     * @exception PropertyVetoException when the attempt to set the
-     *            property is vetoed by the <code>JInternalFrame</code>
-     * @beaninfo
-     *     bound: true
-     *     constrained: true
-     *     description: Indicates whether this internal frame is maximized.
+     * @pbrbm b  b boolfbn, wifrf <dodf>truf</dodf> mbximizfs tiis intfrnbl frbmf bnd <dodf>fblsf</dodf>
+     *           rfstorfs it
+     * @fxdfption PropfrtyVftoExdfption wifn tif bttfmpt to sft tif
+     *            propfrty is vftofd by tif <dodf>JIntfrnblFrbmf</dodf>
+     * @bfbninfo
+     *     bound: truf
+     *     donstrbinfd: truf
+     *     dfsdription: Indidbtfs wiftifr tiis intfrnbl frbmf is mbximizfd.
      */
-    public void setMaximum(boolean b) throws PropertyVetoException {
-        if (isMaximum == b) {
-            return;
+    publid void sftMbximum(boolfbn b) tirows PropfrtyVftoExdfption {
+        if (isMbximum == b) {
+            rfturn;
         }
 
-        Boolean oldValue = isMaximum ? Boolean.TRUE : Boolean.FALSE;
-        Boolean newValue = b ? Boolean.TRUE : Boolean.FALSE;
-        fireVetoableChange(IS_MAXIMUM_PROPERTY, oldValue, newValue);
-        /* setting isMaximum above the event firing means that
-           property listeners that, for some reason, test it will
-           get it wrong... See, for example, getNormalBounds() */
-        isMaximum = b;
-        firePropertyChange(IS_MAXIMUM_PROPERTY, oldValue, newValue);
+        Boolfbn oldVbluf = isMbximum ? Boolfbn.TRUE : Boolfbn.FALSE;
+        Boolfbn nfwVbluf = b ? Boolfbn.TRUE : Boolfbn.FALSE;
+        firfVftobblfCibngf(IS_MAXIMUM_PROPERTY, oldVbluf, nfwVbluf);
+        /* sftting isMbximum bbovf tif fvfnt firing mfbns tibt
+           propfrty listfnfrs tibt, for somf rfbson, tfst it will
+           gft it wrong... Sff, for fxbmplf, gftNormblBounds() */
+        isMbximum = b;
+        firfPropfrtyCibngf(IS_MAXIMUM_PROPERTY, oldVbluf, nfwVbluf);
     }
 
     /**
-     * Returns the title of the <code>JInternalFrame</code>.
+     * Rfturns tif titlf of tif <dodf>JIntfrnblFrbmf</dodf>.
      *
-     * @return a <code>String</code> containing this internal frame's title
-     * @see #setTitle
+     * @rfturn b <dodf>String</dodf> dontbining tiis intfrnbl frbmf's titlf
+     * @sff #sftTitlf
      */
-    public String getTitle() {
-        return title;
+    publid String gftTitlf() {
+        rfturn titlf;
     }
 
     /**
-     * Sets the <code>JInternalFrame</code> title. <code>title</code>
-     * may have a <code>null</code> value.
-     * @see #getTitle
+     * Sfts tif <dodf>JIntfrnblFrbmf</dodf> titlf. <dodf>titlf</dodf>
+     * mby ibvf b <dodf>null</dodf> vbluf.
+     * @sff #gftTitlf
      *
-     * @param title  the <code>String</code> to display in the title bar
-     * @beaninfo
-     *     preferred: true
-     *     bound: true
-     *     description: The text displayed in the title bar.
+     * @pbrbm titlf  tif <dodf>String</dodf> to displby in tif titlf bbr
+     * @bfbninfo
+     *     prfffrrfd: truf
+     *     bound: truf
+     *     dfsdription: Tif tfxt displbyfd in tif titlf bbr.
      */
-    public void setTitle(String title) {
-        String oldValue = this.title;
-        this.title = title;
-        firePropertyChange(TITLE_PROPERTY, oldValue, title);
+    publid void sftTitlf(String titlf) {
+        String oldVbluf = tiis.titlf;
+        tiis.titlf = titlf;
+        firfPropfrtyCibngf(TITLE_PROPERTY, oldVbluf, titlf);
     }
 
     /**
-     * Selects or deselects the internal frame
-     * if it's showing.
-     * A <code>JInternalFrame</code> normally draws its title bar
-     * differently if it is
-     * the selected frame, which indicates to the user that this
-     * internal frame has the focus.
-     * When this method changes the state of the internal frame
-     * from deselected to selected, it fires an
-     * <code>InternalFrameEvent.INTERNAL_FRAME_ACTIVATED</code> event.
-     * If the change is from selected to deselected,
-     * an <code>InternalFrameEvent.INTERNAL_FRAME_DEACTIVATED</code> event
-     * is fired.
+     * Sflfdts or dfsflfdts tif intfrnbl frbmf
+     * if it's siowing.
+     * A <dodf>JIntfrnblFrbmf</dodf> normblly drbws its titlf bbr
+     * difffrfntly if it is
+     * tif sflfdtfd frbmf, wiidi indidbtfs to tif usfr tibt tiis
+     * intfrnbl frbmf ibs tif fodus.
+     * Wifn tiis mftiod dibngfs tif stbtf of tif intfrnbl frbmf
+     * from dfsflfdtfd to sflfdtfd, it firfs bn
+     * <dodf>IntfrnblFrbmfEvfnt.INTERNAL_FRAME_ACTIVATED</dodf> fvfnt.
+     * If tif dibngf is from sflfdtfd to dfsflfdtfd,
+     * bn <dodf>IntfrnblFrbmfEvfnt.INTERNAL_FRAME_DEACTIVATED</dodf> fvfnt
+     * is firfd.
      *
-     * @param selected  a boolean, where <code>true</code> means this internal frame
-     *                  should become selected (currently active)
-     *                  and <code>false</code> means it should become deselected
-     * @exception PropertyVetoException when the attempt to set the
-     *            property is vetoed by the <code>JInternalFrame</code>
+     * @pbrbm sflfdtfd  b boolfbn, wifrf <dodf>truf</dodf> mfbns tiis intfrnbl frbmf
+     *                  siould bfdomf sflfdtfd (durrfntly bdtivf)
+     *                  bnd <dodf>fblsf</dodf> mfbns it siould bfdomf dfsflfdtfd
+     * @fxdfption PropfrtyVftoExdfption wifn tif bttfmpt to sft tif
+     *            propfrty is vftofd by tif <dodf>JIntfrnblFrbmf</dodf>
      *
-     * @see #isShowing
-     * @see InternalFrameEvent#INTERNAL_FRAME_ACTIVATED
-     * @see InternalFrameEvent#INTERNAL_FRAME_DEACTIVATED
+     * @sff #isSiowing
+     * @sff IntfrnblFrbmfEvfnt#INTERNAL_FRAME_ACTIVATED
+     * @sff IntfrnblFrbmfEvfnt#INTERNAL_FRAME_DEACTIVATED
      *
-     * @beaninfo
-     *     constrained: true
-     *           bound: true
-     *     description: Indicates whether this internal frame is currently
-     *                  the active frame.
+     * @bfbninfo
+     *     donstrbinfd: truf
+     *           bound: truf
+     *     dfsdription: Indidbtfs wiftifr tiis intfrnbl frbmf is durrfntly
+     *                  tif bdtivf frbmf.
      */
-    public void setSelected(boolean selected) throws PropertyVetoException {
-       // The InternalFrame may already be selected, but the focus
-       // may be outside it, so restore the focus to the subcomponent
-       // which previously had it. See Bug 4302764.
-        if (selected && isSelected) {
-            restoreSubcomponentFocus();
-            return;
+    publid void sftSflfdtfd(boolfbn sflfdtfd) tirows PropfrtyVftoExdfption {
+       // Tif IntfrnblFrbmf mby blrfbdy bf sflfdtfd, but tif fodus
+       // mby bf outsidf it, so rfstorf tif fodus to tif subdomponfnt
+       // wiidi prfviously ibd it. Sff Bug 4302764.
+        if (sflfdtfd && isSflfdtfd) {
+            rfstorfSubdomponfntFodus();
+            rfturn;
         }
-        // The internal frame or the desktop icon must be showing to allow
-        // selection.  We may deselect even if neither is showing.
-        if ((isSelected == selected) || (selected &&
-            (isIcon ? !desktopIcon.isShowing() : !isShowing()))) {
-            return;
-        }
-
-        Boolean oldValue = isSelected ? Boolean.TRUE : Boolean.FALSE;
-        Boolean newValue = selected ? Boolean.TRUE : Boolean.FALSE;
-        fireVetoableChange(IS_SELECTED_PROPERTY, oldValue, newValue);
-
-        /* We don't want to leave focus in the previously selected
-           frame, so we have to set it to *something* in case it
-           doesn't get set in some other way (as if a user clicked on
-           a component that doesn't request focus).  If this call is
-           happening because the user clicked on a component that will
-           want focus, then it will get transfered there later.
-
-           We test for parent.isShowing() above, because AWT throws a
-           NPE if you try to request focus on a lightweight before its
-           parent has been made visible */
-
-        if (selected) {
-            restoreSubcomponentFocus();
+        // Tif intfrnbl frbmf or tif dfsktop idon must bf siowing to bllow
+        // sflfdtion.  Wf mby dfsflfdt fvfn if nfitifr is siowing.
+        if ((isSflfdtfd == sflfdtfd) || (sflfdtfd &&
+            (isIdon ? !dfsktopIdon.isSiowing() : !isSiowing()))) {
+            rfturn;
         }
 
-        isSelected = selected;
-        firePropertyChange(IS_SELECTED_PROPERTY, oldValue, newValue);
-        if (isSelected)
-          fireInternalFrameEvent(InternalFrameEvent.INTERNAL_FRAME_ACTIVATED);
-        else
-          fireInternalFrameEvent(InternalFrameEvent.INTERNAL_FRAME_DEACTIVATED);
-        repaint();
+        Boolfbn oldVbluf = isSflfdtfd ? Boolfbn.TRUE : Boolfbn.FALSE;
+        Boolfbn nfwVbluf = sflfdtfd ? Boolfbn.TRUE : Boolfbn.FALSE;
+        firfVftobblfCibngf(IS_SELECTED_PROPERTY, oldVbluf, nfwVbluf);
+
+        /* Wf don't wbnt to lfbvf fodus in tif prfviously sflfdtfd
+           frbmf, so wf ibvf to sft it to *somftiing* in dbsf it
+           dofsn't gft sft in somf otifr wby (bs if b usfr dlidkfd on
+           b domponfnt tibt dofsn't rfqufst fodus).  If tiis dbll is
+           ibppfning bfdbusf tif usfr dlidkfd on b domponfnt tibt will
+           wbnt fodus, tifn it will gft trbnsffrfd tifrf lbtfr.
+
+           Wf tfst for pbrfnt.isSiowing() bbovf, bfdbusf AWT tirows b
+           NPE if you try to rfqufst fodus on b ligitwfigit bfforf its
+           pbrfnt ibs bffn mbdf visiblf */
+
+        if (sflfdtfd) {
+            rfstorfSubdomponfntFodus();
+        }
+
+        isSflfdtfd = sflfdtfd;
+        firfPropfrtyCibngf(IS_SELECTED_PROPERTY, oldVbluf, nfwVbluf);
+        if (isSflfdtfd)
+          firfIntfrnblFrbmfEvfnt(IntfrnblFrbmfEvfnt.INTERNAL_FRAME_ACTIVATED);
+        flsf
+          firfIntfrnblFrbmfEvfnt(IntfrnblFrbmfEvfnt.INTERNAL_FRAME_DEACTIVATED);
+        rfpbint();
     }
 
     /**
-     * Returns whether the <code>JInternalFrame</code> is the
-     * currently "selected" or active frame.
+     * Rfturns wiftifr tif <dodf>JIntfrnblFrbmf</dodf> is tif
+     * durrfntly "sflfdtfd" or bdtivf frbmf.
      *
-     * @return <code>true</code> if this internal frame is currently selected (active)
-     * @see #setSelected
+     * @rfturn <dodf>truf</dodf> if tiis intfrnbl frbmf is durrfntly sflfdtfd (bdtivf)
+     * @sff #sftSflfdtfd
      */
-    public boolean isSelected() {
-        return isSelected;
+    publid boolfbn isSflfdtfd() {
+        rfturn isSflfdtfd;
     }
 
     /**
-     * Sets an image to be displayed in the titlebar of this internal frame (usually
-     * in the top-left corner).
-     * This image is not the <code>desktopIcon</code> object, which
-     * is the image displayed in the <code>JDesktop</code> when
-     * this internal frame is iconified.
+     * Sfts bn imbgf to bf displbyfd in tif titlfbbr of tiis intfrnbl frbmf (usublly
+     * in tif top-lfft dornfr).
+     * Tiis imbgf is not tif <dodf>dfsktopIdon</dodf> objfdt, wiidi
+     * is tif imbgf displbyfd in tif <dodf>JDfsktop</dodf> wifn
+     * tiis intfrnbl frbmf is idonififd.
      *
-     * Passing <code>null</code> to this function is valid,
-     * but the look and feel
-     * can choose the
-     * appropriate behavior for that situation, such as displaying no icon
-     * or a default icon for the look and feel.
+     * Pbssing <dodf>null</dodf> to tiis fundtion is vblid,
+     * but tif look bnd fffl
+     * dbn dioosf tif
+     * bppropribtf bfibvior for tibt situbtion, sudi bs displbying no idon
+     * or b dffbult idon for tif look bnd fffl.
      *
-     * @param icon the <code>Icon</code> to display in the title bar
-     * @see #getFrameIcon
-     * @beaninfo
-     *           bound: true
-     *     description: The icon shown in the top-left corner of this internal frame.
+     * @pbrbm idon tif <dodf>Idon</dodf> to displby in tif titlf bbr
+     * @sff #gftFrbmfIdon
+     * @bfbninfo
+     *           bound: truf
+     *     dfsdription: Tif idon siown in tif top-lfft dornfr of tiis intfrnbl frbmf.
      */
-  public void setFrameIcon(Icon icon) {
-        Icon oldIcon = frameIcon;
-        frameIcon = icon;
-        firePropertyChange(FRAME_ICON_PROPERTY, oldIcon, icon);
+  publid void sftFrbmfIdon(Idon idon) {
+        Idon oldIdon = frbmfIdon;
+        frbmfIdon = idon;
+        firfPropfrtyCibngf(FRAME_ICON_PROPERTY, oldIdon, idon);
     }
 
     /**
-     * Returns the image displayed in the title bar of this internal frame (usually
-     * in the top-left corner).
+     * Rfturns tif imbgf displbyfd in tif titlf bbr of tiis intfrnbl frbmf (usublly
+     * in tif top-lfft dornfr).
      *
-     * @return the <code>Icon</code> displayed in the title bar
-     * @see #setFrameIcon
+     * @rfturn tif <dodf>Idon</dodf> displbyfd in tif titlf bbr
+     * @sff #sftFrbmfIdon
      */
-    public Icon getFrameIcon()  {
-        return frameIcon;
+    publid Idon gftFrbmfIdon()  {
+        rfturn frbmfIdon;
     }
 
     /**
-      * Convenience method that moves this component to position 0 if its
-      * parent is a <code>JLayeredPane</code>.
+      * Convfnifndf mftiod tibt movfs tiis domponfnt to position 0 if its
+      * pbrfnt is b <dodf>JLbyfrfdPbnf</dodf>.
       */
-    public void moveToFront() {
-        if (isIcon()) {
-            if (getDesktopIcon().getParent() instanceof JLayeredPane) {
-                ((JLayeredPane)getDesktopIcon().getParent()).
-                    moveToFront(getDesktopIcon());
+    publid void movfToFront() {
+        if (isIdon()) {
+            if (gftDfsktopIdon().gftPbrfnt() instbndfof JLbyfrfdPbnf) {
+                ((JLbyfrfdPbnf)gftDfsktopIdon().gftPbrfnt()).
+                    movfToFront(gftDfsktopIdon());
             }
         }
-        else if (getParent() instanceof JLayeredPane) {
-            ((JLayeredPane)getParent()).moveToFront(this);
+        flsf if (gftPbrfnt() instbndfof JLbyfrfdPbnf) {
+            ((JLbyfrfdPbnf)gftPbrfnt()).movfToFront(tiis);
         }
     }
 
     /**
-      * Convenience method that moves this component to position -1 if its
-      * parent is a <code>JLayeredPane</code>.
+      * Convfnifndf mftiod tibt movfs tiis domponfnt to position -1 if its
+      * pbrfnt is b <dodf>JLbyfrfdPbnf</dodf>.
       */
-    public void moveToBack() {
-        if (isIcon()) {
-            if (getDesktopIcon().getParent() instanceof JLayeredPane) {
-                ((JLayeredPane)getDesktopIcon().getParent()).
-                    moveToBack(getDesktopIcon());
+    publid void movfToBbdk() {
+        if (isIdon()) {
+            if (gftDfsktopIdon().gftPbrfnt() instbndfof JLbyfrfdPbnf) {
+                ((JLbyfrfdPbnf)gftDfsktopIdon().gftPbrfnt()).
+                    movfToBbdk(gftDfsktopIdon());
             }
         }
-        else if (getParent() instanceof JLayeredPane) {
-            ((JLayeredPane)getParent()).moveToBack(this);
+        flsf if (gftPbrfnt() instbndfof JLbyfrfdPbnf) {
+            ((JLbyfrfdPbnf)gftPbrfnt()).movfToBbdk(tiis);
         }
     }
 
     /**
-     * Returns the last <code>Cursor</code> that was set by the
-     * <code>setCursor</code> method that is not a resizable
-     * <code>Cursor</code>.
+     * Rfturns tif lbst <dodf>Cursor</dodf> tibt wbs sft by tif
+     * <dodf>sftCursor</dodf> mftiod tibt is not b rfsizbblf
+     * <dodf>Cursor</dodf>.
      *
-     * @return the last non-resizable <code>Cursor</code>
-     * @since 1.6
+     * @rfturn tif lbst non-rfsizbblf <dodf>Cursor</dodf>
+     * @sindf 1.6
      */
-    public Cursor getLastCursor() {
-        return lastCursor;
+    publid Cursor gftLbstCursor() {
+        rfturn lbstCursor;
     }
 
     /**
-     * {@inheritDoc}
-     * @since 1.6
+     * {@inifritDod}
+     * @sindf 1.6
      */
-    public void setCursor(Cursor cursor) {
-        if (cursor == null) {
-            lastCursor = null;
-            super.setCursor(cursor);
-            return;
+    publid void sftCursor(Cursor dursor) {
+        if (dursor == null) {
+            lbstCursor = null;
+            supfr.sftCursor(dursor);
+            rfturn;
         }
-        int type = cursor.getType();
-        if (!(type == Cursor.SW_RESIZE_CURSOR  ||
-              type == Cursor.SE_RESIZE_CURSOR  ||
-              type == Cursor.NW_RESIZE_CURSOR  ||
-              type == Cursor.NE_RESIZE_CURSOR  ||
-              type == Cursor.N_RESIZE_CURSOR   ||
-              type == Cursor.S_RESIZE_CURSOR   ||
-              type == Cursor.W_RESIZE_CURSOR   ||
-              type == Cursor.E_RESIZE_CURSOR)) {
-            lastCursor = cursor;
+        int typf = dursor.gftTypf();
+        if (!(typf == Cursor.SW_RESIZE_CURSOR  ||
+              typf == Cursor.SE_RESIZE_CURSOR  ||
+              typf == Cursor.NW_RESIZE_CURSOR  ||
+              typf == Cursor.NE_RESIZE_CURSOR  ||
+              typf == Cursor.N_RESIZE_CURSOR   ||
+              typf == Cursor.S_RESIZE_CURSOR   ||
+              typf == Cursor.W_RESIZE_CURSOR   ||
+              typf == Cursor.E_RESIZE_CURSOR)) {
+            lbstCursor = dursor;
         }
-        super.setCursor(cursor);
+        supfr.sftCursor(dursor);
     }
 
     /**
-     * Convenience method for setting the layer attribute of this component.
+     * Convfnifndf mftiod for sftting tif lbyfr bttributf of tiis domponfnt.
      *
-     * @param layer  an <code>Integer</code> object specifying this
-     *          frame's desktop layer
-     * @see JLayeredPane
-     * @beaninfo
-     *     expert: true
-     *     description: Specifies what desktop layer is used.
+     * @pbrbm lbyfr  bn <dodf>Intfgfr</dodf> objfdt spfdifying tiis
+     *          frbmf's dfsktop lbyfr
+     * @sff JLbyfrfdPbnf
+     * @bfbninfo
+     *     fxpfrt: truf
+     *     dfsdription: Spfdififs wibt dfsktop lbyfr is usfd.
      */
-    public void setLayer(Integer layer) {
-        if(getParent() != null && getParent() instanceof JLayeredPane) {
-            // Normally we want to do this, as it causes the LayeredPane
-            // to draw properly.
-            JLayeredPane p = (JLayeredPane)getParent();
-            p.setLayer(this, layer.intValue(), p.getPosition(this));
-        } else {
-             // Try to do the right thing
-             JLayeredPane.putLayer(this, layer.intValue());
-             if(getParent() != null)
-                 getParent().repaint(getX(), getY(), getWidth(), getHeight());
+    publid void sftLbyfr(Intfgfr lbyfr) {
+        if(gftPbrfnt() != null && gftPbrfnt() instbndfof JLbyfrfdPbnf) {
+            // Normblly wf wbnt to do tiis, bs it dbusfs tif LbyfrfdPbnf
+            // to drbw propfrly.
+            JLbyfrfdPbnf p = (JLbyfrfdPbnf)gftPbrfnt();
+            p.sftLbyfr(tiis, lbyfr.intVbluf(), p.gftPosition(tiis));
+        } flsf {
+             // Try to do tif rigit tiing
+             JLbyfrfdPbnf.putLbyfr(tiis, lbyfr.intVbluf());
+             if(gftPbrfnt() != null)
+                 gftPbrfnt().rfpbint(gftX(), gftY(), gftWidti(), gftHfigit());
         }
     }
 
     /**
-     * Convenience method for setting the layer attribute of this component.
-     * The method <code>setLayer(Integer)</code> should be used for
-     * layer values predefined in <code>JLayeredPane</code>.
-     * When using <code>setLayer(int)</code>, care must be taken not to
-     * accidentally clash with those values.
+     * Convfnifndf mftiod for sftting tif lbyfr bttributf of tiis domponfnt.
+     * Tif mftiod <dodf>sftLbyfr(Intfgfr)</dodf> siould bf usfd for
+     * lbyfr vblufs prfdffinfd in <dodf>JLbyfrfdPbnf</dodf>.
+     * Wifn using <dodf>sftLbyfr(int)</dodf>, dbrf must bf tbkfn not to
+     * bddidfntblly dlbsi witi tiosf vblufs.
      *
-     * @param layer  an integer specifying this internal frame's desktop layer
+     * @pbrbm lbyfr  bn intfgfr spfdifying tiis intfrnbl frbmf's dfsktop lbyfr
      *
-     * @since 1.3
+     * @sindf 1.3
      *
-     * @see #setLayer(Integer)
-     * @see JLayeredPane
-     * @beaninfo
-     *     expert: true
-     *     description: Specifies what desktop layer is used.
+     * @sff #sftLbyfr(Intfgfr)
+     * @sff JLbyfrfdPbnf
+     * @bfbninfo
+     *     fxpfrt: truf
+     *     dfsdription: Spfdififs wibt dfsktop lbyfr is usfd.
      */
-    public void setLayer(int layer) {
-      this.setLayer(Integer.valueOf(layer));
+    publid void sftLbyfr(int lbyfr) {
+      tiis.sftLbyfr(Intfgfr.vblufOf(lbyfr));
     }
 
     /**
-     * Convenience method for getting the layer attribute of this component.
+     * Convfnifndf mftiod for gftting tif lbyfr bttributf of tiis domponfnt.
      *
-     * @return  an <code>Integer</code> object specifying this
-     *          frame's desktop layer
-     * @see JLayeredPane
+     * @rfturn  bn <dodf>Intfgfr</dodf> objfdt spfdifying tiis
+     *          frbmf's dfsktop lbyfr
+     * @sff JLbyfrfdPbnf
       */
-    public int getLayer() {
-        return JLayeredPane.getLayer(this);
+    publid int gftLbyfr() {
+        rfturn JLbyfrfdPbnf.gftLbyfr(tiis);
     }
 
     /**
-      * Convenience method that searches the ancestor hierarchy for a
-      * <code>JDesktop</code> instance. If <code>JInternalFrame</code>
-      * finds none, the <code>desktopIcon</code> tree is searched.
+      * Convfnifndf mftiod tibt sfbrdifs tif bndfstor iifrbrdiy for b
+      * <dodf>JDfsktop</dodf> instbndf. If <dodf>JIntfrnblFrbmf</dodf>
+      * finds nonf, tif <dodf>dfsktopIdon</dodf> trff is sfbrdifd.
       *
-      * @return the <code>JDesktopPane</code> this internal frame belongs to,
-      *         or <code>null</code> if none is found
+      * @rfturn tif <dodf>JDfsktopPbnf</dodf> tiis intfrnbl frbmf bflongs to,
+      *         or <dodf>null</dodf> if nonf is found
       */
-    public JDesktopPane getDesktopPane() {
-        Container p;
+    publid JDfsktopPbnf gftDfsktopPbnf() {
+        Contbinfr p;
 
-        // Search upward for desktop
-        p = getParent();
-        while(p != null && !(p instanceof JDesktopPane))
-            p = p.getParent();
+        // Sfbrdi upwbrd for dfsktop
+        p = gftPbrfnt();
+        wiilf(p != null && !(p instbndfof JDfsktopPbnf))
+            p = p.gftPbrfnt();
 
         if(p == null) {
-           // search its icon parent for desktop
-           p = getDesktopIcon().getParent();
-           while(p != null && !(p instanceof JDesktopPane))
-                p = p.getParent();
+           // sfbrdi its idon pbrfnt for dfsktop
+           p = gftDfsktopIdon().gftPbrfnt();
+           wiilf(p != null && !(p instbndfof JDfsktopPbnf))
+                p = p.gftPbrfnt();
         }
 
-        return (JDesktopPane)p;
+        rfturn (JDfsktopPbnf)p;
     }
 
     /**
-     * Sets the <code>JDesktopIcon</code> associated with this
-     * <code>JInternalFrame</code>.
+     * Sfts tif <dodf>JDfsktopIdon</dodf> bssodibtfd witi tiis
+     * <dodf>JIntfrnblFrbmf</dodf>.
      *
-     * @param d the <code>JDesktopIcon</code> to display on the desktop
-     * @see #getDesktopIcon
-     * @beaninfo
-     *           bound: true
-     *     description: The icon shown when this internal frame is minimized.
+     * @pbrbm d tif <dodf>JDfsktopIdon</dodf> to displby on tif dfsktop
+     * @sff #gftDfsktopIdon
+     * @bfbninfo
+     *           bound: truf
+     *     dfsdription: Tif idon siown wifn tiis intfrnbl frbmf is minimizfd.
      */
-    public void setDesktopIcon(JDesktopIcon d) {
-        JDesktopIcon oldValue = getDesktopIcon();
-        desktopIcon = d;
-        firePropertyChange("desktopIcon", oldValue, d);
+    publid void sftDfsktopIdon(JDfsktopIdon d) {
+        JDfsktopIdon oldVbluf = gftDfsktopIdon();
+        dfsktopIdon = d;
+        firfPropfrtyCibngf("dfsktopIdon", oldVbluf, d);
     }
 
     /**
-     * Returns the <code>JDesktopIcon</code> used when this
-     * <code>JInternalFrame</code> is iconified.
+     * Rfturns tif <dodf>JDfsktopIdon</dodf> usfd wifn tiis
+     * <dodf>JIntfrnblFrbmf</dodf> is idonififd.
      *
-     * @return the <code>JDesktopIcon</code> displayed on the desktop
-     * @see #setDesktopIcon
+     * @rfturn tif <dodf>JDfsktopIdon</dodf> displbyfd on tif dfsktop
+     * @sff #sftDfsktopIdon
      */
-    public JDesktopIcon getDesktopIcon() {
-        return desktopIcon;
+    publid JDfsktopIdon gftDfsktopIdon() {
+        rfturn dfsktopIdon;
     }
 
     /**
-     * If the <code>JInternalFrame</code> is not in maximized state, returns
-     * <code>getBounds()</code>; otherwise, returns the bounds that the
-     * <code>JInternalFrame</code> would be restored to.
+     * If tif <dodf>JIntfrnblFrbmf</dodf> is not in mbximizfd stbtf, rfturns
+     * <dodf>gftBounds()</dodf>; otifrwisf, rfturns tif bounds tibt tif
+     * <dodf>JIntfrnblFrbmf</dodf> would bf rfstorfd to.
      *
-     * @return a <code>Rectangle</code> containing the bounds of this
-     *          frame when in the normal state
-     * @since 1.3
+     * @rfturn b <dodf>Rfdtbnglf</dodf> dontbining tif bounds of tiis
+     *          frbmf wifn in tif normbl stbtf
+     * @sindf 1.3
      */
-    public Rectangle getNormalBounds() {
+    publid Rfdtbnglf gftNormblBounds() {
 
-      /* we used to test (!isMaximum) here, but since this
-         method is used by the property listener for the
-         IS_MAXIMUM_PROPERTY, it ended up getting the wrong
-         answer... Since normalBounds get set to null when the
-         frame is restored, this should work better */
+      /* wf usfd to tfst (!isMbximum) ifrf, but sindf tiis
+         mftiod is usfd by tif propfrty listfnfr for tif
+         IS_MAXIMUM_PROPERTY, it fndfd up gftting tif wrong
+         bnswfr... Sindf normblBounds gft sft to null wifn tif
+         frbmf is rfstorfd, tiis siould work bfttfr */
 
-      if (normalBounds != null) {
-        return normalBounds;
-      } else {
-        return getBounds();
+      if (normblBounds != null) {
+        rfturn normblBounds;
+      } flsf {
+        rfturn gftBounds();
       }
     }
 
     /**
-     * Sets the normal bounds for this internal frame, the bounds that
-     * this internal frame would be restored to from its maximized state.
-     * This method is intended for use only by desktop managers.
+     * Sfts tif normbl bounds for tiis intfrnbl frbmf, tif bounds tibt
+     * tiis intfrnbl frbmf would bf rfstorfd to from its mbximizfd stbtf.
+     * Tiis mftiod is intfndfd for usf only by dfsktop mbnbgfrs.
      *
-     * @param r the bounds that this internal frame should be restored to
-     * @since 1.3
+     * @pbrbm r tif bounds tibt tiis intfrnbl frbmf siould bf rfstorfd to
+     * @sindf 1.3
      */
-    public void setNormalBounds(Rectangle r) {
-        normalBounds = r;
+    publid void sftNormblBounds(Rfdtbnglf r) {
+        normblBounds = r;
     }
 
     /**
-     * If this <code>JInternalFrame</code> is active,
-     * returns the child that has focus.
-     * Otherwise, returns <code>null</code>.
+     * If tiis <dodf>JIntfrnblFrbmf</dodf> is bdtivf,
+     * rfturns tif diild tibt ibs fodus.
+     * Otifrwisf, rfturns <dodf>null</dodf>.
      *
-     * @return the component with focus, or <code>null</code> if no children have focus
-     * @since 1.3
+     * @rfturn tif domponfnt witi fodus, or <dodf>null</dodf> if no diildrfn ibvf fodus
+     * @sindf 1.3
      */
-    public Component getFocusOwner() {
-        if (isSelected()) {
-            return lastFocusOwner;
+    publid Componfnt gftFodusOwnfr() {
+        if (isSflfdtfd()) {
+            rfturn lbstFodusOwnfr;
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Returns the child component of this <code>JInternalFrame</code>
-     * that will receive the
-     * focus when this <code>JInternalFrame</code> is selected.
-     * If this <code>JInternalFrame</code> is
-     * currently selected, this method returns the same component as
-     * the <code>getFocusOwner</code> method.
-     * If this <code>JInternalFrame</code> is not selected,
-     * then the child component that most recently requested focus will be
-     * returned. If no child component has ever requested focus, then this
-     * <code>JInternalFrame</code>'s initial focusable component is returned.
-     * If no such
-     * child exists, then this <code>JInternalFrame</code>'s default component
-     * to focus is returned.
+     * Rfturns tif diild domponfnt of tiis <dodf>JIntfrnblFrbmf</dodf>
+     * tibt will rfdfivf tif
+     * fodus wifn tiis <dodf>JIntfrnblFrbmf</dodf> is sflfdtfd.
+     * If tiis <dodf>JIntfrnblFrbmf</dodf> is
+     * durrfntly sflfdtfd, tiis mftiod rfturns tif sbmf domponfnt bs
+     * tif <dodf>gftFodusOwnfr</dodf> mftiod.
+     * If tiis <dodf>JIntfrnblFrbmf</dodf> is not sflfdtfd,
+     * tifn tif diild domponfnt tibt most rfdfntly rfqufstfd fodus will bf
+     * rfturnfd. If no diild domponfnt ibs fvfr rfqufstfd fodus, tifn tiis
+     * <dodf>JIntfrnblFrbmf</dodf>'s initibl fodusbblf domponfnt is rfturnfd.
+     * If no sudi
+     * diild fxists, tifn tiis <dodf>JIntfrnblFrbmf</dodf>'s dffbult domponfnt
+     * to fodus is rfturnfd.
      *
-     * @return the child component that will receive focus when this
-     *         <code>JInternalFrame</code> is selected
-     * @see #getFocusOwner
-     * @see #isSelected
-     * @since 1.4
+     * @rfturn tif diild domponfnt tibt will rfdfivf fodus wifn tiis
+     *         <dodf>JIntfrnblFrbmf</dodf> is sflfdtfd
+     * @sff #gftFodusOwnfr
+     * @sff #isSflfdtfd
+     * @sindf 1.4
      */
-    public Component getMostRecentFocusOwner() {
-        if (isSelected()) {
-            return getFocusOwner();
+    publid Componfnt gftMostRfdfntFodusOwnfr() {
+        if (isSflfdtfd()) {
+            rfturn gftFodusOwnfr();
         }
 
-        if (lastFocusOwner != null) {
-            return lastFocusOwner;
+        if (lbstFodusOwnfr != null) {
+            rfturn lbstFodusOwnfr;
         }
 
-        FocusTraversalPolicy policy = getFocusTraversalPolicy();
-        if (policy instanceof InternalFrameFocusTraversalPolicy) {
-            return ((InternalFrameFocusTraversalPolicy)policy).
-                getInitialComponent(this);
+        FodusTrbvfrsblPolidy polidy = gftFodusTrbvfrsblPolidy();
+        if (polidy instbndfof IntfrnblFrbmfFodusTrbvfrsblPolidy) {
+            rfturn ((IntfrnblFrbmfFodusTrbvfrsblPolidy)polidy).
+                gftInitiblComponfnt(tiis);
         }
 
-        Component toFocus = policy.getDefaultComponent(this);
-        if (toFocus != null) {
-            return toFocus;
+        Componfnt toFodus = polidy.gftDffbultComponfnt(tiis);
+        if (toFodus != null) {
+            rfturn toFodus;
         }
-        return getContentPane();
+        rfturn gftContfntPbnf();
     }
 
     /**
-     * Requests the internal frame to restore focus to the
-     * last subcomponent that had focus. This is used by the UI when
-     * the user selected this internal frame --
-     * for example, by clicking on the title bar.
+     * Rfqufsts tif intfrnbl frbmf to rfstorf fodus to tif
+     * lbst subdomponfnt tibt ibd fodus. Tiis is usfd by tif UI wifn
+     * tif usfr sflfdtfd tiis intfrnbl frbmf --
+     * for fxbmplf, by dlidking on tif titlf bbr.
      *
-     * @since 1.3
+     * @sindf 1.3
      */
-    public void restoreSubcomponentFocus() {
-        if (isIcon()) {
-            SwingUtilities2.compositeRequestFocus(getDesktopIcon());
+    publid void rfstorfSubdomponfntFodus() {
+        if (isIdon()) {
+            SwingUtilitifs2.dompositfRfqufstFodus(gftDfsktopIdon());
         }
-        else {
-            Component component = KeyboardFocusManager.getCurrentKeyboardFocusManager().getPermanentFocusOwner();
-            if ((component == null) || !SwingUtilities.isDescendingFrom(component, this)) {
-                // FocusPropertyChangeListener will eventually update
-                // lastFocusOwner. As focus requests are asynchronous
-                // lastFocusOwner may be accessed before it has been correctly
-                // updated. To avoid any problems, lastFocusOwner is immediately
-                // set, assuming the request will succeed.
-                setLastFocusOwner(getMostRecentFocusOwner());
-                if (lastFocusOwner == null) {
-                    // Make sure focus is restored somewhere, so that
-                    // we don't leave a focused component in another frame while
-                    // this frame is selected.
-                    setLastFocusOwner(getContentPane());
+        flsf {
+            Componfnt domponfnt = KfybobrdFodusMbnbgfr.gftCurrfntKfybobrdFodusMbnbgfr().gftPfrmbnfntFodusOwnfr();
+            if ((domponfnt == null) || !SwingUtilitifs.isDfsdfndingFrom(domponfnt, tiis)) {
+                // FodusPropfrtyCibngfListfnfr will fvfntublly updbtf
+                // lbstFodusOwnfr. As fodus rfqufsts brf bsyndironous
+                // lbstFodusOwnfr mby bf bddfssfd bfforf it ibs bffn dorrfdtly
+                // updbtfd. To bvoid bny problfms, lbstFodusOwnfr is immfdibtfly
+                // sft, bssuming tif rfqufst will suddffd.
+                sftLbstFodusOwnfr(gftMostRfdfntFodusOwnfr());
+                if (lbstFodusOwnfr == null) {
+                    // Mbkf surf fodus is rfstorfd somfwifrf, so tibt
+                    // wf don't lfbvf b fodusfd domponfnt in bnotifr frbmf wiilf
+                    // tiis frbmf is sflfdtfd.
+                    sftLbstFodusOwnfr(gftContfntPbnf());
                 }
-                lastFocusOwner.requestFocus();
+                lbstFodusOwnfr.rfqufstFodus();
             }
         }
     }
 
-    private void setLastFocusOwner(Component component) {
-        lastFocusOwner = component;
+    privbtf void sftLbstFodusOwnfr(Componfnt domponfnt) {
+        lbstFodusOwnfr = domponfnt;
     }
 
     /**
-     * Moves and resizes this component.  Unlike other components,
-     * this implementation also forces re-layout, so that frame
-     * decorations such as the title bar are always redisplayed.
+     * Movfs bnd rfsizfs tiis domponfnt.  Unlikf otifr domponfnts,
+     * tiis implfmfntbtion blso fordfs rf-lbyout, so tibt frbmf
+     * dfdorbtions sudi bs tif titlf bbr brf blwbys rfdisplbyfd.
      *
-     * @param x  an integer giving the component's new horizontal position
-     *           measured in pixels from the left of its container
-     * @param y  an integer giving the component's new vertical position,
-     *           measured in pixels from the bottom of its container
-     * @param width  an integer giving the component's new width in pixels
-     * @param height an integer giving the component's new height in pixels
+     * @pbrbm x  bn intfgfr giving tif domponfnt's nfw iorizontbl position
+     *           mfbsurfd in pixfls from tif lfft of its dontbinfr
+     * @pbrbm y  bn intfgfr giving tif domponfnt's nfw vfrtidbl position,
+     *           mfbsurfd in pixfls from tif bottom of its dontbinfr
+     * @pbrbm widti  bn intfgfr giving tif domponfnt's nfw widti in pixfls
+     * @pbrbm ifigit bn intfgfr giving tif domponfnt's nfw ifigit in pixfls
      */
-    public void reshape(int x, int y, int width, int height) {
-        super.reshape(x, y, width, height);
-        validate();
-        repaint();
+    publid void rfsibpf(int x, int y, int widti, int ifigit) {
+        supfr.rfsibpf(x, y, widti, ifigit);
+        vblidbtf();
+        rfpbint();
     }
 
 ///////////////////////////
-// Frame/Window equivalents
+// Frbmf/Window fquivblfnts
 ///////////////////////////
 
     /**
-     * Adds the specified listener to receive internal
-     * frame events from this internal frame.
+     * Adds tif spfdififd listfnfr to rfdfivf intfrnbl
+     * frbmf fvfnts from tiis intfrnbl frbmf.
      *
-     * @param l the internal frame listener
+     * @pbrbm l tif intfrnbl frbmf listfnfr
      */
-    public void addInternalFrameListener(InternalFrameListener l) {  // remind: sync ??
-      listenerList.add(InternalFrameListener.class, l);
-      // remind: needed?
-      enableEvents(0);   // turn on the newEventsOnly flag in Component.
+    publid void bddIntfrnblFrbmfListfnfr(IntfrnblFrbmfListfnfr l) {  // rfmind: synd ??
+      listfnfrList.bdd(IntfrnblFrbmfListfnfr.dlbss, l);
+      // rfmind: nffdfd?
+      fnbblfEvfnts(0);   // turn on tif nfwEvfntsOnly flbg in Componfnt.
     }
 
     /**
-     * Removes the specified internal frame listener so that it no longer
-     * receives internal frame events from this internal frame.
+     * Rfmovfs tif spfdififd intfrnbl frbmf listfnfr so tibt it no longfr
+     * rfdfivfs intfrnbl frbmf fvfnts from tiis intfrnbl frbmf.
      *
-     * @param l the internal frame listener
+     * @pbrbm l tif intfrnbl frbmf listfnfr
      */
-    public void removeInternalFrameListener(InternalFrameListener l) {  // remind: sync??
-      listenerList.remove(InternalFrameListener.class, l);
+    publid void rfmovfIntfrnblFrbmfListfnfr(IntfrnblFrbmfListfnfr l) {  // rfmind: synd??
+      listfnfrList.rfmovf(IntfrnblFrbmfListfnfr.dlbss, l);
     }
 
     /**
-     * Returns an array of all the <code>InternalFrameListener</code>s added
-     * to this <code>JInternalFrame</code> with
-     * <code>addInternalFrameListener</code>.
+     * Rfturns bn brrby of bll tif <dodf>IntfrnblFrbmfListfnfr</dodf>s bddfd
+     * to tiis <dodf>JIntfrnblFrbmf</dodf> witi
+     * <dodf>bddIntfrnblFrbmfListfnfr</dodf>.
      *
-     * @return all of the <code>InternalFrameListener</code>s added or an empty
-     *         array if no listeners have been added
-     * @since 1.4
+     * @rfturn bll of tif <dodf>IntfrnblFrbmfListfnfr</dodf>s bddfd or bn fmpty
+     *         brrby if no listfnfrs ibvf bffn bddfd
+     * @sindf 1.4
      *
-     * @see #addInternalFrameListener
+     * @sff #bddIntfrnblFrbmfListfnfr
      */
-    public InternalFrameListener[] getInternalFrameListeners() {
-        return listenerList.getListeners(InternalFrameListener.class);
+    publid IntfrnblFrbmfListfnfr[] gftIntfrnblFrbmfListfnfrs() {
+        rfturn listfnfrList.gftListfnfrs(IntfrnblFrbmfListfnfr.dlbss);
     }
 
-    // remind: name ok? all one method ok? need to be synchronized?
+    // rfmind: nbmf ok? bll onf mftiod ok? nffd to bf syndironizfd?
     /**
-     * Fires an internal frame event.
+     * Firfs bn intfrnbl frbmf fvfnt.
      *
-     * @param id  the type of the event being fired; one of the following:
+     * @pbrbm id  tif typf of tif fvfnt bfing firfd; onf of tif following:
      * <ul>
-     * <li><code>InternalFrameEvent.INTERNAL_FRAME_OPENED</code>
-     * <li><code>InternalFrameEvent.INTERNAL_FRAME_CLOSING</code>
-     * <li><code>InternalFrameEvent.INTERNAL_FRAME_CLOSED</code>
-     * <li><code>InternalFrameEvent.INTERNAL_FRAME_ICONIFIED</code>
-     * <li><code>InternalFrameEvent.INTERNAL_FRAME_DEICONIFIED</code>
-     * <li><code>InternalFrameEvent.INTERNAL_FRAME_ACTIVATED</code>
-     * <li><code>InternalFrameEvent.INTERNAL_FRAME_DEACTIVATED</code>
+     * <li><dodf>IntfrnblFrbmfEvfnt.INTERNAL_FRAME_OPENED</dodf>
+     * <li><dodf>IntfrnblFrbmfEvfnt.INTERNAL_FRAME_CLOSING</dodf>
+     * <li><dodf>IntfrnblFrbmfEvfnt.INTERNAL_FRAME_CLOSED</dodf>
+     * <li><dodf>IntfrnblFrbmfEvfnt.INTERNAL_FRAME_ICONIFIED</dodf>
+     * <li><dodf>IntfrnblFrbmfEvfnt.INTERNAL_FRAME_DEICONIFIED</dodf>
+     * <li><dodf>IntfrnblFrbmfEvfnt.INTERNAL_FRAME_ACTIVATED</dodf>
+     * <li><dodf>IntfrnblFrbmfEvfnt.INTERNAL_FRAME_DEACTIVATED</dodf>
      * </ul>
-     * If the event type is not one of the above, nothing happens.
+     * If tif fvfnt typf is not onf of tif bbovf, notiing ibppfns.
      */
-    protected void fireInternalFrameEvent(int id){
-      Object[] listeners = listenerList.getListenerList();
-      InternalFrameEvent e = null;
-      for (int i = listeners.length -2; i >=0; i -= 2){
-        if (listeners[i] == InternalFrameListener.class){
-          if (e == null){
-            e = new InternalFrameEvent(this, id);
-            //      System.out.println("InternalFrameEvent: " + e.paramString());
+    protfdtfd void firfIntfrnblFrbmfEvfnt(int id){
+      Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+      IntfrnblFrbmfEvfnt f = null;
+      for (int i = listfnfrs.lfngti -2; i >=0; i -= 2){
+        if (listfnfrs[i] == IntfrnblFrbmfListfnfr.dlbss){
+          if (f == null){
+            f = nfw IntfrnblFrbmfEvfnt(tiis, id);
+            //      Systfm.out.println("IntfrnblFrbmfEvfnt: " + f.pbrbmString());
           }
-          switch(e.getID()) {
-          case InternalFrameEvent.INTERNAL_FRAME_OPENED:
-            ((InternalFrameListener)listeners[i+1]).internalFrameOpened(e);
-            break;
-          case InternalFrameEvent.INTERNAL_FRAME_CLOSING:
-            ((InternalFrameListener)listeners[i+1]).internalFrameClosing(e);
-            break;
-          case InternalFrameEvent.INTERNAL_FRAME_CLOSED:
-            ((InternalFrameListener)listeners[i+1]).internalFrameClosed(e);
-            break;
-          case InternalFrameEvent.INTERNAL_FRAME_ICONIFIED:
-            ((InternalFrameListener)listeners[i+1]).internalFrameIconified(e);
-            break;
-          case InternalFrameEvent.INTERNAL_FRAME_DEICONIFIED:
-            ((InternalFrameListener)listeners[i+1]).internalFrameDeiconified(e);
-            break;
-          case InternalFrameEvent.INTERNAL_FRAME_ACTIVATED:
-            ((InternalFrameListener)listeners[i+1]).internalFrameActivated(e);
-            break;
-          case InternalFrameEvent.INTERNAL_FRAME_DEACTIVATED:
-            ((InternalFrameListener)listeners[i+1]).internalFrameDeactivated(e);
-            break;
-          default:
-            break;
+          switdi(f.gftID()) {
+          dbsf IntfrnblFrbmfEvfnt.INTERNAL_FRAME_OPENED:
+            ((IntfrnblFrbmfListfnfr)listfnfrs[i+1]).intfrnblFrbmfOpfnfd(f);
+            brfbk;
+          dbsf IntfrnblFrbmfEvfnt.INTERNAL_FRAME_CLOSING:
+            ((IntfrnblFrbmfListfnfr)listfnfrs[i+1]).intfrnblFrbmfClosing(f);
+            brfbk;
+          dbsf IntfrnblFrbmfEvfnt.INTERNAL_FRAME_CLOSED:
+            ((IntfrnblFrbmfListfnfr)listfnfrs[i+1]).intfrnblFrbmfClosfd(f);
+            brfbk;
+          dbsf IntfrnblFrbmfEvfnt.INTERNAL_FRAME_ICONIFIED:
+            ((IntfrnblFrbmfListfnfr)listfnfrs[i+1]).intfrnblFrbmfIdonififd(f);
+            brfbk;
+          dbsf IntfrnblFrbmfEvfnt.INTERNAL_FRAME_DEICONIFIED:
+            ((IntfrnblFrbmfListfnfr)listfnfrs[i+1]).intfrnblFrbmfDfidonififd(f);
+            brfbk;
+          dbsf IntfrnblFrbmfEvfnt.INTERNAL_FRAME_ACTIVATED:
+            ((IntfrnblFrbmfListfnfr)listfnfrs[i+1]).intfrnblFrbmfAdtivbtfd(f);
+            brfbk;
+          dbsf IntfrnblFrbmfEvfnt.INTERNAL_FRAME_DEACTIVATED:
+            ((IntfrnblFrbmfListfnfr)listfnfrs[i+1]).intfrnblFrbmfDfbdtivbtfd(f);
+            brfbk;
+          dffbult:
+            brfbk;
           }
         }
       }
-      /* we could do it off the event, but at the moment, that's not how
-         I'm implementing it */
-      //      if (id == InternalFrameEvent.INTERNAL_FRAME_CLOSING) {
-      //          doDefaultCloseAction();
+      /* wf dould do it off tif fvfnt, but bt tif momfnt, tibt's not iow
+         I'm implfmfnting it */
+      //      if (id == IntfrnblFrbmfEvfnt.INTERNAL_FRAME_CLOSING) {
+      //          doDffbultClosfAdtion();
       //      }
     }
 
     /**
-     * Fires an
-     * <code>INTERNAL_FRAME_CLOSING</code> event
-     * and then performs the action specified by
-     * the internal frame's default close operation.
-     * This method is typically invoked by the
-     * look-and-feel-implemented action handler
-     * for the internal frame's close button.
+     * Firfs bn
+     * <dodf>INTERNAL_FRAME_CLOSING</dodf> fvfnt
+     * bnd tifn pfrforms tif bdtion spfdififd by
+     * tif intfrnbl frbmf's dffbult dlosf opfrbtion.
+     * Tiis mftiod is typidblly invokfd by tif
+     * look-bnd-fffl-implfmfntfd bdtion ibndlfr
+     * for tif intfrnbl frbmf's dlosf button.
      *
-     * @since 1.3
-     * @see #setDefaultCloseOperation
-     * @see javax.swing.event.InternalFrameEvent#INTERNAL_FRAME_CLOSING
+     * @sindf 1.3
+     * @sff #sftDffbultClosfOpfrbtion
+     * @sff jbvbx.swing.fvfnt.IntfrnblFrbmfEvfnt#INTERNAL_FRAME_CLOSING
      */
-    public void doDefaultCloseAction() {
-        fireInternalFrameEvent(InternalFrameEvent.INTERNAL_FRAME_CLOSING);
-        switch(defaultCloseOperation) {
-          case DO_NOTHING_ON_CLOSE:
-            break;
-          case HIDE_ON_CLOSE:
-            setVisible(false);
-            if (isSelected())
+    publid void doDffbultClosfAdtion() {
+        firfIntfrnblFrbmfEvfnt(IntfrnblFrbmfEvfnt.INTERNAL_FRAME_CLOSING);
+        switdi(dffbultClosfOpfrbtion) {
+          dbsf DO_NOTHING_ON_CLOSE:
+            brfbk;
+          dbsf HIDE_ON_CLOSE:
+            sftVisiblf(fblsf);
+            if (isSflfdtfd())
                 try {
-                    setSelected(false);
-                } catch (PropertyVetoException pve) {}
+                    sftSflfdtfd(fblsf);
+                } dbtdi (PropfrtyVftoExdfption pvf) {}
 
-            /* should this activate the next frame? that's really
-               desktopmanager's policy... */
-            break;
-          case DISPOSE_ON_CLOSE:
+            /* siould tiis bdtivbtf tif nfxt frbmf? tibt's rfblly
+               dfsktopmbnbgfr's polidy... */
+            brfbk;
+          dbsf DISPOSE_ON_CLOSE:
               try {
-                fireVetoableChange(IS_CLOSED_PROPERTY, Boolean.FALSE,
-                                   Boolean.TRUE);
-                isClosed = true;
-                setVisible(false);
-                firePropertyChange(IS_CLOSED_PROPERTY, Boolean.FALSE,
-                                   Boolean.TRUE);
-                dispose();
-              } catch (PropertyVetoException pve) {}
-              break;
-          default:
-              break;
+                firfVftobblfCibngf(IS_CLOSED_PROPERTY, Boolfbn.FALSE,
+                                   Boolfbn.TRUE);
+                isClosfd = truf;
+                sftVisiblf(fblsf);
+                firfPropfrtyCibngf(IS_CLOSED_PROPERTY, Boolfbn.FALSE,
+                                   Boolfbn.TRUE);
+                disposf();
+              } dbtdi (PropfrtyVftoExdfption pvf) {}
+              brfbk;
+          dffbult:
+              brfbk;
         }
     }
 
     /**
-     * Sets the operation that will happen by default when
-     * the user initiates a "close" on this internal frame.
-     * The possible choices are:
+     * Sfts tif opfrbtion tibt will ibppfn by dffbult wifn
+     * tif usfr initibtfs b "dlosf" on tiis intfrnbl frbmf.
+     * Tif possiblf dioidfs brf:
      * <br><br>
      * <dl>
-     * <dt><code>DO_NOTHING_ON_CLOSE</code>
-     * <dd> Do nothing.
-     *      This requires the program to handle the operation
-     *      in the <code>windowClosing</code> method
-     *      of a registered <code>InternalFrameListener</code> object.
-     * <dt><code>HIDE_ON_CLOSE</code>
-     * <dd> Automatically make the internal frame invisible.
-     * <dt><code>DISPOSE_ON_CLOSE</code>
-     * <dd> Automatically dispose of the internal frame.
+     * <dt><dodf>DO_NOTHING_ON_CLOSE</dodf>
+     * <dd> Do notiing.
+     *      Tiis rfquirfs tif progrbm to ibndlf tif opfrbtion
+     *      in tif <dodf>windowClosing</dodf> mftiod
+     *      of b rfgistfrfd <dodf>IntfrnblFrbmfListfnfr</dodf> objfdt.
+     * <dt><dodf>HIDE_ON_CLOSE</dodf>
+     * <dd> Autombtidblly mbkf tif intfrnbl frbmf invisiblf.
+     * <dt><dodf>DISPOSE_ON_CLOSE</dodf>
+     * <dd> Autombtidblly disposf of tif intfrnbl frbmf.
      * </dl>
      * <p>
-     * The default value is <code>DISPOSE_ON_CLOSE</code>.
-     * Before performing the specified close operation,
-     * the internal frame fires
-     * an <code>INTERNAL_FRAME_CLOSING</code> event.
+     * Tif dffbult vbluf is <dodf>DISPOSE_ON_CLOSE</dodf>.
+     * Bfforf pfrforming tif spfdififd dlosf opfrbtion,
+     * tif intfrnbl frbmf firfs
+     * bn <dodf>INTERNAL_FRAME_CLOSING</dodf> fvfnt.
      *
-     * @param operation one of the following constants defined in
-     *                  <code>javax.swing.WindowConstants</code>
-     *                  (an interface implemented by
-     *                  <code>JInternalFrame</code>):
-     *                  <code>DO_NOTHING_ON_CLOSE</code>,
-     *                  <code>HIDE_ON_CLOSE</code>, or
-     *                  <code>DISPOSE_ON_CLOSE</code>
+     * @pbrbm opfrbtion onf of tif following donstbnts dffinfd in
+     *                  <dodf>jbvbx.swing.WindowConstbnts</dodf>
+     *                  (bn intfrfbdf implfmfntfd by
+     *                  <dodf>JIntfrnblFrbmf</dodf>):
+     *                  <dodf>DO_NOTHING_ON_CLOSE</dodf>,
+     *                  <dodf>HIDE_ON_CLOSE</dodf>, or
+     *                  <dodf>DISPOSE_ON_CLOSE</dodf>
      *
-     * @see #addInternalFrameListener
-     * @see #getDefaultCloseOperation
-     * @see #setVisible
-     * @see #dispose
-     * @see InternalFrameEvent#INTERNAL_FRAME_CLOSING
+     * @sff #bddIntfrnblFrbmfListfnfr
+     * @sff #gftDffbultClosfOpfrbtion
+     * @sff #sftVisiblf
+     * @sff #disposf
+     * @sff IntfrnblFrbmfEvfnt#INTERNAL_FRAME_CLOSING
      */
-    public void setDefaultCloseOperation(int operation) {
-        this.defaultCloseOperation = operation;
+    publid void sftDffbultClosfOpfrbtion(int opfrbtion) {
+        tiis.dffbultClosfOpfrbtion = opfrbtion;
     }
 
    /**
-    * Returns the default operation that occurs when the user
-    * initiates a "close" on this internal frame.
-    * @return the operation that will occur when the user closes the internal
-    *         frame
-    * @see #setDefaultCloseOperation
+    * Rfturns tif dffbult opfrbtion tibt oddurs wifn tif usfr
+    * initibtfs b "dlosf" on tiis intfrnbl frbmf.
+    * @rfturn tif opfrbtion tibt will oddur wifn tif usfr dlosfs tif intfrnbl
+    *         frbmf
+    * @sff #sftDffbultClosfOpfrbtion
     */
-    public int getDefaultCloseOperation() {
-        return defaultCloseOperation;
+    publid int gftDffbultClosfOpfrbtion() {
+        rfturn dffbultClosfOpfrbtion;
     }
 
     /**
-     * Causes subcomponents of this <code>JInternalFrame</code>
-     * to be laid out at their preferred size.  Internal frames that are
-     * iconized or maximized are first restored and then packed.  If the
-     * internal frame is unable to be restored its state is not changed
-     * and will not be packed.
+     * Cbusfs subdomponfnts of tiis <dodf>JIntfrnblFrbmf</dodf>
+     * to bf lbid out bt tifir prfffrrfd sizf.  Intfrnbl frbmfs tibt brf
+     * idonizfd or mbximizfd brf first rfstorfd bnd tifn pbdkfd.  If tif
+     * intfrnbl frbmf is unbblf to bf rfstorfd its stbtf is not dibngfd
+     * bnd will not bf pbdkfd.
      *
-     * @see       java.awt.Window#pack
+     * @sff       jbvb.bwt.Window#pbdk
      */
-    public void pack() {
+    publid void pbdk() {
         try {
-            if (isIcon()) {
-                setIcon(false);
-            } else if (isMaximum()) {
-                setMaximum(false);
+            if (isIdon()) {
+                sftIdon(fblsf);
+            } flsf if (isMbximum()) {
+                sftMbximum(fblsf);
             }
-        } catch(PropertyVetoException e) {
-            return;
+        } dbtdi(PropfrtyVftoExdfption f) {
+            rfturn;
         }
-        setSize(getPreferredSize());
-        validate();
+        sftSizf(gftPrfffrrfdSizf());
+        vblidbtf();
     }
 
     /**
-     * If the internal frame is not visible,
-     * brings the internal frame to the front,
-     * makes it visible,
-     * and attempts to select it.
-     * The first time the internal frame is made visible,
-     * this method also fires an <code>INTERNAL_FRAME_OPENED</code> event.
-     * This method does nothing if the internal frame is already visible.
-     * Invoking this method
-     * has the same result as invoking
-     * <code>setVisible(true)</code>.
+     * If tif intfrnbl frbmf is not visiblf,
+     * brings tif intfrnbl frbmf to tif front,
+     * mbkfs it visiblf,
+     * bnd bttfmpts to sflfdt it.
+     * Tif first timf tif intfrnbl frbmf is mbdf visiblf,
+     * tiis mftiod blso firfs bn <dodf>INTERNAL_FRAME_OPENED</dodf> fvfnt.
+     * Tiis mftiod dofs notiing if tif intfrnbl frbmf is blrfbdy visiblf.
+     * Invoking tiis mftiod
+     * ibs tif sbmf rfsult bs invoking
+     * <dodf>sftVisiblf(truf)</dodf>.
      *
-     * @see #moveToFront
-     * @see #setSelected
-     * @see InternalFrameEvent#INTERNAL_FRAME_OPENED
-     * @see #setVisible
+     * @sff #movfToFront
+     * @sff #sftSflfdtfd
+     * @sff IntfrnblFrbmfEvfnt#INTERNAL_FRAME_OPENED
+     * @sff #sftVisiblf
      */
-    public void show() {
+    publid void siow() {
         // bug 4312922
-        if (isVisible()) {
-            //match the behavior of setVisible(true): do nothing
-            return;
+        if (isVisiblf()) {
+            //mbtdi tif bfibvior of sftVisiblf(truf): do notiing
+            rfturn;
         }
 
         // bug 4149505
-        if (!opened) {
-          fireInternalFrameEvent(InternalFrameEvent.INTERNAL_FRAME_OPENED);
-          opened = true;
+        if (!opfnfd) {
+          firfIntfrnblFrbmfEvfnt(IntfrnblFrbmfEvfnt.INTERNAL_FRAME_OPENED);
+          opfnfd = truf;
         }
 
-        /* icon default visibility is false; set it to true so that it shows
-           up when user iconifies frame */
-        getDesktopIcon().setVisible(true);
+        /* idon dffbult visibility is fblsf; sft it to truf so tibt it siows
+           up wifn usfr idonififs frbmf */
+        gftDfsktopIdon().sftVisiblf(truf);
 
         toFront();
-        super.show();
+        supfr.siow();
 
-        if (isIcon) {
-            return;
+        if (isIdon) {
+            rfturn;
         }
 
-        if (!isSelected()) {
+        if (!isSflfdtfd()) {
             try {
-                setSelected(true);
-            } catch (PropertyVetoException pve) {}
+                sftSflfdtfd(truf);
+            } dbtdi (PropfrtyVftoExdfption pvf) {}
         }
     }
 
-    public void hide() {
-        if (isIcon()) {
-            getDesktopIcon().setVisible(false);
+    publid void iidf() {
+        if (isIdon()) {
+            gftDfsktopIdon().sftVisiblf(fblsf);
         }
-        super.hide();
+        supfr.iidf();
     }
 
     /**
-     * Makes this internal frame
-     * invisible, unselected, and closed.
-     * If the frame is not already closed,
-     * this method fires an
-     * <code>INTERNAL_FRAME_CLOSED</code> event.
-     * The results of invoking this method are similar to
-     * <code>setClosed(true)</code>,
-     * but <code>dispose</code> always succeeds in closing
-     * the internal frame and does not fire
-     * an <code>INTERNAL_FRAME_CLOSING</code> event.
+     * Mbkfs tiis intfrnbl frbmf
+     * invisiblf, unsflfdtfd, bnd dlosfd.
+     * If tif frbmf is not blrfbdy dlosfd,
+     * tiis mftiod firfs bn
+     * <dodf>INTERNAL_FRAME_CLOSED</dodf> fvfnt.
+     * Tif rfsults of invoking tiis mftiod brf similbr to
+     * <dodf>sftClosfd(truf)</dodf>,
+     * but <dodf>disposf</dodf> blwbys suddffds in dlosing
+     * tif intfrnbl frbmf bnd dofs not firf
+     * bn <dodf>INTERNAL_FRAME_CLOSING</dodf> fvfnt.
      *
-     * @see javax.swing.event.InternalFrameEvent#INTERNAL_FRAME_CLOSED
-     * @see #setVisible
-     * @see #setSelected
-     * @see #setClosed
+     * @sff jbvbx.swing.fvfnt.IntfrnblFrbmfEvfnt#INTERNAL_FRAME_CLOSED
+     * @sff #sftVisiblf
+     * @sff #sftSflfdtfd
+     * @sff #sftClosfd
      */
-    public void dispose() {
-        if (isVisible()) {
-            setVisible(false);
+    publid void disposf() {
+        if (isVisiblf()) {
+            sftVisiblf(fblsf);
         }
-        if (isSelected()) {
+        if (isSflfdtfd()) {
             try {
-                setSelected(false);
-            } catch (PropertyVetoException pve) {}
+                sftSflfdtfd(fblsf);
+            } dbtdi (PropfrtyVftoExdfption pvf) {}
         }
-        if (!isClosed) {
-          firePropertyChange(IS_CLOSED_PROPERTY, Boolean.FALSE, Boolean.TRUE);
-          isClosed = true;
+        if (!isClosfd) {
+          firfPropfrtyCibngf(IS_CLOSED_PROPERTY, Boolfbn.FALSE, Boolfbn.TRUE);
+          isClosfd = truf;
         }
-        fireInternalFrameEvent(InternalFrameEvent.INTERNAL_FRAME_CLOSED);
+        firfIntfrnblFrbmfEvfnt(IntfrnblFrbmfEvfnt.INTERNAL_FRAME_CLOSED);
     }
 
     /**
-     * Brings this internal frame to the front.
-     * Places this internal frame  at the top of the stacking order
-     * and makes the corresponding adjustment to other visible internal
-     * frames.
+     * Brings tiis intfrnbl frbmf to tif front.
+     * Plbdfs tiis intfrnbl frbmf  bt tif top of tif stbdking ordfr
+     * bnd mbkfs tif dorrfsponding bdjustmfnt to otifr visiblf intfrnbl
+     * frbmfs.
      *
-     * @see       java.awt.Window#toFront
-     * @see       #moveToFront
+     * @sff       jbvb.bwt.Window#toFront
+     * @sff       #movfToFront
      */
-    public void toFront() {
-        moveToFront();
+    publid void toFront() {
+        movfToFront();
     }
 
     /**
-     * Sends this internal frame to the back.
-     * Places this internal frame at the bottom of the stacking order
-     * and makes the corresponding adjustment to other visible
-     * internal frames.
+     * Sfnds tiis intfrnbl frbmf to tif bbdk.
+     * Plbdfs tiis intfrnbl frbmf bt tif bottom of tif stbdking ordfr
+     * bnd mbkfs tif dorrfsponding bdjustmfnt to otifr visiblf
+     * intfrnbl frbmfs.
      *
-     * @see       java.awt.Window#toBack
-     * @see       #moveToBack
+     * @sff       jbvb.bwt.Window#toBbdk
+     * @sff       #movfToBbdk
      */
-    public void toBack() {
-        moveToBack();
+    publid void toBbdk() {
+        movfToBbdk();
     }
 
     /**
-     * Does nothing because <code>JInternalFrame</code>s must always be roots of a focus
-     * traversal cycle.
+     * Dofs notiing bfdbusf <dodf>JIntfrnblFrbmf</dodf>s must blwbys bf roots of b fodus
+     * trbvfrsbl dydlf.
      *
-     * @param focusCycleRoot this value is ignored
-     * @see #isFocusCycleRoot
-     * @see java.awt.Container#setFocusTraversalPolicy
-     * @see java.awt.Container#getFocusTraversalPolicy
-     * @since 1.4
+     * @pbrbm fodusCydlfRoot tiis vbluf is ignorfd
+     * @sff #isFodusCydlfRoot
+     * @sff jbvb.bwt.Contbinfr#sftFodusTrbvfrsblPolidy
+     * @sff jbvb.bwt.Contbinfr#gftFodusTrbvfrsblPolidy
+     * @sindf 1.4
      */
-    public final void setFocusCycleRoot(boolean focusCycleRoot) {
+    publid finbl void sftFodusCydlfRoot(boolfbn fodusCydlfRoot) {
     }
 
     /**
-     * Always returns <code>true</code> because all <code>JInternalFrame</code>s must be
-     * roots of a focus traversal cycle.
+     * Alwbys rfturns <dodf>truf</dodf> bfdbusf bll <dodf>JIntfrnblFrbmf</dodf>s must bf
+     * roots of b fodus trbvfrsbl dydlf.
      *
-     * @return <code>true</code>
-     * @see #setFocusCycleRoot
-     * @see java.awt.Container#setFocusTraversalPolicy
-     * @see java.awt.Container#getFocusTraversalPolicy
-     * @since 1.4
+     * @rfturn <dodf>truf</dodf>
+     * @sff #sftFodusCydlfRoot
+     * @sff jbvb.bwt.Contbinfr#sftFodusTrbvfrsblPolidy
+     * @sff jbvb.bwt.Contbinfr#gftFodusTrbvfrsblPolidy
+     * @sindf 1.4
      */
-    public final boolean isFocusCycleRoot() {
-        return true;
+    publid finbl boolfbn isFodusCydlfRoot() {
+        rfturn truf;
     }
 
     /**
-     * Always returns <code>null</code> because <code>JInternalFrame</code>s
-     * must always be roots of a focus
-     * traversal cycle.
+     * Alwbys rfturns <dodf>null</dodf> bfdbusf <dodf>JIntfrnblFrbmf</dodf>s
+     * must blwbys bf roots of b fodus
+     * trbvfrsbl dydlf.
      *
-     * @return <code>null</code>
-     * @see java.awt.Container#isFocusCycleRoot()
-     * @since 1.4
+     * @rfturn <dodf>null</dodf>
+     * @sff jbvb.bwt.Contbinfr#isFodusCydlfRoot()
+     * @sindf 1.4
      */
-    public final Container getFocusCycleRootAncestor() {
-        return null;
+    publid finbl Contbinfr gftFodusCydlfRootAndfstor() {
+        rfturn null;
     }
 
     /**
-     * Gets the warning string that is displayed with this internal frame.
-     * Since an internal frame is always secure (since it's fully
-     * contained within a window that might need a warning string)
-     * this method always returns <code>null</code>.
-     * @return    <code>null</code>
-     * @see       java.awt.Window#getWarningString
+     * Gfts tif wbrning string tibt is displbyfd witi tiis intfrnbl frbmf.
+     * Sindf bn intfrnbl frbmf is blwbys sfdurf (sindf it's fully
+     * dontbinfd witiin b window tibt migit nffd b wbrning string)
+     * tiis mftiod blwbys rfturns <dodf>null</dodf>.
+     * @rfturn    <dodf>null</dodf>
+     * @sff       jbvb.bwt.Window#gftWbrningString
      */
-    public final String getWarningString() {
-        return null;
+    publid finbl String gftWbrningString() {
+        rfturn null;
     }
 
     /**
-     * See <code>readObject</code> and <code>writeObject</code>
-     * in <code>JComponent</code> for more
-     * information about serialization in Swing.
+     * Sff <dodf>rfbdObjfdt</dodf> bnd <dodf>writfObjfdt</dodf>
+     * in <dodf>JComponfnt</dodf> for morf
+     * informbtion bbout sfriblizbtion in Swing.
      */
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        s.defaultWriteObject();
-        if (getUIClassID().equals(uiClassID)) {
-            byte count = JComponent.getWriteObjCounter(this);
-            JComponent.setWriteObjCounter(this, --count);
-            if (count == 0 && ui != null) {
-                boolean old = isRootPaneCheckingEnabled();
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s) tirows IOExdfption {
+        s.dffbultWritfObjfdt();
+        if (gftUIClbssID().fqubls(uiClbssID)) {
+            bytf dount = JComponfnt.gftWritfObjCountfr(tiis);
+            JComponfnt.sftWritfObjCountfr(tiis, --dount);
+            if (dount == 0 && ui != null) {
+                boolfbn old = isRootPbnfCifdkingEnbblfd();
                 try {
-                    setRootPaneCheckingEnabled(false);
-                    ui.installUI(this);
-                } finally {
-                    setRootPaneCheckingEnabled(old);
+                    sftRootPbnfCifdkingEnbblfd(fblsf);
+                    ui.instbllUI(tiis);
+                } finblly {
+                    sftRootPbnfCifdkingEnbblfd(old);
                 }
             }
         }
     }
 
-    /* Called from the JComponent's EnableSerializationFocusListener to
-     * do any Swing-specific pre-serialization configuration.
+    /* Cbllfd from tif JComponfnt's EnbblfSfriblizbtionFodusListfnfr to
+     * do bny Swing-spfdifid prf-sfriblizbtion donfigurbtion.
      */
-    void compWriteObjectNotify() {
-      // need to disable rootpane checking for InternalFrame: 4172083
-      boolean old = isRootPaneCheckingEnabled();
+    void dompWritfObjfdtNotify() {
+      // nffd to disbblf rootpbnf difdking for IntfrnblFrbmf: 4172083
+      boolfbn old = isRootPbnfCifdkingEnbblfd();
       try {
-        setRootPaneCheckingEnabled(false);
-        super.compWriteObjectNotify();
+        sftRootPbnfCifdkingEnbblfd(fblsf);
+        supfr.dompWritfObjfdtNotify();
       }
-      finally {
-        setRootPaneCheckingEnabled(old);
+      finblly {
+        sftRootPbnfCifdkingEnbblfd(old);
       }
     }
 
     /**
-     * Returns a string representation of this <code>JInternalFrame</code>.
-     * This method
-     * is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not
-     * be <code>null</code>.
+     * Rfturns b string rfprfsfntbtion of tiis <dodf>JIntfrnblFrbmf</dodf>.
+     * Tiis mftiod
+     * is intfndfd to bf usfd only for dfbugging purposfs, bnd tif
+     * dontfnt bnd formbt of tif rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Tif rfturnfd string mby bf fmpty but mby not
+     * bf <dodf>null</dodf>.
      *
-     * @return  a string representation of this <code>JInternalFrame</code>
+     * @rfturn  b string rfprfsfntbtion of tiis <dodf>JIntfrnblFrbmf</dodf>
      */
-    protected String paramString() {
-        String rootPaneString = (rootPane != null ?
-                                 rootPane.toString() : "");
-        String rootPaneCheckingEnabledString = (rootPaneCheckingEnabled ?
-                                                "true" : "false");
-        String closableString = (closable ? "true" : "false");
-        String isClosedString = (isClosed ? "true" : "false");
-        String maximizableString = (maximizable ? "true" : "false");
-        String isMaximumString = (isMaximum ? "true" : "false");
-        String iconableString = (iconable ? "true" : "false");
-        String isIconString = (isIcon ? "true" : "false");
-        String resizableString = (resizable ? "true" : "false");
-        String isSelectedString = (isSelected ? "true" : "false");
-        String frameIconString = (frameIcon != null ?
-                                  frameIcon.toString() : "");
-        String titleString = (title != null ?
-                              title : "");
-        String desktopIconString = (desktopIcon != null ?
-                                    desktopIcon.toString() : "");
-        String openedString = (opened ? "true" : "false");
-        String defaultCloseOperationString;
-        if (defaultCloseOperation == HIDE_ON_CLOSE) {
-            defaultCloseOperationString = "HIDE_ON_CLOSE";
-        } else if (defaultCloseOperation == DISPOSE_ON_CLOSE) {
-            defaultCloseOperationString = "DISPOSE_ON_CLOSE";
-        } else if (defaultCloseOperation == DO_NOTHING_ON_CLOSE) {
-            defaultCloseOperationString = "DO_NOTHING_ON_CLOSE";
-        } else defaultCloseOperationString = "";
+    protfdtfd String pbrbmString() {
+        String rootPbnfString = (rootPbnf != null ?
+                                 rootPbnf.toString() : "");
+        String rootPbnfCifdkingEnbblfdString = (rootPbnfCifdkingEnbblfd ?
+                                                "truf" : "fblsf");
+        String dlosbblfString = (dlosbblf ? "truf" : "fblsf");
+        String isClosfdString = (isClosfd ? "truf" : "fblsf");
+        String mbximizbblfString = (mbximizbblf ? "truf" : "fblsf");
+        String isMbximumString = (isMbximum ? "truf" : "fblsf");
+        String idonbblfString = (idonbblf ? "truf" : "fblsf");
+        String isIdonString = (isIdon ? "truf" : "fblsf");
+        String rfsizbblfString = (rfsizbblf ? "truf" : "fblsf");
+        String isSflfdtfdString = (isSflfdtfd ? "truf" : "fblsf");
+        String frbmfIdonString = (frbmfIdon != null ?
+                                  frbmfIdon.toString() : "");
+        String titlfString = (titlf != null ?
+                              titlf : "");
+        String dfsktopIdonString = (dfsktopIdon != null ?
+                                    dfsktopIdon.toString() : "");
+        String opfnfdString = (opfnfd ? "truf" : "fblsf");
+        String dffbultClosfOpfrbtionString;
+        if (dffbultClosfOpfrbtion == HIDE_ON_CLOSE) {
+            dffbultClosfOpfrbtionString = "HIDE_ON_CLOSE";
+        } flsf if (dffbultClosfOpfrbtion == DISPOSE_ON_CLOSE) {
+            dffbultClosfOpfrbtionString = "DISPOSE_ON_CLOSE";
+        } flsf if (dffbultClosfOpfrbtion == DO_NOTHING_ON_CLOSE) {
+            dffbultClosfOpfrbtionString = "DO_NOTHING_ON_CLOSE";
+        } flsf dffbultClosfOpfrbtionString = "";
 
-        return super.paramString() +
-        ",closable=" + closableString +
-        ",defaultCloseOperation=" + defaultCloseOperationString +
-        ",desktopIcon=" + desktopIconString +
-        ",frameIcon=" + frameIconString +
-        ",iconable=" + iconableString +
-        ",isClosed=" + isClosedString +
-        ",isIcon=" + isIconString +
-        ",isMaximum=" + isMaximumString +
-        ",isSelected=" + isSelectedString +
-        ",maximizable=" + maximizableString +
-        ",opened=" + openedString +
-        ",resizable=" + resizableString +
-        ",rootPane=" + rootPaneString +
-        ",rootPaneCheckingEnabled=" + rootPaneCheckingEnabledString +
-        ",title=" + titleString;
+        rfturn supfr.pbrbmString() +
+        ",dlosbblf=" + dlosbblfString +
+        ",dffbultClosfOpfrbtion=" + dffbultClosfOpfrbtionString +
+        ",dfsktopIdon=" + dfsktopIdonString +
+        ",frbmfIdon=" + frbmfIdonString +
+        ",idonbblf=" + idonbblfString +
+        ",isClosfd=" + isClosfdString +
+        ",isIdon=" + isIdonString +
+        ",isMbximum=" + isMbximumString +
+        ",isSflfdtfd=" + isSflfdtfdString +
+        ",mbximizbblf=" + mbximizbblfString +
+        ",opfnfd=" + opfnfdString +
+        ",rfsizbblf=" + rfsizbblfString +
+        ",rootPbnf=" + rootPbnfString +
+        ",rootPbnfCifdkingEnbblfd=" + rootPbnfCifdkingEnbblfdString +
+        ",titlf=" + titlfString;
     }
 
-    // ======= begin optimized frame dragging defence code ==============
+    // ======= bfgin optimizfd frbmf drbgging dfffndf dodf ==============
 
-    boolean isDragging = false;
-    boolean danger = false;
+    boolfbn isDrbgging = fblsf;
+    boolfbn dbngfr = fblsf;
 
     /**
-     * Overridden to allow optimized painting when the
-     * internal frame is being dragged.
+     * Ovfrriddfn to bllow optimizfd pbinting wifn tif
+     * intfrnbl frbmf is bfing drbggfd.
      */
-    protected void paintComponent(Graphics g) {
-      if (isDragging) {
-        //         System.out.println("ouch");
-         danger = true;
+    protfdtfd void pbintComponfnt(Grbpiids g) {
+      if (isDrbgging) {
+        //         Systfm.out.println("oudi");
+         dbngfr = truf;
       }
 
-      super.paintComponent(g);
+      supfr.pbintComponfnt(g);
    }
 
-    // ======= end optimized frame dragging defence code ==============
+    // ======= fnd optimizfd frbmf drbgging dfffndf dodf ==============
 
 /////////////////
-// Accessibility support
+// Addfssibility support
 ////////////////
 
     /**
-     * Gets the <code>AccessibleContext</code> associated with this
-     * <code>JInternalFrame</code>.
-     * For internal frames, the <code>AccessibleContext</code>
-     * takes the form of an
-     * <code>AccessibleJInternalFrame</code> object.
-     * A new <code>AccessibleJInternalFrame</code> instance is created if necessary.
+     * Gfts tif <dodf>AddfssiblfContfxt</dodf> bssodibtfd witi tiis
+     * <dodf>JIntfrnblFrbmf</dodf>.
+     * For intfrnbl frbmfs, tif <dodf>AddfssiblfContfxt</dodf>
+     * tbkfs tif form of bn
+     * <dodf>AddfssiblfJIntfrnblFrbmf</dodf> objfdt.
+     * A nfw <dodf>AddfssiblfJIntfrnblFrbmf</dodf> instbndf is drfbtfd if nfdfssbry.
      *
-     * @return an <code>AccessibleJInternalFrame</code> that serves as the
-     *         <code>AccessibleContext</code> of this
-     *         <code>JInternalFrame</code>
-     * @see AccessibleJInternalFrame
+     * @rfturn bn <dodf>AddfssiblfJIntfrnblFrbmf</dodf> tibt sfrvfs bs tif
+     *         <dodf>AddfssiblfContfxt</dodf> of tiis
+     *         <dodf>JIntfrnblFrbmf</dodf>
+     * @sff AddfssiblfJIntfrnblFrbmf
      */
-    public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleJInternalFrame();
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfJIntfrnblFrbmf();
         }
-        return accessibleContext;
+        rfturn bddfssiblfContfxt;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>JInternalFrame</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to internal frame user-interface
-     * elements.
+     * Tiis dlbss implfmfnts bddfssibility support for tif
+     * <dodf>JIntfrnblFrbmf</dodf> dlbss.  It providfs bn implfmfntbtion of tif
+     * Jbvb Addfssibility API bppropribtf to intfrnbl frbmf usfr-intfrfbdf
+     * flfmfnts.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+     * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+     * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+     * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    protected class AccessibleJInternalFrame extends AccessibleJComponent
-        implements AccessibleValue {
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    protfdtfd dlbss AddfssiblfJIntfrnblFrbmf fxtfnds AddfssiblfJComponfnt
+        implfmfnts AddfssiblfVbluf {
 
         /**
-         * Get the accessible name of this object.
+         * Gft tif bddfssiblf nbmf of tiis objfdt.
          *
-         * @return the localized name of the object -- can be <code>null</code> if this
-         * object does not have a name
-         * @see #setAccessibleName
+         * @rfturn tif lodblizfd nbmf of tif objfdt -- dbn bf <dodf>null</dodf> if tiis
+         * objfdt dofs not ibvf b nbmf
+         * @sff #sftAddfssiblfNbmf
          */
-        public String getAccessibleName() {
-            String name = accessibleName;
+        publid String gftAddfssiblfNbmf() {
+            String nbmf = bddfssiblfNbmf;
 
-            if (name == null) {
-                name = (String)getClientProperty(AccessibleContext.ACCESSIBLE_NAME_PROPERTY);
+            if (nbmf == null) {
+                nbmf = (String)gftClifntPropfrty(AddfssiblfContfxt.ACCESSIBLE_NAME_PROPERTY);
             }
-            if (name == null) {
-                name = getTitle();
+            if (nbmf == null) {
+                nbmf = gftTitlf();
             }
-            return name;
+            rfturn nbmf;
         }
 
         /**
-         * Get the role of this object.
+         * Gft tif rolf of tiis objfdt.
          *
-         * @return an instance of AccessibleRole describing the role of the
-         * object
-         * @see AccessibleRole
+         * @rfturn bn instbndf of AddfssiblfRolf dfsdribing tif rolf of tif
+         * objfdt
+         * @sff AddfssiblfRolf
          */
-        public AccessibleRole getAccessibleRole() {
-            return AccessibleRole.INTERNAL_FRAME;
+        publid AddfssiblfRolf gftAddfssiblfRolf() {
+            rfturn AddfssiblfRolf.INTERNAL_FRAME;
         }
 
         /**
-         * Gets the AccessibleValue associated with this object.  In the
-         * implementation of the Java Accessibility API for this class,
-         * returns this object, which is responsible for implementing the
-         * <code>AccessibleValue</code> interface on behalf of itself.
+         * Gfts tif AddfssiblfVbluf bssodibtfd witi tiis objfdt.  In tif
+         * implfmfntbtion of tif Jbvb Addfssibility API for tiis dlbss,
+         * rfturns tiis objfdt, wiidi is rfsponsiblf for implfmfnting tif
+         * <dodf>AddfssiblfVbluf</dodf> intfrfbdf on bfiblf of itsflf.
          *
-         * @return this object
+         * @rfturn tiis objfdt
          */
-        public AccessibleValue getAccessibleValue() {
-            return this;
+        publid AddfssiblfVbluf gftAddfssiblfVbluf() {
+            rfturn tiis;
         }
 
 
         //
-        // AccessibleValue methods
+        // AddfssiblfVbluf mftiods
         //
 
         /**
-         * Get the value of this object as a Number.
+         * Gft tif vbluf of tiis objfdt bs b Numbfr.
          *
-         * @return value of the object -- can be <code>null</code> if this object does not
-         * have a value
+         * @rfturn vbluf of tif objfdt -- dbn bf <dodf>null</dodf> if tiis objfdt dofs not
+         * ibvf b vbluf
          */
-        public Number getCurrentAccessibleValue() {
-            return Integer.valueOf(getLayer());
+        publid Numbfr gftCurrfntAddfssiblfVbluf() {
+            rfturn Intfgfr.vblufOf(gftLbyfr());
         }
 
         /**
-         * Set the value of this object as a Number.
+         * Sft tif vbluf of tiis objfdt bs b Numbfr.
          *
-         * @return <code>true</code> if the value was set
+         * @rfturn <dodf>truf</dodf> if tif vbluf wbs sft
          */
-        public boolean setCurrentAccessibleValue(Number n) {
+        publid boolfbn sftCurrfntAddfssiblfVbluf(Numbfr n) {
             // TIGER - 4422535
             if (n == null) {
-                return false;
+                rfturn fblsf;
             }
-            setLayer(Integer.valueOf(n.intValue()));
-            return true;
+            sftLbyfr(Intfgfr.vblufOf(n.intVbluf()));
+            rfturn truf;
         }
 
         /**
-         * Get the minimum value of this object as a Number.
+         * Gft tif minimum vbluf of tiis objfdt bs b Numbfr.
          *
-         * @return Minimum value of the object; <code>null</code> if this object does not
-         * have a minimum value
+         * @rfturn Minimum vbluf of tif objfdt; <dodf>null</dodf> if tiis objfdt dofs not
+         * ibvf b minimum vbluf
          */
-        public Number getMinimumAccessibleValue() {
-            return Integer.MIN_VALUE;
+        publid Numbfr gftMinimumAddfssiblfVbluf() {
+            rfturn Intfgfr.MIN_VALUE;
         }
 
         /**
-         * Get the maximum value of this object as a Number.
+         * Gft tif mbximum vbluf of tiis objfdt bs b Numbfr.
          *
-         * @return Maximum value of the object; <code>null</code> if this object does not
-         * have a maximum value
+         * @rfturn Mbximum vbluf of tif objfdt; <dodf>null</dodf> if tiis objfdt dofs not
+         * ibvf b mbximum vbluf
          */
-        public Number getMaximumAccessibleValue() {
-            return Integer.MAX_VALUE;
+        publid Numbfr gftMbximumAddfssiblfVbluf() {
+            rfturn Intfgfr.MAX_VALUE;
         }
 
-    } // AccessibleJInternalFrame
+    } // AddfssiblfJIntfrnblFrbmf
 
     /**
-     * This component represents an iconified version of a
-     * <code>JInternalFrame</code>.
-     * This API should NOT BE USED by Swing applications, as it will go
-     * away in future versions of Swing as its functionality is moved into
-     * <code>JInternalFrame</code>.  This class is public only so that
-     * UI objects can display a desktop icon.  If an application
-     * wants to display a desktop icon, it should create a
-     * <code>JInternalFrame</code> instance and iconify it.
+     * Tiis domponfnt rfprfsfnts bn idonififd vfrsion of b
+     * <dodf>JIntfrnblFrbmf</dodf>.
+     * Tiis API siould NOT BE USED by Swing bpplidbtions, bs it will go
+     * bwby in futurf vfrsions of Swing bs its fundtionblity is movfd into
+     * <dodf>JIntfrnblFrbmf</dodf>.  Tiis dlbss is publid only so tibt
+     * UI objfdts dbn displby b dfsktop idon.  If bn bpplidbtion
+     * wbnts to displby b dfsktop idon, it siould drfbtf b
+     * <dodf>JIntfrnblFrbmf</dodf> instbndf bnd idonify it.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+     * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+     * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+     * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
      *
-     * @author David Kloba
+     * @butior Dbvid Klobb
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    static public class JDesktopIcon extends JComponent implements Accessible
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    stbtid publid dlbss JDfsktopIdon fxtfnds JComponfnt implfmfnts Addfssiblf
     {
-        JInternalFrame internalFrame;
+        JIntfrnblFrbmf intfrnblFrbmf;
 
         /**
-         * Creates an icon for an internal frame.
+         * Crfbtfs bn idon for bn intfrnbl frbmf.
          *
-         * @param f  the <code>JInternalFrame</code>
-         *              for which the icon is created
+         * @pbrbm f  tif <dodf>JIntfrnblFrbmf</dodf>
+         *              for wiidi tif idon is drfbtfd
          */
-        public JDesktopIcon(JInternalFrame f) {
-            setVisible(false);
-            setInternalFrame(f);
-            updateUI();
+        publid JDfsktopIdon(JIntfrnblFrbmf f) {
+            sftVisiblf(fblsf);
+            sftIntfrnblFrbmf(f);
+            updbtfUI();
         }
 
         /**
-         * Returns the look-and-feel object that renders this component.
+         * Rfturns tif look-bnd-fffl objfdt tibt rfndfrs tiis domponfnt.
          *
-         * @return the <code>DesktopIconUI</code> object that renders
-         *              this component
+         * @rfturn tif <dodf>DfsktopIdonUI</dodf> objfdt tibt rfndfrs
+         *              tiis domponfnt
          */
-        public DesktopIconUI getUI() {
-            return (DesktopIconUI)ui;
+        publid DfsktopIdonUI gftUI() {
+            rfturn (DfsktopIdonUI)ui;
         }
 
         /**
-         * Sets the look-and-feel object that renders this component.
+         * Sfts tif look-bnd-fffl objfdt tibt rfndfrs tiis domponfnt.
          *
-         * @param ui  the <code>DesktopIconUI</code> look-and-feel object
-         * @see UIDefaults#getUI
+         * @pbrbm ui  tif <dodf>DfsktopIdonUI</dodf> look-bnd-fffl objfdt
+         * @sff UIDffbults#gftUI
          */
-        public void setUI(DesktopIconUI ui) {
-            super.setUI(ui);
+        publid void sftUI(DfsktopIdonUI ui) {
+            supfr.sftUI(ui);
         }
 
         /**
-         * Returns the <code>JInternalFrame</code> that this
-         * <code>DesktopIcon</code> is associated with.
+         * Rfturns tif <dodf>JIntfrnblFrbmf</dodf> tibt tiis
+         * <dodf>DfsktopIdon</dodf> is bssodibtfd witi.
          *
-         * @return the <code>JInternalFrame</code> with which this icon
-         *              is associated
+         * @rfturn tif <dodf>JIntfrnblFrbmf</dodf> witi wiidi tiis idon
+         *              is bssodibtfd
          */
-        public JInternalFrame getInternalFrame() {
-            return internalFrame;
+        publid JIntfrnblFrbmf gftIntfrnblFrbmf() {
+            rfturn intfrnblFrbmf;
         }
 
         /**
-         * Sets the <code>JInternalFrame</code> with which this
-         * <code>DesktopIcon</code> is associated.
+         * Sfts tif <dodf>JIntfrnblFrbmf</dodf> witi wiidi tiis
+         * <dodf>DfsktopIdon</dodf> is bssodibtfd.
          *
-         * @param f  the <code>JInternalFrame</code> with which this icon
-         *              is associated
+         * @pbrbm f  tif <dodf>JIntfrnblFrbmf</dodf> witi wiidi tiis idon
+         *              is bssodibtfd
          */
-        public void setInternalFrame(JInternalFrame f) {
-            internalFrame = f;
+        publid void sftIntfrnblFrbmf(JIntfrnblFrbmf f) {
+            intfrnblFrbmf = f;
         }
 
         /**
-         * Convenience method to ask the icon for the <code>Desktop</code>
-         * object it belongs to.
+         * Convfnifndf mftiod to bsk tif idon for tif <dodf>Dfsktop</dodf>
+         * objfdt it bflongs to.
          *
-         * @return the <code>JDesktopPane</code> that contains this
-         *           icon's internal frame, or <code>null</code> if none found
+         * @rfturn tif <dodf>JDfsktopPbnf</dodf> tibt dontbins tiis
+         *           idon's intfrnbl frbmf, or <dodf>null</dodf> if nonf found
          */
-        public JDesktopPane getDesktopPane() {
-            if(getInternalFrame() != null)
-                return getInternalFrame().getDesktopPane();
-            return null;
+        publid JDfsktopPbnf gftDfsktopPbnf() {
+            if(gftIntfrnblFrbmf() != null)
+                rfturn gftIntfrnblFrbmf().gftDfsktopPbnf();
+            rfturn null;
         }
 
         /**
-         * Notification from the <code>UIManager</code> that the look and feel
-         * has changed.
-         * Replaces the current UI object with the latest version from the
-         * <code>UIManager</code>.
+         * Notifidbtion from tif <dodf>UIMbnbgfr</dodf> tibt tif look bnd fffl
+         * ibs dibngfd.
+         * Rfplbdfs tif durrfnt UI objfdt witi tif lbtfst vfrsion from tif
+         * <dodf>UIMbnbgfr</dodf>.
          *
-         * @see JComponent#updateUI
+         * @sff JComponfnt#updbtfUI
          */
-        public void updateUI() {
-            boolean hadUI = (ui != null);
-            setUI((DesktopIconUI)UIManager.getUI(this));
-            invalidate();
+        publid void updbtfUI() {
+            boolfbn ibdUI = (ui != null);
+            sftUI((DfsktopIdonUI)UIMbnbgfr.gftUI(tiis));
+            invblidbtf();
 
-            Dimension r = getPreferredSize();
-            setSize(r.width, r.height);
+            Dimfnsion r = gftPrfffrrfdSizf();
+            sftSizf(r.widti, r.ifigit);
 
 
-            if (internalFrame != null && internalFrame.getUI() != null) {  // don't do this if UI not created yet
-                SwingUtilities.updateComponentTreeUI(internalFrame);
+            if (intfrnblFrbmf != null && intfrnblFrbmf.gftUI() != null) {  // don't do tiis if UI not drfbtfd yft
+                SwingUtilitifs.updbtfComponfntTrffUI(intfrnblFrbmf);
             }
         }
 
-        /* This method is called if updateUI was called on the associated
-         * JInternalFrame.  It's necessary to avoid infinite recursion.
+        /* Tiis mftiod is dbllfd if updbtfUI wbs dbllfd on tif bssodibtfd
+         * JIntfrnblFrbmf.  It's nfdfssbry to bvoid infinitf rfdursion.
          */
-        void updateUIWhenHidden() {
-            /* Update this UI and any associated internal frame */
-            setUI((DesktopIconUI)UIManager.getUI(this));
+        void updbtfUIWifnHiddfn() {
+            /* Updbtf tiis UI bnd bny bssodibtfd intfrnbl frbmf */
+            sftUI((DfsktopIdonUI)UIMbnbgfr.gftUI(tiis));
 
-            Dimension r = getPreferredSize();
-            setSize(r.width, r.height);
+            Dimfnsion r = gftPrfffrrfdSizf();
+            sftSizf(r.widti, r.ifigit);
 
-            invalidate();
-            Component[] children = getComponents();
-            if (children != null) {
-                for (Component child : children) {
-                    SwingUtilities.updateComponentTreeUI(child);
+            invblidbtf();
+            Componfnt[] diildrfn = gftComponfnts();
+            if (diildrfn != null) {
+                for (Componfnt diild : diildrfn) {
+                    SwingUtilitifs.updbtfComponfntTrffUI(diild);
                 }
             }
         }
 
         /**
-         * Returns the name of the look-and-feel
-         * class that renders this component.
+         * Rfturns tif nbmf of tif look-bnd-fffl
+         * dlbss tibt rfndfrs tiis domponfnt.
          *
-         * @return the string "DesktopIconUI"
-         * @see JComponent#getUIClassID
-         * @see UIDefaults#getUI
+         * @rfturn tif string "DfsktopIdonUI"
+         * @sff JComponfnt#gftUIClbssID
+         * @sff UIDffbults#gftUI
          */
-        public String getUIClassID() {
-            return "DesktopIconUI";
+        publid String gftUIClbssID() {
+            rfturn "DfsktopIdonUI";
         }
         ////////////////
-        // Serialization support
+        // Sfriblizbtion support
         ////////////////
-        private void writeObject(ObjectOutputStream s) throws IOException {
-            s.defaultWriteObject();
-            if (getUIClassID().equals("DesktopIconUI")) {
-                byte count = JComponent.getWriteObjCounter(this);
-                JComponent.setWriteObjCounter(this, --count);
-                if (count == 0 && ui != null) {
-                    ui.installUI(this);
+        privbtf void writfObjfdt(ObjfdtOutputStrfbm s) tirows IOExdfption {
+            s.dffbultWritfObjfdt();
+            if (gftUIClbssID().fqubls("DfsktopIdonUI")) {
+                bytf dount = JComponfnt.gftWritfObjCountfr(tiis);
+                JComponfnt.sftWritfObjCountfr(tiis, --dount);
+                if (dount == 0 && ui != null) {
+                    ui.instbllUI(tiis);
                 }
             }
         }
 
        /////////////////
-       // Accessibility support
+       // Addfssibility support
        ////////////////
 
         /**
-         * Gets the AccessibleContext associated with this JDesktopIcon.
-         * For desktop icons, the AccessibleContext takes the form of an
-         * AccessibleJDesktopIcon.
-         * A new AccessibleJDesktopIcon instance is created if necessary.
+         * Gfts tif AddfssiblfContfxt bssodibtfd witi tiis JDfsktopIdon.
+         * For dfsktop idons, tif AddfssiblfContfxt tbkfs tif form of bn
+         * AddfssiblfJDfsktopIdon.
+         * A nfw AddfssiblfJDfsktopIdon instbndf is drfbtfd if nfdfssbry.
          *
-         * @return an AccessibleJDesktopIcon that serves as the
-         *         AccessibleContext of this JDesktopIcon
+         * @rfturn bn AddfssiblfJDfsktopIdon tibt sfrvfs bs tif
+         *         AddfssiblfContfxt of tiis JDfsktopIdon
          */
-        public AccessibleContext getAccessibleContext() {
-            if (accessibleContext == null) {
-                accessibleContext = new AccessibleJDesktopIcon();
+        publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+            if (bddfssiblfContfxt == null) {
+                bddfssiblfContfxt = nfw AddfssiblfJDfsktopIdon();
             }
-            return accessibleContext;
+            rfturn bddfssiblfContfxt;
         }
 
         /**
-         * This class implements accessibility support for the
-         * <code>JInternalFrame.JDesktopIcon</code> class.  It provides an
-         * implementation of the Java Accessibility API appropriate to
-         * desktop icon user-interface elements.
+         * Tiis dlbss implfmfnts bddfssibility support for tif
+         * <dodf>JIntfrnblFrbmf.JDfsktopIdon</dodf> dlbss.  It providfs bn
+         * implfmfntbtion of tif Jbvb Addfssibility API bppropribtf to
+         * dfsktop idon usfr-intfrfbdf flfmfnts.
          * <p>
-         * <strong>Warning:</strong>
-         * Serialized objects of this class will not be compatible with
-         * future Swing releases. The current serialization support is
-         * appropriate for short term storage or RMI between applications running
-         * the same version of Swing.  As of 1.4, support for long term storage
-         * of all JavaBeans&trade;
-         * has been added to the <code>java.beans</code> package.
-         * Please see {@link java.beans.XMLEncoder}.
+         * <strong>Wbrning:</strong>
+         * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+         * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+         * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+         * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+         * of bll JbvbBfbns&trbdf;
+         * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+         * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
          */
-        @SuppressWarnings("serial") // Same-version serialization only
-        protected class AccessibleJDesktopIcon extends AccessibleJComponent
-            implements AccessibleValue {
+        @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+        protfdtfd dlbss AddfssiblfJDfsktopIdon fxtfnds AddfssiblfJComponfnt
+            implfmfnts AddfssiblfVbluf {
 
             /**
-             * Gets the role of this object.
+             * Gfts tif rolf of tiis objfdt.
              *
-             * @return an instance of AccessibleRole describing the role of the
-             * object
-             * @see AccessibleRole
+             * @rfturn bn instbndf of AddfssiblfRolf dfsdribing tif rolf of tif
+             * objfdt
+             * @sff AddfssiblfRolf
              */
-            public AccessibleRole getAccessibleRole() {
-                return AccessibleRole.DESKTOP_ICON;
+            publid AddfssiblfRolf gftAddfssiblfRolf() {
+                rfturn AddfssiblfRolf.DESKTOP_ICON;
             }
 
             /**
-             * Gets the AccessibleValue associated with this object.  In the
-             * implementation of the Java Accessibility API for this class,
-             * returns this object, which is responsible for implementing the
-             * <code>AccessibleValue</code> interface on behalf of itself.
+             * Gfts tif AddfssiblfVbluf bssodibtfd witi tiis objfdt.  In tif
+             * implfmfntbtion of tif Jbvb Addfssibility API for tiis dlbss,
+             * rfturns tiis objfdt, wiidi is rfsponsiblf for implfmfnting tif
+             * <dodf>AddfssiblfVbluf</dodf> intfrfbdf on bfiblf of itsflf.
              *
-             * @return this object
+             * @rfturn tiis objfdt
              */
-            public AccessibleValue getAccessibleValue() {
-                return this;
+            publid AddfssiblfVbluf gftAddfssiblfVbluf() {
+                rfturn tiis;
             }
 
             //
-            // AccessibleValue methods
+            // AddfssiblfVbluf mftiods
             //
 
             /**
-             * Gets the value of this object as a <code>Number</code>.
+             * Gfts tif vbluf of tiis objfdt bs b <dodf>Numbfr</dodf>.
              *
-             * @return value of the object -- can be <code>null</code> if this object does not
-             * have a value
+             * @rfturn vbluf of tif objfdt -- dbn bf <dodf>null</dodf> if tiis objfdt dofs not
+             * ibvf b vbluf
              */
-            public Number getCurrentAccessibleValue() {
-                AccessibleContext a = JDesktopIcon.this.getInternalFrame().getAccessibleContext();
-                AccessibleValue v = a.getAccessibleValue();
+            publid Numbfr gftCurrfntAddfssiblfVbluf() {
+                AddfssiblfContfxt b = JDfsktopIdon.tiis.gftIntfrnblFrbmf().gftAddfssiblfContfxt();
+                AddfssiblfVbluf v = b.gftAddfssiblfVbluf();
                 if (v != null) {
-                    return v.getCurrentAccessibleValue();
-                } else {
-                    return null;
+                    rfturn v.gftCurrfntAddfssiblfVbluf();
+                } flsf {
+                    rfturn null;
                 }
             }
 
             /**
-             * Sets the value of this object as a <code>Number</code>.
+             * Sfts tif vbluf of tiis objfdt bs b <dodf>Numbfr</dodf>.
              *
-             * @return <code>true</code> if the value was set
+             * @rfturn <dodf>truf</dodf> if tif vbluf wbs sft
              */
-            public boolean setCurrentAccessibleValue(Number n) {
+            publid boolfbn sftCurrfntAddfssiblfVbluf(Numbfr n) {
                 // TIGER - 4422535
                 if (n == null) {
-                    return false;
+                    rfturn fblsf;
                 }
-                AccessibleContext a = JDesktopIcon.this.getInternalFrame().getAccessibleContext();
-                AccessibleValue v = a.getAccessibleValue();
+                AddfssiblfContfxt b = JDfsktopIdon.tiis.gftIntfrnblFrbmf().gftAddfssiblfContfxt();
+                AddfssiblfVbluf v = b.gftAddfssiblfVbluf();
                 if (v != null) {
-                    return v.setCurrentAccessibleValue(n);
-                } else {
-                    return false;
+                    rfturn v.sftCurrfntAddfssiblfVbluf(n);
+                } flsf {
+                    rfturn fblsf;
                 }
             }
 
             /**
-             * Gets the minimum value of this object as a <code>Number</code>.
+             * Gfts tif minimum vbluf of tiis objfdt bs b <dodf>Numbfr</dodf>.
              *
-             * @return minimum value of the object; <code>null</code> if this object does not
-             * have a minimum value
+             * @rfturn minimum vbluf of tif objfdt; <dodf>null</dodf> if tiis objfdt dofs not
+             * ibvf b minimum vbluf
              */
-            public Number getMinimumAccessibleValue() {
-                AccessibleContext a = JDesktopIcon.this.getInternalFrame().getAccessibleContext();
-                if (a instanceof AccessibleValue) {
-                    return ((AccessibleValue)a).getMinimumAccessibleValue();
-                } else {
-                    return null;
+            publid Numbfr gftMinimumAddfssiblfVbluf() {
+                AddfssiblfContfxt b = JDfsktopIdon.tiis.gftIntfrnblFrbmf().gftAddfssiblfContfxt();
+                if (b instbndfof AddfssiblfVbluf) {
+                    rfturn ((AddfssiblfVbluf)b).gftMinimumAddfssiblfVbluf();
+                } flsf {
+                    rfturn null;
                 }
             }
 
             /**
-             * Gets the maximum value of this object as a <code>Number</code>.
+             * Gfts tif mbximum vbluf of tiis objfdt bs b <dodf>Numbfr</dodf>.
              *
-             * @return maximum value of the object; <code>null</code> if this object does not
-             * have a maximum value
+             * @rfturn mbximum vbluf of tif objfdt; <dodf>null</dodf> if tiis objfdt dofs not
+             * ibvf b mbximum vbluf
              */
-            public Number getMaximumAccessibleValue() {
-                AccessibleContext a = JDesktopIcon.this.getInternalFrame().getAccessibleContext();
-                if (a instanceof AccessibleValue) {
-                    return ((AccessibleValue)a).getMaximumAccessibleValue();
-                } else {
-                    return null;
+            publid Numbfr gftMbximumAddfssiblfVbluf() {
+                AddfssiblfContfxt b = JDfsktopIdon.tiis.gftIntfrnblFrbmf().gftAddfssiblfContfxt();
+                if (b instbndfof AddfssiblfVbluf) {
+                    rfturn ((AddfssiblfVbluf)b).gftMbximumAddfssiblfVbluf();
+                } flsf {
+                    rfturn null;
                 }
             }
 
-        } // AccessibleJDesktopIcon
+        } // AddfssiblfJDfsktopIdon
     }
 }

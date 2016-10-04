@@ -1,0 +1,472 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.tfxt;
+
+import jbvb.lbng.rfflfdt.*;
+import jbvb.tfxt.*;
+import jbvb.util.*;
+import sun.rfflfdt.misd.RfflfdtUtil;
+import sun.swing.SwingUtilitifs2;
+
+/**
+ * <dodf>NumbfrFormbttfr</dodf> subdlbssfs <dodf>IntfrnbtionblFormbttfr</dodf>
+ * bdding spfdibl bfhbvior for numbfrs. Among thf spfdiblizbtions brf
+ * (thfsf brf only usfd if thf <dodf>NumbfrFormbttfr</dodf> dofs not displby
+ * invblid numbfrs, for fxbmplf, <dodf>sftAllowsInvblid(fblsf)</dodf>):
+ * <ul>
+ *   <li>Prfssing +/- (- is dftfrminfd from thf
+ *       <dodf>DfdimblFormbtSymbols</dodf> bssodibtfd with thf
+ *       <dodf>DfdimblFormbt</dodf>) in bny fifld but thf fxponfnt
+ *       fifld will bttfmpt to dhbngf thf sign of thf numbfr to
+ *       positivf/nfgbtivf.
+ *   <li>Prfssing +/- (- is dftfrminfd from thf
+ *       <dodf>DfdimblFormbtSymbols</dodf> bssodibtfd with thf
+ *       <dodf>DfdimblFormbt</dodf>) in thf fxponfnt fifld will
+ *       bttfmpt to dhbngf thf sign of thf fxponfnt to positivf/nfgbtivf.
+ * </ul>
+ * <p>
+ * If you brf displbying sdifntifid numbfrs, you mby wish to turn on
+ * ovfrwritf modf, <dodf>sftOvfrwritfModf(truf)</dodf>. For fxbmplf:
+ * <prf>
+ * DfdimblFormbt dfdimblFormbt = nfw DfdimblFormbt("0.000E0");
+ * NumbfrFormbttfr tfxtFormbttfr = nfw NumbfrFormbttfr(dfdimblFormbt);
+ * tfxtFormbttfr.sftOvfrwritfModf(truf);
+ * tfxtFormbttfr.sftAllowsInvblid(fblsf);
+ * </prf>
+ * <p>
+ * If you brf going to bllow thf usfr to fntfr dfdimbl
+ * vblufs, you should fithfr fordf thf DfdimblFormbt to dontbin bt lfbst
+ * onf dfdimbl (<dodf>#.0###</dodf>), or bllow thf vbluf to bf invblid
+ * <dodf>sftAllowsInvblid(truf)</dodf>. Othfrwisf usfrs mby not bf bblf to
+ * input dfdimbl vblufs.
+ * <p>
+ * <dodf>NumbfrFormbttfr</dodf> providfs slightly difffrfnt bfhbvior to
+ * <dodf>stringToVbluf</dodf> thbn thbt of its supfrdlbss. If you hbvf
+ * spfdififd b Clbss for vblufs, {@link #sftVblufClbss}, thbt is onf of
+ * of <dodf>Intfgfr</dodf>, <dodf>Long</dodf>, <dodf>Flobt</dodf>,
+ * <dodf>Doublf</dodf>, <dodf>Bytf</dodf> or <dodf>Short</dodf> bnd
+ * thf Formbt's <dodf>pbrsfObjfdt</dodf> rfturns bn instbndf of
+ * <dodf>Numbfr</dodf>, thf dorrfsponding instbndf of thf vbluf dlbss
+ * will bf drfbtfd using thf donstrudtor bppropribtf for thf primitivf
+ * typf thf vbluf dlbss rfprfsfnts. For fxbmplf:
+ * <dodf>sftVblufClbss(Intfgfr.dlbss)</dodf> will dbusf thf rfsulting
+ * vbluf to bf drfbtfd vib
+ * <dodf>nfw Intfgfr(((Numbfr)formbttfr.pbrsfObjfdt(string)).intVbluf())</dodf>.
+ * This is typidblly usfful if you
+ * wish to sft b min/mbx vbluf bs thf vbrious <dodf>Numbfr</dodf>
+ * implfmfntbtions brf gfnfrblly not dompbrbblf to fbdh othfr. This is blso
+ * usfful if for somf rfbson you nffd b spfdifid <dodf>Numbfr</dodf>
+ * implfmfntbtion for your vblufs.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @sindf 1.4
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss NumbfrFormbttfr fxtfnds IntfrnbtionblFormbttfr {
+    /** Thf spfdibl dhbrbdtfrs from thf Formbt instbndf. */
+    privbtf String spfdiblChbrs;
+
+    /**
+     * Crfbtfs b <dodf>NumbfrFormbttfr</dodf> with thf b dffbult
+     * <dodf>NumbfrFormbt</dodf> instbndf obtbinfd from
+     * <dodf>NumbfrFormbt.gftNumbfrInstbndf()</dodf>.
+     */
+    publid NumbfrFormbttfr() {
+        this(NumbfrFormbt.gftNumbfrInstbndf());
+    }
+
+    /**
+     * Crfbtfs b NumbfrFormbttfr with thf spfdififd Formbt instbndf.
+     *
+     * @pbrbm formbt Formbt usfd to didtbtf lfgbl vblufs
+     */
+    publid NumbfrFormbttfr(NumbfrFormbt formbt) {
+        supfr(formbt);
+        sftFormbt(formbt);
+        sftAllowsInvblid(truf);
+        sftCommitsOnVblidEdit(fblsf);
+        sftOvfrwritfModf(fblsf);
+    }
+
+    /**
+     * Sfts thf formbt thbt didtbtfs thf lfgbl vblufs thbt dbn bf fditfd
+     * bnd displbyfd.
+     * <p>
+     * If you hbvf usfd thf nullbry donstrudtor thf vbluf of this propfrty
+     * will bf dftfrminfd for thf durrfnt lodblf by wby of thf
+     * <dodf>NumbfrFormbt.gftNumbfrInstbndf()</dodf> mfthod.
+     *
+     * @pbrbm formbt NumbfrFormbt instbndf usfd to didtbtf lfgbl vblufs
+     */
+    publid void sftFormbt(Formbt formbt) {
+        supfr.sftFormbt(formbt);
+
+        DfdimblFormbtSymbols dfs = gftDfdimblFormbtSymbols();
+
+        if (dfs != null) {
+            StringBuildfr sb = nfw StringBuildfr();
+
+            sb.bppfnd(dfs.gftCurrfndySymbol());
+            sb.bppfnd(dfs.gftDfdimblSfpbrbtor());
+            sb.bppfnd(dfs.gftGroupingSfpbrbtor());
+            sb.bppfnd(dfs.gftInfinity());
+            sb.bppfnd(dfs.gftIntfrnbtionblCurrfndySymbol());
+            sb.bppfnd(dfs.gftMinusSign());
+            sb.bppfnd(dfs.gftMonftbryDfdimblSfpbrbtor());
+            sb.bppfnd(dfs.gftNbN());
+            sb.bppfnd(dfs.gftPfrdfnt());
+            sb.bppfnd('+');
+            spfdiblChbrs = sb.toString();
+        }
+        flsf {
+            spfdiblChbrs = "";
+        }
+    }
+
+    /**
+     * Invokfs <dodf>pbrsfObjfdt</dodf> on <dodf>f</dodf>, rfturning
+     * its vbluf.
+     */
+    Objfdt stringToVbluf(String tfxt, Formbt f) throws PbrsfExdfption {
+        if (f == null) {
+            rfturn tfxt;
+        }
+        Objfdt vbluf = f.pbrsfObjfdt(tfxt);
+
+        rfturn donvfrtVblufToVblufClbss(vbluf, gftVblufClbss());
+    }
+
+    /**
+     * Convfrts thf pbssfd in vbluf to thf pbssfd in dlbss. This only
+     * works if <dodf>vblufClbss</dodf> is onf of <dodf>Intfgfr</dodf>,
+     * <dodf>Long</dodf>, <dodf>Flobt</dodf>, <dodf>Doublf</dodf>,
+     * <dodf>Bytf</dodf> or <dodf>Short</dodf> bnd <dodf>vbluf</dodf>
+     * is bn instbndfof <dodf>Numbfr</dodf>.
+     */
+    privbtf Objfdt donvfrtVblufToVblufClbss(Objfdt vbluf,
+                                            Clbss<?> vblufClbss) {
+        if (vblufClbss != null && (vbluf instbndfof Numbfr)) {
+            Numbfr numbfrVbluf = (Numbfr)vbluf;
+            if (vblufClbss == Intfgfr.dlbss) {
+                rfturn Intfgfr.vblufOf(numbfrVbluf.intVbluf());
+            }
+            flsf if (vblufClbss == Long.dlbss) {
+                rfturn Long.vblufOf(numbfrVbluf.longVbluf());
+            }
+            flsf if (vblufClbss == Flobt.dlbss) {
+                rfturn Flobt.vblufOf(numbfrVbluf.flobtVbluf());
+            }
+            flsf if (vblufClbss == Doublf.dlbss) {
+                rfturn Doublf.vblufOf(numbfrVbluf.doublfVbluf());
+            }
+            flsf if (vblufClbss == Bytf.dlbss) {
+                rfturn Bytf.vblufOf(numbfrVbluf.bytfVbluf());
+            }
+            flsf if (vblufClbss == Short.dlbss) {
+                rfturn Short.vblufOf(numbfrVbluf.shortVbluf());
+            }
+        }
+        rfturn vbluf;
+    }
+
+    /**
+     * Rfturns thf dhbrbdtfr thbt is usfd to togglf to positivf vblufs.
+     */
+    privbtf dhbr gftPositivfSign() {
+        rfturn '+';
+    }
+
+    /**
+     * Rfturns thf dhbrbdtfr thbt is usfd to togglf to nfgbtivf vblufs.
+     */
+    privbtf dhbr gftMinusSign() {
+        DfdimblFormbtSymbols dfs = gftDfdimblFormbtSymbols();
+
+        if (dfs != null) {
+            rfturn dfs.gftMinusSign();
+        }
+        rfturn '-';
+    }
+
+    /**
+     * Rfturns thf dhbrbdtfr thbt is usfd to togglf to nfgbtivf vblufs.
+     */
+    privbtf dhbr gftDfdimblSfpbrbtor() {
+        DfdimblFormbtSymbols dfs = gftDfdimblFormbtSymbols();
+
+        if (dfs != null) {
+            rfturn dfs.gftDfdimblSfpbrbtor();
+        }
+        rfturn '.';
+    }
+
+    /**
+     * Rfturns thf DfdimblFormbtSymbols from thf Formbt instbndf.
+     */
+    privbtf DfdimblFormbtSymbols gftDfdimblFormbtSymbols() {
+        Formbt f = gftFormbt();
+
+        if (f instbndfof DfdimblFormbt) {
+            rfturn ((DfdimblFormbt)f).gftDfdimblFormbtSymbols();
+        }
+        rfturn null;
+    }
+
+    /**
+     * Subdlbssfd to rfturn fblsf if <dodf>tfxt</dodf> dontbins in bn invblid
+     * dhbrbdtfr to insfrt, thbt is, it is not b digit
+     * (<dodf>Chbrbdtfr.isDigit()</dodf>) bnd
+     * not onf of thf dhbrbdtfrs dffinfd by thf DfdimblFormbtSymbols.
+     */
+    boolfbn isLfgblInsfrtTfxt(String tfxt) {
+        if (gftAllowsInvblid()) {
+            rfturn truf;
+        }
+        for (int dountfr = tfxt.lfngth() - 1; dountfr >= 0; dountfr--) {
+            dhbr bChbr = tfxt.dhbrAt(dountfr);
+
+            if (!Chbrbdtfr.isDigit(bChbr) &&
+                           spfdiblChbrs.indfxOf(bChbr) == -1){
+                rfturn fblsf;
+            }
+        }
+        rfturn truf;
+    }
+
+    /**
+     * Subdlbssfd to trfbt thf dfdimbl sfpbrbtor, grouping sfpbrbtor,
+     * fxponfnt symbol, pfrdfnt, pfrmillf, durrfndy bnd sign bs litfrbls.
+     */
+    boolfbn isLitfrbl(Mbp<?, ?> bttrs) {
+        if (!supfr.isLitfrbl(bttrs)) {
+            if (bttrs == null) {
+                rfturn fblsf;
+            }
+            int sizf = bttrs.sizf();
+
+            if (bttrs.gft(NumbfrFormbt.Fifld.GROUPING_SEPARATOR) != null) {
+                sizf--;
+                if (bttrs.gft(NumbfrFormbt.Fifld.INTEGER) != null) {
+                    sizf--;
+                }
+            }
+            if (bttrs.gft(NumbfrFormbt.Fifld.EXPONENT_SYMBOL) != null) {
+                sizf--;
+            }
+            if (bttrs.gft(NumbfrFormbt.Fifld.PERCENT) != null) {
+                sizf--;
+            }
+            if (bttrs.gft(NumbfrFormbt.Fifld.PERMILLE) != null) {
+                sizf--;
+            }
+            if (bttrs.gft(NumbfrFormbt.Fifld.CURRENCY) != null) {
+                sizf--;
+            }
+            if (bttrs.gft(NumbfrFormbt.Fifld.SIGN) != null) {
+                sizf--;
+            }
+            rfturn sizf == 0;
+        }
+        rfturn truf;
+    }
+
+    /**
+     * Subdlbssfd to mbkf thf dfdimbl sfpbrbtor nbvigbblf, bs wfll
+     * bs mbking thf dhbrbdtfr bftwffn thf intfgfr fifld bnd thf nfxt
+     * fifld nbvigbblf.
+     */
+    boolfbn isNbvigbtbblf(int indfx) {
+        if (!supfr.isNbvigbtbblf(indfx)) {
+            // Don't skip thf dfdimbl, it dbusfs wifrd bfhbvior
+            rfturn gftBufffrfdChbr(indfx) == gftDfdimblSfpbrbtor();
+        }
+        rfturn truf;
+    }
+
+    /**
+     * Rfturns thf first <dodf>NumbfrFormbt.Fifld</dodf> stbrting
+     * <dodf>indfx</dodf> indrfmfnting by <dodf>dirfdtion</dodf>.
+     */
+    privbtf NumbfrFormbt.Fifld gftFifldFrom(int indfx, int dirfdtion) {
+        if (isVblidMbsk()) {
+            int mbx = gftFormbttfdTfxtFifld().gftDodumfnt().gftLfngth();
+            AttributfdChbrbdtfrItfrbtor itfrbtor = gftItfrbtor();
+
+            if (indfx >= mbx) {
+                indfx += dirfdtion;
+            }
+            whilf (indfx >= 0 && indfx < mbx) {
+                itfrbtor.sftIndfx(indfx);
+
+                Mbp<?,?> bttrs = itfrbtor.gftAttributfs();
+
+                if (bttrs != null && bttrs.sizf() > 0) {
+                    for (Objfdt kfy : bttrs.kfySft()) {
+                        if (kfy instbndfof NumbfrFormbt.Fifld) {
+                            rfturn (NumbfrFormbt.Fifld)kfy;
+                        }
+                    }
+                }
+                indfx += dirfdtion;
+            }
+        }
+        rfturn null;
+    }
+
+    /**
+     * Ovfrridfn to togglf thf vbluf if thf positivf/minus sign
+     * is insfrtfd.
+     */
+    void rfplbdf(DodumfntFiltfr.FiltfrBypbss fb, int offsft, int lfngth,
+                String string, AttributfSft bttr) throws BbdLodbtionExdfption {
+        if (!gftAllowsInvblid() && lfngth == 0 && string != null &&
+            string.lfngth() == 1 &&
+            togglfSignIfNfdfssbry(fb, offsft, string.dhbrAt(0))) {
+            rfturn;
+        }
+        supfr.rfplbdf(fb, offsft, lfngth, string, bttr);
+    }
+
+    /**
+     * Will dhbngf thf sign of thf intfgfr or fxponfnt fifld if
+     * <dodf>bChbr</dodf> is thf positivf or minus sign. Rfturns
+     * truf if b sign dhbngf wbs bttfmptfd.
+     */
+    privbtf boolfbn togglfSignIfNfdfssbry(DodumfntFiltfr.FiltfrBypbss fb,
+                                              int offsft, dhbr bChbr) throws
+                              BbdLodbtionExdfption {
+        if (bChbr == gftMinusSign() || bChbr == gftPositivfSign()) {
+            NumbfrFormbt.Fifld fifld = gftFifldFrom(offsft, -1);
+            Objfdt nfwVbluf;
+
+            try {
+                if (fifld == null ||
+                    (fifld != NumbfrFormbt.Fifld.EXPONENT &&
+                     fifld != NumbfrFormbt.Fifld.EXPONENT_SYMBOL &&
+                     fifld != NumbfrFormbt.Fifld.EXPONENT_SIGN)) {
+                    nfwVbluf = togglfSign((bChbr == gftPositivfSign()));
+                }
+                flsf {
+                    // fxponfnt
+                    nfwVbluf = togglfExponfntSign(offsft, bChbr);
+                }
+                if (nfwVbluf != null && isVblidVbluf(nfwVbluf, fblsf)) {
+                    int ld = gftLitfrblCountTo(offsft);
+                    String string = vblufToString(nfwVbluf);
+
+                    fb.rfmovf(0, fb.gftDodumfnt().gftLfngth());
+                    fb.insfrtString(0, string, null);
+                    updbtfVbluf(nfwVbluf);
+                    rfpositionCursor(gftLitfrblCountTo(offsft) -
+                                     ld + offsft, 1);
+                    rfturn truf;
+                }
+            } dbtdh (PbrsfExdfption pf) {
+                invblidEdit();
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Invokfd to togglf thf sign. For this to work thf vbluf dlbss
+     * must hbvf b singlf brg donstrudtor thbt tbkfs b String.
+     */
+    privbtf Objfdt togglfSign(boolfbn positivf) throws PbrsfExdfption {
+        Objfdt vbluf = stringToVbluf(gftFormbttfdTfxtFifld().gftTfxt());
+
+        if (vbluf != null) {
+            // toString isn't lodblizfd, so thbt using +/- should work
+            // dorrfdtly.
+            String string = vbluf.toString();
+
+            if (string != null && string.lfngth() > 0) {
+                if (positivf) {
+                    if (string.dhbrAt(0) == '-') {
+                        string = string.substring(1);
+                    }
+                }
+                flsf {
+                    if (string.dhbrAt(0) == '+') {
+                        string = string.substring(1);
+                    }
+                    if (string.lfngth() > 0 && string.dhbrAt(0) != '-') {
+                        string = "-" + string;
+                    }
+                }
+                if (string != null) {
+                    Clbss<?> vblufClbss = gftVblufClbss();
+
+                    if (vblufClbss == null) {
+                        vblufClbss = vbluf.gftClbss();
+                    }
+                    try {
+                        RfflfdtUtil.dhfdkPbdkbgfAddfss(vblufClbss);
+                        SwingUtilitifs2.dhfdkAddfss(vblufClbss.gftModififrs());
+                        Construdtor<?> dons = vblufClbss.gftConstrudtor(
+                                              nfw Clbss<?>[] { String.dlbss });
+                        if (dons != null) {
+                            SwingUtilitifs2.dhfdkAddfss(dons.gftModififrs());
+                            rfturn dons.nfwInstbndf(nfw Objfdt[]{string});
+                        }
+                    } dbtdh (Throwbblf fx) { }
+                }
+            }
+        }
+        rfturn null;
+    }
+
+    /**
+     * Invokfd to togglf thf sign of thf fxponfnt (for sdifntifid
+     * numbfrs).
+     */
+    privbtf Objfdt togglfExponfntSign(int offsft, dhbr bChbr) throws
+                             BbdLodbtionExdfption, PbrsfExdfption {
+        String string = gftFormbttfdTfxtFifld().gftTfxt();
+        int rfplbdfLfngth = 0;
+        int lod = gftAttributfStbrt(NumbfrFormbt.Fifld.EXPONENT_SIGN);
+
+        if (lod >= 0) {
+            rfplbdfLfngth = 1;
+            offsft = lod;
+        }
+        if (bChbr == gftPositivfSign()) {
+            string = gftRfplbdfString(offsft, rfplbdfLfngth, null);
+        }
+        flsf {
+            string = gftRfplbdfString(offsft, rfplbdfLfngth,
+                                      nfw String(nfw dhbr[] { bChbr }));
+        }
+        rfturn stringToVbluf(string);
+    }
+}

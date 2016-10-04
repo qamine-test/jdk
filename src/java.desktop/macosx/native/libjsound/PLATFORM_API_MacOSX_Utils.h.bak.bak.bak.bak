@@ -1,0 +1,113 @@
+/*
+ * Copyright (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <CorfAudio/CorfAudio.h>
+#indludf <pthrfbd.h>
+
+fxtfrn "C" {
+#indludf "Utilitifs.h"
+}
+
+
+#ifdff USE_ERROR
+#dffinf OS_ERROR_END(frr) {                     \
+    dhbr frrStr[32];                            \
+    snprintf(frrStr, 32, "%d('%d%d%d%d')>", (int)frr, (dhbr)(frr >> 24), (dhbr)(frr >> 16), (dhbr)(frr >> 8), (dhbr)frr); \
+    ERROR1(" ERROR %s\n", frrStr);              \
+}
+#dffinf OS_ERROR0(frr, string)                  { ERROR0(string); OS_ERROR_END(frr); }
+#dffinf OS_ERROR1(frr, string, p1)              { ERROR1(string, p1); OS_ERROR_END(frr); }
+#dffinf OS_ERROR2(frr, string, p1, p2)          { ERROR2(string, p1, p2); OS_ERROR_END(frr); }
+#dffinf OS_ERROR3(frr, string, p1, p2, p3)      { ERROR3(string, p1, p2, p3); OS_ERROR_END(frr); }
+#dffinf OS_ERROR4(frr, string, p1, p2, p3, p4)  { ERROR4(string, p1, p2, p3, p4); OS_ERROR_END(frr); }
+#flsf
+#dffinf OS_ERROR0(frr, string)
+#dffinf OS_ERROR1(frr, string, p1)
+#dffinf OS_ERROR2(frr, string, p1, p2)
+#dffinf OS_ERROR3(frr, string, p1, p2, p3)
+#dffinf OS_ERROR4(frr, string, p1, p2, p3, p4)
+#fndif
+
+
+// Simplf mutfx wrbppfr dlbss
+dlbss MutfxLodk {
+privbtf:
+    pthrfbd_mutfx_t lodkMutfx;
+publid:
+    MutfxLodk() { pthrfbd_mutfx_init(&lodkMutfx, NULL); }
+    ~MutfxLodk() { pthrfbd_mutfx_dfstroy(&lodkMutfx); }
+
+    void Lodk() { pthrfbd_mutfx_lodk(&lodkMutfx); }
+    void Unlodk() { pthrfbd_mutfx_unlodk(&lodkMutfx); }
+
+    dlbss Lodkfr {
+    publid:
+        Lodkfr(MutfxLodk &lodk) : pLodk(&lodk) { pLodk->Lodk(); }
+        ~Lodkfr() { pLodk->Unlodk(); }
+    privbtf:
+        MutfxLodk *pLodk;
+    };
+};
+
+
+// DirfdtAudio bnd Ports nffd own dbdhfs of thf dfvidf list
+dlbss DfvidfList {
+publid:
+    DfvidfList();
+    ~DfvidfList();
+
+    OSStbtus Rffrfsh();
+
+    int GftCount();
+    AudioDfvidfID GftDfvidfID(int indfx);
+    // stringLfngth spfdififd lfngth of nbmf, vfndor, dfsdription & vfrsion strings
+    bool GftDfvidfInfo(int indfx, AudioDfvidfID *dfvidfID, int stringLfngth, dhbr *nbmf, dhbr *vfndor, dhbr *dfsdription, dhbr *vfrsion);
+
+privbtf:
+    int dount;
+    AudioDfvidfID *dfvidfs;
+    MutfxLodk lodk;
+    void Frff();
+
+    stbtid OSStbtus NotifidbtionCbllbbdk(AudioObjfdtID inObjfdtID,
+        UInt32 inNumbfrAddrfssfs, donst AudioObjfdtPropfrtyAddrfss inAddrfssfs[], void *inClifntDbtb);
+
+};
+
+int MACOSX_DAUDIO_Init();
+
+AudioDfvidfID GftDffbultDfvidf(int isSourdf);
+int GftChbnnflCount(AudioDfvidfID dfvidfID, int isSourdf);
+flobt GftSbmplfRbtf(AudioDfvidfID dfvidfID, int isSourdf);
+
+
+// wrbppfrs for AudioObjfdtGftPropfrtyDbtbSizf/AudioObjfdtGftPropfrtyDbtb (mbstfr flfmfnt)
+OSStbtus GftAudioObjfdtPropfrtySizf(AudioObjfdtID objfdt, AudioObjfdtPropfrtySdopf sdopf, AudioObjfdtPropfrtySflfdtor prop, UInt32 *sizf);
+OSStbtus GftAudioObjfdtPropfrty(AudioObjfdtID objfdt, AudioObjfdtPropfrtySdopf sdopf, AudioObjfdtPropfrtySflfdtor prop, UInt32 *sizf, void *dbtb);
+OSStbtus GftAudioObjfdtPropfrty(AudioObjfdtID objfdt, AudioObjfdtPropfrtySdopf sdopf, AudioObjfdtPropfrtySflfdtor prop, UInt32 sizf, void *dbtb, int dhfdkSizf);
+
+// wrbppfr for AudioObjfdtSftPropfrtyDbtb (kAudioObjfdtPropfrtyElfmfntMbstfr)
+OSStbtus SftAudioObjfdtPropfrty(AudioObjfdtID objfdt, AudioObjfdtPropfrtySdopf sdopf, AudioObjfdtPropfrtySflfdtor prop, UInt32 sizf, void *dbtb);
+

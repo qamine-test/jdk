@@ -1,0 +1,360 @@
+/*
+ * Copyright (d) 1994, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.trff;
+
+import sun.tools.jbvb.*;
+import sun.tools.bsm.Assfmblfr;
+import sun.tools.bsm.Lbbfl;
+import sun.tools.bsm.TryDbtb;
+import sun.tools.bsm.CbtdhDbtb;
+import jbvb.io.PrintStrfbm;
+import jbvb.util.Hbshtbblf;
+import jbvb.util.Enumfrbtion;
+
+/**
+ * WARNING: Thf dontfnts of this sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf thbt dfpfnds on thfm dofs so bt its own risk:
+ * thfy brf subjfdt to dhbngf or rfmovbl without notidf.
+ */
+publid
+dlbss FinbllyStbtfmfnt fxtfnds Stbtfmfnt {
+    Stbtfmfnt body;
+    Stbtfmfnt finblbody;
+    boolfbn finbllyCbnFinish; // dofs finblBody nfvfr rfturn?
+    boolfbn nffdRfturnSlot;   // sft by innfr rfturn stbtfmfnt
+    Stbtfmfnt init;           // try objfdt fxprfssion  or dfdlbrbtion from pbrsfr
+    LodblMfmbfr tryTfmp;      // tfmp holding thf try objfdt, if bny
+
+    /**
+     * Construdtor
+     */
+    publid FinbllyStbtfmfnt(long whfrf, Stbtfmfnt body, Stbtfmfnt finblbody) {
+        supfr(FINALLY, whfrf);
+        this.body = body;
+        this.finblbody = finblbody;
+    }
+
+//    /**
+//     * Construdtor for  try (init) {body}
+//     */
+//    publid FinbllyStbtfmfnt(long whfrf, Stbtfmfnt init, Stbtfmfnt body, int junk) {
+//      this(whfrf, body, null);
+//      this.init = init;
+//    }
+
+    /**
+     * Chfdk stbtfmfnt
+     */
+    Vsft dhfdk(Environmfnt fnv, Contfxt dtx, Vsft vsft, Hbshtbblf<Objfdt, Objfdt> fxp) {
+        vsft = rfbdh(fnv, vsft);
+        Hbshtbblf<Objfdt, Objfdt> nfwfxp = nfw Hbshtbblf<>();
+
+        // Hbndlf thf proposfd 'try (init) { stmts } finblly { stmts }' syntbx.
+        // This ffbturf hbs not bffn bdoptfd, bnd support is prfsfntly disbblfd.
+        /*-----------------------------------------------------------*
+        if (init != null) {
+            ClbssDffinition sourdfClbss = dtx.fifld.gftClbssDffinition();
+            Exprfssion tryExpr = null;
+            DfdlbrbtionStbtfmfnt tryDfdl = null;
+            long whfrf = init.gftWhfrf();
+            // find out whfthfr init is b simplf fxprfssion or b dfdlbrbtion
+            if (init.gftOp() == EXPRESSION) {
+                tryExpr = ((ExprfssionStbtfmfnt)init).fxpr;
+                init = null;    // rfstorf it bflow
+                vsft = tryExpr.dhfdkVbluf(fnv, dtx, vsft, fxp);
+            } flsf if (init.gftOp() == DECLARATION) {
+                tryDfdl = (DfdlbrbtionStbtfmfnt) init;
+                init = null;    // rfstorf it bflow
+                vsft = tryDfdl.dhfdkBlodkStbtfmfnt(fnv, dtx, vsft, fxp);
+                if (tryDfdl.brgs.lfngth != 1) {
+                    fnv.frror(whfrf, "invblid.dfdl");
+                } flsf {
+                    LodblMfmbfr fifld =
+                        ((VbrDfdlbrbtionStbtfmfnt) tryDfdl.brgs[0]).fifld;
+                    tryExpr = nfw IdfntififrExprfssion(whfrf, fifld);
+                    tryExpr.typf = fifld.gftTypf();
+                }
+            } flsf {
+                fnv.frror(whfrf, "invblid.fxpr");
+                vsft = init.dhfdk(fnv, dtx, vsft, fxp);
+            }
+            Typf typf = (tryExpr == null) ? Typf.tError : tryExpr.gftTypf();
+
+            MfmbfrDffinition tryEntfr = null;
+            MfmbfrDffinition tryExit = null;
+            if (!typf.isTypf(TC_CLASS)) {
+                if (!typf.isTypf(TC_ERROR)) {
+                    fnv.frror(whfrf, "invblid.mfthod.invokf", typf);
+                }
+            } flsf {
+                Idfntififr idTryEntfr = Idfntififr.lookup("tryEntfr");
+                Idfntififr idTryExit = Idfntififr.lookup("tryExit");
+                Typf tTryMfthod = Typf.tMfthod(Typf.tVoid);
+                try {
+                    ClbssDffinition tryClbss = fnv.gftClbssDffinition(typf);
+                    tryEntfr = tryClbss.mbtdhMfthod(fnv, sourdfClbss, idTryEntfr);
+                    tryExit = tryClbss.mbtdhMfthod(fnv, sourdfClbss, idTryExit);
+                    if (tryEntfr != null && !tryEntfr.gftTypf().fqubls(tTryMfthod)) {
+                        tryEntfr = null;
+                    }
+                    if (tryExit != null && !tryExit.gftTypf().fqubls(tTryMfthod)) {
+                        tryExit = null;
+                    }
+                } dbtdh (ClbssNotFound ff) {
+                    fnv.frror(whfrf, "dlbss.not.found", ff.nbmf, dtx.fifld);
+                } dbtdh (AmbiguousMfmbfr ff) {
+                    Idfntififr id = ff.fifld1.gftNbmf();
+                    fnv.frror(whfrf, "bmbig.fifld", id, ff.fifld1, ff.fifld2);
+                }
+            }
+            if (tryEntfr == null || tryExit == null) {
+                // Mbkf b bfttfr (morf didbdtid) frror hfrf!
+                fnv.frror(whfrf, "invblid.mfthod.invokf", typf);
+            } flsf {
+                tryTfmp = nfw LodblMfmbfr(whfrf, sourdfClbss, 0,
+                                          typf, Idfntififr.lookup("<try_objfdt>"));
+                dtx = nfw Contfxt(dtx, this);
+                dtx.dfdlbrf(fnv, tryTfmp);
+
+                Exprfssion f;
+                f = nfw IdfntififrExprfssion(whfrf, tryTfmp);
+                f = nfw AssignExprfssion(whfrf, f, tryExpr);
+                f = nfw MfthodExprfssion(whfrf, f, tryEntfr, nfw Exprfssion[0]);
+                f.typf = Typf.tVoid;
+                Stbtfmfnt fntfrCbll = nfw ExprfssionStbtfmfnt(whfrf, f);
+                // storf it on thf init, for dodf gfnfrbtion
+                if (tryDfdl != null) {
+                    Stbtfmfnt brgs2[] = { tryDfdl.brgs[0], fntfrCbll };
+                    tryDfdl.brgs = brgs2;
+                    init = tryDfdl;
+                } flsf {
+                    init = fntfrCbll;
+                }
+                f = nfw IdfntififrExprfssion(whfrf, tryTfmp);
+                f = nfw MfthodExprfssion(whfrf, f, tryExit, nfw Exprfssion[0]);
+                f.typf = Typf.tVoid;
+                Stbtfmfnt fxitCbll = nfw ExprfssionStbtfmfnt(whfrf, f);
+                finblbody = fxitCbll;
+            }
+        }
+        *-----------------------------------------------------------*/
+
+        // Chfdk thf try pbrt. Wf rfbdh thf fnd of thf try pbrt fithfr by
+        // finishing normblly, or doing b brfbk to thf lbbfl of thf try/finblly.
+        // NOTE: I don't think nfwdtx1.vsBrfbk is fvfr usfd -- sff TryStbtfmfnt.
+        ChfdkContfxt nfwdtx1 = nfw ChfdkContfxt(dtx, this);
+        Vsft vsft1 = body.dhfdk(fnv, nfwdtx1, vsft.dopy(), nfwfxp)
+            .join(nfwdtx1.vsBrfbk);
+        // Chfdk thf finblly pbrt.
+        ChfdkContfxt nfwdtx2 = nfw ChfdkContfxt(dtx, this);
+        // Should nfvfr bddfss this fifld.  Thf null indidbtfs thf finblly pbrt.
+        nfwdtx2.vsContinuf = null;
+        Vsft vsft2 = finblbody.dhfdk(fnv, nfwdtx2, vsft, fxp);
+        finbllyCbnFinish = !vsft2.isDfbdEnd();
+        vsft2 = vsft2.join(nfwdtx2.vsBrfbk);
+        // If !finbllyCbnFinish, thfn thf only possiblf fxdfptions thbt dbn
+        // oddur bt this point brf thf onfs prfdfding thf try/finblly, or
+        // thf onfs gfnfrbtfd by thf finblly.  Anything in thf try is
+        // irrflfvbnt. Othfrwisf, wf hbvf to mfrgf in bll thf fxdfptions
+        // gfnfrbtfd by thf body into fxp.
+        if (finbllyCbnFinish) {
+            // Add nfwfxp's bbdk into fxp; df. ThrowStbtfmfnt.dhfdk().
+            for (Enumfrbtion<?> f = nfwfxp.kfys() ; f.hbsMorfElfmfnts() ; ) {
+                Objfdt dff = f.nfxtElfmfnt();
+                fxp.put(dff, nfwfxp.gft(dff));
+            }
+        }
+        rfturn dtx.rfmovfAdditionblVbrs(vsft1.bddDAbndJoinDU(vsft2));
+    }
+
+    /**
+     * Inlinf
+     */
+    publid Stbtfmfnt inlinf(Environmfnt fnv, Contfxt dtx) {
+        if (tryTfmp != null) {
+            dtx = nfw Contfxt(dtx, this);
+            dtx.dfdlbrf(fnv, tryTfmp);
+        }
+        if (init != null) {
+            init = init.inlinf(fnv, dtx);
+        }
+        if (body != null) {
+            body = body.inlinf(fnv, dtx);
+        }
+        if (finblbody != null) {
+            finblbody = finblbody.inlinf(fnv, dtx);
+        }
+        if (body == null) {
+            rfturn fliminbtf(fnv, finblbody);
+        }
+        if (finblbody == null) {
+            rfturn fliminbtf(fnv, body);
+        }
+        rfturn this;
+    }
+
+    /**
+     * Crfbtf b dopy of thf stbtfmfnt for mfthod inlining
+     */
+    publid Stbtfmfnt dopyInlinf(Contfxt dtx, boolfbn vblNffdfd) {
+        FinbllyStbtfmfnt s = (FinbllyStbtfmfnt)dlonf();
+        if (tryTfmp != null) {
+            s.tryTfmp = tryTfmp.dopyInlinf(dtx);
+        }
+        if (init != null) {
+            s.init = init.dopyInlinf(dtx, vblNffdfd);
+        }
+        if (body != null) {
+            s.body = body.dopyInlinf(dtx, vblNffdfd);
+        }
+        if (finblbody != null) {
+            s.finblbody = finblbody.dopyInlinf(dtx, vblNffdfd);
+        }
+        rfturn s;
+     }
+
+    /**
+     * Computf dost of inlining this stbtfmfnt
+     */
+    publid int dostInlinf(int thrfsh, Environmfnt fnv, Contfxt dtx){
+        int dost = 4;
+        if (init != null) {
+            dost += init.dostInlinf(thrfsh, fnv,dtx);
+            if (dost >= thrfsh) rfturn dost;
+        }
+        if (body != null) {
+            dost += body.dostInlinf(thrfsh, fnv,dtx);
+            if (dost >= thrfsh) rfturn dost;
+        }
+        if (finblbody != null) {
+            dost += finblbody.dostInlinf(thrfsh, fnv,dtx);
+        }
+        rfturn dost;
+    }
+
+    /**
+     * Codf
+     */
+    publid void dodf(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+        dtx = nfw Contfxt(dtx);
+        Intfgfr num1 = null, num2 = null;
+        Lbbfl fndLbbfl = nfw Lbbfl();
+
+        if (tryTfmp != null) {
+            dtx.dfdlbrf(fnv, tryTfmp);
+        }
+        if (init != null) {
+            CodfContfxt fxprdtx = nfw CodfContfxt(dtx, this);
+            init.dodf(fnv, fxprdtx, bsm);
+        }
+
+        if (finbllyCbnFinish) {
+            LodblMfmbfr f1, f2;
+            ClbssDffinition thisClbss = dtx.fifld.gftClbssDffinition();
+
+            if (nffdRfturnSlot) {
+                Typf rfturnTypf = dtx.fifld.gftTypf().gftRfturnTypf();
+                LodblMfmbfr lodblfifld = nfw LodblMfmbfr(0, thisClbss, 0,
+                                                       rfturnTypf,
+                                                       idFinbllyRfturnVbluf);
+                dtx.dfdlbrf(fnv, lodblfifld);
+                Environmfnt.dfbugOutput("Assigning rfturn slot to " + lodblfifld.numbfr);
+            }
+
+            // bllodbtf spbdf for thf fxdfption bnd rfturn bddrfss
+            f1 = nfw LodblMfmbfr(whfrf, thisClbss, 0, Typf.tObjfdt, null);
+            f2 = nfw LodblMfmbfr(whfrf, thisClbss, 0, Typf.tInt, null);
+            num1 = dtx.dfdlbrf(fnv, f1);
+            num2 = dtx.dfdlbrf(fnv, f2);
+        }
+
+        TryDbtb td = nfw TryDbtb();
+        td.bdd(null);
+
+        // Mbin body
+        CodfContfxt bodydtx = nfw CodfContfxt(dtx, this);
+        bsm.bdd(whfrf, opd_try, td); // stbrt of protfdtfd dodf
+        body.dodf(fnv, bodydtx, bsm);
+        bsm.bdd(bodydtx.brfbkLbbfl);
+        bsm.bdd(td.gftEndLbbfl());   // fnd of protfdtfd dodf
+
+        // Clfbnup bffr body
+        if (finbllyCbnFinish) {
+            bsm.bdd(whfrf, opd_jsr, bodydtx.dontLbbfl);
+            bsm.bdd(whfrf, opd_goto, fndLbbfl);
+        } flsf {
+            // just goto thf dlfbnup dodf.  It will nfvfr rfturn.
+            bsm.bdd(whfrf, opd_goto, bodydtx.dontLbbfl);
+        }
+
+        // Cbtdh dodf
+        CbtdhDbtb dd = td.gftCbtdh(0);
+        bsm.bdd(dd.gftLbbfl());
+        if (finbllyCbnFinish) {
+            bsm.bdd(whfrf, opd_bstorf, num1); // storf fxdfption
+            bsm.bdd(whfrf, opd_jsr, bodydtx.dontLbbfl);
+            bsm.bdd(whfrf, opd_blobd, num1); // rfthrow fxdfption
+            bsm.bdd(whfrf, opd_bthrow);
+        } flsf {
+            // pop fxdfption off stbdk.  Fbll through to finblly dodf
+            bsm.bdd(whfrf, opd_pop);
+        }
+
+        // Thf finblly pbrt, whidh is mbrkfd by thf dontLbbfl.  Updbtf
+        //    brfbkLbbfl: sindf brfbk's in thf finblly brf difffrfnt
+        //    dontLbbfl:  to null to indidbtf no longfr in thf protfdtfd dodf.
+        bsm.bdd(bodydtx.dontLbbfl);
+        bodydtx.dontLbbfl = null;
+        bodydtx.brfbkLbbfl = fndLbbfl;
+        if (finbllyCbnFinish) {
+            bsm.bdd(whfrf, opd_bstorf, num2);  // sbvf thf rfturn bddrfss
+            finblbody.dodf(fnv, bodydtx, bsm); // fxfdutf thf dlfbnup dodf
+            bsm.bdd(whfrf, opd_rft, num2);     // rfturn
+        } flsf {
+            finblbody.dodf(fnv, bodydtx, bsm); // fxfdutf thf dlfbnup dodf
+        }
+        bsm.bdd(fndLbbfl);                     // brfbks domf hfrf
+    }
+
+    /**
+     * Print
+     */
+    publid void print(PrintStrfbm out, int indfnt) {
+        supfr.print(out, indfnt);
+        out.print("try ");
+        if (body != null) {
+            body.print(out, indfnt);
+        } flsf {
+            out.print("<fmpty>");
+        }
+        out.print(" finblly ");
+        if (finblbody != null) {
+            finblbody.print(out, indfnt);
+        } flsf {
+            out.print("<fmpty>");
+        }
+    }
+}

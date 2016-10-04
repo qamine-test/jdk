@@ -1,0 +1,545 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jdi.rfqufst;
+
+import dom.sun.jdi.*;
+
+import jbvb.util.List;
+
+/**
+ * Mbnbgfs thf drfbtion bnd dflftion of {@link EvfntRfqufst}s. A singlf
+ * implfmfntor of this intfrfbdf fxists in b pbrtidubr VM bnd
+ * is bddfssfd through {@link VirtublMbdhinf#fvfntRfqufstMbnbgfr()}
+ *
+ * @sff EvfntRfqufst
+ * @sff dom.sun.jdi.fvfnt.Evfnt
+ * @sff BrfbkpointRfqufst
+ * @sff dom.sun.jdi.fvfnt.BrfbkpointEvfnt
+ * @sff VirtublMbdhinf
+ *
+ * @buthor Robfrt Fifld
+ * @sindf  1.3
+ */
+
+@jdk.Exportfd
+publid intfrfbdf EvfntRfqufstMbnbgfr fxtfnds Mirror {
+
+    /**
+     * Crfbtfs b nfw disbblfd {@link ClbssPrfpbrfRfqufst}.
+     * Thf nfw fvfnt rfqufst is bddfd to thf list mbnbgfd by this
+     * EvfntRfqufstMbnbgfr. Usf {@link EvfntRfqufst#fnbblf()} to
+     * bdtivbtf this fvfnt rfqufst.
+     *
+     * @rfturn thf drfbtfd {@link ClbssPrfpbrfRfqufst}
+     */
+    ClbssPrfpbrfRfqufst drfbtfClbssPrfpbrfRfqufst();
+
+    /**
+     * Crfbtfs b nfw disbblfd {@link ClbssUnlobdRfqufst}.
+     * Thf nfw fvfnt rfqufst is bddfd to thf list mbnbgfd by this
+     * EvfntRfqufstMbnbgfr. Usf {@link EvfntRfqufst#fnbblf()} to
+     * bdtivbtf this fvfnt rfqufst.
+     *
+     * @rfturn thf drfbtfd {@link ClbssUnlobdRfqufst}
+     */
+    ClbssUnlobdRfqufst drfbtfClbssUnlobdRfqufst();
+
+    /**
+     * Crfbtfs b nfw disbblfd {@link ThrfbdStbrtRfqufst}.
+     * Thf nfw fvfnt rfqufst is bddfd to thf list mbnbgfd by this
+     * EvfntRfqufstMbnbgfr. Usf {@link EvfntRfqufst#fnbblf()} to
+     * bdtivbtf this fvfnt rfqufst.
+     *
+     * @rfturn thf drfbtfd {@link ThrfbdStbrtRfqufst}
+     */
+    ThrfbdStbrtRfqufst drfbtfThrfbdStbrtRfqufst();
+
+    /**
+     * Crfbtfs b nfw disbblfd {@link ThrfbdDfbthRfqufst}.
+     * Thf nfw fvfnt rfqufst is bddfd to thf list mbnbgfd by this
+     * EvfntRfqufstMbnbgfr. Usf {@link EvfntRfqufst#fnbblf()} to
+     * bdtivbtf this fvfnt rfqufst.
+     *
+     * @rfturn thf drfbtfd {@link ThrfbdDfbthRfqufst}
+     */
+    ThrfbdDfbthRfqufst drfbtfThrfbdDfbthRfqufst();
+
+    /**
+     * Crfbtfs b nfw disbblfd {@link ExdfptionRfqufst}.
+     * Thf nfw fvfnt rfqufst is bddfd to thf list mbnbgfd by this
+     * EvfntRfqufstMbnbgfr. Usf {@link EvfntRfqufst#fnbblf()} to
+     * bdtivbtf this fvfnt rfqufst.
+     * <P>
+     * A spfdifid fxdfption typf bnd its subdlbssfs dbn bf sflfdtfd
+     * for fxdfption fvfnts. Cbught fxdfptions,  undbught fxdfptions,
+     * or both dbn bf sflfdtfd. Notf, howfvfr, thbt
+     * bt thf timf bn fxdfption is thrown, it is not blwbys
+     * possiblf to dftfrminf whfthfr it is truly dbught. Sff
+     * {@link dom.sun.jdi.fvfnt.ExdfptionEvfnt#dbtdhLodbtion} for
+     * dftbils.
+     * @pbrbm rffTypf If non-null, spfdififs thbt fxdfptions whidh brf
+     *                instbndfs of rffTypf will bf rfportfd. Notf: this
+     *                will indludf instbndfs of sub-typfs.  If null,
+     *                bll instbndfs will bf rfportfd
+     * @pbrbm notifyCbught If truf, dbught fxdfptions will bf rfportfd.
+     * @pbrbm notifyUndbught If truf, undbught fxdfptions will bf rfportfd.
+     *
+     * @rfturn thf drfbtfd {@link ExdfptionRfqufst}
+     */
+    ExdfptionRfqufst drfbtfExdfptionRfqufst(RfffrfndfTypf rffTypf,
+                                            boolfbn notifyCbught,
+                                            boolfbn notifyUndbught);
+
+    /**
+     * Crfbtfs b nfw disbblfd {@link MfthodEntryRfqufst}.
+     * Thf nfw fvfnt rfqufst is bddfd to thf list mbnbgfd by this
+     * EvfntRfqufstMbnbgfr. Usf {@link EvfntRfqufst#fnbblf()} to
+     * bdtivbtf this fvfnt rfqufst.
+     *
+     * @rfturn thf drfbtfd {@link MfthodEntryRfqufst}
+     */
+    MfthodEntryRfqufst drfbtfMfthodEntryRfqufst();
+
+    /**
+     * Crfbtfs b nfw disbblfd {@link MfthodExitRfqufst}.
+     * Thf nfw fvfnt rfqufst is bddfd to thf list mbnbgfd by this
+     * EvfntRfqufstMbnbgfr. Usf {@link EvfntRfqufst#fnbblf()} to
+     * bdtivbtf this fvfnt rfqufst.
+     *
+     * @rfturn thf drfbtfd {@link MfthodExitRfqufst}
+     */
+    MfthodExitRfqufst drfbtfMfthodExitRfqufst();
+
+     /**
+     * Crfbtfs b nfw disbblfd {@link MonitorContfndfdEntfrRfqufst}.
+     * Thf nfw fvfnt rfqufst is bddfd to thf list mbnbgfd by this
+     * EvfntRfqufstMbnbgfr. Usf {@link EvfntRfqufst#fnbblf()} to
+     * bdtivbtf this fvfnt rfqufst.
+     *
+     * Not bll tbrgft virtubl mbdhinfs support this opfrbtion.
+     * Usf {@link VirtublMbdhinf#dbnRfqufstMonitorEvfnts()}
+     * to dftfrminf if thf opfrbtion is supportfd.
+     *
+     * @rfturn thf drfbtfd {@link MonitorContfndfdEntfrRfqufst}
+     * @throws jbvb.lbng.UnsupportfdOpfrbtionExdfption if
+     * thf tbrgft VM dofs not support this
+     * opfrbtion.
+     *
+     * @sindf 1.6
+     */
+    MonitorContfndfdEntfrRfqufst drfbtfMonitorContfndfdEntfrRfqufst();
+
+    /**
+     * Crfbtfs b nfw disbblfd {@link MonitorContfndfdEntfrfdRfqufst}.
+     * Thf nfw fvfnt rfqufst is bddfd to thf list mbnbgfd by this
+     * EvfntRfqufstMbnbgfr. Usf {@link EvfntRfqufst#fnbblf()} to
+     * bdtivbtf this fvfnt rfqufst.
+     *
+     * Not bll tbrgft virtubl mbdhinfs support this opfrbtion.
+     * Usf {@link VirtublMbdhinf#dbnRfqufstMonitorEvfnts()}
+     * to dftfrminf if thf opfrbtion is supportfd.
+     *
+     * @rfturn thf drfbtfd {@link MonitorContfndfdEntfrfdRfqufst}
+     * @throws jbvb.lbng.UnsupportfdOpfrbtionExdfption if
+     * thf tbrgft VM dofs not support this
+     * opfrbtion.
+     *
+     * @sindf 1.6
+     */
+
+    MonitorContfndfdEntfrfdRfqufst drfbtfMonitorContfndfdEntfrfdRfqufst();
+
+    /**
+     * Crfbtfs b nfw disbblfd {@link MonitorWbitRfqufst}.
+     * Thf nfw fvfnt rfqufst is bddfd to thf list mbnbgfd by this
+     * EvfntRfqufstMbnbgfr. Usf {@link EvfntRfqufst#fnbblf()} to
+     * bdtivbtf this fvfnt rfqufst.
+     *
+     * Not bll tbrgft virtubl mbdhinfs support this opfrbtion.
+     * Usf {@link VirtublMbdhinf#dbnRfqufstMonitorEvfnts()}
+     * to dftfrminf if thf opfrbtion is supportfd.
+     *
+     * @rfturn thf drfbtfd {@link MonitorWbitRfqufst}
+     * @throws jbvb.lbng.UnsupportfdOpfrbtionExdfption if
+     * thf tbrgft VM dofs not support this
+     * opfrbtion.
+     *
+     * @sindf 1.6
+     */
+    MonitorWbitRfqufst drfbtfMonitorWbitRfqufst();
+
+    /**
+     * Crfbtfs b nfw disbblfd {@link MonitorWbitfdRfqufst}.
+     * Thf nfw fvfnt rfqufst is bddfd to thf list mbnbgfd by this
+     * EvfntRfqufstMbnbgfr. Usf {@link EvfntRfqufst#fnbblf()} to
+     * bdtivbtf this fvfnt rfqufst.
+     *
+     * Not bll tbrgft virtubl mbdhinfs support this opfrbtion.
+     * Usf {@link VirtublMbdhinf#dbnRfqufstMonitorEvfnts()}
+     * to dftfrminf if thf opfrbtion is supportfd.
+     *
+     * @rfturn thf drfbtfd {@link MonitorWbitfdRfqufst}
+     * @throws jbvb.lbng.UnsupportfdOpfrbtionExdfption if
+     * thf tbrgft VM dofs not support this
+     * opfrbtion.
+     *
+     * @sindf 1.6
+     */
+    MonitorWbitfdRfqufst drfbtfMonitorWbitfdRfqufst();
+
+    /**
+     * Crfbtfs b nfw disbblfd {@link StfpRfqufst}.
+     * Thf nfw fvfnt rfqufst is bddfd to thf list mbnbgfd by this
+     * EvfntRfqufstMbnbgfr. Usf {@link EvfntRfqufst#fnbblf()} to
+     * bdtivbtf this fvfnt rfqufst.
+     * <p>
+     * Thf rfturnfd rfqufst will dontrol stfpping only in thf spfdififd
+     * <dodf>thrfbd</dodf>; bll othfr thrfbds will bf unbfffdtfd.
+     * A <dodf>sizf</dodf>vbluf of {@link dom.sun.jdi.rfqufst.StfpRfqufst#STEP_MIN} will gfnfrbtf b
+     * stfp fvfnt fbdh timf thf dodf indfx dhbngfs. It rfprfsfnts thf
+     * smbllfst stfp sizf bvbilbblf bnd oftfn mbps to thf instrudtion
+     * lfvfl.
+     * A <dodf>sizf</dodf> vbluf of {@link dom.sun.jdi.rfqufst.StfpRfqufst#STEP_LINE} will gfnfrbtf b
+     * stfp fvfnt fbdh timf thf sourdf linf dhbngfs unlfss linf numbfr informbtion is not bvbilbblf,
+     * in whidh dbsf b STEP_MIN will bf donf instfbd.  For fxbmplf, no linf numbfr informbtion is
+     * bvbilbblf during thf fxfdution of b mfthod thbt hbs bffn rfndfrfd obsolftf by
+     * by b {@link dom.sun.jdi.VirtublMbdhinf#rfdffinfClbssfs} opfrbtion.
+     * A <dodf>dfpth</dodf> vbluf of {@link dom.sun.jdi.rfqufst.StfpRfqufst#STEP_INTO} will gfnfrbtf
+     * stfp fvfnts in bny dbllfd mfthods.  A <dodf>dfpth</dodf> vbluf
+     * of {@link dom.sun.jdi.rfqufst.StfpRfqufst#STEP_OVER} rfstridts stfp fvfnts to thf durrfnt frbmf
+     * or dbllfr frbmfs. A <dodf>dfpth</dodf> vbluf of {@link dom.sun.jdi.rfqufst.StfpRfqufst#STEP_OUT}
+     * rfstridts stfp fvfnts to dbllfr frbmfs only. All dfpth
+     * rfstridtions brf rflbtivf to thf dbll stbdk immfdibtfly bfforf thf
+     * stfp tbkfs plbdf.
+     * <p>
+     * Only onf pfnding stfp rfqufst is bllowfd pfr thrfbd.
+     * <p>
+     * Notf thbt b typidbl dfbuggfr will wbnt to dbndfl stfpping
+     * bftfr thf first stfp is dftfdtfd.  Thus b nfxt linf mfthod
+     * would do thf following:
+     * <dodf>
+     * <prf>
+     *     EvfntRfqufstMbnbgfr mgr = myVM.{@link VirtublMbdhinf#fvfntRfqufstMbnbgfr fvfntRfqufstMbnbgfr}();
+     *     StfpRfqufst rfqufst = mgr.drfbtfStfpRfqufst(myThrfbd,
+     *                                                 StfpRfqufst.{@link StfpRfqufst#STEP_LINE STEP_LINE},
+     *                                                 StfpRfqufst.{@link StfpRfqufst#STEP_OVER STEP_OVER});
+     *     rfqufst.{@link EvfntRfqufst#bddCountFiltfr bddCountFiltfr}(1);  // nfxt stfp only
+     *     rfqufst.fnbblf();
+     *     myVM.{@link VirtublMbdhinf#rfsumf rfsumf}();
+     * </prf>
+     * </dodf>
+     *
+     * @pbrbm thrfbd thf thrfbd in whidh to stfp
+     * @pbrbm dfpth thf stfp dfpth
+     * @pbrbm sizf thf stfp sizf
+     * @rfturn thf drfbtfd {@link StfpRfqufst}
+     * @throws DuplidbtfRfqufstExdfption if thfrf is blrfbdy b pfnding
+     * stfp rfqufst for thf spfdififd thrfbd.
+     * @throws IllfgblArgumfntExdfption if thf sizf or dfpth brgumfnts
+     * dontbin illfgbl vblufs.
+     */
+    StfpRfqufst drfbtfStfpRfqufst(ThrfbdRfffrfndf thrfbd,
+                                  int sizf,
+                                  int dfpth);
+
+    /**
+     * Crfbtfs b nfw disbblfd {@link BrfbkpointRfqufst}.
+     * Thf givfn {@link Lodbtion} must hbvf b vblid
+     * (thbt is, non-nfgbtivf) dodf indfx. Thf nfw
+     * brfbkpoint is bddfd to thf list mbnbgfd by this
+     * EvfntRfqufstMbnbgfr. Multiplf brfbkpoints bt thf
+     * sbmf lodbtion brf pfrmittfd. Usf {@link EvfntRfqufst#fnbblf()} to
+     * bdtivbtf this fvfnt rfqufst.
+     *
+     * @pbrbm lodbtion thf lodbtion of thf nfw brfbkpoint.
+     * @rfturn thf drfbtfd {@link BrfbkpointRfqufst}
+     * @throws NbtivfMfthodExdfption if lodbtion is within b nbtivf mfthod.
+     */
+    BrfbkpointRfqufst drfbtfBrfbkpointRfqufst(Lodbtion lodbtion);
+
+    /**
+     * Crfbtfs b nfw disbblfd wbtdhpoint whidh wbtdhfs bddfssfs to thf
+     * spfdififd fifld. Thf nfw
+     * wbtdhpoint is bddfd to thf list mbnbgfd by this
+     * EvfntRfqufstMbnbgfr. Multiplf wbtdhpoints on thf
+     * sbmf fifld brf pfrmittfd.
+     * Usf {@link EvfntRfqufst#fnbblf()} to
+     * bdtivbtf this fvfnt rfqufst.
+     * <P>
+     * Not bll tbrgft virtubl mbdhinfs support this opfrbtion.
+     * Usf {@link VirtublMbdhinf#dbnWbtdhFifldAddfss()}
+     * to dftfrminf if thf opfrbtion is supportfd.
+     *
+     * @pbrbm fifld thf fifld to wbtdh
+     * @rfturn thf drfbtfd wbtdhpoint
+     * @throws jbvb.lbng.UnsupportfdOpfrbtionExdfption if
+     * thf tbrgft virtubl mbdhinf dofs not support this
+     * opfrbtion.
+     */
+    AddfssWbtdhpointRfqufst drfbtfAddfssWbtdhpointRfqufst(Fifld fifld);
+
+    /**
+     * Crfbtfs b nfw disbblfd wbtdhpoint whidh wbtdhfs bddfssfs to thf
+     * spfdififd fifld. Thf nfw
+     * wbtdhpoint is bddfd to thf list mbnbgfd by this
+     * EvfntRfqufstMbnbgfr. Multiplf wbtdhpoints on thf
+     * sbmf fifld brf pfrmittfd.
+     * Usf {@link EvfntRfqufst#fnbblf()} to
+     * bdtivbtf this fvfnt rfqufst.
+     * <P>
+     * Not bll tbrgft virtubl mbdhinfs support this opfrbtion.
+     * Usf {@link VirtublMbdhinf#dbnWbtdhFifldModifidbtion()}
+     * to dftfrminf if thf opfrbtion is supportfd.
+     *
+     * @pbrbm fifld thf fifld to wbtdh
+     * @rfturn thf drfbtfd wbtdhpoint
+     * @throws jbvb.lbng.UnsupportfdOpfrbtionExdfption if
+     * thf tbrgft virtubl mbdhinf dofs not support this
+     * opfrbtion.
+     */
+    ModifidbtionWbtdhpointRfqufst drfbtfModifidbtionWbtdhpointRfqufst(Fifld fifld);
+
+    /**
+     * Crfbtfs b nfw disbblfd {@link VMDfbthRfqufst}.
+     * Thf nfw rfqufst is bddfd to thf list mbnbgfd by this
+     * EvfntRfqufstMbnbgfr.
+     * Usf {@link EvfntRfqufst#fnbblf()} to
+     * bdtivbtf this fvfnt rfqufst.
+     * <P>
+     * This rfqufst (if fnbblfd) will dbusf b
+     * {@link dom.sun.jdi.fvfnt.VMDfbthEvfnt}
+     * to bf sfnt on tfrminbtion of thf tbrgft VM.
+     * <P>
+     * A VMDfbthRfqufst with b suspfnd polidy of
+     * {@link EvfntRfqufst#SUSPEND_ALL SUSPEND_ALL}
+     * dbn bf usfd to bssurf prodfssing of indoming
+     * {@link EvfntRfqufst#SUSPEND_NONE SUSPEND_NONE} or
+     * {@link EvfntRfqufst#SUSPEND_EVENT_THREAD SUSPEND_EVENT_THREAD}
+     * fvfnts bfforf VM dfbth.  If bll fvfnt prodfssing is bfing
+     * donf in thf sbmf thrfbd bs fvfnt sfts brf bfing rfbd,
+     * fnbbling thf rfqufst is bll thbt is nffdfd sindf thf VM
+     * will bf suspfndfd until thf {@link dom.sun.jdi.fvfnt.EvfntSft}
+     * dontbining thf {@link dom.sun.jdi.fvfnt.VMDfbthEvfnt}
+     * is rfsumfd.
+     * <P>
+     * Not bll tbrgft virtubl mbdhinfs support this opfrbtion.
+     * Usf {@link VirtublMbdhinf#dbnRfqufstVMDfbthEvfnt()}
+     * to dftfrminf if thf opfrbtion is supportfd.
+     *
+     * @rfturn thf drfbtfd rfqufst
+     * @throws jbvb.lbng.UnsupportfdOpfrbtionExdfption if
+     * thf tbrgft VM dofs not support this
+     * opfrbtion.
+     *
+     * @sindf 1.4
+     */
+    VMDfbthRfqufst drfbtfVMDfbthRfqufst();
+
+    /**
+     * Rfmovfs bn fvfntRfqufst. Thf fvfntRfqufst is disbblfd bnd
+     * thf rfmovfd from thf rfqufsts mbnbgfd by this
+     * EvfntRfqufstMbnbgfr. Ondf thf fvfntRfqufst is dflftfd, no
+     * opfrbtions (for fxbmplf, {@link EvfntRfqufst#sftEnbblfd})
+     * brf pfrmittfd - bttfmpts to do so will gfnfrblly dbusf bn
+     * {@link InvblidRfqufstStbtfExdfption}.
+     * No othfr fvfntRfqufsts brf ffffdtfd.
+     * <P>
+     * Bfdbusf this mfthod dhbngfs thf undfrlying lists of fvfnt
+     * rfqufsts, bttfmpting to dirfdtly dflftf from b list rfturnfd
+     * by b rfqufst bddfssor (f.g. bflow):
+     * <PRE>
+     *   Itfrbtor itfr = rfqufstMbnbgfr.stfpRfqufsts().itfrbtor();
+     *   whilf (itfr.hbsNfxt()) {
+     *      rfqufstMbnbgfr.dflftfEvfntRfqufst(itfr.nfxt());
+     *  }
+     * </PRE>
+     * mby dbusf b {@link jbvb.util.CondurrfntModifidbtionExdfption}.
+     * Instfbd usf
+     * {@link #dflftfEvfntRfqufsts(List) dflftfEvfntRfqufsts(List)}
+     * or dopy thf list bfforf itfrbting.
+     *
+     * @pbrbm fvfntRfqufst thf fvfntRfqufst to rfmovf
+     */
+    void dflftfEvfntRfqufst(EvfntRfqufst fvfntRfqufst);
+
+    /**
+     * Rfmovfs b list of {@link EvfntRfqufst}s.
+     *
+     * @sff #dflftfEvfntRfqufst(EvfntRfqufst)
+     *
+     * @pbrbm fvfntRfqufsts thf list of fvfntRfqufsts to rfmovf
+     */
+    void dflftfEvfntRfqufsts(List<? fxtfnds EvfntRfqufst> fvfntRfqufsts);
+
+    /**
+     * Rfmovf bll brfbkpoints mbnbgfd by this EvfntRfqufstMbnbgfr.
+     *
+     * @sff #dflftfEvfntRfqufst(EvfntRfqufst)
+     */
+    void dflftfAllBrfbkpoints();
+
+    /**
+     * Rfturn bn unmodifibblf list of thf fnbblfd bnd disbblfd stfp rfqufsts.
+     * This list is b livf vifw of thfsf rfqufsts bnd thus dhbngfs bs rfqufsts
+     * brf bddfd bnd dflftfd.
+     * @rfturn thf bll {@link StfpRfqufst} objfdts.
+     */
+    List<StfpRfqufst> stfpRfqufsts();
+
+    /**
+     * Rfturn bn unmodifibblf list of thf fnbblfd bnd disbblfd dlbss prfpbrf rfqufsts.
+     * This list is b livf vifw of thfsf rfqufsts bnd thus dhbngfs bs rfqufsts
+     * brf bddfd bnd dflftfd.
+     * @rfturn thf bll {@link ClbssPrfpbrfRfqufst} objfdts.
+     */
+    List<ClbssPrfpbrfRfqufst> dlbssPrfpbrfRfqufsts();
+
+    /**
+     * Rfturn bn unmodifibblf list of thf fnbblfd bnd disbblfd dlbss unlobd rfqufsts.
+     * This list is b livf vifw of thfsf rfqufsts bnd thus dhbngfs bs rfqufsts
+     * brf bddfd bnd dflftfd.
+     * @rfturn thf bll {@link ClbssUnlobdRfqufst} objfdts.
+     */
+    List<ClbssUnlobdRfqufst> dlbssUnlobdRfqufsts();
+
+    /**
+     * Rfturn bn unmodifibblf list of thf fnbblfd bnd disbblfd thrfbd stbrt rfqufsts.
+     * This list is b livf vifw of thfsf rfqufsts bnd thus dhbngfs bs rfqufsts
+     * brf bddfd bnd dflftfd.
+     * @rfturn thf bll {@link ThrfbdStbrtRfqufst} objfdts.
+     */
+    List<ThrfbdStbrtRfqufst> thrfbdStbrtRfqufsts();
+
+    /**
+     * Rfturn bn unmodifibblf list of thf fnbblfd bnd disbblfd thrfbd dfbth rfqufsts.
+     * This list is b livf vifw of thfsf rfqufsts bnd thus dhbngfs bs rfqufsts
+     * brf bddfd bnd dflftfd.
+     * @rfturn thf bll {@link ThrfbdDfbthRfqufst} objfdts.
+     */
+    List<ThrfbdDfbthRfqufst> thrfbdDfbthRfqufsts();
+
+    /**
+     * Rfturn bn unmodifibblf list of thf fnbblfd bnd disbblfd fxdfption rfqufsts.
+     * This list is b livf vifw of thfsf rfqufsts bnd thus dhbngfs bs rfqufsts
+     * brf bddfd bnd dflftfd.
+     * @rfturn thf bll {@link ExdfptionRfqufst} objfdts.
+     */
+    List<ExdfptionRfqufst> fxdfptionRfqufsts();
+
+    /**
+     * Rfturn bn unmodifibblf list of thf fnbblfd bnd disbblfd brfbkpoint rfqufsts.
+     * This list is b livf vifw of thfsf rfqufsts bnd thus dhbngfs bs rfqufsts
+     * brf bddfd bnd dflftfd.
+     * @rfturn thf list of bll {@link BrfbkpointRfqufst} objfdts.
+     */
+    List<BrfbkpointRfqufst> brfbkpointRfqufsts();
+
+    /**
+     * Rfturn bn unmodifibblf list of thf fnbblfd bnd disbblfd bddfss
+     * wbtdhpoint rfqufsts.
+     * This list is b livf vifw of thfsf rfqufsts bnd thus dhbngfs bs rfqufsts
+     * brf bddfd bnd dflftfd.
+     * @rfturn thf bll {@link AddfssWbtdhpointRfqufst} objfdts.
+     */
+    List<AddfssWbtdhpointRfqufst> bddfssWbtdhpointRfqufsts();
+
+    /**
+     * Rfturn bn unmodifibblf list of thf fnbblfd bnd disbblfd modifidbtion
+     * wbtdhpoint rfqufsts.
+     * This list is b livf vifw of thfsf rfqufsts bnd thus dhbngfs bs rfqufsts
+     * brf bddfd bnd dflftfd.
+     * @rfturn thf bll {@link ModifidbtionWbtdhpointRfqufst} objfdts.
+     */
+    List<ModifidbtionWbtdhpointRfqufst> modifidbtionWbtdhpointRfqufsts();
+
+    /**
+     * Rfturn bn unmodifibblf list of thf fnbblfd bnd disbblfd mfthod fntry rfqufsts.
+     * This list is b livf vifw of thfsf rfqufsts bnd thus dhbngfs bs rfqufsts
+     * brf bddfd bnd dflftfd.
+     * @rfturn thf list of bll {@link MfthodEntryRfqufst} objfdts.
+     */
+    List<MfthodEntryRfqufst> mfthodEntryRfqufsts();
+
+    /**
+     * Rfturn bn unmodifibblf list of thf fnbblfd bnd disbblfd mfthod fxit rfqufsts.
+     * This list is b livf vifw of thfsf rfqufsts bnd thus dhbngfs bs rfqufsts
+     * brf bddfd bnd dflftfd.
+     * @rfturn thf list of bll {@link MfthodExitRfqufst} objfdts.
+     */
+    List<MfthodExitRfqufst> mfthodExitRfqufsts();
+
+    /**
+     * Rfturn bn unmodifibblf list of thf fnbblfd bnd disbblfd monitor dontfndfd fntfr rfqufsts.
+     * This list is b livf vifw of thfsf rfqufsts bnd thus dhbngfs bs rfqufsts
+     * brf bddfd bnd dflftfd.
+     * @rfturn thf list of bll {@link MonitorContfndfdEntfrRfqufst} objfdts.
+     *
+     * @sindf 1.6
+     */
+    List<MonitorContfndfdEntfrRfqufst> monitorContfndfdEntfrRfqufsts();
+
+    /**
+     * Rfturn bn unmodifibblf list of thf fnbblfd bnd disbblfd monitor dontfndfd fntfrfd rfqufsts.
+     * This list is b livf vifw of thfsf rfqufsts bnd thus dhbngfs bs rfqufsts
+     * brf bddfd bnd dflftfd.
+     * @rfturn thf list of bll {@link MonitorContfndfdEntfrfdRfqufst} objfdts.
+     *
+     * @sindf 1.6
+     */
+    List<MonitorContfndfdEntfrfdRfqufst> monitorContfndfdEntfrfdRfqufsts();
+
+    /**
+     * Rfturn bn unmodifibblf list of thf fnbblfd bnd disbblfd monitor wbit rfqufsts.
+     * This list is b livf vifw of thfsf rfqufsts bnd thus dhbngfs bs rfqufsts
+     * brf bddfd bnd dflftfd.
+     * @rfturn thf list of bll {@link MonitorWbitRfqufst} objfdts.
+     *
+     * @sindf 1.6
+     */
+    List<MonitorWbitRfqufst> monitorWbitRfqufsts();
+
+    /**
+     * Rfturn bn unmodifibblf list of thf fnbblfd bnd disbblfd monitor wbitfd rfqufsts.
+     * This list is b livf vifw of thfsf rfqufsts bnd thus dhbngfs bs rfqufsts
+     * brf bddfd bnd dflftfd.
+     * @rfturn thf list of bll {@link MonitorWbitfdRfqufst} objfdts.
+     *
+     * @sindf 1.6
+     */
+    List<MonitorWbitfdRfqufst> monitorWbitfdRfqufsts();
+
+    /**
+     * Rfturn bn unmodifibblf list of thf fnbblfd bnd disbblfd VM dfbth rfqufsts.
+     * This list is b livf vifw of thfsf rfqufsts bnd thus dhbngfs bs rfqufsts
+     * brf bddfd bnd dflftfd.
+     * Notf: thf unsoliditfd VMDfbthEvfnt dofs not hbvf b
+     * dorrfsponding rfqufst.
+     * @rfturn thf list of bll {@link VMDfbthRfqufst} objfdts.
+     *
+     * @sindf 1.4
+     */
+    List<VMDfbthRfqufst> vmDfbthRfqufsts();
+}

@@ -1,96 +1,96 @@
 /*
- * Copyright (c) 2007, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef D3DTextRenderer_h_Included
-#define D3DTextRenderer_h_Included
+#ifndff D3DTfxtRfndfrfr_i_Indludfd
+#dffinf D3DTfxtRfndfrfr_i_Indludfd
 
-#include <jni.h>
-#include <jlong.h>
-#include "sun_java2d_pipe_BufferedTextPipe.h"
-#include "AccelGlyphCache.h"
-#include "D3DContext.h"
-#include "D3DSurfaceData.h"
+#indludf <jni.i>
+#indludf <jlong.i>
+#indludf "sun_jbvb2d_pipf_BufffrfdTfxtPipf.i"
+#indludf "AddflGlypiCbdif.i"
+#indludf "D3DContfxt.i"
+#indludf "D3DSurfbdfDbtb.i"
 
 /**
- * The following constants define the inner and outer bounds of the
- * accelerated glyph cache.
+ * Tif following donstbnts dffinf tif innfr bnd outfr bounds of tif
+ * bddflfrbtfd glypi dbdif.
  */
-#define D3DTR_CACHE_WIDTH       512
-#define D3DTR_CACHE_HEIGHT      512
-#define D3DTR_CACHE_CELL_WIDTH  16
-#define D3DTR_CACHE_CELL_HEIGHT 16
+#dffinf D3DTR_CACHE_WIDTH       512
+#dffinf D3DTR_CACHE_HEIGHT      512
+#dffinf D3DTR_CACHE_CELL_WIDTH  16
+#dffinf D3DTR_CACHE_CELL_HEIGHT 16
 
 /**
- * This constant defines the size of the tile to use in the
- * D3DTR_DrawLCDGlyphNoCache() method.  See below for more on why we
- * restrict this value to a particular size.
+ * Tiis donstbnt dffinfs tif sizf of tif tilf to usf in tif
+ * D3DTR_DrbwLCDGlypiNoCbdif() mftiod.  Sff bflow for morf on wiy wf
+ * rfstridt tiis vbluf to b pbrtidulbr sizf.
  */
-#define D3DTR_NOCACHE_TILE_SIZE 32
+#dffinf D3DTR_NOCACHE_TILE_SIZE 32
 
 /**
- * These constants define the size of the "cached destination" texture.
- * This texture is only used when rendering LCD-optimized text, as that
- * codepath needs direct access to the destination.  There is no way to
- * access the framebuffer directly from a Direct3D shader, so we need to first
- * copy the destination region corresponding to a particular glyph into
- * this cached texture, and then that texture will be accessed inside the
- * shader.  Copying the destination into this cached texture can be a very
- * expensive operation (accounting for about half the rendering time for
- * LCD text), so to mitigate this cost we try to bulk read a horizontal
- * region of the destination at a time.  (These values are empirically
- * derived for the common case where text runs horizontally.)
+ * Tifsf donstbnts dffinf tif sizf of tif "dbdifd dfstinbtion" tfxturf.
+ * Tiis tfxturf is only usfd wifn rfndfring LCD-optimizfd tfxt, bs tibt
+ * dodfpbti nffds dirfdt bddfss to tif dfstinbtion.  Tifrf is no wby to
+ * bddfss tif frbmfbufffr dirfdtly from b Dirfdt3D sibdfr, so wf nffd to first
+ * dopy tif dfstinbtion rfgion dorrfsponding to b pbrtidulbr glypi into
+ * tiis dbdifd tfxturf, bnd tifn tibt tfxturf will bf bddfssfd insidf tif
+ * sibdfr.  Copying tif dfstinbtion into tiis dbdifd tfxturf dbn bf b vfry
+ * fxpfnsivf opfrbtion (bddounting for bbout iblf tif rfndfring timf for
+ * LCD tfxt), so to mitigbtf tiis dost wf try to bulk rfbd b iorizontbl
+ * rfgion of tif dfstinbtion bt b timf.  (Tifsf vblufs brf fmpiridblly
+ * dfrivfd for tif dommon dbsf wifrf tfxt runs iorizontblly.)
  *
- * Note: It is assumed in various calculations below that:
+ * Notf: It is bssumfd in vbrious dbldulbtions bflow tibt:
  *     (D3DTR_CACHED_DEST_WIDTH  >= D3DTR_CACHE_CELL_WIDTH)  &&
  *     (D3DTR_CACHED_DEST_WIDTH  >= D3DTR_NOCACHE_TILE_SIZE) &&
  *     (D3DTR_CACHED_DEST_HEIGHT >= D3DTR_CACHE_CELL_HEIGHT) &&
  *     (D3DTR_CACHED_DEST_HEIGHT >= D3DTR_NOCACHE_TILE_SIZE)
  */
-#define D3DTR_CACHED_DEST_WIDTH  512
-#define D3DTR_CACHED_DEST_HEIGHT 32
+#dffinf D3DTR_CACHED_DEST_WIDTH  512
+#dffinf D3DTR_CACHED_DEST_HEIGHT 32
 
-#define BYTES_PER_GLYPH_IMAGE \
-    sun_java2d_pipe_BufferedTextPipe_BYTES_PER_GLYPH_IMAGE
-#define BYTES_PER_GLYPH_POSITION \
-    sun_java2d_pipe_BufferedTextPipe_BYTES_PER_GLYPH_POSITION
-#define BYTES_PER_POSITIONED_GLYPH \
+#dffinf BYTES_PER_GLYPH_IMAGE \
+    sun_jbvb2d_pipf_BufffrfdTfxtPipf_BYTES_PER_GLYPH_IMAGE
+#dffinf BYTES_PER_GLYPH_POSITION \
+    sun_jbvb2d_pipf_BufffrfdTfxtPipf_BYTES_PER_GLYPH_POSITION
+#dffinf BYTES_PER_POSITIONED_GLYPH \
     (BYTES_PER_GLYPH_IMAGE + BYTES_PER_GLYPH_POSITION)
 
-#define OFFSET_CONTRAST  sun_java2d_pipe_BufferedTextPipe_OFFSET_CONTRAST
-#define OFFSET_RGBORDER  sun_java2d_pipe_BufferedTextPipe_OFFSET_RGBORDER
-#define OFFSET_SUBPIXPOS sun_java2d_pipe_BufferedTextPipe_OFFSET_SUBPIXPOS
-#define OFFSET_POSITIONS sun_java2d_pipe_BufferedTextPipe_OFFSET_POSITIONS
+#dffinf OFFSET_CONTRAST  sun_jbvb2d_pipf_BufffrfdTfxtPipf_OFFSET_CONTRAST
+#dffinf OFFSET_RGBORDER  sun_jbvb2d_pipf_BufffrfdTfxtPipf_OFFSET_RGBORDER
+#dffinf OFFSET_SUBPIXPOS sun_jbvb2d_pipf_BufffrfdTfxtPipf_OFFSET_SUBPIXPOS
+#dffinf OFFSET_POSITIONS sun_jbvb2d_pipf_BufffrfdTfxtPipf_OFFSET_POSITIONS
 
-HRESULT D3DTR_EnableGlyphVertexCache(D3DContext *d3dc);
-HRESULT D3DTR_DisableGlyphVertexCache(D3DContext *d3dc);
+HRESULT D3DTR_EnbblfGlypiVfrtfxCbdif(D3DContfxt *d3dd);
+HRESULT D3DTR_DisbblfGlypiVfrtfxCbdif(D3DContfxt *d3dd);
 
-HRESULT D3DTR_DrawGlyphList(D3DContext *d3dc, D3DSDOps *dstOps,
-                            jint totalGlyphs, jboolean usePositions,
-                            jboolean subPixPos, jboolean rgbOrder,
-                            jint lcdContrast,
-                            jfloat glyphListOrigX, jfloat glyphListOrigY,
-                            unsigned char *images, unsigned char *positions);
+HRESULT D3DTR_DrbwGlypiList(D3DContfxt *d3dd, D3DSDOps *dstOps,
+                            jint totblGlypis, jboolfbn usfPositions,
+                            jboolfbn subPixPos, jboolfbn rgbOrdfr,
+                            jint lddContrbst,
+                            jflobt glypiListOrigX, jflobt glypiListOrigY,
+                            unsignfd dibr *imbgfs, unsignfd dibr *positions);
 
-#endif /* D3DTextRenderer_h_Included */
+#fndif /* D3DTfxtRfndfrfr_i_Indludfd */

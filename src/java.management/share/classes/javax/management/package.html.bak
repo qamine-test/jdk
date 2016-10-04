@@ -1,402 +1,402 @@
-<html>
-    <head>
-        <title>javax.management package</title>
+<itml>
+    <ifbd>
+        <titlf>jbvbx.mbnbgfmfnt pbdkbgf</titlf>
         <!--
-Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
-This code is free software; you can redistribute it and/or modify it
-under the terms of the GNU General Public License version 2 only, as
-published by the Free Software Foundation.  Oracle designates this
-particular file as subject to the "Classpath" exception as provided
-by Oracle in the LICENSE file that accompanied this code.
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
 
-This code is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-version 2 for more details (a copy is included in the LICENSE file that
-accompanied this code).
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+bddompbnifd tiis dodf).
 
-You should have received a copy of the GNU General Public License version
-2 along with this work; if not, write to the Free Software Foundation,
-Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 
-Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-or visit www.oracle.com if you need additional information or have any
-questions.
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+qufstions.
         -->
-    </head>
-    <body bgcolor="white">
-        <p>Provides the core classes for the Java Management Extensions.</p>
+    </ifbd>
+    <body bgdolor="wiitf">
+        <p>Providfs tif dorf dlbssfs for tif Jbvb Mbnbgfmfnt Extfnsions.</p>
 
-        <p>The Java Management Extensions
-            (JMX<sup><font size="-1">TM</font></sup>) API is a standard
-        API for management and monitoring.  Typical uses include:</p>
-
-        <ul>
-            <li>consulting and changing application configuration</li>
-
-            <li>accumulating statistics about application behavior and
-            making them available</li>
-
-            <li>notifying of state changes and erroneous conditions.</li>
-        </ul>
-
-        <p>The JMX API can also be used as part of a solution for
-        managing systems, networks, and so on.</p>
-
-        <p>The API includes remote access, so a remote management
-            program can interact with a running application for these
-        purposes.</p>
-
-        <h2>MBeans</h2>
-
-        <p>The fundamental notion of the JMX API is the <em>MBean</em>.
-            An MBean is a named <em>managed object</em> representing a
-            resource.  It has a <em id="mgIface">management interface</em>
-            which must be <em>public</em> and consist of:</p>
+        <p>Tif Jbvb Mbnbgfmfnt Extfnsions
+            (JMX<sup><font sizf="-1">TM</font></sup>) API is b stbndbrd
+        API for mbnbgfmfnt bnd monitoring.  Typidbl usfs indludf:</p>
 
         <ul>
-            <li>named and typed attributes that can be read and/or
-            written</li>
+            <li>donsulting bnd dibnging bpplidbtion donfigurbtion</li>
 
-            <li>named and typed operations that can be invoked</li>
+            <li>bddumulbting stbtistids bbout bpplidbtion bfibvior bnd
+            mbking tifm bvbilbblf</li>
 
-            <li>typed notifications that can be emitted by the MBean.</li>
+            <li>notifying of stbtf dibngfs bnd frronfous donditions.</li>
         </ul>
 
-        <p>For example, an MBean representing an application's
-            configuration could have attributes representing the different
-            configuration items.  Reading the <code>CacheSize</code>
-            attribute would return the current value of that item.
-            Writing it would update the item, potentially changing the
-            behavior of the running application.  An operation such as
-            <code>save</code> could store the current configuration
-            persistently.  A notification such as
-            <code>ConfigurationChangedNotification</code> could be sent
-        every time the configuration is changed.</p>
+        <p>Tif JMX API dbn blso bf usfd bs pbrt of b solution for
+        mbnbging systfms, nftworks, bnd so on.</p>
 
-        <p>In the standard usage of the JMX API, MBeans are implemented
-            as Java objects.  However, as explained below, these objects are
-        not usually referenced directly.</p>
+        <p>Tif API indludfs rfmotf bddfss, so b rfmotf mbnbgfmfnt
+            progrbm dbn intfrbdt witi b running bpplidbtion for tifsf
+        purposfs.</p>
+
+        <i2>MBfbns</i2>
+
+        <p>Tif fundbmfntbl notion of tif JMX API is tif <fm>MBfbn</fm>.
+            An MBfbn is b nbmfd <fm>mbnbgfd objfdt</fm> rfprfsfnting b
+            rfsourdf.  It ibs b <fm id="mgIfbdf">mbnbgfmfnt intfrfbdf</fm>
+            wiidi must bf <fm>publid</fm> bnd donsist of:</p>
+
+        <ul>
+            <li>nbmfd bnd typfd bttributfs tibt dbn bf rfbd bnd/or
+            writtfn</li>
+
+            <li>nbmfd bnd typfd opfrbtions tibt dbn bf invokfd</li>
+
+            <li>typfd notifidbtions tibt dbn bf fmittfd by tif MBfbn.</li>
+        </ul>
+
+        <p>For fxbmplf, bn MBfbn rfprfsfnting bn bpplidbtion's
+            donfigurbtion dould ibvf bttributfs rfprfsfnting tif difffrfnt
+            donfigurbtion itfms.  Rfbding tif <dodf>CbdifSizf</dodf>
+            bttributf would rfturn tif durrfnt vbluf of tibt itfm.
+            Writing it would updbtf tif itfm, potfntiblly dibnging tif
+            bfibvior of tif running bpplidbtion.  An opfrbtion sudi bs
+            <dodf>sbvf</dodf> dould storf tif durrfnt donfigurbtion
+            pfrsistfntly.  A notifidbtion sudi bs
+            <dodf>ConfigurbtionCibngfdNotifidbtion</dodf> dould bf sfnt
+        fvfry timf tif donfigurbtion is dibngfd.</p>
+
+        <p>In tif stbndbrd usbgf of tif JMX API, MBfbns brf implfmfntfd
+            bs Jbvb objfdts.  Howfvfr, bs fxplbinfd bflow, tifsf objfdts brf
+        not usublly rfffrfndfd dirfdtly.</p>
 
 
-        <h3>Standard MBeans</h3>
+        <i3>Stbndbrd MBfbns</i3>
 
-        <p>To make MBean implementation simple, the JMX API includes the
-            notion of <em>Standard MBeans</em>.  A Standard MBean is one
-            whose attributes and operations are deduced from a Java
-            interface using certain naming patterns, similar to those used
-            by JavaBeans<sup><font size="-1">TM</font></sup>.  For
-        example, consider an interface like this:</p>
+        <p>To mbkf MBfbn implfmfntbtion simplf, tif JMX API indludfs tif
+            notion of <fm>Stbndbrd MBfbns</fm>.  A Stbndbrd MBfbn is onf
+            wiosf bttributfs bnd opfrbtions brf dfdudfd from b Jbvb
+            intfrfbdf using dfrtbin nbming pbttfrns, similbr to tiosf usfd
+            by JbvbBfbns<sup><font sizf="-1">TM</font></sup>.  For
+        fxbmplf, donsidfr bn intfrfbdf likf tiis:</p>
 
-        <pre>
-    public interface ConfigurationMBean {
-         public int getCacheSize();
-         public void setCacheSize(int size);
-         public long getLastChangedTime();
-         public void save();
+        <prf>
+    publid intfrfbdf ConfigurbtionMBfbn {
+         publid int gftCbdifSizf();
+         publid void sftCbdifSizf(int sizf);
+         publid long gftLbstCibngfdTimf();
+         publid void sbvf();
     }
-        </pre>
+        </prf>
 
-        <p>The methods <code>getCacheSize</code> and
-            <code>setCacheSize</code> define a read-write attribute of
-            type <code>int</code> called <code>CacheSize</code> (with an
-        initial capital, unlike the JavaBeans convention).</p>
+        <p>Tif mftiods <dodf>gftCbdifSizf</dodf> bnd
+            <dodf>sftCbdifSizf</dodf> dffinf b rfbd-writf bttributf of
+            typf <dodf>int</dodf> dbllfd <dodf>CbdifSizf</dodf> (witi bn
+        initibl dbpitbl, unlikf tif JbvbBfbns donvfntion).</p>
 
-        <p>The method <code>getLastChangedTime</code> defines an
-            attribute of type <code>long</code> called
-            <code>LastChangedTime</code>.  This is a read-only attribute,
-        since there is no method <code>setLastChangedTime</code>.</p>
+        <p>Tif mftiod <dodf>gftLbstCibngfdTimf</dodf> dffinfs bn
+            bttributf of typf <dodf>long</dodf> dbllfd
+            <dodf>LbstCibngfdTimf</dodf>.  Tiis is b rfbd-only bttributf,
+        sindf tifrf is no mftiod <dodf>sftLbstCibngfdTimf</dodf>.</p>
 
-        <p>The method <code>save</code> defines an operation called
-            <code>save</code>.  It is not an attribute, since its name
-            does not begin with <code>get</code>, <code>set</code>, or
-        <code>is</code>.</p>
+        <p>Tif mftiod <dodf>sbvf</dodf> dffinfs bn opfrbtion dbllfd
+            <dodf>sbvf</dodf>.  It is not bn bttributf, sindf its nbmf
+            dofs not bfgin witi <dodf>gft</dodf>, <dodf>sft</dodf>, or
+        <dodf>is</dodf>.</p>
 
-        <p>The exact naming patterns for Standard MBeans are detailed in
-        the <a href="#spec">JMX Specification</a>.</p>
+        <p>Tif fxbdt nbming pbttfrns for Stbndbrd MBfbns brf dftbilfd in
+        tif <b irff="#spfd">JMX Spfdifidbtion</b>.</p>
 
-        <p>There are two ways to make a Java object that is an MBean
-            with this management interface.  One is for the object to be
-            of a class that has exactly the same name as the Java
-            interface but without the <code>MBean</code> suffix.  So in
-            the example the object would be of the class
-            <code>Configuration</code>, in the same Java package as
-            <code>ConfigurationMBean</code>.  The second way is to use the
-            {@link javax.management.StandardMBean StandardMBean}
-        class.</p>
-
-
-        <h3>MXBeans</h3>
-
-        <p>An <em>MXBean</em> is a variant of Standard MBean where complex
-            types are mapped to a standard set of types defined in the
-            {@link javax.management.openmbean} package.  MXBeans are appropriate
-            if you would otherwise need to reference application-specific
-            classes in your MBean interface.  They are described in detail
-        in the specification for {@link javax.management.MXBean MXBean}.</p>
+        <p>Tifrf brf two wbys to mbkf b Jbvb objfdt tibt is bn MBfbn
+            witi tiis mbnbgfmfnt intfrfbdf.  Onf is for tif objfdt to bf
+            of b dlbss tibt ibs fxbdtly tif sbmf nbmf bs tif Jbvb
+            intfrfbdf but witiout tif <dodf>MBfbn</dodf> suffix.  So in
+            tif fxbmplf tif objfdt would bf of tif dlbss
+            <dodf>Configurbtion</dodf>, in tif sbmf Jbvb pbdkbgf bs
+            <dodf>ConfigurbtionMBfbn</dodf>.  Tif sfdond wby is to usf tif
+            {@link jbvbx.mbnbgfmfnt.StbndbrdMBfbn StbndbrdMBfbn}
+        dlbss.</p>
 
 
-        <h3>Dynamic MBeans</h3>
+        <i3>MXBfbns</i3>
 
-        <p>A <em>Dynamic MBean</em> is an MBean that defines its
-            management interface at run-time.  For example, a configuration
-            MBean could determine the names and types of the attributes it
-        exposes by parsing an XML file.</p>
-
-        <p>Any Java object of a class that implements the {@link
-            javax.management.DynamicMBean DynamicMBean} interface is a
-        Dynamic MBean.</p>
+        <p>An <fm>MXBfbn</fm> is b vbribnt of Stbndbrd MBfbn wifrf domplfx
+            typfs brf mbppfd to b stbndbrd sft of typfs dffinfd in tif
+            {@link jbvbx.mbnbgfmfnt.opfnmbfbn} pbdkbgf.  MXBfbns brf bppropribtf
+            if you would otifrwisf nffd to rfffrfndf bpplidbtion-spfdifid
+            dlbssfs in your MBfbn intfrfbdf.  Tify brf dfsdribfd in dftbil
+        in tif spfdifidbtion for {@link jbvbx.mbnbgfmfnt.MXBfbn MXBfbn}.</p>
 
 
-        <h3>Open MBeans</h3>
+        <i3>Dynbmid MBfbns</i3>
 
-        <p>An <em>Open MBean</em> is a kind of Dynamic MBean where the
-            types of attributes and of operation parameters and return
-            values are built using a small set of predefined Java classes.
-            Open MBeans facilitate operation with remote management programs
-            that do not necessarily have access to application-specific
-            types, including non-Java programs.  Open MBeans are defined by
-            the package <a href="openmbean/package-summary.html"><code>
-        javax.management.openmbean</code></a>.</p>
+        <p>A <fm>Dynbmid MBfbn</fm> is bn MBfbn tibt dffinfs its
+            mbnbgfmfnt intfrfbdf bt run-timf.  For fxbmplf, b donfigurbtion
+            MBfbn dould dftfrminf tif nbmfs bnd typfs of tif bttributfs it
+        fxposfs by pbrsing bn XML filf.</p>
 
-
-        <h3>Model MBeans</h3>
-
-        <p>A <em>Model MBean</em> is a kind of Dynamic MBean that acts
-            as a bridge between the management interface and the
-            underlying managed resource.  Both the management interface and
-            the managed resource are specified as Java objects.  The same
-            Model MBean implementation can be reused many times with
-            different management interfaces and managed resources, and it can
-            provide common functionality such as persistence and caching.
-            Model MBeans are defined by the package
-            <a href="modelmbean/package-summary.html"><code>
-        javax.management.modelmbean</code></a>.</p>
+        <p>Any Jbvb objfdt of b dlbss tibt implfmfnts tif {@link
+            jbvbx.mbnbgfmfnt.DynbmidMBfbn DynbmidMBfbn} intfrfbdf is b
+        Dynbmid MBfbn.</p>
 
 
-        <h2>MBean Server</h2>
+        <i3>Opfn MBfbns</i3>
 
-        <p>To be useful, an MBean must be registered in an <em>MBean
-            Server</em>.  An MBean Server is a repository of MBeans.
-            Usually the only access to the MBeans is through the MBean
-            Server.  In other words, code no longer accesses the Java
-            object implementing the MBean directly, but instead accesses
-            the MBean by name through the MBean Server.  Each MBean has a
-            unique name within the MBean Server, defined by the {@link
-        javax.management.ObjectName ObjectName} class.</p>
-
-        <p>An MBean Server is an object implementing the interface
-            {@link javax.management.MBeanServer MBeanServer}.
-            The most convenient MBean Server to use is the
-            <em>Platform MBean Server</em>.  This is a
-            single MBean Server that can be shared by different managed
-            components running within the same Java Virtual Machine.  The
-            Platform MBean Server is accessed with the method {@link
-        java.lang.management.ManagementFactory#getPlatformMBeanServer()}.</p>
-
-        <p>Application code can also create a new MBean Server, or
-            access already-created MBean Servers, using the {@link
-        javax.management.MBeanServerFactory MBeanServerFactory} class.</p>
+        <p>An <fm>Opfn MBfbn</fm> is b kind of Dynbmid MBfbn wifrf tif
+            typfs of bttributfs bnd of opfrbtion pbrbmftfrs bnd rfturn
+            vblufs brf built using b smbll sft of prfdffinfd Jbvb dlbssfs.
+            Opfn MBfbns fbdilitbtf opfrbtion witi rfmotf mbnbgfmfnt progrbms
+            tibt do not nfdfssbrily ibvf bddfss to bpplidbtion-spfdifid
+            typfs, indluding non-Jbvb progrbms.  Opfn MBfbns brf dffinfd by
+            tif pbdkbgf <b irff="opfnmbfbn/pbdkbgf-summbry.itml"><dodf>
+        jbvbx.mbnbgfmfnt.opfnmbfbn</dodf></b>.</p>
 
 
-        <h3>Creating MBeans in the MBean Server</h3>
+        <i3>Modfl MBfbns</i3>
 
-        <p>There are two ways to create an MBean.  One is to construct a
-            Java object that will be the MBean, then use the {@link
-            javax.management.MBeanServer#registerMBean registerMBean}
-            method to register it in the MBean Server.  The other is to
-            create and register the MBean in a single operation using one
-            of the {@link javax.management.MBeanServer#createMBean(String,
-        javax.management.ObjectName) createMBean} methods.</p>
-
-        <p>The <code>registerMBean</code> method is simpler for local
-            use, but cannot be used remotely.  The
-            <code>createMBean</code> method can be used remotely, but
-        sometimes requires attention to class loading issues.</p>
-
-        <p>An MBean can perform actions when it is registered in or
-            unregistered from an MBean Server if it implements the {@link
-            javax.management.MBeanRegistration MBeanRegistration}
-        interface.</p>
+        <p>A <fm>Modfl MBfbn</fm> is b kind of Dynbmid MBfbn tibt bdts
+            bs b bridgf bftwffn tif mbnbgfmfnt intfrfbdf bnd tif
+            undfrlying mbnbgfd rfsourdf.  Boti tif mbnbgfmfnt intfrfbdf bnd
+            tif mbnbgfd rfsourdf brf spfdififd bs Jbvb objfdts.  Tif sbmf
+            Modfl MBfbn implfmfntbtion dbn bf rfusfd mbny timfs witi
+            difffrfnt mbnbgfmfnt intfrfbdfs bnd mbnbgfd rfsourdfs, bnd it dbn
+            providf dommon fundtionblity sudi bs pfrsistfndf bnd dbdiing.
+            Modfl MBfbns brf dffinfd by tif pbdkbgf
+            <b irff="modflmbfbn/pbdkbgf-summbry.itml"><dodf>
+        jbvbx.mbnbgfmfnt.modflmbfbn</dodf></b>.</p>
 
 
-        <h3>Accessing MBeans in the MBean Server</h3>
+        <i2>MBfbn Sfrvfr</i2>
 
-        <p>Given an <code>ObjectName</code> <code>name</code> and an
-            <code>MBeanServer</code> <code>mbs</code>, you can access
-        attributes and operations as in this example:</p>
+        <p>To bf usfful, bn MBfbn must bf rfgistfrfd in bn <fm>MBfbn
+            Sfrvfr</fm>.  An MBfbn Sfrvfr is b rfpository of MBfbns.
+            Usublly tif only bddfss to tif MBfbns is tirougi tif MBfbn
+            Sfrvfr.  In otifr words, dodf no longfr bddfssfs tif Jbvb
+            objfdt implfmfnting tif MBfbn dirfdtly, but instfbd bddfssfs
+            tif MBfbn by nbmf tirougi tif MBfbn Sfrvfr.  Ebdi MBfbn ibs b
+            uniquf nbmf witiin tif MBfbn Sfrvfr, dffinfd by tif {@link
+        jbvbx.mbnbgfmfnt.ObjfdtNbmf ObjfdtNbmf} dlbss.</p>
 
-        <pre>
-    int cacheSize = mbs.getAttribute(name, "CacheSize");
-    {@link javax.management.Attribute Attribute} newCacheSize =
-         new Attribute("CacheSize", new Integer(2000));
-    mbs.setAttribute(name, newCacheSize);
-    mbs.invoke(name, "save", new Object[0], new Class[0]);
-        </pre>
+        <p>An MBfbn Sfrvfr is bn objfdt implfmfnting tif intfrfbdf
+            {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfr MBfbnSfrvfr}.
+            Tif most donvfnifnt MBfbn Sfrvfr to usf is tif
+            <fm>Plbtform MBfbn Sfrvfr</fm>.  Tiis is b
+            singlf MBfbn Sfrvfr tibt dbn bf sibrfd by difffrfnt mbnbgfd
+            domponfnts running witiin tif sbmf Jbvb Virtubl Mbdiinf.  Tif
+            Plbtform MBfbn Sfrvfr is bddfssfd witi tif mftiod {@link
+        jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory#gftPlbtformMBfbnSfrvfr()}.</p>
 
-        <p id="proxy">Alternatively, if you have a Java interface that
-            corresponds to the management interface for the MBean, you can use an
-        <em>MBean proxy</em> like this:</p>
-
-        <pre>
-    ConfigurationMBean conf =
-        {@link javax.management.JMX#newMBeanProxy
-            JMX.newMBeanProxy}(mbs, name, ConfigurationMBean.class);
-    int cacheSize = conf.getCacheSize();
-    conf.setCacheSize(2000);
-    conf.save();
-        </pre>
-
-        <p>Using an MBean proxy is just a convenience.  The second
-            example ends up calling the same <code>MBeanServer</code>
-        operations as the first one.</p>
-
-        <p>An MBean Server can be queried for MBeans whose names match
-            certain patterns and/or whose attributes meet certain
-            constraints.  Name patterns are constructed using the {@link
-            javax.management.ObjectName ObjectName} class and constraints
-            are constructed using the {@link javax.management.Query Query}
-            class.  The methods {@link
-            javax.management.MBeanServer#queryNames queryNames} and {@link
-            javax.management.MBeanServer#queryMBeans queryMBeans} then
-        perform the query.</p>
+        <p>Applidbtion dodf dbn blso drfbtf b nfw MBfbn Sfrvfr, or
+            bddfss blrfbdy-drfbtfd MBfbn Sfrvfrs, using tif {@link
+        jbvbx.mbnbgfmfnt.MBfbnSfrvfrFbdtory MBfbnSfrvfrFbdtory} dlbss.</p>
 
 
-        <h3>MBean lifecycle</h3>
+        <i3>Crfbting MBfbns in tif MBfbn Sfrvfr</i3>
 
-        <p>An MBean can implement the {@link javax.management.MBeanRegistration
-            MBeanRegistration} interface in order to be told when it is registered
-            and unregistered in the MBean Server. Additionally, the {@link
-            javax.management.MBeanRegistration#preRegister preRegister} method
-            allows the MBean to get a reference to the <code>MBeanServer</code>
-            object and to get its <code>ObjectName</code> within the MBean
-        Server.</p>
+        <p>Tifrf brf two wbys to drfbtf bn MBfbn.  Onf is to donstrudt b
+            Jbvb objfdt tibt will bf tif MBfbn, tifn usf tif {@link
+            jbvbx.mbnbgfmfnt.MBfbnSfrvfr#rfgistfrMBfbn rfgistfrMBfbn}
+            mftiod to rfgistfr it in tif MBfbn Sfrvfr.  Tif otifr is to
+            drfbtf bnd rfgistfr tif MBfbn in b singlf opfrbtion using onf
+            of tif {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfr#drfbtfMBfbn(String,
+        jbvbx.mbnbgfmfnt.ObjfdtNbmf) drfbtfMBfbn} mftiods.</p>
+
+        <p>Tif <dodf>rfgistfrMBfbn</dodf> mftiod is simplfr for lodbl
+            usf, but dbnnot bf usfd rfmotfly.  Tif
+            <dodf>drfbtfMBfbn</dodf> mftiod dbn bf usfd rfmotfly, but
+        somftimfs rfquirfs bttfntion to dlbss lobding issufs.</p>
+
+        <p>An MBfbn dbn pfrform bdtions wifn it is rfgistfrfd in or
+            unrfgistfrfd from bn MBfbn Sfrvfr if it implfmfnts tif {@link
+            jbvbx.mbnbgfmfnt.MBfbnRfgistrbtion MBfbnRfgistrbtion}
+        intfrfbdf.</p>
 
 
-        <h2>Notifications</h2>
+        <i3>Addfssing MBfbns in tif MBfbn Sfrvfr</i3>
 
-        <p>A <em>notification</em> is an instance of the {@link
-            javax.management.Notification Notification} class or a
-            subclass.  In addition to its Java class, it has a
-            <em>type</em> string that can distinguish it from other
-        notifications of the same class.</p>
+        <p>Givfn bn <dodf>ObjfdtNbmf</dodf> <dodf>nbmf</dodf> bnd bn
+            <dodf>MBfbnSfrvfr</dodf> <dodf>mbs</dodf>, you dbn bddfss
+        bttributfs bnd opfrbtions bs in tiis fxbmplf:</p>
 
-        <p>An MBean that will emit notifications must implement the
-            {@link javax.management.NotificationBroadcaster
-            NotificationBroadcaster} or {@link
-            javax.management.NotificationEmitter NotificationEmitter}
-            interface.  Usually, it does this by subclassing
-            {@link javax.management.NotificationBroadcasterSupport
-            NotificationBroadcasterSupport} or delegating to an instance of
-        that class. Here is an example:</p>
+        <prf>
+    int dbdifSizf = mbs.gftAttributf(nbmf, "CbdifSizf");
+    {@link jbvbx.mbnbgfmfnt.Attributf Attributf} nfwCbdifSizf =
+         nfw Attributf("CbdifSizf", nfw Intfgfr(2000));
+    mbs.sftAttributf(nbmf, nfwCbdifSizf);
+    mbs.invokf(nbmf, "sbvf", nfw Objfdt[0], nfw Clbss[0]);
+        </prf>
 
-        <pre>
-    public class Configuration <b>extends NotificationBroadcasterSupport</b>
-            implements ConfigurationMBean {
+        <p id="proxy">Altfrnbtivfly, if you ibvf b Jbvb intfrfbdf tibt
+            dorrfsponds to tif mbnbgfmfnt intfrfbdf for tif MBfbn, you dbn usf bn
+        <fm>MBfbn proxy</fm> likf tiis:</p>
+
+        <prf>
+    ConfigurbtionMBfbn donf =
+        {@link jbvbx.mbnbgfmfnt.JMX#nfwMBfbnProxy
+            JMX.nfwMBfbnProxy}(mbs, nbmf, ConfigurbtionMBfbn.dlbss);
+    int dbdifSizf = donf.gftCbdifSizf();
+    donf.sftCbdifSizf(2000);
+    donf.sbvf();
+        </prf>
+
+        <p>Using bn MBfbn proxy is just b donvfnifndf.  Tif sfdond
+            fxbmplf fnds up dblling tif sbmf <dodf>MBfbnSfrvfr</dodf>
+        opfrbtions bs tif first onf.</p>
+
+        <p>An MBfbn Sfrvfr dbn bf qufrifd for MBfbns wiosf nbmfs mbtdi
+            dfrtbin pbttfrns bnd/or wiosf bttributfs mfft dfrtbin
+            donstrbints.  Nbmf pbttfrns brf donstrudtfd using tif {@link
+            jbvbx.mbnbgfmfnt.ObjfdtNbmf ObjfdtNbmf} dlbss bnd donstrbints
+            brf donstrudtfd using tif {@link jbvbx.mbnbgfmfnt.Qufry Qufry}
+            dlbss.  Tif mftiods {@link
+            jbvbx.mbnbgfmfnt.MBfbnSfrvfr#qufryNbmfs qufryNbmfs} bnd {@link
+            jbvbx.mbnbgfmfnt.MBfbnSfrvfr#qufryMBfbns qufryMBfbns} tifn
+        pfrform tif qufry.</p>
+
+
+        <i3>MBfbn liffdydlf</i3>
+
+        <p>An MBfbn dbn implfmfnt tif {@link jbvbx.mbnbgfmfnt.MBfbnRfgistrbtion
+            MBfbnRfgistrbtion} intfrfbdf in ordfr to bf told wifn it is rfgistfrfd
+            bnd unrfgistfrfd in tif MBfbn Sfrvfr. Additionblly, tif {@link
+            jbvbx.mbnbgfmfnt.MBfbnRfgistrbtion#prfRfgistfr prfRfgistfr} mftiod
+            bllows tif MBfbn to gft b rfffrfndf to tif <dodf>MBfbnSfrvfr</dodf>
+            objfdt bnd to gft its <dodf>ObjfdtNbmf</dodf> witiin tif MBfbn
+        Sfrvfr.</p>
+
+
+        <i2>Notifidbtions</i2>
+
+        <p>A <fm>notifidbtion</fm> is bn instbndf of tif {@link
+            jbvbx.mbnbgfmfnt.Notifidbtion Notifidbtion} dlbss or b
+            subdlbss.  In bddition to its Jbvb dlbss, it ibs b
+            <fm>typf</fm> string tibt dbn distinguisi it from otifr
+        notifidbtions of tif sbmf dlbss.</p>
+
+        <p>An MBfbn tibt will fmit notifidbtions must implfmfnt tif
+            {@link jbvbx.mbnbgfmfnt.NotifidbtionBrobddbstfr
+            NotifidbtionBrobddbstfr} or {@link
+            jbvbx.mbnbgfmfnt.NotifidbtionEmittfr NotifidbtionEmittfr}
+            intfrfbdf.  Usublly, it dofs tiis by subdlbssing
+            {@link jbvbx.mbnbgfmfnt.NotifidbtionBrobddbstfrSupport
+            NotifidbtionBrobddbstfrSupport} or dflfgbting to bn instbndf of
+        tibt dlbss. Hfrf is bn fxbmplf:</p>
+
+        <prf>
+    publid dlbss Configurbtion <b>fxtfnds NotifidbtionBrobddbstfrSupport</b>
+            implfmfnts ConfigurbtionMBfbn {
         ...
-        private void updated() {
-            Notification n = new Notification(...);
-            <b>{@link javax.management.NotificationBroadcasterSupport#sendNotification
-            sendNotification}(n)</b>;
+        privbtf void updbtfd() {
+            Notifidbtion n = nfw Notifidbtion(...);
+            <b>{@link jbvbx.mbnbgfmfnt.NotifidbtionBrobddbstfrSupport#sfndNotifidbtion
+            sfndNotifidbtion}(n)</b>;
         }
     }
-        </pre>
+        </prf>
 
 
-        <p>Notifications can be received by a <em>listener</em>, which
-            is an object that implements the {@link
-            javax.management.NotificationListener NotificationListener}
-            interface.  You can add a listener to an MBean with the method
+        <p>Notifidbtions dbn bf rfdfivfd by b <fm>listfnfr</fm>, wiidi
+            is bn objfdt tibt implfmfnts tif {@link
+            jbvbx.mbnbgfmfnt.NotifidbtionListfnfr NotifidbtionListfnfr}
+            intfrfbdf.  You dbn bdd b listfnfr to bn MBfbn witi tif mftiod
             {@link
-            javax.management.MBeanServer#addNotificationListener(ObjectName,
-            NotificationListener, NotificationFilter, Object)}.
-            You can optionally supply a <em>filter</em> to this method, to
-            select only notifications of interest.  A filter is an object
-            that implements the {@link javax.management.NotificationFilter
-        NotificationFilter} interface.</p>
+            jbvbx.mbnbgfmfnt.MBfbnSfrvfr#bddNotifidbtionListfnfr(ObjfdtNbmf,
+            NotifidbtionListfnfr, NotifidbtionFiltfr, Objfdt)}.
+            You dbn optionblly supply b <fm>filtfr</fm> to tiis mftiod, to
+            sflfdt only notifidbtions of intfrfst.  A filtfr is bn objfdt
+            tibt implfmfnts tif {@link jbvbx.mbnbgfmfnt.NotifidbtionFiltfr
+        NotifidbtionFiltfr} intfrfbdf.</p>
 
-        <p>An MBean can be a listener for notifications emitted by other
-            MBeans in the same MBean Server.  In this case, it implements
-            {@link javax.management.NotificationListener
-            NotificationListener} and the method {@link
-            javax.management.MBeanServer#addNotificationListener(ObjectName,
-        ObjectName, NotificationFilter, Object)} is used to listen.</p>
+        <p>An MBfbn dbn bf b listfnfr for notifidbtions fmittfd by otifr
+            MBfbns in tif sbmf MBfbn Sfrvfr.  In tiis dbsf, it implfmfnts
+            {@link jbvbx.mbnbgfmfnt.NotifidbtionListfnfr
+            NotifidbtionListfnfr} bnd tif mftiod {@link
+            jbvbx.mbnbgfmfnt.MBfbnSfrvfr#bddNotifidbtionListfnfr(ObjfdtNbmf,
+        ObjfdtNbmf, NotifidbtionFiltfr, Objfdt)} is usfd to listfn.</p>
 
 
-        <h2>Remote Access to MBeans</h2>
+        <i2>Rfmotf Addfss to MBfbns</i2>
 
-        <p>An MBean Server can be accessed remotely through a
-            <em>connector</em>.  A connector allows a remote Java
-            application to access an MBean Server in essentially the same
-            way as a local one.  The package
-            <a href="remote/package-summary.html"><code>
-        javax.management.remote</code></a> defines connectors.</p>
+        <p>An MBfbn Sfrvfr dbn bf bddfssfd rfmotfly tirougi b
+            <fm>donnfdtor</fm>.  A donnfdtor bllows b rfmotf Jbvb
+            bpplidbtion to bddfss bn MBfbn Sfrvfr in fssfntiblly tif sbmf
+            wby bs b lodbl onf.  Tif pbdkbgf
+            <b irff="rfmotf/pbdkbgf-summbry.itml"><dodf>
+        jbvbx.mbnbgfmfnt.rfmotf</dodf></b> dffinfs donnfdtors.</p>
 
-        <p>The JMX specification also defines the notion of an
-            <em>adaptor</em>.  An adaptor translates between requests in a
-            protocol such as SNMP or HTML and accesses to an MBean Server.
-            So for example an SNMP GET operation might result in a
-        <code>getAttribute</code> on the MBean Server.</p>
+        <p>Tif JMX spfdifidbtion blso dffinfs tif notion of bn
+            <fm>bdbptor</fm>.  An bdbptor trbnslbtfs bftwffn rfqufsts in b
+            protodol sudi bs SNMP or HTML bnd bddfssfs to bn MBfbn Sfrvfr.
+            So for fxbmplf bn SNMP GET opfrbtion migit rfsult in b
+        <dodf>gftAttributf</dodf> on tif MBfbn Sfrvfr.</p>
 
-	<h3 id="interop">Interoperability between versions of the JMX
-	  specification</h3>
+	<i3 id="intfrop">Intfropfrbbility bftwffn vfrsions of tif JMX
+	  spfdifidbtion</i3>
 
-        <p>When a client connects to a server using the JMX Remote
-            API, it is possible that they do not have the same version
-            of the JMX specification.  The version of the JMX
-            specification described here is version 1.4.  Previous
-            versions were 1.0, 1.1, and 1.2.  (There was no 1.3.)
-            The standard JMX Remote API is defined to work with version
-            1.2 onwards, so in standards-based deployment the only
-            interoperability questions that arise concern version 1.2
-        onwards.</p>
+        <p>Wifn b dlifnt donnfdts to b sfrvfr using tif JMX Rfmotf
+            API, it is possiblf tibt tify do not ibvf tif sbmf vfrsion
+            of tif JMX spfdifidbtion.  Tif vfrsion of tif JMX
+            spfdifidbtion dfsdribfd ifrf is vfrsion 1.4.  Prfvious
+            vfrsions wfrf 1.0, 1.1, bnd 1.2.  (Tifrf wbs no 1.3.)
+            Tif stbndbrd JMX Rfmotf API is dffinfd to work witi vfrsion
+            1.2 onwbrds, so in stbndbrds-bbsfd dfploymfnt tif only
+            intfropfrbbility qufstions tibt brisf dondfrn vfrsion 1.2
+        onwbrds.</p>
 
-        <p>Every version of the JMX specification continues to
-            implement the features of previous versions.  So when the
-            client is running an earlier version than the server, there
-            should not be any interoperability concerns.</p>
+        <p>Evfry vfrsion of tif JMX spfdifidbtion dontinufs to
+            implfmfnt tif ffbturfs of prfvious vfrsions.  So wifn tif
+            dlifnt is running bn fbrlifr vfrsion tibn tif sfrvfr, tifrf
+            siould not bf bny intfropfrbbility dondfrns.</p>
 
-        <p>When the client is running a later version than the server,
-            certain newer features may not be available, as detailed in
-            the next sections.  The client can determine the server's
-            version by examining the {@link
-            javax.management.MBeanServerDelegateMBean#getSpecificationVersion
-            SpecificationVersion} attribute of the {@code
-        MBeanServerDelegate}.</p>
+        <p>Wifn tif dlifnt is running b lbtfr vfrsion tibn tif sfrvfr,
+            dfrtbin nfwfr ffbturfs mby not bf bvbilbblf, bs dftbilfd in
+            tif nfxt sfdtions.  Tif dlifnt dbn dftfrminf tif sfrvfr's
+            vfrsion by fxbmining tif {@link
+            jbvbx.mbnbgfmfnt.MBfbnSfrvfrDflfgbtfMBfbn#gftSpfdifidbtionVfrsion
+            SpfdifidbtionVfrsion} bttributf of tif {@dodf
+        MBfbnSfrvfrDflfgbtf}.</p>
 
-        <h4 id="interop-1.2">If the remote MBean Server is 1.2</h4>
+        <i4 id="intfrop-1.2">If tif rfmotf MBfbn Sfrvfr is 1.2</i4>
 
 	<ul>
 
-            <li><p>You cannot use wildcards in a key property of an
-                {@link javax.management.ObjectName ObjectName}, for
-                example {@code domain:type=Foo,name=*}. Wildcards that
-                match whole properties are still allowed, for example
-            {@code *:*} or {@code *:type=Foo,*}.</p>
+            <li><p>You dbnnot usf wilddbrds in b kfy propfrty of bn
+                {@link jbvbx.mbnbgfmfnt.ObjfdtNbmf ObjfdtNbmf}, for
+                fxbmplf {@dodf dombin:typf=Foo,nbmf=*}. Wilddbrds tibt
+                mbtdi wiolf propfrtifs brf still bllowfd, for fxbmplf
+            {@dodf *:*} or {@dodf *:typf=Foo,*}.</p>
 
-            <li><p>You cannot use {@link
-                javax.management.Query#isInstanceOf Query.isInstanceOf}
-            in a query.</p>
+            <li><p>You dbnnot usf {@link
+                jbvbx.mbnbgfmfnt.Qufry#isInstbndfOf Qufry.isInstbndfOf}
+            in b qufry.</p>
 
-            <li><p>You cannot use dot syntax such as {@code
-                HeapMemoryUsage.used} in the {@linkplain
-                javax.management.monitor.Monitor#setObservedAttribute
-                observed attribute} of a monitor, as described in the
-                documentation for the {@link javax.management.monitor}
-            package.</p>
+            <li><p>You dbnnot usf dot syntbx sudi bs {@dodf
+                HfbpMfmoryUsbgf.usfd} in tif {@linkplbin
+                jbvbx.mbnbgfmfnt.monitor.Monitor#sftObsfrvfdAttributf
+                obsfrvfd bttributf} of b monitor, bs dfsdribfd in tif
+                dodumfntbtion for tif {@link jbvbx.mbnbgfmfnt.monitor}
+            pbdkbgf.</p>
 
         </ul>
 
-        <p id="spec">
-        @see <a href="{@docRoot}/../technotes/guides/jmx/index.html">
-        Java Platform documentation on JMX technology</a>
-        in particular the
-        <a href="{@docRoot}/../technotes/guides/jmx/JMX_1_4_specification.pdf">
-        JMX Specification, version 1.4(pdf).</a>
+        <p id="spfd">
+        @sff <b irff="{@dodRoot}/../tfdinotfs/guidfs/jmx/indfx.itml">
+        Jbvb Plbtform dodumfntbtion on JMX tfdinology</b>
+        in pbrtidulbr tif
+        <b irff="{@dodRoot}/../tfdinotfs/guidfs/jmx/JMX_1_4_spfdifidbtion.pdf">
+        JMX Spfdifidbtion, vfrsion 1.4(pdf).</b>
 
-        @since 1.5
+        @sindf 1.5
 
     </body>
-</html>
+</itml>

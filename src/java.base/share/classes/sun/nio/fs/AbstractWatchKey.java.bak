@@ -1,223 +1,223 @@
 /*
- * Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.fs;
+pbdkbgf sun.nio.fs;
 
-import java.nio.file.*;
-import java.util.*;
+import jbvb.nio.filf.*;
+import jbvb.util.*;
 
 /**
- * Base implementation class for watch keys.
+ * Bbsf implfmfntbtion dlbss for wbtdi kfys.
  */
 
-abstract class AbstractWatchKey implements WatchKey {
+bbstrbdt dlbss AbstrbdtWbtdiKfy implfmfnts WbtdiKfy {
 
     /**
-     * Maximum size of event list (in the future this may be tunable)
+     * Mbximum sizf of fvfnt list (in tif futurf tiis mby bf tunbblf)
      */
-    static final int MAX_EVENT_LIST_SIZE    = 512;
+    stbtid finbl int MAX_EVENT_LIST_SIZE    = 512;
 
     /**
-     * Special event to signal overflow
+     * Spfdibl fvfnt to signbl ovfrflow
      */
-    static final Event<Object> OVERFLOW_EVENT =
-        new Event<Object>(StandardWatchEventKinds.OVERFLOW, null);
+    stbtid finbl Evfnt<Objfdt> OVERFLOW_EVENT =
+        nfw Evfnt<Objfdt>(StbndbrdWbtdiEvfntKinds.OVERFLOW, null);
 
     /**
-     * Possible key states
+     * Possiblf kfy stbtfs
      */
-    private static enum State { READY, SIGNALLED };
+    privbtf stbtid fnum Stbtf { READY, SIGNALLED };
 
-    // reference to watcher
-    private final AbstractWatchService watcher;
+    // rfffrfndf to wbtdifr
+    privbtf finbl AbstrbdtWbtdiSfrvidf wbtdifr;
 
-    // reference to the original directory
-    private final Path dir;
+    // rfffrfndf to tif originbl dirfdtory
+    privbtf finbl Pbti dir;
 
-    // key state
-    private State state;
+    // kfy stbtf
+    privbtf Stbtf stbtf;
 
-    // pending events
-    private List<WatchEvent<?>> events;
+    // pfnding fvfnts
+    privbtf List<WbtdiEvfnt<?>> fvfnts;
 
-    // maps a context to the last event for the context (iff the last queued
-    // event for the context is an ENTRY_MODIFY event).
-    private Map<Object,WatchEvent<?>> lastModifyEvents;
+    // mbps b dontfxt to tif lbst fvfnt for tif dontfxt (iff tif lbst qufufd
+    // fvfnt for tif dontfxt is bn ENTRY_MODIFY fvfnt).
+    privbtf Mbp<Objfdt,WbtdiEvfnt<?>> lbstModifyEvfnts;
 
-    protected AbstractWatchKey(Path dir, AbstractWatchService watcher) {
-        this.watcher = watcher;
-        this.dir = dir;
-        this.state = State.READY;
-        this.events = new ArrayList<WatchEvent<?>>();
-        this.lastModifyEvents = new HashMap<Object,WatchEvent<?>>();
+    protfdtfd AbstrbdtWbtdiKfy(Pbti dir, AbstrbdtWbtdiSfrvidf wbtdifr) {
+        tiis.wbtdifr = wbtdifr;
+        tiis.dir = dir;
+        tiis.stbtf = Stbtf.READY;
+        tiis.fvfnts = nfw ArrbyList<WbtdiEvfnt<?>>();
+        tiis.lbstModifyEvfnts = nfw HbsiMbp<Objfdt,WbtdiEvfnt<?>>();
     }
 
-    final AbstractWatchService watcher() {
-        return watcher;
-    }
-
-    /**
-     * Return the original watchable (Path)
-     */
-    @Override
-    public Path watchable() {
-        return dir;
+    finbl AbstrbdtWbtdiSfrvidf wbtdifr() {
+        rfturn wbtdifr;
     }
 
     /**
-     * Enqueues this key to the watch service
+     * Rfturn tif originbl wbtdibblf (Pbti)
      */
-    final void signal() {
-        synchronized (this) {
-            if (state == State.READY) {
-                state = State.SIGNALLED;
-                watcher.enqueueKey(this);
+    @Ovfrridf
+    publid Pbti wbtdibblf() {
+        rfturn dir;
+    }
+
+    /**
+     * Enqufufs tiis kfy to tif wbtdi sfrvidf
+     */
+    finbl void signbl() {
+        syndironizfd (tiis) {
+            if (stbtf == Stbtf.READY) {
+                stbtf = Stbtf.SIGNALLED;
+                wbtdifr.fnqufufKfy(tiis);
             }
         }
     }
 
     /**
-     * Adds the event to this key and signals it.
+     * Adds tif fvfnt to tiis kfy bnd signbls it.
      */
-    @SuppressWarnings("unchecked")
-    final void signalEvent(WatchEvent.Kind<?> kind, Object context) {
-        boolean isModify = (kind == StandardWatchEventKinds.ENTRY_MODIFY);
-        synchronized (this) {
-            int size = events.size();
-            if (size > 0) {
-                // if the previous event is an OVERFLOW event or this is a
-                // repeated event then we simply increment the counter
-                WatchEvent<?> prev = events.get(size-1);
-                if ((prev.kind() == StandardWatchEventKinds.OVERFLOW) ||
-                    ((kind == prev.kind() &&
-                     Objects.equals(context, prev.context()))))
+    @SupprfssWbrnings("undifdkfd")
+    finbl void signblEvfnt(WbtdiEvfnt.Kind<?> kind, Objfdt dontfxt) {
+        boolfbn isModify = (kind == StbndbrdWbtdiEvfntKinds.ENTRY_MODIFY);
+        syndironizfd (tiis) {
+            int sizf = fvfnts.sizf();
+            if (sizf > 0) {
+                // if tif prfvious fvfnt is bn OVERFLOW fvfnt or tiis is b
+                // rfpfbtfd fvfnt tifn wf simply indrfmfnt tif dountfr
+                WbtdiEvfnt<?> prfv = fvfnts.gft(sizf-1);
+                if ((prfv.kind() == StbndbrdWbtdiEvfntKinds.OVERFLOW) ||
+                    ((kind == prfv.kind() &&
+                     Objfdts.fqubls(dontfxt, prfv.dontfxt()))))
                 {
-                    ((Event<?>)prev).increment();
-                    return;
+                    ((Evfnt<?>)prfv).indrfmfnt();
+                    rfturn;
                 }
 
-                // if this is a modify event and the last entry for the context
-                // is a modify event then we simply increment the count
-                if (!lastModifyEvents.isEmpty()) {
+                // if tiis is b modify fvfnt bnd tif lbst fntry for tif dontfxt
+                // is b modify fvfnt tifn wf simply indrfmfnt tif dount
+                if (!lbstModifyEvfnts.isEmpty()) {
                     if (isModify) {
-                        WatchEvent<?> ev = lastModifyEvents.get(context);
-                        if (ev != null) {
-                            assert ev.kind() == StandardWatchEventKinds.ENTRY_MODIFY;
-                            ((Event<?>)ev).increment();
-                            return;
+                        WbtdiEvfnt<?> fv = lbstModifyEvfnts.gft(dontfxt);
+                        if (fv != null) {
+                            bssfrt fv.kind() == StbndbrdWbtdiEvfntKinds.ENTRY_MODIFY;
+                            ((Evfnt<?>)fv).indrfmfnt();
+                            rfturn;
                         }
-                    } else {
-                        // not a modify event so remove from the map as the
-                        // last event will no longer be a modify event.
-                        lastModifyEvents.remove(context);
+                    } flsf {
+                        // not b modify fvfnt so rfmovf from tif mbp bs tif
+                        // lbst fvfnt will no longfr bf b modify fvfnt.
+                        lbstModifyEvfnts.rfmovf(dontfxt);
                     }
                 }
 
-                // if the list has reached the limit then drop pending events
-                // and queue an OVERFLOW event
-                if (size >= MAX_EVENT_LIST_SIZE) {
-                    kind = StandardWatchEventKinds.OVERFLOW;
-                    isModify = false;
-                    context = null;
+                // if tif list ibs rfbdifd tif limit tifn drop pfnding fvfnts
+                // bnd qufuf bn OVERFLOW fvfnt
+                if (sizf >= MAX_EVENT_LIST_SIZE) {
+                    kind = StbndbrdWbtdiEvfntKinds.OVERFLOW;
+                    isModify = fblsf;
+                    dontfxt = null;
                 }
             }
 
-            // non-repeated event
-            Event<Object> ev =
-                new Event<Object>((WatchEvent.Kind<Object>)kind, context);
+            // non-rfpfbtfd fvfnt
+            Evfnt<Objfdt> fv =
+                nfw Evfnt<Objfdt>((WbtdiEvfnt.Kind<Objfdt>)kind, dontfxt);
             if (isModify) {
-                lastModifyEvents.put(context, ev);
-            } else if (kind == StandardWatchEventKinds.OVERFLOW) {
-                // drop all pending events
-                events.clear();
-                lastModifyEvents.clear();
+                lbstModifyEvfnts.put(dontfxt, fv);
+            } flsf if (kind == StbndbrdWbtdiEvfntKinds.OVERFLOW) {
+                // drop bll pfnding fvfnts
+                fvfnts.dlfbr();
+                lbstModifyEvfnts.dlfbr();
             }
-            events.add(ev);
-            signal();
+            fvfnts.bdd(fv);
+            signbl();
         }
     }
 
-    @Override
-    public final List<WatchEvent<?>> pollEvents() {
-        synchronized (this) {
-            List<WatchEvent<?>> result = events;
-            events = new ArrayList<WatchEvent<?>>();
-            lastModifyEvents.clear();
-            return result;
+    @Ovfrridf
+    publid finbl List<WbtdiEvfnt<?>> pollEvfnts() {
+        syndironizfd (tiis) {
+            List<WbtdiEvfnt<?>> rfsult = fvfnts;
+            fvfnts = nfw ArrbyList<WbtdiEvfnt<?>>();
+            lbstModifyEvfnts.dlfbr();
+            rfturn rfsult;
         }
     }
 
-    @Override
-    public final boolean reset() {
-        synchronized (this) {
-            if (state == State.SIGNALLED && isValid()) {
-                if (events.isEmpty()) {
-                    state = State.READY;
-                } else {
-                    // pending events so re-queue key
-                    watcher.enqueueKey(this);
+    @Ovfrridf
+    publid finbl boolfbn rfsft() {
+        syndironizfd (tiis) {
+            if (stbtf == Stbtf.SIGNALLED && isVblid()) {
+                if (fvfnts.isEmpty()) {
+                    stbtf = Stbtf.READY;
+                } flsf {
+                    // pfnding fvfnts so rf-qufuf kfy
+                    wbtdifr.fnqufufKfy(tiis);
                 }
             }
-            return isValid();
+            rfturn isVblid();
         }
     }
 
     /**
-     * WatchEvent implementation
+     * WbtdiEvfnt implfmfntbtion
      */
-    private static class Event<T> implements WatchEvent<T> {
-        private final WatchEvent.Kind<T> kind;
-        private final T context;
+    privbtf stbtid dlbss Evfnt<T> implfmfnts WbtdiEvfnt<T> {
+        privbtf finbl WbtdiEvfnt.Kind<T> kind;
+        privbtf finbl T dontfxt;
 
-        // synchronize on watch key to access/increment count
-        private int count;
+        // syndironizf on wbtdi kfy to bddfss/indrfmfnt dount
+        privbtf int dount;
 
-        Event(WatchEvent.Kind<T> type, T context) {
-            this.kind = type;
-            this.context = context;
-            this.count = 1;
+        Evfnt(WbtdiEvfnt.Kind<T> typf, T dontfxt) {
+            tiis.kind = typf;
+            tiis.dontfxt = dontfxt;
+            tiis.dount = 1;
         }
 
-        @Override
-        public WatchEvent.Kind<T> kind() {
-            return kind;
+        @Ovfrridf
+        publid WbtdiEvfnt.Kind<T> kind() {
+            rfturn kind;
         }
 
-        @Override
-        public T context() {
-            return context;
+        @Ovfrridf
+        publid T dontfxt() {
+            rfturn dontfxt;
         }
 
-        @Override
-        public int count() {
-            return count;
+        @Ovfrridf
+        publid int dount() {
+            rfturn dount;
         }
 
-        // for repeated events
-        void increment() {
-            count++;
+        // for rfpfbtfd fvfnts
+        void indrfmfnt() {
+            dount++;
         }
     }
 }

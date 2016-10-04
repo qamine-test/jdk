@@ -1,51 +1,51 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Copyright (c) 2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyrigit (d) 2012, Stfpifn Colfbournf & Midibfl Nbsdimfnto Sbntos
  *
- * All rights reserved.
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions brf mft:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
- *    without specific prior written permission.
+ *  * Nfitifr tif nbmf of JSR-310 nor tif nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from tiis softwbrf
+ *    witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -59,696 +59,696 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time.chrono;
+pbdkbgf jbvb.timf.dirono;
 
-import java.time.Clock;
-import java.time.DateTimeException;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatterBuilder;
-import java.time.format.ResolverStyle;
-import java.time.format.TextStyle;
-import java.time.temporal.ChronoField;
-import java.time.temporal.TemporalAccessor;
-import java.time.temporal.TemporalField;
-import java.time.temporal.TemporalQueries;
-import java.time.temporal.TemporalQuery;
-import java.time.temporal.UnsupportedTemporalTypeException;
-import java.time.temporal.ValueRange;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import jbvb.timf.Clodk;
+import jbvb.timf.DbtfTimfExdfption;
+import jbvb.timf.Instbnt;
+import jbvb.timf.LodblDbtf;
+import jbvb.timf.LodblTimf;
+import jbvb.timf.ZonfId;
+import jbvb.timf.formbt.DbtfTimfFormbttfrBuildfr;
+import jbvb.timf.formbt.RfsolvfrStylf;
+import jbvb.timf.formbt.TfxtStylf;
+import jbvb.timf.tfmporbl.CironoFifld;
+import jbvb.timf.tfmporbl.TfmporblAddfssor;
+import jbvb.timf.tfmporbl.TfmporblFifld;
+import jbvb.timf.tfmporbl.TfmporblQufrifs;
+import jbvb.timf.tfmporbl.TfmporblQufry;
+import jbvb.timf.tfmporbl.UnsupportfdTfmporblTypfExdfption;
+import jbvb.timf.tfmporbl.VblufRbngf;
+import jbvb.util.List;
+import jbvb.util.Lodblf;
+import jbvb.util.Mbp;
+import jbvb.util.Objfdts;
+import jbvb.util.Sft;
 
 /**
- * A calendar system, used to organize and identify dates.
+ * A dblfndbr systfm, usfd to orgbnizf bnd idfntify dbtfs.
  * <p>
- * The main date and time API is built on the ISO calendar system.
- * The chronology operates behind the scenes to represent the general concept of a calendar system.
- * For example, the Japanese, Minguo, Thai Buddhist and others.
+ * Tif mbin dbtf bnd timf API is built on tif ISO dblfndbr systfm.
+ * Tif dironology opfrbtfs bfiind tif sdfnfs to rfprfsfnt tif gfnfrbl dondfpt of b dblfndbr systfm.
+ * For fxbmplf, tif Jbpbnfsf, Minguo, Tibi Buddiist bnd otifrs.
  * <p>
- * Most other calendar systems also operate on the shared concepts of year, month and day,
- * linked to the cycles of the Earth around the Sun, and the Moon around the Earth.
- * These shared concepts are defined by {@link ChronoField} and are available
- * for use by any {@code Chronology} implementation:
- * <pre>
- *   LocalDate isoDate = ...
- *   ThaiBuddhistDate thaiDate = ...
- *   int isoYear = isoDate.get(ChronoField.YEAR);
- *   int thaiYear = thaiDate.get(ChronoField.YEAR);
- * </pre>
- * As shown, although the date objects are in different calendar systems, represented by different
- * {@code Chronology} instances, both can be queried using the same constant on {@code ChronoField}.
- * For a full discussion of the implications of this, see {@link ChronoLocalDate}.
- * In general, the advice is to use the known ISO-based {@code LocalDate}, rather than
- * {@code ChronoLocalDate}.
+ * Most otifr dblfndbr systfms blso opfrbtf on tif sibrfd dondfpts of yfbr, monti bnd dby,
+ * linkfd to tif dydlfs of tif Ebrti bround tif Sun, bnd tif Moon bround tif Ebrti.
+ * Tifsf sibrfd dondfpts brf dffinfd by {@link CironoFifld} bnd brf bvbilbblf
+ * for usf by bny {@dodf Cironology} implfmfntbtion:
+ * <prf>
+ *   LodblDbtf isoDbtf = ...
+ *   TibiBuddiistDbtf tibiDbtf = ...
+ *   int isoYfbr = isoDbtf.gft(CironoFifld.YEAR);
+ *   int tibiYfbr = tibiDbtf.gft(CironoFifld.YEAR);
+ * </prf>
+ * As siown, bltiougi tif dbtf objfdts brf in difffrfnt dblfndbr systfms, rfprfsfntfd by difffrfnt
+ * {@dodf Cironology} instbndfs, boti dbn bf qufrifd using tif sbmf donstbnt on {@dodf CironoFifld}.
+ * For b full disdussion of tif implidbtions of tiis, sff {@link CironoLodblDbtf}.
+ * In gfnfrbl, tif bdvidf is to usf tif known ISO-bbsfd {@dodf LodblDbtf}, rbtifr tibn
+ * {@dodf CironoLodblDbtf}.
  * <p>
- * While a {@code Chronology} object typically uses {@code ChronoField} and is based on
- * an era, year-of-era, month-of-year, day-of-month model of a date, this is not required.
- * A {@code Chronology} instance may represent a totally different kind of calendar system,
- * such as the Mayan.
+ * Wiilf b {@dodf Cironology} objfdt typidblly usfs {@dodf CironoFifld} bnd is bbsfd on
+ * bn frb, yfbr-of-frb, monti-of-yfbr, dby-of-monti modfl of b dbtf, tiis is not rfquirfd.
+ * A {@dodf Cironology} instbndf mby rfprfsfnt b totblly difffrfnt kind of dblfndbr systfm,
+ * sudi bs tif Mbybn.
  * <p>
- * In practical terms, the {@code Chronology} instance also acts as a factory.
- * The {@link #of(String)} method allows an instance to be looked up by identifier,
- * while the {@link #ofLocale(Locale)} method allows lookup by locale.
+ * In prbdtidbl tfrms, tif {@dodf Cironology} instbndf blso bdts bs b fbdtory.
+ * Tif {@link #of(String)} mftiod bllows bn instbndf to bf lookfd up by idfntififr,
+ * wiilf tif {@link #ofLodblf(Lodblf)} mftiod bllows lookup by lodblf.
  * <p>
- * The {@code Chronology} instance provides a set of methods to create {@code ChronoLocalDate} instances.
- * The date classes are used to manipulate specific dates.
+ * Tif {@dodf Cironology} instbndf providfs b sft of mftiods to drfbtf {@dodf CironoLodblDbtf} instbndfs.
+ * Tif dbtf dlbssfs brf usfd to mbnipulbtf spfdifid dbtfs.
  * <ul>
- * <li> {@link #dateNow() dateNow()}
- * <li> {@link #dateNow(Clock) dateNow(clock)}
- * <li> {@link #dateNow(ZoneId) dateNow(zone)}
- * <li> {@link #date(int, int, int) date(yearProleptic, month, day)}
- * <li> {@link #date(Era, int, int, int) date(era, yearOfEra, month, day)}
- * <li> {@link #dateYearDay(int, int) dateYearDay(yearProleptic, dayOfYear)}
- * <li> {@link #dateYearDay(Era, int, int) dateYearDay(era, yearOfEra, dayOfYear)}
- * <li> {@link #date(TemporalAccessor) date(TemporalAccessor)}
+ * <li> {@link #dbtfNow() dbtfNow()}
+ * <li> {@link #dbtfNow(Clodk) dbtfNow(dlodk)}
+ * <li> {@link #dbtfNow(ZonfId) dbtfNow(zonf)}
+ * <li> {@link #dbtf(int, int, int) dbtf(yfbrProlfptid, monti, dby)}
+ * <li> {@link #dbtf(Erb, int, int, int) dbtf(frb, yfbrOfErb, monti, dby)}
+ * <li> {@link #dbtfYfbrDby(int, int) dbtfYfbrDby(yfbrProlfptid, dbyOfYfbr)}
+ * <li> {@link #dbtfYfbrDby(Erb, int, int) dbtfYfbrDby(frb, yfbrOfErb, dbyOfYfbr)}
+ * <li> {@link #dbtf(TfmporblAddfssor) dbtf(TfmporblAddfssor)}
  * </ul>
  *
- * <h3 id="addcalendars">Adding New Calendars</h3>
- * The set of available chronologies can be extended by applications.
- * Adding a new calendar system requires the writing of an implementation of
- * {@code Chronology}, {@code ChronoLocalDate} and {@code Era}.
- * The majority of the logic specific to the calendar system will be in the
- * {@code ChronoLocalDate} implementation.
- * The {@code Chronology} implementation acts as a factory.
+ * <i3 id="bdddblfndbrs">Adding Nfw Cblfndbrs</i3>
+ * Tif sft of bvbilbblf dironologifs dbn bf fxtfndfd by bpplidbtions.
+ * Adding b nfw dblfndbr systfm rfquirfs tif writing of bn implfmfntbtion of
+ * {@dodf Cironology}, {@dodf CironoLodblDbtf} bnd {@dodf Erb}.
+ * Tif mbjority of tif logid spfdifid to tif dblfndbr systfm will bf in tif
+ * {@dodf CironoLodblDbtf} implfmfntbtion.
+ * Tif {@dodf Cironology} implfmfntbtion bdts bs b fbdtory.
  * <p>
- * To permit the discovery of additional chronologies, the {@link java.util.ServiceLoader ServiceLoader}
- * is used. A file must be added to the {@code META-INF/services} directory with the
- * name 'java.time.chrono.Chronology' listing the implementation classes.
- * See the ServiceLoader for more details on service loading.
- * For lookup by id or calendarType, the system provided calendars are found
- * first followed by application provided calendars.
+ * To pfrmit tif disdovfry of bdditionbl dironologifs, tif {@link jbvb.util.SfrvidfLobdfr SfrvidfLobdfr}
+ * is usfd. A filf must bf bddfd to tif {@dodf META-INF/sfrvidfs} dirfdtory witi tif
+ * nbmf 'jbvb.timf.dirono.Cironology' listing tif implfmfntbtion dlbssfs.
+ * Sff tif SfrvidfLobdfr for morf dftbils on sfrvidf lobding.
+ * For lookup by id or dblfndbrTypf, tif systfm providfd dblfndbrs brf found
+ * first followfd by bpplidbtion providfd dblfndbrs.
  * <p>
- * Each chronology must define a chronology ID that is unique within the system.
- * If the chronology represents a calendar system defined by the
- * CLDR specification then the calendar type is the concatenation of the
- * CLDR type and, if applicable, the CLDR variant,
+ * Ebdi dironology must dffinf b dironology ID tibt is uniquf witiin tif systfm.
+ * If tif dironology rfprfsfnts b dblfndbr systfm dffinfd by tif
+ * CLDR spfdifidbtion tifn tif dblfndbr typf is tif dondbtfnbtion of tif
+ * CLDR typf bnd, if bpplidbblf, tif CLDR vbribnt,
  *
- * @implSpec
- * This interface must be implemented with care to ensure other classes operate correctly.
- * All implementations that can be instantiated must be final, immutable and thread-safe.
- * Subclasses should be Serializable wherever possible.
+ * @implSpfd
+ * Tiis intfrfbdf must bf implfmfntfd witi dbrf to fnsurf otifr dlbssfs opfrbtf dorrfdtly.
+ * All implfmfntbtions tibt dbn bf instbntibtfd must bf finbl, immutbblf bnd tirfbd-sbff.
+ * Subdlbssfs siould bf Sfriblizbblf wifrfvfr possiblf.
  *
- * @since 1.8
+ * @sindf 1.8
  */
-public interface Chronology extends Comparable<Chronology> {
+publid intfrfbdf Cironology fxtfnds Compbrbblf<Cironology> {
 
     /**
-     * Obtains an instance of {@code Chronology} from a temporal object.
+     * Obtbins bn instbndf of {@dodf Cironology} from b tfmporbl objfdt.
      * <p>
-     * This obtains a chronology based on the specified temporal.
-     * A {@code TemporalAccessor} represents an arbitrary set of date and time information,
-     * which this factory converts to an instance of {@code Chronology}.
+     * Tiis obtbins b dironology bbsfd on tif spfdififd tfmporbl.
+     * A {@dodf TfmporblAddfssor} rfprfsfnts bn brbitrbry sft of dbtf bnd timf informbtion,
+     * wiidi tiis fbdtory donvfrts to bn instbndf of {@dodf Cironology}.
      * <p>
-     * The conversion will obtain the chronology using {@link TemporalQueries#chronology()}.
-     * If the specified temporal object does not have a chronology, {@link IsoChronology} is returned.
+     * Tif donvfrsion will obtbin tif dironology using {@link TfmporblQufrifs#dironology()}.
+     * If tif spfdififd tfmporbl objfdt dofs not ibvf b dironology, {@link IsoCironology} is rfturnfd.
      * <p>
-     * This method matches the signature of the functional interface {@link TemporalQuery}
-     * allowing it to be used as a query via method reference, {@code Chronology::from}.
+     * Tiis mftiod mbtdifs tif signbturf of tif fundtionbl intfrfbdf {@link TfmporblQufry}
+     * bllowing it to bf usfd bs b qufry vib mftiod rfffrfndf, {@dodf Cironology::from}.
      *
-     * @param temporal  the temporal to convert, not null
-     * @return the chronology, not null
-     * @throws DateTimeException if unable to convert to an {@code Chronology}
+     * @pbrbm tfmporbl  tif tfmporbl to donvfrt, not null
+     * @rfturn tif dironology, not null
+     * @tirows DbtfTimfExdfption if unbblf to donvfrt to bn {@dodf Cironology}
      */
-    static Chronology from(TemporalAccessor temporal) {
-        Objects.requireNonNull(temporal, "temporal");
-        Chronology obj = temporal.query(TemporalQueries.chronology());
-        return (obj != null ? obj : IsoChronology.INSTANCE);
+    stbtid Cironology from(TfmporblAddfssor tfmporbl) {
+        Objfdts.rfquirfNonNull(tfmporbl, "tfmporbl");
+        Cironology obj = tfmporbl.qufry(TfmporblQufrifs.dironology());
+        rfturn (obj != null ? obj : IsoCironology.INSTANCE);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains an instance of {@code Chronology} from a locale.
+     * Obtbins bn instbndf of {@dodf Cironology} from b lodblf.
      * <p>
-     * This returns a {@code Chronology} based on the specified locale,
-     * typically returning {@code IsoChronology}. Other calendar systems
-     * are only returned if they are explicitly selected within the locale.
+     * Tiis rfturns b {@dodf Cironology} bbsfd on tif spfdififd lodblf,
+     * typidblly rfturning {@dodf IsoCironology}. Otifr dblfndbr systfms
+     * brf only rfturnfd if tify brf fxpliditly sflfdtfd witiin tif lodblf.
      * <p>
-     * The {@link Locale} class provide access to a range of information useful
-     * for localizing an application. This includes the language and region,
-     * such as "en-GB" for English as used in Great Britain.
+     * Tif {@link Lodblf} dlbss providf bddfss to b rbngf of informbtion usfful
+     * for lodblizing bn bpplidbtion. Tiis indludfs tif lbngubgf bnd rfgion,
+     * sudi bs "fn-GB" for Englisi bs usfd in Grfbt Britbin.
      * <p>
-     * The {@code Locale} class also supports an extension mechanism that
-     * can be used to identify a calendar system. The mechanism is a form
-     * of key-value pairs, where the calendar system has the key "ca".
-     * For example, the locale "en-JP-u-ca-japanese" represents the English
-     * language as used in Japan with the Japanese calendar system.
+     * Tif {@dodf Lodblf} dlbss blso supports bn fxtfnsion mfdibnism tibt
+     * dbn bf usfd to idfntify b dblfndbr systfm. Tif mfdibnism is b form
+     * of kfy-vbluf pbirs, wifrf tif dblfndbr systfm ibs tif kfy "db".
+     * For fxbmplf, tif lodblf "fn-JP-u-db-jbpbnfsf" rfprfsfnts tif Englisi
+     * lbngubgf bs usfd in Jbpbn witi tif Jbpbnfsf dblfndbr systfm.
      * <p>
-     * This method finds the desired calendar system by in a manner equivalent
-     * to passing "ca" to {@link Locale#getUnicodeLocaleType(String)}.
-     * If the "ca" key is not present, then {@code IsoChronology} is returned.
+     * Tiis mftiod finds tif dfsirfd dblfndbr systfm by in b mbnnfr fquivblfnt
+     * to pbssing "db" to {@link Lodblf#gftUnidodfLodblfTypf(String)}.
+     * If tif "db" kfy is not prfsfnt, tifn {@dodf IsoCironology} is rfturnfd.
      * <p>
-     * Note that the behavior of this method differs from the older
-     * {@link java.util.Calendar#getInstance(Locale)} method.
-     * If that method receives a locale of "th_TH" it will return {@code BuddhistCalendar}.
-     * By contrast, this method will return {@code IsoChronology}.
-     * Passing the locale "th-TH-u-ca-buddhist" into either method will
-     * result in the Thai Buddhist calendar system and is therefore the
-     * recommended approach going forward for Thai calendar system localization.
+     * Notf tibt tif bfibvior of tiis mftiod difffrs from tif oldfr
+     * {@link jbvb.util.Cblfndbr#gftInstbndf(Lodblf)} mftiod.
+     * If tibt mftiod rfdfivfs b lodblf of "ti_TH" it will rfturn {@dodf BuddiistCblfndbr}.
+     * By dontrbst, tiis mftiod will rfturn {@dodf IsoCironology}.
+     * Pbssing tif lodblf "ti-TH-u-db-buddiist" into fitifr mftiod will
+     * rfsult in tif Tibi Buddiist dblfndbr systfm bnd is tifrfforf tif
+     * rfdommfndfd bpprobdi going forwbrd for Tibi dblfndbr systfm lodblizbtion.
      * <p>
-     * A similar, but simpler, situation occurs for the Japanese calendar system.
-     * The locale "jp_JP_JP" has previously been used to access the calendar.
-     * However, unlike the Thai locale, "ja_JP_JP" is automatically converted by
-     * {@code Locale} to the modern and recommended form of "ja-JP-u-ca-japanese".
-     * Thus, there is no difference in behavior between this method and
-     * {@code Calendar#getInstance(Locale)}.
+     * A similbr, but simplfr, situbtion oddurs for tif Jbpbnfsf dblfndbr systfm.
+     * Tif lodblf "jp_JP_JP" ibs prfviously bffn usfd to bddfss tif dblfndbr.
+     * Howfvfr, unlikf tif Tibi lodblf, "jb_JP_JP" is butombtidblly donvfrtfd by
+     * {@dodf Lodblf} to tif modfrn bnd rfdommfndfd form of "jb-JP-u-db-jbpbnfsf".
+     * Tius, tifrf is no difffrfndf in bfibvior bftwffn tiis mftiod bnd
+     * {@dodf Cblfndbr#gftInstbndf(Lodblf)}.
      *
-     * @param locale  the locale to use to obtain the calendar system, not null
-     * @return the calendar system associated with the locale, not null
-     * @throws DateTimeException if the locale-specified calendar cannot be found
+     * @pbrbm lodblf  tif lodblf to usf to obtbin tif dblfndbr systfm, not null
+     * @rfturn tif dblfndbr systfm bssodibtfd witi tif lodblf, not null
+     * @tirows DbtfTimfExdfption if tif lodblf-spfdififd dblfndbr dbnnot bf found
      */
-    static Chronology ofLocale(Locale locale) {
-        return AbstractChronology.ofLocale(locale);
+    stbtid Cironology ofLodblf(Lodblf lodblf) {
+        rfturn AbstrbdtCironology.ofLodblf(lodblf);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains an instance of {@code Chronology} from a chronology ID or
-     * calendar system type.
+     * Obtbins bn instbndf of {@dodf Cironology} from b dironology ID or
+     * dblfndbr systfm typf.
      * <p>
-     * This returns a chronology based on either the ID or the type.
-     * The {@link #getId() chronology ID} uniquely identifies the chronology.
-     * The {@link #getCalendarType() calendar system type} is defined by the
-     * CLDR specification.
+     * Tiis rfturns b dironology bbsfd on fitifr tif ID or tif typf.
+     * Tif {@link #gftId() dironology ID} uniqufly idfntififs tif dironology.
+     * Tif {@link #gftCblfndbrTypf() dblfndbr systfm typf} is dffinfd by tif
+     * CLDR spfdifidbtion.
      * <p>
-     * The chronology may be a system chronology or a chronology
-     * provided by the application via ServiceLoader configuration.
+     * Tif dironology mby bf b systfm dironology or b dironology
+     * providfd by tif bpplidbtion vib SfrvidfLobdfr donfigurbtion.
      * <p>
-     * Since some calendars can be customized, the ID or type typically refers
-     * to the default customization. For example, the Gregorian calendar can have multiple
-     * cutover dates from the Julian, but the lookup only provides the default cutover date.
+     * Sindf somf dblfndbrs dbn bf dustomizfd, tif ID or typf typidblly rfffrs
+     * to tif dffbult dustomizbtion. For fxbmplf, tif Grfgoribn dblfndbr dbn ibvf multiplf
+     * dutovfr dbtfs from tif Julibn, but tif lookup only providfs tif dffbult dutovfr dbtf.
      *
-     * @param id  the chronology ID or calendar system type, not null
-     * @return the chronology with the identifier requested, not null
-     * @throws DateTimeException if the chronology cannot be found
+     * @pbrbm id  tif dironology ID or dblfndbr systfm typf, not null
+     * @rfturn tif dironology witi tif idfntififr rfqufstfd, not null
+     * @tirows DbtfTimfExdfption if tif dironology dbnnot bf found
      */
-    static Chronology of(String id) {
-        return AbstractChronology.of(id);
+    stbtid Cironology of(String id) {
+        rfturn AbstrbdtCironology.of(id);
     }
 
     /**
-     * Returns the available chronologies.
+     * Rfturns tif bvbilbblf dironologifs.
      * <p>
-     * Each returned {@code Chronology} is available for use in the system.
-     * The set of chronologies includes the system chronologies and
-     * any chronologies provided by the application via ServiceLoader
-     * configuration.
+     * Ebdi rfturnfd {@dodf Cironology} is bvbilbblf for usf in tif systfm.
+     * Tif sft of dironologifs indludfs tif systfm dironologifs bnd
+     * bny dironologifs providfd by tif bpplidbtion vib SfrvidfLobdfr
+     * donfigurbtion.
      *
-     * @return the independent, modifiable set of the available chronology IDs, not null
+     * @rfturn tif indfpfndfnt, modifibblf sft of tif bvbilbblf dironology IDs, not null
      */
-    static Set<Chronology> getAvailableChronologies() {
-        return AbstractChronology.getAvailableChronologies();
-    }
-
-    //-----------------------------------------------------------------------
-    /**
-     * Gets the ID of the chronology.
-     * <p>
-     * The ID uniquely identifies the {@code Chronology}.
-     * It can be used to lookup the {@code Chronology} using {@link #of(String)}.
-     *
-     * @return the chronology ID, not null
-     * @see #getCalendarType()
-     */
-    String getId();
-
-    /**
-     * Gets the calendar type of the calendar system.
-     * <p>
-     * The calendar type is an identifier defined by the CLDR and
-     * <em>Unicode Locale Data Markup Language (LDML)</em> specifications
-     * to uniquely identification a calendar.
-     * The {@code getCalendarType} is the concatenation of the CLDR calendar type
-     * and the variant, if applicable, is appended separated by "-".
-     * The calendar type is used to lookup the {@code Chronology} using {@link #of(String)}.
-     *
-     * @return the calendar system type, null if the calendar is not defined by CLDR/LDML
-     * @see #getId()
-     */
-    String getCalendarType();
-
-    //-----------------------------------------------------------------------
-    /**
-     * Obtains a local date in this chronology from the era, year-of-era,
-     * month-of-year and day-of-month fields.
-     *
-     * @implSpec
-     * The default implementation combines the era and year-of-era into a proleptic
-     * year before calling {@link #date(int, int, int)}.
-     *
-     * @param era  the era of the correct type for the chronology, not null
-     * @param yearOfEra  the chronology year-of-era
-     * @param month  the chronology month-of-year
-     * @param dayOfMonth  the chronology day-of-month
-     * @return the local date in this chronology, not null
-     * @throws DateTimeException if unable to create the date
-     * @throws ClassCastException if the {@code era} is not of the correct type for the chronology
-     */
-    default ChronoLocalDate date(Era era, int yearOfEra, int month, int dayOfMonth) {
-        return date(prolepticYear(era, yearOfEra), month, dayOfMonth);
-    }
-
-    /**
-     * Obtains a local date in this chronology from the proleptic-year,
-     * month-of-year and day-of-month fields.
-     *
-     * @param prolepticYear  the chronology proleptic-year
-     * @param month  the chronology month-of-year
-     * @param dayOfMonth  the chronology day-of-month
-     * @return the local date in this chronology, not null
-     * @throws DateTimeException if unable to create the date
-     */
-    ChronoLocalDate date(int prolepticYear, int month, int dayOfMonth);
-
-    /**
-     * Obtains a local date in this chronology from the era, year-of-era and
-     * day-of-year fields.
-     *
-     * @implSpec
-     * The default implementation combines the era and year-of-era into a proleptic
-     * year before calling {@link #dateYearDay(int, int)}.
-     *
-     * @param era  the era of the correct type for the chronology, not null
-     * @param yearOfEra  the chronology year-of-era
-     * @param dayOfYear  the chronology day-of-year
-     * @return the local date in this chronology, not null
-     * @throws DateTimeException if unable to create the date
-     * @throws ClassCastException if the {@code era} is not of the correct type for the chronology
-     */
-    default ChronoLocalDate dateYearDay(Era era, int yearOfEra, int dayOfYear) {
-        return dateYearDay(prolepticYear(era, yearOfEra), dayOfYear);
-    }
-
-    /**
-     * Obtains a local date in this chronology from the proleptic-year and
-     * day-of-year fields.
-     *
-     * @param prolepticYear  the chronology proleptic-year
-     * @param dayOfYear  the chronology day-of-year
-     * @return the local date in this chronology, not null
-     * @throws DateTimeException if unable to create the date
-     */
-    ChronoLocalDate dateYearDay(int prolepticYear, int dayOfYear);
-
-    /**
-     * Obtains a local date in this chronology from the epoch-day.
-     * <p>
-     * The definition of {@link ChronoField#EPOCH_DAY EPOCH_DAY} is the same
-     * for all calendar systems, thus it can be used for conversion.
-     *
-     * @param epochDay  the epoch day
-     * @return the local date in this chronology, not null
-     * @throws DateTimeException if unable to create the date
-     */
-    ChronoLocalDate dateEpochDay(long epochDay);
-
-    //-----------------------------------------------------------------------
-    /**
-     * Obtains the current local date in this chronology from the system clock in the default time-zone.
-     * <p>
-     * This will query the {@link Clock#systemDefaultZone() system clock} in the default
-     * time-zone to obtain the current date.
-     * <p>
-     * Using this method will prevent the ability to use an alternate clock for testing
-     * because the clock is hard-coded.
-     *
-     * @implSpec
-     * The default implementation invokes {@link #dateNow(Clock)}.
-     *
-     * @return the current local date using the system clock and default time-zone, not null
-     * @throws DateTimeException if unable to create the date
-     */
-    default ChronoLocalDate dateNow() {
-        return dateNow(Clock.systemDefaultZone());
-    }
-
-    /**
-     * Obtains the current local date in this chronology from the system clock in the specified time-zone.
-     * <p>
-     * This will query the {@link Clock#system(ZoneId) system clock} to obtain the current date.
-     * Specifying the time-zone avoids dependence on the default time-zone.
-     * <p>
-     * Using this method will prevent the ability to use an alternate clock for testing
-     * because the clock is hard-coded.
-     *
-     * @implSpec
-     * The default implementation invokes {@link #dateNow(Clock)}.
-     *
-     * @param zone  the zone ID to use, not null
-     * @return the current local date using the system clock, not null
-     * @throws DateTimeException if unable to create the date
-     */
-    default ChronoLocalDate dateNow(ZoneId zone) {
-        return dateNow(Clock.system(zone));
-    }
-
-    /**
-     * Obtains the current local date in this chronology from the specified clock.
-     * <p>
-     * This will query the specified clock to obtain the current date - today.
-     * Using this method allows the use of an alternate clock for testing.
-     * The alternate clock may be introduced using {@link Clock dependency injection}.
-     *
-     * @implSpec
-     * The default implementation invokes {@link #date(TemporalAccessor)}.
-     *
-     * @param clock  the clock to use, not null
-     * @return the current local date, not null
-     * @throws DateTimeException if unable to create the date
-     */
-    default ChronoLocalDate dateNow(Clock clock) {
-        Objects.requireNonNull(clock, "clock");
-        return date(LocalDate.now(clock));
+    stbtid Sft<Cironology> gftAvbilbblfCironologifs() {
+        rfturn AbstrbdtCironology.gftAvbilbblfCironologifs();
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains a local date in this chronology from another temporal object.
+     * Gfts tif ID of tif dironology.
      * <p>
-     * This obtains a date in this chronology based on the specified temporal.
-     * A {@code TemporalAccessor} represents an arbitrary set of date and time information,
-     * which this factory converts to an instance of {@code ChronoLocalDate}.
-     * <p>
-     * The conversion typically uses the {@link ChronoField#EPOCH_DAY EPOCH_DAY}
-     * field, which is standardized across calendar systems.
-     * <p>
-     * This method matches the signature of the functional interface {@link TemporalQuery}
-     * allowing it to be used as a query via method reference, {@code aChronology::date}.
+     * Tif ID uniqufly idfntififs tif {@dodf Cironology}.
+     * It dbn bf usfd to lookup tif {@dodf Cironology} using {@link #of(String)}.
      *
-     * @param temporal  the temporal object to convert, not null
-     * @return the local date in this chronology, not null
-     * @throws DateTimeException if unable to create the date
-     * @see ChronoLocalDate#from(TemporalAccessor)
+     * @rfturn tif dironology ID, not null
+     * @sff #gftCblfndbrTypf()
      */
-    ChronoLocalDate date(TemporalAccessor temporal);
+    String gftId();
 
     /**
-     * Obtains a local date-time in this chronology from another temporal object.
+     * Gfts tif dblfndbr typf of tif dblfndbr systfm.
      * <p>
-     * This obtains a date-time in this chronology based on the specified temporal.
-     * A {@code TemporalAccessor} represents an arbitrary set of date and time information,
-     * which this factory converts to an instance of {@code ChronoLocalDateTime}.
-     * <p>
-     * The conversion extracts and combines the {@code ChronoLocalDate} and the
-     * {@code LocalTime} from the temporal object.
-     * Implementations are permitted to perform optimizations such as accessing
-     * those fields that are equivalent to the relevant objects.
-     * The result uses this chronology.
-     * <p>
-     * This method matches the signature of the functional interface {@link TemporalQuery}
-     * allowing it to be used as a query via method reference, {@code aChronology::localDateTime}.
+     * Tif dblfndbr typf is bn idfntififr dffinfd by tif CLDR bnd
+     * <fm>Unidodf Lodblf Dbtb Mbrkup Lbngubgf (LDML)</fm> spfdifidbtions
+     * to uniqufly idfntifidbtion b dblfndbr.
+     * Tif {@dodf gftCblfndbrTypf} is tif dondbtfnbtion of tif CLDR dblfndbr typf
+     * bnd tif vbribnt, if bpplidbblf, is bppfndfd sfpbrbtfd by "-".
+     * Tif dblfndbr typf is usfd to lookup tif {@dodf Cironology} using {@link #of(String)}.
      *
-     * @param temporal  the temporal object to convert, not null
-     * @return the local date-time in this chronology, not null
-     * @throws DateTimeException if unable to create the date-time
-     * @see ChronoLocalDateTime#from(TemporalAccessor)
+     * @rfturn tif dblfndbr systfm typf, null if tif dblfndbr is not dffinfd by CLDR/LDML
+     * @sff #gftId()
      */
-    default ChronoLocalDateTime<? extends ChronoLocalDate> localDateTime(TemporalAccessor temporal) {
+    String gftCblfndbrTypf();
+
+    //-----------------------------------------------------------------------
+    /**
+     * Obtbins b lodbl dbtf in tiis dironology from tif frb, yfbr-of-frb,
+     * monti-of-yfbr bnd dby-of-monti fiflds.
+     *
+     * @implSpfd
+     * Tif dffbult implfmfntbtion dombinfs tif frb bnd yfbr-of-frb into b prolfptid
+     * yfbr bfforf dblling {@link #dbtf(int, int, int)}.
+     *
+     * @pbrbm frb  tif frb of tif dorrfdt typf for tif dironology, not null
+     * @pbrbm yfbrOfErb  tif dironology yfbr-of-frb
+     * @pbrbm monti  tif dironology monti-of-yfbr
+     * @pbrbm dbyOfMonti  tif dironology dby-of-monti
+     * @rfturn tif lodbl dbtf in tiis dironology, not null
+     * @tirows DbtfTimfExdfption if unbblf to drfbtf tif dbtf
+     * @tirows ClbssCbstExdfption if tif {@dodf frb} is not of tif dorrfdt typf for tif dironology
+     */
+    dffbult CironoLodblDbtf dbtf(Erb frb, int yfbrOfErb, int monti, int dbyOfMonti) {
+        rfturn dbtf(prolfptidYfbr(frb, yfbrOfErb), monti, dbyOfMonti);
+    }
+
+    /**
+     * Obtbins b lodbl dbtf in tiis dironology from tif prolfptid-yfbr,
+     * monti-of-yfbr bnd dby-of-monti fiflds.
+     *
+     * @pbrbm prolfptidYfbr  tif dironology prolfptid-yfbr
+     * @pbrbm monti  tif dironology monti-of-yfbr
+     * @pbrbm dbyOfMonti  tif dironology dby-of-monti
+     * @rfturn tif lodbl dbtf in tiis dironology, not null
+     * @tirows DbtfTimfExdfption if unbblf to drfbtf tif dbtf
+     */
+    CironoLodblDbtf dbtf(int prolfptidYfbr, int monti, int dbyOfMonti);
+
+    /**
+     * Obtbins b lodbl dbtf in tiis dironology from tif frb, yfbr-of-frb bnd
+     * dby-of-yfbr fiflds.
+     *
+     * @implSpfd
+     * Tif dffbult implfmfntbtion dombinfs tif frb bnd yfbr-of-frb into b prolfptid
+     * yfbr bfforf dblling {@link #dbtfYfbrDby(int, int)}.
+     *
+     * @pbrbm frb  tif frb of tif dorrfdt typf for tif dironology, not null
+     * @pbrbm yfbrOfErb  tif dironology yfbr-of-frb
+     * @pbrbm dbyOfYfbr  tif dironology dby-of-yfbr
+     * @rfturn tif lodbl dbtf in tiis dironology, not null
+     * @tirows DbtfTimfExdfption if unbblf to drfbtf tif dbtf
+     * @tirows ClbssCbstExdfption if tif {@dodf frb} is not of tif dorrfdt typf for tif dironology
+     */
+    dffbult CironoLodblDbtf dbtfYfbrDby(Erb frb, int yfbrOfErb, int dbyOfYfbr) {
+        rfturn dbtfYfbrDby(prolfptidYfbr(frb, yfbrOfErb), dbyOfYfbr);
+    }
+
+    /**
+     * Obtbins b lodbl dbtf in tiis dironology from tif prolfptid-yfbr bnd
+     * dby-of-yfbr fiflds.
+     *
+     * @pbrbm prolfptidYfbr  tif dironology prolfptid-yfbr
+     * @pbrbm dbyOfYfbr  tif dironology dby-of-yfbr
+     * @rfturn tif lodbl dbtf in tiis dironology, not null
+     * @tirows DbtfTimfExdfption if unbblf to drfbtf tif dbtf
+     */
+    CironoLodblDbtf dbtfYfbrDby(int prolfptidYfbr, int dbyOfYfbr);
+
+    /**
+     * Obtbins b lodbl dbtf in tiis dironology from tif fpodi-dby.
+     * <p>
+     * Tif dffinition of {@link CironoFifld#EPOCH_DAY EPOCH_DAY} is tif sbmf
+     * for bll dblfndbr systfms, tius it dbn bf usfd for donvfrsion.
+     *
+     * @pbrbm fpodiDby  tif fpodi dby
+     * @rfturn tif lodbl dbtf in tiis dironology, not null
+     * @tirows DbtfTimfExdfption if unbblf to drfbtf tif dbtf
+     */
+    CironoLodblDbtf dbtfEpodiDby(long fpodiDby);
+
+    //-----------------------------------------------------------------------
+    /**
+     * Obtbins tif durrfnt lodbl dbtf in tiis dironology from tif systfm dlodk in tif dffbult timf-zonf.
+     * <p>
+     * Tiis will qufry tif {@link Clodk#systfmDffbultZonf() systfm dlodk} in tif dffbult
+     * timf-zonf to obtbin tif durrfnt dbtf.
+     * <p>
+     * Using tiis mftiod will prfvfnt tif bbility to usf bn bltfrnbtf dlodk for tfsting
+     * bfdbusf tif dlodk is ibrd-dodfd.
+     *
+     * @implSpfd
+     * Tif dffbult implfmfntbtion invokfs {@link #dbtfNow(Clodk)}.
+     *
+     * @rfturn tif durrfnt lodbl dbtf using tif systfm dlodk bnd dffbult timf-zonf, not null
+     * @tirows DbtfTimfExdfption if unbblf to drfbtf tif dbtf
+     */
+    dffbult CironoLodblDbtf dbtfNow() {
+        rfturn dbtfNow(Clodk.systfmDffbultZonf());
+    }
+
+    /**
+     * Obtbins tif durrfnt lodbl dbtf in tiis dironology from tif systfm dlodk in tif spfdififd timf-zonf.
+     * <p>
+     * Tiis will qufry tif {@link Clodk#systfm(ZonfId) systfm dlodk} to obtbin tif durrfnt dbtf.
+     * Spfdifying tif timf-zonf bvoids dfpfndfndf on tif dffbult timf-zonf.
+     * <p>
+     * Using tiis mftiod will prfvfnt tif bbility to usf bn bltfrnbtf dlodk for tfsting
+     * bfdbusf tif dlodk is ibrd-dodfd.
+     *
+     * @implSpfd
+     * Tif dffbult implfmfntbtion invokfs {@link #dbtfNow(Clodk)}.
+     *
+     * @pbrbm zonf  tif zonf ID to usf, not null
+     * @rfturn tif durrfnt lodbl dbtf using tif systfm dlodk, not null
+     * @tirows DbtfTimfExdfption if unbblf to drfbtf tif dbtf
+     */
+    dffbult CironoLodblDbtf dbtfNow(ZonfId zonf) {
+        rfturn dbtfNow(Clodk.systfm(zonf));
+    }
+
+    /**
+     * Obtbins tif durrfnt lodbl dbtf in tiis dironology from tif spfdififd dlodk.
+     * <p>
+     * Tiis will qufry tif spfdififd dlodk to obtbin tif durrfnt dbtf - todby.
+     * Using tiis mftiod bllows tif usf of bn bltfrnbtf dlodk for tfsting.
+     * Tif bltfrnbtf dlodk mby bf introdudfd using {@link Clodk dfpfndfndy injfdtion}.
+     *
+     * @implSpfd
+     * Tif dffbult implfmfntbtion invokfs {@link #dbtf(TfmporblAddfssor)}.
+     *
+     * @pbrbm dlodk  tif dlodk to usf, not null
+     * @rfturn tif durrfnt lodbl dbtf, not null
+     * @tirows DbtfTimfExdfption if unbblf to drfbtf tif dbtf
+     */
+    dffbult CironoLodblDbtf dbtfNow(Clodk dlodk) {
+        Objfdts.rfquirfNonNull(dlodk, "dlodk");
+        rfturn dbtf(LodblDbtf.now(dlodk));
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Obtbins b lodbl dbtf in tiis dironology from bnotifr tfmporbl objfdt.
+     * <p>
+     * Tiis obtbins b dbtf in tiis dironology bbsfd on tif spfdififd tfmporbl.
+     * A {@dodf TfmporblAddfssor} rfprfsfnts bn brbitrbry sft of dbtf bnd timf informbtion,
+     * wiidi tiis fbdtory donvfrts to bn instbndf of {@dodf CironoLodblDbtf}.
+     * <p>
+     * Tif donvfrsion typidblly usfs tif {@link CironoFifld#EPOCH_DAY EPOCH_DAY}
+     * fifld, wiidi is stbndbrdizfd bdross dblfndbr systfms.
+     * <p>
+     * Tiis mftiod mbtdifs tif signbturf of tif fundtionbl intfrfbdf {@link TfmporblQufry}
+     * bllowing it to bf usfd bs b qufry vib mftiod rfffrfndf, {@dodf bCironology::dbtf}.
+     *
+     * @pbrbm tfmporbl  tif tfmporbl objfdt to donvfrt, not null
+     * @rfturn tif lodbl dbtf in tiis dironology, not null
+     * @tirows DbtfTimfExdfption if unbblf to drfbtf tif dbtf
+     * @sff CironoLodblDbtf#from(TfmporblAddfssor)
+     */
+    CironoLodblDbtf dbtf(TfmporblAddfssor tfmporbl);
+
+    /**
+     * Obtbins b lodbl dbtf-timf in tiis dironology from bnotifr tfmporbl objfdt.
+     * <p>
+     * Tiis obtbins b dbtf-timf in tiis dironology bbsfd on tif spfdififd tfmporbl.
+     * A {@dodf TfmporblAddfssor} rfprfsfnts bn brbitrbry sft of dbtf bnd timf informbtion,
+     * wiidi tiis fbdtory donvfrts to bn instbndf of {@dodf CironoLodblDbtfTimf}.
+     * <p>
+     * Tif donvfrsion fxtrbdts bnd dombinfs tif {@dodf CironoLodblDbtf} bnd tif
+     * {@dodf LodblTimf} from tif tfmporbl objfdt.
+     * Implfmfntbtions brf pfrmittfd to pfrform optimizbtions sudi bs bddfssing
+     * tiosf fiflds tibt brf fquivblfnt to tif rflfvbnt objfdts.
+     * Tif rfsult usfs tiis dironology.
+     * <p>
+     * Tiis mftiod mbtdifs tif signbturf of tif fundtionbl intfrfbdf {@link TfmporblQufry}
+     * bllowing it to bf usfd bs b qufry vib mftiod rfffrfndf, {@dodf bCironology::lodblDbtfTimf}.
+     *
+     * @pbrbm tfmporbl  tif tfmporbl objfdt to donvfrt, not null
+     * @rfturn tif lodbl dbtf-timf in tiis dironology, not null
+     * @tirows DbtfTimfExdfption if unbblf to drfbtf tif dbtf-timf
+     * @sff CironoLodblDbtfTimf#from(TfmporblAddfssor)
+     */
+    dffbult CironoLodblDbtfTimf<? fxtfnds CironoLodblDbtf> lodblDbtfTimf(TfmporblAddfssor tfmporbl) {
         try {
-            return date(temporal).atTime(LocalTime.from(temporal));
-        } catch (DateTimeException ex) {
-            throw new DateTimeException("Unable to obtain ChronoLocalDateTime from TemporalAccessor: " + temporal.getClass(), ex);
+            rfturn dbtf(tfmporbl).btTimf(LodblTimf.from(tfmporbl));
+        } dbtdi (DbtfTimfExdfption fx) {
+            tirow nfw DbtfTimfExdfption("Unbblf to obtbin CironoLodblDbtfTimf from TfmporblAddfssor: " + tfmporbl.gftClbss(), fx);
         }
     }
 
     /**
-     * Obtains a {@code ChronoZonedDateTime} in this chronology from another temporal object.
+     * Obtbins b {@dodf CironoZonfdDbtfTimf} in tiis dironology from bnotifr tfmporbl objfdt.
      * <p>
-     * This obtains a zoned date-time in this chronology based on the specified temporal.
-     * A {@code TemporalAccessor} represents an arbitrary set of date and time information,
-     * which this factory converts to an instance of {@code ChronoZonedDateTime}.
+     * Tiis obtbins b zonfd dbtf-timf in tiis dironology bbsfd on tif spfdififd tfmporbl.
+     * A {@dodf TfmporblAddfssor} rfprfsfnts bn brbitrbry sft of dbtf bnd timf informbtion,
+     * wiidi tiis fbdtory donvfrts to bn instbndf of {@dodf CironoZonfdDbtfTimf}.
      * <p>
-     * The conversion will first obtain a {@code ZoneId} from the temporal object,
-     * falling back to a {@code ZoneOffset} if necessary. It will then try to obtain
-     * an {@code Instant}, falling back to a {@code ChronoLocalDateTime} if necessary.
-     * The result will be either the combination of {@code ZoneId} or {@code ZoneOffset}
-     * with {@code Instant} or {@code ChronoLocalDateTime}.
-     * Implementations are permitted to perform optimizations such as accessing
-     * those fields that are equivalent to the relevant objects.
-     * The result uses this chronology.
+     * Tif donvfrsion will first obtbin b {@dodf ZonfId} from tif tfmporbl objfdt,
+     * fblling bbdk to b {@dodf ZonfOffsft} if nfdfssbry. It will tifn try to obtbin
+     * bn {@dodf Instbnt}, fblling bbdk to b {@dodf CironoLodblDbtfTimf} if nfdfssbry.
+     * Tif rfsult will bf fitifr tif dombinbtion of {@dodf ZonfId} or {@dodf ZonfOffsft}
+     * witi {@dodf Instbnt} or {@dodf CironoLodblDbtfTimf}.
+     * Implfmfntbtions brf pfrmittfd to pfrform optimizbtions sudi bs bddfssing
+     * tiosf fiflds tibt brf fquivblfnt to tif rflfvbnt objfdts.
+     * Tif rfsult usfs tiis dironology.
      * <p>
-     * This method matches the signature of the functional interface {@link TemporalQuery}
-     * allowing it to be used as a query via method reference, {@code aChronology::zonedDateTime}.
+     * Tiis mftiod mbtdifs tif signbturf of tif fundtionbl intfrfbdf {@link TfmporblQufry}
+     * bllowing it to bf usfd bs b qufry vib mftiod rfffrfndf, {@dodf bCironology::zonfdDbtfTimf}.
      *
-     * @param temporal  the temporal object to convert, not null
-     * @return the zoned date-time in this chronology, not null
-     * @throws DateTimeException if unable to create the date-time
-     * @see ChronoZonedDateTime#from(TemporalAccessor)
+     * @pbrbm tfmporbl  tif tfmporbl objfdt to donvfrt, not null
+     * @rfturn tif zonfd dbtf-timf in tiis dironology, not null
+     * @tirows DbtfTimfExdfption if unbblf to drfbtf tif dbtf-timf
+     * @sff CironoZonfdDbtfTimf#from(TfmporblAddfssor)
      */
-    default ChronoZonedDateTime<? extends ChronoLocalDate> zonedDateTime(TemporalAccessor temporal) {
+    dffbult CironoZonfdDbtfTimf<? fxtfnds CironoLodblDbtf> zonfdDbtfTimf(TfmporblAddfssor tfmporbl) {
         try {
-            ZoneId zone = ZoneId.from(temporal);
+            ZonfId zonf = ZonfId.from(tfmporbl);
             try {
-                Instant instant = Instant.from(temporal);
-                return zonedDateTime(instant, zone);
+                Instbnt instbnt = Instbnt.from(tfmporbl);
+                rfturn zonfdDbtfTimf(instbnt, zonf);
 
-            } catch (DateTimeException ex1) {
-                ChronoLocalDateTimeImpl<?> cldt = ChronoLocalDateTimeImpl.ensureValid(this, localDateTime(temporal));
-                return ChronoZonedDateTimeImpl.ofBest(cldt, zone, null);
+            } dbtdi (DbtfTimfExdfption fx1) {
+                CironoLodblDbtfTimfImpl<?> dldt = CironoLodblDbtfTimfImpl.fnsurfVblid(tiis, lodblDbtfTimf(tfmporbl));
+                rfturn CironoZonfdDbtfTimfImpl.ofBfst(dldt, zonf, null);
             }
-        } catch (DateTimeException ex) {
-            throw new DateTimeException("Unable to obtain ChronoZonedDateTime from TemporalAccessor: " + temporal.getClass(), ex);
+        } dbtdi (DbtfTimfExdfption fx) {
+            tirow nfw DbtfTimfExdfption("Unbblf to obtbin CironoZonfdDbtfTimf from TfmporblAddfssor: " + tfmporbl.gftClbss(), fx);
         }
     }
 
     /**
-     * Obtains a {@code ChronoZonedDateTime} in this chronology from an {@code Instant}.
+     * Obtbins b {@dodf CironoZonfdDbtfTimf} in tiis dironology from bn {@dodf Instbnt}.
      * <p>
-     * This obtains a zoned date-time with the same instant as that specified.
+     * Tiis obtbins b zonfd dbtf-timf witi tif sbmf instbnt bs tibt spfdififd.
      *
-     * @param instant  the instant to create the date-time from, not null
-     * @param zone  the time-zone, not null
-     * @return the zoned date-time, not null
-     * @throws DateTimeException if the result exceeds the supported range
+     * @pbrbm instbnt  tif instbnt to drfbtf tif dbtf-timf from, not null
+     * @pbrbm zonf  tif timf-zonf, not null
+     * @rfturn tif zonfd dbtf-timf, not null
+     * @tirows DbtfTimfExdfption if tif rfsult fxdffds tif supportfd rbngf
      */
-    default ChronoZonedDateTime<? extends ChronoLocalDate> zonedDateTime(Instant instant, ZoneId zone) {
-        return ChronoZonedDateTimeImpl.ofInstant(this, instant, zone);
+    dffbult CironoZonfdDbtfTimf<? fxtfnds CironoLodblDbtf> zonfdDbtfTimf(Instbnt instbnt, ZonfId zonf) {
+        rfturn CironoZonfdDbtfTimfImpl.ofInstbnt(tiis, instbnt, zonf);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Checks if the specified year is a leap year.
+     * Cifdks if tif spfdififd yfbr is b lfbp yfbr.
      * <p>
-     * A leap-year is a year of a longer length than normal.
-     * The exact meaning is determined by the chronology according to the following constraints.
+     * A lfbp-yfbr is b yfbr of b longfr lfngti tibn normbl.
+     * Tif fxbdt mfbning is dftfrminfd by tif dironology bddording to tif following donstrbints.
      * <ul>
-     * <li>a leap-year must imply a year-length longer than a non leap-year.
-     * <li>a chronology that does not support the concept of a year must return false.
+     * <li>b lfbp-yfbr must imply b yfbr-lfngti longfr tibn b non lfbp-yfbr.
+     * <li>b dironology tibt dofs not support tif dondfpt of b yfbr must rfturn fblsf.
      * </ul>
      *
-     * @param prolepticYear  the proleptic-year to check, not validated for range
-     * @return true if the year is a leap year
+     * @pbrbm prolfptidYfbr  tif prolfptid-yfbr to difdk, not vblidbtfd for rbngf
+     * @rfturn truf if tif yfbr is b lfbp yfbr
      */
-    boolean isLeapYear(long prolepticYear);
+    boolfbn isLfbpYfbr(long prolfptidYfbr);
 
     /**
-     * Calculates the proleptic-year given the era and year-of-era.
+     * Cbldulbtfs tif prolfptid-yfbr givfn tif frb bnd yfbr-of-frb.
      * <p>
-     * This combines the era and year-of-era into the single proleptic-year field.
+     * Tiis dombinfs tif frb bnd yfbr-of-frb into tif singlf prolfptid-yfbr fifld.
      * <p>
-     * If the chronology makes active use of eras, such as {@code JapaneseChronology}
-     * then the year-of-era will be validated against the era.
-     * For other chronologies, validation is optional.
+     * If tif dironology mbkfs bdtivf usf of frbs, sudi bs {@dodf JbpbnfsfCironology}
+     * tifn tif yfbr-of-frb will bf vblidbtfd bgbinst tif frb.
+     * For otifr dironologifs, vblidbtion is optionbl.
      *
-     * @param era  the era of the correct type for the chronology, not null
-     * @param yearOfEra  the chronology year-of-era
-     * @return the proleptic-year
-     * @throws DateTimeException if unable to convert to a proleptic-year,
-     *  such as if the year is invalid for the era
-     * @throws ClassCastException if the {@code era} is not of the correct type for the chronology
+     * @pbrbm frb  tif frb of tif dorrfdt typf for tif dironology, not null
+     * @pbrbm yfbrOfErb  tif dironology yfbr-of-frb
+     * @rfturn tif prolfptid-yfbr
+     * @tirows DbtfTimfExdfption if unbblf to donvfrt to b prolfptid-yfbr,
+     *  sudi bs if tif yfbr is invblid for tif frb
+     * @tirows ClbssCbstExdfption if tif {@dodf frb} is not of tif dorrfdt typf for tif dironology
      */
-    int prolepticYear(Era era, int yearOfEra);
+    int prolfptidYfbr(Erb frb, int yfbrOfErb);
 
     /**
-     * Creates the chronology era object from the numeric value.
+     * Crfbtfs tif dironology frb objfdt from tif numfrid vbluf.
      * <p>
-     * The era is, conceptually, the largest division of the time-line.
-     * Most calendar systems have a single epoch dividing the time-line into two eras.
-     * However, some have multiple eras, such as one for the reign of each leader.
-     * The exact meaning is determined by the chronology according to the following constraints.
+     * Tif frb is, dondfptublly, tif lbrgfst division of tif timf-linf.
+     * Most dblfndbr systfms ibvf b singlf fpodi dividing tif timf-linf into two frbs.
+     * Howfvfr, somf ibvf multiplf frbs, sudi bs onf for tif rfign of fbdi lfbdfr.
+     * Tif fxbdt mfbning is dftfrminfd by tif dironology bddording to tif following donstrbints.
      * <p>
-     * The era in use at 1970-01-01 must have the value 1.
-     * Later eras must have sequentially higher values.
-     * Earlier eras must have sequentially lower values.
-     * Each chronology must refer to an enum or similar singleton to provide the era values.
+     * Tif frb in usf bt 1970-01-01 must ibvf tif vbluf 1.
+     * Lbtfr frbs must ibvf sfqufntiblly iigifr vblufs.
+     * Ebrlifr frbs must ibvf sfqufntiblly lowfr vblufs.
+     * Ebdi dironology must rfffr to bn fnum or similbr singlfton to providf tif frb vblufs.
      * <p>
-     * This method returns the singleton era of the correct type for the specified era value.
+     * Tiis mftiod rfturns tif singlfton frb of tif dorrfdt typf for tif spfdififd frb vbluf.
      *
-     * @param eraValue  the era value
-     * @return the calendar system era, not null
-     * @throws DateTimeException if unable to create the era
+     * @pbrbm frbVbluf  tif frb vbluf
+     * @rfturn tif dblfndbr systfm frb, not null
+     * @tirows DbtfTimfExdfption if unbblf to drfbtf tif frb
      */
-    Era eraOf(int eraValue);
+    Erb frbOf(int frbVbluf);
 
     /**
-     * Gets the list of eras for the chronology.
+     * Gfts tif list of frbs for tif dironology.
      * <p>
-     * Most calendar systems have an era, within which the year has meaning.
-     * If the calendar system does not support the concept of eras, an empty
-     * list must be returned.
+     * Most dblfndbr systfms ibvf bn frb, witiin wiidi tif yfbr ibs mfbning.
+     * If tif dblfndbr systfm dofs not support tif dondfpt of frbs, bn fmpty
+     * list must bf rfturnfd.
      *
-     * @return the list of eras for the chronology, may be immutable, not null
+     * @rfturn tif list of frbs for tif dironology, mby bf immutbblf, not null
      */
-    List<Era> eras();
-
-    //-----------------------------------------------------------------------
-    /**
-     * Gets the range of valid values for the specified field.
-     * <p>
-     * All fields can be expressed as a {@code long} integer.
-     * This method returns an object that describes the valid range for that value.
-     * <p>
-     * Note that the result only describes the minimum and maximum valid values
-     * and it is important not to read too much into them. For example, there
-     * could be values within the range that are invalid for the field.
-     * <p>
-     * This method will return a result whether or not the chronology supports the field.
-     *
-     * @param field  the field to get the range for, not null
-     * @return the range of valid values for the field, not null
-     * @throws DateTimeException if the range for the field cannot be obtained
-     */
-    ValueRange range(ChronoField field);
+    List<Erb> frbs();
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the textual representation of this chronology.
+     * Gfts tif rbngf of vblid vblufs for tif spfdififd fifld.
      * <p>
-     * This returns the textual name used to identify the chronology,
-     * suitable for presentation to the user.
-     * The parameters control the style of the returned text and the locale.
+     * All fiflds dbn bf fxprfssfd bs b {@dodf long} intfgfr.
+     * Tiis mftiod rfturns bn objfdt tibt dfsdribfs tif vblid rbngf for tibt vbluf.
+     * <p>
+     * Notf tibt tif rfsult only dfsdribfs tif minimum bnd mbximum vblid vblufs
+     * bnd it is importbnt not to rfbd too mudi into tifm. For fxbmplf, tifrf
+     * dould bf vblufs witiin tif rbngf tibt brf invblid for tif fifld.
+     * <p>
+     * Tiis mftiod will rfturn b rfsult wiftifr or not tif dironology supports tif fifld.
      *
-     * @implSpec
-     * The default implementation behaves as though the formatter was used to
-     * format the chronology textual name.
-     *
-     * @param style  the style of the text required, not null
-     * @param locale  the locale to use, not null
-     * @return the text value of the chronology, not null
+     * @pbrbm fifld  tif fifld to gft tif rbngf for, not null
+     * @rfturn tif rbngf of vblid vblufs for tif fifld, not null
+     * @tirows DbtfTimfExdfption if tif rbngf for tif fifld dbnnot bf obtbinfd
      */
-    default String getDisplayName(TextStyle style, Locale locale) {
-        TemporalAccessor temporal = new TemporalAccessor() {
-            @Override
-            public boolean isSupported(TemporalField field) {
-                return false;
+    VblufRbngf rbngf(CironoFifld fifld);
+
+    //-----------------------------------------------------------------------
+    /**
+     * Gfts tif tfxtubl rfprfsfntbtion of tiis dironology.
+     * <p>
+     * Tiis rfturns tif tfxtubl nbmf usfd to idfntify tif dironology,
+     * suitbblf for prfsfntbtion to tif usfr.
+     * Tif pbrbmftfrs dontrol tif stylf of tif rfturnfd tfxt bnd tif lodblf.
+     *
+     * @implSpfd
+     * Tif dffbult implfmfntbtion bfibvfs bs tiougi tif formbttfr wbs usfd to
+     * formbt tif dironology tfxtubl nbmf.
+     *
+     * @pbrbm stylf  tif stylf of tif tfxt rfquirfd, not null
+     * @pbrbm lodblf  tif lodblf to usf, not null
+     * @rfturn tif tfxt vbluf of tif dironology, not null
+     */
+    dffbult String gftDisplbyNbmf(TfxtStylf stylf, Lodblf lodblf) {
+        TfmporblAddfssor tfmporbl = nfw TfmporblAddfssor() {
+            @Ovfrridf
+            publid boolfbn isSupportfd(TfmporblFifld fifld) {
+                rfturn fblsf;
             }
-            @Override
-            public long getLong(TemporalField field) {
-                throw new UnsupportedTemporalTypeException("Unsupported field: " + field);
+            @Ovfrridf
+            publid long gftLong(TfmporblFifld fifld) {
+                tirow nfw UnsupportfdTfmporblTypfExdfption("Unsupportfd fifld: " + fifld);
             }
-            @SuppressWarnings("unchecked")
-            @Override
-            public <R> R query(TemporalQuery<R> query) {
-                if (query == TemporalQueries.chronology()) {
-                    return (R) Chronology.this;
+            @SupprfssWbrnings("undifdkfd")
+            @Ovfrridf
+            publid <R> R qufry(TfmporblQufry<R> qufry) {
+                if (qufry == TfmporblQufrifs.dironology()) {
+                    rfturn (R) Cironology.tiis;
                 }
-                return TemporalAccessor.super.query(query);
+                rfturn TfmporblAddfssor.supfr.qufry(qufry);
             }
         };
-        return new DateTimeFormatterBuilder().appendChronologyText(style).toFormatter(locale).format(temporal);
+        rfturn nfw DbtfTimfFormbttfrBuildfr().bppfndCironologyTfxt(stylf).toFormbttfr(lodblf).formbt(tfmporbl);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Resolves parsed {@code ChronoField} values into a date during parsing.
+     * Rfsolvfs pbrsfd {@dodf CironoFifld} vblufs into b dbtf during pbrsing.
      * <p>
-     * Most {@code TemporalField} implementations are resolved using the
-     * resolve method on the field. By contrast, the {@code ChronoField} class
-     * defines fields that only have meaning relative to the chronology.
-     * As such, {@code ChronoField} date fields are resolved here in the
-     * context of a specific chronology.
+     * Most {@dodf TfmporblFifld} implfmfntbtions brf rfsolvfd using tif
+     * rfsolvf mftiod on tif fifld. By dontrbst, tif {@dodf CironoFifld} dlbss
+     * dffinfs fiflds tibt only ibvf mfbning rflbtivf to tif dironology.
+     * As sudi, {@dodf CironoFifld} dbtf fiflds brf rfsolvfd ifrf in tif
+     * dontfxt of b spfdifid dironology.
      * <p>
-     * The default implementation, which explains typical resolve behaviour,
-     * is provided in {@link AbstractChronology}.
+     * Tif dffbult implfmfntbtion, wiidi fxplbins typidbl rfsolvf bfibviour,
+     * is providfd in {@link AbstrbdtCironology}.
      *
-     * @param fieldValues  the map of fields to values, which can be updated, not null
-     * @param resolverStyle  the requested type of resolve, not null
-     * @return the resolved date, null if insufficient information to create a date
-     * @throws DateTimeException if the date cannot be resolved, typically
-     *  because of a conflict in the input data
+     * @pbrbm fifldVblufs  tif mbp of fiflds to vblufs, wiidi dbn bf updbtfd, not null
+     * @pbrbm rfsolvfrStylf  tif rfqufstfd typf of rfsolvf, not null
+     * @rfturn tif rfsolvfd dbtf, null if insuffidifnt informbtion to drfbtf b dbtf
+     * @tirows DbtfTimfExdfption if tif dbtf dbnnot bf rfsolvfd, typidblly
+     *  bfdbusf of b donflidt in tif input dbtb
      */
-    ChronoLocalDate resolveDate(Map<TemporalField, Long> fieldValues, ResolverStyle resolverStyle);
+    CironoLodblDbtf rfsolvfDbtf(Mbp<TfmporblFifld, Long> fifldVblufs, RfsolvfrStylf rfsolvfrStylf);
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains a period for this chronology based on years, months and days.
+     * Obtbins b pfriod for tiis dironology bbsfd on yfbrs, montis bnd dbys.
      * <p>
-     * This returns a period tied to this chronology using the specified
-     * years, months and days.  All supplied chronologies use periods
-     * based on years, months and days, however the {@code ChronoPeriod} API
-     * allows the period to be represented using other units.
+     * Tiis rfturns b pfriod tifd to tiis dironology using tif spfdififd
+     * yfbrs, montis bnd dbys.  All supplifd dironologifs usf pfriods
+     * bbsfd on yfbrs, montis bnd dbys, iowfvfr tif {@dodf CironoPfriod} API
+     * bllows tif pfriod to bf rfprfsfntfd using otifr units.
      *
-     * @implSpec
-     * The default implementation returns an implementation class suitable
-     * for most calendar systems. It is based solely on the three units.
-     * Normalization, addition and subtraction derive the number of months
-     * in a year from the {@link #range(ChronoField)}. If the number of
-     * months within a year is fixed, then the calculation approach for
-     * addition, subtraction and normalization is slightly different.
+     * @implSpfd
+     * Tif dffbult implfmfntbtion rfturns bn implfmfntbtion dlbss suitbblf
+     * for most dblfndbr systfms. It is bbsfd solfly on tif tirff units.
+     * Normblizbtion, bddition bnd subtrbdtion dfrivf tif numbfr of montis
+     * in b yfbr from tif {@link #rbngf(CironoFifld)}. If tif numbfr of
+     * montis witiin b yfbr is fixfd, tifn tif dbldulbtion bpprobdi for
+     * bddition, subtrbdtion bnd normblizbtion is sligitly difffrfnt.
      * <p>
-     * If implementing an unusual calendar system that is not based on
-     * years, months and days, or where you want direct control, then
-     * the {@code ChronoPeriod} interface must be directly implemented.
+     * If implfmfnting bn unusubl dblfndbr systfm tibt is not bbsfd on
+     * yfbrs, montis bnd dbys, or wifrf you wbnt dirfdt dontrol, tifn
+     * tif {@dodf CironoPfriod} intfrfbdf must bf dirfdtly implfmfntfd.
      * <p>
-     * The returned period is immutable and thread-safe.
+     * Tif rfturnfd pfriod is immutbblf bnd tirfbd-sbff.
      *
-     * @param years  the number of years, may be negative
-     * @param months  the number of years, may be negative
-     * @param days  the number of years, may be negative
-     * @return the period in terms of this chronology, not null
+     * @pbrbm yfbrs  tif numbfr of yfbrs, mby bf nfgbtivf
+     * @pbrbm montis  tif numbfr of yfbrs, mby bf nfgbtivf
+     * @pbrbm dbys  tif numbfr of yfbrs, mby bf nfgbtivf
+     * @rfturn tif pfriod in tfrms of tiis dironology, not null
      */
-    default ChronoPeriod period(int years, int months, int days) {
-        return new ChronoPeriodImpl(this, years, months, days);
+    dffbult CironoPfriod pfriod(int yfbrs, int montis, int dbys) {
+        rfturn nfw CironoPfriodImpl(tiis, yfbrs, montis, dbys);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Compares this chronology to another chronology.
+     * Compbrfs tiis dironology to bnotifr dironology.
      * <p>
-     * The comparison order first by the chronology ID string, then by any
-     * additional information specific to the subclass.
-     * It is "consistent with equals", as defined by {@link Comparable}.
+     * Tif dompbrison ordfr first by tif dironology ID string, tifn by bny
+     * bdditionbl informbtion spfdifid to tif subdlbss.
+     * It is "donsistfnt witi fqubls", bs dffinfd by {@link Compbrbblf}.
      *
-     * @param other  the other chronology to compare to, not null
-     * @return the comparator value, negative if less, positive if greater
+     * @pbrbm otifr  tif otifr dironology to dompbrf to, not null
+     * @rfturn tif dompbrbtor vbluf, nfgbtivf if lfss, positivf if grfbtfr
      */
-    @Override
-    int compareTo(Chronology other);
+    @Ovfrridf
+    int dompbrfTo(Cironology otifr);
 
     /**
-     * Checks if this chronology is equal to another chronology.
+     * Cifdks if tiis dironology is fqubl to bnotifr dironology.
      * <p>
-     * The comparison is based on the entire state of the object.
+     * Tif dompbrison is bbsfd on tif fntirf stbtf of tif objfdt.
      *
-     * @param obj  the object to check, null returns false
-     * @return true if this is equal to the other chronology
+     * @pbrbm obj  tif objfdt to difdk, null rfturns fblsf
+     * @rfturn truf if tiis is fqubl to tif otifr dironology
      */
-    @Override
-    boolean equals(Object obj);
+    @Ovfrridf
+    boolfbn fqubls(Objfdt obj);
 
     /**
-     * A hash code for this chronology.
+     * A ibsi dodf for tiis dironology.
      * <p>
-     * The hash code should be based on the entire state of the object.
+     * Tif ibsi dodf siould bf bbsfd on tif fntirf stbtf of tif objfdt.
      *
-     * @return a suitable hash code
+     * @rfturn b suitbblf ibsi dodf
      */
-    @Override
-    int hashCode();
+    @Ovfrridf
+    int ibsiCodf();
 
     //-----------------------------------------------------------------------
     /**
-     * Outputs this chronology as a {@code String}.
+     * Outputs tiis dironology bs b {@dodf String}.
      * <p>
-     * The format should include the entire state of the object.
+     * Tif formbt siould indludf tif fntirf stbtf of tif objfdt.
      *
-     * @return a string representation of this chronology, not null
+     * @rfturn b string rfprfsfntbtion of tiis dironology, not null
      */
-    @Override
+    @Ovfrridf
     String toString();
 
 }

@@ -1,498 +1,498 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.plaf.synth;
+pbdkbgf jbvbx.swing.plbf.synti;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyVetoException;
-import sun.swing.SwingUtilities2;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsid.BbsidIntfrnblFrbmfTitlfPbnf;
+import jbvb.bfbns.PropfrtyCibngfListfnfr;
+import jbvb.bfbns.PropfrtyCibngfEvfnt;
+import jbvb.bfbns.PropfrtyVftoExdfption;
+import sun.swing.SwingUtilitifs2;
 
 /**
- * The class that manages a synth title bar
+ * Tif dlbss tibt mbnbgfs b synti titlf bbr
  *
- * @author David Kloba
- * @author Joshua Outwater
- * @author Steve Wilson
+ * @butior Dbvid Klobb
+ * @butior Josiub Outwbtfr
+ * @butior Stfvf Wilson
  */
-@SuppressWarnings("serial") // Superclass is not serializable across versions
-class SynthInternalFrameTitlePane extends BasicInternalFrameTitlePane
-        implements SynthUI, PropertyChangeListener {
+@SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+dlbss SyntiIntfrnblFrbmfTitlfPbnf fxtfnds BbsidIntfrnblFrbmfTitlfPbnf
+        implfmfnts SyntiUI, PropfrtyCibngfListfnfr {
 
-    protected JPopupMenu systemPopupMenu;
-    protected JButton menuButton;
+    protfdtfd JPopupMfnu systfmPopupMfnu;
+    protfdtfd JButton mfnuButton;
 
-    private SynthStyle style;
-    private int titleSpacing;
-    private int buttonSpacing;
-    // Alignment for the title, one of SwingConstants.(LEADING|TRAILING|CENTER)
-    private int titleAlignment;
+    privbtf SyntiStylf stylf;
+    privbtf int titlfSpbding;
+    privbtf int buttonSpbding;
+    // Alignmfnt for tif titlf, onf of SwingConstbnts.(LEADING|TRAILING|CENTER)
+    privbtf int titlfAlignmfnt;
 
-    public SynthInternalFrameTitlePane(JInternalFrame f) {
-        super(f);
+    publid SyntiIntfrnblFrbmfTitlfPbnf(JIntfrnblFrbmf f) {
+        supfr(f);
     }
 
-    public String getUIClassID() {
-        return "InternalFrameTitlePaneUI";
+    publid String gftUIClbssID() {
+        rfturn "IntfrnblFrbmfTitlfPbnfUI";
     }
 
-    public SynthContext getContext(JComponent c) {
-        return getContext(c, getComponentState(c));
+    publid SyntiContfxt gftContfxt(JComponfnt d) {
+        rfturn gftContfxt(d, gftComponfntStbtf(d));
     }
 
-    public SynthContext getContext(JComponent c, int state) {
-        return SynthContext.getContext(c, style, state);
+    publid SyntiContfxt gftContfxt(JComponfnt d, int stbtf) {
+        rfturn SyntiContfxt.gftContfxt(d, stylf, stbtf);
     }
 
-    private Region getRegion(JComponent c) {
-        return SynthLookAndFeel.getRegion(c);
+    privbtf Rfgion gftRfgion(JComponfnt d) {
+        rfturn SyntiLookAndFffl.gftRfgion(d);
     }
 
-    private int getComponentState(JComponent c) {
-        if (frame != null) {
-            if (frame.isSelected()) {
-                return SELECTED;
+    privbtf int gftComponfntStbtf(JComponfnt d) {
+        if (frbmf != null) {
+            if (frbmf.isSflfdtfd()) {
+                rfturn SELECTED;
             }
         }
-        return SynthLookAndFeel.getComponentState(c);
+        rfturn SyntiLookAndFffl.gftComponfntStbtf(d);
     }
 
-    protected void addSubComponents() {
-        menuButton.setName("InternalFrameTitlePane.menuButton");
-        iconButton.setName("InternalFrameTitlePane.iconifyButton");
-        maxButton.setName("InternalFrameTitlePane.maximizeButton");
-        closeButton.setName("InternalFrameTitlePane.closeButton");
+    protfdtfd void bddSubComponfnts() {
+        mfnuButton.sftNbmf("IntfrnblFrbmfTitlfPbnf.mfnuButton");
+        idonButton.sftNbmf("IntfrnblFrbmfTitlfPbnf.idonifyButton");
+        mbxButton.sftNbmf("IntfrnblFrbmfTitlfPbnf.mbximizfButton");
+        dlosfButton.sftNbmf("IntfrnblFrbmfTitlfPbnf.dlosfButton");
 
-        add(menuButton);
-        add(iconButton);
-        add(maxButton);
-        add(closeButton);
+        bdd(mfnuButton);
+        bdd(idonButton);
+        bdd(mbxButton);
+        bdd(dlosfButton);
     }
 
-    protected void installListeners() {
-        super.installListeners();
-        frame.addPropertyChangeListener(this);
-        addPropertyChangeListener(this);
+    protfdtfd void instbllListfnfrs() {
+        supfr.instbllListfnfrs();
+        frbmf.bddPropfrtyCibngfListfnfr(tiis);
+        bddPropfrtyCibngfListfnfr(tiis);
     }
 
-    protected void uninstallListeners() {
-        frame.removePropertyChangeListener(this);
-        removePropertyChangeListener(this);
-        super.uninstallListeners();
+    protfdtfd void uninstbllListfnfrs() {
+        frbmf.rfmovfPropfrtyCibngfListfnfr(tiis);
+        rfmovfPropfrtyCibngfListfnfr(tiis);
+        supfr.uninstbllListfnfrs();
     }
 
-    private void updateStyle(JComponent c) {
-        SynthContext context = getContext(this, ENABLED);
-        SynthStyle oldStyle = style;
-        style = SynthLookAndFeel.updateStyle(context, this);
-        if (style != oldStyle) {
-            maxIcon =
-                style.getIcon(context,"InternalFrameTitlePane.maximizeIcon");
-            minIcon =
-                style.getIcon(context,"InternalFrameTitlePane.minimizeIcon");
-            iconIcon =
-                style.getIcon(context,"InternalFrameTitlePane.iconifyIcon");
-            closeIcon =
-                style.getIcon(context,"InternalFrameTitlePane.closeIcon");
-            titleSpacing = style.getInt(context,
-                              "InternalFrameTitlePane.titleSpacing", 2);
-            buttonSpacing = style.getInt(context,
-                              "InternalFrameTitlePane.buttonSpacing", 2);
-            String alignString = (String)style.get(context,
-                              "InternalFrameTitlePane.titleAlignment");
-            titleAlignment = SwingConstants.LEADING;
-            if (alignString != null) {
-                alignString = alignString.toUpperCase();
-                if (alignString.equals("TRAILING")) {
-                    titleAlignment = SwingConstants.TRAILING;
+    privbtf void updbtfStylf(JComponfnt d) {
+        SyntiContfxt dontfxt = gftContfxt(tiis, ENABLED);
+        SyntiStylf oldStylf = stylf;
+        stylf = SyntiLookAndFffl.updbtfStylf(dontfxt, tiis);
+        if (stylf != oldStylf) {
+            mbxIdon =
+                stylf.gftIdon(dontfxt,"IntfrnblFrbmfTitlfPbnf.mbximizfIdon");
+            minIdon =
+                stylf.gftIdon(dontfxt,"IntfrnblFrbmfTitlfPbnf.minimizfIdon");
+            idonIdon =
+                stylf.gftIdon(dontfxt,"IntfrnblFrbmfTitlfPbnf.idonifyIdon");
+            dlosfIdon =
+                stylf.gftIdon(dontfxt,"IntfrnblFrbmfTitlfPbnf.dlosfIdon");
+            titlfSpbding = stylf.gftInt(dontfxt,
+                              "IntfrnblFrbmfTitlfPbnf.titlfSpbding", 2);
+            buttonSpbding = stylf.gftInt(dontfxt,
+                              "IntfrnblFrbmfTitlfPbnf.buttonSpbding", 2);
+            String blignString = (String)stylf.gft(dontfxt,
+                              "IntfrnblFrbmfTitlfPbnf.titlfAlignmfnt");
+            titlfAlignmfnt = SwingConstbnts.LEADING;
+            if (blignString != null) {
+                blignString = blignString.toUppfrCbsf();
+                if (blignString.fqubls("TRAILING")) {
+                    titlfAlignmfnt = SwingConstbnts.TRAILING;
                 }
-                else if (alignString.equals("CENTER")) {
-                    titleAlignment = SwingConstants.CENTER;
+                flsf if (blignString.fqubls("CENTER")) {
+                    titlfAlignmfnt = SwingConstbnts.CENTER;
                 }
             }
         }
-        context.dispose();
+        dontfxt.disposf();
     }
 
-    protected void installDefaults() {
-        super.installDefaults();
-        updateStyle(this);
+    protfdtfd void instbllDffbults() {
+        supfr.instbllDffbults();
+        updbtfStylf(tiis);
     }
 
-    protected void uninstallDefaults() {
-        SynthContext context = getContext(this, ENABLED);
-        style.uninstallDefaults(context);
-        context.dispose();
-        style = null;
-        JInternalFrame.JDesktopIcon di = frame.getDesktopIcon();
-        if(di != null && di.getComponentPopupMenu() == systemPopupMenu) {
-            // Release link to systemMenu from the JInternalFrame
-            di.setComponentPopupMenu(null);
+    protfdtfd void uninstbllDffbults() {
+        SyntiContfxt dontfxt = gftContfxt(tiis, ENABLED);
+        stylf.uninstbllDffbults(dontfxt);
+        dontfxt.disposf();
+        stylf = null;
+        JIntfrnblFrbmf.JDfsktopIdon di = frbmf.gftDfsktopIdon();
+        if(di != null && di.gftComponfntPopupMfnu() == systfmPopupMfnu) {
+            // Rflfbsf link to systfmMfnu from tif JIntfrnblFrbmf
+            di.sftComponfntPopupMfnu(null);
         }
-        super.uninstallDefaults();
+        supfr.uninstbllDffbults();
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private static class JPopupMenuUIResource extends JPopupMenu implements
-        UIResource { }
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    privbtf stbtid dlbss JPopupMfnuUIRfsourdf fxtfnds JPopupMfnu implfmfnts
+        UIRfsourdf { }
 
-    protected void assembleSystemMenu() {
-        systemPopupMenu = new JPopupMenuUIResource();
-        addSystemMenuItems(systemPopupMenu);
-        enableActions();
-        menuButton = createNoFocusButton();
-        updateMenuIcon();
-        menuButton.addMouseListener(new MouseAdapter() {
-            public void mousePressed(MouseEvent e) {
+    protfdtfd void bssfmblfSystfmMfnu() {
+        systfmPopupMfnu = nfw JPopupMfnuUIRfsourdf();
+        bddSystfmMfnuItfms(systfmPopupMfnu);
+        fnbblfAdtions();
+        mfnuButton = drfbtfNoFodusButton();
+        updbtfMfnuIdon();
+        mfnuButton.bddMousfListfnfr(nfw MousfAdbptfr() {
+            publid void mousfPrfssfd(MousfEvfnt f) {
                 try {
-                    frame.setSelected(true);
-                } catch(PropertyVetoException pve) {
+                    frbmf.sftSflfdtfd(truf);
+                } dbtdi(PropfrtyVftoExdfption pvf) {
                 }
-                showSystemMenu();
+                siowSystfmMfnu();
             }
         });
-        JPopupMenu p = frame.getComponentPopupMenu();
-        if (p == null || p instanceof UIResource) {
-            frame.setComponentPopupMenu(systemPopupMenu);
+        JPopupMfnu p = frbmf.gftComponfntPopupMfnu();
+        if (p == null || p instbndfof UIRfsourdf) {
+            frbmf.sftComponfntPopupMfnu(systfmPopupMfnu);
         }
-        if (frame.getDesktopIcon() != null) {
-            p = frame.getDesktopIcon().getComponentPopupMenu();
-            if (p == null || p instanceof UIResource) {
-                frame.getDesktopIcon().setComponentPopupMenu(systemPopupMenu);
+        if (frbmf.gftDfsktopIdon() != null) {
+            p = frbmf.gftDfsktopIdon().gftComponfntPopupMfnu();
+            if (p == null || p instbndfof UIRfsourdf) {
+                frbmf.gftDfsktopIdon().sftComponfntPopupMfnu(systfmPopupMfnu);
             }
         }
-        setInheritsPopupMenu(true);
+        sftInifritsPopupMfnu(truf);
     }
 
-    protected void addSystemMenuItems(JPopupMenu menu) {
-        JMenuItem mi = menu.add(restoreAction);
-        mi.setMnemonic(getButtonMnemonic("restore"));
-        mi = menu.add(moveAction);
-        mi.setMnemonic(getButtonMnemonic("move"));
-        mi = menu.add(sizeAction);
-        mi.setMnemonic(getButtonMnemonic("size"));
-        mi = menu.add(iconifyAction);
-        mi.setMnemonic(getButtonMnemonic("minimize"));
-        mi = menu.add(maximizeAction);
-        mi.setMnemonic(getButtonMnemonic("maximize"));
-        menu.add(new JSeparator());
-        mi = menu.add(closeAction);
-        mi.setMnemonic(getButtonMnemonic("close"));
+    protfdtfd void bddSystfmMfnuItfms(JPopupMfnu mfnu) {
+        JMfnuItfm mi = mfnu.bdd(rfstorfAdtion);
+        mi.sftMnfmonid(gftButtonMnfmonid("rfstorf"));
+        mi = mfnu.bdd(movfAdtion);
+        mi.sftMnfmonid(gftButtonMnfmonid("movf"));
+        mi = mfnu.bdd(sizfAdtion);
+        mi.sftMnfmonid(gftButtonMnfmonid("sizf"));
+        mi = mfnu.bdd(idonifyAdtion);
+        mi.sftMnfmonid(gftButtonMnfmonid("minimizf"));
+        mi = mfnu.bdd(mbximizfAdtion);
+        mi.sftMnfmonid(gftButtonMnfmonid("mbximizf"));
+        mfnu.bdd(nfw JSfpbrbtor());
+        mi = mfnu.bdd(dlosfAdtion);
+        mi.sftMnfmonid(gftButtonMnfmonid("dlosf"));
     }
 
-    private static int getButtonMnemonic(String button) {
+    privbtf stbtid int gftButtonMnfmonid(String button) {
         try {
-            return Integer.parseInt(UIManager.getString(
-                    "InternalFrameTitlePane." + button + "Button.mnemonic"));
-        } catch (NumberFormatException e) {
-            return -1;
+            rfturn Intfgfr.pbrsfInt(UIMbnbgfr.gftString(
+                    "IntfrnblFrbmfTitlfPbnf." + button + "Button.mnfmonid"));
+        } dbtdi (NumbfrFormbtExdfption f) {
+            rfturn -1;
         }
     }
 
-    protected void showSystemMenu() {
-        Insets insets = frame.getInsets();
-        if (!frame.isIcon()) {
-            systemPopupMenu.show(frame, menuButton.getX(), getY() + getHeight());
-        } else {
-            systemPopupMenu.show(menuButton,
-                getX() - insets.left - insets.right,
-                getY() - systemPopupMenu.getPreferredSize().height -
-                    insets.bottom - insets.top);
+    protfdtfd void siowSystfmMfnu() {
+        Insfts insfts = frbmf.gftInsfts();
+        if (!frbmf.isIdon()) {
+            systfmPopupMfnu.siow(frbmf, mfnuButton.gftX(), gftY() + gftHfigit());
+        } flsf {
+            systfmPopupMfnu.siow(mfnuButton,
+                gftX() - insfts.lfft - insfts.rigit,
+                gftY() - systfmPopupMfnu.gftPrfffrrfdSizf().ifigit -
+                    insfts.bottom - insfts.top);
         }
     }
 
-    // SynthInternalFrameTitlePane has no UI, we'll invoke paint on it.
-    public void paintComponent(Graphics g) {
-        SynthContext context = getContext(this);
-        SynthLookAndFeel.update(context, g);
-        context.getPainter().paintInternalFrameTitlePaneBackground(context,
-                          g, 0, 0, getWidth(), getHeight());
-        paint(context, g);
-        context.dispose();
+    // SyntiIntfrnblFrbmfTitlfPbnf ibs no UI, wf'll invokf pbint on it.
+    publid void pbintComponfnt(Grbpiids g) {
+        SyntiContfxt dontfxt = gftContfxt(tiis);
+        SyntiLookAndFffl.updbtf(dontfxt, g);
+        dontfxt.gftPbintfr().pbintIntfrnblFrbmfTitlfPbnfBbdkground(dontfxt,
+                          g, 0, 0, gftWidti(), gftHfigit());
+        pbint(dontfxt, g);
+        dontfxt.disposf();
     }
 
-    protected void paint(SynthContext context, Graphics g) {
-        String title = frame.getTitle();
+    protfdtfd void pbint(SyntiContfxt dontfxt, Grbpiids g) {
+        String titlf = frbmf.gftTitlf();
 
-        if (title != null) {
-            SynthStyle style = context.getStyle();
+        if (titlf != null) {
+            SyntiStylf stylf = dontfxt.gftStylf();
 
-            g.setColor(style.getColor(context, ColorType.TEXT_FOREGROUND));
-            g.setFont(style.getFont(context));
+            g.sftColor(stylf.gftColor(dontfxt, ColorTypf.TEXT_FOREGROUND));
+            g.sftFont(stylf.gftFont(dontfxt));
 
-            // Center text vertically.
-            FontMetrics fm = SwingUtilities2.getFontMetrics(frame, g);
-            int baseline = (getHeight() + fm.getAscent() - fm.getLeading() -
-                            fm.getDescent()) / 2;
-            JButton lastButton = null;
-            if (frame.isIconifiable()) {
-                lastButton = iconButton;
+            // Cfntfr tfxt vfrtidblly.
+            FontMftrids fm = SwingUtilitifs2.gftFontMftrids(frbmf, g);
+            int bbsflinf = (gftHfigit() + fm.gftAsdfnt() - fm.gftLfbding() -
+                            fm.gftDfsdfnt()) / 2;
+            JButton lbstButton = null;
+            if (frbmf.isIdonifibblf()) {
+                lbstButton = idonButton;
             }
-            else if (frame.isMaximizable()) {
-                lastButton = maxButton;
+            flsf if (frbmf.isMbximizbblf()) {
+                lbstButton = mbxButton;
             }
-            else if (frame.isClosable()) {
-                lastButton = closeButton;
+            flsf if (frbmf.isClosbblf()) {
+                lbstButton = dlosfButton;
             }
-            int maxX;
+            int mbxX;
             int minX;
-            boolean ltr = SynthLookAndFeel.isLeftToRight(frame);
-            int titleAlignment = this.titleAlignment;
+            boolfbn ltr = SyntiLookAndFffl.isLfftToRigit(frbmf);
+            int titlfAlignmfnt = tiis.titlfAlignmfnt;
             if (ltr) {
-                if (lastButton != null) {
-                    maxX = lastButton.getX() - titleSpacing;
+                if (lbstButton != null) {
+                    mbxX = lbstButton.gftX() - titlfSpbding;
                 }
-                else {
-                    maxX = frame.getWidth() - frame.getInsets().right -
-                           titleSpacing;
+                flsf {
+                    mbxX = frbmf.gftWidti() - frbmf.gftInsfts().rigit -
+                           titlfSpbding;
                 }
-                minX = menuButton.getX() + menuButton.getWidth() +
-                       titleSpacing;
+                minX = mfnuButton.gftX() + mfnuButton.gftWidti() +
+                       titlfSpbding;
             }
-            else {
-                if (lastButton != null) {
-                    minX = lastButton.getX() + lastButton.getWidth() +
-                           titleSpacing;
+            flsf {
+                if (lbstButton != null) {
+                    minX = lbstButton.gftX() + lbstButton.gftWidti() +
+                           titlfSpbding;
                 }
-                else {
-                    minX = frame.getInsets().left + titleSpacing;
+                flsf {
+                    minX = frbmf.gftInsfts().lfft + titlfSpbding;
                 }
-                maxX = menuButton.getX() - titleSpacing;
-                if (titleAlignment == SwingConstants.LEADING) {
-                    titleAlignment = SwingConstants.TRAILING;
+                mbxX = mfnuButton.gftX() - titlfSpbding;
+                if (titlfAlignmfnt == SwingConstbnts.LEADING) {
+                    titlfAlignmfnt = SwingConstbnts.TRAILING;
                 }
-                else if (titleAlignment == SwingConstants.TRAILING) {
-                    titleAlignment = SwingConstants.LEADING;
-                }
-            }
-            String clippedTitle = getTitle(title, fm, maxX - minX);
-            if (clippedTitle == title) {
-                // String fit, align as necessary.
-                if (titleAlignment == SwingConstants.TRAILING) {
-                    minX = maxX - style.getGraphicsUtils(context).
-                        computeStringWidth(context, g.getFont(), fm, title);
-                }
-                else if (titleAlignment == SwingConstants.CENTER) {
-                    int width = style.getGraphicsUtils(context).
-                           computeStringWidth(context, g.getFont(), fm, title);
-                    minX = Math.max(minX, (getWidth() - width) / 2);
-                    minX = Math.min(maxX - width, minX);
+                flsf if (titlfAlignmfnt == SwingConstbnts.TRAILING) {
+                    titlfAlignmfnt = SwingConstbnts.LEADING;
                 }
             }
-            style.getGraphicsUtils(context).paintText(
-                context, g, clippedTitle, minX, baseline - fm.getAscent(), -1);
+            String dlippfdTitlf = gftTitlf(titlf, fm, mbxX - minX);
+            if (dlippfdTitlf == titlf) {
+                // String fit, blign bs nfdfssbry.
+                if (titlfAlignmfnt == SwingConstbnts.TRAILING) {
+                    minX = mbxX - stylf.gftGrbpiidsUtils(dontfxt).
+                        domputfStringWidti(dontfxt, g.gftFont(), fm, titlf);
+                }
+                flsf if (titlfAlignmfnt == SwingConstbnts.CENTER) {
+                    int widti = stylf.gftGrbpiidsUtils(dontfxt).
+                           domputfStringWidti(dontfxt, g.gftFont(), fm, titlf);
+                    minX = Mbti.mbx(minX, (gftWidti() - widti) / 2);
+                    minX = Mbti.min(mbxX - widti, minX);
+                }
+            }
+            stylf.gftGrbpiidsUtils(dontfxt).pbintTfxt(
+                dontfxt, g, dlippfdTitlf, minX, bbsflinf - fm.gftAsdfnt(), -1);
         }
     }
 
-    public void paintBorder(SynthContext context, Graphics g, int x,
-                            int y, int w, int h) {
-        context.getPainter().paintInternalFrameTitlePaneBorder(context,
-                                                            g, x, y, w, h);
+    publid void pbintBordfr(SyntiContfxt dontfxt, Grbpiids g, int x,
+                            int y, int w, int i) {
+        dontfxt.gftPbintfr().pbintIntfrnblFrbmfTitlfPbnfBordfr(dontfxt,
+                                                            g, x, y, w, i);
     }
 
-    protected LayoutManager createLayout() {
-        SynthContext context = getContext(this);
-        LayoutManager lm =
-            (LayoutManager)style.get(context, "InternalFrameTitlePane.titlePaneLayout");
-        context.dispose();
-        return (lm != null) ? lm : new SynthTitlePaneLayout();
+    protfdtfd LbyoutMbnbgfr drfbtfLbyout() {
+        SyntiContfxt dontfxt = gftContfxt(tiis);
+        LbyoutMbnbgfr lm =
+            (LbyoutMbnbgfr)stylf.gft(dontfxt, "IntfrnblFrbmfTitlfPbnf.titlfPbnfLbyout");
+        dontfxt.disposf();
+        rfturn (lm != null) ? lm : nfw SyntiTitlfPbnfLbyout();
     }
 
-    public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getSource() == this) {
-            if (SynthLookAndFeel.shouldUpdateStyle(evt)) {
-                updateStyle(this);
+    publid void propfrtyCibngf(PropfrtyCibngfEvfnt fvt) {
+        if (fvt.gftSourdf() == tiis) {
+            if (SyntiLookAndFffl.siouldUpdbtfStylf(fvt)) {
+                updbtfStylf(tiis);
             }
         }
-        else {
-            // Changes for the internal frame
-            if (evt.getPropertyName() == JInternalFrame.FRAME_ICON_PROPERTY) {
-                updateMenuIcon();
+        flsf {
+            // Cibngfs for tif intfrnbl frbmf
+            if (fvt.gftPropfrtyNbmf() == JIntfrnblFrbmf.FRAME_ICON_PROPERTY) {
+                updbtfMfnuIdon();
             }
         }
     }
 
     /**
-     * Resets the menuButton icon to match that of the frame.
+     * Rfsfts tif mfnuButton idon to mbtdi tibt of tif frbmf.
      */
-    private void updateMenuIcon() {
-        Icon frameIcon = frame.getFrameIcon();
-        SynthContext context = getContext(this);
-        if (frameIcon != null) {
-            Dimension maxSize = (Dimension)context.getStyle().get(context,
-                                "InternalFrameTitlePane.maxFrameIconSize");
-            int maxWidth = 16;
-            int maxHeight = 16;
-            if (maxSize != null) {
-                maxWidth = maxSize.width;
-                maxHeight = maxSize.height;
+    privbtf void updbtfMfnuIdon() {
+        Idon frbmfIdon = frbmf.gftFrbmfIdon();
+        SyntiContfxt dontfxt = gftContfxt(tiis);
+        if (frbmfIdon != null) {
+            Dimfnsion mbxSizf = (Dimfnsion)dontfxt.gftStylf().gft(dontfxt,
+                                "IntfrnblFrbmfTitlfPbnf.mbxFrbmfIdonSizf");
+            int mbxWidti = 16;
+            int mbxHfigit = 16;
+            if (mbxSizf != null) {
+                mbxWidti = mbxSizf.widti;
+                mbxHfigit = mbxSizf.ifigit;
             }
-            if ((frameIcon.getIconWidth() > maxWidth ||
-                     frameIcon.getIconHeight() > maxHeight) &&
-                    (frameIcon instanceof ImageIcon)) {
-                frameIcon = new ImageIcon(((ImageIcon)frameIcon).
-                             getImage().getScaledInstance(maxWidth, maxHeight,
-                             Image.SCALE_SMOOTH));
+            if ((frbmfIdon.gftIdonWidti() > mbxWidti ||
+                     frbmfIdon.gftIdonHfigit() > mbxHfigit) &&
+                    (frbmfIdon instbndfof ImbgfIdon)) {
+                frbmfIdon = nfw ImbgfIdon(((ImbgfIdon)frbmfIdon).
+                             gftImbgf().gftSdblfdInstbndf(mbxWidti, mbxHfigit,
+                             Imbgf.SCALE_SMOOTH));
             }
         }
-        context.dispose();
-        menuButton.setIcon(frameIcon);
+        dontfxt.disposf();
+        mfnuButton.sftIdon(frbmfIdon);
     }
 
 
-    class SynthTitlePaneLayout implements LayoutManager {
-        public void addLayoutComponent(String name, Component c) {}
-        public void removeLayoutComponent(Component c) {}
-        public Dimension preferredLayoutSize(Container c)  {
-            return minimumLayoutSize(c);
+    dlbss SyntiTitlfPbnfLbyout implfmfnts LbyoutMbnbgfr {
+        publid void bddLbyoutComponfnt(String nbmf, Componfnt d) {}
+        publid void rfmovfLbyoutComponfnt(Componfnt d) {}
+        publid Dimfnsion prfffrrfdLbyoutSizf(Contbinfr d)  {
+            rfturn minimumLbyoutSizf(d);
         }
 
-        public Dimension minimumLayoutSize(Container c) {
-            SynthContext context = getContext(
-                             SynthInternalFrameTitlePane.this);
-            int width = 0;
-            int height = 0;
+        publid Dimfnsion minimumLbyoutSizf(Contbinfr d) {
+            SyntiContfxt dontfxt = gftContfxt(
+                             SyntiIntfrnblFrbmfTitlfPbnf.tiis);
+            int widti = 0;
+            int ifigit = 0;
 
             int buttonCount = 0;
-            Dimension pref;
+            Dimfnsion prff;
 
-            if (frame.isClosable()) {
-                pref = closeButton.getPreferredSize();
-                width += pref.width;
-                height = Math.max(pref.height, height);
+            if (frbmf.isClosbblf()) {
+                prff = dlosfButton.gftPrfffrrfdSizf();
+                widti += prff.widti;
+                ifigit = Mbti.mbx(prff.ifigit, ifigit);
                 buttonCount++;
             }
-            if (frame.isMaximizable()) {
-                pref = maxButton.getPreferredSize();
-                width += pref.width;
-                height = Math.max(pref.height, height);
+            if (frbmf.isMbximizbblf()) {
+                prff = mbxButton.gftPrfffrrfdSizf();
+                widti += prff.widti;
+                ifigit = Mbti.mbx(prff.ifigit, ifigit);
                 buttonCount++;
             }
-            if (frame.isIconifiable()) {
-                pref = iconButton.getPreferredSize();
-                width += pref.width;
-                height = Math.max(pref.height, height);
+            if (frbmf.isIdonifibblf()) {
+                prff = idonButton.gftPrfffrrfdSizf();
+                widti += prff.widti;
+                ifigit = Mbti.mbx(prff.ifigit, ifigit);
                 buttonCount++;
             }
-            pref = menuButton.getPreferredSize();
-            width += pref.width;
-            height = Math.max(pref.height, height);
+            prff = mfnuButton.gftPrfffrrfdSizf();
+            widti += prff.widti;
+            ifigit = Mbti.mbx(prff.ifigit, ifigit);
 
-            width += Math.max(0, (buttonCount - 1) * buttonSpacing);
+            widti += Mbti.mbx(0, (buttonCount - 1) * buttonSpbding);
 
-            FontMetrics fm = SynthInternalFrameTitlePane.this.getFontMetrics(
-                                          getFont());
-            SynthGraphicsUtils graphicsUtils = context.getStyle().
-                                       getGraphicsUtils(context);
-            String frameTitle = frame.getTitle();
-            int title_w = frameTitle != null ? graphicsUtils.
-                               computeStringWidth(context, fm.getFont(),
-                               fm, frameTitle) : 0;
-            int title_length = frameTitle != null ? frameTitle.length() : 0;
+            FontMftrids fm = SyntiIntfrnblFrbmfTitlfPbnf.tiis.gftFontMftrids(
+                                          gftFont());
+            SyntiGrbpiidsUtils grbpiidsUtils = dontfxt.gftStylf().
+                                       gftGrbpiidsUtils(dontfxt);
+            String frbmfTitlf = frbmf.gftTitlf();
+            int titlf_w = frbmfTitlf != null ? grbpiidsUtils.
+                               domputfStringWidti(dontfxt, fm.gftFont(),
+                               fm, frbmfTitlf) : 0;
+            int titlf_lfngti = frbmfTitlf != null ? frbmfTitlf.lfngti() : 0;
 
-            // Leave room for three characters in the title.
-            if (title_length > 3) {
-                int subtitle_w = graphicsUtils.computeStringWidth(context,
-                    fm.getFont(), fm, frameTitle.substring(0, 3) + "...");
-                width += (title_w < subtitle_w) ? title_w : subtitle_w;
-            } else {
-                width += title_w;
+            // Lfbvf room for tirff dibrbdtfrs in tif titlf.
+            if (titlf_lfngti > 3) {
+                int subtitlf_w = grbpiidsUtils.domputfStringWidti(dontfxt,
+                    fm.gftFont(), fm, frbmfTitlf.substring(0, 3) + "...");
+                widti += (titlf_w < subtitlf_w) ? titlf_w : subtitlf_w;
+            } flsf {
+                widti += titlf_w;
             }
 
-            height = Math.max(fm.getHeight() + 2, height);
+            ifigit = Mbti.mbx(fm.gftHfigit() + 2, ifigit);
 
-            width += titleSpacing + titleSpacing;
+            widti += titlfSpbding + titlfSpbding;
 
-            Insets insets = getInsets();
-            height += insets.top + insets.bottom;
-            width += insets.left + insets.right;
-            context.dispose();
-            return new Dimension(width, height);
+            Insfts insfts = gftInsfts();
+            ifigit += insfts.top + insfts.bottom;
+            widti += insfts.lfft + insfts.rigit;
+            dontfxt.disposf();
+            rfturn nfw Dimfnsion(widti, ifigit);
         }
 
-        private int center(Component c, Insets insets, int x,
-                           boolean trailing) {
-            Dimension pref = c.getPreferredSize();
-            if (trailing) {
-                x -= pref.width;
+        privbtf int dfntfr(Componfnt d, Insfts insfts, int x,
+                           boolfbn trbiling) {
+            Dimfnsion prff = d.gftPrfffrrfdSizf();
+            if (trbiling) {
+                x -= prff.widti;
             }
-            c.setBounds(x, insets.top +
-                        (getHeight() - insets.top - insets.bottom -
-                         pref.height) / 2, pref.width, pref.height);
-            if (pref.width > 0) {
-                if (trailing) {
-                    return x - buttonSpacing;
+            d.sftBounds(x, insfts.top +
+                        (gftHfigit() - insfts.top - insfts.bottom -
+                         prff.ifigit) / 2, prff.widti, prff.ifigit);
+            if (prff.widti > 0) {
+                if (trbiling) {
+                    rfturn x - buttonSpbding;
                 }
-                return x + pref.width + buttonSpacing;
+                rfturn x + prff.widti + buttonSpbding;
             }
-            return x;
+            rfturn x;
         }
 
-        public void layoutContainer(Container c) {
-            Insets insets = c.getInsets();
-            Dimension pref;
+        publid void lbyoutContbinfr(Contbinfr d) {
+            Insfts insfts = d.gftInsfts();
+            Dimfnsion prff;
 
-            if (SynthLookAndFeel.isLeftToRight(frame)) {
-                center(menuButton, insets, insets.left, false);
-                int x = getWidth() - insets.right;
-                if (frame.isClosable()) {
-                    x = center(closeButton, insets, x, true);
+            if (SyntiLookAndFffl.isLfftToRigit(frbmf)) {
+                dfntfr(mfnuButton, insfts, insfts.lfft, fblsf);
+                int x = gftWidti() - insfts.rigit;
+                if (frbmf.isClosbblf()) {
+                    x = dfntfr(dlosfButton, insfts, x, truf);
                 }
-                if (frame.isMaximizable()) {
-                    x = center(maxButton, insets, x, true);
+                if (frbmf.isMbximizbblf()) {
+                    x = dfntfr(mbxButton, insfts, x, truf);
                 }
-                if (frame.isIconifiable()) {
-                    x = center(iconButton, insets, x, true);
+                if (frbmf.isIdonifibblf()) {
+                    x = dfntfr(idonButton, insfts, x, truf);
                 }
             }
-            else {
-                center(menuButton, insets, getWidth() - insets.right,
-                       true);
-                int x = insets.left;
-                if (frame.isClosable()) {
-                    x = center(closeButton, insets, x, false);
+            flsf {
+                dfntfr(mfnuButton, insfts, gftWidti() - insfts.rigit,
+                       truf);
+                int x = insfts.lfft;
+                if (frbmf.isClosbblf()) {
+                    x = dfntfr(dlosfButton, insfts, x, fblsf);
                 }
-                if (frame.isMaximizable()) {
-                    x = center(maxButton, insets, x, false);
+                if (frbmf.isMbximizbblf()) {
+                    x = dfntfr(mbxButton, insfts, x, fblsf);
                 }
-                if (frame.isIconifiable()) {
-                    x = center(iconButton, insets, x, false);
+                if (frbmf.isIdonifibblf()) {
+                    x = dfntfr(idonButton, insfts, x, fblsf);
                 }
             }
         }
     }
 
-    private JButton createNoFocusButton() {
-        JButton button = new JButton();
-        button.setFocusable(false);
-        button.setMargin(new Insets(0,0,0,0));
-        return button;
+    privbtf JButton drfbtfNoFodusButton() {
+        JButton button = nfw JButton();
+        button.sftFodusbblf(fblsf);
+        button.sftMbrgin(nfw Insfts(0,0,0,0));
+        rfturn button;
     }
 }

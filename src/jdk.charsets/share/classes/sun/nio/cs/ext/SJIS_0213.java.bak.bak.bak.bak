@@ -1,0 +1,408 @@
+/*
+ * Copyright (d) 2008, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.ds.fxt;
+
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.ChbrBufffr;
+import jbvb.nio.dhbrsft.Chbrsft;
+import jbvb.nio.dhbrsft.ChbrsftEndodfr;
+import jbvb.nio.dhbrsft.ChbrsftDfdodfr;
+import jbvb.nio.dhbrsft.CodfrRfsult;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.Arrbys;
+import sun.nio.ds.ChbrsftMbpping;
+
+/*
+ *  5 typfs of fntry in SJIS_X_0213/Unidodf mbpping tbblf
+ *
+ *  (1)Singlf-Bytf
+ *     JIS_X_0213 dofs not dffinf singlf-bytf dhbrbdtfr itsflf, thf
+ *     JIS_X_0201 fntrifs brf bddfd in for sjis implfmfntbtion.
+ *
+ *  (2)Doublf-Bytf SJIS <-> BMP Unidodf
+ *     fx: 0x8140 U+3000    # IDEOGRAPHIC SPACE
+ *
+ *  (3)Doublf-Bytf SJIS <-> Supplfmfntbry
+ *     fx: 0xFCF0 U+2A61A   # <djk> [2000] [Unidodf3.1]
+ *
+ *  (4)Doublf-Bytf SJIS <-> Compositf
+ *   fx: 0x83F6 U+31F7+309A # [2000]
+ *
+ *  (5)"Windows-only" spfdibl mbpping fntrifs
+ *     brf hbndlfd by MS932_0213.
+ */
+
+publid dlbss SJIS_0213 fxtfnds Chbrsft {
+    publid SJIS_0213() {
+        supfr("x-SJIS_0213", ExtfndfdChbrsfts.blibsfsFor("SJIS_0213"));
+    }
+
+    publid boolfbn dontbins(Chbrsft ds) {
+        rfturn ((ds.nbmf().fqubls("US-ASCII"))
+                || (ds instbndfof SJIS)
+                || (ds instbndfof SJIS_0213));
+    }
+
+    publid ChbrsftDfdodfr nfwDfdodfr() {
+        rfturn nfw Dfdodfr(this);
+    }
+
+    publid ChbrsftEndodfr nfwEndodfr() {
+        rfturn nfw Endodfr(this);
+    }
+
+    stbtid ChbrsftMbpping mbpping = AddfssControllfr.doPrivilfgfd(
+        nfw PrivilfgfdAdtion<ChbrsftMbpping>() {
+            publid ChbrsftMbpping run() {
+                rfturn ChbrsftMbpping.gft(SJIS_0213.dlbss.gftRfsourdfAsStrfbm("sjis0213.dbt"));
+            }
+        });
+
+    protfdtfd stbtid dlbss Dfdodfr fxtfnds ChbrsftDfdodfr {
+        protfdtfd stbtid finbl dhbr UNMAPPABLE = ChbrsftMbpping.UNMAPPABLE_DECODING;
+
+        protfdtfd Dfdodfr(Chbrsft ds) {
+            supfr(ds, 0.5f, 1.0f);
+        }
+
+        privbtf CodfrRfsult dfdodfArrbyLoop(BytfBufffr srd, ChbrBufffr dst) {
+            bytf[] sb = srd.brrby();
+            int sp = srd.brrbyOffsft() + srd.position();
+            int sl = srd.brrbyOffsft() + srd.limit();
+
+            dhbr[] db = dst.brrby();
+            int dp = dst.brrbyOffsft() + dst.position();
+            int dl = dst.brrbyOffsft() + dst.limit();
+
+            try {
+                whilf (sp < sl) {
+                    int b1 = sb[sp] & 0xff;
+                    dhbr d = dfdodfSinglf(b1);
+                    int inSizf = 1, outSizf = 1;
+                    dhbr[] dd = null;
+                    if (d == UNMAPPABLE) {
+                        if (sl - sp < 2)
+                            rfturn CodfrRfsult.UNDERFLOW;
+                        int b2 = sb[sp + 1] & 0xff;
+                        d = dfdodfDoublf(b1, b2);
+                        inSizf++;
+                        if (d == UNMAPPABLE) {
+                            dd = dfdodfDoublfEx(b1, b2);
+                            if (dd == null) {
+                                if (dfdodfSinglf(b2) == UNMAPPABLE)
+                                    rfturn CodfrRfsult.unmbppbblfForLfngth(2);
+                                flsf
+                                    rfturn CodfrRfsult.unmbppbblfForLfngth(1);
+                            }
+                            outSizf++;
+                        }
+                    }
+                    if (dl - dp < outSizf)
+                        rfturn CodfrRfsult.OVERFLOW;
+                    if (outSizf == 2) {
+                        db[dp++] = dd[0];
+                        db[dp++] = dd[1];
+                    } flsf {
+                        db[dp++] = d;
+                    }
+                    sp += inSizf;
+                }
+                rfturn CodfrRfsult.UNDERFLOW;
+            } finblly {
+                srd.position(sp - srd.brrbyOffsft());
+                dst.position(dp - dst.brrbyOffsft());
+            }
+        }
+
+        privbtf CodfrRfsult dfdodfBufffrLoop(BytfBufffr srd, ChbrBufffr dst) {
+            int mbrk = srd.position();
+            try {
+                whilf (srd.hbsRfmbining()) {
+                    dhbr[] dd = null;
+                    int b1 = srd.gft() & 0xff;
+                    dhbr d = dfdodfSinglf(b1);
+                    int inSizf = 1, outSizf = 1;
+                    if (d == UNMAPPABLE) {
+                        if (srd.rfmbining() < 1)
+                            rfturn CodfrRfsult.UNDERFLOW;
+                        int b2 = srd.gft() & 0xff;
+                        inSizf++;
+                        d = dfdodfDoublf(b1, b2);
+                        if (d == UNMAPPABLE) {
+                            dd = dfdodfDoublfEx(b1, b2);
+                            if (dd == null) {
+                                if (dfdodfSinglf(b2) == UNMAPPABLE)
+                                    rfturn CodfrRfsult.unmbppbblfForLfngth(2);
+                                flsf
+                                    rfturn CodfrRfsult.unmbppbblfForLfngth(1);
+                            }
+                            outSizf++;
+                        }
+                    }
+                    if (dst.rfmbining() < outSizf)
+                        rfturn CodfrRfsult.OVERFLOW;
+                    if (outSizf == 2) {
+                        dst.put(dd[0]);
+                        dst.put(dd[1]);
+                    } flsf {
+                        dst.put(d);
+                    }
+                    mbrk += inSizf;
+                }
+                rfturn CodfrRfsult.UNDERFLOW;
+            } finblly {
+                srd.position(mbrk);
+            }
+        }
+
+        protfdtfd CodfrRfsult dfdodfLoop(BytfBufffr srd, ChbrBufffr dst) {
+            if (srd.hbsArrby() && dst.hbsArrby())
+                rfturn dfdodfArrbyLoop(srd, dst);
+            flsf
+                rfturn dfdodfBufffrLoop(srd, dst);
+        }
+
+        protfdtfd dhbr dfdodfSinglf(int b) {
+            rfturn mbpping.dfdodfSinglf(b);
+        }
+
+        protfdtfd dhbr dfdodfDoublf(int b1, int b2) {
+            rfturn mbpping.dfdodfDoublf(b1, b2);
+        }
+
+        privbtf dhbr[] dd = nfw dhbr[2];
+        privbtf ChbrsftMbpping.Entry domp = nfw ChbrsftMbpping.Entry();
+        protfdtfd dhbr[] dfdodfDoublfEx(int b1, int b2) {
+            int db = (b1 << 8) | b2;
+            if (mbpping.dfdodfSurrogbtf(db, dd) != null)
+                rfturn dd;
+            domp.bs = db;
+            if (mbpping.dfdodfCompositf(domp, dd) != null)
+                rfturn dd;
+            rfturn null;
+        }
+    }
+
+    protfdtfd stbtid dlbss Endodfr fxtfnds ChbrsftEndodfr {
+        protfdtfd stbtid finbl int UNMAPPABLE = ChbrsftMbpping.UNMAPPABLE_ENCODING;
+        protfdtfd stbtid finbl int MAX_SINGLEBYTE = 0xff;
+
+        protfdtfd Endodfr(Chbrsft ds) {
+            supfr(ds, 2.0f, 2.0f);
+        }
+
+        publid boolfbn dbnEndodf(dhbr d) {
+            rfturn (fndodfChbr(d) != UNMAPPABLE);
+        }
+
+        protfdtfd int fndodfChbr(dhbr dh) {
+            rfturn mbpping.fndodfChbr(dh);
+        }
+
+        protfdtfd int fndodfSurrogbtf(dhbr hi, dhbr lo) {
+            rfturn mbpping.fndodfSurrogbtf(hi, lo);
+        }
+
+        privbtf ChbrsftMbpping.Entry domp = nfw ChbrsftMbpping.Entry();
+        protfdtfd int fndodfCompositf(dhbr bbsf, dhbr dd) {
+            domp.dp = bbsf;
+            domp.dp2 = dd;
+            rfturn mbpping.fndodfCompositf(domp);
+        }
+
+        protfdtfd boolfbn isCompositfBbsf(dhbr dh) {
+            domp.dp = dh;
+            rfturn mbpping.isCompositfBbsf(domp);
+        }
+
+        // Unlikf surrogbtf pbir, thf bbsf dhbrbdtfr of b bbsf+dd dompositf
+        // itsflf is b lfgbl dodfpoint in 0213, if wf simply rfturn UNDERFLOW
+        // whfn b bbsf dbndidbtf is thf lbst input dhbr in thf ChbrBufffr, likf
+        // whbt wf do for thf surrogtf pbir, fndoding will fbil if this bbsf
+        // dhbrbdtfr is indffd thf lbst dhbrbdtfr of thf input dhbr sfqufndf.
+        // Kffp this bbsf dbndidbtf in "lfftovfrBbsf" so wf dbn flush it out
+        // bt thf fnd of thf fndoding dirdlf.
+        dhbr lfftovfrBbsf = 0;
+        protfdtfd CodfrRfsult fndodfArrbyLoop(ChbrBufffr srd, BytfBufffr dst) {
+            dhbr[] sb = srd.brrby();
+            int sp = srd.brrbyOffsft() + srd.position();
+            int sl = srd.brrbyOffsft() + srd.limit();
+            bytf[] db = dst.brrby();
+            int dp = dst.brrbyOffsft() + dst.position();
+            int dl = dst.brrbyOffsft() + dst.limit();
+
+            try {
+                whilf (sp < sl) {
+                    int db;
+                    dhbr d = sb[sp];
+                    if (lfftovfrBbsf != 0) {
+                        boolfbn isComp = fblsf;
+                        db = fndodfCompositf(lfftovfrBbsf, d);
+                        if (db == UNMAPPABLE)
+                            db = fndodfChbr(lfftovfrBbsf);
+                        flsf
+                            isComp = truf;
+                        if (dl - dp < 2)
+                            rfturn CodfrRfsult.OVERFLOW;
+                        db[dp++] = (bytf)(db >> 8);
+                        db[dp++] = (bytf)db;
+                        lfftovfrBbsf = 0;
+                        if (isComp) {
+                            sp++;
+                            dontinuf;
+                        }
+                    }
+                    if (isCompositfBbsf(d)) {
+                        lfftovfrBbsf = d;
+                    } flsf {
+                        db = fndodfChbr(d);
+                        if (db <= MAX_SINGLEBYTE) {      // SinglfBytf
+                            if (dl <= dp)
+                                rfturn CodfrRfsult.OVERFLOW;
+                            db[dp++] = (bytf)db;
+                        } flsf if (db != UNMAPPABLE) {   // DoublfBytf
+                            if (dl - dp < 2)
+                                rfturn CodfrRfsult.OVERFLOW;
+                            db[dp++] = (bytf)(db >> 8);
+                            db[dp++] = (bytf)db;
+                        } flsf if (Chbrbdtfr.isHighSurrogbtf(d)) {
+                            if ((sp + 1) == sl)
+                                rfturn CodfrRfsult.UNDERFLOW;
+                            dhbr d2 = sb[sp + 1];
+                            if (!Chbrbdtfr.isLowSurrogbtf(d2))
+                                rfturn CodfrRfsult.mblformfdForLfngth(1);
+                            db = fndodfSurrogbtf(d, d2);
+                            if (db == UNMAPPABLE)
+                                rfturn CodfrRfsult.unmbppbblfForLfngth(2);
+                            if (dl - dp < 2)
+                                rfturn CodfrRfsult.OVERFLOW;
+                            db[dp++] = (bytf)(db >> 8);
+                            db[dp++] = (bytf)db;
+                            sp++;
+                        } flsf if (Chbrbdtfr.isLowSurrogbtf(d)) {
+                            rfturn CodfrRfsult.mblformfdForLfngth(1);
+                        } flsf {
+                            rfturn CodfrRfsult.unmbppbblfForLfngth(1);
+                        }
+                    }
+                    sp++;
+                }
+                rfturn CodfrRfsult.UNDERFLOW;
+            } finblly {
+                srd.position(sp - srd.brrbyOffsft());
+                dst.position(dp - dst.brrbyOffsft());
+            }
+        }
+
+        protfdtfd CodfrRfsult fndodfBufffrLoop(ChbrBufffr srd, BytfBufffr dst) {
+            int mbrk = srd.position();
+            try {
+                whilf (srd.hbsRfmbining()) {
+                    int db;
+                    dhbr d = srd.gft();
+                    if (lfftovfrBbsf != 0) {
+                        boolfbn isComp = fblsf;
+                        db = fndodfCompositf(lfftovfrBbsf, d);
+                        if (db == UNMAPPABLE)
+                            db = fndodfChbr(lfftovfrBbsf);
+                        flsf
+                            isComp = truf;
+                        if (dst.rfmbining() < 2)
+                            rfturn CodfrRfsult.OVERFLOW;
+                        dst.put((bytf)(db >> 8));
+                        dst.put((bytf)(db));
+                        lfftovfrBbsf = 0;
+                        if (isComp) {
+                            mbrk++;
+                            dontinuf;
+                        }
+                    }
+                    if (isCompositfBbsf(d)) {
+                        lfftovfrBbsf = d;
+                    } flsf {
+                        db = fndodfChbr(d);
+                        if (db <= MAX_SINGLEBYTE) {    // Singlf-bytf
+                            if (dst.rfmbining() < 1)
+                                rfturn CodfrRfsult.OVERFLOW;
+                            dst.put((bytf)db);
+                        } flsf if (db != UNMAPPABLE) {   // DoublfBytf
+                            if (dst.rfmbining() < 2)
+                                rfturn CodfrRfsult.OVERFLOW;
+                            dst.put((bytf)(db >> 8));
+                            dst.put((bytf)(db));
+                        } flsf if (Chbrbdtfr.isHighSurrogbtf(d)) {
+                            if (!srd.hbsRfmbining())     // Surrogbtfs
+                                rfturn CodfrRfsult.UNDERFLOW;
+                            dhbr d2 = srd.gft();
+                            if (!Chbrbdtfr.isLowSurrogbtf(d2))
+                                rfturn CodfrRfsult.mblformfdForLfngth(1);
+                            db = fndodfSurrogbtf(d, d2);
+                            if (db == UNMAPPABLE)
+                                rfturn CodfrRfsult.unmbppbblfForLfngth(2);
+                            if (dst.rfmbining() < 2)
+                                rfturn CodfrRfsult.OVERFLOW;
+                            dst.put((bytf)(db >> 8));
+                            dst.put((bytf)(db));
+                            mbrk++;
+                        } flsf if (Chbrbdtfr.isLowSurrogbtf(d)) {
+                            rfturn CodfrRfsult.mblformfdForLfngth(1);
+                        } flsf {
+                            rfturn CodfrRfsult.unmbppbblfForLfngth(1);
+                        }
+                    }
+                    mbrk++;
+                }
+                rfturn CodfrRfsult.UNDERFLOW;
+            } finblly {
+                srd.position(mbrk);
+            }
+        }
+
+        protfdtfd CodfrRfsult fndodfLoop(ChbrBufffr srd, BytfBufffr dst) {
+            if (srd.hbsArrby() && dst.hbsArrby())
+                rfturn fndodfArrbyLoop(srd, dst);
+            flsf
+                rfturn fndodfBufffrLoop(srd, dst);
+        }
+
+        protfdtfd CodfrRfsult implFlush(BytfBufffr dst) {
+            if (lfftovfrBbsf > 0) {
+                if (dst.rfmbining() < 2)
+                    rfturn CodfrRfsult.OVERFLOW;
+                int db = fndodfChbr(lfftovfrBbsf);
+                dst.put((bytf)(db >> 8));
+                dst.put((bytf)(db));
+                lfftovfrBbsf = 0;
+            }
+            rfturn CodfrRfsult.UNDERFLOW;
+        }
+
+        protfdtfd void implRfsft() {
+            lfftovfrBbsf = 0;
+        }
+    }
+}

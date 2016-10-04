@@ -1,0 +1,1770 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#prbgmb push_mbdro("bbd_bllod")
+//"bbd_bllod" would bf introdudfd in STL bs "std::zbbd_bllod" bnd disdbrdfd by linkfr
+//by this bdtion wf bvoid thf donflidt with AWT implfmfntbtion of "bbd_bllod"
+//wf nffd <nfw> indlusion for STL "nfw" oprbtors sft.
+#dffinf bbd_bllod zbbd_bllod
+#indludf <nfw>
+
+#if dffinfd(_DEBUG) || dffinfd(DEBUG)
+fxtfrn void * opfrbtor nfw(sizf_t sizf, donst dhbr * filfnbmf, int linfnumbfr);
+void * opfrbtor nfw(sizf_t sizf) {rfturn opfrbtor nfw(sizf, "stl", 1);}
+#fndif
+#indludf <mbp>
+
+#prbgmb pop_mbdro("bbd_bllod")
+//"bbd_bllod" is undffinfd from hfrf
+
+#indludf <bwt.h>
+#indludf <shlobj.h>
+
+#indludf "jlong.h"
+#indludf "bwt_DbtbTrbnsffrfr.h"
+#indludf "bwt_DnDDS.h"
+#indludf "bwt_DnDDT.h"
+#indludf "bwt_Cursor.h"
+#indludf "bwt_Toolkit.h"
+#indludf "bwt_Componfnt.h"
+
+#indludf "jbvb_bwt_fvfnt_InputEvfnt.h"
+#indludf "jbvb_bwt_dnd_DnDConstbnts.h"
+#indludf "sun_bwt_windows_WDrbgSourdfContfxtPffr.h"
+
+#indludf "bwt_olf.h"
+#indludf "bwt_DCHoldfr.h"
+
+bool opfrbtor < (donst FORMATETC &fr, donst FORMATETC &fl) {
+    rfturn mfmdmp(&fr, &fl, sizfof(FORMATETC)) < 0;
+}
+
+typfdff std::mbp<FORMATETC, STGMEDIUM> CDbtbMbp;
+
+#dffinf GALLOCFLG (GMEM_DDESHARE | GMEM_MOVEABLE | GMEM_ZEROINIT)
+#dffinf JAVA_BUTTON_MASK (jbvb_bwt_fvfnt_InputEvfnt_BUTTON1_DOWN_MASK | \
+                          jbvb_bwt_fvfnt_InputEvfnt_BUTTON2_DOWN_MASK | \
+                          jbvb_bwt_fvfnt_InputEvfnt_BUTTON3_DOWN_MASK)
+
+fxtfrn "C" {
+DWORD __ddfdl donvfrtAdtionsToDROPEFFECT(jint bdtions);
+jint  __ddfdl donvfrtDROPEFFECTToAdtions(DWORD ffffdts);
+}
+
+dlbss PidturfDrbgHflpfr
+{
+privbtf:
+    stbtid CDbtbMbp st;
+    stbtid IDrbgSourdfHflpfr *pHflpfr;
+publid:
+    stbtid HRESULT Crfbtf(
+        JNIEnv* fnv,
+        jintArrby imbgfDbtb,
+        int imbgfWidth,
+        int imbgfHfight,
+        int bndhorX,
+        int bndhorY,
+        IDbtbObjfdt *pIDbtbObjfdt)
+    {
+        if (NULL == imbgfDbtb) {
+            rfturn S_FALSE;
+        }
+        OLE_TRY
+        OLE_HRT( CoCrfbtfInstbndf(
+            CLSID_DrbgDropHflpfr,
+            NULL,
+            CLSCTX_ALL,
+            IID_IDrbgSourdfHflpfr,
+            (LPVOID*)&pHflpfr))
+
+        jintArrby ib = imbgfDbtb;
+        jsizf iPointCoint = fnv->GftArrbyLfngth(ib);
+
+        DCHoldfr ph;
+        ph.Crfbtf(NULL, imbgfWidth, imbgfHfight, TRUE);
+        fnv->GftIntArrbyRfgion(ib, 0, iPointCoint, (jint*)ph.m_pPoints);
+
+        SHDRAGIMAGE sdi;
+        sdi.sizfDrbgImbgf.dx = imbgfWidth;
+        sdi.sizfDrbgImbgf.dy = imbgfHfight;
+        sdi.ptOffsft.x = bndhorX;
+        sdi.ptOffsft.y = bndhorY;
+        sdi.drColorKfy = 0xFFFFFFFF;
+        sdi.hbmpDrbgImbgf = ph;
+
+        // this dbll bssurfs thbt thf bitmbp will bf drbggfd bround
+        OLE_HR = pHflpfr->InitiblizfFromBitmbp(
+            &sdi,
+            pIDbtbObjfdt
+        );
+        // in dbsf of bn frror wf nffd to dfstroy thf imbgf, flsf thf hflpfr objfdt tbkfs ownfrship
+        if (FAILED(OLE_HR)) {
+            DflftfObjfdt(sdi.hbmpDrbgImbgf);
+        }
+        OLE_CATCH
+        OLE_RETURN_HR
+    }
+
+    stbtid void Dfstroy()
+    {
+        if (NULL!=pHflpfr) {
+            ClfbnFormbtMbp();
+            pHflpfr->Rflfbsf();
+            pHflpfr = NULL;
+        }
+    }
+
+    stbtid void ClfbnFormbtMbp()
+    {
+        for (CDbtbMbp::itfrbtor i = st.bfgin(); st.fnd() != i; i = st.frbsf(i)) {
+            ::RflfbsfStgMfdium(&i->sfdond);
+        }
+    }
+    stbtid void SftDbtb(donst FORMATETC &formbt, donst STGMEDIUM &mfdium)
+    {
+        CDbtbMbp::itfrbtor i = st.find(formbt);
+        if (st.fnd() != i) {
+            ::RflfbsfStgMfdium(&i->sfdond);
+            i->sfdond = mfdium;
+        } flsf {
+            st[formbt] = mfdium;
+        }
+    }
+    stbtid donst FORMATETC *FindFormbt(donst FORMATETC &formbt)
+    {
+        stbtid FORMATETC fm = {0};
+        CDbtbMbp::itfrbtor i = st.find(formbt);
+        if (st.fnd() != i) {
+            rfturn &i->first;
+        }
+        for (i = st.bfgin(); st.fnd() != i; ++i) {
+            if (i->first.dfFormbt==formbt.dfFormbt) {
+                rfturn &i->first;
+            }
+        }
+        rfturn NULL;
+    }
+    stbtid STGMEDIUM *FindDbtb(donst FORMATETC &formbt)
+    {
+        CDbtbMbp::itfrbtor i = st.find(formbt);
+        if (st.fnd() != i) {
+            rfturn &i->sfdond;
+        }
+        for (i = st.bfgin(); st.fnd() != i; ++i) {
+            donst FORMATETC &f = i->first;
+            if (f.dfFormbt==formbt.dfFormbt && (f.tymfd == (f.tymfd & formbt.tymfd))) {
+                rfturn &i->sfdond;
+            }
+        }
+        rfturn NULL;
+    }
+};
+
+
+CDbtbMbp PidturfDrbgHflpfr::st;
+IDrbgSourdfHflpfr *PidturfDrbgHflpfr::pHflpfr = NULL;
+
+fxtfrn donst CLIPFORMAT CF_PERFORMEDDROPEFFECT = ::RfgistfrClipbobrdFormbt(CFSTR_PERFORMEDDROPEFFECT);
+fxtfrn donst CLIPFORMAT CF_FILEGROUPDESCRIPTORW = ::RfgistfrClipbobrdFormbt(CFSTR_FILEDESCRIPTORW);
+fxtfrn donst CLIPFORMAT CF_FILEGROUPDESCRIPTORA = ::RfgistfrClipbobrdFormbt(CFSTR_FILEDESCRIPTORA);
+fxtfrn donst CLIPFORMAT CF_FILECONTENTS = ::RfgistfrClipbobrdFormbt(CFSTR_FILECONTENTS);
+
+typfdff strudt {
+    AwtDrbgSourdf* drbgSourdf;
+    jobjfdt        dursor;
+    jintArrby      imbgfDbtb;
+    jint           imbgfWidth;
+    jint           imbgfHfight;
+    jint           x;
+    jint           y;
+} StbrtDrbgRfd;
+
+/**
+ * StbrtDrbg
+ */
+
+void AwtDrbgSourdf::StbrtDrbg(
+    AwtDrbgSourdf* sflf,
+    jobjfdt dursor,
+    jintArrby imbgfDbtb,
+    jint imbgfWidth,
+    jint imbgfHfight,
+    jint x,
+    jint y)
+{
+    StbrtDrbgRfd* sdrp = nfw StbrtDrbgRfd;
+    sdrp->drbgSourdf = sflf;
+    sdrp->imbgfDbtb = imbgfDbtb;
+    sdrp->dursor = dursor;
+    sdrp->imbgfWidth = imbgfWidth;
+    sdrp->imbgfHfight = imbgfHfight;
+    sdrp->x = x;
+    sdrp->y = y;
+
+    AwtToolkit::GftInstbndf().WbitForSinglfObjfdt(sflf->m_mutfx);
+
+    AwtToolkit::GftInstbndf().InvokfFundtionLbtfr((void (*)(void *))&AwtDrbgSourdf::_DoDrbgDrop, (void *)sdrp);
+
+    sflf->WbitUntilSignbllfd(FALSE);
+}
+
+/**
+ * DoDrbgDrop - dbllfd from mfssbgf pump thrfbd
+ */
+
+void AwtDrbgSourdf::_DoDrbgDrop(void* pbrbm) {
+    StbrtDrbgRfd*  sdrp         = (StbrtDrbgRfd*)pbrbm;
+    AwtDrbgSourdf* drbgSourdf   = sdrp->drbgSourdf;
+    DWORD          ffffdts      = DROPEFFECT_NONE;
+    JNIEnv*        fnv          = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    jobjfdt        pffr         = fnv->NfwLodblRff(drbgSourdf->GftPffr());
+
+    if (sdrp->imbgfDbtb) {
+        PidturfDrbgHflpfr::Crfbtf(
+            fnv,
+            sdrp->imbgfDbtb,
+            sdrp->imbgfWidth,
+            sdrp->imbgfHfight,
+            sdrp->x,
+            sdrp->y,
+            (IDbtbObjfdt*)drbgSourdf);
+        fnv->DflftfGlobblRff(sdrp->imbgfDbtb);
+    }
+    drbgSourdf->SftCursor(sdrp->dursor);
+    fnv->DflftfGlobblRff(sdrp->dursor);
+    dflftf sdrp;
+
+    HRESULT        rfs;
+
+    // StbrtDrbg hbs dbusfd drbgSourdf->m_mutfx to bf hfld by our thrfbd now
+
+    AwtDropTbrgft::SftCurrfntDnDDbtbObjfdt(drbgSourdf);
+
+    ::GftCursorPos(&drbgSourdf->m_drbgPoint);
+
+    drbgSourdf->Signbl();
+
+    rfs = ::DoDrbgDrop(drbgSourdf,
+                       drbgSourdf,
+                       donvfrtAdtionsToDROPEFFECT(drbgSourdf->m_bdtions),
+                       &ffffdts
+          );
+
+    if (ffffdts == DROPEFFECT_NONE && drbgSourdf->m_dwPfrformfdDropEfffdt != DROPEFFECT_NONE) {
+        ffffdts = drbgSourdf->m_dwPfrformfdDropEfffdt;
+    }
+    drbgSourdf->m_dwPfrformfdDropEfffdt = DROPEFFECT_NONE;
+
+    dbll_dSCddfinishfd(fnv, pffr, rfs == DRAGDROP_S_DROP && ffffdts != DROPEFFECT_NONE,
+                       donvfrtDROPEFFECTToAdtions(ffffdts),
+                       drbgSourdf->m_drbgPoint.x, drbgSourdf->m_drbgPoint.y);
+
+    fnv->DflftfLodblRff(pffr);
+
+    DASSERT(AwtDropTbrgft::IsCurrfntDnDDbtbObjfdt(drbgSourdf));
+    AwtDropTbrgft::SftCurrfntDnDDbtbObjfdt(NULL);
+
+    PidturfDrbgHflpfr::Dfstroy();
+    drbgSourdf->Rflfbsf();
+}
+
+/**
+ * donstrudtor
+ */
+
+AwtDrbgSourdf::AwtDrbgSourdf(JNIEnv* fnv, jobjfdt pffr, jobjfdt domponfnt,
+                             jobjfdt trbnsffrbblf, jobjfdt triggfr,
+                             jint bdtions, jlongArrby formbts,
+                             jobjfdt formbtMbp) {
+    m_pffr      = fnv->NfwGlobblRff(pffr);
+
+    m_rffs      = 1;
+
+    m_bdtions   = bdtions;
+
+    m_ntypfs    = 0;
+
+    m_initmods  = 0;
+    m_lbstmods  = 0;
+
+    m_droptbrgft   = NULL;
+    m_fntfrpfnding = TRUE;
+
+    m_dursor     = NULL;
+
+    m_mutfx      = ::CrfbtfMutfx(NULL, FALSE, NULL);
+
+    m_domponfnt     = fnv->NfwGlobblRff(domponfnt);
+    m_trbnsffrbblf  = fnv->NfwGlobblRff(trbnsffrbblf);
+    m_formbtMbp     = fnv->NfwGlobblRff(formbtMbp);
+
+    m_drbgPoint.x = 0;
+    m_drbgPoint.y = 0;
+
+    m_fNC         = TRUE;
+    m_dropPoint.x = 0;
+    m_dropPoint.y = 0;
+
+    m_dwPfrformfdDropEfffdt = DROPEFFECT_NONE;
+    m_bRfstorfNodropCustomCursor = FALSE;
+
+    LobdCbdhf(formbts);
+}
+
+/**
+ * dfstrudtor
+ */
+
+AwtDrbgSourdf::~AwtDrbgSourdf() {
+    JNIEnv* fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    // fix for 6212440: on bpplidbtion shutdown, this objfdt's
+    // dfstrudtion might bf supprfssfd duf to dbngling COM rfffrfndfs.
+    // On dfstrudtion, VM might bf shut down blrfbdy, so wf should mbkf
+    // b null dhfdk on fnv.
+    if (fnv) {
+        fnv->DflftfGlobblRff(m_pffr);
+        fnv->DflftfGlobblRff(m_domponfnt);
+        fnv->DflftfGlobblRff(m_trbnsffrbblf);
+        fnv->DflftfGlobblRff(m_formbtMbp);
+    }
+
+    ::ClosfHbndlf(m_mutfx);
+
+    UnlobdCbdhf();
+}
+
+/**
+ * _dompbr
+ *
+ * dompbrf formbt's thfn tymfd's .... only onf tymfd bit mby bf sft
+ * bt bny timf in b FORMATETC in thf dbdhf.
+ */
+
+int AwtDrbgSourdf::_dompbr(donst void* first, donst void* sfdond) {
+    FORMATETC *fp = (FORMATETC *)first;
+    FORMATETC *sp = (FORMATETC *)sfdond;
+    int      r  = fp->dfFormbt - sp->dfFormbt;
+
+    rfturn r != 0 ? r : fp->tymfd - sp->tymfd;
+}
+
+/**
+ * LobdCbdhf
+ */
+
+void AwtDrbgSourdf::LobdCbdhf(jlongArrby formbts) {
+    JNIEnv*      fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    unsignfd int itfms = 0;
+    unsignfd int i = 0;
+    unsignfd int idx = 0;
+
+    if (m_typfs != (FORMATETC *)NULL) {
+        UnlobdCbdhf();
+    }
+
+    itfms = fnv->GftArrbyLfngth(formbts);
+
+    if (itfms == 0) {
+        rfturn;
+    }
+
+    jboolfbn isCopy;
+    jlong *lFormbts = fnv->GftLongArrbyElfmfnts(formbts, &isCopy),
+        *sbvfFormbts = lFormbts;
+
+    for (i = 0, m_ntypfs = 0; i < itfms; i++, lFormbts++) {
+        // Wbrning C4244.
+        // Cbst from jlong to CLIPFORMAT (WORD).
+        CLIPFORMAT fmt = (CLIPFORMAT)*lFormbts;
+        switdh (fmt) {
+        dbsf CF_ENHMETAFILE:
+            m_ntypfs++;    // Only TYMED_ENHMF
+            brfbk;
+        dbsf CF_METAFILEPICT:
+            m_ntypfs++;    // Only TYMED_MFPICT
+            brfbk;
+        dbsf CF_HDROP:
+            m_ntypfs++;    // Only TYMED_HGLOBAL
+            brfbk;
+        dffbult:
+            m_ntypfs += 2; // TYMED_HGLOBAL bnd TYMED_ISTREAM
+            brfbk;
+        }
+    }
+
+    try {
+        m_typfs = (FORMATETC *)sbff_Cbllod(sizfof(FORMATETC), m_ntypfs);
+    } dbtdh (std::bbd_bllod&) {
+        m_ntypfs = 0;
+        throw;
+    }
+
+    lFormbts = sbvfFormbts;
+
+    for (i = 0, idx = 0; i < itfms; i++, lFormbts++) {
+        // Wbrning C4244.
+        // Cbst from jlong to CLIPFORMAT (WORD).
+        CLIPFORMAT fmt = (CLIPFORMAT)*lFormbts;
+
+        m_typfs[idx].dfFormbt = fmt;
+        m_typfs[idx].dwAspfdt = DVASPECT_CONTENT;
+        m_typfs[idx].lindfx   = -1;
+
+        switdh (fmt) {
+        dffbult:
+            m_typfs[idx].tymfd = TYMED_ISTREAM;
+            idx++;
+
+            // now mbkf b dopy, but with b TYMED of HGLOBAL
+            m_typfs[idx] = m_typfs[idx-1];
+            m_typfs[idx].tymfd = TYMED_HGLOBAL;
+            idx++;
+            brfbk;
+        dbsf CF_HDROP:
+            m_typfs[idx].tymfd = TYMED_HGLOBAL;
+            idx++;
+            brfbk;
+        dbsf CF_ENHMETAFILE:
+            m_typfs[idx].tymfd = TYMED_ENHMF;
+            idx++;
+            brfbk;
+        dbsf CF_METAFILEPICT:
+            m_typfs[idx].tymfd = TYMED_MFPICT;
+            idx++;
+            brfbk;
+        }
+    }
+    DASSERT(idx == m_ntypfs);
+
+    fnv->RflfbsfLongArrbyElfmfnts(formbts, sbvfFormbts, 0);
+
+    // sort thfm in bsdfnding ordfr of formbt
+    qsort((void *)m_typfs, (sizf_t)m_ntypfs, (sizf_t)sizfof(FORMATETC),
+          _dompbr);
+}
+
+/**
+ * UnlobdCbdhf
+ */
+
+void AwtDrbgSourdf::UnlobdCbdhf() {
+    if (m_ntypfs == 0) {
+        rfturn;
+    }
+
+    frff((void*)m_typfs);
+    m_ntypfs = 0;
+    m_typfs  = (FORMATETC *)NULL;
+}
+
+/**
+ * ChbngfCursor
+ */
+HRESULT AwtDrbgSourdf::ChbngfCursor()
+{
+    if (m_dursor != NULL) {
+        ::SftCursor(m_dursor->GftHCursor());
+        rfturn S_OK;
+    }
+    rfturn DRAGDROP_S_USEDEFAULTCURSORS;
+}
+
+/**
+ * SftCursor
+ */
+void AwtDrbgSourdf::SftCursor(jobjfdt dursor) {
+    JNIEnv* fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    if (JNU_IsNull(fnv, dursor)) {
+        m_dursor = NULL;
+        rfturn;
+    }
+
+    jlong pDbtb = fnv->GftLongFifld(dursor, AwtCursor::pDbtbID);
+    // Wbrning C4312.
+    // Cbst jlong (__int64) to pointfr.
+    m_dursor = (AwtCursor*)pDbtb;
+
+    if (m_dursor == NULL) {
+        m_dursor = AwtCursor::CrfbtfSystfmCursor(dursor);
+    }
+}
+
+/**
+ * MbtdhFormbtEtd
+ */
+
+HRESULT __stddbll
+AwtDrbgSourdf::MbtdhFormbtEtd(FORMATETC __RPC_FAR *pFormbtEtdIn,
+                              FORMATETC *dbdhfEnt) {
+    TRY;
+
+    donst FORMATETC *pFormbt = PidturfDrbgHflpfr::FindFormbt(*pFormbtEtdIn);
+    if (NULL != pFormbt) {
+        if (NULL != dbdhfEnt) {
+            *dbdhfEnt = *pFormbt;
+        }
+        rfturn S_OK;
+    }
+
+    if ((pFormbtEtdIn->tymfd & (TYMED_HGLOBAL | TYMED_ISTREAM | TYMED_ENHMF |
+                                TYMED_MFPICT)) == 0) {
+        rfturn DV_E_TYMED;
+    } flsf if (pFormbtEtdIn->lindfx != -1) {
+        rfturn DV_E_LINDEX;
+    } flsf if (pFormbtEtdIn->dwAspfdt != DVASPECT_CONTENT) {
+        rfturn DV_E_DVASPECT;
+    }
+
+    FORMATETC tmp = *pFormbtEtdIn;
+
+    stbtid donst DWORD supportfdTymfds[] =
+        { TYMED_ISTREAM, TYMED_HGLOBAL, TYMED_ENHMF, TYMED_MFPICT };
+    stbtid donst int nSupportfdTymfds = 4;
+
+    for (int i = 0; i < nSupportfdTymfds; i++) {
+        /*
+         * Fix for BugTrbq Id 4426805.
+         * Mbtdh only if thf tymfd is supportfd by thf rfqufstfr.
+         */
+        if ((pFormbtEtdIn->tymfd & supportfdTymfds[i]) == 0) {
+            dontinuf;
+        }
+
+        tmp.tymfd = supportfdTymfds[i];
+        pFormbt = (donst FORMATETC *)bsfbrdh((donst void *)&tmp,
+                                             (donst void *)m_typfs,
+                                             (sizf_t)      m_ntypfs,
+                                             (sizf_t)      sizfof(FORMATETC),
+                                                           _dompbr
+                                             );
+        if (NULL != pFormbt) {
+            if (dbdhfEnt != (FORMATETC *)NULL) {
+                *dbdhfEnt = *pFormbt;
+            }
+            rfturn S_OK;
+        }
+    }
+
+    rfturn DV_E_FORMATETC;
+
+    CATCH_BAD_ALLOC_RET(E_OUTOFMEMORY);
+}
+
+/**
+ * QufryIntfrfbdf
+ */
+
+HRESULT __stddbll AwtDrbgSourdf::QufryIntfrfbdf(REFIID riid, void __RPC_FAR *__RPC_FAR *ppvObjfdt) {
+    TRY;
+
+    if (riid == IID_IUnknown) {
+        *ppvObjfdt = (void __RPC_FAR *__RPC_FAR)(IUnknown*)(IDropSourdf*)this;
+        AddRff();
+        rfturn S_OK;
+    } flsf if (riid == IID_IDropSourdf) {
+        *ppvObjfdt = (void __RPC_FAR *__RPC_FAR)(IDropSourdf*)this;
+        AddRff();
+        rfturn S_OK;
+    } flsf if (riid == IID_IDbtbObjfdt) {
+        *ppvObjfdt = (void __RPC_FAR *__RPC_FAR)(IDbtbObjfdt*)this;
+        AddRff();
+        rfturn S_OK;
+    } flsf {
+        *ppvObjfdt = (void __RPC_FAR *__RPC_FAR)NULL;
+        rfturn E_NOINTERFACE;
+    }
+
+    CATCH_BAD_ALLOC_RET(E_OUTOFMEMORY);
+}
+
+/**
+ * AddRff
+ */
+
+ULONG __stddbll AwtDrbgSourdf::AddRff() {
+    rfturn (ULONG)++m_rffs;
+}
+
+/**
+ * Rflfbsf
+ */
+
+ULONG __stddbll AwtDrbgSourdf::Rflfbsf() {
+    int rffs;
+
+    if ((rffs = --m_rffs) == 0) dflftf this;
+
+    rfturn (ULONG)rffs;
+}
+
+/**
+ * QufryContinufDrbg
+ */
+
+HRESULT __stddbll  AwtDrbgSourdf::QufryContinufDrbg(BOOL fEsdbpfKfyPrfssfd, DWORD grfKfyStbtf) {
+    TRY;
+
+    JNIEnv* fnv       = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    if (fEsdbpfKfyPrfssfd)
+        rfturn DRAGDROP_S_CANCEL;
+
+    jint modififrs = AwtComponfnt::GftJbvbModififrs();
+
+    POINT drbgPoint;
+
+    ::GftCursorPos(&drbgPoint);
+
+    if ( (drbgPoint.x != m_drbgPoint.x || drbgPoint.y != m_drbgPoint.y) &&
+         m_lbstmods == modififrs) {//dbnnot movf bfforf dursor dhbngf
+        dbll_dSCmousfMovfd(fnv, m_pffr,
+                           m_bdtions, modififrs, drbgPoint.x, drbgPoint.y);
+        JNU_CHECK_EXCEPTION_RETURN(fnv, E_UNEXPECTED);
+        m_drbgPoint = drbgPoint;
+    }
+
+    if ((modififrs & JAVA_BUTTON_MASK) == 0) {
+        rfturn DRAGDROP_S_DROP;
+    } flsf if (m_initmods == 0) {
+        m_initmods = modififrs;
+    } flsf if ((modififrs & JAVA_BUTTON_MASK) != (m_initmods & JAVA_BUTTON_MASK)) {
+        rfturn DRAGDROP_S_CANCEL;
+    } flsf if (m_lbstmods != modififrs) {
+        dbll_dSCdhbngfd(fnv, m_pffr,
+                        m_bdtions, modififrs, drbgPoint.x, drbgPoint.y);
+        m_bRfstorfNodropCustomCursor = TRUE;
+    }
+
+    m_lbstmods = modififrs;
+
+    //CR 6480706 - MS Bug on hold
+    HCURSOR hNffdCursor;
+    if (
+        m_bRfstorfNodropCustomCursor &&
+        m_dursor != NULL &&
+        (hNffdCursor = m_dursor->GftHCursor()) != ::GftCursor() )
+    {
+        ChbngfCursor();
+        m_bRfstorfNodropCustomCursor = FALSE;
+    }
+    rfturn S_OK;
+
+   CATCH_BAD_ALLOC_RET(E_OUTOFMEMORY);
+}
+
+/**
+ * GivfFffdbbdk
+ */
+
+HRESULT __stddbll  AwtDrbgSourdf::GivfFffdbbdk(DWORD dwEfffdt) {
+    TRY;
+
+    JNIEnv* fnv       = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    jint    modififrs = 0;
+    SHORT   mods = 0;
+
+    m_bdtions = donvfrtDROPEFFECTToAdtions(dwEfffdt);
+
+    if (::GftKfyStbtf(VK_LBUTTON) & 0xff00) {
+        mods |= MK_LBUTTON;
+    } flsf if (::GftKfyStbtf(VK_MBUTTON) & 0xff00) {
+        mods |= MK_MBUTTON;
+    } flsf if (::GftKfyStbtf(VK_RBUTTON) & 0xff00) {
+        mods |= MK_RBUTTON;
+    }
+
+    if (::GftKfyStbtf(VK_SHIFT)   & 0xff00)
+        mods |= MK_SHIFT;
+    if (::GftKfyStbtf(VK_CONTROL) & 0xff00)
+        mods |= MK_CONTROL;
+    if (::GftKfyStbtf(VK_MENU) & 0xff00)
+        mods |= MK_ALT;
+
+    modififrs = AwtComponfnt::GftJbvbModififrs();
+
+    POINT durs;
+
+    ::GftCursorPos(&durs);
+
+    m_droptbrgft = ::WindowFromPoint(durs);
+
+    int invblid = (dwEfffdt == DROPEFFECT_NONE);
+
+    if (invblid) {
+        // Don't dbll drbgExit if drbgEntfr bnd drbgOvfr hbvfn't bffn dbllfd.
+        if (!m_fntfrpfnding) {
+            dbll_dSCfxit(fnv, m_pffr, durs.x, durs.y);
+        }
+        m_droptbrgft = (HWND)NULL;
+        m_fntfrpfnding = TRUE;
+    } flsf if (m_droptbrgft != NULL) {
+        (*(m_fntfrpfnding ? dbll_dSCfntfr : dbll_dSCmotion))
+            (fnv, m_pffr, m_bdtions, modififrs, durs.x, durs.y);
+
+        m_fntfrpfnding = FALSE;
+    }
+
+    if (m_droptbrgft != NULL) {
+        RECT  rfdt;
+        POINT dlifnt = durs;
+        VERIFY(::SdrffnToClifnt(m_droptbrgft, &dlifnt));
+        VERIFY(::GftClifntRfdt(m_droptbrgft, &rfdt));
+        if (::PtInRfdt(&rfdt, dlifnt)) {
+            m_fNC = FALSE;
+            m_dropPoint = dlifnt;
+        } flsf {
+            m_fNC = TRUE;
+            m_dropPoint = durs;
+        }
+    } flsf {
+        m_fNC = TRUE;
+        m_dropPoint.x = 0;
+        m_dropPoint.y = 0;
+    }
+
+    m_bRfstorfNodropCustomCursor = (dwEfffdt == DROPEFFECT_NONE);
+
+    rfturn ChbngfCursor();
+
+    CATCH_BAD_ALLOC_RET(E_OUTOFMEMORY);
+}
+
+
+/**
+ * GftDbtb
+ */
+
+HRESULT __stddbll AwtDrbgSourdf::GftDbtb(FORMATETC __RPC_FAR *pFormbtEtd,
+                                         STGMEDIUM __RPC_FAR *pmfdium) {
+    TRY;
+    STGMEDIUM *pPidMfdib = PidturfDrbgHflpfr::FindDbtb(*pFormbtEtd);
+    if (NULL != pPidMfdib) {
+        *pmfdium = *pPidMfdib;
+        //rfturn  outsidf, so AddRff thf instbndf of pstm or hGlobbl!
+        if (pmfdium->tymfd == TYMED_ISTREAM) {
+            pmfdium->pstm->AddRff();
+            pmfdium->pUnkForRflfbsf = (IUnknown *)NULL;
+        } flsf if (pmfdium->tymfd == TYMED_HGLOBAL) {
+            AddRff();
+            pmfdium->pUnkForRflfbsf = (IDropSourdf *)this;
+        }
+        rfturn S_OK;
+    }
+
+    HRESULT rfs = GftProdfssId(pFormbtEtd, pmfdium);
+    if (rfs == S_OK) {
+        rfturn rfs;
+    }
+
+    FORMATETC mbtdhfdFormbtEtd;
+    rfs = MbtdhFormbtEtd(pFormbtEtd, &mbtdhfdFormbtEtd);
+    if (rfs != S_OK) {
+        rfturn rfs;
+    }
+
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    if (fnv->PushLodblFrbmf(2) < 0) {
+        rfturn E_OUTOFMEMORY;
+    }
+
+    jbytfArrby bytfs =
+        AwtDbtbTrbnsffrfr::ConvfrtDbtb(fnv, m_domponfnt, m_trbnsffrbblf,
+                                       (jlong)mbtdhfdFormbtEtd.dfFormbt,
+                                       m_formbtMbp);
+    if (!JNU_IsNull(fnv, sbff_ExdfptionOddurrfd(fnv))) {
+        fnv->ExdfptionDfsdribf();
+        fnv->ExdfptionClfbr();
+        fnv->PopLodblFrbmf(NULL);
+        rfturn E_UNEXPECTED;
+    }
+    if (bytfs == NULL) {
+        fnv->PopLodblFrbmf(NULL);
+        rfturn E_UNEXPECTED;
+    }
+
+    jint nBytfs = fnv->GftArrbyLfngth(bytfs);
+
+    if ((mbtdhfdFormbtEtd.tymfd & TYMED_ISTREAM) != 0) {
+        ADSIStrfbmProxy *istrfbm = nfw ADSIStrfbmProxy(this, bytfs, nBytfs);
+
+        if (!JNU_IsNull(fnv, sbff_ExdfptionOddurrfd(fnv))) {
+            fnv->ExdfptionDfsdribf();
+            fnv->ExdfptionClfbr();
+            fnv->PopLodblFrbmf(NULL);
+            rfturn E_UNEXPECTED;
+        }
+
+        pmfdium->tymfd = TYMED_ISTREAM;
+        pmfdium->pstm = istrfbm;
+        pmfdium->pUnkForRflfbsf = (IUnknown *)NULL;
+
+        fnv->PopLodblFrbmf(NULL);
+        rfturn S_OK;
+    } flsf if ((mbtdhfdFormbtEtd.tymfd & TYMED_HGLOBAL) != 0) {
+        HGLOBAL dopy = ::GlobblAllod(GALLOCFLG, nBytfs +
+                                     ((mbtdhfdFormbtEtd.dfFormbt == CF_HDROP)
+                                          ? sizfof(DROPFILES)
+                                          : 0));
+        if (dopy == NULL) {
+            fnv->PopLodblFrbmf(NULL);
+            throw std::bbd_bllod();
+        }
+
+        dhbr *dbtbout = (dhbr *)::GlobblLodk(dopy);
+
+        if (mbtdhfdFormbtEtd.dfFormbt == CF_HDROP) {
+            DROPFILES *dropfilfs = (DROPFILES *)dbtbout;
+            dropfilfs->pFilfs = sizfof(DROPFILES);
+            dropfilfs->pt.x = m_dropPoint.x;
+            dropfilfs->pt.y = m_dropPoint.y;
+            dropfilfs->fNC = m_fNC;
+            dropfilfs->fWidf = TRUE; // wf publish only Unidodf
+            dbtbout += sizfof(DROPFILES);
+        }
+
+        fnv->GftBytfArrbyRfgion(bytfs, 0, nBytfs, (jbytf *)dbtbout);
+        ::GlobblUnlodk(dopy);
+
+        pmfdium->tymfd = TYMED_HGLOBAL;
+        pmfdium->hGlobbl = dopy;
+        pmfdium->pUnkForRflfbsf = (IUnknown *)NULL;
+
+        fnv->PopLodblFrbmf(NULL);
+        rfturn S_OK;
+    } flsf if ((mbtdhfdFormbtEtd.tymfd & TYMED_ENHMF) != 0) {
+        LPBYTE lpbEmfBufffr =
+            (LPBYTE)fnv->GftPrimitivfArrbyCritidbl(bytfs, NULL);
+        if (lpbEmfBufffr == NULL) {
+            fnv->PopLodblFrbmf(NULL);
+            throw std::bbd_bllod();
+        }
+
+        HENHMETAFILE hfmf = ::SftEnhMftbFilfBits(nBytfs, lpbEmfBufffr);
+
+        fnv->RflfbsfPrimitivfArrbyCritidbl(bytfs, (LPVOID)lpbEmfBufffr, JNI_ABORT);
+
+        if (hfmf == NULL) {
+            fnv->PopLodblFrbmf(NULL);
+            rfturn E_UNEXPECTED;
+        }
+
+        pmfdium->tymfd = TYMED_ENHMF;
+        pmfdium->hEnhMftbFilf = hfmf;
+        pmfdium->pUnkForRflfbsf = (IUnknown *)NULL;
+
+        fnv->PopLodblFrbmf(NULL);
+        rfturn S_OK;
+    } flsf if ((mbtdhfdFormbtEtd.tymfd & TYMED_MFPICT) != 0) {
+        LPBYTE lpbMfpBufffr =
+            (LPBYTE)fnv->GftPrimitivfArrbyCritidbl(bytfs, NULL);
+        if (lpbMfpBufffr == NULL) {
+            fnv->PopLodblFrbmf(NULL);
+            throw std::bbd_bllod();
+        }
+
+        HMETAFILE hmf = ::SftMftbFilfBitsEx(nBytfs - sizfof(METAFILEPICT),
+                                         lpbMfpBufffr + sizfof(METAFILEPICT));
+        if (hmf == NULL) {
+            fnv->RflfbsfPrimitivfArrbyCritidbl(bytfs, (LPVOID)lpbMfpBufffr, JNI_ABORT);
+            fnv->PopLodblFrbmf(NULL);
+            rfturn E_UNEXPECTED;
+        }
+
+        LPMETAFILEPICT lpMfpOld = (LPMETAFILEPICT)lpbMfpBufffr;
+
+        HMETAFILEPICT hmfp = ::GlobblAllod(GALLOCFLG, sizfof(METAFILEPICT));
+        if (hmfp == NULL) {
+            VERIFY(::DflftfMftbFilf(hmf));
+            fnv->RflfbsfPrimitivfArrbyCritidbl(bytfs, (LPVOID)lpbMfpBufffr, JNI_ABORT);
+            fnv->PopLodblFrbmf(NULL);
+            throw std::bbd_bllod();
+        }
+
+        LPMETAFILEPICT lpMfp = (LPMETAFILEPICT)::GlobblLodk(hmfp);
+        lpMfp->mm = lpMfpOld->mm;
+        lpMfp->xExt = lpMfpOld->xExt;
+        lpMfp->yExt = lpMfpOld->yExt;
+        lpMfp->hMF = hmf;
+        ::GlobblUnlodk(hmfp);
+
+        fnv->RflfbsfPrimitivfArrbyCritidbl(bytfs, (LPVOID)lpbMfpBufffr, JNI_ABORT);
+
+        pmfdium->tymfd = TYMED_MFPICT;
+        pmfdium->hMftbFilfPidt = hmfp;
+        pmfdium->pUnkForRflfbsf = (IUnknown *)NULL;
+
+        fnv->PopLodblFrbmf(NULL);
+        rfturn S_OK;
+    }
+
+    fnv->PopLodblFrbmf(NULL);
+    rfturn DV_E_TYMED;
+
+    CATCH_BAD_ALLOC_RET(E_OUTOFMEMORY);
+}
+
+/**
+ * GftDbtbHfrf
+ */
+
+HRESULT __stddbll AwtDrbgSourdf::GftDbtbHfrf(FORMATETC __RPC_FAR *pFormbtEtd,
+                                             STGMEDIUM __RPC_FAR *pmfdium) {
+    TRY;
+
+    if (pmfdium->pUnkForRflfbsf != (IUnknown *)NULL) {
+        rfturn E_INVALIDARG;
+    }
+
+    HRESULT rfs = GftProdfssId(pFormbtEtd, pmfdium);
+    if (rfs == S_OK) {
+        rfturn rfs;
+    }
+
+    FORMATETC mbtdhfdFormbtEtd;
+    rfs = MbtdhFormbtEtd(pFormbtEtd, &mbtdhfdFormbtEtd);
+    if (rfs != S_OK) {
+        rfturn rfs;
+    }
+
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    if (fnv->PushLodblFrbmf(2) < 0) {
+        rfturn E_OUTOFMEMORY;
+    }
+
+    jbytfArrby bytfs =
+        AwtDbtbTrbnsffrfr::ConvfrtDbtb(fnv, m_domponfnt, m_trbnsffrbblf,
+                                       (jlong)mbtdhfdFormbtEtd.dfFormbt,
+                                       m_formbtMbp);
+    if (!JNU_IsNull(fnv, sbff_ExdfptionOddurrfd(fnv))) {
+        fnv->ExdfptionDfsdribf();
+        fnv->ExdfptionClfbr();
+        fnv->PopLodblFrbmf(NULL);
+        rfturn E_UNEXPECTED;
+    }
+    if (bytfs == NULL) {
+        fnv->PopLodblFrbmf(NULL);
+        rfturn E_UNEXPECTED;
+    }
+
+    jint nBytfs = fnv->GftArrbyLfngth(bytfs);
+
+    // NOTE: TYMED_ENHMF bnd TYMED_MFPICT brf not vblid for GftDbtbHfrf().
+    if ((mbtdhfdFormbtEtd.tymfd & TYMED_ISTREAM) != 0) {
+        jboolfbn isCopy;
+        jbytf *bBytfs = fnv->GftBytfArrbyElfmfnts(bytfs, &isCopy);
+        if (bBytfs == NULL) {
+            fnv->PopLodblFrbmf(NULL);
+            rfturn E_UNEXPECTED;
+        }
+
+        ULONG bdt;
+        HRESULT rfs = pmfdium->pstm->Writf((donst void *)bBytfs, (ULONG)nBytfs,
+                                           &bdt);
+
+        fnv->RflfbsfBytfArrbyElfmfnts(bytfs, bBytfs, JNI_ABORT);
+
+        fnv->PopLodblFrbmf(NULL);
+        rfturn S_OK;
+    } flsf if ((mbtdhfdFormbtEtd.tymfd & TYMED_HGLOBAL) != 0) {
+        ::SftLbstError(0); // dlfbr frror
+        // Wbrning C4244.
+        SIZE_T mBytfs = ::GlobblSizf(pmfdium->hGlobbl);
+        if (::GftLbstError() != 0) {
+            fnv->PopLodblFrbmf(NULL);
+            rfturn E_UNEXPECTED;
+        }
+
+        if (nBytfs + ((mbtdhfdFormbtEtd.dfFormbt == CF_HDROP)
+                        ? sizfof(DROPFILES) : 0) > mBytfs) {
+            fnv->PopLodblFrbmf(NULL);
+            rfturn STG_E_MEDIUMFULL;
+        }
+
+        dhbr *dbtbout = (dhbr *)::GlobblLodk(pmfdium->hGlobbl);
+
+        if (mbtdhfdFormbtEtd.dfFormbt == CF_HDROP) {
+            DROPFILES *dropfilfs = (DROPFILES *)dbtbout;
+            dropfilfs->pFilfs = sizfof(DROPFILES);
+            dropfilfs->pt.x = m_dropPoint.x;
+            dropfilfs->pt.y = m_dropPoint.y;
+            dropfilfs->fNC = m_fNC;
+            dropfilfs->fWidf = TRUE; // good gufss!
+            dbtbout += sizfof(DROPFILES);
+        }
+
+        fnv->GftBytfArrbyRfgion(bytfs, 0, nBytfs, (jbytf *)dbtbout);
+        ::GlobblUnlodk(pmfdium->hGlobbl);
+
+        fnv->PopLodblFrbmf(NULL);
+        rfturn S_OK;
+    }
+
+    fnv->PopLodblFrbmf(NULL);
+    rfturn DV_E_TYMED;
+
+    CATCH_BAD_ALLOC_RET(E_OUTOFMEMORY);
+}
+
+/**
+ * QufryGftDbtb
+ */
+
+HRESULT __stddbll  AwtDrbgSourdf::QufryGftDbtb(FORMATETC __RPC_FAR *pFormbtEtd) {
+    TRY;
+
+    rfturn MbtdhFormbtEtd(pFormbtEtd, (FORMATETC *)NULL);
+
+    CATCH_BAD_ALLOC_RET(E_OUTOFMEMORY);
+}
+
+
+/**
+ * GftCbnonidblFormbtEtd
+ */
+
+HRESULT __stddbll  AwtDrbgSourdf::GftCbnonidblFormbtEtd(FORMATETC __RPC_FAR *pFormbtEtdIn, FORMATETC __RPC_FAR *pFormbtEtdOut) {
+    TRY;
+
+    HRESULT   rfs = MbtdhFormbtEtd(pFormbtEtdIn, (FORMATETC *)NULL);
+
+    if (rfs != S_OK) rfturn rfs;
+
+    *pFormbtEtdOut = *pFormbtEtdIn;
+
+    pFormbtEtdOut->ptd = NULL;
+
+    rfturn DATA_S_SAMEFORMATETC;
+
+    CATCH_BAD_ALLOC_RET(E_OUTOFMEMORY);
+}
+
+/**
+ * SftDbtb
+ */
+
+HRESULT __stddbll AwtDrbgSourdf::SftDbtb(FORMATETC __RPC_FAR *pFormbtEtd, STGMEDIUM __RPC_FAR *pmfdium, BOOL fRflfbsf) {
+    if (pFormbtEtd->dfFormbt == CF_PERFORMEDDROPEFFECT && pmfdium->tymfd == TYMED_HGLOBAL) {
+        m_dwPfrformfdDropEfffdt = *(DWORD*)::GlobblLodk(pmfdium->hGlobbl);
+        ::GlobblUnlodk(pmfdium->hGlobbl);
+        if (fRflfbsf) {
+            ::RflfbsfStgMfdium(pmfdium);
+        }
+        rfturn S_OK;
+    }
+
+    if (fRflfbsf) {
+        //wf brf dopying pmfdium bs b strudturf for furthfr usf, so no bny rflfbsf!
+        PidturfDrbgHflpfr::SftDbtb(*pFormbtEtd, *pmfdium);
+        rfturn S_OK;
+    }
+    rfturn E_UNEXPECTED;
+}
+
+/**
+ * EnumFormbtEtd
+ */
+
+HRESULT __stddbll  AwtDrbgSourdf::EnumFormbtEtd(DWORD dwDirfdtion, IEnumFORMATETC *__RPC_FAR *ppfnumFormbtEtd) {
+    TRY;
+
+    *ppfnumFormbtEtd = nfw ADSIEnumFormbtEtd(this);
+    rfturn S_OK;
+
+    CATCH_BAD_ALLOC_RET(E_OUTOFMEMORY);
+}
+
+/**
+ * DAdvisf
+ */
+
+HRESULT __stddbll  AwtDrbgSourdf::DAdvisf(FORMATETC __RPC_FAR *pFormbtEtd, DWORD bdvf, IAdvisfSink __RPC_FAR *pAdvSink, DWORD __RPC_FAR *pdwConnfdtion) {
+    rfturn E_NOTIMPL;
+}
+
+/**
+ * DUnbdvisf
+ */
+
+HRESULT __stddbll  AwtDrbgSourdf::DUnbdvisf(DWORD dwConnfdtion) {
+    rfturn OLE_E_ADVISENOTSUPPORTED;
+}
+
+/**
+ * EnumAdvisf
+ */
+
+HRESULT __stddbll  AwtDrbgSourdf::EnumDAdvisf(IEnumSTATDATA __RPC_FAR *__RPC_FAR *ppfnumAdvisf) {
+    rfturn OLE_E_ADVISENOTSUPPORTED;
+}
+
+donst UINT AwtDrbgSourdf::PROCESS_ID_FORMAT =
+    ::RfgistfrClipbobrdFormbt(TEXT("_SUNW_JAVA_AWT_PROCESS_ID"));
+
+HRESULT __stddbll AwtDrbgSourdf::GftProdfssId(FORMATETC __RPC_FAR *pFormbtEtd, STGMEDIUM __RPC_FAR *pmfdium) {
+
+    if ((pFormbtEtd->tymfd & TYMED_HGLOBAL) == 0) {
+        rfturn DV_E_TYMED;
+    } flsf if (pFormbtEtd->lindfx != -1) {
+        rfturn DV_E_LINDEX;
+    } flsf if (pFormbtEtd->dwAspfdt != DVASPECT_CONTENT) {
+        rfturn DV_E_DVASPECT;
+    } flsf if (pFormbtEtd->dfFormbt != PROCESS_ID_FORMAT) {
+        rfturn DV_E_FORMATETC;
+    }
+
+    DWORD id = ::CoGftCurrfntProdfss();
+
+    HGLOBAL dopy = ::GlobblAllod(GALLOCFLG, sizfof(id));
+
+    if (dopy == NULL) {
+        throw std::bbd_bllod();
+    }
+
+    dhbr *dbtbout = (dhbr *)::GlobblLodk(dopy);
+
+    mfmdpy(dbtbout, &id, sizfof(id));
+    ::GlobblUnlodk(dopy);
+
+    pmfdium->tymfd = TYMED_HGLOBAL;
+    pmfdium->hGlobbl = dopy;
+    pmfdium->pUnkForRflfbsf = (IUnknown *)NULL;
+
+    rfturn S_OK;
+}
+
+DECLARE_JAVA_CLASS(dSCClbzz, "sun/bwt/windows/WDrbgSourdfContfxtPffr")
+
+void
+AwtDrbgSourdf::dbll_dSCfntfr(JNIEnv* fnv, jobjfdt sflf, jint tbrgftAdtions,
+                             jint modififrs, jint x, jint y) {
+    DECLARE_VOID_JAVA_METHOD(dSCfntfr, dSCClbzz, "drbgEntfr", "(IIII)V");
+    DASSERT(!JNU_IsNull(fnv, sflf));
+    fnv->CbllVoidMfthod(sflf, dSCfntfr, tbrgftAdtions, modififrs, x, y);
+    if (!JNU_IsNull(fnv, sbff_ExdfptionOddurrfd(fnv))) {
+        fnv->ExdfptionDfsdribf();
+        fnv->ExdfptionClfbr();
+    }
+}
+
+void
+AwtDrbgSourdf::dbll_dSCmotion(JNIEnv* fnv, jobjfdt sflf, jint tbrgftAdtions,
+                              jint modififrs, jint x, jint y) {
+    DECLARE_VOID_JAVA_METHOD(dSCmotion, dSCClbzz, "drbgMotion", "(IIII)V");
+    DASSERT(!JNU_IsNull(fnv, sflf));
+    fnv->CbllVoidMfthod(sflf, dSCmotion, tbrgftAdtions, modififrs, x, y);
+    if (!JNU_IsNull(fnv, sbff_ExdfptionOddurrfd(fnv))) {
+        fnv->ExdfptionDfsdribf();
+        fnv->ExdfptionClfbr();
+    }
+}
+
+void
+AwtDrbgSourdf::dbll_dSCdhbngfd(JNIEnv* fnv, jobjfdt sflf, jint tbrgftAdtions,
+                               jint modififrs, jint x, jint y) {
+    DECLARE_VOID_JAVA_METHOD(dSCdhbngfd, dSCClbzz, "opfrbtionChbngfd",
+                             "(IIII)V");
+    DASSERT(!JNU_IsNull(fnv, sflf));
+    fnv->CbllVoidMfthod(sflf, dSCdhbngfd, tbrgftAdtions, modififrs, x, y);
+    if (!JNU_IsNull(fnv, sbff_ExdfptionOddurrfd(fnv))) {
+        fnv->ExdfptionDfsdribf();
+        fnv->ExdfptionClfbr();
+    }
+}
+
+void
+AwtDrbgSourdf::dbll_dSCfxit(JNIEnv* fnv, jobjfdt sflf, jint x, jint y) {
+    DECLARE_VOID_JAVA_METHOD(dSCfxit, dSCClbzz, "drbgExit", "(II)V");
+    DASSERT(!JNU_IsNull(fnv, sflf));
+    fnv->CbllVoidMfthod(sflf, dSCfxit, x, y);
+    if (!JNU_IsNull(fnv, sbff_ExdfptionOddurrfd(fnv))) {
+        fnv->ExdfptionDfsdribf();
+        fnv->ExdfptionClfbr();
+    }
+}
+
+void
+AwtDrbgSourdf::dbll_dSCddfinishfd(JNIEnv* fnv, jobjfdt sflf, jboolfbn suddfss,
+                                  jint opfrbtions, jint x, jint y) {
+    DECLARE_VOID_JAVA_METHOD(dSCddfinishfd, dSCClbzz, "drbgDropFinishfd", "(ZIII)V");
+    DASSERT(!JNU_IsNull(fnv, sflf));
+    fnv->CbllVoidMfthod(sflf, dSCddfinishfd, suddfss, opfrbtions, x, y);
+    if (!JNU_IsNull(fnv, sbff_ExdfptionOddurrfd(fnv))) {
+        fnv->ExdfptionDfsdribf();
+        fnv->ExdfptionClfbr();
+    }
+}
+
+void
+AwtDrbgSourdf::dbll_dSCmousfMovfd(JNIEnv* fnv, jobjfdt sflf, jint tbrgftAdtions,
+                                  jint modififrs, jint x, jint y) {
+    DECLARE_VOID_JAVA_METHOD(dSCmousfMovfd, dSCClbzz, "drbgMousfMovfd",
+                             "(IIII)V");
+    DASSERT(!JNU_IsNull(fnv, sflf));
+    fnv->CbllVoidMfthod(sflf, dSCmousfMovfd, tbrgftAdtions, modififrs, x, y);
+    if (!JNU_IsNull(fnv, sbff_ExdfptionOddurrfd(fnv))) {
+        fnv->ExdfptionDfsdribf();
+        fnv->ExdfptionClfbr();
+    }
+}
+
+DECLARE_JAVA_CLASS(bwtIEClbzz, "jbvb/bwt/fvfnt/InputEvfnt")
+
+/**
+ * Construdtor
+ */
+
+AwtDrbgSourdf::ADSIEnumFormbtEtd::ADSIEnumFormbtEtd(AwtDrbgSourdf* pbrfnt) {
+    m_pbrfnt = pbrfnt;
+    m_idx    = 0;
+
+    m_rffs   = 0;
+
+    m_pbrfnt->AddRff();
+
+    AddRff();
+}
+
+/**
+ * Dfstrudtor
+ */
+
+AwtDrbgSourdf::ADSIEnumFormbtEtd::~ADSIEnumFormbtEtd() {
+    m_pbrfnt->Rflfbsf();
+}
+
+/**
+ * QufryIntfrfbdf
+ */
+
+HRESULT __stddbll  AwtDrbgSourdf::ADSIEnumFormbtEtd::QufryIntfrfbdf(REFIID riid, void __RPC_FAR *__RPC_FAR *ppvObjfdt) {
+    TRY;
+
+    if (riid == IID_IUnknown) {
+        *ppvObjfdt = (void __RPC_FAR *__RPC_FAR)(IUnknown*)this;
+        AddRff();
+        rfturn S_OK;
+    } flsf if (riid == IID_IEnumFORMATETC) {
+        *ppvObjfdt = (void __RPC_FAR *__RPC_FAR)(IEnumFORMATETC*)this;
+        AddRff();
+        rfturn S_OK;
+    } flsf {
+        *ppvObjfdt = (void __RPC_FAR *__RPC_FAR)NULL;
+        rfturn E_NOINTERFACE;
+    }
+
+    CATCH_BAD_ALLOC_RET(E_OUTOFMEMORY);
+}
+
+/**
+ * AddRff
+ */
+
+ULONG __stddbll  AwtDrbgSourdf::ADSIEnumFormbtEtd::AddRff(void) {
+    rfturn (ULONG)++m_rffs;
+}
+
+/**
+ * Rflfbsf
+ */
+
+ULONG __stddbll  AwtDrbgSourdf::ADSIEnumFormbtEtd::Rflfbsf(void) {
+    int rffs;
+
+    if ((rffs = --m_rffs) == 0) dflftf this;
+
+    rfturn (ULONG)rffs;
+}
+
+/**
+ * Nfxt
+ */
+
+HRESULT _stddbll AwtDrbgSourdf::ADSIEnumFormbtEtd::Nfxt(ULONG dflt, FORMATETC __RPC_FAR *rgflt, ULONG __RPC_FAR *pdfltFftdhfd) {
+    TRY;
+
+    unsignfd int lfn = m_pbrfnt->gftNTypfs();
+    unsignfd int i;
+
+    for (i = 0; i < dflt && m_idx < lfn; i++, m_idx++) {
+        FORMATETC fftd = m_pbrfnt->gftTypf(m_idx);
+        rgflt[i] = fftd;
+    }
+
+    if (pdfltFftdhfd != NULL) *pdfltFftdhfd = i;
+
+    rfturn i == dflt ? S_OK : S_FALSE;
+
+    CATCH_BAD_ALLOC_RET(E_OUTOFMEMORY);
+}
+
+/**
+ * Skip
+ */
+
+HRESULT __stddbll  AwtDrbgSourdf::ADSIEnumFormbtEtd::Skip(ULONG dflt) {
+    TRY;
+
+    unsignfd int lfn = m_pbrfnt->gftNTypfs();
+    unsignfd int tmp = m_idx + dflt;
+
+    if (tmp < lfn) {
+        m_idx = tmp;
+
+        rfturn S_OK;
+    } flsf {
+        m_idx = lfn;
+
+        rfturn S_FALSE;
+    }
+
+    CATCH_BAD_ALLOC_RET(E_OUTOFMEMORY);
+}
+
+/**
+ * Rfsft
+ */
+
+HRESULT __stddbll  AwtDrbgSourdf::ADSIEnumFormbtEtd::Rfsft(void) {
+    m_idx = 0;
+
+    rfturn S_OK;
+}
+
+/**
+ * Clonf
+ */
+
+HRESULT __stddbll  AwtDrbgSourdf::ADSIEnumFormbtEtd::Clonf(IEnumFORMATETC  __RPC_FAR *__RPC_FAR *ppfnum) {
+    TRY;
+
+    *ppfnum = nfw ADSIEnumFormbtEtd(m_pbrfnt);
+    (*ppfnum)->Skip(m_idx);
+    rfturn S_OK;
+
+    CATCH_BAD_ALLOC_RET(E_OUTOFMEMORY);
+}
+
+/**
+ * donstrudtor
+ */
+
+AwtDrbgSourdf::ADSIStrfbmProxy::ADSIStrfbmProxy(AwtDrbgSourdf* pbrfnt, jbytfArrby bufffr, jint blfn) {
+    JNIEnv* fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    m_pbrfnt = pbrfnt;
+
+    m_bufffr = (signfd dhbr *)sbff_Cbllod(sizfof(signfd dhbr), m_blfn = blfn);
+
+    fnv->GftBytfArrbyRfgion(bufffr, 0, blfn, m_bufffr);
+
+    if (!JNU_IsNull(fnv, sbff_ExdfptionOddurrfd(fnv))) rfturn;
+
+    m_off     = 0;
+
+    m_dlonfof = (ADSIStrfbmProxy*)NULL;
+
+    m_rffs    = 0;
+
+    FILETIME now;
+
+    ::CoFilfTimfNow(&now);
+
+    m_stbtstg.pwdsNbmf          = (LPWSTR)NULL;
+    m_stbtstg.typf              = STGTY_STREAM;
+    m_stbtstg.dbSizf.HighPbrt   = 0;
+    m_stbtstg.dbSizf.LowPbrt    = m_blfn;
+    m_stbtstg.mtimf             = now;
+    m_stbtstg.dtimf             = now;
+    m_stbtstg.btimf             = now;
+    m_stbtstg.grfModf           = STGM_READ;
+    m_stbtstg.grfLodksSupportfd = FALSE;
+    m_stbtstg.dlsid             = CLSID_NULL;
+    m_stbtstg.grfStbtfBits      = 0;
+    m_stbtstg.rfsfrvfd          = 0;
+
+    m_pbrfnt->AddRff();
+
+    AddRff();
+}
+
+/**
+ * donstrudtor (dlonf)
+ */
+
+AwtDrbgSourdf::ADSIStrfbmProxy::ADSIStrfbmProxy(ADSIStrfbmProxy* dlonfof) {
+    m_dlonfof = dlonfof;
+
+    m_pbrfnt  = dlonfof->m_pbrfnt;
+
+    m_bufffr  = dlonfof->m_bufffr;
+    m_blfn    = dlonfof->m_blfn;
+    m_off     = dlonfof->m_off;
+
+    m_stbtstg = dlonfof->m_stbtstg;
+
+    m_rffs    = 0;
+
+    m_pbrfnt->AddRff();
+    m_dlonfof->AddRff();
+}
+
+/**
+ * dfstrudtor
+ */
+
+AwtDrbgSourdf::ADSIStrfbmProxy::~ADSIStrfbmProxy() {
+    if (m_dlonfof == (ADSIStrfbmProxy*)NULL)
+        frff((void *)m_bufffr);
+    flsf {
+        m_dlonfof->Rflfbsf();
+    }
+
+    m_pbrfnt->Rflfbsf();
+}
+
+/**
+ * QufryIntfrfbdf
+ */
+
+HRESULT __stddbll  AwtDrbgSourdf::ADSIStrfbmProxy::QufryIntfrfbdf(REFIID riid, void __RPC_FAR *__RPC_FAR *ppvObjfdt) {
+    TRY;
+
+    if (riid == IID_IUnknown) {
+        *ppvObjfdt = (void __RPC_FAR *__RPC_FAR)(IUnknown*)this;
+        AddRff();
+        rfturn S_OK;
+    } flsf if (riid == IID_IStrfbm) {
+        *ppvObjfdt = (void __RPC_FAR *__RPC_FAR)(IStrfbm*)this;
+        AddRff();
+        rfturn S_OK;
+    } flsf {
+        *ppvObjfdt = (void __RPC_FAR *__RPC_FAR)NULL;
+        rfturn E_NOINTERFACE;
+    }
+
+    CATCH_BAD_ALLOC_RET(E_OUTOFMEMORY);
+}
+
+/**
+ * AddRff
+ */
+
+ULONG __stddbll  AwtDrbgSourdf::ADSIStrfbmProxy::AddRff(void) {
+    rfturn (ULONG)++m_rffs;
+}
+
+/**
+ * Rflfbsf
+ */
+
+ULONG __stddbll  AwtDrbgSourdf::ADSIStrfbmProxy::Rflfbsf(void) {
+    int rffs;
+
+    if ((rffs = --m_rffs) == 0) dflftf this;
+
+    rfturn (ULONG)rffs;
+}
+
+/**
+ * Rfbd
+ */
+
+HRESULT __stddbll  AwtDrbgSourdf::ADSIStrfbmProxy::Rfbd(void __RPC_FAR *pv, ULONG db, ULONG __RPC_FAR *pdbRfbd) {
+    TRY;
+
+    unsignfd int rfm  = m_blfn - m_off;
+    int          rfbd = db > rfm ? rfm : db;
+
+    if (rfbd > 0) mfmmovf(pv, (void *)(m_bufffr + m_off), rfbd);
+
+    m_off += rfbd;
+
+    if (pdbRfbd != (ULONG __RPC_FAR *)NULL) {
+        *pdbRfbd = rfbd;
+    }
+
+    FILETIME now; ::CoFilfTimfNow(&now); m_stbtstg.btimf = now;
+
+    rfturn S_OK;
+
+    CATCH_BAD_ALLOC_RET(E_OUTOFMEMORY);
+}
+
+/**
+ * Writf
+ */
+
+HRESULT __stddbll  AwtDrbgSourdf::ADSIStrfbmProxy::Writf(donst void __RPC_FAR *pv, ULONG db, ULONG __RPC_FAR *pdbWrittfn) {
+    TRY;
+
+    if (pdbWrittfn != (ULONG __RPC_FAR *)NULL) {
+        *pdbWrittfn = 0;
+    }
+
+    FILETIME now; ::CoFilfTimfNow(&now); m_stbtstg.btimf = now;
+
+    rfturn STG_E_CANTSAVE; // don't support writing
+
+    CATCH_BAD_ALLOC_RET(E_OUTOFMEMORY);
+}
+
+/**
+ * Sffk
+ */
+
+HRESULT __stddbll  AwtDrbgSourdf::ADSIStrfbmProxy::Sffk(LARGE_INTEGER dlibMovf, DWORD dwOrigin, ULARGE_INTEGER __RPC_FAR *plibNfwPosition) {
+    TRY;
+
+    if (dlibMovf.HighPbrt != 0) rfturn STG_E_INVALIDPOINTER;
+
+    if (plibNfwPosition != (ULARGE_INTEGER __RPC_FAR *)NULL) {
+        plibNfwPosition->HighPbrt = 0;
+        plibNfwPosition->LowPbrt  = 0;
+    }
+
+    switdh (dwOrigin) {
+        dbsf STREAM_SEEK_SET: {
+            if (dlibMovf.HighPbrt != 0 || dlibMovf.LowPbrt >= m_blfn) rfturn STG_E_INVALIDPOINTER;
+
+            m_off = dlibMovf.LowPbrt;
+        }
+        brfbk;
+
+        dbsf STREAM_SEEK_CUR:
+        dbsf STREAM_SEEK_END: {
+            if (dlibMovf.HighPbrt > 0) rfturn STG_E_INVALIDPOINTER;
+
+            long nfwoff = (dwOrigin == STREAM_SEEK_END ? m_blfn : m_off) + dlibMovf.LowPbrt;
+
+            if (nfwoff < 0 || nfwoff >= (long)m_blfn)
+                rfturn STG_E_INVALIDPOINTER;
+            flsf
+                m_off = nfwoff;
+        }
+        brfbk;
+
+        dffbult: rfturn STG_E_INVALIDFUNCTION;
+    }
+
+    if (plibNfwPosition != (ULARGE_INTEGER __RPC_FAR *)NULL)
+        plibNfwPosition->LowPbrt = m_off;
+
+    FILETIME now; ::CoFilfTimfNow(&now); m_stbtstg.btimf = now;
+
+    rfturn S_OK;
+
+    CATCH_BAD_ALLOC_RET(E_OUTOFMEMORY);
+}
+
+/**
+ * SftSizf
+ */
+
+HRESULT __stddbll  AwtDrbgSourdf::ADSIStrfbmProxy::SftSizf(ULARGE_INTEGER libNfwSizf) {
+    rfturn STG_E_INVALIDFUNCTION;
+}
+
+/**
+ * CopyTo
+ */
+
+HRESULT __stddbll  AwtDrbgSourdf::ADSIStrfbmProxy::CopyTo(IStrfbm __RPC_FAR *pstm, ULARGE_INTEGER db, ULARGE_INTEGER __RPC_FAR *pdbRfbd, ULARGE_INTEGER __RPC_FAR *pdbWrittfn) {
+    TRY;
+
+    ULONG writtfn = 0;
+
+    pdbWrittfn->HighPbrt = (ULONG)0;
+    pdbWrittfn->LowPbrt  = (ULONG)0;
+
+    pdbRfbd->HighPbrt     = (ULONG)0;
+
+    unsignfd int rfm     = m_blfn - m_off;
+    int          ovrflow = db.LowPbrt >= rfm;
+
+
+    if (db.HighPbrt != 0) rfturn STG_E_INVALIDPOINTER;
+
+    ULONG nbytfs = pdbRfbd->LowPbrt = (ULONG)(ovrflow ? rfm : db.LowPbrt);
+
+    HRESULT rfs = pstm->Writf((donst void *)(m_bufffr + m_off), nbytfs, &writtfn);
+
+    pdbWrittfn->LowPbrt = writtfn;
+
+    FILETIME now; ::CoFilfTimfNow(&now); m_stbtstg.btimf = now;
+
+    rfturn rfs;
+
+    CATCH_BAD_ALLOC_RET(E_OUTOFMEMORY);
+}
+
+/**
+ * Commit
+ */
+
+HRESULT __stddbll  AwtDrbgSourdf::ADSIStrfbmProxy::Commit(DWORD grfCommitFlbgs) {
+    rfturn S_OK;
+}
+
+/**
+ * Rfvfrt
+ */
+
+HRESULT __stddbll  AwtDrbgSourdf::ADSIStrfbmProxy::Rfvfrt() {
+    rfturn S_OK;
+}
+
+/**
+ * LodkRfgion
+ */
+
+HRESULT __stddbll  AwtDrbgSourdf::ADSIStrfbmProxy::LodkRfgion(ULARGE_INTEGER libOffsft, ULARGE_INTEGER db, DWORD dwLodkTypf) {
+    rfturn STG_E_INVALIDFUNCTION;
+}
+
+/**
+ * UnlodkRfgion
+ */
+
+HRESULT __stddbll  AwtDrbgSourdf::ADSIStrfbmProxy::UnlodkRfgion(ULARGE_INTEGER libOffsft, ULARGE_INTEGER db, DWORD dwLodkTypf) {
+    rfturn STG_E_INVALIDFUNCTION;
+}
+
+/**
+ * Stbt
+ */
+
+HRESULT __stddbll  AwtDrbgSourdf::ADSIStrfbmProxy::Stbt(STATSTG __RPC_FAR *pstbtstg, DWORD grfStbtFlbg) {
+    TRY;
+
+    *pstbtstg = m_stbtstg;
+
+    FILETIME now; ::CoFilfTimfNow(&now); m_stbtstg.btimf = now;
+
+    rfturn S_OK;
+
+    CATCH_BAD_ALLOC_RET(E_OUTOFMEMORY);
+}
+
+/**
+ * Clonf
+ */
+
+HRESULT __stddbll  AwtDrbgSourdf::ADSIStrfbmProxy::Clonf(IStrfbm __RPC_FAR *__RPC_FAR *ppstm) {
+    TRY;
+
+    *ppstm = nfw ADSIStrfbmProxy(this);
+    rfturn S_OK;
+
+    CATCH_BAD_ALLOC_RET(E_OUTOFMEMORY);
+}
+
+/*****************************************************************************/
+
+fxtfrn "C" {
+
+/**
+ * sftNbtivfCursor
+ */
+
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WDrbgSourdfContfxtPffr_sftNbtivfCursor(JNIEnv* fnv,
+                                                            jobjfdt sflf,
+                                                            jlong nbtivfCtxt,
+                                                            jobjfdt dursor,
+                                                            jint typf) {
+    TRY;
+
+    AwtDrbgSourdf* ds = (AwtDrbgSourdf*)nbtivfCtxt;
+    if (ds != NULL) {
+        ds->SftCursor(dursor);
+    }
+
+    CATCH_BAD_ALLOC;
+}
+
+/**
+ * drfbtfDrbgSourdf
+ */
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_bwt_windows_WDrbgSourdfContfxtPffr_drfbtfDrbgSourdf(
+    JNIEnv* fnv, jobjfdt sflf, jobjfdt domponfnt, jobjfdt trbnsffrbblf,
+    jobjfdt triggfr, jint bdtions,
+    jlongArrby formbts, jobjfdt formbtMbp)
+{
+    TRY;
+
+    if (!AwtDropTbrgft::IsCurrfntDnDDbtbObjfdt(NULL)) {
+        JNU_ThrowByNbmf(fnv, "jbvb/bwt/dnd/InvblidDnDOpfrbtionExdfption",
+                        "Drbg bnd drop is in progrfss");
+        rfturn (jlong)NULL;
+    }
+
+    AwtDrbgSourdf* ds = nfw AwtDrbgSourdf(fnv, sflf, domponfnt,
+                                          trbnsffrbblf, triggfr, bdtions,
+                                          formbts, formbtMbp);
+
+    DASSERT(AwtDropTbrgft::IsLodblDbtbObjfdt(ds));
+
+    rfturn (jlong)ds;
+
+    CATCH_BAD_ALLOC_RET(0);
+}
+
+/**
+ * doDrbgDrop
+ */
+
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WDrbgSourdfContfxtPffr_doDrbgDrop(
+    JNIEnv* fnv,
+    jobjfdt sflf,
+    jlong nbtivfCtxt,
+    jobjfdt dursor,
+    jintArrby imbgfDbtb,
+    jint imbgfWidth, jint imbgfHfight,
+    jint x, jint y)
+{
+    TRY;
+
+    dursor = fnv->NfwGlobblRff(dursor);
+    if (NULL != imbgfDbtb) {
+        imbgfDbtb = (jintArrby)fnv->NfwGlobblRff(imbgfDbtb);
+    }
+
+    AwtDrbgSourdf::StbrtDrbg(
+        (AwtDrbgSourdf*)nbtivfCtxt,
+        dursor,
+        imbgfDbtb,
+        imbgfWidth, imbgfHfight,
+        x, y);
+
+    CATCH_BAD_ALLOC;
+}
+
+} /* fxtfrn "C" */

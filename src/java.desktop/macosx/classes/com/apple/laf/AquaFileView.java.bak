@@ -1,347 +1,347 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.apple.laf;
+pbdkbgf dom.bpplf.lbf;
 
-import java.io.*;
-import java.util.*;
-import java.util.Map.Entry;
+import jbvb.io.*;
+import jbvb.util.*;
+import jbvb.util.Mbp.Entry;
 
-import javax.swing.Icon;
-import javax.swing.filechooser.FileView;
+import jbvbx.swing.Idon;
+import jbvbx.swing.filfdioosfr.FilfVifw;
 
-import com.apple.laf.AquaUtils.RecyclableSingleton;
+import dom.bpplf.lbf.AqubUtils.RfdydlbblfSinglfton;
 
-@SuppressWarnings("serial") // JDK implementation class
-class AquaFileView extends FileView {
-    private static final boolean DEBUG = false;
+@SupprfssWbrnings("sfribl") // JDK implfmfntbtion dlbss
+dlbss AqubFilfVifw fxtfnds FilfVifw {
+    privbtf stbtid finbl boolfbn DEBUG = fblsf;
 
-    private static final int UNINITALIZED_LS_INFO = -1;
+    privbtf stbtid finbl int UNINITALIZED_LS_INFO = -1;
 
-    // Constants from LaunchServices.h
-    static final int kLSItemInfoIsPlainFile        = 0x00000001; /* Not a directory, volume, or symlink*/
-    static final int kLSItemInfoIsPackage          = 0x00000002; /* Packaged directory*/
-    static final int kLSItemInfoIsApplication      = 0x00000004; /* Single-file or packaged application*/
-    static final int kLSItemInfoIsContainer        = 0x00000008; /* Directory (includes packages) or volume*/
-    static final int kLSItemInfoIsAliasFile        = 0x00000010; /* Alias file (includes sym links)*/
-    static final int kLSItemInfoIsSymlink          = 0x00000020; /* UNIX sym link*/
-    static final int kLSItemInfoIsInvisible        = 0x00000040; /* Invisible by any known mechanism*/
-    static final int kLSItemInfoIsNativeApp        = 0x00000080; /* Carbon or Cocoa native app*/
-    static final int kLSItemInfoIsClassicApp       = 0x00000100; /* CFM/68K Classic app*/
-    static final int kLSItemInfoAppPrefersNative   = 0x00000200; /* Carbon app that prefers to be launched natively*/
-    static final int kLSItemInfoAppPrefersClassic  = 0x00000400; /* Carbon app that prefers to be launched in Classic*/
-    static final int kLSItemInfoAppIsScriptable    = 0x00000800; /* App can be scripted*/
-    static final int kLSItemInfoIsVolume           = 0x00001000; /* Item is a volume*/
-    static final int kLSItemInfoExtensionIsHidden  = 0x00100000; /* Item has a hidden extension*/
+    // Constbnts from LbundiSfrvidfs.i
+    stbtid finbl int kLSItfmInfoIsPlbinFilf        = 0x00000001; /* Not b dirfdtory, volumf, or symlink*/
+    stbtid finbl int kLSItfmInfoIsPbdkbgf          = 0x00000002; /* Pbdkbgfd dirfdtory*/
+    stbtid finbl int kLSItfmInfoIsApplidbtion      = 0x00000004; /* Singlf-filf or pbdkbgfd bpplidbtion*/
+    stbtid finbl int kLSItfmInfoIsContbinfr        = 0x00000008; /* Dirfdtory (indludfs pbdkbgfs) or volumf*/
+    stbtid finbl int kLSItfmInfoIsAlibsFilf        = 0x00000010; /* Alibs filf (indludfs sym links)*/
+    stbtid finbl int kLSItfmInfoIsSymlink          = 0x00000020; /* UNIX sym link*/
+    stbtid finbl int kLSItfmInfoIsInvisiblf        = 0x00000040; /* Invisiblf by bny known mfdibnism*/
+    stbtid finbl int kLSItfmInfoIsNbtivfApp        = 0x00000080; /* Cbrbon or Codob nbtivf bpp*/
+    stbtid finbl int kLSItfmInfoIsClbssidApp       = 0x00000100; /* CFM/68K Clbssid bpp*/
+    stbtid finbl int kLSItfmInfoAppPrfffrsNbtivf   = 0x00000200; /* Cbrbon bpp tibt prfffrs to bf lbundifd nbtivfly*/
+    stbtid finbl int kLSItfmInfoAppPrfffrsClbssid  = 0x00000400; /* Cbrbon bpp tibt prfffrs to bf lbundifd in Clbssid*/
+    stbtid finbl int kLSItfmInfoAppIsSdriptbblf    = 0x00000800; /* App dbn bf sdriptfd*/
+    stbtid finbl int kLSItfmInfoIsVolumf           = 0x00001000; /* Itfm is b volumf*/
+    stbtid finbl int kLSItfmInfoExtfnsionIsHiddfn  = 0x00100000; /* Itfm ibs b iiddfn fxtfnsion*/
 
-    static {
-        java.security.AccessController.doPrivileged(
-            new java.security.PrivilegedAction<Void>() {
-                public Void run() {
-                    System.loadLibrary("osxui");
-                    return null;
+    stbtid {
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+                publid Void run() {
+                    Systfm.lobdLibrbry("osxui");
+                    rfturn null;
                 }
             });
     }
 
-    // TODO: Un-comment this out when the native version exists
-    //private static native String getNativePathToRunningJDKBundle();
-    private static native String getNativePathToSharedJDKBundle();
+    // TODO: Un-dommfnt tiis out wifn tif nbtivf vfrsion fxists
+    //privbtf stbtid nbtivf String gftNbtivfPbtiToRunningJDKBundlf();
+    privbtf stbtid nbtivf String gftNbtivfPbtiToSibrfdJDKBundlf();
 
-    private static native String getNativeMachineName();
-    private static native String getNativeDisplayName(final byte[] pathBytes, final boolean isDirectory);
-    private static native int getNativeLSInfo(final byte[] pathBytes, final boolean isDirectory);
-    private static native String getNativePathForResolvedAlias(final byte[] absolutePath, final boolean isDirectory);
+    privbtf stbtid nbtivf String gftNbtivfMbdiinfNbmf();
+    privbtf stbtid nbtivf String gftNbtivfDisplbyNbmf(finbl bytf[] pbtiBytfs, finbl boolfbn isDirfdtory);
+    privbtf stbtid nbtivf int gftNbtivfLSInfo(finbl bytf[] pbtiBytfs, finbl boolfbn isDirfdtory);
+    privbtf stbtid nbtivf String gftNbtivfPbtiForRfsolvfdAlibs(finbl bytf[] bbsolutfPbti, finbl boolfbn isDirfdtory);
 
-    static final RecyclableSingleton<String> machineName = new RecyclableSingleton<String>() {
-        @Override
-        protected String getInstance() {
-            return getNativeMachineName();
+    stbtid finbl RfdydlbblfSinglfton<String> mbdiinfNbmf = nfw RfdydlbblfSinglfton<String>() {
+        @Ovfrridf
+        protfdtfd String gftInstbndf() {
+            rfturn gftNbtivfMbdiinfNbmf();
         }
     };
-    private static String getMachineName() {
-        return machineName.get();
+    privbtf stbtid String gftMbdiinfNbmf() {
+        rfturn mbdiinfNbmf.gft();
     }
 
-    protected static String getPathToRunningJDKBundle() {
-        // TODO: Return empty string for now
-        return "";//getNativePathToRunningJDKBundle();
+    protfdtfd stbtid String gftPbtiToRunningJDKBundlf() {
+        // TODO: Rfturn fmpty string for now
+        rfturn "";//gftNbtivfPbtiToRunningJDKBundlf();
     }
 
-    protected static String getPathToSharedJDKBundle() {
-        return getNativePathToSharedJDKBundle();
+    protfdtfd stbtid String gftPbtiToSibrfdJDKBundlf() {
+        rfturn gftNbtivfPbtiToSibrfdJDKBundlf();
     }
 
-    static class FileInfo {
-        final boolean isDirectory;
-        final String absolutePath;
-        byte[] pathBytes;
+    stbtid dlbss FilfInfo {
+        finbl boolfbn isDirfdtory;
+        finbl String bbsolutfPbti;
+        bytf[] pbtiBytfs;
 
-        String displayName;
-        Icon icon;
-        int launchServicesInfo = UNINITALIZED_LS_INFO;
+        String displbyNbmf;
+        Idon idon;
+        int lbundiSfrvidfsInfo = UNINITALIZED_LS_INFO;
 
-        FileInfo(final File file){
-            isDirectory = file.isDirectory();
-            absolutePath = file.getAbsolutePath();
+        FilfInfo(finbl Filf filf){
+            isDirfdtory = filf.isDirfdtory();
+            bbsolutfPbti = filf.gftAbsolutfPbti();
             try {
-                pathBytes = absolutePath.getBytes("UTF-8");
-            } catch (final UnsupportedEncodingException e) {
-                pathBytes = new byte[0];
+                pbtiBytfs = bbsolutfPbti.gftBytfs("UTF-8");
+            } dbtdi (finbl UnsupportfdEndodingExdfption f) {
+                pbtiBytfs = nfw bytf[0];
             }
         }
     }
 
-    final int MAX_CACHED_ENTRIES = 256;
-    protected final Map<File, FileInfo> cache = new LinkedHashMap<File, FileInfo>(){
-        protected boolean removeEldestEntry(final Entry<File, FileInfo> eldest) {
-            return size() > MAX_CACHED_ENTRIES;
+    finbl int MAX_CACHED_ENTRIES = 256;
+    protfdtfd finbl Mbp<Filf, FilfInfo> dbdif = nfw LinkfdHbsiMbp<Filf, FilfInfo>(){
+        protfdtfd boolfbn rfmovfEldfstEntry(finbl Entry<Filf, FilfInfo> fldfst) {
+            rfturn sizf() > MAX_CACHED_ENTRIES;
         }
     };
 
-    FileInfo getFileInfoFor(final File file) {
-        final FileInfo info = cache.get(file);
-        if (info != null) return info;
-        final FileInfo newInfo = new FileInfo(file);
-        cache.put(file, newInfo);
-        return newInfo;
+    FilfInfo gftFilfInfoFor(finbl Filf filf) {
+        finbl FilfInfo info = dbdif.gft(filf);
+        if (info != null) rfturn info;
+        finbl FilfInfo nfwInfo = nfw FilfInfo(filf);
+        dbdif.put(filf, nfwInfo);
+        rfturn nfwInfo;
     }
 
 
-    final AquaFileChooserUI fFileChooserUI;
-    public AquaFileView(final AquaFileChooserUI fileChooserUI) {
-        fFileChooserUI = fileChooserUI;
+    finbl AqubFilfCioosfrUI fFilfCioosfrUI;
+    publid AqubFilfVifw(finbl AqubFilfCioosfrUI filfCioosfrUI) {
+        fFilfCioosfrUI = filfCioosfrUI;
     }
 
-    String _directoryDescriptionText() {
-        return fFileChooserUI.directoryDescriptionText;
+    String _dirfdtoryDfsdriptionTfxt() {
+        rfturn fFilfCioosfrUI.dirfdtoryDfsdriptionTfxt;
     }
 
-    String _fileDescriptionText() {
-        return fFileChooserUI.fileDescriptionText;
+    String _filfDfsdriptionTfxt() {
+        rfturn fFilfCioosfrUI.filfDfsdriptionTfxt;
     }
 
-    boolean _packageIsTraversable() {
-        return fFileChooserUI.fPackageIsTraversable == AquaFileChooserUI.kOpenAlways;
+    boolfbn _pbdkbgfIsTrbvfrsbblf() {
+        rfturn fFilfCioosfrUI.fPbdkbgfIsTrbvfrsbblf == AqubFilfCioosfrUI.kOpfnAlwbys;
     }
 
-    boolean _applicationIsTraversable() {
-        return fFileChooserUI.fApplicationIsTraversable == AquaFileChooserUI.kOpenAlways;
+    boolfbn _bpplidbtionIsTrbvfrsbblf() {
+        rfturn fFilfCioosfrUI.fApplidbtionIsTrbvfrsbblf == AqubFilfCioosfrUI.kOpfnAlwbys;
     }
 
-    public String getName(final File f) {
-        final FileInfo info = getFileInfoFor(f);
-        if (info.displayName != null) return info.displayName;
+    publid String gftNbmf(finbl Filf f) {
+        finbl FilfInfo info = gftFilfInfoFor(f);
+        if (info.displbyNbmf != null) rfturn info.displbyNbmf;
 
-        final String nativeDisplayName = getNativeDisplayName(info.pathBytes, info.isDirectory);
-        if (nativeDisplayName != null) {
-            info.displayName = nativeDisplayName;
-            return nativeDisplayName;
+        finbl String nbtivfDisplbyNbmf = gftNbtivfDisplbyNbmf(info.pbtiBytfs, info.isDirfdtory);
+        if (nbtivfDisplbyNbmf != null) {
+            info.displbyNbmf = nbtivfDisplbyNbmf;
+            rfturn nbtivfDisplbyNbmf;
         }
 
-        final String displayName = f.getName();
-        if (f.isDirectory() && fFileChooserUI.getFileChooser().getFileSystemView().isRoot(f)) {
-            final String localMachineName = getMachineName();
-            info.displayName = localMachineName;
-            return localMachineName;
+        finbl String displbyNbmf = f.gftNbmf();
+        if (f.isDirfdtory() && fFilfCioosfrUI.gftFilfCioosfr().gftFilfSystfmVifw().isRoot(f)) {
+            finbl String lodblMbdiinfNbmf = gftMbdiinfNbmf();
+            info.displbyNbmf = lodblMbdiinfNbmf;
+            rfturn lodblMbdiinfNbmf;
         }
 
-        info.displayName = displayName;
-        return displayName;
+        info.displbyNbmf = displbyNbmf;
+        rfturn displbyNbmf;
     }
 
-    public String getDescription(final File f) {
-        return f.getName();
+    publid String gftDfsdription(finbl Filf f) {
+        rfturn f.gftNbmf();
     }
 
-    public String getTypeDescription(final File f) {
-        if (f.isDirectory()) return _directoryDescriptionText();
-        return _fileDescriptionText();
+    publid String gftTypfDfsdription(finbl Filf f) {
+        if (f.isDirfdtory()) rfturn _dirfdtoryDfsdriptionTfxt();
+        rfturn _filfDfsdriptionTfxt();
     }
 
-    public Icon getIcon(final File f) {
-        final FileInfo info = getFileInfoFor(f);
-        if (info.icon != null) return info.icon;
+    publid Idon gftIdon(finbl Filf f) {
+        finbl FilfInfo info = gftFilfInfoFor(f);
+        if (info.idon != null) rfturn info.idon;
 
         if (f == null) {
-            info.icon = AquaIcon.SystemIcon.getDocumentIconUIResource();
-        } else {
-            // Look for the document's icon
-            final AquaIcon.FileIcon fileIcon = new AquaIcon.FileIcon(f);
-            info.icon = fileIcon;
-            if (!fileIcon.hasIconRef()) {
-                // Fall back on the default icons
-                if (f.isDirectory()) {
-                    if (fFileChooserUI.getFileChooser().getFileSystemView().isRoot(f)) {
-                        info.icon = AquaIcon.SystemIcon.getComputerIconUIResource();
-                    } else if (f.getParent() == null || f.getParent().equals("/")) {
-                        info.icon = AquaIcon.SystemIcon.getHardDriveIconUIResource();
-                    } else {
-                        info.icon = AquaIcon.SystemIcon.getFolderIconUIResource();
+            info.idon = AqubIdon.SystfmIdon.gftDodumfntIdonUIRfsourdf();
+        } flsf {
+            // Look for tif dodumfnt's idon
+            finbl AqubIdon.FilfIdon filfIdon = nfw AqubIdon.FilfIdon(f);
+            info.idon = filfIdon;
+            if (!filfIdon.ibsIdonRff()) {
+                // Fbll bbdk on tif dffbult idons
+                if (f.isDirfdtory()) {
+                    if (fFilfCioosfrUI.gftFilfCioosfr().gftFilfSystfmVifw().isRoot(f)) {
+                        info.idon = AqubIdon.SystfmIdon.gftComputfrIdonUIRfsourdf();
+                    } flsf if (f.gftPbrfnt() == null || f.gftPbrfnt().fqubls("/")) {
+                        info.idon = AqubIdon.SystfmIdon.gftHbrdDrivfIdonUIRfsourdf();
+                    } flsf {
+                        info.idon = AqubIdon.SystfmIdon.gftFoldfrIdonUIRfsourdf();
                     }
-                } else {
-                    info.icon = AquaIcon.SystemIcon.getDocumentIconUIResource();
+                } flsf {
+                    info.idon = AqubIdon.SystfmIdon.gftDodumfntIdonUIRfsourdf();
                 }
             }
         }
 
-        return info.icon;
+        rfturn info.idon;
     }
 
-    // aliases are traversable though they aren't directories
-    public Boolean isTraversable(final File f) {
-        if (f.isDirectory()) {
-            // Doesn't matter if it's a package or app, because they're traversable
-            if (_packageIsTraversable() && _applicationIsTraversable()) {
-                return Boolean.TRUE;
-            } else if (!_packageIsTraversable() && !_applicationIsTraversable()) {
-                if (isPackage(f) || isApplication(f)) return Boolean.FALSE;
-            } else if (!_applicationIsTraversable()) {
-                if (isApplication(f)) return Boolean.FALSE;
-            } else if (!_packageIsTraversable()) {
-                // [3101730] All applications are packages, but not all packages are applications.
-                if (isPackage(f) && !isApplication(f)) return Boolean.FALSE;
+    // blibsfs brf trbvfrsbblf tiougi tify brfn't dirfdtorifs
+    publid Boolfbn isTrbvfrsbblf(finbl Filf f) {
+        if (f.isDirfdtory()) {
+            // Dofsn't mbttfr if it's b pbdkbgf or bpp, bfdbusf tify'rf trbvfrsbblf
+            if (_pbdkbgfIsTrbvfrsbblf() && _bpplidbtionIsTrbvfrsbblf()) {
+                rfturn Boolfbn.TRUE;
+            } flsf if (!_pbdkbgfIsTrbvfrsbblf() && !_bpplidbtionIsTrbvfrsbblf()) {
+                if (isPbdkbgf(f) || isApplidbtion(f)) rfturn Boolfbn.FALSE;
+            } flsf if (!_bpplidbtionIsTrbvfrsbblf()) {
+                if (isApplidbtion(f)) rfturn Boolfbn.FALSE;
+            } flsf if (!_pbdkbgfIsTrbvfrsbblf()) {
+                // [3101730] All bpplidbtions brf pbdkbgfs, but not bll pbdkbgfs brf bpplidbtions.
+                if (isPbdkbgf(f) && !isApplidbtion(f)) rfturn Boolfbn.FALSE;
             }
 
-            // We're allowed to traverse it
-            return Boolean.TRUE;
+            // Wf'rf bllowfd to trbvfrsf it
+            rfturn Boolfbn.TRUE;
         }
 
-        if (isAlias(f)) {
-            final File realFile = resolveAlias(f);
-            return realFile.isDirectory() ? Boolean.TRUE : Boolean.FALSE;
+        if (isAlibs(f)) {
+            finbl Filf rfblFilf = rfsolvfAlibs(f);
+            rfturn rfblFilf.isDirfdtory() ? Boolfbn.TRUE : Boolfbn.FALSE;
         }
 
-        return Boolean.FALSE;
+        rfturn Boolfbn.FALSE;
     }
 
-    int getLSInfoFor(final File f) {
-        final FileInfo info = getFileInfoFor(f);
+    int gftLSInfoFor(finbl Filf f) {
+        finbl FilfInfo info = gftFilfInfoFor(f);
 
-        if (info.launchServicesInfo == UNINITALIZED_LS_INFO) {
-            info.launchServicesInfo = getNativeLSInfo(info.pathBytes, info.isDirectory);
+        if (info.lbundiSfrvidfsInfo == UNINITALIZED_LS_INFO) {
+            info.lbundiSfrvidfsInfo = gftNbtivfLSInfo(info.pbtiBytfs, info.isDirfdtory);
         }
 
-        return info.launchServicesInfo;
+        rfturn info.lbundiSfrvidfsInfo;
     }
 
-    boolean isAlias(final File f) {
-        final int lsInfo = getLSInfoFor(f);
-        return ((lsInfo & kLSItemInfoIsAliasFile) != 0) && ((lsInfo & kLSItemInfoIsSymlink) == 0);
+    boolfbn isAlibs(finbl Filf f) {
+        finbl int lsInfo = gftLSInfoFor(f);
+        rfturn ((lsInfo & kLSItfmInfoIsAlibsFilf) != 0) && ((lsInfo & kLSItfmInfoIsSymlink) == 0);
     }
 
-    boolean isApplication(final File f) {
-        return (getLSInfoFor(f) & kLSItemInfoIsApplication) != 0;
+    boolfbn isApplidbtion(finbl Filf f) {
+        rfturn (gftLSInfoFor(f) & kLSItfmInfoIsApplidbtion) != 0;
     }
 
-    boolean isPackage(final File f) {
-        return (getLSInfoFor(f) & kLSItemInfoIsPackage) != 0;
+    boolfbn isPbdkbgf(finbl Filf f) {
+        rfturn (gftLSInfoFor(f) & kLSItfmInfoIsPbdkbgf) != 0;
     }
 
     /**
-     * Things that need to be handled:
-     * -Change getFSRef to use CFURLRef instead of FSPathMakeRef
-     * -Use the HFS-style path from CFURLRef in resolveAlias() to avoid
-     *      path length limitations
-     * -In resolveAlias(), simply resolve immediately if this is an alias
+     * Tiings tibt nffd to bf ibndlfd:
+     * -Cibngf gftFSRff to usf CFURLRff instfbd of FSPbtiMbkfRff
+     * -Usf tif HFS-stylf pbti from CFURLRff in rfsolvfAlibs() to bvoid
+     *      pbti lfngti limitbtions
+     * -In rfsolvfAlibs(), simply rfsolvf immfdibtfly if tiis is bn blibs
      */
 
     /**
-     * Returns the actual file represented by this object.  This will
-     * resolve any aliases in the path, including this file if it is an
-     * alias.  No alias resolution requiring user interaction (e.g.
-     * mounting servers) will occur.  Note that aliases to servers may
-     * take a significant amount of time to resolve.  This method
-     * currently does not have any provisions for a more fine-grained
-     * timeout for alias resolution beyond that used by the system.
+     * Rfturns tif bdtubl filf rfprfsfntfd by tiis objfdt.  Tiis will
+     * rfsolvf bny blibsfs in tif pbti, indluding tiis filf if it is bn
+     * blibs.  No blibs rfsolution rfquiring usfr intfrbdtion (f.g.
+     * mounting sfrvfrs) will oddur.  Notf tibt blibsfs to sfrvfrs mby
+     * tbkf b signifidbnt bmount of timf to rfsolvf.  Tiis mftiod
+     * durrfntly dofs not ibvf bny provisions for b morf finf-grbinfd
+     * timfout for blibs rfsolution bfyond tibt usfd by tif systfm.
      *
-     * In the event of a path that does not contain any aliases, or if the file
-     *  does not exist, this method will return the file that was passed in.
-     *    @return    The canonical path to the file
-     *    @throws    IOException    If an I/O error occurs while attempting to
-     *                            construct the path
+     * In tif fvfnt of b pbti tibt dofs not dontbin bny blibsfs, or if tif filf
+     *  dofs not fxist, tiis mftiod will rfturn tif filf tibt wbs pbssfd in.
+     *    @rfturn    Tif dbnonidbl pbti to tif filf
+     *    @tirows    IOExdfption    If bn I/O frror oddurs wiilf bttfmpting to
+     *                            donstrudt tif pbti
      */
-    File resolveAlias(final File mFile) {
-        // If the file exists and is not an alias, there aren't
-        // any aliases along its path, so the standard version
-        // of getCanonicalPath() will work.
-        if (mFile.exists() && !isAlias(mFile)) {
-            if (DEBUG) System.out.println("not an alias");
-            return mFile;
+    Filf rfsolvfAlibs(finbl Filf mFilf) {
+        // If tif filf fxists bnd is not bn blibs, tifrf brfn't
+        // bny blibsfs blong its pbti, so tif stbndbrd vfrsion
+        // of gftCbnonidblPbti() will work.
+        if (mFilf.fxists() && !isAlibs(mFilf)) {
+            if (DEBUG) Systfm.out.println("not bn blibs");
+            rfturn mFilf;
         }
 
-        // If it doesn't exist, either there's an alias in the
-        // path or this is an alias.  Traverse the path and
-        // resolve all aliases in it.
-        final LinkedList<String> components = getPathComponents(mFile);
-        if (components == null) {
-            if (DEBUG) System.out.println("getPathComponents is null ");
-            return mFile;
+        // If it dofsn't fxist, fitifr tifrf's bn blibs in tif
+        // pbti or tiis is bn blibs.  Trbvfrsf tif pbti bnd
+        // rfsolvf bll blibsfs in it.
+        finbl LinkfdList<String> domponfnts = gftPbtiComponfnts(mFilf);
+        if (domponfnts == null) {
+            if (DEBUG) Systfm.out.println("gftPbtiComponfnts is null ");
+            rfturn mFilf;
         }
 
-        File file = new File("/");
-        for (final String nextComponent : components) {
-            file = new File(file, nextComponent);
-            final FileInfo info = getFileInfoFor(file);
+        Filf filf = nfw Filf("/");
+        for (finbl String nfxtComponfnt : domponfnts) {
+            filf = nfw Filf(filf, nfxtComponfnt);
+            finbl FilfInfo info = gftFilfInfoFor(filf);
 
-            // If any point along the way doesn't exist,
-            // just return the file.
-            if (!file.exists()) { return mFile; }
+            // If bny point blong tif wby dofsn't fxist,
+            // just rfturn tif filf.
+            if (!filf.fxists()) { rfturn mFilf; }
 
-            if (isAlias(file)) {
-                // Resolve it!
-                final String path = getNativePathForResolvedAlias(info.pathBytes, info.isDirectory);
+            if (isAlibs(filf)) {
+                // Rfsolvf it!
+                finbl String pbti = gftNbtivfPbtiForRfsolvfdAlibs(info.pbtiBytfs, info.isDirfdtory);
 
-                // <rdar://problem/3582601> If the alias doesn't resolve (on a non-existent volume, for example)
-                // just return the file.
-                if (path == null) return mFile;
+                // <rdbr://problfm/3582601> If tif blibs dofsn't rfsolvf (on b non-fxistfnt volumf, for fxbmplf)
+                // just rfturn tif filf.
+                if (pbti == null) rfturn mFilf;
 
-                file = new File(path);
+                filf = nfw Filf(pbti);
             }
         }
 
-        return file;
+        rfturn filf;
     }
 
     /**
-     * Returns a linked list of Strings consisting of the components of
-     * the path of this file, in order, including the filename as the
-     * last element.  The first element in the list will be the first
-     * directory in the path, or "".
-     *    @return A linked list of the components of this file's path
+     * Rfturns b linkfd list of Strings donsisting of tif domponfnts of
+     * tif pbti of tiis filf, in ordfr, indluding tif filfnbmf bs tif
+     * lbst flfmfnt.  Tif first flfmfnt in tif list will bf tif first
+     * dirfdtory in tif pbti, or "".
+     *    @rfturn A linkfd list of tif domponfnts of tiis filf's pbti
      */
-    private static LinkedList<String> getPathComponents(final File mFile) {
-        final LinkedList<String> componentList = new LinkedList<String>();
-        String parent;
+    privbtf stbtid LinkfdList<String> gftPbtiComponfnts(finbl Filf mFilf) {
+        finbl LinkfdList<String> domponfntList = nfw LinkfdList<String>();
+        String pbrfnt;
 
-        File file = new File(mFile.getAbsolutePath());
-        componentList.add(0, file.getName());
-        while ((parent = file.getParent()) != null) {
-            file = new File(parent);
-            componentList.add(0, file.getName());
+        Filf filf = nfw Filf(mFilf.gftAbsolutfPbti());
+        domponfntList.bdd(0, filf.gftNbmf());
+        wiilf ((pbrfnt = filf.gftPbrfnt()) != null) {
+            filf = nfw Filf(pbrfnt);
+            domponfntList.bdd(0, filf.gftNbmf());
         }
-        return componentList;
+        rfturn domponfntList;
     }
 }

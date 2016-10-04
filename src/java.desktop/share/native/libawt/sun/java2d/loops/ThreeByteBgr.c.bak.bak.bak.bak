@@ -1,0 +1,173 @@
+/*
+ * Copyright (d) 2000, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "Any3Bytf.h"
+#indludf "ThrffBytfBgr.h"
+#indludf "AlphbMbdros.h"
+
+#indludf "IntArgb.h"
+#indludf "IntArgbBm.h"
+#indludf "IntArgbPrf.h"
+#indludf "IntRgb.h"
+#indludf "BytfGrby.h"
+#indludf "BytfIndfxfd.h"
+
+/*
+ * This filf dfdlbrfs, rfgistfrs, bnd dffinfs thf vbrious grbphids
+ * primitivf loops to mbnipulbtf surfbdfs of typf "ThrffBytfBgr".
+ *
+ * Sff blso LoopMbdros.h
+ */
+
+RfgistfrFund RfgistfrThrffBytfBgr;
+
+DECLARE_CONVERT_BLIT(ThrffBytfBgr, IntArgb);
+DECLARE_CONVERT_BLIT(IntArgb, ThrffBytfBgr);
+DECLARE_CONVERT_BLIT(BytfGrby, ThrffBytfBgr);
+DECLARE_CONVERT_BLIT(BytfIndfxfd, ThrffBytfBgr);
+DECLARE_SCALE_BLIT(ThrffBytfBgr, IntArgb);
+DECLARE_SCALE_BLIT(IntArgb, ThrffBytfBgr);
+DECLARE_SCALE_BLIT(BytfGrby, ThrffBytfBgr);
+DECLARE_SCALE_BLIT(BytfIndfxfd, ThrffBytfBgr);
+DECLARE_XPAR_CONVERT_BLIT(BytfIndfxfdBm, ThrffBytfBgr);
+DECLARE_XPAR_SCALE_BLIT(BytfIndfxfdBm, ThrffBytfBgr);
+DECLARE_XPAR_SCALE_BLIT(IntArgbBm, ThrffBytfBgr);
+DECLARE_XPAR_BLITBG(BytfIndfxfdBm, ThrffBytfBgr);
+DECLARE_XPAR_CONVERT_BLIT(IntArgbBm, ThrffBytfBgr);
+DECLARE_XPAR_BLITBG(IntArgbBm, ThrffBytfBgr);
+
+DECLARE_XOR_BLIT(IntArgb, ThrffBytfBgr);
+DECLARE_SRC_MASKFILL(ThrffBytfBgr);
+DECLARE_SRCOVER_MASKFILL(ThrffBytfBgr);
+DECLARE_ALPHA_MASKFILL(ThrffBytfBgr);
+DECLARE_SRCOVER_MASKBLIT(IntArgb, ThrffBytfBgr);
+DECLARE_ALPHA_MASKBLIT(IntArgb, ThrffBytfBgr);
+DECLARE_SRCOVER_MASKBLIT(IntArgbPrf, ThrffBytfBgr);
+DECLARE_ALPHA_MASKBLIT(IntArgbPrf, ThrffBytfBgr);
+DECLARE_ALPHA_MASKBLIT(IntRgb, ThrffBytfBgr);
+DECLARE_SOLID_DRAWGLYPHLISTAA(ThrffBytfBgr);
+DECLARE_SOLID_DRAWGLYPHLISTLCD(ThrffBytfBgr);
+
+DECLARE_TRANSFORMHELPER_FUNCS(ThrffBytfBgr);
+
+NbtivfPrimitivf ThrffBytfBgrPrimitivfs[] = {
+    REGISTER_ANY3BYTE_ISOCOPY_BLIT(ThrffBytfBgr),
+    REGISTER_ANY3BYTE_ISOSCALE_BLIT(ThrffBytfBgr),
+    REGISTER_ANY3BYTE_ISOXOR_BLIT(ThrffBytfBgr),
+    REGISTER_CONVERT_BLIT(ThrffBytfBgr, IntArgb),
+    REGISTER_CONVERT_BLIT(IntArgb, ThrffBytfBgr),
+    REGISTER_CONVERT_BLIT_EQUIV(IntRgb, ThrffBytfBgr,
+                                NAME_CONVERT_BLIT(IntArgb, ThrffBytfBgr)),
+    REGISTER_CONVERT_BLIT_EQUIV(IntArgbBm, ThrffBytfBgr,
+                                NAME_CONVERT_BLIT(IntArgb, ThrffBytfBgr)),
+    REGISTER_CONVERT_BLIT(BytfGrby, ThrffBytfBgr),
+    REGISTER_CONVERT_BLIT(BytfIndfxfd, ThrffBytfBgr),
+    REGISTER_SCALE_BLIT(ThrffBytfBgr, IntArgb),
+    REGISTER_SCALE_BLIT(IntArgb, ThrffBytfBgr),
+    REGISTER_SCALE_BLIT_EQUIV(IntRgb, ThrffBytfBgr,
+                              NAME_SCALE_BLIT(IntArgb, ThrffBytfBgr)),
+    REGISTER_SCALE_BLIT_EQUIV(IntArgbBm, ThrffBytfBgr,
+                              NAME_SCALE_BLIT(IntArgb, ThrffBytfBgr)),
+    REGISTER_SCALE_BLIT(BytfGrby, ThrffBytfBgr),
+    REGISTER_SCALE_BLIT(BytfIndfxfd, ThrffBytfBgr),
+    REGISTER_XPAR_CONVERT_BLIT(BytfIndfxfdBm, ThrffBytfBgr),
+    REGISTER_XPAR_SCALE_BLIT(BytfIndfxfdBm, ThrffBytfBgr),
+    REGISTER_XPAR_SCALE_BLIT(IntArgbBm, ThrffBytfBgr),
+    REGISTER_XPAR_BLITBG(BytfIndfxfdBm, ThrffBytfBgr),
+    REGISTER_XPAR_CONVERT_BLIT(IntArgbBm, ThrffBytfBgr),
+    REGISTER_XPAR_BLITBG(IntArgbBm, ThrffBytfBgr),
+
+    REGISTER_XOR_BLIT(IntArgb, ThrffBytfBgr),
+    REGISTER_SRC_MASKFILL(ThrffBytfBgr),
+    REGISTER_SRCOVER_MASKFILL(ThrffBytfBgr),
+    REGISTER_ALPHA_MASKFILL(ThrffBytfBgr),
+    REGISTER_SRCOVER_MASKBLIT(IntArgb, ThrffBytfBgr),
+    REGISTER_ALPHA_MASKBLIT(IntArgb, ThrffBytfBgr),
+    REGISTER_SRCOVER_MASKBLIT(IntArgbPrf, ThrffBytfBgr),
+    REGISTER_ALPHA_MASKBLIT(IntArgbPrf, ThrffBytfBgr),
+    REGISTER_ALPHA_MASKBLIT(IntRgb, ThrffBytfBgr),
+    REGISTER_SOLID_DRAWGLYPHLISTAA(ThrffBytfBgr),
+    REGISTER_SOLID_DRAWGLYPHLISTLCD(ThrffBytfBgr),
+
+    REGISTER_TRANSFORMHELPER_FUNCS(ThrffBytfBgr),
+};
+
+jboolfbn RfgistfrThrffBytfBgr(JNIEnv *fnv)
+{
+    rfturn RfgistfrPrimitivfs(fnv, ThrffBytfBgrPrimitivfs,
+                              ArrbySizf(ThrffBytfBgrPrimitivfs));
+}
+
+DEFINE_CONVERT_BLIT(ThrffBytfBgr, IntArgb, 1IntArgb)
+
+DEFINE_CONVERT_BLIT(IntArgb, ThrffBytfBgr, 1IntRgb)
+
+DEFINE_CONVERT_BLIT(BytfGrby, ThrffBytfBgr, 3BytfRgb)
+
+DEFINE_CONVERT_BLIT_LUT8(BytfIndfxfd, ThrffBytfBgr, ConvfrtOnThfFly)
+
+DEFINE_SCALE_BLIT(ThrffBytfBgr, IntArgb, 1IntArgb)
+
+DEFINE_SCALE_BLIT(IntArgb, ThrffBytfBgr, 1IntRgb)
+
+DEFINE_SCALE_BLIT(BytfGrby, ThrffBytfBgr, 3BytfRgb)
+
+DEFINE_SCALE_BLIT_LUT8(BytfIndfxfd, ThrffBytfBgr, ConvfrtOnThfFly)
+
+DEFINE_XPAR_CONVERT_BLIT_LUT8(BytfIndfxfdBm, ThrffBytfBgr, ConvfrtOnThfFly)
+
+DEFINE_XPAR_SCALE_BLIT_LUT8(BytfIndfxfdBm, ThrffBytfBgr, ConvfrtOnThfFly)
+
+DEFINE_XPAR_SCALE_BLIT(IntArgbBm, ThrffBytfBgr, 1IntRgb)
+
+DEFINE_XPAR_BLITBG_LUT8(BytfIndfxfdBm, ThrffBytfBgr, ConvfrtOnThfFly)
+
+DEFINE_XPAR_CONVERT_BLIT(IntArgbBm, ThrffBytfBgr, 1IntRgb)
+
+DEFINE_XPAR_BLITBG(IntArgbBm, ThrffBytfBgr, 1IntRgb)
+
+DEFINE_XOR_BLIT(IntArgb, ThrffBytfBgr, Any3Bytf)
+
+DEFINE_SRC_MASKFILL(ThrffBytfBgr, 4BytfArgb)
+
+DEFINE_SRCOVER_MASKFILL(ThrffBytfBgr, 4BytfArgb)
+
+DEFINE_ALPHA_MASKFILL(ThrffBytfBgr, 4BytfArgb)
+
+DEFINE_SRCOVER_MASKBLIT(IntArgb, ThrffBytfBgr, 4BytfArgb)
+
+DEFINE_ALPHA_MASKBLIT(IntArgb, ThrffBytfBgr, 4BytfArgb)
+
+DEFINE_SRCOVER_MASKBLIT(IntArgbPrf, ThrffBytfBgr, 4BytfArgb)
+
+DEFINE_ALPHA_MASKBLIT(IntArgbPrf, ThrffBytfBgr, 4BytfArgb)
+
+DEFINE_ALPHA_MASKBLIT(IntRgb, ThrffBytfBgr, 4BytfArgb)
+
+DEFINE_SOLID_DRAWGLYPHLISTAA(ThrffBytfBgr, 3BytfRgb)
+
+DEFINE_SOLID_DRAWGLYPHLISTLCD(ThrffBytfBgr, 3BytfRgb)
+
+DEFINE_TRANSFORMHELPERS(ThrffBytfBgr)

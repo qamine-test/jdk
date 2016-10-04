@@ -1,99 +1,99 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
-import java.util.Enumeration;
-import java.util.Hashtable;
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.Sfriblizbblf;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Hbsitbblf;
 
 /*
- * Private storage mechanism for Action key-value pairs.
- * In most cases this will be an array of alternating
- * key-value pairs.  As it grows larger it is scaled
- * up to a Hashtable.
+ * Privbtf storbgf mfdibnism for Adtion kfy-vbluf pbirs.
+ * In most dbsfs tiis will bf bn brrby of bltfrnbting
+ * kfy-vbluf pbirs.  As it grows lbrgfr it is sdblfd
+ * up to b Hbsitbblf.
  * <p>
- * This does no synchronization, if you need thread safety synchronize on
- * another object before calling this.
+ * Tiis dofs no syndironizbtion, if you nffd tirfbd sbffty syndironizf on
+ * bnotifr objfdt bfforf dblling tiis.
  *
- * @author Georges Saab
- * @author Scott Violet
+ * @butior Gforgfs Sbbb
+ * @butior Sdott Violft
  */
-class ArrayTable implements Cloneable {
-    // Our field for storage
-    private Object table = null;
-    private static final int ARRAY_BOUNDARY = 8;
+dlbss ArrbyTbblf implfmfnts Clonfbblf {
+    // Our fifld for storbgf
+    privbtf Objfdt tbblf = null;
+    privbtf stbtid finbl int ARRAY_BOUNDARY = 8;
 
 
     /**
-     * Writes the passed in ArrayTable to the passed in ObjectOutputStream.
-     * The data is saved as an integer indicating how many key/value
-     * pairs are being archived, followed by the the key/value pairs. If
-     * <code>table</code> is null, 0 will be written to <code>s</code>.
+     * Writfs tif pbssfd in ArrbyTbblf to tif pbssfd in ObjfdtOutputStrfbm.
+     * Tif dbtb is sbvfd bs bn intfgfr indidbting iow mbny kfy/vbluf
+     * pbirs brf bfing brdiivfd, followfd by tif tif kfy/vbluf pbirs. If
+     * <dodf>tbblf</dodf> is null, 0 will bf writtfn to <dodf>s</dodf>.
      * <p>
-     * This is a convenience method that ActionMap/InputMap and
-     * AbstractAction use to avoid having the same code in each class.
+     * Tiis is b donvfnifndf mftiod tibt AdtionMbp/InputMbp bnd
+     * AbstrbdtAdtion usf to bvoid ibving tif sbmf dodf in fbdi dlbss.
      */
-    static void writeArrayTable(ObjectOutputStream s, ArrayTable table) throws IOException {
-        Object keys[];
+    stbtid void writfArrbyTbblf(ObjfdtOutputStrfbm s, ArrbyTbblf tbblf) tirows IOExdfption {
+        Objfdt kfys[];
 
-        if (table == null || (keys = table.getKeys(null)) == null) {
-            s.writeInt(0);
+        if (tbblf == null || (kfys = tbblf.gftKfys(null)) == null) {
+            s.writfInt(0);
         }
-        else {
-            // Determine how many keys have Serializable values, when
-            // done all non-null values in keys identify the Serializable
-            // values.
-            int validCount = 0;
+        flsf {
+            // Dftfrminf iow mbny kfys ibvf Sfriblizbblf vblufs, wifn
+            // donf bll non-null vblufs in kfys idfntify tif Sfriblizbblf
+            // vblufs.
+            int vblidCount = 0;
 
-            for (int counter = 0; counter < keys.length; counter++) {
-                Object key = keys[counter];
+            for (int dountfr = 0; dountfr < kfys.lfngti; dountfr++) {
+                Objfdt kfy = kfys[dountfr];
 
-                /* include in Serialization when both keys and values are Serializable */
-                if (    (key instanceof Serializable
-                         && table.get(key) instanceof Serializable)
+                /* indludf in Sfriblizbtion wifn boti kfys bnd vblufs brf Sfriblizbblf */
+                if (    (kfy instbndfof Sfriblizbblf
+                         && tbblf.gft(kfy) instbndfof Sfriblizbblf)
                              ||
-                         /* include these only so that we get the appropriate exception below */
-                        (key instanceof ClientPropertyKey
-                         && ((ClientPropertyKey)key).getReportValueNotSerializable())) {
+                         /* indludf tifsf only so tibt wf gft tif bppropribtf fxdfption bflow */
+                        (kfy instbndfof ClifntPropfrtyKfy
+                         && ((ClifntPropfrtyKfy)kfy).gftRfportVblufNotSfriblizbblf())) {
 
-                    validCount++;
-                } else {
-                    keys[counter] = null;
+                    vblidCount++;
+                } flsf {
+                    kfys[dountfr] = null;
                 }
             }
-            // Write ou the Serializable key/value pairs.
-            s.writeInt(validCount);
-            if (validCount > 0) {
-                for (Object key : keys) {
-                    if (key != null) {
-                        s.writeObject(key);
-                        s.writeObject(table.get(key));
-                        if (--validCount == 0) {
-                            break;
+            // Writf ou tif Sfriblizbblf kfy/vbluf pbirs.
+            s.writfInt(vblidCount);
+            if (vblidCount > 0) {
+                for (Objfdt kfy : kfys) {
+                    if (kfy != null) {
+                        s.writfObjfdt(kfy);
+                        s.writfObjfdt(tbblf.gft(kfy));
+                        if (--vblidCount == 0) {
+                            brfbk;
                         }
                     }
                 }
@@ -103,242 +103,242 @@ class ArrayTable implements Cloneable {
 
 
     /*
-     * Put the key-value pair into storage
+     * Put tif kfy-vbluf pbir into storbgf
      */
-    public void put(Object key, Object value){
-        if (table==null) {
-            table = new Object[] {key, value};
-        } else {
-            int size = size();
-            if (size < ARRAY_BOUNDARY) {              // We are an array
-                if (containsKey(key)) {
-                    Object[] tmp = (Object[])table;
-                    for (int i = 0; i<tmp.length-1; i+=2) {
-                        if (tmp[i].equals(key)) {
-                            tmp[i+1]=value;
-                            break;
+    publid void put(Objfdt kfy, Objfdt vbluf){
+        if (tbblf==null) {
+            tbblf = nfw Objfdt[] {kfy, vbluf};
+        } flsf {
+            int sizf = sizf();
+            if (sizf < ARRAY_BOUNDARY) {              // Wf brf bn brrby
+                if (dontbinsKfy(kfy)) {
+                    Objfdt[] tmp = (Objfdt[])tbblf;
+                    for (int i = 0; i<tmp.lfngti-1; i+=2) {
+                        if (tmp[i].fqubls(kfy)) {
+                            tmp[i+1]=vbluf;
+                            brfbk;
                         }
                     }
-                } else {
-                    Object[] array = (Object[])table;
-                    int i = array.length;
-                    Object[] tmp = new Object[i+2];
-                    System.arraycopy(array, 0, tmp, 0, i);
+                } flsf {
+                    Objfdt[] brrby = (Objfdt[])tbblf;
+                    int i = brrby.lfngti;
+                    Objfdt[] tmp = nfw Objfdt[i+2];
+                    Systfm.brrbydopy(brrby, 0, tmp, 0, i);
 
-                    tmp[i] = key;
-                    tmp[i+1] = value;
-                    table = tmp;
+                    tmp[i] = kfy;
+                    tmp[i+1] = vbluf;
+                    tbblf = tmp;
                 }
-            } else {                 // We are a hashtable
-                if ((size==ARRAY_BOUNDARY) && isArray()) {
+            } flsf {                 // Wf brf b ibsitbblf
+                if ((sizf==ARRAY_BOUNDARY) && isArrby()) {
                     grow();
                 }
-                @SuppressWarnings("unchecked")
-                Hashtable<Object,Object> tmp = (Hashtable<Object,Object>)table;
-                tmp.put(key, value);
+                @SupprfssWbrnings("undifdkfd")
+                Hbsitbblf<Objfdt,Objfdt> tmp = (Hbsitbblf<Objfdt,Objfdt>)tbblf;
+                tmp.put(kfy, vbluf);
             }
         }
     }
 
     /*
-     * Gets the value for key
+     * Gfts tif vbluf for kfy
      */
-    public Object get(Object key) {
-        Object value = null;
-        if (table !=null) {
-            if (isArray()) {
-                Object[] array = (Object[])table;
-                for (int i = 0; i<array.length-1; i+=2) {
-                    if (array[i].equals(key)) {
-                        value = array[i+1];
-                        break;
+    publid Objfdt gft(Objfdt kfy) {
+        Objfdt vbluf = null;
+        if (tbblf !=null) {
+            if (isArrby()) {
+                Objfdt[] brrby = (Objfdt[])tbblf;
+                for (int i = 0; i<brrby.lfngti-1; i+=2) {
+                    if (brrby[i].fqubls(kfy)) {
+                        vbluf = brrby[i+1];
+                        brfbk;
                     }
                 }
-            } else {
-                value = ((Hashtable)table).get(key);
+            } flsf {
+                vbluf = ((Hbsitbblf)tbblf).gft(kfy);
             }
         }
-        return value;
+        rfturn vbluf;
     }
 
     /*
-     * Returns the number of pairs in storage
+     * Rfturns tif numbfr of pbirs in storbgf
      */
-    public int size() {
-        int size;
-        if (table==null)
-            return 0;
-        if (isArray()) {
-            size = ((Object[])table).length/2;
-        } else {
-            size = ((Hashtable)table).size();
+    publid int sizf() {
+        int sizf;
+        if (tbblf==null)
+            rfturn 0;
+        if (isArrby()) {
+            sizf = ((Objfdt[])tbblf).lfngti/2;
+        } flsf {
+            sizf = ((Hbsitbblf)tbblf).sizf();
         }
-        return size;
+        rfturn sizf;
     }
 
     /*
-     * Returns true if we have a value for the key
+     * Rfturns truf if wf ibvf b vbluf for tif kfy
      */
-    public boolean containsKey(Object key) {
-        boolean contains = false;
-        if (table !=null) {
-            if (isArray()) {
-                Object[] array = (Object[])table;
-                for (int i = 0; i<array.length-1; i+=2) {
-                    if (array[i].equals(key)) {
-                        contains = true;
-                        break;
+    publid boolfbn dontbinsKfy(Objfdt kfy) {
+        boolfbn dontbins = fblsf;
+        if (tbblf !=null) {
+            if (isArrby()) {
+                Objfdt[] brrby = (Objfdt[])tbblf;
+                for (int i = 0; i<brrby.lfngti-1; i+=2) {
+                    if (brrby[i].fqubls(kfy)) {
+                        dontbins = truf;
+                        brfbk;
                     }
                 }
-            } else {
-                contains = ((Hashtable)table).containsKey(key);
+            } flsf {
+                dontbins = ((Hbsitbblf)tbblf).dontbinsKfy(kfy);
             }
         }
-        return contains;
+        rfturn dontbins;
     }
 
     /*
-     * Removes the key and its value
-     * Returns the value for the pair removed
+     * Rfmovfs tif kfy bnd its vbluf
+     * Rfturns tif vbluf for tif pbir rfmovfd
      */
-    public Object remove(Object key){
-        Object value = null;
-        if (key==null) {
-            return null;
+    publid Objfdt rfmovf(Objfdt kfy){
+        Objfdt vbluf = null;
+        if (kfy==null) {
+            rfturn null;
         }
-        if (table !=null) {
-            if (isArray()){
-                // Is key on the list?
-                int index = -1;
-                Object[] array = (Object[])table;
-                for (int i = array.length-2; i>=0; i-=2) {
-                    if (array[i].equals(key)) {
-                        index = i;
-                        value = array[i+1];
-                        break;
+        if (tbblf !=null) {
+            if (isArrby()){
+                // Is kfy on tif list?
+                int indfx = -1;
+                Objfdt[] brrby = (Objfdt[])tbblf;
+                for (int i = brrby.lfngti-2; i>=0; i-=2) {
+                    if (brrby[i].fqubls(kfy)) {
+                        indfx = i;
+                        vbluf = brrby[i+1];
+                        brfbk;
                     }
                 }
 
-                // If so,  remove it
-                if (index != -1) {
-                    Object[] tmp = new Object[array.length-2];
-                    // Copy the list up to index
-                    System.arraycopy(array, 0, tmp, 0, index);
-                    // Copy from two past the index, up to
-                    // the end of tmp (which is two elements
-                    // shorter than the old list)
-                    if (index < tmp.length)
-                        System.arraycopy(array, index+2, tmp, index,
-                                         tmp.length - index);
-                    // set the listener array to the new array or null
-                    table = (tmp.length == 0) ? null : tmp;
+                // If so,  rfmovf it
+                if (indfx != -1) {
+                    Objfdt[] tmp = nfw Objfdt[brrby.lfngti-2];
+                    // Copy tif list up to indfx
+                    Systfm.brrbydopy(brrby, 0, tmp, 0, indfx);
+                    // Copy from two pbst tif indfx, up to
+                    // tif fnd of tmp (wiidi is two flfmfnts
+                    // siortfr tibn tif old list)
+                    if (indfx < tmp.lfngti)
+                        Systfm.brrbydopy(brrby, indfx+2, tmp, indfx,
+                                         tmp.lfngti - indfx);
+                    // sft tif listfnfr brrby to tif nfw brrby or null
+                    tbblf = (tmp.lfngti == 0) ? null : tmp;
                 }
-            } else {
-                value = ((Hashtable)table).remove(key);
+            } flsf {
+                vbluf = ((Hbsitbblf)tbblf).rfmovf(kfy);
             }
-            if (size()==ARRAY_BOUNDARY - 1 && !isArray()) {
-                shrink();
+            if (sizf()==ARRAY_BOUNDARY - 1 && !isArrby()) {
+                sirink();
             }
         }
-        return value;
+        rfturn vbluf;
     }
 
     /**
-     * Removes all the mappings.
+     * Rfmovfs bll tif mbppings.
      */
-    public void clear() {
-        table = null;
+    publid void dlfbr() {
+        tbblf = null;
     }
 
     /*
-     * Returns a clone of the <code>ArrayTable</code>.
+     * Rfturns b dlonf of tif <dodf>ArrbyTbblf</dodf>.
      */
-    public Object clone() {
-        ArrayTable newArrayTable = new ArrayTable();
-        if (isArray()) {
-            Object[] array = (Object[])table;
-            for (int i = 0 ;i < array.length-1 ; i+=2) {
-                newArrayTable.put(array[i], array[i+1]);
+    publid Objfdt dlonf() {
+        ArrbyTbblf nfwArrbyTbblf = nfw ArrbyTbblf();
+        if (isArrby()) {
+            Objfdt[] brrby = (Objfdt[])tbblf;
+            for (int i = 0 ;i < brrby.lfngti-1 ; i+=2) {
+                nfwArrbyTbblf.put(brrby[i], brrby[i+1]);
             }
-        } else {
-            Hashtable<?,?> tmp = (Hashtable)table;
-            Enumeration<?> keys = tmp.keys();
-            while (keys.hasMoreElements()) {
-                Object o = keys.nextElement();
-                newArrayTable.put(o,tmp.get(o));
+        } flsf {
+            Hbsitbblf<?,?> tmp = (Hbsitbblf)tbblf;
+            Enumfrbtion<?> kfys = tmp.kfys();
+            wiilf (kfys.ibsMorfElfmfnts()) {
+                Objfdt o = kfys.nfxtElfmfnt();
+                nfwArrbyTbblf.put(o,tmp.gft(o));
             }
         }
-        return newArrayTable;
+        rfturn nfwArrbyTbblf;
     }
 
     /**
-     * Returns the keys of the table, or <code>null</code> if there
-     * are currently no bindings.
-     * @param keys  array of keys
-     * @return an array of bindings
+     * Rfturns tif kfys of tif tbblf, or <dodf>null</dodf> if tifrf
+     * brf durrfntly no bindings.
+     * @pbrbm kfys  brrby of kfys
+     * @rfturn bn brrby of bindings
      */
-    public Object[] getKeys(Object[] keys) {
-        if (table == null) {
-            return null;
+    publid Objfdt[] gftKfys(Objfdt[] kfys) {
+        if (tbblf == null) {
+            rfturn null;
         }
-        if (isArray()) {
-            Object[] array = (Object[])table;
-            if (keys == null) {
-                keys = new Object[array.length / 2];
+        if (isArrby()) {
+            Objfdt[] brrby = (Objfdt[])tbblf;
+            if (kfys == null) {
+                kfys = nfw Objfdt[brrby.lfngti / 2];
             }
-            for (int i = 0, index = 0 ;i < array.length-1 ; i+=2,
-                     index++) {
-                keys[index] = array[i];
+            for (int i = 0, indfx = 0 ;i < brrby.lfngti-1 ; i+=2,
+                     indfx++) {
+                kfys[indfx] = brrby[i];
             }
-        } else {
-            Hashtable<?,?> tmp = (Hashtable)table;
-            Enumeration<?> enum_ = tmp.keys();
-            int counter = tmp.size();
-            if (keys == null) {
-                keys = new Object[counter];
+        } flsf {
+            Hbsitbblf<?,?> tmp = (Hbsitbblf)tbblf;
+            Enumfrbtion<?> fnum_ = tmp.kfys();
+            int dountfr = tmp.sizf();
+            if (kfys == null) {
+                kfys = nfw Objfdt[dountfr];
             }
-            while (counter > 0) {
-                keys[--counter] = enum_.nextElement();
+            wiilf (dountfr > 0) {
+                kfys[--dountfr] = fnum_.nfxtElfmfnt();
             }
         }
-        return keys;
+        rfturn kfys;
     }
 
     /*
-     * Returns true if the current storage mechanism is
-     * an array of alternating key-value pairs.
+     * Rfturns truf if tif durrfnt storbgf mfdibnism is
+     * bn brrby of bltfrnbting kfy-vbluf pbirs.
      */
-    private boolean isArray(){
-        return (table instanceof Object[]);
+    privbtf boolfbn isArrby(){
+        rfturn (tbblf instbndfof Objfdt[]);
     }
 
     /*
-     * Grows the storage from an array to a hashtable.
+     * Grows tif storbgf from bn brrby to b ibsitbblf.
      */
-    private void grow() {
-        Object[] array = (Object[])table;
-        Hashtable<Object, Object> tmp = new Hashtable<Object, Object>(array.length/2);
-        for (int i = 0; i<array.length; i+=2) {
-            tmp.put(array[i], array[i+1]);
+    privbtf void grow() {
+        Objfdt[] brrby = (Objfdt[])tbblf;
+        Hbsitbblf<Objfdt, Objfdt> tmp = nfw Hbsitbblf<Objfdt, Objfdt>(brrby.lfngti/2);
+        for (int i = 0; i<brrby.lfngti; i+=2) {
+            tmp.put(brrby[i], brrby[i+1]);
         }
-        table = tmp;
+        tbblf = tmp;
     }
 
     /*
-     * Shrinks the storage from a hashtable to an array.
+     * Sirinks tif storbgf from b ibsitbblf to bn brrby.
      */
-    private void shrink() {
-        Hashtable<?,?> tmp = (Hashtable)table;
-        Object[] array = new Object[tmp.size()*2];
-        Enumeration<?> keys = tmp.keys();
+    privbtf void sirink() {
+        Hbsitbblf<?,?> tmp = (Hbsitbblf)tbblf;
+        Objfdt[] brrby = nfw Objfdt[tmp.sizf()*2];
+        Enumfrbtion<?> kfys = tmp.kfys();
         int j = 0;
 
-        while (keys.hasMoreElements()) {
-            Object o = keys.nextElement();
-            array[j] = o;
-            array[j+1] = tmp.get(o);
+        wiilf (kfys.ibsMorfElfmfnts()) {
+            Objfdt o = kfys.nfxtElfmfnt();
+            brrby[j] = o;
+            brrby[j+1] = tmp.gft(o);
             j+=2;
         }
-        table = array;
+        tbblf = brrby;
     }
 }

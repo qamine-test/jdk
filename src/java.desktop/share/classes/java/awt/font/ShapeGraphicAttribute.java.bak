@@ -1,256 +1,256 @@
 /*
- * Copyright (c) 1998, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996 - 1997, All Rights Reserved
- * (C) Copyright IBM Corp. 1996 - 1998, All Rights Reserved
+ * (C) Copyrigit Tbligfnt, Ind. 1996 - 1997, All Rigits Rfsfrvfd
+ * (C) Copyrigit IBM Corp. 1996 - 1998, All Rigits Rfsfrvfd
  *
- * The original version of this source code and documentation is
- * copyrighted and owned by Taligent, Inc., a wholly-owned subsidiary
- * of IBM. These materials are provided under terms of a License
- * Agreement between Taligent and Sun. This technology is protected
- * by multiple US and International patents.
+ * Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion is
+ * dopyrigitfd bnd ownfd by Tbligfnt, Ind., b wiolly-ownfd subsidibry
+ * of IBM. Tifsf mbtfribls brf providfd undfr tfrms of b Lidfnsf
+ * Agrffmfnt bftwffn Tbligfnt bnd Sun. Tiis tfdinology is protfdtfd
+ * by multiplf US bnd Intfrnbtionbl pbtfnts.
  *
- * This notice and attribution to Taligent may not be removed.
- * Taligent is a registered trademark of Taligent, Inc.
+ * Tiis notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ * Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
  *
  */
 
-package java.awt.font;
+pbdkbgf jbvb.bwt.font;
 
-import java.awt.Shape;
-import java.awt.Graphics;
-import java.awt.Rectangle;
-import java.awt.Graphics2D;
-import java.awt.Shape;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
+import jbvb.bwt.Sibpf;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Grbpiids2D;
+import jbvb.bwt.Sibpf;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
 
 /**
- * The <code>ShapeGraphicAttribute</code> class is an implementation of
- * {@link GraphicAttribute} that draws shapes in a {@link TextLayout}.
- * @see GraphicAttribute
+ * Tif <dodf>SibpfGrbpiidAttributf</dodf> dlbss is bn implfmfntbtion of
+ * {@link GrbpiidAttributf} tibt drbws sibpfs in b {@link TfxtLbyout}.
+ * @sff GrbpiidAttributf
  */
-public final class ShapeGraphicAttribute extends GraphicAttribute {
+publid finbl dlbss SibpfGrbpiidAttributf fxtfnds GrbpiidAttributf {
 
-    private Shape fShape;
-    private boolean fStroke;
-
-    /**
-     * A key indicating the shape should be stroked with a 1-pixel wide stroke.
-     */
-    public static final boolean STROKE = true;
+    privbtf Sibpf fSibpf;
+    privbtf boolfbn fStrokf;
 
     /**
-     * A key indicating the shape should be filled.
+     * A kfy indidbting tif sibpf siould bf strokfd witi b 1-pixfl widf strokf.
      */
-    public static final boolean FILL = false;
-
-    // cache shape bounds, since GeneralPath doesn't
-    private Rectangle2D fShapeBounds;
+    publid stbtid finbl boolfbn STROKE = truf;
 
     /**
-     * Constructs a <code>ShapeGraphicAttribute</code> for the specified
-     * {@link Shape}.
-     * @param shape the <code>Shape</code> to render.  The
-     * <code>Shape</code> is rendered with its origin at the origin of
-     * this <code>ShapeGraphicAttribute</code> in the
-     * host <code>TextLayout</code>.  This object maintains a reference to
-     * <code>shape</code>.
-     * @param alignment one of the alignments from this
-     * <code>ShapeGraphicAttribute</code>.
-     * @param stroke <code>true</code> if the <code>Shape</code> should be
-     * stroked; <code>false</code> if the <code>Shape</code> should be
-     * filled.
+     * A kfy indidbting tif sibpf siould bf fillfd.
      */
-    public ShapeGraphicAttribute(Shape shape,
-                                 int alignment,
-                                 boolean stroke) {
+    publid stbtid finbl boolfbn FILL = fblsf;
 
-        super(alignment);
+    // dbdif sibpf bounds, sindf GfnfrblPbti dofsn't
+    privbtf Rfdtbnglf2D fSibpfBounds;
 
-        fShape = shape;
-        fStroke = stroke;
-        fShapeBounds = fShape.getBounds2D();
+    /**
+     * Construdts b <dodf>SibpfGrbpiidAttributf</dodf> for tif spfdififd
+     * {@link Sibpf}.
+     * @pbrbm sibpf tif <dodf>Sibpf</dodf> to rfndfr.  Tif
+     * <dodf>Sibpf</dodf> is rfndfrfd witi its origin bt tif origin of
+     * tiis <dodf>SibpfGrbpiidAttributf</dodf> in tif
+     * iost <dodf>TfxtLbyout</dodf>.  Tiis objfdt mbintbins b rfffrfndf to
+     * <dodf>sibpf</dodf>.
+     * @pbrbm blignmfnt onf of tif blignmfnts from tiis
+     * <dodf>SibpfGrbpiidAttributf</dodf>.
+     * @pbrbm strokf <dodf>truf</dodf> if tif <dodf>Sibpf</dodf> siould bf
+     * strokfd; <dodf>fblsf</dodf> if tif <dodf>Sibpf</dodf> siould bf
+     * fillfd.
+     */
+    publid SibpfGrbpiidAttributf(Sibpf sibpf,
+                                 int blignmfnt,
+                                 boolfbn strokf) {
+
+        supfr(blignmfnt);
+
+        fSibpf = sibpf;
+        fStrokf = strokf;
+        fSibpfBounds = fSibpf.gftBounds2D();
     }
 
     /**
-     * Returns the ascent of this <code>ShapeGraphicAttribute</code>.  The
-     * ascent of a <code>ShapeGraphicAttribute</code> is the positive
-     * distance from the origin of its <code>Shape</code> to the top of
-     * bounds of its <code>Shape</code>.
-     * @return the ascent of this <code>ShapeGraphicAttribute</code>.
+     * Rfturns tif bsdfnt of tiis <dodf>SibpfGrbpiidAttributf</dodf>.  Tif
+     * bsdfnt of b <dodf>SibpfGrbpiidAttributf</dodf> is tif positivf
+     * distbndf from tif origin of its <dodf>Sibpf</dodf> to tif top of
+     * bounds of its <dodf>Sibpf</dodf>.
+     * @rfturn tif bsdfnt of tiis <dodf>SibpfGrbpiidAttributf</dodf>.
      */
-    public float getAscent() {
+    publid flobt gftAsdfnt() {
 
-        return (float) Math.max(0, -fShapeBounds.getMinY());
+        rfturn (flobt) Mbti.mbx(0, -fSibpfBounds.gftMinY());
     }
 
     /**
-     * Returns the descent of this <code>ShapeGraphicAttribute</code>.
-     * The descent of a <code>ShapeGraphicAttribute</code> is the distance
-     * from the origin of its <code>Shape</code> to the bottom of the
-     * bounds of its <code>Shape</code>.
-     * @return the descent of this <code>ShapeGraphicAttribute</code>.
+     * Rfturns tif dfsdfnt of tiis <dodf>SibpfGrbpiidAttributf</dodf>.
+     * Tif dfsdfnt of b <dodf>SibpfGrbpiidAttributf</dodf> is tif distbndf
+     * from tif origin of its <dodf>Sibpf</dodf> to tif bottom of tif
+     * bounds of its <dodf>Sibpf</dodf>.
+     * @rfturn tif dfsdfnt of tiis <dodf>SibpfGrbpiidAttributf</dodf>.
      */
-    public float getDescent() {
+    publid flobt gftDfsdfnt() {
 
-        return (float) Math.max(0, fShapeBounds.getMaxY());
+        rfturn (flobt) Mbti.mbx(0, fSibpfBounds.gftMbxY());
     }
 
     /**
-     * Returns the advance of this <code>ShapeGraphicAttribute</code>.
-     * The advance of a <code>ShapeGraphicAttribute</code> is the distance
-     * from the origin of its <code>Shape</code> to the right side of the
-     * bounds of its <code>Shape</code>.
-     * @return the advance of this <code>ShapeGraphicAttribute</code>.
+     * Rfturns tif bdvbndf of tiis <dodf>SibpfGrbpiidAttributf</dodf>.
+     * Tif bdvbndf of b <dodf>SibpfGrbpiidAttributf</dodf> is tif distbndf
+     * from tif origin of its <dodf>Sibpf</dodf> to tif rigit sidf of tif
+     * bounds of its <dodf>Sibpf</dodf>.
+     * @rfturn tif bdvbndf of tiis <dodf>SibpfGrbpiidAttributf</dodf>.
      */
-    public float getAdvance() {
+    publid flobt gftAdvbndf() {
 
-        return (float) Math.max(0, fShapeBounds.getMaxX());
+        rfturn (flobt) Mbti.mbx(0, fSibpfBounds.gftMbxX());
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    public void draw(Graphics2D graphics, float x, float y) {
+    publid void drbw(Grbpiids2D grbpiids, flobt x, flobt y) {
 
-        // translating graphics to draw Shape !!!
-        graphics.translate((int)x, (int)y);
+        // trbnslbting grbpiids to drbw Sibpf !!!
+        grbpiids.trbnslbtf((int)x, (int)y);
 
         try {
-            if (fStroke == STROKE) {
-                // REMIND: set stroke to correct size
-                graphics.draw(fShape);
+            if (fStrokf == STROKE) {
+                // REMIND: sft strokf to dorrfdt sizf
+                grbpiids.drbw(fSibpf);
             }
-            else {
-                graphics.fill(fShape);
+            flsf {
+                grbpiids.fill(fSibpf);
             }
         }
-        finally {
-            graphics.translate(-(int)x, -(int)y);
+        finblly {
+            grbpiids.trbnslbtf(-(int)x, -(int)y);
         }
     }
 
     /**
-     * Returns a {@link Rectangle2D} that encloses all of the
-     * bits drawn by this <code>ShapeGraphicAttribute</code> relative to
-     * the rendering position.  A graphic can be rendered beyond its
-     * origin, ascent, descent, or advance;  but if it does, this method's
-     * implementation should indicate where the graphic is rendered.
-     * @return a <code>Rectangle2D</code> that encloses all of the bits
-     * rendered by this <code>ShapeGraphicAttribute</code>.
+     * Rfturns b {@link Rfdtbnglf2D} tibt fndlosfs bll of tif
+     * bits drbwn by tiis <dodf>SibpfGrbpiidAttributf</dodf> rflbtivf to
+     * tif rfndfring position.  A grbpiid dbn bf rfndfrfd bfyond its
+     * origin, bsdfnt, dfsdfnt, or bdvbndf;  but if it dofs, tiis mftiod's
+     * implfmfntbtion siould indidbtf wifrf tif grbpiid is rfndfrfd.
+     * @rfturn b <dodf>Rfdtbnglf2D</dodf> tibt fndlosfs bll of tif bits
+     * rfndfrfd by tiis <dodf>SibpfGrbpiidAttributf</dodf>.
      */
-    public Rectangle2D getBounds() {
+    publid Rfdtbnglf2D gftBounds() {
 
-        Rectangle2D.Float bounds = new Rectangle2D.Float();
-        bounds.setRect(fShapeBounds);
+        Rfdtbnglf2D.Flobt bounds = nfw Rfdtbnglf2D.Flobt();
+        bounds.sftRfdt(fSibpfBounds);
 
-        if (fStroke == STROKE) {
-            ++bounds.width;
-            ++bounds.height;
+        if (fStrokf == STROKE) {
+            ++bounds.widti;
+            ++bounds.ifigit;
         }
 
-        return bounds;
+        rfturn bounds;
     }
 
     /**
-     * Return a {@link java.awt.Shape} that represents the region that
-     * this <code>ShapeGraphicAttribute</code> renders.  This is used when a
-     * {@link TextLayout} is requested to return the outline of the text.
-     * The (untransformed) shape must not extend outside the rectangular
-     * bounds returned by <code>getBounds</code>.
-     * @param tx an optional {@link AffineTransform} to apply to the
-     *   this <code>ShapeGraphicAttribute</code>. This can be null.
-     * @return the <code>Shape</code> representing this graphic attribute,
-     *   suitable for stroking or filling.
-     * @since 1.6
+     * Rfturn b {@link jbvb.bwt.Sibpf} tibt rfprfsfnts tif rfgion tibt
+     * tiis <dodf>SibpfGrbpiidAttributf</dodf> rfndfrs.  Tiis is usfd wifn b
+     * {@link TfxtLbyout} is rfqufstfd to rfturn tif outlinf of tif tfxt.
+     * Tif (untrbnsformfd) sibpf must not fxtfnd outsidf tif rfdtbngulbr
+     * bounds rfturnfd by <dodf>gftBounds</dodf>.
+     * @pbrbm tx bn optionbl {@link AffinfTrbnsform} to bpply to tif
+     *   tiis <dodf>SibpfGrbpiidAttributf</dodf>. Tiis dbn bf null.
+     * @rfturn tif <dodf>Sibpf</dodf> rfprfsfnting tiis grbpiid bttributf,
+     *   suitbblf for stroking or filling.
+     * @sindf 1.6
      */
-    public Shape getOutline(AffineTransform tx) {
-        return tx == null ? fShape : tx.createTransformedShape(fShape);
+    publid Sibpf gftOutlinf(AffinfTrbnsform tx) {
+        rfturn tx == null ? fSibpf : tx.drfbtfTrbnsformfdSibpf(fSibpf);
     }
 
     /**
-     * Returns a hashcode for this <code>ShapeGraphicAttribute</code>.
-     * @return  a hash code value for this
-     * <code>ShapeGraphicAttribute</code>.
+     * Rfturns b ibsidodf for tiis <dodf>SibpfGrbpiidAttributf</dodf>.
+     * @rfturn  b ibsi dodf vbluf for tiis
+     * <dodf>SibpfGrbpiidAttributf</dodf>.
      */
-    public int hashCode() {
+    publid int ibsiCodf() {
 
-        return fShape.hashCode();
+        rfturn fSibpf.ibsiCodf();
     }
 
     /**
-     * Compares this <code>ShapeGraphicAttribute</code> to the specified
-     * <code>Object</code>.
-     * @param rhs the <code>Object</code> to compare for equality
-     * @return <code>true</code> if this
-     * <code>ShapeGraphicAttribute</code> equals <code>rhs</code>;
-     * <code>false</code> otherwise.
+     * Compbrfs tiis <dodf>SibpfGrbpiidAttributf</dodf> to tif spfdififd
+     * <dodf>Objfdt</dodf>.
+     * @pbrbm ris tif <dodf>Objfdt</dodf> to dompbrf for fqublity
+     * @rfturn <dodf>truf</dodf> if tiis
+     * <dodf>SibpfGrbpiidAttributf</dodf> fqubls <dodf>ris</dodf>;
+     * <dodf>fblsf</dodf> otifrwisf.
      */
-    public boolean equals(Object rhs) {
+    publid boolfbn fqubls(Objfdt ris) {
 
         try {
-            return equals((ShapeGraphicAttribute) rhs);
+            rfturn fqubls((SibpfGrbpiidAttributf) ris);
         }
-        catch(ClassCastException e) {
-            return false;
+        dbtdi(ClbssCbstExdfption f) {
+            rfturn fblsf;
         }
     }
 
     /**
-     * Compares this <code>ShapeGraphicAttribute</code> to the specified
-     * <code>ShapeGraphicAttribute</code>.
-     * @param rhs the <code>ShapeGraphicAttribute</code> to compare for
-     * equality
-     * @return <code>true</code> if this
-     * <code>ShapeGraphicAttribute</code> equals <code>rhs</code>;
-     * <code>false</code> otherwise.
+     * Compbrfs tiis <dodf>SibpfGrbpiidAttributf</dodf> to tif spfdififd
+     * <dodf>SibpfGrbpiidAttributf</dodf>.
+     * @pbrbm ris tif <dodf>SibpfGrbpiidAttributf</dodf> to dompbrf for
+     * fqublity
+     * @rfturn <dodf>truf</dodf> if tiis
+     * <dodf>SibpfGrbpiidAttributf</dodf> fqubls <dodf>ris</dodf>;
+     * <dodf>fblsf</dodf> otifrwisf.
      */
-    public boolean equals(ShapeGraphicAttribute rhs) {
+    publid boolfbn fqubls(SibpfGrbpiidAttributf ris) {
 
-        if (rhs == null) {
-            return false;
+        if (ris == null) {
+            rfturn fblsf;
         }
 
-        if (this == rhs) {
-            return true;
+        if (tiis == ris) {
+            rfturn truf;
         }
 
-        if (fStroke != rhs.fStroke) {
-            return false;
+        if (fStrokf != ris.fStrokf) {
+            rfturn fblsf;
         }
 
-        if (getAlignment() != rhs.getAlignment()) {
-            return false;
+        if (gftAlignmfnt() != ris.gftAlignmfnt()) {
+            rfturn fblsf;
         }
 
-        if (!fShape.equals(rhs.fShape)) {
-            return false;
+        if (!fSibpf.fqubls(ris.fSibpf)) {
+            rfturn fblsf;
         }
 
-        return true;
+        rfturn truf;
     }
 }

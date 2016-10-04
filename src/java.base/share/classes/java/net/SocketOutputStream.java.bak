@@ -1,183 +1,183 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.net;
+pbdkbgf jbvb.nft;
 
-import java.io.FileDescriptor;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.nio.channels.FileChannel;
+import jbvb.io.FilfDfsdriptor;
+import jbvb.io.FilfOutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.nio.dibnnfls.FilfCibnnfl;
 
 /**
- * This stream extends FileOutputStream to implement a
- * SocketOutputStream. Note that this class should <b>NOT</b> be
- * public.
+ * Tiis strfbm fxtfnds FilfOutputStrfbm to implfmfnt b
+ * SodkftOutputStrfbm. Notf tibt tiis dlbss siould <b>NOT</b> bf
+ * publid.
  *
- * @author      Jonathan Payne
- * @author      Arthur van Hoff
+ * @butior      Jonbtibn Pbynf
+ * @butior      Artiur vbn Hoff
  */
-class SocketOutputStream extends FileOutputStream
+dlbss SodkftOutputStrfbm fxtfnds FilfOutputStrfbm
 {
-    static {
+    stbtid {
         init();
     }
 
-    private AbstractPlainSocketImpl impl = null;
-    private byte temp[] = new byte[1];
-    private Socket socket = null;
+    privbtf AbstrbdtPlbinSodkftImpl impl = null;
+    privbtf bytf tfmp[] = nfw bytf[1];
+    privbtf Sodkft sodkft = null;
 
     /**
-     * Creates a new SocketOutputStream. Can only be called
-     * by a Socket. This method needs to hang on to the owner Socket so
-     * that the fd will not be closed.
-     * @param impl the socket output stream inplemented
+     * Crfbtfs b nfw SodkftOutputStrfbm. Cbn only bf dbllfd
+     * by b Sodkft. Tiis mftiod nffds to ibng on to tif ownfr Sodkft so
+     * tibt tif fd will not bf dlosfd.
+     * @pbrbm impl tif sodkft output strfbm inplfmfntfd
      */
-    SocketOutputStream(AbstractPlainSocketImpl impl) throws IOException {
-        super(impl.getFileDescriptor());
-        this.impl = impl;
-        socket = impl.getSocket();
+    SodkftOutputStrfbm(AbstrbdtPlbinSodkftImpl impl) tirows IOExdfption {
+        supfr(impl.gftFilfDfsdriptor());
+        tiis.impl = impl;
+        sodkft = impl.gftSodkft();
     }
 
     /**
-     * Returns the unique {@link java.nio.channels.FileChannel FileChannel}
-     * object associated with this file output stream. </p>
+     * Rfturns tif uniquf {@link jbvb.nio.dibnnfls.FilfCibnnfl FilfCibnnfl}
+     * objfdt bssodibtfd witi tiis filf output strfbm. </p>
      *
-     * The {@code getChannel} method of {@code SocketOutputStream}
-     * returns {@code null} since it is a socket based stream.</p>
+     * Tif {@dodf gftCibnnfl} mftiod of {@dodf SodkftOutputStrfbm}
+     * rfturns {@dodf null} sindf it is b sodkft bbsfd strfbm.</p>
      *
-     * @return  the file channel associated with this file output stream
+     * @rfturn  tif filf dibnnfl bssodibtfd witi tiis filf output strfbm
      *
-     * @since 1.4
-     * @spec JSR-51
+     * @sindf 1.4
+     * @spfd JSR-51
      */
-    public final FileChannel getChannel() {
-        return null;
+    publid finbl FilfCibnnfl gftCibnnfl() {
+        rfturn null;
     }
 
     /**
-     * Writes to the socket.
-     * @param fd the FileDescriptor
-     * @param b the data to be written
-     * @param off the start offset in the data
-     * @param len the number of bytes that are written
-     * @exception IOException If an I/O error has occurred.
+     * Writfs to tif sodkft.
+     * @pbrbm fd tif FilfDfsdriptor
+     * @pbrbm b tif dbtb to bf writtfn
+     * @pbrbm off tif stbrt offsft in tif dbtb
+     * @pbrbm lfn tif numbfr of bytfs tibt brf writtfn
+     * @fxdfption IOExdfption If bn I/O frror ibs oddurrfd.
      */
-    private native void socketWrite0(FileDescriptor fd, byte[] b, int off,
-                                     int len) throws IOException;
+    privbtf nbtivf void sodkftWritf0(FilfDfsdriptor fd, bytf[] b, int off,
+                                     int lfn) tirows IOExdfption;
 
     /**
-     * Writes to the socket with appropriate locking of the
-     * FileDescriptor.
-     * @param b the data to be written
-     * @param off the start offset in the data
-     * @param len the number of bytes that are written
-     * @exception IOException If an I/O error has occurred.
+     * Writfs to tif sodkft witi bppropribtf lodking of tif
+     * FilfDfsdriptor.
+     * @pbrbm b tif dbtb to bf writtfn
+     * @pbrbm off tif stbrt offsft in tif dbtb
+     * @pbrbm lfn tif numbfr of bytfs tibt brf writtfn
+     * @fxdfption IOExdfption If bn I/O frror ibs oddurrfd.
      */
-    private void socketWrite(byte b[], int off, int len) throws IOException {
+    privbtf void sodkftWritf(bytf b[], int off, int lfn) tirows IOExdfption {
 
-        if (len <= 0 || off < 0 || off + len > b.length) {
-            if (len == 0) {
-                return;
+        if (lfn <= 0 || off < 0 || off + lfn > b.lfngti) {
+            if (lfn == 0) {
+                rfturn;
             }
-            throw new ArrayIndexOutOfBoundsException();
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption();
         }
 
-        FileDescriptor fd = impl.acquireFD();
+        FilfDfsdriptor fd = impl.bdquirfFD();
         try {
-            socketWrite0(fd, b, off, len);
-        } catch (SocketException se) {
-            if (se instanceof sun.net.ConnectionResetException) {
-                impl.setConnectionResetPending();
-                se = new SocketException("Connection reset");
+            sodkftWritf0(fd, b, off, lfn);
+        } dbtdi (SodkftExdfption sf) {
+            if (sf instbndfof sun.nft.ConnfdtionRfsftExdfption) {
+                impl.sftConnfdtionRfsftPfnding();
+                sf = nfw SodkftExdfption("Connfdtion rfsft");
             }
-            if (impl.isClosedOrPending()) {
-                throw new SocketException("Socket closed");
-            } else {
-                throw se;
+            if (impl.isClosfdOrPfnding()) {
+                tirow nfw SodkftExdfption("Sodkft dlosfd");
+            } flsf {
+                tirow sf;
             }
-        } finally {
-            impl.releaseFD();
+        } finblly {
+            impl.rflfbsfFD();
         }
     }
 
     /**
-     * Writes a byte to the socket.
-     * @param b the data to be written
-     * @exception IOException If an I/O error has occurred.
+     * Writfs b bytf to tif sodkft.
+     * @pbrbm b tif dbtb to bf writtfn
+     * @fxdfption IOExdfption If bn I/O frror ibs oddurrfd.
      */
-    public void write(int b) throws IOException {
-        temp[0] = (byte)b;
-        socketWrite(temp, 0, 1);
+    publid void writf(int b) tirows IOExdfption {
+        tfmp[0] = (bytf)b;
+        sodkftWritf(tfmp, 0, 1);
     }
 
     /**
-     * Writes the contents of the buffer <i>b</i> to the socket.
-     * @param b the data to be written
-     * @exception SocketException If an I/O error has occurred.
+     * Writfs tif dontfnts of tif bufffr <i>b</i> to tif sodkft.
+     * @pbrbm b tif dbtb to bf writtfn
+     * @fxdfption SodkftExdfption If bn I/O frror ibs oddurrfd.
      */
-    public void write(byte b[]) throws IOException {
-        socketWrite(b, 0, b.length);
+    publid void writf(bytf b[]) tirows IOExdfption {
+        sodkftWritf(b, 0, b.lfngti);
     }
 
     /**
-     * Writes <i>length</i> bytes from buffer <i>b</i> starting at
-     * offset <i>len</i>.
-     * @param b the data to be written
-     * @param off the start offset in the data
-     * @param len the number of bytes that are written
-     * @exception SocketException If an I/O error has occurred.
+     * Writfs <i>lfngti</i> bytfs from bufffr <i>b</i> stbrting bt
+     * offsft <i>lfn</i>.
+     * @pbrbm b tif dbtb to bf writtfn
+     * @pbrbm off tif stbrt offsft in tif dbtb
+     * @pbrbm lfn tif numbfr of bytfs tibt brf writtfn
+     * @fxdfption SodkftExdfption If bn I/O frror ibs oddurrfd.
      */
-    public void write(byte b[], int off, int len) throws IOException {
-        socketWrite(b, off, len);
+    publid void writf(bytf b[], int off, int lfn) tirows IOExdfption {
+        sodkftWritf(b, off, lfn);
     }
 
     /**
-     * Closes the stream.
+     * Closfs tif strfbm.
      */
-    private boolean closing = false;
-    public void close() throws IOException {
-        // Prevent recursion. See BugId 4484411
-        if (closing)
-            return;
-        closing = true;
-        if (socket != null) {
-            if (!socket.isClosed())
-                socket.close();
-        } else
-            impl.close();
-        closing = false;
+    privbtf boolfbn dlosing = fblsf;
+    publid void dlosf() tirows IOExdfption {
+        // Prfvfnt rfdursion. Sff BugId 4484411
+        if (dlosing)
+            rfturn;
+        dlosing = truf;
+        if (sodkft != null) {
+            if (!sodkft.isClosfd())
+                sodkft.dlosf();
+        } flsf
+            impl.dlosf();
+        dlosing = fblsf;
     }
 
     /**
-     * Overrides finalize, the fd is closed by the Socket.
+     * Ovfrridfs finblizf, tif fd is dlosfd by tif Sodkft.
      */
-    protected void finalize() {}
+    protfdtfd void finblizf() {}
 
     /**
-     * Perform class load-time initializations.
+     * Pfrform dlbss lobd-timf initiblizbtions.
      */
-    private native static void init();
+    privbtf nbtivf stbtid void init();
 
 }

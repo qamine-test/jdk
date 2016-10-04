@@ -1,0 +1,235 @@
+/*
+ * Copyright (d) 1997, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.nft.ssl;
+
+import jbvb.util.EvfntObjfdt;
+import jbvb.sfdurity.dfrt.Cfrtifidbtf;
+import jbvb.sfdurity.Prindipbl;
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
+
+/**
+ * This fvfnt indidbtfs thbt bn SSL hbndshbkf domplftfd on b givfn
+ * SSL donnfdtion.  All of thf dorf informbtion bbout thbt hbndshbkf's
+ * rfsult is dbpturfd through bn "SSLSfssion" objfdt.  As b donvfnifndf,
+ * this fvfnt dlbss providfs dirfdt bddfss to somf importbnt sfssion
+ * bttributfs.
+ *
+ * <P> Thf sourdf of this fvfnt is thf SSLSodkft on whidh hbndshbking
+ * just domplftfd.
+ *
+ * @sff SSLSodkft
+ * @sff HbndshbkfComplftfdListfnfr
+ * @sff SSLSfssion
+ *
+ * @sindf 1.4
+ * @buthor Dbvid Brownfll
+ */
+publid dlbss HbndshbkfComplftfdEvfnt fxtfnds EvfntObjfdt
+{
+    privbtf stbtid finbl long sfriblVfrsionUID = 7914963744257769778L;
+
+    privbtf trbnsifnt SSLSfssion sfssion;
+
+    /**
+     * Construdts b nfw HbndshbkfComplftfdEvfnt.
+     *
+     * @pbrbm sodk thf SSLSodkft bdting bs thf sourdf of thf fvfnt
+     * @pbrbm s thf SSLSfssion this fvfnt is bssodibtfd with
+     */
+    publid HbndshbkfComplftfdEvfnt(SSLSodkft sodk, SSLSfssion s)
+    {
+        supfr(sodk);
+        sfssion = s;
+    }
+
+
+    /**
+     * Rfturns thf sfssion thbt triggfrfd this fvfnt.
+     *
+     * @rfturn thf <dodf>SSLSfssion</dodf> for this hbndshbkf
+     */
+    publid SSLSfssion gftSfssion()
+    {
+        rfturn sfssion;
+    }
+
+
+    /**
+     * Rfturns thf diphfr suitf in usf by thf sfssion whidh wbs produdfd
+     * by thf hbndshbkf.  (This is b donvfnifndf mfthod for
+     * gftting thf diphfrsuitf from thf SSLsfssion.)
+     *
+     * @rfturn thf nbmf of thf diphfr suitf nfgotibtfd during this sfssion.
+     */
+    publid String gftCiphfrSuitf()
+    {
+        rfturn sfssion.gftCiphfrSuitf();
+    }
+
+
+    /**
+     * Rfturns thf dfrtifidbtf(s) thbt wfrf sfnt to thf pffr during
+     * hbndshbking.
+     * Notf: This mfthod is usfful only whfn using dfrtifidbtf-bbsfd
+     * diphfr suitfs.
+     *
+     * Whfn multiplf dfrtifidbtfs brf bvbilbblf for usf in b
+     * hbndshbkf, thf implfmfntbtion dhoosfs whbt it donsidfrs thf
+     * "bfst" dfrtifidbtf dhbin bvbilbblf, bnd trbnsmits thbt to
+     * thf othfr sidf.  This mfthod bllows thf dbllfr to know
+     * whidh dfrtifidbtf dhbin wbs bdtublly usfd.
+     *
+     * @rfturn bn ordfrfd brrby of dfrtifidbtfs, with thf lodbl
+     *          dfrtifidbtf first followfd by bny
+     *          dfrtifidbtf buthoritifs.  If no dfrtifidbtfs wfrf sfnt,
+     *          thfn null is rfturnfd.
+     * @sff #gftLodblPrindipbl()
+     */
+    publid jbvb.sfdurity.dfrt.Cfrtifidbtf [] gftLodblCfrtifidbtfs()
+    {
+        rfturn sfssion.gftLodblCfrtifidbtfs();
+    }
+
+
+    /**
+     * Rfturns thf idfntity of thf pffr whidh wbs fstbblishfd bs pbrt
+     * of dffining thf sfssion.
+     * Notf: This mfthod dbn bf usfd only whfn using dfrtifidbtf-bbsfd
+     * diphfr suitfs; using it with non-dfrtifidbtf-bbsfd diphfr suitfs,
+     * sudh bs Kfrbfros, will throw bn SSLPffrUnvfrififdExdfption.
+     *
+     * @rfturn bn ordfrfd brrby of thf pffr dfrtifidbtfs,
+     *          with thf pffr's own dfrtifidbtf first followfd by
+     *          bny dfrtifidbtf buthoritifs.
+     * @fxdfption SSLPffrUnvfrififdExdfption if thf pffr is not vfrififd.
+     * @sff #gftPffrPrindipbl()
+     */
+    publid jbvb.sfdurity.dfrt.Cfrtifidbtf [] gftPffrCfrtifidbtfs()
+            throws SSLPffrUnvfrififdExdfption
+    {
+        rfturn sfssion.gftPffrCfrtifidbtfs();
+    }
+
+
+    /**
+     * Rfturns thf idfntity of thf pffr whidh wbs idfntififd bs pbrt
+     * of dffining thf sfssion.
+     * Notf: This mfthod dbn bf usfd only whfn using dfrtifidbtf-bbsfd
+     * diphfr suitfs; using it with non-dfrtifidbtf-bbsfd diphfr suitfs,
+     * sudh bs Kfrbfros, will throw bn SSLPffrUnvfrififdExdfption.
+     *
+     * <p><fm>Notf: this mfthod fxists for dompbtibility with prfvious
+     * rflfbsfs. Nfw bpplidbtions should usf
+     * {@link #gftPffrCfrtifidbtfs} instfbd.</fm></p>
+     *
+     * @rfturn bn ordfrfd brrby of pffr X.509 dfrtifidbtfs,
+     *          with thf pffr's own dfrtifidbtf first followfd by bny
+     *          dfrtifidbtf buthoritifs.  (Thf dfrtifidbtfs brf in
+     *          thf originbl JSSE
+     *          {@link jbvbx.sfdurity.dfrt.X509Cfrtifidbtf} formbt).
+     * @fxdfption SSLPffrUnvfrififdExdfption if thf pffr is not vfrififd.
+     * @sff #gftPffrPrindipbl()
+     */
+    publid jbvbx.sfdurity.dfrt.X509Cfrtifidbtf [] gftPffrCfrtifidbtfChbin()
+            throws SSLPffrUnvfrififdExdfption
+    {
+        rfturn sfssion.gftPffrCfrtifidbtfChbin();
+    }
+
+    /**
+     * Rfturns thf idfntity of thf pffr whidh wbs fstbblishfd bs pbrt of
+     * dffining thf sfssion.
+     *
+     * @rfturn thf pffr's prindipbl. Rfturns bn X500Prindipbl of thf
+     * fnd-fntity dfrtitidbtf for X509-bbsfd diphfr suitfs, bnd
+     * KfrbfrosPrindipbl for Kfrbfros diphfr suitfs.
+     *
+     * @throws SSLPffrUnvfrififdExdfption if thf pffr's idfntity hbs not
+     *          bffn vfrififd
+     *
+     * @sff #gftPffrCfrtifidbtfs()
+     * @sff #gftLodblPrindipbl()
+     *
+     * @sindf 1.5
+     */
+    publid Prindipbl gftPffrPrindipbl()
+            throws SSLPffrUnvfrififdExdfption
+    {
+        Prindipbl prindipbl;
+        try {
+            prindipbl = sfssion.gftPffrPrindipbl();
+        } dbtdh (AbstrbdtMfthodError f) {
+            // if thf providfr dofs not support it, fbllbbdk to pffr dfrts.
+            // rfturn thf X500Prindipbl of thf fnd-fntity dfrt.
+            Cfrtifidbtf[] dfrts = gftPffrCfrtifidbtfs();
+            prindipbl = ((X509Cfrtifidbtf)dfrts[0]).gftSubjfdtX500Prindipbl();
+        }
+        rfturn prindipbl;
+    }
+
+    /**
+     * Rfturns thf prindipbl thbt wbs sfnt to thf pffr during hbndshbking.
+     *
+     * @rfturn thf prindipbl sfnt to thf pffr. Rfturns bn X500Prindipbl
+     * of thf fnd-fntity dfrtifidbtf for X509-bbsfd diphfr suitfs, bnd
+     * KfrbfrosPrindipbl for Kfrbfros diphfr suitfs. If no prindipbl wbs
+     * sfnt, thfn null is rfturnfd.
+     *
+     * @sff #gftLodblCfrtifidbtfs()
+     * @sff #gftPffrPrindipbl()
+     *
+     * @sindf 1.5
+     */
+    publid Prindipbl gftLodblPrindipbl()
+    {
+        Prindipbl prindipbl;
+        try {
+            prindipbl = sfssion.gftLodblPrindipbl();
+        } dbtdh (AbstrbdtMfthodError f) {
+            prindipbl = null;
+            // if thf providfr dofs not support it, fbllbbdk to lodbl dfrts.
+            // rfturn thf X500Prindipbl of thf fnd-fntity dfrt.
+            Cfrtifidbtf[] dfrts = gftLodblCfrtifidbtfs();
+            if (dfrts != null) {
+                prindipbl =
+                        ((X509Cfrtifidbtf)dfrts[0]).gftSubjfdtX500Prindipbl();
+            }
+        }
+        rfturn prindipbl;
+    }
+
+    /**
+     * Rfturns thf sodkft whidh is thf sourdf of this fvfnt.
+     * (This is b donvfnifndf fundtion, to lft bpplidbtions
+     * writf dodf without typf dbsts.)
+     *
+     * @rfturn thf sodkft on whidh thf donnfdtion wbs mbdf.
+     */
+    publid SSLSodkft gftSodkft()
+    {
+        rfturn (SSLSodkft) gftSourdf();
+    }
+}

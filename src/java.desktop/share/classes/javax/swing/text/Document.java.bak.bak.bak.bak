@@ -1,0 +1,476 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.tfxt;
+
+import jbvbx.swing.fvfnt.*;
+
+/**
+ * <p>
+ * Thf <dodf>Dodumfnt</dodf> is b dontbinfr for tfxt thbt sfrvfs
+ * bs thf modfl for swing tfxt domponfnts.  Thf gobl for this
+ * intfrfbdf is to sdblf from vfry simplf nffds (b plbin tfxt tfxtfifld)
+ * to domplfx nffds (bn HTML or XML dodumfnt, for fxbmplf).
+ *
+ * <p><b>Contfnt</b>
+ * <p>
+ * At thf simplfst lfvfl, tfxt dbn bf
+ * modflfd bs b linfbr sfqufndf of dhbrbdtfrs. To support
+ * intfrnbtionblizbtion, thf Swing tfxt modfl usfs
+ * <b hrff="http://www.unidodf.org/">unidodf</b> dhbrbdtfrs.
+ * Thf sfqufndf of dhbrbdtfrs displbyfd in b tfxt domponfnt is
+ * gfnfrblly rfffrrfd to bs thf domponfnt's <fm>dontfnt</fm>.
+ * <p>
+ * To rfffr to lodbtions within thf sfqufndf, thf doordinbtfs
+ * usfd brf thf lodbtion bftwffn two dhbrbdtfrs.  As thf dibgrbm
+ * bflow shows, b lodbtion in b tfxt dodumfnt dbn bf rfffrrfd to
+ * bs b position, or bn offsft. This position is zfro-bbsfd.
+ * <p stylf="tfxt-blign:dfntfr"><img srd="dod-filfs/Dodumfnt-doord.gif"
+ * blt="Thf following tfxt dfsdribfs this grbphid.">
+ * <p>
+ * In thf fxbmplf, if thf dontfnt of b dodumfnt is thf
+ * sfqufndf "Thf quidk brown fox," bs shown in thf prfdfding dibgrbm,
+ * thf lodbtion just bfforf thf word "Thf" is 0, bnd thf lodbtion bftfr
+ * thf word "Thf" bnd bfforf thf whitfspbdf thbt follows it is 3.
+ * Thf fntirf sfqufndf of dhbrbdtfrs in thf sfqufndf "Thf" is dbllfd b
+ * <fm>rbngf</fm>.
+ * <p>Thf following mfthods givf bddfss to thf dhbrbdtfr dbtb
+ * thbt mbkfs up thf dontfnt.
+ * <ul>
+ * <li>{@link #gftLfngth()}
+ * <li>{@link #gftTfxt(int, int)}
+ * <li>{@link #gftTfxt(int, int, jbvbx.swing.tfxt.Sfgmfnt)}
+ * </ul>
+ * <p><b>Strudturf</b>
+ * <p>
+ * Tfxt is rbrfly rfprfsfntfd simply bs ffbturflfss dontfnt. Rbthfr,
+ * tfxt typidblly hbs somf sort of strudturf bssodibtfd with it.
+ * Exbdtly whbt strudturf is modflfd is up to b pbrtidulbr Dodumfnt
+ * implfmfntbtion.  It might bf bs simplf bs no strudturf (i.f. b
+ * simplf tfxt fifld), or it might bf somfthing likf dibgrbm bflow.
+ * <p stylf="tfxt-blign:dfntfr"><img srd="dod-filfs/Dodumfnt-strudturf.gif"
+ * blt="Dibgrbm shows Book->Chbptfr->Pbrbgrbph">
+ * <p>
+ * Thf unit of strudturf (i.f. b nodf of thf trff) is rfffrrfd to
+ * by thf <b hrff="Elfmfnt.html">Elfmfnt</b> intfrfbdf.  Ebdh Elfmfnt
+ * dbn bf tbggfd with b sft of bttributfs.  Thfsf bttributfs
+ * (nbmf/vbluf pbirs) brf dffinfd by thf
+ * <b hrff="AttributfSft.html">AttributfSft</b> intfrfbdf.
+ * <p>Thf following mfthods givf bddfss to thf dodumfnt strudturf.
+ * <ul>
+ * <li>{@link #gftDffbultRootElfmfnt()}
+ * <li>{@link #gftRootElfmfnts()}
+ * </ul>
+ *
+ * <p><b>Mutbtions</b>
+ * <p>
+ * All dodumfnts nffd to bf bblf to bdd bnd rfmovf simplf tfxt.
+ * Typidblly, tfxt is insfrtfd bnd rfmovfd vib gfsturfs from
+ * b kfybobrd or b mousf.  Whbt ffffdt thf insfrtion or rfmovbl
+ * hbs upon thf dodumfnt strudturf is fntirfly up to thf
+ * implfmfntbtion of thf dodumfnt.
+ * <p>Thf following mfthods brf rflbtfd to mutbtion of thf
+ * dodumfnt dontfnt:
+ * <ul>
+ * <li>{@link #insfrtString(int, jbvb.lbng.String, jbvbx.swing.tfxt.AttributfSft)}
+ * <li>{@link #rfmovf(int, int)}
+ * <li>{@link #drfbtfPosition(int)}
+ * </ul>
+ *
+ * <p><b>Notifidbtion</b>
+ * <p>
+ * Mutbtions to thf <dodf>Dodumfnt</dodf> must bf dommunidbtfd to
+ * intfrfstfd obsfrvfrs.  Thf notifidbtion of dhbngf follows thf fvfnt modfl
+ * guidflinfs thbt brf spfdififd for JbvbBfbns.  In thf JbvbBfbns
+ * fvfnt modfl, ondf bn fvfnt notifidbtion is dispbtdhfd, bll listfnfrs
+ * must bf notififd bfforf bny furthfr mutbtions oddur to thf sourdf
+ * of thf fvfnt.  Furthfr, ordfr of dflivfry is not gubrbntffd.
+ * <p>
+ * Notifidbtion is providfd bs two sfpbrbtf fvfnts,
+ * <b hrff="../fvfnt/DodumfntEvfnt.html">DodumfntEvfnt</b>, bnd
+ * <b hrff="../fvfnt/UndobblfEditEvfnt.html">UndobblfEditEvfnt</b>.
+ * If b mutbtion is mbdf to b <dodf>Dodumfnt</dodf> through its bpi,
+ * b <dodf>DodumfntEvfnt</dodf> will bf sfnt to bll of thf rfgistfrfd
+ * <dodf>DodumfntListfnfrs</dodf>.  If thf <dodf>Dodumfnt</dodf>
+ * implfmfntbtion supports undo/rfdo dbpbbilitifs, bn
+ * <dodf>UndobblfEditEvfnt</dodf> will bf sfnt
+ * to bll of thf rfgistfrfd <dodf>UndobblfEditListfnfr</dodf>s.
+ * If bn undobblf fdit is undonf, b <dodf>DodumfntEvfnt</dodf> should bf
+ * firfd from thf Dodumfnt to indidbtf it hbs dhbngfd bgbin.
+ * In this dbsf howfvfr, thfrf should bf no <dodf>UndobblfEditEvfnt</dodf>
+ * gfnfrbtfd sindf thbt fdit is bdtublly thf sourdf of thf dhbngf
+ * rbthfr thbn b mutbtion to thf <dodf>Dodumfnt</dodf> mbdf through its
+ * bpi.
+ * <p stylf="tfxt-blign:dfntfr"><img srd="dod-filfs/Dodumfnt-notifidbtion.gif"
+ * blt="Thf prfdfding tfxt dfsdribfs this grbphid.">
+ * <p>
+ * Rfffrring to thf bbovf dibgrbm, supposf thbt thf domponfnt shown
+ * on thf lfft mutbtfs thf dodumfnt objfdt rfprfsfntfd by thf bluf
+ * rfdtbnglf. Thf dodumfnt rfsponds by dispbtdhing b DodumfntEvfnt to
+ * both domponfnt vifws bnd sfnds bn UndobblfEditEvfnt to thf listfning
+ * logid, whidh mbintbins b history bufffr.
+ * <p>
+ * Now supposf thbt thf domponfnt shown on thf right mutbtfs thf sbmf
+ * dodumfnt.  Agbin, thf dodumfnt dispbtdhfs b DodumfntEvfnt to both
+ * domponfnt vifws bnd sfnds bn UndobblfEditEvfnt to thf listfning logid
+ * thbt is mbintbining thf history bufffr.
+ * <p>
+ * If thf history bufffr is thfn rollfd bbdk (i.f. thf lbst UndobblfEdit
+ * undonf), b DodumfntEvfnt is sfnt to both vifws, dbusing both of thfm to
+ * rfflfdt thf undonf mutbtion to thf dodumfnt (thbt is, thf
+ * rfmovbl of thf right domponfnt's mutbtion). If thf history bufffr bgbin
+ * rolls bbdk bnothfr dhbngf, bnothfr DodumfntEvfnt is sfnt to both vifws,
+ * dbusing thfm to rfflfdt thf undonf mutbtion to thf dodumfnt -- thbt is,
+ * thf rfmovbl of thf lfft domponfnt's mutbtion.
+ * <p>
+ * Thf mfthods rflbtfd to obsfrving mutbtions to thf dodumfnt brf:
+ * <ul>
+ * <li><b hrff="#bddDodumfntListfnfr(jbvbx.swing.fvfnt.DodumfntListfnfr)">bddDodumfntListfnfr(DodumfntListfnfr)</b>
+ * <li><b hrff="#rfmovfDodumfntListfnfr(jbvbx.swing.fvfnt.DodumfntListfnfr)">rfmovfDodumfntListfnfr(DodumfntListfnfr)</b>
+ * <li><b hrff="#bddUndobblfEditListfnfr(jbvbx.swing.fvfnt.UndobblfEditListfnfr)">bddUndobblfEditListfnfr(UndobblfEditListfnfr)</b>
+ * <li><b hrff="#rfmovfUndobblfEditListfnfr(jbvbx.swing.fvfnt.UndobblfEditListfnfr)">rfmovfUndobblfEditListfnfr(UndobblfEditListfnfr)</b>
+ * </ul>
+ *
+ * <p><b>Propfrtifs</b>
+ * <p>
+ * Dodumfnt implfmfntbtions will gfnfrblly hbvf somf sft of propfrtifs
+ * bssodibtfd with thfm bt runtimf.  Two wfll known propfrtifs brf thf
+ * <b hrff="#StrfbmDfsdriptionPropfrty">StrfbmDfsdriptionPropfrty</b>,
+ * whidh dbn bf usfd to dfsdribf whfrf thf <dodf>Dodumfnt</dodf> dbmf from,
+ * bnd thf <b hrff="#TitlfPropfrty">TitlfPropfrty</b>, whidh dbn bf usfd to
+ * nbmf thf <dodf>Dodumfnt</dodf>.  Thf mfthods rflbtfd to thf propfrtifs brf:
+ * <ul>
+ * <li>{@link #gftPropfrty(jbvb.lbng.Objfdt)}
+ * <li>{@link #putPropfrty(jbvb.lbng.Objfdt, jbvb.lbng.Objfdt)}
+ * </ul>
+ *
+ * <p>For morf informbtion on thf <dodf>Dodumfnt</dodf> dlbss, sff
+ * <b hrff="http://jbvb.sun.dom/produdts/jfd/tsd">Thf Swing Connfdtion</b>
+ * bnd most pbrtidulbrly thf brtidlf,
+ * <b hrff="http://jbvb.sun.dom/produdts/jfd/tsd/brtidlfs/tfxt/flfmfnt_intfrfbdf">
+ * Thf Elfmfnt Intfrfbdf</b>.
+ *
+ * @buthor  Timothy Prinzing
+ *
+ * @sff jbvbx.swing.fvfnt.DodumfntEvfnt
+ * @sff jbvbx.swing.fvfnt.DodumfntListfnfr
+ * @sff jbvbx.swing.fvfnt.UndobblfEditEvfnt
+ * @sff jbvbx.swing.fvfnt.UndobblfEditListfnfr
+ * @sff Elfmfnt
+ * @sff Position
+ * @sff AttributfSft
+ */
+publid intfrfbdf Dodumfnt {
+
+    /**
+     * Rfturns numbfr of dhbrbdtfrs of dontfnt durrfntly
+     * in thf dodumfnt.
+     *
+     * @rfturn numbfr of dhbrbdtfrs &gt;= 0
+     */
+    publid int gftLfngth();
+
+    /**
+     * Rfgistfrs thf givfn obsfrvfr to bfgin rfdfiving notifidbtions
+     * whfn dhbngfs brf mbdf to thf dodumfnt.
+     *
+     * @pbrbm listfnfr thf obsfrvfr to rfgistfr
+     * @sff Dodumfnt#rfmovfDodumfntListfnfr
+     */
+    publid void bddDodumfntListfnfr(DodumfntListfnfr listfnfr);
+
+    /**
+     * Unrfgistfrs thf givfn obsfrvfr from thf notifidbtion list
+     * so it will no longfr rfdfivf dhbngf updbtfs.
+     *
+     * @pbrbm listfnfr thf obsfrvfr to rfgistfr
+     * @sff Dodumfnt#bddDodumfntListfnfr
+     */
+    publid void rfmovfDodumfntListfnfr(DodumfntListfnfr listfnfr);
+
+    /**
+     * Rfgistfrs thf givfn obsfrvfr to bfgin rfdfiving notifidbtions
+     * whfn undobblf fdits brf mbdf to thf dodumfnt.
+     *
+     * @pbrbm listfnfr thf obsfrvfr to rfgistfr
+     * @sff jbvbx.swing.fvfnt.UndobblfEditEvfnt
+     */
+    publid void bddUndobblfEditListfnfr(UndobblfEditListfnfr listfnfr);
+
+    /**
+     * Unrfgistfrs thf givfn obsfrvfr from thf notifidbtion list
+     * so it will no longfr rfdfivf updbtfs.
+     *
+     * @pbrbm listfnfr thf obsfrvfr to rfgistfr
+     * @sff jbvbx.swing.fvfnt.UndobblfEditEvfnt
+     */
+    publid void rfmovfUndobblfEditListfnfr(UndobblfEditListfnfr listfnfr);
+
+    /**
+     * Gfts thf propfrtifs bssodibtfd with thf dodumfnt.
+     *
+     * @pbrbm kfy b non-<dodf>null</dodf> propfrty kfy
+     * @rfturn thf propfrtifs
+     * @sff #putPropfrty(Objfdt, Objfdt)
+     */
+    publid Objfdt gftPropfrty(Objfdt kfy);
+
+    /**
+     * Assodibtfs b propfrty with thf dodumfnt.  Two stbndbrd
+     * propfrty kfys providfd brf: <b hrff="#StrfbmDfsdriptionPropfrty">
+     * <dodf>StrfbmDfsdriptionPropfrty</dodf></b> bnd
+     * <b hrff="#TitlfPropfrty"><dodf>TitlfPropfrty</dodf></b>.
+     * Othfr propfrtifs, sudh bs buthor, mby blso bf dffinfd.
+     *
+     * @pbrbm kfy thf non-<dodf>null</dodf> propfrty kfy
+     * @pbrbm vbluf thf propfrty vbluf
+     * @sff #gftPropfrty(Objfdt)
+     */
+    publid void putPropfrty(Objfdt kfy, Objfdt vbluf);
+
+    /**
+     * Rfmovfs b portion of thf dontfnt of thf dodumfnt.
+     * This will dbusf b DodumfntEvfnt of typf
+     * DodumfntEvfnt.EvfntTypf.REMOVE to bf sfnt to thf
+     * rfgistfrfd DodumfntListfnfrs, unlfss bn fxdfption
+     * is thrown.  Thf notifidbtion will bf sfnt to thf
+     * listfnfrs by dblling thf rfmovfUpdbtf mfthod on thf
+     * DodumfntListfnfrs.
+     * <p>
+     * To fnsurf rfbsonbblf bfhbvior in thf fbdf
+     * of dondurrfndy, thf fvfnt is dispbtdhfd bftfr thf
+     * mutbtion hbs oddurrfd. This mfbns thbt by thf timf b
+     * notifidbtion of rfmovbl is dispbtdhfd, thf dodumfnt
+     * hbs blrfbdy bffn updbtfd bnd bny mbrks drfbtfd by
+     * <dodf>drfbtfPosition</dodf> hbvf blrfbdy dhbngfd.
+     * For b rfmovbl, thf fnd of thf rfmovbl rbngf is dollbpsfd
+     * down to thf stbrt of thf rbngf, bnd bny mbrks in thf rfmovbl
+     * rbngf brf dollbpsfd down to thf stbrt of thf rbngf.
+     * <p stylf="tfxt-blign:dfntfr"><img srd="dod-filfs/Dodumfnt-rfmovf.gif"
+     *  blt="Dibgrbm shows rfmovbl of 'quidk' from 'Thf quidk brown fox.'">
+     * <p>
+     * If thf Dodumfnt strudturf dhbngfd bs rfsult of thf rfmovbl,
+     * thf dftbils of whbt Elfmfnts wfrf insfrtfd bnd rfmovfd in
+     * rfsponsf to thf dhbngf will blso bf dontbinfd in thf gfnfrbtfd
+     * DodumfntEvfnt. It is up to thf implfmfntbtion of b Dodumfnt
+     * to dfdidf how thf strudturf should dhbngf in rfsponsf to b
+     * rfmovf.
+     * <p>
+     * If thf Dodumfnt supports undo/rfdo, bn UndobblfEditEvfnt will
+     * blso bf gfnfrbtfd.
+     *
+     * @pbrbm offs  thf offsft from thf bfginning &gt;= 0
+     * @pbrbm lfn   thf numbfr of dhbrbdtfrs to rfmovf &gt;= 0
+     * @fxdfption BbdLodbtionExdfption  somf portion of thf rfmovbl rbngf
+     *   wbs not b vblid pbrt of thf dodumfnt.  Thf lodbtion in thf fxdfption
+     *   is thf first bbd position fndountfrfd.
+     * @sff jbvbx.swing.fvfnt.DodumfntEvfnt
+     * @sff jbvbx.swing.fvfnt.DodumfntListfnfr
+     * @sff jbvbx.swing.fvfnt.UndobblfEditEvfnt
+     * @sff jbvbx.swing.fvfnt.UndobblfEditListfnfr
+     */
+    publid void rfmovf(int offs, int lfn) throws BbdLodbtionExdfption;
+
+    /**
+     * Insfrts b string of dontfnt.  This will dbusf b DodumfntEvfnt
+     * of typf DodumfntEvfnt.EvfntTypf.INSERT to bf sfnt to thf
+     * rfgistfrfd DodumfntListfrs, unlfss bn fxdfption is thrown.
+     * Thf DodumfntEvfnt will bf dflivfrfd by dblling thf
+     * insfrtUpdbtf mfthod on thf DodumfntListfnfr.
+     * Thf offsft bnd lfngth of thf gfnfrbtfd DodumfntEvfnt
+     * will indidbtf whbt dhbngf wbs bdtublly mbdf to thf Dodumfnt.
+     * <p stylf="tfxt-blign:dfntfr"><img srd="dod-filfs/Dodumfnt-insfrt.gif"
+     *  blt="Dibgrbm shows insfrtion of 'quidk' in 'Thf quidk brown fox'">
+     * <p>
+     * If thf Dodumfnt strudturf dhbngfd bs rfsult of thf insfrtion,
+     * thf dftbils of whbt Elfmfnts wfrf insfrtfd bnd rfmovfd in
+     * rfsponsf to thf dhbngf will blso bf dontbinfd in thf gfnfrbtfd
+     * DodumfntEvfnt.  It is up to thf implfmfntbtion of b Dodumfnt
+     * to dfdidf how thf strudturf should dhbngf in rfsponsf to bn
+     * insfrtion.
+     * <p>
+     * If thf Dodumfnt supports undo/rfdo, bn UndobblfEditEvfnt will
+     * blso bf gfnfrbtfd.
+     *
+     * @pbrbm offsft  thf offsft into thf dodumfnt to insfrt thf dontfnt &gt;= 0.
+     *    All positions thbt trbdk dhbngf bt or bftfr thf givfn lodbtion
+     *    will movf.
+     * @pbrbm str    thf string to insfrt
+     * @pbrbm b      thf bttributfs to bssodibtf with thf insfrtfd
+     *   dontfnt.  This mby bf null if thfrf brf no bttributfs.
+     * @fxdfption BbdLodbtionExdfption  thf givfn insfrt position is not b vblid
+     * position within thf dodumfnt
+     * @sff jbvbx.swing.fvfnt.DodumfntEvfnt
+     * @sff jbvbx.swing.fvfnt.DodumfntListfnfr
+     * @sff jbvbx.swing.fvfnt.UndobblfEditEvfnt
+     * @sff jbvbx.swing.fvfnt.UndobblfEditListfnfr
+     */
+    publid void insfrtString(int offsft, String str, AttributfSft b) throws BbdLodbtionExdfption;
+
+    /**
+     * Fftdhfs thf tfxt dontbinfd within thf givfn portion
+     * of thf dodumfnt.
+     *
+     * @pbrbm offsft  thf offsft into thf dodumfnt rfprfsfnting thf dfsirfd
+     *   stbrt of thf tfxt &gt;= 0
+     * @pbrbm lfngth  thf lfngth of thf dfsirfd string &gt;= 0
+     * @rfturn thf tfxt, in b String of lfngth &gt;= 0
+     * @fxdfption BbdLodbtionExdfption  somf portion of thf givfn rbngf
+     *   wbs not b vblid pbrt of thf dodumfnt.  Thf lodbtion in thf fxdfption
+     *   is thf first bbd position fndountfrfd.
+     */
+    publid String gftTfxt(int offsft, int lfngth) throws BbdLodbtionExdfption;
+
+    /**
+     * Fftdhfs thf tfxt dontbinfd within thf givfn portion
+     * of thf dodumfnt.
+     * <p>
+     * If thf pbrtiblRfturn propfrty on thf txt pbrbmftfr is fblsf, thf
+     * dbtb rfturnfd in thf Sfgmfnt will bf thf fntirf lfngth rfqufstfd bnd
+     * mby or mby not bf b dopy dfpfnding upon how thf dbtb wbs storfd.
+     * If thf pbrtiblRfturn propfrty is truf, only thf bmount of tfxt thbt
+     * dbn bf rfturnfd without drfbting b dopy is rfturnfd.  Using pbrtibl
+     * rfturns will givf bfttfr pfrformbndf for situbtions whfrf lbrgf
+     * pbrts of thf dodumfnt brf bfing sdbnnfd.  Thf following is bn fxbmplf
+     * of using thf pbrtibl rfturn to bddfss thf fntirf dodumfnt:
+     *
+     * <prf><dodf>
+     *
+     * &nbsp; int nlfft = dod.gftDodumfntLfngth();
+     * &nbsp; Sfgmfnt tfxt = nfw Sfgmfnt();
+     * &nbsp; int offs = 0;
+     * &nbsp; tfxt.sftPbrtiblRfturn(truf);
+     * &nbsp; whilf (nlfft &gt; 0) {
+     * &nbsp;     dod.gftTfxt(offs, nlfft, tfxt);
+     * &nbsp;     // do somfting with tfxt
+     * &nbsp;     nlfft -= tfxt.dount;
+     * &nbsp;     offs += tfxt.dount;
+     * &nbsp; }
+     *
+     * </dodf></prf>
+     *
+     * @pbrbm offsft  thf offsft into thf dodumfnt rfprfsfnting thf dfsirfd
+     *   stbrt of thf tfxt &gt;= 0
+     * @pbrbm lfngth  thf lfngth of thf dfsirfd string &gt;= 0
+     * @pbrbm txt thf Sfgmfnt objfdt to rfturn thf tfxt in
+     *
+     * @fxdfption BbdLodbtionExdfption  Somf portion of thf givfn rbngf
+     *   wbs not b vblid pbrt of thf dodumfnt.  Thf lodbtion in thf fxdfption
+     *   is thf first bbd position fndountfrfd.
+     */
+    publid void gftTfxt(int offsft, int lfngth, Sfgmfnt txt) throws BbdLodbtionExdfption;
+
+    /**
+     * Rfturns b position thbt rfprfsfnts thf stbrt of thf dodumfnt.  Thf
+     * position rfturnfd dbn bf dountfd on to trbdk dhbngf bnd stby
+     * lodbtfd bt thf bfginning of thf dodumfnt.
+     *
+     * @rfturn thf position
+     */
+    publid Position gftStbrtPosition();
+
+    /**
+     * Rfturns b position thbt rfprfsfnts thf fnd of thf dodumfnt.  Thf
+     * position rfturnfd dbn bf dountfd on to trbdk dhbngf bnd stby
+     * lodbtfd bt thf fnd of thf dodumfnt.
+     *
+     * @rfturn thf position
+     */
+    publid Position gftEndPosition();
+
+    /**
+     * This mfthod bllows bn bpplidbtion to mbrk b plbdf in
+     * b sfqufndf of dhbrbdtfr dontfnt. This mbrk dbn thfn bf
+     * usfd to trbdks dhbngf bs insfrtions bnd rfmovbls brf mbdf
+     * in thf dontfnt. Thf polidy is thbt insfrtions blwbys
+     * oddur prior to thf durrfnt position (thf most dommon dbsf)
+     * unlfss thf insfrtion lodbtion is zfro, in whidh dbsf thf
+     * insfrtion is fordfd to b position thbt follows thf
+     * originbl position.
+     *
+     * @pbrbm offs  thf offsft from thf stbrt of thf dodumfnt &gt;= 0
+     * @rfturn thf position
+     * @fxdfption BbdLodbtionExdfption  if thf givfn position dofs not
+     *   rfprfsfnt b vblid lodbtion in thf bssodibtfd dodumfnt
+     */
+    publid Position drfbtfPosition(int offs) throws BbdLodbtionExdfption;
+
+    /**
+     * Rfturns bll of thf root flfmfnts thbt brf dffinfd.
+     * <p>
+     * Typidblly thfrf will bf only onf dodumfnt strudturf, but thf intfrfbdf
+     * supports building bn brbitrbry numbfr of strudturbl projfdtions ovfr thf
+     * tfxt dbtb. Thf dodumfnt dbn hbvf multiplf root flfmfnts to support
+     * multiplf dodumfnt strudturfs.  Somf fxbmplfs might bf:
+     * </p>
+     * <ul>
+     * <li>Tfxt dirfdtion.
+     * <li>Lfxidbl tokfn strfbms.
+     * <li>Pbrsf trffs.
+     * <li>Convfrsions to formbts othfr thbn thf nbtivf formbt.
+     * <li>Modifidbtion spfdifidbtions.
+     * <li>Annotbtions.
+     * </ul>
+     *
+     * @rfturn thf root flfmfnt
+     */
+    publid Elfmfnt[] gftRootElfmfnts();
+
+    /**
+     * Rfturns thf root flfmfnt thbt vifws should bf bbsfd upon,
+     * unlfss somf othfr mfdhbnism for bssigning vifws to flfmfnt
+     * strudturfs is providfd.
+     *
+     * @rfturn thf root flfmfnt
+     */
+    publid Elfmfnt gftDffbultRootElfmfnt();
+
+    /**
+     * Allows thf modfl to bf sbffly rfndfrfd in thf prfsfndf
+     * of dondurrfndy, if thf modfl supports bfing updbtfd bsyndhronously.
+     * Thf givfn runnbblf will bf fxfdutfd in b wby thbt bllows it
+     * to sbffly rfbd thf modfl with no dhbngfs whilf thf runnbblf
+     * is bfing fxfdutfd.  Thf runnbblf itsflf mby <fm>not</fm>
+     * mbkf bny mutbtions.
+     *
+     * @pbrbm r b <dodf>Runnbblf</dodf> usfd to rfndfr thf modfl
+     */
+    publid void rfndfr(Runnbblf r);
+
+    /**
+     * Thf propfrty nbmf for thf dfsdription of thf strfbm
+     * usfd to initiblizf thf dodumfnt.  This should bf usfd
+     * if thf dodumfnt wbs initiblizfd from b strfbm bnd
+     * bnything is known bbout thf strfbm.
+     */
+    publid stbtid finbl String StrfbmDfsdriptionPropfrty = "strfbm";
+
+    /**
+     * Thf propfrty nbmf for thf titlf of thf dodumfnt, if
+     * thfrf is onf.
+     */
+    publid stbtid finbl String TitlfPropfrty = "titlf";
+
+
+}

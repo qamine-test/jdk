@@ -1,64 +1,64 @@
 /*
- * Copyright (c) 2000, 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2001, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.sql;
+pbdkbgf jbvbx.sql;
 
-import java.sql.*;
+import jbvb.sql.*;
 
 /**
- * An object that implements the <code>RowSetWriter</code> interface,
- * called a <i>writer</i>. A writer may be registered with a <code>RowSet</code>
- * object that supports the reader/writer paradigm.
+ * An objfdt tibt implfmfnts tif <dodf>RowSftWritfr</dodf> intfrfbdf,
+ * dbllfd b <i>writfr</i>. A writfr mby bf rfgistfrfd witi b <dodf>RowSft</dodf>
+ * objfdt tibt supports tif rfbdfr/writfr pbrbdigm.
  * <P>
- * If a disconnected <code>RowSet</code> object modifies some of its data,
- * and it has a writer associated with it, it may be implemented so that it
- * calls on the writer's <code>writeData</code> method internally
- * to write the updates back to the data source. In order to do this, the writer
- * must first establish a connection with the rowset's data source.
+ * If b disdonnfdtfd <dodf>RowSft</dodf> objfdt modififs somf of its dbtb,
+ * bnd it ibs b writfr bssodibtfd witi it, it mby bf implfmfntfd so tibt it
+ * dblls on tif writfr's <dodf>writfDbtb</dodf> mftiod intfrnblly
+ * to writf tif updbtfs bbdk to tif dbtb sourdf. In ordfr to do tiis, tif writfr
+ * must first fstbblisi b donnfdtion witi tif rowsft's dbtb sourdf.
  * <P>
- * If the data to be updated has already been changed in the data source, there
- * is a conflict, in which case the writer will not write
- * the changes to the data source.  The algorithm the writer uses for preventing
- * or limiting conflicts depends entirely on its implementation.
+ * If tif dbtb to bf updbtfd ibs blrfbdy bffn dibngfd in tif dbtb sourdf, tifrf
+ * is b donflidt, in wiidi dbsf tif writfr will not writf
+ * tif dibngfs to tif dbtb sourdf.  Tif blgoritim tif writfr usfs for prfvfnting
+ * or limiting donflidts dfpfnds fntirfly on its implfmfntbtion.
  *
- * @since 1.4
+ * @sindf 1.4
  */
 
-public interface RowSetWriter {
+publid intfrfbdf RowSftWritfr {
 
   /**
-   * Writes the changes in this <code>RowSetWriter</code> object's
-   * rowset back to the data source from which it got its data.
+   * Writfs tif dibngfs in tiis <dodf>RowSftWritfr</dodf> objfdt's
+   * rowsft bbdk to tif dbtb sourdf from wiidi it got its dbtb.
    *
-   * @param caller the <code>RowSet</code> object (1) that has implemented the
-   *         <code>RowSetInternal</code> interface, (2) with which this writer is
-   *        registered, and (3) that called this method internally
-   * @return <code>true</code> if the modified data was written; <code>false</code>
-   *          if not, which will be the case if there is a conflict
-   * @exception SQLException if a database access error occurs
+   * @pbrbm dbllfr tif <dodf>RowSft</dodf> objfdt (1) tibt ibs implfmfntfd tif
+   *         <dodf>RowSftIntfrnbl</dodf> intfrfbdf, (2) witi wiidi tiis writfr is
+   *        rfgistfrfd, bnd (3) tibt dbllfd tiis mftiod intfrnblly
+   * @rfturn <dodf>truf</dodf> if tif modififd dbtb wbs writtfn; <dodf>fblsf</dodf>
+   *          if not, wiidi will bf tif dbsf if tifrf is b donflidt
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
    */
-  boolean writeData(RowSetInternal caller) throws SQLException;
+  boolfbn writfDbtb(RowSftIntfrnbl dbllfr) tirows SQLExdfption;
 
 }

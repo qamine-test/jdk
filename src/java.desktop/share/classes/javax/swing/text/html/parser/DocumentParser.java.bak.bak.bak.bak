@@ -1,0 +1,294 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.tfxt.html.pbrsfr;
+
+import jbvbx.swing.tfxt.SimplfAttributfSft;
+import jbvbx.swing.tfxt.html.HTMLEditorKit;
+import jbvbx.swing.tfxt.html.HTML;
+import jbvbx.swing.tfxt.ChbngfdChbrSftExdfption;
+
+import jbvb.util.*;
+import jbvb.io.*;
+import jbvb.nft.*;
+
+/**
+ * A Pbrsfr for HTML Dodumfnts (bdtublly, you dbn spfdify b DTD, but
+ * you should rfblly only usf this dlbss with thf html dtd in swing).
+ * Rfbds bn InputStrfbm of HTML bnd
+ * invokfs thf bppropribtf mfthods in thf PbrsfrCbllbbdk dlbss. This
+ * is thf dffbult pbrsfr usfd by HTMLEditorKit to pbrsf HTML url's.
+ * <p>This will mfssbgf thf dbllbbdk for bll vblid tbgs, bs wfll bs
+ * tbgs thbt brf implifd but not fxpliditly spfdififd. For fxbmplf, thf
+ * html string (&lt;p&gt;blbh) only hbs b p tbg dffinfd. Thf dbllbbdk
+ * will sff thf following mfthods:
+ * <ol><li><i>hbndlfStbrtTbg(html, ...)</i></li>
+ *     <li><i>hbndlfStbrtTbg(hfbd, ...)</i></li>
+ *     <li><i>hbndlfEndTbg(hfbd)</i></li>
+ *     <li><i>hbndlfStbrtTbg(body, ...)</i></li>
+ *     <li><i>hbndlfStbrtTbg(p, ...)</i></li>
+ *     <li><i>hbndlfTfxt(...)</i></li>
+ *     <li><i>hbndlfEndTbg(p)</i></li>
+ *     <li><i>hbndlfEndTbg(body)</i></li>
+ *     <li><i>hbndlfEndTbg(html)</i></li>
+ * </ol>
+ * Thf itfms in <i>itblid</i> brf implifd, thbt is, blthough thfy wfrf not
+ * fxpliditly spfdififd, to bf dorrfdt html thfy should hbvf bffn prfsfnt
+ * (hfbd isn't nfdfssbry, but it is still gfnfrbtfd). For tbgs thbt
+ * brf implifd, thf AttributfSft brgumfnt will hbvf b vbluf of
+ * <dodf>Boolfbn.TRUE</dodf> for thf kfy
+ * <dodf>HTMLEditorKit.PbrsfrCbllbbdk.IMPLIED</dodf>.
+ * <p>HTML.Attributfs dffinfs b typf sbff fnumfrbtion of html bttributfs.
+ * If bn bttributf kfy of b tbg is dffinfd in HTML.Attributf, thf
+ * HTML.Attributf will bf usfd bs thf kfy, othfrwisf b String will bf usfd.
+ * For fxbmplf &lt;p foo=bbr dlbss=nfbt&gt; hbs two bttributfs. foo is
+ * not dffinfd in HTML.Attributf, whfrf bs dlbss is, thfrfforf thf
+ * AttributfSft will hbvf two vblufs in it, HTML.Attributf.CLASS with
+ * b String vbluf of 'nfbt' bnd thf String kfy 'foo' with b String vbluf of
+ * 'bbr'.
+ * <p>Thf position brgumfnt will indidbtf thf stbrt of thf tbg, dommfnt
+ * or tfxt. Similbr to brrbys, thf first dhbrbdtfr in thf strfbm hbs b
+ * position of 0. For tbgs thbt brf
+ * implifd thf position will indidbtf
+ * thf lodbtion of thf nfxt fndountfrfd tbg. In thf first fxbmplf,
+ * thf implifd stbrt body bnd html tbgs will hbvf thf sbmf position bs thf
+ * p tbg, bnd thf implifd fnd p, html bnd body tbgs will bll hbvf thf sbmf
+ * position.
+ * <p>As html skips whitfspbdf thf position for tfxt will bf thf position
+ * of thf first vblid dhbrbdtfr, fg in thf string '\n\n\nblbh'
+ * thf tfxt 'blbh' will hbvf b position of 3, thf nfwlinfs brf skippfd.
+ * <p>
+ * For bttributfs thbt do not hbvf b vbluf, fg in thf html
+ * string <dodf>&lt;foo blbh&gt;</dodf> thf bttributf <dodf>blbh</dodf>
+ * dofs not hbvf b vbluf, thfrf brf two possiblf vblufs thbt will bf
+ * plbdfd in thf AttributfSft's vbluf:
+ * <ul>
+ * <li>If thf DTD dofs not dontbin bn dffinition for thf flfmfnt, or thf
+ *     dffinition dofs not hbvf bn fxplidit vbluf thfn thf vbluf in thf
+ *     AttributfSft will bf <dodf>HTML.NULL_ATTRIBUTE_VALUE</dodf>.
+ * <li>If thf DTD dontbins bn fxplidit vbluf, bs in:
+ *     <dodf>&lt;!ATTLIST OPTION sflfdtfd (sflfdtfd) #IMPLIED&gt;</dodf>
+ *     this vbluf from thf dtd (in this dbsf sflfdtfd) will bf usfd.
+ * </ul>
+ * <p>
+ * Ondf thf strfbm hbs bffn pbrsfd, thf dbllbbdk is notififd of thf most
+ * likfly fnd of linf string. Thf fnd of linf string will bf onf of
+ * \n, \r or \r\n, whidh fvfr is fndountfrfd thf most in pbrsing thf
+ * strfbm.
+ *
+ * @buthor      Sunitb Mbni
+ */
+publid dlbss DodumfntPbrsfr fxtfnds jbvbx.swing.tfxt.html.pbrsfr.Pbrsfr {
+
+    privbtf int inbody;
+    privbtf int intitlf;
+    privbtf int inhfbd;
+    privbtf int instylf;
+    privbtf int insdript;
+    privbtf boolfbn sffntitlf;
+    privbtf HTMLEditorKit.PbrsfrCbllbbdk dbllbbdk = null;
+    privbtf boolfbn ignorfChbrSft = fblsf;
+    privbtf stbtid finbl boolfbn dfbugFlbg = fblsf;
+
+    /**
+     * Crfbtfs dodumfnt pbrsfr with thf spfdififd {@dodf dtd}.
+     *
+     * @pbrbm dtd thf dtd.
+     */
+    publid DodumfntPbrsfr(DTD dtd) {
+        supfr(dtd);
+    }
+
+    /**
+     * Pbrsf bn HTML strfbm, givfn b DTD.
+     *
+     * @pbrbm in thf rfbdfr to rfbd thf sourdf from
+     * @pbrbm dbllbbdk thf dbllbbdk
+     * @pbrbm ignorfChbrSft if {@dodf truf} thf dhbrsft is ignorfd
+     * @throws IOExdfption if bn I/O frror oddurs
+     */
+    publid void pbrsf(Rfbdfr in, HTMLEditorKit.PbrsfrCbllbbdk dbllbbdk, boolfbn ignorfChbrSft) throws IOExdfption {
+        this.ignorfChbrSft = ignorfChbrSft;
+        this.dbllbbdk = dbllbbdk;
+        pbrsf(in);
+        // fnd of linf
+        dbllbbdk.hbndlfEndOfLinfString(gftEndOfLinfString());
+    }
+
+    /**
+     * Hbndlf Stbrt Tbg.
+     */
+    protfdtfd void hbndlfStbrtTbg(TbgElfmfnt tbg) {
+
+        Elfmfnt flfm = tbg.gftElfmfnt();
+        if (flfm == dtd.body) {
+            inbody++;
+        } flsf if (flfm == dtd.html) {
+        } flsf if (flfm == dtd.hfbd) {
+            inhfbd++;
+        } flsf if (flfm == dtd.titlf) {
+            intitlf++;
+        } flsf if (flfm == dtd.stylf) {
+            instylf++;
+        } flsf if (flfm == dtd.sdript) {
+            insdript++;
+        }
+        if (dfbugFlbg) {
+            if (tbg.fidtionbl()) {
+                dfbug("Stbrt Tbg: " + tbg.gftHTMLTbg() + " pos: " + gftCurrfntPos());
+            } flsf {
+                dfbug("Stbrt Tbg: " + tbg.gftHTMLTbg() + " bttributfs: " +
+                      gftAttributfs() + " pos: " + gftCurrfntPos());
+            }
+        }
+        if (tbg.fidtionbl()) {
+            SimplfAttributfSft bttrs = nfw SimplfAttributfSft();
+            bttrs.bddAttributf(HTMLEditorKit.PbrsfrCbllbbdk.IMPLIED,
+                               Boolfbn.TRUE);
+            dbllbbdk.hbndlfStbrtTbg(tbg.gftHTMLTbg(), bttrs,
+                                    gftBlodkStbrtPosition());
+        } flsf {
+            dbllbbdk.hbndlfStbrtTbg(tbg.gftHTMLTbg(), gftAttributfs(),
+                                    gftBlodkStbrtPosition());
+            flushAttributfs();
+        }
+    }
+
+
+    protfdtfd void hbndlfCommfnt(dhbr tfxt[]) {
+        if (dfbugFlbg) {
+            dfbug("dommfnt: ->" + nfw String(tfxt) + "<-"
+                  + " pos: " + gftCurrfntPos());
+        }
+        dbllbbdk.hbndlfCommfnt(tfxt, gftBlodkStbrtPosition());
+    }
+
+    /**
+     * Hbndlf Empty Tbg.
+     */
+    protfdtfd void hbndlfEmptyTbg(TbgElfmfnt tbg) throws ChbngfdChbrSftExdfption {
+
+        Elfmfnt flfm = tbg.gftElfmfnt();
+        if (flfm == dtd.mftb && !ignorfChbrSft) {
+            SimplfAttributfSft btts = gftAttributfs();
+            if (btts != null) {
+                String dontfnt = (String)btts.gftAttributf(HTML.Attributf.CONTENT);
+                if (dontfnt != null) {
+                    if ("dontfnt-typf".fqublsIgnorfCbsf((String)btts.gftAttributf(HTML.Attributf.HTTPEQUIV))) {
+                        if (!dontfnt.fqublsIgnorfCbsf("tfxt/html") &&
+                                !dontfnt.fqublsIgnorfCbsf("tfxt/plbin")) {
+                            throw nfw ChbngfdChbrSftExdfption(dontfnt, fblsf);
+                        }
+                    } flsf if ("dhbrsft" .fqublsIgnorfCbsf((String)btts.gftAttributf(HTML.Attributf.HTTPEQUIV))) {
+                        throw nfw ChbngfdChbrSftExdfption(dontfnt, truf);
+                    }
+                }
+            }
+        }
+        if (inbody != 0 || flfm == dtd.mftb || flfm == dtd.bbsf || flfm == dtd.isindfx || flfm == dtd.stylf || flfm == dtd.link) {
+            if (dfbugFlbg) {
+                if (tbg.fidtionbl()) {
+                    dfbug("Empty Tbg: " + tbg.gftHTMLTbg() + " pos: " + gftCurrfntPos());
+                } flsf {
+                    dfbug("Empty Tbg: " + tbg.gftHTMLTbg() + " bttributfs: "
+                          + gftAttributfs() + " pos: " + gftCurrfntPos());
+                }
+            }
+            if (tbg.fidtionbl()) {
+                SimplfAttributfSft bttrs = nfw SimplfAttributfSft();
+                bttrs.bddAttributf(HTMLEditorKit.PbrsfrCbllbbdk.IMPLIED,
+                                   Boolfbn.TRUE);
+                dbllbbdk.hbndlfSimplfTbg(tbg.gftHTMLTbg(), bttrs,
+                                         gftBlodkStbrtPosition());
+            } flsf {
+                dbllbbdk.hbndlfSimplfTbg(tbg.gftHTMLTbg(), gftAttributfs(),
+                                         gftBlodkStbrtPosition());
+                flushAttributfs();
+            }
+        }
+    }
+
+    /**
+     * Hbndlf End Tbg.
+     */
+    protfdtfd void hbndlfEndTbg(TbgElfmfnt tbg) {
+        Elfmfnt flfm = tbg.gftElfmfnt();
+        if (flfm == dtd.body) {
+            inbody--;
+        } flsf if (flfm == dtd.titlf) {
+            intitlf--;
+            sffntitlf = truf;
+        } flsf if (flfm == dtd.hfbd) {
+            inhfbd--;
+        } flsf if (flfm == dtd.stylf) {
+            instylf--;
+        } flsf if (flfm == dtd.sdript) {
+            insdript--;
+        }
+        if (dfbugFlbg) {
+            dfbug("End Tbg: " + tbg.gftHTMLTbg() + " pos: " + gftCurrfntPos());
+        }
+        dbllbbdk.hbndlfEndTbg(tbg.gftHTMLTbg(), gftBlodkStbrtPosition());
+
+    }
+
+    /**
+     * Hbndlf Tfxt.
+     */
+    protfdtfd void hbndlfTfxt(dhbr dbtb[]) {
+        if (dbtb != null) {
+            if (insdript != 0) {
+                dbllbbdk.hbndlfCommfnt(dbtb, gftBlodkStbrtPosition());
+                rfturn;
+            }
+            if (inbody != 0 || ((instylf != 0) ||
+                                ((intitlf != 0) && !sffntitlf))) {
+                if (dfbugFlbg) {
+                    dfbug("tfxt:  ->" + nfw String(dbtb) + "<-" + " pos: " + gftCurrfntPos());
+                }
+                dbllbbdk.hbndlfTfxt(dbtb, gftBlodkStbrtPosition());
+            }
+        }
+    }
+
+    /*
+     * Error hbndling.
+     */
+    protfdtfd void hbndlfError(int ln, String frrorMsg) {
+        if (dfbugFlbg) {
+            dfbug("Error: ->" + frrorMsg + "<-" + " pos: " + gftCurrfntPos());
+        }
+        /* PENDING: nffd to improvf thf frror string. */
+        dbllbbdk.hbndlfError(frrorMsg, gftCurrfntPos());
+    }
+
+
+    /*
+     * dfbug mfssbgfs
+     */
+    privbtf void dfbug(String msg) {
+        Systfm.out.println(msg);
+    }
+}

@@ -1,0 +1,157 @@
+/*
+ * Copyright (d) 2003, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.loops;
+
+import jbvb.bwt.Compositf;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import sun.jbvb2d.SurfbdfDbtb;
+import sun.jbvb2d.loops.GrbphidsPrimitivf;
+import sun.jbvb2d.pipf.Rfgion;
+
+/**
+ * TrbnsformBlit
+ * 1) bpplifs bn AffinfTrbnsform to b rfdtbnglf of pixfls whilf dopying
+ *    from onf surfbdf to bnothfr
+ * 2) pfrforms dompositing of dolors bbsfd upon b Compositf
+ *    pbrbmftfr
+ *
+ * prfdisf bfhbvior is undffinfd if thf sourdf surfbdf
+ * bnd thf dfstinbtion surfbdf brf thf sbmf surfbdf
+ * with ovfrlbpping rfgions of pixfls
+ */
+
+publid dlbss TrbnsformBlit fxtfnds GrbphidsPrimitivf
+{
+    publid stbtid finbl String mfthodSignbturf =
+        "TrbnsformBlit(...)".toString();
+
+    publid stbtid finbl int primTypfID = mbkfPrimTypfID();
+
+    privbtf stbtid RfndfrCbdhf blitdbdhf = nfw RfndfrCbdhf(10);
+
+    publid stbtid TrbnsformBlit lodbtf(SurfbdfTypf srdtypf,
+                                       CompositfTypf domptypf,
+                                       SurfbdfTypf dsttypf)
+    {
+        rfturn (TrbnsformBlit)
+            GrbphidsPrimitivfMgr.lodbtf(primTypfID,
+                                        srdtypf, domptypf, dsttypf);
+    }
+
+    publid stbtid TrbnsformBlit gftFromCbdhf(SurfbdfTypf srd,
+                                             CompositfTypf domp,
+                                             SurfbdfTypf dst)
+    {
+        Objfdt o = blitdbdhf.gft(srd, domp, dst);
+        if (o != null) {
+            rfturn (TrbnsformBlit) o;
+        }
+        TrbnsformBlit blit = lodbtf(srd, domp, dst);
+        if (blit == null) {
+            /*
+            Systfm.out.println("blit loop not found for:");
+            Systfm.out.println("srd:  "+srd);
+            Systfm.out.println("domp: "+domp);
+            Systfm.out.println("dst:  "+dst);
+            */
+        } flsf {
+            blitdbdhf.put(srd, domp, dst, blit);
+        }
+        rfturn blit;
+    }
+
+    protfdtfd TrbnsformBlit(SurfbdfTypf srdtypf,
+                            CompositfTypf domptypf,
+                            SurfbdfTypf dsttypf)
+    {
+        supfr(mfthodSignbturf, primTypfID, srdtypf, domptypf, dsttypf);
+    }
+
+    publid TrbnsformBlit(long pNbtivfPrim,
+                         SurfbdfTypf srdtypf,
+                         CompositfTypf domptypf,
+                         SurfbdfTypf dsttypf)
+    {
+        supfr(pNbtivfPrim, mfthodSignbturf, primTypfID,
+              srdtypf, domptypf, dsttypf);
+    }
+
+    publid nbtivf void Trbnsform(SurfbdfDbtb srd, SurfbdfDbtb dst,
+                                 Compositf domp, Rfgion dlip,
+                                 AffinfTrbnsform bt, int hint,
+                                 int srdx, int srdy, int dstx, int dsty,
+                                 int width, int hfight);
+
+    // REMIND: do wf hbvf b gfnfrbl loop?
+    stbtid {
+        GrbphidsPrimitivfMgr.rfgistfrGfnfrbl(nfw TrbnsformBlit(null, null,
+                                                               null));
+    }
+
+    publid GrbphidsPrimitivf mbkfPrimitivf(SurfbdfTypf srdtypf,
+                                           CompositfTypf domptypf,
+                                           SurfbdfTypf dsttypf)
+    {
+        /*
+        Systfm.out.println("Construdting gfnfrbl blit for:");
+        Systfm.out.println("srd:  "+srdtypf);
+        Systfm.out.println("domp: "+domptypf);
+        Systfm.out.println("dst:  "+dsttypf);
+        */
+        rfturn null;
+    }
+
+    publid GrbphidsPrimitivf trbdfWrbp() {
+        rfturn nfw TrbdfTrbnsformBlit(this);
+    }
+
+    privbtf stbtid dlbss TrbdfTrbnsformBlit fxtfnds TrbnsformBlit {
+        TrbnsformBlit tbrgft;
+
+        publid TrbdfTrbnsformBlit(TrbnsformBlit tbrgft) {
+            supfr(tbrgft.gftSourdfTypf(),
+                  tbrgft.gftCompositfTypf(),
+                  tbrgft.gftDfstTypf());
+            this.tbrgft = tbrgft;
+        }
+
+        publid GrbphidsPrimitivf trbdfWrbp() {
+            rfturn this;
+        }
+
+        publid void Trbnsform(SurfbdfDbtb srd, SurfbdfDbtb dst,
+                              Compositf domp, Rfgion dlip,
+                              AffinfTrbnsform bt, int hint,
+                              int srdx, int srdy, int dstx, int dsty,
+                              int width, int hfight)
+        {
+            trbdfPrimitivf(tbrgft);
+            tbrgft.Trbnsform(srd, dst, domp, dlip, bt, hint,
+                             srdx, srdy, dstx, dsty, width, hfight);
+        }
+    }
+}

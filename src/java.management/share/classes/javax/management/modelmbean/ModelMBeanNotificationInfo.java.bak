@@ -1,419 +1,419 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 /*
- * @author    IBM Corp.
+ * @butior    IBM Corp.
  *
- * Copyright IBM Corp. 1999-2000.  All rights reserved.
+ * Copyrigit IBM Corp. 1999-2000.  All rigits rfsfrvfd.
  */
 
-package javax.management.modelmbean;
+pbdkbgf jbvbx.mbnbgfmfnt.modflmbfbn;
 
-import static com.sun.jmx.defaults.JmxProperties.MODELMBEAN_LOGGER;
-import com.sun.jmx.mbeanserver.GetPropertyAction;
+import stbtid dom.sun.jmx.dffbults.JmxPropfrtifs.MODELMBEAN_LOGGER;
+import dom.sun.jmx.mbfbnsfrvfr.GftPropfrtyAdtion;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.ObjectStreamField;
-import java.security.AccessController;
-import java.util.logging.Level;
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtStrfbmFifld;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.util.logging.Lfvfl;
 
-import javax.management.Descriptor;
-import javax.management.DescriptorAccess;
-import javax.management.MBeanNotificationInfo;
-import javax.management.RuntimeOperationsException;
+import jbvbx.mbnbgfmfnt.Dfsdriptor;
+import jbvbx.mbnbgfmfnt.DfsdriptorAddfss;
+import jbvbx.mbnbgfmfnt.MBfbnNotifidbtionInfo;
+import jbvbx.mbnbgfmfnt.RuntimfOpfrbtionsExdfption;
 
 /**
- * <p>The ModelMBeanNotificationInfo object describes a notification emitted
- * by a ModelMBean.
- * It is a subclass of MBeanNotificationInfo with the addition of an
- * associated Descriptor and an implementation of the Descriptor interface.</p>
+ * <p>Tif ModflMBfbnNotifidbtionInfo objfdt dfsdribfs b notifidbtion fmittfd
+ * by b ModflMBfbn.
+ * It is b subdlbss of MBfbnNotifidbtionInfo witi tif bddition of bn
+ * bssodibtfd Dfsdriptor bnd bn implfmfntbtion of tif Dfsdriptor intfrfbdf.</p>
  *
- * <P id="descriptor">
- * The fields in the descriptor are defined, but not limited to, the following.
- * Note that when the Type in this table is Number, a String that is the decimal
- * representation of a Long can also be used.</P>
+ * <P id="dfsdriptor">
+ * Tif fiflds in tif dfsdriptor brf dffinfd, but not limitfd to, tif following.
+ * Notf tibt wifn tif Typf in tiis tbblf is Numbfr, b String tibt is tif dfdimbl
+ * rfprfsfntbtion of b Long dbn blso bf usfd.</P>
  *
- * <table border="1" cellpadding="5" summary="ModelMBeanNotificationInfo Fields">
- * <tr><th>Name</th><th>Type</th><th>Meaning</th></tr>
- * <tr><td>name</td><td>String</td>
- *     <td>Notification name.</td></tr>
- * <tr><td>descriptorType</td><td>String</td>
- *     <td>Must be "notification".</td></tr>
- * <tr><td>severity</td><td>Number</td>
- *     <td>0-6 where 0: unknown; 1: non-recoverable;
- *         2: critical, failure; 3: major, severe;
- *         4: minor, marginal, error; 5: warning;
- *         6: normal, cleared, informative</td></tr>
- * <tr><td>messageID</td><td>String</td>
- *     <td>Unique key for message text (to allow translation, analysis).</td></tr>
- * <tr><td>messageText</td><td>String</td>
- *     <td>Text of notification.</td></tr>
+ * <tbblf bordfr="1" dfllpbdding="5" summbry="ModflMBfbnNotifidbtionInfo Fiflds">
+ * <tr><ti>Nbmf</ti><ti>Typf</ti><ti>Mfbning</ti></tr>
+ * <tr><td>nbmf</td><td>String</td>
+ *     <td>Notifidbtion nbmf.</td></tr>
+ * <tr><td>dfsdriptorTypf</td><td>String</td>
+ *     <td>Must bf "notifidbtion".</td></tr>
+ * <tr><td>sfvfrity</td><td>Numbfr</td>
+ *     <td>0-6 wifrf 0: unknown; 1: non-rfdovfrbblf;
+ *         2: dritidbl, fbilurf; 3: mbjor, sfvfrf;
+ *         4: minor, mbrginbl, frror; 5: wbrning;
+ *         6: normbl, dlfbrfd, informbtivf</td></tr>
+ * <tr><td>mfssbgfID</td><td>String</td>
+ *     <td>Uniquf kfy for mfssbgf tfxt (to bllow trbnslbtion, bnblysis).</td></tr>
+ * <tr><td>mfssbgfTfxt</td><td>String</td>
+ *     <td>Tfxt of notifidbtion.</td></tr>
  * <tr><td>log</td><td>String</td>
- *     <td>T - log message, F - do not log message.</td></tr>
- * <tr><td>logfile</td><td>String</td>
- *     <td>fully qualified file name appropriate for operating system.</td></tr>
- * <tr><td>visibility</td><td>Number</td>
- *     <td>1-4 where 1: always visible 4: rarely visible.</td></tr>
- * <tr><td>presentationString</td><td>String</td>
- *     <td>XML formatted string to allow presentation of data.</td></tr>
- * </table>
+ *     <td>T - log mfssbgf, F - do not log mfssbgf.</td></tr>
+ * <tr><td>logfilf</td><td>String</td>
+ *     <td>fully qublififd filf nbmf bppropribtf for opfrbting systfm.</td></tr>
+ * <tr><td>visibility</td><td>Numbfr</td>
+ *     <td>1-4 wifrf 1: blwbys visiblf 4: rbrfly visiblf.</td></tr>
+ * <tr><td>prfsfntbtionString</td><td>String</td>
+ *     <td>XML formbttfd string to bllow prfsfntbtion of dbtb.</td></tr>
+ * </tbblf>
  *
- * <p>The default descriptor contains the name, descriptorType,
- * displayName and severity(=6) fields.  The default value of the name
- * and displayName fields is the name of the Notification class (as
- * specified by the <code>name</code> parameter of the
- * ModelMBeanNotificationInfo constructor).</p>
+ * <p>Tif dffbult dfsdriptor dontbins tif nbmf, dfsdriptorTypf,
+ * displbyNbmf bnd sfvfrity(=6) fiflds.  Tif dffbult vbluf of tif nbmf
+ * bnd displbyNbmf fiflds is tif nbmf of tif Notifidbtion dlbss (bs
+ * spfdififd by tif <dodf>nbmf</dodf> pbrbmftfr of tif
+ * ModflMBfbnNotifidbtionInfo donstrudtor).</p>
  *
- * <p>The <b>serialVersionUID</b> of this class is <code>-7445681389570207141L</code>.
+ * <p>Tif <b>sfriblVfrsionUID</b> of tiis dlbss is <dodf>-7445681389570207141L</dodf>.
  *
- * @since 1.5
+ * @sindf 1.5
  */
 
-@SuppressWarnings("serial")  // serialVersionUID is not constant
-public class ModelMBeanNotificationInfo
-    extends MBeanNotificationInfo
-    implements DescriptorAccess {
+@SupprfssWbrnings("sfribl")  // sfriblVfrsionUID is not donstbnt
+publid dlbss ModflMBfbnNotifidbtionInfo
+    fxtfnds MBfbnNotifidbtionInfo
+    implfmfnts DfsdriptorAddfss {
 
-    // Serialization compatibility stuff:
-    // Two serial forms are supported in this class. The selected form
-    // depends on system property "jmx.serial.form":
+    // Sfriblizbtion dompbtibility stuff:
+    // Two sfribl forms brf supportfd in tiis dlbss. Tif sflfdtfd form
+    // dfpfnds on systfm propfrty "jmx.sfribl.form":
     //  - "1.0" for JMX 1.0
-    //  - any other value for JMX 1.1 and higher
+    //  - bny otifr vbluf for JMX 1.1 bnd iigifr
     //
-    // Serial version for old serial form
-    private static final long oldSerialVersionUID = -5211564525059047097L;
+    // Sfribl vfrsion for old sfribl form
+    privbtf stbtid finbl long oldSfriblVfrsionUID = -5211564525059047097L;
     //
-    // Serial version for new serial form
-    private static final long newSerialVersionUID = -7445681389570207141L;
+    // Sfribl vfrsion for nfw sfribl form
+    privbtf stbtid finbl long nfwSfriblVfrsionUID = -7445681389570207141L;
     //
-    // Serializable fields in old serial form
-    private static final ObjectStreamField[] oldSerialPersistentFields =
+    // Sfriblizbblf fiflds in old sfribl form
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] oldSfriblPfrsistfntFiflds =
     {
-      new ObjectStreamField("notificationDescriptor", Descriptor.class),
-      new ObjectStreamField("currClass", String.class)
+      nfw ObjfdtStrfbmFifld("notifidbtionDfsdriptor", Dfsdriptor.dlbss),
+      nfw ObjfdtStrfbmFifld("durrClbss", String.dlbss)
     };
     //
-    // Serializable fields in new serial form
-    private static final ObjectStreamField[] newSerialPersistentFields =
+    // Sfriblizbblf fiflds in nfw sfribl form
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] nfwSfriblPfrsistfntFiflds =
     {
-      new ObjectStreamField("notificationDescriptor", Descriptor.class)
+      nfw ObjfdtStrfbmFifld("notifidbtionDfsdriptor", Dfsdriptor.dlbss)
     };
     //
-    // Actual serial version and serial form
-    private static final long serialVersionUID;
+    // Adtubl sfribl vfrsion bnd sfribl form
+    privbtf stbtid finbl long sfriblVfrsionUID;
     /**
-     * @serialField notificationDescriptor Descriptor The descriptor
-     *   containing the appropriate metadata for this instance
+     * @sfriblFifld notifidbtionDfsdriptor Dfsdriptor Tif dfsdriptor
+     *   dontbining tif bppropribtf mftbdbtb for tiis instbndf
      */
-    private static final ObjectStreamField[] serialPersistentFields;
-    private static boolean compat = false;
-    static {
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] sfriblPfrsistfntFiflds;
+    privbtf stbtid boolfbn dompbt = fblsf;
+    stbtid {
         try {
-            GetPropertyAction act = new GetPropertyAction("jmx.serial.form");
-            String form = AccessController.doPrivileged(act);
-            compat = (form != null && form.equals("1.0"));
-        } catch (Exception e) {
-            // OK: No compat with 1.0
+            GftPropfrtyAdtion bdt = nfw GftPropfrtyAdtion("jmx.sfribl.form");
+            String form = AddfssControllfr.doPrivilfgfd(bdt);
+            dompbt = (form != null && form.fqubls("1.0"));
+        } dbtdi (Exdfption f) {
+            // OK: No dompbt witi 1.0
         }
-        if (compat) {
-            serialPersistentFields = oldSerialPersistentFields;
-            serialVersionUID = oldSerialVersionUID;
-        } else {
-            serialPersistentFields = newSerialPersistentFields;
-            serialVersionUID = newSerialVersionUID;
+        if (dompbt) {
+            sfriblPfrsistfntFiflds = oldSfriblPfrsistfntFiflds;
+            sfriblVfrsionUID = oldSfriblVfrsionUID;
+        } flsf {
+            sfriblPfrsistfntFiflds = nfwSfriblPfrsistfntFiflds;
+            sfriblVfrsionUID = nfwSfriblVfrsionUID;
         }
     }
     //
-    // END Serialization compatibility stuff
+    // END Sfriblizbtion dompbtibility stuff
 
     /**
-     * @serial The descriptor containing the appropriate metadata for
-     *         this instance
+     * @sfribl Tif dfsdriptor dontbining tif bppropribtf mftbdbtb for
+     *         tiis instbndf
      */
-    private Descriptor notificationDescriptor;
+    privbtf Dfsdriptor notifidbtionDfsdriptor;
 
-    private static final String currClass = "ModelMBeanNotificationInfo";
+    privbtf stbtid finbl String durrClbss = "ModflMBfbnNotifidbtionInfo";
 
     /**
-     * Constructs a ModelMBeanNotificationInfo object with a default
-     * descriptor.
+     * Construdts b ModflMBfbnNotifidbtionInfo objfdt witi b dffbult
+     * dfsdriptor.
      *
-     * @param notifTypes The array of strings (in dot notation) containing
-     *     the notification types that may be emitted.
-     * @param name The name of the Notification class.
-     * @param description A human readable description of the
-     *     Notification. Optional.
+     * @pbrbm notifTypfs Tif brrby of strings (in dot notbtion) dontbining
+     *     tif notifidbtion typfs tibt mby bf fmittfd.
+     * @pbrbm nbmf Tif nbmf of tif Notifidbtion dlbss.
+     * @pbrbm dfsdription A iumbn rfbdbblf dfsdription of tif
+     *     Notifidbtion. Optionbl.
      **/
-    public ModelMBeanNotificationInfo(String[] notifTypes,
-                                      String name,
-                                      String description) {
-        this(notifTypes,name,description,null);
+    publid ModflMBfbnNotifidbtionInfo(String[] notifTypfs,
+                                      String nbmf,
+                                      String dfsdription) {
+        tiis(notifTypfs,nbmf,dfsdription,null);
     }
 
     /**
-     * Constructs a ModelMBeanNotificationInfo object.
+     * Construdts b ModflMBfbnNotifidbtionInfo objfdt.
      *
-     * @param notifTypes The array of strings (in dot notation)
-     *        containing the notification types that may be emitted.
-     * @param name The name of the Notification class.
-     * @param description A human readable description of the Notification.
-     *        Optional.
-     * @param descriptor An instance of Descriptor containing the
-     *        appropriate metadata for this instance of the
-     *        MBeanNotificationInfo. If it is null a default descriptor
-     *        will be created. If the descriptor does not contain the
-     *        fields "displayName" or "severity",
-     *        the missing ones are added with their default values.
+     * @pbrbm notifTypfs Tif brrby of strings (in dot notbtion)
+     *        dontbining tif notifidbtion typfs tibt mby bf fmittfd.
+     * @pbrbm nbmf Tif nbmf of tif Notifidbtion dlbss.
+     * @pbrbm dfsdription A iumbn rfbdbblf dfsdription of tif Notifidbtion.
+     *        Optionbl.
+     * @pbrbm dfsdriptor An instbndf of Dfsdriptor dontbining tif
+     *        bppropribtf mftbdbtb for tiis instbndf of tif
+     *        MBfbnNotifidbtionInfo. If it is null b dffbult dfsdriptor
+     *        will bf drfbtfd. If tif dfsdriptor dofs not dontbin tif
+     *        fiflds "displbyNbmf" or "sfvfrity",
+     *        tif missing onfs brf bddfd witi tifir dffbult vblufs.
      *
-     * @exception RuntimeOperationsException Wraps an
-     *    {@link IllegalArgumentException}. The descriptor is invalid, or
-     *    descriptor field "name" is not equal to parameter name, or
-     *    descriptor field "descriptorType" is not equal to "notification".
+     * @fxdfption RuntimfOpfrbtionsExdfption Wrbps bn
+     *    {@link IllfgblArgumfntExdfption}. Tif dfsdriptor is invblid, or
+     *    dfsdriptor fifld "nbmf" is not fqubl to pbrbmftfr nbmf, or
+     *    dfsdriptor fifld "dfsdriptorTypf" is not fqubl to "notifidbtion".
      *
      **/
-    public ModelMBeanNotificationInfo(String[] notifTypes,
-                                      String name,
-                                      String description,
-                                      Descriptor descriptor) {
-        super(notifTypes, name, description);
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
-            MODELMBEAN_LOGGER.logp(Level.FINER,
-                    ModelMBeanNotificationInfo.class.getName(),
-                    "ModelMBeanNotificationInfo", "Entry");
+    publid ModflMBfbnNotifidbtionInfo(String[] notifTypfs,
+                                      String nbmf,
+                                      String dfsdription,
+                                      Dfsdriptor dfsdriptor) {
+        supfr(notifTypfs, nbmf, dfsdription);
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                    ModflMBfbnNotifidbtionInfo.dlbss.gftNbmf(),
+                    "ModflMBfbnNotifidbtionInfo", "Entry");
         }
-        notificationDescriptor = validDescriptor(descriptor);
+        notifidbtionDfsdriptor = vblidDfsdriptor(dfsdriptor);
     }
 
     /**
-     * Constructs a new ModelMBeanNotificationInfo object from this
-     * ModelMBeanNotfication Object.
+     * Construdts b nfw ModflMBfbnNotifidbtionInfo objfdt from tiis
+     * ModflMBfbnNotfidbtion Objfdt.
      *
-     * @param inInfo the ModelMBeanNotificationInfo to be duplicated
+     * @pbrbm inInfo tif ModflMBfbnNotifidbtionInfo to bf duplidbtfd
      *
      **/
-    public ModelMBeanNotificationInfo(ModelMBeanNotificationInfo inInfo) {
-        this(inInfo.getNotifTypes(),
-             inInfo.getName(),
-             inInfo.getDescription(),inInfo.getDescriptor());
+    publid ModflMBfbnNotifidbtionInfo(ModflMBfbnNotifidbtionInfo inInfo) {
+        tiis(inInfo.gftNotifTypfs(),
+             inInfo.gftNbmf(),
+             inInfo.gftDfsdription(),inInfo.gftDfsdriptor());
     }
 
     /**
-     * Creates and returns a new ModelMBeanNotificationInfo which is a
-     * duplicate of this ModelMBeanNotificationInfo.
+     * Crfbtfs bnd rfturns b nfw ModflMBfbnNotifidbtionInfo wiidi is b
+     * duplidbtf of tiis ModflMBfbnNotifidbtionInfo.
      **/
-    public Object clone () {
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
-            MODELMBEAN_LOGGER.logp(Level.FINER,
-                    ModelMBeanNotificationInfo.class.getName(),
-                    "clone()", "Entry");
+    publid Objfdt dlonf () {
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                    ModflMBfbnNotifidbtionInfo.dlbss.gftNbmf(),
+                    "dlonf()", "Entry");
         }
-        return(new ModelMBeanNotificationInfo(this));
+        rfturn(nfw ModflMBfbnNotifidbtionInfo(tiis));
     }
 
     /**
-     * Returns a copy of the associated Descriptor for the
-     * ModelMBeanNotificationInfo.
+     * Rfturns b dopy of tif bssodibtfd Dfsdriptor for tif
+     * ModflMBfbnNotifidbtionInfo.
      *
-     * @return Descriptor associated with the
-     * ModelMBeanNotificationInfo object.
+     * @rfturn Dfsdriptor bssodibtfd witi tif
+     * ModflMBfbnNotifidbtionInfo objfdt.
      *
-     * @see #setDescriptor
+     * @sff #sftDfsdriptor
      **/
-    public Descriptor getDescriptor() {
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
-            MODELMBEAN_LOGGER.logp(Level.FINER,
-                    ModelMBeanNotificationInfo.class.getName(),
-                    "getDescriptor()", "Entry");
+    publid Dfsdriptor gftDfsdriptor() {
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                    ModflMBfbnNotifidbtionInfo.dlbss.gftNbmf(),
+                    "gftDfsdriptor()", "Entry");
         }
 
-        if (notificationDescriptor == null) {
-            // Dead code. Should never happen.
-            if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
-                MODELMBEAN_LOGGER.logp(Level.FINER,
-                        ModelMBeanNotificationInfo.class.getName(),
-                        "getDescriptor()", "Descriptor value is null, " +
-                        "setting descriptor to default values");
+        if (notifidbtionDfsdriptor == null) {
+            // Dfbd dodf. Siould nfvfr ibppfn.
+            if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                        ModflMBfbnNotifidbtionInfo.dlbss.gftNbmf(),
+                        "gftDfsdriptor()", "Dfsdriptor vbluf is null, " +
+                        "sftting dfsdriptor to dffbult vblufs");
             }
-            notificationDescriptor = validDescriptor(null);
+            notifidbtionDfsdriptor = vblidDfsdriptor(null);
         }
 
-        return((Descriptor)notificationDescriptor.clone());
+        rfturn((Dfsdriptor)notifidbtionDfsdriptor.dlonf());
     }
 
     /**
-     * Sets associated Descriptor (full replace) for the
-     * ModelMBeanNotificationInfo If the new Descriptor is null,
-     * then the associated Descriptor reverts to a default
-     * descriptor.  The Descriptor is validated before it is
-     * assigned.  If the new Descriptor is invalid, then a
-     * RuntimeOperationsException wrapping an
-     * IllegalArgumentException is thrown.
+     * Sfts bssodibtfd Dfsdriptor (full rfplbdf) for tif
+     * ModflMBfbnNotifidbtionInfo If tif nfw Dfsdriptor is null,
+     * tifn tif bssodibtfd Dfsdriptor rfvfrts to b dffbult
+     * dfsdriptor.  Tif Dfsdriptor is vblidbtfd bfforf it is
+     * bssignfd.  If tif nfw Dfsdriptor is invblid, tifn b
+     * RuntimfOpfrbtionsExdfption wrbpping bn
+     * IllfgblArgumfntExdfption is tirown.
      *
-     * @param inDescriptor replaces the Descriptor associated with the
-     * ModelMBeanNotification interface
+     * @pbrbm inDfsdriptor rfplbdfs tif Dfsdriptor bssodibtfd witi tif
+     * ModflMBfbnNotifidbtion intfrfbdf
      *
-     * @exception RuntimeOperationsException Wraps an
-     * {@link IllegalArgumentException} for invalid Descriptor.
+     * @fxdfption RuntimfOpfrbtionsExdfption Wrbps bn
+     * {@link IllfgblArgumfntExdfption} for invblid Dfsdriptor.
      *
-     * @see #getDescriptor
+     * @sff #gftDfsdriptor
      **/
-    public void setDescriptor(Descriptor inDescriptor) {
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
-            MODELMBEAN_LOGGER.logp(Level.FINER,
-                    ModelMBeanNotificationInfo.class.getName(),
-                    "setDescriptor(Descriptor)", "Entry");
+    publid void sftDfsdriptor(Dfsdriptor inDfsdriptor) {
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                    ModflMBfbnNotifidbtionInfo.dlbss.gftNbmf(),
+                    "sftDfsdriptor(Dfsdriptor)", "Entry");
         }
-        notificationDescriptor = validDescriptor(inDescriptor);
+        notifidbtionDfsdriptor = vblidDfsdriptor(inDfsdriptor);
     }
 
     /**
-     * Returns a human readable string containing
-     * ModelMBeanNotificationInfo.
+     * Rfturns b iumbn rfbdbblf string dontbining
+     * ModflMBfbnNotifidbtionInfo.
      *
-     * @return a string describing this object.
+     * @rfturn b string dfsdribing tiis objfdt.
      **/
-    public String toString() {
-        if (MODELMBEAN_LOGGER.isLoggable(Level.FINER)) {
-            MODELMBEAN_LOGGER.logp(Level.FINER,
-                    ModelMBeanNotificationInfo.class.getName(),
+    publid String toString() {
+        if (MODELMBEAN_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MODELMBEAN_LOGGER.logp(Lfvfl.FINER,
+                    ModflMBfbnNotifidbtionInfo.dlbss.gftNbmf(),
                     "toString()", "Entry");
         }
 
-        final StringBuilder retStr = new StringBuilder();
+        finbl StringBuildfr rftStr = nfw StringBuildfr();
 
-        retStr.append("ModelMBeanNotificationInfo: ")
-            .append(this.getName());
+        rftStr.bppfnd("ModflMBfbnNotifidbtionInfo: ")
+            .bppfnd(tiis.gftNbmf());
 
-        retStr.append(" ; Description: ")
-            .append(this.getDescription());
+        rftStr.bppfnd(" ; Dfsdription: ")
+            .bppfnd(tiis.gftDfsdription());
 
-        retStr.append(" ; Descriptor: ")
-            .append(this.getDescriptor());
+        rftStr.bppfnd(" ; Dfsdriptor: ")
+            .bppfnd(tiis.gftDfsdriptor());
 
-        retStr.append(" ; Types: ");
-        String[] nTypes = this.getNotifTypes();
-        for (int i=0; i < nTypes.length; i++) {
-            if (i > 0) retStr.append(", ");
-            retStr.append(nTypes[i]);
+        rftStr.bppfnd(" ; Typfs: ");
+        String[] nTypfs = tiis.gftNotifTypfs();
+        for (int i=0; i < nTypfs.lfngti; i++) {
+            if (i > 0) rftStr.bppfnd(", ");
+            rftStr.bppfnd(nTypfs[i]);
         }
-        return retStr.toString();
+        rfturn rftStr.toString();
     }
 
 
     /**
-     * Clones the passed in Descriptor, sets default values, and checks for validity.
-     * If the Descriptor is invalid (for instance by having the wrong "name"),
-     * this indicates programming error and a RuntimeOperationsException will be thrown.
+     * Clonfs tif pbssfd in Dfsdriptor, sfts dffbult vblufs, bnd difdks for vblidity.
+     * If tif Dfsdriptor is invblid (for instbndf by ibving tif wrong "nbmf"),
+     * tiis indidbtfs progrbmming frror bnd b RuntimfOpfrbtionsExdfption will bf tirown.
      *
-     * The following fields will be defaulted if they are not already set:
-     * descriptorType="notification",displayName=this.getName(),
-     * name=this.getName(),severity="6"
+     * Tif following fiflds will bf dffbultfd if tify brf not blrfbdy sft:
+     * dfsdriptorTypf="notifidbtion",displbyNbmf=tiis.gftNbmf(),
+     * nbmf=tiis.gftNbmf(),sfvfrity="6"
      *
      *
-     * @param in Descriptor to be checked, or null which is equivalent to an
-     * empty Descriptor.
-     * @exception RuntimeOperationsException if Descriptor is invalid
+     * @pbrbm in Dfsdriptor to bf difdkfd, or null wiidi is fquivblfnt to bn
+     * fmpty Dfsdriptor.
+     * @fxdfption RuntimfOpfrbtionsExdfption if Dfsdriptor is invblid
      */
-    private Descriptor validDescriptor(final Descriptor in) throws RuntimeOperationsException {
-        Descriptor clone;
-        boolean defaulted = (in == null);
-        if (defaulted) {
-            clone = new DescriptorSupport();
-            MODELMBEAN_LOGGER.finer("Null Descriptor, creating new.");
-        } else {
-            clone = (Descriptor) in.clone();
+    privbtf Dfsdriptor vblidDfsdriptor(finbl Dfsdriptor in) tirows RuntimfOpfrbtionsExdfption {
+        Dfsdriptor dlonf;
+        boolfbn dffbultfd = (in == null);
+        if (dffbultfd) {
+            dlonf = nfw DfsdriptorSupport();
+            MODELMBEAN_LOGGER.finfr("Null Dfsdriptor, drfbting nfw.");
+        } flsf {
+            dlonf = (Dfsdriptor) in.dlonf();
         }
 
-        //Setting defaults.
-        if (defaulted && clone.getFieldValue("name")==null) {
-            clone.setField("name", this.getName());
-            MODELMBEAN_LOGGER.finer("Defaulting Descriptor name to " + this.getName());
+        //Sftting dffbults.
+        if (dffbultfd && dlonf.gftFifldVbluf("nbmf")==null) {
+            dlonf.sftFifld("nbmf", tiis.gftNbmf());
+            MODELMBEAN_LOGGER.finfr("Dffbulting Dfsdriptor nbmf to " + tiis.gftNbmf());
         }
-        if (defaulted && clone.getFieldValue("descriptorType")==null) {
-            clone.setField("descriptorType", "notification");
-            MODELMBEAN_LOGGER.finer("Defaulting descriptorType to \"notification\"");
+        if (dffbultfd && dlonf.gftFifldVbluf("dfsdriptorTypf")==null) {
+            dlonf.sftFifld("dfsdriptorTypf", "notifidbtion");
+            MODELMBEAN_LOGGER.finfr("Dffbulting dfsdriptorTypf to \"notifidbtion\"");
         }
-        if (clone.getFieldValue("displayName") == null) {
-            clone.setField("displayName",this.getName());
-            MODELMBEAN_LOGGER.finer("Defaulting Descriptor displayName to " + this.getName());
+        if (dlonf.gftFifldVbluf("displbyNbmf") == null) {
+            dlonf.sftFifld("displbyNbmf",tiis.gftNbmf());
+            MODELMBEAN_LOGGER.finfr("Dffbulting Dfsdriptor displbyNbmf to " + tiis.gftNbmf());
         }
-        if (clone.getFieldValue("severity") == null) {
-            clone.setField("severity", "6");
-            MODELMBEAN_LOGGER.finer("Defaulting Descriptor severity field to 6");
-        }
-
-        //Checking validity
-        if (!clone.isValid()) {
-             throw new RuntimeOperationsException(new IllegalArgumentException("Invalid Descriptor argument"),
-                "The isValid() method of the Descriptor object itself returned false,"+
-                "one or more required fields are invalid. Descriptor:" + clone.toString());
-        }
-        if (!getName().equalsIgnoreCase((String) clone.getFieldValue("name"))) {
-                throw new RuntimeOperationsException(new IllegalArgumentException("Invalid Descriptor argument"),
-                "The Descriptor \"name\" field does not match the object described. " +
-                 " Expected: "+ this.getName() + " , was: " + clone.getFieldValue("name"));
-        }
-        if (!"notification".equalsIgnoreCase((String) clone.getFieldValue("descriptorType"))) {
-                 throw new RuntimeOperationsException(new IllegalArgumentException("Invalid Descriptor argument"),
-                "The Descriptor \"descriptorType\" field does not match the object described. " +
-                 " Expected: \"notification\" ," + " was: " + clone.getFieldValue("descriptorType"));
+        if (dlonf.gftFifldVbluf("sfvfrity") == null) {
+            dlonf.sftFifld("sfvfrity", "6");
+            MODELMBEAN_LOGGER.finfr("Dffbulting Dfsdriptor sfvfrity fifld to 6");
         }
 
-        return clone;
+        //Cifdking vblidity
+        if (!dlonf.isVblid()) {
+             tirow nfw RuntimfOpfrbtionsExdfption(nfw IllfgblArgumfntExdfption("Invblid Dfsdriptor brgumfnt"),
+                "Tif isVblid() mftiod of tif Dfsdriptor objfdt itsflf rfturnfd fblsf,"+
+                "onf or morf rfquirfd fiflds brf invblid. Dfsdriptor:" + dlonf.toString());
+        }
+        if (!gftNbmf().fqublsIgnorfCbsf((String) dlonf.gftFifldVbluf("nbmf"))) {
+                tirow nfw RuntimfOpfrbtionsExdfption(nfw IllfgblArgumfntExdfption("Invblid Dfsdriptor brgumfnt"),
+                "Tif Dfsdriptor \"nbmf\" fifld dofs not mbtdi tif objfdt dfsdribfd. " +
+                 " Expfdtfd: "+ tiis.gftNbmf() + " , wbs: " + dlonf.gftFifldVbluf("nbmf"));
+        }
+        if (!"notifidbtion".fqublsIgnorfCbsf((String) dlonf.gftFifldVbluf("dfsdriptorTypf"))) {
+                 tirow nfw RuntimfOpfrbtionsExdfption(nfw IllfgblArgumfntExdfption("Invblid Dfsdriptor brgumfnt"),
+                "Tif Dfsdriptor \"dfsdriptorTypf\" fifld dofs not mbtdi tif objfdt dfsdribfd. " +
+                 " Expfdtfd: \"notifidbtion\" ," + " wbs: " + dlonf.gftFifldVbluf("dfsdriptorTypf"));
+        }
+
+        rfturn dlonf;
     }
 
 
     /**
-     * Deserializes a {@link ModelMBeanNotificationInfo} from an
-     * {@link ObjectInputStream}.
+     * Dfsfriblizfs b {@link ModflMBfbnNotifidbtionInfo} from bn
+     * {@link ObjfdtInputStrfbm}.
      **/
-    private void readObject(ObjectInputStream in)
-        throws IOException, ClassNotFoundException {
-        // New serial form ignores extra field "currClass"
-        in.defaultReadObject();
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm in)
+        tirows IOExdfption, ClbssNotFoundExdfption {
+        // Nfw sfribl form ignorfs fxtrb fifld "durrClbss"
+        in.dffbultRfbdObjfdt();
     }
 
 
     /**
-     * Serializes a {@link ModelMBeanNotificationInfo} to an
-     * {@link ObjectOutputStream}.
+     * Sfriblizfs b {@link ModflMBfbnNotifidbtionInfo} to bn
+     * {@link ObjfdtOutputStrfbm}.
      **/
-    private void writeObject(ObjectOutputStream out)
-        throws IOException {
-        if (compat) {
-            // Serializes this instance in the old serial form
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm out)
+        tirows IOExdfption {
+        if (dompbt) {
+            // Sfriblizfs tiis instbndf in tif old sfribl form
             //
-            ObjectOutputStream.PutField fields = out.putFields();
-            fields.put("notificationDescriptor", notificationDescriptor);
-            fields.put("currClass", currClass);
-            out.writeFields();
-        } else {
-            // Serializes this instance in the new serial form
+            ObjfdtOutputStrfbm.PutFifld fiflds = out.putFiflds();
+            fiflds.put("notifidbtionDfsdriptor", notifidbtionDfsdriptor);
+            fiflds.put("durrClbss", durrClbss);
+            out.writfFiflds();
+        } flsf {
+            // Sfriblizfs tiis instbndf in tif nfw sfribl form
             //
-            out.defaultWriteObject();
+            out.dffbultWritfObjfdt();
         }
     }
 

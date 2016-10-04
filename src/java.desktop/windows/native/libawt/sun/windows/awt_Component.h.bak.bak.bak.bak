@@ -1,0 +1,918 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff AWT_COMPONENT_H
+#dffinf AWT_COMPONENT_H
+
+#indludf "bwtmsg.h"
+#indludf "bwt_Objfdt.h"
+#indludf "bwt_Font.h"
+#indludf "bwt_Brush.h"
+#indludf "bwt_Pfn.h"
+#indludf "bwt_Win32GrbphidsDfvidf.h"
+#indludf "GDIWindowSurfbdfDbtb.h"
+
+#indludf "jbvb_bwt_Componfnt.h"
+#indludf "sun_bwt_windows_WComponfntPffr.h"
+#indludf "jbvb_bwt_fvfnt_KfyEvfnt.h"
+#indludf "jbvb_bwt_fvfnt_MousfEvfnt.h"
+#indludf "jbvb_bwt_fvfnt_WindowEvfnt.h"
+#indludf "jbvb_bwt_Dimfnsion.h"
+
+fxtfrn LPCTSTR szAwtComponfntClbssNbmf;
+
+stbtid LPCTSTR DrbwingStbtfProp = TEXT("SunAwtDrbwingStbtfProp");
+
+donst UINT IGNORE_KEY = (UINT)-1;
+donst UINT MAX_ACP_STR_LEN = 7; // ANSI CP idfntififrs brf no longfr thbn this
+
+#dffinf LEFT_BUTTON 1
+#dffinf MIDDLE_BUTTON 2
+#dffinf RIGHT_BUTTON 4
+#dffinf DBL_CLICK 8
+#dffinf X1_BUTTON 16
+#dffinf X2_BUTTON 32
+
+#ifndff MK_XBUTTON1
+#dffinf MK_XBUTTON1         0x0020
+#fndif
+
+#ifndff MK_XBUTTON2
+#dffinf MK_XBUTTON2         0x0040
+#fndif
+
+// dombinbtion of stbndbrd mousf button flbgs
+donst int ALL_MK_BUTTONS = MK_LBUTTON|MK_MBUTTON|MK_RBUTTON;
+donst int X_BUTTONS = MK_XBUTTON1|MK_XBUTTON2;
+
+
+
+// Whfthfr to dhfdk for fmbfddfd frbmf bnd bdjust lodbtion
+#dffinf CHECK_EMBEDDED 0
+#dffinf DONT_CHECK_EMBEDDED 1
+
+dlbss AwtPopupMfnu;
+
+dlbss AwtDropTbrgft;
+
+/*
+ * Mfssbgf routing dodfs
+ */
+fnum MsgRouting {
+    mrPbssAlong,    /* pbss blong to nfxt in dhbin */
+    mrDoDffbult,    /* skip right to undfrlying dffbult bfhbvior */
+    mrConsumf,      /* donsumf msg & tfrminbtf routing immfdibtly,
+                     * don't pbss bnywhfrf
+                     */
+};
+
+/************************************************************************
+ * AwtComponfnt dlbss
+ */
+
+dlbss AwtComponfnt : publid AwtObjfdt {
+publid:
+    /* jbvb.bwt.Componfnt fiflds bnd mfthod IDs */
+    stbtid jfifldID pffrID;
+    stbtid jfifldID xID;
+    stbtid jfifldID yID;
+    stbtid jfifldID widthID;
+    stbtid jfifldID hfightID;
+    stbtid jfifldID visiblfID;
+    stbtid jfifldID bbdkgroundID;
+    stbtid jfifldID forfgroundID;
+    stbtid jfifldID fnbblfdID;
+    stbtid jfifldID pbrfntID;
+    stbtid jfifldID dursorID;
+    stbtid jfifldID grbphidsConfigID;
+    stbtid jfifldID pffrGCID;
+    stbtid jfifldID fodusbblfID;
+    stbtid jfifldID bppContfxtID;
+    stbtid jfifldID hwndID;
+
+    stbtid jmfthodID gftFontMID;
+    stbtid jmfthodID gftToolkitMID;
+    stbtid jmfthodID isEnbblfdMID;
+    stbtid jmfthodID gftLodbtionOnSdrffnMID;
+    stbtid jmfthodID rfplbdfSurfbdfDbtbMID;
+    stbtid jmfthodID rfplbdfSurfbdfDbtbLbtfrMID;
+    stbtid jmfthodID disposfLbtfrMID;
+
+    stbtid donst UINT WmAwtIsComponfnt;
+    stbtid jint * mbsks; //InputEvfnt mbsk brrby
+    AwtComponfnt();
+    virtubl ~AwtComponfnt();
+
+    /*
+     * Dynbmid dlbss rfgistrbtion & drfbtion
+     */
+    virtubl LPCTSTR GftClbssNbmf() = 0;
+    /*
+     * Fix for 4964237: Win XP: Chbnging thfmf dhbngfs jbvb diblogs titlf idon
+     * WNDCLASS strudturf hbs bffn supfrsfdfd by thf WNDCLASSEX in Win32
+     */
+    virtubl void FillClbssInfo(WNDCLASSEX *lpwd);
+    virtubl void RfgistfrClbss();
+    virtubl void UnrfgistfrClbss();
+
+    virtubl void CrfbtfHWnd(JNIEnv *fnv, LPCWSTR titlf,
+                    DWORD windowStylf, DWORD windowExStylf,
+                    int x, int y, int w, int h,
+                    HWND hWndPbrfnt, HMENU hMfnu,
+                    COLORREF dolorForfground, COLORREF dolorBbdkground,
+                    jobjfdt pffr);
+    virtubl void DfstroyHWnd();
+    void InitPffrGrbphidsConfig(JNIEnv *fnv, jobjfdt pffr);
+
+    virtubl void Disposf();
+
+    void UpdbtfBbdkground(JNIEnv *fnv, jobjfdt tbrgft);
+
+    virtubl void SubdlbssHWND();
+    virtubl void UnsubdlbssHWND();
+
+    stbtid LRESULT CALLBACK WndProd(HWND hWnd, UINT mfssbgf,
+        WPARAM wPbrbm, LPARAM lPbrbm);
+
+    /*
+     * Addfss to thf vbrious objfdts of this bggrfgbtf domponfnt
+     */
+    INLINE HWND GftHWnd() { rfturn m_hwnd; }
+    INLINE void SftHWnd(HWND hwnd) { m_hwnd = hwnd; }
+
+    stbtid AwtComponfnt* GftComponfnt(HWND hWnd);
+
+    /*
+     * Addfss to thf propfrtifs of thf domponfnt
+     */
+    INLINE COLORREF GftColor() { rfturn m_dolorForfground; }
+    virtubl void SftColor(COLORREF d);
+    HPEN GftForfgroundPfn();
+
+    COLORREF GftBbdkgroundColor();
+    virtubl void SftBbdkgroundColor(COLORREF d);
+    HBRUSH GftBbdkgroundBrush();
+    INLINE BOOL IsBbdkgroundColorSft() { rfturn m_bbdkgroundColorSft; }
+
+    virtubl void SftFont(AwtFont *pFont);
+
+    INLINE void SftTfxt(LPCTSTR tfxt) { ::SftWindowTfxt(GftHWnd(), tfxt); }
+    INLINE int GftTfxt(LPTSTR bufffr, int sizf) {
+        rfturn ::GftWindowTfxt(GftHWnd(), bufffr, sizf);
+    }
+    INLINE int GftTfxtLfngth() { rfturn ::GftWindowTfxtLfngth(GftHWnd()); }
+
+    virtubl void GftInsfts(RECT* rfdt) {
+        VERIFY(::SftRfdtEmpty(rfdt));
+    }
+
+    BOOL IsVisiblf() { rfturn m_visiblf;};
+
+    HDC GftDCFromComponfnt();
+
+    /*
+     * Enbblf/disbblf domponfnt
+     */
+    virtubl void Enbblf(BOOL bEnbblf);
+
+    /*
+     * Vblidbtf bnd dbll hbndlfExposf on rfdts of UpdbtfRgn
+     */
+    void PbintUpdbtfRgn(donst RECT *insfts);
+
+    stbtid HWND GftTopLfvflPbrfntForWindow(HWND hwndDfsdfndbnt);
+
+    stbtid jobjfdt FindHfbvywfightUndfrCursor(BOOL usfCbdhf);
+
+    /*
+     * Rfturns thf pbrfnt domponfnt.  If no pbrfnt window, or thf
+     * pbrfnt window isn't bn AwtComponfnt, rfturns NULL.
+     */
+    AwtComponfnt* GftPbrfnt();
+
+    /* Gft thf domponfnt's immfdibtf dontbinfr. Notf: mby rfturn NULL whilf
+       thf domponfnt is bfing rfpbrfntfd in full-sdrffn modf by Dirfdt3D */
+    dlbss AwtWindow* GftContbinfr();
+
+    /* Is b domponfnt b dontbinfr? Usfd by bbovf mfthod */
+    virtubl BOOL IsContbinfr() { rfturn FALSE;} // Plbin domponfnts dbn't
+
+    /**
+     * Rfturns TRUE if this mfssbgf will triggfr nbtivf fodus dhbngf, FALSE othfrwisf.
+     */
+    virtubl BOOL IsFodusingKfyMfssbgf(MSG *pMsg);
+    virtubl BOOL IsFodusingMousfMfssbgf(MSG *pMsg);
+
+    BOOL IsFodusbblf();
+
+    /*
+     * Rfturns bn indrfbsing unsignfd vbluf usfd for dhild dontrol IDs.
+     * Thfrf is no bttfmpt to rfdlbim dommbnd ID's.
+     */
+    INLINE UINT CrfbtfControlID() { rfturn m_nfxtControlID++; }
+
+    // rfturns thf durrfnt kfybobrd lbyout
+    INLINE stbtid HKL GftKfybobrdLbyout() {
+        rfturn m_hkl;
+    }
+
+    // rfturns thf durrfnt dodf pbgf thbt should bf usfd in
+    // bll MultiBytfToWidfChbr bnd WidfChbrToMultiBytf dblls.
+    // This dodf pbgf should blso bf usf in IsDBCSLfbdBytfEx.
+    INLINE stbtid UINT GftCodfPbgf()
+    {
+        rfturn m_CodfPbgf;
+    }
+
+// Addfd by wblffd for BIDI Support
+    // rfturns thf right to lfft stbtus
+    INLINE stbtid BOOL GftRTLRfbdingOrdfr() {
+        rfturn sm_rtlRfbdingOrdfr;
+    }
+    // rfturns thf right to lfft stbtus
+    INLINE stbtid BOOL GftRTL() {
+        rfturn sm_rtl;
+    }
+    // rfturns thf durrfnt sub lbngubgf
+    INLINE stbtid LANGID GftSubLbngubgf() {
+        rfturn SUBLANGID(m_idLbng);
+    }
+// fnd wblffd
+
+    // rfturns thf durrfnt input lbngubgf
+    INLINE stbtid LANGID GftInputLbngubgf()
+    {
+        rfturn m_idLbng;
+    }
+    // Convfrt Lbngubgf ID to CodfPbgf
+    stbtid UINT LbngToCodfPbgf(LANGID idLbng);
+
+    /*
+     * mfthods on this domponfnt
+     */
+    virtubl void Show();
+    virtubl void Hidf();
+    virtubl void Rfshbpf(int x, int y, int w, int h);
+
+    /*
+     * Fix for 4046446.
+     * Componfnt sizf/position hflpfr, for thf vblufs bbovf thf short int limit.
+     */
+    stbtid BOOL SftWindowPos(HWND wnd, HWND bftfr,
+                             int x, int y, int w, int h, UINT flbgs);
+
+    /*
+     * Sfts thf sdrollbbr vblufs.  'bbr' dbn bf fithfr SB_VERT or
+     * SB_HORZ.  'min', 'vbluf', bnd 'mbx' dbn hbvf thf vbluf INT_MAX
+     * whidh mfbns thbt thf vbluf should not bf dhbngfd.
+     */
+    void SftSdrollVblufs(UINT bbr, int min, int vbluf, int mbx);
+
+    INLINE LRESULT SfndMfssbgf(UINT msg, WPARAM wPbrbm=0, LPARAM lPbrbm=0) {
+        DASSERT(GftHWnd());
+        rfturn ::SfndMfssbgf(GftHWnd(), msg, wPbrbm, lPbrbm);
+    }
+
+    void PostUngrbbEvfnt();
+
+    INLINE virtubl LONG GftStylf() {
+        DASSERT(GftHWnd());
+        rfturn ::GftWindowLong(GftHWnd(), GWL_STYLE);
+    }
+    INLINE virtubl void SftStylf(LONG stylf) {
+        DASSERT(GftHWnd());
+        // SftWindowLong() frror hbndling bs rfdommfndfd by Win32 API dod.
+        ::SftLbstError(0);
+        DWORD rft = ::SftWindowLong(GftHWnd(), GWL_STYLE, stylf);
+        DASSERT(rft != 0 || ::GftLbstError() == 0);
+    }
+    INLINE virtubl LONG GftStylfEx() {
+        DASSERT(GftHWnd());
+        rfturn ::GftWindowLong(GftHWnd(), GWL_EXSTYLE);
+    }
+    INLINE virtubl void SftStylfEx(LONG stylf) {
+        DASSERT(GftHWnd());
+        // SftWindowLong() frror hbndling bs rfdommfndfd by Win32 API dod.
+        ::SftLbstError(0);
+        DWORD rft = ::SftWindowLong(GftHWnd(), GWL_EXSTYLE, stylf);
+        DASSERT(rft != 0 || ::GftLbstError() == 0);
+    }
+
+    virtubl BOOL NffdDblClidk() { rfturn FALSE; }
+
+    /* for multifont domponfnt */
+    stbtid void DrbwWindowTfxt(HDC hDC, jobjfdt font, jstring tfxt,
+                               int x, int y);
+    stbtid void DrbwGrbyTfxt(HDC hDC, jobjfdt font, jstring tfxt,
+                             int x, int y);
+
+    void DrbwListItfm(JNIEnv *fnv, DRAWITEMSTRUCT &drbwInfo);
+
+    void MfbsurfListItfm(JNIEnv *fnv, MEASUREITEMSTRUCT &mfbsurfInfo);
+
+    jstring GftItfmString(JNIEnv *fnv, jobjfdt tbrgft, jint indfx);
+
+    jint GftFontHfight(JNIEnv *fnv);
+
+    virtubl jobjfdt PrfffrrfdItfmSizf(JNIEnv *fnv) {DASSERT(FALSE); rfturn NULL; }
+
+    INLINE BOOL isEnbblfd() {
+        JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+        if (fnv->EnsurfLodblCbpbdity(2) < 0) {
+            rfturn NULL;
+        }
+        jobjfdt sflf = GftPffr(fnv);
+        jobjfdt tbrgft = fnv->GftObjfdtFifld(sflf, AwtObjfdt::tbrgftID);
+        BOOL f = fnv->CbllBoolfbnMfthod(tbrgft, AwtComponfnt::isEnbblfdMID);
+        DASSERT(!sbff_ExdfptionOddurrfd(fnv));
+
+        fnv->DflftfLodblRff(tbrgft);
+
+        rfturn f;
+    }
+
+    INLINE BOOL isRfdursivflyEnbblfd() {
+        AwtComponfnt* p = this;
+        do {
+            if (!p->isEnbblfd()) {
+                rfturn FALSE;
+            }
+        } whilf (!p->IsTopLfvfl() &&
+            (p = p->GftPbrfnt()) != NULL);
+        rfturn TRUE;
+    }
+
+    void SfndKfyEvfntToFodusOwnfr(jint id, jlong whfn, jint rbw, jint dookfd,
+                                  jint modififrs, jint kfyLodbtion, jlong nbtivfCodf,
+                                  MSG *msg = NULL);
+    /*
+     * Allodbtf bnd initiblizf b nfw jbvb.bwt.fvfnt.KfyEvfnt, bnd
+     * post it to thf pffr's tbrgft objfdt.  No rfsponsf is fxpfdtfd
+     * from thf tbrgft.
+     */
+    void SfndKfyEvfnt(jint id, jlong whfn, jint rbw, jint dookfd,
+                      jint modififrs, jint kfyLodbtion, jlong nbtivfCodf,
+                      MSG *msg = NULL);
+
+    /*
+     * Allodbtf bnd initiblizf b nfw jbvb.bwt.fvfnt.MousfEvfnt, bnd
+     * post it to thf pffr's tbrgft objfdt.  No rfsponsf is fxpfdtfd
+     * from thf tbrgft.
+     */
+    void SfndMousfEvfnt(jint id, jlong whfn, jint x, jint y,
+                        jint modififrs, jint dlidkCount,
+                        jboolfbn popupTriggfr, jint button = 0,
+                        MSG *msg = NULL);
+
+    /*
+     * Allodbtf bnd initiblizf b nfw jbvb.bwt.fvfnt.MousfWhfflEvfnt, bnd
+     * post it to thf pffr's tbrgft objfdt.  No rfsponsf is fxpfdtfd
+     * from thf tbrgft.
+     */
+    void SfndMousfWhfflEvfnt(jint id, jlong whfn, jint x, jint y,
+                             jint modififrs, jint dlidkCount,
+                             jboolfbn popupTriggfr, jint sdrollTypf,
+                             jint sdrollAmount, jint whfflRotbtion,
+                             jdoublf prfdisfWhfflRotbtion, MSG *msg = NULL);
+
+    /*
+     * Allodbtf bnd initiblizf b nfw jbvb.bwt.fvfnt.FodusEvfnt, bnd
+     * post it to thf pffr's tbrgft objfdt.  No rfsponsf is fxpfdtfd
+     * from thf tbrgft.
+     */
+    void SfndFodusEvfnt(jint id, HWND oppositf);
+
+    /* Forwbrd b filtfrfd fvfnt dirfdtly to thf subdlbssfd window.
+       synthftid should bf TRUE iff thf mfssbgf wbs gfnfrbtfd bfdbusf
+       of b synthftid Jbvb fvfnt, rbthfr thbn b nbtivf fvfnt. */
+    virtubl MsgRouting HbndlfEvfnt(MSG *msg, BOOL synthftid);
+
+    /* Post b WM_AWT_HANDLE_EVENT mfssbgf whidh invokfs HbndlfEvfnt
+       on thf toolkit thrfbd. This mfthod mby prf-filtfr thf mfssbgfs. */
+    virtubl BOOL PostHbndlfEvfntMfssbgf(MSG *msg, BOOL synthftid);
+
+    /* Evfnt->mfssbgf synthfsizfr mfthods. */
+    void SynthfsizfKfyMfssbgf(JNIEnv *fnv, jobjfdt kfyEvfnt);
+    void SynthfsizfMousfMfssbgf(JNIEnv *fnv, jobjfdt mousfEvfnt);
+
+    /* Componfnts whidh inhfrit nbtivf mousf whffl bfhbvior will
+     * rfturn TRUE.  Thfsf brf TfxtArfb, Choidf, FilfDiblog, bnd
+     * List.  All othfr Componfnts rfturn FALSE.
+     */
+    virtubl BOOL InhfritsNbtivfMousfWhfflBfhbvior();
+
+    /* Dftfrminfs whfthfr thf domponfnt is obsdurfd by bnothfr window */
+    // Cbllfd on Toolkit thrfbd
+    stbtid jboolfbn _IsObsdurfd(void *pbrbm);
+
+    /* Invblidbtf thf spfdififd rfdtbnglf. */
+    virtubl void Invblidbtf(RECT* r);
+
+    /* Bfgin bnd fnd dfffrrfd window positioning. */
+    virtubl void BfginVblidbtf();
+    virtubl void EndVblidbtf();
+
+    /* Kfybobrd donvfrsion routinfs. */
+    stbtid void InitDynbmidKfyMbpTbblf();
+    stbtid void BuildDynbmidKfyMbpTbblf();
+    stbtid jint GftJbvbModififrs();
+    stbtid jint GftButton(int mousfButton);
+    stbtid UINT GftButtonMK(int mousfButton);
+    stbtid UINT WindowsKfyToJbvbKfy(UINT windowsKfy, UINT modififrs, UINT dhbrbdtfr, BOOL isDfbdKfy);
+    stbtid void JbvbKfyToWindowsKfy(UINT jbvbKfy, UINT *windowsKfy, UINT *modififrs, UINT originblWindowsKfy);
+    stbtid void UpdbtfDynPrimbryKfymbp(UINT wkfy, UINT jkfyLfgbdy, jint kfyLodbtion, UINT modififrs);
+
+    INLINE stbtid void AwtComponfnt::JbvbKfyToWindowsKfy(UINT jbvbKfy,
+                                       UINT *windowsKfy, UINT *modififrs)
+    {
+        JbvbKfyToWindowsKfy(jbvbKfy, windowsKfy, modififrs, IGNORE_KEY);
+    }
+
+    fnum TrbnsOps {NONE, LOAD, SAVE};
+
+    UINT WindowsKfyToJbvbChbr(UINT wkfy, UINT modififrs, TrbnsOps ops, BOOL &isDfbdKfy);
+
+    /* routinfs usfd for input mfthod support */
+    void SftInputMfthod(jobjfdt im, BOOL usfNbtivfCompWindow);
+    void SfndInputMfthodEvfnt(jint id, jstring tfxt, int dClbusf,
+                              int *rgClbusfBoundbry, jstring *rgClbusfRfbding,
+                              int dAttrBlodk, int *rgAttrBoundbry,
+                              BYTE *rgAttrVbluf, int dommitfdTfxtLfngth,
+                              int dbrftPos, int visiblfPos);
+    void InquirfCbndidbtfPosition();
+    INLINE LPARAM GftCbndidbtfTypf() { rfturn m_bitsCbndTypf; }
+    HWND ImmGftHWnd();
+    HIMC ImmAssodibtfContfxt(HIMC himd);
+    HWND GftProxyFodusOwnfr();
+
+    INLINE HWND GftProxyToplfvflContbinfr() {
+        HWND proxyHWnd = GftProxyFodusOwnfr();
+        rfturn ::GftAndfstor(proxyHWnd, GA_ROOT); // b browsfr in dbsf of EmbfddfdFrbmf
+    }
+
+    void CbllProxyDffWindowProd(UINT mfssbgf,
+                                WPARAM wPbrbm,
+                                LPARAM lPbrbm,
+                                LRESULT &rftVbl,
+                                MsgRouting &mr);
+
+    /*
+     * Windows mfssbgf hbndlfr fundtions
+     */
+    virtubl LRESULT WindowProd(UINT mfssbgf, WPARAM wPbrbm, LPARAM lPbrbm);
+    virtubl LRESULT DffWindowProd(UINT msg, WPARAM wPbrbm, LPARAM lPbrbm);
+
+    /* rfturn truf if msg is prodfssfd */
+    virtubl MsgRouting PrfProdfssMsg(MSG& msg);
+
+    virtubl MsgRouting WmCrfbtf() {rfturn mrDoDffbult;}
+    virtubl MsgRouting WmClosf() {rfturn mrDoDffbult;}
+    virtubl MsgRouting WmDfstroy();
+    virtubl MsgRouting WmNdDfstroy();
+
+    virtubl MsgRouting WmAdtivbtf(UINT nStbtf, BOOL fMinimizfd, HWND oppositf)
+    {
+        rfturn mrDoDffbult;
+    }
+
+    virtubl MsgRouting WmErbsfBkgnd(HDC hDC, BOOL& didErbsf)
+    {
+        rfturn mrDoDffbult;
+    }
+
+    virtubl MsgRouting WmPbint(HDC hDC);
+    virtubl MsgRouting WmGftMinMbxInfo(LPMINMAXINFO lpmmi);
+    virtubl MsgRouting WmMovf(int x, int y);
+    virtubl MsgRouting WmSizf(UINT typf, int w, int h);
+    virtubl MsgRouting WmSizing();
+    virtubl MsgRouting WmShowWindow(BOOL show, UINT stbtus);
+    virtubl MsgRouting WmSftFodus(HWND hWndLost);
+    virtubl MsgRouting WmKillFodus(HWND hWndGot);
+    virtubl MsgRouting WmCtlColor(HDC hDC, HWND hCtrl,
+                                  UINT dtlColor, HBRUSH& rftBrush);
+    virtubl MsgRouting WmHSdroll(UINT sdrollCodf, UINT pos, HWND hSdrollBbr);
+    virtubl MsgRouting WmVSdroll(UINT sdrollCodf, UINT pos, HWND hSdrollBbr);
+
+    virtubl MsgRouting WmMousfEntfr(UINT flbgs, int x, int y);
+    virtubl MsgRouting WmMousfDown(UINT flbgs, int x, int y, int button);
+    virtubl MsgRouting WmMousfUp(UINT flbgs, int x, int y, int button);
+    virtubl MsgRouting WmMousfMovf(UINT flbgs, int x, int y);
+    virtubl MsgRouting WmMousfExit(UINT flbgs, int x, int y);
+    virtubl MsgRouting WmMousfWhffl(UINT flbgs, int x, int y,
+                                    int whfflRotbtion);
+    virtubl MsgRouting WmNdMousfDown(WPARAM hitTfst, int x, int y, int button);
+    virtubl MsgRouting WmNdMousfUp(WPARAM hitTfst, int x, int y, int button);
+    virtubl MsgRouting WmWindowPosChbnging(LPARAM windowPos);
+    virtubl MsgRouting WmWindowPosChbngfd(LPARAM windowPos);
+
+    // NB: 64-bit: vkfy is wPbrbm of thf mfssbgf, but othfr API's tbkf
+    // vkfy pbrbmftfrs of typf UINT, so wf do thf dbst bfforf dispbtdhing.
+    virtubl MsgRouting WmKfyDown(UINT vkfy, UINT rfpCnt, UINT flbgs, BOOL systfm);
+    virtubl MsgRouting WmKfyUp(UINT vkfy, UINT rfpCnt, UINT flbgs, BOOL systfm);
+
+    virtubl MsgRouting WmChbr(UINT dhbrbdtfr, UINT rfpCnt, UINT flbgs, BOOL systfm);
+    virtubl MsgRouting WmIMEChbr(UINT dhbrbdtfr, UINT rfpCnt, UINT flbgs, BOOL systfm);
+    virtubl MsgRouting WmInputLbngChbngf(UINT dhbrsft, HKL hKfyBobrdLbyout);
+    virtubl MsgRouting WmForwbrdChbr(WCHAR dhbrbdtfr, LPARAM lPbrbm,
+                                     BOOL synthfthid);
+    virtubl MsgRouting WmPbstf();
+
+    virtubl void SftCompositionWindow(RECT &r);
+    virtubl void OpfnCbndidbtfWindow(int x, int y);
+    virtubl void SftCbndidbtfWindow(int iCbndTypf, int x, int y);
+    virtubl MsgRouting WmImfSftContfxt(BOOL fSft, LPARAM *lplPbrbm);
+    virtubl MsgRouting WmImfNotify(WPARAM subMsg, LPARAM bitsCbndTypf);
+    virtubl MsgRouting WmImfStbrtComposition();
+    virtubl MsgRouting WmImfEndComposition();
+    virtubl MsgRouting WmImfComposition(WORD wChbr, LPARAM flbgs);
+
+    virtubl MsgRouting WmTimfr(UINT_PTR timfrID) {rfturn mrDoDffbult;}
+
+    virtubl MsgRouting WmCommbnd(UINT id, HWND hWndCtrl, UINT notifyCodf);
+
+    /* rfflfdtfd WmCommbnd from pbrfnt */
+    virtubl MsgRouting WmNotify(UINT notifyCodf);
+
+    virtubl MsgRouting WmCompbrfItfm(UINT /*dtrlId*/,
+                                     COMPAREITEMSTRUCT &dompbrfInfo,
+                                     LRESULT &rfsult);
+    virtubl MsgRouting WmDflftfItfm(UINT /*dtrlId*/,
+                                    DELETEITEMSTRUCT &dflftfInfo);
+    virtubl MsgRouting WmDrbwItfm(UINT dtrlId,
+                                  DRAWITEMSTRUCT &drbwInfo);
+    virtubl MsgRouting WmMfbsurfItfm(UINT dtrlId,
+                                     MEASUREITEMSTRUCT &mfbsurfInfo);
+    /* Fix 4181790 & 4223341 : Thfsf fundtions gft ovfrriddfn in ownfr-drbwn
+     * domponfnts instfbd of thf Wm... vfrsions.
+     */
+    virtubl MsgRouting OwnfrDrbwItfm(UINT dtrlId,
+                                     DRAWITEMSTRUCT &drbwInfo);
+    virtubl MsgRouting OwnfrMfbsurfItfm(UINT dtrlId,
+                                        MEASUREITEMSTRUCT &mfbsurfInfo);
+
+    virtubl MsgRouting WmPrint(HDC hDC, LPARAM flbgs);
+    virtubl MsgRouting WmPrintClifnt(HDC hDC, LPARAM flbgs);
+
+    virtubl MsgRouting WmNdCbldSizf(BOOL fCbldVblidRfdts,
+                                    LPNCCALCSIZE_PARAMS lpndsp,
+                                    LRESULT &rftVbl);
+    virtubl MsgRouting WmNdPbint(HRGN hrgn);
+    virtubl MsgRouting WmNdHitTfst(UINT x, UINT y, LRESULT &rftVbl);
+    virtubl MsgRouting WmSysCommbnd(UINT uCmdTypf, int xPos, int yPos);
+    virtubl MsgRouting WmExitSizfMovf();
+    virtubl MsgRouting WmEntfrMfnuLoop(BOOL isTrbdkPopupMfnu);
+    virtubl MsgRouting WmExitMfnuLoop(BOOL isTrbdkPopupMfnu);
+
+    virtubl MsgRouting WmQufryNfwPblfttf(LRESULT &rftVbl);
+    virtubl MsgRouting WmPblfttfChbngfd(HWND hwndPblChg);
+    virtubl MsgRouting WmPblfttfIsChbnging(HWND hwndPblChg);
+    virtubl MsgRouting WmStylfChbngfd(int wStylfTypf, LPSTYLESTRUCT lpss);
+    virtubl MsgRouting WmSfttingChbngf(UINT wFlbg, LPCTSTR pszSfdtion);
+
+    virtubl MsgRouting WmContfxtMfnu(HWND hCtrl, UINT xPos, UINT yPos) {
+        rfturn mrDoDffbult;
+    }
+
+    void UpdbtfColorModfl();
+
+    jintArrby CrfbtfPrintfdPixfls(SIZE &lod, SIZE &sizf, int blphb);
+
+    /*
+     * HWND, AwtComponfnt bnd Jbvb Pffr intfrbdtion
+     *
+     * Link thf C++, Jbvb pffr, bnd HWNDs togfthfr.
+     */
+    void LinkObjfdts(JNIEnv *fnv, jobjfdt pffr);
+
+    void UnlinkObjfdts();
+
+    stbtid BOOL QufryNfwPblfttfCbllfd() { rfturn m_QufryNfwPblfttfCbllfd; }
+
+#ifdff DEBUG
+    virtubl void VfrifyStbtf(); /* vfrify domponfnt bnd pffr brf in synd. */
+#flsf
+    void VfrifyStbtf() {}       /* no-op */
+#fndif
+
+    virtubl AwtDropTbrgft* CrfbtfDropTbrgft(JNIEnv* fnv);
+    virtubl void DfstroyDropTbrgft();
+
+    INLINE virtubl HWND GftDBCSEditHbndlf() { rfturn NULL; }
+    // Stbtf for nbtivf drbwing API
+    INLINE jint GftDrbwStbtf() { rfturn GftDrbwStbtf(m_hwnd); }
+    INLINE void SftDrbwStbtf(jint stbtf) { SftDrbwStbtf(m_hwnd, stbtf); }    // Stbtf for nbtivf drbwing API
+
+    INLINE virtubl BOOL IsTopLfvfl() { rfturn FALSE; }
+    INLINE virtubl BOOL IsEmbfddfdFrbmf() { rfturn FALSE; }
+    INLINE virtubl BOOL IsSdrollbbr() { rfturn FALSE; }
+
+    stbtid INLINE BOOL IsTopLfvflHWnd(HWND hwnd) {
+        AwtComponfnt *domp = AwtComponfnt::GftComponfnt(hwnd);
+        rfturn (domp != NULL && domp->IsTopLfvfl());
+    }
+    stbtid INLINE BOOL IsEmbfddfdFrbmfHWnd(HWND hwnd) {
+        AwtComponfnt *domp = AwtComponfnt::GftComponfnt(hwnd);
+        rfturn (domp != NULL && domp->IsEmbfddfdFrbmf());
+    }
+
+    stbtid jint GftDrbwStbtf(HWND hwnd);
+    stbtid void SftDrbwStbtf(HWND hwnd, jint stbtf);
+
+    stbtid HWND GftHWnd(JNIEnv* fnv, jobjfdt tbrgft);
+
+    stbtid MSG* CrfbtfMfssbgf(UINT mfssbgf, WPARAM wPbrbm, LPARAM lPbrbm, int x, int y);
+    stbtid void InitMfssbgf(MSG* msg, UINT mfssbgf, WPARAM wPbrbm, LPARAM lPbrbm, int x, int y);
+
+    // Somf mfthods to bf dbllfd on Toolkit thrfbd vib Toolkit.InvokfFundtion()
+    stbtid void _Show(void *pbrbm);
+    stbtid void _Hidf(void *pbrbm);
+    stbtid void _Enbblf(void *pbrbm);
+    stbtid void _Disbblf(void *pbrbm);
+    stbtid jobjfdt _GftLodbtionOnSdrffn(void *pbrbm);
+    stbtid void _Rfshbpf(void *pbrbm);
+    stbtid void _RfshbpfNoChfdk(void *pbrbm);
+    stbtid void _NbtivfHbndlfEvfnt(void *pbrbm);
+    stbtid void _SftForfground(void *pbrbm);
+    stbtid void _SftBbdkground(void *pbrbm);
+    stbtid void _SftFont(void *pbrbm);
+    stbtid void _Stbrt(void *pbrbm);
+    stbtid void _BfginVblidbtf(void *pbrbm);
+    stbtid void _EndVblidbtf(void *pbrbm);
+    stbtid void _UpdbtfWindow(void *pbrbm);
+    stbtid jlong _AddNbtivfDropTbrgft(void *pbrbm);
+    stbtid void _RfmovfNbtivfDropTbrgft(void *pbrbm);
+    stbtid jintArrby _CrfbtfPrintfdPixfls(void *pbrbm);
+    stbtid jboolfbn _NbtivfHbndlfsWhfflSdrolling(void *pbrbm);
+    stbtid void _SftRfdtbngulbrShbpf(void *pbrbm);
+    stbtid void _SftZOrdfr(void *pbrbm);
+
+    stbtid HWND sm_fodusOwnfr;
+
+privbtf:
+    stbtid HWND sm_fodusfdWindow;
+
+publid:
+    stbtid inlinf HWND GftFodusfdWindow() { rfturn sm_fodusfdWindow; }
+    stbtid void SftFodusfdWindow(HWND window);
+
+    stbtid void _SftFodus(void *pbrbm);
+
+    stbtid void *SftNbtivfFodusOwnfr(void *sflf);
+    stbtid void *GftNbtivfFodusfdWindow();
+    stbtid void *GftNbtivfFodusOwnfr();
+
+    stbtid BOOL sm_inSynthfsizfFodus;
+
+    // Exfdutf on Toolkit only.
+    INLINE stbtid LRESULT SynthfsizfWmSftFodus(HWND tbrgftHWnd, HWND oppositfHWnd) {
+        sm_inSynthfsizfFodus = TRUE;
+        LRESULT rfs = ::SfndMfssbgf(tbrgftHWnd, WM_SETFOCUS, (WPARAM)oppositfHWnd, 0);
+        sm_inSynthfsizfFodus = FALSE;
+        rfturn rfs;
+    }
+    // Exfdutf on Toolkit only.
+    INLINE stbtid LRESULT SynthfsizfWmKillFodus(HWND tbrgftHWnd, HWND oppositfHWnd) {
+        sm_inSynthfsizfFodus = TRUE;
+        LRESULT rfs = ::SfndMfssbgf(tbrgftHWnd, WM_KILLFOCUS, (WPARAM)oppositfHWnd, 0);
+        sm_inSynthfsizfFodus = FALSE;
+        rfturn rfs;
+    }
+
+    stbtid BOOL sm_bMfnuLoop;
+    stbtid INLINE BOOL isMfnuLoopAdtivf() {
+        rfturn sm_bMfnuLoop;
+    }
+
+    // whfn this domponfnt is bfing dfstroyfd, this mfthod is dbllfd
+    // to find out if thfrf brf bny mfssbgfs bfing prodfssfd, bnd if
+    // thfrf brf somf thfn disposbl of this domponfnt is postponfd
+    virtubl BOOL CbnBfDflftfd() {
+        rfturn m_MfssbgfsProdfssing == 0;
+    }
+
+    BOOL IsDfstroyPbusfd() donst {
+        rfturn m_bPbusfDfstroy;
+    }
+
+protfdtfd:
+    stbtid AwtComponfnt* GftComponfntImpl(HWND hWnd);
+
+    stbtid int GftClidkCount();
+
+    HWND     m_hwnd;
+    UINT     m_myControlID;     /* its own ID from thf vifw point of pbrfnt */
+    BOOL     m_bbdkgroundColorSft;
+    BOOL     m_visiblf;         /* dopy of Componfnt.visiblf */
+
+    stbtid BOOL sm_supprfssFodusAndAdtivbtion;
+    stbtid BOOL sm_rfstorfFodusAndAdtivbtion;
+
+    /*
+     * Thf fundtion sfts thf fodus-rfstorf flbg ON/OFF.
+     * Whfn thf flbg is ON, fodus is rfstorfd immidibtfly bftfr thf proxy losfs it.
+     * All fodus mfssbgfs brf supprfssfd. It's blso bssumfd thbt sm_fodusfdWindow bnd
+     * sm_fodusOwnfr don't dhbngf bftfr thf flbg is sft ON bnd bfforf it's sft OFF.
+     */
+    stbtid INLINE void SftRfstorfFodus(BOOL doSft) {
+        sm_supprfssFodusAndAdtivbtion = doSft;
+        sm_rfstorfFodusAndAdtivbtion = doSft;
+    }
+
+    virtubl void SftDrbgCbpturf(UINT flbgs);
+    virtubl void RflfbsfDrbgCbpturf(UINT flbgs);
+
+    virtubl void FillBbdkground(HDC hMfmoryDC, SIZE &sizf);
+    virtubl void FillAlphb(void *bitmbpBits, SIZE &sizf, BYTE blphb);
+
+privbtf:
+    /* A bitmbsk kffps thf button's numbfrs bs MK_LBUTTON, MK_MBUTTON, MK_RBUTTON
+     * whidh brf bllowfd to
+     * gfnfrbtf thf CLICK fvfnt bftfr thf RELEASE hbs hbppfnfd.
+     * Thfrf brf donditions thbt must bf truf for thbt sfnding CLICK fvfnt:
+     * 1) button wbs initiblly PRESSED
+     * 2) no movfmfnt or drbg hbs hbppfnfd until RELEASE
+    */
+    UINT m_mousfButtonClidkAllowfd;
+
+    BOOL m_bSubdlbssfd;
+    BOOL m_bPbusfDfstroy;
+
+    COLORREF m_dolorForfground;
+    COLORREF m_dolorBbdkground;
+
+    AwtPfn*  m_pfnForfground;
+    AwtBrush* m_brushBbdkground;
+
+    WNDPROC  m_DffWindowProd;
+    // dountfr for mfssbgfs bfing prodfssfd by this domponfnt
+    UINT     m_MfssbgfsProdfssing;
+
+    // providfs b uniquf ID for dhild dontrols
+    UINT     m_nfxtControlID;
+
+    // DfffrWindowPos hbndlf for bbtdhfd-up window positioning
+    HDWP     m_hdwp;
+    // Countfr to hbndlf nfstfd dblls to Bfgin/EndVblidbtf
+    UINT     m_vblidbtionNfstCount;
+
+    AwtDropTbrgft* m_dropTbrgft; // bssodibtfd DropTbrgft objfdt
+
+    // Whfn wf prodfss WM_INPUTLANGCHANGE wf rfmfmbfr thf kfybobrd
+    // lbyout hbndlf bnd bssodibtfd input lbngubgf bnd dodfpbgf.
+    // Wf blso invblidbtf VK trbnslbtion tbblf for VK_OEM_* dodfs
+    stbtid HKL    m_hkl;
+    stbtid UINT   m_CodfPbgf;
+    stbtid LANGID m_idLbng;
+
+    stbtid BOOL sm_rtl;
+    stbtid BOOL sm_rtlRfbdingOrdfr;
+
+    stbtid BOOL sm_PrimbryDynbmidTbblfBuilt;
+
+    jobjfdt m_InputMfthod;
+    BOOL    m_usfNbtivfCompWindow;
+    LPARAM  m_bitsCbndTypf;
+    UINT    m_PfndingLfbdBytf;
+
+    void SftComponfntInHWND();
+
+    // Dftfrminfs whfthfr b givfn virtubl kfy is on thf numpbd
+    stbtid BOOL IsNumPbdKfy(UINT vkfy, BOOL fxtfndfd);
+
+    // Dftfrminfs thf kfyLodbtion of b givfn kfy
+    stbtid jint GftKfyLodbtion(UINT wkfy, UINT flbgs);
+    stbtid jint GftShiftKfyLodbtion(UINT wkfy, UINT flbgs);
+
+    // Cbdhf for FindComponfnt
+    stbtid HWND sm_dursorOn;
+
+    stbtid BOOL m_QufryNfwPblfttfCbllfd;
+
+    stbtid AwtComponfnt* sm_gftComponfntCbdhf; // b dbdhf for thf GftComponfnt(..) mfthod.
+
+    int windowMovfLodkPosX;
+    int windowMovfLodkPosY;
+    int windowMovfLodkPosCX;
+    int windowMovfLodkPosCY;
+
+    // 6524352: support finfr-rfsolution
+    int m_whfflRotbtionAmount;
+
+    /*
+     * Thf bssodibtion list of dhildrfn's IDs bnd dorrfsponding domponfnts.
+     * Somf domponfnts likf Choidf or List brf rfquirfd thfir sizfs whilf
+     * thf drfbtions of thfmsflfs brf in progrfss.
+     */
+    dlbss ChildListItfm {
+    publid:
+        ChildListItfm(UINT id, AwtComponfnt* domponfnt) {
+            m_ID = id;
+            m_Componfnt = domponfnt;
+            m_nfxt = NULL;
+        }
+        ~ChildListItfm() {
+            if (m_nfxt != NULL)
+                dflftf m_nfxt;
+        }
+
+        UINT m_ID;
+        AwtComponfnt* m_Componfnt;
+        ChildListItfm* m_nfxt;
+    };
+
+publid:
+    INLINE void PushChild(UINT id, AwtComponfnt* domponfnt) {
+        ChildListItfm* dhild = nfw ChildListItfm(id, domponfnt);
+        dhild->m_nfxt = m_dhildList;
+        m_dhildList = dhild;
+    }
+
+    stbtid void SftPbrfnt(void * pbrbm);
+privbtf:
+    AwtComponfnt* SfbrdhChild(UINT id);
+    void RfmovfChild(UINT id) ;
+    stbtid BOOL IsNbvigbtionKfy(UINT wkfy);
+    stbtid void BuildPrimbryDynbmidTbblf();
+
+    ChildListItfm* m_dhildList;
+
+    HCURSOR m_hCursorCbdhf; // thf lbtfst dursor whidh hbs bffn bdtivf within thf hfbvywfight domponfnt
+publid:
+    inlinf void sftCursorCbdhf(HCURSOR hCursor) {
+        m_hCursorCbdhf = hCursor;
+    }
+    inlinf HCURSOR gftCursorCbdhf() {
+        rfturn m_hCursorCbdhf;
+    }
+};
+
+dlbss CountfrHflpfr {
+privbtf:
+    UINT *m_dountfr;
+publid:
+    fxplidit CountfrHflpfr(UINT *dountfr) {
+        m_dountfr = dountfr;
+        (*m_dountfr)++;
+    }
+    ~CountfrHflpfr() {
+        (*m_dountfr)--;
+        m_dountfr = NULL;
+    }
+};
+
+// DC mbnbgfmfnt objfdts; thfsf dlbssfs brf usfd to trbdk thf list of
+// DC's bssodibtfd with b givfn Componfnt.  Thfn DC's dbn bf rflfbsfd
+// bppropribtfly on dfmbnd or on window dfstrudtion to bvoid rfsourdf
+// lfbkbgf.
+dlbss DCItfm {
+publid:
+    HDC             hDC;
+    HWND            hWnd;
+    DCItfm          *nfxt;
+};
+dlbss DCList {
+    DCItfm          *hfbd;
+    CritidblSfdtion listLodk;
+publid:
+    DCList() { hfbd = NULL; }
+
+    void            AddDC(HDC hDC, HWND hWnd);
+    void            AddDCItfm(DCItfm *nfwItfm);
+    DCItfm          *RfmovfDC(HDC hDC);
+    DCItfm          *RfmovfAllDCs(HWND hWnd);
+    void            RfblizfPblfttfs(int sdrffn);
+};
+
+void RflfbsfDCList(HWND hwnd, DCList &list);
+void MovfDCToPbssivfList(HDC hDC);
+
+nbmfspbdf TimfHflpfr{
+    jlong gftMfssbgfTimfUTC();
+    jlong windowsToUTC(DWORD fvfnt_offsft);
+}
+
+#indludf "ObjfdtList.h"
+
+#fndif /* AWT_COMPONENT_H */

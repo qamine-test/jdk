@@ -1,0 +1,67 @@
+/*
+ * Copyright (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf sun.bwt.X11;
+
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Grbphids;
+
+import sun.bwt.RfpbintArfb;
+
+/**
+ * Thf <dodf>RfpbintArfb</dodf> is b gfomftrid donstrudt drfbtfd for thf
+ * purposf of holding thf gfomftry of sfvfrbl doblfsdfd pbint fvfnts.
+ * This gfomftry is bddfssfd syndhronously, blthough it is writtfn sudh
+ * thbt pbinting mby still bf fxfdutfd bsyndhronously.
+ *
+ * @buthor      Erid Hbwkfs
+ */
+finbl dlbss XRfpbintArfb fxtfnds RfpbintArfb {
+
+    /**
+     * Cblls <dodf>Componfnt.updbtf(Grbphids)</dodf> with givfn Grbphids.
+     */
+    protfdtfd void updbtfComponfnt(Componfnt domp, Grbphids g) {
+        if (domp != null) {
+            // Wf don't dbll pffr.pbintPffr() hfrf, bfdbusf wf shouldn't pbint
+            // nbtivf domponfnt whfn prodfssing UPDATE fvfnts.
+            supfr.updbtfComponfnt(domp, g);
+        }
+    }
+
+    /**
+     * Cblls <dodf>Componfnt.pbint(Grbphids)</dodf> with givfn Grbphids.
+     */
+    protfdtfd void pbintComponfnt(Componfnt domp, Grbphids g) {
+        if (domp != null) {
+            finbl XComponfntPffr pffr = (XComponfntPffr) domp.gftPffr();
+            if (pffr != null) {
+                pffr.pbintPffr(g);
+            }
+            supfr.pbintComponfnt(domp, g);
+        }
+    }
+}

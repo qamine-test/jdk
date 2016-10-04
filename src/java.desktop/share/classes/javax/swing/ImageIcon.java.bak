@@ -1,718 +1,718 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
-import java.awt.*;
-import java.awt.image.*;
-import java.beans.ConstructorProperties;
-import java.beans.Transient;
-import java.net.URL;
+import jbvb.bwt.*;
+import jbvb.bwt.imbgf.*;
+import jbvb.bfbns.ConstrudtorPropfrtifs;
+import jbvb.bfbns.Trbnsifnt;
+import jbvb.nft.URL;
 
-import java.io.Serializable;
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.IOException;
+import jbvb.io.Sfriblizbblf;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.IOExdfption;
 
-import java.util.Locale;
-import javax.accessibility.*;
+import jbvb.util.Lodblf;
+import jbvbx.bddfssibility.*;
 
-import sun.awt.AppContext;
-import java.lang.reflect.Field;
-import java.security.*;
+import sun.bwt.AppContfxt;
+import jbvb.lbng.rfflfdt.Fifld;
+import jbvb.sfdurity.*;
 
 /**
- * An implementation of the Icon interface that paints Icons
- * from Images. Images that are created from a URL, filename or byte array
- * are preloaded using MediaTracker to monitor the loaded state
- * of the image.
+ * An implfmfntbtion of tif Idon intfrfbdf tibt pbints Idons
+ * from Imbgfs. Imbgfs tibt brf drfbtfd from b URL, filfnbmf or bytf brrby
+ * brf prflobdfd using MfdibTrbdkfr to monitor tif lobdfd stbtf
+ * of tif imbgf.
  *
  * <p>
- * For further information and examples of using image icons, see
- * <a href="http://docs.oracle.com/javase/tutorial/uiswing/components/icon.html">How to Use Icons</a>
- * in <em>The Java Tutorial.</em>
+ * For furtifr informbtion bnd fxbmplfs of using imbgf idons, sff
+ * <b irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/idon.itml">How to Usf Idons</b>
+ * in <fm>Tif Jbvb Tutoribl.</fm>
  *
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @author Jeff Dinkins
- * @author Lynn Monsanto
- * @since 1.2
+ * @butior Jfff Dinkins
+ * @butior Lynn Monsbnto
+ * @sindf 1.2
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class ImageIcon implements Icon, Serializable, Accessible {
-    /* Keep references to the filename and location so that
-     * alternate persistence schemes have the option to archive
-     * images symbolically rather than including the image data
-     * in the archive.
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss ImbgfIdon implfmfnts Idon, Sfriblizbblf, Addfssiblf {
+    /* Kffp rfffrfndfs to tif filfnbmf bnd lodbtion so tibt
+     * bltfrnbtf pfrsistfndf sdifmfs ibvf tif option to brdiivf
+     * imbgfs symbolidblly rbtifr tibn indluding tif imbgf dbtb
+     * in tif brdiivf.
      */
-    transient private String filename;
-    transient private URL location;
+    trbnsifnt privbtf String filfnbmf;
+    trbnsifnt privbtf URL lodbtion;
 
-    transient Image image;
-    transient int loadStatus = 0;
-    ImageObserver imageObserver;
-    String description = null;
+    trbnsifnt Imbgf imbgf;
+    trbnsifnt int lobdStbtus = 0;
+    ImbgfObsfrvfr imbgfObsfrvfr;
+    String dfsdription = null;
 
     /**
-     * Do not use this shared component, which is used to track image loading.
-     * It is left for backward compatibility only.
-     * @deprecated since 1.8
+     * Do not usf tiis sibrfd domponfnt, wiidi is usfd to trbdk imbgf lobding.
+     * It is lfft for bbdkwbrd dompbtibility only.
+     * @dfprfdbtfd sindf 1.8
      */
-    @Deprecated
-    protected final static Component component;
+    @Dfprfdbtfd
+    protfdtfd finbl stbtid Componfnt domponfnt;
 
     /**
-     * Do not use this shared media tracker, which is used to load images.
-     * It is left for backward compatibility only.
-     * @deprecated since 1.8
+     * Do not usf tiis sibrfd mfdib trbdkfr, wiidi is usfd to lobd imbgfs.
+     * It is lfft for bbdkwbrd dompbtibility only.
+     * @dfprfdbtfd sindf 1.8
      */
-    @Deprecated
-    protected final static MediaTracker tracker;
+    @Dfprfdbtfd
+    protfdtfd finbl stbtid MfdibTrbdkfr trbdkfr;
 
-    static {
-        component = AccessController.doPrivileged(new PrivilegedAction<Component>() {
-            public Component run() {
+    stbtid {
+        domponfnt = AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Componfnt>() {
+            publid Componfnt run() {
                 try {
-                    final Component component = createNoPermsComponent();
+                    finbl Componfnt domponfnt = drfbtfNoPfrmsComponfnt();
 
-                    // 6482575 - clear the appContext field so as not to leak it
-                    Field appContextField =
+                    // 6482575 - dlfbr tif bppContfxt fifld so bs not to lfbk it
+                    Fifld bppContfxtFifld =
 
-                            Component.class.getDeclaredField("appContext");
-                    appContextField.setAccessible(true);
-                    appContextField.set(component, null);
+                            Componfnt.dlbss.gftDfdlbrfdFifld("bppContfxt");
+                    bppContfxtFifld.sftAddfssiblf(truf);
+                    bppContfxtFifld.sft(domponfnt, null);
 
-                    return component;
-                } catch (Throwable e) {
-                    // We don't care about component.
-                    // So don't prevent class initialisation.
-                    e.printStackTrace();
-                    return null;
+                    rfturn domponfnt;
+                } dbtdi (Tirowbblf f) {
+                    // Wf don't dbrf bbout domponfnt.
+                    // So don't prfvfnt dlbss initiblisbtion.
+                    f.printStbdkTrbdf();
+                    rfturn null;
                 }
             }
         });
-        tracker = new MediaTracker(component);
+        trbdkfr = nfw MfdibTrbdkfr(domponfnt);
     }
 
-    private static Component createNoPermsComponent() {
-        // 7020198 - set acc field to no permissions and no subject
-        // Note, will have appContext set.
-        return AccessController.doPrivileged(
-                new PrivilegedAction<Component>() {
-                    public Component run() {
-                        return new Component() {
+    privbtf stbtid Componfnt drfbtfNoPfrmsComponfnt() {
+        // 7020198 - sft bdd fifld to no pfrmissions bnd no subjfdt
+        // Notf, will ibvf bppContfxt sft.
+        rfturn AddfssControllfr.doPrivilfgfd(
+                nfw PrivilfgfdAdtion<Componfnt>() {
+                    publid Componfnt run() {
+                        rfturn nfw Componfnt() {
                         };
                     }
                 },
-                new AccessControlContext(new ProtectionDomain[]{
-                        new ProtectionDomain(null, null)
+                nfw AddfssControlContfxt(nfw ProtfdtionDombin[]{
+                        nfw ProtfdtionDombin(null, null)
                 })
         );
     }
 
     /**
-     * Id used in loading images from MediaTracker.
+     * Id usfd in lobding imbgfs from MfdibTrbdkfr.
      */
-    private static int mediaTrackerID;
+    privbtf stbtid int mfdibTrbdkfrID;
 
-    private final static Object TRACKER_KEY = new StringBuilder("TRACKER_KEY");
+    privbtf finbl stbtid Objfdt TRACKER_KEY = nfw StringBuildfr("TRACKER_KEY");
 
-    int width = -1;
-    int height = -1;
+    int widti = -1;
+    int ifigit = -1;
 
     /**
-     * Creates an ImageIcon from the specified file. The image will
-     * be preloaded by using MediaTracker to monitor the loading state
-     * of the image.
-     * @param filename the name of the file containing the image
-     * @param description a brief textual description of the image
-     * @see #ImageIcon(String)
+     * Crfbtfs bn ImbgfIdon from tif spfdififd filf. Tif imbgf will
+     * bf prflobdfd by using MfdibTrbdkfr to monitor tif lobding stbtf
+     * of tif imbgf.
+     * @pbrbm filfnbmf tif nbmf of tif filf dontbining tif imbgf
+     * @pbrbm dfsdription b briff tfxtubl dfsdription of tif imbgf
+     * @sff #ImbgfIdon(String)
      */
-    public ImageIcon(String filename, String description) {
-        image = Toolkit.getDefaultToolkit().getImage(filename);
-        if (image == null) {
-            return;
+    publid ImbgfIdon(String filfnbmf, String dfsdription) {
+        imbgf = Toolkit.gftDffbultToolkit().gftImbgf(filfnbmf);
+        if (imbgf == null) {
+            rfturn;
         }
-        this.filename = filename;
-        this.description = description;
-        loadImage(image);
+        tiis.filfnbmf = filfnbmf;
+        tiis.dfsdription = dfsdription;
+        lobdImbgf(imbgf);
     }
 
     /**
-     * Creates an ImageIcon from the specified file. The image will
-     * be preloaded by using MediaTracker to monitor the loading state
-     * of the image. The specified String can be a file name or a
-     * file path. When specifying a path, use the Internet-standard
-     * forward-slash ("/") as a separator.
-     * (The string is converted to an URL, so the forward-slash works
-     * on all systems.)
-     * For example, specify:
-     * <pre>
-     *    new ImageIcon("images/myImage.gif") </pre>
-     * The description is initialized to the <code>filename</code> string.
+     * Crfbtfs bn ImbgfIdon from tif spfdififd filf. Tif imbgf will
+     * bf prflobdfd by using MfdibTrbdkfr to monitor tif lobding stbtf
+     * of tif imbgf. Tif spfdififd String dbn bf b filf nbmf or b
+     * filf pbti. Wifn spfdifying b pbti, usf tif Intfrnft-stbndbrd
+     * forwbrd-slbsi ("/") bs b sfpbrbtor.
+     * (Tif string is donvfrtfd to bn URL, so tif forwbrd-slbsi works
+     * on bll systfms.)
+     * For fxbmplf, spfdify:
+     * <prf>
+     *    nfw ImbgfIdon("imbgfs/myImbgf.gif") </prf>
+     * Tif dfsdription is initiblizfd to tif <dodf>filfnbmf</dodf> string.
      *
-     * @param filename a String specifying a filename or path
-     * @see #getDescription
+     * @pbrbm filfnbmf b String spfdifying b filfnbmf or pbti
+     * @sff #gftDfsdription
      */
-    @ConstructorProperties({"description"})
-    public ImageIcon (String filename) {
-        this(filename, filename);
+    @ConstrudtorPropfrtifs({"dfsdription"})
+    publid ImbgfIdon (String filfnbmf) {
+        tiis(filfnbmf, filfnbmf);
     }
 
     /**
-     * Creates an ImageIcon from the specified URL. The image will
-     * be preloaded by using MediaTracker to monitor the loaded state
-     * of the image.
-     * @param location the URL for the image
-     * @param description a brief textual description of the image
-     * @see #ImageIcon(String)
+     * Crfbtfs bn ImbgfIdon from tif spfdififd URL. Tif imbgf will
+     * bf prflobdfd by using MfdibTrbdkfr to monitor tif lobdfd stbtf
+     * of tif imbgf.
+     * @pbrbm lodbtion tif URL for tif imbgf
+     * @pbrbm dfsdription b briff tfxtubl dfsdription of tif imbgf
+     * @sff #ImbgfIdon(String)
      */
-    public ImageIcon(URL location, String description) {
-        image = Toolkit.getDefaultToolkit().getImage(location);
-        if (image == null) {
-            return;
+    publid ImbgfIdon(URL lodbtion, String dfsdription) {
+        imbgf = Toolkit.gftDffbultToolkit().gftImbgf(lodbtion);
+        if (imbgf == null) {
+            rfturn;
         }
-        this.location = location;
-        this.description = description;
-        loadImage(image);
+        tiis.lodbtion = lodbtion;
+        tiis.dfsdription = dfsdription;
+        lobdImbgf(imbgf);
     }
 
     /**
-     * Creates an ImageIcon from the specified URL. The image will
-     * be preloaded by using MediaTracker to monitor the loaded state
-     * of the image.
-     * The icon's description is initialized to be
-     * a string representation of the URL.
-     * @param location the URL for the image
-     * @see #getDescription
+     * Crfbtfs bn ImbgfIdon from tif spfdififd URL. Tif imbgf will
+     * bf prflobdfd by using MfdibTrbdkfr to monitor tif lobdfd stbtf
+     * of tif imbgf.
+     * Tif idon's dfsdription is initiblizfd to bf
+     * b string rfprfsfntbtion of tif URL.
+     * @pbrbm lodbtion tif URL for tif imbgf
+     * @sff #gftDfsdription
      */
-    public ImageIcon (URL location) {
-        this(location, location.toExternalForm());
+    publid ImbgfIdon (URL lodbtion) {
+        tiis(lodbtion, lodbtion.toExtfrnblForm());
     }
 
     /**
-     * Creates an ImageIcon from the image.
-     * @param image the image
-     * @param description a brief textual description of the image
+     * Crfbtfs bn ImbgfIdon from tif imbgf.
+     * @pbrbm imbgf tif imbgf
+     * @pbrbm dfsdription b briff tfxtubl dfsdription of tif imbgf
      */
-    public ImageIcon(Image image, String description) {
-        this(image);
-        this.description = description;
+    publid ImbgfIdon(Imbgf imbgf, String dfsdription) {
+        tiis(imbgf);
+        tiis.dfsdription = dfsdription;
     }
 
     /**
-     * Creates an ImageIcon from an image object.
-     * If the image has a "comment" property that is a string,
-     * then the string is used as the description of this icon.
-     * @param image the image
-     * @see #getDescription
-     * @see java.awt.Image#getProperty
+     * Crfbtfs bn ImbgfIdon from bn imbgf objfdt.
+     * If tif imbgf ibs b "dommfnt" propfrty tibt is b string,
+     * tifn tif string is usfd bs tif dfsdription of tiis idon.
+     * @pbrbm imbgf tif imbgf
+     * @sff #gftDfsdription
+     * @sff jbvb.bwt.Imbgf#gftPropfrty
      */
-    public ImageIcon (Image image) {
-        this.image = image;
-        Object o = image.getProperty("comment", imageObserver);
-        if (o instanceof String) {
-            description = (String) o;
+    publid ImbgfIdon (Imbgf imbgf) {
+        tiis.imbgf = imbgf;
+        Objfdt o = imbgf.gftPropfrty("dommfnt", imbgfObsfrvfr);
+        if (o instbndfof String) {
+            dfsdription = (String) o;
         }
-        loadImage(image);
+        lobdImbgf(imbgf);
     }
 
     /**
-     * Creates an ImageIcon from an array of bytes which were
-     * read from an image file containing a supported image format,
-     * such as GIF, JPEG, or (as of 1.3) PNG.
-     * Normally this array is created
-     * by reading an image using Class.getResourceAsStream(), but
-     * the byte array may also be statically stored in a class.
+     * Crfbtfs bn ImbgfIdon from bn brrby of bytfs wiidi wfrf
+     * rfbd from bn imbgf filf dontbining b supportfd imbgf formbt,
+     * sudi bs GIF, JPEG, or (bs of 1.3) PNG.
+     * Normblly tiis brrby is drfbtfd
+     * by rfbding bn imbgf using Clbss.gftRfsourdfAsStrfbm(), but
+     * tif bytf brrby mby blso bf stbtidblly storfd in b dlbss.
      *
-     * @param  imageData an array of pixels in an image format supported
-     *         by the AWT Toolkit, such as GIF, JPEG, or (as of 1.3) PNG
-     * @param  description a brief textual description of the image
-     * @see    java.awt.Toolkit#createImage
+     * @pbrbm  imbgfDbtb bn brrby of pixfls in bn imbgf formbt supportfd
+     *         by tif AWT Toolkit, sudi bs GIF, JPEG, or (bs of 1.3) PNG
+     * @pbrbm  dfsdription b briff tfxtubl dfsdription of tif imbgf
+     * @sff    jbvb.bwt.Toolkit#drfbtfImbgf
      */
-    public ImageIcon (byte[] imageData, String description) {
-        this.image = Toolkit.getDefaultToolkit().createImage(imageData);
-        if (image == null) {
-            return;
+    publid ImbgfIdon (bytf[] imbgfDbtb, String dfsdription) {
+        tiis.imbgf = Toolkit.gftDffbultToolkit().drfbtfImbgf(imbgfDbtb);
+        if (imbgf == null) {
+            rfturn;
         }
-        this.description = description;
-        loadImage(image);
+        tiis.dfsdription = dfsdription;
+        lobdImbgf(imbgf);
     }
 
     /**
-     * Creates an ImageIcon from an array of bytes which were
-     * read from an image file containing a supported image format,
-     * such as GIF, JPEG, or (as of 1.3) PNG.
-     * Normally this array is created
-     * by reading an image using Class.getResourceAsStream(), but
-     * the byte array may also be statically stored in a class.
-     * If the resulting image has a "comment" property that is a string,
-     * then the string is used as the description of this icon.
+     * Crfbtfs bn ImbgfIdon from bn brrby of bytfs wiidi wfrf
+     * rfbd from bn imbgf filf dontbining b supportfd imbgf formbt,
+     * sudi bs GIF, JPEG, or (bs of 1.3) PNG.
+     * Normblly tiis brrby is drfbtfd
+     * by rfbding bn imbgf using Clbss.gftRfsourdfAsStrfbm(), but
+     * tif bytf brrby mby blso bf stbtidblly storfd in b dlbss.
+     * If tif rfsulting imbgf ibs b "dommfnt" propfrty tibt is b string,
+     * tifn tif string is usfd bs tif dfsdription of tiis idon.
      *
-     * @param  imageData an array of pixels in an image format supported by
-     *             the AWT Toolkit, such as GIF, JPEG, or (as of 1.3) PNG
-     * @see    java.awt.Toolkit#createImage
-     * @see #getDescription
-     * @see java.awt.Image#getProperty
+     * @pbrbm  imbgfDbtb bn brrby of pixfls in bn imbgf formbt supportfd by
+     *             tif AWT Toolkit, sudi bs GIF, JPEG, or (bs of 1.3) PNG
+     * @sff    jbvb.bwt.Toolkit#drfbtfImbgf
+     * @sff #gftDfsdription
+     * @sff jbvb.bwt.Imbgf#gftPropfrty
      */
-    public ImageIcon (byte[] imageData) {
-        this.image = Toolkit.getDefaultToolkit().createImage(imageData);
-        if (image == null) {
-            return;
+    publid ImbgfIdon (bytf[] imbgfDbtb) {
+        tiis.imbgf = Toolkit.gftDffbultToolkit().drfbtfImbgf(imbgfDbtb);
+        if (imbgf == null) {
+            rfturn;
         }
-        Object o = image.getProperty("comment", imageObserver);
-        if (o instanceof String) {
-            description = (String) o;
+        Objfdt o = imbgf.gftPropfrty("dommfnt", imbgfObsfrvfr);
+        if (o instbndfof String) {
+            dfsdription = (String) o;
         }
-        loadImage(image);
+        lobdImbgf(imbgf);
     }
 
     /**
-     * Creates an uninitialized image icon.
+     * Crfbtfs bn uninitiblizfd imbgf idon.
      */
-    public ImageIcon() {
+    publid ImbgfIdon() {
     }
 
     /**
-     * Loads the image, returning only when the image is loaded.
-     * @param image the image
+     * Lobds tif imbgf, rfturning only wifn tif imbgf is lobdfd.
+     * @pbrbm imbgf tif imbgf
      */
-    protected void loadImage(Image image) {
-        MediaTracker mTracker = getTracker();
-        synchronized(mTracker) {
-            int id = getNextID();
+    protfdtfd void lobdImbgf(Imbgf imbgf) {
+        MfdibTrbdkfr mTrbdkfr = gftTrbdkfr();
+        syndironizfd(mTrbdkfr) {
+            int id = gftNfxtID();
 
-            mTracker.addImage(image, id);
+            mTrbdkfr.bddImbgf(imbgf, id);
             try {
-                mTracker.waitForID(id, 0);
-            } catch (InterruptedException e) {
-                System.out.println("INTERRUPTED while loading Image");
+                mTrbdkfr.wbitForID(id, 0);
+            } dbtdi (IntfrruptfdExdfption f) {
+                Systfm.out.println("INTERRUPTED wiilf lobding Imbgf");
             }
-            loadStatus = mTracker.statusID(id, false);
-            mTracker.removeImage(image, id);
+            lobdStbtus = mTrbdkfr.stbtusID(id, fblsf);
+            mTrbdkfr.rfmovfImbgf(imbgf, id);
 
-            width = image.getWidth(imageObserver);
-            height = image.getHeight(imageObserver);
+            widti = imbgf.gftWidti(imbgfObsfrvfr);
+            ifigit = imbgf.gftHfigit(imbgfObsfrvfr);
         }
     }
 
     /**
-     * Returns an ID to use with the MediaTracker in loading an image.
+     * Rfturns bn ID to usf witi tif MfdibTrbdkfr in lobding bn imbgf.
      */
-    private int getNextID() {
-        synchronized(getTracker()) {
-            return ++mediaTrackerID;
+    privbtf int gftNfxtID() {
+        syndironizfd(gftTrbdkfr()) {
+            rfturn ++mfdibTrbdkfrID;
         }
     }
 
     /**
-     * Returns the MediaTracker for the current AppContext, creating a new
-     * MediaTracker if necessary.
+     * Rfturns tif MfdibTrbdkfr for tif durrfnt AppContfxt, drfbting b nfw
+     * MfdibTrbdkfr if nfdfssbry.
      */
-    private MediaTracker getTracker() {
-        Object trackerObj;
-        AppContext ac = AppContext.getAppContext();
-        // Opt: Only synchronize if trackerObj comes back null?
-        // If null, synchronize, re-check for null, and put new tracker
-        synchronized(ac) {
-            trackerObj = ac.get(TRACKER_KEY);
-            if (trackerObj == null) {
-                Component comp = new Component() {};
-                trackerObj = new MediaTracker(comp);
-                ac.put(TRACKER_KEY, trackerObj);
+    privbtf MfdibTrbdkfr gftTrbdkfr() {
+        Objfdt trbdkfrObj;
+        AppContfxt bd = AppContfxt.gftAppContfxt();
+        // Opt: Only syndironizf if trbdkfrObj domfs bbdk null?
+        // If null, syndironizf, rf-difdk for null, bnd put nfw trbdkfr
+        syndironizfd(bd) {
+            trbdkfrObj = bd.gft(TRACKER_KEY);
+            if (trbdkfrObj == null) {
+                Componfnt domp = nfw Componfnt() {};
+                trbdkfrObj = nfw MfdibTrbdkfr(domp);
+                bd.put(TRACKER_KEY, trbdkfrObj);
             }
         }
-        return (MediaTracker) trackerObj;
+        rfturn (MfdibTrbdkfr) trbdkfrObj;
     }
 
     /**
-     * Returns the status of the image loading operation.
-     * @return the loading status as defined by java.awt.MediaTracker
-     * @see java.awt.MediaTracker#ABORTED
-     * @see java.awt.MediaTracker#ERRORED
-     * @see java.awt.MediaTracker#COMPLETE
+     * Rfturns tif stbtus of tif imbgf lobding opfrbtion.
+     * @rfturn tif lobding stbtus bs dffinfd by jbvb.bwt.MfdibTrbdkfr
+     * @sff jbvb.bwt.MfdibTrbdkfr#ABORTED
+     * @sff jbvb.bwt.MfdibTrbdkfr#ERRORED
+     * @sff jbvb.bwt.MfdibTrbdkfr#COMPLETE
      */
-    public int getImageLoadStatus() {
-        return loadStatus;
+    publid int gftImbgfLobdStbtus() {
+        rfturn lobdStbtus;
     }
 
     /**
-     * Returns this icon's <code>Image</code>.
-     * @return the <code>Image</code> object for this <code>ImageIcon</code>
+     * Rfturns tiis idon's <dodf>Imbgf</dodf>.
+     * @rfturn tif <dodf>Imbgf</dodf> objfdt for tiis <dodf>ImbgfIdon</dodf>
      */
-    @Transient
-    public Image getImage() {
-        return image;
+    @Trbnsifnt
+    publid Imbgf gftImbgf() {
+        rfturn imbgf;
     }
 
     /**
-     * Sets the image displayed by this icon.
-     * @param image the image
+     * Sfts tif imbgf displbyfd by tiis idon.
+     * @pbrbm imbgf tif imbgf
      */
-    public void setImage(Image image) {
-        this.image = image;
-        loadImage(image);
+    publid void sftImbgf(Imbgf imbgf) {
+        tiis.imbgf = imbgf;
+        lobdImbgf(imbgf);
     }
 
     /**
-     * Gets the description of the image.  This is meant to be a brief
-     * textual description of the object.  For example, it might be
-     * presented to a blind user to give an indication of the purpose
-     * of the image.
-     * The description may be null.
+     * Gfts tif dfsdription of tif imbgf.  Tiis is mfbnt to bf b briff
+     * tfxtubl dfsdription of tif objfdt.  For fxbmplf, it migit bf
+     * prfsfntfd to b blind usfr to givf bn indidbtion of tif purposf
+     * of tif imbgf.
+     * Tif dfsdription mby bf null.
      *
-     * @return a brief textual description of the image
+     * @rfturn b briff tfxtubl dfsdription of tif imbgf
      */
-    public String getDescription() {
-        return description;
+    publid String gftDfsdription() {
+        rfturn dfsdription;
     }
 
     /**
-     * Sets the description of the image.  This is meant to be a brief
-     * textual description of the object.  For example, it might be
-     * presented to a blind user to give an indication of the purpose
-     * of the image.
-     * @param description a brief textual description of the image
+     * Sfts tif dfsdription of tif imbgf.  Tiis is mfbnt to bf b briff
+     * tfxtubl dfsdription of tif objfdt.  For fxbmplf, it migit bf
+     * prfsfntfd to b blind usfr to givf bn indidbtion of tif purposf
+     * of tif imbgf.
+     * @pbrbm dfsdription b briff tfxtubl dfsdription of tif imbgf
      */
-    public void setDescription(String description) {
-        this.description = description;
+    publid void sftDfsdription(String dfsdription) {
+        tiis.dfsdription = dfsdription;
     }
 
     /**
-     * Paints the icon.
-     * The top-left corner of the icon is drawn at
-     * the point (<code>x</code>, <code>y</code>)
-     * in the coordinate space of the graphics context <code>g</code>.
-     * If this icon has no image observer,
-     * this method uses the <code>c</code> component
-     * as the observer.
+     * Pbints tif idon.
+     * Tif top-lfft dornfr of tif idon is drbwn bt
+     * tif point (<dodf>x</dodf>, <dodf>y</dodf>)
+     * in tif doordinbtf spbdf of tif grbpiids dontfxt <dodf>g</dodf>.
+     * If tiis idon ibs no imbgf obsfrvfr,
+     * tiis mftiod usfs tif <dodf>d</dodf> domponfnt
+     * bs tif obsfrvfr.
      *
-     * @param c the component to be used as the observer
-     *          if this icon has no image observer
-     * @param g the graphics context
-     * @param x the X coordinate of the icon's top-left corner
-     * @param y the Y coordinate of the icon's top-left corner
+     * @pbrbm d tif domponfnt to bf usfd bs tif obsfrvfr
+     *          if tiis idon ibs no imbgf obsfrvfr
+     * @pbrbm g tif grbpiids dontfxt
+     * @pbrbm x tif X doordinbtf of tif idon's top-lfft dornfr
+     * @pbrbm y tif Y doordinbtf of tif idon's top-lfft dornfr
      */
-    public synchronized void paintIcon(Component c, Graphics g, int x, int y) {
-        if(imageObserver == null) {
-           g.drawImage(image, x, y, c);
-        } else {
-           g.drawImage(image, x, y, imageObserver);
+    publid syndironizfd void pbintIdon(Componfnt d, Grbpiids g, int x, int y) {
+        if(imbgfObsfrvfr == null) {
+           g.drbwImbgf(imbgf, x, y, d);
+        } flsf {
+           g.drbwImbgf(imbgf, x, y, imbgfObsfrvfr);
         }
     }
 
     /**
-     * Gets the width of the icon.
+     * Gfts tif widti of tif idon.
      *
-     * @return the width in pixels of this icon
+     * @rfturn tif widti in pixfls of tiis idon
      */
-    public int getIconWidth() {
-        return width;
+    publid int gftIdonWidti() {
+        rfturn widti;
     }
 
     /**
-     * Gets the height of the icon.
+     * Gfts tif ifigit of tif idon.
      *
-     * @return the height in pixels of this icon
+     * @rfturn tif ifigit in pixfls of tiis idon
      */
-    public int getIconHeight() {
-        return height;
+    publid int gftIdonHfigit() {
+        rfturn ifigit;
     }
 
     /**
-     * Sets the image observer for the image.  Set this
-     * property if the ImageIcon contains an animated GIF, so
-     * the observer is notified to update its display.
-     * For example:
-     * <pre>
-     *     icon = new ImageIcon(...)
-     *     button.setIcon(icon);
-     *     icon.setImageObserver(button);
-     * </pre>
+     * Sfts tif imbgf obsfrvfr for tif imbgf.  Sft tiis
+     * propfrty if tif ImbgfIdon dontbins bn bnimbtfd GIF, so
+     * tif obsfrvfr is notififd to updbtf its displby.
+     * For fxbmplf:
+     * <prf>
+     *     idon = nfw ImbgfIdon(...)
+     *     button.sftIdon(idon);
+     *     idon.sftImbgfObsfrvfr(button);
+     * </prf>
      *
-     * @param observer the image observer
+     * @pbrbm obsfrvfr tif imbgf obsfrvfr
      */
-    public void setImageObserver(ImageObserver observer) {
-        imageObserver = observer;
+    publid void sftImbgfObsfrvfr(ImbgfObsfrvfr obsfrvfr) {
+        imbgfObsfrvfr = obsfrvfr;
     }
 
     /**
-     * Returns the image observer for the image.
+     * Rfturns tif imbgf obsfrvfr for tif imbgf.
      *
-     * @return the image observer, which may be null
+     * @rfturn tif imbgf obsfrvfr, wiidi mby bf null
      */
-    @Transient
-    public ImageObserver getImageObserver() {
-        return imageObserver;
+    @Trbnsifnt
+    publid ImbgfObsfrvfr gftImbgfObsfrvfr() {
+        rfturn imbgfObsfrvfr;
     }
 
     /**
-     * Returns a string representation of this image.
+     * Rfturns b string rfprfsfntbtion of tiis imbgf.
      *
-     * @return a string representing this image
+     * @rfturn b string rfprfsfnting tiis imbgf
      */
-    public String toString() {
-        if (description != null) {
-            return description;
+    publid String toString() {
+        if (dfsdription != null) {
+            rfturn dfsdription;
         }
-        return super.toString();
+        rfturn supfr.toString();
     }
 
-    private void readObject(ObjectInputStream s)
-        throws ClassNotFoundException, IOException
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+        tirows ClbssNotFoundExdfption, IOExdfption
     {
-        s.defaultReadObject();
+        s.dffbultRfbdObjfdt();
 
-        int w = s.readInt();
-        int h = s.readInt();
-        int[] pixels = (int[])(s.readObject());
+        int w = s.rfbdInt();
+        int i = s.rfbdInt();
+        int[] pixfls = (int[])(s.rfbdObjfdt());
 
-        if (pixels != null) {
-            Toolkit tk = Toolkit.getDefaultToolkit();
-            ColorModel cm = ColorModel.getRGBdefault();
-            image = tk.createImage(new MemoryImageSource(w, h, cm, pixels, 0, w));
-            loadImage(image);
+        if (pixfls != null) {
+            Toolkit tk = Toolkit.gftDffbultToolkit();
+            ColorModfl dm = ColorModfl.gftRGBdffbult();
+            imbgf = tk.drfbtfImbgf(nfw MfmoryImbgfSourdf(w, i, dm, pixfls, 0, w));
+            lobdImbgf(imbgf);
         }
     }
 
 
-    private void writeObject(ObjectOutputStream s)
-        throws IOException
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s)
+        tirows IOExdfption
     {
-        s.defaultWriteObject();
+        s.dffbultWritfObjfdt();
 
-        int w = getIconWidth();
-        int h = getIconHeight();
-        int[] pixels = image != null? new int[w * h] : null;
+        int w = gftIdonWidti();
+        int i = gftIdonHfigit();
+        int[] pixfls = imbgf != null? nfw int[w * i] : null;
 
-        if (image != null) {
+        if (imbgf != null) {
             try {
-                PixelGrabber pg = new PixelGrabber(image, 0, 0, w, h, pixels, 0, w);
-                pg.grabPixels();
-                if ((pg.getStatus() & ImageObserver.ABORT) != 0) {
-                    throw new IOException("failed to load image contents");
+                PixflGrbbbfr pg = nfw PixflGrbbbfr(imbgf, 0, 0, w, i, pixfls, 0, w);
+                pg.grbbPixfls();
+                if ((pg.gftStbtus() & ImbgfObsfrvfr.ABORT) != 0) {
+                    tirow nfw IOExdfption("fbilfd to lobd imbgf dontfnts");
                 }
             }
-            catch (InterruptedException e) {
-                throw new IOException("image load interrupted");
+            dbtdi (IntfrruptfdExdfption f) {
+                tirow nfw IOExdfption("imbgf lobd intfrruptfd");
             }
         }
 
-        s.writeInt(w);
-        s.writeInt(h);
-        s.writeObject(pixels);
+        s.writfInt(w);
+        s.writfInt(i);
+        s.writfObjfdt(pixfls);
     }
 
     /**
-     * --- Accessibility Support ---
+     * --- Addfssibility Support ---
      */
 
-    private AccessibleImageIcon accessibleContext = null;
+    privbtf AddfssiblfImbgfIdon bddfssiblfContfxt = null;
 
     /**
-     * Gets the AccessibleContext associated with this ImageIcon.
-     * For image icons, the AccessibleContext takes the form of an
-     * AccessibleImageIcon.
-     * A new AccessibleImageIcon instance is created if necessary.
+     * Gfts tif AddfssiblfContfxt bssodibtfd witi tiis ImbgfIdon.
+     * For imbgf idons, tif AddfssiblfContfxt tbkfs tif form of bn
+     * AddfssiblfImbgfIdon.
+     * A nfw AddfssiblfImbgfIdon instbndf is drfbtfd if nfdfssbry.
      *
-     * @return an AccessibleImageIcon that serves as the
-     *         AccessibleContext of this ImageIcon
-     * @beaninfo
-     *       expert: true
-     *  description: The AccessibleContext associated with this ImageIcon.
-     * @since 1.3
+     * @rfturn bn AddfssiblfImbgfIdon tibt sfrvfs bs tif
+     *         AddfssiblfContfxt of tiis ImbgfIdon
+     * @bfbninfo
+     *       fxpfrt: truf
+     *  dfsdription: Tif AddfssiblfContfxt bssodibtfd witi tiis ImbgfIdon.
+     * @sindf 1.3
      */
-    public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleImageIcon();
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfImbgfIdon();
         }
-        return accessibleContext;
+        rfturn bddfssiblfContfxt;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>ImageIcon</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to image icon user-interface
-     * elements.
+     * Tiis dlbss implfmfnts bddfssibility support for tif
+     * <dodf>ImbgfIdon</dodf> dlbss.  It providfs bn implfmfntbtion of tif
+     * Jbvb Addfssibility API bppropribtf to imbgf idon usfr-intfrfbdf
+     * flfmfnts.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
-     * @since 1.3
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+     * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+     * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+     * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+     * @sindf 1.3
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    protected class AccessibleImageIcon extends AccessibleContext
-        implements AccessibleIcon, Serializable {
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    protfdtfd dlbss AddfssiblfImbgfIdon fxtfnds AddfssiblfContfxt
+        implfmfnts AddfssiblfIdon, Sfriblizbblf {
 
         /*
-         * AccessibleContest implementation -----------------
+         * AddfssiblfContfst implfmfntbtion -----------------
          */
 
         /**
-         * Gets the role of this object.
+         * Gfts tif rolf of tiis objfdt.
          *
-         * @return an instance of AccessibleRole describing the role of the
-         * object
-         * @see AccessibleRole
+         * @rfturn bn instbndf of AddfssiblfRolf dfsdribing tif rolf of tif
+         * objfdt
+         * @sff AddfssiblfRolf
          */
-        public AccessibleRole getAccessibleRole() {
-            return AccessibleRole.ICON;
+        publid AddfssiblfRolf gftAddfssiblfRolf() {
+            rfturn AddfssiblfRolf.ICON;
         }
 
         /**
-         * Gets the state of this object.
+         * Gfts tif stbtf of tiis objfdt.
          *
-         * @return an instance of AccessibleStateSet containing the current
-         * state set of the object
-         * @see AccessibleState
+         * @rfturn bn instbndf of AddfssiblfStbtfSft dontbining tif durrfnt
+         * stbtf sft of tif objfdt
+         * @sff AddfssiblfStbtf
          */
-        public AccessibleStateSet getAccessibleStateSet() {
-            return null;
+        publid AddfssiblfStbtfSft gftAddfssiblfStbtfSft() {
+            rfturn null;
         }
 
         /**
-         * Gets the Accessible parent of this object.  If the parent of this
-         * object implements Accessible, this method should simply return
-         * getParent().
+         * Gfts tif Addfssiblf pbrfnt of tiis objfdt.  If tif pbrfnt of tiis
+         * objfdt implfmfnts Addfssiblf, tiis mftiod siould simply rfturn
+         * gftPbrfnt().
          *
-         * @return the Accessible parent of this object -- can be null if this
-         * object does not have an Accessible parent
+         * @rfturn tif Addfssiblf pbrfnt of tiis objfdt -- dbn bf null if tiis
+         * objfdt dofs not ibvf bn Addfssiblf pbrfnt
          */
-        public Accessible getAccessibleParent() {
-            return null;
+        publid Addfssiblf gftAddfssiblfPbrfnt() {
+            rfturn null;
         }
 
         /**
-         * Gets the index of this object in its accessible parent.
+         * Gfts tif indfx of tiis objfdt in its bddfssiblf pbrfnt.
          *
-         * @return the index of this object in its parent; -1 if this
-         * object does not have an accessible parent.
-         * @see #getAccessibleParent
+         * @rfturn tif indfx of tiis objfdt in its pbrfnt; -1 if tiis
+         * objfdt dofs not ibvf bn bddfssiblf pbrfnt.
+         * @sff #gftAddfssiblfPbrfnt
          */
-        public int getAccessibleIndexInParent() {
-            return -1;
+        publid int gftAddfssiblfIndfxInPbrfnt() {
+            rfturn -1;
         }
 
         /**
-         * Returns the number of accessible children in the object.  If all
-         * of the children of this object implement Accessible, than this
-         * method should return the number of children of this object.
+         * Rfturns tif numbfr of bddfssiblf diildrfn in tif objfdt.  If bll
+         * of tif diildrfn of tiis objfdt implfmfnt Addfssiblf, tibn tiis
+         * mftiod siould rfturn tif numbfr of diildrfn of tiis objfdt.
          *
-         * @return the number of accessible children in the object.
+         * @rfturn tif numbfr of bddfssiblf diildrfn in tif objfdt.
          */
-        public int getAccessibleChildrenCount() {
-            return 0;
+        publid int gftAddfssiblfCiildrfnCount() {
+            rfturn 0;
         }
 
         /**
-         * Returns the nth Accessible child of the object.
+         * Rfturns tif nti Addfssiblf diild of tif objfdt.
          *
-         * @param i zero-based index of child
-         * @return the nth Accessible child of the object
+         * @pbrbm i zfro-bbsfd indfx of diild
+         * @rfturn tif nti Addfssiblf diild of tif objfdt
          */
-        public Accessible getAccessibleChild(int i) {
-            return null;
+        publid Addfssiblf gftAddfssiblfCiild(int i) {
+            rfturn null;
         }
 
         /**
-         * Returns the locale of this object.
+         * Rfturns tif lodblf of tiis objfdt.
          *
-         * @return the locale of this object
+         * @rfturn tif lodblf of tiis objfdt
          */
-        public Locale getLocale() throws IllegalComponentStateException {
-            return null;
+        publid Lodblf gftLodblf() tirows IllfgblComponfntStbtfExdfption {
+            rfturn null;
         }
 
         /*
-         * AccessibleIcon implementation -----------------
+         * AddfssiblfIdon implfmfntbtion -----------------
          */
 
         /**
-         * Gets the description of the icon.  This is meant to be a brief
-         * textual description of the object.  For example, it might be
-         * presented to a blind user to give an indication of the purpose
-         * of the icon.
+         * Gfts tif dfsdription of tif idon.  Tiis is mfbnt to bf b briff
+         * tfxtubl dfsdription of tif objfdt.  For fxbmplf, it migit bf
+         * prfsfntfd to b blind usfr to givf bn indidbtion of tif purposf
+         * of tif idon.
          *
-         * @return the description of the icon
+         * @rfturn tif dfsdription of tif idon
          */
-        public String getAccessibleIconDescription() {
-            return ImageIcon.this.getDescription();
+        publid String gftAddfssiblfIdonDfsdription() {
+            rfturn ImbgfIdon.tiis.gftDfsdription();
         }
 
         /**
-         * Sets the description of the icon.  This is meant to be a brief
-         * textual description of the object.  For example, it might be
-         * presented to a blind user to give an indication of the purpose
-         * of the icon.
+         * Sfts tif dfsdription of tif idon.  Tiis is mfbnt to bf b briff
+         * tfxtubl dfsdription of tif objfdt.  For fxbmplf, it migit bf
+         * prfsfntfd to b blind usfr to givf bn indidbtion of tif purposf
+         * of tif idon.
          *
-         * @param description the description of the icon
+         * @pbrbm dfsdription tif dfsdription of tif idon
          */
-        public void setAccessibleIconDescription(String description) {
-            ImageIcon.this.setDescription(description);
+        publid void sftAddfssiblfIdonDfsdription(String dfsdription) {
+            ImbgfIdon.tiis.sftDfsdription(dfsdription);
         }
 
         /**
-         * Gets the height of the icon.
+         * Gfts tif ifigit of tif idon.
          *
-         * @return the height of the icon
+         * @rfturn tif ifigit of tif idon
          */
-        public int getAccessibleIconHeight() {
-            return ImageIcon.this.height;
+        publid int gftAddfssiblfIdonHfigit() {
+            rfturn ImbgfIdon.tiis.ifigit;
         }
 
         /**
-         * Gets the width of the icon.
+         * Gfts tif widti of tif idon.
          *
-         * @return the width of the icon
+         * @rfturn tif widti of tif idon
          */
-        public int getAccessibleIconWidth() {
-            return ImageIcon.this.width;
+        publid int gftAddfssiblfIdonWidti() {
+            rfturn ImbgfIdon.tiis.widti;
         }
 
-        private void readObject(ObjectInputStream s)
-            throws ClassNotFoundException, IOException
+        privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+            tirows ClbssNotFoundExdfption, IOExdfption
         {
-            s.defaultReadObject();
+            s.dffbultRfbdObjfdt();
         }
 
-        private void writeObject(ObjectOutputStream s)
-            throws IOException
+        privbtf void writfObjfdt(ObjfdtOutputStrfbm s)
+            tirows IOExdfption
         {
-            s.defaultWriteObject();
+            s.dffbultWritfObjfdt();
         }
-    }  // AccessibleImageIcon
+    }  // AddfssiblfImbgfIdon
 }

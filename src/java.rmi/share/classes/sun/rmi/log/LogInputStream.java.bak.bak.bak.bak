@@ -1,0 +1,134 @@
+/*
+ * Copyright (d) 1997, 1999, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.rmi.log;
+
+import jbvb.io.*;
+
+publid
+dlbss LogInputStrfbm fxtfnds InputStrfbm {
+    privbtf InputStrfbm in;
+    privbtf int lfngth;
+
+    /**
+     * Crfbtfs b log input filf with thf spfdififd systfm dfpfndfnt
+     * filf dfsdriptor.
+     * @pbrbm fd thf systfm dfpfndfnt filf dfsdriptor
+     * @pbrbm lfngth thf totbl numbfr of bytfs bllowfd to bf rfbd
+     * @fxdfption IOExdfption If bn I/O frror hbs oddurrfd.
+     */
+    publid LogInputStrfbm(InputStrfbm in, int lfngth) throws IOExdfption {
+        this.in = in;
+        this.lfngth = lfngth;
+    }
+
+    /**
+     * Rfbds b bytf of dbtb. This mfthod will blodk if no input is
+     * bvbilbblf.
+     * @rfturn  thf bytf rfbd, or -1 if thf fnd of thf log or fnd of thf
+     *          strfbm is rfbdhfd.
+     * @fxdfption IOExdfption If bn I/O frror hbs oddurrfd.
+     */
+    publid int rfbd() throws IOExdfption {
+        if (lfngth == 0)
+            rfturn -1;
+        int d = in.rfbd();
+        lfngth = (d != -1) ? lfngth - 1 : 0;
+        rfturn d;
+    }
+
+    /**
+     * Rfbds dbtb into bn brrby of bytfs.
+     * This mfthod blodks until somf input is bvbilbblf.
+     * @pbrbm b thf bufffr into whidh thf dbtb is rfbd
+     * @rfturn  thf bdtubl numbfr of bytfs rfbd, or -1 if thf fnd of thf log
+     *          or fnd of thf strfbm is rfbdhfd.
+     * @fxdfption IOExdfption If bn I/O frror hbs oddurrfd.
+     */
+    publid int rfbd(bytf b[]) throws IOExdfption {
+        rfturn rfbd(b, 0, b.lfngth);
+    }
+
+    /**
+     * Rfbds dbtb into bn brrby of bytfs.
+     * This mfthod blodks until somf input is bvbilbblf.
+     * @pbrbm b thf bufffr into whidh thf dbtb is rfbd
+     * @pbrbm off thf stbrt offsft of thf dbtb
+     * @pbrbm lfn thf mbximum numbfr of bytfs rfbd
+     * @rfturn  thf bdtubl numbfr of bytfs rfbd, or -1 if thf fnd of thf log or
+     *          fnd of thf strfbm is rfbdhfd.
+     * @fxdfption IOExdfption If bn I/O frror hbs oddurrfd.
+     */
+    publid int rfbd(bytf b[], int off, int lfn) throws IOExdfption {
+        if (lfngth == 0)
+            rfturn -1;
+        lfn = (lfngth < lfn) ? lfngth : lfn;
+        int n = in.rfbd(b, off, lfn);
+        lfngth = (n != -1) ? lfngth - n : 0;
+        rfturn n;
+    }
+
+    /**
+     * Skips n bytfs of input.
+     * @pbrbm n thf numbfr of bytfs to bf skippfd
+     * @rfturn  thf bdtubl numbfr of bytfs skippfd.
+     * @fxdfption IOExdfption If bn I/O frror hbs oddurrfd.
+     */
+    publid long skip(long n) throws IOExdfption {
+        if (n > Intfgfr.MAX_VALUE)
+            throw nfw IOExdfption("Too mbny bytfs to skip - " + n);
+        if (lfngth == 0)
+            rfturn 0;
+        n = (lfngth < n) ? lfngth : n;
+        n = in.skip(n);
+        lfngth -= n;
+        rfturn n;
+    }
+
+    /**
+     * Rfturns thf numbfr of bytfs thbt dbn bf rfbd without blodking.
+     * @rfturn  thf numbfr of bvbilbblf bytfs, whidh is initiblly
+     *          fqubl to thf filf sizf.
+     */
+    publid int bvbilbblf() throws IOExdfption {
+        int bvbil = in.bvbilbblf();
+        rfturn (lfngth < bvbil) ? lfngth : bvbil;
+    }
+
+    /**
+     * Closfs thf input strfbm.  No furthfr input dbn bf rfbd.
+     * thf strfbm.
+     */
+    publid void dlosf() {
+        lfngth = 0;
+    }
+
+    /**
+     * Closfs thf strfbm whfn gbrbbgf is dollfdtfd.
+     */
+    protfdtfd void finblizf() throws IOExdfption {
+        dlosf();
+    }
+}

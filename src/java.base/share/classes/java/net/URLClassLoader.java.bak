@@ -1,800 +1,800 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.net;
+pbdkbgf jbvb.nft;
 
-import java.io.Closeable;
-import java.io.File;
-import java.io.FilePermission;
-import java.io.IOException;
-import java.io.InputStream;
-import java.security.AccessControlContext;
-import java.security.AccessController;
-import java.security.CodeSigner;
-import java.security.CodeSource;
-import java.security.Permission;
-import java.security.PermissionCollection;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedExceptionAction;
-import java.security.SecureClassLoader;
-import java.util.Enumeration;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Objects;
-import java.util.Set;
-import java.util.WeakHashMap;
-import java.util.jar.Attributes;
-import java.util.jar.Attributes.Name;
-import java.util.jar.JarFile;
-import java.util.jar.Manifest;
-import sun.misc.Resource;
-import sun.misc.URLClassPath;
-import sun.net.www.ParseUtil;
-import sun.security.util.SecurityConstants;
+import jbvb.io.Closfbblf;
+import jbvb.io.Filf;
+import jbvb.io.FilfPfrmission;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.CodfSignfr;
+import jbvb.sfdurity.CodfSourdf;
+import jbvb.sfdurity.Pfrmission;
+import jbvb.sfdurity.PfrmissionCollfdtion;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvb.sfdurity.SfdurfClbssLobdfr;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.List;
+import jbvb.util.NoSudiElfmfntExdfption;
+import jbvb.util.Objfdts;
+import jbvb.util.Sft;
+import jbvb.util.WfbkHbsiMbp;
+import jbvb.util.jbr.Attributfs;
+import jbvb.util.jbr.Attributfs.Nbmf;
+import jbvb.util.jbr.JbrFilf;
+import jbvb.util.jbr.Mbniffst;
+import sun.misd.Rfsourdf;
+import sun.misd.URLClbssPbti;
+import sun.nft.www.PbrsfUtil;
+import sun.sfdurity.util.SfdurityConstbnts;
 
 /**
- * This class loader is used to load classes and resources from a search
- * path of URLs referring to both JAR files and directories. Any URL that
- * ends with a '/' is assumed to refer to a directory. Otherwise, the URL
- * is assumed to refer to a JAR file which will be opened as needed.
+ * Tiis dlbss lobdfr is usfd to lobd dlbssfs bnd rfsourdfs from b sfbrdi
+ * pbti of URLs rfffrring to boti JAR filfs bnd dirfdtorifs. Any URL tibt
+ * fnds witi b '/' is bssumfd to rfffr to b dirfdtory. Otifrwisf, tif URL
+ * is bssumfd to rfffr to b JAR filf wiidi will bf opfnfd bs nffdfd.
  * <p>
- * The AccessControlContext of the thread that created the instance of
- * URLClassLoader will be used when subsequently loading classes and
- * resources.
+ * Tif AddfssControlContfxt of tif tirfbd tibt drfbtfd tif instbndf of
+ * URLClbssLobdfr will bf usfd wifn subsfqufntly lobding dlbssfs bnd
+ * rfsourdfs.
  * <p>
- * The classes that are loaded are by default granted permission only to
- * access the URLs specified when the URLClassLoader was created.
+ * Tif dlbssfs tibt brf lobdfd brf by dffbult grbntfd pfrmission only to
+ * bddfss tif URLs spfdififd wifn tif URLClbssLobdfr wbs drfbtfd.
  *
- * @author  David Connelly
- * @since   1.2
+ * @butior  Dbvid Connflly
+ * @sindf   1.2
  */
-public class URLClassLoader extends SecureClassLoader implements Closeable {
-    /* The search path for classes and resources */
-    private final URLClassPath ucp;
+publid dlbss URLClbssLobdfr fxtfnds SfdurfClbssLobdfr implfmfnts Closfbblf {
+    /* Tif sfbrdi pbti for dlbssfs bnd rfsourdfs */
+    privbtf finbl URLClbssPbti udp;
 
-    /* The context to be used when loading classes and resources */
-    private final AccessControlContext acc;
-
-    /**
-     * Constructs a new URLClassLoader for the given URLs. The URLs will be
-     * searched in the order specified for classes and resources after first
-     * searching in the specified parent class loader. Any URL that ends with
-     * a '/' is assumed to refer to a directory. Otherwise, the URL is assumed
-     * to refer to a JAR file which will be downloaded and opened as needed.
-     *
-     * <p>If there is a security manager, this method first
-     * calls the security manager's {@code checkCreateClassLoader} method
-     * to ensure creation of a class loader is allowed.
-     *
-     * @param urls the URLs from which to load classes and resources
-     * @param parent the parent class loader for delegation
-     * @exception  SecurityException  if a security manager exists and its
-     *             {@code checkCreateClassLoader} method doesn't allow
-     *             creation of a class loader.
-     * @exception  NullPointerException if {@code urls} is {@code null}.
-     * @see SecurityManager#checkCreateClassLoader
-     */
-    public URLClassLoader(URL[] urls, ClassLoader parent) {
-        super(parent);
-        // this is to make the stack depth consistent with 1.1
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-            security.checkCreateClassLoader();
-        }
-        ucp = new URLClassPath(urls);
-        this.acc = AccessController.getContext();
-    }
-
-    URLClassLoader(URL[] urls, ClassLoader parent,
-                   AccessControlContext acc) {
-        super(parent);
-        // this is to make the stack depth consistent with 1.1
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-            security.checkCreateClassLoader();
-        }
-        ucp = new URLClassPath(urls);
-        this.acc = acc;
-    }
+    /* Tif dontfxt to bf usfd wifn lobding dlbssfs bnd rfsourdfs */
+    privbtf finbl AddfssControlContfxt bdd;
 
     /**
-     * Constructs a new URLClassLoader for the specified URLs using the
-     * default delegation parent {@code ClassLoader}. The URLs will
-     * be searched in the order specified for classes and resources after
-     * first searching in the parent class loader. Any URL that ends with
-     * a '/' is assumed to refer to a directory. Otherwise, the URL is
-     * assumed to refer to a JAR file which will be downloaded and opened
-     * as needed.
+     * Construdts b nfw URLClbssLobdfr for tif givfn URLs. Tif URLs will bf
+     * sfbrdifd in tif ordfr spfdififd for dlbssfs bnd rfsourdfs bftfr first
+     * sfbrdiing in tif spfdififd pbrfnt dlbss lobdfr. Any URL tibt fnds witi
+     * b '/' is bssumfd to rfffr to b dirfdtory. Otifrwisf, tif URL is bssumfd
+     * to rfffr to b JAR filf wiidi will bf downlobdfd bnd opfnfd bs nffdfd.
      *
-     * <p>If there is a security manager, this method first
-     * calls the security manager's {@code checkCreateClassLoader} method
-     * to ensure creation of a class loader is allowed.
+     * <p>If tifrf is b sfdurity mbnbgfr, tiis mftiod first
+     * dblls tif sfdurity mbnbgfr's {@dodf difdkCrfbtfClbssLobdfr} mftiod
+     * to fnsurf drfbtion of b dlbss lobdfr is bllowfd.
      *
-     * @param urls the URLs from which to load classes and resources
-     *
-     * @exception  SecurityException  if a security manager exists and its
-     *             {@code checkCreateClassLoader} method doesn't allow
-     *             creation of a class loader.
-     * @exception  NullPointerException if {@code urls} is {@code null}.
-     * @see SecurityManager#checkCreateClassLoader
+     * @pbrbm urls tif URLs from wiidi to lobd dlbssfs bnd rfsourdfs
+     * @pbrbm pbrfnt tif pbrfnt dlbss lobdfr for dflfgbtion
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *             {@dodf difdkCrfbtfClbssLobdfr} mftiod dofsn't bllow
+     *             drfbtion of b dlbss lobdfr.
+     * @fxdfption  NullPointfrExdfption if {@dodf urls} is {@dodf null}.
+     * @sff SfdurityMbnbgfr#difdkCrfbtfClbssLobdfr
      */
-    public URLClassLoader(URL[] urls) {
-        super();
-        // this is to make the stack depth consistent with 1.1
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-            security.checkCreateClassLoader();
+    publid URLClbssLobdfr(URL[] urls, ClbssLobdfr pbrfnt) {
+        supfr(pbrfnt);
+        // tiis is to mbkf tif stbdk dfpti donsistfnt witi 1.1
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.difdkCrfbtfClbssLobdfr();
         }
-        ucp = new URLClassPath(urls);
-        this.acc = AccessController.getContext();
+        udp = nfw URLClbssPbti(urls);
+        tiis.bdd = AddfssControllfr.gftContfxt();
     }
 
-    URLClassLoader(URL[] urls, AccessControlContext acc) {
-        super();
-        // this is to make the stack depth consistent with 1.1
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-            security.checkCreateClassLoader();
+    URLClbssLobdfr(URL[] urls, ClbssLobdfr pbrfnt,
+                   AddfssControlContfxt bdd) {
+        supfr(pbrfnt);
+        // tiis is to mbkf tif stbdk dfpti donsistfnt witi 1.1
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.difdkCrfbtfClbssLobdfr();
         }
-        ucp = new URLClassPath(urls);
-        this.acc = acc;
+        udp = nfw URLClbssPbti(urls);
+        tiis.bdd = bdd;
     }
 
     /**
-     * Constructs a new URLClassLoader for the specified URLs, parent
-     * class loader, and URLStreamHandlerFactory. The parent argument
-     * will be used as the parent class loader for delegation. The
-     * factory argument will be used as the stream handler factory to
-     * obtain protocol handlers when creating new jar URLs.
+     * Construdts b nfw URLClbssLobdfr for tif spfdififd URLs using tif
+     * dffbult dflfgbtion pbrfnt {@dodf ClbssLobdfr}. Tif URLs will
+     * bf sfbrdifd in tif ordfr spfdififd for dlbssfs bnd rfsourdfs bftfr
+     * first sfbrdiing in tif pbrfnt dlbss lobdfr. Any URL tibt fnds witi
+     * b '/' is bssumfd to rfffr to b dirfdtory. Otifrwisf, tif URL is
+     * bssumfd to rfffr to b JAR filf wiidi will bf downlobdfd bnd opfnfd
+     * bs nffdfd.
      *
-     * <p>If there is a security manager, this method first
-     * calls the security manager's {@code checkCreateClassLoader} method
-     * to ensure creation of a class loader is allowed.
+     * <p>If tifrf is b sfdurity mbnbgfr, tiis mftiod first
+     * dblls tif sfdurity mbnbgfr's {@dodf difdkCrfbtfClbssLobdfr} mftiod
+     * to fnsurf drfbtion of b dlbss lobdfr is bllowfd.
      *
-     * @param urls the URLs from which to load classes and resources
-     * @param parent the parent class loader for delegation
-     * @param factory the URLStreamHandlerFactory to use when creating URLs
+     * @pbrbm urls tif URLs from wiidi to lobd dlbssfs bnd rfsourdfs
      *
-     * @exception  SecurityException  if a security manager exists and its
-     *             {@code checkCreateClassLoader} method doesn't allow
-     *             creation of a class loader.
-     * @exception  NullPointerException if {@code urls} is {@code null}.
-     * @see SecurityManager#checkCreateClassLoader
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *             {@dodf difdkCrfbtfClbssLobdfr} mftiod dofsn't bllow
+     *             drfbtion of b dlbss lobdfr.
+     * @fxdfption  NullPointfrExdfption if {@dodf urls} is {@dodf null}.
+     * @sff SfdurityMbnbgfr#difdkCrfbtfClbssLobdfr
      */
-    public URLClassLoader(URL[] urls, ClassLoader parent,
-                          URLStreamHandlerFactory factory) {
-        super(parent);
-        // this is to make the stack depth consistent with 1.1
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-            security.checkCreateClassLoader();
+    publid URLClbssLobdfr(URL[] urls) {
+        supfr();
+        // tiis is to mbkf tif stbdk dfpti donsistfnt witi 1.1
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.difdkCrfbtfClbssLobdfr();
         }
-        ucp = new URLClassPath(urls, factory);
-        acc = AccessController.getContext();
+        udp = nfw URLClbssPbti(urls);
+        tiis.bdd = AddfssControllfr.gftContfxt();
     }
 
-    /* A map (used as a set) to keep track of closeable local resources
-     * (either JarFiles or FileInputStreams). We don't care about
-     * Http resources since they don't need to be closed.
-     *
-     * If the resource is coming from a jar file
-     * we keep a (weak) reference to the JarFile object which can
-     * be closed if URLClassLoader.close() called. Due to jar file
-     * caching there will typically be only one JarFile object
-     * per underlying jar file.
-     *
-     * For file resources, which is probably a less common situation
-     * we have to keep a weak reference to each stream.
-     */
-
-    private WeakHashMap<Closeable,Void>
-        closeables = new WeakHashMap<>();
+    URLClbssLobdfr(URL[] urls, AddfssControlContfxt bdd) {
+        supfr();
+        // tiis is to mbkf tif stbdk dfpti donsistfnt witi 1.1
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.difdkCrfbtfClbssLobdfr();
+        }
+        udp = nfw URLClbssPbti(urls);
+        tiis.bdd = bdd;
+    }
 
     /**
-     * Returns an input stream for reading the specified resource.
-     * If this loader is closed, then any resources opened by this method
-     * will be closed.
+     * Construdts b nfw URLClbssLobdfr for tif spfdififd URLs, pbrfnt
+     * dlbss lobdfr, bnd URLStrfbmHbndlfrFbdtory. Tif pbrfnt brgumfnt
+     * will bf usfd bs tif pbrfnt dlbss lobdfr for dflfgbtion. Tif
+     * fbdtory brgumfnt will bf usfd bs tif strfbm ibndlfr fbdtory to
+     * obtbin protodol ibndlfrs wifn drfbting nfw jbr URLs.
      *
-     * <p> The search order is described in the documentation for {@link
-     * #getResource(String)}.  </p>
+     * <p>If tifrf is b sfdurity mbnbgfr, tiis mftiod first
+     * dblls tif sfdurity mbnbgfr's {@dodf difdkCrfbtfClbssLobdfr} mftiod
+     * to fnsurf drfbtion of b dlbss lobdfr is bllowfd.
      *
-     * @param  name
-     *         The resource name
+     * @pbrbm urls tif URLs from wiidi to lobd dlbssfs bnd rfsourdfs
+     * @pbrbm pbrfnt tif pbrfnt dlbss lobdfr for dflfgbtion
+     * @pbrbm fbdtory tif URLStrfbmHbndlfrFbdtory to usf wifn drfbting URLs
      *
-     * @return  An input stream for reading the resource, or {@code null}
-     *          if the resource could not be found
-     *
-     * @since  1.7
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *             {@dodf difdkCrfbtfClbssLobdfr} mftiod dofsn't bllow
+     *             drfbtion of b dlbss lobdfr.
+     * @fxdfption  NullPointfrExdfption if {@dodf urls} is {@dodf null}.
+     * @sff SfdurityMbnbgfr#difdkCrfbtfClbssLobdfr
      */
-    public InputStream getResourceAsStream(String name) {
-        URL url = getResource(name);
+    publid URLClbssLobdfr(URL[] urls, ClbssLobdfr pbrfnt,
+                          URLStrfbmHbndlfrFbdtory fbdtory) {
+        supfr(pbrfnt);
+        // tiis is to mbkf tif stbdk dfpti donsistfnt witi 1.1
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.difdkCrfbtfClbssLobdfr();
+        }
+        udp = nfw URLClbssPbti(urls, fbdtory);
+        bdd = AddfssControllfr.gftContfxt();
+    }
+
+    /* A mbp (usfd bs b sft) to kffp trbdk of dlosfbblf lodbl rfsourdfs
+     * (fitifr JbrFilfs or FilfInputStrfbms). Wf don't dbrf bbout
+     * Http rfsourdfs sindf tify don't nffd to bf dlosfd.
+     *
+     * If tif rfsourdf is doming from b jbr filf
+     * wf kffp b (wfbk) rfffrfndf to tif JbrFilf objfdt wiidi dbn
+     * bf dlosfd if URLClbssLobdfr.dlosf() dbllfd. Duf to jbr filf
+     * dbdiing tifrf will typidblly bf only onf JbrFilf objfdt
+     * pfr undfrlying jbr filf.
+     *
+     * For filf rfsourdfs, wiidi is probbbly b lfss dommon situbtion
+     * wf ibvf to kffp b wfbk rfffrfndf to fbdi strfbm.
+     */
+
+    privbtf WfbkHbsiMbp<Closfbblf,Void>
+        dlosfbblfs = nfw WfbkHbsiMbp<>();
+
+    /**
+     * Rfturns bn input strfbm for rfbding tif spfdififd rfsourdf.
+     * If tiis lobdfr is dlosfd, tifn bny rfsourdfs opfnfd by tiis mftiod
+     * will bf dlosfd.
+     *
+     * <p> Tif sfbrdi ordfr is dfsdribfd in tif dodumfntbtion for {@link
+     * #gftRfsourdf(String)}.  </p>
+     *
+     * @pbrbm  nbmf
+     *         Tif rfsourdf nbmf
+     *
+     * @rfturn  An input strfbm for rfbding tif rfsourdf, or {@dodf null}
+     *          if tif rfsourdf dould not bf found
+     *
+     * @sindf  1.7
+     */
+    publid InputStrfbm gftRfsourdfAsStrfbm(String nbmf) {
+        URL url = gftRfsourdf(nbmf);
         try {
             if (url == null) {
-                return null;
+                rfturn null;
             }
-            URLConnection urlc = url.openConnection();
-            InputStream is = urlc.getInputStream();
-            if (urlc instanceof JarURLConnection) {
-                JarURLConnection juc = (JarURLConnection)urlc;
-                JarFile jar = juc.getJarFile();
-                synchronized (closeables) {
-                    if (!closeables.containsKey(jar)) {
-                        closeables.put(jar, null);
+            URLConnfdtion urld = url.opfnConnfdtion();
+            InputStrfbm is = urld.gftInputStrfbm();
+            if (urld instbndfof JbrURLConnfdtion) {
+                JbrURLConnfdtion jud = (JbrURLConnfdtion)urld;
+                JbrFilf jbr = jud.gftJbrFilf();
+                syndironizfd (dlosfbblfs) {
+                    if (!dlosfbblfs.dontbinsKfy(jbr)) {
+                        dlosfbblfs.put(jbr, null);
                     }
                 }
-            } else if (urlc instanceof sun.net.www.protocol.file.FileURLConnection) {
-                synchronized (closeables) {
-                    closeables.put(is, null);
+            } flsf if (urld instbndfof sun.nft.www.protodol.filf.FilfURLConnfdtion) {
+                syndironizfd (dlosfbblfs) {
+                    dlosfbblfs.put(is, null);
                 }
             }
-            return is;
-        } catch (IOException e) {
-            return null;
+            rfturn is;
+        } dbtdi (IOExdfption f) {
+            rfturn null;
         }
     }
 
    /**
-    * Closes this URLClassLoader, so that it can no longer be used to load
-    * new classes or resources that are defined by this loader.
-    * Classes and resources defined by any of this loader's parents in the
-    * delegation hierarchy are still accessible. Also, any classes or resources
-    * that are already loaded, are still accessible.
+    * Closfs tiis URLClbssLobdfr, so tibt it dbn no longfr bf usfd to lobd
+    * nfw dlbssfs or rfsourdfs tibt brf dffinfd by tiis lobdfr.
+    * Clbssfs bnd rfsourdfs dffinfd by bny of tiis lobdfr's pbrfnts in tif
+    * dflfgbtion iifrbrdiy brf still bddfssiblf. Also, bny dlbssfs or rfsourdfs
+    * tibt brf blrfbdy lobdfd, brf still bddfssiblf.
     * <p>
-    * In the case of jar: and file: URLs, it also closes any files
-    * that were opened by it. If another thread is loading a
-    * class when the {@code close} method is invoked, then the result of
-    * that load is undefined.
+    * In tif dbsf of jbr: bnd filf: URLs, it blso dlosfs bny filfs
+    * tibt wfrf opfnfd by it. If bnotifr tirfbd is lobding b
+    * dlbss wifn tif {@dodf dlosf} mftiod is invokfd, tifn tif rfsult of
+    * tibt lobd is undffinfd.
     * <p>
-    * The method makes a best effort attempt to close all opened files,
-    * by catching {@link IOException}s internally. Unchecked exceptions
-    * and errors are not caught. Calling close on an already closed
-    * loader has no effect.
+    * Tif mftiod mbkfs b bfst fffort bttfmpt to dlosf bll opfnfd filfs,
+    * by dbtdiing {@link IOExdfption}s intfrnblly. Undifdkfd fxdfptions
+    * bnd frrors brf not dbugit. Cblling dlosf on bn blrfbdy dlosfd
+    * lobdfr ibs no ffffdt.
     *
-    * @exception IOException if closing any file opened by this class loader
-    * resulted in an IOException. Any such exceptions are caught internally.
-    * If only one is caught, then it is re-thrown. If more than one exception
-    * is caught, then the second and following exceptions are added
-    * as suppressed exceptions of the first one caught, which is then re-thrown.
+    * @fxdfption IOExdfption if dlosing bny filf opfnfd by tiis dlbss lobdfr
+    * rfsultfd in bn IOExdfption. Any sudi fxdfptions brf dbugit intfrnblly.
+    * If only onf is dbugit, tifn it is rf-tirown. If morf tibn onf fxdfption
+    * is dbugit, tifn tif sfdond bnd following fxdfptions brf bddfd
+    * bs supprfssfd fxdfptions of tif first onf dbugit, wiidi is tifn rf-tirown.
     *
-    * @exception SecurityException if a security manager is set, and it denies
-    *   {@link RuntimePermission}{@code ("closeClassLoader")}
+    * @fxdfption SfdurityExdfption if b sfdurity mbnbgfr is sft, bnd it dfnifs
+    *   {@link RuntimfPfrmission}{@dodf ("dlosfClbssLobdfr")}
     *
-    * @since 1.7
+    * @sindf 1.7
     */
-    public void close() throws IOException {
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-            security.checkPermission(new RuntimePermission("closeClassLoader"));
+    publid void dlosf() tirows IOExdfption {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.difdkPfrmission(nfw RuntimfPfrmission("dlosfClbssLobdfr"));
         }
-        List<IOException> errors = ucp.closeLoaders();
+        List<IOExdfption> frrors = udp.dlosfLobdfrs();
 
-        // now close any remaining streams.
+        // now dlosf bny rfmbining strfbms.
 
-        synchronized (closeables) {
-            Set<Closeable> keys = closeables.keySet();
-            for (Closeable c : keys) {
+        syndironizfd (dlosfbblfs) {
+            Sft<Closfbblf> kfys = dlosfbblfs.kfySft();
+            for (Closfbblf d : kfys) {
                 try {
-                    c.close();
-                } catch (IOException ioex) {
-                    errors.add(ioex);
+                    d.dlosf();
+                } dbtdi (IOExdfption iofx) {
+                    frrors.bdd(iofx);
                 }
             }
-            closeables.clear();
+            dlosfbblfs.dlfbr();
         }
 
-        if (errors.isEmpty()) {
-            return;
+        if (frrors.isEmpty()) {
+            rfturn;
         }
 
-        IOException firstex = errors.remove(0);
+        IOExdfption firstfx = frrors.rfmovf(0);
 
-        // Suppress any remaining exceptions
+        // Supprfss bny rfmbining fxdfptions
 
-        for (IOException error: errors) {
-            firstex.addSuppressed(error);
+        for (IOExdfption frror: frrors) {
+            firstfx.bddSupprfssfd(frror);
         }
-        throw firstex;
+        tirow firstfx;
     }
 
     /**
-     * Appends the specified URL to the list of URLs to search for
-     * classes and resources.
+     * Appfnds tif spfdififd URL to tif list of URLs to sfbrdi for
+     * dlbssfs bnd rfsourdfs.
      * <p>
-     * If the URL specified is {@code null} or is already in the
-     * list of URLs, or if this loader is closed, then invoking this
-     * method has no effect.
+     * If tif URL spfdififd is {@dodf null} or is blrfbdy in tif
+     * list of URLs, or if tiis lobdfr is dlosfd, tifn invoking tiis
+     * mftiod ibs no ffffdt.
      *
-     * @param url the URL to be added to the search path of URLs
+     * @pbrbm url tif URL to bf bddfd to tif sfbrdi pbti of URLs
      */
-    protected void addURL(URL url) {
-        ucp.addURL(url);
+    protfdtfd void bddURL(URL url) {
+        udp.bddURL(url);
     }
 
     /**
-     * Returns the search path of URLs for loading classes and resources.
-     * This includes the original list of URLs specified to the constructor,
-     * along with any URLs subsequently appended by the addURL() method.
-     * @return the search path of URLs for loading classes and resources.
+     * Rfturns tif sfbrdi pbti of URLs for lobding dlbssfs bnd rfsourdfs.
+     * Tiis indludfs tif originbl list of URLs spfdififd to tif donstrudtor,
+     * blong witi bny URLs subsfqufntly bppfndfd by tif bddURL() mftiod.
+     * @rfturn tif sfbrdi pbti of URLs for lobding dlbssfs bnd rfsourdfs.
      */
-    public URL[] getURLs() {
-        return ucp.getURLs();
+    publid URL[] gftURLs() {
+        rfturn udp.gftURLs();
     }
 
     /**
-     * Finds and loads the class with the specified name from the URL search
-     * path. Any URLs referring to JAR files are loaded and opened as needed
-     * until the class is found.
+     * Finds bnd lobds tif dlbss witi tif spfdififd nbmf from tif URL sfbrdi
+     * pbti. Any URLs rfffrring to JAR filfs brf lobdfd bnd opfnfd bs nffdfd
+     * until tif dlbss is found.
      *
-     * @param name the name of the class
-     * @return the resulting class
-     * @exception ClassNotFoundException if the class could not be found,
-     *            or if the loader is closed.
-     * @exception NullPointerException if {@code name} is {@code null}.
+     * @pbrbm nbmf tif nbmf of tif dlbss
+     * @rfturn tif rfsulting dlbss
+     * @fxdfption ClbssNotFoundExdfption if tif dlbss dould not bf found,
+     *            or if tif lobdfr is dlosfd.
+     * @fxdfption NullPointfrExdfption if {@dodf nbmf} is {@dodf null}.
      */
-    protected Class<?> findClass(final String name)
-         throws ClassNotFoundException
+    protfdtfd Clbss<?> findClbss(finbl String nbmf)
+         tirows ClbssNotFoundExdfption
     {
         try {
-            return AccessController.doPrivileged(
-                new PrivilegedExceptionAction<Class<?>>() {
-                    public Class<?> run() throws ClassNotFoundException {
-                        String path = name.replace('.', '/').concat(".class");
-                        Resource res = ucp.getResource(path, false);
-                        if (res != null) {
+            rfturn AddfssControllfr.doPrivilfgfd(
+                nfw PrivilfgfdExdfptionAdtion<Clbss<?>>() {
+                    publid Clbss<?> run() tirows ClbssNotFoundExdfption {
+                        String pbti = nbmf.rfplbdf('.', '/').dondbt(".dlbss");
+                        Rfsourdf rfs = udp.gftRfsourdf(pbti, fblsf);
+                        if (rfs != null) {
                             try {
-                                return defineClass(name, res);
-                            } catch (IOException e) {
-                                throw new ClassNotFoundException(name, e);
+                                rfturn dffinfClbss(nbmf, rfs);
+                            } dbtdi (IOExdfption f) {
+                                tirow nfw ClbssNotFoundExdfption(nbmf, f);
                             }
-                        } else {
-                            throw new ClassNotFoundException(name);
+                        } flsf {
+                            tirow nfw ClbssNotFoundExdfption(nbmf);
                         }
                     }
-                }, acc);
-        } catch (java.security.PrivilegedActionException pae) {
-            throw (ClassNotFoundException) pae.getException();
+                }, bdd);
+        } dbtdi (jbvb.sfdurity.PrivilfgfdAdtionExdfption pbf) {
+            tirow (ClbssNotFoundExdfption) pbf.gftExdfption();
         }
     }
 
     /*
-     * Retrieve the package using the specified package name.
-     * If non-null, verify the package using the specified code
-     * source and manifest.
+     * Rftrifvf tif pbdkbgf using tif spfdififd pbdkbgf nbmf.
+     * If non-null, vfrify tif pbdkbgf using tif spfdififd dodf
+     * sourdf bnd mbniffst.
      */
-    private Package getAndVerifyPackage(String pkgname,
-                                        Manifest man, URL url) {
-        Package pkg = getPackage(pkgname);
+    privbtf Pbdkbgf gftAndVfrifyPbdkbgf(String pkgnbmf,
+                                        Mbniffst mbn, URL url) {
+        Pbdkbgf pkg = gftPbdkbgf(pkgnbmf);
         if (pkg != null) {
-            // Package found, so check package sealing.
-            if (pkg.isSealed()) {
-                // Verify that code source URL is the same.
-                if (!pkg.isSealed(url)) {
-                    throw new SecurityException(
-                        "sealing violation: package " + pkgname + " is sealed");
+            // Pbdkbgf found, so difdk pbdkbgf sfbling.
+            if (pkg.isSfblfd()) {
+                // Vfrify tibt dodf sourdf URL is tif sbmf.
+                if (!pkg.isSfblfd(url)) {
+                    tirow nfw SfdurityExdfption(
+                        "sfbling violbtion: pbdkbgf " + pkgnbmf + " is sfblfd");
                 }
-            } else {
-                // Make sure we are not attempting to seal the package
-                // at this code source URL.
-                if ((man != null) && isSealed(pkgname, man)) {
-                    throw new SecurityException(
-                        "sealing violation: can't seal package " + pkgname +
-                        ": already loaded");
+            } flsf {
+                // Mbkf surf wf brf not bttfmpting to sfbl tif pbdkbgf
+                // bt tiis dodf sourdf URL.
+                if ((mbn != null) && isSfblfd(pkgnbmf, mbn)) {
+                    tirow nfw SfdurityExdfption(
+                        "sfbling violbtion: dbn't sfbl pbdkbgf " + pkgnbmf +
+                        ": blrfbdy lobdfd");
                 }
             }
         }
-        return pkg;
+        rfturn pkg;
     }
 
     /*
-     * Defines a Class using the class bytes obtained from the specified
-     * Resource. The resulting Class must be resolved before it can be
-     * used.
+     * Dffinfs b Clbss using tif dlbss bytfs obtbinfd from tif spfdififd
+     * Rfsourdf. Tif rfsulting Clbss must bf rfsolvfd bfforf it dbn bf
+     * usfd.
      */
-    private Class<?> defineClass(String name, Resource res) throws IOException {
-        long t0 = System.nanoTime();
-        int i = name.lastIndexOf('.');
-        URL url = res.getCodeSourceURL();
+    privbtf Clbss<?> dffinfClbss(String nbmf, Rfsourdf rfs) tirows IOExdfption {
+        long t0 = Systfm.nbnoTimf();
+        int i = nbmf.lbstIndfxOf('.');
+        URL url = rfs.gftCodfSourdfURL();
         if (i != -1) {
-            String pkgname = name.substring(0, i);
-            // Check if package already loaded.
-            Manifest man = res.getManifest();
-            if (getAndVerifyPackage(pkgname, man, url) == null) {
+            String pkgnbmf = nbmf.substring(0, i);
+            // Cifdk if pbdkbgf blrfbdy lobdfd.
+            Mbniffst mbn = rfs.gftMbniffst();
+            if (gftAndVfrifyPbdkbgf(pkgnbmf, mbn, url) == null) {
                 try {
-                    if (man != null) {
-                        definePackage(pkgname, man, url);
-                    } else {
-                        definePackage(pkgname, null, null, null, null, null, null, null);
+                    if (mbn != null) {
+                        dffinfPbdkbgf(pkgnbmf, mbn, url);
+                    } flsf {
+                        dffinfPbdkbgf(pkgnbmf, null, null, null, null, null, null, null);
                     }
-                } catch (IllegalArgumentException iae) {
-                    // parallel-capable class loaders: re-verify in case of a
-                    // race condition
-                    if (getAndVerifyPackage(pkgname, man, url) == null) {
-                        // Should never happen
-                        throw new AssertionError("Cannot find package " +
-                                                 pkgname);
+                } dbtdi (IllfgblArgumfntExdfption ibf) {
+                    // pbrbllfl-dbpbblf dlbss lobdfrs: rf-vfrify in dbsf of b
+                    // rbdf dondition
+                    if (gftAndVfrifyPbdkbgf(pkgnbmf, mbn, url) == null) {
+                        // Siould nfvfr ibppfn
+                        tirow nfw AssfrtionError("Cbnnot find pbdkbgf " +
+                                                 pkgnbmf);
                     }
                 }
             }
         }
-        // Now read the class bytes and define the class
-        java.nio.ByteBuffer bb = res.getByteBuffer();
+        // Now rfbd tif dlbss bytfs bnd dffinf tif dlbss
+        jbvb.nio.BytfBufffr bb = rfs.gftBytfBufffr();
         if (bb != null) {
-            // Use (direct) ByteBuffer:
-            CodeSigner[] signers = res.getCodeSigners();
-            CodeSource cs = new CodeSource(url, signers);
-            sun.misc.PerfCounter.getReadClassBytesTime().addElapsedTimeFrom(t0);
-            return defineClass(name, bb, cs);
-        } else {
-            byte[] b = res.getBytes();
-            // must read certificates AFTER reading bytes.
-            CodeSigner[] signers = res.getCodeSigners();
-            CodeSource cs = new CodeSource(url, signers);
-            sun.misc.PerfCounter.getReadClassBytesTime().addElapsedTimeFrom(t0);
-            return defineClass(name, b, 0, b.length, cs);
+            // Usf (dirfdt) BytfBufffr:
+            CodfSignfr[] signfrs = rfs.gftCodfSignfrs();
+            CodfSourdf ds = nfw CodfSourdf(url, signfrs);
+            sun.misd.PfrfCountfr.gftRfbdClbssBytfsTimf().bddElbpsfdTimfFrom(t0);
+            rfturn dffinfClbss(nbmf, bb, ds);
+        } flsf {
+            bytf[] b = rfs.gftBytfs();
+            // must rfbd dfrtifidbtfs AFTER rfbding bytfs.
+            CodfSignfr[] signfrs = rfs.gftCodfSignfrs();
+            CodfSourdf ds = nfw CodfSourdf(url, signfrs);
+            sun.misd.PfrfCountfr.gftRfbdClbssBytfsTimf().bddElbpsfdTimfFrom(t0);
+            rfturn dffinfClbss(nbmf, b, 0, b.lfngti, ds);
         }
     }
 
     /**
-     * Defines a new package by name in this ClassLoader. The attributes
-     * contained in the specified Manifest will be used to obtain package
-     * version and sealing information. For sealed packages, the additional
-     * URL specifies the code source URL from which the package was loaded.
+     * Dffinfs b nfw pbdkbgf by nbmf in tiis ClbssLobdfr. Tif bttributfs
+     * dontbinfd in tif spfdififd Mbniffst will bf usfd to obtbin pbdkbgf
+     * vfrsion bnd sfbling informbtion. For sfblfd pbdkbgfs, tif bdditionbl
+     * URL spfdififs tif dodf sourdf URL from wiidi tif pbdkbgf wbs lobdfd.
      *
-     * @param name  the package name
-     * @param man   the Manifest containing package version and sealing
-     *              information
-     * @param url   the code source url for the package, or null if none
-     * @exception   IllegalArgumentException if the package name duplicates
-     *              an existing package either in this class loader or one
-     *              of its ancestors
-     * @return the newly defined Package object
+     * @pbrbm nbmf  tif pbdkbgf nbmf
+     * @pbrbm mbn   tif Mbniffst dontbining pbdkbgf vfrsion bnd sfbling
+     *              informbtion
+     * @pbrbm url   tif dodf sourdf url for tif pbdkbgf, or null if nonf
+     * @fxdfption   IllfgblArgumfntExdfption if tif pbdkbgf nbmf duplidbtfs
+     *              bn fxisting pbdkbgf fitifr in tiis dlbss lobdfr or onf
+     *              of its bndfstors
+     * @rfturn tif nfwly dffinfd Pbdkbgf objfdt
      */
-    protected Package definePackage(String name, Manifest man, URL url)
-        throws IllegalArgumentException
+    protfdtfd Pbdkbgf dffinfPbdkbgf(String nbmf, Mbniffst mbn, URL url)
+        tirows IllfgblArgumfntExdfption
     {
-        String path = name.replace('.', '/').concat("/");
-        String specTitle = null, specVersion = null, specVendor = null;
-        String implTitle = null, implVersion = null, implVendor = null;
-        String sealed = null;
-        URL sealBase = null;
+        String pbti = nbmf.rfplbdf('.', '/').dondbt("/");
+        String spfdTitlf = null, spfdVfrsion = null, spfdVfndor = null;
+        String implTitlf = null, implVfrsion = null, implVfndor = null;
+        String sfblfd = null;
+        URL sfblBbsf = null;
 
-        Attributes attr = man.getAttributes(path);
-        if (attr != null) {
-            specTitle   = attr.getValue(Name.SPECIFICATION_TITLE);
-            specVersion = attr.getValue(Name.SPECIFICATION_VERSION);
-            specVendor  = attr.getValue(Name.SPECIFICATION_VENDOR);
-            implTitle   = attr.getValue(Name.IMPLEMENTATION_TITLE);
-            implVersion = attr.getValue(Name.IMPLEMENTATION_VERSION);
-            implVendor  = attr.getValue(Name.IMPLEMENTATION_VENDOR);
-            sealed      = attr.getValue(Name.SEALED);
+        Attributfs bttr = mbn.gftAttributfs(pbti);
+        if (bttr != null) {
+            spfdTitlf   = bttr.gftVbluf(Nbmf.SPECIFICATION_TITLE);
+            spfdVfrsion = bttr.gftVbluf(Nbmf.SPECIFICATION_VERSION);
+            spfdVfndor  = bttr.gftVbluf(Nbmf.SPECIFICATION_VENDOR);
+            implTitlf   = bttr.gftVbluf(Nbmf.IMPLEMENTATION_TITLE);
+            implVfrsion = bttr.gftVbluf(Nbmf.IMPLEMENTATION_VERSION);
+            implVfndor  = bttr.gftVbluf(Nbmf.IMPLEMENTATION_VENDOR);
+            sfblfd      = bttr.gftVbluf(Nbmf.SEALED);
         }
-        attr = man.getMainAttributes();
-        if (attr != null) {
-            if (specTitle == null) {
-                specTitle = attr.getValue(Name.SPECIFICATION_TITLE);
+        bttr = mbn.gftMbinAttributfs();
+        if (bttr != null) {
+            if (spfdTitlf == null) {
+                spfdTitlf = bttr.gftVbluf(Nbmf.SPECIFICATION_TITLE);
             }
-            if (specVersion == null) {
-                specVersion = attr.getValue(Name.SPECIFICATION_VERSION);
+            if (spfdVfrsion == null) {
+                spfdVfrsion = bttr.gftVbluf(Nbmf.SPECIFICATION_VERSION);
             }
-            if (specVendor == null) {
-                specVendor = attr.getValue(Name.SPECIFICATION_VENDOR);
+            if (spfdVfndor == null) {
+                spfdVfndor = bttr.gftVbluf(Nbmf.SPECIFICATION_VENDOR);
             }
-            if (implTitle == null) {
-                implTitle = attr.getValue(Name.IMPLEMENTATION_TITLE);
+            if (implTitlf == null) {
+                implTitlf = bttr.gftVbluf(Nbmf.IMPLEMENTATION_TITLE);
             }
-            if (implVersion == null) {
-                implVersion = attr.getValue(Name.IMPLEMENTATION_VERSION);
+            if (implVfrsion == null) {
+                implVfrsion = bttr.gftVbluf(Nbmf.IMPLEMENTATION_VERSION);
             }
-            if (implVendor == null) {
-                implVendor = attr.getValue(Name.IMPLEMENTATION_VENDOR);
+            if (implVfndor == null) {
+                implVfndor = bttr.gftVbluf(Nbmf.IMPLEMENTATION_VENDOR);
             }
-            if (sealed == null) {
-                sealed = attr.getValue(Name.SEALED);
+            if (sfblfd == null) {
+                sfblfd = bttr.gftVbluf(Nbmf.SEALED);
             }
         }
-        if ("true".equalsIgnoreCase(sealed)) {
-            sealBase = url;
+        if ("truf".fqublsIgnorfCbsf(sfblfd)) {
+            sfblBbsf = url;
         }
-        return definePackage(name, specTitle, specVersion, specVendor,
-                             implTitle, implVersion, implVendor, sealBase);
+        rfturn dffinfPbdkbgf(nbmf, spfdTitlf, spfdVfrsion, spfdVfndor,
+                             implTitlf, implVfrsion, implVfndor, sfblBbsf);
     }
 
     /*
-     * Returns true if the specified package name is sealed according to the
-     * given manifest.
+     * Rfturns truf if tif spfdififd pbdkbgf nbmf is sfblfd bddording to tif
+     * givfn mbniffst.
      */
-    private boolean isSealed(String name, Manifest man) {
-        String path = name.replace('.', '/').concat("/");
-        Attributes attr = man.getAttributes(path);
-        String sealed = null;
-        if (attr != null) {
-            sealed = attr.getValue(Name.SEALED);
+    privbtf boolfbn isSfblfd(String nbmf, Mbniffst mbn) {
+        String pbti = nbmf.rfplbdf('.', '/').dondbt("/");
+        Attributfs bttr = mbn.gftAttributfs(pbti);
+        String sfblfd = null;
+        if (bttr != null) {
+            sfblfd = bttr.gftVbluf(Nbmf.SEALED);
         }
-        if (sealed == null) {
-            if ((attr = man.getMainAttributes()) != null) {
-                sealed = attr.getValue(Name.SEALED);
+        if (sfblfd == null) {
+            if ((bttr = mbn.gftMbinAttributfs()) != null) {
+                sfblfd = bttr.gftVbluf(Nbmf.SEALED);
             }
         }
-        return "true".equalsIgnoreCase(sealed);
+        rfturn "truf".fqublsIgnorfCbsf(sfblfd);
     }
 
     /**
-     * Finds the resource with the specified name on the URL search path.
+     * Finds tif rfsourdf witi tif spfdififd nbmf on tif URL sfbrdi pbti.
      *
-     * @param name the name of the resource
-     * @return a {@code URL} for the resource, or {@code null}
-     * if the resource could not be found, or if the loader is closed.
+     * @pbrbm nbmf tif nbmf of tif rfsourdf
+     * @rfturn b {@dodf URL} for tif rfsourdf, or {@dodf null}
+     * if tif rfsourdf dould not bf found, or if tif lobdfr is dlosfd.
      */
-    public URL findResource(final String name) {
+    publid URL findRfsourdf(finbl String nbmf) {
         /*
-         * The same restriction to finding classes applies to resources
+         * Tif sbmf rfstridtion to finding dlbssfs bpplifs to rfsourdfs
          */
-        URL url = AccessController.doPrivileged(
-            new PrivilegedAction<URL>() {
-                public URL run() {
-                    return ucp.findResource(name, true);
+        URL url = AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<URL>() {
+                publid URL run() {
+                    rfturn udp.findRfsourdf(nbmf, truf);
                 }
-            }, acc);
+            }, bdd);
 
-        return url != null ? ucp.checkURL(url) : null;
+        rfturn url != null ? udp.difdkURL(url) : null;
     }
 
     /**
-     * Returns an Enumeration of URLs representing all of the resources
-     * on the URL search path having the specified name.
+     * Rfturns bn Enumfrbtion of URLs rfprfsfnting bll of tif rfsourdfs
+     * on tif URL sfbrdi pbti ibving tif spfdififd nbmf.
      *
-     * @param name the resource name
-     * @exception IOException if an I/O exception occurs
-     * @return an {@code Enumeration} of {@code URL}s
-     *         If the loader is closed, the Enumeration will be empty.
+     * @pbrbm nbmf tif rfsourdf nbmf
+     * @fxdfption IOExdfption if bn I/O fxdfption oddurs
+     * @rfturn bn {@dodf Enumfrbtion} of {@dodf URL}s
+     *         If tif lobdfr is dlosfd, tif Enumfrbtion will bf fmpty.
      */
-    public Enumeration<URL> findResources(final String name)
-        throws IOException
+    publid Enumfrbtion<URL> findRfsourdfs(finbl String nbmf)
+        tirows IOExdfption
     {
-        final Enumeration<URL> e = ucp.findResources(name, true);
+        finbl Enumfrbtion<URL> f = udp.findRfsourdfs(nbmf, truf);
 
-        return new Enumeration<URL>() {
-            private URL url = null;
+        rfturn nfw Enumfrbtion<URL>() {
+            privbtf URL url = null;
 
-            private boolean next() {
+            privbtf boolfbn nfxt() {
                 if (url != null) {
-                    return true;
+                    rfturn truf;
                 }
                 do {
-                    URL u = AccessController.doPrivileged(
-                        new PrivilegedAction<URL>() {
-                            public URL run() {
-                                if (!e.hasMoreElements())
-                                    return null;
-                                return e.nextElement();
+                    URL u = AddfssControllfr.doPrivilfgfd(
+                        nfw PrivilfgfdAdtion<URL>() {
+                            publid URL run() {
+                                if (!f.ibsMorfElfmfnts())
+                                    rfturn null;
+                                rfturn f.nfxtElfmfnt();
                             }
-                        }, acc);
+                        }, bdd);
                     if (u == null)
-                        break;
-                    url = ucp.checkURL(u);
-                } while (url == null);
-                return url != null;
+                        brfbk;
+                    url = udp.difdkURL(u);
+                } wiilf (url == null);
+                rfturn url != null;
             }
 
-            public URL nextElement() {
-                if (!next()) {
-                    throw new NoSuchElementException();
+            publid URL nfxtElfmfnt() {
+                if (!nfxt()) {
+                    tirow nfw NoSudiElfmfntExdfption();
                 }
                 URL u = url;
                 url = null;
-                return u;
+                rfturn u;
             }
 
-            public boolean hasMoreElements() {
-                return next();
+            publid boolfbn ibsMorfElfmfnts() {
+                rfturn nfxt();
             }
         };
     }
 
     /**
-     * Returns the permissions for the given codesource object.
-     * The implementation of this method first calls super.getPermissions
-     * and then adds permissions based on the URL of the codesource.
+     * Rfturns tif pfrmissions for tif givfn dodfsourdf objfdt.
+     * Tif implfmfntbtion of tiis mftiod first dblls supfr.gftPfrmissions
+     * bnd tifn bdds pfrmissions bbsfd on tif URL of tif dodfsourdf.
      * <p>
-     * If the protocol of this URL is "jar", then the permission granted
-     * is based on the permission that is required by the URL of the Jar
-     * file.
+     * If tif protodol of tiis URL is "jbr", tifn tif pfrmission grbntfd
+     * is bbsfd on tif pfrmission tibt is rfquirfd by tif URL of tif Jbr
+     * filf.
      * <p>
-     * If the protocol is "file" and there is an authority component, then
-     * permission to connect to and accept connections from that authority
-     * may be granted. If the protocol is "file"
-     * and the path specifies a file, then permission to read that
-     * file is granted. If protocol is "file" and the path is
-     * a directory, permission is granted to read all files
-     * and (recursively) all files and subdirectories contained in
-     * that directory.
+     * If tif protodol is "filf" bnd tifrf is bn butiority domponfnt, tifn
+     * pfrmission to donnfdt to bnd bddfpt donnfdtions from tibt butiority
+     * mby bf grbntfd. If tif protodol is "filf"
+     * bnd tif pbti spfdififs b filf, tifn pfrmission to rfbd tibt
+     * filf is grbntfd. If protodol is "filf" bnd tif pbti is
+     * b dirfdtory, pfrmission is grbntfd to rfbd bll filfs
+     * bnd (rfdursivfly) bll filfs bnd subdirfdtorifs dontbinfd in
+     * tibt dirfdtory.
      * <p>
-     * If the protocol is not "file", then permission
-     * to connect to and accept connections from the URL's host is granted.
-     * @param codesource the codesource
-     * @exception NullPointerException if {@code codesource} is {@code null}.
-     * @return the permissions granted to the codesource
+     * If tif protodol is not "filf", tifn pfrmission
+     * to donnfdt to bnd bddfpt donnfdtions from tif URL's iost is grbntfd.
+     * @pbrbm dodfsourdf tif dodfsourdf
+     * @fxdfption NullPointfrExdfption if {@dodf dodfsourdf} is {@dodf null}.
+     * @rfturn tif pfrmissions grbntfd to tif dodfsourdf
      */
-    protected PermissionCollection getPermissions(CodeSource codesource)
+    protfdtfd PfrmissionCollfdtion gftPfrmissions(CodfSourdf dodfsourdf)
     {
-        PermissionCollection perms = super.getPermissions(codesource);
+        PfrmissionCollfdtion pfrms = supfr.gftPfrmissions(dodfsourdf);
 
-        URL url = codesource.getLocation();
+        URL url = dodfsourdf.gftLodbtion();
 
-        Permission p;
-        URLConnection urlConnection;
+        Pfrmission p;
+        URLConnfdtion urlConnfdtion;
 
         try {
-            urlConnection = url.openConnection();
-            p = urlConnection.getPermission();
-        } catch (java.io.IOException ioe) {
+            urlConnfdtion = url.opfnConnfdtion();
+            p = urlConnfdtion.gftPfrmission();
+        } dbtdi (jbvb.io.IOExdfption iof) {
             p = null;
-            urlConnection = null;
+            urlConnfdtion = null;
         }
 
-        if (p instanceof FilePermission) {
-            // if the permission has a separator char on the end,
-            // it means the codebase is a directory, and we need
-            // to add an additional permission to read recursively
-            String path = p.getName();
-            if (path.endsWith(File.separator)) {
-                path += "-";
-                p = new FilePermission(path, SecurityConstants.FILE_READ_ACTION);
+        if (p instbndfof FilfPfrmission) {
+            // if tif pfrmission ibs b sfpbrbtor dibr on tif fnd,
+            // it mfbns tif dodfbbsf is b dirfdtory, bnd wf nffd
+            // to bdd bn bdditionbl pfrmission to rfbd rfdursivfly
+            String pbti = p.gftNbmf();
+            if (pbti.fndsWiti(Filf.sfpbrbtor)) {
+                pbti += "-";
+                p = nfw FilfPfrmission(pbti, SfdurityConstbnts.FILE_READ_ACTION);
             }
-        } else if ((p == null) && (url.getProtocol().equals("file"))) {
-            String path = url.getFile().replace('/', File.separatorChar);
-            path = ParseUtil.decode(path);
-            if (path.endsWith(File.separator))
-                path += "-";
-            p =  new FilePermission(path, SecurityConstants.FILE_READ_ACTION);
-        } else {
+        } flsf if ((p == null) && (url.gftProtodol().fqubls("filf"))) {
+            String pbti = url.gftFilf().rfplbdf('/', Filf.sfpbrbtorCibr);
+            pbti = PbrsfUtil.dfdodf(pbti);
+            if (pbti.fndsWiti(Filf.sfpbrbtor))
+                pbti += "-";
+            p =  nfw FilfPfrmission(pbti, SfdurityConstbnts.FILE_READ_ACTION);
+        } flsf {
             /**
-             * Not loading from a 'file:' URL so we want to give the class
-             * permission to connect to and accept from the remote host
-             * after we've made sure the host is the correct one and is valid.
+             * Not lobding from b 'filf:' URL so wf wbnt to givf tif dlbss
+             * pfrmission to donnfdt to bnd bddfpt from tif rfmotf iost
+             * bftfr wf'vf mbdf surf tif iost is tif dorrfdt onf bnd is vblid.
              */
-            URL locUrl = url;
-            if (urlConnection instanceof JarURLConnection) {
-                locUrl = ((JarURLConnection)urlConnection).getJarFileURL();
+            URL lodUrl = url;
+            if (urlConnfdtion instbndfof JbrURLConnfdtion) {
+                lodUrl = ((JbrURLConnfdtion)urlConnfdtion).gftJbrFilfURL();
             }
-            String host = locUrl.getHost();
-            if (host != null && (host.length() > 0))
-                p = new SocketPermission(host,
-                                         SecurityConstants.SOCKET_CONNECT_ACCEPT_ACTION);
+            String iost = lodUrl.gftHost();
+            if (iost != null && (iost.lfngti() > 0))
+                p = nfw SodkftPfrmission(iost,
+                                         SfdurityConstbnts.SOCKET_CONNECT_ACCEPT_ACTION);
         }
 
-        // make sure the person that created this class loader
-        // would have this permission
+        // mbkf surf tif pfrson tibt drfbtfd tiis dlbss lobdfr
+        // would ibvf tiis pfrmission
 
         if (p != null) {
-            final SecurityManager sm = System.getSecurityManager();
+            finbl SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
             if (sm != null) {
-                final Permission fp = p;
-                AccessController.doPrivileged(new PrivilegedAction<Void>() {
-                    public Void run() throws SecurityException {
-                        sm.checkPermission(fp);
-                        return null;
+                finbl Pfrmission fp = p;
+                AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+                    publid Void run() tirows SfdurityExdfption {
+                        sm.difdkPfrmission(fp);
+                        rfturn null;
                     }
-                }, acc);
+                }, bdd);
             }
-            perms.add(p);
+            pfrms.bdd(p);
         }
-        return perms;
+        rfturn pfrms;
     }
 
     /**
-     * Creates a new instance of URLClassLoader for the specified
-     * URLs and parent class loader. If a security manager is
-     * installed, the {@code loadClass} method of the URLClassLoader
-     * returned by this method will invoke the
-     * {@code SecurityManager.checkPackageAccess} method before
-     * loading the class.
+     * Crfbtfs b nfw instbndf of URLClbssLobdfr for tif spfdififd
+     * URLs bnd pbrfnt dlbss lobdfr. If b sfdurity mbnbgfr is
+     * instbllfd, tif {@dodf lobdClbss} mftiod of tif URLClbssLobdfr
+     * rfturnfd by tiis mftiod will invokf tif
+     * {@dodf SfdurityMbnbgfr.difdkPbdkbgfAddfss} mftiod bfforf
+     * lobding tif dlbss.
      *
-     * @param urls the URLs to search for classes and resources
-     * @param parent the parent class loader for delegation
-     * @exception  NullPointerException if {@code urls} is {@code null}.
-     * @return the resulting class loader
+     * @pbrbm urls tif URLs to sfbrdi for dlbssfs bnd rfsourdfs
+     * @pbrbm pbrfnt tif pbrfnt dlbss lobdfr for dflfgbtion
+     * @fxdfption  NullPointfrExdfption if {@dodf urls} is {@dodf null}.
+     * @rfturn tif rfsulting dlbss lobdfr
      */
-    public static URLClassLoader newInstance(final URL[] urls,
-                                             final ClassLoader parent) {
-        // Save the caller's context
-        final AccessControlContext acc = AccessController.getContext();
-        // Need a privileged block to create the class loader
-        URLClassLoader ucl = AccessController.doPrivileged(
-            new PrivilegedAction<URLClassLoader>() {
-                public URLClassLoader run() {
-                    return new FactoryURLClassLoader(urls, parent, acc);
+    publid stbtid URLClbssLobdfr nfwInstbndf(finbl URL[] urls,
+                                             finbl ClbssLobdfr pbrfnt) {
+        // Sbvf tif dbllfr's dontfxt
+        finbl AddfssControlContfxt bdd = AddfssControllfr.gftContfxt();
+        // Nffd b privilfgfd blodk to drfbtf tif dlbss lobdfr
+        URLClbssLobdfr udl = AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<URLClbssLobdfr>() {
+                publid URLClbssLobdfr run() {
+                    rfturn nfw FbdtoryURLClbssLobdfr(urls, pbrfnt, bdd);
                 }
             });
-        return ucl;
+        rfturn udl;
     }
 
     /**
-     * Creates a new instance of URLClassLoader for the specified
-     * URLs and default parent class loader. If a security manager is
-     * installed, the {@code loadClass} method of the URLClassLoader
-     * returned by this method will invoke the
-     * {@code SecurityManager.checkPackageAccess} before
-     * loading the class.
+     * Crfbtfs b nfw instbndf of URLClbssLobdfr for tif spfdififd
+     * URLs bnd dffbult pbrfnt dlbss lobdfr. If b sfdurity mbnbgfr is
+     * instbllfd, tif {@dodf lobdClbss} mftiod of tif URLClbssLobdfr
+     * rfturnfd by tiis mftiod will invokf tif
+     * {@dodf SfdurityMbnbgfr.difdkPbdkbgfAddfss} bfforf
+     * lobding tif dlbss.
      *
-     * @param urls the URLs to search for classes and resources
-     * @exception  NullPointerException if {@code urls} is {@code null}.
-     * @return the resulting class loader
+     * @pbrbm urls tif URLs to sfbrdi for dlbssfs bnd rfsourdfs
+     * @fxdfption  NullPointfrExdfption if {@dodf urls} is {@dodf null}.
+     * @rfturn tif rfsulting dlbss lobdfr
      */
-    public static URLClassLoader newInstance(final URL[] urls) {
-        // Save the caller's context
-        final AccessControlContext acc = AccessController.getContext();
-        // Need a privileged block to create the class loader
-        URLClassLoader ucl = AccessController.doPrivileged(
-            new PrivilegedAction<URLClassLoader>() {
-                public URLClassLoader run() {
-                    return new FactoryURLClassLoader(urls, acc);
+    publid stbtid URLClbssLobdfr nfwInstbndf(finbl URL[] urls) {
+        // Sbvf tif dbllfr's dontfxt
+        finbl AddfssControlContfxt bdd = AddfssControllfr.gftContfxt();
+        // Nffd b privilfgfd blodk to drfbtf tif dlbss lobdfr
+        URLClbssLobdfr udl = AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<URLClbssLobdfr>() {
+                publid URLClbssLobdfr run() {
+                    rfturn nfw FbdtoryURLClbssLobdfr(urls, bdd);
                 }
             });
-        return ucl;
+        rfturn udl;
     }
 
-    static {
-        sun.misc.SharedSecrets.setJavaNetAccess (
-            new sun.misc.JavaNetAccess() {
-                public URLClassPath getURLClassPath (URLClassLoader u) {
-                    return u.ucp;
+    stbtid {
+        sun.misd.SibrfdSfdrfts.sftJbvbNftAddfss (
+            nfw sun.misd.JbvbNftAddfss() {
+                publid URLClbssPbti gftURLClbssPbti (URLClbssLobdfr u) {
+                    rfturn u.udp;
                 }
             }
         );
-        ClassLoader.registerAsParallelCapable();
+        ClbssLobdfr.rfgistfrAsPbrbllflCbpbblf();
     }
 }
 
-final class FactoryURLClassLoader extends URLClassLoader {
+finbl dlbss FbdtoryURLClbssLobdfr fxtfnds URLClbssLobdfr {
 
-    static {
-        ClassLoader.registerAsParallelCapable();
+    stbtid {
+        ClbssLobdfr.rfgistfrAsPbrbllflCbpbblf();
     }
 
-    FactoryURLClassLoader(URL[] urls, ClassLoader parent,
-                          AccessControlContext acc) {
-        super(urls, parent, acc);
+    FbdtoryURLClbssLobdfr(URL[] urls, ClbssLobdfr pbrfnt,
+                          AddfssControlContfxt bdd) {
+        supfr(urls, pbrfnt, bdd);
     }
 
-    FactoryURLClassLoader(URL[] urls, AccessControlContext acc) {
-        super(urls, acc);
+    FbdtoryURLClbssLobdfr(URL[] urls, AddfssControlContfxt bdd) {
+        supfr(urls, bdd);
     }
 
-    public final Class<?> loadClass(String name, boolean resolve)
-        throws ClassNotFoundException
+    publid finbl Clbss<?> lobdClbss(String nbmf, boolfbn rfsolvf)
+        tirows ClbssNotFoundExdfption
     {
-        // First check if we have permission to access the package. This
-        // should go away once we've added support for exported packages.
-        SecurityManager sm = System.getSecurityManager();
+        // First difdk if wf ibvf pfrmission to bddfss tif pbdkbgf. Tiis
+        // siould go bwby ondf wf'vf bddfd support for fxportfd pbdkbgfs.
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            int i = name.lastIndexOf('.');
+            int i = nbmf.lbstIndfxOf('.');
             if (i != -1) {
-                sm.checkPackageAccess(name.substring(0, i));
+                sm.difdkPbdkbgfAddfss(nbmf.substring(0, i));
             }
         }
-        return super.loadClass(name, resolve);
+        rfturn supfr.lobdClbss(nbmf, rfsolvf);
     }
 }

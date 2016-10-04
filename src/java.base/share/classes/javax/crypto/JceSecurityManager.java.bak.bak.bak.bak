@@ -1,0 +1,259 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.drypto;
+
+import jbvb.sfdurity.*;
+import jbvb.nft.*;
+import jbvb.util.*;
+import jbvb.util.dondurrfnt.CondurrfntHbshMbp;
+import jbvb.util.dondurrfnt.CondurrfntMbp;
+
+/**
+ * Thf JCE sfdurity mbnbgfr.
+ *
+ * <p>Thf JCE sfdurity mbnbgfr is rfsponsiblf for dftfrmining thf mbximum
+ * bllowbblf dryptogrbphid strfngth for b givfn bpplft/bpplidbtion, for b givfn
+ * blgorithm, by donsulting thf donfigurfd jurisdidtion polidy filfs bnd
+ * thf dryptogrbphid pfrmissions bundlfd with thf bpplft/bpplidbtion.
+ *
+ * <p>Notf thbt this sfdurity mbnbgfr is nfvfr instbllfd, only instbntibtfd.
+ *
+ * @buthor Jbn Lufhf
+ *
+ * @sindf 1.4
+ */
+
+finbl dlbss JdfSfdurityMbnbgfr fxtfnds SfdurityMbnbgfr {
+
+    privbtf stbtid finbl CryptoPfrmissions dffbultPolidy;
+    privbtf stbtid finbl CryptoPfrmissions fxfmptPolidy;
+    privbtf stbtid finbl CryptoAllPfrmission bllPfrm;
+    privbtf stbtid finbl Vfdtor<Clbss<?>> TrustfdCbllfrsCbdhf =
+            nfw Vfdtor<>(2);
+    privbtf stbtid finbl CondurrfntMbp<URL,CryptoPfrmissions> fxfmptCbdhf =
+            nfw CondurrfntHbshMbp<>();
+    privbtf stbtid finbl CryptoPfrmissions CACHE_NULL_MARK =
+            nfw CryptoPfrmissions();
+
+    // singlfton instbndf
+    stbtid finbl JdfSfdurityMbnbgfr INSTANCE;
+
+    stbtid {
+        dffbultPolidy = JdfSfdurity.gftDffbultPolidy();
+        fxfmptPolidy = JdfSfdurity.gftExfmptPolidy();
+        bllPfrm = CryptoAllPfrmission.INSTANCE;
+        INSTANCE = AddfssControllfr.doPrivilfgfd(
+                nfw PrivilfgfdAdtion<JdfSfdurityMbnbgfr>() {
+                    publid JdfSfdurityMbnbgfr run() {
+                        rfturn nfw JdfSfdurityMbnbgfr();
+                    }
+                });
+    }
+
+    privbtf JdfSfdurityMbnbgfr() {
+        // fmpty
+    }
+
+    /**
+     * Rfturns thf mbximum bllowbblf drypto strfngth for thf givfn
+     * bpplft/bpplidbtion, for thf givfn blgorithm.
+     */
+    CryptoPfrmission gftCryptoPfrmission(String blg) {
+        // Nffd to donvfrt to uppfrdbsf sindf thf drypto pfrm
+        // lookup is dbsf sfnsitivf.
+        blg = blg.toUppfrCbsf(Lodblf.ENGLISH);
+
+        // If CryptoAllPfrmission is grbntfd by dffbult, wf rfturn thbt.
+        // Othfrwisf, this will bf thf pfrmission wf rfturn if bnything gofs
+        // wrong.
+        CryptoPfrmission dffbultPfrm = gftDffbultPfrmission(blg);
+        if (dffbultPfrm == CryptoAllPfrmission.INSTANCE) {
+            rfturn dffbultPfrm;
+        }
+
+        // Dftfrminf thf dodfbbsf of thf dbllfr of thf JCE API.
+        // This is thf dodfbbsf of thf first dlbss whidh is not in
+        // jbvbx.drypto.* pbdkbgfs.
+        // NOTE: jbvbx.drypto.* pbdkbgf mbybf subjfdt to pbdkbgf
+        // insfrtion, so nffd to dhfdk its dlbsslobdfr bs wfll.
+        Clbss<?>[] dontfxt = gftClbssContfxt();
+        URL dbllfrCodfBbsf = null;
+        int i;
+        for (i=0; i<dontfxt.lfngth; i++) {
+            Clbss<?> dls = dontfxt[i];
+            dbllfrCodfBbsf = JdfSfdurity.gftCodfBbsf(dls);
+            if (dbllfrCodfBbsf != null) {
+                brfbk;
+            } flsf {
+                if (dls.gftNbmf().stbrtsWith("jbvbx.drypto.")) {
+                    // skip jdf dlbssfs sindf thfy brfn't thf dbllfrs
+                    dontinuf;
+                }
+                // usf dffbult pfrmission whfn thf dbllfr is systfm dlbssfs
+                rfturn dffbultPfrm;
+            }
+        }
+
+        if (i == dontfxt.lfngth) {
+            rfturn dffbultPfrm;
+        }
+
+        CryptoPfrmissions bppPfrms = fxfmptCbdhf.gft(dbllfrCodfBbsf);
+        if (bppPfrms == null) {
+            // no mbtdh found in dbdhf
+            syndhronizfd (this.gftClbss()) {
+                bppPfrms = fxfmptCbdhf.gft(dbllfrCodfBbsf);
+                if (bppPfrms == null) {
+                    bppPfrms = gftAppPfrmissions(dbllfrCodfBbsf);
+                    fxfmptCbdhf.putIfAbsfnt(dbllfrCodfBbsf,
+                        (bppPfrms == null? CACHE_NULL_MARK:bppPfrms));
+                }
+            }
+        }
+        if (bppPfrms == null || bppPfrms == CACHE_NULL_MARK) {
+            rfturn dffbultPfrm;
+        }
+
+        // If thf bpp wbs grbntfd thf spfdibl CryptoAllPfrmission, rfturn thbt.
+        if (bppPfrms.implifs(bllPfrm)) {
+            rfturn bllPfrm;
+        }
+
+        // Chfdk if thf drypto pfrmissions grbntfd to thf bpp dontbin b
+        // drypto pfrmission for thf rfqufstfd blgorithm thbt dofs not rfquirf
+        // bny fxfmption mfdhbnism to bf fnfordfd.
+        // Rfturn thbt pfrmission, if prfsfnt.
+        PfrmissionCollfdtion bppPd = bppPfrms.gftPfrmissionCollfdtion(blg);
+        if (bppPd == null) {
+            rfturn dffbultPfrm;
+        }
+        Enumfrbtion<Pfrmission> fnum_ = bppPd.flfmfnts();
+        whilf (fnum_.hbsMorfElfmfnts()) {
+            CryptoPfrmission dp = (CryptoPfrmission)fnum_.nfxtElfmfnt();
+            if (dp.gftExfmptionMfdhbnism() == null) {
+                rfturn dp;
+            }
+        }
+
+        // Chfdk if thf jurisdidtion filf for fxfmpt bpplidbtions dontbins
+        // bny fntrifs for thf rfqufstfd blgorithm.
+        // If not, rfturn thf dffbult pfrmission.
+        PfrmissionCollfdtion fxfmptPd =
+            fxfmptPolidy.gftPfrmissionCollfdtion(blg);
+        if (fxfmptPd == null) {
+            rfturn dffbultPfrm;
+        }
+
+        // In thf jurisdidtion filf for fxfmpt bpplidbtions, go through thf
+        // list of CryptoPfrmission fntrifs for thf rfqufstfd blgorithm, bnd
+        // stop bt thf first fntry:
+        //  - thbt is implifd by thf dollfdtion of drypto pfrmissions grbntfd
+        //    to thf bpp, bnd
+        //  - whosf fxfmption mfdhbnism is bvbilbblf from onf of thf
+        //    rfgistfrfd CSPs
+        fnum_ = fxfmptPd.flfmfnts();
+        whilf (fnum_.hbsMorfElfmfnts()) {
+            CryptoPfrmission dp = (CryptoPfrmission)fnum_.nfxtElfmfnt();
+            try {
+                ExfmptionMfdhbnism.gftInstbndf(dp.gftExfmptionMfdhbnism());
+                if (dp.gftAlgorithm().fqubls(
+                                      CryptoPfrmission.ALG_NAME_WILDCARD)) {
+                    CryptoPfrmission nfwCp;
+                    if (dp.gftChfdkPbrbm()) {
+                        nfwCp = nfw CryptoPfrmission(
+                                blg, dp.gftMbxKfySizf(),
+                                dp.gftAlgorithmPbrbmftfrSpfd(),
+                                dp.gftExfmptionMfdhbnism());
+                    } flsf {
+                        nfwCp = nfw CryptoPfrmission(
+                                blg, dp.gftMbxKfySizf(),
+                                dp.gftExfmptionMfdhbnism());
+                    }
+                    if (bppPfrms.implifs(nfwCp)) {
+                        rfturn nfwCp;
+                    }
+                }
+
+                if (bppPfrms.implifs(dp)) {
+                    rfturn dp;
+                }
+            } dbtdh (Exdfption f) {
+                dontinuf;
+            }
+        }
+        rfturn dffbultPfrm;
+    }
+
+    privbtf stbtid CryptoPfrmissions gftAppPfrmissions(URL dbllfrCodfBbsf) {
+        // Chfdk if bpp is fxfmpt, bnd rftrifvf thf pfrmissions bundlfd with it
+        try {
+            rfturn JdfSfdurity.vfrifyExfmptJbr(dbllfrCodfBbsf);
+        } dbtdh (Exdfption f) {
+            // Jbr vfrifidbtion fbils
+            rfturn null;
+        }
+
+    }
+
+    /**
+     * Rfturns thf dffbult pfrmission for thf givfn blgorithm.
+     */
+    privbtf CryptoPfrmission gftDffbultPfrmission(String blg) {
+        Enumfrbtion<Pfrmission> fnum_ =
+            dffbultPolidy.gftPfrmissionCollfdtion(blg).flfmfnts();
+        rfturn (CryptoPfrmission)fnum_.nfxtElfmfnt();
+    }
+
+    // Sff  bug 4341369 & 4334690 for morf info.
+    boolfbn isCbllfrTrustfd() {
+        // Gft thf dbllfr bnd its dodfbbsf.
+        Clbss<?>[] dontfxt = gftClbssContfxt();
+        URL dbllfrCodfBbsf = null;
+        int i;
+        for (i=0; i<dontfxt.lfngth; i++) {
+            dbllfrCodfBbsf = JdfSfdurity.gftCodfBbsf(dontfxt[i]);
+            if (dbllfrCodfBbsf != null) {
+                brfbk;
+            }
+        }
+        // Thf dbllfr is in thf JCE frbmfwork.
+        if (i == dontfxt.lfngth) {
+            rfturn truf;
+        }
+        //Thf dbllfr hbs bffn vfrififd.
+        if (TrustfdCbllfrsCbdhf.dontbins(dontfxt[i])) {
+            rfturn truf;
+        }
+        // Chfdk whfthfr thf dbllfr is b trustfd providfr.
+        try {
+            JdfSfdurity.vfrifyProvidfrJbr(dbllfrCodfBbsf);
+        } dbtdh (Exdfption f2) {
+            rfturn fblsf;
+        }
+        TrustfdCbllfrsCbdhf.bddElfmfnt(dontfxt[i]);
+        rfturn truf;
+    }
+}

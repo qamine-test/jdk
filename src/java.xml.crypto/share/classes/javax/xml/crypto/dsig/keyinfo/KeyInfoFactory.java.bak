@@ -1,528 +1,528 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 /*
- * $Id: KeyInfoFactory.java,v 1.12 2005/05/10 16:35:35 mullan Exp $
+ * $Id: KfyInfoFbdtory.jbvb,v 1.12 2005/05/10 16:35:35 mullbn Exp $
  */
-package javax.xml.crypto.dsig.keyinfo;
+pbdkbgf jbvbx.xml.drypto.dsig.kfyinfo;
 
-import java.math.BigInteger;
-import java.security.KeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
-import java.security.Provider;
-import java.security.PublicKey;
-import java.security.Security;
-import java.security.cert.X509CRL;
-import java.util.List;
-import javax.xml.crypto.MarshalException;
-import javax.xml.crypto.NoSuchMechanismException;
-import javax.xml.crypto.URIDereferencer;
-import javax.xml.crypto.XMLStructure;
-import javax.xml.crypto.dom.DOMStructure;
-import javax.xml.crypto.dsig.*;
+import jbvb.mbti.BigIntfgfr;
+import jbvb.sfdurity.KfyExdfption;
+import jbvb.sfdurity.NoSudiAlgoritimExdfption;
+import jbvb.sfdurity.NoSudiProvidfrExdfption;
+import jbvb.sfdurity.Providfr;
+import jbvb.sfdurity.PublidKfy;
+import jbvb.sfdurity.Sfdurity;
+import jbvb.sfdurity.dfrt.X509CRL;
+import jbvb.util.List;
+import jbvbx.xml.drypto.MbrsiblExdfption;
+import jbvbx.xml.drypto.NoSudiMfdibnismExdfption;
+import jbvbx.xml.drypto.URIDfrfffrfndfr;
+import jbvbx.xml.drypto.XMLStrudturf;
+import jbvbx.xml.drypto.dom.DOMStrudturf;
+import jbvbx.xml.drypto.dsig.*;
 
-import sun.security.jca.*;
-import sun.security.jca.GetInstance.Instance;
+import sun.sfdurity.jdb.*;
+import sun.sfdurity.jdb.GftInstbndf.Instbndf;
 
 /**
- * A factory for creating {@link KeyInfo} objects from scratch or for
- * unmarshalling a <code>KeyInfo</code> object from a corresponding XML
- * representation.
+ * A fbdtory for drfbting {@link KfyInfo} objfdts from sdrbtdi or for
+ * unmbrsiblling b <dodf>KfyInfo</dodf> objfdt from b dorrfsponding XML
+ * rfprfsfntbtion.
  *
- * <p>Each instance of <code>KeyInfoFactory</code> supports a specific
- * XML mechanism type. To create a <code>KeyInfoFactory</code>, call one of the
- * static {@link #getInstance getInstance} methods, passing in the XML
- * mechanism type desired, for example:
+ * <p>Ebdi instbndf of <dodf>KfyInfoFbdtory</dodf> supports b spfdifid
+ * XML mfdibnism typf. To drfbtf b <dodf>KfyInfoFbdtory</dodf>, dbll onf of tif
+ * stbtid {@link #gftInstbndf gftInstbndf} mftiods, pbssing in tif XML
+ * mfdibnism typf dfsirfd, for fxbmplf:
  *
- * <blockquote><code>
- *   KeyInfoFactory factory = KeyInfoFactory.getInstance("DOM");
- * </code></blockquote>
+ * <blodkquotf><dodf>
+ *   KfyInfoFbdtory fbdtory = KfyInfoFbdtory.gftInstbndf("DOM");
+ * </dodf></blodkquotf>
  *
- * <p>The objects that this factory produces will be based
- * on DOM and abide by the DOM interoperability requirements as defined in the
- * <a href="../../../../../../technotes/guides/security/xmldsig/overview.html#DOM%20Mechanism%20Requirements">
- * DOM Mechanism Requirements</a> section of the API overview. See the
- * <a href="../../../../../../technotes/guides/security/xmldsig/overview.html#Service%20Provider">
- * Service Providers</a> section of the API overview for a list of standard
- * mechanism types.
+ * <p>Tif objfdts tibt tiis fbdtory produdfs will bf bbsfd
+ * on DOM bnd bbidf by tif DOM intfropfrbbility rfquirfmfnts bs dffinfd in tif
+ * <b irff="../../../../../../tfdinotfs/guidfs/sfdurity/xmldsig/ovfrvifw.itml#DOM%20Mfdibnism%20Rfquirfmfnts">
+ * DOM Mfdibnism Rfquirfmfnts</b> sfdtion of tif API ovfrvifw. Sff tif
+ * <b irff="../../../../../../tfdinotfs/guidfs/sfdurity/xmldsig/ovfrvifw.itml#Sfrvidf%20Providfr">
+ * Sfrvidf Providfrs</b> sfdtion of tif API ovfrvifw for b list of stbndbrd
+ * mfdibnism typfs.
  *
- * <p><code>KeyInfoFactory</code> implementations are registered and loaded
- * using the {@link java.security.Provider} mechanism.
- * For example, a service provider that supports the
- * DOM mechanism would be specified in the <code>Provider</code> subclass as:
- * <pre>
- *     put("KeyInfoFactory.DOM", "org.example.DOMKeyInfoFactory");
- * </pre>
+ * <p><dodf>KfyInfoFbdtory</dodf> implfmfntbtions brf rfgistfrfd bnd lobdfd
+ * using tif {@link jbvb.sfdurity.Providfr} mfdibnism.
+ * For fxbmplf, b sfrvidf providfr tibt supports tif
+ * DOM mfdibnism would bf spfdififd in tif <dodf>Providfr</dodf> subdlbss bs:
+ * <prf>
+ *     put("KfyInfoFbdtory.DOM", "org.fxbmplf.DOMKfyInfoFbdtory");
+ * </prf>
  *
- * <p>Also, the <code>XMLStructure</code>s that are created by this factory
- * may contain state specific to the <code>KeyInfo</code> and are not
- * intended to be reusable.
+ * <p>Also, tif <dodf>XMLStrudturf</dodf>s tibt brf drfbtfd by tiis fbdtory
+ * mby dontbin stbtf spfdifid to tif <dodf>KfyInfo</dodf> bnd brf not
+ * intfndfd to bf rfusbblf.
  *
- * <p>An implementation MUST minimally support the default mechanism type: DOM.
+ * <p>An implfmfntbtion MUST minimblly support tif dffbult mfdibnism typf: DOM.
  *
- * <p>Note that a caller must use the same <code>KeyInfoFactory</code>
- * instance to create the <code>XMLStructure</code>s of a particular
- * <code>KeyInfo</code> object. The behavior is undefined if
- * <code>XMLStructure</code>s from different providers or different mechanism
- * types are used together.
+ * <p>Notf tibt b dbllfr must usf tif sbmf <dodf>KfyInfoFbdtory</dodf>
+ * instbndf to drfbtf tif <dodf>XMLStrudturf</dodf>s of b pbrtidulbr
+ * <dodf>KfyInfo</dodf> objfdt. Tif bfibvior is undffinfd if
+ * <dodf>XMLStrudturf</dodf>s from difffrfnt providfrs or difffrfnt mfdibnism
+ * typfs brf usfd togftifr.
  *
- * <p><b>Concurrent Access</b>
- * <p>The static methods of this class are guaranteed to be thread-safe.
- * Multiple threads may concurrently invoke the static methods defined in this
- * class with no ill effects.
+ * <p><b>Condurrfnt Addfss</b>
+ * <p>Tif stbtid mftiods of tiis dlbss brf gubrbntffd to bf tirfbd-sbff.
+ * Multiplf tirfbds mby dondurrfntly invokf tif stbtid mftiods dffinfd in tiis
+ * dlbss witi no ill ffffdts.
  *
- * <p>However, this is not true for the non-static methods defined by this
- * class. Unless otherwise documented by a specific provider, threads that
- * need to access a single <code>KeyInfoFactory</code> instance concurrently
- * should synchronize amongst themselves and provide the necessary locking.
- * Multiple threads each manipulating a different <code>KeyInfoFactory</code>
- * instance need not synchronize.
+ * <p>Howfvfr, tiis is not truf for tif non-stbtid mftiods dffinfd by tiis
+ * dlbss. Unlfss otifrwisf dodumfntfd by b spfdifid providfr, tirfbds tibt
+ * nffd to bddfss b singlf <dodf>KfyInfoFbdtory</dodf> instbndf dondurrfntly
+ * siould syndironizf bmongst tifmsflvfs bnd providf tif nfdfssbry lodking.
+ * Multiplf tirfbds fbdi mbnipulbting b difffrfnt <dodf>KfyInfoFbdtory</dodf>
+ * instbndf nffd not syndironizf.
  *
- * @author Sean Mullan
- * @author JSR 105 Expert Group
- * @since 1.6
+ * @butior Sfbn Mullbn
+ * @butior JSR 105 Expfrt Group
+ * @sindf 1.6
  */
-public abstract class KeyInfoFactory {
+publid bbstrbdt dlbss KfyInfoFbdtory {
 
-    private String mechanismType;
-    private Provider provider;
-
-    /**
-     * Default constructor, for invocation by subclasses.
-     */
-    protected KeyInfoFactory() {}
+    privbtf String mfdibnismTypf;
+    privbtf Providfr providfr;
 
     /**
-     * Returns a <code>KeyInfoFactory</code> that supports the
-     * specified XML processing mechanism and representation type (ex: "DOM").
-     *
-     * <p>This method uses the standard JCA provider lookup mechanism to
-     * locate and instantiate a <code>KeyInfoFactory</code> implementation of
-     * the desired mechanism type. It traverses the list of registered security
-     * <code>Provider</code>s, starting with the most preferred
-     * <code>Provider</code>. A new <code>KeyInfoFactory</code> object
-     * from the first <code>Provider</code> that supports the specified
-     * mechanism is returned.
-     *
-     * <p> Note that the list of registered providers may be retrieved via
-     * the {@link Security#getProviders() Security.getProviders()} method.
-     *
-     * @param mechanismType the type of the XML processing mechanism and
-     *    representation. See the <a
-     *    href="../../../../../../technotes/guides/security/xmldsig/overview.html#Service%20Provider">
-     *    Service Providers</a> section of the API overview for a list of
-     *    standard mechanism types.
-     * @return a new <code>KeyInfoFactory</code>
-     * @throws NullPointerException if <code>mechanismType</code> is
-     *    <code>null</code>
-     * @throws NoSuchMechanismException if no <code>Provider</code> supports a
-     *    <code>KeyInfoFactory</code> implementation for the specified mechanism
-     * @see Provider
+     * Dffbult donstrudtor, for invodbtion by subdlbssfs.
      */
-    public static KeyInfoFactory getInstance(String mechanismType) {
-        if (mechanismType == null) {
-            throw new NullPointerException("mechanismType cannot be null");
+    protfdtfd KfyInfoFbdtory() {}
+
+    /**
+     * Rfturns b <dodf>KfyInfoFbdtory</dodf> tibt supports tif
+     * spfdififd XML prodfssing mfdibnism bnd rfprfsfntbtion typf (fx: "DOM").
+     *
+     * <p>Tiis mftiod usfs tif stbndbrd JCA providfr lookup mfdibnism to
+     * lodbtf bnd instbntibtf b <dodf>KfyInfoFbdtory</dodf> implfmfntbtion of
+     * tif dfsirfd mfdibnism typf. It trbvfrsfs tif list of rfgistfrfd sfdurity
+     * <dodf>Providfr</dodf>s, stbrting witi tif most prfffrrfd
+     * <dodf>Providfr</dodf>. A nfw <dodf>KfyInfoFbdtory</dodf> objfdt
+     * from tif first <dodf>Providfr</dodf> tibt supports tif spfdififd
+     * mfdibnism is rfturnfd.
+     *
+     * <p> Notf tibt tif list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * tif {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mftiod.
+     *
+     * @pbrbm mfdibnismTypf tif typf of tif XML prodfssing mfdibnism bnd
+     *    rfprfsfntbtion. Sff tif <b
+     *    irff="../../../../../../tfdinotfs/guidfs/sfdurity/xmldsig/ovfrvifw.itml#Sfrvidf%20Providfr">
+     *    Sfrvidf Providfrs</b> sfdtion of tif API ovfrvifw for b list of
+     *    stbndbrd mfdibnism typfs.
+     * @rfturn b nfw <dodf>KfyInfoFbdtory</dodf>
+     * @tirows NullPointfrExdfption if <dodf>mfdibnismTypf</dodf> is
+     *    <dodf>null</dodf>
+     * @tirows NoSudiMfdibnismExdfption if no <dodf>Providfr</dodf> supports b
+     *    <dodf>KfyInfoFbdtory</dodf> implfmfntbtion for tif spfdififd mfdibnism
+     * @sff Providfr
+     */
+    publid stbtid KfyInfoFbdtory gftInstbndf(String mfdibnismTypf) {
+        if (mfdibnismTypf == null) {
+            tirow nfw NullPointfrExdfption("mfdibnismTypf dbnnot bf null");
         }
-        Instance instance;
+        Instbndf instbndf;
         try {
-            instance = GetInstance.getInstance
-                ("KeyInfoFactory", null, mechanismType);
-        } catch (NoSuchAlgorithmException nsae) {
-            throw new NoSuchMechanismException(nsae);
+            instbndf = GftInstbndf.gftInstbndf
+                ("KfyInfoFbdtory", null, mfdibnismTypf);
+        } dbtdi (NoSudiAlgoritimExdfption nsbf) {
+            tirow nfw NoSudiMfdibnismExdfption(nsbf);
         }
-        KeyInfoFactory factory = (KeyInfoFactory) instance.impl;
-        factory.mechanismType = mechanismType;
-        factory.provider = instance.provider;
-        return factory;
+        KfyInfoFbdtory fbdtory = (KfyInfoFbdtory) instbndf.impl;
+        fbdtory.mfdibnismTypf = mfdibnismTypf;
+        fbdtory.providfr = instbndf.providfr;
+        rfturn fbdtory;
     }
 
     /**
-     * Returns a <code>KeyInfoFactory</code> that supports the
-     * requested XML processing mechanism and representation type (ex: "DOM"),
-     * as supplied by the specified provider. Note that the specified
-     * <code>Provider</code> object does not have to be registered in the
-     * provider list.
+     * Rfturns b <dodf>KfyInfoFbdtory</dodf> tibt supports tif
+     * rfqufstfd XML prodfssing mfdibnism bnd rfprfsfntbtion typf (fx: "DOM"),
+     * bs supplifd by tif spfdififd providfr. Notf tibt tif spfdififd
+     * <dodf>Providfr</dodf> objfdt dofs not ibvf to bf rfgistfrfd in tif
+     * providfr list.
      *
-     * @param mechanismType the type of the XML processing mechanism and
-     *    representation. See the <a
-     *    href="../../../../../../technotes/guides/security/xmldsig/overview.html#Service%20Provider">
-     *    Service Providers</a> section of the API overview for a list of
-     *    standard mechanism types.
-     * @param provider the <code>Provider</code> object
-     * @return a new <code>KeyInfoFactory</code>
-     * @throws NullPointerException if <code>mechanismType</code> or
-     *    <code>provider</code> are <code>null</code>
-     * @throws NoSuchMechanismException if a <code>KeyInfoFactory</code>
-     *    implementation for the specified mechanism is not available from the
-     *    specified <code>Provider</code> object
-     * @see Provider
+     * @pbrbm mfdibnismTypf tif typf of tif XML prodfssing mfdibnism bnd
+     *    rfprfsfntbtion. Sff tif <b
+     *    irff="../../../../../../tfdinotfs/guidfs/sfdurity/xmldsig/ovfrvifw.itml#Sfrvidf%20Providfr">
+     *    Sfrvidf Providfrs</b> sfdtion of tif API ovfrvifw for b list of
+     *    stbndbrd mfdibnism typfs.
+     * @pbrbm providfr tif <dodf>Providfr</dodf> objfdt
+     * @rfturn b nfw <dodf>KfyInfoFbdtory</dodf>
+     * @tirows NullPointfrExdfption if <dodf>mfdibnismTypf</dodf> or
+     *    <dodf>providfr</dodf> brf <dodf>null</dodf>
+     * @tirows NoSudiMfdibnismExdfption if b <dodf>KfyInfoFbdtory</dodf>
+     *    implfmfntbtion for tif spfdififd mfdibnism is not bvbilbblf from tif
+     *    spfdififd <dodf>Providfr</dodf> objfdt
+     * @sff Providfr
      */
-    public static KeyInfoFactory getInstance(String mechanismType,
-        Provider provider) {
-        if (mechanismType == null) {
-            throw new NullPointerException("mechanismType cannot be null");
-        } else if (provider == null) {
-            throw new NullPointerException("provider cannot be null");
+    publid stbtid KfyInfoFbdtory gftInstbndf(String mfdibnismTypf,
+        Providfr providfr) {
+        if (mfdibnismTypf == null) {
+            tirow nfw NullPointfrExdfption("mfdibnismTypf dbnnot bf null");
+        } flsf if (providfr == null) {
+            tirow nfw NullPointfrExdfption("providfr dbnnot bf null");
         }
 
-        Instance instance;
+        Instbndf instbndf;
         try {
-            instance = GetInstance.getInstance
-                ("KeyInfoFactory", null, mechanismType, provider);
-        } catch (NoSuchAlgorithmException nsae) {
-            throw new NoSuchMechanismException(nsae);
+            instbndf = GftInstbndf.gftInstbndf
+                ("KfyInfoFbdtory", null, mfdibnismTypf, providfr);
+        } dbtdi (NoSudiAlgoritimExdfption nsbf) {
+            tirow nfw NoSudiMfdibnismExdfption(nsbf);
         }
-        KeyInfoFactory factory = (KeyInfoFactory) instance.impl;
-        factory.mechanismType = mechanismType;
-        factory.provider = instance.provider;
-        return factory;
+        KfyInfoFbdtory fbdtory = (KfyInfoFbdtory) instbndf.impl;
+        fbdtory.mfdibnismTypf = mfdibnismTypf;
+        fbdtory.providfr = instbndf.providfr;
+        rfturn fbdtory;
     }
 
     /**
-     * Returns a <code>KeyInfoFactory</code> that supports the
-     * requested XML processing mechanism and representation type (ex: "DOM"),
-     * as supplied by the specified provider. The specified provider must be
-     * registered in the security provider list.
+     * Rfturns b <dodf>KfyInfoFbdtory</dodf> tibt supports tif
+     * rfqufstfd XML prodfssing mfdibnism bnd rfprfsfntbtion typf (fx: "DOM"),
+     * bs supplifd by tif spfdififd providfr. Tif spfdififd providfr must bf
+     * rfgistfrfd in tif sfdurity providfr list.
      *
-     * <p>Note that the list of registered providers may be retrieved via
-     * the {@link Security#getProviders() Security.getProviders()} method.
+     * <p>Notf tibt tif list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * tif {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mftiod.
      *
-     * @param mechanismType the type of the XML processing mechanism and
-     *    representation. See the <a
-     *    href="../../../../../../technotes/guides/security/xmldsig/overview.html#Service%20Provider">
-     *    Service Providers</a> section of the API overview for a list of
-     *    standard mechanism types.
-     * @param provider the string name of the provider
-     * @return a new <code>KeyInfoFactory</code>
-     * @throws NoSuchProviderException if the specified provider is not
-     *    registered in the security provider list
-     * @throws NullPointerException if <code>mechanismType</code> or
-     *    <code>provider</code> are <code>null</code>
-     * @throws NoSuchMechanismException if a <code>KeyInfoFactory</code>
-     *    implementation for the specified mechanism is not available from the
-     *    specified provider
-     * @see Provider
+     * @pbrbm mfdibnismTypf tif typf of tif XML prodfssing mfdibnism bnd
+     *    rfprfsfntbtion. Sff tif <b
+     *    irff="../../../../../../tfdinotfs/guidfs/sfdurity/xmldsig/ovfrvifw.itml#Sfrvidf%20Providfr">
+     *    Sfrvidf Providfrs</b> sfdtion of tif API ovfrvifw for b list of
+     *    stbndbrd mfdibnism typfs.
+     * @pbrbm providfr tif string nbmf of tif providfr
+     * @rfturn b nfw <dodf>KfyInfoFbdtory</dodf>
+     * @tirows NoSudiProvidfrExdfption if tif spfdififd providfr is not
+     *    rfgistfrfd in tif sfdurity providfr list
+     * @tirows NullPointfrExdfption if <dodf>mfdibnismTypf</dodf> or
+     *    <dodf>providfr</dodf> brf <dodf>null</dodf>
+     * @tirows NoSudiMfdibnismExdfption if b <dodf>KfyInfoFbdtory</dodf>
+     *    implfmfntbtion for tif spfdififd mfdibnism is not bvbilbblf from tif
+     *    spfdififd providfr
+     * @sff Providfr
      */
-    public static KeyInfoFactory getInstance(String mechanismType,
-        String provider) throws NoSuchProviderException {
-        if (mechanismType == null) {
-            throw new NullPointerException("mechanismType cannot be null");
-        } else if (provider == null) {
-            throw new NullPointerException("provider cannot be null");
-        } else if (provider.length() == 0) {
-            throw new NoSuchProviderException();
+    publid stbtid KfyInfoFbdtory gftInstbndf(String mfdibnismTypf,
+        String providfr) tirows NoSudiProvidfrExdfption {
+        if (mfdibnismTypf == null) {
+            tirow nfw NullPointfrExdfption("mfdibnismTypf dbnnot bf null");
+        } flsf if (providfr == null) {
+            tirow nfw NullPointfrExdfption("providfr dbnnot bf null");
+        } flsf if (providfr.lfngti() == 0) {
+            tirow nfw NoSudiProvidfrExdfption();
         }
 
-        Instance instance;
+        Instbndf instbndf;
         try {
-            instance = GetInstance.getInstance
-                ("KeyInfoFactory", null, mechanismType, provider);
-        } catch (NoSuchAlgorithmException nsae) {
-            throw new NoSuchMechanismException(nsae);
+            instbndf = GftInstbndf.gftInstbndf
+                ("KfyInfoFbdtory", null, mfdibnismTypf, providfr);
+        } dbtdi (NoSudiAlgoritimExdfption nsbf) {
+            tirow nfw NoSudiMfdibnismExdfption(nsbf);
         }
-        KeyInfoFactory factory = (KeyInfoFactory) instance.impl;
-        factory.mechanismType = mechanismType;
-        factory.provider = instance.provider;
-        return factory;
+        KfyInfoFbdtory fbdtory = (KfyInfoFbdtory) instbndf.impl;
+        fbdtory.mfdibnismTypf = mfdibnismTypf;
+        fbdtory.providfr = instbndf.providfr;
+        rfturn fbdtory;
     }
 
     /**
-     * Returns a <code>KeyInfoFactory</code> that supports the
-     * default XML processing mechanism and representation type ("DOM").
+     * Rfturns b <dodf>KfyInfoFbdtory</dodf> tibt supports tif
+     * dffbult XML prodfssing mfdibnism bnd rfprfsfntbtion typf ("DOM").
      *
-     * <p>This method uses the standard JCA provider lookup mechanism to
-     * locate and instantiate a <code>KeyInfoFactory</code> implementation of
-     * the default mechanism type. It traverses the list of registered security
-     * <code>Provider</code>s, starting with the most preferred
-     * <code>Provider</code>.  A new <code>KeyInfoFactory</code> object
-     * from the first <code>Provider</code> that supports the DOM mechanism is
-     * returned.
+     * <p>Tiis mftiod usfs tif stbndbrd JCA providfr lookup mfdibnism to
+     * lodbtf bnd instbntibtf b <dodf>KfyInfoFbdtory</dodf> implfmfntbtion of
+     * tif dffbult mfdibnism typf. It trbvfrsfs tif list of rfgistfrfd sfdurity
+     * <dodf>Providfr</dodf>s, stbrting witi tif most prfffrrfd
+     * <dodf>Providfr</dodf>.  A nfw <dodf>KfyInfoFbdtory</dodf> objfdt
+     * from tif first <dodf>Providfr</dodf> tibt supports tif DOM mfdibnism is
+     * rfturnfd.
      *
-     * <p> Note that the list of registered providers may be retrieved via
-     * the {@link Security#getProviders() Security.getProviders()} method.
+     * <p> Notf tibt tif list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * tif {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mftiod.
      *
-     * @return a new <code>KeyInfoFactory</code>
-     * @throws NoSuchMechanismException if no <code>Provider</code> supports a
-     *    <code>KeyInfoFactory</code> implementation for the DOM mechanism
-     * @see Provider
+     * @rfturn b nfw <dodf>KfyInfoFbdtory</dodf>
+     * @tirows NoSudiMfdibnismExdfption if no <dodf>Providfr</dodf> supports b
+     *    <dodf>KfyInfoFbdtory</dodf> implfmfntbtion for tif DOM mfdibnism
+     * @sff Providfr
      */
-    public static KeyInfoFactory getInstance() {
-        return getInstance("DOM");
+    publid stbtid KfyInfoFbdtory gftInstbndf() {
+        rfturn gftInstbndf("DOM");
     }
 
     /**
-     * Returns the type of the XML processing mechanism and representation
-     * supported by this <code>KeyInfoFactory</code> (ex: "DOM")
+     * Rfturns tif typf of tif XML prodfssing mfdibnism bnd rfprfsfntbtion
+     * supportfd by tiis <dodf>KfyInfoFbdtory</dodf> (fx: "DOM")
      *
-     * @return the XML processing mechanism type supported by this
-     *    <code>KeyInfoFactory</code>
+     * @rfturn tif XML prodfssing mfdibnism typf supportfd by tiis
+     *    <dodf>KfyInfoFbdtory</dodf>
      */
-    public final String getMechanismType() {
-        return mechanismType;
+    publid finbl String gftMfdibnismTypf() {
+        rfturn mfdibnismTypf;
     }
 
     /**
-     * Returns the provider of this <code>KeyInfoFactory</code>.
+     * Rfturns tif providfr of tiis <dodf>KfyInfoFbdtory</dodf>.
      *
-     * @return the provider of this <code>KeyInfoFactory</code>
+     * @rfturn tif providfr of tiis <dodf>KfyInfoFbdtory</dodf>
      */
-    public final Provider getProvider() {
-        return provider;
+    publid finbl Providfr gftProvidfr() {
+        rfturn providfr;
     }
 
     /**
-     * Creates a <code>KeyInfo</code> containing the specified list of
-     * key information types.
+     * Crfbtfs b <dodf>KfyInfo</dodf> dontbining tif spfdififd list of
+     * kfy informbtion typfs.
      *
-     * @param content a list of one or more {@link XMLStructure}s representing
-     *    key information types. The list is defensively copied to protect
-     *    against subsequent modification.
-     * @return a <code>KeyInfo</code>
-     * @throws NullPointerException if <code>content</code> is <code>null</code>
-     * @throws IllegalArgumentException if <code>content</code> is empty
-     * @throws ClassCastException if <code>content</code> contains any entries
-     *    that are not of type {@link XMLStructure}
+     * @pbrbm dontfnt b list of onf or morf {@link XMLStrudturf}s rfprfsfnting
+     *    kfy informbtion typfs. Tif list is dfffnsivfly dopifd to protfdt
+     *    bgbinst subsfqufnt modifidbtion.
+     * @rfturn b <dodf>KfyInfo</dodf>
+     * @tirows NullPointfrExdfption if <dodf>dontfnt</dodf> is <dodf>null</dodf>
+     * @tirows IllfgblArgumfntExdfption if <dodf>dontfnt</dodf> is fmpty
+     * @tirows ClbssCbstExdfption if <dodf>dontfnt</dodf> dontbins bny fntrifs
+     *    tibt brf not of typf {@link XMLStrudturf}
      */
-    @SuppressWarnings("rawtypes")
-    public abstract KeyInfo newKeyInfo(List content);
+    @SupprfssWbrnings("rbwtypfs")
+    publid bbstrbdt KfyInfo nfwKfyInfo(List dontfnt);
 
     /**
-     * Creates a <code>KeyInfo</code> containing the specified list of key
-     * information types and optional id. The
-     * <code>id</code> parameter represents the value of an XML
-     * <code>ID</code> attribute and is useful for referencing
-     * the <code>KeyInfo</code> from other XML structures.
+     * Crfbtfs b <dodf>KfyInfo</dodf> dontbining tif spfdififd list of kfy
+     * informbtion typfs bnd optionbl id. Tif
+     * <dodf>id</dodf> pbrbmftfr rfprfsfnts tif vbluf of bn XML
+     * <dodf>ID</dodf> bttributf bnd is usfful for rfffrfnding
+     * tif <dodf>KfyInfo</dodf> from otifr XML strudturfs.
      *
-     * @param content a list of one or more {@link XMLStructure}s representing
-     *    key information types. The list is defensively copied to protect
-     *    against subsequent modification.
-     * @param id the value of an XML <code>ID</code> (may be <code>null</code>)
-     * @return a <code>KeyInfo</code>
-     * @throws NullPointerException if <code>content</code> is <code>null</code>
-     * @throws IllegalArgumentException if <code>content</code> is empty
-     * @throws ClassCastException if <code>content</code> contains any entries
-     *    that are not of type {@link XMLStructure}
+     * @pbrbm dontfnt b list of onf or morf {@link XMLStrudturf}s rfprfsfnting
+     *    kfy informbtion typfs. Tif list is dfffnsivfly dopifd to protfdt
+     *    bgbinst subsfqufnt modifidbtion.
+     * @pbrbm id tif vbluf of bn XML <dodf>ID</dodf> (mby bf <dodf>null</dodf>)
+     * @rfturn b <dodf>KfyInfo</dodf>
+     * @tirows NullPointfrExdfption if <dodf>dontfnt</dodf> is <dodf>null</dodf>
+     * @tirows IllfgblArgumfntExdfption if <dodf>dontfnt</dodf> is fmpty
+     * @tirows ClbssCbstExdfption if <dodf>dontfnt</dodf> dontbins bny fntrifs
+     *    tibt brf not of typf {@link XMLStrudturf}
      */
-    @SuppressWarnings("rawtypes")
-    public abstract KeyInfo newKeyInfo(List content, String id);
+    @SupprfssWbrnings("rbwtypfs")
+    publid bbstrbdt KfyInfo nfwKfyInfo(List dontfnt, String id);
 
     /**
-     * Creates a <code>KeyName</code> from the specified name.
+     * Crfbtfs b <dodf>KfyNbmf</dodf> from tif spfdififd nbmf.
      *
-     * @param name the name that identifies the key
-     * @return a <code>KeyName</code>
-     * @throws NullPointerException if <code>name</code> is <code>null</code>
+     * @pbrbm nbmf tif nbmf tibt idfntififs tif kfy
+     * @rfturn b <dodf>KfyNbmf</dodf>
+     * @tirows NullPointfrExdfption if <dodf>nbmf</dodf> is <dodf>null</dodf>
      */
-    public abstract KeyName newKeyName(String name);
+    publid bbstrbdt KfyNbmf nfwKfyNbmf(String nbmf);
 
     /**
-     * Creates a <code>KeyValue</code> from the specified public key.
+     * Crfbtfs b <dodf>KfyVbluf</dodf> from tif spfdififd publid kfy.
      *
-     * @param key the public key
-     * @return a <code>KeyValue</code>
-     * @throws KeyException if the <code>key</code>'s algorithm is not
-     *    recognized or supported by this <code>KeyInfoFactory</code>
-     * @throws NullPointerException if <code>key</code> is <code>null</code>
+     * @pbrbm kfy tif publid kfy
+     * @rfturn b <dodf>KfyVbluf</dodf>
+     * @tirows KfyExdfption if tif <dodf>kfy</dodf>'s blgoritim is not
+     *    rfdognizfd or supportfd by tiis <dodf>KfyInfoFbdtory</dodf>
+     * @tirows NullPointfrExdfption if <dodf>kfy</dodf> is <dodf>null</dodf>
      */
-    public abstract KeyValue newKeyValue(PublicKey key) throws KeyException;
+    publid bbstrbdt KfyVbluf nfwKfyVbluf(PublidKfy kfy) tirows KfyExdfption;
 
     /**
-     * Creates a <code>PGPData</code> from the specified PGP public key
-     * identifier.
+     * Crfbtfs b <dodf>PGPDbtb</dodf> from tif spfdififd PGP publid kfy
+     * idfntififr.
      *
-     * @param keyId a PGP public key identifier as defined in <a href=
-     *    "http://www.ietf.org/rfc/rfc2440.txt">RFC 2440</a>, section 11.2.
-     *    The array is cloned to protect against subsequent modification.
-     * @return a <code>PGPData</code>
-     * @throws NullPointerException if <code>keyId</code> is <code>null</code>
-     * @throws IllegalArgumentException if the key id is not in the correct
-     *    format
+     * @pbrbm kfyId b PGP publid kfy idfntififr bs dffinfd in <b irff=
+     *    "ittp://www.iftf.org/rfd/rfd2440.txt">RFC 2440</b>, sfdtion 11.2.
+     *    Tif brrby is dlonfd to protfdt bgbinst subsfqufnt modifidbtion.
+     * @rfturn b <dodf>PGPDbtb</dodf>
+     * @tirows NullPointfrExdfption if <dodf>kfyId</dodf> is <dodf>null</dodf>
+     * @tirows IllfgblArgumfntExdfption if tif kfy id is not in tif dorrfdt
+     *    formbt
      */
-    public abstract PGPData newPGPData(byte[] keyId);
+    publid bbstrbdt PGPDbtb nfwPGPDbtb(bytf[] kfyId);
 
     /**
-     * Creates a <code>PGPData</code> from the specified PGP public key
-     * identifier, and optional key material packet and list of external
-     * elements.
+     * Crfbtfs b <dodf>PGPDbtb</dodf> from tif spfdififd PGP publid kfy
+     * idfntififr, bnd optionbl kfy mbtfribl pbdkft bnd list of fxtfrnbl
+     * flfmfnts.
      *
-     * @param keyId a PGP public key identifier as defined in <a href=
-     *    "http://www.ietf.org/rfc/rfc2440.txt">RFC 2440</a>, section 11.2.
-     *    The array is cloned to protect against subsequent modification.
-     * @param keyPacket a PGP key material packet as defined in <a href=
-     *    "http://www.ietf.org/rfc/rfc2440.txt">RFC 2440</a>, section 5.5.
-     *    The array is cloned to protect against subsequent modification. May
-     *    be <code>null</code>.
-     * @param other a list of {@link XMLStructure}s representing elements from
-     *    an external namespace. The list is defensively copied to protect
-     *    against subsequent modification. May be <code>null</code> or empty.
-     * @return a <code>PGPData</code>
-     * @throws NullPointerException if <code>keyId</code> is <code>null</code>
-     * @throws IllegalArgumentException if the <code>keyId</code> or
-     *    <code>keyPacket</code> is not in the correct format. For
-     *    <code>keyPacket</code>, the format of the packet header is
-     *    checked and the tag is verified that it is of type key material. The
-     *    contents and format of the packet body are not checked.
-     * @throws ClassCastException if <code>other</code> contains any
-     *    entries that are not of type {@link XMLStructure}
+     * @pbrbm kfyId b PGP publid kfy idfntififr bs dffinfd in <b irff=
+     *    "ittp://www.iftf.org/rfd/rfd2440.txt">RFC 2440</b>, sfdtion 11.2.
+     *    Tif brrby is dlonfd to protfdt bgbinst subsfqufnt modifidbtion.
+     * @pbrbm kfyPbdkft b PGP kfy mbtfribl pbdkft bs dffinfd in <b irff=
+     *    "ittp://www.iftf.org/rfd/rfd2440.txt">RFC 2440</b>, sfdtion 5.5.
+     *    Tif brrby is dlonfd to protfdt bgbinst subsfqufnt modifidbtion. Mby
+     *    bf <dodf>null</dodf>.
+     * @pbrbm otifr b list of {@link XMLStrudturf}s rfprfsfnting flfmfnts from
+     *    bn fxtfrnbl nbmfspbdf. Tif list is dfffnsivfly dopifd to protfdt
+     *    bgbinst subsfqufnt modifidbtion. Mby bf <dodf>null</dodf> or fmpty.
+     * @rfturn b <dodf>PGPDbtb</dodf>
+     * @tirows NullPointfrExdfption if <dodf>kfyId</dodf> is <dodf>null</dodf>
+     * @tirows IllfgblArgumfntExdfption if tif <dodf>kfyId</dodf> or
+     *    <dodf>kfyPbdkft</dodf> is not in tif dorrfdt formbt. For
+     *    <dodf>kfyPbdkft</dodf>, tif formbt of tif pbdkft ifbdfr is
+     *    difdkfd bnd tif tbg is vfrififd tibt it is of typf kfy mbtfribl. Tif
+     *    dontfnts bnd formbt of tif pbdkft body brf not difdkfd.
+     * @tirows ClbssCbstExdfption if <dodf>otifr</dodf> dontbins bny
+     *    fntrifs tibt brf not of typf {@link XMLStrudturf}
      */
-    @SuppressWarnings("rawtypes")
-    public abstract PGPData newPGPData(byte[] keyId, byte[] keyPacket,
-        List other);
+    @SupprfssWbrnings("rbwtypfs")
+    publid bbstrbdt PGPDbtb nfwPGPDbtb(bytf[] kfyId, bytf[] kfyPbdkft,
+        List otifr);
 
     /**
-     * Creates a <code>PGPData</code> from the specified PGP key material
-     * packet and optional list of external elements.
+     * Crfbtfs b <dodf>PGPDbtb</dodf> from tif spfdififd PGP kfy mbtfribl
+     * pbdkft bnd optionbl list of fxtfrnbl flfmfnts.
      *
-     * @param keyPacket a PGP key material packet as defined in <a href=
-     *    "http://www.ietf.org/rfc/rfc2440.txt">RFC 2440</a>, section 5.5.
-     *    The array is cloned to protect against subsequent modification.
-     * @param other a list of {@link XMLStructure}s representing elements from
-     *    an external namespace. The list is defensively copied to protect
-     *    against subsequent modification. May be <code>null</code> or empty.
-     * @return a <code>PGPData</code>
-     * @throws NullPointerException if <code>keyPacket</code> is
-     *    <code>null</code>
-     * @throws IllegalArgumentException if <code>keyPacket</code> is not in the
-     *    correct format. For <code>keyPacket</code>, the format of the packet
-     *    header is checked and the tag is verified that it is of type key
-     *    material. The contents and format of the packet body are not checked.
-     * @throws ClassCastException if <code>other</code> contains any
-     *    entries that are not of type {@link XMLStructure}
+     * @pbrbm kfyPbdkft b PGP kfy mbtfribl pbdkft bs dffinfd in <b irff=
+     *    "ittp://www.iftf.org/rfd/rfd2440.txt">RFC 2440</b>, sfdtion 5.5.
+     *    Tif brrby is dlonfd to protfdt bgbinst subsfqufnt modifidbtion.
+     * @pbrbm otifr b list of {@link XMLStrudturf}s rfprfsfnting flfmfnts from
+     *    bn fxtfrnbl nbmfspbdf. Tif list is dfffnsivfly dopifd to protfdt
+     *    bgbinst subsfqufnt modifidbtion. Mby bf <dodf>null</dodf> or fmpty.
+     * @rfturn b <dodf>PGPDbtb</dodf>
+     * @tirows NullPointfrExdfption if <dodf>kfyPbdkft</dodf> is
+     *    <dodf>null</dodf>
+     * @tirows IllfgblArgumfntExdfption if <dodf>kfyPbdkft</dodf> is not in tif
+     *    dorrfdt formbt. For <dodf>kfyPbdkft</dodf>, tif formbt of tif pbdkft
+     *    ifbdfr is difdkfd bnd tif tbg is vfrififd tibt it is of typf kfy
+     *    mbtfribl. Tif dontfnts bnd formbt of tif pbdkft body brf not difdkfd.
+     * @tirows ClbssCbstExdfption if <dodf>otifr</dodf> dontbins bny
+     *    fntrifs tibt brf not of typf {@link XMLStrudturf}
      */
-    @SuppressWarnings("rawtypes")
-    public abstract PGPData newPGPData(byte[] keyPacket, List other);
+    @SupprfssWbrnings("rbwtypfs")
+    publid bbstrbdt PGPDbtb nfwPGPDbtb(bytf[] kfyPbdkft, List otifr);
 
     /**
-     * Creates a <code>RetrievalMethod</code> from the specified URI.
+     * Crfbtfs b <dodf>RftrifvblMftiod</dodf> from tif spfdififd URI.
      *
-     * @param uri the URI that identifies the <code>KeyInfo</code> information
-     *    to be retrieved
-     * @return a <code>RetrievalMethod</code>
-     * @throws NullPointerException if <code>uri</code> is <code>null</code>
-     * @throws IllegalArgumentException if <code>uri</code> is not RFC 2396
-     *    compliant
+     * @pbrbm uri tif URI tibt idfntififs tif <dodf>KfyInfo</dodf> informbtion
+     *    to bf rftrifvfd
+     * @rfturn b <dodf>RftrifvblMftiod</dodf>
+     * @tirows NullPointfrExdfption if <dodf>uri</dodf> is <dodf>null</dodf>
+     * @tirows IllfgblArgumfntExdfption if <dodf>uri</dodf> is not RFC 2396
+     *    domplibnt
      */
-    public abstract RetrievalMethod newRetrievalMethod(String uri);
+    publid bbstrbdt RftrifvblMftiod nfwRftrifvblMftiod(String uri);
 
     /**
-     * Creates a <code>RetrievalMethod</code> from the specified parameters.
+     * Crfbtfs b <dodf>RftrifvblMftiod</dodf> from tif spfdififd pbrbmftfrs.
      *
-     * @param uri the URI that identifies the <code>KeyInfo</code> information
-     *    to be retrieved
-     * @param type a URI that identifies the type of <code>KeyInfo</code>
-     *    information to be retrieved (may be <code>null</code>)
-     * @param transforms a list of {@link Transform}s. The list is defensively
-     *    copied to protect against subsequent modification. May be
-     *    <code>null</code> or empty.
-     * @return a <code>RetrievalMethod</code>
-     * @throws NullPointerException if <code>uri</code> is <code>null</code>
-     * @throws IllegalArgumentException if <code>uri</code> is not RFC 2396
-     *    compliant
-     * @throws ClassCastException if <code>transforms</code> contains any
-     *    entries that are not of type {@link Transform}
+     * @pbrbm uri tif URI tibt idfntififs tif <dodf>KfyInfo</dodf> informbtion
+     *    to bf rftrifvfd
+     * @pbrbm typf b URI tibt idfntififs tif typf of <dodf>KfyInfo</dodf>
+     *    informbtion to bf rftrifvfd (mby bf <dodf>null</dodf>)
+     * @pbrbm trbnsforms b list of {@link Trbnsform}s. Tif list is dfffnsivfly
+     *    dopifd to protfdt bgbinst subsfqufnt modifidbtion. Mby bf
+     *    <dodf>null</dodf> or fmpty.
+     * @rfturn b <dodf>RftrifvblMftiod</dodf>
+     * @tirows NullPointfrExdfption if <dodf>uri</dodf> is <dodf>null</dodf>
+     * @tirows IllfgblArgumfntExdfption if <dodf>uri</dodf> is not RFC 2396
+     *    domplibnt
+     * @tirows ClbssCbstExdfption if <dodf>trbnsforms</dodf> dontbins bny
+     *    fntrifs tibt brf not of typf {@link Trbnsform}
      */
-    @SuppressWarnings("rawtypes")
-    public abstract RetrievalMethod newRetrievalMethod(String uri, String type,
-        List transforms);
+    @SupprfssWbrnings("rbwtypfs")
+    publid bbstrbdt RftrifvblMftiod nfwRftrifvblMftiod(String uri, String typf,
+        List trbnsforms);
 
     /**
-     * Creates a <code>X509Data</code> containing the specified list of
-     * X.509 content.
+     * Crfbtfs b <dodf>X509Dbtb</dodf> dontbining tif spfdififd list of
+     * X.509 dontfnt.
      *
-     * @param content a list of one or more X.509 content types. Valid types are
-     *    {@link String} (subject names), <code>byte[]</code> (subject key ids),
-     *    {@link java.security.cert.X509Certificate}, {@link X509CRL},
-     *    or {@link XMLStructure} ({@link X509IssuerSerial}
-     *    objects or elements from an external namespace). Subject names are
-     *    distinguished names in RFC 2253 String format. Implementations MUST
-     *    support the attribute type keywords defined in RFC 2253 (CN, L, ST,
-     *    O, OU, C, STREET, DC and UID). Implementations MAY support additional
-     *    keywords. The list is defensively copied to protect against
-     *    subsequent modification.
-     * @return a <code>X509Data</code>
-     * @throws NullPointerException if <code>content</code> is <code>null</code>
-     * @throws IllegalArgumentException if <code>content</code> is empty, or
-     *    if a subject name is not RFC 2253 compliant or one of the attribute
-     *    type keywords is not recognized.
-     * @throws ClassCastException if <code>content</code> contains any entries
-     *    that are not of one of the valid types mentioned above
+     * @pbrbm dontfnt b list of onf or morf X.509 dontfnt typfs. Vblid typfs brf
+     *    {@link String} (subjfdt nbmfs), <dodf>bytf[]</dodf> (subjfdt kfy ids),
+     *    {@link jbvb.sfdurity.dfrt.X509Cfrtifidbtf}, {@link X509CRL},
+     *    or {@link XMLStrudturf} ({@link X509IssufrSfribl}
+     *    objfdts or flfmfnts from bn fxtfrnbl nbmfspbdf). Subjfdt nbmfs brf
+     *    distinguisifd nbmfs in RFC 2253 String formbt. Implfmfntbtions MUST
+     *    support tif bttributf typf kfywords dffinfd in RFC 2253 (CN, L, ST,
+     *    O, OU, C, STREET, DC bnd UID). Implfmfntbtions MAY support bdditionbl
+     *    kfywords. Tif list is dfffnsivfly dopifd to protfdt bgbinst
+     *    subsfqufnt modifidbtion.
+     * @rfturn b <dodf>X509Dbtb</dodf>
+     * @tirows NullPointfrExdfption if <dodf>dontfnt</dodf> is <dodf>null</dodf>
+     * @tirows IllfgblArgumfntExdfption if <dodf>dontfnt</dodf> is fmpty, or
+     *    if b subjfdt nbmf is not RFC 2253 domplibnt or onf of tif bttributf
+     *    typf kfywords is not rfdognizfd.
+     * @tirows ClbssCbstExdfption if <dodf>dontfnt</dodf> dontbins bny fntrifs
+     *    tibt brf not of onf of tif vblid typfs mfntionfd bbovf
      */
-    @SuppressWarnings("rawtypes")
-    public abstract X509Data newX509Data(List content);
+    @SupprfssWbrnings("rbwtypfs")
+    publid bbstrbdt X509Dbtb nfwX509Dbtb(List dontfnt);
 
     /**
-     * Creates an <code>X509IssuerSerial</code> from the specified X.500 issuer
-     * distinguished name and serial number.
+     * Crfbtfs bn <dodf>X509IssufrSfribl</dodf> from tif spfdififd X.500 issufr
+     * distinguisifd nbmf bnd sfribl numbfr.
      *
-     * @param issuerName the issuer's distinguished name in RFC 2253 String
-     *    format. Implementations MUST support the attribute type keywords
-     *    defined in RFC 2253 (CN, L, ST, O, OU, C, STREET, DC and UID).
-     *    Implementations MAY support additional keywords.
-     * @param serialNumber the serial number
-     * @return an <code>X509IssuerSerial</code>
-     * @throws NullPointerException if <code>issuerName</code> or
-     *    <code>serialNumber</code> are <code>null</code>
-     * @throws IllegalArgumentException if the issuer name is not RFC 2253
-     *    compliant or one of the attribute type keywords is not recognized.
+     * @pbrbm issufrNbmf tif issufr's distinguisifd nbmf in RFC 2253 String
+     *    formbt. Implfmfntbtions MUST support tif bttributf typf kfywords
+     *    dffinfd in RFC 2253 (CN, L, ST, O, OU, C, STREET, DC bnd UID).
+     *    Implfmfntbtions MAY support bdditionbl kfywords.
+     * @pbrbm sfriblNumbfr tif sfribl numbfr
+     * @rfturn bn <dodf>X509IssufrSfribl</dodf>
+     * @tirows NullPointfrExdfption if <dodf>issufrNbmf</dodf> or
+     *    <dodf>sfriblNumbfr</dodf> brf <dodf>null</dodf>
+     * @tirows IllfgblArgumfntExdfption if tif issufr nbmf is not RFC 2253
+     *    domplibnt or onf of tif bttributf typf kfywords is not rfdognizfd.
      */
-    public abstract X509IssuerSerial newX509IssuerSerial
-        (String issuerName, BigInteger serialNumber);
+    publid bbstrbdt X509IssufrSfribl nfwX509IssufrSfribl
+        (String issufrNbmf, BigIntfgfr sfriblNumbfr);
 
     /**
-     * Indicates whether a specified feature is supported.
+     * Indidbtfs wiftifr b spfdififd ffbturf is supportfd.
      *
-     * @param feature the feature name (as an absolute URI)
-     * @return <code>true</code> if the specified feature is supported,
-     *    <code>false</code> otherwise
-     * @throws NullPointerException if <code>feature</code> is <code>null</code>
+     * @pbrbm ffbturf tif ffbturf nbmf (bs bn bbsolutf URI)
+     * @rfturn <dodf>truf</dodf> if tif spfdififd ffbturf is supportfd,
+     *    <dodf>fblsf</dodf> otifrwisf
+     * @tirows NullPointfrExdfption if <dodf>ffbturf</dodf> is <dodf>null</dodf>
      */
-    public abstract boolean isFeatureSupported(String feature);
+    publid bbstrbdt boolfbn isFfbturfSupportfd(String ffbturf);
 
     /**
-     * Returns a reference to the <code>URIDereferencer</code> that is used by
-     * default to dereference URIs in {@link RetrievalMethod} objects.
+     * Rfturns b rfffrfndf to tif <dodf>URIDfrfffrfndfr</dodf> tibt is usfd by
+     * dffbult to dfrfffrfndf URIs in {@link RftrifvblMftiod} objfdts.
      *
-     * @return a reference to the default <code>URIDereferencer</code>
+     * @rfturn b rfffrfndf to tif dffbult <dodf>URIDfrfffrfndfr</dodf>
      */
-    public abstract URIDereferencer getURIDereferencer();
+    publid bbstrbdt URIDfrfffrfndfr gftURIDfrfffrfndfr();
 
     /**
-     * Unmarshals a new <code>KeyInfo</code> instance from a
-     * mechanism-specific <code>XMLStructure</code> (ex: {@link DOMStructure})
-     * instance.
+     * Unmbrsibls b nfw <dodf>KfyInfo</dodf> instbndf from b
+     * mfdibnism-spfdifid <dodf>XMLStrudturf</dodf> (fx: {@link DOMStrudturf})
+     * instbndf.
      *
-     * @param xmlStructure a mechanism-specific XML structure from which to
-     *   unmarshal the keyinfo from
-     * @return the <code>KeyInfo</code>
-     * @throws NullPointerException if <code>xmlStructure</code> is
-     *   <code>null</code>
-     * @throws ClassCastException if the type of <code>xmlStructure</code> is
-     *   inappropriate for this factory
-     * @throws MarshalException if an unrecoverable exception occurs during
-     *   unmarshalling
+     * @pbrbm xmlStrudturf b mfdibnism-spfdifid XML strudturf from wiidi to
+     *   unmbrsibl tif kfyinfo from
+     * @rfturn tif <dodf>KfyInfo</dodf>
+     * @tirows NullPointfrExdfption if <dodf>xmlStrudturf</dodf> is
+     *   <dodf>null</dodf>
+     * @tirows ClbssCbstExdfption if tif typf of <dodf>xmlStrudturf</dodf> is
+     *   inbppropribtf for tiis fbdtory
+     * @tirows MbrsiblExdfption if bn unrfdovfrbblf fxdfption oddurs during
+     *   unmbrsiblling
      */
-    public abstract KeyInfo unmarshalKeyInfo(XMLStructure xmlStructure)
-        throws MarshalException;
+    publid bbstrbdt KfyInfo unmbrsiblKfyInfo(XMLStrudturf xmlStrudturf)
+        tirows MbrsiblExdfption;
 }

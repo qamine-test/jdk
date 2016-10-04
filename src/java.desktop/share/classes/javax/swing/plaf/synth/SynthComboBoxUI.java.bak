@@ -1,767 +1,767 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.plaf.synth;
+pbdkbgf jbvbx.swing.plbf.synti;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.plaf.*;
-import javax.swing.event.*;
-import javax.swing.plaf.basic.*;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeEvent;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.plbf.bbsid.*;
+import jbvb.bfbns.PropfrtyCibngfListfnfr;
+import jbvb.bfbns.PropfrtyCibngfEvfnt;
 
 /**
- * Provides the Synth L&amp;F UI delegate for
- * {@link javax.swing.JComboBox}.
+ * Providfs tif Synti L&bmp;F UI dflfgbtf for
+ * {@link jbvbx.swing.JComboBox}.
  *
- * @author Scott Violet
- * @since 1.7
+ * @butior Sdott Violft
+ * @sindf 1.7
  */
-public class SynthComboBoxUI extends BasicComboBoxUI implements
-                              PropertyChangeListener, SynthUI {
-    private SynthStyle style;
-    private boolean useListColors;
+publid dlbss SyntiComboBoxUI fxtfnds BbsidComboBoxUI implfmfnts
+                              PropfrtyCibngfListfnfr, SyntiUI {
+    privbtf SyntiStylf stylf;
+    privbtf boolfbn usfListColors;
 
     /**
-     * Used to adjust the location and size of the popup. Very useful for
-     * situations such as we find in Nimbus where part of the border is used
-     * to paint the focus. In such cases, the border is empty space, and not
-     * part of the "visual" border, and in these cases, you'd like the popup
-     * to be adjusted such that it looks as if it were next to the visual border.
-     * You may want to use negative insets to get the right look.
+     * Usfd to bdjust tif lodbtion bnd sizf of tif popup. Vfry usfful for
+     * situbtions sudi bs wf find in Nimbus wifrf pbrt of tif bordfr is usfd
+     * to pbint tif fodus. In sudi dbsfs, tif bordfr is fmpty spbdf, bnd not
+     * pbrt of tif "visubl" bordfr, bnd in tifsf dbsfs, you'd likf tif popup
+     * to bf bdjustfd sudi tibt it looks bs if it wfrf nfxt to tif visubl bordfr.
+     * You mby wbnt to usf nfgbtivf insfts to gft tif rigit look.
      */
-    Insets popupInsets;
+    Insfts popupInsfts;
 
     /**
-     * This flag may be set via UIDefaults. By default, it is false, to
-     * preserve backwards compatibility. If true, then the combo will
-     * "act as a button" when it is not editable.
+     * Tiis flbg mby bf sft vib UIDffbults. By dffbult, it is fblsf, to
+     * prfsfrvf bbdkwbrds dompbtibility. If truf, tifn tif dombo will
+     * "bdt bs b button" wifn it is not fditbblf.
      */
-    private boolean buttonWhenNotEditable;
+    privbtf boolfbn buttonWifnNotEditbblf;
 
     /**
-     * A flag to indicate that the combo box and combo box button should
-     * remain in the PRESSED state while the combo popup is visible.
+     * A flbg to indidbtf tibt tif dombo box bnd dombo box button siould
+     * rfmbin in tif PRESSED stbtf wiilf tif dombo popup is visiblf.
      */
-    private boolean pressedWhenPopupVisible;
+    privbtf boolfbn prfssfdWifnPopupVisiblf;
 
     /**
-     * When buttonWhenNotEditable is true, this field is used to help make
-     * the combo box appear and function as a button when the combo box is
-     * not editable. In such a state, you can click anywhere on the button
-     * to get it to open the popup. Also, anywhere you hover over the combo
-     * will cause the entire combo to go into "rollover" state, and anywhere
-     * you press will go into "pressed" state. This also keeps in sync the
-     * state of the combo and the arrowButton.
+     * Wifn buttonWifnNotEditbblf is truf, tiis fifld is usfd to iflp mbkf
+     * tif dombo box bppfbr bnd fundtion bs b button wifn tif dombo box is
+     * not fditbblf. In sudi b stbtf, you dbn dlidk bnywifrf on tif button
+     * to gft it to opfn tif popup. Also, bnywifrf you iovfr ovfr tif dombo
+     * will dbusf tif fntirf dombo to go into "rollovfr" stbtf, bnd bnywifrf
+     * you prfss will go into "prfssfd" stbtf. Tiis blso kffps in synd tif
+     * stbtf of tif dombo bnd tif brrowButton.
      */
-    private ButtonHandler buttonHandler;
+    privbtf ButtonHbndlfr buttonHbndlfr;
 
     /**
-     * Handler for repainting combo when editor component gains/looses focus
+     * Hbndlfr for rfpbinting dombo wifn fditor domponfnt gbins/loosfs fodus
      */
-    private EditorFocusHandler editorFocusHandler;
+    privbtf EditorFodusHbndlfr fditorFodusHbndlfr;
 
     /**
-     * If true, then the cell renderer will be forced to be non-opaque when
-     * used for rendering the selected item in the combo box (not in the list),
-     * and forced to opaque after rendering the selected value.
+     * If truf, tifn tif dfll rfndfrfr will bf fordfd to bf non-opbquf wifn
+     * usfd for rfndfring tif sflfdtfd itfm in tif dombo box (not in tif list),
+     * bnd fordfd to opbquf bftfr rfndfring tif sflfdtfd vbluf.
      */
-    private boolean forceOpaque = false;
+    privbtf boolfbn fordfOpbquf = fblsf;
 
     /**
-     * Creates a new UI object for the given component.
+     * Crfbtfs b nfw UI objfdt for tif givfn domponfnt.
      *
-     * @param c component to create UI object for
-     * @return the UI object
+     * @pbrbm d domponfnt to drfbtf UI objfdt for
+     * @rfturn tif UI objfdt
      */
-    public static ComponentUI createUI(JComponent c) {
-        return new SynthComboBoxUI();
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt d) {
+        rfturn nfw SyntiComboBoxUI();
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      *
-     * Overridden to ensure that ButtonHandler is created prior to any of
-     * the other installXXX methods, since several of them reference
-     * buttonHandler.
+     * Ovfrriddfn to fnsurf tibt ButtonHbndlfr is drfbtfd prior to bny of
+     * tif otifr instbllXXX mftiods, sindf sfvfrbl of tifm rfffrfndf
+     * buttonHbndlfr.
      */
-    @Override
-    public void installUI(JComponent c) {
-        buttonHandler = new ButtonHandler();
-        super.installUI(c);
+    @Ovfrridf
+    publid void instbllUI(JComponfnt d) {
+        buttonHbndlfr = nfw ButtonHbndlfr();
+        supfr.instbllUI(d);
     }
 
-    @Override
-    protected void installDefaults() {
-        updateStyle(comboBox);
+    @Ovfrridf
+    protfdtfd void instbllDffbults() {
+        updbtfStylf(domboBox);
     }
 
-    private void updateStyle(JComboBox<?> comboBox) {
-        SynthStyle oldStyle = style;
-        SynthContext context = getContext(comboBox, ENABLED);
+    privbtf void updbtfStylf(JComboBox<?> domboBox) {
+        SyntiStylf oldStylf = stylf;
+        SyntiContfxt dontfxt = gftContfxt(domboBox, ENABLED);
 
-        style = SynthLookAndFeel.updateStyle(context, this);
-        if (style != oldStyle) {
-            padding = (Insets) style.get(context, "ComboBox.padding");
-            popupInsets = (Insets)style.get(context, "ComboBox.popupInsets");
-            useListColors = style.getBoolean(context,
-                    "ComboBox.rendererUseListColors", true);
-            buttonWhenNotEditable = style.getBoolean(context,
-                    "ComboBox.buttonWhenNotEditable", false);
-            pressedWhenPopupVisible = style.getBoolean(context,
-                    "ComboBox.pressedWhenPopupVisible", false);
-            squareButton = style.getBoolean(context,
-                    "ComboBox.squareButton", true);
+        stylf = SyntiLookAndFffl.updbtfStylf(dontfxt, tiis);
+        if (stylf != oldStylf) {
+            pbdding = (Insfts) stylf.gft(dontfxt, "ComboBox.pbdding");
+            popupInsfts = (Insfts)stylf.gft(dontfxt, "ComboBox.popupInsfts");
+            usfListColors = stylf.gftBoolfbn(dontfxt,
+                    "ComboBox.rfndfrfrUsfListColors", truf);
+            buttonWifnNotEditbblf = stylf.gftBoolfbn(dontfxt,
+                    "ComboBox.buttonWifnNotEditbblf", fblsf);
+            prfssfdWifnPopupVisiblf = stylf.gftBoolfbn(dontfxt,
+                    "ComboBox.prfssfdWifnPopupVisiblf", fblsf);
+            squbrfButton = stylf.gftBoolfbn(dontfxt,
+                    "ComboBox.squbrfButton", truf);
 
-            if (oldStyle != null) {
-                uninstallKeyboardActions();
-                installKeyboardActions();
+            if (oldStylf != null) {
+                uninstbllKfybobrdAdtions();
+                instbllKfybobrdAdtions();
             }
-            forceOpaque = style.getBoolean(context,
-                    "ComboBox.forceOpaque", false);
+            fordfOpbquf = stylf.gftBoolfbn(dontfxt,
+                    "ComboBox.fordfOpbquf", fblsf);
         }
-        context.dispose();
+        dontfxt.disposf();
 
         if(listBox != null) {
-            SynthLookAndFeel.updateStyles(listBox);
+            SyntiLookAndFffl.updbtfStylfs(listBox);
         }
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected void installListeners() {
-        comboBox.addPropertyChangeListener(this);
-        comboBox.addMouseListener(buttonHandler);
-        editorFocusHandler = new EditorFocusHandler(comboBox);
-        super.installListeners();
+    @Ovfrridf
+    protfdtfd void instbllListfnfrs() {
+        domboBox.bddPropfrtyCibngfListfnfr(tiis);
+        domboBox.bddMousfListfnfr(buttonHbndlfr);
+        fditorFodusHbndlfr = nfw EditorFodusHbndlfr(domboBox);
+        supfr.instbllListfnfrs();
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    public void uninstallUI(JComponent c) {
-        if (popup instanceof SynthComboPopup) {
-            ((SynthComboPopup)popup).removePopupMenuListener(buttonHandler);
+    @Ovfrridf
+    publid void uninstbllUI(JComponfnt d) {
+        if (popup instbndfof SyntiComboPopup) {
+            ((SyntiComboPopup)popup).rfmovfPopupMfnuListfnfr(buttonHbndlfr);
         }
-        super.uninstallUI(c);
-        buttonHandler = null;
+        supfr.uninstbllUI(d);
+        buttonHbndlfr = null;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected void uninstallDefaults() {
-        SynthContext context = getContext(comboBox, ENABLED);
+    @Ovfrridf
+    protfdtfd void uninstbllDffbults() {
+        SyntiContfxt dontfxt = gftContfxt(domboBox, ENABLED);
 
-        style.uninstallDefaults(context);
-        context.dispose();
-        style = null;
+        stylf.uninstbllDffbults(dontfxt);
+        dontfxt.disposf();
+        stylf = null;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected void uninstallListeners() {
-        editorFocusHandler.unregister();
-        comboBox.removePropertyChangeListener(this);
-        comboBox.removeMouseListener(buttonHandler);
-        buttonHandler.pressed = false;
-        buttonHandler.over = false;
-        super.uninstallListeners();
+    @Ovfrridf
+    protfdtfd void uninstbllListfnfrs() {
+        fditorFodusHbndlfr.unrfgistfr();
+        domboBox.rfmovfPropfrtyCibngfListfnfr(tiis);
+        domboBox.rfmovfMousfListfnfr(buttonHbndlfr);
+        buttonHbndlfr.prfssfd = fblsf;
+        buttonHbndlfr.ovfr = fblsf;
+        supfr.uninstbllListfnfrs();
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    public SynthContext getContext(JComponent c) {
-        return getContext(c, getComponentState(c));
+    @Ovfrridf
+    publid SyntiContfxt gftContfxt(JComponfnt d) {
+        rfturn gftContfxt(d, gftComponfntStbtf(d));
     }
 
-    private SynthContext getContext(JComponent c, int state) {
-        return SynthContext.getContext(c, style, state);
+    privbtf SyntiContfxt gftContfxt(JComponfnt d, int stbtf) {
+        rfturn SyntiContfxt.gftContfxt(d, stylf, stbtf);
     }
 
-    private int getComponentState(JComponent c) {
-        // currently we have a broken situation where if a developer
-        // takes the border from a JComboBox and sets it on a JTextField
-        // then the codepath will eventually lead back to this method
-        // but pass in a JTextField instead of JComboBox! In case this
-        // happens, we just return the normal synth state for the component
-        // instead of doing anything special
-        if (!(c instanceof JComboBox)) return SynthLookAndFeel.getComponentState(c);
+    privbtf int gftComponfntStbtf(JComponfnt d) {
+        // durrfntly wf ibvf b brokfn situbtion wifrf if b dfvflopfr
+        // tbkfs tif bordfr from b JComboBox bnd sfts it on b JTfxtFifld
+        // tifn tif dodfpbti will fvfntublly lfbd bbdk to tiis mftiod
+        // but pbss in b JTfxtFifld instfbd of JComboBox! In dbsf tiis
+        // ibppfns, wf just rfturn tif normbl synti stbtf for tif domponfnt
+        // instfbd of doing bnytiing spfdibl
+        if (!(d instbndfof JComboBox)) rfturn SyntiLookAndFffl.gftComponfntStbtf(d);
 
-        JComboBox<?> box = (JComboBox)c;
-        if (shouldActLikeButton()) {
-            int state = ENABLED;
-            if ((!c.isEnabled())) {
-                state = DISABLED;
+        JComboBox<?> box = (JComboBox)d;
+        if (siouldAdtLikfButton()) {
+            int stbtf = ENABLED;
+            if ((!d.isEnbblfd())) {
+                stbtf = DISABLED;
             }
-            if (buttonHandler.isPressed()) {
-                state |= PRESSED;
+            if (buttonHbndlfr.isPrfssfd()) {
+                stbtf |= PRESSED;
             }
-            if (buttonHandler.isRollover()) {
-                state |= MOUSE_OVER;
+            if (buttonHbndlfr.isRollovfr()) {
+                stbtf |= MOUSE_OVER;
             }
-            if (box.isFocusOwner()) {
-                state |= FOCUSED;
+            if (box.isFodusOwnfr()) {
+                stbtf |= FOCUSED;
             }
-            return state;
-        } else {
-            // for editable combos the editor component has the focus not the
-            // combo box its self, so we should make the combo paint focused
-            // when its editor has focus
-            int basicState = SynthLookAndFeel.getComponentState(c);
-            if (box.isEditable() &&
-                     box.getEditor().getEditorComponent().isFocusOwner()) {
-                basicState |= FOCUSED;
+            rfturn stbtf;
+        } flsf {
+            // for fditbblf dombos tif fditor domponfnt ibs tif fodus not tif
+            // dombo box its sflf, so wf siould mbkf tif dombo pbint fodusfd
+            // wifn its fditor ibs fodus
+            int bbsidStbtf = SyntiLookAndFffl.gftComponfntStbtf(d);
+            if (box.isEditbblf() &&
+                     box.gftEditor().gftEditorComponfnt().isFodusOwnfr()) {
+                bbsidStbtf |= FOCUSED;
             }
-            return basicState;
+            rfturn bbsidStbtf;
         }
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected ComboPopup createPopup() {
-        SynthComboPopup p = new SynthComboPopup(comboBox);
-        p.addPopupMenuListener(buttonHandler);
-        return p;
+    @Ovfrridf
+    protfdtfd ComboPopup drfbtfPopup() {
+        SyntiComboPopup p = nfw SyntiComboPopup(domboBox);
+        p.bddPopupMfnuListfnfr(buttonHbndlfr);
+        rfturn p;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected ListCellRenderer<Object> createRenderer() {
-        return new SynthComboBoxRenderer();
+    @Ovfrridf
+    protfdtfd ListCfllRfndfrfr<Objfdt> drfbtfRfndfrfr() {
+        rfturn nfw SyntiComboBoxRfndfrfr();
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected ComboBoxEditor createEditor() {
-        return new SynthComboBoxEditor();
+    @Ovfrridf
+    protfdtfd ComboBoxEditor drfbtfEditor() {
+        rfturn nfw SyntiComboBoxEditor();
     }
 
     //
-    // end UI Initialization
+    // fnd UI Initiblizbtion
     //======================
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    public void propertyChange(PropertyChangeEvent e) {
-        if (SynthLookAndFeel.shouldUpdateStyle(e)) {
-            updateStyle(comboBox);
+    @Ovfrridf
+    publid void propfrtyCibngf(PropfrtyCibngfEvfnt f) {
+        if (SyntiLookAndFffl.siouldUpdbtfStylf(f)) {
+            updbtfStylf(domboBox);
         }
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected JButton createArrowButton() {
-        SynthArrowButton button = new SynthArrowButton(SwingConstants.SOUTH);
-        button.setName("ComboBox.arrowButton");
-        button.setModel(buttonHandler);
-        return button;
+    @Ovfrridf
+    protfdtfd JButton drfbtfArrowButton() {
+        SyntiArrowButton button = nfw SyntiArrowButton(SwingConstbnts.SOUTH);
+        button.sftNbmf("ComboBox.brrowButton");
+        button.sftModfl(buttonHbndlfr);
+        rfturn button;
     }
 
     //=================================
-    // begin ComponentUI Implementation
+    // bfgin ComponfntUI Implfmfntbtion
 
     /**
-     * Notifies this UI delegate to repaint the specified component.
-     * This method paints the component background, then calls
-     * the {@link #paint(SynthContext,Graphics)} method.
+     * Notififs tiis UI dflfgbtf to rfpbint tif spfdififd domponfnt.
+     * Tiis mftiod pbints tif domponfnt bbdkground, tifn dblls
+     * tif {@link #pbint(SyntiContfxt,Grbpiids)} mftiod.
      *
-     * <p>In general, this method does not need to be overridden by subclasses.
-     * All Look and Feel rendering code should reside in the {@code paint} method.
+     * <p>In gfnfrbl, tiis mftiod dofs not nffd to bf ovfrriddfn by subdlbssfs.
+     * All Look bnd Fffl rfndfring dodf siould rfsidf in tif {@dodf pbint} mftiod.
      *
-     * @param g the {@code Graphics} object used for painting
-     * @param c the component being painted
-     * @see #paint(SynthContext,Graphics)
+     * @pbrbm g tif {@dodf Grbpiids} objfdt usfd for pbinting
+     * @pbrbm d tif domponfnt bfing pbintfd
+     * @sff #pbint(SyntiContfxt,Grbpiids)
      */
-    @Override
-    public void update(Graphics g, JComponent c) {
-        SynthContext context = getContext(c);
+    @Ovfrridf
+    publid void updbtf(Grbpiids g, JComponfnt d) {
+        SyntiContfxt dontfxt = gftContfxt(d);
 
-        SynthLookAndFeel.update(context, g);
-        context.getPainter().paintComboBoxBackground(context, g, 0, 0,
-                                                  c.getWidth(), c.getHeight());
-        paint(context, g);
-        context.dispose();
+        SyntiLookAndFffl.updbtf(dontfxt, g);
+        dontfxt.gftPbintfr().pbintComboBoxBbdkground(dontfxt, g, 0, 0,
+                                                  d.gftWidti(), d.gftHfigit());
+        pbint(dontfxt, g);
+        dontfxt.disposf();
     }
 
     /**
-     * Paints the specified component according to the Look and Feel.
-     * <p>This method is not used by Synth Look and Feel.
-     * Painting is handled by the {@link #paint(SynthContext,Graphics)} method.
+     * Pbints tif spfdififd domponfnt bddording to tif Look bnd Fffl.
+     * <p>Tiis mftiod is not usfd by Synti Look bnd Fffl.
+     * Pbinting is ibndlfd by tif {@link #pbint(SyntiContfxt,Grbpiids)} mftiod.
      *
-     * @param g the {@code Graphics} object used for painting
-     * @param c the component being painted
-     * @see #paint(SynthContext,Graphics)
+     * @pbrbm g tif {@dodf Grbpiids} objfdt usfd for pbinting
+     * @pbrbm d tif domponfnt bfing pbintfd
+     * @sff #pbint(SyntiContfxt,Grbpiids)
      */
-    @Override
-    public void paint(Graphics g, JComponent c) {
-        SynthContext context = getContext(c);
+    @Ovfrridf
+    publid void pbint(Grbpiids g, JComponfnt d) {
+        SyntiContfxt dontfxt = gftContfxt(d);
 
-        paint(context, g);
-        context.dispose();
+        pbint(dontfxt, g);
+        dontfxt.disposf();
     }
 
     /**
-     * Paints the specified component.
+     * Pbints tif spfdififd domponfnt.
      *
-     * @param context context for the component being painted
-     * @param g the {@code Graphics} object used for painting
-     * @see #update(Graphics,JComponent)
+     * @pbrbm dontfxt dontfxt for tif domponfnt bfing pbintfd
+     * @pbrbm g tif {@dodf Grbpiids} objfdt usfd for pbinting
+     * @sff #updbtf(Grbpiids,JComponfnt)
      */
-    protected void paint(SynthContext context, Graphics g) {
-        hasFocus = comboBox.hasFocus();
-        if ( !comboBox.isEditable() ) {
-            Rectangle r = rectangleForCurrentValue();
-            paintCurrentValue(g,r,hasFocus);
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void paintBorder(SynthContext context, Graphics g, int x,
-                            int y, int w, int h) {
-        context.getPainter().paintComboBoxBorder(context, g, x, y, w, h);
-    }
-
-    /**
-     * Paints the currently selected item.
-     */
-    @Override
-    public void paintCurrentValue(Graphics g,Rectangle bounds,boolean hasFocus) {
-        ListCellRenderer<Object> renderer = comboBox.getRenderer();
-        Component c;
-
-        c = renderer.getListCellRendererComponent(
-                listBox, comboBox.getSelectedItem(), -1, false, false );
-
-        // Fix for 4238829: should lay out the JPanel.
-        boolean shouldValidate = false;
-        if (c instanceof JPanel)  {
-            shouldValidate = true;
-        }
-
-        if (c instanceof UIResource) {
-            c.setName("ComboBox.renderer");
-        }
-
-        boolean force = forceOpaque && c instanceof JComponent;
-        if (force) {
-            ((JComponent)c).setOpaque(false);
-        }
-
-        int x = bounds.x, y = bounds.y, w = bounds.width, h = bounds.height;
-        if (padding != null) {
-            x = bounds.x + padding.left;
-            y = bounds.y + padding.top;
-            w = bounds.width - (padding.left + padding.right);
-            h = bounds.height - (padding.top + padding.bottom);
-        }
-
-        currentValuePane.paintComponent(g, c, comboBox, x, y, w, h, shouldValidate);
-
-        if (force) {
-            ((JComponent)c).setOpaque(true);
+    protfdtfd void pbint(SyntiContfxt dontfxt, Grbpiids g) {
+        ibsFodus = domboBox.ibsFodus();
+        if ( !domboBox.isEditbblf() ) {
+            Rfdtbnglf r = rfdtbnglfForCurrfntVbluf();
+            pbintCurrfntVbluf(g,r,ibsFodus);
         }
     }
 
     /**
-     * @return true if this combo box should act as one big button. Typically
-     * only happens when buttonWhenNotEditable is true, and comboBox.isEditable
-     * is false.
+     * {@inifritDod}
      */
-    private boolean shouldActLikeButton() {
-        return buttonWhenNotEditable && !comboBox.isEditable();
+    @Ovfrridf
+    publid void pbintBordfr(SyntiContfxt dontfxt, Grbpiids g, int x,
+                            int y, int w, int i) {
+        dontfxt.gftPbintfr().pbintComboBoxBordfr(dontfxt, g, x, y, w, i);
     }
 
     /**
-     * Returns the default size of an empty display area of the combo box using
-     * the current renderer and font.
-     *
-     * This method was overridden to use SynthComboBoxRenderer instead of
-     * DefaultListCellRenderer as the default renderer when calculating the
-     * size of the combo box. This is used in the case of the combo not having
-     * any data.
-     *
-     * @return the size of an empty display area
-     * @see #getDisplaySize
+     * Pbints tif durrfntly sflfdtfd itfm.
      */
-    @Override
-    protected Dimension getDefaultSize() {
-        SynthComboBoxRenderer r = new SynthComboBoxRenderer();
-        Dimension d = getSizeForComponent(r.getListCellRendererComponent(listBox, " ", -1, false, false));
-        return new Dimension(d.width, d.height);
+    @Ovfrridf
+    publid void pbintCurrfntVbluf(Grbpiids g,Rfdtbnglf bounds,boolfbn ibsFodus) {
+        ListCfllRfndfrfr<Objfdt> rfndfrfr = domboBox.gftRfndfrfr();
+        Componfnt d;
+
+        d = rfndfrfr.gftListCfllRfndfrfrComponfnt(
+                listBox, domboBox.gftSflfdtfdItfm(), -1, fblsf, fblsf );
+
+        // Fix for 4238829: siould lby out tif JPbnfl.
+        boolfbn siouldVblidbtf = fblsf;
+        if (d instbndfof JPbnfl)  {
+            siouldVblidbtf = truf;
+        }
+
+        if (d instbndfof UIRfsourdf) {
+            d.sftNbmf("ComboBox.rfndfrfr");
+        }
+
+        boolfbn fordf = fordfOpbquf && d instbndfof JComponfnt;
+        if (fordf) {
+            ((JComponfnt)d).sftOpbquf(fblsf);
+        }
+
+        int x = bounds.x, y = bounds.y, w = bounds.widti, i = bounds.ifigit;
+        if (pbdding != null) {
+            x = bounds.x + pbdding.lfft;
+            y = bounds.y + pbdding.top;
+            w = bounds.widti - (pbdding.lfft + pbdding.rigit);
+            i = bounds.ifigit - (pbdding.top + pbdding.bottom);
+        }
+
+        durrfntVblufPbnf.pbintComponfnt(g, d, domboBox, x, y, w, i, siouldVblidbtf);
+
+        if (fordf) {
+            ((JComponfnt)d).sftOpbquf(truf);
+        }
     }
 
     /**
-     * From BasicComboBoxRenderer v 1.18.
-     *
-     * Be aware that SynthFileChooserUIImpl relies on the fact that the default
-     * renderer installed on a Synth combo box is a JLabel. If this is changed,
-     * then an assert will fail in SynthFileChooserUIImpl
+     * @rfturn truf if tiis dombo box siould bdt bs onf big button. Typidblly
+     * only ibppfns wifn buttonWifnNotEditbblf is truf, bnd domboBox.isEditbblf
+     * is fblsf.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private class SynthComboBoxRenderer extends JLabel implements ListCellRenderer<Object>, UIResource {
-        public SynthComboBoxRenderer() {
-            super();
-            setText(" ");
+    privbtf boolfbn siouldAdtLikfButton() {
+        rfturn buttonWifnNotEditbblf && !domboBox.isEditbblf();
+    }
+
+    /**
+     * Rfturns tif dffbult sizf of bn fmpty displby brfb of tif dombo box using
+     * tif durrfnt rfndfrfr bnd font.
+     *
+     * Tiis mftiod wbs ovfrriddfn to usf SyntiComboBoxRfndfrfr instfbd of
+     * DffbultListCfllRfndfrfr bs tif dffbult rfndfrfr wifn dbldulbting tif
+     * sizf of tif dombo box. Tiis is usfd in tif dbsf of tif dombo not ibving
+     * bny dbtb.
+     *
+     * @rfturn tif sizf of bn fmpty displby brfb
+     * @sff #gftDisplbySizf
+     */
+    @Ovfrridf
+    protfdtfd Dimfnsion gftDffbultSizf() {
+        SyntiComboBoxRfndfrfr r = nfw SyntiComboBoxRfndfrfr();
+        Dimfnsion d = gftSizfForComponfnt(r.gftListCfllRfndfrfrComponfnt(listBox, " ", -1, fblsf, fblsf));
+        rfturn nfw Dimfnsion(d.widti, d.ifigit);
+    }
+
+    /**
+     * From BbsidComboBoxRfndfrfr v 1.18.
+     *
+     * Bf bwbrf tibt SyntiFilfCioosfrUIImpl rflifs on tif fbdt tibt tif dffbult
+     * rfndfrfr instbllfd on b Synti dombo box is b JLbbfl. If tiis is dibngfd,
+     * tifn bn bssfrt will fbil in SyntiFilfCioosfrUIImpl
+     */
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    privbtf dlbss SyntiComboBoxRfndfrfr fxtfnds JLbbfl implfmfnts ListCfllRfndfrfr<Objfdt>, UIRfsourdf {
+        publid SyntiComboBoxRfndfrfr() {
+            supfr();
+            sftTfxt(" ");
         }
 
-        @Override
-        public String getName() {
-            // SynthComboBoxRenderer should have installed Name while constructor is working.
-            // The setName invocation in the SynthComboBoxRenderer() constructor doesn't work
-            // because of the opaque property is installed in the constructor based on the
-            // component name (see GTKStyle.isOpaque())
-            String name = super.getName();
+        @Ovfrridf
+        publid String gftNbmf() {
+            // SyntiComboBoxRfndfrfr siould ibvf instbllfd Nbmf wiilf donstrudtor is working.
+            // Tif sftNbmf invodbtion in tif SyntiComboBoxRfndfrfr() donstrudtor dofsn't work
+            // bfdbusf of tif opbquf propfrty is instbllfd in tif donstrudtor bbsfd on tif
+            // domponfnt nbmf (sff GTKStylf.isOpbquf())
+            String nbmf = supfr.gftNbmf();
 
-            return name == null ? "ComboBox.renderer" : name;
+            rfturn nbmf == null ? "ComboBox.rfndfrfr" : nbmf;
         }
 
-        @Override
-        public Component getListCellRendererComponent(JList<?> list, Object value,
-                         int index, boolean isSelected, boolean cellHasFocus) {
-            setName("ComboBox.listRenderer");
-            SynthLookAndFeel.resetSelectedUI();
-            if (isSelected) {
-                setBackground(list.getSelectionBackground());
-                setForeground(list.getSelectionForeground());
-                if (!useListColors) {
-                    SynthLookAndFeel.setSelectedUI(
-                         (SynthLabelUI)SynthLookAndFeel.getUIOfType(getUI(),
-                         SynthLabelUI.class), isSelected, cellHasFocus,
-                         list.isEnabled(), false);
+        @Ovfrridf
+        publid Componfnt gftListCfllRfndfrfrComponfnt(JList<?> list, Objfdt vbluf,
+                         int indfx, boolfbn isSflfdtfd, boolfbn dfllHbsFodus) {
+            sftNbmf("ComboBox.listRfndfrfr");
+            SyntiLookAndFffl.rfsftSflfdtfdUI();
+            if (isSflfdtfd) {
+                sftBbdkground(list.gftSflfdtionBbdkground());
+                sftForfground(list.gftSflfdtionForfground());
+                if (!usfListColors) {
+                    SyntiLookAndFffl.sftSflfdtfdUI(
+                         (SyntiLbbflUI)SyntiLookAndFffl.gftUIOfTypf(gftUI(),
+                         SyntiLbbflUI.dlbss), isSflfdtfd, dfllHbsFodus,
+                         list.isEnbblfd(), fblsf);
                 }
-            } else {
-                setBackground(list.getBackground());
-                setForeground(list.getForeground());
+            } flsf {
+                sftBbdkground(list.gftBbdkground());
+                sftForfground(list.gftForfground());
             }
 
-            setFont(list.getFont());
+            sftFont(list.gftFont());
 
-            if (value instanceof Icon) {
-                setIcon((Icon)value);
-                setText("");
-            } else {
-                String text = (value == null) ? " " : value.toString();
+            if (vbluf instbndfof Idon) {
+                sftIdon((Idon)vbluf);
+                sftTfxt("");
+            } flsf {
+                String tfxt = (vbluf == null) ? " " : vbluf.toString();
 
-                if ("".equals(text)) {
-                    text = " ";
+                if ("".fqubls(tfxt)) {
+                    tfxt = " ";
                 }
-                setText(text);
+                sftTfxt(tfxt);
             }
 
-            // The renderer component should inherit the enabled and
-            // orientation state of its parent combobox.  This is
-            // especially needed for GTK comboboxes, where the
-            // ListCellRenderer's state determines the visual state
-            // of the combobox.
-            if (comboBox != null){
-                setEnabled(comboBox.isEnabled());
-                setComponentOrientation(comboBox.getComponentOrientation());
+            // Tif rfndfrfr domponfnt siould inifrit tif fnbblfd bnd
+            // orifntbtion stbtf of its pbrfnt dombobox.  Tiis is
+            // fspfdiblly nffdfd for GTK domboboxfs, wifrf tif
+            // ListCfllRfndfrfr's stbtf dftfrminfs tif visubl stbtf
+            // of tif dombobox.
+            if (domboBox != null){
+                sftEnbblfd(domboBox.isEnbblfd());
+                sftComponfntOrifntbtion(domboBox.gftComponfntOrifntbtion());
             }
 
-            return this;
+            rfturn tiis;
         }
 
-        @Override
-        public void paint(Graphics g) {
-            super.paint(g);
-            SynthLookAndFeel.resetSelectedUI();
+        @Ovfrridf
+        publid void pbint(Grbpiids g) {
+            supfr.pbint(g);
+            SyntiLookAndFffl.rfsftSflfdtfdUI();
         }
     }
 
 
-    private static class SynthComboBoxEditor
-            extends BasicComboBoxEditor.UIResource {
+    privbtf stbtid dlbss SyntiComboBoxEditor
+            fxtfnds BbsidComboBoxEditor.UIRfsourdf {
 
-        @Override public JTextField createEditorComponent() {
-            JTextField f = new JTextField("", 9);
-            f.setName("ComboBox.textField");
-            return f;
+        @Ovfrridf publid JTfxtFifld drfbtfEditorComponfnt() {
+            JTfxtFifld f = nfw JTfxtFifld("", 9);
+            f.sftNbmf("ComboBox.tfxtFifld");
+            rfturn f;
         }
     }
 
 
     /**
-     * Handles all the logic for treating the combo as a button when it is
-     * not editable, and when shouldActLikeButton() is true. This class is a
-     * special ButtonModel, and installed on the arrowButton when appropriate.
-     * It also is installed as a mouse listener and mouse motion listener on
-     * the combo box. In this way, the state between the button and combo
-     * are in sync. Whenever one is "over" both are. Whenever one is pressed,
-     * both are.
+     * Hbndlfs bll tif logid for trfbting tif dombo bs b button wifn it is
+     * not fditbblf, bnd wifn siouldAdtLikfButton() is truf. Tiis dlbss is b
+     * spfdibl ButtonModfl, bnd instbllfd on tif brrowButton wifn bppropribtf.
+     * It blso is instbllfd bs b mousf listfnfr bnd mousf motion listfnfr on
+     * tif dombo box. In tiis wby, tif stbtf bftwffn tif button bnd dombo
+     * brf in synd. Wifnfvfr onf is "ovfr" boti brf. Wifnfvfr onf is prfssfd,
+     * boti brf.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private final class ButtonHandler extends DefaultButtonModel
-            implements MouseListener, PopupMenuListener {
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    privbtf finbl dlbss ButtonHbndlfr fxtfnds DffbultButtonModfl
+            implfmfnts MousfListfnfr, PopupMfnuListfnfr {
         /**
-         * Indicates that the mouse is over the combo or the arrow button.
-         * This field only has meaning if buttonWhenNotEnabled is true.
+         * Indidbtfs tibt tif mousf is ovfr tif dombo or tif brrow button.
+         * Tiis fifld only ibs mfbning if buttonWifnNotEnbblfd is truf.
          */
-        private boolean over;
+        privbtf boolfbn ovfr;
         /**
-         * Indicates that the combo or arrow button has been pressed. This
-         * field only has meaning if buttonWhenNotEnabled is true.
+         * Indidbtfs tibt tif dombo or brrow button ibs bffn prfssfd. Tiis
+         * fifld only ibs mfbning if buttonWifnNotEnbblfd is truf.
          */
-        private boolean pressed;
+        privbtf boolfbn prfssfd;
 
         //------------------------------------------------------------------
-        // State Methods
+        // Stbtf Mftiods
         //------------------------------------------------------------------
 
         /**
-         * <p>Updates the internal "pressed" state. If shouldActLikeButton()
-         * is true, and if this method call will change the internal state,
-         * then the combo and button will be repainted.</p>
+         * <p>Updbtfs tif intfrnbl "prfssfd" stbtf. If siouldAdtLikfButton()
+         * is truf, bnd if tiis mftiod dbll will dibngf tif intfrnbl stbtf,
+         * tifn tif dombo bnd button will bf rfpbintfd.</p>
          *
-         * <p>Note that this method is called either when a press event
-         * occurs on the combo box, or on the arrow button.</p>
+         * <p>Notf tibt tiis mftiod is dbllfd fitifr wifn b prfss fvfnt
+         * oddurs on tif dombo box, or on tif brrow button.</p>
          */
-        private void updatePressed(boolean p) {
-            this.pressed = p && isEnabled();
-            if (shouldActLikeButton()) {
-                comboBox.repaint();
+        privbtf void updbtfPrfssfd(boolfbn p) {
+            tiis.prfssfd = p && isEnbblfd();
+            if (siouldAdtLikfButton()) {
+                domboBox.rfpbint();
             }
         }
 
         /**
-         * <p>Updates the internal "over" state. If shouldActLikeButton()
-         * is true, and if this method call will change the internal state,
-         * then the combo and button will be repainted.</p>
+         * <p>Updbtfs tif intfrnbl "ovfr" stbtf. If siouldAdtLikfButton()
+         * is truf, bnd if tiis mftiod dbll will dibngf tif intfrnbl stbtf,
+         * tifn tif dombo bnd button will bf rfpbintfd.</p>
          *
-         * <p>Note that this method is called either when a mouseover/mouseoff event
-         * occurs on the combo box, or on the arrow button.</p>
+         * <p>Notf tibt tiis mftiod is dbllfd fitifr wifn b mousfovfr/mousfoff fvfnt
+         * oddurs on tif dombo box, or on tif brrow button.</p>
          */
-        private void updateOver(boolean o) {
-            boolean old = isRollover();
-            this.over = o && isEnabled();
-            boolean newo = isRollover();
-            if (shouldActLikeButton() && old != newo) {
-                comboBox.repaint();
+        privbtf void updbtfOvfr(boolfbn o) {
+            boolfbn old = isRollovfr();
+            tiis.ovfr = o && isEnbblfd();
+            boolfbn nfwo = isRollovfr();
+            if (siouldAdtLikfButton() && old != nfwo) {
+                domboBox.rfpbint();
             }
         }
 
         //------------------------------------------------------------------
-        // DefaultButtonModel Methods
+        // DffbultButtonModfl Mftiods
         //------------------------------------------------------------------
 
         /**
-         * @inheritDoc
+         * @inifritDod
          *
-         * Ensures that isPressed() will return true if the combo is pressed,
-         * or the arrowButton is pressed, <em>or</em> if the combo popup is
-         * visible. This is the case because a combo box looks pressed when
-         * the popup is visible, and so should the arrow button.
+         * Ensurfs tibt isPrfssfd() will rfturn truf if tif dombo is prfssfd,
+         * or tif brrowButton is prfssfd, <fm>or</fm> if tif dombo popup is
+         * visiblf. Tiis is tif dbsf bfdbusf b dombo box looks prfssfd wifn
+         * tif popup is visiblf, bnd so siould tif brrow button.
          */
-        @Override
-        public boolean isPressed() {
-            boolean b = shouldActLikeButton() ? pressed : super.isPressed();
-            return b || (pressedWhenPopupVisible && comboBox.isPopupVisible());
+        @Ovfrridf
+        publid boolfbn isPrfssfd() {
+            boolfbn b = siouldAdtLikfButton() ? prfssfd : supfr.isPrfssfd();
+            rfturn b || (prfssfdWifnPopupVisiblf && domboBox.isPopupVisiblf());
         }
 
         /**
-         * @inheritDoc
+         * @inifritDod
          *
-         * Ensures that the armed state is in sync with the pressed state
-         * if shouldActLikeButton is true. Without this method, the arrow
-         * button will not look pressed when the popup is open, regardless
-         * of the result of isPressed() alone.
+         * Ensurfs tibt tif brmfd stbtf is in synd witi tif prfssfd stbtf
+         * if siouldAdtLikfButton is truf. Witiout tiis mftiod, tif brrow
+         * button will not look prfssfd wifn tif popup is opfn, rfgbrdlfss
+         * of tif rfsult of isPrfssfd() blonf.
          */
-        @Override
-        public boolean isArmed() {
-            boolean b = shouldActLikeButton() ||
-                        (pressedWhenPopupVisible && comboBox.isPopupVisible());
-            return b ? isPressed() : super.isArmed();
+        @Ovfrridf
+        publid boolfbn isArmfd() {
+            boolfbn b = siouldAdtLikfButton() ||
+                        (prfssfdWifnPopupVisiblf && domboBox.isPopupVisiblf());
+            rfturn b ? isPrfssfd() : supfr.isArmfd();
         }
 
         /**
-         * @inheritDoc
+         * @inifritDod
          *
-         * Ensures that isRollover() will return true if the combo is
-         * rolled over, or the arrowButton is rolled over.
+         * Ensurfs tibt isRollovfr() will rfturn truf if tif dombo is
+         * rollfd ovfr, or tif brrowButton is rollfd ovfr.
          */
-        @Override
-        public boolean isRollover() {
-            return shouldActLikeButton() ? over : super.isRollover();
+        @Ovfrridf
+        publid boolfbn isRollovfr() {
+            rfturn siouldAdtLikfButton() ? ovfr : supfr.isRollovfr();
         }
 
         /**
-         * @inheritDoc
+         * @inifritDod
          *
-         * Forwards pressed states to the internal "pressed" field
+         * Forwbrds prfssfd stbtfs to tif intfrnbl "prfssfd" fifld
          */
-        @Override
-        public void setPressed(boolean b) {
-            super.setPressed(b);
-            updatePressed(b);
+        @Ovfrridf
+        publid void sftPrfssfd(boolfbn b) {
+            supfr.sftPrfssfd(b);
+            updbtfPrfssfd(b);
         }
 
         /**
-         * @inheritDoc
+         * @inifritDod
          *
-         * Forwards rollover states to the internal "over" field
+         * Forwbrds rollovfr stbtfs to tif intfrnbl "ovfr" fifld
          */
-        @Override
-        public void setRollover(boolean b) {
-            super.setRollover(b);
-            updateOver(b);
+        @Ovfrridf
+        publid void sftRollovfr(boolfbn b) {
+            supfr.sftRollovfr(b);
+            updbtfOvfr(b);
         }
 
         //------------------------------------------------------------------
-        // MouseListener/MouseMotionListener Methods
+        // MousfListfnfr/MousfMotionListfnfr Mftiods
         //------------------------------------------------------------------
 
-        @Override
-        public void mouseEntered(MouseEvent mouseEvent) {
-            updateOver(true);
+        @Ovfrridf
+        publid void mousfEntfrfd(MousfEvfnt mousfEvfnt) {
+            updbtfOvfr(truf);
         }
 
-        @Override
-        public void mouseExited(MouseEvent mouseEvent) {
-            updateOver(false);
+        @Ovfrridf
+        publid void mousfExitfd(MousfEvfnt mousfEvfnt) {
+            updbtfOvfr(fblsf);
         }
 
-        @Override
-        public void mousePressed(MouseEvent mouseEvent) {
-            updatePressed(true);
+        @Ovfrridf
+        publid void mousfPrfssfd(MousfEvfnt mousfEvfnt) {
+            updbtfPrfssfd(truf);
         }
 
-        @Override
-        public void mouseReleased(MouseEvent mouseEvent) {
-            updatePressed(false);
+        @Ovfrridf
+        publid void mousfRflfbsfd(MousfEvfnt mousfEvfnt) {
+            updbtfPrfssfd(fblsf);
         }
 
-        @Override
-        public void mouseClicked(MouseEvent e) {}
+        @Ovfrridf
+        publid void mousfClidkfd(MousfEvfnt f) {}
 
         //------------------------------------------------------------------
-        // PopupMenuListener Methods
+        // PopupMfnuListfnfr Mftiods
         //------------------------------------------------------------------
 
         /**
-         * @inheritDoc
+         * @inifritDod
          *
-         * Ensures that the combo box is repainted when the popup is closed.
-         * This avoids a bug where clicking off the combo wasn't causing a repaint,
-         * and thus the combo box still looked pressed even when it was not.
+         * Ensurfs tibt tif dombo box is rfpbintfd wifn tif popup is dlosfd.
+         * Tiis bvoids b bug wifrf dlidking off tif dombo wbsn't dbusing b rfpbint,
+         * bnd tius tif dombo box still lookfd prfssfd fvfn wifn it wbs not.
          *
-         * This bug was only noticed when acting as a button, but may be generally
-         * present. If so, remove the if() block
+         * Tiis bug wbs only notidfd wifn bdting bs b button, but mby bf gfnfrblly
+         * prfsfnt. If so, rfmovf tif if() blodk
          */
-        @Override
-        public void popupMenuCanceled(PopupMenuEvent e) {
-            if (shouldActLikeButton() || pressedWhenPopupVisible) {
-                comboBox.repaint();
+        @Ovfrridf
+        publid void popupMfnuCbndflfd(PopupMfnuEvfnt f) {
+            if (siouldAdtLikfButton() || prfssfdWifnPopupVisiblf) {
+                domboBox.rfpbint();
             }
         }
 
-        @Override
-        public void popupMenuWillBecomeVisible(PopupMenuEvent e) {}
-        @Override
-        public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {}
+        @Ovfrridf
+        publid void popupMfnuWillBfdomfVisiblf(PopupMfnuEvfnt f) {}
+        @Ovfrridf
+        publid void popupMfnuWillBfdomfInvisiblf(PopupMfnuEvfnt f) {}
     }
 
     /**
-     * Handler for repainting combo when editor component gains/looses focus
+     * Hbndlfr for rfpbinting dombo wifn fditor domponfnt gbins/loosfs fodus
      */
-    private static class EditorFocusHandler implements FocusListener,
-            PropertyChangeListener {
-        private JComboBox<?> comboBox;
-        private ComboBoxEditor editor = null;
-        private Component editorComponent = null;
+    privbtf stbtid dlbss EditorFodusHbndlfr implfmfnts FodusListfnfr,
+            PropfrtyCibngfListfnfr {
+        privbtf JComboBox<?> domboBox;
+        privbtf ComboBoxEditor fditor = null;
+        privbtf Componfnt fditorComponfnt = null;
 
-        private EditorFocusHandler(JComboBox<?> comboBox) {
-            this.comboBox = comboBox;
-            editor = comboBox.getEditor();
-            if (editor != null){
-                editorComponent = editor.getEditorComponent();
-                if (editorComponent != null){
-                    editorComponent.addFocusListener(this);
+        privbtf EditorFodusHbndlfr(JComboBox<?> domboBox) {
+            tiis.domboBox = domboBox;
+            fditor = domboBox.gftEditor();
+            if (fditor != null){
+                fditorComponfnt = fditor.gftEditorComponfnt();
+                if (fditorComponfnt != null){
+                    fditorComponfnt.bddFodusListfnfr(tiis);
                 }
             }
-            comboBox.addPropertyChangeListener("editor",this);
+            domboBox.bddPropfrtyCibngfListfnfr("fditor",tiis);
         }
 
-        public void unregister(){
-            comboBox.removePropertyChangeListener(this);
-            if (editorComponent!=null){
-                editorComponent.removeFocusListener(this);
+        publid void unrfgistfr(){
+            domboBox.rfmovfPropfrtyCibngfListfnfr(tiis);
+            if (fditorComponfnt!=null){
+                fditorComponfnt.rfmovfFodusListfnfr(tiis);
             }
         }
 
-        /** Invoked when a component gains the keyboard focus. */
-        public void focusGained(FocusEvent e) {
-            // repaint whole combo on focus gain
-            comboBox.repaint();
+        /** Invokfd wifn b domponfnt gbins tif kfybobrd fodus. */
+        publid void fodusGbinfd(FodusEvfnt f) {
+            // rfpbint wiolf dombo on fodus gbin
+            domboBox.rfpbint();
         }
 
-        /** Invoked when a component loses the keyboard focus. */
-        public void focusLost(FocusEvent e) {
-            // repaint whole combo on focus loss
-            comboBox.repaint();
+        /** Invokfd wifn b domponfnt losfs tif kfybobrd fodus. */
+        publid void fodusLost(FodusEvfnt f) {
+            // rfpbint wiolf dombo on fodus loss
+            domboBox.rfpbint();
         }
 
         /**
-         * Called when the combos editor changes
+         * Cbllfd wifn tif dombos fditor dibngfs
          *
-         * @param evt A PropertyChangeEvent object describing the event source and
-         *            the property that has changed.
+         * @pbrbm fvt A PropfrtyCibngfEvfnt objfdt dfsdribing tif fvfnt sourdf bnd
+         *            tif propfrty tibt ibs dibngfd.
          */
-        public void propertyChange(PropertyChangeEvent evt) {
-            ComboBoxEditor newEditor = comboBox.getEditor();
-            if (editor != newEditor){
-                if (editorComponent!=null){
-                    editorComponent.removeFocusListener(this);
+        publid void propfrtyCibngf(PropfrtyCibngfEvfnt fvt) {
+            ComboBoxEditor nfwEditor = domboBox.gftEditor();
+            if (fditor != nfwEditor){
+                if (fditorComponfnt!=null){
+                    fditorComponfnt.rfmovfFodusListfnfr(tiis);
                 }
-                editor = newEditor;
-                if (editor != null){
-                    editorComponent = editor.getEditorComponent();
-                    if (editorComponent != null){
-                        editorComponent.addFocusListener(this);
+                fditor = nfwEditor;
+                if (fditor != null){
+                    fditorComponfnt = fditor.gftEditorComponfnt();
+                    if (fditorComponfnt != null){
+                        fditorComponfnt.bddFodusListfnfr(tiis);
                     }
                 }
             }

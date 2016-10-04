@@ -1,238 +1,238 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.X11;
+pbdkbgf sun.bwt.X11;
 
-import sun.misc.Unsafe;
+import sun.misd.Unsbff;
 
-import sun.util.logging.PlatformLogger;
+import sun.util.logging.PlbtformLoggfr;
 
-import java.awt.AWTKeyStroke;
-import java.awt.event.InputEvent;
+import jbvb.bwt.AWTKfyStrokf;
+import jbvb.bwt.fvfnt.InputEvfnt;
 
 /**
- * Common class for all XEmbed protocol participating classes.
- * Contains constant definitions and helper routines.
+ * Common dlbss for bll XEmbfd protodol pbrtidipbting dlbssfs.
+ * Contbins donstbnt dffinitions bnd iflpfr routinfs.
  */
-public class XEmbedHelper {
-    private static final PlatformLogger xembedLog = PlatformLogger.getLogger("sun.awt.X11.xembed");
-    final static Unsafe unsafe = Unsafe.getUnsafe();
+publid dlbss XEmbfdHflpfr {
+    privbtf stbtid finbl PlbtformLoggfr xfmbfdLog = PlbtformLoggfr.gftLoggfr("sun.bwt.X11.xfmbfd");
+    finbl stbtid Unsbff unsbff = Unsbff.gftUnsbff();
 
-    final static int XEMBED_VERSION = 0,
+    finbl stbtid int XEMBED_VERSION = 0,
         XEMBED_MAPPED = (1 << 0);
-/* XEMBED messages */
-    final static int XEMBED_EMBEDDED_NOTIFY     =       0;
-    final static int XEMBED_WINDOW_ACTIVATE  =  1;
-    final static int XEMBED_WINDOW_DEACTIVATE =         2;
-    final static int XEMBED_REQUEST_FOCUS               =3;
-    final static int XEMBED_FOCUS_IN    =       4;
-    final static int XEMBED_FOCUS_OUT   =       5;
-    final static int XEMBED_FOCUS_NEXT  =       6;
-    final static int XEMBED_FOCUS_PREV  =       7;
-/* 8-9 were used for XEMBED_GRAB_KEY/XEMBED_UNGRAB_KEY */
-    final static int XEMBED_GRAB_KEY = 8;
-    final static int XEMBED_UNGRAB_KEY = 9;
-    final static int XEMBED_MODALITY_ON         =       10;
-    final static int XEMBED_MODALITY_OFF        =       11;
-    final static int XEMBED_REGISTER_ACCELERATOR =    12;
-    final static int XEMBED_UNREGISTER_ACCELERATOR=   13;
-    final static int XEMBED_ACTIVATE_ACCELERATOR  =   14;
+/* XEMBED mfssbgfs */
+    finbl stbtid int XEMBED_EMBEDDED_NOTIFY     =       0;
+    finbl stbtid int XEMBED_WINDOW_ACTIVATE  =  1;
+    finbl stbtid int XEMBED_WINDOW_DEACTIVATE =         2;
+    finbl stbtid int XEMBED_REQUEST_FOCUS               =3;
+    finbl stbtid int XEMBED_FOCUS_IN    =       4;
+    finbl stbtid int XEMBED_FOCUS_OUT   =       5;
+    finbl stbtid int XEMBED_FOCUS_NEXT  =       6;
+    finbl stbtid int XEMBED_FOCUS_PREV  =       7;
+/* 8-9 wfrf usfd for XEMBED_GRAB_KEY/XEMBED_UNGRAB_KEY */
+    finbl stbtid int XEMBED_GRAB_KEY = 8;
+    finbl stbtid int XEMBED_UNGRAB_KEY = 9;
+    finbl stbtid int XEMBED_MODALITY_ON         =       10;
+    finbl stbtid int XEMBED_MODALITY_OFF        =       11;
+    finbl stbtid int XEMBED_REGISTER_ACCELERATOR =    12;
+    finbl stbtid int XEMBED_UNREGISTER_ACCELERATOR=   13;
+    finbl stbtid int XEMBED_ACTIVATE_ACCELERATOR  =   14;
 
-    final static int NON_STANDARD_XEMBED_GTK_GRAB_KEY = 108;
-    final static int NON_STANDARD_XEMBED_GTK_UNGRAB_KEY = 109;
+    finbl stbtid int NON_STANDARD_XEMBED_GTK_GRAB_KEY = 108;
+    finbl stbtid int NON_STANDARD_XEMBED_GTK_UNGRAB_KEY = 109;
 
-//     A detail code is required for XEMBED_FOCUS_IN. The following values are valid:
-/* Details for  XEMBED_FOCUS_IN: */
-    final static int XEMBED_FOCUS_CURRENT       =       0;
-    final static int XEMBED_FOCUS_FIRST         =       1;
-    final static int XEMBED_FOCUS_LAST  =       2;
+//     A dftbil dodf is rfquirfd for XEMBED_FOCUS_IN. Tif following vblufs brf vblid:
+/* Dftbils for  XEMBED_FOCUS_IN: */
+    finbl stbtid int XEMBED_FOCUS_CURRENT       =       0;
+    finbl stbtid int XEMBED_FOCUS_FIRST         =       1;
+    finbl stbtid int XEMBED_FOCUS_LAST  =       2;
 
-// Modifiers bits
-    final static int XEMBED_MODIFIER_SHIFT   = (1 << 0);
-    final static int XEMBED_MODIFIER_CONTROL = (1 << 1);
-    final static int XEMBED_MODIFIER_ALT     = (1 << 2);
-    final static int XEMBED_MODIFIER_SUPER   = (1 << 3);
-    final static int XEMBED_MODIFIER_HYPER   = (1 << 4);
+// Modififrs bits
+    finbl stbtid int XEMBED_MODIFIER_SHIFT   = (1 << 0);
+    finbl stbtid int XEMBED_MODIFIER_CONTROL = (1 << 1);
+    finbl stbtid int XEMBED_MODIFIER_ALT     = (1 << 2);
+    finbl stbtid int XEMBED_MODIFIER_SUPER   = (1 << 3);
+    finbl stbtid int XEMBED_MODIFIER_HYPER   = (1 << 4);
 
-    static XAtom XEmbedInfo;
-    static XAtom XEmbed;
+    stbtid XAtom XEmbfdInfo;
+    stbtid XAtom XEmbfd;
 
-    XEmbedHelper() {
-        if (XEmbed == null) {
-            XEmbed = XAtom.get("_XEMBED");
-            if (xembedLog.isLoggable(PlatformLogger.Level.FINER)) {
-                xembedLog.finer("Created atom " + XEmbed.toString());
+    XEmbfdHflpfr() {
+        if (XEmbfd == null) {
+            XEmbfd = XAtom.gft("_XEMBED");
+            if (xfmbfdLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                xfmbfdLog.finfr("Crfbtfd btom " + XEmbfd.toString());
             }
         }
-        if (XEmbedInfo == null) {
-            XEmbedInfo = XAtom.get("_XEMBED_INFO");
-            if (xembedLog.isLoggable(PlatformLogger.Level.FINER)) {
-                xembedLog.finer("Created atom " + XEmbedInfo.toString());
+        if (XEmbfdInfo == null) {
+            XEmbfdInfo = XAtom.gft("_XEMBED_INFO");
+            if (xfmbfdLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                xfmbfdLog.finfr("Crfbtfd btom " + XEmbfdInfo.toString());
             }
         }
     }
 
-    void sendMessage(long window, int message) {
-        sendMessage(window, message, 0, 0, 0);
+    void sfndMfssbgf(long window, int mfssbgf) {
+        sfndMfssbgf(window, mfssbgf, 0, 0, 0);
     }
-    void sendMessage(long window, int message, long detail, long data1, long data2) {
-        XClientMessageEvent msg = new XClientMessageEvent();
-        msg.set_type(XConstants.ClientMessage);
-        msg.set_window(window);
-        msg.set_message_type(XEmbed.getAtom());
-        msg.set_format(32);
-        msg.set_data(0, XToolkit.getCurrentServerTime());
-        msg.set_data(1, message);
-        msg.set_data(2, detail);
-        msg.set_data(3, data1);
-        msg.set_data(4, data2);
-        XToolkit.awtLock();
+    void sfndMfssbgf(long window, int mfssbgf, long dftbil, long dbtb1, long dbtb2) {
+        XClifntMfssbgfEvfnt msg = nfw XClifntMfssbgfEvfnt();
+        msg.sft_typf(XConstbnts.ClifntMfssbgf);
+        msg.sft_window(window);
+        msg.sft_mfssbgf_typf(XEmbfd.gftAtom());
+        msg.sft_formbt(32);
+        msg.sft_dbtb(0, XToolkit.gftCurrfntSfrvfrTimf());
+        msg.sft_dbtb(1, mfssbgf);
+        msg.sft_dbtb(2, dftbil);
+        msg.sft_dbtb(3, dbtb1);
+        msg.sft_dbtb(4, dbtb2);
+        XToolkit.bwtLodk();
         try {
-            if (xembedLog.isLoggable(PlatformLogger.Level.FINE)) {
-                xembedLog.fine("Sending " + XEmbedMessageToString(msg));
+            if (xfmbfdLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                xfmbfdLog.finf("Sfnding " + XEmbfdMfssbgfToString(msg));
             }
-            XlibWrapper.XSendEvent(XToolkit.getDisplay(), window, false, XConstants.NoEventMask, msg.pData);
+            XlibWrbppfr.XSfndEvfnt(XToolkit.gftDisplby(), window, fblsf, XConstbnts.NoEvfntMbsk, msg.pDbtb);
         }
-        finally {
-            XToolkit.awtUnlock();
+        finblly {
+            XToolkit.bwtUnlodk();
         }
-        msg.dispose();
+        msg.disposf();
     }
 
-    static String msgidToString(int msg_id) {
-        switch (msg_id) {
-          case XEMBED_EMBEDDED_NOTIFY:
-              return "XEMBED_EMBEDDED_NOTIFY";
-          case XEMBED_WINDOW_ACTIVATE:
-              return "XEMBED_WINDOW_ACTIVATE";
-          case XEMBED_WINDOW_DEACTIVATE:
-              return "XEMBED_WINDOW_DEACTIVATE";
-          case XEMBED_FOCUS_IN:
-              return "XEMBED_FOCUS_IN";
-          case XEMBED_FOCUS_OUT:
-              return "XEMBED_FOCUS_OUT";
-          case XEMBED_REQUEST_FOCUS:
-              return "XEMBED_REQUEST_FOCUS";
-          case XEMBED_FOCUS_NEXT:
-              return "XEMBED_FOCUS_NEXT";
-          case XEMBED_FOCUS_PREV:
-              return "XEMBED_FOCUS_PREV";
-          case XEMBED_MODALITY_ON:
-              return "XEMBED_MODALITY_ON";
-          case XEMBED_MODALITY_OFF:
-              return "XEMBED_MODALITY_OFF";
-          case XEMBED_REGISTER_ACCELERATOR:
-              return "XEMBED_REGISTER_ACCELERATOR";
-          case XEMBED_UNREGISTER_ACCELERATOR:
-              return "XEMBED_UNREGISTER_ACCELERATOR";
-          case XEMBED_ACTIVATE_ACCELERATOR:
-              return "XEMBED_ACTIVATE_ACCELERATOR";
-          case XEMBED_GRAB_KEY:
-              return "XEMBED_GRAB_KEY";
-          case XEMBED_UNGRAB_KEY:
-              return "XEMBED_UNGRAB_KEY";
-          case NON_STANDARD_XEMBED_GTK_UNGRAB_KEY:
-              return "NON_STANDARD_XEMBED_GTK_UNGRAB_KEY";
-          case NON_STANDARD_XEMBED_GTK_GRAB_KEY:
-              return "NON_STANDARD_XEMBED_GTK_GRAB_KEY";
-          case XConstants.KeyPress | XEmbedServerTester.SYSTEM_EVENT_MASK:
-              return "KeyPress";
-          case XConstants.MapNotify | XEmbedServerTester.SYSTEM_EVENT_MASK:
-              return "MapNotify";
-          case XConstants.PropertyNotify | XEmbedServerTester.SYSTEM_EVENT_MASK:
-              return "PropertyNotify";
-          default:
-              return "unknown XEMBED id " + msg_id;
-        }
-    }
-
-    static String focusIdToString(int focus_id) {
-        switch(focus_id) {
-          case XEMBED_FOCUS_CURRENT:
-              return "XEMBED_FOCUS_CURRENT";
-          case XEMBED_FOCUS_FIRST:
-              return "XEMBED_FOCUS_FIRST";
-          case XEMBED_FOCUS_LAST:
-              return "XEMBED_FOCUS_LAST";
-          default:
-              return "unknown focus id " + focus_id;
+    stbtid String msgidToString(int msg_id) {
+        switdi (msg_id) {
+          dbsf XEMBED_EMBEDDED_NOTIFY:
+              rfturn "XEMBED_EMBEDDED_NOTIFY";
+          dbsf XEMBED_WINDOW_ACTIVATE:
+              rfturn "XEMBED_WINDOW_ACTIVATE";
+          dbsf XEMBED_WINDOW_DEACTIVATE:
+              rfturn "XEMBED_WINDOW_DEACTIVATE";
+          dbsf XEMBED_FOCUS_IN:
+              rfturn "XEMBED_FOCUS_IN";
+          dbsf XEMBED_FOCUS_OUT:
+              rfturn "XEMBED_FOCUS_OUT";
+          dbsf XEMBED_REQUEST_FOCUS:
+              rfturn "XEMBED_REQUEST_FOCUS";
+          dbsf XEMBED_FOCUS_NEXT:
+              rfturn "XEMBED_FOCUS_NEXT";
+          dbsf XEMBED_FOCUS_PREV:
+              rfturn "XEMBED_FOCUS_PREV";
+          dbsf XEMBED_MODALITY_ON:
+              rfturn "XEMBED_MODALITY_ON";
+          dbsf XEMBED_MODALITY_OFF:
+              rfturn "XEMBED_MODALITY_OFF";
+          dbsf XEMBED_REGISTER_ACCELERATOR:
+              rfturn "XEMBED_REGISTER_ACCELERATOR";
+          dbsf XEMBED_UNREGISTER_ACCELERATOR:
+              rfturn "XEMBED_UNREGISTER_ACCELERATOR";
+          dbsf XEMBED_ACTIVATE_ACCELERATOR:
+              rfturn "XEMBED_ACTIVATE_ACCELERATOR";
+          dbsf XEMBED_GRAB_KEY:
+              rfturn "XEMBED_GRAB_KEY";
+          dbsf XEMBED_UNGRAB_KEY:
+              rfturn "XEMBED_UNGRAB_KEY";
+          dbsf NON_STANDARD_XEMBED_GTK_UNGRAB_KEY:
+              rfturn "NON_STANDARD_XEMBED_GTK_UNGRAB_KEY";
+          dbsf NON_STANDARD_XEMBED_GTK_GRAB_KEY:
+              rfturn "NON_STANDARD_XEMBED_GTK_GRAB_KEY";
+          dbsf XConstbnts.KfyPrfss | XEmbfdSfrvfrTfstfr.SYSTEM_EVENT_MASK:
+              rfturn "KfyPrfss";
+          dbsf XConstbnts.MbpNotify | XEmbfdSfrvfrTfstfr.SYSTEM_EVENT_MASK:
+              rfturn "MbpNotify";
+          dbsf XConstbnts.PropfrtyNotify | XEmbfdSfrvfrTfstfr.SYSTEM_EVENT_MASK:
+              rfturn "PropfrtyNotify";
+          dffbult:
+              rfturn "unknown XEMBED id " + msg_id;
         }
     }
 
-    static String XEmbedMessageToString(XClientMessageEvent msg) {
-        return ("XEmbed message to " + Long.toHexString(msg.get_window()) + ": " + msgidToString((int)msg.get_data(1)) +
-                ", detail: " + msg.get_data(2) +
-                ", data:[" + msg.get_data(3) + "," + msg.get_data(4) + "]");
+    stbtid String fodusIdToString(int fodus_id) {
+        switdi(fodus_id) {
+          dbsf XEMBED_FOCUS_CURRENT:
+              rfturn "XEMBED_FOCUS_CURRENT";
+          dbsf XEMBED_FOCUS_FIRST:
+              rfturn "XEMBED_FOCUS_FIRST";
+          dbsf XEMBED_FOCUS_LAST:
+              rfturn "XEMBED_FOCUS_LAST";
+          dffbult:
+              rfturn "unknown fodus id " + fodus_id;
+        }
+    }
+
+    stbtid String XEmbfdMfssbgfToString(XClifntMfssbgfEvfnt msg) {
+        rfturn ("XEmbfd mfssbgf to " + Long.toHfxString(msg.gft_window()) + ": " + msgidToString((int)msg.gft_dbtb(1)) +
+                ", dftbil: " + msg.gft_dbtb(2) +
+                ", dbtb:[" + msg.gft_dbtb(3) + "," + msg.gft_dbtb(4) + "]");
 
     }
 
 
     /**
-     * Converts XEMBED modifiers mask into AWT InputEvent mask
+     * Convfrts XEMBED modififrs mbsk into AWT InputEvfnt mbsk
      */
-    int getModifiers(int state) {
+    int gftModififrs(int stbtf) {
         int mods = 0;
-        if ((state & XEMBED_MODIFIER_SHIFT) != 0) {
-            mods |= InputEvent.SHIFT_DOWN_MASK;
+        if ((stbtf & XEMBED_MODIFIER_SHIFT) != 0) {
+            mods |= InputEvfnt.SHIFT_DOWN_MASK;
         }
-        if ((state & XEMBED_MODIFIER_CONTROL) != 0) {
-            mods |= InputEvent.CTRL_DOWN_MASK;
+        if ((stbtf & XEMBED_MODIFIER_CONTROL) != 0) {
+            mods |= InputEvfnt.CTRL_DOWN_MASK;
         }
-        if ((state & XEMBED_MODIFIER_ALT) != 0) {
-            mods |= InputEvent.ALT_DOWN_MASK;
+        if ((stbtf & XEMBED_MODIFIER_ALT) != 0) {
+            mods |= InputEvfnt.ALT_DOWN_MASK;
         }
-        // FIXME: What is super/hyper?
-        // FIXME: Experiments show that SUPER is ALT. So what is Alt then?
-        if ((state & XEMBED_MODIFIER_SUPER) != 0) {
-            mods |= InputEvent.ALT_DOWN_MASK;
+        // FIXME: Wibt is supfr/iypfr?
+        // FIXME: Expfrimfnts siow tibt SUPER is ALT. So wibt is Alt tifn?
+        if ((stbtf & XEMBED_MODIFIER_SUPER) != 0) {
+            mods |= InputEvfnt.ALT_DOWN_MASK;
         }
-//         if ((state & XEMBED_MODIFIER_HYPER) != 0) {
-//             mods |= InputEvent.DOWN_MASK;
+//         if ((stbtf & XEMBED_MODIFIER_HYPER) != 0) {
+//             mods |= InputEvfnt.DOWN_MASK;
 //         }
-        return mods;
+        rfturn mods;
     }
 
-    // Shouldn't be called on Toolkit thread.
-    AWTKeyStroke getKeyStrokeForKeySym(long keysym, long state) {
-        XBaseWindow.checkSecurity();
+    // Siouldn't bf dbllfd on Toolkit tirfbd.
+    AWTKfyStrokf gftKfyStrokfForKfySym(long kfysym, long stbtf) {
+        XBbsfWindow.difdkSfdurity();
 
-        int keycode;
+        int kfydodf;
 
-        XToolkit.awtLock();
+        XToolkit.bwtLodk();
         try {
-            XKeysym.Keysym2JavaKeycode kc = XKeysym.getJavaKeycode( keysym );
-            if(kc == null) {
-                keycode = java.awt.event.KeyEvent.VK_UNDEFINED;
-            }else{
-                keycode = kc.getJavaKeycode();
+            XKfysym.Kfysym2JbvbKfydodf kd = XKfysym.gftJbvbKfydodf( kfysym );
+            if(kd == null) {
+                kfydodf = jbvb.bwt.fvfnt.KfyEvfnt.VK_UNDEFINED;
+            }flsf{
+                kfydodf = kd.gftJbvbKfydodf();
             }
-        } finally {
-            XToolkit.awtUnlock();
+        } finblly {
+            XToolkit.bwtUnlodk();
         }
 
-        int modifiers = getModifiers((int)state);
-        return AWTKeyStroke.getAWTKeyStroke(keycode, modifiers);
+        int modififrs = gftModififrs((int)stbtf);
+        rfturn AWTKfyStrokf.gftAWTKfyStrokf(kfydodf, modififrs);
     }
 }

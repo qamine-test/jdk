@@ -1,281 +1,281 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.io;
+pbdkbgf jbvb.io;
 
 
 /**
- * A character-stream reader that allows characters to be pushed back into the
- * stream.
+ * A dibrbdtfr-strfbm rfbdfr tibt bllows dibrbdtfrs to bf pusifd bbdk into tif
+ * strfbm.
  *
- * @author      Mark Reinhold
- * @since       1.1
+ * @butior      Mbrk Rfiniold
+ * @sindf       1.1
  */
 
-public class PushbackReader extends FilterReader {
+publid dlbss PusibbdkRfbdfr fxtfnds FiltfrRfbdfr {
 
-    /** Pushback buffer */
-    private char[] buf;
+    /** Pusibbdk bufffr */
+    privbtf dibr[] buf;
 
-    /** Current position in buffer */
-    private int pos;
+    /** Currfnt position in bufffr */
+    privbtf int pos;
 
     /**
-     * Creates a new pushback reader with a pushback buffer of the given size.
+     * Crfbtfs b nfw pusibbdk rfbdfr witi b pusibbdk bufffr of tif givfn sizf.
      *
-     * @param   in   The reader from which characters will be read
-     * @param   size The size of the pushback buffer
-     * @exception IllegalArgumentException if {@code size <= 0}
+     * @pbrbm   in   Tif rfbdfr from wiidi dibrbdtfrs will bf rfbd
+     * @pbrbm   sizf Tif sizf of tif pusibbdk bufffr
+     * @fxdfption IllfgblArgumfntExdfption if {@dodf sizf <= 0}
      */
-    public PushbackReader(Reader in, int size) {
-        super(in);
-        if (size <= 0) {
-            throw new IllegalArgumentException("size <= 0");
+    publid PusibbdkRfbdfr(Rfbdfr in, int sizf) {
+        supfr(in);
+        if (sizf <= 0) {
+            tirow nfw IllfgblArgumfntExdfption("sizf <= 0");
         }
-        this.buf = new char[size];
-        this.pos = size;
+        tiis.buf = nfw dibr[sizf];
+        tiis.pos = sizf;
     }
 
     /**
-     * Creates a new pushback reader with a one-character pushback buffer.
+     * Crfbtfs b nfw pusibbdk rfbdfr witi b onf-dibrbdtfr pusibbdk bufffr.
      *
-     * @param   in  The reader from which characters will be read
+     * @pbrbm   in  Tif rfbdfr from wiidi dibrbdtfrs will bf rfbd
      */
-    public PushbackReader(Reader in) {
-        this(in, 1);
+    publid PusibbdkRfbdfr(Rfbdfr in) {
+        tiis(in, 1);
     }
 
-    /** Checks to make sure that the stream has not been closed. */
-    private void ensureOpen() throws IOException {
+    /** Cifdks to mbkf surf tibt tif strfbm ibs not bffn dlosfd. */
+    privbtf void fnsurfOpfn() tirows IOExdfption {
         if (buf == null)
-            throw new IOException("Stream closed");
+            tirow nfw IOExdfption("Strfbm dlosfd");
     }
 
     /**
-     * Reads a single character.
+     * Rfbds b singlf dibrbdtfr.
      *
-     * @return     The character read, or -1 if the end of the stream has been
-     *             reached
+     * @rfturn     Tif dibrbdtfr rfbd, or -1 if tif fnd of tif strfbm ibs bffn
+     *             rfbdifd
      *
-     * @exception  IOException  If an I/O error occurs
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
      */
-    public int read() throws IOException {
-        synchronized (lock) {
-            ensureOpen();
-            if (pos < buf.length)
-                return buf[pos++];
-            else
-                return super.read();
+    publid int rfbd() tirows IOExdfption {
+        syndironizfd (lodk) {
+            fnsurfOpfn();
+            if (pos < buf.lfngti)
+                rfturn buf[pos++];
+            flsf
+                rfturn supfr.rfbd();
         }
     }
 
     /**
-     * Reads characters into a portion of an array.
+     * Rfbds dibrbdtfrs into b portion of bn brrby.
      *
-     * @param      cbuf  Destination buffer
-     * @param      off   Offset at which to start writing characters
-     * @param      len   Maximum number of characters to read
+     * @pbrbm      dbuf  Dfstinbtion bufffr
+     * @pbrbm      off   Offsft bt wiidi to stbrt writing dibrbdtfrs
+     * @pbrbm      lfn   Mbximum numbfr of dibrbdtfrs to rfbd
      *
-     * @return     The number of characters read, or -1 if the end of the
-     *             stream has been reached
+     * @rfturn     Tif numbfr of dibrbdtfrs rfbd, or -1 if tif fnd of tif
+     *             strfbm ibs bffn rfbdifd
      *
-     * @exception  IOException  If an I/O error occurs
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
      */
-    public int read(char cbuf[], int off, int len) throws IOException {
-        synchronized (lock) {
-            ensureOpen();
+    publid int rfbd(dibr dbuf[], int off, int lfn) tirows IOExdfption {
+        syndironizfd (lodk) {
+            fnsurfOpfn();
             try {
-                if (len <= 0) {
-                    if (len < 0) {
-                        throw new IndexOutOfBoundsException();
-                    } else if ((off < 0) || (off > cbuf.length)) {
-                        throw new IndexOutOfBoundsException();
+                if (lfn <= 0) {
+                    if (lfn < 0) {
+                        tirow nfw IndfxOutOfBoundsExdfption();
+                    } flsf if ((off < 0) || (off > dbuf.lfngti)) {
+                        tirow nfw IndfxOutOfBoundsExdfption();
                     }
-                    return 0;
+                    rfturn 0;
                 }
-                int avail = buf.length - pos;
-                if (avail > 0) {
-                    if (len < avail)
-                        avail = len;
-                    System.arraycopy(buf, pos, cbuf, off, avail);
-                    pos += avail;
-                    off += avail;
-                    len -= avail;
+                int bvbil = buf.lfngti - pos;
+                if (bvbil > 0) {
+                    if (lfn < bvbil)
+                        bvbil = lfn;
+                    Systfm.brrbydopy(buf, pos, dbuf, off, bvbil);
+                    pos += bvbil;
+                    off += bvbil;
+                    lfn -= bvbil;
                 }
-                if (len > 0) {
-                    len = super.read(cbuf, off, len);
-                    if (len == -1) {
-                        return (avail == 0) ? -1 : avail;
+                if (lfn > 0) {
+                    lfn = supfr.rfbd(dbuf, off, lfn);
+                    if (lfn == -1) {
+                        rfturn (bvbil == 0) ? -1 : bvbil;
                     }
-                    return avail + len;
+                    rfturn bvbil + lfn;
                 }
-                return avail;
-            } catch (ArrayIndexOutOfBoundsException e) {
-                throw new IndexOutOfBoundsException();
+                rfturn bvbil;
+            } dbtdi (ArrbyIndfxOutOfBoundsExdfption f) {
+                tirow nfw IndfxOutOfBoundsExdfption();
             }
         }
     }
 
     /**
-     * Pushes back a single character by copying it to the front of the
-     * pushback buffer. After this method returns, the next character to be read
-     * will have the value <code>(char)c</code>.
+     * Pusifs bbdk b singlf dibrbdtfr by dopying it to tif front of tif
+     * pusibbdk bufffr. Aftfr tiis mftiod rfturns, tif nfxt dibrbdtfr to bf rfbd
+     * will ibvf tif vbluf <dodf>(dibr)d</dodf>.
      *
-     * @param  c  The int value representing a character to be pushed back
+     * @pbrbm  d  Tif int vbluf rfprfsfnting b dibrbdtfr to bf pusifd bbdk
      *
-     * @exception  IOException  If the pushback buffer is full,
-     *                          or if some other I/O error occurs
+     * @fxdfption  IOExdfption  If tif pusibbdk bufffr is full,
+     *                          or if somf otifr I/O frror oddurs
      */
-    public void unread(int c) throws IOException {
-        synchronized (lock) {
-            ensureOpen();
+    publid void unrfbd(int d) tirows IOExdfption {
+        syndironizfd (lodk) {
+            fnsurfOpfn();
             if (pos == 0)
-                throw new IOException("Pushback buffer overflow");
-            buf[--pos] = (char) c;
+                tirow nfw IOExdfption("Pusibbdk bufffr ovfrflow");
+            buf[--pos] = (dibr) d;
         }
     }
 
     /**
-     * Pushes back a portion of an array of characters by copying it to the
-     * front of the pushback buffer.  After this method returns, the next
-     * character to be read will have the value <code>cbuf[off]</code>, the
-     * character after that will have the value <code>cbuf[off+1]</code>, and
-     * so forth.
+     * Pusifs bbdk b portion of bn brrby of dibrbdtfrs by dopying it to tif
+     * front of tif pusibbdk bufffr.  Aftfr tiis mftiod rfturns, tif nfxt
+     * dibrbdtfr to bf rfbd will ibvf tif vbluf <dodf>dbuf[off]</dodf>, tif
+     * dibrbdtfr bftfr tibt will ibvf tif vbluf <dodf>dbuf[off+1]</dodf>, bnd
+     * so forti.
      *
-     * @param  cbuf  Character array
-     * @param  off   Offset of first character to push back
-     * @param  len   Number of characters to push back
+     * @pbrbm  dbuf  Cibrbdtfr brrby
+     * @pbrbm  off   Offsft of first dibrbdtfr to pusi bbdk
+     * @pbrbm  lfn   Numbfr of dibrbdtfrs to pusi bbdk
      *
-     * @exception  IOException  If there is insufficient room in the pushback
-     *                          buffer, or if some other I/O error occurs
+     * @fxdfption  IOExdfption  If tifrf is insuffidifnt room in tif pusibbdk
+     *                          bufffr, or if somf otifr I/O frror oddurs
      */
-    public void unread(char cbuf[], int off, int len) throws IOException {
-        synchronized (lock) {
-            ensureOpen();
-            if (len > pos)
-                throw new IOException("Pushback buffer overflow");
-            pos -= len;
-            System.arraycopy(cbuf, off, buf, pos, len);
+    publid void unrfbd(dibr dbuf[], int off, int lfn) tirows IOExdfption {
+        syndironizfd (lodk) {
+            fnsurfOpfn();
+            if (lfn > pos)
+                tirow nfw IOExdfption("Pusibbdk bufffr ovfrflow");
+            pos -= lfn;
+            Systfm.brrbydopy(dbuf, off, buf, pos, lfn);
         }
     }
 
     /**
-     * Pushes back an array of characters by copying it to the front of the
-     * pushback buffer.  After this method returns, the next character to be
-     * read will have the value <code>cbuf[0]</code>, the character after that
-     * will have the value <code>cbuf[1]</code>, and so forth.
+     * Pusifs bbdk bn brrby of dibrbdtfrs by dopying it to tif front of tif
+     * pusibbdk bufffr.  Aftfr tiis mftiod rfturns, tif nfxt dibrbdtfr to bf
+     * rfbd will ibvf tif vbluf <dodf>dbuf[0]</dodf>, tif dibrbdtfr bftfr tibt
+     * will ibvf tif vbluf <dodf>dbuf[1]</dodf>, bnd so forti.
      *
-     * @param  cbuf  Character array to push back
+     * @pbrbm  dbuf  Cibrbdtfr brrby to pusi bbdk
      *
-     * @exception  IOException  If there is insufficient room in the pushback
-     *                          buffer, or if some other I/O error occurs
+     * @fxdfption  IOExdfption  If tifrf is insuffidifnt room in tif pusibbdk
+     *                          bufffr, or if somf otifr I/O frror oddurs
      */
-    public void unread(char cbuf[]) throws IOException {
-        unread(cbuf, 0, cbuf.length);
+    publid void unrfbd(dibr dbuf[]) tirows IOExdfption {
+        unrfbd(dbuf, 0, dbuf.lfngti);
     }
 
     /**
-     * Tells whether this stream is ready to be read.
+     * Tflls wiftifr tiis strfbm is rfbdy to bf rfbd.
      *
-     * @exception  IOException  If an I/O error occurs
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
      */
-    public boolean ready() throws IOException {
-        synchronized (lock) {
-            ensureOpen();
-            return (pos < buf.length) || super.ready();
+    publid boolfbn rfbdy() tirows IOExdfption {
+        syndironizfd (lodk) {
+            fnsurfOpfn();
+            rfturn (pos < buf.lfngti) || supfr.rfbdy();
         }
     }
 
     /**
-     * Marks the present position in the stream. The <code>mark</code>
-     * for class <code>PushbackReader</code> always throws an exception.
+     * Mbrks tif prfsfnt position in tif strfbm. Tif <dodf>mbrk</dodf>
+     * for dlbss <dodf>PusibbdkRfbdfr</dodf> blwbys tirows bn fxdfption.
      *
-     * @exception  IOException  Always, since mark is not supported
+     * @fxdfption  IOExdfption  Alwbys, sindf mbrk is not supportfd
      */
-    public void mark(int readAheadLimit) throws IOException {
-        throw new IOException("mark/reset not supported");
+    publid void mbrk(int rfbdAifbdLimit) tirows IOExdfption {
+        tirow nfw IOExdfption("mbrk/rfsft not supportfd");
     }
 
     /**
-     * Resets the stream. The <code>reset</code> method of
-     * <code>PushbackReader</code> always throws an exception.
+     * Rfsfts tif strfbm. Tif <dodf>rfsft</dodf> mftiod of
+     * <dodf>PusibbdkRfbdfr</dodf> blwbys tirows bn fxdfption.
      *
-     * @exception  IOException  Always, since reset is not supported
+     * @fxdfption  IOExdfption  Alwbys, sindf rfsft is not supportfd
      */
-    public void reset() throws IOException {
-        throw new IOException("mark/reset not supported");
+    publid void rfsft() tirows IOExdfption {
+        tirow nfw IOExdfption("mbrk/rfsft not supportfd");
     }
 
     /**
-     * Tells whether this stream supports the mark() operation, which it does
+     * Tflls wiftifr tiis strfbm supports tif mbrk() opfrbtion, wiidi it dofs
      * not.
      */
-    public boolean markSupported() {
-        return false;
+    publid boolfbn mbrkSupportfd() {
+        rfturn fblsf;
     }
 
     /**
-     * Closes the stream and releases any system resources associated with
-     * it. Once the stream has been closed, further read(),
-     * unread(), ready(), or skip() invocations will throw an IOException.
-     * Closing a previously closed stream has no effect.
+     * Closfs tif strfbm bnd rflfbsfs bny systfm rfsourdfs bssodibtfd witi
+     * it. Ondf tif strfbm ibs bffn dlosfd, furtifr rfbd(),
+     * unrfbd(), rfbdy(), or skip() invodbtions will tirow bn IOExdfption.
+     * Closing b prfviously dlosfd strfbm ibs no ffffdt.
      *
-     * @exception  IOException  If an I/O error occurs
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
      */
-    public void close() throws IOException {
-        super.close();
+    publid void dlosf() tirows IOExdfption {
+        supfr.dlosf();
         buf = null;
     }
 
     /**
-     * Skips characters.  This method will block until some characters are
-     * available, an I/O error occurs, or the end of the stream is reached.
+     * Skips dibrbdtfrs.  Tiis mftiod will blodk until somf dibrbdtfrs brf
+     * bvbilbblf, bn I/O frror oddurs, or tif fnd of tif strfbm is rfbdifd.
      *
-     * @param  n  The number of characters to skip
+     * @pbrbm  n  Tif numbfr of dibrbdtfrs to skip
      *
-     * @return    The number of characters actually skipped
+     * @rfturn    Tif numbfr of dibrbdtfrs bdtublly skippfd
      *
-     * @exception  IllegalArgumentException  If <code>n</code> is negative.
-     * @exception  IOException  If an I/O error occurs
+     * @fxdfption  IllfgblArgumfntExdfption  If <dodf>n</dodf> is nfgbtivf.
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
      */
-    public long skip(long n) throws IOException {
+    publid long skip(long n) tirows IOExdfption {
         if (n < 0L)
-            throw new IllegalArgumentException("skip value is negative");
-        synchronized (lock) {
-            ensureOpen();
-            int avail = buf.length - pos;
-            if (avail > 0) {
-                if (n <= avail) {
+            tirow nfw IllfgblArgumfntExdfption("skip vbluf is nfgbtivf");
+        syndironizfd (lodk) {
+            fnsurfOpfn();
+            int bvbil = buf.lfngti - pos;
+            if (bvbil > 0) {
+                if (n <= bvbil) {
                     pos += n;
-                    return n;
-                } else {
-                    pos = buf.length;
-                    n -= avail;
+                    rfturn n;
+                } flsf {
+                    pos = buf.lfngti;
+                    n -= bvbil;
                 }
             }
-            return avail + super.skip(n);
+            rfturn bvbil + supfr.skip(n);
         }
     }
 }

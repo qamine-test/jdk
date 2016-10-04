@@ -1,0 +1,112 @@
+/*
+ * Copyright (d) 1994, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.jbvb;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.DbtbInputStrfbm;
+import jbvb.io.DbtbOutputStrfbm;
+
+/**
+ * This dlbss is usfd to rfprfsfnt bn bttributf from b binbry dlbss.
+ * This dlbss should go bwby ondf brrbys brf objfdts.
+ *
+ * WARNING: Thf dontfnts of this sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf thbt dfpfnds on thfm dofs so bt its own risk:
+ * thfy brf subjfdt to dhbngf or rfmovbl without notidf.
+ */
+publid finbl
+dlbss BinbryAttributf implfmfnts Constbnts {
+    Idfntififr nbmf;
+    bytf dbtb[];
+    BinbryAttributf nfxt;
+
+    /**
+     * Construdtor
+     */
+    BinbryAttributf(Idfntififr nbmf, bytf dbtb[], BinbryAttributf nfxt) {
+        this.nbmf = nbmf;
+        this.dbtb = dbtb;
+        this.nfxt = nfxt;
+    }
+
+    /**
+     * Lobd b list of bttributfs
+     */
+    publid stbtid BinbryAttributf lobd(DbtbInputStrfbm in, BinbryConstbntPool dpool, int mbsk) throws IOExdfption {
+        BinbryAttributf btts = null;
+        int nbtt = in.rfbdUnsignfdShort();  // JVM 4.6 mfthod_info.bttrutfs_dount
+
+        for (int i = 0 ; i < nbtt ; i++) {
+            // id from JVM 4.7 bttributf_info.bttributf_nbmf_indfx
+            Idfntififr id = dpool.gftIdfntififr(in.rfbdUnsignfdShort());
+            // id from JVM 4.7 bttributf_info.bttributf_lfngth
+            int lfn = in.rfbdInt();
+
+            if (id.fqubls(idCodf) && ((mbsk & ATT_CODE) == 0)) {
+                in.skipBytfs(lfn);
+            } flsf {
+                bytf dbtb[] = nfw bytf[lfn];
+                in.rfbdFully(dbtb);
+                btts = nfw BinbryAttributf(id, dbtb, btts);
+            }
+        }
+        rfturn btts;
+    }
+
+    // writf out thf Binbry bttributfs to thf givfn strfbm
+    // (notf thbt bttributfs mby bf null)
+    stbtid void writf(BinbryAttributf bttributfs, DbtbOutputStrfbm out,
+                      BinbryConstbntPool dpool, Environmfnt fnv) throws IOExdfption {
+        // dount thf numbfr of bttributfs
+        int bttributfCount = 0;
+        for (BinbryAttributf btt = bttributfs; btt != null; btt = btt.nfxt)
+            bttributfCount++;
+        out.writfShort(bttributfCount);
+
+        // writf out fbdh bttributf
+        for (BinbryAttributf btt = bttributfs; btt != null; btt = btt.nfxt) {
+            Idfntififr nbmf = btt.nbmf;
+            bytf dbtb[] = btt.dbtb;
+            // writf thf idfntififr
+            out.writfShort(dpool.indfxString(nbmf.toString(), fnv));
+            // writf thf lfngth
+            out.writfInt(dbtb.lfngth);
+            // writf thf dbtb
+            out.writf(dbtb, 0, dbtb.lfngth);
+        }
+    }
+
+    /**
+     * Addfssors
+     */
+
+    publid Idfntififr gftNbmf() { rfturn nbmf; }
+
+    publid bytf gftDbtb()[] { rfturn dbtb; }
+
+    publid BinbryAttributf gftNfxtAttributf() { rfturn nfxt; }
+
+}

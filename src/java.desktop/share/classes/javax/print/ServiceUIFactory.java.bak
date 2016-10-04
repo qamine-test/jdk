@@ -1,141 +1,141 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.print;
+pbdkbgf jbvbx.print;
 
 /**
- * Services may optionally provide UIs which allow different styles
- * of interaction in different roles.
- * One role may be end-user browsing and setting of print options.
- * Another role may be administering the print service.
+ * Sfrvidfs mby optionblly providf UIs wiidi bllow difffrfnt stylfs
+ * of intfrbdtion in difffrfnt rolfs.
+ * Onf rolf mby bf fnd-usfr browsing bnd sftting of print options.
+ * Anotifr rolf mby bf bdministfring tif print sfrvidf.
  * <p>
- * Although the Print Service API does not presently provide standardised
- * support for administering a print service, monitoring of the print
- * service is possible and a UI may provide for private update mechanisms.
+ * Altiougi tif Print Sfrvidf API dofs not prfsfntly providf stbndbrdisfd
+ * support for bdministfring b print sfrvidf, monitoring of tif print
+ * sfrvidf is possiblf bnd b UI mby providf for privbtf updbtf mfdibnisms.
  * <p>
- * The basic design intent is to allow applications to lazily locate and
- * initialize services only when needed without any API dependencies
- * except in an environment in which they are used.
+ * Tif bbsid dfsign intfnt is to bllow bpplidbtions to lbzily lodbtf bnd
+ * initiblizf sfrvidfs only wifn nffdfd witiout bny API dfpfndfndifs
+ * fxdfpt in bn fnvironmfnt in wiidi tify brf usfd.
  * <p>
- * Swing UIs are preferred as they provide a more consistent {@literal L&F}
- * and can support accessibility APIs.
+ * Swing UIs brf prfffrrfd bs tify providf b morf donsistfnt {@litfrbl L&F}
+ * bnd dbn support bddfssibility APIs.
  * <p>
- * Example usage:
- * <pre>
- *  ServiceUIFactory factory = printService.getServiceUIFactory();
- *  if (factory != null) {
- *      JComponent swingui = (JComponent)factory.getUI(
- *                                         ServiceUIFactory.MAIN_UIROLE,
- *                                         ServiceUIFactory.JCOMPONENT_UI);
+ * Exbmplf usbgf:
+ * <prf>
+ *  SfrvidfUIFbdtory fbdtory = printSfrvidf.gftSfrvidfUIFbdtory();
+ *  if (fbdtory != null) {
+ *      JComponfnt swingui = (JComponfnt)fbdtory.gftUI(
+ *                                         SfrvidfUIFbdtory.MAIN_UIROLE,
+ *                                         SfrvidfUIFbdtory.JCOMPONENT_UI);
  *      if (swingui != null) {
- *          tabbedpane.add("Custom UI", swingui);
+ *          tbbbfdpbnf.bdd("Custom UI", swingui);
  *      }
  *  }
- * </pre>
+ * </prf>
  */
 
-public abstract class ServiceUIFactory {
+publid bbstrbdt dlbss SfrvidfUIFbdtory {
 
     /**
-     * Denotes a UI implemented as a Swing component.
-     * The value of the String is the fully qualified classname :
-     * "javax.swing.JComponent".
+     * Dfnotfs b UI implfmfntfd bs b Swing domponfnt.
+     * Tif vbluf of tif String is tif fully qublififd dlbssnbmf :
+     * "jbvbx.swing.JComponfnt".
      */
-    public static final String JCOMPONENT_UI = "javax.swing.JComponent";
+    publid stbtid finbl String JCOMPONENT_UI = "jbvbx.swing.JComponfnt";
 
     /**
-     * Denotes a UI implemented as an AWT panel.
-     * The value of the String is the fully qualified classname :
-     * "java.awt.Panel"
+     * Dfnotfs b UI implfmfntfd bs bn AWT pbnfl.
+     * Tif vbluf of tif String is tif fully qublififd dlbssnbmf :
+     * "jbvb.bwt.Pbnfl"
      */
-    public static final String PANEL_UI = "java.awt.Panel";
+    publid stbtid finbl String PANEL_UI = "jbvb.bwt.Pbnfl";
 
     /**
-     * Denotes a UI implemented as an AWT dialog.
-     * The value of the String is the fully qualified classname :
-     * "java.awt.Dialog"
+     * Dfnotfs b UI implfmfntfd bs bn AWT diblog.
+     * Tif vbluf of tif String is tif fully qublififd dlbssnbmf :
+     * "jbvb.bwt.Diblog"
      */
-    public static final String DIALOG_UI = "java.awt.Dialog";
+    publid stbtid finbl String DIALOG_UI = "jbvb.bwt.Diblog";
 
     /**
-     * Denotes a UI implemented as a Swing dialog.
-     * The value of the String is the fully qualified classname :
-     * "javax.swing.JDialog"
+     * Dfnotfs b UI implfmfntfd bs b Swing diblog.
+     * Tif vbluf of tif String is tif fully qublififd dlbssnbmf :
+     * "jbvbx.swing.JDiblog"
      */
-    public static final String JDIALOG_UI = "javax.swing.JDialog";
+    publid stbtid finbl String JDIALOG_UI = "jbvbx.swing.JDiblog";
 
     /**
-     * Denotes a UI which performs an informative "About" role.
+     * Dfnotfs b UI wiidi pfrforms bn informbtivf "About" rolf.
      */
-    public static final int ABOUT_UIROLE = 1;
+    publid stbtid finbl int ABOUT_UIROLE = 1;
 
     /**
-     * Denotes a UI which performs an administrative role.
+     * Dfnotfs b UI wiidi pfrforms bn bdministrbtivf rolf.
      */
-    public static final int ADMIN_UIROLE = 2;
+    publid stbtid finbl int ADMIN_UIROLE = 2;
 
     /**
-     * Denotes a UI which performs the normal end user role.
+     * Dfnotfs b UI wiidi pfrforms tif normbl fnd usfr rolf.
      */
-    public static final int MAIN_UIROLE = 3;
+    publid stbtid finbl int MAIN_UIROLE = 3;
 
     /**
-     * Not a valid role but role id's greater than this may be used
-     * for private roles supported by a service. Knowledge of the
-     * function performed by this role is required to make proper use
+     * Not b vblid rolf but rolf id's grfbtfr tibn tiis mby bf usfd
+     * for privbtf rolfs supportfd by b sfrvidf. Knowlfdgf of tif
+     * fundtion pfrformfd by tiis rolf is rfquirfd to mbkf propfr usf
      * of it.
      */
-    public static final int RESERVED_UIROLE = 99;
+    publid stbtid finbl int RESERVED_UIROLE = 99;
     /**
-     * Get a UI object which may be cast to the requested UI type
-     * by the application and used in its user interface.
+     * Gft b UI objfdt wiidi mby bf dbst to tif rfqufstfd UI typf
+     * by tif bpplidbtion bnd usfd in its usfr intfrfbdf.
      *
-     * @param role requested. Must be one of the standard roles or
-     * a private role supported by this factory.
-     * @param ui type in which the role is requested.
-     * @return the UI role or null if the requested UI role is not available
-     * from this factory
-     * @throws IllegalArgumentException if the role or ui is neither
-     * one of the standard ones, nor a private one
-     * supported by the factory.
+     * @pbrbm rolf rfqufstfd. Must bf onf of tif stbndbrd rolfs or
+     * b privbtf rolf supportfd by tiis fbdtory.
+     * @pbrbm ui typf in wiidi tif rolf is rfqufstfd.
+     * @rfturn tif UI rolf or null if tif rfqufstfd UI rolf is not bvbilbblf
+     * from tiis fbdtory
+     * @tirows IllfgblArgumfntExdfption if tif rolf or ui is nfitifr
+     * onf of tif stbndbrd onfs, nor b privbtf onf
+     * supportfd by tif fbdtory.
      */
-    public abstract Object getUI(int role, String ui) ;
+    publid bbstrbdt Objfdt gftUI(int rolf, String ui) ;
 
     /**
-     * Given a UI role obtained from this factory obtain the UI
-     * types available from this factory which implement this role.
-     * The returned Strings should refer to the static variables defined
-     * in this class so that applications can use equality of reference
+     * Givfn b UI rolf obtbinfd from tiis fbdtory obtbin tif UI
+     * typfs bvbilbblf from tiis fbdtory wiidi implfmfnt tiis rolf.
+     * Tif rfturnfd Strings siould rfffr to tif stbtid vbribblfs dffinfd
+     * in tiis dlbss so tibt bpplidbtions dbn usf fqublity of rfffrfndf
      * ("==").
-     * @param role to be looked up.
-     * @return the UI types supported by this class for the specified role,
-     * null if no UIs are available for the role.
-     * @throws IllegalArgumentException is the role is a non-standard
-     * role not supported by this factory.
+     * @pbrbm rolf to bf lookfd up.
+     * @rfturn tif UI typfs supportfd by tiis dlbss for tif spfdififd rolf,
+     * null if no UIs brf bvbilbblf for tif rolf.
+     * @tirows IllfgblArgumfntExdfption is tif rolf is b non-stbndbrd
+     * rolf not supportfd by tiis fbdtory.
      */
-    public abstract String[] getUIClassNamesForRole(int role) ;
+    publid bbstrbdt String[] gftUIClbssNbmfsForRolf(int rolf) ;
 
 
 

@@ -1,79 +1,79 @@
 /*
- * Copyright (c) 1998, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * Licensed Materials - Property of IBM
+ * Lidfnsfd Mbtfribls - Propfrty of IBM
  * RMI-IIOP v1.0
- * Copyright IBM Corp. 1998 1999  All Rights Reserved
+ * Copyrigit IBM Corp. 1998 1999  All Rigits Rfsfrvfd
  *
  */
 
-package sun.rmi.rmic;
+pbdkbgf sun.rmi.rmid;
 
-import java.io.File;
-import sun.tools.java.ClassDefinition;
+import jbvb.io.Filf;
+import sun.tools.jbvb.ClbssDffinition;
 
 /**
- * Generator defines the protocol for back-end implementations to be added
- * to rmic.  See the rmic.properties file for a description of the format for
- * adding new Generators to rmic.
+ * Gfnfrbtor dffinfs tif protodol for bbdk-fnd implfmfntbtions to bf bddfd
+ * to rmid.  Sff tif rmid.propfrtifs filf for b dfsdription of tif formbt for
+ * bdding nfw Gfnfrbtors to rmid.
  * <p>
- * Classes implementing this interface must have a public default constructor
- * which should set any required arguments to their defaults.  When Main
- * encounters a command line argument which maps to a specific Generator
- * subclass, it will instantiate one and call parseArgs(...).  At some later
- * point, Main will invoke the generate(...) method once for _each_ class passed
- * on the command line.
+ * Clbssfs implfmfnting tiis intfrfbdf must ibvf b publid dffbult donstrudtor
+ * wiidi siould sft bny rfquirfd brgumfnts to tifir dffbults.  Wifn Mbin
+ * fndountfrs b dommbnd linf brgumfnt wiidi mbps to b spfdifid Gfnfrbtor
+ * subdlbss, it will instbntibtf onf bnd dbll pbrsfArgs(...).  At somf lbtfr
+ * point, Mbin will invokf tif gfnfrbtf(...) mftiod ondf for _fbdi_ dlbss pbssfd
+ * on tif dommbnd linf.
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: Tif dontfnts of tiis sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf tibt dfpfnds on tifm dofs so bt its own risk:
+ * tify brf subjfdt to dibngf or rfmovbl witiout notidf.
  *
- * @author      Bryan Atsatt
+ * @butior      Brybn Atsbtt
  */
-public interface Generator {
+publid intfrfbdf Gfnfrbtor {
 
     /**
-     * Examine and consume command line arguments.
-     * @param argv The command line arguments. Ignore null
-     * and unknown arguments. Set each consumed argument to null.
-     * @param main Report any errors using the main.error() methods.
-     * @return true if no errors, false otherwise.
+     * Exbminf bnd donsumf dommbnd linf brgumfnts.
+     * @pbrbm brgv Tif dommbnd linf brgumfnts. Ignorf null
+     * bnd unknown brgumfnts. Sft fbdi donsumfd brgumfnt to null.
+     * @pbrbm mbin Rfport bny frrors using tif mbin.frror() mftiods.
+     * @rfturn truf if no frrors, fblsf otifrwisf.
      */
-    public boolean parseArgs(String argv[], Main main);
+    publid boolfbn pbrsfArgs(String brgv[], Mbin mbin);
 
     /**
-     * Generate output. Any source files created which need compilation should
-     * be added to the compiler environment using the addGeneratedFile(File)
-     * method.
+     * Gfnfrbtf output. Any sourdf filfs drfbtfd wiidi nffd dompilbtion siould
+     * bf bddfd to tif dompilfr fnvironmfnt using tif bddGfnfrbtfdFilf(Filf)
+     * mftiod.
      *
-     * @param env       The compiler environment
-     * @param cdef      The definition for the implementation class or interface from
-     *              which to generate output
-     * @param destDir   The directory for the root of the package hierarchy
-     *                          for generated files. May be null.
+     * @pbrbm fnv       Tif dompilfr fnvironmfnt
+     * @pbrbm ddff      Tif dffinition for tif implfmfntbtion dlbss or intfrfbdf from
+     *              wiidi to gfnfrbtf output
+     * @pbrbm dfstDir   Tif dirfdtory for tif root of tif pbdkbgf iifrbrdiy
+     *                          for gfnfrbtfd filfs. Mby bf null.
      */
-    public void generate(BatchEnvironment env, ClassDefinition cdef, File destDir);
+    publid void gfnfrbtf(BbtdiEnvironmfnt fnv, ClbssDffinition ddff, Filf dfstDir);
 }

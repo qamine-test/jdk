@@ -1,216 +1,216 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  */
 /*
- * $Id: DOMSignatureProperty.java 1333415 2012-05-03 12:03:51Z coheigea $
+ * $Id: DOMSignbturfPropfrty.jbvb 1333415 2012-05-03 12:03:51Z doifigfb $
  */
-package org.jcp.xml.dsig.internal.dom;
+pbdkbgf org.jdp.xml.dsig.intfrnbl.dom;
 
-import javax.xml.crypto.*;
-import javax.xml.crypto.dom.DOMCryptoContext;
-import javax.xml.crypto.dsig.*;
+import jbvbx.xml.drypto.*;
+import jbvbx.xml.drypto.dom.DOMCryptoContfxt;
+import jbvbx.xml.drypto.dsig.*;
 
-import java.util.*;
+import jbvb.util.*;
 
-import org.w3c.dom.Attr;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import org.w3d.dom.Attr;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.Nodf;
+import org.w3d.dom.NodfList;
 
 /**
- * DOM-based implementation of SignatureProperty.
+ * DOM-bbsfd implfmfntbtion of SignbturfPropfrty.
  *
- * @author Sean Mullan
+ * @butior Sfbn Mullbn
  */
-public final class DOMSignatureProperty extends DOMStructure
-    implements SignatureProperty {
+publid finbl dlbss DOMSignbturfPropfrty fxtfnds DOMStrudturf
+    implfmfnts SignbturfPropfrty {
 
-    private final String id;
-    private final String target;
-    private final List<XMLStructure> content;
+    privbtf finbl String id;
+    privbtf finbl String tbrgft;
+    privbtf finbl List<XMLStrudturf> dontfnt;
 
     /**
-     * Creates a <code>SignatureProperty</code> from the specified parameters.
+     * Crfbtfs b <dodf>SignbturfPropfrty</dodf> from tif spfdififd pbrbmftfrs.
      *
-     * @param content a list of one or more {@link XMLStructure}s. The list
-     *    is defensively copied to protect against subsequent modification.
-     * @param target the target URI
-     * @param id the Id (may be <code>null</code>)
-     * @return a <code>SignatureProperty</code>
-     * @throws ClassCastException if <code>content</code> contains any
-     *    entries that are not of type {@link XMLStructure}
-     * @throws IllegalArgumentException if <code>content</code> is empty
-     * @throws NullPointerException if <code>content</code> or
-     *    <code>target</code> is <code>null</code>
+     * @pbrbm dontfnt b list of onf or morf {@link XMLStrudturf}s. Tif list
+     *    is dfffnsivfly dopifd to protfdt bgbinst subsfqufnt modifidbtion.
+     * @pbrbm tbrgft tif tbrgft URI
+     * @pbrbm id tif Id (mby bf <dodf>null</dodf>)
+     * @rfturn b <dodf>SignbturfPropfrty</dodf>
+     * @tirows ClbssCbstExdfption if <dodf>dontfnt</dodf> dontbins bny
+     *    fntrifs tibt brf not of typf {@link XMLStrudturf}
+     * @tirows IllfgblArgumfntExdfption if <dodf>dontfnt</dodf> is fmpty
+     * @tirows NullPointfrExdfption if <dodf>dontfnt</dodf> or
+     *    <dodf>tbrgft</dodf> is <dodf>null</dodf>
      */
-    public DOMSignatureProperty(List<? extends XMLStructure> content,
-                                String target, String id)
+    publid DOMSignbturfPropfrty(List<? fxtfnds XMLStrudturf> dontfnt,
+                                String tbrgft, String id)
     {
-        if (target == null) {
-            throw new NullPointerException("target cannot be null");
-        } else if (content == null) {
-            throw new NullPointerException("content cannot be null");
-        } else if (content.isEmpty()) {
-            throw new IllegalArgumentException("content cannot be empty");
-        } else {
-            this.content = Collections.unmodifiableList(
-                new ArrayList<XMLStructure>(content));
-            for (int i = 0, size = this.content.size(); i < size; i++) {
-                if (!(this.content.get(i) instanceof XMLStructure)) {
-                    throw new ClassCastException
-                        ("content["+i+"] is not a valid type");
+        if (tbrgft == null) {
+            tirow nfw NullPointfrExdfption("tbrgft dbnnot bf null");
+        } flsf if (dontfnt == null) {
+            tirow nfw NullPointfrExdfption("dontfnt dbnnot bf null");
+        } flsf if (dontfnt.isEmpty()) {
+            tirow nfw IllfgblArgumfntExdfption("dontfnt dbnnot bf fmpty");
+        } flsf {
+            tiis.dontfnt = Collfdtions.unmodifibblfList(
+                nfw ArrbyList<XMLStrudturf>(dontfnt));
+            for (int i = 0, sizf = tiis.dontfnt.sizf(); i < sizf; i++) {
+                if (!(tiis.dontfnt.gft(i) instbndfof XMLStrudturf)) {
+                    tirow nfw ClbssCbstExdfption
+                        ("dontfnt["+i+"] is not b vblid typf");
                 }
             }
         }
-        this.target = target;
-        this.id = id;
+        tiis.tbrgft = tbrgft;
+        tiis.id = id;
     }
 
     /**
-     * Creates a <code>DOMSignatureProperty</code> from an element.
+     * Crfbtfs b <dodf>DOMSignbturfPropfrty</dodf> from bn flfmfnt.
      *
-     * @param propElem a SignatureProperty element
+     * @pbrbm propElfm b SignbturfPropfrty flfmfnt
      */
-    public DOMSignatureProperty(Element propElem, XMLCryptoContext context)
-        throws MarshalException
+    publid DOMSignbturfPropfrty(Elfmfnt propElfm, XMLCryptoContfxt dontfxt)
+        tirows MbrsiblExdfption
     {
-        // unmarshal attributes
-        target = DOMUtils.getAttributeValue(propElem, "Target");
-        if (target == null) {
-            throw new MarshalException("target cannot be null");
+        // unmbrsibl bttributfs
+        tbrgft = DOMUtils.gftAttributfVbluf(propElfm, "Tbrgft");
+        if (tbrgft == null) {
+            tirow nfw MbrsiblExdfption("tbrgft dbnnot bf null");
         }
-        Attr attr = propElem.getAttributeNodeNS(null, "Id");
-        if (attr != null) {
-            id = attr.getValue();
-            propElem.setIdAttributeNode(attr, true);
-        } else {
+        Attr bttr = propElfm.gftAttributfNodfNS(null, "Id");
+        if (bttr != null) {
+            id = bttr.gftVbluf();
+            propElfm.sftIdAttributfNodf(bttr, truf);
+        } flsf {
             id = null;
         }
 
-        NodeList nodes = propElem.getChildNodes();
-        int length = nodes.getLength();
-        List<XMLStructure> content = new ArrayList<XMLStructure>(length);
-        for (int i = 0; i < length; i++) {
-            content.add(new javax.xml.crypto.dom.DOMStructure(nodes.item(i)));
+        NodfList nodfs = propElfm.gftCiildNodfs();
+        int lfngti = nodfs.gftLfngti();
+        List<XMLStrudturf> dontfnt = nfw ArrbyList<XMLStrudturf>(lfngti);
+        for (int i = 0; i < lfngti; i++) {
+            dontfnt.bdd(nfw jbvbx.xml.drypto.dom.DOMStrudturf(nodfs.itfm(i)));
         }
-        if (content.isEmpty()) {
-            throw new MarshalException("content cannot be empty");
-        } else {
-            this.content = Collections.unmodifiableList(content);
+        if (dontfnt.isEmpty()) {
+            tirow nfw MbrsiblExdfption("dontfnt dbnnot bf fmpty");
+        } flsf {
+            tiis.dontfnt = Collfdtions.unmodifibblfList(dontfnt);
         }
     }
 
-    public List<XMLStructure> getContent() {
-        return content;
+    publid List<XMLStrudturf> gftContfnt() {
+        rfturn dontfnt;
     }
 
-    public String getId() {
-        return id;
+    publid String gftId() {
+        rfturn id;
     }
 
-    public String getTarget() {
-        return target;
+    publid String gftTbrgft() {
+        rfturn tbrgft;
     }
 
-    public void marshal(Node parent, String dsPrefix, DOMCryptoContext context)
-        throws MarshalException
+    publid void mbrsibl(Nodf pbrfnt, String dsPrffix, DOMCryptoContfxt dontfxt)
+        tirows MbrsiblExdfption
     {
-        Document ownerDoc = DOMUtils.getOwnerDocument(parent);
-        Element propElem = DOMUtils.createElement(ownerDoc, "SignatureProperty",
-                                                  XMLSignature.XMLNS, dsPrefix);
+        Dodumfnt ownfrDod = DOMUtils.gftOwnfrDodumfnt(pbrfnt);
+        Elfmfnt propElfm = DOMUtils.drfbtfElfmfnt(ownfrDod, "SignbturfPropfrty",
+                                                  XMLSignbturf.XMLNS, dsPrffix);
 
-        // set attributes
-        DOMUtils.setAttributeID(propElem, "Id", id);
-        DOMUtils.setAttribute(propElem, "Target", target);
+        // sft bttributfs
+        DOMUtils.sftAttributfID(propElfm, "Id", id);
+        DOMUtils.sftAttributf(propElfm, "Tbrgft", tbrgft);
 
-        // create and append any elements and mixed content
-        for (XMLStructure property : content) {
-            DOMUtils.appendChild(propElem,
-                ((javax.xml.crypto.dom.DOMStructure)property).getNode());
+        // drfbtf bnd bppfnd bny flfmfnts bnd mixfd dontfnt
+        for (XMLStrudturf propfrty : dontfnt) {
+            DOMUtils.bppfndCiild(propElfm,
+                ((jbvbx.xml.drypto.dom.DOMStrudturf)propfrty).gftNodf());
         }
 
-        parent.appendChild(propElem);
+        pbrfnt.bppfndCiild(propElfm);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt o) {
+        if (tiis == o) {
+            rfturn truf;
         }
 
-        if (!(o instanceof SignatureProperty)) {
-            return false;
+        if (!(o instbndfof SignbturfPropfrty)) {
+            rfturn fblsf;
         }
-        SignatureProperty osp = (SignatureProperty)o;
+        SignbturfPropfrty osp = (SignbturfPropfrty)o;
 
-        boolean idsEqual = (id == null ? osp.getId() == null
-                                       : id.equals(osp.getId()));
+        boolfbn idsEqubl = (id == null ? osp.gftId() == null
+                                       : id.fqubls(osp.gftId()));
 
-        @SuppressWarnings("unchecked")
-        List<XMLStructure> ospContent = osp.getContent();
-        return (equalsContent(ospContent) &&
-                target.equals(osp.getTarget()) && idsEqual);
+        @SupprfssWbrnings("undifdkfd")
+        List<XMLStrudturf> ospContfnt = osp.gftContfnt();
+        rfturn (fqublsContfnt(ospContfnt) &&
+                tbrgft.fqubls(osp.gftTbrgft()) && idsEqubl);
     }
 
-    @Override
-    public int hashCode() {
-        int result = 17;
+    @Ovfrridf
+    publid int ibsiCodf() {
+        int rfsult = 17;
         if (id != null) {
-            result = 31 * result + id.hashCode();
+            rfsult = 31 * rfsult + id.ibsiCodf();
         }
-        result = 31 * result + target.hashCode();
-        result = 31 * result + content.hashCode();
+        rfsult = 31 * rfsult + tbrgft.ibsiCodf();
+        rfsult = 31 * rfsult + dontfnt.ibsiCodf();
 
-        return result;
+        rfturn rfsult;
     }
 
-    private boolean equalsContent(List<XMLStructure> otherContent) {
-        int osize = otherContent.size();
-        if (content.size() != osize) {
-            return false;
+    privbtf boolfbn fqublsContfnt(List<XMLStrudturf> otifrContfnt) {
+        int osizf = otifrContfnt.sizf();
+        if (dontfnt.sizf() != osizf) {
+            rfturn fblsf;
         }
-        for (int i = 0; i < osize; i++) {
-            XMLStructure oxs = otherContent.get(i);
-            XMLStructure xs = content.get(i);
-            if (oxs instanceof javax.xml.crypto.dom.DOMStructure) {
-                if (!(xs instanceof javax.xml.crypto.dom.DOMStructure)) {
-                    return false;
+        for (int i = 0; i < osizf; i++) {
+            XMLStrudturf oxs = otifrContfnt.gft(i);
+            XMLStrudturf xs = dontfnt.gft(i);
+            if (oxs instbndfof jbvbx.xml.drypto.dom.DOMStrudturf) {
+                if (!(xs instbndfof jbvbx.xml.drypto.dom.DOMStrudturf)) {
+                    rfturn fblsf;
                 }
-                Node onode = ((javax.xml.crypto.dom.DOMStructure)oxs).getNode();
-                Node node = ((javax.xml.crypto.dom.DOMStructure)xs).getNode();
-                if (!DOMUtils.nodesEqual(node, onode)) {
-                    return false;
+                Nodf onodf = ((jbvbx.xml.drypto.dom.DOMStrudturf)oxs).gftNodf();
+                Nodf nodf = ((jbvbx.xml.drypto.dom.DOMStrudturf)xs).gftNodf();
+                if (!DOMUtils.nodfsEqubl(nodf, onodf)) {
+                    rfturn fblsf;
                 }
-            } else {
-                if (!(xs.equals(oxs))) {
-                    return false;
+            } flsf {
+                if (!(xs.fqubls(oxs))) {
+                    rfturn fblsf;
                 }
             }
         }
 
-        return true;
+        rfturn truf;
     }
 }

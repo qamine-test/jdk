@@ -1,362 +1,362 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.security.auth;
+pbdkbgf jbvbx.sfdurity.buti;
 
-import java.security.Security;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedExceptionAction;
-import java.util.Objects;
-import sun.security.util.Debug;
+import jbvb.sfdurity.Sfdurity;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvb.util.Objfdts;
+import sun.sfdurity.util.Dfbug;
 
 /**
- * <p> This is an abstract class for representing the system policy for
- * Subject-based authorization.  A subclass implementation
- * of this class provides a means to specify a Subject-based
- * access control {@code Policy}.
+ * <p> Tiis is bn bbstrbdt dlbss for rfprfsfnting tif systfm polidy for
+ * Subjfdt-bbsfd butiorizbtion.  A subdlbss implfmfntbtion
+ * of tiis dlbss providfs b mfbns to spfdify b Subjfdt-bbsfd
+ * bddfss dontrol {@dodf Polidy}.
  *
- * <p> A {@code Policy} object can be queried for the set of
- * Permissions granted to code running as a
- * {@code Principal} in the following manner:
+ * <p> A {@dodf Polidy} objfdt dbn bf qufrifd for tif sft of
+ * Pfrmissions grbntfd to dodf running bs b
+ * {@dodf Prindipbl} in tif following mbnnfr:
  *
- * <pre>
- *      policy = Policy.getPolicy();
- *      PermissionCollection perms = policy.getPermissions(subject,
- *                                                      codeSource);
- * </pre>
+ * <prf>
+ *      polidy = Polidy.gftPolidy();
+ *      PfrmissionCollfdtion pfrms = polidy.gftPfrmissions(subjfdt,
+ *                                                      dodfSourdf);
+ * </prf>
  *
- * The {@code Policy} object consults the local policy and returns
- * and appropriate {@code Permissions} object with the
- * Permissions granted to the Principals associated with the
- * provided <i>subject</i>, and granted to the code specified
- * by the provided <i>codeSource</i>.
+ * Tif {@dodf Polidy} objfdt donsults tif lodbl polidy bnd rfturns
+ * bnd bppropribtf {@dodf Pfrmissions} objfdt witi tif
+ * Pfrmissions grbntfd to tif Prindipbls bssodibtfd witi tif
+ * providfd <i>subjfdt</i>, bnd grbntfd to tif dodf spfdififd
+ * by tif providfd <i>dodfSourdf</i>.
  *
- * <p> A {@code Policy} contains the following information.
- * Note that this example only represents the syntax for the default
- * {@code Policy} implementation. Subclass implementations of this class
- * may implement alternative syntaxes and may retrieve the
- * {@code Policy} from any source such as files, databases,
- * or servers.
+ * <p> A {@dodf Polidy} dontbins tif following informbtion.
+ * Notf tibt tiis fxbmplf only rfprfsfnts tif syntbx for tif dffbult
+ * {@dodf Polidy} implfmfntbtion. Subdlbss implfmfntbtions of tiis dlbss
+ * mby implfmfnt bltfrnbtivf syntbxfs bnd mby rftrifvf tif
+ * {@dodf Polidy} from bny sourdf sudi bs filfs, dbtbbbsfs,
+ * or sfrvfrs.
  *
- * <p> Each entry in the {@code Policy} is represented as
- * a <b><i>grant</i></b> entry.  Each <b><i>grant</i></b> entry
- * specifies a codebase, code signers, and Principals triplet,
- * as well as the Permissions granted to that triplet.
+ * <p> Ebdi fntry in tif {@dodf Polidy} is rfprfsfntfd bs
+ * b <b><i>grbnt</i></b> fntry.  Ebdi <b><i>grbnt</i></b> fntry
+ * spfdififs b dodfbbsf, dodf signfrs, bnd Prindipbls triplft,
+ * bs wfll bs tif Pfrmissions grbntfd to tibt triplft.
  *
- * <pre>
- *      grant CodeBase ["URL"], Signedby ["signers"],
- *            Principal [Principal_Class] "Principal_Name" {
- *          Permission Permission_Class ["Target_Name"]
- *                                      [, "Permission_Actions"]
- *                                      [, signedBy "SignerName"];
+ * <prf>
+ *      grbnt CodfBbsf ["URL"], Signfdby ["signfrs"],
+ *            Prindipbl [Prindipbl_Clbss] "Prindipbl_Nbmf" {
+ *          Pfrmission Pfrmission_Clbss ["Tbrgft_Nbmf"]
+ *                                      [, "Pfrmission_Adtions"]
+ *                                      [, signfdBy "SignfrNbmf"];
  *      };
- * </pre>
+ * </prf>
  *
- * The CodeBase and Signedby components of the triplet name/value pairs
- * are optional.  If they are not present, then any any codebase will match,
- * and any signer (including unsigned code) will match.
- * For Example,
+ * Tif CodfBbsf bnd Signfdby domponfnts of tif triplft nbmf/vbluf pbirs
+ * brf optionbl.  If tify brf not prfsfnt, tifn bny bny dodfbbsf will mbtdi,
+ * bnd bny signfr (indluding unsignfd dodf) will mbtdi.
+ * For Exbmplf,
  *
- * <pre>
- *      grant CodeBase "foo.com", Signedby "foo",
- *            Principal com.sun.security.auth.SolarisPrincipal "duke" {
- *          permission java.io.FilePermission "/home/duke", "read, write";
+ * <prf>
+ *      grbnt CodfBbsf "foo.dom", Signfdby "foo",
+ *            Prindipbl dom.sun.sfdurity.buti.SolbrisPrindipbl "dukf" {
+ *          pfrmission jbvb.io.FilfPfrmission "/iomf/dukf", "rfbd, writf";
  *      };
- * </pre>
+ * </prf>
  *
- * This <b><i>grant</i></b> entry specifies that code from "foo.com",
- * signed by "foo', and running as a {@code SolarisPrincipal} with the
- * name, duke, has one {@code Permission}.  This {@code Permission}
- * permits the executing code to read and write files in the directory,
- * "/home/duke".
+ * Tiis <b><i>grbnt</i></b> fntry spfdififs tibt dodf from "foo.dom",
+ * signfd by "foo', bnd running bs b {@dodf SolbrisPrindipbl} witi tif
+ * nbmf, dukf, ibs onf {@dodf Pfrmission}.  Tiis {@dodf Pfrmission}
+ * pfrmits tif fxfduting dodf to rfbd bnd writf filfs in tif dirfdtory,
+ * "/iomf/dukf".
  *
- * <p> To "run" as a particular {@code Principal},
- * code invokes the {@code Subject.doAs(subject, ...)} method.
- * After invoking that method, the code runs as all the Principals
- * associated with the specified {@code Subject}.
- * Note that this {@code Policy} (and the Permissions
- * granted in this {@code Policy}) only become effective
- * after the call to {@code Subject.doAs} has occurred.
+ * <p> To "run" bs b pbrtidulbr {@dodf Prindipbl},
+ * dodf invokfs tif {@dodf Subjfdt.doAs(subjfdt, ...)} mftiod.
+ * Aftfr invoking tibt mftiod, tif dodf runs bs bll tif Prindipbls
+ * bssodibtfd witi tif spfdififd {@dodf Subjfdt}.
+ * Notf tibt tiis {@dodf Polidy} (bnd tif Pfrmissions
+ * grbntfd in tiis {@dodf Polidy}) only bfdomf ffffdtivf
+ * bftfr tif dbll to {@dodf Subjfdt.doAs} ibs oddurrfd.
  *
- * <p> Multiple Principals may be listed within one <b><i>grant</i></b> entry.
- * All the Principals in the grant entry must be associated with
- * the {@code Subject} provided to {@code Subject.doAs}
- * for that {@code Subject} to be granted the specified Permissions.
+ * <p> Multiplf Prindipbls mby bf listfd witiin onf <b><i>grbnt</i></b> fntry.
+ * All tif Prindipbls in tif grbnt fntry must bf bssodibtfd witi
+ * tif {@dodf Subjfdt} providfd to {@dodf Subjfdt.doAs}
+ * for tibt {@dodf Subjfdt} to bf grbntfd tif spfdififd Pfrmissions.
  *
- * <pre>
- *      grant Principal com.sun.security.auth.SolarisPrincipal "duke",
- *            Principal com.sun.security.auth.SolarisNumericUserPrincipal "0" {
- *          permission java.io.FilePermission "/home/duke", "read, write";
- *          permission java.net.SocketPermission "duke.com", "connect";
+ * <prf>
+ *      grbnt Prindipbl dom.sun.sfdurity.buti.SolbrisPrindipbl "dukf",
+ *            Prindipbl dom.sun.sfdurity.buti.SolbrisNumfridUsfrPrindipbl "0" {
+ *          pfrmission jbvb.io.FilfPfrmission "/iomf/dukf", "rfbd, writf";
+ *          pfrmission jbvb.nft.SodkftPfrmission "dukf.dom", "donnfdt";
  *      };
- * </pre>
+ * </prf>
  *
- * This entry grants any code running as both "duke" and "0"
- * permission to read and write files in duke's home directory,
- * as well as permission to make socket connections to "duke.com".
+ * Tiis fntry grbnts bny dodf running bs boti "dukf" bnd "0"
+ * pfrmission to rfbd bnd writf filfs in dukf's iomf dirfdtory,
+ * bs wfll bs pfrmission to mbkf sodkft donnfdtions to "dukf.dom".
  *
- * <p> Note that non Principal-based grant entries are not permitted
- * in this {@code Policy}.  Therefore, grant entries such as:
+ * <p> Notf tibt non Prindipbl-bbsfd grbnt fntrifs brf not pfrmittfd
+ * in tiis {@dodf Polidy}.  Tifrfforf, grbnt fntrifs sudi bs:
  *
- * <pre>
- *      grant CodeBase "foo.com", Signedby "foo" {
- *          permission java.io.FilePermission "/tmp/scratch", "read, write";
+ * <prf>
+ *      grbnt CodfBbsf "foo.dom", Signfdby "foo" {
+ *          pfrmission jbvb.io.FilfPfrmission "/tmp/sdrbtdi", "rfbd, writf";
  *      };
- * </pre>
+ * </prf>
  *
- * are rejected.  Such permission must be listed in the
- * {@code java.security.Policy}.
+ * brf rfjfdtfd.  Sudi pfrmission must bf listfd in tif
+ * {@dodf jbvb.sfdurity.Polidy}.
  *
- * <p> The default {@code Policy} implementation can be changed by
- * setting the value of the {@code auth.policy.provider} security property to
- * the fully qualified name of the desired {@code Policy} implementation class.
+ * <p> Tif dffbult {@dodf Polidy} implfmfntbtion dbn bf dibngfd by
+ * sftting tif vbluf of tif {@dodf buti.polidy.providfr} sfdurity propfrty to
+ * tif fully qublififd nbmf of tif dfsirfd {@dodf Polidy} implfmfntbtion dlbss.
  *
- * @deprecated  as of JDK version 1.4 -- Replaced by java.security.Policy.
- *              java.security.Policy has a method:
- * <pre>
- *      public PermissionCollection getPermissions
- *          (java.security.ProtectionDomain pd)
+ * @dfprfdbtfd  bs of JDK vfrsion 1.4 -- Rfplbdfd by jbvb.sfdurity.Polidy.
+ *              jbvb.sfdurity.Polidy ibs b mftiod:
+ * <prf>
+ *      publid PfrmissionCollfdtion gftPfrmissions
+ *          (jbvb.sfdurity.ProtfdtionDombin pd)
  *
- * </pre>
- * and ProtectionDomain has a constructor:
- * <pre>
- *      public ProtectionDomain
- *          (CodeSource cs,
- *           PermissionCollection permissions,
- *           ClassLoader loader,
- *           Principal[] principals)
- * </pre>
+ * </prf>
+ * bnd ProtfdtionDombin ibs b donstrudtor:
+ * <prf>
+ *      publid ProtfdtionDombin
+ *          (CodfSourdf ds,
+ *           PfrmissionCollfdtion pfrmissions,
+ *           ClbssLobdfr lobdfr,
+ *           Prindipbl[] prindipbls)
+ * </prf>
  *
- * These two APIs provide callers the means to query the
- * Policy for Principal-based Permission entries.
+ * Tifsf two APIs providf dbllfrs tif mfbns to qufry tif
+ * Polidy for Prindipbl-bbsfd Pfrmission fntrifs.
  *
- * @see java.security.Security security properties
+ * @sff jbvb.sfdurity.Sfdurity sfdurity propfrtifs
  */
-@Deprecated
-public abstract class Policy {
+@Dfprfdbtfd
+publid bbstrbdt dlbss Polidy {
 
-    private static Policy policy;
-    private final static String AUTH_POLICY =
-        "sun.security.provider.AuthPolicyFile";
+    privbtf stbtid Polidy polidy;
+    privbtf finbl stbtid String AUTH_POLICY =
+        "sun.sfdurity.providfr.AutiPolidyFilf";
 
-    private final java.security.AccessControlContext acc =
-            java.security.AccessController.getContext();
+    privbtf finbl jbvb.sfdurity.AddfssControlContfxt bdd =
+            jbvb.sfdurity.AddfssControllfr.gftContfxt();
 
-    // true if a custom (not AUTH_POLICY) system-wide policy object is set
-    private static boolean isCustomPolicy;
+    // truf if b dustom (not AUTH_POLICY) systfm-widf polidy objfdt is sft
+    privbtf stbtid boolfbn isCustomPolidy;
 
     /**
-     * Sole constructor.  (For invocation by subclass constructors, typically
-     * implicit.)
+     * Solf donstrudtor.  (For invodbtion by subdlbss donstrudtors, typidblly
+     * implidit.)
      */
-    protected Policy() { }
+    protfdtfd Polidy() { }
 
     /**
-     * Returns the installed Policy object.
-     * This method first calls
-     * {@code SecurityManager.checkPermission} with the
-     * {@code AuthPermission("getPolicy")} permission
-     * to ensure the caller has permission to get the Policy object.
+     * Rfturns tif instbllfd Polidy objfdt.
+     * Tiis mftiod first dblls
+     * {@dodf SfdurityMbnbgfr.difdkPfrmission} witi tif
+     * {@dodf AutiPfrmission("gftPolidy")} pfrmission
+     * to fnsurf tif dbllfr ibs pfrmission to gft tif Polidy objfdt.
      *
      * <p>
      *
-     * @return the installed Policy.  The return value cannot be
-     *          {@code null}.
+     * @rfturn tif instbllfd Polidy.  Tif rfturn vbluf dbnnot bf
+     *          {@dodf null}.
      *
-     * @exception java.lang.SecurityException if the current thread does not
-     *      have permission to get the Policy object.
+     * @fxdfption jbvb.lbng.SfdurityExdfption if tif durrfnt tirfbd dofs not
+     *      ibvf pfrmission to gft tif Polidy objfdt.
      *
-     * @see #setPolicy
+     * @sff #sftPolidy
      */
-    public static Policy getPolicy() {
-        java.lang.SecurityManager sm = System.getSecurityManager();
-        if (sm != null) sm.checkPermission(new AuthPermission("getPolicy"));
-        return getPolicyNoCheck();
+    publid stbtid Polidy gftPolidy() {
+        jbvb.lbng.SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) sm.difdkPfrmission(nfw AutiPfrmission("gftPolidy"));
+        rfturn gftPolidyNoCifdk();
     }
 
     /**
-     * Returns the installed Policy object, skipping the security check.
+     * Rfturns tif instbllfd Polidy objfdt, skipping tif sfdurity difdk.
      *
-     * @return the installed Policy.
+     * @rfturn tif instbllfd Polidy.
      *
      */
-    static Policy getPolicyNoCheck() {
-        if (policy == null) {
+    stbtid Polidy gftPolidyNoCifdk() {
+        if (polidy == null) {
 
-            synchronized(Policy.class) {
+            syndironizfd(Polidy.dlbss) {
 
-                if (policy == null) {
-                    String policy_class = null;
-                    policy_class = AccessController.doPrivileged
-                        (new PrivilegedAction<String>() {
-                        public String run() {
-                            return java.security.Security.getProperty
-                                ("auth.policy.provider");
+                if (polidy == null) {
+                    String polidy_dlbss = null;
+                    polidy_dlbss = AddfssControllfr.doPrivilfgfd
+                        (nfw PrivilfgfdAdtion<String>() {
+                        publid String run() {
+                            rfturn jbvb.sfdurity.Sfdurity.gftPropfrty
+                                ("buti.polidy.providfr");
                         }
                     });
-                    if (policy_class == null) {
-                        policy_class = AUTH_POLICY;
+                    if (polidy_dlbss == null) {
+                        polidy_dlbss = AUTH_POLICY;
                     }
 
                     try {
-                        final String finalClass = policy_class;
+                        finbl String finblClbss = polidy_dlbss;
 
-                        Policy untrustedImpl = AccessController.doPrivileged(
-                                new PrivilegedExceptionAction<Policy>() {
-                                    public Policy run() throws ClassNotFoundException,
-                                            InstantiationException,
-                                            IllegalAccessException {
-                                        Class<? extends Policy> implClass = Class.forName(
-                                                finalClass, false,
-                                                Thread.currentThread().getContextClassLoader()
-                                        ).asSubclass(Policy.class);
-                                        return implClass.newInstance();
+                        Polidy untrustfdImpl = AddfssControllfr.doPrivilfgfd(
+                                nfw PrivilfgfdExdfptionAdtion<Polidy>() {
+                                    publid Polidy run() tirows ClbssNotFoundExdfption,
+                                            InstbntibtionExdfption,
+                                            IllfgblAddfssExdfption {
+                                        Clbss<? fxtfnds Polidy> implClbss = Clbss.forNbmf(
+                                                finblClbss, fblsf,
+                                                Tirfbd.durrfntTirfbd().gftContfxtClbssLobdfr()
+                                        ).bsSubdlbss(Polidy.dlbss);
+                                        rfturn implClbss.nfwInstbndf();
                                     }
                                 });
-                        AccessController.doPrivileged(
-                                new PrivilegedExceptionAction<Void>() {
-                                    public Void run() {
-                                        setPolicy(untrustedImpl);
-                                        isCustomPolicy = !finalClass.equals(AUTH_POLICY);
-                                        return null;
+                        AddfssControllfr.doPrivilfgfd(
+                                nfw PrivilfgfdExdfptionAdtion<Void>() {
+                                    publid Void run() {
+                                        sftPolidy(untrustfdImpl);
+                                        isCustomPolidy = !finblClbss.fqubls(AUTH_POLICY);
+                                        rfturn null;
                                     }
-                                }, Objects.requireNonNull(untrustedImpl.acc)
+                                }, Objfdts.rfquirfNonNull(untrustfdImpl.bdd)
                         );
-                    } catch (Exception e) {
-                        throw new SecurityException
-                                (sun.security.util.ResourcesMgr.getString
-                                ("unable.to.instantiate.Subject.based.policy"));
+                    } dbtdi (Exdfption f) {
+                        tirow nfw SfdurityExdfption
+                                (sun.sfdurity.util.RfsourdfsMgr.gftString
+                                ("unbblf.to.instbntibtf.Subjfdt.bbsfd.polidy"));
                     }
                 }
             }
         }
-        return policy;
+        rfturn polidy;
     }
 
 
     /**
-     * Sets the system-wide Policy object. This method first calls
-     * {@code SecurityManager.checkPermission} with the
-     * {@code AuthPermission("setPolicy")}
-     * permission to ensure the caller has permission to set the Policy.
+     * Sfts tif systfm-widf Polidy objfdt. Tiis mftiod first dblls
+     * {@dodf SfdurityMbnbgfr.difdkPfrmission} witi tif
+     * {@dodf AutiPfrmission("sftPolidy")}
+     * pfrmission to fnsurf tif dbllfr ibs pfrmission to sft tif Polidy.
      *
      * <p>
      *
-     * @param policy the new system Policy object.
+     * @pbrbm polidy tif nfw systfm Polidy objfdt.
      *
-     * @exception java.lang.SecurityException if the current thread does not
-     *          have permission to set the Policy.
+     * @fxdfption jbvb.lbng.SfdurityExdfption if tif durrfnt tirfbd dofs not
+     *          ibvf pfrmission to sft tif Polidy.
      *
-     * @see #getPolicy
+     * @sff #gftPolidy
      */
-    public static void setPolicy(Policy policy) {
-        java.lang.SecurityManager sm = System.getSecurityManager();
-        if (sm != null) sm.checkPermission(new AuthPermission("setPolicy"));
-        Policy.policy = policy;
-        // all non-null policy objects are assumed to be custom
-        isCustomPolicy = policy != null ? true : false;
+    publid stbtid void sftPolidy(Polidy polidy) {
+        jbvb.lbng.SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) sm.difdkPfrmission(nfw AutiPfrmission("sftPolidy"));
+        Polidy.polidy = polidy;
+        // bll non-null polidy objfdts brf bssumfd to bf dustom
+        isCustomPolidy = polidy != null ? truf : fblsf;
     }
 
     /**
-     * Returns true if a custom (not AUTH_POLICY) system-wide policy object
-     * has been set or installed. This method is called by
-     * SubjectDomainCombiner to provide backwards compatibility for
-     * developers that provide their own javax.security.auth.Policy
-     * implementations.
+     * Rfturns truf if b dustom (not AUTH_POLICY) systfm-widf polidy objfdt
+     * ibs bffn sft or instbllfd. Tiis mftiod is dbllfd by
+     * SubjfdtDombinCombinfr to providf bbdkwbrds dompbtibility for
+     * dfvflopfrs tibt providf tifir own jbvbx.sfdurity.buti.Polidy
+     * implfmfntbtions.
      *
-     * @return true if a custom (not AUTH_POLICY) system-wide policy object
-     * has been set; false otherwise
+     * @rfturn truf if b dustom (not AUTH_POLICY) systfm-widf polidy objfdt
+     * ibs bffn sft; fblsf otifrwisf
      */
-    static boolean isCustomPolicySet(Debug debug) {
-        if (policy != null) {
-            if (debug != null && isCustomPolicy) {
-                debug.println("Providing backwards compatibility for " +
-                              "javax.security.auth.policy implementation: " +
-                              policy.toString());
+    stbtid boolfbn isCustomPolidySft(Dfbug dfbug) {
+        if (polidy != null) {
+            if (dfbug != null && isCustomPolidy) {
+                dfbug.println("Providing bbdkwbrds dompbtibility for " +
+                              "jbvbx.sfdurity.buti.polidy implfmfntbtion: " +
+                              polidy.toString());
             }
-            return isCustomPolicy;
+            rfturn isCustomPolidy;
         }
-        // check if custom policy has been set using auth.policy.provider prop
-        String policyClass = java.security.AccessController.doPrivileged
-            (new java.security.PrivilegedAction<String>() {
-                public String run() {
-                    return Security.getProperty("auth.policy.provider");
+        // difdk if dustom polidy ibs bffn sft using buti.polidy.providfr prop
+        String polidyClbss = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd
+            (nfw jbvb.sfdurity.PrivilfgfdAdtion<String>() {
+                publid String run() {
+                    rfturn Sfdurity.gftPropfrty("buti.polidy.providfr");
                 }
         });
-        if (policyClass != null && !policyClass.equals(AUTH_POLICY)) {
-            if (debug != null) {
-                debug.println("Providing backwards compatibility for " +
-                              "javax.security.auth.policy implementation: " +
-                              policyClass);
+        if (polidyClbss != null && !polidyClbss.fqubls(AUTH_POLICY)) {
+            if (dfbug != null) {
+                dfbug.println("Providing bbdkwbrds dompbtibility for " +
+                              "jbvbx.sfdurity.buti.polidy implfmfntbtion: " +
+                              polidyClbss);
             }
-            return true;
+            rfturn truf;
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Retrieve the Permissions granted to the Principals associated with
-     * the specified {@code CodeSource}.
+     * Rftrifvf tif Pfrmissions grbntfd to tif Prindipbls bssodibtfd witi
+     * tif spfdififd {@dodf CodfSourdf}.
      *
      * <p>
      *
-     * @param subject the {@code Subject}
-     *                  whose associated Principals,
-     *                  in conjunction with the provided
-     *                  {@code CodeSource}, determines the Permissions
-     *                  returned by this method.  This parameter
-     *                  may be {@code null}. <p>
+     * @pbrbm subjfdt tif {@dodf Subjfdt}
+     *                  wiosf bssodibtfd Prindipbls,
+     *                  in donjundtion witi tif providfd
+     *                  {@dodf CodfSourdf}, dftfrminfs tif Pfrmissions
+     *                  rfturnfd by tiis mftiod.  Tiis pbrbmftfr
+     *                  mby bf {@dodf null}. <p>
      *
-     * @param cs the code specified by its {@code CodeSource}
-     *                  that determines, in conjunction with the provided
-     *                  {@code Subject}, the Permissions
-     *                  returned by this method.  This parameter may be
-     *                  {@code null}.
+     * @pbrbm ds tif dodf spfdififd by its {@dodf CodfSourdf}
+     *                  tibt dftfrminfs, in donjundtion witi tif providfd
+     *                  {@dodf Subjfdt}, tif Pfrmissions
+     *                  rfturnfd by tiis mftiod.  Tiis pbrbmftfr mby bf
+     *                  {@dodf null}.
      *
-     * @return the Collection of Permissions granted to all the
-     *                  {@code Subject} and code specified in
-     *                  the provided <i>subject</i> and <i>cs</i>
-     *                  parameters.
+     * @rfturn tif Collfdtion of Pfrmissions grbntfd to bll tif
+     *                  {@dodf Subjfdt} bnd dodf spfdififd in
+     *                  tif providfd <i>subjfdt</i> bnd <i>ds</i>
+     *                  pbrbmftfrs.
      */
-    public abstract java.security.PermissionCollection getPermissions
-                                        (Subject subject,
-                                        java.security.CodeSource cs);
+    publid bbstrbdt jbvb.sfdurity.PfrmissionCollfdtion gftPfrmissions
+                                        (Subjfdt subjfdt,
+                                        jbvb.sfdurity.CodfSourdf ds);
 
     /**
-     * Refresh and reload the Policy.
+     * Rffrfsi bnd rflobd tif Polidy.
      *
-     * <p>This method causes this object to refresh/reload its current
-     * Policy. This is implementation-dependent.
-     * For example, if the Policy object is stored in
-     * a file, calling {@code refresh} will cause the file to be re-read.
+     * <p>Tiis mftiod dbusfs tiis objfdt to rffrfsi/rflobd its durrfnt
+     * Polidy. Tiis is implfmfntbtion-dfpfndfnt.
+     * For fxbmplf, if tif Polidy objfdt is storfd in
+     * b filf, dblling {@dodf rffrfsi} will dbusf tif filf to bf rf-rfbd.
      *
      * <p>
      *
-     * @exception SecurityException if the caller does not have permission
-     *                          to refresh the Policy.
+     * @fxdfption SfdurityExdfption if tif dbllfr dofs not ibvf pfrmission
+     *                          to rffrfsi tif Polidy.
      */
-    public abstract void refresh();
+    publid bbstrbdt void rffrfsi();
 }

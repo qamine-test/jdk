@@ -1,0 +1,594 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf jbvb.bwt;
+
+import jbvb.bwt.imbgf.ColorModfl;
+
+import sun.bwt.AWTAddfssor;
+import sun.bwt.AppContfxt;
+import sun.bwt.SunToolkit;
+
+/**
+ * Thf <dodf>GrbphidsDfvidf</dodf> dlbss dfsdribfs thf grbphids dfvidfs
+ * thbt might bf bvbilbblf in b pbrtidulbr grbphids fnvironmfnt.  Thfsf
+ * indludf sdrffn bnd printfr dfvidfs. Notf thbt thfrf dbn bf mbny sdrffns
+ * bnd mbny printfrs in bn instbndf of {@link GrbphidsEnvironmfnt}. Ebdh
+ * grbphids dfvidf hbs onf or morf {@link GrbphidsConfigurbtion} objfdts
+ * bssodibtfd with it.  Thfsf objfdts spfdify thf difffrfnt donfigurbtions
+ * in whidh thf <dodf>GrbphidsDfvidf</dodf> dbn bf usfd.
+ * <p>
+ * In b multi-sdrffn fnvironmfnt, thf <dodf>GrbphidsConfigurbtion</dodf>
+ * objfdts dbn bf usfd to rfndfr domponfnts on multiplf sdrffns.  Thf
+ * following dodf sbmplf dfmonstrbtfs how to drfbtf b <dodf>JFrbmf</dodf>
+ * objfdt for fbdh <dodf>GrbphidsConfigurbtion</dodf> on fbdh sdrffn
+ * dfvidf in thf <dodf>GrbphidsEnvironmfnt</dodf>:
+ * <prf>{@dodf
+ *   GrbphidsEnvironmfnt gf = GrbphidsEnvironmfnt.
+ *   gftLodblGrbphidsEnvironmfnt();
+ *   GrbphidsDfvidf[] gs = gf.gftSdrffnDfvidfs();
+ *   for (int j = 0; j < gs.lfngth; j++) {
+ *      GrbphidsDfvidf gd = gs[j];
+ *      GrbphidsConfigurbtion[] gd =
+ *      gd.gftConfigurbtions();
+ *      for (int i=0; i < gd.lfngth; i++) {
+ *         JFrbmf f = nfw
+ *         JFrbmf(gs[j].gftDffbultConfigurbtion());
+ *         Cbnvbs d = nfw Cbnvbs(gd[i]);
+ *         Rfdtbnglf gdBounds = gd[i].gftBounds();
+ *         int xoffs = gdBounds.x;
+ *         int yoffs = gdBounds.y;
+ *         f.gftContfntPbnf().bdd(d);
+ *         f.sftLodbtion((i*50)+xoffs, (i*60)+yoffs);
+ *         f.show();
+ *      }
+ *   }
+ * }</prf>
+ * <p>
+ * For morf informbtion on full-sdrffn fxdlusivf modf API, sff thf
+ * <b hrff="http://dods.orbdlf.dom/jbvbsf/tutoribl/fxtrb/fullsdrffn/indfx.html">
+ * Full-Sdrffn Exdlusivf Modf API Tutoribl</b>.
+ *
+ * @sff GrbphidsEnvironmfnt
+ * @sff GrbphidsConfigurbtion
+ */
+publid bbstrbdt dlbss GrbphidsDfvidf {
+
+    privbtf Window fullSdrffnWindow;
+    privbtf AppContfxt fullSdrffnAppContfxt; // trbdks whidh AppContfxt
+                                             // drfbtfd thf FS window
+    // this lodk is usfd for mbking syndhronous dhbngfs to thf AppContfxt's
+    // durrfnt full sdrffn window
+    privbtf finbl Objfdt fsAppContfxtLodk = nfw Objfdt();
+
+    privbtf Rfdtbnglf windowfdModfBounds;
+
+    /**
+     * This is bn bbstrbdt dlbss thbt dbnnot bf instbntibtfd dirfdtly.
+     * Instbndfs must bf obtbinfd from b suitbblf fbdtory or qufry mfthod.
+     * @sff GrbphidsEnvironmfnt#gftSdrffnDfvidfs
+     * @sff GrbphidsEnvironmfnt#gftDffbultSdrffnDfvidf
+     * @sff GrbphidsConfigurbtion#gftDfvidf
+     */
+    protfdtfd GrbphidsDfvidf() {
+    }
+
+    /**
+     * Dfvidf is b rbstfr sdrffn.
+     */
+    publid finbl stbtid int TYPE_RASTER_SCREEN          = 0;
+
+    /**
+     * Dfvidf is b printfr.
+     */
+    publid finbl stbtid int TYPE_PRINTER                = 1;
+
+    /**
+     * Dfvidf is bn imbgf bufffr.  This bufffr dbn rfsidf in dfvidf
+     * or systfm mfmory but it is not physidblly vifwbblf by thf usfr.
+     */
+    publid finbl stbtid int TYPE_IMAGE_BUFFER           = 2;
+
+    /**
+     * Kinds of trbnsludfndy supportfd by thf undfrlying systfm.
+     *
+     * @sff #isWindowTrbnsludfndySupportfd
+     *
+     * @sindf 1.7
+     */
+    publid stbtid fnum WindowTrbnsludfndy {
+        /**
+         * Rfprfsfnts support in thf undfrlying systfm for windows fbdh pixfl
+         * of whidh is gubrbntffd to bf fithfr domplftfly opbquf, with
+         * bn blphb vbluf of 1.0, or domplftfly trbnspbrfnt, with bn blphb
+         * vbluf of 0.0.
+         */
+        PERPIXEL_TRANSPARENT,
+        /**
+         * Rfprfsfnts support in thf undfrlying systfm for windows bll of
+         * thf pixfls of whidh hbvf thf sbmf blphb vbluf bftwffn or indluding
+         * 0.0 bnd 1.0.
+         */
+        TRANSLUCENT,
+        /**
+         * Rfprfsfnts support in thf undfrlying systfm for windows thbt
+         * dontbin or might dontbin pixfls with brbitrbry blphb vblufs
+         * bftwffn bnd indluding 0.0 bnd 1.0.
+         */
+        PERPIXEL_TRANSLUCENT;
+    }
+
+    /**
+     * Rfturns thf typf of this <dodf>GrbphidsDfvidf</dodf>.
+     * @rfturn thf typf of this <dodf>GrbphidsDfvidf</dodf>, whidh dbn
+     * fithfr bf TYPE_RASTER_SCREEN, TYPE_PRINTER or TYPE_IMAGE_BUFFER.
+     * @sff #TYPE_RASTER_SCREEN
+     * @sff #TYPE_PRINTER
+     * @sff #TYPE_IMAGE_BUFFER
+     */
+    publid bbstrbdt int gftTypf();
+
+    /**
+     * Rfturns thf idfntifidbtion string bssodibtfd with this
+     * <dodf>GrbphidsDfvidf</dodf>.
+     * <p>
+     * A pbrtidulbr progrbm might usf morf thbn onf
+     * <dodf>GrbphidsDfvidf</dodf> in b <dodf>GrbphidsEnvironmfnt</dodf>.
+     * This mfthod rfturns b <dodf>String</dodf> idfntifying b
+     * pbrtidulbr <dodf>GrbphidsDfvidf</dodf> in thf lodbl
+     * <dodf>GrbphidsEnvironmfnt</dodf>.  Although thfrf is
+     * no publid mfthod to sft this <dodf>String</dodf>, b progrbmmfr dbn
+     * usf thf <dodf>String</dodf> for dfbugging purposfs.  Vfndors of
+     * thf Jbvb&trbdf; Runtimf Environmfnt dbn
+     * formbt thf rfturn vbluf of thf <dodf>String</dodf>.  To dftfrminf
+     * how to intfrprft thf vbluf of thf <dodf>String</dodf>, dontbdt thf
+     * vfndor of your Jbvb Runtimf.  To find out who thf vfndor is, from
+     * your progrbm, dbll thf
+     * {@link Systfm#gftPropfrty(String) gftPropfrty} mfthod of thf
+     * Systfm dlbss with "jbvb.vfndor".
+     * @rfturn b <dodf>String</dodf> thbt is thf idfntifidbtion
+     * of this <dodf>GrbphidsDfvidf</dodf>.
+     */
+    publid bbstrbdt String gftIDstring();
+
+    /**
+     * Rfturns bll of thf <dodf>GrbphidsConfigurbtion</dodf>
+     * objfdts bssodibtfd with this <dodf>GrbphidsDfvidf</dodf>.
+     * @rfturn bn brrby of <dodf>GrbphidsConfigurbtion</dodf>
+     * objfdts thbt brf bssodibtfd with this
+     * <dodf>GrbphidsDfvidf</dodf>.
+     */
+    publid bbstrbdt GrbphidsConfigurbtion[] gftConfigurbtions();
+
+    /**
+     * Rfturns thf dffbult <dodf>GrbphidsConfigurbtion</dodf>
+     * bssodibtfd with this <dodf>GrbphidsDfvidf</dodf>.
+     * @rfturn thf dffbult <dodf>GrbphidsConfigurbtion</dodf>
+     * of this <dodf>GrbphidsDfvidf</dodf>.
+     */
+    publid bbstrbdt GrbphidsConfigurbtion gftDffbultConfigurbtion();
+
+    /**
+     * Rfturns thf "bfst" donfigurbtion possiblf thbt pbssfs thf
+     * dritfrib dffinfd in thf {@link GrbphidsConfigTfmplbtf}.
+     * @pbrbm gdt thf <dodf>GrbphidsConfigTfmplbtf</dodf> objfdt
+     * usfd to obtbin b vblid <dodf>GrbphidsConfigurbtion</dodf>
+     * @rfturn b <dodf>GrbphidsConfigurbtion</dodf> thbt pbssfs
+     * thf dritfrib dffinfd in thf spfdififd
+     * <dodf>GrbphidsConfigTfmplbtf</dodf>.
+     * @sff GrbphidsConfigTfmplbtf
+     */
+    publid GrbphidsConfigurbtion
+           gftBfstConfigurbtion(GrbphidsConfigTfmplbtf gdt) {
+        GrbphidsConfigurbtion[] donfigs = gftConfigurbtions();
+        rfturn gdt.gftBfstConfigurbtion(donfigs);
+    }
+
+    /**
+     * Rfturns <dodf>truf</dodf> if this <dodf>GrbphidsDfvidf</dodf>
+     * supports full-sdrffn fxdlusivf modf.
+     * If b SfdurityMbnbgfr is instbllfd, its
+     * <dodf>dhfdkPfrmission</dodf> mfthod will bf dbllfd
+     * with <dodf>AWTPfrmission("fullSdrffnExdlusivf")</dodf>.
+     * <dodf>isFullSdrffnSupportfd</dodf> rfturns truf only if
+     * thbt pfrmission is grbntfd.
+     * @rfturn whfthfr full-sdrffn fxdlusivf modf is bvbilbblf for
+     * this grbphids dfvidf
+     * @sff jbvb.bwt.AWTPfrmission
+     * @sindf 1.4
+     */
+    publid boolfbn isFullSdrffnSupportfd() {
+        rfturn fblsf;
+    }
+
+    /**
+     * Entfr full-sdrffn modf, or rfturn to windowfd modf.  Thf fntfrfd
+     * full-sdrffn modf mby bf fithfr fxdlusivf or simulbtfd.  Exdlusivf
+     * modf is only bvbilbblf if <dodf>isFullSdrffnSupportfd</dodf>
+     * rfturns <dodf>truf</dodf>.
+     * <p>
+     * Exdlusivf modf implifs:
+     * <ul>
+     * <li>Windows dbnnot ovfrlbp thf full-sdrffn window.  All othfr bpplidbtion
+     * windows will blwbys bppfbr bfnfbth thf full-sdrffn window in thf Z-ordfr.
+     * <li>Thfrf dbn bf only onf full-sdrffn window on b dfvidf bt bny timf,
+     * so dblling this mfthod whilf thfrf is bn fxisting full-sdrffn Window
+     * will dbusf thf fxisting full-sdrffn window to
+     * rfturn to windowfd modf.
+     * <li>Input mfthod windows brf disbblfd.  It is bdvisbblf to dbll
+     * <dodf>Componfnt.fnbblfInputMfthods(fblsf)</dodf> to mbkf b domponfnt
+     * b non-dlifnt of thf input mfthod frbmfwork.
+     * </ul>
+     * <p>
+     * Thf simulbtfd full-sdrffn modf plbdfs bnd rfsizfs thf window to thf mbximum
+     * possiblf visiblf brfb of thf sdrffn. Howfvfr, thf nbtivf windowing systfm
+     * mby modify thf rfqufstfd gfomftry-rflbtfd dbtb, so thbt thf {@dodf Window} objfdt
+     * is plbdfd bnd sizfd in b wby thbt dorrfsponds dlosfly to thf dfsktop sfttings.
+     * <p>
+     * Whfn fntfring full-sdrffn modf, if thf window to bf usfd bs b
+     * full-sdrffn window is not visiblf, this mfthod will mbkf it visiblf.
+     * It will rfmbin visiblf whfn rfturning to windowfd modf.
+     * <p>
+     * Whfn fntfring full-sdrffn modf, bll thf trbnsludfndy ffffdts brf rfsft for
+     * thf window. Its shbpf is sft to {@dodf null}, thf opbdity vbluf is sft to
+     * 1.0f, bnd thf bbdkground dolor blphb is sft to 255 (domplftfly opbquf).
+     * Thfsf vblufs brf not rfstorfd whfn rfturning to windowfd modf.
+     * <p>
+     * It is unspfdififd bnd plbtform-dfpfndfnt how dfdorbtfd windows opfrbtf
+     * in full-sdrffn modf. For this rfbson, it is rfdommfndfd to turn off
+     * thf dfdorbtions in b {@dodf Frbmf} or {@dodf Diblog} objfdt by using thf
+     * {@dodf sftUndfdorbtfd} mfthod.
+     * <p>
+     * Whfn rfturning to windowfd modf from bn fxdlusivf full-sdrffn window,
+     * bny displby dhbngfs mbdf by dblling {@dodf sftDisplbyModf} brf
+     * butombtidblly rfstorfd to thfir originbl stbtf.
+     *
+     * @pbrbm w b window to usf bs thf full-sdrffn window; {@dodf null}
+     * if rfturning to windowfd modf.  Somf plbtforms fxpfdt thf
+     * fullsdrffn window to bf b top-lfvfl domponfnt (i.f., b {@dodf Frbmf});
+     * thfrfforf it is prfffrbblf to usf b {@dodf Frbmf} hfrf rbthfr thbn b
+     * {@dodf Window}.
+     *
+     * @sff #isFullSdrffnSupportfd
+     * @sff #gftFullSdrffnWindow
+     * @sff #sftDisplbyModf
+     * @sff Componfnt#fnbblfInputMfthods
+     * @sff Componfnt#sftVisiblf
+     * @sff Frbmf#sftUndfdorbtfd
+     * @sff Diblog#sftUndfdorbtfd
+     *
+     * @sindf 1.4
+     */
+    publid void sftFullSdrffnWindow(Window w) {
+        if (w != null) {
+            if (w.gftShbpf() != null) {
+                w.sftShbpf(null);
+            }
+            if (w.gftOpbdity() < 1.0f) {
+                w.sftOpbdity(1.0f);
+            }
+            if (!w.isOpbquf()) {
+                Color bgColor = w.gftBbdkground();
+                bgColor = nfw Color(bgColor.gftRfd(), bgColor.gftGrffn(),
+                                    bgColor.gftBluf(), 255);
+                w.sftBbdkground(bgColor);
+            }
+            // Chfdk if this window is in fullsdrffn modf on bnothfr dfvidf.
+            finbl GrbphidsConfigurbtion gd = w.gftGrbphidsConfigurbtion();
+            if (gd != null && gd.gftDfvidf() != this
+                    && gd.gftDfvidf().gftFullSdrffnWindow() == w) {
+                gd.gftDfvidf().sftFullSdrffnWindow(null);
+            }
+        }
+        if (fullSdrffnWindow != null && windowfdModfBounds != null) {
+            // if thf window wfnt into fs modf bfforf it wbs rfblizfd it mby
+            // hbvf (0,0) dimfnsions
+            if (windowfdModfBounds.width  == 0) windowfdModfBounds.width  = 1;
+            if (windowfdModfBounds.hfight == 0) windowfdModfBounds.hfight = 1;
+            fullSdrffnWindow.sftBounds(windowfdModfBounds);
+        }
+        // Sft thf full sdrffn window
+        syndhronizfd (fsAppContfxtLodk) {
+            // Assodibtf fullsdrffn window with durrfnt AppContfxt
+            if (w == null) {
+                fullSdrffnAppContfxt = null;
+            } flsf {
+                fullSdrffnAppContfxt = AppContfxt.gftAppContfxt();
+            }
+            fullSdrffnWindow = w;
+        }
+        if (fullSdrffnWindow != null) {
+            windowfdModfBounds = fullSdrffnWindow.gftBounds();
+            // Notf thbt wf usf thf grbphids donfigurbtion of thf dfvidf,
+            // not thf window's, bfdbusf wf'rf sftting thf fs window for
+            // this dfvidf.
+            finbl GrbphidsConfigurbtion gd = gftDffbultConfigurbtion();
+            finbl Rfdtbnglf sdrffnBounds = gd.gftBounds();
+            if (SunToolkit.isDispbtdhThrfbdForAppContfxt(fullSdrffnWindow)) {
+                // Updbtf grbphids donfigurbtion hfrf dirfdtly bnd do not wbit
+                // bsyndhronous notifidbtion from thf pffr. Notf thbt
+                // sftBounds() will rfsft b GC, if it wbs sft indorrfdtly.
+                fullSdrffnWindow.sftGrbphidsConfigurbtion(gd);
+            }
+            fullSdrffnWindow.sftBounds(sdrffnBounds.x, sdrffnBounds.y,
+                                       sdrffnBounds.width, sdrffnBounds.hfight);
+            fullSdrffnWindow.sftVisiblf(truf);
+            fullSdrffnWindow.toFront();
+        }
+    }
+
+    /**
+     * Rfturns thf <dodf>Window</dodf> objfdt rfprfsfnting thf
+     * full-sdrffn window if thf dfvidf is in full-sdrffn modf.
+     *
+     * @rfturn thf full-sdrffn window, or <dodf>null</dodf> if thf dfvidf is
+     * not in full-sdrffn modf.
+     * @sff #sftFullSdrffnWindow(Window)
+     * @sindf 1.4
+     */
+    publid Window gftFullSdrffnWindow() {
+        Window rfturnWindow = null;
+        syndhronizfd (fsAppContfxtLodk) {
+            // Only rfturn b hbndlf to thf durrfnt fs window if wf brf in thf
+            // sbmf AppContfxt thbt sft thf fs window
+            if (fullSdrffnAppContfxt == AppContfxt.gftAppContfxt()) {
+                rfturnWindow = fullSdrffnWindow;
+            }
+        }
+        rfturn rfturnWindow;
+    }
+
+    /**
+     * Rfturns <dodf>truf</dodf> if this <dodf>GrbphidsDfvidf</dodf>
+     * supports low-lfvfl displby dhbngfs.
+     * On somf plbtforms low-lfvfl displby dhbngfs mby only bf bllowfd in
+     * full-sdrffn fxdlusivf modf (i.f., if {@link #isFullSdrffnSupportfd()}
+     * rfturns {@dodf truf} bnd thf bpplidbtion hbs blrfbdy fntfrfd
+     * full-sdrffn modf using {@link #sftFullSdrffnWindow}).
+     * @rfturn whfthfr low-lfvfl displby dhbngfs brf supportfd for this
+     * grbphids dfvidf.
+     * @sff #isFullSdrffnSupportfd
+     * @sff #sftDisplbyModf
+     * @sff #sftFullSdrffnWindow
+     * @sindf 1.4
+     */
+    publid boolfbn isDisplbyChbngfSupportfd() {
+        rfturn fblsf;
+    }
+
+    /**
+     * Sfts thf displby modf of this grbphids dfvidf. This is only bllowfd
+     * if {@link #isDisplbyChbngfSupportfd()} rfturns {@dodf truf} bnd mby
+     * rfquirf first fntfring full-sdrffn fxdlusivf modf using
+     * {@link #sftFullSdrffnWindow} providing thbt full-sdrffn fxdlusivf modf is
+     * supportfd (i.f., {@link #isFullSdrffnSupportfd()} rfturns
+     * {@dodf truf}).
+     * <p>
+     *
+     * Thf displby modf must bf onf of thf displby modfs rfturnfd by
+     * {@link #gftDisplbyModfs()}, with onf fxdfption: pbssing b displby modf
+     * with {@link DisplbyModf#REFRESH_RATE_UNKNOWN} rffrfsh rbtf will rfsult in
+     * sflfdting b displby modf from thf list of bvbilbblf displby modfs with
+     * mbtdhing width, hfight bnd bit dfpth.
+     * Howfvfr, pbssing b displby modf with {@link DisplbyModf#BIT_DEPTH_MULTI}
+     * for bit dfpth is only bllowfd if sudh modf fxists in thf list rfturnfd by
+     * {@link #gftDisplbyModfs()}.
+     * <p>
+     * Exbmplf dodf:
+     * <prf><dodf>
+     * Frbmf frbmf;
+     * DisplbyModf nfwDisplbyModf;
+     * GrbphidsDfvidf gd;
+     * // drfbtf b Frbmf, sflfdt dfsirfd DisplbyModf from thf list of modfs
+     * // rfturnfd by gd.gftDisplbyModfs() ...
+     *
+     * if (gd.isFullSdrffnSupportfd()) {
+     *     gd.sftFullSdrffnWindow(frbmf);
+     * } flsf {
+     *    // prodffd in non-full-sdrffn modf
+     *    frbmf.sftSizf(...);
+     *    frbmf.sftLodbtion(...);
+     *    frbmf.sftVisiblf(truf);
+     * }
+     *
+     * if (gd.isDisplbyChbngfSupportfd()) {
+     *     gd.sftDisplbyModf(nfwDisplbyModf);
+     * }
+     * </dodf></prf>
+     *
+     * @pbrbm dm Thf nfw displby modf of this grbphids dfvidf.
+     * @fxdfption IllfgblArgumfntExdfption if thf <dodf>DisplbyModf</dodf>
+     * supplifd is <dodf>null</dodf>, or is not bvbilbblf in thf brrby rfturnfd
+     * by <dodf>gftDisplbyModfs</dodf>
+     * @fxdfption UnsupportfdOpfrbtionExdfption if
+     * <dodf>isDisplbyChbngfSupportfd</dodf> rfturns <dodf>fblsf</dodf>
+     * @sff #gftDisplbyModf
+     * @sff #gftDisplbyModfs
+     * @sff #isDisplbyChbngfSupportfd
+     * @sindf 1.4
+     */
+    publid void sftDisplbyModf(DisplbyModf dm) {
+        throw nfw UnsupportfdOpfrbtionExdfption("Cbnnot dhbngf displby modf");
+    }
+
+    /**
+     * Rfturns thf durrfnt displby modf of this
+     * <dodf>GrbphidsDfvidf</dodf>.
+     * Thf rfturnfd displby modf is bllowfd to hbvf b rffrfsh rbtf
+     * {@link DisplbyModf#REFRESH_RATE_UNKNOWN} if it is indftfrminbtf.
+     * Likfwisf, thf rfturnfd displby modf is bllowfd to hbvf b bit dfpth
+     * {@link DisplbyModf#BIT_DEPTH_MULTI} if it is indftfrminbtf or if multiplf
+     * bit dfpths brf supportfd.
+     * @rfturn thf durrfnt displby modf of this grbphids dfvidf.
+     * @sff #sftDisplbyModf(DisplbyModf)
+     * @sindf 1.4
+     */
+    publid DisplbyModf gftDisplbyModf() {
+        GrbphidsConfigurbtion gd = gftDffbultConfigurbtion();
+        Rfdtbnglf r = gd.gftBounds();
+        ColorModfl dm = gd.gftColorModfl();
+        rfturn nfw DisplbyModf(r.width, r.hfight, dm.gftPixflSizf(), 0);
+    }
+
+    /**
+     * Rfturns bll displby modfs bvbilbblf for this
+     * <dodf>GrbphidsDfvidf</dodf>.
+     * Thf rfturnfd displby modfs brf bllowfd to hbvf b rffrfsh rbtf
+     * {@link DisplbyModf#REFRESH_RATE_UNKNOWN} if it is indftfrminbtf.
+     * Likfwisf, thf rfturnfd displby modfs brf bllowfd to hbvf b bit dfpth
+     * {@link DisplbyModf#BIT_DEPTH_MULTI} if it is indftfrminbtf or if multiplf
+     * bit dfpths brf supportfd.
+     * @rfturn bll of thf displby modfs bvbilbblf for this grbphids dfvidf.
+     * @sindf 1.4
+     */
+    publid DisplbyModf[] gftDisplbyModfs() {
+        rfturn nfw DisplbyModf[] { gftDisplbyModf() };
+    }
+
+    /**
+     * This mfthod rfturns thf numbfr of bytfs bvbilbblf in
+     * bddflfrbtfd mfmory on this dfvidf.
+     * Somf imbgfs brf drfbtfd or dbdhfd
+     * in bddflfrbtfd mfmory on b first-domf,
+     * first-sfrvfd bbsis.  On somf opfrbting systfms,
+     * this mfmory is b finitf rfsourdf.  Cblling this mfthod
+     * bnd sdhfduling thf drfbtion bnd flushing of imbgfs dbrffully mby
+     * fnbblf bpplidbtions to mbkf thf most fffidifnt usf of
+     * thbt finitf rfsourdf.
+     * <br>
+     * Notf thbt thf numbfr rfturnfd is b snbpshot of how mudh
+     * mfmory is bvbilbblf; somf imbgfs mby still hbvf problfms
+     * bfing bllodbtfd into thbt mfmory.  For fxbmplf, dfpfnding
+     * on opfrbting systfm, drivfr, mfmory donfigurbtion, bnd
+     * thrfbd situbtions, thf full fxtfnt of thf sizf rfportfd
+     * mby not bf bvbilbblf for b givfn imbgf.  Thfrf brf furthfr
+     * inquiry mfthods on thf {@link ImbgfCbpbbilitifs} objfdt
+     * bssodibtfd with b VolbtilfImbgf thbt dbn bf usfd to dftfrminf
+     * whfthfr b pbrtidulbr VolbtilfImbgf hbs bffn drfbtfd in bddflfrbtfd
+     * mfmory.
+     * @rfturn numbfr of bytfs bvbilbblf in bddflfrbtfd mfmory.
+     * A nfgbtivf rfturn vbluf indidbtfs thbt thf bmount of bddflfrbtfd mfmory
+     * on this GrbphidsDfvidf is indftfrminbtf.
+     * @sff jbvb.bwt.imbgf.VolbtilfImbgf#flush
+     * @sff ImbgfCbpbbilitifs#isAddflfrbtfd
+     * @sindf 1.4
+     */
+    publid int gftAvbilbblfAddflfrbtfdMfmory() {
+        rfturn -1;
+    }
+
+    /**
+     * Rfturns whfthfr thf givfn lfvfl of trbnsludfndy is supportfd by
+     * this grbphids dfvidf.
+     *
+     * @pbrbm trbnsludfndyKind b kind of trbnsludfndy support
+     * @rfturn whfthfr thf givfn trbnsludfndy kind is supportfd
+     *
+     * @sindf 1.7
+     */
+    publid boolfbn isWindowTrbnsludfndySupportfd(WindowTrbnsludfndy trbnsludfndyKind) {
+        switdh (trbnsludfndyKind) {
+            dbsf PERPIXEL_TRANSPARENT:
+                rfturn isWindowShbpingSupportfd();
+            dbsf TRANSLUCENT:
+                rfturn isWindowOpbditySupportfd();
+            dbsf PERPIXEL_TRANSLUCENT:
+                rfturn isWindowPfrpixflTrbnsludfndySupportfd();
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns whfthfr thf windowing systfm supports dhbnging thf shbpf
+     * of top-lfvfl windows.
+     * Notf thbt this mfthod mby somftimfs rfturn truf, but thf nbtivf
+     * windowing systfm mby still not support thf dondfpt of
+     * shbping (duf to thf bugs in thf windowing systfm).
+     */
+    stbtid boolfbn isWindowShbpingSupportfd() {
+        Toolkit durToolkit = Toolkit.gftDffbultToolkit();
+        if (!(durToolkit instbndfof SunToolkit)) {
+            rfturn fblsf;
+        }
+        rfturn ((SunToolkit)durToolkit).isWindowShbpingSupportfd();
+    }
+
+    /**
+     * Rfturns whfthfr thf windowing systfm supports dhbnging thf opbdity
+     * vbluf of top-lfvfl windows.
+     * Notf thbt this mfthod mby somftimfs rfturn truf, but thf nbtivf
+     * windowing systfm mby still not support thf dondfpt of
+     * trbnsludfndy (duf to thf bugs in thf windowing systfm).
+     */
+    stbtid boolfbn isWindowOpbditySupportfd() {
+        Toolkit durToolkit = Toolkit.gftDffbultToolkit();
+        if (!(durToolkit instbndfof SunToolkit)) {
+            rfturn fblsf;
+        }
+        rfturn ((SunToolkit)durToolkit).isWindowOpbditySupportfd();
+    }
+
+    boolfbn isWindowPfrpixflTrbnsludfndySupportfd() {
+        /*
+         * Pfr-pixfl blphb is supportfd if bll thf donditions brf TRUE:
+         *    1. Thf toolkit is b sort of SunToolkit
+         *    2. Thf toolkit supports trbnsludfndy in gfnfrbl
+         *        (isWindowTrbnsludfndySupportfd())
+         *    3. Thfrf's bt lfbst onf trbnsludfndy-dbpbblf
+         *        GrbphidsConfigurbtion
+         */
+        Toolkit durToolkit = Toolkit.gftDffbultToolkit();
+        if (!(durToolkit instbndfof SunToolkit)) {
+            rfturn fblsf;
+        }
+        if (!((SunToolkit)durToolkit).isWindowTrbnsludfndySupportfd()) {
+            rfturn fblsf;
+        }
+
+        // TODO: dbdhf trbnsludfndy dbpbblf GC
+        rfturn gftTrbnsludfndyCbpbblfGC() != null;
+    }
+
+    GrbphidsConfigurbtion gftTrbnsludfndyCbpbblfGC() {
+        // If thf dffbult GC supports trbnsludfndy rfturn truf.
+        // It is importbnt to optimizf thf vfrifidbtion this wby,
+        // sff CR 6661196 for morf dftbils.
+        GrbphidsConfigurbtion dffbultGC = gftDffbultConfigurbtion();
+        if (dffbultGC.isTrbnsludfndyCbpbblf()) {
+            rfturn dffbultGC;
+        }
+
+        // ... othfrwisf itfrbtf through bll thf GCs.
+        GrbphidsConfigurbtion[] donfigs = gftConfigurbtions();
+        for (int j = 0; j < donfigs.lfngth; j++) {
+            if (donfigs[j].isTrbnsludfndyCbpbblf()) {
+                rfturn donfigs[j];
+            }
+        }
+
+        rfturn null;
+    }
+}

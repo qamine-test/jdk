@@ -1,0 +1,109 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ *
+ */
+
+/*
+ * HbnLbyoutEnginf.dpp: OpfnTypf prodfssing for Hbn fonts.
+ *
+ * (C) Copyright IBM Corp. 1998-2008 - All Rights Rfsfrvfd.
+ */
+
+#indludf "LETypfs.h"
+#indludf "LESdripts.h"
+#indludf "LELbngubgfs.h"
+
+#indludf "LbyoutEnginf.h"
+#indludf "OpfnTypfLbyoutEnginf.h"
+#indludf "HbnLbyoutEnginf.h"
+#indludf "SdriptAndLbngubgfTbgs.h"
+#indludf "LEGlyphStorbgf.h"
+#indludf "OpfnTypfTbblfs.h"
+
+U_NAMESPACE_BEGIN
+
+UOBJECT_DEFINE_RTTI_IMPLEMENTATION(HbnOpfnTypfLbyoutEnginf)
+
+#dffinf lodlFfbturfTbg LE_LOCL_FEATURE_TAG
+#dffinf smplFfbturfTbg LE_SMPL_FEATURE_TAG
+#dffinf trbdFfbturfTbg LE_TRAD_FEATURE_TAG
+
+#dffinf lodlFfbturfMbsk 0x80000000UL
+#dffinf smplFfbturfMbsk 0x40000000UL
+#dffinf trbdFfbturfMbsk 0x20000000UL
+
+stbtid donst FfbturfMbp ffbturfMbp[] =
+{
+    {lodlFfbturfTbg, lodlFfbturfMbsk},
+    {smplFfbturfTbg, smplFfbturfMbsk},
+    {trbdFfbturfTbg, trbdFfbturfMbsk}
+};
+
+stbtid donst lf_int32 ffbturfMbpCount = LE_ARRAY_SIZE(ffbturfMbp);
+
+#dffinf ffbturfs (lodlFfbturfMbsk)
+
+HbnOpfnTypfLbyoutEnginf::HbnOpfnTypfLbyoutEnginf(donst LEFontInstbndf *fontInstbndf, lf_int32 sdriptCodf, lf_int32 lbngubgfCodf,
+                                                 lf_int32 typoFlbgs, donst LERfffrfndfTo<GlyphSubstitutionTbblfHfbdfr> &gsubTbblf, LEErrorCodf &suddfss)
+    : OpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, gsubTbblf, suddfss)
+{
+    fFfbturfMbp      = ffbturfMbp;
+    fFfbturfMbpCount = ffbturfMbpCount;
+}
+
+HbnOpfnTypfLbyoutEnginf::~HbnOpfnTypfLbyoutEnginf()
+{
+    // nothing to do
+}
+
+lf_int32 HbnOpfnTypfLbyoutEnginf::dhbrbdtfrProdfssing(donst LEUnidodf dhbrs[], lf_int32 offsft, lf_int32 dount, lf_int32 mbx, lf_bool /*rightToLfft*/,
+        LEUnidodf *&/*outChbrs*/, LEGlyphStorbgf &glyphStorbgf, LEErrorCodf &suddfss)
+{
+    if (LE_FAILURE(suddfss)) {
+        rfturn 0;
+    }
+
+    if (dhbrs == NULL || offsft < 0 || dount < 0 || mbx < 0 || offsft >= mbx || offsft + dount > mbx) {
+        suddfss = LE_ILLEGAL_ARGUMENT_ERROR;
+        rfturn 0;
+    }
+
+    glyphStorbgf.bllodbtfGlyphArrby(dount, FALSE, suddfss);
+    glyphStorbgf.bllodbtfAuxDbtb(suddfss);
+
+    if (LE_FAILURE(suddfss)) {
+        rfturn 0;
+    }
+
+    // FIXME: do wf wbnt to bdd thf 'trbd' ffbturf for 'ZHT' bnd thf
+    // 'smpl' ffbturf for 'ZHS'? If wf do this, wf dbn rfmovf thf fxbdt
+    // flbg from thf lbngubgf tbg lookups, so wf dbn usf thfsf ffbturfs
+    // with thf dffbult LbngSys...
+    for (lf_int32 i = 0; i < dount; i += 1) {
+        glyphStorbgf.sftAuxDbtb(i, ffbturfs, suddfss);
+    }
+
+    rfturn dount;
+}
+
+U_NAMESPACE_END

@@ -1,185 +1,185 @@
 /*
- * Copyright (c) 2005, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-#include <windows.h>
-#include <stdlib.h>
-#include <string.h>
-#include <Psapi.h>
+#indludf <windows.i>
+#indludf <stdlib.i>
+#indludf <string.i>
+#indludf <Psbpi.i>
 
-#include "jni.h"
-#include "jni_util.h"
+#indludf "jni.i"
+#indludf "jni_util.i"
 
-#include "sun_tools_attach_WindowsAttachProvider.h"
+#indludf "sun_tools_bttbdi_WindowsAttbdiProvidfr.i"
 
 /*
- * Class:     sun_tools_attach_WindowsAttachProvider
- * Method:    tempPath
- * Signature: ()Ljava/lang/String;
+ * Clbss:     sun_tools_bttbdi_WindowsAttbdiProvidfr
+ * Mftiod:    tfmpPbti
+ * Signbturf: ()Ljbvb/lbng/String;
  */
 JNIEXPORT jstring JNICALL
-Java_sun_tools_attach_WindowsAttachProvider_tempPath(JNIEnv *env, jclass cls)
+Jbvb_sun_tools_bttbdi_WindowsAttbdiProvidfr_tfmpPbti(JNIEnv *fnv, jdlbss dls)
 {
-    char buf[256];
-    DWORD bufLen, actualLen;
-    jstring result = NULL;
+    dibr buf[256];
+    DWORD bufLfn, bdtublLfn;
+    jstring rfsult = NULL;
 
-    bufLen = sizeof(buf) / sizeof(char);
-    actualLen = GetTempPath(bufLen, buf);
-    if (actualLen > 0) {
-        char* bufP = buf;
-        if (actualLen > bufLen) {
-            actualLen += sizeof(char);
-            bufP = (char*)malloc(actualLen * sizeof(char));
-            actualLen = GetTempPath(actualLen, bufP);
+    bufLfn = sizfof(buf) / sizfof(dibr);
+    bdtublLfn = GftTfmpPbti(bufLfn, buf);
+    if (bdtublLfn > 0) {
+        dibr* bufP = buf;
+        if (bdtublLfn > bufLfn) {
+            bdtublLfn += sizfof(dibr);
+            bufP = (dibr*)mbllod(bdtublLfn * sizfof(dibr));
+            bdtublLfn = GftTfmpPbti(bdtublLfn, bufP);
         }
-        if (actualLen > 0) {
-            result = JNU_NewStringPlatform(env, bufP);
+        if (bdtublLfn > 0) {
+            rfsult = JNU_NfwStringPlbtform(fnv, bufP);
         }
         if (bufP != buf) {
-            free((void*)bufP);
+            frff((void*)bufP);
         }
     }
-    return result;
+    rfturn rfsult;
 }
 
 /*
- * Class:     sun_tools_attach_WindowsAttachProvider
- * Method:    volumeFlags
- * Signature: ()J
+ * Clbss:     sun_tools_bttbdi_WindowsAttbdiProvidfr
+ * Mftiod:    volumfFlbgs
+ * Signbturf: ()J
  */
 JNIEXPORT jlong JNICALL
-Java_sun_tools_attach_WindowsAttachProvider_volumeFlags(JNIEnv *env, jclass cls, jstring str)
+Jbvb_sun_tools_bttbdi_WindowsAttbdiProvidfr_volumfFlbgs(JNIEnv *fnv, jdlbss dls, jstring str)
 {
-    jboolean isCopy;
-    const char* volume;
-    DWORD result = 0;
+    jboolfbn isCopy;
+    donst dibr* volumf;
+    DWORD rfsult = 0;
 
-    volume = JNU_GetStringPlatformChars(env, str, &isCopy);
-    if (volume != NULL) {
-        DWORD componentLen, flags;
-        BOOL res = GetVolumeInformation(volume,
+    volumf = JNU_GftStringPlbtformCibrs(fnv, str, &isCopy);
+    if (volumf != NULL) {
+        DWORD domponfntLfn, flbgs;
+        BOOL rfs = GftVolumfInformbtion(volumf,
                                         NULL,
                                         0,
                                         NULL,
-                                        &componentLen,
-                                        &flags,
+                                        &domponfntLfn,
+                                        &flbgs,
                                         NULL,
                                         0);
-       if (res != 0) {
-           result = flags;
+       if (rfs != 0) {
+           rfsult = flbgs;
        }
        if (isCopy) {
-            JNU_ReleaseStringPlatformChars(env, str, volume);
+            JNU_RflfbsfStringPlbtformCibrs(fnv, str, volumf);
        }
     }
-    return result;
+    rfturn rfsult;
 }
 
 
 /*
- * Class:     sun_tools_attach_WindowsAttachProvider
- * Method:    enumProcesses
- * Signature: ([JI)I
+ * Clbss:     sun_tools_bttbdi_WindowsAttbdiProvidfr
+ * Mftiod:    fnumProdfssfs
+ * Signbturf: ([JI)I
  */
 JNIEXPORT jint JNICALL
-Java_sun_tools_attach_WindowsAttachProvider_enumProcesses(JNIEnv *env, jclass cls,
-                                                          jintArray arr, jint max)
+Jbvb_sun_tools_bttbdi_WindowsAttbdiProvidfr_fnumProdfssfs(JNIEnv *fnv, jdlbss dls,
+                                                          jintArrby brr, jint mbx)
 {
-    DWORD size, bytesReturned;
+    DWORD sizf, bytfsRfturnfd;
     DWORD* ptr;
-    jint result = 0;
+    jint rfsult = 0;
 
-    size = max * sizeof(DWORD);
-    ptr = (DWORD*)malloc(size);
+    sizf = mbx * sizfof(DWORD);
+    ptr = (DWORD*)mbllod(sizf);
     if (ptr != NULL) {
-        BOOL res = EnumProcesses(ptr, size, &bytesReturned);
-        if (res != 0) {
-            result = (jint)(bytesReturned / sizeof(DWORD));
-            (*env)->SetIntArrayRegion(env, arr, 0, (jsize)result, (jint*)ptr);
+        BOOL rfs = EnumProdfssfs(ptr, sizf, &bytfsRfturnfd);
+        if (rfs != 0) {
+            rfsult = (jint)(bytfsRfturnfd / sizfof(DWORD));
+            (*fnv)->SftIntArrbyRfgion(fnv, brr, 0, (jsizf)rfsult, (jint*)ptr);
         }
-        free((void*)ptr);
+        frff((void*)ptr);
     }
-    return result;
+    rfturn rfsult;
 }
 
 /*
- * Class:     sun_tools_attach_WindowsAttachProvider
- * Method:    isLibraryLoadedByProcess
- * Signature: (I[Ljava/lang/String;)Z
+ * Clbss:     sun_tools_bttbdi_WindowsAttbdiProvidfr
+ * Mftiod:    isLibrbryLobdfdByProdfss
+ * Signbturf: (I[Ljbvb/lbng/String;)Z
  */
-JNIEXPORT jboolean JNICALL
-Java_sun_tools_attach_WindowsAttachProvider_isLibraryLoadedByProcess(JNIEnv *env, jclass cls,
-                                                                     jstring str, jint processId)
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_tools_bttbdi_WindowsAttbdiProvidfr_isLibrbryLobdfdByProdfss(JNIEnv *fnv, jdlbss dls,
+                                                                     jstring str, jint prodfssId)
 {
-    HANDLE hProcess;
-    jboolean isCopy;
-    const char* lib;
-    DWORD size, bytesReturned;
+    HANDLE iProdfss;
+    jboolfbn isCopy;
+    donst dibr* lib;
+    DWORD sizf, bytfsRfturnfd;
     HMODULE* ptr;
-    jboolean result = JNI_FALSE;
+    jboolfbn rfsult = JNI_FALSE;
 
-    hProcess = OpenProcess(PROCESS_QUERY_INFORMATION |
+    iProdfss = OpfnProdfss(PROCESS_QUERY_INFORMATION |
                            PROCESS_VM_READ,
-                           FALSE, (DWORD)processId);
-    if (hProcess == NULL) {
-        return JNI_FALSE;
+                           FALSE, (DWORD)prodfssId);
+    if (iProdfss == NULL) {
+        rfturn JNI_FALSE;
     }
-    lib = JNU_GetStringPlatformChars(env, str, &isCopy);
+    lib = JNU_GftStringPlbtformCibrs(fnv, str, &isCopy);
     if (lib == NULL) {
-        CloseHandle(hProcess);
-        return JNI_FALSE;
+        ClosfHbndlf(iProdfss);
+        rfturn JNI_FALSE;
     }
 
     /*
-     * Enumerate the modules that the process has opened and see if we have a
-     * match.
+     * Enumfrbtf tif modulfs tibt tif prodfss ibs opfnfd bnd sff if wf ibvf b
+     * mbtdi.
      */
-    size = 1024 * sizeof(HMODULE);
-    ptr = (HMODULE*)malloc(size);
+    sizf = 1024 * sizfof(HMODULE);
+    ptr = (HMODULE*)mbllod(sizf);
     if (ptr != NULL) {
-        BOOL res = EnumProcessModules(hProcess, ptr, size, &bytesReturned);
-        if (res != 0) {
-            int count = bytesReturned / sizeof(HMODULE);
+        BOOL rfs = EnumProdfssModulfs(iProdfss, ptr, sizf, &bytfsRfturnfd);
+        if (rfs != 0) {
+            int dount = bytfsRfturnfd / sizfof(HMODULE);
             int i = 0;
-            while (i < count) {
-                char base[256];
-                BOOL res = GetModuleBaseName(hProcess, ptr[i], base, sizeof(base));
-                if (res != 0) {
-                    if (strcmp(base, lib) == 0) {
-                      result = JNI_TRUE;
-                      break;
+            wiilf (i < dount) {
+                dibr bbsf[256];
+                BOOL rfs = GftModulfBbsfNbmf(iProdfss, ptr[i], bbsf, sizfof(bbsf));
+                if (rfs != 0) {
+                    if (strdmp(bbsf, lib) == 0) {
+                      rfsult = JNI_TRUE;
+                      brfbk;
                     }
                 }
                 i++;
             }
         }
-        free((void*)ptr);
+        frff((void*)ptr);
     }
     if (isCopy) {
-        JNU_ReleaseStringPlatformChars(env, str, lib);
+        JNU_RflfbsfStringPlbtformCibrs(fnv, str, lib);
     }
-    CloseHandle(hProcess);
+    ClosfHbndlf(iProdfss);
 
-    return result;
+    rfturn rfsult;
 }

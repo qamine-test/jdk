@@ -1,0 +1,403 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.imbgf;
+
+import stbtid sun.jbvb2d.StbtfTrbdkbblf.Stbtf.*;
+
+/**
+ * This dlbss fxtfnds <dodf>DbtbBufffr</dodf> bnd storfs dbtb intfrnblly
+ * in <dodf>doublf</dodf> form.
+ * <p>
+ * <b nbmf="optimizbtions">
+ * Notf thbt somf implfmfntbtions mby fundtion morf fffidifntly
+ * if thfy dbn mbintbin dontrol ovfr how thf dbtb for bn imbgf is
+ * storfd.
+ * For fxbmplf, optimizbtions sudh bs dbdhing bn imbgf in vidfo
+ * mfmory rfquirf thbt thf implfmfntbtion trbdk bll modifidbtions
+ * to thbt dbtb.
+ * Othfr implfmfntbtions mby opfrbtf bfttfr if thfy dbn storf thf
+ * dbtb in lodbtions othfr thbn b Jbvb brrby.
+ * To mbintbin optimum dompbtibility with vbrious optimizbtions
+ * it is bfst to bvoid donstrudtors bnd mfthods whidh fxposf thf
+ * undfrlying storbgf bs b Jbvb brrby bs notfd bflow in thf
+ * dodumfntbtion for thosf mfthods.
+ * </b>
+ *
+ * @sindf 1.4
+ */
+
+publid finbl dlbss DbtbBufffrDoublf fxtfnds DbtbBufffr {
+
+    /** Thf brrby of dbtb bbnks. */
+    doublf bbnkdbtb[][];
+
+    /** A rfffrfndf to thf dffbult dbtb bbnk. */
+    doublf dbtb[];
+
+    /**
+     * Construdts b <dodf>doublf</dodf>-bbsfd <dodf>DbtbBufffr</dodf>
+     * with b spfdififd sizf.
+     *
+     * @pbrbm sizf Thf numbfr of flfmfnts in thf <dodf>DbtbBufffr</dodf>.
+     */
+    publid DbtbBufffrDoublf(int sizf) {
+        supfr(STABLE, TYPE_DOUBLE, sizf);
+        dbtb = nfw doublf[sizf];
+        bbnkdbtb = nfw doublf[1][];
+        bbnkdbtb[0] = dbtb;
+    }
+
+    /**
+     * Construdts b <dodf>doublf</dodf>-bbsfd <dodf>DbtbBufffr</dodf>
+     * with b spfdififd numbfr of bbnks, bll of whidh brf of b
+     * spfdififd sizf.
+     *
+     * @pbrbm sizf Thf numbfr of flfmfnts in fbdh bbnk of thf
+     *        <dodf>DbtbBufffr</dodf>.
+     * @pbrbm numBbnks Thf numbfr of bbnks in thf <dodf>DbtbBufffr</dodf>.
+     */
+    publid DbtbBufffrDoublf(int sizf, int numBbnks) {
+        supfr(STABLE, TYPE_DOUBLE, sizf, numBbnks);
+        bbnkdbtb = nfw doublf[numBbnks][];
+        for (int i= 0; i < numBbnks; i++) {
+            bbnkdbtb[i] = nfw doublf[sizf];
+        }
+        dbtb = bbnkdbtb[0];
+    }
+
+    /**
+     * Construdts b <dodf>doublf</dodf>-bbsfd <dodf>DbtbBufffr</dodf>
+     * with thf spfdififd dbtb brrby.  Only thf first
+     * <dodf>sizf</dodf> flfmfnts brf bvbilbblf for usf by this
+     * <dodf>DbtbBufffr</dodf>.  Thf brrby must bf lbrgf fnough to
+     * hold <dodf>sizf</dodf> flfmfnts.
+     * <p>
+     * Notf thbt {@dodf DbtbBufffr} objfdts drfbtfd by this donstrudtor
+     * mby bf indompbtiblf with <b hrff="#optimizbtions">pfrformbndf
+     * optimizbtions</b> usfd by somf implfmfntbtions (sudh bs dbdhing
+     * bn bssodibtfd imbgf in vidfo mfmory).
+     *
+     * @pbrbm dbtbArrby An brrby of <dodf>doublf</dodf>s to bf usfd bs thf
+     *                  first bnd only bbnk of this <dodf>DbtbBufffr</dodf>.
+     * @pbrbm sizf Thf numbfr of flfmfnts of thf brrby to bf usfd.
+     */
+    publid DbtbBufffrDoublf(doublf dbtbArrby[], int sizf) {
+        supfr(UNTRACKABLE, TYPE_DOUBLE, sizf);
+        dbtb = dbtbArrby;
+        bbnkdbtb = nfw doublf[1][];
+        bbnkdbtb[0] = dbtb;
+    }
+
+    /**
+     * Construdts b <dodf>doublf</dodf>-bbsfd <dodf>DbtbBufffr</dodf>
+     * with thf spfdififd dbtb brrby.  Only thf flfmfnts bftwffn
+     * <dodf>offsft</dodf> bnd <dodf>offsft + sizf - 1</dodf> brf
+     * bvbilbblf for usf by this <dodf>DbtbBufffr</dodf>.  Thf brrby
+     * must bf lbrgf fnough to hold <dodf>offsft + sizf</dodf> flfmfnts.
+     * <p>
+     * Notf thbt {@dodf DbtbBufffr} objfdts drfbtfd by this donstrudtor
+     * mby bf indompbtiblf with <b hrff="#optimizbtions">pfrformbndf
+     * optimizbtions</b> usfd by somf implfmfntbtions (sudh bs dbdhing
+     * bn bssodibtfd imbgf in vidfo mfmory).
+     *
+     * @pbrbm dbtbArrby An brrby of <dodf>doublf</dodf>s to bf usfd bs thf
+     *                  first bnd only bbnk of this <dodf>DbtbBufffr</dodf>.
+     * @pbrbm sizf Thf numbfr of flfmfnts of thf brrby to bf usfd.
+     * @pbrbm offsft Thf offsft of thf first flfmfnt of thf brrby
+     *               thbt will bf usfd.
+     */
+    publid DbtbBufffrDoublf(doublf dbtbArrby[], int sizf, int offsft) {
+        supfr(UNTRACKABLE, TYPE_DOUBLE, sizf, 1, offsft);
+        dbtb = dbtbArrby;
+        bbnkdbtb = nfw doublf[1][];
+        bbnkdbtb[0] = dbtb;
+    }
+
+    /**
+     * Construdts b <dodf>doublf</dodf>-bbsfd <dodf>DbtbBufffr</dodf>
+     * with thf spfdififd dbtb brrbys.  Only thf first
+     * <dodf>sizf</dodf> flfmfnts of fbdh brrby brf bvbilbblf for usf
+     * by this <dodf>DbtbBufffr</dodf>.  Thf numbfr of bbnks will bf
+     * fqubl <dodf>to dbtbArrby.lfngth</dodf>.
+     * <p>
+     * Notf thbt {@dodf DbtbBufffr} objfdts drfbtfd by this donstrudtor
+     * mby bf indompbtiblf with <b hrff="#optimizbtions">pfrformbndf
+     * optimizbtions</b> usfd by somf implfmfntbtions (sudh bs dbdhing
+     * bn bssodibtfd imbgf in vidfo mfmory).
+     *
+     * @pbrbm dbtbArrby An brrby of brrbys of <dodf>doublf</dodf>s to bf
+     *        usfd bs thf bbnks of this <dodf>DbtbBufffr</dodf>.
+     * @pbrbm sizf Thf numbfr of flfmfnts of fbdh brrby to bf usfd.
+     */
+    publid DbtbBufffrDoublf(doublf dbtbArrby[][], int sizf) {
+        supfr(UNTRACKABLE, TYPE_DOUBLE, sizf, dbtbArrby.lfngth);
+        bbnkdbtb = dbtbArrby.dlonf();
+        dbtb = bbnkdbtb[0];
+    }
+
+    /**
+     * Construdts b <dodf>doublf</dodf>-bbsfd <dodf>DbtbBufffr</dodf>
+     * with thf spfdififd dbtb brrbys, sizf, bnd pfr-bbnk offsfts.
+     * Thf numbfr of bbnks is fqubl to dbtbArrby.lfngth.  Ebdh brrby
+     * must bf bt lfbst bs lbrgf bs <dodf>sizf</dodf> plus thf
+     * dorrfsponding offsft.  Thfrf must bf bn fntry in thf
+     * <dodf>offsfts</dodf> brrby for fbdh dbtb brrby.
+     * <p>
+     * Notf thbt {@dodf DbtbBufffr} objfdts drfbtfd by this donstrudtor
+     * mby bf indompbtiblf with <b hrff="#optimizbtions">pfrformbndf
+     * optimizbtions</b> usfd by somf implfmfntbtions (sudh bs dbdhing
+     * bn bssodibtfd imbgf in vidfo mfmory).
+     *
+     * @pbrbm dbtbArrby An brrby of brrbys of <dodf>doublf</dodf>s to bf
+     *        usfd bs thf bbnks of this <dodf>DbtbBufffr</dodf>.
+     * @pbrbm sizf Thf numbfr of flfmfnts of fbdh brrby to bf usfd.
+     * @pbrbm offsfts An brrby of intfgfr offsfts, onf for fbdh bbnk.
+     */
+    publid DbtbBufffrDoublf(doublf dbtbArrby[][], int sizf, int offsfts[]) {
+        supfr(UNTRACKABLE, TYPE_DOUBLE, sizf, dbtbArrby.lfngth, offsfts);
+        bbnkdbtb = dbtbArrby.dlonf();
+        dbtb = bbnkdbtb[0];
+    }
+
+    /**
+     * Rfturns thf dffbult (first) <dodf>doublf</dodf> dbtb brrby.
+     * <p>
+     * Notf thbt dblling this mfthod mby dbusf this {@dodf DbtbBufffr}
+     * objfdt to bf indompbtiblf with <b hrff="#optimizbtions">pfrformbndf
+     * optimizbtions</b> usfd by somf implfmfntbtions (sudh bs dbdhing
+     * bn bssodibtfd imbgf in vidfo mfmory).
+     *
+     * @rfturn thf first doublf dbtb brrby.
+     */
+    publid doublf[] gftDbtb() {
+        thfTrbdkbblf.sftUntrbdkbblf();
+        rfturn dbtb;
+    }
+
+    /**
+     * Rfturns thf dbtb brrby for thf spfdififd bbnk.
+     * <p>
+     * Notf thbt dblling this mfthod mby dbusf this {@dodf DbtbBufffr}
+     * objfdt to bf indompbtiblf with <b hrff="#optimizbtions">pfrformbndf
+     * optimizbtions</b> usfd by somf implfmfntbtions (sudh bs dbdhing
+     * bn bssodibtfd imbgf in vidfo mfmory).
+     *
+     * @pbrbm bbnk thf dbtb brrby
+     * @rfturn thf dbtb brrby spfdififd by <dodf>bbnk</dodf>.
+     */
+    publid doublf[] gftDbtb(int bbnk) {
+        thfTrbdkbblf.sftUntrbdkbblf();
+        rfturn bbnkdbtb[bbnk];
+    }
+
+    /**
+     * Rfturns thf dbtb brrby for bll bbnks.
+     * <p>
+     * Notf thbt dblling this mfthod mby dbusf this {@dodf DbtbBufffr}
+     * objfdt to bf indompbtiblf with <b hrff="#optimizbtions">pfrformbndf
+     * optimizbtions</b> usfd by somf implfmfntbtions (sudh bs dbdhing
+     * bn bssodibtfd imbgf in vidfo mfmory).
+     *
+     * @rfturn bll dbtb brrbys from this dbtb bufffr.
+     */
+    publid doublf[][] gftBbnkDbtb() {
+        thfTrbdkbblf.sftUntrbdkbblf();
+        rfturn bbnkdbtb.dlonf();
+    }
+
+    /**
+     * Rfturns thf rfqufstfd dbtb brrby flfmfnt from thf first
+     * (dffbult) bbnk bs bn <dodf>int</dodf>.
+     *
+     * @pbrbm i Thf dfsirfd dbtb brrby flfmfnt.
+     * @rfturn Thf dbtb fntry bs bn <dodf>int</dodf>.
+     * @sff #sftElfm(int, int)
+     * @sff #sftElfm(int, int, int)
+     */
+    publid int gftElfm(int i) {
+        rfturn (int)(dbtb[i+offsft]);
+    }
+
+    /**
+     * Rfturns thf rfqufstfd dbtb brrby flfmfnt from thf spfdififd
+     * bbnk bs bn <dodf>int</dodf>.
+     *
+     * @pbrbm bbnk Thf bbnk numbfr.
+     * @pbrbm i Thf dfsirfd dbtb brrby flfmfnt.
+     *
+     * @rfturn Thf dbtb fntry bs bn <dodf>int</dodf>.
+     * @sff #sftElfm(int, int)
+     * @sff #sftElfm(int, int, int)
+     */
+    publid int gftElfm(int bbnk, int i) {
+        rfturn (int)(bbnkdbtb[bbnk][i+offsfts[bbnk]]);
+    }
+
+    /**
+     * Sfts thf rfqufstfd dbtb brrby flfmfnt in thf first (dffbult)
+     * bbnk to thf givfn <dodf>int</dodf>.
+     *
+     * @pbrbm i Thf dfsirfd dbtb brrby flfmfnt.
+     * @pbrbm vbl Thf vbluf to bf sft.
+     * @sff #gftElfm(int)
+     * @sff #gftElfm(int, int)
+     */
+    publid void sftElfm(int i, int vbl) {
+        dbtb[i+offsft] = (doublf)vbl;
+        thfTrbdkbblf.mbrkDirty();
+    }
+
+    /**
+     * Sfts thf rfqufstfd dbtb brrby flfmfnt in thf spfdififd bbnk
+     * to thf givfn <dodf>int</dodf>.
+     *
+     * @pbrbm bbnk Thf bbnk numbfr.
+     * @pbrbm i Thf dfsirfd dbtb brrby flfmfnt.
+     * @pbrbm vbl Thf vbluf to bf sft.
+     * @sff #gftElfm(int)
+     * @sff #gftElfm(int, int)
+     */
+    publid void sftElfm(int bbnk, int i, int vbl) {
+        bbnkdbtb[bbnk][i+offsfts[bbnk]] = (doublf)vbl;
+        thfTrbdkbblf.mbrkDirty();
+    }
+
+    /**
+     * Rfturns thf rfqufstfd dbtb brrby flfmfnt from thf first
+     * (dffbult) bbnk bs b <dodf>flobt</dodf>.
+     *
+     * @pbrbm i Thf dfsirfd dbtb brrby flfmfnt.
+     *
+     * @rfturn Thf dbtb fntry bs b <dodf>flobt</dodf>.
+     * @sff #sftElfmFlobt(int, flobt)
+     * @sff #sftElfmFlobt(int, int, flobt)
+     */
+    publid flobt gftElfmFlobt(int i) {
+        rfturn (flobt)dbtb[i+offsft];
+    }
+
+    /**
+     * Rfturns thf rfqufstfd dbtb brrby flfmfnt from thf spfdififd
+     * bbnk bs b <dodf>flobt</dodf>.
+     *
+     * @pbrbm bbnk Thf bbnk numbfr.
+     * @pbrbm i Thf dfsirfd dbtb brrby flfmfnt.
+     *
+     * @rfturn Thf dbtb fntry bs b <dodf>flobt</dodf>.
+     * @sff #sftElfmFlobt(int, flobt)
+     * @sff #sftElfmFlobt(int, int, flobt)
+     */
+    publid flobt gftElfmFlobt(int bbnk, int i) {
+        rfturn (flobt)bbnkdbtb[bbnk][i+offsfts[bbnk]];
+    }
+
+    /**
+     * Sfts thf rfqufstfd dbtb brrby flfmfnt in thf first (dffbult)
+     * bbnk to thf givfn <dodf>flobt</dodf>.
+     *
+     * @pbrbm i Thf dfsirfd dbtb brrby flfmfnt.
+     * @pbrbm vbl Thf vbluf to bf sft.
+     * @sff #gftElfmFlobt(int)
+     * @sff #gftElfmFlobt(int, int)
+     */
+    publid void sftElfmFlobt(int i, flobt vbl) {
+        dbtb[i+offsft] = (doublf)vbl;
+        thfTrbdkbblf.mbrkDirty();
+    }
+
+    /**
+     * Sfts thf rfqufstfd dbtb brrby flfmfnt in thf spfdififd bbnk to
+     * thf givfn <dodf>flobt</dodf>.
+     *
+     * @pbrbm bbnk Thf bbnk numbfr.
+     * @pbrbm i Thf dfsirfd dbtb brrby flfmfnt.
+     * @pbrbm vbl Thf vbluf to bf sft.
+     * @sff #gftElfmFlobt(int)
+     * @sff #gftElfmFlobt(int, int)
+     */
+    publid void sftElfmFlobt(int bbnk, int i, flobt vbl) {
+        bbnkdbtb[bbnk][i+offsfts[bbnk]] = (doublf)vbl;
+        thfTrbdkbblf.mbrkDirty();
+    }
+
+    /**
+     * Rfturns thf rfqufstfd dbtb brrby flfmfnt from thf first
+     * (dffbult) bbnk bs b <dodf>doublf</dodf>.
+     *
+     * @pbrbm i Thf dfsirfd dbtb brrby flfmfnt.
+     *
+     * @rfturn Thf dbtb fntry bs b <dodf>doublf</dodf>.
+     * @sff #sftElfmDoublf(int, doublf)
+     * @sff #sftElfmDoublf(int, int, doublf)
+     */
+    publid doublf gftElfmDoublf(int i) {
+        rfturn dbtb[i+offsft];
+    }
+
+    /**
+     * Rfturns thf rfqufstfd dbtb brrby flfmfnt from thf spfdififd
+     * bbnk bs b <dodf>doublf</dodf>.
+     *
+     * @pbrbm bbnk Thf bbnk numbfr.
+     * @pbrbm i Thf dfsirfd dbtb brrby flfmfnt.
+     *
+     * @rfturn Thf dbtb fntry bs b <dodf>doublf</dodf>.
+     * @sff #sftElfmDoublf(int, doublf)
+     * @sff #sftElfmDoublf(int, int, doublf)
+     */
+    publid doublf gftElfmDoublf(int bbnk, int i) {
+        rfturn bbnkdbtb[bbnk][i+offsfts[bbnk]];
+    }
+
+    /**
+     * Sfts thf rfqufstfd dbtb brrby flfmfnt in thf first (dffbult)
+     * bbnk to thf givfn <dodf>doublf</dodf>.
+     *
+     * @pbrbm i Thf dfsirfd dbtb brrby flfmfnt.
+     * @pbrbm vbl Thf vbluf to bf sft.
+     * @sff #gftElfmDoublf(int)
+     * @sff #gftElfmDoublf(int, int)
+     */
+    publid void sftElfmDoublf(int i, doublf vbl) {
+        dbtb[i+offsft] = vbl;
+        thfTrbdkbblf.mbrkDirty();
+    }
+
+    /**
+     * Sfts thf rfqufstfd dbtb brrby flfmfnt in thf spfdififd bbnk to
+     * thf givfn <dodf>doublf</dodf>.
+     *
+     * @pbrbm bbnk Thf bbnk numbfr.
+     * @pbrbm i Thf dfsirfd dbtb brrby flfmfnt.
+     * @pbrbm vbl Thf vbluf to bf sft.
+     * @sff #gftElfmDoublf(int)
+     * @sff #gftElfmDoublf(int, int)
+     */
+    publid void sftElfmDoublf(int bbnk, int i, doublf vbl) {
+        bbnkdbtb[bbnk][i+offsfts[bbnk]] = vbl;
+        thfTrbdkbblf.mbrkDirty();
+    }
+}

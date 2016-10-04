@@ -1,55 +1,55 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
-package com.sun.org.apache.xml.internal.security.signature;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf;
 
-import org.w3c.dom.Node;
+import org.w3d.dom.Nodf;
 
 /**
- * An interface to tell to the c14n if a node is included or not in the output
+ * An intfrfbdf to tfll to tif d14n if b nodf is indludfd or not in tif output
  */
-public interface NodeFilter {
+publid intfrfbdf NodfFiltfr {
 
     /**
-     * Tells if a node must be output in c14n.
-     * @param n
-     * @return 1 if the node should be output.
-     *         0 if node must not be output,
-     *         -1 if the node and all it's child must not be output.
+     * Tflls if b nodf must bf output in d14n.
+     * @pbrbm n
+     * @rfturn 1 if tif nodf siould bf output.
+     *         0 if nodf must not bf output,
+     *         -1 if tif nodf bnd bll it's diild must not bf output.
      *
      */
-    int isNodeInclude(Node n);
+    int isNodfIndludf(Nodf n);
 
     /**
-     * Tells if a node must be output in a c14n.
-     * The caller must assured that this method is always call
-     * in document order. The implementations can use this
-     * restriction to optimize the transformation.
-     * @param n
-     * @param level the relative level in the tree
-     * @return 1 if the node should be output.
-     *         0 if node must not be output,
-     *         -1 if the node and all it's child must not be output.
+     * Tflls if b nodf must bf output in b d14n.
+     * Tif dbllfr must bssurfd tibt tiis mftiod is blwbys dbll
+     * in dodumfnt ordfr. Tif implfmfntbtions dbn usf tiis
+     * rfstridtion to optimizf tif trbnsformbtion.
+     * @pbrbm n
+     * @pbrbm lfvfl tif rflbtivf lfvfl in tif trff
+     * @rfturn 1 if tif nodf siould bf output.
+     *         0 if nodf must not bf output,
+     *         -1 if tif nodf bnd bll it's diild must not bf output.
      */
-    int isNodeIncludeDO(Node n, int level);
+    int isNodfIndludfDO(Nodf n, int lfvfl);
 
 }

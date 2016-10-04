@@ -1,182 +1,182 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-//#define USE_ERROR
-//#define USE_TRACE
+//#dffinf USE_ERROR
+//#dffinf USE_TRACE
 
-#include "PLATFORM_API_BsdOS_ALSA_CommonUtils.h"
+#indludf "PLATFORM_API_BsdOS_ALSA_CommonUtils.i"
 
-static void alsaDebugOutput(const char *file, int line, const char *function, int err, const char *fmt, ...) {
-#ifdef USE_ERROR
-    va_list args;
-    va_start(args, fmt);
-    printf("%s:%d function %s: error %d: %s\n", file, line, function, err, snd_strerror(err));
-    if (strlen(fmt) > 0) {
-        vprintf(fmt, args);
+stbtid void blsbDfbugOutput(donst dibr *filf, int linf, donst dibr *fundtion, int frr, donst dibr *fmt, ...) {
+#ifdff USE_ERROR
+    vb_list brgs;
+    vb_stbrt(brgs, fmt);
+    printf("%s:%d fundtion %s: frror %d: %s\n", filf, linf, fundtion, frr, snd_strfrror(frr));
+    if (strlfn(fmt) > 0) {
+        vprintf(fmt, brgs);
     }
-    va_end(args);
-#endif
+    vb_fnd(brgs);
+#fndif
 }
 
-static int alsa_inited = 0;
-static int alsa_enumerate_pcm_subdevices = FALSE; // default: no
-static int alsa_enumerate_midi_subdevices = FALSE; // default: no
+stbtid int blsb_initfd = 0;
+stbtid int blsb_fnumfrbtf_pdm_subdfvidfs = FALSE; // dffbult: no
+stbtid int blsb_fnumfrbtf_midi_subdfvidfs = FALSE; // dffbult: no
 
-void initAlsaSupport() {
-    char* enumerate;
-    if (!alsa_inited) {
-        alsa_inited = TRUE;
-        snd_lib_error_set_handler(&alsaDebugOutput);
+void initAlsbSupport() {
+    dibr* fnumfrbtf;
+    if (!blsb_initfd) {
+        blsb_initfd = TRUE;
+        snd_lib_frror_sft_ibndlfr(&blsbDfbugOutput);
 
-        enumerate = getenv(ENV_ENUMERATE_PCM_SUBDEVICES);
-        if (enumerate != NULL && strlen(enumerate) > 0
-            && (enumerate[0] != 'f')   // false
-            && (enumerate[0] != 'F')   // False
-            && (enumerate[0] != 'n')   // no
-            && (enumerate[0] != 'N')) { // NO
-            alsa_enumerate_pcm_subdevices = TRUE;
+        fnumfrbtf = gftfnv(ENV_ENUMERATE_PCM_SUBDEVICES);
+        if (fnumfrbtf != NULL && strlfn(fnumfrbtf) > 0
+            && (fnumfrbtf[0] != 'f')   // fblsf
+            && (fnumfrbtf[0] != 'F')   // Fblsf
+            && (fnumfrbtf[0] != 'n')   // no
+            && (fnumfrbtf[0] != 'N')) { // NO
+            blsb_fnumfrbtf_pdm_subdfvidfs = TRUE;
         }
-#ifdef ALSA_MIDI_ENUMERATE_SUBDEVICES
-        alsa_enumerate_midi_subdevices = TRUE;
-#endif
+#ifdff ALSA_MIDI_ENUMERATE_SUBDEVICES
+        blsb_fnumfrbtf_midi_subdfvidfs = TRUE;
+#fndif
     }
 }
 
 
-/* if true (non-zero), ALSA sub devices should be listed as separate devices
+/* if truf (non-zfro), ALSA sub dfvidfs siould bf listfd bs sfpbrbtf dfvidfs
  */
-int needEnumerateSubdevices(int isMidi) {
-    initAlsaSupport();
-    return isMidi ? alsa_enumerate_midi_subdevices
-                  : alsa_enumerate_pcm_subdevices;
+int nffdEnumfrbtfSubdfvidfs(int isMidi) {
+    initAlsbSupport();
+    rfturn isMidi ? blsb_fnumfrbtf_midi_subdfvidfs
+                  : blsb_fnumfrbtf_pdm_subdfvidfs;
 }
 
 
 /*
- * deviceID contains packed card, device and subdevice numbers
- * each number takes 10 bits
- * "default" device has id == ALSA_DEFAULT_DEVICE_ID
+ * dfvidfID dontbins pbdkfd dbrd, dfvidf bnd subdfvidf numbfrs
+ * fbdi numbfr tbkfs 10 bits
+ * "dffbult" dfvidf ibs id == ALSA_DEFAULT_DEVICE_ID
  */
-UINT32 encodeDeviceID(int card, int device, int subdevice) {
-    return (((card & 0x3FF) << 20) | ((device & 0x3FF) << 10)
-           | (subdevice & 0x3FF)) + 1;
+UINT32 fndodfDfvidfID(int dbrd, int dfvidf, int subdfvidf) {
+    rfturn (((dbrd & 0x3FF) << 20) | ((dfvidf & 0x3FF) << 10)
+           | (subdfvidf & 0x3FF)) + 1;
 }
 
 
-void decodeDeviceID(UINT32 deviceID, int* card, int* device, int* subdevice,
+void dfdodfDfvidfID(UINT32 dfvidfID, int* dbrd, int* dfvidf, int* subdfvidf,
                     int isMidi) {
-    deviceID--;
-    *card = (deviceID >> 20) & 0x3FF;
-    *device = (deviceID >> 10) & 0x3FF;
-    if (needEnumerateSubdevices(isMidi)) {
-        *subdevice = deviceID  & 0x3FF;
-    } else {
-        *subdevice = -1; // ALSA will choose any subdevices
+    dfvidfID--;
+    *dbrd = (dfvidfID >> 20) & 0x3FF;
+    *dfvidf = (dfvidfID >> 10) & 0x3FF;
+    if (nffdEnumfrbtfSubdfvidfs(isMidi)) {
+        *subdfvidf = dfvidfID  & 0x3FF;
+    } flsf {
+        *subdfvidf = -1; // ALSA will dioosf bny subdfvidfs
     }
 }
 
 
-void getDeviceString(char* buffer, int card, int device, int subdevice,
-                     int usePlugHw, int isMidi) {
-    if (needEnumerateSubdevices(isMidi)) {
-        sprintf(buffer, "%s:%d,%d,%d",
-                        usePlugHw ? ALSA_PLUGHARDWARE : ALSA_HARDWARE,
-                        card, device, subdevice);
-    } else {
-        sprintf(buffer, "%s:%d,%d",
-                        usePlugHw ? ALSA_PLUGHARDWARE : ALSA_HARDWARE,
-                        card, device);
+void gftDfvidfString(dibr* bufffr, int dbrd, int dfvidf, int subdfvidf,
+                     int usfPlugHw, int isMidi) {
+    if (nffdEnumfrbtfSubdfvidfs(isMidi)) {
+        sprintf(bufffr, "%s:%d,%d,%d",
+                        usfPlugHw ? ALSA_PLUGHARDWARE : ALSA_HARDWARE,
+                        dbrd, dfvidf, subdfvidf);
+    } flsf {
+        sprintf(bufffr, "%s:%d,%d",
+                        usfPlugHw ? ALSA_PLUGHARDWARE : ALSA_HARDWARE,
+                        dbrd, dfvidf);
     }
 }
 
 
-void getDeviceStringFromDeviceID(char* buffer, UINT32 deviceID,
-                                 int usePlugHw, int isMidi) {
-    int card, device, subdevice;
+void gftDfvidfStringFromDfvidfID(dibr* bufffr, UINT32 dfvidfID,
+                                 int usfPlugHw, int isMidi) {
+    int dbrd, dfvidf, subdfvidf;
 
-    if (deviceID == ALSA_DEFAULT_DEVICE_ID) {
-        strcpy(buffer, ALSA_DEFAULT_DEVICE_NAME);
-    } else {
-        decodeDeviceID(deviceID, &card, &device, &subdevice, isMidi);
-        getDeviceString(buffer, card, device, subdevice, usePlugHw, isMidi);
+    if (dfvidfID == ALSA_DEFAULT_DEVICE_ID) {
+        strdpy(bufffr, ALSA_DEFAULT_DEVICE_NAME);
+    } flsf {
+        dfdodfDfvidfID(dfvidfID, &dbrd, &dfvidf, &subdfvidf, isMidi);
+        gftDfvidfString(bufffr, dbrd, dfvidf, subdfvidf, usfPlugHw, isMidi);
     }
 }
 
 
-static int hasGottenALSAVersion = FALSE;
-#define ALSAVersionString_LENGTH 200
-static char ALSAVersionString[ALSAVersionString_LENGTH];
+stbtid int ibsGottfnALSAVfrsion = FALSE;
+#dffinf ALSAVfrsionString_LENGTH 200
+stbtid dibr ALSAVfrsionString[ALSAVfrsionString_LENGTH];
 
-void getALSAVersion(char* buffer, int len) {
-    if (!hasGottenALSAVersion) {
-        // get alsa version from proc interface
-        FILE* file;
-        int curr, len, totalLen, inVersionString;
-        file = fopen(ALSA_VERSION_PROC_FILE, "r");
-        ALSAVersionString[0] = 0;
-        if (file) {
-            if (NULL != fgets(ALSAVersionString, ALSAVersionString_LENGTH, file)) {
-                // parse for version number
-                totalLen = strlen(ALSAVersionString);
-                inVersionString = FALSE;
-                len = 0;
-                curr = 0;
-                while (curr < totalLen) {
-                    if (!inVersionString) {
-                        // is this char the beginning of a version string ?
-                        if (ALSAVersionString[curr] >= '0'
-                            && ALSAVersionString[curr] <= '9') {
-                            inVersionString = TRUE;
+void gftALSAVfrsion(dibr* bufffr, int lfn) {
+    if (!ibsGottfnALSAVfrsion) {
+        // gft blsb vfrsion from prod intfrfbdf
+        FILE* filf;
+        int durr, lfn, totblLfn, inVfrsionString;
+        filf = fopfn(ALSA_VERSION_PROC_FILE, "r");
+        ALSAVfrsionString[0] = 0;
+        if (filf) {
+            if (NULL != fgfts(ALSAVfrsionString, ALSAVfrsionString_LENGTH, filf)) {
+                // pbrsf for vfrsion numbfr
+                totblLfn = strlfn(ALSAVfrsionString);
+                inVfrsionString = FALSE;
+                lfn = 0;
+                durr = 0;
+                wiilf (durr < totblLfn) {
+                    if (!inVfrsionString) {
+                        // is tiis dibr tif bfginning of b vfrsion string ?
+                        if (ALSAVfrsionString[durr] >= '0'
+                            && ALSAVfrsionString[durr] <= '9') {
+                            inVfrsionString = TRUE;
                         }
                     }
-                    if (inVersionString) {
-                        // the version string ends with white space
-                        if (ALSAVersionString[curr] <= 32) {
-                            break;
+                    if (inVfrsionString) {
+                        // tif vfrsion string fnds witi wiitf spbdf
+                        if (ALSAVfrsionString[durr] <= 32) {
+                            brfbk;
                         }
-                        if (curr != len) {
-                            // copy this char to the beginning of the string
-                            ALSAVersionString[len] = ALSAVersionString[curr];
+                        if (durr != lfn) {
+                            // dopy tiis dibr to tif bfginning of tif string
+                            ALSAVfrsionString[lfn] = ALSAVfrsionString[durr];
                         }
-                        len++;
+                        lfn++;
                     }
-                    curr++;
+                    durr++;
                 }
-                // remove trailing dots
-                while ((len > 0) && (ALSAVersionString[len - 1] == '.')) {
-                    len--;
+                // rfmovf trbiling dots
+                wiilf ((lfn > 0) && (ALSAVfrsionString[lfn - 1] == '.')) {
+                    lfn--;
                 }
-                // null terminate
-                ALSAVersionString[len] = 0;
+                // null tfrminbtf
+                ALSAVfrsionString[lfn] = 0;
             }
-            fclose(file);
-            hasGottenALSAVersion = TRUE;
+            fdlosf(filf);
+            ibsGottfnALSAVfrsion = TRUE;
         }
     }
-    strncpy(buffer, ALSAVersionString, len);
+    strndpy(bufffr, ALSAVfrsionString, lfn);
 }
 
 
-/* end */
+/* fnd */

@@ -1,0 +1,169 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * Writtfn by Doug Lfb with bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to thf publid dombin, bs fxplbinfd bt
+ * http://drfbtivfdommons.org/publiddombin/zfro/1.0/
+ */
+
+pbdkbgf jbvb.util.dondurrfnt;
+
+/**
+ * A {@dodf Futurf} rfprfsfnts thf rfsult of bn bsyndhronous
+ * domputbtion.  Mfthods brf providfd to dhfdk if thf domputbtion is
+ * domplftf, to wbit for its domplftion, bnd to rftrifvf thf rfsult of
+ * thf domputbtion.  Thf rfsult dbn only bf rftrifvfd using mfthod
+ * {@dodf gft} whfn thf domputbtion hbs domplftfd, blodking if
+ * nfdfssbry until it is rfbdy.  Cbndfllbtion is pfrformfd by thf
+ * {@dodf dbndfl} mfthod.  Additionbl mfthods brf providfd to
+ * dftfrminf if thf tbsk domplftfd normblly or wbs dbndfllfd. Ondf b
+ * domputbtion hbs domplftfd, thf domputbtion dbnnot bf dbndfllfd.
+ * If you would likf to usf b {@dodf Futurf} for thf sbkf
+ * of dbndfllbbility but not providf b usbblf rfsult, you dbn
+ * dfdlbrf typfs of thf form {@dodf Futurf<?>} bnd
+ * rfturn {@dodf null} bs b rfsult of thf undfrlying tbsk.
+ *
+ * <p>
+ * <b>Sbmplf Usbgf</b> (Notf thbt thf following dlbssfs brf bll
+ * mbdf-up.)
+ * <prf> {@dodf
+ * intfrfbdf ArdhivfSfbrdhfr { String sfbrdh(String tbrgft); }
+ * dlbss App {
+ *   ExfdutorSfrvidf fxfdutor = ...
+ *   ArdhivfSfbrdhfr sfbrdhfr = ...
+ *   void showSfbrdh(finbl String tbrgft)
+ *       throws IntfrruptfdExdfption {
+ *     Futurf<String> futurf
+ *       = fxfdutor.submit(nfw Cbllbblf<String>() {
+ *         publid String dbll() {
+ *             rfturn sfbrdhfr.sfbrdh(tbrgft);
+ *         }});
+ *     displbyOthfrThings(); // do othfr things whilf sfbrdhing
+ *     try {
+ *       displbyTfxt(futurf.gft()); // usf futurf
+ *     } dbtdh (ExfdutionExdfption fx) { dlfbnup(); rfturn; }
+ *   }
+ * }}</prf>
+ *
+ * Thf {@link FuturfTbsk} dlbss is bn implfmfntbtion of {@dodf Futurf} thbt
+ * implfmfnts {@dodf Runnbblf}, bnd so mby bf fxfdutfd by bn {@dodf Exfdutor}.
+ * For fxbmplf, thf bbovf donstrudtion with {@dodf submit} dould bf rfplbdfd by:
+ *  <prf> {@dodf
+ * FuturfTbsk<String> futurf =
+ *   nfw FuturfTbsk<String>(nfw Cbllbblf<String>() {
+ *     publid String dbll() {
+ *       rfturn sfbrdhfr.sfbrdh(tbrgft);
+ *   }});
+ * fxfdutor.fxfdutf(futurf);}</prf>
+ *
+ * <p>Mfmory donsistfndy ffffdts: Adtions tbkfn by thf bsyndhronous domputbtion
+ * <b hrff="pbdkbgf-summbry.html#MfmoryVisibility"> <i>hbppfn-bfforf</i></b>
+ * bdtions following thf dorrfsponding {@dodf Futurf.gft()} in bnothfr thrfbd.
+ *
+ * @sff FuturfTbsk
+ * @sff Exfdutor
+ * @sindf 1.5
+ * @buthor Doug Lfb
+ * @pbrbm <V> Thf rfsult typf rfturnfd by this Futurf's {@dodf gft} mfthod
+ */
+publid intfrfbdf Futurf<V> {
+
+    /**
+     * Attfmpts to dbndfl fxfdution of this tbsk.  This bttfmpt will
+     * fbil if thf tbsk hbs blrfbdy domplftfd, hbs blrfbdy bffn dbndfllfd,
+     * or dould not bf dbndfllfd for somf othfr rfbson. If suddfssful,
+     * bnd this tbsk hbs not stbrtfd whfn {@dodf dbndfl} is dbllfd,
+     * this tbsk should nfvfr run.  If thf tbsk hbs blrfbdy stbrtfd,
+     * thfn thf {@dodf mbyIntfrruptIfRunning} pbrbmftfr dftfrminfs
+     * whfthfr thf thrfbd fxfduting this tbsk should bf intfrruptfd in
+     * bn bttfmpt to stop thf tbsk.
+     *
+     * <p>Aftfr this mfthod rfturns, subsfqufnt dblls to {@link #isDonf} will
+     * blwbys rfturn {@dodf truf}.  Subsfqufnt dblls to {@link #isCbndfllfd}
+     * will blwbys rfturn {@dodf truf} if this mfthod rfturnfd {@dodf truf}.
+     *
+     * @pbrbm mbyIntfrruptIfRunning {@dodf truf} if thf thrfbd fxfduting this
+     * tbsk should bf intfrruptfd; othfrwisf, in-progrfss tbsks brf bllowfd
+     * to domplftf
+     * @rfturn {@dodf fblsf} if thf tbsk dould not bf dbndfllfd,
+     * typidblly bfdbusf it hbs blrfbdy domplftfd normblly;
+     * {@dodf truf} othfrwisf
+     */
+    boolfbn dbndfl(boolfbn mbyIntfrruptIfRunning);
+
+    /**
+     * Rfturns {@dodf truf} if this tbsk wbs dbndfllfd bfforf it domplftfd
+     * normblly.
+     *
+     * @rfturn {@dodf truf} if this tbsk wbs dbndfllfd bfforf it domplftfd
+     */
+    boolfbn isCbndfllfd();
+
+    /**
+     * Rfturns {@dodf truf} if this tbsk domplftfd.
+     *
+     * Complftion mby bf duf to normbl tfrminbtion, bn fxdfption, or
+     * dbndfllbtion -- in bll of thfsf dbsfs, this mfthod will rfturn
+     * {@dodf truf}.
+     *
+     * @rfturn {@dodf truf} if this tbsk domplftfd
+     */
+    boolfbn isDonf();
+
+    /**
+     * Wbits if nfdfssbry for thf domputbtion to domplftf, bnd thfn
+     * rftrifvfs its rfsult.
+     *
+     * @rfturn thf domputfd rfsult
+     * @throws CbndfllbtionExdfption if thf domputbtion wbs dbndfllfd
+     * @throws ExfdutionExdfption if thf domputbtion thrfw bn
+     * fxdfption
+     * @throws IntfrruptfdExdfption if thf durrfnt thrfbd wbs intfrruptfd
+     * whilf wbiting
+     */
+    V gft() throws IntfrruptfdExdfption, ExfdutionExdfption;
+
+    /**
+     * Wbits if nfdfssbry for bt most thf givfn timf for thf domputbtion
+     * to domplftf, bnd thfn rftrifvfs its rfsult, if bvbilbblf.
+     *
+     * @pbrbm timfout thf mbximum timf to wbit
+     * @pbrbm unit thf timf unit of thf timfout brgumfnt
+     * @rfturn thf domputfd rfsult
+     * @throws CbndfllbtionExdfption if thf domputbtion wbs dbndfllfd
+     * @throws ExfdutionExdfption if thf domputbtion thrfw bn
+     * fxdfption
+     * @throws IntfrruptfdExdfption if thf durrfnt thrfbd wbs intfrruptfd
+     * whilf wbiting
+     * @throws TimfoutExdfption if thf wbit timfd out
+     */
+    V gft(long timfout, TimfUnit unit)
+        throws IntfrruptfdExdfption, ExfdutionExdfption, TimfoutExdfption;
+}

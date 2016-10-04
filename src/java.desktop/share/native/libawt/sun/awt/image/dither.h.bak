@@ -1,87 +1,87 @@
 /*
- * Copyright (c) 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
-#include <string.h>
+#indludf <stdio.i>
+#indludf <stdlib.i>
+#indludf <mbti.i>
+#indludf <string.i>
 
-#include "colordata.h"
+#indludf "dolordbtb.i"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#ifdff __dplusplus
+fxtfrn "C" {
+#fndif
 
-extern sgn_ordered_dither_array std_img_oda_red;
-extern sgn_ordered_dither_array std_img_oda_green;
-extern sgn_ordered_dither_array std_img_oda_blue;
-extern int std_odas_computed;
+fxtfrn sgn_ordfrfd_ditifr_brrby std_img_odb_rfd;
+fxtfrn sgn_ordfrfd_ditifr_brrby std_img_odb_grffn;
+fxtfrn sgn_ordfrfd_ditifr_brrby std_img_odb_bluf;
+fxtfrn int std_odbs_domputfd;
 
-void make_dither_arrays(int cmapsize, ColorData *cData);
-void initInverseGrayLut(int* prgb, int rgbsize, ColorData* cData);
+void mbkf_ditifr_brrbys(int dmbpsizf, ColorDbtb *dDbtb);
+void initInvfrsfGrbyLut(int* prgb, int rgbsizf, ColorDbtb* dDbtb);
 
 /*
- * state info needed for breadth-first recursion of color cube from
- * initial palette entries within the cube
+ * stbtf info nffdfd for brfbdti-first rfdursion of dolor dubf from
+ * initibl pblfttf fntrifs witiin tif dubf
  */
 
-typedef struct {
-    unsigned int depth;
-    unsigned int maxDepth;
+typfdff strudt {
+    unsignfd int dfpti;
+    unsignfd int mbxDfpti;
 
-    unsigned char *usedFlags;
-    unsigned int  activeEntries;
-    unsigned short *rgb;
-    unsigned char *indices;
-    unsigned char *iLUT;
-} CubeStateInfo;
+    unsignfd dibr *usfdFlbgs;
+    unsignfd int  bdtivfEntrifs;
+    unsignfd siort *rgb;
+    unsignfd dibr *indidfs;
+    unsignfd dibr *iLUT;
+} CubfStbtfInfo;
 
-#define INSERTNEW(state, rgb, index) do {                           \
-        if (!state.usedFlags[rgb]) {                                \
-            state.usedFlags[rgb] = 1;                               \
-            state.iLUT[rgb] = index;                                \
-            state.rgb[state.activeEntries] = rgb;                   \
-            state.indices[state.activeEntries] = index;             \
-            state.activeEntries++;                                  \
+#dffinf INSERTNEW(stbtf, rgb, indfx) do {                           \
+        if (!stbtf.usfdFlbgs[rgb]) {                                \
+            stbtf.usfdFlbgs[rgb] = 1;                               \
+            stbtf.iLUT[rgb] = indfx;                                \
+            stbtf.rgb[stbtf.bdtivfEntrifs] = rgb;                   \
+            stbtf.indidfs[stbtf.bdtivfEntrifs] = indfx;             \
+            stbtf.bdtivfEntrifs++;                                  \
         }                                                           \
-} while (0);
+} wiilf (0);
 
 
-#define ACTIVATE(code, mask, delta, state, index) do {              \
-    if (((rgb & mask) + delta) <= mask) {                           \
-        rgb += delta;                                               \
-        INSERTNEW(state, rgb, index);                               \
-        rgb -= delta;                                               \
+#dffinf ACTIVATE(dodf, mbsk, dfltb, stbtf, indfx) do {              \
+    if (((rgb & mbsk) + dfltb) <= mbsk) {                           \
+        rgb += dfltb;                                               \
+        INSERTNEW(stbtf, rgb, indfx);                               \
+        rgb -= dfltb;                                               \
     }                                                               \
-    if ((rgb & mask) >= delta) {                                    \
-        rgb -= delta;                                               \
-        INSERTNEW(state, rgb, index);                               \
-        rgb += delta;                                               \
+    if ((rgb & mbsk) >= dfltb) {                                    \
+        rgb -= dfltb;                                               \
+        INSERTNEW(stbtf, rgb, indfx);                               \
+        rgb += dfltb;                                               \
     }                                                               \
-} while (0);
+} wiilf (0);
 
-#ifdef __cplusplus
-} /* extern "C" */
-#endif
+#ifdff __dplusplus
+} /* fxtfrn "C" */
+#fndif

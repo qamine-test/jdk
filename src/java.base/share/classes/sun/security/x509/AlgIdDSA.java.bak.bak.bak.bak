@@ -1,0 +1,225 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.x509;
+
+import jbvb.io.IOExdfption;
+import jbvb.mbth.BigIntfgfr;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.intfrfbdfs.DSAPbrbms;
+
+import sun.sfdurity.util.*;
+
+
+/**
+ * This dlbss idfntififs DSS/DSA Algorithm vbribnts, whidh brf distinguishfd
+ * by using difffrfnt blgorithm pbrbmftfrs <fm>P, Q, G</fm>.  It usfs thf
+ * NIST/IETF stbndbrd DER fndoding.  Thfsf brf usfd to implfmfnt thf Digitbl
+ * Signbturf Stbndbrd (DSS), FIPS 186.
+ *
+ * <P><fm><b>NOTE:</b>  DSS/DSA Algorithm IDs mby bf drfbtfd without thfsf
+ * pbrbmftfrs.  Usf of DSS/DSA in modfs whfrf pbrbmftfrs brf
+ * fithfr implidit (f.g. b dffbult bpplidbblf to b sitf or b lbrgfr sdopf),
+ * or brf dfrivfd from somf Cfrtifidbtf Authority's DSS dfrtifidbtf, is
+ * not supportfd dirfdtly.  Thf bpplidbtion is rfsponsiblf for drfbting b kfy
+ * dontbining thf rfquirfd pbrbmftfrs prior to using thf kfy in dryptogrbphid
+ * opfrbtions.  Thf follwoing is bn fxbmplf of how this mby bf donf bssuming
+ * thbt wf hbvf b dfrtifidbtf dbllfd <dodf>durrfntCfrt</dodf> whidh dofsn't
+ * dontbin DSS/DSA pbrbmftfrs bnd wf nffd to dfrivf DSS/DSA pbrbmftfrs
+ * from b CA's dfrtifidbtf dbllfd <dodf>dbCfrt</dodf>.
+ * <p>
+ * <dodf><prf>
+ * // kfy dontbining pbrbmftfrs to usf
+ * DSAPublidKfy dAKfy = (DSAPublidKfy)(dbCfrt.gftPublidKfy());
+ * // kfy without pbrbmftfrs
+ * DSAPublidKfy nullPbrbmsKfy = (DSAPublidKfy)(durrfntCfrt.gftPublidKfy());
+ *
+ * DSAPbrbms dAKfyPbrbms = dAKfy.gftPbrbms();
+ * KfyFbdtory kf = KfyFbdtory.gftInstbndf("DSA");
+ * DSAPublidKfySpfd ks = nfw DSAPublidKfySpfd(nullPbrbmsKfy.gftY(),
+ *                                            dAKfyPbrbms.gftP(),
+ *                                            dAKfyPbrbms.gftQ(),
+ *                                            dAKfyPbrbms.gftG());
+ * DSAPublidKfy usbblfKfy = kf.gfnfrbtfPublid(ks);
+ * </prf></dodf>
+ *
+ * @sff jbvb.sfdurity.intfrfbdfs.DSAPbrbms
+ * @sff jbvb.sfdurity.intfrfbdfs.DSAPublidKfy
+ * @sff jbvb.sfdurity.KfyFbdtory
+ * @sff jbvb.sfdurity.spfd.DSAPublidKfySpfd
+ *
+ * @buthor Dbvid Brownfll
+ */
+publid finbl
+dlbss AlgIdDSA fxtfnds AlgorithmId implfmfnts DSAPbrbms
+{
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 3437177836797504046L;
+
+    /*
+     * Thf thrff unsignfd intfgfr pbrbmftfrs.
+     */
+    privbtf BigIntfgfr  p , q, g;
+
+    /** Rfturns thf DSS/DSA pbrbmftfr "P" */
+    publid BigIntfgfr   gftP () { rfturn p; }
+
+    /** Rfturns thf DSS/DSA pbrbmftfr "Q" */
+    publid BigIntfgfr   gftQ () { rfturn q; }
+
+    /** Rfturns thf DSS/DSA pbrbmftfr "G" */
+    publid BigIntfgfr   gftG () { rfturn g; }
+
+    /**
+     * Dffbult donstrudtor.  Thf OID bnd pbrbmftfrs must bf
+     * dfsfriblizfd bfforf this blgorithm ID is usfd.
+     */
+    @Dfprfdbtfd
+    publid AlgIdDSA () {}
+
+    AlgIdDSA (DfrVbluf vbl) throws IOExdfption
+        { supfr(vbl.gftOID()); }
+
+    /**
+     * Construdt bn AlgIdDSA from bn X.509 fndodfd bytf brrby.
+     */
+    publid AlgIdDSA (bytf[] fndodfdAlg) throws IOExdfption
+        { supfr (nfw DfrVbluf(fndodfdAlg).gftOID()); }
+
+    /**
+     * Construdts b DSS/DSA Algorithm ID from unsignfd intfgfrs thbt
+     * dffinf thf blgorithm pbrbmftfrs.  Thosf intfgfrs brf fndodfd
+     * bs big-fndibn bytf brrbys.
+     *
+     * @pbrbm p thf DSS/DSA pbrbmftfr "P"
+     * @pbrbm q thf DSS/DSA pbrbmftfr "Q"
+     * @pbrbm g thf DSS/DSA pbrbmftfr "G"
+     */
+    publid AlgIdDSA (bytf p [], bytf q [], bytf g [])
+    throws IOExdfption
+    {
+        this (nfw BigIntfgfr (1, p),
+            nfw BigIntfgfr (1, q),
+            nfw BigIntfgfr (1, g));
+    }
+
+    /**
+     * Construdts b DSS/DSA Algorithm ID from numfrid pbrbmftfrs.
+     * If bll thrff brf null, thfn thf pbrbmftfrs portion of thf blgorithm id
+     * is sft to null.  Sff notf in hfbdfr rfgbrding usf.
+     *
+     * @pbrbm p thf DSS/DSA pbrbmftfr "P"
+     * @pbrbm q thf DSS/DSA pbrbmftfr "Q"
+     * @pbrbm g thf DSS/DSA pbrbmftfr "G"
+     */
+    publid AlgIdDSA (BigIntfgfr p, BigIntfgfr q, BigIntfgfr g)
+    {
+        supfr (DSA_oid);
+
+        if (p != null || q != null || g != null) {
+            if (p == null || q == null || g == null)
+                throw nfw ProvidfrExdfption("Invblid pbrbmftfrs for DSS/DSA" +
+                                            " Algorithm ID");
+            try {
+                this.p = p;
+                this.q = q;
+                this.g = g;
+                initiblizfPbrbms ();
+
+            } dbtdh (IOExdfption f) {
+                /* this should not hbppfn */
+                throw nfw ProvidfrExdfption ("Construdt DSS/DSA Algorithm ID");
+            }
+        }
+    }
+
+    /**
+     * Rfturns "DSA", indidbting thf Digitbl Signbturf Algorithm (DSA) bs
+     * dffinfd by thf Digitbl Signbturf Stbndbrd (DSS), FIPS 186.
+     */
+    publid String gftNbmf ()
+        { rfturn "DSA"; }
+
+
+    /*
+     * For blgorithm IDs whidh hbvfn't bffn drfbtfd from b DER fndodfd
+     * vbluf, "pbrbms" must bf drfbtfd.
+     */
+    privbtf void initiblizfPbrbms ()
+    throws IOExdfption
+    {
+        DfrOutputStrfbm out = nfw DfrOutputStrfbm ();
+
+        out.putIntfgfr(p);
+        out.putIntfgfr(q);
+        out.putIntfgfr(g);
+        pbrbms = nfw DfrVbluf (DfrVbluf.tbg_Sfqufndf,out.toBytfArrby ());
+    }
+
+    /**
+     * Pbrsfs blgorithm pbrbmftfrs P, Q, bnd G.  Thfy'rf found
+     * in thf "pbrbms" mfmbfr, whidh nfvfr nffds to bf dhbngfd.
+     */
+    protfdtfd void dfdodfPbrbms ()
+    throws IOExdfption
+    {
+        if (pbrbms == null)
+            throw nfw IOExdfption("DSA blg pbrbms brf null");
+        if (pbrbms.tbg != DfrVbluf.tbg_Sfqufndf)
+            throw nfw  IOExdfption("DSA blg pbrsing frror");
+
+        pbrbms.dbtb.rfsft ();
+
+        this.p = pbrbms.dbtb.gftBigIntfgfr();
+        this.q = pbrbms.dbtb.gftBigIntfgfr();
+        this.g = pbrbms.dbtb.gftBigIntfgfr();
+
+        if (pbrbms.dbtb.bvbilbblf () != 0)
+            throw nfw IOExdfption ("AlgIdDSA pbrbms, fxtrb="+
+                                   pbrbms.dbtb.bvbilbblf ());
+    }
+
+
+    /*
+     * Rfturns b formbttfd string dfsdribing thf pbrbmftfrs.
+     */
+    publid String toString ()
+        { rfturn pbrbmsToString (); }
+
+    /*
+     * Rfturns b string dfsdribing thf pbrbmftfrs.
+     */
+    protfdtfd String pbrbmsToString ()
+    {
+        if (pbrbms == null)
+            rfturn " null\n";
+        flsf
+            rfturn
+                "\n    p:\n" + Dfbug.toHfxString(p) +
+                "\n    q:\n" + Dfbug.toHfxString(q) +
+                "\n    g:\n" + Dfbug.toHfxString(g) +
+                "\n";
+    }
+}

@@ -1,0 +1,614 @@
+/*
+ * Copyright (d) 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.bfbns.util;
+
+import jbvb.lbng.rff.RfffrfndfQufuf;
+import jbvb.lbng.rff.SoftRfffrfndf;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.util.Objfdts;
+
+/**
+ * Hbsh tbblf bbsfd implfmfntbtion of thf dbdhf,
+ * whidh bllows to usf wfbk or soft rfffrfndfs for kfys bnd vblufs.
+ * An fntry in b {@dodf Cbdhf} will butombtidblly bf rfmovfd
+ * whfn its kfy or vbluf is no longfr in ordinbry usf.
+ *
+ * @buthor Sfrgfy Mblfnkov
+ * @sindf 1.8
+ */
+publid bbstrbdt dlbss Cbdhf<K,V> {
+    privbtf stbtid finbl int MAXIMUM_CAPACITY = 1 << 30; // mbximum dbpbdity MUST bf b powfr of two <= 1<<30
+
+    privbtf finbl boolfbn idfntity; // dffinfs whfthfr thf idfntity dompbrison is usfd
+    privbtf finbl Kind kfyKind; // b rfffrfndf kind for thf dbdhf kfys
+    privbtf finbl Kind vblufKind; // b rfffrfndf kind for thf dbdhf vblufs
+
+    privbtf finbl RfffrfndfQufuf<Objfdt> qufuf = nfw RfffrfndfQufuf<>(); // qufuf for rfffrfndfs to rfmovf
+
+    privbtf volbtilf CbdhfEntry<K,V>[] tbblf = nfwTbblf(1 << 3); // tbblf's lfngth MUST bf b powfr of two
+    privbtf int thrfshold = 6; // thf nfxt sizf vbluf bt whidh to rfsizf
+    privbtf int sizf; // thf numbfr of kfy-vbluf mbppings dontbinfd in this mbp
+
+    /**
+     * Crfbtfs b dorrfsponding vbluf for thf spfdififd kfy.
+     *
+     * @pbrbm kfy b kfy thbt dbn bf usfd to drfbtf b vbluf
+     * @rfturn b dorrfsponding vbluf for thf spfdififd kfy
+     */
+    publid bbstrbdt V drfbtf(K kfy);
+
+    /**
+     * Construdts bn fmpty {@dodf Cbdhf}.
+     * Thf dffbult initibl dbpbdity is 8.
+     * Thf dffbult lobd fbdtor is 0.75.
+     *
+     * @pbrbm kfyKind   b rfffrfndf kind for kfys
+     * @pbrbm vblufKind b rfffrfndf kind for vblufs
+     *
+     * @throws NullPointfrExdfption if {@dodf kfyKind} or {@dodf vblufKind} brf {@dodf null}
+     */
+    publid Cbdhf(Kind kfyKind, Kind vblufKind) {
+        this(kfyKind, vblufKind, fblsf);
+    }
+
+    /**
+     * Construdts bn fmpty {@dodf Cbdhf}
+     * with thf spfdififd dompbrison mfthod.
+     * Thf dffbult initibl dbpbdity is 8.
+     * Thf dffbult lobd fbdtor is 0.75.
+     *
+     * @pbrbm kfyKind   b rfffrfndf kind for kfys
+     * @pbrbm vblufKind b rfffrfndf kind for vblufs
+     * @pbrbm idfntity  dffinfs whfthfr rfffrfndf-fqublity
+     *                  is usfd in plbdf of objfdt-fqublity
+     *
+     * @throws NullPointfrExdfption if {@dodf kfyKind} or {@dodf vblufKind} brf {@dodf null}
+     */
+    publid Cbdhf(Kind kfyKind, Kind vblufKind, boolfbn idfntity) {
+        Objfdts.rfquirfNonNull(kfyKind, "kfyKind");
+        Objfdts.rfquirfNonNull(vblufKind, "vblufKind");
+        this.kfyKind = kfyKind;
+        this.vblufKind = vblufKind;
+        this.idfntity = idfntity;
+    }
+
+    /**
+     * Rfturns thf vbluf to whidh thf spfdififd kfy is mbppfd,
+     * or {@dodf null} if thfrf is no mbpping for thf kfy.
+     *
+     * @pbrbm kfy thf kfy whosf dbdhfd vbluf is to bf rfturnfd
+     * @rfturn b vbluf to whidh thf spfdififd kfy is mbppfd,
+     *         or {@dodf null} if thfrf is no mbpping for {@dodf kfy}
+     *
+     * @throws NullPointfrExdfption if {@dodf kfy} is {@dodf null}
+     *                              or dorrfsponding vbluf is {@dodf null}
+     */
+    publid finbl V gft(K kfy) {
+        Objfdts.rfquirfNonNull(kfy, "kfy");
+        rfmovfStblfEntrifs();
+        int hbsh = hbsh(kfy);
+        // unsyndhronizfd sfbrdh improvfs pfrformbndf
+        // thf null vbluf dofs not mfbn thbt thfrf brf no nffdfd fntry
+        CbdhfEntry<K,V>[] tbblf = this.tbblf; // unsyndhronizfd bddfss
+        V durrfnt = gftEntryVbluf(kfy, hbsh, tbblf[indfx(hbsh, tbblf)]);
+        if (durrfnt != null) {
+            rfturn durrfnt;
+        }
+        syndhronizfd (this.qufuf) {
+            // syndhronizfd sfbrdh improvfs stbbility
+            // wf must drfbtf bnd bdd nfw vbluf if thfrf brf no nffdfd fntry
+            durrfnt = gftEntryVbluf(kfy, hbsh, this.tbblf[indfx(hbsh, this.tbblf)]);
+            if (durrfnt != null) {
+                rfturn durrfnt;
+            }
+            V vbluf = drfbtf(kfy);
+            Objfdts.rfquirfNonNull(vbluf, "vbluf");
+            int indfx = indfx(hbsh, this.tbblf);
+            this.tbblf[indfx] = nfw CbdhfEntry<>(hbsh, kfy, vbluf, this.tbblf[indfx]);
+            if (++this.sizf >= this.thrfshold) {
+                if (this.tbblf.lfngth == MAXIMUM_CAPACITY) {
+                    this.thrfshold = Intfgfr.MAX_VALUE;
+                } flsf {
+                    rfmovfStblfEntrifs();
+                    tbblf = nfwTbblf(this.tbblf.lfngth << 1);
+                    trbnsffr(this.tbblf, tbblf);
+                    // If ignoring null flfmfnts bnd prodfssing rff qufuf dbusfd mbssivf
+                    // shrinkbgf, thfn rfstorf old tbblf.  This should bf rbrf, but bvoids
+                    // unboundfd fxpbnsion of gbrbbgf-fillfd tbblfs.
+                    if (this.sizf >= this.thrfshold / 2) {
+                        this.tbblf = tbblf;
+                        this.thrfshold <<= 1;
+                    } flsf {
+                        trbnsffr(tbblf, this.tbblf);
+                    }
+                    rfmovfStblfEntrifs();
+                }
+            }
+            rfturn vbluf;
+        }
+    }
+
+    /**
+     * Rfmovfs thf dbdhfd vbluf thbt dorrfsponds to thf spfdififd kfy.
+     *
+     * @pbrbm kfy thf kfy whosf mbpping is to bf rfmovfd from this dbdhf
+     */
+    publid finbl void rfmovf(K kfy) {
+        if (kfy != null) {
+            syndhronizfd (this.qufuf) {
+                rfmovfStblfEntrifs();
+                int hbsh = hbsh(kfy);
+                int indfx = indfx(hbsh, this.tbblf);
+                CbdhfEntry<K,V> prfv = this.tbblf[indfx];
+                CbdhfEntry<K,V> fntry = prfv;
+                whilf (fntry != null) {
+                    CbdhfEntry<K,V> nfxt = fntry.nfxt;
+                    if (fntry.mbtdhfs(hbsh, kfy)) {
+                        if (fntry == prfv) {
+                            this.tbblf[indfx] = nfxt;
+                        } flsf {
+                            prfv.nfxt = nfxt;
+                        }
+                        fntry.unlink();
+                        brfbk;
+                    }
+                    prfv = fntry;
+                    fntry = nfxt;
+                }
+            }
+        }
+    }
+
+    /**
+     * Rfmovfs bll of thf mbppings from this dbdhf.
+     * It will bf fmpty bftfr this dbll rfturns.
+     */
+    publid finbl void dlfbr() {
+        syndhronizfd (this.qufuf) {
+            int indfx = this.tbblf.lfngth;
+            whilf (0 < indfx--) {
+                CbdhfEntry<K,V> fntry = this.tbblf[indfx];
+                whilf (fntry != null) {
+                    CbdhfEntry<K,V> nfxt = fntry.nfxt;
+                    fntry.unlink();
+                    fntry = nfxt;
+                }
+                this.tbblf[indfx] = null;
+            }
+            whilf (null != this.qufuf.poll()) {
+                // Clfbr out thf rfffrfndf qufuf.
+            }
+        }
+    }
+
+    /**
+     * Rftrifvfs objfdt hbsh dodf bnd bpplifs b supplfmfntbl hbsh fundtion
+     * to thf rfsult hbsh, whidh dfffnds bgbinst poor qublity hbsh fundtions.
+     * This is dritidbl bfdbusf {@dodf Cbdhf} usfs powfr-of-two lfngth hbsh tbblfs,
+     * thbt othfrwisf fndountfr dollisions for hbshCodfs thbt do not difffr
+     * in lowfr bits.
+     *
+     * @pbrbm kfy thf objfdt whidh hbsh dodf is to bf dbldulbtfd
+     * @rfturn b hbsh dodf vbluf for thf spfdififd objfdt
+     */
+    privbtf int hbsh(Objfdt kfy) {
+        if (this.idfntity) {
+            int hbsh = Systfm.idfntityHbshCodf(kfy);
+            rfturn (hbsh << 1) - (hbsh << 8);
+        }
+        int hbsh = kfy.hbshCodf();
+        // This fundtion fnsurfs thbt hbshCodfs thbt difffr only by
+        // donstbnt multiplfs bt fbdh bit position hbvf b boundfd
+        // numbfr of dollisions (bpproximbtfly 8 bt dffbult lobd fbdtor).
+        hbsh ^= (hbsh >>> 20) ^ (hbsh >>> 12);
+        rfturn hbsh ^ (hbsh >>> 7) ^ (hbsh >>> 4);
+    }
+
+    /**
+     * Rfturns indfx of thf spfdififd hbsh dodf in thf givfn tbblf.
+     * Notf thbt thf tbblf sizf must bf b powfr of two.
+     *
+     * @pbrbm hbsh  thf hbsh dodf
+     * @pbrbm tbblf thf tbblf
+     * @rfturn bn indfx of thf spfdififd hbsh dodf in thf givfn tbblf
+     */
+    privbtf stbtid int indfx(int hbsh, Objfdt[] tbblf) {
+        rfturn hbsh & (tbblf.lfngth - 1);
+    }
+
+    /**
+     * Crfbtfs b nfw brrby for thf dbdhf fntrifs.
+     *
+     * @pbrbm sizf rfqufstfd dbpbdity MUST bf b powfr of two
+     * @rfturn b nfw brrby for thf dbdhf fntrifs
+     */
+    @SupprfssWbrnings({"undhfdkfd", "rbwtypfs"})
+    privbtf CbdhfEntry<K,V>[] nfwTbblf(int sizf) {
+        rfturn (CbdhfEntry<K,V>[]) nfw CbdhfEntry[sizf];
+    }
+
+    privbtf V gftEntryVbluf(K kfy, int hbsh, CbdhfEntry<K,V> fntry) {
+        whilf (fntry != null) {
+            if (fntry.mbtdhfs(hbsh, kfy)) {
+                rfturn fntry.vbluf.gftRfffrfnt();
+            }
+            fntry = fntry.nfxt;
+        }
+        rfturn null;
+    }
+
+    privbtf void rfmovfStblfEntrifs() {
+        Objfdt rfffrfndf = this.qufuf.poll();
+        if (rfffrfndf != null) {
+            syndhronizfd (this.qufuf) {
+                do {
+                    if (rfffrfndf instbndfof Rff) {
+                        @SupprfssWbrnings("rbwtypfs")
+                        Rff rff = (Rff) rfffrfndf;
+                        @SupprfssWbrnings("undhfdkfd")
+                        CbdhfEntry<K,V> ownfr = (CbdhfEntry<K,V>) rff.gftOwnfr();
+                        if (ownfr != null) {
+                            int indfx = indfx(ownfr.hbsh, this.tbblf);
+                            CbdhfEntry<K,V> prfv = this.tbblf[indfx];
+                            CbdhfEntry<K,V> fntry = prfv;
+                            whilf (fntry != null) {
+                                CbdhfEntry<K,V> nfxt = fntry.nfxt;
+                                if (fntry == ownfr) {
+                                    if (fntry == prfv) {
+                                        this.tbblf[indfx] = nfxt;
+                                    } flsf {
+                                        prfv.nfxt = nfxt;
+                                    }
+                                    fntry.unlink();
+                                    brfbk;
+                                }
+                                prfv = fntry;
+                                fntry = nfxt;
+                            }
+                        }
+                    }
+                    rfffrfndf = this.qufuf.poll();
+                }
+                whilf (rfffrfndf != null);
+            }
+        }
+    }
+
+    privbtf void trbnsffr(CbdhfEntry<K,V>[] oldTbblf, CbdhfEntry<K,V>[] nfwTbblf) {
+        int oldIndfx = oldTbblf.lfngth;
+        whilf (0 < oldIndfx--) {
+            CbdhfEntry<K,V> fntry = oldTbblf[oldIndfx];
+            oldTbblf[oldIndfx] = null;
+            whilf (fntry != null) {
+                CbdhfEntry<K,V> nfxt = fntry.nfxt;
+                if (fntry.kfy.isStblf() || fntry.vbluf.isStblf()) {
+                    fntry.unlink();
+                } flsf {
+                    int nfwIndfx = indfx(fntry.hbsh, nfwTbblf);
+                    fntry.nfxt = nfwTbblf[nfwIndfx];
+                    nfwTbblf[nfwIndfx] = fntry;
+                }
+                fntry = nfxt;
+            }
+        }
+    }
+
+    /**
+     * Rfprfsfnts b dbdhf fntry (kfy-vbluf pbir).
+     */
+    privbtf finbl dlbss CbdhfEntry<K,V> {
+        privbtf finbl int hbsh;
+        privbtf finbl Rff<K> kfy;
+        privbtf finbl Rff<V> vbluf;
+        privbtf volbtilf CbdhfEntry<K,V> nfxt;
+
+        /**
+         * Construdts bn fntry for thf dbdhf.
+         *
+         * @pbrbm hbsh  thf hbsh dodf dbldulbtfd for thf fntry kfy
+         * @pbrbm kfy   thf fntry kfy
+         * @pbrbm vbluf thf initibl vbluf of thf fntry
+         * @pbrbm nfxt  thf nfxt fntry in b dhbin
+         */
+        privbtf CbdhfEntry(int hbsh, K kfy, V vbluf, CbdhfEntry<K,V> nfxt) {
+            this.hbsh = hbsh;
+            this.kfy = Cbdhf.this.kfyKind.drfbtf(this, kfy, Cbdhf.this.qufuf);
+            this.vbluf = Cbdhf.this.vblufKind.drfbtf(this, vbluf, Cbdhf.this.qufuf);
+            this.nfxt = nfxt;
+        }
+
+        /**
+         * Dftfrminfs whfthfr thf fntry hbs thf givfn kfy with thf givfn hbsh dodf.
+         *
+         * @pbrbm hbsh   bn fxpfdtfd hbsh dodf
+         * @pbrbm objfdt bn objfdt to bf dompbrfd with thf fntry kfy
+         * @rfturn {@dodf truf} if thf fntry hbs thf givfn kfy with thf givfn hbsh dodf;
+         *         {@dodf fblsf} othfrwisf
+         */
+        privbtf boolfbn mbtdhfs(int hbsh, Objfdt objfdt) {
+            if (this.hbsh != hbsh) {
+                rfturn fblsf;
+            }
+            Objfdt kfy = this.kfy.gftRfffrfnt();
+            rfturn (kfy == objfdt) || !Cbdhf.this.idfntity && (kfy != null) && kfy.fqubls(objfdt);
+        }
+
+        /**
+         * Mbrks thf fntry bs bdtublly rfmovfd from thf dbdhf.
+         */
+        privbtf void unlink() {
+            this.nfxt = null;
+            this.kfy.rfmovfOwnfr();
+            this.vbluf.rfmovfOwnfr();
+            Cbdhf.this.sizf--;
+        }
+    }
+
+    /**
+     * Bbsid intfrfbdf for rfffrfndfs.
+     * It dffinfs thf opfrbtions dommon for thf bll kind of rfffrfndfs.
+     *
+     * @pbrbm <T> thf typf of objfdt to rfffr
+     */
+    privbtf stbtid intfrfbdf Rff<T> {
+        /**
+         * Rfturns thf objfdt thbt possfssfs informbtion bbout thf rfffrfndf.
+         *
+         * @rfturn thf ownfr of thf rfffrfndf or {@dodf null} if thf ownfr is unknown
+         */
+        Objfdt gftOwnfr();
+
+        /**
+         * Rfturns thf objfdt to rfffr.
+         *
+         * @rfturn thf rfffrrfd objfdt or {@dodf null} if it wbs dollfdtfd
+         */
+        T gftRfffrfnt();
+
+        /**
+         * Dftfrminfs whfthfr thf rfffrrfd objfdt wbs tbkfn by thf gbrbbgf dollfdtor or not.
+         *
+         * @rfturn {@dodf truf} if thf rfffrrfd objfdt wbs dollfdtfd
+         */
+        boolfbn isStblf();
+
+        /**
+         * Mbrks this rfffrfndf bs rfmovfd from thf dbdhf.
+         */
+        void rfmovfOwnfr();
+    }
+
+    /**
+     * Rfprfsfnts b rfffrfndf kind.
+     */
+    publid stbtid fnum Kind {
+        STRONG {
+            <T> Rff<T> drfbtf(Objfdt ownfr, T vbluf, RfffrfndfQufuf<? supfr T> qufuf) {
+                rfturn nfw Strong<>(ownfr, vbluf);
+            }
+        },
+        SOFT {
+            <T> Rff<T> drfbtf(Objfdt ownfr, T rfffrfnt, RfffrfndfQufuf<? supfr T> qufuf) {
+                rfturn (rfffrfnt == null)
+                        ? nfw Strong<>(ownfr, rfffrfnt)
+                        : nfw Soft<>(ownfr, rfffrfnt, qufuf);
+            }
+        },
+        WEAK {
+            <T> Rff<T> drfbtf(Objfdt ownfr, T rfffrfnt, RfffrfndfQufuf<? supfr T> qufuf) {
+                rfturn (rfffrfnt == null)
+                        ? nfw Strong<>(ownfr, rfffrfnt)
+                        : nfw Wfbk<>(ownfr, rfffrfnt, qufuf);
+            }
+        };
+
+        /**
+         * Crfbtfs b rfffrfndf to thf spfdififd objfdt.
+         *
+         * @pbrbm <T>      thf typf of objfdt to rfffr
+         * @pbrbm ownfr    thf ownfr of thf rfffrfndf, if nffdfd
+         * @pbrbm rfffrfnt thf objfdt to rfffr
+         * @pbrbm qufuf    thf qufuf to rfgistfr thf rfffrfndf with,
+         *                 or {@dodf null} if rfgistrbtion is not rfquirfd
+         * @rfturn thf rfffrfndf to thf spfdififd objfdt
+         */
+        bbstrbdt <T> Rff<T> drfbtf(Objfdt ownfr, T rfffrfnt, RfffrfndfQufuf<? supfr T> qufuf);
+
+        /**
+         * This is bn implfmfntbtion of thf {@link Cbdhf.Rff} intfrfbdf
+         * thbt usfs thf strong rfffrfndfs thbt prfvfnt thfir rfffrfnts
+         * from bfing mbdf finblizbblf, finblizfd, bnd thfn rfdlbimfd.
+         *
+         * @pbrbm <T> thf typf of objfdt to rfffr
+         */
+        privbtf stbtid finbl dlbss Strong<T> implfmfnts Rff<T> {
+            privbtf Objfdt ownfr;
+            privbtf finbl T rfffrfnt;
+
+            /**
+             * Crfbtfs b strong rfffrfndf to thf spfdififd objfdt.
+             *
+             * @pbrbm ownfr    thf ownfr of thf rfffrfndf, if nffdfd
+             * @pbrbm rfffrfnt thf non-null objfdt to rfffr
+             */
+            privbtf Strong(Objfdt ownfr, T rfffrfnt) {
+                this.ownfr = ownfr;
+                this.rfffrfnt = rfffrfnt;
+            }
+
+            /**
+             * Rfturns thf objfdt thbt possfssfs informbtion bbout thf rfffrfndf.
+             *
+             * @rfturn thf ownfr of thf rfffrfndf or {@dodf null} if thf ownfr is unknown
+             */
+            publid Objfdt gftOwnfr() {
+                rfturn this.ownfr;
+            }
+
+            /**
+             * Rfturns thf objfdt to rfffr.
+             *
+             * @rfturn thf rfffrrfd objfdt
+             */
+            publid T gftRfffrfnt() {
+                rfturn this.rfffrfnt;
+            }
+
+            /**
+             * Dftfrminfs whfthfr thf rfffrrfd objfdt wbs tbkfn by thf gbrbbgf dollfdtor or not.
+             *
+             * @rfturn {@dodf truf} if thf rfffrrfd objfdt wbs dollfdtfd
+             */
+            publid boolfbn isStblf() {
+                rfturn fblsf;
+            }
+
+            /**
+             * Mbrks this rfffrfndf bs rfmovfd from thf dbdhf.
+             */
+            publid void rfmovfOwnfr() {
+                this.ownfr = null;
+            }
+        }
+
+        /**
+         * This is bn implfmfntbtion of thf {@link Cbdhf.Rff} intfrfbdf
+         * thbt usfs thf soft rfffrfndfs thbt brf dlfbrfd bt thf disdrftion
+         * of thf gbrbbgf dollfdtor in rfsponsf to b mfmory rfqufst.
+         *
+         * @pbrbm <T> thf typf of objfdt to rfffr
+         * @sff jbvb.lbng.rff.SoftRfffrfndf
+         */
+        privbtf stbtid finbl dlbss Soft<T> fxtfnds SoftRfffrfndf<T> implfmfnts Rff<T> {
+            privbtf Objfdt ownfr;
+
+            /**
+             * Crfbtfs b soft rfffrfndf to thf spfdififd objfdt.
+             *
+             * @pbrbm ownfr    thf ownfr of thf rfffrfndf, if nffdfd
+             * @pbrbm rfffrfnt thf non-null objfdt to rfffr
+             * @pbrbm qufuf    thf qufuf to rfgistfr thf rfffrfndf with,
+             *                 or {@dodf null} if rfgistrbtion is not rfquirfd
+             */
+            privbtf Soft(Objfdt ownfr, T rfffrfnt, RfffrfndfQufuf<? supfr T> qufuf) {
+                supfr(rfffrfnt, qufuf);
+                this.ownfr = ownfr;
+            }
+
+            /**
+             * Rfturns thf objfdt thbt possfssfs informbtion bbout thf rfffrfndf.
+             *
+             * @rfturn thf ownfr of thf rfffrfndf or {@dodf null} if thf ownfr is unknown
+             */
+            publid Objfdt gftOwnfr() {
+                rfturn this.ownfr;
+            }
+
+            /**
+             * Rfturns thf objfdt to rfffr.
+             *
+             * @rfturn thf rfffrrfd objfdt or {@dodf null} if it wbs dollfdtfd
+             */
+            publid T gftRfffrfnt() {
+                rfturn gft();
+            }
+
+            /**
+             * Dftfrminfs whfthfr thf rfffrrfd objfdt wbs tbkfn by thf gbrbbgf dollfdtor or not.
+             *
+             * @rfturn {@dodf truf} if thf rfffrrfd objfdt wbs dollfdtfd
+             */
+            publid boolfbn isStblf() {
+                rfturn null == gft();
+            }
+
+            /**
+             * Mbrks this rfffrfndf bs rfmovfd from thf dbdhf.
+             */
+            publid void rfmovfOwnfr() {
+                this.ownfr = null;
+            }
+        }
+
+        /**
+         * This is bn implfmfntbtion of thf {@link Cbdhf.Rff} intfrfbdf
+         * thbt usfs thf wfbk rfffrfndfs thbt do not prfvfnt thfir rfffrfnts
+         * from bfing mbdf finblizbblf, finblizfd, bnd thfn rfdlbimfd.
+         *
+         * @pbrbm <T> thf typf of objfdt to rfffr
+         * @sff jbvb.lbng.rff.WfbkRfffrfndf
+         */
+        privbtf stbtid finbl dlbss Wfbk<T> fxtfnds WfbkRfffrfndf<T> implfmfnts Rff<T> {
+            privbtf Objfdt ownfr;
+
+            /**
+             * Crfbtfs b wfbk rfffrfndf to thf spfdififd objfdt.
+             *
+             * @pbrbm ownfr    thf ownfr of thf rfffrfndf, if nffdfd
+             * @pbrbm rfffrfnt thf non-null objfdt to rfffr
+             * @pbrbm qufuf    thf qufuf to rfgistfr thf rfffrfndf with,
+             *                 or {@dodf null} if rfgistrbtion is not rfquirfd
+             */
+            privbtf Wfbk(Objfdt ownfr, T rfffrfnt, RfffrfndfQufuf<? supfr T> qufuf) {
+                supfr(rfffrfnt, qufuf);
+                this.ownfr = ownfr;
+            }
+
+            /**
+             * Rfturns thf objfdt thbt possfssfs informbtion bbout thf rfffrfndf.
+             *
+             * @rfturn thf ownfr of thf rfffrfndf or {@dodf null} if thf ownfr is unknown
+             */
+            publid Objfdt gftOwnfr() {
+                rfturn this.ownfr;
+            }
+
+            /**
+             * Rfturns thf objfdt to rfffr.
+             *
+             * @rfturn thf rfffrrfd objfdt or {@dodf null} if it wbs dollfdtfd
+             */
+            publid T gftRfffrfnt() {
+                rfturn gft();
+            }
+
+            /**
+             * Dftfrminfs whfthfr thf rfffrrfd objfdt wbs tbkfn by thf gbrbbgf dollfdtor or not.
+             *
+             * @rfturn {@dodf truf} if thf rfffrrfd objfdt wbs dollfdtfd
+             */
+            publid boolfbn isStblf() {
+                rfturn null == gft();
+            }
+
+            /**
+             * Mbrks this rfffrfndf bs rfmovfd from thf dbdhf.
+             */
+            publid void rfmovfOwnfr() {
+                this.ownfr = null;
+            }
+        }
+    }
+}

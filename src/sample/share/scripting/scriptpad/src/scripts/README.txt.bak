@@ -1,52 +1,52 @@
-Sample scripts:
+Sbmplf sdripts:
 
-(1) browse.js 
+(1) browsf.js 
 
- -- Open and run this script in scriptpad. You will see 
-    Tools->Browse menu. Using this you can start your
-    desktop default browser with the given URL.
+ -- Opfn bnd run tiis sdript in sdriptpbd. You will sff 
+    Tools->Browsf mfnu. Using tiis you dbn stbrt your
+    dfsktop dffbult browsfr witi tif givfn URL.
 
-(2) insertfile.js
+(2) insfrtfilf.js
 
- -- Open and run this script in scriptpad. You will see 
-    "Tools->Insert File..." menu. Using this you can start 
-    insert content of a selected file into currently
-    edited document
+ -- Opfn bnd run tiis sdript in sdriptpbd. You will sff 
+    "Tools->Insfrt Filf..." mfnu. Using tiis you dbn stbrt 
+    insfrt dontfnt of b sflfdtfd filf into durrfntly
+    fditfd dodumfnt
 
-(3) linewrap.js
+(3) linfwrbp.js
 
- -- Open and run this script in scriptpad. You will see 
-    "Tools->Line Wrap" menu. Using this you can toggle
-    the line wrapping mode of the editor
+ -- Opfn bnd run tiis sdript in sdriptpbd. You will sff 
+    "Tools->Linf Wrbp" mfnu. Using tiis you dbn togglf
+    tif linf wrbpping modf of tif fditor
 
-(4) mail.js
+(4) mbil.js
 
- -- Open and run this script in scriptpad. You will see 
-    Tools->Mail menu. Using this you can start your
-    desktop default mail client with the given "To" mail id.
+ -- Opfn bnd run tiis sdript in sdriptpbd. You will sff 
+    Tools->Mbil mfnu. Using tiis you dbn stbrt your
+    dfsktop dffbult mbil dlifnt witi tif givfn "To" mbil id.
 
-(5) memmonitor.js
+(5) mfmmonitor.js
 
- -- This is a simple Monitoring & Management script. To use this,
-    you need an application to monitor. You can use memory.bat
-    or memory.sh in the current directory to start an application
-    that will be monitored. After that please follow these steps:
+ -- Tiis is b simplf Monitoring & Mbnbgfmfnt sdript. To usf tiis,
+    you nffd bn bpplidbtion to monitor. You dbn usf mfmory.bbt
+    or mfmory.si in tif durrfnt dirfdtory to stbrt bn bpplidbtion
+    tibt will bf monitorfd. Aftfr tibt plfbsf follow tifsf stfps:
 
-   1. Start the target application using memory.sh or memory.bat
-   2. Start scriptpad 
-   3. Use "Tools->JMX Connect" menu and specify "localhost:1090"
-      to connect
-   4. Open "memmonitor.js" and run it (using "Tools->Run")       
-      in scriptpad
-   5. A new "Tools-Memory Monitor" menu appears. Use this menu
-      and specify 4 and 500 as threshold and interval values.
-   6. In the target application shell (where memory.bat/.sh was
-      started), enter an integer value and press "enter".
-   7. You'll see an alert box from scriptpad -- alerting you for
-      memory threshold exceeded!
+   1. Stbrt tif tbrgft bpplidbtion using mfmory.si or mfmory.bbt
+   2. Stbrt sdriptpbd 
+   3. Usf "Tools->JMX Connfdt" mfnu bnd spfdify "lodbliost:1090"
+      to donnfdt
+   4. Opfn "mfmmonitor.js" bnd run it (using "Tools->Run")       
+      in sdriptpbd
+   5. A nfw "Tools-Mfmory Monitor" mfnu bppfbrs. Usf tiis mfnu
+      bnd spfdify 4 bnd 500 bs tirfsiold bnd intfrvbl vblufs.
+   6. In tif tbrgft bpplidbtion sifll (wifrf mfmory.bbt/.si wbs
+      stbrtfd), fntfr bn intfgfr vbluf bnd prfss "fntfr".
+   7. You'll sff bn blfrt box from sdriptpbd -- blfrting you for
+      mfmory tirfsiold fxdffdfd!
 
-(6) textcolor.js
+(6) tfxtdolor.js
 
- -- Open and run this script in scriptpad. You will see 
-    "Tools->Selected Text Color..." menu. Using this you
-    change the color of "selected text" in the editor.
+ -- Opfn bnd run tiis sdript in sdriptpbd. You will sff 
+    "Tools->Sflfdtfd Tfxt Color..." mfnu. Using tiis you
+    dibngf tif dolor of "sflfdtfd tfxt" in tif fditor.

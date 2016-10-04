@@ -1,177 +1,177 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
-package com.sun.org.apache.xml.internal.security.algorithms;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims;
 
-import java.security.Key;
-import java.security.SecureRandom;
-import java.security.spec.AlgorithmParameterSpec;
+import jbvb.sfdurity.Kfy;
+import jbvb.sfdurity.SfdurfRbndom;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
 
-import com.sun.org.apache.xml.internal.security.signature.XMLSignatureException;
-import org.w3c.dom.Element;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf.XMLSignbturfExdfption;
+import org.w3d.dom.Elfmfnt;
 
-public abstract class SignatureAlgorithmSpi {
-
-    /**
-     * Returns the URI representation of <code>Transformation algorithm</code>
-     *
-     * @return the URI representation of <code>Transformation algorithm</code>
-     */
-    protected abstract String engineGetURI();
+publid bbstrbdt dlbss SignbturfAlgoritimSpi {
 
     /**
-     * Proxy method for {@link java.security.Signature#getAlgorithm}
-     * which is executed on the internal {@link java.security.Signature} object.
+     * Rfturns tif URI rfprfsfntbtion of <dodf>Trbnsformbtion blgoritim</dodf>
      *
-     * @return the result of the {@link java.security.Signature#getAlgorithm} method
+     * @rfturn tif URI rfprfsfntbtion of <dodf>Trbnsformbtion blgoritim</dodf>
      */
-    protected abstract String engineGetJCEAlgorithmString();
+    protfdtfd bbstrbdt String fnginfGftURI();
 
     /**
-     * Method engineGetJCEProviderName
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#gftAlgoritim}
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
      *
-     * @return the JCE ProviderName
+     * @rfturn tif rfsult of tif {@link jbvb.sfdurity.Signbturf#gftAlgoritim} mftiod
      */
-    protected abstract String engineGetJCEProviderName();
+    protfdtfd bbstrbdt String fnginfGftJCEAlgoritimString();
 
     /**
-     * Proxy method for {@link java.security.Signature#update(byte[])}
-     * which is executed on the internal {@link java.security.Signature} object.
+     * Mftiod fnginfGftJCEProvidfrNbmf
      *
-     * @param input
-     * @throws XMLSignatureException
+     * @rfturn tif JCE ProvidfrNbmf
      */
-    protected abstract void engineUpdate(byte[] input) throws XMLSignatureException;
+    protfdtfd bbstrbdt String fnginfGftJCEProvidfrNbmf();
 
     /**
-     * Proxy method for {@link java.security.Signature#update(byte[])}
-     * which is executed on the internal {@link java.security.Signature} object.
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#updbtf(bytf[])}
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
      *
-     * @param input
-     * @throws XMLSignatureException
+     * @pbrbm input
+     * @tirows XMLSignbturfExdfption
      */
-    protected abstract void engineUpdate(byte input) throws XMLSignatureException;
+    protfdtfd bbstrbdt void fnginfUpdbtf(bytf[] input) tirows XMLSignbturfExdfption;
 
     /**
-     * Proxy method for {@link java.security.Signature#update(byte[], int, int)}
-     * which is executed on the internal {@link java.security.Signature} object.
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#updbtf(bytf[])}
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
      *
-     * @param buf
-     * @param offset
-     * @param len
-     * @throws XMLSignatureException
+     * @pbrbm input
+     * @tirows XMLSignbturfExdfption
      */
-    protected abstract void engineUpdate(byte buf[], int offset, int len)
-        throws XMLSignatureException;
+    protfdtfd bbstrbdt void fnginfUpdbtf(bytf input) tirows XMLSignbturfExdfption;
 
     /**
-     * Proxy method for {@link java.security.Signature#initSign(java.security.PrivateKey)}
-     * which is executed on the internal {@link java.security.Signature} object.
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#updbtf(bytf[], int, int)}
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
      *
-     * @param signingKey
-     * @throws XMLSignatureException if this method is called on a MAC
+     * @pbrbm buf
+     * @pbrbm offsft
+     * @pbrbm lfn
+     * @tirows XMLSignbturfExdfption
      */
-    protected abstract void engineInitSign(Key signingKey) throws XMLSignatureException;
+    protfdtfd bbstrbdt void fnginfUpdbtf(bytf buf[], int offsft, int lfn)
+        tirows XMLSignbturfExdfption;
 
     /**
-     * Proxy method for {@link java.security.Signature#initSign(java.security.PrivateKey,
-     * java.security.SecureRandom)}
-     * which is executed on the internal {@link java.security.Signature} object.
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#initSign(jbvb.sfdurity.PrivbtfKfy)}
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
      *
-     * @param signingKey
-     * @param secureRandom
-     * @throws XMLSignatureException if this method is called on a MAC
+     * @pbrbm signingKfy
+     * @tirows XMLSignbturfExdfption if tiis mftiod is dbllfd on b MAC
      */
-    protected abstract void engineInitSign(Key signingKey, SecureRandom secureRandom)
-        throws XMLSignatureException;
+    protfdtfd bbstrbdt void fnginfInitSign(Kfy signingKfy) tirows XMLSignbturfExdfption;
 
     /**
-     * Proxy method for {@link javax.crypto.Mac}
-     * which is executed on the internal {@link javax.crypto.Mac#init(Key)} object.
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#initSign(jbvb.sfdurity.PrivbtfKfy,
+     * jbvb.sfdurity.SfdurfRbndom)}
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
      *
-     * @param signingKey
-     * @param algorithmParameterSpec
-     * @throws XMLSignatureException if this method is called on a Signature
+     * @pbrbm signingKfy
+     * @pbrbm sfdurfRbndom
+     * @tirows XMLSignbturfExdfption if tiis mftiod is dbllfd on b MAC
      */
-    protected abstract void engineInitSign(
-        Key signingKey, AlgorithmParameterSpec algorithmParameterSpec
-    ) throws XMLSignatureException;
+    protfdtfd bbstrbdt void fnginfInitSign(Kfy signingKfy, SfdurfRbndom sfdurfRbndom)
+        tirows XMLSignbturfExdfption;
 
     /**
-     * Proxy method for {@link java.security.Signature#sign()}
-     * which is executed on the internal {@link java.security.Signature} object.
+     * Proxy mftiod for {@link jbvbx.drypto.Mbd}
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvbx.drypto.Mbd#init(Kfy)} objfdt.
      *
-     * @return the result of the {@link java.security.Signature#sign()} method
-     * @throws XMLSignatureException
+     * @pbrbm signingKfy
+     * @pbrbm blgoritimPbrbmftfrSpfd
+     * @tirows XMLSignbturfExdfption if tiis mftiod is dbllfd on b Signbturf
      */
-    protected abstract byte[] engineSign() throws XMLSignatureException;
+    protfdtfd bbstrbdt void fnginfInitSign(
+        Kfy signingKfy, AlgoritimPbrbmftfrSpfd blgoritimPbrbmftfrSpfd
+    ) tirows XMLSignbturfExdfption;
 
     /**
-     * Method engineInitVerify
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#sign()}
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
      *
-     * @param verificationKey
-     * @throws XMLSignatureException
+     * @rfturn tif rfsult of tif {@link jbvb.sfdurity.Signbturf#sign()} mftiod
+     * @tirows XMLSignbturfExdfption
      */
-    protected abstract void engineInitVerify(Key verificationKey) throws XMLSignatureException;
+    protfdtfd bbstrbdt bytf[] fnginfSign() tirows XMLSignbturfExdfption;
 
     /**
-     * Proxy method for {@link java.security.Signature#verify(byte[])}
-     * which is executed on the internal {@link java.security.Signature} object.
+     * Mftiod fnginfInitVfrify
      *
-     * @param signature
-     * @return true if the signature is correct
-     * @throws XMLSignatureException
+     * @pbrbm vfrifidbtionKfy
+     * @tirows XMLSignbturfExdfption
      */
-    protected abstract boolean engineVerify(byte[] signature) throws XMLSignatureException;
+    protfdtfd bbstrbdt void fnginfInitVfrify(Kfy vfrifidbtionKfy) tirows XMLSignbturfExdfption;
 
     /**
-     * Proxy method for {@link java.security.Signature#setParameter(
-     * java.security.spec.AlgorithmParameterSpec)}
-     * which is executed on the internal {@link java.security.Signature} object.
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#vfrify(bytf[])}
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
      *
-     * @param params
-     * @throws XMLSignatureException
+     * @pbrbm signbturf
+     * @rfturn truf if tif signbturf is dorrfdt
+     * @tirows XMLSignbturfExdfption
      */
-    protected abstract void engineSetParameter(AlgorithmParameterSpec params)
-        throws XMLSignatureException;
+    protfdtfd bbstrbdt boolfbn fnginfVfrify(bytf[] signbturf) tirows XMLSignbturfExdfption;
+
+    /**
+     * Proxy mftiod for {@link jbvb.sfdurity.Signbturf#sftPbrbmftfr(
+     * jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd)}
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.Signbturf} objfdt.
+     *
+     * @pbrbm pbrbms
+     * @tirows XMLSignbturfExdfption
+     */
+    protfdtfd bbstrbdt void fnginfSftPbrbmftfr(AlgoritimPbrbmftfrSpfd pbrbms)
+        tirows XMLSignbturfExdfption;
 
 
     /**
-     * Method engineGetContextFromElement
+     * Mftiod fnginfGftContfxtFromElfmfnt
      *
-     * @param element
+     * @pbrbm flfmfnt
      */
-    protected void engineGetContextFromElement(Element element) {
+    protfdtfd void fnginfGftContfxtFromElfmfnt(Elfmfnt flfmfnt) {
     }
 
     /**
-     * Method engineSetHMACOutputLength
+     * Mftiod fnginfSftHMACOutputLfngti
      *
-     * @param HMACOutputLength
-     * @throws XMLSignatureException
+     * @pbrbm HMACOutputLfngti
+     * @tirows XMLSignbturfExdfption
      */
-    protected abstract void engineSetHMACOutputLength(int HMACOutputLength)
-        throws XMLSignatureException;
+    protfdtfd bbstrbdt void fnginfSftHMACOutputLfngti(int HMACOutputLfngti)
+        tirows XMLSignbturfExdfption;
 
-    public void reset() {
+    publid void rfsft() {
     }
 }

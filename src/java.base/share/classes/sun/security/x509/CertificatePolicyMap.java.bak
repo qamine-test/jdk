@@ -1,106 +1,106 @@
 /*
- * Copyright (c) 1997, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.x509;
+pbdkbgf sun.sfdurity.x509;
 
-import java.io.IOException;
+import jbvb.io.IOExdfption;
 
-import sun.security.util.*;
+import sun.sfdurity.util.*;
 
 /**
- * Represent the CertificatePolicyMap ASN.1 object.
+ * Rfprfsfnt tif CfrtifidbtfPolidyMbp ASN.1 objfdt.
  *
- * @author Amit Kapoor
- * @author Hemma Prafullchandra
+ * @butior Amit Kbpoor
+ * @butior Hfmmb Prbfulldibndrb
  */
-public class CertificatePolicyMap {
-    private CertificatePolicyId issuerDomain;
-    private CertificatePolicyId subjectDomain;
+publid dlbss CfrtifidbtfPolidyMbp {
+    privbtf CfrtifidbtfPolidyId issufrDombin;
+    privbtf CfrtifidbtfPolidyId subjfdtDombin;
 
     /**
-     * Create a CertificatePolicyMap with the passed CertificatePolicyId's.
+     * Crfbtf b CfrtifidbtfPolidyMbp witi tif pbssfd CfrtifidbtfPolidyId's.
      *
-     * @param issuer the CertificatePolicyId for the issuer CA.
-     * @param subject the CertificatePolicyId for the subject CA.
+     * @pbrbm issufr tif CfrtifidbtfPolidyId for tif issufr CA.
+     * @pbrbm subjfdt tif CfrtifidbtfPolidyId for tif subjfdt CA.
      */
-    public CertificatePolicyMap(CertificatePolicyId issuer,
-                                CertificatePolicyId subject) {
-        this.issuerDomain = issuer;
-        this.subjectDomain = subject;
+    publid CfrtifidbtfPolidyMbp(CfrtifidbtfPolidyId issufr,
+                                CfrtifidbtfPolidyId subjfdt) {
+        tiis.issufrDombin = issufr;
+        tiis.subjfdtDombin = subjfdt;
     }
 
     /**
-     * Create the CertificatePolicyMap from the DER encoded value.
+     * Crfbtf tif CfrtifidbtfPolidyMbp from tif DER fndodfd vbluf.
      *
-     * @param val the DER encoded value of the same.
+     * @pbrbm vbl tif DER fndodfd vbluf of tif sbmf.
      */
-    public CertificatePolicyMap(DerValue val) throws IOException {
-        if (val.tag != DerValue.tag_Sequence) {
-            throw new IOException("Invalid encoding for CertificatePolicyMap");
+    publid CfrtifidbtfPolidyMbp(DfrVbluf vbl) tirows IOExdfption {
+        if (vbl.tbg != DfrVbluf.tbg_Sfqufndf) {
+            tirow nfw IOExdfption("Invblid fndoding for CfrtifidbtfPolidyMbp");
         }
-        issuerDomain = new CertificatePolicyId(val.data.getDerValue());
-        subjectDomain = new CertificatePolicyId(val.data.getDerValue());
+        issufrDombin = nfw CfrtifidbtfPolidyId(vbl.dbtb.gftDfrVbluf());
+        subjfdtDombin = nfw CfrtifidbtfPolidyId(vbl.dbtb.gftDfrVbluf());
     }
 
     /**
-     * Return the issuer CA part of the policy map.
+     * Rfturn tif issufr CA pbrt of tif polidy mbp.
      */
-    public CertificatePolicyId getIssuerIdentifier() {
-        return (issuerDomain);
+    publid CfrtifidbtfPolidyId gftIssufrIdfntififr() {
+        rfturn (issufrDombin);
     }
 
     /**
-     * Return the subject CA part of the policy map.
+     * Rfturn tif subjfdt CA pbrt of tif polidy mbp.
      */
-    public CertificatePolicyId getSubjectIdentifier() {
-        return (subjectDomain);
+    publid CfrtifidbtfPolidyId gftSubjfdtIdfntififr() {
+        rfturn (subjfdtDombin);
     }
 
     /**
-     * Returns a printable representation of the CertificatePolicyId.
+     * Rfturns b printbblf rfprfsfntbtion of tif CfrtifidbtfPolidyId.
      */
-    public String toString() {
-        String s = "CertificatePolicyMap: [\n"
-                 + "IssuerDomain:" + issuerDomain.toString()
-                 + "SubjectDomain:" + subjectDomain.toString()
+    publid String toString() {
+        String s = "CfrtifidbtfPolidyMbp: [\n"
+                 + "IssufrDombin:" + issufrDombin.toString()
+                 + "SubjfdtDombin:" + subjfdtDombin.toString()
                  + "]\n";
 
-        return (s);
+        rfturn (s);
     }
 
     /**
-     * Write the CertificatePolicyMap to the DerOutputStream.
+     * Writf tif CfrtifidbtfPolidyMbp to tif DfrOutputStrfbm.
      *
-     * @param out the DerOutputStream to write the object to.
-     * @exception IOException on errors.
+     * @pbrbm out tif DfrOutputStrfbm to writf tif objfdt to.
+     * @fxdfption IOExdfption on frrors.
      */
-    public void encode(DerOutputStream out) throws IOException {
-        DerOutputStream tmp = new DerOutputStream();
+    publid void fndodf(DfrOutputStrfbm out) tirows IOExdfption {
+        DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
 
-        issuerDomain.encode(tmp);
-        subjectDomain.encode(tmp);
-        out.write(DerValue.tag_Sequence,tmp);
+        issufrDombin.fndodf(tmp);
+        subjfdtDombin.fndodf(tmp);
+        out.writf(DfrVbluf.tbg_Sfqufndf,tmp);
     }
 }

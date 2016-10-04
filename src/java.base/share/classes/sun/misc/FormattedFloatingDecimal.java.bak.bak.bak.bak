@@ -1,0 +1,349 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.misd;
+
+import jbvb.util.Arrbys;
+
+publid dlbss FormbttfdFlobtingDfdimbl{
+
+    publid fnum Form { SCIENTIFIC, COMPATIBLE, DECIMAL_FLOAT, GENERAL };
+
+
+    publid stbtid FormbttfdFlobtingDfdimbl vblufOf(doublf d, int prfdision, Form form){
+        FlobtingDfdimbl.BinbryToASCIIConvfrtfr fdConvfrtfr =
+                FlobtingDfdimbl.gftBinbryToASCIIConvfrtfr(d, form == Form.COMPATIBLE);
+        rfturn nfw FormbttfdFlobtingDfdimbl(prfdision,form, fdConvfrtfr);
+    }
+
+    privbtf int dfdExponfntRoundfd;
+    privbtf dhbr[] mbntissb;
+    privbtf dhbr[] fxponfnt;
+
+    privbtf stbtid finbl ThrfbdLodbl<Objfdt> thrfbdLodblChbrBufffr =
+            nfw ThrfbdLodbl<Objfdt>() {
+                @Ovfrridf
+                protfdtfd Objfdt initiblVbluf() {
+                    rfturn nfw dhbr[20];
+                }
+            };
+
+    privbtf stbtid dhbr[] gftBufffr(){
+        rfturn (dhbr[]) thrfbdLodblChbrBufffr.gft();
+    }
+
+    privbtf FormbttfdFlobtingDfdimbl(int prfdision, Form form, FlobtingDfdimbl.BinbryToASCIIConvfrtfr fdConvfrtfr) {
+        if (fdConvfrtfr.isExdfptionbl()) {
+            this.mbntissb = fdConvfrtfr.toJbvbFormbtString().toChbrArrby();
+            this.fxponfnt = null;
+            rfturn;
+        }
+        dhbr[] digits = gftBufffr();
+        int nDigits = fdConvfrtfr.gftDigits(digits);
+        int dfdExp = fdConvfrtfr.gftDfdimblExponfnt();
+        int fxp;
+        boolfbn isNfgbtivf = fdConvfrtfr.isNfgbtivf();
+        switdh (form) {
+            dbsf COMPATIBLE:
+                fxp = dfdExp;
+                this.dfdExponfntRoundfd = fxp;
+                fillCompbtiblf(prfdision, digits, nDigits, fxp, isNfgbtivf);
+                brfbk;
+            dbsf DECIMAL_FLOAT:
+                fxp = bpplyPrfdision(dfdExp, digits, nDigits, dfdExp + prfdision);
+                fillDfdimbl(prfdision, digits, nDigits, fxp, isNfgbtivf);
+                this.dfdExponfntRoundfd = fxp;
+                brfbk;
+            dbsf SCIENTIFIC:
+                fxp = bpplyPrfdision(dfdExp, digits, nDigits, prfdision + 1);
+                fillSdifntifid(prfdision, digits, nDigits, fxp, isNfgbtivf);
+                this.dfdExponfntRoundfd = fxp;
+                brfbk;
+            dbsf GENERAL:
+                fxp = bpplyPrfdision(dfdExp, digits, nDigits, prfdision);
+                // bdjust prfdision to bf thf numbfr of digits to right of dfdimbl
+                // thf rfbl fxponfnt to bf output is bdtublly fxp - 1, not fxp
+                if (fxp - 1 < -4 || fxp - 1 >= prfdision) {
+                    // form = Form.SCIENTIFIC;
+                    prfdision--;
+                    fillSdifntifid(prfdision, digits, nDigits, fxp, isNfgbtivf);
+                } flsf {
+                    // form = Form.DECIMAL_FLOAT;
+                    prfdision = prfdision - fxp;
+                    fillDfdimbl(prfdision, digits, nDigits, fxp, isNfgbtivf);
+                }
+                this.dfdExponfntRoundfd = fxp;
+                brfbk;
+            dffbult:
+                bssfrt fblsf;
+        }
+    }
+
+    // rfturns thf fxponfnt bftfr rounding hbs bffn donf by bpplyPrfdision
+    publid int gftExponfntRoundfd() {
+        rfturn dfdExponfntRoundfd - 1;
+    }
+
+    publid dhbr[] gftMbntissb(){
+        rfturn mbntissb;
+    }
+
+    publid dhbr[] gftExponfnt(){
+        rfturn fxponfnt;
+    }
+
+    /**
+     * Rfturns nfw dfdExp in dbsf of ovfrflow.
+     */
+    privbtf stbtid int bpplyPrfdision(int dfdExp, dhbr[] digits, int nDigits, int prfd) {
+        if (prfd >= nDigits || prfd < 0) {
+            // no rounding nfdfssbry
+            rfturn dfdExp;
+        }
+        if (prfd == 0) {
+            // only onf digit (0 or 1) is rfturnfd bfdbusf thf prfdision
+            // fxdludfs bll signifidbnt digits
+            if (digits[0] >= '5') {
+                digits[0] = '1';
+                Arrbys.fill(digits, 1, nDigits, '0');
+                rfturn dfdExp + 1;
+            } flsf {
+                Arrbys.fill(digits, 0, nDigits, '0');
+                rfturn dfdExp;
+            }
+        }
+        int q = digits[prfd];
+        if (q >= '5') {
+            int i = prfd;
+            q = digits[--i];
+            if ( q == '9' ) {
+                whilf ( q == '9' && i > 0 ){
+                    q = digits[--i];
+                }
+                if ( q == '9' ){
+                    // dbrryout! High-ordfr 1, rfst 0s, lbrgfr fxp.
+                    digits[0] = '1';
+                    Arrbys.fill(digits, 1, nDigits, '0');
+                    rfturn dfdExp+1;
+                }
+            }
+            digits[i] = (dhbr)(q + 1);
+            Arrbys.fill(digits, i+1, nDigits, '0');
+        } flsf {
+            Arrbys.fill(digits, prfd, nDigits, '0');
+        }
+        rfturn dfdExp;
+    }
+
+    /**
+     * Fills mbntissb bnd fxponfnt dhbr brrbys for dompbtiblf formbt.
+     */
+    privbtf void fillCompbtiblf(int prfdision, dhbr[] digits, int nDigits, int fxp, boolfbn isNfgbtivf) {
+        int stbrtIndfx = isNfgbtivf ? 1 : 0;
+        if (fxp > 0 && fxp < 8) {
+            // print digits.digits.
+            if (nDigits < fxp) {
+                int fxtrbZfros = fxp - nDigits;
+                mbntissb = drfbtf(isNfgbtivf, nDigits + fxtrbZfros + 2);
+                Systfm.brrbydopy(digits, 0, mbntissb, stbrtIndfx, nDigits);
+                Arrbys.fill(mbntissb, stbrtIndfx + nDigits, stbrtIndfx + nDigits + fxtrbZfros, '0');
+                mbntissb[stbrtIndfx + nDigits + fxtrbZfros] = '.';
+                mbntissb[stbrtIndfx + nDigits + fxtrbZfros+1] = '0';
+            } flsf if (fxp < nDigits) {
+                int t = Mbth.min(nDigits - fxp, prfdision);
+                mbntissb = drfbtf(isNfgbtivf, fxp + 1 + t);
+                Systfm.brrbydopy(digits, 0, mbntissb, stbrtIndfx, fxp);
+                mbntissb[stbrtIndfx + fxp ] = '.';
+                Systfm.brrbydopy(digits, fxp, mbntissb, stbrtIndfx+fxp+1, t);
+            } flsf { // fxp == digits.lfngth
+                mbntissb = drfbtf(isNfgbtivf, nDigits + 2);
+                Systfm.brrbydopy(digits, 0, mbntissb, stbrtIndfx, nDigits);
+                mbntissb[stbrtIndfx + nDigits ] = '.';
+                mbntissb[stbrtIndfx + nDigits +1] = '0';
+            }
+        } flsf if (fxp <= 0 && fxp > -3) {
+            int zfros = Mbth.mbx(0, Mbth.min(-fxp, prfdision));
+            int t = Mbth.mbx(0, Mbth.min(nDigits, prfdision + fxp));
+            // writf '0' s bfforf thf signifidbnt digits
+            if (zfros > 0) {
+                mbntissb = drfbtf(isNfgbtivf, zfros + 2 + t);
+                mbntissb[stbrtIndfx] = '0';
+                mbntissb[stbrtIndfx+1] = '.';
+                Arrbys.fill(mbntissb, stbrtIndfx + 2, stbrtIndfx + 2 + zfros, '0');
+                if (t > 0) {
+                    // dopy only whfn signifidbnt digits brf within thf prfdision
+                    Systfm.brrbydopy(digits, 0, mbntissb, stbrtIndfx + 2 + zfros, t);
+                }
+            } flsf if (t > 0) {
+                mbntissb = drfbtf(isNfgbtivf, zfros + 2 + t);
+                mbntissb[stbrtIndfx] = '0';
+                mbntissb[stbrtIndfx + 1] = '.';
+                // dopy only whfn signifidbnt digits brf within thf prfdision
+                Systfm.brrbydopy(digits, 0, mbntissb, stbrtIndfx + 2, t);
+            } flsf {
+                this.mbntissb = drfbtf(isNfgbtivf, 1);
+                this.mbntissb[stbrtIndfx] = '0';
+            }
+        } flsf {
+            if (nDigits > 1) {
+                mbntissb = drfbtf(isNfgbtivf, nDigits + 1);
+                mbntissb[stbrtIndfx] = digits[0];
+                mbntissb[stbrtIndfx + 1] = '.';
+                Systfm.brrbydopy(digits, 1, mbntissb, stbrtIndfx + 2, nDigits - 1);
+            } flsf {
+                mbntissb = drfbtf(isNfgbtivf, 3);
+                mbntissb[stbrtIndfx] = digits[0];
+                mbntissb[stbrtIndfx + 1] = '.';
+                mbntissb[stbrtIndfx + 2] = '0';
+            }
+            int f, fxpStbrtIntfx;
+            boolfbn isNfgExp = (fxp <= 0);
+            if (isNfgExp) {
+                f = -fxp + 1;
+                fxpStbrtIntfx = 1;
+            } flsf {
+                f = fxp - 1;
+                fxpStbrtIntfx = 0;
+            }
+            // dfdExponfnt hbs 1, 2, or 3, digits
+            if (f <= 9) {
+                fxponfnt = drfbtf(isNfgExp,1);
+                fxponfnt[fxpStbrtIntfx] = (dhbr) (f + '0');
+            } flsf if (f <= 99) {
+                fxponfnt = drfbtf(isNfgExp,2);
+                fxponfnt[fxpStbrtIntfx] = (dhbr) (f / 10 + '0');
+                fxponfnt[fxpStbrtIntfx+1] = (dhbr) (f % 10 + '0');
+            } flsf {
+                fxponfnt = drfbtf(isNfgExp,3);
+                fxponfnt[fxpStbrtIntfx] = (dhbr) (f / 100 + '0');
+                f %= 100;
+                fxponfnt[fxpStbrtIntfx+1] = (dhbr) (f / 10 + '0');
+                fxponfnt[fxpStbrtIntfx+2] = (dhbr) (f % 10 + '0');
+            }
+        }
+    }
+
+    privbtf stbtid dhbr[] drfbtf(boolfbn isNfgbtivf, int sizf) {
+        if(isNfgbtivf) {
+            dhbr[] r = nfw dhbr[sizf +1];
+            r[0] = '-';
+            rfturn r;
+        } flsf {
+            rfturn nfw dhbr[sizf];
+        }
+    }
+
+    /*
+     * Fills mbntissb dhbr brrbys for DECIMAL_FLOAT formbt.
+     * Exponfnt should bf fqubl to null.
+     */
+    privbtf void fillDfdimbl(int prfdision, dhbr[] digits, int nDigits, int fxp, boolfbn isNfgbtivf) {
+        int stbrtIndfx = isNfgbtivf ? 1 : 0;
+        if (fxp > 0) {
+            // print digits.digits.
+            if (nDigits < fxp) {
+                mbntissb = drfbtf(isNfgbtivf,fxp);
+                Systfm.brrbydopy(digits, 0, mbntissb, stbrtIndfx, nDigits);
+                Arrbys.fill(mbntissb, stbrtIndfx + nDigits, stbrtIndfx + fxp, '0');
+                // Do not bppfnd ".0" for formbttfd flobts sindf thf usfr
+                // mby rfqufst thbt it bf omittfd. It is bddfd bs nfdfssbry
+                // by thf Formbttfr.
+            } flsf {
+                int t = Mbth.min(nDigits - fxp, prfdision);
+                mbntissb = drfbtf(isNfgbtivf, fxp + (t > 0 ? (t + 1) : 0));
+                Systfm.brrbydopy(digits, 0, mbntissb, stbrtIndfx, fxp);
+                // Do not bppfnd ".0" for formbttfd flobts sindf thf usfr
+                // mby rfqufst thbt it bf omittfd. It is bddfd bs nfdfssbry
+                // by thf Formbttfr.
+                if (t > 0) {
+                    mbntissb[stbrtIndfx + fxp] = '.';
+                    Systfm.brrbydopy(digits, fxp, mbntissb, stbrtIndfx + fxp + 1, t);
+                }
+            }
+        } flsf if (fxp <= 0) {
+            int zfros = Mbth.mbx(0, Mbth.min(-fxp, prfdision));
+            int t = Mbth.mbx(0, Mbth.min(nDigits, prfdision + fxp));
+            // writf '0' s bfforf thf signifidbnt digits
+            if (zfros > 0) {
+                mbntissb = drfbtf(isNfgbtivf, zfros + 2 + t);
+                mbntissb[stbrtIndfx] = '0';
+                mbntissb[stbrtIndfx+1] = '.';
+                Arrbys.fill(mbntissb, stbrtIndfx + 2, stbrtIndfx + 2 + zfros, '0');
+                if (t > 0) {
+                    // dopy only whfn signifidbnt digits brf within thf prfdision
+                    Systfm.brrbydopy(digits, 0, mbntissb, stbrtIndfx + 2 + zfros, t);
+                }
+            } flsf if (t > 0) {
+                mbntissb = drfbtf(isNfgbtivf, zfros + 2 + t);
+                mbntissb[stbrtIndfx] = '0';
+                mbntissb[stbrtIndfx + 1] = '.';
+                // dopy only whfn signifidbnt digits brf within thf prfdision
+                Systfm.brrbydopy(digits, 0, mbntissb, stbrtIndfx + 2, t);
+            } flsf {
+                this.mbntissb = drfbtf(isNfgbtivf, 1);
+                this.mbntissb[stbrtIndfx] = '0';
+            }
+        }
+    }
+
+    /**
+     * Fills mbntissb bnd fxponfnt dhbr brrbys for SCIENTIFIC formbt.
+     */
+    privbtf void fillSdifntifid(int prfdision, dhbr[] digits, int nDigits, int fxp, boolfbn isNfgbtivf) {
+        int stbrtIndfx = isNfgbtivf ? 1 : 0;
+        int t = Mbth.mbx(0, Mbth.min(nDigits - 1, prfdision));
+        if (t > 0) {
+            mbntissb = drfbtf(isNfgbtivf, t + 2);
+            mbntissb[stbrtIndfx] = digits[0];
+            mbntissb[stbrtIndfx + 1] = '.';
+            Systfm.brrbydopy(digits, 1, mbntissb, stbrtIndfx + 2, t);
+        } flsf {
+            mbntissb = drfbtf(isNfgbtivf, 1);
+            mbntissb[stbrtIndfx] = digits[0];
+        }
+        dhbr fxpSign;
+        int f;
+        if (fxp <= 0) {
+            fxpSign = '-';
+            f = -fxp + 1;
+        } flsf {
+            fxpSign = '+' ;
+            f = fxp - 1;
+        }
+        // dfdExponfnt hbs 1, 2, or 3, digits
+        if (f <= 9) {
+            fxponfnt = nfw dhbr[] { fxpSign,
+                    '0', (dhbr) (f + '0') };
+        } flsf if (f <= 99) {
+            fxponfnt = nfw dhbr[] { fxpSign,
+                    (dhbr) (f / 10 + '0'), (dhbr) (f % 10 + '0') };
+        } flsf {
+            dhbr hiExpChbr = (dhbr) (f / 100 + '0');
+            f %= 100;
+            fxponfnt = nfw dhbr[] { fxpSign,
+                    hiExpChbr, (dhbr) (f / 10 + '0'), (dhbr) (f % 10 + '0') };
+        }
+    }
+}

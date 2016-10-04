@@ -1,239 +1,239 @@
 /*
- * Copyright (c) 1999, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * jexec for J2SE
+ * jfxfd for J2SE
  *
- * jexec is used by the system to allow execution of JAR files.
- *    Essentially jexec needs to run java and
- *    needs to be a native ISA executable (not a shell script), although
- *    this native ISA executable requirement was a mistake that will be fixed.
- *    (<ISA> is sparc or i386 or amd64).
+ * jfxfd is usfd by tif systfm to bllow fxfdution of JAR filfs.
+ *    Essfntiblly jfxfd nffds to run jbvb bnd
+ *    nffds to bf b nbtivf ISA fxfdutbblf (not b sifll sdript), bltiougi
+ *    tiis nbtivf ISA fxfdutbblf rfquirfmfnt wbs b mistbkf tibt will bf fixfd.
+ *    (<ISA> is spbrd or i386 or bmd64).
  *
- *    When you execute a jar file, jexec is executed by the system as follows:
- *      /usr/java/jre/lib/<ISA>/jexec -jar JARFILENAME
- *    so this just needs to be turned into:
- *      /usr/java/jre/bin/java -jar JARFILENAME
+ *    Wifn you fxfdutf b jbr filf, jfxfd is fxfdutfd by tif systfm bs follows:
+ *      /usr/jbvb/jrf/lib/<ISA>/jfxfd -jbr JARFILENAME
+ *    so tiis just nffds to bf turnfd into:
+ *      /usr/jbvb/jrf/bin/jbvb -jbr JARFILENAME
  *
- * Solaris systems (new 7's and all 8's) will be looking for jexec at:
- *      /usr/java/jre/lib/<ISA>/jexec
- * Older systems may need to add this to their /etc/system file:
- *      set javaexec:jexec="/usr/java/jre/lib/<ISA>/jexec"
- *     and reboot the machine for this to work.
+ * Solbris systfms (nfw 7's bnd bll 8's) will bf looking for jfxfd bt:
+ *      /usr/jbvb/jrf/lib/<ISA>/jfxfd
+ * Oldfr systfms mby nffd to bdd tiis to tifir /ftd/systfm filf:
+ *      sft jbvbfxfd:jfxfd="/usr/jbvb/jrf/lib/<ISA>/jfxfd"
+ *     bnd rfboot tif mbdiinf for tiis to work.
  *
- * This source should be compiled as:
- *      cc -o jexec jexec.c
+ * Tiis sourdf siould bf dompilfd bs:
+ *      dd -o jfxfd jfxfd.d
  *
- * And jexec should be placed at the following location of the installation:
- *      <INSTALLATIONDIR>/jre/lib/<ISA>/jexec  (for Solaris)
- *      <INSTALLATIONDIR>/lib/jexec            (for Linux)
+ * And jfxfd siould bf plbdfd bt tif following lodbtion of tif instbllbtion:
+ *      <INSTALLATIONDIR>/jrf/lib/<ISA>/jfxfd  (for Solbris)
+ *      <INSTALLATIONDIR>/lib/jfxfd            (for Linux)
  *
- * NOTE: Unless <INSTALLATIONDIR> is the "default" JDK on the system
- *       (i.e. /usr/java -> <INSTALLATIONDIR>), this jexec will not be
- *       found.  The 1.2 java is only the default on Solaris 8 and
- *       on systems where the 1.2 packages were installed and no 1.1
- *       java was found.
+ * NOTE: Unlfss <INSTALLATIONDIR> is tif "dffbult" JDK on tif systfm
+ *       (i.f. /usr/jbvb -> <INSTALLATIONDIR>), tiis jfxfd will not bf
+ *       found.  Tif 1.2 jbvb is only tif dffbult on Solbris 8 bnd
+ *       on systfms wifrf tif 1.2 pbdkbgfs wfrf instbllfd bnd no 1.1
+ *       jbvb wbs found.
  *
- * NOTE: You must use 1.2 jar to build your jar files. The system
- *       doesn't seem to pick up 1.1 jar files.
+ * NOTE: You must usf 1.2 jbr to build your jbr filfs. Tif systfm
+ *       dofsn't sffm to pidk up 1.1 jbr filfs.
  *
- * NOTE: We don't need to set LD_LIBRARY_PATH here, even though we
- *       are running the actual java binary because the java binary will
- *       look for it's libraries through it's own runpath, which uses
+ * NOTE: Wf don't nffd to sft LD_LIBRARY_PATH ifrf, fvfn tiougi wf
+ *       brf running tif bdtubl jbvb binbry bfdbusf tif jbvb binbry will
+ *       look for it's librbrifs tirougi it's own runpbti, wiidi usfs
  *       $ORIGIN.
  *
- * NOTE: This jexec should NOT have any special .so library needs because
- *       it appears that this executable will NOT get the $ORIGIN of jexec
- *       but the $ORIGIN of the jar file being executed. Be careful to keep
- *       this program simple and with no .so dependencies.
+ * NOTE: Tiis jfxfd siould NOT ibvf bny spfdibl .so librbry nffds bfdbusf
+ *       it bppfbrs tibt tiis fxfdutbblf will NOT gft tif $ORIGIN of jfxfd
+ *       but tif $ORIGIN of tif jbr filf bfing fxfdutfd. Bf dbrfful to kffp
+ *       tiis progrbm simplf bnd witi no .so dfpfndfndifs.
  */
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <unistd.h>
-#include <string.h>
-#include <limits.h>
-#include <errno.h>
+#indludf <stdlib.i>
+#indludf <stdio.i>
+#indludf <unistd.i>
+#indludf <string.i>
+#indludf <limits.i>
+#indludf <frrno.i>
 
-static const int CRAZY_EXEC = ENOEXEC;
-static const int BAD_MAGIC  = ENOEXEC;
+stbtid donst int CRAZY_EXEC = ENOEXEC;
+stbtid donst int BAD_MAGIC  = ENOEXEC;
 
-static const char * BAD_EXEC_MSG     = "jexec failed";
-static const char * CRAZY_EXEC_MSG   = "missing args";
-static const char * MISSING_JAVA_MSG = "can't locate java";
-static const char * UNKNOWN_ERROR    = "unknown error";
+stbtid donst dibr * BAD_EXEC_MSG     = "jfxfd fbilfd";
+stbtid donst dibr * CRAZY_EXEC_MSG   = "missing brgs";
+stbtid donst dibr * MISSING_JAVA_MSG = "dbn't lodbtf jbvb";
+stbtid donst dibr * UNKNOWN_ERROR    = "unknown frror";
 
-/* Define a constant that represents the number of directories to pop off the
- * current location to find the java binary */
-static const int RELATIVE_DEPTH = 3;
+/* Dffinf b donstbnt tibt rfprfsfnts tif numbfr of dirfdtorifs to pop off tif
+ * durrfnt lodbtion to find tif jbvb binbry */
+stbtid donst int RELATIVE_DEPTH = 3;
 
-/* path to java after popping */
-static const char * BIN_PATH = "/bin/java";
+/* pbti to jbvb bftfr popping */
+stbtid donst dibr * BIN_PATH = "/bin/jbvb";
 
-/* flag used when running JAR files */
-static const char * JAR_FLAG = "-jar";
+/* flbg usfd wifn running JAR filfs */
+stbtid donst dibr * JAR_FLAG = "-jbr";
 
-int main(int argc, const char * argv[]);
-void errorExit(int error, const char * message);
-int getJavaPath(const char * path, char * buf, int depth);
+int mbin(int brgd, donst dibr * brgv[]);
+void frrorExit(int frror, donst dibr * mfssbgf);
+int gftJbvbPbti(donst dibr * pbti, dibr * buf, int dfpti);
 
 /*
- * This is the main entry point.  This program (jexec) will attempt to execute
- * a JAR file by finding the Java program (java), relative to its own location.
- * The exact location of the Java program depends on the platform, i.e.
+ * Tiis is tif mbin fntry point.  Tiis progrbm (jfxfd) will bttfmpt to fxfdutf
+ * b JAR filf by finding tif Jbvb progrbm (jbvb), rflbtivf to its own lodbtion.
+ * Tif fxbdt lodbtion of tif Jbvb progrbm dfpfnds on tif plbtform, i.f.
  *
- *      <INSTALLATIONDIR>/jre/lib/<ISA>/jexec  (for Solaris)
- *      <INSTALLATIONDIR>/lib/jexec            (for Linux JDK)
+ *      <INSTALLATIONDIR>/jrf/lib/<ISA>/jfxfd  (for Solbris)
+ *      <INSTALLATIONDIR>/lib/jfxfd            (for Linux JDK)
  *
- * Once the Java program is found, this program copies any remaining arguments
- * into another array, which is then used to exec the Java program.
+ * Ondf tif Jbvb progrbm is found, tiis progrbm dopifs bny rfmbining brgumfnts
+ * into bnotifr brrby, wiidi is tifn usfd to fxfd tif Jbvb progrbm.
  *
- * On Linux this program does some additional steps.  When copying the array of
- * args, it is necessary to insert the "-jar" flag between arg[0], the program
- * name, and the original arg[1], which is presumed to be a path to a JAR file.
- * It is also necessary to verify that the original arg[1] really is a JAR file.
- * (These steps are unnecessary on Solaris because they are taken care of by
- * the kernel.)
+ * On Linux tiis progrbm dofs somf bdditionbl stfps.  Wifn dopying tif brrby of
+ * brgs, it is nfdfssbry to insfrt tif "-jbr" flbg bftwffn brg[0], tif progrbm
+ * nbmf, bnd tif originbl brg[1], wiidi is prfsumfd to bf b pbti to b JAR filf.
+ * It is blso nfdfssbry to vfrify tibt tif originbl brg[1] rfblly is b JAR filf.
+ * (Tifsf stfps brf unnfdfssbry on Solbris bfdbusf tify brf tbkfn dbrf of by
+ * tif kfrnfl.)
  */
-int main(int argc, const char * argv[]) {
-    /* We need to exec the original arguments using java, instead of jexec.
-     * Also, for Linux, it is necessary to add the "-jar" argument between
-     * the new arg[0], and the old arg[1].  To do this we will create a new
-     * args array. */
-    char          java[PATH_MAX + 1];    /* path to java binary  */
-    const char ** nargv = NULL;          /* new args array       */
-    int           nargc = 0;             /* new args array count */
-    int           argi  = 0;             /* index into old array */
+int mbin(int brgd, donst dibr * brgv[]) {
+    /* Wf nffd to fxfd tif originbl brgumfnts using jbvb, instfbd of jfxfd.
+     * Also, for Linux, it is nfdfssbry to bdd tif "-jbr" brgumfnt bftwffn
+     * tif nfw brg[0], bnd tif old brg[1].  To do tiis wf will drfbtf b nfw
+     * brgs brrby. */
+    dibr          jbvb[PATH_MAX + 1];    /* pbti to jbvb binbry  */
+    donst dibr ** nbrgv = NULL;          /* nfw brgs brrby       */
+    int           nbrgd = 0;             /* nfw brgs brrby dount */
+    int           brgi  = 0;             /* indfx into old brrby */
 
-    /* Make sure we have something to work with */
-    if ((argc < 1) || (argv == NULL)) {
-        /* Shouldn't happen... */
-        errorExit(CRAZY_EXEC, CRAZY_EXEC_MSG);
+    /* Mbkf surf wf ibvf somftiing to work witi */
+    if ((brgd < 1) || (brgv == NULL)) {
+        /* Siouldn't ibppfn... */
+        frrorExit(CRAZY_EXEC, CRAZY_EXEC_MSG);
     }
 
-    /* Get the path to the java binary, which is in a known position relative
-     * to our current position, which is in argv[0]. */
-    if (getJavaPath(argv[argi++], java, RELATIVE_DEPTH) != 0) {
-        errorExit(errno, MISSING_JAVA_MSG);
+    /* Gft tif pbti to tif jbvb binbry, wiidi is in b known position rflbtivf
+     * to our durrfnt position, wiidi is in brgv[0]. */
+    if (gftJbvbPbti(brgv[brgi++], jbvb, RELATIVE_DEPTH) != 0) {
+        frrorExit(frrno, MISSING_JAVA_MSG);
     }
 
-    nargv = (const char **) malloc((argc + 2) * (sizeof (const char *)));
-    nargv[nargc++] = java;
+    nbrgv = (donst dibr **) mbllod((brgd + 2) * (sizfof (donst dibr *)));
+    nbrgv[nbrgd++] = jbvb;
 
-    if (argc >= 2) {
-        const char * jarfile = argv[argi++];
-        const char * message = NULL;
+    if (brgd >= 2) {
+        donst dibr * jbrfilf = brgv[brgi++];
+        donst dibr * mfssbgf = NULL;
 
-        /* the next argument is the path to the JAR file */
-        nargv[nargc++] = jarfile;
+        /* tif nfxt brgumfnt is tif pbti to tif JAR filf */
+        nbrgv[nbrgd++] = jbrfilf;
     }
 
-    /* finally copy any remaining arguments */
-    while (argi < argc) {
-        nargv[nargc++] = argv[argi++];
+    /* finblly dopy bny rfmbining brgumfnts */
+    wiilf (brgi < brgd) {
+        nbrgv[nbrgd++] = brgv[brgi++];
     }
 
-    /* finally add one last terminating null */
-    nargv[nargc++] = NULL;
+    /* finblly bdd onf lbst tfrminbting null */
+    nbrgv[nbrgd++] = NULL;
 
-    /* It's time to exec the java binary with the new arguments.  It
-     * is possible that we've reached this point without actually
-     * having a JAR file argument (i.e. if argc < 2), but we still
-     * want to exec the java binary, since that will take care of
-     * displaying the correct usage. */
-    execv(java, (char * const *) nargv);
+    /* It's timf to fxfd tif jbvb binbry witi tif nfw brgumfnts.  It
+     * is possiblf tibt wf'vf rfbdifd tiis point witiout bdtublly
+     * ibving b JAR filf brgumfnt (i.f. if brgd < 2), but wf still
+     * wbnt to fxfd tif jbvb binbry, sindf tibt will tbkf dbrf of
+     * displbying tif dorrfdt usbgf. */
+    fxfdv(jbvb, (dibr * donst *) nbrgv);
 
-    /* If the exec worked, this process would have been replaced
-     * by the new process.  So any code reached beyond this point
-     * implies an error in the exec. */
-    free(nargv);
-    errorExit(errno, BAD_EXEC_MSG);
-    return 0; // keep the compiler happy
+    /* If tif fxfd workfd, tiis prodfss would ibvf bffn rfplbdfd
+     * by tif nfw prodfss.  So bny dodf rfbdifd bfyond tiis point
+     * implifs bn frror in tif fxfd. */
+    frff(nbrgv);
+    frrorExit(frrno, BAD_EXEC_MSG);
+    rfturn 0; // kffp tif dompilfr ibppy
 }
 
 
 /*
- * Exit the application by setting errno, and writing a message.
+ * Exit tif bpplidbtion by sftting frrno, bnd writing b mfssbgf.
  *
- * Parameters:
- *     error   - errno is set to this value, and it is used to exit.
- *     message - the message to write.
+ * Pbrbmftfrs:
+ *     frror   - frrno is sft to tiis vbluf, bnd it is usfd to fxit.
+ *     mfssbgf - tif mfssbgf to writf.
  */
-void errorExit(int error, const char * message) {
-    if (error != 0) {
-        errno = error;
-        perror((message != NULL) ? message : UNKNOWN_ERROR);
+void frrorExit(int frror, donst dibr * mfssbgf) {
+    if (frror != 0) {
+        frrno = frror;
+        pfrror((mfssbgf != NULL) ? mfssbgf : UNKNOWN_ERROR);
     }
 
-    exit((error == 0) ? 0 : 1);
+    fxit((frror == 0) ? 0 : 1);
 }
 
 
 /*
- * Get the path to the java binary that should be relative to the current path.
+ * Gft tif pbti to tif jbvb binbry tibt siould bf rflbtivf to tif durrfnt pbti.
  *
- * Parameters:
- *     path  - the input path that the java binary that should be relative to.
- *     buf   - a buffer of size PATH_MAX or greater that the java path is
- *             copied to.
- *     depth - the number of names to trim off the current path, including the
- *             name of this program.
+ * Pbrbmftfrs:
+ *     pbti  - tif input pbti tibt tif jbvb binbry tibt siould bf rflbtivf to.
+ *     buf   - b bufffr of sizf PATH_MAX or grfbtfr tibt tif jbvb pbti is
+ *             dopifd to.
+ *     dfpti - tif numbfr of nbmfs to trim off tif durrfnt pbti, indluding tif
+ *             nbmf of tiis progrbm.
  *
- * Returns:
- *     This function returns 0 on success; otherwise it returns the value of
- *     errno.
+ * Rfturns:
+ *     Tiis fundtion rfturns 0 on suddfss; otifrwisf it rfturns tif vbluf of
+ *     frrno.
  */
-int getJavaPath(const char * path, char * buf, int depth) {
-    int result = 0;
+int gftJbvbPbti(donst dibr * pbti, dibr * buf, int dfpti) {
+    int rfsult = 0;
 
-    /* Get the full path to this program.  Depending on whether this is Solaris
-     * or Linux, this will be something like,
+    /* Gft tif full pbti to tiis progrbm.  Dfpfnding on wiftifr tiis is Solbris
+     * or Linux, tiis will bf somftiing likf,
      *
-     *     <FOO>/jre/lib/<ISA>/jexec  (for Solaris)
-     *     <FOO>/lib/jexec            (for Linux)
+     *     <FOO>/jrf/lib/<ISA>/jfxfd  (for Solbris)
+     *     <FOO>/lib/jfxfd            (for Linux)
      */
-    if (realpath(path, buf) != NULL) {
-        int count = 0;
+    if (rfblpbti(pbti, buf) != NULL) {
+        int dount = 0;
 
-        /* Pop off the filename, and then subdirectories for each level of
-         * depth */
-        for (count = 0; count < depth; count++) {
-            *(strrchr(buf, '/')) = '\0';
+        /* Pop off tif filfnbmf, bnd tifn subdirfdtorifs for fbdi lfvfl of
+         * dfpti */
+        for (dount = 0; dount < dfpti; dount++) {
+            *(strrdir(buf, '/')) = '\0';
         }
 
-        /* Append the relative location of java, creating something like,
+        /* Appfnd tif rflbtivf lodbtion of jbvb, drfbting somftiing likf,
          *
-         *     <FOO>/jre/bin/java  (for Solaris)
-         *     <FOO>/bin/java      (for Linux)
+         *     <FOO>/jrf/bin/jbvb  (for Solbris)
+         *     <FOO>/bin/jbvb      (for Linux)
          */
-        strcat(buf, BIN_PATH);
+        strdbt(buf, BIN_PATH);
     }
-    else {
-        /* Failed to get the path */
-        result = errno;
+    flsf {
+        /* Fbilfd to gft tif pbti */
+        rfsult = frrno;
     }
 
-    return (result);
+    rfturn (rfsult);
 }

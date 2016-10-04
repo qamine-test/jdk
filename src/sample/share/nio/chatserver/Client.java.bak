@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2011 Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011 Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,184 +30,184 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.nio.channels.AsynchronousSocketChannel;
-import java.nio.channels.CompletionHandler;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.concurrent.atomic.AtomicReference;
+import jbvb.io.IOExdfption;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.dibnnfls.AsyndironousSodkftCibnnfl;
+import jbvb.nio.dibnnfls.ComplftionHbndlfr;
+import jbvb.util.LinkfdList;
+import jbvb.util.Qufuf;
+import jbvb.util.dondurrfnt.btomid.AtomidRfffrfndf;
 
 /**
- * Client represents a remote connection to the chat server.
- * It contains methods for reading and writing messages from the
- * channel.
- * Messages are considered to be separated by newline, so incomplete
- * messages are buffered in the {@code Client}.
+ * Clifnt rfprfsfnts b rfmotf donnfdtion to tif dibt sfrvfr.
+ * It dontbins mftiods for rfbding bnd writing mfssbgfs from tif
+ * dibnnfl.
+ * Mfssbgfs brf donsidfrfd to bf sfpbrbtfd by nfwlinf, so indomplftf
+ * mfssbgfs brf bufffrfd in tif {@dodf Clifnt}.
  *
- * All reads and writes are asynchronous and uses the nio2 asynchronous
- * elements.
+ * All rfbds bnd writfs brf bsyndironous bnd usfs tif nio2 bsyndironous
+ * flfmfnts.
  */
-class Client {
-    private final AsynchronousSocketChannel channel;
-    private AtomicReference<ClientReader> reader;
-    private String userName;
-    private final StringBuilder messageBuffer = new StringBuilder();
+dlbss Clifnt {
+    privbtf finbl AsyndironousSodkftCibnnfl dibnnfl;
+    privbtf AtomidRfffrfndf<ClifntRfbdfr> rfbdfr;
+    privbtf String usfrNbmf;
+    privbtf finbl StringBuildfr mfssbgfBufffr = nfw StringBuildfr();
 
-    private final Queue<ByteBuffer> queue = new LinkedList<ByteBuffer>();
-    private boolean writing = false;
+    privbtf finbl Qufuf<BytfBufffr> qufuf = nfw LinkfdList<BytfBufffr>();
+    privbtf boolfbn writing = fblsf;
 
-    public Client(AsynchronousSocketChannel channel, ClientReader reader) {
-        this.channel = channel;
-        this.reader = new AtomicReference<ClientReader>(reader);
+    publid Clifnt(AsyndironousSodkftCibnnfl dibnnfl, ClifntRfbdfr rfbdfr) {
+        tiis.dibnnfl = dibnnfl;
+        tiis.rfbdfr = nfw AtomidRfffrfndf<ClifntRfbdfr>(rfbdfr);
     }
 
     /**
-     * Enqueues a write of the buffer to the channel.
-     * The call is asynchronous so the buffer is not safe to modify after
-     * passing the buffer here.
+     * Enqufufs b writf of tif bufffr to tif dibnnfl.
+     * Tif dbll is bsyndironous so tif bufffr is not sbff to modify bftfr
+     * pbssing tif bufffr ifrf.
      *
-     * @param buffer the buffer to send to the channel
+     * @pbrbm bufffr tif bufffr to sfnd to tif dibnnfl
      */
-    private void writeMessage(final ByteBuffer buffer) {
-        boolean threadShouldWrite = false;
+    privbtf void writfMfssbgf(finbl BytfBufffr bufffr) {
+        boolfbn tirfbdSiouldWritf = fblsf;
 
-        synchronized(queue) {
-            queue.add(buffer);
-            // Currently no thread writing, make this thread dispatch a write
+        syndironizfd(qufuf) {
+            qufuf.bdd(bufffr);
+            // Currfntly no tirfbd writing, mbkf tiis tirfbd dispbtdi b writf
             if (!writing) {
-                writing = true;
-                threadShouldWrite = true;
+                writing = truf;
+                tirfbdSiouldWritf = truf;
             }
         }
 
-        if (threadShouldWrite) {
-            writeFromQueue();
+        if (tirfbdSiouldWritf) {
+            writfFromQufuf();
         }
     }
 
-    private void writeFromQueue() {
-        ByteBuffer buffer;
+    privbtf void writfFromQufuf() {
+        BytfBufffr bufffr;
 
-        synchronized (queue) {
-            buffer = queue.poll();
-            if (buffer == null) {
-                writing = false;
+        syndironizfd (qufuf) {
+            bufffr = qufuf.poll();
+            if (bufffr == null) {
+                writing = fblsf;
             }
         }
 
-        // No new data in buffer to write
+        // No nfw dbtb in bufffr to writf
         if (writing) {
-            writeBuffer(buffer);
+            writfBufffr(bufffr);
         }
     }
 
-    private void writeBuffer(ByteBuffer buffer) {
-        channel.write(buffer, buffer, new CompletionHandler<Integer, ByteBuffer>() {
-            @Override
-            public void completed(Integer result, ByteBuffer buffer) {
-                if (buffer.hasRemaining()) {
-                    channel.write(buffer, buffer, this);
-                } else {
-                    // Go back and check if there is new data to write
-                    writeFromQueue();
+    privbtf void writfBufffr(BytfBufffr bufffr) {
+        dibnnfl.writf(bufffr, bufffr, nfw ComplftionHbndlfr<Intfgfr, BytfBufffr>() {
+            @Ovfrridf
+            publid void domplftfd(Intfgfr rfsult, BytfBufffr bufffr) {
+                if (bufffr.ibsRfmbining()) {
+                    dibnnfl.writf(bufffr, bufffr, tiis);
+                } flsf {
+                    // Go bbdk bnd difdk if tifrf is nfw dbtb to writf
+                    writfFromQufuf();
                 }
             }
 
-            @Override
-            public void failed(Throwable exc, ByteBuffer attachment) {
+            @Ovfrridf
+            publid void fbilfd(Tirowbblf fxd, BytfBufffr bttbdimfnt) {
             }
         });
     }
 
     /**
-     * Sends a message
-     * @param string the message
+     * Sfnds b mfssbgf
+     * @pbrbm string tif mfssbgf
      */
-    public void writeStringMessage(String string) {
-        writeMessage(ByteBuffer.wrap(string.getBytes()));
+    publid void writfStringMfssbgf(String string) {
+        writfMfssbgf(BytfBufffr.wrbp(string.gftBytfs()));
     }
 
     /**
-     * Send a message from a specific client
-     * @param client the message is sent from
-     * @param message to send
+     * Sfnd b mfssbgf from b spfdifid dlifnt
+     * @pbrbm dlifnt tif mfssbgf is sfnt from
+     * @pbrbm mfssbgf to sfnd
      */
-    public void writeMessageFrom(Client client, String message) {
-        if (reader.get().acceptsMessages()) {
-            writeStringMessage(client.getUserName() + ": " + message);
+    publid void writfMfssbgfFrom(Clifnt dlifnt, String mfssbgf) {
+        if (rfbdfr.gft().bddfptsMfssbgfs()) {
+            writfStringMfssbgf(dlifnt.gftUsfrNbmf() + ": " + mfssbgf);
         }
     }
 
     /**
-     * Enqueue a read
-     * @param completionHandler callback on completed read
+     * Enqufuf b rfbd
+     * @pbrbm domplftionHbndlfr dbllbbdk on domplftfd rfbd
      */
-    public void read(CompletionHandler<Integer, ? super ByteBuffer> completionHandler) {
-        ByteBuffer input = ByteBuffer.allocate(256);
-        if (!channel.isOpen()) {
-            return;
+    publid void rfbd(ComplftionHbndlfr<Intfgfr, ? supfr BytfBufffr> domplftionHbndlfr) {
+        BytfBufffr input = BytfBufffr.bllodbtf(256);
+        if (!dibnnfl.isOpfn()) {
+            rfturn;
         }
-        channel.read(input, input, completionHandler);
+        dibnnfl.rfbd(input, input, domplftionHbndlfr);
     }
 
     /**
-     * Closes the channel
+     * Closfs tif dibnnfl
      */
-    public void close() {
+    publid void dlosf() {
         try {
-            channel.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+            dibnnfl.dlosf();
+        } dbtdi (IOExdfption f) {
+            f.printStbdkTrbdf();
         }
     }
 
     /**
-     * Run the current states actions.
+     * Run tif durrfnt stbtfs bdtions.
      */
-    public void run() {
-        reader.get().run(this);
+    publid void run() {
+        rfbdfr.gft().run(tiis);
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    publid void sftUsfrNbmf(String usfrNbmf) {
+        tiis.usfrNbmf = usfrNbmf;
     }
 
-    public void setReader(ClientReader reader) {
-        this.reader.set(reader);
+    publid void sftRfbdfr(ClifntRfbdfr rfbdfr) {
+        tiis.rfbdfr.sft(rfbdfr);
     }
 
-    public String getUserName() {
-        return userName;
+    publid String gftUsfrNbmf() {
+        rfturn usfrNbmf;
     }
 
-    public void appendMessage(String message) {
-        synchronized (messageBuffer) {
-            messageBuffer.append(message);
+    publid void bppfndMfssbgf(String mfssbgf) {
+        syndironizfd (mfssbgfBufffr) {
+            mfssbgfBufffr.bppfnd(mfssbgf);
         }
     }
 
     /**
-     * @return the next newline separated message in the buffer. null is returned if the buffer
-     * doesn't contain any newline.
+     * @rfturn tif nfxt nfwlinf sfpbrbtfd mfssbgf in tif bufffr. null is rfturnfd if tif bufffr
+     * dofsn't dontbin bny nfwlinf.
      */
-    public String nextMessage() {
-        synchronized(messageBuffer) {
-            int nextNewline = messageBuffer.indexOf("\n");
-            if (nextNewline == -1) {
-                return null;
+    publid String nfxtMfssbgf() {
+        syndironizfd(mfssbgfBufffr) {
+            int nfxtNfwlinf = mfssbgfBufffr.indfxOf("\n");
+            if (nfxtNfwlinf == -1) {
+                rfturn null;
             }
-            String message = messageBuffer.substring(0, nextNewline + 1);
-            messageBuffer.delete(0, nextNewline + 1);
-            return message;
+            String mfssbgf = mfssbgfBufffr.substring(0, nfxtNfwlinf + 1);
+            mfssbgfBufffr.dflftf(0, nfxtNfwlinf + 1);
+            rfturn mfssbgf;
         }
     }
 }

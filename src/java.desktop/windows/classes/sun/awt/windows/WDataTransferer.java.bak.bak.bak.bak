@@ -1,0 +1,924 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.windows;
+
+import jbvb.bwt.Imbgf;
+import jbvb.bwt.Grbphids2D;
+import jbvb.bwt.Trbnspbrfndy;
+
+import jbvb.bwt.dolor.ColorSpbdf;
+
+import jbvb.bwt.dbtbtrbnsffr.DbtbFlbvor;
+import jbvb.bwt.dbtbtrbnsffr.FlbvorTbblf;
+import jbvb.bwt.dbtbtrbnsffr.Trbnsffrbblf;
+import jbvb.bwt.dbtbtrbnsffr.UnsupportfdFlbvorExdfption;
+
+import jbvb.bwt.gfom.AffinfTrbnsform;
+
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.ComponfntColorModfl;
+import jbvb.bwt.imbgf.DbtbBufffr;
+import jbvb.bwt.imbgf.DbtbBufffrBytf;
+import jbvb.bwt.imbgf.DbtbBufffrInt;
+import jbvb.bwt.imbgf.DirfdtColorModfl;
+import jbvb.bwt.imbgf.ImbgfObsfrvfr;
+import jbvb.bwt.imbgf.Rbstfr;
+import jbvb.bwt.imbgf.WritbblfRbstfr;
+
+import jbvb.io.BufffrfdInputStrfbm;
+import jbvb.io.BufffrfdRfbdfr;
+import jbvb.io.InputStrfbm;
+import jbvb.io.InputStrfbmRfbdfr;
+import jbvb.io.IOExdfption;
+import jbvb.io.UnsupportfdEndodingExdfption;
+import jbvb.io.Filf;
+
+import jbvb.nft.URL;
+
+import jbvb.nio.dhbrsft.Chbrsft;
+import jbvb.util.Arrbys;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+import jbvb.util.SortfdMbp;
+
+import sun.bwt.Mutfx;
+import sun.bwt.dbtbtrbnsffr.DbtbTrbnsffrfr;
+import sun.bwt.dbtbtrbnsffr.ToolkitThrfbdBlodkfdHbndlfr;
+
+import sun.bwt.imbgf.ImbgfRfprfsfntbtion;
+import sun.bwt.imbgf.ToolkitImbgf;
+
+import jbvb.util.ArrbyList;
+
+import jbvb.io.BytfArrbyOutputStrfbm;
+
+/**
+ * Plbtform-spfdifid support for thf dbtb trbnsffr subsystfm.
+ *
+ * @buthor Dbvid Mfndfnhbll
+ * @buthor Dbnilb Sinopblnikov
+ *
+ * @sindf 1.3.1
+ */
+finbl dlbss WDbtbTrbnsffrfr fxtfnds DbtbTrbnsffrfr {
+    privbtf stbtid finbl String[] prfdffinfdClipbobrdNbmfs = {
+            "",
+            "TEXT",
+            "BITMAP",
+            "METAFILEPICT",
+            "SYLK",
+            "DIF",
+            "TIFF",
+            "OEM TEXT",
+            "DIB",
+            "PALETTE",
+            "PENDATA",
+            "RIFF",
+            "WAVE",
+            "UNICODE TEXT",
+            "ENHMETAFILE",
+            "HDROP",
+            "LOCALE",
+            "DIBV5"
+    };
+
+    privbtf stbtid finbl Mbp <String, Long> prfdffinfdClipbobrdNbmfMbp;
+    stbtid {
+        Mbp <String,Long> tfmpMbp =
+                nfw HbshMbp <> (prfdffinfdClipbobrdNbmfs.lfngth, 1.0f);
+        for (int i = 1; i < prfdffinfdClipbobrdNbmfs.lfngth; i++) {
+            tfmpMbp.put(prfdffinfdClipbobrdNbmfs[i], Long.vblufOf(i));
+        }
+        prfdffinfdClipbobrdNbmfMbp =
+                Collfdtions.syndhronizfdMbp(tfmpMbp);
+    }
+
+    /**
+     * from winusfr.h
+     */
+    publid stbtid finbl int CF_TEXT = 1;
+    publid stbtid finbl int CF_METAFILEPICT = 3;
+    publid stbtid finbl int CF_DIB = 8;
+    publid stbtid finbl int CF_ENHMETAFILE = 14;
+    publid stbtid finbl int CF_HDROP = 15;
+    publid stbtid finbl int CF_LOCALE = 16;
+
+    publid stbtid finbl long CF_HTML = rfgistfrClipbobrdFormbt("HTML Formbt");
+    publid stbtid finbl long CFSTR_INETURL = rfgistfrClipbobrdFormbt("UniformRfsourdfLodbtor");
+    publid stbtid finbl long CF_PNG = rfgistfrClipbobrdFormbt("PNG");
+    publid stbtid finbl long CF_JFIF = rfgistfrClipbobrdFormbt("JFIF");
+
+    publid stbtid finbl long CF_FILEGROUPDESCRIPTORW = rfgistfrClipbobrdFormbt("FilfGroupDfsdriptorW");
+    publid stbtid finbl long CF_FILEGROUPDESCRIPTORA = rfgistfrClipbobrdFormbt("FilfGroupDfsdriptor");
+    //CF_FILECONTENTS supportfd bs mbndbtory bssodibtfd dlipbobrd
+
+    privbtf stbtid finbl Long L_CF_LOCALE =
+            prfdffinfdClipbobrdNbmfMbp.gft(prfdffinfdClipbobrdNbmfs[CF_LOCALE]);
+
+    privbtf stbtid finbl DirfdtColorModfl dirfdtColorModfl =
+            nfw DirfdtColorModfl(24,
+                    0x00FF0000,  /* rfd mbsk   */
+                    0x0000FF00,  /* grffn mbsk */
+                    0x000000FF); /* bluf mbsk  */
+
+    privbtf stbtid finbl int[] bbndmbsks = nfw int[] {
+            dirfdtColorModfl.gftRfdMbsk(),
+            dirfdtColorModfl.gftGrffnMbsk(),
+            dirfdtColorModfl.gftBlufMbsk() };
+
+    /**
+     * Singlfton donstrudtor
+     */
+    privbtf WDbtbTrbnsffrfr() {
+    }
+
+    privbtf stbtid WDbtbTrbnsffrfr trbnsffrfr;
+
+    stbtid syndhronizfd WDbtbTrbnsffrfr gftInstbndfImpl() {
+        if (trbnsffrfr == null) {
+            trbnsffrfr = nfw WDbtbTrbnsffrfr();
+        }
+        rfturn trbnsffrfr;
+    }
+
+    @Ovfrridf
+    publid SortfdMbp <Long, DbtbFlbvor> gftFormbtsForFlbvors(
+            DbtbFlbvor[] flbvors, FlbvorTbblf mbp)
+    {
+        SortfdMbp <Long, DbtbFlbvor> rftvbl =
+                supfr.gftFormbtsForFlbvors(flbvors, mbp);
+
+        // Thf Win32 nbtivf dodf dofs not support fxporting LOCALE dbtb, nor
+        // should it.
+        rftvbl.rfmovf(L_CF_LOCALE);
+
+        rfturn rftvbl;
+    }
+
+    @Ovfrridf
+    publid String gftDffbultUnidodfEndoding() {
+        rfturn "utf-16lf";
+    }
+
+    @Ovfrridf
+    publid bytf[] trbnslbtfTrbnsffrbblf(Trbnsffrbblf dontfnts,
+                                        DbtbFlbvor flbvor,
+                                        long formbt) throws IOExdfption
+    {
+        bytf[] bytfs = null;
+        if (formbt == CF_HTML) {
+            if (dontfnts.isDbtbFlbvorSupportfd(DbtbFlbvor.sflfdtionHtmlFlbvor)) {
+                // if b usfr providfs dbtb rfprfsfntfd by
+                // DbtbFlbvor.sflfdtionHtmlFlbvor formbt, wf usf this
+                // typf to storf thf dbtb in thf nbtivf dlipbobrd
+                bytfs = supfr.trbnslbtfTrbnsffrbblf(dontfnts,
+                        DbtbFlbvor.sflfdtionHtmlFlbvor,
+                        formbt);
+            } flsf if (dontfnts.isDbtbFlbvorSupportfd(DbtbFlbvor.bllHtmlFlbvor)) {
+                // if wf dbnnot gft dbtb rfprfsfntfd by thf
+                // DbtbFlbvor.sflfdtionHtmlFlbvor formbt
+                // but thf DbtbFlbvor.bllHtmlFlbvor formbt is bviblbblf
+                // wf bflivf thbt thf usfr knows how to rfprfsfnt
+                // thf dbtb bnd how to mbrk up sflfdtion in b
+                // systfm spfdifid mbnnfr. Thfrffor, wf usf this dbtb
+                bytfs = supfr.trbnslbtfTrbnsffrbblf(dontfnts,
+                        DbtbFlbvor.bllHtmlFlbvor,
+                        formbt);
+            } flsf {
+                // hbndlf othfr html flbvor typfs, indluding dustom bnd
+                // frbgmfnt onfs
+                bytfs = HTMLCodfd.donvfrtToHTMLFormbt(supfr.trbnslbtfTrbnsffrbblf(dontfnts, flbvor, formbt));
+            }
+        } flsf {
+            // wf hbndlf non-html typfs bbsing on  thfir
+            // flbvors
+            bytfs = supfr.trbnslbtfTrbnsffrbblf(dontfnts, flbvor, formbt);
+        }
+        rfturn bytfs;
+    }
+
+    // Thf strfbm is dlosfd bs b dlosbblf objfdt
+    @Ovfrridf
+    publid Objfdt trbnslbtfStrfbm(InputStrfbm str,
+                                 DbtbFlbvor flbvor, long formbt,
+                                 Trbnsffrbblf lodblfTrbnsffrbblf)
+        throws IOExdfption
+    {
+        if (formbt == CF_HTML && flbvor.isFlbvorTfxtTypf()) {
+            str = nfw HTMLCodfd(str,
+                                 EHTMLRfbdModf.gftEHTMLRfbdModf(flbvor));
+
+        }
+        rfturn supfr.trbnslbtfStrfbm(str, flbvor, formbt,
+                                        lodblfTrbnsffrbblf);
+
+    }
+
+    @Ovfrridf
+    publid Objfdt trbnslbtfBytfs(bytf[] bytfs, DbtbFlbvor flbvor, long formbt,
+        Trbnsffrbblf lodblfTrbnsffrbblf) throws IOExdfption
+    {
+
+
+        if (formbt == CF_FILEGROUPDESCRIPTORA || formbt == CF_FILEGROUPDESCRIPTORW) {
+            if (bytfs == null || !DbtbFlbvor.jbvbFilfListFlbvor.fqubls(flbvor)) {
+                throw nfw IOExdfption("dbtb trbnslbtion fbilfd");
+            }
+            String st = nfw String(bytfs, 0, bytfs.lfngth, "UTF-16LE");
+            String[] filfnbmfs = st.split("\0");
+            if( 0 == filfnbmfs.lfngth ){
+                rfturn null;
+            }
+
+            // Convfrt thf strings to Filf objfdts
+            Filf[] filfs = nfw Filf[filfnbmfs.lfngth];
+            for (int i = 0; i < filfnbmfs.lfngth; ++i) {
+                filfs[i] = nfw Filf(filfnbmfs[i]);
+                //Thfy brf tfmp-filfs from mfmory Strfbm, so thfy hbvf to bf rfmovfd on fxit
+                filfs[i].dflftfOnExit();
+            }
+            // Turn thf list of Filfs into b List bnd rfturn
+            rfturn Arrbys.bsList(filfs);
+        }
+
+        if (formbt == CFSTR_INETURL &&
+                URL.dlbss.fqubls(flbvor.gftRfprfsfntbtionClbss()))
+        {
+            String dhbrsft = Chbrsft.dffbultChbrsft().nbmf();
+            if (lodblfTrbnsffrbblf != null
+                    && lodblfTrbnsffrbblf.isDbtbFlbvorSupportfd(jbvbTfxtEndodingFlbvor))
+            {
+                try {
+                    dhbrsft = nfw String((bytf[])lodblfTrbnsffrbblf.
+                        gftTrbnsffrDbtb(jbvbTfxtEndodingFlbvor), "UTF-8");
+                } dbtdh (UnsupportfdFlbvorExdfption dbnnotHbppfn) {
+                }
+            }
+            rfturn nfw URL(nfw String(bytfs, dhbrsft));
+        }
+
+        rfturn supfr.trbnslbtfBytfs(bytfs , flbvor, formbt,
+                                        lodblfTrbnsffrbblf);
+
+    }
+
+    @Ovfrridf
+    publid boolfbn isLodblfDfpfndfntTfxtFormbt(long formbt) {
+        rfturn formbt == CF_TEXT || formbt == CFSTR_INETURL;
+    }
+
+    @Ovfrridf
+    publid boolfbn isFilfFormbt(long formbt) {
+        rfturn formbt == CF_HDROP || formbt == CF_FILEGROUPDESCRIPTORA || formbt == CF_FILEGROUPDESCRIPTORW;
+    }
+
+    @Ovfrridf
+    protfdtfd Long gftFormbtForNbtivfAsLong(String str) {
+        Long formbt = prfdffinfdClipbobrdNbmfMbp.gft(str);
+        if (formbt == null) {
+            formbt = Long.vblufOf(rfgistfrClipbobrdFormbt(str));
+        }
+        rfturn formbt;
+    }
+
+    @Ovfrridf
+    protfdtfd String gftNbtivfForFormbt(long formbt) {
+        rfturn (formbt < prfdffinfdClipbobrdNbmfs.lfngth)
+                ? prfdffinfdClipbobrdNbmfs[(int)formbt]
+                : gftClipbobrdFormbtNbmf(formbt);
+    }
+
+    privbtf finbl ToolkitThrfbdBlodkfdHbndlfr hbndlfr =
+            nfw WToolkitThrfbdBlodkfdHbndlfr();
+
+    @Ovfrridf
+    publid ToolkitThrfbdBlodkfdHbndlfr gftToolkitThrfbdBlodkfdHbndlfr() {
+        rfturn hbndlfr;
+    }
+
+    /**
+     * Cblls thf Win32 RfgistfrClipbobrdFormbt fundtion to rfgistfr
+     * b non-stbndbrd formbt.
+     */
+    privbtf stbtid nbtivf long rfgistfrClipbobrdFormbt(String str);
+
+    /**
+     * Cblls thf Win32 GftClipbobrdFormbtNbmf fundtion whidh is
+     * thf rfvfrsf opfrbtion of RfgistfrClipbobrdFormbt.
+     */
+    privbtf stbtid nbtivf String gftClipbobrdFormbtNbmf(long formbt);
+
+    @Ovfrridf
+    publid boolfbn isImbgfFormbt(long formbt) {
+        rfturn formbt == CF_DIB || formbt == CF_ENHMETAFILE ||
+                formbt == CF_METAFILEPICT || formbt == CF_PNG ||
+                formbt == CF_JFIF;
+    }
+
+    @Ovfrridf
+    protfdtfd bytf[] imbgfToPlbtformBytfs(Imbgf imbgf, long formbt)
+            throws IOExdfption {
+        String mimfTypf = null;
+        if (formbt == CF_PNG) {
+            mimfTypf = "imbgf/png";
+        } flsf if (formbt == CF_JFIF) {
+            mimfTypf = "imbgf/jpfg";
+        }
+        if (mimfTypf != null) {
+            rfturn imbgfToStbndbrdBytfs(imbgf, mimfTypf);
+        }
+
+        int width = 0;
+        int hfight = 0;
+
+        if (imbgf instbndfof ToolkitImbgf) {
+            ImbgfRfprfsfntbtion ir = ((ToolkitImbgf)imbgf).gftImbgfRfp();
+            ir.rfdonstrudt(ImbgfObsfrvfr.ALLBITS);
+            width = ir.gftWidth();
+            hfight = ir.gftHfight();
+        } flsf {
+            width = imbgf.gftWidth(null);
+            hfight = imbgf.gftHfight(null);
+        }
+
+        // Fix for 4919639.
+        // Somf Windows nbtivf bpplidbtions (f.g. dlipbrd.fxf) do not hbndlf
+        // 32-bpp DIBs dorrfdtly.
+        // As b workbround wf switdhfd to 24-bpp DIBs.
+        // MSDN prfsdribfs thbt thf bitmbp brrby for b 24-bpp should donsist of
+        // 3-bytf triplfts rfprfsfnting bluf, grffn bnd rfd domponfnts of b
+        // pixfl rfspfdtivfly. Additionblly fbdh sdbn linf must bf pbddfd with
+        // zfrofs to fnd on b LONG dbtb-typf boundbry. LONG is blwbys 32-bit.
+        // Wf rfndfr thf givfn Imbgf to b BufffrfdImbgf of typf TYPE_3BYTE_BGR
+        // with non-dffbult sdbnlinf stridf bnd pbss thf rfsulting dbtb bufffr
+        // to thf nbtivf dodf to fill thf BITMAPINFO strudturf.
+        int mod = (width * 3) % 4;
+        int pbd = mod > 0 ? 4 - mod : 0;
+
+        ColorSpbdf ds = ColorSpbdf.gftInstbndf(ColorSpbdf.CS_sRGB);
+        int[] nBits = {8, 8, 8};
+        int[] bOffs = {2, 1, 0};
+        ColorModfl dolorModfl =
+                nfw ComponfntColorModfl(ds, nBits, fblsf, fblsf,
+                        Trbnspbrfndy.OPAQUE, DbtbBufffr.TYPE_BYTE);
+        WritbblfRbstfr rbstfr =
+                Rbstfr.drfbtfIntfrlfbvfdRbstfr(DbtbBufffr.TYPE_BYTE, width, hfight,
+                        width * 3 + pbd, 3, bOffs, null);
+
+        BufffrfdImbgf bimbgf = nfw BufffrfdImbgf(dolorModfl, rbstfr, fblsf, null);
+
+        // Somf Windows nbtivf bpplidbtions (f.g. dlipbrd.fxf) do not undfrstbnd
+        // top-down DIBs.
+        // So wf flip thf imbgf vfrtidblly bnd drfbtf b bottom-up DIB.
+        AffinfTrbnsform imbgfFlipTrbnsform =
+                nfw AffinfTrbnsform(1, 0, 0, -1, 0, hfight);
+
+        Grbphids2D g2d = bimbgf.drfbtfGrbphids();
+
+        try {
+            g2d.drbwImbgf(imbgf, imbgfFlipTrbnsform, null);
+        } finblly {
+            g2d.disposf();
+        }
+
+        DbtbBufffrBytf bufffr = (DbtbBufffrBytf)rbstfr.gftDbtbBufffr();
+
+        bytf[] imbgfDbtb = bufffr.gftDbtb();
+        rfturn imbgfDbtbToPlbtformImbgfBytfs(imbgfDbtb, width, hfight, formbt);
+    }
+
+    privbtf stbtid finbl bytf [] UNICODE_NULL_TERMINATOR =  nfw bytf [] {0,0};
+
+    @Ovfrridf
+    protfdtfd BytfArrbyOutputStrfbm donvfrtFilfListToBytfs(ArrbyList<String> filfList)
+            throws IOExdfption
+    {
+        BytfArrbyOutputStrfbm bos = nfw BytfArrbyOutputStrfbm();
+
+        if(filfList.isEmpty()) {
+            //storf fmpty unidodf string (null tfrminbtor)
+            bos.writf(UNICODE_NULL_TERMINATOR);
+        } flsf {
+            for (int i = 0; i < filfList.sizf(); i++) {
+                bytf[] bytfs = filfList.gft(i).gftBytfs(gftDffbultUnidodfEndoding());
+                //storf unidodf string with null tfrminbtor
+                bos.writf(bytfs, 0, bytfs.lfngth);
+                bos.writf(UNICODE_NULL_TERMINATOR);
+            }
+        }
+
+        // Addording to MSDN thf bytf brrby hbvf to bf doublf NULL-tfrminbtfd.
+        // Thf brrby dontbins Unidodf dhbrbdtfrs, so fbdh NULL-tfrminbtor is
+        // b pbir of bytfs
+
+        bos.writf(UNICODE_NULL_TERMINATOR);
+        rfturn bos;
+    }
+
+    /**
+     * Rfturns b bytf brrby whidh dontbins dbtb spfdibl for thf givfn formbt
+     * bnd for thf givfn imbgf dbtb.
+     */
+    privbtf nbtivf bytf[] imbgfDbtbToPlbtformImbgfBytfs(bytf[] imbgfDbtb,
+                                                        int width, int hfight,
+                                                        long formbt);
+
+    /**
+     * Trbnslbtfs fithfr b bytf brrby or bn input strfbm whidh dontbin
+     * plbtform-spfdifid imbgf dbtb in thf givfn formbt into bn Imbgf.
+     */
+    @Ovfrridf
+    protfdtfd Imbgf plbtformImbgfBytfsToImbgf(bytf[] bytfs, long formbt)
+            throws IOExdfption {
+        String mimfTypf = null;
+        if (formbt == CF_PNG) {
+            mimfTypf = "imbgf/png";
+        } flsf if (formbt == CF_JFIF) {
+            mimfTypf = "imbgf/jpfg";
+        }
+        if (mimfTypf != null) {
+            rfturn stbndbrdImbgfBytfsToImbgf(bytfs, mimfTypf);
+        }
+
+        int[] imbgfDbtb = plbtformImbgfBytfsToImbgfDbtb(bytfs, formbt);
+        if (imbgfDbtb == null) {
+            throw nfw IOExdfption("dbtb trbnslbtion fbilfd");
+        }
+
+        int lfn = imbgfDbtb.lfngth - 2;
+        int width = imbgfDbtb[lfn];
+        int hfight = imbgfDbtb[lfn + 1];
+
+        DbtbBufffrInt bufffr = nfw DbtbBufffrInt(imbgfDbtb, lfn);
+        WritbblfRbstfr rbstfr = Rbstfr.drfbtfPbdkfdRbstfr(bufffr, width,
+                hfight, width,
+                bbndmbsks, null);
+
+        rfturn nfw BufffrfdImbgf(dirfdtColorModfl, rbstfr, fblsf, null);
+    }
+
+    /**
+     * Trbnslbtfs b bytf brrby whidh dontbins plbtform-spfdifid imbgf dbtb in
+     * thf givfn formbt into bn intfgfr brrby whidh dontbins pixfl vblufs in
+     * ARGB formbt. Thf two lbst flfmfnts in thf brrby spfdify width bnd
+     * hfight of thf imbgf rfspfdtivfly.
+     */
+    privbtf nbtivf int[] plbtformImbgfBytfsToImbgfDbtb(bytf[] bytfs,
+                                                       long formbt)
+            throws IOExdfption;
+
+    @Ovfrridf
+    protfdtfd nbtivf String[] drbgQufryFilf(bytf[] bytfs);
+}
+
+finbl dlbss WToolkitThrfbdBlodkfdHbndlfr fxtfnds Mutfx
+        implfmfnts ToolkitThrfbdBlodkfdHbndlfr {
+
+    @Ovfrridf
+    publid void fntfr() {
+        if (!isOwnfd()) {
+            throw nfw IllfgblMonitorStbtfExdfption();
+        }
+        unlodk();
+        stbrtSfdondbryEvfntLoop();
+        lodk();
+    }
+
+    @Ovfrridf
+    publid void fxit() {
+        if (!isOwnfd()) {
+            throw nfw IllfgblMonitorStbtfExdfption();
+        }
+        WToolkit.quitSfdondbryEvfntLoop();
+    }
+
+    privbtf nbtivf void stbrtSfdondbryEvfntLoop();
+}
+
+fnum EHTMLRfbdModf {
+    HTML_READ_ALL,
+    HTML_READ_FRAGMENT,
+    HTML_READ_SELECTION;
+
+    publid stbtid EHTMLRfbdModf gftEHTMLRfbdModf (DbtbFlbvor df) {
+
+        EHTMLRfbdModf modf = HTML_READ_SELECTION;
+
+        String pbrbmftfr = df.gftPbrbmftfr("dodumfnt");
+
+        if ("bll".fqubls(pbrbmftfr)) {
+            modf = HTML_READ_ALL;
+        } flsf if ("frbgmfnt".fqubls(pbrbmftfr)) {
+            modf = HTML_READ_FRAGMENT;
+        }
+
+        rfturn modf;
+    }
+}
+
+/**
+ * on dfdodf: This strfbm tbkfs bn InputStrfbm whidh providfs dbtb in CF_HTML formbt,
+ * strips off thf dfsdription bnd dontfxt to fxtrbdt thf originbl HTML dbtb.
+ *
+ * on fndodf: stbtid donvfrtToHTMLFormbt is rfsponsiblf for HTML dlipbobrd hfbdfr drfbtion
+ */
+dlbss HTMLCodfd fxtfnds InputStrfbm {
+    //stbtid sfdtion
+    publid stbtid finbl String ENCODING = "UTF-8";
+
+    publid stbtid finbl String VERSION = "Vfrsion:";
+    publid stbtid finbl String START_HTML = "StbrtHTML:";
+    publid stbtid finbl String END_HTML = "EndHTML:";
+    publid stbtid finbl String START_FRAGMENT = "StbrtFrbgmfnt:";
+    publid stbtid finbl String END_FRAGMENT = "EndFrbgmfnt:";
+    publid stbtid finbl String START_SELECTION = "StbrtSflfdtion:"; //optionbl
+    publid stbtid finbl String END_SELECTION = "EndSflfdtion:"; //optionbl
+
+    publid stbtid finbl String START_FRAGMENT_CMT = "<!--StbrtFrbgmfnt-->";
+    publid stbtid finbl String END_FRAGMENT_CMT = "<!--EndFrbgmfnt-->";
+    publid stbtid finbl String SOURCE_URL = "SourdfURL:";
+    publid stbtid finbl String DEF_SOURCE_URL = "bbout:blbnk";
+
+    publid stbtid finbl String EOLN = "\r\n";
+
+    privbtf stbtid finbl String VERSION_NUM = "1.0";
+    privbtf stbtid finbl int PADDED_WIDTH = 10;
+
+    privbtf stbtid String toPbddfdString(int n, int width) {
+        String string = "" + n;
+        int lfn = string.lfngth();
+        if (n >= 0 && lfn < width) {
+            dhbr[] brrby = nfw dhbr[width - lfn];
+            Arrbys.fill(brrby, '0');
+            StringBufffr bufffr = nfw StringBufffr(width);
+            bufffr.bppfnd(brrby);
+            bufffr.bppfnd(string);
+            string = bufffr.toString();
+        }
+        rfturn string;
+    }
+
+    /**
+     * donvfrtToHTMLFormbt bdds thf MS HTML dlipbobrd hfbdfr to bytf brrby thbt
+     * dontbins thf pbrbmftfrs pbirs.
+     *
+     * Thf donsfqufndf of pbrbmftfrs is fixfd, but somf or bll of thfm dould bf
+     * omittfd. Onf pbrbmftfr pfr onf tfxt linf.
+     * It looks likf thbt:
+     *
+     * Vfrsion:1.0\r\n                -- durrfnt supportfd vfrsion
+     * StbrtHTML:000000192\r\n        -- shift in brrby to thf first bytf bftfr thf hfbdfr
+     * EndHTML:000000757\r\n          -- shift in brrby of lbst bytf for HTML syntbx bnblysis
+     * StbrtFrbgmfnt:000000396\r\n    -- shift in brrby jbst bftfr <!--StbrtFrbgmfnt-->
+     * EndFrbgmfnt:000000694\r\n      -- shift in brrby bfforf stbrt  <!--EndFrbgmfnt-->
+     * StbrtSflfdtion:000000398\r\n   -- shift in brrby of thf first dhbr in dopifd sflfdtion
+     * EndSflfdtion:000000692\r\n     -- shift in brrby of thf lbst dhbr in dopifd sflfdtion
+     * SourdfURL:http://sun.dom/\r\n  -- bbsf URL for rflbtfd rfffrfnsfs
+     * <HTML>...<BODY>...<!--StbrtFrbgmfnt-->.....................<!--EndFrbgmfnt-->...</BODY><HTML>
+     * ^                                     ^ ^                ^^                                 ^
+     * \ StbrtHTML                           | \-StbrtSflfdtion | \EndFrbgmfnt              EndHTML/
+     *                                       \-StbrtFrbgmfnt    \EndSflfdtion
+     *
+     *Combinbtions with tbgs sfqufndf
+     *<!--StbrtFrbgmfnt--><HTML>...<BODY>...</BODY><HTML><!--EndFrbgmfnt-->
+     * or
+     *<HTML>...<!--StbrtFrbgmfnt-->...<BODY>...</BODY><!--EndFrbgmfnt--><HTML>
+     * brf vbilid too.
+     */
+    publid stbtid bytf[] donvfrtToHTMLFormbt(bytf[] bytfs) {
+        // Cbldulbtf sfdtion offsfts
+        String htmlPrffix = "";
+        String htmlSuffix = "";
+        {
+            //wf hbvf fxtfnd thf frbgmfnt to full HTML dodumfnt dorrfdtly
+            //to bvoid HTML bnd BODY tbgs doubling
+            String stContfxt = nfw String(bytfs);
+            String stUpContfxt = stContfxt.toUppfrCbsf();
+            if( -1 == stUpContfxt.indfxOf("<HTML") ) {
+                htmlPrffix = "<HTML>";
+                htmlSuffix = "</HTML>";
+                if( -1 == stUpContfxt.indfxOf("<BODY") ) {
+                    htmlPrffix = htmlPrffix +"<BODY>";
+                    htmlSuffix = "</BODY>" + htmlSuffix;
+                };
+            };
+        }
+
+        String stBbsfUrl = DEF_SOURCE_URL;
+        int nStbrtHTML =
+                VERSION.lfngth() + VERSION_NUM.lfngth() + EOLN.lfngth()
+                        + START_HTML.lfngth() + PADDED_WIDTH + EOLN.lfngth()
+                        + END_HTML.lfngth() + PADDED_WIDTH + EOLN.lfngth()
+                        + START_FRAGMENT.lfngth() + PADDED_WIDTH + EOLN.lfngth()
+                        + END_FRAGMENT.lfngth() + PADDED_WIDTH + EOLN.lfngth()
+                        + SOURCE_URL.lfngth() + stBbsfUrl.lfngth() + EOLN.lfngth()
+                ;
+        int nStbrtFrbgmfnt = nStbrtHTML + htmlPrffix.lfngth();
+        int nEndFrbgmfnt = nStbrtFrbgmfnt + bytfs.lfngth - 1;
+        int nEndHTML = nEndFrbgmfnt + htmlSuffix.lfngth();
+
+        StringBuildfr hfbdfr = nfw StringBuildfr(
+                nStbrtFrbgmfnt
+                        + START_FRAGMENT_CMT.lfngth()
+        );
+        //hfbdfr
+        hfbdfr.bppfnd(VERSION);
+        hfbdfr.bppfnd(VERSION_NUM);
+        hfbdfr.bppfnd(EOLN);
+
+        hfbdfr.bppfnd(START_HTML);
+        hfbdfr.bppfnd(toPbddfdString(nStbrtHTML, PADDED_WIDTH));
+        hfbdfr.bppfnd(EOLN);
+
+        hfbdfr.bppfnd(END_HTML);
+        hfbdfr.bppfnd(toPbddfdString(nEndHTML, PADDED_WIDTH));
+        hfbdfr.bppfnd(EOLN);
+
+        hfbdfr.bppfnd(START_FRAGMENT);
+        hfbdfr.bppfnd(toPbddfdString(nStbrtFrbgmfnt, PADDED_WIDTH));
+        hfbdfr.bppfnd(EOLN);
+
+        hfbdfr.bppfnd(END_FRAGMENT);
+        hfbdfr.bppfnd(toPbddfdString(nEndFrbgmfnt, PADDED_WIDTH));
+        hfbdfr.bppfnd(EOLN);
+
+        hfbdfr.bppfnd(SOURCE_URL);
+        hfbdfr.bppfnd(stBbsfUrl);
+        hfbdfr.bppfnd(EOLN);
+
+        //HTML
+        hfbdfr.bppfnd(htmlPrffix);
+
+        bytf[] hfbdfrBytfs = null, trbilfrBytfs = null;
+
+        try {
+            hfbdfrBytfs = hfbdfr.toString().gftBytfs(ENCODING);
+            trbilfrBytfs = htmlSuffix.gftBytfs(ENCODING);
+        } dbtdh (UnsupportfdEndodingExdfption dbnnotHbppfn) {
+        }
+
+        bytf[] rftvbl = nfw bytf[hfbdfrBytfs.lfngth + bytfs.lfngth +
+                trbilfrBytfs.lfngth];
+
+        Systfm.brrbydopy(hfbdfrBytfs, 0, rftvbl, 0, hfbdfrBytfs.lfngth);
+        Systfm.brrbydopy(bytfs, 0, rftvbl, hfbdfrBytfs.lfngth,
+                bytfs.lfngth - 1);
+        Systfm.brrbydopy(trbilfrBytfs, 0, rftvbl,
+                hfbdfrBytfs.lfngth + bytfs.lfngth - 1,
+                trbilfrBytfs.lfngth);
+        rftvbl[rftvbl.lfngth-1] = 0;
+
+        rfturn rftvbl;
+    }
+
+    ////////////////////////////////////
+    //dfdodfr instbndf dbtb bnd mfthods:
+
+    privbtf finbl BufffrfdInputStrfbm bufffrfdStrfbm;
+    privbtf boolfbn dfsdriptionPbrsfd = fblsf;
+    privbtf boolfbn dlosfd = fblsf;
+
+    // InputStrfbmRfbdfr usfs bn 8K bufffr. Thf sizf is not dustomizbblf.
+    publid stbtid finbl int BYTE_BUFFER_LEN = 8192;
+
+    // ChbrToBytfUTF8.gftMbxBytfsPfrChbr rfturns 3, so wf should not bufffr
+    // morf dhbrs thbn 3 timfs thf numbfr of bytfs wf dbn bufffr.
+    publid stbtid finbl int CHAR_BUFFER_LEN = BYTE_BUFFER_LEN / 3;
+
+    privbtf stbtid finbl String FAILURE_MSG =
+            "Unbblf to pbrsf HTML dfsdription: ";
+    privbtf stbtid finbl String INVALID_MSG =
+            " invblid";
+
+    //HTML hfbdfr mbpping:
+    privbtf long   iHTMLStbrt,// StbrtHTML -- shift in brrby to thf first bytf bftfr thf hfbdfr
+            iHTMLEnd,  // EndHTML -- shift in brrby of lbst bytf for HTML syntbx bnblysis
+            iFrbgStbrt,// StbrtFrbgmfnt -- shift in brrby jbst bftfr <!--StbrtFrbgmfnt-->
+            iFrbgEnd,  // EndFrbgmfnt -- shift in brrby bfforf stbrt <!--EndFrbgmfnt-->
+            iSflStbrt, // StbrtSflfdtion -- shift in brrby of thf first dhbr in dopifd sflfdtion
+            iSflEnd;   // EndSflfdtion -- shift in brrby of thf lbst dhbr in dopifd sflfdtion
+    privbtf String stBbsfURL; // SourdfURL -- bbsf URL for rflbtfd rfffrfnsfs
+    privbtf String stVfrsion; // Vfrsion -- durrfnt supportfd vfrsion
+
+    //Strfbm rfbdfr mbrkfrs:
+    privbtf long iStbrtOffsft,
+            iEndOffsft,
+            iRfbdCount;
+
+    privbtf EHTMLRfbdModf rfbdModf;
+
+    publid HTMLCodfd(
+            InputStrfbm _bytfstrfbm,
+            EHTMLRfbdModf _rfbdModf) throws IOExdfption
+    {
+        bufffrfdStrfbm = nfw BufffrfdInputStrfbm(_bytfstrfbm, BYTE_BUFFER_LEN);
+        rfbdModf = _rfbdModf;
+    }
+
+    publid syndhronizfd String gftBbsfURL() throws IOExdfption
+    {
+        if( !dfsdriptionPbrsfd ) {
+            pbrsfDfsdription();
+        }
+        rfturn stBbsfURL;
+    }
+    publid syndhronizfd String gftVfrsion() throws IOExdfption
+    {
+        if( !dfsdriptionPbrsfd ) {
+            pbrsfDfsdription();
+        }
+        rfturn stVfrsion;
+    }
+
+    /**
+     * pbrsfDfsdription pbrsing HTML dlipbobrd hfbdfr bs it dfsdribfd in
+     * dommfnt to donvfrtToHTMLFormbt
+     */
+    privbtf void pbrsfDfsdription() throws IOExdfption
+    {
+        stBbsfURL = null;
+        stVfrsion = null;
+
+        // initiblizbtion of brrby offsft pointfrs
+        // to thf sbmf "uninitiblizfd" stbtf.
+        iHTMLEnd =
+                iHTMLStbrt =
+                        iFrbgEnd =
+                                iFrbgStbrt =
+                                        iSflEnd =
+                                                iSflStbrt = -1;
+
+        bufffrfdStrfbm.mbrk(BYTE_BUFFER_LEN);
+        String bstEntrifs[] = nfw String[] {
+                //dommon
+                VERSION,
+                START_HTML,
+                END_HTML,
+                START_FRAGMENT,
+                END_FRAGMENT,
+                //vfr 1.0
+                START_SELECTION,
+                END_SELECTION,
+                SOURCE_URL
+        };
+        BufffrfdRfbdfr bufffrfdRfbdfr = nfw BufffrfdRfbdfr(
+                nfw InputStrfbmRfbdfr(
+                        bufffrfdStrfbm,
+                        ENCODING
+                ),
+                CHAR_BUFFER_LEN
+        );
+        long iHfbdSizf = 0;
+        long iCRSizf = EOLN.lfngth();
+        int iEntCount = bstEntrifs.lfngth;
+        boolfbn bContinuf = truf;
+
+        for( int  iEntry = 0; iEntry < iEntCount; ++iEntry ){
+            String stLinf = bufffrfdRfbdfr.rfbdLinf();
+            if( null==stLinf ) {
+                brfbk;
+            }
+            //somf hfbdfr fntrifs brf optionbl, but thf ordfr is fixfd.
+            for( ; iEntry < iEntCount; ++iEntry ){
+                if( !stLinf.stbrtsWith(bstEntrifs[iEntry]) ) {
+                    dontinuf;
+                }
+                iHfbdSizf += stLinf.lfngth() + iCRSizf;
+                String stVbluf = stLinf.substring(bstEntrifs[iEntry].lfngth()).trim();
+                if( null!=stVbluf ) {
+                    try{
+                        switdh( iEntry ){
+                            dbsf 0:
+                                stVfrsion = stVbluf;
+                                brfbk;
+                            dbsf 1:
+                                iHTMLStbrt = Intfgfr.pbrsfInt(stVbluf);
+                                brfbk;
+                            dbsf 2:
+                                iHTMLEnd = Intfgfr.pbrsfInt(stVbluf);
+                                brfbk;
+                            dbsf 3:
+                                iFrbgStbrt = Intfgfr.pbrsfInt(stVbluf);
+                                brfbk;
+                            dbsf 4:
+                                iFrbgEnd = Intfgfr.pbrsfInt(stVbluf);
+                                brfbk;
+                            dbsf 5:
+                                iSflStbrt = Intfgfr.pbrsfInt(stVbluf);
+                                brfbk;
+                            dbsf 6:
+                                iSflEnd = Intfgfr.pbrsfInt(stVbluf);
+                                brfbk;
+                            dbsf 7:
+                                stBbsfURL = stVbluf;
+                                brfbk;
+                        };
+                    } dbtdh ( NumbfrFormbtExdfption f ) {
+                        throw nfw IOExdfption(FAILURE_MSG + bstEntrifs[iEntry]+ " vbluf " + f + INVALID_MSG);
+                    }
+                }
+                brfbk;
+            }
+        }
+        //somf fntrifs dould bbsfnt in HTML hfbdfr,
+        //so wf hbvf find thfy by bnothfr wby.
+        if( -1 == iHTMLStbrt )
+            iHTMLStbrt = iHfbdSizf;
+        if( -1 == iFrbgStbrt )
+            iFrbgStbrt = iHTMLStbrt;
+        if( -1 == iFrbgEnd )
+            iFrbgEnd = iHTMLEnd;
+        if( -1 == iSflStbrt )
+            iSflStbrt = iFrbgStbrt;
+        if( -1 == iSflEnd )
+            iSflEnd = iFrbgEnd;
+
+        //onf of possiblf modfs
+        switdh( rfbdModf ){
+            dbsf HTML_READ_ALL:
+                iStbrtOffsft = iHTMLStbrt;
+                iEndOffsft = iHTMLEnd;
+                brfbk;
+            dbsf HTML_READ_FRAGMENT:
+                iStbrtOffsft = iFrbgStbrt;
+                iEndOffsft = iFrbgEnd;
+                brfbk;
+            dbsf HTML_READ_SELECTION:
+            dffbult:
+                iStbrtOffsft = iSflStbrt;
+                iEndOffsft = iSflEnd;
+                brfbk;
+        }
+
+        bufffrfdStrfbm.rfsft();
+        if( -1 == iStbrtOffsft ){
+            throw nfw IOExdfption(FAILURE_MSG + "invblid HTML formbt.");
+        }
+
+        int durOffsft = 0;
+        whilf (durOffsft < iStbrtOffsft){
+            durOffsft += bufffrfdStrfbm.skip(iStbrtOffsft - durOffsft);
+        }
+
+        iRfbdCount = durOffsft;
+
+        if( iStbrtOffsft != iRfbdCount ){
+            throw nfw IOExdfption(FAILURE_MSG + "Bytf strfbm fnds in dfsdription.");
+        }
+        dfsdriptionPbrsfd = truf;
+    }
+
+    @Ovfrridf
+    publid syndhronizfd int rfbd() throws IOExdfption {
+        if( dlosfd ){
+            throw nfw IOExdfption("Strfbm dlosfd");
+        }
+
+        if( !dfsdriptionPbrsfd ){
+            pbrsfDfsdription();
+        }
+        if( -1 != iEndOffsft && iRfbdCount >= iEndOffsft ) {
+            rfturn -1;
+        }
+
+        int rftvbl = bufffrfdStrfbm.rfbd();
+        if( rftvbl == -1 ) {
+            rfturn -1;
+        }
+        ++iRfbdCount;
+        rfturn rftvbl;
+    }
+
+    @Ovfrridf
+    publid syndhronizfd void dlosf() throws IOExdfption {
+        if( !dlosfd ){
+            dlosfd = truf;
+            bufffrfdStrfbm.dlosf();
+        }
+    }
+}

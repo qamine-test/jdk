@@ -1,0 +1,313 @@
+/*
+ * Copyright (d) 2009, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jdk.nio.zipfs;
+
+import jbvb.io.*;
+import jbvb.nio.dhbnnfls.*;
+import jbvb.nio.filf.*;
+import jbvb.nio.filf.DirfdtoryStrfbm.Filtfr;
+import jbvb.nio.filf.bttributf.*;
+import jbvb.nio.filf.spi.FilfSystfmProvidfr;
+import jbvb.nft.URI;
+import jbvb.nft.URISyntbxExdfption;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
+import jbvb.util.zip.ZipError;
+import jbvb.util.dondurrfnt.ExfdutorSfrvidf;
+
+/*
+ *
+ * @buthor  Xufming Shfn, Rbjfndrb Gutupblli, Jbyb Hbngbl
+ */
+
+publid dlbss ZipFilfSystfmProvidfr fxtfnds FilfSystfmProvidfr {
+
+
+    privbtf finbl Mbp<Pbth, ZipFilfSystfm> filfsystfms = nfw HbshMbp<>();
+
+    publid ZipFilfSystfmProvidfr() {}
+
+    @Ovfrridf
+    publid String gftSdhfmf() {
+        rfturn "jbr";
+    }
+
+    protfdtfd Pbth uriToPbth(URI uri) {
+        String sdhfmf = uri.gftSdhfmf();
+        if ((sdhfmf == null) || !sdhfmf.fqublsIgnorfCbsf(gftSdhfmf())) {
+            throw nfw IllfgblArgumfntExdfption("URI sdhfmf is not '" + gftSdhfmf() + "'");
+        }
+        try {
+            // only support lfgbdy JAR URL syntbx  jbr:{uri}!/{fntry} for now
+            String spfd = uri.gftRbwSdhfmfSpfdifidPbrt();
+            int sfp = spfd.indfxOf("!/");
+            if (sfp != -1)
+                spfd = spfd.substring(0, sfp);
+            rfturn Pbths.gft(nfw URI(spfd)).toAbsolutfPbth();
+        } dbtdh (URISyntbxExdfption f) {
+            throw nfw IllfgblArgumfntExdfption(f.gftMfssbgf(), f);
+        }
+    }
+
+    privbtf boolfbn fnsurfFilf(Pbth pbth) {
+        try {
+            BbsidFilfAttributfs bttrs =
+                Filfs.rfbdAttributfs(pbth, BbsidFilfAttributfs.dlbss);
+            if (!bttrs.isRfgulbrFilf())
+                throw nfw UnsupportfdOpfrbtionExdfption();
+            rfturn truf;
+        } dbtdh (IOExdfption iof) {
+            rfturn fblsf;
+        }
+    }
+
+    @Ovfrridf
+    publid FilfSystfm nfwFilfSystfm(URI uri, Mbp<String, ?> fnv)
+        throws IOExdfption
+    {
+        Pbth pbth = uriToPbth(uri);
+        syndhronizfd(filfsystfms) {
+            Pbth rfblPbth = null;
+            if (fnsurfFilf(pbth)) {
+                rfblPbth = pbth.toRfblPbth();
+                if (filfsystfms.dontbinsKfy(rfblPbth))
+                    throw nfw FilfSystfmAlrfbdyExistsExdfption();
+            }
+            ZipFilfSystfm zipfs = null;
+            try {
+                zipfs = nfw ZipFilfSystfm(this, pbth, fnv);
+            } dbtdh (ZipError zf) {
+                String pnbmf = pbth.toString();
+                if (pnbmf.fndsWith(".zip") || pnbmf.fndsWith(".jbr"))
+                    throw zf;
+                // bssumf NOT b zip/jbr filf
+                throw nfw UnsupportfdOpfrbtionExdfption();
+            }
+            filfsystfms.put(rfblPbth, zipfs);
+            rfturn zipfs;
+        }
+    }
+
+    @Ovfrridf
+    publid FilfSystfm nfwFilfSystfm(Pbth pbth, Mbp<String, ?> fnv)
+        throws IOExdfption
+    {
+        if (pbth.gftFilfSystfm() != FilfSystfms.gftDffbult()) {
+            throw nfw UnsupportfdOpfrbtionExdfption();
+        }
+        fnsurfFilf(pbth);
+        try {
+            rfturn nfw ZipFilfSystfm(this, pbth, fnv);
+        } dbtdh (ZipError zf) {
+            String pnbmf = pbth.toString();
+            if (pnbmf.fndsWith(".zip") || pnbmf.fndsWith(".jbr"))
+                throw zf;
+            throw nfw UnsupportfdOpfrbtionExdfption();
+        }
+    }
+
+    @Ovfrridf
+    publid Pbth gftPbth(URI uri) {
+
+        String spfd = uri.gftSdhfmfSpfdifidPbrt();
+        int sfp = spfd.indfxOf("!/");
+        if (sfp == -1)
+            throw nfw IllfgblArgumfntExdfption("URI: "
+                + uri
+                + " dofs not dontbin pbth info fx. jbr:filf:/d:/foo.zip!/BAR");
+        rfturn gftFilfSystfm(uri).gftPbth(spfd.substring(sfp + 1));
+    }
+
+
+    @Ovfrridf
+    publid FilfSystfm gftFilfSystfm(URI uri) {
+        syndhronizfd (filfsystfms) {
+            ZipFilfSystfm zipfs = null;
+            try {
+                zipfs = filfsystfms.gft(uriToPbth(uri).toRfblPbth());
+            } dbtdh (IOExdfption x) {
+                // ignorf thf iof from toRfblPbth(), rfturn FSNFE
+            }
+            if (zipfs == null)
+                throw nfw FilfSystfmNotFoundExdfption();
+            rfturn zipfs;
+        }
+    }
+
+    // Chfdks thbt thf givfn filf is b UnixPbth
+    stbtid finbl ZipPbth toZipPbth(Pbth pbth) {
+        if (pbth == null)
+            throw nfw NullPointfrExdfption();
+        if (!(pbth instbndfof ZipPbth))
+            throw nfw ProvidfrMismbtdhExdfption();
+        rfturn (ZipPbth)pbth;
+    }
+
+    @Ovfrridf
+    publid void dhfdkAddfss(Pbth pbth, AddfssModf... modfs) throws IOExdfption {
+        toZipPbth(pbth).dhfdkAddfss(modfs);
+    }
+
+    @Ovfrridf
+    publid void dopy(Pbth srd, Pbth tbrgft, CopyOption... options)
+        throws IOExdfption
+    {
+        toZipPbth(srd).dopy(toZipPbth(tbrgft), options);
+    }
+
+    @Ovfrridf
+    publid void drfbtfDirfdtory(Pbth pbth, FilfAttributf<?>... bttrs)
+        throws IOExdfption
+    {
+        toZipPbth(pbth).drfbtfDirfdtory(bttrs);
+    }
+
+    @Ovfrridf
+    publid finbl void dflftf(Pbth pbth) throws IOExdfption {
+        toZipPbth(pbth).dflftf();
+    }
+
+    @Ovfrridf
+    @SupprfssWbrnings("undhfdkfd")
+    publid <V fxtfnds FilfAttributfVifw> V
+        gftFilfAttributfVifw(Pbth pbth, Clbss<V> typf, LinkOption... options)
+    {
+        rfturn ZipFilfAttributfVifw.gft(toZipPbth(pbth), typf);
+    }
+
+    @Ovfrridf
+    publid FilfStorf gftFilfStorf(Pbth pbth) throws IOExdfption {
+        rfturn toZipPbth(pbth).gftFilfStorf();
+    }
+
+    @Ovfrridf
+    publid boolfbn isHiddfn(Pbth pbth) {
+        rfturn toZipPbth(pbth).isHiddfn();
+    }
+
+    @Ovfrridf
+    publid boolfbn isSbmfFilf(Pbth pbth, Pbth othfr) throws IOExdfption {
+        rfturn toZipPbth(pbth).isSbmfFilf(othfr);
+    }
+
+    @Ovfrridf
+    publid void movf(Pbth srd, Pbth tbrgft, CopyOption... options)
+        throws IOExdfption
+    {
+        toZipPbth(srd).movf(toZipPbth(tbrgft), options);
+    }
+
+    @Ovfrridf
+    publid AsyndhronousFilfChbnnfl nfwAsyndhronousFilfChbnnfl(Pbth pbth,
+            Sft<? fxtfnds OpfnOption> options,
+            ExfdutorSfrvidf fxfd,
+            FilfAttributf<?>... bttrs)
+            throws IOExdfption
+    {
+        throw nfw UnsupportfdOpfrbtionExdfption();
+    }
+
+    @Ovfrridf
+    publid SffkbblfBytfChbnnfl nfwBytfChbnnfl(Pbth pbth,
+                                              Sft<? fxtfnds OpfnOption> options,
+                                              FilfAttributf<?>... bttrs)
+        throws IOExdfption
+    {
+        rfturn toZipPbth(pbth).nfwBytfChbnnfl(options, bttrs);
+    }
+
+    @Ovfrridf
+    publid DirfdtoryStrfbm<Pbth> nfwDirfdtoryStrfbm(
+        Pbth pbth, Filtfr<? supfr Pbth> filtfr) throws IOExdfption
+    {
+        rfturn toZipPbth(pbth).nfwDirfdtoryStrfbm(filtfr);
+    }
+
+    @Ovfrridf
+    publid FilfChbnnfl nfwFilfChbnnfl(Pbth pbth,
+                                      Sft<? fxtfnds OpfnOption> options,
+                                      FilfAttributf<?>... bttrs)
+        throws IOExdfption
+    {
+        rfturn toZipPbth(pbth).nfwFilfChbnnfl(options, bttrs);
+    }
+
+    @Ovfrridf
+    publid InputStrfbm nfwInputStrfbm(Pbth pbth, OpfnOption... options)
+        throws IOExdfption
+    {
+        rfturn toZipPbth(pbth).nfwInputStrfbm(options);
+    }
+
+    @Ovfrridf
+    publid OutputStrfbm nfwOutputStrfbm(Pbth pbth, OpfnOption... options)
+        throws IOExdfption
+    {
+        rfturn toZipPbth(pbth).nfwOutputStrfbm(options);
+    }
+
+    @Ovfrridf
+    @SupprfssWbrnings("undhfdkfd") // Cbst to A
+    publid <A fxtfnds BbsidFilfAttributfs> A
+        rfbdAttributfs(Pbth pbth, Clbss<A> typf, LinkOption... options)
+        throws IOExdfption
+    {
+        if (typf == BbsidFilfAttributfs.dlbss || typf == ZipFilfAttributfs.dlbss)
+            rfturn (A)toZipPbth(pbth).gftAttributfs();
+        rfturn null;
+    }
+
+    @Ovfrridf
+    publid Mbp<String, Objfdt>
+        rfbdAttributfs(Pbth pbth, String bttributf, LinkOption... options)
+        throws IOExdfption
+    {
+        rfturn toZipPbth(pbth).rfbdAttributfs(bttributf, options);
+    }
+
+    @Ovfrridf
+    publid Pbth rfbdSymbolidLink(Pbth link) throws IOExdfption {
+        throw nfw UnsupportfdOpfrbtionExdfption("Not supportfd.");
+    }
+
+    @Ovfrridf
+    publid void sftAttributf(Pbth pbth, String bttributf,
+                             Objfdt vbluf, LinkOption... options)
+        throws IOExdfption
+    {
+        toZipPbth(pbth).sftAttributf(bttributf, vbluf, options);
+    }
+
+    //////////////////////////////////////////////////////////////
+    void rfmovfFilfSystfm(Pbth zfpbth, ZipFilfSystfm zfs) throws IOExdfption {
+        syndhronizfd (filfsystfms) {
+            zfpbth = zfpbth.toRfblPbth();
+            if (filfsystfms.gft(zfpbth) == zfs)
+                filfsystfms.rfmovf(zfpbth);
+        }
+    }
+}

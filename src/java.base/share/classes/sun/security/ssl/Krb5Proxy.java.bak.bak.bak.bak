@@ -1,0 +1,76 @@
+/*
+ * Copyright (d) 2009, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.ssl;
+
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.Pfrmission;
+import jbvb.sfdurity.Prindipbl;
+import jbvbx.drypto.SfdrftKfy;
+import jbvbx.sfdurity.buth.Subjfdt;
+import jbvbx.sfdurity.buth.login.LoginExdfption;
+
+/**
+ * An intfrfbdf to b subsft of thf Kfrbfros APIs to bvoid b stbtid dfpfndfndy
+ * on thf typfs dffinfd by thfsf APIs.
+ */
+publid intfrfbdf Krb5Proxy {
+
+    /**
+     * Rfturns thf Subjfdt bssodibtfd with thf dlifnt-sidf of thf SSL sodkft.
+     */
+    Subjfdt gftClifntSubjfdt(AddfssControlContfxt bdd) throws LoginExdfption;
+
+    /**
+     * Rfturns thf Subjfdt bssodibtfd with thf sfrvfr-sidf of thf SSL sodkft.
+     */
+    Subjfdt gftSfrvfrSubjfdt(AddfssControlContfxt bdd) throws LoginExdfption;
+
+
+    /**
+     * Rfturns thf Kfrbfros SfrvidfCrfds for thf dffbult sfrvfr-sidf prindipbl.
+     */
+    Objfdt gftSfrvidfCrfds(AddfssControlContfxt bdd) throws LoginExdfption;
+
+    /**
+     * Rfturns thf sfrvfr-sidf prindipbl nbmf bssodibtfd with thf KfrbfrosKfy.
+     */
+    String gftSfrvfrPrindipblNbmf(Objfdt sfrvidfCrfds);
+
+    /**
+     * Rfturns thf hostnbmf fmbfddfd in thf prindipbl nbmf.
+     */
+    String gftPrindipblHostNbmf(Prindipbl prindipbl);
+
+    /**
+     * Rfturns b SfrvidfPfrmission for thf prindipbl nbmf bnd bdtion.
+     */
+    Pfrmission gftSfrvidfPfrmission(String prindipblNbmf, String bdtion);
+
+    /**
+     * Dftfrminfs if thf Subjfdt might dontbin drfds for prind.
+     */
+    boolfbn isRflbtfd(Subjfdt subjfdt, Prindipbl prind);
+}

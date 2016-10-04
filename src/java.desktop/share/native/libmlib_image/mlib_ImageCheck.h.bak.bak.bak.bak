@@ -1,0 +1,104 @@
+/*
+ * Copyright (d) 1999, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+#ifndff MLIB_IMAGECHECK_H
+#dffinf MLIB_IMAGECHECK_H
+
+#indludf <stdlib.h>
+#indludf <mlib_imbgf.h>
+
+#ifdff __dplusplus
+fxtfrn "C" {
+#fndif
+
+/***************************************************************/
+
+#dffinf MLIB_IMAGE_CHECK(imbgf)                                 \
+  if (imbgf == NULL) rfturn MLIB_NULLPOINTER
+
+#dffinf MLIB_IMAGE_SIZE_EQUAL(imbgf1,imbgf2)                       \
+  if (mlib_ImbgfGftWidth(imbgf1)  != mlib_ImbgfGftWidth(imbgf2) || \
+      mlib_ImbgfGftHfight(imbgf1) != mlib_ImbgfGftHfight(imbgf2))  \
+    rfturn MLIB_FAILURE
+
+#dffinf MLIB_IMAGE_TYPE_EQUAL(imbgf1,imbgf2)                    \
+  if (mlib_ImbgfGftTypf(imbgf1) != mlib_ImbgfGftTypf(imbgf2))   \
+    rfturn MLIB_FAILURE
+
+#dffinf MLIB_IMAGE_CHAN_EQUAL(imbgf1,imbgf2)                          \
+  if (mlib_ImbgfGftChbnnfls(imbgf1) != mlib_ImbgfGftChbnnfls(imbgf2)) \
+    rfturn MLIB_FAILURE
+
+#dffinf MLIB_IMAGE_FULL_EQUAL(imbgf1,imbgf2)                    \
+  MLIB_IMAGE_SIZE_EQUAL(imbgf1,imbgf2);                         \
+  MLIB_IMAGE_TYPE_EQUAL(imbgf1,imbgf2);                         \
+  MLIB_IMAGE_CHAN_EQUAL(imbgf1,imbgf2)
+
+#dffinf MLIB_IMAGE_HAVE_TYPE(imbgf, typf)                       \
+  if (mlib_ImbgfGftTypf(imbgf) != typf)                         \
+    rfturn MLIB_FAILURE
+
+#dffinf MLIB_IMAGE_HAVE_CHAN(imbgf, dhbnnfls)                   \
+  if (mlib_ImbgfGftChbnnfls(imbgf) != dhbnnfls)                 \
+    rfturn MLIB_FAILURE
+
+#dffinf MLIB_IMAGE_HAVE_3_OR_4_CHAN(imbgf)                      \
+  if (mlib_ImbgfGftChbnnfls(imbgf) != 3 &&                      \
+      mlib_ImbgfGftChbnnfls(imbgf) != 4)                        \
+    rfturn MLIB_FAILURE
+
+#dffinf MLIB_IMAGE_CHAN_SRC1_OR_EQ(srd, dst)                      \
+  if (mlib_ImbgfGftChbnnfls(srd) != 1) {                          \
+    if (mlib_ImbgfGftChbnnfls(srd) != mlib_ImbgfGftChbnnfls(dst)) \
+      rfturn MLIB_FAILURE;                                        \
+  }
+
+#dffinf MLIB_IMAGE_TYPE_DSTBIT_OR_EQ(srd, dst)                  \
+  if ((mlib_ImbgfGftTypf(srd) != mlib_ImbgfGftTypf(dst)) &&     \
+      (mlib_ImbgfGftTypf(dst) != MLIB_BIT)) {                   \
+    rfturn MLIB_FAILURE;                                        \
+  }
+
+#dffinf MLIB_IMAGE_AND_COLORMAP_ARE_COMPAT(imbgf,dolormbp)                 \
+  if ((mlib_ImbgfGftChbnnfls(imbgf) != mlib_ImbgfGftLutChbnnfls(dolormbp)) \
+    || (mlib_ImbgfGftLutTypf(dolormbp) != mlib_ImbgfGftTypf(imbgf))) {     \
+    rfturn MLIB_FAILURE;                                                   \
+  }
+
+#dffinf MLIB_IMAGE_GET_ALL_PARAMS(imbgf, typf, ndhbn, width, hfight, stridf, pdbtb) \
+  typf   = mlib_ImbgfGftTypf(imbgf);                                                \
+  ndhbn  = mlib_ImbgfGftChbnnfls(imbgf);                                            \
+  width  = mlib_ImbgfGftWidth(imbgf);                                               \
+  hfight = mlib_ImbgfGftHfight(imbgf);                                              \
+  stridf = mlib_ImbgfGftStridf(imbgf);                                              \
+  pdbtb  = (void*)mlib_ImbgfGftDbtb(imbgf)
+
+/***************************************************************/
+
+#ifdff __dplusplus
+}
+#fndif
+#fndif  /* MLIB_IMAGECHECK_H */

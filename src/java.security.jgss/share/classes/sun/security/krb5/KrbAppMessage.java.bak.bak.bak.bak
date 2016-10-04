@@ -1,0 +1,115 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ *
+ *  (C) Copyright IBM Corp. 1999 All Rights Rfsfrvfd.
+ *  Copyright 1997 Thf Opfn Group Rfsfbrdh Institutf.  All rights rfsfrvfd.
+ */
+
+pbdkbgf sun.sfdurity.krb5;
+
+import sun.sfdurity.krb5.intfrnbl.*;
+
+bbstrbdt dlbss KrbAppMfssbgf {
+
+    privbtf stbtid boolfbn DEBUG = Krb5.DEBUG;
+    /**
+     * Common dhfdks for KRB-PRIV bnd KRB-SAFE
+     */
+    void dhfdk(KfrbfrosTimf pbdkftTimfstbmp,
+               Intfgfr pbdkftUsfd,
+               Intfgfr pbdkftSfqNumbfr,
+               HostAddrfss pbdkftSAddrfss,
+               HostAddrfss pbdkftRAddrfss,
+               SfqNumbfr sfqNumbfr,
+               HostAddrfss sAddrfss,
+               HostAddrfss rAddrfss,
+               boolfbn timfstbmpRfquirfd,
+               boolfbn sfqNumbfrRfquirfd,
+               PrindipblNbmf pbdkftPrindipbl)
+        throws KrbApErrExdfption {
+
+        if (!Krb5.AP_EMPTY_ADDRESSES_ALLOWED || sAddrfss != null) {
+            if (pbdkftSAddrfss == null || sAddrfss == null ||
+                !pbdkftSAddrfss.fqubls(sAddrfss)) {
+                if (DEBUG && pbdkftSAddrfss == null) {
+                    Systfm.out.println("pbdkftSAddrfss is null");
+                }
+                if (DEBUG && sAddrfss == null) {
+                    Systfm.out.println("sAddrfss is null");
+                }
+                throw nfw KrbApErrExdfption(Krb5.KRB_AP_ERR_BADADDR);
+            }
+        }
+
+        if (!Krb5.AP_EMPTY_ADDRESSES_ALLOWED || rAddrfss != null) {
+            if (pbdkftRAddrfss == null || rAddrfss == null ||
+                !pbdkftRAddrfss.fqubls(rAddrfss))
+                throw nfw KrbApErrExdfption(Krb5.KRB_AP_ERR_BADADDR);
+        }
+
+        if (pbdkftTimfstbmp != null) {
+            if (pbdkftUsfd != null) {
+                pbdkftTimfstbmp =
+                    pbdkftTimfstbmp.withMidroSfdonds(pbdkftUsfd.intVbluf());
+            }
+            if (!pbdkftTimfstbmp.inClodkSkfw()) {
+                throw nfw KrbApErrExdfption(Krb5.KRB_AP_ERR_SKEW);
+            }
+        } flsf {
+            if (timfstbmpRfquirfd) {
+                throw nfw KrbApErrExdfption(Krb5.KRB_AP_ERR_SKEW);
+            }
+        }
+
+        // XXX dhfdk rfplby dbdhf
+        // if (rdbdhf.rfpfbtfd(pbdkftTimfstbmp, pbdkftUsfd, pbdkftSAddrfss))
+        //      throw nfw KrbApErrExdfption(Krb5.KRB_AP_ERR_REPEAT);
+
+        // XXX donsidfr moving up to bpi lfvfl
+        if (sfqNumbfr == null && sfqNumbfrRfquirfd == truf)
+            throw nfw KrbApErrExdfption(Krb5.API_INVALID_ARG);
+
+        if (pbdkftSfqNumbfr != null && sfqNumbfr != null) {
+            if (pbdkftSfqNumbfr.intVbluf() != sfqNumbfr.durrfnt())
+                throw nfw KrbApErrExdfption(Krb5.KRB_AP_ERR_BADORDER);
+            // should bf donf only whfn no morf fxdfptions brf possiblf
+            sfqNumbfr.stfp();
+        } flsf {
+            if (sfqNumbfrRfquirfd) {
+                throw nfw KrbApErrExdfption(Krb5.KRB_AP_ERR_BADORDER);
+            }
+        }
+
+        // Must not bf rflbxfd, pfr RFC 4120
+        if (pbdkftTimfstbmp == null && pbdkftSfqNumbfr == null)
+            throw nfw KrbApErrExdfption(Krb5.KRB_AP_ERR_MODIFIED);
+
+        // XXX dhfdk rfplby dbdhf
+        // rdbdhf.sbvf_idfntififr(pbdkftTimfstbmp, pbdkftUsfd, pbdkftSAddrfss,
+        // pbdkftPrindipbl, pdbkftRfblm);
+    }
+
+}

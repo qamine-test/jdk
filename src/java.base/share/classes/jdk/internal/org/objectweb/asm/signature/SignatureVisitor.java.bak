@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
- * All rights reserved.
+ * ASM: b vfry smbll bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork
+ * Copyrigit (d) 2000-2011 INRIA, Frbndf Tflfdom
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
+ * 1. Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr.
+ * 2. Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *    dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+ * 3. Nfitifr tif nbmf of tif dopyrigit ioldfrs nor tif nbmfs of its
+ *    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,212 +56,212 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm.signature;
+pbdkbgf jdk.intfrnbl.org.objfdtwfb.bsm.signbturf;
 
-import jdk.internal.org.objectweb.asm.Opcodes;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Opdodfs;
 
 /**
- * A visitor to visit a generic signature. The methods of this interface must be
- * called in one of the three following orders (the last one is the only valid
- * order for a {@link SignatureVisitor} that is returned by a method of this
- * interface):
+ * A visitor to visit b gfnfrid signbturf. Tif mftiods of tiis intfrfbdf must bf
+ * dbllfd in onf of tif tirff following ordfrs (tif lbst onf is tif only vblid
+ * ordfr for b {@link SignbturfVisitor} tibt is rfturnfd by b mftiod of tiis
+ * intfrfbdf):
  * <ul>
- * <li><i>ClassSignature</i> = ( <tt>visitFormalTypeParameter</tt>
- * <tt>visitClassBound</tt>? <tt>visitInterfaceBound</tt>* )* (
- * <tt>visitSuperClass</tt> <tt>visitInterface</tt>* )</li>
- * <li><i>MethodSignature</i> = ( <tt>visitFormalTypeParameter</tt>
- * <tt>visitClassBound</tt>? <tt>visitInterfaceBound</tt>* )* (
- * <tt>visitParameterType</tt>* <tt>visitReturnType</tt>
- * <tt>visitExceptionType</tt>* )</li>
- * <li><i>TypeSignature</i> = <tt>visitBaseType</tt> |
- * <tt>visitTypeVariable</tt> | <tt>visitArrayType</tt> | (
- * <tt>visitClassType</tt> <tt>visitTypeArgument</tt>* (
- * <tt>visitInnerClassType</tt> <tt>visitTypeArgument</tt>* )* <tt>visitEnd</tt>
+ * <li><i>ClbssSignbturf</i> = ( <tt>visitFormblTypfPbrbmftfr</tt>
+ * <tt>visitClbssBound</tt>? <tt>visitIntfrfbdfBound</tt>* )* (
+ * <tt>visitSupfrClbss</tt> <tt>visitIntfrfbdf</tt>* )</li>
+ * <li><i>MftiodSignbturf</i> = ( <tt>visitFormblTypfPbrbmftfr</tt>
+ * <tt>visitClbssBound</tt>? <tt>visitIntfrfbdfBound</tt>* )* (
+ * <tt>visitPbrbmftfrTypf</tt>* <tt>visitRfturnTypf</tt>
+ * <tt>visitExdfptionTypf</tt>* )</li>
+ * <li><i>TypfSignbturf</i> = <tt>visitBbsfTypf</tt> |
+ * <tt>visitTypfVbribblf</tt> | <tt>visitArrbyTypf</tt> | (
+ * <tt>visitClbssTypf</tt> <tt>visitTypfArgumfnt</tt>* (
+ * <tt>visitInnfrClbssTypf</tt> <tt>visitTypfArgumfnt</tt>* )* <tt>visitEnd</tt>
  * ) )</li>
  * </ul>
  *
- * @author Thomas Hallgren
- * @author Eric Bruneton
+ * @butior Tiombs Hbllgrfn
+ * @butior Erid Brunfton
  */
-public abstract class SignatureVisitor {
+publid bbstrbdt dlbss SignbturfVisitor {
 
     /**
-     * Wildcard for an "extends" type argument.
+     * Wilddbrd for bn "fxtfnds" typf brgumfnt.
      */
-    public final static char EXTENDS = '+';
+    publid finbl stbtid dibr EXTENDS = '+';
 
     /**
-     * Wildcard for a "super" type argument.
+     * Wilddbrd for b "supfr" typf brgumfnt.
      */
-    public final static char SUPER = '-';
+    publid finbl stbtid dibr SUPER = '-';
 
     /**
-     * Wildcard for a normal type argument.
+     * Wilddbrd for b normbl typf brgumfnt.
      */
-    public final static char INSTANCEOF = '=';
+    publid finbl stbtid dibr INSTANCEOF = '=';
 
     /**
-     * The ASM API version implemented by this visitor. The value of this field
-     * must be one of {@link Opcodes#ASM4} or {@link Opcodes#ASM5}.
+     * Tif ASM API vfrsion implfmfntfd by tiis visitor. Tif vbluf of tiis fifld
+     * must bf onf of {@link Opdodfs#ASM4} or {@link Opdodfs#ASM5}.
      */
-    protected final int api;
+    protfdtfd finbl int bpi;
 
     /**
-     * Constructs a new {@link SignatureVisitor}.
+     * Construdts b nfw {@link SignbturfVisitor}.
      *
-     * @param api
-     *            the ASM API version implemented by this visitor. Must be one
-     *            of {@link Opcodes#ASM4} or {@link Opcodes#ASM5}.
+     * @pbrbm bpi
+     *            tif ASM API vfrsion implfmfntfd by tiis visitor. Must bf onf
+     *            of {@link Opdodfs#ASM4} or {@link Opdodfs#ASM5}.
      */
-    public SignatureVisitor(final int api) {
-        if (api != Opcodes.ASM4 && api != Opcodes.ASM5) {
-            throw new IllegalArgumentException();
+    publid SignbturfVisitor(finbl int bpi) {
+        if (bpi != Opdodfs.ASM4 && bpi != Opdodfs.ASM5) {
+            tirow nfw IllfgblArgumfntExdfption();
         }
-        this.api = api;
+        tiis.bpi = bpi;
     }
 
     /**
-     * Visits a formal type parameter.
+     * Visits b formbl typf pbrbmftfr.
      *
-     * @param name
-     *            the name of the formal parameter.
+     * @pbrbm nbmf
+     *            tif nbmf of tif formbl pbrbmftfr.
      */
-    public void visitFormalTypeParameter(String name) {
+    publid void visitFormblTypfPbrbmftfr(String nbmf) {
     }
 
     /**
-     * Visits the class bound of the last visited formal type parameter.
+     * Visits tif dlbss bound of tif lbst visitfd formbl typf pbrbmftfr.
      *
-     * @return a non null visitor to visit the signature of the class bound.
+     * @rfturn b non null visitor to visit tif signbturf of tif dlbss bound.
      */
-    public SignatureVisitor visitClassBound() {
-        return this;
+    publid SignbturfVisitor visitClbssBound() {
+        rfturn tiis;
     }
 
     /**
-     * Visits an interface bound of the last visited formal type parameter.
+     * Visits bn intfrfbdf bound of tif lbst visitfd formbl typf pbrbmftfr.
      *
-     * @return a non null visitor to visit the signature of the interface bound.
+     * @rfturn b non null visitor to visit tif signbturf of tif intfrfbdf bound.
      */
-    public SignatureVisitor visitInterfaceBound() {
-        return this;
+    publid SignbturfVisitor visitIntfrfbdfBound() {
+        rfturn tiis;
     }
 
     /**
-     * Visits the type of the super class.
+     * Visits tif typf of tif supfr dlbss.
      *
-     * @return a non null visitor to visit the signature of the super class
-     *         type.
+     * @rfturn b non null visitor to visit tif signbturf of tif supfr dlbss
+     *         typf.
      */
-    public SignatureVisitor visitSuperclass() {
-        return this;
+    publid SignbturfVisitor visitSupfrdlbss() {
+        rfturn tiis;
     }
 
     /**
-     * Visits the type of an interface implemented by the class.
+     * Visits tif typf of bn intfrfbdf implfmfntfd by tif dlbss.
      *
-     * @return a non null visitor to visit the signature of the interface type.
+     * @rfturn b non null visitor to visit tif signbturf of tif intfrfbdf typf.
      */
-    public SignatureVisitor visitInterface() {
-        return this;
+    publid SignbturfVisitor visitIntfrfbdf() {
+        rfturn tiis;
     }
 
     /**
-     * Visits the type of a method parameter.
+     * Visits tif typf of b mftiod pbrbmftfr.
      *
-     * @return a non null visitor to visit the signature of the parameter type.
+     * @rfturn b non null visitor to visit tif signbturf of tif pbrbmftfr typf.
      */
-    public SignatureVisitor visitParameterType() {
-        return this;
+    publid SignbturfVisitor visitPbrbmftfrTypf() {
+        rfturn tiis;
     }
 
     /**
-     * Visits the return type of the method.
+     * Visits tif rfturn typf of tif mftiod.
      *
-     * @return a non null visitor to visit the signature of the return type.
+     * @rfturn b non null visitor to visit tif signbturf of tif rfturn typf.
      */
-    public SignatureVisitor visitReturnType() {
-        return this;
+    publid SignbturfVisitor visitRfturnTypf() {
+        rfturn tiis;
     }
 
     /**
-     * Visits the type of a method exception.
+     * Visits tif typf of b mftiod fxdfption.
      *
-     * @return a non null visitor to visit the signature of the exception type.
+     * @rfturn b non null visitor to visit tif signbturf of tif fxdfption typf.
      */
-    public SignatureVisitor visitExceptionType() {
-        return this;
+    publid SignbturfVisitor visitExdfptionTypf() {
+        rfturn tiis;
     }
 
     /**
-     * Visits a signature corresponding to a primitive type.
+     * Visits b signbturf dorrfsponding to b primitivf typf.
      *
-     * @param descriptor
-     *            the descriptor of the primitive type, or 'V' for <tt>void</tt>
+     * @pbrbm dfsdriptor
+     *            tif dfsdriptor of tif primitivf typf, or 'V' for <tt>void</tt>
      *            .
      */
-    public void visitBaseType(char descriptor) {
+    publid void visitBbsfTypf(dibr dfsdriptor) {
     }
 
     /**
-     * Visits a signature corresponding to a type variable.
+     * Visits b signbturf dorrfsponding to b typf vbribblf.
      *
-     * @param name
-     *            the name of the type variable.
+     * @pbrbm nbmf
+     *            tif nbmf of tif typf vbribblf.
      */
-    public void visitTypeVariable(String name) {
+    publid void visitTypfVbribblf(String nbmf) {
     }
 
     /**
-     * Visits a signature corresponding to an array type.
+     * Visits b signbturf dorrfsponding to bn brrby typf.
      *
-     * @return a non null visitor to visit the signature of the array element
-     *         type.
+     * @rfturn b non null visitor to visit tif signbturf of tif brrby flfmfnt
+     *         typf.
      */
-    public SignatureVisitor visitArrayType() {
-        return this;
+    publid SignbturfVisitor visitArrbyTypf() {
+        rfturn tiis;
     }
 
     /**
-     * Starts the visit of a signature corresponding to a class or interface
-     * type.
+     * Stbrts tif visit of b signbturf dorrfsponding to b dlbss or intfrfbdf
+     * typf.
      *
-     * @param name
-     *            the internal name of the class or interface.
+     * @pbrbm nbmf
+     *            tif intfrnbl nbmf of tif dlbss or intfrfbdf.
      */
-    public void visitClassType(String name) {
+    publid void visitClbssTypf(String nbmf) {
     }
 
     /**
-     * Visits an inner class.
+     * Visits bn innfr dlbss.
      *
-     * @param name
-     *            the local name of the inner class in its enclosing class.
+     * @pbrbm nbmf
+     *            tif lodbl nbmf of tif innfr dlbss in its fndlosing dlbss.
      */
-    public void visitInnerClassType(String name) {
+    publid void visitInnfrClbssTypf(String nbmf) {
     }
 
     /**
-     * Visits an unbounded type argument of the last visited class or inner
-     * class type.
+     * Visits bn unboundfd typf brgumfnt of tif lbst visitfd dlbss or innfr
+     * dlbss typf.
      */
-    public void visitTypeArgument() {
+    publid void visitTypfArgumfnt() {
     }
 
     /**
-     * Visits a type argument of the last visited class or inner class type.
+     * Visits b typf brgumfnt of tif lbst visitfd dlbss or innfr dlbss typf.
      *
-     * @param wildcard
+     * @pbrbm wilddbrd
      *            '+', '-' or '='.
-     * @return a non null visitor to visit the signature of the type argument.
+     * @rfturn b non null visitor to visit tif signbturf of tif typf brgumfnt.
      */
-    public SignatureVisitor visitTypeArgument(char wildcard) {
-        return this;
+    publid SignbturfVisitor visitTypfArgumfnt(dibr wilddbrd) {
+        rfturn tiis;
     }
 
     /**
-     * Ends the visit of a signature corresponding to a class or interface type.
+     * Ends tif visit of b signbturf dorrfsponding to b dlbss or intfrfbdf typf.
      */
-    public void visitEnd() {
+    publid void visitEnd() {
     }
 }

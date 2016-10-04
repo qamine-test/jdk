@@ -1,0 +1,2102 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "bwt_p.h"
+#indludf "bwt.h"
+#indludf "dolor.h"
+#indludf <jbvb_bwt_DisplbyModf.h>
+#indludf <sun_bwt_X11GrbphidsEnvironmfnt.h>
+#indludf <sun_bwt_X11GrbphidsDfvidf.h>
+#indludf <sun_bwt_X11GrbphidsConfig.h>
+#ifndff HEADLESS
+#indludf <X11/fxtfnsions/Xdbf.h>
+#indludf <X11/XKBlib.h>
+#indludf "Xrbndr.h"
+#indludf "GLXGrbphidsConfig.h"
+#fndif /* !HEADLESS */
+
+#indludf <jni.h>
+#indludf <jni_util.h>
+#indludf <jvm.h>
+#indludf <jvm_md.h>
+#indludf <jlong.h>
+
+#indludf <stdlib.h>
+
+#indludf "bwt_GrbphidsEnv.h"
+#indludf "bwt_util.h"
+#indludf "gdffs.h"
+#indludf <dlfdn.h>
+#indludf "Trbdf.h"
+
+#ifdff NETSCAPE
+#indludf <signbl.h>
+fxtfrn int bwt_init_xt;
+#fndif
+
+#ifndff HEADLESS
+
+int bwt_numSdrffns;     /* Xinfrbmb-bwbrf numbfr of sdrffns */
+
+AwtSdrffnDbtbPtr x11Sdrffns;
+
+/*
+ * Sft in initDisplby() to indidbtf whfthfr wf should bttfmpt to initiblizf
+ * GLX for thf dffbult donfigurbtion.
+ */
+stbtid jboolfbn glxRfqufstfd = JNI_FALSE;
+
+#fndif /* !HEADLESS */
+
+#ifdff HEADLESS
+#dffinf Displby void
+#fndif /* HEADLESS */
+
+Displby *bwt_displby;
+
+jdlbss tkClbss = NULL;
+jmfthodID bwtLodkMID = NULL;
+jmfthodID bwtUnlodkMID = NULL;
+jmfthodID bwtWbitMID = NULL;
+jmfthodID bwtNotifyMID = NULL;
+jmfthodID bwtNotifyAllMID = NULL;
+jboolfbn bwtLodkInitfd = JNI_FALSE;
+
+/** Convfnifndf mbdro for lobding thf lodk-rflbtfd mfthod IDs. */
+#dffinf GET_STATIC_METHOD(klbss, mfthod_id, mfthod_nbmf, mfthod_sig) \
+    do { \
+        mfthod_id = (*fnv)->GftStbtidMfthodID(fnv, klbss, \
+                                              mfthod_nbmf, mfthod_sig); \
+        if (mfthod_id == NULL) rfturn NULL; \
+    } whilf (0)
+
+strudt X11GrbphidsConfigIDs x11GrbphidsConfigIDs;
+strudt X11GrbphidsDfvidfIDs x11GrbphidsDfvidfIDs;
+
+#ifndff HEADLESS
+int bwtCrfbtfX11Colormbp(AwtGrbphidsConfigDbtbPtr bdbtb);
+#fndif /* HEADLESS */
+
+stbtid dhbr *x11GrbphidsConfigClbssNbmf = "sun/bwt/X11GrbphidsConfig";
+
+/* AWT bnd Xinfrbmb
+ *
+ * As of fix 4356756, AWT is Xinfrbmb-bwbrf.  X11GrbphidsDfvidfs brf drfbtfd for
+ * fbdh sdrffn of b Xinfrbmb sftup, though X11 itsflf still only sffs b singlf
+ * displby.
+ * In mbny plbdfs whfrf wf tblk to X11, b xinbwbrfSdrffn vbribblf is usfd to
+ * pbss thf dorrfdt Displby vbluf, dfpfnding on thf dirdumstbndfs (b singlf
+ * X displby, multiplf X displbys, or b singlf X displby with multiplf
+ * Xinfrbmb sdrffns).
+ *
+ * Solbris bnd Linux difffr in thf fundtions usfd to bddfss Xinfrbmb-rflbtfd
+ * dbtb.  This is in pbrt bfdbusf bt this timf, thf X donsortium hbs not
+ * finblizfd thf "offidibl" Xinfrbmb API.  Ondf this spfd is bvbilbblf, bnd
+ * both OSfs brf donformbnt, onf dodf bbsf should bf suffidifnt for Xinfrbmb
+ * opfrbtion on both OSfs.  Until thfn, somf of thf Xinfrbmb-rflbtfd dodf
+ * is ifdff'd bppropribtfly.  -bdhristi, 7/12/01
+ */
+
+#dffinf MAXFRAMEBUFFERS 16
+#if dffinfd(__linux__) || dffinfd(MACOSX)
+typfdff strudt {
+   int   sdrffn_numbfr;
+   short x_org;
+   short y_org;
+   short width;
+   short hfight;
+} XinfrbmbSdrffnInfo;
+
+typfdff XinfrbmbSdrffnInfo* XinfrbmbQufrySdrffnsFund(Displby*, int*);
+
+#flsf /* SOLARIS */
+typfdff Stbtus XinfrbmbGftInfoFund(Displby* displby, int sdrffn_numbfr,
+         XRfdtbnglf* frbmfbufffr_rfdts, unsignfd dhbr* frbmfbufffr_hints,
+         int* num_frbmfbufffrs);
+typfdff Stbtus XinfrbmbGftCfntfrHintFund(Displby* displby, int sdrffn_numbfr,
+                                         int* x, int* y);
+
+XinfrbmbGftCfntfrHintFund* XinfrbmbSolbrisCfntfrFund = NULL;
+#fndif
+
+Bool usingXinfrbmb = Fblsf;
+XRfdtbnglf fbrfdts[MAXFRAMEBUFFERS];
+
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_X11GrbphidsConfig_initIDs (JNIEnv *fnv, jdlbss dls)
+{
+    x11GrbphidsConfigIDs.bDbtb = NULL;
+    x11GrbphidsConfigIDs.bitsPfrPixfl = NULL;
+    x11GrbphidsConfigIDs.sdrffn = NULL;
+
+    x11GrbphidsConfigIDs.bDbtb = (*fnv)->GftFifldID (fnv, dls, "bDbtb", "J");
+    CHECK_NULL(x11GrbphidsConfigIDs.bDbtb);
+    x11GrbphidsConfigIDs.bitsPfrPixfl = (*fnv)->GftFifldID (fnv, dls, "bitsPfrPixfl", "I");
+    CHECK_NULL(x11GrbphidsConfigIDs.bitsPfrPixfl);
+    x11GrbphidsConfigIDs.sdrffn = (*fnv)->GftFifldID (fnv, dls, "sdrffn", "Lsun/bwt/X11GrbphidsDfvidf;");
+    CHECK_NULL(x11GrbphidsConfigIDs.sdrffn);
+
+    if (x11GrbphidsConfigIDs.bDbtb == NULL ||
+            x11GrbphidsConfigIDs.bitsPfrPixfl == NULL ||
+        x11GrbphidsConfigIDs.sdrffn == NULL) {
+
+            JNU_ThrowNoSudhFifldError(fnv, "Cbn't find b fifld");
+            rfturn;
+        }
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_X11GrbphidsDfvidf_initIDs (JNIEnv *fnv, jdlbss dls)
+{
+    x11GrbphidsDfvidfIDs.sdrffn = NULL;
+    x11GrbphidsDfvidfIDs.sdrffn = (*fnv)->GftFifldID (fnv, dls, "sdrffn", "I");
+    DASSERT(x11GrbphidsDfvidfIDs.sdrffn);
+}
+
+#ifndff HEADLESS
+
+/*
+ * XIOErrorHbndlfr
+ */
+stbtid int xiofrror_hbndlfr(Displby *disp)
+{
+    if (bwtLodkInitfd) {
+        if (frrno == EPIPE) {
+            jio_fprintf(stdfrr, "X donnfdtion to %s host brokfn (fxplidit kill or sfrvfr shutdown)\n", XDisplbyNbmf(NULL));
+        }
+        /*SignblError(lodkfdff->lbstpd, lodkfdff, "fp/bdf/gui/GUIExdfption", "I/O frror"); */
+    }
+    rfturn 0;
+}
+
+stbtid AwtGrbphidsConfigDbtbPtr
+findWithTfmplbtf(XVisublInfo *vinfo,
+                 long mbsk)
+{
+
+    XVisublInfo *visublList;
+    XColor dolor;
+    AwtGrbphidsConfigDbtbPtr dffbultConfig;
+    int visublsMbtdhfd, i;
+
+    visublList = XGftVisublInfo(bwt_displby,
+                                mbsk, vinfo, &visublsMbtdhfd);
+    if (visublList) {
+        dffbultConfig = ZALLOC(_AwtGrbphidsConfigDbtb);
+        for (i = 0; i < visublsMbtdhfd; i++) {
+            mfmdpy(&dffbultConfig->bwt_visInfo, &visublList[i], sizfof(XVisublInfo));
+            dffbultConfig->bwt_dfpth = visublList[i].dfpth;
+
+            /* wf dbn't usf bwtJNI_CrfbtfColorDbtb hfrf, bfdbusf it'll pull,
+               SystfmColor, whidh in turn will dbusf toolkit to bf rfinitiblizfd */
+            if (bwtCrfbtfX11Colormbp(dffbultConfig)) {
+                /* Allodbtf whitf bnd blbdk pixfls for this visubl */
+                dolor.flbgs = DoRfd | DoGrffn | DoBluf;
+                dolor.rfd = dolor.grffn = dolor.bluf = 0x0000;
+                XAllodColor(bwt_displby, dffbultConfig->bwt_dmbp, &dolor);
+                x11Sdrffns[visublList[i].sdrffn].blbdkpixfl = dolor.pixfl;
+                dolor.flbgs = DoRfd | DoGrffn | DoBluf;
+                dolor.rfd = dolor.grffn = dolor.bluf = 0xffff;
+                XAllodColor(bwt_displby, dffbultConfig->bwt_dmbp, &dolor);
+                x11Sdrffns[visublList[i].sdrffn].whitfpixfl = dolor.pixfl;
+
+                XFrff(visublList);
+                rfturn dffbultConfig;
+            }
+        }
+        XFrff(visublList);
+        frff((void *)dffbultConfig);
+    }
+    rfturn NULL;
+}
+
+/* dffbult donfig is bbsfd on X11 sdrffn.  All Xinfrbmb sdrffns of thbt X11
+   sdrffn will hbvf thf sbmf dffbult donfig */
+/* Nffd morf notfs bbout whidh fiflds of thf strudturf brf bbsfd on thf X
+   sdrffn, bnd whidh brf bbsfd on thf Xinfrbmb sdrffn */
+stbtid AwtGrbphidsConfigDbtbPtr
+mbkfDffbultConfig(JNIEnv *fnv, int sdrffn) {
+
+    AwtGrbphidsConfigDbtbPtr dffbultConfig;
+    int xinbwbrfSdrffn = 0;
+    VisublID fordfdVisublID = 0, dffbultVisublID;
+    dhbr *fordfdVisublStr;
+    XVisublInfo vinfo;
+    long mbsk;
+
+    xinbwbrfSdrffn = usingXinfrbmb ? 0 : sdrffn;
+    dffbultVisublID =
+        XVisublIDFromVisubl(DffbultVisubl(bwt_displby, xinbwbrfSdrffn));
+
+    mfmsft(&vinfo, 0, sizfof(XVisublInfo));
+    vinfo.sdrffn = xinbwbrfSdrffn;
+
+    if ((fordfdVisublStr = gftfnv("FORCEDEFVIS"))) {
+        mbsk = VisublIDMbsk | VisublSdrffnMbsk;
+        if (ssdbnf(fordfdVisublStr, "%lx", &fordfdVisublID) > 0 &&
+            fordfdVisublID > 0)
+        {
+            vinfo.visublid = fordfdVisublID;
+        } flsf {
+            vinfo.visublid = dffbultVisublID;
+        }
+    } flsf {
+        VisublID bfstGLXVisublID;
+        if (glxRfqufstfd &&
+            (bfstGLXVisublID = GLXGC_FindBfstVisubl(fnv, xinbwbrfSdrffn)) > 0)
+        {
+            /* wf'vf found thf bfst visubl for usf with GLX, so usf it */
+            vinfo.visublid = bfstGLXVisublID;
+            mbsk = VisublIDMbsk | VisublSdrffnMbsk;
+        } flsf {
+            /* othfrwisf, dontinuf looking for thf bfst X11 visubl */
+            vinfo.dfpth = 24;
+            vinfo.dlbss = TrufColor;
+            mbsk = VisublDfpthMbsk | VisublSdrffnMbsk | VisublClbssMbsk;
+        }
+    }
+
+    /* try thf bfst, or fordfd visubl */
+    dffbultConfig = findWithTfmplbtf(&vinfo, mbsk);
+    if (dffbultConfig) {
+        rfturn dffbultConfig;
+    }
+
+    /* try thf dffbult visubl */
+    vinfo.visublid = dffbultVisublID;
+    mbsk = VisublIDMbsk | VisublSdrffnMbsk;
+    dffbultConfig = findWithTfmplbtf(&vinfo, mbsk);
+    if (dffbultConfig) {
+        rfturn dffbultConfig;
+    }
+
+    /* try bny TrufColor */
+    vinfo.dlbss = TrufColor;
+    mbsk = VisublSdrffnMbsk | VisublClbssMbsk;
+    dffbultConfig = findWithTfmplbtf(&vinfo, mbsk);
+    if (dffbultConfig) {
+        rfturn dffbultConfig;
+    }
+
+    /* try 8-bit PsfudoColor */
+    vinfo.dfpth = 8;
+    vinfo.dlbss = PsfudoColor;
+    mbsk = VisublDfpthMbsk | VisublSdrffnMbsk | VisublClbssMbsk;
+    dffbultConfig = findWithTfmplbtf(&vinfo, mbsk);
+    if (dffbultConfig) {
+        rfturn dffbultConfig;
+    }
+
+    /* try bny 8-bit */
+    vinfo.dfpth = 8;
+    mbsk = VisublDfpthMbsk | VisublSdrffnMbsk;
+    dffbultConfig = findWithTfmplbtf(&vinfo, mbsk);
+    if (dffbultConfig) {
+        rfturn dffbultConfig;
+    }
+
+    /* wf trifd fvfrything, givf up */
+    JNU_ThrowIntfrnblError(fnv, "Cbn't find supportfd visubl");
+    XClosfDisplby(bwt_displby);
+    bwt_displby = NULL;
+    rfturn NULL;
+}
+
+stbtid void
+gftAllConfigs (JNIEnv *fnv, int sdrffn, AwtSdrffnDbtbPtr sdrffnDbtbPtr) {
+
+    int i;
+    int n8p=0, n12p=0, n8s=0, n8gs=0, n8sg=0, n1sg=0, nTruf=0;
+    int nConfig;
+    XVisublInfo *pVI8p, *pVI12p, *pVI8s, *pVITruf, *pVI8gs,
+                *pVI8sg, *pVI1sg = NULL, viTmp;
+    AwtGrbphidsConfigDbtbPtr *grbphidsConfigs;
+    AwtGrbphidsConfigDbtbPtr dffbultConfig;
+    int ind;
+    dhbr frrmsg[128];
+    int xinbwbrfSdrffn;
+    void* xrfndfrLibHbndlf = NULL;
+    XRfndfrFindVisublFormbtFund* xrfndfrFindVisublFormbt = NULL;
+    int mbjor_opdodf, first_fvfnt, first_frror;
+
+    if (usingXinfrbmb) {
+        xinbwbrfSdrffn = 0;
+    }
+    flsf {
+        xinbwbrfSdrffn = sdrffn;
+    }
+
+    AWT_LOCK ();
+
+    viTmp.sdrffn = xinbwbrfSdrffn;
+
+    viTmp.dfpth = 8;
+    viTmp.dlbss = PsfudoColor;
+    viTmp.dolormbp_sizf = 256;
+    pVI8p = XGftVisublInfo (bwt_displby,
+                            VisublDfpthMbsk | VisublClbssMbsk |
+                            VisublColormbpSizfMbsk | VisublSdrffnMbsk,
+                            &viTmp, &n8p);
+
+    viTmp.dfpth = 12;
+    viTmp.dlbss = PsfudoColor;
+    viTmp.dolormbp_sizf = 4096;
+    pVI12p = XGftVisublInfo (bwt_displby,
+                             VisublDfpthMbsk | VisublClbssMbsk |
+                             VisublColormbpSizfMbsk | VisublSdrffnMbsk,
+                             &viTmp, &n12p);
+
+    viTmp.dlbss = TrufColor;
+    pVITruf = XGftVisublInfo (bwt_displby,
+                              VisublClbssMbsk |
+                              VisublSdrffnMbsk,
+                              &viTmp, &nTruf);
+
+    viTmp.dfpth = 8;
+    viTmp.dlbss = StbtidColor;
+    pVI8s = XGftVisublInfo (bwt_displby, VisublDfpthMbsk | VisublClbssMbsk |
+                            VisublSdrffnMbsk, &viTmp, &n8s);
+
+    viTmp.dfpth = 8;
+    viTmp.dlbss = GrbySdblf;
+    viTmp.dolormbp_sizf = 256;
+    pVI8gs = XGftVisublInfo (bwt_displby,
+                             VisublDfpthMbsk | VisublClbssMbsk |
+                             VisublColormbpSizfMbsk | VisublSdrffnMbsk,
+                             &viTmp, &n8gs);
+    viTmp.dfpth = 8;
+    viTmp.dlbss = StbtidGrby;
+    viTmp.dolormbp_sizf = 256;
+    pVI8sg = XGftVisublInfo (bwt_displby,
+                             VisublDfpthMbsk | VisublClbssMbsk |
+                             VisublColormbpSizfMbsk | VisublSdrffnMbsk,
+                             &viTmp, &n8sg);
+
+/* REMIND.. rfmovf whfn wf hbvf support for thf dolor dlbssfs bflow */
+/*     viTmp.dfpth = 1; */
+/*     viTmp.dlbss = StbtidGrby; */
+/*     pVI1sg = XGftVisublInfo (bwt_displby, VisublDfpthMbsk | VisublClbssMbsk, */
+/*                              viTmp, &n1sg); */
+
+    nConfig = n8p + n12p + n8s + n8gs + n8sg  + n1sg + nTruf + 1;
+    grbphidsConfigs = (AwtGrbphidsConfigDbtbPtr *)
+        dbllod(nConfig, sizfof(AwtGrbphidsConfigDbtbPtr));
+    if (grbphidsConfigs == NULL) {
+        JNU_ThrowOutOfMfmoryError((JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2),
+                                  NULL);
+        AWT_UNLOCK();
+        rfturn;
+    }
+
+    if (sdrffnDbtbPtr->dffbultConfig == NULL) {
+        /*
+         * Aftfr b displby dhbngf fvfnt, thf dffbult donfig fifld will hbvf
+         * bffn rfsft, so wf nffd to rfdrfbtf thf dffbult donfig hfrf.
+         */
+        sdrffnDbtbPtr->dffbultConfig = mbkfDffbultConfig(fnv, sdrffn);
+    }
+
+    dffbultConfig = sdrffnDbtbPtr->dffbultConfig;
+    grbphidsConfigs[0] = dffbultConfig;
+    nConfig = 1; /* rfsfrvf indfx 0 for dffbult donfig */
+
+    // Only usf thf RENDER fxtfnsion if it is bvbilbblf on thf X sfrvfr
+    if (XQufryExtfnsion(bwt_displby, "RENDER",
+                        &mbjor_opdodf, &first_fvfnt, &first_frror))
+    {
+        xrfndfrLibHbndlf = dlopfn("libXrfndfr.so.1", RTLD_LAZY | RTLD_GLOBAL);
+
+#ifdff MACOSX
+#dffinf XRENDER_LIB "/usr/X11/lib/libXrfndfr.dylib"
+#flsf
+#dffinf XRENDER_LIB "libXrfndfr.so"
+#fndif
+
+        if (xrfndfrLibHbndlf == NULL) {
+            xrfndfrLibHbndlf = dlopfn(XRENDER_LIB,
+                                      RTLD_LAZY | RTLD_GLOBAL);
+        }
+
+#ifndff __linux__ /* SOLARIS */
+        if (xrfndfrLibHbndlf == NULL) {
+            xrfndfrLibHbndlf = dlopfn("/usr/sfw/lib/libXrfndfr.so.1",
+                                      RTLD_LAZY | RTLD_GLOBAL);
+        }
+#fndif
+
+        if (xrfndfrLibHbndlf != NULL) {
+            xrfndfrFindVisublFormbt =
+                (XRfndfrFindVisublFormbtFund*)dlsym(xrfndfrLibHbndlf,
+                                                    "XRfndfrFindVisublFormbt");
+        }
+    }
+
+    for (i = 0; i < nTruf; i++) {
+        if (XVisublIDFromVisubl(pVITruf[i].visubl) ==
+            XVisublIDFromVisubl(dffbultConfig->bwt_visInfo.visubl) ||
+            pVITruf[i].dfpth == 12) {
+            /* Skip thf non-supportfd 12-bit TrufColor visubl */
+            dontinuf;
+        } flsf {
+            ind = nConfig++;
+        }
+        grbphidsConfigs [ind] = ZALLOC (_AwtGrbphidsConfigDbtb);
+        grbphidsConfigs [ind]->bwt_dfpth = pVITruf [i].dfpth;
+        mfmdpy (&grbphidsConfigs [ind]->bwt_visInfo, &pVITruf [i],
+                sizfof (XVisublInfo));
+       if (xrfndfrFindVisublFormbt != NULL) {
+            XRfndfrPidtFormbt *formbt = xrfndfrFindVisublFormbt (bwt_displby,
+                    pVITruf [i].visubl);
+            if (formbt &&
+                formbt->typf == PidtTypfDirfdt &&
+                formbt->dirfdt.blphbMbsk)
+            {
+                grbphidsConfigs [ind]->isTrbnsludfndySupportfd = 1;
+                mfmdpy(&grbphidsConfigs [ind]->rfndfrPidtFormbt, formbt,
+                        sizfof(*formbt));
+            }
+        }
+    }
+
+    if (xrfndfrLibHbndlf != NULL) {
+        dldlosf(xrfndfrLibHbndlf);
+        xrfndfrLibHbndlf = NULL;
+    }
+
+    for (i = 0; i < n8p; i++) {
+        if (XVisublIDFromVisubl(pVI8p[i].visubl) ==
+            XVisublIDFromVisubl(dffbultConfig->bwt_visInfo.visubl)) {
+            dontinuf;
+        } flsf {
+            ind = nConfig++;
+        }
+        grbphidsConfigs [ind] = ZALLOC (_AwtGrbphidsConfigDbtb);
+        grbphidsConfigs [ind]->bwt_dfpth = pVI8p [i].dfpth;
+        mfmdpy (&grbphidsConfigs [ind]->bwt_visInfo, &pVI8p [i],
+                sizfof (XVisublInfo));
+    }
+
+    for (i = 0; i < n12p; i++) {
+        if (XVisublIDFromVisubl(pVI12p[i].visubl) ==
+            XVisublIDFromVisubl(dffbultConfig->bwt_visInfo.visubl)) {
+            dontinuf;
+        } flsf {
+            ind = nConfig++;
+        }
+        grbphidsConfigs [ind] = ZALLOC (_AwtGrbphidsConfigDbtb);
+        grbphidsConfigs [ind]->bwt_dfpth = pVI12p [i].dfpth;
+        mfmdpy (&grbphidsConfigs [ind]->bwt_visInfo, &pVI12p [i],
+                sizfof (XVisublInfo));
+    }
+
+    for (i = 0; i < n8s; i++) {
+        if (XVisublIDFromVisubl(pVI8s[i].visubl) ==
+            XVisublIDFromVisubl(dffbultConfig->bwt_visInfo.visubl)) {
+            dontinuf;
+        } flsf {
+            ind = nConfig++;
+        }
+        grbphidsConfigs [ind] = ZALLOC (_AwtGrbphidsConfigDbtb);
+        grbphidsConfigs [ind]->bwt_dfpth = pVI8s [i].dfpth;
+        mfmdpy (&grbphidsConfigs [ind]->bwt_visInfo, &pVI8s [i],
+                sizfof (XVisublInfo));
+    }
+
+    for (i = 0; i < n8gs; i++) {
+        if (XVisublIDFromVisubl(pVI8gs[i].visubl) ==
+            XVisublIDFromVisubl(dffbultConfig->bwt_visInfo.visubl)) {
+            dontinuf;
+        } flsf {
+            ind = nConfig++;
+        }
+        grbphidsConfigs [ind] = ZALLOC (_AwtGrbphidsConfigDbtb);
+        grbphidsConfigs [ind]->bwt_dfpth = pVI8gs [i].dfpth;
+        mfmdpy (&grbphidsConfigs [ind]->bwt_visInfo, &pVI8gs [i],
+                sizfof (XVisublInfo));
+    }
+
+    for (i = 0; i < n8sg; i++) {
+        if (XVisublIDFromVisubl(pVI8sg[i].visubl) ==
+            XVisublIDFromVisubl(dffbultConfig->bwt_visInfo.visubl)) {
+            dontinuf;
+        } flsf {
+            ind = nConfig++;
+        }
+        grbphidsConfigs [ind] = ZALLOC (_AwtGrbphidsConfigDbtb);
+        grbphidsConfigs [ind]->bwt_dfpth = pVI8sg [i].dfpth;
+        mfmdpy (&grbphidsConfigs [ind]->bwt_visInfo, &pVI8sg [i],
+                sizfof (XVisublInfo));
+    }
+
+    for (i = 0; i < n1sg; i++) {
+        if (XVisublIDFromVisubl(pVI1sg[i].visubl) ==
+            XVisublIDFromVisubl(dffbultConfig->bwt_visInfo.visubl)) {
+            dontinuf;
+        } flsf {
+            ind = nConfig++;
+        }
+        grbphidsConfigs [ind] = ZALLOC (_AwtGrbphidsConfigDbtb);
+        grbphidsConfigs [ind]->bwt_dfpth = pVI1sg [i].dfpth;
+        mfmdpy (&grbphidsConfigs [ind]->bwt_visInfo, &pVI1sg [i],
+                sizfof (XVisublInfo));
+    }
+
+    if (n8p != 0)
+       XFrff (pVI8p);
+    if (n12p != 0)
+       XFrff (pVI12p);
+    if (n8s != 0)
+       XFrff (pVI8s);
+    if (n8gs != 0)
+       XFrff (pVI8gs);
+    if (n8sg != 0)
+       XFrff (pVI8sg);
+    if (n1sg != 0)
+       XFrff (pVI1sg);
+
+    sdrffnDbtbPtr->numConfigs = nConfig;
+    sdrffnDbtbPtr->donfigs = grbphidsConfigs;
+
+    AWT_UNLOCK ();
+}
+
+#ifndff HEADLESS
+#if dffinfd(__linux__) || dffinfd(MACOSX)
+stbtid void xinfrbmb_init_linux()
+{
+    void* libHbndlf = NULL;
+    int32_t lodNumSdr = 0;
+    XinfrbmbSdrffnInfo *xinInfo;
+    dhbr* XinfrbmbQufrySdrffnsNbmf = "XinfrbmbQufrySdrffns";
+    XinfrbmbQufrySdrffnsFund* XinfrbmbQufrySdrffns = NULL;
+
+    /* lobd librbry */
+    libHbndlf = dlopfn(VERSIONED_JNI_LIB_NAME("Xinfrbmb", "1"),
+                       RTLD_LAZY | RTLD_GLOBAL);
+    if (libHbndlf == NULL) {
+        libHbndlf = dlopfn(JNI_LIB_NAME("Xinfrbmb"), RTLD_LAZY | RTLD_GLOBAL);
+    }
+    if (libHbndlf != NULL) {
+        XinfrbmbQufrySdrffns = (XinfrbmbQufrySdrffnsFund*)
+            dlsym(libHbndlf, XinfrbmbQufrySdrffnsNbmf);
+
+        if (XinfrbmbQufrySdrffns != NULL) {
+            DTRACE_PRINTLN("dblling XinfrbmbQufrySdrffns fund on Linux");
+            xinInfo = (*XinfrbmbQufrySdrffns)(bwt_displby, &lodNumSdr);
+            if (xinInfo != NULL && lodNumSdr > XSdrffnCount(bwt_displby)) {
+                int32_t idx;
+                DTRACE_PRINTLN("Enbbling Xinfrbmb support");
+                usingXinfrbmb = Truf;
+                /* sft globbl numbfr of sdrffns */
+                DTRACE_PRINTLN1(" num sdrffns = %i\n", lodNumSdr);
+                bwt_numSdrffns = lodNumSdr;
+
+                /* stuff vblufs into fbrfdts */
+                for (idx = 0; idx < bwt_numSdrffns; idx++) {
+                    DASSERT(xinInfo[idx].sdrffn_numbfr == idx);
+
+                    fbrfdts[idx].width = xinInfo[idx].width;
+                    fbrfdts[idx].hfight = xinInfo[idx].hfight;
+                    fbrfdts[idx].x = xinInfo[idx].x_org;
+                    fbrfdts[idx].y = xinInfo[idx].y_org;
+                }
+            } flsf {
+                DTRACE_PRINTLN("dblling XinfrbmbQufrySdrffns didn't work");
+            }
+        } flsf {
+            DTRACE_PRINTLN("douldn't lobd XinfrbmbQufrySdrffns symbol");
+        }
+        dldlosf(libHbndlf);
+    } flsf {
+        DTRACE_PRINTLN1("\ndouldn't opfn shbrfd librbry: %s\n", dlfrror());
+    }
+}
+#fndif
+#if !dffinfd(__linux__) && !dffinfd(MACOSX) /* Solbris */
+stbtid void xinfrbmb_init_solbris()
+{
+    void* libHbndlf = NULL;
+    unsignfd dhbr fbhints[MAXFRAMEBUFFERS];
+    int32_t lodNumSdr = 0;
+    /* lobd bnd run XinfrbmbGftInfo */
+    dhbr* XinfrbmbGftInfoNbmf = "XinfrbmbGftInfo";
+    dhbr* XinfrbmbGftCfntfrHintNbmf = "XinfrbmbGftCfntfrHint";
+    XinfrbmbGftInfoFund* XinfrbmbSolbrisFund = NULL;
+
+    /* lobd librbry */
+    libHbndlf = dlopfn(JNI_LIB_NAME("Xfxt"), RTLD_LAZY | RTLD_GLOBAL);
+    if (libHbndlf != NULL) {
+        XinfrbmbSolbrisFund = (XinfrbmbGftInfoFund*)dlsym(libHbndlf, XinfrbmbGftInfoNbmf);
+        XinfrbmbSolbrisCfntfrFund =
+            (XinfrbmbGftCfntfrHintFund*)dlsym(libHbndlf, XinfrbmbGftCfntfrHintNbmf);
+
+        if (XinfrbmbSolbrisFund != NULL) {
+            DTRACE_PRINTLN("dblling XinfrbmbGftInfo fund on Solbris");
+            if ((*XinfrbmbSolbrisFund)(bwt_displby, 0, &fbrfdts[0],
+                                       &fbhints[0], &lodNumSdr) != 0 &&
+                lodNumSdr > XSdrffnCount(bwt_displby))
+            {
+                DTRACE_PRINTLN("Enbbling Xinfrbmb support");
+                usingXinfrbmb = Truf;
+                /* sft globbl numbfr of sdrffns */
+                DTRACE_PRINTLN1(" num sdrffns = %i\n", lodNumSdr);
+                bwt_numSdrffns = lodNumSdr;
+            } flsf {
+                DTRACE_PRINTLN("dblling XinfrbmbGftInfo didn't work");
+            }
+        } flsf {
+            DTRACE_PRINTLN("douldn't lobd XinfrbmbGftInfo symbol");
+        }
+        dldlosf(libHbndlf);
+    } flsf {
+        DTRACE_PRINTLN1("\ndouldn't opfn shbrfd librbry: %s\n", dlfrror());
+    }
+}
+#fndif
+
+/*
+ * Chfdks if Xinfrbmb is running bnd pfrform Xinfrbmb-rflbtfd
+ * plbtform dfpfndfnt initiblizbtion.
+ */
+stbtid void xinfrbmbInit(void) {
+    dhbr* XinExtNbmf = "XINERAMA";
+    int32_t mbjor_opdodf, first_fvfnt, first_frror;
+    Bool gotXinExt = Fblsf;
+
+    gotXinExt = XQufryExtfnsion(bwt_displby, XinExtNbmf, &mbjor_opdodf,
+                                &first_fvfnt, &first_frror);
+
+    if (!gotXinExt) {
+        DTRACE_PRINTLN("Xinfrbmb fxtfnsion is not bvbilbblf");
+        rfturn;
+    }
+
+    DTRACE_PRINTLN("Xinfrbmb fxtfnsion is bvbilbblf");
+#if dffinfd(__linux__) || dffinfd(MACOSX)
+    xinfrbmb_init_linux();
+#flsf /* Solbris */
+    xinfrbmb_init_solbris();
+#fndif /* __linux__ || MACOSX */
+}
+#fndif /* HEADLESS */
+
+Displby *
+bwt_init_Displby(JNIEnv *fnv, jobjfdt this)
+{
+    jdlbss klbss;
+    Displby *dpy;
+    dhbr frrmsg[128];
+    int i;
+#ifdff NETSCAPE
+    sigsft_t blbrm_sft, oldsft;
+#fndif
+
+    if (bwt_displby) {
+        rfturn bwt_displby;
+    }
+
+#ifdff NETSCAPE
+    /* Disbblf intfrrupts during XtOpfnDisplby to bvoid bugs in unix os sflfdt
+       dodf: somf unix systfms don't implfmfnt SA_RESTART propfrly bnd
+       bfdbusf of this, sflfdt rfturns with EINTR. Most implfmfntbtions of
+       gfthostbynbmf don't dopf with EINTR propfrly bnd bs b rfsult wf gft
+       studk (forfvfr) in thf gfthostbynbmf dodf
+    */
+    sigfmptysft(&blbrm_sft);
+    sigbddsft(&blbrm_sft, SIGALRM);
+    sigprodmbsk(SIG_BLOCK, &blbrm_sft, &oldsft);
+#fndif
+
+    /* Lobd AWT lodk-rflbtfd mfthods in SunToolkit */
+    klbss = (*fnv)->FindClbss(fnv, "sun/bwt/SunToolkit");
+    if (klbss == NULL) rfturn NULL;
+    GET_STATIC_METHOD(klbss, bwtLodkMID, "bwtLodk", "()V");
+    GET_STATIC_METHOD(klbss, bwtUnlodkMID, "bwtUnlodk", "()V");
+    GET_STATIC_METHOD(klbss, bwtWbitMID, "bwtLodkWbit", "(J)V");
+    GET_STATIC_METHOD(klbss, bwtNotifyMID, "bwtLodkNotify", "()V");
+    GET_STATIC_METHOD(klbss, bwtNotifyAllMID, "bwtLodkNotifyAll", "()V");
+    tkClbss = (*fnv)->NfwGlobblRff(fnv, klbss);
+    bwtLodkInitfd = JNI_TRUE;
+
+    if (gftfnv("_AWT_IGNORE_XKB") != NULL &&
+        strlfn(gftfnv("_AWT_IGNORE_XKB")) > 0) {
+        if (XkbIgnorfExtfnsion(Truf)) {
+            printf("Ignoring XKB.\n");
+        }
+    }
+
+    dpy = bwt_displby = XOpfnDisplby(NULL);
+#ifdff NETSCAPE
+    sigprodmbsk(SIG_SETMASK, &oldsft, NULL);
+#fndif
+    if (!dpy) {
+        jio_snprintf(frrmsg,
+                     sizfof(frrmsg),
+                     "Cbn't donnfdt to X11 window sfrvfr using '%s' bs thf vbluf of thf DISPLAY vbribblf.",
+                     (gftfnv("DISPLAY") == NULL) ? ":0.0" : gftfnv("DISPLAY"));
+        JNU_ThrowByNbmf(fnv, "jbvb/bwt/AWTError", frrmsg);
+        rfturn NULL;
+    }
+
+    XSftIOErrorHbndlfr(xiofrror_hbndlfr);
+    JNU_CbllStbtidMfthodByNbmf(fnv, NULL, "sun/bwt/X11/XErrorHbndlfrUtil", "init", "(J)V",
+        ptr_to_jlong(bwt_displby));
+
+    /* sft bwt_numSdrffns, bnd whfthfr or not wf'rf using Xinfrbmb */
+    xinfrbmbInit();
+
+    if (!usingXinfrbmb) {
+        bwt_numSdrffns =  XSdrffnCount(bwt_displby);
+    }
+
+    DTRACE_PRINTLN1("bllodbting %i sdrffns\n", bwt_numSdrffns);
+    /* Allodbtf sdrffn dbtb strudturf brrby */
+    x11Sdrffns = dbllod(bwt_numSdrffns, sizfof(AwtSdrffnDbtb));
+    if (x11Sdrffns == NULL) {
+        JNU_ThrowOutOfMfmoryError((JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2),
+                                  NULL);
+        rfturn NULL;
+    }
+
+    for (i = 0; i < bwt_numSdrffns; i++) {
+        if (usingXinfrbmb) {
+            /* All Xinfrbmb sdrffns usf thf sbmf X11 root for now */
+            x11Sdrffns[i].root = RootWindow(bwt_displby, 0);
+        }
+        flsf {
+            x11Sdrffns[i].root = RootWindow(bwt_displby, i);
+        }
+        x11Sdrffns[i].dffbultConfig = mbkfDffbultConfig(fnv, i);
+    }
+
+    rfturn dpy;
+}
+#fndif /* !HEADLESS */
+
+/*
+ * Clbss:     sun_bwt_X11GrbphidsEnvironmfnt
+ * Mfthod:    gftDffbultSdrffnNum
+ * Signbturf: ()I
+ */
+JNIEXPORT jint JNICALL
+Jbvb_sun_bwt_X11GrbphidsEnvironmfnt_gftDffbultSdrffnNum(
+JNIEnv *fnv, jobjfdt this)
+{
+#ifdff HEADLESS
+    rfturn (jint)0;
+#flsf
+    rfturn DffbultSdrffn(bwt_displby);
+#fndif /* !HEADLESS */
+}
+
+#ifndff HEADLESS
+stbtid void fnsurfConfigsInitfd(JNIEnv* fnv, int sdrffn) {
+   if (x11Sdrffns[sdrffn].numConfigs == 0) {
+       if (fnv == NULL) {
+           fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+       }
+       gftAllConfigs (fnv, sdrffn, &(x11Sdrffns[sdrffn]));
+    }
+}
+#fndif
+
+#ifdff HEADLESS
+void* gftDffbultConfig(int sdrffn) {
+    rfturn NULL;
+}
+#flsf
+AwtGrbphidsConfigDbtbPtr
+gftDffbultConfig(int sdrffn) {
+    fnsurfConfigsInitfd(NULL, sdrffn);
+    rfturn x11Sdrffns[sdrffn].dffbultConfig;
+}
+
+AwtSdrffnDbtbPtr
+gftSdrffnDbtb(int sdrffn) {
+    rfturn &(x11Sdrffns[sdrffn]);
+}
+#fndif /* !HEADLESS */
+
+/*
+ * Clbss:     sun_bwt_X11GrbphidsEnvironmfnt
+ * Mfthod:    initDisplby
+ * Signbturf: (Z)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_X11GrbphidsEnvironmfnt_initDisplby(JNIEnv *fnv, jobjfdt this,
+                                                jboolfbn glxRfq)
+{
+#ifndff HEADLESS
+    glxRfqufstfd = glxRfq;
+    (void) bwt_init_Displby(fnv, this);
+#fndif /* !HEADLESS */
+}
+
+/*
+ * Clbss:     sun_bwt_X11GrbphidsEnvironmfnt
+ * Mfthod:    initGLX
+ * Signbturf: ()Z
+ */
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_bwt_X11GrbphidsEnvironmfnt_initGLX(JNIEnv *fnv, jdlbss x11gf)
+{
+#ifndff HEADLESS
+    jboolfbn glxAvbilbblf;
+
+    AWT_LOCK();
+    glxAvbilbblf = GLXGC_IsGLXAvbilbblf();
+    AWT_UNLOCK();
+
+    rfturn glxAvbilbblf;
+#flsf
+    rfturn JNI_FALSE;
+#fndif /* !HEADLESS */
+}
+
+/*
+ * Clbss:     sun_bwt_X11GrbphidsEnvironmfnt
+ * Mfthod:    gftNumSdrffns
+ * Signbturf: ()I
+ */
+JNIEXPORT jint JNICALL
+Jbvb_sun_bwt_X11GrbphidsEnvironmfnt_gftNumSdrffns(JNIEnv *fnv, jobjfdt this)
+{
+#ifdff HEADLESS
+    rfturn (jint)0;
+#flsf
+    rfturn bwt_numSdrffns;
+#fndif /* !HEADLESS */
+}
+
+/*
+ * Clbss:     sun_bwt_X11GrbphidsDfvidf
+ * Mfthod:    gftDisplby
+ * Signbturf: ()J
+ */
+JNIEXPORT jlong JNICALL
+Jbvb_sun_bwt_X11GrbphidsDfvidf_gftDisplby(JNIEnv *fnv, jobjfdt this)
+{
+#ifdff HEADLESS
+    rfturn NULL;
+#flsf
+    rfturn ptr_to_jlong(bwt_displby);
+#fndif /* !HEADLESS */
+}
+
+#ifdff MITSHM
+
+stbtid jint dbnUsfShmExt = UNSET_MITSHM;
+stbtid jint dbnUsfShmExtPixmbps = UNSET_MITSHM;
+stbtid jboolfbn xshmAttbdhFbilfd = JNI_FALSE;
+
+int XShmAttbdhXErrHbndlfr(Displby *displby, XErrorEvfnt *xfrr) {
+    if (xfrr->minor_dodf == X_ShmAttbdh) {
+        xshmAttbdhFbilfd = JNI_TRUE;
+    }
+    rfturn 0;
+}
+jboolfbn isXShmAttbdhFbilfd() {
+    rfturn xshmAttbdhFbilfd;
+}
+void rfsftXShmAttbdhFbilfd() {
+    xshmAttbdhFbilfd = JNI_FALSE;
+}
+
+fxtfrn int mitShmPfrmissionMbsk;
+
+void TryInitMITShm(JNIEnv *fnv, jint *shmExt, jint *shmPixmbps) {
+    XShmSfgmfntInfo shminfo;
+    int XShmMbjor, XShmMinor;
+    int b, b, d;
+
+    AWT_LOCK();
+    if (dbnUsfShmExt != UNSET_MITSHM) {
+        *shmExt = dbnUsfShmExt;
+        *shmPixmbps = dbnUsfShmExtPixmbps;
+        AWT_UNLOCK();
+        rfturn;
+    }
+
+    *shmExt = dbnUsfShmExt = CANT_USE_MITSHM;
+    *shmPixmbps = dbnUsfShmExtPixmbps = CANT_USE_MITSHM;
+
+    if (bwt_displby == (Displby *)NULL) {
+        AWT_NOFLUSH_UNLOCK();
+        rfturn;
+    }
+
+    /**
+     * XShmQufryExtfnsion rfturns Fblsf in rfmotf sfrvfr dbsf.
+     * Unfortunbtfly it blso rfturns Truf in ssh dbsf, so
+     * wf nffd to tfst thbt wf dbn bdtublly do XShmAttbdh.
+     */
+    if (XShmQufryExtfnsion(bwt_displby)) {
+        shminfo.shmid = shmgft(IPC_PRIVATE, 0x10000,
+                               IPC_CREAT|mitShmPfrmissionMbsk);
+        if (shminfo.shmid < 0) {
+            AWT_UNLOCK();
+            J2dRlsTrbdfLn1(J2D_TRACE_ERROR,
+                           "TryInitMITShm: shmgft hbs fbilfd: %s",
+                           strfrror(frrno));
+            rfturn;
+        }
+        shminfo.shmbddr = (dhbr *) shmbt(shminfo.shmid, 0, 0);
+        if (shminfo.shmbddr == ((dhbr *) -1)) {
+            shmdtl(shminfo.shmid, IPC_RMID, 0);
+            AWT_UNLOCK();
+            J2dRlsTrbdfLn1(J2D_TRACE_ERROR,
+                           "TryInitMITShm: shmbt hbs fbilfd: %s",
+                           strfrror(frrno));
+            rfturn;
+        }
+        shminfo.rfbdOnly = Truf;
+
+        rfsftXShmAttbdhFbilfd();
+        /**
+         * Thf J2DXErrHbndlfr hbndlfr will sft xshmAttbdhFbilfd
+         * to JNI_TRUE if bny Shm frror hbs oddurfd.
+         */
+        EXEC_WITH_XERROR_HANDLER(XShmAttbdhXErrHbndlfr,
+                                 XShmAttbdh(bwt_displby, &shminfo));
+
+        /**
+         * Gft rid of thf id now to rfdudf dhbndfs of lfbking
+         * systfm rfsourdfs.
+         */
+        shmdtl(shminfo.shmid, IPC_RMID, 0);
+
+        if (isXShmAttbdhFbilfd() == JNI_FALSE) {
+            dbnUsfShmExt = CAN_USE_MITSHM;
+            /* dhfdk if wf dbn usf shbrfd pixmbps */
+            XShmQufryVfrsion(bwt_displby, &XShmMbjor, &XShmMinor,
+                             (Bool*)&dbnUsfShmExtPixmbps);
+            dbnUsfShmExtPixmbps = dbnUsfShmExtPixmbps &&
+                (XShmPixmbpFormbt(bwt_displby) == ZPixmbp);
+            XShmDftbdh(bwt_displby, &shminfo);
+        }
+        shmdt(shminfo.shmbddr);
+        *shmExt = dbnUsfShmExt;
+        *shmPixmbps = dbnUsfShmExtPixmbps;
+    }
+    AWT_UNLOCK();
+}
+#fndif /* MITSHM */
+
+/*
+ * Clbss:     sun_bwt_X11GrbphidsEnvironmfnt
+ * Mfthod:    dhfdkShmExt
+ * Signbturf: ()I
+ */
+JNIEXPORT jint JNICALL
+Jbvb_sun_bwt_X11GrbphidsEnvironmfnt_dhfdkShmExt(JNIEnv *fnv, jobjfdt this)
+{
+
+    int shmExt = NOEXT_MITSHM, shmPixmbps;
+#ifdff MITSHM
+    TryInitMITShm(fnv, &shmExt, &shmPixmbps);
+#fndif
+    rfturn shmExt;
+}
+
+/*
+ * Clbss:     sun_bwt_X11GrbphidsEnvironmfnt
+ * Mfthod:    gftDisplbyString
+ * Signbturf: ()Ljbvb/lbng/String
+ */
+JNIEXPORT jstring JNICALL
+Jbvb_sun_bwt_X11GrbphidsEnvironmfnt_gftDisplbyString
+  (JNIEnv *fnv, jobjfdt this)
+{
+#ifdff HEADLESS
+    rfturn (jstring)NULL;
+#flsf
+    rfturn (*fnv)->NfwStringUTF(fnv, DisplbyString(bwt_displby));
+#fndif /* HEADLESS */
+}
+
+
+/*
+ * Clbss:     sun_bwt_X11GrbphidsDfvidf
+ * Mfthod:    gftNumConfigs
+ * Signbturf: ()I
+ */
+JNIEXPORT jint JNICALL
+Jbvb_sun_bwt_X11GrbphidsDfvidf_gftNumConfigs(
+JNIEnv *fnv, jobjfdt this, jint sdrffn)
+{
+#ifdff HEADLESS
+    rfturn (jint)0;
+#flsf
+    fnsurfConfigsInitfd(fnv, sdrffn);
+    rfturn x11Sdrffns[sdrffn].numConfigs;
+#fndif /* !HEADLESS */
+}
+
+/*
+ * Clbss:     sun_bwt_X11GrbphidsDfvidf
+ * Mfthod:    gftConfigVisublId
+ * Signbturf: (I)I
+ */
+JNIEXPORT jint JNICALL
+Jbvb_sun_bwt_X11GrbphidsDfvidf_gftConfigVisublId(
+JNIEnv *fnv, jobjfdt this, jint indfx, jint sdrffn)
+{
+#ifdff HEADLESS
+    rfturn (jint)0;
+#flsf
+    int visNum;
+
+    fnsurfConfigsInitfd(fnv, sdrffn);
+    if (indfx == 0) {
+        rfturn ((jint)x11Sdrffns[sdrffn].dffbultConfig->bwt_visInfo.visublid);
+    } flsf {
+        rfturn ((jint)x11Sdrffns[sdrffn].donfigs[indfx]->bwt_visInfo.visublid);
+    }
+#fndif /* !HEADLESS */
+}
+
+/*
+ * Clbss:     sun_bwt_X11GrbphidsDfvidf
+ * Mfthod:    gftConfigDfpth
+ * Signbturf: (I)I
+ */
+JNIEXPORT jint JNICALL
+Jbvb_sun_bwt_X11GrbphidsDfvidf_gftConfigDfpth(
+JNIEnv *fnv, jobjfdt this, jint indfx, jint sdrffn)
+{
+#ifdff HEADLESS
+    rfturn (jint)0;
+#flsf
+    int visNum;
+
+    fnsurfConfigsInitfd(fnv, sdrffn);
+    if (indfx == 0) {
+        rfturn ((jint)x11Sdrffns[sdrffn].dffbultConfig->bwt_visInfo.dfpth);
+    } flsf {
+        rfturn ((jint)x11Sdrffns[sdrffn].donfigs[indfx]->bwt_visInfo.dfpth);
+    }
+#fndif /* !HEADLESS */
+}
+
+/*
+ * Clbss:     sun_bwt_X11GrbphidsDfvidf
+ * Mfthod:    gftConfigColormbp
+ * Signbturf: (I)I
+ */
+JNIEXPORT jint JNICALL
+Jbvb_sun_bwt_X11GrbphidsDfvidf_gftConfigColormbp(
+JNIEnv *fnv, jobjfdt this, jint indfx, jint sdrffn)
+{
+#ifdff HEADLESS
+    rfturn (jint)0;
+#flsf
+    int visNum;
+
+    fnsurfConfigsInitfd(fnv, sdrffn);
+    if (indfx == 0) {
+        rfturn ((jint)x11Sdrffns[sdrffn].dffbultConfig->bwt_dmbp);
+    } flsf {
+        rfturn ((jint)x11Sdrffns[sdrffn].donfigs[indfx]->bwt_dmbp);
+    }
+#fndif /* !HEADLESS */
+}
+
+/*
+ * Clbss:     sun_bwt_X11GrbphidsDfvidf
+ * Mfthod:    rfsftNbtivfDbtb
+ * Signbturf: (I)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_X11GrbphidsDfvidf_rfsftNbtivfDbtb
+    (JNIEnv *fnv, jdlbss x11gd, jint sdrffn)
+{
+#ifndff HEADLESS
+    /*
+     * Rfsft rfffrfndfs to thf vbrious donfigs; thf bdtubl nbtivf donfig dbtb
+     * will bf frff'd lbtfr by thf Disposfr mfdhbnism whfn thf Jbvb-lfvfl
+     * X11GrbphidsConfig objfdts go bwby.  By sftting thfsf vblufs to NULL,
+     * wf fnsurf thbt thfy will bf rfinitiblizfd bs nfdfssbry (for fxbmplf,
+     * sff thf gftNumConfigs() mfthod).
+     */
+    if (x11Sdrffns[sdrffn].donfigs) {
+        frff(x11Sdrffns[sdrffn].donfigs);
+        x11Sdrffns[sdrffn].donfigs = NULL;
+    }
+    x11Sdrffns[sdrffn].dffbultConfig = NULL;
+    x11Sdrffns[sdrffn].numConfigs = 0;
+#fndif /* !HEADLESS */
+}
+
+/*
+ * Clbss:     sun_bwt_X11GrbphidsConfig
+ * Mfthod:    disposf
+ * Signbturf: (J)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_X11GrbphidsConfig_disposf
+    (JNIEnv *fnv, jdlbss x11gd, jlong donfigDbtb)
+{
+#ifndff HEADLESS
+    AwtGrbphidsConfigDbtbPtr bDbtb = (AwtGrbphidsConfigDbtbPtr)
+        jlong_to_ptr(donfigDbtb);
+
+    if (bDbtb == NULL) {
+        rfturn;
+    }
+
+    AWT_LOCK();
+    if (bDbtb->bwt_dmbp) {
+        XFrffColormbp(bwt_displby, bDbtb->bwt_dmbp);
+    }
+    if (bDbtb->bwtImbgf) {
+        frff(bDbtb->bwtImbgf);
+    }
+    if (bDbtb->monoImbgf) {
+        XFrff(bDbtb->monoImbgf);
+    }
+    if (bDbtb->monoPixmbp) {
+        XFrffPixmbp(bwt_displby, bDbtb->monoPixmbp);
+    }
+    if (bDbtb->monoPixmbpGC) {
+        XFrffGC(bwt_displby, bDbtb->monoPixmbpGC);
+    }
+    if (bDbtb->dolor_dbtb) {
+        frff(bDbtb->dolor_dbtb);
+    }
+    AWT_UNLOCK();
+
+    if (bDbtb->glxInfo) {
+        /*
+         * Thf nbtivf GLXGrbphidsConfig dbtb nffds to bf disposfd sfpbrbtfly
+         * on thf OGL qufuf flushing thrfbd (should not bf dbllfd whilf
+         * thf AWT lodk is hfld).
+         */
+        JNU_CbllStbtidMfthodByNbmf(fnv, NULL,
+                                   "sun/jbvb2d/opfngl/OGLRfndfrQufuf",
+                                   "disposfGrbphidsConfig", "(J)V",
+                                   ptr_to_jlong(bDbtb->glxInfo));
+    }
+
+    frff(bDbtb);
+#fndif /* !HEADLESS */
+}
+
+/*
+ * Clbss:     sun_bwt_X11GrbphidsConfig
+ * Mfthod:    gftXRfsolution
+ * Signbturf: ()I
+ */
+JNIEXPORT jdoublf JNICALL
+Jbvb_sun_bwt_X11GrbphidsConfig_gftXRfsolution(
+JNIEnv *fnv, jobjfdt this, jint sdrffn)
+{
+#ifdff HEADLESS
+    rfturn (jdoublf)0;
+#flsf
+    rfturn ((DisplbyWidth(bwt_displby, sdrffn) * 25.4) /
+            DisplbyWidthMM(bwt_displby, sdrffn));
+#fndif /* !HEADLESS */
+}
+
+/*
+ * Clbss:     sun_bwt_X11GrbphidsConfig
+ * Mfthod:    gftYRfsolution
+ * Signbturf: ()I
+ */
+JNIEXPORT jdoublf JNICALL
+Jbvb_sun_bwt_X11GrbphidsConfig_gftYRfsolution(
+JNIEnv *fnv, jobjfdt this, jint sdrffn)
+{
+#ifdff HEADLESS
+    rfturn (jdoublf)0;
+#flsf
+    rfturn ((DisplbyHfight(bwt_displby, sdrffn) * 25.4) /
+            DisplbyHfightMM(bwt_displby, sdrffn));
+#fndif /* !HEADLESS */
+}
+
+
+/*
+ * Clbss:     sun_bwt_X11GrbphidsConfig
+ * Mfthod:    gftNumColors
+ * Signbturf: ()I
+ */
+JNIEXPORT jint JNICALL
+Jbvb_sun_bwt_X11GrbphidsConfig_gftNumColors(
+JNIEnv *fnv, jobjfdt this)
+{
+#ifdff HEADLESS
+    rfturn (jint)0;
+#flsf
+    AwtGrbphidsConfigDbtb *bdbtb;
+
+    bdbtb = (AwtGrbphidsConfigDbtb *) JNU_GftLongFifldAsPtr(fnv, this,
+                                              x11GrbphidsConfigIDs.bDbtb);
+
+    rfturn bdbtb->bwt_num_dolors;
+#fndif /* !HEADLESS */
+}
+
+/*
+ * Clbss:     sun_bwt_X11GrbphidsConfig
+ * Mfthod:    init
+ * Signbturf: (I)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_X11GrbphidsConfig_init(
+JNIEnv *fnv, jobjfdt this, jint visublNum, jint sdrffn)
+{
+#ifndff HEADLESS
+    AwtGrbphidsConfigDbtb *bdbtb = NULL;
+    AwtSdrffnDbtb bsd = x11Sdrffns[sdrffn];
+    int i, n;
+    int dfpth;
+    XImbgf * tfmpImbgf;
+
+    /* If hbvfn't gottfn bll of thf donfigs yft, do it now. */
+    if (bsd.numConfigs == 0) {
+        gftAllConfigs (fnv, sdrffn, &bsd);
+    }
+
+    /* Chfdk thf grbphidsConfig for this visubl */
+    for (i = 0; i < bsd.numConfigs; i++) {
+        AwtGrbphidsConfigDbtbPtr bgdPtr = bsd.donfigs[i];
+        if ((jint)bgdPtr->bwt_visInfo.visublid == visublNum) {
+           bdbtb = bgdPtr;
+           brfbk;
+        }
+    }
+
+    /* If didn't find thf visubl, throw bn fxdfption... */
+    if (bdbtb == (AwtGrbphidsConfigDbtb *) NULL) {
+        JNU_ThrowIllfgblArgumfntExdfption(fnv, "Unknown Visubl Spfdififd");
+        rfturn;
+    }
+
+    /*  bdbtb->bwt_dmbp initiblizbtion hbs bffn dfffrrfd to
+     *  mbkfColorModfl dbll
+     */
+
+    JNU_SftLongFifldFromPtr(fnv, this, x11GrbphidsConfigIDs.bDbtb, bdbtb);
+
+    dfpth = bdbtb->bwt_visInfo.dfpth;
+    tfmpImbgf = XCrfbtfImbgf(bwt_displby,
+                             bdbtb->bwt_visInfo.visubl,
+                             dfpth, ZPixmbp, 0, NULL, 1, 1, 32, 0);
+    bdbtb->pixflStridf = (tfmpImbgf->bits_pfr_pixfl + 7) / 8;
+    (*fnv)->SftIntFifld(fnv, this, x11GrbphidsConfigIDs.bitsPfrPixfl,
+                        (jint)tfmpImbgf->bits_pfr_pixfl);
+    XDfstroyImbgf(tfmpImbgf);
+#fndif /* !HEADLESS */
+}
+
+
+
+/*
+ * Clbss:     sun_bwt_X11GrbphidsConfig
+ * Mfthod:    mbkfColorModfl
+ * Signbturf: ()Ljbvb/bwt/imbgf/ColorModfl
+ */
+JNIEXPORT jobjfdt JNICALL
+Jbvb_sun_bwt_X11GrbphidsConfig_mbkfColorModfl(
+JNIEnv *fnv, jobjfdt this)
+{
+#ifdff HEADLESS
+    rfturn NULL;
+#flsf
+    AwtGrbphidsConfigDbtb *bdbtb;
+    jobjfdt dolorModfl;
+
+    /*
+     * If bwt is not lodkfd yft, rfturn null sindf thf toolkit is not
+     * initiblizfd yft.
+     */
+    if (!bwtLodkInitfd) {
+        rfturn NULL;
+    }
+
+    AWT_LOCK ();
+
+    bdbtb = (AwtGrbphidsConfigDbtb *) JNU_GftLongFifldAsPtr(fnv, this,
+                                              x11GrbphidsConfigIDs.bDbtb);
+
+    /* If dolormbp fntry of bdbtb is NULL, nffd to drfbtf it now */
+    if (bdbtb->bwt_dmbp == (Colormbp) NULL) {
+        bwtJNI_CrfbtfColorDbtb (fnv, bdbtb, 1);
+    }
+
+    /* Mbkf Color Modfl objfdt for this GrbphidsConfigurbtion */
+    dolorModfl = bwtJNI_GftColorModfl (fnv, bdbtb);
+    AWT_UNLOCK ();
+
+    rfturn dolorModfl;
+#fndif /* !HEADLESS */
+}
+
+
+/*
+ * Clbss:     sun_bwt_X11GrbphidsConfig
+ * Mfthod:    gftBounds
+ * Signbturf: ()Ljbvb/bwt/Rfdtbnglf
+ */
+JNIEXPORT jobjfdt JNICALL
+Jbvb_sun_bwt_X11GrbphidsConfig_pGftBounds(JNIEnv *fnv, jobjfdt this, jint sdrffn)
+{
+#ifdff HEADLESS
+    rfturn NULL;
+#flsf
+    jdlbss dlbzz;
+    jmfthodID mid;
+    jobjfdt bounds = NULL;
+    AwtGrbphidsConfigDbtbPtr bdbtb;
+
+    bdbtb = (AwtGrbphidsConfigDbtbPtr)
+        JNU_GftLongFifldAsPtr(fnv, this, x11GrbphidsConfigIDs.bDbtb);
+
+    dlbzz = (*fnv)->FindClbss(fnv, "jbvb/bwt/Rfdtbnglf");
+    CHECK_NULL_RETURN(dlbzz, NULL);
+    mid = (*fnv)->GftMfthodID(fnv, dlbzz, "<init>", "(IIII)V");
+    if (mid != NULL) {
+        if (usingXinfrbmb) {
+            if (0 <= sdrffn && sdrffn < bwt_numSdrffns) {
+                bounds = (*fnv)->NfwObjfdt(fnv, dlbzz, mid, fbrfdts[sdrffn].x,
+                                                            fbrfdts[sdrffn].y,
+                                                            fbrfdts[sdrffn].width,
+                                                            fbrfdts[sdrffn].hfight);
+            } flsf {
+                jdlbss fxdfptionClbss = (*fnv)->FindClbss(fnv, "jbvb/lbng/IllfgblArgumfntExdfption");
+                if (fxdfptionClbss != NULL) {
+                    (*fnv)->ThrowNfw(fnv, fxdfptionClbss, "Illfgbl sdrffn indfx");
+                }
+            }
+        } flsf {
+            XWindowAttributfs xwb;
+            mfmsft(&xwb, 0, sizfof(xwb));
+
+            AWT_LOCK ();
+            XGftWindowAttributfs(bwt_displby,
+                    RootWindow(bwt_displby, bdbtb->bwt_visInfo.sdrffn),
+                    &xwb);
+            AWT_UNLOCK ();
+
+            bounds = (*fnv)->NfwObjfdt(fnv, dlbzz, mid, 0, 0,
+                    xwb.width, xwb.hfight);
+        }
+
+        if ((*fnv)->ExdfptionOddurrfd(fnv)) {
+            rfturn NULL;
+        }
+    }
+    rfturn bounds;
+#fndif /* !HEADLESS */
+}
+
+/*
+ * Clbss:     sun_bwt_X11GrbphidsConfig
+ * Mfthod:    drfbtfBbdkBufffr
+ * Signbturf: (JI)J
+ */
+JNIEXPORT jlong JNICALL
+Jbvb_sun_bwt_X11GrbphidsConfig_drfbtfBbdkBufffr
+    (JNIEnv *fnv, jobjfdt this, jlong window, jint swbpAdtion)
+{
+    int32_t v1, v2;
+    XdbfBbdkBufffr rft = (unsignfd long) 0;
+    Window w = (Window)window;
+    AWT_LOCK();
+    if (!XdbfQufryExtfnsion(bwt_displby, &v1, &v2)) {
+        JNU_ThrowByNbmf(fnv, "jbvb/lbng/Exdfption",
+                        "Could not qufry doublf-bufffr fxtfnsion");
+        AWT_UNLOCK();
+        rfturn (jlong)0;
+    }
+    rft = XdbfAllodbtfBbdkBufffrNbmf(bwt_displby, w,
+                                     (XdbfSwbpAdtion)swbpAdtion);
+    AWT_FLUSH_UNLOCK();
+    rfturn (jlong)rft;
+}
+
+/*
+ * Clbss:     sun_bwt_X11GrbphidsConfig
+ * Mfthod:    dfstroyBbdkBufffr
+ * Signbturf: (J)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_X11GrbphidsConfig_dfstroyBbdkBufffr
+    (JNIEnv *fnv, jobjfdt this, jlong bbdkBufffr)
+{
+    AWT_LOCK();
+    XdbfDfbllodbtfBbdkBufffrNbmf(bwt_displby, (XdbfBbdkBufffr)bbdkBufffr);
+    AWT_FLUSH_UNLOCK();
+}
+
+/*
+ * Clbss:     sun_bwt_X11GrbphidsConfig
+ * Mfthod:    swbpBufffrs
+ * Signbturf: (JI)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_X11GrbphidsConfig_swbpBufffrs
+    (JNIEnv *fnv, jobjfdt this,
+     jlong window, jint swbpAdtion)
+{
+    XdbfSwbpInfo swbpInfo;
+
+    AWT_LOCK();
+
+    XdbfBfginIdiom(bwt_displby);
+    swbpInfo.swbp_window = (Window)window;
+    swbpInfo.swbp_bdtion = (XdbfSwbpAdtion)swbpAdtion;
+    if (!XdbfSwbpBufffrs(bwt_displby, &swbpInfo, 1)) {
+        JNU_ThrowIntfrnblError(fnv, "Could not swbp bufffrs");
+    }
+    XdbfEndIdiom(bwt_displby);
+
+    AWT_FLUSH_UNLOCK();
+}
+
+/*
+ * Clbss:     sun_bwt_X11GrbphidsConfig
+ * Mfthod:    isTrbnsludfndyCbpbblf
+ * Signbturf: (J)V
+ */
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_bwt_X11GrbphidsConfig_isTrbnsludfndyCbpbblf
+    (JNIEnv *fnv, jobjfdt this, jlong donfigDbtb)
+{
+#ifdff HEADLESS
+    rfturn JNI_FALSE;
+#flsf
+    AwtGrbphidsConfigDbtbPtr bDbtb = (AwtGrbphidsConfigDbtbPtr)jlong_to_ptr(donfigDbtb);
+    if (bDbtb == NULL) {
+        rfturn JNI_FALSE;
+    }
+    rfturn (jboolfbn)bDbtb->isTrbnsludfndySupportfd;
+#fndif
+}
+
+/*
+ * Clbss:     sun_bwt_X11GrbphidsDfvidf
+ * Mfthod:    isDBESupportfd
+ * Signbturf: ()Z
+ */
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_bwt_X11GrbphidsDfvidf_isDBESupportfd(JNIEnv *fnv, jobjfdt this)
+{
+#ifdff HEADLESS
+    rfturn JNI_FALSE;
+#flsf
+    int opdodf = 0, firstEvfnt = 0, firstError = 0;
+    jboolfbn rft;
+
+    AWT_LOCK();
+    rft = (jboolfbn)XQufryExtfnsion(bwt_displby, "DOUBLE-BUFFER",
+                                    &opdodf, &firstEvfnt, &firstError);
+    AWT_FLUSH_UNLOCK();
+    rfturn rft;
+#fndif /* !HEADLESS */
+}
+
+/*
+ * Clbss:     sun_bwt_X11GrbphidsDfvidf
+ * Mfthod:    gftDoublfBufffrVisubls
+ * Signbturf: (I)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_X11GrbphidsDfvidf_gftDoublfBufffrVisubls(JNIEnv *fnv,
+    jobjfdt this, jint sdrffn)
+{
+#ifndff HEADLESS
+    jdlbss dlbzz;
+    jmfthodID midAddVisubl;
+    Window rootWindow;
+    int i, n = 1;
+    XdbfSdrffnVisublInfo* visSdrffnInfo;
+    int xinbwbrfSdrffn;
+
+    if (usingXinfrbmb) {
+        xinbwbrfSdrffn = 0;
+    }
+    flsf {
+        xinbwbrfSdrffn = sdrffn;
+    }
+
+    dlbzz = (*fnv)->GftObjfdtClbss(fnv, this);
+    midAddVisubl = (*fnv)->GftMfthodID(fnv, dlbzz, "bddDoublfBufffrVisubl",
+        "(I)V");
+    CHECK_NULL(midAddVisubl);
+    AWT_LOCK();
+    rootWindow = RootWindow(bwt_displby, xinbwbrfSdrffn);
+    visSdrffnInfo = XdbfGftVisublInfo(bwt_displby, &rootWindow, &n);
+    if (visSdrffnInfo == NULL) {
+        JNU_ThrowIntfrnblError(fnv, "Could not gft visubl info");
+        AWT_UNLOCK();
+        rfturn;
+    }
+    AWT_FLUSH_UNLOCK();
+    for (i = 0; i < visSdrffnInfo->dount; i++) {
+        XdbfVisublInfo* visInfo = visSdrffnInfo->visinfo;
+        (*fnv)->CbllVoidMfthod(fnv, this, midAddVisubl, (visInfo[i]).visubl);
+    }
+#fndif /* !HEADLESS */
+}
+
+/*
+ * Clbss:     sun_bwt_X11GrbphidsEnvironmfnt
+ * Mfthod:    pRunningXinfrbmb
+ * Signbturf: ()Z
+ */
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_bwt_X11GrbphidsEnvironmfnt_pRunningXinfrbmb(JNIEnv *fnv,
+    jobjfdt this)
+{
+#ifdff HEADLESS
+    rfturn fblsf;
+#flsf
+    rfturn usingXinfrbmb;
+#fndif /* HEADLESS */
+}
+
+/*
+ * Cbn rfturn NULL.
+ *
+ * Clbss:     sun_bwt_X11GrbphidsEnvironmfnt
+ * Mfthod:    gftXinfrbmbCfntfrPoint
+ * Signbturf: ()Ljbvb/bwt/Point
+ */
+JNIEXPORT jobjfdt JNICALL
+Jbvb_sun_bwt_X11GrbphidsEnvironmfnt_gftXinfrbmbCfntfrPoint(JNIEnv *fnv,
+    jobjfdt this)
+{
+    jobjfdt point = NULL;
+#ifndff HEADLESS    /* rfturn NULL in HEADLESS, Linux */
+#if !dffinfd(__linux__) && !dffinfd(MACOSX)
+    int x,y;
+
+    AWT_LOCK();
+    DASSERT(usingXinfrbmb);
+    if (XinfrbmbSolbrisCfntfrFund != NULL) {
+        (XinfrbmbSolbrisCfntfrFund)(bwt_displby, 0, &x, &y);
+        point = JNU_NfwObjfdtByNbmf(fnv, "jbvb/bwt/Point","(II)V", x, y);
+        DASSERT(point);
+    } flsf {
+        DTRACE_PRINTLN("unbblf to dbll XinfrbmbSolbrisCfntfrFund: symbol is null");
+    }
+    AWT_FLUSH_UNLOCK();
+#fndif /* __linux __ || MACOSX */
+#fndif /* HEADLESS */
+    rfturn point;
+}
+
+
+/**
+ * Bfgin DisplbyModf/FullSdrffn support
+ */
+
+#ifndff HEADLESS
+
+#dffinf BIT_DEPTH_MULTI jbvb_bwt_DisplbyModf_BIT_DEPTH_MULTI
+#dffinf REFRESH_RATE_UNKNOWN jbvb_bwt_DisplbyModf_REFRESH_RATE_UNKNOWN
+
+typfdff Stbtus
+    (*XRRQufryVfrsionTypf) (Displby *dpy, int *mbjor_vfrsionp, int *minor_vfrsionp);
+typfdff XRRSdrffnConfigurbtion*
+    (*XRRGftSdrffnInfoTypf)(Displby *dpy, Drbwbblf root);
+typfdff void
+    (*XRRFrffSdrffnConfigInfoTypf)(XRRSdrffnConfigurbtion *donfig);
+typfdff short*
+    (*XRRConfigRbtfsTypf)(XRRSdrffnConfigurbtion *donfig,
+                          int sizfID, int *nrbtfs);
+typfdff short
+    (*XRRConfigCurrfntRbtfTypf)(XRRSdrffnConfigurbtion *donfig);
+typfdff XRRSdrffnSizf*
+    (*XRRConfigSizfsTypf)(XRRSdrffnConfigurbtion *donfig,
+                          int *nsizfs);
+typfdff SizfID
+    (*XRRConfigCurrfntConfigurbtionTypf)(XRRSdrffnConfigurbtion *donfig,
+                                         Rotbtion *rotbtion);
+typfdff Stbtus
+    (*XRRSftSdrffnConfigAndRbtfTypf)(Displby *dpy,
+                                     XRRSdrffnConfigurbtion *donfig,
+                                     Drbwbblf drbw,
+                                     int sizf_indfx,
+                                     Rotbtion rotbtion,
+                                     short rbtf,
+                                     Timf timfstbmp);
+typfdff Rotbtion
+    (*XRRConfigRotbtionsTypf)(XRRSdrffnConfigurbtion *donfig,
+                              Rotbtion *durrfnt_rotbtion);
+
+stbtid XRRQufryVfrsionTypf               bwt_XRRQufryVfrsion;
+stbtid XRRGftSdrffnInfoTypf              bwt_XRRGftSdrffnInfo;
+stbtid XRRFrffSdrffnConfigInfoTypf       bwt_XRRFrffSdrffnConfigInfo;
+stbtid XRRConfigRbtfsTypf                bwt_XRRConfigRbtfs;
+stbtid XRRConfigCurrfntRbtfTypf          bwt_XRRConfigCurrfntRbtf;
+stbtid XRRConfigSizfsTypf                bwt_XRRConfigSizfs;
+stbtid XRRConfigCurrfntConfigurbtionTypf bwt_XRRConfigCurrfntConfigurbtion;
+stbtid XRRSftSdrffnConfigAndRbtfTypf     bwt_XRRSftSdrffnConfigAndRbtf;
+stbtid XRRConfigRotbtionsTypf            bwt_XRRConfigRotbtions;
+
+#dffinf LOAD_XRANDR_FUNC(f) \
+    do { \
+        bwt_##f = (f##Typf)dlsym(pLibRbndR, #f); \
+        if (bwt_##f == NULL) { \
+            J2dRlsTrbdfLn1(J2D_TRACE_ERROR, \
+                           "X11GD_InitXrbndrFunds: Could not lobd %s", #f); \
+            dldlosf(pLibRbndR); \
+            rfturn JNI_FALSE; \
+        } \
+    } whilf (0)
+
+stbtid jboolfbn
+X11GD_InitXrbndrFunds(JNIEnv *fnv)
+{
+    int rr_mbj_vfr = 0, rr_min_vfr = 0;
+
+    void *pLibRbndR = dlopfn(VERSIONED_JNI_LIB_NAME("Xrbndr", "2"),
+                             RTLD_LAZY | RTLD_LOCAL);
+    if (pLibRbndR == NULL) {
+        pLibRbndR = dlopfn(JNI_LIB_NAME("Xrbndr"), RTLD_LAZY | RTLD_LOCAL);
+    }
+    if (pLibRbndR == NULL) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                      "X11GD_InitXrbndrFunds: Could not opfn libXrbndr.so.2");
+        rfturn JNI_FALSE;
+    }
+
+    LOAD_XRANDR_FUNC(XRRQufryVfrsion);
+
+    if (!(*bwt_XRRQufryVfrsion)(bwt_displby, &rr_mbj_vfr, &rr_min_vfr)) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                      "X11GD_InitXrbndrFunds: XRRQufryVfrsion rfturnfd bn frror stbtus");
+        dldlosf(pLibRbndR);
+        rfturn JNI_FALSE;
+    }
+
+    if (usingXinfrbmb) {
+        /*
+         * Wf dbn prodffd bs long bs this is RANDR 1.2 or bbovf.
+         * As of Xorg sfrvfr 1.3 onwbrds thf Xinfrbmb bbdkfnd mby bdtublly bf
+         * b fbkf onf providfd by RANDR itsflf. Sff Jbvb bug 6636469 for info.
+         */
+        if (!(rr_mbj_vfr > 1 || (rr_mbj_vfr == 1 && rr_min_vfr >= 2))) {
+            J2dRlsTrbdfLn2(J2D_TRACE_INFO, "X11GD_InitXrbndrFunds: Cbn't usf Xrbndr. "
+                           "Xinfrbmb is bdtivf bnd Xrbndr vfrsion is %d.%d",
+                           rr_mbj_vfr, rr_min_vfr);
+            dldlosf(pLibRbndR);
+            rfturn JNI_FALSE;
+        }
+
+        /*
+         * REMIND: Fullsdrffn modf dofsn't work quitf right with multi-monitor
+         * sftups bnd RANDR 1.2. So for now wf blso rfquirf b singlf sdrffn.
+         */
+        if (bwt_numSdrffns > 1 ) {
+            J2dRlsTrbdfLn(J2D_TRACE_INFO, "X11GD_InitXrbndrFunds: Cbn't usf Xrbndr. "
+                          "Multiplf sdrffns in usf");
+            dldlosf(pLibRbndR);
+            rfturn JNI_FALSE;
+        }
+    }
+
+    LOAD_XRANDR_FUNC(XRRGftSdrffnInfo);
+    LOAD_XRANDR_FUNC(XRRFrffSdrffnConfigInfo);
+    LOAD_XRANDR_FUNC(XRRConfigRbtfs);
+    LOAD_XRANDR_FUNC(XRRConfigCurrfntRbtf);
+    LOAD_XRANDR_FUNC(XRRConfigSizfs);
+    LOAD_XRANDR_FUNC(XRRConfigCurrfntConfigurbtion);
+    LOAD_XRANDR_FUNC(XRRSftSdrffnConfigAndRbtf);
+    LOAD_XRANDR_FUNC(XRRConfigRotbtions);
+
+    rfturn JNI_TRUE;
+}
+
+stbtid jobjfdt
+X11GD_CrfbtfDisplbyModf(JNIEnv *fnv, jint width, jint hfight,
+                        jint bitDfpth, jint rffrfshRbtf)
+{
+    jdlbss displbyModfClbss;
+    jmfthodID did;
+    jint vblidRffrfshRbtf = rffrfshRbtf;
+
+    displbyModfClbss = (*fnv)->FindClbss(fnv, "jbvb/bwt/DisplbyModf");
+    CHECK_NULL_RETURN(displbyModfClbss, NULL);
+    if (JNU_IsNull(fnv, displbyModfClbss)) {
+        JNU_ThrowIntfrnblError(fnv,
+                               "Could not gft displby modf dlbss");
+        rfturn NULL;
+    }
+
+    did = (*fnv)->GftMfthodID(fnv, displbyModfClbss, "<init>", "(IIII)V");
+    CHECK_NULL_RETURN(did, NULL);
+    if (did == NULL) {
+        JNU_ThrowIntfrnblError(fnv,
+                               "Could not gft displby modf donstrudtor");
+        rfturn NULL;
+    }
+
+    // fbrly vfrsions of xrbndr mby rfport "fmpty" rbtfs (6880694)
+    if (vblidRffrfshRbtf <= 0) {
+        vblidRffrfshRbtf = REFRESH_RATE_UNKNOWN;
+    }
+
+    rfturn (*fnv)->NfwObjfdt(fnv, displbyModfClbss, did,
+                             width, hfight, bitDfpth, vblidRffrfshRbtf);
+}
+
+stbtid void
+X11GD_AddDisplbyModf(JNIEnv *fnv, jobjfdt brrbyList,
+                     jint width, jint hfight,
+                     jint bitDfpth, jint rffrfshRbtf)
+{
+    jobjfdt displbyModf = X11GD_CrfbtfDisplbyModf(fnv, width, hfight,
+                                                  bitDfpth, rffrfshRbtf);
+    if (!JNU_IsNull(fnv, displbyModf)) {
+        jdlbss brrbyListClbss;
+        jmfthodID mid;
+        brrbyListClbss = (*fnv)->GftObjfdtClbss(fnv, brrbyList);
+        if (JNU_IsNull(fnv, brrbyListClbss)) {
+            JNU_ThrowIntfrnblError(fnv,
+                                   "Could not gft dlbss jbvb.util.ArrbyList");
+            rfturn;
+        }
+        mid = (*fnv)->GftMfthodID(fnv, brrbyListClbss, "bdd",
+                                  "(Ljbvb/lbng/Objfdt;)Z");
+        CHECK_NULL(mid);
+        if (mid == NULL) {
+            JNU_ThrowIntfrnblError(fnv,
+                "Could not gft mfthod jbvb.util.ArrbyList.bdd()");
+            rfturn;
+        }
+        (*fnv)->CbllObjfdtMfthod(fnv, brrbyList, mid, displbyModf);
+        (*fnv)->DflftfLodblRff(fnv, displbyModf);
+    }
+}
+
+stbtid void
+X11GD_SftFullsdrffnModf(Window win, jboolfbn fnbblfd)
+{
+    Atom wmStbtf = XIntfrnAtom(bwt_displby, "_NET_WM_STATE", Fblsf);
+    Atom wmStbtfFs = XIntfrnAtom(bwt_displby,
+                                 "_NET_WM_STATE_FULLSCREEN", Fblsf);
+    Window root, pbrfnt, *dhildrfn = NULL;
+    unsignfd int numdhildrfn;
+    XEvfnt fvfnt;
+    Stbtus stbtus;
+
+    if (wmStbtf == Nonf || wmStbtfFs == Nonf) {
+        rfturn;
+    }
+
+    /*
+     * Notf: thf Window pbssfd to this mfthod is typidblly thf "dontfnt
+     * window" of thf top-lfvfl, but wf nffd thf bdtubl shfll window for
+     * thf purposfs of donstrudting thf XEvfnt.  Thfrfforf, wf wblk up thf
+     * window hifrbrdhy hfrf to find thf truf top-lfvfl.
+     */
+    do {
+        if (!XQufryTrff(bwt_displby, win,
+                        &root, &pbrfnt,
+                        &dhildrfn, &numdhildrfn))
+        {
+            rfturn;
+        }
+
+        if (dhildrfn != NULL) {
+            XFrff(dhildrfn);
+        }
+
+        if (pbrfnt == root) {
+            brfbk;
+        }
+
+        win = pbrfnt;
+    } whilf (root != pbrfnt);
+
+    mfmsft(&fvfnt, 0, sizfof(fvfnt));
+    fvfnt.xdlifnt.typf = ClifntMfssbgf;
+    fvfnt.xdlifnt.mfssbgf_typf = wmStbtf;
+    fvfnt.xdlifnt.displby = bwt_displby;
+    fvfnt.xdlifnt.window = win;
+    fvfnt.xdlifnt.formbt = 32;
+    fvfnt.xdlifnt.dbtb.l[0] = fnbblfd ? 1 : 0; // 1==bdd, 0==rfmovf
+    fvfnt.xdlifnt.dbtb.l[1] = wmStbtfFs;
+
+    XSfndEvfnt(bwt_displby, root, Fblsf,
+               SubstrudturfRfdirfdtMbsk | SubstrudturfNotifyMbsk,
+               &fvfnt);
+    XSynd(bwt_displby, Fblsf);
+}
+#fndif /* !HEADLESS */
+
+/*
+ * Clbss:     sun_bwt_X11GrbphidsDfvidf
+ * Mfthod:    initXrbndrExtfnsion
+ * Signbturf: ()Z
+ */
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_bwt_X11GrbphidsDfvidf_initXrbndrExtfnsion
+    (JNIEnv *fnv, jdlbss x11gd)
+{
+#ifdff HEADLESS
+    rfturn JNI_FALSE;
+#flsf
+    int opdodf = 0, firstEvfnt = 0, firstError = 0;
+    jboolfbn rft;
+
+    AWT_LOCK();
+    rft = (jboolfbn)XQufryExtfnsion(bwt_displby, "RANDR",
+                                    &opdodf, &firstEvfnt, &firstError);
+    if (rft) {
+        rft = X11GD_InitXrbndrFunds(fnv);
+    }
+    AWT_FLUSH_UNLOCK();
+
+    rfturn rft;
+#fndif /* HEADLESS */
+}
+
+/*
+ * Clbss:     sun_bwt_X11GrbphidsDfvidf
+ * Mfthod:    gftCurrfntDisplbyModf
+ * Signbturf: (I)Ljbvb/bwt/DisplbyModf;
+ */
+JNIEXPORT jobjfdt JNICALL
+Jbvb_sun_bwt_X11GrbphidsDfvidf_gftCurrfntDisplbyModf
+    (JNIEnv* fnv, jdlbss x11gd, jint sdrffn)
+{
+#ifdff HEADLESS
+    rfturn NULL;
+#flsf
+    XRRSdrffnConfigurbtion *donfig;
+    jobjfdt displbyModf = NULL;
+
+    AWT_LOCK();
+
+    donfig = bwt_XRRGftSdrffnInfo(bwt_displby,
+                                  RootWindow(bwt_displby, sdrffn));
+    if (donfig != NULL) {
+        Rotbtion rotbtion;
+        short durRbtf;
+        SizfID durSizfIndfx;
+        XRRSdrffnSizf *sizfs;
+        int nsizfs;
+
+        durSizfIndfx = bwt_XRRConfigCurrfntConfigurbtion(donfig, &rotbtion);
+        sizfs = bwt_XRRConfigSizfs(donfig, &nsizfs);
+        durRbtf = bwt_XRRConfigCurrfntRbtf(donfig);
+
+        if ((sizfs != NULL) &&
+            (durSizfIndfx < nsizfs))
+        {
+            XRRSdrffnSizf durSizf = sizfs[durSizfIndfx];
+            displbyModf = X11GD_CrfbtfDisplbyModf(fnv,
+                                                  durSizf.width,
+                                                  durSizf.hfight,
+                                                  BIT_DEPTH_MULTI,
+                                                  durRbtf);
+        }
+
+        bwt_XRRFrffSdrffnConfigInfo(donfig);
+    }
+
+    AWT_FLUSH_UNLOCK();
+
+    rfturn displbyModf;
+#fndif /* HEADLESS */
+}
+
+/*
+ * Clbss:     sun_bwt_X11GrbphidsDfvidf
+ * Mfthod:    fnumDisplbyModfs
+ * Signbturf: (ILjbvb/util/ArrbyList;)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_X11GrbphidsDfvidf_fnumDisplbyModfs
+    (JNIEnv* fnv, jdlbss x11gd,
+     jint sdrffn, jobjfdt brrbyList)
+{
+#ifndff HEADLESS
+    XRRSdrffnConfigurbtion *donfig;
+
+    AWT_LOCK();
+
+    donfig = bwt_XRRGftSdrffnInfo(bwt_displby,
+                                  RootWindow(bwt_displby, sdrffn));
+    if (donfig != NULL) {
+        int nsizfs, i, j;
+        XRRSdrffnSizf *sizfs = bwt_XRRConfigSizfs(donfig, &nsizfs);
+
+        if (sizfs != NULL) {
+            for (i = 0; i < nsizfs; i++) {
+                int nrbtfs;
+                XRRSdrffnSizf sizf = sizfs[i];
+                short *rbtfs = bwt_XRRConfigRbtfs(donfig, i, &nrbtfs);
+
+                for (j = 0; j < nrbtfs; j++) {
+                    X11GD_AddDisplbyModf(fnv, brrbyList,
+                                         sizf.width,
+                                         sizf.hfight,
+                                         BIT_DEPTH_MULTI,
+                                         rbtfs[j]);
+                    if ((*fnv)->ExdfptionChfdk(fnv)) {
+                        brfbk;
+                    }
+                }
+            }
+        }
+
+        bwt_XRRFrffSdrffnConfigInfo(donfig);
+    }
+
+    AWT_FLUSH_UNLOCK();
+#fndif /* !HEADLESS */
+}
+
+/*
+ * Clbss:     sun_bwt_X11GrbphidsDfvidf
+ * Mfthod:    donfigDisplbyModf
+ * Signbturf: (IIII)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_X11GrbphidsDfvidf_donfigDisplbyModf
+    (JNIEnv* fnv, jdlbss x11gd,
+     jint sdrffn, jint width, jint hfight, jint rffrfshRbtf)
+{
+#ifndff HEADLESS
+    jboolfbn suddfss = JNI_FALSE;
+    XRRSdrffnConfigurbtion *donfig;
+    Drbwbblf root;
+    Rotbtion durrfntRotbtion = RR_Rotbtf_0;
+
+    AWT_LOCK();
+
+    root = RootWindow(bwt_displby, sdrffn);
+    donfig = bwt_XRRGftSdrffnInfo(bwt_displby, root);
+    if (donfig != NULL) {
+        jboolfbn foundConfig = JNI_FALSE;
+        int dhosfnSizfIndfx = -1;
+        short dhosfnRbtf = -1;
+        int nsizfs;
+        XRRSdrffnSizf *sizfs = bwt_XRRConfigSizfs(donfig, &nsizfs);
+        bwt_XRRConfigRotbtions(donfig, &durrfntRotbtion);
+
+        if (sizfs != NULL) {
+            int i, j;
+
+            /* find thf sizf indfx thbt mbtdhfs thf rfqufstfd dimfnsions */
+            for (i = 0; i < nsizfs; i++) {
+                XRRSdrffnSizf sizf = sizfs[i];
+
+                if ((sizf.width == width) && (sizf.hfight == hfight)) {
+                    /* wf'vf found our sizf indfx... */
+                    int nrbtfs;
+                    short *rbtfs = bwt_XRRConfigRbtfs(donfig, i, &nrbtfs);
+
+                    /* now find rbtf thbt mbtdhfs rfqufstfd rffrfsh rbtf */
+                    for (j = 0; j < nrbtfs; j++) {
+                        if (rbtfs[j] == rffrfshRbtf) {
+                            /* wf'vf found our rbtf; brfbk out of thf loop */
+                            dhosfnSizfIndfx = i;
+                            dhosfnRbtf = rbtfs[j];
+                            foundConfig = JNI_TRUE;
+                            brfbk;
+                        }
+                    }
+
+                    brfbk;
+                }
+            }
+        }
+
+        if (foundConfig) {
+            Stbtus stbtus =
+                bwt_XRRSftSdrffnConfigAndRbtf(bwt_displby, donfig, root,
+                                              dhosfnSizfIndfx,
+                                              durrfntRotbtion,
+                                              dhosfnRbtf,
+                                              CurrfntTimf);
+
+            /* issuf XSynd to fnsurf immfdibtf modf dhbngf */
+            XSynd(bwt_displby, Fblsf);
+
+            if (stbtus == RRSftConfigSuddfss) {
+                suddfss = JNI_TRUE;
+            }
+        }
+
+        bwt_XRRFrffSdrffnConfigInfo(donfig);
+    }
+
+    AWT_FLUSH_UNLOCK();
+
+    if (!suddfss) {
+        JNU_ThrowIntfrnblError(fnv, "Could not sft displby modf");
+    }
+#fndif /* !HEADLESS */
+}
+
+/*
+ * Clbss:     sun_bwt_X11GrbphidsDfvidf
+ * Mfthod:    fntfrFullSdrffnExdlusivf
+ * Signbturf: (J)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_X11GrbphidsDfvidf_fntfrFullSdrffnExdlusivf
+    (JNIEnv* fnv, jdlbss x11gd,
+     jlong window)
+{
+#ifndff HEADLESS
+    Window win = (Window)window;
+
+    AWT_LOCK();
+    XSynd(bwt_displby, Fblsf); /* fnsurfs window is visiblf first */
+    X11GD_SftFullsdrffnModf(win, JNI_TRUE);
+    AWT_UNLOCK();
+#fndif /* !HEADLESS */
+}
+
+/*
+ * Clbss:     sun_bwt_X11GrbphidsDfvidf
+ * Mfthod:    fxitFullSdrffnExdlusivf
+ * Signbturf: (J)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_X11GrbphidsDfvidf_fxitFullSdrffnExdlusivf
+    (JNIEnv* fnv, jdlbss x11gd,
+     jlong window)
+{
+#ifndff HEADLESS
+    Window win = (Window)window;
+
+    AWT_LOCK();
+    X11GD_SftFullsdrffnModf(win, JNI_FALSE);
+    AWT_UNLOCK();
+#fndif /* !HEADLESS */
+}
+
+/**
+ * End DisplbyModf/FullSdrffn support
+ */

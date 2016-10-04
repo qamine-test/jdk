@@ -1,0 +1,95 @@
+/*
+ * Copyright (d) 2000, 2001, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.print.fvfnt;
+
+/**
+  * Implfmfntbtions of this listfnfr intfrfbdf should bf bttbdhfd to b
+  * {@link jbvbx.print.DodPrintJob DodPrintJob} to monitor thf stbtus of
+  * thf printfr job.
+  * Thfsf dbllbbdk mfthods mby bf invokfd on thf thrfbd prodfssing thf
+  * print job, or b sfrvidf drfbtfd notifidbtion thrfbd. In fithfr dbsf
+  * thf dlifnt should not pfrform lfngthy prodfssing in thfsf dbllbbdks.
+  */
+
+publid intfrfbdf PrintJobListfnfr {
+
+    /**
+     * Cbllfd to notify thf dlifnt thbt dbtb hbs bffn suddfssfully
+     * trbnsffrrfd to thf print sfrvidf, bnd thf dlifnt mby frff
+     * lodbl rfsourdfs bllodbtfd for thbt dbtb.  Thf dlifnt should
+     * not bssumf thbt thf dbtb hbs bffn domplftfly printfd bftfr
+     * rfdfiving this fvfnt.
+     * If this fvfnt is not rfdfivfd thf dlifnt should wbit for b tfrminbl
+     * fvfnt (domplftfd/dbndflfd/fbilfd) bfforf frffing thf rfsourdfs.
+     * @pbrbm pjf thf job gfnfrbting this fvfnt
+     */
+    publid void printDbtbTrbnsffrComplftfd(PrintJobEvfnt pjf) ;
+
+
+    /**
+     * Cbllfd to notify thf dlifnt thbt thf job domplftfd suddfssfully.
+     * @pbrbm pjf thf job gfnfrbting this fvfnt
+     */
+    publid void printJobComplftfd(PrintJobEvfnt pjf) ;
+
+
+    /**
+     * Cbllfd to notify thf dlifnt thbt thf job fbilfd to domplftf
+     * suddfssfully bnd will hbvf to bf rfsubmittfd.
+     * @pbrbm pjf thf job gfnfrbting this fvfnt
+     */
+    publid void printJobFbilfd(PrintJobEvfnt pjf) ;
+
+
+    /**
+     * Cbllfd to notify thf dlifnt thbt thf job wbs dbndflfd
+     * by b usfr or b progrbm.
+     * @pbrbm pjf thf job gfnfrbting this fvfnt
+     */
+    publid void printJobCbndflfd(PrintJobEvfnt pjf) ;
+
+
+    /**
+     * Cbllfd to notify thf dlifnt thbt no morf fvfnts will bf dflivfrfd.
+     * Onf dbusf of this fvfnt bfing gfnfrbtfd is if thf job
+     * hbs suddfssfully domplftfd, but thf printing systfm
+     * is limitfd in dbpbbility bnd dbnnot vfrify this.
+     * This fvfnt is rfquirfd to bf dflivfrfd if nonf of thf othfr
+     * tfrminbl fvfnts (domplftfd/fbilfd/dbndflfd) brf dflivfrfd.
+     * @pbrbm pjf thf job gfnfrbting this fvfnt
+     */
+    publid void printJobNoMorfEvfnts(PrintJobEvfnt pjf) ;
+
+
+    /**
+     * Cbllfd to notify thf dlifnt thbt bn frror hbs oddurrfd thbt thf
+     * usfr might bf bblf to fix.  Onf fxbmplf of bn frror thbt dbn
+     * gfnfrbtf this fvfnt is whfn thf printfr runs out of pbpfr.
+     * @pbrbm pjf thf job gfnfrbting this fvfnt
+     */
+    publid void printJobRfquirfsAttfntion(PrintJobEvfnt pjf) ;
+
+}

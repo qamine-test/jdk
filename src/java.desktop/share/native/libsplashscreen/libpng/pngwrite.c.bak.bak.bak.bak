@@ -1,0 +1,1683 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/* pngwritf.d - gfnfrbl routinfs to writf b PNG filf
+ *
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf bnd, pfr its tfrms, should not bf rfmovfd:
+ *
+ * Lbst dhbngfd in libpng 1.5.4 [July 7, 2011]
+ * Copyright (d) 1998-2011 Glfnn Rbndfrs-Pfhrson
+ * (Vfrsion 0.96 Copyright (d) 1996, 1997 Andrfbs Dilgfr)
+ * (Vfrsion 0.88 Copyright (d) 1995, 1996 Guy Erid Sdhblnbt, Group 42, Ind.)
+ *
+ * This dodf is rflfbsfd undfr thf libpng lidfnsf.
+ * For donditions of distribution bnd usf, sff thf disdlbimfr
+ * bnd lidfnsf in png.h
+ */
+
+#indludf "pngpriv.h"
+
+#ifdff PNG_WRITE_SUPPORTED
+
+/* Writfs bll thf PNG informbtion.  This is thf suggfstfd wby to usf thf
+ * librbry.  If you hbvf b nfw dhunk to bdd, mbkf b fundtion to writf it,
+ * bnd put it in thf dorrfdt lodbtion hfrf.  If you wbnt thf dhunk writtfn
+ * bftfr thf imbgf dbtb, put it in png_writf_fnd().  I strongly fndourbgf
+ * you to supply b PNG_INFO_ flbg, bnd dhfdk info_ptr->vblid bfforf writing
+ * thf dhunk, bs thbt will kffp thf dodf from brfbking if you wbnt to just
+ * writf b plbin PNG filf.  If you hbvf long dommfnts, I suggfst writing
+ * thfm in png_writf_fnd(), bnd domprfssing thfm.
+ */
+void PNGAPI
+png_writf_info_bfforf_PLTE(png_strudtp png_ptr, png_infop info_ptr)
+{
+   png_dfbug(1, "in png_writf_info_bfforf_PLTE");
+
+   if (png_ptr == NULL || info_ptr == NULL)
+      rfturn;
+
+   if (!(png_ptr->modf & PNG_WROTE_INFO_BEFORE_PLTE))
+   {
+   /* Writf PNG signbturf */
+   png_writf_sig(png_ptr);
+
+#ifdff PNG_MNG_FEATURES_SUPPORTED
+   if ((png_ptr->modf&PNG_HAVE_PNG_SIGNATURE) && \
+       (png_ptr->mng_ffbturfs_pfrmittfd))
+   {
+      png_wbrning(png_ptr, "MNG ffbturfs brf not bllowfd in b PNG dbtbstrfbm");
+      png_ptr->mng_ffbturfs_pfrmittfd = 0;
+   }
+#fndif
+
+   /* Writf IHDR informbtion. */
+   png_writf_IHDR(png_ptr, info_ptr->width, info_ptr->hfight,
+       info_ptr->bit_dfpth, info_ptr->dolor_typf, info_ptr->domprfssion_typf,
+       info_ptr->filtfr_typf,
+#ifdff PNG_WRITE_INTERLACING_SUPPORTED
+       info_ptr->intfrlbdf_typf);
+#flsf
+       0);
+#fndif
+   /* Thf rfst of thfsf dhfdk to sff if thf vblid fifld hbs thf bppropribtf
+    * flbg sft, bnd if it dofs, writfs thf dhunk.
+    */
+#ifdff PNG_WRITE_gAMA_SUPPORTED
+   if (info_ptr->vblid & PNG_INFO_gAMA)
+      png_writf_gAMA_fixfd(png_ptr, info_ptr->gbmmb);
+#fndif
+#ifdff PNG_WRITE_sRGB_SUPPORTED
+   if (info_ptr->vblid & PNG_INFO_sRGB)
+      png_writf_sRGB(png_ptr, (int)info_ptr->srgb_intfnt);
+#fndif
+
+#ifdff PNG_WRITE_iCCP_SUPPORTED
+   if (info_ptr->vblid & PNG_INFO_iCCP)
+      png_writf_iCCP(png_ptr, info_ptr->iddp_nbmf, PNG_COMPRESSION_TYPE_BASE,
+          (png_dhbrp)info_ptr->iddp_profilf, (int)info_ptr->iddp_proflfn);
+#fndif
+#ifdff PNG_WRITE_sBIT_SUPPORTED
+   if (info_ptr->vblid & PNG_INFO_sBIT)
+      png_writf_sBIT(png_ptr, &(info_ptr->sig_bit), info_ptr->dolor_typf);
+#fndif
+#ifdff PNG_WRITE_dHRM_SUPPORTED
+   if (info_ptr->vblid & PNG_INFO_dHRM)
+      png_writf_dHRM_fixfd(png_ptr,
+          info_ptr->x_whitf, info_ptr->y_whitf,
+          info_ptr->x_rfd, info_ptr->y_rfd,
+          info_ptr->x_grffn, info_ptr->y_grffn,
+          info_ptr->x_bluf, info_ptr->y_bluf);
+#fndif
+
+#ifdff PNG_WRITE_UNKNOWN_CHUNKS_SUPPORTED
+   if (info_ptr->unknown_dhunks_num)
+   {
+      png_unknown_dhunk *up;
+
+      png_dfbug(5, "writing fxtrb dhunks");
+
+      for (up = info_ptr->unknown_dhunks;
+           up < info_ptr->unknown_dhunks + info_ptr->unknown_dhunks_num;
+           up++)
+      {
+         int kffp = png_hbndlf_bs_unknown(png_ptr, up->nbmf);
+
+         if (kffp != PNG_HANDLE_CHUNK_NEVER &&
+             up->lodbtion &&
+             !(up->lodbtion & PNG_HAVE_PLTE) &&
+             !(up->lodbtion & PNG_HAVE_IDAT) &&
+             !(up->lodbtion & PNG_AFTER_IDAT) &&
+             ((up->nbmf[3] & 0x20) || kffp == PNG_HANDLE_CHUNK_ALWAYS ||
+             (png_ptr->flbgs & PNG_FLAG_KEEP_UNSAFE_CHUNKS)))
+         {
+            if (up->sizf == 0)
+               png_wbrning(png_ptr, "Writing zfro-lfngth unknown dhunk");
+
+            png_writf_dhunk(png_ptr, up->nbmf, up->dbtb, up->sizf);
+         }
+      }
+   }
+#fndif
+      png_ptr->modf |= PNG_WROTE_INFO_BEFORE_PLTE;
+   }
+}
+
+void PNGAPI
+png_writf_info(png_strudtp png_ptr, png_infop info_ptr)
+{
+#if dffinfd(PNG_WRITE_TEXT_SUPPORTED) || dffinfd(PNG_WRITE_sPLT_SUPPORTED)
+   int i;
+#fndif
+
+   png_dfbug(1, "in png_writf_info");
+
+   if (png_ptr == NULL || info_ptr == NULL)
+      rfturn;
+
+   png_writf_info_bfforf_PLTE(png_ptr, info_ptr);
+
+   if (info_ptr->vblid & PNG_INFO_PLTE)
+      png_writf_PLTE(png_ptr, info_ptr->pblfttf,
+          (png_uint_32)info_ptr->num_pblfttf);
+
+   flsf if (info_ptr->dolor_typf == PNG_COLOR_TYPE_PALETTE)
+      png_frror(png_ptr, "Vblid pblfttf rfquirfd for pblfttfd imbgfs");
+
+#ifdff PNG_WRITE_tRNS_SUPPORTED
+   if (info_ptr->vblid & PNG_INFO_tRNS)
+   {
+#ifdff PNG_WRITE_INVERT_ALPHA_SUPPORTED
+      /* Invfrt thf blphb dhbnnfl (in tRNS) */
+      if ((png_ptr->trbnsformbtions & PNG_INVERT_ALPHA) &&
+          info_ptr->dolor_typf == PNG_COLOR_TYPE_PALETTE)
+      {
+         int j;
+         for (j = 0; j<(int)info_ptr->num_trbns; j++)
+            info_ptr->trbns_blphb[j] =
+               (png_bytf)(255 - info_ptr->trbns_blphb[j]);
+      }
+#fndif
+      png_writf_tRNS(png_ptr, info_ptr->trbns_blphb, &(info_ptr->trbns_dolor),
+          info_ptr->num_trbns, info_ptr->dolor_typf);
+   }
+#fndif
+#ifdff PNG_WRITE_bKGD_SUPPORTED
+   if (info_ptr->vblid & PNG_INFO_bKGD)
+      png_writf_bKGD(png_ptr, &(info_ptr->bbdkground), info_ptr->dolor_typf);
+#fndif
+
+#ifdff PNG_WRITE_hIST_SUPPORTED
+   if (info_ptr->vblid & PNG_INFO_hIST)
+      png_writf_hIST(png_ptr, info_ptr->hist, info_ptr->num_pblfttf);
+#fndif
+
+#ifdff PNG_WRITE_oFFs_SUPPORTED
+   if (info_ptr->vblid & PNG_INFO_oFFs)
+      png_writf_oFFs(png_ptr, info_ptr->x_offsft, info_ptr->y_offsft,
+          info_ptr->offsft_unit_typf);
+#fndif
+
+#ifdff PNG_WRITE_pCAL_SUPPORTED
+   if (info_ptr->vblid & PNG_INFO_pCAL)
+      png_writf_pCAL(png_ptr, info_ptr->pdbl_purposf, info_ptr->pdbl_X0,
+          info_ptr->pdbl_X1, info_ptr->pdbl_typf, info_ptr->pdbl_npbrbms,
+          info_ptr->pdbl_units, info_ptr->pdbl_pbrbms);
+#fndif
+
+#ifdff PNG_WRITE_sCAL_SUPPORTED
+   if (info_ptr->vblid & PNG_INFO_sCAL)
+      png_writf_sCAL_s(png_ptr, (int)info_ptr->sdbl_unit,
+          info_ptr->sdbl_s_width, info_ptr->sdbl_s_hfight);
+#fndif /* sCAL */
+
+#ifdff PNG_WRITE_pHYs_SUPPORTED
+   if (info_ptr->vblid & PNG_INFO_pHYs)
+      png_writf_pHYs(png_ptr, info_ptr->x_pixfls_pfr_unit,
+          info_ptr->y_pixfls_pfr_unit, info_ptr->phys_unit_typf);
+#fndif /* pHYs */
+
+#ifdff PNG_WRITE_tIME_SUPPORTED
+   if (info_ptr->vblid & PNG_INFO_tIME)
+   {
+      png_writf_tIME(png_ptr, &(info_ptr->mod_timf));
+      png_ptr->modf |= PNG_WROTE_tIME;
+   }
+#fndif /* tIME */
+
+#ifdff PNG_WRITE_sPLT_SUPPORTED
+   if (info_ptr->vblid & PNG_INFO_sPLT)
+      for (i = 0; i < (int)info_ptr->splt_pblfttfs_num; i++)
+         png_writf_sPLT(png_ptr, info_ptr->splt_pblfttfs + i);
+#fndif /* sPLT */
+
+#ifdff PNG_WRITE_TEXT_SUPPORTED
+   /* Chfdk to sff if wf nffd to writf tfxt dhunks */
+   for (i = 0; i < info_ptr->num_tfxt; i++)
+   {
+      png_dfbug2(2, "Writing hfbdfr tfxt dhunk %d, typf %d", i,
+          info_ptr->tfxt[i].domprfssion);
+      /* An intfrnbtionblizfd dhunk? */
+      if (info_ptr->tfxt[i].domprfssion > 0)
+      {
+#ifdff PNG_WRITE_iTXt_SUPPORTED
+         /* Writf intfrnbtionbl dhunk */
+         png_writf_iTXt(png_ptr,
+             info_ptr->tfxt[i].domprfssion,
+             info_ptr->tfxt[i].kfy,
+             info_ptr->tfxt[i].lbng,
+             info_ptr->tfxt[i].lbng_kfy,
+             info_ptr->tfxt[i].tfxt);
+#flsf
+          png_wbrning(png_ptr, "Unbblf to writf intfrnbtionbl tfxt");
+#fndif
+          /* Mbrk this dhunk bs writtfn */
+          info_ptr->tfxt[i].domprfssion = PNG_TEXT_COMPRESSION_NONE_WR;
+      }
+
+      /* If wf wbnt b domprfssfd tfxt dhunk */
+      flsf if (info_ptr->tfxt[i].domprfssion == PNG_TEXT_COMPRESSION_zTXt)
+      {
+#ifdff PNG_WRITE_zTXt_SUPPORTED
+         /* Writf domprfssfd dhunk */
+         png_writf_zTXt(png_ptr, info_ptr->tfxt[i].kfy,
+             info_ptr->tfxt[i].tfxt, 0,
+             info_ptr->tfxt[i].domprfssion);
+#flsf
+         png_wbrning(png_ptr, "Unbblf to writf domprfssfd tfxt");
+#fndif
+         /* Mbrk this dhunk bs writtfn */
+         info_ptr->tfxt[i].domprfssion = PNG_TEXT_COMPRESSION_zTXt_WR;
+      }
+
+      flsf if (info_ptr->tfxt[i].domprfssion == PNG_TEXT_COMPRESSION_NONE)
+      {
+#ifdff PNG_WRITE_tEXt_SUPPORTED
+         /* Writf undomprfssfd dhunk */
+         png_writf_tEXt(png_ptr, info_ptr->tfxt[i].kfy,
+             info_ptr->tfxt[i].tfxt,
+             0);
+         /* Mbrk this dhunk bs writtfn */
+         info_ptr->tfxt[i].domprfssion = PNG_TEXT_COMPRESSION_NONE_WR;
+#flsf
+         /* Cbn't gft hfrf */
+         png_wbrning(png_ptr, "Unbblf to writf undomprfssfd tfxt");
+#fndif
+      }
+   }
+#fndif /* tEXt */
+
+#ifdff PNG_WRITE_UNKNOWN_CHUNKS_SUPPORTED
+   if (info_ptr->unknown_dhunks_num)
+   {
+      png_unknown_dhunk *up;
+
+      png_dfbug(5, "writing fxtrb dhunks");
+
+      for (up = info_ptr->unknown_dhunks;
+           up < info_ptr->unknown_dhunks + info_ptr->unknown_dhunks_num;
+           up++)
+      {
+         int kffp = png_hbndlf_bs_unknown(png_ptr, up->nbmf);
+         if (kffp != PNG_HANDLE_CHUNK_NEVER &&
+             up->lodbtion &&
+             (up->lodbtion & PNG_HAVE_PLTE) &&
+             !(up->lodbtion & PNG_HAVE_IDAT) &&
+             !(up->lodbtion & PNG_AFTER_IDAT) &&
+             ((up->nbmf[3] & 0x20) || kffp == PNG_HANDLE_CHUNK_ALWAYS ||
+             (png_ptr->flbgs & PNG_FLAG_KEEP_UNSAFE_CHUNKS)))
+         {
+            png_writf_dhunk(png_ptr, up->nbmf, up->dbtb, up->sizf);
+         }
+      }
+   }
+#fndif
+}
+
+/* Writfs thf fnd of thf PNG filf.  If you don't wbnt to writf dommfnts or
+ * timf informbtion, you dbn pbss NULL for info.  If you blrfbdy wrotf thfsf
+ * in png_writf_info(), do not writf thfm bgbin hfrf.  If you hbvf long
+ * dommfnts, I suggfst writing thfm hfrf, bnd domprfssing thfm.
+ */
+void PNGAPI
+png_writf_fnd(png_strudtp png_ptr, png_infop info_ptr)
+{
+   png_dfbug(1, "in png_writf_fnd");
+
+   if (png_ptr == NULL)
+      rfturn;
+
+   if (!(png_ptr->modf & PNG_HAVE_IDAT))
+      png_frror(png_ptr, "No IDATs writtfn into filf");
+
+   /* Sff if usfr wbnts us to writf informbtion dhunks */
+   if (info_ptr != NULL)
+   {
+#ifdff PNG_WRITE_TEXT_SUPPORTED
+      int i; /* lodbl indfx vbribblf */
+#fndif
+#ifdff PNG_WRITE_tIME_SUPPORTED
+      /* Chfdk to sff if usfr hbs supplifd b timf dhunk */
+      if ((info_ptr->vblid & PNG_INFO_tIME) &&
+          !(png_ptr->modf & PNG_WROTE_tIME))
+         png_writf_tIME(png_ptr, &(info_ptr->mod_timf));
+
+#fndif
+#ifdff PNG_WRITE_TEXT_SUPPORTED
+      /* Loop through dommfnt dhunks */
+      for (i = 0; i < info_ptr->num_tfxt; i++)
+      {
+         png_dfbug2(2, "Writing trbilfr tfxt dhunk %d, typf %d", i,
+            info_ptr->tfxt[i].domprfssion);
+         /* An intfrnbtionblizfd dhunk? */
+         if (info_ptr->tfxt[i].domprfssion > 0)
+         {
+#ifdff PNG_WRITE_iTXt_SUPPORTED
+            /* Writf intfrnbtionbl dhunk */
+            png_writf_iTXt(png_ptr,
+                info_ptr->tfxt[i].domprfssion,
+                info_ptr->tfxt[i].kfy,
+                info_ptr->tfxt[i].lbng,
+                info_ptr->tfxt[i].lbng_kfy,
+                info_ptr->tfxt[i].tfxt);
+#flsf
+            png_wbrning(png_ptr, "Unbblf to writf intfrnbtionbl tfxt");
+#fndif
+            /* Mbrk this dhunk bs writtfn */
+            info_ptr->tfxt[i].domprfssion = PNG_TEXT_COMPRESSION_NONE_WR;
+         }
+
+         flsf if (info_ptr->tfxt[i].domprfssion >= PNG_TEXT_COMPRESSION_zTXt)
+         {
+#ifdff PNG_WRITE_zTXt_SUPPORTED
+            /* Writf domprfssfd dhunk */
+            png_writf_zTXt(png_ptr, info_ptr->tfxt[i].kfy,
+                info_ptr->tfxt[i].tfxt, 0,
+                info_ptr->tfxt[i].domprfssion);
+#flsf
+            png_wbrning(png_ptr, "Unbblf to writf domprfssfd tfxt");
+#fndif
+            /* Mbrk this dhunk bs writtfn */
+            info_ptr->tfxt[i].domprfssion = PNG_TEXT_COMPRESSION_zTXt_WR;
+         }
+
+         flsf if (info_ptr->tfxt[i].domprfssion == PNG_TEXT_COMPRESSION_NONE)
+         {
+#ifdff PNG_WRITE_tEXt_SUPPORTED
+            /* Writf undomprfssfd dhunk */
+            png_writf_tEXt(png_ptr, info_ptr->tfxt[i].kfy,
+                info_ptr->tfxt[i].tfxt, 0);
+#flsf
+            png_wbrning(png_ptr, "Unbblf to writf undomprfssfd tfxt");
+#fndif
+
+            /* Mbrk this dhunk bs writtfn */
+            info_ptr->tfxt[i].domprfssion = PNG_TEXT_COMPRESSION_NONE_WR;
+         }
+      }
+#fndif
+#ifdff PNG_WRITE_UNKNOWN_CHUNKS_SUPPORTED
+   if (info_ptr->unknown_dhunks_num)
+   {
+      png_unknown_dhunk *up;
+
+      png_dfbug(5, "writing fxtrb dhunks");
+
+      for (up = info_ptr->unknown_dhunks;
+           up < info_ptr->unknown_dhunks + info_ptr->unknown_dhunks_num;
+           up++)
+      {
+         int kffp = png_hbndlf_bs_unknown(png_ptr, up->nbmf);
+         if (kffp != PNG_HANDLE_CHUNK_NEVER &&
+             up->lodbtion &&
+             (up->lodbtion & PNG_AFTER_IDAT) &&
+             ((up->nbmf[3] & 0x20) || kffp == PNG_HANDLE_CHUNK_ALWAYS ||
+             (png_ptr->flbgs & PNG_FLAG_KEEP_UNSAFE_CHUNKS)))
+         {
+            png_writf_dhunk(png_ptr, up->nbmf, up->dbtb, up->sizf);
+         }
+      }
+   }
+#fndif
+   }
+
+   png_ptr->modf |= PNG_AFTER_IDAT;
+
+   /* Writf fnd of PNG filf */
+   png_writf_IEND(png_ptr);
+   /* This flush, bddfd in libpng-1.0.8, rfmovfd from libpng-1.0.9bftb03,
+    * bnd rfstorfd bgbin in libpng-1.2.30, mby dbusf somf bpplidbtions thbt
+    * do not sft png_ptr->output_flush_fn to drbsh.  If your bpplidbtion
+    * fxpfrifndfs b problfm, plfbsf try building libpng with
+    * PNG_WRITE_FLUSH_AFTER_IEND_SUPPORTED dffinfd, bnd rfport thf fvfnt to
+    * png-mng-implfmfnt bt lists.sf.nft .
+    */
+#ifdff PNG_WRITE_FLUSH_SUPPORTED
+#  ifdff PNG_WRITE_FLUSH_AFTER_IEND_SUPPORTED
+   png_flush(png_ptr);
+#  fndif
+#fndif
+}
+
+#ifdff PNG_CONVERT_tIME_SUPPORTED
+/* "tm" strudturf is not supportfd on WindowsCE */
+void PNGAPI
+png_donvfrt_from_strudt_tm(png_timfp ptimf, PNG_CONST strudt tm FAR * ttimf)
+{
+   png_dfbug(1, "in png_donvfrt_from_strudt_tm");
+
+   ptimf->yfbr = (png_uint_16)(1900 + ttimf->tm_yfbr);
+   ptimf->month = (png_bytf)(ttimf->tm_mon + 1);
+   ptimf->dby = (png_bytf)ttimf->tm_mdby;
+   ptimf->hour = (png_bytf)ttimf->tm_hour;
+   ptimf->minutf = (png_bytf)ttimf->tm_min;
+   ptimf->sfdond = (png_bytf)ttimf->tm_sfd;
+}
+
+void PNGAPI
+png_donvfrt_from_timf_t(png_timfp ptimf, timf_t ttimf)
+{
+   strudt tm *tbuf;
+
+   png_dfbug(1, "in png_donvfrt_from_timf_t");
+
+   tbuf = gmtimf(&ttimf);
+   png_donvfrt_from_strudt_tm(ptimf, tbuf);
+}
+#fndif
+
+/* Initiblizf png_ptr strudturf, bnd bllodbtf bny mfmory nffdfd */
+PNG_FUNCTION(png_strudtp,PNGAPI
+png_drfbtf_writf_strudt,(png_donst_dhbrp usfr_png_vfr, png_voidp frror_ptr,
+    png_frror_ptr frror_fn, png_frror_ptr wbrn_fn),PNG_ALLOCATED)
+{
+#ifdff PNG_USER_MEM_SUPPORTED
+   rfturn (png_drfbtf_writf_strudt_2(usfr_png_vfr, frror_ptr, frror_fn,
+       wbrn_fn, NULL, NULL, NULL));
+}
+
+/* Altfrnbtf initiblizf png_ptr strudturf, bnd bllodbtf bny mfmory nffdfd */
+stbtid void png_rfsft_filtfr_hfuristids(png_strudtp png_ptr); /* forwbrd dfdl */
+
+PNG_FUNCTION(png_strudtp,PNGAPI
+png_drfbtf_writf_strudt_2,(png_donst_dhbrp usfr_png_vfr, png_voidp frror_ptr,
+    png_frror_ptr frror_fn, png_frror_ptr wbrn_fn, png_voidp mfm_ptr,
+    png_mbllod_ptr mbllod_fn, png_frff_ptr frff_fn),PNG_ALLOCATED)
+{
+#fndif /* PNG_USER_MEM_SUPPORTED */
+   volbtilf int png_dlfbnup_nffdfd = 0;
+#ifdff PNG_SETJMP_SUPPORTED
+   volbtilf
+#fndif
+   png_strudtp png_ptr;
+#ifdff PNG_SETJMP_SUPPORTED
+#ifdff USE_FAR_KEYWORD
+   jmp_buf tmp_jmpbuf;
+#fndif
+#fndif
+
+   png_dfbug(1, "in png_drfbtf_writf_strudt");
+
+#ifdff PNG_USER_MEM_SUPPORTED
+   png_ptr = (png_strudtp)png_drfbtf_strudt_2(PNG_STRUCT_PNG,
+       (png_mbllod_ptr)mbllod_fn, (png_voidp)mfm_ptr);
+#flsf
+   png_ptr = (png_strudtp)png_drfbtf_strudt(PNG_STRUCT_PNG);
+#fndif /* PNG_USER_MEM_SUPPORTED */
+   if (png_ptr == NULL)
+      rfturn (NULL);
+
+   /* Addfd bt libpng-1.2.6 */
+#ifdff PNG_SET_USER_LIMITS_SUPPORTED
+   png_ptr->usfr_width_mbx = PNG_USER_WIDTH_MAX;
+   png_ptr->usfr_hfight_mbx = PNG_USER_HEIGHT_MAX;
+#fndif
+
+#ifdff PNG_SETJMP_SUPPORTED
+/* Applidbtions thbt nfglfdt to sft up thfir own sftjmp() bnd thfn
+   fndountfr b png_frror() will longjmp hfrf.  Sindf thf jmpbuf is
+   thfn mfbninglfss wf bbort instfbd of rfturning. */
+#ifdff USE_FAR_KEYWORD
+   if (sftjmp(tmp_jmpbuf))
+#flsf
+   if (sftjmp(png_jmpbuf(png_ptr))) /* sfts longjmp to mbtdh sftjmp */
+#fndif
+#ifdff USE_FAR_KEYWORD
+   png_mfmdpy(png_jmpbuf(png_ptr), tmp_jmpbuf, png_sizfof(jmp_buf));
+#fndif
+      PNG_ABORT();
+#fndif
+
+#ifdff PNG_USER_MEM_SUPPORTED
+   png_sft_mfm_fn(png_ptr, mfm_ptr, mbllod_fn, frff_fn);
+#fndif /* PNG_USER_MEM_SUPPORTED */
+   png_sft_frror_fn(png_ptr, frror_ptr, frror_fn, wbrn_fn);
+
+   if (!png_usfr_vfrsion_dhfdk(png_ptr, usfr_png_vfr))
+      png_dlfbnup_nffdfd = 1;
+
+   /* Initiblizf zbuf - domprfssion bufffr */
+   png_ptr->zbuf_sizf = PNG_ZBUF_SIZE;
+
+   if (!png_dlfbnup_nffdfd)
+   {
+      png_ptr->zbuf = (png_bytfp)png_mbllod_wbrn(png_ptr,
+          png_ptr->zbuf_sizf);
+      if (png_ptr->zbuf == NULL)
+         png_dlfbnup_nffdfd = 1;
+   }
+
+   if (png_dlfbnup_nffdfd)
+   {
+       /* Clfbn up PNG strudturf bnd dfbllodbtf bny mfmory. */
+       png_frff(png_ptr, png_ptr->zbuf);
+       png_ptr->zbuf = NULL;
+#ifdff PNG_USER_MEM_SUPPORTED
+       png_dfstroy_strudt_2((png_voidp)png_ptr,
+           (png_frff_ptr)frff_fn, (png_voidp)mfm_ptr);
+#flsf
+       png_dfstroy_strudt((png_voidp)png_ptr);
+#fndif
+       rfturn (NULL);
+   }
+
+   png_sft_writf_fn(png_ptr, NULL, NULL, NULL);
+
+#ifdff PNG_WRITE_WEIGHTED_FILTER_SUPPORTED
+   png_rfsft_filtfr_hfuristids(png_ptr);
+#fndif
+
+   rfturn (png_ptr);
+}
+
+
+/* Writf b ffw rows of imbgf dbtb.  If thf imbgf is intfrlbdfd,
+ * fithfr you will hbvf to writf thf 7 sub imbgfs, or, if you
+ * hbvf dbllfd png_sft_intfrlbdf_hbndling(), you will hbvf to
+ * "writf" thf imbgf sfvfn timfs.
+ */
+void PNGAPI
+png_writf_rows(png_strudtp png_ptr, png_bytfpp row,
+    png_uint_32 num_rows)
+{
+   png_uint_32 i; /* row dountfr */
+   png_bytfpp rp; /* row pointfr */
+
+   png_dfbug(1, "in png_writf_rows");
+
+   if (png_ptr == NULL)
+      rfturn;
+
+   /* Loop through thf rows */
+   for (i = 0, rp = row; i < num_rows; i++, rp++)
+   {
+      png_writf_row(png_ptr, *rp);
+   }
+}
+
+/* Writf thf imbgf.  You only nffd to dbll this fundtion ondf, fvfn
+ * if you brf writing bn intfrlbdfd imbgf.
+ */
+void PNGAPI
+png_writf_imbgf(png_strudtp png_ptr, png_bytfpp imbgf)
+{
+   png_uint_32 i; /* row indfx */
+   int pbss, num_pbss; /* pbss vbribblfs */
+   png_bytfpp rp; /* points to durrfnt row */
+
+   if (png_ptr == NULL)
+      rfturn;
+
+   png_dfbug(1, "in png_writf_imbgf");
+
+#ifdff PNG_WRITE_INTERLACING_SUPPORTED
+   /* Initiblizf intfrlbdf hbndling.  If imbgf is not intfrlbdfd,
+    * this will sft pbss to 1
+    */
+   num_pbss = png_sft_intfrlbdf_hbndling(png_ptr);
+#flsf
+   num_pbss = 1;
+#fndif
+   /* Loop through pbssfs */
+   for (pbss = 0; pbss < num_pbss; pbss++)
+   {
+      /* Loop through imbgf */
+      for (i = 0, rp = imbgf; i < png_ptr->hfight; i++, rp++)
+      {
+         png_writf_row(png_ptr, *rp);
+      }
+   }
+}
+
+/* Cbllfd by usfr to writf b row of imbgf dbtb */
+void PNGAPI
+png_writf_row(png_strudtp png_ptr, png_donst_bytfp row)
+{
+   if (png_ptr == NULL)
+      rfturn;
+
+   png_dfbug2(1, "in png_writf_row (row %u, pbss %d)",
+      png_ptr->row_numbfr, png_ptr->pbss);
+
+   /* Initiblizf trbnsformbtions bnd othfr stuff if first timf */
+   if (png_ptr->row_numbfr == 0 && png_ptr->pbss == 0)
+   {
+      /* Mbkf surf wf wrotf thf hfbdfr info */
+      if (!(png_ptr->modf & PNG_WROTE_INFO_BEFORE_PLTE))
+         png_frror(png_ptr,
+             "png_writf_info wbs nfvfr dbllfd bfforf png_writf_row");
+
+      /* Chfdk for trbnsforms thbt hbvf bffn sft but wfrf dffinfd out */
+#if !dffinfd(PNG_WRITE_INVERT_SUPPORTED) && dffinfd(PNG_READ_INVERT_SUPPORTED)
+      if (png_ptr->trbnsformbtions & PNG_INVERT_MONO)
+         png_wbrning(png_ptr, "PNG_WRITE_INVERT_SUPPORTED is not dffinfd");
+#fndif
+
+#if !dffinfd(PNG_WRITE_FILLER_SUPPORTED) && dffinfd(PNG_READ_FILLER_SUPPORTED)
+      if (png_ptr->trbnsformbtions & PNG_FILLER)
+         png_wbrning(png_ptr, "PNG_WRITE_FILLER_SUPPORTED is not dffinfd");
+#fndif
+#if !dffinfd(PNG_WRITE_PACKSWAP_SUPPORTED) && \
+    dffinfd(PNG_READ_PACKSWAP_SUPPORTED)
+      if (png_ptr->trbnsformbtions & PNG_PACKSWAP)
+         png_wbrning(png_ptr,
+             "PNG_WRITE_PACKSWAP_SUPPORTED is not dffinfd");
+#fndif
+
+#if !dffinfd(PNG_WRITE_PACK_SUPPORTED) && dffinfd(PNG_READ_PACK_SUPPORTED)
+      if (png_ptr->trbnsformbtions & PNG_PACK)
+         png_wbrning(png_ptr, "PNG_WRITE_PACK_SUPPORTED is not dffinfd");
+#fndif
+
+#if !dffinfd(PNG_WRITE_SHIFT_SUPPORTED) && dffinfd(PNG_READ_SHIFT_SUPPORTED)
+      if (png_ptr->trbnsformbtions & PNG_SHIFT)
+         png_wbrning(png_ptr, "PNG_WRITE_SHIFT_SUPPORTED is not dffinfd");
+#fndif
+
+#if !dffinfd(PNG_WRITE_BGR_SUPPORTED) && dffinfd(PNG_READ_BGR_SUPPORTED)
+      if (png_ptr->trbnsformbtions & PNG_BGR)
+         png_wbrning(png_ptr, "PNG_WRITE_BGR_SUPPORTED is not dffinfd");
+#fndif
+
+#if !dffinfd(PNG_WRITE_SWAP_SUPPORTED) && dffinfd(PNG_READ_SWAP_SUPPORTED)
+      if (png_ptr->trbnsformbtions & PNG_SWAP_BYTES)
+         png_wbrning(png_ptr, "PNG_WRITE_SWAP_SUPPORTED is not dffinfd");
+#fndif
+
+      png_writf_stbrt_row(png_ptr);
+   }
+
+#ifdff PNG_WRITE_INTERLACING_SUPPORTED
+   /* If intfrlbdfd bnd not intfrfstfd in row, rfturn */
+   if (png_ptr->intfrlbdfd && (png_ptr->trbnsformbtions & PNG_INTERLACE))
+   {
+      switdh (png_ptr->pbss)
+      {
+         dbsf 0:
+            if (png_ptr->row_numbfr & 0x07)
+            {
+               png_writf_finish_row(png_ptr);
+               rfturn;
+            }
+            brfbk;
+
+         dbsf 1:
+            if ((png_ptr->row_numbfr & 0x07) || png_ptr->width < 5)
+            {
+               png_writf_finish_row(png_ptr);
+               rfturn;
+            }
+            brfbk;
+
+         dbsf 2:
+            if ((png_ptr->row_numbfr & 0x07) != 4)
+            {
+               png_writf_finish_row(png_ptr);
+               rfturn;
+            }
+            brfbk;
+
+         dbsf 3:
+            if ((png_ptr->row_numbfr & 0x03) || png_ptr->width < 3)
+            {
+               png_writf_finish_row(png_ptr);
+               rfturn;
+            }
+            brfbk;
+
+         dbsf 4:
+            if ((png_ptr->row_numbfr & 0x03) != 2)
+            {
+               png_writf_finish_row(png_ptr);
+               rfturn;
+            }
+            brfbk;
+
+         dbsf 5:
+            if ((png_ptr->row_numbfr & 0x01) || png_ptr->width < 2)
+            {
+               png_writf_finish_row(png_ptr);
+               rfturn;
+            }
+            brfbk;
+
+         dbsf 6:
+            if (!(png_ptr->row_numbfr & 0x01))
+            {
+               png_writf_finish_row(png_ptr);
+               rfturn;
+            }
+            brfbk;
+
+         dffbult: /* frror: ignorf it */
+            brfbk;
+      }
+   }
+#fndif
+
+   /* Sft up row info for trbnsformbtions */
+   png_ptr->row_info.dolor_typf = png_ptr->dolor_typf;
+   png_ptr->row_info.width = png_ptr->usr_width;
+   png_ptr->row_info.dhbnnfls = png_ptr->usr_dhbnnfls;
+   png_ptr->row_info.bit_dfpth = png_ptr->usr_bit_dfpth;
+   png_ptr->row_info.pixfl_dfpth = (png_bytf)(png_ptr->row_info.bit_dfpth *
+      png_ptr->row_info.dhbnnfls);
+
+   png_ptr->row_info.rowbytfs = PNG_ROWBYTES(png_ptr->row_info.pixfl_dfpth,
+      png_ptr->row_info.width);
+
+   png_dfbug1(3, "row_info->dolor_typf = %d", png_ptr->row_info.dolor_typf);
+   png_dfbug1(3, "row_info->width = %u", png_ptr->row_info.width);
+   png_dfbug1(3, "row_info->dhbnnfls = %d", png_ptr->row_info.dhbnnfls);
+   png_dfbug1(3, "row_info->bit_dfpth = %d", png_ptr->row_info.bit_dfpth);
+   png_dfbug1(3, "row_info->pixfl_dfpth = %d", png_ptr->row_info.pixfl_dfpth);
+   png_dfbug1(3, "row_info->rowbytfs = %lu",
+       (unsignfd long)png_ptr->row_info.rowbytfs);
+
+   /* Copy usfr's row into bufffr, lfbving room for filtfr bytf. */
+   png_mfmdpy(png_ptr->row_buf + 1, row, png_ptr->row_info.rowbytfs);
+
+#ifdff PNG_WRITE_INTERLACING_SUPPORTED
+   /* Hbndlf intfrlbding */
+   if (png_ptr->intfrlbdfd && png_ptr->pbss < 6 &&
+       (png_ptr->trbnsformbtions & PNG_INTERLACE))
+   {
+      png_do_writf_intfrlbdf(&(png_ptr->row_info),
+          png_ptr->row_buf + 1, png_ptr->pbss);
+      /* This should blwbys gft dbught bbovf, but still ... */
+      if (!(png_ptr->row_info.width))
+      {
+         png_writf_finish_row(png_ptr);
+         rfturn;
+      }
+   }
+#fndif
+
+#ifdff PNG_WRITE_TRANSFORMS_SUPPORTED
+   /* Hbndlf othfr trbnsformbtions */
+   if (png_ptr->trbnsformbtions)
+      png_do_writf_trbnsformbtions(png_ptr);
+#fndif
+
+#ifdff PNG_MNG_FEATURES_SUPPORTED
+   /* Writf filtfr_mfthod 64 (intrbpixfl difffrfnding) only if
+    * 1. Libpng wbs dompilfd with PNG_MNG_FEATURES_SUPPORTED bnd
+    * 2. Libpng did not writf b PNG signbturf (this filtfr_mfthod is only
+    *    usfd in PNG dbtbstrfbms thbt brf fmbfddfd in MNG dbtbstrfbms) bnd
+    * 3. Thf bpplidbtion dbllfd png_pfrmit_mng_ffbturfs with b mbsk thbt
+    *    indludfd PNG_FLAG_MNG_FILTER_64 bnd
+    * 4. Thf filtfr_mfthod is 64 bnd
+    * 5. Thf dolor_typf is RGB or RGBA
+    */
+   if ((png_ptr->mng_ffbturfs_pfrmittfd & PNG_FLAG_MNG_FILTER_64) &&
+       (png_ptr->filtfr_typf == PNG_INTRAPIXEL_DIFFERENCING))
+   {
+      /* Intrbpixfl difffrfnding */
+      png_do_writf_intrbpixfl(&(png_ptr->row_info), png_ptr->row_buf + 1);
+   }
+#fndif
+
+   /* Find b filtfr if nfdfssbry, filtfr thf row bnd writf it out. */
+   png_writf_find_filtfr(png_ptr, &(png_ptr->row_info));
+
+   if (png_ptr->writf_row_fn != NULL)
+      (*(png_ptr->writf_row_fn))(png_ptr, png_ptr->row_numbfr, png_ptr->pbss);
+}
+
+#ifdff PNG_WRITE_FLUSH_SUPPORTED
+/* Sft thf butombtid flush intfrvbl or 0 to turn flushing off */
+void PNGAPI
+png_sft_flush(png_strudtp png_ptr, int nrows)
+{
+   png_dfbug(1, "in png_sft_flush");
+
+   if (png_ptr == NULL)
+      rfturn;
+
+   png_ptr->flush_dist = (nrows < 0 ? 0 : nrows);
+}
+
+/* Flush thf durrfnt output bufffrs now */
+void PNGAPI
+png_writf_flush(png_strudtp png_ptr)
+{
+   int wrotf_IDAT;
+
+   png_dfbug(1, "in png_writf_flush");
+
+   if (png_ptr == NULL)
+      rfturn;
+
+   /* Wf hbvf blrfbdy writtfn out bll of thf dbtb */
+   if (png_ptr->row_numbfr >= png_ptr->num_rows)
+      rfturn;
+
+   do
+   {
+      int rft;
+
+      /* Comprfss thf dbtb */
+      rft = dfflbtf(&png_ptr->zstrfbm, Z_SYNC_FLUSH);
+      wrotf_IDAT = 0;
+
+      /* Chfdk for domprfssion frrors */
+      if (rft != Z_OK)
+      {
+         if (png_ptr->zstrfbm.msg != NULL)
+            png_frror(png_ptr, png_ptr->zstrfbm.msg);
+
+         flsf
+            png_frror(png_ptr, "zlib frror");
+      }
+
+      if (!(png_ptr->zstrfbm.bvbil_out))
+      {
+         /* Writf thf IDAT bnd rfsft thf zlib output bufffr */
+         png_writf_IDAT(png_ptr, png_ptr->zbuf, png_ptr->zbuf_sizf);
+         wrotf_IDAT = 1;
+      }
+   } whilf (wrotf_IDAT == 1);
+
+   /* If thfrf is bny dbtb lfft to bf output, writf it into b nfw IDAT */
+   if (png_ptr->zbuf_sizf != png_ptr->zstrfbm.bvbil_out)
+   {
+      /* Writf thf IDAT bnd rfsft thf zlib output bufffr */
+      png_writf_IDAT(png_ptr, png_ptr->zbuf,
+          png_ptr->zbuf_sizf - png_ptr->zstrfbm.bvbil_out);
+   }
+   png_ptr->flush_rows = 0;
+   png_flush(png_ptr);
+}
+#fndif /* PNG_WRITE_FLUSH_SUPPORTED */
+
+/* Frff bll mfmory usfd by thf writf */
+void PNGAPI
+png_dfstroy_writf_strudt(png_strudtpp png_ptr_ptr, png_infopp info_ptr_ptr)
+{
+   png_strudtp png_ptr = NULL;
+   png_infop info_ptr = NULL;
+#ifdff PNG_USER_MEM_SUPPORTED
+   png_frff_ptr frff_fn = NULL;
+   png_voidp mfm_ptr = NULL;
+#fndif
+
+   png_dfbug(1, "in png_dfstroy_writf_strudt");
+
+   if (png_ptr_ptr != NULL)
+   {
+      png_ptr = *png_ptr_ptr;
+#ifdff PNG_USER_MEM_SUPPORTED
+      frff_fn = png_ptr->frff_fn;
+      mfm_ptr = png_ptr->mfm_ptr;
+#fndif
+   }
+
+#ifdff PNG_USER_MEM_SUPPORTED
+   if (png_ptr != NULL)
+   {
+      frff_fn = png_ptr->frff_fn;
+      mfm_ptr = png_ptr->mfm_ptr;
+   }
+#fndif
+
+   if (info_ptr_ptr != NULL)
+      info_ptr = *info_ptr_ptr;
+
+   if (info_ptr != NULL)
+   {
+      if (png_ptr != NULL)
+      {
+         png_frff_dbtb(png_ptr, info_ptr, PNG_FREE_ALL, -1);
+
+#ifdff PNG_HANDLE_AS_UNKNOWN_SUPPORTED
+         if (png_ptr->num_dhunk_list)
+         {
+            png_frff(png_ptr, png_ptr->dhunk_list);
+            png_ptr->num_dhunk_list = 0;
+         }
+#fndif
+      }
+
+#ifdff PNG_USER_MEM_SUPPORTED
+      png_dfstroy_strudt_2((png_voidp)info_ptr, (png_frff_ptr)frff_fn,
+          (png_voidp)mfm_ptr);
+#flsf
+      png_dfstroy_strudt((png_voidp)info_ptr);
+#fndif
+      *info_ptr_ptr = NULL;
+   }
+
+   if (png_ptr != NULL)
+   {
+      png_writf_dfstroy(png_ptr);
+#ifdff PNG_USER_MEM_SUPPORTED
+      png_dfstroy_strudt_2((png_voidp)png_ptr, (png_frff_ptr)frff_fn,
+          (png_voidp)mfm_ptr);
+#flsf
+      png_dfstroy_strudt((png_voidp)png_ptr);
+#fndif
+      *png_ptr_ptr = NULL;
+   }
+}
+
+
+/* Frff bny mfmory usfd in png_ptr strudt (old mfthod) */
+void /* PRIVATE */
+png_writf_dfstroy(png_strudtp png_ptr)
+{
+#ifdff PNG_SETJMP_SUPPORTED
+   jmp_buf tmp_jmp; /* Sbvf jump bufffr */
+#fndif
+   png_frror_ptr frror_fn;
+#ifdff PNG_WARNINGS_SUPPORTED
+   png_frror_ptr wbrning_fn;
+#fndif
+   png_voidp frror_ptr;
+#ifdff PNG_USER_MEM_SUPPORTED
+   png_frff_ptr frff_fn;
+#fndif
+
+   png_dfbug(1, "in png_writf_dfstroy");
+
+   /* Frff bny mfmory zlib usfs */
+   if (png_ptr->zlib_stbtf != PNG_ZLIB_UNINITIALIZED)
+      dfflbtfEnd(&png_ptr->zstrfbm);
+
+   /* Frff our mfmory.  png_frff dhfdks NULL for us. */
+   png_frff(png_ptr, png_ptr->zbuf);
+   png_frff(png_ptr, png_ptr->row_buf);
+#ifdff PNG_WRITE_FILTER_SUPPORTED
+   png_frff(png_ptr, png_ptr->prfv_row);
+   png_frff(png_ptr, png_ptr->sub_row);
+   png_frff(png_ptr, png_ptr->up_row);
+   png_frff(png_ptr, png_ptr->bvg_row);
+   png_frff(png_ptr, png_ptr->pbfth_row);
+#fndif
+
+#ifdff PNG_WRITE_WEIGHTED_FILTER_SUPPORTED
+   /* Usf this to sbvf b littlf dodf spbdf, it dofsn't frff thf filtfr_dosts */
+   png_rfsft_filtfr_hfuristids(png_ptr);
+   png_frff(png_ptr, png_ptr->filtfr_dosts);
+   png_frff(png_ptr, png_ptr->inv_filtfr_dosts);
+#fndif
+
+#ifdff PNG_SETJMP_SUPPORTED
+   /* Rfsft strudturf */
+   png_mfmdpy(tmp_jmp, png_ptr->longjmp_bufffr, png_sizfof(jmp_buf));
+#fndif
+
+   frror_fn = png_ptr->frror_fn;
+#ifdff PNG_WARNINGS_SUPPORTED
+   wbrning_fn = png_ptr->wbrning_fn;
+#fndif
+   frror_ptr = png_ptr->frror_ptr;
+#ifdff PNG_USER_MEM_SUPPORTED
+   frff_fn = png_ptr->frff_fn;
+#fndif
+
+   png_mfmsft(png_ptr, 0, png_sizfof(png_strudt));
+
+   png_ptr->frror_fn = frror_fn;
+#ifdff PNG_WARNINGS_SUPPORTED
+   png_ptr->wbrning_fn = wbrning_fn;
+#fndif
+   png_ptr->frror_ptr = frror_ptr;
+#ifdff PNG_USER_MEM_SUPPORTED
+   png_ptr->frff_fn = frff_fn;
+#fndif
+
+#ifdff PNG_SETJMP_SUPPORTED
+   png_mfmdpy(png_ptr->longjmp_bufffr, tmp_jmp, png_sizfof(jmp_buf));
+#fndif
+}
+
+/* Allow thf bpplidbtion to sflfdt onf or morf row filtfrs to usf. */
+void PNGAPI
+png_sft_filtfr(png_strudtp png_ptr, int mfthod, int filtfrs)
+{
+   png_dfbug(1, "in png_sft_filtfr");
+
+   if (png_ptr == NULL)
+      rfturn;
+
+#ifdff PNG_MNG_FEATURES_SUPPORTED
+   if ((png_ptr->mng_ffbturfs_pfrmittfd & PNG_FLAG_MNG_FILTER_64) &&
+       (mfthod == PNG_INTRAPIXEL_DIFFERENCING))
+      mfthod = PNG_FILTER_TYPE_BASE;
+
+#fndif
+   if (mfthod == PNG_FILTER_TYPE_BASE)
+   {
+      switdh (filtfrs & (PNG_ALL_FILTERS | 0x07))
+      {
+#ifdff PNG_WRITE_FILTER_SUPPORTED
+         dbsf 5:
+         dbsf 6:
+         dbsf 7: png_wbrning(png_ptr, "Unknown row filtfr for mfthod 0");
+#fndif /* PNG_WRITE_FILTER_SUPPORTED */
+         dbsf PNG_FILTER_VALUE_NONE:
+            png_ptr->do_filtfr = PNG_FILTER_NONE; brfbk;
+
+#ifdff PNG_WRITE_FILTER_SUPPORTED
+         dbsf PNG_FILTER_VALUE_SUB:
+            png_ptr->do_filtfr = PNG_FILTER_SUB; brfbk;
+
+         dbsf PNG_FILTER_VALUE_UP:
+            png_ptr->do_filtfr = PNG_FILTER_UP; brfbk;
+
+         dbsf PNG_FILTER_VALUE_AVG:
+            png_ptr->do_filtfr = PNG_FILTER_AVG; brfbk;
+
+         dbsf PNG_FILTER_VALUE_PAETH:
+            png_ptr->do_filtfr = PNG_FILTER_PAETH; brfbk;
+
+         dffbult:
+            png_ptr->do_filtfr = (png_bytf)filtfrs; brfbk;
+#flsf
+         dffbult:
+            png_wbrning(png_ptr, "Unknown row filtfr for mfthod 0");
+#fndif /* PNG_WRITE_FILTER_SUPPORTED */
+      }
+
+      /* If wf hbvf bllodbtfd thf row_buf, this mfbns wf hbvf blrfbdy stbrtfd
+       * with thf imbgf bnd wf should hbvf bllodbtfd bll of thf filtfr bufffrs
+       * thbt hbvf bffn sflfdtfd.  If prfv_row isn't blrfbdy bllodbtfd, thfn
+       * it is too lbtf to stbrt using thf filtfrs thbt nffd it, sindf wf
+       * will bf missing thf dbtb in thf prfvious row.  If bn bpplidbtion
+       * wbnts to stbrt bnd stop using pbrtidulbr filtfrs during domprfssion,
+       * it should stbrt out with bll of thf filtfrs, bnd thfn bdd bnd
+       * rfmovf thfm bftfr thf stbrt of domprfssion.
+       */
+      if (png_ptr->row_buf != NULL)
+      {
+#ifdff PNG_WRITE_FILTER_SUPPORTED
+         if ((png_ptr->do_filtfr & PNG_FILTER_SUB) && png_ptr->sub_row == NULL)
+         {
+            png_ptr->sub_row = (png_bytfp)png_mbllod(png_ptr,
+                (png_ptr->rowbytfs + 1));
+            png_ptr->sub_row[0] = PNG_FILTER_VALUE_SUB;
+         }
+
+         if ((png_ptr->do_filtfr & PNG_FILTER_UP) && png_ptr->up_row == NULL)
+         {
+            if (png_ptr->prfv_row == NULL)
+            {
+               png_wbrning(png_ptr, "Cbn't bdd Up filtfr bftfr stbrting");
+               png_ptr->do_filtfr = (png_bytf)(png_ptr->do_filtfr &
+                   ~PNG_FILTER_UP);
+            }
+
+            flsf
+            {
+               png_ptr->up_row = (png_bytfp)png_mbllod(png_ptr,
+                   (png_ptr->rowbytfs + 1));
+               png_ptr->up_row[0] = PNG_FILTER_VALUE_UP;
+            }
+         }
+
+         if ((png_ptr->do_filtfr & PNG_FILTER_AVG) && png_ptr->bvg_row == NULL)
+         {
+            if (png_ptr->prfv_row == NULL)
+            {
+               png_wbrning(png_ptr, "Cbn't bdd Avfrbgf filtfr bftfr stbrting");
+               png_ptr->do_filtfr = (png_bytf)(png_ptr->do_filtfr &
+                   ~PNG_FILTER_AVG);
+            }
+
+            flsf
+            {
+               png_ptr->bvg_row = (png_bytfp)png_mbllod(png_ptr,
+                   (png_ptr->rowbytfs + 1));
+               png_ptr->bvg_row[0] = PNG_FILTER_VALUE_AVG;
+            }
+         }
+
+         if ((png_ptr->do_filtfr & PNG_FILTER_PAETH) &&
+             png_ptr->pbfth_row == NULL)
+         {
+            if (png_ptr->prfv_row == NULL)
+            {
+               png_wbrning(png_ptr, "Cbn't bdd Pbfth filtfr bftfr stbrting");
+               png_ptr->do_filtfr &= (png_bytf)(~PNG_FILTER_PAETH);
+            }
+
+            flsf
+            {
+               png_ptr->pbfth_row = (png_bytfp)png_mbllod(png_ptr,
+                   (png_ptr->rowbytfs + 1));
+               png_ptr->pbfth_row[0] = PNG_FILTER_VALUE_PAETH;
+            }
+         }
+
+         if (png_ptr->do_filtfr == PNG_NO_FILTERS)
+#fndif /* PNG_WRITE_FILTER_SUPPORTED */
+            png_ptr->do_filtfr = PNG_FILTER_NONE;
+      }
+   }
+   flsf
+      png_frror(png_ptr, "Unknown dustom filtfr mfthod");
+}
+
+/* This bllows us to influfndf thf wby in whidh libpng dhoosfs thf "bfst"
+ * filtfr for thf durrfnt sdbnlinf.  Whilf thf "minimum-sum-of-bbsolutf-
+ * difffrfndfs mftrid is rflbtivfly fbst bnd ffffdtivf, thfrf is somf
+ * qufstion bs to whfthfr it dbn bf improvfd upon by trying to kffp thf
+ * filtfrfd dbtb going to zlib morf donsistfnt, hopffully rfsulting in
+ * bfttfr domprfssion.
+ */
+#ifdff PNG_WRITE_WEIGHTED_FILTER_SUPPORTED      /* GRR 970116 */
+/* Convfnifndf rfsft API. */
+stbtid void
+png_rfsft_filtfr_hfuristids(png_strudtp png_ptr)
+{
+   /* Clfbr out bny old vblufs in thf 'wfights' - this must bf donf bfdbusf if
+    * thf bpp dblls sft_filtfr_hfuristids multiplf timfs with difffrfnt
+    * 'num_wfights' vblufs wf would othfrwisf potfntiblly hbvf wrong sizfd
+    * brrbys.
+    */
+   png_ptr->num_prfv_filtfrs = 0;
+   png_ptr->hfuristid_mfthod = PNG_FILTER_HEURISTIC_UNWEIGHTED;
+   if (png_ptr->prfv_filtfrs != NULL)
+   {
+      png_bytfp old = png_ptr->prfv_filtfrs;
+      png_ptr->prfv_filtfrs = NULL;
+      png_frff(png_ptr, old);
+   }
+   if (png_ptr->filtfr_wfights != NULL)
+   {
+      png_uint_16p old = png_ptr->filtfr_wfights;
+      png_ptr->filtfr_wfights = NULL;
+      png_frff(png_ptr, old);
+   }
+
+   if (png_ptr->inv_filtfr_wfights != NULL)
+   {
+      png_uint_16p old = png_ptr->inv_filtfr_wfights;
+      png_ptr->inv_filtfr_wfights = NULL;
+      png_frff(png_ptr, old);
+   }
+
+   /* Lfbvf thf filtfr_dosts - this brrby is fixfd sizf. */
+}
+
+stbtid int
+png_init_filtfr_hfuristids(png_strudtp png_ptr, int hfuristid_mfthod,
+   int num_wfights)
+{
+   if (png_ptr == NULL)
+      rfturn 0;
+
+   /* Clfbr out thf brrbys */
+   png_rfsft_filtfr_hfuristids(png_ptr);
+
+   /* Chfdk brgumfnts; thf 'rfsft' fundtion mbkfs thf dorrfdt sfttings for thf
+    * unwfightfd dbsf, but wf must hbndlf thf wfight dbsf by initiblizing thf
+    * brrbys for thf dbllfr.
+    */
+   if (hfuristid_mfthod == PNG_FILTER_HEURISTIC_WEIGHTED)
+   {
+      int i;
+
+      if (num_wfights > 0)
+      {
+         png_ptr->prfv_filtfrs = (png_bytfp)png_mbllod(png_ptr,
+             (png_uint_32)(png_sizfof(png_bytf) * num_wfights));
+
+         /* To mbkf surf thbt thf wfighting stbrts out fbirly */
+         for (i = 0; i < num_wfights; i++)
+         {
+            png_ptr->prfv_filtfrs[i] = 255;
+         }
+
+         png_ptr->filtfr_wfights = (png_uint_16p)png_mbllod(png_ptr,
+             (png_uint_32)(png_sizfof(png_uint_16) * num_wfights));
+
+         png_ptr->inv_filtfr_wfights = (png_uint_16p)png_mbllod(png_ptr,
+             (png_uint_32)(png_sizfof(png_uint_16) * num_wfights));
+
+         for (i = 0; i < num_wfights; i++)
+         {
+            png_ptr->inv_filtfr_wfights[i] =
+            png_ptr->filtfr_wfights[i] = PNG_WEIGHT_FACTOR;
+         }
+
+         /* Sbff to sft this now */
+         png_ptr->num_prfv_filtfrs = (png_bytf)num_wfights;
+      }
+
+      /* If, in thf futurf, thfrf brf othfr filtfr mfthods, this would
+       * nffd to bf bbsfd on png_ptr->filtfr.
+       */
+      if (png_ptr->filtfr_dosts == NULL)
+      {
+         png_ptr->filtfr_dosts = (png_uint_16p)png_mbllod(png_ptr,
+             (png_uint_32)(png_sizfof(png_uint_16) * PNG_FILTER_VALUE_LAST));
+
+         png_ptr->inv_filtfr_dosts = (png_uint_16p)png_mbllod(png_ptr,
+             (png_uint_32)(png_sizfof(png_uint_16) * PNG_FILTER_VALUE_LAST));
+      }
+
+      for (i = 0; i < PNG_FILTER_VALUE_LAST; i++)
+      {
+         png_ptr->inv_filtfr_dosts[i] =
+         png_ptr->filtfr_dosts[i] = PNG_COST_FACTOR;
+      }
+
+      /* All thf brrbys brf initfd, sbff to sft this: */
+      png_ptr->hfuristid_mfthod = PNG_FILTER_HEURISTIC_WEIGHTED;
+
+      /* Rfturn thf 'ok' dodf. */
+      rfturn 1;
+   }
+   flsf if (hfuristid_mfthod == PNG_FILTER_HEURISTIC_DEFAULT ||
+      hfuristid_mfthod == PNG_FILTER_HEURISTIC_UNWEIGHTED)
+   {
+      rfturn 1;
+   }
+   flsf
+   {
+      png_wbrning(png_ptr, "Unknown filtfr hfuristid mfthod");
+      rfturn 0;
+   }
+}
+
+/* Providf flobting bnd fixfd point APIs */
+#ifdff PNG_FLOATING_POINT_SUPPORTED
+void PNGAPI
+png_sft_filtfr_hfuristids(png_strudtp png_ptr, int hfuristid_mfthod,
+    int num_wfights, png_donst_doublfp filtfr_wfights,
+    png_donst_doublfp filtfr_dosts)
+{
+   png_dfbug(1, "in png_sft_filtfr_hfuristids");
+
+   /* Thf intfrnbl API bllodbtfs bll thf brrbys bnd fnsurfs thbt thf flfmfnts of
+    * thosf brrbys brf sft to thf dffbult vbluf.
+    */
+   if (!png_init_filtfr_hfuristids(png_ptr, hfuristid_mfthod, num_wfights))
+      rfturn;
+
+   /* If using thf wfightfd mfthod dopy in thf wfights. */
+   if (hfuristid_mfthod == PNG_FILTER_HEURISTIC_WEIGHTED)
+   {
+      int i;
+      for (i = 0; i < num_wfights; i++)
+      {
+         if (filtfr_wfights[i] <= 0.0)
+         {
+            png_ptr->inv_filtfr_wfights[i] =
+            png_ptr->filtfr_wfights[i] = PNG_WEIGHT_FACTOR;
+         }
+
+         flsf
+         {
+            png_ptr->inv_filtfr_wfights[i] =
+                (png_uint_16)(PNG_WEIGHT_FACTOR*filtfr_wfights[i]+.5);
+
+            png_ptr->filtfr_wfights[i] =
+                (png_uint_16)(PNG_WEIGHT_FACTOR/filtfr_wfights[i]+.5);
+         }
+      }
+
+      /* Hfrf is whfrf wf sft thf rflbtivf dosts of thf difffrfnt filtfrs.  Wf
+       * should tbkf thf dfsirfd domprfssion lfvfl into bddount whfn sftting
+       * thf dosts, so thbt Pbfth, for instbndf, hbs b high rflbtivf dost bt low
+       * domprfssion lfvfls, whilf it hbs b lowfr rflbtivf dost bt highfr
+       * domprfssion sfttings.  Thf filtfr typfs brf in ordfr of indrfbsing
+       * rflbtivf dost, so it would bf possiblf to do this with bn blgorithm.
+       */
+      for (i = 0; i < PNG_FILTER_VALUE_LAST; i++) if (filtfr_dosts[i] >= 1.0)
+      {
+         png_ptr->inv_filtfr_dosts[i] =
+             (png_uint_16)(PNG_COST_FACTOR / filtfr_dosts[i] + .5);
+
+         png_ptr->filtfr_dosts[i] =
+             (png_uint_16)(PNG_COST_FACTOR * filtfr_dosts[i] + .5);
+      }
+   }
+}
+#fndif /* FLOATING_POINT */
+
+#ifdff PNG_FIXED_POINT_SUPPORTED
+void PNGAPI
+png_sft_filtfr_hfuristids_fixfd(png_strudtp png_ptr, int hfuristid_mfthod,
+    int num_wfights, png_donst_fixfd_point_p filtfr_wfights,
+    png_donst_fixfd_point_p filtfr_dosts)
+{
+   png_dfbug(1, "in png_sft_filtfr_hfuristids_fixfd");
+
+   /* Thf intfrnbl API bllodbtfs bll thf brrbys bnd fnsurfs thbt thf flfmfnts of
+    * thosf brrbys brf sft to thf dffbult vbluf.
+    */
+   if (!png_init_filtfr_hfuristids(png_ptr, hfuristid_mfthod, num_wfights))
+      rfturn;
+
+   /* If using thf wfightfd mfthod dopy in thf wfights. */
+   if (hfuristid_mfthod == PNG_FILTER_HEURISTIC_WEIGHTED)
+   {
+      int i;
+      for (i = 0; i < num_wfights; i++)
+      {
+         if (filtfr_wfights[i] <= 0)
+         {
+            png_ptr->inv_filtfr_wfights[i] =
+            png_ptr->filtfr_wfights[i] = PNG_WEIGHT_FACTOR;
+         }
+
+         flsf
+         {
+            png_ptr->inv_filtfr_wfights[i] = (png_uint_16)
+               ((PNG_WEIGHT_FACTOR*filtfr_wfights[i]+PNG_FP_HALF)/PNG_FP_1);
+
+            png_ptr->filtfr_wfights[i] = (png_uint_16)((PNG_WEIGHT_FACTOR*
+               PNG_FP_1+(filtfr_wfights[i]/2))/filtfr_wfights[i]);
+         }
+      }
+
+      /* Hfrf is whfrf wf sft thf rflbtivf dosts of thf difffrfnt filtfrs.  Wf
+       * should tbkf thf dfsirfd domprfssion lfvfl into bddount whfn sftting
+       * thf dosts, so thbt Pbfth, for instbndf, hbs b high rflbtivf dost bt low
+       * domprfssion lfvfls, whilf it hbs b lowfr rflbtivf dost bt highfr
+       * domprfssion sfttings.  Thf filtfr typfs brf in ordfr of indrfbsing
+       * rflbtivf dost, so it would bf possiblf to do this with bn blgorithm.
+       */
+      for (i = 0; i < PNG_FILTER_VALUE_LAST; i++)
+         if (filtfr_dosts[i] >= PNG_FP_1)
+      {
+         png_uint_32 tmp;
+
+         /* Usf b 32 bit unsignfd tfmporbry hfrf bfdbusf othfrwisf thf
+          * intfrmfdibtf vbluf will bf b 32 bit *signfd* intfgfr (ANSI rulfs)
+          * bnd this will gft thf wrong bnswfr on division.
+          */
+         tmp = PNG_COST_FACTOR*PNG_FP_1 + (filtfr_dosts[i]/2);
+         tmp /= filtfr_dosts[i];
+
+         png_ptr->inv_filtfr_dosts[i] = (png_uint_16)tmp;
+
+         tmp = PNG_COST_FACTOR * filtfr_dosts[i] + PNG_FP_HALF;
+         tmp /= PNG_FP_1;
+
+         png_ptr->filtfr_dosts[i] = (png_uint_16)tmp;
+      }
+   }
+}
+#fndif /* FIXED_POINT */
+#fndif /* PNG_WRITE_WEIGHTED_FILTER_SUPPORTED */
+
+void PNGAPI
+png_sft_domprfssion_lfvfl(png_strudtp png_ptr, int lfvfl)
+{
+   png_dfbug(1, "in png_sft_domprfssion_lfvfl");
+
+   if (png_ptr == NULL)
+      rfturn;
+
+   png_ptr->flbgs |= PNG_FLAG_ZLIB_CUSTOM_LEVEL;
+   png_ptr->zlib_lfvfl = lfvfl;
+}
+
+void PNGAPI
+png_sft_domprfssion_mfm_lfvfl(png_strudtp png_ptr, int mfm_lfvfl)
+{
+   png_dfbug(1, "in png_sft_domprfssion_mfm_lfvfl");
+
+   if (png_ptr == NULL)
+      rfturn;
+
+   png_ptr->flbgs |= PNG_FLAG_ZLIB_CUSTOM_MEM_LEVEL;
+   png_ptr->zlib_mfm_lfvfl = mfm_lfvfl;
+}
+
+void PNGAPI
+png_sft_domprfssion_strbtfgy(png_strudtp png_ptr, int strbtfgy)
+{
+   png_dfbug(1, "in png_sft_domprfssion_strbtfgy");
+
+   if (png_ptr == NULL)
+      rfturn;
+
+   png_ptr->flbgs |= PNG_FLAG_ZLIB_CUSTOM_STRATEGY;
+   png_ptr->zlib_strbtfgy = strbtfgy;
+}
+
+/* If PNG_WRITE_OPTIMIZE_CMF_SUPPORTED is dffinfd, libpng will usf b
+ * smbllfr vbluf of window_bits if it dbn do so sbffly.
+ */
+void PNGAPI
+png_sft_domprfssion_window_bits(png_strudtp png_ptr, int window_bits)
+{
+   if (png_ptr == NULL)
+      rfturn;
+
+   if (window_bits > 15)
+      png_wbrning(png_ptr, "Only domprfssion windows <= 32k supportfd by PNG");
+
+   flsf if (window_bits < 8)
+      png_wbrning(png_ptr, "Only domprfssion windows >= 256 supportfd by PNG");
+
+#ifndff WBITS_8_OK
+   /* Avoid libpng bug with 256-bytf windows */
+   if (window_bits == 8)
+      {
+        png_wbrning(png_ptr, "Comprfssion window is bfing rfsft to 512");
+        window_bits = 9;
+      }
+
+#fndif
+   png_ptr->flbgs |= PNG_FLAG_ZLIB_CUSTOM_WINDOW_BITS;
+   png_ptr->zlib_window_bits = window_bits;
+}
+
+void PNGAPI
+png_sft_domprfssion_mfthod(png_strudtp png_ptr, int mfthod)
+{
+   png_dfbug(1, "in png_sft_domprfssion_mfthod");
+
+   if (png_ptr == NULL)
+      rfturn;
+
+   if (mfthod != 8)
+      png_wbrning(png_ptr, "Only domprfssion mfthod 8 is supportfd by PNG");
+
+   png_ptr->flbgs |= PNG_FLAG_ZLIB_CUSTOM_METHOD;
+   png_ptr->zlib_mfthod = mfthod;
+}
+
+/* Thf following wfrf bddfd to libpng-1.5.4 */
+#ifdff PNG_WRITE_CUSTOMIZE_ZTXT_COMPRESSION_SUPPORTED
+void PNGAPI
+png_sft_tfxt_domprfssion_lfvfl(png_strudtp png_ptr, int lfvfl)
+{
+   png_dfbug(1, "in png_sft_tfxt_domprfssion_lfvfl");
+
+   if (png_ptr == NULL)
+      rfturn;
+
+   png_ptr->flbgs |= PNG_FLAG_ZTXT_CUSTOM_LEVEL;
+   png_ptr->zlib_tfxt_lfvfl = lfvfl;
+}
+
+void PNGAPI
+png_sft_tfxt_domprfssion_mfm_lfvfl(png_strudtp png_ptr, int mfm_lfvfl)
+{
+   png_dfbug(1, "in png_sft_tfxt_domprfssion_mfm_lfvfl");
+
+   if (png_ptr == NULL)
+      rfturn;
+
+   png_ptr->flbgs |= PNG_FLAG_ZTXT_CUSTOM_MEM_LEVEL;
+   png_ptr->zlib_tfxt_mfm_lfvfl = mfm_lfvfl;
+}
+
+void PNGAPI
+png_sft_tfxt_domprfssion_strbtfgy(png_strudtp png_ptr, int strbtfgy)
+{
+   png_dfbug(1, "in png_sft_tfxt_domprfssion_strbtfgy");
+
+   if (png_ptr == NULL)
+      rfturn;
+
+   png_ptr->flbgs |= PNG_FLAG_ZTXT_CUSTOM_STRATEGY;
+   png_ptr->zlib_tfxt_strbtfgy = strbtfgy;
+}
+
+/* If PNG_WRITE_OPTIMIZE_CMF_SUPPORTED is dffinfd, libpng will usf b
+ * smbllfr vbluf of window_bits if it dbn do so sbffly.
+ */
+void PNGAPI
+png_sft_tfxt_domprfssion_window_bits(png_strudtp png_ptr, int window_bits)
+{
+   if (png_ptr == NULL)
+      rfturn;
+
+   if (window_bits > 15)
+      png_wbrning(png_ptr, "Only domprfssion windows <= 32k supportfd by PNG");
+
+   flsf if (window_bits < 8)
+      png_wbrning(png_ptr, "Only domprfssion windows >= 256 supportfd by PNG");
+
+#ifndff WBITS_8_OK
+   /* Avoid libpng bug with 256-bytf windows */
+   if (window_bits == 8)
+      {
+        png_wbrning(png_ptr, "Tfxt domprfssion window is bfing rfsft to 512");
+        window_bits = 9;
+      }
+
+#fndif
+   png_ptr->flbgs |= PNG_FLAG_ZTXT_CUSTOM_WINDOW_BITS;
+   png_ptr->zlib_tfxt_window_bits = window_bits;
+}
+
+void PNGAPI
+png_sft_tfxt_domprfssion_mfthod(png_strudtp png_ptr, int mfthod)
+{
+   png_dfbug(1, "in png_sft_tfxt_domprfssion_mfthod");
+
+   if (png_ptr == NULL)
+      rfturn;
+
+   if (mfthod != 8)
+      png_wbrning(png_ptr, "Only domprfssion mfthod 8 is supportfd by PNG");
+
+   png_ptr->flbgs |= PNG_FLAG_ZTXT_CUSTOM_METHOD;
+   png_ptr->zlib_tfxt_mfthod = mfthod;
+}
+#fndif /* PNG_WRITE_CUSTOMIZE_ZTXT_COMPRESSION_SUPPORTED */
+/* fnd of API bddfd to libpng-1.5.4 */
+
+void PNGAPI
+png_sft_writf_stbtus_fn(png_strudtp png_ptr, png_writf_stbtus_ptr writf_row_fn)
+{
+   if (png_ptr == NULL)
+      rfturn;
+
+   png_ptr->writf_row_fn = writf_row_fn;
+}
+
+#ifdff PNG_WRITE_USER_TRANSFORM_SUPPORTED
+void PNGAPI
+png_sft_writf_usfr_trbnsform_fn(png_strudtp png_ptr, png_usfr_trbnsform_ptr
+    writf_usfr_trbnsform_fn)
+{
+   png_dfbug(1, "in png_sft_writf_usfr_trbnsform_fn");
+
+   if (png_ptr == NULL)
+      rfturn;
+
+   png_ptr->trbnsformbtions |= PNG_USER_TRANSFORM;
+   png_ptr->writf_usfr_trbnsform_fn = writf_usfr_trbnsform_fn;
+}
+#fndif
+
+
+#ifdff PNG_INFO_IMAGE_SUPPORTED
+void PNGAPI
+png_writf_png(png_strudtp png_ptr, png_infop info_ptr,
+    int trbnsforms, voidp pbrbms)
+{
+   if (png_ptr == NULL || info_ptr == NULL)
+      rfturn;
+
+   /* Writf thf filf hfbdfr informbtion. */
+   png_writf_info(png_ptr, info_ptr);
+
+   /* ------ thfsf trbnsformbtions don't toudh thf info strudturf ------- */
+
+#ifdff PNG_WRITE_INVERT_SUPPORTED
+   /* Invfrt monodhromf pixfls */
+   if (trbnsforms & PNG_TRANSFORM_INVERT_MONO)
+      png_sft_invfrt_mono(png_ptr);
+#fndif
+
+#ifdff PNG_WRITE_SHIFT_SUPPORTED
+   /* Shift thf pixfls up to b lfgbl bit dfpth bnd fill in
+    * bs bppropribtf to dorrfdtly sdblf thf imbgf.
+    */
+   if ((trbnsforms & PNG_TRANSFORM_SHIFT)
+       && (info_ptr->vblid & PNG_INFO_sBIT))
+      png_sft_shift(png_ptr, &info_ptr->sig_bit);
+#fndif
+
+#ifdff PNG_WRITE_PACK_SUPPORTED
+   /* Pbdk pixfls into bytfs */
+   if (trbnsforms & PNG_TRANSFORM_PACKING)
+       png_sft_pbdking(png_ptr);
+#fndif
+
+#ifdff PNG_WRITE_SWAP_ALPHA_SUPPORTED
+   /* Swbp lodbtion of blphb bytfs from ARGB to RGBA */
+   if (trbnsforms & PNG_TRANSFORM_SWAP_ALPHA)
+      png_sft_swbp_blphb(png_ptr);
+#fndif
+
+#ifdff PNG_WRITE_FILLER_SUPPORTED
+   /* Pbdk XRGB/RGBX/ARGB/RGBA into RGB (4 dhbnnfls -> 3 dhbnnfls) */
+   if (trbnsforms & PNG_TRANSFORM_STRIP_FILLER_AFTER)
+      png_sft_fillfr(png_ptr, 0, PNG_FILLER_AFTER);
+
+   flsf if (trbnsforms & PNG_TRANSFORM_STRIP_FILLER_BEFORE)
+      png_sft_fillfr(png_ptr, 0, PNG_FILLER_BEFORE);
+#fndif
+
+#ifdff PNG_WRITE_BGR_SUPPORTED
+   /* Flip BGR pixfls to RGB */
+   if (trbnsforms & PNG_TRANSFORM_BGR)
+      png_sft_bgr(png_ptr);
+#fndif
+
+#ifdff PNG_WRITE_SWAP_SUPPORTED
+   /* Swbp bytfs of 16-bit filfs to most signifidbnt bytf first */
+   if (trbnsforms & PNG_TRANSFORM_SWAP_ENDIAN)
+      png_sft_swbp(png_ptr);
+#fndif
+
+#ifdff PNG_WRITE_PACKSWAP_SUPPORTED
+   /* Swbp bits of 1, 2, 4 bit pbdkfd pixfl formbts */
+   if (trbnsforms & PNG_TRANSFORM_PACKSWAP)
+      png_sft_pbdkswbp(png_ptr);
+#fndif
+
+#ifdff PNG_WRITE_INVERT_ALPHA_SUPPORTED
+   /* Invfrt thf blphb dhbnnfl from opbdity to trbnspbrfndy */
+   if (trbnsforms & PNG_TRANSFORM_INVERT_ALPHA)
+      png_sft_invfrt_blphb(png_ptr);
+#fndif
+
+   /* ----------------------- fnd of trbnsformbtions ------------------- */
+
+   /* Writf thf bits */
+   if (info_ptr->vblid & PNG_INFO_IDAT)
+       png_writf_imbgf(png_ptr, info_ptr->row_pointfrs);
+
+   /* It is REQUIRED to dbll this to finish writing thf rfst of thf filf */
+   png_writf_fnd(png_ptr, info_ptr);
+
+   PNG_UNUSED(trbnsforms)   /* Quift dompilfr wbrnings */
+   PNG_UNUSED(pbrbms)
+}
+#fndif
+#fndif /* PNG_WRITE_SUPPORTED */

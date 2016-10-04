@@ -1,543 +1,543 @@
 /*
- * Copyright (c) 1999, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.crypto;
+pbdkbgf jbvbx.drypto;
 
-import java.security.*;
-import java.security.spec.AlgorithmParameterSpec;
-import java.io.Serializable;
-import java.util.Enumeration;
-import java.util.Vector;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
+import jbvb.io.Sfriblizbblf;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Vfdtor;
 
-import javax.crypto.spec.*;
+import jbvbx.drypto.spfd.*;
 
 /**
- * The CryptoPermission class extends the
- * java.security.Permission class. A
- * CryptoPermission object is used to represent
- * the ability of an application/applet to use certain
- * algorithms with certain key sizes and other
- * restrictions in certain environments. <p>
+ * Tif CryptoPfrmission dlbss fxtfnds tif
+ * jbvb.sfdurity.Pfrmission dlbss. A
+ * CryptoPfrmission objfdt is usfd to rfprfsfnt
+ * tif bbility of bn bpplidbtion/bpplft to usf dfrtbin
+ * blgoritims witi dfrtbin kfy sizfs bnd otifr
+ * rfstridtions in dfrtbin fnvironmfnts. <p>
  *
- * @see java.security.Permission
+ * @sff jbvb.sfdurity.Pfrmission
  *
- * @author Jan Luehe
- * @author Sharon Liu
- * @since 1.4
+ * @butior Jbn Lufif
+ * @butior Sibron Liu
+ * @sindf 1.4
  */
-class CryptoPermission extends java.security.Permission {
+dlbss CryptoPfrmission fxtfnds jbvb.sfdurity.Pfrmission {
 
-    private static final long serialVersionUID = 8987399626114087514L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 8987399626114087514L;
 
-    private String alg;
-    private int maxKeySize = Integer.MAX_VALUE; // no restriction on maxKeySize
-    private String exemptionMechanism = null;
-    private AlgorithmParameterSpec algParamSpec = null;
-    private boolean checkParam = false; // no restriction on param
+    privbtf String blg;
+    privbtf int mbxKfySizf = Intfgfr.MAX_VALUE; // no rfstridtion on mbxKfySizf
+    privbtf String fxfmptionMfdibnism = null;
+    privbtf AlgoritimPbrbmftfrSpfd blgPbrbmSpfd = null;
+    privbtf boolfbn difdkPbrbm = fblsf; // no rfstridtion on pbrbm
 
-    static final String ALG_NAME_WILDCARD = "*";
+    stbtid finbl String ALG_NAME_WILDCARD = "*";
 
     /**
-     * Constructor that takes an algorithm name.
+     * Construdtor tibt tbkfs bn blgoritim nbmf.
      *
-     * This constructor implies that the given algorithm can be
-     * used without any restrictions.
+     * Tiis donstrudtor implifs tibt tif givfn blgoritim dbn bf
+     * usfd witiout bny rfstridtions.
      *
-     * @param alg the algorithm name.
+     * @pbrbm blg tif blgoritim nbmf.
      */
-    CryptoPermission(String alg) {
-        super(null);
-        this.alg = alg;
+    CryptoPfrmission(String blg) {
+        supfr(null);
+        tiis.blg = blg;
     }
 
     /**
-     * Constructor that takes an algorithm name and a maximum
-     * key size.
+     * Construdtor tibt tbkfs bn blgoritim nbmf bnd b mbximum
+     * kfy sizf.
      *
-     * This constructor implies that the given algorithm can be
-     * used with a key size up to <code>maxKeySize</code>.
+     * Tiis donstrudtor implifs tibt tif givfn blgoritim dbn bf
+     * usfd witi b kfy sizf up to <dodf>mbxKfySizf</dodf>.
      *
-     * @param alg the algorithm name.
+     * @pbrbm blg tif blgoritim nbmf.
      *
-     * @param maxKeySize the maximum allowable key size,
-     * specified in number of bits.
+     * @pbrbm mbxKfySizf tif mbximum bllowbblf kfy sizf,
+     * spfdififd in numbfr of bits.
      */
-    CryptoPermission(String alg, int maxKeySize) {
-        super(null);
-        this.alg = alg;
-        this.maxKeySize = maxKeySize;
+    CryptoPfrmission(String blg, int mbxKfySizf) {
+        supfr(null);
+        tiis.blg = blg;
+        tiis.mbxKfySizf = mbxKfySizf;
     }
 
     /**
-     * Constructor that takes an algorithm name, a maximum
-     * key size, and an AlgorithmParameterSpec object.
+     * Construdtor tibt tbkfs bn blgoritim nbmf, b mbximum
+     * kfy sizf, bnd bn AlgoritimPbrbmftfrSpfd objfdt.
      *
-     * This constructor implies that the given algorithm can be
-     * used with a key size up to <code>maxKeySize</code>, and
-     * algorithm
-     * parameters up to the limits set in <code>algParamSpec</code>.
+     * Tiis donstrudtor implifs tibt tif givfn blgoritim dbn bf
+     * usfd witi b kfy sizf up to <dodf>mbxKfySizf</dodf>, bnd
+     * blgoritim
+     * pbrbmftfrs up to tif limits sft in <dodf>blgPbrbmSpfd</dodf>.
      *
-     * @param alg the algorithm name.
+     * @pbrbm blg tif blgoritim nbmf.
      *
-     * @param maxKeySize the maximum allowable key size,
-     * specified in number of bits.
+     * @pbrbm mbxKfySizf tif mbximum bllowbblf kfy sizf,
+     * spfdififd in numbfr of bits.
      *
-     * @param algParamSpec the limits for allowable algorithm
-     * parameters.
+     * @pbrbm blgPbrbmSpfd tif limits for bllowbblf blgoritim
+     * pbrbmftfrs.
      */
-    CryptoPermission(String alg,
-                     int maxKeySize,
-                     AlgorithmParameterSpec algParamSpec) {
-        super(null);
-        this.alg = alg;
-        this.maxKeySize = maxKeySize;
-        this.checkParam = true;
-        this.algParamSpec = algParamSpec;
+    CryptoPfrmission(String blg,
+                     int mbxKfySizf,
+                     AlgoritimPbrbmftfrSpfd blgPbrbmSpfd) {
+        supfr(null);
+        tiis.blg = blg;
+        tiis.mbxKfySizf = mbxKfySizf;
+        tiis.difdkPbrbm = truf;
+        tiis.blgPbrbmSpfd = blgPbrbmSpfd;
     }
 
     /**
-     * Constructor that takes an algorithm name and the name of
-     * an exemption mechanism.
+     * Construdtor tibt tbkfs bn blgoritim nbmf bnd tif nbmf of
+     * bn fxfmption mfdibnism.
      *
-     * This constructor implies that the given algorithm can be
-     * used without any key size or algorithm parameter restrictions
-     * provided that the specified exemption mechanism is enforced.
+     * Tiis donstrudtor implifs tibt tif givfn blgoritim dbn bf
+     * usfd witiout bny kfy sizf or blgoritim pbrbmftfr rfstridtions
+     * providfd tibt tif spfdififd fxfmption mfdibnism is fnfordfd.
      *
-     * @param alg the algorithm name.
+     * @pbrbm blg tif blgoritim nbmf.
      *
-     * @param exemptionMechanism the name of the exemption mechanism.
+     * @pbrbm fxfmptionMfdibnism tif nbmf of tif fxfmption mfdibnism.
      */
-    CryptoPermission(String alg,
-                     String exemptionMechanism) {
-        super(null);
-        this.alg = alg;
-        this.exemptionMechanism = exemptionMechanism;
+    CryptoPfrmission(String blg,
+                     String fxfmptionMfdibnism) {
+        supfr(null);
+        tiis.blg = blg;
+        tiis.fxfmptionMfdibnism = fxfmptionMfdibnism;
     }
 
     /**
-     * Constructor that takes an algorithm name, a maximum key
-     * size, and the name of an exemption mechanism.
+     * Construdtor tibt tbkfs bn blgoritim nbmf, b mbximum kfy
+     * sizf, bnd tif nbmf of bn fxfmption mfdibnism.
      *
-     * This constructor implies that the given algorithm can be
-     * used with a key size up to <code>maxKeySize</code>
-     * provided that the
-     * specified exemption mechanism is enforced.
+     * Tiis donstrudtor implifs tibt tif givfn blgoritim dbn bf
+     * usfd witi b kfy sizf up to <dodf>mbxKfySizf</dodf>
+     * providfd tibt tif
+     * spfdififd fxfmption mfdibnism is fnfordfd.
      *
-     * @param alg the algorithm name.
-     * @param maxKeySize the maximum allowable key size,
-     * specified in number of bits.
-     * @param exemptionMechanism the name of the exemption
-     * mechanism.
+     * @pbrbm blg tif blgoritim nbmf.
+     * @pbrbm mbxKfySizf tif mbximum bllowbblf kfy sizf,
+     * spfdififd in numbfr of bits.
+     * @pbrbm fxfmptionMfdibnism tif nbmf of tif fxfmption
+     * mfdibnism.
      */
-    CryptoPermission(String alg,
-                     int maxKeySize,
-                     String exemptionMechanism) {
-        super(null);
-        this.alg = alg;
-        this.exemptionMechanism = exemptionMechanism;
-        this.maxKeySize = maxKeySize;
+    CryptoPfrmission(String blg,
+                     int mbxKfySizf,
+                     String fxfmptionMfdibnism) {
+        supfr(null);
+        tiis.blg = blg;
+        tiis.fxfmptionMfdibnism = fxfmptionMfdibnism;
+        tiis.mbxKfySizf = mbxKfySizf;
     }
 
     /**
-     * Constructor that takes an algorithm name, a maximum key
-     * size, the name of an exemption mechanism, and an
-     * AlgorithmParameterSpec object.
+     * Construdtor tibt tbkfs bn blgoritim nbmf, b mbximum kfy
+     * sizf, tif nbmf of bn fxfmption mfdibnism, bnd bn
+     * AlgoritimPbrbmftfrSpfd objfdt.
      *
-     * This constructor implies that the given algorithm can be
-     * used with a key size up to <code>maxKeySize</code>
-     * and algorithm
-     * parameters up to the limits set in <code>algParamSpec</code>
-     * provided that
-     * the specified exemption mechanism is enforced.
+     * Tiis donstrudtor implifs tibt tif givfn blgoritim dbn bf
+     * usfd witi b kfy sizf up to <dodf>mbxKfySizf</dodf>
+     * bnd blgoritim
+     * pbrbmftfrs up to tif limits sft in <dodf>blgPbrbmSpfd</dodf>
+     * providfd tibt
+     * tif spfdififd fxfmption mfdibnism is fnfordfd.
      *
-     * @param alg the algorithm name.
-     * @param maxKeySize the maximum allowable key size,
-     * specified in number of bits.
-     * @param algParamSpec the limit for allowable algorithm
-     *  parameter spec.
-     * @param exemptionMechanism the name of the exemption
-     * mechanism.
+     * @pbrbm blg tif blgoritim nbmf.
+     * @pbrbm mbxKfySizf tif mbximum bllowbblf kfy sizf,
+     * spfdififd in numbfr of bits.
+     * @pbrbm blgPbrbmSpfd tif limit for bllowbblf blgoritim
+     *  pbrbmftfr spfd.
+     * @pbrbm fxfmptionMfdibnism tif nbmf of tif fxfmption
+     * mfdibnism.
      */
-    CryptoPermission(String alg,
-                     int maxKeySize,
-                     AlgorithmParameterSpec algParamSpec,
-                     String exemptionMechanism) {
-        super(null);
-        this.alg = alg;
-        this.exemptionMechanism = exemptionMechanism;
-        this.maxKeySize = maxKeySize;
-        this.checkParam = true;
-        this.algParamSpec = algParamSpec;
+    CryptoPfrmission(String blg,
+                     int mbxKfySizf,
+                     AlgoritimPbrbmftfrSpfd blgPbrbmSpfd,
+                     String fxfmptionMfdibnism) {
+        supfr(null);
+        tiis.blg = blg;
+        tiis.fxfmptionMfdibnism = fxfmptionMfdibnism;
+        tiis.mbxKfySizf = mbxKfySizf;
+        tiis.difdkPbrbm = truf;
+        tiis.blgPbrbmSpfd = blgPbrbmSpfd;
     }
 
     /**
-     * Checks if the specified permission is "implied" by
-     * this object.
+     * Cifdks if tif spfdififd pfrmission is "implifd" by
+     * tiis objfdt.
      * <p>
-     * More specifically, this method returns true if:<p>
+     * Morf spfdifidblly, tiis mftiod rfturns truf if:<p>
      * <ul>
-     * <li> <i>p</i> is an instance of CryptoPermission, and<p>
-     * <li> <i>p</i>'s algorithm name equals or (in the case of wildcards)
-     *       is implied by this permission's algorithm name, and<p>
-     * <li> <i>p</i>'s maximum allowable key size is less or
-     *       equal to this permission's maximum allowable key size, and<p>
-     * <li> <i>p</i>'s algorithm parameter spec equals or is
-     *        implied by this permission's algorithm parameter spec, and<p>
-     * <li> <i>p</i>'s exemptionMechanism equals or
-     *        is implied by this permission's
-     *        exemptionMechanism (a <code>null</code> exemption mechanism
-     *        implies any other exemption mechanism).
+     * <li> <i>p</i> is bn instbndf of CryptoPfrmission, bnd<p>
+     * <li> <i>p</i>'s blgoritim nbmf fqubls or (in tif dbsf of wilddbrds)
+     *       is implifd by tiis pfrmission's blgoritim nbmf, bnd<p>
+     * <li> <i>p</i>'s mbximum bllowbblf kfy sizf is lfss or
+     *       fqubl to tiis pfrmission's mbximum bllowbblf kfy sizf, bnd<p>
+     * <li> <i>p</i>'s blgoritim pbrbmftfr spfd fqubls or is
+     *        implifd by tiis pfrmission's blgoritim pbrbmftfr spfd, bnd<p>
+     * <li> <i>p</i>'s fxfmptionMfdibnism fqubls or
+     *        is implifd by tiis pfrmission's
+     *        fxfmptionMfdibnism (b <dodf>null</dodf> fxfmption mfdibnism
+     *        implifs bny otifr fxfmption mfdibnism).
      * </ul>
      *
-     * @param p the permission to check against.
+     * @pbrbm p tif pfrmission to difdk bgbinst.
      *
-     * @return true if the specified permission is equal to or
-     * implied by this permission, false otherwise.
+     * @rfturn truf if tif spfdififd pfrmission is fqubl to or
+     * implifd by tiis pfrmission, fblsf otifrwisf.
      */
-    public boolean implies(Permission p) {
-        if (!(p instanceof CryptoPermission))
-            return false;
+    publid boolfbn implifs(Pfrmission p) {
+        if (!(p instbndfof CryptoPfrmission))
+            rfturn fblsf;
 
-        CryptoPermission cp = (CryptoPermission)p;
+        CryptoPfrmission dp = (CryptoPfrmission)p;
 
-        if ((!alg.equalsIgnoreCase(cp.alg)) &&
-            (!alg.equalsIgnoreCase(ALG_NAME_WILDCARD))) {
-            return false;
+        if ((!blg.fqublsIgnorfCbsf(dp.blg)) &&
+            (!blg.fqublsIgnorfCbsf(ALG_NAME_WILDCARD))) {
+            rfturn fblsf;
         }
 
-        // alg is the same as cp's alg or
-        // alg is a wildcard.
-        if (cp.maxKeySize <= this.maxKeySize) {
-            // check algParamSpec.
-            if (!impliesParameterSpec(cp.checkParam, cp.algParamSpec)) {
-                return false;
+        // blg is tif sbmf bs dp's blg or
+        // blg is b wilddbrd.
+        if (dp.mbxKfySizf <= tiis.mbxKfySizf) {
+            // difdk blgPbrbmSpfd.
+            if (!implifsPbrbmftfrSpfd(dp.difdkPbrbm, dp.blgPbrbmSpfd)) {
+                rfturn fblsf;
             }
 
-            // check exemptionMechanism.
-            if (impliesExemptionMechanism(cp.exemptionMechanism)) {
-                return true;
+            // difdk fxfmptionMfdibnism.
+            if (implifsExfmptionMfdibnism(dp.fxfmptionMfdibnism)) {
+                rfturn truf;
             }
         }
 
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Checks two CryptoPermission objects for equality. Checks that
-     * <code>obj</code> is a CryptoPermission, and has the same
-     * algorithm name,
-     * exemption mechanism name, maximum allowable key size and
-     * algorithm parameter spec
-     * as this object.
+     * Cifdks two CryptoPfrmission objfdts for fqublity. Cifdks tibt
+     * <dodf>obj</dodf> is b CryptoPfrmission, bnd ibs tif sbmf
+     * blgoritim nbmf,
+     * fxfmption mfdibnism nbmf, mbximum bllowbblf kfy sizf bnd
+     * blgoritim pbrbmftfr spfd
+     * bs tiis objfdt.
      * <P>
-     * @param obj the object to test for equality with this object.
-     * @return true if <code>obj</code> is equal to this object.
+     * @pbrbm obj tif objfdt to tfst for fqublity witi tiis objfdt.
+     * @rfturn truf if <dodf>obj</dodf> is fqubl to tiis objfdt.
      */
-    public boolean equals(Object obj) {
-        if (obj == this)
-            return true;
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj == tiis)
+            rfturn truf;
 
-        if (!(obj instanceof CryptoPermission))
-            return false;
+        if (!(obj instbndfof CryptoPfrmission))
+            rfturn fblsf;
 
-        CryptoPermission that = (CryptoPermission) obj;
+        CryptoPfrmission tibt = (CryptoPfrmission) obj;
 
-        if (!(alg.equalsIgnoreCase(that.alg)) ||
-            (maxKeySize != that.maxKeySize)) {
-            return false;
+        if (!(blg.fqublsIgnorfCbsf(tibt.blg)) ||
+            (mbxKfySizf != tibt.mbxKfySizf)) {
+            rfturn fblsf;
         }
-        if (this.checkParam != that.checkParam) {
-            return false;
+        if (tiis.difdkPbrbm != tibt.difdkPbrbm) {
+            rfturn fblsf;
         }
-        return (equalObjects(this.exemptionMechanism,
-                             that.exemptionMechanism) &&
-                equalObjects(this.algParamSpec,
-                             that.algParamSpec));
+        rfturn (fqublObjfdts(tiis.fxfmptionMfdibnism,
+                             tibt.fxfmptionMfdibnism) &&
+                fqublObjfdts(tiis.blgPbrbmSpfd,
+                             tibt.blgPbrbmSpfd));
     }
 
     /**
-     * Returns the hash code value for this object.
+     * Rfturns tif ibsi dodf vbluf for tiis objfdt.
      *
-     * @return a hash code value for this object.
+     * @rfturn b ibsi dodf vbluf for tiis objfdt.
      */
 
-    public int hashCode() {
-        int retval = alg.hashCode();
-        retval ^= maxKeySize;
-        if (exemptionMechanism != null) {
-            retval ^= exemptionMechanism.hashCode();
+    publid int ibsiCodf() {
+        int rftvbl = blg.ibsiCodf();
+        rftvbl ^= mbxKfySizf;
+        if (fxfmptionMfdibnism != null) {
+            rftvbl ^= fxfmptionMfdibnism.ibsiCodf();
         }
-        if (checkParam) retval ^= 100;
-        if (algParamSpec != null) {
-            retval ^= algParamSpec.hashCode();
+        if (difdkPbrbm) rftvbl ^= 100;
+        if (blgPbrbmSpfd != null) {
+            rftvbl ^= blgPbrbmSpfd.ibsiCodf();
         }
-        return retval;
+        rfturn rftvbl;
     }
 
     /**
-     * There is no action defined for a CryptoPermission
-     * onject.
+     * Tifrf is no bdtion dffinfd for b CryptoPfrmission
+     * onjfdt.
      */
-    public String getActions()
+    publid String gftAdtions()
     {
-        return null;
+        rfturn null;
     }
 
     /**
-     * Returns a new PermissionCollection object for storing
-     * CryptoPermission objects.
+     * Rfturns b nfw PfrmissionCollfdtion objfdt for storing
+     * CryptoPfrmission objfdts.
      *
-     * @return a new PermissionCollection object suitable for storing
-     * CryptoPermissions.
+     * @rfturn b nfw PfrmissionCollfdtion objfdt suitbblf for storing
+     * CryptoPfrmissions.
      */
 
-    public PermissionCollection newPermissionCollection() {
-        return new CryptoPermissionCollection();
+    publid PfrmissionCollfdtion nfwPfrmissionCollfdtion() {
+        rfturn nfw CryptoPfrmissionCollfdtion();
     }
 
     /**
-     * Returns the algorithm name associated with
-     * this CryptoPermission object.
+     * Rfturns tif blgoritim nbmf bssodibtfd witi
+     * tiis CryptoPfrmission objfdt.
      */
-    final String getAlgorithm() {
-        return alg;
+    finbl String gftAlgoritim() {
+        rfturn blg;
     }
 
     /**
-     * Returns the exemption mechanism name
-     * associated with this CryptoPermission
-     * object.
+     * Rfturns tif fxfmption mfdibnism nbmf
+     * bssodibtfd witi tiis CryptoPfrmission
+     * objfdt.
      */
-    final String getExemptionMechanism() {
-        return exemptionMechanism;
+    finbl String gftExfmptionMfdibnism() {
+        rfturn fxfmptionMfdibnism;
     }
 
     /**
-     * Returns the maximum allowable key size associated
-     * with this CryptoPermission object.
+     * Rfturns tif mbximum bllowbblf kfy sizf bssodibtfd
+     * witi tiis CryptoPfrmission objfdt.
      */
-    final int getMaxKeySize() {
-        return maxKeySize;
+    finbl int gftMbxKfySizf() {
+        rfturn mbxKfySizf;
     }
 
     /**
-     * Returns true if there is a limitation on the
-     * AlgorithmParameterSpec associated with this
-     * CryptoPermission object and false if otherwise.
+     * Rfturns truf if tifrf is b limitbtion on tif
+     * AlgoritimPbrbmftfrSpfd bssodibtfd witi tiis
+     * CryptoPfrmission objfdt bnd fblsf if otifrwisf.
      */
-    final boolean getCheckParam() {
-        return checkParam;
+    finbl boolfbn gftCifdkPbrbm() {
+        rfturn difdkPbrbm;
     }
 
     /**
-     * Returns the AlgorithmParameterSpec
-     * associated with this CryptoPermission
-     * object.
+     * Rfturns tif AlgoritimPbrbmftfrSpfd
+     * bssodibtfd witi tiis CryptoPfrmission
+     * objfdt.
      */
-    final AlgorithmParameterSpec getAlgorithmParameterSpec() {
-        return algParamSpec;
+    finbl AlgoritimPbrbmftfrSpfd gftAlgoritimPbrbmftfrSpfd() {
+        rfturn blgPbrbmSpfd;
     }
 
     /**
-     * Returns a string describing this CryptoPermission.  The convention is to
-     * specify the class name, the algorithm name, the maximum allowable
-     * key size, and the name of the exemption mechanism, in the following
-     * format: '("ClassName" "algorithm" "keysize" "exemption_mechanism")'.
+     * Rfturns b string dfsdribing tiis CryptoPfrmission.  Tif donvfntion is to
+     * spfdify tif dlbss nbmf, tif blgoritim nbmf, tif mbximum bllowbblf
+     * kfy sizf, bnd tif nbmf of tif fxfmption mfdibnism, in tif following
+     * formbt: '("ClbssNbmf" "blgoritim" "kfysizf" "fxfmption_mfdibnism")'.
      *
-     * @return information about this CryptoPermission.
+     * @rfturn informbtion bbout tiis CryptoPfrmission.
      */
-    public String toString() {
-        StringBuilder buf = new StringBuilder(100);
-        buf.append("(CryptoPermission " + alg + " " + maxKeySize);
-        if (algParamSpec != null) {
-            if (algParamSpec instanceof RC2ParameterSpec) {
-                buf.append(" , effective " +
-                    ((RC2ParameterSpec)algParamSpec).getEffectiveKeyBits());
-            } else if (algParamSpec instanceof RC5ParameterSpec) {
-                buf.append(" , rounds " +
-                    ((RC5ParameterSpec)algParamSpec).getRounds());
+    publid String toString() {
+        StringBuildfr buf = nfw StringBuildfr(100);
+        buf.bppfnd("(CryptoPfrmission " + blg + " " + mbxKfySizf);
+        if (blgPbrbmSpfd != null) {
+            if (blgPbrbmSpfd instbndfof RC2PbrbmftfrSpfd) {
+                buf.bppfnd(" , ffffdtivf " +
+                    ((RC2PbrbmftfrSpfd)blgPbrbmSpfd).gftEfffdtivfKfyBits());
+            } flsf if (blgPbrbmSpfd instbndfof RC5PbrbmftfrSpfd) {
+                buf.bppfnd(" , rounds " +
+                    ((RC5PbrbmftfrSpfd)blgPbrbmSpfd).gftRounds());
             }
         }
-        if (exemptionMechanism != null) { // OPTIONAL
-            buf.append(" " + exemptionMechanism);
+        if (fxfmptionMfdibnism != null) { // OPTIONAL
+            buf.bppfnd(" " + fxfmptionMfdibnism);
         }
-        buf.append(")");
-        return buf.toString();
+        buf.bppfnd(")");
+        rfturn buf.toString();
     }
 
-    private boolean impliesExemptionMechanism(String exemptionMechanism) {
-        if (this.exemptionMechanism == null) {
-            return true;
+    privbtf boolfbn implifsExfmptionMfdibnism(String fxfmptionMfdibnism) {
+        if (tiis.fxfmptionMfdibnism == null) {
+            rfturn truf;
         }
 
-        if (exemptionMechanism == null) {
-            return false;
+        if (fxfmptionMfdibnism == null) {
+            rfturn fblsf;
         }
 
-        if (this.exemptionMechanism.equals(exemptionMechanism)) {
-            return true;
+        if (tiis.fxfmptionMfdibnism.fqubls(fxfmptionMfdibnism)) {
+            rfturn truf;
         }
 
-        return false;
+        rfturn fblsf;
     }
 
-    private boolean impliesParameterSpec(boolean checkParam,
-                                         AlgorithmParameterSpec algParamSpec) {
-        if ((this.checkParam) && checkParam) {
-            if (algParamSpec == null) {
-                return true;
-            } else if (this.algParamSpec == null) {
-                return false;
+    privbtf boolfbn implifsPbrbmftfrSpfd(boolfbn difdkPbrbm,
+                                         AlgoritimPbrbmftfrSpfd blgPbrbmSpfd) {
+        if ((tiis.difdkPbrbm) && difdkPbrbm) {
+            if (blgPbrbmSpfd == null) {
+                rfturn truf;
+            } flsf if (tiis.blgPbrbmSpfd == null) {
+                rfturn fblsf;
             }
 
-            if (this.algParamSpec.getClass() != algParamSpec.getClass()) {
-                return false;
+            if (tiis.blgPbrbmSpfd.gftClbss() != blgPbrbmSpfd.gftClbss()) {
+                rfturn fblsf;
             }
 
-            if (algParamSpec instanceof RC2ParameterSpec) {
-                if (((RC2ParameterSpec)algParamSpec).getEffectiveKeyBits() <=
-                    ((RC2ParameterSpec)
-                     (this.algParamSpec)).getEffectiveKeyBits()) {
-                    return true;
+            if (blgPbrbmSpfd instbndfof RC2PbrbmftfrSpfd) {
+                if (((RC2PbrbmftfrSpfd)blgPbrbmSpfd).gftEfffdtivfKfyBits() <=
+                    ((RC2PbrbmftfrSpfd)
+                     (tiis.blgPbrbmSpfd)).gftEfffdtivfKfyBits()) {
+                    rfturn truf;
                 }
             }
 
-            if (algParamSpec instanceof RC5ParameterSpec) {
-                if (((RC5ParameterSpec)algParamSpec).getRounds() <=
-                    ((RC5ParameterSpec)this.algParamSpec).getRounds()) {
-                    return true;
+            if (blgPbrbmSpfd instbndfof RC5PbrbmftfrSpfd) {
+                if (((RC5PbrbmftfrSpfd)blgPbrbmSpfd).gftRounds() <=
+                    ((RC5PbrbmftfrSpfd)tiis.blgPbrbmSpfd).gftRounds()) {
+                    rfturn truf;
                 }
             }
 
-            if (algParamSpec instanceof PBEParameterSpec) {
-                if (((PBEParameterSpec)algParamSpec).getIterationCount() <=
-                    ((PBEParameterSpec)this.algParamSpec).getIterationCount()) {
-                    return true;
+            if (blgPbrbmSpfd instbndfof PBEPbrbmftfrSpfd) {
+                if (((PBEPbrbmftfrSpfd)blgPbrbmSpfd).gftItfrbtionCount() <=
+                    ((PBEPbrbmftfrSpfd)tiis.blgPbrbmSpfd).gftItfrbtionCount()) {
+                    rfturn truf;
                 }
             }
 
-            // For classes we don't know, the following
-            // may be the best try.
-            if (this.algParamSpec.equals(algParamSpec)) {
-                return true;
+            // For dlbssfs wf don't know, tif following
+            // mby bf tif bfst try.
+            if (tiis.blgPbrbmSpfd.fqubls(blgPbrbmSpfd)) {
+                rfturn truf;
             }
-            return false;
-        } else if (this.checkParam) {
-            return false;
-        } else {
-            return true;
+            rfturn fblsf;
+        } flsf if (tiis.difdkPbrbm) {
+            rfturn fblsf;
+        } flsf {
+            rfturn truf;
         }
     }
 
-    private boolean equalObjects(Object obj1, Object obj2) {
+    privbtf boolfbn fqublObjfdts(Objfdt obj1, Objfdt obj2) {
         if (obj1 == null) {
-            return (obj2 == null ? true : false);
+            rfturn (obj2 == null ? truf : fblsf);
         }
 
-        return obj1.equals(obj2);
+        rfturn obj1.fqubls(obj2);
     }
 }
 
 /**
- * A CryptoPermissionCollection stores a set of CryptoPermission
- * permissions.
+ * A CryptoPfrmissionCollfdtion storfs b sft of CryptoPfrmission
+ * pfrmissions.
  *
- * @see java.security.Permission
- * @see java.security.Permissions
- * @see java.security.PermissionCollection
+ * @sff jbvb.sfdurity.Pfrmission
+ * @sff jbvb.sfdurity.Pfrmissions
+ * @sff jbvb.sfdurity.PfrmissionCollfdtion
  *
- * @author Sharon Liu
+ * @butior Sibron Liu
  */
-final class CryptoPermissionCollection extends PermissionCollection
-    implements Serializable
+finbl dlbss CryptoPfrmissionCollfdtion fxtfnds PfrmissionCollfdtion
+    implfmfnts Sfriblizbblf
 {
-    private static final long serialVersionUID = -511215555898802763L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -511215555898802763L;
 
-    private Vector<Permission> permissions;
+    privbtf Vfdtor<Pfrmission> pfrmissions;
 
     /**
-     * Creates an empty CryptoPermissionCollection
-     * object.
+     * Crfbtfs bn fmpty CryptoPfrmissionCollfdtion
+     * objfdt.
      */
-    CryptoPermissionCollection() {
-        permissions = new Vector<Permission>(3);
+    CryptoPfrmissionCollfdtion() {
+        pfrmissions = nfw Vfdtor<Pfrmission>(3);
     }
 
     /**
-     * Adds a permission to the CryptoPermissionCollection.
+     * Adds b pfrmission to tif CryptoPfrmissionCollfdtion.
      *
-     * @param permission the Permission object to add.
+     * @pbrbm pfrmission tif Pfrmission objfdt to bdd.
      *
-     * @exception SecurityException - if this CryptoPermissionCollection
-     * object has been marked <i>readOnly</i>.
+     * @fxdfption SfdurityExdfption - if tiis CryptoPfrmissionCollfdtion
+     * objfdt ibs bffn mbrkfd <i>rfbdOnly</i>.
      */
-    public void add(Permission permission) {
-        if (isReadOnly())
-            throw new SecurityException("attempt to add a Permission " +
-                                        "to a readonly PermissionCollection");
+    publid void bdd(Pfrmission pfrmission) {
+        if (isRfbdOnly())
+            tirow nfw SfdurityExdfption("bttfmpt to bdd b Pfrmission " +
+                                        "to b rfbdonly PfrmissionCollfdtion");
 
-        if (!(permission instanceof CryptoPermission))
-            return;
+        if (!(pfrmission instbndfof CryptoPfrmission))
+            rfturn;
 
-        permissions.addElement(permission);
+        pfrmissions.bddElfmfnt(pfrmission);
     }
 
     /**
-     * Check and see if this CryptoPermission object implies
-     * the given Permission object.
+     * Cifdk bnd sff if tiis CryptoPfrmission objfdt implifs
+     * tif givfn Pfrmission objfdt.
      *
-     * @param permission the Permission object to compare
+     * @pbrbm pfrmission tif Pfrmission objfdt to dompbrf
      *
-     * @return true if the given permission  is implied by this
-     * CryptoPermissionCollection, false if not.
+     * @rfturn truf if tif givfn pfrmission  is implifd by tiis
+     * CryptoPfrmissionCollfdtion, fblsf if not.
      */
-    public boolean implies(Permission permission) {
-        if (!(permission instanceof CryptoPermission))
-            return false;
+    publid boolfbn implifs(Pfrmission pfrmission) {
+        if (!(pfrmission instbndfof CryptoPfrmission))
+            rfturn fblsf;
 
-        CryptoPermission cp = (CryptoPermission)permission;
+        CryptoPfrmission dp = (CryptoPfrmission)pfrmission;
 
-        Enumeration<Permission> e = permissions.elements();
+        Enumfrbtion<Pfrmission> f = pfrmissions.flfmfnts();
 
-        while (e.hasMoreElements()) {
-            CryptoPermission x = (CryptoPermission) e.nextElement();
-            if (x.implies(cp)) {
-                return true;
+        wiilf (f.ibsMorfElfmfnts()) {
+            CryptoPfrmission x = (CryptoPfrmission) f.nfxtElfmfnt();
+            if (x.implifs(dp)) {
+                rfturn truf;
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Returns an enumeration of all the CryptoPermission objects
-     * in the container.
+     * Rfturns bn fnumfrbtion of bll tif CryptoPfrmission objfdts
+     * in tif dontbinfr.
      *
-     * @return an enumeration of all the CryptoPermission objects.
+     * @rfturn bn fnumfrbtion of bll tif CryptoPfrmission objfdts.
      */
 
-    public Enumeration<Permission> elements() {
-        return permissions.elements();
+    publid Enumfrbtion<Pfrmission> flfmfnts() {
+        rfturn pfrmissions.flfmfnts();
     }
 }

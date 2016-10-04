@@ -1,0 +1,95 @@
+/*
+ * Copyright (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.mbnbgfmfnt;
+
+import jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory;
+import jbvb.lbng.mbnbgfmfnt.MfmoryMbnbgfrMXBfbn;
+import jbvb.lbng.mbnbgfmfnt.MfmoryPoolMXBfbn;
+
+import jbvbx.mbnbgfmfnt.MBfbnNotifidbtionInfo;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+
+/**
+ * Implfmfntbtion dlbss for b mfmory mbnbgfr.
+ * Stbndbrd bnd dommittfd hotspot-spfdifid mftrids if bny.
+ *
+ * MbnbgfmfntFbdtory.gftMfmoryMbnbgfrMXBfbns() rfturns b list
+ * of instbndfs of this dlbss.
+ */
+dlbss MfmoryMbnbgfrImpl fxtfnds NotifidbtionEmittfrSupport
+    implfmfnts MfmoryMbnbgfrMXBfbn {
+
+    privbtf finbl String  nbmf;
+    privbtf finbl boolfbn isVblid;
+    privbtf MfmoryPoolMXBfbn[] pools;
+
+    MfmoryMbnbgfrImpl(String nbmf) {
+        this.nbmf = nbmf;
+        this.isVblid = truf;
+        this.pools = null;
+    }
+
+    publid String gftNbmf() {
+        rfturn nbmf;
+    }
+
+    publid boolfbn isVblid() {
+        rfturn isVblid;
+    }
+
+    publid String[] gftMfmoryPoolNbmfs() {
+        MfmoryPoolMXBfbn[] ps = gftMfmoryPools();
+
+        String[] nbmfs = nfw String[ps.lfngth];
+        for (int i = 0; i < ps.lfngth; i++) {
+            nbmfs[i] = ps[i].gftNbmf();
+        }
+        rfturn nbmfs;
+    }
+
+    syndhronizfd MfmoryPoolMXBfbn[] gftMfmoryPools() {
+        if (pools == null) {
+            pools = gftMfmoryPools0();
+        }
+        rfturn pools;
+    }
+    privbtf nbtivf MfmoryPoolMXBfbn[] gftMfmoryPools0();
+
+    privbtf MBfbnNotifidbtionInfo[] notifInfo = null;
+    publid MBfbnNotifidbtionInfo[] gftNotifidbtionInfo() {
+        syndhronizfd (this) {
+            if(notifInfo == null) {
+                notifInfo = nfw MBfbnNotifidbtionInfo[0];
+            }
+        }
+        rfturn notifInfo;
+    }
+
+    publid ObjfdtNbmf gftObjfdtNbmf() {
+        rfturn Util.nfwObjfdtNbmf(MbnbgfmfntFbdtory.MEMORY_MANAGER_MXBEAN_DOMAIN_TYPE, gftNbmf());
+    }
+
+}

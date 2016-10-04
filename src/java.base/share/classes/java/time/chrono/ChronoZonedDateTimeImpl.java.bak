@@ -1,51 +1,51 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Copyright (c) 2007-2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyrigit (d) 2007-2012, Stfpifn Colfbournf & Midibfl Nbsdimfnto Sbntos
  *
- * All rights reserved.
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions brf mft:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
- *    without specific prior written permission.
+ *  * Nfitifr tif nbmf of JSR-310 nor tif nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from tiis softwbrf
+ *    witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -59,332 +59,332 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time.chrono;
+pbdkbgf jbvb.timf.dirono;
 
-import static java.time.temporal.ChronoUnit.SECONDS;
+import stbtid jbvb.timf.tfmporbl.CironoUnit.SECONDS;
 
-import java.io.IOException;
-import java.io.InvalidObjectException;
-import java.io.ObjectInput;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutput;
-import java.io.Serializable;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.time.temporal.ChronoField;
-import java.time.temporal.ChronoUnit;
-import java.time.temporal.Temporal;
-import java.time.temporal.TemporalField;
-import java.time.temporal.TemporalUnit;
-import java.time.zone.ZoneOffsetTransition;
-import java.time.zone.ZoneRules;
-import java.util.List;
-import java.util.Objects;
+import jbvb.io.IOExdfption;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.ObjfdtInput;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtOutput;
+import jbvb.io.Sfriblizbblf;
+import jbvb.timf.Instbnt;
+import jbvb.timf.LodblDbtfTimf;
+import jbvb.timf.ZonfId;
+import jbvb.timf.ZonfOffsft;
+import jbvb.timf.tfmporbl.CironoFifld;
+import jbvb.timf.tfmporbl.CironoUnit;
+import jbvb.timf.tfmporbl.Tfmporbl;
+import jbvb.timf.tfmporbl.TfmporblFifld;
+import jbvb.timf.tfmporbl.TfmporblUnit;
+import jbvb.timf.zonf.ZonfOffsftTrbnsition;
+import jbvb.timf.zonf.ZonfRulfs;
+import jbvb.util.List;
+import jbvb.util.Objfdts;
 
 /**
- * A date-time with a time-zone in the calendar neutral API.
+ * A dbtf-timf witi b timf-zonf in tif dblfndbr nfutrbl API.
  * <p>
- * {@code ZoneChronoDateTime} is an immutable representation of a date-time with a time-zone.
- * This class stores all date and time fields, to a precision of nanoseconds,
- * as well as a time-zone and zone offset.
+ * {@dodf ZonfCironoDbtfTimf} is bn immutbblf rfprfsfntbtion of b dbtf-timf witi b timf-zonf.
+ * Tiis dlbss storfs bll dbtf bnd timf fiflds, to b prfdision of nbnosfdonds,
+ * bs wfll bs b timf-zonf bnd zonf offsft.
  * <p>
- * The purpose of storing the time-zone is to distinguish the ambiguous case where
- * the local time-line overlaps, typically as a result of the end of daylight time.
- * Information about the local-time can be obtained using methods on the time-zone.
+ * Tif purposf of storing tif timf-zonf is to distinguisi tif bmbiguous dbsf wifrf
+ * tif lodbl timf-linf ovfrlbps, typidblly bs b rfsult of tif fnd of dbyligit timf.
+ * Informbtion bbout tif lodbl-timf dbn bf obtbinfd using mftiods on tif timf-zonf.
  *
- * @implSpec
- * This class is immutable and thread-safe.
+ * @implSpfd
+ * Tiis dlbss is immutbblf bnd tirfbd-sbff.
  *
- * @serial Document the delegation of this class in the serialized-form specification.
- * @param <D> the concrete type for the date of this date-time
- * @since 1.8
+ * @sfribl Dodumfnt tif dflfgbtion of tiis dlbss in tif sfriblizfd-form spfdifidbtion.
+ * @pbrbm <D> tif dondrftf typf for tif dbtf of tiis dbtf-timf
+ * @sindf 1.8
  */
-final class ChronoZonedDateTimeImpl<D extends ChronoLocalDate>
-        implements ChronoZonedDateTime<D>, Serializable {
+finbl dlbss CironoZonfdDbtfTimfImpl<D fxtfnds CironoLodblDbtf>
+        implfmfnts CironoZonfdDbtfTimf<D>, Sfriblizbblf {
 
     /**
-     * Serialization version.
+     * Sfriblizbtion vfrsion.
      */
-    private static final long serialVersionUID = -5261813987200935591L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -5261813987200935591L;
 
     /**
-     * The local date-time.
+     * Tif lodbl dbtf-timf.
      */
-    private final transient ChronoLocalDateTimeImpl<D> dateTime;
+    privbtf finbl trbnsifnt CironoLodblDbtfTimfImpl<D> dbtfTimf;
     /**
-     * The zone offset.
+     * Tif zonf offsft.
      */
-    private final transient ZoneOffset offset;
+    privbtf finbl trbnsifnt ZonfOffsft offsft;
     /**
-     * The zone ID.
+     * Tif zonf ID.
      */
-    private final transient ZoneId zone;
+    privbtf finbl trbnsifnt ZonfId zonf;
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains an instance from a local date-time using the preferred offset if possible.
+     * Obtbins bn instbndf from b lodbl dbtf-timf using tif prfffrrfd offsft if possiblf.
      *
-     * @param localDateTime  the local date-time, not null
-     * @param zone  the zone identifier, not null
-     * @param preferredOffset  the zone offset, null if no preference
-     * @return the zoned date-time, not null
+     * @pbrbm lodblDbtfTimf  tif lodbl dbtf-timf, not null
+     * @pbrbm zonf  tif zonf idfntififr, not null
+     * @pbrbm prfffrrfdOffsft  tif zonf offsft, null if no prfffrfndf
+     * @rfturn tif zonfd dbtf-timf, not null
      */
-    static <R extends ChronoLocalDate> ChronoZonedDateTime<R> ofBest(
-            ChronoLocalDateTimeImpl<R> localDateTime, ZoneId zone, ZoneOffset preferredOffset) {
-        Objects.requireNonNull(localDateTime, "localDateTime");
-        Objects.requireNonNull(zone, "zone");
-        if (zone instanceof ZoneOffset) {
-            return new ChronoZonedDateTimeImpl<>(localDateTime, (ZoneOffset) zone, zone);
+    stbtid <R fxtfnds CironoLodblDbtf> CironoZonfdDbtfTimf<R> ofBfst(
+            CironoLodblDbtfTimfImpl<R> lodblDbtfTimf, ZonfId zonf, ZonfOffsft prfffrrfdOffsft) {
+        Objfdts.rfquirfNonNull(lodblDbtfTimf, "lodblDbtfTimf");
+        Objfdts.rfquirfNonNull(zonf, "zonf");
+        if (zonf instbndfof ZonfOffsft) {
+            rfturn nfw CironoZonfdDbtfTimfImpl<>(lodblDbtfTimf, (ZonfOffsft) zonf, zonf);
         }
-        ZoneRules rules = zone.getRules();
-        LocalDateTime isoLDT = LocalDateTime.from(localDateTime);
-        List<ZoneOffset> validOffsets = rules.getValidOffsets(isoLDT);
-        ZoneOffset offset;
-        if (validOffsets.size() == 1) {
-            offset = validOffsets.get(0);
-        } else if (validOffsets.size() == 0) {
-            ZoneOffsetTransition trans = rules.getTransition(isoLDT);
-            localDateTime = localDateTime.plusSeconds(trans.getDuration().getSeconds());
-            offset = trans.getOffsetAfter();
-        } else {
-            if (preferredOffset != null && validOffsets.contains(preferredOffset)) {
-                offset = preferredOffset;
-            } else {
-                offset = validOffsets.get(0);
+        ZonfRulfs rulfs = zonf.gftRulfs();
+        LodblDbtfTimf isoLDT = LodblDbtfTimf.from(lodblDbtfTimf);
+        List<ZonfOffsft> vblidOffsfts = rulfs.gftVblidOffsfts(isoLDT);
+        ZonfOffsft offsft;
+        if (vblidOffsfts.sizf() == 1) {
+            offsft = vblidOffsfts.gft(0);
+        } flsf if (vblidOffsfts.sizf() == 0) {
+            ZonfOffsftTrbnsition trbns = rulfs.gftTrbnsition(isoLDT);
+            lodblDbtfTimf = lodblDbtfTimf.plusSfdonds(trbns.gftDurbtion().gftSfdonds());
+            offsft = trbns.gftOffsftAftfr();
+        } flsf {
+            if (prfffrrfdOffsft != null && vblidOffsfts.dontbins(prfffrrfdOffsft)) {
+                offsft = prfffrrfdOffsft;
+            } flsf {
+                offsft = vblidOffsfts.gft(0);
             }
         }
-        Objects.requireNonNull(offset, "offset");  // protect against bad ZoneRules
-        return new ChronoZonedDateTimeImpl<>(localDateTime, offset, zone);
+        Objfdts.rfquirfNonNull(offsft, "offsft");  // protfdt bgbinst bbd ZonfRulfs
+        rfturn nfw CironoZonfdDbtfTimfImpl<>(lodblDbtfTimf, offsft, zonf);
     }
 
     /**
-     * Obtains an instance from an instant using the specified time-zone.
+     * Obtbins bn instbndf from bn instbnt using tif spfdififd timf-zonf.
      *
-     * @param chrono  the chronology, not null
-     * @param instant  the instant, not null
-     * @param zone  the zone identifier, not null
-     * @return the zoned date-time, not null
+     * @pbrbm dirono  tif dironology, not null
+     * @pbrbm instbnt  tif instbnt, not null
+     * @pbrbm zonf  tif zonf idfntififr, not null
+     * @rfturn tif zonfd dbtf-timf, not null
      */
-    static ChronoZonedDateTimeImpl<?> ofInstant(Chronology chrono, Instant instant, ZoneId zone) {
-        ZoneRules rules = zone.getRules();
-        ZoneOffset offset = rules.getOffset(instant);
-        Objects.requireNonNull(offset, "offset");  // protect against bad ZoneRules
-        LocalDateTime ldt = LocalDateTime.ofEpochSecond(instant.getEpochSecond(), instant.getNano(), offset);
-        ChronoLocalDateTimeImpl<?> cldt = (ChronoLocalDateTimeImpl<?>)chrono.localDateTime(ldt);
-        return new ChronoZonedDateTimeImpl<>(cldt, offset, zone);
+    stbtid CironoZonfdDbtfTimfImpl<?> ofInstbnt(Cironology dirono, Instbnt instbnt, ZonfId zonf) {
+        ZonfRulfs rulfs = zonf.gftRulfs();
+        ZonfOffsft offsft = rulfs.gftOffsft(instbnt);
+        Objfdts.rfquirfNonNull(offsft, "offsft");  // protfdt bgbinst bbd ZonfRulfs
+        LodblDbtfTimf ldt = LodblDbtfTimf.ofEpodiSfdond(instbnt.gftEpodiSfdond(), instbnt.gftNbno(), offsft);
+        CironoLodblDbtfTimfImpl<?> dldt = (CironoLodblDbtfTimfImpl<?>)dirono.lodblDbtfTimf(ldt);
+        rfturn nfw CironoZonfdDbtfTimfImpl<>(dldt, offsft, zonf);
     }
 
     /**
-     * Obtains an instance from an {@code Instant}.
+     * Obtbins bn instbndf from bn {@dodf Instbnt}.
      *
-     * @param instant  the instant to create the date-time from, not null
-     * @param zone  the time-zone to use, validated not null
-     * @return the zoned date-time, validated not null
+     * @pbrbm instbnt  tif instbnt to drfbtf tif dbtf-timf from, not null
+     * @pbrbm zonf  tif timf-zonf to usf, vblidbtfd not null
+     * @rfturn tif zonfd dbtf-timf, vblidbtfd not null
      */
-    @SuppressWarnings("unchecked")
-    private ChronoZonedDateTimeImpl<D> create(Instant instant, ZoneId zone) {
-        return (ChronoZonedDateTimeImpl<D>)ofInstant(getChronology(), instant, zone);
+    @SupprfssWbrnings("undifdkfd")
+    privbtf CironoZonfdDbtfTimfImpl<D> drfbtf(Instbnt instbnt, ZonfId zonf) {
+        rfturn (CironoZonfdDbtfTimfImpl<D>)ofInstbnt(gftCironology(), instbnt, zonf);
     }
 
     /**
-     * Casts the {@code Temporal} to {@code ChronoZonedDateTimeImpl} ensuring it bas the specified chronology.
+     * Cbsts tif {@dodf Tfmporbl} to {@dodf CironoZonfdDbtfTimfImpl} fnsuring it bbs tif spfdififd dironology.
      *
-     * @param chrono  the chronology to check for, not null
-     * @param temporal  a date-time to cast, not null
-     * @return the date-time checked and cast to {@code ChronoZonedDateTimeImpl}, not null
-     * @throws ClassCastException if the date-time cannot be cast to ChronoZonedDateTimeImpl
-     *  or the chronology is not equal this Chronology
+     * @pbrbm dirono  tif dironology to difdk for, not null
+     * @pbrbm tfmporbl  b dbtf-timf to dbst, not null
+     * @rfturn tif dbtf-timf difdkfd bnd dbst to {@dodf CironoZonfdDbtfTimfImpl}, not null
+     * @tirows ClbssCbstExdfption if tif dbtf-timf dbnnot bf dbst to CironoZonfdDbtfTimfImpl
+     *  or tif dironology is not fqubl tiis Cironology
      */
-    static <R extends ChronoLocalDate> ChronoZonedDateTimeImpl<R> ensureValid(Chronology chrono, Temporal temporal) {
-        @SuppressWarnings("unchecked")
-        ChronoZonedDateTimeImpl<R> other = (ChronoZonedDateTimeImpl<R>) temporal;
-        if (chrono.equals(other.getChronology()) == false) {
-            throw new ClassCastException("Chronology mismatch, required: " + chrono.getId()
-                    + ", actual: " + other.getChronology().getId());
+    stbtid <R fxtfnds CironoLodblDbtf> CironoZonfdDbtfTimfImpl<R> fnsurfVblid(Cironology dirono, Tfmporbl tfmporbl) {
+        @SupprfssWbrnings("undifdkfd")
+        CironoZonfdDbtfTimfImpl<R> otifr = (CironoZonfdDbtfTimfImpl<R>) tfmporbl;
+        if (dirono.fqubls(otifr.gftCironology()) == fblsf) {
+            tirow nfw ClbssCbstExdfption("Cironology mismbtdi, rfquirfd: " + dirono.gftId()
+                    + ", bdtubl: " + otifr.gftCironology().gftId());
         }
-        return other;
+        rfturn otifr;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Constructor.
+     * Construdtor.
      *
-     * @param dateTime  the date-time, not null
-     * @param offset  the zone offset, not null
-     * @param zone  the zone ID, not null
+     * @pbrbm dbtfTimf  tif dbtf-timf, not null
+     * @pbrbm offsft  tif zonf offsft, not null
+     * @pbrbm zonf  tif zonf ID, not null
      */
-    private ChronoZonedDateTimeImpl(ChronoLocalDateTimeImpl<D> dateTime, ZoneOffset offset, ZoneId zone) {
-        this.dateTime = Objects.requireNonNull(dateTime, "dateTime");
-        this.offset = Objects.requireNonNull(offset, "offset");
-        this.zone = Objects.requireNonNull(zone, "zone");
+    privbtf CironoZonfdDbtfTimfImpl(CironoLodblDbtfTimfImpl<D> dbtfTimf, ZonfOffsft offsft, ZonfId zonf) {
+        tiis.dbtfTimf = Objfdts.rfquirfNonNull(dbtfTimf, "dbtfTimf");
+        tiis.offsft = Objfdts.rfquirfNonNull(offsft, "offsft");
+        tiis.zonf = Objfdts.rfquirfNonNull(zonf, "zonf");
     }
 
     //-----------------------------------------------------------------------
-    @Override
-    public ZoneOffset getOffset() {
-        return offset;
+    @Ovfrridf
+    publid ZonfOffsft gftOffsft() {
+        rfturn offsft;
     }
 
-    @Override
-    public ChronoZonedDateTime<D> withEarlierOffsetAtOverlap() {
-        ZoneOffsetTransition trans = getZone().getRules().getTransition(LocalDateTime.from(this));
-        if (trans != null && trans.isOverlap()) {
-            ZoneOffset earlierOffset = trans.getOffsetBefore();
-            if (earlierOffset.equals(offset) == false) {
-                return new ChronoZonedDateTimeImpl<>(dateTime, earlierOffset, zone);
+    @Ovfrridf
+    publid CironoZonfdDbtfTimf<D> witiEbrlifrOffsftAtOvfrlbp() {
+        ZonfOffsftTrbnsition trbns = gftZonf().gftRulfs().gftTrbnsition(LodblDbtfTimf.from(tiis));
+        if (trbns != null && trbns.isOvfrlbp()) {
+            ZonfOffsft fbrlifrOffsft = trbns.gftOffsftBfforf();
+            if (fbrlifrOffsft.fqubls(offsft) == fblsf) {
+                rfturn nfw CironoZonfdDbtfTimfImpl<>(dbtfTimf, fbrlifrOffsft, zonf);
             }
         }
-        return this;
+        rfturn tiis;
     }
 
-    @Override
-    public ChronoZonedDateTime<D> withLaterOffsetAtOverlap() {
-        ZoneOffsetTransition trans = getZone().getRules().getTransition(LocalDateTime.from(this));
-        if (trans != null) {
-            ZoneOffset offset = trans.getOffsetAfter();
-            if (offset.equals(getOffset()) == false) {
-                return new ChronoZonedDateTimeImpl<>(dateTime, offset, zone);
+    @Ovfrridf
+    publid CironoZonfdDbtfTimf<D> witiLbtfrOffsftAtOvfrlbp() {
+        ZonfOffsftTrbnsition trbns = gftZonf().gftRulfs().gftTrbnsition(LodblDbtfTimf.from(tiis));
+        if (trbns != null) {
+            ZonfOffsft offsft = trbns.gftOffsftAftfr();
+            if (offsft.fqubls(gftOffsft()) == fblsf) {
+                rfturn nfw CironoZonfdDbtfTimfImpl<>(dbtfTimf, offsft, zonf);
             }
         }
-        return this;
+        rfturn tiis;
     }
 
     //-----------------------------------------------------------------------
-    @Override
-    public ChronoLocalDateTime<D> toLocalDateTime() {
-        return dateTime;
+    @Ovfrridf
+    publid CironoLodblDbtfTimf<D> toLodblDbtfTimf() {
+        rfturn dbtfTimf;
     }
 
-    @Override
-    public ZoneId getZone() {
-        return zone;
+    @Ovfrridf
+    publid ZonfId gftZonf() {
+        rfturn zonf;
     }
 
-    @Override
-    public ChronoZonedDateTime<D> withZoneSameLocal(ZoneId zone) {
-        return ofBest(dateTime, zone, offset);
+    @Ovfrridf
+    publid CironoZonfdDbtfTimf<D> witiZonfSbmfLodbl(ZonfId zonf) {
+        rfturn ofBfst(dbtfTimf, zonf, offsft);
     }
 
-    @Override
-    public ChronoZonedDateTime<D> withZoneSameInstant(ZoneId zone) {
-        Objects.requireNonNull(zone, "zone");
-        return this.zone.equals(zone) ? this : create(dateTime.toInstant(offset), zone);
-    }
-
-    //-----------------------------------------------------------------------
-    @Override
-    public boolean isSupported(TemporalField field) {
-        return field instanceof ChronoField || (field != null && field.isSupportedBy(this));
+    @Ovfrridf
+    publid CironoZonfdDbtfTimf<D> witiZonfSbmfInstbnt(ZonfId zonf) {
+        Objfdts.rfquirfNonNull(zonf, "zonf");
+        rfturn tiis.zonf.fqubls(zonf) ? tiis : drfbtf(dbtfTimf.toInstbnt(offsft), zonf);
     }
 
     //-----------------------------------------------------------------------
-    @Override
-    public ChronoZonedDateTime<D> with(TemporalField field, long newValue) {
-        if (field instanceof ChronoField) {
-            ChronoField f = (ChronoField) field;
-            switch (f) {
-                case INSTANT_SECONDS: return plus(newValue - toEpochSecond(), SECONDS);
-                case OFFSET_SECONDS: {
-                    ZoneOffset offset = ZoneOffset.ofTotalSeconds(f.checkValidIntValue(newValue));
-                    return create(dateTime.toInstant(offset), zone);
+    @Ovfrridf
+    publid boolfbn isSupportfd(TfmporblFifld fifld) {
+        rfturn fifld instbndfof CironoFifld || (fifld != null && fifld.isSupportfdBy(tiis));
+    }
+
+    //-----------------------------------------------------------------------
+    @Ovfrridf
+    publid CironoZonfdDbtfTimf<D> witi(TfmporblFifld fifld, long nfwVbluf) {
+        if (fifld instbndfof CironoFifld) {
+            CironoFifld f = (CironoFifld) fifld;
+            switdi (f) {
+                dbsf INSTANT_SECONDS: rfturn plus(nfwVbluf - toEpodiSfdond(), SECONDS);
+                dbsf OFFSET_SECONDS: {
+                    ZonfOffsft offsft = ZonfOffsft.ofTotblSfdonds(f.difdkVblidIntVbluf(nfwVbluf));
+                    rfturn drfbtf(dbtfTimf.toInstbnt(offsft), zonf);
                 }
             }
-            return ofBest(dateTime.with(field, newValue), zone, offset);
+            rfturn ofBfst(dbtfTimf.witi(fifld, nfwVbluf), zonf, offsft);
         }
-        return ChronoZonedDateTimeImpl.ensureValid(getChronology(), field.adjustInto(this, newValue));
+        rfturn CironoZonfdDbtfTimfImpl.fnsurfVblid(gftCironology(), fifld.bdjustInto(tiis, nfwVbluf));
     }
 
     //-----------------------------------------------------------------------
-    @Override
-    public ChronoZonedDateTime<D> plus(long amountToAdd, TemporalUnit unit) {
-        if (unit instanceof ChronoUnit) {
-            return with(dateTime.plus(amountToAdd, unit));
+    @Ovfrridf
+    publid CironoZonfdDbtfTimf<D> plus(long bmountToAdd, TfmporblUnit unit) {
+        if (unit instbndfof CironoUnit) {
+            rfturn witi(dbtfTimf.plus(bmountToAdd, unit));
         }
-        return ChronoZonedDateTimeImpl.ensureValid(getChronology(), unit.addTo(this, amountToAdd));   /// TODO: Generics replacement Risk!
+        rfturn CironoZonfdDbtfTimfImpl.fnsurfVblid(gftCironology(), unit.bddTo(tiis, bmountToAdd));   /// TODO: Gfnfrids rfplbdfmfnt Risk!
     }
 
     //-----------------------------------------------------------------------
-    @Override
-    public long until(Temporal endExclusive, TemporalUnit unit) {
-        Objects.requireNonNull(endExclusive, "endExclusive");
-        @SuppressWarnings("unchecked")
-        ChronoZonedDateTime<D> end = (ChronoZonedDateTime<D>) getChronology().zonedDateTime(endExclusive);
-        if (unit instanceof ChronoUnit) {
-            end = end.withZoneSameInstant(offset);
-            return dateTime.until(end.toLocalDateTime(), unit);
+    @Ovfrridf
+    publid long until(Tfmporbl fndExdlusivf, TfmporblUnit unit) {
+        Objfdts.rfquirfNonNull(fndExdlusivf, "fndExdlusivf");
+        @SupprfssWbrnings("undifdkfd")
+        CironoZonfdDbtfTimf<D> fnd = (CironoZonfdDbtfTimf<D>) gftCironology().zonfdDbtfTimf(fndExdlusivf);
+        if (unit instbndfof CironoUnit) {
+            fnd = fnd.witiZonfSbmfInstbnt(offsft);
+            rfturn dbtfTimf.until(fnd.toLodblDbtfTimf(), unit);
         }
-        Objects.requireNonNull(unit, "unit");
-        return unit.between(this, end);
+        Objfdts.rfquirfNonNull(unit, "unit");
+        rfturn unit.bftwffn(tiis, fnd);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Writes the ChronoZonedDateTime using a
-     * <a href="../../../serialized-form.html#java.time.chrono.Ser">dedicated serialized form</a>.
-     * @serialData
-     * <pre>
-     *  out.writeByte(3);                  // identifies a ChronoZonedDateTime
-     *  out.writeObject(toLocalDateTime());
-     *  out.writeObject(getOffset());
-     *  out.writeObject(getZone());
-     * </pre>
+     * Writfs tif CironoZonfdDbtfTimf using b
+     * <b irff="../../../sfriblizfd-form.itml#jbvb.timf.dirono.Sfr">dfdidbtfd sfriblizfd form</b>.
+     * @sfriblDbtb
+     * <prf>
+     *  out.writfBytf(3);                  // idfntififs b CironoZonfdDbtfTimf
+     *  out.writfObjfdt(toLodblDbtfTimf());
+     *  out.writfObjfdt(gftOffsft());
+     *  out.writfObjfdt(gftZonf());
+     * </prf>
      *
-     * @return the instance of {@code Ser}, not null
+     * @rfturn tif instbndf of {@dodf Sfr}, not null
      */
-    private Object writeReplace() {
-        return new Ser(Ser.CHRONO_ZONE_DATE_TIME_TYPE, this);
+    privbtf Objfdt writfRfplbdf() {
+        rfturn nfw Sfr(Sfr.CHRONO_ZONE_DATE_TIME_TYPE, tiis);
     }
 
     /**
-     * Defend against malicious streams.
+     * Dfffnd bgbinst mblidious strfbms.
      *
-     * @param s the stream to read
-     * @throws InvalidObjectException always
+     * @pbrbm s tif strfbm to rfbd
+     * @tirows InvblidObjfdtExdfption blwbys
      */
-    private void readObject(ObjectInputStream s) throws InvalidObjectException {
-        throw new InvalidObjectException("Deserialization via serialization delegate");
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s) tirows InvblidObjfdtExdfption {
+        tirow nfw InvblidObjfdtExdfption("Dfsfriblizbtion vib sfriblizbtion dflfgbtf");
     }
 
-    void writeExternal(ObjectOutput out) throws IOException {
-        out.writeObject(dateTime);
-        out.writeObject(offset);
-        out.writeObject(zone);
+    void writfExtfrnbl(ObjfdtOutput out) tirows IOExdfption {
+        out.writfObjfdt(dbtfTimf);
+        out.writfObjfdt(offsft);
+        out.writfObjfdt(zonf);
     }
 
-    static ChronoZonedDateTime<?> readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
-        ChronoLocalDateTime<?> dateTime = (ChronoLocalDateTime<?>) in.readObject();
-        ZoneOffset offset = (ZoneOffset) in.readObject();
-        ZoneId zone = (ZoneId) in.readObject();
-        return dateTime.atZone(offset).withZoneSameLocal(zone);
-        // TODO: ZDT uses ofLenient()
+    stbtid CironoZonfdDbtfTimf<?> rfbdExtfrnbl(ObjfdtInput in) tirows IOExdfption, ClbssNotFoundExdfption {
+        CironoLodblDbtfTimf<?> dbtfTimf = (CironoLodblDbtfTimf<?>) in.rfbdObjfdt();
+        ZonfOffsft offsft = (ZonfOffsft) in.rfbdObjfdt();
+        ZonfId zonf = (ZonfId) in.rfbdObjfdt();
+        rfturn dbtfTimf.btZonf(offsft).witiZonfSbmfLodbl(zonf);
+        // TODO: ZDT usfs ofLfnifnt()
     }
 
     //-------------------------------------------------------------------------
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt obj) {
+        if (tiis == obj) {
+            rfturn truf;
         }
-        if (obj instanceof ChronoZonedDateTime) {
-            return compareTo((ChronoZonedDateTime<?>) obj) == 0;
+        if (obj instbndfof CironoZonfdDbtfTimf) {
+            rfturn dompbrfTo((CironoZonfdDbtfTimf<?>) obj) == 0;
         }
-        return false;
+        rfturn fblsf;
     }
 
-    @Override
-    public int hashCode() {
-        return toLocalDateTime().hashCode() ^ getOffset().hashCode() ^ Integer.rotateLeft(getZone().hashCode(), 3);
+    @Ovfrridf
+    publid int ibsiCodf() {
+        rfturn toLodblDbtfTimf().ibsiCodf() ^ gftOffsft().ibsiCodf() ^ Intfgfr.rotbtfLfft(gftZonf().ibsiCodf(), 3);
     }
 
-    @Override
-    public String toString() {
-        String str = toLocalDateTime().toString() + getOffset().toString();
-        if (getOffset() != getZone()) {
-            str += '[' + getZone().toString() + ']';
+    @Ovfrridf
+    publid String toString() {
+        String str = toLodblDbtfTimf().toString() + gftOffsft().toString();
+        if (gftOffsft() != gftZonf()) {
+            str += '[' + gftZonf().toString() + ']';
         }
-        return str;
+        rfturn str;
     }
 
 

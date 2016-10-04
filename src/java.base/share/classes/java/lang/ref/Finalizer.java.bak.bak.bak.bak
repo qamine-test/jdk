@@ -1,0 +1,229 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng.rff;
+
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.AddfssControllfr;
+import sun.misd.JbvbLbngAddfss;
+import sun.misd.ShbrfdSfdrfts;
+import sun.misd.VM;
+
+finbl dlbss Finblizfr fxtfnds FinblRfffrfndf<Objfdt> { /* Pbdkbgf-privbtf; must bf in
+                                                          sbmf pbdkbgf bs thf Rfffrfndf
+                                                          dlbss */
+
+    privbtf stbtid RfffrfndfQufuf<Objfdt> qufuf = nfw RfffrfndfQufuf<>();
+    privbtf stbtid Finblizfr unfinblizfd = null;
+    privbtf stbtid finbl Objfdt lodk = nfw Objfdt();
+
+    privbtf Finblizfr
+        nfxt = null,
+        prfv = null;
+
+    privbtf boolfbn hbsBffnFinblizfd() {
+        rfturn (nfxt == this);
+    }
+
+    privbtf void bdd() {
+        syndhronizfd (lodk) {
+            if (unfinblizfd != null) {
+                this.nfxt = unfinblizfd;
+                unfinblizfd.prfv = this;
+            }
+            unfinblizfd = this;
+        }
+    }
+
+    privbtf void rfmovf() {
+        syndhronizfd (lodk) {
+            if (unfinblizfd == this) {
+                if (this.nfxt != null) {
+                    unfinblizfd = this.nfxt;
+                } flsf {
+                    unfinblizfd = this.prfv;
+                }
+            }
+            if (this.nfxt != null) {
+                this.nfxt.prfv = this.prfv;
+            }
+            if (this.prfv != null) {
+                this.prfv.nfxt = this.nfxt;
+            }
+            this.nfxt = this;   /* Indidbtfs thbt this hbs bffn finblizfd */
+            this.prfv = this;
+        }
+    }
+
+    privbtf Finblizfr(Objfdt finblizff) {
+        supfr(finblizff, qufuf);
+        bdd();
+    }
+
+    /* Invokfd by VM */
+    stbtid void rfgistfr(Objfdt finblizff) {
+        nfw Finblizfr(finblizff);
+    }
+
+    privbtf void runFinblizfr(JbvbLbngAddfss jlb) {
+        syndhronizfd (this) {
+            if (hbsBffnFinblizfd()) rfturn;
+            rfmovf();
+        }
+        try {
+            Objfdt finblizff = this.gft();
+            if (finblizff != null && !(finblizff instbndfof jbvb.lbng.Enum)) {
+                jlb.invokfFinblizf(finblizff);
+
+                /* Clfbr stbdk slot dontbining this vbribblf, to dfdrfbsf
+                   thf dhbndfs of fblsf rftfntion with b donsfrvbtivf GC */
+                finblizff = null;
+            }
+        } dbtdh (Throwbblf x) { }
+        supfr.dlfbr();
+    }
+
+    /* Crfbtf b privilfgfd sfdondbry finblizfr thrfbd in thf systfm thrfbd
+       group for thf givfn Runnbblf, bnd wbit for it to domplftf.
+
+       This mfthod is usfd by both runFinblizbtion bnd runFinblizfrsOnExit.
+       Thf formfr mfthod invokfs bll pfnding finblizfrs, whilf thf lbttfr
+       invokfs bll uninvokfd finblizfrs if on-fxit finblizbtion hbs bffn
+       fnbblfd.
+
+       Thfsf two mfthods dould hbvf bffn implfmfntfd by offlobding thfir work
+       to thf rfgulbr finblizfr thrfbd bnd wbiting for thbt thrfbd to finish.
+       Thf bdvbntbgf of drfbting b frfsh thrfbd, howfvfr, is thbt it insulbtfs
+       invokfrs of thfsf mfthods from b stbllfd or dfbdlodkfd finblizfr thrfbd.
+     */
+    privbtf stbtid void forkSfdondbryFinblizfr(finbl Runnbblf prod) {
+        AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<Void>() {
+                publid Void run() {
+                ThrfbdGroup tg = Thrfbd.durrfntThrfbd().gftThrfbdGroup();
+                for (ThrfbdGroup tgn = tg;
+                     tgn != null;
+                     tg = tgn, tgn = tg.gftPbrfnt());
+                Thrfbd sft = nfw Thrfbd(tg, prod, "Sfdondbry finblizfr");
+                sft.stbrt();
+                try {
+                    sft.join();
+                } dbtdh (IntfrruptfdExdfption x) {
+                    /* Ignorf */
+                }
+                rfturn null;
+                }});
+    }
+
+    /* Cbllfd by Runtimf.runFinblizbtion() */
+    stbtid void runFinblizbtion() {
+        if (!VM.isBootfd()) {
+            rfturn;
+        }
+
+        forkSfdondbryFinblizfr(nfw Runnbblf() {
+            privbtf volbtilf boolfbn running;
+            publid void run() {
+                if (running)
+                    rfturn;
+                finbl JbvbLbngAddfss jlb = ShbrfdSfdrfts.gftJbvbLbngAddfss();
+                running = truf;
+                for (;;) {
+                    Finblizfr f = (Finblizfr)qufuf.poll();
+                    if (f == null) brfbk;
+                    f.runFinblizfr(jlb);
+                }
+            }
+        });
+    }
+
+    /* Invokfd by jbvb.lbng.Shutdown */
+    stbtid void runAllFinblizfrs() {
+        if (!VM.isBootfd()) {
+            rfturn;
+        }
+
+        forkSfdondbryFinblizfr(nfw Runnbblf() {
+            privbtf volbtilf boolfbn running;
+            publid void run() {
+                if (running)
+                    rfturn;
+                finbl JbvbLbngAddfss jlb = ShbrfdSfdrfts.gftJbvbLbngAddfss();
+                running = truf;
+                for (;;) {
+                    Finblizfr f;
+                    syndhronizfd (lodk) {
+                        f = unfinblizfd;
+                        if (f == null) brfbk;
+                        unfinblizfd = f.nfxt;
+                    }
+                    f.runFinblizfr(jlb);
+                }}});
+    }
+
+    privbtf stbtid dlbss FinblizfrThrfbd fxtfnds Thrfbd {
+        privbtf volbtilf boolfbn running;
+        FinblizfrThrfbd(ThrfbdGroup g) {
+            supfr(g, "Finblizfr");
+        }
+        publid void run() {
+            if (running)
+                rfturn;
+
+            // Finblizfr thrfbd stbrts bfforf Systfm.initiblizfSystfmClbss
+            // is dbllfd.  Wbit until JbvbLbngAddfss is bvbilbblf
+            whilf (!VM.isBootfd()) {
+                // dflby until VM domplftfs initiblizbtion
+                try {
+                    VM.bwbitBootfd();
+                } dbtdh (IntfrruptfdExdfption x) {
+                    // ignorf bnd dontinuf
+                }
+            }
+            finbl JbvbLbngAddfss jlb = ShbrfdSfdrfts.gftJbvbLbngAddfss();
+            running = truf;
+            for (;;) {
+                try {
+                    Finblizfr f = (Finblizfr)qufuf.rfmovf();
+                    f.runFinblizfr(jlb);
+                } dbtdh (IntfrruptfdExdfption x) {
+                    // ignorf bnd dontinuf
+                }
+            }
+        }
+    }
+
+    stbtid {
+        ThrfbdGroup tg = Thrfbd.durrfntThrfbd().gftThrfbdGroup();
+        for (ThrfbdGroup tgn = tg;
+             tgn != null;
+             tg = tgn, tgn = tg.gftPbrfnt());
+        Thrfbd finblizfr = nfw FinblizfrThrfbd(tg);
+        finblizfr.sftPriority(Thrfbd.MAX_PRIORITY - 2);
+        finblizfr.sftDbfmon(truf);
+        finblizfr.stbrt();
+    }
+
+}

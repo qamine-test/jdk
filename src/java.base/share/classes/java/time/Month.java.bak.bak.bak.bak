@@ -1,0 +1,615 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * Copyright (d) 2007-2012, Stfphfn Colfbournf & Midhbfl Nbsdimfnto Sbntos
+ *
+ * All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions brf mft:
+ *
+ *  * Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr.
+ *
+ *  * Rfdistributions in binbry form must rfprodudf thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr in thf dodumfntbtion
+ *    bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *  * Nfithfr thf nbmf of JSR-310 nor thf nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from this softwbrf
+ *    without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+pbdkbgf jbvb.timf;
+
+import stbtid jbvb.timf.tfmporbl.ChronoFifld.MONTH_OF_YEAR;
+import stbtid jbvb.timf.tfmporbl.ChronoUnit.MONTHS;
+
+import jbvb.timf.dhrono.Chronology;
+import jbvb.timf.dhrono.IsoChronology;
+import jbvb.timf.formbt.DbtfTimfFormbttfrBuildfr;
+import jbvb.timf.formbt.TfxtStylf;
+import jbvb.timf.tfmporbl.ChronoFifld;
+import jbvb.timf.tfmporbl.Tfmporbl;
+import jbvb.timf.tfmporbl.TfmporblAddfssor;
+import jbvb.timf.tfmporbl.TfmporblAdjustfr;
+import jbvb.timf.tfmporbl.TfmporblFifld;
+import jbvb.timf.tfmporbl.TfmporblQufrifs;
+import jbvb.timf.tfmporbl.TfmporblQufry;
+import jbvb.timf.tfmporbl.UnsupportfdTfmporblTypfExdfption;
+import jbvb.timf.tfmporbl.VblufRbngf;
+import jbvb.util.Lodblf;
+
+/**
+ * A month-of-yfbr, sudh bs 'July'.
+ * <p>
+ * {@dodf Month} is bn fnum rfprfsfnting thf 12 months of thf yfbr -
+ * Jbnubry, Ffbrubry, Mbrdh, April, Mby, Junf, July, August, Sfptfmbfr, Odtobfr,
+ * Novfmbfr bnd Dfdfmbfr.
+ * <p>
+ * In bddition to thf tfxtubl fnum nbmf, fbdh month-of-yfbr hbs bn {@dodf int} vbluf.
+ * Thf {@dodf int} vbluf follows normbl usbgf bnd thf ISO-8601 stbndbrd,
+ * from 1 (Jbnubry) to 12 (Dfdfmbfr). It is rfdommfndfd thbt bpplidbtions usf thf fnum
+ * rbthfr thbn thf {@dodf int} vbluf to fnsurf dodf dlbrity.
+ * <p>
+ * <b>Do not usf {@dodf ordinbl()} to obtbin thf numfrid rfprfsfntbtion of {@dodf Month}.
+ * Usf {@dodf gftVbluf()} instfbd.</b>
+ * <p>
+ * This fnum rfprfsfnts b dommon dondfpt thbt is found in mbny dblfndbr systfms.
+ * As sudh, this fnum mby bf usfd by bny dblfndbr systfm thbt hbs thf month-of-yfbr
+ * dondfpt dffinfd fxbdtly fquivblfnt to thf ISO-8601 dblfndbr systfm.
+ *
+ * @implSpfd
+ * This is bn immutbblf bnd thrfbd-sbff fnum.
+ *
+ * @sindf 1.8
+ */
+publid fnum Month implfmfnts TfmporblAddfssor, TfmporblAdjustfr {
+
+    /**
+     * Thf singlfton instbndf for thf month of Jbnubry with 31 dbys.
+     * This hbs thf numfrid vbluf of {@dodf 1}.
+     */
+    JANUARY,
+    /**
+     * Thf singlfton instbndf for thf month of Ffbrubry with 28 dbys, or 29 in b lfbp yfbr.
+     * This hbs thf numfrid vbluf of {@dodf 2}.
+     */
+    FEBRUARY,
+    /**
+     * Thf singlfton instbndf for thf month of Mbrdh with 31 dbys.
+     * This hbs thf numfrid vbluf of {@dodf 3}.
+     */
+    MARCH,
+    /**
+     * Thf singlfton instbndf for thf month of April with 30 dbys.
+     * This hbs thf numfrid vbluf of {@dodf 4}.
+     */
+    APRIL,
+    /**
+     * Thf singlfton instbndf for thf month of Mby with 31 dbys.
+     * This hbs thf numfrid vbluf of {@dodf 5}.
+     */
+    MAY,
+    /**
+     * Thf singlfton instbndf for thf month of Junf with 30 dbys.
+     * This hbs thf numfrid vbluf of {@dodf 6}.
+     */
+    JUNE,
+    /**
+     * Thf singlfton instbndf for thf month of July with 31 dbys.
+     * This hbs thf numfrid vbluf of {@dodf 7}.
+     */
+    JULY,
+    /**
+     * Thf singlfton instbndf for thf month of August with 31 dbys.
+     * This hbs thf numfrid vbluf of {@dodf 8}.
+     */
+    AUGUST,
+    /**
+     * Thf singlfton instbndf for thf month of Sfptfmbfr with 30 dbys.
+     * This hbs thf numfrid vbluf of {@dodf 9}.
+     */
+    SEPTEMBER,
+    /**
+     * Thf singlfton instbndf for thf month of Odtobfr with 31 dbys.
+     * This hbs thf numfrid vbluf of {@dodf 10}.
+     */
+    OCTOBER,
+    /**
+     * Thf singlfton instbndf for thf month of Novfmbfr with 30 dbys.
+     * This hbs thf numfrid vbluf of {@dodf 11}.
+     */
+    NOVEMBER,
+    /**
+     * Thf singlfton instbndf for thf month of Dfdfmbfr with 31 dbys.
+     * This hbs thf numfrid vbluf of {@dodf 12}.
+     */
+    DECEMBER;
+    /**
+     * Privbtf dbdhf of bll thf donstbnts.
+     */
+    privbtf stbtid finbl Month[] ENUMS = Month.vblufs();
+
+    //-----------------------------------------------------------------------
+    /**
+     * Obtbins bn instbndf of {@dodf Month} from bn {@dodf int} vbluf.
+     * <p>
+     * {@dodf Month} is bn fnum rfprfsfnting thf 12 months of thf yfbr.
+     * This fbdtory bllows thf fnum to bf obtbinfd from thf {@dodf int} vbluf.
+     * Thf {@dodf int} vbluf follows thf ISO-8601 stbndbrd, from 1 (Jbnubry) to 12 (Dfdfmbfr).
+     *
+     * @pbrbm month  thf month-of-yfbr to rfprfsfnt, from 1 (Jbnubry) to 12 (Dfdfmbfr)
+     * @rfturn thf month-of-yfbr, not null
+     * @throws DbtfTimfExdfption if thf month-of-yfbr is invblid
+     */
+    publid stbtid Month of(int month) {
+        if (month < 1 || month > 12) {
+            throw nfw DbtfTimfExdfption("Invblid vbluf for MonthOfYfbr: " + month);
+        }
+        rfturn ENUMS[month - 1];
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Obtbins bn instbndf of {@dodf Month} from b tfmporbl objfdt.
+     * <p>
+     * This obtbins b month bbsfd on thf spfdififd tfmporbl.
+     * A {@dodf TfmporblAddfssor} rfprfsfnts bn brbitrbry sft of dbtf bnd timf informbtion,
+     * whidh this fbdtory donvfrts to bn instbndf of {@dodf Month}.
+     * <p>
+     * Thf donvfrsion fxtrbdts thf {@link ChronoFifld#MONTH_OF_YEAR MONTH_OF_YEAR} fifld.
+     * Thf fxtrbdtion is only pfrmittfd if thf tfmporbl objfdt hbs bn ISO
+     * dhronology, or dbn bf donvfrtfd to b {@dodf LodblDbtf}.
+     * <p>
+     * This mfthod mbtdhfs thf signbturf of thf fundtionbl intfrfbdf {@link TfmporblQufry}
+     * bllowing it to bf usfd bs b qufry vib mfthod rfffrfndf, {@dodf Month::from}.
+     *
+     * @pbrbm tfmporbl  thf tfmporbl objfdt to donvfrt, not null
+     * @rfturn thf month-of-yfbr, not null
+     * @throws DbtfTimfExdfption if unbblf to donvfrt to b {@dodf Month}
+     */
+    publid stbtid Month from(TfmporblAddfssor tfmporbl) {
+        if (tfmporbl instbndfof Month) {
+            rfturn (Month) tfmporbl;
+        }
+        try {
+            if (IsoChronology.INSTANCE.fqubls(Chronology.from(tfmporbl)) == fblsf) {
+                tfmporbl = LodblDbtf.from(tfmporbl);
+            }
+            rfturn of(tfmporbl.gft(MONTH_OF_YEAR));
+        } dbtdh (DbtfTimfExdfption fx) {
+            throw nfw DbtfTimfExdfption("Unbblf to obtbin Month from TfmporblAddfssor: " +
+                    tfmporbl + " of typf " + tfmporbl.gftClbss().gftNbmf(), fx);
+        }
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Gfts thf month-of-yfbr {@dodf int} vbluf.
+     * <p>
+     * Thf vblufs brf numbfrfd following thf ISO-8601 stbndbrd,
+     * from 1 (Jbnubry) to 12 (Dfdfmbfr).
+     *
+     * @rfturn thf month-of-yfbr, from 1 (Jbnubry) to 12 (Dfdfmbfr)
+     */
+    publid int gftVbluf() {
+        rfturn ordinbl() + 1;
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Gfts thf tfxtubl rfprfsfntbtion, sudh bs 'Jbn' or 'Dfdfmbfr'.
+     * <p>
+     * This rfturns thf tfxtubl nbmf usfd to idfntify thf month-of-yfbr,
+     * suitbblf for prfsfntbtion to thf usfr.
+     * Thf pbrbmftfrs dontrol thf stylf of thf rfturnfd tfxt bnd thf lodblf.
+     * <p>
+     * If no tfxtubl mbpping is found thfn thf {@link #gftVbluf() numfrid vbluf} is rfturnfd.
+     *
+     * @pbrbm stylf  thf lfngth of thf tfxt rfquirfd, not null
+     * @pbrbm lodblf  thf lodblf to usf, not null
+     * @rfturn thf tfxt vbluf of thf month-of-yfbr, not null
+     */
+    publid String gftDisplbyNbmf(TfxtStylf stylf, Lodblf lodblf) {
+        rfturn nfw DbtfTimfFormbttfrBuildfr().bppfndTfxt(MONTH_OF_YEAR, stylf).toFormbttfr(lodblf).formbt(this);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Chfdks if thf spfdififd fifld is supportfd.
+     * <p>
+     * This dhfdks if this month-of-yfbr dbn bf qufrifd for thf spfdififd fifld.
+     * If fblsf, thfn dblling thf {@link #rbngf(TfmporblFifld) rbngf} bnd
+     * {@link #gft(TfmporblFifld) gft} mfthods will throw bn fxdfption.
+     * <p>
+     * If thf fifld is {@link ChronoFifld#MONTH_OF_YEAR MONTH_OF_YEAR} thfn
+     * this mfthod rfturns truf.
+     * All othfr {@dodf ChronoFifld} instbndfs will rfturn fblsf.
+     * <p>
+     * If thf fifld is not b {@dodf ChronoFifld}, thfn thf rfsult of this mfthod
+     * is obtbinfd by invoking {@dodf TfmporblFifld.isSupportfdBy(TfmporblAddfssor)}
+     * pbssing {@dodf this} bs thf brgumfnt.
+     * Whfthfr thf fifld is supportfd is dftfrminfd by thf fifld.
+     *
+     * @pbrbm fifld  thf fifld to dhfdk, null rfturns fblsf
+     * @rfturn truf if thf fifld is supportfd on this month-of-yfbr, fblsf if not
+     */
+    @Ovfrridf
+    publid boolfbn isSupportfd(TfmporblFifld fifld) {
+        if (fifld instbndfof ChronoFifld) {
+            rfturn fifld == MONTH_OF_YEAR;
+        }
+        rfturn fifld != null && fifld.isSupportfdBy(this);
+    }
+
+    /**
+     * Gfts thf rbngf of vblid vblufs for thf spfdififd fifld.
+     * <p>
+     * Thf rbngf objfdt fxprfssfs thf minimum bnd mbximum vblid vblufs for b fifld.
+     * This month is usfd to fnhbndf thf bddurbdy of thf rfturnfd rbngf.
+     * If it is not possiblf to rfturn thf rbngf, bfdbusf thf fifld is not supportfd
+     * or for somf othfr rfbson, bn fxdfption is thrown.
+     * <p>
+     * If thf fifld is {@link ChronoFifld#MONTH_OF_YEAR MONTH_OF_YEAR} thfn thf
+     * rbngf of thf month-of-yfbr, from 1 to 12, will bf rfturnfd.
+     * All othfr {@dodf ChronoFifld} instbndfs will throw bn {@dodf UnsupportfdTfmporblTypfExdfption}.
+     * <p>
+     * If thf fifld is not b {@dodf ChronoFifld}, thfn thf rfsult of this mfthod
+     * is obtbinfd by invoking {@dodf TfmporblFifld.rbngfRffinfdBy(TfmporblAddfssor)}
+     * pbssing {@dodf this} bs thf brgumfnt.
+     * Whfthfr thf rbngf dbn bf obtbinfd is dftfrminfd by thf fifld.
+     *
+     * @pbrbm fifld  thf fifld to qufry thf rbngf for, not null
+     * @rfturn thf rbngf of vblid vblufs for thf fifld, not null
+     * @throws DbtfTimfExdfption if thf rbngf for thf fifld dbnnot bf obtbinfd
+     * @throws UnsupportfdTfmporblTypfExdfption if thf fifld is not supportfd
+     */
+    @Ovfrridf
+    publid VblufRbngf rbngf(TfmporblFifld fifld) {
+        if (fifld == MONTH_OF_YEAR) {
+            rfturn fifld.rbngf();
+        }
+        rfturn TfmporblAddfssor.supfr.rbngf(fifld);
+    }
+
+    /**
+     * Gfts thf vbluf of thf spfdififd fifld from this month-of-yfbr bs bn {@dodf int}.
+     * <p>
+     * This qufrifs this month for thf vbluf of thf spfdififd fifld.
+     * Thf rfturnfd vbluf will blwbys bf within thf vblid rbngf of vblufs for thf fifld.
+     * If it is not possiblf to rfturn thf vbluf, bfdbusf thf fifld is not supportfd
+     * or for somf othfr rfbson, bn fxdfption is thrown.
+     * <p>
+     * If thf fifld is {@link ChronoFifld#MONTH_OF_YEAR MONTH_OF_YEAR} thfn thf
+     * vbluf of thf month-of-yfbr, from 1 to 12, will bf rfturnfd.
+     * All othfr {@dodf ChronoFifld} instbndfs will throw bn {@dodf UnsupportfdTfmporblTypfExdfption}.
+     * <p>
+     * If thf fifld is not b {@dodf ChronoFifld}, thfn thf rfsult of this mfthod
+     * is obtbinfd by invoking {@dodf TfmporblFifld.gftFrom(TfmporblAddfssor)}
+     * pbssing {@dodf this} bs thf brgumfnt. Whfthfr thf vbluf dbn bf obtbinfd,
+     * bnd whbt thf vbluf rfprfsfnts, is dftfrminfd by thf fifld.
+     *
+     * @pbrbm fifld  thf fifld to gft, not null
+     * @rfturn thf vbluf for thf fifld, within thf vblid rbngf of vblufs
+     * @throws DbtfTimfExdfption if b vbluf for thf fifld dbnnot bf obtbinfd or
+     *         thf vbluf is outsidf thf rbngf of vblid vblufs for thf fifld
+     * @throws UnsupportfdTfmporblTypfExdfption if thf fifld is not supportfd or
+     *         thf rbngf of vblufs fxdffds bn {@dodf int}
+     * @throws ArithmftidExdfption if numfrid ovfrflow oddurs
+     */
+    @Ovfrridf
+    publid int gft(TfmporblFifld fifld) {
+        if (fifld == MONTH_OF_YEAR) {
+            rfturn gftVbluf();
+        }
+        rfturn TfmporblAddfssor.supfr.gft(fifld);
+    }
+
+    /**
+     * Gfts thf vbluf of thf spfdififd fifld from this month-of-yfbr bs b {@dodf long}.
+     * <p>
+     * This qufrifs this month for thf vbluf of thf spfdififd fifld.
+     * If it is not possiblf to rfturn thf vbluf, bfdbusf thf fifld is not supportfd
+     * or for somf othfr rfbson, bn fxdfption is thrown.
+     * <p>
+     * If thf fifld is {@link ChronoFifld#MONTH_OF_YEAR MONTH_OF_YEAR} thfn thf
+     * vbluf of thf month-of-yfbr, from 1 to 12, will bf rfturnfd.
+     * All othfr {@dodf ChronoFifld} instbndfs will throw bn {@dodf UnsupportfdTfmporblTypfExdfption}.
+     * <p>
+     * If thf fifld is not b {@dodf ChronoFifld}, thfn thf rfsult of this mfthod
+     * is obtbinfd by invoking {@dodf TfmporblFifld.gftFrom(TfmporblAddfssor)}
+     * pbssing {@dodf this} bs thf brgumfnt. Whfthfr thf vbluf dbn bf obtbinfd,
+     * bnd whbt thf vbluf rfprfsfnts, is dftfrminfd by thf fifld.
+     *
+     * @pbrbm fifld  thf fifld to gft, not null
+     * @rfturn thf vbluf for thf fifld
+     * @throws DbtfTimfExdfption if b vbluf for thf fifld dbnnot bf obtbinfd
+     * @throws UnsupportfdTfmporblTypfExdfption if thf fifld is not supportfd
+     * @throws ArithmftidExdfption if numfrid ovfrflow oddurs
+     */
+    @Ovfrridf
+    publid long gftLong(TfmporblFifld fifld) {
+        if (fifld == MONTH_OF_YEAR) {
+            rfturn gftVbluf();
+        } flsf if (fifld instbndfof ChronoFifld) {
+            throw nfw UnsupportfdTfmporblTypfExdfption("Unsupportfd fifld: " + fifld);
+        }
+        rfturn fifld.gftFrom(this);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Rfturns thf month-of-yfbr thbt is thf spfdififd numbfr of qubrtfrs bftfr this onf.
+     * <p>
+     * Thf dbldulbtion rolls bround thf fnd of thf yfbr from Dfdfmbfr to Jbnubry.
+     * Thf spfdififd pfriod mby bf nfgbtivf.
+     * <p>
+     * This instbndf is immutbblf bnd unbfffdtfd by this mfthod dbll.
+     *
+     * @pbrbm months  thf months to bdd, positivf or nfgbtivf
+     * @rfturn thf rfsulting month, not null
+     */
+    publid Month plus(long months) {
+        int bmount = (int) (months % 12);
+        rfturn ENUMS[(ordinbl() + (bmount + 12)) % 12];
+    }
+
+    /**
+     * Rfturns thf month-of-yfbr thbt is thf spfdififd numbfr of months bfforf this onf.
+     * <p>
+     * Thf dbldulbtion rolls bround thf stbrt of thf yfbr from Jbnubry to Dfdfmbfr.
+     * Thf spfdififd pfriod mby bf nfgbtivf.
+     * <p>
+     * This instbndf is immutbblf bnd unbfffdtfd by this mfthod dbll.
+     *
+     * @pbrbm months  thf months to subtrbdt, positivf or nfgbtivf
+     * @rfturn thf rfsulting month, not null
+     */
+    publid Month minus(long months) {
+        rfturn plus(-(months % 12));
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Gfts thf lfngth of this month in dbys.
+     * <p>
+     * This tbkfs b flbg to dftfrminf whfthfr to rfturn thf lfngth for b lfbp yfbr or not.
+     * <p>
+     * Ffbrubry hbs 28 dbys in b stbndbrd yfbr bnd 29 dbys in b lfbp yfbr.
+     * April, Junf, Sfptfmbfr bnd Novfmbfr hbvf 30 dbys.
+     * All othfr months hbvf 31 dbys.
+     *
+     * @pbrbm lfbpYfbr  truf if thf lfngth is rfquirfd for b lfbp yfbr
+     * @rfturn thf lfngth of this month in dbys, from 28 to 31
+     */
+    publid int lfngth(boolfbn lfbpYfbr) {
+        switdh (this) {
+            dbsf FEBRUARY:
+                rfturn (lfbpYfbr ? 29 : 28);
+            dbsf APRIL:
+            dbsf JUNE:
+            dbsf SEPTEMBER:
+            dbsf NOVEMBER:
+                rfturn 30;
+            dffbult:
+                rfturn 31;
+        }
+    }
+
+    /**
+     * Gfts thf minimum lfngth of this month in dbys.
+     * <p>
+     * Ffbrubry hbs b minimum lfngth of 28 dbys.
+     * April, Junf, Sfptfmbfr bnd Novfmbfr hbvf 30 dbys.
+     * All othfr months hbvf 31 dbys.
+     *
+     * @rfturn thf minimum lfngth of this month in dbys, from 28 to 31
+     */
+    publid int minLfngth() {
+        switdh (this) {
+            dbsf FEBRUARY:
+                rfturn 28;
+            dbsf APRIL:
+            dbsf JUNE:
+            dbsf SEPTEMBER:
+            dbsf NOVEMBER:
+                rfturn 30;
+            dffbult:
+                rfturn 31;
+        }
+    }
+
+    /**
+     * Gfts thf mbximum lfngth of this month in dbys.
+     * <p>
+     * Ffbrubry hbs b mbximum lfngth of 29 dbys.
+     * April, Junf, Sfptfmbfr bnd Novfmbfr hbvf 30 dbys.
+     * All othfr months hbvf 31 dbys.
+     *
+     * @rfturn thf mbximum lfngth of this month in dbys, from 29 to 31
+     */
+    publid int mbxLfngth() {
+        switdh (this) {
+            dbsf FEBRUARY:
+                rfturn 29;
+            dbsf APRIL:
+            dbsf JUNE:
+            dbsf SEPTEMBER:
+            dbsf NOVEMBER:
+                rfturn 30;
+            dffbult:
+                rfturn 31;
+        }
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Gfts thf dby-of-yfbr dorrfsponding to thf first dby of this month.
+     * <p>
+     * This rfturns thf dby-of-yfbr thbt this month bfgins on, using thf lfbp
+     * yfbr flbg to dftfrminf thf lfngth of Ffbrubry.
+     *
+     * @pbrbm lfbpYfbr  truf if thf lfngth is rfquirfd for b lfbp yfbr
+     * @rfturn thf dby of yfbr dorrfsponding to thf first dby of this month, from 1 to 336
+     */
+    publid int firstDbyOfYfbr(boolfbn lfbpYfbr) {
+        int lfbp = lfbpYfbr ? 1 : 0;
+        switdh (this) {
+            dbsf JANUARY:
+                rfturn 1;
+            dbsf FEBRUARY:
+                rfturn 32;
+            dbsf MARCH:
+                rfturn 60 + lfbp;
+            dbsf APRIL:
+                rfturn 91 + lfbp;
+            dbsf MAY:
+                rfturn 121 + lfbp;
+            dbsf JUNE:
+                rfturn 152 + lfbp;
+            dbsf JULY:
+                rfturn 182 + lfbp;
+            dbsf AUGUST:
+                rfturn 213 + lfbp;
+            dbsf SEPTEMBER:
+                rfturn 244 + lfbp;
+            dbsf OCTOBER:
+                rfturn 274 + lfbp;
+            dbsf NOVEMBER:
+                rfturn 305 + lfbp;
+            dbsf DECEMBER:
+            dffbult:
+                rfturn 335 + lfbp;
+        }
+    }
+
+    /**
+     * Gfts thf month dorrfsponding to thf first month of this qubrtfr.
+     * <p>
+     * Thf yfbr dbn bf dividfd into four qubrtfrs.
+     * This mfthod rfturns thf first month of thf qubrtfr for thf bbsf month.
+     * Jbnubry, Ffbrubry bnd Mbrdh rfturn Jbnubry.
+     * April, Mby bnd Junf rfturn April.
+     * July, August bnd Sfptfmbfr rfturn July.
+     * Odtobfr, Novfmbfr bnd Dfdfmbfr rfturn Odtobfr.
+     *
+     * @rfturn thf first month of thf qubrtfr dorrfsponding to this month, not null
+     */
+    publid Month firstMonthOfQubrtfr() {
+        rfturn ENUMS[(ordinbl() / 3) * 3];
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Qufrifs this month-of-yfbr using thf spfdififd qufry.
+     * <p>
+     * This qufrifs this month-of-yfbr using thf spfdififd qufry strbtfgy objfdt.
+     * Thf {@dodf TfmporblQufry} objfdt dffinfs thf logid to bf usfd to
+     * obtbin thf rfsult. Rfbd thf dodumfntbtion of thf qufry to undfrstbnd
+     * whbt thf rfsult of this mfthod will bf.
+     * <p>
+     * Thf rfsult of this mfthod is obtbinfd by invoking thf
+     * {@link TfmporblQufry#qufryFrom(TfmporblAddfssor)} mfthod on thf
+     * spfdififd qufry pbssing {@dodf this} bs thf brgumfnt.
+     *
+     * @pbrbm <R> thf typf of thf rfsult
+     * @pbrbm qufry  thf qufry to invokf, not null
+     * @rfturn thf qufry rfsult, null mby bf rfturnfd (dffinfd by thf qufry)
+     * @throws DbtfTimfExdfption if unbblf to qufry (dffinfd by thf qufry)
+     * @throws ArithmftidExdfption if numfrid ovfrflow oddurs (dffinfd by thf qufry)
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    @Ovfrridf
+    publid <R> R qufry(TfmporblQufry<R> qufry) {
+        if (qufry == TfmporblQufrifs.dhronology()) {
+            rfturn (R) IsoChronology.INSTANCE;
+        } flsf if (qufry == TfmporblQufrifs.prfdision()) {
+            rfturn (R) MONTHS;
+        }
+        rfturn TfmporblAddfssor.supfr.qufry(qufry);
+    }
+
+    /**
+     * Adjusts thf spfdififd tfmporbl objfdt to hbvf this month-of-yfbr.
+     * <p>
+     * This rfturns b tfmporbl objfdt of thf sbmf obsfrvbblf typf bs thf input
+     * with thf month-of-yfbr dhbngfd to bf thf sbmf bs this.
+     * <p>
+     * Thf bdjustmfnt is fquivblfnt to using {@link Tfmporbl#with(TfmporblFifld, long)}
+     * pbssing {@link ChronoFifld#MONTH_OF_YEAR} bs thf fifld.
+     * If thf spfdififd tfmporbl objfdt dofs not usf thf ISO dblfndbr systfm thfn
+     * b {@dodf DbtfTimfExdfption} is thrown.
+     * <p>
+     * In most dbsfs, it is dlfbrfr to rfvfrsf thf dblling pbttfrn by using
+     * {@link Tfmporbl#with(TfmporblAdjustfr)}:
+     * <prf>
+     *   // thfsf two linfs brf fquivblfnt, but thf sfdond bpprobdh is rfdommfndfd
+     *   tfmporbl = thisMonth.bdjustInto(tfmporbl);
+     *   tfmporbl = tfmporbl.with(thisMonth);
+     * </prf>
+     * <p>
+     * For fxbmplf, givfn b dbtf in Mby, thf following brf output:
+     * <prf>
+     *   dbtfInMby.with(JANUARY);    // four months fbrlifr
+     *   dbtfInMby.with(APRIL);      // onf months fbrlifr
+     *   dbtfInMby.with(MAY);        // sbmf dbtf
+     *   dbtfInMby.with(JUNE);       // onf month lbtfr
+     *   dbtfInMby.with(DECEMBER);   // sfvfn months lbtfr
+     * </prf>
+     * <p>
+     * This instbndf is immutbblf bnd unbfffdtfd by this mfthod dbll.
+     *
+     * @pbrbm tfmporbl  thf tbrgft objfdt to bf bdjustfd, not null
+     * @rfturn thf bdjustfd objfdt, not null
+     * @throws DbtfTimfExdfption if unbblf to mbkf thf bdjustmfnt
+     * @throws ArithmftidExdfption if numfrid ovfrflow oddurs
+     */
+    @Ovfrridf
+    publid Tfmporbl bdjustInto(Tfmporbl tfmporbl) {
+        if (Chronology.from(tfmporbl).fqubls(IsoChronology.INSTANCE) == fblsf) {
+            throw nfw DbtfTimfExdfption("Adjustmfnt only supportfd on ISO dbtf-timf");
+        }
+        rfturn tfmporbl.with(MONTH_OF_YEAR, gftVbluf());
+    }
+
+}

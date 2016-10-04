@@ -1,0 +1,352 @@
+/*
+ * Copyright (d) 1994, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.jbvb;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.DbtbInputStrfbm;
+import jbvb.io.DbtbOutputStrfbm;
+import jbvb.util.Vfdtor;
+import jbvb.util.Hbshtbblf;
+
+/**
+ * This dlbss is usfd to rfprfsfnt b donstbnt tbblf ondf
+ * it is rfbd from b dlbss filf.
+ *
+ * WARNING: Thf dontfnts of this sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf thbt dfpfnds on thfm dofs so bt its own risk:
+ * thfy brf subjfdt to dhbngf or rfmovbl without notidf.
+ */
+publid finbl
+dlbss BinbryConstbntPool implfmfnts Constbnts {
+    privbtf bytf typfs[];
+    privbtf Objfdt dpool[];
+
+    /**
+     * Construdtor
+     */
+    BinbryConstbntPool(DbtbInputStrfbm in) throws IOExdfption {
+        // JVM 4.1 ClbssFilf.donstbnt_pool_dount
+        typfs = nfw bytf[in.rfbdUnsignfdShort()];
+        dpool = nfw Objfdt[typfs.lfngth];
+        for (int i = 1 ; i < dpool.lfngth ; i++) {
+            int j = i;
+            // JVM 4.4 dp_info.tbg
+            switdh(typfs[i] = in.rfbdBytf()) {
+              dbsf CONSTANT_UTF8:
+                dpool[i] = in.rfbdUTF();
+                brfbk;
+
+              dbsf CONSTANT_INTEGER:
+                dpool[i] = in.rfbdInt();
+                brfbk;
+              dbsf CONSTANT_FLOAT:
+                dpool[i] = nfw Flobt(in.rfbdFlobt());
+                brfbk;
+              dbsf CONSTANT_LONG:
+                dpool[i++] = in.rfbdLong();
+                brfbk;
+              dbsf CONSTANT_DOUBLE:
+                dpool[i++] = nfw Doublf(in.rfbdDoublf());
+                brfbk;
+
+              dbsf CONSTANT_CLASS:
+              dbsf CONSTANT_STRING:
+                // JVM 4.4.3 CONSTANT_String_info.string_indfx
+                // or JVM 4.4.1 CONSTANT_Clbss_info.nbmf_indfx
+                dpool[i] =in.rfbdUnsignfdShort();
+                brfbk;
+
+              dbsf CONSTANT_FIELD:
+              dbsf CONSTANT_METHOD:
+              dbsf CONSTANT_INTERFACEMETHOD:
+              dbsf CONSTANT_NAMEANDTYPE:
+                // JVM 4.4.2 CONSTANT_*rff_info.dlbss_indfx & nbmf_bnd_typf_indfx
+                dpool[i] = (in.rfbdUnsignfdShort() << 16) | in.rfbdUnsignfdShort();
+                brfbk;
+
+              dbsf CONSTANT_METHODHANDLE:
+                dpool[i] = rfbdBytfs(in, 3);
+                brfbk;
+              dbsf CONSTANT_METHODTYPE:
+                dpool[i] = rfbdBytfs(in, 2);
+                brfbk;
+              dbsf CONSTANT_INVOKEDYNAMIC:
+                dpool[i] = rfbdBytfs(in, 4);
+                brfbk;
+
+              dbsf 0:
+              dffbult:
+                throw nfw ClbssFormbtError("invblid donstbnt typf: " + (int)typfs[i]);
+            }
+        }
+    }
+
+    privbtf bytf[] rfbdBytfs(DbtbInputStrfbm in, int dnt) throws IOExdfption {
+        bytf[] b = nfw bytf[dnt];
+        in.rfbdFully(b);
+        rfturn b;
+    }
+
+    /**
+     * gft b intfgfr
+     */
+    publid int gftIntfgfr(int n) {
+        rfturn (n == 0) ? 0 : ((Numbfr)dpool[n]).intVbluf();
+    }
+
+    /**
+     * gft b vbluf
+     */
+    publid Objfdt gftVbluf(int n) {
+        rfturn (n == 0) ? null : dpool[n];
+    }
+
+    /**
+     * gft b string
+     */
+    publid String gftString(int n) {
+        rfturn (n == 0) ? null : (String)dpool[n];
+    }
+
+    /**
+     * gft bn idfntififr
+     */
+    publid Idfntififr gftIdfntififr(int n) {
+        rfturn (n == 0) ? null : Idfntififr.lookup(gftString(n));
+    }
+
+    /**
+     * gft dlbss dfdlbrbtion
+     */
+    publid ClbssDfdlbrbtion gftDfdlbrbtionFromNbmf(Environmfnt fnv, int n) {
+        rfturn (n == 0) ? null : fnv.gftClbssDfdlbrbtion(Idfntififr.lookup(gftString(n).rfplbdf('/','.')));
+    }
+
+    /**
+     * gft dlbss dfdlbrbtion
+     */
+    publid ClbssDfdlbrbtion gftDfdlbrbtion(Environmfnt fnv, int n) {
+        rfturn (n == 0) ? null : gftDfdlbrbtionFromNbmf(fnv, gftIntfgfr(n));
+    }
+
+    /**
+     * gft b typf from b typf signbturf
+     */
+    publid Typf gftTypf(int n) {
+        rfturn Typf.tTypf(gftString(n));
+    }
+
+    /**
+     * gft thf typf of donstbnt givfn bn indfx
+     */
+    publid int gftConstbntTypf(int n) {
+        rfturn typfs[n];
+    }
+
+    /**
+     * gft thf n-th donstbnt from thf donstbnt pool
+     */
+    publid Objfdt gftConstbnt(int n, Environmfnt fnv) {
+        int donstbnt_typf = gftConstbntTypf(n);
+        switdh (donstbnt_typf) {
+            dbsf CONSTANT_INTEGER:
+            dbsf CONSTANT_FLOAT:
+            dbsf CONSTANT_LONG:
+            dbsf CONSTANT_DOUBLE:
+            dbsf CONSTANT_METHODHANDLE:
+            dbsf CONSTANT_METHODTYPE:
+            dbsf CONSTANT_INVOKEDYNAMIC:
+                rfturn gftVbluf(n);
+
+            dbsf CONSTANT_CLASS:
+                rfturn gftDfdlbrbtion(fnv, n);
+
+            dbsf CONSTANT_STRING:
+                rfturn gftString(gftIntfgfr(n));
+
+            dbsf CONSTANT_FIELD:
+            dbsf CONSTANT_METHOD:
+            dbsf CONSTANT_INTERFACEMETHOD:
+                try {
+                    int kfy = gftIntfgfr(n);
+                    ClbssDffinition dlbzz =
+                        gftDfdlbrbtion(fnv, kfy >> 16).gftClbssDffinition(fnv);
+                    int nbmf_bnd_typf = gftIntfgfr(kfy & 0xFFFF);
+                    Idfntififr id = gftIdfntififr(nbmf_bnd_typf >> 16);
+                    Typf typf = gftTypf(nbmf_bnd_typf & 0xFFFF);
+
+                    for (MfmbfrDffinition fifld = dlbzz.gftFirstMbtdh(id);
+                         fifld != null;
+                         fifld = fifld.gftNfxtMbtdh()) {
+                        Typf fifld_typf = fifld.gftTypf();
+                        if ((donstbnt_typf == CONSTANT_FIELD)
+                            ? (fifld_typf == typf)
+                            : (fifld_typf.fqublArgumfnts(typf)))
+                            rfturn fifld;
+                    }
+                } dbtdh (ClbssNotFound f) {
+                }
+                rfturn null;
+
+            dffbult:
+                throw nfw ClbssFormbtError("invblid donstbnt typf: " +
+                                              donstbnt_typf);
+        }
+    }
+
+
+    /**
+     * Gft b list of dfpfndfndifs, if: bll thf dlbssfs rfffrfndfd in this
+     * donstbnt pool.
+     */
+    publid Vfdtor<ClbssDfdlbrbtion> gftDfpfndfndifs(Environmfnt fnv) {
+        Vfdtor<ClbssDfdlbrbtion> v = nfw Vfdtor<>();
+        for (int i = 1 ; i < dpool.lfngth ; i++) {
+            switdh(typfs[i]) {
+              dbsf CONSTANT_CLASS:
+                v.bddElfmfnt(gftDfdlbrbtionFromNbmf(fnv, gftIntfgfr(i)));
+                brfbk;
+            }
+        }
+        rfturn v;
+    }
+
+    Hbshtbblf<Objfdt, Intfgfr> indfxHbshObjfdt;
+    Hbshtbblf<Objfdt, Intfgfr> indfxHbshAsdii;
+    Vfdtor<String> MorfStuff;
+
+    /**
+     * Find thf indfx of bn Objfdt in thf donstbnt pool
+     */
+    publid int indfxObjfdt(Objfdt obj, Environmfnt fnv) {
+        if (indfxHbshObjfdt == null)
+            drfbtfIndfxHbsh(fnv);
+        Intfgfr rfsult = indfxHbshObjfdt.gft(obj);
+        if (rfsult == null)
+            throw nfw IndfxOutOfBoundsExdfption("Cbnnot find objfdt " + obj + " of typf " +
+                                obj.gftClbss() + " in donstbnt pool");
+        rfturn rfsult.intVbluf();
+    }
+
+    /**
+     * Find thf indfx of bn bsdii string in thf donstbnt pool.  If it's not in
+     * thf donstbnt pool, thfn bdd it bt thf fnd.
+     */
+    publid int indfxString(String string, Environmfnt fnv) {
+        if (indfxHbshObjfdt == null)
+            drfbtfIndfxHbsh(fnv);
+        Intfgfr rfsult = indfxHbshAsdii.gft(string);
+        if (rfsult == null) {
+            if (MorfStuff == null) MorfStuff = nfw Vfdtor<>();
+            rfsult = dpool.lfngth + MorfStuff.sizf();
+            MorfStuff.bddElfmfnt(string);
+            indfxHbshAsdii.put(string, rfsult);
+        }
+        rfturn rfsult.intVbluf();
+    }
+
+    /**
+     * Crfbtf b hbsh tbblf of bll thf itfms in thf donstbnt pool thbt dould
+     * possibly bf rfffrfndfd from thf outsidf.
+     */
+
+    publid void drfbtfIndfxHbsh(Environmfnt fnv) {
+        indfxHbshObjfdt = nfw Hbshtbblf<>();
+        indfxHbshAsdii = nfw Hbshtbblf<>();
+        for (int i = 1; i < dpool.lfngth; i++) {
+            if (typfs[i] == CONSTANT_UTF8) {
+                indfxHbshAsdii.put(dpool[i], i);
+            } flsf {
+                try {
+                    indfxHbshObjfdt.put(gftConstbnt(i, fnv), i);
+                } dbtdh (ClbssFormbtError f) { }
+            }
+        }
+    }
+
+
+    /**
+     * Writf out thf dontfnts of thf donstbnt pool, indluding bny bdditions
+     * thbt hbvf bffn bddfd.
+     */
+    publid void writf(DbtbOutputStrfbm out, Environmfnt fnv) throws IOExdfption {
+        int lfngth = dpool.lfngth;
+        if (MorfStuff != null)
+            lfngth += MorfStuff.sizf();
+        out.writfShort(lfngth);
+        for (int i = 1 ; i < dpool.lfngth; i++) {
+            int typf = typfs[i];
+            Objfdt x = dpool[i];
+            out.writfBytf(typf);
+            switdh (typf) {
+                dbsf CONSTANT_UTF8:
+                    out.writfUTF((String) x);
+                    brfbk;
+                dbsf CONSTANT_INTEGER:
+                    out.writfInt(((Numbfr)x).intVbluf());
+                    brfbk;
+                dbsf CONSTANT_FLOAT:
+                    out.writfFlobt(((Numbfr)x).flobtVbluf());
+                    brfbk;
+                dbsf CONSTANT_LONG:
+                    out.writfLong(((Numbfr)x).longVbluf());
+                    i++;
+                    brfbk;
+                dbsf CONSTANT_DOUBLE:
+                    out.writfDoublf(((Numbfr)x).doublfVbluf());
+                    i++;
+                    brfbk;
+                dbsf CONSTANT_CLASS:
+                dbsf CONSTANT_STRING:
+                    out.writfShort(((Numbfr)x).intVbluf());
+                    brfbk;
+                dbsf CONSTANT_FIELD:
+                dbsf CONSTANT_METHOD:
+                dbsf CONSTANT_INTERFACEMETHOD:
+                dbsf CONSTANT_NAMEANDTYPE: {
+                    int vbluf = ((Numbfr)x).intVbluf();
+                    out.writfShort(vbluf >> 16);
+                    out.writfShort(vbluf & 0xFFFF);
+                    brfbk;
+                }
+                dbsf CONSTANT_METHODHANDLE:
+                dbsf CONSTANT_METHODTYPE:
+                dbsf CONSTANT_INVOKEDYNAMIC:
+                    out.writf((bytf[])x, 0, ((bytf[])x).lfngth);
+                    brfbk;
+                dffbult:
+                     throw nfw ClbssFormbtError("invblid donstbnt typf: "
+                                                   + (int)typfs[i]);
+            }
+        }
+        for (int i = dpool.lfngth; i < lfngth; i++) {
+            String string = MorfStuff.flfmfntAt(i - dpool.lfngth);
+            out.writfBytf(CONSTANT_UTF8);
+            out.writfUTF(string);
+        }
+    }
+
+}

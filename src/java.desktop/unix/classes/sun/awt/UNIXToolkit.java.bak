@@ -1,340 +1,340 @@
 /*
- * Copyright (c) 2004, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.awt;
+pbdkbgf sun.bwt;
 
-import java.awt.RenderingHints;
-import static java.awt.RenderingHints.*;
-import java.awt.color.ColorSpace;
-import java.awt.image.*;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import sun.security.action.GetIntegerAction;
-import com.sun.java.swing.plaf.gtk.GTKConstants.TextDirection;
-import sun.java2d.opengl.OGLRenderQueue;
-import java.lang.reflect.InvocationTargetException;
+import jbvb.bwt.RfndfringHints;
+import stbtid jbvb.bwt.RfndfringHints.*;
+import jbvb.bwt.dolor.ColorSpbdf;
+import jbvb.bwt.imbgf.*;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import sun.sfdurity.bdtion.GftIntfgfrAdtion;
+import dom.sun.jbvb.swing.plbf.gtk.GTKConstbnts.TfxtDirfdtion;
+import sun.jbvb2d.opfngl.OGLRfndfrQufuf;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
 
-public abstract class UNIXToolkit extends SunToolkit
+publid bbstrbdt dlbss UNIXToolkit fxtfnds SunToolkit
 {
-    /** All calls into GTK should be synchronized on this lock */
-    public static final Object GTK_LOCK = new Object();
+    /** All dblls into GTK siould bf syndironizfd on tiis lodk */
+    publid stbtid finbl Objfdt GTK_LOCK = nfw Objfdt();
 
-    private static final int[] BAND_OFFSETS = { 0, 1, 2 };
-    private static final int[] BAND_OFFSETS_ALPHA = { 0, 1, 2, 3 };
-    private static final int DEFAULT_DATATRANSFER_TIMEOUT = 10000;
+    privbtf stbtid finbl int[] BAND_OFFSETS = { 0, 1, 2 };
+    privbtf stbtid finbl int[] BAND_OFFSETS_ALPHA = { 0, 1, 2, 3 };
+    privbtf stbtid finbl int DEFAULT_DATATRANSFER_TIMEOUT = 10000;
 
-    private Boolean nativeGTKAvailable;
-    private Boolean nativeGTKLoaded;
-    private BufferedImage tmpImage = null;
+    privbtf Boolfbn nbtivfGTKAvbilbblf;
+    privbtf Boolfbn nbtivfGTKLobdfd;
+    privbtf BufffrfdImbgf tmpImbgf = null;
 
-    public static int getDatatransferTimeout() {
-        Integer dt = AccessController.doPrivileged(
-                new GetIntegerAction("sun.awt.datatransfer.timeout"));
+    publid stbtid int gftDbtbtrbnsffrTimfout() {
+        Intfgfr dt = AddfssControllfr.doPrivilfgfd(
+                nfw GftIntfgfrAdtion("sun.bwt.dbtbtrbnsffr.timfout"));
         if (dt == null || dt <= 0) {
-            return DEFAULT_DATATRANSFER_TIMEOUT;
-        } else {
-            return dt;
+            rfturn DEFAULT_DATATRANSFER_TIMEOUT;
+        } flsf {
+            rfturn dt;
         }
     }
 
     /**
-     * Returns true if the native GTK libraries are capable of being
-     * loaded and are expected to work properly, false otherwise.  Note
-     * that this method will not leave the native GTK libraries loaded if
-     * they haven't already been loaded.  This allows, for example, Swing's
-     * GTK L&F to test for the presence of native GTK support without
-     * leaving the native libraries loaded.  To attempt long-term loading
-     * of the native GTK libraries, use the loadGTK() method instead.
+     * Rfturns truf if tif nbtivf GTK librbrifs brf dbpbblf of bfing
+     * lobdfd bnd brf fxpfdtfd to work propfrly, fblsf otifrwisf.  Notf
+     * tibt tiis mftiod will not lfbvf tif nbtivf GTK librbrifs lobdfd if
+     * tify ibvfn't blrfbdy bffn lobdfd.  Tiis bllows, for fxbmplf, Swing's
+     * GTK L&F to tfst for tif prfsfndf of nbtivf GTK support witiout
+     * lfbving tif nbtivf librbrifs lobdfd.  To bttfmpt long-tfrm lobding
+     * of tif nbtivf GTK librbrifs, usf tif lobdGTK() mftiod instfbd.
      */
-    @Override
-    public boolean isNativeGTKAvailable() {
-        synchronized (GTK_LOCK) {
-            if (nativeGTKLoaded != null) {
-                // We've already attempted to load GTK, so just return the
-                // status of that attempt.
-                return nativeGTKLoaded.booleanValue();
+    @Ovfrridf
+    publid boolfbn isNbtivfGTKAvbilbblf() {
+        syndironizfd (GTK_LOCK) {
+            if (nbtivfGTKLobdfd != null) {
+                // Wf'vf blrfbdy bttfmptfd to lobd GTK, so just rfturn tif
+                // stbtus of tibt bttfmpt.
+                rfturn nbtivfGTKLobdfd.boolfbnVbluf();
 
-            } else if (nativeGTKAvailable != null) {
-                // We've already checked the availability of the native GTK
-                // libraries, so just return the status of that attempt.
-                return nativeGTKAvailable.booleanValue();
+            } flsf if (nbtivfGTKAvbilbblf != null) {
+                // Wf'vf blrfbdy difdkfd tif bvbilbbility of tif nbtivf GTK
+                // librbrifs, so just rfturn tif stbtus of tibt bttfmpt.
+                rfturn nbtivfGTKAvbilbblf.boolfbnVbluf();
 
-            } else {
-                boolean success = check_gtk();
-                nativeGTKAvailable = Boolean.valueOf(success);
-                return success;
+            } flsf {
+                boolfbn suddfss = difdk_gtk();
+                nbtivfGTKAvbilbblf = Boolfbn.vblufOf(suddfss);
+                rfturn suddfss;
             }
         }
     }
 
     /**
-     * Loads the GTK libraries, if necessary.  The first time this method
-     * is called, it will attempt to load the native GTK library.  If
-     * successful, it leaves the library open and returns true; otherwise,
-     * the library is left closed and returns false.  On future calls to
-     * this method, the status of the first attempt is returned (a simple
-     * lightweight boolean check, no native calls required).
+     * Lobds tif GTK librbrifs, if nfdfssbry.  Tif first timf tiis mftiod
+     * is dbllfd, it will bttfmpt to lobd tif nbtivf GTK librbry.  If
+     * suddfssful, it lfbvfs tif librbry opfn bnd rfturns truf; otifrwisf,
+     * tif librbry is lfft dlosfd bnd rfturns fblsf.  On futurf dblls to
+     * tiis mftiod, tif stbtus of tif first bttfmpt is rfturnfd (b simplf
+     * ligitwfigit boolfbn difdk, no nbtivf dblls rfquirfd).
      */
-    public boolean loadGTK() {
-        synchronized (GTK_LOCK) {
-            if (nativeGTKLoaded == null) {
-                boolean success = load_gtk();
-                nativeGTKLoaded = Boolean.valueOf(success);
+    publid boolfbn lobdGTK() {
+        syndironizfd (GTK_LOCK) {
+            if (nbtivfGTKLobdfd == null) {
+                boolfbn suddfss = lobd_gtk();
+                nbtivfGTKLobdfd = Boolfbn.vblufOf(suddfss);
             }
         }
-        return nativeGTKLoaded.booleanValue();
+        rfturn nbtivfGTKLobdfd.boolfbnVbluf();
     }
 
     /**
-     * Overridden to handle GTK icon loading
+     * Ovfrriddfn to ibndlf GTK idon lobding
      */
-    protected Object lazilyLoadDesktopProperty(String name) {
-        if (name.startsWith("gtk.icon.")) {
-            return lazilyLoadGTKIcon(name);
+    protfdtfd Objfdt lbzilyLobdDfsktopPropfrty(String nbmf) {
+        if (nbmf.stbrtsWiti("gtk.idon.")) {
+            rfturn lbzilyLobdGTKIdon(nbmf);
         }
-        return super.lazilyLoadDesktopProperty(name);
+        rfturn supfr.lbzilyLobdDfsktopPropfrty(nbmf);
     }
 
     /**
-     * Load a native Gtk stock icon.
+     * Lobd b nbtivf Gtk stodk idon.
      *
-     * @param longname a desktop property name. This contains icon name, size
-     *        and orientation, e.g. <code>"gtk.icon.gtk-add.4.rtl"</code>
-     * @return an <code>Image</code> for the icon, or <code>null</code> if the
-     *         icon could not be loaded
+     * @pbrbm longnbmf b dfsktop propfrty nbmf. Tiis dontbins idon nbmf, sizf
+     *        bnd orifntbtion, f.g. <dodf>"gtk.idon.gtk-bdd.4.rtl"</dodf>
+     * @rfturn bn <dodf>Imbgf</dodf> for tif idon, or <dodf>null</dodf> if tif
+     *         idon dould not bf lobdfd
      */
-    protected Object lazilyLoadGTKIcon(String longname) {
-        // Check if we have already loaded it.
-        Object result = desktopProperties.get(longname);
-        if (result != null) {
-            return result;
+    protfdtfd Objfdt lbzilyLobdGTKIdon(String longnbmf) {
+        // Cifdk if wf ibvf blrfbdy lobdfd it.
+        Objfdt rfsult = dfsktopPropfrtifs.gft(longnbmf);
+        if (rfsult != null) {
+            rfturn rfsult;
         }
 
-        // We need to have at least gtk.icon.<stock_id>.<size>.<orientation>
-        String str[] = longname.split("\\.");
-        if (str.length != 5) {
-            return null;
+        // Wf nffd to ibvf bt lfbst gtk.idon.<stodk_id>.<sizf>.<orifntbtion>
+        String str[] = longnbmf.split("\\.");
+        if (str.lfngti != 5) {
+            rfturn null;
         }
 
-        // Parse out the stock icon size we are looking for.
-        int size = 0;
+        // Pbrsf out tif stodk idon sizf wf brf looking for.
+        int sizf = 0;
         try {
-            size = Integer.parseInt(str[3]);
-        } catch (NumberFormatException nfe) {
-            return null;
+            sizf = Intfgfr.pbrsfInt(str[3]);
+        } dbtdi (NumbfrFormbtExdfption nff) {
+            rfturn null;
         }
 
-        // Direction.
-        TextDirection dir = ("ltr".equals(str[4]) ? TextDirection.LTR :
-                                                    TextDirection.RTL);
+        // Dirfdtion.
+        TfxtDirfdtion dir = ("ltr".fqubls(str[4]) ? TfxtDirfdtion.LTR :
+                                                    TfxtDirfdtion.RTL);
 
-        // Load the stock icon.
-        BufferedImage img = getStockIcon(-1, str[2], size, dir.ordinal(), null);
+        // Lobd tif stodk idon.
+        BufffrfdImbgf img = gftStodkIdon(-1, str[2], sizf, dir.ordinbl(), null);
         if (img != null) {
-            // Create the desktop property for the icon.
-            setDesktopProperty(longname, img);
+            // Crfbtf tif dfsktop propfrty for tif idon.
+            sftDfsktopPropfrty(longnbmf, img);
         }
-        return img;
+        rfturn img;
     }
 
     /**
-     * Returns a BufferedImage which contains the Gtk icon requested.  If no
-     * such icon exists or an error occurs loading the icon the result will
-     * be null.
+     * Rfturns b BufffrfdImbgf wiidi dontbins tif Gtk idon rfqufstfd.  If no
+     * sudi idon fxists or bn frror oddurs lobding tif idon tif rfsult will
+     * bf null.
      *
-     * @param filename
-     * @return The icon or null if it was not found or loaded.
+     * @pbrbm filfnbmf
+     * @rfturn Tif idon or null if it wbs not found or lobdfd.
      */
-    public BufferedImage getGTKIcon(final String filename) {
-        if (!loadGTK()) {
-            return null;
+    publid BufffrfdImbgf gftGTKIdon(finbl String filfnbmf) {
+        if (!lobdGTK()) {
+            rfturn null;
 
-        } else {
-            // Call the native method to load the icon.
-            synchronized (GTK_LOCK) {
-                if (!load_gtk_icon(filename)) {
-                    tmpImage = null;
+        } flsf {
+            // Cbll tif nbtivf mftiod to lobd tif idon.
+            syndironizfd (GTK_LOCK) {
+                if (!lobd_gtk_idon(filfnbmf)) {
+                    tmpImbgf = null;
                 }
             }
         }
-        // Return local image the callback loaded the icon into.
-        return tmpImage;
+        // Rfturn lodbl imbgf tif dbllbbdk lobdfd tif idon into.
+        rfturn tmpImbgf;
     }
 
     /**
-     * Returns a BufferedImage which contains the Gtk stock icon requested.
-     * If no such stock icon exists the result will be null.
+     * Rfturns b BufffrfdImbgf wiidi dontbins tif Gtk stodk idon rfqufstfd.
+     * If no sudi stodk idon fxists tif rfsult will bf null.
      *
-     * @param widgetType one of WidgetType values defined in GTKNativeEngine or
-     * -1 for system default stock icon.
-     * @param stockId String which defines the stock id of the gtk item.
-     * For a complete list reference the API at www.gtk.org for StockItems.
-     * @param iconSize One of the GtkIconSize values defined in GTKConstants
-     * @param textDirection One of the TextDirection values defined in
-     * GTKConstants
-     * @param detail Render detail that is passed to the native engine (feel
-     * free to pass null)
-     * @return The stock icon or null if it was not found or loaded.
+     * @pbrbm widgftTypf onf of WidgftTypf vblufs dffinfd in GTKNbtivfEnginf or
+     * -1 for systfm dffbult stodk idon.
+     * @pbrbm stodkId String wiidi dffinfs tif stodk id of tif gtk itfm.
+     * For b domplftf list rfffrfndf tif API bt www.gtk.org for StodkItfms.
+     * @pbrbm idonSizf Onf of tif GtkIdonSizf vblufs dffinfd in GTKConstbnts
+     * @pbrbm tfxtDirfdtion Onf of tif TfxtDirfdtion vblufs dffinfd in
+     * GTKConstbnts
+     * @pbrbm dftbil Rfndfr dftbil tibt is pbssfd to tif nbtivf fnginf (fffl
+     * frff to pbss null)
+     * @rfturn Tif stodk idon or null if it wbs not found or lobdfd.
      */
-    public BufferedImage getStockIcon(final int widgetType, final String stockId,
-                                final int iconSize, final int direction,
-                                final String detail) {
-        if (!loadGTK()) {
-            return null;
+    publid BufffrfdImbgf gftStodkIdon(finbl int widgftTypf, finbl String stodkId,
+                                finbl int idonSizf, finbl int dirfdtion,
+                                finbl String dftbil) {
+        if (!lobdGTK()) {
+            rfturn null;
 
-        } else {
-            // Call the native method to load the icon.
-            synchronized (GTK_LOCK) {
-                if (!load_stock_icon(widgetType, stockId, iconSize, direction, detail)) {
-                    tmpImage = null;
+        } flsf {
+            // Cbll tif nbtivf mftiod to lobd tif idon.
+            syndironizfd (GTK_LOCK) {
+                if (!lobd_stodk_idon(widgftTypf, stodkId, idonSizf, dirfdtion, dftbil)) {
+                    tmpImbgf = null;
                 }
             }
         }
-        // Return local image the callback loaded the icon into.
-        return tmpImage;  // set by loadIconCallback
+        // Rfturn lodbl imbgf tif dbllbbdk lobdfd tif idon into.
+        rfturn tmpImbgf;  // sft by lobdIdonCbllbbdk
     }
 
     /**
-     * This method is used by JNI as a callback from load_stock_icon.
-     * Image data is passed back to us via this method and loaded into the
-     * local BufferedImage and then returned via getStockIcon.
+     * Tiis mftiod is usfd by JNI bs b dbllbbdk from lobd_stodk_idon.
+     * Imbgf dbtb is pbssfd bbdk to us vib tiis mftiod bnd lobdfd into tif
+     * lodbl BufffrfdImbgf bnd tifn rfturnfd vib gftStodkIdon.
      *
-     * Do NOT call this method directly.
+     * Do NOT dbll tiis mftiod dirfdtly.
      */
-    public void loadIconCallback(byte[] data, int width, int height,
-            int rowStride, int bps, int channels, boolean alpha) {
-        // Reset the stock image to null.
-        tmpImage = null;
+    publid void lobdIdonCbllbbdk(bytf[] dbtb, int widti, int ifigit,
+            int rowStridf, int bps, int dibnnfls, boolfbn blpib) {
+        // Rfsft tif stodk imbgf to null.
+        tmpImbgf = null;
 
-        // Create a new BufferedImage based on the data returned from the
-        // JNI call.
-        DataBuffer dataBuf = new DataBufferByte(data, (rowStride * height));
-        // Maybe test # channels to determine band offsets?
-        WritableRaster raster = Raster.createInterleavedRaster(dataBuf,
-                width, height, rowStride, channels,
-                (alpha ? BAND_OFFSETS_ALPHA : BAND_OFFSETS), null);
-        ColorModel colorModel = new ComponentColorModel(
-                ColorSpace.getInstance(ColorSpace.CS_sRGB), alpha, false,
-                ColorModel.TRANSLUCENT, DataBuffer.TYPE_BYTE);
+        // Crfbtf b nfw BufffrfdImbgf bbsfd on tif dbtb rfturnfd from tif
+        // JNI dbll.
+        DbtbBufffr dbtbBuf = nfw DbtbBufffrBytf(dbtb, (rowStridf * ifigit));
+        // Mbybf tfst # dibnnfls to dftfrminf bbnd offsfts?
+        WritbblfRbstfr rbstfr = Rbstfr.drfbtfIntfrlfbvfdRbstfr(dbtbBuf,
+                widti, ifigit, rowStridf, dibnnfls,
+                (blpib ? BAND_OFFSETS_ALPHA : BAND_OFFSETS), null);
+        ColorModfl dolorModfl = nfw ComponfntColorModfl(
+                ColorSpbdf.gftInstbndf(ColorSpbdf.CS_sRGB), blpib, fblsf,
+                ColorModfl.TRANSLUCENT, DbtbBufffr.TYPE_BYTE);
 
-        // Set the local image so we can return it later from
-        // getStockIcon().
-        tmpImage = new BufferedImage(colorModel, raster, false, null);
+        // Sft tif lodbl imbgf so wf dbn rfturn it lbtfr from
+        // gftStodkIdon().
+        tmpImbgf = nfw BufffrfdImbgf(dolorModfl, rbstfr, fblsf, null);
     }
 
-    private static native boolean check_gtk();
-    private static native boolean load_gtk();
-    private static native boolean unload_gtk();
-    private native boolean load_gtk_icon(String filename);
-    private native boolean load_stock_icon(int widget_type, String stock_id,
-            int iconSize, int textDirection, String detail);
+    privbtf stbtid nbtivf boolfbn difdk_gtk();
+    privbtf stbtid nbtivf boolfbn lobd_gtk();
+    privbtf stbtid nbtivf boolfbn unlobd_gtk();
+    privbtf nbtivf boolfbn lobd_gtk_idon(String filfnbmf);
+    privbtf nbtivf boolfbn lobd_stodk_idon(int widgft_typf, String stodk_id,
+            int idonSizf, int tfxtDirfdtion, String dftbil);
 
-    private native void nativeSync();
+    privbtf nbtivf void nbtivfSynd();
 
-    public void sync() {
-        // flush the X11 buffer
-        nativeSync();
-        // now flush the OGL pipeline (this is a no-op if OGL is not enabled)
-        OGLRenderQueue.sync();
+    publid void synd() {
+        // flusi tif X11 bufffr
+        nbtivfSynd();
+        // now flusi tif OGL pipflinf (tiis is b no-op if OGL is not fnbblfd)
+        OGLRfndfrQufuf.synd();
     }
 
     /*
-     * This returns the value for the desktop property "awt.font.desktophints"
-     * It builds this by querying the Gnome desktop properties to return
-     * them as platform independent hints.
-     * This requires that the Gnome properties have already been gathered.
+     * Tiis rfturns tif vbluf for tif dfsktop propfrty "bwt.font.dfsktopiints"
+     * It builds tiis by qufrying tif Gnomf dfsktop propfrtifs to rfturn
+     * tifm bs plbtform indfpfndfnt iints.
+     * Tiis rfquirfs tibt tif Gnomf propfrtifs ibvf blrfbdy bffn gbtifrfd.
      */
-    public static final String FONTCONFIGAAHINT = "fontconfig/Antialias";
-    protected RenderingHints getDesktopAAHints() {
+    publid stbtid finbl String FONTCONFIGAAHINT = "fontdonfig/Antiblibs";
+    protfdtfd RfndfringHints gftDfsktopAAHints() {
 
-        Object aaValue = getDesktopProperty("gnome.Xft/Antialias");
+        Objfdt bbVbluf = gftDfsktopPropfrty("gnomf.Xft/Antiblibs");
 
-        if (aaValue == null) {
-            /* On a KDE desktop running KWin the rendering hint will
-             * have been set as property "fontconfig/Antialias".
-             * No need to parse further in this case.
+        if (bbVbluf == null) {
+            /* On b KDE dfsktop running KWin tif rfndfring iint will
+             * ibvf bffn sft bs propfrty "fontdonfig/Antiblibs".
+             * No nffd to pbrsf furtifr in tiis dbsf.
              */
-            aaValue = getDesktopProperty(FONTCONFIGAAHINT);
-            if (aaValue != null) {
-               return new RenderingHints(KEY_TEXT_ANTIALIASING, aaValue);
-            } else {
-                 return null; // no Gnome or KDE Desktop properties available.
+            bbVbluf = gftDfsktopPropfrty(FONTCONFIGAAHINT);
+            if (bbVbluf != null) {
+               rfturn nfw RfndfringHints(KEY_TEXT_ANTIALIASING, bbVbluf);
+            } flsf {
+                 rfturn null; // no Gnomf or KDE Dfsktop propfrtifs bvbilbblf.
             }
         }
 
-        /* 0 means off, 1 means some ON. What would any other value mean?
-         * If we require "1" to enable AA then some new value would cause
-         * us to default to "OFF". I don't think that's the best guess.
-         * So if its !=0 then lets assume AA.
+        /* 0 mfbns off, 1 mfbns somf ON. Wibt would bny otifr vbluf mfbn?
+         * If wf rfquirf "1" to fnbblf AA tifn somf nfw vbluf would dbusf
+         * us to dffbult to "OFF". I don't tiink tibt's tif bfst gufss.
+         * So if its !=0 tifn lfts bssumf AA.
          */
-        boolean aa = Boolean.valueOf(((aaValue instanceof Number) &&
-                                      ((Number)aaValue).intValue() != 0));
-        Object aaHint;
-        if (aa) {
-            String subpixOrder =
-                (String)getDesktopProperty("gnome.Xft/RGBA");
+        boolfbn bb = Boolfbn.vblufOf(((bbVbluf instbndfof Numbfr) &&
+                                      ((Numbfr)bbVbluf).intVbluf() != 0));
+        Objfdt bbHint;
+        if (bb) {
+            String subpixOrdfr =
+                (String)gftDfsktopPropfrty("gnomf.Xft/RGBA");
 
-            if (subpixOrder == null || subpixOrder.equals("none")) {
-                aaHint = VALUE_TEXT_ANTIALIAS_ON;
-            } else if (subpixOrder.equals("rgb")) {
-                aaHint = VALUE_TEXT_ANTIALIAS_LCD_HRGB;
-            } else if (subpixOrder.equals("bgr")) {
-                aaHint = VALUE_TEXT_ANTIALIAS_LCD_HBGR;
-            } else if (subpixOrder.equals("vrgb")) {
-                aaHint = VALUE_TEXT_ANTIALIAS_LCD_VRGB;
-            } else if (subpixOrder.equals("vbgr")) {
-                aaHint = VALUE_TEXT_ANTIALIAS_LCD_VBGR;
-            } else {
-                /* didn't recognise the string, but AA is requested */
-                aaHint = VALUE_TEXT_ANTIALIAS_ON;
+            if (subpixOrdfr == null || subpixOrdfr.fqubls("nonf")) {
+                bbHint = VALUE_TEXT_ANTIALIAS_ON;
+            } flsf if (subpixOrdfr.fqubls("rgb")) {
+                bbHint = VALUE_TEXT_ANTIALIAS_LCD_HRGB;
+            } flsf if (subpixOrdfr.fqubls("bgr")) {
+                bbHint = VALUE_TEXT_ANTIALIAS_LCD_HBGR;
+            } flsf if (subpixOrdfr.fqubls("vrgb")) {
+                bbHint = VALUE_TEXT_ANTIALIAS_LCD_VRGB;
+            } flsf if (subpixOrdfr.fqubls("vbgr")) {
+                bbHint = VALUE_TEXT_ANTIALIAS_LCD_VBGR;
+            } flsf {
+                /* didn't rfdognisf tif string, but AA is rfqufstfd */
+                bbHint = VALUE_TEXT_ANTIALIAS_ON;
             }
-        } else {
-            aaHint = VALUE_TEXT_ANTIALIAS_DEFAULT;
+        } flsf {
+            bbHint = VALUE_TEXT_ANTIALIAS_DEFAULT;
         }
-        return new RenderingHints(KEY_TEXT_ANTIALIASING, aaHint);
+        rfturn nfw RfndfringHints(KEY_TEXT_ANTIALIASING, bbHint);
     }
 
-    private native boolean gtkCheckVersionImpl(int major, int minor,
-        int micro);
+    privbtf nbtivf boolfbn gtkCifdkVfrsionImpl(int mbjor, int minor,
+        int midro);
 
     /**
-     * Returns {@code true} if the GTK+ library is compatible with the given
-     * version.
+     * Rfturns {@dodf truf} if tif GTK+ librbry is dompbtiblf witi tif givfn
+     * vfrsion.
      *
-     * @param major
-     *            The required major version.
-     * @param minor
-     *            The required minor version.
-     * @param micro
-     *            The required micro version.
-     * @return {@code true} if the GTK+ library is compatible with the given
-     *         version.
+     * @pbrbm mbjor
+     *            Tif rfquirfd mbjor vfrsion.
+     * @pbrbm minor
+     *            Tif rfquirfd minor vfrsion.
+     * @pbrbm midro
+     *            Tif rfquirfd midro vfrsion.
+     * @rfturn {@dodf truf} if tif GTK+ librbry is dompbtiblf witi tif givfn
+     *         vfrsion.
      */
-    public boolean checkGtkVersion(int major, int minor, int micro) {
-        if (loadGTK()) {
-            return gtkCheckVersionImpl(major, minor, micro);
+    publid boolfbn difdkGtkVfrsion(int mbjor, int minor, int midro) {
+        if (lobdGTK()) {
+            rfturn gtkCifdkVfrsionImpl(mbjor, minor, midro);
         }
-        return false;
+        rfturn fblsf;
     }
 }

@@ -1,398 +1,398 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.plaf.basic;
+pbdkbgf jbvbx.swing.plbf.bbsid;
 
-import javax.swing.*;
-import javax.swing.colorchooser.*;
-import javax.swing.event.*;
-import javax.swing.border.*;
-import javax.swing.plaf.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import jbvbx.swing.*;
+import jbvbx.swing.dolordioosfr.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.plbf.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bfbns.PropfrtyCibngfEvfnt;
+import jbvb.bfbns.PropfrtyCibngfListfnfr;
 
-import sun.swing.DefaultLookup;
+import sun.swing.DffbultLookup;
 
 /**
- * Provides the basic look and feel for a JColorChooser.
+ * Providfs tif bbsid look bnd fffl for b JColorCioosfr.
  *
- * @author Tom Santos
- * @author Steve Wilson
+ * @butior Tom Sbntos
+ * @butior Stfvf Wilson
  */
 
-public class BasicColorChooserUI extends ColorChooserUI
+publid dlbss BbsidColorCioosfrUI fxtfnds ColorCioosfrUI
 {
     /**
-     * JColorChooser this BasicColorChooserUI is installed on.
+     * JColorCioosfr tiis BbsidColorCioosfrUI is instbllfd on.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    protected JColorChooser chooser;
+    protfdtfd JColorCioosfr dioosfr;
 
-    JTabbedPane tabbedPane;
-    JPanel singlePanel;
+    JTbbbfdPbnf tbbbfdPbnf;
+    JPbnfl singlfPbnfl;
 
-    JPanel previewPanelHolder;
-    JComponent previewPanel;
-    boolean isMultiPanel = false;
-    private static TransferHandler defaultTransferHandler = new ColorTransferHandler();
+    JPbnfl prfvifwPbnflHoldfr;
+    JComponfnt prfvifwPbnfl;
+    boolfbn isMultiPbnfl = fblsf;
+    privbtf stbtid TrbnsffrHbndlfr dffbultTrbnsffrHbndlfr = nfw ColorTrbnsffrHbndlfr();
 
     /**
-     * The array of default color choosers.
+     * Tif brrby of dffbult dolor dioosfrs.
      */
-    protected AbstractColorChooserPanel[] defaultChoosers;
+    protfdtfd AbstrbdtColorCioosfrPbnfl[] dffbultCioosfrs;
 
     /**
-     * The instance of {@code ChangeListener}.
+     * Tif instbndf of {@dodf CibngfListfnfr}.
      */
-    protected ChangeListener previewListener;
+    protfdtfd CibngfListfnfr prfvifwListfnfr;
 
     /**
-     * The instance of {@code PropertyChangeListener}.
+     * Tif instbndf of {@dodf PropfrtyCibngfListfnfr}.
      */
-    protected PropertyChangeListener propertyChangeListener;
-    private Handler handler;
+    protfdtfd PropfrtyCibngfListfnfr propfrtyCibngfListfnfr;
+    privbtf Hbndlfr ibndlfr;
 
     /**
-     * Returns a new instance of {@code BasicColorChooserUI}.
+     * Rfturns b nfw instbndf of {@dodf BbsidColorCioosfrUI}.
      *
-     * @param c a component
-     * @return a new instance of {@code BasicColorChooserUI}
+     * @pbrbm d b domponfnt
+     * @rfturn b nfw instbndf of {@dodf BbsidColorCioosfrUI}
      */
-    public static ComponentUI createUI(JComponent c) {
-        return new BasicColorChooserUI();
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt d) {
+        rfturn nfw BbsidColorCioosfrUI();
     }
 
     /**
-     * Returns an array of default color choosers.
+     * Rfturns bn brrby of dffbult dolor dioosfrs.
      *
-     * @return an array of default color choosers
+     * @rfturn bn brrby of dffbult dolor dioosfrs
      */
-    protected AbstractColorChooserPanel[] createDefaultChoosers() {
-        AbstractColorChooserPanel[] panels = ColorChooserComponentFactory.getDefaultChooserPanels();
-        return panels;
+    protfdtfd AbstrbdtColorCioosfrPbnfl[] drfbtfDffbultCioosfrs() {
+        AbstrbdtColorCioosfrPbnfl[] pbnfls = ColorCioosfrComponfntFbdtory.gftDffbultCioosfrPbnfls();
+        rfturn pbnfls;
     }
 
     /**
-     * Uninstalls default color choosers.
+     * Uninstblls dffbult dolor dioosfrs.
      */
-    protected void uninstallDefaultChoosers() {
-        AbstractColorChooserPanel[] choosers = chooser.getChooserPanels();
-        for( int i = 0 ; i < choosers.length; i++) {
-            chooser.removeChooserPanel( choosers[i] );
+    protfdtfd void uninstbllDffbultCioosfrs() {
+        AbstrbdtColorCioosfrPbnfl[] dioosfrs = dioosfr.gftCioosfrPbnfls();
+        for( int i = 0 ; i < dioosfrs.lfngti; i++) {
+            dioosfr.rfmovfCioosfrPbnfl( dioosfrs[i] );
         }
     }
 
-    public void installUI( JComponent c ) {
-        chooser = (JColorChooser)c;
+    publid void instbllUI( JComponfnt d ) {
+        dioosfr = (JColorCioosfr)d;
 
-        super.installUI( c );
+        supfr.instbllUI( d );
 
-        installDefaults();
-        installListeners();
+        instbllDffbults();
+        instbllListfnfrs();
 
-        tabbedPane = new JTabbedPane();
-        tabbedPane.setName("ColorChooser.tabPane");
-        tabbedPane.setInheritsPopupMenu(true);
-        tabbedPane.getAccessibleContext().setAccessibleDescription(tabbedPane.getName());
-        singlePanel = new JPanel(new CenterLayout());
-        singlePanel.setName("ColorChooser.panel");
-        singlePanel.setInheritsPopupMenu(true);
+        tbbbfdPbnf = nfw JTbbbfdPbnf();
+        tbbbfdPbnf.sftNbmf("ColorCioosfr.tbbPbnf");
+        tbbbfdPbnf.sftInifritsPopupMfnu(truf);
+        tbbbfdPbnf.gftAddfssiblfContfxt().sftAddfssiblfDfsdription(tbbbfdPbnf.gftNbmf());
+        singlfPbnfl = nfw JPbnfl(nfw CfntfrLbyout());
+        singlfPbnfl.sftNbmf("ColorCioosfr.pbnfl");
+        singlfPbnfl.sftInifritsPopupMfnu(truf);
 
-        chooser.setLayout( new BorderLayout() );
+        dioosfr.sftLbyout( nfw BordfrLbyout() );
 
-        defaultChoosers = createDefaultChoosers();
-        chooser.setChooserPanels(defaultChoosers);
+        dffbultCioosfrs = drfbtfDffbultCioosfrs();
+        dioosfr.sftCioosfrPbnfls(dffbultCioosfrs);
 
-        previewPanelHolder = new JPanel(new CenterLayout());
-        previewPanelHolder.setName("ColorChooser.previewPanelHolder");
+        prfvifwPbnflHoldfr = nfw JPbnfl(nfw CfntfrLbyout());
+        prfvifwPbnflHoldfr.sftNbmf("ColorCioosfr.prfvifwPbnflHoldfr");
 
-        if (DefaultLookup.getBoolean(chooser, this,
-                                  "ColorChooser.showPreviewPanelText", true)) {
-            String previewString = UIManager.getString(
-                "ColorChooser.previewText", chooser.getLocale());
-            previewPanelHolder.setBorder(new TitledBorder(previewString));
+        if (DffbultLookup.gftBoolfbn(dioosfr, tiis,
+                                  "ColorCioosfr.siowPrfvifwPbnflTfxt", truf)) {
+            String prfvifwString = UIMbnbgfr.gftString(
+                "ColorCioosfr.prfvifwTfxt", dioosfr.gftLodblf());
+            prfvifwPbnflHoldfr.sftBordfr(nfw TitlfdBordfr(prfvifwString));
         }
-        previewPanelHolder.setInheritsPopupMenu(true);
+        prfvifwPbnflHoldfr.sftInifritsPopupMfnu(truf);
 
-        installPreviewPanel();
-        chooser.applyComponentOrientation(c.getComponentOrientation());
+        instbllPrfvifwPbnfl();
+        dioosfr.bpplyComponfntOrifntbtion(d.gftComponfntOrifntbtion());
     }
 
-    public void uninstallUI( JComponent c ) {
-        chooser.remove(tabbedPane);
-        chooser.remove(singlePanel);
-        chooser.remove(previewPanelHolder);
+    publid void uninstbllUI( JComponfnt d ) {
+        dioosfr.rfmovf(tbbbfdPbnf);
+        dioosfr.rfmovf(singlfPbnfl);
+        dioosfr.rfmovf(prfvifwPbnflHoldfr);
 
-        uninstallDefaultChoosers();
-        uninstallListeners();
-        uninstallPreviewPanel();
-        uninstallDefaults();
+        uninstbllDffbultCioosfrs();
+        uninstbllListfnfrs();
+        uninstbllPrfvifwPbnfl();
+        uninstbllDffbults();
 
-        previewPanelHolder = null;
-        previewPanel = null;
-        defaultChoosers = null;
-        chooser = null;
-        tabbedPane = null;
+        prfvifwPbnflHoldfr = null;
+        prfvifwPbnfl = null;
+        dffbultCioosfrs = null;
+        dioosfr = null;
+        tbbbfdPbnf = null;
 
-        handler = null;
+        ibndlfr = null;
     }
 
     /**
-     * Installs preview panel.
+     * Instblls prfvifw pbnfl.
      */
-    protected void installPreviewPanel() {
-        JComponent previewPanel = this.chooser.getPreviewPanel();
-        if (previewPanel == null) {
-            previewPanel = ColorChooserComponentFactory.getPreviewPanel();
+    protfdtfd void instbllPrfvifwPbnfl() {
+        JComponfnt prfvifwPbnfl = tiis.dioosfr.gftPrfvifwPbnfl();
+        if (prfvifwPbnfl == null) {
+            prfvifwPbnfl = ColorCioosfrComponfntFbdtory.gftPrfvifwPbnfl();
         }
-        else if (JPanel.class.equals(previewPanel.getClass()) && (0 == previewPanel.getComponentCount())) {
-            previewPanel = null;
+        flsf if (JPbnfl.dlbss.fqubls(prfvifwPbnfl.gftClbss()) && (0 == prfvifwPbnfl.gftComponfntCount())) {
+            prfvifwPbnfl = null;
         }
-        this.previewPanel = previewPanel;
-        if (previewPanel != null) {
-            chooser.add(previewPanelHolder, BorderLayout.SOUTH);
-            previewPanel.setForeground(chooser.getColor());
-            previewPanelHolder.add(previewPanel);
-            previewPanel.addMouseListener(getHandler());
-            previewPanel.setInheritsPopupMenu(true);
+        tiis.prfvifwPbnfl = prfvifwPbnfl;
+        if (prfvifwPbnfl != null) {
+            dioosfr.bdd(prfvifwPbnflHoldfr, BordfrLbyout.SOUTH);
+            prfvifwPbnfl.sftForfground(dioosfr.gftColor());
+            prfvifwPbnflHoldfr.bdd(prfvifwPbnfl);
+            prfvifwPbnfl.bddMousfListfnfr(gftHbndlfr());
+            prfvifwPbnfl.sftInifritsPopupMfnu(truf);
         }
     }
 
     /**
-     * Removes installed preview panel from the UI delegate.
+     * Rfmovfs instbllfd prfvifw pbnfl from tif UI dflfgbtf.
      *
-     * @since 1.7
+     * @sindf 1.7
      */
-    protected void uninstallPreviewPanel() {
-        if (this.previewPanel != null) {
-            this.previewPanel.removeMouseListener(getHandler());
-            this.previewPanelHolder.remove(this.previewPanel);
+    protfdtfd void uninstbllPrfvifwPbnfl() {
+        if (tiis.prfvifwPbnfl != null) {
+            tiis.prfvifwPbnfl.rfmovfMousfListfnfr(gftHbndlfr());
+            tiis.prfvifwPbnflHoldfr.rfmovf(tiis.prfvifwPbnfl);
         }
-        this.chooser.remove(this.previewPanelHolder);
+        tiis.dioosfr.rfmovf(tiis.prfvifwPbnflHoldfr);
     }
 
     /**
-     * Installs default properties.
+     * Instblls dffbult propfrtifs.
      */
-    protected void installDefaults() {
-        LookAndFeel.installColorsAndFont(chooser, "ColorChooser.background",
-                                              "ColorChooser.foreground",
-                                              "ColorChooser.font");
-        LookAndFeel.installProperty(chooser, "opaque", Boolean.TRUE);
-        TransferHandler th = chooser.getTransferHandler();
-        if (th == null || th instanceof UIResource) {
-            chooser.setTransferHandler(defaultTransferHandler);
-        }
-    }
-
-    /**
-     * Uninstalls default properties.
-     */
-    protected void uninstallDefaults() {
-        if (chooser.getTransferHandler() instanceof UIResource) {
-            chooser.setTransferHandler(null);
+    protfdtfd void instbllDffbults() {
+        LookAndFffl.instbllColorsAndFont(dioosfr, "ColorCioosfr.bbdkground",
+                                              "ColorCioosfr.forfground",
+                                              "ColorCioosfr.font");
+        LookAndFffl.instbllPropfrty(dioosfr, "opbquf", Boolfbn.TRUE);
+        TrbnsffrHbndlfr ti = dioosfr.gftTrbnsffrHbndlfr();
+        if (ti == null || ti instbndfof UIRfsourdf) {
+            dioosfr.sftTrbnsffrHbndlfr(dffbultTrbnsffrHbndlfr);
         }
     }
 
     /**
-     * Registers listeners.
+     * Uninstblls dffbult propfrtifs.
      */
-    protected void installListeners() {
-        propertyChangeListener = createPropertyChangeListener();
-        chooser.addPropertyChangeListener(propertyChangeListener);
-
-        previewListener = getHandler();
-        chooser.getSelectionModel().addChangeListener(previewListener);
-    }
-
-    private Handler getHandler() {
-        if (handler == null) {
-            handler = new Handler();
+    protfdtfd void uninstbllDffbults() {
+        if (dioosfr.gftTrbnsffrHbndlfr() instbndfof UIRfsourdf) {
+            dioosfr.sftTrbnsffrHbndlfr(null);
         }
-        return handler;
     }
 
     /**
-     * Returns an instance of {@code PropertyChangeListener}.
+     * Rfgistfrs listfnfrs.
+     */
+    protfdtfd void instbllListfnfrs() {
+        propfrtyCibngfListfnfr = drfbtfPropfrtyCibngfListfnfr();
+        dioosfr.bddPropfrtyCibngfListfnfr(propfrtyCibngfListfnfr);
+
+        prfvifwListfnfr = gftHbndlfr();
+        dioosfr.gftSflfdtionModfl().bddCibngfListfnfr(prfvifwListfnfr);
+    }
+
+    privbtf Hbndlfr gftHbndlfr() {
+        if (ibndlfr == null) {
+            ibndlfr = nfw Hbndlfr();
+        }
+        rfturn ibndlfr;
+    }
+
+    /**
+     * Rfturns bn instbndf of {@dodf PropfrtyCibngfListfnfr}.
      *
-     * @return an instance of {@code PropertyChangeListener}
+     * @rfturn bn instbndf of {@dodf PropfrtyCibngfListfnfr}
      */
-    protected PropertyChangeListener createPropertyChangeListener() {
-        return getHandler();
+    protfdtfd PropfrtyCibngfListfnfr drfbtfPropfrtyCibngfListfnfr() {
+        rfturn gftHbndlfr();
     }
 
     /**
-     * Unregisters listeners.
+     * Unrfgistfrs listfnfrs.
      */
-    protected void uninstallListeners() {
-        chooser.removePropertyChangeListener( propertyChangeListener );
-        chooser.getSelectionModel().removeChangeListener(previewListener);
-        previewListener = null;
+    protfdtfd void uninstbllListfnfrs() {
+        dioosfr.rfmovfPropfrtyCibngfListfnfr( propfrtyCibngfListfnfr );
+        dioosfr.gftSflfdtionModfl().rfmovfCibngfListfnfr(prfvifwListfnfr);
+        prfvifwListfnfr = null;
     }
 
-    private void selectionChanged(ColorSelectionModel model) {
-        JComponent previewPanel = this.chooser.getPreviewPanel();
-        if (previewPanel != null) {
-            previewPanel.setForeground(model.getSelectedColor());
-            previewPanel.repaint();
+    privbtf void sflfdtionCibngfd(ColorSflfdtionModfl modfl) {
+        JComponfnt prfvifwPbnfl = tiis.dioosfr.gftPrfvifwPbnfl();
+        if (prfvifwPbnfl != null) {
+            prfvifwPbnfl.sftForfground(modfl.gftSflfdtfdColor());
+            prfvifwPbnfl.rfpbint();
         }
-        AbstractColorChooserPanel[] panels = this.chooser.getChooserPanels();
-        if (panels != null) {
-            for (AbstractColorChooserPanel panel : panels) {
-                if (panel != null) {
-                    panel.updateChooser();
+        AbstrbdtColorCioosfrPbnfl[] pbnfls = tiis.dioosfr.gftCioosfrPbnfls();
+        if (pbnfls != null) {
+            for (AbstrbdtColorCioosfrPbnfl pbnfl : pbnfls) {
+                if (pbnfl != null) {
+                    pbnfl.updbtfCioosfr();
                 }
             }
         }
     }
 
-    private class Handler implements ChangeListener, MouseListener,
-            PropertyChangeListener {
+    privbtf dlbss Hbndlfr implfmfnts CibngfListfnfr, MousfListfnfr,
+            PropfrtyCibngfListfnfr {
         //
-        // ChangeListener
+        // CibngfListfnfr
         //
-        public void stateChanged(ChangeEvent evt) {
-            selectionChanged((ColorSelectionModel) evt.getSource());
+        publid void stbtfCibngfd(CibngfEvfnt fvt) {
+            sflfdtionCibngfd((ColorSflfdtionModfl) fvt.gftSourdf());
         }
 
         //
-        // MouseListener
-        public void mousePressed(MouseEvent evt) {
-            if (chooser.getDragEnabled()) {
-                TransferHandler th = chooser.getTransferHandler();
-                th.exportAsDrag(chooser, evt, TransferHandler.COPY);
+        // MousfListfnfr
+        publid void mousfPrfssfd(MousfEvfnt fvt) {
+            if (dioosfr.gftDrbgEnbblfd()) {
+                TrbnsffrHbndlfr ti = dioosfr.gftTrbnsffrHbndlfr();
+                ti.fxportAsDrbg(dioosfr, fvt, TrbnsffrHbndlfr.COPY);
             }
         }
-        public void mouseReleased(MouseEvent evt) {}
-        public void mouseClicked(MouseEvent evt) {}
-        public void mouseEntered(MouseEvent evt) {}
-        public void mouseExited(MouseEvent evt) {}
+        publid void mousfRflfbsfd(MousfEvfnt fvt) {}
+        publid void mousfClidkfd(MousfEvfnt fvt) {}
+        publid void mousfEntfrfd(MousfEvfnt fvt) {}
+        publid void mousfExitfd(MousfEvfnt fvt) {}
 
         //
-        // PropertyChangeListener
+        // PropfrtyCibngfListfnfr
         //
-        public void propertyChange(PropertyChangeEvent evt) {
-            String prop = evt.getPropertyName();
+        publid void propfrtyCibngf(PropfrtyCibngfEvfnt fvt) {
+            String prop = fvt.gftPropfrtyNbmf();
 
-            if (prop == JColorChooser.CHOOSER_PANELS_PROPERTY) {
-                AbstractColorChooserPanel[] oldPanels =
-                    (AbstractColorChooserPanel[])evt.getOldValue();
-                AbstractColorChooserPanel[] newPanels =
-                    (AbstractColorChooserPanel[])evt.getNewValue();
+            if (prop == JColorCioosfr.CHOOSER_PANELS_PROPERTY) {
+                AbstrbdtColorCioosfrPbnfl[] oldPbnfls =
+                    (AbstrbdtColorCioosfrPbnfl[])fvt.gftOldVbluf();
+                AbstrbdtColorCioosfrPbnfl[] nfwPbnfls =
+                    (AbstrbdtColorCioosfrPbnfl[])fvt.gftNfwVbluf();
 
-                for (int i = 0; i < oldPanels.length; i++) {  // remove old panels
-                   Container wrapper = oldPanels[i].getParent();
-                    if (wrapper != null) {
-                      Container parent = wrapper.getParent();
-                      if (parent != null)
-                          parent.remove(wrapper);  // remove from hierarchy
-                      oldPanels[i].uninstallChooserPanel(chooser); // uninstall
+                for (int i = 0; i < oldPbnfls.lfngti; i++) {  // rfmovf old pbnfls
+                   Contbinfr wrbppfr = oldPbnfls[i].gftPbrfnt();
+                    if (wrbppfr != null) {
+                      Contbinfr pbrfnt = wrbppfr.gftPbrfnt();
+                      if (pbrfnt != null)
+                          pbrfnt.rfmovf(wrbppfr);  // rfmovf from iifrbrdiy
+                      oldPbnfls[i].uninstbllCioosfrPbnfl(dioosfr); // uninstbll
                     }
                 }
 
-                int numNewPanels = newPanels.length;
-                if (numNewPanels == 0) {  // removed all panels and added none
-                    chooser.remove(tabbedPane);
-                    return;
+                int numNfwPbnfls = nfwPbnfls.lfngti;
+                if (numNfwPbnfls == 0) {  // rfmovfd bll pbnfls bnd bddfd nonf
+                    dioosfr.rfmovf(tbbbfdPbnf);
+                    rfturn;
                 }
-                else if (numNewPanels == 1) {  // one panel case
-                    chooser.remove(tabbedPane);
-                    JPanel centerWrapper = new JPanel( new CenterLayout() );
-                    centerWrapper.setInheritsPopupMenu(true);
-                    centerWrapper.add(newPanels[0]);
-                    singlePanel.add(centerWrapper, BorderLayout.CENTER);
-                    chooser.add(singlePanel);
+                flsf if (numNfwPbnfls == 1) {  // onf pbnfl dbsf
+                    dioosfr.rfmovf(tbbbfdPbnf);
+                    JPbnfl dfntfrWrbppfr = nfw JPbnfl( nfw CfntfrLbyout() );
+                    dfntfrWrbppfr.sftInifritsPopupMfnu(truf);
+                    dfntfrWrbppfr.bdd(nfwPbnfls[0]);
+                    singlfPbnfl.bdd(dfntfrWrbppfr, BordfrLbyout.CENTER);
+                    dioosfr.bdd(singlfPbnfl);
                 }
-                else {   // multi-panel case
-                    if ( oldPanels.length < 2 ) {// moving from single to multiple
-                        chooser.remove(singlePanel);
-                        chooser.add(tabbedPane, BorderLayout.CENTER);
+                flsf {   // multi-pbnfl dbsf
+                    if ( oldPbnfls.lfngti < 2 ) {// moving from singlf to multiplf
+                        dioosfr.rfmovf(singlfPbnfl);
+                        dioosfr.bdd(tbbbfdPbnf, BordfrLbyout.CENTER);
                     }
 
-                    for (int i = 0; i < newPanels.length; i++) {
-                        JPanel centerWrapper = new JPanel( new CenterLayout() );
-                        centerWrapper.setInheritsPopupMenu(true);
-                        String name = newPanels[i].getDisplayName();
-                        int mnemonic = newPanels[i].getMnemonic();
-                        centerWrapper.add(newPanels[i]);
-                        tabbedPane.addTab(name, centerWrapper);
-                        if (mnemonic > 0) {
-                            tabbedPane.setMnemonicAt(i, mnemonic);
-                            int index = newPanels[i].getDisplayedMnemonicIndex();
-                            if (index >= 0) {
-                                tabbedPane.setDisplayedMnemonicIndexAt(i, index);
+                    for (int i = 0; i < nfwPbnfls.lfngti; i++) {
+                        JPbnfl dfntfrWrbppfr = nfw JPbnfl( nfw CfntfrLbyout() );
+                        dfntfrWrbppfr.sftInifritsPopupMfnu(truf);
+                        String nbmf = nfwPbnfls[i].gftDisplbyNbmf();
+                        int mnfmonid = nfwPbnfls[i].gftMnfmonid();
+                        dfntfrWrbppfr.bdd(nfwPbnfls[i]);
+                        tbbbfdPbnf.bddTbb(nbmf, dfntfrWrbppfr);
+                        if (mnfmonid > 0) {
+                            tbbbfdPbnf.sftMnfmonidAt(i, mnfmonid);
+                            int indfx = nfwPbnfls[i].gftDisplbyfdMnfmonidIndfx();
+                            if (indfx >= 0) {
+                                tbbbfdPbnf.sftDisplbyfdMnfmonidIndfxAt(i, indfx);
                             }
                         }
                     }
                 }
-                chooser.applyComponentOrientation(chooser.getComponentOrientation());
-                for (int i = 0; i < newPanels.length; i++) {
-                    newPanels[i].installChooserPanel(chooser);
+                dioosfr.bpplyComponfntOrifntbtion(dioosfr.gftComponfntOrifntbtion());
+                for (int i = 0; i < nfwPbnfls.lfngti; i++) {
+                    nfwPbnfls[i].instbllCioosfrPbnfl(dioosfr);
                 }
             }
-            else if (prop == JColorChooser.PREVIEW_PANEL_PROPERTY) {
-                uninstallPreviewPanel();
-                installPreviewPanel();
+            flsf if (prop == JColorCioosfr.PREVIEW_PANEL_PROPERTY) {
+                uninstbllPrfvifwPbnfl();
+                instbllPrfvifwPbnfl();
             }
-            else if (prop == JColorChooser.SELECTION_MODEL_PROPERTY) {
-                ColorSelectionModel oldModel = (ColorSelectionModel) evt.getOldValue();
-                oldModel.removeChangeListener(previewListener);
-                ColorSelectionModel newModel = (ColorSelectionModel) evt.getNewValue();
-                newModel.addChangeListener(previewListener);
-                selectionChanged(newModel);
+            flsf if (prop == JColorCioosfr.SELECTION_MODEL_PROPERTY) {
+                ColorSflfdtionModfl oldModfl = (ColorSflfdtionModfl) fvt.gftOldVbluf();
+                oldModfl.rfmovfCibngfListfnfr(prfvifwListfnfr);
+                ColorSflfdtionModfl nfwModfl = (ColorSflfdtionModfl) fvt.gftNfwVbluf();
+                nfwModfl.bddCibngfListfnfr(prfvifwListfnfr);
+                sflfdtionCibngfd(nfwModfl);
             }
-            else if (prop == "componentOrientation") {
-                ComponentOrientation o =
-                    (ComponentOrientation)evt.getNewValue();
-                JColorChooser cc = (JColorChooser)evt.getSource();
-                if (o != (ComponentOrientation)evt.getOldValue()) {
-                    cc.applyComponentOrientation(o);
-                    cc.updateUI();
+            flsf if (prop == "domponfntOrifntbtion") {
+                ComponfntOrifntbtion o =
+                    (ComponfntOrifntbtion)fvt.gftNfwVbluf();
+                JColorCioosfr dd = (JColorCioosfr)fvt.gftSourdf();
+                if (o != (ComponfntOrifntbtion)fvt.gftOldVbluf()) {
+                    dd.bpplyComponfntOrifntbtion(o);
+                    dd.updbtfUI();
                 }
             }
         }
     }
 
     /**
-     * This class should be treated as a &quot;protected&quot; inner class.
-     * Instantiate it only within subclasses of {@code BasicColorChooserUI}.
+     * Tiis dlbss siould bf trfbtfd bs b &quot;protfdtfd&quot; innfr dlbss.
+     * Instbntibtf it only witiin subdlbssfs of {@dodf BbsidColorCioosfrUI}.
      */
-    public class PropertyHandler implements PropertyChangeListener {
-        public void propertyChange(PropertyChangeEvent e) {
-            getHandler().propertyChange(e);
+    publid dlbss PropfrtyHbndlfr implfmfnts PropfrtyCibngfListfnfr {
+        publid void propfrtyCibngf(PropfrtyCibngfEvfnt f) {
+            gftHbndlfr().propfrtyCibngf(f);
         }
     }
 
-    @SuppressWarnings("serial") // JDK-implementation class
-    static class ColorTransferHandler extends TransferHandler implements UIResource {
+    @SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+    stbtid dlbss ColorTrbnsffrHbndlfr fxtfnds TrbnsffrHbndlfr implfmfnts UIRfsourdf {
 
-        ColorTransferHandler() {
-            super("color");
+        ColorTrbnsffrHbndlfr() {
+            supfr("dolor");
         }
     }
 }

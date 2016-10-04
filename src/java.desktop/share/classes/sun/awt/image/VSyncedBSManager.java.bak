@@ -1,119 +1,119 @@
 /*
- * Copyright (c) 2007, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.image;
+pbdkbgf sun.bwt.imbgf;
 
-import java.awt.image.BufferStrategy;
-import java.lang.ref.WeakReference;
+import jbvb.bwt.imbgf.BufffrStrbtfgy;
+import jbvb.lbng.rff.WfbkRfffrfndf;
 
 /**
- * Manages v-synced buffer strategies.
+ * Mbnbgfs v-syndfd bufffr strbtfgifs.
  */
-public abstract class VSyncedBSManager {
+publid bbstrbdt dlbss VSyndfdBSMbnbgfr {
 
-    private static VSyncedBSManager theInstance;
+    privbtf stbtid VSyndfdBSMbnbgfr tifInstbndf;
 
-    private static final boolean vSyncLimit =
-        Boolean.valueOf(java.security.AccessController.doPrivileged(
-                new sun.security.action.GetPropertyAction(
-                    "sun.java2d.vsynclimit", "true")));
+    privbtf stbtid finbl boolfbn vSyndLimit =
+        Boolfbn.vblufOf(jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                nfw sun.sfdurity.bdtion.GftPropfrtyAdtion(
+                    "sun.jbvb2d.vsyndlimit", "truf")));
 
-    private static VSyncedBSManager getInstance(boolean create) {
-        if (theInstance == null && create) {
-            theInstance =
-                vSyncLimit ? new SingleVSyncedBSMgr() : new NoLimitVSyncBSMgr();
+    privbtf stbtid VSyndfdBSMbnbgfr gftInstbndf(boolfbn drfbtf) {
+        if (tifInstbndf == null && drfbtf) {
+            tifInstbndf =
+                vSyndLimit ? nfw SinglfVSyndfdBSMgr() : nfw NoLimitVSyndBSMgr();
         }
-        return theInstance;
+        rfturn tifInstbndf;
     }
 
-    abstract boolean checkAllowed(BufferStrategy bs);
-    abstract void relinquishVsync(BufferStrategy bs);
+    bbstrbdt boolfbn difdkAllowfd(BufffrStrbtfgy bs);
+    bbstrbdt void rflinquisiVsynd(BufffrStrbtfgy bs);
 
     /**
-     * Returns true if the buffer strategy is allowed to be created
-     * v-synced.
+     * Rfturns truf if tif bufffr strbtfgy is bllowfd to bf drfbtfd
+     * v-syndfd.
      *
-     * @return true if the bs is allowed to be v-synced, false otherwise
+     * @rfturn truf if tif bs is bllowfd to bf v-syndfd, fblsf otifrwisf
      */
-    public static boolean vsyncAllowed(BufferStrategy bs) {
-        VSyncedBSManager bsm = getInstance(true);
-        return bsm.checkAllowed(bs);
+    publid stbtid boolfbn vsyndAllowfd(BufffrStrbtfgy bs) {
+        VSyndfdBSMbnbgfr bsm = gftInstbndf(truf);
+        rfturn bsm.difdkAllowfd(bs);
     }
 
     /**
-     * Lets the manager know that this buffer strategy is no longer interested
-     * in being v-synced.
+     * Lfts tif mbnbgfr know tibt tiis bufffr strbtfgy is no longfr intfrfstfd
+     * in bfing v-syndfd.
      */
-    public static synchronized void releaseVsync(BufferStrategy bs) {
-        VSyncedBSManager bsm = getInstance(false);
+    publid stbtid syndironizfd void rflfbsfVsynd(BufffrStrbtfgy bs) {
+        VSyndfdBSMbnbgfr bsm = gftInstbndf(fblsf);
         if (bsm != null) {
-            bsm.relinquishVsync(bs);
+            bsm.rflinquisiVsynd(bs);
         }
     }
 
     /**
-     * An instance of the manager which allows any buffer strategy to be
-     * v-synced.
+     * An instbndf of tif mbnbgfr wiidi bllows bny bufffr strbtfgy to bf
+     * v-syndfd.
      */
-    private static final class NoLimitVSyncBSMgr extends VSyncedBSManager {
-        @Override
-        boolean checkAllowed(BufferStrategy bs) {
-            return true;
+    privbtf stbtid finbl dlbss NoLimitVSyndBSMgr fxtfnds VSyndfdBSMbnbgfr {
+        @Ovfrridf
+        boolfbn difdkAllowfd(BufffrStrbtfgy bs) {
+            rfturn truf;
         }
 
-        @Override
-        void relinquishVsync(BufferStrategy bs) {
+        @Ovfrridf
+        void rflinquisiVsynd(BufffrStrbtfgy bs) {
         }
     }
 
     /**
-     * An instance of the manager which allows only one buffer strategy to
-     * be v-synced at any give moment in the vm.
+     * An instbndf of tif mbnbgfr wiidi bllows only onf bufffr strbtfgy to
+     * bf v-syndfd bt bny givf momfnt in tif vm.
      */
-    private static final class SingleVSyncedBSMgr extends VSyncedBSManager {
-        private WeakReference<BufferStrategy> strategy;
+    privbtf stbtid finbl dlbss SinglfVSyndfdBSMgr fxtfnds VSyndfdBSMbnbgfr {
+        privbtf WfbkRfffrfndf<BufffrStrbtfgy> strbtfgy;
 
-        @Override
-        public synchronized boolean checkAllowed(BufferStrategy bs) {
-            if (strategy != null) {
-                BufferStrategy current = strategy.get();
-                if (current != null) {
-                    return (current == bs);
+        @Ovfrridf
+        publid syndironizfd boolfbn difdkAllowfd(BufffrStrbtfgy bs) {
+            if (strbtfgy != null) {
+                BufffrStrbtfgy durrfnt = strbtfgy.gft();
+                if (durrfnt != null) {
+                    rfturn (durrfnt == bs);
                 }
             }
-            strategy = new WeakReference<BufferStrategy>(bs);
-            return true;
+            strbtfgy = nfw WfbkRfffrfndf<BufffrStrbtfgy>(bs);
+            rfturn truf;
         }
 
-        @Override
-        public synchronized void relinquishVsync(BufferStrategy bs) {
-            if (strategy != null) {
-                BufferStrategy b = strategy.get();
+        @Ovfrridf
+        publid syndironizfd void rflinquisiVsynd(BufffrStrbtfgy bs) {
+            if (strbtfgy != null) {
+                BufffrStrbtfgy b = strbtfgy.gft();
                 if (b == bs) {
-                    strategy.clear();
-                    strategy = null;
+                    strbtfgy.dlfbr();
+                    strbtfgy = null;
                 }
             }
         }

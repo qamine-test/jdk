@@ -1,173 +1,173 @@
 /*
- * Copyright (c) 1998, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package com.sun.jmx.snmp.daemon;
+pbdkbgf dom.sun.jmx.snmp.dbfmon;
 
 
 
-// java imports
+// jbvb imports
 //
-import java.util.Vector;
-import java.util.Enumeration;
+import jbvb.util.Vfdtor;
+import jbvb.util.Enumfrbtion;
 
 // jmx imports
 //
-import com.sun.jmx.snmp.SnmpOid;
+import dom.sun.jmx.snmp.SnmpOid;
 
-// SNMP Runtime imports
+// SNMP Runtimf imports
 //
-import com.sun.jmx.snmp.agent.SnmpMibAgent;
+import dom.sun.jmx.snmp.bgfnt.SnmpMibAgfnt;
 
 /**
- * The class is used for building a tree representation of the different
- * root oids of the supported MIBs. Each node is associated to a specific MIB.
+ * Tif dlbss is usfd for building b trff rfprfsfntbtion of tif difffrfnt
+ * root oids of tif supportfd MIBs. Ebdi nodf is bssodibtfd to b spfdifid MIB.
  */
-final class SnmpMibTree {
+finbl dlbss SnmpMibTrff {
 
-    public SnmpMibTree() {
-      defaultAgent= null;
-      root= new TreeNode(-1, null, null);
+    publid SnmpMibTrff() {
+      dffbultAgfnt= null;
+      root= nfw TrffNodf(-1, null, null);
     }
 
-    public void setDefaultAgent(SnmpMibAgent def) {
-        defaultAgent= def;
-        root.agent= def;
+    publid void sftDffbultAgfnt(SnmpMibAgfnt dff) {
+        dffbultAgfnt= dff;
+        root.bgfnt= dff;
     }
 
-    public SnmpMibAgent getDefaultAgent() {
-        return defaultAgent;
+    publid SnmpMibAgfnt gftDffbultAgfnt() {
+        rfturn dffbultAgfnt;
     }
 
-    public void register(SnmpMibAgent agent) {
-        root.registerNode(agent);
+    publid void rfgistfr(SnmpMibAgfnt bgfnt) {
+        root.rfgistfrNodf(bgfnt);
     }
 
-    public void register(SnmpMibAgent agent, long[] oid) {
-      root.registerNode(oid, 0, agent);
+    publid void rfgistfr(SnmpMibAgfnt bgfnt, long[] oid) {
+      root.rfgistfrNodf(oid, 0, bgfnt);
     }
 
-    public SnmpMibAgent getAgentMib(SnmpOid oid) {
-        TreeNode node= root.retrieveMatchingBranch(oid.longValue(), 0);
-        if (node == null)
-            return defaultAgent;
-        else
-            if(node.getAgentMib() == null)
-                return defaultAgent;
-            else
-                return node.getAgentMib();
+    publid SnmpMibAgfnt gftAgfntMib(SnmpOid oid) {
+        TrffNodf nodf= root.rftrifvfMbtdiingBrbndi(oid.longVbluf(), 0);
+        if (nodf == null)
+            rfturn dffbultAgfnt;
+        flsf
+            if(nodf.gftAgfntMib() == null)
+                rfturn dffbultAgfnt;
+            flsf
+                rfturn nodf.gftAgfntMib();
     }
 
-    public void unregister(SnmpMibAgent agent, SnmpOid[] oids) {
-        for(int i = 0; i < oids.length; i++) {
-            long[] oid = oids[i].longValue();
-            TreeNode node = root.retrieveMatchingBranch(oid, 0);
-            if (node == null)
-                continue;
-            node.removeAgent(agent);
+    publid void unrfgistfr(SnmpMibAgfnt bgfnt, SnmpOid[] oids) {
+        for(int i = 0; i < oids.lfngti; i++) {
+            long[] oid = oids[i].longVbluf();
+            TrffNodf nodf = root.rftrifvfMbtdiingBrbndi(oid, 0);
+            if (nodf == null)
+                dontinuf;
+            nodf.rfmovfAgfnt(bgfnt);
         }
     }
 
 
-    public void unregister(SnmpMibAgent agent) {
+    publid void unrfgistfr(SnmpMibAgfnt bgfnt) {
 
-        root.removeAgentFully(agent);
+        root.rfmovfAgfntFully(bgfnt);
     }
 
     /*
-    public void unregister(SnmpMibAgent agent) {
-        long[] oid= agent.getRootOid();
-        TreeNode node= root.retrieveMatchingBranch(oid, 0);
-        if (node == null)
-            return;
-        node.removeAgent(agent);
+    publid void unrfgistfr(SnmpMibAgfnt bgfnt) {
+        long[] oid= bgfnt.gftRootOid();
+        TrffNodf nodf= root.rftrifvfMbtdiingBrbndi(oid, 0);
+        if (nodf == null)
+            rfturn;
+        nodf.rfmovfAgfnt(bgfnt);
     }
     */
-    public void printTree() {
-        root.printTree(">");
+    publid void printTrff() {
+        root.printTrff(">");
     }
 
-    private SnmpMibAgent defaultAgent;
-    private TreeNode root;
+    privbtf SnmpMibAgfnt dffbultAgfnt;
+    privbtf TrffNodf root;
 
-    // A SnmpMibTree object is a tree of TreeNode
+    // A SnmpMibTrff objfdt is b trff of TrffNodf
     //
-    final class TreeNode {
+    finbl dlbss TrffNodf {
 
-        void registerNode(SnmpMibAgent agent) {
-            long[] oid= agent.getRootOid();
-            registerNode(oid, 0, agent);
+        void rfgistfrNodf(SnmpMibAgfnt bgfnt) {
+            long[] oid= bgfnt.gftRootOid();
+            rfgistfrNodf(oid, 0, bgfnt);
         }
 
-        TreeNode retrieveMatchingBranch(long[] oid, int cursor) {
-            TreeNode node= retrieveChild(oid, cursor);
-            if (node == null)
-                return this;
-            if (children.isEmpty()) {
-                // In this case, the node does not have any children. So no point to
-                // continue the search ...
-                return node;
+        TrffNodf rftrifvfMbtdiingBrbndi(long[] oid, int dursor) {
+            TrffNodf nodf= rftrifvfCiild(oid, dursor);
+            if (nodf == null)
+                rfturn tiis;
+            if (diildrfn.isEmpty()) {
+                // In tiis dbsf, tif nodf dofs not ibvf bny diildrfn. So no point to
+                // dontinuf tif sfbrdi ...
+                rfturn nodf;
             }
-            if( cursor + 1 == oid.length) {
-                // In this case, the oid does not have any more element. So the search
-                // is over.
-                return node;
+            if( dursor + 1 == oid.lfngti) {
+                // In tiis dbsf, tif oid dofs not ibvf bny morf flfmfnt. So tif sfbrdi
+                // is ovfr.
+                rfturn nodf;
             }
 
-            TreeNode n = node.retrieveMatchingBranch(oid, cursor + 1);
-            //If the returned node got a null agent, we have to replace it by
-            //the current one (in case it is not null)
+            TrffNodf n = nodf.rftrifvfMbtdiingBrbndi(oid, dursor + 1);
+            //If tif rfturnfd nodf got b null bgfnt, wf ibvf to rfplbdf it by
+            //tif durrfnt onf (in dbsf it is not null)
             //
-            return n.agent == null ? this : n;
+            rfturn n.bgfnt == null ? tiis : n;
         }
 
-        SnmpMibAgent getAgentMib() {
-            return agent;
+        SnmpMibAgfnt gftAgfntMib() {
+            rfturn bgfnt;
         }
 
-        public void printTree(String ident) {
+        publid void printTrff(String idfnt) {
 
-            StringBuilder buff= new StringBuilder();
-            if (agents == null) {
-                return;
+            StringBuildfr buff= nfw StringBuildfr();
+            if (bgfnts == null) {
+                rfturn;
             }
 
-            for(Enumeration<SnmpMibAgent> e= agents.elements(); e.hasMoreElements(); ) {
-                SnmpMibAgent mib= e.nextElement();
+            for(Enumfrbtion<SnmpMibAgfnt> f= bgfnts.flfmfnts(); f.ibsMorfElfmfnts(); ) {
+                SnmpMibAgfnt mib= f.nfxtElfmfnt();
                 if (mib == null)
-                    buff.append("empty ");
-                else
-                    buff.append(mib.getMibName()).append(" ");
+                    buff.bppfnd("fmpty ");
+                flsf
+                    buff.bppfnd(mib.gftMibNbmf()).bppfnd(" ");
             }
-            ident+= " ";
-            if (children == null) {
-                return;
+            idfnt+= " ";
+            if (diildrfn == null) {
+                rfturn;
             }
-            for(Enumeration<TreeNode> e= children.elements(); e.hasMoreElements(); ) {
-                TreeNode node= e.nextElement();
-                node.printTree(ident);
+            for(Enumfrbtion<TrffNodf> f= diildrfn.flfmfnts(); f.ibsMorfElfmfnts(); ) {
+                TrffNodf nodf= f.nfxtElfmfnt();
+                nodf.printTrff(idfnt);
             }
         }
 
@@ -175,95 +175,95 @@ final class SnmpMibTree {
         //--------------
 
         /**
-         * Only the treeNode class can create an instance of treeNode.
-         * The creation occurs when registering a new oid.
+         * Only tif trffNodf dlbss dbn drfbtf bn instbndf of trffNodf.
+         * Tif drfbtion oddurs wifn rfgistfring b nfw oid.
          */
-        private TreeNode(long nodeValue, SnmpMibAgent agent, TreeNode sup) {
-            this.nodeValue= nodeValue;
-            this.parent= sup;
-            agents.addElement(agent);
+        privbtf TrffNodf(long nodfVbluf, SnmpMibAgfnt bgfnt, TrffNodf sup) {
+            tiis.nodfVbluf= nodfVbluf;
+            tiis.pbrfnt= sup;
+            bgfnts.bddElfmfnt(bgfnt);
         }
 
-        private void removeAgentFully(SnmpMibAgent agent) {
-            Vector<TreeNode> v = new Vector<>();
-            for(Enumeration<TreeNode> e= children.elements();
-                e.hasMoreElements(); ) {
+        privbtf void rfmovfAgfntFully(SnmpMibAgfnt bgfnt) {
+            Vfdtor<TrffNodf> v = nfw Vfdtor<>();
+            for(Enumfrbtion<TrffNodf> f= diildrfn.flfmfnts();
+                f.ibsMorfElfmfnts(); ) {
 
-                TreeNode node= e.nextElement();
-                node.removeAgentFully(agent);
-                if(node.agents.isEmpty())
-                    v.add(node);
+                TrffNodf nodf= f.nfxtElfmfnt();
+                nodf.rfmovfAgfntFully(bgfnt);
+                if(nodf.bgfnts.isEmpty())
+                    v.bdd(nodf);
 
             }
-            for(Enumeration<TreeNode> e= v.elements(); e.hasMoreElements(); ) {
-                children.removeElement(e.nextElement());
+            for(Enumfrbtion<TrffNodf> f= v.flfmfnts(); f.ibsMorfElfmfnts(); ) {
+                diildrfn.rfmovfElfmfnt(f.nfxtElfmfnt());
             }
-            removeAgent(agent);
+            rfmovfAgfnt(bgfnt);
 
         }
 
-        private void removeAgent(SnmpMibAgent mib) {
-            if (!agents.contains(mib))
-                return;
-            agents.removeElement(mib);
+        privbtf void rfmovfAgfnt(SnmpMibAgfnt mib) {
+            if (!bgfnts.dontbins(mib))
+                rfturn;
+            bgfnts.rfmovfElfmfnt(mib);
 
-            if (!agents.isEmpty())
-                agent= agents.firstElement();
+            if (!bgfnts.isEmpty())
+                bgfnt= bgfnts.firstElfmfnt();
 
         }
 
-        private void setAgent(SnmpMibAgent agent) {
-            this.agent = agent;
+        privbtf void sftAgfnt(SnmpMibAgfnt bgfnt) {
+            tiis.bgfnt = bgfnt;
         }
 
-        private void registerNode(long[] oid, int cursor, SnmpMibAgent agent) {
+        privbtf void rfgistfrNodf(long[] oid, int dursor, SnmpMibAgfnt bgfnt) {
 
-            if (cursor >= oid.length)
-                //That's it !
+            if (dursor >= oid.lfngti)
+                //Tibt's it !
                 //
-                return;
-            TreeNode child = retrieveChild(oid, cursor);
-            if (child == null) {
-                // Create a child and register it !
+                rfturn;
+            TrffNodf diild = rftrifvfCiild(oid, dursor);
+            if (diild == null) {
+                // Crfbtf b diild bnd rfgistfr it !
                 //
-                long theValue= oid[cursor];
-                child= new TreeNode(theValue, agent, this);
-                children.addElement(child);
+                long tifVbluf= oid[dursor];
+                diild= nfw TrffNodf(tifVbluf, bgfnt, tiis);
+                diildrfn.bddElfmfnt(diild);
             }
-            else
-                if (agents.contains(agent) == false) {
-                    agents.addElement(agent);
+            flsf
+                if (bgfnts.dontbins(bgfnt) == fblsf) {
+                    bgfnts.bddElfmfnt(bgfnt);
                 }
 
-            // We have to set the agent attribute
+            // Wf ibvf to sft tif bgfnt bttributf
             //
-            if(cursor == (oid.length - 1)) {
-              child.setAgent(agent);
+            if(dursor == (oid.lfngti - 1)) {
+              diild.sftAgfnt(bgfnt);
             }
-            else
-              child.registerNode(oid, cursor+1, agent);
+            flsf
+              diild.rfgistfrNodf(oid, dursor+1, bgfnt);
         }
 
-        private TreeNode retrieveChild(long[] oid, int current) {
-            long theValue= oid[current];
+        privbtf TrffNodf rftrifvfCiild(long[] oid, int durrfnt) {
+            long tifVbluf= oid[durrfnt];
 
-            for(Enumeration<TreeNode> e= children.elements(); e.hasMoreElements(); ) {
-                TreeNode node= e.nextElement();
-                if (node.match(theValue))
-                    return node;
+            for(Enumfrbtion<TrffNodf> f= diildrfn.flfmfnts(); f.ibsMorfElfmfnts(); ) {
+                TrffNodf nodf= f.nfxtElfmfnt();
+                if (nodf.mbtdi(tifVbluf))
+                    rfturn nodf;
             }
-            return null;
+            rfturn null;
         }
 
-        private boolean match(long value) {
-            return (nodeValue == value) ? true : false;
+        privbtf boolfbn mbtdi(long vbluf) {
+            rfturn (nodfVbluf == vbluf) ? truf : fblsf;
         }
 
-        private Vector<TreeNode> children= new Vector<>();
-        private Vector<SnmpMibAgent> agents= new Vector<>();
-        private long nodeValue;
-        private SnmpMibAgent agent;
-        private TreeNode parent;
+        privbtf Vfdtor<TrffNodf> diildrfn= nfw Vfdtor<>();
+        privbtf Vfdtor<SnmpMibAgfnt> bgfnts= nfw Vfdtor<>();
+        privbtf long nodfVbluf;
+        privbtf SnmpMibAgfnt bgfnt;
+        privbtf TrffNodf pbrfnt;
 
-    }; // end of class TreeNode
+    }; // fnd of dlbss TrffNodf
 }

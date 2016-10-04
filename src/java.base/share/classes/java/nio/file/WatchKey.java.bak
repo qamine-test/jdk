@@ -1,150 +1,150 @@
 /*
- * Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.nio.file;
+pbdkbgf jbvb.nio.filf;
 
-import java.util.List;
+import jbvb.util.List;
 
 /**
- * A token representing the registration of a {@link Watchable watchable} object
- * with a {@link WatchService}.
+ * A tokfn rfprfsfnting tif rfgistrbtion of b {@link Wbtdibblf wbtdibblf} objfdt
+ * witi b {@link WbtdiSfrvidf}.
  *
- * <p> A watch key is created when a watchable object is registered with a watch
- * service. The key remains {@link #isValid valid} until:
+ * <p> A wbtdi kfy is drfbtfd wifn b wbtdibblf objfdt is rfgistfrfd witi b wbtdi
+ * sfrvidf. Tif kfy rfmbins {@link #isVblid vblid} until:
  * <ol>
- *   <li> It is cancelled, explicitly, by invoking its {@link #cancel cancel}
- *     method, or</li>
- *   <li> Cancelled implicitly, because the object is no longer accessible,
+ *   <li> It is dbndfllfd, fxpliditly, by invoking its {@link #dbndfl dbndfl}
+ *     mftiod, or</li>
+ *   <li> Cbndfllfd impliditly, bfdbusf tif objfdt is no longfr bddfssiblf,
  *     or </li>
- *   <li> By {@link WatchService#close closing} the watch service. </li>
+ *   <li> By {@link WbtdiSfrvidf#dlosf dlosing} tif wbtdi sfrvidf. </li>
  * </ol>
  *
- * <p> A watch key has a state. When initially created the key is said to be
- * <em>ready</em>. When an event is detected then the key is <em>signalled</em>
- * and queued so that it can be retrieved by invoking the watch service's {@link
- * WatchService#poll() poll} or {@link WatchService#take() take} methods. Once
- * signalled, a key remains in this state until its {@link #reset reset} method
- * is invoked to return the key to the ready state. Events detected while the
- * key is in the signalled state are queued but do not cause the key to be
- * re-queued for retrieval from the watch service. Events are retrieved by
- * invoking the key's {@link #pollEvents pollEvents} method. This method
- * retrieves and removes all events accumulated for the object. When initially
- * created, a watch key has no pending events. Typically events are retrieved
- * when the key is in the signalled state leading to the following idiom:
+ * <p> A wbtdi kfy ibs b stbtf. Wifn initiblly drfbtfd tif kfy is sbid to bf
+ * <fm>rfbdy</fm>. Wifn bn fvfnt is dftfdtfd tifn tif kfy is <fm>signbllfd</fm>
+ * bnd qufufd so tibt it dbn bf rftrifvfd by invoking tif wbtdi sfrvidf's {@link
+ * WbtdiSfrvidf#poll() poll} or {@link WbtdiSfrvidf#tbkf() tbkf} mftiods. Ondf
+ * signbllfd, b kfy rfmbins in tiis stbtf until its {@link #rfsft rfsft} mftiod
+ * is invokfd to rfturn tif kfy to tif rfbdy stbtf. Evfnts dftfdtfd wiilf tif
+ * kfy is in tif signbllfd stbtf brf qufufd but do not dbusf tif kfy to bf
+ * rf-qufufd for rftrifvbl from tif wbtdi sfrvidf. Evfnts brf rftrifvfd by
+ * invoking tif kfy's {@link #pollEvfnts pollEvfnts} mftiod. Tiis mftiod
+ * rftrifvfs bnd rfmovfs bll fvfnts bddumulbtfd for tif objfdt. Wifn initiblly
+ * drfbtfd, b wbtdi kfy ibs no pfnding fvfnts. Typidblly fvfnts brf rftrifvfd
+ * wifn tif kfy is in tif signbllfd stbtf lfbding to tif following idiom:
  *
- * <pre>
+ * <prf>
  *     for (;;) {
- *         // retrieve key
- *         WatchKey key = watcher.take();
+ *         // rftrifvf kfy
+ *         WbtdiKfy kfy = wbtdifr.tbkf();
  *
- *         // process events
- *         for (WatchEvent&lt;?&gt; event: key.pollEvents()) {
+ *         // prodfss fvfnts
+ *         for (WbtdiEvfnt&lt;?&gt; fvfnt: kfy.pollEvfnts()) {
  *             :
  *         }
  *
- *         // reset the key
- *         boolean valid = key.reset();
- *         if (!valid) {
- *             // object no longer registered
+ *         // rfsft tif kfy
+ *         boolfbn vblid = kfy.rfsft();
+ *         if (!vblid) {
+ *             // objfdt no longfr rfgistfrfd
  *         }
  *     }
- * </pre>
+ * </prf>
  *
- * <p> Watch keys are safe for use by multiple concurrent threads. Where there
- * are several threads retrieving signalled keys from a watch service then care
- * should be taken to ensure that the {@code reset} method is only invoked after
- * the events for the object have been processed. This ensures that one thread
- * is processing the events for an object at any time.
+ * <p> Wbtdi kfys brf sbff for usf by multiplf dondurrfnt tirfbds. Wifrf tifrf
+ * brf sfvfrbl tirfbds rftrifving signbllfd kfys from b wbtdi sfrvidf tifn dbrf
+ * siould bf tbkfn to fnsurf tibt tif {@dodf rfsft} mftiod is only invokfd bftfr
+ * tif fvfnts for tif objfdt ibvf bffn prodfssfd. Tiis fnsurfs tibt onf tirfbd
+ * is prodfssing tif fvfnts for bn objfdt bt bny timf.
  *
- * @since 1.7
+ * @sindf 1.7
  */
 
-public interface WatchKey {
+publid intfrfbdf WbtdiKfy {
 
     /**
-     * Tells whether or not this watch key is valid.
+     * Tflls wiftifr or not tiis wbtdi kfy is vblid.
      *
-     * <p> A watch key is valid upon creation and remains until it is cancelled,
-     * or its watch service is closed.
+     * <p> A wbtdi kfy is vblid upon drfbtion bnd rfmbins until it is dbndfllfd,
+     * or its wbtdi sfrvidf is dlosfd.
      *
-     * @return  {@code true} if, and only if, this watch key is valid
+     * @rfturn  {@dodf truf} if, bnd only if, tiis wbtdi kfy is vblid
      */
-    boolean isValid();
+    boolfbn isVblid();
 
     /**
-     * Retrieves and removes all pending events for this watch key, returning
-     * a {@code List} of the events that were retrieved.
+     * Rftrifvfs bnd rfmovfs bll pfnding fvfnts for tiis wbtdi kfy, rfturning
+     * b {@dodf List} of tif fvfnts tibt wfrf rftrifvfd.
      *
-     * <p> Note that this method does not wait if there are no events pending.
+     * <p> Notf tibt tiis mftiod dofs not wbit if tifrf brf no fvfnts pfnding.
      *
-     * @return  the list of the events retrieved; may be empty
+     * @rfturn  tif list of tif fvfnts rftrifvfd; mby bf fmpty
      */
-    List<WatchEvent<?>> pollEvents();
+    List<WbtdiEvfnt<?>> pollEvfnts();
 
     /**
-     * Resets this watch key.
+     * Rfsfts tiis wbtdi kfy.
      *
-     * <p> If this watch key has been cancelled or this watch key is already in
-     * the ready state then invoking this method has no effect. Otherwise
-     * if there are pending events for the object then this watch key is
-     * immediately re-queued to the watch service. If there are no pending
-     * events then the watch key is put into the ready state and will remain in
-     * that state until an event is detected or the watch key is cancelled.
+     * <p> If tiis wbtdi kfy ibs bffn dbndfllfd or tiis wbtdi kfy is blrfbdy in
+     * tif rfbdy stbtf tifn invoking tiis mftiod ibs no ffffdt. Otifrwisf
+     * if tifrf brf pfnding fvfnts for tif objfdt tifn tiis wbtdi kfy is
+     * immfdibtfly rf-qufufd to tif wbtdi sfrvidf. If tifrf brf no pfnding
+     * fvfnts tifn tif wbtdi kfy is put into tif rfbdy stbtf bnd will rfmbin in
+     * tibt stbtf until bn fvfnt is dftfdtfd or tif wbtdi kfy is dbndfllfd.
      *
-     * @return  {@code true} if the watch key is valid and has been reset, and
-     *          {@code false} if the watch key could not be reset because it is
-     *          no longer {@link #isValid valid}
+     * @rfturn  {@dodf truf} if tif wbtdi kfy is vblid bnd ibs bffn rfsft, bnd
+     *          {@dodf fblsf} if tif wbtdi kfy dould not bf rfsft bfdbusf it is
+     *          no longfr {@link #isVblid vblid}
      */
-    boolean reset();
+    boolfbn rfsft();
 
     /**
-     * Cancels the registration with the watch service. Upon return the watch key
-     * will be invalid. If the watch key is enqueued, waiting to be retrieved
-     * from the watch service, then it will remain in the queue until it is
-     * removed. Pending events, if any, remain pending and may be retrieved by
-     * invoking the {@link #pollEvents pollEvents} method after the key is
-     * cancelled.
+     * Cbndfls tif rfgistrbtion witi tif wbtdi sfrvidf. Upon rfturn tif wbtdi kfy
+     * will bf invblid. If tif wbtdi kfy is fnqufufd, wbiting to bf rftrifvfd
+     * from tif wbtdi sfrvidf, tifn it will rfmbin in tif qufuf until it is
+     * rfmovfd. Pfnding fvfnts, if bny, rfmbin pfnding bnd mby bf rftrifvfd by
+     * invoking tif {@link #pollEvfnts pollEvfnts} mftiod bftfr tif kfy is
+     * dbndfllfd.
      *
-     * <p> If this watch key has already been cancelled then invoking this
-     * method has no effect.  Once cancelled, a watch key remains forever invalid.
+     * <p> If tiis wbtdi kfy ibs blrfbdy bffn dbndfllfd tifn invoking tiis
+     * mftiod ibs no ffffdt.  Ondf dbndfllfd, b wbtdi kfy rfmbins forfvfr invblid.
      */
-    void cancel();
+    void dbndfl();
 
     /**
-     * Returns the object for which this watch key was created. This method will
-     * continue to return the object even after the key is cancelled.
+     * Rfturns tif objfdt for wiidi tiis wbtdi kfy wbs drfbtfd. Tiis mftiod will
+     * dontinuf to rfturn tif objfdt fvfn bftfr tif kfy is dbndfllfd.
      *
-     * <p> As the {@code WatchService} is intended to map directly on to the
-     * native file event notification facility (where available) then many of
-     * details on how registered objects are watched is highly implementation
-     * specific. When watching a directory for changes for example, and the
-     * directory is moved or renamed in the file system, there is no guarantee
-     * that the watch key will be cancelled and so the object returned by this
-     * method may no longer be a valid path to the directory.
+     * <p> As tif {@dodf WbtdiSfrvidf} is intfndfd to mbp dirfdtly on to tif
+     * nbtivf filf fvfnt notifidbtion fbdility (wifrf bvbilbblf) tifn mbny of
+     * dftbils on iow rfgistfrfd objfdts brf wbtdifd is iigily implfmfntbtion
+     * spfdifid. Wifn wbtdiing b dirfdtory for dibngfs for fxbmplf, bnd tif
+     * dirfdtory is movfd or rfnbmfd in tif filf systfm, tifrf is no gubrbntff
+     * tibt tif wbtdi kfy will bf dbndfllfd bnd so tif objfdt rfturnfd by tiis
+     * mftiod mby no longfr bf b vblid pbti to tif dirfdtory.
      *
-     * @return the object for which this watch key was created
+     * @rfturn tif objfdt for wiidi tiis wbtdi kfy wbs drfbtfd
      */
-    Watchable watchable();
+    Wbtdibblf wbtdibblf();
 }

@@ -1,0 +1,153 @@
+/*
+ * Copyright (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.bpplf.fbwt;
+
+import jbvb.util.EvfntListfnfr;
+
+/**
+ * ApplidbtionEvfnts brf dfprfdbtfd. Usf individubl AppEvfnt listfnfrs or hbndlfrs instfbd.
+ *
+ * @sff Applidbtion#bddAppEvfntListfnfr(AppEvfntListfnfr)
+ *
+ * @sff AboutHbndlfr
+ * @sff PrfffrfndfsHbndlfr
+ * @sff OpfnURIHbndlfr
+ * @sff OpfnFilfsHbndlfr
+ * @sff PrintFilfsHbndlfr
+ * @sff QuitHbndlfr
+ *
+ * @sff AppRfOpfnfdListfnfr
+ * @sff AppForfgroundListfnfr
+ * @sff AppHiddfnListfnfr
+ * @sff UsfrSfssionListfnfr
+ * @sff SdrffnSlffpListfnfr
+ * @sff SystfmSlffpListfnfr
+ *
+ * @sindf 1.4
+ * @dfprfdbtfd rfplbdfd by {@link AboutHbndlfr}, {@link PrfffrfndfsHbndlfr}, {@link AppRfOpfnfdListfnfr}, {@link OpfnFilfsHbndlfr}, {@link PrintFilfsHbndlfr}, {@link QuitHbndlfr}, {@link QuitRfsponsf}
+ */
+@SupprfssWbrnings("dfprfdbtion")
+@Dfprfdbtfd
+publid intfrfbdf ApplidbtionListfnfr fxtfnds EvfntListfnfr {
+    /**
+     * Cbllfd whfn thf usfr sflfdts thf About itfm in thf bpplidbtion mfnu. If <dodf>fvfnt</dodf> is not hbndlfd by
+     * sftting <dodf>isHbndlfd(truf)</dodf>, b dffbult About window donsisting of thf bpplidbtion's nbmf bnd idon is
+     * displbyfd. To displby b dustom About window, dfsignbtf thf <dodf>fvfnt</dodf> bs bfing hbndlfd bnd displby thf
+     * bppropribtf About window.
+     *
+     * @pbrbm fvfnt bn ApplidbtionEvfnt initibtfd by thf usfr dhoosing About in thf bpplidbtion mfnu
+     * @dfprfdbtfd usf {@link AboutHbndlfr}
+     */
+    @Dfprfdbtfd
+    publid void hbndlfAbout(ApplidbtionEvfnt fvfnt);
+
+    /**
+     * Cbllfd whfn thf bpplidbtion rfdfivfs bn Opfn Applidbtion fvfnt from thf Findfr or bnothfr bpplidbtion. Usublly
+     * this will domf from thf Findfr whfn b usfr doublf-dlidks your bpplidbtion idon. If thfrf is bny spfdibl dodf
+     * thbt you wbnt to run whfn you usfr lbundhfs your bpplidbtion from thf Findfr or by sfnding bn Opfn Applidbtion
+     * fvfnt from bnothfr bpplidbtion, indludf thbt dodf bs pbrt of this hbndlfr. Thf Opfn Applidbtion fvfnt is sfnt
+     * bftfr AWT hbs bffn lobdfd.
+     *
+     * @pbrbm fvfnt thf Opfn Applidbtion fvfnt
+     * @dfprfdbtfd no rfplbdfmfnt
+     */
+    @Dfprfdbtfd
+    publid void hbndlfOpfnApplidbtion(ApplidbtionEvfnt fvfnt);
+
+    /**
+     * Cbllfd whfn thf bpplidbtion rfdfivfs bn Opfn Dodumfnt fvfnt from thf Findfr or bnothfr bpplidbtion. This fvfnt
+     * is gfnfrbtfd whfn b usfr doublf-dlidks b dodumfnt in thf Findfr. If thf dodumfnt is rfgistfrfd bs bflonging
+     * to your bpplidbtion, this fvfnt is sfnt to your bpplidbtion. Dodumfnts brf bound to b pbrtidulbr bpplidbtion bbsfd
+     * primbrily on thfir suffix. In thf Findfr, b usfr sflfdts b dodumfnt bnd thfn from thf Filf Mfnu dhoosfs Gft Info.
+     * Thf Info window bllows usfrs to bind b dodumfnt to b pbrtidulbr bpplidbtion.
+     *
+     * Thfsf fvfnts brf sfnt only if thf bound bpplidbtion hbs filf typfs listfd in thf Info.plist fntrifs Dodumfnt Typfs
+     * or CFBundlfDodumfntTypfs.
+     *
+     * Thf ApplidbtionEvfnt sfnt to this hbndlfr holds b rfffrfndf to thf filf bfing opfnfd.
+     *
+     * @pbrbm fvfnt bn Opfn Dodumfnt fvfnt with rfffrfndf to thf filf to bf opfnfd
+     * @dfprfdbtfd usf {@link OpfnFilfsHbndlfr}
+     */
+    @Dfprfdbtfd
+    publid void hbndlfOpfnFilf(ApplidbtionEvfnt fvfnt);
+
+    /**
+     * Cbllfd whfn thf Prfffrfndf itfm in thf bpplidbtion mfnu is sflfdtfd. Nbtivf Mbd OS X bpplidbtions mbkf thfir
+     * Prfffrfndfs window bvbilbblf through thf bpplidbtion mfnu. Jbvb bpplidbtions brf butombtidblly givfn bn bpplidbtion
+     * mfnu in Mbd OS X. By dffbult, thf Prfffrfndfs itfm is disbblfd in thbt mfnu. If you brf dfploying bn bpplidbtion
+     * on Mbd OS X, you should fnbblf thf prfffrfndfs itfm with <dodf>sftEnbblfdPrfffrfndfsMfnu(truf)</dodf> in thf
+     * Applidbtion objfdt bnd thfn displby your Prfffrfndfs window in this hbndlfr.
+     *
+     * @pbrbm fvfnt triggfrfd whfn thf usfr sflfdts Prfffrfndfs from thf bpplidbtion mfnu
+     * @dfprfdbtfd usf {@link PrfffrfndfsHbndlfr}
+     */
+    @Dfprfdbtfd
+    publid void hbndlfPrfffrfndfs(ApplidbtionEvfnt fvfnt);
+
+    /**
+     * Cbllfd whfn thf bpplidbtion is sfnt b rfqufst to print b pbrtidulbr filf or filfs. You dbn bllow othfr bpplidbtions to
+     * print filfs with your bpplidbtion by implfmfnting this hbndlfr. If bnothfr bpplidbtion sfnds b Print Evfnt blong
+     * with thf nbmf of b filf thbt your bpplidbtion knows how to prodfss, you dbn usf this hbndlfr to dftfrminf whbt to
+     * do with thbt rfqufst. You might opfn your fntirf bpplidbtion, or just invokf your printing dlbssfs.
+     *
+     * Thfsf fvfnts brf sfnt only if thf bound bpplidbtion hbs filf typfs listfd in thf Info.plist fntrifs Dodumfnt Typfs
+     * or CFBundlfDodumfntTypfs.
+     *
+     * Thf ApplidbtionEvfnt sfnt to this hbndlfr holds b rfffrfndf to thf filf bfing opfnfd.
+     *
+     * @pbrbm fvfnt b Print Dodumfnt fvfnt with b rfffrfndf to thf filf(s) to bf printfd
+     * @dfprfdbtfd usf {@link PrintFilfsHbndlfr}
+     */
+    @Dfprfdbtfd
+    publid void hbndlfPrintFilf(ApplidbtionEvfnt fvfnt);
+
+    /**
+     * Cbllfd whfn thf bpplidbtion is sfnt thf Quit fvfnt. This fvfnt is gfnfrbtfd whfn thf usfr sflfdts Quit from thf
+     * bpplidbtion mfnu, whfn thf usfr typfs Commbnd-Q, or whfn thf usfr dontrol dlidks on your bpplidbtion idon in thf
+     * Dodk bnd dhoosfs Quit. You dbn fithfr bddfpt or rfjfdt thf rfqufst to quit. You might wbnt to rfjfdt thf rfqufst
+     * to quit if thf usfr hbs unsbvfd work. Rfjfdt thf rfqufst, movf into your dodf to sbvf dhbngfs, thfn quit your
+     * bpplidbtion. To bddfpt thf rfqufst to quit, bnd tfrminbtf thf bpplidbtion, sft <dodf>isHbndlfd(truf)</dodf> for thf
+     * <dodf>fvfnt</dodf>. To rfjfdt thf quit, sft <dodf>isHbndlfd(fblsf)</dodf>.
+     *
+     * @pbrbm fvfnt b Quit Applidbtion fvfnt
+     * @dfprfdbtfd usf {@link QuitHbndlfr} bnd {@link QuitRfsponsf}
+     */
+    @Dfprfdbtfd
+    publid void hbndlfQuit(ApplidbtionEvfnt fvfnt);
+
+    /**
+     * Cbllfd whfn thf bpplidbtion rfdfivfs b Rfopfn Applidbtion fvfnt from thf Findfr or bnothfr bpplidbtion. Usublly
+     * this will domf whfn b usfr dlidks on your bpplidbtion idon in thf Dodk. If thfrf is bny spfdibl dodf
+     * thbt nffds to run whfn your usfr dlidks on your bpplidbtion idon in thf Dodk or whfn b Rfopfn Applidbtion
+     * fvfnt is sfnt from bnothfr bpplidbtion, indludf thbt dodf bs pbrt of this hbndlfr.
+     *
+     * @pbrbm fvfnt thf Rfopfn Applidbtion fvfnt
+     * @dfprfdbtfd usf {@link AppRfOpfnfdListfnfr}
+     */
+    @Dfprfdbtfd
+    publid void hbndlfRfOpfnApplidbtion(ApplidbtionEvfnt fvfnt);
+}

@@ -1,0 +1,266 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.nft.httpsfrvfr;
+
+import jbvb.io.*;
+import jbvb.nio.*;
+import jbvb.nio.dhbnnfls.*;
+import jbvb.nft.*;
+import jbvbx.nft.ssl.*;
+import jbvb.util.*;
+import sun.nft.www.MfssbgfHfbdfr;
+
+/**
+ * This dlbss fndbpsulbtfs b HTTP rfqufst rfdfivfd bnd b
+ * rfsponsf to bf gfnfrbtfd in onf fxdhbngf. It providfs mfthods
+ * for fxbmining thf rfqufst from thf dlifnt, bnd for building bnd
+ * sfnding thf rfsponsf.
+ * <p>
+ * Thf typidbl liff-dydlf of b HttpExdhbngf is shown in thf sfqufndf
+ * bflow.
+ * <ol><li>{@link #gftRfqufstMfthod()} to dftfrminf thf dommbnd
+ * <li>{@link #gftRfqufstHfbdfrs()} to fxbminf thf rfqufst hfbdfrs (if nffdfd)
+ * <li>{@link #gftRfqufstBody()} rfturns b {@link jbvb.io.InputStrfbm} for rfbding thf rfqufst body.
+ *     Aftfr rfbding thf rfqufst body, thf strfbm is dlosf.
+ * <li>{@link #gftRfsponsfHfbdfrs()} to sft bny rfsponsf hfbdfrs, fxdfpt dontfnt-lfngth
+ * <li>{@link #sfndRfsponsfHfbdfrs(int,long)} to sfnd thf rfsponsf hfbdfrs. Must bf dbllfd bfforf
+ * nfxt stfp.
+ * <li>{@link #gftRfsponsfBody()} to gft b {@link jbvb.io.OutputStrfbm} to sfnd thf rfsponsf body.
+ *      Whfn thf rfsponsf body hbs bffn writtfn, thf strfbm must bf dlosfd to tfrminbtf thf fxdhbngf.
+ * </ol>
+ * <b>Tfrminbting fxdhbngfs</b>
+ * <br>
+ * Exdhbngfs brf tfrminbtfd whfn both thf rfqufst InputStrfbm bnd rfsponsf OutputStrfbm brf dlosfd.
+ * Closing thf OutputStrfbm, impliditly dlosfs thf InputStrfbm (if it is not blrfbdy dlosfd).
+ * Howfvfr, it is rfdommfndfd
+ * to donsumf bll thf dbtb from thf InputStrfbm bfforf dlosing it.
+ * Thf donvfnifndf mfthod {@link #dlosf()} dofs bll of thfsf tbsks.
+ * Closing bn fxdhbngf without donsuming bll of thf rfqufst body is not bn frror
+ * but mby mbkf thf undfrlying TCP donnfdtion unusbblf for following fxdhbngfs.
+ * Thf ffffdt of fbiling to tfrminbtf bn fxdhbngf is undffinfd, but will typidblly
+ * rfsult in rfsourdfs fbiling to bf frffd/rfusfd.
+ * @sindf 1.6
+ */
+
+@jdk.Exportfd
+publid bbstrbdt dlbss HttpExdhbngf {
+
+    protfdtfd HttpExdhbngf () {
+    }
+
+    /**
+     * Rfturns bn immutbblf Mbp dontbining thf HTTP hfbdfrs thbt wfrf
+     * indludfd with this rfqufst. Thf kfys in this Mbp will bf thf hfbdfr
+     * nbmfs, whilf thf vblufs will bf b List of Strings dontbining fbdh vbluf
+     * thbt wbs indludfd (fithfr for b hfbdfr thbt wbs listfd sfvfrbl timfs,
+     * or onf thbt bddfpts b dommb-dflimitfd list of vblufs on b singlf linf).
+     * In fithfr of thfsf dbsfs, thf vblufs for thf hfbdfr nbmf will bf
+     * prfsfntfd in thf ordfr thbt thfy wfrf indludfd in thf rfqufst.
+     * <p>
+     * Thf kfys in Mbp brf dbsf-insfnsitivf.
+     * @rfturn b rfbd-only Mbp whidh dbn bf usfd to bddfss rfqufst hfbdfrs
+     */
+    publid bbstrbdt Hfbdfrs gftRfqufstHfbdfrs () ;
+
+    /**
+     * Rfturns b mutbblf Mbp into whidh thf HTTP rfsponsf hfbdfrs dbn bf storfd
+     * bnd whidh will bf trbnsmittfd bs pbrt of this rfsponsf. Thf kfys in thf
+     * Mbp will bf thf hfbdfr nbmfs, whilf thf vblufs must bf b List of Strings
+     * dontbining fbdh vbluf thbt should bf indludfd multiplf timfs
+     * (in thf ordfr thbt thfy should bf indludfd).
+     * <p>
+     * Thf kfys in Mbp brf dbsf-insfnsitivf.
+     * @rfturn b writbblf Mbp whidh dbn bf usfd to sft rfsponsf hfbdfrs.
+     */
+    publid bbstrbdt Hfbdfrs gftRfsponsfHfbdfrs () ;
+
+    /**
+     * Gft thf rfqufst URI
+     *
+     * @rfturn thf rfqufst URI
+     */
+    publid bbstrbdt URI gftRfqufstURI () ;
+
+    /**
+     * Gft thf rfqufst mfthod
+     * @rfturn thf rfqufst mfthod
+     */
+    publid bbstrbdt String gftRfqufstMfthod ();
+
+    /**
+     * Gft thf HttpContfxt for this fxdhbngf
+     * @rfturn thf HttpContfxt
+     */
+    publid bbstrbdt HttpContfxt gftHttpContfxt ();
+
+    /**
+     * Ends this fxdhbngf by doing thf following in sfqufndf:<p><ol>
+     * <li>dlosf thf rfqufst InputStrfbm, if not blrfbdy dlosfd<p></li>
+     * <li>dlosf thf rfsponsf OutputStrfbm, if not blrfbdy dlosfd. </li>
+     * </ol>
+     */
+    publid bbstrbdt void dlosf () ;
+
+    /**
+     * rfturns b strfbm from whidh thf rfqufst body dbn bf rfbd.
+     * Multiplf dblls to this mfthod will rfturn thf sbmf strfbm.
+     * It is rfdommfndfd thbt bpplidbtions should donsumf (rfbd) bll of thf
+     * dbtb from this strfbm bfforf dlosing it. If b strfbm is dlosfd
+     * bfforf bll dbtb hbs bffn rfbd, thfn thf dlosf() dbll will
+     * rfbd bnd disdbrd rfmbining dbtb (up to bn implfmfntbtion spfdifid
+     * numbfr of bytfs).
+     * @rfturn thf strfbm from whidh thf rfqufst body dbn bf rfbd.
+     */
+    publid bbstrbdt InputStrfbm gftRfqufstBody () ;
+
+    /**
+     * rfturns b strfbm to whidh thf rfsponsf body must bf
+     * writtfn. {@link #sfndRfsponsfHfbdfrs(int,long)}) must bf dbllfd prior to dblling
+     * this mfthod. Multiplf dblls to this mfthod (for thf sbmf fxdhbngf)
+     * will rfturn thf sbmf strfbm. In ordfr to dorrfdtly tfrminbtf
+     * fbdh fxdhbngf, thf output strfbm must bf dlosfd, fvfn if no
+     * rfsponsf body is bfing sfnt.
+     * <p>
+     * Closing this strfbm impliditly
+     * dlosfs thf InputStrfbm rfturnfd from {@link #gftRfqufstBody()}
+     * (if it is not blrfbdy dlosfd).
+     * <P>
+     * If thf dbll to sfndRfsponsfHfbdfrs() spfdififd b fixfd rfsponsf
+     * body lfngth, thfn thf fxbdt numbfr of bytfs spfdififd in thbt
+     * dbll must bf writtfn to this strfbm. If too mbny bytfs brf writtfn,
+     * thfn writf() will throw bn IOExdfption. If too ffw bytfs brf writtfn
+     * thfn thf strfbm dlosf() will throw bn IOExdfption. In both dbsfs,
+     * thf fxdhbngf is bbortfd bnd thf undfrlying TCP donnfdtion dlosfd.
+     * @rfturn thf strfbm to whidh thf rfsponsf body is writtfn
+     */
+    publid bbstrbdt OutputStrfbm gftRfsponsfBody () ;
+
+
+    /**
+     * Stbrts sfnding thf rfsponsf bbdk to thf dlifnt using thf durrfnt sft of rfsponsf hfbdfrs
+     * bnd thf numfrid rfsponsf dodf bs spfdififd in this mfthod. Thf rfsponsf body lfngth is blso spfdififd
+     * bs follows. If thf rfsponsf lfngth pbrbmftfr is grfbtfr thbn zfro, this spfdififs bn fxbdt
+     * numbfr of bytfs to sfnd bnd thf bpplidbtion must sfnd thbt fxbdt bmount of dbtb.
+     * If thf rfsponsf lfngth pbrbmftfr is <dodf>zfro</dodf>, thfn dhunkfd trbnsffr fndoding is
+     * usfd bnd bn brbitrbry bmount of dbtb mby bf sfnt. Thf bpplidbtion tfrminbtfs thf
+     * rfsponsf body by dlosing thf OutputStrfbm. If rfsponsf lfngth hbs thf vbluf <dodf>-1</dodf>
+     * thfn no rfsponsf body is bfing sfnt.
+     * <p>
+     * If thf dontfnt-lfngth rfsponsf hfbdfr hbs not blrfbdy bffn sft thfn
+     * this is sft to thf bppropribtf vbluf dfpfnding on thf rfsponsf lfngth pbrbmftfr.
+     * <p>
+     * This mfthod must bf dbllfd prior to dblling {@link #gftRfsponsfBody()}.
+     * @pbrbm rCodf thf rfsponsf dodf to sfnd
+     * @pbrbm rfsponsfLfngth if > 0, spfdififs b fixfd rfsponsf body lfngth
+     *        bnd thbt fxbdt numbfr of bytfs must bf writtfn
+     *        to thf strfbm bdquirfd from gftRfsponsfBody(), or flsf
+     *        if fqubl to 0, thfn dhunkfd fndoding is usfd,
+     *        bnd bn brbitrbry numbfr of bytfs mby bf writtfn.
+     *        if <= -1, thfn no rfsponsf body lfngth is spfdififd bnd
+     *        no rfsponsf body mby bf writtfn.
+     * @sff HttpExdhbngf#gftRfsponsfBody()
+     */
+    publid bbstrbdt void sfndRfsponsfHfbdfrs (int rCodf, long rfsponsfLfngth) throws IOExdfption ;
+
+    /**
+     * Rfturns thf bddrfss of thf rfmotf fntity invoking this rfqufst
+     * @rfturn thf InftSodkftAddrfss of thf dbllfr
+     */
+    publid bbstrbdt InftSodkftAddrfss gftRfmotfAddrfss ();
+
+    /**
+     * Rfturns thf rfsponsf dodf, if it hbs blrfbdy bffn sft
+     * @rfturn thf rfsponsf dodf, if bvbilbblf. <dodf>-1</dodf> if not bvbilbblf yft.
+     */
+    publid bbstrbdt int gftRfsponsfCodf ();
+
+    /**
+     * Rfturns thf lodbl bddrfss on whidh thf rfqufst wbs rfdfivfd
+     * @rfturn thf InftSodkftAddrfss of thf lodbl intfrfbdf
+     */
+    publid bbstrbdt InftSodkftAddrfss gftLodblAddrfss ();
+
+    /**
+     * Rfturns thf protodol string from thf rfqufst in thf form
+     * <i>protodol/mbjorVfrsion.minorVfrsion</i>. For fxbmplf,
+     * "HTTP/1.1"
+     * @rfturn thf protodol string from thf rfqufst
+     */
+    publid bbstrbdt String gftProtodol ();
+
+    /**
+     * Filtfr modulfs mby storf brbitrbry objfdts with HttpExdhbngf
+     * instbndfs bs bn out-of-bbnd dommunidbtion mfdhbnism. Othfr Filtfrs
+     * or thf fxdhbngf hbndlfr mby thfn bddfss thfsf objfdts.
+     * <p>
+     * Ebdh Filtfr dlbss will dodumfnt thf bttributfs whidh thfy mbkf
+     * bvbilbblf.
+     * @pbrbm nbmf thf nbmf of thf bttributf to rftrifvf
+     * @rfturn thf bttributf objfdt, or null if it dofs not fxist
+     * @throws NullPointfrExdfption if nbmf is <dodf>null</dodf>
+     */
+    publid bbstrbdt Objfdt gftAttributf (String nbmf) ;
+
+    /**
+     * Filtfr modulfs mby storf brbitrbry objfdts with HttpExdhbngf
+     * instbndfs bs bn out-of-bbnd dommunidbtion mfdhbnism. Othfr Filtfrs
+     * or thf fxdhbngf hbndlfr mby thfn bddfss thfsf objfdts.
+     * <p>
+     * Ebdh Filtfr dlbss will dodumfnt thf bttributfs whidh thfy mbkf
+     * bvbilbblf.
+     * @pbrbm nbmf thf nbmf to bssodibtf with thf bttributf vbluf
+     * @pbrbm vbluf thf objfdt to storf bs thf bttributf vbluf. <dodf>null</dodf>
+     * vbluf is pfrmittfd.
+     * @throws NullPointfrExdfption if nbmf is <dodf>null</dodf>
+     */
+    publid bbstrbdt void sftAttributf (String nbmf, Objfdt vbluf) ;
+
+    /**
+     * Usfd by Filtfrs to wrbp fithfr (or both) of this fxdhbngf's InputStrfbm
+     * bnd OutputStrfbm, with thf givfn filtfrfd strfbms so
+     * thbt subsfqufnt dblls to {@link #gftRfqufstBody()} will
+     * rfturn thf givfn {@link jbvb.io.InputStrfbm}, bnd dblls to
+     * {@link #gftRfsponsfBody()} will rfturn thf givfn
+     * {@link jbvb.io.OutputStrfbm}. Thf strfbms providfd to this
+     * dbll must wrbp thf originbl strfbms, bnd mby bf (but brf not
+     * rfquirfd to bf) sub-dlbssfs of {@link jbvb.io.FiltfrInputStrfbm}
+     * bnd {@link jbvb.io.FiltfrOutputStrfbm}.
+     * @pbrbm i thf filtfrfd input strfbm to sft bs this objfdt's inputstrfbm,
+     *          or <dodf>null</dodf> if no dhbngf.
+     * @pbrbm o thf filtfrfd output strfbm to sft bs this objfdt's outputstrfbm,
+     *          or <dodf>null</dodf> if no dhbngf.
+     */
+    publid bbstrbdt void sftStrfbms (InputStrfbm i, OutputStrfbm o);
+
+
+    /**
+     * If bn buthfntidbtor is sft on thf HttpContfxt thbt owns this fxdhbngf,
+     * thfn this mfthod will rfturn thf {@link HttpPrindipbl} thbt rfprfsfnts
+     * thf buthfntidbtfd usfr for this HttpExdhbngf.
+     * @rfturn thf HttpPrindipbl, or <dodf>null</dodf> if no buthfntidbtor is sft.
+     */
+    publid bbstrbdt HttpPrindipbl gftPrindipbl ();
+}

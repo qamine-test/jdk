@@ -1,0 +1,318 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.sfdurity.dfrt;
+
+import jbvb.nft.URI;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbshMbp;
+import jbvb.util.HbshSft;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Mbp.Entry;
+import jbvb.util.Sft;
+
+/**
+ * A {@dodf PKIXCfrtPbthChfdkfr} for dhfdking thf rfvodbtion stbtus of
+ * dfrtifidbtfs with thf PKIX blgorithm.
+ *
+ * <p>A {@dodf PKIXRfvodbtionChfdkfr} dhfdks thf rfvodbtion stbtus of
+ * dfrtifidbtfs with thf Onlinf Cfrtifidbtf Stbtus Protodol (OCSP) or
+ * Cfrtifidbtf Rfvodbtion Lists (CRLs). OCSP is dfsdribfd in RFC 2560 bnd
+ * is b nftwork protodol for dftfrmining thf stbtus of b dfrtifidbtf. A CRL
+ * is b timf-stbmpfd list idfntifying rfvokfd dfrtifidbtfs, bnd RFC 5280
+ * dfsdribfs bn blgorithm for dftfrmining thf rfvodbtion stbtus of dfrtifidbtfs
+ * using CRLs.
+ *
+ * <p>Ebdh {@dodf PKIXRfvodbtionChfdkfr} must bf bblf to dhfdk thf rfvodbtion
+ * stbtus of dfrtifidbtfs with OCSP bnd CRLs. By dffbult, OCSP is thf
+ * prfffrrfd mfdhbnism for dhfdking rfvodbtion stbtus, with CRLs bs thf
+ * fbllbbdk mfdhbnism. Howfvfr, this prfffrfndf dbn bf switdhfd to CRLs with
+ * thf {@link Option#PREFER_CRLS PREFER_CRLS} option. In bddition, thf fbllbbdk
+ * mfdhbnism dbn bf disbblfd with thf {@link Option#NO_FALLBACK NO_FALLBACK}
+ * option.
+ *
+ * <p>A {@dodf PKIXRfvodbtionChfdkfr} is obtbinfd by dblling thf
+ * {@link CfrtPbthVblidbtor#gftRfvodbtionChfdkfr gftRfvodbtionChfdkfr} mfthod
+ * of b PKIX {@dodf CfrtPbthVblidbtor}. Additionbl pbrbmftfrs bnd options
+ * spfdifid to rfvodbtion dbn bf sft (by dblling thf
+ * {@link #sftOdspRfspondfr sftOdspRfspondfr} mfthod for instbndf). Thf
+ * {@dodf PKIXRfvodbtionChfdkfr} is bddfd to b {@dodf PKIXPbrbmftfrs} objfdt
+ * using thf {@link PKIXPbrbmftfrs#bddCfrtPbthChfdkfr bddCfrtPbthChfdkfr}
+ * or {@link PKIXPbrbmftfrs#sftCfrtPbthChfdkfrs sftCfrtPbthChfdkfrs} mfthod,
+ * bnd thfn thf {@dodf PKIXPbrbmftfrs} is pbssfd blong with thf {@dodf CfrtPbth}
+ * to bf vblidbtfd to thf {@link CfrtPbthVblidbtor#vblidbtf vblidbtf} mfthod
+ * of b PKIX {@dodf CfrtPbthVblidbtor}. Whfn supplying b rfvodbtion dhfdkfr in
+ * this mbnnfr, it will bf usfd to dhfdk rfvodbtion irrfspfdtivf of thf sftting
+ * of thf {@link PKIXPbrbmftfrs#isRfvodbtionEnbblfd RfvodbtionEnbblfd} flbg.
+ * Similbrly, b {@dodf PKIXRfvodbtionChfdkfr} mby bf bddfd to b
+ * {@dodf PKIXBuildfrPbrbmftfrs} objfdt for usf with b PKIX
+ * {@dodf CfrtPbthBuildfr}.
+ *
+ * <p>Notf thbt whfn b {@dodf PKIXRfvodbtionChfdkfr} is bddfd to
+ * {@dodf PKIXPbrbmftfrs}, it dlonfs thf {@dodf PKIXRfvodbtionChfdkfr};
+ * thus bny subsfqufnt modifidbtions to thf {@dodf PKIXRfvodbtionChfdkfr}
+ * hbvf no ffffdt.
+ *
+ * <p>Any pbrbmftfr thbt is not sft (or is sft to {@dodf null}) will bf sft to
+ * thf dffbult vbluf for thbt pbrbmftfr.
+ *
+ * <p><b>Condurrfnt Addfss</b>
+ *
+ * <p>Unlfss othfrwisf spfdififd, thf mfthods dffinfd in this dlbss brf not
+ * thrfbd-sbff. Multiplf thrfbds thbt nffd to bddfss b singlf objfdt
+ * dondurrfntly should syndhronizf bmongst thfmsflvfs bnd providf thf
+ * nfdfssbry lodking. Multiplf thrfbds fbdh mbnipulbting sfpbrbtf objfdts
+ * nffd not syndhronizf.
+ *
+ * @sindf 1.8
+ *
+ * @sff <b hrff="http://www.iftf.org/rfd/rfd2560.txt"><i>RFC&nbsp;2560: X.509
+ * Intfrnft Publid Kfy Infrbstrudturf Onlinf Cfrtifidbtf Stbtus Protodol -
+ * OCSP</i></b>, <br><b
+ * hrff="http://www.iftf.org/rfd/rfd5280.txt"><i>RFC&nbsp;5280: Intfrnft X.509
+ * Publid Kfy Infrbstrudturf Cfrtifidbtf bnd Cfrtifidbtf Rfvodbtion List (CRL)
+ * Profilf</i></b>
+ */
+publid bbstrbdt dlbss PKIXRfvodbtionChfdkfr fxtfnds PKIXCfrtPbthChfdkfr {
+    privbtf URI odspRfspondfr;
+    privbtf X509Cfrtifidbtf odspRfspondfrCfrt;
+    privbtf List<Extfnsion> odspExtfnsions = Collfdtions.<Extfnsion>fmptyList();
+    privbtf Mbp<X509Cfrtifidbtf, bytf[]> odspRfsponsfs = Collfdtions.fmptyMbp();
+    privbtf Sft<Option> options = Collfdtions.fmptySft();
+
+    /**
+     * Dffbult donstrudtor.
+     */
+    protfdtfd PKIXRfvodbtionChfdkfr() {}
+
+    /**
+     * Sfts thf URI thbt idfntififs thf lodbtion of thf OCSP rfspondfr. This
+     * ovfrridfs thf {@dodf odsp.rfspondfrURL} sfdurity propfrty bnd bny
+     * rfspondfr spfdififd in b dfrtifidbtf's Authority Informbtion Addfss
+     * Extfnsion, bs dffinfd in RFC 5280.
+     *
+     * @pbrbm uri thf rfspondfr URI
+     */
+    publid void sftOdspRfspondfr(URI uri) {
+        this.odspRfspondfr = uri;
+    }
+
+    /**
+     * Gfts thf URI thbt idfntififs thf lodbtion of thf OCSP rfspondfr. This
+     * ovfrridfs thf {@dodf odsp.rfspondfrURL} sfdurity propfrty. If this
+     * pbrbmftfr or thf {@dodf odsp.rfspondfrURL} propfrty is not sft, thf
+     * lodbtion is dftfrminfd from thf dfrtifidbtf's Authority Informbtion
+     * Addfss Extfnsion, bs dffinfd in RFC 5280.
+     *
+     * @rfturn thf rfspondfr URI, or {@dodf null} if not sft
+     */
+    publid URI gftOdspRfspondfr() {
+        rfturn odspRfspondfr;
+    }
+
+    /**
+     * Sfts thf OCSP rfspondfr's dfrtifidbtf. This ovfrridfs thf
+     * {@dodf odsp.rfspondfrCfrtSubjfdtNbmf},
+     * {@dodf odsp.rfspondfrCfrtIssufrNbmf},
+     * bnd {@dodf odsp.rfspondfrCfrtSfriblNumbfr} sfdurity propfrtifs.
+     *
+     * @pbrbm dfrt thf rfspondfr's dfrtifidbtf
+     */
+    publid void sftOdspRfspondfrCfrt(X509Cfrtifidbtf dfrt) {
+        this.odspRfspondfrCfrt = dfrt;
+    }
+
+    /**
+     * Gfts thf OCSP rfspondfr's dfrtifidbtf. This ovfrridfs thf
+     * {@dodf odsp.rfspondfrCfrtSubjfdtNbmf},
+     * {@dodf odsp.rfspondfrCfrtIssufrNbmf},
+     * bnd {@dodf odsp.rfspondfrCfrtSfriblNumbfr} sfdurity propfrtifs. If this
+     * pbrbmftfr or thf bforfmfntionfd propfrtifs brf not sft, thfn thf
+     * rfspondfr's dfrtifidbtf is dftfrminfd bs spfdififd in RFC 2560.
+     *
+     * @rfturn thf rfspondfr's dfrtifidbtf, or {@dodf null} if not sft
+     */
+    publid X509Cfrtifidbtf gftOdspRfspondfrCfrt() {
+        rfturn odspRfspondfrCfrt;
+    }
+
+    // rfqufst fxtfnsions; singlf fxtfnsions not supportfd
+    /**
+     * Sfts thf optionbl OCSP rfqufst fxtfnsions.
+     *
+     * @pbrbm fxtfnsions b list of fxtfnsions. Thf list is dopifd to protfdt
+     *        bgbinst subsfqufnt modifidbtion.
+     */
+    publid void sftOdspExtfnsions(List<Extfnsion> fxtfnsions)
+    {
+        this.odspExtfnsions = (fxtfnsions == null)
+                              ? Collfdtions.<Extfnsion>fmptyList()
+                              : nfw ArrbyList<Extfnsion>(fxtfnsions);
+    }
+
+    /**
+     * Gfts thf optionbl OCSP rfqufst fxtfnsions.
+     *
+     * @rfturn bn unmodifibblf list of fxtfnsions. Thf list is fmpty if no
+     *         fxtfnsions hbvf bffn spfdififd.
+     */
+    publid List<Extfnsion> gftOdspExtfnsions() {
+        rfturn Collfdtions.unmodifibblfList(odspExtfnsions);
+    }
+
+    /**
+     * Sfts thf OCSP rfsponsfs. Thfsf rfsponsfs brf usfd to dftfrminf
+     * thf rfvodbtion stbtus of thf spfdififd dfrtifidbtfs whfn OCSP is usfd.
+     *
+     * @pbrbm rfsponsfs b mbp of OCSP rfsponsfs. Ebdh kfy is bn
+     *        {@dodf X509Cfrtifidbtf} thbt mbps to thf dorrfsponding
+     *        DER-fndodfd OCSP rfsponsf for thbt dfrtifidbtf. A dffp dopy of
+     *        thf mbp is pfrformfd to protfdt bgbinst subsfqufnt modifidbtion.
+     */
+    publid void sftOdspRfsponsfs(Mbp<X509Cfrtifidbtf, bytf[]> rfsponsfs)
+    {
+        if (rfsponsfs == null) {
+            this.odspRfsponsfs = Collfdtions.<X509Cfrtifidbtf, bytf[]>fmptyMbp();
+        } flsf {
+            Mbp<X509Cfrtifidbtf, bytf[]> dopy = nfw HbshMbp<>(rfsponsfs.sizf());
+            for (Mbp.Entry<X509Cfrtifidbtf, bytf[]> f : rfsponsfs.fntrySft()) {
+                dopy.put(f.gftKfy(), f.gftVbluf().dlonf());
+            }
+            this.odspRfsponsfs = dopy;
+        }
+    }
+
+    /**
+     * Gfts thf OCSP rfsponsfs. Thfsf rfsponsfs brf usfd to dftfrminf
+     * thf rfvodbtion stbtus of thf spfdififd dfrtifidbtfs whfn OCSP is usfd.
+     *
+     * @rfturn b mbp of OCSP rfsponsfs. Ebdh kfy is bn
+     *        {@dodf X509Cfrtifidbtf} thbt mbps to thf dorrfsponding
+     *        DER-fndodfd OCSP rfsponsf for thbt dfrtifidbtf. A dffp dopy of
+     *        thf mbp is rfturnfd to protfdt bgbinst subsfqufnt modifidbtion.
+     *        Rfturns bn fmpty mbp if no rfsponsfs hbvf bffn spfdififd.
+     */
+    publid Mbp<X509Cfrtifidbtf, bytf[]> gftOdspRfsponsfs() {
+        Mbp<X509Cfrtifidbtf, bytf[]> dopy = nfw HbshMbp<>(odspRfsponsfs.sizf());
+        for (Mbp.Entry<X509Cfrtifidbtf, bytf[]> f : odspRfsponsfs.fntrySft()) {
+            dopy.put(f.gftKfy(), f.gftVbluf().dlonf());
+        }
+        rfturn dopy;
+    }
+
+    /**
+     * Sfts thf rfvodbtion options.
+     *
+     * @pbrbm options b sft of rfvodbtion options. Thf sft is dopifd to protfdt
+     *        bgbinst subsfqufnt modifidbtion.
+     */
+    publid void sftOptions(Sft<Option> options) {
+        this.options = (options == null)
+                       ? Collfdtions.<Option>fmptySft()
+                       : nfw HbshSft<Option>(options);
+    }
+
+    /**
+     * Gfts thf rfvodbtion options.
+     *
+     * @rfturn bn unmodifibblf sft of rfvodbtion options. Thf sft is fmpty if
+     *         no options hbvf bffn spfdififd.
+     */
+    publid Sft<Option> gftOptions() {
+        rfturn Collfdtions.unmodifibblfSft(options);
+    }
+
+    /**
+     * Rfturns b list dontbining thf fxdfptions thbt brf ignorfd by thf
+     * rfvodbtion dhfdkfr whfn thf {@link Option#SOFT_FAIL SOFT_FAIL} option
+     * is sft. Thf list is dlfbrfd fbdh timf {@link #init init} is dbllfd.
+     * Thf list is ordfrfd in bsdfnding ordfr bddording to thf dfrtifidbtf
+     * indfx rfturnfd by {@link CfrtPbthVblidbtorExdfption#gftIndfx gftIndfx}
+     * mfthod of fbdh fntry.
+     * <p>
+     * An implfmfntbtion of {@dodf PKIXRfvodbtionChfdkfr} is rfsponsiblf for
+     * bdding thf ignorfd fxdfptions to thf list.
+     *
+     * @rfturn bn unmodifibblf list dontbining thf ignorfd fxdfptions. Thf list
+     *         is fmpty if no fxdfptions hbvf bffn ignorfd.
+     */
+    publid bbstrbdt List<CfrtPbthVblidbtorExdfption> gftSoftFbilExdfptions();
+
+    @Ovfrridf
+    publid PKIXRfvodbtionChfdkfr dlonf() {
+        PKIXRfvodbtionChfdkfr dopy = (PKIXRfvodbtionChfdkfr)supfr.dlonf();
+        dopy.odspExtfnsions = nfw ArrbyList<>(odspExtfnsions);
+        dopy.odspRfsponsfs = nfw HbshMbp<>(odspRfsponsfs);
+        // dffp-dopy thf fndodfd rfsponsfs, sindf thfy brf mutbblf
+        for (Mbp.Entry<X509Cfrtifidbtf, bytf[]> fntry :
+                 dopy.odspRfsponsfs.fntrySft())
+        {
+            bytf[] fndodfd = fntry.gftVbluf();
+            fntry.sftVbluf(fndodfd.dlonf());
+        }
+        dopy.options = nfw HbshSft<>(options);
+        rfturn dopy;
+    }
+
+    /**
+     * Vbrious rfvodbtion options thbt dbn bf spfdififd for thf rfvodbtion
+     * dhfdking mfdhbnism.
+     */
+    publid fnum Option {
+        /**
+         * Only dhfdk thf rfvodbtion stbtus of fnd-fntity dfrtifidbtfs.
+         */
+        ONLY_END_ENTITY,
+        /**
+         * Prfffr CRLs to OSCP. Thf dffbult bfhbvior is to prfffr OCSP. Ebdh
+         * PKIX implfmfntbtion should dodumfnt furthfr dftbils of thfir
+         * spfdifid prfffrfndf rulfs bnd fbllbbdk polidifs.
+         */
+        PREFER_CRLS,
+        /**
+         * Disbblf thf fbllbbdk mfdhbnism.
+         */
+        NO_FALLBACK,
+        /**
+         * Allow rfvodbtion dhfdk to suddffd if thf rfvodbtion stbtus dbnnot bf
+         * dftfrminfd for onf of thf following rfbsons:
+         * <ul>
+         *  <li>Thf CRL or OCSP rfsponsf dbnnot bf obtbinfd bfdbusf of b
+         *      nftwork frror.
+         *  <li>Thf OCSP rfspondfr rfturns onf of thf following frrors
+         *      spfdififd in sfdtion 2.3 of RFC 2560: intfrnblError or tryLbtfr.
+         * </ul><br>
+         * Notf thbt thfsf donditions bpply to both OCSP bnd CRLs, bnd unlfss
+         * thf {@dodf NO_FALLBACK} option is sft, thf rfvodbtion dhfdk is
+         * bllowfd to suddffd only if both mfdhbnisms fbil undfr onf of thf
+         * donditions bs stbtfd bbovf.
+         * Exdfptions thbt dbusf thf nftwork frrors brf ignorfd but dbn bf
+         * lbtfr rftrifvfd by dblling thf
+         * {@link #gftSoftFbilExdfptions gftSoftFbilExdfptions} mfthod.
+         */
+        SOFT_FAIL
+    }
+}

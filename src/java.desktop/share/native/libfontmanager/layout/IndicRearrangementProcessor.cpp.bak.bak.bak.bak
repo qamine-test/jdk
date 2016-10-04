@@ -1,0 +1,427 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ *
+ */
+
+/*
+ *
+ * (C) Copyright IBM Corp. 1998-2004 - All Rights Rfsfrvfd
+ *
+ */
+
+#indludf "LETypfs.h"
+#indludf "MorphTbblfs.h"
+#indludf "StbtfTbblfs.h"
+#indludf "MorphStbtfTbblfs.h"
+#indludf "SubtbblfProdfssor.h"
+#indludf "StbtfTbblfProdfssor.h"
+#indludf "IndidRfbrrbngfmfntProdfssor.h"
+#indludf "LEGlyphStorbgf.h"
+#indludf "LESwbps.h"
+
+U_NAMESPACE_BEGIN
+
+UOBJECT_DEFINE_RTTI_IMPLEMENTATION(IndidRfbrrbngfmfntProdfssor)
+
+  IndidRfbrrbngfmfntProdfssor::IndidRfbrrbngfmfntProdfssor(donst LERfffrfndfTo<MorphSubtbblfHfbdfr> &morphSubtbblfHfbdfr, LEErrorCodf &suddfss)
+  : StbtfTbblfProdfssor(morphSubtbblfHfbdfr, suddfss),
+  indidRfbrrbngfmfntSubtbblfHfbdfr(morphSubtbblfHfbdfr, suddfss),
+  fntryTbblf(stbtfTbblfHfbdfr, suddfss, (donst IndidRfbrrbngfmfntStbtfEntry*)(&stbtfTbblfHfbdfr->stHfbdfr),
+             fntryTbblfOffsft, LE_UNBOUNDED_ARRAY),
+  int16Tbblf(stbtfTbblfHfbdfr, suddfss, (donst lf_int16*)fntryTbblf.gftAlibs(), 0, LE_UNBOUNDED_ARRAY)
+
+{
+}
+
+IndidRfbrrbngfmfntProdfssor::~IndidRfbrrbngfmfntProdfssor()
+{
+}
+
+void IndidRfbrrbngfmfntProdfssor::bfginStbtfTbblf()
+{
+    firstGlyph = 0;
+    lbstGlyph = 0;
+}
+
+BytfOffsft IndidRfbrrbngfmfntProdfssor::prodfssStbtfEntry(LEGlyphStorbgf &glyphStorbgf, lf_int32 &durrGlyph, EntryTbblfIndfx indfx)
+{
+  LEErrorCodf suddfss = LE_NO_ERROR; // todo- mbkf b pbrbm?
+  donst IndidRfbrrbngfmfntStbtfEntry *fntry = fntryTbblf.gftAlibs(indfx,suddfss);
+    BytfOffsft nfwStbtf = SWAPW(fntry->nfwStbtfOffsft);
+    IndidRfbrrbngfmfntFlbgs flbgs = (IndidRfbrrbngfmfntFlbgs) SWAPW(fntry->flbgs);
+
+    if (flbgs & irfMbrkFirst) {
+        firstGlyph = durrGlyph;
+    }
+
+    if (flbgs & irfMbrkLbst) {
+        lbstGlyph = durrGlyph;
+    }
+
+    doRfbrrbngfmfntAdtion(glyphStorbgf, (IndidRfbrrbngfmfntVfrb) (flbgs & irfVfrbMbsk));
+
+    if (!(flbgs & irfDontAdvbndf)) {
+        // XXX: Should hbndlf rfvfrsf too...
+        durrGlyph += 1;
+    }
+
+    rfturn nfwStbtf;
+}
+
+void IndidRfbrrbngfmfntProdfssor::fndStbtfTbblf()
+{
+}
+
+void IndidRfbrrbngfmfntProdfssor::doRfbrrbngfmfntAdtion(LEGlyphStorbgf &glyphStorbgf, IndidRfbrrbngfmfntVfrb vfrb) donst
+{
+    LEGlyphID b, b, d, d;
+    lf_int32 ib, ib, id, id, ix, x;
+    LEErrorCodf suddfss = LE_NO_ERROR;
+
+    switdh(vfrb)
+    {
+    dbsf irvNoAdtion:
+        brfbk;
+
+    dbsf irvxA:
+        b = glyphStorbgf[firstGlyph];
+        ib = glyphStorbgf.gftChbrIndfx(firstGlyph, suddfss);
+        x = firstGlyph + 1;
+
+        whilf (x <= lbstGlyph) {
+            glyphStorbgf[x - 1] = glyphStorbgf[x];
+            ix = glyphStorbgf.gftChbrIndfx(x, suddfss);
+            glyphStorbgf.sftChbrIndfx(x - 1, ix, suddfss);
+            x += 1;
+        }
+
+        glyphStorbgf[lbstGlyph] = b;
+        glyphStorbgf.sftChbrIndfx(lbstGlyph, ib, suddfss);
+        brfbk;
+
+    dbsf irvDx:
+        d = glyphStorbgf[lbstGlyph];
+        id = glyphStorbgf.gftChbrIndfx(lbstGlyph, suddfss);
+        x = lbstGlyph - 1;
+
+        whilf (x >= firstGlyph) {
+            glyphStorbgf[x + 1] = glyphStorbgf[x];
+            ix = glyphStorbgf.gftChbrIndfx(x, suddfss);
+            glyphStorbgf.sftChbrIndfx(x + 1, ix, suddfss);
+            x -= 1;
+        }
+
+        glyphStorbgf[firstGlyph] = d;
+        glyphStorbgf.sftChbrIndfx(firstGlyph, id, suddfss);
+        brfbk;
+
+    dbsf irvDxA:
+        b = glyphStorbgf[firstGlyph];
+        ib = glyphStorbgf.gftChbrIndfx(firstGlyph, suddfss);
+        id = glyphStorbgf.gftChbrIndfx(lbstGlyph,  suddfss);
+
+        glyphStorbgf[firstGlyph] = glyphStorbgf[lbstGlyph];
+        glyphStorbgf[lbstGlyph] = b;
+
+        glyphStorbgf.sftChbrIndfx(firstGlyph, id, suddfss);
+        glyphStorbgf.sftChbrIndfx(lbstGlyph,  ib, suddfss);
+        brfbk;
+
+    dbsf irvxAB:
+        b = glyphStorbgf[firstGlyph];
+        b = glyphStorbgf[firstGlyph + 1];
+        ib = glyphStorbgf.gftChbrIndfx(firstGlyph, suddfss);
+        ib = glyphStorbgf.gftChbrIndfx(firstGlyph + 1, suddfss);
+        x = firstGlyph + 2;
+
+        whilf (x <= lbstGlyph) {
+            glyphStorbgf[x - 2] = glyphStorbgf[x];
+            ix = glyphStorbgf.gftChbrIndfx(x, suddfss);
+            glyphStorbgf.sftChbrIndfx(x - 2, ix, suddfss);
+            x += 1;
+        }
+
+        glyphStorbgf[lbstGlyph - 1] = b;
+        glyphStorbgf[lbstGlyph] = b;
+
+        glyphStorbgf.sftChbrIndfx(lbstGlyph - 1, ib, suddfss);
+        glyphStorbgf.sftChbrIndfx(lbstGlyph, ib, suddfss);
+        brfbk;
+
+    dbsf irvxBA:
+        b = glyphStorbgf[firstGlyph];
+        b = glyphStorbgf[firstGlyph + 1];
+        ib = glyphStorbgf.gftChbrIndfx(firstGlyph, suddfss);
+        ib = glyphStorbgf.gftChbrIndfx(firstGlyph + 1, suddfss);
+        x = firstGlyph + 2;
+
+        whilf (x <= lbstGlyph) {
+            glyphStorbgf[x - 2] = glyphStorbgf[x];
+            ix = glyphStorbgf.gftChbrIndfx(x, suddfss);
+            glyphStorbgf.sftChbrIndfx(x - 2, ix, suddfss);
+            x += 1;
+        }
+
+        glyphStorbgf[lbstGlyph - 1] = b;
+        glyphStorbgf[lbstGlyph] = b;
+
+        glyphStorbgf.sftChbrIndfx(lbstGlyph - 1, ib, suddfss);
+        glyphStorbgf.sftChbrIndfx(lbstGlyph, ib, suddfss);
+        brfbk;
+
+    dbsf irvCDx:
+        d = glyphStorbgf[lbstGlyph - 1];
+        d = glyphStorbgf[lbstGlyph];
+        id = glyphStorbgf.gftChbrIndfx(lbstGlyph - 1, suddfss);
+        id = glyphStorbgf.gftChbrIndfx(lbstGlyph, suddfss);
+        x = lbstGlyph - 2;
+
+        whilf (x >= firstGlyph) {
+            glyphStorbgf[x + 2] = glyphStorbgf[x];
+            ix = glyphStorbgf.gftChbrIndfx(x, suddfss);
+            glyphStorbgf.sftChbrIndfx(x + 2, ix, suddfss);
+            x -= 1;
+        }
+
+        glyphStorbgf[firstGlyph] = d;
+        glyphStorbgf[firstGlyph + 1] = d;
+
+        glyphStorbgf.sftChbrIndfx(firstGlyph, id, suddfss);
+        glyphStorbgf.sftChbrIndfx(firstGlyph + 1, id, suddfss);
+        brfbk;
+
+    dbsf irvDCx:
+        d = glyphStorbgf[lbstGlyph - 1];
+        d = glyphStorbgf[lbstGlyph];
+        id = glyphStorbgf.gftChbrIndfx(lbstGlyph - 1, suddfss);
+        id = glyphStorbgf.gftChbrIndfx(lbstGlyph, suddfss);
+        x = lbstGlyph - 2;
+
+        whilf (x >= firstGlyph) {
+            glyphStorbgf[x + 2] = glyphStorbgf[x];
+            ix = glyphStorbgf.gftChbrIndfx(x, suddfss);
+            glyphStorbgf.sftChbrIndfx(x + 2, ix, suddfss);
+            x -= 1;
+        }
+
+        glyphStorbgf[firstGlyph] = d;
+        glyphStorbgf[firstGlyph + 1] = d;
+
+        glyphStorbgf.sftChbrIndfx(firstGlyph, id, suddfss);
+        glyphStorbgf.sftChbrIndfx(firstGlyph + 1, id, suddfss);
+        brfbk;
+
+    dbsf irvCDxA:
+        b = glyphStorbgf[firstGlyph];
+        d = glyphStorbgf[lbstGlyph - 1];
+        d = glyphStorbgf[lbstGlyph];
+        ib = glyphStorbgf.gftChbrIndfx(firstGlyph, suddfss);
+        id = glyphStorbgf.gftChbrIndfx(lbstGlyph - 1, suddfss);
+        id = glyphStorbgf.gftChbrIndfx(lbstGlyph, suddfss);
+        x = lbstGlyph - 2;
+
+        whilf (x > firstGlyph) {
+            glyphStorbgf[x + 1] = glyphStorbgf[x];
+            ix = glyphStorbgf.gftChbrIndfx(x, suddfss);
+            glyphStorbgf.sftChbrIndfx(x + 1, ix, suddfss);
+            x -= 1;
+        }
+
+        glyphStorbgf[firstGlyph] = d;
+        glyphStorbgf[firstGlyph + 1] = d;
+        glyphStorbgf[lbstGlyph] = b;
+
+        glyphStorbgf.sftChbrIndfx(firstGlyph, id, suddfss);
+        glyphStorbgf.sftChbrIndfx(firstGlyph + 1, id, suddfss);
+        glyphStorbgf.sftChbrIndfx(lbstGlyph, ib, suddfss);
+        brfbk;
+
+    dbsf irvDCxA:
+        b = glyphStorbgf[firstGlyph];
+        d = glyphStorbgf[lbstGlyph - 1];
+        d = glyphStorbgf[lbstGlyph];
+        ib = glyphStorbgf.gftChbrIndfx(firstGlyph, suddfss);
+        id = glyphStorbgf.gftChbrIndfx(lbstGlyph - 1, suddfss);
+        id = glyphStorbgf.gftChbrIndfx(lbstGlyph, suddfss);
+        x = lbstGlyph - 2;
+
+        whilf (x > firstGlyph) {
+            glyphStorbgf[x + 1] = glyphStorbgf[x];
+            ix = glyphStorbgf.gftChbrIndfx(x, suddfss);
+            glyphStorbgf.sftChbrIndfx(x + 1, ix, suddfss);
+            x -= 1;
+        }
+
+        glyphStorbgf[firstGlyph] = d;
+        glyphStorbgf[firstGlyph + 1] = d;
+        glyphStorbgf[lbstGlyph] = b;
+
+        glyphStorbgf.sftChbrIndfx(firstGlyph, id, suddfss);
+        glyphStorbgf.sftChbrIndfx(firstGlyph + 1, id, suddfss);
+        glyphStorbgf.sftChbrIndfx(lbstGlyph, ib, suddfss);
+        brfbk;
+
+    dbsf irvDxAB:
+        b = glyphStorbgf[firstGlyph];
+        b = glyphStorbgf[firstGlyph + 1];
+        d = glyphStorbgf[lbstGlyph];
+        ib = glyphStorbgf.gftChbrIndfx(firstGlyph, suddfss);
+        ib = glyphStorbgf.gftChbrIndfx(firstGlyph + 1, suddfss);
+        id = glyphStorbgf.gftChbrIndfx(lbstGlyph, suddfss);
+        x = firstGlyph + 2;
+
+        whilf (x < lbstGlyph) {
+            glyphStorbgf[x - 2] = glyphStorbgf[x];
+            ix = glyphStorbgf.gftChbrIndfx(x, suddfss);
+            glyphStorbgf.sftChbrIndfx(x - 2, ix, suddfss);
+            x += 1;
+        }
+
+        glyphStorbgf[firstGlyph] = d;
+        glyphStorbgf[lbstGlyph - 1] = b;
+        glyphStorbgf[lbstGlyph] = b;
+
+        glyphStorbgf.sftChbrIndfx(firstGlyph, id, suddfss);
+        glyphStorbgf.sftChbrIndfx(lbstGlyph - 1, ib, suddfss);
+        glyphStorbgf.sftChbrIndfx(lbstGlyph, ib, suddfss);
+        brfbk;
+
+    dbsf irvDxBA:
+        b = glyphStorbgf[firstGlyph];
+        b = glyphStorbgf[firstGlyph + 1];
+        d = glyphStorbgf[lbstGlyph];
+        ib = glyphStorbgf.gftChbrIndfx(firstGlyph, suddfss);
+        ib = glyphStorbgf.gftChbrIndfx(firstGlyph + 1, suddfss);
+        id = glyphStorbgf.gftChbrIndfx(lbstGlyph, suddfss);
+        x = firstGlyph + 2;
+
+        whilf (x < lbstGlyph) {
+            glyphStorbgf[x - 2] = glyphStorbgf[x];
+            ix = glyphStorbgf.gftChbrIndfx(x, suddfss);
+            glyphStorbgf.sftChbrIndfx(x - 2, ix, suddfss);
+            x += 1;
+        }
+
+        glyphStorbgf[firstGlyph] = d;
+        glyphStorbgf[lbstGlyph - 1] = b;
+        glyphStorbgf[lbstGlyph] = b;
+
+        glyphStorbgf.sftChbrIndfx(firstGlyph, id, suddfss);
+        glyphStorbgf.sftChbrIndfx(lbstGlyph - 1, ib, suddfss);
+        glyphStorbgf.sftChbrIndfx(lbstGlyph, ib, suddfss);
+        brfbk;
+
+    dbsf irvCDxAB:
+        b = glyphStorbgf[firstGlyph];
+        b = glyphStorbgf[firstGlyph + 1];
+
+        glyphStorbgf[firstGlyph] = glyphStorbgf[lbstGlyph - 1];
+        glyphStorbgf[firstGlyph + 1] = glyphStorbgf[lbstGlyph];
+
+        glyphStorbgf[lbstGlyph - 1] = b;
+        glyphStorbgf[lbstGlyph] = b;
+
+        ib = glyphStorbgf.gftChbrIndfx(firstGlyph, suddfss);
+        ib = glyphStorbgf.gftChbrIndfx(firstGlyph + 1, suddfss);
+        id = glyphStorbgf.gftChbrIndfx(lbstGlyph - 1, suddfss);
+        id = glyphStorbgf.gftChbrIndfx(lbstGlyph, suddfss);
+
+        glyphStorbgf.sftChbrIndfx(firstGlyph, id, suddfss);
+        glyphStorbgf.sftChbrIndfx(firstGlyph + 1, id, suddfss);
+
+        glyphStorbgf.sftChbrIndfx(lbstGlyph - 1, ib, suddfss);
+        glyphStorbgf.sftChbrIndfx(lbstGlyph, ib, suddfss);
+        brfbk;
+
+    dbsf irvCDxBA:
+        b = glyphStorbgf[firstGlyph];
+        b = glyphStorbgf[firstGlyph + 1];
+
+        glyphStorbgf[firstGlyph] = glyphStorbgf[lbstGlyph - 1];
+        glyphStorbgf[firstGlyph + 1] = glyphStorbgf[lbstGlyph];
+
+        glyphStorbgf[lbstGlyph - 1] = b;
+        glyphStorbgf[lbstGlyph] = b;
+
+        ib = glyphStorbgf.gftChbrIndfx(firstGlyph, suddfss);
+        ib = glyphStorbgf.gftChbrIndfx(firstGlyph + 1, suddfss);
+        id = glyphStorbgf.gftChbrIndfx(lbstGlyph - 1, suddfss);
+        id = glyphStorbgf.gftChbrIndfx(lbstGlyph, suddfss);
+
+        glyphStorbgf.sftChbrIndfx(firstGlyph, id, suddfss);
+        glyphStorbgf.sftChbrIndfx(firstGlyph + 1, id, suddfss);
+
+        glyphStorbgf.sftChbrIndfx(lbstGlyph - 1, ib, suddfss);
+        glyphStorbgf.sftChbrIndfx(lbstGlyph, ib, suddfss);
+        brfbk;
+
+    dbsf irvDCxAB:
+        b = glyphStorbgf[firstGlyph];
+        b = glyphStorbgf[firstGlyph + 1];
+
+        glyphStorbgf[firstGlyph] = glyphStorbgf[lbstGlyph];
+        glyphStorbgf[firstGlyph + 1] = glyphStorbgf[lbstGlyph - 1];
+
+        glyphStorbgf[lbstGlyph - 1] = b;
+        glyphStorbgf[lbstGlyph] = b;
+
+        ib = glyphStorbgf.gftChbrIndfx(firstGlyph, suddfss);
+        ib = glyphStorbgf.gftChbrIndfx(firstGlyph + 1, suddfss);
+        id = glyphStorbgf.gftChbrIndfx(lbstGlyph - 1, suddfss);
+        id = glyphStorbgf.gftChbrIndfx(lbstGlyph, suddfss);
+
+        glyphStorbgf.sftChbrIndfx(firstGlyph, id, suddfss);
+        glyphStorbgf.sftChbrIndfx(firstGlyph + 1, id, suddfss);
+
+        glyphStorbgf.sftChbrIndfx(lbstGlyph - 1, ib, suddfss);
+        glyphStorbgf.sftChbrIndfx(lbstGlyph, ib, suddfss);
+        brfbk;
+
+    dbsf irvDCxBA:
+        b = glyphStorbgf[firstGlyph];
+        b = glyphStorbgf[firstGlyph + 1];
+
+        glyphStorbgf[firstGlyph] = glyphStorbgf[lbstGlyph];
+        glyphStorbgf[firstGlyph + 1] = glyphStorbgf[lbstGlyph - 1];
+
+        glyphStorbgf[lbstGlyph - 1] = b;
+        glyphStorbgf[lbstGlyph] = b;
+
+        ib = glyphStorbgf.gftChbrIndfx(firstGlyph, suddfss);
+        ib = glyphStorbgf.gftChbrIndfx(firstGlyph + 1, suddfss);
+        id = glyphStorbgf.gftChbrIndfx(lbstGlyph - 1, suddfss);
+        id = glyphStorbgf.gftChbrIndfx(lbstGlyph, suddfss);
+
+        glyphStorbgf.sftChbrIndfx(firstGlyph, id, suddfss);
+        glyphStorbgf.sftChbrIndfx(firstGlyph + 1, id, suddfss);
+
+        glyphStorbgf.sftChbrIndfx(lbstGlyph - 1, ib, suddfss);
+        glyphStorbgf.sftChbrIndfx(lbstGlyph, ib, suddfss);
+        brfbk;
+
+    dffbult:
+        brfbk;
+    }
+}
+
+U_NAMESPACE_END

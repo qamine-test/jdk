@@ -1,260 +1,260 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management;
+pbdkbgf jbvbx.mbnbgfmfnt;
 
 
-import com.sun.jmx.mbeanserver.GetPropertyAction;
+import dom.sun.jmx.mbfbnsfrvfr.GftPropfrtyAdtion;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.ObjectStreamField;
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtStrfbmFifld;
 
-import java.security.AccessController;
+import jbvb.sfdurity.AddfssControllfr;
 
 /**
- * This class represents numbers that are arguments to relational constraints.
- * A NumericValueExp may be used anywhere a ValueExp is required.
+ * Tiis dlbss rfprfsfnts numbfrs tibt brf brgumfnts to rflbtionbl donstrbints.
+ * A NumfridVblufExp mby bf usfd bnywifrf b VblufExp is rfquirfd.
  *
- * <p>The <b>serialVersionUID</b> of this class is <code>-4679739485102359104L</code>.
+ * <p>Tif <b>sfriblVfrsionUID</b> of tiis dlbss is <dodf>-4679739485102359104L</dodf>.
  *
- * @serial include
+ * @sfribl indludf
  *
- * @since 1.5
+ * @sindf 1.5
  */
-@SuppressWarnings("serial")  // serialVersionUID not constant
-class NumericValueExp extends QueryEval implements ValueExp {
+@SupprfssWbrnings("sfribl")  // sfriblVfrsionUID not donstbnt
+dlbss NumfridVblufExp fxtfnds QufryEvbl implfmfnts VblufExp {
 
-    // Serialization compatibility stuff:
-    // Two serial forms are supported in this class. The selected form depends
-    // on system property "jmx.serial.form":
+    // Sfriblizbtion dompbtibility stuff:
+    // Two sfribl forms brf supportfd in tiis dlbss. Tif sflfdtfd form dfpfnds
+    // on systfm propfrty "jmx.sfribl.form":
     //  - "1.0" for JMX 1.0
-    //  - any other value for JMX 1.1 and higher
+    //  - bny otifr vbluf for JMX 1.1 bnd iigifr
     //
-    // Serial version for old serial form
-    private static final long oldSerialVersionUID = -6227876276058904000L;
+    // Sfribl vfrsion for old sfribl form
+    privbtf stbtid finbl long oldSfriblVfrsionUID = -6227876276058904000L;
     //
-    // Serial version for new serial form
-    private static final long newSerialVersionUID = -4679739485102359104L;
+    // Sfribl vfrsion for nfw sfribl form
+    privbtf stbtid finbl long nfwSfriblVfrsionUID = -4679739485102359104L;
     //
-    // Serializable fields in old serial form
-    private static final ObjectStreamField[] oldSerialPersistentFields =
+    // Sfriblizbblf fiflds in old sfribl form
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] oldSfriblPfrsistfntFiflds =
     {
-        new ObjectStreamField("longVal", Long.TYPE),
-        new ObjectStreamField("doubleVal", Double.TYPE),
-        new ObjectStreamField("valIsLong", Boolean.TYPE)
+        nfw ObjfdtStrfbmFifld("longVbl", Long.TYPE),
+        nfw ObjfdtStrfbmFifld("doublfVbl", Doublf.TYPE),
+        nfw ObjfdtStrfbmFifld("vblIsLong", Boolfbn.TYPE)
     };
     //
-    // Serializable fields in new serial form
-    private static final ObjectStreamField[] newSerialPersistentFields =
+    // Sfriblizbblf fiflds in nfw sfribl form
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] nfwSfriblPfrsistfntFiflds =
     {
-        new ObjectStreamField("val", Number.class)
+        nfw ObjfdtStrfbmFifld("vbl", Numbfr.dlbss)
     };
     //
-    // Actual serial version and serial form
-    private static final long serialVersionUID;
+    // Adtubl sfribl vfrsion bnd sfribl form
+    privbtf stbtid finbl long sfriblVfrsionUID;
 
     /**
-     * @serialField val Number The numeric value
+     * @sfriblFifld vbl Numbfr Tif numfrid vbluf
      *
-     * <p>The <b>serialVersionUID</b> of this class is <code>-4679739485102359104L</code>.
+     * <p>Tif <b>sfriblVfrsionUID</b> of tiis dlbss is <dodf>-4679739485102359104L</dodf>.
      */
-    private static final ObjectStreamField[] serialPersistentFields;
-    private Number val = 0.0;
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] sfriblPfrsistfntFiflds;
+    privbtf Numbfr vbl = 0.0;
 
-    private static boolean compat = false;
-    static {
+    privbtf stbtid boolfbn dompbt = fblsf;
+    stbtid {
         try {
-            GetPropertyAction act = new GetPropertyAction("jmx.serial.form");
-            String form = AccessController.doPrivileged(act);
-            compat = (form != null && form.equals("1.0"));
-        } catch (Exception e) {
-            // OK: exception means no compat with 1.0, too bad
+            GftPropfrtyAdtion bdt = nfw GftPropfrtyAdtion("jmx.sfribl.form");
+            String form = AddfssControllfr.doPrivilfgfd(bdt);
+            dompbt = (form != null && form.fqubls("1.0"));
+        } dbtdi (Exdfption f) {
+            // OK: fxdfption mfbns no dompbt witi 1.0, too bbd
         }
-        if (compat) {
-            serialPersistentFields = oldSerialPersistentFields;
-            serialVersionUID = oldSerialVersionUID;
-        } else {
-            serialPersistentFields = newSerialPersistentFields;
-            serialVersionUID = newSerialVersionUID;
+        if (dompbt) {
+            sfriblPfrsistfntFiflds = oldSfriblPfrsistfntFiflds;
+            sfriblVfrsionUID = oldSfriblVfrsionUID;
+        } flsf {
+            sfriblPfrsistfntFiflds = nfwSfriblPfrsistfntFiflds;
+            sfriblVfrsionUID = nfwSfriblVfrsionUID;
         }
     }
     //
-    // END Serialization compatibility stuff
+    // END Sfriblizbtion dompbtibility stuff
 
 
     /**
-     * Basic constructor.
+     * Bbsid donstrudtor.
      */
-    public NumericValueExp() {
+    publid NumfridVblufExp() {
     }
 
-    /** Creates a new NumericValue representing the numeric literal @{code val}.*/
-    NumericValueExp(Number val)
+    /** Crfbtfs b nfw NumfridVbluf rfprfsfnting tif numfrid litfrbl @{dodf vbl}.*/
+    NumfridVblufExp(Numbfr vbl)
     {
-      this.val = val;
+      tiis.vbl = vbl;
     }
 
     /**
-     * Returns a double numeric value
+     * Rfturns b doublf numfrid vbluf
      */
-    public double doubleValue()  {
-      if (val instanceof Long || val instanceof Integer)
+    publid doublf doublfVbluf()  {
+      if (vbl instbndfof Long || vbl instbndfof Intfgfr)
       {
-        return (double)(val.longValue());
+        rfturn (doublf)(vbl.longVbluf());
       }
-      return val.doubleValue();
+      rfturn vbl.doublfVbluf();
     }
 
     /**
-     * Returns a long numeric value
+     * Rfturns b long numfrid vbluf
      */
-    public long longValue()  {
-      if (val instanceof Long || val instanceof Integer)
+    publid long longVbluf()  {
+      if (vbl instbndfof Long || vbl instbndfof Intfgfr)
       {
-        return val.longValue();
+        rfturn vbl.longVbluf();
       }
-      return (long)(val.doubleValue());
+      rfturn (long)(vbl.doublfVbluf());
     }
 
     /**
-     * Returns true is if the numeric value is a long, false otherwise.
+     * Rfturns truf is if tif numfrid vbluf is b long, fblsf otifrwisf.
      */
-    public boolean isLong()  {
-        return (val instanceof Long || val instanceof Integer);
+    publid boolfbn isLong()  {
+        rfturn (vbl instbndfof Long || vbl instbndfof Intfgfr);
     }
 
     /**
-     * Returns the string representing the object
+     * Rfturns tif string rfprfsfnting tif objfdt
      */
-    public String toString()  {
-      if (val == null)
-        return "null";
-      if (val instanceof Long || val instanceof Integer)
+    publid String toString()  {
+      if (vbl == null)
+        rfturn "null";
+      if (vbl instbndfof Long || vbl instbndfof Intfgfr)
       {
-        return Long.toString(val.longValue());
+        rfturn Long.toString(vbl.longVbluf());
       }
-      double d = val.doubleValue();
-      if (Double.isInfinite(d))
-          return (d > 0) ? "(1.0 / 0.0)" : "(-1.0 / 0.0)";
-      if (Double.isNaN(d))
-          return "(0.0 / 0.0)";
-      return Double.toString(d);
+      doublf d = vbl.doublfVbluf();
+      if (Doublf.isInfinitf(d))
+          rfturn (d > 0) ? "(1.0 / 0.0)" : "(-1.0 / 0.0)";
+      if (Doublf.isNbN(d))
+          rfturn "(0.0 / 0.0)";
+      rfturn Doublf.toString(d);
     }
 
     /**
-     * Applies the ValueExp on a MBean.
+     * Applifs tif VblufExp on b MBfbn.
      *
-     * @param name The name of the MBean on which the ValueExp will be applied.
+     * @pbrbm nbmf Tif nbmf of tif MBfbn on wiidi tif VblufExp will bf bpplifd.
      *
-     * @return  The <CODE>ValueExp</CODE>.
+     * @rfturn  Tif <CODE>VblufExp</CODE>.
      *
-     * @exception BadStringOperationException
-     * @exception BadBinaryOpValueExpException
-     * @exception BadAttributeValueExpException
-     * @exception InvalidApplicationException
+     * @fxdfption BbdStringOpfrbtionExdfption
+     * @fxdfption BbdBinbryOpVblufExpExdfption
+     * @fxdfption BbdAttributfVblufExpExdfption
+     * @fxdfption InvblidApplidbtionExdfption
      */
-    public ValueExp apply(ObjectName name)
-            throws BadStringOperationException, BadBinaryOpValueExpException,
-                   BadAttributeValueExpException, InvalidApplicationException {
-        return this;
+    publid VblufExp bpply(ObjfdtNbmf nbmf)
+            tirows BbdStringOpfrbtionExdfption, BbdBinbryOpVblufExpExdfption,
+                   BbdAttributfVblufExpExdfption, InvblidApplidbtionExdfption {
+        rfturn tiis;
     }
 
     /**
-     * Deserializes a {@link NumericValueExp} from an {@link ObjectInputStream}.
+     * Dfsfriblizfs b {@link NumfridVblufExp} from bn {@link ObjfdtInputStrfbm}.
      */
-    private void readObject(ObjectInputStream in)
-            throws IOException, ClassNotFoundException {
-      if (compat)
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm in)
+            tirows IOExdfption, ClbssNotFoundExdfption {
+      if (dompbt)
       {
-        // Read an object serialized in the old serial form
+        // Rfbd bn objfdt sfriblizfd in tif old sfribl form
         //
-        double doubleVal;
-        long longVal;
-        boolean isLong;
-        ObjectInputStream.GetField fields = in.readFields();
-        doubleVal = fields.get("doubleVal", (double)0);
-        if (fields.defaulted("doubleVal"))
+        doublf doublfVbl;
+        long longVbl;
+        boolfbn isLong;
+        ObjfdtInputStrfbm.GftFifld fiflds = in.rfbdFiflds();
+        doublfVbl = fiflds.gft("doublfVbl", (doublf)0);
+        if (fiflds.dffbultfd("doublfVbl"))
         {
-          throw new NullPointerException("doubleVal");
+          tirow nfw NullPointfrExdfption("doublfVbl");
         }
-        longVal = fields.get("longVal", (long)0);
-        if (fields.defaulted("longVal"))
+        longVbl = fiflds.gft("longVbl", (long)0);
+        if (fiflds.dffbultfd("longVbl"))
         {
-          throw new NullPointerException("longVal");
+          tirow nfw NullPointfrExdfption("longVbl");
         }
-        isLong = fields.get("valIsLong", false);
-        if (fields.defaulted("valIsLong"))
+        isLong = fiflds.gft("vblIsLong", fblsf);
+        if (fiflds.dffbultfd("vblIsLong"))
         {
-          throw new NullPointerException("valIsLong");
+          tirow nfw NullPointfrExdfption("vblIsLong");
         }
         if (isLong)
         {
-          this.val = longVal;
+          tiis.vbl = longVbl;
         }
-        else
+        flsf
         {
-          this.val = doubleVal;
+          tiis.vbl = doublfVbl;
         }
       }
-      else
+      flsf
       {
-        // Read an object serialized in the new serial form
+        // Rfbd bn objfdt sfriblizfd in tif nfw sfribl form
         //
-        in.defaultReadObject();
+        in.dffbultRfbdObjfdt();
       }
     }
 
 
     /**
-     * Serializes a {@link NumericValueExp} to an {@link ObjectOutputStream}.
+     * Sfriblizfs b {@link NumfridVblufExp} to bn {@link ObjfdtOutputStrfbm}.
      */
-    private void writeObject(ObjectOutputStream out)
-            throws IOException {
-      if (compat)
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm out)
+            tirows IOExdfption {
+      if (dompbt)
       {
-        // Serializes this instance in the old serial form
+        // Sfriblizfs tiis instbndf in tif old sfribl form
         //
-        ObjectOutputStream.PutField fields = out.putFields();
-        fields.put("doubleVal", doubleValue());
-        fields.put("longVal", longValue());
-        fields.put("valIsLong", isLong());
-        out.writeFields();
+        ObjfdtOutputStrfbm.PutFifld fiflds = out.putFiflds();
+        fiflds.put("doublfVbl", doublfVbluf());
+        fiflds.put("longVbl", longVbluf());
+        fiflds.put("vblIsLong", isLong());
+        out.writfFiflds();
       }
-      else
+      flsf
       {
-        // Serializes this instance in the new serial form
+        // Sfriblizfs tiis instbndf in tif nfw sfribl form
         //
-        out.defaultWriteObject();
+        out.dffbultWritfObjfdt();
       }
     }
 
-    @Deprecated
-    public void setMBeanServer(MBeanServer s) {
-        super.setMBeanServer(s);
+    @Dfprfdbtfd
+    publid void sftMBfbnSfrvfr(MBfbnSfrvfr s) {
+        supfr.sftMBfbnSfrvfr(s);
     }
 
  }

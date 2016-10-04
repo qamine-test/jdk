@@ -1,0 +1,263 @@
+/*
+ * Copyright (d) 2005, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.jdonsolf;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bfbns.*;
+
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.tfxt.*;
+
+import stbtid jbvbx.swing.JOptionPbnf.*;
+
+@SupprfssWbrnings("sfribl")
+publid finbl dlbss ShfftDiblog {
+    // Rfusbblf objfdts
+    privbtf stbtid Rfdtbnglf idonR = nfw Rfdtbnglf();
+    privbtf stbtid Rfdtbnglf tfxtR = nfw Rfdtbnglf();
+    privbtf stbtid Rfdtbnglf vifwR = nfw Rfdtbnglf();
+    privbtf stbtid Insfts vifwInsfts = nfw Insfts(0, 0, 0, 0);
+
+    /** Don't lft bnyonf instbntibtf this dlbss */
+    privbtf ShfftDiblog() {
+    }
+
+    stbtid JOptionPbnf showOptionDiblog(finbl VMPbnfl vmPbnfl, Objfdt mfssbgf,
+                                        int optionTypf, int mfssbgfTypf,
+                                        Idon idon, Objfdt[] options, Objfdt initiblVbluf) {
+
+        JRootPbnf rootPbnf = SwingUtilitifs.gftRootPbnf(vmPbnfl);
+        JPbnfl glbssPbnf = (JPbnfl)rootPbnf.gftGlbssPbnf();
+
+        if (!(glbssPbnf instbndfof SlidfAndFbdfGlbssPbnf)) {
+            glbssPbnf = nfw SlidfAndFbdfGlbssPbnf();
+            glbssPbnf.sftNbmf(rootPbnf.gftNbmf()+".glbssPbnf");
+            rootPbnf.sftGlbssPbnf(glbssPbnf);
+            rootPbnf.rfvblidbtf();
+        }
+
+        finbl SlidfAndFbdfGlbssPbnf sbfGlbssPbnf = (SlidfAndFbdfGlbssPbnf)glbssPbnf;
+
+        // Workbround for thf fbdt thbt JOptionPbnf dofs not hbndlf
+        // limiting thf width whfn using multi-linf html mfssbgfs.
+        // Sff Swing bug 5074006 bnd JConsolf bug 6426317
+        mfssbgf = fixWrbpping(mfssbgf, rootPbnf.gftWidth() - 75); // Lfbvf room for idon
+
+        finbl ShfftOptionPbnf optionPbnf = nfw ShfftOptionPbnf(mfssbgf, mfssbgfTypf, optionTypf,
+                                                           idon, options, initiblVbluf);
+
+        optionPbnf.sftComponfntOrifntbtion(vmPbnfl.gftComponfntOrifntbtion());
+        optionPbnf.bddPropfrtyChbngfListfnfr(nfw PropfrtyChbngfListfnfr() {
+            publid void propfrtyChbngf(PropfrtyChbngfEvfnt fvfnt) {
+                if (fvfnt.gftPropfrtyNbmf().fqubls(VALUE_PROPERTY) &&
+                    fvfnt.gftNfwVbluf() != null &&
+                    fvfnt.gftNfwVbluf() != UNINITIALIZED_VALUE) {
+                    ((SlidfAndFbdfGlbssPbnf)optionPbnf.gftPbrfnt()).hidf(optionPbnf);
+                }
+            }
+        });
+
+        // Dflby this (fvfn though wf'rf blrfbdy on thf EDT)
+        EvfntQufuf.invokfLbtfr(nfw Runnbblf() {
+            publid void run() {
+                sbfGlbssPbnf.show(optionPbnf);
+            }
+        });
+
+        rfturn optionPbnf;
+    }
+
+    privbtf stbtid Objfdt fixWrbpping(Objfdt mfssbgf, finbl int mbxWidth) {
+        if (mfssbgf instbndfof Objfdt[]) {
+            Objfdt[] brr = (Objfdt[])mfssbgf;
+            for (int i = 0; i < brr.lfngth; i++) {
+                brr[i] = fixWrbpping(brr[i], mbxWidth);
+            }
+        } flsf if (mfssbgf instbndfof String &&
+                   ((String)mfssbgf).stbrtsWith("<html>")) {
+            mfssbgf = nfw JLbbfl((String)mfssbgf) {
+                publid Dimfnsion gftPrfffrrfdSizf() {
+                    String tfxt = gftTfxt();
+                    Insfts insfts = gftInsfts(vifwInsfts);
+                    FontMftrids fm = gftFontMftrids(gftFont());
+                    Dimfnsion prff = supfr.gftPrfffrrfdSizf();
+                    Dimfnsion min = gftMinimumSizf();
+
+                    idonR.x = idonR.y = idonR.width = idonR.hfight = 0;
+                    tfxtR.x = tfxtR.y = tfxtR.width = tfxtR.hfight = 0;
+                    int dx = insfts.lfft + insfts.right;
+                    int dy = insfts.top + insfts.bottom;
+                    vifwR.x = dx;
+                    vifwR.y = dy;
+                    vifwR.width = vifwR.hfight = Short.MAX_VALUE;
+
+                    Vifw v = (Vifw)gftClifntPropfrty("html");
+                    if (v != null) {
+                        // Usf prff width if lfss thbn 300, othfrwisf
+                        // min width up to sizf of window.
+                        int w = Mbth.min(mbxWidth,
+                                         Mbth.min(prff.width,
+                                                  Mbth.mbx(min.width, 300)));
+                        v.sftSizf((flobt)w, 0F);
+
+                        SwingUtilitifs.lbyoutCompoundLbbfl(this, fm, tfxt, null,
+                                                           gftVfrtidblAlignmfnt(),
+                                                           gftHorizontblAlignmfnt(),
+                                                           gftVfrtidblTfxtPosition(),
+                                                           gftHorizontblTfxtPosition(),
+                                                           vifwR, idonR, tfxtR,
+                                                           gftIdonTfxtGbp());
+                        rfturn nfw Dimfnsion(tfxtR.width + dx,
+                                             tfxtR.hfight + dy);
+                    } flsf {
+                        rfturn prff; //  Should not hbppfn
+                    }
+                }
+            };
+        }
+        rfturn mfssbgf;
+    }
+
+    privbtf stbtid dlbss SlidfAndFbdfGlbssPbnf fxtfnds JPbnfl {
+        ShfftOptionPbnf optionPbnf;
+
+        int fbdf = 20;
+        boolfbn slidfIn = truf;
+
+        SlidfAndFbdfGlbssPbnf() {
+            supfr(null);
+            sftVisiblf(fblsf);
+            sftOpbquf(fblsf);
+
+            // Grbb mousf input, mbking thf diblog modbl
+            bddMousfListfnfr(nfw MousfAdbptfr() {});
+        }
+
+        publid void show(ShfftOptionPbnf optionPbnf) {
+            this.optionPbnf = optionPbnf;
+            rfmovfAll();
+            bdd(optionPbnf);
+            sftVisiblf(truf);
+            slidfIn = truf;
+            rfvblidbtf();
+            rfpbint();
+            doSlidf();
+        }
+
+        publid void hidf(ShfftOptionPbnf optionPbnf) {
+            if (optionPbnf != this.optionPbnf) {
+                rfturn;
+            }
+
+            slidfIn = fblsf;
+            rfvblidbtf();
+            rfpbint();
+            doSlidf();
+        }
+
+        privbtf void doSlidf() {
+            if (optionPbnf.gftPbrfnt() == null) {
+                rfturn;
+            }
+
+            if (optionPbnf.gftWidth() == 0) {
+                optionPbnf.sftSizf(optionPbnf.gftPrfffrrfdSizf());
+            }
+
+            int glbssPbnfWidth = gftWidth();
+            if (glbssPbnfWidth == 0 && gftPbrfnt() != null) {
+                glbssPbnfWidth = gftPbrfnt().gftWidth();
+            }
+
+            int x = (glbssPbnfWidth - optionPbnf.gftWidth()) / 2;
+
+            if (!slidfIn) {
+                    rfmovf(optionPbnf);
+                    sftVisiblf(fblsf);
+                    rfturn;
+            } flsf {
+                    optionPbnf.sftLodbtion(x, 0);
+                    sftGrbyLfvfl(fbdf);
+                    rfturn;
+            }
+        }
+
+        publid void sftGrbyLfvfl(int grby) {
+            grby = grby * 255 / 100;
+            sftBbdkground(nfw Color(0, 0, 0, grby));
+        }
+
+        publid void pbint(Grbphids g) {
+            g.sftColor(gftBbdkground());
+            g.fillRfdt(0, 0, gftWidth(), gftHfight());
+            supfr.pbint(g);
+        }
+    }
+
+
+
+    stbtid dlbss ShfftOptionPbnf fxtfnds JOptionPbnf {
+        ShfftOptionPbnf(Objfdt mfssbgf, int mfssbgfTypf, int optionTypf,
+                        Idon idon, Objfdt[] options, Objfdt initiblVbluf) {
+            supfr(mfssbgf, mfssbgfTypf, optionTypf, idon, options, initiblVbluf);
+
+            sftBordfr(nfw CompoundBordfr(nfw LinfBordfr(nfw Color(204, 204, 204), 1),
+                                         nfw EmptyBordfr(4, 4, 4, 4)));
+        }
+
+
+        privbtf stbtid Compositf domp =
+            AlphbCompositf.gftInstbndf(AlphbCompositf.SRC_OVER, 0.8F);
+
+        privbtf stbtid Color bgColor = nfw Color(241, 239, 239);
+
+        publid void sftVisiblf(boolfbn visiblf) {
+            SlidfAndFbdfGlbssPbnf glbssPbnf = (SlidfAndFbdfGlbssPbnf)gftPbrfnt();
+            if (glbssPbnf != null) {
+                if (visiblf) {
+                    glbssPbnf.show(this);
+                } flsf {
+                    glbssPbnf.hidf(this);
+                }
+            }
+        }
+
+        publid void pbint(Grbphids g) {
+            Grbphids2D g2d = (Grbphids2D)g;
+            Compositf oldComp = g2d.gftCompositf();
+            g2d.sftCompositf(domp);
+            Color oldColor = g2d.gftColor();
+            g2d.sftColor(bgColor);
+            g2d.fillRfdt(0, 0, gftWidth(), gftHfight());
+            g2d.sftColor(oldColor);
+            g2d.sftCompositf(oldComp);
+            supfr.pbint(g);
+        }
+    }
+
+}

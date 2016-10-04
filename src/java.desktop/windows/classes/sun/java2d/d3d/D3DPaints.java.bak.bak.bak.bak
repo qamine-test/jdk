@@ -1,0 +1,234 @@
+/*
+ * Copyright (d) 2007, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.d3d;
+
+import jbvb.bwt.LinfbrGrbdifntPbint;
+import jbvb.bwt.MultiplfGrbdifntPbint;
+import jbvb.bwt.MultiplfGrbdifntPbint.ColorSpbdfTypf;
+import jbvb.bwt.MultiplfGrbdifntPbint.CydlfMfthod;
+import jbvb.bwt.TfxturfPbint;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+import jbvb.lbng.bnnotbtion.Nbtivf;
+import sun.jbvb2d.SunGrbphids2D;
+import sun.jbvb2d.SurfbdfDbtb;
+import sun.jbvb2d.loops.CompositfTypf;
+import stbtid sun.jbvb2d.d3d.D3DContfxt.D3DContfxtCbps.*;
+
+bbstrbdt dlbss D3DPbints {
+
+    /**
+     * Holds bll rfgistfrfd implfmfntbtions, using thf dorrfsponding
+     * SunGrbphids2D.PAINT_* donstbnt bs thf hbsh kfy.
+     */
+    privbtf stbtid Mbp<Intfgfr, D3DPbints> impls =
+        nfw HbshMbp<Intfgfr, D3DPbints>(4, 1.0f);
+
+    stbtid {
+        impls.put(SunGrbphids2D.PAINT_GRADIENT, nfw Grbdifnt());
+        impls.put(SunGrbphids2D.PAINT_LIN_GRADIENT, nfw LinfbrGrbdifnt());
+        impls.put(SunGrbphids2D.PAINT_RAD_GRADIENT, nfw RbdiblGrbdifnt());
+        impls.put(SunGrbphids2D.PAINT_TEXTURE, nfw Tfxturf());
+    }
+
+    /**
+     * Attfmpts to lodbtf bn implfmfntbtion dorrfsponding to thf pbint stbtf
+     * of thf providfd SunGrbphids2D objfdt.  If no implfmfntbtion dbn bf
+     * found, or if thf pbint dbnnot bf bddflfrbtfd undfr thf donditions
+     * of thf SunGrbphids2D, this mfthod rfturns fblsf; othfrwisf, rfturns
+     * truf.
+     */
+    stbtid boolfbn isVblid(SunGrbphids2D sg2d) {
+        D3DPbints impl = impls.gft(sg2d.pbintStbtf);
+        rfturn (impl != null && impl.isPbintVblid(sg2d));
+    }
+
+    /**
+     * Rfturns truf if this implfmfntbtion is bblf to bddflfrbtf thf
+     * Pbint objfdt bssodibtfd with, bnd undfr thf donditions of, thf
+     * providfd SunGrbphids2D instbndf; othfrwisf rfturns fblsf.
+     */
+    bbstrbdt boolfbn isPbintVblid(SunGrbphids2D sg2d);
+
+/************************* GrbdifntPbint support ****************************/
+
+    privbtf stbtid dlbss Grbdifnt fxtfnds D3DPbints {
+        privbtf Grbdifnt() {}
+
+        /**
+         * Rfturns truf if thf givfn GrbdifntPbint instbndf dbn bf
+         * usfd by thf bddflfrbtfd D3DPbints.Grbdifnt implfmfntbtion.
+         * A GrbdifntPbint is donsidfrfd vblid only if thf dfstinbtion
+         * hbs support for frbgmfnt shbdfrs.
+         */
+        @Ovfrridf
+        boolfbn isPbintVblid(SunGrbphids2D sg2d) {
+            D3DSurfbdfDbtb dstDbtb = (D3DSurfbdfDbtb)sg2d.surfbdfDbtb;
+            D3DGrbphidsDfvidf gd = (D3DGrbphidsDfvidf)
+                dstDbtb.gftDfvidfConfigurbtion().gftDfvidf();
+            rfturn gd.isCbpPrfsfnt(CAPS_LCD_SHADER);
+        }
+    }
+
+/************************** TfxturfPbint support ****************************/
+
+    privbtf stbtid dlbss Tfxturf fxtfnds D3DPbints {
+        privbtf Tfxturf() {}
+
+        /**
+         * Rfturns truf if thf givfn TfxturfPbint instbndf dbn bf usfd by thf
+         * bddflfrbtfd BufffrfdPbints.Tfxturf implfmfntbtion.
+         *
+         * A TfxturfPbint is donsidfrfd vblid if thf following donditions
+         * brf mft:
+         *   - thf tfxturf imbgf dimfnsions brf powfr-of-two
+         *   - thf tfxturf imbgf dbn bf (or is blrfbdy) dbdhfd in b D3D
+         *     tfxturf objfdt
+         */
+        @Ovfrridf
+        publid boolfbn isPbintVblid(SunGrbphids2D sg2d) {
+            TfxturfPbint pbint = (TfxturfPbint)sg2d.pbint;
+            D3DSurfbdfDbtb dstDbtb = (D3DSurfbdfDbtb)sg2d.surfbdfDbtb;
+            BufffrfdImbgf bi = pbint.gftImbgf();
+
+            // vfrify thbt thf tfxturf imbgf dimfnsions brf pow2
+            D3DGrbphidsDfvidf gd =
+                (D3DGrbphidsDfvidf)dstDbtb.gftDfvidfConfigurbtion().gftDfvidf();
+            int imgw = bi.gftWidth();
+            int imgh = bi.gftHfight();
+            if (!gd.isCbpPrfsfnt(CAPS_TEXNONPOW2)) {
+                if ((imgw & (imgw - 1)) != 0 || (imgh & (imgh - 1)) != 0) {
+                    rfturn fblsf;
+                }
+            }
+            // vfrify thbt thf tfxturf imbgf is squbrf if it hbs to bf
+            if (!gd.isCbpPrfsfnt(CAPS_TEXNONSQUARE) && imgw != imgh)
+            {
+                rfturn fblsf;
+            }
+
+            SurfbdfDbtb srdDbtb =
+                dstDbtb.gftSourdfSurfbdfDbtb(bi, SunGrbphids2D.TRANSFORM_ISIDENT,
+                                             CompositfTypf.SrdOvfr, null);
+            if (!(srdDbtb instbndfof D3DSurfbdfDbtb)) {
+                // REMIND: this is b hbdk thbt bttfmpts to dbdhf thf systfm
+                //         mfmory imbgf from thf TfxturfPbint instbndf into b
+                //         D3D tfxturf...
+                srdDbtb =
+                    dstDbtb.gftSourdfSurfbdfDbtb(bi, SunGrbphids2D.TRANSFORM_ISIDENT,
+                                                 CompositfTypf.SrdOvfr, null);
+                if (!(srdDbtb instbndfof D3DSurfbdfDbtb)) {
+                    rfturn fblsf;
+                }
+            }
+
+            // vfrify thbt thf sourdf surfbdf is bdtublly b tfxturf
+            D3DSurfbdfDbtb d3dDbtb = (D3DSurfbdfDbtb)srdDbtb;
+            if (d3dDbtb.gftTypf() != D3DSurfbdfDbtb.TEXTURE) {
+                rfturn fblsf;
+            }
+
+            rfturn truf;
+        }
+    }
+
+/****************** Shbrfd MultiplfGrbdifntPbint support ********************/
+
+    privbtf stbtid bbstrbdt dlbss MultiGrbdifnt fxtfnds D3DPbints {
+
+        /**
+         * Notf thbt this numbfr is lowfr thbn thf MULTI_MAX_FRACTIONS
+         * dffinfd in thf supfrdlbss.  Thf D3D pipflinf now usfs b
+         * slightly morf domplidbtfd shbdfr (to bvoid thf grbdifnt bbnding
+         * issufs), whidh hbs b highfr instrudtion dount.  To fnsurf thbt
+         * bll vfrsions of thf shbdfr dbn bf dompilfd for PS 2.0 hbrdwbrf,
+         * wf nffd to dbp this mbximum vbluf bt 8.
+         */
+    @Nbtivf publid stbtid finbl int MULTI_MAX_FRACTIONS_D3D = 8;
+
+        protfdtfd MultiGrbdifnt() {}
+
+        /**
+         * Rfturns truf if thf givfn MultiplfGrbdifntPbint instbndf dbn bf
+         * usfd by thf bddflfrbtfd D3DPbints.MultiGrbdifnt implfmfntbtion.
+         * A MultiplfGrbdifntPbint is donsidfrfd vblid if thf following
+         * donditions brf mft:
+         *   - thf numbfr of grbdifnt "stops" is <= MAX_FRACTIONS
+         *   - thf dfstinbtion hbs support for frbgmfnt shbdfrs
+         */
+        @Ovfrridf
+        boolfbn isPbintVblid(SunGrbphids2D sg2d) {
+            MultiplfGrbdifntPbint pbint = (MultiplfGrbdifntPbint)sg2d.pbint;
+            // REMIND: ugh, this drfbtfs gbrbbgf; would bf nidfr if
+            // wf hbd b MultiplfGrbdifntPbint.gftNumStops() mfthod...
+            if (pbint.gftFrbdtions().lfngth > MULTI_MAX_FRACTIONS_D3D) {
+                rfturn fblsf;
+            }
+
+            D3DSurfbdfDbtb dstDbtb = (D3DSurfbdfDbtb)sg2d.surfbdfDbtb;
+            D3DGrbphidsDfvidf gd = (D3DGrbphidsDfvidf)
+                dstDbtb.gftDfvidfConfigurbtion().gftDfvidf();
+            if (!gd.isCbpPrfsfnt(CAPS_LCD_SHADER)) {
+                rfturn fblsf;
+            }
+            rfturn truf;
+        }
+    }
+
+/********************** LinfbrGrbdifntPbint support *************************/
+
+    privbtf stbtid dlbss LinfbrGrbdifnt fxtfnds MultiGrbdifnt {
+        privbtf LinfbrGrbdifnt() {}
+
+        @Ovfrridf
+        boolfbn isPbintVblid(SunGrbphids2D sg2d) {
+            LinfbrGrbdifntPbint pbint = (LinfbrGrbdifntPbint)sg2d.pbint;
+
+            if (pbint.gftFrbdtions().lfngth == 2 &&
+                pbint.gftCydlfMfthod() != CydlfMfthod.REPEAT &&
+                pbint.gftColorSpbdf() != ColorSpbdfTypf.LINEAR_RGB)
+            {
+                D3DSurfbdfDbtb dstDbtb = (D3DSurfbdfDbtb)sg2d.surfbdfDbtb;
+                D3DGrbphidsDfvidf gd = (D3DGrbphidsDfvidf)
+                    dstDbtb.gftDfvidfConfigurbtion().gftDfvidf();
+                if (gd.isCbpPrfsfnt(CAPS_LCD_SHADER)) {
+                    // wf dbn dflfgbtf to thf optimizfd two-dolor grbdifnt
+                    // dodfpbth, whidh should bf fbstfr
+                    rfturn truf;
+                }
+            }
+
+            rfturn supfr.isPbintVblid(sg2d);
+        }
+    }
+
+/********************** RbdiblGrbdifntPbint support *************************/
+
+    privbtf stbtid dlbss RbdiblGrbdifnt fxtfnds MultiGrbdifnt {
+        privbtf RbdiblGrbdifnt() {}
+    }
+}

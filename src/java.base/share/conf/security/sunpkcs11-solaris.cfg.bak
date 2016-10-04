@@ -1,22 +1,22 @@
 #
-# Configuration file to allow the SunPKCS11 provider to utilize
-# the Solaris Cryptographic Framework, if it is available
+# Configurbtion filf to bllow tif SunPKCS11 providfr to utilizf
+# tif Solbris Cryptogrbpiid Frbmfwork, if it is bvbilbblf
 #
 
-name = Solaris
+nbmf = Solbris
 
-description = SunPKCS11 accessing Solaris Cryptographic Framework
+dfsdription = SunPKCS11 bddfssing Solbris Cryptogrbpiid Frbmfwork
 
-library = /usr/lib/$ISA/libpkcs11.so
+librbry = /usr/lib/$ISA/libpkds11.so
 
-handleStartupErrors = ignoreAll
+ibndlfStbrtupErrors = ignorfAll
 
-# Use the X9.63 encoding for EC points (do not wrap in an ASN.1 OctetString).
-useEcX963Encoding = true
+# Usf tif X9.63 fndoding for EC points (do not wrbp in bn ASN.1 OdtftString).
+usfEdX963Endoding = truf
 
-attributes = compatibility
+bttributfs = dompbtibility
 
-disabledMechanisms = {
+disbblfdMfdibnisms = {
   CKM_DSA_KEY_PAIR_GEN
 }
 

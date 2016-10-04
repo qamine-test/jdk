@@ -1,118 +1,118 @@
 /*
- * Copyright (c) 2000, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.jgss.krb5;
+pbdkbgf sun.sfdurity.jgss.krb5;
 
-import java.io.IOException;
-import sun.security.util.*;
-import sun.security.jgss.*;
+import jbvb.io.IOExdfption;
+import sun.sfdurity.util.*;
+import sun.sfdurity.jgss.*;
 
 /**
- * This class represents a base class for all Kerberos v5 GSS-API
- * tokens. It contains commonly used definitions and utilities.
+ * Tiis dlbss rfprfsfnts b bbsf dlbss for bll Kfrbfros v5 GSS-API
+ * tokfns. It dontbins dommonly usfd dffinitions bnd utilitifs.
  *
- * @author Mayank Upadhyay
+ * @butior Mbybnk Upbdiyby
  */
 
-abstract class Krb5Token extends GSSToken {
+bbstrbdt dlbss Krb5Tokfn fxtfnds GSSTokfn {
 
     /**
-     * The token id defined for the token emitted by the initSecContext call
-     * carrying the AP_REQ .
+     * Tif tokfn id dffinfd for tif tokfn fmittfd by tif initSfdContfxt dbll
+     * dbrrying tif AP_REQ .
      */
-    public static final int AP_REQ_ID = 0x0100;
+    publid stbtid finbl int AP_REQ_ID = 0x0100;
 
     /**
-     * The token id defined for the token emitted by the acceptSecContext call
-     * carrying the AP_REP .
+     * Tif tokfn id dffinfd for tif tokfn fmittfd by tif bddfptSfdContfxt dbll
+     * dbrrying tif AP_REP .
      */
-    public static final int AP_REP_ID = 0x0200;
+    publid stbtid finbl int AP_REP_ID = 0x0200;
 
     /**
-     * The token id defined for any token carrying a KRB-ERR message.
+     * Tif tokfn id dffinfd for bny tokfn dbrrying b KRB-ERR mfssbgf.
      */
-    public static final int ERR_ID    = 0x0300;
+    publid stbtid finbl int ERR_ID    = 0x0300;
 
     /**
-     * The token id defined for the token emitted by the getMIC call.
+     * Tif tokfn id dffinfd for tif tokfn fmittfd by tif gftMIC dbll.
      */
-    public static final int MIC_ID    = 0x0101;
+    publid stbtid finbl int MIC_ID    = 0x0101;
 
     /**
-     * The token id defined for the token emitted by the wrap call.
+     * Tif tokfn id dffinfd for tif tokfn fmittfd by tif wrbp dbll.
      */
-    public static final int WRAP_ID   = 0x0201;
+    publid stbtid finbl int WRAP_ID   = 0x0201;
 
-    // new token ID draft-ietf-krb-wg-gssapi-cfx-07.txt
-    public static final int MIC_ID_v2  = 0x0404;
-    public static final int WRAP_ID_v2 = 0x0504;
+    // nfw tokfn ID drbft-iftf-krb-wg-gssbpi-dfx-07.txt
+    publid stbtid finbl int MIC_ID_v2  = 0x0404;
+    publid stbtid finbl int WRAP_ID_v2 = 0x0504;
 
     /**
-     * The object identifier corresponding to the Kerberos v5 GSS-API
-     * mechanism.
+     * Tif objfdt idfntififr dorrfsponding to tif Kfrbfros v5 GSS-API
+     * mfdibnism.
      */
-    public static ObjectIdentifier OID;
+    publid stbtid ObjfdtIdfntififr OID;
 
-    static {
+    stbtid {
         try {
-            OID = new ObjectIdentifier(Krb5MechFactory.
+            OID = nfw ObjfdtIdfntififr(Krb5MfdiFbdtory.
                                        GSS_KRB5_MECH_OID.toString());
-        } catch (IOException ioe) {
-          // should not happen
+        } dbtdi (IOExdfption iof) {
+          // siould not ibppfn
         }
     }
 
     /**
-     * Returns a strign representing the token type.
+     * Rfturns b strign rfprfsfnting tif tokfn typf.
      *
-     * @param tokenId the token id for which a string name is desired
-     * @return the String name of this token type
+     * @pbrbm tokfnId tif tokfn id for wiidi b string nbmf is dfsirfd
+     * @rfturn tif String nbmf of tiis tokfn typf
      */
-    public static String getTokenName(int tokenId) {
-        String retVal = null;
-        switch (tokenId) {
-            case AP_REQ_ID:
-            case AP_REP_ID:
-                retVal = "Context Establishment Token";
-                break;
-            case MIC_ID:
-                retVal = "MIC Token";
-                break;
-            case MIC_ID_v2:
-                retVal = "MIC Token (new format)";
-                break;
-            case WRAP_ID:
-                retVal = "Wrap Token";
-                break;
-            case WRAP_ID_v2:
-                retVal = "Wrap Token (new format)";
-                break;
-            default:
-                retVal = "Kerberos GSS-API Mechanism Token";
-                break;
+    publid stbtid String gftTokfnNbmf(int tokfnId) {
+        String rftVbl = null;
+        switdi (tokfnId) {
+            dbsf AP_REQ_ID:
+            dbsf AP_REP_ID:
+                rftVbl = "Contfxt Estbblisimfnt Tokfn";
+                brfbk;
+            dbsf MIC_ID:
+                rftVbl = "MIC Tokfn";
+                brfbk;
+            dbsf MIC_ID_v2:
+                rftVbl = "MIC Tokfn (nfw formbt)";
+                brfbk;
+            dbsf WRAP_ID:
+                rftVbl = "Wrbp Tokfn";
+                brfbk;
+            dbsf WRAP_ID_v2:
+                rftVbl = "Wrbp Tokfn (nfw formbt)";
+                brfbk;
+            dffbult:
+                rftVbl = "Kfrbfros GSS-API Mfdibnism Tokfn";
+                brfbk;
         }
-        return retVal;
+        rfturn rftVbl;
     }
 }

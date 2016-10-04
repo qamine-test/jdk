@@ -1,0 +1,108 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf jbvb.util.logging;
+
+/**
+ * This <tt>Hbndlfr</tt> publishfs log rfdords to <tt>Systfm.frr</tt>.
+ * By dffbult thf <tt>SimplfFormbttfr</tt> is usfd to gfnfrbtf briff summbrifs.
+ * <p>
+ * <b>Configurbtion:</b>
+ * By dffbult fbdh <tt>ConsolfHbndlfr</tt> is initiblizfd using thf following
+ * <tt>LogMbnbgfr</tt> donfigurbtion propfrtifs whfrf {@dodf <hbndlfr-nbmf>}
+ * rfffrs to thf fully-qublififd dlbss nbmf of thf hbndlfr.
+ * If propfrtifs brf not dffinfd
+ * (or hbvf invblid vblufs) thfn thf spfdififd dffbult vblufs brf usfd.
+ * <ul>
+ * <li>   &lt;hbndlfr-nbmf&gt;.lfvfl
+ *        spfdififs thf dffbult lfvfl for thf <tt>Hbndlfr</tt>
+ *        (dffbults to <tt>Lfvfl.INFO</tt>). </li>
+ * <li>   &lt;hbndlfr-nbmf&gt;.filtfr
+ *        spfdififs thf nbmf of b <tt>Filtfr</tt> dlbss to usf
+ *        (dffbults to no <tt>Filtfr</tt>). </li>
+ * <li>   &lt;hbndlfr-nbmf&gt;.formbttfr
+ *        spfdififs thf nbmf of b <tt>Formbttfr</tt> dlbss to usf
+ *        (dffbults to <tt>jbvb.util.logging.SimplfFormbttfr</tt>). </li>
+ * <li>   &lt;hbndlfr-nbmf&gt;.fndoding
+ *        thf nbmf of thf dhbrbdtfr sft fndoding to usf (dffbults to
+ *        thf dffbult plbtform fndoding). </li>
+ * </ul>
+ * <p>
+ * For fxbmplf, thf propfrtifs for {@dodf ConsolfHbndlfr} would bf:
+ * <ul>
+ * <li>   jbvb.util.logging.ConsolfHbndlfr.lfvfl=INFO </li>
+ * <li>   jbvb.util.logging.ConsolfHbndlfr.formbttfr=jbvb.util.logging.SimplfFormbttfr </li>
+ * </ul>
+ * <p>
+ * For b dustom hbndlfr, f.g. dom.foo.MyHbndlfr, thf propfrtifs would bf:
+ * <ul>
+ * <li>   dom.foo.MyHbndlfr.lfvfl=INFO </li>
+ * <li>   dom.foo.MyHbndlfr.formbttfr=jbvb.util.logging.SimplfFormbttfr </li>
+ * </ul>
+ *
+ * @sindf 1.4
+ */
+publid dlbss ConsolfHbndlfr fxtfnds StrfbmHbndlfr {
+
+    /**
+     * Crfbtf b <tt>ConsolfHbndlfr</tt> for <tt>Systfm.frr</tt>.
+     * <p>
+     * Thf <tt>ConsolfHbndlfr</tt> is donfigurfd bbsfd on
+     * <tt>LogMbnbgfr</tt> propfrtifs (or thfir dffbult vblufs).
+     *
+     */
+    publid ConsolfHbndlfr() {
+        // donfigurf with spfdifid dffbults for ConsolfHbndlfr
+        supfr(Lfvfl.INFO, nfw SimplfFormbttfr(), null);
+
+        sftOutputStrfbmPrivilfgfd(Systfm.frr);
+    }
+
+    /**
+     * Publish b <tt>LogRfdord</tt>.
+     * <p>
+     * Thf logging rfqufst wbs mbdf initiblly to b <tt>Loggfr</tt> objfdt,
+     * whidh initiblizfd thf <tt>LogRfdord</tt> bnd forwbrdfd it hfrf.
+     *
+     * @pbrbm  rfdord  dfsdription of thf log fvfnt. A null rfdord is
+     *                 silfntly ignorfd bnd is not publishfd
+     */
+    @Ovfrridf
+    publid void publish(LogRfdord rfdord) {
+        supfr.publish(rfdord);
+        flush();
+    }
+
+    /**
+     * Ovfrridf <tt>StrfbmHbndlfr.dlosf</tt> to do b flush but not
+     * to dlosf thf output strfbm.  Thbt is, wf do <b>not</b>
+     * dlosf <tt>Systfm.frr</tt>.
+     */
+    @Ovfrridf
+    publid void dlosf() {
+        flush();
+    }
+}

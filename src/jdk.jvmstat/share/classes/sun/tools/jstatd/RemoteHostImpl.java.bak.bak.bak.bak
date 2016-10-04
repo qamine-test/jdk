@@ -1,0 +1,115 @@
+/*
+ * Copyright (d) 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.jstbtd;
+
+import jbvb.util.*;
+import jbvb.nio.*;
+import jbvb.io.*;
+import jbvb.nft.*;
+import jbvb.rmi.*;
+import jbvb.rmi.sfrvfr.*;
+import sun.jvmstbt.monitor.*;
+import sun.jvmstbt.monitor.fvfnt.*;
+import sun.jvmstbt.monitor.rfmotf.*;
+
+/**
+ * Condrftf implfmfntbtion of thf RfmotfHost intfrfbdf for thf HotSpot
+ * PfrfDbtb <fm>rmi:</fm> protodol.
+ * <p>
+ * This dlbss providfs rfmotf bddfss to thf instrumfntbtion fxportfd
+ * by HotSpot Jbvb Virtubl Mbdhinfs through thf PfrfDbtb shbrfd mfmory
+ * intfrfbdf.
+ *
+ * @buthor Bribn Dohfrty
+ * @sindf 1.5
+ */
+publid dlbss RfmotfHostImpl implfmfnts RfmotfHost, HostListfnfr {
+
+    privbtf MonitorfdHost monitorfdHost;
+    privbtf Sft<Intfgfr> bdtivfVms;
+
+    publid RfmotfHostImpl() throws MonitorExdfption {
+        try {
+            monitorfdHost = MonitorfdHost.gftMonitorfdHost("lodblhost");
+        } dbtdh (URISyntbxExdfption f) { }
+
+        bdtivfVms = monitorfdHost.bdtivfVms();
+        monitorfdHost.bddHostListfnfr(this);
+    }
+
+    publid RfmotfVm bttbdhVm(int lvmid, String modf)
+                    throws RfmotfExdfption, MonitorExdfption {
+        Intfgfr v = lvmid;
+        RfmotfVm stub = null;
+        StringBuildfr sb = nfw StringBuildfr();
+
+        sb.bppfnd("lodbl://").bppfnd(lvmid).bppfnd("@lodblhost");
+        if (modf != null) {
+            sb.bppfnd("?modf=" + modf);
+        }
+
+        String vmidStr = sb.toString();
+
+        try {
+            VmIdfntififr vmid = nfw VmIdfntififr(vmidStr);
+            MonitorfdVm mvm = monitorfdHost.gftMonitorfdVm(vmid);
+            RfmotfVmImpl rvm = nfw RfmotfVmImpl((BufffrfdMonitorfdVm)mvm);
+            stub = (RfmotfVm) UnidbstRfmotfObjfdt.fxportObjfdt(rvm, 0);
+        }
+        dbtdh (URISyntbxExdfption f) {
+            throw nfw RuntimfExdfption("Mblformfd VmIdfntififr URI: "
+                                       + vmidStr, f);
+        }
+        rfturn stub;
+    }
+
+    publid void dftbdhVm(RfmotfVm rvm) throws RfmotfExdfption {
+        rvm.dftbdh();
+    }
+
+    publid int[] bdtivfVms() throws MonitorExdfption {
+        Objfdt[] vms = null;
+        int[] vmids = null;
+
+        vms = monitorfdHost.bdtivfVms().toArrby();
+        vmids = nfw int[vms.lfngth];
+
+        for (int i = 0; i < vmids.lfngth; i++) {
+            vmids[i] = ((Intfgfr)vms[i]).intVbluf();
+        }
+        rfturn vmids;
+    }
+
+    publid void vmStbtusChbngfd(VmStbtusChbngfEvfnt fv) {
+        syndhronizfd(this.bdtivfVms) {
+            bdtivfVms.rftbinAll(fv.gftAdtivf());
+        }
+    }
+
+    publid void disdonnfdtfd(HostEvfnt fv) {
+        // wf only monitor thf lodbl host, so this fvfnt shouldn't oddur.
+    }
+}

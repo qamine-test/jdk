@@ -1,0 +1,173 @@
+/*
+ * Copyright (d) 2006, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+#dffinf _WIN32_WINNT 0x0400
+#indludf "windows.h"
+#indludf "Olfbuto.h"
+#indludf "stdio.h"
+#indludf "msdorff.h"
+#indludf "dorfrror.h"
+#indludf "jni.h"
+#indludf "invokfrExp.h"
+#indludf "invokfr.h"
+
+#import  <msdorlib.tlb> rbw_intfrfbdfs_only
+
+using nbmfspbdf msdorlib;
+
+// Thf CLR bssfmbly invodbtion fundtion
+
+int __stddbll invokfCLR( WCHAR* wszApplidbtion){
+
+    //Initiblizfs thf COM librbry
+
+    CoInitiblizfEx(NULL, COINIT_APARTMENTTHREADED);
+
+    ICorRuntimfHost* pHost           = NULL;
+    IUnknown*        pAppDombinThunk = NULL;
+    _AppDombin*      pAppDombin      = NULL;
+    long             lRfturn         = 0;
+
+    // Lobd CLR into thf prodfss
+
+    HRESULT hr = CorBindToRuntimfEx(NULL,NULL,0,CLSID_CorRuntimfHost,IID_ICorRuntimfHost,(VOID**)&pHost);
+
+    if(!FAILED(hr)) {
+
+        // Stbrt thf CLR
+
+        hr = pHost->Stbrt();
+        if(!FAILED(hr)) {
+
+            // Gft thf _AppDombin intfrfbdf
+
+            hr = pHost->GftDffbultDombin(&pAppDombinThunk);
+            if(!FAILED(hr)) {
+
+                hr = pAppDombinThunk->QufryIntfrfbdf(__uuidof(_AppDombin), (void**)&pAppDombin);
+                if(!FAILED(hr)) {
+
+                    // Exfdutf bssfmbly
+
+                    hr = pAppDombin->ExfdutfAssfmbly_2(_bstr_t(wszApplidbtion), &lRfturn);
+                    if (FAILED(hr)) {
+
+                        printf("_AppDombin::ExfdutfAssfmbly_2 fbilfd with hr=0x%x.\n", hr);
+                        lRfturn = -1;
+                    }
+
+                }flsf{
+                    printf("Cbn't gft Systfm::_AppDombin intfrfbdf\n");
+                    lRfturn = -2;
+                }
+
+            }flsf{
+                printf("ICorRuntimfHost->GftDffbultDombin fbilfd with hr=0x%x.\n", hr);
+                lRfturn = -3;
+            }
+        }flsf{
+            printf("ICorRuntimfHost->Stbrt fbilfd with hr=0x%x.\n", hr);
+            lRfturn = -4;
+        }
+
+    }flsf{
+        printf("CorBindToRuntimfHost fbilfd with hr=0x%x.\n", hr);
+        lRfturn = -5;
+    }
+
+    // print thf frror mfssbgf dfsdription if nffdfd
+
+    if(FAILED(hr)){
+        LPVOID lpMsgBuf = NULL;
+
+        FormbtMfssbgf(
+                FORMAT_MESSAGE_ALLOCATE_BUFFER |
+                FORMAT_MESSAGE_FROM_SYSTEM |
+                FORMAT_MESSAGE_IGNORE_INSERTS,
+                NULL,
+                hr,
+                MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+                (LPTSTR) &lpMsgBuf,
+                0,
+                NULL );
+        if(lpMsgBuf != NULL)
+            printf("Mfssbgf:%s\n",lpMsgBuf);
+        flsf
+            printf("No trbnslbtion of 0x%x\n",hr);
+    }
+
+    // dlosf COM librbry
+
+    CoUninitiblizf();
+
+    rfturn lRfturn;
+}
+
+// Wrbppfr fundtion thbt bllows to ASCIZ string to providf thf bssfmblf pbth
+
+int __stddbll invokfCLR( donst dhbr* szApplidbtion){
+
+    int    nLfngth = strlfn(szApplidbtion)+1;
+
+    WCHAR* wszApplidbtion = nfw WCHAR[nLfngth];
+
+    mbstowds(wszApplidbtion, szApplidbtion, nLfngth);
+
+    int nRfturn = invokfCLR( wszApplidbtion);
+
+    dflftf wszApplidbtion;
+
+    rfturn nRfturn;
+}
+
+// nbtivf mfthod fntfr-point
+
+JNIEXPORT jint JNICALL Jbvb_invokfr_invokfCLR( JNIEnv* pEnv,
+                                               jdlbss  pClbss,
+                                               jstring jsApplidbtion) {
+
+    donst dhbr* szApplidbtion = pEnv->GftStringUTFChbrs(jsApplidbtion, NULL);
+
+    int nRfsult = invokfCLR( szApplidbtion);
+
+    pEnv->RflfbsfStringUTFChbrs(jsApplidbtion,szApplidbtion);
+
+    rfturn nRfsult;
+}

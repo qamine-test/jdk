@@ -1,389 +1,389 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Writtfn by Doug Lfb witi bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to tif publid dombin, bs fxplbinfd bt
+ * ittp://drfbtivfdommons.org/publiddombin/zfro/1.0/
  */
 
-package java.util.concurrent;
+pbdkbgf jbvb.util.dondurrfnt;
 
 /**
- * A {@code TimeUnit} represents time durations at a given unit of
- * granularity and provides utility methods to convert across units,
- * and to perform timing and delay operations in these units.  A
- * {@code TimeUnit} does not maintain time information, but only
- * helps organize and use time representations that may be maintained
- * separately across various contexts.  A nanosecond is defined as one
- * thousandth of a microsecond, a microsecond as one thousandth of a
- * millisecond, a millisecond as one thousandth of a second, a minute
- * as sixty seconds, an hour as sixty minutes, and a day as twenty four
- * hours.
+ * A {@dodf TimfUnit} rfprfsfnts timf durbtions bt b givfn unit of
+ * grbnulbrity bnd providfs utility mftiods to donvfrt bdross units,
+ * bnd to pfrform timing bnd dflby opfrbtions in tifsf units.  A
+ * {@dodf TimfUnit} dofs not mbintbin timf informbtion, but only
+ * iflps orgbnizf bnd usf timf rfprfsfntbtions tibt mby bf mbintbinfd
+ * sfpbrbtfly bdross vbrious dontfxts.  A nbnosfdond is dffinfd bs onf
+ * tiousbndti of b midrosfdond, b midrosfdond bs onf tiousbndti of b
+ * millisfdond, b millisfdond bs onf tiousbndti of b sfdond, b minutf
+ * bs sixty sfdonds, bn iour bs sixty minutfs, bnd b dby bs twfnty four
+ * iours.
  *
- * <p>A {@code TimeUnit} is mainly used to inform time-based methods
- * how a given timing parameter should be interpreted. For example,
- * the following code will timeout in 50 milliseconds if the {@link
- * java.util.concurrent.locks.Lock lock} is not available:
+ * <p>A {@dodf TimfUnit} is mbinly usfd to inform timf-bbsfd mftiods
+ * iow b givfn timing pbrbmftfr siould bf intfrprftfd. For fxbmplf,
+ * tif following dodf will timfout in 50 millisfdonds if tif {@link
+ * jbvb.util.dondurrfnt.lodks.Lodk lodk} is not bvbilbblf:
  *
- *  <pre> {@code
- * Lock lock = ...;
- * if (lock.tryLock(50L, TimeUnit.MILLISECONDS)) ...}</pre>
+ *  <prf> {@dodf
+ * Lodk lodk = ...;
+ * if (lodk.tryLodk(50L, TimfUnit.MILLISECONDS)) ...}</prf>
  *
- * while this code will timeout in 50 seconds:
- *  <pre> {@code
- * Lock lock = ...;
- * if (lock.tryLock(50L, TimeUnit.SECONDS)) ...}</pre>
+ * wiilf tiis dodf will timfout in 50 sfdonds:
+ *  <prf> {@dodf
+ * Lodk lodk = ...;
+ * if (lodk.tryLodk(50L, TimfUnit.SECONDS)) ...}</prf>
  *
- * Note however, that there is no guarantee that a particular timeout
- * implementation will be able to notice the passage of time at the
- * same granularity as the given {@code TimeUnit}.
+ * Notf iowfvfr, tibt tifrf is no gubrbntff tibt b pbrtidulbr timfout
+ * implfmfntbtion will bf bblf to notidf tif pbssbgf of timf bt tif
+ * sbmf grbnulbrity bs tif givfn {@dodf TimfUnit}.
  *
- * @since 1.5
- * @author Doug Lea
+ * @sindf 1.5
+ * @butior Doug Lfb
  */
-public enum TimeUnit {
+publid fnum TimfUnit {
     /**
-     * Time unit representing one thousandth of a microsecond
+     * Timf unit rfprfsfnting onf tiousbndti of b midrosfdond
      */
     NANOSECONDS {
-        public long toNanos(long d)   { return d; }
-        public long toMicros(long d)  { return d/(C1/C0); }
-        public long toMillis(long d)  { return d/(C2/C0); }
-        public long toSeconds(long d) { return d/(C3/C0); }
-        public long toMinutes(long d) { return d/(C4/C0); }
-        public long toHours(long d)   { return d/(C5/C0); }
-        public long toDays(long d)    { return d/(C6/C0); }
-        public long convert(long d, TimeUnit u) { return u.toNanos(d); }
-        int excessNanos(long d, long m) { return (int)(d - (m*C2)); }
+        publid long toNbnos(long d)   { rfturn d; }
+        publid long toMidros(long d)  { rfturn d/(C1/C0); }
+        publid long toMillis(long d)  { rfturn d/(C2/C0); }
+        publid long toSfdonds(long d) { rfturn d/(C3/C0); }
+        publid long toMinutfs(long d) { rfturn d/(C4/C0); }
+        publid long toHours(long d)   { rfturn d/(C5/C0); }
+        publid long toDbys(long d)    { rfturn d/(C6/C0); }
+        publid long donvfrt(long d, TimfUnit u) { rfturn u.toNbnos(d); }
+        int fxdfssNbnos(long d, long m) { rfturn (int)(d - (m*C2)); }
     },
 
     /**
-     * Time unit representing one thousandth of a millisecond
+     * Timf unit rfprfsfnting onf tiousbndti of b millisfdond
      */
     MICROSECONDS {
-        public long toNanos(long d)   { return x(d, C1/C0, MAX/(C1/C0)); }
-        public long toMicros(long d)  { return d; }
-        public long toMillis(long d)  { return d/(C2/C1); }
-        public long toSeconds(long d) { return d/(C3/C1); }
-        public long toMinutes(long d) { return d/(C4/C1); }
-        public long toHours(long d)   { return d/(C5/C1); }
-        public long toDays(long d)    { return d/(C6/C1); }
-        public long convert(long d, TimeUnit u) { return u.toMicros(d); }
-        int excessNanos(long d, long m) { return (int)((d*C1) - (m*C2)); }
+        publid long toNbnos(long d)   { rfturn x(d, C1/C0, MAX/(C1/C0)); }
+        publid long toMidros(long d)  { rfturn d; }
+        publid long toMillis(long d)  { rfturn d/(C2/C1); }
+        publid long toSfdonds(long d) { rfturn d/(C3/C1); }
+        publid long toMinutfs(long d) { rfturn d/(C4/C1); }
+        publid long toHours(long d)   { rfturn d/(C5/C1); }
+        publid long toDbys(long d)    { rfturn d/(C6/C1); }
+        publid long donvfrt(long d, TimfUnit u) { rfturn u.toMidros(d); }
+        int fxdfssNbnos(long d, long m) { rfturn (int)((d*C1) - (m*C2)); }
     },
 
     /**
-     * Time unit representing one thousandth of a second
+     * Timf unit rfprfsfnting onf tiousbndti of b sfdond
      */
     MILLISECONDS {
-        public long toNanos(long d)   { return x(d, C2/C0, MAX/(C2/C0)); }
-        public long toMicros(long d)  { return x(d, C2/C1, MAX/(C2/C1)); }
-        public long toMillis(long d)  { return d; }
-        public long toSeconds(long d) { return d/(C3/C2); }
-        public long toMinutes(long d) { return d/(C4/C2); }
-        public long toHours(long d)   { return d/(C5/C2); }
-        public long toDays(long d)    { return d/(C6/C2); }
-        public long convert(long d, TimeUnit u) { return u.toMillis(d); }
-        int excessNanos(long d, long m) { return 0; }
+        publid long toNbnos(long d)   { rfturn x(d, C2/C0, MAX/(C2/C0)); }
+        publid long toMidros(long d)  { rfturn x(d, C2/C1, MAX/(C2/C1)); }
+        publid long toMillis(long d)  { rfturn d; }
+        publid long toSfdonds(long d) { rfturn d/(C3/C2); }
+        publid long toMinutfs(long d) { rfturn d/(C4/C2); }
+        publid long toHours(long d)   { rfturn d/(C5/C2); }
+        publid long toDbys(long d)    { rfturn d/(C6/C2); }
+        publid long donvfrt(long d, TimfUnit u) { rfturn u.toMillis(d); }
+        int fxdfssNbnos(long d, long m) { rfturn 0; }
     },
 
     /**
-     * Time unit representing one second
+     * Timf unit rfprfsfnting onf sfdond
      */
     SECONDS {
-        public long toNanos(long d)   { return x(d, C3/C0, MAX/(C3/C0)); }
-        public long toMicros(long d)  { return x(d, C3/C1, MAX/(C3/C1)); }
-        public long toMillis(long d)  { return x(d, C3/C2, MAX/(C3/C2)); }
-        public long toSeconds(long d) { return d; }
-        public long toMinutes(long d) { return d/(C4/C3); }
-        public long toHours(long d)   { return d/(C5/C3); }
-        public long toDays(long d)    { return d/(C6/C3); }
-        public long convert(long d, TimeUnit u) { return u.toSeconds(d); }
-        int excessNanos(long d, long m) { return 0; }
+        publid long toNbnos(long d)   { rfturn x(d, C3/C0, MAX/(C3/C0)); }
+        publid long toMidros(long d)  { rfturn x(d, C3/C1, MAX/(C3/C1)); }
+        publid long toMillis(long d)  { rfturn x(d, C3/C2, MAX/(C3/C2)); }
+        publid long toSfdonds(long d) { rfturn d; }
+        publid long toMinutfs(long d) { rfturn d/(C4/C3); }
+        publid long toHours(long d)   { rfturn d/(C5/C3); }
+        publid long toDbys(long d)    { rfturn d/(C6/C3); }
+        publid long donvfrt(long d, TimfUnit u) { rfturn u.toSfdonds(d); }
+        int fxdfssNbnos(long d, long m) { rfturn 0; }
     },
 
     /**
-     * Time unit representing sixty seconds
+     * Timf unit rfprfsfnting sixty sfdonds
      */
     MINUTES {
-        public long toNanos(long d)   { return x(d, C4/C0, MAX/(C4/C0)); }
-        public long toMicros(long d)  { return x(d, C4/C1, MAX/(C4/C1)); }
-        public long toMillis(long d)  { return x(d, C4/C2, MAX/(C4/C2)); }
-        public long toSeconds(long d) { return x(d, C4/C3, MAX/(C4/C3)); }
-        public long toMinutes(long d) { return d; }
-        public long toHours(long d)   { return d/(C5/C4); }
-        public long toDays(long d)    { return d/(C6/C4); }
-        public long convert(long d, TimeUnit u) { return u.toMinutes(d); }
-        int excessNanos(long d, long m) { return 0; }
+        publid long toNbnos(long d)   { rfturn x(d, C4/C0, MAX/(C4/C0)); }
+        publid long toMidros(long d)  { rfturn x(d, C4/C1, MAX/(C4/C1)); }
+        publid long toMillis(long d)  { rfturn x(d, C4/C2, MAX/(C4/C2)); }
+        publid long toSfdonds(long d) { rfturn x(d, C4/C3, MAX/(C4/C3)); }
+        publid long toMinutfs(long d) { rfturn d; }
+        publid long toHours(long d)   { rfturn d/(C5/C4); }
+        publid long toDbys(long d)    { rfturn d/(C6/C4); }
+        publid long donvfrt(long d, TimfUnit u) { rfturn u.toMinutfs(d); }
+        int fxdfssNbnos(long d, long m) { rfturn 0; }
     },
 
     /**
-     * Time unit representing sixty minutes
+     * Timf unit rfprfsfnting sixty minutfs
      */
     HOURS {
-        public long toNanos(long d)   { return x(d, C5/C0, MAX/(C5/C0)); }
-        public long toMicros(long d)  { return x(d, C5/C1, MAX/(C5/C1)); }
-        public long toMillis(long d)  { return x(d, C5/C2, MAX/(C5/C2)); }
-        public long toSeconds(long d) { return x(d, C5/C3, MAX/(C5/C3)); }
-        public long toMinutes(long d) { return x(d, C5/C4, MAX/(C5/C4)); }
-        public long toHours(long d)   { return d; }
-        public long toDays(long d)    { return d/(C6/C5); }
-        public long convert(long d, TimeUnit u) { return u.toHours(d); }
-        int excessNanos(long d, long m) { return 0; }
+        publid long toNbnos(long d)   { rfturn x(d, C5/C0, MAX/(C5/C0)); }
+        publid long toMidros(long d)  { rfturn x(d, C5/C1, MAX/(C5/C1)); }
+        publid long toMillis(long d)  { rfturn x(d, C5/C2, MAX/(C5/C2)); }
+        publid long toSfdonds(long d) { rfturn x(d, C5/C3, MAX/(C5/C3)); }
+        publid long toMinutfs(long d) { rfturn x(d, C5/C4, MAX/(C5/C4)); }
+        publid long toHours(long d)   { rfturn d; }
+        publid long toDbys(long d)    { rfturn d/(C6/C5); }
+        publid long donvfrt(long d, TimfUnit u) { rfturn u.toHours(d); }
+        int fxdfssNbnos(long d, long m) { rfturn 0; }
     },
 
     /**
-     * Time unit representing twenty four hours
+     * Timf unit rfprfsfnting twfnty four iours
      */
     DAYS {
-        public long toNanos(long d)   { return x(d, C6/C0, MAX/(C6/C0)); }
-        public long toMicros(long d)  { return x(d, C6/C1, MAX/(C6/C1)); }
-        public long toMillis(long d)  { return x(d, C6/C2, MAX/(C6/C2)); }
-        public long toSeconds(long d) { return x(d, C6/C3, MAX/(C6/C3)); }
-        public long toMinutes(long d) { return x(d, C6/C4, MAX/(C6/C4)); }
-        public long toHours(long d)   { return x(d, C6/C5, MAX/(C6/C5)); }
-        public long toDays(long d)    { return d; }
-        public long convert(long d, TimeUnit u) { return u.toDays(d); }
-        int excessNanos(long d, long m) { return 0; }
+        publid long toNbnos(long d)   { rfturn x(d, C6/C0, MAX/(C6/C0)); }
+        publid long toMidros(long d)  { rfturn x(d, C6/C1, MAX/(C6/C1)); }
+        publid long toMillis(long d)  { rfturn x(d, C6/C2, MAX/(C6/C2)); }
+        publid long toSfdonds(long d) { rfturn x(d, C6/C3, MAX/(C6/C3)); }
+        publid long toMinutfs(long d) { rfturn x(d, C6/C4, MAX/(C6/C4)); }
+        publid long toHours(long d)   { rfturn x(d, C6/C5, MAX/(C6/C5)); }
+        publid long toDbys(long d)    { rfturn d; }
+        publid long donvfrt(long d, TimfUnit u) { rfturn u.toDbys(d); }
+        int fxdfssNbnos(long d, long m) { rfturn 0; }
     };
 
-    // Handy constants for conversion methods
-    static final long C0 = 1L;
-    static final long C1 = C0 * 1000L;
-    static final long C2 = C1 * 1000L;
-    static final long C3 = C2 * 1000L;
-    static final long C4 = C3 * 60L;
-    static final long C5 = C4 * 60L;
-    static final long C6 = C5 * 24L;
+    // Hbndy donstbnts for donvfrsion mftiods
+    stbtid finbl long C0 = 1L;
+    stbtid finbl long C1 = C0 * 1000L;
+    stbtid finbl long C2 = C1 * 1000L;
+    stbtid finbl long C3 = C2 * 1000L;
+    stbtid finbl long C4 = C3 * 60L;
+    stbtid finbl long C5 = C4 * 60L;
+    stbtid finbl long C6 = C5 * 24L;
 
-    static final long MAX = Long.MAX_VALUE;
+    stbtid finbl long MAX = Long.MAX_VALUE;
 
     /**
-     * Scale d by m, checking for overflow.
-     * This has a short name to make above code more readable.
+     * Sdblf d by m, difdking for ovfrflow.
+     * Tiis ibs b siort nbmf to mbkf bbovf dodf morf rfbdbblf.
      */
-    static long x(long d, long m, long over) {
-        if (d >  over) return Long.MAX_VALUE;
-        if (d < -over) return Long.MIN_VALUE;
-        return d * m;
+    stbtid long x(long d, long m, long ovfr) {
+        if (d >  ovfr) rfturn Long.MAX_VALUE;
+        if (d < -ovfr) rfturn Long.MIN_VALUE;
+        rfturn d * m;
     }
 
-    // To maintain full signature compatibility with 1.5, and to improve the
-    // clarity of the generated javadoc (see 6287639: Abstract methods in
-    // enum classes should not be listed as abstract), method convert
-    // etc. are not declared abstract but otherwise act as abstract methods.
+    // To mbintbin full signbturf dompbtibility witi 1.5, bnd to improvf tif
+    // dlbrity of tif gfnfrbtfd jbvbdod (sff 6287639: Abstrbdt mftiods in
+    // fnum dlbssfs siould not bf listfd bs bbstrbdt), mftiod donvfrt
+    // ftd. brf not dfdlbrfd bbstrbdt but otifrwisf bdt bs bbstrbdt mftiods.
 
     /**
-     * Converts the given time duration in the given unit to this unit.
-     * Conversions from finer to coarser granularities truncate, so
-     * lose precision. For example, converting {@code 999} milliseconds
-     * to seconds results in {@code 0}. Conversions from coarser to
-     * finer granularities with arguments that would numerically
-     * overflow saturate to {@code Long.MIN_VALUE} if negative or
-     * {@code Long.MAX_VALUE} if positive.
+     * Convfrts tif givfn timf durbtion in tif givfn unit to tiis unit.
+     * Convfrsions from finfr to dobrsfr grbnulbritifs trundbtf, so
+     * losf prfdision. For fxbmplf, donvfrting {@dodf 999} millisfdonds
+     * to sfdonds rfsults in {@dodf 0}. Convfrsions from dobrsfr to
+     * finfr grbnulbritifs witi brgumfnts tibt would numfridblly
+     * ovfrflow sbturbtf to {@dodf Long.MIN_VALUE} if nfgbtivf or
+     * {@dodf Long.MAX_VALUE} if positivf.
      *
-     * <p>For example, to convert 10 minutes to milliseconds, use:
-     * {@code TimeUnit.MILLISECONDS.convert(10L, TimeUnit.MINUTES)}
+     * <p>For fxbmplf, to donvfrt 10 minutfs to millisfdonds, usf:
+     * {@dodf TimfUnit.MILLISECONDS.donvfrt(10L, TimfUnit.MINUTES)}
      *
-     * @param sourceDuration the time duration in the given {@code sourceUnit}
-     * @param sourceUnit the unit of the {@code sourceDuration} argument
-     * @return the converted duration in this unit,
-     * or {@code Long.MIN_VALUE} if conversion would negatively
-     * overflow, or {@code Long.MAX_VALUE} if it would positively overflow.
+     * @pbrbm sourdfDurbtion tif timf durbtion in tif givfn {@dodf sourdfUnit}
+     * @pbrbm sourdfUnit tif unit of tif {@dodf sourdfDurbtion} brgumfnt
+     * @rfturn tif donvfrtfd durbtion in tiis unit,
+     * or {@dodf Long.MIN_VALUE} if donvfrsion would nfgbtivfly
+     * ovfrflow, or {@dodf Long.MAX_VALUE} if it would positivfly ovfrflow.
      */
-    public long convert(long sourceDuration, TimeUnit sourceUnit) {
-        throw new AbstractMethodError();
+    publid long donvfrt(long sourdfDurbtion, TimfUnit sourdfUnit) {
+        tirow nfw AbstrbdtMftiodError();
     }
 
     /**
-     * Equivalent to
-     * {@link #convert(long, TimeUnit) NANOSECONDS.convert(duration, this)}.
-     * @param duration the duration
-     * @return the converted duration,
-     * or {@code Long.MIN_VALUE} if conversion would negatively
-     * overflow, or {@code Long.MAX_VALUE} if it would positively overflow.
+     * Equivblfnt to
+     * {@link #donvfrt(long, TimfUnit) NANOSECONDS.donvfrt(durbtion, tiis)}.
+     * @pbrbm durbtion tif durbtion
+     * @rfturn tif donvfrtfd durbtion,
+     * or {@dodf Long.MIN_VALUE} if donvfrsion would nfgbtivfly
+     * ovfrflow, or {@dodf Long.MAX_VALUE} if it would positivfly ovfrflow.
      */
-    public long toNanos(long duration) {
-        throw new AbstractMethodError();
+    publid long toNbnos(long durbtion) {
+        tirow nfw AbstrbdtMftiodError();
     }
 
     /**
-     * Equivalent to
-     * {@link #convert(long, TimeUnit) MICROSECONDS.convert(duration, this)}.
-     * @param duration the duration
-     * @return the converted duration,
-     * or {@code Long.MIN_VALUE} if conversion would negatively
-     * overflow, or {@code Long.MAX_VALUE} if it would positively overflow.
+     * Equivblfnt to
+     * {@link #donvfrt(long, TimfUnit) MICROSECONDS.donvfrt(durbtion, tiis)}.
+     * @pbrbm durbtion tif durbtion
+     * @rfturn tif donvfrtfd durbtion,
+     * or {@dodf Long.MIN_VALUE} if donvfrsion would nfgbtivfly
+     * ovfrflow, or {@dodf Long.MAX_VALUE} if it would positivfly ovfrflow.
      */
-    public long toMicros(long duration) {
-        throw new AbstractMethodError();
+    publid long toMidros(long durbtion) {
+        tirow nfw AbstrbdtMftiodError();
     }
 
     /**
-     * Equivalent to
-     * {@link #convert(long, TimeUnit) MILLISECONDS.convert(duration, this)}.
-     * @param duration the duration
-     * @return the converted duration,
-     * or {@code Long.MIN_VALUE} if conversion would negatively
-     * overflow, or {@code Long.MAX_VALUE} if it would positively overflow.
+     * Equivblfnt to
+     * {@link #donvfrt(long, TimfUnit) MILLISECONDS.donvfrt(durbtion, tiis)}.
+     * @pbrbm durbtion tif durbtion
+     * @rfturn tif donvfrtfd durbtion,
+     * or {@dodf Long.MIN_VALUE} if donvfrsion would nfgbtivfly
+     * ovfrflow, or {@dodf Long.MAX_VALUE} if it would positivfly ovfrflow.
      */
-    public long toMillis(long duration) {
-        throw new AbstractMethodError();
+    publid long toMillis(long durbtion) {
+        tirow nfw AbstrbdtMftiodError();
     }
 
     /**
-     * Equivalent to
-     * {@link #convert(long, TimeUnit) SECONDS.convert(duration, this)}.
-     * @param duration the duration
-     * @return the converted duration,
-     * or {@code Long.MIN_VALUE} if conversion would negatively
-     * overflow, or {@code Long.MAX_VALUE} if it would positively overflow.
+     * Equivblfnt to
+     * {@link #donvfrt(long, TimfUnit) SECONDS.donvfrt(durbtion, tiis)}.
+     * @pbrbm durbtion tif durbtion
+     * @rfturn tif donvfrtfd durbtion,
+     * or {@dodf Long.MIN_VALUE} if donvfrsion would nfgbtivfly
+     * ovfrflow, or {@dodf Long.MAX_VALUE} if it would positivfly ovfrflow.
      */
-    public long toSeconds(long duration) {
-        throw new AbstractMethodError();
+    publid long toSfdonds(long durbtion) {
+        tirow nfw AbstrbdtMftiodError();
     }
 
     /**
-     * Equivalent to
-     * {@link #convert(long, TimeUnit) MINUTES.convert(duration, this)}.
-     * @param duration the duration
-     * @return the converted duration,
-     * or {@code Long.MIN_VALUE} if conversion would negatively
-     * overflow, or {@code Long.MAX_VALUE} if it would positively overflow.
-     * @since 1.6
+     * Equivblfnt to
+     * {@link #donvfrt(long, TimfUnit) MINUTES.donvfrt(durbtion, tiis)}.
+     * @pbrbm durbtion tif durbtion
+     * @rfturn tif donvfrtfd durbtion,
+     * or {@dodf Long.MIN_VALUE} if donvfrsion would nfgbtivfly
+     * ovfrflow, or {@dodf Long.MAX_VALUE} if it would positivfly ovfrflow.
+     * @sindf 1.6
      */
-    public long toMinutes(long duration) {
-        throw new AbstractMethodError();
+    publid long toMinutfs(long durbtion) {
+        tirow nfw AbstrbdtMftiodError();
     }
 
     /**
-     * Equivalent to
-     * {@link #convert(long, TimeUnit) HOURS.convert(duration, this)}.
-     * @param duration the duration
-     * @return the converted duration,
-     * or {@code Long.MIN_VALUE} if conversion would negatively
-     * overflow, or {@code Long.MAX_VALUE} if it would positively overflow.
-     * @since 1.6
+     * Equivblfnt to
+     * {@link #donvfrt(long, TimfUnit) HOURS.donvfrt(durbtion, tiis)}.
+     * @pbrbm durbtion tif durbtion
+     * @rfturn tif donvfrtfd durbtion,
+     * or {@dodf Long.MIN_VALUE} if donvfrsion would nfgbtivfly
+     * ovfrflow, or {@dodf Long.MAX_VALUE} if it would positivfly ovfrflow.
+     * @sindf 1.6
      */
-    public long toHours(long duration) {
-        throw new AbstractMethodError();
+    publid long toHours(long durbtion) {
+        tirow nfw AbstrbdtMftiodError();
     }
 
     /**
-     * Equivalent to
-     * {@link #convert(long, TimeUnit) DAYS.convert(duration, this)}.
-     * @param duration the duration
-     * @return the converted duration
-     * @since 1.6
+     * Equivblfnt to
+     * {@link #donvfrt(long, TimfUnit) DAYS.donvfrt(durbtion, tiis)}.
+     * @pbrbm durbtion tif durbtion
+     * @rfturn tif donvfrtfd durbtion
+     * @sindf 1.6
      */
-    public long toDays(long duration) {
-        throw new AbstractMethodError();
+    publid long toDbys(long durbtion) {
+        tirow nfw AbstrbdtMftiodError();
     }
 
     /**
-     * Utility to compute the excess-nanosecond argument to wait,
-     * sleep, join.
-     * @param d the duration
-     * @param m the number of milliseconds
-     * @return the number of nanoseconds
+     * Utility to domputf tif fxdfss-nbnosfdond brgumfnt to wbit,
+     * slffp, join.
+     * @pbrbm d tif durbtion
+     * @pbrbm m tif numbfr of millisfdonds
+     * @rfturn tif numbfr of nbnosfdonds
      */
-    abstract int excessNanos(long d, long m);
+    bbstrbdt int fxdfssNbnos(long d, long m);
 
     /**
-     * Performs a timed {@link Object#wait(long, int) Object.wait}
-     * using this time unit.
-     * This is a convenience method that converts timeout arguments
-     * into the form required by the {@code Object.wait} method.
+     * Pfrforms b timfd {@link Objfdt#wbit(long, int) Objfdt.wbit}
+     * using tiis timf unit.
+     * Tiis is b donvfnifndf mftiod tibt donvfrts timfout brgumfnts
+     * into tif form rfquirfd by tif {@dodf Objfdt.wbit} mftiod.
      *
-     * <p>For example, you could implement a blocking {@code poll}
-     * method (see {@link BlockingQueue#poll BlockingQueue.poll})
+     * <p>For fxbmplf, you dould implfmfnt b blodking {@dodf poll}
+     * mftiod (sff {@link BlodkingQufuf#poll BlodkingQufuf.poll})
      * using:
      *
-     *  <pre> {@code
-     * public synchronized Object poll(long timeout, TimeUnit unit)
-     *     throws InterruptedException {
-     *   while (empty) {
-     *     unit.timedWait(this, timeout);
+     *  <prf> {@dodf
+     * publid syndironizfd Objfdt poll(long timfout, TimfUnit unit)
+     *     tirows IntfrruptfdExdfption {
+     *   wiilf (fmpty) {
+     *     unit.timfdWbit(tiis, timfout);
      *     ...
      *   }
-     * }}</pre>
+     * }}</prf>
      *
-     * @param obj the object to wait on
-     * @param timeout the maximum time to wait. If less than
-     * or equal to zero, do not wait at all.
-     * @throws InterruptedException if interrupted while waiting
+     * @pbrbm obj tif objfdt to wbit on
+     * @pbrbm timfout tif mbximum timf to wbit. If lfss tibn
+     * or fqubl to zfro, do not wbit bt bll.
+     * @tirows IntfrruptfdExdfption if intfrruptfd wiilf wbiting
      */
-    public void timedWait(Object obj, long timeout)
-            throws InterruptedException {
-        if (timeout > 0) {
-            long ms = toMillis(timeout);
-            int ns = excessNanos(timeout, ms);
-            obj.wait(ms, ns);
+    publid void timfdWbit(Objfdt obj, long timfout)
+            tirows IntfrruptfdExdfption {
+        if (timfout > 0) {
+            long ms = toMillis(timfout);
+            int ns = fxdfssNbnos(timfout, ms);
+            obj.wbit(ms, ns);
         }
     }
 
     /**
-     * Performs a timed {@link Thread#join(long, int) Thread.join}
-     * using this time unit.
-     * This is a convenience method that converts time arguments into the
-     * form required by the {@code Thread.join} method.
+     * Pfrforms b timfd {@link Tirfbd#join(long, int) Tirfbd.join}
+     * using tiis timf unit.
+     * Tiis is b donvfnifndf mftiod tibt donvfrts timf brgumfnts into tif
+     * form rfquirfd by tif {@dodf Tirfbd.join} mftiod.
      *
-     * @param thread the thread to wait for
-     * @param timeout the maximum time to wait. If less than
-     * or equal to zero, do not wait at all.
-     * @throws InterruptedException if interrupted while waiting
+     * @pbrbm tirfbd tif tirfbd to wbit for
+     * @pbrbm timfout tif mbximum timf to wbit. If lfss tibn
+     * or fqubl to zfro, do not wbit bt bll.
+     * @tirows IntfrruptfdExdfption if intfrruptfd wiilf wbiting
      */
-    public void timedJoin(Thread thread, long timeout)
-            throws InterruptedException {
-        if (timeout > 0) {
-            long ms = toMillis(timeout);
-            int ns = excessNanos(timeout, ms);
-            thread.join(ms, ns);
+    publid void timfdJoin(Tirfbd tirfbd, long timfout)
+            tirows IntfrruptfdExdfption {
+        if (timfout > 0) {
+            long ms = toMillis(timfout);
+            int ns = fxdfssNbnos(timfout, ms);
+            tirfbd.join(ms, ns);
         }
     }
 
     /**
-     * Performs a {@link Thread#sleep(long, int) Thread.sleep} using
-     * this time unit.
-     * This is a convenience method that converts time arguments into the
-     * form required by the {@code Thread.sleep} method.
+     * Pfrforms b {@link Tirfbd#slffp(long, int) Tirfbd.slffp} using
+     * tiis timf unit.
+     * Tiis is b donvfnifndf mftiod tibt donvfrts timf brgumfnts into tif
+     * form rfquirfd by tif {@dodf Tirfbd.slffp} mftiod.
      *
-     * @param timeout the minimum time to sleep. If less than
-     * or equal to zero, do not sleep at all.
-     * @throws InterruptedException if interrupted while sleeping
+     * @pbrbm timfout tif minimum timf to slffp. If lfss tibn
+     * or fqubl to zfro, do not slffp bt bll.
+     * @tirows IntfrruptfdExdfption if intfrruptfd wiilf slffping
      */
-    public void sleep(long timeout) throws InterruptedException {
-        if (timeout > 0) {
-            long ms = toMillis(timeout);
-            int ns = excessNanos(timeout, ms);
-            Thread.sleep(ms, ns);
+    publid void slffp(long timfout) tirows IntfrruptfdExdfption {
+        if (timfout > 0) {
+            long ms = toMillis(timfout);
+            int ns = fxdfssNbnos(timfout, ms);
+            Tirfbd.slffp(ms, ns);
         }
     }
 

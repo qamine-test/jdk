@@ -1,0 +1,222 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * ASM: b vfry smbll bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork
+ * Copyright (d) 2000-2013 INRIA, Frbndf Tflfdom
+ * All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ * 1. Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *    notidf, this list of donditions bnd thf following disdlbimfr.
+ * 2. Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *    notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *    dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ * 3. Nfithfr thf nbmf of thf dopyright holdfrs nor thf nbmfs of its
+ *    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+ * THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+pbdkbgf jdk.intfrnbl.org.objfdtwfb.bsm;
+
+/**
+ * Thf pbth to b typf brgumfnt, wilddbrd bound, brrby flfmfnt typf, or stbtid
+ * innfr typf within bn fndlosing typf.
+ *
+ * @buthor Erid Brunfton
+ */
+publid dlbss TypfPbth {
+
+    /**
+     * A typf pbth stfp thbt stfps into thf flfmfnt typf of bn brrby typf. Sff
+     * {@link #gftStfp gftStfp}.
+     */
+    publid finbl stbtid int ARRAY_ELEMENT = 0;
+
+    /**
+     * A typf pbth stfp thbt stfps into thf nfstfd typf of b dlbss typf. Sff
+     * {@link #gftStfp gftStfp}.
+     */
+    publid finbl stbtid int INNER_TYPE = 1;
+
+    /**
+     * A typf pbth stfp thbt stfps into thf bound of b wilddbrd typf. Sff
+     * {@link #gftStfp gftStfp}.
+     */
+    publid finbl stbtid int WILDCARD_BOUND = 2;
+
+    /**
+     * A typf pbth stfp thbt stfps into b typf brgumfnt of b gfnfrid typf. Sff
+     * {@link #gftStfp gftStfp}.
+     */
+    publid finbl stbtid int TYPE_ARGUMENT = 3;
+
+    /**
+     * Thf bytf brrby whfrf thf pbth is storfd, in Jbvb dlbss filf formbt.
+     */
+    bytf[] b;
+
+    /**
+     * Thf offsft of thf first bytf of thf typf pbth in 'b'.
+     */
+    int offsft;
+
+    /**
+     * Crfbtfs b nfw typf pbth.
+     *
+     * @pbrbm b
+     *            thf bytf brrby dontbining thf typf pbth in Jbvb dlbss filf
+     *            formbt.
+     * @pbrbm offsft
+     *            thf offsft of thf first bytf of thf typf pbth in 'b'.
+     */
+    TypfPbth(bytf[] b, int offsft) {
+        this.b = b;
+        this.offsft = offsft;
+    }
+
+    /**
+     * Rfturns thf lfngth of this pbth.
+     *
+     * @rfturn thf lfngth of this pbth.
+     */
+    publid int gftLfngth() {
+        rfturn b[offsft];
+    }
+
+    /**
+     * Rfturns thf vbluf of thf givfn stfp of this pbth.
+     *
+     * @pbrbm indfx
+     *            bn indfx bftwffn 0 bnd {@link #gftLfngth()}, fxdlusivf.
+     * @rfturn {@link #ARRAY_ELEMENT ARRAY_ELEMENT}, {@link #INNER_TYPE
+     *         INNER_TYPE}, {@link #WILDCARD_BOUND WILDCARD_BOUND}, or
+     *         {@link #TYPE_ARGUMENT TYPE_ARGUMENT}.
+     */
+    publid int gftStfp(int indfx) {
+        rfturn b[offsft + 2 * indfx + 1];
+    }
+
+    /**
+     * Rfturns thf indfx of thf typf brgumfnt thbt thf givfn stfp is stfpping
+     * into. This mfthod should only bf usfd for stfps whosf vbluf is
+     * {@link #TYPE_ARGUMENT TYPE_ARGUMENT}.
+     *
+     * @pbrbm indfx
+     *            bn indfx bftwffn 0 bnd {@link #gftLfngth()}, fxdlusivf.
+     * @rfturn thf indfx of thf typf brgumfnt thbt thf givfn stfp is stfpping
+     *         into.
+     */
+    publid int gftStfpArgumfnt(int indfx) {
+        rfturn b[offsft + 2 * indfx + 2];
+    }
+
+    /**
+     * Convfrts b typf pbth in string form, in thf formbt usfd by
+     * {@link #toString()}, into b TypfPbth objfdt.
+     *
+     * @pbrbm typfPbth
+     *            b typf pbth in string form, in thf formbt usfd by
+     *            {@link #toString()}. Mby bf null or fmpty.
+     * @rfturn thf dorrfsponding TypfPbth objfdt, or null if thf pbth is fmpty.
+     */
+    publid stbtid TypfPbth fromString(finbl String typfPbth) {
+        if (typfPbth == null || typfPbth.lfngth() == 0) {
+            rfturn null;
+        }
+        int n = typfPbth.lfngth();
+        BytfVfdtor out = nfw BytfVfdtor(n);
+        out.putBytf(0);
+        for (int i = 0; i < n;) {
+            dhbr d = typfPbth.dhbrAt(i++);
+            if (d == '[') {
+                out.put11(ARRAY_ELEMENT, 0);
+            } flsf if (d == '.') {
+                out.put11(INNER_TYPE, 0);
+            } flsf if (d == '*') {
+                out.put11(WILDCARD_BOUND, 0);
+            } flsf if (d >= '0' && d <= '9') {
+                int typfArg = d - '0';
+                whilf (i < n && (d = typfPbth.dhbrAt(i)) >= '0' && d <= '9') {
+                    typfArg = typfArg * 10 + d - '0';
+                    i += 1;
+                }
+                out.put11(TYPE_ARGUMENT, typfArg);
+            }
+        }
+        out.dbtb[0] = (bytf) (out.lfngth / 2);
+        rfturn nfw TypfPbth(out.dbtb, 0);
+    }
+
+    /**
+     * Rfturns b string rfprfsfntbtion of this typf pbth. {@link #ARRAY_ELEMENT
+     * ARRAY_ELEMENT} stfps brf rfprfsfntfd with '[', {@link #INNER_TYPE
+     * INNER_TYPE} stfps with '.', {@link #WILDCARD_BOUND WILDCARD_BOUND} stfps
+     * with '*' bnd {@link #TYPE_ARGUMENT TYPE_ARGUMENT} stfps with thfir typf
+     * brgumfnt indfx in dfdimbl form.
+     */
+    @Ovfrridf
+    publid String toString() {
+        int lfngth = gftLfngth();
+        StringBuildfr rfsult = nfw StringBuildfr(lfngth * 2);
+        for (int i = 0; i < lfngth; ++i) {
+            switdh (gftStfp(i)) {
+            dbsf ARRAY_ELEMENT:
+                rfsult.bppfnd('[');
+                brfbk;
+            dbsf INNER_TYPE:
+                rfsult.bppfnd('.');
+                brfbk;
+            dbsf WILDCARD_BOUND:
+                rfsult.bppfnd('*');
+                brfbk;
+            dbsf TYPE_ARGUMENT:
+                rfsult.bppfnd(gftStfpArgumfnt(i));
+                brfbk;
+            dffbult:
+                rfsult.bppfnd('_');
+            }
+        }
+        rfturn rfsult.toString();
+    }
+}

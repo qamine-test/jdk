@@ -1,199 +1,199 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.border;
+pbdkbgf jbvbx.swing.bordfr;
 
-import java.awt.Graphics;
-import java.awt.Insets;
-import java.awt.Rectangle;
-import java.awt.Component;
-import java.io.Serializable;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Componfnt;
+import jbvb.io.Sfriblizbblf;
 
 /**
- * A class that implements an empty border with no size.
- * This provides a convenient base class from which other border
- * classes can be easily derived.
+ * A dlbss tibt implfmfnts bn fmpty bordfr witi no sizf.
+ * Tiis providfs b donvfnifnt bbsf dlbss from wiidi otifr bordfr
+ * dlbssfs dbn bf fbsily dfrivfd.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @author David Kloba
+ * @butior Dbvid Klobb
  */
-@SuppressWarnings("serial")
-public abstract class AbstractBorder implements Border, Serializable
+@SupprfssWbrnings("sfribl")
+publid bbstrbdt dlbss AbstrbdtBordfr implfmfnts Bordfr, Sfriblizbblf
 {
     /**
-     * This default implementation does no painting.
-     * @param c the component for which this border is being painted
-     * @param g the paint graphics
-     * @param x the x position of the painted border
-     * @param y the y position of the painted border
-     * @param width the width of the painted border
-     * @param height the height of the painted border
+     * Tiis dffbult implfmfntbtion dofs no pbinting.
+     * @pbrbm d tif domponfnt for wiidi tiis bordfr is bfing pbintfd
+     * @pbrbm g tif pbint grbpiids
+     * @pbrbm x tif x position of tif pbintfd bordfr
+     * @pbrbm y tif y position of tif pbintfd bordfr
+     * @pbrbm widti tif widti of tif pbintfd bordfr
+     * @pbrbm ifigit tif ifigit of tif pbintfd bordfr
      */
-    public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
+    publid void pbintBordfr(Componfnt d, Grbpiids g, int x, int y, int widti, int ifigit) {
     }
 
     /**
-     * This default implementation returns a new {@link Insets} object
-     * that is initialized by the {@link #getBorderInsets(Component,Insets)}
-     * method.
-     * By default the {@code top}, {@code left}, {@code bottom},
-     * and {@code right} fields are set to {@code 0}.
+     * Tiis dffbult implfmfntbtion rfturns b nfw {@link Insfts} objfdt
+     * tibt is initiblizfd by tif {@link #gftBordfrInsfts(Componfnt,Insfts)}
+     * mftiod.
+     * By dffbult tif {@dodf top}, {@dodf lfft}, {@dodf bottom},
+     * bnd {@dodf rigit} fiflds brf sft to {@dodf 0}.
      *
-     * @param c  the component for which this border insets value applies
-     * @return a new {@link Insets} object
+     * @pbrbm d  tif domponfnt for wiidi tiis bordfr insfts vbluf bpplifs
+     * @rfturn b nfw {@link Insfts} objfdt
      */
-    public Insets getBorderInsets(Component c)       {
-        return getBorderInsets(c, new Insets(0, 0, 0, 0));
+    publid Insfts gftBordfrInsfts(Componfnt d)       {
+        rfturn gftBordfrInsfts(d, nfw Insfts(0, 0, 0, 0));
     }
 
     /**
-     * Reinitializes the insets parameter with this Border's current Insets.
-     * @param c the component for which this border insets value applies
-     * @param insets the object to be reinitialized
-     * @return the <code>insets</code> object
+     * Rfinitiblizfs tif insfts pbrbmftfr witi tiis Bordfr's durrfnt Insfts.
+     * @pbrbm d tif domponfnt for wiidi tiis bordfr insfts vbluf bpplifs
+     * @pbrbm insfts tif objfdt to bf rfinitiblizfd
+     * @rfturn tif <dodf>insfts</dodf> objfdt
      */
-    public Insets getBorderInsets(Component c, Insets insets) {
-        insets.left = insets.top = insets.right = insets.bottom = 0;
-        return insets;
+    publid Insfts gftBordfrInsfts(Componfnt d, Insfts insfts) {
+        insfts.lfft = insfts.top = insfts.rigit = insfts.bottom = 0;
+        rfturn insfts;
     }
 
     /**
-     * This default implementation returns false.
-     * @return false
+     * Tiis dffbult implfmfntbtion rfturns fblsf.
+     * @rfturn fblsf
      */
-    public boolean isBorderOpaque() { return false; }
+    publid boolfbn isBordfrOpbquf() { rfturn fblsf; }
 
     /**
-     * This convenience method calls the static method.
-     * @param c the component for which this border is being computed
-     * @param x the x position of the border
-     * @param y the y position of the border
-     * @param width the width of the border
-     * @param height the height of the border
-     * @return a <code>Rectangle</code> containing the interior coordinates
+     * Tiis donvfnifndf mftiod dblls tif stbtid mftiod.
+     * @pbrbm d tif domponfnt for wiidi tiis bordfr is bfing domputfd
+     * @pbrbm x tif x position of tif bordfr
+     * @pbrbm y tif y position of tif bordfr
+     * @pbrbm widti tif widti of tif bordfr
+     * @pbrbm ifigit tif ifigit of tif bordfr
+     * @rfturn b <dodf>Rfdtbnglf</dodf> dontbining tif intfrior doordinbtfs
      */
-    public Rectangle getInteriorRectangle(Component c, int x, int y, int width, int height) {
-        return getInteriorRectangle(c, this, x, y, width, height);
+    publid Rfdtbnglf gftIntfriorRfdtbnglf(Componfnt d, int x, int y, int widti, int ifigit) {
+        rfturn gftIntfriorRfdtbnglf(d, tiis, x, y, widti, ifigit);
     }
 
     /**
-     * Returns a rectangle using the arguments minus the
-     * insets of the border. This is useful for determining the area
-     * that components should draw in that will not intersect the border.
-     * @param c the component for which this border is being computed
-     * @param b the <code>Border</code> object
-     * @param x the x position of the border
-     * @param y the y position of the border
-     * @param width the width of the border
-     * @param height the height of the border
-     * @return a <code>Rectangle</code> containing the interior coordinates
+     * Rfturns b rfdtbnglf using tif brgumfnts minus tif
+     * insfts of tif bordfr. Tiis is usfful for dftfrmining tif brfb
+     * tibt domponfnts siould drbw in tibt will not intfrsfdt tif bordfr.
+     * @pbrbm d tif domponfnt for wiidi tiis bordfr is bfing domputfd
+     * @pbrbm b tif <dodf>Bordfr</dodf> objfdt
+     * @pbrbm x tif x position of tif bordfr
+     * @pbrbm y tif y position of tif bordfr
+     * @pbrbm widti tif widti of tif bordfr
+     * @pbrbm ifigit tif ifigit of tif bordfr
+     * @rfturn b <dodf>Rfdtbnglf</dodf> dontbining tif intfrior doordinbtfs
      */
-    public static Rectangle getInteriorRectangle(Component c, Border b, int x, int y, int width, int height) {
-        Insets insets;
+    publid stbtid Rfdtbnglf gftIntfriorRfdtbnglf(Componfnt d, Bordfr b, int x, int y, int widti, int ifigit) {
+        Insfts insfts;
         if(b != null)
-            insets = b.getBorderInsets(c);
-        else
-            insets = new Insets(0, 0, 0, 0);
-        return new Rectangle(x + insets.left,
-                                    y + insets.top,
-                                    width - insets.right - insets.left,
-                                    height - insets.top - insets.bottom);
+            insfts = b.gftBordfrInsfts(d);
+        flsf
+            insfts = nfw Insfts(0, 0, 0, 0);
+        rfturn nfw Rfdtbnglf(x + insfts.lfft,
+                                    y + insfts.top,
+                                    widti - insfts.rigit - insfts.lfft,
+                                    ifigit - insfts.top - insfts.bottom);
     }
 
     /**
-     * Returns the baseline.  A return value less than 0 indicates the border
-     * does not have a reasonable baseline.
+     * Rfturns tif bbsflinf.  A rfturn vbluf lfss tibn 0 indidbtfs tif bordfr
+     * dofs not ibvf b rfbsonbblf bbsflinf.
      * <p>
-     * The default implementation returns -1.  Subclasses that support
-     * baseline should override appropriately.  If a value &gt;= 0 is
-     * returned, then the component has a valid baseline for any
-     * size &gt;= the minimum size and <code>getBaselineResizeBehavior</code>
-     * can be used to determine how the baseline changes with size.
+     * Tif dffbult implfmfntbtion rfturns -1.  Subdlbssfs tibt support
+     * bbsflinf siould ovfrridf bppropribtfly.  If b vbluf &gt;= 0 is
+     * rfturnfd, tifn tif domponfnt ibs b vblid bbsflinf for bny
+     * sizf &gt;= tif minimum sizf bnd <dodf>gftBbsflinfRfsizfBfibvior</dodf>
+     * dbn bf usfd to dftfrminf iow tif bbsflinf dibngfs witi sizf.
      *
-     * @param c <code>Component</code> baseline is being requested for
-     * @param width the width to get the baseline for
-     * @param height the height to get the baseline for
-     * @return the baseline or &lt; 0 indicating there is no reasonable
-     *         baseline
-     * @throws IllegalArgumentException if width or height is &lt; 0
-     * @see java.awt.Component#getBaseline(int,int)
-     * @see java.awt.Component#getBaselineResizeBehavior()
-     * @since 1.6
+     * @pbrbm d <dodf>Componfnt</dodf> bbsflinf is bfing rfqufstfd for
+     * @pbrbm widti tif widti to gft tif bbsflinf for
+     * @pbrbm ifigit tif ifigit to gft tif bbsflinf for
+     * @rfturn tif bbsflinf or &lt; 0 indidbting tifrf is no rfbsonbblf
+     *         bbsflinf
+     * @tirows IllfgblArgumfntExdfption if widti or ifigit is &lt; 0
+     * @sff jbvb.bwt.Componfnt#gftBbsflinf(int,int)
+     * @sff jbvb.bwt.Componfnt#gftBbsflinfRfsizfBfibvior()
+     * @sindf 1.6
      */
-    public int getBaseline(Component c, int width, int height) {
-        if (width < 0 || height < 0) {
-            throw new IllegalArgumentException(
-                    "Width and height must be >= 0");
+    publid int gftBbsflinf(Componfnt d, int widti, int ifigit) {
+        if (widti < 0 || ifigit < 0) {
+            tirow nfw IllfgblArgumfntExdfption(
+                    "Widti bnd ifigit must bf >= 0");
         }
-        return -1;
+        rfturn -1;
     }
 
     /**
-     * Returns an enum indicating how the baseline of a component
-     * changes as the size changes.  This method is primarily meant for
-     * layout managers and GUI builders.
+     * Rfturns bn fnum indidbting iow tif bbsflinf of b domponfnt
+     * dibngfs bs tif sizf dibngfs.  Tiis mftiod is primbrily mfbnt for
+     * lbyout mbnbgfrs bnd GUI buildfrs.
      * <p>
-     * The default implementation returns
-     * <code>BaselineResizeBehavior.OTHER</code>, subclasses that support
-     * baseline should override appropriately.  Subclasses should
-     * never return <code>null</code>; if the baseline can not be
-     * calculated return <code>BaselineResizeBehavior.OTHER</code>.  Callers
-     * should first ask for the baseline using
-     * <code>getBaseline</code> and if a value &gt;= 0 is returned use
-     * this method.  It is acceptable for this method to return a
-     * value other than <code>BaselineResizeBehavior.OTHER</code> even if
-     * <code>getBaseline</code> returns a value less than 0.
+     * Tif dffbult implfmfntbtion rfturns
+     * <dodf>BbsflinfRfsizfBfibvior.OTHER</dodf>, subdlbssfs tibt support
+     * bbsflinf siould ovfrridf bppropribtfly.  Subdlbssfs siould
+     * nfvfr rfturn <dodf>null</dodf>; if tif bbsflinf dbn not bf
+     * dbldulbtfd rfturn <dodf>BbsflinfRfsizfBfibvior.OTHER</dodf>.  Cbllfrs
+     * siould first bsk for tif bbsflinf using
+     * <dodf>gftBbsflinf</dodf> bnd if b vbluf &gt;= 0 is rfturnfd usf
+     * tiis mftiod.  It is bddfptbblf for tiis mftiod to rfturn b
+     * vbluf otifr tibn <dodf>BbsflinfRfsizfBfibvior.OTHER</dodf> fvfn if
+     * <dodf>gftBbsflinf</dodf> rfturns b vbluf lfss tibn 0.
      *
-     * @param c <code>Component</code> to return baseline resize behavior for
-     * @return an enum indicating how the baseline changes as the border is
-     *         resized
-     * @see java.awt.Component#getBaseline(int,int)
-     * @see java.awt.Component#getBaselineResizeBehavior()
-     * @since 1.6
+     * @pbrbm d <dodf>Componfnt</dodf> to rfturn bbsflinf rfsizf bfibvior for
+     * @rfturn bn fnum indidbting iow tif bbsflinf dibngfs bs tif bordfr is
+     *         rfsizfd
+     * @sff jbvb.bwt.Componfnt#gftBbsflinf(int,int)
+     * @sff jbvb.bwt.Componfnt#gftBbsflinfRfsizfBfibvior()
+     * @sindf 1.6
      */
-    public Component.BaselineResizeBehavior getBaselineResizeBehavior(
-            Component c) {
-        if (c == null) {
-            throw new NullPointerException("Component must be non-null");
+    publid Componfnt.BbsflinfRfsizfBfibvior gftBbsflinfRfsizfBfibvior(
+            Componfnt d) {
+        if (d == null) {
+            tirow nfw NullPointfrExdfption("Componfnt must bf non-null");
         }
-        return Component.BaselineResizeBehavior.OTHER;
+        rfturn Componfnt.BbsflinfRfsizfBfibvior.OTHER;
     }
 
     /*
-     * Convenience function for determining ComponentOrientation.
-     * Helps us avoid having Munge directives throughout the code.
+     * Convfnifndf fundtion for dftfrmining ComponfntOrifntbtion.
+     * Hflps us bvoid ibving Mungf dirfdtivfs tirougiout tif dodf.
      */
-    static boolean isLeftToRight( Component c ) {
-        return c.getComponentOrientation().isLeftToRight();
+    stbtid boolfbn isLfftToRigit( Componfnt d ) {
+        rfturn d.gftComponfntOrifntbtion().isLfftToRigit();
     }
 
 }

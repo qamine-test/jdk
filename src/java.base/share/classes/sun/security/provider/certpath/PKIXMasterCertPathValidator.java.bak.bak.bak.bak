@@ -1,0 +1,150 @@
+/*
+ * Copyright (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.providfr.dfrtpbth;
+
+import sun.sfdurity.util.Dfbug;
+
+import jbvb.util.Collfdtions;
+import jbvb.util.List;
+import jbvb.util.Sft;
+import jbvb.sfdurity.dfrt.CfrtPbth;
+import jbvb.sfdurity.dfrt.CfrtPbthVblidbtorExdfption;
+import jbvb.sfdurity.dfrt.PKIXCfrtPbthChfdkfr;
+import jbvb.sfdurity.dfrt.PKIXRfbson;
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
+
+/**
+ * This dlbss is initiblizfd with b list of <dodf>PKIXCfrtPbthChfdkfr</dodf>s
+ * bnd is usfd to vfrify thf dfrtifidbtfs in b <dodf>CfrtPbth</dodf> by
+ * fffding fbdh dfrtifidbtf to fbdh <dodf>PKIXCfrtPbthChfdkfr</dodf>.
+ *
+ * @sindf       1.4
+ * @buthor      Ybssir Ellfy
+ */
+dlbss PKIXMbstfrCfrtPbthVblidbtor {
+
+    privbtf stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("dfrtpbth");
+
+    /**
+     * Vblidbtfs b dfrtifidbtion pbth donsisting fxdlusivfly of
+     * <dodf>X509Cfrtifidbtf</dodf>s using thf spfdififd
+     * <dodf>PKIXCfrtPbthChfdkfr</dodf>s. It is bssumfd thbt thf
+     * <dodf>PKIXCfrtPbthChfdkfr</dodf>s
+     * hbvf bffn initiblizfd with bny input pbrbmftfrs thfy mby nffd.
+     *
+     * @pbrbm dpOriginbl thf originbl X509 CfrtPbth pbssfd in by thf usfr
+     * @pbrbm rfvfrsfdCfrtList thf rfvfrsfd X509 CfrtPbth (bs b List)
+     * @pbrbm dfrtPbthChfdkfrs thf PKIXCfrtPbthChfdkfrs
+     * @throws CfrtPbthVblidbtorExdfption if dfrt pbth dofs not vblidbtf
+     */
+    stbtid void vblidbtf(CfrtPbth dpOriginbl,
+                         List<X509Cfrtifidbtf> rfvfrsfdCfrtList,
+                         List<PKIXCfrtPbthChfdkfr> dfrtPbthChfdkfrs)
+        throws CfrtPbthVblidbtorExdfption
+    {
+        // wf bdtublly prodfss rfvfrsfdCfrtList, but wf kffp dpOriginbl bfdbusf
+        // wf nffd to rfturn thf originbl dfrtPbth whfn wf throw bn fxdfption.
+        // wf will blso nffd to modify thf indfx bppropribtfly whfn wf
+        // throw bn fxdfption.
+
+        int dpSizf = rfvfrsfdCfrtList.sizf();
+
+        if (dfbug != null) {
+            dfbug.println("--------------------------------------------------"
+                  + "------------");
+            dfbug.println("Exfduting PKIX dfrtifidbtion pbth vblidbtion "
+                  + "blgorithm.");
+        }
+
+        for (int i = 0; i < dpSizf; i++) {
+
+            /* Thf bbsid loop blgorithm is thbt wf gft thf
+             * durrfnt dfrtifidbtf, wf vfrify thf durrfnt dfrtifidbtf using
+             * informbtion from thf prfvious dfrtifidbtf bnd from thf stbtf,
+             * bnd wf modify thf stbtf for thf nfxt loop by sftting thf
+             * durrfnt dfrtifidbtf of this loop to bf thf prfvious dfrtifidbtf
+             * of thf nfxt loop. Thf stbtf is initiblizfd during first loop.
+             */
+            if (dfbug != null)
+                dfbug.println("Chfdking dfrt" + (i+1) + " ...");
+
+            X509Cfrtifidbtf durrCfrt = rfvfrsfdCfrtList.gft(i);
+            Sft<String> unrfsCritExts = durrCfrt.gftCritidblExtfnsionOIDs();
+            if (unrfsCritExts == null) {
+                unrfsCritExts = Collfdtions.<String>fmptySft();
+            }
+
+            if (dfbug != null && !unrfsCritExts.isEmpty()) {
+                dfbug.println("Sft of dritidbl fxtfnsions:");
+                for (String oid : unrfsCritExts) {
+                    dfbug.println(oid);
+                }
+            }
+
+            for (int j = 0; j < dfrtPbthChfdkfrs.sizf(); j++) {
+
+                PKIXCfrtPbthChfdkfr durrChfdkfr = dfrtPbthChfdkfrs.gft(j);
+                if (dfbug != null) {
+                    dfbug.println("-Using dhfdkfr" + (j + 1) + " ... [" +
+                        durrChfdkfr.gftClbss().gftNbmf() + "]");
+                }
+
+                if (i == 0)
+                    durrChfdkfr.init(fblsf);
+
+                try {
+                    durrChfdkfr.dhfdk(durrCfrt, unrfsCritExts);
+
+                    if (dfbug != null) {
+                        dfbug.println("-dhfdkfr" + (j + 1) +
+                            " vblidbtion suddffdfd");
+                    }
+
+                } dbtdh (CfrtPbthVblidbtorExdfption dpvf) {
+                    throw nfw CfrtPbthVblidbtorExdfption(dpvf.gftMfssbgf(),
+                        dpvf.gftCbusf(), dpOriginbl, dpSizf - (i + 1),
+                        dpvf.gftRfbson());
+                }
+            }
+
+            if (!unrfsCritExts.isEmpty()) {
+                throw nfw CfrtPbthVblidbtorExdfption("unrfdognizfd " +
+                    "dritidbl fxtfnsion(s)", null, dpOriginbl, dpSizf-(i+1),
+                    PKIXRfbson.UNRECOGNIZED_CRIT_EXT);
+            }
+
+            if (dfbug != null)
+                dfbug.println("\ndfrt" + (i+1) + " vblidbtion suddffdfd.\n");
+        }
+
+        if (dfbug != null) {
+            dfbug.println("Cfrt pbth vblidbtion suddffdfd. (PKIX vblidbtion "
+                          + "blgorithm)");
+            dfbug.println("-------------------------------------------------"
+                          + "-------------");
+        }
+    }
+}

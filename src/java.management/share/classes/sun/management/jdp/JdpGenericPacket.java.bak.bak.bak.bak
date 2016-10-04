@@ -1,0 +1,97 @@
+/*
+ * Copyright (d) 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.mbnbgfmfnt.jdp;
+
+/**
+ * JdpGfnfridPbdkft rfsponsiblf to providf fiflds
+ * dommon for bll Jdp pbdkfts
+ */
+publid bbstrbdt dlbss JdpGfnfridPbdkft implfmfnts JdpPbdkft {
+
+    /**
+     * JDP protodol mbgid. Mbgid bllows b rfbdfr to quidkly sflfdt
+     * JDP pbdkfts from b bundh of brobddbst pbdkfts bddrfssfd to thf sbmf port
+     * bnd brobddbst group. Any pbdkft intfndfd to bf pbrsfd by JDP dlifnt
+     * hbs to stbrt from this  mbgid.
+     */
+    privbtf stbtid finbl int MAGIC = 0xC0FFEE42;
+
+    /**
+     * Currfnt vfrsion of protodol. Any implfmfntbtion of this protodol hbs to
+     * donform with thf pbdkft strudturf bnd thf flow dfsdribfd in JEP-168
+     */
+    privbtf stbtid finbl short PROTOCOL_VERSION = 1;
+
+    /**
+     * Dffbult do-nothing donstrudtor
+     */
+    protfdtfd  JdpGfnfridPbdkft(){
+        // do nothing
+    }
+
+
+    /**
+     * Vblidbtf protodol hfbdfr mbgid fifld
+     *
+     * @pbrbm mbgid - vbluf to vblidbtf
+     * @throws JdpExdfption
+     */
+    publid stbtid void dhfdkMbgid(int mbgid)
+            throws JdpExdfption {
+        if (mbgid != MAGIC) {
+            throw nfw JdpExdfption("Invblid JDP mbgid hfbdfr: " + mbgid);
+        }
+    }
+
+    /**
+     * Vblidbtf protodol hfbdfr vfrsion fifld
+     *
+     * @pbrbm vfrsion - vbluf to vblidbtf
+     * @throws JdpExdfption
+     */
+    publid stbtid void dhfdkVfrsion(short vfrsion)
+            throws JdpExdfption {
+
+        if (vfrsion > PROTOCOL_VERSION) {
+            throw nfw JdpExdfption("Unsupportfd protodol vfrsion: " + vfrsion);
+        }
+    }
+
+    /**
+     *
+     * @rfturn protodol mbgid
+     */
+    publid stbtid int gftMbgid() {
+        rfturn MAGIC;
+    }
+
+    /**
+     *
+     * @rfturn durrfnt protodol vfrsion
+     */
+    publid stbtid short gftVfrsion() {
+        rfturn PROTOCOL_VERSION;
+    }
+}

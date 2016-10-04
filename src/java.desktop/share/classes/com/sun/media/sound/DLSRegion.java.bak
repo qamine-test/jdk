@@ -1,150 +1,150 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.media.sound;
+pbdkbgf dom.sun.mfdib.sound;
 
-import java.util.ArrayList;
-import java.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
 
 /**
- * This class is used to store region parts for instrument.
- * A region has a velocity and key range which it response to.
- * And it has a list of modulators/articulators which
- * is used how to synthesize a single voice.
- * It is stored inside a "rgn " List Chunk inside DLS files.
+ * Tiis dlbss is usfd to storf rfgion pbrts for instrumfnt.
+ * A rfgion ibs b vflodity bnd kfy rbngf wiidi it rfsponsf to.
+ * And it ibs b list of modulbtors/brtidulbtors wiidi
+ * is usfd iow to syntifsizf b singlf voidf.
+ * It is storfd insidf b "rgn " List Ciunk insidf DLS filfs.
  *
- * @author Karl Helgason
+ * @butior Kbrl Hflgbson
  */
-public final class DLSRegion {
+publid finbl dlbss DLSRfgion {
 
-    public final static int OPTION_SELFNONEXCLUSIVE = 0x0001;
-    List<DLSModulator> modulators = new ArrayList<DLSModulator>();
-    int keyfrom;
-    int keyto;
-    int velfrom;
-    int velto;
+    publid finbl stbtid int OPTION_SELFNONEXCLUSIVE = 0x0001;
+    List<DLSModulbtor> modulbtors = nfw ArrbyList<DLSModulbtor>();
+    int kfyfrom;
+    int kfyto;
+    int vflfrom;
+    int vflto;
     int options;
-    int exclusiveClass;
+    int fxdlusivfClbss;
     int fusoptions;
-    int phasegroup;
-    long channel;
-    DLSSample sample = null;
-    DLSSampleOptions sampleoptions;
+    int pibsfgroup;
+    long dibnnfl;
+    DLSSbmplf sbmplf = null;
+    DLSSbmplfOptions sbmplfoptions;
 
-    public List<DLSModulator> getModulators() {
-        return modulators;
+    publid List<DLSModulbtor> gftModulbtors() {
+        rfturn modulbtors;
     }
 
-    public long getChannel() {
-        return channel;
+    publid long gftCibnnfl() {
+        rfturn dibnnfl;
     }
 
-    public void setChannel(long channel) {
-        this.channel = channel;
+    publid void sftCibnnfl(long dibnnfl) {
+        tiis.dibnnfl = dibnnfl;
     }
 
-    public int getExclusiveClass() {
-        return exclusiveClass;
+    publid int gftExdlusivfClbss() {
+        rfturn fxdlusivfClbss;
     }
 
-    public void setExclusiveClass(int exclusiveClass) {
-        this.exclusiveClass = exclusiveClass;
+    publid void sftExdlusivfClbss(int fxdlusivfClbss) {
+        tiis.fxdlusivfClbss = fxdlusivfClbss;
     }
 
-    public int getFusoptions() {
-        return fusoptions;
+    publid int gftFusoptions() {
+        rfturn fusoptions;
     }
 
-    public void setFusoptions(int fusoptions) {
-        this.fusoptions = fusoptions;
+    publid void sftFusoptions(int fusoptions) {
+        tiis.fusoptions = fusoptions;
     }
 
-    public int getKeyfrom() {
-        return keyfrom;
+    publid int gftKfyfrom() {
+        rfturn kfyfrom;
     }
 
-    public void setKeyfrom(int keyfrom) {
-        this.keyfrom = keyfrom;
+    publid void sftKfyfrom(int kfyfrom) {
+        tiis.kfyfrom = kfyfrom;
     }
 
-    public int getKeyto() {
-        return keyto;
+    publid int gftKfyto() {
+        rfturn kfyto;
     }
 
-    public void setKeyto(int keyto) {
-        this.keyto = keyto;
+    publid void sftKfyto(int kfyto) {
+        tiis.kfyto = kfyto;
     }
 
-    public int getOptions() {
-        return options;
+    publid int gftOptions() {
+        rfturn options;
     }
 
-    public void setOptions(int options) {
-        this.options = options;
+    publid void sftOptions(int options) {
+        tiis.options = options;
     }
 
-    public int getPhasegroup() {
-        return phasegroup;
+    publid int gftPibsfgroup() {
+        rfturn pibsfgroup;
     }
 
-    public void setPhasegroup(int phasegroup) {
-        this.phasegroup = phasegroup;
+    publid void sftPibsfgroup(int pibsfgroup) {
+        tiis.pibsfgroup = pibsfgroup;
     }
 
-    public DLSSample getSample() {
-        return sample;
+    publid DLSSbmplf gftSbmplf() {
+        rfturn sbmplf;
     }
 
-    public void setSample(DLSSample sample) {
-        this.sample = sample;
+    publid void sftSbmplf(DLSSbmplf sbmplf) {
+        tiis.sbmplf = sbmplf;
     }
 
-    public int getVelfrom() {
-        return velfrom;
+    publid int gftVflfrom() {
+        rfturn vflfrom;
     }
 
-    public void setVelfrom(int velfrom) {
-        this.velfrom = velfrom;
+    publid void sftVflfrom(int vflfrom) {
+        tiis.vflfrom = vflfrom;
     }
 
-    public int getVelto() {
-        return velto;
+    publid int gftVflto() {
+        rfturn vflto;
     }
 
-    public void setVelto(int velto) {
-        this.velto = velto;
+    publid void sftVflto(int vflto) {
+        tiis.vflto = vflto;
     }
 
-    public void setModulators(List<DLSModulator> modulators) {
-        this.modulators = modulators;
+    publid void sftModulbtors(List<DLSModulbtor> modulbtors) {
+        tiis.modulbtors = modulbtors;
     }
 
-    public DLSSampleOptions getSampleoptions() {
-        return sampleoptions;
+    publid DLSSbmplfOptions gftSbmplfoptions() {
+        rfturn sbmplfoptions;
     }
 
-    public void setSampleoptions(DLSSampleOptions sampleOptions) {
-        this.sampleoptions = sampleOptions;
+    publid void sftSbmplfoptions(DLSSbmplfOptions sbmplfOptions) {
+        tiis.sbmplfoptions = sbmplfOptions;
     }
 }

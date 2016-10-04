@@ -1,323 +1,323 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.ch;
+pbdkbgf sun.nio.di;
 
-import java.nio.channels.spi.AsynchronousChannelProvider;
-import java.io.IOException;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.RejectedExecutionException;
-import java.util.concurrent.atomic.AtomicInteger;
-import static sun.nio.ch.EPoll.*;
+import jbvb.nio.dibnnfls.spi.AsyndironousCibnnflProvidfr;
+import jbvb.io.IOExdfption;
+import jbvb.util.dondurrfnt.ArrbyBlodkingQufuf;
+import jbvb.util.dondurrfnt.RfjfdtfdExfdutionExdfption;
+import jbvb.util.dondurrfnt.btomid.AtomidIntfgfr;
+import stbtid sun.nio.di.EPoll.*;
 
 /**
- * AsynchronousChannelGroup implementation based on the Linux epoll facility.
+ * AsyndironousCibnnflGroup implfmfntbtion bbsfd on tif Linux fpoll fbdility.
  */
 
-final class EPollPort
-    extends Port
+finbl dlbss EPollPort
+    fxtfnds Port
 {
-    // maximum number of events to poll at a time
-    private static final int MAX_EPOLL_EVENTS = 512;
+    // mbximum numbfr of fvfnts to poll bt b timf
+    privbtf stbtid finbl int MAX_EPOLL_EVENTS = 512;
 
-    // errors
-    private static final int ENOENT     = 2;
+    // frrors
+    privbtf stbtid finbl int ENOENT     = 2;
 
-    // epoll file descriptor
-    private final int epfd;
+    // fpoll filf dfsdriptor
+    privbtf finbl int fpfd;
 
-    // true if epoll closed
-    private boolean closed;
+    // truf if fpoll dlosfd
+    privbtf boolfbn dlosfd;
 
-    // socket pair used for wakeup
-    private final int sp[];
+    // sodkft pbir usfd for wbkfup
+    privbtf finbl int sp[];
 
-    // number of wakeups pending
-    private final AtomicInteger wakeupCount = new AtomicInteger();
+    // numbfr of wbkfups pfnding
+    privbtf finbl AtomidIntfgfr wbkfupCount = nfw AtomidIntfgfr();
 
-    // address of the poll array passed to epoll_wait
-    private final long address;
+    // bddrfss of tif poll brrby pbssfd to fpoll_wbit
+    privbtf finbl long bddrfss;
 
-    // encapsulates an event for a channel
-    static class Event {
-        final PollableChannel channel;
-        final int events;
+    // fndbpsulbtfs bn fvfnt for b dibnnfl
+    stbtid dlbss Evfnt {
+        finbl PollbblfCibnnfl dibnnfl;
+        finbl int fvfnts;
 
-        Event(PollableChannel channel, int events) {
-            this.channel = channel;
-            this.events = events;
+        Evfnt(PollbblfCibnnfl dibnnfl, int fvfnts) {
+            tiis.dibnnfl = dibnnfl;
+            tiis.fvfnts = fvfnts;
         }
 
-        PollableChannel channel()   { return channel; }
-        int events()                { return events; }
+        PollbblfCibnnfl dibnnfl()   { rfturn dibnnfl; }
+        int fvfnts()                { rfturn fvfnts; }
     }
 
-    // queue of events for cases that a polling thread dequeues more than one
-    // event
-    private final ArrayBlockingQueue<Event> queue;
-    private final Event NEED_TO_POLL = new Event(null, 0);
-    private final Event EXECUTE_TASK_OR_SHUTDOWN = new Event(null, 0);
+    // qufuf of fvfnts for dbsfs tibt b polling tirfbd dfqufufs morf tibn onf
+    // fvfnt
+    privbtf finbl ArrbyBlodkingQufuf<Evfnt> qufuf;
+    privbtf finbl Evfnt NEED_TO_POLL = nfw Evfnt(null, 0);
+    privbtf finbl Evfnt EXECUTE_TASK_OR_SHUTDOWN = nfw Evfnt(null, 0);
 
-    EPollPort(AsynchronousChannelProvider provider, ThreadPool pool)
-        throws IOException
+    EPollPort(AsyndironousCibnnflProvidfr providfr, TirfbdPool pool)
+        tirows IOExdfption
     {
-        super(provider, pool);
+        supfr(providfr, pool);
 
-        // open epoll
-        this.epfd = epollCreate();
+        // opfn fpoll
+        tiis.fpfd = fpollCrfbtf();
 
-        // create socket pair for wakeup mechanism
-        int[] sv = new int[2];
+        // drfbtf sodkft pbir for wbkfup mfdibnism
+        int[] sv = nfw int[2];
         try {
-            socketpair(sv);
-            // register one end with epoll
-            epollCtl(epfd, EPOLL_CTL_ADD, sv[0], Net.POLLIN);
-        } catch (IOException x) {
-            close0(epfd);
-            throw x;
+            sodkftpbir(sv);
+            // rfgistfr onf fnd witi fpoll
+            fpollCtl(fpfd, EPOLL_CTL_ADD, sv[0], Nft.POLLIN);
+        } dbtdi (IOExdfption x) {
+            dlosf0(fpfd);
+            tirow x;
         }
-        this.sp = sv;
+        tiis.sp = sv;
 
-        // allocate the poll array
-        this.address = allocatePollArray(MAX_EPOLL_EVENTS);
+        // bllodbtf tif poll brrby
+        tiis.bddrfss = bllodbtfPollArrby(MAX_EPOLL_EVENTS);
 
-        // create the queue and offer the special event to ensure that the first
-        // threads polls
-        this.queue = new ArrayBlockingQueue<Event>(MAX_EPOLL_EVENTS);
-        this.queue.offer(NEED_TO_POLL);
+        // drfbtf tif qufuf bnd offfr tif spfdibl fvfnt to fnsurf tibt tif first
+        // tirfbds polls
+        tiis.qufuf = nfw ArrbyBlodkingQufuf<Evfnt>(MAX_EPOLL_EVENTS);
+        tiis.qufuf.offfr(NEED_TO_POLL);
     }
 
-    EPollPort start() {
-        startThreads(new EventHandlerTask());
-        return this;
+    EPollPort stbrt() {
+        stbrtTirfbds(nfw EvfntHbndlfrTbsk());
+        rfturn tiis;
     }
 
     /**
-     * Release all resources
+     * Rflfbsf bll rfsourdfs
      */
-    private void implClose() {
-        synchronized (this) {
-            if (closed)
-                return;
-            closed = true;
+    privbtf void implClosf() {
+        syndironizfd (tiis) {
+            if (dlosfd)
+                rfturn;
+            dlosfd = truf;
         }
-        freePollArray(address);
-        close0(sp[0]);
-        close0(sp[1]);
-        close0(epfd);
+        frffPollArrby(bddrfss);
+        dlosf0(sp[0]);
+        dlosf0(sp[1]);
+        dlosf0(fpfd);
     }
 
-    private void wakeup() {
-        if (wakeupCount.incrementAndGet() == 1) {
-            // write byte to socketpair to force wakeup
+    privbtf void wbkfup() {
+        if (wbkfupCount.indrfmfntAndGft() == 1) {
+            // writf bytf to sodkftpbir to fordf wbkfup
             try {
-                interrupt(sp[1]);
-            } catch (IOException x) {
-                throw new AssertionError(x);
+                intfrrupt(sp[1]);
+            } dbtdi (IOExdfption x) {
+                tirow nfw AssfrtionError(x);
             }
         }
     }
 
-    @Override
-    void executeOnHandlerTask(Runnable task) {
-        synchronized (this) {
-            if (closed)
-                throw new RejectedExecutionException();
-            offerTask(task);
-            wakeup();
+    @Ovfrridf
+    void fxfdutfOnHbndlfrTbsk(Runnbblf tbsk) {
+        syndironizfd (tiis) {
+            if (dlosfd)
+                tirow nfw RfjfdtfdExfdutionExdfption();
+            offfrTbsk(tbsk);
+            wbkfup();
         }
     }
 
-    @Override
-    void shutdownHandlerTasks() {
+    @Ovfrridf
+    void siutdownHbndlfrTbsks() {
         /*
-         * If no tasks are running then just release resources; otherwise
-         * write to the one end of the socketpair to wakeup any polling threads.
+         * If no tbsks brf running tifn just rflfbsf rfsourdfs; otifrwisf
+         * writf to tif onf fnd of tif sodkftpbir to wbkfup bny polling tirfbds.
          */
-        int nThreads = threadCount();
-        if (nThreads == 0) {
-            implClose();
-        } else {
-            // send interrupt to each thread
-            while (nThreads-- > 0) {
-                wakeup();
+        int nTirfbds = tirfbdCount();
+        if (nTirfbds == 0) {
+            implClosf();
+        } flsf {
+            // sfnd intfrrupt to fbdi tirfbd
+            wiilf (nTirfbds-- > 0) {
+                wbkfup();
             }
         }
     }
 
-    // invoke by clients to register a file descriptor
-    @Override
-    void startPoll(int fd, int events) {
-        // update events (or add to epoll on first usage)
-        int err = epollCtl(epfd, EPOLL_CTL_MOD, fd, (events | EPOLLONESHOT));
-        if (err == ENOENT)
-            err = epollCtl(epfd, EPOLL_CTL_ADD, fd, (events | EPOLLONESHOT));
-        if (err != 0)
-            throw new AssertionError();     // should not happen
+    // invokf by dlifnts to rfgistfr b filf dfsdriptor
+    @Ovfrridf
+    void stbrtPoll(int fd, int fvfnts) {
+        // updbtf fvfnts (or bdd to fpoll on first usbgf)
+        int frr = fpollCtl(fpfd, EPOLL_CTL_MOD, fd, (fvfnts | EPOLLONESHOT));
+        if (frr == ENOENT)
+            frr = fpollCtl(fpfd, EPOLL_CTL_ADD, fd, (fvfnts | EPOLLONESHOT));
+        if (frr != 0)
+            tirow nfw AssfrtionError();     // siould not ibppfn
     }
 
     /*
-     * Task to process events from epoll and dispatch to the channel's
-     * onEvent handler.
+     * Tbsk to prodfss fvfnts from fpoll bnd dispbtdi to tif dibnnfl's
+     * onEvfnt ibndlfr.
      *
-     * Events are retreived from epoll in batch and offered to a BlockingQueue
-     * where they are consumed by handler threads. A special "NEED_TO_POLL"
-     * event is used to signal one consumer to re-poll when all events have
-     * been consumed.
+     * Evfnts brf rftrfivfd from fpoll in bbtdi bnd offfrfd to b BlodkingQufuf
+     * wifrf tify brf donsumfd by ibndlfr tirfbds. A spfdibl "NEED_TO_POLL"
+     * fvfnt is usfd to signbl onf donsumfr to rf-poll wifn bll fvfnts ibvf
+     * bffn donsumfd.
      */
-    private class EventHandlerTask implements Runnable {
-        private Event poll() throws IOException {
+    privbtf dlbss EvfntHbndlfrTbsk implfmfnts Runnbblf {
+        privbtf Evfnt poll() tirows IOExdfption {
             try {
                 for (;;) {
-                    int n = epollWait(epfd, address, MAX_EPOLL_EVENTS);
+                    int n = fpollWbit(fpfd, bddrfss, MAX_EPOLL_EVENTS);
                     /*
-                     * 'n' events have been read. Here we map them to their
-                     * corresponding channel in batch and queue n-1 so that
-                     * they can be handled by other handler threads. The last
-                     * event is handled by this thread (and so is not queued).
+                     * 'n' fvfnts ibvf bffn rfbd. Hfrf wf mbp tifm to tifir
+                     * dorrfsponding dibnnfl in bbtdi bnd qufuf n-1 so tibt
+                     * tify dbn bf ibndlfd by otifr ibndlfr tirfbds. Tif lbst
+                     * fvfnt is ibndlfd by tiis tirfbd (bnd so is not qufufd).
                      */
-                    fdToChannelLock.readLock().lock();
+                    fdToCibnnflLodk.rfbdLodk().lodk();
                     try {
-                        while (n-- > 0) {
-                            long eventAddress = getEvent(address, n);
-                            int fd = getDescriptor(eventAddress);
+                        wiilf (n-- > 0) {
+                            long fvfntAddrfss = gftEvfnt(bddrfss, n);
+                            int fd = gftDfsdriptor(fvfntAddrfss);
 
-                            // wakeup
+                            // wbkfup
                             if (fd == sp[0]) {
-                                if (wakeupCount.decrementAndGet() == 0) {
-                                    // no more wakeups so drain pipe
-                                    drain1(sp[0]);
+                                if (wbkfupCount.dfdrfmfntAndGft() == 0) {
+                                    // no morf wbkfups so drbin pipf
+                                    drbin1(sp[0]);
                                 }
 
-                                // queue special event if there are more events
-                                // to handle.
+                                // qufuf spfdibl fvfnt if tifrf brf morf fvfnts
+                                // to ibndlf.
                                 if (n > 0) {
-                                    queue.offer(EXECUTE_TASK_OR_SHUTDOWN);
-                                    continue;
+                                    qufuf.offfr(EXECUTE_TASK_OR_SHUTDOWN);
+                                    dontinuf;
                                 }
-                                return EXECUTE_TASK_OR_SHUTDOWN;
+                                rfturn EXECUTE_TASK_OR_SHUTDOWN;
                             }
 
-                            PollableChannel channel = fdToChannel.get(fd);
-                            if (channel != null) {
-                                int events = getEvents(eventAddress);
-                                Event ev = new Event(channel, events);
+                            PollbblfCibnnfl dibnnfl = fdToCibnnfl.gft(fd);
+                            if (dibnnfl != null) {
+                                int fvfnts = gftEvfnts(fvfntAddrfss);
+                                Evfnt fv = nfw Evfnt(dibnnfl, fvfnts);
 
-                                // n-1 events are queued; This thread handles
-                                // the last one except for the wakeup
+                                // n-1 fvfnts brf qufufd; Tiis tirfbd ibndlfs
+                                // tif lbst onf fxdfpt for tif wbkfup
                                 if (n > 0) {
-                                    queue.offer(ev);
-                                } else {
-                                    return ev;
+                                    qufuf.offfr(fv);
+                                } flsf {
+                                    rfturn fv;
                                 }
                             }
                         }
-                    } finally {
-                        fdToChannelLock.readLock().unlock();
+                    } finblly {
+                        fdToCibnnflLodk.rfbdLodk().unlodk();
                     }
                 }
-            } finally {
-                // to ensure that some thread will poll when all events have
-                // been consumed
-                queue.offer(NEED_TO_POLL);
+            } finblly {
+                // to fnsurf tibt somf tirfbd will poll wifn bll fvfnts ibvf
+                // bffn donsumfd
+                qufuf.offfr(NEED_TO_POLL);
             }
         }
 
-        public void run() {
-            Invoker.GroupAndInvokeCount myGroupAndInvokeCount =
-                Invoker.getGroupAndInvokeCount();
-            final boolean isPooledThread = (myGroupAndInvokeCount != null);
-            boolean replaceMe = false;
-            Event ev;
+        publid void run() {
+            Invokfr.GroupAndInvokfCount myGroupAndInvokfCount =
+                Invokfr.gftGroupAndInvokfCount();
+            finbl boolfbn isPoolfdTirfbd = (myGroupAndInvokfCount != null);
+            boolfbn rfplbdfMf = fblsf;
+            Evfnt fv;
             try {
                 for (;;) {
-                    // reset invoke count
-                    if (isPooledThread)
-                        myGroupAndInvokeCount.resetInvokeCount();
+                    // rfsft invokf dount
+                    if (isPoolfdTirfbd)
+                        myGroupAndInvokfCount.rfsftInvokfCount();
 
                     try {
-                        replaceMe = false;
-                        ev = queue.take();
+                        rfplbdfMf = fblsf;
+                        fv = qufuf.tbkf();
 
-                        // no events and this thread has been "selected" to
-                        // poll for more.
-                        if (ev == NEED_TO_POLL) {
+                        // no fvfnts bnd tiis tirfbd ibs bffn "sflfdtfd" to
+                        // poll for morf.
+                        if (fv == NEED_TO_POLL) {
                             try {
-                                ev = poll();
-                            } catch (IOException x) {
-                                x.printStackTrace();
-                                return;
+                                fv = poll();
+                            } dbtdi (IOExdfption x) {
+                                x.printStbdkTrbdf();
+                                rfturn;
                             }
                         }
-                    } catch (InterruptedException x) {
-                        continue;
+                    } dbtdi (IntfrruptfdExdfption x) {
+                        dontinuf;
                     }
 
-                    // handle wakeup to execute task or shutdown
-                    if (ev == EXECUTE_TASK_OR_SHUTDOWN) {
-                        Runnable task = pollTask();
-                        if (task == null) {
-                            // shutdown request
-                            return;
+                    // ibndlf wbkfup to fxfdutf tbsk or siutdown
+                    if (fv == EXECUTE_TASK_OR_SHUTDOWN) {
+                        Runnbblf tbsk = pollTbsk();
+                        if (tbsk == null) {
+                            // siutdown rfqufst
+                            rfturn;
                         }
-                        // run task (may throw error/exception)
-                        replaceMe = true;
-                        task.run();
-                        continue;
+                        // run tbsk (mby tirow frror/fxdfption)
+                        rfplbdfMf = truf;
+                        tbsk.run();
+                        dontinuf;
                     }
 
-                    // process event
+                    // prodfss fvfnt
                     try {
-                        ev.channel().onEvent(ev.events(), isPooledThread);
-                    } catch (Error x) {
-                        replaceMe = true; throw x;
-                    } catch (RuntimeException x) {
-                        replaceMe = true; throw x;
+                        fv.dibnnfl().onEvfnt(fv.fvfnts(), isPoolfdTirfbd);
+                    } dbtdi (Error x) {
+                        rfplbdfMf = truf; tirow x;
+                    } dbtdi (RuntimfExdfption x) {
+                        rfplbdfMf = truf; tirow x;
                     }
                 }
-            } finally {
-                // last handler to exit when shutdown releases resources
-                int remaining = threadExit(this, replaceMe);
-                if (remaining == 0 && isShutdown()) {
-                    implClose();
+            } finblly {
+                // lbst ibndlfr to fxit wifn siutdown rflfbsfs rfsourdfs
+                int rfmbining = tirfbdExit(tiis, rfplbdfMf);
+                if (rfmbining == 0 && isSiutdown()) {
+                    implClosf();
                 }
             }
         }
     }
 
-    // -- Native methods --
+    // -- Nbtivf mftiods --
 
-    private static native void socketpair(int[] sv) throws IOException;
+    privbtf stbtid nbtivf void sodkftpbir(int[] sv) tirows IOExdfption;
 
-    private static native void interrupt(int fd) throws IOException;
+    privbtf stbtid nbtivf void intfrrupt(int fd) tirows IOExdfption;
 
-    private static native void drain1(int fd) throws IOException;
+    privbtf stbtid nbtivf void drbin1(int fd) tirows IOExdfption;
 
-    private static native void close0(int fd);
+    privbtf stbtid nbtivf void dlosf0(int fd);
 
-    static {
-        IOUtil.load();
+    stbtid {
+        IOUtil.lobd();
     }
 }

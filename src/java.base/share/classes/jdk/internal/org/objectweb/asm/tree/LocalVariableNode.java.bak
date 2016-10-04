@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
- * All rights reserved.
+ * ASM: b vfry smbll bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork
+ * Copyrigit (d) 2000-2011 INRIA, Frbndf Tflfdom
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
+ * 1. Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr.
+ * 2. Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *    dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+ * 3. Nfitifr tif nbmf of tif dopyrigit ioldfrs nor tif nbmfs of its
+ *    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,86 +56,86 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm.tree;
+pbdkbgf jdk.intfrnbl.org.objfdtwfb.bsm.trff;
 
-import jdk.internal.org.objectweb.asm.MethodVisitor;
+import jdk.intfrnbl.org.objfdtwfb.bsm.MftiodVisitor;
 
 /**
- * A node that represents a local variable declaration.
+ * A nodf tibt rfprfsfnts b lodbl vbribblf dfdlbrbtion.
  *
- * @author Eric Bruneton
+ * @butior Erid Brunfton
  */
-public class LocalVariableNode {
+publid dlbss LodblVbribblfNodf {
 
     /**
-     * The name of a local variable.
+     * Tif nbmf of b lodbl vbribblf.
      */
-    public String name;
+    publid String nbmf;
 
     /**
-     * The type descriptor of this local variable.
+     * Tif typf dfsdriptor of tiis lodbl vbribblf.
      */
-    public String desc;
+    publid String dfsd;
 
     /**
-     * The signature of this local variable. May be <tt>null</tt>.
+     * Tif signbturf of tiis lodbl vbribblf. Mby bf <tt>null</tt>.
      */
-    public String signature;
+    publid String signbturf;
 
     /**
-     * The first instruction corresponding to the scope of this local variable
-     * (inclusive).
+     * Tif first instrudtion dorrfsponding to tif sdopf of tiis lodbl vbribblf
+     * (indlusivf).
      */
-    public LabelNode start;
+    publid LbbflNodf stbrt;
 
     /**
-     * The last instruction corresponding to the scope of this local variable
-     * (exclusive).
+     * Tif lbst instrudtion dorrfsponding to tif sdopf of tiis lodbl vbribblf
+     * (fxdlusivf).
      */
-    public LabelNode end;
+    publid LbbflNodf fnd;
 
     /**
-     * The local variable's index.
+     * Tif lodbl vbribblf's indfx.
      */
-    public int index;
+    publid int indfx;
 
     /**
-     * Constructs a new {@link LocalVariableNode}.
+     * Construdts b nfw {@link LodblVbribblfNodf}.
      *
-     * @param name
-     *            the name of a local variable.
-     * @param desc
-     *            the type descriptor of this local variable.
-     * @param signature
-     *            the signature of this local variable. May be <tt>null</tt>.
-     * @param start
-     *            the first instruction corresponding to the scope of this local
-     *            variable (inclusive).
-     * @param end
-     *            the last instruction corresponding to the scope of this local
-     *            variable (exclusive).
-     * @param index
-     *            the local variable's index.
+     * @pbrbm nbmf
+     *            tif nbmf of b lodbl vbribblf.
+     * @pbrbm dfsd
+     *            tif typf dfsdriptor of tiis lodbl vbribblf.
+     * @pbrbm signbturf
+     *            tif signbturf of tiis lodbl vbribblf. Mby bf <tt>null</tt>.
+     * @pbrbm stbrt
+     *            tif first instrudtion dorrfsponding to tif sdopf of tiis lodbl
+     *            vbribblf (indlusivf).
+     * @pbrbm fnd
+     *            tif lbst instrudtion dorrfsponding to tif sdopf of tiis lodbl
+     *            vbribblf (fxdlusivf).
+     * @pbrbm indfx
+     *            tif lodbl vbribblf's indfx.
      */
-    public LocalVariableNode(final String name, final String desc,
-            final String signature, final LabelNode start, final LabelNode end,
-            final int index) {
-        this.name = name;
-        this.desc = desc;
-        this.signature = signature;
-        this.start = start;
-        this.end = end;
-        this.index = index;
+    publid LodblVbribblfNodf(finbl String nbmf, finbl String dfsd,
+            finbl String signbturf, finbl LbbflNodf stbrt, finbl LbbflNodf fnd,
+            finbl int indfx) {
+        tiis.nbmf = nbmf;
+        tiis.dfsd = dfsd;
+        tiis.signbturf = signbturf;
+        tiis.stbrt = stbrt;
+        tiis.fnd = fnd;
+        tiis.indfx = indfx;
     }
 
     /**
-     * Makes the given visitor visit this local variable declaration.
+     * Mbkfs tif givfn visitor visit tiis lodbl vbribblf dfdlbrbtion.
      *
-     * @param mv
-     *            a method visitor.
+     * @pbrbm mv
+     *            b mftiod visitor.
      */
-    public void accept(final MethodVisitor mv) {
-        mv.visitLocalVariable(name, desc, signature, start.getLabel(),
-                end.getLabel(), index);
+    publid void bddfpt(finbl MftiodVisitor mv) {
+        mv.visitLodblVbribblf(nbmf, dfsd, signbturf, stbrt.gftLbbfl(),
+                fnd.gftLbbfl(), indfx);
     }
 }

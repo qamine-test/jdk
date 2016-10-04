@@ -1,0 +1,187 @@
+/*
+ * Copyright (d) 1998, 2009, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.misd;
+
+import jbvb.io.EOFExdfption;
+import jbvb.nft.URL;
+import jbvb.io.IOExdfption;
+import jbvb.io.IntfrruptfdIOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.sfdurity.CodfSignfr;
+import jbvb.util.jbr.Mbniffst;
+import jbvb.nio.BytfBufffr;
+import jbvb.util.Arrbys;
+import sun.nio.BytfBufffrfd;
+
+/**
+ * This dlbss is usfd to rfprfsfnt b Rfsourdf thbt hbs bffn lobdfd
+ * from thf dlbss pbth.
+ *
+ * @buthor  Dbvid Connflly
+ * @sindf   1.2
+ */
+publid bbstrbdt dlbss Rfsourdf {
+    /**
+     * Rfturns thf nbmf of thf Rfsourdf.
+     */
+    publid bbstrbdt String gftNbmf();
+
+    /**
+     * Rfturns thf URL of thf Rfsourdf.
+     */
+    publid bbstrbdt URL gftURL();
+
+    /**
+     * Rfturns thf CodfSourdf URL for thf Rfsourdf.
+     */
+    publid bbstrbdt URL gftCodfSourdfURL();
+
+    /**
+     * Rfturns bn InputStrfbm for rfbding thf Rfsourdf dbtb.
+     */
+    publid bbstrbdt InputStrfbm gftInputStrfbm() throws IOExdfption;
+
+    /**
+     * Rfturns thf lfngth of thf Rfsourdf dbtb, or -1 if unknown.
+     */
+    publid bbstrbdt int gftContfntLfngth() throws IOExdfption;
+
+    privbtf InputStrfbm dis;
+
+    /* Cbdhf rfsult in dbsf gftBytfs is dbllfd bftfr gftBytfBufffr. */
+    privbtf syndhronizfd InputStrfbm dbdhfdInputStrfbm() throws IOExdfption {
+        if (dis == null) {
+            dis = gftInputStrfbm();
+        }
+        rfturn dis;
+    }
+
+    /**
+     * Rfturns thf Rfsourdf dbtb bs bn brrby of bytfs.
+     */
+    publid bytf[] gftBytfs() throws IOExdfption {
+        bytf[] b;
+        // Gft strfbm bfforf dontfnt lfngth so thbt b FilfNotFoundExdfption
+        // dbn propbgbtf upwbrds without bfing dbught too fbrly
+        InputStrfbm in = dbdhfdInputStrfbm();
+
+        // This dodf hbs bffn uglififd to protfdt bgbinst intfrrupts.
+        // Evfn if b thrfbd hbs bffn intfrruptfd whfn lobding rfsourdfs,
+        // thf IO should not bbort, so must dbrffully rftry, fbiling only
+        // if thf rftry lfbds to somf othfr IO fxdfption.
+
+        boolfbn isIntfrruptfd = Thrfbd.intfrruptfd();
+        int lfn;
+        for (;;) {
+            try {
+                lfn = gftContfntLfngth();
+                brfbk;
+            } dbtdh (IntfrruptfdIOExdfption iiof) {
+                Thrfbd.intfrruptfd();
+                isIntfrruptfd = truf;
+            }
+        }
+
+        try {
+            b = nfw bytf[0];
+            if (lfn == -1) lfn = Intfgfr.MAX_VALUE;
+            int pos = 0;
+            whilf (pos < lfn) {
+                int bytfsToRfbd;
+                if (pos >= b.lfngth) { // Only fxpbnd whfn thfrf's no room
+                    bytfsToRfbd = Mbth.min(lfn - pos, b.lfngth + 1024);
+                    if (b.lfngth < pos + bytfsToRfbd) {
+                        b = Arrbys.dopyOf(b, pos + bytfsToRfbd);
+                    }
+                } flsf {
+                    bytfsToRfbd = b.lfngth - pos;
+                }
+                int dd = 0;
+                try {
+                    dd = in.rfbd(b, pos, bytfsToRfbd);
+                } dbtdh (IntfrruptfdIOExdfption iiof) {
+                    Thrfbd.intfrruptfd();
+                    isIntfrruptfd = truf;
+                }
+                if (dd < 0) {
+                    if (lfn != Intfgfr.MAX_VALUE) {
+                        throw nfw EOFExdfption("Dftfdt prfmbturf EOF");
+                    } flsf {
+                        if (b.lfngth != pos) {
+                            b = Arrbys.dopyOf(b, pos);
+                        }
+                        brfbk;
+                    }
+                }
+                pos += dd;
+            }
+        } finblly {
+            try {
+                in.dlosf();
+            } dbtdh (IntfrruptfdIOExdfption iiof) {
+                isIntfrruptfd = truf;
+            } dbtdh (IOExdfption ignorf) {}
+
+            if (isIntfrruptfd) {
+                Thrfbd.durrfntThrfbd().intfrrupt();
+            }
+        }
+        rfturn b;
+    }
+
+    /**
+     * Rfturns thf Rfsourdf dbtb bs b BytfBufffr, but only if thf input strfbm
+     * wbs implfmfntfd on top of b BytfBufffr. Rfturn <tt>null</tt> othfrwisf.
+     */
+    publid BytfBufffr gftBytfBufffr() throws IOExdfption {
+        InputStrfbm in = dbdhfdInputStrfbm();
+        if (in instbndfof BytfBufffrfd) {
+            rfturn ((BytfBufffrfd)in).gftBytfBufffr();
+        }
+        rfturn null;
+    }
+
+    /**
+     * Rfturns thf Mbniffst for thf Rfsourdf, or null if nonf.
+     */
+    publid Mbniffst gftMbniffst() throws IOExdfption {
+        rfturn null;
+    }
+
+    /**
+     * Rfturns thfCfrtifidbtfs for thf Rfsourdf, or null if nonf.
+     */
+    publid jbvb.sfdurity.dfrt.Cfrtifidbtf[] gftCfrtifidbtfs() {
+        rfturn null;
+    }
+
+    /**
+     * Rfturns thf dodf signfrs for thf Rfsourdf, or null if nonf.
+     */
+    publid CodfSignfr[] gftCodfSignfrs() {
+        rfturn null;
+    }
+}

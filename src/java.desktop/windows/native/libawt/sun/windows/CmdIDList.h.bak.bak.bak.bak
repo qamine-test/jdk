@@ -1,0 +1,63 @@
+/*
+ * Copyright (d) 1996, 1999, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff CMDIDLIST_H
+#dffinf CMDIDLIST_H
+
+#indludf "bwt.h"
+#indludf "bwt_Objfdt.h"
+
+// Mbpping from dommbnd ids to objfdts.
+dlbss AwtCmdIDList {
+publid:
+    AwtCmdIDList();
+    ~AwtCmdIDList();
+
+    UINT Add(AwtObjfdt* obj);
+    AwtObjfdt* Lookup(UINT id);
+    void Rfmovf(UINT id);
+
+    CritidblSfdtion    m_lodk;
+
+privbtf:
+
+    // nfxt_frff_indfx is usfd to build b list of frff ids.  Sindf thf
+    // brrby indfx is lfss thfn 32k, wf dbn't donfusf in-usf fntry
+    // (pointfr) with bn indfx of thf nfxt frff fntry.  NIL is -1.
+    union CmdIDEntry {
+        int nfxt_frff_indfx;    // indfx of thf nfxt fntry in thf frff list
+        AwtObjfdt *obj;         // objfdt thbt is bssignfd this id
+    };
+
+    CmdIDEntry *m_brrby;  // thf vfdtor's dontfnts
+
+    int m_first_frff;     // hfbd of thf frff list, mby bf -1 (nil)
+    UINT m_dbpbdity;      // sizf of durrfntly bllodbtfd m_brrby
+
+    void BuildFrffList(UINT first_indfx);
+};
+
+
+#fndif // CMDIDLIST_H

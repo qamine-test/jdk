@@ -1,1518 +1,1518 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.imageio.plugins.bmp;
+pbdkbgf dom.sun.imbgfio.plugins.bmp;
 
-import java.awt.Rectangle;
-import java.awt.image.ColorModel;
-import java.awt.image.ComponentSampleModel;
-import java.awt.image.DataBuffer;
-import java.awt.image.DataBufferByte;
-import java.awt.image.DataBufferInt;
-import java.awt.image.DataBufferShort;
-import java.awt.image.DataBufferUShort;
-import java.awt.image.DirectColorModel;
-import java.awt.image.IndexColorModel;
-import java.awt.image.MultiPixelPackedSampleModel;
-import java.awt.image.BandedSampleModel;
-import java.awt.image.Raster;
-import java.awt.image.RenderedImage;
-import java.awt.image.SampleModel;
-import java.awt.image.SinglePixelPackedSampleModel;
-import java.awt.image.BufferedImage;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.ComponfntSbmplfModfl;
+import jbvb.bwt.imbgf.DbtbBufffr;
+import jbvb.bwt.imbgf.DbtbBufffrBytf;
+import jbvb.bwt.imbgf.DbtbBufffrInt;
+import jbvb.bwt.imbgf.DbtbBufffrSiort;
+import jbvb.bwt.imbgf.DbtbBufffrUSiort;
+import jbvb.bwt.imbgf.DirfdtColorModfl;
+import jbvb.bwt.imbgf.IndfxColorModfl;
+import jbvb.bwt.imbgf.MultiPixflPbdkfdSbmplfModfl;
+import jbvb.bwt.imbgf.BbndfdSbmplfModfl;
+import jbvb.bwt.imbgf.Rbstfr;
+import jbvb.bwt.imbgf.RfndfrfdImbgf;
+import jbvb.bwt.imbgf.SbmplfModfl;
+import jbvb.bwt.imbgf.SinglfPixflPbdkfdSbmplfModfl;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
 
-import java.io.IOException;
-import java.io.ByteArrayOutputStream;
-import java.nio.ByteOrder;
-import java.util.Iterator;
+import jbvb.io.IOExdfption;
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.nio.BytfOrdfr;
+import jbvb.util.Itfrbtor;
 
-import javax.imageio.IIOImage;
-import javax.imageio.ImageIO;
-import javax.imageio.ImageTypeSpecifier;
-import javax.imageio.ImageWriteParam;
-import javax.imageio.ImageWriter;
-import javax.imageio.metadata.IIOMetadata;
-import javax.imageio.spi.ImageWriterSpi;
-import javax.imageio.stream.ImageOutputStream;
-import javax.imageio.event.IIOWriteProgressListener;
-import javax.imageio.event.IIOWriteWarningListener;
+import jbvbx.imbgfio.IIOImbgf;
+import jbvbx.imbgfio.ImbgfIO;
+import jbvbx.imbgfio.ImbgfTypfSpfdififr;
+import jbvbx.imbgfio.ImbgfWritfPbrbm;
+import jbvbx.imbgfio.ImbgfWritfr;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtb;
+import jbvbx.imbgfio.spi.ImbgfWritfrSpi;
+import jbvbx.imbgfio.strfbm.ImbgfOutputStrfbm;
+import jbvbx.imbgfio.fvfnt.IIOWritfProgrfssListfnfr;
+import jbvbx.imbgfio.fvfnt.IIOWritfWbrningListfnfr;
 
 
-import javax.imageio.plugins.bmp.BMPImageWriteParam;
-import com.sun.imageio.plugins.common.ImageUtil;
-import com.sun.imageio.plugins.common.I18N;
+import jbvbx.imbgfio.plugins.bmp.BMPImbgfWritfPbrbm;
+import dom.sun.imbgfio.plugins.dommon.ImbgfUtil;
+import dom.sun.imbgfio.plugins.dommon.I18N;
 
 /**
- * The Java Image IO plugin writer for encoding a binary RenderedImage into
- * a BMP format.
+ * Tif Jbvb Imbgf IO plugin writfr for fndoding b binbry RfndfrfdImbgf into
+ * b BMP formbt.
  *
- * The encoding process may clip, subsample using the parameters
- * specified in the <code>ImageWriteParam</code>.
+ * Tif fndoding prodfss mby dlip, subsbmplf using tif pbrbmftfrs
+ * spfdififd in tif <dodf>ImbgfWritfPbrbm</dodf>.
  *
- * @see javax.imageio.plugins.bmp.BMPImageWriteParam
+ * @sff jbvbx.imbgfio.plugins.bmp.BMPImbgfWritfPbrbm
  */
-public class BMPImageWriter extends ImageWriter implements BMPConstants {
-    /** The output stream to write into */
-    private ImageOutputStream stream = null;
-    private ByteArrayOutputStream embedded_stream = null;
-    private int version;
-    private int compressionType;
-    private boolean isTopDown;
-    private int w, h;
-    private int compImageSize = 0;
-    private int[] bitMasks;
-    private int[] bitPos;
-    private byte[] bpixels;
-    private short[] spixels;
-    private int[] ipixels;
+publid dlbss BMPImbgfWritfr fxtfnds ImbgfWritfr implfmfnts BMPConstbnts {
+    /** Tif output strfbm to writf into */
+    privbtf ImbgfOutputStrfbm strfbm = null;
+    privbtf BytfArrbyOutputStrfbm fmbfddfd_strfbm = null;
+    privbtf int vfrsion;
+    privbtf int domprfssionTypf;
+    privbtf boolfbn isTopDown;
+    privbtf int w, i;
+    privbtf int dompImbgfSizf = 0;
+    privbtf int[] bitMbsks;
+    privbtf int[] bitPos;
+    privbtf bytf[] bpixfls;
+    privbtf siort[] spixfls;
+    privbtf int[] ipixfls;
 
-    /** Constructs <code>BMPImageWriter</code> based on the provided
-     *  <code>ImageWriterSpi</code>.
+    /** Construdts <dodf>BMPImbgfWritfr</dodf> bbsfd on tif providfd
+     *  <dodf>ImbgfWritfrSpi</dodf>.
      */
-    public BMPImageWriter(ImageWriterSpi originator) {
-        super(originator);
+    publid BMPImbgfWritfr(ImbgfWritfrSpi originbtor) {
+        supfr(originbtor);
     }
 
-    public void setOutput(Object output) {
-        super.setOutput(output); // validates output
+    publid void sftOutput(Objfdt output) {
+        supfr.sftOutput(output); // vblidbtfs output
         if (output != null) {
-            if (!(output instanceof ImageOutputStream))
-                throw new IllegalArgumentException(I18N.getString("BMPImageWriter0"));
-            this.stream = (ImageOutputStream)output;
-            stream.setByteOrder(ByteOrder.LITTLE_ENDIAN);
-        } else
-            this.stream = null;
+            if (!(output instbndfof ImbgfOutputStrfbm))
+                tirow nfw IllfgblArgumfntExdfption(I18N.gftString("BMPImbgfWritfr0"));
+            tiis.strfbm = (ImbgfOutputStrfbm)output;
+            strfbm.sftBytfOrdfr(BytfOrdfr.LITTLE_ENDIAN);
+        } flsf
+            tiis.strfbm = null;
     }
 
-    public ImageWriteParam getDefaultWriteParam() {
-        return new BMPImageWriteParam();
+    publid ImbgfWritfPbrbm gftDffbultWritfPbrbm() {
+        rfturn nfw BMPImbgfWritfPbrbm();
     }
 
-    public IIOMetadata getDefaultStreamMetadata(ImageWriteParam param) {
-        return null;
+    publid IIOMftbdbtb gftDffbultStrfbmMftbdbtb(ImbgfWritfPbrbm pbrbm) {
+        rfturn null;
     }
 
-    public IIOMetadata getDefaultImageMetadata(ImageTypeSpecifier imageType,
-                                               ImageWriteParam param) {
-        BMPMetadata meta = new BMPMetadata();
-        meta.bmpVersion = VERSION_3;
-        meta.compression = getPreferredCompressionType(imageType);
-        if (param != null
-            && param.getCompressionMode() == ImageWriteParam.MODE_EXPLICIT) {
-            meta.compression = BMPCompressionTypes.getType(param.getCompressionType());
+    publid IIOMftbdbtb gftDffbultImbgfMftbdbtb(ImbgfTypfSpfdififr imbgfTypf,
+                                               ImbgfWritfPbrbm pbrbm) {
+        BMPMftbdbtb mftb = nfw BMPMftbdbtb();
+        mftb.bmpVfrsion = VERSION_3;
+        mftb.domprfssion = gftPrfffrrfdComprfssionTypf(imbgfTypf);
+        if (pbrbm != null
+            && pbrbm.gftComprfssionModf() == ImbgfWritfPbrbm.MODE_EXPLICIT) {
+            mftb.domprfssion = BMPComprfssionTypfs.gftTypf(pbrbm.gftComprfssionTypf());
         }
-        meta.bitsPerPixel = (short)imageType.getColorModel().getPixelSize();
-        return meta;
+        mftb.bitsPfrPixfl = (siort)imbgfTypf.gftColorModfl().gftPixflSizf();
+        rfturn mftb;
     }
 
-    public IIOMetadata convertStreamMetadata(IIOMetadata inData,
-                                             ImageWriteParam param) {
-        return null;
+    publid IIOMftbdbtb donvfrtStrfbmMftbdbtb(IIOMftbdbtb inDbtb,
+                                             ImbgfWritfPbrbm pbrbm) {
+        rfturn null;
     }
 
-    public IIOMetadata convertImageMetadata(IIOMetadata metadata,
-                                            ImageTypeSpecifier type,
-                                            ImageWriteParam param) {
-        return null;
+    publid IIOMftbdbtb donvfrtImbgfMftbdbtb(IIOMftbdbtb mftbdbtb,
+                                            ImbgfTypfSpfdififr typf,
+                                            ImbgfWritfPbrbm pbrbm) {
+        rfturn null;
     }
 
-    public boolean canWriteRasters() {
-        return true;
+    publid boolfbn dbnWritfRbstfrs() {
+        rfturn truf;
     }
 
-    public void write(IIOMetadata streamMetadata,
-                      IIOImage image,
-                      ImageWriteParam param) throws IOException {
+    publid void writf(IIOMftbdbtb strfbmMftbdbtb,
+                      IIOImbgf imbgf,
+                      ImbgfWritfPbrbm pbrbm) tirows IOExdfption {
 
-        if (stream == null) {
-            throw new IllegalStateException(I18N.getString("BMPImageWriter7"));
-        }
-
-        if (image == null) {
-            throw new IllegalArgumentException(I18N.getString("BMPImageWriter8"));
+        if (strfbm == null) {
+            tirow nfw IllfgblStbtfExdfption(I18N.gftString("BMPImbgfWritfr7"));
         }
 
-        clearAbortRequest();
-        processImageStarted(0);
-        if (param == null)
-            param = getDefaultWriteParam();
-
-        BMPImageWriteParam bmpParam = (BMPImageWriteParam)param;
-
-        // Default is using 24 bits per pixel.
-        int bitsPerPixel = 24;
-        boolean isPalette = false;
-        int paletteEntries = 0;
-        IndexColorModel icm = null;
-
-        RenderedImage input = null;
-        Raster inputRaster = null;
-        boolean writeRaster = image.hasRaster();
-        Rectangle sourceRegion = param.getSourceRegion();
-        SampleModel sampleModel = null;
-        ColorModel colorModel = null;
-
-        compImageSize = 0;
-
-        if (writeRaster) {
-            inputRaster = image.getRaster();
-            sampleModel = inputRaster.getSampleModel();
-            colorModel = ImageUtil.createColorModel(null, sampleModel);
-            if (sourceRegion == null)
-                sourceRegion = inputRaster.getBounds();
-            else
-                sourceRegion = sourceRegion.intersection(inputRaster.getBounds());
-        } else {
-            input = image.getRenderedImage();
-            sampleModel = input.getSampleModel();
-            colorModel = input.getColorModel();
-            Rectangle rect = new Rectangle(input.getMinX(), input.getMinY(),
-                                           input.getWidth(), input.getHeight());
-            if (sourceRegion == null)
-                sourceRegion = rect;
-            else
-                sourceRegion = sourceRegion.intersection(rect);
+        if (imbgf == null) {
+            tirow nfw IllfgblArgumfntExdfption(I18N.gftString("BMPImbgfWritfr8"));
         }
 
-        IIOMetadata imageMetadata = image.getMetadata();
-        BMPMetadata bmpImageMetadata = null;
-        if (imageMetadata != null
-            && imageMetadata instanceof BMPMetadata)
+        dlfbrAbortRfqufst();
+        prodfssImbgfStbrtfd(0);
+        if (pbrbm == null)
+            pbrbm = gftDffbultWritfPbrbm();
+
+        BMPImbgfWritfPbrbm bmpPbrbm = (BMPImbgfWritfPbrbm)pbrbm;
+
+        // Dffbult is using 24 bits pfr pixfl.
+        int bitsPfrPixfl = 24;
+        boolfbn isPblfttf = fblsf;
+        int pblfttfEntrifs = 0;
+        IndfxColorModfl idm = null;
+
+        RfndfrfdImbgf input = null;
+        Rbstfr inputRbstfr = null;
+        boolfbn writfRbstfr = imbgf.ibsRbstfr();
+        Rfdtbnglf sourdfRfgion = pbrbm.gftSourdfRfgion();
+        SbmplfModfl sbmplfModfl = null;
+        ColorModfl dolorModfl = null;
+
+        dompImbgfSizf = 0;
+
+        if (writfRbstfr) {
+            inputRbstfr = imbgf.gftRbstfr();
+            sbmplfModfl = inputRbstfr.gftSbmplfModfl();
+            dolorModfl = ImbgfUtil.drfbtfColorModfl(null, sbmplfModfl);
+            if (sourdfRfgion == null)
+                sourdfRfgion = inputRbstfr.gftBounds();
+            flsf
+                sourdfRfgion = sourdfRfgion.intfrsfdtion(inputRbstfr.gftBounds());
+        } flsf {
+            input = imbgf.gftRfndfrfdImbgf();
+            sbmplfModfl = input.gftSbmplfModfl();
+            dolorModfl = input.gftColorModfl();
+            Rfdtbnglf rfdt = nfw Rfdtbnglf(input.gftMinX(), input.gftMinY(),
+                                           input.gftWidti(), input.gftHfigit());
+            if (sourdfRfgion == null)
+                sourdfRfgion = rfdt;
+            flsf
+                sourdfRfgion = sourdfRfgion.intfrsfdtion(rfdt);
+        }
+
+        IIOMftbdbtb imbgfMftbdbtb = imbgf.gftMftbdbtb();
+        BMPMftbdbtb bmpImbgfMftbdbtb = null;
+        if (imbgfMftbdbtb != null
+            && imbgfMftbdbtb instbndfof BMPMftbdbtb)
         {
-            bmpImageMetadata = (BMPMetadata)imageMetadata;
-        } else {
-            ImageTypeSpecifier imageType =
-                new ImageTypeSpecifier(colorModel, sampleModel);
+            bmpImbgfMftbdbtb = (BMPMftbdbtb)imbgfMftbdbtb;
+        } flsf {
+            ImbgfTypfSpfdififr imbgfTypf =
+                nfw ImbgfTypfSpfdififr(dolorModfl, sbmplfModfl);
 
-            bmpImageMetadata = (BMPMetadata)getDefaultImageMetadata(imageType,
-                                                                    param);
+            bmpImbgfMftbdbtb = (BMPMftbdbtb)gftDffbultImbgfMftbdbtb(imbgfTypf,
+                                                                    pbrbm);
         }
 
-        if (sourceRegion.isEmpty())
-            throw new RuntimeException(I18N.getString("BMPImageWrite0"));
+        if (sourdfRfgion.isEmpty())
+            tirow nfw RuntimfExdfption(I18N.gftString("BMPImbgfWritf0"));
 
-        int scaleX = param.getSourceXSubsampling();
-        int scaleY = param.getSourceYSubsampling();
-        int xOffset = param.getSubsamplingXOffset();
-        int yOffset = param.getSubsamplingYOffset();
+        int sdblfX = pbrbm.gftSourdfXSubsbmpling();
+        int sdblfY = pbrbm.gftSourdfYSubsbmpling();
+        int xOffsft = pbrbm.gftSubsbmplingXOffsft();
+        int yOffsft = pbrbm.gftSubsbmplingYOffsft();
 
-        // cache the data type;
-        int dataType = sampleModel.getDataType();
+        // dbdif tif dbtb typf;
+        int dbtbTypf = sbmplfModfl.gftDbtbTypf();
 
-        sourceRegion.translate(xOffset, yOffset);
-        sourceRegion.width -= xOffset;
-        sourceRegion.height -= yOffset;
+        sourdfRfgion.trbnslbtf(xOffsft, yOffsft);
+        sourdfRfgion.widti -= xOffsft;
+        sourdfRfgion.ifigit -= yOffsft;
 
-        int minX = sourceRegion.x / scaleX;
-        int minY = sourceRegion.y / scaleY;
-        w = (sourceRegion.width + scaleX - 1) / scaleX;
-        h = (sourceRegion.height + scaleY - 1) / scaleY;
-        xOffset = sourceRegion.x % scaleX;
-        yOffset = sourceRegion.y % scaleY;
+        int minX = sourdfRfgion.x / sdblfX;
+        int minY = sourdfRfgion.y / sdblfY;
+        w = (sourdfRfgion.widti + sdblfX - 1) / sdblfX;
+        i = (sourdfRfgion.ifigit + sdblfY - 1) / sdblfY;
+        xOffsft = sourdfRfgion.x % sdblfX;
+        yOffsft = sourdfRfgion.y % sdblfY;
 
-        Rectangle destinationRegion = new Rectangle(minX, minY, w, h);
-        boolean noTransform = destinationRegion.equals(sourceRegion);
+        Rfdtbnglf dfstinbtionRfgion = nfw Rfdtbnglf(minX, minY, w, i);
+        boolfbn noTrbnsform = dfstinbtionRfgion.fqubls(sourdfRfgion);
 
-        // Raw data can only handle bytes, everything greater must be ASCII.
-        int[] sourceBands = param.getSourceBands();
-        boolean noSubband = true;
-        int numBands = sampleModel.getNumBands();
+        // Rbw dbtb dbn only ibndlf bytfs, fvfrytiing grfbtfr must bf ASCII.
+        int[] sourdfBbnds = pbrbm.gftSourdfBbnds();
+        boolfbn noSubbbnd = truf;
+        int numBbnds = sbmplfModfl.gftNumBbnds();
 
-        if (sourceBands != null) {
-            sampleModel = sampleModel.createSubsetSampleModel(sourceBands);
-            colorModel = null;
-            noSubband = false;
-            numBands = sampleModel.getNumBands();
-        } else {
-            sourceBands = new int[numBands];
-            for (int i = 0; i < numBands; i++)
-                sourceBands[i] = i;
+        if (sourdfBbnds != null) {
+            sbmplfModfl = sbmplfModfl.drfbtfSubsftSbmplfModfl(sourdfBbnds);
+            dolorModfl = null;
+            noSubbbnd = fblsf;
+            numBbnds = sbmplfModfl.gftNumBbnds();
+        } flsf {
+            sourdfBbnds = nfw int[numBbnds];
+            for (int i = 0; i < numBbnds; i++)
+                sourdfBbnds[i] = i;
         }
 
-        int[] bandOffsets = null;
-        boolean bgrOrder = true;
+        int[] bbndOffsfts = null;
+        boolfbn bgrOrdfr = truf;
 
-        if (sampleModel instanceof ComponentSampleModel) {
-            bandOffsets = ((ComponentSampleModel)sampleModel).getBandOffsets();
-            if (sampleModel instanceof BandedSampleModel) {
-                // for images with BandedSampleModel we can not work
-                //  with raster directly and must use writePixels()
-                bgrOrder = false;
-            } else {
-                // we can work with raster directly only in case of
-                // BGR component order.
-                // In any other case we must use writePixels()
-                for (int i = 0; i < bandOffsets.length; i++) {
-                    bgrOrder &= (bandOffsets[i] == (bandOffsets.length - i - 1));
+        if (sbmplfModfl instbndfof ComponfntSbmplfModfl) {
+            bbndOffsfts = ((ComponfntSbmplfModfl)sbmplfModfl).gftBbndOffsfts();
+            if (sbmplfModfl instbndfof BbndfdSbmplfModfl) {
+                // for imbgfs witi BbndfdSbmplfModfl wf dbn not work
+                //  witi rbstfr dirfdtly bnd must usf writfPixfls()
+                bgrOrdfr = fblsf;
+            } flsf {
+                // wf dbn work witi rbstfr dirfdtly only in dbsf of
+                // BGR domponfnt ordfr.
+                // In bny otifr dbsf wf must usf writfPixfls()
+                for (int i = 0; i < bbndOffsfts.lfngti; i++) {
+                    bgrOrdfr &= (bbndOffsfts[i] == (bbndOffsfts.lfngti - i - 1));
                 }
             }
-        } else {
-            if (sampleModel instanceof SinglePixelPackedSampleModel) {
+        } flsf {
+            if (sbmplfModfl instbndfof SinglfPixflPbdkfdSbmplfModfl) {
 
-                // BugId 4892214: we can not work with raster directly
-                // if image have different color order than RGB.
-                // We should use writePixels() for such images.
-                int[] bitOffsets = ((SinglePixelPackedSampleModel)sampleModel).getBitOffsets();
-                for (int i=0; i<bitOffsets.length-1; i++) {
-                    bgrOrder &= bitOffsets[i] > bitOffsets[i+1];
+                // BugId 4892214: wf dbn not work witi rbstfr dirfdtly
+                // if imbgf ibvf difffrfnt dolor ordfr tibn RGB.
+                // Wf siould usf writfPixfls() for sudi imbgfs.
+                int[] bitOffsfts = ((SinglfPixflPbdkfdSbmplfModfl)sbmplfModfl).gftBitOffsfts();
+                for (int i=0; i<bitOffsfts.lfngti-1; i++) {
+                    bgrOrdfr &= bitOffsfts[i] > bitOffsfts[i+1];
                 }
             }
         }
 
-        if (bandOffsets == null) {
-            // we will use getPixels() to extract pixel data for writePixels()
-            // Please note that getPixels() provides rgb bands order.
-            bandOffsets = new int[numBands];
-            for (int i = 0; i < numBands; i++)
-                bandOffsets[i] = i;
+        if (bbndOffsfts == null) {
+            // wf will usf gftPixfls() to fxtrbdt pixfl dbtb for writfPixfls()
+            // Plfbsf notf tibt gftPixfls() providfs rgb bbnds ordfr.
+            bbndOffsfts = nfw int[numBbnds];
+            for (int i = 0; i < numBbnds; i++)
+                bbndOffsfts[i] = i;
         }
 
-        noTransform &= bgrOrder;
+        noTrbnsform &= bgrOrdfr;
 
-        int sampleSize[] = sampleModel.getSampleSize();
+        int sbmplfSizf[] = sbmplfModfl.gftSbmplfSizf();
 
-        //XXX: check more
+        //XXX: difdk morf
 
-        // Number of bytes that a scanline for the image written out will have.
-        int destScanlineBytes = w * numBands;
+        // Numbfr of bytfs tibt b sdbnlinf for tif imbgf writtfn out will ibvf.
+        int dfstSdbnlinfBytfs = w * numBbnds;
 
-        switch(bmpParam.getCompressionMode()) {
-        case ImageWriteParam.MODE_EXPLICIT:
-            compressionType = BMPCompressionTypes.getType(bmpParam.getCompressionType());
-            break;
-        case ImageWriteParam.MODE_COPY_FROM_METADATA:
-            compressionType = bmpImageMetadata.compression;
-            break;
-        case ImageWriteParam.MODE_DEFAULT:
-            compressionType = getPreferredCompressionType(colorModel, sampleModel);
-            break;
-        default:
-            // ImageWriteParam.MODE_DISABLED:
-            compressionType = BI_RGB;
+        switdi(bmpPbrbm.gftComprfssionModf()) {
+        dbsf ImbgfWritfPbrbm.MODE_EXPLICIT:
+            domprfssionTypf = BMPComprfssionTypfs.gftTypf(bmpPbrbm.gftComprfssionTypf());
+            brfbk;
+        dbsf ImbgfWritfPbrbm.MODE_COPY_FROM_METADATA:
+            domprfssionTypf = bmpImbgfMftbdbtb.domprfssion;
+            brfbk;
+        dbsf ImbgfWritfPbrbm.MODE_DEFAULT:
+            domprfssionTypf = gftPrfffrrfdComprfssionTypf(dolorModfl, sbmplfModfl);
+            brfbk;
+        dffbult:
+            // ImbgfWritfPbrbm.MODE_DISABLED:
+            domprfssionTypf = BI_RGB;
         }
 
-        if (!canEncodeImage(compressionType, colorModel, sampleModel)) {
-            throw new IOException("Image can not be encoded with compression type "
-                                  + BMPCompressionTypes.getName(compressionType));
+        if (!dbnEndodfImbgf(domprfssionTypf, dolorModfl, sbmplfModfl)) {
+            tirow nfw IOExdfption("Imbgf dbn not bf fndodfd witi domprfssion typf "
+                                  + BMPComprfssionTypfs.gftNbmf(domprfssionTypf));
         }
 
-        byte r[] = null, g[] = null, b[] = null, a[] = null;
+        bytf r[] = null, g[] = null, b[] = null, b[] = null;
 
-        if (compressionType == BI_BITFIELDS) {
-            bitsPerPixel =
-                DataBuffer.getDataTypeSize(sampleModel.getDataType());
+        if (domprfssionTypf == BI_BITFIELDS) {
+            bitsPfrPixfl =
+                DbtbBufffr.gftDbtbTypfSizf(sbmplfModfl.gftDbtbTypf());
 
-            if (bitsPerPixel != 16 && bitsPerPixel != 32) {
-                // we should use 32bpp images in case of BI_BITFIELD
-                // compression to avoid color conversion artefacts
-                bitsPerPixel = 32;
+            if (bitsPfrPixfl != 16 && bitsPfrPixfl != 32) {
+                // wf siould usf 32bpp imbgfs in dbsf of BI_BITFIELD
+                // domprfssion to bvoid dolor donvfrsion brtffbdts
+                bitsPfrPixfl = 32;
 
-                // Setting this flag to false ensures that generic
-                // writePixels() will be used to store image data
-                noTransform = false;
+                // Sftting tiis flbg to fblsf fnsurfs tibt gfnfrid
+                // writfPixfls() will bf usfd to storf imbgf dbtb
+                noTrbnsform = fblsf;
             }
 
-            destScanlineBytes = w * bitsPerPixel + 7 >> 3;
+            dfstSdbnlinfBytfs = w * bitsPfrPixfl + 7 >> 3;
 
-            isPalette = true;
-            paletteEntries = 3;
-            r = new byte[paletteEntries];
-            g = new byte[paletteEntries];
-            b = new byte[paletteEntries];
-            a = new byte[paletteEntries];
+            isPblfttf = truf;
+            pblfttfEntrifs = 3;
+            r = nfw bytf[pblfttfEntrifs];
+            g = nfw bytf[pblfttfEntrifs];
+            b = nfw bytf[pblfttfEntrifs];
+            b = nfw bytf[pblfttfEntrifs];
 
-            int rmask = 0x00ff0000;
-            int gmask = 0x0000ff00;
-            int bmask = 0x000000ff;
+            int rmbsk = 0x00ff0000;
+            int gmbsk = 0x0000ff00;
+            int bmbsk = 0x000000ff;
 
-            if (bitsPerPixel == 16) {
-                /* NB: canEncodeImage() ensures we have image of
-                 * either USHORT_565_RGB or USHORT_555_RGB type here.
-                 * Technically, it should work for other direct color
-                 * model types but it might be non compatible with win98
-                 * and friends.
+            if (bitsPfrPixfl == 16) {
+                /* NB: dbnEndodfImbgf() fnsurfs wf ibvf imbgf of
+                 * fitifr USHORT_565_RGB or USHORT_555_RGB typf ifrf.
+                 * Tfdinidblly, it siould work for otifr dirfdt dolor
+                 * modfl typfs but it migit bf non dompbtiblf witi win98
+                 * bnd frifnds.
                  */
-                if (colorModel instanceof DirectColorModel) {
-                    DirectColorModel dcm = (DirectColorModel)colorModel;
-                    rmask = dcm.getRedMask();
-                    gmask = dcm.getGreenMask();
-                    bmask = dcm.getBlueMask();
-                } else {
-                    // it is unlikely, but if it happens, we should throw
-                    // an exception related to unsupported image format
-                    throw new IOException("Image can not be encoded with " +
-                                          "compression type " +
-                                          BMPCompressionTypes.getName(compressionType));
+                if (dolorModfl instbndfof DirfdtColorModfl) {
+                    DirfdtColorModfl ddm = (DirfdtColorModfl)dolorModfl;
+                    rmbsk = ddm.gftRfdMbsk();
+                    gmbsk = ddm.gftGrffnMbsk();
+                    bmbsk = ddm.gftBlufMbsk();
+                } flsf {
+                    // it is unlikfly, but if it ibppfns, wf siould tirow
+                    // bn fxdfption rflbtfd to unsupportfd imbgf formbt
+                    tirow nfw IOExdfption("Imbgf dbn not bf fndodfd witi " +
+                                          "domprfssion typf " +
+                                          BMPComprfssionTypfs.gftNbmf(domprfssionTypf));
                 }
             }
-            writeMaskToPalette(rmask, 0, r, g, b, a);
-            writeMaskToPalette(gmask, 1, r, g, b, a);
-            writeMaskToPalette(bmask, 2, r, g, b, a);
+            writfMbskToPblfttf(rmbsk, 0, r, g, b, b);
+            writfMbskToPblfttf(gmbsk, 1, r, g, b, b);
+            writfMbskToPblfttf(bmbsk, 2, r, g, b, b);
 
-            if (!noTransform) {
-                // prepare info for writePixels procedure
-                bitMasks = new int[3];
-                bitMasks[0] = rmask;
-                bitMasks[1] = gmask;
-                bitMasks[2] = bmask;
+            if (!noTrbnsform) {
+                // prfpbrf info for writfPixfls prodfdurf
+                bitMbsks = nfw int[3];
+                bitMbsks[0] = rmbsk;
+                bitMbsks[1] = gmbsk;
+                bitMbsks[2] = bmbsk;
 
-                bitPos = new int[3];
-                bitPos[0] = firstLowBit(rmask);
-                bitPos[1] = firstLowBit(gmask);
-                bitPos[2] = firstLowBit(bmask);
+                bitPos = nfw int[3];
+                bitPos[0] = firstLowBit(rmbsk);
+                bitPos[1] = firstLowBit(gmbsk);
+                bitPos[2] = firstLowBit(bmbsk);
             }
 
-            if (colorModel instanceof IndexColorModel) {
-                icm = (IndexColorModel)colorModel;
+            if (dolorModfl instbndfof IndfxColorModfl) {
+                idm = (IndfxColorModfl)dolorModfl;
             }
-        } else { // handle BI_RGB compression
-            if (colorModel instanceof IndexColorModel) {
-                isPalette = true;
-                icm = (IndexColorModel)colorModel;
-                paletteEntries = icm.getMapSize();
+        } flsf { // ibndlf BI_RGB domprfssion
+            if (dolorModfl instbndfof IndfxColorModfl) {
+                isPblfttf = truf;
+                idm = (IndfxColorModfl)dolorModfl;
+                pblfttfEntrifs = idm.gftMbpSizf();
 
-                if (paletteEntries <= 2) {
-                    bitsPerPixel = 1;
-                    destScanlineBytes = w + 7 >> 3;
-                } else if (paletteEntries <= 16) {
-                    bitsPerPixel = 4;
-                    destScanlineBytes = w + 1 >> 1;
-                } else if (paletteEntries <= 256) {
-                    bitsPerPixel = 8;
-                } else {
-                    // Cannot be written as a Palette image. So write out as
-                    // 24 bit image.
-                    bitsPerPixel = 24;
-                    isPalette = false;
-                    paletteEntries = 0;
-                    destScanlineBytes = w * 3;
+                if (pblfttfEntrifs <= 2) {
+                    bitsPfrPixfl = 1;
+                    dfstSdbnlinfBytfs = w + 7 >> 3;
+                } flsf if (pblfttfEntrifs <= 16) {
+                    bitsPfrPixfl = 4;
+                    dfstSdbnlinfBytfs = w + 1 >> 1;
+                } flsf if (pblfttfEntrifs <= 256) {
+                    bitsPfrPixfl = 8;
+                } flsf {
+                    // Cbnnot bf writtfn bs b Pblfttf imbgf. So writf out bs
+                    // 24 bit imbgf.
+                    bitsPfrPixfl = 24;
+                    isPblfttf = fblsf;
+                    pblfttfEntrifs = 0;
+                    dfstSdbnlinfBytfs = w * 3;
                 }
 
-                if (isPalette == true) {
-                    r = new byte[paletteEntries];
-                    g = new byte[paletteEntries];
-                    b = new byte[paletteEntries];
-                    a = new byte[paletteEntries];
+                if (isPblfttf == truf) {
+                    r = nfw bytf[pblfttfEntrifs];
+                    g = nfw bytf[pblfttfEntrifs];
+                    b = nfw bytf[pblfttfEntrifs];
+                    b = nfw bytf[pblfttfEntrifs];
 
-                    icm.getAlphas(a);
-                    icm.getReds(r);
-                    icm.getGreens(g);
-                    icm.getBlues(b);
+                    idm.gftAlpibs(b);
+                    idm.gftRfds(r);
+                    idm.gftGrffns(g);
+                    idm.gftBlufs(b);
                 }
 
-            } else {
-                // Grey scale images
-                if (numBands == 1) {
+            } flsf {
+                // Grfy sdblf imbgfs
+                if (numBbnds == 1) {
 
-                    isPalette = true;
-                    paletteEntries = 256;
-                    bitsPerPixel = sampleSize[0];
+                    isPblfttf = truf;
+                    pblfttfEntrifs = 256;
+                    bitsPfrPixfl = sbmplfSizf[0];
 
-                    destScanlineBytes = (w * bitsPerPixel + 7 >> 3);
+                    dfstSdbnlinfBytfs = (w * bitsPfrPixfl + 7 >> 3);
 
-                    r = new byte[256];
-                    g = new byte[256];
-                    b = new byte[256];
-                    a = new byte[256];
+                    r = nfw bytf[256];
+                    g = nfw bytf[256];
+                    b = nfw bytf[256];
+                    b = nfw bytf[256];
 
                     for (int i = 0; i < 256; i++) {
-                        r[i] = (byte)i;
-                        g[i] = (byte)i;
-                        b[i] = (byte)i;
-                        a[i] = (byte)255;
+                        r[i] = (bytf)i;
+                        g[i] = (bytf)i;
+                        b[i] = (bytf)i;
+                        b[i] = (bytf)255;
                     }
 
-                } else {
-                    if (sampleModel instanceof SinglePixelPackedSampleModel &&
-                        noSubband)
+                } flsf {
+                    if (sbmplfModfl instbndfof SinglfPixflPbdkfdSbmplfModfl &&
+                        noSubbbnd)
                     {
-                        /* NB: the actual pixel size can be smaller than
-                         * size of used DataBuffer element.
-                         * For example: in case of TYPE_INT_RGB actual pixel
-                         * size is 24 bits, but size of DataBuffere element
+                        /* NB: tif bdtubl pixfl sizf dbn bf smbllfr tibn
+                         * sizf of usfd DbtbBufffr flfmfnt.
+                         * For fxbmplf: in dbsf of TYPE_INT_RGB bdtubl pixfl
+                         * sizf is 24 bits, but sizf of DbtbBufffrf flfmfnt
                          * is 32 bits
                          */
-                        int[] sample_sizes = sampleModel.getSampleSize();
-                        bitsPerPixel = 0;
-                        for (int size : sample_sizes) {
-                            bitsPerPixel += size;
+                        int[] sbmplf_sizfs = sbmplfModfl.gftSbmplfSizf();
+                        bitsPfrPixfl = 0;
+                        for (int sizf : sbmplf_sizfs) {
+                            bitsPfrPixfl += sizf;
                         }
-                        bitsPerPixel = roundBpp(bitsPerPixel);
-                        if (bitsPerPixel != DataBuffer.getDataTypeSize(sampleModel.getDataType())) {
-                            noTransform = false;
+                        bitsPfrPixfl = roundBpp(bitsPfrPixfl);
+                        if (bitsPfrPixfl != DbtbBufffr.gftDbtbTypfSizf(sbmplfModfl.gftDbtbTypf())) {
+                            noTrbnsform = fblsf;
                         }
-                        destScanlineBytes = w * bitsPerPixel + 7 >> 3;
+                        dfstSdbnlinfBytfs = w * bitsPfrPixfl + 7 >> 3;
                     }
                 }
             }
         }
 
-        // actual writing of image data
-        int fileSize = 0;
-        int offset = 0;
-        int headerSize = 0;
-        int imageSize = 0;
-        int xPelsPerMeter = 0;
-        int yPelsPerMeter = 0;
-        int colorsUsed = 0;
-        int colorsImportant = paletteEntries;
+        // bdtubl writing of imbgf dbtb
+        int filfSizf = 0;
+        int offsft = 0;
+        int ifbdfrSizf = 0;
+        int imbgfSizf = 0;
+        int xPflsPfrMftfr = 0;
+        int yPflsPfrMftfr = 0;
+        int dolorsUsfd = 0;
+        int dolorsImportbnt = pblfttfEntrifs;
 
-        // Calculate padding for each scanline
-        int padding = destScanlineBytes % 4;
-        if (padding != 0) {
-            padding = 4 - padding;
+        // Cbldulbtf pbdding for fbdi sdbnlinf
+        int pbdding = dfstSdbnlinfBytfs % 4;
+        if (pbdding != 0) {
+            pbdding = 4 - pbdding;
         }
 
 
-        // FileHeader is 14 bytes, BitmapHeader is 40 bytes,
-        // add palette size and that is where the data will begin
-        offset = 54 + paletteEntries * 4;
+        // FilfHfbdfr is 14 bytfs, BitmbpHfbdfr is 40 bytfs,
+        // bdd pblfttf sizf bnd tibt is wifrf tif dbtb will bfgin
+        offsft = 54 + pblfttfEntrifs * 4;
 
-        imageSize = (destScanlineBytes + padding) * h;
-        fileSize = imageSize + offset;
-        headerSize = 40;
+        imbgfSizf = (dfstSdbnlinfBytfs + pbdding) * i;
+        filfSizf = imbgfSizf + offsft;
+        ifbdfrSizf = 40;
 
-        long headPos = stream.getStreamPosition();
+        long ifbdPos = strfbm.gftStrfbmPosition();
 
-        writeFileHeader(fileSize, offset);
+        writfFilfHfbdfr(filfSizf, offsft);
 
-        /* According to MSDN description, the top-down image layout
-         * is allowed only if compression type is BI_RGB or BI_BITFIELDS.
-         * Images with any other compression type must be wrote in the
-         * bottom-up layout.
+        /* Addording to MSDN dfsdription, tif top-down imbgf lbyout
+         * is bllowfd only if domprfssion typf is BI_RGB or BI_BITFIELDS.
+         * Imbgfs witi bny otifr domprfssion typf must bf wrotf in tif
+         * bottom-up lbyout.
          */
-        if (compressionType == BI_RGB ||
-            compressionType == BI_BITFIELDS)
+        if (domprfssionTypf == BI_RGB ||
+            domprfssionTypf == BI_BITFIELDS)
         {
-            isTopDown = bmpParam.isTopDown();
-        } else {
-            isTopDown = false;
+            isTopDown = bmpPbrbm.isTopDown();
+        } flsf {
+            isTopDown = fblsf;
         }
 
-        writeInfoHeader(headerSize, bitsPerPixel);
+        writfInfoHfbdfr(ifbdfrSizf, bitsPfrPixfl);
 
-        // compression
-        stream.writeInt(compressionType);
+        // domprfssion
+        strfbm.writfInt(domprfssionTypf);
 
-        // imageSize
-        stream.writeInt(imageSize);
+        // imbgfSizf
+        strfbm.writfInt(imbgfSizf);
 
-        // xPelsPerMeter
-        stream.writeInt(xPelsPerMeter);
+        // xPflsPfrMftfr
+        strfbm.writfInt(xPflsPfrMftfr);
 
-        // yPelsPerMeter
-        stream.writeInt(yPelsPerMeter);
+        // yPflsPfrMftfr
+        strfbm.writfInt(yPflsPfrMftfr);
 
-        // Colors Used
-        stream.writeInt(colorsUsed);
+        // Colors Usfd
+        strfbm.writfInt(dolorsUsfd);
 
-        // Colors Important
-        stream.writeInt(colorsImportant);
+        // Colors Importbnt
+        strfbm.writfInt(dolorsImportbnt);
 
-        // palette
-        if (isPalette == true) {
+        // pblfttf
+        if (isPblfttf == truf) {
 
-            // write palette
-            if (compressionType == BI_BITFIELDS) {
-                // write masks for red, green and blue components.
+            // writf pblfttf
+            if (domprfssionTypf == BI_BITFIELDS) {
+                // writf mbsks for rfd, grffn bnd bluf domponfnts.
                 for (int i=0; i<3; i++) {
-                    int mask = (a[i]&0xFF) + ((r[i]&0xFF)*0x100) + ((g[i]&0xFF)*0x10000) + ((b[i]&0xFF)*0x1000000);
-                    stream.writeInt(mask);
+                    int mbsk = (b[i]&0xFF) + ((r[i]&0xFF)*0x100) + ((g[i]&0xFF)*0x10000) + ((b[i]&0xFF)*0x1000000);
+                    strfbm.writfInt(mbsk);
                 }
-            } else {
-                for (int i=0; i<paletteEntries; i++) {
-                    stream.writeByte(b[i]);
-                    stream.writeByte(g[i]);
-                    stream.writeByte(r[i]);
-                    stream.writeByte(a[i]);
+            } flsf {
+                for (int i=0; i<pblfttfEntrifs; i++) {
+                    strfbm.writfBytf(b[i]);
+                    strfbm.writfBytf(g[i]);
+                    strfbm.writfBytf(r[i]);
+                    strfbm.writfBytf(b[i]);
                 }
             }
         }
 
-        // Writing of actual image data
-        int scanlineBytes = w * numBands;
+        // Writing of bdtubl imbgf dbtb
+        int sdbnlinfBytfs = w * numBbnds;
 
-        // Buffer for up to 8 rows of pixels
-        int[] pixels = new int[scanlineBytes * scaleX];
+        // Bufffr for up to 8 rows of pixfls
+        int[] pixfls = nfw int[sdbnlinfBytfs * sdblfX];
 
-        // Also create a buffer to hold one line of the data
-        // to be written to the file, so we can use array writes.
-        bpixels = new byte[destScanlineBytes];
+        // Also drfbtf b bufffr to iold onf linf of tif dbtb
+        // to bf writtfn to tif filf, so wf dbn usf brrby writfs.
+        bpixfls = nfw bytf[dfstSdbnlinfBytfs];
 
         int l;
 
-        if (compressionType == BI_JPEG ||
-            compressionType == BI_PNG) {
+        if (domprfssionTypf == BI_JPEG ||
+            domprfssionTypf == BI_PNG) {
 
-            // prepare embedded buffer
-            embedded_stream = new ByteArrayOutputStream();
-            writeEmbedded(image, bmpParam);
-            // update the file/image Size
-            embedded_stream.flush();
-            imageSize = embedded_stream.size();
+            // prfpbrf fmbfddfd bufffr
+            fmbfddfd_strfbm = nfw BytfArrbyOutputStrfbm();
+            writfEmbfddfd(imbgf, bmpPbrbm);
+            // updbtf tif filf/imbgf Sizf
+            fmbfddfd_strfbm.flusi();
+            imbgfSizf = fmbfddfd_strfbm.sizf();
 
-            long endPos = stream.getStreamPosition();
-            fileSize = offset + imageSize;
-            stream.seek(headPos);
-            writeSize(fileSize, 2);
-            stream.seek(headPos);
-            writeSize(imageSize, 34);
-            stream.seek(endPos);
-            stream.write(embedded_stream.toByteArray());
-            embedded_stream = null;
+            long fndPos = strfbm.gftStrfbmPosition();
+            filfSizf = offsft + imbgfSizf;
+            strfbm.sffk(ifbdPos);
+            writfSizf(filfSizf, 2);
+            strfbm.sffk(ifbdPos);
+            writfSizf(imbgfSizf, 34);
+            strfbm.sffk(fndPos);
+            strfbm.writf(fmbfddfd_strfbm.toBytfArrby());
+            fmbfddfd_strfbm = null;
 
-            if (abortRequested()) {
-                processWriteAborted();
-            } else {
-                processImageComplete();
-                stream.flushBefore(stream.getStreamPosition());
+            if (bbortRfqufstfd()) {
+                prodfssWritfAbortfd();
+            } flsf {
+                prodfssImbgfComplftf();
+                strfbm.flusiBfforf(strfbm.gftStrfbmPosition());
             }
 
-            return;
+            rfturn;
         }
 
-        int maxBandOffset = bandOffsets[0];
-        for (int i = 1; i < bandOffsets.length; i++)
-            if (bandOffsets[i] > maxBandOffset)
-                maxBandOffset = bandOffsets[i];
+        int mbxBbndOffsft = bbndOffsfts[0];
+        for (int i = 1; i < bbndOffsfts.lfngti; i++)
+            if (bbndOffsfts[i] > mbxBbndOffsft)
+                mbxBbndOffsft = bbndOffsfts[i];
 
-        int[] pixel = new int[maxBandOffset + 1];
+        int[] pixfl = nfw int[mbxBbndOffsft + 1];
 
-        int destScanlineLength = destScanlineBytes;
+        int dfstSdbnlinfLfngti = dfstSdbnlinfBytfs;
 
-        if (noTransform && noSubband) {
-            destScanlineLength = destScanlineBytes / (DataBuffer.getDataTypeSize(dataType)>>3);
+        if (noTrbnsform && noSubbbnd) {
+            dfstSdbnlinfLfngti = dfstSdbnlinfBytfs / (DbtbBufffr.gftDbtbTypfSizf(dbtbTypf)>>3);
         }
-        for (int i = 0; i < h; i++) {
-            if (abortRequested()) {
-                break;
+        for (int i = 0; i < i; i++) {
+            if (bbortRfqufstfd()) {
+                brfbk;
             }
 
             int row = minY + i;
 
             if (!isTopDown)
-                row = minY + h - i -1;
+                row = minY + i - i -1;
 
-            // Get the pixels
-            Raster src = inputRaster;
+            // Gft tif pixfls
+            Rbstfr srd = inputRbstfr;
 
-            Rectangle srcRect =
-                new Rectangle(minX * scaleX + xOffset,
-                              row * scaleY + yOffset,
-                              (w - 1)* scaleX + 1,
+            Rfdtbnglf srdRfdt =
+                nfw Rfdtbnglf(minX * sdblfX + xOffsft,
+                              row * sdblfY + yOffsft,
+                              (w - 1)* sdblfX + 1,
                               1);
-            if (!writeRaster)
-                src = input.getData(srcRect);
+            if (!writfRbstfr)
+                srd = input.gftDbtb(srdRfdt);
 
-            if (noTransform && noSubband) {
-                SampleModel sm = src.getSampleModel();
+            if (noTrbnsform && noSubbbnd) {
+                SbmplfModfl sm = srd.gftSbmplfModfl();
                 int pos = 0;
-                int startX = srcRect.x - src.getSampleModelTranslateX();
-                int startY = srcRect.y - src.getSampleModelTranslateY();
-                if (sm instanceof ComponentSampleModel) {
-                    ComponentSampleModel csm = (ComponentSampleModel)sm;
-                    pos = csm.getOffset(startX, startY, 0);
-                    for(int nb=1; nb < csm.getNumBands(); nb++) {
-                        if (pos > csm.getOffset(startX, startY, nb)) {
-                            pos = csm.getOffset(startX, startY, nb);
+                int stbrtX = srdRfdt.x - srd.gftSbmplfModflTrbnslbtfX();
+                int stbrtY = srdRfdt.y - srd.gftSbmplfModflTrbnslbtfY();
+                if (sm instbndfof ComponfntSbmplfModfl) {
+                    ComponfntSbmplfModfl dsm = (ComponfntSbmplfModfl)sm;
+                    pos = dsm.gftOffsft(stbrtX, stbrtY, 0);
+                    for(int nb=1; nb < dsm.gftNumBbnds(); nb++) {
+                        if (pos > dsm.gftOffsft(stbrtX, stbrtY, nb)) {
+                            pos = dsm.gftOffsft(stbrtX, stbrtY, nb);
                         }
                     }
-                } else if (sm instanceof MultiPixelPackedSampleModel) {
-                    MultiPixelPackedSampleModel mppsm =
-                        (MultiPixelPackedSampleModel)sm;
-                    pos = mppsm.getOffset(startX, startY);
-                } else if (sm instanceof SinglePixelPackedSampleModel) {
-                    SinglePixelPackedSampleModel sppsm =
-                        (SinglePixelPackedSampleModel)sm;
-                    pos = sppsm.getOffset(startX, startY);
+                } flsf if (sm instbndfof MultiPixflPbdkfdSbmplfModfl) {
+                    MultiPixflPbdkfdSbmplfModfl mppsm =
+                        (MultiPixflPbdkfdSbmplfModfl)sm;
+                    pos = mppsm.gftOffsft(stbrtX, stbrtY);
+                } flsf if (sm instbndfof SinglfPixflPbdkfdSbmplfModfl) {
+                    SinglfPixflPbdkfdSbmplfModfl sppsm =
+                        (SinglfPixflPbdkfdSbmplfModfl)sm;
+                    pos = sppsm.gftOffsft(stbrtX, stbrtY);
                 }
 
-                if (compressionType == BI_RGB || compressionType == BI_BITFIELDS){
-                    switch(dataType) {
-                    case DataBuffer.TYPE_BYTE:
-                        byte[] bdata =
-                            ((DataBufferByte)src.getDataBuffer()).getData();
-                        stream.write(bdata, pos, destScanlineLength);
-                        break;
+                if (domprfssionTypf == BI_RGB || domprfssionTypf == BI_BITFIELDS){
+                    switdi(dbtbTypf) {
+                    dbsf DbtbBufffr.TYPE_BYTE:
+                        bytf[] bdbtb =
+                            ((DbtbBufffrBytf)srd.gftDbtbBufffr()).gftDbtb();
+                        strfbm.writf(bdbtb, pos, dfstSdbnlinfLfngti);
+                        brfbk;
 
-                    case DataBuffer.TYPE_SHORT:
-                        short[] sdata =
-                            ((DataBufferShort)src.getDataBuffer()).getData();
-                        stream.writeShorts(sdata, pos, destScanlineLength);
-                        break;
+                    dbsf DbtbBufffr.TYPE_SHORT:
+                        siort[] sdbtb =
+                            ((DbtbBufffrSiort)srd.gftDbtbBufffr()).gftDbtb();
+                        strfbm.writfSiorts(sdbtb, pos, dfstSdbnlinfLfngti);
+                        brfbk;
 
-                    case DataBuffer.TYPE_USHORT:
-                        short[] usdata =
-                            ((DataBufferUShort)src.getDataBuffer()).getData();
-                        stream.writeShorts(usdata, pos, destScanlineLength);
-                        break;
+                    dbsf DbtbBufffr.TYPE_USHORT:
+                        siort[] usdbtb =
+                            ((DbtbBufffrUSiort)srd.gftDbtbBufffr()).gftDbtb();
+                        strfbm.writfSiorts(usdbtb, pos, dfstSdbnlinfLfngti);
+                        brfbk;
 
-                    case DataBuffer.TYPE_INT:
-                        int[] idata =
-                            ((DataBufferInt)src.getDataBuffer()).getData();
-                        stream.writeInts(idata, pos, destScanlineLength);
-                        break;
+                    dbsf DbtbBufffr.TYPE_INT:
+                        int[] idbtb =
+                            ((DbtbBufffrInt)srd.gftDbtbBufffr()).gftDbtb();
+                        strfbm.writfInts(idbtb, pos, dfstSdbnlinfLfngti);
+                        brfbk;
                     }
 
-                    for(int k=0; k<padding; k++) {
-                        stream.writeByte(0);
+                    for(int k=0; k<pbdding; k++) {
+                        strfbm.writfBytf(0);
                     }
-                } else if (compressionType == BI_RLE4) {
-                    if (bpixels == null || bpixels.length < scanlineBytes)
-                        bpixels = new byte[scanlineBytes];
-                    src.getPixels(srcRect.x, srcRect.y,
-                                  srcRect.width, srcRect.height, pixels);
-                    for (int h=0; h<scanlineBytes; h++) {
-                        bpixels[h] = (byte)pixels[h];
+                } flsf if (domprfssionTypf == BI_RLE4) {
+                    if (bpixfls == null || bpixfls.lfngti < sdbnlinfBytfs)
+                        bpixfls = nfw bytf[sdbnlinfBytfs];
+                    srd.gftPixfls(srdRfdt.x, srdRfdt.y,
+                                  srdRfdt.widti, srdRfdt.ifigit, pixfls);
+                    for (int i=0; i<sdbnlinfBytfs; i++) {
+                        bpixfls[i] = (bytf)pixfls[i];
                     }
-                    encodeRLE4(bpixels, scanlineBytes);
-                } else if (compressionType == BI_RLE8) {
-                    //byte[] bdata =
-                    //    ((DataBufferByte)src.getDataBuffer()).getData();
-                    //System.out.println("bdata.length="+bdata.length);
-                    //System.arraycopy(bdata, pos, bpixels, 0, scanlineBytes);
-                    if (bpixels == null || bpixels.length < scanlineBytes)
-                        bpixels = new byte[scanlineBytes];
-                    src.getPixels(srcRect.x, srcRect.y,
-                                  srcRect.width, srcRect.height, pixels);
-                    for (int h=0; h<scanlineBytes; h++) {
-                        bpixels[h] = (byte)pixels[h];
+                    fndodfRLE4(bpixfls, sdbnlinfBytfs);
+                } flsf if (domprfssionTypf == BI_RLE8) {
+                    //bytf[] bdbtb =
+                    //    ((DbtbBufffrBytf)srd.gftDbtbBufffr()).gftDbtb();
+                    //Systfm.out.println("bdbtb.lfngti="+bdbtb.lfngti);
+                    //Systfm.brrbydopy(bdbtb, pos, bpixfls, 0, sdbnlinfBytfs);
+                    if (bpixfls == null || bpixfls.lfngti < sdbnlinfBytfs)
+                        bpixfls = nfw bytf[sdbnlinfBytfs];
+                    srd.gftPixfls(srdRfdt.x, srdRfdt.y,
+                                  srdRfdt.widti, srdRfdt.ifigit, pixfls);
+                    for (int i=0; i<sdbnlinfBytfs; i++) {
+                        bpixfls[i] = (bytf)pixfls[i];
                     }
 
-                    encodeRLE8(bpixels, scanlineBytes);
+                    fndodfRLE8(bpixfls, sdbnlinfBytfs);
                 }
-            } else {
-                src.getPixels(srcRect.x, srcRect.y,
-                              srcRect.width, srcRect.height, pixels);
+            } flsf {
+                srd.gftPixfls(srdRfdt.x, srdRfdt.y,
+                              srdRfdt.widti, srdRfdt.ifigit, pixfls);
 
-                if (scaleX != 1 || maxBandOffset != numBands - 1) {
+                if (sdblfX != 1 || mbxBbndOffsft != numBbnds - 1) {
                     for (int j = 0, k = 0, n=0; j < w;
-                         j++, k += scaleX * numBands, n += numBands)
+                         j++, k += sdblfX * numBbnds, n += numBbnds)
                     {
-                        System.arraycopy(pixels, k, pixel, 0, pixel.length);
+                        Systfm.brrbydopy(pixfls, k, pixfl, 0, pixfl.lfngti);
 
-                        for (int m = 0; m < numBands; m++) {
-                            // pixel data is provided here in RGB order
-                            pixels[n + m] = pixel[sourceBands[m]];
+                        for (int m = 0; m < numBbnds; m++) {
+                            // pixfl dbtb is providfd ifrf in RGB ordfr
+                            pixfls[n + m] = pixfl[sourdfBbnds[m]];
                         }
                     }
                 }
-                writePixels(0, scanlineBytes, bitsPerPixel, pixels,
-                            padding, numBands, icm);
+                writfPixfls(0, sdbnlinfBytfs, bitsPfrPixfl, pixfls,
+                            pbdding, numBbnds, idm);
             }
 
-            processImageProgress(100.0f * (((float)i) / ((float)h)));
+            prodfssImbgfProgrfss(100.0f * (((flobt)i) / ((flobt)i)));
         }
 
-        if (compressionType == BI_RLE4 ||
-            compressionType == BI_RLE8) {
-            // Write the RLE EOF marker and
-            stream.writeByte(0);
-            stream.writeByte(1);
-            incCompImageSize(2);
-            // update the file/image Size
-            imageSize = compImageSize;
-            fileSize = compImageSize + offset;
-            long endPos = stream.getStreamPosition();
-            stream.seek(headPos);
-            writeSize(fileSize, 2);
-            stream.seek(headPos);
-            writeSize(imageSize, 34);
-            stream.seek(endPos);
+        if (domprfssionTypf == BI_RLE4 ||
+            domprfssionTypf == BI_RLE8) {
+            // Writf tif RLE EOF mbrkfr bnd
+            strfbm.writfBytf(0);
+            strfbm.writfBytf(1);
+            indCompImbgfSizf(2);
+            // updbtf tif filf/imbgf Sizf
+            imbgfSizf = dompImbgfSizf;
+            filfSizf = dompImbgfSizf + offsft;
+            long fndPos = strfbm.gftStrfbmPosition();
+            strfbm.sffk(ifbdPos);
+            writfSizf(filfSizf, 2);
+            strfbm.sffk(ifbdPos);
+            writfSizf(imbgfSizf, 34);
+            strfbm.sffk(fndPos);
         }
 
-        if (abortRequested()) {
-            processWriteAborted();
-        } else {
-            processImageComplete();
-            stream.flushBefore(stream.getStreamPosition());
+        if (bbortRfqufstfd()) {
+            prodfssWritfAbortfd();
+        } flsf {
+            prodfssImbgfComplftf();
+            strfbm.flusiBfforf(strfbm.gftStrfbmPosition());
         }
     }
 
-    private void writePixels(int l, int scanlineBytes, int bitsPerPixel,
-                             int pixels[],
-                             int padding, int numBands,
-                             IndexColorModel icm) throws IOException {
-        int pixel = 0;
+    privbtf void writfPixfls(int l, int sdbnlinfBytfs, int bitsPfrPixfl,
+                             int pixfls[],
+                             int pbdding, int numBbnds,
+                             IndfxColorModfl idm) tirows IOExdfption {
+        int pixfl = 0;
         int k = 0;
-        switch (bitsPerPixel) {
+        switdi (bitsPfrPixfl) {
 
-        case 1:
+        dbsf 1:
 
-            for (int j=0; j<scanlineBytes/8; j++) {
-                bpixels[k++] = (byte)((pixels[l++]  << 7) |
-                                      (pixels[l++]  << 6) |
-                                      (pixels[l++]  << 5) |
-                                      (pixels[l++]  << 4) |
-                                      (pixels[l++]  << 3) |
-                                      (pixels[l++]  << 2) |
-                                      (pixels[l++]  << 1) |
-                                      pixels[l++]);
+            for (int j=0; j<sdbnlinfBytfs/8; j++) {
+                bpixfls[k++] = (bytf)((pixfls[l++]  << 7) |
+                                      (pixfls[l++]  << 6) |
+                                      (pixfls[l++]  << 5) |
+                                      (pixfls[l++]  << 4) |
+                                      (pixfls[l++]  << 3) |
+                                      (pixfls[l++]  << 2) |
+                                      (pixfls[l++]  << 1) |
+                                      pixfls[l++]);
             }
 
-            // Partially filled last byte, if any
-            if (scanlineBytes%8 > 0) {
-                pixel = 0;
-                for (int j=0; j<scanlineBytes%8; j++) {
-                    pixel |= (pixels[l++] << (7 - j));
+            // Pbrtiblly fillfd lbst bytf, if bny
+            if (sdbnlinfBytfs%8 > 0) {
+                pixfl = 0;
+                for (int j=0; j<sdbnlinfBytfs%8; j++) {
+                    pixfl |= (pixfls[l++] << (7 - j));
                 }
-                bpixels[k++] = (byte)pixel;
+                bpixfls[k++] = (bytf)pixfl;
             }
-            stream.write(bpixels, 0, (scanlineBytes+7)/8);
+            strfbm.writf(bpixfls, 0, (sdbnlinfBytfs+7)/8);
 
-            break;
+            brfbk;
 
-        case 4:
-            if (compressionType == BI_RLE4){
-                byte[] bipixels = new byte[scanlineBytes];
-                for (int h=0; h<scanlineBytes; h++) {
-                    bipixels[h] = (byte)pixels[l++];
+        dbsf 4:
+            if (domprfssionTypf == BI_RLE4){
+                bytf[] bipixfls = nfw bytf[sdbnlinfBytfs];
+                for (int i=0; i<sdbnlinfBytfs; i++) {
+                    bipixfls[i] = (bytf)pixfls[l++];
                 }
-                encodeRLE4(bipixels, scanlineBytes);
-            }else {
-                for (int j=0; j<scanlineBytes/2; j++) {
-                    pixel = (pixels[l++] << 4) | pixels[l++];
-                    bpixels[k++] = (byte)pixel;
+                fndodfRLE4(bipixfls, sdbnlinfBytfs);
+            }flsf {
+                for (int j=0; j<sdbnlinfBytfs/2; j++) {
+                    pixfl = (pixfls[l++] << 4) | pixfls[l++];
+                    bpixfls[k++] = (bytf)pixfl;
                 }
-                // Put the last pixel of odd-length lines in the 4 MSBs
-                if ((scanlineBytes%2) == 1) {
-                    pixel = pixels[l] << 4;
-                    bpixels[k++] = (byte)pixel;
+                // Put tif lbst pixfl of odd-lfngti linfs in tif 4 MSBs
+                if ((sdbnlinfBytfs%2) == 1) {
+                    pixfl = pixfls[l] << 4;
+                    bpixfls[k++] = (bytf)pixfl;
                 }
-                stream.write(bpixels, 0, (scanlineBytes+1)/2);
+                strfbm.writf(bpixfls, 0, (sdbnlinfBytfs+1)/2);
             }
-            break;
+            brfbk;
 
-        case 8:
-            if(compressionType == BI_RLE8) {
-                for (int h=0; h<scanlineBytes; h++) {
-                    bpixels[h] = (byte)pixels[l++];
+        dbsf 8:
+            if(domprfssionTypf == BI_RLE8) {
+                for (int i=0; i<sdbnlinfBytfs; i++) {
+                    bpixfls[i] = (bytf)pixfls[l++];
                 }
-                encodeRLE8(bpixels, scanlineBytes);
-            }else {
-                for (int j=0; j<scanlineBytes; j++) {
-                    bpixels[j] = (byte)pixels[l++];
+                fndodfRLE8(bpixfls, sdbnlinfBytfs);
+            }flsf {
+                for (int j=0; j<sdbnlinfBytfs; j++) {
+                    bpixfls[j] = (bytf)pixfls[l++];
                 }
-                stream.write(bpixels, 0, scanlineBytes);
+                strfbm.writf(bpixfls, 0, sdbnlinfBytfs);
             }
-            break;
+            brfbk;
 
-        case 16:
-            if (spixels == null)
-                spixels = new short[scanlineBytes / numBands];
+        dbsf 16:
+            if (spixfls == null)
+                spixfls = nfw siort[sdbnlinfBytfs / numBbnds];
             /*
-             * We expect that pixel data comes in RGB order.
-             * We will assemble short pixel taking into account
-             * the compression type:
+             * Wf fxpfdt tibt pixfl dbtb domfs in RGB ordfr.
+             * Wf will bssfmblf siort pixfl tbking into bddount
+             * tif domprfssion typf:
              *
-             * BI_RGB        - the RGB order should be maintained.
-             * BI_BITFIELDS  - use bitPos array that was built
-             *                 according to bitfields masks.
+             * BI_RGB        - tif RGB ordfr siould bf mbintbinfd.
+             * BI_BITFIELDS  - usf bitPos brrby tibt wbs built
+             *                 bddording to bitfiflds mbsks.
              */
-            for (int j = 0, m = 0; j < scanlineBytes; m++) {
-                spixels[m] = 0;
-                if (compressionType == BI_RGB) {
+            for (int j = 0, m = 0; j < sdbnlinfBytfs; m++) {
+                spixfls[m] = 0;
+                if (domprfssionTypf == BI_RGB) {
                     /*
-                     * please note that despite other cases,
-                     * the 16bpp BI_RGB requires the RGB data order
+                     * plfbsf notf tibt dfspitf otifr dbsfs,
+                     * tif 16bpp BI_RGB rfquirfs tif RGB dbtb ordfr
                      */
-                    spixels[m] = (short)
-                        (((0x1f & pixels[j    ]) << 10) |
-                         ((0x1f & pixels[j + 1]) <<  5) |
-                         ((0x1f & pixels[j + 2])      ));
+                    spixfls[m] = (siort)
+                        (((0x1f & pixfls[j    ]) << 10) |
+                         ((0x1f & pixfls[j + 1]) <<  5) |
+                         ((0x1f & pixfls[j + 2])      ));
                      j += 3;
-                } else {
-                    for(int i = 0 ; i < numBands; i++, j++) {
-                        spixels[m] |=
-                            (((pixels[j]) << bitPos[i]) & bitMasks[i]);
+                } flsf {
+                    for(int i = 0 ; i < numBbnds; i++, j++) {
+                        spixfls[m] |=
+                            (((pixfls[j]) << bitPos[i]) & bitMbsks[i]);
                     }
                 }
             }
-            stream.writeShorts(spixels, 0, spixels.length);
-            break;
+            strfbm.writfSiorts(spixfls, 0, spixfls.lfngti);
+            brfbk;
 
-        case 24:
-            if (numBands == 3) {
-                for (int j=0; j<scanlineBytes; j+=3) {
-                    // Since BMP needs BGR format
-                    bpixels[k++] = (byte)(pixels[l+2]);
-                    bpixels[k++] = (byte)(pixels[l+1]);
-                    bpixels[k++] = (byte)(pixels[l]);
+        dbsf 24:
+            if (numBbnds == 3) {
+                for (int j=0; j<sdbnlinfBytfs; j+=3) {
+                    // Sindf BMP nffds BGR formbt
+                    bpixfls[k++] = (bytf)(pixfls[l+2]);
+                    bpixfls[k++] = (bytf)(pixfls[l+1]);
+                    bpixfls[k++] = (bytf)(pixfls[l]);
                     l+=3;
                 }
-                stream.write(bpixels, 0, scanlineBytes);
-            } else {
-                // Case where IndexColorModel had > 256 colors.
-                int entries = icm.getMapSize();
+                strfbm.writf(bpixfls, 0, sdbnlinfBytfs);
+            } flsf {
+                // Cbsf wifrf IndfxColorModfl ibd > 256 dolors.
+                int fntrifs = idm.gftMbpSizf();
 
-                byte r[] = new byte[entries];
-                byte g[] = new byte[entries];
-                byte b[] = new byte[entries];
+                bytf r[] = nfw bytf[fntrifs];
+                bytf g[] = nfw bytf[fntrifs];
+                bytf b[] = nfw bytf[fntrifs];
 
-                icm.getReds(r);
-                icm.getGreens(g);
-                icm.getBlues(b);
-                int index;
+                idm.gftRfds(r);
+                idm.gftGrffns(g);
+                idm.gftBlufs(b);
+                int indfx;
 
-                for (int j=0; j<scanlineBytes; j++) {
-                    index = pixels[l];
-                    bpixels[k++] = b[index];
-                    bpixels[k++] = g[index];
-                    bpixels[k++] = b[index];
+                for (int j=0; j<sdbnlinfBytfs; j++) {
+                    indfx = pixfls[l];
+                    bpixfls[k++] = b[indfx];
+                    bpixfls[k++] = g[indfx];
+                    bpixfls[k++] = b[indfx];
                     l++;
                 }
-                stream.write(bpixels, 0, scanlineBytes*3);
+                strfbm.writf(bpixfls, 0, sdbnlinfBytfs*3);
             }
-            break;
+            brfbk;
 
-        case 32:
-            if (ipixels == null)
-                ipixels = new int[scanlineBytes / numBands];
-            if (numBands == 3) {
+        dbsf 32:
+            if (ipixfls == null)
+                ipixfls = nfw int[sdbnlinfBytfs / numBbnds];
+            if (numBbnds == 3) {
                 /*
-                 * We expect that pixel data comes in RGB order.
-                 * We will assemble int pixel taking into account
-                 * the compression type.
+                 * Wf fxpfdt tibt pixfl dbtb domfs in RGB ordfr.
+                 * Wf will bssfmblf int pixfl tbking into bddount
+                 * tif domprfssion typf.
                  *
-                 * BI_RGB        - the BGR order should be used.
-                 * BI_BITFIELDS  - use bitPos array that was built
-                 *                 according to bitfields masks.
+                 * BI_RGB        - tif BGR ordfr siould bf usfd.
+                 * BI_BITFIELDS  - usf bitPos brrby tibt wbs built
+                 *                 bddording to bitfiflds mbsks.
                  */
-                for (int j = 0, m = 0; j < scanlineBytes; m++) {
-                    ipixels[m] = 0;
-                    if (compressionType == BI_RGB) {
-                        ipixels[m] =
-                            ((0xff & pixels[j + 2]) << 16) |
-                            ((0xff & pixels[j + 1]) <<  8) |
-                            ((0xff & pixels[j    ])      );
+                for (int j = 0, m = 0; j < sdbnlinfBytfs; m++) {
+                    ipixfls[m] = 0;
+                    if (domprfssionTypf == BI_RGB) {
+                        ipixfls[m] =
+                            ((0xff & pixfls[j + 2]) << 16) |
+                            ((0xff & pixfls[j + 1]) <<  8) |
+                            ((0xff & pixfls[j    ])      );
                         j += 3;
-                    } else {
-                        for(int i = 0 ; i < numBands; i++, j++) {
-                            ipixels[m] |=
-                                (((pixels[j]) << bitPos[i]) & bitMasks[i]);
+                    } flsf {
+                        for(int i = 0 ; i < numBbnds; i++, j++) {
+                            ipixfls[m] |=
+                                (((pixfls[j]) << bitPos[i]) & bitMbsks[i]);
                         }
                     }
                 }
-            } else {
-                // We have two possibilities here:
-                // 1. we are writing the indexed image with bitfields
-                //    compression (this covers also the case of BYTE_BINARY)
-                //    => use icm to get actual RGB color values.
-                // 2. we are writing the gray-scaled image with BI_BITFIELDS
-                //    compression
-                //    => just replicate the level of gray to color components.
-                for (int j = 0; j < scanlineBytes; j++) {
-                    if (icm != null) {
-                        ipixels[j] = icm.getRGB(pixels[j]);
-                    } else {
-                        ipixels[j] =
-                            pixels[j] << 16 | pixels[j] << 8 | pixels[j];
+            } flsf {
+                // Wf ibvf two possibilitifs ifrf:
+                // 1. wf brf writing tif indfxfd imbgf witi bitfiflds
+                //    domprfssion (tiis dovfrs blso tif dbsf of BYTE_BINARY)
+                //    => usf idm to gft bdtubl RGB dolor vblufs.
+                // 2. wf brf writing tif grby-sdblfd imbgf witi BI_BITFIELDS
+                //    domprfssion
+                //    => just rfplidbtf tif lfvfl of grby to dolor domponfnts.
+                for (int j = 0; j < sdbnlinfBytfs; j++) {
+                    if (idm != null) {
+                        ipixfls[j] = idm.gftRGB(pixfls[j]);
+                    } flsf {
+                        ipixfls[j] =
+                            pixfls[j] << 16 | pixfls[j] << 8 | pixfls[j];
                     }
                 }
             }
-            stream.writeInts(ipixels, 0, ipixels.length);
-            break;
+            strfbm.writfInts(ipixfls, 0, ipixfls.lfngti);
+            brfbk;
         }
 
-        // Write out the padding
-        if (compressionType == BI_RGB ||
-            compressionType == BI_BITFIELDS)
+        // Writf out tif pbdding
+        if (domprfssionTypf == BI_RGB ||
+            domprfssionTypf == BI_BITFIELDS)
         {
-            for(k=0; k<padding; k++) {
-                stream.writeByte(0);
+            for(k=0; k<pbdding; k++) {
+                strfbm.writfBytf(0);
             }
         }
     }
 
-    private void encodeRLE8(byte[] bpixels, int scanlineBytes)
-      throws IOException{
+    privbtf void fndodfRLE8(bytf[] bpixfls, int sdbnlinfBytfs)
+      tirows IOExdfption{
 
-        int runCount = 1, absVal = -1, j = -1;
-        byte runVal = 0, nextVal =0 ;
+        int runCount = 1, bbsVbl = -1, j = -1;
+        bytf runVbl = 0, nfxtVbl =0 ;
 
-        runVal = bpixels[++j];
-        byte[] absBuf = new byte[256];
+        runVbl = bpixfls[++j];
+        bytf[] bbsBuf = nfw bytf[256];
 
-        while (j < scanlineBytes-1) {
-            nextVal = bpixels[++j];
-            if (nextVal == runVal ){
-                if(absVal >= 3 ){
-                    /// Check if there was an existing Absolute Run
-                    stream.writeByte(0);
-                    stream.writeByte(absVal);
-                    incCompImageSize(2);
-                    for(int a=0; a<absVal;a++){
-                        stream.writeByte(absBuf[a]);
-                        incCompImageSize(1);
+        wiilf (j < sdbnlinfBytfs-1) {
+            nfxtVbl = bpixfls[++j];
+            if (nfxtVbl == runVbl ){
+                if(bbsVbl >= 3 ){
+                    /// Cifdk if tifrf wbs bn fxisting Absolutf Run
+                    strfbm.writfBytf(0);
+                    strfbm.writfBytf(bbsVbl);
+                    indCompImbgfSizf(2);
+                    for(int b=0; b<bbsVbl;b++){
+                        strfbm.writfBytf(bbsBuf[b]);
+                        indCompImbgfSizf(1);
                     }
-                    if (!isEven(absVal)){
-                        //Padding
-                        stream.writeByte(0);
-                        incCompImageSize(1);
-                    }
-                }
-                else if(absVal > -1){
-                    /// Absolute Encoding for less than 3
-                    /// treated as regular encoding
-                    /// Do not include the last element since it will
-                    /// be inclued in the next encoding/run
-                    for (int b=0;b<absVal;b++){
-                        stream.writeByte(1);
-                        stream.writeByte(absBuf[b]);
-                        incCompImageSize(2);
+                    if (!isEvfn(bbsVbl)){
+                        //Pbdding
+                        strfbm.writfBytf(0);
+                        indCompImbgfSizf(1);
                     }
                 }
-                absVal = -1;
+                flsf if(bbsVbl > -1){
+                    /// Absolutf Endoding for lfss tibn 3
+                    /// trfbtfd bs rfgulbr fndoding
+                    /// Do not indludf tif lbst flfmfnt sindf it will
+                    /// bf indlufd in tif nfxt fndoding/run
+                    for (int b=0;b<bbsVbl;b++){
+                        strfbm.writfBytf(1);
+                        strfbm.writfBytf(bbsBuf[b]);
+                        indCompImbgfSizf(2);
+                    }
+                }
+                bbsVbl = -1;
                 runCount++;
                 if (runCount == 256){
-                    /// Only 255 values permitted
-                    stream.writeByte(runCount-1);
-                    stream.writeByte(runVal);
-                    incCompImageSize(2);
+                    /// Only 255 vblufs pfrmittfd
+                    strfbm.writfBytf(runCount-1);
+                    strfbm.writfBytf(runVbl);
+                    indCompImbgfSizf(2);
                     runCount = 1;
                 }
             }
-            else {
+            flsf {
                 if (runCount > 1){
-                    /// If there was an existing run
-                    stream.writeByte(runCount);
-                    stream.writeByte(runVal);
-                    incCompImageSize(2);
-                } else if (absVal < 0){
-                    // First time..
-                    absBuf[++absVal] = runVal;
-                    absBuf[++absVal] = nextVal;
-                } else if (absVal < 254){
+                    /// If tifrf wbs bn fxisting run
+                    strfbm.writfBytf(runCount);
+                    strfbm.writfBytf(runVbl);
+                    indCompImbgfSizf(2);
+                } flsf if (bbsVbl < 0){
+                    // First timf..
+                    bbsBuf[++bbsVbl] = runVbl;
+                    bbsBuf[++bbsVbl] = nfxtVbl;
+                } flsf if (bbsVbl < 254){
                     //  0-254 only
-                    absBuf[++absVal] = nextVal;
-                } else {
-                    stream.writeByte(0);
-                    stream.writeByte(absVal+1);
-                    incCompImageSize(2);
-                    for(int a=0; a<=absVal;a++){
-                        stream.writeByte(absBuf[a]);
-                        incCompImageSize(1);
+                    bbsBuf[++bbsVbl] = nfxtVbl;
+                } flsf {
+                    strfbm.writfBytf(0);
+                    strfbm.writfBytf(bbsVbl+1);
+                    indCompImbgfSizf(2);
+                    for(int b=0; b<=bbsVbl;b++){
+                        strfbm.writfBytf(bbsBuf[b]);
+                        indCompImbgfSizf(1);
                     }
-                    // padding since 255 elts is not even
-                    stream.writeByte(0);
-                    incCompImageSize(1);
-                    absVal = -1;
+                    // pbdding sindf 255 flts is not fvfn
+                    strfbm.writfBytf(0);
+                    indCompImbgfSizf(1);
+                    bbsVbl = -1;
                 }
-                runVal = nextVal;
+                runVbl = nfxtVbl;
                 runCount = 1;
             }
 
-            if (j == scanlineBytes-1){ // EOF scanline
-                // Write the run
-                if (absVal == -1){
-                    stream.writeByte(runCount);
-                    stream.writeByte(runVal);
-                    incCompImageSize(2);
+            if (j == sdbnlinfBytfs-1){ // EOF sdbnlinf
+                // Writf tif run
+                if (bbsVbl == -1){
+                    strfbm.writfBytf(runCount);
+                    strfbm.writfBytf(runVbl);
+                    indCompImbgfSizf(2);
                     runCount = 1;
                 }
-                else {
-                    // write the Absolute Run
-                    if(absVal >= 2){
-                        stream.writeByte(0);
-                        stream.writeByte(absVal+1);
-                        incCompImageSize(2);
-                        for(int a=0; a<=absVal;a++){
-                            stream.writeByte(absBuf[a]);
-                            incCompImageSize(1);
+                flsf {
+                    // writf tif Absolutf Run
+                    if(bbsVbl >= 2){
+                        strfbm.writfBytf(0);
+                        strfbm.writfBytf(bbsVbl+1);
+                        indCompImbgfSizf(2);
+                        for(int b=0; b<=bbsVbl;b++){
+                            strfbm.writfBytf(bbsBuf[b]);
+                            indCompImbgfSizf(1);
                         }
-                        if (!isEven(absVal+1)){
-                            //Padding
-                            stream.writeByte(0);
-                            incCompImageSize(1);
+                        if (!isEvfn(bbsVbl+1)){
+                            //Pbdding
+                            strfbm.writfBytf(0);
+                            indCompImbgfSizf(1);
                         }
 
                     }
-                    else if(absVal > -1){
-                        for (int b=0;b<=absVal;b++){
-                            stream.writeByte(1);
-                            stream.writeByte(absBuf[b]);
-                            incCompImageSize(2);
+                    flsf if(bbsVbl > -1){
+                        for (int b=0;b<=bbsVbl;b++){
+                            strfbm.writfBytf(1);
+                            strfbm.writfBytf(bbsBuf[b]);
+                            indCompImbgfSizf(2);
                         }
                     }
                 }
-                /// EOF scanline
+                /// EOF sdbnlinf
 
-                stream.writeByte(0);
-                stream.writeByte(0);
-                incCompImageSize(2);
+                strfbm.writfBytf(0);
+                strfbm.writfBytf(0);
+                indCompImbgfSizf(2);
             }
         }
     }
 
-    private void encodeRLE4(byte[] bipixels, int scanlineBytes)
-      throws IOException {
+    privbtf void fndodfRLE4(bytf[] bipixfls, int sdbnlinfBytfs)
+      tirows IOExdfption {
 
-        int runCount=2, absVal=-1, j=-1, pixel=0, q=0;
-        byte runVal1=0, runVal2=0, nextVal1=0, nextVal2=0;
-        byte[] absBuf = new byte[256];
+        int runCount=2, bbsVbl=-1, j=-1, pixfl=0, q=0;
+        bytf runVbl1=0, runVbl2=0, nfxtVbl1=0, nfxtVbl2=0;
+        bytf[] bbsBuf = nfw bytf[256];
 
 
-        runVal1 = bipixels[++j];
-        runVal2 = bipixels[++j];
+        runVbl1 = bipixfls[++j];
+        runVbl2 = bipixfls[++j];
 
-        while (j < scanlineBytes-2){
-            nextVal1 = bipixels[++j];
-            nextVal2 = bipixels[++j];
+        wiilf (j < sdbnlinfBytfs-2){
+            nfxtVbl1 = bipixfls[++j];
+            nfxtVbl2 = bipixfls[++j];
 
-            if (nextVal1 == runVal1 ) {
+            if (nfxtVbl1 == runVbl1 ) {
 
-                //Check if there was an existing Absolute Run
-                if(absVal >= 4){
-                    stream.writeByte(0);
-                    stream.writeByte(absVal - 1);
-                    incCompImageSize(2);
-                    // we need to exclude  last 2 elts, similarity of
-                    // which caused to enter this part of the code
-                    for(int a=0; a<absVal-2;a+=2){
-                        pixel = (absBuf[a] << 4) | absBuf[a+1];
-                        stream.writeByte((byte)pixel);
-                        incCompImageSize(1);
+                //Cifdk if tifrf wbs bn fxisting Absolutf Run
+                if(bbsVbl >= 4){
+                    strfbm.writfBytf(0);
+                    strfbm.writfBytf(bbsVbl - 1);
+                    indCompImbgfSizf(2);
+                    // wf nffd to fxdludf  lbst 2 flts, similbrity of
+                    // wiidi dbusfd to fntfr tiis pbrt of tif dodf
+                    for(int b=0; b<bbsVbl-2;b+=2){
+                        pixfl = (bbsBuf[b] << 4) | bbsBuf[b+1];
+                        strfbm.writfBytf((bytf)pixfl);
+                        indCompImbgfSizf(1);
                     }
-                    // if # of elts is odd - read the last element
-                    if(!(isEven(absVal-1))){
-                        q = absBuf[absVal-2] << 4| 0;
-                        stream.writeByte(q);
-                        incCompImageSize(1);
+                    // if # of flts is odd - rfbd tif lbst flfmfnt
+                    if(!(isEvfn(bbsVbl-1))){
+                        q = bbsBuf[bbsVbl-2] << 4| 0;
+                        strfbm.writfBytf(q);
+                        indCompImbgfSizf(1);
                     }
-                    // Padding to word align absolute encoding
-                    if ( !isEven((int)Math.ceil((absVal-1)/2)) ) {
-                        stream.writeByte(0);
-                        incCompImageSize(1);
+                    // Pbdding to word blign bbsolutf fndoding
+                    if ( !isEvfn((int)Mbti.dfil((bbsVbl-1)/2)) ) {
+                        strfbm.writfBytf(0);
+                        indCompImbgfSizf(1);
                     }
-                } else if (absVal > -1){
-                    stream.writeByte(2);
-                    pixel = (absBuf[0] << 4) | absBuf[1];
-                    stream.writeByte(pixel);
-                    incCompImageSize(2);
+                } flsf if (bbsVbl > -1){
+                    strfbm.writfBytf(2);
+                    pixfl = (bbsBuf[0] << 4) | bbsBuf[1];
+                    strfbm.writfBytf(pixfl);
+                    indCompImbgfSizf(2);
                 }
-                absVal = -1;
+                bbsVbl = -1;
 
-                if (nextVal2 == runVal2){
-                    // Even runlength
+                if (nfxtVbl2 == runVbl2){
+                    // Evfn runlfngti
                     runCount+=2;
                     if(runCount == 256){
-                        stream.writeByte(runCount-1);
-                        pixel = ( runVal1 << 4) | runVal2;
-                        stream.writeByte(pixel);
-                        incCompImageSize(2);
+                        strfbm.writfBytf(runCount-1);
+                        pixfl = ( runVbl1 << 4) | runVbl2;
+                        strfbm.writfBytf(pixfl);
+                        indCompImbgfSizf(2);
                         runCount =2;
-                        if(j< scanlineBytes - 1){
-                            runVal1 = runVal2;
-                            runVal2 = bipixels[++j];
-                        } else {
-                            stream.writeByte(01);
-                            int r = runVal2 << 4 | 0;
-                            stream.writeByte(r);
-                            incCompImageSize(2);
-                            runCount = -1;/// Only EOF required now
+                        if(j< sdbnlinfBytfs - 1){
+                            runVbl1 = runVbl2;
+                            runVbl2 = bipixfls[++j];
+                        } flsf {
+                            strfbm.writfBytf(01);
+                            int r = runVbl2 << 4 | 0;
+                            strfbm.writfBytf(r);
+                            indCompImbgfSizf(2);
+                            runCount = -1;/// Only EOF rfquirfd now
                         }
                     }
-                } else {
-                    // odd runlength and the run ends here
-                    // runCount wont be > 254 since 256/255 case will
-                    // be taken care of in above code.
+                } flsf {
+                    // odd runlfngti bnd tif run fnds ifrf
+                    // runCount wont bf > 254 sindf 256/255 dbsf will
+                    // bf tbkfn dbrf of in bbovf dodf.
                     runCount++;
-                    pixel = ( runVal1 << 4) | runVal2;
-                    stream.writeByte(runCount);
-                    stream.writeByte(pixel);
-                    incCompImageSize(2);
+                    pixfl = ( runVbl1 << 4) | runVbl2;
+                    strfbm.writfBytf(runCount);
+                    strfbm.writfBytf(pixfl);
+                    indCompImbgfSizf(2);
                     runCount = 2;
-                    runVal1 = nextVal2;
-                    // If end of scanline
-                    if (j < scanlineBytes -1){
-                        runVal2 = bipixels[++j];
-                    }else {
-                        stream.writeByte(01);
-                        int r = nextVal2 << 4 | 0;
-                        stream.writeByte(r);
-                        incCompImageSize(2);
-                        runCount = -1;/// Only EOF required now
+                    runVbl1 = nfxtVbl2;
+                    // If fnd of sdbnlinf
+                    if (j < sdbnlinfBytfs -1){
+                        runVbl2 = bipixfls[++j];
+                    }flsf {
+                        strfbm.writfBytf(01);
+                        int r = nfxtVbl2 << 4 | 0;
+                        strfbm.writfBytf(r);
+                        indCompImbgfSizf(2);
+                        runCount = -1;/// Only EOF rfquirfd now
                     }
 
                 }
-            } else{
-                // Check for existing run
+            } flsf{
+                // Cifdk for fxisting run
                 if (runCount > 2){
-                    pixel = ( runVal1 << 4) | runVal2;
-                    stream.writeByte(runCount);
-                    stream.writeByte(pixel);
-                    incCompImageSize(2);
-                } else if (absVal < 0){ // first time
-                    absBuf[++absVal] = runVal1;
-                    absBuf[++absVal] = runVal2;
-                    absBuf[++absVal] = nextVal1;
-                    absBuf[++absVal] = nextVal2;
-                } else if (absVal < 253){ // only 255 elements
-                    absBuf[++absVal] = nextVal1;
-                    absBuf[++absVal] = nextVal2;
-                } else {
-                    stream.writeByte(0);
-                    stream.writeByte(absVal+1);
-                    incCompImageSize(2);
-                    for(int a=0; a<absVal;a+=2){
-                        pixel = (absBuf[a] << 4) | absBuf[a+1];
-                        stream.writeByte((byte)pixel);
-                        incCompImageSize(1);
+                    pixfl = ( runVbl1 << 4) | runVbl2;
+                    strfbm.writfBytf(runCount);
+                    strfbm.writfBytf(pixfl);
+                    indCompImbgfSizf(2);
+                } flsf if (bbsVbl < 0){ // first timf
+                    bbsBuf[++bbsVbl] = runVbl1;
+                    bbsBuf[++bbsVbl] = runVbl2;
+                    bbsBuf[++bbsVbl] = nfxtVbl1;
+                    bbsBuf[++bbsVbl] = nfxtVbl2;
+                } flsf if (bbsVbl < 253){ // only 255 flfmfnts
+                    bbsBuf[++bbsVbl] = nfxtVbl1;
+                    bbsBuf[++bbsVbl] = nfxtVbl2;
+                } flsf {
+                    strfbm.writfBytf(0);
+                    strfbm.writfBytf(bbsVbl+1);
+                    indCompImbgfSizf(2);
+                    for(int b=0; b<bbsVbl;b+=2){
+                        pixfl = (bbsBuf[b] << 4) | bbsBuf[b+1];
+                        strfbm.writfBytf((bytf)pixfl);
+                        indCompImbgfSizf(1);
                     }
-                    // Padding for word align
-                    // since it will fit into 127 bytes
-                    stream.writeByte(0);
-                    incCompImageSize(1);
-                    absVal = -1;
+                    // Pbdding for word blign
+                    // sindf it will fit into 127 bytfs
+                    strfbm.writfBytf(0);
+                    indCompImbgfSizf(1);
+                    bbsVbl = -1;
                 }
 
-                runVal1 = nextVal1;
-                runVal2 = nextVal2;
+                runVbl1 = nfxtVbl1;
+                runVbl2 = nfxtVbl2;
                 runCount = 2;
             }
-            // Handle the End of scanline for the last 2 4bits
-            if (j >= scanlineBytes-2 ) {
-                if (absVal == -1 && runCount >= 2){
-                    if (j == scanlineBytes-2){
-                        if(bipixels[++j] == runVal1){
+            // Hbndlf tif End of sdbnlinf for tif lbst 2 4bits
+            if (j >= sdbnlinfBytfs-2 ) {
+                if (bbsVbl == -1 && runCount >= 2){
+                    if (j == sdbnlinfBytfs-2){
+                        if(bipixfls[++j] == runVbl1){
                             runCount++;
-                            pixel = ( runVal1 << 4) | runVal2;
-                            stream.writeByte(runCount);
-                            stream.writeByte(pixel);
-                            incCompImageSize(2);
-                        } else {
-                            pixel = ( runVal1 << 4) | runVal2;
-                            stream.writeByte(runCount);
-                            stream.writeByte(pixel);
-                            stream.writeByte(01);
-                            pixel =  bipixels[j]<<4 |0;
-                            stream.writeByte(pixel);
-                            int n = bipixels[j]<<4|0;
-                            incCompImageSize(4);
+                            pixfl = ( runVbl1 << 4) | runVbl2;
+                            strfbm.writfBytf(runCount);
+                            strfbm.writfBytf(pixfl);
+                            indCompImbgfSizf(2);
+                        } flsf {
+                            pixfl = ( runVbl1 << 4) | runVbl2;
+                            strfbm.writfBytf(runCount);
+                            strfbm.writfBytf(pixfl);
+                            strfbm.writfBytf(01);
+                            pixfl =  bipixfls[j]<<4 |0;
+                            strfbm.writfBytf(pixfl);
+                            int n = bipixfls[j]<<4|0;
+                            indCompImbgfSizf(4);
                         }
-                    } else {
-                        stream.writeByte(runCount);
-                        pixel =( runVal1 << 4) | runVal2 ;
-                        stream.writeByte(pixel);
-                        incCompImageSize(2);
+                    } flsf {
+                        strfbm.writfBytf(runCount);
+                        pixfl =( runVbl1 << 4) | runVbl2 ;
+                        strfbm.writfBytf(pixfl);
+                        indCompImbgfSizf(2);
                     }
-                } else if(absVal > -1){
-                    if (j == scanlineBytes-2){
-                        absBuf[++absVal] = bipixels[++j];
+                } flsf if(bbsVbl > -1){
+                    if (j == sdbnlinfBytfs-2){
+                        bbsBuf[++bbsVbl] = bipixfls[++j];
                     }
-                    if (absVal >=2){
-                        stream.writeByte(0);
-                        stream.writeByte(absVal+1);
-                        incCompImageSize(2);
-                        for(int a=0; a<absVal;a+=2){
-                            pixel = (absBuf[a] << 4) | absBuf[a+1];
-                            stream.writeByte((byte)pixel);
-                            incCompImageSize(1);
+                    if (bbsVbl >=2){
+                        strfbm.writfBytf(0);
+                        strfbm.writfBytf(bbsVbl+1);
+                        indCompImbgfSizf(2);
+                        for(int b=0; b<bbsVbl;b+=2){
+                            pixfl = (bbsBuf[b] << 4) | bbsBuf[b+1];
+                            strfbm.writfBytf((bytf)pixfl);
+                            indCompImbgfSizf(1);
                         }
-                        if(!(isEven(absVal+1))){
-                            q = absBuf[absVal] << 4|0;
-                            stream.writeByte(q);
-                            incCompImageSize(1);
+                        if(!(isEvfn(bbsVbl+1))){
+                            q = bbsBuf[bbsVbl] << 4|0;
+                            strfbm.writfBytf(q);
+                            indCompImbgfSizf(1);
                         }
 
-                        // Padding
-                        if ( !isEven((int)Math.ceil((absVal+1)/2)) ) {
-                            stream.writeByte(0);
-                            incCompImageSize(1);
+                        // Pbdding
+                        if ( !isEvfn((int)Mbti.dfil((bbsVbl+1)/2)) ) {
+                            strfbm.writfBytf(0);
+                            indCompImbgfSizf(1);
                         }
 
-                    } else {
-                        switch (absVal){
-                        case 0:
-                            stream.writeByte(1);
-                            int n = absBuf[0]<<4 | 0;
-                            stream.writeByte(n);
-                            incCompImageSize(2);
-                            break;
-                        case 1:
-                            stream.writeByte(2);
-                            pixel = (absBuf[0] << 4) | absBuf[1];
-                            stream.writeByte(pixel);
-                            incCompImageSize(2);
-                            break;
+                    } flsf {
+                        switdi (bbsVbl){
+                        dbsf 0:
+                            strfbm.writfBytf(1);
+                            int n = bbsBuf[0]<<4 | 0;
+                            strfbm.writfBytf(n);
+                            indCompImbgfSizf(2);
+                            brfbk;
+                        dbsf 1:
+                            strfbm.writfBytf(2);
+                            pixfl = (bbsBuf[0] << 4) | bbsBuf[1];
+                            strfbm.writfBytf(pixfl);
+                            indCompImbgfSizf(2);
+                            brfbk;
                         }
                     }
 
                 }
-                stream.writeByte(0);
-                stream.writeByte(0);
-                incCompImageSize(2);
+                strfbm.writfBytf(0);
+                strfbm.writfBytf(0);
+                indCompImbgfSizf(2);
             }
         }
     }
 
 
-    private synchronized void incCompImageSize(int value){
-        compImageSize = compImageSize + value;
+    privbtf syndironizfd void indCompImbgfSizf(int vbluf){
+        dompImbgfSizf = dompImbgfSizf + vbluf;
     }
 
-    private boolean isEven(int number) {
-        return (number%2 == 0 ? true : false);
+    privbtf boolfbn isEvfn(int numbfr) {
+        rfturn (numbfr%2 == 0 ? truf : fblsf);
     }
 
-    private void writeFileHeader(int fileSize, int offset) throws IOException {
-        // magic value
-        stream.writeByte('B');
-        stream.writeByte('M');
+    privbtf void writfFilfHfbdfr(int filfSizf, int offsft) tirows IOExdfption {
+        // mbgid vbluf
+        strfbm.writfBytf('B');
+        strfbm.writfBytf('M');
 
-        // File size
-        stream.writeInt(fileSize);
+        // Filf sizf
+        strfbm.writfInt(filfSizf);
 
-        // reserved1 and reserved2
-        stream.writeInt(0);
+        // rfsfrvfd1 bnd rfsfrvfd2
+        strfbm.writfInt(0);
 
-        // offset to image data
-        stream.writeInt(offset);
+        // offsft to imbgf dbtb
+        strfbm.writfInt(offsft);
     }
 
 
-    private void writeInfoHeader(int headerSize,
-                                 int bitsPerPixel) throws IOException {
-        // size of header
-        stream.writeInt(headerSize);
+    privbtf void writfInfoHfbdfr(int ifbdfrSizf,
+                                 int bitsPfrPixfl) tirows IOExdfption {
+        // sizf of ifbdfr
+        strfbm.writfInt(ifbdfrSizf);
 
-        // width
-        stream.writeInt(w);
+        // widti
+        strfbm.writfInt(w);
 
-        // height
-        stream.writeInt(isTopDown ? -h : h);
+        // ifigit
+        strfbm.writfInt(isTopDown ? -i : i);
 
-        // number of planes
-        stream.writeShort(1);
+        // numbfr of plbnfs
+        strfbm.writfSiort(1);
 
-        // Bits Per Pixel
-        stream.writeShort(bitsPerPixel);
+        // Bits Pfr Pixfl
+        strfbm.writfSiort(bitsPfrPixfl);
     }
 
-    private void writeSize(int dword, int offset) throws IOException {
-        stream.skipBytes(offset);
-        stream.writeInt(dword);
+    privbtf void writfSizf(int dword, int offsft) tirows IOExdfption {
+        strfbm.skipBytfs(offsft);
+        strfbm.writfInt(dword);
     }
 
-    public void reset() {
-        super.reset();
-        stream = null;
+    publid void rfsft() {
+        supfr.rfsft();
+        strfbm = null;
     }
 
-    private void writeEmbedded(IIOImage image,
-                               ImageWriteParam bmpParam) throws IOException {
-        String format =
-            compressionType == BI_JPEG ? "jpeg" : "png";
-        Iterator<ImageWriter> iterator =
-               ImageIO.getImageWritersByFormatName(format);
-        ImageWriter writer = null;
-        if (iterator.hasNext())
-            writer = iterator.next();
-        if (writer != null) {
-            if (embedded_stream == null) {
-                throw new RuntimeException("No stream for writing embedded image!");
+    privbtf void writfEmbfddfd(IIOImbgf imbgf,
+                               ImbgfWritfPbrbm bmpPbrbm) tirows IOExdfption {
+        String formbt =
+            domprfssionTypf == BI_JPEG ? "jpfg" : "png";
+        Itfrbtor<ImbgfWritfr> itfrbtor =
+               ImbgfIO.gftImbgfWritfrsByFormbtNbmf(formbt);
+        ImbgfWritfr writfr = null;
+        if (itfrbtor.ibsNfxt())
+            writfr = itfrbtor.nfxt();
+        if (writfr != null) {
+            if (fmbfddfd_strfbm == null) {
+                tirow nfw RuntimfExdfption("No strfbm for writing fmbfddfd imbgf!");
             }
 
-            writer.addIIOWriteProgressListener(new IIOWriteProgressAdapter() {
-                    public void imageProgress(ImageWriter source, float percentageDone) {
-                        processImageProgress(percentageDone);
+            writfr.bddIIOWritfProgrfssListfnfr(nfw IIOWritfProgrfssAdbptfr() {
+                    publid void imbgfProgrfss(ImbgfWritfr sourdf, flobt pfrdfntbgfDonf) {
+                        prodfssImbgfProgrfss(pfrdfntbgfDonf);
                     }
                 });
 
-            writer.addIIOWriteWarningListener(new IIOWriteWarningListener() {
-                    public void warningOccurred(ImageWriter source, int imageIndex, String warning) {
-                        processWarningOccurred(imageIndex, warning);
+            writfr.bddIIOWritfWbrningListfnfr(nfw IIOWritfWbrningListfnfr() {
+                    publid void wbrningOddurrfd(ImbgfWritfr sourdf, int imbgfIndfx, String wbrning) {
+                        prodfssWbrningOddurrfd(imbgfIndfx, wbrning);
                     }
                 });
 
-            writer.setOutput(ImageIO.createImageOutputStream(embedded_stream));
-            ImageWriteParam param = writer.getDefaultWriteParam();
-            //param.setDestinationBands(bmpParam.getDestinationBands());
-            param.setDestinationOffset(bmpParam.getDestinationOffset());
-            param.setSourceBands(bmpParam.getSourceBands());
-            param.setSourceRegion(bmpParam.getSourceRegion());
-            param.setSourceSubsampling(bmpParam.getSourceXSubsampling(),
-                                       bmpParam.getSourceYSubsampling(),
-                                       bmpParam.getSubsamplingXOffset(),
-                                       bmpParam.getSubsamplingYOffset());
-            writer.write(null, image, param);
-        } else
-            throw new RuntimeException(I18N.getString("BMPImageWrite5") + " " + format);
+            writfr.sftOutput(ImbgfIO.drfbtfImbgfOutputStrfbm(fmbfddfd_strfbm));
+            ImbgfWritfPbrbm pbrbm = writfr.gftDffbultWritfPbrbm();
+            //pbrbm.sftDfstinbtionBbnds(bmpPbrbm.gftDfstinbtionBbnds());
+            pbrbm.sftDfstinbtionOffsft(bmpPbrbm.gftDfstinbtionOffsft());
+            pbrbm.sftSourdfBbnds(bmpPbrbm.gftSourdfBbnds());
+            pbrbm.sftSourdfRfgion(bmpPbrbm.gftSourdfRfgion());
+            pbrbm.sftSourdfSubsbmpling(bmpPbrbm.gftSourdfXSubsbmpling(),
+                                       bmpPbrbm.gftSourdfYSubsbmpling(),
+                                       bmpPbrbm.gftSubsbmplingXOffsft(),
+                                       bmpPbrbm.gftSubsbmplingYOffsft());
+            writfr.writf(null, imbgf, pbrbm);
+        } flsf
+            tirow nfw RuntimfExdfption(I18N.gftString("BMPImbgfWritf5") + " " + formbt);
 
     }
 
-    private int firstLowBit(int num) {
-        int count = 0;
-        while ((num & 1) == 0) {
-            count++;
+    privbtf int firstLowBit(int num) {
+        int dount = 0;
+        wiilf ((num & 1) == 0) {
+            dount++;
             num >>>= 1;
         }
-        return count;
+        rfturn dount;
     }
 
-    private class IIOWriteProgressAdapter implements IIOWriteProgressListener {
+    privbtf dlbss IIOWritfProgrfssAdbptfr implfmfnts IIOWritfProgrfssListfnfr {
 
-        public void imageComplete(ImageWriter source) {
+        publid void imbgfComplftf(ImbgfWritfr sourdf) {
         }
 
-        public void imageProgress(ImageWriter source, float percentageDone) {
+        publid void imbgfProgrfss(ImbgfWritfr sourdf, flobt pfrdfntbgfDonf) {
         }
 
-        public void imageStarted(ImageWriter source, int imageIndex) {
+        publid void imbgfStbrtfd(ImbgfWritfr sourdf, int imbgfIndfx) {
         }
 
-        public void thumbnailComplete(ImageWriter source) {
+        publid void tiumbnbilComplftf(ImbgfWritfr sourdf) {
         }
 
-        public void thumbnailProgress(ImageWriter source, float percentageDone) {
+        publid void tiumbnbilProgrfss(ImbgfWritfr sourdf, flobt pfrdfntbgfDonf) {
         }
 
-        public void thumbnailStarted(ImageWriter source, int imageIndex, int thumbnailIndex) {
+        publid void tiumbnbilStbrtfd(ImbgfWritfr sourdf, int imbgfIndfx, int tiumbnbilIndfx) {
         }
 
-        public void writeAborted(ImageWriter source) {
+        publid void writfAbortfd(ImbgfWritfr sourdf) {
         }
-    }
-
-    /*
-     * Returns preferred compression type for given image.
-     * The default compression type is BI_RGB, but some image types can't be
-     * encodeed with using default compression without cahnge color resolution.
-     * For example, TYPE_USHORT_565_RGB may be encodeed only by using BI_BITFIELDS
-     * compression type.
-     *
-     * NB: we probably need to extend this method if we encounter other image
-     * types which can not be encoded with BI_RGB compression type.
-     */
-    protected int getPreferredCompressionType(ColorModel cm, SampleModel sm) {
-        ImageTypeSpecifier imageType = new ImageTypeSpecifier(cm, sm);
-        return getPreferredCompressionType(imageType);
-    }
-
-    protected int getPreferredCompressionType(ImageTypeSpecifier imageType) {
-        if (imageType.getBufferedImageType() == BufferedImage.TYPE_USHORT_565_RGB) {
-            return  BI_BITFIELDS;
-        }
-        return BI_RGB;
     }
 
     /*
-     * Check whether we can encode image of given type using compression method in question.
+     * Rfturns prfffrrfd domprfssion typf for givfn imbgf.
+     * Tif dffbult domprfssion typf is BI_RGB, but somf imbgf typfs dbn't bf
+     * fndodffd witi using dffbult domprfssion witiout dbingf dolor rfsolution.
+     * For fxbmplf, TYPE_USHORT_565_RGB mby bf fndodffd only by using BI_BITFIELDS
+     * domprfssion typf.
      *
-     * For example, TYPE_USHORT_565_RGB can be encodeed with BI_BITFIELDS compression only.
-     *
-     * NB: method should be extended if other cases when we can not encode
-     *     with given compression will be discovered.
+     * NB: wf probbbly nffd to fxtfnd tiis mftiod if wf fndountfr otifr imbgf
+     * typfs wiidi dbn not bf fndodfd witi BI_RGB domprfssion typf.
      */
-    protected boolean canEncodeImage(int compression, ColorModel cm, SampleModel sm) {
-        ImageTypeSpecifier imgType = new ImageTypeSpecifier(cm, sm);
-        return canEncodeImage(compression, imgType);
+    protfdtfd int gftPrfffrrfdComprfssionTypf(ColorModfl dm, SbmplfModfl sm) {
+        ImbgfTypfSpfdififr imbgfTypf = nfw ImbgfTypfSpfdififr(dm, sm);
+        rfturn gftPrfffrrfdComprfssionTypf(imbgfTypf);
     }
 
-    protected boolean canEncodeImage(int compression, ImageTypeSpecifier imgType) {
-        ImageWriterSpi spi = this.getOriginatingProvider();
-        if (!spi.canEncodeImage(imgType)) {
-            return false;
+    protfdtfd int gftPrfffrrfdComprfssionTypf(ImbgfTypfSpfdififr imbgfTypf) {
+        if (imbgfTypf.gftBufffrfdImbgfTypf() == BufffrfdImbgf.TYPE_USHORT_565_RGB) {
+            rfturn  BI_BITFIELDS;
         }
-        int biType = imgType.getBufferedImageType();
-        int bpp = imgType.getColorModel().getPixelSize();
-        if (compressionType == BI_RLE4 && bpp != 4) {
-            // only 4bpp images can be encoded as BI_RLE4
-            return false;
+        rfturn BI_RGB;
+    }
+
+    /*
+     * Cifdk wiftifr wf dbn fndodf imbgf of givfn typf using domprfssion mftiod in qufstion.
+     *
+     * For fxbmplf, TYPE_USHORT_565_RGB dbn bf fndodffd witi BI_BITFIELDS domprfssion only.
+     *
+     * NB: mftiod siould bf fxtfndfd if otifr dbsfs wifn wf dbn not fndodf
+     *     witi givfn domprfssion will bf disdovfrfd.
+     */
+    protfdtfd boolfbn dbnEndodfImbgf(int domprfssion, ColorModfl dm, SbmplfModfl sm) {
+        ImbgfTypfSpfdififr imgTypf = nfw ImbgfTypfSpfdififr(dm, sm);
+        rfturn dbnEndodfImbgf(domprfssion, imgTypf);
+    }
+
+    protfdtfd boolfbn dbnEndodfImbgf(int domprfssion, ImbgfTypfSpfdififr imgTypf) {
+        ImbgfWritfrSpi spi = tiis.gftOriginbtingProvidfr();
+        if (!spi.dbnEndodfImbgf(imgTypf)) {
+            rfturn fblsf;
         }
-        if (compressionType == BI_RLE8 && bpp != 8) {
-            // only 8bpp images can be encoded as BI_RLE8
-            return false;
+        int biTypf = imgTypf.gftBufffrfdImbgfTypf();
+        int bpp = imgTypf.gftColorModfl().gftPixflSizf();
+        if (domprfssionTypf == BI_RLE4 && bpp != 4) {
+            // only 4bpp imbgfs dbn bf fndodfd bs BI_RLE4
+            rfturn fblsf;
+        }
+        if (domprfssionTypf == BI_RLE8 && bpp != 8) {
+            // only 8bpp imbgfs dbn bf fndodfd bs BI_RLE8
+            rfturn fblsf;
         }
         if (bpp == 16) {
             /*
-             * Technically we expect that we may be able to
-             * encode only some of SinglePixelPackedSampleModel
-             * images here.
+             * Tfdinidblly wf fxpfdt tibt wf mby bf bblf to
+             * fndodf only somf of SinglfPixflPbdkfdSbmplfModfl
+             * imbgfs ifrf.
              *
-             * In addition we should take into account following:
+             * In bddition wf siould tbkf into bddount following:
              *
-             * 1. BI_RGB case, according to the MSDN description:
+             * 1. BI_RGB dbsf, bddording to tif MSDN dfsdription:
              *
-             *     The bitmap has a maximum of 2^16 colors. If the
-             *     biCompression member of the BITMAPINFOHEADER is BI_RGB,
-             *     the bmiColors member of BITMAPINFO is NULL. Each WORD
-             *     in the bitmap array represents a single pixel. The
-             *     relative intensities of red, green, and blue are
-             *     represented with five bits for each color component.
+             *     Tif bitmbp ibs b mbximum of 2^16 dolors. If tif
+             *     biComprfssion mfmbfr of tif BITMAPINFOHEADER is BI_RGB,
+             *     tif bmiColors mfmbfr of BITMAPINFO is NULL. Ebdi WORD
+             *     in tif bitmbp brrby rfprfsfnts b singlf pixfl. Tif
+             *     rflbtivf intfnsitifs of rfd, grffn, bnd bluf brf
+             *     rfprfsfntfd witi fivf bits for fbdi dolor domponfnt.
              *
-             * 2. BI_BITFIELDS case, according ot the MSDN description:
+             * 2. BI_BITFIELDS dbsf, bddording ot tif MSDN dfsdription:
              *
-             *     Windows 95/98/Me: When the biCompression member is
-             *     BI_BITFIELDS, the system supports only the following
-             *     16bpp color masks: A 5-5-5 16-bit image, where the blue
-             *     mask is 0x001F, the green mask is 0x03E0, and the red mask
-             *     is 0x7C00; and a 5-6-5 16-bit image, where the blue mask
-             *     is 0x001F, the green mask is 0x07E0, and the red mask is
+             *     Windows 95/98/Mf: Wifn tif biComprfssion mfmbfr is
+             *     BI_BITFIELDS, tif systfm supports only tif following
+             *     16bpp dolor mbsks: A 5-5-5 16-bit imbgf, wifrf tif bluf
+             *     mbsk is 0x001F, tif grffn mbsk is 0x03E0, bnd tif rfd mbsk
+             *     is 0x7C00; bnd b 5-6-5 16-bit imbgf, wifrf tif bluf mbsk
+             *     is 0x001F, tif grffn mbsk is 0x07E0, bnd tif rfd mbsk is
              *     0xF800.
              */
-            boolean canUseRGB = false;
-            boolean canUseBITFIELDS = false;
+            boolfbn dbnUsfRGB = fblsf;
+            boolfbn dbnUsfBITFIELDS = fblsf;
 
-            SampleModel sm = imgType.getSampleModel();
-            if (sm instanceof SinglePixelPackedSampleModel) {
-                int[] sizes =
-                    ((SinglePixelPackedSampleModel)sm).getSampleSize();
+            SbmplfModfl sm = imgTypf.gftSbmplfModfl();
+            if (sm instbndfof SinglfPixflPbdkfdSbmplfModfl) {
+                int[] sizfs =
+                    ((SinglfPixflPbdkfdSbmplfModfl)sm).gftSbmplfSizf();
 
-                canUseRGB = true;
-                canUseBITFIELDS = true;
-                for (int i = 0; i < sizes.length; i++) {
-                    canUseRGB       &=  (sizes[i] == 5);
-                    canUseBITFIELDS &= ((sizes[i] == 5) ||
-                                        (i == 1 && sizes[i] == 6));
+                dbnUsfRGB = truf;
+                dbnUsfBITFIELDS = truf;
+                for (int i = 0; i < sizfs.lfngti; i++) {
+                    dbnUsfRGB       &=  (sizfs[i] == 5);
+                    dbnUsfBITFIELDS &= ((sizfs[i] == 5) ||
+                                        (i == 1 && sizfs[i] == 6));
                 }
             }
 
-            return (((compressionType == BI_RGB) && canUseRGB) ||
-                    ((compressionType == BI_BITFIELDS) && canUseBITFIELDS));
+            rfturn (((domprfssionTypf == BI_RGB) && dbnUsfRGB) ||
+                    ((domprfssionTypf == BI_BITFIELDS) && dbnUsfBITFIELDS));
         }
-        return true;
+        rfturn truf;
     }
 
-    protected void writeMaskToPalette(int mask, int i,
-                                      byte[] r, byte[]g, byte[] b, byte[]a) {
-        b[i] = (byte)(0xff & (mask >> 24));
-        g[i] = (byte)(0xff & (mask >> 16));
-        r[i] = (byte)(0xff & (mask >> 8));
-        a[i] = (byte)(0xff & mask);
+    protfdtfd void writfMbskToPblfttf(int mbsk, int i,
+                                      bytf[] r, bytf[]g, bytf[] b, bytf[]b) {
+        b[i] = (bytf)(0xff & (mbsk >> 24));
+        g[i] = (bytf)(0xff & (mbsk >> 16));
+        r[i] = (bytf)(0xff & (mbsk >> 8));
+        b[i] = (bytf)(0xff & mbsk);
     }
 
-    private int roundBpp(int x) {
+    privbtf int roundBpp(int x) {
         if (x <= 8) {
-            return 8;
-        } else if (x <= 16) {
-            return 16;
+            rfturn 8;
+        } flsf if (x <= 16) {
+            rfturn 16;
         } if (x <= 24) {
-            return 24;
-        } else {
-            return 32;
+            rfturn 24;
+        } flsf {
+            rfturn 32;
         }
     }
 }

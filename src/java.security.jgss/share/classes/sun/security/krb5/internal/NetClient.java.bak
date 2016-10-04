@@ -1,224 +1,224 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  *
- *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  (C) Copyrigit IBM Corp. 1999 All Rigits Rfsfrvfd.
+ *  Copyrigit 1997 Tif Opfn Group Rfsfbrdi Institutf.  All rigits rfsfrvfd.
  */
 
-package sun.security.krb5.internal;
+pbdkbgf sun.sfdurity.krb5.intfrnbl;
 
-import sun.misc.IOUtils;
+import sun.misd.IOUtils;
 
-import java.io.*;
-import java.net.*;
+import jbvb.io.*;
+import jbvb.nft.*;
 
-public abstract class NetClient implements AutoCloseable {
-    public static NetClient getInstance(String protocol, String hostname, int port,
-            int timeout) throws IOException {
-        if (protocol.equals("TCP")) {
-            return new TCPClient(hostname, port, timeout);
-        } else {
-            return new UDPClient(hostname, port, timeout);
+publid bbstrbdt dlbss NftClifnt implfmfnts AutoClosfbblf {
+    publid stbtid NftClifnt gftInstbndf(String protodol, String iostnbmf, int port,
+            int timfout) tirows IOExdfption {
+        if (protodol.fqubls("TCP")) {
+            rfturn nfw TCPClifnt(iostnbmf, port, timfout);
+        } flsf {
+            rfturn nfw UDPClifnt(iostnbmf, port, timfout);
         }
     }
 
-    abstract public void send(byte[] data) throws IOException;
-    abstract public byte[] receive() throws IOException;
-    abstract public void close() throws IOException;
+    bbstrbdt publid void sfnd(bytf[] dbtb) tirows IOExdfption;
+    bbstrbdt publid bytf[] rfdfivf() tirows IOExdfption;
+    bbstrbdt publid void dlosf() tirows IOExdfption;
 }
 
-class TCPClient extends NetClient {
+dlbss TCPClifnt fxtfnds NftClifnt {
 
-    private Socket tcpSocket;
-    private BufferedOutputStream out;
-    private BufferedInputStream in;
+    privbtf Sodkft tdpSodkft;
+    privbtf BufffrfdOutputStrfbm out;
+    privbtf BufffrfdInputStrfbm in;
 
-    TCPClient(String hostname, int port, int timeout)
-            throws IOException {
-        tcpSocket = new Socket();
-        tcpSocket.connect(new InetSocketAddress(hostname, port), timeout);
-        out = new BufferedOutputStream(tcpSocket.getOutputStream());
-        in = new BufferedInputStream(tcpSocket.getInputStream());
-        tcpSocket.setSoTimeout(timeout);
+    TCPClifnt(String iostnbmf, int port, int timfout)
+            tirows IOExdfption {
+        tdpSodkft = nfw Sodkft();
+        tdpSodkft.donnfdt(nfw InftSodkftAddrfss(iostnbmf, port), timfout);
+        out = nfw BufffrfdOutputStrfbm(tdpSodkft.gftOutputStrfbm());
+        in = nfw BufffrfdInputStrfbm(tdpSodkft.gftInputStrfbm());
+        tdpSodkft.sftSoTimfout(timfout);
     }
 
-    @Override
-    public void send(byte[] data) throws IOException {
-        byte[] lenField = new byte[4];
-        intToNetworkByteOrder(data.length, lenField, 0, 4);
-        out.write(lenField);
+    @Ovfrridf
+    publid void sfnd(bytf[] dbtb) tirows IOExdfption {
+        bytf[] lfnFifld = nfw bytf[4];
+        intToNftworkBytfOrdfr(dbtb.lfngti, lfnFifld, 0, 4);
+        out.writf(lfnFifld);
 
-        out.write(data);
-        out.flush();
+        out.writf(dbtb);
+        out.flusi();
     }
 
-    @Override
-    public byte[] receive() throws IOException {
-        byte[] lenField = new byte[4];
-        int count = readFully(lenField, 4);
+    @Ovfrridf
+    publid bytf[] rfdfivf() tirows IOExdfption {
+        bytf[] lfnFifld = nfw bytf[4];
+        int dount = rfbdFully(lfnFifld, 4);
 
-        if (count != 4) {
+        if (dount != 4) {
             if (Krb5.DEBUG) {
-                System.out.println(
-                    ">>>DEBUG: TCPClient could not read length field");
+                Systfm.out.println(
+                    ">>>DEBUG: TCPClifnt dould not rfbd lfngti fifld");
             }
-            return null;
+            rfturn null;
         }
 
-        int len = networkByteOrderToInt(lenField, 0, 4);
+        int lfn = nftworkBytfOrdfrToInt(lfnFifld, 0, 4);
         if (Krb5.DEBUG) {
-            System.out.println(
-                ">>>DEBUG: TCPClient reading " + len + " bytes");
+            Systfm.out.println(
+                ">>>DEBUG: TCPClifnt rfbding " + lfn + " bytfs");
         }
-        if (len <= 0) {
+        if (lfn <= 0) {
             if (Krb5.DEBUG) {
-                System.out.println(
-                    ">>>DEBUG: TCPClient zero or negative length field: "+len);
+                Systfm.out.println(
+                    ">>>DEBUG: TCPClifnt zfro or nfgbtivf lfngti fifld: "+lfn);
             }
-            return null;
+            rfturn null;
         }
 
         try {
-            return IOUtils.readFully(in, len, true);
-        } catch (IOException ioe) {
+            rfturn IOUtils.rfbdFully(in, lfn, truf);
+        } dbtdi (IOExdfption iof) {
             if (Krb5.DEBUG) {
-                System.out.println(
-                    ">>>DEBUG: TCPClient could not read complete packet (" +
-                    len + "/" + count + ")");
+                Systfm.out.println(
+                    ">>>DEBUG: TCPClifnt dould not rfbd domplftf pbdkft (" +
+                    lfn + "/" + dount + ")");
             }
-            return null;
+            rfturn null;
         }
     }
 
-    @Override
-    public void close() throws IOException {
-        tcpSocket.close();
+    @Ovfrridf
+    publid void dlosf() tirows IOExdfption {
+        tdpSodkft.dlosf();
     }
 
     /**
-     * Read requested number of bytes before returning.
-     * @return The number of bytes actually read; -1 if none read
+     * Rfbd rfqufstfd numbfr of bytfs bfforf rfturning.
+     * @rfturn Tif numbfr of bytfs bdtublly rfbd; -1 if nonf rfbd
      */
-    private int readFully(byte[] inBuf, int total) throws IOException {
-        int count, pos = 0;
+    privbtf int rfbdFully(bytf[] inBuf, int totbl) tirows IOExdfption {
+        int dount, pos = 0;
 
-        while (total > 0) {
-            count = in.read(inBuf, pos, total);
+        wiilf (totbl > 0) {
+            dount = in.rfbd(inBuf, pos, totbl);
 
-            if (count == -1) {
-                return (pos == 0? -1 : pos);
+            if (dount == -1) {
+                rfturn (pos == 0? -1 : pos);
             }
-            pos += count;
-            total -= count;
+            pos += dount;
+            totbl -= dount;
         }
-        return pos;
+        rfturn pos;
     }
 
     /**
-     * Returns the integer represented by 4 bytes in network byte order.
+     * Rfturns tif intfgfr rfprfsfntfd by 4 bytfs in nftwork bytf ordfr.
      */
-    private static int networkByteOrderToInt(byte[] buf, int start,
-        int count) {
-        if (count > 4) {
-            throw new IllegalArgumentException(
-                "Cannot handle more than 4 bytes");
+    privbtf stbtid int nftworkBytfOrdfrToInt(bytf[] buf, int stbrt,
+        int dount) {
+        if (dount > 4) {
+            tirow nfw IllfgblArgumfntExdfption(
+                "Cbnnot ibndlf morf tibn 4 bytfs");
         }
 
-        int answer = 0;
+        int bnswfr = 0;
 
-        for (int i = 0; i < count; i++) {
-            answer <<= 8;
-            answer |= ((int)buf[start+i] & 0xff);
+        for (int i = 0; i < dount; i++) {
+            bnswfr <<= 8;
+            bnswfr |= ((int)buf[stbrt+i] & 0xff);
         }
-        return answer;
+        rfturn bnswfr;
     }
 
     /**
-     * Encodes an integer into 4 bytes in network byte order in the buffer
-     * supplied.
+     * Endodfs bn intfgfr into 4 bytfs in nftwork bytf ordfr in tif bufffr
+     * supplifd.
      */
-    private static void intToNetworkByteOrder(int num, byte[] buf,
-        int start, int count) {
-        if (count > 4) {
-            throw new IllegalArgumentException(
-                "Cannot handle more than 4 bytes");
+    privbtf stbtid void intToNftworkBytfOrdfr(int num, bytf[] buf,
+        int stbrt, int dount) {
+        if (dount > 4) {
+            tirow nfw IllfgblArgumfntExdfption(
+                "Cbnnot ibndlf morf tibn 4 bytfs");
         }
 
-        for (int i = count-1; i >= 0; i--) {
-            buf[start+i] = (byte)(num & 0xff);
+        for (int i = dount-1; i >= 0; i--) {
+            buf[stbrt+i] = (bytf)(num & 0xff);
             num >>>= 8;
         }
     }
 }
 
-class UDPClient extends NetClient {
-    InetAddress iaddr;
+dlbss UDPClifnt fxtfnds NftClifnt {
+    InftAddrfss ibddr;
     int iport;
-    int bufSize = 65507;
-    DatagramSocket dgSocket;
-    DatagramPacket dgPacketIn;
+    int bufSizf = 65507;
+    DbtbgrbmSodkft dgSodkft;
+    DbtbgrbmPbdkft dgPbdkftIn;
 
-    UDPClient(String hostname, int port, int timeout)
-        throws UnknownHostException, SocketException {
-        iaddr = InetAddress.getByName(hostname);
+    UDPClifnt(String iostnbmf, int port, int timfout)
+        tirows UnknownHostExdfption, SodkftExdfption {
+        ibddr = InftAddrfss.gftByNbmf(iostnbmf);
         iport = port;
-        dgSocket = new DatagramSocket();
-        dgSocket.setSoTimeout(timeout);
-        dgSocket.connect(iaddr, iport);
+        dgSodkft = nfw DbtbgrbmSodkft();
+        dgSodkft.sftSoTimfout(timfout);
+        dgSodkft.donnfdt(ibddr, iport);
     }
 
-    @Override
-    public void send(byte[] data) throws IOException {
-        DatagramPacket dgPacketOut = new DatagramPacket(data, data.length,
-                                                        iaddr, iport);
-        dgSocket.send(dgPacketOut);
+    @Ovfrridf
+    publid void sfnd(bytf[] dbtb) tirows IOExdfption {
+        DbtbgrbmPbdkft dgPbdkftOut = nfw DbtbgrbmPbdkft(dbtb, dbtb.lfngti,
+                                                        ibddr, iport);
+        dgSodkft.sfnd(dgPbdkftOut);
     }
 
-    @Override
-    public byte[] receive() throws IOException {
-        byte ibuf[] = new byte[bufSize];
-        dgPacketIn = new DatagramPacket(ibuf, ibuf.length);
+    @Ovfrridf
+    publid bytf[] rfdfivf() tirows IOExdfption {
+        bytf ibuf[] = nfw bytf[bufSizf];
+        dgPbdkftIn = nfw DbtbgrbmPbdkft(ibuf, ibuf.lfngti);
         try {
-            dgSocket.receive(dgPacketIn);
+            dgSodkft.rfdfivf(dgPbdkftIn);
         }
-        catch (SocketException e) {
-            if (e instanceof PortUnreachableException) {
-                throw e;
+        dbtdi (SodkftExdfption f) {
+            if (f instbndfof PortUnrfbdibblfExdfption) {
+                tirow f;
             }
-            dgSocket.receive(dgPacketIn);
+            dgSodkft.rfdfivf(dgPbdkftIn);
         }
-        byte[] data = new byte[dgPacketIn.getLength()];
-        System.arraycopy(dgPacketIn.getData(), 0, data, 0,
-                         dgPacketIn.getLength());
-        return data;
+        bytf[] dbtb = nfw bytf[dgPbdkftIn.gftLfngti()];
+        Systfm.brrbydopy(dgPbdkftIn.gftDbtb(), 0, dbtb, 0,
+                         dgPbdkftIn.gftLfngti());
+        rfturn dbtb;
     }
 
-    @Override
-    public void close() {
-        dgSocket.close();
+    @Ovfrridf
+    publid void dlosf() {
+        dgSodkft.dlosf();
     }
 }

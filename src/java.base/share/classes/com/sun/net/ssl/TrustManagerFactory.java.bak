@@ -1,220 +1,220 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * NOTE:  this file was copied from javax.net.ssl.TrustManagerFactory
+ * NOTE:  tiis filf wbs dopifd from jbvbx.nft.ssl.TrustMbnbgfrFbdtory
  */
 
-package com.sun.net.ssl;
+pbdkbgf dom.sun.nft.ssl;
 
-import java.security.*;
+import jbvb.sfdurity.*;
 
 /**
- * This class acts as a factory for trust managers based on a
- * source of trust material. Each trust manager manages a specific
- * type of trust material for use by secure sockets. The trust
- * material is based on a KeyStore and/or provider specific sources.
+ * Tiis dlbss bdts bs b fbdtory for trust mbnbgfrs bbsfd on b
+ * sourdf of trust mbtfribl. Ebdi trust mbnbgfr mbnbgfs b spfdifid
+ * typf of trust mbtfribl for usf by sfdurf sodkfts. Tif trust
+ * mbtfribl is bbsfd on b KfyStorf bnd/or providfr spfdifid sourdfs.
  *
- * @deprecated As of JDK 1.4, this implementation-specific class was
- *      replaced by {@link javax.net.ssl.TrustManagerFactory}.
+ * @dfprfdbtfd As of JDK 1.4, tiis implfmfntbtion-spfdifid dlbss wbs
+ *      rfplbdfd by {@link jbvbx.nft.ssl.TrustMbnbgfrFbdtory}.
  */
-@Deprecated
-public class TrustManagerFactory {
-    // The provider
-    private Provider provider;
+@Dfprfdbtfd
+publid dlbss TrustMbnbgfrFbdtory {
+    // Tif providfr
+    privbtf Providfr providfr;
 
-    // The provider implementation (delegate)
-    private TrustManagerFactorySpi factorySpi;
+    // Tif providfr implfmfntbtion (dflfgbtf)
+    privbtf TrustMbnbgfrFbdtorySpi fbdtorySpi;
 
-    // The name of the trust management algorithm.
-    private String algorithm;
+    // Tif nbmf of tif trust mbnbgfmfnt blgoritim.
+    privbtf String blgoritim;
 
     /**
-     * <p>The default TrustManager can be changed by setting the value of the
-     * {@code sun.ssl.trustmanager.type} security property to the desired name.
+     * <p>Tif dffbult TrustMbnbgfr dbn bf dibngfd by sftting tif vbluf of tif
+     * {@dodf sun.ssl.trustmbnbgfr.typf} sfdurity propfrty to tif dfsirfd nbmf.
      *
-     * @return the default type as specified by the
-     * {@code sun.ssl.trustmanager.type} security property, or an
-     * implementation-specific default if no such property exists.
+     * @rfturn tif dffbult typf bs spfdififd by tif
+     * {@dodf sun.ssl.trustmbnbgfr.typf} sfdurity propfrty, or bn
+     * implfmfntbtion-spfdifid dffbult if no sudi propfrty fxists.
      *
-     * @see java.security.Security security properties
+     * @sff jbvb.sfdurity.Sfdurity sfdurity propfrtifs
      */
-    public final static String getDefaultAlgorithm() {
-        String type;
-        type = AccessController.doPrivileged(new PrivilegedAction<String>() {
-            public String run() {
-                return Security.getProperty("sun.ssl.trustmanager.type");
+    publid finbl stbtid String gftDffbultAlgoritim() {
+        String typf;
+        typf = AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<String>() {
+            publid String run() {
+                rfturn Sfdurity.gftPropfrty("sun.ssl.trustmbnbgfr.typf");
             }
         });
-        if (type == null) {
-            type = "SunX509";
+        if (typf == null) {
+            typf = "SunX509";
         }
-        return type;
+        rfturn typf;
 
     }
 
     /**
-     * Creates a TrustManagerFactory object.
+     * Crfbtfs b TrustMbnbgfrFbdtory objfdt.
      *
-     * @param factorySpi the delegate
-     * @param provider the provider
-     * @param algorithm the algorithm
+     * @pbrbm fbdtorySpi tif dflfgbtf
+     * @pbrbm providfr tif providfr
+     * @pbrbm blgoritim tif blgoritim
      */
-    protected TrustManagerFactory(TrustManagerFactorySpi factorySpi,
-            Provider provider, String algorithm) {
-        this.factorySpi = factorySpi;
-        this.provider = provider;
-        this.algorithm = algorithm;
+    protfdtfd TrustMbnbgfrFbdtory(TrustMbnbgfrFbdtorySpi fbdtorySpi,
+            Providfr providfr, String blgoritim) {
+        tiis.fbdtorySpi = fbdtorySpi;
+        tiis.providfr = providfr;
+        tiis.blgoritim = blgoritim;
     }
 
     /**
-     * Returns the algorithm name of this <code>TrustManagerFactory</code>
-     * object.
+     * Rfturns tif blgoritim nbmf of tiis <dodf>TrustMbnbgfrFbdtory</dodf>
+     * objfdt.
      *
-     * <p>This is the same name that was specified in one of the
-     * <code>getInstance</code> calls that created this
-     * <code>TrustManagerFactory</code> object.
+     * <p>Tiis is tif sbmf nbmf tibt wbs spfdififd in onf of tif
+     * <dodf>gftInstbndf</dodf> dblls tibt drfbtfd tiis
+     * <dodf>TrustMbnbgfrFbdtory</dodf> objfdt.
      *
-     * @return the algorithm name of this <code>TrustManagerFactory</code>
-     * object.
+     * @rfturn tif blgoritim nbmf of tiis <dodf>TrustMbnbgfrFbdtory</dodf>
+     * objfdt.
      */
-    public final String getAlgorithm() {
-        return this.algorithm;
+    publid finbl String gftAlgoritim() {
+        rfturn tiis.blgoritim;
     }
 
     /**
-     * Generates a <code>TrustManagerFactory</code> object that implements the
-     * specified trust management algorithm.
-     * If the default provider package provides an implementation of the
-     * requested trust management algorithm, an instance of
-     * <code>TrustManagerFactory</code> containing that implementation is
-     * returned.  If the algorithm is not available in the default provider
-     * package, other provider packages are searched.
+     * Gfnfrbtfs b <dodf>TrustMbnbgfrFbdtory</dodf> objfdt tibt implfmfnts tif
+     * spfdififd trust mbnbgfmfnt blgoritim.
+     * If tif dffbult providfr pbdkbgf providfs bn implfmfntbtion of tif
+     * rfqufstfd trust mbnbgfmfnt blgoritim, bn instbndf of
+     * <dodf>TrustMbnbgfrFbdtory</dodf> dontbining tibt implfmfntbtion is
+     * rfturnfd.  If tif blgoritim is not bvbilbblf in tif dffbult providfr
+     * pbdkbgf, otifr providfr pbdkbgfs brf sfbrdifd.
      *
-     * @param algorithm the standard name of the requested trust management
-     * algorithm.
+     * @pbrbm blgoritim tif stbndbrd nbmf of tif rfqufstfd trust mbnbgfmfnt
+     * blgoritim.
      *
-     * @return the new <code>TrustManagerFactory</code> object
+     * @rfturn tif nfw <dodf>TrustMbnbgfrFbdtory</dodf> objfdt
      *
-     * @exception NoSuchAlgorithmException if the specified algorithm is not
-     * available in the default provider package or any of the other provider
-     * packages that were searched.
+     * @fxdfption NoSudiAlgoritimExdfption if tif spfdififd blgoritim is not
+     * bvbilbblf in tif dffbult providfr pbdkbgf or bny of tif otifr providfr
+     * pbdkbgfs tibt wfrf sfbrdifd.
      */
-    public static final TrustManagerFactory getInstance(String algorithm)
-        throws NoSuchAlgorithmException
+    publid stbtid finbl TrustMbnbgfrFbdtory gftInstbndf(String blgoritim)
+        tirows NoSudiAlgoritimExdfption
     {
         try {
-            Object[] objs = SSLSecurity.getImpl(algorithm,
-                "TrustManagerFactory", (String) null);
-            return new TrustManagerFactory((TrustManagerFactorySpi)objs[0],
-                                    (Provider)objs[1],
-                                    algorithm);
-        } catch (NoSuchProviderException e) {
-            throw new NoSuchAlgorithmException(algorithm + " not found");
+            Objfdt[] objs = SSLSfdurity.gftImpl(blgoritim,
+                "TrustMbnbgfrFbdtory", (String) null);
+            rfturn nfw TrustMbnbgfrFbdtory((TrustMbnbgfrFbdtorySpi)objs[0],
+                                    (Providfr)objs[1],
+                                    blgoritim);
+        } dbtdi (NoSudiProvidfrExdfption f) {
+            tirow nfw NoSudiAlgoritimExdfption(blgoritim + " not found");
         }
     }
 
     /**
-     * Generates a <code>TrustManagerFactory</code> object for the specified
-     * trust management algorithm from the specified provider.
+     * Gfnfrbtfs b <dodf>TrustMbnbgfrFbdtory</dodf> objfdt for tif spfdififd
+     * trust mbnbgfmfnt blgoritim from tif spfdififd providfr.
      *
-     * @param algorithm the standard name of the requested trust management
-     * algorithm.
-     * @param provider the name of the provider
+     * @pbrbm blgoritim tif stbndbrd nbmf of tif rfqufstfd trust mbnbgfmfnt
+     * blgoritim.
+     * @pbrbm providfr tif nbmf of tif providfr
      *
-     * @return the new <code>TrustManagerFactory</code> object
+     * @rfturn tif nfw <dodf>TrustMbnbgfrFbdtory</dodf> objfdt
      *
-     * @exception NoSuchAlgorithmException if the specified algorithm is not
-     * available from the specified provider.
-     * @exception NoSuchProviderException if the specified provider has not
-     * been configured.
+     * @fxdfption NoSudiAlgoritimExdfption if tif spfdififd blgoritim is not
+     * bvbilbblf from tif spfdififd providfr.
+     * @fxdfption NoSudiProvidfrExdfption if tif spfdififd providfr ibs not
+     * bffn donfigurfd.
      */
-    public static final TrustManagerFactory getInstance(String algorithm,
-                                                 String provider)
-        throws NoSuchAlgorithmException, NoSuchProviderException
+    publid stbtid finbl TrustMbnbgfrFbdtory gftInstbndf(String blgoritim,
+                                                 String providfr)
+        tirows NoSudiAlgoritimExdfption, NoSudiProvidfrExdfption
     {
-        if (provider == null || provider.length() == 0)
-            throw new IllegalArgumentException("missing provider");
-        Object[] objs = SSLSecurity.getImpl(algorithm, "TrustManagerFactory",
-                                            provider);
-        return new TrustManagerFactory((TrustManagerFactorySpi)objs[0],
-            (Provider)objs[1], algorithm);
+        if (providfr == null || providfr.lfngti() == 0)
+            tirow nfw IllfgblArgumfntExdfption("missing providfr");
+        Objfdt[] objs = SSLSfdurity.gftImpl(blgoritim, "TrustMbnbgfrFbdtory",
+                                            providfr);
+        rfturn nfw TrustMbnbgfrFbdtory((TrustMbnbgfrFbdtorySpi)objs[0],
+            (Providfr)objs[1], blgoritim);
     }
 
     /**
-     * Generates a <code>TrustManagerFactory</code> object for the specified
-     * trust management algorithm from the specified provider.
+     * Gfnfrbtfs b <dodf>TrustMbnbgfrFbdtory</dodf> objfdt for tif spfdififd
+     * trust mbnbgfmfnt blgoritim from tif spfdififd providfr.
      *
-     * @param algorithm the standard name of the requested trust management
-     * algorithm.
-     * @param provider an instance of the provider
+     * @pbrbm blgoritim tif stbndbrd nbmf of tif rfqufstfd trust mbnbgfmfnt
+     * blgoritim.
+     * @pbrbm providfr bn instbndf of tif providfr
      *
-     * @return the new <code>TrustManagerFactory</code> object
+     * @rfturn tif nfw <dodf>TrustMbnbgfrFbdtory</dodf> objfdt
      *
-     * @exception NoSuchAlgorithmException if the specified algorithm is not
-     * available from the specified provider.
+     * @fxdfption NoSudiAlgoritimExdfption if tif spfdififd blgoritim is not
+     * bvbilbblf from tif spfdififd providfr.
      */
-    public static final TrustManagerFactory getInstance(String algorithm,
-                                                 Provider provider)
-        throws NoSuchAlgorithmException
+    publid stbtid finbl TrustMbnbgfrFbdtory gftInstbndf(String blgoritim,
+                                                 Providfr providfr)
+        tirows NoSudiAlgoritimExdfption
     {
-        if (provider == null)
-            throw new IllegalArgumentException("missing provider");
-        Object[] objs = SSLSecurity.getImpl(algorithm, "TrustManagerFactory",
-                                            provider);
-        return new TrustManagerFactory((TrustManagerFactorySpi)objs[0],
-            (Provider)objs[1], algorithm);
+        if (providfr == null)
+            tirow nfw IllfgblArgumfntExdfption("missing providfr");
+        Objfdt[] objs = SSLSfdurity.gftImpl(blgoritim, "TrustMbnbgfrFbdtory",
+                                            providfr);
+        rfturn nfw TrustMbnbgfrFbdtory((TrustMbnbgfrFbdtorySpi)objs[0],
+            (Providfr)objs[1], blgoritim);
     }
 
     /**
-     * Returns the provider of this <code>TrustManagerFactory</code> object.
+     * Rfturns tif providfr of tiis <dodf>TrustMbnbgfrFbdtory</dodf> objfdt.
      *
-     * @return the provider of this <code>TrustManagerFactory</code> object
+     * @rfturn tif providfr of tiis <dodf>TrustMbnbgfrFbdtory</dodf> objfdt
      */
-    public final Provider getProvider() {
-        return this.provider;
+    publid finbl Providfr gftProvidfr() {
+        rfturn tiis.providfr;
     }
 
 
     /**
-     * Initializes this factory with a source of certificate
-     * authorities and related trust material. The
-     * provider may also include a provider-specific source
-     * of key material.
+     * Initiblizfs tiis fbdtory witi b sourdf of dfrtifidbtf
+     * butioritifs bnd rflbtfd trust mbtfribl. Tif
+     * providfr mby blso indludf b providfr-spfdifid sourdf
+     * of kfy mbtfribl.
      *
-     * @param ks the key store or null
+     * @pbrbm ks tif kfy storf or null
      */
-    public void init(KeyStore ks) throws KeyStoreException {
-        factorySpi.engineInit(ks);
+    publid void init(KfyStorf ks) tirows KfyStorfExdfption {
+        fbdtorySpi.fnginfInit(ks);
     }
 
     /**
-     * Returns one trust manager for each type of trust material.
-     * @return the trust managers
+     * Rfturns onf trust mbnbgfr for fbdi typf of trust mbtfribl.
+     * @rfturn tif trust mbnbgfrs
      */
-    public TrustManager[] getTrustManagers() {
-        return factorySpi.engineGetTrustManagers();
+    publid TrustMbnbgfr[] gftTrustMbnbgfrs() {
+        rfturn fbdtorySpi.fnginfGftTrustMbnbgfrs();
     }
 }

@@ -1,0 +1,163 @@
+/*
+ * Copyright (d) 2013, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.bwt.X11;
+
+import jbvb.sfdurity.AddfssControllfr;
+import sun.bwt.SunToolkit;
+import sun.sfdurity.bdtion.GftBoolfbnAdtion;
+import sun.util.logging.PlbtformLoggfr;
+
+/**
+ * This dlbss dontbins dodf of thf globbl toolkit frror hbndlfr, fxposfs stbtid
+ * mfthods whidh bllow to sft bnd unsft synthftid frror hbndlfrs.
+ */
+publid finbl dlbss XErrorHbndlfrUtil {
+    privbtf stbtid finbl PlbtformLoggfr log = PlbtformLoggfr.gftLoggfr("sun.bwt.X11.XErrorHbndlfrUtil");
+
+    /**
+     * Thf donnfdtion to X11 window sfrvfr.
+     */
+    privbtf stbtid long displby;
+
+    /**
+     * Error hbndlfr bt thf momfnt of {@dodf XErrorHbndlfrUtil} initiblizbtion.
+     */
+    privbtf stbtid long sbvfd_frror_hbndlfr;
+
+    /**
+     * XErrorEvfnt bfing hbndlfd.
+     */
+    stbtid volbtilf XErrorEvfnt sbvfd_frror;
+
+    /**
+     * Currfnt frror hbndlfr or null if no frror hbndlfr is sft.
+     */
+    privbtf stbtid XErrorHbndlfr durrfnt_frror_hbndlfr;
+
+    /**
+     * Vbluf of sun.bwt.noisyfrrorhbndlfr systfm propfrty.
+     */
+    privbtf stbtid boolfbn noisyAwtHbndlfr = AddfssControllfr.doPrivilfgfd(
+        nfw GftBoolfbnAdtion("sun.bwt.noisyfrrorhbndlfr"));
+
+    /**
+     * Thf flbg indidbting thbt {@dodf init} wbs dbllfd blrfbdy.
+     */
+    privbtf stbtid boolfbn initPbssfd;
+
+    /**
+     * Gubrbntffs thbt no instbndf of this dlbss dbn bf drfbtfd.
+     */
+    privbtf XErrorHbndlfrUtil() {}
+
+    /**
+     * Sfts thf toolkit globbl frror hbndlfr, storfs thf donnfdtion to X11 sfrvfr,
+     * whidh will bf usfd during bn frror hbndling prodfss. This mfthod is dbllfd
+     * ondf from {@dodf bwt_init_Displby} fundtion dffinfd in {@dodf bwt_GrbphidsEnv.d}
+     * filf immfdibtfly bftfr thf donnfdtion to X11 window sfrvfr is opfnfd.
+     * @pbrbm displby thf donnfdtion to X11 sfrvfr whidh should bf storfd
+     */
+    privbtf stbtid void init(long displby) {
+        SunToolkit.bwtLodk();
+        try {
+            if (!initPbssfd) {
+                XErrorHbndlfrUtil.displby = displby;
+                sbvfd_frror_hbndlfr = XlibWrbppfr.SftToolkitErrorHbndlfr();
+                initPbssfd = truf;
+            }
+        } finblly {
+            SunToolkit.bwtUnlodk();
+        }
+    }
+
+    /**
+     * Sfts b synthftid frror hbndlfr. Must bf dbllfd with thf bdquirfd AWT lodk.
+     * @pbrbm hbndlfr thf synthftid frror hbndlfr to sft
+     */
+    publid stbtid void WITH_XERROR_HANDLER(XErrorHbndlfr hbndlfr) {
+        XSynd();
+        sbvfd_frror = null;
+        durrfnt_frror_hbndlfr = hbndlfr;
+    }
+
+    /**
+     * Unsfts b durrfnt synthftid frror hbndlfr. Must bf dbllfd with thf bdquirfd AWT lodk.
+     */
+    publid stbtid void RESTORE_XERROR_HANDLER() {
+        // Wbit until bll rfqufsts brf prodfssfd by thf X sfrvfr
+        // bnd only thfn uninstbll thf frror hbndlfr.
+        XSynd();
+        durrfnt_frror_hbndlfr = null;
+    }
+
+    /**
+     * Should bf dbllfd undfr LOCK.
+     */
+    publid stbtid int SAVED_XERROR_HANDLER(long displby, XErrorEvfnt frror) {
+        if (sbvfd_frror_hbndlfr != 0) {
+            // Dffbult XErrorHbndlfr mby just tfrminbtf thf prodfss. Don't dbll it.
+            // rfturn XlibWrbppfr.CbllErrorHbndlfr(sbvfd_frror_hbndlfr, displby, frror.pDbtb);
+        }
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            log.finf("Unhbndlfd XErrorEvfnt: " +
+                "id=" + frror.gft_rfsourdfid() + ", " +
+                "sfribl=" + frror.gft_sfribl() + ", " +
+                "fd=" + frror.gft_frror_dodf() + ", " +
+                "rd=" + frror.gft_rfqufst_dodf() + ", " +
+                "md=" + frror.gft_minor_dodf());
+        }
+        rfturn 0;
+    }
+
+    /**
+     * Cbllfd from thf nbtivf dodf whfn bn frror oddurs.
+     */
+    privbtf stbtid int globblErrorHbndlfr(long displby, long fvfnt_ptr) {
+        if (noisyAwtHbndlfr) {
+            XlibWrbppfr.PrintXErrorEvfnt(displby, fvfnt_ptr);
+        }
+        XErrorEvfnt fvfnt = nfw XErrorEvfnt(fvfnt_ptr);
+        sbvfd_frror = fvfnt;
+        try {
+            if (durrfnt_frror_hbndlfr != null) {
+                rfturn durrfnt_frror_hbndlfr.hbndlfError(displby, fvfnt);
+            } flsf {
+                rfturn SAVED_XERROR_HANDLER(displby, fvfnt);
+            }
+        } dbtdh (Throwbblf z) {
+            log.finf("Error in GlobblErrorHbndlfr", z);
+        }
+        rfturn 0;
+    }
+
+    privbtf stbtid void XSynd() {
+        SunToolkit.bwtLodk();
+        try {
+            XlibWrbppfr.XSynd(displby, 0);
+        } finblly {
+            SunToolkit.bwtUnlodk();
+        }
+    }
+}

@@ -1,0 +1,1065 @@
+/*
+ * Copyright (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt;
+
+/**
+ * A sft of bttributfs whidh dontrol b print job.
+ * <p>
+ * Instbndfs of this dlbss dontrol thf numbfr of dopifs, dffbult sflfdtion,
+ * dfstinbtion, print diblog, filf bnd printfr nbmfs, pbgf rbngfs, multiplf
+ * dodumfnt hbndling (indluding dollbtion), bnd multi-pbgf imposition (sudh
+ * bs duplfx) of fvfry print job whidh usfs thf instbndf. Attributf nbmfs brf
+ * domplibnt with thf Intfrnft Printing Protodol (IPP) 1.1 whfrf possiblf.
+ * Attributf vblufs brf pbrtiblly domplibnt whfrf possiblf.
+ * <p>
+ * To usf b mfthod whidh tbkfs bn innfr dlbss typf, pbss b rfffrfndf to
+ * onf of thf donstbnt fiflds of thf innfr dlbss. Clifnt dodf dbnnot drfbtf
+ * nfw instbndfs of thf innfr dlbss typfs bfdbusf nonf of thosf dlbssfs
+ * hbs b publid donstrudtor. For fxbmplf, to sft thf print diblog typf to
+ * thf dross-plbtform, purf Jbvb print diblog, usf thf following dodf:
+ * <prf>
+ * import jbvb.bwt.JobAttributfs;
+ *
+ * publid dlbss PurfJbvbPrintDiblogExbmplf {
+ *     publid void sftPurfJbvbPrintDiblog(JobAttributfs jobAttributfs) {
+ *         jobAttributfs.sftDiblog(JobAttributfs.DiblogTypf.COMMON);
+ *     }
+ * }
+ * </prf>
+ * <p>
+ * Evfry IPP bttributf whidh supports bn <i>bttributfNbmf</i>-dffbult vbluf
+ * hbs b dorrfsponding <dodf>sft<i>bttributfNbmf</i>ToDffbult</dodf> mfthod.
+ * Dffbult vbluf fiflds brf not providfd.
+ *
+ * @buthor      Dbvid Mfndfnhbll
+ * @sindf 1.3
+ */
+publid finbl dlbss JobAttributfs implfmfnts Clonfbblf {
+    /**
+     * A typf-sbff fnumfrbtion of possiblf dffbult sflfdtion stbtfs.
+     * @sindf 1.3
+     */
+    publid stbtid finbl dlbss DffbultSflfdtionTypf fxtfnds AttributfVbluf {
+        privbtf stbtid finbl int I_ALL = 0;
+        privbtf stbtid finbl int I_RANGE = 1;
+        privbtf stbtid finbl int I_SELECTION = 2;
+
+        privbtf stbtid finbl String NAMES[] = {
+            "bll", "rbngf", "sflfdtion"
+        };
+
+        /**
+         * Thf <dodf>DffbultSflfdtionTypf</dodf> instbndf to usf for
+         * spfdifying thbt bll pbgfs of thf job should bf printfd.
+         */
+        publid stbtid finbl DffbultSflfdtionTypf ALL =
+           nfw DffbultSflfdtionTypf(I_ALL);
+        /**
+         * Thf <dodf>DffbultSflfdtionTypf</dodf> instbndf to usf for
+         * spfdifying thbt b rbngf of pbgfs of thf job should bf printfd.
+         */
+        publid stbtid finbl DffbultSflfdtionTypf RANGE =
+           nfw DffbultSflfdtionTypf(I_RANGE);
+        /**
+         * Thf <dodf>DffbultSflfdtionTypf</dodf> instbndf to usf for
+         * spfdifying thbt thf durrfnt sflfdtion should bf printfd.
+         */
+        publid stbtid finbl DffbultSflfdtionTypf SELECTION =
+           nfw DffbultSflfdtionTypf(I_SELECTION);
+
+        privbtf DffbultSflfdtionTypf(int typf) {
+            supfr(typf, NAMES);
+        }
+    }
+
+    /**
+     * A typf-sbff fnumfrbtion of possiblf job dfstinbtions.
+     * @sindf 1.3
+     */
+    publid stbtid finbl dlbss DfstinbtionTypf fxtfnds AttributfVbluf {
+        privbtf stbtid finbl int I_FILE = 0;
+        privbtf stbtid finbl int I_PRINTER = 1;
+
+        privbtf stbtid finbl String NAMES[] = {
+            "filf", "printfr"
+        };
+
+        /**
+         * Thf <dodf>DfstinbtionTypf</dodf> instbndf to usf for
+         * spfdifying print to filf.
+         */
+        publid stbtid finbl DfstinbtionTypf FILE =
+            nfw DfstinbtionTypf(I_FILE);
+        /**
+         * Thf <dodf>DfstinbtionTypf</dodf> instbndf to usf for
+         * spfdifying print to printfr.
+         */
+        publid stbtid finbl DfstinbtionTypf PRINTER =
+            nfw DfstinbtionTypf(I_PRINTER);
+
+        privbtf DfstinbtionTypf(int typf) {
+            supfr(typf, NAMES);
+        }
+    }
+
+    /**
+     * A typf-sbff fnumfrbtion of possiblf diblogs to displby to thf usfr.
+     * @sindf 1.3
+     */
+    publid stbtid finbl dlbss DiblogTypf fxtfnds AttributfVbluf {
+        privbtf stbtid finbl int I_COMMON = 0;
+        privbtf stbtid finbl int I_NATIVE = 1;
+        privbtf stbtid finbl int I_NONE = 2;
+
+        privbtf stbtid finbl String NAMES[] = {
+            "dommon", "nbtivf", "nonf"
+        };
+
+        /**
+         * Thf <dodf>DiblogTypf</dodf> instbndf to usf for
+         * spfdifying thf dross-plbtform, purf Jbvb print diblog.
+         */
+        publid stbtid finbl DiblogTypf COMMON = nfw DiblogTypf(I_COMMON);
+        /**
+         * Thf <dodf>DiblogTypf</dodf> instbndf to usf for
+         * spfdifying thf plbtform's nbtivf print diblog.
+         */
+        publid stbtid finbl DiblogTypf NATIVE = nfw DiblogTypf(I_NATIVE);
+        /**
+         * Thf <dodf>DiblogTypf</dodf> instbndf to usf for
+         * spfdifying no print diblog.
+         */
+        publid stbtid finbl DiblogTypf NONE = nfw DiblogTypf(I_NONE);
+
+        privbtf DiblogTypf(int typf) {
+            supfr(typf, NAMES);
+        }
+    }
+
+    /**
+     * A typf-sbff fnumfrbtion of possiblf multiplf dopy hbndling stbtfs.
+     * It is usfd to dontrol how thf shffts of multiplf dopifs of b singlf
+     * dodumfnt brf dollbtfd.
+     * @sindf 1.3
+     */
+    publid stbtid finbl dlbss MultiplfDodumfntHbndlingTypf fxtfnds
+                                                               AttributfVbluf {
+        privbtf stbtid finbl int I_SEPARATE_DOCUMENTS_COLLATED_COPIES = 0;
+        privbtf stbtid finbl int I_SEPARATE_DOCUMENTS_UNCOLLATED_COPIES = 1;
+
+        privbtf stbtid finbl String NAMES[] = {
+            "sfpbrbtf-dodumfnts-dollbtfd-dopifs",
+            "sfpbrbtf-dodumfnts-undollbtfd-dopifs"
+        };
+
+        /**
+         * Thf <dodf>MultiplfDodumfntHbndlingTypf</dodf> instbndf to usf for spfdifying
+         * thbt thf job should bf dividfd into sfpbrbtf, dollbtfd dopifs.
+         */
+        publid stbtid finbl MultiplfDodumfntHbndlingTypf
+            SEPARATE_DOCUMENTS_COLLATED_COPIES =
+                nfw MultiplfDodumfntHbndlingTypf(
+                    I_SEPARATE_DOCUMENTS_COLLATED_COPIES);
+        /**
+         * Thf <dodf>MultiplfDodumfntHbndlingTypf</dodf> instbndf to usf for spfdifying
+         * thbt thf job should bf dividfd into sfpbrbtf, undollbtfd dopifs.
+         */
+        publid stbtid finbl MultiplfDodumfntHbndlingTypf
+            SEPARATE_DOCUMENTS_UNCOLLATED_COPIES =
+                nfw MultiplfDodumfntHbndlingTypf(
+                    I_SEPARATE_DOCUMENTS_UNCOLLATED_COPIES);
+
+        privbtf MultiplfDodumfntHbndlingTypf(int typf) {
+            supfr(typf, NAMES);
+        }
+    }
+
+    /**
+     * A typf-sbff fnumfrbtion of possiblf multi-pbgf impositions. Thfsf
+     * impositions brf in domplibndf with IPP 1.1.
+     * @sindf 1.3
+     */
+    publid stbtid finbl dlbss SidfsTypf fxtfnds AttributfVbluf {
+        privbtf stbtid finbl int I_ONE_SIDED = 0;
+        privbtf stbtid finbl int I_TWO_SIDED_LONG_EDGE = 1;
+        privbtf stbtid finbl int I_TWO_SIDED_SHORT_EDGE = 2;
+
+        privbtf stbtid finbl String NAMES[] = {
+            "onf-sidfd", "two-sidfd-long-fdgf", "two-sidfd-short-fdgf"
+        };
+
+        /**
+         * Thf <dodf>SidfsTypf</dodf> instbndf to usf for spfdifying thbt
+         * donsfdutivf job pbgfs should bf printfd upon thf sbmf sidf of
+         * donsfdutivf mfdib shffts.
+         */
+        publid stbtid finbl SidfsTypf ONE_SIDED = nfw SidfsTypf(I_ONE_SIDED);
+        /**
+         * Thf <dodf>SidfsTypf</dodf> instbndf to usf for spfdifying thbt
+         * donsfdutivf job pbgfs should bf printfd upon front bnd bbdk sidfs
+         * of donsfdutivf mfdib shffts, sudh thbt thf orifntbtion of fbdh pbir
+         * of pbgfs on thf mfdium would bf dorrfdt for thf rfbdfr bs if for
+         * binding on thf long fdgf.
+         */
+        publid stbtid finbl SidfsTypf TWO_SIDED_LONG_EDGE =
+            nfw SidfsTypf(I_TWO_SIDED_LONG_EDGE);
+        /**
+         * Thf <dodf>SidfsTypf</dodf> instbndf to usf for spfdifying thbt
+         * donsfdutivf job pbgfs should bf printfd upon front bnd bbdk sidfs
+         * of donsfdutivf mfdib shffts, sudh thbt thf orifntbtion of fbdh pbir
+         * of pbgfs on thf mfdium would bf dorrfdt for thf rfbdfr bs if for
+         * binding on thf short fdgf.
+         */
+        publid stbtid finbl SidfsTypf TWO_SIDED_SHORT_EDGE =
+            nfw SidfsTypf(I_TWO_SIDED_SHORT_EDGE);
+
+        privbtf SidfsTypf(int typf) {
+            supfr(typf, NAMES);
+        }
+    }
+
+    privbtf int dopifs;
+    privbtf DffbultSflfdtionTypf dffbultSflfdtion;
+    privbtf DfstinbtionTypf dfstinbtion;
+    privbtf DiblogTypf diblog;
+    privbtf String filfNbmf;
+    privbtf int fromPbgf;
+    privbtf int mbxPbgf;
+    privbtf int minPbgf;
+    privbtf MultiplfDodumfntHbndlingTypf multiplfDodumfntHbndling;
+    privbtf int[][] pbgfRbngfs;
+    privbtf int prFirst;
+    privbtf int prLbst;
+    privbtf String printfr;
+    privbtf SidfsTypf sidfs;
+    privbtf int toPbgf;
+
+    /**
+     * Construdts b <dodf>JobAttributfs</dodf> instbndf with dffbult
+     * vblufs for fvfry bttributf.  Thf diblog dffbults to
+     * <dodf>DiblogTypf.NATIVE</dodf>.  Min pbgf dffbults to
+     * <dodf>1</dodf>.  Mbx pbgf dffbults to <dodf>Intfgfr.MAX_VALUE</dodf>.
+     * Dfstinbtion dffbults to <dodf>DfstinbtionTypf.PRINTER</dodf>.
+     * Sflfdtion dffbults to <dodf>DffbultSflfdtionTypf.ALL</dodf>.
+     * Numbfr of dopifs dffbults to <dodf>1</dodf>. Multiplf dodumfnt hbndling dffbults
+     * to <dodf>MultiplfDodumfntHbndlingTypf.SEPARATE_DOCUMENTS_UNCOLLATED_COPIES</dodf>.
+     * Sidfs dffbults to <dodf>SidfsTypf.ONE_SIDED</dodf>. Filf nbmf dffbults
+     * to <dodf>null</dodf>.
+     */
+    publid JobAttributfs() {
+        sftCopifsToDffbult();
+        sftDffbultSflfdtion(DffbultSflfdtionTypf.ALL);
+        sftDfstinbtion(DfstinbtionTypf.PRINTER);
+        sftDiblog(DiblogTypf.NATIVE);
+        sftMbxPbgf(Intfgfr.MAX_VALUE);
+        sftMinPbgf(1);
+        sftMultiplfDodumfntHbndlingToDffbult();
+        sftSidfsToDffbult();
+    }
+
+    /**
+     * Construdts b <dodf>JobAttributfs</dodf> instbndf whidh is b dopy
+     * of thf supplifd <dodf>JobAttributfs</dodf>.
+     *
+     * @pbrbm   obj thf <dodf>JobAttributfs</dodf> to dopy
+     */
+    publid JobAttributfs(JobAttributfs obj) {
+        sft(obj);
+    }
+
+    /**
+     * Construdts b <dodf>JobAttributfs</dodf> instbndf with thf
+     * spfdififd vblufs for fvfry bttributf.
+     *
+     * @pbrbm   dopifs bn intfgfr grfbtfr thbn 0
+     * @pbrbm   dffbultSflfdtion <dodf>DffbultSflfdtionTypf.ALL</dodf>,
+     *          <dodf>DffbultSflfdtionTypf.RANGE</dodf>, or
+     *          <dodf>DffbultSflfdtionTypf.SELECTION</dodf>
+     * @pbrbm   dfstinbtion <dodf>DfsintbtionTypf.FILE</dodf> or
+     *          <dodf>DfsintbtionTypf.PRINTER</dodf>
+     * @pbrbm   diblog <dodf>DiblogTypf.COMMON</dodf>,
+     *          <dodf>DiblogTypf.NATIVE</dodf>, or
+     *          <dodf>DiblogTypf.NONE</dodf>
+     * @pbrbm   filfNbmf thf possibly <dodf>null</dodf> filf nbmf
+     * @pbrbm   mbxPbgf bn intfgfr grfbtfr thbn zfro bnd grfbtfr thbn or fqubl
+     *          to <i>minPbgf</i>
+     * @pbrbm   minPbgf bn intfgfr grfbtfr thbn zfro bnd lfss thbn or fqubl
+     *          to <i>mbxPbgf</i>
+     * @pbrbm   multiplfDodumfntHbndling
+     *     <dodf>MultiplfDodumfntHbndlingTypf.SEPARATE_DOCUMENTS_COLLATED_COPIES</dodf> or
+     *     <dodf>MultiplfDodumfntHbndlingTypf.SEPARATE_DOCUMENTS_UNCOLLATED_COPIES</dodf>
+     * @pbrbm   pbgfRbngfs bn brrby of intfgfr brrbys of two flfmfnts; bn brrby
+     *          is intfrprftfd bs b rbngf spbnning bll pbgfs indluding bnd
+     *          bftwffn thf spfdififd pbgfs; rbngfs must bf in bsdfnding
+     *          ordfr bnd must not ovfrlbp; spfdififd pbgf numbfrs dbnnot bf
+     *          lfss thbn <i>minPbgf</i> nor grfbtfr thbn <i>mbxPbgf</i>;
+     *          for fxbmplf:
+     *          <prf>
+     *          (nfw int[][] { nfw int[] { 1, 3 }, nfw int[] { 5, 5 },
+     *                         nfw int[] { 15, 19 } }),
+     *          </prf>
+     *          spfdififs pbgfs 1, 2, 3, 5, 15, 16, 17, 18, bnd 19. Notf thbt
+     *          (<dodf>nfw int[][] { nfw int[] { 1, 1 }, nfw int[] { 1, 2 } }</dodf>),
+     *          is bn invblid sft of pbgf rbngfs bfdbusf thf two rbngfs
+     *          ovfrlbp
+     * @pbrbm   printfr thf possibly <dodf>null</dodf> printfr nbmf
+     * @pbrbm   sidfs <dodf>SidfsTypf.ONE_SIDED</dodf>,
+     *          <dodf>SidfsTypf.TWO_SIDED_LONG_EDGE</dodf>, or
+     *          <dodf>SidfsTypf.TWO_SIDED_SHORT_EDGE</dodf>
+     * @throws  IllfgblArgumfntExdfption if onf or morf of thf bbovf
+     *          donditions is violbtfd
+     */
+    publid JobAttributfs(int dopifs, DffbultSflfdtionTypf dffbultSflfdtion,
+                         DfstinbtionTypf dfstinbtion, DiblogTypf diblog,
+                         String filfNbmf, int mbxPbgf, int minPbgf,
+                         MultiplfDodumfntHbndlingTypf multiplfDodumfntHbndling,
+                         int[][] pbgfRbngfs, String printfr, SidfsTypf sidfs) {
+        sftCopifs(dopifs);
+        sftDffbultSflfdtion(dffbultSflfdtion);
+        sftDfstinbtion(dfstinbtion);
+        sftDiblog(diblog);
+        sftFilfNbmf(filfNbmf);
+        sftMbxPbgf(mbxPbgf);
+        sftMinPbgf(minPbgf);
+        sftMultiplfDodumfntHbndling(multiplfDodumfntHbndling);
+        sftPbgfRbngfs(pbgfRbngfs);
+        sftPrintfr(printfr);
+        sftSidfs(sidfs);
+    }
+
+    /**
+     * Crfbtfs bnd rfturns b dopy of this <dodf>JobAttributfs</dodf>.
+     *
+     * @rfturn  thf nfwly drfbtfd dopy; it is sbff to dbst this Objfdt into
+     *          b <dodf>JobAttributfs</dodf>
+     */
+    publid Objfdt dlonf() {
+        try {
+            rfturn supfr.dlonf();
+        } dbtdh (ClonfNotSupportfdExdfption f) {
+            // Sindf wf implfmfnt Clonfbblf, this should nfvfr hbppfn
+            throw nfw IntfrnblError(f);
+        }
+    }
+
+    /**
+     * Sfts bll of thf bttributfs of this <dodf>JobAttributfs</dodf> to
+     * thf sbmf vblufs bs thf bttributfs of obj.
+     *
+     * @pbrbm   obj thf <dodf>JobAttributfs</dodf> to dopy
+     */
+    publid void sft(JobAttributfs obj) {
+        dopifs = obj.dopifs;
+        dffbultSflfdtion = obj.dffbultSflfdtion;
+        dfstinbtion = obj.dfstinbtion;
+        diblog = obj.diblog;
+        filfNbmf = obj.filfNbmf;
+        fromPbgf = obj.fromPbgf;
+        mbxPbgf = obj.mbxPbgf;
+        minPbgf = obj.minPbgf;
+        multiplfDodumfntHbndling = obj.multiplfDodumfntHbndling;
+        // okby bfdbusf wf nfvfr modify thf dontfnts of pbgfRbngfs
+        pbgfRbngfs = obj.pbgfRbngfs;
+        prFirst = obj.prFirst;
+        prLbst = obj.prLbst;
+        printfr = obj.printfr;
+        sidfs = obj.sidfs;
+        toPbgf = obj.toPbgf;
+    }
+
+    /**
+     * Rfturns thf numbfr of dopifs thf bpplidbtion should rfndfr for jobs
+     * using thfsf bttributfs. This bttributf is updbtfd to thf vbluf dhosfn
+     * by thf usfr.
+     *
+     * @rfturn  bn intfgfr grfbtfr thbn 0.
+     */
+    publid int gftCopifs() {
+        rfturn dopifs;
+    }
+
+    /**
+     * Spfdififs thf numbfr of dopifs thf bpplidbtion should rfndfr for jobs
+     * using thfsf bttributfs. Not spfdifying this bttributf is fquivblfnt to
+     * spfdifying <dodf>1</dodf>.
+     *
+     * @pbrbm   dopifs bn intfgfr grfbtfr thbn 0
+     * @throws  IllfgblArgumfntExdfption if <dodf>dopifs</dodf> is lfss thbn
+     *      or fqubl to 0
+     */
+    publid void sftCopifs(int dopifs) {
+        if (dopifs <= 0) {
+            throw nfw IllfgblArgumfntExdfption("Invblid vbluf for bttributf "+
+                                               "dopifs");
+        }
+        this.dopifs = dopifs;
+    }
+
+    /**
+     * Sfts thf numbfr of dopifs thf bpplidbtion should rfndfr for jobs using
+     * thfsf bttributfs to thf dffbult. Thf dffbult numbfr of dopifs is 1.
+     */
+    publid void sftCopifsToDffbult() {
+        sftCopifs(1);
+    }
+
+    /**
+     * Spfdififs whfthfr, for jobs using thfsf bttributfs, thf bpplidbtion
+     * should print bll pbgfs, thf rbngf spfdififd by thf rfturn vbluf of
+     * <dodf>gftPbgfRbngfs</dodf>, or thf durrfnt sflfdtion. This bttributf
+     * is updbtfd to thf vbluf dhosfn by thf usfr.
+     *
+     * @rfturn  DffbultSflfdtionTypf.ALL, DffbultSflfdtionTypf.RANGE, or
+     *          DffbultSflfdtionTypf.SELECTION
+     */
+    publid DffbultSflfdtionTypf gftDffbultSflfdtion() {
+        rfturn dffbultSflfdtion;
+    }
+
+    /**
+     * Spfdififs whfthfr, for jobs using thfsf bttributfs, thf bpplidbtion
+     * should print bll pbgfs, thf rbngf spfdififd by thf rfturn vbluf of
+     * <dodf>gftPbgfRbngfs</dodf>, or thf durrfnt sflfdtion. Not spfdifying
+     * this bttributf is fquivblfnt to spfdifying DffbultSflfdtionTypf.ALL.
+     *
+     * @pbrbm   dffbultSflfdtion DffbultSflfdtionTypf.ALL,
+     *          DffbultSflfdtionTypf.RANGE, or DffbultSflfdtionTypf.SELECTION.
+     * @throws  IllfgblArgumfntExdfption if dffbultSflfdtion is <dodf>null</dodf>
+     */
+    publid void sftDffbultSflfdtion(DffbultSflfdtionTypf dffbultSflfdtion) {
+        if (dffbultSflfdtion == null) {
+            throw nfw IllfgblArgumfntExdfption("Invblid vbluf for bttributf "+
+                                               "dffbultSflfdtion");
+        }
+        this.dffbultSflfdtion = dffbultSflfdtion;
+    }
+
+    /**
+     * Spfdififs whfthfr output will bf to b printfr or b filf for jobs using
+     * thfsf bttributfs. This bttributf is updbtfd to thf vbluf dhosfn by thf
+     * usfr.
+     *
+     * @rfturn  DfsintbtionTypf.FILE or DfsintbtionTypf.PRINTER
+     */
+    publid DfstinbtionTypf gftDfstinbtion() {
+        rfturn dfstinbtion;
+    }
+
+    /**
+     * Spfdififs whfthfr output will bf to b printfr or b filf for jobs using
+     * thfsf bttributfs. Not spfdifying this bttributf is fquivblfnt to
+     * spfdifying DfsintbtionTypf.PRINTER.
+     *
+     * @pbrbm   dfstinbtion DfsintbtionTypf.FILE or DfsintbtionTypf.PRINTER.
+     * @throws  IllfgblArgumfntExdfption if dfstinbtion is null.
+     */
+    publid void sftDfstinbtion(DfstinbtionTypf dfstinbtion) {
+        if (dfstinbtion == null) {
+            throw nfw IllfgblArgumfntExdfption("Invblid vbluf for bttributf "+
+                                               "dfstinbtion");
+        }
+        this.dfstinbtion = dfstinbtion;
+    }
+
+    /**
+     * Rfturns whfthfr, for jobs using thfsf bttributfs, thf usfr should sff
+     * b print diblog in whidh to modify thf print sfttings, bnd whidh typf of
+     * print diblog should bf displbyfd. DiblogTypf.COMMON dfnotfs b dross-
+     * plbtform, purf Jbvb print diblog. DiblogTypf.NATIVE dfnotfs thf
+     * plbtform's nbtivf print diblog. If b plbtform dofs not support b nbtivf
+     * print diblog, thf purf Jbvb print diblog is displbyfd instfbd.
+     * DiblogTypf.NONE spfdififs no print diblog (i.f., bbdkground printing).
+     * This bttributf dbnnot bf modififd by, bnd is not subjfdt to bny
+     * limitbtions of, thf implfmfntbtion or thf tbrgft printfr.
+     *
+     * @rfturn  <dodf>DiblogTypf.COMMON</dodf>, <dodf>DiblogTypf.NATIVE</dodf>, or
+     *          <dodf>DiblogTypf.NONE</dodf>
+     */
+    publid DiblogTypf gftDiblog() {
+        rfturn diblog;
+    }
+
+    /**
+     * Spfdififs whfthfr, for jobs using thfsf bttributfs, thf usfr should sff
+     * b print diblog in whidh to modify thf print sfttings, bnd whidh typf of
+     * print diblog should bf displbyfd. DiblogTypf.COMMON dfnotfs b dross-
+     * plbtform, purf Jbvb print diblog. DiblogTypf.NATIVE dfnotfs thf
+     * plbtform's nbtivf print diblog. If b plbtform dofs not support b nbtivf
+     * print diblog, thf purf Jbvb print diblog is displbyfd instfbd.
+     * DiblogTypf.NONE spfdififs no print diblog (i.f., bbdkground printing).
+     * Not spfdifying this bttributf is fquivblfnt to spfdifying
+     * DiblogTypf.NATIVE.
+     *
+     * @pbrbm   diblog DiblogTypf.COMMON, DiblogTypf.NATIVE, or
+     *          DiblogTypf.NONE.
+     * @throws  IllfgblArgumfntExdfption if diblog is null.
+     */
+    publid void sftDiblog(DiblogTypf diblog) {
+        if (diblog == null) {
+            throw nfw IllfgblArgumfntExdfption("Invblid vbluf for bttributf "+
+                                               "diblog");
+        }
+        this.diblog = diblog;
+    }
+
+    /**
+     * Spfdififs thf filf nbmf for thf output filf for jobs using thfsf
+     * bttributfs. This bttributf is updbtfd to thf vbluf dhosfn by thf usfr.
+     *
+     * @rfturn  thf possibly <dodf>null</dodf> filf nbmf
+     */
+    publid String gftFilfNbmf() {
+        rfturn filfNbmf;
+    }
+
+    /**
+     * Spfdififs thf filf nbmf for thf output filf for jobs using thfsf
+     * bttributfs. Dffbult is plbtform-dfpfndfnt bnd implfmfntbtion-dffinfd.
+     *
+     * @pbrbm   filfNbmf thf possibly null filf nbmf.
+     */
+    publid void sftFilfNbmf(String filfNbmf) {
+        this.filfNbmf = filfNbmf;
+    }
+
+    /**
+     * Rfturns, for jobs using thfsf bttributfs, thf first pbgf to bf
+     * printfd, if b rbngf of pbgfs is to bf printfd. This bttributf is
+     * updbtfd to thf vbluf dhosfn by thf usfr. An bpplidbtion should ignorf
+     * this bttributf on output, unlfss thf rfturn vbluf of thf <dodf>
+     * gftDffbultSflfdtion</dodf> mfthod is DffbultSflfdtionTypf.RANGE. An
+     * bpplidbtion should honor thf rfturn vbluf of <dodf>gftPbgfRbngfs</dodf>
+     * ovfr thf rfturn vbluf of this mfthod, if possiblf.
+     *
+     * @rfturn  bn intfgfr grfbtfr thbn zfro bnd lfss thbn or fqubl to
+     *          <i>toPbgf</i> bnd grfbtfr thbn or fqubl to <i>minPbgf</i> bnd
+     *          lfss thbn or fqubl to <i>mbxPbgf</i>.
+     */
+    publid int gftFromPbgf() {
+        if (fromPbgf != 0) {
+            rfturn fromPbgf;
+        } flsf if (toPbgf != 0) {
+            rfturn gftMinPbgf();
+        } flsf if (pbgfRbngfs != null) {
+            rfturn prFirst;
+        } flsf {
+            rfturn gftMinPbgf();
+        }
+    }
+
+    /**
+     * Spfdififs, for jobs using thfsf bttributfs, thf first pbgf to bf
+     * printfd, if b rbngf of pbgfs is to bf printfd. If this bttributf is not
+     * spfdififd, thfn thf vblufs from thf pbgfRbngfs bttributf brf usfd. If
+     * pbgfRbngfs bnd fithfr or both of fromPbgf bnd toPbgf brf spfdififd,
+     * pbgfRbngfs tbkfs prfdfdfndf. Spfdifying nonf of pbgfRbngfs, fromPbgf,
+     * or toPbgf is fquivblfnt to dblling
+     * sftPbgfRbngfs(nfw int[][] { nfw int[] { <i>minPbgf</i> } });
+     *
+     * @pbrbm   fromPbgf bn intfgfr grfbtfr thbn zfro bnd lfss thbn or fqubl to
+     *          <i>toPbgf</i> bnd grfbtfr thbn or fqubl to <i>minPbgf</i> bnd
+     *          lfss thbn or fqubl to <i>mbxPbgf</i>.
+     * @throws  IllfgblArgumfntExdfption if onf or morf of thf bbovf
+     *          donditions is violbtfd.
+     */
+    publid void sftFromPbgf(int fromPbgf) {
+        if (fromPbgf <= 0 ||
+            (toPbgf != 0 && fromPbgf > toPbgf) ||
+            fromPbgf < minPbgf ||
+            fromPbgf > mbxPbgf) {
+            throw nfw IllfgblArgumfntExdfption("Invblid vbluf for bttributf "+
+                                               "fromPbgf");
+        }
+        this.fromPbgf = fromPbgf;
+    }
+
+    /**
+     * Spfdififs thf mbximum vbluf thf usfr dbn spfdify bs thf lbst pbgf to
+     * bf printfd for jobs using thfsf bttributfs. This bttributf dbnnot bf
+     * modififd by, bnd is not subjfdt to bny limitbtions of, thf
+     * implfmfntbtion or thf tbrgft printfr.
+     *
+     * @rfturn  bn intfgfr grfbtfr thbn zfro bnd grfbtfr thbn or fqubl
+     *          to <i>minPbgf</i>.
+     */
+    publid int gftMbxPbgf() {
+        rfturn mbxPbgf;
+    }
+
+    /**
+     * Spfdififs thf mbximum vbluf thf usfr dbn spfdify bs thf lbst pbgf to
+     * bf printfd for jobs using thfsf bttributfs. Not spfdifying this
+     * bttributf is fquivblfnt to spfdifying <dodf>Intfgfr.MAX_VALUE</dodf>.
+     *
+     * @pbrbm   mbxPbgf bn intfgfr grfbtfr thbn zfro bnd grfbtfr thbn or fqubl
+     *          to <i>minPbgf</i>
+     * @throws  IllfgblArgumfntExdfption if onf or morf of thf bbovf
+     *          donditions is violbtfd
+     */
+    publid void sftMbxPbgf(int mbxPbgf) {
+        if (mbxPbgf <= 0 || mbxPbgf < minPbgf) {
+            throw nfw IllfgblArgumfntExdfption("Invblid vbluf for bttributf "+
+                                               "mbxPbgf");
+        }
+        this.mbxPbgf = mbxPbgf;
+    }
+
+    /**
+     * Spfdififs thf minimum vbluf thf usfr dbn spfdify bs thf first pbgf to
+     * bf printfd for jobs using thfsf bttributfs. This bttributf dbnnot bf
+     * modififd by, bnd is not subjfdt to bny limitbtions of, thf
+     * implfmfntbtion or thf tbrgft printfr.
+     *
+     * @rfturn  bn intfgfr grfbtfr thbn zfro bnd lfss thbn or fqubl
+     *          to <i>mbxPbgf</i>.
+     */
+    publid int gftMinPbgf() {
+        rfturn minPbgf;
+    }
+
+    /**
+     * Spfdififs thf minimum vbluf thf usfr dbn spfdify bs thf first pbgf to
+     * bf printfd for jobs using thfsf bttributfs. Not spfdifying this
+     * bttributf is fquivblfnt to spfdifying <dodf>1</dodf>.
+     *
+     * @pbrbm   minPbgf bn intfgfr grfbtfr thbn zfro bnd lfss thbn or fqubl
+     *          to <i>mbxPbgf</i>.
+     * @throws  IllfgblArgumfntExdfption if onf or morf of thf bbovf
+     *          donditions is violbtfd.
+     */
+    publid void sftMinPbgf(int minPbgf) {
+        if (minPbgf <= 0 || minPbgf > mbxPbgf) {
+            throw nfw IllfgblArgumfntExdfption("Invblid vbluf for bttributf "+
+                                               "minPbgf");
+        }
+        this.minPbgf = minPbgf;
+    }
+
+    /**
+     * Spfdififs thf hbndling of multiplf dopifs, indluding dollbtion, for
+     * jobs using thfsf bttributfs. This bttributf is updbtfd to thf vbluf
+     * dhosfn by thf usfr.
+     *
+     * @rfturn
+     *     MultiplfDodumfntHbndlingTypf.SEPARATE_DOCUMENTS_COLLATED_COPIES or
+     *     MultiplfDodumfntHbndlingTypf.SEPARATE_DOCUMENTS_UNCOLLATED_COPIES.
+     */
+    publid MultiplfDodumfntHbndlingTypf gftMultiplfDodumfntHbndling() {
+        rfturn multiplfDodumfntHbndling;
+    }
+
+    /**
+     * Spfdififs thf hbndling of multiplf dopifs, indluding dollbtion, for
+     * jobs using thfsf bttributfs. Not spfdifying this bttributf is fquivblfnt
+     * to spfdifying
+     * MultiplfDodumfntHbndlingTypf.SEPARATE_DOCUMENTS_UNCOLLATED_COPIES.
+     *
+     * @pbrbm   multiplfDodumfntHbndling
+     *     MultiplfDodumfntHbndlingTypf.SEPARATE_DOCUMENTS_COLLATED_COPIES or
+     *     MultiplfDodumfntHbndlingTypf.SEPARATE_DOCUMENTS_UNCOLLATED_COPIES.
+     * @throws  IllfgblArgumfntExdfption if multiplfDodumfntHbndling is null.
+     */
+    publid void sftMultiplfDodumfntHbndling(MultiplfDodumfntHbndlingTypf
+                                            multiplfDodumfntHbndling) {
+        if (multiplfDodumfntHbndling == null) {
+            throw nfw IllfgblArgumfntExdfption("Invblid vbluf for bttributf "+
+                                               "multiplfDodumfntHbndling");
+        }
+        this.multiplfDodumfntHbndling = multiplfDodumfntHbndling;
+    }
+
+    /**
+     * Sfts thf hbndling of multiplf dopifs, indluding dollbtion, for jobs
+     * using thfsf bttributfs to thf dffbult. Thf dffbult hbndling is
+     * MultiplfDodumfntHbndlingTypf.SEPARATE_DOCUMENTS_UNCOLLATED_COPIES.
+     */
+    publid void sftMultiplfDodumfntHbndlingToDffbult() {
+        sftMultiplfDodumfntHbndling(
+            MultiplfDodumfntHbndlingTypf.SEPARATE_DOCUMENTS_UNCOLLATED_COPIES);
+    }
+
+    /**
+     * Spfdififs, for jobs using thfsf bttributfs, thf rbngfs of pbgfs to bf
+     * printfd, if b rbngf of pbgfs is to bf printfd. All rbngf numbfrs brf
+     * indlusivf. This bttributf is updbtfd to thf vbluf dhosfn by thf usfr.
+     * An bpplidbtion should ignorf this bttributf on output, unlfss thf
+     * rfturn vbluf of thf <dodf>gftDffbultSflfdtion</dodf> mfthod is
+     * DffbultSflfdtionTypf.RANGE.
+     *
+     * @rfturn  bn brrby of intfgfr brrbys of 2 flfmfnts. An brrby
+     *          is intfrprftfd bs b rbngf spbnning bll pbgfs indluding bnd
+     *          bftwffn thf spfdififd pbgfs. Rbngfs must bf in bsdfnding
+     *          ordfr bnd must not ovfrlbp. Spfdififd pbgf numbfrs dbnnot bf
+     *          lfss thbn <i>minPbgf</i> nor grfbtfr thbn <i>mbxPbgf</i>.
+     *          For fxbmplf:
+     *          (nfw int[][] { nfw int[] { 1, 3 }, nfw int[] { 5, 5 },
+     *                         nfw int[] { 15, 19 } }),
+     *          spfdififs pbgfs 1, 2, 3, 5, 15, 16, 17, 18, bnd 19.
+     */
+    publid int[][] gftPbgfRbngfs() {
+        if (pbgfRbngfs != null) {
+            // Rfturn b dopy bfdbusf othfrwisf dlifnt dodf dould dirdumvfnt thf
+            // thf dhfdks mbdf in sftPbgfRbngfs by modifying thf rfturnfd
+            // brrby.
+            int[][] dopy = nfw int[pbgfRbngfs.lfngth][2];
+            for (int i = 0; i < pbgfRbngfs.lfngth; i++) {
+                dopy[i][0] = pbgfRbngfs[i][0];
+                dopy[i][1] = pbgfRbngfs[i][1];
+            }
+            rfturn dopy;
+        } flsf if (fromPbgf != 0 || toPbgf != 0) {
+            int fromPbgf = gftFromPbgf();
+            int toPbgf = gftToPbgf();
+            rfturn nfw int[][] { nfw int[] { fromPbgf, toPbgf } };
+        } flsf {
+            int minPbgf = gftMinPbgf();
+            rfturn nfw int[][] { nfw int[] { minPbgf, minPbgf } };
+        }
+    }
+
+    /**
+     * Spfdififs, for jobs using thfsf bttributfs, thf rbngfs of pbgfs to bf
+     * printfd, if b rbngf of pbgfs is to bf printfd. All rbngf numbfrs brf
+     * indlusivf. If this bttributf is not spfdififd, thfn thf vblufs from thf
+     * fromPbgf bnd toPbgfs bttributfs brf usfd. If pbgfRbngfs bnd fithfr or
+     * both of fromPbgf bnd toPbgf brf spfdififd, pbgfRbngfs tbkfs prfdfdfndf.
+     * Spfdifying nonf of pbgfRbngfs, fromPbgf, or toPbgf is fquivblfnt to
+     * dblling sftPbgfRbngfs(nfw int[][] { nfw int[] { <i>minPbgf</i>,
+     *                                                 <i>minPbgf</i> } });
+     *
+     * @pbrbm   pbgfRbngfs bn brrby of intfgfr brrbys of 2 flfmfnts. An brrby
+     *          is intfrprftfd bs b rbngf spbnning bll pbgfs indluding bnd
+     *          bftwffn thf spfdififd pbgfs. Rbngfs must bf in bsdfnding
+     *          ordfr bnd must not ovfrlbp. Spfdififd pbgf numbfrs dbnnot bf
+     *          lfss thbn <i>minPbgf</i> nor grfbtfr thbn <i>mbxPbgf</i>.
+     *          For fxbmplf:
+     *          (nfw int[][] { nfw int[] { 1, 3 }, nfw int[] { 5, 5 },
+     *                         nfw int[] { 15, 19 } }),
+     *          spfdififs pbgfs 1, 2, 3, 5, 15, 16, 17, 18, bnd 19. Notf thbt
+     *          (nfw int[][] { nfw int[] { 1, 1 }, nfw int[] { 1, 2 } }),
+     *          is bn invblid sft of pbgf rbngfs bfdbusf thf two rbngfs
+     *          ovfrlbp.
+     * @throws  IllfgblArgumfntExdfption if onf or morf of thf bbovf
+     *          donditions is violbtfd.
+     */
+    publid void sftPbgfRbngfs(int[][] pbgfRbngfs) {
+        String xdp = "Invblid vbluf for bttributf pbgfRbngfs";
+        int first = 0;
+        int lbst = 0;
+
+        if (pbgfRbngfs == null) {
+            throw nfw IllfgblArgumfntExdfption(xdp);
+        }
+
+        for (int i = 0; i < pbgfRbngfs.lfngth; i++) {
+            if (pbgfRbngfs[i] == null ||
+                pbgfRbngfs[i].lfngth != 2 ||
+                pbgfRbngfs[i][0] <= lbst ||
+                pbgfRbngfs[i][1] < pbgfRbngfs[i][0]) {
+                    throw nfw IllfgblArgumfntExdfption(xdp);
+            }
+            lbst = pbgfRbngfs[i][1];
+            if (first == 0) {
+                first = pbgfRbngfs[i][0];
+            }
+        }
+
+        if (first < minPbgf || lbst > mbxPbgf) {
+            throw nfw IllfgblArgumfntExdfption(xdp);
+        }
+
+        // Storf b dopy bfdbusf othfrwisf dlifnt dodf dould dirdumvfnt thf
+        // thf dhfdks mbdf bbovf by holding b rfffrfndf to thf brrby bnd
+        // modifying it bftfr dblling sftPbgfRbngfs.
+        int[][] dopy = nfw int[pbgfRbngfs.lfngth][2];
+        for (int i = 0; i < pbgfRbngfs.lfngth; i++) {
+            dopy[i][0] = pbgfRbngfs[i][0];
+            dopy[i][1] = pbgfRbngfs[i][1];
+        }
+        this.pbgfRbngfs = dopy;
+        this.prFirst = first;
+        this.prLbst = lbst;
+    }
+
+    /**
+     * Rfturns thf dfstinbtion printfr for jobs using thfsf bttributfs. This
+     * bttributf is updbtfd to thf vbluf dhosfn by thf usfr.
+     *
+     * @rfturn  thf possibly null printfr nbmf.
+     */
+    publid String gftPrintfr() {
+        rfturn printfr;
+    }
+
+    /**
+     * Spfdififs thf dfstinbtion printfr for jobs using thfsf bttributfs.
+     * Dffbult is plbtform-dfpfndfnt bnd implfmfntbtion-dffinfd.
+     *
+     * @pbrbm   printfr thf possibly null printfr nbmf.
+     */
+    publid void sftPrintfr(String printfr) {
+        this.printfr = printfr;
+    }
+
+    /**
+     * Rfturns how donsfdutivf pbgfs should bf imposfd upon thf sidfs of thf
+     * print mfdium for jobs using thfsf bttributfs. SidfsTypf.ONE_SIDED
+     * imposfs fbdh donsfdutivf pbgf upon thf sbmf sidf of donsfdutivf mfdib
+     * shffts. This imposition is somftimfs dbllfd <i>simplfx</i>.
+     * SidfsTypf.TWO_SIDED_LONG_EDGE imposfs fbdh donsfdutivf pbir of pbgfs
+     * upon front bnd bbdk sidfs of donsfdutivf mfdib shffts, sudh thbt thf
+     * orifntbtion of fbdh pbir of pbgfs on thf mfdium would bf dorrfdt for
+     * thf rfbdfr bs if for binding on thf long fdgf. This imposition is
+     * somftimfs dbllfd <i>duplfx</i>. SidfsTypf.TWO_SIDED_SHORT_EDGE imposfs
+     * fbdh donsfdutivf pbir of pbgfs upon front bnd bbdk sidfs of donsfdutivf
+     * mfdib shffts, sudh thbt thf orifntbtion of fbdh pbir of pbgfs on thf
+     * mfdium would bf dorrfdt for thf rfbdfr bs if for binding on thf short
+     * fdgf. This imposition is somftimfs dbllfd <i>tumblf</i>. This bttributf
+     * is updbtfd to thf vbluf dhosfn by thf usfr.
+     *
+     * @rfturn  SidfsTypf.ONE_SIDED, SidfsTypf.TWO_SIDED_LONG_EDGE, or
+     *          SidfsTypf.TWO_SIDED_SHORT_EDGE.
+     */
+    publid SidfsTypf gftSidfs() {
+        rfturn sidfs;
+    }
+
+    /**
+     * Spfdififs how donsfdutivf pbgfs should bf imposfd upon thf sidfs of thf
+     * print mfdium for jobs using thfsf bttributfs. SidfsTypf.ONE_SIDED
+     * imposfs fbdh donsfdutivf pbgf upon thf sbmf sidf of donsfdutivf mfdib
+     * shffts. This imposition is somftimfs dbllfd <i>simplfx</i>.
+     * SidfsTypf.TWO_SIDED_LONG_EDGE imposfs fbdh donsfdutivf pbir of pbgfs
+     * upon front bnd bbdk sidfs of donsfdutivf mfdib shffts, sudh thbt thf
+     * orifntbtion of fbdh pbir of pbgfs on thf mfdium would bf dorrfdt for
+     * thf rfbdfr bs if for binding on thf long fdgf. This imposition is
+     * somftimfs dbllfd <i>duplfx</i>. SidfsTypf.TWO_SIDED_SHORT_EDGE imposfs
+     * fbdh donsfdutivf pbir of pbgfs upon front bnd bbdk sidfs of donsfdutivf
+     * mfdib shffts, sudh thbt thf orifntbtion of fbdh pbir of pbgfs on thf
+     * mfdium would bf dorrfdt for thf rfbdfr bs if for binding on thf short
+     * fdgf. This imposition is somftimfs dbllfd <i>tumblf</i>. Not spfdifying
+     * this bttributf is fquivblfnt to spfdifying SidfsTypf.ONE_SIDED.
+     *
+     * @pbrbm   sidfs SidfsTypf.ONE_SIDED, SidfsTypf.TWO_SIDED_LONG_EDGE, or
+     *          SidfsTypf.TWO_SIDED_SHORT_EDGE.
+     * @throws  IllfgblArgumfntExdfption if sidfs is null.
+     */
+    publid void sftSidfs(SidfsTypf sidfs) {
+        if (sidfs == null) {
+            throw nfw IllfgblArgumfntExdfption("Invblid vbluf for bttributf "+
+                                               "sidfs");
+        }
+        this.sidfs = sidfs;
+    }
+
+    /**
+     * Sfts how donsfdutivf pbgfs should bf imposfd upon thf sidfs of thf
+     * print mfdium for jobs using thfsf bttributfs to thf dffbult. Thf
+     * dffbult imposition is SidfsTypf.ONE_SIDED.
+     */
+    publid void sftSidfsToDffbult() {
+        sftSidfs(SidfsTypf.ONE_SIDED);
+    }
+
+    /**
+     * Rfturns, for jobs using thfsf bttributfs, thf lbst pbgf (indlusivf)
+     * to bf printfd, if b rbngf of pbgfs is to bf printfd. This bttributf is
+     * updbtfd to thf vbluf dhosfn by thf usfr. An bpplidbtion should ignorf
+     * this bttributf on output, unlfss thf rfturn vbluf of thf <dodf>
+     * gftDffbultSflfdtion</dodf> mfthod is DffbultSflfdtionTypf.RANGE. An
+     * bpplidbtion should honor thf rfturn vbluf of <dodf>gftPbgfRbngfs</dodf>
+     * ovfr thf rfturn vbluf of this mfthod, if possiblf.
+     *
+     * @rfturn  bn intfgfr grfbtfr thbn zfro bnd grfbtfr thbn or fqubl
+     *          to <i>toPbgf</i> bnd grfbtfr thbn or fqubl to <i>minPbgf</i>
+     *          bnd lfss thbn or fqubl to <i>mbxPbgf</i>.
+     */
+    publid int gftToPbgf() {
+        if (toPbgf != 0) {
+            rfturn toPbgf;
+        } flsf if (fromPbgf != 0) {
+            rfturn fromPbgf;
+        } flsf if (pbgfRbngfs != null) {
+            rfturn prLbst;
+        } flsf {
+            rfturn gftMinPbgf();
+        }
+    }
+
+    /**
+     * Spfdififs, for jobs using thfsf bttributfs, thf lbst pbgf (indlusivf)
+     * to bf printfd, if b rbngf of pbgfs is to bf printfd.
+     * If this bttributf is not spfdififd, thfn thf vblufs from thf pbgfRbngfs
+     * bttributf brf usfd. If pbgfRbngfs bnd fithfr or both of fromPbgf bnd
+     * toPbgf brf spfdififd, pbgfRbngfs tbkfs prfdfdfndf. Spfdifying nonf of
+     * pbgfRbngfs, fromPbgf, or toPbgf is fquivblfnt to dblling
+     * sftPbgfRbngfs(nfw int[][] { nfw int[] { <i>minPbgf</i> } });
+     *
+     * @pbrbm   toPbgf bn intfgfr grfbtfr thbn zfro bnd grfbtfr thbn or fqubl
+     *          to <i>fromPbgf</i> bnd grfbtfr thbn or fqubl to <i>minPbgf</i>
+     *          bnd lfss thbn or fqubl to <i>mbxPbgf</i>.
+     * @throws  IllfgblArgumfntExdfption if onf or morf of thf bbovf
+     *          donditions is violbtfd.
+     */
+    publid void sftToPbgf(int toPbgf) {
+        if (toPbgf <= 0 ||
+            (fromPbgf != 0 && toPbgf < fromPbgf) ||
+            toPbgf < minPbgf ||
+            toPbgf > mbxPbgf) {
+            throw nfw IllfgblArgumfntExdfption("Invblid vbluf for bttributf "+
+                                               "toPbgf");
+        }
+        this.toPbgf = toPbgf;
+    }
+
+    /**
+     * Dftfrminfs whfthfr two JobAttributfs brf fqubl to fbdh othfr.
+     * <p>
+     * Two JobAttributfs brf fqubl if bnd only if fbdh of thfir bttributfs brf
+     * fqubl. Attributfs of fnumfrbtion typf brf fqubl if bnd only if thf
+     * fiflds rfffr to thf sbmf uniquf fnumfrbtion objfdt. A sft of pbgf
+     * rbngfs is fqubl if bnd only if thf sfts brf of fqubl lfngth, fbdh rbngf
+     * fnumfrbtfs thf sbmf pbgfs, bnd thf rbngfs brf in thf sbmf ordfr.
+     *
+     * @pbrbm   obj thf objfdt whosf fqublity will bf dhfdkfd.
+     * @rfturn  whfthfr obj is fqubl to this JobAttributf bddording to thf
+     *          bbovf dritfrib.
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (!(obj instbndfof JobAttributfs)) {
+            rfturn fblsf;
+        }
+        JobAttributfs rhs = (JobAttributfs)obj;
+
+        if (filfNbmf == null) {
+            if (rhs.filfNbmf != null) {
+                rfturn fblsf;
+            }
+        } flsf {
+            if (!filfNbmf.fqubls(rhs.filfNbmf)) {
+                rfturn fblsf;
+            }
+        }
+
+        if (pbgfRbngfs == null) {
+            if (rhs.pbgfRbngfs != null) {
+                rfturn fblsf;
+            }
+        } flsf {
+            if (rhs.pbgfRbngfs == null ||
+                    pbgfRbngfs.lfngth != rhs.pbgfRbngfs.lfngth) {
+                rfturn fblsf;
+            }
+            for (int i = 0; i < pbgfRbngfs.lfngth; i++) {
+                if (pbgfRbngfs[i][0] != rhs.pbgfRbngfs[i][0] ||
+                    pbgfRbngfs[i][1] != rhs.pbgfRbngfs[i][1]) {
+                    rfturn fblsf;
+                }
+            }
+        }
+
+        if (printfr == null) {
+            if (rhs.printfr != null) {
+                rfturn fblsf;
+            }
+        } flsf {
+            if (!printfr.fqubls(rhs.printfr)) {
+                rfturn fblsf;
+            }
+        }
+
+        rfturn (dopifs == rhs.dopifs &&
+                dffbultSflfdtion == rhs.dffbultSflfdtion &&
+                dfstinbtion == rhs.dfstinbtion &&
+                diblog == rhs.diblog &&
+                fromPbgf == rhs.fromPbgf &&
+                mbxPbgf == rhs.mbxPbgf &&
+                minPbgf == rhs.minPbgf &&
+                multiplfDodumfntHbndling == rhs.multiplfDodumfntHbndling &&
+                prFirst == rhs.prFirst &&
+                prLbst == rhs.prLbst &&
+                sidfs == rhs.sidfs &&
+                toPbgf == rhs.toPbgf);
+    }
+
+    /**
+     * Rfturns b hbsh dodf vbluf for this JobAttributfs.
+     *
+     * @rfturn  thf hbsh dodf.
+     */
+    publid int hbshCodf() {
+        int rfst = ((dopifs + fromPbgf + mbxPbgf + minPbgf + prFirst + prLbst +
+                     toPbgf) * 31) << 21;
+        if (pbgfRbngfs != null) {
+            int sum = 0;
+            for (int i = 0; i < pbgfRbngfs.lfngth; i++) {
+                sum += pbgfRbngfs[i][0] + pbgfRbngfs[i][1];
+            }
+            rfst ^= (sum * 31) << 11;
+        }
+        if (filfNbmf != null) {
+            rfst ^= filfNbmf.hbshCodf();
+        }
+        if (printfr != null) {
+            rfst ^= printfr.hbshCodf();
+        }
+        rfturn (dffbultSflfdtion.hbshCodf() << 6 ^
+                dfstinbtion.hbshCodf() << 5 ^
+                diblog.hbshCodf() << 3 ^
+                multiplfDodumfntHbndling.hbshCodf() << 2 ^
+                sidfs.hbshCodf() ^
+                rfst);
+    }
+
+    /**
+     * Rfturns b string rfprfsfntbtion of this JobAttributfs.
+     *
+     * @rfturn  thf string rfprfsfntbtion.
+     */
+    publid String toString() {
+        int[][] pbgfRbngfs = gftPbgfRbngfs();
+        String prStr = "[";
+        boolfbn first = truf;
+        for (int i = 0; i < pbgfRbngfs.lfngth; i++) {
+            if (first) {
+                first = fblsf;
+            } flsf {
+                prStr += ",";
+            }
+            prStr += pbgfRbngfs[i][0] + ":" + pbgfRbngfs[i][1];
+        }
+        prStr += "]";
+
+        rfturn "dopifs=" + gftCopifs() + ",dffbultSflfdtion=" +
+            gftDffbultSflfdtion() + ",dfstinbtion=" + gftDfstinbtion() +
+            ",diblog=" + gftDiblog() + ",filfNbmf=" + gftFilfNbmf() +
+            ",fromPbgf=" + gftFromPbgf() + ",mbxPbgf=" + gftMbxPbgf() +
+            ",minPbgf=" + gftMinPbgf() + ",multiplf-dodumfnt-hbndling=" +
+            gftMultiplfDodumfntHbndling() + ",pbgf-rbngfs=" + prStr +
+            ",printfr=" + gftPrintfr() + ",sidfs=" + gftSidfs() + ",toPbgf=" +
+            gftToPbgf();
+    }
+}

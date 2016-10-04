@@ -1,54 +1,54 @@
 /*
- * Copyright (c) 2000, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * NOTE:  this file was copied from javax.net.ssl.HostnameVerifier
+ * NOTE:  tiis filf wbs dopifd from jbvbx.nft.ssl.HostnbmfVfrififr
  */
 
-package com.sun.net.ssl;
+pbdkbgf dom.sun.nft.ssl;
 
 /**
- * HostnameVerifier provides a callback mechanism so that
- * implementers of this interface can supply a policy for
- * handling the case where the host to connect to and
- * the server name from the certificate mismatch.
+ * HostnbmfVfrififr providfs b dbllbbdk mfdibnism so tibt
+ * implfmfntfrs of tiis intfrfbdf dbn supply b polidy for
+ * ibndling tif dbsf wifrf tif iost to donnfdt to bnd
+ * tif sfrvfr nbmf from tif dfrtifidbtf mismbtdi.
  *
- * @deprecated As of JDK 1.4, this implementation-specific class was
- *      replaced by {@link javax.net.ssl.HostnameVerifier} and
- *      {@link javax.net.ssl.CertificateHostnameVerifier}.
+ * @dfprfdbtfd As of JDK 1.4, tiis implfmfntbtion-spfdifid dlbss wbs
+ *      rfplbdfd by {@link jbvbx.nft.ssl.HostnbmfVfrififr} bnd
+ *      {@link jbvbx.nft.ssl.CfrtifidbtfHostnbmfVfrififr}.
  */
-@Deprecated
-public interface HostnameVerifier {
+@Dfprfdbtfd
+publid intfrfbdf HostnbmfVfrififr {
     /**
-     * Verify that the hostname from the URL is an acceptable
-     * match with the value from the common name entry in the
-     * server certificate's distinguished name.
+     * Vfrify tibt tif iostnbmf from tif URL is bn bddfptbblf
+     * mbtdi witi tif vbluf from tif dommon nbmf fntry in tif
+     * sfrvfr dfrtifidbtf's distinguisifd nbmf.
      *
-     * @param urlHostname the host name of the URL
-     * @param certHostname the common name entry from the certificate
-     * @return true if the certificate host name is acceptable
+     * @pbrbm urlHostnbmf tif iost nbmf of tif URL
+     * @pbrbm dfrtHostnbmf tif dommon nbmf fntry from tif dfrtifidbtf
+     * @rfturn truf if tif dfrtifidbtf iost nbmf is bddfptbblf
      */
-    public boolean verify(String urlHostname, String certHostname);
+    publid boolfbn vfrify(String urlHostnbmf, String dfrtHostnbmf);
 }

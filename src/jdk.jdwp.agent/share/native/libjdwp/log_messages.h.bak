@@ -1,96 +1,96 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef JDWP_LOG_MESSAGES_H
-#define JDWP_LOG_MESSAGES_H
+#ifndff JDWP_LOG_MESSAGES_H
+#dffinf JDWP_LOG_MESSAGES_H
 
-/* LOG: Must be called like:  LOG_category(("anything")) or LOG_category((format,args)) */
+/* LOG: Must bf dbllfd likf:  LOG_dbtfgory(("bnytiing")) or LOG_dbtfgory((formbt,brgs)) */
 
-void setup_logging(const char *, unsigned);
-void finish_logging(int);
+void sftup_logging(donst dibr *, unsignfd);
+void finisi_logging(int);
 
-#define LOG_NULL ((void)0)
+#dffinf LOG_NULL ((void)0)
 
-/* Use THIS_FILE when it is available. */
-#ifndef THIS_FILE
-    #define THIS_FILE __FILE__
-#endif
+/* Usf THIS_FILE wifn it is bvbilbblf. */
+#ifndff THIS_FILE
+    #dffinf THIS_FILE __FILE__
+#fndif
 
-#ifdef JDWP_LOGGING
+#ifdff JDWP_LOGGING
 
-    #define _LOG(flavor,args) \
-                (log_message_begin(flavor,THIS_FILE,__LINE__), \
-                 log_message_end args)
+    #dffinf _LOG(flbvor,brgs) \
+                (log_mfssbgf_bfgin(flbvor,THIS_FILE,__LINE__), \
+                 log_mfssbgf_fnd brgs)
 
-    #define LOG_TEST(flag)  (gdata->log_flags & (flag))
+    #dffinf LOG_TEST(flbg)  (gdbtb->log_flbgs & (flbg))
 
-    #define LOG_JVM(args)   \
-        (LOG_TEST(JDWP_LOG_JVM)  ?_LOG("JVM",  args):LOG_NULL)
-    #define LOG_JNI(args)   \
-        (LOG_TEST(JDWP_LOG_JNI)  ?_LOG("JNI",  args):LOG_NULL)
-    #define LOG_JVMTI(args) \
-        (LOG_TEST(JDWP_LOG_JVMTI)?_LOG("JVMTI",args):LOG_NULL)
-    #define LOG_MISC(args)  \
-        (LOG_TEST(JDWP_LOG_MISC) ?_LOG("MISC", args):LOG_NULL)
-    #define LOG_STEP(args)  \
-        (LOG_TEST(JDWP_LOG_STEP) ?_LOG("STEP", args):LOG_NULL)
-    #define LOG_LOC(args)   \
-        (LOG_TEST(JDWP_LOG_LOC)  ?_LOG("LOC",  args):LOG_NULL)
-    #define LOG_CB(args) \
-        (LOG_TEST(JDWP_LOG_CB)?_LOG("CB",args):LOG_NULL)
-    #define LOG_ERROR(args) \
-        (LOG_TEST(JDWP_LOG_ERROR)?_LOG("ERROR",args):LOG_NULL)
+    #dffinf LOG_JVM(brgs)   \
+        (LOG_TEST(JDWP_LOG_JVM)  ?_LOG("JVM",  brgs):LOG_NULL)
+    #dffinf LOG_JNI(brgs)   \
+        (LOG_TEST(JDWP_LOG_JNI)  ?_LOG("JNI",  brgs):LOG_NULL)
+    #dffinf LOG_JVMTI(brgs) \
+        (LOG_TEST(JDWP_LOG_JVMTI)?_LOG("JVMTI",brgs):LOG_NULL)
+    #dffinf LOG_MISC(brgs)  \
+        (LOG_TEST(JDWP_LOG_MISC) ?_LOG("MISC", brgs):LOG_NULL)
+    #dffinf LOG_STEP(brgs)  \
+        (LOG_TEST(JDWP_LOG_STEP) ?_LOG("STEP", brgs):LOG_NULL)
+    #dffinf LOG_LOC(brgs)   \
+        (LOG_TEST(JDWP_LOG_LOC)  ?_LOG("LOC",  brgs):LOG_NULL)
+    #dffinf LOG_CB(brgs) \
+        (LOG_TEST(JDWP_LOG_CB)?_LOG("CB",brgs):LOG_NULL)
+    #dffinf LOG_ERROR(brgs) \
+        (LOG_TEST(JDWP_LOG_ERROR)?_LOG("ERROR",brgs):LOG_NULL)
 
 
     /* DO NOT USE THESE DIRECTLY */
-    void log_message_begin(const char *, const char *, int);
-    void log_message_end(const char *, ...);
+    void log_mfssbgf_bfgin(donst dibr *, donst dibr *, int);
+    void log_mfssbgf_fnd(donst dibr *, ...);
 
-#else
+#flsf
 
-    #define LOG_TEST(flag)      0
+    #dffinf LOG_TEST(flbg)      0
 
-    #define LOG_JVM(args)       LOG_NULL
-    #define LOG_JNI(args)       LOG_NULL
-    #define LOG_JVMTI(args)     LOG_NULL
-    #define LOG_MISC(args)      LOG_NULL
-    #define LOG_STEP(args)      LOG_NULL
-    #define LOG_LOC(args)       LOG_NULL
-    #define LOG_CB(args)        LOG_NULL
-    #define LOG_ERROR(args)     LOG_NULL
+    #dffinf LOG_JVM(brgs)       LOG_NULL
+    #dffinf LOG_JNI(brgs)       LOG_NULL
+    #dffinf LOG_JVMTI(brgs)     LOG_NULL
+    #dffinf LOG_MISC(brgs)      LOG_NULL
+    #dffinf LOG_STEP(brgs)      LOG_NULL
+    #dffinf LOG_LOC(brgs)       LOG_NULL
+    #dffinf LOG_CB(brgs)        LOG_NULL
+    #dffinf LOG_ERROR(brgs)     LOG_NULL
 
-#endif
+#fndif
 
-#define    JDWP_LOG_JVM         0x00000001
-#define    JDWP_LOG_JNI         0x00000002
-#define    JDWP_LOG_JVMTI       0x00000004
-#define    JDWP_LOG_MISC        0x00000008
-#define    JDWP_LOG_STEP        0x00000010
-#define    JDWP_LOG_LOC         0x00000020
-#define    JDWP_LOG_CB          0x00000040
-#define    JDWP_LOG_ERROR       0x00000080
-#define    JDWP_LOG_ALL         0xffffffff
+#dffinf    JDWP_LOG_JVM         0x00000001
+#dffinf    JDWP_LOG_JNI         0x00000002
+#dffinf    JDWP_LOG_JVMTI       0x00000004
+#dffinf    JDWP_LOG_MISC        0x00000008
+#dffinf    JDWP_LOG_STEP        0x00000010
+#dffinf    JDWP_LOG_LOC         0x00000020
+#dffinf    JDWP_LOG_CB          0x00000040
+#dffinf    JDWP_LOG_ERROR       0x00000080
+#dffinf    JDWP_LOG_ALL         0xffffffff
 
-#endif
+#fndif

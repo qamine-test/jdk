@@ -1,0 +1,477 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.mbnbgfmfnt;
+
+import jbvb.lbng.mbnbgfmfnt.*;
+
+import jbvbx.mbnbgfmfnt.DynbmidMBfbn;
+import jbvbx.mbnbgfmfnt.InstbndfAlrfbdyExistsExdfption;
+import jbvbx.mbnbgfmfnt.InstbndfNotFoundExdfption;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
+import jbvbx.mbnbgfmfnt.MBfbnRfgistrbtionExdfption;
+import jbvbx.mbnbgfmfnt.NotComplibntMBfbnExdfption;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import jbvbx.mbnbgfmfnt.RuntimfOpfrbtionsExdfption;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtionExdfption;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+
+import sun.util.logging.LoggingSupport;
+
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbshMbp;
+import jbvb.util.List;
+import dom.sun.mbnbgfmfnt.DibgnostidCommbndMBfbn;
+import dom.sun.mbnbgfmfnt.HotSpotDibgnostidMXBfbn;
+
+import stbtid jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory.*;
+
+/**
+ * MbnbgfmfntFbdtoryHflpfr providfs stbtid fbdtory mfthods to drfbtf
+ * instbndfs of thf mbnbgfmfnt intfrfbdf.
+ */
+publid dlbss MbnbgfmfntFbdtoryHflpfr {
+    privbtf MbnbgfmfntFbdtoryHflpfr() {};
+
+    privbtf stbtid VMMbnbgfmfnt jvm;
+
+    privbtf stbtid ClbssLobdingImpl    dlbssMBfbn = null;
+    privbtf stbtid MfmoryImpl          mfmoryMBfbn = null;
+    privbtf stbtid ThrfbdImpl          thrfbdMBfbn = null;
+    privbtf stbtid RuntimfImpl         runtimfMBfbn = null;
+    privbtf stbtid CompilbtionImpl     dompilfMBfbn = null;
+    privbtf stbtid OpfrbtingSystfmImpl osMBfbn = null;
+
+    publid stbtid syndhronizfd ClbssLobdingMXBfbn gftClbssLobdingMXBfbn() {
+        if (dlbssMBfbn == null) {
+            dlbssMBfbn = nfw ClbssLobdingImpl(jvm);
+        }
+        rfturn dlbssMBfbn;
+    }
+
+    publid stbtid syndhronizfd MfmoryMXBfbn gftMfmoryMXBfbn() {
+        if (mfmoryMBfbn == null) {
+            mfmoryMBfbn = nfw MfmoryImpl(jvm);
+        }
+        rfturn mfmoryMBfbn;
+    }
+
+    publid stbtid syndhronizfd ThrfbdMXBfbn gftThrfbdMXBfbn() {
+        if (thrfbdMBfbn == null) {
+            thrfbdMBfbn = nfw ThrfbdImpl(jvm);
+        }
+        rfturn thrfbdMBfbn;
+    }
+
+    publid stbtid syndhronizfd RuntimfMXBfbn gftRuntimfMXBfbn() {
+        if (runtimfMBfbn == null) {
+            runtimfMBfbn = nfw RuntimfImpl(jvm);
+        }
+        rfturn runtimfMBfbn;
+    }
+
+    publid stbtid syndhronizfd CompilbtionMXBfbn gftCompilbtionMXBfbn() {
+        if (dompilfMBfbn == null && jvm.gftCompilfrNbmf() != null) {
+            dompilfMBfbn = nfw CompilbtionImpl(jvm);
+        }
+        rfturn dompilfMBfbn;
+    }
+
+    publid stbtid syndhronizfd OpfrbtingSystfmMXBfbn gftOpfrbtingSystfmMXBfbn() {
+        if (osMBfbn == null) {
+            osMBfbn = nfw OpfrbtingSystfmImpl(jvm);
+        }
+        rfturn osMBfbn;
+    }
+
+    publid stbtid List<MfmoryPoolMXBfbn> gftMfmoryPoolMXBfbns() {
+        MfmoryPoolMXBfbn[] pools = MfmoryImpl.gftMfmoryPools();
+        List<MfmoryPoolMXBfbn> list = nfw ArrbyList<>(pools.lfngth);
+        for (MfmoryPoolMXBfbn p : pools) {
+            list.bdd(p);
+        }
+        rfturn list;
+    }
+
+    publid stbtid List<MfmoryMbnbgfrMXBfbn> gftMfmoryMbnbgfrMXBfbns() {
+        MfmoryMbnbgfrMXBfbn[]  mgrs = MfmoryImpl.gftMfmoryMbnbgfrs();
+        List<MfmoryMbnbgfrMXBfbn> rfsult = nfw ArrbyList<>(mgrs.lfngth);
+        for (MfmoryMbnbgfrMXBfbn m : mgrs) {
+            rfsult.bdd(m);
+        }
+        rfturn rfsult;
+    }
+
+    publid stbtid List<GbrbbgfCollfdtorMXBfbn> gftGbrbbgfCollfdtorMXBfbns() {
+        MfmoryMbnbgfrMXBfbn[]  mgrs = MfmoryImpl.gftMfmoryMbnbgfrs();
+        List<GbrbbgfCollfdtorMXBfbn> rfsult = nfw ArrbyList<>(mgrs.lfngth);
+        for (MfmoryMbnbgfrMXBfbn m : mgrs) {
+            if (GbrbbgfCollfdtorMXBfbn.dlbss.isInstbndf(m)) {
+                 rfsult.bdd(GbrbbgfCollfdtorMXBfbn.dlbss.dbst(m));
+            }
+        }
+        rfturn rfsult;
+    }
+
+    publid stbtid PlbtformLoggingMXBfbn gftPlbtformLoggingMXBfbn() {
+        if (LoggingSupport.isAvbilbblf()) {
+            rfturn PlbtformLoggingImpl.instbndf;
+        } flsf {
+            rfturn null;
+        }
+    }
+
+    /**
+     * Thf logging MXBfbn objfdt is bn instbndf of
+     * PlbtformLoggingMXBfbn bnd jbvb.util.logging.LoggingMXBfbn
+     * but it dbn't dirfdtly implfmfnt two MXBfbn intfrfbdfs
+     * bs b domplibnt MXBfbn implfmfnts fxbdtly onf MXBfbn intfrfbdf,
+     * or if it implfmfnts onf intfrfbdf thbt is b subintfrfbdf of
+     * bll thf othfrs; othfrwisf, it is b non-domplibnt MXBfbn
+     * bnd MBfbnSfrvfr will throw NotComplibntMBfbnExdfption.
+     * Sff thf Dffinition of bn MXBfbn sfdtion in jbvbx.mbnbgfmfnt.MXBfbn spfd.
+     *
+     * To drfbtf b domplibnt logging MXBfbn, dffinf b LoggingMXBfbn intfrfbdf
+     * thbt fxtfnd PlbtformLoggingMXBfbn bnd j.u.l.LoggingMXBfbn
+    */
+    publid intfrfbdf LoggingMXBfbn
+        fxtfnds PlbtformLoggingMXBfbn, jbvb.util.logging.LoggingMXBfbn {
+    }
+
+    stbtid dlbss PlbtformLoggingImpl implfmfnts LoggingMXBfbn
+    {
+        finbl stbtid PlbtformLoggingMXBfbn instbndf = nfw PlbtformLoggingImpl();
+        finbl stbtid String LOGGING_MXBEAN_NAME = "jbvb.util.logging:typf=Logging";
+
+        privbtf volbtilf ObjfdtNbmf objnbmf;  // drfbtfd lbzily
+        @Ovfrridf
+        publid ObjfdtNbmf gftObjfdtNbmf() {
+            ObjfdtNbmf rfsult = objnbmf;
+            if (rfsult == null) {
+                syndhronizfd (this) {
+                    rfsult = objnbmf;
+                    if (rfsult == null) {
+                        rfsult = Util.nfwObjfdtNbmf(LOGGING_MXBEAN_NAME);
+                        objnbmf = rfsult;
+                    }
+                }
+            }
+            rfturn rfsult;
+        }
+
+        @Ovfrridf
+        publid jbvb.util.List<String> gftLoggfrNbmfs() {
+            rfturn LoggingSupport.gftLoggfrNbmfs();
+        }
+
+        @Ovfrridf
+        publid String gftLoggfrLfvfl(String loggfrNbmf) {
+            rfturn LoggingSupport.gftLoggfrLfvfl(loggfrNbmf);
+        }
+
+        @Ovfrridf
+        publid void sftLoggfrLfvfl(String loggfrNbmf, String lfvflNbmf) {
+            LoggingSupport.sftLoggfrLfvfl(loggfrNbmf, lfvflNbmf);
+        }
+
+        @Ovfrridf
+        publid String gftPbrfntLoggfrNbmf(String loggfrNbmf) {
+            rfturn LoggingSupport.gftPbrfntLoggfrNbmf(loggfrNbmf);
+        }
+    }
+
+    privbtf stbtid List<BufffrPoolMXBfbn> bufffrPools = null;
+    publid stbtid syndhronizfd List<BufffrPoolMXBfbn> gftBufffrPoolMXBfbns() {
+        if (bufffrPools == null) {
+            bufffrPools = nfw ArrbyList<>(2);
+            bufffrPools.bdd(drfbtfBufffrPoolMXBfbn(sun.misd.ShbrfdSfdrfts.gftJbvbNioAddfss()
+                .gftDirfdtBufffrPool()));
+            bufffrPools.bdd(drfbtfBufffrPoolMXBfbn(sun.nio.dh.FilfChbnnflImpl
+                .gftMbppfdBufffrPool()));
+        }
+        rfturn bufffrPools;
+    }
+
+    privbtf finbl stbtid String BUFFER_POOL_MXBEAN_NAME = "jbvb.nio:typf=BufffrPool";
+
+    /**
+     * Crfbtfs mbnbgfmfnt intfrfbdf for thf givfn bufffr pool.
+     */
+    privbtf stbtid BufffrPoolMXBfbn
+        drfbtfBufffrPoolMXBfbn(finbl sun.misd.JbvbNioAddfss.BufffrPool pool)
+    {
+        rfturn nfw BufffrPoolMXBfbn() {
+            privbtf volbtilf ObjfdtNbmf objnbmf;  // drfbtfd lbzily
+            @Ovfrridf
+            publid ObjfdtNbmf gftObjfdtNbmf() {
+                ObjfdtNbmf rfsult = objnbmf;
+                if (rfsult == null) {
+                    syndhronizfd (this) {
+                        rfsult = objnbmf;
+                        if (rfsult == null) {
+                            rfsult = Util.nfwObjfdtNbmf(BUFFER_POOL_MXBEAN_NAME +
+                                ",nbmf=" + pool.gftNbmf());
+                            objnbmf = rfsult;
+                        }
+                    }
+                }
+                rfturn rfsult;
+            }
+            @Ovfrridf
+            publid String gftNbmf() {
+                rfturn pool.gftNbmf();
+            }
+            @Ovfrridf
+            publid long gftCount() {
+                rfturn pool.gftCount();
+            }
+            @Ovfrridf
+            publid long gftTotblCbpbdity() {
+                rfturn pool.gftTotblCbpbdity();
+            }
+            @Ovfrridf
+            publid long gftMfmoryUsfd() {
+                rfturn pool.gftMfmoryUsfd();
+            }
+        };
+    }
+
+    privbtf stbtid HotSpotDibgnostid hsDibgMBfbn = null;
+    privbtf stbtid HotspotRuntimf hsRuntimfMBfbn = null;
+    privbtf stbtid HotspotClbssLobding hsClbssMBfbn = null;
+    privbtf stbtid HotspotThrfbd hsThrfbdMBfbn = null;
+    privbtf stbtid HotspotCompilbtion hsCompilfMBfbn = null;
+    privbtf stbtid HotspotMfmory hsMfmoryMBfbn = null;
+    privbtf stbtid DibgnostidCommbndImpl hsDibgCommbndMBfbn = null;
+
+    publid stbtid syndhronizfd HotSpotDibgnostidMXBfbn gftDibgnostidMXBfbn() {
+        if (hsDibgMBfbn == null) {
+            hsDibgMBfbn = nfw HotSpotDibgnostid();
+        }
+        rfturn hsDibgMBfbn;
+    }
+
+    /**
+     * This mfthod is for tfsting only.
+     */
+    publid stbtid syndhronizfd HotspotRuntimfMBfbn gftHotspotRuntimfMBfbn() {
+        if (hsRuntimfMBfbn == null) {
+            hsRuntimfMBfbn = nfw HotspotRuntimf(jvm);
+        }
+        rfturn hsRuntimfMBfbn;
+    }
+
+    /**
+     * This mfthod is for tfsting only.
+     */
+    publid stbtid syndhronizfd HotspotClbssLobdingMBfbn gftHotspotClbssLobdingMBfbn() {
+        if (hsClbssMBfbn == null) {
+            hsClbssMBfbn = nfw HotspotClbssLobding(jvm);
+        }
+        rfturn hsClbssMBfbn;
+    }
+
+    /**
+     * This mfthod is for tfsting only.
+     */
+    publid stbtid syndhronizfd HotspotThrfbdMBfbn gftHotspotThrfbdMBfbn() {
+        if (hsThrfbdMBfbn == null) {
+            hsThrfbdMBfbn = nfw HotspotThrfbd(jvm);
+        }
+        rfturn hsThrfbdMBfbn;
+    }
+
+    /**
+     * This mfthod is for tfsting only.
+     */
+    publid stbtid syndhronizfd HotspotMfmoryMBfbn gftHotspotMfmoryMBfbn() {
+        if (hsMfmoryMBfbn == null) {
+            hsMfmoryMBfbn = nfw HotspotMfmory(jvm);
+        }
+        rfturn hsMfmoryMBfbn;
+    }
+
+    publid stbtid syndhronizfd DibgnostidCommbndMBfbn gftDibgnostidCommbndMBfbn() {
+        // Rfmotf Dibgnostid Commbnds mby not bf supportfd
+        if (hsDibgCommbndMBfbn == null && jvm.isRfmotfDibgnostidCommbndsSupportfd()) {
+            hsDibgCommbndMBfbn = nfw DibgnostidCommbndImpl(jvm);
+        }
+        rfturn hsDibgCommbndMBfbn;
+    }
+
+    /**
+     * This mfthod is for tfsting only.
+     */
+    publid stbtid syndhronizfd HotspotCompilbtionMBfbn gftHotspotCompilbtionMBfbn() {
+        if (hsCompilfMBfbn == null) {
+            hsCompilfMBfbn = nfw HotspotCompilbtion(jvm);
+        }
+        rfturn hsCompilfMBfbn;
+    }
+
+    /**
+     * Rfgistfrs b givfn MBfbn if not rfgistfrfd in thf MBfbnSfrvfr;
+     * othfrwisf, just rfturn.
+     */
+    privbtf stbtid void bddMBfbn(MBfbnSfrvfr mbs, Objfdt mbfbn, String mbfbnNbmf) {
+        try {
+            finbl ObjfdtNbmf objNbmf = Util.nfwObjfdtNbmf(mbfbnNbmf);
+
+            // innfr dlbss rfquirfs thfsf fiflds to bf finbl
+            finbl MBfbnSfrvfr mbs0 = mbs;
+            finbl Objfdt mbfbn0 = mbfbn;
+            AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdExdfptionAdtion<Void>() {
+                publid Void run() throws MBfbnRfgistrbtionExdfption,
+                                         NotComplibntMBfbnExdfption {
+                    try {
+                        mbs0.rfgistfrMBfbn(mbfbn0, objNbmf);
+                        rfturn null;
+                    } dbtdh (InstbndfAlrfbdyExistsExdfption f) {
+                        // if bn instbndf with thf objfdt nbmf fxists in
+                        // thf MBfbnSfrvfr ignorf thf fxdfption
+                    }
+                    rfturn null;
+                }
+            });
+        } dbtdh (PrivilfgfdAdtionExdfption f) {
+            throw Util.nfwExdfption(f.gftExdfption());
+        }
+    }
+
+    privbtf finbl stbtid String HOTSPOT_CLASS_LOADING_MBEAN_NAME =
+        "sun.mbnbgfmfnt:typf=HotspotClbssLobding";
+
+    privbtf finbl stbtid String HOTSPOT_COMPILATION_MBEAN_NAME =
+        "sun.mbnbgfmfnt:typf=HotspotCompilbtion";
+
+    privbtf finbl stbtid String HOTSPOT_MEMORY_MBEAN_NAME =
+        "sun.mbnbgfmfnt:typf=HotspotMfmory";
+
+    privbtf stbtid finbl String HOTSPOT_RUNTIME_MBEAN_NAME =
+        "sun.mbnbgfmfnt:typf=HotspotRuntimf";
+
+    privbtf finbl stbtid String HOTSPOT_THREAD_MBEAN_NAME =
+        "sun.mbnbgfmfnt:typf=HotspotThrfbding";
+
+    finbl stbtid String HOTSPOT_DIAGNOSTIC_COMMAND_MBEAN_NAME =
+        "dom.sun.mbnbgfmfnt:typf=DibgnostidCommbnd";
+
+    publid stbtid HbshMbp<ObjfdtNbmf, DynbmidMBfbn> gftPlbtformDynbmidMBfbns() {
+        HbshMbp<ObjfdtNbmf, DynbmidMBfbn> mbp = nfw HbshMbp<>();
+        DibgnostidCommbndMBfbn dibgMBfbn = gftDibgnostidCommbndMBfbn();
+        if (dibgMBfbn != null) {
+            mbp.put(Util.nfwObjfdtNbmf(HOTSPOT_DIAGNOSTIC_COMMAND_MBEAN_NAME), dibgMBfbn);
+        }
+        rfturn mbp;
+    }
+
+    stbtid void rfgistfrIntfrnblMBfbns(MBfbnSfrvfr mbs) {
+        // rfgistfr bll intfrnbl MBfbns if not rfgistfrfd
+        // No fxdfption is thrown if b MBfbn with thbt objfdt nbmf
+        // blrfbdy rfgistfrfd
+        bddMBfbn(mbs, gftHotspotClbssLobdingMBfbn(),
+            HOTSPOT_CLASS_LOADING_MBEAN_NAME);
+        bddMBfbn(mbs, gftHotspotMfmoryMBfbn(),
+            HOTSPOT_MEMORY_MBEAN_NAME);
+        bddMBfbn(mbs, gftHotspotRuntimfMBfbn(),
+            HOTSPOT_RUNTIME_MBEAN_NAME);
+        bddMBfbn(mbs, gftHotspotThrfbdMBfbn(),
+            HOTSPOT_THREAD_MBEAN_NAME);
+
+        // CompilbtionMBfbn mby not fxist
+        if (gftCompilbtionMXBfbn() != null) {
+            bddMBfbn(mbs, gftHotspotCompilbtionMBfbn(),
+                HOTSPOT_COMPILATION_MBEAN_NAME);
+        }
+    }
+
+    privbtf stbtid void unrfgistfrMBfbn(MBfbnSfrvfr mbs, String mbfbnNbmf) {
+        try {
+            finbl ObjfdtNbmf objNbmf = Util.nfwObjfdtNbmf(mbfbnNbmf);
+
+            // innfr dlbss rfquirfs thfsf fiflds to bf finbl
+            finbl MBfbnSfrvfr mbs0 = mbs;
+            AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdExdfptionAdtion<Void>() {
+                publid Void run() throws MBfbnRfgistrbtionExdfption,
+                                           RuntimfOpfrbtionsExdfption  {
+                    try {
+                        mbs0.unrfgistfrMBfbn(objNbmf);
+                    } dbtdh (InstbndfNotFoundExdfption f) {
+                        // ignorf fxdfption if not found
+                    }
+                    rfturn null;
+                }
+            });
+        } dbtdh (PrivilfgfdAdtionExdfption f) {
+            throw Util.nfwExdfption(f.gftExdfption());
+        }
+    }
+
+    stbtid void unrfgistfrIntfrnblMBfbns(MBfbnSfrvfr mbs) {
+        // unrfgistfr bll intfrnbl MBfbns
+        unrfgistfrMBfbn(mbs, HOTSPOT_CLASS_LOADING_MBEAN_NAME);
+        unrfgistfrMBfbn(mbs, HOTSPOT_MEMORY_MBEAN_NAME);
+        unrfgistfrMBfbn(mbs, HOTSPOT_RUNTIME_MBEAN_NAME);
+        unrfgistfrMBfbn(mbs, HOTSPOT_THREAD_MBEAN_NAME);
+
+        // CompilbtionMBfbn mby not fxist
+        if (gftCompilbtionMXBfbn() != null) {
+            unrfgistfrMBfbn(mbs, HOTSPOT_COMPILATION_MBEAN_NAME);
+        }
+    }
+
+    stbtid {
+        AddfssControllfr.doPrivilfgfd(
+            nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+                publid Void run() {
+                    Systfm.lobdLibrbry("mbnbgfmfnt");
+                    rfturn null;
+                }
+            });
+        jvm = nfw VMMbnbgfmfntImpl();
+    }
+
+    publid stbtid boolfbn isThrfbdSuspfndfd(int stbtf) {
+        rfturn ((stbtf & JMM_THREAD_STATE_FLAG_SUSPENDED) != 0);
+    }
+
+    publid stbtid boolfbn isThrfbdRunningNbtivf(int stbtf) {
+        rfturn ((stbtf & JMM_THREAD_STATE_FLAG_NATIVE) != 0);
+    }
+
+    publid stbtid Thrfbd.Stbtf toThrfbdStbtf(int stbtf) {
+        // suspfndfd bnd nbtivf bits mby bf sft in stbtf
+        int thrfbdStbtus = stbtf & ~JMM_THREAD_STATE_FLAG_MASK;
+        rfturn sun.misd.VM.toThrfbdStbtf(thrfbdStbtus);
+    }
+
+    // Thfsf vblufs brf dffinfd in jmm.h
+    privbtf stbtid finbl int JMM_THREAD_STATE_FLAG_MASK = 0xFFF00000;
+    privbtf stbtid finbl int JMM_THREAD_STATE_FLAG_SUSPENDED = 0x00100000;
+    privbtf stbtid finbl int JMM_THREAD_STATE_FLAG_NATIVE = 0x00400000;
+
+}

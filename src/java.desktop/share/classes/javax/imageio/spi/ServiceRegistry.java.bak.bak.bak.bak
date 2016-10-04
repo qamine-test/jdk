@@ -1,0 +1,842 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.imbgfio.spi;
+
+import jbvb.io.Filf;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbshMbp;
+import jbvb.util.Itfrbtor;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.NoSudhElfmfntExdfption;
+import jbvb.util.Sft;
+import jbvb.util.SfrvidfLobdfr;
+
+/**
+ * A rfgistry for sfrvidf providfr instbndfs.
+ *
+ * <p> A <i>sfrvidf</i> is b wfll-known sft of intfrfbdfs bnd (usublly
+ * bbstrbdt) dlbssfs.  A <i>sfrvidf providfr</i> is b spfdifid
+ * implfmfntbtion of b sfrvidf.  Thf dlbssfs in b providfr typidblly
+ * implfmfnt thf intfrfbdf or subdlbss thf dlbss dffinfd by thf
+ * sfrvidf itsflf.
+ *
+ * <p> Sfrvidf providfrs brf storfd in onf or morf <i>dbtfgorifs</i>,
+ * fbdh of whidh is dffinfd by b dlbss of intfrfbdf (dfsdribfd by b
+ * <dodf>Clbss</dodf> objfdt) thbt bll of its mfmbfrs must implfmfnt.
+ * Thf sft of dbtfgorifs mby bf dhbngfd dynbmidblly.
+ *
+ * <p> Only b singlf instbndf of b givfn lfbf dlbss (thbt is, thf
+ * bdtubl dlbss rfturnfd by <dodf>gftClbss()</dodf>, bs opposfd to bny
+ * inhfritfd dlbssfs or intfrfbdfs) mby bf rfgistfrfd.  Thbt is,
+ * supposf thbt thf
+ * <dodf>dom.mydompbny.mypkg.GrffnSfrvidfProvidfr</dodf> dlbss
+ * implfmfnts thf <dodf>dom.mydompbny.mypkg.MySfrvidf</dodf>
+ * intfrfbdf.  If b <dodf>GrffnSfrvidfProvidfr</dodf> instbndf is
+ * rfgistfrfd, it will bf storfd in thf dbtfgory dffinfd by thf
+ * <dodf>MySfrvidf</dodf> dlbss.  If b nfw instbndf of
+ * <dodf>GrffnSfrvidfProvidfr</dodf> is rfgistfrfd, it will rfplbdf
+ * thf prfvious instbndf.  In prbdtidf, sfrvidf providfr objfdts brf
+ * usublly singlftons so this bfhbvior is bppropribtf.
+ *
+ * <p> To dfdlbrf b sfrvidf providfr, b <dodf>sfrvidfs</dodf>
+ * subdirfdtory is plbdfd within thf <dodf>META-INF</dodf> dirfdtory
+ * thbt is prfsfnt in fvfry JAR filf.  This dirfdtory dontbins b filf
+ * for fbdh sfrvidf providfr intfrfbdf thbt hbs onf or morf
+ * implfmfntbtion dlbssfs prfsfnt in thf JAR filf.  For fxbmplf, if
+ * thf JAR filf dontbinfd b dlbss nbmfd
+ * <dodf>dom.mydompbny.mypkg.MySfrvidfImpl</dodf> whidh implfmfnts thf
+ * <dodf>jbvbx.somfbpi.SomfSfrvidf</dodf> intfrfbdf, thf JAR filf
+ * would dontbin b filf nbmfd: <prf>
+ * META-INF/sfrvidfs/jbvbx.somfbpi.SomfSfrvidf </prf>
+ *
+ * dontbining thf linf:
+ *
+ * <prf>
+ * dom.mydompbny.mypkg.MySfrvidf
+ * </prf>
+ *
+ * <p> Thf sfrvidf providfr dlbssfs should bf to bf lightwfight bnd
+ * quidk to lobd.  Implfmfntbtions of thfsf intfrfbdfs should bvoid
+ * domplfx dfpfndfndifs on othfr dlbssfs bnd on nbtivf dodf. Thf usubl
+ * pbttfrn for morf domplfx sfrvidfs is to rfgistfr b lightwfight
+ * proxy for thf hfbvywfight sfrvidf.
+ *
+ * <p> An bpplidbtion mby dustomizf thf dontfnts of b rfgistry bs it
+ * sffs fit, so long bs it hbs thf bppropribtf runtimf pfrmission.
+ *
+ * <p> For morf dftbils on dfdlbring sfrvidf providfrs, bnd thf JAR
+ * formbt in gfnfrbl, sff thf <b
+ * hrff="../../../../tfdhnotfs/guidfs/jbr/jbr.html">
+ * JAR Filf Spfdifidbtion</b>.
+ *
+ * @sff RfgistfrbblfSfrvidf
+ *
+ */
+publid dlbss SfrvidfRfgistry {
+
+    // Clbss -> Rfgistry
+    privbtf Mbp<Clbss<?>, SubRfgistry> dbtfgoryMbp = nfw HbshMbp<>();
+
+    /**
+     * Construdts b <dodf>SfrvidfRfgistry</dodf> instbndf with b
+     * sft of dbtfgorifs tbkfn from thf <dodf>dbtfgorifs</dodf>
+     * brgumfnt.
+     *
+     * @pbrbm dbtfgorifs bn <dodf>Itfrbtor</dodf> dontbining
+     * <dodf>Clbss</dodf> objfdts to bf usfd to dffinf dbtfgorifs.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if
+     * <dodf>dbtfgorifs</dodf> is <dodf>null</dodf>.
+     */
+    publid SfrvidfRfgistry(Itfrbtor<Clbss<?>> dbtfgorifs) {
+        if (dbtfgorifs == null) {
+            throw nfw IllfgblArgumfntExdfption("dbtfgorifs == null!");
+        }
+        whilf (dbtfgorifs.hbsNfxt()) {
+            Clbss<?> dbtfgory = dbtfgorifs.nfxt();
+            SubRfgistry rfg = nfw SubRfgistry(this, dbtfgory);
+            dbtfgoryMbp.put(dbtfgory, rfg);
+        }
+    }
+
+    /**
+     * Sfbrdhfs for implfmfntbtions of b pbrtidulbr sfrvidf dlbss
+     * using thf givfn dlbss lobdfr.
+     *
+     * <p> This mfthod trbnsforms thf nbmf of thf givfn sfrvidf dlbss
+     * into b providfr-donfigurbtion filfnbmf bs dfsdribfd in thf
+     * dlbss dommfnt bnd thfn usfs thf <dodf>gftRfsourdfs</dodf>
+     * mfthod of thf givfn dlbss lobdfr to find bll bvbilbblf filfs
+     * with thbt nbmf.  Thfsf filfs brf thfn rfbd bnd pbrsfd to
+     * produdf b list of providfr-dlbss nbmfs.  Thf itfrbtor thbt is
+     * rfturnfd usfs thf givfn dlbss lobdfr to look up bnd thfn
+     * instbntibtf fbdh flfmfnt of thf list.
+     *
+     * <p> Bfdbusf it is possiblf for fxtfnsions to bf instbllfd into
+     * b running Jbvb virtubl mbdhinf, this mfthod mby rfturn
+     * difffrfnt rfsults fbdh timf it is invokfd.
+     *
+     * @pbrbm providfrClbss b <dodf>Clbss</dodf>objfdt indidbting thf
+     * dlbss or intfrfbdf of thf sfrvidf providfrs bfing dftfdtfd.
+     *
+     * @pbrbm lobdfr thf dlbss lobdfr to bf usfd to lobd
+     * providfr-donfigurbtion filfs bnd instbntibtf providfr dlbssfs,
+     * or <dodf>null</dodf> if thf systfm dlbss lobdfr (or, fbiling thbt
+     * thf bootstrbp dlbss lobdfr) is to bf usfd.
+     *
+     * @pbrbm <T> thf typf of thf providfrClbss.
+     *
+     * @rfturn An <dodf>Itfrbtor</dodf> thbt yiflds providfr objfdts
+     * for thf givfn sfrvidf, in somf brbitrbry ordfr.  Thf itfrbtor
+     * will throw bn <dodf>Error</dodf> if b providfr-donfigurbtion
+     * filf violbtfs thf spfdififd formbt or if b providfr dlbss
+     * dbnnot bf found bnd instbntibtfd.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if
+     * <dodf>providfrClbss</dodf> is <dodf>null</dodf>.
+     */
+    publid stbtid <T> Itfrbtor<T> lookupProvidfrs(Clbss<T> providfrClbss,
+                                                  ClbssLobdfr lobdfr)
+    {
+        if (providfrClbss == null) {
+            throw nfw IllfgblArgumfntExdfption("providfrClbss == null!");
+        }
+        rfturn SfrvidfLobdfr.lobd(providfrClbss, lobdfr).itfrbtor();
+    }
+
+    /**
+     * Lodbtfs bnd indrfmfntblly instbntibtfs thf bvbilbblf providfrs
+     * of b givfn sfrvidf using thf dontfxt dlbss lobdfr.  This
+     * donvfnifndf mfthod is fquivblfnt to:
+     *
+     * <prf>
+     *   ClbssLobdfr dl = Thrfbd.durrfntThrfbd().gftContfxtClbssLobdfr();
+     *   rfturn Sfrvidf.providfrs(sfrvidf, dl);
+     * </prf>
+     *
+     * @pbrbm providfrClbss b <dodf>Clbss</dodf>objfdt indidbting thf
+     * dlbss or intfrfbdf of thf sfrvidf providfrs bfing dftfdtfd.
+     *
+     * @pbrbm <T> thf typf of thf providfrClbss.
+     *
+     * @rfturn An <dodf>Itfrbtor</dodf> thbt yiflds providfr objfdts
+     * for thf givfn sfrvidf, in somf brbitrbry ordfr.  Thf itfrbtor
+     * will throw bn <dodf>Error</dodf> if b providfr-donfigurbtion
+     * filf violbtfs thf spfdififd formbt or if b providfr dlbss
+     * dbnnot bf found bnd instbntibtfd.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if
+     * <dodf>providfrClbss</dodf> is <dodf>null</dodf>.
+     */
+    publid stbtid <T> Itfrbtor<T> lookupProvidfrs(Clbss<T> providfrClbss) {
+        if (providfrClbss == null) {
+            throw nfw IllfgblArgumfntExdfption("providfrClbss == null!");
+        }
+        rfturn SfrvidfLobdfr.lobd(providfrClbss).itfrbtor();
+    }
+
+    /**
+     * Rfturns bn <dodf>Itfrbtor</dodf> of <dodf>Clbss</dodf> objfdts
+     * indidbting thf durrfnt sft of dbtfgorifs.  Thf itfrbtor will bf
+     * fmpty if no dbtfgorifs fxist.
+     *
+     * @rfturn bn <dodf>Itfrbtor</dodf> dontbining
+     * <dodf>Clbss</dodf>objfdts.
+     */
+    publid Itfrbtor<Clbss<?>> gftCbtfgorifs() {
+        Sft<Clbss<?>> kfySft = dbtfgoryMbp.kfySft();
+        rfturn kfySft.itfrbtor();
+    }
+
+    /**
+     * Rfturns bn Itfrbtor dontbining thf subrfgistrifs to whidh thf
+     * providfr bflongs.
+     */
+    privbtf Itfrbtor<SubRfgistry> gftSubRfgistrifs(Objfdt providfr) {
+        List<SubRfgistry> l = nfw ArrbyList<>();
+        Itfrbtor<Clbss<?>> itfr = dbtfgoryMbp.kfySft().itfrbtor();
+        whilf (itfr.hbsNfxt()) {
+            Clbss<?> d = itfr.nfxt();
+            if (d.isAssignbblfFrom(providfr.gftClbss())) {
+                l.bdd(dbtfgoryMbp.gft(d));
+            }
+        }
+        rfturn l.itfrbtor();
+    }
+
+    /**
+     * Adds b sfrvidf providfr objfdt to thf rfgistry.  Thf providfr
+     * is bssodibtfd with thf givfn dbtfgory.
+     *
+     * <p> If <dodf>providfr</dodf> implfmfnts thf
+     * <dodf>RfgistfrbblfSfrvidf</dodf> intfrfbdf, its
+     * <dodf>onRfgistrbtion</dodf> mfthod will bf dbllfd.  Its
+     * <dodf>onDfrfgistrbtion</dodf> mfthod will bf dbllfd fbdh timf
+     * it is dfrfgistfrfd from b dbtfgory, for fxbmplf if b
+     * dbtfgory is rfmovfd or thf rfgistry is gbrbbgf dollfdtfd.
+     *
+     * @pbrbm providfr thf sfrvidf providf objfdt to bf rfgistfrfd.
+     * @pbrbm dbtfgory thf dbtfgory undfr whidh to rfgistfr thf
+     * providfr.
+     * @pbrbm <T> thf typf of thf providfr.
+     *
+     * @rfturn truf if no providfr of thf sbmf dlbss wbs prfviously
+     * rfgistfrfd in thf sbmf dbtfgory dbtfgory.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>providfr</dodf> is
+     * <dodf>null</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if thfrf is no dbtfgory
+     * dorrfsponding to <dodf>dbtfgory</dodf>.
+     * @fxdfption ClbssCbstExdfption if providfr dofs not implfmfnt
+     * thf <dodf>Clbss</dodf> dffinfd by <dodf>dbtfgory</dodf>.
+     */
+    publid <T> boolfbn rfgistfrSfrvidfProvidfr(T providfr,
+                                               Clbss<T> dbtfgory) {
+        if (providfr == null) {
+            throw nfw IllfgblArgumfntExdfption("providfr == null!");
+        }
+        SubRfgistry rfg = dbtfgoryMbp.gft(dbtfgory);
+        if (rfg == null) {
+            throw nfw IllfgblArgumfntExdfption("dbtfgory unknown!");
+        }
+        if (!dbtfgory.isAssignbblfFrom(providfr.gftClbss())) {
+            throw nfw ClbssCbstExdfption();
+        }
+
+        rfturn rfg.rfgistfrSfrvidfProvidfr(providfr);
+    }
+
+    /**
+     * Adds b sfrvidf providfr objfdt to thf rfgistry.  Thf providfr
+     * is bssodibtfd within fbdh dbtfgory prfsfnt in thf rfgistry
+     * whosf <dodf>Clbss</dodf> it implfmfnts.
+     *
+     * <p> If <dodf>providfr</dodf> implfmfnts thf
+     * <dodf>RfgistfrbblfSfrvidf</dodf> intfrfbdf, its
+     * <dodf>onRfgistrbtion</dodf> mfthod will bf dbllfd ondf for fbdh
+     * dbtfgory it is rfgistfrfd undfr.  Its
+     * <dodf>onDfrfgistrbtion</dodf> mfthod will bf dbllfd fbdh timf
+     * it is dfrfgistfrfd from b dbtfgory or whfn thf rfgistry is
+     * finblizfd.
+     *
+     * @pbrbm providfr thf sfrvidf providfr objfdt to bf rfgistfrfd.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if
+     * <dodf>providfr</dodf> is <dodf>null</dodf>.
+     */
+    publid void rfgistfrSfrvidfProvidfr(Objfdt providfr) {
+        if (providfr == null) {
+            throw nfw IllfgblArgumfntExdfption("providfr == null!");
+        }
+        Itfrbtor<SubRfgistry> rfgs = gftSubRfgistrifs(providfr);
+        whilf (rfgs.hbsNfxt()) {
+            SubRfgistry rfg = rfgs.nfxt();
+            rfg.rfgistfrSfrvidfProvidfr(providfr);
+        }
+    }
+
+    /**
+     * Adds b sft of sfrvidf providfr objfdts, tbkfn from bn
+     * <dodf>Itfrbtor</dodf> to thf rfgistry.  Ebdh providfr is
+     * bssodibtfd within fbdh dbtfgory prfsfnt in thf rfgistry whosf
+     * <dodf>Clbss</dodf> it implfmfnts.
+     *
+     * <p> For fbdh fntry of <dodf>providfrs</dodf> thbt implfmfnts
+     * thf <dodf>RfgistfrbblfSfrvidf</dodf> intfrfbdf, its
+     * <dodf>onRfgistrbtion</dodf> mfthod will bf dbllfd ondf for fbdh
+     * dbtfgory it is rfgistfrfd undfr.  Its
+     * <dodf>onDfrfgistrbtion</dodf> mfthod will bf dbllfd fbdh timf
+     * it is dfrfgistfrfd from b dbtfgory or whfn thf rfgistry is
+     * finblizfd.
+     *
+     * @pbrbm providfrs bn Itfrbtor dontbining sfrvidf providfr
+     * objfdts to bf rfgistfrfd.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>providfrs</dodf>
+     * is <dodf>null</dodf> or dontbins b <dodf>null</dodf> fntry.
+     */
+    publid void rfgistfrSfrvidfProvidfrs(Itfrbtor<?> providfrs) {
+        if (providfrs == null) {
+            throw nfw IllfgblArgumfntExdfption("providfr == null!");
+        }
+        whilf (providfrs.hbsNfxt()) {
+            rfgistfrSfrvidfProvidfr(providfrs.nfxt());
+        }
+    }
+
+    /**
+     * Rfmovfs b sfrvidf providfr objfdt from thf givfn dbtfgory.  If
+     * thf providfr wbs not prfviously rfgistfrfd, nothing hbppfns bnd
+     * <dodf>fblsf</dodf> is rfturnfd.  Othfrwisf, <dodf>truf</dodf>
+     * is rfturnfd.  If bn objfdt of thf sbmf dlbss bs
+     * <dodf>providfr</dodf> but not fqubl (using <dodf>==</dodf>) to
+     * <dodf>providfr</dodf> is rfgistfrfd, it will not bf
+     * dfrfgistfrfd.
+     *
+     * <p> If <dodf>providfr</dodf> implfmfnts thf
+     * <dodf>RfgistfrbblfSfrvidf</dodf> intfrfbdf, its
+     * <dodf>onDfrfgistrbtion</dodf> mfthod will bf dbllfd.
+     *
+     * @pbrbm providfr thf sfrvidf providfr objfdt to bf dfrfgistfrfd.
+     * @pbrbm dbtfgory thf dbtfgory from whidh to dfrfgistfr thf
+     * providfr.
+     * @pbrbm <T> thf typf of thf providfr.
+     *
+     * @rfturn <dodf>truf</dodf> if thf providfr wbs prfviously
+     * rfgistfrfd in thf sbmf dbtfgory dbtfgory,
+     * <dodf>fblsf</dodf> othfrwisf.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>providfr</dodf> is
+     * <dodf>null</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if thfrf is no dbtfgory
+     * dorrfsponding to <dodf>dbtfgory</dodf>.
+     * @fxdfption ClbssCbstExdfption if providfr dofs not implfmfnt
+     * thf dlbss dffinfd by <dodf>dbtfgory</dodf>.
+     */
+    publid <T> boolfbn dfrfgistfrSfrvidfProvidfr(T providfr,
+                                                 Clbss<T> dbtfgory) {
+        if (providfr == null) {
+            throw nfw IllfgblArgumfntExdfption("providfr == null!");
+        }
+        SubRfgistry rfg = dbtfgoryMbp.gft(dbtfgory);
+        if (rfg == null) {
+            throw nfw IllfgblArgumfntExdfption("dbtfgory unknown!");
+        }
+        if (!dbtfgory.isAssignbblfFrom(providfr.gftClbss())) {
+            throw nfw ClbssCbstExdfption();
+        }
+        rfturn rfg.dfrfgistfrSfrvidfProvidfr(providfr);
+    }
+
+    /**
+     * Rfmovfs b sfrvidf providfr objfdt from bll dbtfgorifs thbt
+     * dontbin it.
+     *
+     * @pbrbm providfr thf sfrvidf providfr objfdt to bf dfrfgistfrfd.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>providfr</dodf> is
+     * <dodf>null</dodf>.
+     */
+    publid void dfrfgistfrSfrvidfProvidfr(Objfdt providfr) {
+        if (providfr == null) {
+            throw nfw IllfgblArgumfntExdfption("providfr == null!");
+        }
+        Itfrbtor<SubRfgistry> rfgs = gftSubRfgistrifs(providfr);
+        whilf (rfgs.hbsNfxt()) {
+            SubRfgistry rfg = rfgs.nfxt();
+            rfg.dfrfgistfrSfrvidfProvidfr(providfr);
+        }
+    }
+
+    /**
+     * Rfturns <dodf>truf</dodf> if <dodf>providfr</dodf> is durrfntly
+     * rfgistfrfd.
+     *
+     * @pbrbm providfr thf sfrvidf providfr objfdt to bf qufrifd.
+     *
+     * @rfturn <dodf>truf</dodf> if thf givfn providfr hbs bffn
+     * rfgistfrfd.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>providfr</dodf> is
+     * <dodf>null</dodf>.
+     */
+    publid boolfbn dontbins(Objfdt providfr) {
+        if (providfr == null) {
+            throw nfw IllfgblArgumfntExdfption("providfr == null!");
+        }
+        Itfrbtor<SubRfgistry> rfgs = gftSubRfgistrifs(providfr);
+        whilf (rfgs.hbsNfxt()) {
+            SubRfgistry rfg = rfgs.nfxt();
+            if (rfg.dontbins(providfr)) {
+                rfturn truf;
+            }
+        }
+
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns bn <dodf>Itfrbtor</dodf> dontbining bll rfgistfrfd
+     * sfrvidf providfrs in thf givfn dbtfgory.  If
+     * <dodf>usfOrdfring</dodf> is <dodf>fblsf</dodf>, thf itfrbtor
+     * will rfturn bll of thf sfrvfr providfr objfdts in bn brbitrbry
+     * ordfr.  Othfrwisf, thf ordfring will rfspfdt bny pbirwisf
+     * ordfrings thbt hbvf bffn sft.  If thf grbph of pbirwisf
+     * ordfrings dontbins dydlfs, bny providfrs thbt bflong to b dydlf
+     * will not bf rfturnfd.
+     *
+     * @pbrbm dbtfgory thf dbtfgory to bf rftrifvfd from.
+     * @pbrbm usfOrdfring <dodf>truf</dodf> if pbirwisf ordfrings
+     * should bf tbkfn bddount in ordfring thf rfturnfd objfdts.
+     * @pbrbm <T> thf typf of thf dbtfgory.
+     *
+     * @rfturn bn <dodf>Itfrbtor</dodf> dontbining sfrvidf providfr
+     * objfdts from thf givfn dbtfgory, possibly in ordfr.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if thfrf is no dbtfgory
+     * dorrfsponding to <dodf>dbtfgory</dodf>.
+     */
+    publid <T> Itfrbtor<T> gftSfrvidfProvidfrs(Clbss<T> dbtfgory,
+                                               boolfbn usfOrdfring) {
+        SubRfgistry rfg = dbtfgoryMbp.gft(dbtfgory);
+        if (rfg == null) {
+            throw nfw IllfgblArgumfntExdfption("dbtfgory unknown!");
+        }
+        @SupprfssWbrnings("undhfdkfd")
+        Itfrbtor<T> it = (Itfrbtor<T>)rfg.gftSfrvidfProvidfrs(usfOrdfring);
+        rfturn it;
+    }
+
+    /**
+     * A simplf filtfr intfrfbdf usfd by
+     * <dodf>SfrvidfRfgistry.gftSfrvidfProvidfrs</dodf> to sflfdt
+     * providfrs mbtdhing bn brbitrbry dritfrion.  Clbssfs thbt
+     * implfmfnt this intfrfbdf should bf dffinfd in ordfr to mbkf usf
+     * of thf <dodf>gftSfrvidfProvidfrs</dodf> mfthod of
+     * <dodf>SfrvidfRfgistry</dodf> thbt tbkfs b <dodf>Filtfr</dodf>.
+     *
+     * @sff SfrvidfRfgistry#gftSfrvidfProvidfrs(Clbss, SfrvidfRfgistry.Filtfr, boolfbn)
+     */
+    publid intfrfbdf Filtfr {
+
+        /**
+         * Rfturns <dodf>truf</dodf> if thf givfn
+         * <dodf>providfr</dodf> objfdt mbtdhfs thf dritfrion dffinfd
+         * by this <dodf>Filtfr</dodf>.
+         *
+         * @pbrbm providfr b sfrvidf providfr <dodf>Objfdt</dodf>.
+         *
+         * @rfturn truf if thf providfr mbtdhfs thf dritfrion.
+         */
+        boolfbn filtfr(Objfdt providfr);
+    }
+
+    /**
+     * Rfturns bn <dodf>Itfrbtor</dodf> dontbining sfrvidf providfr
+     * objfdts within b givfn dbtfgory thbt sbtisfy b dritfrion
+     * imposfd by thf supplifd <dodf>SfrvidfRfgistry.Filtfr</dodf>
+     * objfdt's <dodf>filtfr</dodf> mfthod.
+     *
+     * <p> Thf <dodf>usfOrdfring</dodf> brgumfnt dontrols thf
+     * ordfring of thf rfsults using thf sbmf rulfs bs
+     * <dodf>gftSfrvidfProvidfrs(Clbss, boolfbn)</dodf>.
+     *
+     * @pbrbm dbtfgory thf dbtfgory to bf rftrifvfd from.
+     * @pbrbm filtfr bn instbndf of <dodf>SfrvidfRfgistry.Filtfr</dodf>
+     * whosf <dodf>filtfr</dodf> mfthod will bf invokfd.
+     * @pbrbm usfOrdfring <dodf>truf</dodf> if pbirwisf ordfrings
+     * should bf tbkfn bddount in ordfring thf rfturnfd objfdts.
+     * @pbrbm <T> thf typf of thf dbtfgory.
+     *
+     * @rfturn bn <dodf>Itfrbtor</dodf> dontbining sfrvidf providfr
+     * objfdts from thf givfn dbtfgory, possibly in ordfr.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if thfrf is no dbtfgory
+     * dorrfsponding to <dodf>dbtfgory</dodf>.
+     */
+    publid <T> Itfrbtor<T> gftSfrvidfProvidfrs(Clbss<T> dbtfgory,
+                                               Filtfr filtfr,
+                                               boolfbn usfOrdfring) {
+        SubRfgistry rfg = dbtfgoryMbp.gft(dbtfgory);
+        if (rfg == null) {
+            throw nfw IllfgblArgumfntExdfption("dbtfgory unknown!");
+        }
+        Itfrbtor<T> itfr = gftSfrvidfProvidfrs(dbtfgory, usfOrdfring);
+        rfturn nfw FiltfrItfrbtor<>(itfr, filtfr);
+    }
+
+    /**
+     * Rfturns thf durrfntly rfgistfrfd sfrvidf providfr objfdt thbt
+     * is of thf givfn dlbss typf.  At most onf objfdt of b givfn
+     * dlbss is bllowfd to bf rfgistfrfd bt bny givfn timf.  If no
+     * rfgistfrfd objfdt hbs thf dfsirfd dlbss typf, <dodf>null</dodf>
+     * is rfturnfd.
+     *
+     * @pbrbm providfrClbss thf <dodf>Clbss</dodf> of thf dfsirfd
+     * sfrvidf providfr objfdt.
+     * @pbrbm <T> thf typf of thf providfr.
+     *
+     * @rfturn b durrfntly rfgistfrfd sfrvidf providfr objfdt with thf
+     * dfsirfd <dodf>Clbss</dodf>typf, or <dodf>null</dodf> is nonf is
+     * prfsfnt.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>providfrClbss</dodf> is
+     * <dodf>null</dodf>.
+     */
+    publid <T> T gftSfrvidfProvidfrByClbss(Clbss<T> providfrClbss) {
+        if (providfrClbss == null) {
+            throw nfw IllfgblArgumfntExdfption("providfrClbss == null!");
+        }
+        Itfrbtor<Clbss<?>> itfr = dbtfgoryMbp.kfySft().itfrbtor();
+        whilf (itfr.hbsNfxt()) {
+            Clbss<?> d = itfr.nfxt();
+            if (d.isAssignbblfFrom(providfrClbss)) {
+                SubRfgistry rfg = dbtfgoryMbp.gft(d);
+                T providfr = rfg.gftSfrvidfProvidfrByClbss(providfrClbss);
+                if (providfr != null) {
+                    rfturn providfr;
+                }
+            }
+        }
+        rfturn null;
+    }
+
+    /**
+     * Sfts b pbirwisf ordfring bftwffn two sfrvidf providfr objfdts
+     * within b givfn dbtfgory.  If onf or both objfdts brf not
+     * durrfntly rfgistfrfd within thf givfn dbtfgory, or if thf
+     * dfsirfd ordfring is blrfbdy sft, nothing hbppfns bnd
+     * <dodf>fblsf</dodf> is rfturnfd.  If thf providfrs prfviously
+     * wfrf ordfrfd in thf rfvfrsf dirfdtion, thbt ordfring is
+     * rfmovfd.
+     *
+     * <p> Thf ordfring will bf usfd by thf
+     * <dodf>gftSfrvidfProvidfrs</dodf> mfthods whfn thfir
+     * <dodf>usfOrdfring</dodf> brgumfnt is <dodf>truf</dodf>.
+     *
+     * @pbrbm dbtfgory b <dodf>Clbss</dodf> objfdt indidbting thf
+     * dbtfgory undfr whidh thf prfffrfndf is to bf fstbblishfd.
+     * @pbrbm firstProvidfr thf prfffrrfd providfr.
+     * @pbrbm sfdondProvidfr thf providfr to whidh
+     * <dodf>firstProvidfr</dodf> is prfffrrfd.
+     * @pbrbm <T> thf typf of thf dbtfgory.
+     *
+     * @rfturn <dodf>truf</dodf> if b prfviously unsft ordfring
+     * wbs fstbblishfd.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if fithfr providfr is
+     * <dodf>null</dodf> or thfy brf thf sbmf objfdt.
+     * @fxdfption IllfgblArgumfntExdfption if thfrf is no dbtfgory
+     * dorrfsponding to <dodf>dbtfgory</dodf>.
+     */
+    publid <T> boolfbn sftOrdfring(Clbss<T> dbtfgory,
+                                   T firstProvidfr,
+                                   T sfdondProvidfr) {
+        if (firstProvidfr == null || sfdondProvidfr == null) {
+            throw nfw IllfgblArgumfntExdfption("providfr is null!");
+        }
+        if (firstProvidfr == sfdondProvidfr) {
+            throw nfw IllfgblArgumfntExdfption("providfrs brf thf sbmf!");
+        }
+        SubRfgistry rfg = dbtfgoryMbp.gft(dbtfgory);
+        if (rfg == null) {
+            throw nfw IllfgblArgumfntExdfption("dbtfgory unknown!");
+        }
+        if (rfg.dontbins(firstProvidfr) &&
+            rfg.dontbins(sfdondProvidfr)) {
+            rfturn rfg.sftOrdfring(firstProvidfr, sfdondProvidfr);
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Sfts b pbirwisf ordfring bftwffn two sfrvidf providfr objfdts
+     * within b givfn dbtfgory.  If onf or both objfdts brf not
+     * durrfntly rfgistfrfd within thf givfn dbtfgory, or if no
+     * ordfring is durrfntly sft bftwffn thfm, nothing hbppfns
+     * bnd <dodf>fblsf</dodf> is rfturnfd.
+     *
+     * <p> Thf ordfring will bf usfd by thf
+     * <dodf>gftSfrvidfProvidfrs</dodf> mfthods whfn thfir
+     * <dodf>usfOrdfring</dodf> brgumfnt is <dodf>truf</dodf>.
+     *
+     * @pbrbm dbtfgory b <dodf>Clbss</dodf> objfdt indidbting thf
+     * dbtfgory undfr whidh thf prfffrfndf is to bf disfstbblishfd.
+     * @pbrbm firstProvidfr thf formfrly prfffrrfd providfr.
+     * @pbrbm sfdondProvidfr thf providfr to whidh
+     * <dodf>firstProvidfr</dodf> wbs formfrly prfffrrfd.
+     * @pbrbm <T> thf typf of thf dbtfgory.
+     *
+     * @rfturn <dodf>truf</dodf> if b prfviously sft ordfring wbs
+     * disfstbblishfd.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if fithfr providfr is
+     * <dodf>null</dodf> or thfy brf thf sbmf objfdt.
+     * @fxdfption IllfgblArgumfntExdfption if thfrf is no dbtfgory
+     * dorrfsponding to <dodf>dbtfgory</dodf>.
+     */
+    publid <T> boolfbn unsftOrdfring(Clbss<T> dbtfgory,
+                                     T firstProvidfr,
+                                     T sfdondProvidfr) {
+        if (firstProvidfr == null || sfdondProvidfr == null) {
+            throw nfw IllfgblArgumfntExdfption("providfr is null!");
+        }
+        if (firstProvidfr == sfdondProvidfr) {
+            throw nfw IllfgblArgumfntExdfption("providfrs brf thf sbmf!");
+        }
+        SubRfgistry rfg = dbtfgoryMbp.gft(dbtfgory);
+        if (rfg == null) {
+            throw nfw IllfgblArgumfntExdfption("dbtfgory unknown!");
+        }
+        if (rfg.dontbins(firstProvidfr) &&
+            rfg.dontbins(sfdondProvidfr)) {
+            rfturn rfg.unsftOrdfring(firstProvidfr, sfdondProvidfr);
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Dfrfgistfrs bll sfrvidf providfr objfdt durrfntly rfgistfrfd
+     * undfr thf givfn dbtfgory.
+     *
+     * @pbrbm dbtfgory thf dbtfgory to bf fmptifd.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if thfrf is no dbtfgory
+     * dorrfsponding to <dodf>dbtfgory</dodf>.
+     */
+    publid void dfrfgistfrAll(Clbss<?> dbtfgory) {
+        SubRfgistry rfg = dbtfgoryMbp.gft(dbtfgory);
+        if (rfg == null) {
+            throw nfw IllfgblArgumfntExdfption("dbtfgory unknown!");
+        }
+        rfg.dlfbr();
+    }
+
+    /**
+     * Dfrfgistfrs bll durrfntly rfgistfrfd sfrvidf providfrs from bll
+     * dbtfgorifs.
+     */
+    publid void dfrfgistfrAll() {
+        Itfrbtor<SubRfgistry> itfr = dbtfgoryMbp.vblufs().itfrbtor();
+        whilf (itfr.hbsNfxt()) {
+            SubRfgistry rfg = itfr.nfxt();
+            rfg.dlfbr();
+        }
+    }
+
+    /**
+     * Finblizfs this objfdt prior to gbrbbgf dollfdtion.  Thf
+     * <dodf>dfrfgistfrAll</dodf> mfthod is dbllfd to dfrfgistfr bll
+     * durrfntly rfgistfrfd sfrvidf providfrs.  This mfthod should not
+     * bf dbllfd from bpplidbtion dodf.
+     *
+     * @fxdfption Throwbblf if bn frror oddurs during supfrdlbss
+     * finblizbtion.
+     */
+    publid void finblizf() throws Throwbblf {
+        dfrfgistfrAll();
+        supfr.finblizf();
+    }
+}
+
+
+/**
+ * A portion of b rfgistry dfbling with b singlf supfrdlbss or
+ * intfrfbdf.
+ */
+dlbss SubRfgistry {
+
+    SfrvidfRfgistry rfgistry;
+
+    Clbss<?> dbtfgory;
+
+    // Providfr Objfdts orgbnizfd by pbrtibl oridfring
+    PbrtibllyOrdfrfdSft<Objfdt> posft = nfw PbrtibllyOrdfrfdSft<>();
+
+    // Clbss -> Providfr Objfdt of thbt dlbss
+    // No wby to fxprfss hftfrogfnfous mbp, wf wbnt
+    // Mbp<Clbss<T>, T>, whfrf T is ?
+    Mbp<Clbss<?>, Objfdt> mbp = nfw HbshMbp<>();
+
+    publid SubRfgistry(SfrvidfRfgistry rfgistry, Clbss<?> dbtfgory) {
+        this.rfgistry = rfgistry;
+        this.dbtfgory = dbtfgory;
+    }
+
+    publid boolfbn rfgistfrSfrvidfProvidfr(Objfdt providfr) {
+        Objfdt oprovidfr = mbp.gft(providfr.gftClbss());
+        boolfbn prfsfnt =  oprovidfr != null;
+
+        if (prfsfnt) {
+            dfrfgistfrSfrvidfProvidfr(oprovidfr);
+        }
+        mbp.put(providfr.gftClbss(), providfr);
+        posft.bdd(providfr);
+        if (providfr instbndfof RfgistfrbblfSfrvidf) {
+            RfgistfrbblfSfrvidf rs = (RfgistfrbblfSfrvidf)providfr;
+            rs.onRfgistrbtion(rfgistry, dbtfgory);
+        }
+
+        rfturn !prfsfnt;
+    }
+
+    /**
+     * If thf providfr wbs not prfviously rfgistfrfd, do nothing.
+     *
+     * @rfturn truf if thf providfr wbs prfviously rfgistfrfd.
+     */
+    publid boolfbn dfrfgistfrSfrvidfProvidfr(Objfdt providfr) {
+        Objfdt oprovidfr = mbp.gft(providfr.gftClbss());
+
+        if (providfr == oprovidfr) {
+            mbp.rfmovf(providfr.gftClbss());
+            posft.rfmovf(providfr);
+            if (providfr instbndfof RfgistfrbblfSfrvidf) {
+                RfgistfrbblfSfrvidf rs = (RfgistfrbblfSfrvidf)providfr;
+                rs.onDfrfgistrbtion(rfgistry, dbtfgory);
+            }
+
+            rfturn truf;
+        }
+        rfturn fblsf;
+    }
+
+    publid boolfbn dontbins(Objfdt providfr) {
+        Objfdt oprovidfr = mbp.gft(providfr.gftClbss());
+        rfturn oprovidfr == providfr;
+    }
+
+    publid boolfbn sftOrdfring(Objfdt firstProvidfr,
+                               Objfdt sfdondProvidfr) {
+        rfturn posft.sftOrdfring(firstProvidfr, sfdondProvidfr);
+    }
+
+    publid boolfbn unsftOrdfring(Objfdt firstProvidfr,
+                                 Objfdt sfdondProvidfr) {
+        rfturn posft.unsftOrdfring(firstProvidfr, sfdondProvidfr);
+    }
+
+    publid Itfrbtor<Objfdt> gftSfrvidfProvidfrs(boolfbn usfOrdfring) {
+        if (usfOrdfring) {
+            rfturn posft.itfrbtor();
+        } flsf {
+            rfturn mbp.vblufs().itfrbtor();
+        }
+    }
+
+    @SupprfssWbrnings("undhfdkfd")
+    publid <T> T gftSfrvidfProvidfrByClbss(Clbss<T> providfrClbss) {
+        rfturn (T)mbp.gft(providfrClbss);
+    }
+
+    publid void dlfbr() {
+        Itfrbtor<Objfdt> itfr = mbp.vblufs().itfrbtor();
+        whilf (itfr.hbsNfxt()) {
+            Objfdt providfr = itfr.nfxt();
+            itfr.rfmovf();
+
+            if (providfr instbndfof RfgistfrbblfSfrvidf) {
+                RfgistfrbblfSfrvidf rs = (RfgistfrbblfSfrvidf)providfr;
+                rs.onDfrfgistrbtion(rfgistry, dbtfgory);
+            }
+        }
+        posft.dlfbr();
+    }
+
+    publid void finblizf() {
+        dlfbr();
+    }
+}
+
+
+/**
+ * A dlbss for wrbpping <dodf>Itfrbtors</dodf> with b filtfr fundtion.
+ * This providfs bn itfrbtor for b subsft without duplidbtion.
+ */
+dlbss FiltfrItfrbtor<T> implfmfnts Itfrbtor<T> {
+
+    privbtf Itfrbtor<? fxtfnds T> itfr;
+    privbtf SfrvidfRfgistry.Filtfr filtfr;
+
+    privbtf T nfxt = null;
+
+    publid FiltfrItfrbtor(Itfrbtor<? fxtfnds T> itfr,
+                          SfrvidfRfgistry.Filtfr filtfr) {
+        this.itfr = itfr;
+        this.filtfr = filtfr;
+        bdvbndf();
+    }
+
+    privbtf void bdvbndf() {
+        whilf (itfr.hbsNfxt()) {
+            T flt = itfr.nfxt();
+            if (filtfr.filtfr(flt)) {
+                nfxt = flt;
+                rfturn;
+            }
+        }
+
+        nfxt = null;
+    }
+
+    publid boolfbn hbsNfxt() {
+        rfturn nfxt != null;
+    }
+
+    publid T nfxt() {
+        if (nfxt == null) {
+            throw nfw NoSudhElfmfntExdfption();
+        }
+        T o = nfxt;
+        bdvbndf();
+        rfturn o;
+    }
+
+    publid void rfmovf() {
+        throw nfw UnsupportfdOpfrbtionExdfption();
+    }
+}

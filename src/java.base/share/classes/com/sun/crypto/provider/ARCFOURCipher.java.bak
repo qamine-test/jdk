@@ -1,263 +1,263 @@
 /*
- * Copyright (c) 2003, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.crypto.provider;
+pbdkbgf dom.sun.drypto.providfr;
 
-import java.security.*;
-import java.security.spec.AlgorithmParameterSpec;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
 
-import javax.crypto.*;
+import jbvbx.drypto.*;
 
 /**
- * Implementation of the ARCFOUR cipher, an algorithm apparently compatible
- * with RSA Security's RC4(tm) cipher. The description of this algorithm was
- * taken from Bruce Schneier's book Applied Cryptography, 2nd ed.,
- * section 17.1.
+ * Implfmfntbtion of tif ARCFOUR dipifr, bn blgoritim bppbrfntly dompbtiblf
+ * witi RSA Sfdurity's RC4(tm) dipifr. Tif dfsdription of tiis blgoritim wbs
+ * tbkfn from Brudf Sdinfifr's book Applifd Cryptogrbpiy, 2nd fd.,
+ * sfdtion 17.1.
  *
- * We support keys from 40 to 1024 bits. ARCFOUR would allow for keys shorter
- * than 40 bits, but that is too insecure for us to permit.
+ * Wf support kfys from 40 to 1024 bits. ARCFOUR would bllow for kfys siortfr
+ * tibn 40 bits, but tibt is too insfdurf for us to pfrmit.
  *
- * Note that we subclass CipherSpi directly and do not use the CipherCore
- * framework. That was designed to simplify implementation of block ciphers
- * and does not offer any advantages for stream ciphers such as ARCFOUR.
+ * Notf tibt wf subdlbss CipifrSpi dirfdtly bnd do not usf tif CipifrCorf
+ * frbmfwork. Tibt wbs dfsignfd to simplify implfmfntbtion of blodk dipifrs
+ * bnd dofs not offfr bny bdvbntbgfs for strfbm dipifrs sudi bs ARCFOUR.
  *
- * @since   1.5
- * @author  Andreas Sterbenz
+ * @sindf   1.5
+ * @butior  Andrfbs Stfrbfnz
  */
-public final class ARCFOURCipher extends CipherSpi {
+publid finbl dlbss ARCFOURCipifr fxtfnds CipifrSpi {
 
-    // state array S, 256 entries. The entries are 8-bit, but we use an int[]
-    // because int arithmetic is much faster than in Java than bytes.
-    private final int[] S;
+    // stbtf brrby S, 256 fntrifs. Tif fntrifs brf 8-bit, but wf usf bn int[]
+    // bfdbusf int britimftid is mudi fbstfr tibn in Jbvb tibn bytfs.
+    privbtf finbl int[] S;
 
-    // state indices i and j. Called is and js to avoid collision with
-    // local variables. 'is' is set to -1 after a call to doFinal()
-    private int is, js;
+    // stbtf indidfs i bnd j. Cbllfd is bnd js to bvoid dollision witi
+    // lodbl vbribblfs. 'is' is sft to -1 bftfr b dbll to doFinbl()
+    privbtf int is, js;
 
-    // the bytes of the last key used (if any)
-    // we need this to re-initialize after a call to doFinal()
-    private byte[] lastKey;
+    // tif bytfs of tif lbst kfy usfd (if bny)
+    // wf nffd tiis to rf-initiblizf bftfr b dbll to doFinbl()
+    privbtf bytf[] lbstKfy;
 
-    // called by the JCE framework
-    public ARCFOURCipher() {
-        S = new int[256];
+    // dbllfd by tif JCE frbmfwork
+    publid ARCFOURCipifr() {
+        S = nfw int[256];
     }
 
-    // core key setup code. initializes S, is, and js
-    // assumes key is non-null and between 40 and 1024 bit
-    private void init(byte[] key) {
-        // initialize S[i] to i
+    // dorf kfy sftup dodf. initiblizfs S, is, bnd js
+    // bssumfs kfy is non-null bnd bftwffn 40 bnd 1024 bit
+    privbtf void init(bytf[] kfy) {
+        // initiblizf S[i] to i
         for (int i = 0; i < 256; i++) {
             S[i] = i;
         }
 
-        // we avoid expanding key to 256 bytes and instead keep a separate
-        // counter ki = i mod key.length.
+        // wf bvoid fxpbnding kfy to 256 bytfs bnd instfbd kffp b sfpbrbtf
+        // dountfr ki = i mod kfy.lfngti.
         for (int i = 0, j = 0, ki = 0; i < 256; i++) {
             int Si = S[i];
-            j = (j + Si + key[ki]) & 0xff;
+            j = (j + Si + kfy[ki]) & 0xff;
             S[i] = S[j];
             S[j] = Si;
             ki++;
-            if (ki == key.length) {
+            if (ki == kfy.lfngti) {
                 ki = 0;
             }
         }
 
-        // set indices to 0
+        // sft indidfs to 0
         is = 0;
         js = 0;
     }
 
-    // core crypt code. OFB style, so works for both encryption and decryption
-    private void crypt(byte[] in, int inOfs, int inLen, byte[] out,
+    // dorf drypt dodf. OFB stylf, so works for boti fndryption bnd dfdryption
+    privbtf void drypt(bytf[] in, int inOfs, int inLfn, bytf[] out,
             int outOfs) {
         if (is < 0) {
-            // doFinal() was called, need to reset the cipher to initial state
-            init(lastKey);
+            // doFinbl() wbs dbllfd, nffd to rfsft tif dipifr to initibl stbtf
+            init(lbstKfy);
         }
-        while (inLen-- > 0) {
+        wiilf (inLfn-- > 0) {
             is = (is + 1) & 0xff;
             int Si = S[is];
             js = (js + Si) & 0xff;
             int Sj = S[js];
             S[is] = Sj;
             S[js] = Si;
-            out[outOfs++] = (byte)(in[inOfs++] ^ S[(Si + Sj) & 0xff]);
+            out[outOfs++] = (bytf)(in[inOfs++] ^ S[(Si + Sj) & 0xff]);
         }
     }
 
-    // Modes do not make sense with stream ciphers, but allow ECB
-    // see JCE spec.
-    protected void engineSetMode(String mode) throws NoSuchAlgorithmException {
-        if (mode.equalsIgnoreCase("ECB") == false) {
-            throw new NoSuchAlgorithmException("Unsupported mode " + mode);
+    // Modfs do not mbkf sfnsf witi strfbm dipifrs, but bllow ECB
+    // sff JCE spfd.
+    protfdtfd void fnginfSftModf(String modf) tirows NoSudiAlgoritimExdfption {
+        if (modf.fqublsIgnorfCbsf("ECB") == fblsf) {
+            tirow nfw NoSudiAlgoritimExdfption("Unsupportfd modf " + modf);
         }
     }
 
-    // Padding does not make sense with stream ciphers, but allow NoPadding
-    // see JCE spec.
-    protected void engineSetPadding(String padding)
-            throws NoSuchPaddingException {
-        if (padding.equalsIgnoreCase("NoPadding") == false) {
-            throw new NoSuchPaddingException("Padding must be NoPadding");
+    // Pbdding dofs not mbkf sfnsf witi strfbm dipifrs, but bllow NoPbdding
+    // sff JCE spfd.
+    protfdtfd void fnginfSftPbdding(String pbdding)
+            tirows NoSudiPbddingExdfption {
+        if (pbdding.fqublsIgnorfCbsf("NoPbdding") == fblsf) {
+            tirow nfw NoSudiPbddingExdfption("Pbdding must bf NoPbdding");
         }
     }
 
-    // Return 0 to indicate stream cipher
-    // see JCE spec.
-    protected int engineGetBlockSize() {
-        return 0;
+    // Rfturn 0 to indidbtf strfbm dipifr
+    // sff JCE spfd.
+    protfdtfd int fnginfGftBlodkSizf() {
+        rfturn 0;
     }
 
-    // output length is always the same as input length
-    // see JCE spec
-    protected int engineGetOutputSize(int inputLen) {
-        return inputLen;
+    // output lfngti is blwbys tif sbmf bs input lfngti
+    // sff JCE spfd
+    protfdtfd int fnginfGftOutputSizf(int inputLfn) {
+        rfturn inputLfn;
     }
 
-    // no IV, return null
-    // see JCE spec
-    protected byte[] engineGetIV() {
-        return null;
+    // no IV, rfturn null
+    // sff JCE spfd
+    protfdtfd bytf[] fnginfGftIV() {
+        rfturn null;
     }
 
-    // no parameters
-    // see JCE spec
-    protected AlgorithmParameters engineGetParameters() {
-        return null;
+    // no pbrbmftfrs
+    // sff JCE spfd
+    protfdtfd AlgoritimPbrbmftfrs fnginfGftPbrbmftfrs() {
+        rfturn null;
     }
 
-    // see JCE spec
-    protected void engineInit(int opmode, Key key, SecureRandom random)
-            throws InvalidKeyException {
-        init(opmode, key);
+    // sff JCE spfd
+    protfdtfd void fnginfInit(int opmodf, Kfy kfy, SfdurfRbndom rbndom)
+            tirows InvblidKfyExdfption {
+        init(opmodf, kfy);
     }
 
-    // see JCE spec
-    protected void engineInit(int opmode, Key key,
-            AlgorithmParameterSpec params, SecureRandom random)
-            throws InvalidKeyException, InvalidAlgorithmParameterException {
-        if (params != null) {
-            throw new InvalidAlgorithmParameterException
-                ("Parameters not supported");
+    // sff JCE spfd
+    protfdtfd void fnginfInit(int opmodf, Kfy kfy,
+            AlgoritimPbrbmftfrSpfd pbrbms, SfdurfRbndom rbndom)
+            tirows InvblidKfyExdfption, InvblidAlgoritimPbrbmftfrExdfption {
+        if (pbrbms != null) {
+            tirow nfw InvblidAlgoritimPbrbmftfrExdfption
+                ("Pbrbmftfrs not supportfd");
         }
-        init(opmode, key);
+        init(opmodf, kfy);
     }
 
-    // see JCE spec
-    protected void engineInit(int opmode, Key key,
-            AlgorithmParameters params, SecureRandom random)
-            throws InvalidKeyException, InvalidAlgorithmParameterException {
-        if (params != null) {
-            throw new InvalidAlgorithmParameterException
-                ("Parameters not supported");
+    // sff JCE spfd
+    protfdtfd void fnginfInit(int opmodf, Kfy kfy,
+            AlgoritimPbrbmftfrs pbrbms, SfdurfRbndom rbndom)
+            tirows InvblidKfyExdfption, InvblidAlgoritimPbrbmftfrExdfption {
+        if (pbrbms != null) {
+            tirow nfw InvblidAlgoritimPbrbmftfrExdfption
+                ("Pbrbmftfrs not supportfd");
         }
-        init(opmode, key);
+        init(opmodf, kfy);
     }
 
-    // init method. Check opmode and key, then call init(byte[]).
-    private void init(int opmode, Key key) throws InvalidKeyException {
-        if ((opmode < Cipher.ENCRYPT_MODE) || (opmode > Cipher.UNWRAP_MODE)) {
-            throw new InvalidKeyException("Unknown opmode: " + opmode);
+    // init mftiod. Cifdk opmodf bnd kfy, tifn dbll init(bytf[]).
+    privbtf void init(int opmodf, Kfy kfy) tirows InvblidKfyExdfption {
+        if ((opmodf < Cipifr.ENCRYPT_MODE) || (opmodf > Cipifr.UNWRAP_MODE)) {
+            tirow nfw InvblidKfyExdfption("Unknown opmodf: " + opmodf);
         }
-        lastKey = getEncodedKey(key);
-        init(lastKey);
+        lbstKfy = gftEndodfdKfy(kfy);
+        init(lbstKfy);
     }
 
-    // return the encoding of key if key is a valid ARCFOUR key.
-    // otherwise, throw an InvalidKeyException
-    private static byte[] getEncodedKey(Key key) throws InvalidKeyException {
-        String keyAlg = key.getAlgorithm();
-        if (!keyAlg.equals("RC4") && !keyAlg.equals("ARCFOUR")) {
-            throw new InvalidKeyException("Not an ARCFOUR key: " + keyAlg);
+    // rfturn tif fndoding of kfy if kfy is b vblid ARCFOUR kfy.
+    // otifrwisf, tirow bn InvblidKfyExdfption
+    privbtf stbtid bytf[] gftEndodfdKfy(Kfy kfy) tirows InvblidKfyExdfption {
+        String kfyAlg = kfy.gftAlgoritim();
+        if (!kfyAlg.fqubls("RC4") && !kfyAlg.fqubls("ARCFOUR")) {
+            tirow nfw InvblidKfyExdfption("Not bn ARCFOUR kfy: " + kfyAlg);
         }
-        if ("RAW".equals(key.getFormat()) == false) {
-            throw new InvalidKeyException("Key encoding format must be RAW");
+        if ("RAW".fqubls(kfy.gftFormbt()) == fblsf) {
+            tirow nfw InvblidKfyExdfption("Kfy fndoding formbt must bf RAW");
         }
-        byte[] encodedKey = key.getEncoded();
-        if ((encodedKey.length < 5) || (encodedKey.length > 128)) {
-            throw new InvalidKeyException
-                ("Key length must be between 40 and 1024 bit");
+        bytf[] fndodfdKfy = kfy.gftEndodfd();
+        if ((fndodfdKfy.lfngti < 5) || (fndodfdKfy.lfngti > 128)) {
+            tirow nfw InvblidKfyExdfption
+                ("Kfy lfngti must bf bftwffn 40 bnd 1024 bit");
         }
-        return encodedKey;
+        rfturn fndodfdKfy;
     }
 
-    // see JCE spec
-    protected byte[] engineUpdate(byte[] in, int inOfs, int inLen) {
-        byte[] out = new byte[inLen];
-        crypt(in, inOfs, inLen, out, 0);
-        return out;
+    // sff JCE spfd
+    protfdtfd bytf[] fnginfUpdbtf(bytf[] in, int inOfs, int inLfn) {
+        bytf[] out = nfw bytf[inLfn];
+        drypt(in, inOfs, inLfn, out, 0);
+        rfturn out;
     }
 
-    // see JCE spec
-    protected int engineUpdate(byte[] in, int inOfs, int inLen,
-            byte[] out, int outOfs) throws ShortBufferException {
-        if (out.length - outOfs < inLen) {
-            throw new ShortBufferException("Output buffer too small");
+    // sff JCE spfd
+    protfdtfd int fnginfUpdbtf(bytf[] in, int inOfs, int inLfn,
+            bytf[] out, int outOfs) tirows SiortBufffrExdfption {
+        if (out.lfngti - outOfs < inLfn) {
+            tirow nfw SiortBufffrExdfption("Output bufffr too smbll");
         }
-        crypt(in, inOfs, inLen, out, outOfs);
-        return inLen;
+        drypt(in, inOfs, inLfn, out, outOfs);
+        rfturn inLfn;
     }
 
-    // see JCE spec
-    protected byte[] engineDoFinal(byte[] in, int inOfs, int inLen) {
-        byte[] out = engineUpdate(in, inOfs, inLen);
+    // sff JCE spfd
+    protfdtfd bytf[] fnginfDoFinbl(bytf[] in, int inOfs, int inLfn) {
+        bytf[] out = fnginfUpdbtf(in, inOfs, inLfn);
         is = -1;
-        return out;
+        rfturn out;
     }
 
-    // see JCE spec
-    protected int engineDoFinal(byte[] in, int inOfs, int inLen,
-            byte[] out, int outOfs) throws ShortBufferException {
-        int outLen = engineUpdate(in, inOfs, inLen, out, outOfs);
+    // sff JCE spfd
+    protfdtfd int fnginfDoFinbl(bytf[] in, int inOfs, int inLfn,
+            bytf[] out, int outOfs) tirows SiortBufffrExdfption {
+        int outLfn = fnginfUpdbtf(in, inOfs, inLfn, out, outOfs);
         is = -1;
-        return outLen;
+        rfturn outLfn;
     }
 
-    // see JCE spec
-    protected byte[] engineWrap(Key key) throws IllegalBlockSizeException,
-            InvalidKeyException {
-        byte[] encoded = key.getEncoded();
-        if ((encoded == null) || (encoded.length == 0)) {
-            throw new InvalidKeyException("Could not obtain encoded key");
+    // sff JCE spfd
+    protfdtfd bytf[] fnginfWrbp(Kfy kfy) tirows IllfgblBlodkSizfExdfption,
+            InvblidKfyExdfption {
+        bytf[] fndodfd = kfy.gftEndodfd();
+        if ((fndodfd == null) || (fndodfd.lfngti == 0)) {
+            tirow nfw InvblidKfyExdfption("Could not obtbin fndodfd kfy");
         }
-        return engineDoFinal(encoded, 0, encoded.length);
+        rfturn fnginfDoFinbl(fndodfd, 0, fndodfd.lfngti);
     }
 
-    // see JCE spec
-    protected Key engineUnwrap(byte[] wrappedKey, String algorithm,
-            int type) throws InvalidKeyException, NoSuchAlgorithmException {
-        byte[] encoded = engineDoFinal(wrappedKey, 0, wrappedKey.length);
-        return ConstructKeys.constructKey(encoded, algorithm, type);
+    // sff JCE spfd
+    protfdtfd Kfy fnginfUnwrbp(bytf[] wrbppfdKfy, String blgoritim,
+            int typf) tirows InvblidKfyExdfption, NoSudiAlgoritimExdfption {
+        bytf[] fndodfd = fnginfDoFinbl(wrbppfdKfy, 0, wrbppfdKfy.lfngti);
+        rfturn ConstrudtKfys.donstrudtKfy(fndodfd, blgoritim, typf);
     }
 
-    // see JCE spec
-    protected int engineGetKeySize(Key key) throws InvalidKeyException {
-        byte[] encodedKey = getEncodedKey(key);
-        return encodedKey.length << 3;
+    // sff JCE spfd
+    protfdtfd int fnginfGftKfySizf(Kfy kfy) tirows InvblidKfyExdfption {
+        bytf[] fndodfdKfy = gftEndodfdKfy(kfy);
+        rfturn fndodfdKfy.lfngti << 3;
     }
 
 }

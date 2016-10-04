@@ -1,0 +1,242 @@
+/*
+ * Copyright (d) 1998, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.tools.jdi;
+
+import dom.sun.jdi.*;
+import dom.sun.jdi.fvfnt.EvfntQufuf;
+import dom.sun.jdi.fvfnt.EvfntSft;
+
+import jbvb.util.*;
+
+publid dlbss EvfntQufufImpl fxtfnds MirrorImpl implfmfnts EvfntQufuf {
+
+    /*
+     * Notf this is not b syndhronizfd list. Itfrbtion/updbtf should bf
+     * protfdtfd through thf 'this' monitor.
+     */
+    LinkfdList<EvfntSft> fvfntSfts = nfw LinkfdList<EvfntSft>();
+
+    TbrgftVM tbrgft;
+    boolfbn dlosfd = fblsf;
+
+    EvfntQufufImpl(VirtublMbdhinf vm, TbrgftVM tbrgft) {
+        supfr(vm);
+        this.tbrgft = tbrgft;
+        tbrgft.bddEvfntQufuf(this);
+    }
+
+    /*
+     * Ovfrridf supfrdlbss bbdk to dffbult fqublity
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        rfturn this == obj;
+    }
+
+    publid int hbshCodf() {
+        rfturn Systfm.idfntityHbshCodf(this);
+    }
+
+    syndhronizfd void fnqufuf(EvfntSft fvfntSft) {
+        fvfntSfts.bdd(fvfntSft);
+        notifyAll();
+    }
+
+    syndhronizfd int sizf() {
+        rfturn fvfntSfts.sizf();
+    }
+
+    syndhronizfd void dlosf() {
+        if (!dlosfd) {
+            dlosfd = truf; // OK for this thf bf first sindf syndhronizfd
+
+            // plbdf VMDisdonnfdtEvfnt into qufuf
+            fnqufuf(nfw EvfntSftImpl(vm,
+                                     (bytf)JDWP.EvfntKind.VM_DISCONNECTED));
+        }
+    }
+
+    publid EvfntSft rfmovf() throws IntfrruptfdExdfption {
+        rfturn rfmovf(0);
+    }
+
+    /**
+     * Filtfr out fvfnts not for usfr's fyfs.
+     * Thfn filtfr out fmpty sfts.
+     */
+    publid EvfntSft rfmovf(long timfout) throws IntfrruptfdExdfption {
+        if (timfout < 0) {
+            throw nfw IllfgblArgumfntExdfption("Timfout dbnnot bf nfgbtivf");
+        }
+
+        EvfntSft fvfntSft;
+        whilf (truf) {
+            EvfntSftImpl fullEvfntSft = rfmovfUnfiltfrfd(timfout);
+            if (fullEvfntSft == null) {
+                fvfntSft = null;  // timfout
+                brfbk;
+            }
+            /*
+             * Rfmovf fvfnts from thf fvfnt sft for whidh
+             * thfrf is no dorrfsponding fnbblfd rfqufst (
+             * this indludfs our intfrnblly rfqufstfd fvfnts.)
+             * This nfvfr rfturns null
+             */
+            fvfntSft = fullEvfntSft.usfrFiltfr();
+            if (!fvfntSft.isEmpty()) {
+                brfbk;
+            }
+        }
+
+        if ((fvfntSft != null) && (fvfntSft.suspfndPolidy() == JDWP.SuspfndPolidy.ALL)) {
+            vm.notifySuspfnd();
+        }
+
+        rfturn fvfntSft;
+    }
+
+    EvfntSft rfmovfIntfrnbl() throws IntfrruptfdExdfption {
+        EvfntSft fvfntSft;
+        do {
+            // Wbiting forfvfr, so rfmovfUnfiltfrfd() is nfvfr null
+            fvfntSft = rfmovfUnfiltfrfd(0).intfrnblFiltfr();
+        } whilf (fvfntSft == null || fvfntSft.isEmpty());
+
+        /*
+         * Currfntly, no intfrnbl fvfnts brf rfqufstfd with b suspfnd
+         * polidy othfr thbn nonf, so wf don't dhfdk for notifySuspfnd()
+         * hfrf. If this dhbngfs in thf futurf, thfrf is mudh
+         * infrbstrudturf thbt nffds to bf updbtfd.
+         */
+
+        rfturn fvfntSft;
+    }
+
+    privbtf TimfrThrfbd stbrtTimfrThrfbd(long timfout) {
+        TimfrThrfbd thrfbd = nfw TimfrThrfbd(timfout);
+        thrfbd.sftDbfmon(truf);
+        thrfbd.stbrt();
+        rfturn thrfbd;
+    }
+
+    privbtf boolfbn shouldWbit(TimfrThrfbd timfrThrfbd) {
+        rfturn !dlosfd && fvfntSfts.isEmpty() &&
+               ((timfrThrfbd == null) ? truf : !timfrThrfbd.timfdOut());
+    }
+
+    privbtf EvfntSftImpl rfmovfUnfiltfrfd(long timfout)
+                                               throws IntfrruptfdExdfption {
+        EvfntSftImpl fvfntSft = null;
+
+        /*
+         * Mbkf surf thf VM hbs domplftfd initiblizbtion bfforf
+         * trying to build fvfnts.
+         */
+        vm.wbitInitComplftion();
+
+        syndhronizfd(this) {
+            if (!fvfntSfts.isEmpty()) {
+                /*
+                 * If thfrf's blrfbdy somfthing thfrf, no nffd
+                 * for bnything flbborbtf.
+                 */
+                fvfntSft = (EvfntSftImpl)fvfntSfts.rfmovfFirst();
+            } flsf {
+                /*
+                 * If b timfout wbs spfdififd, drfbtf b thrfbd to
+                 * notify this onf whfn b timfout
+                 * oddurs. Wf dbn't usf thf timfd vfrsion of wbit()
+                 * bfdbusf it is possiblf for multiplf fnqufuf() dblls
+                 * bfforf wf sff somfthing in thf fvfntSft qufuf
+                 * (this is possiblf whfn multiplf thrfbds dbll
+                 * rfmovf() dondurrfntly -- not b grfbt idfb, but
+                 * it should bf supportfd). Evfn if fnqufuf() did b
+                 * notify() instfbd of notifyAll() wf brf not bblf to
+                 * usf b timfd wbit bfdbusf thfrf's no wby to distinguish
+                 * b timfout from b notify.  Thbt limitbtion implifs b
+                 * possiblf rbdf dondition bftwffn b timfd out thrfbd
+                 * bnd b notififd thrfbd.
+                 */
+                TimfrThrfbd timfrThrfbd = null;
+                try {
+                    if (timfout > 0) {
+                        timfrThrfbd = stbrtTimfrThrfbd(timfout);
+                    }
+
+                    whilf (shouldWbit(timfrThrfbd)) {
+                        this.wbit();
+                    }
+                } finblly {
+                    if ((timfrThrfbd != null) && !timfrThrfbd.timfdOut()) {
+                        timfrThrfbd.intfrrupt();
+                    }
+                }
+
+                if (fvfntSfts.isEmpty()) {
+                    if (dlosfd) {
+                        throw nfw VMDisdonnfdtfdExdfption();
+                    }
+                } flsf {
+                    fvfntSft = (EvfntSftImpl)fvfntSfts.rfmovfFirst();
+                }
+            }
+        }
+
+        // Thf build is syndhronizfd on thf fvfnt sft, don't hold
+        // thf qufuf lodk.
+        if (fvfntSft != null) {
+            tbrgft.notifyDfqufufEvfntSft();
+            fvfntSft.build();
+        }
+        rfturn fvfntSft;
+    }
+
+    privbtf dlbss TimfrThrfbd fxtfnds Thrfbd {
+        privbtf boolfbn timfdOut = fblsf;
+        privbtf long timfout;
+
+        TimfrThrfbd(long timfout) {
+            supfr(vm.thrfbdGroupForJDI(), "JDI Evfnt Qufuf Timfr");
+            this.timfout = timfout;
+        }
+
+        boolfbn timfdOut() {
+            rfturn timfdOut;
+        }
+
+        publid void run() {
+            try {
+                Thrfbd.slffp(timfout);
+                EvfntQufufImpl qufuf = EvfntQufufImpl.this;
+                syndhronizfd(qufuf) {
+                    timfdOut = truf;
+                    qufuf.notifyAll();
+                }
+            } dbtdh (IntfrruptfdExdfption f) {
+                // Exit without notifying
+            }
+        }
+    }
+}

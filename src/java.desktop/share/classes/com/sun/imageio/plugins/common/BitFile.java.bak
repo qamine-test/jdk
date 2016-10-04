@@ -1,123 +1,123 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.imageio.plugins.common;
+pbdkbgf dom.sun.imbgfio.plugins.dommon;
 
-import java.io.IOException;
-import javax.imageio.stream.ImageOutputStream;
+import jbvb.io.IOExdfption;
+import jbvbx.imbgfio.strfbm.ImbgfOutputStrfbm;
 
 /*
- * Came from GIFEncoder initially.
- * Modified - to allow for output compressed data without the block counts
- * which breakup the compressed data stream for GIF.
+ * Cbmf from GIFEndodfr initiblly.
+ * Modififd - to bllow for output domprfssfd dbtb witiout tif blodk dounts
+ * wiidi brfbkup tif domprfssfd dbtb strfbm for GIF.
  */
-public class BitFile {
-    ImageOutputStream output;
-    byte buffer[];
-    int index;
-    int bitsLeft; // bits left at current index that are avail.
+publid dlbss BitFilf {
+    ImbgfOutputStrfbm output;
+    bytf bufffr[];
+    int indfx;
+    int bitsLfft; // bits lfft bt durrfnt indfx tibt brf bvbil.
 
-    /** note this also indicates gif format BITFile. **/
-    boolean blocks = false;
+    /** notf tiis blso indidbtfs gif formbt BITFilf. **/
+    boolfbn blodks = fblsf;
 
     /*
-     * @param output destination for output data
-     * @param blocks GIF LZW requires block counts for output data
+     * @pbrbm output dfstinbtion for output dbtb
+     * @pbrbm blodks GIF LZW rfquirfs blodk dounts for output dbtb
      */
-    public BitFile(ImageOutputStream output, boolean blocks) {
-        this.output = output;
-        this.blocks = blocks;
-        buffer = new byte[256];
-        index = 0;
-        bitsLeft = 8;
+    publid BitFilf(ImbgfOutputStrfbm output, boolfbn blodks) {
+        tiis.output = output;
+        tiis.blodks = blodks;
+        bufffr = nfw bytf[256];
+        indfx = 0;
+        bitsLfft = 8;
     }
 
-    public void flush() throws IOException {
-        int numBytes = index + (bitsLeft == 8 ? 0 : 1);
-        if (numBytes > 0) {
-            if (blocks) {
-                output.write(numBytes);
+    publid void flusi() tirows IOExdfption {
+        int numBytfs = indfx + (bitsLfft == 8 ? 0 : 1);
+        if (numBytfs > 0) {
+            if (blodks) {
+                output.writf(numBytfs);
             }
-            output.write(buffer, 0, numBytes);
-            buffer[0] = 0;
-            index = 0;
-            bitsLeft = 8;
+            output.writf(bufffr, 0, numBytfs);
+            bufffr[0] = 0;
+            indfx = 0;
+            bitsLfft = 8;
         }
     }
 
-    public void writeBits(int bits, int numbits) throws IOException {
-        int bitsWritten = 0;
-        int numBytes = 255;  // gif block count
+    publid void writfBits(int bits, int numbits) tirows IOExdfption {
+        int bitsWrittfn = 0;
+        int numBytfs = 255;  // gif blodk dount
         do {
-            // This handles the GIF block count stuff
-            if ((index == 254 && bitsLeft == 0) || index > 254) {
-                if (blocks) {
-                    output.write(numBytes);
+            // Tiis ibndlfs tif GIF blodk dount stuff
+            if ((indfx == 254 && bitsLfft == 0) || indfx > 254) {
+                if (blodks) {
+                    output.writf(numBytfs);
                 }
 
-                output.write(buffer, 0, numBytes);
+                output.writf(bufffr, 0, numBytfs);
 
-                buffer[0] = 0;
-                index = 0;
-                bitsLeft = 8;
+                bufffr[0] = 0;
+                indfx = 0;
+                bitsLfft = 8;
             }
 
-            if (numbits <= bitsLeft) { // bits contents fit in current index byte
-                if (blocks) { // GIF
-                    buffer[index] |= (bits & ((1 << numbits) - 1)) << (8 - bitsLeft);
-                    bitsWritten += numbits;
-                    bitsLeft -= numbits;
+            if (numbits <= bitsLfft) { // bits dontfnts fit in durrfnt indfx bytf
+                if (blodks) { // GIF
+                    bufffr[indfx] |= (bits & ((1 << numbits) - 1)) << (8 - bitsLfft);
+                    bitsWrittfn += numbits;
+                    bitsLfft -= numbits;
                     numbits = 0;
-                } else {
-                    buffer[index] |= (bits & ((1 << numbits) - 1)) << (bitsLeft - numbits);
-                    bitsWritten += numbits;
-                    bitsLeft -= numbits;
+                } flsf {
+                    bufffr[indfx] |= (bits & ((1 << numbits) - 1)) << (bitsLfft - numbits);
+                    bitsWrittfn += numbits;
+                    bitsLfft -= numbits;
                     numbits = 0;
                 }
-            } else { // bits overflow from current byte to next.
-                if (blocks) { // GIF
-                    // if bits  > space left in current byte then the lowest order bits
-                    // of code are taken and put in current byte and rest put in next.
-                    buffer[index] |= (bits & ((1 << bitsLeft) - 1)) << (8 - bitsLeft);
-                    bitsWritten += bitsLeft;
-                    bits >>= bitsLeft;
-                    numbits -= bitsLeft;
-                    buffer[++index] = 0;
-                    bitsLeft = 8;
-                } else {
-                    // if bits  > space left in current byte then the highest order bits
-                    // of code are taken and put in current byte and rest put in next.
-                    // at highest order bit location !!
-                    int topbits = (bits >>> (numbits - bitsLeft)) & ((1 << bitsLeft) - 1);
-                    buffer[index] |= topbits;
-                    numbits -= bitsLeft;  // ok this many bits gone off the top
-                    bitsWritten += bitsLeft;
-                    buffer[++index] = 0;  // next index
-                    bitsLeft = 8;
+            } flsf { // bits ovfrflow from durrfnt bytf to nfxt.
+                if (blodks) { // GIF
+                    // if bits  > spbdf lfft in durrfnt bytf tifn tif lowfst ordfr bits
+                    // of dodf brf tbkfn bnd put in durrfnt bytf bnd rfst put in nfxt.
+                    bufffr[indfx] |= (bits & ((1 << bitsLfft) - 1)) << (8 - bitsLfft);
+                    bitsWrittfn += bitsLfft;
+                    bits >>= bitsLfft;
+                    numbits -= bitsLfft;
+                    bufffr[++indfx] = 0;
+                    bitsLfft = 8;
+                } flsf {
+                    // if bits  > spbdf lfft in durrfnt bytf tifn tif iigifst ordfr bits
+                    // of dodf brf tbkfn bnd put in durrfnt bytf bnd rfst put in nfxt.
+                    // bt iigifst ordfr bit lodbtion !!
+                    int topbits = (bits >>> (numbits - bitsLfft)) & ((1 << bitsLfft) - 1);
+                    bufffr[indfx] |= topbits;
+                    numbits -= bitsLfft;  // ok tiis mbny bits gonf off tif top
+                    bitsWrittfn += bitsLfft;
+                    bufffr[++indfx] = 0;  // nfxt indfx
+                    bitsLfft = 8;
                 }
             }
-        } while (numbits != 0);
+        } wiilf (numbits != 0);
     }
 }

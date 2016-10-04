@@ -1,244 +1,244 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Set;
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.Sfriblizbblf;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Sft;
 
 /**
- * {@code InputMap} provides a binding between an input event (currently only
- * {@code KeyStroke}s are used) and an {@code Object}. {@code InputMap}s are
- * usually used with an {@code ActionMap}, to determine an {@code Action} to
- * perform when a key is pressed. An {@code InputMap} can have a parent that
- * is searched for bindings not defined in the {@code InputMap}.
- * <p>As with {@code ActionMap} if you create a cycle, eg:
- * <pre>
- *   InputMap am = new InputMap();
- *   InputMap bm = new InputMap():
- *   am.setParent(bm);
- *   bm.setParent(am);
- * </pre>
- * some of the methods will cause a StackOverflowError to be thrown.
+ * {@dodf InputMbp} providfs b binding bftwffn bn input fvfnt (durrfntly only
+ * {@dodf KfyStrokf}s brf usfd) bnd bn {@dodf Objfdt}. {@dodf InputMbp}s brf
+ * usublly usfd witi bn {@dodf AdtionMbp}, to dftfrminf bn {@dodf Adtion} to
+ * pfrform wifn b kfy is prfssfd. An {@dodf InputMbp} dbn ibvf b pbrfnt tibt
+ * is sfbrdifd for bindings not dffinfd in tif {@dodf InputMbp}.
+ * <p>As witi {@dodf AdtionMbp} if you drfbtf b dydlf, fg:
+ * <prf>
+ *   InputMbp bm = nfw InputMbp();
+ *   InputMbp bm = nfw InputMbp():
+ *   bm.sftPbrfnt(bm);
+ *   bm.sftPbrfnt(bm);
+ * </prf>
+ * somf of tif mftiods will dbusf b StbdkOvfrflowError to bf tirown.
  *
- * @author Scott Violet
- * @since 1.3
+ * @butior Sdott Violft
+ * @sindf 1.3
  */
-@SuppressWarnings("serial")
-public class InputMap implements Serializable {
-    /** Handles the mapping between KeyStroke and Action name. */
-    private transient ArrayTable     arrayTable;
-    /** Parent that handles any bindings we don't contain. */
-    private InputMap                                parent;
+@SupprfssWbrnings("sfribl")
+publid dlbss InputMbp implfmfnts Sfriblizbblf {
+    /** Hbndlfs tif mbpping bftwffn KfyStrokf bnd Adtion nbmf. */
+    privbtf trbnsifnt ArrbyTbblf     brrbyTbblf;
+    /** Pbrfnt tibt ibndlfs bny bindings wf don't dontbin. */
+    privbtf InputMbp                                pbrfnt;
 
 
     /**
-     * Creates an {@code InputMap} with no parent and no mappings.
+     * Crfbtfs bn {@dodf InputMbp} witi no pbrfnt bnd no mbppings.
      */
-    public InputMap() {
+    publid InputMbp() {
     }
 
     /**
-     * Sets this {@code InputMap}'s parent.
+     * Sfts tiis {@dodf InputMbp}'s pbrfnt.
      *
-     * @param map the {@code InputMap} that is the parent of this one
+     * @pbrbm mbp tif {@dodf InputMbp} tibt is tif pbrfnt of tiis onf
      */
-    public void setParent(InputMap map) {
-        this.parent = map;
+    publid void sftPbrfnt(InputMbp mbp) {
+        tiis.pbrfnt = mbp;
     }
 
     /**
-     * Gets this {@code InputMap}'s parent.
+     * Gfts tiis {@dodf InputMbp}'s pbrfnt.
      *
-     * @return map the {@code InputMap} that is the parent of this one,
-     *             or null if this {@code InputMap} has no parent
+     * @rfturn mbp tif {@dodf InputMbp} tibt is tif pbrfnt of tiis onf,
+     *             or null if tiis {@dodf InputMbp} ibs no pbrfnt
      */
-    public InputMap getParent() {
-        return parent;
+    publid InputMbp gftPbrfnt() {
+        rfturn pbrfnt;
     }
 
     /**
-     * Adds a binding for {@code keyStroke} to {@code actionMapKey}.
-     * If {@code actionMapKey} is null, this removes the current binding
-     * for {@code keyStroke}.
+     * Adds b binding for {@dodf kfyStrokf} to {@dodf bdtionMbpKfy}.
+     * If {@dodf bdtionMbpKfy} is null, tiis rfmovfs tif durrfnt binding
+     * for {@dodf kfyStrokf}.
      *
-     * @param keyStroke a {@code KeyStroke}
-     * @param actionMapKey an action map key
+     * @pbrbm kfyStrokf b {@dodf KfyStrokf}
+     * @pbrbm bdtionMbpKfy bn bdtion mbp kfy
      */
-    public void put(KeyStroke keyStroke, Object actionMapKey) {
-        if (keyStroke == null) {
-            return;
+    publid void put(KfyStrokf kfyStrokf, Objfdt bdtionMbpKfy) {
+        if (kfyStrokf == null) {
+            rfturn;
         }
-        if (actionMapKey == null) {
-            remove(keyStroke);
+        if (bdtionMbpKfy == null) {
+            rfmovf(kfyStrokf);
         }
-        else {
-            if (arrayTable == null) {
-                arrayTable = new ArrayTable();
+        flsf {
+            if (brrbyTbblf == null) {
+                brrbyTbblf = nfw ArrbyTbblf();
             }
-            arrayTable.put(keyStroke, actionMapKey);
+            brrbyTbblf.put(kfyStrokf, bdtionMbpKfy);
         }
     }
 
     /**
-     * Returns the binding for {@code keyStroke}, messaging the
-     * parent {@code InputMap} if the binding is not locally defined.
+     * Rfturns tif binding for {@dodf kfyStrokf}, mfssbging tif
+     * pbrfnt {@dodf InputMbp} if tif binding is not lodblly dffinfd.
      *
-     * @param keyStroke the {@code KeyStroke} for which to get the binding
-     * @return the binding for {@code keyStroke}
+     * @pbrbm kfyStrokf tif {@dodf KfyStrokf} for wiidi to gft tif binding
+     * @rfturn tif binding for {@dodf kfyStrokf}
      */
-    public Object get(KeyStroke keyStroke) {
-        if (arrayTable == null) {
-            InputMap    parent = getParent();
+    publid Objfdt gft(KfyStrokf kfyStrokf) {
+        if (brrbyTbblf == null) {
+            InputMbp    pbrfnt = gftPbrfnt();
 
-            if (parent != null) {
-                return parent.get(keyStroke);
+            if (pbrfnt != null) {
+                rfturn pbrfnt.gft(kfyStrokf);
             }
-            return null;
+            rfturn null;
         }
-        Object value = arrayTable.get(keyStroke);
+        Objfdt vbluf = brrbyTbblf.gft(kfyStrokf);
 
-        if (value == null) {
-            InputMap    parent = getParent();
+        if (vbluf == null) {
+            InputMbp    pbrfnt = gftPbrfnt();
 
-            if (parent != null) {
-                return parent.get(keyStroke);
+            if (pbrfnt != null) {
+                rfturn pbrfnt.gft(kfyStrokf);
             }
         }
-        return value;
+        rfturn vbluf;
     }
 
     /**
-     * Removes the binding for {@code key} from this {@code InputMap}.
+     * Rfmovfs tif binding for {@dodf kfy} from tiis {@dodf InputMbp}.
      *
-     * @param key the {@code KeyStroke} for which to remove the binding
+     * @pbrbm kfy tif {@dodf KfyStrokf} for wiidi to rfmovf tif binding
      */
-    public void remove(KeyStroke key) {
-        if (arrayTable != null) {
-            arrayTable.remove(key);
+    publid void rfmovf(KfyStrokf kfy) {
+        if (brrbyTbblf != null) {
+            brrbyTbblf.rfmovf(kfy);
         }
     }
 
     /**
-     * Removes all the mappings from this {@code InputMap}.
+     * Rfmovfs bll tif mbppings from tiis {@dodf InputMbp}.
      */
-    public void clear() {
-        if (arrayTable != null) {
-            arrayTable.clear();
+    publid void dlfbr() {
+        if (brrbyTbblf != null) {
+            brrbyTbblf.dlfbr();
         }
     }
 
     /**
-     * Returns the {@code KeyStroke}s that are bound in this {@code InputMap}.
+     * Rfturns tif {@dodf KfyStrokf}s tibt brf bound in tiis {@dodf InputMbp}.
      *
-     * @return an array of the {@code KeyStroke}s that are bound in this
-     *         {@code InputMap}
+     * @rfturn bn brrby of tif {@dodf KfyStrokf}s tibt brf bound in tiis
+     *         {@dodf InputMbp}
      */
-    public KeyStroke[] keys() {
-        if (arrayTable == null) {
-            return null;
+    publid KfyStrokf[] kfys() {
+        if (brrbyTbblf == null) {
+            rfturn null;
         }
-        KeyStroke[] keys = new KeyStroke[arrayTable.size()];
-        arrayTable.getKeys(keys);
-        return keys;
+        KfyStrokf[] kfys = nfw KfyStrokf[brrbyTbblf.sizf()];
+        brrbyTbblf.gftKfys(kfys);
+        rfturn kfys;
     }
 
     /**
-     * Returns the number of {@code KeyStroke} bindings.
+     * Rfturns tif numbfr of {@dodf KfyStrokf} bindings.
      *
-     * @return the number of {@code KeyStroke} bindings
+     * @rfturn tif numbfr of {@dodf KfyStrokf} bindings
      */
-    public int size() {
-        if (arrayTable == null) {
-            return 0;
+    publid int sizf() {
+        if (brrbyTbblf == null) {
+            rfturn 0;
         }
-        return arrayTable.size();
+        rfturn brrbyTbblf.sizf();
     }
 
     /**
-     * Returns an array of the {@code KeyStroke}s defined in this
-     * {@code InputMap} and its parent. This differs from {@code keys()}
-     * in that this method includes the keys defined in the parent.
+     * Rfturns bn brrby of tif {@dodf KfyStrokf}s dffinfd in tiis
+     * {@dodf InputMbp} bnd its pbrfnt. Tiis difffrs from {@dodf kfys()}
+     * in tibt tiis mftiod indludfs tif kfys dffinfd in tif pbrfnt.
      *
-     * @return an array of the {@code KeyStroke}s defined in this
-     *         {@code InputMap} and its parent
+     * @rfturn bn brrby of tif {@dodf KfyStrokf}s dffinfd in tiis
+     *         {@dodf InputMbp} bnd its pbrfnt
      */
-    public KeyStroke[] allKeys() {
-        int             count = size();
-        InputMap        parent = getParent();
+    publid KfyStrokf[] bllKfys() {
+        int             dount = sizf();
+        InputMbp        pbrfnt = gftPbrfnt();
 
-        if (count == 0) {
-            if (parent != null) {
-                return parent.allKeys();
+        if (dount == 0) {
+            if (pbrfnt != null) {
+                rfturn pbrfnt.bllKfys();
             }
-            return keys();
+            rfturn kfys();
         }
-        if (parent == null) {
-            return keys();
+        if (pbrfnt == null) {
+            rfturn kfys();
         }
-        KeyStroke[]    keys = keys();
-        KeyStroke[]    pKeys =  parent.allKeys();
+        KfyStrokf[]    kfys = kfys();
+        KfyStrokf[]    pKfys =  pbrfnt.bllKfys();
 
-        if (pKeys == null) {
-            return keys;
+        if (pKfys == null) {
+            rfturn kfys;
         }
-        if (keys == null) {
-            // Should only happen if size() != keys.length, which should only
-            // happen if mutated from multiple threads (or a bogus subclass).
-            return pKeys;
-        }
-
-        HashMap<KeyStroke, KeyStroke> keyMap = new HashMap<KeyStroke, KeyStroke>();
-        int            counter;
-
-        for (counter = keys.length - 1; counter >= 0; counter--) {
-            keyMap.put(keys[counter], keys[counter]);
-        }
-        for (counter = pKeys.length - 1; counter >= 0; counter--) {
-            keyMap.put(pKeys[counter], pKeys[counter]);
+        if (kfys == null) {
+            // Siould only ibppfn if sizf() != kfys.lfngti, wiidi siould only
+            // ibppfn if mutbtfd from multiplf tirfbds (or b bogus subdlbss).
+            rfturn pKfys;
         }
 
-        KeyStroke[]    allKeys = new KeyStroke[keyMap.size()];
+        HbsiMbp<KfyStrokf, KfyStrokf> kfyMbp = nfw HbsiMbp<KfyStrokf, KfyStrokf>();
+        int            dountfr;
 
-        return keyMap.keySet().toArray(allKeys);
+        for (dountfr = kfys.lfngti - 1; dountfr >= 0; dountfr--) {
+            kfyMbp.put(kfys[dountfr], kfys[dountfr]);
+        }
+        for (dountfr = pKfys.lfngti - 1; dountfr >= 0; dountfr--) {
+            kfyMbp.put(pKfys[dountfr], pKfys[dountfr]);
+        }
+
+        KfyStrokf[]    bllKfys = nfw KfyStrokf[kfyMbp.sizf()];
+
+        rfturn kfyMbp.kfySft().toArrby(bllKfys);
     }
 
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        s.defaultWriteObject();
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s) tirows IOExdfption {
+        s.dffbultWritfObjfdt();
 
-        ArrayTable.writeArrayTable(s, arrayTable);
+        ArrbyTbblf.writfArrbyTbblf(s, brrbyTbblf);
     }
 
-    private void readObject(ObjectInputStream s) throws ClassNotFoundException,
-                                                 IOException {
-        s.defaultReadObject();
-        for (int counter = s.readInt() - 1; counter >= 0; counter--) {
-            put((KeyStroke)s.readObject(), s.readObject());
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s) tirows ClbssNotFoundExdfption,
+                                                 IOExdfption {
+        s.dffbultRfbdObjfdt();
+        for (int dountfr = s.rfbdInt() - 1; dountfr >= 0; dountfr--) {
+            put((KfyStrokf)s.rfbdObjfdt(), s.rfbdObjfdt());
         }
     }
 }

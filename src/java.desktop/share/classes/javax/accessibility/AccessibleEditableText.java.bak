@@ -1,133 +1,133 @@
 /*
- * Copyright (c) 2000, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.accessibility;
+pbdkbgf jbvbx.bddfssibility;
 
-import java.util.*;
-import java.awt.*;
-import javax.swing.text.*;
+import jbvb.util.*;
+import jbvb.bwt.*;
+import jbvbx.swing.tfxt.*;
 
 /**
- * <P>The AccessibleEditableText interface should be implemented by all
- * classes that present editable textual information on the display.
- * Along with the AccessibleText interface, this interface provides
- * the standard mechanism for an assistive technology to access
- * that text via its content, attributes, and spatial location.
- * Applications can determine if an object supports the AccessibleEditableText
- * interface by first obtaining its AccessibleContext (see {@link Accessible})
- * and then calling the {@link AccessibleContext#getAccessibleEditableText}
- * method of AccessibleContext.  If the return value is not null, the object
- * supports this interface.
+ * <P>Tif AddfssiblfEditbblfTfxt intfrfbdf siould bf implfmfntfd by bll
+ * dlbssfs tibt prfsfnt fditbblf tfxtubl informbtion on tif displby.
+ * Along witi tif AddfssiblfTfxt intfrfbdf, tiis intfrfbdf providfs
+ * tif stbndbrd mfdibnism for bn bssistivf tfdinology to bddfss
+ * tibt tfxt vib its dontfnt, bttributfs, bnd spbtibl lodbtion.
+ * Applidbtions dbn dftfrminf if bn objfdt supports tif AddfssiblfEditbblfTfxt
+ * intfrfbdf by first obtbining its AddfssiblfContfxt (sff {@link Addfssiblf})
+ * bnd tifn dblling tif {@link AddfssiblfContfxt#gftAddfssiblfEditbblfTfxt}
+ * mftiod of AddfssiblfContfxt.  If tif rfturn vbluf is not null, tif objfdt
+ * supports tiis intfrfbdf.
  *
- * @see Accessible
- * @see Accessible#getAccessibleContext
- * @see AccessibleContext
- * @see AccessibleContext#getAccessibleText
- * @see AccessibleContext#getAccessibleEditableText
+ * @sff Addfssiblf
+ * @sff Addfssiblf#gftAddfssiblfContfxt
+ * @sff AddfssiblfContfxt
+ * @sff AddfssiblfContfxt#gftAddfssiblfTfxt
+ * @sff AddfssiblfContfxt#gftAddfssiblfEditbblfTfxt
  *
- * @author      Lynn Monsanto
- * @since 1.4
+ * @butior      Lynn Monsbnto
+ * @sindf 1.4
  */
 
-public interface AccessibleEditableText extends AccessibleText {
+publid intfrfbdf AddfssiblfEditbblfTfxt fxtfnds AddfssiblfTfxt {
 
     /**
-     * Sets the text contents to the specified string.
+     * Sfts tif tfxt dontfnts to tif spfdififd string.
      *
-     * @param s the string to set the text contents
+     * @pbrbm s tif string to sft tif tfxt dontfnts
      */
-    public void setTextContents(String s);
+    publid void sftTfxtContfnts(String s);
 
     /**
-     * Inserts the specified string at the given index/
+     * Insfrts tif spfdififd string bt tif givfn indfx/
      *
-     * @param index the index in the text where the string will
-     * be inserted
-     * @param s the string to insert in the text
+     * @pbrbm indfx tif indfx in tif tfxt wifrf tif string will
+     * bf insfrtfd
+     * @pbrbm s tif string to insfrt in tif tfxt
      */
-    public void insertTextAtIndex(int index, String s);
+    publid void insfrtTfxtAtIndfx(int indfx, String s);
 
     /**
-     * Returns the text string between two indices.
+     * Rfturns tif tfxt string bftwffn two indidfs.
      *
-     * @param startIndex the starting index in the text
-     * @param endIndex the ending index in the text
-     * @return the text string between the indices
+     * @pbrbm stbrtIndfx tif stbrting indfx in tif tfxt
+     * @pbrbm fndIndfx tif fnding indfx in tif tfxt
+     * @rfturn tif tfxt string bftwffn tif indidfs
      */
-    public String getTextRange(int startIndex, int endIndex);
+    publid String gftTfxtRbngf(int stbrtIndfx, int fndIndfx);
 
     /**
-     * Deletes the text between two indices
+     * Dflftfs tif tfxt bftwffn two indidfs
      *
-     * @param startIndex the starting index in the text
-     * @param endIndex the ending index in the text
+     * @pbrbm stbrtIndfx tif stbrting indfx in tif tfxt
+     * @pbrbm fndIndfx tif fnding indfx in tif tfxt
      */
-    public void delete(int startIndex, int endIndex);
+    publid void dflftf(int stbrtIndfx, int fndIndfx);
 
     /**
-     * Cuts the text between two indices into the system clipboard.
+     * Cuts tif tfxt bftwffn two indidfs into tif systfm dlipbobrd.
      *
-     * @param startIndex the starting index in the text
-     * @param endIndex the ending index in the text
+     * @pbrbm stbrtIndfx tif stbrting indfx in tif tfxt
+     * @pbrbm fndIndfx tif fnding indfx in tif tfxt
      */
-    public void cut(int startIndex, int endIndex);
+    publid void dut(int stbrtIndfx, int fndIndfx);
 
     /**
-     * Pastes the text from the system clipboard into the text
-     * starting at the specified index.
+     * Pbstfs tif tfxt from tif systfm dlipbobrd into tif tfxt
+     * stbrting bt tif spfdififd indfx.
      *
-     * @param startIndex the starting index in the text
+     * @pbrbm stbrtIndfx tif stbrting indfx in tif tfxt
      */
-    public void paste(int startIndex);
+    publid void pbstf(int stbrtIndfx);
 
     /**
-     * Replaces the text between two indices with the specified
+     * Rfplbdfs tif tfxt bftwffn two indidfs witi tif spfdififd
      * string.
      *
-     * @param startIndex the starting index in the text
-     * @param endIndex the ending index in the text
-     * @param s the string to replace the text between two indices
+     * @pbrbm stbrtIndfx tif stbrting indfx in tif tfxt
+     * @pbrbm fndIndfx tif fnding indfx in tif tfxt
+     * @pbrbm s tif string to rfplbdf tif tfxt bftwffn two indidfs
      */
-    public void replaceText(int startIndex, int endIndex, String s);
+    publid void rfplbdfTfxt(int stbrtIndfx, int fndIndfx, String s);
 
     /**
-     * Selects the text between two indices.
+     * Sflfdts tif tfxt bftwffn two indidfs.
      *
-     * @param startIndex the starting index in the text
-     * @param endIndex the ending index in the text
+     * @pbrbm stbrtIndfx tif stbrting indfx in tif tfxt
+     * @pbrbm fndIndfx tif fnding indfx in tif tfxt
      */
-    public void selectText(int startIndex, int endIndex);
+    publid void sflfdtTfxt(int stbrtIndfx, int fndIndfx);
 
     /**
-     * Sets attributes for the text between two indices.
+     * Sfts bttributfs for tif tfxt bftwffn two indidfs.
      *
-     * @param startIndex the starting index in the text
-     * @param endIndex the ending index in the text
-     * @param as the attribute set
-     * @see AttributeSet
+     * @pbrbm stbrtIndfx tif stbrting indfx in tif tfxt
+     * @pbrbm fndIndfx tif fnding indfx in tif tfxt
+     * @pbrbm bs tif bttributf sft
+     * @sff AttributfSft
      */
-    public void setAttributes(int startIndex, int endIndex, AttributeSet as);
+    publid void sftAttributfs(int stbrtIndfx, int fndIndfx, AttributfSft bs);
 
 }

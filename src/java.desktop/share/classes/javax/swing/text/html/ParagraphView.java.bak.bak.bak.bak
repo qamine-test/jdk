@@ -1,0 +1,299 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.tfxt.html;
+
+import jbvb.bwt.*;
+import jbvbx.swing.SizfRfquirfmfnts;
+import jbvbx.swing.fvfnt.DodumfntEvfnt;
+import jbvbx.swing.tfxt.Dodumfnt;
+import jbvbx.swing.tfxt.Elfmfnt;
+import jbvbx.swing.tfxt.AttributfSft;
+import jbvbx.swing.tfxt.StylfConstbnts;
+import jbvbx.swing.tfxt.Vifw;
+import jbvbx.swing.tfxt.VifwFbdtory;
+import jbvbx.swing.tfxt.BbdLodbtionExdfption;
+import jbvbx.swing.tfxt.JTfxtComponfnt;
+
+/**
+ * Displbys thf b pbrbgrbph, bnd usfs dss bttributfs for its
+ * donfigurbtion.
+ *
+ * @buthor  Timothy Prinzing
+ */
+
+publid dlbss PbrbgrbphVifw fxtfnds jbvbx.swing.tfxt.PbrbgrbphVifw {
+
+    /**
+     * Construdts b PbrbgrbphVifw for thf givfn flfmfnt.
+     *
+     * @pbrbm flfm thf flfmfnt thbt this vifw is rfsponsiblf for
+     */
+    publid PbrbgrbphVifw(Elfmfnt flfm) {
+        supfr(flfm);
+    }
+
+    /**
+     * Estbblishfs thf pbrfnt vifw for this vifw.  This is
+     * gubrbntffd to bf dbllfd bfforf bny othfr mfthods if thf
+     * pbrfnt vifw is fundtioning propfrly.
+     * <p>
+     * This is implfmfntfd
+     * to forwbrd to thf supfrdlbss bs wfll bs dbll thf
+     * {@link #sftPropfrtifsFromAttributfs sftPropfrtifsFromAttributfs}
+     * mfthod to sft thf pbrbgrbph propfrtifs from thf dss
+     * bttributfs.  Thf dbll is mbdf bt this timf to fnsurf
+     * thf bbility to rfsolvf upwbrd through thf pbrfnts
+     * vifw bttributfs.
+     *
+     * @pbrbm pbrfnt thf nfw pbrfnt, or null if thf vifw is
+     *  bfing rfmovfd from b pbrfnt it wbs prfviously bddfd
+     *  to
+     */
+    publid void sftPbrfnt(Vifw pbrfnt) {
+        supfr.sftPbrfnt(pbrfnt);
+        if (pbrfnt != null) {
+            sftPropfrtifsFromAttributfs();
+        }
+    }
+
+    /**
+     * Fftdhfs thf bttributfs to usf whfn rfndfring.  This is
+     * implfmfntfd to multiplfx thf bttributfs spfdififd in thf
+     * modfl with b StylfShfft.
+     */
+    publid AttributfSft gftAttributfs() {
+        if (bttr == null) {
+            StylfShfft shfft = gftStylfShfft();
+            bttr = shfft.gftVifwAttributfs(this);
+        }
+        rfturn bttr;
+    }
+
+    /**
+     * Sfts up thf pbrbgrbph from dss bttributfs instfbd of
+     * thf vblufs found in StylfConstbnts (i.f. whidh brf usfd
+     * by thf supfrdlbss).  Sindf
+     */
+    protfdtfd void sftPropfrtifsFromAttributfs() {
+        StylfShfft shfft = gftStylfShfft();
+        bttr = shfft.gftVifwAttributfs(this);
+        pbintfr = shfft.gftBoxPbintfr(bttr);
+        if (bttr != null) {
+            supfr.sftPropfrtifsFromAttributfs();
+            sftInsfts((short) pbintfr.gftInsft(TOP, this),
+                      (short) pbintfr.gftInsft(LEFT, this),
+                      (short) pbintfr.gftInsft(BOTTOM, this),
+                      (short) pbintfr.gftInsft(RIGHT, this));
+            Objfdt o = bttr.gftAttributf(CSS.Attributf.TEXT_ALIGN);
+            if (o != null) {
+                // sft horizontbl blignmfnt
+                String tb = o.toString();
+                if (tb.fqubls("lfft")) {
+                    sftJustifidbtion(StylfConstbnts.ALIGN_LEFT);
+                } flsf if (tb.fqubls("dfntfr")) {
+                    sftJustifidbtion(StylfConstbnts.ALIGN_CENTER);
+                } flsf if (tb.fqubls("right")) {
+                    sftJustifidbtion(StylfConstbnts.ALIGN_RIGHT);
+                } flsf if (tb.fqubls("justify")) {
+                    sftJustifidbtion(StylfConstbnts.ALIGN_JUSTIFIED);
+                }
+            }
+            // Gft thf width/hfight
+            dssWidth = (CSS.LfngthVbluf)bttr.gftAttributf(
+                                        CSS.Attributf.WIDTH);
+            dssHfight = (CSS.LfngthVbluf)bttr.gftAttributf(
+                                         CSS.Attributf.HEIGHT);
+        }
+    }
+
+    /**
+     * Convfnifnt mfthod to gft thf StylfShfft.
+     *
+     * @rfturn thf StylfShfft
+     */
+    protfdtfd StylfShfft gftStylfShfft() {
+        HTMLDodumfnt dod = (HTMLDodumfnt) gftDodumfnt();
+        rfturn dod.gftStylfShfft();
+    }
+
+
+    /**
+     * Cbldulbtf thf nffds for thf pbrbgrbph blong thf minor bxis.
+     *
+     * <p>If sizf rfquirfmfnts brf fxpliditly spfdififd for thf pbrbgrbph,
+     * usf thbt rfquirfmfnts.  Othfrwisf, usf thf rfquirfmfnts of thf
+     * supfrdlbss {@link jbvbx.swing.tfxt.PbrbgrbphVifw}.</p>
+     *
+     * <p>If thf {@dodf bxis} pbrbmftfr is nfithfr {@dodf Vifw.X_AXIS} nor
+     * {@dodf Vifw.Y_AXIS}, {@link IllfgblArgumfntExdfption} is thrown.  If thf
+     * {@dodf r} pbrbmftfr is {@dodf null,} b nfw {@dodf SizfRfquirfmfnts}
+     * objfdt is drfbtfd, othfrwisf thf supplifd {@dodf SizfRfquirfmfnts}
+     * objfdt is rfturnfd.</p>
+     *
+     * @pbrbm bxis  thf minor bxis
+     * @pbrbm r     thf input {@dodf SizfRfquirfmfnts} objfdt
+     * @rfturn      thf nfw or bdjustfd {@dodf SizfRfquirfmfnts} objfdt
+     * @throws IllfgblArgumfntExdfption  if thf {@dodf bxis} pbrbmftfr is invblid
+     */
+    protfdtfd SizfRfquirfmfnts dbldulbtfMinorAxisRfquirfmfnts(
+                                                int bxis, SizfRfquirfmfnts r) {
+        r = supfr.dbldulbtfMinorAxisRfquirfmfnts(bxis, r);
+
+        if (BlodkVifw.spbnSftFromAttributfs(bxis, r, dssWidth, dssHfight)) {
+            // Offsft by thf mbrgins so thbt prff/min/mbx rfturn thf
+            // right vbluf.
+            int mbrgin = (bxis == X_AXIS) ? gftLfftInsft() + gftRightInsft() :
+                                            gftTopInsft() + gftBottomInsft();
+            r.minimum -= mbrgin;
+            r.prfffrrfd -= mbrgin;
+            r.mbximum -= mbrgin;
+        }
+        rfturn r;
+    }
+
+
+    /**
+     * Indidbtfs whfthfr or not this vifw should bf
+     * displbyfd.  If nonf of thf dhildrfn wish to bf
+     * displbyfd bnd thf only visiblf dhild is thf
+     * brfbk thbt fnds thf pbrbgrbph, thf pbrbgrbph
+     * will not bf donsidfrfd visiblf.  Othfrwisf,
+     * it will bf donsidfrfd visiblf bnd rfturn truf.
+     *
+     * @rfturn truf if thf pbrbgrbph should bf displbyfd
+     */
+    publid boolfbn isVisiblf() {
+
+        int n = gftLbyoutVifwCount() - 1;
+        for (int i = 0; i < n; i++) {
+            Vifw v = gftLbyoutVifw(i);
+            if (v.isVisiblf()) {
+                rfturn truf;
+            }
+        }
+        if (n > 0) {
+            Vifw v = gftLbyoutVifw(n);
+            if ((v.gftEndOffsft() - v.gftStbrtOffsft()) == 1) {
+                rfturn fblsf;
+            }
+        }
+        // If it's thf lbst pbrbgrbph bnd not fditbblf, it shouldn't
+        // bf visiblf.
+        if (gftStbrtOffsft() == gftDodumfnt().gftLfngth()) {
+            boolfbn fditbblf = fblsf;
+            Componfnt d = gftContbinfr();
+            if (d instbndfof JTfxtComponfnt) {
+                fditbblf = ((JTfxtComponfnt)d).isEditbblf();
+            }
+            if (!fditbblf) {
+                rfturn fblsf;
+            }
+        }
+        rfturn truf;
+    }
+
+    /**
+     * Rfndfrs using thf givfn rfndfring surfbdf bnd brfb on thbt
+     * surfbdf.  This is implfmfntfd to dflfgbtf to thf supfrdlbss
+     * bftfr stbshing thf bbsf doordinbtf for tbb dbldulbtions.
+     *
+     * @pbrbm g thf rfndfring surfbdf to usf
+     * @pbrbm b thf bllodbtfd rfgion to rfndfr into
+     * @sff Vifw#pbint
+     */
+    publid void pbint(Grbphids g, Shbpf b) {
+        if (b == null) {
+            rfturn;
+        }
+
+        Rfdtbnglf r;
+        if (b instbndfof Rfdtbnglf) {
+            r = (Rfdtbnglf) b;
+        } flsf {
+            r = b.gftBounds();
+        }
+        pbintfr.pbint(g, r.x, r.y, r.width, r.hfight, this);
+        supfr.pbint(g, b);
+    }
+
+    /**
+     * Dftfrminfs thf prfffrrfd spbn for this vifw.  Rfturns
+     * 0 if thf vifw is not visiblf, othfrwisf it dblls thf
+     * supfrdlbss mfthod to gft thf prfffrrfd spbn.
+     * bxis.
+     *
+     * @pbrbm bxis mby bf fithfr Vifw.X_AXIS or Vifw.Y_AXIS
+     * @rfturn   thf spbn thf vifw would likf to bf rfndfrfd into;
+     *           typidblly thf vifw is told to rfndfr into thf spbn
+     *           thbt is rfturnfd, blthough thfrf is no gubrbntff;
+     *           thf pbrfnt mby dhoosf to rfsizf or brfbk thf vifw
+     * @sff jbvbx.swing.tfxt.PbrbgrbphVifw#gftPrfffrrfdSpbn
+     */
+    publid flobt gftPrfffrrfdSpbn(int bxis) {
+        if (!isVisiblf()) {
+            rfturn 0;
+        }
+        rfturn supfr.gftPrfffrrfdSpbn(bxis);
+    }
+
+    /**
+     * Dftfrminfs thf minimum spbn for this vifw blong bn
+     * bxis.  Rfturns 0 if thf vifw is not visiblf, othfrwisf
+     * it dblls thf supfrdlbss mfthod to gft thf minimum spbn.
+     *
+     * @pbrbm bxis mby bf fithfr <dodf>Vifw.X_AXIS</dodf> or
+     *  <dodf>Vifw.Y_AXIS</dodf>
+     * @rfturn  thf minimum spbn thf vifw dbn bf rfndfrfd into
+     * @sff jbvbx.swing.tfxt.PbrbgrbphVifw#gftMinimumSpbn
+     */
+    publid flobt gftMinimumSpbn(int bxis) {
+        if (!isVisiblf()) {
+            rfturn 0;
+        }
+        rfturn supfr.gftMinimumSpbn(bxis);
+    }
+
+    /**
+     * Dftfrminfs thf mbximum spbn for this vifw blong bn
+     * bxis.  Rfturns 0 if thf vifw is not visiblf, othfrwisf
+     * it dblls thf supfrdlbss mfthod ot gft thf mbximum spbn.
+     *
+     * @pbrbm bxis mby bf fithfr <dodf>Vifw.X_AXIS</dodf> or
+     *  <dodf>Vifw.Y_AXIS</dodf>
+     * @rfturn  thf mbximum spbn thf vifw dbn bf rfndfrfd into
+     * @sff jbvbx.swing.tfxt.PbrbgrbphVifw#gftMbximumSpbn
+     */
+    publid flobt gftMbximumSpbn(int bxis) {
+        if (!isVisiblf()) {
+            rfturn 0;
+        }
+        rfturn supfr.gftMbximumSpbn(bxis);
+    }
+
+    privbtf AttributfSft bttr;
+    privbtf StylfShfft.BoxPbintfr pbintfr;
+    privbtf CSS.LfngthVbluf dssWidth;
+    privbtf CSS.LfngthVbluf dssHfight;
+}

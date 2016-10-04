@@ -1,0 +1,142 @@
+/*
+ * Copyright (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf jbvbx.mbnbgfmfnt.rfmotf;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.Sfriblizbblf;
+import jbvb.sfdurity.Prindipbl;
+
+/**
+ * <p>Thf idfntity of b rfmotf dlifnt of thf JMX Rfmotf API.</p>
+ *
+ * <p>Prindipbls sudh bs this <dodf>JMXPrindipbl</dodf>
+ * mby bf bssodibtfd with b pbrtidulbr <dodf>Subjfdt</dodf>
+ * to bugmfnt thbt <dodf>Subjfdt</dodf> with bn bdditionbl
+ * idfntity.  Rfffr to thf {@link jbvbx.sfdurity.buth.Subjfdt}
+ * dlbss for morf informbtion on how to bdhifvf this.
+ * Authorizbtion dfdisions dbn thfn bf bbsfd upon
+ * thf Prindipbls bssodibtfd with b <dodf>Subjfdt</dodf>.
+ *
+ * @sff jbvb.sfdurity.Prindipbl
+ * @sff jbvbx.sfdurity.buth.Subjfdt
+ * @sindf 1.5
+ */
+publid dlbss JMXPrindipbl implfmfnts Prindipbl, Sfriblizbblf {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -4184480100214577411L;
+
+    /**
+     * @sfribl Thf JMX Rfmotf API nbmf for thf idfntity rfprfsfntfd by
+     * this <dodf>JMXPrindipbl</dodf> objfdt.
+     * @sff #gftNbmf()
+     */
+    privbtf String nbmf;
+
+    /**
+     * Crfbtfs b JMXPrindipbl for b givfn idfntity.
+     *
+     * @pbrbm nbmf thf JMX Rfmotf API nbmf for this idfntity.
+     *
+     * @fxdfption NullPointfrExdfption if thf <dodf>nbmf</dodf> is
+     * <dodf>null</dodf>.
+     */
+    publid JMXPrindipbl(String nbmf) {
+        vblidbtf(nbmf);
+        this.nbmf = nbmf;
+    }
+
+    /**
+     * Rfturns thf nbmf of this prindipbl.
+     *
+     * @rfturn thf nbmf of this <dodf>JMXPrindipbl</dodf>.
+     */
+    publid String gftNbmf() {
+        rfturn nbmf;
+    }
+
+    /**
+     * Rfturns b string rfprfsfntbtion of this <dodf>JMXPrindipbl</dodf>.
+     *
+     * @rfturn b string rfprfsfntbtion of this <dodf>JMXPrindipbl</dodf>.
+     */
+    publid String toString() {
+        rfturn("JMXPrindipbl:  " + nbmf);
+    }
+
+    /**
+     * Compbrfs thf spfdififd Objfdt with this <dodf>JMXPrindipbl</dodf>
+     * for fqublity.  Rfturns truf if thf givfn objfdt is blso b
+     * <dodf>JMXPrindipbl</dodf> bnd thf two JMXPrindipbls
+     * hbvf thf sbmf nbmf.
+     *
+     * @pbrbm o Objfdt to bf dompbrfd for fqublity with this
+     * <dodf>JMXPrindipbl</dodf>.
+     *
+     * @rfturn truf if thf spfdififd Objfdt is fqubl to this
+     * <dodf>JMXPrindipbl</dodf>.
+     */
+    publid boolfbn fqubls(Objfdt o) {
+        if (o == null)
+            rfturn fblsf;
+
+        if (this == o)
+            rfturn truf;
+
+        if (!(o instbndfof JMXPrindipbl))
+            rfturn fblsf;
+        JMXPrindipbl thbt = (JMXPrindipbl)o;
+
+        rfturn (this.gftNbmf().fqubls(thbt.gftNbmf()));
+    }
+
+    /**
+     * Rfturns b hbsh dodf for this <dodf>JMXPrindipbl</dodf>.
+     *
+     * @rfturn b hbsh dodf for this <dodf>JMXPrindipbl</dodf>.
+     */
+    publid int hbshCodf() {
+        rfturn nbmf.hbshCodf();
+    }
+
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm ois) throws IOExdfption, ClbssNotFoundExdfption {
+        ObjfdtInputStrfbm.GftFifld gf = ois.rfbdFiflds();
+        String prindipblNbmf = (String)gf.gft("nbmf", null);
+        try {
+            vblidbtf(prindipblNbmf);
+            this.nbmf = prindipblNbmf;
+        } dbtdh (NullPointfrExdfption f) {
+            throw nfw InvblidObjfdtExdfption(f.gftMfssbgf());
+        }
+    }
+
+    privbtf stbtid void vblidbtf(String nbmf) throws NullPointfrExdfption {
+        if (nbmf == null)
+            throw nfw NullPointfrExdfption("illfgbl null input");
+    }
+}

@@ -1,603 +1,603 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
 <ldml>
-	<identity>
-		<version number="$Revision: 6546 $"/>
-		<generation date="$Date: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
-		<language type="km"/>
-	</identity>
-	<localeDisplayNames>
-		<languages>
-			<language type="aa">ភាសាអាហ្វារ</language>
-			<language type="ae">ភាសាអាវែស្តង់</language>
-			<language type="af">ភាសាអាហ្វ្រីកាអាន</language>
-			<language type="am" draft="unconfirmed">អំហារិក</language>
-			<language type="an">ភាសាអារ៉ាហ្គោន</language>
-			<language type="ar">ភាសាអារ៉ាប់</language>
-			<language type="ay">ភាសាអីម៉ារ៉ា</language>
-			<language type="az">ភាសាអាហ៊្សែរបែហ្សង់</language>
-			<language type="be">ភាសាបេឡារុស្ស</language>
-			<language type="bg">ភាសាប៊ុលហ្ការី</language>
-			<language type="bh">ភាសាបិហារ</language>
-			<language type="bm">ភាសាបាម្បារា</language>
-			<language type="bn">ភាសាបេន្កាលី</language>
-			<language type="bo">ភាសាទីបេ</language>
-			<language type="br" draft="unconfirmed">ប្រីស្តុន</language>
-			<language type="bs" draft="unconfirmed">ប៊ូស្នៀរ</language>
-			<language type="ca">ភាសាកាតាឡាន</language>
-			<language type="cs">ភាសាឆេក</language>
-			<language type="cy" draft="unconfirmed">វេល</language>
-			<language type="da">ភាសាដាណឺម៉ាក</language>
-			<language type="de">ភាសាអាល្លឺម៉ង់</language>
-			<language type="dz">ភាសាប៊ូតាន</language>
-			<language type="el">ភាសាក្រិច</language>
-			<language type="en">ភាសាអង់គ្លេស</language>
-			<language type="eo">ភាសាអេស្ពេរ៉ាន្ទោ</language>
-			<language type="es">ភាសាអេស្ប៉ាញ</language>
-			<language type="et">ភាសាអេស្តូនី</language>
-			<language type="eu">ភាសាបាស្កេ</language>
-			<language type="fa" draft="unconfirmed">ភឺសៀន</language>
-			<language type="fi">ភាសាហ្វាំងឡង់</language>
-			<language type="fil" draft="unconfirmed">ពីលីពីន</language>
-			<language type="fj">ហ្វ៉ីហ្ស៉ី</language>
-			<language type="fo" draft="unconfirmed">ហ្វារូស</language>
-			<language type="fr">ភាសាបារាំង</language>
-			<language type="fy" draft="unconfirmed">ហ្រីសង់</language>
-			<language type="ga">ភាសាហ្កែលិគ</language>
-			<language type="gd">ភាសាហ្កែលិគ [gd]</language>
-			<language type="gl">ភាសាហ្កាលីស៉ី</language>
-			<language type="gn">ភាសាហ្កួរ៉ានី</language>
-			<language type="gu">ភាសាហ្កុយ៉ារាទី</language>
-			<language type="he">ភាសាហេប្រិ</language>
-			<language type="hi">ភាសាហ៉ិនឌី</language>
-			<language type="hr" draft="unconfirmed">ក្រូអាទៀន</language>
-			<language type="hu">ភាសាហុងគ្រី</language>
-			<language type="hy">ភាសាអារមេនី</language>
-			<language type="ia" draft="unconfirmed">អីនធើលីង</language>
-			<language type="id">ភាសាឥណ្ឌូនេស៊ី</language>
-			<language type="is">ភាសាអ៉ីស្លង់</language>
-			<language type="it">ភាសាអ៊ីតាលី</language>
-			<language type="ja">ភាសាជប៉ុន</language>
-			<language type="jv">ភាសាយ៉ាវា</language>
-			<language type="ka">ភាសាហ្សកហ្ស៉ី</language>
-			<language type="kk">ភាសាកាហ្សាក់ស្តង់់</language>
-			<language type="km">ភាសាខ្មែរ</language>
-			<language type="kn">ភាសាកិណាដា</language>
-			<language type="ko">ភាសាកូរ៉េ</language>
-			<language type="ku">ភាសាឃឺដ</language>
-			<language type="ky">ភាសាគៀរហ្គីស្តង់</language>
-			<language type="la">ភាសាឡាតំាង</language>
-			<language type="ln" draft="unconfirmed">លីនកាឡា</language>
-			<language type="lo">ភាសាឡាវ</language>
-			<language type="lt">ភាសាលីទុយអានី</language>
-			<language type="lv">ភាសាឡាតវីយ៉ា</language>
-			<language type="mg">ភាសាម៉ាដាហ្កាសការ</language>
-			<language type="mi">ភាសាម៉ោរី</language>
-			<language type="mk">ភាសាម៉ាសេដូនី</language>
-			<language type="ml">ភាសាម៉ាឡាឡាយ៉ាន</language>
-			<language type="mn">ភាសាម៉ុងហ្គោលី</language>
-			<language type="mo">ភាសាម៉ុលដាវី</language>
-			<language type="mr">ភាសាម៉ារាធី</language>
-			<language type="ms">ភាសាម៉ាលេស៉ី</language>
-			<language type="mt">ភាសាម៉ាល់តា</language>
-			<language type="ne">ភាសានេប៉ាល់</language>
-			<language type="nl">ភាសាហុល្លង់</language>
-			<language type="nn" draft="unconfirmed">ន័រវេ</language>
-			<language type="no">ភាសាន័រវែស</language>
-			<language type="oc" draft="unconfirmed">អូសីតាន់</language>
-			<language type="or">ភាសាអូរីយ៉ា</language>
-			<language type="pa">ភាសាពូនយ៉ាប៊ី</language>
-			<language type="pl">ភាសាប៉ូឡូញ</language>
-			<language type="ps" draft="unconfirmed">បាស្តូ</language>
-			<language type="pt">ភាសាព័រទុយហ្កាល់</language>
-			<language type="qu">ភាសាកេទ្ជូអា</language>
-			<language type="rn">ភាសារូន្ឌី</language>
-			<language type="ro">ភាសារូម៉ានី</language>
-			<language type="sa">ភាសាសំស្ក្រឹត</language>
-			<language type="sd">ភាសាស៉ីន្ដី</language>
-			<language type="sh" draft="unconfirmed">សើបូក្រូទៀន</language>
-			<language type="si" draft="unconfirmed">សីនហាលិស</language>
-			<language type="sk">ភាសាស្លូវ៉ាគី</language>
-			<language type="sl">ភាសាស្លូវ៉ានី</language>
-			<language type="sm">ភាសាសាមូអា</language>
-			<language type="so">ភាសាសូម៉ាលី</language>
-			<language type="sq">ភាសាអាល់បានី</language>
-			<language type="sr" draft="unconfirmed">សើបៀន</language>
-			<language type="st" draft="unconfirmed">សេសូដូ</language>
-			<language type="su">ភាំសាស៊ូដង់</language>
-			<language type="sv">ភាសាស៊ុយអែដ</language>
-			<language type="sw">ភាសាស្វាហ៉ីលី</language>
-			<language type="ta">ភាសាតាមីល</language>
-			<language type="te">ភាសាតេលូហ្គូ</language>
-			<language type="tg">ភាសាតាដហ្ស៉ីគីស្តង់</language>
-			<language type="th">ភាសាថៃ</language>
-			<language type="ti" draft="unconfirmed">ទីរិនយា</language>
-			<language type="tk">ភាសាទួគមេនីស្តង់</language>
-			<language type="tlh" draft="unconfirmed">ខ្លិងសុន</language>
-			<language type="to">ភាសាតុងហ្គោ</language>
-			<language type="tr">ភាសាទួរគី</language>
-			<language type="tt">ភាសាតាតារ</language>
-			<language type="tw" draft="unconfirmed">ទ្វី</language>
-			<language type="uk">ភាសាអ៊ុយក្រែន</language>
-			<language type="ur">ភាសាអ៊ូរ្ឌូ</language>
-			<language type="uz">ភាសាអ៊ូហ្សបេគីស្តង់</language>
-			<language type="vi">ភាសាវៀតណាម</language>
-			<language type="xh">ភាសាឃសា</language>
-			<language type="yi">ភាសាយីឌីហ្ស</language>
-			<language type="yo">ភាសាយរូបា</language>
-			<language type="za">ភាសាចួង</language>
-			<language type="zh">ភាសាចិន</language>
-			<language type="zu">ភាសាហ្ស៉ូលូ</language>
-		</languages>
-		<territories>
-			<territory type="AD">អានដូរ៉ា</territory>
-			<territory type="AE">អេមីរ៉ែទអារ៉ាប់រួម</territory>
-			<territory type="AF">អាហ្វហ្គានីស្ថាន</territory>
-			<territory type="AL">អាល់បានី</territory>
-			<territory type="AM">អារមេនី</territory>
-			<territory type="AO">អង់ហ្គោឡា</territory>
-			<territory type="AR">អាហ្សង់ទីន</territory>
-			<territory type="AT">អូទ្រីស</territory>
-			<territory type="AU">អូស្ត្រាលី</territory>
-			<territory type="AZ">អាហ៊្សែរបែហ្សង់</territory>
-			<territory type="BA">បូស្ន៉ី</territory>
-			<territory type="BB">បារបាដូស</territory>
-			<territory type="BD">បង់ក្លាដេស្ហ</territory>
-			<territory type="BE">បែលហ្ស៉ិក</territory>
-			<territory type="BF">ប៊ូរគីណាហ្វាសូ</territory>
-			<territory type="BG">ប៊ុលហ្គារី</territory>
-			<territory type="BH">បារ៉ែន</territory>
-			<territory type="BI">ប៊ូរុនឌី</territory>
-			<territory type="BJ">បេណាំង</territory>
-			<territory type="BN">ប៊្រុយណេ</territory>
-			<territory type="BO">បូលីវី</territory>
-			<territory type="BR">ប្រេស៊ីល</territory>
-			<territory type="BS">បាហាម៉ា</territory>
-			<territory type="BT">ប៊ូតាន</territory>
-			<territory type="BW">បុតស្វាណា</territory>
-			<territory type="BY">បេឡារុស្ស</territory>
-			<territory type="BZ">បេលីហ្ស</territory>
-			<territory type="CA">កាណាដា</territory>
-			<territory type="CF">សាធារណរដ្ឋអាហ្វ្រិកកណ្ដាល</territory>
-			<territory type="CG">កុងហ្គោ</territory>
-			<territory type="CH">ស្វីស</territory>
-			<territory type="CI">កូដឌីវ័រ</territory>
-			<territory type="CL">ឈីលី</territory>
-			<territory type="CM">កាមេរូន</territory>
-			<territory type="CN">ចិន</territory>
-			<territory type="CO">កូឡុំប៊ី</territory>
-			<territory type="CR">កូស្តារីកា</territory>
-			<territory type="CU">គុយបា</territory>
-			<territory type="CV">កាបវែរ</territory>
-			<territory type="CY">ស៉ីពរ៍</territory>
-			<territory type="CZ">សាធារណរដ្ឋឆេក</territory>
-			<territory type="DE">អាល្លឺម៉ង់</territory>
-			<territory type="DJ">ហ្ស៉ីបូទី</territory>
-			<territory type="DK">ដាណឺម៉ាក</territory>
-			<territory type="DM">ដូមីនីកា</territory>
-			<territory type="DO">សាធារណរដ្ឋដូមីនីកែន</territory>
-			<territory type="DZ">អាល់ហ្សេរី</territory>
-			<territory type="EC">អេក្វាឌ័រ</territory>
-			<territory type="EE">អេស្តូនី</territory>
-			<territory type="EG">អេហ្ស៉ីប</territory>
-			<territory type="EH">សាហារ៉ាខាងលិច</territory>
-			<territory type="ER">អេរីទ្រា</territory>
-			<territory type="ES">អេស្ប៉ាញ</territory>
-			<territory type="ET">អេត្យូពី</territory>
-			<territory type="FI">ហ្វាំងឡង់</territory>
-			<territory type="FJ">ហ្វ៉ីហ្ស៉ី</territory>
-			<territory type="FM">មិក្រូនេស៊ី</territory>
-			<territory type="FR">បារាំង</territory>
-			<territory type="GA">ហ្គាបុង</territory>
-			<territory type="GE">ហ្សកហ្ស៉ី</territory>
-			<territory type="GH">ហ្កាណា</territory>
-			<territory type="GM">ហ្គាំប៊ី</territory>
-			<territory type="GN">ហ្គីណេ</territory>
-			<territory type="GQ">ហ្គីណេអេក្វាទ័រ</territory>
-			<territory type="GR">ក្រិច</territory>
-			<territory type="GT">ហ្គាតេម៉ាឡា</territory>
-			<territory type="GW">ហ្គីណេប៊ីសូ</territory>
-			<territory type="GY">ហ្គីយ៉ាណា</territory>
-			<territory type="HK">ហុងកុង</territory>
-			<territory type="HN">ហុងឌួរ៉ាស់</territory>
-			<territory type="HR">ក្រូអាស៊ី</territory>
-			<territory type="HT">ហៃទី</territory>
-			<territory type="HU">ហុងគ្រី</territory>
-			<territory type="ID">ឥណ្ឌូនេស៊ី</territory>
-			<territory type="IE">អៀរឡង់</territory>
-			<territory type="IL">អ៊ីស្រាអែល</territory>
-			<territory type="IN">ឥណ្ឌា</territory>
-			<territory type="IQ">អ៊ីរ៉ាក់</territory>
-			<territory type="IR">អ៊ីរ៉ង់</territory>
-			<territory type="IS">អ៉ីស្លង់</territory>
-			<territory type="IT">អ៊ីតាលី</territory>
-			<territory type="JM">ហ្សាម៉ាអ៉ិគ</territory>
-			<territory type="JO">ហ៊្សកដានី</territory>
-			<territory type="JP">ជប៉ុន</territory>
-			<territory type="KE">កេនយ៉ា</territory>
-			<territory type="KG">គៀរហ្គីស្តង់</territory>
-			<territory type="KH">កម្ពុជា</territory>
-			<territory type="KI">គិរិបាទី</territory>
-			<territory type="KM">កុំម៉ូរ៉ូស</territory>
-			<territory type="KP">សាធារណរដ្ឋប្រជាធិបតេយ្យប្រជាមានិតកូរ៉េ</territory>
-			<territory type="KR">សាធារណរដ្ឋកូរ៉េ</territory>
-			<territory type="KW">គុយវ៉ែត</territory>
-			<territory type="KZ">កាហ្សាក់ស្តាង់់</territory>
-			<territory type="LA">ឡាវ</territory>
-			<territory type="LB">លីបង់</territory>
-			<territory type="LI">លិចទេនស្តែន</territory>
-			<territory type="LK">ស្រីលង្កា</territory>
-			<territory type="LR">លីបេរីយ៉ា</territory>
-			<territory type="LS">លើសូតូ</territory>
-			<territory type="LT">លីទុយអានី</territory>
-			<territory type="LU">លុចហ្សំបួរ</territory>
-			<territory type="LV">ឡាតវីយ៉ា</territory>
-			<territory type="LY">លីប៊ី</territory>
-			<territory type="MA">ម៉ារ៉ុក</territory>
-			<territory type="MC">ម៉ូណាកូ</territory>
-			<territory type="MD">សាធារណរដ្ឋម៉ុលដាវី</territory>
-			<territory type="MG">ម៉ាដាហ្កាស្ការ</territory>
-			<territory type="MK">ម៉ាសេដន</territory>
-			<territory type="ML">ម៉ាលី</territory>
-			<territory type="MM">មីយ៉ាន់ម៉ា</territory>
-			<territory type="MN">ម៉ុងហ្គោលី</territory>
-			<territory type="MR">ម៉ូរីតានី</territory>
-			<territory type="MT">ម៉ាល់តា</territory>
-			<territory type="MU">ម៉ូរីទុស</territory>
-			<territory type="MX">ម៉ិចសិក</territory>
-			<territory type="MY">ម៉ាលេស៉ី</territory>
-			<territory type="MZ">ម៉ូហ្សាំប៊ិក</territory>
-			<territory type="NA">ណាមីប៊ី</territory>
-			<territory type="NE">នីហ្សេរ</territory>
-			<territory type="NG">នីហ្សេរីយ៉ា</territory>
-			<territory type="NI">នីការ៉ាហ្គ័រ</territory>
-			<territory type="NL">ហូល្លង់</territory>
-			<territory type="NO">ន័រវែស</territory>
-			<territory type="NP">នេប៉ាល់</territory>
-			<territory type="NZ">នូវែលហ្សេឡង់</territory>
-			<territory type="OM">អូម៉ង់</territory>
-			<territory type="PA">ប៉ាណាម៉ា</territory>
-			<territory type="PE">ប៉េរូ</territory>
-			<territory type="PG">ប៉ាពូអានូវែលហ្គីណេ</territory>
-			<territory type="PH">ហ្វ៉ីលីពីន</territory>
-			<territory type="PK">ប៉ាគីស្ថាន</territory>
-			<territory type="PL">ប៉ូលូញ</territory>
-			<territory type="PR">ព័រតូរីកូ</territory>
-			<territory type="PS">ប៉ាលេស្ទីន</territory>
-			<territory type="PT">ព័រទុយហ្កាល់</territory>
-			<territory type="PY">ប៉ារ៉ាហ្គាយ</territory>
-			<territory type="QA">កាតារ</territory>
-			<territory type="RO">រូម៉ានី</territory>
-			<territory type="RU">រូស្ស៊ី</territory>
-			<territory type="RW">រវ៉ាន់ដា</territory>
-			<territory type="SA">អារ៉ាប៊ីសាអ៊ូឌីត</territory>
-			<territory type="SC">សីសែល</territory>
-			<territory type="SD">ស៊ូដង់</territory>
-			<territory type="SE">ស៊ុយអែដ</territory>
-			<territory type="SG">សិង្ហបុរី</territory>
-			<territory type="SI">ស្លូវេនី</territory>
-			<territory type="SK">ស្លូវ៉ាគី</territory>
-			<territory type="SL">សេរ៉ាឡេអូន</territory>
-			<territory type="SN">សេនេហ្កាល់</territory>
-			<territory type="SO">សូម៉ាលី</territory>
-			<territory type="SR">សូរីណាម</territory>
-			<territory type="SV">អែលសាល់វ៉ាឌ័រ</territory>
-			<territory type="SY">ស៊ីរី</territory>
-			<territory type="SZ">សូហ្ស៉ីឡង់</territory>
-			<territory type="TD">ឆាដ</territory>
-			<territory type="TG">តូហ្គូ</territory>
-			<territory type="TH">ថៃ</territory>
-			<territory type="TJ">តាដហ្ស៉ីគីស្តង់</territory>
-			<territory type="TL">ទីម័រខាងកើត</territory>
-			<territory type="TM">ទួគមេនីស្តង់</territory>
-			<territory type="TN">ទុយនេស៊ី</territory>
-			<territory type="TO">តុងហ្គា</territory>
-			<territory type="TR">ទួរគី</territory>
-			<territory type="TT">ទ្រីនីដាដនឹងតូបាហ្គោ</territory>
-			<territory type="TW">តៃវ៉ាន់</territory>
-			<territory type="TZ">តង់ហ្សានី</territory>
-			<territory type="UA">អ៊ុយក្រែន</territory>
-			<territory type="UG">អ៊ូហ្កង់ដា</territory>
-			<territory type="US">សហរដ្ឋអាមេរិក</territory>
-			<territory type="UY">អ៊ុយរុយហ្គាយ</territory>
-			<territory type="UZ">អ៊ូហ្សបេគីស្តង់</territory>
-			<territory type="VA">វ៉ាទីកង់</territory>
-			<territory type="VE">វេនេហ្ស៊ុយឡា</territory>
-			<territory type="VN">វៀតណាម</territory>
-			<territory type="WS">សាមូអា</territory>
-			<territory type="YE">យេមែន</territory>
-			<territory type="ZA">អាហ្វ្រិកខាងត្បូង</territory>
-			<territory type="ZM">ហ្សាំប៊ី</territory>
-			<territory type="ZW">ហ្ស៊ីមបាបវ៉េ</territory>
-		</territories>
-	</localeDisplayNames>
-	<characters>
-		<exemplarCharacters>[\u17CC \u17CE \u17CF \u17D1 \u17D0 ៈ \u17CB \u17C9 \u17CA \u17CD ក ខ គ ឃ ង ច ឆ ជ ឈ ញ ដ ឋ ឌ ឍ ណ ត ថ ទ ធ ន ប ផ ព ភ ម យ រ ឫ ឬ ល ឭ ឮ វ ស ហ ឡ អ ឲ ឪ {អា} ឥ ឦ ឧ {ឧក} ឩ ឯ ឰ ឱ ឳ ា \u17B7 \u17B8 \u17B9 \u17BA \u17BB \u17BC \u17BD ើ ឿ ៀ េ ែ ៃ ោ ៅ \u17C6 ះ \u17D2]</exemplarCharacters>
-		<exemplarCharacters type="auxiliary">[\u17B4\u17B5\u200B ឝ ឞ]</exemplarCharacters>
-		<exemplarCharacters type="index" draft="unconfirmed">[ក ខ គ ឃ ង ច ឆ ជ ឈ ញ ដ ឋ ឌ ឍ ណ ត ថ ទ ធ ន ប ផ ព ភ ម យ រ ឫ ឬ ល ឭ ឮ វ ស ហ ឡ អ ឪ ឥ ឦ ឧ ឩ ឯ ឰ ឱ ឳ]</exemplarCharacters>
-	</characters>
-	<delimiters>
-		<quotationStart draft="unconfirmed">'</quotationStart>
-		<quotationEnd draft="unconfirmed">'</quotationEnd>
-		<alternateQuotationStart draft="unconfirmed">&quot;</alternateQuotationStart>
-		<alternateQuotationEnd draft="unconfirmed">&quot;</alternateQuotationEnd>
-	</delimiters>
-	<dates>
-		<calendars>
-			<calendar type="buddhist">
-				<eras>
-					<eraAbbr>
-						<era type="0" draft="unconfirmed">ព.ស.</era>
-					</eraAbbr>
-				</eras>
-			</calendar>
-			<calendar type="gregorian">
-				<months>
-					<monthContext type="format">
-						<monthWidth type="abbreviated">
-							<month type="1">១</month>
-							<month type="2">២</month>
-							<month type="3">៣</month>
-							<month type="4">៤</month>
-							<month type="5">៥</month>
-							<month type="6">៦</month>
-							<month type="7">៧</month>
-							<month type="8">៨</month>
-							<month type="9">៩</month>
-							<month type="10">១០</month>
-							<month type="11">១១</month>
-							<month type="12">១២</month>
-						</monthWidth>
-						<monthWidth type="wide">
-							<month type="1">មករា</month>
-							<month type="2">កុម្ភៈ</month>
-							<month type="3">មិនា</month>
-							<month type="4">មេសា</month>
-							<month type="5">ឧសភា</month>
-							<month type="6">មិថុនា</month>
-							<month type="7">កក្កដា</month>
-							<month type="8">សីហា</month>
-							<month type="9">កញ្ញា</month>
-							<month type="10">តុលា</month>
-							<month type="11">វិច្ឆិកា</month>
-							<month type="12">ធ្នូ</month>
-						</monthWidth>
-					</monthContext>
-				</months>
-				<days>
-					<dayContext type="format">
-						<dayWidth type="abbreviated">
-							<day type="sun">អា</day>
-							<day type="mon">ច</day>
-							<day type="tue">អ</day>
-							<day type="wed">ពុ</day>
-							<day type="thu">ព្រ</day>
-							<day type="fri">សុ</day>
-							<day type="sat">ស</day>
-						</dayWidth>
-						<dayWidth type="wide">
-							<day type="sun" draft="unconfirmed">ថ្ងៃអាទិត្យ</day>
-							<day type="mon" draft="unconfirmed">​ថ្ងៃច័ន្ទ</day>
-							<day type="tue" draft="unconfirmed">ថ្ងៃអង្គារ</day>
-							<day type="wed" draft="unconfirmed">ថ្ងៃពុធ</day>
-							<day type="thu" draft="unconfirmed">ថ្ងៃព្រហស្បតិ៍</day>
-							<day type="fri" draft="unconfirmed">ថ្ងៃសុក្រ</day>
-							<day type="sat" draft="unconfirmed">ថ្ងៃសៅរ៍</day>
-						</dayWidth>
-					</dayContext>
-				</days>
-				<quarters>
-					<quarterContext type="format">
-						<quarterWidth type="abbreviated">
-							<quarter type="1">ត្រី១</quarter>
-							<quarter type="2">ត្រី២</quarter>
-							<quarter type="3">ត្រី៣</quarter>
-							<quarter type="4">ត្រី៤</quarter>
-						</quarterWidth>
-						<quarterWidth type="wide">
-							<quarter type="1">ត្រីមាសទី១</quarter>
-							<quarter type="2">ត្រីមាសទី២</quarter>
-							<quarter type="3">ត្រីមាសទី៣</quarter>
-							<quarter type="4">ត្រីមាសទី៤</quarter>
-						</quarterWidth>
-					</quarterContext>
-				</quarters>
-				<dayPeriods>
-					<dayPeriodContext type="format">
-						<dayPeriodWidth type="wide">
-							<dayPeriod type="am">ព្រឹក</dayPeriod>
-							<dayPeriod type="pm">ល្ងាច</dayPeriod>
-						</dayPeriodWidth>
-					</dayPeriodContext>
-				</dayPeriods>
-				<eras>
-					<eraNames>
-						<era type="0">មុន​គ្រិស្តសករាជ</era>
-						<era type="1">គ្រិស្តសករាជ</era>
-					</eraNames>
-					<eraAbbr>
-						<era type="0">មុន​គ.ស.</era>
-						<era type="1">គ.ស.</era>
-					</eraAbbr>
-				</eras>
-				<dateFormats>
-					<dateFormatLength type="full">
-						<dateFormat>
-							<pattern draft="unconfirmed">EEEE ថ្ងៃ d ខែ MMMM ឆ្នាំ y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="long">
-						<dateFormat>
-							<pattern draft="unconfirmed">d ខែ MMMM ឆ្នាំ y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="medium">
-						<dateFormat>
-							<pattern>d MMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="short">
-						<dateFormat>
-							<pattern>d/M/yyyy</pattern>
-						</dateFormat>
-					</dateFormatLength>
-				</dateFormats>
-				<timeFormats>
-					<timeFormatLength type="full">
-						<timeFormat>
-							<pattern>H ម៉ោង m នាទី ss វិនាទី​ zzzz</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="long">
-						<timeFormat>
-							<pattern>H ម៉ោង m នាទី ss វិនាទី​z</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="medium">
-						<timeFormat>
-							<pattern>H:mm:ss</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="short">
-						<timeFormat>
-							<pattern>H:mm</pattern>
-						</timeFormat>
-					</timeFormatLength>
-				</timeFormats>
-				<dateTimeFormats>
-					<dateTimeFormatLength type="full">
-						<dateTimeFormat>
-							<pattern>{1}, {0}</pattern>
-						</dateTimeFormat>
-					</dateTimeFormatLength>
-					<dateTimeFormatLength type="long">
-						<dateTimeFormat>
-							<pattern>{1}, {0}</pattern>
-						</dateTimeFormat>
-					</dateTimeFormatLength>
-					<dateTimeFormatLength type="medium">
-						<dateTimeFormat>
-							<pattern>{1}, {0}</pattern>
-						</dateTimeFormat>
-					</dateTimeFormatLength>
-					<dateTimeFormatLength type="short">
-						<dateTimeFormat>
-							<pattern>{1}, {0}</pattern>
-						</dateTimeFormat>
-					</dateTimeFormatLength>
-					<intervalFormats>
-						<intervalFormatFallback draft="unconfirmed">{0} - {1}</intervalFormatFallback>
-						<intervalFormatItem id="d">
-							<greatestDifference id="d" draft="unconfirmed">d-d</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="h">
-							<greatestDifference id="h" draft="unconfirmed">h-h a</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="H">
-							<greatestDifference id="H" draft="unconfirmed">H-H</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="hm">
-							<greatestDifference id="h" draft="unconfirmed">h:mm-h:mm a</greatestDifference>
-							<greatestDifference id="m" draft="unconfirmed">h:mm-h:mm a</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="Hm">
-							<greatestDifference id="H" draft="unconfirmed">H:mm-H:mm</greatestDifference>
-							<greatestDifference id="m" draft="unconfirmed">H:mm-H:mm</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="hmv">
-							<greatestDifference id="h" draft="unconfirmed">h:mm-h:mm a v</greatestDifference>
-							<greatestDifference id="m" draft="unconfirmed">h:mm-h:mm a v</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="Hmv">
-							<greatestDifference id="H" draft="unconfirmed">H:mm-H:mm v</greatestDifference>
-							<greatestDifference id="m" draft="unconfirmed">H:mm-H:mm v</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="hv">
-							<greatestDifference id="h" draft="unconfirmed">h-h a v</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="Hv">
-							<greatestDifference id="H" draft="unconfirmed">H-H v</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="M">
-							<greatestDifference id="M" draft="unconfirmed">M-M</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="Md">
-							<greatestDifference id="d" draft="unconfirmed">d/M - d/M</greatestDifference>
-							<greatestDifference id="M" draft="unconfirmed">d/M - d/M</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MEd">
-							<greatestDifference id="d" draft="unconfirmed">E, d/M - E, d/M</greatestDifference>
-							<greatestDifference id="M" draft="unconfirmed">E, d/M - E, d/M</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MMM">
-							<greatestDifference id="M" draft="unconfirmed">MMM-MMM</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MMMd">
-							<greatestDifference id="d" draft="unconfirmed">MMM d-d</greatestDifference>
-							<greatestDifference id="M" draft="unconfirmed">MMM d - MMM d</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MMMEd">
-							<greatestDifference id="d" draft="unconfirmed">E, MMM d - E, MMM d</greatestDifference>
-							<greatestDifference id="M" draft="unconfirmed">E, MMM d - E, MMM d</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="y">
-							<greatestDifference id="y" draft="unconfirmed">y-y</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yM">
-							<greatestDifference id="M" draft="unconfirmed">M/yyyy - M/yyyy</greatestDifference>
-							<greatestDifference id="y" draft="unconfirmed">M/yyyy - M/yyyy</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMd">
-							<greatestDifference id="d" draft="unconfirmed">d/M/yyyy - d/M/yyyy</greatestDifference>
-							<greatestDifference id="M" draft="unconfirmed">d/M/yyyy - d/M/yyyy</greatestDifference>
-							<greatestDifference id="y" draft="unconfirmed">d/M/yyyy - d/M/yyyy</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMEd">
-							<greatestDifference id="d" draft="unconfirmed">E, d/M/yyyy - E, d/M/yyyy</greatestDifference>
-							<greatestDifference id="M" draft="unconfirmed">E, d/M/yyyy - E, d/M/yyyy</greatestDifference>
-							<greatestDifference id="y" draft="unconfirmed">E, d/M/yyyy - E, d/M/yyyy</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMMM">
-							<greatestDifference id="M" draft="unconfirmed">y MMM-MMM</greatestDifference>
-							<greatestDifference id="y" draft="unconfirmed">y MMM - y MMM</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMMMd">
-							<greatestDifference id="d" draft="unconfirmed">y MMM d-d</greatestDifference>
-							<greatestDifference id="M" draft="unconfirmed">y MMM d - MMM d</greatestDifference>
-							<greatestDifference id="y" draft="unconfirmed">y MMM d - y MMM d</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMMMEd">
-							<greatestDifference id="d" draft="unconfirmed">E, y MMM dd - E, y MMM dd</greatestDifference>
-							<greatestDifference id="M" draft="unconfirmed">E, y MMM dd - E, y MMM dd</greatestDifference>
-							<greatestDifference id="y" draft="unconfirmed">E, y MMM dd - E, y MMM dd</greatestDifference>
-						</intervalFormatItem>
-					</intervalFormats>
-				</dateTimeFormats>
-			</calendar>
-		</calendars>
-	</dates>
-	<numbers>
-		<defaultNumberingSystem>latn</defaultNumberingSystem>
-		<otherNumberingSystems>
-			<native>khmr</native>
-		</otherNumberingSystems>
-		<symbols numberSystem="latn">
-			<decimal>,</decimal>
+	<idfntity>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<lbngubgf typf="km"/>
+	</idfntity>
+	<lodblfDisplbyNbmfs>
+		<lbngubgfs>
+			<lbngubgf typf="bb">ភាសាអាហ្វារ</lbngubgf>
+			<lbngubgf typf="bf">ភាសាអាវែស្តង់</lbngubgf>
+			<lbngubgf typf="bf">ភាសាអាហ្វ្រីកាអាន</lbngubgf>
+			<lbngubgf typf="bm" drbft="undonfirmfd">អំហារិក</lbngubgf>
+			<lbngubgf typf="bn">ភាសាអារ៉ាហ្គោន</lbngubgf>
+			<lbngubgf typf="br">ភាសាអារ៉ាប់</lbngubgf>
+			<lbngubgf typf="by">ភាសាអីម៉ារ៉ា</lbngubgf>
+			<lbngubgf typf="bz">ភាសាអាហ៊្សែរបែហ្សង់</lbngubgf>
+			<lbngubgf typf="bf">ភាសាបេឡារុស្ស</lbngubgf>
+			<lbngubgf typf="bg">ភាសាប៊ុលហ្ការី</lbngubgf>
+			<lbngubgf typf="bi">ភាសាបិហារ</lbngubgf>
+			<lbngubgf typf="bm">ភាសាបាម្បារា</lbngubgf>
+			<lbngubgf typf="bn">ភាសាបេន្កាលី</lbngubgf>
+			<lbngubgf typf="bo">ភាសាទីបេ</lbngubgf>
+			<lbngubgf typf="br" drbft="undonfirmfd">ប្រីស្តុន</lbngubgf>
+			<lbngubgf typf="bs" drbft="undonfirmfd">ប៊ូស្នៀរ</lbngubgf>
+			<lbngubgf typf="db">ភាសាកាតាឡាន</lbngubgf>
+			<lbngubgf typf="ds">ភាសាឆេក</lbngubgf>
+			<lbngubgf typf="dy" drbft="undonfirmfd">វេល</lbngubgf>
+			<lbngubgf typf="db">ភាសាដាណឺម៉ាក</lbngubgf>
+			<lbngubgf typf="df">ភាសាអាល្លឺម៉ង់</lbngubgf>
+			<lbngubgf typf="dz">ភាសាប៊ូតាន</lbngubgf>
+			<lbngubgf typf="fl">ភាសាក្រិច</lbngubgf>
+			<lbngubgf typf="fn">ភាសាអង់គ្លេស</lbngubgf>
+			<lbngubgf typf="fo">ភាសាអេស្ពេរ៉ាន្ទោ</lbngubgf>
+			<lbngubgf typf="fs">ភាសាអេស្ប៉ាញ</lbngubgf>
+			<lbngubgf typf="ft">ភាសាអេស្តូនី</lbngubgf>
+			<lbngubgf typf="fu">ភាសាបាស្កេ</lbngubgf>
+			<lbngubgf typf="fb" drbft="undonfirmfd">ភឺសៀន</lbngubgf>
+			<lbngubgf typf="fi">ភាសាហ្វាំងឡង់</lbngubgf>
+			<lbngubgf typf="fil" drbft="undonfirmfd">ពីលីពីន</lbngubgf>
+			<lbngubgf typf="fj">ហ្វ៉ីហ្ស៉ី</lbngubgf>
+			<lbngubgf typf="fo" drbft="undonfirmfd">ហ្វារូស</lbngubgf>
+			<lbngubgf typf="fr">ភាសាបារាំង</lbngubgf>
+			<lbngubgf typf="fy" drbft="undonfirmfd">ហ្រីសង់</lbngubgf>
+			<lbngubgf typf="gb">ភាសាហ្កែលិគ</lbngubgf>
+			<lbngubgf typf="gd">ភាសាហ្កែលិគ [gd]</lbngubgf>
+			<lbngubgf typf="gl">ភាសាហ្កាលីស៉ី</lbngubgf>
+			<lbngubgf typf="gn">ភាសាហ្កួរ៉ានី</lbngubgf>
+			<lbngubgf typf="gu">ភាសាហ្កុយ៉ារាទី</lbngubgf>
+			<lbngubgf typf="if">ភាសាហេប្រិ</lbngubgf>
+			<lbngubgf typf="ii">ភាសាហ៉ិនឌី</lbngubgf>
+			<lbngubgf typf="ir" drbft="undonfirmfd">ក្រូអាទៀន</lbngubgf>
+			<lbngubgf typf="iu">ភាសាហុងគ្រី</lbngubgf>
+			<lbngubgf typf="iy">ភាសាអារមេនី</lbngubgf>
+			<lbngubgf typf="ib" drbft="undonfirmfd">អីនធើលីង</lbngubgf>
+			<lbngubgf typf="id">ភាសាឥណ្ឌូនេស៊ី</lbngubgf>
+			<lbngubgf typf="is">ភាសាអ៉ីស្លង់</lbngubgf>
+			<lbngubgf typf="it">ភាសាអ៊ីតាលី</lbngubgf>
+			<lbngubgf typf="jb">ភាសាជប៉ុន</lbngubgf>
+			<lbngubgf typf="jv">ភាសាយ៉ាវា</lbngubgf>
+			<lbngubgf typf="kb">ភាសាហ្សកហ្ស៉ី</lbngubgf>
+			<lbngubgf typf="kk">ភាសាកាហ្សាក់ស្តង់់</lbngubgf>
+			<lbngubgf typf="km">ភាសាខ្មែរ</lbngubgf>
+			<lbngubgf typf="kn">ភាសាកិណាដា</lbngubgf>
+			<lbngubgf typf="ko">ភាសាកូរ៉េ</lbngubgf>
+			<lbngubgf typf="ku">ភាសាឃឺដ</lbngubgf>
+			<lbngubgf typf="ky">ភាសាគៀរហ្គីស្តង់</lbngubgf>
+			<lbngubgf typf="lb">ភាសាឡាតំាង</lbngubgf>
+			<lbngubgf typf="ln" drbft="undonfirmfd">លីនកាឡា</lbngubgf>
+			<lbngubgf typf="lo">ភាសាឡាវ</lbngubgf>
+			<lbngubgf typf="lt">ភាសាលីទុយអានី</lbngubgf>
+			<lbngubgf typf="lv">ភាសាឡាតវីយ៉ា</lbngubgf>
+			<lbngubgf typf="mg">ភាសាម៉ាដាហ្កាសការ</lbngubgf>
+			<lbngubgf typf="mi">ភាសាម៉ោរី</lbngubgf>
+			<lbngubgf typf="mk">ភាសាម៉ាសេដូនី</lbngubgf>
+			<lbngubgf typf="ml">ភាសាម៉ាឡាឡាយ៉ាន</lbngubgf>
+			<lbngubgf typf="mn">ភាសាម៉ុងហ្គោលី</lbngubgf>
+			<lbngubgf typf="mo">ភាសាម៉ុលដាវី</lbngubgf>
+			<lbngubgf typf="mr">ភាសាម៉ារាធី</lbngubgf>
+			<lbngubgf typf="ms">ភាសាម៉ាលេស៉ី</lbngubgf>
+			<lbngubgf typf="mt">ភាសាម៉ាល់តា</lbngubgf>
+			<lbngubgf typf="nf">ភាសានេប៉ាល់</lbngubgf>
+			<lbngubgf typf="nl">ភាសាហុល្លង់</lbngubgf>
+			<lbngubgf typf="nn" drbft="undonfirmfd">ន័រវេ</lbngubgf>
+			<lbngubgf typf="no">ភាសាន័រវែស</lbngubgf>
+			<lbngubgf typf="od" drbft="undonfirmfd">អូសីតាន់</lbngubgf>
+			<lbngubgf typf="or">ភាសាអូរីយ៉ា</lbngubgf>
+			<lbngubgf typf="pb">ភាសាពូនយ៉ាប៊ី</lbngubgf>
+			<lbngubgf typf="pl">ភាសាប៉ូឡូញ</lbngubgf>
+			<lbngubgf typf="ps" drbft="undonfirmfd">បាស្តូ</lbngubgf>
+			<lbngubgf typf="pt">ភាសាព័រទុយហ្កាល់</lbngubgf>
+			<lbngubgf typf="qu">ភាសាកេទ្ជូអា</lbngubgf>
+			<lbngubgf typf="rn">ភាសារូន្ឌី</lbngubgf>
+			<lbngubgf typf="ro">ភាសារូម៉ានី</lbngubgf>
+			<lbngubgf typf="sb">ភាសាសំស្ក្រឹត</lbngubgf>
+			<lbngubgf typf="sd">ភាសាស៉ីន្ដី</lbngubgf>
+			<lbngubgf typf="si" drbft="undonfirmfd">សើបូក្រូទៀន</lbngubgf>
+			<lbngubgf typf="si" drbft="undonfirmfd">សីនហាលិស</lbngubgf>
+			<lbngubgf typf="sk">ភាសាស្លូវ៉ាគី</lbngubgf>
+			<lbngubgf typf="sl">ភាសាស្លូវ៉ានី</lbngubgf>
+			<lbngubgf typf="sm">ភាសាសាមូអា</lbngubgf>
+			<lbngubgf typf="so">ភាសាសូម៉ាលី</lbngubgf>
+			<lbngubgf typf="sq">ភាសាអាល់បានី</lbngubgf>
+			<lbngubgf typf="sr" drbft="undonfirmfd">សើបៀន</lbngubgf>
+			<lbngubgf typf="st" drbft="undonfirmfd">សេសូដូ</lbngubgf>
+			<lbngubgf typf="su">ភាំសាស៊ូដង់</lbngubgf>
+			<lbngubgf typf="sv">ភាសាស៊ុយអែដ</lbngubgf>
+			<lbngubgf typf="sw">ភាសាស្វាហ៉ីលី</lbngubgf>
+			<lbngubgf typf="tb">ភាសាតាមីល</lbngubgf>
+			<lbngubgf typf="tf">ភាសាតេលូហ្គូ</lbngubgf>
+			<lbngubgf typf="tg">ភាសាតាដហ្ស៉ីគីស្តង់</lbngubgf>
+			<lbngubgf typf="ti">ភាសាថៃ</lbngubgf>
+			<lbngubgf typf="ti" drbft="undonfirmfd">ទីរិនយា</lbngubgf>
+			<lbngubgf typf="tk">ភាសាទួគមេនីស្តង់</lbngubgf>
+			<lbngubgf typf="tli" drbft="undonfirmfd">ខ្លិងសុន</lbngubgf>
+			<lbngubgf typf="to">ភាសាតុងហ្គោ</lbngubgf>
+			<lbngubgf typf="tr">ភាសាទួរគី</lbngubgf>
+			<lbngubgf typf="tt">ភាសាតាតារ</lbngubgf>
+			<lbngubgf typf="tw" drbft="undonfirmfd">ទ្វី</lbngubgf>
+			<lbngubgf typf="uk">ភាសាអ៊ុយក្រែន</lbngubgf>
+			<lbngubgf typf="ur">ភាសាអ៊ូរ្ឌូ</lbngubgf>
+			<lbngubgf typf="uz">ភាសាអ៊ូហ្សបេគីស្តង់</lbngubgf>
+			<lbngubgf typf="vi">ភាសាវៀតណាម</lbngubgf>
+			<lbngubgf typf="xi">ភាសាឃសា</lbngubgf>
+			<lbngubgf typf="yi">ភាសាយីឌីហ្ស</lbngubgf>
+			<lbngubgf typf="yo">ភាសាយរូបា</lbngubgf>
+			<lbngubgf typf="zb">ភាសាចួង</lbngubgf>
+			<lbngubgf typf="zi">ភាសាចិន</lbngubgf>
+			<lbngubgf typf="zu">ភាសាហ្ស៉ូលូ</lbngubgf>
+		</lbngubgfs>
+		<tfrritorifs>
+			<tfrritory typf="AD">អានដូរ៉ា</tfrritory>
+			<tfrritory typf="AE">អេមីរ៉ែទអារ៉ាប់រួម</tfrritory>
+			<tfrritory typf="AF">អាហ្វហ្គានីស្ថាន</tfrritory>
+			<tfrritory typf="AL">អាល់បានី</tfrritory>
+			<tfrritory typf="AM">អារមេនី</tfrritory>
+			<tfrritory typf="AO">អង់ហ្គោឡា</tfrritory>
+			<tfrritory typf="AR">អាហ្សង់ទីន</tfrritory>
+			<tfrritory typf="AT">អូទ្រីស</tfrritory>
+			<tfrritory typf="AU">អូស្ត្រាលី</tfrritory>
+			<tfrritory typf="AZ">អាហ៊្សែរបែហ្សង់</tfrritory>
+			<tfrritory typf="BA">បូស្ន៉ី</tfrritory>
+			<tfrritory typf="BB">បារបាដូស</tfrritory>
+			<tfrritory typf="BD">បង់ក្លាដេស្ហ</tfrritory>
+			<tfrritory typf="BE">បែលហ្ស៉ិក</tfrritory>
+			<tfrritory typf="BF">ប៊ូរគីណាហ្វាសូ</tfrritory>
+			<tfrritory typf="BG">ប៊ុលហ្គារី</tfrritory>
+			<tfrritory typf="BH">បារ៉ែន</tfrritory>
+			<tfrritory typf="BI">ប៊ូរុនឌី</tfrritory>
+			<tfrritory typf="BJ">បេណាំង</tfrritory>
+			<tfrritory typf="BN">ប៊្រុយណេ</tfrritory>
+			<tfrritory typf="BO">បូលីវី</tfrritory>
+			<tfrritory typf="BR">ប្រេស៊ីល</tfrritory>
+			<tfrritory typf="BS">បាហាម៉ា</tfrritory>
+			<tfrritory typf="BT">ប៊ូតាន</tfrritory>
+			<tfrritory typf="BW">បុតស្វាណា</tfrritory>
+			<tfrritory typf="BY">បេឡារុស្ស</tfrritory>
+			<tfrritory typf="BZ">បេលីហ្ស</tfrritory>
+			<tfrritory typf="CA">កាណាដា</tfrritory>
+			<tfrritory typf="CF">សាធារណរដ្ឋអាហ្វ្រិកកណ្ដាល</tfrritory>
+			<tfrritory typf="CG">កុងហ្គោ</tfrritory>
+			<tfrritory typf="CH">ស្វីស</tfrritory>
+			<tfrritory typf="CI">កូដឌីវ័រ</tfrritory>
+			<tfrritory typf="CL">ឈីលី</tfrritory>
+			<tfrritory typf="CM">កាមេរូន</tfrritory>
+			<tfrritory typf="CN">ចិន</tfrritory>
+			<tfrritory typf="CO">កូឡុំប៊ី</tfrritory>
+			<tfrritory typf="CR">កូស្តារីកា</tfrritory>
+			<tfrritory typf="CU">គុយបា</tfrritory>
+			<tfrritory typf="CV">កាបវែរ</tfrritory>
+			<tfrritory typf="CY">ស៉ីពរ៍</tfrritory>
+			<tfrritory typf="CZ">សាធារណរដ្ឋឆេក</tfrritory>
+			<tfrritory typf="DE">អាល្លឺម៉ង់</tfrritory>
+			<tfrritory typf="DJ">ហ្ស៉ីបូទី</tfrritory>
+			<tfrritory typf="DK">ដាណឺម៉ាក</tfrritory>
+			<tfrritory typf="DM">ដូមីនីកា</tfrritory>
+			<tfrritory typf="DO">សាធារណរដ្ឋដូមីនីកែន</tfrritory>
+			<tfrritory typf="DZ">អាល់ហ្សេរី</tfrritory>
+			<tfrritory typf="EC">អេក្វាឌ័រ</tfrritory>
+			<tfrritory typf="EE">អេស្តូនី</tfrritory>
+			<tfrritory typf="EG">អេហ្ស៉ីប</tfrritory>
+			<tfrritory typf="EH">សាហារ៉ាខាងលិច</tfrritory>
+			<tfrritory typf="ER">អេរីទ្រា</tfrritory>
+			<tfrritory typf="ES">អេស្ប៉ាញ</tfrritory>
+			<tfrritory typf="ET">អេត្យូពី</tfrritory>
+			<tfrritory typf="FI">ហ្វាំងឡង់</tfrritory>
+			<tfrritory typf="FJ">ហ្វ៉ីហ្ស៉ី</tfrritory>
+			<tfrritory typf="FM">មិក្រូនេស៊ី</tfrritory>
+			<tfrritory typf="FR">បារាំង</tfrritory>
+			<tfrritory typf="GA">ហ្គាបុង</tfrritory>
+			<tfrritory typf="GE">ហ្សកហ្ស៉ី</tfrritory>
+			<tfrritory typf="GH">ហ្កាណា</tfrritory>
+			<tfrritory typf="GM">ហ្គាំប៊ី</tfrritory>
+			<tfrritory typf="GN">ហ្គីណេ</tfrritory>
+			<tfrritory typf="GQ">ហ្គីណេអេក្វាទ័រ</tfrritory>
+			<tfrritory typf="GR">ក្រិច</tfrritory>
+			<tfrritory typf="GT">ហ្គាតេម៉ាឡា</tfrritory>
+			<tfrritory typf="GW">ហ្គីណេប៊ីសូ</tfrritory>
+			<tfrritory typf="GY">ហ្គីយ៉ាណា</tfrritory>
+			<tfrritory typf="HK">ហុងកុង</tfrritory>
+			<tfrritory typf="HN">ហុងឌួរ៉ាស់</tfrritory>
+			<tfrritory typf="HR">ក្រូអាស៊ី</tfrritory>
+			<tfrritory typf="HT">ហៃទី</tfrritory>
+			<tfrritory typf="HU">ហុងគ្រី</tfrritory>
+			<tfrritory typf="ID">ឥណ្ឌូនេស៊ី</tfrritory>
+			<tfrritory typf="IE">អៀរឡង់</tfrritory>
+			<tfrritory typf="IL">អ៊ីស្រាអែល</tfrritory>
+			<tfrritory typf="IN">ឥណ្ឌា</tfrritory>
+			<tfrritory typf="IQ">អ៊ីរ៉ាក់</tfrritory>
+			<tfrritory typf="IR">អ៊ីរ៉ង់</tfrritory>
+			<tfrritory typf="IS">អ៉ីស្លង់</tfrritory>
+			<tfrritory typf="IT">អ៊ីតាលី</tfrritory>
+			<tfrritory typf="JM">ហ្សាម៉ាអ៉ិគ</tfrritory>
+			<tfrritory typf="JO">ហ៊្សកដានី</tfrritory>
+			<tfrritory typf="JP">ជប៉ុន</tfrritory>
+			<tfrritory typf="KE">កេនយ៉ា</tfrritory>
+			<tfrritory typf="KG">គៀរហ្គីស្តង់</tfrritory>
+			<tfrritory typf="KH">កម្ពុជា</tfrritory>
+			<tfrritory typf="KI">គិរិបាទី</tfrritory>
+			<tfrritory typf="KM">កុំម៉ូរ៉ូស</tfrritory>
+			<tfrritory typf="KP">សាធារណរដ្ឋប្រជាធិបតេយ្យប្រជាមានិតកូរ៉េ</tfrritory>
+			<tfrritory typf="KR">សាធារណរដ្ឋកូរ៉េ</tfrritory>
+			<tfrritory typf="KW">គុយវ៉ែត</tfrritory>
+			<tfrritory typf="KZ">កាហ្សាក់ស្តាង់់</tfrritory>
+			<tfrritory typf="LA">ឡាវ</tfrritory>
+			<tfrritory typf="LB">លីបង់</tfrritory>
+			<tfrritory typf="LI">លិចទេនស្តែន</tfrritory>
+			<tfrritory typf="LK">ស្រីលង្កា</tfrritory>
+			<tfrritory typf="LR">លីបេរីយ៉ា</tfrritory>
+			<tfrritory typf="LS">លើសូតូ</tfrritory>
+			<tfrritory typf="LT">លីទុយអានី</tfrritory>
+			<tfrritory typf="LU">លុចហ្សំបួរ</tfrritory>
+			<tfrritory typf="LV">ឡាតវីយ៉ា</tfrritory>
+			<tfrritory typf="LY">លីប៊ី</tfrritory>
+			<tfrritory typf="MA">ម៉ារ៉ុក</tfrritory>
+			<tfrritory typf="MC">ម៉ូណាកូ</tfrritory>
+			<tfrritory typf="MD">សាធារណរដ្ឋម៉ុលដាវី</tfrritory>
+			<tfrritory typf="MG">ម៉ាដាហ្កាស្ការ</tfrritory>
+			<tfrritory typf="MK">ម៉ាសេដន</tfrritory>
+			<tfrritory typf="ML">ម៉ាលី</tfrritory>
+			<tfrritory typf="MM">មីយ៉ាន់ម៉ា</tfrritory>
+			<tfrritory typf="MN">ម៉ុងហ្គោលី</tfrritory>
+			<tfrritory typf="MR">ម៉ូរីតានី</tfrritory>
+			<tfrritory typf="MT">ម៉ាល់តា</tfrritory>
+			<tfrritory typf="MU">ម៉ូរីទុស</tfrritory>
+			<tfrritory typf="MX">ម៉ិចសិក</tfrritory>
+			<tfrritory typf="MY">ម៉ាលេស៉ី</tfrritory>
+			<tfrritory typf="MZ">ម៉ូហ្សាំប៊ិក</tfrritory>
+			<tfrritory typf="NA">ណាមីប៊ី</tfrritory>
+			<tfrritory typf="NE">នីហ្សេរ</tfrritory>
+			<tfrritory typf="NG">នីហ្សេរីយ៉ា</tfrritory>
+			<tfrritory typf="NI">នីការ៉ាហ្គ័រ</tfrritory>
+			<tfrritory typf="NL">ហូល្លង់</tfrritory>
+			<tfrritory typf="NO">ន័រវែស</tfrritory>
+			<tfrritory typf="NP">នេប៉ាល់</tfrritory>
+			<tfrritory typf="NZ">នូវែលហ្សេឡង់</tfrritory>
+			<tfrritory typf="OM">អូម៉ង់</tfrritory>
+			<tfrritory typf="PA">ប៉ាណាម៉ា</tfrritory>
+			<tfrritory typf="PE">ប៉េរូ</tfrritory>
+			<tfrritory typf="PG">ប៉ាពូអានូវែលហ្គីណេ</tfrritory>
+			<tfrritory typf="PH">ហ្វ៉ីលីពីន</tfrritory>
+			<tfrritory typf="PK">ប៉ាគីស្ថាន</tfrritory>
+			<tfrritory typf="PL">ប៉ូលូញ</tfrritory>
+			<tfrritory typf="PR">ព័រតូរីកូ</tfrritory>
+			<tfrritory typf="PS">ប៉ាលេស្ទីន</tfrritory>
+			<tfrritory typf="PT">ព័រទុយហ្កាល់</tfrritory>
+			<tfrritory typf="PY">ប៉ារ៉ាហ្គាយ</tfrritory>
+			<tfrritory typf="QA">កាតារ</tfrritory>
+			<tfrritory typf="RO">រូម៉ានី</tfrritory>
+			<tfrritory typf="RU">រូស្ស៊ី</tfrritory>
+			<tfrritory typf="RW">រវ៉ាន់ដា</tfrritory>
+			<tfrritory typf="SA">អារ៉ាប៊ីសាអ៊ូឌីត</tfrritory>
+			<tfrritory typf="SC">សីសែល</tfrritory>
+			<tfrritory typf="SD">ស៊ូដង់</tfrritory>
+			<tfrritory typf="SE">ស៊ុយអែដ</tfrritory>
+			<tfrritory typf="SG">សិង្ហបុរី</tfrritory>
+			<tfrritory typf="SI">ស្លូវេនី</tfrritory>
+			<tfrritory typf="SK">ស្លូវ៉ាគី</tfrritory>
+			<tfrritory typf="SL">សេរ៉ាឡេអូន</tfrritory>
+			<tfrritory typf="SN">សេនេហ្កាល់</tfrritory>
+			<tfrritory typf="SO">សូម៉ាលី</tfrritory>
+			<tfrritory typf="SR">សូរីណាម</tfrritory>
+			<tfrritory typf="SV">អែលសាល់វ៉ាឌ័រ</tfrritory>
+			<tfrritory typf="SY">ស៊ីរី</tfrritory>
+			<tfrritory typf="SZ">សូហ្ស៉ីឡង់</tfrritory>
+			<tfrritory typf="TD">ឆាដ</tfrritory>
+			<tfrritory typf="TG">តូហ្គូ</tfrritory>
+			<tfrritory typf="TH">ថៃ</tfrritory>
+			<tfrritory typf="TJ">តាដហ្ស៉ីគីស្តង់</tfrritory>
+			<tfrritory typf="TL">ទីម័រខាងកើត</tfrritory>
+			<tfrritory typf="TM">ទួគមេនីស្តង់</tfrritory>
+			<tfrritory typf="TN">ទុយនេស៊ី</tfrritory>
+			<tfrritory typf="TO">តុងហ្គា</tfrritory>
+			<tfrritory typf="TR">ទួរគី</tfrritory>
+			<tfrritory typf="TT">ទ្រីនីដាដនឹងតូបាហ្គោ</tfrritory>
+			<tfrritory typf="TW">តៃវ៉ាន់</tfrritory>
+			<tfrritory typf="TZ">តង់ហ្សានី</tfrritory>
+			<tfrritory typf="UA">អ៊ុយក្រែន</tfrritory>
+			<tfrritory typf="UG">អ៊ូហ្កង់ដា</tfrritory>
+			<tfrritory typf="US">សហរដ្ឋអាមេរិក</tfrritory>
+			<tfrritory typf="UY">អ៊ុយរុយហ្គាយ</tfrritory>
+			<tfrritory typf="UZ">អ៊ូហ្សបេគីស្តង់</tfrritory>
+			<tfrritory typf="VA">វ៉ាទីកង់</tfrritory>
+			<tfrritory typf="VE">វេនេហ្ស៊ុយឡា</tfrritory>
+			<tfrritory typf="VN">វៀតណាម</tfrritory>
+			<tfrritory typf="WS">សាមូអា</tfrritory>
+			<tfrritory typf="YE">យេមែន</tfrritory>
+			<tfrritory typf="ZA">អាហ្វ្រិកខាងត្បូង</tfrritory>
+			<tfrritory typf="ZM">ហ្សាំប៊ី</tfrritory>
+			<tfrritory typf="ZW">ហ្ស៊ីមបាបវ៉េ</tfrritory>
+		</tfrritorifs>
+	</lodblfDisplbyNbmfs>
+	<dibrbdtfrs>
+		<fxfmplbrCibrbdtfrs>[\u17CC \u17CE \u17CF \u17D1 \u17D0 ៈ \u17CB \u17C9 \u17CA \u17CD ក ខ គ ឃ ង ច ឆ ជ ឈ ញ ដ ឋ ឌ ឍ ណ ត ថ ទ ធ ន ប ផ ព ភ ម យ រ ឫ ឬ ល ឭ ឮ វ ស ហ ឡ អ ឲ ឪ {អា} ឥ ឦ ឧ {ឧក} ឩ ឯ ឰ ឱ ឳ ា \u17B7 \u17B8 \u17B9 \u17BA \u17BB \u17BC \u17BD ើ ឿ ៀ េ ែ ៃ ោ ៅ \u17C6 ះ \u17D2]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="buxilibry">[\u17B4\u17B5\u200B ឝ ឞ]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="indfx" drbft="undonfirmfd">[ក ខ គ ឃ ង ច ឆ ជ ឈ ញ ដ ឋ ឌ ឍ ណ ត ថ ទ ធ ន ប ផ ព ភ ម យ រ ឫ ឬ ល ឭ ឮ វ ស ហ ឡ អ ឪ ឥ ឦ ឧ ឩ ឯ ឰ ឱ ឳ]</fxfmplbrCibrbdtfrs>
+	</dibrbdtfrs>
+	<dflimitfrs>
+		<quotbtionStbrt drbft="undonfirmfd">'</quotbtionStbrt>
+		<quotbtionEnd drbft="undonfirmfd">'</quotbtionEnd>
+		<bltfrnbtfQuotbtionStbrt drbft="undonfirmfd">&quot;</bltfrnbtfQuotbtionStbrt>
+		<bltfrnbtfQuotbtionEnd drbft="undonfirmfd">&quot;</bltfrnbtfQuotbtionEnd>
+	</dflimitfrs>
+	<dbtfs>
+		<dblfndbrs>
+			<dblfndbr typf="buddiist">
+				<frbs>
+					<frbAbbr>
+						<frb typf="0" drbft="undonfirmfd">ព.ស.</frb>
+					</frbAbbr>
+				</frbs>
+			</dblfndbr>
+			<dblfndbr typf="grfgoribn">
+				<montis>
+					<montiContfxt typf="formbt">
+						<montiWidti typf="bbbrfvibtfd">
+							<monti typf="1">១</monti>
+							<monti typf="2">២</monti>
+							<monti typf="3">៣</monti>
+							<monti typf="4">៤</monti>
+							<monti typf="5">៥</monti>
+							<monti typf="6">៦</monti>
+							<monti typf="7">៧</monti>
+							<monti typf="8">៨</monti>
+							<monti typf="9">៩</monti>
+							<monti typf="10">១០</monti>
+							<monti typf="11">១១</monti>
+							<monti typf="12">១២</monti>
+						</montiWidti>
+						<montiWidti typf="widf">
+							<monti typf="1">មករា</monti>
+							<monti typf="2">កុម្ភៈ</monti>
+							<monti typf="3">មិនា</monti>
+							<monti typf="4">មេសា</monti>
+							<monti typf="5">ឧសភា</monti>
+							<monti typf="6">មិថុនា</monti>
+							<monti typf="7">កក្កដា</monti>
+							<monti typf="8">សីហា</monti>
+							<monti typf="9">កញ្ញា</monti>
+							<monti typf="10">តុលា</monti>
+							<monti typf="11">វិច្ឆិកា</monti>
+							<monti typf="12">ធ្នូ</monti>
+						</montiWidti>
+					</montiContfxt>
+				</montis>
+				<dbys>
+					<dbyContfxt typf="formbt">
+						<dbyWidti typf="bbbrfvibtfd">
+							<dby typf="sun">អា</dby>
+							<dby typf="mon">ច</dby>
+							<dby typf="tuf">អ</dby>
+							<dby typf="wfd">ពុ</dby>
+							<dby typf="tiu">ព្រ</dby>
+							<dby typf="fri">សុ</dby>
+							<dby typf="sbt">ស</dby>
+						</dbyWidti>
+						<dbyWidti typf="widf">
+							<dby typf="sun" drbft="undonfirmfd">ថ្ងៃអាទិត្យ</dby>
+							<dby typf="mon" drbft="undonfirmfd">​ថ្ងៃច័ន្ទ</dby>
+							<dby typf="tuf" drbft="undonfirmfd">ថ្ងៃអង្គារ</dby>
+							<dby typf="wfd" drbft="undonfirmfd">ថ្ងៃពុធ</dby>
+							<dby typf="tiu" drbft="undonfirmfd">ថ្ងៃព្រហស្បតិ៍</dby>
+							<dby typf="fri" drbft="undonfirmfd">ថ្ងៃសុក្រ</dby>
+							<dby typf="sbt" drbft="undonfirmfd">ថ្ងៃសៅរ៍</dby>
+						</dbyWidti>
+					</dbyContfxt>
+				</dbys>
+				<qubrtfrs>
+					<qubrtfrContfxt typf="formbt">
+						<qubrtfrWidti typf="bbbrfvibtfd">
+							<qubrtfr typf="1">ត្រី១</qubrtfr>
+							<qubrtfr typf="2">ត្រី២</qubrtfr>
+							<qubrtfr typf="3">ត្រី៣</qubrtfr>
+							<qubrtfr typf="4">ត្រី៤</qubrtfr>
+						</qubrtfrWidti>
+						<qubrtfrWidti typf="widf">
+							<qubrtfr typf="1">ត្រីមាសទី១</qubrtfr>
+							<qubrtfr typf="2">ត្រីមាសទី២</qubrtfr>
+							<qubrtfr typf="3">ត្រីមាសទី៣</qubrtfr>
+							<qubrtfr typf="4">ត្រីមាសទី៤</qubrtfr>
+						</qubrtfrWidti>
+					</qubrtfrContfxt>
+				</qubrtfrs>
+				<dbyPfriods>
+					<dbyPfriodContfxt typf="formbt">
+						<dbyPfriodWidti typf="widf">
+							<dbyPfriod typf="bm">ព្រឹក</dbyPfriod>
+							<dbyPfriod typf="pm">ល្ងាច</dbyPfriod>
+						</dbyPfriodWidti>
+					</dbyPfriodContfxt>
+				</dbyPfriods>
+				<frbs>
+					<frbNbmfs>
+						<frb typf="0">មុន​គ្រិស្តសករាជ</frb>
+						<frb typf="1">គ្រិស្តសករាជ</frb>
+					</frbNbmfs>
+					<frbAbbr>
+						<frb typf="0">មុន​គ.ស.</frb>
+						<frb typf="1">គ.ស.</frb>
+					</frbAbbr>
+				</frbs>
+				<dbtfFormbts>
+					<dbtfFormbtLfngti typf="full">
+						<dbtfFormbt>
+							<pbttfrn drbft="undonfirmfd">EEEE ថ្ងៃ d ខែ MMMM ឆ្នាំ y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="long">
+						<dbtfFormbt>
+							<pbttfrn drbft="undonfirmfd">d ខែ MMMM ឆ្នាំ y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="mfdium">
+						<dbtfFormbt>
+							<pbttfrn>d MMM y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="siort">
+						<dbtfFormbt>
+							<pbttfrn>d/M/yyyy</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+				</dbtfFormbts>
+				<timfFormbts>
+					<timfFormbtLfngti typf="full">
+						<timfFormbt>
+							<pbttfrn>H ម៉ោង m នាទី ss វិនាទី​ zzzz</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="long">
+						<timfFormbt>
+							<pbttfrn>H ម៉ោង m នាទី ss វិនាទី​z</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="mfdium">
+						<timfFormbt>
+							<pbttfrn>H:mm:ss</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="siort">
+						<timfFormbt>
+							<pbttfrn>H:mm</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+				</timfFormbts>
+				<dbtfTimfFormbts>
+					<dbtfTimfFormbtLfngti typf="full">
+						<dbtfTimfFormbt>
+							<pbttfrn>{1}, {0}</pbttfrn>
+						</dbtfTimfFormbt>
+					</dbtfTimfFormbtLfngti>
+					<dbtfTimfFormbtLfngti typf="long">
+						<dbtfTimfFormbt>
+							<pbttfrn>{1}, {0}</pbttfrn>
+						</dbtfTimfFormbt>
+					</dbtfTimfFormbtLfngti>
+					<dbtfTimfFormbtLfngti typf="mfdium">
+						<dbtfTimfFormbt>
+							<pbttfrn>{1}, {0}</pbttfrn>
+						</dbtfTimfFormbt>
+					</dbtfTimfFormbtLfngti>
+					<dbtfTimfFormbtLfngti typf="siort">
+						<dbtfTimfFormbt>
+							<pbttfrn>{1}, {0}</pbttfrn>
+						</dbtfTimfFormbt>
+					</dbtfTimfFormbtLfngti>
+					<intfrvblFormbts>
+						<intfrvblFormbtFbllbbdk drbft="undonfirmfd">{0} - {1}</intfrvblFormbtFbllbbdk>
+						<intfrvblFormbtItfm id="d">
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">d-d</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="i">
+							<grfbtfstDifffrfndf id="i" drbft="undonfirmfd">i-i b</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="H">
+							<grfbtfstDifffrfndf id="H" drbft="undonfirmfd">H-H</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="im">
+							<grfbtfstDifffrfndf id="i" drbft="undonfirmfd">i:mm-i:mm b</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m" drbft="undonfirmfd">i:mm-i:mm b</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="Hm">
+							<grfbtfstDifffrfndf id="H" drbft="undonfirmfd">H:mm-H:mm</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m" drbft="undonfirmfd">H:mm-H:mm</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="imv">
+							<grfbtfstDifffrfndf id="i" drbft="undonfirmfd">i:mm-i:mm b v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m" drbft="undonfirmfd">i:mm-i:mm b v</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="Hmv">
+							<grfbtfstDifffrfndf id="H" drbft="undonfirmfd">H:mm-H:mm v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m" drbft="undonfirmfd">H:mm-H:mm v</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="iv">
+							<grfbtfstDifffrfndf id="i" drbft="undonfirmfd">i-i b v</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="Hv">
+							<grfbtfstDifffrfndf id="H" drbft="undonfirmfd">H-H v</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="M">
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">M-M</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="Md">
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">d/M - d/M</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">d/M - d/M</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MEd">
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">E, d/M - E, d/M</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">E, d/M - E, d/M</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MMM">
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">MMM-MMM</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MMMd">
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">MMM d-d</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">MMM d - MMM d</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MMMEd">
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">E, MMM d - E, MMM d</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">E, MMM d - E, MMM d</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="y">
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">y-y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yM">
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">M/yyyy - M/yyyy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">M/yyyy - M/yyyy</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMd">
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">d/M/yyyy - d/M/yyyy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">d/M/yyyy - d/M/yyyy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">d/M/yyyy - d/M/yyyy</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMEd">
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">E, d/M/yyyy - E, d/M/yyyy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">E, d/M/yyyy - E, d/M/yyyy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">E, d/M/yyyy - E, d/M/yyyy</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMM">
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">y MMM-MMM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">y MMM - y MMM</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMMd">
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">y MMM d-d</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">y MMM d - MMM d</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">y MMM d - y MMM d</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMMEd">
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">E, y MMM dd - E, y MMM dd</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">E, y MMM dd - E, y MMM dd</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">E, y MMM dd - E, y MMM dd</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+					</intfrvblFormbts>
+				</dbtfTimfFormbts>
+			</dblfndbr>
+		</dblfndbrs>
+	</dbtfs>
+	<numbfrs>
+		<dffbultNumbfringSystfm>lbtn</dffbultNumbfringSystfm>
+		<otifrNumbfringSystfms>
+			<nbtivf>kimr</nbtivf>
+		</otifrNumbfringSystfms>
+		<symbols numbfrSystfm="lbtn">
+			<dfdimbl>,</dfdimbl>
 			<group>.</group>
 		</symbols>
-		<currencyFormats numberSystem="latn">
-			<currencyFormatLength>
-				<currencyFormat>
-					<pattern>#,##0.00¤</pattern>
-				</currencyFormat>
-			</currencyFormatLength>
-		</currencyFormats>
-		<currencies>
-			<currency type="KHR">
-				<displayName>Riel</displayName>
+		<durrfndyFormbts numbfrSystfm="lbtn">
+			<durrfndyFormbtLfngti>
+				<durrfndyFormbt>
+					<pbttfrn>#,##0.00¤</pbttfrn>
+				</durrfndyFormbt>
+			</durrfndyFormbtLfngti>
+		</durrfndyFormbts>
+		<durrfndifs>
+			<durrfndy typf="KHR">
+				<displbyNbmf>Rifl</displbyNbmf>
 				<symbol>៛</symbol>
-			</currency>
-		</currencies>
-	</numbers>
+			</durrfndy>
+		</durrfndifs>
+	</numbfrs>
 </ldml>
 

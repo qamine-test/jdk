@@ -1,73 +1,73 @@
 '\" t
-.\" Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
-.\" Title: policytool
-.\" Language: English
-.\" Date: 2013Ç¯11·î21Æü
-.\" SectDesc: ¥»¥­¥å¥ê¥Æ¥£¡¦¥Ä¡¼¥ë
-.\" Software: JDK 8
-.\" Arch: ÈÆÍÑ
+.\" Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Titlf: polidytool
+.\" Lbngubgf: Englisi
+.\" Dbtf: 2013Ç¯11·î21Æü
+.\" SfdtDfsd: ¥»¥­¥å¥ê¥Æ¥£¡¦¥Ä¡¼¥ë
+.\" Softwbrf: JDK 8
+.\" Ardi: ÈÆÍÑ
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free software; you can redistribute it and/or modify it
-.\" under the terms of the GNU General Public License version 2 only, as
-.\" published by the Free Software Foundation.
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
 .\"
-.\" This code is distributed in the hope that it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-.\" version 2 for more details (a copy is included in the LICENSE file that
-.\" accompanied this code).
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
 .\"
-.\" You should have received a copy of the GNU General Public License version
-.\" 2 along with this work; if not, write to the Free Software Foundation,
-.\" Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-.\" or visit www.oracle.com if you need additional information or have any
-.\" questions.
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
 .\"
 .pl 99999
-.TH "policytool" "1" "2013Ç¯11·î21Æü" "JDK 8" "¥»¥­¥å¥ê¥Æ¥£¡¦¥Ä¡¼¥ë"
+.TH "polidytool" "1" "2013Ç¯11·î21Æü" "JDK 8" "¥»¥­¥å¥ê¥Æ¥£¡¦¥Ä¡¼¥ë"
 .\" -----------------------------------------------------------------
-.\" * Define some portability stuff
+.\" * Dffinf somf portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debian.org/507673
-.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(aq
-.el       .ds Aq '
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set default formatting
+.\" * sft dffbult formbtting
 .\" -----------------------------------------------------------------
-.\" disable hyphenation
-.nh
-.\" disable justification (adjust text to left margin only)
-.ad l
+.\" disbblf iypifnbtion
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 .SH "NAME"
-policytool \- ¥æ¡¼¥Æ¥£¥ê¥Æ¥£GUI·ÐÍ³¤Ç¼èÆÀ¤·¤¿¥æ¡¼¥¶¡¼ÆþÎÏ¤Ë´ð¤Å¤¤¤Æ¡¢¥×¥ì¡¼¥ó¡¦¥Æ¥­¥¹¥È¤Î¥Ý¥ê¥·¡¼¡¦¥Õ¥¡¥¤¥ë¤òÆÉ¤ß½ñ¤­¤·¤Þ¤¹¡£
+polidytool \- ¥æ¡¼¥Æ¥£¥ê¥Æ¥£GUI·ÐÍ³¤Ç¼èÆÀ¤·¤¿¥æ¡¼¥¶¡¼ÆþÎÏ¤Ë´ð¤Å¤¤¤Æ¡¢¥×¥ì¡¼¥ó¡¦¥Æ¥­¥¹¥È¤Î¥Ý¥ê¥·¡¼¡¦¥Õ¥¡¥¤¥ë¤òÆÉ¤ß½ñ¤­¤·¤Þ¤¹¡£
 .SH "³µÍ×"
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-\fIpolicytool\fR [ \fI\-file\fR ] [ \fIfilename\fR ] 
+\fIpolidytool\fR [ \fI\-filf\fR ] [ \fIfilfnbmf\fR ] 
 .fi
 .if n \{\
 .RE
 .\}
 .PP
-\-file
+\-filf
 .RS 4
-¥Ý¥ê¥·¡¼¡¦¥Õ¥¡¥¤¥ë¤òÆÉ¤ß¹þ¤à¤è¤¦¤Ë\fIpolicytool\fR¤Ë»Ø¼¨¤·¤Þ¤¹¡£
+¥Ý¥ê¥·¡¼¡¦¥Õ¥¡¥¤¥ë¤òÆÉ¤ß¹þ¤à¤è¤¦¤Ë\fIpolidytool\fR¤Ë»Ø¼¨¤·¤Þ¤¹¡£
 .RE
 .PP
-\fIfilename\fR
+\fIfilfnbmf\fR
 .RS 4
 ¥í¡¼¥É¤¹¤ë¥Õ¥¡¥¤¥ë¤ÎÌ¾Á°¡£
 .RE
@@ -80,93 +80,93 @@ policytool \- ¥æ¡¼¥Æ¥£¥ê¥Æ¥£GUI·ÐÍ³¤Ç¼èÆÀ¤·¤¿¥æ¡¼¥¶¡¼ÆþÎÏ¤Ë´ð¤Å¤¤¤Æ¡¢¥×¥ì¡¼¥ó¡¦¥
 .RS 4
 .\}
 .nf
-policytool
+polidytool
 .fi
 .if n \{\
 .RE
 .\}
 .PP
-\fIpolicytool\fR¥³¥Þ¥ó¥É¤ò¼Â¹Ô¤·¡¢»ØÄê¤µ¤ì¤¿¥Õ¥¡¥¤¥ë¤ò¥í¡¼¥É¤·¤Þ¤¹:
+\fIpolidytool\fR¥³¥Þ¥ó¥É¤ò¼Â¹Ô¤·¡¢»ØÄê¤µ¤ì¤¿¥Õ¥¡¥¤¥ë¤ò¥í¡¼¥É¤·¤Þ¤¹:
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-policytool\-file mypolicyfile
+polidytool\-filf mypolidyfilf
 .fi
 .if n \{\
 .RE
 .\}
 .SH "ÀâÌÀ"
 .PP
-\fIpolicytool\fR¥³¥Þ¥ó¥É¤Ï¡¢´ÉÍý¼Ô¤ÎGUI¤ò¸Æ¤Ó½Ð¤·¤Þ¤¹¡£¤³¤ì¤Ë¤è¤ê¡¢¥·¥¹¥Æ¥à´ÉÍý¼Ô¤Ï¥í¡¼¥«¥ë¡¦¥Ý¥ê¥·¡¼¡¦¥Õ¥¡¥¤¥ë¤ÎÆâÍÆ¤ò´ÉÍý¤Ç¤­¤ë¤è¤¦¤Ë¤Ê¤ê¤Þ¤¹¡£¥Ý¥ê¥·¡¼¡¦¥Õ¥¡¥¤¥ë¤Ï\fI\&.policy\fR³ÈÄ¥»Ò¤ò»ý¤Ä¥×¥ì¡¼¥ó¥Æ¥­¥¹¥È¡¦¥Õ¥¡¥¤¥ë¤Ç¡¢¥É¥á¥¤¥óÊÌ¤Ë¥ê¥â¡¼¥È¡¦¥ê¥¯¥¨¥¹¥¿¤ò¸¢¸Â¥ª¥Ö¥¸¥§¥¯¥È¤Ë¥Þ¥Ã¥×¤·¤Þ¤¹¡£¾ÜºÙ¤Ï¡¢http://docs\&.oracle\&.com/javase/8/docs/technotes/guides/security/PolicyFiles\&.html¤Ë¤¢¤ë
-¡ÖDefault Policy Implementation and Policy File Syntax¡×¤ò»²¾È¤·¤Æ¤¯¤À¤µ¤¤
+\fIpolidytool\fR¥³¥Þ¥ó¥É¤Ï¡¢´ÉÍý¼Ô¤ÎGUI¤ò¸Æ¤Ó½Ð¤·¤Þ¤¹¡£¤³¤ì¤Ë¤è¤ê¡¢¥·¥¹¥Æ¥à´ÉÍý¼Ô¤Ï¥í¡¼¥«¥ë¡¦¥Ý¥ê¥·¡¼¡¦¥Õ¥¡¥¤¥ë¤ÎÆâÍÆ¤ò´ÉÍý¤Ç¤­¤ë¤è¤¦¤Ë¤Ê¤ê¤Þ¤¹¡£¥Ý¥ê¥·¡¼¡¦¥Õ¥¡¥¤¥ë¤Ï\fI\&.polidy\fR³ÈÄ¥»Ò¤ò»ý¤Ä¥×¥ì¡¼¥ó¥Æ¥­¥¹¥È¡¦¥Õ¥¡¥¤¥ë¤Ç¡¢¥É¥á¥¤¥óÊÌ¤Ë¥ê¥â¡¼¥È¡¦¥ê¥¯¥¨¥¹¥¿¤ò¸¢¸Â¥ª¥Ö¥¸¥§¥¯¥È¤Ë¥Þ¥Ã¥×¤·¤Þ¤¹¡£¾ÜºÙ¤Ï¡¢ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/PolidyFilfs\&.itml¤Ë¤¢¤ë
+¡ÖDffbult Polidy Implfmfntbtion bnd Polidy Filf Syntbx¡×¤ò»²¾È¤·¤Æ¤¯¤À¤µ¤¤
 .SH "¥ª¥×¥·¥ç¥ó"
 .PP
-\-file
+\-filf
 .RS 4
-¥Ý¥ê¥·¡¼¡¦¥Õ¥¡¥¤¥ë¤òÆÉ¤ß¹þ¤à¤è¤¦¤Ë\fIpolicytool\fR¤Ë»Ø¼¨¤·¤Þ¤¹¡£
+¥Ý¥ê¥·¡¼¡¦¥Õ¥¡¥¤¥ë¤òÆÉ¤ß¹þ¤à¤è¤¦¤Ë\fIpolidytool\fR¤Ë»Ø¼¨¤·¤Þ¤¹¡£
 .RE
 .SH "´ØÏ¢¹àÌÜ"
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.if n \{\
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.fl \{\
 .sp -1
 .IP \(bu 2.3
 .\}
-¡ÖDefault Policy Implementation and Policy File Syntax¡×
-(http://docs\&.oracle\&.com/javase/8/docs/technotes/guides/security/PolicyFiles\&.html)
+¡ÖDffbult Polidy Implfmfntbtion bnd Polidy Filf Syntbx¡×
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/PolidyFilfs\&.itml)
 .RE
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.if n \{\
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.fl \{\
 .sp -1
 .IP \(bu 2.3
 .\}
-¡ÖPolicy File Creation and Management¡×
-(http://docs\&.oracle\&.com/javase/8/docs/technotes/guides/security/PolicyGuide\&.html)
+¡ÖPolidy Filf Crfbtion bnd Mbnbgfmfnt¡×
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/PolidyGuidf\&.itml)
 .RE
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.if n \{\
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.fl \{\
 .sp -1
 .IP \(bu 2.3
 .\}
-¡ÖPermissions in Java SE Development Kit (JDK)¡×
-(http://docs\&.oracle\&.com/javase/8/docs/technotes/guides/security/permissions\&.html)
+¡ÖPfrmissions in Jbvb SE Dfvflopmfnt Kit (JDK)¡×
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/pfrmissions\&.itml)
 .RE
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.if n \{\
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.fl \{\
 .sp -1
 .IP \(bu 2.3
 .\}
-¡ÖJava Security Overview¡×
-(http://docs\&.oracle\&.com/javase/8/docs/technotes/guides/security/overview/jsoverview\&.html)
+¡ÖJbvb Sfdurity Ovfrvifw¡×
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/ovfrvifw/jsovfrvifw\&.itml)
 .RE
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.if n \{\
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.fl \{\
 .sp -1
 .IP \(bu 2.3
 .\}
-¡ÖJava Cryptography Architecture (JCA) Reference Guide¡×
-(http://docs\&.oracle\&.com/javase/8/docs/technotes/guides/security/crypto/CryptoSpec\&.html)
+¡ÖJbvb Cryptogrbpiy Ardiitfdturf (JCA) Rfffrfndf Guidf¡×
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/drypto/CryptoSpfd\&.itml)
 .RE
 .br
 'pl 8.5i

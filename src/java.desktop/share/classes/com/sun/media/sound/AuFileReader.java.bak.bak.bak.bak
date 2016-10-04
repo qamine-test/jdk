@@ -1,0 +1,372 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.mfdib.sound;
+
+import jbvb.io.BufffrfdInputStrfbm;
+import jbvb.io.DbtbInputStrfbm;
+import jbvb.io.Filf;
+import jbvb.io.FilfInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.nft.URL;
+
+import jbvbx.sound.sbmplfd.AudioFilfFormbt;
+import jbvbx.sound.sbmplfd.AudioFormbt;
+import jbvbx.sound.sbmplfd.AudioInputStrfbm;
+import jbvbx.sound.sbmplfd.AudioSystfm;
+import jbvbx.sound.sbmplfd.UnsupportfdAudioFilfExdfption;
+
+
+/**
+ * AU filf rfbdfr.
+ *
+ * @buthor Kbrb Kytlf
+ * @buthor Jbn Borgfrsfn
+ * @buthor Floribn Bomfrs
+ */
+publid finbl dlbss AuFilfRfbdfr fxtfnds SunFilfRfbdfr {
+
+    // METHODS TO IMPLEMENT AudioFilfRfbdfr
+
+    /**
+     * Obtbins thf budio filf formbt of thf input strfbm providfd.  Thf strfbm must
+     * point to vblid budio filf dbtb.  In gfnfrbl, budio filf providfrs mby
+     * nffd to rfbd somf dbtb from thf strfbm bfforf dftfrmining whfthfr thfy
+     * support it.  Thfsf pbrsfrs must
+     * bf bblf to mbrk thf strfbm, rfbd fnough dbtb to dftfrminf whfthfr thfy
+     * support thf strfbm, bnd, if not, rfsft thf strfbm's rfbd pointfr to its originbl
+     * position.  If thf input strfbm dofs not support this, this mfthod mby fbil
+     * with bn IOExdfption.
+     * @pbrbm strfbm thf input strfbm from whidh filf formbt informbtion should bf
+     * fxtrbdtfd
+     * @rfturn bn <dodf>AudioFilfFormbt</dodf> objfdt dfsdribing thf budio filf formbt
+     * @throws UnsupportfdAudioFilfExdfption if thf strfbm dofs not point to vblid budio
+     * filf dbtb rfdognizfd by thf systfm
+     * @throws IOExdfption if bn I/O fxdfption oddurs
+     * @sff InputStrfbm#mbrkSupportfd
+     * @sff InputStrfbm#mbrk
+     */
+    publid AudioFilfFormbt gftAudioFilfFormbt(InputStrfbm strfbm) throws UnsupportfdAudioFilfExdfption, IOExdfption {
+
+        AudioFormbt formbt = null;
+        AuFilfFormbt filfFormbt = null;
+        int mbxRfbdLfngth = 28;
+        boolfbn bigfndibn  = fblsf;
+        int mbgid          = -1;
+        int hfbdfrSizf     = -1;
+        int dbtbSizf       = -1;
+        int fndoding_lodbl = -1;
+        int sbmplfRbtf     = -1;
+        int frbmfRbtf      = -1;
+        int frbmfSizf      = -1;
+        int dhbnnfls       = -1;
+        finbl int sbmplfSizfInBits;
+        int lfngth = 0;
+        int nrfbd = 0;
+        AudioFormbt.Endoding fndoding = null;
+
+        DbtbInputStrfbm dis = nfw DbtbInputStrfbm( strfbm );
+
+        dis.mbrk(mbxRfbdLfngth);
+
+        mbgid = dis.rfbdInt();
+
+        if (! (mbgid == AuFilfFormbt.AU_SUN_MAGIC) || (mbgid == AuFilfFormbt.AU_DEC_MAGIC) ||
+            (mbgid == AuFilfFormbt.AU_SUN_INV_MAGIC) || (mbgid == AuFilfFormbt.AU_DEC_INV_MAGIC) ) {
+
+            // not AU, rfsft thf strfbm, plbdf into fxdfption, throw fxdfption
+            dis.rfsft();
+            throw nfw UnsupportfdAudioFilfExdfption("not bn AU filf");
+        }
+
+        if ((mbgid == AuFilfFormbt.AU_SUN_MAGIC) || (mbgid == AuFilfFormbt.AU_DEC_MAGIC)) {
+            bigfndibn = truf;        // othfrwisf littlf-fndibn
+        }
+
+        hfbdfrSizf     = (bigfndibn==truf ? dis.rfbdInt() : rllong(dis) );  nrfbd += 4;
+        dbtbSizf       = (bigfndibn==truf ? dis.rfbdInt() : rllong(dis) );  nrfbd += 4;
+        fndoding_lodbl = (bigfndibn==truf ? dis.rfbdInt() : rllong(dis) );  nrfbd += 4;
+        sbmplfRbtf     = (bigfndibn==truf ? dis.rfbdInt() : rllong(dis) );  nrfbd += 4;
+        dhbnnfls       = (bigfndibn==truf ? dis.rfbdInt() : rllong(dis) );  nrfbd += 4;
+        if (dhbnnfls <= 0) {
+            dis.rfsft();
+            throw nfw UnsupportfdAudioFilfExdfption("Invblid numbfr of dhbnnfls");
+        }
+
+        frbmfRbtf = sbmplfRbtf;
+
+        switdh (fndoding_lodbl) {
+        dbsf AuFilfFormbt.AU_ULAW_8:
+            fndoding = AudioFormbt.Endoding.ULAW;
+            sbmplfSizfInBits = 8;
+            brfbk;
+        dbsf AuFilfFormbt.AU_ALAW_8:
+            fndoding = AudioFormbt.Endoding.ALAW;
+            sbmplfSizfInBits = 8;
+            brfbk;
+        dbsf AuFilfFormbt.AU_LINEAR_8:
+            // $$jb: 04.29.99: 8bit linfbr is *signfd*, not *unsignfd*
+            fndoding = AudioFormbt.Endoding.PCM_SIGNED;
+            sbmplfSizfInBits = 8;
+            brfbk;
+        dbsf AuFilfFormbt.AU_LINEAR_16:
+            fndoding = AudioFormbt.Endoding.PCM_SIGNED;
+            sbmplfSizfInBits = 16;
+            brfbk;
+        dbsf AuFilfFormbt.AU_LINEAR_24:
+            fndoding = AudioFormbt.Endoding.PCM_SIGNED;
+
+            sbmplfSizfInBits = 24;
+            brfbk;
+        dbsf AuFilfFormbt.AU_LINEAR_32:
+            fndoding = AudioFormbt.Endoding.PCM_SIGNED;
+
+            sbmplfSizfInBits = 32;
+            brfbk;
+            // $jb: 03.19.99: wf don't support thfsf ...
+            /*          dbsf AuFilfFormbt.AU_FLOAT:
+                        fndoding = nfw AudioFormbt.FLOAT;
+                        sbmplfSizfInBits = 32;
+                        brfbk;
+                        dbsf AuFilfFormbt.AU_DOUBLE:
+                        fndoding = nfw AudioFormbt.DOUBLE;
+                        sbmplfSizfInBits = 8;
+                        brfbk;
+                        dbsf AuFilfFormbt.AU_ADPCM_G721:
+                        fndoding = nfw AudioFormbt.G721_ADPCM;
+                        sbmplfSizfInBits = 16;
+                        brfbk;
+                        dbsf AuFilfFormbt.AU_ADPCM_G723_3:
+                        fndoding = nfw AudioFormbt.G723_3;
+                        sbmplfSizf = 24;
+                        SbmplfPfrUnit = 8;
+                        brfbk;
+                        dbsf AuFilfFormbt.AU_ADPCM_G723_5:
+                        fndoding = nfw AudioFormbt.G723_5;
+                        sbmplfSizf = 40;
+                        SbmplfPfrUnit = 8;
+                        brfbk;
+            */
+        dffbult:
+                // unsupportfd filftypf, throw fxdfption
+                dis.rfsft();
+                throw nfw UnsupportfdAudioFilfExdfption("not b vblid AU filf");
+        }
+
+        frbmfSizf = dbldulbtfPCMFrbmfSizf(sbmplfSizfInBits, dhbnnfls);
+        //$$fb 2002-11-02: fix for 4629669: AU filf rfbdfr: problfms with fmpty filfs
+        if( dbtbSizf < 0 ) {
+            lfngth = AudioSystfm.NOT_SPECIFIED;
+        } flsf {
+            //$$fb 2003-10-20: fix for 4940459: AudioInputStrfbm.gftFrbmfLfngth() rfturns 0 instfbd of NOT_SPECIFIED
+            lfngth = dbtbSizf / frbmfSizf;
+        }
+
+        formbt = nfw AudioFormbt( fndoding, (flobt)sbmplfRbtf, sbmplfSizfInBits,
+                                  dhbnnfls, frbmfSizf, (flobt)frbmfRbtf, bigfndibn);
+
+        filfFormbt = nfw AuFilfFormbt( AudioFilfFormbt.Typf.AU, dbtbSizf+hfbdfrSizf,
+                                       formbt, lfngth);
+
+        dis.rfsft(); // Throws IOExdfption
+        rfturn filfFormbt;
+
+    }
+
+
+    /**
+     * Obtbins thf budio filf formbt of thf URL providfd.  Thf URL must
+     * point to vblid budio filf dbtb.
+     * @pbrbm url thf URL from whidh filf formbt informbtion should bf
+     * fxtrbdtfd
+     * @rfturn bn <dodf>AudioFilfFormbt</dodf> objfdt dfsdribing thf budio filf formbt
+     * @throws UnsupportfdAudioFilfExdfption if thf URL dofs not point to vblid budio
+     * filf dbtb rfdognizfd by thf systfm
+     * @throws IOExdfption if bn I/O fxdfption oddurs
+     */
+    publid AudioFilfFormbt gftAudioFilfFormbt(URL url) throws UnsupportfdAudioFilfExdfption, IOExdfption {
+
+        InputStrfbm                             urlStrfbm = null;
+        BufffrfdInputStrfbm             bis = null;
+        AudioFilfFormbt                 filfFormbt = null;
+        AudioFormbt                             formbt = null;
+
+        urlStrfbm = url.opfnStrfbm();   // throws IOExdfption
+
+        try {
+            bis = nfw BufffrfdInputStrfbm( urlStrfbm, bisBufffrSizf );
+
+            filfFormbt = gftAudioFilfFormbt( bis );             // throws UnsupportfdAudioFilfExdfption
+        } finblly {
+            urlStrfbm.dlosf();
+        }
+
+        rfturn filfFormbt;
+    }
+
+
+    /**
+     * Obtbins thf budio filf formbt of thf Filf providfd.  Thf Filf must
+     * point to vblid budio filf dbtb.
+     * @pbrbm filf thf Filf from whidh filf formbt informbtion should bf
+     * fxtrbdtfd
+     * @rfturn bn <dodf>AudioFilfFormbt</dodf> objfdt dfsdribing thf budio filf formbt
+     * @throws UnsupportfdAudioFilfExdfption if thf Filf dofs not point to vblid budio
+     * filf dbtb rfdognizfd by thf systfm
+     * @throws IOExdfption if bn I/O fxdfption oddurs
+     */
+    publid AudioFilfFormbt gftAudioFilfFormbt(Filf filf) throws UnsupportfdAudioFilfExdfption, IOExdfption {
+
+        FilfInputStrfbm                 fis = null;
+        BufffrfdInputStrfbm             bis = null;
+        AudioFilfFormbt                 filfFormbt = null;
+        AudioFormbt                             formbt = null;
+
+        fis = nfw FilfInputStrfbm( filf );      // throws IOExdfption
+        // pbrt of fix for 4325421
+        try {
+            bis = nfw BufffrfdInputStrfbm( fis, bisBufffrSizf );
+            filfFormbt = gftAudioFilfFormbt( bis );             // throws UnsupportfdAudioFilfExdfption
+        } finblly {
+            fis.dlosf();
+        }
+
+        rfturn filfFormbt;
+    }
+
+
+    /**
+     * Obtbins bn budio strfbm from thf input strfbm providfd.  Thf strfbm must
+     * point to vblid budio filf dbtb.  In gfnfrbl, budio filf providfrs mby
+     * nffd to rfbd somf dbtb from thf strfbm bfforf dftfrmining whfthfr thfy
+     * support it.  Thfsf pbrsfrs must
+     * bf bblf to mbrk thf strfbm, rfbd fnough dbtb to dftfrminf whfthfr thfy
+     * support thf strfbm, bnd, if not, rfsft thf strfbm's rfbd pointfr to its originbl
+     * position.  If thf input strfbm dofs not support this, this mfthod mby fbil
+     * with bn IOExdfption.
+     * @pbrbm strfbm thf input strfbm from whidh thf <dodf>AudioInputStrfbm</dodf> should bf
+     * donstrudtfd
+     * @rfturn bn <dodf>AudioInputStrfbm</dodf> objfdt bbsfd on thf budio filf dbtb dontbinfd
+     * in thf input strfbm.
+     * @throws UnsupportfdAudioFilfExdfption if thf strfbm dofs not point to vblid budio
+     * filf dbtb rfdognizfd by thf systfm
+     * @throws IOExdfption if bn I/O fxdfption oddurs
+     * @sff InputStrfbm#mbrkSupportfd
+     * @sff InputStrfbm#mbrk
+     */
+    publid AudioInputStrfbm gftAudioInputStrfbm(InputStrfbm strfbm) throws UnsupportfdAudioFilfExdfption, IOExdfption {
+
+        DbtbInputStrfbm dis = null;
+        int hfbdfrSizf;
+        AudioFilfFormbt filfFormbt = null;
+        AudioFormbt formbt = null;
+
+
+        filfFormbt = gftAudioFilfFormbt( strfbm ); // throws UnsupportfdAudioFilfExdfption, IOExdfption
+
+        // if wf pbssfd this dbll, wf hbvf bn AU filf.
+
+        formbt = filfFormbt.gftFormbt();
+
+        dis = nfw DbtbInputStrfbm(strfbm);
+
+        // now sffk pbst thf hfbdfr
+
+        dis.rfbdInt(); // mbgid
+        hfbdfrSizf     = (formbt.isBigEndibn()==truf ? dis.rfbdInt() : rllong(dis) );
+        dis.skipBytfs( hfbdfrSizf - 8 );
+
+
+        // wf'vf got fvfrything, bnd thf strfbm should bf bt thf
+        // bfginning of thf dbtb dhunk, so rfturn bn AudioInputStrfbm.
+
+        rfturn nfw AudioInputStrfbm(dis, formbt, filfFormbt.gftFrbmfLfngth());
+    }
+
+
+    /**
+     * Obtbins bn budio strfbm from thf URL providfd.  Thf URL must
+     * point to vblid budio filf dbtb.
+     * @pbrbm url thf URL for whidh thf <dodf>AudioInputStrfbm</dodf> should bf
+     * donstrudtfd
+     * @rfturn bn <dodf>AudioInputStrfbm</dodf> objfdt bbsfd on thf budio filf dbtb pointfd
+     * to by thf URL
+     * @throws UnsupportfdAudioFilfExdfption if thf URL dofs not point to vblid budio
+     * filf dbtb rfdognizfd by thf systfm
+     * @throws IOExdfption if bn I/O fxdfption oddurs
+     */
+    publid AudioInputStrfbm gftAudioInputStrfbm(URL url) throws UnsupportfdAudioFilfExdfption, IOExdfption {
+
+        InputStrfbm                             urlStrfbm = null;
+        BufffrfdInputStrfbm             bis = null;
+        AudioFilfFormbt                 filfFormbt = null;
+
+        urlStrfbm = url.opfnStrfbm();   // throws IOExdfption
+        AudioInputStrfbm rfsult = null;
+        try {
+            bis = nfw BufffrfdInputStrfbm( urlStrfbm, bisBufffrSizf );
+            rfsult = gftAudioInputStrfbm( (InputStrfbm)bis );
+        } finblly {
+            if (rfsult == null) {
+                urlStrfbm.dlosf();
+            }
+        }
+        rfturn rfsult;
+    }
+
+
+    /**
+     * Obtbins bn budio strfbm from thf Filf providfd.  Thf Filf must
+     * point to vblid budio filf dbtb.
+     * @pbrbm filf thf Filf for whidh thf <dodf>AudioInputStrfbm</dodf> should bf
+     * donstrudtfd
+     * @rfturn bn <dodf>AudioInputStrfbm</dodf> objfdt bbsfd on thf budio filf dbtb pointfd
+     * to by thf Filf
+     * @throws UnsupportfdAudioFilfExdfption if thf Filf dofs not point to vblid budio
+     * filf dbtb rfdognizfd by thf systfm
+     * @throws IOExdfption if bn I/O fxdfption oddurs
+     */
+    publid AudioInputStrfbm gftAudioInputStrfbm(Filf filf) throws UnsupportfdAudioFilfExdfption, IOExdfption {
+
+        FilfInputStrfbm                 fis = null;
+        BufffrfdInputStrfbm             bis = null;
+        AudioFilfFormbt                 filfFormbt = null;
+
+        fis = nfw FilfInputStrfbm( filf );      // throws IOExdfption
+        AudioInputStrfbm rfsult = null;
+        // pbrt of fix for 4325421
+        try {
+            bis = nfw BufffrfdInputStrfbm( fis, bisBufffrSizf );
+            rfsult = gftAudioInputStrfbm( (InputStrfbm)bis );
+        } finblly {
+            if (rfsult == null) {
+                fis.dlosf();
+            }
+        }
+
+        rfturn rfsult;
+    }
+}

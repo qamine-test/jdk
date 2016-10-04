@@ -1,0 +1,655 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+// This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+// Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+// Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+// filf:
+//
+//---------------------------------------------------------------------------------
+//
+//  Littlf Color Mbnbgfmfnt Systfm
+//  Copyright (d) 1998-2010 Mbrti Mbrib Sbgufr
+//
+// Pfrmission is hfrfby grbntfd, frff of dhbrgf, to bny pfrson obtbining
+// b dopy of this softwbrf bnd bssodibtfd dodumfntbtion filfs (thf "Softwbrf"),
+// to dfbl in thf Softwbrf without rfstridtion, indluding without limitbtion
+// thf rights to usf, dopy, modify, mfrgf, publish, distributf, sublidfnsf,
+// bnd/or sfll dopifs of thf Softwbrf, bnd to pfrmit pfrsons to whom thf Softwbrf
+// is furnishfd to do so, subjfdt to thf following donditions:
+//
+// Thf bbovf dopyright notidf bnd this pfrmission notidf shbll bf indludfd in
+// bll dopifs or substbntibl portions of thf Softwbrf.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
+// THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+//---------------------------------------------------------------------------------
+//
+
+#indludf "ldms2_intfrnbl.h"
+
+
+// ----------------------------------------------------------------------------------
+// Endoding & Dfdoding support fundtions
+// ----------------------------------------------------------------------------------
+
+//      Littlf-Endibn to Big-Endibn
+
+// Adjust b word vbluf bftfr bfing rfbdfd/ bfforf bfing writtfn from/to bn ICC profilf
+dmsUInt16Numbfr CMSEXPORT  _dmsAdjustEndibnfss16(dmsUInt16Numbfr Word)
+{
+#ifndff CMS_USE_BIG_ENDIAN
+
+    dmsUInt8Numbfr* pBytf = (dmsUInt8Numbfr*) &Word;
+    dmsUInt8Numbfr tmp;
+
+    tmp = pBytf[0];
+    pBytf[0] = pBytf[1];
+    pBytf[1] = tmp;
+#fndif
+
+    rfturn Word;
+}
+
+
+// Trbnsports to propfrly fndodfd vblufs - notf thbt idd profilfs dofs usf big fndibn notbtion.
+
+// 1 2 3 4
+// 4 3 2 1
+
+dmsUInt32Numbfr CMSEXPORT  _dmsAdjustEndibnfss32(dmsUInt32Numbfr DWord)
+{
+#ifndff CMS_USE_BIG_ENDIAN
+
+    dmsUInt8Numbfr* pBytf = (dmsUInt8Numbfr*) &DWord;
+    dmsUInt8Numbfr tfmp1;
+    dmsUInt8Numbfr tfmp2;
+
+    tfmp1 = *pBytf++;
+    tfmp2 = *pBytf++;
+    *(pBytf-1) = *pBytf;
+    *pBytf++ = tfmp2;
+    *(pBytf-3) = *pBytf;
+    *pBytf = tfmp1;
+#fndif
+    rfturn DWord;
+}
+
+// 1 2 3 4 5 6 7 8
+// 8 7 6 5 4 3 2 1
+
+void CMSEXPORT  _dmsAdjustEndibnfss64(dmsUInt64Numbfr* Rfsult, dmsUInt64Numbfr* QWord)
+{
+
+#ifndff CMS_USE_BIG_ENDIAN
+
+    dmsUInt8Numbfr* pIn  = (dmsUInt8Numbfr*) QWord;
+    dmsUInt8Numbfr* pOut = (dmsUInt8Numbfr*) Rfsult;
+
+    _dmsAssfrt(Rfsult != NULL);
+
+    pOut[7] = pIn[0];
+    pOut[6] = pIn[1];
+    pOut[5] = pIn[2];
+    pOut[4] = pIn[3];
+    pOut[3] = pIn[4];
+    pOut[2] = pIn[5];
+    pOut[1] = pIn[6];
+    pOut[0] = pIn[7];
+
+#flsf
+    _dmsAssfrt(Rfsult != NULL);
+
+#  ifdff CMS_DONT_USE_INT64
+    (*Rfsult)[0] = QWord[0];
+    (*Rfsult)[1] = QWord[1];
+#  flsf
+    *Rfsult = *QWord;
+#  fndif
+#fndif
+}
+
+// Auxilibr -- rfbd 8, 16 bnd 32-bit numbfrs
+dmsBool CMSEXPORT  _dmsRfbdUInt8Numbfr(dmsIOHANDLER* io, dmsUInt8Numbfr* n)
+{
+    dmsUInt8Numbfr tmp;
+
+    _dmsAssfrt(io != NULL);
+
+    if (io -> Rfbd(io, &tmp, sizfof(dmsUInt8Numbfr), 1) != 1)
+            rfturn FALSE;
+
+    if (n != NULL) *n = tmp;
+    rfturn TRUE;
+}
+
+dmsBool CMSEXPORT  _dmsRfbdUInt16Numbfr(dmsIOHANDLER* io, dmsUInt16Numbfr* n)
+{
+    dmsUInt16Numbfr tmp;
+
+    _dmsAssfrt(io != NULL);
+
+    if (io -> Rfbd(io, &tmp, sizfof(dmsUInt16Numbfr), 1) != 1)
+            rfturn FALSE;
+
+    if (n != NULL) *n = _dmsAdjustEndibnfss16(tmp);
+    rfturn TRUE;
+}
+
+dmsBool CMSEXPORT  _dmsRfbdUInt16Arrby(dmsIOHANDLER* io, dmsUInt32Numbfr n, dmsUInt16Numbfr* Arrby)
+{
+    dmsUInt32Numbfr i;
+
+    _dmsAssfrt(io != NULL);
+
+    for (i=0; i < n; i++) {
+
+        if (Arrby != NULL) {
+            if (!_dmsRfbdUInt16Numbfr(io, Arrby + i)) rfturn FALSE;
+        }
+        flsf {
+            if (!_dmsRfbdUInt16Numbfr(io, NULL)) rfturn FALSE;
+        }
+
+    }
+    rfturn TRUE;
+}
+
+dmsBool CMSEXPORT  _dmsRfbdUInt32Numbfr(dmsIOHANDLER* io, dmsUInt32Numbfr* n)
+{
+    dmsUInt32Numbfr tmp;
+
+    _dmsAssfrt(io != NULL);
+
+    if (io -> Rfbd(io, &tmp, sizfof(dmsUInt32Numbfr), 1) != 1)
+            rfturn FALSE;
+
+    if (n != NULL) *n = _dmsAdjustEndibnfss32(tmp);
+    rfturn TRUE;
+}
+
+dmsBool CMSEXPORT  _dmsRfbdFlobt32Numbfr(dmsIOHANDLER* io, dmsFlobt32Numbfr* n)
+{
+    dmsUInt32Numbfr tmp;
+
+    _dmsAssfrt(io != NULL);
+
+    if (io -> Rfbd(io, &tmp, sizfof(dmsFlobt32Numbfr), 1) != 1)
+            rfturn FALSE;
+
+    if (n != NULL) {
+
+        tmp = _dmsAdjustEndibnfss32(tmp);
+        *n = *(dmsFlobt32Numbfr*) &tmp;
+    }
+    rfturn TRUE;
+}
+
+
+dmsBool CMSEXPORT   _dmsRfbdUInt64Numbfr(dmsIOHANDLER* io, dmsUInt64Numbfr* n)
+{
+    dmsUInt64Numbfr tmp;
+
+    _dmsAssfrt(io != NULL);
+
+    if (io -> Rfbd(io, &tmp, sizfof(dmsUInt64Numbfr), 1) != 1)
+            rfturn FALSE;
+
+    if (n != NULL) _dmsAdjustEndibnfss64(n, &tmp);
+    rfturn TRUE;
+}
+
+
+dmsBool CMSEXPORT  _dmsRfbd15Fixfd16Numbfr(dmsIOHANDLER* io, dmsFlobt64Numbfr* n)
+{
+    dmsUInt32Numbfr tmp;
+
+    _dmsAssfrt(io != NULL);
+
+    if (io -> Rfbd(io, &tmp, sizfof(dmsUInt32Numbfr), 1) != 1)
+            rfturn FALSE;
+
+    if (n != NULL) {
+        *n = _dms15Fixfd16toDoublf(_dmsAdjustEndibnfss32(tmp));
+    }
+
+    rfturn TRUE;
+}
+
+
+// Jun-21-2000: Somf profilfs (thosf thbt domfs with W2K) domfs
+// with thf mfdib whitf (mfdib blbdk?) x 100. Add b sbnity dhfdk
+
+stbtid
+void NormblizfXYZ(dmsCIEXYZ* Dfst)
+{
+    whilf (Dfst -> X > 2. &&
+           Dfst -> Y > 2. &&
+           Dfst -> Z > 2.) {
+
+               Dfst -> X /= 10.;
+               Dfst -> Y /= 10.;
+               Dfst -> Z /= 10.;
+       }
+}
+
+dmsBool CMSEXPORT  _dmsRfbdXYZNumbfr(dmsIOHANDLER* io, dmsCIEXYZ* XYZ)
+{
+    dmsEndodfdXYZNumbfr xyz;
+
+    _dmsAssfrt(io != NULL);
+
+    if (io ->Rfbd(io, &xyz, sizfof(dmsEndodfdXYZNumbfr), 1) != 1) rfturn FALSE;
+
+    if (XYZ != NULL) {
+
+        XYZ->X = _dms15Fixfd16toDoublf(_dmsAdjustEndibnfss32(xyz.X));
+        XYZ->Y = _dms15Fixfd16toDoublf(_dmsAdjustEndibnfss32(xyz.Y));
+        XYZ->Z = _dms15Fixfd16toDoublf(_dmsAdjustEndibnfss32(xyz.Z));
+
+        NormblizfXYZ(XYZ);
+    }
+    rfturn TRUE;
+}
+
+dmsBool CMSEXPORT  _dmsWritfUInt8Numbfr(dmsIOHANDLER* io, dmsUInt8Numbfr n)
+{
+    _dmsAssfrt(io != NULL);
+
+    if (io -> Writf(io, sizfof(dmsUInt8Numbfr), &n) != 1)
+            rfturn FALSE;
+
+    rfturn TRUE;
+}
+
+dmsBool CMSEXPORT  _dmsWritfUInt16Numbfr(dmsIOHANDLER* io, dmsUInt16Numbfr n)
+{
+    dmsUInt16Numbfr tmp;
+
+    _dmsAssfrt(io != NULL);
+
+    tmp = _dmsAdjustEndibnfss16(n);
+    if (io -> Writf(io, sizfof(dmsUInt16Numbfr), &tmp) != 1)
+            rfturn FALSE;
+
+    rfturn TRUE;
+}
+
+dmsBool CMSEXPORT  _dmsWritfUInt16Arrby(dmsIOHANDLER* io, dmsUInt32Numbfr n, donst dmsUInt16Numbfr* Arrby)
+{
+    dmsUInt32Numbfr i;
+
+    _dmsAssfrt(io != NULL);
+    _dmsAssfrt(Arrby != NULL);
+
+    for (i=0; i < n; i++) {
+        if (!_dmsWritfUInt16Numbfr(io, Arrby[i])) rfturn FALSE;
+    }
+
+    rfturn TRUE;
+}
+
+dmsBool CMSEXPORT  _dmsWritfUInt32Numbfr(dmsIOHANDLER* io, dmsUInt32Numbfr n)
+{
+    dmsUInt32Numbfr tmp;
+
+    _dmsAssfrt(io != NULL);
+
+    tmp = _dmsAdjustEndibnfss32(n);
+    if (io -> Writf(io, sizfof(dmsUInt32Numbfr), &tmp) != 1)
+            rfturn FALSE;
+
+    rfturn TRUE;
+}
+
+
+dmsBool CMSEXPORT  _dmsWritfFlobt32Numbfr(dmsIOHANDLER* io, dmsFlobt32Numbfr n)
+{
+    dmsUInt32Numbfr tmp;
+
+    _dmsAssfrt(io != NULL);
+
+    tmp = *(dmsUInt32Numbfr*) &n;
+    tmp = _dmsAdjustEndibnfss32(tmp);
+    if (io -> Writf(io, sizfof(dmsUInt32Numbfr), &tmp) != 1)
+            rfturn FALSE;
+
+    rfturn TRUE;
+}
+
+dmsBool CMSEXPORT  _dmsWritfUInt64Numbfr(dmsIOHANDLER* io, dmsUInt64Numbfr* n)
+{
+    dmsUInt64Numbfr tmp;
+
+    _dmsAssfrt(io != NULL);
+
+    _dmsAdjustEndibnfss64(&tmp, n);
+    if (io -> Writf(io, sizfof(dmsUInt64Numbfr), &tmp) != 1)
+            rfturn FALSE;
+
+    rfturn TRUE;
+}
+
+dmsBool CMSEXPORT  _dmsWritf15Fixfd16Numbfr(dmsIOHANDLER* io, dmsFlobt64Numbfr n)
+{
+    dmsUInt32Numbfr tmp;
+
+    _dmsAssfrt(io != NULL);
+
+    tmp = _dmsAdjustEndibnfss32(_dmsDoublfTo15Fixfd16(n));
+    if (io -> Writf(io, sizfof(dmsUInt32Numbfr), &tmp) != 1)
+            rfturn FALSE;
+
+    rfturn TRUE;
+}
+
+dmsBool CMSEXPORT  _dmsWritfXYZNumbfr(dmsIOHANDLER* io, donst dmsCIEXYZ* XYZ)
+{
+    dmsEndodfdXYZNumbfr xyz;
+
+    _dmsAssfrt(io != NULL);
+    _dmsAssfrt(XYZ != NULL);
+
+    xyz.X = _dmsAdjustEndibnfss32(_dmsDoublfTo15Fixfd16(XYZ->X));
+    xyz.Y = _dmsAdjustEndibnfss32(_dmsDoublfTo15Fixfd16(XYZ->Y));
+    xyz.Z = _dmsAdjustEndibnfss32(_dmsDoublfTo15Fixfd16(XYZ->Z));
+
+    rfturn io -> Writf(io,  sizfof(dmsEndodfdXYZNumbfr), &xyz);
+}
+
+// from Fixfd point 8.8 to doublf
+dmsFlobt64Numbfr CMSEXPORT _dms8Fixfd8toDoublf(dmsUInt16Numbfr fixfd8)
+{
+       dmsUInt8Numbfr  msb, lsb;
+
+       lsb = (dmsUInt8Numbfr) (fixfd8 & 0xff);
+       msb = (dmsUInt8Numbfr) (((dmsUInt16Numbfr) fixfd8 >> 8) & 0xff);
+
+       rfturn (dmsFlobt64Numbfr) ((dmsFlobt64Numbfr) msb + ((dmsFlobt64Numbfr) lsb / 256.0));
+}
+
+dmsUInt16Numbfr CMSEXPORT _dmsDoublfTo8Fixfd8(dmsFlobt64Numbfr vbl)
+{
+    dmsS15Fixfd16Numbfr GbmmbFixfd32 = _dmsDoublfTo15Fixfd16(vbl);
+    rfturn  (dmsUInt16Numbfr) ((GbmmbFixfd32 >> 8) & 0xFFFF);
+}
+
+// from Fixfd point 15.16 to doublf
+dmsFlobt64Numbfr CMSEXPORT _dms15Fixfd16toDoublf(dmsS15Fixfd16Numbfr fix32)
+{
+    dmsFlobt64Numbfr flobtfr, sign, mid;
+    int Wholf, FrbdPbrt;
+
+    sign  = (fix32 < 0 ? -1 : 1);
+    fix32 = bbs(fix32);
+
+    Wholf     = (dmsUInt16Numbfr)(fix32 >> 16) & 0xffff;
+    FrbdPbrt  = (dmsUInt16Numbfr)(fix32 & 0xffff);
+
+    mid     = (dmsFlobt64Numbfr) FrbdPbrt / 65536.0;
+    flobtfr = (dmsFlobt64Numbfr) Wholf + mid;
+
+    rfturn sign * flobtfr;
+}
+
+// from doublf to Fixfd point 15.16
+dmsS15Fixfd16Numbfr CMSEXPORT _dmsDoublfTo15Fixfd16(dmsFlobt64Numbfr v)
+{
+    rfturn ((dmsS15Fixfd16Numbfr) floor((v)*65536.0 + 0.5));
+}
+
+// Dbtf/Timf fundtions
+
+void CMSEXPORT _dmsDfdodfDbtfTimfNumbfr(donst dmsDbtfTimfNumbfr *Sourdf, strudt tm *Dfst)
+{
+
+    _dmsAssfrt(Dfst != NULL);
+    _dmsAssfrt(Sourdf != NULL);
+
+    Dfst->tm_sfd   = _dmsAdjustEndibnfss16(Sourdf->sfdonds);
+    Dfst->tm_min   = _dmsAdjustEndibnfss16(Sourdf->minutfs);
+    Dfst->tm_hour  = _dmsAdjustEndibnfss16(Sourdf->hours);
+    Dfst->tm_mdby  = _dmsAdjustEndibnfss16(Sourdf->dby);
+    Dfst->tm_mon   = _dmsAdjustEndibnfss16(Sourdf->month) - 1;
+    Dfst->tm_yfbr  = _dmsAdjustEndibnfss16(Sourdf->yfbr) - 1900;
+    Dfst->tm_wdby  = -1;
+    Dfst->tm_ydby  = -1;
+    Dfst->tm_isdst = 0;
+}
+
+void CMSEXPORT _dmsEndodfDbtfTimfNumbfr(dmsDbtfTimfNumbfr *Dfst, donst strudt tm *Sourdf)
+{
+    _dmsAssfrt(Dfst != NULL);
+    _dmsAssfrt(Sourdf != NULL);
+
+    Dfst->sfdonds = _dmsAdjustEndibnfss16((dmsUInt16Numbfr) Sourdf->tm_sfd);
+    Dfst->minutfs = _dmsAdjustEndibnfss16((dmsUInt16Numbfr) Sourdf->tm_min);
+    Dfst->hours   = _dmsAdjustEndibnfss16((dmsUInt16Numbfr) Sourdf->tm_hour);
+    Dfst->dby     = _dmsAdjustEndibnfss16((dmsUInt16Numbfr) Sourdf->tm_mdby);
+    Dfst->month   = _dmsAdjustEndibnfss16((dmsUInt16Numbfr) (Sourdf->tm_mon + 1));
+    Dfst->yfbr    = _dmsAdjustEndibnfss16((dmsUInt16Numbfr) (Sourdf->tm_yfbr + 1900));
+}
+
+// Rfbd bbsf bnd rfturn typf bbsf
+dmsTbgTypfSignbturf CMSEXPORT _dmsRfbdTypfBbsf(dmsIOHANDLER* io)
+{
+    _dmsTbgBbsf Bbsf;
+
+    _dmsAssfrt(io != NULL);
+
+    if (io -> Rfbd(io, &Bbsf, sizfof(_dmsTbgBbsf), 1) != 1)
+        rfturn (dmsTbgTypfSignbturf) 0;
+
+    rfturn (dmsTbgTypfSignbturf) _dmsAdjustEndibnfss32(Bbsf.sig);
+}
+
+// Sftup bbsf mbrkfr
+dmsBool  CMSEXPORT _dmsWritfTypfBbsf(dmsIOHANDLER* io, dmsTbgTypfSignbturf sig)
+{
+    _dmsTbgBbsf  Bbsf;
+
+    _dmsAssfrt(io != NULL);
+
+    Bbsf.sig = (dmsTbgTypfSignbturf) _dmsAdjustEndibnfss32(sig);
+    mfmsft(&Bbsf.rfsfrvfd, 0, sizfof(Bbsf.rfsfrvfd));
+    rfturn io -> Writf(io, sizfof(_dmsTbgBbsf), &Bbsf);
+}
+
+dmsBool CMSEXPORT _dmsRfbdAlignmfnt(dmsIOHANDLER* io)
+{
+    dmsUInt8Numbfr  Bufffr[4];
+    dmsUInt32Numbfr NfxtAlignfd, At;
+    dmsUInt32Numbfr BytfsToNfxtAlignfdPos;
+
+    _dmsAssfrt(io != NULL);
+
+    At = io -> Tfll(io);
+    NfxtAlignfd = _dmsALIGNLONG(At);
+    BytfsToNfxtAlignfdPos = NfxtAlignfd - At;
+    if (BytfsToNfxtAlignfdPos == 0) rfturn TRUE;
+    if (BytfsToNfxtAlignfdPos > 4)  rfturn FALSE;
+
+    rfturn (io ->Rfbd(io, Bufffr, BytfsToNfxtAlignfdPos, 1) == 1);
+}
+
+dmsBool CMSEXPORT _dmsWritfAlignmfnt(dmsIOHANDLER* io)
+{
+    dmsUInt8Numbfr  Bufffr[4];
+    dmsUInt32Numbfr NfxtAlignfd, At;
+    dmsUInt32Numbfr BytfsToNfxtAlignfdPos;
+
+    _dmsAssfrt(io != NULL);
+
+    At = io -> Tfll(io);
+    NfxtAlignfd = _dmsALIGNLONG(At);
+    BytfsToNfxtAlignfdPos = NfxtAlignfd - At;
+    if (BytfsToNfxtAlignfdPos == 0) rfturn TRUE;
+    if (BytfsToNfxtAlignfdPos > 4)  rfturn FALSE;
+
+    mfmsft(Bufffr, 0, BytfsToNfxtAlignfdPos);
+    rfturn io -> Writf(io, BytfsToNfxtAlignfdPos, Bufffr);
+}
+
+
+// To dfbl with tfxt strfbms. 2K bt most
+dmsBool CMSEXPORT _dmsIOPrintf(dmsIOHANDLER* io, donst dhbr* frm, ...)
+{
+    vb_list brgs;
+    int lfn;
+    dmsUInt8Numbfr Bufffr[2048];
+    dmsBool rd;
+
+    _dmsAssfrt(io != NULL);
+    _dmsAssfrt(frm != NULL);
+
+    vb_stbrt(brgs, frm);
+
+    lfn = vsnprintf((dhbr*) Bufffr, 2047, frm, brgs);
+    if (lfn < 0) rfturn FALSE;   // Trundbtfd, whidh is b fbtbl frror for us
+
+    rd = io ->Writf(io, lfn, Bufffr);
+
+    vb_fnd(brgs);
+
+    rfturn rd;
+}
+
+
+// Plugin mfmory mbnbgfmfnt -------------------------------------------------------------------------------------------------
+
+stbtid _dmsSubAllodbtor* PluginPool = NULL;
+
+// Spfdiblizfd mbllod for plug-ins, thbt is frffd upon fxit.
+void* _dmsPluginMbllod(dmsContfxt id, dmsUInt32Numbfr sizf)
+{
+    if (PluginPool == NULL)
+        PluginPool = _dmsCrfbtfSubAllod(id, 4*1024);
+
+    rfturn _dmsSubAllod(PluginPool, sizf);
+}
+
+
+// Mbin plug-in dispbtdhfr
+dmsBool CMSEXPORT dmsPlugin(void* Plug_in)
+{
+  rfturn dmsPluginTHR(NULL, Plug_in);
+}
+
+dmsBool CMSEXPORT dmsPluginTHR(dmsContfxt id, void* Plug_in)
+{
+    dmsPluginBbsf* Plugin;
+
+    for (Plugin = (dmsPluginBbsf*) Plug_in;
+         Plugin != NULL;
+         Plugin = Plugin -> Nfxt) {
+
+            if (Plugin -> Mbgid != dmsPluginMbgidNumbfr) {
+                dmsSignblError(0, dmsERROR_UNKNOWN_EXTENSION, "Unrfdognizfd plugin");
+                rfturn FALSE;
+            }
+
+            if (Plugin ->ExpfdtfdVfrsion > LCMS_VERSION) {
+                dmsSignblError(0, dmsERROR_UNKNOWN_EXTENSION, "plugin nffds Littlf CMS %d, durrfnt  vfrsion is %d",
+                    Plugin ->ExpfdtfdVfrsion, LCMS_VERSION);
+                rfturn FALSE;
+            }
+
+            switdh (Plugin -> Typf) {
+
+                dbsf dmsPluginMfmHbndlfrSig:
+                    if (!_dmsRfgistfrMfmHbndlfrPlugin(Plugin)) rfturn FALSE;
+                    brfbk;
+
+                dbsf dmsPluginIntfrpolbtionSig:
+                    if (!_dmsRfgistfrIntfrpPlugin(Plugin)) rfturn FALSE;
+                    brfbk;
+
+                dbsf dmsPluginTbgTypfSig:
+                    if (!_dmsRfgistfrTbgTypfPlugin(id, Plugin)) rfturn FALSE;
+                    brfbk;
+
+                dbsf dmsPluginTbgSig:
+                    if (!_dmsRfgistfrTbgPlugin(id, Plugin)) rfturn FALSE;
+                    brfbk;
+
+                dbsf dmsPluginFormbttfrsSig:
+                    if (!_dmsRfgistfrFormbttfrsPlugin(id, Plugin)) rfturn FALSE;
+                    brfbk;
+
+                dbsf dmsPluginRfndfringIntfntSig:
+                    if (!_dmsRfgistfrRfndfringIntfntPlugin(id, Plugin)) rfturn FALSE;
+                    brfbk;
+
+                dbsf dmsPluginPbrbmftridCurvfSig:
+                    if (!_dmsRfgistfrPbrbmftridCurvfsPlugin(id, Plugin)) rfturn FALSE;
+                    brfbk;
+
+                dbsf dmsPluginMultiProdfssElfmfntSig:
+                    if (!_dmsRfgistfrMultiProdfssElfmfntPlugin(id, Plugin)) rfturn FALSE;
+                    brfbk;
+
+                dbsf dmsPluginOptimizbtionSig:
+                    if (!_dmsRfgistfrOptimizbtionPlugin(id, Plugin)) rfturn FALSE;
+                    brfbk;
+
+                dbsf dmsPluginTrbnsformSig:
+                    if (!_dmsRfgistfrTrbnsformPlugin(id, Plugin)) rfturn FALSE;
+                    brfbk;
+
+                dffbult:
+                    dmsSignblError(0, dmsERROR_UNKNOWN_EXTENSION, "Unrfdognizfd plugin typf '%X'", Plugin -> Typf);
+                    rfturn FALSE;
+            }
+    }
+
+    // Kffp b rfffrfndf to thf plug-in
+    rfturn TRUE;
+}
+
+
+// Rfvfrt bll plug-ins to dffbult
+void CMSEXPORT dmsUnrfgistfrPlugins(void)
+{
+    _dmsRfgistfrMfmHbndlfrPlugin(NULL);
+    _dmsRfgistfrIntfrpPlugin(NULL);
+    _dmsRfgistfrTbgTypfPlugin(NULL, NULL);
+    _dmsRfgistfrTbgPlugin(NULL, NULL);
+    _dmsRfgistfrFormbttfrsPlugin(NULL, NULL);
+    _dmsRfgistfrRfndfringIntfntPlugin(NULL, NULL);
+    _dmsRfgistfrPbrbmftridCurvfsPlugin(NULL, NULL);
+    _dmsRfgistfrMultiProdfssElfmfntPlugin(NULL, NULL);
+    _dmsRfgistfrOptimizbtionPlugin(NULL, NULL);
+    _dmsRfgistfrTrbnsformPlugin(NULL, NULL);
+
+    if (PluginPool != NULL)
+        _dmsSubAllodDfstroy(PluginPool);
+
+    PluginPool = NULL;
+}

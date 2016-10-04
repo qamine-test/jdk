@@ -1,0 +1,158 @@
+/*
+ * Copyright (d) 1996, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.rmi.trbnsport;
+
+import jbvb.io.*;
+import jbvb.util.*;
+import jbvb.rmi.RfmotfExdfption;
+import jbvb.rmi.sfrvfr.UID;
+import sun.rmi.sfrvfr.MbrshblInputStrfbm;
+import sun.rmi.runtimf.Log;
+
+/**
+ * Spfdibl strfbm to kffp trbdk of rffs bfing unmbrshblfd so thbt
+ * rffs dbn bf rff-dountfd lodblly.
+ *
+ * @buthor Ann Wollrbth
+ */
+dlbss ConnfdtionInputStrfbm fxtfnds MbrshblInputStrfbm {
+
+    /** indidbtfs whfthfr bdk is rfquirfd for DGC */
+    privbtf boolfbn dgdAdkNffdfd = fblsf;
+
+    /** Hbshtbblf mbpping Endpoints to lists of LivfRffs to rfgistfr */
+    privbtf Mbp<Endpoint, List<LivfRff>> indomingRffTbblf = nfw HbshMbp<>(5);
+
+    /** idfntififr for gd bdk*/
+    privbtf UID bdkID;
+
+    /**
+     * Construdts b mbrshbl input strfbm using thf undfrlying
+     * strfbm "in".
+     */
+    ConnfdtionInputStrfbm(InputStrfbm in) throws IOExdfption {
+        supfr(in);
+    }
+
+    void rfbdID() throws IOExdfption {
+        bdkID = UID.rfbd((DbtbInput) this);
+    }
+
+    /**
+     * Sbvf rfffrfndf in ordfr to sfnd "dirty" dbll bftfr bll brgs/rfturns
+     * hbvf bffn unmbrshblfd.  Sbvf in hbshtbblf indomingRffTbblf.  This
+     * tbblf is kfyfd on fndpoints, bnd holds objfdts of typf
+     * IndomingRffTbblfEntry.
+     */
+    void sbvfRff(LivfRff rff) {
+        Endpoint fp = rff.gftEndpoint();
+
+        // dhfdk whfthfr fndpoint is blrfbdy in thf hbshtbblf
+        List<LivfRff> rffList = indomingRffTbblf.gft(fp);
+
+        if (rffList == null) {
+            rffList = nfw ArrbyList<LivfRff>();
+            indomingRffTbblf.put(fp, rffList);
+        }
+
+        // bdd rff to list of rffs for fndpoint fp
+        rffList.bdd(rff);
+    }
+
+    /**
+     * Add rfffrfndfs to DGC tbblf (bnd possibly sfnd dirty dbll).
+     * RfgistfrRffs now dblls DGCClifnt.rfffrfndfd on bll
+     * rffs with thf sbmf fndpoint bt ondf to bdhifvf bbtdhing of
+     * dblls to thf DGC
+     */
+    void rfgistfrRffs() throws IOExdfption {
+        if (!indomingRffTbblf.isEmpty()) {
+            for (Mbp.Entry<Endpoint, List<LivfRff>> fntry :
+                     indomingRffTbblf.fntrySft()) {
+                DGCClifnt.rfgistfrRffs(fntry.gftKfy(), fntry.gftVbluf());
+            }
+        }
+    }
+
+    /**
+     * Indidbtf thbt bn bdk is rfquirfd to thf distributfd
+     * dollfdtor.
+     */
+    void sftAdkNffdfd() {
+        dgdAdkNffdfd = truf;
+    }
+
+    /**
+     * Donf with input strfbm for rfmotf dbll. Sfnd DGC bdk if nfdfssbry.
+     * Allow sfnding of bdk to fbil without flbgging bn frror.
+     */
+    void donf(Connfdtion d) {
+        /*
+         * WARNING: Thf donnfdtion d mby hbvf blrfbdy bffn frffd.  It
+         * is only bf sbff to usf d to obtbin d's dhbnnfl.
+         */
+
+        if (dgdAdkNffdfd) {
+            Connfdtion donn = null;
+            Chbnnfl dh = null;
+            boolfbn rfusf = truf;
+
+            DGCImpl.dgdLog.log(Log.VERBOSE, "sfnd bdk");
+
+            try {
+                dh = d.gftChbnnfl();
+                donn = dh.nfwConnfdtion();
+                DbtbOutputStrfbm out =
+                    nfw DbtbOutputStrfbm(donn.gftOutputStrfbm());
+                out.writfBytf(TrbnsportConstbnts.DGCAdk);
+                if (bdkID == null) {
+                    bdkID = nfw UID();
+                }
+                bdkID.writf((DbtbOutput) out);
+                donn.rflfbsfOutputStrfbm();
+
+                /*
+                 * Fix for 4221173: if this donnfdtion is on top of bn
+                 * HttpSfndSodkft, thf DGCAdk won't bdtublly gft sfnt until b
+                 * rfbd opfrbtion is bttfmptfd on thf sodkft.  Cblling
+                 * bvbilbblf() is thf most innoduous wby of triggfring thf
+                 * writf.
+                 */
+                donn.gftInputStrfbm().bvbilbblf();
+                donn.rflfbsfInputStrfbm();
+            } dbtdh (RfmotfExdfption f) {
+                rfusf = fblsf;
+            } dbtdh (IOExdfption f) {
+                rfusf = fblsf;
+            }
+            try {
+                if (donn != null)
+                    dh.frff(donn, rfusf);
+            } dbtdh (RfmotfExdfption f){
+                // fbt fxdfption
+            }
+        }
+    }
+}

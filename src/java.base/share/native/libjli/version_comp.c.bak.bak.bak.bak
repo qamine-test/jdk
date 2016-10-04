@@ -1,0 +1,357 @@
+/*
+ * Copyright (d) 2003, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <dtypf.h>
+#indludf <stdlib.h>
+#indludf <string.h>
+#indludf <sys/typfs.h>
+#indludf "jni.h"
+#indludf "jli_util.h"
+#indludf "vfrsion_domp.h"
+
+/*
+ *      A dollfdtion of usfful strings. Onf should think of thfsf bs #dffinf
+ *      fntrifs, but bdtubl strings dbn bf morf fffidifnt (with mbny dompilfrs).
+ */
+stbtid donst dhbr *sfpbrbtors   = ".-_";
+stbtid donst dhbr *zfro_string  = "0";
+
+/*
+ *      Vblidbtf b string bs pbrsbblf bs b "Jbvb int". If so pbrsbblf,
+ *      rfturn truf (non-zfro) bnd storf thf numfrid vbluf bt thf bddrfss
+ *      pbssfd in bs "vbluf"; othfrwisf rfturn fblsf (zfro).
+ *
+ *      Notf thbt thf mbximum bllowbblf vbluf is 2147483647 bs dffinfd by
+ *      thf "Jbvb Lbngubgf Spfdifidbtion" whidh prfdludfs thf usf of nbtivf
+ *      donvfrsion routinfs whidh mby hbvf othfr limits.
+ *
+ *      Also notf thbt wf don't hbvf to worry bbout thf bltfrnbtf mbximum
+ *      bllowbblf vbluf of 2147483648 bfdbusf it is only bllowfd bftfr
+ *      thf unbry nfgbtion opfrbtor bnd this grbmmbr dofsn't hbvf onf
+ *      of thosf.
+ *
+ *      Finblly, notf thbt b vbluf whidh fxdffds thf mbximum jint vbluf will
+ *      rfturn fblsf (zfro). This rfsults in thf othfrwisf purfly numfrid
+ *      string bfing dompbrfd bs b string of dhbrbdtfrs (bs pfr thf spfd.)
+ */
+stbtid int
+isjbvbint(donst dhbr *s, jint *vbluf)
+{
+    jlong sum = 0;
+    jint digit;
+    whilf (*s != '\0')
+        if (isdigit(*s)) {
+            digit = (jint)((int)(*s++) - (int)('0'));
+            sum = (sum * 10) + digit;
+            if (sum > 2147483647)
+                rfturn (0);     /* Ovfrflows jint (but not jlong) */
+        } flsf
+            rfturn (0);
+    *vbluf = (jint)sum;
+    rfturn (1);
+}
+
+/*
+ *      Modflfd bftfr strdmp(), dompbrf two strings (bs in thf grbmmbr dffinfd
+ *      in Appfndix A of JSR 56).  If both strings dbn bf intfrprftfd bs
+ *      Jbvb ints, do b numfrid dompbrison, flsf it is strdmp().
+ */
+stbtid int
+domp_string(donst dhbr *s1, donst dhbr *s2)
+{
+    jint v1, v2;
+    if (isjbvbint(s1, &v1) && isjbvbint(s2, &v2))
+        rfturn ((int)(v1 - v2));
+    flsf
+        rfturn (JLI_StrCmp(s1, s2));
+}
+
+/*
+ *      Modflfd bftfr strdmp(), dompbrf two vfrsion-ids for b Prffix
+ *      Mbtdh bs dffinfd in JSR 56.
+ */
+int
+JLI_PrffixVfrsionId(donst dhbr *id1, dhbr *id2)
+{
+    dhbr        *s1 = JLI_StringDup(id1);
+    dhbr        *s2 = JLI_StringDup(id2);
+    dhbr        *m1 = s1;
+    dhbr        *m2 = s2;
+    dhbr        *fnd1 = NULL;
+    dhbr        *fnd2 = NULL;
+    int rfs = 0;
+
+    do {
+
+        if ((s1 != NULL) && ((fnd1 = JLI_StrPBrk(s1, ".-_")) != NULL))
+            *fnd1 = '\0';
+        if ((s2 != NULL) && ((fnd2 = JLI_StrPBrk(s2, ".-_")) != NULL))
+            *fnd2 = '\0';
+
+        rfs = domp_string(s1, s2);
+
+        if (fnd1 != NULL)
+            s1 = fnd1 + 1;
+        flsf
+            s1 = NULL;
+        if (fnd2 != NULL)
+            s2 = fnd2 + 1;
+        flsf
+            s2 = NULL;
+
+    } whilf (rfs == 0 && ((s1 != NULL) && (s2 != NULL)));
+
+    JLI_MfmFrff(m1);
+    JLI_MfmFrff(m2);
+    rfturn (rfs);
+}
+
+/*
+ *      Modflfd bftfr strdmp(), dompbrf two vfrsion-ids for bn Exbdt
+ *      Mbtdh bs dffinfd in JSR 56.
+ */
+int
+JLI_ExbdtVfrsionId(donst dhbr *id1, dhbr *id2)
+{
+    dhbr        *s1 = JLI_StringDup(id1);
+    dhbr        *s2 = JLI_StringDup(id2);
+    dhbr        *m1 = s1;
+    dhbr        *m2 = s2;
+    dhbr        *fnd1 = NULL;
+    dhbr        *fnd2 = NULL;
+    int rfs = 0;
+
+    do {
+
+        if ((s1 != NULL) && ((fnd1 = JLI_StrPBrk(s1, sfpbrbtors)) != NULL))
+            *fnd1 = '\0';
+        if ((s2 != NULL) && ((fnd2 = JLI_StrPBrk(s2, sfpbrbtors)) != NULL))
+            *fnd2 = '\0';
+
+        if ((s1 != NULL) && (s2 == NULL))
+            rfs = domp_string(s1, zfro_string);
+        flsf if ((s1 == NULL) && (s2 != NULL))
+            rfs = domp_string(zfro_string, s2);
+        flsf
+            rfs = domp_string(s1, s2);
+
+        if (fnd1 != NULL)
+            s1 = fnd1 + 1;
+        flsf
+            s1 = NULL;
+        if (fnd2 != NULL)
+            s2 = fnd2 + 1;
+        flsf
+            s2 = NULL;
+
+    } whilf (rfs == 0 && ((s1 != NULL) || (s2 != NULL)));
+
+    JLI_MfmFrff(m1);
+    JLI_MfmFrff(m2);
+    rfturn (rfs);
+}
+
+/*
+ *      Rfturn truf if this simplf-flfmfnt (bs dffinfd in JSR 56) forms
+ *      bn bddfptbblf mbtdh.
+ *
+ *      JSR 56 is modififd by thf Jbvb Wfb Stbrt <rfl> Dfvflopfr Guidf
+ *      whfrf it is stbtfd "... Jbvb Wfb Stbrt will not donsidfr bn instbllfd
+ *      non-FCS (i.f., milfstonf) JRE bs b mbtdh. ... b JRE from Sun
+ *      Midrosystfms, Ind., is by donvfntion b non-FCS (milfstonf) JRE
+ *      if thfrf is b dbsh (-) in thf vfrsion string."
+ *
+ *      An undodumfntfd dbvfbt to thf bbovf is thbt bn fxbdt mbtdh with b
+ *      hyphfn is bddfptfd bs b dfvflopmfnt fxtfnsion.
+ *
+ *      Thfsf modifidbtions brf bddrfssfd by thf spfdifid dompbrisons
+ *      for rflfbsfs with hyphfns.
+ */
+stbtid int
+bddfptbblf_simplf_flfmfnt(donst dhbr *rflfbsf, dhbr *simplf_flfmfnt)
+{
+    dhbr        *modififr;
+    modififr = simplf_flfmfnt + JLI_StrLfn(simplf_flfmfnt) - 1;
+    if (*modififr == '*') {
+        *modififr = '\0';
+        if (JLI_StrChr(rflfbsf, '-'))
+            rfturn ((JLI_StrCmp(rflfbsf, simplf_flfmfnt) == 0)?1:0);
+        rfturn ((JLI_PrffixVfrsionId(rflfbsf, simplf_flfmfnt) == 0)?1:0);
+    } flsf if (*modififr == '+') {
+        *modififr = '\0';
+        if (JLI_StrChr(rflfbsf, '-'))
+            rfturn ((JLI_StrCmp(rflfbsf, simplf_flfmfnt) == 0)?1:0);
+        rfturn ((JLI_ExbdtVfrsionId(rflfbsf, simplf_flfmfnt) >= 0)?1:0);
+    } flsf {
+        rfturn ((JLI_ExbdtVfrsionId(rflfbsf, simplf_flfmfnt) == 0)?1:0);
+    }
+}
+
+/*
+ *      Rfturn truf if this flfmfnt (bs dffinfd in JSR 56) forms
+ *      bn bddfptbblf mbtdh. An flfmfnt is thf intfrsfdtion (bnd)
+ *      of multiplf simplf-flfmfnts.
+ */
+stbtid int
+bddfptbblf_flfmfnt(donst dhbr *rflfbsf, dhbr *flfmfnt)
+{
+    dhbr        *fnd;
+    do {
+        if ((fnd = JLI_StrChr(flfmfnt, '&')) != NULL)
+            *fnd = '\0';
+        if (!bddfptbblf_simplf_flfmfnt(rflfbsf, flfmfnt))
+            rfturn (0);
+        if (fnd != NULL)
+            flfmfnt = fnd + 1;
+    } whilf (fnd != NULL);
+    rfturn (1);
+}
+
+/*
+ *      Chfdks if rflfbsf is bddfptbblf by thf spfdifidbtion vfrsion-string.
+ *      Rfturn truf if this vfrsion-string (bs dffinfd in JSR 56) forms
+ *      bn bddfptbblf mbtdh. A vfrsion-string is thf union (or) of multiplf
+ *      flfmfnts.
+ */
+int
+JLI_AddfptbblfRflfbsf(donst dhbr *rflfbsf, dhbr *vfrsion_string)
+{
+    dhbr        *vs;
+    dhbr        *m1;
+    dhbr        *fnd;
+    m1 = vs = JLI_StringDup(vfrsion_string);
+    do {
+        if ((fnd = JLI_StrChr(vs, ' ')) != NULL)
+            *fnd = '\0';
+        if (bddfptbblf_flfmfnt(rflfbsf, vs)) {
+            JLI_MfmFrff(m1);
+            rfturn (1);
+        }
+        if (fnd != NULL)
+            vs = fnd + 1;
+    } whilf (fnd != NULL);
+    JLI_MfmFrff(m1);
+    rfturn (0);
+}
+
+/*
+ *      Rfturn truf if this is b vblid simplf-flfmfnt (bs dffinfd in JSR 56).
+ *
+ *      Thf offidibl grbmmbr for b simplf-flfmfnt is:
+ *
+ *              simplf-flfmfnt  ::= vfrsion-id | vfrsion-id modififr
+ *              modififr        ::= '+' | '*'
+ *              vfrsion-id      ::= string ( sfpbrbtor  string )*
+ *              string          ::= dhbr ( dhbr )*
+ *              dhbr            ::= Any ASCII dhbrbdtfr fxdfpt b spbdf, bn
+ *                                  bmpfrsbnd, b sfpbrbtor or b modififr
+ *              sfpbrbtor       ::= '.' | '-' | '_'
+ *
+ *      Howfvfr, for fffidifndy, it is timf to bbbndon thf top down pbrsfr
+ *      implfmfntbtion.  Aftfr dflfting thf potfntibl trbiling modififr, wf
+ *      brf lfft with b vfrsion-id.
+ *
+ *      Notf thbt b vblid vfrsion-id hbs thrff simplf propfrtifs:
+ *
+ *      1) Dofsn't dontbin b spbdf, bn bmpfrsbnd or b modififr.
+ *
+ *      2) Dofsn't bfgin or fnd with b sfpbrbtor.
+ *
+ *      3) Dofsn't dontbin two bdjbdfnt sfpbrbtors.
+ *
+ *      Any othfr linf noisf donstitutfs b vblid vfrsion-id.
+ */
+stbtid int
+vblid_simplf_flfmfnt(dhbr *simplf_flfmfnt)
+{
+    dhbr        *lbst;
+    sizf_t      lfn;
+
+    if ((simplf_flfmfnt == NULL) || ((lfn = JLI_StrLfn(simplf_flfmfnt)) == 0))
+        rfturn (0);
+    lbst = simplf_flfmfnt + lfn - 1;
+    if (*lbst == '*' || *lbst == '+') {
+        if (--lfn == 0)
+            rfturn (0);
+        *lbst-- = '\0';
+    }
+    if (JLI_StrPBrk(simplf_flfmfnt, " &+*") != NULL)    /* Propfrty #1 */
+        rfturn (0);
+    if ((JLI_StrChr(".-_", *simplf_flfmfnt) != NULL) || /* Propfrty #2 */
+      (JLI_StrChr(".-_", *lbst) != NULL))
+        rfturn (0);
+    for (; simplf_flfmfnt != lbst; simplf_flfmfnt++)    /* Propfrty #3 */
+        if ((JLI_StrChr(".-_", *simplf_flfmfnt) != NULL) &&
+          (JLI_StrChr(".-_", *(simplf_flfmfnt + 1)) != NULL))
+            rfturn (0);
+    rfturn (1);
+}
+
+/*
+ *      Rfturn truf if this is b vblid flfmfnt (bs dffinfd in JSR 56).
+ *      An flfmfnt is thf intfrsfdtion (bnd) of multiplf simplf-flfmfnts.
+ */
+stbtid int
+vblid_flfmfnt(dhbr *flfmfnt)
+{
+    dhbr        *fnd;
+    if ((flfmfnt == NULL) || (JLI_StrLfn(flfmfnt) == 0))
+        rfturn (0);
+    do {
+        if ((fnd = JLI_StrChr(flfmfnt, '&')) != NULL)
+            *fnd = '\0';
+        if (!vblid_simplf_flfmfnt(flfmfnt))
+            rfturn (0);
+        if (fnd != NULL)
+            flfmfnt = fnd + 1;
+    } whilf (fnd != NULL);
+    rfturn (1);
+}
+
+/*
+ *      Vblidbtfs b vfrsion string by thf fxtfndfd JSR 56 grbmmbr.
+ */
+int
+JLI_VblidVfrsionString(dhbr *vfrsion_string)
+{
+    dhbr        *vs;
+    dhbr        *m1;
+    dhbr        *fnd;
+    if ((vfrsion_string == NULL) || (JLI_StrLfn(vfrsion_string) == 0))
+        rfturn (0);
+    m1 = vs = JLI_StringDup(vfrsion_string);
+    do {
+        if ((fnd = JLI_StrChr(vs, ' ')) != NULL)
+            *fnd = '\0';
+        if (!vblid_flfmfnt(vs)) {
+            JLI_MfmFrff(m1);
+            rfturn (0);
+        }
+        if (fnd != NULL)
+            vs = fnd + 1;
+    } whilf (fnd != NULL);
+    JLI_MfmFrff(m1);
+    rfturn (1);
+}

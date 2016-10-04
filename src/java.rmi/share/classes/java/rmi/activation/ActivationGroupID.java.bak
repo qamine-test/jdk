@@ -1,117 +1,117 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.rmi.activation;
+pbdkbgf jbvb.rmi.bdtivbtion;
 
-import java.rmi.server.UID;
+import jbvb.rmi.sfrvfr.UID;
 
 /**
- * The identifier for a registered activation group serves several
- * purposes: <ul>
- * <li>identifies the group uniquely within the activation system, and
- * <li>contains a reference to the group's activation system so that the
- * group can contact its activation system when necessary.</ul><p>
+ * Tif idfntififr for b rfgistfrfd bdtivbtion group sfrvfs sfvfrbl
+ * purposfs: <ul>
+ * <li>idfntififs tif group uniqufly witiin tif bdtivbtion systfm, bnd
+ * <li>dontbins b rfffrfndf to tif group's bdtivbtion systfm so tibt tif
+ * group dbn dontbdt its bdtivbtion systfm wifn nfdfssbry.</ul><p>
  *
- * The <code>ActivationGroupID</code> is returned from the call to
- * <code>ActivationSystem.registerGroup</code> and is used to identify
- * the group within the activation system. This group id is passed
- * as one of the arguments to the activation group's special constructor
- * when an activation group is created/recreated.
+ * Tif <dodf>AdtivbtionGroupID</dodf> is rfturnfd from tif dbll to
+ * <dodf>AdtivbtionSystfm.rfgistfrGroup</dodf> bnd is usfd to idfntify
+ * tif group witiin tif bdtivbtion systfm. Tiis group id is pbssfd
+ * bs onf of tif brgumfnts to tif bdtivbtion group's spfdibl donstrudtor
+ * wifn bn bdtivbtion group is drfbtfd/rfdrfbtfd.
  *
- * @author      Ann Wollrath
- * @see         ActivationGroup
- * @see         ActivationGroupDesc
- * @since       1.2
+ * @butior      Ann Wollrbti
+ * @sff         AdtivbtionGroup
+ * @sff         AdtivbtionGroupDfsd
+ * @sindf       1.2
  */
-public class ActivationGroupID implements java.io.Serializable {
+publid dlbss AdtivbtionGroupID implfmfnts jbvb.io.Sfriblizbblf {
     /**
-     * @serial The group's activation system.
+     * @sfribl Tif group's bdtivbtion systfm.
      */
-    private ActivationSystem system;
+    privbtf AdtivbtionSystfm systfm;
 
     /**
-     * @serial The group's unique id.
+     * @sfribl Tif group's uniquf id.
      */
-    private UID uid = new UID();
+    privbtf UID uid = nfw UID();
 
-    /** indicate compatibility with the Java 2 SDK v1.2 version of class */
-    private  static final long serialVersionUID = -1648432278909740833L;
+    /** indidbtf dompbtibility witi tif Jbvb 2 SDK v1.2 vfrsion of dlbss */
+    privbtf  stbtid finbl long sfriblVfrsionUID = -1648432278909740833L;
 
     /**
-     * Constructs a unique group id.
+     * Construdts b uniquf group id.
      *
-     * @param system the group's activation system
-     * @throws UnsupportedOperationException if and only if activation is
-     *         not supported by this implementation
-     * @since 1.2
+     * @pbrbm systfm tif group's bdtivbtion systfm
+     * @tirows UnsupportfdOpfrbtionExdfption if bnd only if bdtivbtion is
+     *         not supportfd by tiis implfmfntbtion
+     * @sindf 1.2
      */
-    public ActivationGroupID(ActivationSystem system) {
-        this.system = system;
+    publid AdtivbtionGroupID(AdtivbtionSystfm systfm) {
+        tiis.systfm = systfm;
     }
 
     /**
-     * Returns the group's activation system.
-     * @return the group's activation system
-     * @since 1.2
+     * Rfturns tif group's bdtivbtion systfm.
+     * @rfturn tif group's bdtivbtion systfm
+     * @sindf 1.2
      */
-    public ActivationSystem getSystem() {
-        return system;
+    publid AdtivbtionSystfm gftSystfm() {
+        rfturn systfm;
     }
 
     /**
-     * Returns a hashcode for the group's identifier.  Two group
-     * identifiers that refer to the same remote group will have the
-     * same hash code.
+     * Rfturns b ibsidodf for tif group's idfntififr.  Two group
+     * idfntififrs tibt rfffr to tif sbmf rfmotf group will ibvf tif
+     * sbmf ibsi dodf.
      *
-     * @see java.util.Hashtable
-     * @since 1.2
+     * @sff jbvb.util.Hbsitbblf
+     * @sindf 1.2
      */
-    public int hashCode() {
-        return uid.hashCode();
+    publid int ibsiCodf() {
+        rfturn uid.ibsiCodf();
     }
 
     /**
-     * Compares two group identifiers for content equality.
-     * Returns true if both of the following conditions are true:
-     * 1) the unique identifiers are equivalent (by content), and
-     * 2) the activation system specified in each
-     *    refers to the same remote object.
+     * Compbrfs two group idfntififrs for dontfnt fqublity.
+     * Rfturns truf if boti of tif following donditions brf truf:
+     * 1) tif uniquf idfntififrs brf fquivblfnt (by dontfnt), bnd
+     * 2) tif bdtivbtion systfm spfdififd in fbdi
+     *    rfffrs to tif sbmf rfmotf objfdt.
      *
-     * @param   obj     the Object to compare with
-     * @return  true if these Objects are equal; false otherwise.
-     * @see             java.util.Hashtable
-     * @since 1.2
+     * @pbrbm   obj     tif Objfdt to dompbrf witi
+     * @rfturn  truf if tifsf Objfdts brf fqubl; fblsf otifrwisf.
+     * @sff             jbvb.util.Hbsitbblf
+     * @sindf 1.2
      */
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        } else if (obj instanceof ActivationGroupID) {
-            ActivationGroupID id = (ActivationGroupID)obj;
-            return (uid.equals(id.uid) && system.equals(id.system));
-        } else {
-            return false;
+    publid boolfbn fqubls(Objfdt obj) {
+        if (tiis == obj) {
+            rfturn truf;
+        } flsf if (obj instbndfof AdtivbtionGroupID) {
+            AdtivbtionGroupID id = (AdtivbtionGroupID)obj;
+            rfturn (uid.fqubls(id.uid) && systfm.fqubls(id.systfm));
+        } flsf {
+            rfturn fblsf;
         }
     }
 }

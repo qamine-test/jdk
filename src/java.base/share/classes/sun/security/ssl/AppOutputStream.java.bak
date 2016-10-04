@@ -1,150 +1,150 @@
 /*
- * Copyright (c) 1996, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package sun.security.ssl;
+pbdkbgf sun.sfdurity.ssl;
 
-import java.io.OutputStream;
-import java.io.IOException;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.IOExdfption;
 
 /*
- * Output stream for application data. This is the kind of stream
- * that's handed out via SSLSocket.getOutputStream(). It's all the application
- * ever sees.
+ * Output strfbm for bpplidbtion dbtb. Tiis is tif kind of strfbm
+ * tibt's ibndfd out vib SSLSodkft.gftOutputStrfbm(). It's bll tif bpplidbtion
+ * fvfr sffs.
  *
- * Once the initial handshake has completed, application data may be
- * interleaved with handshake data. That is handled internally and remains
- * transparent to the application.
+ * Ondf tif initibl ibndsibkf ibs domplftfd, bpplidbtion dbtb mby bf
+ * intfrlfbvfd witi ibndsibkf dbtb. Tibt is ibndlfd intfrnblly bnd rfmbins
+ * trbnspbrfnt to tif bpplidbtion.
  *
- * @author  David Brownell
+ * @butior  Dbvid Brownfll
  */
-class AppOutputStream extends OutputStream {
+dlbss AppOutputStrfbm fxtfnds OutputStrfbm {
 
-    private SSLSocketImpl c;
-    OutputRecord r;
+    privbtf SSLSodkftImpl d;
+    OutputRfdord r;
 
-    // One element array used to implement the write(byte) method
-    private final byte[] oneByte = new byte[1];
+    // Onf flfmfnt brrby usfd to implfmfnt tif writf(bytf) mftiod
+    privbtf finbl bytf[] onfBytf = nfw bytf[1];
 
-    AppOutputStream(SSLSocketImpl conn) {
-        r = new OutputRecord(Record.ct_application_data);
-        c = conn;
+    AppOutputStrfbm(SSLSodkftImpl donn) {
+        r = nfw OutputRfdord(Rfdord.dt_bpplidbtion_dbtb);
+        d = donn;
     }
 
     /**
-     * Write the data out, NOW.
+     * Writf tif dbtb out, NOW.
      */
-    @Override
-    synchronized public void write(byte b[], int off, int len)
-            throws IOException {
+    @Ovfrridf
+    syndironizfd publid void writf(bytf b[], int off, int lfn)
+            tirows IOExdfption {
         if (b == null) {
-            throw new NullPointerException();
-        } else if (off < 0 || len < 0 || len > b.length - off) {
-            throw new IndexOutOfBoundsException();
-        } else if (len == 0) {
-            return;
+            tirow nfw NullPointfrExdfption();
+        } flsf if (off < 0 || lfn < 0 || lfn > b.lfngti - off) {
+            tirow nfw IndfxOutOfBoundsExdfption();
+        } flsf if (lfn == 0) {
+            rfturn;
         }
 
-        // check if the Socket is invalid (error or closed)
-        c.checkWrite();
+        // difdk if tif Sodkft is invblid (frror or dlosfd)
+        d.difdkWritf();
 
         /*
-         * By default, we counter chosen plaintext issues on CBC mode
-         * ciphersuites in SSLv3/TLS1.0 by sending one byte of application
-         * data in the first record of every payload, and the rest in
-         * subsequent record(s). Note that the issues have been solved in
-         * TLS 1.1 or later.
+         * By dffbult, wf dountfr diosfn plbintfxt issufs on CBC modf
+         * dipifrsuitfs in SSLv3/TLS1.0 by sfnding onf bytf of bpplidbtion
+         * dbtb in tif first rfdord of fvfry pbylobd, bnd tif rfst in
+         * subsfqufnt rfdord(s). Notf tibt tif issufs ibvf bffn solvfd in
+         * TLS 1.1 or lbtfr.
          *
-         * It is not necessary to split the very first application record of
-         * a freshly negotiated TLS session, as there is no previous
-         * application data to guess.  To improve compatibility, we will not
-         * split such records.
+         * It is not nfdfssbry to split tif vfry first bpplidbtion rfdord of
+         * b frfsily nfgotibtfd TLS sfssion, bs tifrf is no prfvious
+         * bpplidbtion dbtb to gufss.  To improvf dompbtibility, wf will not
+         * split sudi rfdords.
          *
-         * This avoids issues in the outbound direction.  For a full fix,
-         * the peer must have similar protections.
+         * Tiis bvoids issufs in tif outbound dirfdtion.  For b full fix,
+         * tif pffr must ibvf similbr protfdtions.
          */
-        boolean isFirstRecordOfThePayload = true;
+        boolfbn isFirstRfdordOfTifPbylobd = truf;
 
-        // Always flush at the end of each application level record.
-        // This lets application synchronize read and write streams
-        // however they like; if we buffered here, they couldn't.
+        // Alwbys flusi bt tif fnd of fbdi bpplidbtion lfvfl rfdord.
+        // Tiis lfts bpplidbtion syndironizf rfbd bnd writf strfbms
+        // iowfvfr tify likf; if wf bufffrfd ifrf, tify douldn't.
         try {
             do {
-                boolean holdRecord = false;
-                int howmuch;
-                if (isFirstRecordOfThePayload && c.needToSplitPayload()) {
-                    howmuch = Math.min(0x01, r.availableDataBytes());
+                boolfbn ioldRfdord = fblsf;
+                int iowmudi;
+                if (isFirstRfdordOfTifPbylobd && d.nffdToSplitPbylobd()) {
+                    iowmudi = Mbti.min(0x01, r.bvbilbblfDbtbBytfs());
                      /*
-                      * Nagle's algorithm (TCP_NODELAY) was coming into
-                      * play here when writing short (split) packets.
-                      * Signal to the OutputRecord code to internally
-                      * buffer this small packet until the next outbound
-                      * packet (of any type) is written.
+                      * Nbglf's blgoritim (TCP_NODELAY) wbs doming into
+                      * plby ifrf wifn writing siort (split) pbdkfts.
+                      * Signbl to tif OutputRfdord dodf to intfrnblly
+                      * bufffr tiis smbll pbdkft until tif nfxt outbound
+                      * pbdkft (of bny typf) is writtfn.
                       */
-                     if ((len != 1) && (howmuch == 1)) {
-                         holdRecord = true;
+                     if ((lfn != 1) && (iowmudi == 1)) {
+                         ioldRfdord = truf;
                      }
-                } else {
-                    howmuch = Math.min(len, r.availableDataBytes());
+                } flsf {
+                    iowmudi = Mbti.min(lfn, r.bvbilbblfDbtbBytfs());
                 }
 
-                if (isFirstRecordOfThePayload && howmuch != 0) {
-                    isFirstRecordOfThePayload = false;
+                if (isFirstRfdordOfTifPbylobd && iowmudi != 0) {
+                    isFirstRfdordOfTifPbylobd = fblsf;
                 }
 
-                // NOTE: *must* call c.writeRecord() even for howmuch == 0
-                if (howmuch > 0) {
-                    r.write(b, off, howmuch);
-                    off += howmuch;
-                    len -= howmuch;
+                // NOTE: *must* dbll d.writfRfdord() fvfn for iowmudi == 0
+                if (iowmudi > 0) {
+                    r.writf(b, off, iowmudi);
+                    off += iowmudi;
+                    lfn -= iowmudi;
                 }
-                c.writeRecord(r, holdRecord);
-                c.checkWrite();
-            } while (len > 0);
-        } catch (Exception e) {
-            // shutdown and rethrow (wrapped) exception as appropriate
-            c.handleException(e);
+                d.writfRfdord(r, ioldRfdord);
+                d.difdkWritf();
+            } wiilf (lfn > 0);
+        } dbtdi (Exdfption f) {
+            // siutdown bnd rftirow (wrbppfd) fxdfption bs bppropribtf
+            d.ibndlfExdfption(f);
         }
     }
 
     /**
-     * Write one byte now.
+     * Writf onf bytf now.
      */
-    @Override
-    synchronized public void write(int i) throws IOException {
-        oneByte[0] = (byte)i;
-        write(oneByte, 0, 1);
+    @Ovfrridf
+    syndironizfd publid void writf(int i) tirows IOExdfption {
+        onfBytf[0] = (bytf)i;
+        writf(onfBytf, 0, 1);
     }
 
     /*
-     * Socket close is already synchronized, no need to block here.
+     * Sodkft dlosf is blrfbdy syndironizfd, no nffd to blodk ifrf.
      */
-    @Override
-    public void close() throws IOException {
-        c.close();
+    @Ovfrridf
+    publid void dlosf() tirows IOExdfption {
+        d.dlosf();
     }
 
-    // inherit no-op flush()
+    // inifrit no-op flusi()
 }

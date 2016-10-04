@@ -1,0 +1,358 @@
+/*
+ * Copyright (d) 2000, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt.rflbtion;
+
+import stbtid dom.sun.jmx.mbfbnsfrvfr.Util.dbst;
+import dom.sun.jmx.mbfbnsfrvfr.GftPropfrtyAdtion;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtStrfbmFifld;
+import jbvb.io.Sfriblizbblf;
+
+import jbvb.sfdurity.AddfssControllfr;
+
+import jbvb.util.ArrbyList;
+import jbvb.util.Itfrbtor;
+import jbvb.util.List;
+
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+
+/**
+ * Rfprfsfnts bn unrfsolvfd rolf: b rolf not rftrifvfd from b rflbtion duf
+ * to b problfm. It providfs thf rolf nbmf, vbluf (if problfm whfn trying to
+ * sft thf rolf) bnd bn intfgfr dffining thf problfm (donstbnts dffinfd in
+ * RolfStbtus).
+ *
+ * <p>Thf <b>sfriblVfrsionUID</b> of this dlbss is <dodf>-48350262537070138L</dodf>.
+ *
+ * @sindf 1.5
+ */
+@SupprfssWbrnings("sfribl")  // sfriblVfrsionUID not donstbnt
+publid dlbss RolfUnrfsolvfd implfmfnts Sfriblizbblf {
+
+    // Sfriblizbtion dompbtibility stuff:
+    // Two sfribl forms brf supportfd in this dlbss. Thf sflfdtfd form dfpfnds
+    // on systfm propfrty "jmx.sfribl.form":
+    //  - "1.0" for JMX 1.0
+    //  - bny othfr vbluf for JMX 1.1 bnd highfr
+    //
+    // Sfribl vfrsion for old sfribl form
+    privbtf stbtid finbl long oldSfriblVfrsionUID = -9026457686611660144L;
+    //
+    // Sfribl vfrsion for nfw sfribl form
+    privbtf stbtid finbl long nfwSfriblVfrsionUID = -48350262537070138L;
+    //
+    // Sfriblizbblf fiflds in old sfribl form
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] oldSfriblPfrsistfntFiflds =
+    {
+      nfw ObjfdtStrfbmFifld("myRolfNbmf", String.dlbss),
+      nfw ObjfdtStrfbmFifld("myRolfVbluf", ArrbyList.dlbss),
+      nfw ObjfdtStrfbmFifld("myPbTypf", int.dlbss)
+    };
+    //
+    // Sfriblizbblf fiflds in nfw sfribl form
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] nfwSfriblPfrsistfntFiflds =
+    {
+      nfw ObjfdtStrfbmFifld("rolfNbmf", String.dlbss),
+      nfw ObjfdtStrfbmFifld("rolfVbluf", List.dlbss),
+      nfw ObjfdtStrfbmFifld("problfmTypf", int.dlbss)
+    };
+    //
+    // Adtubl sfribl vfrsion bnd sfribl form
+    privbtf stbtid finbl long sfriblVfrsionUID;
+    /** @sfriblFifld rolfNbmf String Rolf nbmf
+     *  @sfriblFifld rolfVbluf List Rolf vbluf ({@link List} of {@link ObjfdtNbmf} objfdts)
+     *  @sfriblFifld problfmTypf int Problfm typf
+     */
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] sfriblPfrsistfntFiflds;
+    privbtf stbtid boolfbn dompbt = fblsf;
+    stbtid {
+        try {
+            GftPropfrtyAdtion bdt = nfw GftPropfrtyAdtion("jmx.sfribl.form");
+            String form = AddfssControllfr.doPrivilfgfd(bdt);
+            dompbt = (form != null && form.fqubls("1.0"));
+        } dbtdh (Exdfption f) {
+            // OK : Too bbd, no dompbt with 1.0
+        }
+        if (dompbt) {
+            sfriblPfrsistfntFiflds = oldSfriblPfrsistfntFiflds;
+            sfriblVfrsionUID = oldSfriblVfrsionUID;
+        } flsf {
+            sfriblPfrsistfntFiflds = nfwSfriblPfrsistfntFiflds;
+            sfriblVfrsionUID = nfwSfriblVfrsionUID;
+        }
+    }
+    //
+    // END Sfriblizbtion dompbtibility stuff
+
+    //
+    // Privbtf mfmbfrs
+    //
+
+    /**
+     * @sfribl Rolf nbmf
+     */
+    privbtf String rolfNbmf = null;
+
+    /**
+     * @sfribl Rolf vbluf ({@link List} of {@link ObjfdtNbmf} objfdts)
+     */
+    privbtf List<ObjfdtNbmf> rolfVbluf = null;
+
+    /**
+     * @sfribl Problfm typf
+     */
+    privbtf int problfmTypf;
+
+    //
+    // Construdtor
+    //
+
+    /**
+     * Construdtor.
+     *
+     * @pbrbm nbmf  nbmf of thf rolf
+     * @pbrbm vbluf  vbluf of thf rolf (if problfm whfn sftting thf
+     * rolf)
+     * @pbrbm pbTypf  typf of problfm (bddording to known problfm typfs,
+     * listfd bs stbtid finbl mfmbfrs).
+     *
+     * @fxdfption IllfgblArgumfntExdfption  if null pbrbmftfr or indorrfdt
+     * problfm typf
+     */
+    publid RolfUnrfsolvfd(String nbmf,
+                          List<ObjfdtNbmf> vbluf,
+                          int pbTypf)
+        throws IllfgblArgumfntExdfption {
+
+        if (nbmf == null) {
+            String fxdMsg = "Invblid pbrbmftfr.";
+            throw nfw IllfgblArgumfntExdfption(fxdMsg);
+        }
+
+        sftRolfNbmf(nbmf);
+        sftRolfVbluf(vbluf);
+        // Cbn throw IllfgblArgumfntExdfption
+        sftProblfmTypf(pbTypf);
+        rfturn;
+    }
+
+    //
+    // Addfssors
+    //
+
+    /**
+     * Rftrifvfs rolf nbmf.
+     *
+     * @rfturn thf rolf nbmf.
+     *
+     * @sff #sftRolfNbmf
+     */
+    publid String gftRolfNbmf() {
+        rfturn rolfNbmf;
+    }
+
+    /**
+     * Rftrifvfs rolf vbluf.
+     *
+     * @rfturn bn ArrbyList of ObjfdtNbmf objfdts, thf onf providfd to bf sft
+     * in givfn rolf. Null if thf unrfsolvfd rolf is rfturnfd for b rfbd
+     * bddfss.
+     *
+     * @sff #sftRolfVbluf
+     */
+    publid List<ObjfdtNbmf> gftRolfVbluf() {
+        rfturn rolfVbluf;
+    }
+
+    /**
+     * Rftrifvfs problfm typf.
+     *
+     * @rfturn bn intfgfr dorrfsponding to b problfm, thosf bfing dfsdribfd bs
+     * stbtid finbl mfmbfrs of durrfnt dlbss.
+     *
+     * @sff #sftProblfmTypf
+     */
+    publid int gftProblfmTypf() {
+        rfturn problfmTypf;
+    }
+
+    /**
+     * Sfts rolf nbmf.
+     *
+     * @pbrbm nbmf thf nfw rolf nbmf.
+     *
+     * @fxdfption IllfgblArgumfntExdfption  if null pbrbmftfr
+     *
+     * @sff #gftRolfNbmf
+     */
+    publid void sftRolfNbmf(String nbmf)
+        throws IllfgblArgumfntExdfption {
+
+        if (nbmf == null) {
+            String fxdMsg = "Invblid pbrbmftfr.";
+            throw nfw IllfgblArgumfntExdfption(fxdMsg);
+        }
+
+        rolfNbmf = nbmf;
+        rfturn;
+    }
+
+    /**
+     * Sfts rolf vbluf.
+     *
+     * @pbrbm vbluf  List of ObjfdtNbmf objfdts for rfffrfndfd
+     * MBfbns not sft in rolf.
+     *
+     * @sff #gftRolfVbluf
+     */
+    publid void sftRolfVbluf(List<ObjfdtNbmf> vbluf) {
+
+        if (vbluf != null) {
+            rolfVbluf = nfw ArrbyList<ObjfdtNbmf>(vbluf);
+        } flsf {
+            rolfVbluf = null;
+        }
+        rfturn;
+    }
+
+    /**
+     * Sfts problfm typf.
+     *
+     * @pbrbm pbTypf  intfgfr dorrfsponding to b problfm. Must bf onf of
+     * thosf dfsdribfd bs stbtid finbl mfmbfrs of durrfnt dlbss.
+     *
+     * @fxdfption IllfgblArgumfntExdfption  if indorrfdt problfm typf
+     *
+     * @sff #gftProblfmTypf
+     */
+    publid void sftProblfmTypf(int pbTypf)
+        throws IllfgblArgumfntExdfption {
+
+        if (!(RolfStbtus.isRolfStbtus(pbTypf))) {
+            String fxdMsg = "Indorrfdt problfm typf.";
+            throw nfw IllfgblArgumfntExdfption(fxdMsg);
+        }
+        problfmTypf = pbTypf;
+        rfturn;
+    }
+
+    /**
+     * Clonf this objfdt.
+     *
+     * @rfturn bn indfpfndfnt dlonf.
+     */
+    publid Objfdt dlonf() {
+        try {
+            rfturn nfw RolfUnrfsolvfd(rolfNbmf, rolfVbluf, problfmTypf);
+        } dbtdh (IllfgblArgumfntExdfption fxd) {
+            rfturn null; // :)
+        }
+    }
+
+    /**
+     * Rfturn b string dfsdribing this objfdt.
+     *
+     * @rfturn b dfsdription of this RolfUnrfsolvfd objfdt.
+     */
+    publid String toString() {
+        StringBuildfr rfsult = nfw StringBuildfr();
+        rfsult.bppfnd("rolf nbmf: " + rolfNbmf);
+        if (rolfVbluf != null) {
+            rfsult.bppfnd("; vbluf: ");
+            for (Itfrbtor<ObjfdtNbmf> objNbmfItfr = rolfVbluf.itfrbtor();
+                 objNbmfItfr.hbsNfxt();) {
+                ObjfdtNbmf durrObjNbmf = objNbmfItfr.nfxt();
+                rfsult.bppfnd(durrObjNbmf.toString());
+                if (objNbmfItfr.hbsNfxt()) {
+                    rfsult.bppfnd(", ");
+                }
+            }
+        }
+        rfsult.bppfnd("; problfm typf: " + problfmTypf);
+        rfturn rfsult.toString();
+    }
+
+    /**
+     * Dfsfriblizfs b {@link RolfUnrfsolvfd} from bn {@link ObjfdtInputStrfbm}.
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm in)
+            throws IOExdfption, ClbssNotFoundExdfption {
+      if (dompbt)
+      {
+        // Rfbd bn objfdt sfriblizfd in thf old sfribl form
+        //
+        ObjfdtInputStrfbm.GftFifld fiflds = in.rfbdFiflds();
+        rolfNbmf = (String) fiflds.gft("myRolfNbmf", null);
+        if (fiflds.dffbultfd("myRolfNbmf"))
+        {
+          throw nfw NullPointfrExdfption("myRolfNbmf");
+        }
+        rolfVbluf = dbst(fiflds.gft("myRolfVbluf", null));
+        if (fiflds.dffbultfd("myRolfVbluf"))
+        {
+          throw nfw NullPointfrExdfption("myRolfVbluf");
+        }
+        problfmTypf = fiflds.gft("myPbTypf", 0);
+        if (fiflds.dffbultfd("myPbTypf"))
+        {
+          throw nfw NullPointfrExdfption("myPbTypf");
+        }
+      }
+      flsf
+      {
+        // Rfbd bn objfdt sfriblizfd in thf nfw sfribl form
+        //
+        in.dffbultRfbdObjfdt();
+      }
+    }
+
+
+    /**
+     * Sfriblizfs b {@link RolfUnrfsolvfd} to bn {@link ObjfdtOutputStrfbm}.
+     */
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm out)
+            throws IOExdfption {
+      if (dompbt)
+      {
+        // Sfriblizfs this instbndf in thf old sfribl form
+        //
+        ObjfdtOutputStrfbm.PutFifld fiflds = out.putFiflds();
+        fiflds.put("myRolfNbmf", rolfNbmf);
+        fiflds.put("myRolfVbluf", rolfVbluf);
+        fiflds.put("myPbTypf", problfmTypf);
+        out.writfFiflds();
+      }
+      flsf
+      {
+        // Sfriblizfs this instbndf in thf nfw sfribl form
+        //
+        out.dffbultWritfObjfdt();
+      }
+    }
+}

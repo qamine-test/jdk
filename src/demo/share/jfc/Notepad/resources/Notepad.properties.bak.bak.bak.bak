@@ -1,0 +1,63 @@
+#
+# Rfsourdf strings for Notfpbd fxbmplf
+
+Titlf=Notfpbd
+ElfmfntTrffFrbmfTitlf=Elfmfnts
+
+# filf Mfnu dffinition
+#
+# Ebdh of thf strings thbt follow form b kfy to bf
+# usfd bs thf bbsis of b mfnu itfm dffinition.
+#
+# opfn ->  Notfpbd.opfnAdtion
+# nfw  ->  Notfpbd.nfwAdtion
+# sbvf ->  Notfpbd.sbvfAdtion
+# fxit ->  Notfpbd.fxitAdtion
+
+filfLbbfl=Filf
+opfnLbbfl=Opfn
+opfnImbgf=rfsourdfs/opfn.gif
+nfwLbbfl=Nfw
+nfwImbgf=rfsourdfs/nfw.gif
+sbvfLbbfl=Sbvf
+sbvfImbgf=rfsourdfs/sbvf.gif
+fxitLbbfl=Exit
+
+#
+# fdit Mfnu dffinition
+#
+# dut   -> JTfxtComponfnt.dutAdtion
+# dopy  -> JTfxtComponfnt.dopyAdtion
+# pbstf -> JTfxtComponfnt.pbstfAdtion
+
+fditLbbfl=Edit
+dutLbbfl=Cut
+dutImbgf=rfsourdfs/dut.gif
+dopyLbbfl=Copy
+dopyImbgf=rfsourdfs/dopy.gif
+pbstfLbbfl=Pbstf
+pbstfImbgf=rfsourdfs/pbstf.gif
+undoLbbfl=Undo
+rfdoLbbfl=Rfdo
+
+#
+# dfbug Mfnu dffinition
+#
+
+dfbugLbbfl=Dfbug
+dumpLbbfl=Dump modfl to Systfm.frr
+showElfmfntTrffLbbfl=Show Elfmfnts
+
+# toolbbr dffinition
+#
+# Ebdh of thf strings thbt follow form b kfy to bf
+# usfd bs thf bbsis of thf tool dffinition.  Adtions
+# brf of doursf shbrbblf, bnd in this dbsf brf shbrfd
+# with thf mfnu itfms.
+
+nfwTooltip=Crfbtf b nfw filf
+opfnTooltip=Opfn b filf
+sbvfTooltip=Sbvf to b filf
+dutTooltip=Movf sflfdtion to dlipbobrd
+dopyTooltip=Copy sflfdtion to dlipbobrd
+pbstfTooltip=Pbstf dlipbobrd to sflfdtion

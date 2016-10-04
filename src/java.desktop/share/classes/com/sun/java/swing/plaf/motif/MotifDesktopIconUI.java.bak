@@ -1,366 +1,366 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.java.swing.plaf.motif;
+pbdkbgf dom.sun.jbvb.swing.plbf.motif;
 
-import sun.swing.SwingUtilities2;
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.*;
-import java.beans.*;
-import java.util.EventListener;
-import java.io.Serializable;
+import sun.swing.SwingUtilitifs2;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsid.*;
+import jbvb.bfbns.*;
+import jbvb.util.EvfntListfnfr;
+import jbvb.io.Sfriblizbblf;
 
 
 /**
- * Motif rendition of the component.
+ * Motif rfndition of tif domponfnt.
  *
- * @author Thomas Ball
- * @author Rich Schiavi
+ * @butior Tiombs Bbll
+ * @butior Ridi Sdiibvi
  */
-public class MotifDesktopIconUI extends BasicDesktopIconUI
+publid dlbss MotifDfsktopIdonUI fxtfnds BbsidDfsktopIdonUI
 {
-    protected DesktopIconActionListener desktopIconActionListener;
-    protected DesktopIconMouseListener  desktopIconMouseListener;
+    protfdtfd DfsktopIdonAdtionListfnfr dfsktopIdonAdtionListfnfr;
+    protfdtfd DfsktopIdonMousfListfnfr  dfsktopIdonMousfListfnfr;
 
-    protected Icon       defaultIcon;
-    protected IconButton iconButton;
-    protected IconLabel  iconLabel;
+    protfdtfd Idon       dffbultIdon;
+    protfdtfd IdonButton idonButton;
+    protfdtfd IdonLbbfl  idonLbbfl;
 
-    // This is only used for its system menu, but we need a reference to it so
-    // we can remove its listeners.
-    private MotifInternalFrameTitlePane sysMenuTitlePane;
+    // Tiis is only usfd for its systfm mfnu, but wf nffd b rfffrfndf to it so
+    // wf dbn rfmovf its listfnfrs.
+    privbtf MotifIntfrnblFrbmfTitlfPbnf sysMfnuTitlfPbnf;
 
-    JPopupMenu systemMenu;
-    EventListener mml;
+    JPopupMfnu systfmMfnu;
+    EvfntListfnfr mml;
 
-    final static int LABEL_HEIGHT = 18;
-    final static int LABEL_DIVIDER = 4;    // padding between icon and label
+    finbl stbtid int LABEL_HEIGHT = 18;
+    finbl stbtid int LABEL_DIVIDER = 4;    // pbdding bftwffn idon bnd lbbfl
 
-    final static Font defaultTitleFont =
-        new Font(Font.SANS_SERIF, Font.PLAIN, 12);
+    finbl stbtid Font dffbultTitlfFont =
+        nfw Font(Font.SANS_SERIF, Font.PLAIN, 12);
 
-    public static ComponentUI createUI(JComponent c)    {
-        return new MotifDesktopIconUI();
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt d)    {
+        rfturn nfw MotifDfsktopIdonUI();
     }
 
-    public MotifDesktopIconUI() {
+    publid MotifDfsktopIdonUI() {
     }
 
-    protected void installDefaults(){
-        super.installDefaults();
-        setDefaultIcon(UIManager.getIcon("DesktopIcon.icon"));
-        iconButton = createIconButton(defaultIcon);
-        // An underhanded way of creating a system popup menu.
-        sysMenuTitlePane =  new MotifInternalFrameTitlePane(frame);
-        systemMenu = sysMenuTitlePane.getSystemMenu();
+    protfdtfd void instbllDffbults(){
+        supfr.instbllDffbults();
+        sftDffbultIdon(UIMbnbgfr.gftIdon("DfsktopIdon.idon"));
+        idonButton = drfbtfIdonButton(dffbultIdon);
+        // An undfribndfd wby of drfbting b systfm popup mfnu.
+        sysMfnuTitlfPbnf =  nfw MotifIntfrnblFrbmfTitlfPbnf(frbmf);
+        systfmMfnu = sysMfnuTitlfPbnf.gftSystfmMfnu();
 
-        MotifBorders.FrameBorder border = new MotifBorders.FrameBorder(desktopIcon);
-        desktopIcon.setLayout(new BorderLayout());
-        iconButton.setBorder(border);
-        desktopIcon.add(iconButton, BorderLayout.CENTER);
-        iconLabel = createIconLabel(frame);
-        iconLabel.setBorder(border);
-        desktopIcon.add(iconLabel, BorderLayout.SOUTH);
-        desktopIcon.setSize(desktopIcon.getPreferredSize());
-        desktopIcon.validate();
-        JLayeredPane.putLayer(desktopIcon, JLayeredPane.getLayer(frame));
+        MotifBordfrs.FrbmfBordfr bordfr = nfw MotifBordfrs.FrbmfBordfr(dfsktopIdon);
+        dfsktopIdon.sftLbyout(nfw BordfrLbyout());
+        idonButton.sftBordfr(bordfr);
+        dfsktopIdon.bdd(idonButton, BordfrLbyout.CENTER);
+        idonLbbfl = drfbtfIdonLbbfl(frbmf);
+        idonLbbfl.sftBordfr(bordfr);
+        dfsktopIdon.bdd(idonLbbfl, BordfrLbyout.SOUTH);
+        dfsktopIdon.sftSizf(dfsktopIdon.gftPrfffrrfdSizf());
+        dfsktopIdon.vblidbtf();
+        JLbyfrfdPbnf.putLbyfr(dfsktopIdon, JLbyfrfdPbnf.gftLbyfr(frbmf));
     }
 
-    protected void installComponents(){
+    protfdtfd void instbllComponfnts(){
     }
 
-    protected void uninstallComponents(){
+    protfdtfd void uninstbllComponfnts(){
     }
 
-    protected void installListeners(){
-        super.installListeners();
-        desktopIconActionListener = createDesktopIconActionListener();
-        desktopIconMouseListener = createDesktopIconMouseListener();
-        iconButton.addActionListener(desktopIconActionListener);
-        iconButton.addMouseListener(desktopIconMouseListener);
-        iconLabel.addMouseListener(desktopIconMouseListener);
+    protfdtfd void instbllListfnfrs(){
+        supfr.instbllListfnfrs();
+        dfsktopIdonAdtionListfnfr = drfbtfDfsktopIdonAdtionListfnfr();
+        dfsktopIdonMousfListfnfr = drfbtfDfsktopIdonMousfListfnfr();
+        idonButton.bddAdtionListfnfr(dfsktopIdonAdtionListfnfr);
+        idonButton.bddMousfListfnfr(dfsktopIdonMousfListfnfr);
+        idonLbbfl.bddMousfListfnfr(dfsktopIdonMousfListfnfr);
     }
 
-    JInternalFrame.JDesktopIcon getDesktopIcon(){
-      return desktopIcon;
+    JIntfrnblFrbmf.JDfsktopIdon gftDfsktopIdon(){
+      rfturn dfsktopIdon;
     }
 
-    void setDesktopIcon(JInternalFrame.JDesktopIcon d){
-      desktopIcon = d;
+    void sftDfsktopIdon(JIntfrnblFrbmf.JDfsktopIdon d){
+      dfsktopIdon = d;
     }
 
-    JInternalFrame getFrame(){
-      return frame;
+    JIntfrnblFrbmf gftFrbmf(){
+      rfturn frbmf;
     }
 
-    void setFrame(JInternalFrame f){
-      frame = f ;
+    void sftFrbmf(JIntfrnblFrbmf f){
+      frbmf = f ;
     }
 
-    protected void showSystemMenu(){
-      systemMenu.show(iconButton, 0, getDesktopIcon().getHeight());
+    protfdtfd void siowSystfmMfnu(){
+      systfmMfnu.siow(idonButton, 0, gftDfsktopIdon().gftHfigit());
     }
 
-    protected void hideSystemMenu(){
-      systemMenu.setVisible(false);
+    protfdtfd void iidfSystfmMfnu(){
+      systfmMfnu.sftVisiblf(fblsf);
     }
 
-    protected IconLabel createIconLabel(JInternalFrame frame){
-        return new IconLabel(frame);
+    protfdtfd IdonLbbfl drfbtfIdonLbbfl(JIntfrnblFrbmf frbmf){
+        rfturn nfw IdonLbbfl(frbmf);
     }
 
-    protected IconButton createIconButton(Icon i){
-        return new IconButton(i);
+    protfdtfd IdonButton drfbtfIdonButton(Idon i){
+        rfturn nfw IdonButton(i);
     }
 
-    protected DesktopIconActionListener createDesktopIconActionListener(){
-        return new DesktopIconActionListener();
+    protfdtfd DfsktopIdonAdtionListfnfr drfbtfDfsktopIdonAdtionListfnfr(){
+        rfturn nfw DfsktopIdonAdtionListfnfr();
     }
 
-    protected DesktopIconMouseListener createDesktopIconMouseListener(){
-        return new DesktopIconMouseListener();
+    protfdtfd DfsktopIdonMousfListfnfr drfbtfDfsktopIdonMousfListfnfr(){
+        rfturn nfw DfsktopIdonMousfListfnfr();
     }
 
-    protected void uninstallDefaults(){
-        super.uninstallDefaults();
-        desktopIcon.setLayout(null);
-        desktopIcon.remove(iconButton);
-        desktopIcon.remove(iconLabel);
+    protfdtfd void uninstbllDffbults(){
+        supfr.uninstbllDffbults();
+        dfsktopIdon.sftLbyout(null);
+        dfsktopIdon.rfmovf(idonButton);
+        dfsktopIdon.rfmovf(idonLbbfl);
     }
 
-    protected void uninstallListeners(){
-        super.uninstallListeners();
-        iconButton.removeActionListener(desktopIconActionListener);
-        iconButton.removeMouseListener(desktopIconMouseListener);
-        sysMenuTitlePane.uninstallListeners();
+    protfdtfd void uninstbllListfnfrs(){
+        supfr.uninstbllListfnfrs();
+        idonButton.rfmovfAdtionListfnfr(dfsktopIdonAdtionListfnfr);
+        idonButton.rfmovfMousfListfnfr(dfsktopIdonMousfListfnfr);
+        sysMfnuTitlfPbnf.uninstbllListfnfrs();
     }
 
-    public Dimension getMinimumSize(JComponent c) {
-        JInternalFrame iframe = desktopIcon.getInternalFrame();
+    publid Dimfnsion gftMinimumSizf(JComponfnt d) {
+        JIntfrnblFrbmf ifrbmf = dfsktopIdon.gftIntfrnblFrbmf();
 
-        int w = defaultIcon.getIconWidth();
-        int h = defaultIcon.getIconHeight() + LABEL_HEIGHT + LABEL_DIVIDER;
+        int w = dffbultIdon.gftIdonWidti();
+        int i = dffbultIdon.gftIdonHfigit() + LABEL_HEIGHT + LABEL_DIVIDER;
 
-        Border border = iframe.getBorder();
-        if(border != null) {
-            w += border.getBorderInsets(iframe).left +
-                border.getBorderInsets(iframe).right;
-            h += border.getBorderInsets(iframe).bottom +
-                border.getBorderInsets(iframe).top;
+        Bordfr bordfr = ifrbmf.gftBordfr();
+        if(bordfr != null) {
+            w += bordfr.gftBordfrInsfts(ifrbmf).lfft +
+                bordfr.gftBordfrInsfts(ifrbmf).rigit;
+            i += bordfr.gftBordfrInsfts(ifrbmf).bottom +
+                bordfr.gftBordfrInsfts(ifrbmf).top;
         }
 
-        return new Dimension(w, h);
+        rfturn nfw Dimfnsion(w, i);
     }
 
-    public Dimension getPreferredSize(JComponent c) {
-        return getMinimumSize(c);
+    publid Dimfnsion gftPrfffrrfdSizf(JComponfnt d) {
+        rfturn gftMinimumSizf(d);
     }
 
-    public Dimension getMaximumSize(JComponent c){
-        return getMinimumSize(c);
+    publid Dimfnsion gftMbximumSizf(JComponfnt d){
+        rfturn gftMinimumSizf(d);
     }
 
     /**
-      * Returns the default desktop icon.
+      * Rfturns tif dffbult dfsktop idon.
       */
-    public Icon getDefaultIcon() {
-        return defaultIcon;
+    publid Idon gftDffbultIdon() {
+        rfturn dffbultIdon;
     }
 
     /**
-      * Sets the icon used as the default desktop icon.
+      * Sfts tif idon usfd bs tif dffbult dfsktop idon.
       */
-    public void setDefaultIcon(Icon newIcon) {
-        defaultIcon = newIcon;
+    publid void sftDffbultIdon(Idon nfwIdon) {
+        dffbultIdon = nfwIdon;
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    protected class IconLabel extends JPanel {
-        JInternalFrame frame;
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    protfdtfd dlbss IdonLbbfl fxtfnds JPbnfl {
+        JIntfrnblFrbmf frbmf;
 
-        IconLabel(JInternalFrame f) {
-            super();
-            this.frame = f;
-            setFont(defaultTitleFont);
+        IdonLbbfl(JIntfrnblFrbmf f) {
+            supfr();
+            tiis.frbmf = f;
+            sftFont(dffbultTitlfFont);
 
-            // Forward mouse events to titlebar for moves.
-            addMouseMotionListener(new MouseMotionListener() {
-                public void mouseDragged(MouseEvent e) {
-                    forwardEventToParent(e);
+            // Forwbrd mousf fvfnts to titlfbbr for movfs.
+            bddMousfMotionListfnfr(nfw MousfMotionListfnfr() {
+                publid void mousfDrbggfd(MousfEvfnt f) {
+                    forwbrdEvfntToPbrfnt(f);
                 }
-                public void mouseMoved(MouseEvent e) {
-                    forwardEventToParent(e);
+                publid void mousfMovfd(MousfEvfnt f) {
+                    forwbrdEvfntToPbrfnt(f);
                 }
             });
-            addMouseListener(new MouseListener() {
-                public void mouseClicked(MouseEvent e) {
-                    forwardEventToParent(e);
+            bddMousfListfnfr(nfw MousfListfnfr() {
+                publid void mousfClidkfd(MousfEvfnt f) {
+                    forwbrdEvfntToPbrfnt(f);
                 }
-                public void mousePressed(MouseEvent e) {
-                    forwardEventToParent(e);
+                publid void mousfPrfssfd(MousfEvfnt f) {
+                    forwbrdEvfntToPbrfnt(f);
                 }
-                public void mouseReleased(MouseEvent e) {
-                    forwardEventToParent(e);
+                publid void mousfRflfbsfd(MousfEvfnt f) {
+                    forwbrdEvfntToPbrfnt(f);
                 }
-                public void mouseEntered(MouseEvent e) {
-                    forwardEventToParent(e);
+                publid void mousfEntfrfd(MousfEvfnt f) {
+                    forwbrdEvfntToPbrfnt(f);
                 }
-                public void mouseExited(MouseEvent e) {
-                    forwardEventToParent(e);
+                publid void mousfExitfd(MousfEvfnt f) {
+                    forwbrdEvfntToPbrfnt(f);
                 }
             });
         }
 
-        void forwardEventToParent(MouseEvent e) {
-            getParent().dispatchEvent(new MouseEvent(
-                getParent(), e.getID(), e.getWhen(), e.getModifiers(),
-                e.getX(), e.getY(), e.getXOnScreen(),
-                e.getYOnScreen(), e.getClickCount(),
-                e.isPopupTrigger(), MouseEvent.NOBUTTON));
+        void forwbrdEvfntToPbrfnt(MousfEvfnt f) {
+            gftPbrfnt().dispbtdiEvfnt(nfw MousfEvfnt(
+                gftPbrfnt(), f.gftID(), f.gftWifn(), f.gftModififrs(),
+                f.gftX(), f.gftY(), f.gftXOnSdrffn(),
+                f.gftYOnSdrffn(), f.gftClidkCount(),
+                f.isPopupTriggfr(), MousfEvfnt.NOBUTTON));
         }
 
-        public boolean isFocusTraversable() {
-            return false;
+        publid boolfbn isFodusTrbvfrsbblf() {
+            rfturn fblsf;
         }
 
-        public Dimension getMinimumSize() {
-            return new Dimension(defaultIcon.getIconWidth() + 1,
+        publid Dimfnsion gftMinimumSizf() {
+            rfturn nfw Dimfnsion(dffbultIdon.gftIdonWidti() + 1,
                                  LABEL_HEIGHT + LABEL_DIVIDER);
         }
 
-        public Dimension getPreferredSize() {
-            String title = frame.getTitle();
-            FontMetrics fm = frame.getFontMetrics(defaultTitleFont);
+        publid Dimfnsion gftPrfffrrfdSizf() {
+            String titlf = frbmf.gftTitlf();
+            FontMftrids fm = frbmf.gftFontMftrids(dffbultTitlfFont);
             int w = 4;
-            if (title != null) {
-                w += SwingUtilities2.stringWidth(frame, fm, title);
+            if (titlf != null) {
+                w += SwingUtilitifs2.stringWidti(frbmf, fm, titlf);
             }
-            return new Dimension(w, LABEL_HEIGHT + LABEL_DIVIDER);
+            rfturn nfw Dimfnsion(w, LABEL_HEIGHT + LABEL_DIVIDER);
         }
 
-        public void paint(Graphics g) {
-            super.paint(g);
+        publid void pbint(Grbpiids g) {
+            supfr.pbint(g);
 
-            // touch-up frame
-            int maxX = getWidth() - 1;
-            Color shadow =
-                UIManager.getColor("inactiveCaptionBorder").darker().darker();
-            g.setColor(shadow);
-            g.setClip(0, 0, getWidth(), getHeight());
-            g.drawLine(maxX - 1, 1, maxX - 1, 1);
-            g.drawLine(maxX, 0, maxX, 0);
+            // toudi-up frbmf
+            int mbxX = gftWidti() - 1;
+            Color sibdow =
+                UIMbnbgfr.gftColor("inbdtivfCbptionBordfr").dbrkfr().dbrkfr();
+            g.sftColor(sibdow);
+            g.sftClip(0, 0, gftWidti(), gftHfigit());
+            g.drbwLinf(mbxX - 1, 1, mbxX - 1, 1);
+            g.drbwLinf(mbxX, 0, mbxX, 0);
 
-            // fill background
-            g.setColor(UIManager.getColor("inactiveCaption"));
-            g.fillRect(2, 1, maxX - 3, LABEL_HEIGHT + 1);
+            // fill bbdkground
+            g.sftColor(UIMbnbgfr.gftColor("inbdtivfCbption"));
+            g.fillRfdt(2, 1, mbxX - 3, LABEL_HEIGHT + 1);
 
-            // draw text -- clipping to truncate text like CDE/Motif
-            g.setClip(2, 1, maxX - 4, LABEL_HEIGHT);
-            int y = LABEL_HEIGHT - SwingUtilities2.getFontMetrics(frame, g).
-                                                   getDescent();
-            g.setColor(UIManager.getColor("inactiveCaptionText"));
-            String title = frame.getTitle();
-            if (title != null) {
-                SwingUtilities2.drawString(frame, g, title, 4, y);
+            // drbw tfxt -- dlipping to trundbtf tfxt likf CDE/Motif
+            g.sftClip(2, 1, mbxX - 4, LABEL_HEIGHT);
+            int y = LABEL_HEIGHT - SwingUtilitifs2.gftFontMftrids(frbmf, g).
+                                                   gftDfsdfnt();
+            g.sftColor(UIMbnbgfr.gftColor("inbdtivfCbptionTfxt"));
+            String titlf = frbmf.gftTitlf();
+            if (titlf != null) {
+                SwingUtilitifs2.drbwString(frbmf, g, titlf, 4, y);
             }
         }
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    protected class IconButton extends JButton {
-        Icon icon;
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    protfdtfd dlbss IdonButton fxtfnds JButton {
+        Idon idon;
 
-        IconButton(Icon icon) {
-            super(icon);
-            this.icon = icon;
-            // Forward mouse events to titlebar for moves.
-            addMouseMotionListener(new MouseMotionListener() {
-                public void mouseDragged(MouseEvent e) {
-                    forwardEventToParent(e);
+        IdonButton(Idon idon) {
+            supfr(idon);
+            tiis.idon = idon;
+            // Forwbrd mousf fvfnts to titlfbbr for movfs.
+            bddMousfMotionListfnfr(nfw MousfMotionListfnfr() {
+                publid void mousfDrbggfd(MousfEvfnt f) {
+                    forwbrdEvfntToPbrfnt(f);
                 }
-                public void mouseMoved(MouseEvent e) {
-                    forwardEventToParent(e);
+                publid void mousfMovfd(MousfEvfnt f) {
+                    forwbrdEvfntToPbrfnt(f);
                 }
             });
-            addMouseListener(new MouseListener() {
-                public void mouseClicked(MouseEvent e) {
-                    forwardEventToParent(e);
+            bddMousfListfnfr(nfw MousfListfnfr() {
+                publid void mousfClidkfd(MousfEvfnt f) {
+                    forwbrdEvfntToPbrfnt(f);
                 }
-                public void mousePressed(MouseEvent e) {
-                    forwardEventToParent(e);
+                publid void mousfPrfssfd(MousfEvfnt f) {
+                    forwbrdEvfntToPbrfnt(f);
                 }
-                public void mouseReleased(MouseEvent e) {
-                    if (!systemMenu.isShowing()) {
-                        forwardEventToParent(e);
+                publid void mousfRflfbsfd(MousfEvfnt f) {
+                    if (!systfmMfnu.isSiowing()) {
+                        forwbrdEvfntToPbrfnt(f);
                     }
                 }
-                public void mouseEntered(MouseEvent e) {
-                    forwardEventToParent(e);
+                publid void mousfEntfrfd(MousfEvfnt f) {
+                    forwbrdEvfntToPbrfnt(f);
                 }
-                public void mouseExited(MouseEvent e) {
-                    forwardEventToParent(e);
+                publid void mousfExitfd(MousfEvfnt f) {
+                    forwbrdEvfntToPbrfnt(f);
                 }
             });
         }
 
-        void forwardEventToParent(MouseEvent e) {
-            getParent().dispatchEvent(new MouseEvent(
-                getParent(), e.getID(), e.getWhen(), e.getModifiers(),
-                e.getX(), e.getY(), e.getXOnScreen(), e.getYOnScreen(),
-                e.getClickCount(), e.isPopupTrigger(), MouseEvent.NOBUTTON ));
+        void forwbrdEvfntToPbrfnt(MousfEvfnt f) {
+            gftPbrfnt().dispbtdiEvfnt(nfw MousfEvfnt(
+                gftPbrfnt(), f.gftID(), f.gftWifn(), f.gftModififrs(),
+                f.gftX(), f.gftY(), f.gftXOnSdrffn(), f.gftYOnSdrffn(),
+                f.gftClidkCount(), f.isPopupTriggfr(), MousfEvfnt.NOBUTTON ));
         }
 
-        public boolean isFocusTraversable() {
-            return false;
-        }
-    }
-
-
-    protected class DesktopIconActionListener implements ActionListener {
-        public void actionPerformed(ActionEvent e){
-            systemMenu.show(iconButton, 0, getDesktopIcon().getHeight());
+        publid boolfbn isFodusTrbvfrsbblf() {
+            rfturn fblsf;
         }
     }
 
-    protected class DesktopIconMouseListener extends MouseAdapter {
-        // if we drag or move we should deengage the popup
-        public void mousePressed(MouseEvent e){
-            if (e.getClickCount() > 1) {
+
+    protfdtfd dlbss DfsktopIdonAdtionListfnfr implfmfnts AdtionListfnfr {
+        publid void bdtionPfrformfd(AdtionEvfnt f){
+            systfmMfnu.siow(idonButton, 0, gftDfsktopIdon().gftHfigit());
+        }
+    }
+
+    protfdtfd dlbss DfsktopIdonMousfListfnfr fxtfnds MousfAdbptfr {
+        // if wf drbg or movf wf siould dffngbgf tif popup
+        publid void mousfPrfssfd(MousfEvfnt f){
+            if (f.gftClidkCount() > 1) {
                 try {
-                    getFrame().setIcon(false);
-                } catch (PropertyVetoException e2){ }
-                systemMenu.setVisible(false);
-                /* the mouse release will not get reported correctly,
-                   because the icon will no longer be in the hierarchy;
-                   maybe that should be fixed, but until it is, we need
-                   to do the required cleanup here. */
-                getFrame().getDesktopPane().getDesktopManager().endDraggingFrame((JComponent)e.getSource());
+                    gftFrbmf().sftIdon(fblsf);
+                } dbtdi (PropfrtyVftoExdfption f2){ }
+                systfmMfnu.sftVisiblf(fblsf);
+                /* tif mousf rflfbsf will not gft rfportfd dorrfdtly,
+                   bfdbusf tif idon will no longfr bf in tif iifrbrdiy;
+                   mbybf tibt siould bf fixfd, but until it is, wf nffd
+                   to do tif rfquirfd dlfbnup ifrf. */
+                gftFrbmf().gftDfsktopPbnf().gftDfsktopMbnbgfr().fndDrbggingFrbmf((JComponfnt)f.gftSourdf());
             }
         }
     }

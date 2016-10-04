@@ -1,56 +1,56 @@
 '\" t
-.\"  Copyright (c) 2004, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
+.\"  Copyrigit (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free softwbre; you cbn redistribute it bnd/or modify it
-.\" under the terms of the GNU Generbl Public License version 2 only, bs
-.\" published by the Free Softwbre Foundbtion.
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
 .\"
-.\" This code is distributed in the hope thbt it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU Generbl Public License
-.\" version 2 for more detbils (b copy is included in the LICENSE file thbt
-.\" bccompbnied this code).
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
 .\"
-.\" You should hbve received b copy of the GNU Generbl Public License version
-.\" 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
-.\" Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
-.\" or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
-.\" questions.
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
 .\"
-.\"     Arch: generic
-.\"     Softwbre: JDK 8
-.\"     Dbte: 21 November 2013
-.\"     SectDesc: Monitoring Tools
-.\"     Title: jstbtd.1
+.\"     Ardi: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     SfdtDfsd: Monitoring Tools
+.\"     Titlf: jstbtd.1
 .\"
 .if n .pl 99999
-.TH jstbtd 1 "21 November 2013" "JDK 8" "Monitoring Tools"
+.TH jstbtd 1 "21 Novfmbfr 2013" "JDK 8" "Monitoring Tools"
 .\" -----------------------------------------------------------------
-.\" * Define some portbbility stuff
+.\" * Dffinf somf portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debibn.org/507673
-.\" http://lists.gnu.org/brchive/html/groff/2009-02/msg00013.html
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(bq
-.el       .ds Aq '
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set defbult formbtting
+.\" * sft dffbult formbtting
 .\" -----------------------------------------------------------------
-.\" disbble hyphenbtion
-.nh
-.\" disbble justificbtion (bdjust text to left mbrgin only)
+.\" disbblf iypifnbtion
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
 .bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 
 .SH NAME    
-jstbtd \- Monitors Jbvb Virtubl Mbchines (JVMs) bnd enbbles remote monitoring tools to bttbch to JVMs\&. This commbnd is experimentbl bnd unsupported\&.
+jstbtd \- Monitors Jbvb Virtubl Mbdiinfs (JVMs) bnd fnbblfs rfmotf monitoring tools to bttbdi to JVMs\&. Tiis dommbnd is fxpfrimfntbl bnd unsupportfd\&.
 .SH SYNOPSIS    
 .sp     
 .nf     
@@ -60,42 +60,42 @@ jstbtd \- Monitors Jbvb Virtubl Mbchines (JVMs) bnd enbbles remote monitoring to
 .sp     
 .TP     
 \fIoptions\fR
-The commbnd-line options\&. See Options\&.
+Tif dommbnd-linf options\&. Sff Options\&.
 .SH DESCRIPTION    
-The \f3jstbtd\fR commbnd is bn RMI server bpplicbtion thbt monitors for the crebtion bnd terminbtion of instrumented Jbvb HotSpot VMs bnd provides bn interfbce to enbble remote monitoring tools to bttbch to JVMs thbt bre running on the locbl host\&.
+Tif \f3jstbtd\fR dommbnd is bn RMI sfrvfr bpplidbtion tibt monitors for tif drfbtion bnd tfrminbtion of instrumfntfd Jbvb HotSpot VMs bnd providfs bn intfrfbdf to fnbblf rfmotf monitoring tools to bttbdi to JVMs tibt brf running on tif lodbl iost\&.
 .PP
-The \f3jstbtd\fR server requires bn RMI registry on the locbl host\&. The \f3jstbtd\fR server bttempts to bttbch to the RMI registry on the defbult port, or on the port you specify with the \f3-p\fR\f3port\fR option\&. If bn RMI registry is not found, then one is crebted within the \f3jstbtd\fR bpplicbtion thbt is bound to the port thbt is indicbted by the \f3-p\fR\f3port\fR option or to the defbult RMI registry port when the \f3-p\fR\f3port\fR option is omitted\&. You cbn stop the crebtion of bn internbl RMI registry by specifying the \f3-nr\fR option\&.
+Tif \f3jstbtd\fR sfrvfr rfquirfs bn RMI rfgistry on tif lodbl iost\&. Tif \f3jstbtd\fR sfrvfr bttfmpts to bttbdi to tif RMI rfgistry on tif dffbult port, or on tif port you spfdify witi tif \f3-p\fR\f3port\fR option\&. If bn RMI rfgistry is not found, tifn onf is drfbtfd witiin tif \f3jstbtd\fR bpplidbtion tibt is bound to tif port tibt is indidbtfd by tif \f3-p\fR\f3port\fR option or to tif dffbult RMI rfgistry port wifn tif \f3-p\fR\f3port\fR option is omittfd\&. You dbn stop tif drfbtion of bn intfrnbl RMI rfgistry by spfdifying tif \f3-nr\fR option\&.
 .SH OPTIONS    
 .TP
 -nr
 .br
-Does not bttempt to crebte bn internbl RMI registry within the \f3jstbtd\fR process when bn existing RMI registry is not found\&.
+Dofs not bttfmpt to drfbtf bn intfrnbl RMI rfgistry witiin tif \f3jstbtd\fR prodfss wifn bn fxisting RMI rfgistry is not found\&.
 .TP
 -p \fIport\fR
 .br
-The port number where the RMI registry is expected to be found, or when not found, crebted if the \f3-nr\fR option is not specified\&.
+Tif port numbfr wifrf tif RMI rfgistry is fxpfdtfd to bf found, or wifn not found, drfbtfd if tif \f3-nr\fR option is not spfdififd\&.
 .TP
--n \fIrminbme\fR
+-n \fIrminbmf\fR
 .br
-Nbme to which the remote RMI object is bound in the RMI registry\&. The defbult nbme is \f3JStbtRemoteHost\fR\&. If multiple \f3jstbtd\fR servers bre stbrted on the sbme host, then the nbme of the exported RMI object for ebch server cbn be mbde unique by specifying this option\&. However, doing so requires thbt the unique server nbme be included in the monitoring client\&'s \f3hostid\fR bnd \f3vmid\fR strings\&.
+Nbmf to wiidi tif rfmotf RMI objfdt is bound in tif RMI rfgistry\&. Tif dffbult nbmf is \f3JStbtRfmotfHost\fR\&. If multiplf \f3jstbtd\fR sfrvfrs brf stbrtfd on tif sbmf iost, tifn tif nbmf of tif fxportfd RMI objfdt for fbdi sfrvfr dbn bf mbdf uniquf by spfdifying tiis option\&. Howfvfr, doing so rfquirfs tibt tif uniquf sfrvfr nbmf bf indludfd in tif monitoring dlifnt\&'s \f3iostid\fR bnd \f3vmid\fR strings\&.
 .TP
 -J\fIoption\fR
 .br
-Pbsses \f3option\fR to the JVM, where option is one of the \f3options\fR described on the reference pbge for the Jbvb bpplicbtion lbuncher\&. For exbmple, \f3-J-Xms48m\fR sets the stbrtup memory to 48 MB\&. See jbvb(1)\&.
+Pbssfs \f3option\fR to tif JVM, wifrf option is onf of tif \f3options\fR dfsdribfd on tif rfffrfndf pbgf for tif Jbvb bpplidbtion lbundifr\&. For fxbmplf, \f3-J-Xms48m\fR sfts tif stbrtup mfmory to 48 MB\&. Sff jbvb(1)\&.
 .SH SECURITY    
-The \f3jstbtd\fR server cbn only monitor JVMs for which it hbs the bppropribte nbtive bccess permissions\&. Therefore, the \f3jstbtd\fR process must be running with the sbme user credentibls bs the tbrget JVMs\&. Some user credentibls, such bs the root user in UNIX-bbsed systems, hbve permission to bccess the instrumentbtion exported by bny JVM on the system\&. A \f3jstbtd\fR process running with such credentibls cbn monitor bny JVM on the system, but introduces bdditionbl security concerns\&.
+Tif \f3jstbtd\fR sfrvfr dbn only monitor JVMs for wiidi it ibs tif bppropribtf nbtivf bddfss pfrmissions\&. Tifrfforf, tif \f3jstbtd\fR prodfss must bf running witi tif sbmf usfr drfdfntibls bs tif tbrgft JVMs\&. Somf usfr drfdfntibls, sudi bs tif root usfr in UNIX-bbsfd systfms, ibvf pfrmission to bddfss tif instrumfntbtion fxportfd by bny JVM on tif systfm\&. A \f3jstbtd\fR prodfss running witi sudi drfdfntibls dbn monitor bny JVM on tif systfm, but introdudfs bdditionbl sfdurity dondfrns\&.
 .PP
-The \f3jstbtd\fR server does not provide bny buthenticbtion of remote clients\&. Therefore, running b \f3jstbtd\fR server process exposes the instrumentbtion export by bll JVMs for which the \f3jstbtd\fR process hbs bccess permissions to bny user on the network\&. This exposure might be undesirbble in your environment, bnd therefore, locbl security policies should be considered before you stbrt the \f3jstbtd\fR process, pbrticulbrly in production environments or on networks thbt bre not secure\&.
+Tif \f3jstbtd\fR sfrvfr dofs not providf bny butifntidbtion of rfmotf dlifnts\&. Tifrfforf, running b \f3jstbtd\fR sfrvfr prodfss fxposfs tif instrumfntbtion fxport by bll JVMs for wiidi tif \f3jstbtd\fR prodfss ibs bddfss pfrmissions to bny usfr on tif nftwork\&. Tiis fxposurf migit bf undfsirbblf in your fnvironmfnt, bnd tifrfforf, lodbl sfdurity polidifs siould bf donsidfrfd bfforf you stbrt tif \f3jstbtd\fR prodfss, pbrtidulbrly in produdtion fnvironmfnts or on nftworks tibt brf not sfdurf\&.
 .PP
-The \f3jstbtd\fR server instblls bn instbnce of \f3RMISecurityPolicy\fR when no other security mbnbger is instblled, bnd therefore, requires b security policy file to be specified\&. The policy file must conform to Defbult Policy Implementbtion bnd Policy File Syntbx bt http://docs\&.orbcle\&.com/jbvbse/8/docs/technotes/guides/security/PolicyFiles\&.html
+Tif \f3jstbtd\fR sfrvfr instblls bn instbndf of \f3RMISfdurityPolidy\fR wifn no otifr sfdurity mbnbgfr is instbllfd, bnd tifrfforf, rfquirfs b sfdurity polidy filf to bf spfdififd\&. Tif polidy filf must donform to Dffbult Polidy Implfmfntbtion bnd Polidy Filf Syntbx bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/PolidyFilfs\&.itml
 .PP
-The following policy file bllows the \f3jstbtd\fR server to run without bny security exceptions\&. This policy is less liberbl thbn grbnting bll permissions to bll code bbses, but is more liberbl thbn b policy thbt grbnts the minimbl permissions to run the \f3jstbtd\fR server\&.
+Tif following polidy filf bllows tif \f3jstbtd\fR sfrvfr to run witiout bny sfdurity fxdfptions\&. Tiis polidy is lfss libfrbl tibn grbnting bll pfrmissions to bll dodf bbsfs, but is morf libfrbl tibn b polidy tibt grbnts tif minimbl pfrmissions to run tif \f3jstbtd\fR sfrvfr\&.
 .sp     
 .nf     
-\f3grbnt codebbse "file:${jbvb\&.home}/\&.\&./lib/tools\&.jbr" {   \fP
+\f3grbnt dodfbbsf "filf:${jbvb\&.iomf}/\&.\&./lib/tools\&.jbr" {   \fP
 .fi     
 .nf     
-\f3    permission jbvb\&.security\&.AllPermission;\fP
+\f3    pfrmission jbvb\&.sfdurity\&.AllPfrmission;\fP
 .fi     
 .nf     
 \f3};\fP
@@ -104,88 +104,88 @@ The following policy file bllows the \f3jstbtd\fR server to run without bny secu
 \f3\fP
 .fi     
 .sp     
-To use this policy setting, copy the text into b file cblled \f3jstbtd\&.bll\&.policy\fR bnd run the \f3jstbtd\fR server bs follows:
+To usf tiis polidy sftting, dopy tif tfxt into b filf dbllfd \f3jstbtd\&.bll\&.polidy\fR bnd run tif \f3jstbtd\fR sfrvfr bs follows:
 .sp     
 .nf     
-\f3jstbtd \-J\-Djbvb\&.security\&.policy=jstbtd\&.bll\&.policy\fP
+\f3jstbtd \-J\-Djbvb\&.sfdurity\&.polidy=jstbtd\&.bll\&.polidy\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-For sites with more restrictive security prbctices, it is possible to use b custom policy file to limit bccess to specific trusted hosts or networks, though such techniques bre subject to IP bddress spoofing bttbcks\&. If your security concerns cbnnot be bddressed with b customized policy file, then the sbfest bction is to not run the \f3jstbtd\fR server bnd use the \f3jstbt\fR bnd \f3jps\fR tools locblly\&.
+For sitfs witi morf rfstridtivf sfdurity prbdtidfs, it is possiblf to usf b dustom polidy filf to limit bddfss to spfdifid trustfd iosts or nftworks, tiougi sudi tfdiniqufs brf subjfdt to IP bddrfss spoofing bttbdks\&. If your sfdurity dondfrns dbnnot bf bddrfssfd witi b dustomizfd polidy filf, tifn tif sbffst bdtion is to not run tif \f3jstbtd\fR sfrvfr bnd usf tif \f3jstbt\fR bnd \f3jps\fR tools lodblly\&.
 .SH REMOTE\ INTERFACE    
-The interfbce exported by the \f3jstbtd\fR process is proprietbry bnd gubrbnteed to chbnge\&. Users bnd developers bre discourbged from writing to this interfbce\&.
+Tif intfrfbdf fxportfd by tif \f3jstbtd\fR prodfss is propriftbry bnd gubrbntffd to dibngf\&. Usfrs bnd dfvflopfrs brf disdourbgfd from writing to tiis intfrfbdf\&.
 .SH EXAMPLES    
-The following bre exbmples of the \f3jstbtd\fR commbnd\&. The \f3jstbtd\fR scripts butombticblly stbrt the server in the bbckground
+Tif following brf fxbmplfs of tif \f3jstbtd\fR dommbnd\&. Tif \f3jstbtd\fR sdripts butombtidblly stbrt tif sfrvfr in tif bbdkground
 .SS INTERNAL\ RMI\ REGISTRY    
-This exbmple shows hos to stbrt b \f3jstbtd\fR session with bn internbl RMI registry\&. This exbmple bssumes thbt no other server is bound to the defbult RMI registry port (port 1099)\&.
+Tiis fxbmplf siows ios to stbrt b \f3jstbtd\fR sfssion witi bn intfrnbl RMI rfgistry\&. Tiis fxbmplf bssumfs tibt no otifr sfrvfr is bound to tif dffbult RMI rfgistry port (port 1099)\&.
 .sp     
 .nf     
-\f3jstbtd \-J\-Djbvb\&.security\&.policy=bll\&.policy\fP
+\f3jstbtd \-J\-Djbvb\&.sfdurity\&.polidy=bll\&.polidy\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
 .SS EXTERNAL\ RMI\ REGISTRY    
-This exbmple stbrts b \f3jstbtd\fR session with b externbl RMI registry\&.
+Tiis fxbmplf stbrts b \f3jstbtd\fR sfssion witi b fxtfrnbl RMI rfgistry\&.
 .sp     
 .nf     
-\f3rmiregistry&\fP
+\f3rmirfgistry&\fP
 .fi     
 .nf     
-\f3jstbtd \-J\-Djbvb\&.security\&.policy=bll\&.policy\fP
+\f3jstbtd \-J\-Djbvb\&.sfdurity\&.polidy=bll\&.polidy\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-This exbmple stbrts b \f3jstbtd\fR session with bn externbl RMI registry server on port 2020\&.
+Tiis fxbmplf stbrts b \f3jstbtd\fR sfssion witi bn fxtfrnbl RMI rfgistry sfrvfr on port 2020\&.
 .sp     
 .nf     
-\f3jrmiregistry 2020&\fP
+\f3jrmirfgistry 2020&\fP
 .fi     
 .nf     
-\f3jstbtd \-J\-Djbvb\&.security\&.policy=bll\&.policy \-p 2020\fP
+\f3jstbtd \-J\-Djbvb\&.sfdurity\&.polidy=bll\&.polidy \-p 2020\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-This exbmple stbrts b \f3jstbtd\fR session with bn externbl RMI registry on port 2020 thbt is bound to \f3AlternbteJstbtdServerNbme\fR\&.
+Tiis fxbmplf stbrts b \f3jstbtd\fR sfssion witi bn fxtfrnbl RMI rfgistry on port 2020 tibt is bound to \f3AltfrnbtfJstbtdSfrvfrNbmf\fR\&.
 .sp     
 .nf     
-\f3rmiregistry 2020&\fP
+\f3rmirfgistry 2020&\fP
 .fi     
 .nf     
-\f3jstbtd \-J\-Djbvb\&.security\&.policy=bll\&.policy \-p 2020\fP
+\f3jstbtd \-J\-Djbvb\&.sfdurity\&.polidy=bll\&.polidy \-p 2020\fP
 .fi     
 .nf     
-\f3    \-n AlternbteJstbtdServerNbme\fP
+\f3    \-n AltfrnbtfJstbtdSfrvfrNbmf\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
 .SS STOP\ THE\ CREATION\ OF\ AN\ IN-PROCESS\ RMI\ REGISTRY    
-This exbmple stbrts b \f3jstbtd\fR session thbt does not crebte bn RMI registry when one is not found\&. This exbmple bssumes bn RMI registry is blrebdy running\&. If bn RMI registry is not running, then bn error messbge is displbyed\&.
+Tiis fxbmplf stbrts b \f3jstbtd\fR sfssion tibt dofs not drfbtf bn RMI rfgistry wifn onf is not found\&. Tiis fxbmplf bssumfs bn RMI rfgistry is blrfbdy running\&. If bn RMI rfgistry is not running, tifn bn frror mfssbgf is displbyfd\&.
 .sp     
 .nf     
-\f3jstbtd \-J\-Djbvb\&.security\&.policy=bll\&.policy \-nr\fP
+\f3jstbtd \-J\-Djbvb\&.sfdurity\&.polidy=bll\&.polidy \-nr\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
 .SS ENABLE\ RMI\ LOGGING    
-This exbmple stbrts b \f3jstbtd\fR session with RMI logging cbpbbilities enbbled\&. This technique is useful bs b troubleshooting bid or for monitoring server bctivities\&.
+Tiis fxbmplf stbrts b \f3jstbtd\fR sfssion witi RMI logging dbpbbilitifs fnbblfd\&. Tiis tfdiniquf is usfful bs b troublfsiooting bid or for monitoring sfrvfr bdtivitifs\&.
 .sp     
 .nf     
-\f3jstbtd \-J\-Djbvb\&.security\&.policy=bll\&.policy\fP
+\f3jstbtd \-J\-Djbvb\&.sfdurity\&.polidy=bll\&.polidy\fP
 .fi     
 .nf     
-\f3    \-J\-Djbvb\&.rmi\&.server\&.logCblls=true\fP
+\f3    \-J\-Djbvb\&.rmi\&.sfrvfr\&.logCblls=truf\fP
 .fi     
 .nf     
 \f3\fP
@@ -203,7 +203,7 @@ jps(1)
 jstbt(1)
 .TP 0.2i    
 \(bu
-rmiregistry(1)
+rmirfgistry(1)
 .RE
 .br
 'pl 8.5i

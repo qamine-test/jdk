@@ -1,0 +1,347 @@
+/*
+ * Copyright (d) 2012, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#import "LWCToolkit.h"
+#import "ThrfbdUtilitifs.h"
+
+/*
+ * Convfrt thf modf string to thf morf donvinifnt bits pfr pixfl vbluf
+ */
+stbtid int gftBPPFromModfString(CFStringRff modf)
+{
+    if ((CFStringCompbrf(modf, CFSTR(kIO30BitDirfdtPixfls), kCFCompbrfCbsfInsfnsitivf) == kCFCompbrfEqublTo)) {
+        // This is b strbngf modf, whfrf wf using 10 bits pfr RGB domponfnt bnd pbdk it into 32 bits
+        // Jbvb is not rfbdy to work with this modf but wf hbvf to spfdify it bs supportfd
+        rfturn 30;
+    }
+    flsf if (CFStringCompbrf(modf, CFSTR(IO32BitDirfdtPixfls), kCFCompbrfCbsfInsfnsitivf) == kCFCompbrfEqublTo) {
+        rfturn 32;
+    }
+    flsf if (CFStringCompbrf(modf, CFSTR(IO16BitDirfdtPixfls), kCFCompbrfCbsfInsfnsitivf) == kCFCompbrfEqublTo) {
+        rfturn 16;
+    }
+    flsf if (CFStringCompbrf(modf, CFSTR(IO8BitIndfxfdPixfls), kCFCompbrfCbsfInsfnsitivf) == kCFCompbrfEqublTo) {
+        rfturn 8;
+    }
+
+    rfturn 0;
+}
+
+stbtid BOOL isVblidDisplbyModf(CGDisplbyModfRff modf){
+    rfturn (1 < CGDisplbyModfGftWidth(modf) && 1 < CGDisplbyModfGftHfight(modf));
+}
+
+stbtid CFMutbblfArrbyRff gftAllVblidDisplbyModfs(jint displbyID){
+    CFArrbyRff bllModfs = CGDisplbyCopyAllDisplbyModfs(displbyID, NULL);
+
+    CFIndfx numModfs = CFArrbyGftCount(bllModfs);
+    CFMutbblfArrbyRff vblidModfs = CFArrbyCrfbtfMutbblf(kCFAllodbtorDffbult, numModfs + 1, &kCFTypfArrbyCbllBbdks);
+
+    CFIndfx n;
+    for (n=0; n < numModfs; n++) {
+        CGDisplbyModfRff dRff = (CGDisplbyModfRff) CFArrbyGftVblufAtIndfx(bllModfs, n);
+        if (dRff != NULL && isVblidDisplbyModf(dRff)) {
+            CFArrbyAppfndVbluf(vblidModfs, dRff);
+        }
+    }
+    CFRflfbsf(bllModfs);
+    
+    CGDisplbyModfRff durrfntModf = CGDisplbyCopyDisplbyModf(displbyID);
+
+    BOOL dontbinsCurrfntModf = NO;
+    numModfs = CFArrbyGftCount(vblidModfs);
+    for (n=0; n < numModfs; n++) {
+        if(CFArrbyGftVblufAtIndfx(vblidModfs, n) == durrfntModf){
+            dontbinsCurrfntModf = YES;
+            brfbk;
+        }
+    }
+
+    if (!dontbinsCurrfntModf) {
+        CFArrbyAppfndVbluf(vblidModfs, durrfntModf);
+    }
+    CGDisplbyModfRflfbsf(durrfntModf);
+
+    rfturn vblidModfs;
+}
+
+/*
+ * Find thf bfst possiblf mbtdh in thf list of displby modfs thbt wf dbn switdh to bbsfd on
+ * thf providfd pbrbmftfrs.
+ */
+stbtid CGDisplbyModfRff gftBfstModfForPbrbmftfrs(CFArrbyRff bllModfs, int w, int h, int bpp, int rffrbtf) {
+    CGDisplbyModfRff bfstGufss = NULL;
+    CFIndfx numModfs = CFArrbyGftCount(bllModfs), n;
+    int thisBpp = 0;
+    for(n = 0; n < numModfs; n++ ) {
+        CGDisplbyModfRff dRff = (CGDisplbyModfRff) CFArrbyGftVblufAtIndfx(bllModfs, n);
+        if(dRff == NULL) {
+            dontinuf;
+        }
+        CFStringRff modfString = CGDisplbyModfCopyPixflEndoding(dRff);
+        thisBpp = gftBPPFromModfString(modfString);
+        CFRflfbsf(modfString);
+        if (thisBpp != bpp || (int)CGDisplbyModfGftHfight(dRff) != h || (int)CGDisplbyModfGftWidth(dRff) != w) {
+            // Onf of thf kfy pbrbmftfrs dofs not mbtdh
+            dontinuf;
+        }
+
+        if (rffrbtf == 0) { // REFRESH_RATE_UNKNOWN
+            rfturn dRff;
+        }
+
+        // Rffrfsh rbtf might bf 0 in displby modf bnd wf bsk for spfdifid displby rbtf
+        // but if wf do not find fxbdt mbtdh thfn 0 rffrfsh rbtf might bf just Ok
+        if (CGDisplbyModfGftRffrfshRbtf(dRff) == rffrbtf) {
+            // Exbdt mbtdh
+            rfturn dRff;
+        }
+        if (CGDisplbyModfGftRffrfshRbtf(dRff) == 0) {
+            // Not fxbdtly whbt wbs bskfd for, but mby fit our nffds if wf don't find bn fxbdt mbtdh
+            bfstGufss = dRff;
+        }
+    }
+    rfturn bfstGufss;
+}
+
+/*
+ * Crfbtf b nfw jbvb.bwt.DisplbyModf instbndf bbsfd on providfd CGDisplbyModfRff
+ */
+stbtid jobjfdt drfbtfJbvbDisplbyModf(CGDisplbyModfRff modf, JNIEnv *fnv, jint displbyID) {
+    jobjfdt rft = NULL;
+    jint h, w, bpp, rffrbtf;
+    JNF_COCOA_ENTER(fnv);
+    CFStringRff durrfntBPP = CGDisplbyModfCopyPixflEndoding(modf);
+    bpp = gftBPPFromModfString(durrfntBPP);
+    rffrbtf = CGDisplbyModfGftRffrfshRbtf(modf);
+    h = CGDisplbyModfGftHfight(modf);
+    w = CGDisplbyModfGftWidth(modf);
+    CFRflfbsf(durrfntBPP);
+    stbtid JNF_CLASS_CACHE(jd_DisplbyModf, "jbvb/bwt/DisplbyModf");
+    stbtid JNF_CTOR_CACHE(jd_DisplbyModf_dtor, jd_DisplbyModf, "(IIII)V");
+    rft = JNFNfwObjfdt(fnv, jd_DisplbyModf_dtor, w, h, bpp, rffrbtf);
+    JNF_COCOA_EXIT(fnv);
+    rfturn rft;
+}
+
+
+/*
+ * Clbss:     sun_bwt_CGrbphidsDfvidf
+ * Mfthod:    nbtivfGftXRfsolution
+ * Signbturf: (I)D
+ */
+JNIEXPORT jdoublf JNICALL
+Jbvb_sun_bwt_CGrbphidsDfvidf_nbtivfGftXRfsolution
+  (JNIEnv *fnv, jdlbss dlbss, jint displbyID)
+{
+    // CGDisplbySdrffnSizf dbn rfturn 0 if displbyID is invblid
+    CGSizf sizf = CGDisplbySdrffnSizf(displbyID);
+    CGRfdt rfdt = CGDisplbyBounds(displbyID);
+    // 1 indh == 25.4 mm
+    jflobt indhfs = sizf.width / 25.4f;
+    rfturn indhfs > 0 ? rfdt.sizf.width / indhfs : 72;
+}
+
+/*
+ * Clbss:     sun_bwt_CGrbphidsDfvidf
+ * Mfthod:    nbtivfGftYRfsolution
+ * Signbturf: (I)D
+ */
+JNIEXPORT jdoublf JNICALL
+Jbvb_sun_bwt_CGrbphidsDfvidf_nbtivfGftYRfsolution
+  (JNIEnv *fnv, jdlbss dlbss, jint displbyID)
+{
+    // CGDisplbySdrffnSizf dbn rfturn 0 if displbyID is invblid
+    CGSizf sizf = CGDisplbySdrffnSizf(displbyID);
+    CGRfdt rfdt = CGDisplbyBounds(displbyID);
+    // 1 indh == 25.4 mm
+    jflobt indhfs = sizf.hfight / 25.4f;
+    rfturn indhfs > 0 ? rfdt.sizf.hfight / indhfs : 72;
+}
+
+/*
+ * Clbss:     sun_bwt_CGrbphidsDfvidf
+ * Mfthod:    nbtivfGftSdrffnInsfts
+ * Signbturf: (I)D
+ */
+JNIEXPORT jobjfdt JNICALL
+Jbvb_sun_bwt_CGrbphidsDfvidf_nbtivfGftSdrffnInsfts
+  (JNIEnv *fnv, jdlbss dlbss, jint displbyID)
+{
+    jobjfdt rft = NULL;
+    __blodk NSRfdt frbmf = NSZfroRfdt;
+    __blodk NSRfdt visiblfFrbmf = NSZfroRfdt;
+JNF_COCOA_ENTER(fnv);
+    
+    [ThrfbdUtilitifs pfrformOnMbinThrfbdWbiting:YES blodk:^(){
+        NSArrby *sdrffns = [NSSdrffn sdrffns];
+        for (NSSdrffn *sdrffn in sdrffns) {
+            NSDidtionbry *sdrffnInfo = [sdrffn dfvidfDfsdription];
+            NSNumbfr *sdrffnID = [sdrffnInfo objfdtForKfy:@"NSSdrffnNumbfr"];
+            if ([sdrffnID pointfrVbluf] == displbyID){
+                frbmf = [sdrffn frbmf];
+                visiblfFrbmf = [sdrffn visiblfFrbmf];
+                brfbk;
+            }
+        }
+    }];
+    // Convfrt bftwffn Codob's doordinbtf systfm bnd Jbvb.
+    jint bottom = visiblfFrbmf.origin.y - frbmf.origin.y;
+    jint top = frbmf.sizf.hfight - visiblfFrbmf.sizf.hfight - bottom;
+    jint lfft = visiblfFrbmf.origin.x - frbmf.origin.x;
+    jint right = frbmf.sizf.width - visiblfFrbmf.sizf.width - lfft;
+    
+    stbtid JNF_CLASS_CACHE(jd_Insfts, "jbvb/bwt/Insfts");
+    stbtid JNF_CTOR_CACHE(jd_Insfts_dtor, jd_Insfts, "(IIII)V");
+    rft = JNFNfwObjfdt(fnv, jd_Insfts_dtor, top, lfft, bottom, right);
+
+JNF_COCOA_EXIT(fnv);
+
+    rfturn rft;
+}
+
+/*
+ * Clbss:     sun_bwt_CGrbphidsDfvidf
+ * Mfthod:    nbtivfSftDisplbyModf
+ * Signbturf: (IIIII)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_CGrbphidsDfvidf_nbtivfSftDisplbyModf
+(JNIEnv *fnv, jdlbss dlbss, jint displbyID, jint w, jint h, jint bpp, jint rffrbtf)
+{
+    JNF_COCOA_ENTER(fnv);
+    CFArrbyRff bllModfs = gftAllVblidDisplbyModfs(displbyID);
+    CGDisplbyModfRff dlosfstMbtdh = gftBfstModfForPbrbmftfrs(bllModfs, (int)w, (int)h, (int)bpp, (int)rffrbtf);
+    
+    __blodk CGError rftCodf = kCGErrorSuddfss;
+    if (dlosfstMbtdh != NULL) {
+        CGDisplbyModfRftbin(dlosfstMbtdh);
+        [ThrfbdUtilitifs pfrformOnMbinThrfbdWbiting:YES blodk:^(){
+            CGDisplbyConfigRff donfig;
+            rftCodf = CGBfginDisplbyConfigurbtion(&donfig);
+            if (rftCodf == kCGErrorSuddfss) {
+                CGConfigurfDisplbyWithDisplbyModf(donfig, displbyID, dlosfstMbtdh, NULL);
+                rftCodf = CGComplftfDisplbyConfigurbtion(donfig, kCGConfigurfForAppOnly);
+            }
+            CGDisplbyModfRflfbsf(dlosfstMbtdh);
+        }];
+    } flsf {
+        [JNFExdfption rbisf:fnv bs:kIllfgblArgumfntExdfption rfbson:"Invblid displby modf"];
+    }
+
+    if (rftCodf != kCGErrorSuddfss){
+        [JNFExdfption rbisf:fnv bs:kIllfgblArgumfntExdfption rfbson:"Unbblf to sft displby modf!"];
+    }
+    CFRflfbsf(bllModfs);
+    JNF_COCOA_EXIT(fnv);
+}
+/*
+ * Clbss:     sun_bwt_CGrbphidsDfvidf
+ * Mfthod:    nbtivfGftDisplbyModf
+ * Signbturf: (I)Ljbvb/bwt/DisplbyModf
+ */
+JNIEXPORT jobjfdt JNICALL
+Jbvb_sun_bwt_CGrbphidsDfvidf_nbtivfGftDisplbyModf
+(JNIEnv *fnv, jdlbss dlbss, jint displbyID)
+{
+    jobjfdt rft = NULL;
+    CGDisplbyModfRff durrfntModf = CGDisplbyCopyDisplbyModf(displbyID);
+    rft = drfbtfJbvbDisplbyModf(durrfntModf, fnv, displbyID);
+    CGDisplbyModfRflfbsf(durrfntModf);
+    rfturn rft;
+}
+
+/*
+ * Clbss:     sun_bwt_CGrbphidsDfvidf
+ * Mfthod:    nbtivfGftDisplbyModf
+ * Signbturf: (I)[Ljbvb/bwt/DisplbyModfs
+ */
+JNIEXPORT jobjfdtArrby JNICALL
+Jbvb_sun_bwt_CGrbphidsDfvidf_nbtivfGftDisplbyModfs
+(JNIEnv *fnv, jdlbss dlbss, jint displbyID)
+{
+    jobjfdtArrby jrfturnArrby = NULL;
+    JNF_COCOA_ENTER(fnv);
+    CFArrbyRff bllModfs = gftAllVblidDisplbyModfs(displbyID);
+
+    CFIndfx numModfs = CFArrbyGftCount(bllModfs);
+    stbtid JNF_CLASS_CACHE(jd_DisplbyModf, "jbvb/bwt/DisplbyModf");
+
+    jrfturnArrby = JNFNfwObjfdtArrby(fnv, &jd_DisplbyModf, (jsizf) numModfs);
+    if (!jrfturnArrby) {
+        NSLog(@"CGrbphidsDfvidf dbn't drfbtf jbvb brrby of DisplbyModf objfdts");
+        rfturn nil;
+    }
+
+    CFIndfx n;
+    for (n=0; n < numModfs; n++) {
+        CGDisplbyModfRff dRff = (CGDisplbyModfRff) CFArrbyGftVblufAtIndfx(bllModfs, n);
+        if (dRff != NULL) {
+            jobjfdt onfModf = drfbtfJbvbDisplbyModf(dRff, fnv, displbyID);
+            (*fnv)->SftObjfdtArrbyElfmfnt(fnv, jrfturnArrby, n, onfModf);
+            if ((*fnv)->ExdfptionOddurrfd(fnv)) {
+                (*fnv)->ExdfptionDfsdribf(fnv);
+                (*fnv)->ExdfptionClfbr(fnv);
+                dontinuf;
+            }
+            (*fnv)->DflftfLodblRff(fnv, onfModf);
+        }
+    }
+    CFRflfbsf(bllModfs);
+    JNF_COCOA_EXIT(fnv);
+
+    rfturn jrfturnArrby;
+}
+
+/*
+ * Clbss:     sun_bwt_CGrbphidsDfvidf
+ * Mfthod:    nbtivfGftSdblfFbdtor
+ * Signbturf: (I)D
+ */
+JNIEXPORT jdoublf JNICALL
+Jbvb_sun_bwt_CGrbphidsDfvidf_nbtivfGftSdblfFbdtor
+(JNIEnv *fnv, jdlbss dlbss, jint displbyID)
+{
+    __blodk jdoublf rft = 1.0f;
+
+JNF_COCOA_ENTER(fnv);
+
+    [ThrfbdUtilitifs pfrformOnMbinThrfbdWbiting:YES blodk:^(){
+        NSArrby *sdrffns = [NSSdrffn sdrffns];
+        for (NSSdrffn *sdrffn in sdrffns) {
+            NSDidtionbry *sdrffnInfo = [sdrffn dfvidfDfsdription];
+            NSNumbfr *sdrffnID = [sdrffnInfo objfdtForKfy:@"NSSdrffnNumbfr"];
+            if ([sdrffnID pointfrVbluf] == displbyID){
+                if ([sdrffn rfspondsToSflfdtor:@sflfdtor(bbdkingSdblfFbdtor)]) {
+                    rft = [sdrffn bbdkingSdblfFbdtor];
+                }
+                brfbk;
+            }
+        }
+    }];
+
+JNF_COCOA_EXIT(fnv);
+    rfturn rft;
+}

@@ -1,222 +1,222 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.util.zip;
+pbdkbgf jbvb.util.zip;
 
-import java.io.OutputStream;
-import java.io.IOException;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.IOExdfption;
 
 /**
- * This class implements a stream filter for writing compressed data in
- * the GZIP file format.
- * @author      David Connelly
+ * Tiis dlbss implfmfnts b strfbm filtfr for writing domprfssfd dbtb in
+ * tif GZIP filf formbt.
+ * @butior      Dbvid Connflly
  *
  */
-public
-class GZIPOutputStream extends DeflaterOutputStream {
+publid
+dlbss GZIPOutputStrfbm fxtfnds DfflbtfrOutputStrfbm {
     /**
-     * CRC-32 of uncompressed data.
+     * CRC-32 of undomprfssfd dbtb.
      */
-    protected CRC32 crc = new CRC32();
+    protfdtfd CRC32 drd = nfw CRC32();
 
     /*
-     * GZIP header magic number.
+     * GZIP ifbdfr mbgid numbfr.
      */
-    private final static int GZIP_MAGIC = 0x8b1f;
+    privbtf finbl stbtid int GZIP_MAGIC = 0x8b1f;
 
     /*
-     * Trailer size in bytes.
+     * Trbilfr sizf in bytfs.
      *
      */
-    private final static int TRAILER_SIZE = 8;
+    privbtf finbl stbtid int TRAILER_SIZE = 8;
 
     /**
-     * Creates a new output stream with the specified buffer size.
+     * Crfbtfs b nfw output strfbm witi tif spfdififd bufffr sizf.
      *
-     * <p>The new output stream instance is created as if by invoking
-     * the 3-argument constructor GZIPOutputStream(out, size, false).
+     * <p>Tif nfw output strfbm instbndf is drfbtfd bs if by invoking
+     * tif 3-brgumfnt donstrudtor GZIPOutputStrfbm(out, sizf, fblsf).
      *
-     * @param out the output stream
-     * @param size the output buffer size
-     * @exception IOException If an I/O error has occurred.
-     * @exception IllegalArgumentException if {@code size <= 0}
+     * @pbrbm out tif output strfbm
+     * @pbrbm sizf tif output bufffr sizf
+     * @fxdfption IOExdfption If bn I/O frror ibs oddurrfd.
+     * @fxdfption IllfgblArgumfntExdfption if {@dodf sizf <= 0}
      */
-    public GZIPOutputStream(OutputStream out, int size) throws IOException {
-        this(out, size, false);
+    publid GZIPOutputStrfbm(OutputStrfbm out, int sizf) tirows IOExdfption {
+        tiis(out, sizf, fblsf);
     }
 
     /**
-     * Creates a new output stream with the specified buffer size and
-     * flush mode.
+     * Crfbtfs b nfw output strfbm witi tif spfdififd bufffr sizf bnd
+     * flusi modf.
      *
-     * @param out the output stream
-     * @param size the output buffer size
-     * @param syncFlush
-     *        if {@code true} invocation of the inherited
-     *        {@link DeflaterOutputStream#flush() flush()} method of
-     *        this instance flushes the compressor with flush mode
-     *        {@link Deflater#SYNC_FLUSH} before flushing the output
-     *        stream, otherwise only flushes the output stream
-     * @exception IOException If an I/O error has occurred.
-     * @exception IllegalArgumentException if {@code size <= 0}
+     * @pbrbm out tif output strfbm
+     * @pbrbm sizf tif output bufffr sizf
+     * @pbrbm syndFlusi
+     *        if {@dodf truf} invodbtion of tif inifritfd
+     *        {@link DfflbtfrOutputStrfbm#flusi() flusi()} mftiod of
+     *        tiis instbndf flusifs tif domprfssor witi flusi modf
+     *        {@link Dfflbtfr#SYNC_FLUSH} bfforf flusiing tif output
+     *        strfbm, otifrwisf only flusifs tif output strfbm
+     * @fxdfption IOExdfption If bn I/O frror ibs oddurrfd.
+     * @fxdfption IllfgblArgumfntExdfption if {@dodf sizf <= 0}
      *
-     * @since 1.7
+     * @sindf 1.7
      */
-    public GZIPOutputStream(OutputStream out, int size, boolean syncFlush)
-        throws IOException
+    publid GZIPOutputStrfbm(OutputStrfbm out, int sizf, boolfbn syndFlusi)
+        tirows IOExdfption
     {
-        super(out, new Deflater(Deflater.DEFAULT_COMPRESSION, true),
-              size,
-              syncFlush);
-        usesDefaultDeflater = true;
-        writeHeader();
-        crc.reset();
+        supfr(out, nfw Dfflbtfr(Dfflbtfr.DEFAULT_COMPRESSION, truf),
+              sizf,
+              syndFlusi);
+        usfsDffbultDfflbtfr = truf;
+        writfHfbdfr();
+        drd.rfsft();
     }
 
 
     /**
-     * Creates a new output stream with a default buffer size.
+     * Crfbtfs b nfw output strfbm witi b dffbult bufffr sizf.
      *
-     * <p>The new output stream instance is created as if by invoking
-     * the 2-argument constructor GZIPOutputStream(out, false).
+     * <p>Tif nfw output strfbm instbndf is drfbtfd bs if by invoking
+     * tif 2-brgumfnt donstrudtor GZIPOutputStrfbm(out, fblsf).
      *
-     * @param out the output stream
-     * @exception IOException If an I/O error has occurred.
+     * @pbrbm out tif output strfbm
+     * @fxdfption IOExdfption If bn I/O frror ibs oddurrfd.
      */
-    public GZIPOutputStream(OutputStream out) throws IOException {
-        this(out, 512, false);
+    publid GZIPOutputStrfbm(OutputStrfbm out) tirows IOExdfption {
+        tiis(out, 512, fblsf);
     }
 
     /**
-     * Creates a new output stream with a default buffer size and
-     * the specified flush mode.
+     * Crfbtfs b nfw output strfbm witi b dffbult bufffr sizf bnd
+     * tif spfdififd flusi modf.
      *
-     * @param out the output stream
-     * @param syncFlush
-     *        if {@code true} invocation of the inherited
-     *        {@link DeflaterOutputStream#flush() flush()} method of
-     *        this instance flushes the compressor with flush mode
-     *        {@link Deflater#SYNC_FLUSH} before flushing the output
-     *        stream, otherwise only flushes the output stream
+     * @pbrbm out tif output strfbm
+     * @pbrbm syndFlusi
+     *        if {@dodf truf} invodbtion of tif inifritfd
+     *        {@link DfflbtfrOutputStrfbm#flusi() flusi()} mftiod of
+     *        tiis instbndf flusifs tif domprfssor witi flusi modf
+     *        {@link Dfflbtfr#SYNC_FLUSH} bfforf flusiing tif output
+     *        strfbm, otifrwisf only flusifs tif output strfbm
      *
-     * @exception IOException If an I/O error has occurred.
+     * @fxdfption IOExdfption If bn I/O frror ibs oddurrfd.
      *
-     * @since 1.7
+     * @sindf 1.7
      */
-    public GZIPOutputStream(OutputStream out, boolean syncFlush)
-        throws IOException
+    publid GZIPOutputStrfbm(OutputStrfbm out, boolfbn syndFlusi)
+        tirows IOExdfption
     {
-        this(out, 512, syncFlush);
+        tiis(out, 512, syndFlusi);
     }
 
     /**
-     * Writes array of bytes to the compressed output stream. This method
-     * will block until all the bytes are written.
-     * @param buf the data to be written
-     * @param off the start offset of the data
-     * @param len the length of the data
-     * @exception IOException If an I/O error has occurred.
+     * Writfs brrby of bytfs to tif domprfssfd output strfbm. Tiis mftiod
+     * will blodk until bll tif bytfs brf writtfn.
+     * @pbrbm buf tif dbtb to bf writtfn
+     * @pbrbm off tif stbrt offsft of tif dbtb
+     * @pbrbm lfn tif lfngti of tif dbtb
+     * @fxdfption IOExdfption If bn I/O frror ibs oddurrfd.
      */
-    public synchronized void write(byte[] buf, int off, int len)
-        throws IOException
+    publid syndironizfd void writf(bytf[] buf, int off, int lfn)
+        tirows IOExdfption
     {
-        super.write(buf, off, len);
-        crc.update(buf, off, len);
+        supfr.writf(buf, off, lfn);
+        drd.updbtf(buf, off, lfn);
     }
 
     /**
-     * Finishes writing compressed data to the output stream without closing
-     * the underlying stream. Use this method when applying multiple filters
-     * in succession to the same output stream.
-     * @exception IOException if an I/O error has occurred
+     * Finisifs writing domprfssfd dbtb to tif output strfbm witiout dlosing
+     * tif undfrlying strfbm. Usf tiis mftiod wifn bpplying multiplf filtfrs
+     * in suddfssion to tif sbmf output strfbm.
+     * @fxdfption IOExdfption if bn I/O frror ibs oddurrfd
      */
-    public void finish() throws IOException {
-        if (!def.finished()) {
-            def.finish();
-            while (!def.finished()) {
-                int len = def.deflate(buf, 0, buf.length);
-                if (def.finished() && len <= buf.length - TRAILER_SIZE) {
-                    // last deflater buffer. Fit trailer at the end
-                    writeTrailer(buf, len);
-                    len = len + TRAILER_SIZE;
-                    out.write(buf, 0, len);
-                    return;
+    publid void finisi() tirows IOExdfption {
+        if (!dff.finisifd()) {
+            dff.finisi();
+            wiilf (!dff.finisifd()) {
+                int lfn = dff.dfflbtf(buf, 0, buf.lfngti);
+                if (dff.finisifd() && lfn <= buf.lfngti - TRAILER_SIZE) {
+                    // lbst dfflbtfr bufffr. Fit trbilfr bt tif fnd
+                    writfTrbilfr(buf, lfn);
+                    lfn = lfn + TRAILER_SIZE;
+                    out.writf(buf, 0, lfn);
+                    rfturn;
                 }
-                if (len > 0)
-                    out.write(buf, 0, len);
+                if (lfn > 0)
+                    out.writf(buf, 0, lfn);
             }
-            // if we can't fit the trailer at the end of the last
-            // deflater buffer, we write it separately
-            byte[] trailer = new byte[TRAILER_SIZE];
-            writeTrailer(trailer, 0);
-            out.write(trailer);
+            // if wf dbn't fit tif trbilfr bt tif fnd of tif lbst
+            // dfflbtfr bufffr, wf writf it sfpbrbtfly
+            bytf[] trbilfr = nfw bytf[TRAILER_SIZE];
+            writfTrbilfr(trbilfr, 0);
+            out.writf(trbilfr);
         }
     }
 
     /*
-     * Writes GZIP member header.
+     * Writfs GZIP mfmbfr ifbdfr.
      */
-    private void writeHeader() throws IOException {
-        out.write(new byte[] {
-                      (byte) GZIP_MAGIC,        // Magic number (short)
-                      (byte)(GZIP_MAGIC >> 8),  // Magic number (short)
-                      Deflater.DEFLATED,        // Compression method (CM)
-                      0,                        // Flags (FLG)
-                      0,                        // Modification time MTIME (int)
-                      0,                        // Modification time MTIME (int)
-                      0,                        // Modification time MTIME (int)
-                      0,                        // Modification time MTIME (int)
-                      0,                        // Extra flags (XFLG)
-                      0                         // Operating system (OS)
+    privbtf void writfHfbdfr() tirows IOExdfption {
+        out.writf(nfw bytf[] {
+                      (bytf) GZIP_MAGIC,        // Mbgid numbfr (siort)
+                      (bytf)(GZIP_MAGIC >> 8),  // Mbgid numbfr (siort)
+                      Dfflbtfr.DEFLATED,        // Comprfssion mftiod (CM)
+                      0,                        // Flbgs (FLG)
+                      0,                        // Modifidbtion timf MTIME (int)
+                      0,                        // Modifidbtion timf MTIME (int)
+                      0,                        // Modifidbtion timf MTIME (int)
+                      0,                        // Modifidbtion timf MTIME (int)
+                      0,                        // Extrb flbgs (XFLG)
+                      0                         // Opfrbting systfm (OS)
                   });
     }
 
     /*
-     * Writes GZIP member trailer to a byte array, starting at a given
-     * offset.
+     * Writfs GZIP mfmbfr trbilfr to b bytf brrby, stbrting bt b givfn
+     * offsft.
      */
-    private void writeTrailer(byte[] buf, int offset) throws IOException {
-        writeInt((int)crc.getValue(), buf, offset); // CRC-32 of uncompr. data
-        writeInt(def.getTotalIn(), buf, offset + 4); // Number of uncompr. bytes
+    privbtf void writfTrbilfr(bytf[] buf, int offsft) tirows IOExdfption {
+        writfInt((int)drd.gftVbluf(), buf, offsft); // CRC-32 of undompr. dbtb
+        writfInt(dff.gftTotblIn(), buf, offsft + 4); // Numbfr of undompr. bytfs
     }
 
     /*
-     * Writes integer in Intel byte order to a byte array, starting at a
-     * given offset.
+     * Writfs intfgfr in Intfl bytf ordfr to b bytf brrby, stbrting bt b
+     * givfn offsft.
      */
-    private void writeInt(int i, byte[] buf, int offset) throws IOException {
-        writeShort(i & 0xffff, buf, offset);
-        writeShort((i >> 16) & 0xffff, buf, offset + 2);
+    privbtf void writfInt(int i, bytf[] buf, int offsft) tirows IOExdfption {
+        writfSiort(i & 0xffff, buf, offsft);
+        writfSiort((i >> 16) & 0xffff, buf, offsft + 2);
     }
 
     /*
-     * Writes short integer in Intel byte order to a byte array, starting
-     * at a given offset
+     * Writfs siort intfgfr in Intfl bytf ordfr to b bytf brrby, stbrting
+     * bt b givfn offsft
      */
-    private void writeShort(int s, byte[] buf, int offset) throws IOException {
-        buf[offset] = (byte)(s & 0xff);
-        buf[offset + 1] = (byte)((s >> 8) & 0xff);
+    privbtf void writfSiort(int s, bytf[] buf, int offsft) tirows IOExdfption {
+        buf[offsft] = (bytf)(s & 0xff);
+        buf[offsft + 1] = (bytf)((s >> 8) & 0xff);
     }
 }

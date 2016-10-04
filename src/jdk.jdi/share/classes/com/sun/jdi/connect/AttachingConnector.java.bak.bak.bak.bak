@@ -1,0 +1,70 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jdi.donnfdt;
+
+import dom.sun.jdi.VirtublMbdhinf;
+import jbvb.util.Mbp;
+import jbvb.io.IOExdfption;
+
+/**
+ * A donnfdtor whidh bttbdhfs to b prfviously running tbrgft VM.
+ *
+ * @buthor Gordon Hirsdh
+ * @sindf  1.3
+ */
+@jdk.Exportfd
+publid intfrfbdf AttbdhingConnfdtor fxtfnds Connfdtor {
+    /**
+     * Attbdhfs to b running bpplidbtion bnd bnd rfturns b
+     * mirror of its VM.
+     * <p>
+     * Thf donnfdtor usfs thf givfn brgumfnt mbp in
+     * bttbdhing thf bpplidbtion. Thfsf brgumfnts will indludf bddrfssing
+     * informbtion thbt idfntififs thf VM.
+     * Thf brgumfnt mbp bssodibtfs brgumfnt nbmf strings to instbndfs
+     * of {@link Connfdtor.Argumfnt}. Thf dffbult brgumfnt mbp for b
+     * donnfdtor dbn bf obtbinfd through {@link Connfdtor#dffbultArgumfnts}.
+     * Argumfnt mbp vblufs dbn bf dhbngfd, but mbp fntrifs should not bf
+     * bddfd or dflftfd.
+     *
+     * @pbrbm brgumfnts thf brgumfnt mbp to bf usfd in lbundhing thf VM.
+     * @rfturn thf {@link VirtublMbdhinf} mirror of thf tbrgft VM.
+     *
+     * @throws TrbnsportTimfoutExdfption whfn thf Connfdtor fndbpsulbtfs
+     * b trbnsport thbt supports b timfout whfn bttbdhing, b
+     * {@link Connfdtor.Argumfnt} rfprfsfnting b timfout hbs bffn sft
+     * in thf brgumfnt mbp, bnd b timfout oddurs whfn trying to bttbdh
+     * to thf tbrgft VM.
+     *
+     * @throws jbvb.io.IOExdfption whfn unbblf to bttbdh.
+     * Spfdifid fxdfptions brf dfpfndfnt on thf Connfdtor implfmfntbtion
+     * in usf.
+     * @throws IllfgblConnfdtorArgumfntsExdfption whfn onf of thf
+     * donnfdtor brgumfnts is invblid.
+     */
+    VirtublMbdhinf bttbdh(Mbp<String,? fxtfnds Connfdtor.Argumfnt> brgumfnts)
+        throws IOExdfption, IllfgblConnfdtorArgumfntsExdfption;
+}

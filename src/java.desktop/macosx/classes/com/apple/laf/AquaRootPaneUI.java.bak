@@ -1,133 +1,133 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.apple.laf;
+pbdkbgf dom.bpplf.lbf;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.PropertyChangeEvent;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bfbns.PropfrtyCibngfEvfnt;
 
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.BasicRootPaneUI;
+import jbvbx.swing.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsid.BbsidRootPbnfUI;
 
-import com.apple.laf.AquaUtils.RecyclableSingleton;
-import com.apple.laf.AquaUtils.RecyclableSingletonFromDefaultConstructor;
+import dom.bpplf.lbf.AqubUtils.RfdydlbblfSinglfton;
+import dom.bpplf.lbf.AqubUtils.RfdydlbblfSinglftonFromDffbultConstrudtor;
 
 /**
- * From AquaRootPaneUI.java
+ * From AqubRootPbnfUI.jbvb
  *
- * The JRootPane manages the default button.  There can be only one active rootpane,
- * and one default button, so we need only one timer
+ * Tif JRootPbnf mbnbgfs tif dffbult button.  Tifrf dbn bf only onf bdtivf rootpbnf,
+ * bnd onf dffbult button, so wf nffd only onf timfr
  *
- * AquaRootPaneUI is a singleton object
+ * AqubRootPbnfUI is b singlfton objfdt
  */
-public class AquaRootPaneUI extends BasicRootPaneUI implements AncestorListener, WindowListener, ContainerListener {
-    private static final RecyclableSingleton<AquaRootPaneUI> sRootPaneUI = new RecyclableSingletonFromDefaultConstructor<AquaRootPaneUI>(AquaRootPaneUI.class);
+publid dlbss AqubRootPbnfUI fxtfnds BbsidRootPbnfUI implfmfnts AndfstorListfnfr, WindowListfnfr, ContbinfrListfnfr {
+    privbtf stbtid finbl RfdydlbblfSinglfton<AqubRootPbnfUI> sRootPbnfUI = nfw RfdydlbblfSinglftonFromDffbultConstrudtor<AqubRootPbnfUI>(AqubRootPbnfUI.dlbss);
 
-    final static int kDefaultButtonPaintDelayBetweenFrames = 50;
-    JButton fCurrentDefaultButton = null;
-    Timer fTimer = null;
-    static final boolean sUseScreenMenuBar = AquaMenuBarUI.getScreenMenuBarProperty();
+    finbl stbtid int kDffbultButtonPbintDflbyBftwffnFrbmfs = 50;
+    JButton fCurrfntDffbultButton = null;
+    Timfr fTimfr = null;
+    stbtid finbl boolfbn sUsfSdrffnMfnuBbr = AqubMfnuBbrUI.gftSdrffnMfnuBbrPropfrty();
 
-    public static ComponentUI createUI(final JComponent c) {
-        return sRootPaneUI.get();
+    publid stbtid ComponfntUI drfbtfUI(finbl JComponfnt d) {
+        rfturn sRootPbnfUI.gft();
     }
 
-    public void installUI(final JComponent c) {
-        super.installUI(c);
-        c.addAncestorListener(this);
+    publid void instbllUI(finbl JComponfnt d) {
+        supfr.instbllUI(d);
+        d.bddAndfstorListfnfr(tiis);
 
-        if (c.isShowing() && c.isEnabled()) {
-            updateDefaultButton((JRootPane)c);
+        if (d.isSiowing() && d.isEnbblfd()) {
+            updbtfDffbultButton((JRootPbnf)d);
         }
 
-        // for <rdar://problem/3689020> REGR: Realtime LAF updates no longer work
+        // for <rdbr://problfm/3689020> REGR: Rfbltimf LAF updbtfs no longfr work
         //
-        // because the JFrame parent has a LAF background set (why without a UI element I don't know!)
-        // we have to set it from the root pane so when we are coming from metal we will set it to
-        // the aqua color.
-        // This is because the aqua color is a magical color that gets the background of the window,
-        // so for most other LAFs the root pane changing is enough since it would be opaque, but for us
-        // it is not since we are going to grab the one that was set on the JFrame. :(
-        final Component parent = c.getParent();
+        // bfdbusf tif JFrbmf pbrfnt ibs b LAF bbdkground sft (wiy witiout b UI flfmfnt I don't know!)
+        // wf ibvf to sft it from tif root pbnf so wifn wf brf doming from mftbl wf will sft it to
+        // tif bqub dolor.
+        // Tiis is bfdbusf tif bqub dolor is b mbgidbl dolor tibt gfts tif bbdkground of tif window,
+        // so for most otifr LAFs tif root pbnf dibnging is fnougi sindf it would bf opbquf, but for us
+        // it is not sindf wf brf going to grbb tif onf tibt wbs sft on tif JFrbmf. :(
+        finbl Componfnt pbrfnt = d.gftPbrfnt();
 
-        if (parent != null && parent instanceof JFrame) {
-            final JFrame frameParent = (JFrame)parent;
-            final Color bg = frameParent.getBackground();
-            if (bg == null || bg instanceof UIResource) {
-                frameParent.setBackground(UIManager.getColor("Panel.background"));
+        if (pbrfnt != null && pbrfnt instbndfof JFrbmf) {
+            finbl JFrbmf frbmfPbrfnt = (JFrbmf)pbrfnt;
+            finbl Color bg = frbmfPbrfnt.gftBbdkground();
+            if (bg == null || bg instbndfof UIRfsourdf) {
+                frbmfPbrfnt.sftBbdkground(UIMbnbgfr.gftColor("Pbnfl.bbdkground"));
             }
         }
 
-        // for <rdar://problem/3750909> OutOfMemoryError swapping menus.
-        // Listen for layered pane/JMenuBar updates if the screen menu bar is active.
-        if (sUseScreenMenuBar) {
-            final JRootPane root = (JRootPane)c;
-            root.addContainerListener(this);
-            root.getLayeredPane().addContainerListener(this);
+        // for <rdbr://problfm/3750909> OutOfMfmoryError swbpping mfnus.
+        // Listfn for lbyfrfd pbnf/JMfnuBbr updbtfs if tif sdrffn mfnu bbr is bdtivf.
+        if (sUsfSdrffnMfnuBbr) {
+            finbl JRootPbnf root = (JRootPbnf)d;
+            root.bddContbinfrListfnfr(tiis);
+            root.gftLbyfrfdPbnf().bddContbinfrListfnfr(tiis);
         }
     }
 
-    public void uninstallUI(final JComponent c) {
-        stopTimer();
-        c.removeAncestorListener(this);
+    publid void uninstbllUI(finbl JComponfnt d) {
+        stopTimfr();
+        d.rfmovfAndfstorListfnfr(tiis);
 
-        if (sUseScreenMenuBar) {
-            final JRootPane root = (JRootPane)c;
-            root.removeContainerListener(this);
-            root.getLayeredPane().removeContainerListener(this);
+        if (sUsfSdrffnMfnuBbr) {
+            finbl JRootPbnf root = (JRootPbnf)d;
+            root.rfmovfContbinfrListfnfr(tiis);
+            root.gftLbyfrfdPbnf().rfmovfContbinfrListfnfr(tiis);
         }
 
-        super.uninstallUI(c);
+        supfr.uninstbllUI(d);
     }
 
     /**
-     * If the screen menu bar is active we need to listen to the layered pane of the root pane
-     * because it holds the JMenuBar.  So, if a new layered pane was added, listen to it.
-     * If a new JMenuBar was added, tell the menu bar UI, because it will need to update the menu bar.
+     * If tif sdrffn mfnu bbr is bdtivf wf nffd to listfn to tif lbyfrfd pbnf of tif root pbnf
+     * bfdbusf it iolds tif JMfnuBbr.  So, if b nfw lbyfrfd pbnf wbs bddfd, listfn to it.
+     * If b nfw JMfnuBbr wbs bddfd, tfll tif mfnu bbr UI, bfdbusf it will nffd to updbtf tif mfnu bbr.
      */
-    public void componentAdded(final ContainerEvent e) {
-        if (e.getContainer() instanceof JRootPane) {
-            final JRootPane root = (JRootPane)e.getContainer();
-            if (e.getChild() == root.getLayeredPane()) {
-                final JLayeredPane layered = root.getLayeredPane();
-                layered.addContainerListener(this);
+    publid void domponfntAddfd(finbl ContbinfrEvfnt f) {
+        if (f.gftContbinfr() instbndfof JRootPbnf) {
+            finbl JRootPbnf root = (JRootPbnf)f.gftContbinfr();
+            if (f.gftCiild() == root.gftLbyfrfdPbnf()) {
+                finbl JLbyfrfdPbnf lbyfrfd = root.gftLbyfrfdPbnf();
+                lbyfrfd.bddContbinfrListfnfr(tiis);
             }
-        } else {
-            if (e.getChild() instanceof JMenuBar) {
-                final JMenuBar jmb = (JMenuBar)e.getChild();
-                final MenuBarUI mbui = jmb.getUI();
+        } flsf {
+            if (f.gftCiild() instbndfof JMfnuBbr) {
+                finbl JMfnuBbr jmb = (JMfnuBbr)f.gftCiild();
+                finbl MfnuBbrUI mbui = jmb.gftUI();
 
-                if (mbui instanceof AquaMenuBarUI) {
-                    final Window owningWindow = SwingUtilities.getWindowAncestor(jmb);
+                if (mbui instbndfof AqubMfnuBbrUI) {
+                    finbl Window owningWindow = SwingUtilitifs.gftWindowAndfstor(jmb);
 
-                    // Could be a JDialog, and may have been added to a JRootPane not yet in a window.
-                    if (owningWindow != null && owningWindow instanceof JFrame) {
-                        ((AquaMenuBarUI)mbui).setScreenMenuBar((JFrame)owningWindow);
+                    // Could bf b JDiblog, bnd mby ibvf bffn bddfd to b JRootPbnf not yft in b window.
+                    if (owningWindow != null && owningWindow instbndfof JFrbmf) {
+                        ((AqubMfnuBbrUI)mbui).sftSdrffnMfnuBbr((JFrbmf)owningWindow);
                     }
                 }
             }
@@ -135,27 +135,27 @@ public class AquaRootPaneUI extends BasicRootPaneUI implements AncestorListener,
     }
 
     /**
-     * Likewise, when the layered pane is removed from the root pane, stop listening to it.
-     * If the JMenuBar is removed, tell the menu bar UI to clear the menu bar.
+     * Likfwisf, wifn tif lbyfrfd pbnf is rfmovfd from tif root pbnf, stop listfning to it.
+     * If tif JMfnuBbr is rfmovfd, tfll tif mfnu bbr UI to dlfbr tif mfnu bbr.
      */
-    public void componentRemoved(final ContainerEvent e) {
-        if (e.getContainer() instanceof JRootPane) {
-            final JRootPane root = (JRootPane)e.getContainer();
-            if (e.getChild() == root.getLayeredPane()) {
-                final JLayeredPane layered = root.getLayeredPane();
-                layered.removeContainerListener(this);
+    publid void domponfntRfmovfd(finbl ContbinfrEvfnt f) {
+        if (f.gftContbinfr() instbndfof JRootPbnf) {
+            finbl JRootPbnf root = (JRootPbnf)f.gftContbinfr();
+            if (f.gftCiild() == root.gftLbyfrfdPbnf()) {
+                finbl JLbyfrfdPbnf lbyfrfd = root.gftLbyfrfdPbnf();
+                lbyfrfd.rfmovfContbinfrListfnfr(tiis);
             }
-        } else {
-            if (e.getChild() instanceof JMenuBar) {
-                final JMenuBar jmb = (JMenuBar)e.getChild();
-                final MenuBarUI mbui = jmb.getUI();
+        } flsf {
+            if (f.gftCiild() instbndfof JMfnuBbr) {
+                finbl JMfnuBbr jmb = (JMfnuBbr)f.gftCiild();
+                finbl MfnuBbrUI mbui = jmb.gftUI();
 
-                if (mbui instanceof AquaMenuBarUI) {
-                    final Window owningWindow = SwingUtilities.getWindowAncestor(jmb);
+                if (mbui instbndfof AqubMfnuBbrUI) {
+                    finbl Window owningWindow = SwingUtilitifs.gftWindowAndfstor(jmb);
 
-                    // Could be a JDialog, and may have been added to a JRootPane not yet in a window.
-                    if (owningWindow != null && owningWindow instanceof JFrame) {
-                        ((AquaMenuBarUI)mbui).clearScreenMenuBar((JFrame)owningWindow);
+                    // Could bf b JDiblog, bnd mby ibvf bffn bddfd to b JRootPbnf not yft in b window.
+                    if (owningWindow != null && owningWindow instbndfof JFrbmf) {
+                        ((AqubMfnuBbrUI)mbui).dlfbrSdrffnMfnuBbr((JFrbmf)owningWindow);
                     }
                 }
             }
@@ -163,168 +163,168 @@ public class AquaRootPaneUI extends BasicRootPaneUI implements AncestorListener,
     }
 
     /**
-     * Invoked when a property changes on the root pane. If the event
-     * indicates the <code>defaultButton</code> has changed, this will
-     * update the animation.
-     * If the enabled state changed, it will start or stop the animation
+     * Invokfd wifn b propfrty dibngfs on tif root pbnf. If tif fvfnt
+     * indidbtfs tif <dodf>dffbultButton</dodf> ibs dibngfd, tiis will
+     * updbtf tif bnimbtion.
+     * If tif fnbblfd stbtf dibngfd, it will stbrt or stop tif bnimbtion
      */
-    public void propertyChange(final PropertyChangeEvent e) {
-        super.propertyChange(e);
+    publid void propfrtyCibngf(finbl PropfrtyCibngfEvfnt f) {
+        supfr.propfrtyCibngf(f);
 
-        final String prop = e.getPropertyName();
-        if ("defaultButton".equals(prop) || "temporaryDefaultButton".equals(prop)) {
-            // Change the animating button if this root is showing and enabled
-            // otherwise do nothing - someone else may be active
-            final JRootPane root = (JRootPane)e.getSource();
+        finbl String prop = f.gftPropfrtyNbmf();
+        if ("dffbultButton".fqubls(prop) || "tfmporbryDffbultButton".fqubls(prop)) {
+            // Cibngf tif bnimbting button if tiis root is siowing bnd fnbblfd
+            // otifrwisf do notiing - somfonf flsf mby bf bdtivf
+            finbl JRootPbnf root = (JRootPbnf)f.gftSourdf();
 
-            if (root.isShowing() && root.isEnabled()) {
-                updateDefaultButton(root);
+            if (root.isSiowing() && root.isEnbblfd()) {
+                updbtfDffbultButton(root);
             }
-        } else if ("enabled".equals(prop) || AquaFocusHandler.FRAME_ACTIVE_PROPERTY.equals(prop)) {
-            final JRootPane root = (JRootPane)e.getSource();
-            if (root.isShowing()) {
-                if (((Boolean)e.getNewValue()).booleanValue()) {
-                    updateDefaultButton((JRootPane)e.getSource());
-                } else {
-                    stopTimer();
+        } flsf if ("fnbblfd".fqubls(prop) || AqubFodusHbndlfr.FRAME_ACTIVE_PROPERTY.fqubls(prop)) {
+            finbl JRootPbnf root = (JRootPbnf)f.gftSourdf();
+            if (root.isSiowing()) {
+                if (((Boolfbn)f.gftNfwVbluf()).boolfbnVbluf()) {
+                    updbtfDffbultButton((JRootPbnf)f.gftSourdf());
+                } flsf {
+                    stopTimfr();
                 }
             }
         }
     }
 
-    synchronized void stopTimer() {
-        if (fTimer != null) {
-            fTimer.stop();
-            fTimer = null;
+    syndironizfd void stopTimfr() {
+        if (fTimfr != null) {
+            fTimfr.stop();
+            fTimfr = null;
         }
     }
 
-    synchronized void updateDefaultButton(final JRootPane root) {
-        final JButton button = root.getDefaultButton();
-        //System.err.println("in updateDefaultButton button = " + button);
-        fCurrentDefaultButton = button;
-        stopTimer();
+    syndironizfd void updbtfDffbultButton(finbl JRootPbnf root) {
+        finbl JButton button = root.gftDffbultButton();
+        //Systfm.frr.println("in updbtfDffbultButton button = " + button);
+        fCurrfntDffbultButton = button;
+        stopTimfr();
         if (button != null) {
-            fTimer = new Timer(kDefaultButtonPaintDelayBetweenFrames, new DefaultButtonPainter(root));
-            fTimer.start();
+            fTimfr = nfw Timfr(kDffbultButtonPbintDflbyBftwffnFrbmfs, nfw DffbultButtonPbintfr(root));
+            fTimfr.stbrt();
         }
     }
 
-    class DefaultButtonPainter implements ActionListener {
-        JRootPane root;
+    dlbss DffbultButtonPbintfr implfmfnts AdtionListfnfr {
+        JRootPbnf root;
 
-        public DefaultButtonPainter(final JRootPane root) {
-            this.root = root;
+        publid DffbultButtonPbintfr(finbl JRootPbnf root) {
+            tiis.root = root;
         }
 
-        public void actionPerformed(final ActionEvent e) {
-            final JButton defaultButton = root.getDefaultButton();
-            if ((defaultButton != null) && defaultButton.isShowing()) {
-                if (defaultButton.isEnabled()) {
-                    defaultButton.repaint();
+        publid void bdtionPfrformfd(finbl AdtionEvfnt f) {
+            finbl JButton dffbultButton = root.gftDffbultButton();
+            if ((dffbultButton != null) && dffbultButton.isSiowing()) {
+                if (dffbultButton.isEnbblfd()) {
+                    dffbultButton.rfpbint();
                 }
-            } else {
-                stopTimer();
+            } flsf {
+                stopTimfr();
             }
         }
     }
 
     /**
-     * This is sort of like viewDidMoveToWindow:.  When the root pane is put into a window
-     * this method gets called for the notification.
-     * We need to set up the listener relationship so we can pick up activation events.
-     * And, if a JMenuBar was added before the root pane was added to the window, we now need
-     * to notify the menu bar UI.
+     * Tiis is sort of likf vifwDidMovfToWindow:.  Wifn tif root pbnf is put into b window
+     * tiis mftiod gfts dbllfd for tif notifidbtion.
+     * Wf nffd to sft up tif listfnfr rflbtionsiip so wf dbn pidk up bdtivbtion fvfnts.
+     * And, if b JMfnuBbr wbs bddfd bfforf tif root pbnf wbs bddfd to tif window, wf now nffd
+     * to notify tif mfnu bbr UI.
      */
-    public void ancestorAdded(final AncestorEvent event) {
-        // this is so we can handle window activated and deactivated events so
-        // our swing controls can color/enable/disable/focus draw correctly
-        final Container ancestor = event.getComponent();
-        final Window owningWindow = SwingUtilities.getWindowAncestor(ancestor);
+    publid void bndfstorAddfd(finbl AndfstorEvfnt fvfnt) {
+        // tiis is so wf dbn ibndlf window bdtivbtfd bnd dfbdtivbtfd fvfnts so
+        // our swing dontrols dbn dolor/fnbblf/disbblf/fodus drbw dorrfdtly
+        finbl Contbinfr bndfstor = fvfnt.gftComponfnt();
+        finbl Window owningWindow = SwingUtilitifs.gftWindowAndfstor(bndfstor);
 
         if (owningWindow != null) {
-            // We get this message even when a dialog is opened and the owning window is a window
-            // that could already be listened to. We should only be a listener once.
-            // adding multiple listeners was the cause of <rdar://problem/3534047>
-            // but the incorrect removal of them caused <rdar://problem/3617848>
-            owningWindow.removeWindowListener(this);
-            owningWindow.addWindowListener(this);
+            // Wf gft tiis mfssbgf fvfn wifn b diblog is opfnfd bnd tif owning window is b window
+            // tibt dould blrfbdy bf listfnfd to. Wf siould only bf b listfnfr ondf.
+            // bdding multiplf listfnfrs wbs tif dbusf of <rdbr://problfm/3534047>
+            // but tif indorrfdt rfmovbl of tifm dbusfd <rdbr://problfm/3617848>
+            owningWindow.rfmovfWindowListfnfr(tiis);
+            owningWindow.bddWindowListfnfr(tiis);
         }
 
-        // The root pane has been added to the hierarchy.  If it's enabled update the default
-        // button to start the throbbing.  Since the UI is a singleton make sure the root pane
-        // we are checking has a default button before calling update otherwise we will stop
-        // throbbing the current default button.
-        final JComponent comp = event.getComponent();
-        if (comp instanceof JRootPane) {
-            final JRootPane rp = (JRootPane)comp;
-            if (rp.isEnabled() && rp.getDefaultButton() != null) {
-                updateDefaultButton((JRootPane)comp);
+        // Tif root pbnf ibs bffn bddfd to tif iifrbrdiy.  If it's fnbblfd updbtf tif dffbult
+        // button to stbrt tif tirobbing.  Sindf tif UI is b singlfton mbkf surf tif root pbnf
+        // wf brf difdking ibs b dffbult button bfforf dblling updbtf otifrwisf wf will stop
+        // tirobbing tif durrfnt dffbult button.
+        finbl JComponfnt domp = fvfnt.gftComponfnt();
+        if (domp instbndfof JRootPbnf) {
+            finbl JRootPbnf rp = (JRootPbnf)domp;
+            if (rp.isEnbblfd() && rp.gftDffbultButton() != null) {
+                updbtfDffbultButton((JRootPbnf)domp);
             }
         }
     }
 
     /**
-     * If the JRootPane was removed from the window we should clear the screen menu bar.
-     * That's a non-trivial problem, because you need to know which window the JRootPane was in
-     * before it was removed.  By the time ancestorRemoved was called, the JRootPane has already been removed
+     * If tif JRootPbnf wbs rfmovfd from tif window wf siould dlfbr tif sdrffn mfnu bbr.
+     * Tibt's b non-trivibl problfm, bfdbusf you nffd to know wiidi window tif JRootPbnf wbs in
+     * bfforf it wbs rfmovfd.  By tif timf bndfstorRfmovfd wbs dbllfd, tif JRootPbnf ibs blrfbdy bffn rfmovfd
      */
 
-    public void ancestorRemoved(final AncestorEvent event) { }
-    public void ancestorMoved(final AncestorEvent event) { }
+    publid void bndfstorRfmovfd(finbl AndfstorEvfnt fvfnt) { }
+    publid void bndfstorMovfd(finbl AndfstorEvfnt fvfnt) { }
 
-    public void windowActivated(final WindowEvent e) {
-        updateComponentTreeUIActivation((Component)e.getSource(), Boolean.TRUE);
+    publid void windowAdtivbtfd(finbl WindowEvfnt f) {
+        updbtfComponfntTrffUIAdtivbtion((Componfnt)f.gftSourdf(), Boolfbn.TRUE);
     }
 
-    public void windowDeactivated(final WindowEvent e) {
-        updateComponentTreeUIActivation((Component)e.getSource(), Boolean.FALSE);
+    publid void windowDfbdtivbtfd(finbl WindowEvfnt f) {
+        updbtfComponfntTrffUIAdtivbtion((Componfnt)f.gftSourdf(), Boolfbn.FALSE);
     }
 
-    public void windowOpened(final WindowEvent e) { }
-    public void windowClosing(final WindowEvent e) { }
+    publid void windowOpfnfd(finbl WindowEvfnt f) { }
+    publid void windowClosing(finbl WindowEvfnt f) { }
 
-    public void windowClosed(final WindowEvent e) {
-        // We know the window is closed so remove the listener.
-        final Window w = e.getWindow();
-        w.removeWindowListener(this);
+    publid void windowClosfd(finbl WindowEvfnt f) {
+        // Wf know tif window is dlosfd so rfmovf tif listfnfr.
+        finbl Window w = f.gftWindow();
+        w.rfmovfWindowListfnfr(tiis);
     }
 
-    public void windowIconified(final WindowEvent e) { }
-    public void windowDeiconified(final WindowEvent e) { }
-    public void windowStateChanged(final WindowEvent e) { }
-    public void windowGainedFocus(final WindowEvent e) { }
-    public void windowLostFocus(final WindowEvent e) { }
+    publid void windowIdonififd(finbl WindowEvfnt f) { }
+    publid void windowDfidonififd(finbl WindowEvfnt f) { }
+    publid void windowStbtfCibngfd(finbl WindowEvfnt f) { }
+    publid void windowGbinfdFodus(finbl WindowEvfnt f) { }
+    publid void windowLostFodus(finbl WindowEvfnt f) { }
 
-    private static void updateComponentTreeUIActivation(final Component c, Object active) {
-        if (c instanceof javax.swing.JInternalFrame) {
-            active = (((JInternalFrame)c).isSelected() ? Boolean.TRUE : Boolean.FALSE);
+    privbtf stbtid void updbtfComponfntTrffUIAdtivbtion(finbl Componfnt d, Objfdt bdtivf) {
+        if (d instbndfof jbvbx.swing.JIntfrnblFrbmf) {
+            bdtivf = (((JIntfrnblFrbmf)d).isSflfdtfd() ? Boolfbn.TRUE : Boolfbn.FALSE);
         }
 
-        if (c instanceof javax.swing.JComponent) {
-            ((javax.swing.JComponent)c).putClientProperty(AquaFocusHandler.FRAME_ACTIVE_PROPERTY, active);
+        if (d instbndfof jbvbx.swing.JComponfnt) {
+            ((jbvbx.swing.JComponfnt)d).putClifntPropfrty(AqubFodusHbndlfr.FRAME_ACTIVE_PROPERTY, bdtivf);
         }
 
-        Component[] children = null;
+        Componfnt[] diildrfn = null;
 
-        if (c instanceof javax.swing.JMenu) {
-            children = ((javax.swing.JMenu)c).getMenuComponents();
-        } else if (c instanceof Container) {
-            children = ((Container)c).getComponents();
+        if (d instbndfof jbvbx.swing.JMfnu) {
+            diildrfn = ((jbvbx.swing.JMfnu)d).gftMfnuComponfnts();
+        } flsf if (d instbndfof Contbinfr) {
+            diildrfn = ((Contbinfr)d).gftComponfnts();
         }
 
-        if (children == null) return;
+        if (diildrfn == null) rfturn;
 
-        for (final Component element : children) {
-            updateComponentTreeUIActivation(element, active);
+        for (finbl Componfnt flfmfnt : diildrfn) {
+            updbtfComponfntTrffUIAdtivbtion(flfmfnt, bdtivf);
         }
     }
 
-    @Override
-    public final void update(final Graphics g, final JComponent c) {
-        if (c.isOpaque()) {
-            AquaUtils.fillRect(g, c);
+    @Ovfrridf
+    publid finbl void updbtf(finbl Grbpiids g, finbl JComponfnt d) {
+        if (d.isOpbquf()) {
+            AqubUtils.fillRfdt(g, d);
         }
-        paint(g, c);
+        pbint(g, d);
     }
 }

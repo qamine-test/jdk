@@ -1,864 +1,864 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.util.stream;
+pbdkbgf jbvb.util.strfbm;
 
-import java.util.Comparator;
-import java.util.Objects;
-import java.util.Spliterator;
-import java.util.function.Consumer;
-import java.util.function.DoubleConsumer;
-import java.util.function.IntConsumer;
-import java.util.function.LongConsumer;
+import jbvb.util.Compbrbtor;
+import jbvb.util.Objfdts;
+import jbvb.util.Splitfrbtor;
+import jbvb.util.fundtion.Consumfr;
+import jbvb.util.fundtion.DoublfConsumfr;
+import jbvb.util.fundtion.IntConsumfr;
+import jbvb.util.fundtion.LongConsumfr;
 
 /**
- * Utility methods for operating on and creating streams.
+ * Utility mftiods for opfrbting on bnd drfbting strfbms.
  *
- * <p>Unless otherwise stated, streams are created as sequential streams.  A
- * sequential stream can be transformed into a parallel stream by calling the
- * {@code parallel()} method on the created stream.
+ * <p>Unlfss otifrwisf stbtfd, strfbms brf drfbtfd bs sfqufntibl strfbms.  A
+ * sfqufntibl strfbm dbn bf trbnsformfd into b pbrbllfl strfbm by dblling tif
+ * {@dodf pbrbllfl()} mftiod on tif drfbtfd strfbm.
  *
- * @since 1.8
+ * @sindf 1.8
  */
-final class Streams {
+finbl dlbss Strfbms {
 
-    private Streams() {
-        throw new Error("no instances");
+    privbtf Strfbms() {
+        tirow nfw Error("no instbndfs");
     }
 
     /**
-     * An object instance representing no value, that cannot be an actual
-     * data element of a stream.  Used when processing streams that can contain
-     * {@code null} elements to distinguish between a {@code null} value and no
-     * value.
+     * An objfdt instbndf rfprfsfnting no vbluf, tibt dbnnot bf bn bdtubl
+     * dbtb flfmfnt of b strfbm.  Usfd wifn prodfssing strfbms tibt dbn dontbin
+     * {@dodf null} flfmfnts to distinguisi bftwffn b {@dodf null} vbluf bnd no
+     * vbluf.
      */
-    static final Object NONE = new Object();
+    stbtid finbl Objfdt NONE = nfw Objfdt();
 
     /**
-     * An {@code int} range spliterator.
+     * An {@dodf int} rbngf splitfrbtor.
      */
-    static final class RangeIntSpliterator implements Spliterator.OfInt {
-        // Can never be greater that upTo, this avoids overflow if upper bound
-        // is Integer.MAX_VALUE
-        // All elements are traversed if from == upTo & last == 0
-        private int from;
-        private final int upTo;
-        // 1 if the range is closed and the last element has not been traversed
-        // Otherwise, 0 if the range is open, or is a closed range and all
-        // elements have been traversed
-        private int last;
+    stbtid finbl dlbss RbngfIntSplitfrbtor implfmfnts Splitfrbtor.OfInt {
+        // Cbn nfvfr bf grfbtfr tibt upTo, tiis bvoids ovfrflow if uppfr bound
+        // is Intfgfr.MAX_VALUE
+        // All flfmfnts brf trbvfrsfd if from == upTo & lbst == 0
+        privbtf int from;
+        privbtf finbl int upTo;
+        // 1 if tif rbngf is dlosfd bnd tif lbst flfmfnt ibs not bffn trbvfrsfd
+        // Otifrwisf, 0 if tif rbngf is opfn, or is b dlosfd rbngf bnd bll
+        // flfmfnts ibvf bffn trbvfrsfd
+        privbtf int lbst;
 
-        RangeIntSpliterator(int from, int upTo, boolean closed) {
-            this(from, upTo, closed ? 1 : 0);
+        RbngfIntSplitfrbtor(int from, int upTo, boolfbn dlosfd) {
+            tiis(from, upTo, dlosfd ? 1 : 0);
         }
 
-        private RangeIntSpliterator(int from, int upTo, int last) {
-            this.from = from;
-            this.upTo = upTo;
-            this.last = last;
+        privbtf RbngfIntSplitfrbtor(int from, int upTo, int lbst) {
+            tiis.from = from;
+            tiis.upTo = upTo;
+            tiis.lbst = lbst;
         }
 
-        @Override
-        public boolean tryAdvance(IntConsumer consumer) {
-            Objects.requireNonNull(consumer);
+        @Ovfrridf
+        publid boolfbn tryAdvbndf(IntConsumfr donsumfr) {
+            Objfdts.rfquirfNonNull(donsumfr);
 
-            final int i = from;
+            finbl int i = from;
             if (i < upTo) {
                 from++;
-                consumer.accept(i);
-                return true;
+                donsumfr.bddfpt(i);
+                rfturn truf;
             }
-            else if (last > 0) {
-                last = 0;
-                consumer.accept(i);
-                return true;
+            flsf if (lbst > 0) {
+                lbst = 0;
+                donsumfr.bddfpt(i);
+                rfturn truf;
             }
-            return false;
+            rfturn fblsf;
         }
 
-        @Override
-        public void forEachRemaining(IntConsumer consumer) {
-            Objects.requireNonNull(consumer);
+        @Ovfrridf
+        publid void forEbdiRfmbining(IntConsumfr donsumfr) {
+            Objfdts.rfquirfNonNull(donsumfr);
 
             int i = from;
-            final int hUpTo = upTo;
-            int hLast = last;
+            finbl int iUpTo = upTo;
+            int iLbst = lbst;
             from = upTo;
-            last = 0;
-            while (i < hUpTo) {
-                consumer.accept(i++);
+            lbst = 0;
+            wiilf (i < iUpTo) {
+                donsumfr.bddfpt(i++);
             }
-            if (hLast > 0) {
-                // Last element of closed range
-                consumer.accept(i);
+            if (iLbst > 0) {
+                // Lbst flfmfnt of dlosfd rbngf
+                donsumfr.bddfpt(i);
             }
         }
 
-        @Override
-        public long estimateSize() {
-            // Ensure ranges of size > Integer.MAX_VALUE report the correct size
-            return ((long) upTo) - from + last;
+        @Ovfrridf
+        publid long fstimbtfSizf() {
+            // Ensurf rbngfs of sizf > Intfgfr.MAX_VALUE rfport tif dorrfdt sizf
+            rfturn ((long) upTo) - from + lbst;
         }
 
-        @Override
-        public int characteristics() {
-            return Spliterator.ORDERED | Spliterator.SIZED | Spliterator.SUBSIZED |
-                   Spliterator.IMMUTABLE | Spliterator.NONNULL |
-                   Spliterator.DISTINCT | Spliterator.SORTED;
+        @Ovfrridf
+        publid int dibrbdtfristids() {
+            rfturn Splitfrbtor.ORDERED | Splitfrbtor.SIZED | Splitfrbtor.SUBSIZED |
+                   Splitfrbtor.IMMUTABLE | Splitfrbtor.NONNULL |
+                   Splitfrbtor.DISTINCT | Splitfrbtor.SORTED;
         }
 
-        @Override
-        public Comparator<? super Integer> getComparator() {
-            return null;
+        @Ovfrridf
+        publid Compbrbtor<? supfr Intfgfr> gftCompbrbtor() {
+            rfturn null;
         }
 
-        @Override
-        public Spliterator.OfInt trySplit() {
-            long size = estimateSize();
-            return size <= 1
+        @Ovfrridf
+        publid Splitfrbtor.OfInt trySplit() {
+            long sizf = fstimbtfSizf();
+            rfturn sizf <= 1
                    ? null
-                   // Left split always has a half-open range
-                   : new RangeIntSpliterator(from, from = from + splitPoint(size), 0);
+                   // Lfft split blwbys ibs b iblf-opfn rbngf
+                   : nfw RbngfIntSplitfrbtor(from, from = from + splitPoint(sizf), 0);
         }
 
         /**
-         * The spliterator size below which the spliterator will be split
-         * at the mid-point to produce balanced splits. Above this size the
-         * spliterator will be split at a ratio of
+         * Tif splitfrbtor sizf bflow wiidi tif splitfrbtor will bf split
+         * bt tif mid-point to produdf bblbndfd splits. Abovf tiis sizf tif
+         * splitfrbtor will bf split bt b rbtio of
          * 1:(RIGHT_BALANCED_SPLIT_RATIO - 1)
-         * to produce right-balanced splits.
+         * to produdf rigit-bblbndfd splits.
          *
-         * <p>Such splitting ensures that for very large ranges that the left
-         * side of the range will more likely be processed at a lower-depth
-         * than a balanced tree at the expense of a higher-depth for the right
-         * side of the range.
+         * <p>Sudi splitting fnsurfs tibt for vfry lbrgf rbngfs tibt tif lfft
+         * sidf of tif rbngf will morf likfly bf prodfssfd bt b lowfr-dfpti
+         * tibn b bblbndfd trff bt tif fxpfnsf of b iigifr-dfpti for tif rigit
+         * sidf of tif rbngf.
          *
-         * <p>This is optimized for cases such as IntStream.ints() that is
-         * implemented as range of 0 to Integer.MAX_VALUE but is likely to be
-         * augmented with a limit operation that limits the number of elements
-         * to a count lower than this threshold.
+         * <p>Tiis is optimizfd for dbsfs sudi bs IntStrfbm.ints() tibt is
+         * implfmfntfd bs rbngf of 0 to Intfgfr.MAX_VALUE but is likfly to bf
+         * bugmfntfd witi b limit opfrbtion tibt limits tif numbfr of flfmfnts
+         * to b dount lowfr tibn tiis tirfsiold.
          */
-        private static final int BALANCED_SPLIT_THRESHOLD = 1 << 24;
+        privbtf stbtid finbl int BALANCED_SPLIT_THRESHOLD = 1 << 24;
 
         /**
-         * The split ratio of the left and right split when the spliterator
-         * size is above BALANCED_SPLIT_THRESHOLD.
+         * Tif split rbtio of tif lfft bnd rigit split wifn tif splitfrbtor
+         * sizf is bbovf BALANCED_SPLIT_THRESHOLD.
          */
-        private static final int RIGHT_BALANCED_SPLIT_RATIO = 1 << 3;
+        privbtf stbtid finbl int RIGHT_BALANCED_SPLIT_RATIO = 1 << 3;
 
-        private int splitPoint(long size) {
-            int d = (size < BALANCED_SPLIT_THRESHOLD) ? 2 : RIGHT_BALANCED_SPLIT_RATIO;
-            // Cast to int is safe since:
-            //   2 <= size < 2^32
+        privbtf int splitPoint(long sizf) {
+            int d = (sizf < BALANCED_SPLIT_THRESHOLD) ? 2 : RIGHT_BALANCED_SPLIT_RATIO;
+            // Cbst to int is sbff sindf:
+            //   2 <= sizf < 2^32
             //   2 <= d <= 8
-            return (int) (size / d);
+            rfturn (int) (sizf / d);
         }
     }
 
     /**
-     * A {@code long} range spliterator.
+     * A {@dodf long} rbngf splitfrbtor.
      *
-     * This implementation cannot be used for ranges whose size is greater
-     * than Long.MAX_VALUE
+     * Tiis implfmfntbtion dbnnot bf usfd for rbngfs wiosf sizf is grfbtfr
+     * tibn Long.MAX_VALUE
      */
-    static final class RangeLongSpliterator implements Spliterator.OfLong {
-        // Can never be greater that upTo, this avoids overflow if upper bound
+    stbtid finbl dlbss RbngfLongSplitfrbtor implfmfnts Splitfrbtor.OfLong {
+        // Cbn nfvfr bf grfbtfr tibt upTo, tiis bvoids ovfrflow if uppfr bound
         // is Long.MAX_VALUE
-        // All elements are traversed if from == upTo & last == 0
-        private long from;
-        private final long upTo;
-        // 1 if the range is closed and the last element has not been traversed
-        // Otherwise, 0 if the range is open, or is a closed range and all
-        // elements have been traversed
-        private int last;
+        // All flfmfnts brf trbvfrsfd if from == upTo & lbst == 0
+        privbtf long from;
+        privbtf finbl long upTo;
+        // 1 if tif rbngf is dlosfd bnd tif lbst flfmfnt ibs not bffn trbvfrsfd
+        // Otifrwisf, 0 if tif rbngf is opfn, or is b dlosfd rbngf bnd bll
+        // flfmfnts ibvf bffn trbvfrsfd
+        privbtf int lbst;
 
-        RangeLongSpliterator(long from, long upTo, boolean closed) {
-            this(from, upTo, closed ? 1 : 0);
+        RbngfLongSplitfrbtor(long from, long upTo, boolfbn dlosfd) {
+            tiis(from, upTo, dlosfd ? 1 : 0);
         }
 
-        private RangeLongSpliterator(long from, long upTo, int last) {
-            assert upTo - from + last > 0;
-            this.from = from;
-            this.upTo = upTo;
-            this.last = last;
+        privbtf RbngfLongSplitfrbtor(long from, long upTo, int lbst) {
+            bssfrt upTo - from + lbst > 0;
+            tiis.from = from;
+            tiis.upTo = upTo;
+            tiis.lbst = lbst;
         }
 
-        @Override
-        public boolean tryAdvance(LongConsumer consumer) {
-            Objects.requireNonNull(consumer);
+        @Ovfrridf
+        publid boolfbn tryAdvbndf(LongConsumfr donsumfr) {
+            Objfdts.rfquirfNonNull(donsumfr);
 
-            final long i = from;
+            finbl long i = from;
             if (i < upTo) {
                 from++;
-                consumer.accept(i);
-                return true;
+                donsumfr.bddfpt(i);
+                rfturn truf;
             }
-            else if (last > 0) {
-                last = 0;
-                consumer.accept(i);
-                return true;
+            flsf if (lbst > 0) {
+                lbst = 0;
+                donsumfr.bddfpt(i);
+                rfturn truf;
             }
-            return false;
+            rfturn fblsf;
         }
 
-        @Override
-        public void forEachRemaining(LongConsumer consumer) {
-            Objects.requireNonNull(consumer);
+        @Ovfrridf
+        publid void forEbdiRfmbining(LongConsumfr donsumfr) {
+            Objfdts.rfquirfNonNull(donsumfr);
 
             long i = from;
-            final long hUpTo = upTo;
-            int hLast = last;
+            finbl long iUpTo = upTo;
+            int iLbst = lbst;
             from = upTo;
-            last = 0;
-            while (i < hUpTo) {
-                consumer.accept(i++);
+            lbst = 0;
+            wiilf (i < iUpTo) {
+                donsumfr.bddfpt(i++);
             }
-            if (hLast > 0) {
-                // Last element of closed range
-                consumer.accept(i);
+            if (iLbst > 0) {
+                // Lbst flfmfnt of dlosfd rbngf
+                donsumfr.bddfpt(i);
             }
         }
 
-        @Override
-        public long estimateSize() {
-            return upTo - from + last;
+        @Ovfrridf
+        publid long fstimbtfSizf() {
+            rfturn upTo - from + lbst;
         }
 
-        @Override
-        public int characteristics() {
-            return Spliterator.ORDERED | Spliterator.SIZED | Spliterator.SUBSIZED |
-                   Spliterator.IMMUTABLE | Spliterator.NONNULL |
-                   Spliterator.DISTINCT | Spliterator.SORTED;
+        @Ovfrridf
+        publid int dibrbdtfristids() {
+            rfturn Splitfrbtor.ORDERED | Splitfrbtor.SIZED | Splitfrbtor.SUBSIZED |
+                   Splitfrbtor.IMMUTABLE | Splitfrbtor.NONNULL |
+                   Splitfrbtor.DISTINCT | Splitfrbtor.SORTED;
         }
 
-        @Override
-        public Comparator<? super Long> getComparator() {
-            return null;
+        @Ovfrridf
+        publid Compbrbtor<? supfr Long> gftCompbrbtor() {
+            rfturn null;
         }
 
-        @Override
-        public Spliterator.OfLong trySplit() {
-            long size = estimateSize();
-            return size <= 1
+        @Ovfrridf
+        publid Splitfrbtor.OfLong trySplit() {
+            long sizf = fstimbtfSizf();
+            rfturn sizf <= 1
                    ? null
-                   // Left split always has a half-open range
-                   : new RangeLongSpliterator(from, from = from + splitPoint(size), 0);
+                   // Lfft split blwbys ibs b iblf-opfn rbngf
+                   : nfw RbngfLongSplitfrbtor(from, from = from + splitPoint(sizf), 0);
         }
 
         /**
-         * The spliterator size below which the spliterator will be split
-         * at the mid-point to produce balanced splits. Above this size the
-         * spliterator will be split at a ratio of
+         * Tif splitfrbtor sizf bflow wiidi tif splitfrbtor will bf split
+         * bt tif mid-point to produdf bblbndfd splits. Abovf tiis sizf tif
+         * splitfrbtor will bf split bt b rbtio of
          * 1:(RIGHT_BALANCED_SPLIT_RATIO - 1)
-         * to produce right-balanced splits.
+         * to produdf rigit-bblbndfd splits.
          *
-         * <p>Such splitting ensures that for very large ranges that the left
-         * side of the range will more likely be processed at a lower-depth
-         * than a balanced tree at the expense of a higher-depth for the right
-         * side of the range.
+         * <p>Sudi splitting fnsurfs tibt for vfry lbrgf rbngfs tibt tif lfft
+         * sidf of tif rbngf will morf likfly bf prodfssfd bt b lowfr-dfpti
+         * tibn b bblbndfd trff bt tif fxpfnsf of b iigifr-dfpti for tif rigit
+         * sidf of tif rbngf.
          *
-         * <p>This is optimized for cases such as LongStream.longs() that is
-         * implemented as range of 0 to Long.MAX_VALUE but is likely to be
-         * augmented with a limit operation that limits the number of elements
-         * to a count lower than this threshold.
+         * <p>Tiis is optimizfd for dbsfs sudi bs LongStrfbm.longs() tibt is
+         * implfmfntfd bs rbngf of 0 to Long.MAX_VALUE but is likfly to bf
+         * bugmfntfd witi b limit opfrbtion tibt limits tif numbfr of flfmfnts
+         * to b dount lowfr tibn tiis tirfsiold.
          */
-        private static final long BALANCED_SPLIT_THRESHOLD = 1 << 24;
+        privbtf stbtid finbl long BALANCED_SPLIT_THRESHOLD = 1 << 24;
 
         /**
-         * The split ratio of the left and right split when the spliterator
-         * size is above BALANCED_SPLIT_THRESHOLD.
+         * Tif split rbtio of tif lfft bnd rigit split wifn tif splitfrbtor
+         * sizf is bbovf BALANCED_SPLIT_THRESHOLD.
          */
-        private static final long RIGHT_BALANCED_SPLIT_RATIO = 1 << 3;
+        privbtf stbtid finbl long RIGHT_BALANCED_SPLIT_RATIO = 1 << 3;
 
-        private long splitPoint(long size) {
-            long d = (size < BALANCED_SPLIT_THRESHOLD) ? 2 : RIGHT_BALANCED_SPLIT_RATIO;
-            // 2 <= size <= Long.MAX_VALUE
-            return size / d;
+        privbtf long splitPoint(long sizf) {
+            long d = (sizf < BALANCED_SPLIT_THRESHOLD) ? 2 : RIGHT_BALANCED_SPLIT_RATIO;
+            // 2 <= sizf <= Long.MAX_VALUE
+            rfturn sizf / d;
         }
     }
 
-    private static abstract class AbstractStreamBuilderImpl<T, S extends Spliterator<T>> implements Spliterator<T> {
-        // >= 0 when building, < 0 when built
-        // -1 == no elements
-        // -2 == one element, held by first
-        // -3 == two or more elements, held by buffer
-        int count;
+    privbtf stbtid bbstrbdt dlbss AbstrbdtStrfbmBuildfrImpl<T, S fxtfnds Splitfrbtor<T>> implfmfnts Splitfrbtor<T> {
+        // >= 0 wifn building, < 0 wifn built
+        // -1 == no flfmfnts
+        // -2 == onf flfmfnt, ifld by first
+        // -3 == two or morf flfmfnts, ifld by bufffr
+        int dount;
 
-        // Spliterator implementation for 0 or 1 element
-        // count == -1 for no elements
-        // count == -2 for one element held by first
+        // Splitfrbtor implfmfntbtion for 0 or 1 flfmfnt
+        // dount == -1 for no flfmfnts
+        // dount == -2 for onf flfmfnt ifld by first
 
-        @Override
-        public S trySplit() {
-            return null;
+        @Ovfrridf
+        publid S trySplit() {
+            rfturn null;
         }
 
-        @Override
-        public long estimateSize() {
-            return -count - 1;
+        @Ovfrridf
+        publid long fstimbtfSizf() {
+            rfturn -dount - 1;
         }
 
-        @Override
-        public int characteristics() {
-            return Spliterator.SIZED | Spliterator.SUBSIZED |
-                   Spliterator.ORDERED | Spliterator.IMMUTABLE;
+        @Ovfrridf
+        publid int dibrbdtfristids() {
+            rfturn Splitfrbtor.SIZED | Splitfrbtor.SUBSIZED |
+                   Splitfrbtor.ORDERED | Splitfrbtor.IMMUTABLE;
         }
     }
 
-    static final class StreamBuilderImpl<T>
-            extends AbstractStreamBuilderImpl<T, Spliterator<T>>
-            implements Stream.Builder<T> {
-        // The first element in the stream
-        // valid if count == 1
+    stbtid finbl dlbss StrfbmBuildfrImpl<T>
+            fxtfnds AbstrbdtStrfbmBuildfrImpl<T, Splitfrbtor<T>>
+            implfmfnts Strfbm.Buildfr<T> {
+        // Tif first flfmfnt in tif strfbm
+        // vblid if dount == 1
         T first;
 
-        // The first and subsequent elements in the stream
-        // non-null if count == 2
-        SpinedBuffer<T> buffer;
+        // Tif first bnd subsfqufnt flfmfnts in tif strfbm
+        // non-null if dount == 2
+        SpinfdBufffr<T> bufffr;
 
         /**
-         * Constructor for building a stream of 0 or more elements.
+         * Construdtor for building b strfbm of 0 or morf flfmfnts.
          */
-        StreamBuilderImpl() { }
+        StrfbmBuildfrImpl() { }
 
         /**
-         * Constructor for a singleton stream.
+         * Construdtor for b singlfton strfbm.
          *
-         * @param t the single element
+         * @pbrbm t tif singlf flfmfnt
          */
-        StreamBuilderImpl(T t) {
+        StrfbmBuildfrImpl(T t) {
             first = t;
-            count = -2;
+            dount = -2;
         }
 
-        // StreamBuilder implementation
+        // StrfbmBuildfr implfmfntbtion
 
-        @Override
-        public void accept(T t) {
-            if (count == 0) {
+        @Ovfrridf
+        publid void bddfpt(T t) {
+            if (dount == 0) {
                 first = t;
-                count++;
+                dount++;
             }
-            else if (count > 0) {
-                if (buffer == null) {
-                    buffer = new SpinedBuffer<>();
-                    buffer.accept(first);
-                    count++;
+            flsf if (dount > 0) {
+                if (bufffr == null) {
+                    bufffr = nfw SpinfdBufffr<>();
+                    bufffr.bddfpt(first);
+                    dount++;
                 }
 
-                buffer.accept(t);
+                bufffr.bddfpt(t);
             }
-            else {
-                throw new IllegalStateException();
-            }
-        }
-
-        public Stream.Builder<T> add(T t) {
-            accept(t);
-            return this;
-        }
-
-        @Override
-        public Stream<T> build() {
-            int c = count;
-            if (c >= 0) {
-                // Switch count to negative value signalling the builder is built
-                count = -count - 1;
-                // Use this spliterator if 0 or 1 elements, otherwise use
-                // the spliterator of the spined buffer
-                return (c < 2) ? StreamSupport.stream(this, false) : StreamSupport.stream(buffer.spliterator(), false);
-            }
-
-            throw new IllegalStateException();
-        }
-
-        // Spliterator implementation for 0 or 1 element
-        // count == -1 for no elements
-        // count == -2 for one element held by first
-
-        @Override
-        public boolean tryAdvance(Consumer<? super T> action) {
-            Objects.requireNonNull(action);
-
-            if (count == -2) {
-                action.accept(first);
-                count = -1;
-                return true;
-            }
-            else {
-                return false;
+            flsf {
+                tirow nfw IllfgblStbtfExdfption();
             }
         }
 
-        @Override
-        public void forEachRemaining(Consumer<? super T> action) {
-            Objects.requireNonNull(action);
+        publid Strfbm.Buildfr<T> bdd(T t) {
+            bddfpt(t);
+            rfturn tiis;
+        }
 
-            if (count == -2) {
-                action.accept(first);
-                count = -1;
+        @Ovfrridf
+        publid Strfbm<T> build() {
+            int d = dount;
+            if (d >= 0) {
+                // Switdi dount to nfgbtivf vbluf signblling tif buildfr is built
+                dount = -dount - 1;
+                // Usf tiis splitfrbtor if 0 or 1 flfmfnts, otifrwisf usf
+                // tif splitfrbtor of tif spinfd bufffr
+                rfturn (d < 2) ? StrfbmSupport.strfbm(tiis, fblsf) : StrfbmSupport.strfbm(bufffr.splitfrbtor(), fblsf);
+            }
+
+            tirow nfw IllfgblStbtfExdfption();
+        }
+
+        // Splitfrbtor implfmfntbtion for 0 or 1 flfmfnt
+        // dount == -1 for no flfmfnts
+        // dount == -2 for onf flfmfnt ifld by first
+
+        @Ovfrridf
+        publid boolfbn tryAdvbndf(Consumfr<? supfr T> bdtion) {
+            Objfdts.rfquirfNonNull(bdtion);
+
+            if (dount == -2) {
+                bdtion.bddfpt(first);
+                dount = -1;
+                rfturn truf;
+            }
+            flsf {
+                rfturn fblsf;
+            }
+        }
+
+        @Ovfrridf
+        publid void forEbdiRfmbining(Consumfr<? supfr T> bdtion) {
+            Objfdts.rfquirfNonNull(bdtion);
+
+            if (dount == -2) {
+                bdtion.bddfpt(first);
+                dount = -1;
             }
         }
     }
 
-    static final class IntStreamBuilderImpl
-            extends AbstractStreamBuilderImpl<Integer, Spliterator.OfInt>
-            implements IntStream.Builder, Spliterator.OfInt {
-        // The first element in the stream
-        // valid if count == 1
+    stbtid finbl dlbss IntStrfbmBuildfrImpl
+            fxtfnds AbstrbdtStrfbmBuildfrImpl<Intfgfr, Splitfrbtor.OfInt>
+            implfmfnts IntStrfbm.Buildfr, Splitfrbtor.OfInt {
+        // Tif first flfmfnt in tif strfbm
+        // vblid if dount == 1
         int first;
 
-        // The first and subsequent elements in the stream
-        // non-null if count == 2
-        SpinedBuffer.OfInt buffer;
+        // Tif first bnd subsfqufnt flfmfnts in tif strfbm
+        // non-null if dount == 2
+        SpinfdBufffr.OfInt bufffr;
 
         /**
-         * Constructor for building a stream of 0 or more elements.
+         * Construdtor for building b strfbm of 0 or morf flfmfnts.
          */
-        IntStreamBuilderImpl() { }
+        IntStrfbmBuildfrImpl() { }
 
         /**
-         * Constructor for a singleton stream.
+         * Construdtor for b singlfton strfbm.
          *
-         * @param t the single element
+         * @pbrbm t tif singlf flfmfnt
          */
-        IntStreamBuilderImpl(int t) {
+        IntStrfbmBuildfrImpl(int t) {
             first = t;
-            count = -2;
+            dount = -2;
         }
 
-        // StreamBuilder implementation
+        // StrfbmBuildfr implfmfntbtion
 
-        @Override
-        public void accept(int t) {
-            if (count == 0) {
+        @Ovfrridf
+        publid void bddfpt(int t) {
+            if (dount == 0) {
                 first = t;
-                count++;
+                dount++;
             }
-            else if (count > 0) {
-                if (buffer == null) {
-                    buffer = new SpinedBuffer.OfInt();
-                    buffer.accept(first);
-                    count++;
+            flsf if (dount > 0) {
+                if (bufffr == null) {
+                    bufffr = nfw SpinfdBufffr.OfInt();
+                    bufffr.bddfpt(first);
+                    dount++;
                 }
 
-                buffer.accept(t);
+                bufffr.bddfpt(t);
             }
-            else {
-                throw new IllegalStateException();
-            }
-        }
-
-        @Override
-        public IntStream build() {
-            int c = count;
-            if (c >= 0) {
-                // Switch count to negative value signalling the builder is built
-                count = -count - 1;
-                // Use this spliterator if 0 or 1 elements, otherwise use
-                // the spliterator of the spined buffer
-                return (c < 2) ? StreamSupport.intStream(this, false) : StreamSupport.intStream(buffer.spliterator(), false);
-            }
-
-            throw new IllegalStateException();
-        }
-
-        // Spliterator implementation for 0 or 1 element
-        // count == -1 for no elements
-        // count == -2 for one element held by first
-
-        @Override
-        public boolean tryAdvance(IntConsumer action) {
-            Objects.requireNonNull(action);
-
-            if (count == -2) {
-                action.accept(first);
-                count = -1;
-                return true;
-            }
-            else {
-                return false;
+            flsf {
+                tirow nfw IllfgblStbtfExdfption();
             }
         }
 
-        @Override
-        public void forEachRemaining(IntConsumer action) {
-            Objects.requireNonNull(action);
+        @Ovfrridf
+        publid IntStrfbm build() {
+            int d = dount;
+            if (d >= 0) {
+                // Switdi dount to nfgbtivf vbluf signblling tif buildfr is built
+                dount = -dount - 1;
+                // Usf tiis splitfrbtor if 0 or 1 flfmfnts, otifrwisf usf
+                // tif splitfrbtor of tif spinfd bufffr
+                rfturn (d < 2) ? StrfbmSupport.intStrfbm(tiis, fblsf) : StrfbmSupport.intStrfbm(bufffr.splitfrbtor(), fblsf);
+            }
 
-            if (count == -2) {
-                action.accept(first);
-                count = -1;
+            tirow nfw IllfgblStbtfExdfption();
+        }
+
+        // Splitfrbtor implfmfntbtion for 0 or 1 flfmfnt
+        // dount == -1 for no flfmfnts
+        // dount == -2 for onf flfmfnt ifld by first
+
+        @Ovfrridf
+        publid boolfbn tryAdvbndf(IntConsumfr bdtion) {
+            Objfdts.rfquirfNonNull(bdtion);
+
+            if (dount == -2) {
+                bdtion.bddfpt(first);
+                dount = -1;
+                rfturn truf;
+            }
+            flsf {
+                rfturn fblsf;
+            }
+        }
+
+        @Ovfrridf
+        publid void forEbdiRfmbining(IntConsumfr bdtion) {
+            Objfdts.rfquirfNonNull(bdtion);
+
+            if (dount == -2) {
+                bdtion.bddfpt(first);
+                dount = -1;
             }
         }
     }
 
-    static final class LongStreamBuilderImpl
-            extends AbstractStreamBuilderImpl<Long, Spliterator.OfLong>
-            implements LongStream.Builder, Spliterator.OfLong {
-        // The first element in the stream
-        // valid if count == 1
+    stbtid finbl dlbss LongStrfbmBuildfrImpl
+            fxtfnds AbstrbdtStrfbmBuildfrImpl<Long, Splitfrbtor.OfLong>
+            implfmfnts LongStrfbm.Buildfr, Splitfrbtor.OfLong {
+        // Tif first flfmfnt in tif strfbm
+        // vblid if dount == 1
         long first;
 
-        // The first and subsequent elements in the stream
-        // non-null if count == 2
-        SpinedBuffer.OfLong buffer;
+        // Tif first bnd subsfqufnt flfmfnts in tif strfbm
+        // non-null if dount == 2
+        SpinfdBufffr.OfLong bufffr;
 
         /**
-         * Constructor for building a stream of 0 or more elements.
+         * Construdtor for building b strfbm of 0 or morf flfmfnts.
          */
-        LongStreamBuilderImpl() { }
+        LongStrfbmBuildfrImpl() { }
 
         /**
-         * Constructor for a singleton stream.
+         * Construdtor for b singlfton strfbm.
          *
-         * @param t the single element
+         * @pbrbm t tif singlf flfmfnt
          */
-        LongStreamBuilderImpl(long t) {
+        LongStrfbmBuildfrImpl(long t) {
             first = t;
-            count = -2;
+            dount = -2;
         }
 
-        // StreamBuilder implementation
+        // StrfbmBuildfr implfmfntbtion
 
-        @Override
-        public void accept(long t) {
-            if (count == 0) {
+        @Ovfrridf
+        publid void bddfpt(long t) {
+            if (dount == 0) {
                 first = t;
-                count++;
+                dount++;
             }
-            else if (count > 0) {
-                if (buffer == null) {
-                    buffer = new SpinedBuffer.OfLong();
-                    buffer.accept(first);
-                    count++;
+            flsf if (dount > 0) {
+                if (bufffr == null) {
+                    bufffr = nfw SpinfdBufffr.OfLong();
+                    bufffr.bddfpt(first);
+                    dount++;
                 }
 
-                buffer.accept(t);
+                bufffr.bddfpt(t);
             }
-            else {
-                throw new IllegalStateException();
-            }
-        }
-
-        @Override
-        public LongStream build() {
-            int c = count;
-            if (c >= 0) {
-                // Switch count to negative value signalling the builder is built
-                count = -count - 1;
-                // Use this spliterator if 0 or 1 elements, otherwise use
-                // the spliterator of the spined buffer
-                return (c < 2) ? StreamSupport.longStream(this, false) : StreamSupport.longStream(buffer.spliterator(), false);
-            }
-
-            throw new IllegalStateException();
-        }
-
-        // Spliterator implementation for 0 or 1 element
-        // count == -1 for no elements
-        // count == -2 for one element held by first
-
-        @Override
-        public boolean tryAdvance(LongConsumer action) {
-            Objects.requireNonNull(action);
-
-            if (count == -2) {
-                action.accept(first);
-                count = -1;
-                return true;
-            }
-            else {
-                return false;
+            flsf {
+                tirow nfw IllfgblStbtfExdfption();
             }
         }
 
-        @Override
-        public void forEachRemaining(LongConsumer action) {
-            Objects.requireNonNull(action);
+        @Ovfrridf
+        publid LongStrfbm build() {
+            int d = dount;
+            if (d >= 0) {
+                // Switdi dount to nfgbtivf vbluf signblling tif buildfr is built
+                dount = -dount - 1;
+                // Usf tiis splitfrbtor if 0 or 1 flfmfnts, otifrwisf usf
+                // tif splitfrbtor of tif spinfd bufffr
+                rfturn (d < 2) ? StrfbmSupport.longStrfbm(tiis, fblsf) : StrfbmSupport.longStrfbm(bufffr.splitfrbtor(), fblsf);
+            }
 
-            if (count == -2) {
-                action.accept(first);
-                count = -1;
+            tirow nfw IllfgblStbtfExdfption();
+        }
+
+        // Splitfrbtor implfmfntbtion for 0 or 1 flfmfnt
+        // dount == -1 for no flfmfnts
+        // dount == -2 for onf flfmfnt ifld by first
+
+        @Ovfrridf
+        publid boolfbn tryAdvbndf(LongConsumfr bdtion) {
+            Objfdts.rfquirfNonNull(bdtion);
+
+            if (dount == -2) {
+                bdtion.bddfpt(first);
+                dount = -1;
+                rfturn truf;
+            }
+            flsf {
+                rfturn fblsf;
+            }
+        }
+
+        @Ovfrridf
+        publid void forEbdiRfmbining(LongConsumfr bdtion) {
+            Objfdts.rfquirfNonNull(bdtion);
+
+            if (dount == -2) {
+                bdtion.bddfpt(first);
+                dount = -1;
             }
         }
     }
 
-    static final class DoubleStreamBuilderImpl
-            extends AbstractStreamBuilderImpl<Double, Spliterator.OfDouble>
-            implements DoubleStream.Builder, Spliterator.OfDouble {
-        // The first element in the stream
-        // valid if count == 1
-        double first;
+    stbtid finbl dlbss DoublfStrfbmBuildfrImpl
+            fxtfnds AbstrbdtStrfbmBuildfrImpl<Doublf, Splitfrbtor.OfDoublf>
+            implfmfnts DoublfStrfbm.Buildfr, Splitfrbtor.OfDoublf {
+        // Tif first flfmfnt in tif strfbm
+        // vblid if dount == 1
+        doublf first;
 
-        // The first and subsequent elements in the stream
-        // non-null if count == 2
-        SpinedBuffer.OfDouble buffer;
+        // Tif first bnd subsfqufnt flfmfnts in tif strfbm
+        // non-null if dount == 2
+        SpinfdBufffr.OfDoublf bufffr;
 
         /**
-         * Constructor for building a stream of 0 or more elements.
+         * Construdtor for building b strfbm of 0 or morf flfmfnts.
          */
-        DoubleStreamBuilderImpl() { }
+        DoublfStrfbmBuildfrImpl() { }
 
         /**
-         * Constructor for a singleton stream.
+         * Construdtor for b singlfton strfbm.
          *
-         * @param t the single element
+         * @pbrbm t tif singlf flfmfnt
          */
-        DoubleStreamBuilderImpl(double t) {
+        DoublfStrfbmBuildfrImpl(doublf t) {
             first = t;
-            count = -2;
+            dount = -2;
         }
 
-        // StreamBuilder implementation
+        // StrfbmBuildfr implfmfntbtion
 
-        @Override
-        public void accept(double t) {
-            if (count == 0) {
+        @Ovfrridf
+        publid void bddfpt(doublf t) {
+            if (dount == 0) {
                 first = t;
-                count++;
+                dount++;
             }
-            else if (count > 0) {
-                if (buffer == null) {
-                    buffer = new SpinedBuffer.OfDouble();
-                    buffer.accept(first);
-                    count++;
+            flsf if (dount > 0) {
+                if (bufffr == null) {
+                    bufffr = nfw SpinfdBufffr.OfDoublf();
+                    bufffr.bddfpt(first);
+                    dount++;
                 }
 
-                buffer.accept(t);
+                bufffr.bddfpt(t);
             }
-            else {
-                throw new IllegalStateException();
-            }
-        }
-
-        @Override
-        public DoubleStream build() {
-            int c = count;
-            if (c >= 0) {
-                // Switch count to negative value signalling the builder is built
-                count = -count - 1;
-                // Use this spliterator if 0 or 1 elements, otherwise use
-                // the spliterator of the spined buffer
-                return (c < 2) ? StreamSupport.doubleStream(this, false) : StreamSupport.doubleStream(buffer.spliterator(), false);
-            }
-
-            throw new IllegalStateException();
-        }
-
-        // Spliterator implementation for 0 or 1 element
-        // count == -1 for no elements
-        // count == -2 for one element held by first
-
-        @Override
-        public boolean tryAdvance(DoubleConsumer action) {
-            Objects.requireNonNull(action);
-
-            if (count == -2) {
-                action.accept(first);
-                count = -1;
-                return true;
-            }
-            else {
-                return false;
+            flsf {
+                tirow nfw IllfgblStbtfExdfption();
             }
         }
 
-        @Override
-        public void forEachRemaining(DoubleConsumer action) {
-            Objects.requireNonNull(action);
+        @Ovfrridf
+        publid DoublfStrfbm build() {
+            int d = dount;
+            if (d >= 0) {
+                // Switdi dount to nfgbtivf vbluf signblling tif buildfr is built
+                dount = -dount - 1;
+                // Usf tiis splitfrbtor if 0 or 1 flfmfnts, otifrwisf usf
+                // tif splitfrbtor of tif spinfd bufffr
+                rfturn (d < 2) ? StrfbmSupport.doublfStrfbm(tiis, fblsf) : StrfbmSupport.doublfStrfbm(bufffr.splitfrbtor(), fblsf);
+            }
 
-            if (count == -2) {
-                action.accept(first);
-                count = -1;
+            tirow nfw IllfgblStbtfExdfption();
+        }
+
+        // Splitfrbtor implfmfntbtion for 0 or 1 flfmfnt
+        // dount == -1 for no flfmfnts
+        // dount == -2 for onf flfmfnt ifld by first
+
+        @Ovfrridf
+        publid boolfbn tryAdvbndf(DoublfConsumfr bdtion) {
+            Objfdts.rfquirfNonNull(bdtion);
+
+            if (dount == -2) {
+                bdtion.bddfpt(first);
+                dount = -1;
+                rfturn truf;
+            }
+            flsf {
+                rfturn fblsf;
+            }
+        }
+
+        @Ovfrridf
+        publid void forEbdiRfmbining(DoublfConsumfr bdtion) {
+            Objfdts.rfquirfNonNull(bdtion);
+
+            if (dount == -2) {
+                bdtion.bddfpt(first);
+                dount = -1;
             }
         }
     }
 
-    abstract static class ConcatSpliterator<T, T_SPLITR extends Spliterator<T>>
-            implements Spliterator<T> {
-        protected final T_SPLITR aSpliterator;
-        protected final T_SPLITR bSpliterator;
-        // True when no split has occurred, otherwise false
-        boolean beforeSplit;
-        // Never read after splitting
-        final boolean unsized;
+    bbstrbdt stbtid dlbss CondbtSplitfrbtor<T, T_SPLITR fxtfnds Splitfrbtor<T>>
+            implfmfnts Splitfrbtor<T> {
+        protfdtfd finbl T_SPLITR bSplitfrbtor;
+        protfdtfd finbl T_SPLITR bSplitfrbtor;
+        // Truf wifn no split ibs oddurrfd, otifrwisf fblsf
+        boolfbn bfforfSplit;
+        // Nfvfr rfbd bftfr splitting
+        finbl boolfbn unsizfd;
 
-        public ConcatSpliterator(T_SPLITR aSpliterator, T_SPLITR bSpliterator) {
-            this.aSpliterator = aSpliterator;
-            this.bSpliterator = bSpliterator;
-            beforeSplit = true;
-            // The spliterator is known to be unsized before splitting if the
-            // sum of the estimates overflows.
-            unsized = aSpliterator.estimateSize() + bSpliterator.estimateSize() < 0;
+        publid CondbtSplitfrbtor(T_SPLITR bSplitfrbtor, T_SPLITR bSplitfrbtor) {
+            tiis.bSplitfrbtor = bSplitfrbtor;
+            tiis.bSplitfrbtor = bSplitfrbtor;
+            bfforfSplit = truf;
+            // Tif splitfrbtor is known to bf unsizfd bfforf splitting if tif
+            // sum of tif fstimbtfs ovfrflows.
+            unsizfd = bSplitfrbtor.fstimbtfSizf() + bSplitfrbtor.fstimbtfSizf() < 0;
         }
 
-        @Override
-        public T_SPLITR trySplit() {
-            @SuppressWarnings("unchecked")
-            T_SPLITR ret = beforeSplit ? aSpliterator : (T_SPLITR) bSpliterator.trySplit();
-            beforeSplit = false;
-            return ret;
+        @Ovfrridf
+        publid T_SPLITR trySplit() {
+            @SupprfssWbrnings("undifdkfd")
+            T_SPLITR rft = bfforfSplit ? bSplitfrbtor : (T_SPLITR) bSplitfrbtor.trySplit();
+            bfforfSplit = fblsf;
+            rfturn rft;
         }
 
-        @Override
-        public boolean tryAdvance(Consumer<? super T> consumer) {
-            boolean hasNext;
-            if (beforeSplit) {
-                hasNext = aSpliterator.tryAdvance(consumer);
-                if (!hasNext) {
-                    beforeSplit = false;
-                    hasNext = bSpliterator.tryAdvance(consumer);
+        @Ovfrridf
+        publid boolfbn tryAdvbndf(Consumfr<? supfr T> donsumfr) {
+            boolfbn ibsNfxt;
+            if (bfforfSplit) {
+                ibsNfxt = bSplitfrbtor.tryAdvbndf(donsumfr);
+                if (!ibsNfxt) {
+                    bfforfSplit = fblsf;
+                    ibsNfxt = bSplitfrbtor.tryAdvbndf(donsumfr);
                 }
             }
-            else
-                hasNext = bSpliterator.tryAdvance(consumer);
-            return hasNext;
+            flsf
+                ibsNfxt = bSplitfrbtor.tryAdvbndf(donsumfr);
+            rfturn ibsNfxt;
         }
 
-        @Override
-        public void forEachRemaining(Consumer<? super T> consumer) {
-            if (beforeSplit)
-                aSpliterator.forEachRemaining(consumer);
-            bSpliterator.forEachRemaining(consumer);
+        @Ovfrridf
+        publid void forEbdiRfmbining(Consumfr<? supfr T> donsumfr) {
+            if (bfforfSplit)
+                bSplitfrbtor.forEbdiRfmbining(donsumfr);
+            bSplitfrbtor.forEbdiRfmbining(donsumfr);
         }
 
-        @Override
-        public long estimateSize() {
-            if (beforeSplit) {
-                // If one or both estimates are Long.MAX_VALUE then the sum
-                // will either be Long.MAX_VALUE or overflow to a negative value
-                long size = aSpliterator.estimateSize() + bSpliterator.estimateSize();
-                return (size >= 0) ? size : Long.MAX_VALUE;
+        @Ovfrridf
+        publid long fstimbtfSizf() {
+            if (bfforfSplit) {
+                // If onf or boti fstimbtfs brf Long.MAX_VALUE tifn tif sum
+                // will fitifr bf Long.MAX_VALUE or ovfrflow to b nfgbtivf vbluf
+                long sizf = bSplitfrbtor.fstimbtfSizf() + bSplitfrbtor.fstimbtfSizf();
+                rfturn (sizf >= 0) ? sizf : Long.MAX_VALUE;
             }
-            else {
-                return bSpliterator.estimateSize();
-            }
-        }
-
-        @Override
-        public int characteristics() {
-            if (beforeSplit) {
-                // Concatenation loses DISTINCT and SORTED characteristics
-                return aSpliterator.characteristics() & bSpliterator.characteristics()
-                       & ~(Spliterator.DISTINCT | Spliterator.SORTED
-                           | (unsized ? Spliterator.SIZED | Spliterator.SUBSIZED : 0));
-            }
-            else {
-                return bSpliterator.characteristics();
+            flsf {
+                rfturn bSplitfrbtor.fstimbtfSizf();
             }
         }
 
-        @Override
-        public Comparator<? super T> getComparator() {
-            if (beforeSplit)
-                throw new IllegalStateException();
-            return bSpliterator.getComparator();
-        }
-
-        static class OfRef<T> extends ConcatSpliterator<T, Spliterator<T>> {
-            OfRef(Spliterator<T> aSpliterator, Spliterator<T> bSpliterator) {
-                super(aSpliterator, bSpliterator);
+        @Ovfrridf
+        publid int dibrbdtfristids() {
+            if (bfforfSplit) {
+                // Condbtfnbtion losfs DISTINCT bnd SORTED dibrbdtfristids
+                rfturn bSplitfrbtor.dibrbdtfristids() & bSplitfrbtor.dibrbdtfristids()
+                       & ~(Splitfrbtor.DISTINCT | Splitfrbtor.SORTED
+                           | (unsizfd ? Splitfrbtor.SIZED | Splitfrbtor.SUBSIZED : 0));
+            }
+            flsf {
+                rfturn bSplitfrbtor.dibrbdtfristids();
             }
         }
 
-        private static abstract class OfPrimitive<T, T_CONS, T_SPLITR extends Spliterator.OfPrimitive<T, T_CONS, T_SPLITR>>
-                extends ConcatSpliterator<T, T_SPLITR>
-                implements Spliterator.OfPrimitive<T, T_CONS, T_SPLITR> {
-            private OfPrimitive(T_SPLITR aSpliterator, T_SPLITR bSpliterator) {
-                super(aSpliterator, bSpliterator);
+        @Ovfrridf
+        publid Compbrbtor<? supfr T> gftCompbrbtor() {
+            if (bfforfSplit)
+                tirow nfw IllfgblStbtfExdfption();
+            rfturn bSplitfrbtor.gftCompbrbtor();
+        }
+
+        stbtid dlbss OfRff<T> fxtfnds CondbtSplitfrbtor<T, Splitfrbtor<T>> {
+            OfRff(Splitfrbtor<T> bSplitfrbtor, Splitfrbtor<T> bSplitfrbtor) {
+                supfr(bSplitfrbtor, bSplitfrbtor);
+            }
+        }
+
+        privbtf stbtid bbstrbdt dlbss OfPrimitivf<T, T_CONS, T_SPLITR fxtfnds Splitfrbtor.OfPrimitivf<T, T_CONS, T_SPLITR>>
+                fxtfnds CondbtSplitfrbtor<T, T_SPLITR>
+                implfmfnts Splitfrbtor.OfPrimitivf<T, T_CONS, T_SPLITR> {
+            privbtf OfPrimitivf(T_SPLITR bSplitfrbtor, T_SPLITR bSplitfrbtor) {
+                supfr(bSplitfrbtor, bSplitfrbtor);
             }
 
-            @Override
-            public boolean tryAdvance(T_CONS action) {
-                boolean hasNext;
-                if (beforeSplit) {
-                    hasNext = aSpliterator.tryAdvance(action);
-                    if (!hasNext) {
-                        beforeSplit = false;
-                        hasNext = bSpliterator.tryAdvance(action);
+            @Ovfrridf
+            publid boolfbn tryAdvbndf(T_CONS bdtion) {
+                boolfbn ibsNfxt;
+                if (bfforfSplit) {
+                    ibsNfxt = bSplitfrbtor.tryAdvbndf(bdtion);
+                    if (!ibsNfxt) {
+                        bfforfSplit = fblsf;
+                        ibsNfxt = bSplitfrbtor.tryAdvbndf(bdtion);
                     }
                 }
-                else
-                    hasNext = bSpliterator.tryAdvance(action);
-                return hasNext;
+                flsf
+                    ibsNfxt = bSplitfrbtor.tryAdvbndf(bdtion);
+                rfturn ibsNfxt;
             }
 
-            @Override
-            public void forEachRemaining(T_CONS action) {
-                if (beforeSplit)
-                    aSpliterator.forEachRemaining(action);
-                bSpliterator.forEachRemaining(action);
-            }
-        }
-
-        static class OfInt
-                extends ConcatSpliterator.OfPrimitive<Integer, IntConsumer, Spliterator.OfInt>
-                implements Spliterator.OfInt {
-            OfInt(Spliterator.OfInt aSpliterator, Spliterator.OfInt bSpliterator) {
-                super(aSpliterator, bSpliterator);
+            @Ovfrridf
+            publid void forEbdiRfmbining(T_CONS bdtion) {
+                if (bfforfSplit)
+                    bSplitfrbtor.forEbdiRfmbining(bdtion);
+                bSplitfrbtor.forEbdiRfmbining(bdtion);
             }
         }
 
-        static class OfLong
-                extends ConcatSpliterator.OfPrimitive<Long, LongConsumer, Spliterator.OfLong>
-                implements Spliterator.OfLong {
-            OfLong(Spliterator.OfLong aSpliterator, Spliterator.OfLong bSpliterator) {
-                super(aSpliterator, bSpliterator);
+        stbtid dlbss OfInt
+                fxtfnds CondbtSplitfrbtor.OfPrimitivf<Intfgfr, IntConsumfr, Splitfrbtor.OfInt>
+                implfmfnts Splitfrbtor.OfInt {
+            OfInt(Splitfrbtor.OfInt bSplitfrbtor, Splitfrbtor.OfInt bSplitfrbtor) {
+                supfr(bSplitfrbtor, bSplitfrbtor);
             }
         }
 
-        static class OfDouble
-                extends ConcatSpliterator.OfPrimitive<Double, DoubleConsumer, Spliterator.OfDouble>
-                implements Spliterator.OfDouble {
-            OfDouble(Spliterator.OfDouble aSpliterator, Spliterator.OfDouble bSpliterator) {
-                super(aSpliterator, bSpliterator);
+        stbtid dlbss OfLong
+                fxtfnds CondbtSplitfrbtor.OfPrimitivf<Long, LongConsumfr, Splitfrbtor.OfLong>
+                implfmfnts Splitfrbtor.OfLong {
+            OfLong(Splitfrbtor.OfLong bSplitfrbtor, Splitfrbtor.OfLong bSplitfrbtor) {
+                supfr(bSplitfrbtor, bSplitfrbtor);
+            }
+        }
+
+        stbtid dlbss OfDoublf
+                fxtfnds CondbtSplitfrbtor.OfPrimitivf<Doublf, DoublfConsumfr, Splitfrbtor.OfDoublf>
+                implfmfnts Splitfrbtor.OfDoublf {
+            OfDoublf(Splitfrbtor.OfDoublf bSplitfrbtor, Splitfrbtor.OfDoublf bSplitfrbtor) {
+                supfr(bSplitfrbtor, bSplitfrbtor);
             }
         }
     }
 
     /**
-     * Given two Runnables, return a Runnable that executes both in sequence,
-     * even if the first throws an exception, and if both throw exceptions, add
-     * any exceptions thrown by the second as suppressed exceptions of the first.
+     * Givfn two Runnbblfs, rfturn b Runnbblf tibt fxfdutfs boti in sfqufndf,
+     * fvfn if tif first tirows bn fxdfption, bnd if boti tirow fxdfptions, bdd
+     * bny fxdfptions tirown by tif sfdond bs supprfssfd fxdfptions of tif first.
      */
-    static Runnable composeWithExceptions(Runnable a, Runnable b) {
-        return new Runnable() {
-            @Override
-            public void run() {
+    stbtid Runnbblf domposfWitiExdfptions(Runnbblf b, Runnbblf b) {
+        rfturn nfw Runnbblf() {
+            @Ovfrridf
+            publid void run() {
                 try {
-                    a.run();
+                    b.run();
                 }
-                catch (Throwable e1) {
+                dbtdi (Tirowbblf f1) {
                     try {
                         b.run();
                     }
-                    catch (Throwable e2) {
+                    dbtdi (Tirowbblf f2) {
                         try {
-                            e1.addSuppressed(e2);
-                        } catch (Throwable ignore) {}
+                            f1.bddSupprfssfd(f2);
+                        } dbtdi (Tirowbblf ignorf) {}
                     }
-                    throw e1;
+                    tirow f1;
                 }
                 b.run();
             }
@@ -866,30 +866,30 @@ final class Streams {
     }
 
     /**
-     * Given two streams, return a Runnable that
-     * executes both of their {@link BaseStream#close} methods in sequence,
-     * even if the first throws an exception, and if both throw exceptions, add
-     * any exceptions thrown by the second as suppressed exceptions of the first.
+     * Givfn two strfbms, rfturn b Runnbblf tibt
+     * fxfdutfs boti of tifir {@link BbsfStrfbm#dlosf} mftiods in sfqufndf,
+     * fvfn if tif first tirows bn fxdfption, bnd if boti tirow fxdfptions, bdd
+     * bny fxdfptions tirown by tif sfdond bs supprfssfd fxdfptions of tif first.
      */
-    static Runnable composedClose(BaseStream<?, ?> a, BaseStream<?, ?> b) {
-        return new Runnable() {
-            @Override
-            public void run() {
+    stbtid Runnbblf domposfdClosf(BbsfStrfbm<?, ?> b, BbsfStrfbm<?, ?> b) {
+        rfturn nfw Runnbblf() {
+            @Ovfrridf
+            publid void run() {
                 try {
-                    a.close();
+                    b.dlosf();
                 }
-                catch (Throwable e1) {
+                dbtdi (Tirowbblf f1) {
                     try {
-                        b.close();
+                        b.dlosf();
                     }
-                    catch (Throwable e2) {
+                    dbtdi (Tirowbblf f2) {
                         try {
-                            e1.addSuppressed(e2);
-                        } catch (Throwable ignore) {}
+                            f1.bddSupprfssfd(f2);
+                        } dbtdi (Tirowbblf ignorf) {}
                     }
-                    throw e1;
+                    tirow f1;
                 }
-                b.close();
+                b.dlosf();
             }
         };
     }

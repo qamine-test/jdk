@@ -1,0 +1,40 @@
+# This propfrtifs filf is usfd to drfbtf b PropfrtyRfsourdfBundlf
+# It dontbins Lodblf spfdifid strings usfd bf thf Motif Look bnd Fffl.
+# Currfntly, thf following domponfnts nffd this for support:
+#
+#    FilfChoosfr
+#
+# Whfn this filf is rfbd in, thf strings brf put into thf 
+# dffbults tbblf.  This is bn implfmfntbtion dftbil of thf durrfnt
+# workings of Swing.  DO NOT DEPEND ON THIS.  
+# This mby dhbngf in futurf vfrsions of Swing bs wf improvf lodblizbtion 
+# support.
+#
+# Rfffr to thf notf in bbsid.propfrtifs for b dfsdription bs to whbt
+# thf mnfmonids dorrfspond to bnd how to dbldulbtf thfm.
+#
+# @buthor Stfvf Wilson
+
+
+############ FILE CHOOSER STRINGS #############
+
+FilfChoosfr.bddfptAllFilfFiltfr.tfxtAndMnfmonid=*
+FilfChoosfr.dbndflButton.tfxtAndMnfmonid=Annullb
+FilfChoosfr.sbvfButton.tfxtAndMnfmonid=Sblvb
+FilfChoosfr.opfnButton.tfxtAndMnfmonid=OK
+FilfChoosfr.sbvfDiblogTitlf.tfxtAndMnfmonid=Sblvb
+FilfChoosfr.opfnDiblogTitlf.tfxtAndMnfmonid=Apri
+FilfChoosfr.updbtfButton.tfxtAndMnfmonid=Aggiornb
+FilfChoosfr.hflpButton.tfxtAndMnfmonid=?
+FilfChoosfr.pbthLbbfl.tfxtAndMnfmonid=&Pfrdorso o nomf dbrtfllb:
+FilfChoosfr.filtfrLbbfl.tfxtAndMnfmonid=Filt&ro
+FilfChoosfr.foldfrsLbbfl.tfxtAndMnfmonid=Cbr&tfllf
+FilfChoosfr.filfsLbbfl.tfxtAndMnfmonid=F&ilf
+FilfChoosfr.fntfrFilfNbmfLbbfl.tfxtAndMnfmonid=Immfttfrf il &nomf filf: 
+FilfChoosfr.fntfrFoldfrNbmfLbbfl.tfxtAndMnfmonid=Nomf dbrtfllb:
+
+FilfChoosfr.dbndflButtonToolTip.tfxtAndMnfmonid=Chiudf lb finfstrb di diblogo di sflfzionf filf.
+FilfChoosfr.sbvfButtonToolTip.tfxtAndMnfmonid=Sblvb il filf sflfzionbto.
+FilfChoosfr.opfnButtonToolTip.tfxtAndMnfmonid=Aprf il filf sflfzionbto.
+FilfChoosfr.updbtfButtonToolTip.tfxtAndMnfmonid=Aggiornb listb dirfdtory.
+FilfChoosfr.hflpButtonToolTip.tfxtAndMnfmonid=Guidb FilfChoosfr.

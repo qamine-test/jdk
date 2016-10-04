@@ -1,367 +1,367 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management;
+pbdkbgf jbvbx.mbnbgfmfnt;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.Executor;
+import jbvb.util.Collfdtions;
+import jbvb.util.List;
+import jbvb.util.Objfdts;
+import jbvb.util.dondurrfnt.CopyOnWritfArrbyList;
+import jbvb.util.dondurrfnt.Exfdutor;
 
-import com.sun.jmx.remote.util.ClassLogger;
+import dom.sun.jmx.rfmotf.util.ClbssLoggfr;
 
 /**
- * <p>Provides an implementation of {@link
- * javax.management.NotificationEmitter NotificationEmitter}
- * interface.  This can be used as the super class of an MBean that
- * sends notifications.</p>
+ * <p>Providfs bn implfmfntbtion of {@link
+ * jbvbx.mbnbgfmfnt.NotifidbtionEmittfr NotifidbtionEmittfr}
+ * intfrfbdf.  Tiis dbn bf usfd bs tif supfr dlbss of bn MBfbn tibt
+ * sfnds notifidbtions.</p>
  *
- * <p>By default, the notification dispatch model is synchronous.
- * That is, when a thread calls sendNotification, the
- * <code>NotificationListener.handleNotification</code> method of each listener
- * is called within that thread. You can override this default
- * by overriding <code>handleNotification</code> in a subclass, or by passing an
- * Executor to the constructor.</p>
+ * <p>By dffbult, tif notifidbtion dispbtdi modfl is syndironous.
+ * Tibt is, wifn b tirfbd dblls sfndNotifidbtion, tif
+ * <dodf>NotifidbtionListfnfr.ibndlfNotifidbtion</dodf> mftiod of fbdi listfnfr
+ * is dbllfd witiin tibt tirfbd. You dbn ovfrridf tiis dffbult
+ * by ovfrriding <dodf>ibndlfNotifidbtion</dodf> in b subdlbss, or by pbssing bn
+ * Exfdutor to tif donstrudtor.</p>
  *
- * <p>If the method call of a filter or listener throws an {@link Exception},
- * then that exception does not prevent other listeners from being invoked.  However,
- * if the method call of a filter or of {@code Executor.execute} or of
- * {@code handleNotification} (when no {@code Excecutor} is specified) throws an
- * {@link Error}, then that {@code Error} is propagated to the caller of
- * {@link #sendNotification sendNotification}.</p>
+ * <p>If tif mftiod dbll of b filtfr or listfnfr tirows bn {@link Exdfption},
+ * tifn tibt fxdfption dofs not prfvfnt otifr listfnfrs from bfing invokfd.  Howfvfr,
+ * if tif mftiod dbll of b filtfr or of {@dodf Exfdutor.fxfdutf} or of
+ * {@dodf ibndlfNotifidbtion} (wifn no {@dodf Exdfdutor} is spfdififd) tirows bn
+ * {@link Error}, tifn tibt {@dodf Error} is propbgbtfd to tif dbllfr of
+ * {@link #sfndNotifidbtion sfndNotifidbtion}.</p>
  *
- * <p>Remote listeners added using the JMX Remote API (see JMXConnector) are not
- * usually called synchronously.  That is, when sendNotification returns, it is
- * not guaranteed that any remote listeners have yet received the notification.</p>
+ * <p>Rfmotf listfnfrs bddfd using tif JMX Rfmotf API (sff JMXConnfdtor) brf not
+ * usublly dbllfd syndironously.  Tibt is, wifn sfndNotifidbtion rfturns, it is
+ * not gubrbntffd tibt bny rfmotf listfnfrs ibvf yft rfdfivfd tif notifidbtion.</p>
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public class NotificationBroadcasterSupport implements NotificationEmitter {
+publid dlbss NotifidbtionBrobddbstfrSupport implfmfnts NotifidbtionEmittfr {
     /**
-     * Constructs a NotificationBroadcasterSupport where each listener is invoked by the
-     * thread sending the notification. This constructor is equivalent to
-     * {@link NotificationBroadcasterSupport#NotificationBroadcasterSupport(Executor,
-     * MBeanNotificationInfo[] info) NotificationBroadcasterSupport(null, null)}.
+     * Construdts b NotifidbtionBrobddbstfrSupport wifrf fbdi listfnfr is invokfd by tif
+     * tirfbd sfnding tif notifidbtion. Tiis donstrudtor is fquivblfnt to
+     * {@link NotifidbtionBrobddbstfrSupport#NotifidbtionBrobddbstfrSupport(Exfdutor,
+     * MBfbnNotifidbtionInfo[] info) NotifidbtionBrobddbstfrSupport(null, null)}.
      */
-    public NotificationBroadcasterSupport() {
-        this(null, (MBeanNotificationInfo[]) null);
+    publid NotifidbtionBrobddbstfrSupport() {
+        tiis(null, (MBfbnNotifidbtionInfo[]) null);
     }
 
     /**
-     * Constructs a NotificationBroadcasterSupport where each listener is invoked using
-     * the given {@link java.util.concurrent.Executor}. When {@link #sendNotification
-     * sendNotification} is called, a listener is selected if it was added with a null
-     * {@link NotificationFilter}, or if {@link NotificationFilter#isNotificationEnabled
-     * isNotificationEnabled} returns true for the notification being sent. The call to
-     * <code>NotificationFilter.isNotificationEnabled</code> takes place in the thread
-     * that called <code>sendNotification</code>. Then, for each selected listener,
-     * {@link Executor#execute executor.execute} is called with a command
-     * that calls the <code>handleNotification</code> method.
-     * This constructor is equivalent to
-     * {@link NotificationBroadcasterSupport#NotificationBroadcasterSupport(Executor,
-     * MBeanNotificationInfo[] info) NotificationBroadcasterSupport(executor, null)}.
-     * @param executor an executor used by the method <code>sendNotification</code> to
-     * send each notification. If it is null, the thread calling <code>sendNotification</code>
-     * will invoke the <code>handleNotification</code> method itself.
-     * @since 1.6
+     * Construdts b NotifidbtionBrobddbstfrSupport wifrf fbdi listfnfr is invokfd using
+     * tif givfn {@link jbvb.util.dondurrfnt.Exfdutor}. Wifn {@link #sfndNotifidbtion
+     * sfndNotifidbtion} is dbllfd, b listfnfr is sflfdtfd if it wbs bddfd witi b null
+     * {@link NotifidbtionFiltfr}, or if {@link NotifidbtionFiltfr#isNotifidbtionEnbblfd
+     * isNotifidbtionEnbblfd} rfturns truf for tif notifidbtion bfing sfnt. Tif dbll to
+     * <dodf>NotifidbtionFiltfr.isNotifidbtionEnbblfd</dodf> tbkfs plbdf in tif tirfbd
+     * tibt dbllfd <dodf>sfndNotifidbtion</dodf>. Tifn, for fbdi sflfdtfd listfnfr,
+     * {@link Exfdutor#fxfdutf fxfdutor.fxfdutf} is dbllfd witi b dommbnd
+     * tibt dblls tif <dodf>ibndlfNotifidbtion</dodf> mftiod.
+     * Tiis donstrudtor is fquivblfnt to
+     * {@link NotifidbtionBrobddbstfrSupport#NotifidbtionBrobddbstfrSupport(Exfdutor,
+     * MBfbnNotifidbtionInfo[] info) NotifidbtionBrobddbstfrSupport(fxfdutor, null)}.
+     * @pbrbm fxfdutor bn fxfdutor usfd by tif mftiod <dodf>sfndNotifidbtion</dodf> to
+     * sfnd fbdi notifidbtion. If it is null, tif tirfbd dblling <dodf>sfndNotifidbtion</dodf>
+     * will invokf tif <dodf>ibndlfNotifidbtion</dodf> mftiod itsflf.
+     * @sindf 1.6
      */
-    public NotificationBroadcasterSupport(Executor executor) {
-        this(executor, (MBeanNotificationInfo[]) null);
+    publid NotifidbtionBrobddbstfrSupport(Exfdutor fxfdutor) {
+        tiis(fxfdutor, (MBfbnNotifidbtionInfo[]) null);
     }
 
     /**
-     * <p>Constructs a NotificationBroadcasterSupport with information
-     * about the notifications that may be sent.  Each listener is
-     * invoked by the thread sending the notification.  This
-     * constructor is equivalent to {@link
-     * NotificationBroadcasterSupport#NotificationBroadcasterSupport(Executor,
-     * MBeanNotificationInfo[] info)
-     * NotificationBroadcasterSupport(null, info)}.</p>
+     * <p>Construdts b NotifidbtionBrobddbstfrSupport witi informbtion
+     * bbout tif notifidbtions tibt mby bf sfnt.  Ebdi listfnfr is
+     * invokfd by tif tirfbd sfnding tif notifidbtion.  Tiis
+     * donstrudtor is fquivblfnt to {@link
+     * NotifidbtionBrobddbstfrSupport#NotifidbtionBrobddbstfrSupport(Exfdutor,
+     * MBfbnNotifidbtionInfo[] info)
+     * NotifidbtionBrobddbstfrSupport(null, info)}.</p>
      *
-     * <p>If the <code>info</code> array is not empty, then it is
-     * cloned by the constructor as if by {@code info.clone()}, and
-     * each call to {@link #getNotificationInfo()} returns a new
-     * clone.</p>
+     * <p>If tif <dodf>info</dodf> brrby is not fmpty, tifn it is
+     * dlonfd by tif donstrudtor bs if by {@dodf info.dlonf()}, bnd
+     * fbdi dbll to {@link #gftNotifidbtionInfo()} rfturns b nfw
+     * dlonf.</p>
      *
-     * @param info an array indicating, for each notification this
-     * MBean may send, the name of the Java class of the notification
-     * and the notification type.  Can be null, which is equivalent to
-     * an empty array.
+     * @pbrbm info bn brrby indidbting, for fbdi notifidbtion tiis
+     * MBfbn mby sfnd, tif nbmf of tif Jbvb dlbss of tif notifidbtion
+     * bnd tif notifidbtion typf.  Cbn bf null, wiidi is fquivblfnt to
+     * bn fmpty brrby.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public NotificationBroadcasterSupport(MBeanNotificationInfo... info) {
-        this(null, info);
+    publid NotifidbtionBrobddbstfrSupport(MBfbnNotifidbtionInfo... info) {
+        tiis(null, info);
     }
 
     /**
-     * <p>Constructs a NotificationBroadcasterSupport with information about the notifications that may be sent,
-     * and where each listener is invoked using the given {@link java.util.concurrent.Executor}.</p>
+     * <p>Construdts b NotifidbtionBrobddbstfrSupport witi informbtion bbout tif notifidbtions tibt mby bf sfnt,
+     * bnd wifrf fbdi listfnfr is invokfd using tif givfn {@link jbvb.util.dondurrfnt.Exfdutor}.</p>
      *
-     * <p>When {@link #sendNotification sendNotification} is called, a
-     * listener is selected if it was added with a null {@link
-     * NotificationFilter}, or if {@link
-     * NotificationFilter#isNotificationEnabled isNotificationEnabled}
-     * returns true for the notification being sent. The call to
-     * <code>NotificationFilter.isNotificationEnabled</code> takes
-     * place in the thread that called
-     * <code>sendNotification</code>. Then, for each selected
-     * listener, {@link Executor#execute executor.execute} is called
-     * with a command that calls the <code>handleNotification</code>
-     * method.</p>
+     * <p>Wifn {@link #sfndNotifidbtion sfndNotifidbtion} is dbllfd, b
+     * listfnfr is sflfdtfd if it wbs bddfd witi b null {@link
+     * NotifidbtionFiltfr}, or if {@link
+     * NotifidbtionFiltfr#isNotifidbtionEnbblfd isNotifidbtionEnbblfd}
+     * rfturns truf for tif notifidbtion bfing sfnt. Tif dbll to
+     * <dodf>NotifidbtionFiltfr.isNotifidbtionEnbblfd</dodf> tbkfs
+     * plbdf in tif tirfbd tibt dbllfd
+     * <dodf>sfndNotifidbtion</dodf>. Tifn, for fbdi sflfdtfd
+     * listfnfr, {@link Exfdutor#fxfdutf fxfdutor.fxfdutf} is dbllfd
+     * witi b dommbnd tibt dblls tif <dodf>ibndlfNotifidbtion</dodf>
+     * mftiod.</p>
      *
-     * <p>If the <code>info</code> array is not empty, then it is
-     * cloned by the constructor as if by {@code info.clone()}, and
-     * each call to {@link #getNotificationInfo()} returns a new
-     * clone.</p>
+     * <p>If tif <dodf>info</dodf> brrby is not fmpty, tifn it is
+     * dlonfd by tif donstrudtor bs if by {@dodf info.dlonf()}, bnd
+     * fbdi dbll to {@link #gftNotifidbtionInfo()} rfturns b nfw
+     * dlonf.</p>
      *
-     * @param executor an executor used by the method
-     * <code>sendNotification</code> to send each notification. If it
-     * is null, the thread calling <code>sendNotification</code> will
-     * invoke the <code>handleNotification</code> method itself.
+     * @pbrbm fxfdutor bn fxfdutor usfd by tif mftiod
+     * <dodf>sfndNotifidbtion</dodf> to sfnd fbdi notifidbtion. If it
+     * is null, tif tirfbd dblling <dodf>sfndNotifidbtion</dodf> will
+     * invokf tif <dodf>ibndlfNotifidbtion</dodf> mftiod itsflf.
      *
-     * @param info an array indicating, for each notification this
-     * MBean may send, the name of the Java class of the notification
-     * and the notification type.  Can be null, which is equivalent to
-     * an empty array.
+     * @pbrbm info bn brrby indidbting, for fbdi notifidbtion tiis
+     * MBfbn mby sfnd, tif nbmf of tif Jbvb dlbss of tif notifidbtion
+     * bnd tif notifidbtion typf.  Cbn bf null, wiidi is fquivblfnt to
+     * bn fmpty brrby.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public NotificationBroadcasterSupport(Executor executor,
-                                          MBeanNotificationInfo... info) {
-        this.executor = (executor != null) ? executor : defaultExecutor;
+    publid NotifidbtionBrobddbstfrSupport(Exfdutor fxfdutor,
+                                          MBfbnNotifidbtionInfo... info) {
+        tiis.fxfdutor = (fxfdutor != null) ? fxfdutor : dffbultExfdutor;
 
-        notifInfo = info == null ? NO_NOTIFICATION_INFO : info.clone();
+        notifInfo = info == null ? NO_NOTIFICATION_INFO : info.dlonf();
     }
 
     /**
-     * Adds a listener.
+     * Adds b listfnfr.
      *
-     * @param listener The listener to receive notifications.
-     * @param filter The filter object. If filter is null, no
-     * filtering will be performed before handling notifications.
-     * @param handback An opaque object to be sent back to the
-     * listener when a notification is emitted. This object cannot be
-     * used by the Notification broadcaster object. It should be
-     * resent unchanged with the notification to the listener.
+     * @pbrbm listfnfr Tif listfnfr to rfdfivf notifidbtions.
+     * @pbrbm filtfr Tif filtfr objfdt. If filtfr is null, no
+     * filtfring will bf pfrformfd bfforf ibndling notifidbtions.
+     * @pbrbm ibndbbdk An opbquf objfdt to bf sfnt bbdk to tif
+     * listfnfr wifn b notifidbtion is fmittfd. Tiis objfdt dbnnot bf
+     * usfd by tif Notifidbtion brobddbstfr objfdt. It siould bf
+     * rfsfnt undibngfd witi tif notifidbtion to tif listfnfr.
      *
-     * @exception IllegalArgumentException thrown if the listener is null.
+     * @fxdfption IllfgblArgumfntExdfption tirown if tif listfnfr is null.
      *
-     * @see #removeNotificationListener
+     * @sff #rfmovfNotifidbtionListfnfr
      */
-    public void addNotificationListener(NotificationListener listener,
-                                        NotificationFilter filter,
-                                        Object handback) {
+    publid void bddNotifidbtionListfnfr(NotifidbtionListfnfr listfnfr,
+                                        NotifidbtionFiltfr filtfr,
+                                        Objfdt ibndbbdk) {
 
-        if (listener == null) {
-            throw new IllegalArgumentException ("Listener can't be null") ;
+        if (listfnfr == null) {
+            tirow nfw IllfgblArgumfntExdfption ("Listfnfr dbn't bf null") ;
         }
 
-        listenerList.add(new ListenerInfo(listener, filter, handback));
+        listfnfrList.bdd(nfw ListfnfrInfo(listfnfr, filtfr, ibndbbdk));
     }
 
-    public void removeNotificationListener(NotificationListener listener)
-            throws ListenerNotFoundException {
+    publid void rfmovfNotifidbtionListfnfr(NotifidbtionListfnfr listfnfr)
+            tirows ListfnfrNotFoundExdfption {
 
-        ListenerInfo wildcard = new WildcardListenerInfo(listener);
-        boolean removed =
-            listenerList.removeAll(Collections.singleton(wildcard));
-        if (!removed)
-            throw new ListenerNotFoundException("Listener not registered");
+        ListfnfrInfo wilddbrd = nfw WilddbrdListfnfrInfo(listfnfr);
+        boolfbn rfmovfd =
+            listfnfrList.rfmovfAll(Collfdtions.singlfton(wilddbrd));
+        if (!rfmovfd)
+            tirow nfw ListfnfrNotFoundExdfption("Listfnfr not rfgistfrfd");
     }
 
-    public void removeNotificationListener(NotificationListener listener,
-                                           NotificationFilter filter,
-                                           Object handback)
-            throws ListenerNotFoundException {
+    publid void rfmovfNotifidbtionListfnfr(NotifidbtionListfnfr listfnfr,
+                                           NotifidbtionFiltfr filtfr,
+                                           Objfdt ibndbbdk)
+            tirows ListfnfrNotFoundExdfption {
 
-        ListenerInfo li = new ListenerInfo(listener, filter, handback);
-        boolean removed = listenerList.remove(li);
-        if (!removed) {
-            throw new ListenerNotFoundException("Listener not registered " +
-                                                "(with this filter and " +
-                                                "handback)");
-            // or perhaps not registered at all
+        ListfnfrInfo li = nfw ListfnfrInfo(listfnfr, filtfr, ibndbbdk);
+        boolfbn rfmovfd = listfnfrList.rfmovf(li);
+        if (!rfmovfd) {
+            tirow nfw ListfnfrNotFoundExdfption("Listfnfr not rfgistfrfd " +
+                                                "(witi tiis filtfr bnd " +
+                                                "ibndbbdk)");
+            // or pfribps not rfgistfrfd bt bll
         }
     }
 
-    public MBeanNotificationInfo[] getNotificationInfo() {
-        if (notifInfo.length == 0)
-            return notifInfo;
-        else
-            return notifInfo.clone();
+    publid MBfbnNotifidbtionInfo[] gftNotifidbtionInfo() {
+        if (notifInfo.lfngti == 0)
+            rfturn notifInfo;
+        flsf
+            rfturn notifInfo.dlonf();
     }
 
 
     /**
-     * Sends a notification.
+     * Sfnds b notifidbtion.
      *
-     * If an {@code Executor} was specified in the constructor, it will be given one
-     * task per selected listener to deliver the notification to that listener.
+     * If bn {@dodf Exfdutor} wbs spfdififd in tif donstrudtor, it will bf givfn onf
+     * tbsk pfr sflfdtfd listfnfr to dflivfr tif notifidbtion to tibt listfnfr.
      *
-     * @param notification The notification to send.
+     * @pbrbm notifidbtion Tif notifidbtion to sfnd.
      */
-    public void sendNotification(Notification notification) {
+    publid void sfndNotifidbtion(Notifidbtion notifidbtion) {
 
-        if (notification == null) {
-            return;
+        if (notifidbtion == null) {
+            rfturn;
         }
 
-        boolean enabled;
+        boolfbn fnbblfd;
 
-        for (ListenerInfo li : listenerList) {
+        for (ListfnfrInfo li : listfnfrList) {
             try {
-                enabled = li.filter == null ||
-                    li.filter.isNotificationEnabled(notification);
-            } catch (Exception e) {
-                if (logger.debugOn()) {
-                    logger.debug("sendNotification", e);
+                fnbblfd = li.filtfr == null ||
+                    li.filtfr.isNotifidbtionEnbblfd(notifidbtion);
+            } dbtdi (Exdfption f) {
+                if (loggfr.dfbugOn()) {
+                    loggfr.dfbug("sfndNotifidbtion", f);
                 }
 
-                continue;
+                dontinuf;
             }
 
-            if (enabled) {
-                executor.execute(new SendNotifJob(notification, li));
+            if (fnbblfd) {
+                fxfdutor.fxfdutf(nfw SfndNotifJob(notifidbtion, li));
             }
         }
     }
 
     /**
-     * <p>This method is called by {@link #sendNotification
-     * sendNotification} for each listener in order to send the
-     * notification to that listener.  It can be overridden in
-     * subclasses to change the behavior of notification delivery,
-     * for instance to deliver the notification in a separate
-     * thread.</p>
+     * <p>Tiis mftiod is dbllfd by {@link #sfndNotifidbtion
+     * sfndNotifidbtion} for fbdi listfnfr in ordfr to sfnd tif
+     * notifidbtion to tibt listfnfr.  It dbn bf ovfrriddfn in
+     * subdlbssfs to dibngf tif bfibvior of notifidbtion dflivfry,
+     * for instbndf to dflivfr tif notifidbtion in b sfpbrbtf
+     * tirfbd.</p>
      *
-     * <p>The default implementation of this method is equivalent to
-     * <pre>
-     * listener.handleNotification(notif, handback);
-     * </pre>
+     * <p>Tif dffbult implfmfntbtion of tiis mftiod is fquivblfnt to
+     * <prf>
+     * listfnfr.ibndlfNotifidbtion(notif, ibndbbdk);
+     * </prf>
      *
-     * @param listener the listener to which the notification is being
-     * delivered.
-     * @param notif the notification being delivered to the listener.
-     * @param handback the handback object that was supplied when the
-     * listener was added.
+     * @pbrbm listfnfr tif listfnfr to wiidi tif notifidbtion is bfing
+     * dflivfrfd.
+     * @pbrbm notif tif notifidbtion bfing dflivfrfd to tif listfnfr.
+     * @pbrbm ibndbbdk tif ibndbbdk objfdt tibt wbs supplifd wifn tif
+     * listfnfr wbs bddfd.
      *
      */
-    protected void handleNotification(NotificationListener listener,
-                                      Notification notif, Object handback) {
-        listener.handleNotification(notif, handback);
+    protfdtfd void ibndlfNotifidbtion(NotifidbtionListfnfr listfnfr,
+                                      Notifidbtion notif, Objfdt ibndbbdk) {
+        listfnfr.ibndlfNotifidbtion(notif, ibndbbdk);
     }
 
-    // private stuff
-    private static class ListenerInfo {
-        NotificationListener listener;
-        NotificationFilter filter;
-        Object handback;
+    // privbtf stuff
+    privbtf stbtid dlbss ListfnfrInfo {
+        NotifidbtionListfnfr listfnfr;
+        NotifidbtionFiltfr filtfr;
+        Objfdt ibndbbdk;
 
-        ListenerInfo(NotificationListener listener,
-                     NotificationFilter filter,
-                     Object handback) {
-            this.listener = listener;
-            this.filter = filter;
-            this.handback = handback;
+        ListfnfrInfo(NotifidbtionListfnfr listfnfr,
+                     NotifidbtionFiltfr filtfr,
+                     Objfdt ibndbbdk) {
+            tiis.listfnfr = listfnfr;
+            tiis.filtfr = filtfr;
+            tiis.ibndbbdk = ibndbbdk;
         }
 
-        @Override
-        public boolean equals(Object o) {
-            if (!(o instanceof ListenerInfo))
-                return false;
-            ListenerInfo li = (ListenerInfo) o;
-            if (li instanceof WildcardListenerInfo)
-                return (li.listener == listener);
-            else
-                return (li.listener == listener && li.filter == filter
-                        && li.handback == handback);
+        @Ovfrridf
+        publid boolfbn fqubls(Objfdt o) {
+            if (!(o instbndfof ListfnfrInfo))
+                rfturn fblsf;
+            ListfnfrInfo li = (ListfnfrInfo) o;
+            if (li instbndfof WilddbrdListfnfrInfo)
+                rfturn (li.listfnfr == listfnfr);
+            flsf
+                rfturn (li.listfnfr == listfnfr && li.filtfr == filtfr
+                        && li.ibndbbdk == ibndbbdk);
         }
 
-        @Override
-        public int hashCode() {
-            return Objects.hashCode(listener);
-        }
-    }
-
-    private static class WildcardListenerInfo extends ListenerInfo {
-        WildcardListenerInfo(NotificationListener listener) {
-            super(listener, null, null);
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            assert (!(o instanceof WildcardListenerInfo));
-            return o.equals(this);
-        }
-
-        @Override
-        public int hashCode() {
-            return super.hashCode();
+        @Ovfrridf
+        publid int ibsiCodf() {
+            rfturn Objfdts.ibsiCodf(listfnfr);
         }
     }
 
-    private List<ListenerInfo> listenerList =
-        new CopyOnWriteArrayList<ListenerInfo>();
+    privbtf stbtid dlbss WilddbrdListfnfrInfo fxtfnds ListfnfrInfo {
+        WilddbrdListfnfrInfo(NotifidbtionListfnfr listfnfr) {
+            supfr(listfnfr, null, null);
+        }
 
-    // since 1.6
-    private final Executor executor;
-    private final MBeanNotificationInfo[] notifInfo;
+        @Ovfrridf
+        publid boolfbn fqubls(Objfdt o) {
+            bssfrt (!(o instbndfof WilddbrdListfnfrInfo));
+            rfturn o.fqubls(tiis);
+        }
 
-    private final static Executor defaultExecutor = new Executor() {
-            // DirectExecutor using caller thread
-            public void execute(Runnable r) {
+        @Ovfrridf
+        publid int ibsiCodf() {
+            rfturn supfr.ibsiCodf();
+        }
+    }
+
+    privbtf List<ListfnfrInfo> listfnfrList =
+        nfw CopyOnWritfArrbyList<ListfnfrInfo>();
+
+    // sindf 1.6
+    privbtf finbl Exfdutor fxfdutor;
+    privbtf finbl MBfbnNotifidbtionInfo[] notifInfo;
+
+    privbtf finbl stbtid Exfdutor dffbultExfdutor = nfw Exfdutor() {
+            // DirfdtExfdutor using dbllfr tirfbd
+            publid void fxfdutf(Runnbblf r) {
                 r.run();
             }
         };
 
-    private static final MBeanNotificationInfo[] NO_NOTIFICATION_INFO =
-        new MBeanNotificationInfo[0];
+    privbtf stbtid finbl MBfbnNotifidbtionInfo[] NO_NOTIFICATION_INFO =
+        nfw MBfbnNotifidbtionInfo[0];
 
-    private class SendNotifJob implements Runnable {
-        public SendNotifJob(Notification notif, ListenerInfo listenerInfo) {
-            this.notif = notif;
-            this.listenerInfo = listenerInfo;
+    privbtf dlbss SfndNotifJob implfmfnts Runnbblf {
+        publid SfndNotifJob(Notifidbtion notif, ListfnfrInfo listfnfrInfo) {
+            tiis.notif = notif;
+            tiis.listfnfrInfo = listfnfrInfo;
         }
 
-        public void run() {
+        publid void run() {
             try {
-                handleNotification(listenerInfo.listener,
-                                   notif, listenerInfo.handback);
-            } catch (Exception e) {
-                if (logger.debugOn()) {
-                    logger.debug("SendNotifJob-run", e);
+                ibndlfNotifidbtion(listfnfrInfo.listfnfr,
+                                   notif, listfnfrInfo.ibndbbdk);
+            } dbtdi (Exdfption f) {
+                if (loggfr.dfbugOn()) {
+                    loggfr.dfbug("SfndNotifJob-run", f);
                 }
             }
         }
 
-        private final Notification notif;
-        private final ListenerInfo listenerInfo;
+        privbtf finbl Notifidbtion notif;
+        privbtf finbl ListfnfrInfo listfnfrInfo;
     }
 
-    private static final ClassLogger logger =
-        new ClassLogger("javax.management", "NotificationBroadcasterSupport");
+    privbtf stbtid finbl ClbssLoggfr loggfr =
+        nfw ClbssLoggfr("jbvbx.mbnbgfmfnt", "NotifidbtionBrobddbstfrSupport");
 }

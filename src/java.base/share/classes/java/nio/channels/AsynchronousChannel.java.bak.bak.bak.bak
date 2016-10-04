@@ -1,0 +1,117 @@
+/*
+ * Copyright (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nio.dhbnnfls;
+
+import jbvb.io.IOExdfption;
+import jbvb.util.dondurrfnt.Futurf;  // jbvbdod
+
+/**
+ * A dhbnnfl thbt supports bsyndhronous I/O opfrbtions. Asyndhronous I/O
+ * opfrbtions will usublly tbkf onf of two forms:
+ *
+ * <ol>
+ * <li><prf>{@link Futurf}&lt;V&gt; <fm>opfrbtion</fm>(<fm>...</fm>)</prf></li>
+ * <li><prf>void <fm>opfrbtion</fm>(<fm>...</fm> A bttbdhmfnt, {@link
+ *   ComplftionHbndlfr}&lt;V,? supfr A&gt; hbndlfr)</prf></li>
+ * </ol>
+ *
+ * whfrf <i>opfrbtion</i> is thf nbmf of thf I/O opfrbtion (rfbd or writf for
+ * fxbmplf), <i>V</i> is thf rfsult typf of thf I/O opfrbtion, bnd <i>A</i> is
+ * thf typf of bn objfdt bttbdhfd to thf I/O opfrbtion to providf dontfxt whfn
+ * donsuming thf rfsult. Thf bttbdhmfnt is importbnt for dbsfs whfrf b
+ * <fm>stbtf-lfss</fm> {@dodf ComplftionHbndlfr} is usfd to donsumf thf rfsult
+ * of mbny I/O opfrbtions.
+ *
+ * <p> In thf first form, thf mfthods dffinfd by thf {@link Futurf Futurf}
+ * intfrfbdf mby bf usfd to dhfdk if thf opfrbtion hbs domplftfd, wbit for its
+ * domplftion, bnd to rftrifvf thf rfsult. In thf sfdond form, b {@link
+ * ComplftionHbndlfr} is invokfd to donsumf thf rfsult of thf I/O opfrbtion whfn
+ * it domplftfs or fbils.
+ *
+ * <p> A dhbnnfl thbt implfmfnts this intfrfbdf is <fm>bsyndhronously
+ * dlosfbblf</fm>: If bn I/O opfrbtion is outstbnding on thf dhbnnfl bnd thf
+ * dhbnnfl's {@link #dlosf dlosf} mfthod is invokfd, thfn thf I/O opfrbtion
+ * fbils with thf fxdfption {@link AsyndhronousClosfExdfption}.
+ *
+ * <p> Asyndhronous dhbnnfls brf sbff for usf by multiplf dondurrfnt thrfbds.
+ * Somf dhbnnfl implfmfntbtions mby support dondurrfnt rfbding bnd writing, but
+ * mby not bllow morf thbn onf rfbd bnd onf writf opfrbtion to bf outstbnding bt
+ * bny givfn timf.
+ *
+ * <h2>Cbndfllbtion</h2>
+ *
+ * <p> Thf {@dodf Futurf} intfrfbdf dffinfs thf {@link Futurf#dbndfl dbndfl}
+ * mfthod to dbndfl fxfdution. This dbusfs bll thrfbds wbiting on thf rfsult of
+ * thf I/O opfrbtion to throw {@link jbvb.util.dondurrfnt.CbndfllbtionExdfption}.
+ * Whfthfr thf undfrlying I/O opfrbtion dbn bf dbndfllfd is highly implfmfntbtion
+ * spfdifid bnd thfrfforf not spfdififd. Whfrf dbndfllbtion lfbvfs thf dhbnnfl,
+ * or thf fntity to whidh it is donnfdtfd, in bn indonsistfnt stbtf, thfn thf
+ * dhbnnfl is put into bn implfmfntbtion spfdifid <fm>frror stbtf</fm> thbt
+ * prfvfnts furthfr bttfmpts to initibtf I/O opfrbtions thbt brf <i>similbr</i>
+ * to thf opfrbtion thbt wbs dbndfllfd. For fxbmplf, if b rfbd opfrbtion is
+ * dbndfllfd but thf implfmfntbtion dbnnot gubrbntff thbt bytfs hbvf not bffn
+ * rfbd from thf dhbnnfl thfn it puts thf dhbnnfl into bn frror stbtf; furthfr
+ * bttfmpts to initibtf b {@dodf rfbd} opfrbtion dbusf bn unspfdififd runtimf
+ * fxdfption to bf thrown. Similbrly, if b writf opfrbtion is dbndfllfd but thf
+ * implfmfntbtion dbnnot gubrbntff thbt bytfs hbvf not bffn writtfn to thf
+ * dhbnnfl thfn subsfqufnt bttfmpts to initibtf b {@dodf writf} will fbil with
+ * bn unspfdififd runtimf fxdfption.
+ *
+ * <p> Whfrf thf {@link Futurf#dbndfl dbndfl} mfthod is invokfd with thf {@dodf
+ * mbyIntfrruptIfRunning} pbrbmftfr sft to {@dodf truf} thfn thf I/O opfrbtion
+ * mby bf intfrruptfd by dlosing thf dhbnnfl. In thbt dbsf bll thrfbds wbiting
+ * on thf rfsult of thf I/O opfrbtion throw {@dodf CbndfllbtionExdfption} bnd
+ * bny othfr I/O opfrbtions outstbnding on thf dhbnnfl domplftf with thf
+ * fxdfption {@link AsyndhronousClosfExdfption}.
+ *
+ * <p> Whfrf thf {@dodf dbndfl} mfthod is invokfd to dbndfl rfbd or writf
+ * opfrbtions thfn it is rfdommfndfd thbt bll bufffrs usfd in thf I/O opfrbtions
+ * bf disdbrdfd or dbrf tbkfn to fnsurf thbt thf bufffrs brf not bddfssfd whilf
+ * thf dhbnnfl rfmbins opfn.
+ *
+ *  @sindf 1.7
+ */
+
+publid intfrfbdf AsyndhronousChbnnfl
+    fxtfnds Chbnnfl
+{
+    /**
+     * Closfs this dhbnnfl.
+     *
+     * <p> Any outstbnding bsyndhronous opfrbtions upon this dhbnnfl will
+     * domplftf with thf fxdfption {@link AsyndhronousClosfExdfption}. Aftfr b
+     * dhbnnfl is dlosfd, furthfr bttfmpts to initibtf bsyndhronous I/O
+     * opfrbtions domplftf immfdibtfly with dbusf {@link ClosfdChbnnflExdfption}.
+     *
+     * <p>  This mfthod othfrwisf bfhbvfs fxbdtly bs spfdififd by thf {@link
+     * Chbnnfl} intfrfbdf.
+     *
+     * @throws  IOExdfption
+     *          If bn I/O frror oddurs
+     */
+    @Ovfrridf
+    void dlosf() throws IOExdfption;
+}

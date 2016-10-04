@@ -1,266 +1,266 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  *
  */
 
 
 /*
  *
- * (C) Copyright IBM Corp. 1998-2005 - All Rights Reserved
+ * (C) Copyrigit IBM Corp. 1998-2005 - All Rigits Rfsfrvfd
  *
  */
 
-#ifndef __ARABICLAYOUTENGINE_H
-#define __ARABICLAYOUTENGINE_H
+#ifndff __ARABICLAYOUTENGINE_H
+#dffinf __ARABICLAYOUTENGINE_H
 
-#include "LETypes.h"
-#include "LEFontInstance.h"
-#include "LEGlyphFilter.h"
-#include "LayoutEngine.h"
-#include "OpenTypeLayoutEngine.h"
+#indludf "LETypfs.i"
+#indludf "LEFontInstbndf.i"
+#indludf "LEGlypiFiltfr.i"
+#indludf "LbyoutEnginf.i"
+#indludf "OpfnTypfLbyoutEnginf.i"
 
-#include "GlyphSubstitutionTables.h"
-#include "GlyphDefinitionTables.h"
-#include "GlyphPositioningTables.h"
+#indludf "GlypiSubstitutionTbblfs.i"
+#indludf "GlypiDffinitionTbblfs.i"
+#indludf "GlypiPositioningTbblfs.i"
 
 U_NAMESPACE_BEGIN
 
 /**
- * This class implements OpenType layout for Arabic fonts. It overrides
- * the characerProcessing method to assign the correct OpenType feature
- * tags for the Arabic contextual forms. It also overrides the adjustGlyphPositions
- * method to guarantee that all vowel and accent glyphs have zero advance width.
+ * Tiis dlbss implfmfnts OpfnTypf lbyout for Arbbid fonts. It ovfrridfs
+ * tif dibrbdfrProdfssing mftiod to bssign tif dorrfdt OpfnTypf ffbturf
+ * tbgs for tif Arbbid dontfxtubl forms. It blso ovfrridfs tif bdjustGlypiPositions
+ * mftiod to gubrbntff tibt bll vowfl bnd bddfnt glypis ibvf zfro bdvbndf widti.
  *
- * @internal
+ * @intfrnbl
  */
-class ArabicOpenTypeLayoutEngine : public OpenTypeLayoutEngine
+dlbss ArbbidOpfnTypfLbyoutEnginf : publid OpfnTypfLbyoutEnginf
 {
-public:
+publid:
     /**
-     * This is the main constructor. It constructs an instance of ArabicOpenTypeLayoutEngine for
-     * a particular font, script and language. It takes the GSUB table as a parameter since
-     * LayoutEngine::layoutEngineFactory has to read the GSUB table to know that it has an
-     * Indic OpenType font.
+     * Tiis is tif mbin donstrudtor. It donstrudts bn instbndf of ArbbidOpfnTypfLbyoutEnginf for
+     * b pbrtidulbr font, sdript bnd lbngubgf. It tbkfs tif GSUB tbblf bs b pbrbmftfr sindf
+     * LbyoutEnginf::lbyoutEnginfFbdtory ibs to rfbd tif GSUB tbblf to know tibt it ibs bn
+     * Indid OpfnTypf font.
      *
-     * @param fontInstance - the font
-     * @param scriptCode - the script
-     * @param langaugeCode - the language
-     * @param gsubTable - the GSUB table
-     * @param success - set to an error code if the operation fails
+     * @pbrbm fontInstbndf - tif font
+     * @pbrbm sdriptCodf - tif sdript
+     * @pbrbm lbngbugfCodf - tif lbngubgf
+     * @pbrbm gsubTbblf - tif GSUB tbblf
+     * @pbrbm suddfss - sft to bn frror dodf if tif opfrbtion fbils
      *
-     * @see LayoutEngine::layoutEngineFactory
-     * @see OpenTypeLayoutEngine
-     * @see ScriptAndLanguageTags.h for script and language codes
+     * @sff LbyoutEnginf::lbyoutEnginfFbdtory
+     * @sff OpfnTypfLbyoutEnginf
+     * @sff SdriptAndLbngubgfTbgs.i for sdript bnd lbngubgf dodfs
      *
-     * @internal
+     * @intfrnbl
      */
-    ArabicOpenTypeLayoutEngine(const LEFontInstance *fontInstance, le_int32 scriptCode, le_int32 languageCode,
-                            le_int32 typoFlags, const LEReferenceTo<GlyphSubstitutionTableHeader> &gsubTable, LEErrorCode &success);
-
-    /**
-     * This constructor is used when the font requires a "canned" GSUB table which can't be known
-     * until after this constructor has been invoked.
-     *
-     * @param fontInstance - the font
-     * @param scriptCode - the script
-     * @param langaugeCode - the language
-     * @param success - set to an error code if the operation fails
-     *
-     * @see OpenTypeLayoutEngine
-     * @see ScriptAndLanguageTags.h for script and language codes
-     *
-     * @internal
-     */
-    ArabicOpenTypeLayoutEngine(const LEFontInstance *fontInstance, le_int32 scriptCode, le_int32 languageCode,
-                               le_int32 typoFlags, LEErrorCode &success);
+    ArbbidOpfnTypfLbyoutEnginf(donst LEFontInstbndf *fontInstbndf, lf_int32 sdriptCodf, lf_int32 lbngubgfCodf,
+                            lf_int32 typoFlbgs, donst LERfffrfndfTo<GlypiSubstitutionTbblfHfbdfr> &gsubTbblf, LEErrorCodf &suddfss);
 
     /**
-     * The destructor, virtual for correct polymorphic invocation.
+     * Tiis donstrudtor is usfd wifn tif font rfquirfs b "dbnnfd" GSUB tbblf wiidi dbn't bf known
+     * until bftfr tiis donstrudtor ibs bffn invokfd.
      *
-     * @internal
+     * @pbrbm fontInstbndf - tif font
+     * @pbrbm sdriptCodf - tif sdript
+     * @pbrbm lbngbugfCodf - tif lbngubgf
+     * @pbrbm suddfss - sft to bn frror dodf if tif opfrbtion fbils
+     *
+     * @sff OpfnTypfLbyoutEnginf
+     * @sff SdriptAndLbngubgfTbgs.i for sdript bnd lbngubgf dodfs
+     *
+     * @intfrnbl
      */
-    virtual ~ArabicOpenTypeLayoutEngine();
+    ArbbidOpfnTypfLbyoutEnginf(donst LEFontInstbndf *fontInstbndf, lf_int32 sdriptCodf, lf_int32 lbngubgfCodf,
+                               lf_int32 typoFlbgs, LEErrorCodf &suddfss);
 
     /**
-     * ICU "poor man's RTTI", returns a UClassID for the actual class.
+     * Tif dfstrudtor, virtubl for dorrfdt polymorpiid invodbtion.
      *
-     * @stable ICU 2.8
+     * @intfrnbl
      */
-    virtual UClassID getDynamicClassID() const;
+    virtubl ~ArbbidOpfnTypfLbyoutEnginf();
 
     /**
-     * ICU "poor man's RTTI", returns a UClassID for this class.
+     * ICU "poor mbn's RTTI", rfturns b UClbssID for tif bdtubl dlbss.
      *
-     * @stable ICU 2.8
+     * @stbblf ICU 2.8
      */
-    static UClassID getStaticClassID();
-
-protected:
+    virtubl UClbssID gftDynbmidClbssID() donst;
 
     /**
-     * This method does Arabic OpenType character processing. It assigns the OpenType feature
-     * tags to the characters to generate the correct contextual forms and ligatures.
+     * ICU "poor mbn's RTTI", rfturns b UClbssID for tiis dlbss.
      *
-     * Input parameters:
-     * @param chars - the input character context
-     * @param offset - the index of the first character to process
-     * @param count - the number of characters to process
-     * @param max - the number of characters in the input context
-     * @param rightToLeft - <code>TRUE</code> if the characters are in a right to left directional run
-     *
-     * Output parameters:
-     * @param outChars - the output character arrayt
-     * @param charIndices - the output character index array
-     * @param featureTags - the output feature tag array
-     * @param success - set to an error code if the operation fails
-     *
-     * @return the output character count
-     *
-     * @internal
+     * @stbblf ICU 2.8
      */
-    virtual le_int32 characterProcessing(const LEUnicode chars[], le_int32 offset, le_int32 count, le_int32 max, le_bool rightToLeft,
-            LEUnicode *&outChars, LEGlyphStorage &glyphStorage, LEErrorCode &success);
+    stbtid UClbssID gftStbtidClbssID();
+
+protfdtfd:
 
     /**
-     * This method applies the GPOS table if it is present, otherwise it ensures that all vowel
-     * and accent glyphs have a zero advance width by calling the adjustMarkGlyphs method.
-     * If the font contains a GDEF table, that is used to identify voewls and accents. Otherwise
-     * the character codes are used.
+     * Tiis mftiod dofs Arbbid OpfnTypf dibrbdtfr prodfssing. It bssigns tif OpfnTypf ffbturf
+     * tbgs to tif dibrbdtfrs to gfnfrbtf tif dorrfdt dontfxtubl forms bnd ligbturfs.
      *
-     * @param chars - the input character context
-     * @param offset - the offset of the first character to process
-     * @param count - the number of characters to process
-     * @param reverse - <code>TRUE</code> if the glyphs in the glyph array have been reordered
-     * @param glyphs - the input glyph array
-     * @param glyphCount - the number of glyphs
-     * @param positions - the position array, will be updated as needed
-     * @param success - output parameter set to an error code if the operation fails
+     * Input pbrbmftfrs:
+     * @pbrbm dibrs - tif input dibrbdtfr dontfxt
+     * @pbrbm offsft - tif indfx of tif first dibrbdtfr to prodfss
+     * @pbrbm dount - tif numbfr of dibrbdtfrs to prodfss
+     * @pbrbm mbx - tif numbfr of dibrbdtfrs in tif input dontfxt
+     * @pbrbm rigitToLfft - <dodf>TRUE</dodf> if tif dibrbdtfrs brf in b rigit to lfft dirfdtionbl run
      *
-     * @internal
+     * Output pbrbmftfrs:
+     * @pbrbm outCibrs - tif output dibrbdtfr brrbyt
+     * @pbrbm dibrIndidfs - tif output dibrbdtfr indfx brrby
+     * @pbrbm ffbturfTbgs - tif output ffbturf tbg brrby
+     * @pbrbm suddfss - sft to bn frror dodf if tif opfrbtion fbils
+     *
+     * @rfturn tif output dibrbdtfr dount
+     *
+     * @intfrnbl
      */
-    virtual void adjustGlyphPositions(const LEUnicode chars[], le_int32 offset, le_int32 count, le_bool reverse, LEGlyphStorage &glyphStorage, LEErrorCode &success);
+    virtubl lf_int32 dibrbdtfrProdfssing(donst LEUnidodf dibrs[], lf_int32 offsft, lf_int32 dount, lf_int32 mbx, lf_bool rigitToLfft,
+            LEUnidodf *&outCibrs, LEGlypiStorbgf &glypiStorbgf, LEErrorCodf &suddfss);
 
-    // static void adjustMarkGlyphs(const LEUnicode chars[], le_int32 offset, le_int32 count, le_bool rightToLeft, LEGlyphStorage &glyphStorage, LEErrorCode &success);
+    /**
+     * Tiis mftiod bpplifs tif GPOS tbblf if it is prfsfnt, otifrwisf it fnsurfs tibt bll vowfl
+     * bnd bddfnt glypis ibvf b zfro bdvbndf widti by dblling tif bdjustMbrkGlypis mftiod.
+     * If tif font dontbins b GDEF tbblf, tibt is usfd to idfntify vofwls bnd bddfnts. Otifrwisf
+     * tif dibrbdtfr dodfs brf usfd.
+     *
+     * @pbrbm dibrs - tif input dibrbdtfr dontfxt
+     * @pbrbm offsft - tif offsft of tif first dibrbdtfr to prodfss
+     * @pbrbm dount - tif numbfr of dibrbdtfrs to prodfss
+     * @pbrbm rfvfrsf - <dodf>TRUE</dodf> if tif glypis in tif glypi brrby ibvf bffn rfordfrfd
+     * @pbrbm glypis - tif input glypi brrby
+     * @pbrbm glypiCount - tif numbfr of glypis
+     * @pbrbm positions - tif position brrby, will bf updbtfd bs nffdfd
+     * @pbrbm suddfss - output pbrbmftfr sft to bn frror dodf if tif opfrbtion fbils
+     *
+     * @intfrnbl
+     */
+    virtubl void bdjustGlypiPositions(donst LEUnidodf dibrs[], lf_int32 offsft, lf_int32 dount, lf_bool rfvfrsf, LEGlypiStorbgf &glypiStorbgf, LEErrorCodf &suddfss);
+
+    // stbtid void bdjustMbrkGlypis(donst LEUnidodf dibrs[], lf_int32 offsft, lf_int32 dount, lf_bool rigitToLfft, LEGlypiStorbgf &glypiStorbgf, LEErrorCodf &suddfss);
 
 };
 
 /**
- * The class implements OpenType layout for Arabic fonts which don't
- * contain a GSUB table, using a canned GSUB table based on Unicode
- * Arabic Presentation Forms. It overrides the mapCharsToGlyphs method
- * to use the Presentation Forms as logical glyph indices. It overrides the
- * glyphPostProcessing method to convert the Presentation Forms to actual
- * glyph indices.
+ * Tif dlbss implfmfnts OpfnTypf lbyout for Arbbid fonts wiidi don't
+ * dontbin b GSUB tbblf, using b dbnnfd GSUB tbblf bbsfd on Unidodf
+ * Arbbid Prfsfntbtion Forms. It ovfrridfs tif mbpCibrsToGlypis mftiod
+ * to usf tif Prfsfntbtion Forms bs logidbl glypi indidfs. It ovfrridfs tif
+ * glypiPostProdfssing mftiod to donvfrt tif Prfsfntbtion Forms to bdtubl
+ * glypi indidfs.
  *
- * @see ArabicOpenTypeLayoutEngine
+ * @sff ArbbidOpfnTypfLbyoutEnginf
  *
- * @internal
+ * @intfrnbl
  */
-class UnicodeArabicOpenTypeLayoutEngine : public ArabicOpenTypeLayoutEngine
+dlbss UnidodfArbbidOpfnTypfLbyoutEnginf : publid ArbbidOpfnTypfLbyoutEnginf
 {
-public:
+publid:
     /**
-     * This constructs an instance of UnicodeArabicOpenTypeLayoutEngine for a specific font,
-     * script and language.
+     * Tiis donstrudts bn instbndf of UnidodfArbbidOpfnTypfLbyoutEnginf for b spfdifid font,
+     * sdript bnd lbngubgf.
      *
-     * @param fontInstance - the font
-     * @param scriptCode - the script
-     * @param languageCode - the language
-     * @param success - set to an error code if the operation fails
+     * @pbrbm fontInstbndf - tif font
+     * @pbrbm sdriptCodf - tif sdript
+     * @pbrbm lbngubgfCodf - tif lbngubgf
+     * @pbrbm suddfss - sft to bn frror dodf if tif opfrbtion fbils
      *
-     * @see LEFontInstance
-     * @see ScriptAndLanguageTags.h for script and language codes
+     * @sff LEFontInstbndf
+     * @sff SdriptAndLbngubgfTbgs.i for sdript bnd lbngubgf dodfs
      *
-     * @internal
+     * @intfrnbl
      */
-    UnicodeArabicOpenTypeLayoutEngine(const LEFontInstance *fontInstance, le_int32 scriptCode, le_int32 languageCode,
-                le_int32 typoFlags, LEErrorCode &success);
+    UnidodfArbbidOpfnTypfLbyoutEnginf(donst LEFontInstbndf *fontInstbndf, lf_int32 sdriptCodf, lf_int32 lbngubgfCodf,
+                lf_int32 typoFlbgs, LEErrorCodf &suddfss);
 
     /**
-     * The destructor, virtual for correct polymorphic invocation.
+     * Tif dfstrudtor, virtubl for dorrfdt polymorpiid invodbtion.
      *
-     * @internal
+     * @intfrnbl
      */
-    virtual ~UnicodeArabicOpenTypeLayoutEngine();
+    virtubl ~UnidodfArbbidOpfnTypfLbyoutEnginf();
 
-protected:
-
-    /**
-     * This method converts the Arabic Presentation Forms in the temp glyph array
-     * into actual glyph indices using ArabicOpenTypeLayoutEngine::mapCharsToGlyps.
-     *
-     * Input parameters:
-     * @param tempGlyphs - the input presentation forms
-     * @param tempCharIndices - the input character index array
-     * @param tempGlyphCount - the number of Presentation Froms
-     *
-     * Output parameters:
-     * @param glyphs - the output glyph index array
-     * @param charIndices - the output character index array
-     * @param success - set to an error code if the operation fails
-     *
-     * @return the number of glyph indices in the output glyph index array
-     *
-     * @internal
-     */
-    virtual le_int32 glyphPostProcessing(LEGlyphStorage &tempGlyphStorage, LEGlyphStorage &glyphStorage, LEErrorCode &success);
+protfdtfd:
 
     /**
-     * This method copies the input characters into the output glyph index array,
-     * for use by the canned GSUB table. It also generates the character index array.
+     * Tiis mftiod donvfrts tif Arbbid Prfsfntbtion Forms in tif tfmp glypi brrby
+     * into bdtubl glypi indidfs using ArbbidOpfnTypfLbyoutEnginf::mbpCibrsToGlyps.
      *
-     * Input parameters:
-     * @param chars - the input character context
-     * @param offset - the offset of the first character to be mapped
-     * @param count - the number of characters to be mapped
-     * @param reverse - if <code>TRUE</code>, the output will be in reverse order
-     * @param mirror - if <code>TRUE</code>, do character mirroring
-     * @param glyphStorage - the glyph storage object. Glyph and char index arrays will be updated.
+     * Input pbrbmftfrs:
+     * @pbrbm tfmpGlypis - tif input prfsfntbtion forms
+     * @pbrbm tfmpCibrIndidfs - tif input dibrbdtfr indfx brrby
+     * @pbrbm tfmpGlypiCount - tif numbfr of Prfsfntbtion Froms
      *
-     * @param success - set to an error code if the operation fails
+     * Output pbrbmftfrs:
+     * @pbrbm glypis - tif output glypi indfx brrby
+     * @pbrbm dibrIndidfs - tif output dibrbdtfr indfx brrby
+     * @pbrbm suddfss - sft to bn frror dodf if tif opfrbtion fbils
      *
-     * @internal
+     * @rfturn tif numbfr of glypi indidfs in tif output glypi indfx brrby
+     *
+     * @intfrnbl
      */
-    virtual void mapCharsToGlyphs(const LEUnicode chars[], le_int32 offset, le_int32 count, le_bool reverse, le_bool mirror,
-        LEGlyphStorage &glyphStorage, LEErrorCode &success);
+    virtubl lf_int32 glypiPostProdfssing(LEGlypiStorbgf &tfmpGlypiStorbgf, LEGlypiStorbgf &glypiStorbgf, LEErrorCodf &suddfss);
 
     /**
-     * This method ensures that all vowel and accent glyphs have a zero advance width by calling
-     * the adjustMarkGlyphs method. The character codes are used to identify the vowel and mark
-     * glyphs.
+     * Tiis mftiod dopifs tif input dibrbdtfrs into tif output glypi indfx brrby,
+     * for usf by tif dbnnfd GSUB tbblf. It blso gfnfrbtfs tif dibrbdtfr indfx brrby.
      *
-     * @param chars - the input character context
-     * @param offset - the offset of the first character to process
-     * @param count - the number of characters to process
-     * @param reverse - <code>TRUE</code> if the glyphs in the glyph array have been reordered
-     * @param glyphStorage - the glyph storage object. The glyph positions will be updated as needed.
-     * @param success - output parameter set to an error code if the operation fails
+     * Input pbrbmftfrs:
+     * @pbrbm dibrs - tif input dibrbdtfr dontfxt
+     * @pbrbm offsft - tif offsft of tif first dibrbdtfr to bf mbppfd
+     * @pbrbm dount - tif numbfr of dibrbdtfrs to bf mbppfd
+     * @pbrbm rfvfrsf - if <dodf>TRUE</dodf>, tif output will bf in rfvfrsf ordfr
+     * @pbrbm mirror - if <dodf>TRUE</dodf>, do dibrbdtfr mirroring
+     * @pbrbm glypiStorbgf - tif glypi storbgf objfdt. Glypi bnd dibr indfx brrbys will bf updbtfd.
      *
-     * @internal
+     * @pbrbm suddfss - sft to bn frror dodf if tif opfrbtion fbils
+     *
+     * @intfrnbl
      */
-    virtual void adjustGlyphPositions(const LEUnicode chars[], le_int32 offset, le_int32 count, le_bool reverse, LEGlyphStorage &glyphStorage, LEErrorCode &success);
+    virtubl void mbpCibrsToGlypis(donst LEUnidodf dibrs[], lf_int32 offsft, lf_int32 dount, lf_bool rfvfrsf, lf_bool mirror,
+        LEGlypiStorbgf &glypiStorbgf, LEErrorCodf &suddfss);
+
+    /**
+     * Tiis mftiod fnsurfs tibt bll vowfl bnd bddfnt glypis ibvf b zfro bdvbndf widti by dblling
+     * tif bdjustMbrkGlypis mftiod. Tif dibrbdtfr dodfs brf usfd to idfntify tif vowfl bnd mbrk
+     * glypis.
+     *
+     * @pbrbm dibrs - tif input dibrbdtfr dontfxt
+     * @pbrbm offsft - tif offsft of tif first dibrbdtfr to prodfss
+     * @pbrbm dount - tif numbfr of dibrbdtfrs to prodfss
+     * @pbrbm rfvfrsf - <dodf>TRUE</dodf> if tif glypis in tif glypi brrby ibvf bffn rfordfrfd
+     * @pbrbm glypiStorbgf - tif glypi storbgf objfdt. Tif glypi positions will bf updbtfd bs nffdfd.
+     * @pbrbm suddfss - output pbrbmftfr sft to bn frror dodf if tif opfrbtion fbils
+     *
+     * @intfrnbl
+     */
+    virtubl void bdjustGlypiPositions(donst LEUnidodf dibrs[], lf_int32 offsft, lf_int32 dount, lf_bool rfvfrsf, LEGlypiStorbgf &glypiStorbgf, LEErrorCodf &suddfss);
 };
 
 U_NAMESPACE_END
-#endif
+#fndif
 

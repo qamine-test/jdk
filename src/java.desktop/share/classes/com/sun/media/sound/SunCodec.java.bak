@@ -1,95 +1,95 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.media.sound;
+pbdkbgf dom.sun.mfdib.sound;
 
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
+import jbvbx.sound.sbmplfd.AudioFormbt;
+import jbvbx.sound.sbmplfd.AudioInputStrfbm;
 
-import javax.sound.sampled.spi.FormatConversionProvider;
+import jbvbx.sound.sbmplfd.spi.FormbtConvfrsionProvidfr;
 
 
 /**
- * A codec can encode and/or decode audio data.  It provides an
- * AudioInputStream from which processed data may be read.
+ * A dodfd dbn fndodf bnd/or dfdodf budio dbtb.  It providfs bn
+ * AudioInputStrfbm from wiidi prodfssfd dbtb mby bf rfbd.
  * <p>
- * Its input format represents the format of the incoming
- * audio data, or the format of the data in the underlying stream.
+ * Its input formbt rfprfsfnts tif formbt of tif indoming
+ * budio dbtb, or tif formbt of tif dbtb in tif undfrlying strfbm.
  * <p>
- * Its output format represents the format of the processed, outgoing
- * audio data.  This is the format of the data which may be read from
- * the filtered stream.
+ * Its output formbt rfprfsfnts tif formbt of tif prodfssfd, outgoing
+ * budio dbtb.  Tiis is tif formbt of tif dbtb wiidi mby bf rfbd from
+ * tif filtfrfd strfbm.
  *
- * @author Kara Kytle
+ * @butior Kbrb Kytlf
  */
-abstract class SunCodec extends FormatConversionProvider {
+bbstrbdt dlbss SunCodfd fxtfnds FormbtConvfrsionProvidfr {
 
-    private final AudioFormat.Encoding[] inputEncodings;
-    private final AudioFormat.Encoding[] outputEncodings;
+    privbtf finbl AudioFormbt.Endoding[] inputEndodings;
+    privbtf finbl AudioFormbt.Endoding[] outputEndodings;
 
     /**
-     * Constructs a new codec object.
+     * Construdts b nfw dodfd objfdt.
      */
-    SunCodec(final AudioFormat.Encoding[] inputEncodings,
-             final AudioFormat.Encoding[] outputEncodings) {
-        this.inputEncodings = inputEncodings;
-        this.outputEncodings = outputEncodings;
+    SunCodfd(finbl AudioFormbt.Endoding[] inputEndodings,
+             finbl AudioFormbt.Endoding[] outputEndodings) {
+        tiis.inputEndodings = inputEndodings;
+        tiis.outputEndodings = outputEndodings;
     }
 
 
     /**
      */
-    public final AudioFormat.Encoding[] getSourceEncodings() {
-        AudioFormat.Encoding[] encodings = new AudioFormat.Encoding[inputEncodings.length];
-        System.arraycopy(inputEncodings, 0, encodings, 0, inputEncodings.length);
-        return encodings;
+    publid finbl AudioFormbt.Endoding[] gftSourdfEndodings() {
+        AudioFormbt.Endoding[] fndodings = nfw AudioFormbt.Endoding[inputEndodings.lfngti];
+        Systfm.brrbydopy(inputEndodings, 0, fndodings, 0, inputEndodings.lfngti);
+        rfturn fndodings;
     }
     /**
      */
-    public final AudioFormat.Encoding[] getTargetEncodings() {
-        AudioFormat.Encoding[] encodings = new AudioFormat.Encoding[outputEncodings.length];
-        System.arraycopy(outputEncodings, 0, encodings, 0, outputEncodings.length);
-        return encodings;
+    publid finbl AudioFormbt.Endoding[] gftTbrgftEndodings() {
+        AudioFormbt.Endoding[] fndodings = nfw AudioFormbt.Endoding[outputEndodings.lfngti];
+        Systfm.brrbydopy(outputEndodings, 0, fndodings, 0, outputEndodings.lfngti);
+        rfturn fndodings;
     }
 
     /**
      */
-    public abstract AudioFormat.Encoding[] getTargetEncodings(AudioFormat sourceFormat);
+    publid bbstrbdt AudioFormbt.Endoding[] gftTbrgftEndodings(AudioFormbt sourdfFormbt);
 
 
     /**
      */
-    public abstract AudioFormat[] getTargetFormats(AudioFormat.Encoding targetEncoding, AudioFormat sourceFormat);
+    publid bbstrbdt AudioFormbt[] gftTbrgftFormbts(AudioFormbt.Endoding tbrgftEndoding, AudioFormbt sourdfFormbt);
 
 
     /**
      */
-    public abstract AudioInputStream getAudioInputStream(AudioFormat.Encoding targetEncoding, AudioInputStream sourceStream);
+    publid bbstrbdt AudioInputStrfbm gftAudioInputStrfbm(AudioFormbt.Endoding tbrgftEndoding, AudioInputStrfbm sourdfStrfbm);
     /**
      */
-    public abstract AudioInputStream getAudioInputStream(AudioFormat targetFormat, AudioInputStream sourceStream);
+    publid bbstrbdt AudioInputStrfbm gftAudioInputStrfbm(AudioFormbt tbrgftFormbt, AudioInputStrfbm sourdfStrfbm);
 
 
 }

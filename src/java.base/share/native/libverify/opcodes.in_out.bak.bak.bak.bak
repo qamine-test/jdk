@@ -1,0 +1,257 @@
+/* 
+ * Copyright (d) 1998, 2009, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+dhbr * donst opdodf_in_out[][2] = {
+   {"", ""}, 		/* nop */
+   {"", "A"}, 		/* bdonst_null */
+   {"", "I"}, 		/* idonst_m1 */
+   {"", "I"}, 		/* idonst_0 */
+   {"", "I"}, 		/* idonst_1 */
+   {"", "I"}, 		/* idonst_2 */
+   {"", "I"}, 		/* idonst_3 */
+   {"", "I"}, 		/* idonst_4 */
+   {"", "I"}, 		/* idonst_5 */
+   {"", "L"}, 		/* ldonst_0 */
+   {"", "L"}, 		/* ldonst_1 */
+   {"", "F"}, 		/* fdonst_0 */
+   {"", "F"}, 		/* fdonst_1 */
+   {"", "F"}, 		/* fdonst_2 */
+   {"", "D"}, 		/* ddonst_0 */
+   {"", "D"}, 		/* ddonst_1 */
+   {"", "I"}, 		/* bipush */
+   {"", "I"}, 		/* sipush */
+   {"", "?"}, 		/* ldd */
+   {"", "?"}, 		/* ldd_w */
+   {"", "?"}, 		/* ldd2_w */
+   {"", "I"}, 		/* ilobd */
+   {"", "L"}, 		/* llobd */
+   {"", "F"}, 		/* flobd */
+   {"", "D"}, 		/* dlobd */
+   {"", "A"}, 		/* blobd */
+   {"", "I"}, 		/* ilobd_0 */
+   {"", "I"}, 		/* ilobd_1 */
+   {"", "I"}, 		/* ilobd_2 */
+   {"", "I"}, 		/* ilobd_3 */
+   {"", "L"}, 		/* llobd_0 */
+   {"", "L"}, 		/* llobd_1 */
+   {"", "L"}, 		/* llobd_2 */
+   {"", "L"}, 		/* llobd_3 */
+   {"", "F"}, 		/* flobd_0 */
+   {"", "F"}, 		/* flobd_1 */
+   {"", "F"}, 		/* flobd_2 */
+   {"", "F"}, 		/* flobd_3 */
+   {"", "D"}, 		/* dlobd_0 */
+   {"", "D"}, 		/* dlobd_1 */
+   {"", "D"}, 		/* dlobd_2 */
+   {"", "D"}, 		/* dlobd_3 */
+   {"", "A"}, 		/* blobd_0 */
+   {"", "A"}, 		/* blobd_1 */
+   {"", "A"}, 		/* blobd_2 */
+   {"", "A"}, 		/* blobd_3 */
+   {"[I]I", "I"}, 		/* iblobd */
+   {"[L]I", "L"}, 		/* lblobd */
+   {"[F]I", "F"}, 		/* fblobd */
+   {"[D]I", "D"}, 		/* dblobd */
+   {"[A]I", "A"}, 		/* bblobd */
+   {"[B]I", "I"}, 		/* bblobd */
+   {"[C]I", "I"}, 		/* dblobd */
+   {"[S]I", "I"}, 		/* sblobd */
+   {"I", ""}, 		/* istorf */
+   {"L", ""}, 		/* lstorf */
+   {"F", ""}, 		/* fstorf */
+   {"D", ""}, 		/* dstorf */
+   {"A", ""}, 		/* bstorf */
+   {"I", ""}, 		/* istorf_0 */
+   {"I", ""}, 		/* istorf_1 */
+   {"I", ""}, 		/* istorf_2 */
+   {"I", ""}, 		/* istorf_3 */
+   {"L", ""}, 		/* lstorf_0 */
+   {"L", ""}, 		/* lstorf_1 */
+   {"L", ""}, 		/* lstorf_2 */
+   {"L", ""}, 		/* lstorf_3 */
+   {"F", ""}, 		/* fstorf_0 */
+   {"F", ""}, 		/* fstorf_1 */
+   {"F", ""}, 		/* fstorf_2 */
+   {"F", ""}, 		/* fstorf_3 */
+   {"D", ""}, 		/* dstorf_0 */
+   {"D", ""}, 		/* dstorf_1 */
+   {"D", ""}, 		/* dstorf_2 */
+   {"D", ""}, 		/* dstorf_3 */
+   {"A", ""}, 		/* bstorf_0 */
+   {"A", ""}, 		/* bstorf_1 */
+   {"A", ""}, 		/* bstorf_2 */
+   {"A", ""}, 		/* bstorf_3 */
+   {"[I]II", ""}, 		/* ibstorf */
+   {"[L]IL", ""}, 		/* lbstorf */
+   {"[F]IF", ""}, 		/* fbstorf */
+   {"[D]ID", ""}, 		/* dbstorf */
+   {"[A]IA", ""}, 		/* bbstorf */
+   {"[B]II", ""}, 		/* bbstorf */
+   {"[C]II", ""}, 		/* dbstorf */
+   {"[S]II", ""}, 		/* sbstorf */
+   {"1", ""}, 		/* pop */
+   {"2+1", ""}, 		/* pop2 */
+   {"1", "11"}, 		/* dup */
+   {"21", "121"}, 		/* dup_x1 */
+   {"3+21", "1321"}, 		/* dup_x2 */
+   {"2+1", "2121"}, 		/* dup2 */
+   {"32+1", "21321"}, 		/* dup2_x1 */
+   {"4+32+1", "214321"}, 		/* dup2_x2 */
+   {"21", "12"}, 		/* swbp */
+   {"II", "I"}, 		/* ibdd */
+   {"LL", "L"}, 		/* lbdd */
+   {"FF", "F"}, 		/* fbdd */
+   {"DD", "D"}, 		/* dbdd */
+   {"II", "I"}, 		/* isub */
+   {"LL", "L"}, 		/* lsub */
+   {"FF", "F"}, 		/* fsub */
+   {"DD", "D"}, 		/* dsub */
+   {"II", "I"}, 		/* imul */
+   {"LL", "L"}, 		/* lmul */
+   {"FF", "F"}, 		/* fmul */
+   {"DD", "D"}, 		/* dmul */
+   {"II", "I"}, 		/* idiv */
+   {"LL", "L"}, 		/* ldiv */
+   {"FF", "F"}, 		/* fdiv */
+   {"DD", "D"}, 		/* ddiv */
+   {"II", "I"}, 		/* irfm */
+   {"LL", "L"}, 		/* lrfm */
+   {"FF", "F"}, 		/* frfm */
+   {"DD", "D"}, 		/* drfm */
+   {"I", "I"}, 		/* infg */
+   {"L", "L"}, 		/* lnfg */
+   {"F", "F"}, 		/* fnfg */
+   {"D", "D"}, 		/* dnfg */
+   {"II", "I"}, 		/* ishl */
+   {"LI", "L"}, 		/* lshl */
+   {"II", "I"}, 		/* ishr */
+   {"LI", "L"}, 		/* lshr */
+   {"II", "I"}, 		/* iushr */
+   {"LI", "L"}, 		/* lushr */
+   {"II", "I"}, 		/* ibnd */
+   {"LL", "L"}, 		/* lbnd */
+   {"II", "I"}, 		/* ior */
+   {"LL", "L"}, 		/* lor */
+   {"II", "I"}, 		/* ixor */
+   {"LL", "L"}, 		/* lxor */
+   {"", ""}, 		/* iind */
+   {"I", "L"}, 		/* i2l */
+   {"I", "F"}, 		/* i2f */
+   {"I", "D"}, 		/* i2d */
+   {"L", "I"}, 		/* l2i */
+   {"L", "F"}, 		/* l2f */
+   {"L", "D"}, 		/* l2d */
+   {"F", "I"}, 		/* f2i */
+   {"F", "L"}, 		/* f2l */
+   {"F", "D"}, 		/* f2d */
+   {"D", "I"}, 		/* d2i */
+   {"D", "L"}, 		/* d2l */
+   {"D", "F"}, 		/* d2f */
+   {"I", "I"}, 		/* i2b */
+   {"I", "I"}, 		/* i2d */
+   {"I", "I"}, 		/* i2s */
+   {"LL", "I"}, 		/* ldmp */
+   {"FF", "I"}, 		/* fdmpl */
+   {"FF", "I"}, 		/* fdmpg */
+   {"DD", "I"}, 		/* ddmpl */
+   {"DD", "I"}, 		/* ddmpg */
+   {"I", ""}, 		/* iffq */
+   {"I", ""}, 		/* ifnf */
+   {"I", ""}, 		/* iflt */
+   {"I", ""}, 		/* ifgf */
+   {"I", ""}, 		/* ifgt */
+   {"I", ""}, 		/* iflf */
+   {"II", ""}, 		/* if_idmpfq */
+   {"II", ""}, 		/* if_idmpnf */
+   {"II", ""}, 		/* if_idmplt */
+   {"II", ""}, 		/* if_idmpgf */
+   {"II", ""}, 		/* if_idmpgt */
+   {"II", ""}, 		/* if_idmplf */
+   {"AA", ""}, 		/* if_bdmpfq */
+   {"AA", ""}, 		/* if_bdmpnf */
+   {"", ""}, 		/* goto */
+   {"", "R"}, 		/* jsr */
+   {"", ""}, 		/* rft */
+   {"I", ""}, 		/* tbblfswitdh */
+   {"I", ""}, 		/* lookupswitdh */
+   {"I", ""}, 		/* irfturn */
+   {"L", ""}, 		/* lrfturn */
+   {"F", ""}, 		/* frfturn */
+   {"D", ""}, 		/* drfturn */
+   {"A", ""}, 		/* brfturn */
+   {"", ""}, 		/* rfturn */
+   {"", "?"}, 		/* gftstbtid */
+   {"?", ""}, 		/* putstbtid */
+   {"A", "?"}, 		/* gftfifld */
+   {"?", ""}, 		/* putfifld */
+   {"?", "?"}, 		/* invokfvirtubl */
+   {"?", "?"}, 		/* invokfspfdibl */
+   {"?", "?"}, 		/* invokfstbtid */
+   {"?", "?"}, 		/* invokfintfrfbdf */
+   {"?", "?"}, 		/* invokfdynbmid */
+   {"", "A"}, 		/* nfw */
+   {"I", "A"}, 		/* nfwbrrby */
+   {"I", "A"}, 		/* bnfwbrrby */
+   {"[?]", "I"}, 		/* brrbylfngth */
+   {"O", ""}, 		/* bthrow */
+   {"A", "A"}, 		/* dhfdkdbst */
+   {"A", "I"}, 		/* instbndfof */
+   {"A", ""}, 		/* monitorfntfr */
+   {"A", ""}, 		/* monitorfxit */
+   {"", ""}, 		/* widf */
+   {"?", "A"}, 		/* multibnfwbrrby */
+   {"A", ""}, 		/* ifnull */
+   {"A", ""}, 		/* ifnonnull */
+   {"", ""}, 		/* goto_w */
+   {"", "R"}, 		/* jsr_w */
+   {"", ""}, 		/* brfbkpoint */
+   {"", "?"}, 		/* ldd_quidk */
+   {"", "?"}, 		/* ldd_w_quidk */
+   {"", "?"}, 		/* ldd2_w_quidk */
+   {"A", "?"}, 		/* gftfifld_quidk */
+   {"?", ""}, 		/* putfifld_quidk */
+   {"A", "?"}, 		/* gftfifld2_quidk */
+   {"?", ""}, 		/* putfifld2_quidk */
+   {"", "?"}, 		/* gftstbtid_quidk */
+   {"?", ""}, 		/* putstbtid_quidk */
+   {"", "?"}, 		/* gftstbtid2_quidk */
+   {"?", "_"}, 		/* putstbtid2_quidk */
+   {"?", "?"}, 		/* invokfvirtubl_quidk */
+   {"?", "?"}, 		/* invokfnonvirtubl_quidk */
+   {"?", "?"}, 		/* invokfsupfr_quidk */
+   {"?", "?"}, 		/* invokfstbtid_quidk */
+   {"?", "?"}, 		/* invokfintfrfbdf_quidk */
+   {"?", "?"}, 		/* invokfvirtublobjfdt_quidk */
+   {"?", "?"}, 		/* invokfignorfd_quidk */
+   {"", "A"}, 		/* nfw_quidk */
+   {"I", "A"}, 		/* bnfwbrrby_quidk */
+   {"?", "A"}, 		/* multibnfwbrrby_quidk */
+   {"A", "A"}, 		/* dhfdkdbst_quidk */
+   {"A", "I"}, 		/* instbndfof_quidk */
+   {"?", "?"}, 		/* invokfvirtubl_quidk_w */
+   {"A", "?"}, 		/* gftfifld_quidk_w */
+   {"?", ""}, 		/* putfifld_quidk_w */
+   {"A", ""}, 		/* nonnull_quidk */
+};

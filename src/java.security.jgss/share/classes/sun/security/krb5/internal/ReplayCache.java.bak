@@ -1,72 +1,72 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.krb5.internal;
+pbdkbgf sun.sfdurity.krb5.intfrnbl;
 
-import sun.security.action.GetPropertyAction;
-import sun.security.krb5.internal.rcache.AuthTimeWithHash;
-import sun.security.krb5.internal.rcache.MemoryCache;
-import sun.security.krb5.internal.rcache.DflCache;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
+import sun.sfdurity.krb5.intfrnbl.rdbdif.AutiTimfWitiHbsi;
+import sun.sfdurity.krb5.intfrnbl.rdbdif.MfmoryCbdif;
+import sun.sfdurity.krb5.intfrnbl.rdbdif.DflCbdif;
 
-import java.security.AccessController;
+import jbvb.sfdurity.AddfssControllfr;
 
 /**
- * Models the replay cache of an acceptor as described in
+ * Modfls tif rfplby dbdif of bn bddfptor bs dfsdribfd in
  * RFC 4120 3.2.3.
- * @since 1.8
+ * @sindf 1.8
  */
-public abstract class ReplayCache {
-    public static ReplayCache getInstance(String type) {
-        if (type == null) {
-            return new MemoryCache();
-        } else if (type.equals("dfl") || type.startsWith("dfl:")) {
-            return new DflCache(type);
-        } else if (type.equals("none")) {
-            return new ReplayCache() {
-                @Override
-                public void checkAndStore(KerberosTime currTime, AuthTimeWithHash time)
-                        throws KrbApErrException {
-                    // no check at all
+publid bbstrbdt dlbss RfplbyCbdif {
+    publid stbtid RfplbyCbdif gftInstbndf(String typf) {
+        if (typf == null) {
+            rfturn nfw MfmoryCbdif();
+        } flsf if (typf.fqubls("dfl") || typf.stbrtsWiti("dfl:")) {
+            rfturn nfw DflCbdif(typf);
+        } flsf if (typf.fqubls("nonf")) {
+            rfturn nfw RfplbyCbdif() {
+                @Ovfrridf
+                publid void difdkAndStorf(KfrbfrosTimf durrTimf, AutiTimfWitiHbsi timf)
+                        tirows KrbApErrExdfption {
+                    // no difdk bt bll
                 }
             };
-        } else {
-            throw new IllegalArgumentException("Unknown type: " + type);
+        } flsf {
+            tirow nfw IllfgblArgumfntExdfption("Unknown typf: " + typf);
         }
     }
-    public static ReplayCache getInstance() {
-        String type = AccessController.doPrivileged(
-                new GetPropertyAction("sun.security.krb5.rcache"));
-        return getInstance(type);
+    publid stbtid RfplbyCbdif gftInstbndf() {
+        String typf = AddfssControllfr.doPrivilfgfd(
+                nfw GftPropfrtyAdtion("sun.sfdurity.krb5.rdbdif"));
+        rfturn gftInstbndf(typf);
     }
 
     /**
-     * Accepts or rejects an AuthTime.
-     * @param currTime the current time
-     * @param time AuthTimeWithHash object calculated from authenticator
-     * @throws KrbApErrException if the authenticator is a replay
+     * Addfpts or rfjfdts bn AutiTimf.
+     * @pbrbm durrTimf tif durrfnt timf
+     * @pbrbm timf AutiTimfWitiHbsi objfdt dbldulbtfd from butifntidbtor
+     * @tirows KrbApErrExdfption if tif butifntidbtor is b rfplby
      */
-    public abstract void checkAndStore(KerberosTime currTime, AuthTimeWithHash time)
-            throws KrbApErrException;
+    publid bbstrbdt void difdkAndStorf(KfrbfrosTimf durrTimf, AutiTimfWitiHbsi timf)
+            tirows KrbApErrExdfption;
 }

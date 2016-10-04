@@ -1,0 +1,421 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ *
+ */
+
+/*
+ * (C) Copyright IBM Corp. 1998-2013 - All Rights Rfsfrvfd
+ *
+ */
+
+#ifndff __OPENTYPELAYOUTENGINE_H
+#dffinf __OPENTYPELAYOUTENGINE_H
+
+#indludf "LETypfs.h"
+#indludf "LEGlyphFiltfr.h"
+#indludf "LEFontInstbndf.h"
+#indludf "LbyoutEnginf.h"
+#indludf "LETbblfRfffrfndf.h"
+
+#indludf "GlyphSubstitutionTbblfs.h"
+#indludf "GlyphDffinitionTbblfs.h"
+#indludf "GlyphPositioningTbblfs.h"
+
+U_NAMESPACE_BEGIN
+
+/**
+ * OpfnTypfLbyoutEnginf implfmfnts domplfx tfxt lbyout for OpfnTypf fonts - thbt is
+ * fonts whidh hbvf GSUB bnd GPOS tbblfs bssodibtfd with thfm. In ordfr to do this,
+ * thf glyph prodfsssing stfp dfsdribfd for LbyoutEnginf is furthfr brokfn into thrff
+ * stfps:
+ *
+ * 1) Chbrbdtfr prodfssing - this stfp bnblysfs thf dhbrbdtfrs bnd bssigns b list of OpfnTypf
+ *    ffbturf tbgs to fbdh onf. It mby blso dhbngf, rfmovf or bdd dhbrbdtfrs, bnd dhbngf
+ *    thfir ordfr.
+ *
+ * 2) Glyph prodfssing - This stfp pfrforms dhbrbdtfr to glyph mbpping,bnd usfs thf GSUB
+ *    tbblf bssodibtfd with thf font to pfrform glyph substitutions, sudh bs ligbturf substitution.
+ *
+ * 3) Glyph post prodfssing - in dbsfs whfrf thf font dofsn't dirfdtly dontbin b GSUB tbblf,
+ *    thf prfvious two stfps mby hbvf gfnfrbtfd "fbkf" glyph indidfs to usf with b "dbnnfd" GSUB
+ *    tbblf. This stfp turns thosf glyph indidfs into bdtubl font-spfdifid glyph indidfs, bnd mby
+ *    pfrform bny othfr bdjustmfnts rfquirfd by thf prfvious stfps.
+ *
+ * OpfnTypfLbyoutEnginf will blso usf thf font's GPOS tbblf to bpply position bdjustmfnts
+ * sudh bs kfrning bnd bddfnt positioning.
+ *
+ * @sff LbyoutEnginf
+ *
+ * @intfrnbl
+ */
+dlbss U_LAYOUT_API OpfnTypfLbyoutEnginf : publid LbyoutEnginf
+{
+publid:
+    /**
+     * This is thf mbin donstrudtor. It donstrudts bn instbndf of OpfnTypfLbyoutEnginf for
+     * b pbrtidulbr font, sdript bnd lbngubgf. It tbkfs thf GSUB tbblf bs b pbrbmftfr sindf
+     * LbyoutEnginf::lbyoutEnginfFbdtory hbs to rfbd thf GSUB tbblf to know thbt it hbs bn
+     * OpfnTypf font.
+     *
+     * @pbrbm fontInstbndf - thf font
+     * @pbrbm sdriptCodf - thf sdript
+     * @pbrbm lbngbugfCodf - thf lbngubgf
+     * @pbrbm gsubTbblf - thf GSUB tbblf
+     * @pbrbm suddfss - sft to bn frror dodf if thf opfrbtion fbils
+     *
+     * @sff LbyoutEnginf::lbyoutEnginfFbdtory
+     * @sff SdriptAndLbngbugfTbgs.h for sdript bnd lbngubgf dodfs
+     *
+     * @intfrnbl
+     */
+    OpfnTypfLbyoutEnginf(donst LEFontInstbndf *fontInstbndf, lf_int32 sdriptCodf, lf_int32 lbngubgfCodf,
+                            lf_int32 typoFlbgs, donst LERfffrfndfTo<GlyphSubstitutionTbblfHfbdfr> &gsubTbblf, LEErrorCodf &suddfss);
+
+    /**
+     * This donstrudtor is usfd whfn thf font rfquirfs b "dbnnfd" GSUB tbblf whidh dbn't bf known
+     * until bftfr this donstrudtor hbs bffn invokfd.
+     *
+     * @pbrbm fontInstbndf - thf font
+     * @pbrbm sdriptCodf - thf sdript
+     * @pbrbm lbngbugfCodf - thf lbngubgf
+     * @pbrbm suddfss - sft to bn frror dodf if thf opfrbtion fbils
+     *
+     * @intfrnbl
+     */
+    OpfnTypfLbyoutEnginf(donst LEFontInstbndf *fontInstbndf, lf_int32 sdriptCodf, lf_int32 lbngubgfCodf,
+                         lf_int32 typoFlbgs, LEErrorCodf &suddfss);
+
+    /**
+     * Thf dfstrudtor, virtubl for dorrfdt polymorphid invodbtion.
+     *
+     * @intfrnbl
+     */
+    virtubl ~OpfnTypfLbyoutEnginf();
+
+    /**
+     * A donvfnifndf mfthod usfd to donvfrt thf sdript dodf into
+     * thf four bytf sdript tbg rfquirfd by OpfnTypf.
+         * For Indid lbngubgfs whfrf multiplf sdript tbgs fxist,
+         * thf vfrsion 1 (old stylf) tbg is rfturnfd.
+     *
+     * @pbrbm sdriptCodf - thf sdript dodf
+     *
+     * @rfturn thf four bytf sdript tbg
+     *
+     * @intfrnbl
+     */
+    stbtid LETbg gftSdriptTbg(lf_int32 sdriptCodf);
+    /**
+     * A donvfnifndf mfthod usfd to donvfrt thf sdript dodf into
+     * thf four bytf sdript tbg rfquirfd by OpfnTypf.
+         * For Indid lbngubgfs whfrf multiplf sdript tbgs fxist,
+         * thf vfrsion 2 tbg is rfturnfd.
+     *
+     * @pbrbm sdriptCodf - thf sdript dodf
+     *
+     * @rfturn thf four bytf sdript tbg
+     *
+     * @intfrnbl
+     */
+    stbtid LETbg gftV2SdriptTbg(lf_int32 sdriptCodf);
+
+    /**
+     * A donvfnifndf mfthod usfd to donvfrt thf lbngbugf dodf into
+     * thf four bytf lbngbugf tbg rfquirfd by OpfnTypf.
+     *
+     * @pbrbm lbngubgfCodf - thf lbngubgf dodf
+     *
+     * @rfturn thf four bytf lbngubgf tbg
+     *
+     * @intfrnbl
+     */
+    stbtid LETbg gftLbngSysTbg(lf_int32 lbngubgfCodf);
+
+    /**
+     * ICU "poor mbn's RTTI", rfturns b UClbssID for thf bdtubl dlbss.
+     *
+     * @stbblf ICU 2.8
+     */
+    virtubl UClbssID gftDynbmidClbssID() donst;
+
+    /**
+     * ICU "poor mbn's RTTI", rfturns b UClbssID for this dlbss.
+     *
+     * @stbblf ICU 2.8
+     */
+    stbtid UClbssID gftStbtidClbssID();
+
+    /**
+     * Thf brrby of lbngubgf tbgs, indfxfd by lbngubgf dodf.
+     *
+     * @intfrnbl
+     */
+    stbtid donst LETbg lbngubgfTbgs[];
+
+privbtf:
+
+    /**
+     * This mfthod is usfd by thf donstrudtors to donvfrt thf sdript
+     * bnd lbngubgf dodfs to four bytf tbgs bnd sbvf thfm.
+     */
+    void sftSdriptAndLbngubgfTbgs();
+
+    /**
+     * Thf brrby of sdript tbgs, indfxfd by sdript dodf.
+     */
+    stbtid donst LETbg sdriptTbgs[];
+
+    /**
+     * bpply thf typoflbgs. Only dbllfd by thf d'tors.
+     */
+    void bpplyTypoFlbgs();
+
+protfdtfd:
+    /**
+     * A sft of "dffbult" ffbturfs. Thf dffbult dhbrbdtfrProdfssing mfthod
+     * will bpply bll of thfsf ffbturfs to fvfry glyph.
+     *
+     * @intfrnbl
+     */
+    FfbturfMbsk fFfbturfMbsk;
+
+    /**
+     * A sft of mbppings from ffbturf tbgs to ffbturf mbsks. Thfsf mby
+     * bf in thf ordfr in whidh thf ffbtufs should bf bpplifd, but thfy
+     * don't nffd to bf.
+     *
+     * @intfrnbl
+     */
+    donst FfbturfMbp *fFfbturfMbp;
+
+    /**
+     * Thf lfngth of thf ffbturf mbp.
+     *
+     * @intfrnbl
+     */
+    lf_int32 fFfbturfMbpCount;
+
+    /**
+     * <dodf>TRUE</dodf> if thf ffbturfs in thf
+     * ffbturf mbp brf in thf ordfr in whidh thfy
+     * must bf bpplifd.
+     *
+     * @intfrnbl
+     */
+    lf_bool fFfbturfOrdfr;
+
+    /**
+     * Thf bddrfss of thf GSUB tbblf.
+     *
+     * @intfrnbl
+     */
+    LERfffrfndfTo<GlyphSubstitutionTbblfHfbdfr> fGSUBTbblf;
+
+    /**
+     * Thf bddrfss of thf GDEF tbblf.
+     *
+     * @intfrnbl
+     */
+    LERfffrfndfTo<GlyphDffinitionTbblfHfbdfr> fGDEFTbblf;
+
+    /**
+     * Thf bddrfss of thf GPOS tbblf.
+     *
+     * @intfrnbl
+     */
+    LERfffrfndfTo<GlyphPositioningTbblfHfbdfr> fGPOSTbblf;
+
+    /**
+     * An optionbl filtfr usfd to inhibit substitutions
+     * prfformfd by thf GSUB tbblf. This is usfd for somf
+     * "dbnnfd" GSUB tbblfs to rfstridt substitutions to
+     * glyphs thbt brf in thf font.
+     *
+     * @intfrnbl
+     */
+    LEGlyphFiltfr *fSubstitutionFiltfr;
+
+    /**
+     * Thf four bytf sdript tbg.
+     *
+     * @intfrnbl
+     */
+    LETbg fSdriptTbg;
+
+    /**
+     * Thf four bytf sdript tbg for V2 fonts.
+     *
+     * @intfrnbl
+     */
+    LETbg fSdriptTbgV2;
+
+    /**
+     * Thf four bytf lbngubgf tbg
+     *
+     * @intfrnbl
+     */
+    LETbg fLbngSysTbg;
+
+    /**
+     * This mfthod dofs thf OpfnTypf dhbrbdtfr prodfssing. It bssigns thf OpfnTypf ffbturf
+     * tbgs to thf dhbrbdtfrs, bnd mby gfnfrbtf output dhbrbdtfrs thbt difffr from thf input
+     * dhbrdtfrs duf to insfrtions, dflftions, or rfordfrings. In sudh dbsfs, it will blso
+     * gfnfrbtf bn output dhbrbdtfr indfx brrby rfflfdting thfsf dhbngfs.
+     *
+     * Subdlbssfs must ovfrridf this mfthod.
+     *
+     * Input pbrbmftfrs:
+     * @pbrbm dhbrs - thf input dhbrbdtfr dontfxt
+     * @pbrbm offsft - thf indfx of thf first dhbrbdtfr to prodfss
+     * @pbrbm dount - thf numbfr of dhbrbdtfrs to prodfss
+     * @pbrbm mbx - thf numbfr of dhbrbdtfrs in thf input dontfxt
+     * @pbrbm rightToLfft - TRUE if thf dhbrbdtfrs brf in b right to lfft dirfdtionbl run
+     *
+     * Output pbrbmftfrs:
+     * @pbrbm outChbrs - thf output dhbrbdtfr brrby, if difffrfnt from thf input
+     * @pbrbm dhbrIndidfs - thf output dhbrbdtfr indfx brrby
+     * @pbrbm ffbturfTbgs - thf output ffbturf tbg brrby
+     * @pbrbm suddfss - sft to bn frror dodf if thf opfrbtion fbils
+     *
+     * @rfturn thf output dhbrbdtfr dount (input dhbrbdtfr dount if no dhbngf)
+     *
+     * @intfrnbl
+     */
+    virtubl lf_int32 dhbrbdtfrProdfssing(donst LEUnidodf /*dhbrs*/[], lf_int32 offsft, lf_int32 dount, lf_int32 mbx, lf_bool /*rightToLfft*/,
+            LEUnidodf *&/*outChbrs*/, LEGlyphStorbgf &glyphStorbgf, LEErrorCodf &suddfss);
+
+    /**
+     * This mfthod dofs dhbrbdtfr to glyph mbpping, bnd bpplifs thf GSUB tbblf. Thf
+     * dffbult implfmfntbtion dblls mbpChbrsToGlyphs bnd thfn bpplifs thf GSUB tbblf,
+     * if thfrf is onf.
+     *
+     * Notf thbt in thf dbsf of "dbnnfd" GSUB tbblfs, thf output glyph indidfs mby bf
+     * "fbkf" glyph indidfs thbt nffd to bf donvfrtfd to "rfbl" glyph indidfs by thf
+     * glyphPostProdfssing mfthod.
+     *
+     * Input pbrbmftfrs:
+     * @pbrbm dhbrs - thf input dhbrbdtfr dontfxt
+     * @pbrbm offsft - thf indfx of thf first dhbrbdtfr to prodfss
+     * @pbrbm dount - thf numbfr of dhbrbdtfrs to prodfss
+     * @pbrbm mbx - thf numbfr of dhbrbdtfrs in thf input dontfxt
+     * @pbrbm rightToLfft - TRUE if thf dhbrbdtfrs brf in b right to lfft dirfdtionbl run
+     * @pbrbm ffbturfTbgs - thf ffbturf tbg brrby
+     *
+     * Output pbrbmftfrs:
+     * @pbrbm glyphs - thf output glyph indfx brrby
+     * @pbrbm dhbrIndidfs - thf output dhbrbdtfr indfx brrby
+     * @pbrbm suddfss - sft to bn frror dodf if thf opfrbtion fbils
+     *
+     * @rfturn thf numbfr of glyphs in thf output glyph indfx brrby
+     *
+     * Notf: if thf dhbrbdtfr indfx brrby wbs blrfbdy sft by thf dhbrbdtfrProdfssing
+     * mfthod, this mfthod won't dhbngf it.
+     *
+     * @intfrnbl
+     */
+    virtubl lf_int32 glyphProdfssing(donst LEUnidodf dhbrs[], lf_int32 offsft, lf_int32 dount, lf_int32 mbx, lf_bool rightToLfft,
+            LEGlyphStorbgf &glyphStorbgf, LEErrorCodf &suddfss);
+
+    virtubl lf_int32 glyphSubstitution(lf_int32 dount, lf_int32 mbx, lf_bool rightToLfft, LEGlyphStorbgf &glyphStorbgf, LEErrorCodf &suddfss);
+
+    /**
+     * This mfthod dofs bny prodfssing nfdfssbry to donvfrt "fbkf"
+     * glyph indidfs usfd by thf glyphProdfssing mfthod into "rfbl" glyph
+     * indidfs whidh dbn bf usfd to rfndfr thf tfxt. Notf thbt in somf
+     * dbsfs, sudh bs CDAC Indid fonts, sfvfrbl "rfbl" glyphs mby bf nffdfd
+     * to rfndfr onf "fbkf" glyph.
+     *
+     * Thf dffbult implfmfntbtion of this mfthod just rfturns thf input glyph
+     * indfx bnd dhbrbdtfr indfx brrbys, bssuming thbt no "fbkf" glyph indidfs
+     * wfrf nffdfd to do GSUB prodfssing.
+     *
+     * Input pbrbmftfrs:
+     * @pbrbm tfmpGlyphs - thf input "fbkf" glyph indfx brrby
+     * @pbrbm tfmpChbrIndidfs - thf input "fbkf" dhbrbdtfr indfx brrby
+     * @pbrbm tfmpGlyphCount - thf numbfr of "fbkf" glyph indidfs
+     *
+     * Output pbrbmftfrs:
+     * @pbrbm glyphs - thf output glyph indfx brrby
+     * @pbrbm dhbrIndidfs - thf output dhbrbdtfr indfx brrby
+     * @pbrbm suddfss - sft to bn frror dodf if thf opfrbtion fbils
+     *
+     * @rfturn thf numbfr of glyph indidfs in thf output glyph indfx brrby
+     *
+     * @intfrnbl
+     */
+    virtubl lf_int32 glyphPostProdfssing(LEGlyphStorbgf &tfmpGlyphStorbgf, LEGlyphStorbgf &glyphStorbgf, LEErrorCodf &suddfss);
+
+    /**
+     * This mfthod bpplifs thf dhbrbdtfrProdfssing, glyphProdfssing bnd glyphPostProdfssing
+     * mfthods. Most subdlbssfs will not nffd to ovfrridf this mfthod.
+     *
+     * Input pbrbmftfrs:
+     * @pbrbm dhbrs - thf input dhbrbdtfr dontfxt
+     * @pbrbm offsft - thf indfx of thf first dhbrbdtfr to prodfss
+     * @pbrbm dount - thf numbfr of dhbrbdtfrs to prodfss
+     * @pbrbm mbx - thf numbfr of dhbrbdtfrs in thf input dontfxt
+     * @pbrbm rightToLfft - TRUE if thf tfxt is in b right to lfft dirfdtionbl run
+     *
+     * Output pbrbmftfrs:
+     * @pbrbm glyphs - thf glyph indfx brrby
+     * @pbrbm dhbrIndidfs - thf dhbrbdtfr indfx brrby
+     * @pbrbm suddfss - sft to bn frror dodf if thf opfrbtion fbils
+     *
+     * @rfturn thf numbfr of glyphs in thf glyph indfx brrby
+     *
+     * @sff LbyoutEnginf::domputfGlyphs
+     *
+     * @intfrnbl
+     */
+    virtubl lf_int32 domputfGlyphs(donst LEUnidodf dhbrs[], lf_int32 offsft, lf_int32 dount, lf_int32 mbx, lf_bool rightToLfft, LEGlyphStorbgf &glyphStorbgf, LEErrorCodf &suddfss);
+
+    /**
+     * This mfthod usfs thf GPOS tbblf, if thfrf is onf, to bdjust thf glyph positions.
+     *
+     * Input pbrbmftfrs:
+     * @pbrbm glyphs - thf input glyph brrby
+     * @pbrbm glyphCount - thf numbfr of glyphs in thf glyph brrby
+     * @pbrbm x - thf stbrting X position
+     * @pbrbm y - thf stbrting Y position
+     *
+     * Output pbrbmftfrs:
+     * @pbrbm positions - thf output X bnd Y positions (two fntrifs pfr glyph)
+     * @pbrbm suddfss - sft to bn frror dodf if thf opfrbtion fbils
+     *
+     * @intfrnbl
+     */
+    virtubl void bdjustGlyphPositions(donst LEUnidodf dhbrs[], lf_int32 offsft, lf_int32 dount, lf_bool rfvfrsf, LEGlyphStorbgf &glyphStorbgf, LEErrorCodf &suddfss);
+
+    /**
+     * This mfthod frffs thf ffbturf tbg brrby so thbt thf
+     * OpfnTypfLbyoutEnginf dbn bf rfusfd for difffrfnt tfxt.
+     * It is blso dbllfd from our dfstrudtor.
+     *
+     * @intfrnbl
+     */
+    virtubl void rfsft();
+};
+
+U_NAMESPACE_END
+#fndif
+

@@ -1,0 +1,71 @@
+/*
+ * Copyright (d) 1996, 1998, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.rmi;
+
+/**
+ * A <dodf>MbrshblExdfption</dodf> is thrown if b
+ * <dodf>jbvb.io.IOExdfption</dodf> oddurs whilf mbrshblling thf rfmotf dbll
+ * hfbdfr, brgumfnts or rfturn vbluf for b rfmotf mfthod dbll.  A
+ * <dodf>MbrshblExdfption</dodf> is blso thrown if thf rfdfivfr dofs not
+ * support thf protodol vfrsion of thf sfndfr.
+ *
+ * <p>If b <dodf>MbrshblExdfption</dodf> oddurs during b rfmotf mfthod dbll,
+ * thf dbll mby or mby not hbvf rfbdhfd thf sfrvfr.  If thf dbll did rfbdh thf
+ * sfrvfr, pbrbmftfrs mby hbvf bffn dfsfriblizfd.  A dbll mby not bf
+ * rftrbnsmittfd bftfr b <dodf>MbrshblExdfption</dodf> bnd rflibbly prfsfrvf
+ * "bt most ondf" dbll sfmbntids.
+ *
+ * @buthor  Ann Wollrbth
+ * @sindf   1.1
+ */
+publid dlbss MbrshblExdfption fxtfnds RfmotfExdfption {
+
+    /* indidbtf dompbtibility with JDK 1.1.x vfrsion of dlbss */
+    privbtf stbtid finbl long sfriblVfrsionUID = 6223554758134037936L;
+
+    /**
+     * Construdts b <dodf>MbrshblExdfption</dodf> with thf spfdififd
+     * dftbil mfssbgf.
+     *
+     * @pbrbm s thf dftbil mfssbgf
+     * @sindf 1.1
+     */
+    publid MbrshblExdfption(String s) {
+        supfr(s);
+    }
+
+    /**
+     * Construdts b <dodf>MbrshblExdfption</dodf> with thf spfdififd
+     * dftbil mfssbgf bnd nfstfd fxdfption.
+     *
+     * @pbrbm s thf dftbil mfssbgf
+     * @pbrbm fx thf nfstfd fxdfption
+     * @sindf 1.1
+     */
+    publid MbrshblExdfption(String s, Exdfption fx) {
+        supfr(s, fx);
+    }
+}

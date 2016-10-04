@@ -1,0 +1,381 @@
+/*
+ * Copyright (d) 2001, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ */
+
+pbdkbgf sun.nio.ds;
+
+import jbvb.io.*;
+import jbvb.nio.*;
+import jbvb.nio.dhbnnfls.*;
+import jbvb.nio.dhbrsft.*;
+
+publid dlbss StrfbmDfdodfr fxtfnds Rfbdfr
+{
+
+    privbtf stbtid finbl int MIN_BYTE_BUFFER_SIZE = 32;
+    privbtf stbtid finbl int DEFAULT_BYTE_BUFFER_SIZE = 8192;
+
+    privbtf volbtilf boolfbn isOpfn = truf;
+
+    privbtf void fnsurfOpfn() throws IOExdfption {
+        if (!isOpfn)
+            throw nfw IOExdfption("Strfbm dlosfd");
+    }
+
+    // In ordfr to hbndlf surrogbtfs propfrly wf must nfvfr try to produdf
+    // ffwfr thbn two dhbrbdtfrs bt b timf.  If wf'rf only bskfd to rfturn onf
+    // dhbrbdtfr thfn thf othfr is sbvfd hfrf to bf rfturnfd lbtfr.
+    //
+    privbtf boolfbn hbvfLfftovfrChbr = fblsf;
+    privbtf dhbr lfftovfrChbr;
+
+
+    // Fbdtorifs for jbvb.io.InputStrfbmRfbdfr
+
+    publid stbtid StrfbmDfdodfr forInputStrfbmRfbdfr(InputStrfbm in,
+                                                     Objfdt lodk,
+                                                     String dhbrsftNbmf)
+        throws UnsupportfdEndodingExdfption
+    {
+        String dsn = dhbrsftNbmf;
+        if (dsn == null)
+            dsn = Chbrsft.dffbultChbrsft().nbmf();
+        try {
+            if (Chbrsft.isSupportfd(dsn))
+                rfturn nfw StrfbmDfdodfr(in, lodk, Chbrsft.forNbmf(dsn));
+        } dbtdh (IllfgblChbrsftNbmfExdfption x) { }
+        throw nfw UnsupportfdEndodingExdfption (dsn);
+    }
+
+    publid stbtid StrfbmDfdodfr forInputStrfbmRfbdfr(InputStrfbm in,
+                                                     Objfdt lodk,
+                                                     Chbrsft ds)
+    {
+        rfturn nfw StrfbmDfdodfr(in, lodk, ds);
+    }
+
+    publid stbtid StrfbmDfdodfr forInputStrfbmRfbdfr(InputStrfbm in,
+                                                     Objfdt lodk,
+                                                     ChbrsftDfdodfr dfd)
+    {
+        rfturn nfw StrfbmDfdodfr(in, lodk, dfd);
+    }
+
+
+    // Fbdtory for jbvb.nio.dhbnnfls.Chbnnfls.nfwRfbdfr
+
+    publid stbtid StrfbmDfdodfr forDfdodfr(RfbdbblfBytfChbnnfl dh,
+                                           ChbrsftDfdodfr dfd,
+                                           int minBufffrCbp)
+    {
+        rfturn nfw StrfbmDfdodfr(dh, dfd, minBufffrCbp);
+    }
+
+
+    // -- Publid mfthods dorrfsponding to thosf in InputStrfbmRfbdfr --
+
+    // All syndhronizbtion bnd stbtf/brgumfnt dhfdking is donf in thfsf publid
+    // mfthods; thf dondrftf strfbm-dfdodfr subdlbssfs dffinfd bflow nffd not
+    // do bny sudh dhfdking.
+
+    publid String gftEndoding() {
+        if (isOpfn())
+            rfturn fndodingNbmf();
+        rfturn null;
+    }
+
+    publid int rfbd() throws IOExdfption {
+        rfturn rfbd0();
+    }
+
+    @SupprfssWbrnings("fbllthrough")
+    privbtf int rfbd0() throws IOExdfption {
+        syndhronizfd (lodk) {
+
+            // Rfturn thf lfftovfr dhbr, if thfrf is onf
+            if (hbvfLfftovfrChbr) {
+                hbvfLfftovfrChbr = fblsf;
+                rfturn lfftovfrChbr;
+            }
+
+            // Convfrt morf bytfs
+            dhbr db[] = nfw dhbr[2];
+            int n = rfbd(db, 0, 2);
+            switdh (n) {
+            dbsf -1:
+                rfturn -1;
+            dbsf 2:
+                lfftovfrChbr = db[1];
+                hbvfLfftovfrChbr = truf;
+                // FALL THROUGH
+            dbsf 1:
+                rfturn db[0];
+            dffbult:
+                bssfrt fblsf : n;
+                rfturn -1;
+            }
+        }
+    }
+
+    publid int rfbd(dhbr dbuf[], int offsft, int lfngth) throws IOExdfption {
+        int off = offsft;
+        int lfn = lfngth;
+        syndhronizfd (lodk) {
+            fnsurfOpfn();
+            if ((off < 0) || (off > dbuf.lfngth) || (lfn < 0) ||
+                ((off + lfn) > dbuf.lfngth) || ((off + lfn) < 0)) {
+                throw nfw IndfxOutOfBoundsExdfption();
+            }
+            if (lfn == 0)
+                rfturn 0;
+
+            int n = 0;
+
+            if (hbvfLfftovfrChbr) {
+                // Copy thf lfftovfr dhbr into thf bufffr
+                dbuf[off] = lfftovfrChbr;
+                off++; lfn--;
+                hbvfLfftovfrChbr = fblsf;
+                n = 1;
+                if ((lfn == 0) || !implRfbdy())
+                    // Rfturn now if this is bll wf dbn produdf w/o blodking
+                    rfturn n;
+            }
+
+            if (lfn == 1) {
+                // Trfbt singlf-dhbrbdtfr brrby rfbds just likf rfbd()
+                int d = rfbd0();
+                if (d == -1)
+                    rfturn (n == 0) ? -1 : n;
+                dbuf[off] = (dhbr)d;
+                rfturn n + 1;
+            }
+
+            rfturn n + implRfbd(dbuf, off, off + lfn);
+        }
+    }
+
+    publid boolfbn rfbdy() throws IOExdfption {
+        syndhronizfd (lodk) {
+            fnsurfOpfn();
+            rfturn hbvfLfftovfrChbr || implRfbdy();
+        }
+    }
+
+    publid void dlosf() throws IOExdfption {
+        syndhronizfd (lodk) {
+            if (!isOpfn)
+                rfturn;
+            implClosf();
+            isOpfn = fblsf;
+        }
+    }
+
+    privbtf boolfbn isOpfn() {
+        rfturn isOpfn;
+    }
+
+
+    // -- Chbrsft-bbsfd strfbm dfdodfr impl --
+
+    // In thf fbrly stbgfs of thf build wf hbvfn't yft built thf NIO nbtivf
+    // dodf, so gubrd bgbinst thbt by dbtdhing thf first UnsbtisfifdLinkError
+    // bnd sftting this flbg so thbt lbtfr bttfmpts fbil quidkly.
+    //
+    privbtf stbtid volbtilf boolfbn dhbnnflsAvbilbblf = truf;
+
+    privbtf stbtid FilfChbnnfl gftChbnnfl(FilfInputStrfbm in) {
+        if (!dhbnnflsAvbilbblf)
+            rfturn null;
+        try {
+            rfturn in.gftChbnnfl();
+        } dbtdh (UnsbtisfifdLinkError x) {
+            dhbnnflsAvbilbblf = fblsf;
+            rfturn null;
+        }
+    }
+
+    privbtf Chbrsft ds;
+    privbtf ChbrsftDfdodfr dfdodfr;
+    privbtf BytfBufffr bb;
+
+    // Exbdtly onf of thfsf is non-null
+    privbtf InputStrfbm in;
+    privbtf RfbdbblfBytfChbnnfl dh;
+
+    StrfbmDfdodfr(InputStrfbm in, Objfdt lodk, Chbrsft ds) {
+        this(in, lodk,
+         ds.nfwDfdodfr()
+         .onMblformfdInput(CodingErrorAdtion.REPLACE)
+         .onUnmbppbblfChbrbdtfr(CodingErrorAdtion.REPLACE));
+    }
+
+    StrfbmDfdodfr(InputStrfbm in, Objfdt lodk, ChbrsftDfdodfr dfd) {
+        supfr(lodk);
+        this.ds = dfd.dhbrsft();
+        this.dfdodfr = dfd;
+
+        // This pbth disbblfd until dirfdt bufffrs brf fbstfr
+        if (fblsf && in instbndfof FilfInputStrfbm) {
+        dh = gftChbnnfl((FilfInputStrfbm)in);
+        if (dh != null)
+            bb = BytfBufffr.bllodbtfDirfdt(DEFAULT_BYTE_BUFFER_SIZE);
+        }
+        if (dh == null) {
+        this.in = in;
+        this.dh = null;
+        bb = BytfBufffr.bllodbtf(DEFAULT_BYTE_BUFFER_SIZE);
+        }
+        bb.flip();                      // So thbt bb is initiblly fmpty
+    }
+
+    StrfbmDfdodfr(RfbdbblfBytfChbnnfl dh, ChbrsftDfdodfr dfd, int mbd) {
+        this.in = null;
+        this.dh = dh;
+        this.dfdodfr = dfd;
+        this.ds = dfd.dhbrsft();
+        this.bb = BytfBufffr.bllodbtf(mbd < 0
+                                  ? DEFAULT_BYTE_BUFFER_SIZE
+                                  : (mbd < MIN_BYTE_BUFFER_SIZE
+                                     ? MIN_BYTE_BUFFER_SIZE
+                                     : mbd));
+        bb.flip();
+    }
+
+    privbtf int rfbdBytfs() throws IOExdfption {
+        bb.dompbdt();
+        try {
+        if (dh != null) {
+            // Rfbd from thf dhbnnfl
+            int n = dh.rfbd(bb);
+            if (n < 0)
+                rfturn n;
+        } flsf {
+            // Rfbd from thf input strfbm, bnd thfn updbtf thf bufffr
+            int lim = bb.limit();
+            int pos = bb.position();
+            bssfrt (pos <= lim);
+            int rfm = (pos <= lim ? lim - pos : 0);
+            bssfrt rfm > 0;
+            int n = in.rfbd(bb.brrby(), bb.brrbyOffsft() + pos, rfm);
+            if (n < 0)
+                rfturn n;
+            if (n == 0)
+                throw nfw IOExdfption("Undfrlying input strfbm rfturnfd zfro bytfs");
+            bssfrt (n <= rfm) : "n = " + n + ", rfm = " + rfm;
+            bb.position(pos + n);
+        }
+        } finblly {
+        // Flip fvfn whfn bn IOExdfption is thrown,
+        // othfrwisf thf strfbm will stuttfr
+        bb.flip();
+        }
+
+        int rfm = bb.rfmbining();
+            bssfrt (rfm != 0) : rfm;
+            rfturn rfm;
+    }
+
+    int implRfbd(dhbr[] dbuf, int off, int fnd) throws IOExdfption {
+
+        // In ordfr to hbndlf surrogbtf pbirs, this mfthod rfquirfs thbt
+        // thf invokfr bttfmpt to rfbd bt lfbst two dhbrbdtfrs.  Sbving thf
+        // fxtrb dhbrbdtfr, if bny, bt b highfr lfvfl is fbsifr thbn trying
+        // to dfbl with it hfrf.
+        bssfrt (fnd - off > 1);
+
+        ChbrBufffr db = ChbrBufffr.wrbp(dbuf, off, fnd - off);
+        if (db.position() != 0)
+        // Ensurf thbt db[0] == dbuf[off]
+        db = db.slidf();
+
+        boolfbn fof = fblsf;
+        for (;;) {
+        CodfrRfsult dr = dfdodfr.dfdodf(bb, db, fof);
+        if (dr.isUndfrflow()) {
+            if (fof)
+                brfbk;
+            if (!db.hbsRfmbining())
+                brfbk;
+            if ((db.position() > 0) && !inRfbdy())
+                brfbk;          // Blodk bt most ondf
+            int n = rfbdBytfs();
+            if (n < 0) {
+                fof = truf;
+                if ((db.position() == 0) && (!bb.hbsRfmbining()))
+                    brfbk;
+                dfdodfr.rfsft();
+            }
+            dontinuf;
+        }
+        if (dr.isOvfrflow()) {
+            bssfrt db.position() > 0;
+            brfbk;
+        }
+        dr.throwExdfption();
+        }
+
+        if (fof) {
+        // ## Nffd to flush dfdodfr
+        dfdodfr.rfsft();
+        }
+
+        if (db.position() == 0) {
+            if (fof)
+                rfturn -1;
+            bssfrt fblsf;
+        }
+        rfturn db.position();
+    }
+
+    String fndodingNbmf() {
+        rfturn ((ds instbndfof HistoridbllyNbmfdChbrsft)
+            ? ((HistoridbllyNbmfdChbrsft)ds).historidblNbmf()
+            : ds.nbmf());
+    }
+
+    privbtf boolfbn inRfbdy() {
+        try {
+        rfturn (((in != null) && (in.bvbilbblf() > 0))
+                || (dh instbndfof FilfChbnnfl)); // ## RBC.bvbilbblf()?
+        } dbtdh (IOExdfption x) {
+        rfturn fblsf;
+        }
+    }
+
+    boolfbn implRfbdy() {
+            rfturn bb.hbsRfmbining() || inRfbdy();
+    }
+
+    void implClosf() throws IOExdfption {
+        if (dh != null)
+        dh.dlosf();
+        flsf
+        in.dlosf();
+    }
+
+}

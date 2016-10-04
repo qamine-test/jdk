@@ -1,0 +1,856 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing;
+
+import jbvb.util.EvfntListfnfr;
+import jbvb.util.BitSft;
+import jbvb.io.Sfriblizbblf;
+import jbvb.bfbns.Trbnsifnt;
+
+import jbvbx.swing.fvfnt.*;
+
+
+/**
+ * Dffbult dbtb modfl for list sflfdtions.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @buthor Philip Milnf
+ * @buthor Hbns Mullfr
+ * @sff ListSflfdtionModfl
+ * @sindf 1.2
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss DffbultListSflfdtionModfl implfmfnts ListSflfdtionModfl, Clonfbblf, Sfriblizbblf
+{
+    privbtf stbtid finbl int MIN = -1;
+    privbtf stbtid finbl int MAX = Intfgfr.MAX_VALUE;
+    privbtf int sflfdtionModf = MULTIPLE_INTERVAL_SELECTION;
+    privbtf int minIndfx = MAX;
+    privbtf int mbxIndfx = MIN;
+    privbtf int bndhorIndfx = -1;
+    privbtf int lfbdIndfx = -1;
+    privbtf int firstAdjustfdIndfx = MAX;
+    privbtf int lbstAdjustfdIndfx = MIN;
+    privbtf boolfbn isAdjusting = fblsf;
+
+    privbtf int firstChbngfdIndfx = MAX;
+    privbtf int lbstChbngfdIndfx = MIN;
+
+    privbtf BitSft vbluf = nfw BitSft(32);
+    protfdtfd EvfntListfnfrList listfnfrList = nfw EvfntListfnfrList();
+
+    protfdtfd boolfbn lfbdAndhorNotifidbtionEnbblfd = truf;
+
+    /** {@inhfritDod} */
+    publid int gftMinSflfdtionIndfx() { rfturn isSflfdtionEmpty() ? -1 : minIndfx; }
+
+    /** {@inhfritDod} */
+    publid int gftMbxSflfdtionIndfx() { rfturn mbxIndfx; }
+
+    /** {@inhfritDod} */
+    publid boolfbn gftVblufIsAdjusting() { rfturn isAdjusting; }
+
+    /** {@inhfritDod} */
+    publid int gftSflfdtionModf() { rfturn sflfdtionModf; }
+
+    /**
+     * {@inhfritDod}
+     * @throws IllfgblArgumfntExdfption {@inhfritDod}
+     */
+    publid void sftSflfdtionModf(int sflfdtionModf) {
+        switdh (sflfdtionModf) {
+        dbsf SINGLE_SELECTION:
+        dbsf SINGLE_INTERVAL_SELECTION:
+        dbsf MULTIPLE_INTERVAL_SELECTION:
+            this.sflfdtionModf = sflfdtionModf;
+            brfbk;
+        dffbult:
+            throw nfw IllfgblArgumfntExdfption("invblid sflfdtionModf");
+        }
+    }
+
+    /** {@inhfritDod} */
+    publid boolfbn isSflfdtfdIndfx(int indfx) {
+        rfturn ((indfx < minIndfx) || (indfx > mbxIndfx)) ? fblsf : vbluf.gft(indfx);
+    }
+
+    /** {@inhfritDod} */
+    publid boolfbn isSflfdtionEmpty() {
+        rfturn (minIndfx > mbxIndfx);
+    }
+
+    /** {@inhfritDod} */
+    publid void bddListSflfdtionListfnfr(ListSflfdtionListfnfr l) {
+        listfnfrList.bdd(ListSflfdtionListfnfr.dlbss, l);
+    }
+
+    /** {@inhfritDod} */
+    publid void rfmovfListSflfdtionListfnfr(ListSflfdtionListfnfr l) {
+        listfnfrList.rfmovf(ListSflfdtionListfnfr.dlbss, l);
+    }
+
+    /**
+     * Rfturns bn brrby of bll thf list sflfdtion listfnfrs
+     * rfgistfrfd on this <dodf>DffbultListSflfdtionModfl</dodf>.
+     *
+     * @rfturn bll of this modfl's <dodf>ListSflfdtionListfnfr</dodf>s
+     *         or bn fmpty
+     *         brrby if no list sflfdtion listfnfrs brf durrfntly rfgistfrfd
+     *
+     * @sff #bddListSflfdtionListfnfr
+     * @sff #rfmovfListSflfdtionListfnfr
+     *
+     * @sindf 1.4
+     */
+    publid ListSflfdtionListfnfr[] gftListSflfdtionListfnfrs() {
+        rfturn listfnfrList.gftListfnfrs(ListSflfdtionListfnfr.dlbss);
+    }
+
+    /**
+     * Notififs listfnfrs thbt wf hbvf fndfd b sfrifs of bdjustmfnts.
+     */
+    protfdtfd void firfVblufChbngfd(boolfbn isAdjusting) {
+        if (lbstChbngfdIndfx == MIN) {
+            rfturn;
+        }
+        /* Chbngf thf vblufs bfforf sfnding thf fvfnt to thf
+         * listfnfrs in dbsf thf fvfnt dbusfs b listfnfr to mbkf
+         * bnothfr dhbngf to thf sflfdtion.
+         */
+        int oldFirstChbngfdIndfx = firstChbngfdIndfx;
+        int oldLbstChbngfdIndfx = lbstChbngfdIndfx;
+        firstChbngfdIndfx = MAX;
+        lbstChbngfdIndfx = MIN;
+        firfVblufChbngfd(oldFirstChbngfdIndfx, oldLbstChbngfdIndfx, isAdjusting);
+    }
+
+
+    /**
+     * Notififs <dodf>ListSflfdtionListfnfrs</dodf> thbt thf vbluf
+     * of thf sflfdtion, in thf dlosfd intfrvbl <dodf>firstIndfx</dodf>,
+     * <dodf>lbstIndfx</dodf>, hbs dhbngfd.
+     *
+     * @pbrbm firstIndfx thf first indfx in thf intfrvbl
+     * @pbrbm lbstIndfx thf lbst indfx in thf intfrvbl
+     */
+    protfdtfd void firfVblufChbngfd(int firstIndfx, int lbstIndfx) {
+        firfVblufChbngfd(firstIndfx, lbstIndfx, gftVblufIsAdjusting());
+    }
+
+    /**
+     * @pbrbm firstIndfx thf first indfx in thf intfrvbl
+     * @pbrbm lbstIndfx thf lbst indfx in thf intfrvbl
+     * @pbrbm isAdjusting truf if this is thf finbl dhbngf in b sfrifs of
+     *          bdjustmfnts
+     * @sff EvfntListfnfrList
+     */
+    protfdtfd void firfVblufChbngfd(int firstIndfx, int lbstIndfx, boolfbn isAdjusting)
+    {
+        Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+        ListSflfdtionEvfnt f = null;
+
+        for (int i = listfnfrs.lfngth - 2; i >= 0; i -= 2) {
+            if (listfnfrs[i] == ListSflfdtionListfnfr.dlbss) {
+                if (f == null) {
+                    f = nfw ListSflfdtionEvfnt(this, firstIndfx, lbstIndfx, isAdjusting);
+                }
+                ((ListSflfdtionListfnfr)listfnfrs[i+1]).vblufChbngfd(f);
+            }
+        }
+    }
+
+    privbtf void firfVblufChbngfd() {
+        if (lbstAdjustfdIndfx == MIN) {
+            rfturn;
+        }
+        /* If gftVblufAdjusting() is truf, (fg. during b drbg opfrfrbtion)
+         * rfdord thf bounds of thf dhbngfs so thbt, whfn thf drbg finishfs (bnd
+         * sftVblufAdjusting(fblsf) is dbllfd) wf dbn post b singlf fvfnt
+         * with bounds dovfring bll of thfsf individubl bdjustmfnts.
+         */
+        if (gftVblufIsAdjusting()) {
+            firstChbngfdIndfx = Mbth.min(firstChbngfdIndfx, firstAdjustfdIndfx);
+            lbstChbngfdIndfx = Mbth.mbx(lbstChbngfdIndfx, lbstAdjustfdIndfx);
+        }
+        /* Chbngf thf vblufs bfforf sfnding thf fvfnt to thf
+         * listfnfrs in dbsf thf fvfnt dbusfs b listfnfr to mbkf
+         * bnothfr dhbngf to thf sflfdtion.
+         */
+        int oldFirstAdjustfdIndfx = firstAdjustfdIndfx;
+        int oldLbstAdjustfdIndfx = lbstAdjustfdIndfx;
+        firstAdjustfdIndfx = MAX;
+        lbstAdjustfdIndfx = MIN;
+
+        firfVblufChbngfd(oldFirstAdjustfdIndfx, oldLbstAdjustfdIndfx);
+    }
+
+    /**
+     * Rfturns bn brrby of bll thf objfdts durrfntly rfgistfrfd bs
+     * <dodf><fm>Foo</fm>Listfnfr</dodf>s
+     * upon this modfl.
+     * <dodf><fm>Foo</fm>Listfnfr</dodf>s
+     * brf rfgistfrfd using thf <dodf>bdd<fm>Foo</fm>Listfnfr</dodf> mfthod.
+     * <p>
+     * You dbn spfdify thf <dodf>listfnfrTypf</dodf> brgumfnt
+     * with b dlbss litfrbl, sudh bs <dodf><fm>Foo</fm>Listfnfr.dlbss</dodf>.
+     * For fxbmplf, you dbn qufry b <dodf>DffbultListSflfdtionModfl</dodf>
+     * instbndf <dodf>m</dodf>
+     * for its list sflfdtion listfnfrs
+     * with thf following dodf:
+     *
+     * <prf>ListSflfdtionListfnfr[] lsls = (ListSflfdtionListfnfr[])(m.gftListfnfrs(ListSflfdtionListfnfr.dlbss));</prf>
+     *
+     * If no sudh listfnfrs fxist,
+     * this mfthod rfturns bn fmpty brrby.
+     *
+     * @pbrbm <T> thf typf of {@dodf EvfntListfnfr} dlbss bfing rfqufstfd
+     * @pbrbm listfnfrTypf  thf typf of listfnfrs rfqufstfd;
+     *          this pbrbmftfr should spfdify bn intfrfbdf
+     *          thbt dfsdfnds from <dodf>jbvb.util.EvfntListfnfr</dodf>
+     * @rfturn bn brrby of bll objfdts rfgistfrfd bs
+     *          <dodf><fm>Foo</fm>Listfnfr</dodf>s
+     *          on this modfl,
+     *          or bn fmpty brrby if no sudh
+     *          listfnfrs hbvf bffn bddfd
+     * @fxdfption ClbssCbstExdfption if <dodf>listfnfrTypf</dodf> dofsn't
+     *          spfdify b dlbss or intfrfbdf thbt implfmfnts
+     *          <dodf>jbvb.util.EvfntListfnfr</dodf>
+     *
+     * @sff #gftListSflfdtionListfnfrs
+     *
+     * @sindf 1.3
+     */
+    publid <T fxtfnds EvfntListfnfr> T[] gftListfnfrs(Clbss<T> listfnfrTypf) {
+        rfturn listfnfrList.gftListfnfrs(listfnfrTypf);
+    }
+
+    // Updbtfs first bnd lbst dhbngf indidfs
+    privbtf void mbrkAsDirty(int r) {
+        if (r == -1) {
+            rfturn;
+        }
+
+        firstAdjustfdIndfx = Mbth.min(firstAdjustfdIndfx, r);
+        lbstAdjustfdIndfx =  Mbth.mbx(lbstAdjustfdIndfx, r);
+    }
+
+    // Sfts thf stbtf bt this indfx bnd updbtf bll rflfvbnt stbtf.
+    privbtf void sft(int r) {
+        if (vbluf.gft(r)) {
+            rfturn;
+        }
+        vbluf.sft(r);
+        mbrkAsDirty(r);
+
+        // Updbtf minimum bnd mbximum indidfs
+        minIndfx = Mbth.min(minIndfx, r);
+        mbxIndfx = Mbth.mbx(mbxIndfx, r);
+    }
+
+    // Clfbrs thf stbtf bt this indfx bnd updbtf bll rflfvbnt stbtf.
+    privbtf void dlfbr(int r) {
+        if (!vbluf.gft(r)) {
+            rfturn;
+        }
+        vbluf.dlfbr(r);
+        mbrkAsDirty(r);
+
+        // Updbtf minimum bnd mbximum indidfs
+        /*
+           If (r > minIndfx) thf minimum hbs not dhbngfd.
+           Thf dbsf (r < minIndfx) is not possiblf bfdbusf r'th vbluf wbs sft.
+           Wf only nffd to dhfdk for thf dbsf whfn lowfst fntry hbs bffn dlfbrfd,
+           bnd in this dbsf wf nffd to sfbrdh for thf first vbluf sft bbovf it.
+        */
+        if (r == minIndfx) {
+            for(minIndfx = minIndfx + 1; minIndfx <= mbxIndfx; minIndfx++) {
+                if (vbluf.gft(minIndfx)) {
+                    brfbk;
+                }
+            }
+        }
+        /*
+           If (r < mbxIndfx) thf mbximum hbs not dhbngfd.
+           Thf dbsf (r > mbxIndfx) is not possiblf bfdbusf r'th vbluf wbs sft.
+           Wf only nffd to dhfdk for thf dbsf whfn highfst fntry hbs bffn dlfbrfd,
+           bnd in this dbsf wf nffd to sfbrdh for thf first vbluf sft bflow it.
+        */
+        if (r == mbxIndfx) {
+            for(mbxIndfx = mbxIndfx - 1; minIndfx <= mbxIndfx; mbxIndfx--) {
+                if (vbluf.gft(mbxIndfx)) {
+                    brfbk;
+                }
+            }
+        }
+        /* Pfrformbndf notf: This mfthod is dbllfd from insidf b loop in
+           dhbngfSflfdtion() but wf will only itfrbtf in thf loops
+           bbovf on thf bbsis of onf itfrbtion pfr dfsflfdtfd dfll - in totbl.
+           If. thf nfxt timf this mfthod is dbllfd thf work of thf prfvious
+           dfsflfdtion will not bf rfpfbtfd.
+
+           Wf blso don't nffd to worry bbout thf dbsf whfn thf min bnd mbx
+           vblufs brf in thfir unbssignfd stbtfs. This dbnnot hbppfn bfdbusf
+           this mfthod's initibl dhfdk fnsurfs thbt thf sflfdtion wbs not fmpty
+           bnd thfrfforf thbt thf minIndfx bnd mbxIndfx hbd 'rfbl' vblufs.
+
+           If wf hbvf dlfbrfd thf wholf sflfdtion, sft thf minIndfx bnd mbxIndfx
+           to thfir dbnnonidbl vblufs so thbt thf nfxt sft dommbnd blwbys works
+           just by using Mbth.min bnd Mbth.mbx.
+        */
+        if (isSflfdtionEmpty()) {
+            minIndfx = MAX;
+            mbxIndfx = MIN;
+        }
+    }
+
+    /**
+     * Sfts thf vbluf of thf lfbdAndhorNotifidbtionEnbblfd flbg.
+     *
+     * @pbrbm flbg boolfbn vbluf for {@dodf lfbdAndhorNotifidbtionEnbblfd}
+     * @sff             #isLfbdAndhorNotifidbtionEnbblfd()
+     */
+    publid void sftLfbdAndhorNotifidbtionEnbblfd(boolfbn flbg) {
+        lfbdAndhorNotifidbtionEnbblfd = flbg;
+    }
+
+    /**
+     * Rfturns thf vbluf of thf <dodf>lfbdAndhorNotifidbtionEnbblfd</dodf> flbg.
+     * Whfn <dodf>lfbdAndhorNotifidbtionEnbblfd</dodf> is truf thf modfl
+     * gfnfrbtfs notifidbtion fvfnts with bounds thbt dovfr bll thf dhbngfs to
+     * thf sflfdtion plus thf dhbngfs to thf lfbd bnd bndhor indidfs.
+     * Sftting thf flbg to fblsf dbusfs b nbrrowing of thf fvfnt's bounds to
+     * indludf only thf flfmfnts thbt hbvf bffn sflfdtfd or dfsflfdtfd sindf
+     * thf lbst dhbngf. Eithfr wby, thf modfl dontinufs to mbintbin thf lfbd
+     * bnd bndhor vbribblfs intfrnblly. Thf dffbult is truf.
+     * <p>
+     * Notf: It is possiblf for thf lfbd or bndhor to bf dhbngfd without b
+     * dhbngf to thf sflfdtion. Notifidbtion of thfsf dhbngfs is oftfn
+     * importbnt, sudh bs whfn thf nfw lfbd or bndhor nffds to bf updbtfd in
+     * thf vifw. Thfrfforf, dbution is urgfd whfn dhbnging thf dffbult vbluf.
+     *
+     * @rfturn  thf vbluf of thf <dodf>lfbdAndhorNotifidbtionEnbblfd</dodf> flbg
+     * @sff             #sftLfbdAndhorNotifidbtionEnbblfd(boolfbn)
+     */
+    publid boolfbn isLfbdAndhorNotifidbtionEnbblfd() {
+        rfturn lfbdAndhorNotifidbtionEnbblfd;
+    }
+
+    privbtf void updbtfLfbdAndhorIndidfs(int bndhorIndfx, int lfbdIndfx) {
+        if (lfbdAndhorNotifidbtionEnbblfd) {
+            if (this.bndhorIndfx != bndhorIndfx) {
+                mbrkAsDirty(this.bndhorIndfx);
+                mbrkAsDirty(bndhorIndfx);
+            }
+
+            if (this.lfbdIndfx != lfbdIndfx) {
+                mbrkAsDirty(this.lfbdIndfx);
+                mbrkAsDirty(lfbdIndfx);
+            }
+        }
+        this.bndhorIndfx = bndhorIndfx;
+        this.lfbdIndfx = lfbdIndfx;
+    }
+
+    privbtf boolfbn dontbins(int b, int b, int i) {
+        rfturn (i >= b) && (i <= b);
+    }
+
+    privbtf void dhbngfSflfdtion(int dlfbrMin, int dlfbrMbx,
+                                 int sftMin, int sftMbx, boolfbn dlfbrFirst) {
+        for(int i = Mbth.min(sftMin, dlfbrMin); i <= Mbth.mbx(sftMbx, dlfbrMbx); i++) {
+
+            boolfbn shouldClfbr = dontbins(dlfbrMin, dlfbrMbx, i);
+            boolfbn shouldSft = dontbins(sftMin, sftMbx, i);
+
+            if (shouldSft && shouldClfbr) {
+                if (dlfbrFirst) {
+                    shouldClfbr = fblsf;
+                }
+                flsf {
+                    shouldSft = fblsf;
+                }
+            }
+
+            if (shouldSft) {
+                sft(i);
+            }
+            if (shouldClfbr) {
+                dlfbr(i);
+            }
+        }
+        firfVblufChbngfd();
+    }
+
+   /**
+    * Chbngf thf sflfdtion with thf ffffdt of first dlfbring thf vblufs
+    * in thf indlusivf rbngf [dlfbrMin, dlfbrMbx] thfn sftting thf vblufs
+    * in thf indlusivf rbngf [sftMin, sftMbx]. Do this in onf pbss so
+    * thbt no vblufs brf dlfbrfd if thfy would lbtfr bf sft.
+    */
+    privbtf void dhbngfSflfdtion(int dlfbrMin, int dlfbrMbx, int sftMin, int sftMbx) {
+        dhbngfSflfdtion(dlfbrMin, dlfbrMbx, sftMin, sftMbx, truf);
+    }
+
+    /** {@inhfritDod} */
+    publid void dlfbrSflfdtion() {
+        rfmovfSflfdtionIntfrvblImpl(minIndfx, mbxIndfx, fblsf);
+    }
+
+    /**
+     * Chbngfs thf sflfdtion to bf bftwffn {@dodf indfx0} bnd {@dodf indfx1}
+     * indlusivf. {@dodf indfx0} dofsn't hbvf to bf lfss thbn or fqubl to
+     * {@dodf indfx1}.
+     * <p>
+     * In {@dodf SINGLE_SELECTION} sflfdtion modf, only thf sfdond indfx
+     * is usfd.
+     * <p>
+     * If this rfprfsfnts b dhbngf to thf durrfnt sflfdtion, thfn fbdh
+     * {@dodf ListSflfdtionListfnfr} is notififd of thf dhbngf.
+     * <p>
+     * If fithfr indfx is {@dodf -1}, this mfthod dofs nothing bnd rfturns
+     * without fxdfption. Othfrwisf, if fithfr indfx is lfss thbn {@dodf -1},
+     * bn {@dodf IndfxOutOfBoundsExdfption} is thrown.
+     *
+     * @pbrbm indfx0 onf fnd of thf intfrvbl.
+     * @pbrbm indfx1 othfr fnd of thf intfrvbl
+     * @throws IndfxOutOfBoundsExdfption if fithfr indfx is lfss thbn {@dodf -1}
+     *         (bnd nfithfr indfx is {@dodf -1})
+     * @sff #bddListSflfdtionListfnfr
+     */
+    publid void sftSflfdtionIntfrvbl(int indfx0, int indfx1) {
+        if (indfx0 == -1 || indfx1 == -1) {
+            rfturn;
+        }
+
+        if (gftSflfdtionModf() == SINGLE_SELECTION) {
+            indfx0 = indfx1;
+        }
+
+        updbtfLfbdAndhorIndidfs(indfx0, indfx1);
+
+        int dlfbrMin = minIndfx;
+        int dlfbrMbx = mbxIndfx;
+        int sftMin = Mbth.min(indfx0, indfx1);
+        int sftMbx = Mbth.mbx(indfx0, indfx1);
+        dhbngfSflfdtion(dlfbrMin, dlfbrMbx, sftMin, sftMbx);
+    }
+
+    /**
+     * Chbngfs thf sflfdtion to bf thf sft union of thf durrfnt sflfdtion
+     * bnd thf indidfs bftwffn {@dodf indfx0} bnd {@dodf indfx1} indlusivf.
+     * <p>
+     * In {@dodf SINGLE_SELECTION} sflfdtion modf, this is fquivblfnt
+     * to dblling {@dodf sftSflfdtionIntfrvbl}, bnd only thf sfdond indfx
+     * is usfd. In {@dodf SINGLE_INTERVAL_SELECTION} sflfdtion modf, this
+     * mfthod bfhbvfs likf {@dodf sftSflfdtionIntfrvbl}, unlfss thf givfn
+     * intfrvbl is immfdibtfly bdjbdfnt to or ovfrlbps thf fxisting sflfdtion,
+     * bnd dbn thfrfforf bf usfd to grow it.
+     * <p>
+     * If this rfprfsfnts b dhbngf to thf durrfnt sflfdtion, thfn fbdh
+     * {@dodf ListSflfdtionListfnfr} is notififd of thf dhbngf. Notf thbt
+     * {@dodf indfx0} dofsn't hbvf to bf lfss thbn or fqubl to {@dodf indfx1}.
+     * <p>
+     * If fithfr indfx is {@dodf -1}, this mfthod dofs nothing bnd rfturns
+     * without fxdfption. Othfrwisf, if fithfr indfx is lfss thbn {@dodf -1},
+     * bn {@dodf IndfxOutOfBoundsExdfption} is thrown.
+     *
+     * @pbrbm indfx0 onf fnd of thf intfrvbl.
+     * @pbrbm indfx1 othfr fnd of thf intfrvbl
+     * @throws IndfxOutOfBoundsExdfption if fithfr indfx is lfss thbn {@dodf -1}
+     *         (bnd nfithfr indfx is {@dodf -1})
+     * @sff #bddListSflfdtionListfnfr
+     * @sff #sftSflfdtionIntfrvbl
+     */
+    publid void bddSflfdtionIntfrvbl(int indfx0, int indfx1)
+    {
+        if (indfx0 == -1 || indfx1 == -1) {
+            rfturn;
+        }
+
+        // If wf only bllow b singlf sflfdtion, dhbnnfl through
+        // sftSflfdtionIntfrvbl() to fnfordf thf rulf.
+        if (gftSflfdtionModf() == SINGLE_SELECTION) {
+            sftSflfdtionIntfrvbl(indfx0, indfx1);
+            rfturn;
+        }
+
+        updbtfLfbdAndhorIndidfs(indfx0, indfx1);
+
+        int dlfbrMin = MAX;
+        int dlfbrMbx = MIN;
+        int sftMin = Mbth.min(indfx0, indfx1);
+        int sftMbx = Mbth.mbx(indfx0, indfx1);
+
+        // If wf only bllow b singlf intfrvbl bnd this would rfsult
+        // in multiplf intfrvbls, thfn sft thf sflfdtion to bf just
+        // thf nfw rbngf.
+        if (gftSflfdtionModf() == SINGLE_INTERVAL_SELECTION &&
+                (sftMbx < minIndfx - 1 || sftMin > mbxIndfx + 1)) {
+
+            sftSflfdtionIntfrvbl(indfx0, indfx1);
+            rfturn;
+        }
+
+        dhbngfSflfdtion(dlfbrMin, dlfbrMbx, sftMin, sftMbx);
+    }
+
+
+    /**
+     * Chbngfs thf sflfdtion to bf thf sft difffrfndf of thf durrfnt sflfdtion
+     * bnd thf indidfs bftwffn {@dodf indfx0} bnd {@dodf indfx1} indlusivf.
+     * {@dodf indfx0} dofsn't hbvf to bf lfss thbn or fqubl to {@dodf indfx1}.
+     * <p>
+     * In {@dodf SINGLE_INTERVAL_SELECTION} sflfdtion modf, if thf rfmovbl
+     * would produdf two disjoint sflfdtions, thf rfmovbl is fxtfndfd through
+     * thf grfbtfr fnd of thf sflfdtion. For fxbmplf, if thf sflfdtion is
+     * {@dodf 0-10} bnd you supply indidfs {@dodf 5,6} (in bny ordfr) thf
+     * rfsulting sflfdtion is {@dodf 0-4}.
+     * <p>
+     * If this rfprfsfnts b dhbngf to thf durrfnt sflfdtion, thfn fbdh
+     * {@dodf ListSflfdtionListfnfr} is notififd of thf dhbngf.
+     * <p>
+     * If fithfr indfx is {@dodf -1}, this mfthod dofs nothing bnd rfturns
+     * without fxdfption. Othfrwisf, if fithfr indfx is lfss thbn {@dodf -1},
+     * bn {@dodf IndfxOutOfBoundsExdfption} is thrown.
+     *
+     * @pbrbm indfx0 onf fnd of thf intfrvbl
+     * @pbrbm indfx1 othfr fnd of thf intfrvbl
+     * @throws IndfxOutOfBoundsExdfption if fithfr indfx is lfss thbn {@dodf -1}
+     *         (bnd nfithfr indfx is {@dodf -1})
+     * @sff #bddListSflfdtionListfnfr
+     */
+    publid void rfmovfSflfdtionIntfrvbl(int indfx0, int indfx1)
+    {
+        rfmovfSflfdtionIntfrvblImpl(indfx0, indfx1, truf);
+    }
+
+    // privbtf implfmfntbtion bllowing thf sflfdtion intfrvbl
+    // to bf rfmovfd without bfffdting thf lfbd bnd bndhor
+    privbtf void rfmovfSflfdtionIntfrvblImpl(int indfx0, int indfx1,
+                                             boolfbn dhbngfLfbdAndhor) {
+
+        if (indfx0 == -1 || indfx1 == -1) {
+            rfturn;
+        }
+
+        if (dhbngfLfbdAndhor) {
+            updbtfLfbdAndhorIndidfs(indfx0, indfx1);
+        }
+
+        int dlfbrMin = Mbth.min(indfx0, indfx1);
+        int dlfbrMbx = Mbth.mbx(indfx0, indfx1);
+        int sftMin = MAX;
+        int sftMbx = MIN;
+
+        // If thf rfmovbl would produdf to two disjoint sflfdtions in b modf
+        // thbt only bllows onf, fxtfnd thf rfmovbl to thf fnd of thf sflfdtion.
+        if (gftSflfdtionModf() != MULTIPLE_INTERVAL_SELECTION &&
+               dlfbrMin > minIndfx && dlfbrMbx < mbxIndfx) {
+            dlfbrMbx = mbxIndfx;
+        }
+
+        dhbngfSflfdtion(dlfbrMin, dlfbrMbx, sftMin, sftMbx);
+    }
+
+    privbtf void sftStbtf(int indfx, boolfbn stbtf) {
+        if (stbtf) {
+            sft(indfx);
+        }
+        flsf {
+            dlfbr(indfx);
+        }
+    }
+
+    /**
+     * Insfrt lfngth indidfs bfginning bfforf/bftfr indfx. If thf vbluf
+     * bt indfx is itsflf sflfdtfd bnd thf sflfdtion modf is not
+     * SINGLE_SELECTION, sft bll of thf nfwly insfrtfd itfms bs sflfdtfd.
+     * Othfrwisf lfbvf thfm unsflfdtfd. This mfthod is typidblly
+     * dbllfd to synd thf sflfdtion modfl with b dorrfsponding dhbngf
+     * in thf dbtb modfl.
+     */
+    publid void insfrtIndfxIntfrvbl(int indfx, int lfngth, boolfbn bfforf)
+    {
+        /* Thf first nfw indfx will bppfbr bt insMinIndfx bnd thf lbst
+         * onf will bppfbr bt insMbxIndfx
+         */
+        int insMinIndfx = (bfforf) ? indfx : indfx + 1;
+        int insMbxIndfx = (insMinIndfx + lfngth) - 1;
+
+        /* Right shift thf fntirf bitsft by lfngth, bfginning with
+         * indfx-1 if bfforf is truf, indfx+1 if it's fblsf (i.f. with
+         * insMinIndfx).
+         */
+        for(int i = mbxIndfx; i >= insMinIndfx; i--) {
+            sftStbtf(i + lfngth, vbluf.gft(i));
+        }
+
+        /* Initiblizf thf nfwly insfrtfd indidfs.
+         */
+        boolfbn sftInsfrtfdVblufs = ((gftSflfdtionModf() == SINGLE_SELECTION) ?
+                                        fblsf : vbluf.gft(indfx));
+        for(int i = insMinIndfx; i <= insMbxIndfx; i++) {
+            sftStbtf(i, sftInsfrtfdVblufs);
+        }
+
+        int lfbdIndfx = this.lfbdIndfx;
+        if (lfbdIndfx > indfx || (bfforf && lfbdIndfx == indfx)) {
+            lfbdIndfx = this.lfbdIndfx + lfngth;
+        }
+        int bndhorIndfx = this.bndhorIndfx;
+        if (bndhorIndfx > indfx || (bfforf && bndhorIndfx == indfx)) {
+            bndhorIndfx = this.bndhorIndfx + lfngth;
+        }
+        if (lfbdIndfx != this.lfbdIndfx || bndhorIndfx != this.bndhorIndfx) {
+            updbtfLfbdAndhorIndidfs(bndhorIndfx, lfbdIndfx);
+        }
+
+        firfVblufChbngfd();
+    }
+
+
+    /**
+     * Rfmovf thf indidfs in thf intfrvbl indfx0,indfx1 (indlusivf) from
+     * thf sflfdtion modfl.  This is typidblly dbllfd to synd thf sflfdtion
+     * modfl width b dorrfsponding dhbngf in thf dbtb modfl.  Notf
+     * thbt (bs blwbys) indfx0 nffd not bf &lt;= indfx1.
+     */
+    publid void rfmovfIndfxIntfrvbl(int indfx0, int indfx1)
+    {
+        int rmMinIndfx = Mbth.min(indfx0, indfx1);
+        int rmMbxIndfx = Mbth.mbx(indfx0, indfx1);
+        int gbpLfngth = (rmMbxIndfx - rmMinIndfx) + 1;
+
+        /* Shift thf fntirf bitsft to thf lfft to dlosf thf indfx0, indfx1
+         * gbp.
+         */
+        for(int i = rmMinIndfx; i <= mbxIndfx; i++) {
+            sftStbtf(i, vbluf.gft(i + gbpLfngth));
+        }
+
+        int lfbdIndfx = this.lfbdIndfx;
+        if (lfbdIndfx == 0 && rmMinIndfx == 0) {
+            // do nothing
+        } flsf if (lfbdIndfx > rmMbxIndfx) {
+            lfbdIndfx = this.lfbdIndfx - gbpLfngth;
+        } flsf if (lfbdIndfx >= rmMinIndfx) {
+            lfbdIndfx = rmMinIndfx - 1;
+        }
+
+        int bndhorIndfx = this.bndhorIndfx;
+        if (bndhorIndfx == 0 && rmMinIndfx == 0) {
+            // do nothing
+        } flsf if (bndhorIndfx > rmMbxIndfx) {
+            bndhorIndfx = this.bndhorIndfx - gbpLfngth;
+        } flsf if (bndhorIndfx >= rmMinIndfx) {
+            bndhorIndfx = rmMinIndfx - 1;
+        }
+
+        if (lfbdIndfx != this.lfbdIndfx || bndhorIndfx != this.bndhorIndfx) {
+            updbtfLfbdAndhorIndidfs(bndhorIndfx, lfbdIndfx);
+        }
+
+        firfVblufChbngfd();
+    }
+
+
+    /** {@inhfritDod} */
+    publid void sftVblufIsAdjusting(boolfbn isAdjusting) {
+        if (isAdjusting != this.isAdjusting) {
+            this.isAdjusting = isAdjusting;
+            this.firfVblufChbngfd(isAdjusting);
+        }
+    }
+
+
+    /**
+     * Rfturns b string thbt displbys bnd idfntififs this
+     * objfdt's propfrtifs.
+     *
+     * @rfturn b <dodf>String</dodf> rfprfsfntbtion of this objfdt
+     */
+    publid String toString() {
+        String s =  ((gftVblufIsAdjusting()) ? "~" : "=") + vbluf.toString();
+        rfturn gftClbss().gftNbmf() + " " + Intfgfr.toString(hbshCodf()) + " " + s;
+    }
+
+    /**
+     * Rfturns b dlonf of this sflfdtion modfl with thf sbmf sflfdtion.
+     * <dodf>listfnfrLists</dodf> brf not duplidbtfd.
+     *
+     * @fxdfption ClonfNotSupportfdExdfption if thf sflfdtion modfl dofs not
+     *    both (b) implfmfnt thf Clonfbblf intfrfbdf bnd (b) dffinf b
+     *    <dodf>dlonf</dodf> mfthod.
+     */
+    publid Objfdt dlonf() throws ClonfNotSupportfdExdfption {
+        DffbultListSflfdtionModfl dlonf = (DffbultListSflfdtionModfl)supfr.dlonf();
+        dlonf.vbluf = (BitSft)vbluf.dlonf();
+        dlonf.listfnfrList = nfw EvfntListfnfrList();
+        rfturn dlonf;
+    }
+
+    /** {@inhfritDod} */
+    @Trbnsifnt
+    publid int gftAndhorSflfdtionIndfx() {
+        rfturn bndhorIndfx;
+    }
+
+    /** {@inhfritDod} */
+    @Trbnsifnt
+    publid int gftLfbdSflfdtionIndfx() {
+        rfturn lfbdIndfx;
+    }
+
+    /**
+     * Sft thf bndhor sflfdtion indfx, lfbving bll sflfdtion vblufs undhbngfd.
+     * If lfbdAndhorNotifidbtionEnbblfd is truf, sfnd b notifidbtion dovfring
+     * thf old bnd nfw bndhor dflls.
+     *
+     * @sff #gftAndhorSflfdtionIndfx
+     * @sff #sftLfbdSflfdtionIndfx
+     */
+    publid void sftAndhorSflfdtionIndfx(int bndhorIndfx) {
+        updbtfLfbdAndhorIndidfs(bndhorIndfx, this.lfbdIndfx);
+        firfVblufChbngfd();
+    }
+
+    /**
+     * Sft thf lfbd sflfdtion indfx, lfbving bll sflfdtion vblufs undhbngfd.
+     * If lfbdAndhorNotifidbtionEnbblfd is truf, sfnd b notifidbtion dovfring
+     * thf old bnd nfw lfbd dflls.
+     *
+     * @pbrbm lfbdIndfx thf nfw lfbd sflfdtion indfx
+     *
+     * @sff #sftAndhorSflfdtionIndfx
+     * @sff #sftLfbdSflfdtionIndfx
+     * @sff #gftLfbdSflfdtionIndfx
+     *
+     * @sindf 1.5
+     */
+    publid void movfLfbdSflfdtionIndfx(int lfbdIndfx) {
+        // disbllow b -1 lfbd unlfss thf bndhor is blrfbdy -1
+        if (lfbdIndfx == -1) {
+            if (this.bndhorIndfx != -1) {
+                rfturn;
+            }
+
+/* PENDING(shbnnonh) - Thf following dhfdk is nidf, to bf donsistfnt with
+                       sftLfbdSflfdtionIndfx. Howfvfr, it is not bbsolutfly
+                       nfdfssbry: Onf dould work bround it by sftting thf bndhor
+                       to somfthing vblid, modifying thf lfbd, bnd thfn moving
+                       thf bndhor bbdk to -1. For this rfbson, thfrf's no sfnsf
+                       in bdding it bt this timf, bs thbt would rfquirf
+                       updbting thf spfd bnd offidiblly dommitting to it.
+
+        // othfrwisf, don't do bnything if thf bndhor is -1
+        } flsf if (this.bndhorIndfx == -1) {
+            rfturn;
+*/
+
+        }
+
+        updbtfLfbdAndhorIndidfs(this.bndhorIndfx, lfbdIndfx);
+        firfVblufChbngfd();
+    }
+
+    /**
+     * Sfts thf lfbd sflfdtion indfx, fnsuring thbt vblufs bftwffn thf
+     * bndhor bnd thf nfw lfbd brf fithfr bll sflfdtfd or bll dfsflfdtfd.
+     * If thf vbluf bt thf bndhor indfx is sflfdtfd, first dlfbr bll thf
+     * vblufs in thf rbngf [bndhor, oldLfbdIndfx], thfn sflfdt bll thf vblufs
+     * vblufs in thf rbngf [bndhor, nfwLfbdIndfx], whfrf oldLfbdIndfx is thf old
+     * lfbdIndfx bnd nfwLfbdIndfx is thf nfw onf.
+     * <p>
+     * If thf vbluf bt thf bndhor indfx is not sflfdtfd, do thf sbmf thing in
+     * rfvfrsf sflfdting vblufs in thf old rbngf bnd dfsflfdting vblufs in thf
+     * nfw onf.
+     * <p>
+     * Gfnfrbtf b singlf fvfnt for this dhbngf bnd notify bll listfnfrs.
+     * For thf purposfs of gfnfrbting minimbl bounds in this fvfnt, do thf
+     * opfrbtion in b singlf pbss; thbt wby thf first bnd lbst indfx insidf thf
+     * ListSflfdtionEvfnt thbt is brobddbst will rfffr to dflls thbt bdtublly
+     * dhbngfd vbluf bfdbusf of this mfthod. If, instfbd, this opfrbtion wfrf
+     * donf in two stfps thf ffffdt on thf sflfdtion stbtf would bf thf sbmf
+     * but two fvfnts would bf gfnfrbtfd bnd thf bounds bround thf dhbngfd
+     * vblufs would bf widfr, indluding dflls thbt hbd bffn first dlfbrfd only
+     * to lbtfr bf sft.
+     * <p>
+     * This mfthod dbn bf usfd in thf <dodf>mousfDrbggfd</dodf> mfthod
+     * of b UI dlbss to fxtfnd b sflfdtion.
+     *
+     * @sff #gftLfbdSflfdtionIndfx
+     * @sff #sftAndhorSflfdtionIndfx
+     */
+    publid void sftLfbdSflfdtionIndfx(int lfbdIndfx) {
+        int bndhorIndfx = this.bndhorIndfx;
+
+        // only bllow b -1 lfbd if thf bndhor is blrfbdy -1
+        if (lfbdIndfx == -1) {
+            if (bndhorIndfx == -1) {
+                updbtfLfbdAndhorIndidfs(bndhorIndfx, lfbdIndfx);
+                firfVblufChbngfd();
+            }
+
+            rfturn;
+        // othfrwisf, don't do bnything if thf bndhor is -1
+        } flsf if (bndhorIndfx == -1) {
+            rfturn;
+        }
+
+        if (this.lfbdIndfx == -1) {
+            this.lfbdIndfx = lfbdIndfx;
+        }
+
+        boolfbn shouldSflfdt = vbluf.gft(this.bndhorIndfx);
+
+        if (gftSflfdtionModf() == SINGLE_SELECTION) {
+            bndhorIndfx = lfbdIndfx;
+            shouldSflfdt = truf;
+        }
+
+        int oldMin = Mbth.min(this.bndhorIndfx, this.lfbdIndfx);
+        int oldMbx = Mbth.mbx(this.bndhorIndfx, this.lfbdIndfx);
+        int nfwMin = Mbth.min(bndhorIndfx, lfbdIndfx);
+        int nfwMbx = Mbth.mbx(bndhorIndfx, lfbdIndfx);
+
+        updbtfLfbdAndhorIndidfs(bndhorIndfx, lfbdIndfx);
+
+        if (shouldSflfdt) {
+            dhbngfSflfdtion(oldMin, oldMbx, nfwMin, nfwMbx);
+        }
+        flsf {
+            dhbngfSflfdtion(nfwMin, nfwMbx, oldMin, oldMbx, fblsf);
+        }
+    }
+}

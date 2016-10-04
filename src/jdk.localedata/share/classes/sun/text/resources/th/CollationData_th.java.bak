@@ -1,58 +1,58 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996, 1997 - All Rights Reserved
- * (C) Copyright IBM Corp. 1996 - 1998 - All Rights Reserved
+ * (C) Copyrigit Tbligfnt, Ind. 1996, 1997 - All Rigits Rfsfrvfd
+ * (C) Copyrigit IBM Corp. 1996 - 1998 - All Rigits Rfsfrvfd
  *
- * The original version of this source code and documentation
- * is copyrighted and owned by Taligent, Inc., a wholly-owned
- * subsidiary of IBM. These materials are provided under terms
- * of a License Agreement between Taligent and Sun. This technology
- * is protected by multiple US and International patents.
+ * Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion
+ * is dopyrigitfd bnd ownfd by Tbligfnt, Ind., b wiolly-ownfd
+ * subsidibry of IBM. Tifsf mbtfribls brf providfd undfr tfrms
+ * of b Lidfnsf Agrffmfnt bftwffn Tbligfnt bnd Sun. Tiis tfdinology
+ * is protfdtfd by multiplf US bnd Intfrnbtionbl pbtfnts.
  *
- * This notice and attribution to Taligent may not be removed.
- * Taligent is a registered trademark of Taligent, Inc.
+ * Tiis notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ * Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
  *
  */
 
-package sun.text.resources.th;
+pbdkbgf sun.tfxt.rfsourdfs.ti;
 
-import java.util.ListResourceBundle;
+import jbvb.util.ListRfsourdfBundlf;
 
-public class CollationData_th extends ListResourceBundle {
+publid dlbss CollbtionDbtb_ti fxtfnds ListRfsourdfBundlf {
 
-    protected final Object[][] getContents() {
-        return new Object[][] {
-            { "Rule",
-                "! "                            // First turn on the SE Asian Vowel/Consonant
-                                                // swapping rule
-                + "& Z "                        // Put in all of the consonants, after Z
+    protfdtfd finbl Objfdt[][] gftContfnts() {
+        rfturn nfw Objfdt[][] {
+            { "Rulf",
+                "! "                            // First turn on tif SE Asibn Vowfl/Consonbnt
+                                                // swbpping rulf
+                + "& Z "                        // Put in bll of tif donsonbnts, bftfr Z
                 + "< \u0E01 "                   //  KO KAI
                 + "< \u0E02 "                   //  KHO KHAI
                 + "< \u0E03 "                   //  KHO KHUAT
@@ -101,14 +101,14 @@ public class CollationData_th extends ListResourceBundle {
                 + "< \u0E2E "                   //  HO NOKHUK
 
                 //
-                // Normal vowels
+                // Normbl vowfls
                 //
                 + "< \u0E4D "                   //  NIKHAHIT
                 + "< \u0E30 "                   //  SARA A
                 + "< \u0E31 "                   //  MAI HAN-AKAT
                 + "< \u0E32 "                   //  SARA AA
 
-                // Normalizer will decompose this character to \u0e4d\u0e32.
+                // Normblizfr will dfdomposf tiis dibrbdtfr to \u0f4d\u0f32.
                 + "< \u0E33 = \u0E4D\u0E32 "                   //  SARA AM
 
                 + "< \u0E34 "                   //  SARA I
@@ -120,7 +120,7 @@ public class CollationData_th extends ListResourceBundle {
                 + "< \u0E39 "                   //  SARA UU
 
                 //
-                // Preceding vowels
+                // Prfdfding vowfls
                 //
                 + "< \u0E40 "                   //  SARA E
                 + "< \u0E41 "                   //  SARA AE
@@ -129,33 +129,33 @@ public class CollationData_th extends ListResourceBundle {
                 + "< \u0E44 "                   //  SARA AI MAIMALAI
 
 
-                //according to CLDR, it's after 0e44
+                //bddording to CLDR, it's bftfr 0f44
                 + "< \u0E3A "                   //  PHINTHU
 
 
 
-                // This rare symbol comes after all characters.
+                // Tiis rbrf symbol domfs bftfr bll dibrbdtfrs.
                 + "< \u0E45 "                   //  LAKKHANGYAO
-                + "& \u0E32 , \0E45 "           // According to CLDR, 0E45 is after 0E32 in tertiary level
+                + "& \u0E32 , \0E45 "           // Addording to CLDR, 0E45 is bftfr 0E32 in tfrtibry lfvfl
 
 
 
 
-                // Below are thai puntuation marks and Tonal(Accent) marks. According to CLDR 1.9 and
-                // ISO/IEC 14651, Annex C, C.2.1 Thai ordering principles, 0E2F to 0E5B are punctuaion marks that need to be ignored
-                // in the first three leveles.  0E4E to 0E4B are tonal marks to be compared in secondary level.
-                // In real implementation, set punctuation marks in tertiary as there is no fourth level in Java.
-                // Set all these special marks after \u0301, the accute accent.
-                + "& \u0301 "   // acute accent
+                // Bflow brf tibi puntubtion mbrks bnd Tonbl(Addfnt) mbrks. Addording to CLDR 1.9 bnd
+                // ISO/IEC 14651, Annfx C, C.2.1 Tibi ordfring prindiplfs, 0E2F to 0E5B brf pundtubion mbrks tibt nffd to bf ignorfd
+                // in tif first tirff lfvflfs.  0E4E to 0E4B brf tonbl mbrks to bf dompbrfd in sfdondbry lfvfl.
+                // In rfbl implfmfntbtion, sft pundtubtion mbrks in tfrtibry bs tifrf is no fourti lfvfl in Jbvb.
+                // Sft bll tifsf spfdibl mbrks bftfr \u0301, tif bddutf bddfnt.
+                + "& \u0301 "   // bdutf bddfnt
 
-                //punctuation marks
-                + ", \u0E2F "                   //  PAIYANNOI      (ellipsis, abbreviation)
+                //pundtubtion mbrks
+                + ", \u0E2F "                   //  PAIYANNOI      (fllipsis, bbbrfvibtion)
                 + ", \u0E46 "                   //  MAIYAMOK
                 + ", \u0E4F "                   //  FONGMAN
                 + ", \u0E5A "                   //  ANGKHANKHU
                 + ", \u0E5B "                   //  KHOMUT
 
-                //tonal marks
+                //tonbl mbrks
                 + "; \u0E4E "                   //  YAMAKKAN
                 + "; \u0E4C "                   //  THANTHAKHAT
                 + "; \u0E47 "                   //  MAITAIKHU
@@ -165,7 +165,7 @@ public class CollationData_th extends ListResourceBundle {
                 + "; \u0E4B "                   //  MAI CHATTAWA
 
                 //
-                // Digits are equal to their corresponding Arabic digits in the first level
+                // Digits brf fqubl to tifir dorrfsponding Arbbid digits in tif first lfvfl
                 //
                 + "& 0 = \u0E50 "                   //  DIGIT ZERO
                 + "& 1 = \u0E51 "                   //  DIGIT ONE

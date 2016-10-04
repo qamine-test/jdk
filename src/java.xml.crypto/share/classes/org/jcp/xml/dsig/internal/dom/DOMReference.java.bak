@@ -1,670 +1,670 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  */
 /*
  * ===========================================================================
  *
- * (C) Copyright IBM Corp. 2003 All Rights Reserved.
+ * (C) Copyrigit IBM Corp. 2003 All Rigits Rfsfrvfd.
  *
  * ===========================================================================
  */
 /*
- * $Id: DOMReference.java 1334007 2012-05-04 14:59:46Z coheigea $
+ * $Id: DOMRfffrfndf.jbvb 1334007 2012-05-04 14:59:46Z doifigfb $
  */
-package org.jcp.xml.dsig.internal.dom;
+pbdkbgf org.jdp.xml.dsig.intfrnbl.dom;
 
-import javax.xml.crypto.*;
-import javax.xml.crypto.dsig.*;
-import javax.xml.crypto.dom.DOMCryptoContext;
-import javax.xml.crypto.dom.DOMURIReference;
+import jbvbx.xml.drypto.*;
+import jbvbx.xml.drypto.dsig.*;
+import jbvbx.xml.drypto.dom.DOMCryptoContfxt;
+import jbvbx.xml.drypto.dom.DOMURIRfffrfndf;
 
-import java.io.*;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.security.*;
-import java.util.*;
-import org.w3c.dom.Attr;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
+import jbvb.io.*;
+import jbvb.nft.URI;
+import jbvb.nft.URISyntbxExdfption;
+import jbvb.sfdurity.*;
+import jbvb.util.*;
+import org.w3d.dom.Attr;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.Nodf;
 
-import org.jcp.xml.dsig.internal.DigesterOutputStream;
-import com.sun.org.apache.xml.internal.security.algorithms.MessageDigestAlgorithm;
-import com.sun.org.apache.xml.internal.security.exceptions.Base64DecodingException;
-import com.sun.org.apache.xml.internal.security.signature.XMLSignatureInput;
-import com.sun.org.apache.xml.internal.security.utils.Base64;
-import com.sun.org.apache.xml.internal.security.utils.UnsyncBufferedOutputStream;
+import org.jdp.xml.dsig.intfrnbl.DigfstfrOutputStrfbm;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.MfssbgfDigfstAlgoritim;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fxdfptions.Bbsf64DfdodingExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf.XMLSignbturfInput;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.Bbsf64;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.UnsyndBufffrfdOutputStrfbm;
 
 /**
- * DOM-based implementation of Reference.
+ * DOM-bbsfd implfmfntbtion of Rfffrfndf.
  *
- * @author Sean Mullan
- * @author Joyce Leung
+ * @butior Sfbn Mullbn
+ * @butior Joydf Lfung
  */
-public final class DOMReference extends DOMStructure
-    implements Reference, DOMURIReference {
+publid finbl dlbss DOMRfffrfndf fxtfnds DOMStrudturf
+    implfmfnts Rfffrfndf, DOMURIRfffrfndf {
 
    /**
-    * The maximum number of transforms per reference, if secure validation is enabled.
+    * Tif mbximum numbfr of trbnsforms pfr rfffrfndf, if sfdurf vblidbtion is fnbblfd.
     */
-   public static final int MAXIMUM_TRANSFORM_COUNT = 5;
+   publid stbtid finbl int MAXIMUM_TRANSFORM_COUNT = 5;
 
    /**
-    * Look up useC14N11 system property. If true, an explicit C14N11 transform
-    * will be added if necessary when generating the signature. See section
-    * 3.1.1 of http://www.w3.org/2007/xmlsec/Drafts/xmldsig-core/ for more info.
+    * Look up usfC14N11 systfm propfrty. If truf, bn fxplidit C14N11 trbnsform
+    * will bf bddfd if nfdfssbry wifn gfnfrbting tif signbturf. Sff sfdtion
+    * 3.1.1 of ittp://www.w3.org/2007/xmlsfd/Drbfts/xmldsig-dorf/ for morf info.
     *
-    * If true, overrides the same property if set in the XMLSignContext.
+    * If truf, ovfrridfs tif sbmf propfrty if sft in tif XMLSignContfxt.
     */
-    private static boolean useC14N11 =
-        AccessController.doPrivileged(new PrivilegedAction<Boolean>() {
-            public Boolean run() {
-                return Boolean.valueOf(Boolean.getBoolean
-                    ("com.sun.org.apache.xml.internal.security.useC14N11"));
+    privbtf stbtid boolfbn usfC14N11 =
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Boolfbn>() {
+            publid Boolfbn run() {
+                rfturn Boolfbn.vblufOf(Boolfbn.gftBoolfbn
+                    ("dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.usfC14N11"));
             }
         });
 
-    private static java.util.logging.Logger log =
-        java.util.logging.Logger.getLogger("org.jcp.xml.dsig.internal.dom");
+    privbtf stbtid jbvb.util.logging.Loggfr log =
+        jbvb.util.logging.Loggfr.gftLoggfr("org.jdp.xml.dsig.intfrnbl.dom");
 
-    private final DigestMethod digestMethod;
-    private final String id;
-    private final List<Transform> transforms;
-    private List<Transform> allTransforms;
-    private final Data appliedTransformData;
-    private Attr here;
-    private final String uri;
-    private final String type;
-    private byte[] digestValue;
-    private byte[] calcDigestValue;
-    private Element refElem;
-    private boolean digested = false;
-    private boolean validated = false;
-    private boolean validationStatus;
-    private Data derefData;
-    private InputStream dis;
-    private MessageDigest md;
-    private Provider provider;
+    privbtf finbl DigfstMftiod digfstMftiod;
+    privbtf finbl String id;
+    privbtf finbl List<Trbnsform> trbnsforms;
+    privbtf List<Trbnsform> bllTrbnsforms;
+    privbtf finbl Dbtb bpplifdTrbnsformDbtb;
+    privbtf Attr ifrf;
+    privbtf finbl String uri;
+    privbtf finbl String typf;
+    privbtf bytf[] digfstVbluf;
+    privbtf bytf[] dbldDigfstVbluf;
+    privbtf Elfmfnt rffElfm;
+    privbtf boolfbn digfstfd = fblsf;
+    privbtf boolfbn vblidbtfd = fblsf;
+    privbtf boolfbn vblidbtionStbtus;
+    privbtf Dbtb dfrffDbtb;
+    privbtf InputStrfbm dis;
+    privbtf MfssbgfDigfst md;
+    privbtf Providfr providfr;
 
     /**
-     * Creates a <code>Reference</code> from the specified parameters.
+     * Crfbtfs b <dodf>Rfffrfndf</dodf> from tif spfdififd pbrbmftfrs.
      *
-     * @param uri the URI (may be null)
-     * @param type the type (may be null)
-     * @param dm the digest method
-     * @param transforms a list of {@link Transform}s. The list
-     *    is defensively copied to protect against subsequent modification.
-     *    May be <code>null</code> or empty.
-     * @param id the reference ID (may be <code>null</code>)
-     * @return a <code>Reference</code>
-     * @throws NullPointerException if <code>dm</code> is <code>null</code>
-     * @throws ClassCastException if any of the <code>transforms</code> are
-     *    not of type <code>Transform</code>
+     * @pbrbm uri tif URI (mby bf null)
+     * @pbrbm typf tif typf (mby bf null)
+     * @pbrbm dm tif digfst mftiod
+     * @pbrbm trbnsforms b list of {@link Trbnsform}s. Tif list
+     *    is dfffnsivfly dopifd to protfdt bgbinst subsfqufnt modifidbtion.
+     *    Mby bf <dodf>null</dodf> or fmpty.
+     * @pbrbm id tif rfffrfndf ID (mby bf <dodf>null</dodf>)
+     * @rfturn b <dodf>Rfffrfndf</dodf>
+     * @tirows NullPointfrExdfption if <dodf>dm</dodf> is <dodf>null</dodf>
+     * @tirows ClbssCbstExdfption if bny of tif <dodf>trbnsforms</dodf> brf
+     *    not of typf <dodf>Trbnsform</dodf>
      */
-    public DOMReference(String uri, String type, DigestMethod dm,
-                        List<? extends Transform> transforms, String id,
-                        Provider provider)
+    publid DOMRfffrfndf(String uri, String typf, DigfstMftiod dm,
+                        List<? fxtfnds Trbnsform> trbnsforms, String id,
+                        Providfr providfr)
     {
-        this(uri, type, dm, null, null, transforms, id, null, provider);
+        tiis(uri, typf, dm, null, null, trbnsforms, id, null, providfr);
     }
 
-    public DOMReference(String uri, String type, DigestMethod dm,
-                        List<? extends Transform> appliedTransforms,
-                        Data result, List<? extends Transform> transforms,
-                        String id, Provider provider)
+    publid DOMRfffrfndf(String uri, String typf, DigfstMftiod dm,
+                        List<? fxtfnds Trbnsform> bpplifdTrbnsforms,
+                        Dbtb rfsult, List<? fxtfnds Trbnsform> trbnsforms,
+                        String id, Providfr providfr)
     {
-        this(uri, type, dm, appliedTransforms,
-             result, transforms, id, null, provider);
+        tiis(uri, typf, dm, bpplifdTrbnsforms,
+             rfsult, trbnsforms, id, null, providfr);
     }
 
-    public DOMReference(String uri, String type, DigestMethod dm,
-                        List<? extends Transform> appliedTransforms,
-                        Data result, List<? extends Transform> transforms,
-                        String id, byte[] digestValue, Provider provider)
+    publid DOMRfffrfndf(String uri, String typf, DigfstMftiod dm,
+                        List<? fxtfnds Trbnsform> bpplifdTrbnsforms,
+                        Dbtb rfsult, List<? fxtfnds Trbnsform> trbnsforms,
+                        String id, bytf[] digfstVbluf, Providfr providfr)
     {
         if (dm == null) {
-            throw new NullPointerException("DigestMethod must be non-null");
+            tirow nfw NullPointfrExdfption("DigfstMftiod must bf non-null");
         }
-        if (appliedTransforms == null) {
-            this.allTransforms = new ArrayList<Transform>();
-        } else {
-            this.allTransforms = new ArrayList<Transform>(appliedTransforms);
-            for (int i = 0, size = this.allTransforms.size(); i < size; i++) {
-                if (!(this.allTransforms.get(i) instanceof Transform)) {
-                    throw new ClassCastException
-                        ("appliedTransforms["+i+"] is not a valid type");
+        if (bpplifdTrbnsforms == null) {
+            tiis.bllTrbnsforms = nfw ArrbyList<Trbnsform>();
+        } flsf {
+            tiis.bllTrbnsforms = nfw ArrbyList<Trbnsform>(bpplifdTrbnsforms);
+            for (int i = 0, sizf = tiis.bllTrbnsforms.sizf(); i < sizf; i++) {
+                if (!(tiis.bllTrbnsforms.gft(i) instbndfof Trbnsform)) {
+                    tirow nfw ClbssCbstExdfption
+                        ("bpplifdTrbnsforms["+i+"] is not b vblid typf");
                 }
             }
         }
-        if (transforms == null) {
-            this.transforms = Collections.emptyList();
-        } else {
-            this.transforms = new ArrayList<Transform>(transforms);
-            for (int i = 0, size = this.transforms.size(); i < size; i++) {
-                if (!(this.transforms.get(i) instanceof Transform)) {
-                    throw new ClassCastException
-                        ("transforms["+i+"] is not a valid type");
+        if (trbnsforms == null) {
+            tiis.trbnsforms = Collfdtions.fmptyList();
+        } flsf {
+            tiis.trbnsforms = nfw ArrbyList<Trbnsform>(trbnsforms);
+            for (int i = 0, sizf = tiis.trbnsforms.sizf(); i < sizf; i++) {
+                if (!(tiis.trbnsforms.gft(i) instbndfof Trbnsform)) {
+                    tirow nfw ClbssCbstExdfption
+                        ("trbnsforms["+i+"] is not b vblid typf");
                 }
             }
-            this.allTransforms.addAll(this.transforms);
+            tiis.bllTrbnsforms.bddAll(tiis.trbnsforms);
         }
-        this.digestMethod = dm;
-        this.uri = uri;
-        if ((uri != null) && (!uri.equals(""))) {
+        tiis.digfstMftiod = dm;
+        tiis.uri = uri;
+        if ((uri != null) && (!uri.fqubls(""))) {
             try {
-                new URI(uri);
-            } catch (URISyntaxException e) {
-                throw new IllegalArgumentException(e.getMessage());
+                nfw URI(uri);
+            } dbtdi (URISyntbxExdfption f) {
+                tirow nfw IllfgblArgumfntExdfption(f.gftMfssbgf());
             }
         }
-        this.type = type;
-        this.id = id;
-        if (digestValue != null) {
-            this.digestValue = digestValue.clone();
-            this.digested = true;
+        tiis.typf = typf;
+        tiis.id = id;
+        if (digfstVbluf != null) {
+            tiis.digfstVbluf = digfstVbluf.dlonf();
+            tiis.digfstfd = truf;
         }
-        this.appliedTransformData = result;
-        this.provider = provider;
+        tiis.bpplifdTrbnsformDbtb = rfsult;
+        tiis.providfr = providfr;
     }
 
     /**
-     * Creates a <code>DOMReference</code> from an element.
+     * Crfbtfs b <dodf>DOMRfffrfndf</dodf> from bn flfmfnt.
      *
-     * @param refElem a Reference element
+     * @pbrbm rffElfm b Rfffrfndf flfmfnt
      */
-    public DOMReference(Element refElem, XMLCryptoContext context,
-                        Provider provider)
-        throws MarshalException
+    publid DOMRfffrfndf(Elfmfnt rffElfm, XMLCryptoContfxt dontfxt,
+                        Providfr providfr)
+        tirows MbrsiblExdfption
     {
-        boolean secVal = Utils.secureValidation(context);
+        boolfbn sfdVbl = Utils.sfdurfVblidbtion(dontfxt);
 
-        // unmarshal Transforms, if specified
-        Element nextSibling = DOMUtils.getFirstChildElement(refElem);
-        List<Transform> transforms = new ArrayList<Transform>(5);
-        if (nextSibling.getLocalName().equals("Transforms")) {
-            Element transformElem = DOMUtils.getFirstChildElement(nextSibling,
-                                                                  "Transform");
-            transforms.add(new DOMTransform(transformElem, context, provider));
-            transformElem = DOMUtils.getNextSiblingElement(transformElem);
-            while (transformElem != null) {
-                String localName = transformElem.getLocalName();
-                if (!localName.equals("Transform")) {
-                    throw new MarshalException(
-                        "Invalid element name: " + localName +
-                        ", expected Transform");
+        // unmbrsibl Trbnsforms, if spfdififd
+        Elfmfnt nfxtSibling = DOMUtils.gftFirstCiildElfmfnt(rffElfm);
+        List<Trbnsform> trbnsforms = nfw ArrbyList<Trbnsform>(5);
+        if (nfxtSibling.gftLodblNbmf().fqubls("Trbnsforms")) {
+            Elfmfnt trbnsformElfm = DOMUtils.gftFirstCiildElfmfnt(nfxtSibling,
+                                                                  "Trbnsform");
+            trbnsforms.bdd(nfw DOMTrbnsform(trbnsformElfm, dontfxt, providfr));
+            trbnsformElfm = DOMUtils.gftNfxtSiblingElfmfnt(trbnsformElfm);
+            wiilf (trbnsformElfm != null) {
+                String lodblNbmf = trbnsformElfm.gftLodblNbmf();
+                if (!lodblNbmf.fqubls("Trbnsform")) {
+                    tirow nfw MbrsiblExdfption(
+                        "Invblid flfmfnt nbmf: " + lodblNbmf +
+                        ", fxpfdtfd Trbnsform");
                 }
-                transforms.add
-                    (new DOMTransform(transformElem, context, provider));
-                if (secVal && (transforms.size() > MAXIMUM_TRANSFORM_COUNT)) {
-                    String error = "A maxiumum of " + MAXIMUM_TRANSFORM_COUNT + " "
-                        + "transforms per Reference are allowed with secure validation";
-                    throw new MarshalException(error);
+                trbnsforms.bdd
+                    (nfw DOMTrbnsform(trbnsformElfm, dontfxt, providfr));
+                if (sfdVbl && (trbnsforms.sizf() > MAXIMUM_TRANSFORM_COUNT)) {
+                    String frror = "A mbxiumum of " + MAXIMUM_TRANSFORM_COUNT + " "
+                        + "trbnsforms pfr Rfffrfndf brf bllowfd witi sfdurf vblidbtion";
+                    tirow nfw MbrsiblExdfption(frror);
                 }
-                transformElem = DOMUtils.getNextSiblingElement(transformElem);
+                trbnsformElfm = DOMUtils.gftNfxtSiblingElfmfnt(trbnsformElfm);
             }
-            nextSibling = DOMUtils.getNextSiblingElement(nextSibling);
+            nfxtSibling = DOMUtils.gftNfxtSiblingElfmfnt(nfxtSibling);
         }
-        if (!nextSibling.getLocalName().equals("DigestMethod")) {
-            throw new MarshalException("Invalid element name: " +
-                                       nextSibling.getLocalName() +
-                                       ", expected DigestMethod");
+        if (!nfxtSibling.gftLodblNbmf().fqubls("DigfstMftiod")) {
+            tirow nfw MbrsiblExdfption("Invblid flfmfnt nbmf: " +
+                                       nfxtSibling.gftLodblNbmf() +
+                                       ", fxpfdtfd DigfstMftiod");
         }
 
-        // unmarshal DigestMethod
-        Element dmElem = nextSibling;
-        this.digestMethod = DOMDigestMethod.unmarshal(dmElem);
-        String digestMethodAlgorithm = this.digestMethod.getAlgorithm();
-        if (secVal
-            && MessageDigestAlgorithm.ALGO_ID_DIGEST_NOT_RECOMMENDED_MD5.equals(digestMethodAlgorithm)) {
-            throw new MarshalException(
-                "It is forbidden to use algorithm " + digestMethod + " when secure validation is enabled"
+        // unmbrsibl DigfstMftiod
+        Elfmfnt dmElfm = nfxtSibling;
+        tiis.digfstMftiod = DOMDigfstMftiod.unmbrsibl(dmElfm);
+        String digfstMftiodAlgoritim = tiis.digfstMftiod.gftAlgoritim();
+        if (sfdVbl
+            && MfssbgfDigfstAlgoritim.ALGO_ID_DIGEST_NOT_RECOMMENDED_MD5.fqubls(digfstMftiodAlgoritim)) {
+            tirow nfw MbrsiblExdfption(
+                "It is forbiddfn to usf blgoritim " + digfstMftiod + " wifn sfdurf vblidbtion is fnbblfd"
             );
         }
 
-        // unmarshal DigestValue
-        Element dvElem = DOMUtils.getNextSiblingElement(dmElem, "DigestValue");
+        // unmbrsibl DigfstVbluf
+        Elfmfnt dvElfm = DOMUtils.gftNfxtSiblingElfmfnt(dmElfm, "DigfstVbluf");
         try {
-            this.digestValue = Base64.decode(dvElem);
-        } catch (Base64DecodingException bde) {
-            throw new MarshalException(bde);
+            tiis.digfstVbluf = Bbsf64.dfdodf(dvElfm);
+        } dbtdi (Bbsf64DfdodingExdfption bdf) {
+            tirow nfw MbrsiblExdfption(bdf);
         }
 
-        // check for extra elements
-        if (DOMUtils.getNextSiblingElement(dvElem) != null) {
-            throw new MarshalException(
-                "Unexpected element after DigestValue element");
+        // difdk for fxtrb flfmfnts
+        if (DOMUtils.gftNfxtSiblingElfmfnt(dvElfm) != null) {
+            tirow nfw MbrsiblExdfption(
+                "Unfxpfdtfd flfmfnt bftfr DigfstVbluf flfmfnt");
         }
 
-        // unmarshal attributes
-        this.uri = DOMUtils.getAttributeValue(refElem, "URI");
+        // unmbrsibl bttributfs
+        tiis.uri = DOMUtils.gftAttributfVbluf(rffElfm, "URI");
 
-        Attr attr = refElem.getAttributeNodeNS(null, "Id");
-        if (attr != null) {
-            this.id = attr.getValue();
-            refElem.setIdAttributeNode(attr, true);
-        } else {
-            this.id = null;
+        Attr bttr = rffElfm.gftAttributfNodfNS(null, "Id");
+        if (bttr != null) {
+            tiis.id = bttr.gftVbluf();
+            rffElfm.sftIdAttributfNodf(bttr, truf);
+        } flsf {
+            tiis.id = null;
         }
 
-        this.type = DOMUtils.getAttributeValue(refElem, "Type");
-        this.here = refElem.getAttributeNodeNS(null, "URI");
-        this.refElem = refElem;
-        this.transforms = transforms;
-        this.allTransforms = transforms;
-        this.appliedTransformData = null;
-        this.provider = provider;
+        tiis.typf = DOMUtils.gftAttributfVbluf(rffElfm, "Typf");
+        tiis.ifrf = rffElfm.gftAttributfNodfNS(null, "URI");
+        tiis.rffElfm = rffElfm;
+        tiis.trbnsforms = trbnsforms;
+        tiis.bllTrbnsforms = trbnsforms;
+        tiis.bpplifdTrbnsformDbtb = null;
+        tiis.providfr = providfr;
     }
 
-    public DigestMethod getDigestMethod() {
-        return digestMethod;
+    publid DigfstMftiod gftDigfstMftiod() {
+        rfturn digfstMftiod;
     }
 
-    public String getId() {
-        return id;
+    publid String gftId() {
+        rfturn id;
     }
 
-    public String getURI() {
-        return uri;
+    publid String gftURI() {
+        rfturn uri;
     }
 
-    public String getType() {
-        return type;
+    publid String gftTypf() {
+        rfturn typf;
     }
 
-    public List<Transform> getTransforms() {
-        return Collections.unmodifiableList(allTransforms);
+    publid List<Trbnsform> gftTrbnsforms() {
+        rfturn Collfdtions.unmodifibblfList(bllTrbnsforms);
     }
 
-    public byte[] getDigestValue() {
-        return (digestValue == null ? null : digestValue.clone());
+    publid bytf[] gftDigfstVbluf() {
+        rfturn (digfstVbluf == null ? null : digfstVbluf.dlonf());
     }
 
-    public byte[] getCalculatedDigestValue() {
-        return (calcDigestValue == null ? null
-                                        : calcDigestValue.clone());
+    publid bytf[] gftCbldulbtfdDigfstVbluf() {
+        rfturn (dbldDigfstVbluf == null ? null
+                                        : dbldDigfstVbluf.dlonf());
     }
 
-    public void marshal(Node parent, String dsPrefix, DOMCryptoContext context)
-        throws MarshalException
+    publid void mbrsibl(Nodf pbrfnt, String dsPrffix, DOMCryptoContfxt dontfxt)
+        tirows MbrsiblExdfption
     {
-        if (log.isLoggable(java.util.logging.Level.FINE)) {
-            log.log(java.util.logging.Level.FINE, "Marshalling Reference");
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Mbrsiblling Rfffrfndf");
         }
-        Document ownerDoc = DOMUtils.getOwnerDocument(parent);
+        Dodumfnt ownfrDod = DOMUtils.gftOwnfrDodumfnt(pbrfnt);
 
-        refElem = DOMUtils.createElement(ownerDoc, "Reference",
-                                         XMLSignature.XMLNS, dsPrefix);
+        rffElfm = DOMUtils.drfbtfElfmfnt(ownfrDod, "Rfffrfndf",
+                                         XMLSignbturf.XMLNS, dsPrffix);
 
-        // set attributes
-        DOMUtils.setAttributeID(refElem, "Id", id);
-        DOMUtils.setAttribute(refElem, "URI", uri);
-        DOMUtils.setAttribute(refElem, "Type", type);
+        // sft bttributfs
+        DOMUtils.sftAttributfID(rffElfm, "Id", id);
+        DOMUtils.sftAttributf(rffElfm, "URI", uri);
+        DOMUtils.sftAttributf(rffElfm, "Typf", typf);
 
-        // create and append Transforms element
-        if (!allTransforms.isEmpty()) {
-            Element transformsElem = DOMUtils.createElement(ownerDoc,
-                                                            "Transforms",
-                                                            XMLSignature.XMLNS,
-                                                            dsPrefix);
-            refElem.appendChild(transformsElem);
-            for (Transform transform : allTransforms) {
-                ((DOMStructure)transform).marshal(transformsElem,
-                                                  dsPrefix, context);
+        // drfbtf bnd bppfnd Trbnsforms flfmfnt
+        if (!bllTrbnsforms.isEmpty()) {
+            Elfmfnt trbnsformsElfm = DOMUtils.drfbtfElfmfnt(ownfrDod,
+                                                            "Trbnsforms",
+                                                            XMLSignbturf.XMLNS,
+                                                            dsPrffix);
+            rffElfm.bppfndCiild(trbnsformsElfm);
+            for (Trbnsform trbnsform : bllTrbnsforms) {
+                ((DOMStrudturf)trbnsform).mbrsibl(trbnsformsElfm,
+                                                  dsPrffix, dontfxt);
             }
         }
 
-        // create and append DigestMethod element
-        ((DOMDigestMethod)digestMethod).marshal(refElem, dsPrefix, context);
+        // drfbtf bnd bppfnd DigfstMftiod flfmfnt
+        ((DOMDigfstMftiod)digfstMftiod).mbrsibl(rffElfm, dsPrffix, dontfxt);
 
-        // create and append DigestValue element
-        if (log.isLoggable(java.util.logging.Level.FINE)) {
-            log.log(java.util.logging.Level.FINE, "Adding digestValueElem");
+        // drfbtf bnd bppfnd DigfstVbluf flfmfnt
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Adding digfstVblufElfm");
         }
-        Element digestValueElem = DOMUtils.createElement(ownerDoc,
-                                                         "DigestValue",
-                                                         XMLSignature.XMLNS,
-                                                         dsPrefix);
-        if (digestValue != null) {
-            digestValueElem.appendChild
-                (ownerDoc.createTextNode(Base64.encode(digestValue)));
+        Elfmfnt digfstVblufElfm = DOMUtils.drfbtfElfmfnt(ownfrDod,
+                                                         "DigfstVbluf",
+                                                         XMLSignbturf.XMLNS,
+                                                         dsPrffix);
+        if (digfstVbluf != null) {
+            digfstVblufElfm.bppfndCiild
+                (ownfrDod.drfbtfTfxtNodf(Bbsf64.fndodf(digfstVbluf)));
         }
-        refElem.appendChild(digestValueElem);
+        rffElfm.bppfndCiild(digfstVblufElfm);
 
-        parent.appendChild(refElem);
-        here = refElem.getAttributeNodeNS(null, "URI");
+        pbrfnt.bppfndCiild(rffElfm);
+        ifrf = rffElfm.gftAttributfNodfNS(null, "URI");
     }
 
-    public void digest(XMLSignContext signContext)
-        throws XMLSignatureException
+    publid void digfst(XMLSignContfxt signContfxt)
+        tirows XMLSignbturfExdfption
     {
-        Data data = null;
-        if (appliedTransformData == null) {
-            data = dereference(signContext);
-        } else {
-            data = appliedTransformData;
+        Dbtb dbtb = null;
+        if (bpplifdTrbnsformDbtb == null) {
+            dbtb = dfrfffrfndf(signContfxt);
+        } flsf {
+            dbtb = bpplifdTrbnsformDbtb;
         }
-        digestValue = transform(data, signContext);
+        digfstVbluf = trbnsform(dbtb, signContfxt);
 
-        // insert digestValue into DigestValue element
-        String encodedDV = Base64.encode(digestValue);
-        if (log.isLoggable(java.util.logging.Level.FINE)) {
-            log.log(java.util.logging.Level.FINE, "Reference object uri = " + uri);
+        // insfrt digfstVbluf into DigfstVbluf flfmfnt
+        String fndodfdDV = Bbsf64.fndodf(digfstVbluf);
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Rfffrfndf objfdt uri = " + uri);
         }
-        Element digestElem = DOMUtils.getLastChildElement(refElem);
-        if (digestElem == null) {
-            throw new XMLSignatureException("DigestValue element expected");
+        Elfmfnt digfstElfm = DOMUtils.gftLbstCiildElfmfnt(rffElfm);
+        if (digfstElfm == null) {
+            tirow nfw XMLSignbturfExdfption("DigfstVbluf flfmfnt fxpfdtfd");
         }
-        DOMUtils.removeAllChildren(digestElem);
-        digestElem.appendChild
-            (refElem.getOwnerDocument().createTextNode(encodedDV));
+        DOMUtils.rfmovfAllCiildrfn(digfstElfm);
+        digfstElfm.bppfndCiild
+            (rffElfm.gftOwnfrDodumfnt().drfbtfTfxtNodf(fndodfdDV));
 
-        digested = true;
-        if (log.isLoggable(java.util.logging.Level.FINE)) {
-            log.log(java.util.logging.Level.FINE, "Reference digesting completed");
+        digfstfd = truf;
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Rfffrfndf digfsting domplftfd");
         }
     }
 
-    public boolean validate(XMLValidateContext validateContext)
-        throws XMLSignatureException
+    publid boolfbn vblidbtf(XMLVblidbtfContfxt vblidbtfContfxt)
+        tirows XMLSignbturfExdfption
     {
-        if (validateContext == null) {
-            throw new NullPointerException("validateContext cannot be null");
+        if (vblidbtfContfxt == null) {
+            tirow nfw NullPointfrExdfption("vblidbtfContfxt dbnnot bf null");
         }
-        if (validated) {
-            return validationStatus;
+        if (vblidbtfd) {
+            rfturn vblidbtionStbtus;
         }
-        Data data = dereference(validateContext);
-        calcDigestValue = transform(data, validateContext);
+        Dbtb dbtb = dfrfffrfndf(vblidbtfContfxt);
+        dbldDigfstVbluf = trbnsform(dbtb, vblidbtfContfxt);
 
-        if (log.isLoggable(java.util.logging.Level.FINE)) {
-            log.log(java.util.logging.Level.FINE, "Expected digest: " + Base64.encode(digestValue));
-            log.log(java.util.logging.Level.FINE, "Actual digest: " + Base64.encode(calcDigestValue));
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Expfdtfd digfst: " + Bbsf64.fndodf(digfstVbluf));
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Adtubl digfst: " + Bbsf64.fndodf(dbldDigfstVbluf));
         }
 
-        validationStatus = Arrays.equals(digestValue, calcDigestValue);
-        validated = true;
-        return validationStatus;
+        vblidbtionStbtus = Arrbys.fqubls(digfstVbluf, dbldDigfstVbluf);
+        vblidbtfd = truf;
+        rfturn vblidbtionStbtus;
     }
 
-    public Data getDereferencedData() {
-        return derefData;
+    publid Dbtb gftDfrfffrfndfdDbtb() {
+        rfturn dfrffDbtb;
     }
 
-    public InputStream getDigestInputStream() {
-        return dis;
+    publid InputStrfbm gftDigfstInputStrfbm() {
+        rfturn dis;
     }
 
-    private Data dereference(XMLCryptoContext context)
-        throws XMLSignatureException
+    privbtf Dbtb dfrfffrfndf(XMLCryptoContfxt dontfxt)
+        tirows XMLSignbturfExdfption
     {
-        Data data = null;
+        Dbtb dbtb = null;
 
-        // use user-specified URIDereferencer if specified; otherwise use deflt
-        URIDereferencer deref = context.getURIDereferencer();
-        if (deref == null) {
-            deref = DOMURIDereferencer.INSTANCE;
+        // usf usfr-spfdififd URIDfrfffrfndfr if spfdififd; otifrwisf usf dfflt
+        URIDfrfffrfndfr dfrff = dontfxt.gftURIDfrfffrfndfr();
+        if (dfrff == null) {
+            dfrff = DOMURIDfrfffrfndfr.INSTANCE;
         }
         try {
-            data = deref.dereference(this, context);
-            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                log.log(java.util.logging.Level.FINE, "URIDereferencer class name: " + deref.getClass().getName());
-                log.log(java.util.logging.Level.FINE, "Data class name: " + data.getClass().getName());
+            dbtb = dfrff.dfrfffrfndf(tiis, dontfxt);
+            if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                log.log(jbvb.util.logging.Lfvfl.FINE, "URIDfrfffrfndfr dlbss nbmf: " + dfrff.gftClbss().gftNbmf());
+                log.log(jbvb.util.logging.Lfvfl.FINE, "Dbtb dlbss nbmf: " + dbtb.gftClbss().gftNbmf());
             }
-        } catch (URIReferenceException ure) {
-            throw new XMLSignatureException(ure);
+        } dbtdi (URIRfffrfndfExdfption urf) {
+            tirow nfw XMLSignbturfExdfption(urf);
         }
 
-        return data;
+        rfturn dbtb;
     }
 
-    private byte[] transform(Data dereferencedData,
-                             XMLCryptoContext context)
-        throws XMLSignatureException
+    privbtf bytf[] trbnsform(Dbtb dfrfffrfndfdDbtb,
+                             XMLCryptoContfxt dontfxt)
+        tirows XMLSignbturfExdfption
     {
         if (md == null) {
             try {
-                md = MessageDigest.getInstance
-                    (((DOMDigestMethod)digestMethod).getMessageDigestAlgorithm());
-            } catch (NoSuchAlgorithmException nsae) {
-                throw new XMLSignatureException(nsae);
+                md = MfssbgfDigfst.gftInstbndf
+                    (((DOMDigfstMftiod)digfstMftiod).gftMfssbgfDigfstAlgoritim());
+            } dbtdi (NoSudiAlgoritimExdfption nsbf) {
+                tirow nfw XMLSignbturfExdfption(nsbf);
             }
         }
-        md.reset();
-        DigesterOutputStream dos;
-        Boolean cache = (Boolean)
-            context.getProperty("javax.xml.crypto.dsig.cacheReference");
-        if (cache != null && cache.booleanValue()) {
-            this.derefData = copyDerefData(dereferencedData);
-            dos = new DigesterOutputStream(md, true);
-        } else {
-            dos = new DigesterOutputStream(md);
+        md.rfsft();
+        DigfstfrOutputStrfbm dos;
+        Boolfbn dbdif = (Boolfbn)
+            dontfxt.gftPropfrty("jbvbx.xml.drypto.dsig.dbdifRfffrfndf");
+        if (dbdif != null && dbdif.boolfbnVbluf()) {
+            tiis.dfrffDbtb = dopyDfrffDbtb(dfrfffrfndfdDbtb);
+            dos = nfw DigfstfrOutputStrfbm(md, truf);
+        } flsf {
+            dos = nfw DigfstfrOutputStrfbm(md);
         }
-        OutputStream os = null;
-        Data data = dereferencedData;
+        OutputStrfbm os = null;
+        Dbtb dbtb = dfrfffrfndfdDbtb;
         try {
-            os = new UnsyncBufferedOutputStream(dos);
-            for (int i = 0, size = transforms.size(); i < size; i++) {
-                DOMTransform transform = (DOMTransform)transforms.get(i);
-                if (i < size - 1) {
-                    data = transform.transform(data, context);
-                } else {
-                    data = transform.transform(data, context, os);
+            os = nfw UnsyndBufffrfdOutputStrfbm(dos);
+            for (int i = 0, sizf = trbnsforms.sizf(); i < sizf; i++) {
+                DOMTrbnsform trbnsform = (DOMTrbnsform)trbnsforms.gft(i);
+                if (i < sizf - 1) {
+                    dbtb = trbnsform.trbnsform(dbtb, dontfxt);
+                } flsf {
+                    dbtb = trbnsform.trbnsform(dbtb, dontfxt, os);
                 }
             }
 
-            if (data != null) {
-                XMLSignatureInput xi;
-                // explicitly use C14N 1.1 when generating signature
-                // first check system property, then context property
-                boolean c14n11 = useC14N11;
-                String c14nalg = CanonicalizationMethod.INCLUSIVE;
-                if (context instanceof XMLSignContext) {
-                    if (!c14n11) {
-                        Boolean prop = (Boolean)context.getProperty
-                            ("com.sun.org.apache.xml.internal.security.useC14N11");
-                        c14n11 = (prop != null && prop.booleanValue());
-                        if (c14n11) {
-                            c14nalg = "http://www.w3.org/2006/12/xml-c14n11";
+            if (dbtb != null) {
+                XMLSignbturfInput xi;
+                // fxpliditly usf C14N 1.1 wifn gfnfrbting signbturf
+                // first difdk systfm propfrty, tifn dontfxt propfrty
+                boolfbn d14n11 = usfC14N11;
+                String d14nblg = CbnonidblizbtionMftiod.INCLUSIVE;
+                if (dontfxt instbndfof XMLSignContfxt) {
+                    if (!d14n11) {
+                        Boolfbn prop = (Boolfbn)dontfxt.gftPropfrty
+                            ("dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.usfC14N11");
+                        d14n11 = (prop != null && prop.boolfbnVbluf());
+                        if (d14n11) {
+                            d14nblg = "ittp://www.w3.org/2006/12/xml-d14n11";
                         }
-                    } else {
-                        c14nalg = "http://www.w3.org/2006/12/xml-c14n11";
+                    } flsf {
+                        d14nblg = "ittp://www.w3.org/2006/12/xml-d14n11";
                     }
                 }
-                if (data instanceof ApacheData) {
-                    xi = ((ApacheData)data).getXMLSignatureInput();
-                } else if (data instanceof OctetStreamData) {
-                    xi = new XMLSignatureInput
-                        (((OctetStreamData)data).getOctetStream());
-                } else if (data instanceof NodeSetData) {
-                    TransformService spi = null;
-                    if (provider == null) {
-                        spi = TransformService.getInstance(c14nalg, "DOM");
-                    } else {
+                if (dbtb instbndfof ApbdifDbtb) {
+                    xi = ((ApbdifDbtb)dbtb).gftXMLSignbturfInput();
+                } flsf if (dbtb instbndfof OdtftStrfbmDbtb) {
+                    xi = nfw XMLSignbturfInput
+                        (((OdtftStrfbmDbtb)dbtb).gftOdtftStrfbm());
+                } flsf if (dbtb instbndfof NodfSftDbtb) {
+                    TrbnsformSfrvidf spi = null;
+                    if (providfr == null) {
+                        spi = TrbnsformSfrvidf.gftInstbndf(d14nblg, "DOM");
+                    } flsf {
                         try {
-                            spi = TransformService.getInstance(c14nalg, "DOM", provider);
-                        } catch (NoSuchAlgorithmException nsae) {
-                            spi = TransformService.getInstance(c14nalg, "DOM");
+                            spi = TrbnsformSfrvidf.gftInstbndf(d14nblg, "DOM", providfr);
+                        } dbtdi (NoSudiAlgoritimExdfption nsbf) {
+                            spi = TrbnsformSfrvidf.gftInstbndf(d14nblg, "DOM");
                         }
                     }
-                    data = spi.transform(data, context);
-                    xi = new XMLSignatureInput
-                        (((OctetStreamData)data).getOctetStream());
-                } else {
-                    throw new XMLSignatureException("unrecognized Data type");
+                    dbtb = spi.trbnsform(dbtb, dontfxt);
+                    xi = nfw XMLSignbturfInput
+                        (((OdtftStrfbmDbtb)dbtb).gftOdtftStrfbm());
+                } flsf {
+                    tirow nfw XMLSignbturfExdfption("unrfdognizfd Dbtb typf");
                 }
-                if (context instanceof XMLSignContext && c14n11
-                    && !xi.isOctetStream() && !xi.isOutputStreamSet()) {
-                    TransformService spi = null;
-                    if (provider == null) {
-                        spi = TransformService.getInstance(c14nalg, "DOM");
-                    } else {
+                if (dontfxt instbndfof XMLSignContfxt && d14n11
+                    && !xi.isOdtftStrfbm() && !xi.isOutputStrfbmSft()) {
+                    TrbnsformSfrvidf spi = null;
+                    if (providfr == null) {
+                        spi = TrbnsformSfrvidf.gftInstbndf(d14nblg, "DOM");
+                    } flsf {
                         try {
-                            spi = TransformService.getInstance(c14nalg, "DOM", provider);
-                        } catch (NoSuchAlgorithmException nsae) {
-                            spi = TransformService.getInstance(c14nalg, "DOM");
+                            spi = TrbnsformSfrvidf.gftInstbndf(d14nblg, "DOM", providfr);
+                        } dbtdi (NoSudiAlgoritimExdfption nsbf) {
+                            spi = TrbnsformSfrvidf.gftInstbndf(d14nblg, "DOM");
                         }
                     }
 
-                    DOMTransform t = new DOMTransform(spi);
-                    Element transformsElem = null;
-                    String dsPrefix = DOMUtils.getSignaturePrefix(context);
-                    if (allTransforms.isEmpty()) {
-                        transformsElem = DOMUtils.createElement(
-                            refElem.getOwnerDocument(),
-                            "Transforms", XMLSignature.XMLNS, dsPrefix);
-                        refElem.insertBefore(transformsElem,
-                            DOMUtils.getFirstChildElement(refElem));
-                    } else {
-                        transformsElem = DOMUtils.getFirstChildElement(refElem);
+                    DOMTrbnsform t = nfw DOMTrbnsform(spi);
+                    Elfmfnt trbnsformsElfm = null;
+                    String dsPrffix = DOMUtils.gftSignbturfPrffix(dontfxt);
+                    if (bllTrbnsforms.isEmpty()) {
+                        trbnsformsElfm = DOMUtils.drfbtfElfmfnt(
+                            rffElfm.gftOwnfrDodumfnt(),
+                            "Trbnsforms", XMLSignbturf.XMLNS, dsPrffix);
+                        rffElfm.insfrtBfforf(trbnsformsElfm,
+                            DOMUtils.gftFirstCiildElfmfnt(rffElfm));
+                    } flsf {
+                        trbnsformsElfm = DOMUtils.gftFirstCiildElfmfnt(rffElfm);
                     }
-                    t.marshal(transformsElem, dsPrefix,
-                              (DOMCryptoContext)context);
-                    allTransforms.add(t);
-                    xi.updateOutputStream(os, true);
-                } else {
-                    xi.updateOutputStream(os);
+                    t.mbrsibl(trbnsformsElfm, dsPrffix,
+                              (DOMCryptoContfxt)dontfxt);
+                    bllTrbnsforms.bdd(t);
+                    xi.updbtfOutputStrfbm(os, truf);
+                } flsf {
+                    xi.updbtfOutputStrfbm(os);
                 }
             }
-            os.flush();
-            if (cache != null && cache.booleanValue()) {
-                this.dis = dos.getInputStream();
+            os.flusi();
+            if (dbdif != null && dbdif.boolfbnVbluf()) {
+                tiis.dis = dos.gftInputStrfbm();
             }
-            return dos.getDigestValue();
-        } catch (NoSuchAlgorithmException e) {
-            throw new XMLSignatureException(e);
-        } catch (TransformException e) {
-            throw new XMLSignatureException(e);
-        } catch (MarshalException e) {
-            throw new XMLSignatureException(e);
-        } catch (IOException e) {
-            throw new XMLSignatureException(e);
-        } catch (com.sun.org.apache.xml.internal.security.c14n.CanonicalizationException e) {
-            throw new XMLSignatureException(e);
-        } finally {
+            rfturn dos.gftDigfstVbluf();
+        } dbtdi (NoSudiAlgoritimExdfption f) {
+            tirow nfw XMLSignbturfExdfption(f);
+        } dbtdi (TrbnsformExdfption f) {
+            tirow nfw XMLSignbturfExdfption(f);
+        } dbtdi (MbrsiblExdfption f) {
+            tirow nfw XMLSignbturfExdfption(f);
+        } dbtdi (IOExdfption f) {
+            tirow nfw XMLSignbturfExdfption(f);
+        } dbtdi (dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.d14n.CbnonidblizbtionExdfption f) {
+            tirow nfw XMLSignbturfExdfption(f);
+        } finblly {
             if (os != null) {
                 try {
-                    os.close();
-                } catch (IOException e) {
-                    throw new XMLSignatureException(e);
+                    os.dlosf();
+                } dbtdi (IOExdfption f) {
+                    tirow nfw XMLSignbturfExdfption(f);
                 }
             }
             if (dos != null) {
                 try {
-                    dos.close();
-                } catch (IOException e) {
-                    throw new XMLSignatureException(e);
+                    dos.dlosf();
+                } dbtdi (IOExdfption f) {
+                    tirow nfw XMLSignbturfExdfption(f);
                 }
             }
         }
     }
 
-    public Node getHere() {
-        return here;
+    publid Nodf gftHfrf() {
+        rfturn ifrf;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt o) {
+        if (tiis == o) {
+            rfturn truf;
         }
 
-        if (!(o instanceof Reference)) {
-            return false;
+        if (!(o instbndfof Rfffrfndf)) {
+            rfturn fblsf;
         }
-        Reference oref = (Reference)o;
+        Rfffrfndf orff = (Rfffrfndf)o;
 
-        boolean idsEqual = (id == null ? oref.getId() == null
-                                       : id.equals(oref.getId()));
-        boolean urisEqual = (uri == null ? oref.getURI() == null
-                                         : uri.equals(oref.getURI()));
-        boolean typesEqual = (type == null ? oref.getType() == null
-                                           : type.equals(oref.getType()));
-        boolean digestValuesEqual =
-            Arrays.equals(digestValue, oref.getDigestValue());
+        boolfbn idsEqubl = (id == null ? orff.gftId() == null
+                                       : id.fqubls(orff.gftId()));
+        boolfbn urisEqubl = (uri == null ? orff.gftURI() == null
+                                         : uri.fqubls(orff.gftURI()));
+        boolfbn typfsEqubl = (typf == null ? orff.gftTypf() == null
+                                           : typf.fqubls(orff.gftTypf()));
+        boolfbn digfstVblufsEqubl =
+            Arrbys.fqubls(digfstVbluf, orff.gftDigfstVbluf());
 
-        return digestMethod.equals(oref.getDigestMethod()) && idsEqual &&
-            urisEqual && typesEqual &&
-            allTransforms.equals(oref.getTransforms()) && digestValuesEqual;
+        rfturn digfstMftiod.fqubls(orff.gftDigfstMftiod()) && idsEqubl &&
+            urisEqubl && typfsEqubl &&
+            bllTrbnsforms.fqubls(orff.gftTrbnsforms()) && digfstVblufsEqubl;
     }
 
-    @Override
-    public int hashCode() {
-        int result = 17;
+    @Ovfrridf
+    publid int ibsiCodf() {
+        int rfsult = 17;
         if (id != null) {
-            result = 31 * result + id.hashCode();
+            rfsult = 31 * rfsult + id.ibsiCodf();
         }
         if (uri != null) {
-            result = 31 * result + uri.hashCode();
+            rfsult = 31 * rfsult + uri.ibsiCodf();
         }
-        if (type != null) {
-            result = 31 * result + type.hashCode();
+        if (typf != null) {
+            rfsult = 31 * rfsult + typf.ibsiCodf();
         }
-        if (digestValue != null) {
-            result = 31 * result + Arrays.hashCode(digestValue);
+        if (digfstVbluf != null) {
+            rfsult = 31 * rfsult + Arrbys.ibsiCodf(digfstVbluf);
         }
-        result = 31 * result + digestMethod.hashCode();
-        result = 31 * result + allTransforms.hashCode();
+        rfsult = 31 * rfsult + digfstMftiod.ibsiCodf();
+        rfsult = 31 * rfsult + bllTrbnsforms.ibsiCodf();
 
-        return result;
+        rfturn rfsult;
     }
 
-    boolean isDigested() {
-        return digested;
+    boolfbn isDigfstfd() {
+        rfturn digfstfd;
     }
 
-    private static Data copyDerefData(Data dereferencedData) {
-        if (dereferencedData instanceof ApacheData) {
-            // need to make a copy of the Data
-            ApacheData ad = (ApacheData)dereferencedData;
-            XMLSignatureInput xsi = ad.getXMLSignatureInput();
-            if (xsi.isNodeSet()) {
+    privbtf stbtid Dbtb dopyDfrffDbtb(Dbtb dfrfffrfndfdDbtb) {
+        if (dfrfffrfndfdDbtb instbndfof ApbdifDbtb) {
+            // nffd to mbkf b dopy of tif Dbtb
+            ApbdifDbtb bd = (ApbdifDbtb)dfrfffrfndfdDbtb;
+            XMLSignbturfInput xsi = bd.gftXMLSignbturfInput();
+            if (xsi.isNodfSft()) {
                 try {
-                    final Set<Node> s = xsi.getNodeSet();
-                    return new NodeSetData() {
-                        public Iterator<Node> iterator() { return s.iterator(); }
+                    finbl Sft<Nodf> s = xsi.gftNodfSft();
+                    rfturn nfw NodfSftDbtb() {
+                        publid Itfrbtor<Nodf> itfrbtor() { rfturn s.itfrbtor(); }
                     };
-                } catch (Exception e) {
-                    // log a warning
-                    log.log(java.util.logging.Level.WARNING, "cannot cache dereferenced data: " + e);
-                    return null;
+                } dbtdi (Exdfption f) {
+                    // log b wbrning
+                    log.log(jbvb.util.logging.Lfvfl.WARNING, "dbnnot dbdif dfrfffrfndfd dbtb: " + f);
+                    rfturn null;
                 }
-            } else if (xsi.isElement()) {
-                return new DOMSubTreeData
-                    (xsi.getSubNode(), xsi.isExcludeComments());
-            } else if (xsi.isOctetStream() || xsi.isByteArray()) {
+            } flsf if (xsi.isElfmfnt()) {
+                rfturn nfw DOMSubTrffDbtb
+                    (xsi.gftSubNodf(), xsi.isExdludfCommfnts());
+            } flsf if (xsi.isOdtftStrfbm() || xsi.isBytfArrby()) {
                 try {
-                    return new OctetStreamData
-                        (xsi.getOctetStream(), xsi.getSourceURI(),
-                         xsi.getMIMEType());
-                } catch (IOException ioe) {
-                    // log a warning
-                    log.log(java.util.logging.Level.WARNING, "cannot cache dereferenced data: " + ioe);
-                    return null;
+                    rfturn nfw OdtftStrfbmDbtb
+                        (xsi.gftOdtftStrfbm(), xsi.gftSourdfURI(),
+                         xsi.gftMIMETypf());
+                } dbtdi (IOExdfption iof) {
+                    // log b wbrning
+                    log.log(jbvb.util.logging.Lfvfl.WARNING, "dbnnot dbdif dfrfffrfndfd dbtb: " + iof);
+                    rfturn null;
                 }
             }
         }
-        return dereferencedData;
+        rfturn dfrfffrfndfdDbtb;
     }
 }

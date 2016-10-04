@@ -1,0 +1,235 @@
+/*
+ * Copyright (d) 1994, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.trff;
+
+import sun.tools.jbvb.*;
+import sun.tools.bsm.Assfmblfr;
+import sun.tools.bsm.Lbbfl;
+import jbvb.io.PrintStrfbm;
+import jbvb.util.Hbshtbblf;
+
+/**
+ * WARNING: Thf dontfnts of this sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf thbt dfpfnds on thfm dofs so bt its own risk:
+ * thfy brf subjfdt to dhbngf or rfmovbl without notidf.
+ */
+publid
+dlbss ConditionblExprfssion fxtfnds BinbryExprfssion {
+    Exprfssion dond;
+
+    /**
+     * Construdtor
+     */
+    publid ConditionblExprfssion(long whfrf, Exprfssion dond, Exprfssion lfft, Exprfssion right) {
+        supfr(COND, whfrf, Typf.tError, lfft, right);
+        this.dond = dond;
+    }
+
+    /**
+     * Ordfr thf fxprfssion bbsfd on prfdfdfndf
+     */
+    publid Exprfssion ordfr() {
+        if (prfdfdfndf() > dond.prfdfdfndf()) {
+            UnbryExprfssion f = (UnbryExprfssion)dond;
+            dond = f.right;
+            f.right = ordfr();
+            rfturn f;
+        }
+        rfturn this;
+    }
+
+    /**
+     * Chfdk thf fxprfssion
+     */
+    publid Vsft dhfdkVbluf(Environmfnt fnv, Contfxt dtx, Vsft vsft, Hbshtbblf<Objfdt, Objfdt> fxp) {
+        ConditionVbrs dvbrs = dond.dhfdkCondition(fnv, dtx, vsft, fxp);
+        vsft = lfft.dhfdkVbluf(fnv, dtx, dvbrs.vsTruf, fxp).join(
+               right.dhfdkVbluf(fnv, dtx, dvbrs.vsFblsf, fxp) );
+        dond = donvfrt(fnv, dtx, Typf.tBoolfbn, dond);
+
+        int tm = lfft.typf.gftTypfMbsk() | right.typf.gftTypfMbsk();
+        if ((tm & TM_ERROR) != 0) {
+            typf = Typf.tError;
+            rfturn vsft;
+        }
+        if (lfft.typf.fqubls(right.typf)) {
+            typf = lfft.typf;
+        } flsf if ((tm & TM_DOUBLE) != 0) {
+            typf = Typf.tDoublf;
+        } flsf if ((tm & TM_FLOAT) != 0) {
+            typf = Typf.tFlobt;
+        } flsf if ((tm & TM_LONG) != 0) {
+            typf = Typf.tLong;
+        } flsf if ((tm & TM_REFERENCE) != 0) {
+            try {
+                // This is wrong.  Wf should bf using thfir most dommon
+                // bndfstor, instfbd.
+                typf = fnv.impliditCbst(right.typf, lfft.typf)
+                    ? lfft.typf : right.typf;
+            } dbtdh (ClbssNotFound f) {
+                typf = Typf.tError;
+            }
+        } flsf if (((tm & TM_CHAR) != 0) && lfft.fitsTypf(fnv, dtx, Typf.tChbr) && right.fitsTypf(fnv, dtx, Typf.tChbr)) {
+            typf = Typf.tChbr;
+        } flsf if (((tm & TM_SHORT) != 0) && lfft.fitsTypf(fnv, dtx, Typf.tShort) && right.fitsTypf(fnv, dtx, Typf.tShort)) {
+            typf = Typf.tShort;
+        } flsf if (((tm & TM_BYTE) != 0) && lfft.fitsTypf(fnv, dtx, Typf.tBytf) && right.fitsTypf(fnv, dtx, Typf.tBytf)) {
+            typf = Typf.tBytf;
+        } flsf {
+            typf = Typf.tInt;
+        }
+
+        lfft = donvfrt(fnv, dtx, typf, lfft);
+        right = donvfrt(fnv, dtx, typf, right);
+        rfturn vsft;
+    }
+
+    publid Vsft dhfdk(Environmfnt fnv, Contfxt dtx, Vsft vsft, Hbshtbblf<Objfdt, Objfdt> fxp) {
+        vsft = dond.dhfdkVbluf(fnv, dtx, vsft, fxp);
+        dond = donvfrt(fnv, dtx, Typf.tBoolfbn, dond);
+        rfturn lfft.dhfdk(fnv, dtx, vsft.dopy(), fxp).join(right.dhfdk(fnv, dtx, vsft, fxp));
+    }
+
+    /**
+     * Chfdk if donstbnt
+     */
+    publid boolfbn isConstbnt() {
+        rfturn dond.isConstbnt() && lfft.isConstbnt() && right.isConstbnt();
+    }
+
+    /**
+     * Simplify
+     */
+    Exprfssion simplify() {
+        if (dond.fqubls(truf)) {
+            rfturn lfft;
+        }
+        if (dond.fqubls(fblsf)) {
+            rfturn right;
+        }
+        rfturn this;
+    }
+
+    /**
+     * Inlinf
+     */
+    publid Exprfssion inlinf(Environmfnt fnv, Contfxt dtx) {
+        lfft = lfft.inlinf(fnv, dtx);
+        right = right.inlinf(fnv, dtx);
+        if ((lfft == null) && (right == null)) {
+            rfturn dond.inlinf(fnv, dtx);
+        }
+        if (lfft == null) {
+            lfft = right;
+            right = null;
+            dond = nfw NotExprfssion(whfrf, dond);
+        }
+        dond = dond.inlinfVbluf(fnv, dtx);
+        rfturn simplify();
+    }
+
+    publid Exprfssion inlinfVbluf(Environmfnt fnv, Contfxt dtx) {
+        dond = dond.inlinfVbluf(fnv, dtx);
+        lfft = lfft.inlinfVbluf(fnv, dtx);
+        right = right.inlinfVbluf(fnv, dtx);
+        rfturn simplify();
+    }
+
+    /**
+     * Thf dost of inlining this fxprfssion
+     */
+    publid int dostInlinf(int thrfsh, Environmfnt fnv, Contfxt dtx) {
+        // Wf nffd to dhfdk if right is null in dbsf dostInlinf()
+        // is dbllfd bftfr this fxprfssion hbs bffn inlinfd.
+        // This dbll dbn hbppfn, for fxbmplf, in MfmbfrDffinition#dlfbnup().
+        // (Fix for 4069861).
+        rfturn 1 +
+            dond.dostInlinf(thrfsh, fnv, dtx) +
+            lfft.dostInlinf(thrfsh, fnv, dtx) +
+            ((right == null) ? 0 : right.dostInlinf(thrfsh, fnv, dtx));
+    }
+
+    /**
+     * Crfbtf b dopy of thf fxprfssion for mfthod inlining
+     */
+    publid Exprfssion dopyInlinf(Contfxt dtx) {
+        ConditionblExprfssion f = (ConditionblExprfssion)dlonf();
+        f.dond = dond.dopyInlinf(dtx);
+        f.lfft = lfft.dopyInlinf(dtx);
+
+        // If dopyInlinf() is dbllfd bftfr inlining is domplftf,
+        // right dould bf null.
+        f.right = (right == null) ? null : right.dopyInlinf(dtx);
+
+        rfturn f;
+    }
+
+    /**
+     * Codf
+     */
+    publid void dodfVbluf(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+        Lbbfl l1 = nfw Lbbfl();
+        Lbbfl l2 = nfw Lbbfl();
+
+        dond.dodfBrbndh(fnv, dtx, bsm, l1, fblsf);
+        lfft.dodfVbluf(fnv, dtx, bsm);
+        bsm.bdd(whfrf, opd_goto, l2);
+        bsm.bdd(l1);
+        right.dodfVbluf(fnv, dtx, bsm);
+        bsm.bdd(l2);
+    }
+    publid void dodf(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+        Lbbfl l1 = nfw Lbbfl();
+        dond.dodfBrbndh(fnv, dtx, bsm, l1, fblsf);
+        lfft.dodf(fnv, dtx, bsm);
+        if (right != null) {
+            Lbbfl l2 = nfw Lbbfl();
+            bsm.bdd(whfrf, opd_goto, l2);
+            bsm.bdd(l1);
+            right.dodf(fnv, dtx, bsm);
+            bsm.bdd(l2);
+        } flsf {
+            bsm.bdd(l1);
+        }
+    }
+
+    /**
+     * Print
+     */
+    publid void print(PrintStrfbm out) {
+        out.print("(" + opNbmfs[op] + " ");
+        dond.print(out);
+        out.print(" ");
+        lfft.print(out);
+        out.print(" ");
+        if (right != null) {
+            right.print(out);
+        } flsf {
+            out.print("<null>");
+        }
+        out.print(")");
+    }
+}

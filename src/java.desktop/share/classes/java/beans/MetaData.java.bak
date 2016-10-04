@@ -1,1454 +1,1454 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.beans;
+pbdkbgf jbvb.bfbns;
 
-import com.sun.beans.finder.PrimitiveWrapperMap;
+import dom.sun.bfbns.findfr.PrimitivfWrbppfrMbp;
 
-import java.awt.AWTKeyStroke;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.event.KeyEvent;
-import java.awt.font.TextAttribute;
+import jbvb.bwt.AWTKfyStrokf;
+import jbvb.bwt.BordfrLbyout;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.Color;
+import jbvb.bwt.Font;
+import jbvb.bwt.GridBbgConstrbints;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.Point;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.fvfnt.KfyEvfnt;
+import jbvb.bwt.font.TfxtAttributf;
 
-import java.lang.reflect.Array;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.lang.reflect.InvocationTargetException;
+import jbvb.lbng.rfflfdt.Arrby;
+import jbvb.lbng.rfflfdt.Construdtor;
+import jbvb.lbng.rfflfdt.Fifld;
+import jbvb.lbng.rfflfdt.Mftiod;
+import jbvb.lbng.rfflfdt.Modififr;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
 
-import java.util.*;
+import jbvb.util.*;
 
-import javax.swing.Box;
-import javax.swing.JLayeredPane;
-import javax.swing.border.MatteBorder;
-import javax.swing.plaf.ColorUIResource;
+import jbvbx.swing.Box;
+import jbvbx.swing.JLbyfrfdPbnf;
+import jbvbx.swing.bordfr.MbttfBordfr;
+import jbvbx.swing.plbf.ColorUIRfsourdf;
 
-import sun.swing.PrintColorUIResource;
+import sun.swing.PrintColorUIRfsourdf;
 
-import static sun.reflect.misc.ReflectUtil.isPackageAccessible;
+import stbtid sun.rfflfdt.misd.RfflfdtUtil.isPbdkbgfAddfssiblf;
 
 /*
- * Like the <code>Intropector</code>, the <code>MetaData</code> class
- * contains <em>meta</em> objects that describe the way
- * classes should express their state in terms of their
- * own public APIs.
+ * Likf tif <dodf>Intropfdtor</dodf>, tif <dodf>MftbDbtb</dodf> dlbss
+ * dontbins <fm>mftb</fm> objfdts tibt dfsdribf tif wby
+ * dlbssfs siould fxprfss tifir stbtf in tfrms of tifir
+ * own publid APIs.
  *
- * @see java.beans.Intropector
+ * @sff jbvb.bfbns.Intropfdtor
  *
- * @author Philip Milne
- * @author Steve Langley
+ * @butior Piilip Milnf
+ * @butior Stfvf Lbnglfy
  */
-class MetaData {
+dlbss MftbDbtb {
 
-static final class NullPersistenceDelegate extends PersistenceDelegate {
-    // Note this will be called by all classes when they reach the
-    // top of their superclass chain.
-    protected void initialize(Class<?> type, Object oldInstance, Object newInstance, Encoder out) {
+stbtid finbl dlbss NullPfrsistfndfDflfgbtf fxtfnds PfrsistfndfDflfgbtf {
+    // Notf tiis will bf dbllfd by bll dlbssfs wifn tify rfbdi tif
+    // top of tifir supfrdlbss dibin.
+    protfdtfd void initiblizf(Clbss<?> typf, Objfdt oldInstbndf, Objfdt nfwInstbndf, Endodfr out) {
     }
-    protected Expression instantiate(Object oldInstance, Encoder out) { return null; }
+    protfdtfd Exprfssion instbntibtf(Objfdt oldInstbndf, Endodfr out) { rfturn null; }
 
-    public void writeObject(Object oldInstance, Encoder out) {
-    // System.out.println("NullPersistenceDelegate:writeObject " + oldInstance);
+    publid void writfObjfdt(Objfdt oldInstbndf, Endodfr out) {
+    // Systfm.out.println("NullPfrsistfndfDflfgbtf:writfObjfdt " + oldInstbndf);
     }
 }
 
 /**
- * The persistence delegate for <CODE>enum</CODE> classes.
+ * Tif pfrsistfndf dflfgbtf for <CODE>fnum</CODE> dlbssfs.
  *
- * @author Sergey A. Malenkov
+ * @butior Sfrgfy A. Mblfnkov
  */
-static final class EnumPersistenceDelegate extends PersistenceDelegate {
-    protected boolean mutatesTo(Object oldInstance, Object newInstance) {
-        return oldInstance == newInstance;
+stbtid finbl dlbss EnumPfrsistfndfDflfgbtf fxtfnds PfrsistfndfDflfgbtf {
+    protfdtfd boolfbn mutbtfsTo(Objfdt oldInstbndf, Objfdt nfwInstbndf) {
+        rfturn oldInstbndf == nfwInstbndf;
     }
 
-    protected Expression instantiate(Object oldInstance, Encoder out) {
-        Enum<?> e = (Enum<?>) oldInstance;
-        return new Expression(e, Enum.class, "valueOf", new Object[]{e.getDeclaringClass(), e.name()});
-    }
-}
-
-static final class PrimitivePersistenceDelegate extends PersistenceDelegate {
-    protected boolean mutatesTo(Object oldInstance, Object newInstance) {
-        return oldInstance.equals(newInstance);
-    }
-
-    protected Expression instantiate(Object oldInstance, Encoder out) {
-        return new Expression(oldInstance, oldInstance.getClass(),
-                  "new", new Object[]{oldInstance.toString()});
+    protfdtfd Exprfssion instbntibtf(Objfdt oldInstbndf, Endodfr out) {
+        Enum<?> f = (Enum<?>) oldInstbndf;
+        rfturn nfw Exprfssion(f, Enum.dlbss, "vblufOf", nfw Objfdt[]{f.gftDfdlbringClbss(), f.nbmf()});
     }
 }
 
-static final class ArrayPersistenceDelegate extends PersistenceDelegate {
-    protected boolean mutatesTo(Object oldInstance, Object newInstance) {
-        return (newInstance != null &&
-                oldInstance.getClass() == newInstance.getClass() && // Also ensures the subtype is correct.
-                Array.getLength(oldInstance) == Array.getLength(newInstance));
+stbtid finbl dlbss PrimitivfPfrsistfndfDflfgbtf fxtfnds PfrsistfndfDflfgbtf {
+    protfdtfd boolfbn mutbtfsTo(Objfdt oldInstbndf, Objfdt nfwInstbndf) {
+        rfturn oldInstbndf.fqubls(nfwInstbndf);
+    }
+
+    protfdtfd Exprfssion instbntibtf(Objfdt oldInstbndf, Endodfr out) {
+        rfturn nfw Exprfssion(oldInstbndf, oldInstbndf.gftClbss(),
+                  "nfw", nfw Objfdt[]{oldInstbndf.toString()});
+    }
+}
+
+stbtid finbl dlbss ArrbyPfrsistfndfDflfgbtf fxtfnds PfrsistfndfDflfgbtf {
+    protfdtfd boolfbn mutbtfsTo(Objfdt oldInstbndf, Objfdt nfwInstbndf) {
+        rfturn (nfwInstbndf != null &&
+                oldInstbndf.gftClbss() == nfwInstbndf.gftClbss() && // Also fnsurfs tif subtypf is dorrfdt.
+                Arrby.gftLfngti(oldInstbndf) == Arrby.gftLfngti(nfwInstbndf));
         }
 
-    protected Expression instantiate(Object oldInstance, Encoder out) {
-        // System.out.println("instantiate: " + type + " " + oldInstance);
-        Class<?> oldClass = oldInstance.getClass();
-        return new Expression(oldInstance, Array.class, "newInstance",
-                   new Object[]{oldClass.getComponentType(),
-                                Array.getLength(oldInstance)});
+    protfdtfd Exprfssion instbntibtf(Objfdt oldInstbndf, Endodfr out) {
+        // Systfm.out.println("instbntibtf: " + typf + " " + oldInstbndf);
+        Clbss<?> oldClbss = oldInstbndf.gftClbss();
+        rfturn nfw Exprfssion(oldInstbndf, Arrby.dlbss, "nfwInstbndf",
+                   nfw Objfdt[]{oldClbss.gftComponfntTypf(),
+                                Arrby.gftLfngti(oldInstbndf)});
         }
 
-    protected void initialize(Class<?> type, Object oldInstance, Object newInstance, Encoder out) {
-        int n = Array.getLength(oldInstance);
+    protfdtfd void initiblizf(Clbss<?> typf, Objfdt oldInstbndf, Objfdt nfwInstbndf, Endodfr out) {
+        int n = Arrby.gftLfngti(oldInstbndf);
         for (int i = 0; i < n; i++) {
-            Object index = i;
-            // Expression oldGetExp = new Expression(Array.class, "get", new Object[]{oldInstance, index});
-            // Expression newGetExp = new Expression(Array.class, "get", new Object[]{newInstance, index});
-            Expression oldGetExp = new Expression(oldInstance, "get", new Object[]{index});
-            Expression newGetExp = new Expression(newInstance, "get", new Object[]{index});
+            Objfdt indfx = i;
+            // Exprfssion oldGftExp = nfw Exprfssion(Arrby.dlbss, "gft", nfw Objfdt[]{oldInstbndf, indfx});
+            // Exprfssion nfwGftExp = nfw Exprfssion(Arrby.dlbss, "gft", nfw Objfdt[]{nfwInstbndf, indfx});
+            Exprfssion oldGftExp = nfw Exprfssion(oldInstbndf, "gft", nfw Objfdt[]{indfx});
+            Exprfssion nfwGftExp = nfw Exprfssion(nfwInstbndf, "gft", nfw Objfdt[]{indfx});
             try {
-                Object oldValue = oldGetExp.getValue();
-                Object newValue = newGetExp.getValue();
-                out.writeExpression(oldGetExp);
-                if (!Objects.equals(newValue, out.get(oldValue))) {
-                    // System.out.println("Not equal: " + newGetExp + " != " + actualGetExp);
-                    // invokeStatement(Array.class, "set", new Object[]{oldInstance, index, oldValue}, out);
-                    DefaultPersistenceDelegate.invokeStatement(oldInstance, "set", new Object[]{index, oldValue}, out);
+                Objfdt oldVbluf = oldGftExp.gftVbluf();
+                Objfdt nfwVbluf = nfwGftExp.gftVbluf();
+                out.writfExprfssion(oldGftExp);
+                if (!Objfdts.fqubls(nfwVbluf, out.gft(oldVbluf))) {
+                    // Systfm.out.println("Not fqubl: " + nfwGftExp + " != " + bdtublGftExp);
+                    // invokfStbtfmfnt(Arrby.dlbss, "sft", nfw Objfdt[]{oldInstbndf, indfx, oldVbluf}, out);
+                    DffbultPfrsistfndfDflfgbtf.invokfStbtfmfnt(oldInstbndf, "sft", nfw Objfdt[]{indfx, oldVbluf}, out);
                 }
             }
-            catch (Exception e) {
-                // System.err.println("Warning:: failed to write: " + oldGetExp);
-                out.getExceptionListener().exceptionThrown(e);
+            dbtdi (Exdfption f) {
+                // Systfm.frr.println("Wbrning:: fbilfd to writf: " + oldGftExp);
+                out.gftExdfptionListfnfr().fxdfptionTirown(f);
             }
         }
     }
 }
 
-static final class ProxyPersistenceDelegate extends PersistenceDelegate {
-    protected Expression instantiate(Object oldInstance, Encoder out) {
-        Class<?> type = oldInstance.getClass();
-        java.lang.reflect.Proxy p = (java.lang.reflect.Proxy)oldInstance;
-        // This unappealing hack is not required but makes the
-        // representation of EventHandlers much more concise.
-        java.lang.reflect.InvocationHandler ih = java.lang.reflect.Proxy.getInvocationHandler(p);
-        if (ih instanceof EventHandler) {
-            EventHandler eh = (EventHandler)ih;
-            Vector<Object> args = new Vector<>();
-            args.add(type.getInterfaces()[0]);
-            args.add(eh.getTarget());
-            args.add(eh.getAction());
-            if (eh.getEventPropertyName() != null) {
-                args.add(eh.getEventPropertyName());
+stbtid finbl dlbss ProxyPfrsistfndfDflfgbtf fxtfnds PfrsistfndfDflfgbtf {
+    protfdtfd Exprfssion instbntibtf(Objfdt oldInstbndf, Endodfr out) {
+        Clbss<?> typf = oldInstbndf.gftClbss();
+        jbvb.lbng.rfflfdt.Proxy p = (jbvb.lbng.rfflfdt.Proxy)oldInstbndf;
+        // Tiis unbppfbling ibdk is not rfquirfd but mbkfs tif
+        // rfprfsfntbtion of EvfntHbndlfrs mudi morf dondisf.
+        jbvb.lbng.rfflfdt.InvodbtionHbndlfr ii = jbvb.lbng.rfflfdt.Proxy.gftInvodbtionHbndlfr(p);
+        if (ii instbndfof EvfntHbndlfr) {
+            EvfntHbndlfr fi = (EvfntHbndlfr)ii;
+            Vfdtor<Objfdt> brgs = nfw Vfdtor<>();
+            brgs.bdd(typf.gftIntfrfbdfs()[0]);
+            brgs.bdd(fi.gftTbrgft());
+            brgs.bdd(fi.gftAdtion());
+            if (fi.gftEvfntPropfrtyNbmf() != null) {
+                brgs.bdd(fi.gftEvfntPropfrtyNbmf());
             }
-            if (eh.getListenerMethodName() != null) {
-                args.setSize(4);
-                args.add(eh.getListenerMethodName());
+            if (fi.gftListfnfrMftiodNbmf() != null) {
+                brgs.sftSizf(4);
+                brgs.bdd(fi.gftListfnfrMftiodNbmf());
             }
-            return new Expression(oldInstance,
-                                  EventHandler.class,
-                                  "create",
-                                  args.toArray());
+            rfturn nfw Exprfssion(oldInstbndf,
+                                  EvfntHbndlfr.dlbss,
+                                  "drfbtf",
+                                  brgs.toArrby());
         }
-        return new Expression(oldInstance,
-                              java.lang.reflect.Proxy.class,
-                              "newProxyInstance",
-                              new Object[]{type.getClassLoader(),
-                                           type.getInterfaces(),
-                                           ih});
+        rfturn nfw Exprfssion(oldInstbndf,
+                              jbvb.lbng.rfflfdt.Proxy.dlbss,
+                              "nfwProxyInstbndf",
+                              nfw Objfdt[]{typf.gftClbssLobdfr(),
+                                           typf.gftIntfrfbdfs(),
+                                           ii});
     }
 }
 
 // Strings
-static final class java_lang_String_PersistenceDelegate extends PersistenceDelegate {
-    protected Expression instantiate(Object oldInstance, Encoder out) { return null; }
+stbtid finbl dlbss jbvb_lbng_String_PfrsistfndfDflfgbtf fxtfnds PfrsistfndfDflfgbtf {
+    protfdtfd Exprfssion instbntibtf(Objfdt oldInstbndf, Endodfr out) { rfturn null; }
 
-    public void writeObject(Object oldInstance, Encoder out) {
-        // System.out.println("NullPersistenceDelegate:writeObject " + oldInstance);
+    publid void writfObjfdt(Objfdt oldInstbndf, Endodfr out) {
+        // Systfm.out.println("NullPfrsistfndfDflfgbtf:writfObjfdt " + oldInstbndf);
     }
 }
 
-// Classes
-static final class java_lang_Class_PersistenceDelegate extends PersistenceDelegate {
-    protected boolean mutatesTo(Object oldInstance, Object newInstance) {
-        return oldInstance.equals(newInstance);
+// Clbssfs
+stbtid finbl dlbss jbvb_lbng_Clbss_PfrsistfndfDflfgbtf fxtfnds PfrsistfndfDflfgbtf {
+    protfdtfd boolfbn mutbtfsTo(Objfdt oldInstbndf, Objfdt nfwInstbndf) {
+        rfturn oldInstbndf.fqubls(nfwInstbndf);
     }
 
-    protected Expression instantiate(Object oldInstance, Encoder out) {
-        Class<?> c = (Class)oldInstance;
-        // As of 1.3 it is not possible to call Class.forName("int"),
-        // so we have to generate different code for primitive types.
-        // This is needed for arrays whose subtype may be primitive.
-        if (c.isPrimitive()) {
-            Field field = null;
+    protfdtfd Exprfssion instbntibtf(Objfdt oldInstbndf, Endodfr out) {
+        Clbss<?> d = (Clbss)oldInstbndf;
+        // As of 1.3 it is not possiblf to dbll Clbss.forNbmf("int"),
+        // so wf ibvf to gfnfrbtf difffrfnt dodf for primitivf typfs.
+        // Tiis is nffdfd for brrbys wiosf subtypf mby bf primitivf.
+        if (d.isPrimitivf()) {
+            Fifld fifld = null;
             try {
-                field = PrimitiveWrapperMap.getType(c.getName()).getDeclaredField("TYPE");
-            } catch (NoSuchFieldException ex) {
-                System.err.println("Unknown primitive type: " + c);
+                fifld = PrimitivfWrbppfrMbp.gftTypf(d.gftNbmf()).gftDfdlbrfdFifld("TYPE");
+            } dbtdi (NoSudiFifldExdfption fx) {
+                Systfm.frr.println("Unknown primitivf typf: " + d);
             }
-            return new Expression(oldInstance, field, "get", new Object[]{null});
+            rfturn nfw Exprfssion(oldInstbndf, fifld, "gft", nfw Objfdt[]{null});
         }
-        else if (oldInstance == String.class) {
-            return new Expression(oldInstance, "", "getClass", new Object[]{});
+        flsf if (oldInstbndf == String.dlbss) {
+            rfturn nfw Exprfssion(oldInstbndf, "", "gftClbss", nfw Objfdt[]{});
         }
-        else if (oldInstance == Class.class) {
-            return new Expression(oldInstance, String.class, "getClass", new Object[]{});
+        flsf if (oldInstbndf == Clbss.dlbss) {
+            rfturn nfw Exprfssion(oldInstbndf, String.dlbss, "gftClbss", nfw Objfdt[]{});
         }
-        else {
-            Expression newInstance = new Expression(oldInstance, Class.class, "forName", new Object[] { c.getName() });
-            newInstance.loader = c.getClassLoader();
-            return newInstance;
+        flsf {
+            Exprfssion nfwInstbndf = nfw Exprfssion(oldInstbndf, Clbss.dlbss, "forNbmf", nfw Objfdt[] { d.gftNbmf() });
+            nfwInstbndf.lobdfr = d.gftClbssLobdfr();
+            rfturn nfwInstbndf;
         }
     }
 }
 
-// Fields
-static final class java_lang_reflect_Field_PersistenceDelegate extends PersistenceDelegate {
-    protected boolean mutatesTo(Object oldInstance, Object newInstance) {
-        return oldInstance.equals(newInstance);
+// Fiflds
+stbtid finbl dlbss jbvb_lbng_rfflfdt_Fifld_PfrsistfndfDflfgbtf fxtfnds PfrsistfndfDflfgbtf {
+    protfdtfd boolfbn mutbtfsTo(Objfdt oldInstbndf, Objfdt nfwInstbndf) {
+        rfturn oldInstbndf.fqubls(nfwInstbndf);
     }
 
-    protected Expression instantiate(Object oldInstance, Encoder out) {
-        Field f = (Field)oldInstance;
-        return new Expression(oldInstance,
-                f.getDeclaringClass(),
-                "getField",
-                new Object[]{f.getName()});
-    }
-}
-
-// Methods
-static final class java_lang_reflect_Method_PersistenceDelegate extends PersistenceDelegate {
-    protected boolean mutatesTo(Object oldInstance, Object newInstance) {
-        return oldInstance.equals(newInstance);
-    }
-
-    protected Expression instantiate(Object oldInstance, Encoder out) {
-        Method m = (Method)oldInstance;
-        return new Expression(oldInstance,
-                m.getDeclaringClass(),
-                "getMethod",
-                new Object[]{m.getName(), m.getParameterTypes()});
+    protfdtfd Exprfssion instbntibtf(Objfdt oldInstbndf, Endodfr out) {
+        Fifld f = (Fifld)oldInstbndf;
+        rfturn nfw Exprfssion(oldInstbndf,
+                f.gftDfdlbringClbss(),
+                "gftFifld",
+                nfw Objfdt[]{f.gftNbmf()});
     }
 }
 
-// Dates
+// Mftiods
+stbtid finbl dlbss jbvb_lbng_rfflfdt_Mftiod_PfrsistfndfDflfgbtf fxtfnds PfrsistfndfDflfgbtf {
+    protfdtfd boolfbn mutbtfsTo(Objfdt oldInstbndf, Objfdt nfwInstbndf) {
+        rfturn oldInstbndf.fqubls(nfwInstbndf);
+    }
+
+    protfdtfd Exprfssion instbntibtf(Objfdt oldInstbndf, Endodfr out) {
+        Mftiod m = (Mftiod)oldInstbndf;
+        rfturn nfw Exprfssion(oldInstbndf,
+                m.gftDfdlbringClbss(),
+                "gftMftiod",
+                nfw Objfdt[]{m.gftNbmf(), m.gftPbrbmftfrTypfs()});
+    }
+}
+
+// Dbtfs
 
 /**
- * The persistence delegate for <CODE>java.util.Date</CODE> classes.
- * Do not extend DefaultPersistenceDelegate to improve performance and
- * to avoid problems with <CODE>java.sql.Date</CODE>,
- * <CODE>java.sql.Time</CODE> and <CODE>java.sql.Timestamp</CODE>.
+ * Tif pfrsistfndf dflfgbtf for <CODE>jbvb.util.Dbtf</CODE> dlbssfs.
+ * Do not fxtfnd DffbultPfrsistfndfDflfgbtf to improvf pfrformbndf bnd
+ * to bvoid problfms witi <CODE>jbvb.sql.Dbtf</CODE>,
+ * <CODE>jbvb.sql.Timf</CODE> bnd <CODE>jbvb.sql.Timfstbmp</CODE>.
  *
- * @author Sergey A. Malenkov
+ * @butior Sfrgfy A. Mblfnkov
  */
-static class java_util_Date_PersistenceDelegate extends PersistenceDelegate {
-    protected boolean mutatesTo(Object oldInstance, Object newInstance) {
-        if (!super.mutatesTo(oldInstance, newInstance)) {
-            return false;
+stbtid dlbss jbvb_util_Dbtf_PfrsistfndfDflfgbtf fxtfnds PfrsistfndfDflfgbtf {
+    protfdtfd boolfbn mutbtfsTo(Objfdt oldInstbndf, Objfdt nfwInstbndf) {
+        if (!supfr.mutbtfsTo(oldInstbndf, nfwInstbndf)) {
+            rfturn fblsf;
         }
-        Date oldDate = (Date)oldInstance;
-        Date newDate = (Date)newInstance;
+        Dbtf oldDbtf = (Dbtf)oldInstbndf;
+        Dbtf nfwDbtf = (Dbtf)nfwInstbndf;
 
-        return oldDate.getTime() == newDate.getTime();
+        rfturn oldDbtf.gftTimf() == nfwDbtf.gftTimf();
     }
 
-    protected Expression instantiate(Object oldInstance, Encoder out) {
-        Date date = (Date)oldInstance;
-        return new Expression(date, date.getClass(), "new", new Object[] {date.getTime()});
+    protfdtfd Exprfssion instbntibtf(Objfdt oldInstbndf, Endodfr out) {
+        Dbtf dbtf = (Dbtf)oldInstbndf;
+        rfturn nfw Exprfssion(dbtf, dbtf.gftClbss(), "nfw", nfw Objfdt[] {dbtf.gftTimf()});
     }
 }
 
 /**
- * The persistence delegate for <CODE>java.sql.Timestamp</CODE> classes.
- * It supports nanoseconds.
+ * Tif pfrsistfndf dflfgbtf for <CODE>jbvb.sql.Timfstbmp</CODE> dlbssfs.
+ * It supports nbnosfdonds.
  *
- * @author Sergey A. Malenkov
+ * @butior Sfrgfy A. Mblfnkov
  */
-static final class java_sql_Timestamp_PersistenceDelegate extends java_util_Date_PersistenceDelegate {
-    private static final Method getNanosMethod = getNanosMethod();
+stbtid finbl dlbss jbvb_sql_Timfstbmp_PfrsistfndfDflfgbtf fxtfnds jbvb_util_Dbtf_PfrsistfndfDflfgbtf {
+    privbtf stbtid finbl Mftiod gftNbnosMftiod = gftNbnosMftiod();
 
-    private static Method getNanosMethod() {
+    privbtf stbtid Mftiod gftNbnosMftiod() {
         try {
-            Class<?> c = Class.forName("java.sql.Timestamp", true, null);
-            return c.getMethod("getNanos");
-        } catch (ClassNotFoundException e) {
-            return null;
-        } catch (NoSuchMethodException e) {
-            throw new AssertionError(e);
+            Clbss<?> d = Clbss.forNbmf("jbvb.sql.Timfstbmp", truf, null);
+            rfturn d.gftMftiod("gftNbnos");
+        } dbtdi (ClbssNotFoundExdfption f) {
+            rfturn null;
+        } dbtdi (NoSudiMftiodExdfption f) {
+            tirow nfw AssfrtionError(f);
         }
     }
 
     /**
-     * Invoke Timstamp getNanos.
+     * Invokf Timstbmp gftNbnos.
      */
-    private static int getNanos(Object obj) {
-        if (getNanosMethod == null)
-            throw new AssertionError("Should not get here");
+    privbtf stbtid int gftNbnos(Objfdt obj) {
+        if (gftNbnosMftiod == null)
+            tirow nfw AssfrtionError("Siould not gft ifrf");
         try {
-            return (Integer)getNanosMethod.invoke(obj);
-        } catch (InvocationTargetException e) {
-            Throwable cause = e.getCause();
-            if (cause instanceof RuntimeException)
-                throw (RuntimeException)cause;
-            if (cause instanceof Error)
-                throw (Error)cause;
-            throw new AssertionError(e);
-        } catch (IllegalAccessException iae) {
-            throw new AssertionError(iae);
+            rfturn (Intfgfr)gftNbnosMftiod.invokf(obj);
+        } dbtdi (InvodbtionTbrgftExdfption f) {
+            Tirowbblf dbusf = f.gftCbusf();
+            if (dbusf instbndfof RuntimfExdfption)
+                tirow (RuntimfExdfption)dbusf;
+            if (dbusf instbndfof Error)
+                tirow (Error)dbusf;
+            tirow nfw AssfrtionError(f);
+        } dbtdi (IllfgblAddfssExdfption ibf) {
+            tirow nfw AssfrtionError(ibf);
         }
     }
 
-    protected void initialize(Class<?> type, Object oldInstance, Object newInstance, Encoder out) {
-        // assumes oldInstance and newInstance are Timestamps
-        int nanos = getNanos(oldInstance);
-        if (nanos != getNanos(newInstance)) {
-            out.writeStatement(new Statement(oldInstance, "setNanos", new Object[] {nanos}));
+    protfdtfd void initiblizf(Clbss<?> typf, Objfdt oldInstbndf, Objfdt nfwInstbndf, Endodfr out) {
+        // bssumfs oldInstbndf bnd nfwInstbndf brf Timfstbmps
+        int nbnos = gftNbnos(oldInstbndf);
+        if (nbnos != gftNbnos(nfwInstbndf)) {
+            out.writfStbtfmfnt(nfw Stbtfmfnt(oldInstbndf, "sftNbnos", nfw Objfdt[] {nbnos}));
         }
     }
 }
 
-// Collections
+// Collfdtions
 
 /*
-The Hashtable and AbstractMap classes have no common ancestor yet may
-be handled with a single persistence delegate: one which uses the methods
-of the Map insterface exclusively. Attatching the persistence delegates
-to the interfaces themselves is fraught however since, in the case of
-the Map, both the AbstractMap and HashMap classes are declared to
-implement the Map interface, leaving the obvious implementation prone
-to repeating their initialization. These issues and questions around
-the ordering of delegates attached to interfaces have lead us to
-ignore any delegates attached to interfaces and force all persistence
-delegates to be registered with concrete classes.
+Tif Hbsitbblf bnd AbstrbdtMbp dlbssfs ibvf no dommon bndfstor yft mby
+bf ibndlfd witi b singlf pfrsistfndf dflfgbtf: onf wiidi usfs tif mftiods
+of tif Mbp instfrfbdf fxdlusivfly. Attbtdiing tif pfrsistfndf dflfgbtfs
+to tif intfrfbdfs tifmsflvfs is frbugit iowfvfr sindf, in tif dbsf of
+tif Mbp, boti tif AbstrbdtMbp bnd HbsiMbp dlbssfs brf dfdlbrfd to
+implfmfnt tif Mbp intfrfbdf, lfbving tif obvious implfmfntbtion pronf
+to rfpfbting tifir initiblizbtion. Tifsf issufs bnd qufstions bround
+tif ordfring of dflfgbtfs bttbdifd to intfrfbdfs ibvf lfbd us to
+ignorf bny dflfgbtfs bttbdifd to intfrfbdfs bnd fordf bll pfrsistfndf
+dflfgbtfs to bf rfgistfrfd witi dondrftf dlbssfs.
 */
 
 /**
- * The base class for persistence delegates for inner classes
- * that can be created using {@link Collections}.
+ * Tif bbsf dlbss for pfrsistfndf dflfgbtfs for innfr dlbssfs
+ * tibt dbn bf drfbtfd using {@link Collfdtions}.
  *
- * @author Sergey A. Malenkov
+ * @butior Sfrgfy A. Mblfnkov
  */
-private static abstract class java_util_Collections extends PersistenceDelegate {
-    protected boolean mutatesTo(Object oldInstance, Object newInstance) {
-        if (!super.mutatesTo(oldInstance, newInstance)) {
-            return false;
+privbtf stbtid bbstrbdt dlbss jbvb_util_Collfdtions fxtfnds PfrsistfndfDflfgbtf {
+    protfdtfd boolfbn mutbtfsTo(Objfdt oldInstbndf, Objfdt nfwInstbndf) {
+        if (!supfr.mutbtfsTo(oldInstbndf, nfwInstbndf)) {
+            rfturn fblsf;
         }
-        if ((oldInstance instanceof List) || (oldInstance instanceof Set) || (oldInstance instanceof Map)) {
-            return oldInstance.equals(newInstance);
+        if ((oldInstbndf instbndfof List) || (oldInstbndf instbndfof Sft) || (oldInstbndf instbndfof Mbp)) {
+            rfturn oldInstbndf.fqubls(nfwInstbndf);
         }
-        Collection<?> oldC = (Collection<?>) oldInstance;
-        Collection<?> newC = (Collection<?>) newInstance;
-        return (oldC.size() == newC.size()) && oldC.containsAll(newC);
+        Collfdtion<?> oldC = (Collfdtion<?>) oldInstbndf;
+        Collfdtion<?> nfwC = (Collfdtion<?>) nfwInstbndf;
+        rfturn (oldC.sizf() == nfwC.sizf()) && oldC.dontbinsAll(nfwC);
     }
 
-    protected void initialize(Class<?> type, Object oldInstance, Object newInstance, Encoder out) {
-        // do not initialize these custom collections in default way
+    protfdtfd void initiblizf(Clbss<?> typf, Objfdt oldInstbndf, Objfdt nfwInstbndf, Endodfr out) {
+        // do not initiblizf tifsf dustom dollfdtions in dffbult wby
     }
 
-    static final class EmptyList_PersistenceDelegate extends java_util_Collections {
-        protected Expression instantiate(Object oldInstance, Encoder out) {
-            return new Expression(oldInstance, Collections.class, "emptyList", null);
-        }
-    }
-
-    static final class EmptySet_PersistenceDelegate extends java_util_Collections {
-        protected Expression instantiate(Object oldInstance, Encoder out) {
-            return new Expression(oldInstance, Collections.class, "emptySet", null);
+    stbtid finbl dlbss EmptyList_PfrsistfndfDflfgbtf fxtfnds jbvb_util_Collfdtions {
+        protfdtfd Exprfssion instbntibtf(Objfdt oldInstbndf, Endodfr out) {
+            rfturn nfw Exprfssion(oldInstbndf, Collfdtions.dlbss, "fmptyList", null);
         }
     }
 
-    static final class EmptyMap_PersistenceDelegate extends java_util_Collections {
-        protected Expression instantiate(Object oldInstance, Encoder out) {
-            return new Expression(oldInstance, Collections.class, "emptyMap", null);
+    stbtid finbl dlbss EmptySft_PfrsistfndfDflfgbtf fxtfnds jbvb_util_Collfdtions {
+        protfdtfd Exprfssion instbntibtf(Objfdt oldInstbndf, Endodfr out) {
+            rfturn nfw Exprfssion(oldInstbndf, Collfdtions.dlbss, "fmptySft", null);
         }
     }
 
-    static final class SingletonList_PersistenceDelegate extends java_util_Collections {
-        protected Expression instantiate(Object oldInstance, Encoder out) {
-            List<?> list = (List<?>) oldInstance;
-            return new Expression(oldInstance, Collections.class, "singletonList", new Object[]{list.get(0)});
+    stbtid finbl dlbss EmptyMbp_PfrsistfndfDflfgbtf fxtfnds jbvb_util_Collfdtions {
+        protfdtfd Exprfssion instbntibtf(Objfdt oldInstbndf, Endodfr out) {
+            rfturn nfw Exprfssion(oldInstbndf, Collfdtions.dlbss, "fmptyMbp", null);
         }
     }
 
-    static final class SingletonSet_PersistenceDelegate extends java_util_Collections {
-        protected Expression instantiate(Object oldInstance, Encoder out) {
-            Set<?> set = (Set<?>) oldInstance;
-            return new Expression(oldInstance, Collections.class, "singleton", new Object[]{set.iterator().next()});
+    stbtid finbl dlbss SinglftonList_PfrsistfndfDflfgbtf fxtfnds jbvb_util_Collfdtions {
+        protfdtfd Exprfssion instbntibtf(Objfdt oldInstbndf, Endodfr out) {
+            List<?> list = (List<?>) oldInstbndf;
+            rfturn nfw Exprfssion(oldInstbndf, Collfdtions.dlbss, "singlftonList", nfw Objfdt[]{list.gft(0)});
         }
     }
 
-    static final class SingletonMap_PersistenceDelegate extends java_util_Collections {
-        protected Expression instantiate(Object oldInstance, Encoder out) {
-            Map<?,?> map = (Map<?,?>) oldInstance;
-            Object key = map.keySet().iterator().next();
-            return new Expression(oldInstance, Collections.class, "singletonMap", new Object[]{key, map.get(key)});
+    stbtid finbl dlbss SinglftonSft_PfrsistfndfDflfgbtf fxtfnds jbvb_util_Collfdtions {
+        protfdtfd Exprfssion instbntibtf(Objfdt oldInstbndf, Endodfr out) {
+            Sft<?> sft = (Sft<?>) oldInstbndf;
+            rfturn nfw Exprfssion(oldInstbndf, Collfdtions.dlbss, "singlfton", nfw Objfdt[]{sft.itfrbtor().nfxt()});
         }
     }
 
-    static final class UnmodifiableCollection_PersistenceDelegate extends java_util_Collections {
-        protected Expression instantiate(Object oldInstance, Encoder out) {
-            List<?> list = new ArrayList<>((Collection<?>) oldInstance);
-            return new Expression(oldInstance, Collections.class, "unmodifiableCollection", new Object[]{list});
+    stbtid finbl dlbss SinglftonMbp_PfrsistfndfDflfgbtf fxtfnds jbvb_util_Collfdtions {
+        protfdtfd Exprfssion instbntibtf(Objfdt oldInstbndf, Endodfr out) {
+            Mbp<?,?> mbp = (Mbp<?,?>) oldInstbndf;
+            Objfdt kfy = mbp.kfySft().itfrbtor().nfxt();
+            rfturn nfw Exprfssion(oldInstbndf, Collfdtions.dlbss, "singlftonMbp", nfw Objfdt[]{kfy, mbp.gft(kfy)});
         }
     }
 
-    static final class UnmodifiableList_PersistenceDelegate extends java_util_Collections {
-        protected Expression instantiate(Object oldInstance, Encoder out) {
-            List<?> list = new LinkedList<>((Collection<?>) oldInstance);
-            return new Expression(oldInstance, Collections.class, "unmodifiableList", new Object[]{list});
+    stbtid finbl dlbss UnmodifibblfCollfdtion_PfrsistfndfDflfgbtf fxtfnds jbvb_util_Collfdtions {
+        protfdtfd Exprfssion instbntibtf(Objfdt oldInstbndf, Endodfr out) {
+            List<?> list = nfw ArrbyList<>((Collfdtion<?>) oldInstbndf);
+            rfturn nfw Exprfssion(oldInstbndf, Collfdtions.dlbss, "unmodifibblfCollfdtion", nfw Objfdt[]{list});
         }
     }
 
-    static final class UnmodifiableRandomAccessList_PersistenceDelegate extends java_util_Collections {
-        protected Expression instantiate(Object oldInstance, Encoder out) {
-            List<?> list = new ArrayList<>((Collection<?>) oldInstance);
-            return new Expression(oldInstance, Collections.class, "unmodifiableList", new Object[]{list});
+    stbtid finbl dlbss UnmodifibblfList_PfrsistfndfDflfgbtf fxtfnds jbvb_util_Collfdtions {
+        protfdtfd Exprfssion instbntibtf(Objfdt oldInstbndf, Endodfr out) {
+            List<?> list = nfw LinkfdList<>((Collfdtion<?>) oldInstbndf);
+            rfturn nfw Exprfssion(oldInstbndf, Collfdtions.dlbss, "unmodifibblfList", nfw Objfdt[]{list});
         }
     }
 
-    static final class UnmodifiableSet_PersistenceDelegate extends java_util_Collections {
-        protected Expression instantiate(Object oldInstance, Encoder out) {
-            Set<?> set = new HashSet<>((Set<?>) oldInstance);
-            return new Expression(oldInstance, Collections.class, "unmodifiableSet", new Object[]{set});
+    stbtid finbl dlbss UnmodifibblfRbndomAddfssList_PfrsistfndfDflfgbtf fxtfnds jbvb_util_Collfdtions {
+        protfdtfd Exprfssion instbntibtf(Objfdt oldInstbndf, Endodfr out) {
+            List<?> list = nfw ArrbyList<>((Collfdtion<?>) oldInstbndf);
+            rfturn nfw Exprfssion(oldInstbndf, Collfdtions.dlbss, "unmodifibblfList", nfw Objfdt[]{list});
         }
     }
 
-    static final class UnmodifiableSortedSet_PersistenceDelegate extends java_util_Collections {
-        protected Expression instantiate(Object oldInstance, Encoder out) {
-            SortedSet<?> set = new TreeSet<>((SortedSet<?>) oldInstance);
-            return new Expression(oldInstance, Collections.class, "unmodifiableSortedSet", new Object[]{set});
+    stbtid finbl dlbss UnmodifibblfSft_PfrsistfndfDflfgbtf fxtfnds jbvb_util_Collfdtions {
+        protfdtfd Exprfssion instbntibtf(Objfdt oldInstbndf, Endodfr out) {
+            Sft<?> sft = nfw HbsiSft<>((Sft<?>) oldInstbndf);
+            rfturn nfw Exprfssion(oldInstbndf, Collfdtions.dlbss, "unmodifibblfSft", nfw Objfdt[]{sft});
         }
     }
 
-    static final class UnmodifiableMap_PersistenceDelegate extends java_util_Collections {
-        protected Expression instantiate(Object oldInstance, Encoder out) {
-            Map<?,?> map = new HashMap<>((Map<?,?>) oldInstance);
-            return new Expression(oldInstance, Collections.class, "unmodifiableMap", new Object[]{map});
+    stbtid finbl dlbss UnmodifibblfSortfdSft_PfrsistfndfDflfgbtf fxtfnds jbvb_util_Collfdtions {
+        protfdtfd Exprfssion instbntibtf(Objfdt oldInstbndf, Endodfr out) {
+            SortfdSft<?> sft = nfw TrffSft<>((SortfdSft<?>) oldInstbndf);
+            rfturn nfw Exprfssion(oldInstbndf, Collfdtions.dlbss, "unmodifibblfSortfdSft", nfw Objfdt[]{sft});
         }
     }
 
-    static final class UnmodifiableSortedMap_PersistenceDelegate extends java_util_Collections {
-        protected Expression instantiate(Object oldInstance, Encoder out) {
-            SortedMap<?,?> map = new TreeMap<>((SortedMap<?,?>) oldInstance);
-            return new Expression(oldInstance, Collections.class, "unmodifiableSortedMap", new Object[]{map});
+    stbtid finbl dlbss UnmodifibblfMbp_PfrsistfndfDflfgbtf fxtfnds jbvb_util_Collfdtions {
+        protfdtfd Exprfssion instbntibtf(Objfdt oldInstbndf, Endodfr out) {
+            Mbp<?,?> mbp = nfw HbsiMbp<>((Mbp<?,?>) oldInstbndf);
+            rfturn nfw Exprfssion(oldInstbndf, Collfdtions.dlbss, "unmodifibblfMbp", nfw Objfdt[]{mbp});
         }
     }
 
-    static final class SynchronizedCollection_PersistenceDelegate extends java_util_Collections {
-        protected Expression instantiate(Object oldInstance, Encoder out) {
-            List<?> list = new ArrayList<>((Collection<?>) oldInstance);
-            return new Expression(oldInstance, Collections.class, "synchronizedCollection", new Object[]{list});
+    stbtid finbl dlbss UnmodifibblfSortfdMbp_PfrsistfndfDflfgbtf fxtfnds jbvb_util_Collfdtions {
+        protfdtfd Exprfssion instbntibtf(Objfdt oldInstbndf, Endodfr out) {
+            SortfdMbp<?,?> mbp = nfw TrffMbp<>((SortfdMbp<?,?>) oldInstbndf);
+            rfturn nfw Exprfssion(oldInstbndf, Collfdtions.dlbss, "unmodifibblfSortfdMbp", nfw Objfdt[]{mbp});
         }
     }
 
-    static final class SynchronizedList_PersistenceDelegate extends java_util_Collections {
-        protected Expression instantiate(Object oldInstance, Encoder out) {
-            List<?> list = new LinkedList<>((Collection<?>) oldInstance);
-            return new Expression(oldInstance, Collections.class, "synchronizedList", new Object[]{list});
+    stbtid finbl dlbss SyndironizfdCollfdtion_PfrsistfndfDflfgbtf fxtfnds jbvb_util_Collfdtions {
+        protfdtfd Exprfssion instbntibtf(Objfdt oldInstbndf, Endodfr out) {
+            List<?> list = nfw ArrbyList<>((Collfdtion<?>) oldInstbndf);
+            rfturn nfw Exprfssion(oldInstbndf, Collfdtions.dlbss, "syndironizfdCollfdtion", nfw Objfdt[]{list});
         }
     }
 
-    static final class SynchronizedRandomAccessList_PersistenceDelegate extends java_util_Collections {
-        protected Expression instantiate(Object oldInstance, Encoder out) {
-            List<?> list = new ArrayList<>((Collection<?>) oldInstance);
-            return new Expression(oldInstance, Collections.class, "synchronizedList", new Object[]{list});
+    stbtid finbl dlbss SyndironizfdList_PfrsistfndfDflfgbtf fxtfnds jbvb_util_Collfdtions {
+        protfdtfd Exprfssion instbntibtf(Objfdt oldInstbndf, Endodfr out) {
+            List<?> list = nfw LinkfdList<>((Collfdtion<?>) oldInstbndf);
+            rfturn nfw Exprfssion(oldInstbndf, Collfdtions.dlbss, "syndironizfdList", nfw Objfdt[]{list});
         }
     }
 
-    static final class SynchronizedSet_PersistenceDelegate extends java_util_Collections {
-        protected Expression instantiate(Object oldInstance, Encoder out) {
-            Set<?> set = new HashSet<>((Set<?>) oldInstance);
-            return new Expression(oldInstance, Collections.class, "synchronizedSet", new Object[]{set});
+    stbtid finbl dlbss SyndironizfdRbndomAddfssList_PfrsistfndfDflfgbtf fxtfnds jbvb_util_Collfdtions {
+        protfdtfd Exprfssion instbntibtf(Objfdt oldInstbndf, Endodfr out) {
+            List<?> list = nfw ArrbyList<>((Collfdtion<?>) oldInstbndf);
+            rfturn nfw Exprfssion(oldInstbndf, Collfdtions.dlbss, "syndironizfdList", nfw Objfdt[]{list});
         }
     }
 
-    static final class SynchronizedSortedSet_PersistenceDelegate extends java_util_Collections {
-        protected Expression instantiate(Object oldInstance, Encoder out) {
-            SortedSet<?> set = new TreeSet<>((SortedSet<?>) oldInstance);
-            return new Expression(oldInstance, Collections.class, "synchronizedSortedSet", new Object[]{set});
+    stbtid finbl dlbss SyndironizfdSft_PfrsistfndfDflfgbtf fxtfnds jbvb_util_Collfdtions {
+        protfdtfd Exprfssion instbntibtf(Objfdt oldInstbndf, Endodfr out) {
+            Sft<?> sft = nfw HbsiSft<>((Sft<?>) oldInstbndf);
+            rfturn nfw Exprfssion(oldInstbndf, Collfdtions.dlbss, "syndironizfdSft", nfw Objfdt[]{sft});
         }
     }
 
-    static final class SynchronizedMap_PersistenceDelegate extends java_util_Collections {
-        protected Expression instantiate(Object oldInstance, Encoder out) {
-            Map<?,?> map = new HashMap<>((Map<?,?>) oldInstance);
-            return new Expression(oldInstance, Collections.class, "synchronizedMap", new Object[]{map});
+    stbtid finbl dlbss SyndironizfdSortfdSft_PfrsistfndfDflfgbtf fxtfnds jbvb_util_Collfdtions {
+        protfdtfd Exprfssion instbntibtf(Objfdt oldInstbndf, Endodfr out) {
+            SortfdSft<?> sft = nfw TrffSft<>((SortfdSft<?>) oldInstbndf);
+            rfturn nfw Exprfssion(oldInstbndf, Collfdtions.dlbss, "syndironizfdSortfdSft", nfw Objfdt[]{sft});
         }
     }
 
-    static final class SynchronizedSortedMap_PersistenceDelegate extends java_util_Collections {
-        protected Expression instantiate(Object oldInstance, Encoder out) {
-            SortedMap<?,?> map = new TreeMap<>((SortedMap<?,?>) oldInstance);
-            return new Expression(oldInstance, Collections.class, "synchronizedSortedMap", new Object[]{map});
+    stbtid finbl dlbss SyndironizfdMbp_PfrsistfndfDflfgbtf fxtfnds jbvb_util_Collfdtions {
+        protfdtfd Exprfssion instbntibtf(Objfdt oldInstbndf, Endodfr out) {
+            Mbp<?,?> mbp = nfw HbsiMbp<>((Mbp<?,?>) oldInstbndf);
+            rfturn nfw Exprfssion(oldInstbndf, Collfdtions.dlbss, "syndironizfdMbp", nfw Objfdt[]{mbp});
         }
     }
 
-    static final class CheckedCollection_PersistenceDelegate extends java_util_Collections {
-        protected Expression instantiate(Object oldInstance, Encoder out) {
-            Object type = MetaData.getPrivateFieldValue(oldInstance, "java.util.Collections$CheckedCollection.type");
-            List<?> list = new ArrayList<>((Collection<?>) oldInstance);
-            return new Expression(oldInstance, Collections.class, "checkedCollection", new Object[]{list, type});
+    stbtid finbl dlbss SyndironizfdSortfdMbp_PfrsistfndfDflfgbtf fxtfnds jbvb_util_Collfdtions {
+        protfdtfd Exprfssion instbntibtf(Objfdt oldInstbndf, Endodfr out) {
+            SortfdMbp<?,?> mbp = nfw TrffMbp<>((SortfdMbp<?,?>) oldInstbndf);
+            rfturn nfw Exprfssion(oldInstbndf, Collfdtions.dlbss, "syndironizfdSortfdMbp", nfw Objfdt[]{mbp});
         }
     }
 
-    static final class CheckedList_PersistenceDelegate extends java_util_Collections {
-        protected Expression instantiate(Object oldInstance, Encoder out) {
-            Object type = MetaData.getPrivateFieldValue(oldInstance, "java.util.Collections$CheckedCollection.type");
-            List<?> list = new LinkedList<>((Collection<?>) oldInstance);
-            return new Expression(oldInstance, Collections.class, "checkedList", new Object[]{list, type});
+    stbtid finbl dlbss CifdkfdCollfdtion_PfrsistfndfDflfgbtf fxtfnds jbvb_util_Collfdtions {
+        protfdtfd Exprfssion instbntibtf(Objfdt oldInstbndf, Endodfr out) {
+            Objfdt typf = MftbDbtb.gftPrivbtfFifldVbluf(oldInstbndf, "jbvb.util.Collfdtions$CifdkfdCollfdtion.typf");
+            List<?> list = nfw ArrbyList<>((Collfdtion<?>) oldInstbndf);
+            rfturn nfw Exprfssion(oldInstbndf, Collfdtions.dlbss, "difdkfdCollfdtion", nfw Objfdt[]{list, typf});
         }
     }
 
-    static final class CheckedRandomAccessList_PersistenceDelegate extends java_util_Collections {
-        protected Expression instantiate(Object oldInstance, Encoder out) {
-            Object type = MetaData.getPrivateFieldValue(oldInstance, "java.util.Collections$CheckedCollection.type");
-            List<?> list = new ArrayList<>((Collection<?>) oldInstance);
-            return new Expression(oldInstance, Collections.class, "checkedList", new Object[]{list, type});
+    stbtid finbl dlbss CifdkfdList_PfrsistfndfDflfgbtf fxtfnds jbvb_util_Collfdtions {
+        protfdtfd Exprfssion instbntibtf(Objfdt oldInstbndf, Endodfr out) {
+            Objfdt typf = MftbDbtb.gftPrivbtfFifldVbluf(oldInstbndf, "jbvb.util.Collfdtions$CifdkfdCollfdtion.typf");
+            List<?> list = nfw LinkfdList<>((Collfdtion<?>) oldInstbndf);
+            rfturn nfw Exprfssion(oldInstbndf, Collfdtions.dlbss, "difdkfdList", nfw Objfdt[]{list, typf});
         }
     }
 
-    static final class CheckedSet_PersistenceDelegate extends java_util_Collections {
-        protected Expression instantiate(Object oldInstance, Encoder out) {
-            Object type = MetaData.getPrivateFieldValue(oldInstance, "java.util.Collections$CheckedCollection.type");
-            Set<?> set = new HashSet<>((Set<?>) oldInstance);
-            return new Expression(oldInstance, Collections.class, "checkedSet", new Object[]{set, type});
+    stbtid finbl dlbss CifdkfdRbndomAddfssList_PfrsistfndfDflfgbtf fxtfnds jbvb_util_Collfdtions {
+        protfdtfd Exprfssion instbntibtf(Objfdt oldInstbndf, Endodfr out) {
+            Objfdt typf = MftbDbtb.gftPrivbtfFifldVbluf(oldInstbndf, "jbvb.util.Collfdtions$CifdkfdCollfdtion.typf");
+            List<?> list = nfw ArrbyList<>((Collfdtion<?>) oldInstbndf);
+            rfturn nfw Exprfssion(oldInstbndf, Collfdtions.dlbss, "difdkfdList", nfw Objfdt[]{list, typf});
         }
     }
 
-    static final class CheckedSortedSet_PersistenceDelegate extends java_util_Collections {
-        protected Expression instantiate(Object oldInstance, Encoder out) {
-            Object type = MetaData.getPrivateFieldValue(oldInstance, "java.util.Collections$CheckedCollection.type");
-            SortedSet<?> set = new TreeSet<>((SortedSet<?>) oldInstance);
-            return new Expression(oldInstance, Collections.class, "checkedSortedSet", new Object[]{set, type});
+    stbtid finbl dlbss CifdkfdSft_PfrsistfndfDflfgbtf fxtfnds jbvb_util_Collfdtions {
+        protfdtfd Exprfssion instbntibtf(Objfdt oldInstbndf, Endodfr out) {
+            Objfdt typf = MftbDbtb.gftPrivbtfFifldVbluf(oldInstbndf, "jbvb.util.Collfdtions$CifdkfdCollfdtion.typf");
+            Sft<?> sft = nfw HbsiSft<>((Sft<?>) oldInstbndf);
+            rfturn nfw Exprfssion(oldInstbndf, Collfdtions.dlbss, "difdkfdSft", nfw Objfdt[]{sft, typf});
         }
     }
 
-    static final class CheckedMap_PersistenceDelegate extends java_util_Collections {
-        protected Expression instantiate(Object oldInstance, Encoder out) {
-            Object keyType   = MetaData.getPrivateFieldValue(oldInstance, "java.util.Collections$CheckedMap.keyType");
-            Object valueType = MetaData.getPrivateFieldValue(oldInstance, "java.util.Collections$CheckedMap.valueType");
-            Map<?,?> map = new HashMap<>((Map<?,?>) oldInstance);
-            return new Expression(oldInstance, Collections.class, "checkedMap", new Object[]{map, keyType, valueType});
+    stbtid finbl dlbss CifdkfdSortfdSft_PfrsistfndfDflfgbtf fxtfnds jbvb_util_Collfdtions {
+        protfdtfd Exprfssion instbntibtf(Objfdt oldInstbndf, Endodfr out) {
+            Objfdt typf = MftbDbtb.gftPrivbtfFifldVbluf(oldInstbndf, "jbvb.util.Collfdtions$CifdkfdCollfdtion.typf");
+            SortfdSft<?> sft = nfw TrffSft<>((SortfdSft<?>) oldInstbndf);
+            rfturn nfw Exprfssion(oldInstbndf, Collfdtions.dlbss, "difdkfdSortfdSft", nfw Objfdt[]{sft, typf});
         }
     }
 
-    static final class CheckedSortedMap_PersistenceDelegate extends java_util_Collections {
-        protected Expression instantiate(Object oldInstance, Encoder out) {
-            Object keyType   = MetaData.getPrivateFieldValue(oldInstance, "java.util.Collections$CheckedMap.keyType");
-            Object valueType = MetaData.getPrivateFieldValue(oldInstance, "java.util.Collections$CheckedMap.valueType");
-            SortedMap<?,?> map = new TreeMap<>((SortedMap<?,?>) oldInstance);
-            return new Expression(oldInstance, Collections.class, "checkedSortedMap", new Object[]{map, keyType, valueType});
+    stbtid finbl dlbss CifdkfdMbp_PfrsistfndfDflfgbtf fxtfnds jbvb_util_Collfdtions {
+        protfdtfd Exprfssion instbntibtf(Objfdt oldInstbndf, Endodfr out) {
+            Objfdt kfyTypf   = MftbDbtb.gftPrivbtfFifldVbluf(oldInstbndf, "jbvb.util.Collfdtions$CifdkfdMbp.kfyTypf");
+            Objfdt vblufTypf = MftbDbtb.gftPrivbtfFifldVbluf(oldInstbndf, "jbvb.util.Collfdtions$CifdkfdMbp.vblufTypf");
+            Mbp<?,?> mbp = nfw HbsiMbp<>((Mbp<?,?>) oldInstbndf);
+            rfturn nfw Exprfssion(oldInstbndf, Collfdtions.dlbss, "difdkfdMbp", nfw Objfdt[]{mbp, kfyTypf, vblufTypf});
+        }
+    }
+
+    stbtid finbl dlbss CifdkfdSortfdMbp_PfrsistfndfDflfgbtf fxtfnds jbvb_util_Collfdtions {
+        protfdtfd Exprfssion instbntibtf(Objfdt oldInstbndf, Endodfr out) {
+            Objfdt kfyTypf   = MftbDbtb.gftPrivbtfFifldVbluf(oldInstbndf, "jbvb.util.Collfdtions$CifdkfdMbp.kfyTypf");
+            Objfdt vblufTypf = MftbDbtb.gftPrivbtfFifldVbluf(oldInstbndf, "jbvb.util.Collfdtions$CifdkfdMbp.vblufTypf");
+            SortfdMbp<?,?> mbp = nfw TrffMbp<>((SortfdMbp<?,?>) oldInstbndf);
+            rfturn nfw Exprfssion(oldInstbndf, Collfdtions.dlbss, "difdkfdSortfdMbp", nfw Objfdt[]{mbp, kfyTypf, vblufTypf});
         }
     }
 }
 
 /**
- * The persistence delegate for <CODE>java.util.EnumMap</CODE> classes.
+ * Tif pfrsistfndf dflfgbtf for <CODE>jbvb.util.EnumMbp</CODE> dlbssfs.
  *
- * @author Sergey A. Malenkov
+ * @butior Sfrgfy A. Mblfnkov
  */
-static final class java_util_EnumMap_PersistenceDelegate extends PersistenceDelegate {
-    protected boolean mutatesTo(Object oldInstance, Object newInstance) {
-        return super.mutatesTo(oldInstance, newInstance) && (getType(oldInstance) == getType(newInstance));
+stbtid finbl dlbss jbvb_util_EnumMbp_PfrsistfndfDflfgbtf fxtfnds PfrsistfndfDflfgbtf {
+    protfdtfd boolfbn mutbtfsTo(Objfdt oldInstbndf, Objfdt nfwInstbndf) {
+        rfturn supfr.mutbtfsTo(oldInstbndf, nfwInstbndf) && (gftTypf(oldInstbndf) == gftTypf(nfwInstbndf));
     }
 
-    protected Expression instantiate(Object oldInstance, Encoder out) {
-        return new Expression(oldInstance, EnumMap.class, "new", new Object[] {getType(oldInstance)});
+    protfdtfd Exprfssion instbntibtf(Objfdt oldInstbndf, Endodfr out) {
+        rfturn nfw Exprfssion(oldInstbndf, EnumMbp.dlbss, "nfw", nfw Objfdt[] {gftTypf(oldInstbndf)});
     }
 
-    private static Object getType(Object instance) {
-        return MetaData.getPrivateFieldValue(instance, "java.util.EnumMap.keyType");
+    privbtf stbtid Objfdt gftTypf(Objfdt instbndf) {
+        rfturn MftbDbtb.gftPrivbtfFifldVbluf(instbndf, "jbvb.util.EnumMbp.kfyTypf");
     }
 }
 
 /**
- * The persistence delegate for <CODE>java.util.EnumSet</CODE> classes.
+ * Tif pfrsistfndf dflfgbtf for <CODE>jbvb.util.EnumSft</CODE> dlbssfs.
  *
- * @author Sergey A. Malenkov
+ * @butior Sfrgfy A. Mblfnkov
  */
-static final class java_util_EnumSet_PersistenceDelegate extends PersistenceDelegate {
-    protected boolean mutatesTo(Object oldInstance, Object newInstance) {
-        return super.mutatesTo(oldInstance, newInstance) && (getType(oldInstance) == getType(newInstance));
+stbtid finbl dlbss jbvb_util_EnumSft_PfrsistfndfDflfgbtf fxtfnds PfrsistfndfDflfgbtf {
+    protfdtfd boolfbn mutbtfsTo(Objfdt oldInstbndf, Objfdt nfwInstbndf) {
+        rfturn supfr.mutbtfsTo(oldInstbndf, nfwInstbndf) && (gftTypf(oldInstbndf) == gftTypf(nfwInstbndf));
     }
 
-    protected Expression instantiate(Object oldInstance, Encoder out) {
-        return new Expression(oldInstance, EnumSet.class, "noneOf", new Object[] {getType(oldInstance)});
+    protfdtfd Exprfssion instbntibtf(Objfdt oldInstbndf, Endodfr out) {
+        rfturn nfw Exprfssion(oldInstbndf, EnumSft.dlbss, "nonfOf", nfw Objfdt[] {gftTypf(oldInstbndf)});
     }
 
-    private static Object getType(Object instance) {
-        return MetaData.getPrivateFieldValue(instance, "java.util.EnumSet.elementType");
+    privbtf stbtid Objfdt gftTypf(Objfdt instbndf) {
+        rfturn MftbDbtb.gftPrivbtfFifldVbluf(instbndf, "jbvb.util.EnumSft.flfmfntTypf");
     }
 }
 
-// Collection
-static class java_util_Collection_PersistenceDelegate extends DefaultPersistenceDelegate {
-    protected void initialize(Class<?> type, Object oldInstance, Object newInstance, Encoder out) {
-        java.util.Collection<?> oldO = (java.util.Collection)oldInstance;
-        java.util.Collection<?> newO = (java.util.Collection)newInstance;
+// Collfdtion
+stbtid dlbss jbvb_util_Collfdtion_PfrsistfndfDflfgbtf fxtfnds DffbultPfrsistfndfDflfgbtf {
+    protfdtfd void initiblizf(Clbss<?> typf, Objfdt oldInstbndf, Objfdt nfwInstbndf, Endodfr out) {
+        jbvb.util.Collfdtion<?> oldO = (jbvb.util.Collfdtion)oldInstbndf;
+        jbvb.util.Collfdtion<?> nfwO = (jbvb.util.Collfdtion)nfwInstbndf;
 
-        if (newO.size() != 0) {
-            invokeStatement(oldInstance, "clear", new Object[]{}, out);
+        if (nfwO.sizf() != 0) {
+            invokfStbtfmfnt(oldInstbndf, "dlfbr", nfw Objfdt[]{}, out);
         }
-        for (Iterator<?> i = oldO.iterator(); i.hasNext();) {
-            invokeStatement(oldInstance, "add", new Object[]{i.next()}, out);
+        for (Itfrbtor<?> i = oldO.itfrbtor(); i.ibsNfxt();) {
+            invokfStbtfmfnt(oldInstbndf, "bdd", nfw Objfdt[]{i.nfxt()}, out);
         }
     }
 }
 
 // List
-static class java_util_List_PersistenceDelegate extends DefaultPersistenceDelegate {
-    protected void initialize(Class<?> type, Object oldInstance, Object newInstance, Encoder out) {
-        java.util.List<?> oldO = (java.util.List<?>)oldInstance;
-        java.util.List<?> newO = (java.util.List<?>)newInstance;
-        int oldSize = oldO.size();
-        int newSize = (newO == null) ? 0 : newO.size();
-        if (oldSize < newSize) {
-            invokeStatement(oldInstance, "clear", new Object[]{}, out);
-            newSize = 0;
+stbtid dlbss jbvb_util_List_PfrsistfndfDflfgbtf fxtfnds DffbultPfrsistfndfDflfgbtf {
+    protfdtfd void initiblizf(Clbss<?> typf, Objfdt oldInstbndf, Objfdt nfwInstbndf, Endodfr out) {
+        jbvb.util.List<?> oldO = (jbvb.util.List<?>)oldInstbndf;
+        jbvb.util.List<?> nfwO = (jbvb.util.List<?>)nfwInstbndf;
+        int oldSizf = oldO.sizf();
+        int nfwSizf = (nfwO == null) ? 0 : nfwO.sizf();
+        if (oldSizf < nfwSizf) {
+            invokfStbtfmfnt(oldInstbndf, "dlfbr", nfw Objfdt[]{}, out);
+            nfwSizf = 0;
         }
-        for (int i = 0; i < newSize; i++) {
-            Object index = i;
+        for (int i = 0; i < nfwSizf; i++) {
+            Objfdt indfx = i;
 
-            Expression oldGetExp = new Expression(oldInstance, "get", new Object[]{index});
-            Expression newGetExp = new Expression(newInstance, "get", new Object[]{index});
+            Exprfssion oldGftExp = nfw Exprfssion(oldInstbndf, "gft", nfw Objfdt[]{indfx});
+            Exprfssion nfwGftExp = nfw Exprfssion(nfwInstbndf, "gft", nfw Objfdt[]{indfx});
             try {
-                Object oldValue = oldGetExp.getValue();
-                Object newValue = newGetExp.getValue();
-                out.writeExpression(oldGetExp);
-                if (!Objects.equals(newValue, out.get(oldValue))) {
-                    invokeStatement(oldInstance, "set", new Object[]{index, oldValue}, out);
+                Objfdt oldVbluf = oldGftExp.gftVbluf();
+                Objfdt nfwVbluf = nfwGftExp.gftVbluf();
+                out.writfExprfssion(oldGftExp);
+                if (!Objfdts.fqubls(nfwVbluf, out.gft(oldVbluf))) {
+                    invokfStbtfmfnt(oldInstbndf, "sft", nfw Objfdt[]{indfx, oldVbluf}, out);
                 }
             }
-            catch (Exception e) {
-                out.getExceptionListener().exceptionThrown(e);
+            dbtdi (Exdfption f) {
+                out.gftExdfptionListfnfr().fxdfptionTirown(f);
             }
         }
-        for (int i = newSize; i < oldSize; i++) {
-            invokeStatement(oldInstance, "add", new Object[]{oldO.get(i)}, out);
+        for (int i = nfwSizf; i < oldSizf; i++) {
+            invokfStbtfmfnt(oldInstbndf, "bdd", nfw Objfdt[]{oldO.gft(i)}, out);
         }
     }
 }
 
 
-// Map
-static class java_util_Map_PersistenceDelegate extends DefaultPersistenceDelegate {
-    protected void initialize(Class<?> type, Object oldInstance, Object newInstance, Encoder out) {
-        // System.out.println("Initializing: " + newInstance);
-        java.util.Map<?,?> oldMap = (java.util.Map)oldInstance;
-        java.util.Map<?,?> newMap = (java.util.Map)newInstance;
-        // Remove the new elements.
-        // Do this first otherwise we undo the adding work.
-        if (newMap != null) {
-            for (Object newKey : newMap.keySet().toArray()) {
-               // PENDING: This "key" is not in the right environment.
-                if (!oldMap.containsKey(newKey)) {
-                    invokeStatement(oldInstance, "remove", new Object[]{newKey}, out);
+// Mbp
+stbtid dlbss jbvb_util_Mbp_PfrsistfndfDflfgbtf fxtfnds DffbultPfrsistfndfDflfgbtf {
+    protfdtfd void initiblizf(Clbss<?> typf, Objfdt oldInstbndf, Objfdt nfwInstbndf, Endodfr out) {
+        // Systfm.out.println("Initiblizing: " + nfwInstbndf);
+        jbvb.util.Mbp<?,?> oldMbp = (jbvb.util.Mbp)oldInstbndf;
+        jbvb.util.Mbp<?,?> nfwMbp = (jbvb.util.Mbp)nfwInstbndf;
+        // Rfmovf tif nfw flfmfnts.
+        // Do tiis first otifrwisf wf undo tif bdding work.
+        if (nfwMbp != null) {
+            for (Objfdt nfwKfy : nfwMbp.kfySft().toArrby()) {
+               // PENDING: Tiis "kfy" is not in tif rigit fnvironmfnt.
+                if (!oldMbp.dontbinsKfy(nfwKfy)) {
+                    invokfStbtfmfnt(oldInstbndf, "rfmovf", nfw Objfdt[]{nfwKfy}, out);
                 }
             }
         }
-        // Add the new elements.
-        for ( Object oldKey : oldMap.keySet() ) {
-            Expression oldGetExp = new Expression(oldInstance, "get", new Object[]{oldKey});
-            // Pending: should use newKey.
-            Expression newGetExp = new Expression(newInstance, "get", new Object[]{oldKey});
+        // Add tif nfw flfmfnts.
+        for ( Objfdt oldKfy : oldMbp.kfySft() ) {
+            Exprfssion oldGftExp = nfw Exprfssion(oldInstbndf, "gft", nfw Objfdt[]{oldKfy});
+            // Pfnding: siould usf nfwKfy.
+            Exprfssion nfwGftExp = nfw Exprfssion(nfwInstbndf, "gft", nfw Objfdt[]{oldKfy});
             try {
-                Object oldValue = oldGetExp.getValue();
-                Object newValue = newGetExp.getValue();
-                out.writeExpression(oldGetExp);
-                if (!Objects.equals(newValue, out.get(oldValue))) {
-                    invokeStatement(oldInstance, "put", new Object[]{oldKey, oldValue}, out);
-                } else if ((newValue == null) && !newMap.containsKey(oldKey)) {
-                    // put oldValue(=null?) if oldKey is absent in newMap
-                    invokeStatement(oldInstance, "put", new Object[]{oldKey, oldValue}, out);
+                Objfdt oldVbluf = oldGftExp.gftVbluf();
+                Objfdt nfwVbluf = nfwGftExp.gftVbluf();
+                out.writfExprfssion(oldGftExp);
+                if (!Objfdts.fqubls(nfwVbluf, out.gft(oldVbluf))) {
+                    invokfStbtfmfnt(oldInstbndf, "put", nfw Objfdt[]{oldKfy, oldVbluf}, out);
+                } flsf if ((nfwVbluf == null) && !nfwMbp.dontbinsKfy(oldKfy)) {
+                    // put oldVbluf(=null?) if oldKfy is bbsfnt in nfwMbp
+                    invokfStbtfmfnt(oldInstbndf, "put", nfw Objfdt[]{oldKfy, oldVbluf}, out);
                 }
             }
-            catch (Exception e) {
-                out.getExceptionListener().exceptionThrown(e);
+            dbtdi (Exdfption f) {
+                out.gftExdfptionListfnfr().fxdfptionTirown(f);
             }
         }
     }
 }
 
-static final class java_util_AbstractCollection_PersistenceDelegate extends java_util_Collection_PersistenceDelegate {}
-static final class java_util_AbstractList_PersistenceDelegate extends java_util_List_PersistenceDelegate {}
-static final class java_util_AbstractMap_PersistenceDelegate extends java_util_Map_PersistenceDelegate {}
-static final class java_util_Hashtable_PersistenceDelegate extends java_util_Map_PersistenceDelegate {}
+stbtid finbl dlbss jbvb_util_AbstrbdtCollfdtion_PfrsistfndfDflfgbtf fxtfnds jbvb_util_Collfdtion_PfrsistfndfDflfgbtf {}
+stbtid finbl dlbss jbvb_util_AbstrbdtList_PfrsistfndfDflfgbtf fxtfnds jbvb_util_List_PfrsistfndfDflfgbtf {}
+stbtid finbl dlbss jbvb_util_AbstrbdtMbp_PfrsistfndfDflfgbtf fxtfnds jbvb_util_Mbp_PfrsistfndfDflfgbtf {}
+stbtid finbl dlbss jbvb_util_Hbsitbblf_PfrsistfndfDflfgbtf fxtfnds jbvb_util_Mbp_PfrsistfndfDflfgbtf {}
 
 
-// Beans
-static final class java_beans_beancontext_BeanContextSupport_PersistenceDelegate extends java_util_Collection_PersistenceDelegate {}
+// Bfbns
+stbtid finbl dlbss jbvb_bfbns_bfbndontfxt_BfbnContfxtSupport_PfrsistfndfDflfgbtf fxtfnds jbvb_util_Collfdtion_PfrsistfndfDflfgbtf {}
 
 // AWT
 
 /**
- * The persistence delegate for {@link Insets}.
- * It is impossible to use {@link DefaultPersistenceDelegate}
- * because this class does not have any properties.
+ * Tif pfrsistfndf dflfgbtf for {@link Insfts}.
+ * It is impossiblf to usf {@link DffbultPfrsistfndfDflfgbtf}
+ * bfdbusf tiis dlbss dofs not ibvf bny propfrtifs.
  *
- * @author Sergey A. Malenkov
+ * @butior Sfrgfy A. Mblfnkov
  */
-static final class java_awt_Insets_PersistenceDelegate extends PersistenceDelegate {
-    protected boolean mutatesTo(Object oldInstance, Object newInstance) {
-        return oldInstance.equals(newInstance);
+stbtid finbl dlbss jbvb_bwt_Insfts_PfrsistfndfDflfgbtf fxtfnds PfrsistfndfDflfgbtf {
+    protfdtfd boolfbn mutbtfsTo(Objfdt oldInstbndf, Objfdt nfwInstbndf) {
+        rfturn oldInstbndf.fqubls(nfwInstbndf);
     }
 
-    protected Expression instantiate(Object oldInstance, Encoder out) {
-        Insets insets = (Insets) oldInstance;
-        Object[] args = new Object[] {
-                insets.top,
-                insets.left,
-                insets.bottom,
-                insets.right,
+    protfdtfd Exprfssion instbntibtf(Objfdt oldInstbndf, Endodfr out) {
+        Insfts insfts = (Insfts) oldInstbndf;
+        Objfdt[] brgs = nfw Objfdt[] {
+                insfts.top,
+                insfts.lfft,
+                insfts.bottom,
+                insfts.rigit,
         };
-        return new Expression(insets, insets.getClass(), "new", args);
+        rfturn nfw Exprfssion(insfts, insfts.gftClbss(), "nfw", brgs);
     }
 }
 
 /**
- * The persistence delegate for {@link Font}.
- * It is impossible to use {@link DefaultPersistenceDelegate}
- * because size of the font can be float value.
+ * Tif pfrsistfndf dflfgbtf for {@link Font}.
+ * It is impossiblf to usf {@link DffbultPfrsistfndfDflfgbtf}
+ * bfdbusf sizf of tif font dbn bf flobt vbluf.
  *
- * @author Sergey A. Malenkov
+ * @butior Sfrgfy A. Mblfnkov
  */
-static final class java_awt_Font_PersistenceDelegate extends PersistenceDelegate {
-    protected boolean mutatesTo(Object oldInstance, Object newInstance) {
-        return oldInstance.equals(newInstance);
+stbtid finbl dlbss jbvb_bwt_Font_PfrsistfndfDflfgbtf fxtfnds PfrsistfndfDflfgbtf {
+    protfdtfd boolfbn mutbtfsTo(Objfdt oldInstbndf, Objfdt nfwInstbndf) {
+        rfturn oldInstbndf.fqubls(nfwInstbndf);
     }
 
-    protected Expression instantiate(Object oldInstance, Encoder out) {
-        Font font = (Font) oldInstance;
+    protfdtfd Exprfssion instbntibtf(Objfdt oldInstbndf, Endodfr out) {
+        Font font = (Font) oldInstbndf;
 
-        int count = 0;
-        String family = null;
-        int style = Font.PLAIN;
-        int size = 12;
+        int dount = 0;
+        String fbmily = null;
+        int stylf = Font.PLAIN;
+        int sizf = 12;
 
-        Map<TextAttribute, ?> basic = font.getAttributes();
-        Map<TextAttribute, Object> clone = new HashMap<>(basic.size());
-        for (TextAttribute key : basic.keySet()) {
-            Object value = basic.get(key);
-            if (value != null) {
-                clone.put(key, value);
+        Mbp<TfxtAttributf, ?> bbsid = font.gftAttributfs();
+        Mbp<TfxtAttributf, Objfdt> dlonf = nfw HbsiMbp<>(bbsid.sizf());
+        for (TfxtAttributf kfy : bbsid.kfySft()) {
+            Objfdt vbluf = bbsid.gft(kfy);
+            if (vbluf != null) {
+                dlonf.put(kfy, vbluf);
             }
-            if (key == TextAttribute.FAMILY) {
-                if (value instanceof String) {
-                    count++;
-                    family = (String) value;
+            if (kfy == TfxtAttributf.FAMILY) {
+                if (vbluf instbndfof String) {
+                    dount++;
+                    fbmily = (String) vbluf;
                 }
             }
-            else if (key == TextAttribute.WEIGHT) {
-                if (TextAttribute.WEIGHT_REGULAR.equals(value)) {
-                    count++;
-                } else if (TextAttribute.WEIGHT_BOLD.equals(value)) {
-                    count++;
-                    style |= Font.BOLD;
+            flsf if (kfy == TfxtAttributf.WEIGHT) {
+                if (TfxtAttributf.WEIGHT_REGULAR.fqubls(vbluf)) {
+                    dount++;
+                } flsf if (TfxtAttributf.WEIGHT_BOLD.fqubls(vbluf)) {
+                    dount++;
+                    stylf |= Font.BOLD;
                 }
             }
-            else if (key == TextAttribute.POSTURE) {
-                if (TextAttribute.POSTURE_REGULAR.equals(value)) {
-                    count++;
-                } else if (TextAttribute.POSTURE_OBLIQUE.equals(value)) {
-                    count++;
-                    style |= Font.ITALIC;
+            flsf if (kfy == TfxtAttributf.POSTURE) {
+                if (TfxtAttributf.POSTURE_REGULAR.fqubls(vbluf)) {
+                    dount++;
+                } flsf if (TfxtAttributf.POSTURE_OBLIQUE.fqubls(vbluf)) {
+                    dount++;
+                    stylf |= Font.ITALIC;
                 }
-            } else if (key == TextAttribute.SIZE) {
-                if (value instanceof Number) {
-                    Number number = (Number) value;
-                    size = number.intValue();
-                    if (size == number.floatValue()) {
-                        count++;
+            } flsf if (kfy == TfxtAttributf.SIZE) {
+                if (vbluf instbndfof Numbfr) {
+                    Numbfr numbfr = (Numbfr) vbluf;
+                    sizf = numbfr.intVbluf();
+                    if (sizf == numbfr.flobtVbluf()) {
+                        dount++;
                     }
                 }
             }
         }
-        Class<?> type = font.getClass();
-        if (count == clone.size()) {
-            return new Expression(font, type, "new", new Object[]{family, style, size});
+        Clbss<?> typf = font.gftClbss();
+        if (dount == dlonf.sizf()) {
+            rfturn nfw Exprfssion(font, typf, "nfw", nfw Objfdt[]{fbmily, stylf, sizf});
         }
-        if (type == Font.class) {
-            return new Expression(font, type, "getFont", new Object[]{clone});
+        if (typf == Font.dlbss) {
+            rfturn nfw Exprfssion(font, typf, "gftFont", nfw Objfdt[]{dlonf});
         }
-        return new Expression(font, type, "new", new Object[]{Font.getFont(clone)});
+        rfturn nfw Exprfssion(font, typf, "nfw", nfw Objfdt[]{Font.gftFont(dlonf)});
     }
 }
 
 /**
- * The persistence delegate for {@link AWTKeyStroke}.
- * It is impossible to use {@link DefaultPersistenceDelegate}
- * because this class have no public constructor.
+ * Tif pfrsistfndf dflfgbtf for {@link AWTKfyStrokf}.
+ * It is impossiblf to usf {@link DffbultPfrsistfndfDflfgbtf}
+ * bfdbusf tiis dlbss ibvf no publid donstrudtor.
  *
- * @author Sergey A. Malenkov
+ * @butior Sfrgfy A. Mblfnkov
  */
-static final class java_awt_AWTKeyStroke_PersistenceDelegate extends PersistenceDelegate {
-    protected boolean mutatesTo(Object oldInstance, Object newInstance) {
-        return oldInstance.equals(newInstance);
+stbtid finbl dlbss jbvb_bwt_AWTKfyStrokf_PfrsistfndfDflfgbtf fxtfnds PfrsistfndfDflfgbtf {
+    protfdtfd boolfbn mutbtfsTo(Objfdt oldInstbndf, Objfdt nfwInstbndf) {
+        rfturn oldInstbndf.fqubls(nfwInstbndf);
     }
 
-    protected Expression instantiate(Object oldInstance, Encoder out) {
-        AWTKeyStroke key = (AWTKeyStroke) oldInstance;
+    protfdtfd Exprfssion instbntibtf(Objfdt oldInstbndf, Endodfr out) {
+        AWTKfyStrokf kfy = (AWTKfyStrokf) oldInstbndf;
 
-        char ch = key.getKeyChar();
-        int code = key.getKeyCode();
-        int mask = key.getModifiers();
-        boolean onKeyRelease = key.isOnKeyRelease();
+        dibr di = kfy.gftKfyCibr();
+        int dodf = kfy.gftKfyCodf();
+        int mbsk = kfy.gftModififrs();
+        boolfbn onKfyRflfbsf = kfy.isOnKfyRflfbsf();
 
-        Object[] args = null;
-        if (ch == KeyEvent.CHAR_UNDEFINED) {
-            args = !onKeyRelease
-                    ? new Object[]{code, mask}
-                    : new Object[]{code, mask, onKeyRelease};
-        } else if (code == KeyEvent.VK_UNDEFINED) {
-            if (!onKeyRelease) {
-                args = (mask == 0)
-                        ? new Object[]{ch}
-                        : new Object[]{ch, mask};
-            } else if (mask == 0) {
-                args = new Object[]{ch, onKeyRelease};
+        Objfdt[] brgs = null;
+        if (di == KfyEvfnt.CHAR_UNDEFINED) {
+            brgs = !onKfyRflfbsf
+                    ? nfw Objfdt[]{dodf, mbsk}
+                    : nfw Objfdt[]{dodf, mbsk, onKfyRflfbsf};
+        } flsf if (dodf == KfyEvfnt.VK_UNDEFINED) {
+            if (!onKfyRflfbsf) {
+                brgs = (mbsk == 0)
+                        ? nfw Objfdt[]{di}
+                        : nfw Objfdt[]{di, mbsk};
+            } flsf if (mbsk == 0) {
+                brgs = nfw Objfdt[]{di, onKfyRflfbsf};
             }
         }
-        if (args == null) {
-            throw new IllegalStateException("Unsupported KeyStroke: " + key);
+        if (brgs == null) {
+            tirow nfw IllfgblStbtfExdfption("Unsupportfd KfyStrokf: " + kfy);
         }
-        Class<?> type = key.getClass();
-        String name = type.getName();
-        // get short name of the class
-        int index = name.lastIndexOf('.') + 1;
-        if (index > 0) {
-            name = name.substring(index);
+        Clbss<?> typf = kfy.gftClbss();
+        String nbmf = typf.gftNbmf();
+        // gft siort nbmf of tif dlbss
+        int indfx = nbmf.lbstIndfxOf('.') + 1;
+        if (indfx > 0) {
+            nbmf = nbmf.substring(indfx);
         }
-        return new Expression( key, type, "get" + name, args );
+        rfturn nfw Exprfssion( kfy, typf, "gft" + nbmf, brgs );
     }
 }
 
-static class StaticFieldsPersistenceDelegate extends PersistenceDelegate {
-    protected void installFields(Encoder out, Class<?> cls) {
-        if (Modifier.isPublic(cls.getModifiers()) && isPackageAccessible(cls)) {
-            Field fields[] = cls.getFields();
-            for(int i = 0; i < fields.length; i++) {
-                Field field = fields[i];
-                // Don't install primitives, their identity will not be preserved
-                // by wrapping.
-                if (Object.class.isAssignableFrom(field.getType())) {
-                    out.writeExpression(new Expression(field, "get", new Object[]{null}));
+stbtid dlbss StbtidFifldsPfrsistfndfDflfgbtf fxtfnds PfrsistfndfDflfgbtf {
+    protfdtfd void instbllFiflds(Endodfr out, Clbss<?> dls) {
+        if (Modififr.isPublid(dls.gftModififrs()) && isPbdkbgfAddfssiblf(dls)) {
+            Fifld fiflds[] = dls.gftFiflds();
+            for(int i = 0; i < fiflds.lfngti; i++) {
+                Fifld fifld = fiflds[i];
+                // Don't instbll primitivfs, tifir idfntity will not bf prfsfrvfd
+                // by wrbpping.
+                if (Objfdt.dlbss.isAssignbblfFrom(fifld.gftTypf())) {
+                    out.writfExprfssion(nfw Exprfssion(fifld, "gft", nfw Objfdt[]{null}));
                 }
             }
         }
     }
 
-    protected Expression instantiate(Object oldInstance, Encoder out) {
-        throw new RuntimeException("Unrecognized instance: " + oldInstance);
+    protfdtfd Exprfssion instbntibtf(Objfdt oldInstbndf, Endodfr out) {
+        tirow nfw RuntimfExdfption("Unrfdognizfd instbndf: " + oldInstbndf);
     }
 
-    public void writeObject(Object oldInstance, Encoder out) {
-        if (out.getAttribute(this) == null) {
-            out.setAttribute(this, Boolean.TRUE);
-            installFields(out, oldInstance.getClass());
+    publid void writfObjfdt(Objfdt oldInstbndf, Endodfr out) {
+        if (out.gftAttributf(tiis) == null) {
+            out.sftAttributf(tiis, Boolfbn.TRUE);
+            instbllFiflds(out, oldInstbndf.gftClbss());
         }
-        super.writeObject(oldInstance, out);
+        supfr.writfObjfdt(oldInstbndf, out);
     }
 }
 
-// SystemColor
-static final class java_awt_SystemColor_PersistenceDelegate extends StaticFieldsPersistenceDelegate {}
+// SystfmColor
+stbtid finbl dlbss jbvb_bwt_SystfmColor_PfrsistfndfDflfgbtf fxtfnds StbtidFifldsPfrsistfndfDflfgbtf {}
 
-// TextAttribute
-static final class java_awt_font_TextAttribute_PersistenceDelegate extends StaticFieldsPersistenceDelegate {}
+// TfxtAttributf
+stbtid finbl dlbss jbvb_bwt_font_TfxtAttributf_PfrsistfndfDflfgbtf fxtfnds StbtidFifldsPfrsistfndfDflfgbtf {}
 
-// MenuShortcut
-static final class java_awt_MenuShortcut_PersistenceDelegate extends PersistenceDelegate {
-    protected boolean mutatesTo(Object oldInstance, Object newInstance) {
-        return oldInstance.equals(newInstance);
+// MfnuSiortdut
+stbtid finbl dlbss jbvb_bwt_MfnuSiortdut_PfrsistfndfDflfgbtf fxtfnds PfrsistfndfDflfgbtf {
+    protfdtfd boolfbn mutbtfsTo(Objfdt oldInstbndf, Objfdt nfwInstbndf) {
+        rfturn oldInstbndf.fqubls(nfwInstbndf);
     }
 
-    protected Expression instantiate(Object oldInstance, Encoder out) {
-        java.awt.MenuShortcut m = (java.awt.MenuShortcut)oldInstance;
-        return new Expression(oldInstance, m.getClass(), "new",
-                   new Object[]{m.getKey(), Boolean.valueOf(m.usesShiftModifier())});
+    protfdtfd Exprfssion instbntibtf(Objfdt oldInstbndf, Endodfr out) {
+        jbvb.bwt.MfnuSiortdut m = (jbvb.bwt.MfnuSiortdut)oldInstbndf;
+        rfturn nfw Exprfssion(oldInstbndf, m.gftClbss(), "nfw",
+                   nfw Objfdt[]{m.gftKfy(), Boolfbn.vblufOf(m.usfsSiiftModififr())});
     }
 }
 
-// Component
-static final class java_awt_Component_PersistenceDelegate extends DefaultPersistenceDelegate {
-    protected void initialize(Class<?> type, Object oldInstance, Object newInstance, Encoder out) {
-        super.initialize(type, oldInstance, newInstance, out);
-        java.awt.Component c = (java.awt.Component)oldInstance;
-        java.awt.Component c2 = (java.awt.Component)newInstance;
-        // The "background", "foreground" and "font" properties.
-        // The foreground and font properties of Windows change from
-        // null to defined values after the Windows are made visible -
-        // special case them for now.
-        if (!(oldInstance instanceof java.awt.Window)) {
-            Object oldBackground = c.isBackgroundSet() ? c.getBackground() : null;
-            Object newBackground = c2.isBackgroundSet() ? c2.getBackground() : null;
-            if (!Objects.equals(oldBackground, newBackground)) {
-                invokeStatement(oldInstance, "setBackground", new Object[] { oldBackground }, out);
+// Componfnt
+stbtid finbl dlbss jbvb_bwt_Componfnt_PfrsistfndfDflfgbtf fxtfnds DffbultPfrsistfndfDflfgbtf {
+    protfdtfd void initiblizf(Clbss<?> typf, Objfdt oldInstbndf, Objfdt nfwInstbndf, Endodfr out) {
+        supfr.initiblizf(typf, oldInstbndf, nfwInstbndf, out);
+        jbvb.bwt.Componfnt d = (jbvb.bwt.Componfnt)oldInstbndf;
+        jbvb.bwt.Componfnt d2 = (jbvb.bwt.Componfnt)nfwInstbndf;
+        // Tif "bbdkground", "forfground" bnd "font" propfrtifs.
+        // Tif forfground bnd font propfrtifs of Windows dibngf from
+        // null to dffinfd vblufs bftfr tif Windows brf mbdf visiblf -
+        // spfdibl dbsf tifm for now.
+        if (!(oldInstbndf instbndfof jbvb.bwt.Window)) {
+            Objfdt oldBbdkground = d.isBbdkgroundSft() ? d.gftBbdkground() : null;
+            Objfdt nfwBbdkground = d2.isBbdkgroundSft() ? d2.gftBbdkground() : null;
+            if (!Objfdts.fqubls(oldBbdkground, nfwBbdkground)) {
+                invokfStbtfmfnt(oldInstbndf, "sftBbdkground", nfw Objfdt[] { oldBbdkground }, out);
             }
-            Object oldForeground = c.isForegroundSet() ? c.getForeground() : null;
-            Object newForeground = c2.isForegroundSet() ? c2.getForeground() : null;
-            if (!Objects.equals(oldForeground, newForeground)) {
-                invokeStatement(oldInstance, "setForeground", new Object[] { oldForeground }, out);
+            Objfdt oldForfground = d.isForfgroundSft() ? d.gftForfground() : null;
+            Objfdt nfwForfground = d2.isForfgroundSft() ? d2.gftForfground() : null;
+            if (!Objfdts.fqubls(oldForfground, nfwForfground)) {
+                invokfStbtfmfnt(oldInstbndf, "sftForfground", nfw Objfdt[] { oldForfground }, out);
             }
-            Object oldFont = c.isFontSet() ? c.getFont() : null;
-            Object newFont = c2.isFontSet() ? c2.getFont() : null;
-            if (!Objects.equals(oldFont, newFont)) {
-                invokeStatement(oldInstance, "setFont", new Object[] { oldFont }, out);
+            Objfdt oldFont = d.isFontSft() ? d.gftFont() : null;
+            Objfdt nfwFont = d2.isFontSft() ? d2.gftFont() : null;
+            if (!Objfdts.fqubls(oldFont, nfwFont)) {
+                invokfStbtfmfnt(oldInstbndf, "sftFont", nfw Objfdt[] { oldFont }, out);
             }
         }
 
         // Bounds
-        java.awt.Container p = c.getParent();
-        if (p == null || p.getLayout() == null) {
-            // Use the most concise construct.
-            boolean locationCorrect = c.getLocation().equals(c2.getLocation());
-            boolean sizeCorrect = c.getSize().equals(c2.getSize());
-            if (!locationCorrect && !sizeCorrect) {
-                invokeStatement(oldInstance, "setBounds", new Object[]{c.getBounds()}, out);
+        jbvb.bwt.Contbinfr p = d.gftPbrfnt();
+        if (p == null || p.gftLbyout() == null) {
+            // Usf tif most dondisf donstrudt.
+            boolfbn lodbtionCorrfdt = d.gftLodbtion().fqubls(d2.gftLodbtion());
+            boolfbn sizfCorrfdt = d.gftSizf().fqubls(d2.gftSizf());
+            if (!lodbtionCorrfdt && !sizfCorrfdt) {
+                invokfStbtfmfnt(oldInstbndf, "sftBounds", nfw Objfdt[]{d.gftBounds()}, out);
             }
-            else if (!locationCorrect) {
-                invokeStatement(oldInstance, "setLocation", new Object[]{c.getLocation()}, out);
+            flsf if (!lodbtionCorrfdt) {
+                invokfStbtfmfnt(oldInstbndf, "sftLodbtion", nfw Objfdt[]{d.gftLodbtion()}, out);
             }
-            else if (!sizeCorrect) {
-                invokeStatement(oldInstance, "setSize", new Object[]{c.getSize()}, out);
+            flsf if (!sizfCorrfdt) {
+                invokfStbtfmfnt(oldInstbndf, "sftSizf", nfw Objfdt[]{d.gftSizf()}, out);
             }
         }
     }
 }
 
-// Container
-static final class java_awt_Container_PersistenceDelegate extends DefaultPersistenceDelegate {
-    protected void initialize(Class<?> type, Object oldInstance, Object newInstance, Encoder out) {
-        super.initialize(type, oldInstance, newInstance, out);
-        // Ignore the children of a JScrollPane.
-        // Pending(milne) find a better way to do this.
-        if (oldInstance instanceof javax.swing.JScrollPane) {
-            return;
+// Contbinfr
+stbtid finbl dlbss jbvb_bwt_Contbinfr_PfrsistfndfDflfgbtf fxtfnds DffbultPfrsistfndfDflfgbtf {
+    protfdtfd void initiblizf(Clbss<?> typf, Objfdt oldInstbndf, Objfdt nfwInstbndf, Endodfr out) {
+        supfr.initiblizf(typf, oldInstbndf, nfwInstbndf, out);
+        // Ignorf tif diildrfn of b JSdrollPbnf.
+        // Pfnding(milnf) find b bfttfr wby to do tiis.
+        if (oldInstbndf instbndfof jbvbx.swing.JSdrollPbnf) {
+            rfturn;
         }
-        java.awt.Container oldC = (java.awt.Container)oldInstance;
-        java.awt.Component[] oldChildren = oldC.getComponents();
-        java.awt.Container newC = (java.awt.Container)newInstance;
-        java.awt.Component[] newChildren = (newC == null) ? new java.awt.Component[0] : newC.getComponents();
+        jbvb.bwt.Contbinfr oldC = (jbvb.bwt.Contbinfr)oldInstbndf;
+        jbvb.bwt.Componfnt[] oldCiildrfn = oldC.gftComponfnts();
+        jbvb.bwt.Contbinfr nfwC = (jbvb.bwt.Contbinfr)nfwInstbndf;
+        jbvb.bwt.Componfnt[] nfwCiildrfn = (nfwC == null) ? nfw jbvb.bwt.Componfnt[0] : nfwC.gftComponfnts();
 
-        BorderLayout layout = ( oldC.getLayout() instanceof BorderLayout )
-                ? ( BorderLayout )oldC.getLayout()
+        BordfrLbyout lbyout = ( oldC.gftLbyout() instbndfof BordfrLbyout )
+                ? ( BordfrLbyout )oldC.gftLbyout()
                 : null;
 
-        JLayeredPane oldLayeredPane = (oldInstance instanceof JLayeredPane)
-                ? (JLayeredPane) oldInstance
+        JLbyfrfdPbnf oldLbyfrfdPbnf = (oldInstbndf instbndfof JLbyfrfdPbnf)
+                ? (JLbyfrfdPbnf) oldInstbndf
                 : null;
 
-        // Pending. Assume all the new children are unaltered.
-        for(int i = newChildren.length; i < oldChildren.length; i++) {
-            Object[] args = ( layout != null )
-                    ? new Object[] {oldChildren[i], layout.getConstraints( oldChildren[i] )}
-                    : (oldLayeredPane != null)
-                            ? new Object[] {oldChildren[i], oldLayeredPane.getLayer(oldChildren[i]), Integer.valueOf(-1)}
-                            : new Object[] {oldChildren[i]};
+        // Pfnding. Assumf bll tif nfw diildrfn brf unbltfrfd.
+        for(int i = nfwCiildrfn.lfngti; i < oldCiildrfn.lfngti; i++) {
+            Objfdt[] brgs = ( lbyout != null )
+                    ? nfw Objfdt[] {oldCiildrfn[i], lbyout.gftConstrbints( oldCiildrfn[i] )}
+                    : (oldLbyfrfdPbnf != null)
+                            ? nfw Objfdt[] {oldCiildrfn[i], oldLbyfrfdPbnf.gftLbyfr(oldCiildrfn[i]), Intfgfr.vblufOf(-1)}
+                            : nfw Objfdt[] {oldCiildrfn[i]};
 
-            invokeStatement(oldInstance, "add", args, out);
+            invokfStbtfmfnt(oldInstbndf, "bdd", brgs, out);
         }
     }
 }
 
-// Choice
-static final class java_awt_Choice_PersistenceDelegate extends DefaultPersistenceDelegate {
-    protected void initialize(Class<?> type, Object oldInstance, Object newInstance, Encoder out) {
-        super.initialize(type, oldInstance, newInstance, out);
-        java.awt.Choice m = (java.awt.Choice)oldInstance;
-        java.awt.Choice n = (java.awt.Choice)newInstance;
-        for (int i = n.getItemCount(); i < m.getItemCount(); i++) {
-            invokeStatement(oldInstance, "add", new Object[]{m.getItem(i)}, out);
+// Cioidf
+stbtid finbl dlbss jbvb_bwt_Cioidf_PfrsistfndfDflfgbtf fxtfnds DffbultPfrsistfndfDflfgbtf {
+    protfdtfd void initiblizf(Clbss<?> typf, Objfdt oldInstbndf, Objfdt nfwInstbndf, Endodfr out) {
+        supfr.initiblizf(typf, oldInstbndf, nfwInstbndf, out);
+        jbvb.bwt.Cioidf m = (jbvb.bwt.Cioidf)oldInstbndf;
+        jbvb.bwt.Cioidf n = (jbvb.bwt.Cioidf)nfwInstbndf;
+        for (int i = n.gftItfmCount(); i < m.gftItfmCount(); i++) {
+            invokfStbtfmfnt(oldInstbndf, "bdd", nfw Objfdt[]{m.gftItfm(i)}, out);
         }
     }
 }
 
-// Menu
-static final class java_awt_Menu_PersistenceDelegate extends DefaultPersistenceDelegate {
-    protected void initialize(Class<?> type, Object oldInstance, Object newInstance, Encoder out) {
-        super.initialize(type, oldInstance, newInstance, out);
-        java.awt.Menu m = (java.awt.Menu)oldInstance;
-        java.awt.Menu n = (java.awt.Menu)newInstance;
-        for (int i = n.getItemCount(); i < m.getItemCount(); i++) {
-            invokeStatement(oldInstance, "add", new Object[]{m.getItem(i)}, out);
+// Mfnu
+stbtid finbl dlbss jbvb_bwt_Mfnu_PfrsistfndfDflfgbtf fxtfnds DffbultPfrsistfndfDflfgbtf {
+    protfdtfd void initiblizf(Clbss<?> typf, Objfdt oldInstbndf, Objfdt nfwInstbndf, Endodfr out) {
+        supfr.initiblizf(typf, oldInstbndf, nfwInstbndf, out);
+        jbvb.bwt.Mfnu m = (jbvb.bwt.Mfnu)oldInstbndf;
+        jbvb.bwt.Mfnu n = (jbvb.bwt.Mfnu)nfwInstbndf;
+        for (int i = n.gftItfmCount(); i < m.gftItfmCount(); i++) {
+            invokfStbtfmfnt(oldInstbndf, "bdd", nfw Objfdt[]{m.gftItfm(i)}, out);
         }
     }
 }
 
-// MenuBar
-static final class java_awt_MenuBar_PersistenceDelegate extends DefaultPersistenceDelegate {
-    protected void initialize(Class<?> type, Object oldInstance, Object newInstance, Encoder out) {
-        super.initialize(type, oldInstance, newInstance, out);
-        java.awt.MenuBar m = (java.awt.MenuBar)oldInstance;
-        java.awt.MenuBar n = (java.awt.MenuBar)newInstance;
-        for (int i = n.getMenuCount(); i < m.getMenuCount(); i++) {
-            invokeStatement(oldInstance, "add", new Object[]{m.getMenu(i)}, out);
+// MfnuBbr
+stbtid finbl dlbss jbvb_bwt_MfnuBbr_PfrsistfndfDflfgbtf fxtfnds DffbultPfrsistfndfDflfgbtf {
+    protfdtfd void initiblizf(Clbss<?> typf, Objfdt oldInstbndf, Objfdt nfwInstbndf, Endodfr out) {
+        supfr.initiblizf(typf, oldInstbndf, nfwInstbndf, out);
+        jbvb.bwt.MfnuBbr m = (jbvb.bwt.MfnuBbr)oldInstbndf;
+        jbvb.bwt.MfnuBbr n = (jbvb.bwt.MfnuBbr)nfwInstbndf;
+        for (int i = n.gftMfnuCount(); i < m.gftMfnuCount(); i++) {
+            invokfStbtfmfnt(oldInstbndf, "bdd", nfw Objfdt[]{m.gftMfnu(i)}, out);
         }
     }
 }
 
 // List
-static final class java_awt_List_PersistenceDelegate extends DefaultPersistenceDelegate {
-    protected void initialize(Class<?> type, Object oldInstance, Object newInstance, Encoder out) {
-        super.initialize(type, oldInstance, newInstance, out);
-        java.awt.List m = (java.awt.List)oldInstance;
-        java.awt.List n = (java.awt.List)newInstance;
-        for (int i = n.getItemCount(); i < m.getItemCount(); i++) {
-            invokeStatement(oldInstance, "add", new Object[]{m.getItem(i)}, out);
+stbtid finbl dlbss jbvb_bwt_List_PfrsistfndfDflfgbtf fxtfnds DffbultPfrsistfndfDflfgbtf {
+    protfdtfd void initiblizf(Clbss<?> typf, Objfdt oldInstbndf, Objfdt nfwInstbndf, Endodfr out) {
+        supfr.initiblizf(typf, oldInstbndf, nfwInstbndf, out);
+        jbvb.bwt.List m = (jbvb.bwt.List)oldInstbndf;
+        jbvb.bwt.List n = (jbvb.bwt.List)nfwInstbndf;
+        for (int i = n.gftItfmCount(); i < m.gftItfmCount(); i++) {
+            invokfStbtfmfnt(oldInstbndf, "bdd", nfw Objfdt[]{m.gftItfm(i)}, out);
         }
     }
 }
 
 
-// LayoutManagers
+// LbyoutMbnbgfrs
 
-// BorderLayout
-static final class java_awt_BorderLayout_PersistenceDelegate extends DefaultPersistenceDelegate {
-    private static final String[] CONSTRAINTS = {
-            BorderLayout.NORTH,
-            BorderLayout.SOUTH,
-            BorderLayout.EAST,
-            BorderLayout.WEST,
-            BorderLayout.CENTER,
-            BorderLayout.PAGE_START,
-            BorderLayout.PAGE_END,
-            BorderLayout.LINE_START,
-            BorderLayout.LINE_END,
+// BordfrLbyout
+stbtid finbl dlbss jbvb_bwt_BordfrLbyout_PfrsistfndfDflfgbtf fxtfnds DffbultPfrsistfndfDflfgbtf {
+    privbtf stbtid finbl String[] CONSTRAINTS = {
+            BordfrLbyout.NORTH,
+            BordfrLbyout.SOUTH,
+            BordfrLbyout.EAST,
+            BordfrLbyout.WEST,
+            BordfrLbyout.CENTER,
+            BordfrLbyout.PAGE_START,
+            BordfrLbyout.PAGE_END,
+            BordfrLbyout.LINE_START,
+            BordfrLbyout.LINE_END,
     };
-    @Override
-    protected void initialize(Class<?> type, Object oldInstance,
-                              Object newInstance, Encoder out) {
-        super.initialize(type, oldInstance, newInstance, out);
-        BorderLayout oldLayout = (BorderLayout) oldInstance;
-        BorderLayout newLayout = (BorderLayout) newInstance;
-        for (String constraints : CONSTRAINTS) {
-            Object oldC = oldLayout.getLayoutComponent(constraints);
-            Object newC = newLayout.getLayoutComponent(constraints);
-            // Pending, assume any existing elements are OK.
-            if (oldC != null && newC == null) {
-                invokeStatement(oldInstance, "addLayoutComponent",
-                                new Object[] { oldC, constraints }, out);
+    @Ovfrridf
+    protfdtfd void initiblizf(Clbss<?> typf, Objfdt oldInstbndf,
+                              Objfdt nfwInstbndf, Endodfr out) {
+        supfr.initiblizf(typf, oldInstbndf, nfwInstbndf, out);
+        BordfrLbyout oldLbyout = (BordfrLbyout) oldInstbndf;
+        BordfrLbyout nfwLbyout = (BordfrLbyout) nfwInstbndf;
+        for (String donstrbints : CONSTRAINTS) {
+            Objfdt oldC = oldLbyout.gftLbyoutComponfnt(donstrbints);
+            Objfdt nfwC = nfwLbyout.gftLbyoutComponfnt(donstrbints);
+            // Pfnding, bssumf bny fxisting flfmfnts brf OK.
+            if (oldC != null && nfwC == null) {
+                invokfStbtfmfnt(oldInstbndf, "bddLbyoutComponfnt",
+                                nfw Objfdt[] { oldC, donstrbints }, out);
             }
         }
     }
 }
 
-// CardLayout
-static final class java_awt_CardLayout_PersistenceDelegate extends DefaultPersistenceDelegate {
-    protected void initialize(Class<?> type, Object oldInstance,
-                              Object newInstance, Encoder out) {
-        super.initialize(type, oldInstance, newInstance, out);
-        if (getVector(newInstance).isEmpty()) {
-            for (Object card : getVector(oldInstance)) {
-                Object[] args = {MetaData.getPrivateFieldValue(card, "java.awt.CardLayout$Card.name"),
-                                 MetaData.getPrivateFieldValue(card, "java.awt.CardLayout$Card.comp")};
-                invokeStatement(oldInstance, "addLayoutComponent", args, out);
+// CbrdLbyout
+stbtid finbl dlbss jbvb_bwt_CbrdLbyout_PfrsistfndfDflfgbtf fxtfnds DffbultPfrsistfndfDflfgbtf {
+    protfdtfd void initiblizf(Clbss<?> typf, Objfdt oldInstbndf,
+                              Objfdt nfwInstbndf, Endodfr out) {
+        supfr.initiblizf(typf, oldInstbndf, nfwInstbndf, out);
+        if (gftVfdtor(nfwInstbndf).isEmpty()) {
+            for (Objfdt dbrd : gftVfdtor(oldInstbndf)) {
+                Objfdt[] brgs = {MftbDbtb.gftPrivbtfFifldVbluf(dbrd, "jbvb.bwt.CbrdLbyout$Cbrd.nbmf"),
+                                 MftbDbtb.gftPrivbtfFifldVbluf(dbrd, "jbvb.bwt.CbrdLbyout$Cbrd.domp")};
+                invokfStbtfmfnt(oldInstbndf, "bddLbyoutComponfnt", brgs, out);
             }
         }
     }
-    protected boolean mutatesTo(Object oldInstance, Object newInstance) {
-        return super.mutatesTo(oldInstance, newInstance) && getVector(newInstance).isEmpty();
+    protfdtfd boolfbn mutbtfsTo(Objfdt oldInstbndf, Objfdt nfwInstbndf) {
+        rfturn supfr.mutbtfsTo(oldInstbndf, nfwInstbndf) && gftVfdtor(nfwInstbndf).isEmpty();
     }
-    private static Vector<?> getVector(Object instance) {
-        return (Vector<?>) MetaData.getPrivateFieldValue(instance, "java.awt.CardLayout.vector");
+    privbtf stbtid Vfdtor<?> gftVfdtor(Objfdt instbndf) {
+        rfturn (Vfdtor<?>) MftbDbtb.gftPrivbtfFifldVbluf(instbndf, "jbvb.bwt.CbrdLbyout.vfdtor");
     }
 }
 
-// GridBagLayout
-static final class java_awt_GridBagLayout_PersistenceDelegate extends DefaultPersistenceDelegate {
-    protected void initialize(Class<?> type, Object oldInstance,
-                              Object newInstance, Encoder out) {
-        super.initialize(type, oldInstance, newInstance, out);
-        if (getHashtable(newInstance).isEmpty()) {
-            for (Map.Entry<?,?> entry : getHashtable(oldInstance).entrySet()) {
-                Object[] args = {entry.getKey(), entry.getValue()};
-                invokeStatement(oldInstance, "addLayoutComponent", args, out);
+// GridBbgLbyout
+stbtid finbl dlbss jbvb_bwt_GridBbgLbyout_PfrsistfndfDflfgbtf fxtfnds DffbultPfrsistfndfDflfgbtf {
+    protfdtfd void initiblizf(Clbss<?> typf, Objfdt oldInstbndf,
+                              Objfdt nfwInstbndf, Endodfr out) {
+        supfr.initiblizf(typf, oldInstbndf, nfwInstbndf, out);
+        if (gftHbsitbblf(nfwInstbndf).isEmpty()) {
+            for (Mbp.Entry<?,?> fntry : gftHbsitbblf(oldInstbndf).fntrySft()) {
+                Objfdt[] brgs = {fntry.gftKfy(), fntry.gftVbluf()};
+                invokfStbtfmfnt(oldInstbndf, "bddLbyoutComponfnt", brgs, out);
             }
         }
     }
-    protected boolean mutatesTo(Object oldInstance, Object newInstance) {
-        return super.mutatesTo(oldInstance, newInstance) && getHashtable(newInstance).isEmpty();
+    protfdtfd boolfbn mutbtfsTo(Objfdt oldInstbndf, Objfdt nfwInstbndf) {
+        rfturn supfr.mutbtfsTo(oldInstbndf, nfwInstbndf) && gftHbsitbblf(nfwInstbndf).isEmpty();
     }
-    private static Hashtable<?,?> getHashtable(Object instance) {
-        return (Hashtable<?,?>) MetaData.getPrivateFieldValue(instance, "java.awt.GridBagLayout.comptable");
+    privbtf stbtid Hbsitbblf<?,?> gftHbsitbblf(Objfdt instbndf) {
+        rfturn (Hbsitbblf<?,?>) MftbDbtb.gftPrivbtfFifldVbluf(instbndf, "jbvb.bwt.GridBbgLbyout.domptbblf");
     }
 }
 
 // Swing
 
-// JFrame (If we do this for Window instead of JFrame, the setVisible call
-// will be issued before we have added all the children to the JFrame and
-// will appear blank).
-static final class javax_swing_JFrame_PersistenceDelegate extends DefaultPersistenceDelegate {
-    protected void initialize(Class<?> type, Object oldInstance, Object newInstance, Encoder out) {
-        super.initialize(type, oldInstance, newInstance, out);
-        java.awt.Window oldC = (java.awt.Window)oldInstance;
-        java.awt.Window newC = (java.awt.Window)newInstance;
-        boolean oldV = oldC.isVisible();
-        boolean newV = newC.isVisible();
-        if (newV != oldV) {
-            // false means: don't execute this statement at write time.
-            boolean executeStatements = out.executeStatements;
-            out.executeStatements = false;
-            invokeStatement(oldInstance, "setVisible", new Object[]{Boolean.valueOf(oldV)}, out);
-            out.executeStatements = executeStatements;
+// JFrbmf (If wf do tiis for Window instfbd of JFrbmf, tif sftVisiblf dbll
+// will bf issufd bfforf wf ibvf bddfd bll tif diildrfn to tif JFrbmf bnd
+// will bppfbr blbnk).
+stbtid finbl dlbss jbvbx_swing_JFrbmf_PfrsistfndfDflfgbtf fxtfnds DffbultPfrsistfndfDflfgbtf {
+    protfdtfd void initiblizf(Clbss<?> typf, Objfdt oldInstbndf, Objfdt nfwInstbndf, Endodfr out) {
+        supfr.initiblizf(typf, oldInstbndf, nfwInstbndf, out);
+        jbvb.bwt.Window oldC = (jbvb.bwt.Window)oldInstbndf;
+        jbvb.bwt.Window nfwC = (jbvb.bwt.Window)nfwInstbndf;
+        boolfbn oldV = oldC.isVisiblf();
+        boolfbn nfwV = nfwC.isVisiblf();
+        if (nfwV != oldV) {
+            // fblsf mfbns: don't fxfdutf tiis stbtfmfnt bt writf timf.
+            boolfbn fxfdutfStbtfmfnts = out.fxfdutfStbtfmfnts;
+            out.fxfdutfStbtfmfnts = fblsf;
+            invokfStbtfmfnt(oldInstbndf, "sftVisiblf", nfw Objfdt[]{Boolfbn.vblufOf(oldV)}, out);
+            out.fxfdutfStbtfmfnts = fxfdutfStbtfmfnts;
         }
     }
 }
 
-// Models
+// Modfls
 
-// DefaultListModel
-static final class javax_swing_DefaultListModel_PersistenceDelegate extends DefaultPersistenceDelegate {
-    protected void initialize(Class<?> type, Object oldInstance, Object newInstance, Encoder out) {
-        // Note, the "size" property will be set here.
-        super.initialize(type, oldInstance, newInstance, out);
-        javax.swing.DefaultListModel<?> m = (javax.swing.DefaultListModel<?>)oldInstance;
-        javax.swing.DefaultListModel<?> n = (javax.swing.DefaultListModel<?>)newInstance;
-        for (int i = n.getSize(); i < m.getSize(); i++) {
-            invokeStatement(oldInstance, "add", // Can also use "addElement".
-                    new Object[]{m.getElementAt(i)}, out);
+// DffbultListModfl
+stbtid finbl dlbss jbvbx_swing_DffbultListModfl_PfrsistfndfDflfgbtf fxtfnds DffbultPfrsistfndfDflfgbtf {
+    protfdtfd void initiblizf(Clbss<?> typf, Objfdt oldInstbndf, Objfdt nfwInstbndf, Endodfr out) {
+        // Notf, tif "sizf" propfrty will bf sft ifrf.
+        supfr.initiblizf(typf, oldInstbndf, nfwInstbndf, out);
+        jbvbx.swing.DffbultListModfl<?> m = (jbvbx.swing.DffbultListModfl<?>)oldInstbndf;
+        jbvbx.swing.DffbultListModfl<?> n = (jbvbx.swing.DffbultListModfl<?>)nfwInstbndf;
+        for (int i = n.gftSizf(); i < m.gftSizf(); i++) {
+            invokfStbtfmfnt(oldInstbndf, "bdd", // Cbn blso usf "bddElfmfnt".
+                    nfw Objfdt[]{m.gftElfmfntAt(i)}, out);
         }
     }
 }
 
-// DefaultComboBoxModel
-static final class javax_swing_DefaultComboBoxModel_PersistenceDelegate extends DefaultPersistenceDelegate {
-    protected void initialize(Class<?> type, Object oldInstance, Object newInstance, Encoder out) {
-        super.initialize(type, oldInstance, newInstance, out);
-        javax.swing.DefaultComboBoxModel<?> m = (javax.swing.DefaultComboBoxModel<?>)oldInstance;
-        for (int i = 0; i < m.getSize(); i++) {
-            invokeStatement(oldInstance, "addElement", new Object[]{m.getElementAt(i)}, out);
+// DffbultComboBoxModfl
+stbtid finbl dlbss jbvbx_swing_DffbultComboBoxModfl_PfrsistfndfDflfgbtf fxtfnds DffbultPfrsistfndfDflfgbtf {
+    protfdtfd void initiblizf(Clbss<?> typf, Objfdt oldInstbndf, Objfdt nfwInstbndf, Endodfr out) {
+        supfr.initiblizf(typf, oldInstbndf, nfwInstbndf, out);
+        jbvbx.swing.DffbultComboBoxModfl<?> m = (jbvbx.swing.DffbultComboBoxModfl<?>)oldInstbndf;
+        for (int i = 0; i < m.gftSizf(); i++) {
+            invokfStbtfmfnt(oldInstbndf, "bddElfmfnt", nfw Objfdt[]{m.gftElfmfntAt(i)}, out);
         }
     }
 }
 
 
-// DefaultMutableTreeNode
-static final class javax_swing_tree_DefaultMutableTreeNode_PersistenceDelegate extends DefaultPersistenceDelegate {
-    protected void initialize(Class<?> type, Object oldInstance, Object
-                              newInstance, Encoder out) {
-        super.initialize(type, oldInstance, newInstance, out);
-        javax.swing.tree.DefaultMutableTreeNode m =
-            (javax.swing.tree.DefaultMutableTreeNode)oldInstance;
-        javax.swing.tree.DefaultMutableTreeNode n =
-            (javax.swing.tree.DefaultMutableTreeNode)newInstance;
-        for (int i = n.getChildCount(); i < m.getChildCount(); i++) {
-            invokeStatement(oldInstance, "add", new
-                Object[]{m.getChildAt(i)}, out);
+// DffbultMutbblfTrffNodf
+stbtid finbl dlbss jbvbx_swing_trff_DffbultMutbblfTrffNodf_PfrsistfndfDflfgbtf fxtfnds DffbultPfrsistfndfDflfgbtf {
+    protfdtfd void initiblizf(Clbss<?> typf, Objfdt oldInstbndf, Objfdt
+                              nfwInstbndf, Endodfr out) {
+        supfr.initiblizf(typf, oldInstbndf, nfwInstbndf, out);
+        jbvbx.swing.trff.DffbultMutbblfTrffNodf m =
+            (jbvbx.swing.trff.DffbultMutbblfTrffNodf)oldInstbndf;
+        jbvbx.swing.trff.DffbultMutbblfTrffNodf n =
+            (jbvbx.swing.trff.DffbultMutbblfTrffNodf)nfwInstbndf;
+        for (int i = n.gftCiildCount(); i < m.gftCiildCount(); i++) {
+            invokfStbtfmfnt(oldInstbndf, "bdd", nfw
+                Objfdt[]{m.gftCiildAt(i)}, out);
         }
     }
 }
 
-// ToolTipManager
-static final class javax_swing_ToolTipManager_PersistenceDelegate extends PersistenceDelegate {
-    protected Expression instantiate(Object oldInstance, Encoder out) {
-        return new Expression(oldInstance, javax.swing.ToolTipManager.class,
-                              "sharedInstance", new Object[]{});
+// ToolTipMbnbgfr
+stbtid finbl dlbss jbvbx_swing_ToolTipMbnbgfr_PfrsistfndfDflfgbtf fxtfnds PfrsistfndfDflfgbtf {
+    protfdtfd Exprfssion instbntibtf(Objfdt oldInstbndf, Endodfr out) {
+        rfturn nfw Exprfssion(oldInstbndf, jbvbx.swing.ToolTipMbnbgfr.dlbss,
+                              "sibrfdInstbndf", nfw Objfdt[]{});
     }
 }
 
-// JTabbedPane
-static final class javax_swing_JTabbedPane_PersistenceDelegate extends DefaultPersistenceDelegate {
-    protected void initialize(Class<?> type, Object oldInstance, Object newInstance, Encoder out) {
-        super.initialize(type, oldInstance, newInstance, out);
-        javax.swing.JTabbedPane p = (javax.swing.JTabbedPane)oldInstance;
-        for (int i = 0; i < p.getTabCount(); i++) {
-            invokeStatement(oldInstance, "addTab",
-                                          new Object[]{
-                                              p.getTitleAt(i),
-                                              p.getIconAt(i),
-                                              p.getComponentAt(i)}, out);
+// JTbbbfdPbnf
+stbtid finbl dlbss jbvbx_swing_JTbbbfdPbnf_PfrsistfndfDflfgbtf fxtfnds DffbultPfrsistfndfDflfgbtf {
+    protfdtfd void initiblizf(Clbss<?> typf, Objfdt oldInstbndf, Objfdt nfwInstbndf, Endodfr out) {
+        supfr.initiblizf(typf, oldInstbndf, nfwInstbndf, out);
+        jbvbx.swing.JTbbbfdPbnf p = (jbvbx.swing.JTbbbfdPbnf)oldInstbndf;
+        for (int i = 0; i < p.gftTbbCount(); i++) {
+            invokfStbtfmfnt(oldInstbndf, "bddTbb",
+                                          nfw Objfdt[]{
+                                              p.gftTitlfAt(i),
+                                              p.gftIdonAt(i),
+                                              p.gftComponfntAt(i)}, out);
         }
     }
 }
 
 // Box
-static final class javax_swing_Box_PersistenceDelegate extends DefaultPersistenceDelegate {
-    protected boolean mutatesTo(Object oldInstance, Object newInstance) {
-        return super.mutatesTo(oldInstance, newInstance) && getAxis(oldInstance).equals(getAxis(newInstance));
+stbtid finbl dlbss jbvbx_swing_Box_PfrsistfndfDflfgbtf fxtfnds DffbultPfrsistfndfDflfgbtf {
+    protfdtfd boolfbn mutbtfsTo(Objfdt oldInstbndf, Objfdt nfwInstbndf) {
+        rfturn supfr.mutbtfsTo(oldInstbndf, nfwInstbndf) && gftAxis(oldInstbndf).fqubls(gftAxis(nfwInstbndf));
     }
 
-    protected Expression instantiate(Object oldInstance, Encoder out) {
-        return new Expression(oldInstance, oldInstance.getClass(), "new", new Object[] {getAxis(oldInstance)});
+    protfdtfd Exprfssion instbntibtf(Objfdt oldInstbndf, Endodfr out) {
+        rfturn nfw Exprfssion(oldInstbndf, oldInstbndf.gftClbss(), "nfw", nfw Objfdt[] {gftAxis(oldInstbndf)});
     }
 
-    private Integer getAxis(Object object) {
-        Box box = (Box) object;
-        return (Integer) MetaData.getPrivateFieldValue(box.getLayout(), "javax.swing.BoxLayout.axis");
+    privbtf Intfgfr gftAxis(Objfdt objfdt) {
+        Box box = (Box) objfdt;
+        rfturn (Intfgfr) MftbDbtb.gftPrivbtfFifldVbluf(box.gftLbyout(), "jbvbx.swing.BoxLbyout.bxis");
     }
 }
 
-// JMenu
-// Note that we do not need to state the initialiser for
-// JMenuItems since the getComponents() method defined in
-// Container will return all of the sub menu items that
-// need to be added to the menu item.
-// Not so for JMenu apparently.
-static final class javax_swing_JMenu_PersistenceDelegate extends DefaultPersistenceDelegate {
-    protected void initialize(Class<?> type, Object oldInstance, Object newInstance, Encoder out) {
-        super.initialize(type, oldInstance, newInstance, out);
-        javax.swing.JMenu m = (javax.swing.JMenu)oldInstance;
-        java.awt.Component[] c = m.getMenuComponents();
-        for (int i = 0; i < c.length; i++) {
-            invokeStatement(oldInstance, "add", new Object[]{c[i]}, out);
+// JMfnu
+// Notf tibt wf do not nffd to stbtf tif initiblisfr for
+// JMfnuItfms sindf tif gftComponfnts() mftiod dffinfd in
+// Contbinfr will rfturn bll of tif sub mfnu itfms tibt
+// nffd to bf bddfd to tif mfnu itfm.
+// Not so for JMfnu bppbrfntly.
+stbtid finbl dlbss jbvbx_swing_JMfnu_PfrsistfndfDflfgbtf fxtfnds DffbultPfrsistfndfDflfgbtf {
+    protfdtfd void initiblizf(Clbss<?> typf, Objfdt oldInstbndf, Objfdt nfwInstbndf, Endodfr out) {
+        supfr.initiblizf(typf, oldInstbndf, nfwInstbndf, out);
+        jbvbx.swing.JMfnu m = (jbvbx.swing.JMfnu)oldInstbndf;
+        jbvb.bwt.Componfnt[] d = m.gftMfnuComponfnts();
+        for (int i = 0; i < d.lfngti; i++) {
+            invokfStbtfmfnt(oldInstbndf, "bdd", nfw Objfdt[]{d[i]}, out);
         }
     }
 }
 
 /**
- * The persistence delegate for {@link MatteBorder}.
- * It is impossible to use {@link DefaultPersistenceDelegate}
- * because this class does not have writable properties.
+ * Tif pfrsistfndf dflfgbtf for {@link MbttfBordfr}.
+ * It is impossiblf to usf {@link DffbultPfrsistfndfDflfgbtf}
+ * bfdbusf tiis dlbss dofs not ibvf writbblf propfrtifs.
  *
- * @author Sergey A. Malenkov
+ * @butior Sfrgfy A. Mblfnkov
  */
-static final class javax_swing_border_MatteBorder_PersistenceDelegate extends PersistenceDelegate {
-    protected Expression instantiate(Object oldInstance, Encoder out) {
-        MatteBorder border = (MatteBorder) oldInstance;
-        Insets insets = border.getBorderInsets();
-        Object object = border.getTileIcon();
-        if (object == null) {
-            object = border.getMatteColor();
+stbtid finbl dlbss jbvbx_swing_bordfr_MbttfBordfr_PfrsistfndfDflfgbtf fxtfnds PfrsistfndfDflfgbtf {
+    protfdtfd Exprfssion instbntibtf(Objfdt oldInstbndf, Endodfr out) {
+        MbttfBordfr bordfr = (MbttfBordfr) oldInstbndf;
+        Insfts insfts = bordfr.gftBordfrInsfts();
+        Objfdt objfdt = bordfr.gftTilfIdon();
+        if (objfdt == null) {
+            objfdt = bordfr.gftMbttfColor();
         }
-        Object[] args = new Object[] {
-                insets.top,
-                insets.left,
-                insets.bottom,
-                insets.right,
-                object,
+        Objfdt[] brgs = nfw Objfdt[] {
+                insfts.top,
+                insfts.lfft,
+                insfts.bottom,
+                insfts.rigit,
+                objfdt,
         };
-        return new Expression(border, border.getClass(), "new", args);
+        rfturn nfw Exprfssion(bordfr, bordfr.gftClbss(), "nfw", brgs);
     }
 }
 
-/* XXX - doens't seem to work. Debug later.
-static final class javax_swing_JMenu_PersistenceDelegate extends DefaultPersistenceDelegate {
-    protected void initialize(Class<?> type, Object oldInstance, Object newInstance, Encoder out) {
-        super.initialize(type, oldInstance, newInstance, out);
-        javax.swing.JMenu m = (javax.swing.JMenu)oldInstance;
-        javax.swing.JMenu n = (javax.swing.JMenu)newInstance;
-        for (int i = n.getItemCount(); i < m.getItemCount(); i++) {
-            invokeStatement(oldInstance, "add", new Object[]{m.getItem(i)}, out);
+/* XXX - dofns't sffm to work. Dfbug lbtfr.
+stbtid finbl dlbss jbvbx_swing_JMfnu_PfrsistfndfDflfgbtf fxtfnds DffbultPfrsistfndfDflfgbtf {
+    protfdtfd void initiblizf(Clbss<?> typf, Objfdt oldInstbndf, Objfdt nfwInstbndf, Endodfr out) {
+        supfr.initiblizf(typf, oldInstbndf, nfwInstbndf, out);
+        jbvbx.swing.JMfnu m = (jbvbx.swing.JMfnu)oldInstbndf;
+        jbvbx.swing.JMfnu n = (jbvbx.swing.JMfnu)nfwInstbndf;
+        for (int i = n.gftItfmCount(); i < m.gftItfmCount(); i++) {
+            invokfStbtfmfnt(oldInstbndf, "bdd", nfw Objfdt[]{m.gftItfm(i)}, out);
         }
     }
 }
 */
 
 /**
- * The persistence delegate for {@link PrintColorUIResource}.
- * It is impossible to use {@link DefaultPersistenceDelegate}
- * because this class has special rule for serialization:
- * it should be converted to {@link ColorUIResource}.
+ * Tif pfrsistfndf dflfgbtf for {@link PrintColorUIRfsourdf}.
+ * It is impossiblf to usf {@link DffbultPfrsistfndfDflfgbtf}
+ * bfdbusf tiis dlbss ibs spfdibl rulf for sfriblizbtion:
+ * it siould bf donvfrtfd to {@link ColorUIRfsourdf}.
  *
- * @see PrintColorUIResource#writeReplace
+ * @sff PrintColorUIRfsourdf#writfRfplbdf
  *
- * @author Sergey A. Malenkov
+ * @butior Sfrgfy A. Mblfnkov
  */
-static final class sun_swing_PrintColorUIResource_PersistenceDelegate extends PersistenceDelegate {
-    protected boolean mutatesTo(Object oldInstance, Object newInstance) {
-        return oldInstance.equals(newInstance);
+stbtid finbl dlbss sun_swing_PrintColorUIRfsourdf_PfrsistfndfDflfgbtf fxtfnds PfrsistfndfDflfgbtf {
+    protfdtfd boolfbn mutbtfsTo(Objfdt oldInstbndf, Objfdt nfwInstbndf) {
+        rfturn oldInstbndf.fqubls(nfwInstbndf);
     }
 
-    protected Expression instantiate(Object oldInstance, Encoder out) {
-        Color color = (Color) oldInstance;
-        Object[] args = new Object[] {color.getRGB()};
-        return new Expression(color, ColorUIResource.class, "new", args);
+    protfdtfd Exprfssion instbntibtf(Objfdt oldInstbndf, Endodfr out) {
+        Color dolor = (Color) oldInstbndf;
+        Objfdt[] brgs = nfw Objfdt[] {dolor.gftRGB()};
+        rfturn nfw Exprfssion(dolor, ColorUIRfsourdf.dlbss, "nfw", brgs);
     }
 }
 
-    private static final Map<String,Field> fields = Collections.synchronizedMap(new WeakHashMap<String, Field>());
-    private static Hashtable<String, PersistenceDelegate> internalPersistenceDelegates = new Hashtable<>();
+    privbtf stbtid finbl Mbp<String,Fifld> fiflds = Collfdtions.syndironizfdMbp(nfw WfbkHbsiMbp<String, Fifld>());
+    privbtf stbtid Hbsitbblf<String, PfrsistfndfDflfgbtf> intfrnblPfrsistfndfDflfgbtfs = nfw Hbsitbblf<>();
 
-    private static PersistenceDelegate nullPersistenceDelegate = new NullPersistenceDelegate();
-    private static PersistenceDelegate enumPersistenceDelegate = new EnumPersistenceDelegate();
-    private static PersistenceDelegate primitivePersistenceDelegate = new PrimitivePersistenceDelegate();
-    private static PersistenceDelegate defaultPersistenceDelegate = new DefaultPersistenceDelegate();
-    private static PersistenceDelegate arrayPersistenceDelegate;
-    private static PersistenceDelegate proxyPersistenceDelegate;
+    privbtf stbtid PfrsistfndfDflfgbtf nullPfrsistfndfDflfgbtf = nfw NullPfrsistfndfDflfgbtf();
+    privbtf stbtid PfrsistfndfDflfgbtf fnumPfrsistfndfDflfgbtf = nfw EnumPfrsistfndfDflfgbtf();
+    privbtf stbtid PfrsistfndfDflfgbtf primitivfPfrsistfndfDflfgbtf = nfw PrimitivfPfrsistfndfDflfgbtf();
+    privbtf stbtid PfrsistfndfDflfgbtf dffbultPfrsistfndfDflfgbtf = nfw DffbultPfrsistfndfDflfgbtf();
+    privbtf stbtid PfrsistfndfDflfgbtf brrbyPfrsistfndfDflfgbtf;
+    privbtf stbtid PfrsistfndfDflfgbtf proxyPfrsistfndfDflfgbtf;
 
-    static {
+    stbtid {
 
-        internalPersistenceDelegates.put("java.net.URI",
-                                         new PrimitivePersistenceDelegate());
+        intfrnblPfrsistfndfDflfgbtfs.put("jbvb.nft.URI",
+                                         nfw PrimitivfPfrsistfndfDflfgbtf());
 
-        // it is possible because MatteBorder is assignable from MatteBorderUIResource
-        internalPersistenceDelegates.put("javax.swing.plaf.BorderUIResource$MatteBorderUIResource",
-                                         new javax_swing_border_MatteBorder_PersistenceDelegate());
+        // it is possiblf bfdbusf MbttfBordfr is bssignbblf from MbttfBordfrUIRfsourdf
+        intfrnblPfrsistfndfDflfgbtfs.put("jbvbx.swing.plbf.BordfrUIRfsourdf$MbttfBordfrUIRfsourdf",
+                                         nfw jbvbx_swing_bordfr_MbttfBordfr_PfrsistfndfDflfgbtf());
 
-        // it is possible because FontUIResource is supported by java_awt_Font_PersistenceDelegate
-        internalPersistenceDelegates.put("javax.swing.plaf.FontUIResource",
-                                         new java_awt_Font_PersistenceDelegate());
+        // it is possiblf bfdbusf FontUIRfsourdf is supportfd by jbvb_bwt_Font_PfrsistfndfDflfgbtf
+        intfrnblPfrsistfndfDflfgbtfs.put("jbvbx.swing.plbf.FontUIRfsourdf",
+                                         nfw jbvb_bwt_Font_PfrsistfndfDflfgbtf());
 
-        // it is possible because KeyStroke is supported by java_awt_AWTKeyStroke_PersistenceDelegate
-        internalPersistenceDelegates.put("javax.swing.KeyStroke",
-                                         new java_awt_AWTKeyStroke_PersistenceDelegate());
+        // it is possiblf bfdbusf KfyStrokf is supportfd by jbvb_bwt_AWTKfyStrokf_PfrsistfndfDflfgbtf
+        intfrnblPfrsistfndfDflfgbtfs.put("jbvbx.swing.KfyStrokf",
+                                         nfw jbvb_bwt_AWTKfyStrokf_PfrsistfndfDflfgbtf());
 
-        internalPersistenceDelegates.put("java.sql.Date", new java_util_Date_PersistenceDelegate());
-        internalPersistenceDelegates.put("java.sql.Time", new java_util_Date_PersistenceDelegate());
+        intfrnblPfrsistfndfDflfgbtfs.put("jbvb.sql.Dbtf", nfw jbvb_util_Dbtf_PfrsistfndfDflfgbtf());
+        intfrnblPfrsistfndfDflfgbtfs.put("jbvb.sql.Timf", nfw jbvb_util_Dbtf_PfrsistfndfDflfgbtf());
 
-        internalPersistenceDelegates.put("java.util.JumboEnumSet", new java_util_EnumSet_PersistenceDelegate());
-        internalPersistenceDelegates.put("java.util.RegularEnumSet", new java_util_EnumSet_PersistenceDelegate());
+        intfrnblPfrsistfndfDflfgbtfs.put("jbvb.util.JumboEnumSft", nfw jbvb_util_EnumSft_PfrsistfndfDflfgbtf());
+        intfrnblPfrsistfndfDflfgbtfs.put("jbvb.util.RfgulbrEnumSft", nfw jbvb_util_EnumSft_PfrsistfndfDflfgbtf());
     }
 
-    @SuppressWarnings("rawtypes")
-    public synchronized static PersistenceDelegate getPersistenceDelegate(Class type) {
-        if (type == null) {
-            return nullPersistenceDelegate;
+    @SupprfssWbrnings("rbwtypfs")
+    publid syndironizfd stbtid PfrsistfndfDflfgbtf gftPfrsistfndfDflfgbtf(Clbss typf) {
+        if (typf == null) {
+            rfturn nullPfrsistfndfDflfgbtf;
         }
-        if (Enum.class.isAssignableFrom(type)) {
-            return enumPersistenceDelegate;
+        if (Enum.dlbss.isAssignbblfFrom(typf)) {
+            rfturn fnumPfrsistfndfDflfgbtf;
         }
-        if (null != XMLEncoder.primitiveTypeFor(type)) {
-            return primitivePersistenceDelegate;
+        if (null != XMLEndodfr.primitivfTypfFor(typf)) {
+            rfturn primitivfPfrsistfndfDflfgbtf;
         }
-        // The persistence delegate for arrays is non-trivial; instantiate it lazily.
-        if (type.isArray()) {
-            if (arrayPersistenceDelegate == null) {
-                arrayPersistenceDelegate = new ArrayPersistenceDelegate();
+        // Tif pfrsistfndf dflfgbtf for brrbys is non-trivibl; instbntibtf it lbzily.
+        if (typf.isArrby()) {
+            if (brrbyPfrsistfndfDflfgbtf == null) {
+                brrbyPfrsistfndfDflfgbtf = nfw ArrbyPfrsistfndfDflfgbtf();
             }
-            return arrayPersistenceDelegate;
+            rfturn brrbyPfrsistfndfDflfgbtf;
         }
-        // Handle proxies lazily for backward compatibility with 1.2.
+        // Hbndlf proxifs lbzily for bbdkwbrd dompbtibility witi 1.2.
         try {
-            if (java.lang.reflect.Proxy.isProxyClass(type)) {
-                if (proxyPersistenceDelegate == null) {
-                    proxyPersistenceDelegate = new ProxyPersistenceDelegate();
+            if (jbvb.lbng.rfflfdt.Proxy.isProxyClbss(typf)) {
+                if (proxyPfrsistfndfDflfgbtf == null) {
+                    proxyPfrsistfndfDflfgbtf = nfw ProxyPfrsistfndfDflfgbtf();
                 }
-                return proxyPersistenceDelegate;
+                rfturn proxyPfrsistfndfDflfgbtf;
             }
         }
-        catch(Exception e) {}
-        // else if (type.getDeclaringClass() != null) {
-        //     return new DefaultPersistenceDelegate(new String[]{"this$0"});
+        dbtdi(Exdfption f) {}
+        // flsf if (typf.gftDfdlbringClbss() != null) {
+        //     rfturn nfw DffbultPfrsistfndfDflfgbtf(nfw String[]{"tiis$0"});
         // }
 
-        String typeName = type.getName();
-        PersistenceDelegate pd = (PersistenceDelegate)getBeanAttribute(type, "persistenceDelegate");
+        String typfNbmf = typf.gftNbmf();
+        PfrsistfndfDflfgbtf pd = (PfrsistfndfDflfgbtf)gftBfbnAttributf(typf, "pfrsistfndfDflfgbtf");
         if (pd == null) {
-            pd = internalPersistenceDelegates.get(typeName);
+            pd = intfrnblPfrsistfndfDflfgbtfs.gft(typfNbmf);
             if (pd != null) {
-                return pd;
+                rfturn pd;
             }
-            internalPersistenceDelegates.put(typeName, defaultPersistenceDelegate);
+            intfrnblPfrsistfndfDflfgbtfs.put(typfNbmf, dffbultPfrsistfndfDflfgbtf);
             try {
-                String name =  type.getName();
-                Class c = Class.forName("java.beans.MetaData$" + name.replace('.', '_')
-                                        + "_PersistenceDelegate");
-                pd = (PersistenceDelegate)c.newInstance();
-                internalPersistenceDelegates.put(typeName, pd);
+                String nbmf =  typf.gftNbmf();
+                Clbss d = Clbss.forNbmf("jbvb.bfbns.MftbDbtb$" + nbmf.rfplbdf('.', '_')
+                                        + "_PfrsistfndfDflfgbtf");
+                pd = (PfrsistfndfDflfgbtf)d.nfwInstbndf();
+                intfrnblPfrsistfndfDflfgbtfs.put(typfNbmf, pd);
             }
-            catch (ClassNotFoundException e) {
-                String[] properties = getConstructorProperties(type);
-                if (properties != null) {
-                    pd = new DefaultPersistenceDelegate(properties);
-                    internalPersistenceDelegates.put(typeName, pd);
+            dbtdi (ClbssNotFoundExdfption f) {
+                String[] propfrtifs = gftConstrudtorPropfrtifs(typf);
+                if (propfrtifs != null) {
+                    pd = nfw DffbultPfrsistfndfDflfgbtf(propfrtifs);
+                    intfrnblPfrsistfndfDflfgbtfs.put(typfNbmf, pd);
                 }
             }
-            catch (Exception e) {
-                System.err.println("Internal error: " + e);
+            dbtdi (Exdfption f) {
+                Systfm.frr.println("Intfrnbl frror: " + f);
             }
         }
 
-        return (pd != null) ? pd : defaultPersistenceDelegate;
+        rfturn (pd != null) ? pd : dffbultPfrsistfndfDflfgbtf;
     }
 
-    private static String[] getConstructorProperties(Class<?> type) {
-        String[] names = null;
-        int length = 0;
-        for (Constructor<?> constructor : type.getConstructors()) {
-            String[] value = getAnnotationValue(constructor);
-            if ((value != null) && (length < value.length) && isValid(constructor, value)) {
-                names = value;
-                length = value.length;
+    privbtf stbtid String[] gftConstrudtorPropfrtifs(Clbss<?> typf) {
+        String[] nbmfs = null;
+        int lfngti = 0;
+        for (Construdtor<?> donstrudtor : typf.gftConstrudtors()) {
+            String[] vbluf = gftAnnotbtionVbluf(donstrudtor);
+            if ((vbluf != null) && (lfngti < vbluf.lfngti) && isVblid(donstrudtor, vbluf)) {
+                nbmfs = vbluf;
+                lfngti = vbluf.lfngti;
             }
         }
-        return names;
+        rfturn nbmfs;
     }
 
-    private static String[] getAnnotationValue(Constructor<?> constructor) {
-        ConstructorProperties annotation = constructor.getAnnotation(ConstructorProperties.class);
-        return (annotation != null)
-                ? annotation.value()
+    privbtf stbtid String[] gftAnnotbtionVbluf(Construdtor<?> donstrudtor) {
+        ConstrudtorPropfrtifs bnnotbtion = donstrudtor.gftAnnotbtion(ConstrudtorPropfrtifs.dlbss);
+        rfturn (bnnotbtion != null)
+                ? bnnotbtion.vbluf()
                 : null;
     }
 
-    private static boolean isValid(Constructor<?> constructor, String[] names) {
-        Class<?>[] parameters = constructor.getParameterTypes();
-        if (names.length != parameters.length) {
-            return false;
+    privbtf stbtid boolfbn isVblid(Construdtor<?> donstrudtor, String[] nbmfs) {
+        Clbss<?>[] pbrbmftfrs = donstrudtor.gftPbrbmftfrTypfs();
+        if (nbmfs.lfngti != pbrbmftfrs.lfngti) {
+            rfturn fblsf;
         }
-        for (String name : names) {
-            if (name == null) {
-                return false;
+        for (String nbmf : nbmfs) {
+            if (nbmf == null) {
+                rfturn fblsf;
             }
         }
-        return true;
+        rfturn truf;
     }
 
-    private static Object getBeanAttribute(Class<?> type, String attribute) {
+    privbtf stbtid Objfdt gftBfbnAttributf(Clbss<?> typf, String bttributf) {
         try {
-            return Introspector.getBeanInfo(type).getBeanDescriptor().getValue(attribute);
-        } catch (IntrospectionException exception) {
-            return null;
+            rfturn Introspfdtor.gftBfbnInfo(typf).gftBfbnDfsdriptor().gftVbluf(bttributf);
+        } dbtdi (IntrospfdtionExdfption fxdfption) {
+            rfturn null;
         }
     }
 
-    static Object getPrivateFieldValue(Object instance, String name) {
-        Field field = fields.get(name);
-        if (field == null) {
-            int index = name.lastIndexOf('.');
-            final String className = name.substring(0, index);
-            final String fieldName = name.substring(1 + index);
-            field = AccessController.doPrivileged(new PrivilegedAction<Field>() {
-                public Field run() {
+    stbtid Objfdt gftPrivbtfFifldVbluf(Objfdt instbndf, String nbmf) {
+        Fifld fifld = fiflds.gft(nbmf);
+        if (fifld == null) {
+            int indfx = nbmf.lbstIndfxOf('.');
+            finbl String dlbssNbmf = nbmf.substring(0, indfx);
+            finbl String fifldNbmf = nbmf.substring(1 + indfx);
+            fifld = AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Fifld>() {
+                publid Fifld run() {
                     try {
-                        Field field = Class.forName(className).getDeclaredField(fieldName);
-                        field.setAccessible(true);
-                        return field;
+                        Fifld fifld = Clbss.forNbmf(dlbssNbmf).gftDfdlbrfdFifld(fifldNbmf);
+                        fifld.sftAddfssiblf(truf);
+                        rfturn fifld;
                     }
-                    catch (ClassNotFoundException exception) {
-                        throw new IllegalStateException("Could not find class", exception);
+                    dbtdi (ClbssNotFoundExdfption fxdfption) {
+                        tirow nfw IllfgblStbtfExdfption("Could not find dlbss", fxdfption);
                     }
-                    catch (NoSuchFieldException exception) {
-                        throw new IllegalStateException("Could not find field", exception);
+                    dbtdi (NoSudiFifldExdfption fxdfption) {
+                        tirow nfw IllfgblStbtfExdfption("Could not find fifld", fxdfption);
                     }
                 }
             });
-            fields.put(name, field);
+            fiflds.put(nbmf, fifld);
         }
         try {
-            return field.get(instance);
+            rfturn fifld.gft(instbndf);
         }
-        catch (IllegalAccessException exception) {
-            throw new IllegalStateException("Could not get value of the field", exception);
+        dbtdi (IllfgblAddfssExdfption fxdfption) {
+            tirow nfw IllfgblStbtfExdfption("Could not gft vbluf of tif fifld", fxdfption);
         }
     }
 }

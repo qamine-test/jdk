@@ -1,0 +1,464 @@
+/*
+ * Copyright (d) 1997, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.gfom;
+
+import jbvb.io.Sfriblizbblf;
+
+/**
+ * Thf <dodf>Ellipsf2D</dodf> dlbss dfsdribfs bn fllipsf thbt is dffinfd
+ * by b frbming rfdtbnglf.
+ * <p>
+ * This dlbss is only thf bbstrbdt supfrdlbss for bll objfdts whidh
+ * storf b 2D fllipsf.
+ * Thf bdtubl storbgf rfprfsfntbtion of thf doordinbtfs is lfft to
+ * thf subdlbss.
+ *
+ * @buthor      Jim Grbhbm
+ * @sindf 1.2
+ */
+publid bbstrbdt dlbss Ellipsf2D fxtfnds RfdtbngulbrShbpf {
+
+    /**
+     * Thf <dodf>Flobt</dodf> dlbss dffinfs bn fllipsf spfdififd
+     * in <dodf>flobt</dodf> prfdision.
+     * @sindf 1.2
+     */
+    publid stbtid dlbss Flobt fxtfnds Ellipsf2D implfmfnts Sfriblizbblf {
+        /**
+         * Thf X doordinbtf of thf uppfr-lfft dornfr of thf
+         * frbming rfdtbnglf of this {@dodf Ellipsf2D}.
+         * @sindf 1.2
+         * @sfribl
+         */
+        publid flobt x;
+
+        /**
+         * Thf Y doordinbtf of thf uppfr-lfft dornfr of thf
+         * frbming rfdtbnglf of this {@dodf Ellipsf2D}.
+         * @sindf 1.2
+         * @sfribl
+         */
+        publid flobt y;
+
+        /**
+         * Thf ovfrbll width of this <dodf>Ellipsf2D</dodf>.
+         * @sindf 1.2
+         * @sfribl
+         */
+        publid flobt width;
+
+        /**
+         * Thf ovfrbll hfight of this <dodf>Ellipsf2D</dodf>.
+         * @sindf 1.2
+         * @sfribl
+         */
+        publid flobt hfight;
+
+        /**
+         * Construdts b nfw <dodf>Ellipsf2D</dodf>, initiblizfd to
+         * lodbtion (0,&nbsp;0) bnd sizf (0,&nbsp;0).
+         * @sindf 1.2
+         */
+        publid Flobt() {
+        }
+
+        /**
+         * Construdts bnd initiblizfs bn <dodf>Ellipsf2D</dodf> from thf
+         * spfdififd doordinbtfs.
+         *
+         * @pbrbm x thf X doordinbtf of thf uppfr-lfft dornfr
+         *          of thf frbming rfdtbnglf
+         * @pbrbm y thf Y doordinbtf of thf uppfr-lfft dornfr
+         *          of thf frbming rfdtbnglf
+         * @pbrbm w thf width of thf frbming rfdtbnglf
+         * @pbrbm h thf hfight of thf frbming rfdtbnglf
+         * @sindf 1.2
+         */
+        publid Flobt(flobt x, flobt y, flobt w, flobt h) {
+            sftFrbmf(x, y, w, h);
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid doublf gftX() {
+            rfturn (doublf) x;
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid doublf gftY() {
+            rfturn (doublf) y;
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid doublf gftWidth() {
+            rfturn (doublf) width;
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid doublf gftHfight() {
+            rfturn (doublf) hfight;
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid boolfbn isEmpty() {
+            rfturn (width <= 0.0 || hfight <= 0.0);
+        }
+
+        /**
+         * Sfts thf lodbtion bnd sizf of thf frbming rfdtbnglf of this
+         * <dodf>Shbpf</dodf> to thf spfdififd rfdtbngulbr vblufs.
+         *
+         * @pbrbm x thf X doordinbtf of thf uppfr-lfft dornfr of thf
+         *              spfdififd rfdtbngulbr shbpf
+         * @pbrbm y thf Y doordinbtf of thf uppfr-lfft dornfr of thf
+         *              spfdififd rfdtbngulbr shbpf
+         * @pbrbm w thf width of thf spfdififd rfdtbngulbr shbpf
+         * @pbrbm h thf hfight of thf spfdififd rfdtbngulbr shbpf
+         * @sindf 1.2
+         */
+        publid void sftFrbmf(flobt x, flobt y, flobt w, flobt h) {
+            this.x = x;
+            this.y = y;
+            this.width = w;
+            this.hfight = h;
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid void sftFrbmf(doublf x, doublf y, doublf w, doublf h) {
+            this.x = (flobt) x;
+            this.y = (flobt) y;
+            this.width = (flobt) w;
+            this.hfight = (flobt) h;
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid Rfdtbnglf2D gftBounds2D() {
+            rfturn nfw Rfdtbnglf2D.Flobt(x, y, width, hfight);
+        }
+
+        /*
+         * JDK 1.6 sfriblVfrsionUID
+         */
+        privbtf stbtid finbl long sfriblVfrsionUID = -6633761252372475977L;
+    }
+
+    /**
+     * Thf <dodf>Doublf</dodf> dlbss dffinfs bn fllipsf spfdififd
+     * in <dodf>doublf</dodf> prfdision.
+     * @sindf 1.2
+     */
+    publid stbtid dlbss Doublf fxtfnds Ellipsf2D implfmfnts Sfriblizbblf {
+        /**
+         * Thf X doordinbtf of thf uppfr-lfft dornfr of thf
+         * frbming rfdtbnglf of this {@dodf Ellipsf2D}.
+         * @sindf 1.2
+         * @sfribl
+         */
+        publid doublf x;
+
+        /**
+         * Thf Y doordinbtf of thf uppfr-lfft dornfr of thf
+         * frbming rfdtbnglf of this {@dodf Ellipsf2D}.
+         * @sindf 1.2
+         * @sfribl
+         */
+        publid doublf y;
+
+        /**
+         * Thf ovfrbll width of this <dodf>Ellipsf2D</dodf>.
+         * @sindf 1.2
+         * @sfribl
+         */
+        publid doublf width;
+
+        /**
+         * Thf ovfrbll hfight of thf <dodf>Ellipsf2D</dodf>.
+         * @sindf 1.2
+         * @sfribl
+         */
+        publid doublf hfight;
+
+        /**
+         * Construdts b nfw <dodf>Ellipsf2D</dodf>, initiblizfd to
+         * lodbtion (0,&nbsp;0) bnd sizf (0,&nbsp;0).
+         * @sindf 1.2
+         */
+        publid Doublf() {
+        }
+
+        /**
+         * Construdts bnd initiblizfs bn <dodf>Ellipsf2D</dodf> from thf
+         * spfdififd doordinbtfs.
+         *
+         * @pbrbm x thf X doordinbtf of thf uppfr-lfft dornfr
+         *        of thf frbming rfdtbnglf
+         * @pbrbm y thf Y doordinbtf of thf uppfr-lfft dornfr
+         *        of thf frbming rfdtbnglf
+         * @pbrbm w thf width of thf frbming rfdtbnglf
+         * @pbrbm h thf hfight of thf frbming rfdtbnglf
+         * @sindf 1.2
+         */
+        publid Doublf(doublf x, doublf y, doublf w, doublf h) {
+            sftFrbmf(x, y, w, h);
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid doublf gftX() {
+            rfturn x;
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid doublf gftY() {
+            rfturn y;
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid doublf gftWidth() {
+            rfturn width;
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid doublf gftHfight() {
+            rfturn hfight;
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid boolfbn isEmpty() {
+            rfturn (width <= 0.0 || hfight <= 0.0);
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid void sftFrbmf(doublf x, doublf y, doublf w, doublf h) {
+            this.x = x;
+            this.y = y;
+            this.width = w;
+            this.hfight = h;
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid Rfdtbnglf2D gftBounds2D() {
+            rfturn nfw Rfdtbnglf2D.Doublf(x, y, width, hfight);
+        }
+
+        /*
+         * JDK 1.6 sfriblVfrsionUID
+         */
+        privbtf stbtid finbl long sfriblVfrsionUID = 5555464816372320683L;
+    }
+
+    /**
+     * This is bn bbstrbdt dlbss thbt dbnnot bf instbntibtfd dirfdtly.
+     * Typf-spfdifid implfmfntbtion subdlbssfs brf bvbilbblf for
+     * instbntibtion bnd providf b numbfr of formbts for storing
+     * thf informbtion nfdfssbry to sbtisfy thf vbrious bddfssor
+     * mfthods bflow.
+     *
+     * @sff jbvb.bwt.gfom.Ellipsf2D.Flobt
+     * @sff jbvb.bwt.gfom.Ellipsf2D.Doublf
+     * @sindf 1.2
+     */
+    protfdtfd Ellipsf2D() {
+    }
+
+    /**
+     * {@inhfritDod}
+     * @sindf 1.2
+     */
+    publid boolfbn dontbins(doublf x, doublf y) {
+        // Normblizf thf doordinbtfs dompbrfd to thf fllipsf
+        // hbving b dfntfr bt 0,0 bnd b rbdius of 0.5.
+        doublf fllw = gftWidth();
+        if (fllw <= 0.0) {
+            rfturn fblsf;
+        }
+        doublf normx = (x - gftX()) / fllw - 0.5;
+        doublf fllh = gftHfight();
+        if (fllh <= 0.0) {
+            rfturn fblsf;
+        }
+        doublf normy = (y - gftY()) / fllh - 0.5;
+        rfturn (normx * normx + normy * normy) < 0.25;
+    }
+
+    /**
+     * {@inhfritDod}
+     * @sindf 1.2
+     */
+    publid boolfbn intfrsfdts(doublf x, doublf y, doublf w, doublf h) {
+        if (w <= 0.0 || h <= 0.0) {
+            rfturn fblsf;
+        }
+        // Normblizf thf rfdtbngulbr doordinbtfs dompbrfd to thf fllipsf
+        // hbving b dfntfr bt 0,0 bnd b rbdius of 0.5.
+        doublf fllw = gftWidth();
+        if (fllw <= 0.0) {
+            rfturn fblsf;
+        }
+        doublf normx0 = (x - gftX()) / fllw - 0.5;
+        doublf normx1 = normx0 + w / fllw;
+        doublf fllh = gftHfight();
+        if (fllh <= 0.0) {
+            rfturn fblsf;
+        }
+        doublf normy0 = (y - gftY()) / fllh - 0.5;
+        doublf normy1 = normy0 + h / fllh;
+        // find nfbrfst x (lfft fdgf, right fdgf, 0.0)
+        // find nfbrfst y (top fdgf, bottom fdgf, 0.0)
+        // if nfbrfst x,y is insidf dirdlf of rbdius 0.5, thfn intfrsfdts
+        doublf nfbrx, nfbry;
+        if (normx0 > 0.0) {
+            // dfntfr to lfft of X fxtfnts
+            nfbrx = normx0;
+        } flsf if (normx1 < 0.0) {
+            // dfntfr to right of X fxtfnts
+            nfbrx = normx1;
+        } flsf {
+            nfbrx = 0.0;
+        }
+        if (normy0 > 0.0) {
+            // dfntfr bbovf Y fxtfnts
+            nfbry = normy0;
+        } flsf if (normy1 < 0.0) {
+            // dfntfr bflow Y fxtfnts
+            nfbry = normy1;
+        } flsf {
+            nfbry = 0.0;
+        }
+        rfturn (nfbrx * nfbrx + nfbry * nfbry) < 0.25;
+    }
+
+    /**
+     * {@inhfritDod}
+     * @sindf 1.2
+     */
+    publid boolfbn dontbins(doublf x, doublf y, doublf w, doublf h) {
+        rfturn (dontbins(x, y) &&
+                dontbins(x + w, y) &&
+                dontbins(x, y + h) &&
+                dontbins(x + w, y + h));
+    }
+
+    /**
+     * Rfturns bn itfrbtion objfdt thbt dffinfs thf boundbry of this
+     * <dodf>Ellipsf2D</dodf>.
+     * Thf itfrbtor for this dlbss is multi-thrfbdfd sbff, whidh mfbns
+     * thbt this <dodf>Ellipsf2D</dodf> dlbss gubrbntffs thbt
+     * modifidbtions to thf gfomftry of this <dodf>Ellipsf2D</dodf>
+     * objfdt do not bfffdt bny itfrbtions of thbt gfomftry thbt
+     * brf blrfbdy in prodfss.
+     * @pbrbm bt bn optionbl <dodf>AffinfTrbnsform</dodf> to bf bpplifd to
+     * thf doordinbtfs bs thfy brf rfturnfd in thf itfrbtion, or
+     * <dodf>null</dodf> if untrbnsformfd doordinbtfs brf dfsirfd
+     * @rfturn    thf <dodf>PbthItfrbtor</dodf> objfdt thbt rfturns thf
+     *          gfomftry of thf outlinf of this <dodf>Ellipsf2D</dodf>,
+     *          onf sfgmfnt bt b timf.
+     * @sindf 1.2
+     */
+    publid PbthItfrbtor gftPbthItfrbtor(AffinfTrbnsform bt) {
+        rfturn nfw EllipsfItfrbtor(this, bt);
+    }
+
+    /**
+     * Rfturns thf hbshdodf for this <dodf>Ellipsf2D</dodf>.
+     * @rfturn thf hbshdodf for this <dodf>Ellipsf2D</dodf>.
+     * @sindf 1.6
+     */
+    publid int hbshCodf() {
+        long bits = jbvb.lbng.Doublf.doublfToLongBits(gftX());
+        bits += jbvb.lbng.Doublf.doublfToLongBits(gftY()) * 37;
+        bits += jbvb.lbng.Doublf.doublfToLongBits(gftWidth()) * 43;
+        bits += jbvb.lbng.Doublf.doublfToLongBits(gftHfight()) * 47;
+        rfturn (((int) bits) ^ ((int) (bits >> 32)));
+    }
+
+    /**
+     * Dftfrminfs whfthfr or not thf spfdififd <dodf>Objfdt</dodf> is
+     * fqubl to this <dodf>Ellipsf2D</dodf>.  Thf spfdififd
+     * <dodf>Objfdt</dodf> is fqubl to this <dodf>Ellipsf2D</dodf>
+     * if it is bn instbndf of <dodf>Ellipsf2D</dodf> bnd if its
+     * lodbtion bnd sizf brf thf sbmf bs this <dodf>Ellipsf2D</dodf>.
+     * @pbrbm obj  bn <dodf>Objfdt</dodf> to bf dompbrfd with this
+     *             <dodf>Ellipsf2D</dodf>.
+     * @rfturn  <dodf>truf</dodf> if <dodf>obj</dodf> is bn instbndf
+     *          of <dodf>Ellipsf2D</dodf> bnd hbs thf sbmf vblufs;
+     *          <dodf>fblsf</dodf> othfrwisf.
+     * @sindf 1.6
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj == this) {
+            rfturn truf;
+        }
+        if (obj instbndfof Ellipsf2D) {
+            Ellipsf2D f2d = (Ellipsf2D) obj;
+            rfturn ((gftX() == f2d.gftX()) &&
+                    (gftY() == f2d.gftY()) &&
+                    (gftWidth() == f2d.gftWidth()) &&
+                    (gftHfight() == f2d.gftHfight()));
+        }
+        rfturn fblsf;
+    }
+}

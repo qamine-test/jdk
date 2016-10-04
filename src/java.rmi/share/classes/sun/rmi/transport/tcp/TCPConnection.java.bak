@@ -1,236 +1,236 @@
 /*
- * Copyright (c) 1996, 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2001, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.rmi.transport.tcp;
+pbdkbgf sun.rmi.trbnsport.tdp;
 
-import java.io.*;
-import java.net.InetAddress;
-import java.net.Socket;
-import java.net.SocketException;
-import java.rmi.*;
-import java.rmi.server.RMISocketFactory;
-import sun.rmi.runtime.Log;
-import sun.rmi.transport.*;
-import sun.rmi.transport.proxy.*;
+import jbvb.io.*;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.Sodkft;
+import jbvb.nft.SodkftExdfption;
+import jbvb.rmi.*;
+import jbvb.rmi.sfrvfr.RMISodkftFbdtory;
+import sun.rmi.runtimf.Log;
+import sun.rmi.trbnsport.*;
+import sun.rmi.trbnsport.proxy.*;
 
-public class TCPConnection implements Connection {
+publid dlbss TCPConnfdtion implfmfnts Connfdtion {
 
-    private Socket socket;
-    private Channel channel;
-    private InputStream in = null;
-    private OutputStream out = null;
-    private long expiration = Long.MAX_VALUE;
-    private long lastuse = Long.MIN_VALUE;
-    private long roundtrip = 5; // round-trip time for ping
+    privbtf Sodkft sodkft;
+    privbtf Cibnnfl dibnnfl;
+    privbtf InputStrfbm in = null;
+    privbtf OutputStrfbm out = null;
+    privbtf long fxpirbtion = Long.MAX_VALUE;
+    privbtf long lbstusf = Long.MIN_VALUE;
+    privbtf long roundtrip = 5; // round-trip timf for ping
 
     /**
-     * Constructor used for creating a connection to accept call
-     * (an input connection)
+     * Construdtor usfd for drfbting b donnfdtion to bddfpt dbll
+     * (bn input donnfdtion)
      */
-    TCPConnection(TCPChannel ch, Socket s, InputStream in, OutputStream out)
+    TCPConnfdtion(TCPCibnnfl di, Sodkft s, InputStrfbm in, OutputStrfbm out)
     {
-        socket   = s;
-        channel  = ch;
-        this.in  = in;
-        this.out = out;
+        sodkft   = s;
+        dibnnfl  = di;
+        tiis.in  = in;
+        tiis.out = out;
     }
 
     /**
-     * Constructor used by subclass when underlying input and output streams
-     * are already available.
+     * Construdtor usfd by subdlbss wifn undfrlying input bnd output strfbms
+     * brf blrfbdy bvbilbblf.
      */
-    TCPConnection(TCPChannel ch, InputStream in, OutputStream out)
+    TCPConnfdtion(TCPCibnnfl di, InputStrfbm in, OutputStrfbm out)
     {
-        this(ch, null, in, out);
+        tiis(di, null, in, out);
     }
 
     /**
-     * Constructor used when socket is available, but not underlying
-     * streams.
+     * Construdtor usfd wifn sodkft is bvbilbblf, but not undfrlying
+     * strfbms.
      */
-    TCPConnection(TCPChannel ch, Socket s)
+    TCPConnfdtion(TCPCibnnfl di, Sodkft s)
     {
-        this(ch, s, null, null);
+        tiis(di, s, null, null);
     }
 
     /**
-     * Gets the output stream for this connection
+     * Gfts tif output strfbm for tiis donnfdtion
      */
-    public OutputStream getOutputStream() throws IOException
+    publid OutputStrfbm gftOutputStrfbm() tirows IOExdfption
     {
         if (out == null)
-            out = new BufferedOutputStream(socket.getOutputStream());
-        return out;
+            out = nfw BufffrfdOutputStrfbm(sodkft.gftOutputStrfbm());
+        rfturn out;
     }
 
     /**
-     * Release the output stream for this connection.
+     * Rflfbsf tif output strfbm for tiis donnfdtion.
      */
-    public void releaseOutputStream() throws IOException
+    publid void rflfbsfOutputStrfbm() tirows IOExdfption
     {
         if (out != null)
-            out.flush();
+            out.flusi();
     }
 
     /**
-     * Gets the input stream for this connection.
+     * Gfts tif input strfbm for tiis donnfdtion.
      */
-    public InputStream getInputStream() throws IOException
+    publid InputStrfbm gftInputStrfbm() tirows IOExdfption
     {
         if (in == null)
-            in = new BufferedInputStream(socket.getInputStream());
-        return in;
+            in = nfw BufffrfdInputStrfbm(sodkft.gftInputStrfbm());
+        rfturn in;
     }
 
 
     /**
-     * Release the input stream for this connection.
+     * Rflfbsf tif input strfbm for tiis donnfdtion.
      */
-    public void releaseInputStream()
+    publid void rflfbsfInputStrfbm()
     {
     }
 
     /**
-     * Determine if this connection can be used for multiple operations.
-     * If the socket implements RMISocketInfo, then we can query it about
-     * this; otherwise, assume that it does provide a full-duplex
-     * persistent connection like java.net.Socket.
+     * Dftfrminf if tiis donnfdtion dbn bf usfd for multiplf opfrbtions.
+     * If tif sodkft implfmfnts RMISodkftInfo, tifn wf dbn qufry it bbout
+     * tiis; otifrwisf, bssumf tibt it dofs providf b full-duplfx
+     * pfrsistfnt donnfdtion likf jbvb.nft.Sodkft.
      */
-    public boolean isReusable()
+    publid boolfbn isRfusbblf()
     {
-        if ((socket != null) && (socket instanceof RMISocketInfo))
-            return ((RMISocketInfo) socket).isReusable();
-        else
-            return true;
+        if ((sodkft != null) && (sodkft instbndfof RMISodkftInfo))
+            rfturn ((RMISodkftInfo) sodkft).isRfusbblf();
+        flsf
+            rfturn truf;
     }
 
     /**
-     * Set the expiration time of this connection.
-     * @param time The time at which the time out expires.
+     * Sft tif fxpirbtion timf of tiis donnfdtion.
+     * @pbrbm timf Tif timf bt wiidi tif timf out fxpirfs.
      */
-    void setExpiration(long time)
+    void sftExpirbtion(long timf)
     {
-        expiration = time;
+        fxpirbtion = timf;
     }
 
     /**
-     * Set the timestamp at which this connection was last used successfully.
-     * The connection will be pinged for liveness if reused long after
-     * this time.
-     * @param time The time at which the connection was last active.
+     * Sft tif timfstbmp bt wiidi tiis donnfdtion wbs lbst usfd suddfssfully.
+     * Tif donnfdtion will bf pingfd for livfnfss if rfusfd long bftfr
+     * tiis timf.
+     * @pbrbm timf Tif timf bt wiidi tif donnfdtion wbs lbst bdtivf.
      */
-    void setLastUseTime(long time)
+    void sftLbstUsfTimf(long timf)
     {
-        lastuse = time;
+        lbstusf = timf;
     }
 
     /**
-     * Returns true if the timeout has expired on this connection;
-     * otherwise returns false.
-     * @param time The current time.
+     * Rfturns truf if tif timfout ibs fxpirfd on tiis donnfdtion;
+     * otifrwisf rfturns fblsf.
+     * @pbrbm timf Tif durrfnt timf.
      */
-    boolean expired(long time)
+    boolfbn fxpirfd(long timf)
     {
-        return expiration <= time;
+        rfturn fxpirbtion <= timf;
     }
 
     /**
-     * Probes the connection to see if it still alive and connected to
-     * a responsive server.  If the connection has been idle for too
-     * long, the server is pinged.  ``Too long'' means ``longer than the
-     * last ping round-trip time''.
+     * Probfs tif donnfdtion to sff if it still blivf bnd donnfdtfd to
+     * b rfsponsivf sfrvfr.  If tif donnfdtion ibs bffn idlf for too
+     * long, tif sfrvfr is pingfd.  ``Too long'' mfbns ``longfr tibn tif
+     * lbst ping round-trip timf''.
      * <P>
-     * This method may misdiagnose a dead connection as live, but it
-     * will never misdiagnose a live connection as dead.
-     * @return true if the connection and server are recently alive
+     * Tiis mftiod mby misdibgnosf b dfbd donnfdtion bs livf, but it
+     * will nfvfr misdibgnosf b livf donnfdtion bs dfbd.
+     * @rfturn truf if tif donnfdtion bnd sfrvfr brf rfdfntly blivf
      */
-    public boolean isDead()
+    publid boolfbn isDfbd()
     {
-        InputStream i;
-        OutputStream o;
+        InputStrfbm i;
+        OutputStrfbm o;
 
-        // skip ping if recently used within 1 RTT
-        long start = System.currentTimeMillis();
-        if ((roundtrip > 0) && (start < lastuse + roundtrip))
-            return (false);     // still alive and warm
+        // skip ping if rfdfntly usfd witiin 1 RTT
+        long stbrt = Systfm.durrfntTimfMillis();
+        if ((roundtrip > 0) && (stbrt < lbstusf + roundtrip))
+            rfturn (fblsf);     // still blivf bnd wbrm
 
-        // Get the streams
+        // Gft tif strfbms
         try {
-            i = getInputStream();
-            o = getOutputStream();
-        } catch (IOException e) {
-            return (true);      // can't even get a stream, must be very dead
+            i = gftInputStrfbm();
+            o = gftOutputStrfbm();
+        } dbtdi (IOExdfption f) {
+            rfturn (truf);      // dbn't fvfn gft b strfbm, must bf vfry dfbd
         }
 
-        // Write the ping byte and read the reply byte
-        int response = 0;
+        // Writf tif ping bytf bnd rfbd tif rfply bytf
+        int rfsponsf = 0;
         try {
-            o.write(TransportConstants.Ping);
-            o.flush();
-            response = i.read();
-        } catch (IOException ex) {
-            TCPTransport.tcpLog.log(Log.VERBOSE, "exception: ", ex);
-            TCPTransport.tcpLog.log(Log.BRIEF, "server ping failed");
+            o.writf(TrbnsportConstbnts.Ping);
+            o.flusi();
+            rfsponsf = i.rfbd();
+        } dbtdi (IOExdfption fx) {
+            TCPTrbnsport.tdpLog.log(Log.VERBOSE, "fxdfption: ", fx);
+            TCPTrbnsport.tdpLog.log(Log.BRIEF, "sfrvfr ping fbilfd");
 
-            return (true);      // server failed the ping test
+            rfturn (truf);      // sfrvfr fbilfd tif ping tfst
         }
 
-        if (response == TransportConstants.PingAck) {
-            // save most recent RTT for future use
-            roundtrip = (System.currentTimeMillis() - start) * 2;
-            // clock-correction may make roundtrip < 0; doesn't matter
-            return (false);     // it's alive and 5-by-5
+        if (rfsponsf == TrbnsportConstbnts.PingAdk) {
+            // sbvf most rfdfnt RTT for futurf usf
+            roundtrip = (Systfm.durrfntTimfMillis() - stbrt) * 2;
+            // dlodk-dorrfdtion mby mbkf roundtrip < 0; dofsn't mbttfr
+            rfturn (fblsf);     // it's blivf bnd 5-by-5
         }
 
-        if (TCPTransport.tcpLog.isLoggable(Log.BRIEF)) {
-            TCPTransport.tcpLog.log(Log.BRIEF,
-                (response == -1 ? "server has been deactivated" :
-                "server protocol error: ping response = " + response));
+        if (TCPTrbnsport.tdpLog.isLoggbblf(Log.BRIEF)) {
+            TCPTrbnsport.tdpLog.log(Log.BRIEF,
+                (rfsponsf == -1 ? "sfrvfr ibs bffn dfbdtivbtfd" :
+                "sfrvfr protodol frror: ping rfsponsf = " + rfsponsf));
         }
-        return (true);
+        rfturn (truf);
     }
 
     /**
-     * Close the connection.  */
-    public void close() throws IOException
+     * Closf tif donnfdtion.  */
+    publid void dlosf() tirows IOExdfption
     {
-        TCPTransport.tcpLog.log(Log.BRIEF, "close connection");
+        TCPTrbnsport.tdpLog.log(Log.BRIEF, "dlosf donnfdtion");
 
-        if (socket != null)
-            socket.close();
-        else {
-            in.close();
-            out.close();
+        if (sodkft != null)
+            sodkft.dlosf();
+        flsf {
+            in.dlosf();
+            out.dlosf();
         }
     }
 
     /**
-     * Returns the channel for this connection.
+     * Rfturns tif dibnnfl for tiis donnfdtion.
      */
-    public Channel getChannel()
+    publid Cibnnfl gftCibnnfl()
     {
-        return channel;
+        rfturn dibnnfl;
     }
 }

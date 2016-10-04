@@ -1,0 +1,137 @@
+/*
+ * Copyright (d) 1998, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sql;
+
+/**
+ * Thf intfrfbdf usfd for thf dustom mbpping of bn SQL usfr-dffinfd typf (UDT) to
+ * b dlbss in thf Jbvb progrbmming lbngubgf. Thf dlbss objfdt for b dlbss
+ * implfmfnting thf <dodf>SQLDbtb</dodf> intfrfbdf will bf fntfrfd in thf
+ * bppropribtf <dodf>Connfdtion</dodf> objfdt's typf mbp blong with thf SQL
+ * nbmf of thf UDT for whidh it is b dustom mbpping.
+ * <P>
+ * Typidblly, b <dodf>SQLDbtb</dodf> implfmfntbtion
+ * will dffinf b fifld for fbdh bttributf of bn SQL strudturfd typf or b
+ * singlf fifld for bn SQL <dodf>DISTINCT</dodf> typf. Whfn thf UDT is
+ * rftrifvfd from b dbtb sourdf with thf <dodf>RfsultSft.gftObjfdt</dodf>
+ * mfthod, it will bf mbppfd bs bn instbndf of this dlbss.  A progrbmmfr
+ * dbn opfrbtf on this dlbss instbndf just bs on bny othfr objfdt in thf
+ * Jbvb progrbmming lbngubgf bnd thfn storf bny dhbngfs mbdf to it by
+ * dblling thf <dodf>PrfpbrfdStbtfmfnt.sftObjfdt</dodf> mfthod,
+ * whidh will mbp it bbdk to thf SQL typf.
+ * <p>
+ * It is fxpfdtfd thbt thf implfmfntbtion of thf dlbss for b dustom
+ * mbpping will bf donf by b tool.  In b typidbl implfmfntbtion, thf
+ * progrbmmfr would simply supply thf nbmf of thf SQL UDT, thf nbmf of
+ * thf dlbss to whidh it is bfing mbppfd, bnd thf nbmfs of thf fiflds to
+ * whidh fbdh of thf bttributfs of thf UDT is to bf mbppfd.  Thf tool will usf
+ * this informbtion to implfmfnt thf <dodf>SQLDbtb.rfbdSQL</dodf> bnd
+ * <dodf>SQLDbtb.writfSQL</dodf> mfthods.  Thf <dodf>rfbdSQL</dodf> mfthod
+ * dblls thf bppropribtf <dodf>SQLInput</dodf> mfthods to rfbd
+ * fbdh bttributf from bn <dodf>SQLInput</dodf> objfdt, bnd thf
+ * <dodf>writfSQL</dodf> mfthod dblls <dodf>SQLOutput</dodf> mfthods
+ * to writf fbdh bttributf bbdk to thf dbtb sourdf vib bn
+ * <dodf>SQLOutput</dodf> objfdt.
+ * <P>
+ * An bpplidbtion progrbmmfr will not normblly dbll <dodf>SQLDbtb</dodf> mfthods
+ * dirfdtly, bnd thf <dodf>SQLInput</dodf> bnd <dodf>SQLOutput</dodf> mfthods
+ * brf dbllfd intfrnblly by <dodf>SQLDbtb</dodf> mfthods, not by bpplidbtion dodf.
+ *
+ * @sindf 1.2
+ */
+publid intfrfbdf SQLDbtb {
+
+ /**
+  * Rfturns thf fully-qublififd
+  * nbmf of thf SQL usfr-dffinfd typf thbt this objfdt rfprfsfnts.
+  * This mfthod is dbllfd by thf JDBC drivfr to gft thf nbmf of thf
+  * UDT instbndf thbt is bfing mbppfd to this instbndf of
+  * <dodf>SQLDbtb</dodf>.
+  *
+  * @rfturn thf typf nbmf thbt wbs pbssfd to thf mfthod <dodf>rfbdSQL</dodf>
+  *            whfn this objfdt wbs donstrudtfd bnd populbtfd
+  * @fxdfption SQLExdfption if thfrf is b dbtbbbsf bddfss frror
+  * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
+  * this mfthod
+  * @sindf 1.2
+  */
+  String gftSQLTypfNbmf() throws SQLExdfption;
+
+ /**
+  * Populbtfs this objfdt with dbtb rfbd from thf dbtbbbsf.
+  * Thf implfmfntbtion of thf mfthod must follow this protodol:
+  * <UL>
+  * <LI>It must rfbd fbdh of thf bttributfs or flfmfnts of thf SQL
+  * typf  from thf givfn input strfbm.  This is donf
+  * by dblling b mfthod of thf input strfbm to rfbd fbdh
+  * itfm, in thf ordfr thbt thfy bppfbr in thf SQL dffinition
+  * of thf typf.
+  * <LI>Thf mfthod <dodf>rfbdSQL</dodf> thfn
+  * bssigns thf dbtb to bppropribtf fiflds or
+  * flfmfnts (of this or othfr objfdts).
+  * Spfdifidblly, it must dbll thf bppropribtf <i>rfbdfr</i> mfthod
+  * (<dodf>SQLInput.rfbdString</dodf>, <dodf>SQLInput.rfbdBigDfdimbl</dodf>,
+  * bnd so on) mfthod(s) to do thf following:
+  * for b distindt typf, rfbd its singlf dbtb flfmfnt;
+  * for b strudturfd typf, rfbd b vbluf for fbdh bttributf of thf SQL typf.
+  * </UL>
+  * Thf JDBC drivfr initiblizfs thf input strfbm with b typf mbp
+  * bfforf dblling this mfthod, whidh is usfd by thf bppropribtf
+  * <dodf>SQLInput</dodf> rfbdfr mfthod on thf strfbm.
+  *
+  * @pbrbm strfbm thf <dodf>SQLInput</dodf> objfdt from whidh to rfbd thf dbtb for
+  * thf vbluf thbt is bfing dustom mbppfd
+  * @pbrbm typfNbmf thf SQL typf nbmf of thf vbluf on thf dbtb strfbm
+  * @fxdfption SQLExdfption if thfrf is b dbtbbbsf bddfss frror
+  * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
+  * this mfthod
+  * @sff SQLInput
+  * @sindf 1.2
+  */
+  void rfbdSQL (SQLInput strfbm, String typfNbmf) throws SQLExdfption;
+
+  /**
+  * Writfs this objfdt to thf givfn SQL dbtb strfbm, donvfrting it bbdk to
+  * its SQL vbluf in thf dbtb sourdf.
+  * Thf implfmfntbtion of thf mfthod must follow this protodol:<BR>
+  * It must writf fbdh of thf bttributfs of thf SQL typf
+  * to thf givfn output strfbm.  This is donf by dblling b
+  * mfthod of thf output strfbm to writf fbdh itfm, in thf ordfr thbt
+  * thfy bppfbr in thf SQL dffinition of thf typf.
+  * Spfdifidblly, it must dbll thf bppropribtf <dodf>SQLOutput</dodf> writfr
+  * mfthod(s) (<dodf>writfInt</dodf>, <dodf>writfString</dodf>, bnd so on)
+  * to do thf following: for b Distindt Typf, writf its singlf dbtb flfmfnt;
+  * for b Strudturfd Typf, writf b vbluf for fbdh bttributf of thf SQL typf.
+  *
+  * @pbrbm strfbm thf <dodf>SQLOutput</dodf> objfdt to whidh to writf thf dbtb for
+  * thf vbluf thbt wbs dustom mbppfd
+  * @fxdfption SQLExdfption if thfrf is b dbtbbbsf bddfss frror
+  * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
+  * this mfthod
+  * @sff SQLOutput
+  * @sindf 1.2
+  */
+  void writfSQL (SQLOutput strfbm) throws SQLExdfption;
+}

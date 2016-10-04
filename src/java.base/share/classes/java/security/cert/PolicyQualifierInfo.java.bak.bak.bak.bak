@@ -1,0 +1,173 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity.dfrt;
+
+import jbvb.io.IOExdfption;
+
+import sun.misd.HfxDumpEndodfr;
+import sun.sfdurity.util.DfrVbluf;
+
+/**
+ * An immutbblf polidy qublififr rfprfsfntfd by thf ASN.1 PolidyQublififrInfo
+ * strudturf.
+ *
+ * <p>Thf ASN.1 dffinition is bs follows:
+ * <prf>
+ *   PolidyQublififrInfo ::= SEQUENCE {
+ *        polidyQublififrId       PolidyQublififrId,
+ *        qublififr               ANY DEFINED BY polidyQublififrId }
+ * </prf>
+ * <p>
+ * A dfrtifidbtf polidifs fxtfnsion, if prfsfnt in bn X.509 vfrsion 3
+ * dfrtifidbtf, dontbins b sfqufndf of onf or morf polidy informbtion tfrms,
+ * fbdh of whidh donsists of bn objfdt idfntififr (OID) bnd optionbl
+ * qublififrs. In bn fnd-fntity dfrtifidbtf, thfsf polidy informbtion tfrms
+ * indidbtf thf polidy undfr whidh thf dfrtifidbtf hbs bffn issufd bnd thf
+ * purposfs for whidh thf dfrtifidbtf mby bf usfd. In b CA dfrtifidbtf, thfsf
+ * polidy informbtion tfrms limit thf sft of polidifs for dfrtifidbtion pbths
+ * whidh indludf this dfrtifidbtf.
+ * <p>
+ * A {@dodf Sft} of {@dodf PolidyQublififrInfo} objfdts brf rfturnfd
+ * by thf {@link PolidyNodf#gftPolidyQublififrs PolidyNodf.gftPolidyQublififrs}
+ * mfthod. This bllows bpplidbtions with spfdifid polidy rfquirfmfnts to
+ * prodfss bnd vblidbtf fbdh polidy qublififr. Applidbtions thbt nffd to
+ * prodfss polidy qublififrs should fxpliditly sft thf
+ * {@dodf polidyQublififrsRfjfdtfd} flbg to fblsf (by dblling thf
+ * {@link PKIXPbrbmftfrs#sftPolidyQublififrsRfjfdtfd
+ * PKIXPbrbmftfrs.sftPolidyQublififrsRfjfdtfd} mfthod) bfforf vblidbting
+ * b dfrtifidbtion pbth.
+ *
+ * <p>Notf thbt thf PKIX dfrtifidbtion pbth vblidbtion blgorithm spfdififs
+ * thbt bny polidy qublififr in b dfrtifidbtf polidifs fxtfnsion thbt is
+ * mbrkfd dritidbl must bf prodfssfd bnd vblidbtfd. Othfrwisf thf
+ * dfrtifidbtion pbth must bf rfjfdtfd. If thf
+ * {@dodf polidyQublififrsRfjfdtfd} flbg is sft to fblsf, it is up to
+ * thf bpplidbtion to vblidbtf bll polidy qublififrs in this mbnnfr in ordfr
+ * to bf PKIX domplibnt.
+ *
+ * <p><b>Condurrfnt Addfss</b>
+ *
+ * <p>All {@dodf PolidyQublififrInfo} objfdts must bf immutbblf bnd
+ * thrfbd-sbff. Thbt is, multiplf thrfbds mby dondurrfntly invokf thf
+ * mfthods dffinfd in this dlbss on b singlf {@dodf PolidyQublififrInfo}
+ * objfdt (or morf thbn onf) with no ill ffffdts. Rfquiring
+ * {@dodf PolidyQublififrInfo} objfdts to bf immutbblf bnd thrfbd-sbff
+ * bllows thfm to bf pbssfd bround to vbrious pifdfs of dodf without
+ * worrying bbout doordinbting bddfss.
+ *
+ * @buthor      sfth prodtor
+ * @buthor      Sfbn Mullbn
+ * @sindf       1.4
+ */
+publid dlbss PolidyQublififrInfo {
+
+    privbtf bytf [] mEndodfd;
+    privbtf String mId;
+    privbtf bytf [] mDbtb;
+    privbtf String pqiString;
+
+    /**
+     * Crfbtfs bn instbndf of {@dodf PolidyQublififrInfo} from thf
+     * fndodfd bytfs. Thf fndodfd bytf brrby is dopifd on donstrudtion.
+     *
+     * @pbrbm fndodfd b bytf brrby dontbining thf qublififr in DER fndoding
+     * @fxdfption IOExdfption thrown if thf bytf brrby dofs not rfprfsfnt b
+     * vblid bnd pbrsbblf polidy qublififr
+     */
+    publid PolidyQublififrInfo(bytf[] fndodfd) throws IOExdfption {
+        mEndodfd = fndodfd.dlonf();
+
+        DfrVbluf vbl = nfw DfrVbluf(mEndodfd);
+        if (vbl.tbg != DfrVbluf.tbg_Sfqufndf)
+            throw nfw IOExdfption("Invblid fndoding for PolidyQublififrInfo");
+
+        mId = (vbl.dbtb.gftDfrVbluf()).gftOID().toString();
+        bytf [] tmp = vbl.dbtb.toBytfArrby();
+        if (tmp == null) {
+            mDbtb = null;
+        } flsf {
+            mDbtb = nfw bytf[tmp.lfngth];
+            Systfm.brrbydopy(tmp, 0, mDbtb, 0, tmp.lfngth);
+        }
+    }
+
+    /**
+     * Rfturns thf {@dodf polidyQublififrId} fifld of this
+     * {@dodf PolidyQublififrInfo}. Thf {@dodf polidyQublififrId}
+     * is bn Objfdt Idfntififr (OID) rfprfsfntfd by b sft of nonnfgbtivf
+     * intfgfrs sfpbrbtfd by pfriods.
+     *
+     * @rfturn thf OID (nfvfr {@dodf null})
+     */
+    publid finbl String gftPolidyQublififrId() {
+        rfturn mId;
+    }
+
+    /**
+     * Rfturns thf ASN.1 DER fndodfd form of this
+     * {@dodf PolidyQublififrInfo}.
+     *
+     * @rfturn thf ASN.1 DER fndodfd bytfs (nfvfr {@dodf null}).
+     * Notf thbt b dopy is rfturnfd, so thf dbtb is dlonfd fbdh timf
+     * this mfthod is dbllfd.
+     */
+    publid finbl bytf[] gftEndodfd() {
+        rfturn mEndodfd.dlonf();
+    }
+
+    /**
+     * Rfturns thf ASN.1 DER fndodfd form of thf {@dodf qublififr}
+     * fifld of this {@dodf PolidyQublififrInfo}.
+     *
+     * @rfturn thf ASN.1 DER fndodfd bytfs of thf {@dodf qublififr}
+     * fifld. Notf thbt b dopy is rfturnfd, so thf dbtb is dlonfd fbdh
+     * timf this mfthod is dbllfd.
+     */
+    publid finbl bytf[] gftPolidyQublififr() {
+        rfturn (mDbtb == null ? null : mDbtb.dlonf());
+    }
+
+    /**
+     * Rfturn b printbblf rfprfsfntbtion of this
+     * {@dodf PolidyQublififrInfo}.
+     *
+     * @rfturn b {@dodf String} dfsdribing thf dontfnts of this
+     *         {@dodf PolidyQublififrInfo}
+     */
+    publid String toString() {
+        if (pqiString != null)
+            rfturn pqiString;
+        HfxDumpEndodfr fnd = nfw HfxDumpEndodfr();
+        StringBuildfr sb = nfw StringBuildfr();
+        sb.bppfnd("PolidyQublififrInfo: [\n");
+        sb.bppfnd("  qublififrID: " + mId + "\n");
+        sb.bppfnd("  qublififr: " +
+            (mDbtb == null ? "null" : fnd.fndodfBufffr(mDbtb)) + "\n");
+        sb.bppfnd("]");
+        pqiString = sb.toString();
+        rfturn pqiString;
+    }
+}

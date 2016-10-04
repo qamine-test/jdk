@@ -1,254 +1,254 @@
 /*
- * Copyright (c) 2000, 2002, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2002, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <stdlib.h>
-#include <windows.h>
-#include "jni.h"
-#include "jni_util.h"
-#include "jvm.h"
-#ifdef __cplusplus
-extern "C" {
-#endif
-    JNIEXPORT jintArray JNICALL Java_java_util_prefs_WindowsPreferences_WindowsRegOpenKey
-               (JNIEnv* env, jclass this_class, jint hKey, jbyteArray lpSubKey, jint securityMask) {
-        HKEY handle;
-        char* str;
+#indludf <stdlib.i>
+#indludf <windows.i>
+#indludf "jni.i"
+#indludf "jni_util.i"
+#indludf "jvm.i"
+#ifdff __dplusplus
+fxtfrn "C" {
+#fndif
+    JNIEXPORT jintArrby JNICALL Jbvb_jbvb_util_prffs_WindowsPrfffrfndfs_WindowsRfgOpfnKfy
+               (JNIEnv* fnv, jdlbss tiis_dlbss, jint iKfy, jbytfArrby lpSubKfy, jint sfdurityMbsk) {
+        HKEY ibndlf;
+        dibr* str;
         int tmp[2];
-        int errorCode=-1;
-        jintArray result;
-        str = (*env)->GetByteArrayElements(env, lpSubKey, NULL);
+        int frrorCodf=-1;
+        jintArrby rfsult;
+        str = (*fnv)->GftBytfArrbyElfmfnts(fnv, lpSubKfy, NULL);
         CHECK_NULL_RETURN(str, NULL);
-        errorCode =  RegOpenKeyEx((HKEY)hKey, str, 0, securityMask, &handle);
-        (*env)->ReleaseByteArrayElements(env, lpSubKey, str, 0);
-        tmp[0]= (int) handle;
-        tmp[1]= errorCode;
-        result = (*env)->NewIntArray(env,2);
-        if (result != NULL) {
-            (*env)->SetIntArrayRegion(env, result, 0, 2, tmp);
+        frrorCodf =  RfgOpfnKfyEx((HKEY)iKfy, str, 0, sfdurityMbsk, &ibndlf);
+        (*fnv)->RflfbsfBytfArrbyElfmfnts(fnv, lpSubKfy, str, 0);
+        tmp[0]= (int) ibndlf;
+        tmp[1]= frrorCodf;
+        rfsult = (*fnv)->NfwIntArrby(fnv,2);
+        if (rfsult != NULL) {
+            (*fnv)->SftIntArrbyRfgion(fnv, rfsult, 0, 2, tmp);
         }
-        return result;
+        rfturn rfsult;
     }
 
-    JNIEXPORT jint JNICALL Java_java_util_prefs_WindowsPreferences_WindowsRegCloseKey
-               (JNIEnv* env, jclass this_class, jint hKey) {
-        return (jint) RegCloseKey((HKEY) hKey);
+    JNIEXPORT jint JNICALL Jbvb_jbvb_util_prffs_WindowsPrfffrfndfs_WindowsRfgClosfKfy
+               (JNIEnv* fnv, jdlbss tiis_dlbss, jint iKfy) {
+        rfturn (jint) RfgClosfKfy((HKEY) iKfy);
     };
 
-    JNIEXPORT jintArray JNICALL Java_java_util_prefs_WindowsPreferences_WindowsRegCreateKeyEx
-               (JNIEnv* env, jclass this_class, jint hKey, jbyteArray lpSubKey) {
-        HKEY handle;
-        char* str;
+    JNIEXPORT jintArrby JNICALL Jbvb_jbvb_util_prffs_WindowsPrfffrfndfs_WindowsRfgCrfbtfKfyEx
+               (JNIEnv* fnv, jdlbss tiis_dlbss, jint iKfy, jbytfArrby lpSubKfy) {
+        HKEY ibndlf;
+        dibr* str;
         int tmp[3];
         DWORD lpdwDisposition;
-        int errorCode;
-        jintArray result = NULL;
-        str = (*env)->GetByteArrayElements(env, lpSubKey, NULL);
+        int frrorCodf;
+        jintArrby rfsult = NULL;
+        str = (*fnv)->GftBytfArrbyElfmfnts(fnv, lpSubKfy, NULL);
         CHECK_NULL_RETURN(str, NULL);
-        errorCode =  RegCreateKeyEx((HKEY)hKey, str, 0, NULL,
+        frrorCodf =  RfgCrfbtfKfyEx((HKEY)iKfy, str, 0, NULL,
                       REG_OPTION_NON_VOLATILE, KEY_READ,
-                      NULL, &handle, &lpdwDisposition);
-        (*env)->ReleaseByteArrayElements(env, lpSubKey, str, 0);
-        tmp[0]= (int) handle;
-        tmp[1]= errorCode;
+                      NULL, &ibndlf, &lpdwDisposition);
+        (*fnv)->RflfbsfBytfArrbyElfmfnts(fnv, lpSubKfy, str, 0);
+        tmp[0]= (int) ibndlf;
+        tmp[1]= frrorCodf;
         tmp[2]= lpdwDisposition;
-        result = (*env)->NewIntArray(env,3);
-        if (result != NULL) {
-            (*env)->SetIntArrayRegion(env, result, 0, 3, tmp);
+        rfsult = (*fnv)->NfwIntArrby(fnv,3);
+        if (rfsult != NULL) {
+            (*fnv)->SftIntArrbyRfgion(fnv, rfsult, 0, 3, tmp);
         }
-        return result;
+        rfturn rfsult;
     }
 
-    JNIEXPORT jint JNICALL Java_java_util_prefs_WindowsPreferences_WindowsRegDeleteKey
-              (JNIEnv* env, jclass this_class, jint hKey, jbyteArray lpSubKey) {
-        char* str;
-        int result;
-        str = (*env)->GetByteArrayElements(env, lpSubKey, NULL);
+    JNIEXPORT jint JNICALL Jbvb_jbvb_util_prffs_WindowsPrfffrfndfs_WindowsRfgDflftfKfy
+              (JNIEnv* fnv, jdlbss tiis_dlbss, jint iKfy, jbytfArrby lpSubKfy) {
+        dibr* str;
+        int rfsult;
+        str = (*fnv)->GftBytfArrbyElfmfnts(fnv, lpSubKfy, NULL);
         CHECK_NULL_RETURN(str, -1);
-        result = RegDeleteKey((HKEY)hKey, str);
-        (*env)->ReleaseByteArrayElements(env, lpSubKey, str, 0);
-        return  result;
+        rfsult = RfgDflftfKfy((HKEY)iKfy, str);
+        (*fnv)->RflfbsfBytfArrbyElfmfnts(fnv, lpSubKfy, str, 0);
+        rfturn  rfsult;
 
     };
 
-    JNIEXPORT jint JNICALL Java_java_util_prefs_WindowsPreferences_WindowsRegFlushKey
-        (JNIEnv* env, jclass this_class, jint hKey) {
-        return RegFlushKey ((HKEY)hKey);
+    JNIEXPORT jint JNICALL Jbvb_jbvb_util_prffs_WindowsPrfffrfndfs_WindowsRfgFlusiKfy
+        (JNIEnv* fnv, jdlbss tiis_dlbss, jint iKfy) {
+        rfturn RfgFlusiKfy ((HKEY)iKfy);
         }
 
-    JNIEXPORT jbyteArray JNICALL Java_java_util_prefs_WindowsPreferences_WindowsRegQueryValueEx
-         (JNIEnv* env, jclass this_class, jint hKey, jbyteArray valueName) {
-        char* valueNameStr;
-        char* buffer;
-        jbyteArray result;
-        DWORD valueType;
-        DWORD valueSize;
-        valueNameStr = (*env)->GetByteArrayElements(env, valueName, NULL);
-        CHECK_NULL_RETURN(valueNameStr, NULL);
-        if (RegQueryValueEx((HKEY)hKey, valueNameStr, NULL, &valueType, NULL,
-                                                 &valueSize) != ERROR_SUCCESS) {
-        (*env)->ReleaseByteArrayElements(env, valueName, valueNameStr, 0);
-        return NULL;
+    JNIEXPORT jbytfArrby JNICALL Jbvb_jbvb_util_prffs_WindowsPrfffrfndfs_WindowsRfgQufryVblufEx
+         (JNIEnv* fnv, jdlbss tiis_dlbss, jint iKfy, jbytfArrby vblufNbmf) {
+        dibr* vblufNbmfStr;
+        dibr* bufffr;
+        jbytfArrby rfsult;
+        DWORD vblufTypf;
+        DWORD vblufSizf;
+        vblufNbmfStr = (*fnv)->GftBytfArrbyElfmfnts(fnv, vblufNbmf, NULL);
+        CHECK_NULL_RETURN(vblufNbmfStr, NULL);
+        if (RfgQufryVblufEx((HKEY)iKfy, vblufNbmfStr, NULL, &vblufTypf, NULL,
+                                                 &vblufSizf) != ERROR_SUCCESS) {
+        (*fnv)->RflfbsfBytfArrbyElfmfnts(fnv, vblufNbmf, vblufNbmfStr, 0);
+        rfturn NULL;
         }
 
-        buffer = (char*)malloc(valueSize);
-        if (buffer != NULL) {
-            if (RegQueryValueEx((HKEY)hKey, valueNameStr, NULL, &valueType, buffer,
-                &valueSize) != ERROR_SUCCESS) {
-                free(buffer);
-                (*env)->ReleaseByteArrayElements(env, valueName, valueNameStr, 0);
-                return NULL;
+        bufffr = (dibr*)mbllod(vblufSizf);
+        if (bufffr != NULL) {
+            if (RfgQufryVblufEx((HKEY)iKfy, vblufNbmfStr, NULL, &vblufTypf, bufffr,
+                &vblufSizf) != ERROR_SUCCESS) {
+                frff(bufffr);
+                (*fnv)->RflfbsfBytfArrbyElfmfnts(fnv, vblufNbmf, vblufNbmfStr, 0);
+                rfturn NULL;
             }
-        } else {
-            JNU_ThrowOutOfMemoryError(env, "native memory allocation failed");
-            (*env)->ReleaseByteArrayElements(env, valueName, valueNameStr, 0);
-            return NULL;
+        } flsf {
+            JNU_TirowOutOfMfmoryError(fnv, "nbtivf mfmory bllodbtion fbilfd");
+            (*fnv)->RflfbsfBytfArrbyElfmfnts(fnv, vblufNbmf, vblufNbmfStr, 0);
+            rfturn NULL;
         }
 
-        if (valueType == REG_SZ) {
-            result = (*env)->NewByteArray(env, valueSize);
-            if (result != NULL) {
-                (*env)->SetByteArrayRegion(env, result, 0, valueSize, buffer);
+        if (vblufTypf == REG_SZ) {
+            rfsult = (*fnv)->NfwBytfArrby(fnv, vblufSizf);
+            if (rfsult != NULL) {
+                (*fnv)->SftBytfArrbyRfgion(fnv, rfsult, 0, vblufSizf, bufffr);
             }
-        } else {
-            result = NULL;
+        } flsf {
+            rfsult = NULL;
         }
-        free(buffer);
-        (*env)->ReleaseByteArrayElements(env, valueName, valueNameStr, 0);
-        return result;
+        frff(bufffr);
+        (*fnv)->RflfbsfBytfArrbyElfmfnts(fnv, vblufNbmf, vblufNbmfStr, 0);
+        rfturn rfsult;
     }
 
 
 
 
-    JNIEXPORT jint JNICALL Java_java_util_prefs_WindowsPreferences_WindowsRegSetValueEx
-    (JNIEnv* env, jclass this_class, jint hKey, jbyteArray valueName, jbyteArray data) {
-        char* valueNameStr;
-        char* dataStr;
-        int size = -1;
-        int nameSize = -1;
-        int error_code = -1;
-        if ((valueName == NULL)||(data == NULL)) {return -1;}
-        size = (*env)->GetArrayLength(env, data);
-        dataStr = (*env)->GetByteArrayElements(env, data, NULL);
-        CHECK_NULL_RETURN(dataStr, -1);
-        valueNameStr = (*env)->GetByteArrayElements(env, valueName, NULL);
-        if (valueNameStr != NULL) {
-            error_code = RegSetValueEx((HKEY)hKey, valueNameStr, 0,
-                                                        REG_SZ, dataStr, size);
-            (*env)->ReleaseByteArrayElements(env, valueName, valueNameStr, 0);
+    JNIEXPORT jint JNICALL Jbvb_jbvb_util_prffs_WindowsPrfffrfndfs_WindowsRfgSftVblufEx
+    (JNIEnv* fnv, jdlbss tiis_dlbss, jint iKfy, jbytfArrby vblufNbmf, jbytfArrby dbtb) {
+        dibr* vblufNbmfStr;
+        dibr* dbtbStr;
+        int sizf = -1;
+        int nbmfSizf = -1;
+        int frror_dodf = -1;
+        if ((vblufNbmf == NULL)||(dbtb == NULL)) {rfturn -1;}
+        sizf = (*fnv)->GftArrbyLfngti(fnv, dbtb);
+        dbtbStr = (*fnv)->GftBytfArrbyElfmfnts(fnv, dbtb, NULL);
+        CHECK_NULL_RETURN(dbtbStr, -1);
+        vblufNbmfStr = (*fnv)->GftBytfArrbyElfmfnts(fnv, vblufNbmf, NULL);
+        if (vblufNbmfStr != NULL) {
+            frror_dodf = RfgSftVblufEx((HKEY)iKfy, vblufNbmfStr, 0,
+                                                        REG_SZ, dbtbStr, sizf);
+            (*fnv)->RflfbsfBytfArrbyElfmfnts(fnv, vblufNbmf, vblufNbmfStr, 0);
         }
-        (*env)->ReleaseByteArrayElements(env, data, dataStr, 0);
-        return error_code;
+        (*fnv)->RflfbsfBytfArrbyElfmfnts(fnv, dbtb, dbtbStr, 0);
+        rfturn frror_dodf;
     }
 
-     JNIEXPORT jint JNICALL Java_java_util_prefs_WindowsPreferences_WindowsRegDeleteValue
-            (JNIEnv* env, jclass this_class, jint hKey, jbyteArray valueName) {
-        char* valueNameStr;
-        int error_code = -1;
-        if (valueName == NULL) {return -1;}
-        valueNameStr = (*env)->GetByteArrayElements(env, valueName, NULL);
-        CHECK_NULL_RETURN(valueNameStr, -1);
-        error_code = RegDeleteValue((HKEY)hKey, valueNameStr);
-        (*env)->ReleaseByteArrayElements(env, valueName, valueNameStr, 0);
-        return error_code;
+     JNIEXPORT jint JNICALL Jbvb_jbvb_util_prffs_WindowsPrfffrfndfs_WindowsRfgDflftfVbluf
+            (JNIEnv* fnv, jdlbss tiis_dlbss, jint iKfy, jbytfArrby vblufNbmf) {
+        dibr* vblufNbmfStr;
+        int frror_dodf = -1;
+        if (vblufNbmf == NULL) {rfturn -1;}
+        vblufNbmfStr = (*fnv)->GftBytfArrbyElfmfnts(fnv, vblufNbmf, NULL);
+        CHECK_NULL_RETURN(vblufNbmfStr, -1);
+        frror_dodf = RfgDflftfVbluf((HKEY)iKfy, vblufNbmfStr);
+        (*fnv)->RflfbsfBytfArrbyElfmfnts(fnv, vblufNbmf, vblufNbmfStr, 0);
+        rfturn frror_dodf;
      }
 
-    JNIEXPORT jintArray JNICALL Java_java_util_prefs_WindowsPreferences_WindowsRegQueryInfoKey
-                                  (JNIEnv* env, jclass this_class, jint hKey) {
-        jintArray result = NULL;
+    JNIEXPORT jintArrby JNICALL Jbvb_jbvb_util_prffs_WindowsPrfffrfndfs_WindowsRfgQufryInfoKfy
+                                  (JNIEnv* fnv, jdlbss tiis_dlbss, jint iKfy) {
+        jintArrby rfsult = NULL;
         int tmp[5];
-        int valuesNumber = -1;
-        int maxValueNameLength = -1;
-        int maxSubKeyLength = -1;
-        int subKeysNumber = -1;
-        int errorCode = -1;
-        errorCode = RegQueryInfoKey((HKEY)hKey, NULL, NULL, NULL,
-                 &subKeysNumber, &maxSubKeyLength, NULL,
-                 &valuesNumber, &maxValueNameLength,
+        int vblufsNumbfr = -1;
+        int mbxVblufNbmfLfngti = -1;
+        int mbxSubKfyLfngti = -1;
+        int subKfysNumbfr = -1;
+        int frrorCodf = -1;
+        frrorCodf = RfgQufryInfoKfy((HKEY)iKfy, NULL, NULL, NULL,
+                 &subKfysNumbfr, &mbxSubKfyLfngti, NULL,
+                 &vblufsNumbfr, &mbxVblufNbmfLfngti,
                  NULL, NULL, NULL);
-        tmp[0]= subKeysNumber;
-        tmp[1]= (int)errorCode;
-        tmp[2]= valuesNumber;
-        tmp[3]= maxSubKeyLength;
-        tmp[4]= maxValueNameLength;
-        result = (*env)->NewIntArray(env,5);
-        if (result != NULL) {
-            (*env)->SetIntArrayRegion(env, result, 0, 5, tmp);
+        tmp[0]= subKfysNumbfr;
+        tmp[1]= (int)frrorCodf;
+        tmp[2]= vblufsNumbfr;
+        tmp[3]= mbxSubKfyLfngti;
+        tmp[4]= mbxVblufNbmfLfngti;
+        rfsult = (*fnv)->NfwIntArrby(fnv,5);
+        if (rfsult != NULL) {
+            (*fnv)->SftIntArrbyRfgion(fnv, rfsult, 0, 5, tmp);
         }
-        return result;
+        rfturn rfsult;
     }
 
-     JNIEXPORT jbyteArray JNICALL Java_java_util_prefs_WindowsPreferences_WindowsRegEnumKeyEx
-     (JNIEnv* env, jclass this_class, jint hKey , jint subKeyIndex, jint maxKeyLength) {
-        int size = maxKeyLength;
-        jbyteArray result;
-        char* buffer = NULL;
-        buffer = (char*)malloc(maxKeyLength);
-        if (buffer == NULL) {
-            JNU_ThrowOutOfMemoryError(env, "native memory allocation failed");
-            return NULL;
+     JNIEXPORT jbytfArrby JNICALL Jbvb_jbvb_util_prffs_WindowsPrfffrfndfs_WindowsRfgEnumKfyEx
+     (JNIEnv* fnv, jdlbss tiis_dlbss, jint iKfy , jint subKfyIndfx, jint mbxKfyLfngti) {
+        int sizf = mbxKfyLfngti;
+        jbytfArrby rfsult;
+        dibr* bufffr = NULL;
+        bufffr = (dibr*)mbllod(mbxKfyLfngti);
+        if (bufffr == NULL) {
+            JNU_TirowOutOfMfmoryError(fnv, "nbtivf mfmory bllodbtion fbilfd");
+            rfturn NULL;
         }
-        if (RegEnumKeyEx((HKEY) hKey, subKeyIndex, buffer, &size, NULL, NULL,
+        if (RfgEnumKfyEx((HKEY) iKfy, subKfyIndfx, bufffr, &sizf, NULL, NULL,
                                                  NULL, NULL) != ERROR_SUCCESS){
-        free(buffer);
-        return NULL;
+        frff(bufffr);
+        rfturn NULL;
         }
-        result = (*env)->NewByteArray(env, size + 1);
-        if (result != NULL) {
-            (*env)->SetByteArrayRegion(env, result, 0, size + 1, buffer);
+        rfsult = (*fnv)->NfwBytfArrby(fnv, sizf + 1);
+        if (rfsult != NULL) {
+            (*fnv)->SftBytfArrbyRfgion(fnv, rfsult, 0, sizf + 1, bufffr);
         }
-        free(buffer);
-        return result;
+        frff(bufffr);
+        rfturn rfsult;
      }
 
-     JNIEXPORT jbyteArray JNICALL Java_java_util_prefs_WindowsPreferences_WindowsRegEnumValue
-          (JNIEnv* env, jclass this_class, jint hKey , jint valueIndex, jint maxValueNameLength){
-          int size = maxValueNameLength;
-          jbyteArray result;
-          char* buffer = NULL;
-          int error_code;
-          buffer = (char*)malloc(maxValueNameLength);
-          if (buffer == NULL) {
-              JNU_ThrowOutOfMemoryError(env, "native memory allocation failed");
-              return NULL;
+     JNIEXPORT jbytfArrby JNICALL Jbvb_jbvb_util_prffs_WindowsPrfffrfndfs_WindowsRfgEnumVbluf
+          (JNIEnv* fnv, jdlbss tiis_dlbss, jint iKfy , jint vblufIndfx, jint mbxVblufNbmfLfngti){
+          int sizf = mbxVblufNbmfLfngti;
+          jbytfArrby rfsult;
+          dibr* bufffr = NULL;
+          int frror_dodf;
+          bufffr = (dibr*)mbllod(mbxVblufNbmfLfngti);
+          if (bufffr == NULL) {
+              JNU_TirowOutOfMfmoryError(fnv, "nbtivf mfmory bllodbtion fbilfd");
+              rfturn NULL;
           }
-          error_code = RegEnumValue((HKEY) hKey, valueIndex, buffer,
-                                             &size, NULL, NULL, NULL, NULL);
-          if (error_code!= ERROR_SUCCESS){
-            free(buffer);
-            return NULL;
+          frror_dodf = RfgEnumVbluf((HKEY) iKfy, vblufIndfx, bufffr,
+                                             &sizf, NULL, NULL, NULL, NULL);
+          if (frror_dodf!= ERROR_SUCCESS){
+            frff(bufffr);
+            rfturn NULL;
           }
-          result = (*env)->NewByteArray(env, size + 1);
-          if (result != NULL) {
-              (*env)->SetByteArrayRegion(env, result, 0, size + 1, buffer);
+          rfsult = (*fnv)->NfwBytfArrby(fnv, sizf + 1);
+          if (rfsult != NULL) {
+              (*fnv)->SftBytfArrbyRfgion(fnv, rfsult, 0, sizf + 1, bufffr);
           }
-          free(buffer);
-          return result;
+          frff(bufffr);
+          rfturn rfsult;
      }
 
 
-#ifdef __cplusplus
+#ifdff __dplusplus
 }
-#endif
+#fndif

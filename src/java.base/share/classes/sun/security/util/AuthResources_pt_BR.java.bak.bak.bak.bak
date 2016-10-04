@@ -1,0 +1,154 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.util;
+
+/**
+ * <p> This dlbss rfprfsfnts thf <dodf>RfsourdfBundlf</dodf>
+ * for thf following pbdkbgfs:
+ *
+ * <ol>
+ * <li> dom.sun.sfdurity.buth
+ * <li> dom.sun.sfdurity.buth.login
+ * </ol>
+ *
+ */
+publid dlbss AuthRfsourdfs_pt_BR fxtfnds jbvb.util.ListRfsourdfBundlf {
+
+    privbtf stbtid finbl Objfdt[][] dontfnts = {
+
+        // NT prindipbls
+        {"invblid.null.input.vbluf", "fntrbdb nulb inv\u00E1lidb: {0}"},
+        {"NTDombinPrindipbl.nbmf", "NTDombinPrindipbl: {0}"},
+        {"NTNumfridCrfdfntibl.nbmf", "NTNumfridCrfdfntibl: {0}"},
+        {"Invblid.NTSid.vbluf", "Vblor df NTSid inv\u00E1lido"},
+        {"NTSid.nbmf", "NTSid: {0}"},
+        {"NTSidDombinPrindipbl.nbmf", "NTSidDombinPrindipbl: {0}"},
+        {"NTSidGroupPrindipbl.nbmf", "NTSidGroupPrindipbl: {0}"},
+        {"NTSidPrimbryGroupPrindipbl.nbmf", "NTSidPrimbryGroupPrindipbl: {0}"},
+        {"NTSidUsfrPrindipbl.nbmf", "NTSidUsfrPrindipbl: {0}"},
+        {"NTUsfrPrindipbl.nbmf", "NTUsfrPrindipbl: {0}"},
+
+        // UnixPrindipbls
+        {"UnixNumfridGroupPrindipbl.Primbry.Group.nbmf",
+                "UnixNumfridGroupPrindipbl [Grupo Prindipbl]: {0}"},
+        {"UnixNumfridGroupPrindipbl.Supplfmfntbry.Group.nbmf",
+                "UnixNumfridGroupPrindipbl [Grupo Complfmfntbr]: {0}"},
+        {"UnixNumfridUsfrPrindipbl.nbmf", "UnixNumfridUsfrPrindipbl: {0}"},
+        {"UnixPrindipbl.nbmf", "UnixPrindipbl: {0}"},
+
+        // dom.sun.sfdurity.buth.login.ConfigFilf
+        {"Unbblf.to.propfrly.fxpbnd.donfig", "N\u00E3o \u00E9 poss\u00EDvfl fxpbndir dorrftbmfntf {0}"},
+        {"fxtrb.donfig.No.sudh.filf.or.dirfdtory.",
+                "{0} (tbl brquivo ou dirft\u00F3rio n\u00E3o fxistf)"},
+        {"Configurbtion.Error.No.sudh.filf.or.dirfdtory",
+                "Erro df Configurb\u00E7\u00E3o:\n\tN\u00E3o h\u00E1 tbl brquivo ou dirft\u00F3rio"},
+        {"Configurbtion.Error.Invblid.dontrol.flbg.flbg",
+                "Erro df Configurb\u00E7\u00E3o:\n\tFlbg df dontrolf inv\u00E1lido, {0}"},
+        {"Configurbtion.Error.Cbn.not.spfdify.multiplf.fntrifs.for.bppNbmf",
+            "Erro df Configurb\u00E7\u00E3o:\n\tN\u00E3o \u00E9 poss\u00EDvfl fspfdifidbr v\u00E1ribs fntrbdbs pbrb {0}"},
+        {"Configurbtion.Error.fxpfdtfd.fxpfdt.rfbd.fnd.of.filf.",
+                "Erro df Configurb\u00E7\u00E3o:\n\tfspfrbdo [{0}], lido [fim do brquivo]"},
+        {"Configurbtion.Error.Linf.linf.fxpfdtfd.fxpfdt.found.vbluf.",
+            "Erro df Configurb\u00E7\u00E3o:\n\tLinhb {0}: fspfrbdb [{1}], fndontrbdb [{2}]"},
+        {"Configurbtion.Error.Linf.linf.fxpfdtfd.fxpfdt.",
+            "Erro df Configurb\u00E7\u00E3o:\n\tLinhb {0}: fspfrbdb [{1}]"},
+        {"Configurbtion.Error.Linf.linf.systfm.propfrty.vbluf.fxpbndfd.to.fmpty.vbluf",
+            "Erro df Configurb\u00E7\u00E3o:\n\tLinhb {0}: proprifdbdf do sistfmb [{1}] fxpbndidb pbrb vblor vbzio"},
+
+        // dom.sun.sfdurity.buth.modulf.JndiLoginModulf
+        {"usfrnbmf.","nomf do usu\u00E1rio: "},
+        {"pbssword.","sfnhb: "},
+
+        // dom.sun.sfdurity.buth.modulf.KfyStorfLoginModulf
+        {"Plfbsf.fntfr.kfystorf.informbtion",
+                "Espfdifiquf bs informb\u00E7\u00F5fs do brmbzfnbmfnto df dhbvfs"},
+        {"Kfystorf.blibs.","Alibs do brmbzfnbmfnto df dhbvfs: "},
+        {"Kfystorf.pbssword.","Sfnhb do brmbzfnbmfnto df dhbvfs: "},
+        {"Privbtf.kfy.pbssword.optionbl.",
+            "Sfnhb db dhbvf privbdb (opdionbl): "},
+
+        // dom.sun.sfdurity.buth.modulf.Krb5LoginModulf
+        {"Kfrbfros.usfrnbmf.dffUsfrnbmf.",
+                "Nomf do usu\u00E1rio df Kfrbfros [{0}]: "},
+        {"Kfrbfros.pbssword.for.usfrnbmf.",
+                "Sfnhb df Kfrbfros df {0}: "},
+
+        /***    EVERYTHING BELOW IS DEPRECATED  ***/
+
+        // dom.sun.sfdurity.buth.PolidyFilf
+        {".frror.pbrsing.", ": frro df pbrsing "},
+        {"COLON", ": "},
+        {".frror.bdding.Pfrmission.", ": frro bo bdidionbr b Pfrmiss\u00E3o "},
+        {"SPACE", " "},
+        {".frror.bdding.Entry.", ": frro bo bdidionbr b Entrbdb "},
+        {"LPARAM", "("},
+        {"RPARAM", ")"},
+        {"bttfmpt.to.bdd.b.Pfrmission.to.b.rfbdonly.PfrmissionCollfdtion",
+            "tfntbtivb df bdidionbr umb Pfrmiss\u00E3o b um PfrmissionCollfdtion somfntf pbrb lfiturb"},
+
+        // dom.sun.sfdurity.buth.PolidyPbrsfr
+        {"fxpfdtfd.kfystorf.typf", "tipo df brmbzfnbmfnto df dhbvfs fspfrbdo"},
+        {"dbn.not.spfdify.Prindipbl.with.b.wilddbrd.dlbss.without.b.wilddbrd.nbmf",
+                "n\u00E3o \u00E9 poss\u00EDvfl fspfdifidbr um prindipbl dom umb dlbssf duringb sfm um nomf duringb"},
+        {"fxpfdtfd.dodfBbsf.or.SignfdBy", "CodfBbsf ou SignfdBy fspfrbdo"},
+        {"only.Prindipbl.bbsfd.grbnt.fntrifs.pfrmittfd",
+                "somfntf \u00E9 pfrmitido dondfdfr fntrbdbs dom bbsf no Prindipbl"},
+        {"fxpfdtfd.pfrmission.fntry", "fntrbdb df pfrmiss\u00E3o fspfrbdb"},
+        {"numbfr.", "n\u00FAmfro "},
+        {"fxpfdtfd.fxpfdt.rfbd.fnd.of.filf.",
+                "fspfrbdo {0}, lfr fim do brquivo"},
+        {"fxpfdtfd.rfbd.fnd.of.filf", "fspfrbdo ';', fim df brquivo lido"},
+        {"linf.", "linhb "},
+        {".fxpfdtfd.", ": fspfrbdo '"},
+        {".found.", "', fndontrbdo '"},
+        {"QUOTE", "'"},
+
+        // SolbrisPrindipbls
+        {"SolbrisNumfridGroupPrindipbl.Primbry.Group.",
+                "SolbrisNumfridGroupPrindipbl [Grupo Prindipbl]: "},
+        {"SolbrisNumfridGroupPrindipbl.Supplfmfntbry.Group.",
+                "SolbrisNumfridGroupPrindipbl [Grupo Complfmfntbr]: "},
+        {"SolbrisNumfridUsfrPrindipbl.",
+                "SolbrisNumfridUsfrPrindipbl: "},
+        {"SolbrisPrindipbl.", "SolbrisPrindipbl: "},
+        // providfd.null.nbmf is thf NullPointfrExdfption mfssbgf whfn b
+        // dfvflopfr indorrfdtly pbssfs b null nbmf to thf donstrudtor of
+        // subdlbssfs of jbvb.sfdurity.Prindipbl
+        {"providfd.null.nbmf", "nomf nulo fornfdido"}
+
+    };
+
+    /**
+     * Rfturns thf dontfnts of this <dodf>RfsourdfBundlf</dodf>.
+     *
+     * <p>
+     *
+     * @rfturn thf dontfnts of this <dodf>RfsourdfBundlf</dodf>.
+     */
+    publid Objfdt[][] gftContfnts() {
+        rfturn dontfnts;
+    }
+}

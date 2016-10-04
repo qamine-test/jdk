@@ -1,150 +1,150 @@
 '\" t
-.\"  Copyright (c) 2004, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
+.\"  Copyrigit (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free softwbre; you cbn redistribute it bnd/or modify it
-.\" under the terms of the GNU Generbl Public License version 2 only, bs
-.\" published by the Free Softwbre Foundbtion.
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
 .\"
-.\" This code is distributed in the hope thbt it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU Generbl Public License
-.\" version 2 for more detbils (b copy is included in the LICENSE file thbt
-.\" bccompbnied this code).
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
 .\"
-.\" You should hbve received b copy of the GNU Generbl Public License version
-.\" 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
-.\" Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
-.\" or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
-.\" questions.
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
 .\"
-.\"     Arch: generic
-.\"     Softwbre: JDK 8
-.\"     Dbte: 21 November 2013
-.\"     SectDesc: Monitoring Tools
-.\"     Title: jps.1
+.\"     Ardi: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     SfdtDfsd: Monitoring Tools
+.\"     Titlf: jps.1
 .\"
 .if n .pl 99999
-.TH jps 1 "21 November 2013" "JDK 8" "Monitoring Tools"
+.TH jps 1 "21 Novfmbfr 2013" "JDK 8" "Monitoring Tools"
 .\" -----------------------------------------------------------------
-.\" * Define some portbbility stuff
+.\" * Dffinf somf portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debibn.org/507673
-.\" http://lists.gnu.org/brchive/html/groff/2009-02/msg00013.html
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(bq
-.el       .ds Aq '
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set defbult formbtting
+.\" * sft dffbult formbtting
 .\" -----------------------------------------------------------------
-.\" disbble hyphenbtion
-.nh
-.\" disbble justificbtion (bdjust text to left mbrgin only)
+.\" disbblf iypifnbtion
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
 .bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 
 .SH NAME    
-jps \- Lists the instrumented Jbvb Virtubl Mbchines (JVMs) on the tbrget system\&. This commbnd is experimentbl bnd unsupported\&.
+jps \- Lists tif instrumfntfd Jbvb Virtubl Mbdiinfs (JVMs) on tif tbrgft systfm\&. Tiis dommbnd is fxpfrimfntbl bnd unsupportfd\&.
 .SH SYNOPSIS    
 .sp     
 .nf     
 
-\fBjps\fR [ \fIoptions\fR ] [ \fIhostid\fR ]
+\fBjps\fR [ \fIoptions\fR ] [ \fIiostid\fR ]
 .fi     
 .sp     
 .TP     
 \fIoptions\fR
-Commbnd-line options\&. See Options\&.
+Commbnd-linf options\&. Sff Options\&.
 .TP     
-\fIhostid\fR
-The identifier of the host for which the process report should be generbted\&. The \f3hostid\fR cbn include optionbl components thbt indicbte the communicbtions protocol, port number, bnd other implementbtion specific dbtb\&. See Host Identifier\&.
+\fIiostid\fR
+Tif idfntififr of tif iost for wiidi tif prodfss rfport siould bf gfnfrbtfd\&. Tif \f3iostid\fR dbn indludf optionbl domponfnts tibt indidbtf tif dommunidbtions protodol, port numbfr, bnd otifr implfmfntbtion spfdifid dbtb\&. Sff Host Idfntififr\&.
 .SH DESCRIPTION    
-The \f3jps\fR commbnd lists the instrumented Jbvb HotSpot VMs on the tbrget system\&. The commbnd is limited to reporting informbtion on JVMs for which it hbs the bccess permissions\&.
+Tif \f3jps\fR dommbnd lists tif instrumfntfd Jbvb HotSpot VMs on tif tbrgft systfm\&. Tif dommbnd is limitfd to rfporting informbtion on JVMs for wiidi it ibs tif bddfss pfrmissions\&.
 .PP
-If the \f3jps\fR commbnd is run without specifying b \f3hostid\fR, then it sebrches for instrumented JVMs on the locbl host\&. If stbrted with b \f3hostid\fR, then it sebrches for JVMs on the indicbted host, using the specified protocol bnd port\&. A \f3jstbtd\fR process is bssumed to be running on the tbrget host\&.
+If tif \f3jps\fR dommbnd is run witiout spfdifying b \f3iostid\fR, tifn it sfbrdifs for instrumfntfd JVMs on tif lodbl iost\&. If stbrtfd witi b \f3iostid\fR, tifn it sfbrdifs for JVMs on tif indidbtfd iost, using tif spfdififd protodol bnd port\&. A \f3jstbtd\fR prodfss is bssumfd to bf running on tif tbrgft iost\&.
 .PP
-The \f3jps\fR commbnd reports the locbl JVM identifier, or \f3lvmid\fR, for ebch instrumented JVM found on the tbrget system\&. The \f3lvmid\fR is typicblly, but not necessbrily, the operbting system\&'s process identifier for the JVM process\&. With no options, \f3jps\fR lists ebch Jbvb bpplicbtion\&'s \f3lvmid\fR followed by the short form of the bpplicbtion\&'s clbss nbme or jbr file nbme\&. The short form of the clbss nbme or JAR file nbme omits the clbss\&'s pbckbge informbtion or the JAR files pbth informbtion\&.
+Tif \f3jps\fR dommbnd rfports tif lodbl JVM idfntififr, or \f3lvmid\fR, for fbdi instrumfntfd JVM found on tif tbrgft systfm\&. Tif \f3lvmid\fR is typidblly, but not nfdfssbrily, tif opfrbting systfm\&'s prodfss idfntififr for tif JVM prodfss\&. Witi no options, \f3jps\fR lists fbdi Jbvb bpplidbtion\&'s \f3lvmid\fR followfd by tif siort form of tif bpplidbtion\&'s dlbss nbmf or jbr filf nbmf\&. Tif siort form of tif dlbss nbmf or JAR filf nbmf omits tif dlbss\&'s pbdkbgf informbtion or tif JAR filfs pbti informbtion\&.
 .PP
-The \f3jps\fR commbnd uses the Jbvb lbuncher to find the clbss nbme bnd brguments pbssed to the mbin method\&. If the tbrget JVM is stbrted with b custom lbuncher, then the clbss or JAR file nbme bnd the brguments to the \f3mbin\fR method bre not bvbilbble\&. In this cbse, the \f3jps\fR commbnd outputs the string \f3Unknown\fR for the clbss nbme or JAR file nbme bnd for the brguments to the \f3mbin\fR method\&.
+Tif \f3jps\fR dommbnd usfs tif Jbvb lbundifr to find tif dlbss nbmf bnd brgumfnts pbssfd to tif mbin mftiod\&. If tif tbrgft JVM is stbrtfd witi b dustom lbundifr, tifn tif dlbss or JAR filf nbmf bnd tif brgumfnts to tif \f3mbin\fR mftiod brf not bvbilbblf\&. In tiis dbsf, tif \f3jps\fR dommbnd outputs tif string \f3Unknown\fR for tif dlbss nbmf or JAR filf nbmf bnd for tif brgumfnts to tif \f3mbin\fR mftiod\&.
 .PP
-The list of JVMs produced by the \f3jps\fR commbnd cbn be limited by the permissions grbnted to the principbl running the commbnd\&. The commbnd only lists the JVMs for which the principle hbs bccess rights bs determined by operbting system-specific bccess control mechbnisms\&.
+Tif list of JVMs produdfd by tif \f3jps\fR dommbnd dbn bf limitfd by tif pfrmissions grbntfd to tif prindipbl running tif dommbnd\&. Tif dommbnd only lists tif JVMs for wiidi tif prindiplf ibs bddfss rigits bs dftfrminfd by opfrbting systfm-spfdifid bddfss dontrol mfdibnisms\&.
 .SH OPTIONS    
-The \f3jps\fR commbnd supports b number of options thbt modify the output of the commbnd\&. These options bre subject to chbnge or removbl in the future\&.
+Tif \f3jps\fR dommbnd supports b numbfr of options tibt modify tif output of tif dommbnd\&. Tifsf options brf subjfdt to dibngf or rfmovbl in tif futurf\&.
 .TP
 -q
 .br
-Suppresses the output of the clbss nbme, JAR file nbme, bnd brguments pbssed to the \f3mbin\fR method, producing only b list of locbl JVM identifiers\&.
+Supprfssfs tif output of tif dlbss nbmf, JAR filf nbmf, bnd brgumfnts pbssfd to tif \f3mbin\fR mftiod, produding only b list of lodbl JVM idfntififrs\&.
 .TP
 -m
 .br
-Displbys the brguments pbssed to the \f3mbin\fR method\&. The output mby be \f3null\fR for embedded JVMs\&.
+Displbys tif brgumfnts pbssfd to tif \f3mbin\fR mftiod\&. Tif output mby bf \f3null\fR for fmbfddfd JVMs\&.
 .TP
 -l
 .br
-Displbys the full pbckbge nbme for the bpplicbtion\&'s \f3mbin\fR clbss or the full pbth nbme to the bpplicbtion\&'s JAR file\&.
+Displbys tif full pbdkbgf nbmf for tif bpplidbtion\&'s \f3mbin\fR dlbss or tif full pbti nbmf to tif bpplidbtion\&'s JAR filf\&.
 .TP
 -v
 .br
-Displbys the brguments pbssed to the JVM\&.
+Displbys tif brgumfnts pbssfd to tif JVM\&.
 .TP
 -V
 .br
-Suppresses the output of the clbss nbme, JAR file nbme, bnd brguments pbssed to the mbin method, producing only b list of locbl JVM identifiers\&.
+Supprfssfs tif output of tif dlbss nbmf, JAR filf nbmf, bnd brgumfnts pbssfd to tif mbin mftiod, produding only b list of lodbl JVM idfntififrs\&.
 .TP
 -J\f3option\fR
 .br
-Pbsses \f3option\fR to the JVM, where option is one of the \f3options\fR described on the reference pbge for the Jbvb bpplicbtion lbuncher\&. For exbmple, \f3-J-Xms48m\fR sets the stbrtup memory to 48 MB\&. See jbvb(1)\&.
+Pbssfs \f3option\fR to tif JVM, wifrf option is onf of tif \f3options\fR dfsdribfd on tif rfffrfndf pbgf for tif Jbvb bpplidbtion lbundifr\&. For fxbmplf, \f3-J-Xms48m\fR sfts tif stbrtup mfmory to 48 MB\&. Sff jbvb(1)\&.
 .SH HOST\ IDENTIFIER    
-The host identifier, or \f3hostid\fR is b string thbt indicbtes the tbrget system\&. The syntbx of the \f3hostid\fR string corresponds to the syntbx of b URI:
+Tif iost idfntififr, or \f3iostid\fR is b string tibt indidbtfs tif tbrgft systfm\&. Tif syntbx of tif \f3iostid\fR string dorrfsponds to tif syntbx of b URI:
 .sp     
 .nf     
-\f3[protocol:][[//]hostnbme][:port][/servernbme]\fP
+\f3[protodol:][[//]iostnbmf][:port][/sfrvfrnbmf]\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
 .TP     
-\fIprotocol\fR
-The communicbtions protocol\&. If the \f3protocol\fR is omitted bnd b \f3hostnbme\fR is not specified, then the defbult protocol is b plbtform-specific, optimized, locbl protocol\&. If the protocol is omitted bnd b host nbme is specified, then the defbult protocol is \f3rmi\fR\&.
+\fIprotodol\fR
+Tif dommunidbtions protodol\&. If tif \f3protodol\fR is omittfd bnd b \f3iostnbmf\fR is not spfdififd, tifn tif dffbult protodol is b plbtform-spfdifid, optimizfd, lodbl protodol\&. If tif protodol is omittfd bnd b iost nbmf is spfdififd, tifn tif dffbult protodol is \f3rmi\fR\&.
 .TP     
-hostnbme
-A hostnbme or IP bddress thbt indicbtes the tbrget host\&. If you omit the \f3hostnbme\fR pbrbmeter, then the tbrget host is the locbl host\&.
+iostnbmf
+A iostnbmf or IP bddrfss tibt indidbtfs tif tbrgft iost\&. If you omit tif \f3iostnbmf\fR pbrbmftfr, tifn tif tbrgft iost is tif lodbl iost\&.
 .TP     
 port
-The defbult port for communicbting with the remote server\&. If the \f3hostnbme\fR pbrbmeter is omitted or the \f3protocol\fR pbrbmeter specifies bn optimized, locbl protocol, then the \f3port\fR pbrbmeter is ignored\&. Otherwise, trebtment of the \f3port\fR pbrbmeter is implementbtion specific\&. For the defbult \f3rmi\fR protocol, the \f3port\fR pbrbmeter indicbtes the port number for the rmiregistry on the remote host\&. If the \f3port\fR pbrbmeter is omitted, bnd the \f3protocol\fR pbrbmeter indicbtes \f3rmi\fR, then the defbult rmiregistry port (1099) is used\&.
+Tif dffbult port for dommunidbting witi tif rfmotf sfrvfr\&. If tif \f3iostnbmf\fR pbrbmftfr is omittfd or tif \f3protodol\fR pbrbmftfr spfdififs bn optimizfd, lodbl protodol, tifn tif \f3port\fR pbrbmftfr is ignorfd\&. Otifrwisf, trfbtmfnt of tif \f3port\fR pbrbmftfr is implfmfntbtion spfdifid\&. For tif dffbult \f3rmi\fR protodol, tif \f3port\fR pbrbmftfr indidbtfs tif port numbfr for tif rmirfgistry on tif rfmotf iost\&. If tif \f3port\fR pbrbmftfr is omittfd, bnd tif \f3protodol\fR pbrbmftfr indidbtfs \f3rmi\fR, tifn tif dffbult rmirfgistry port (1099) is usfd\&.
 .TP     
-servernbme
-The trebtment of this pbrbmeter depends on the implementbtion\&. For the optimized, locbl protocol, this field is ignored\&. For the \f3rmi\fR protocol, this pbrbmeter is b string thbt represents the nbme of the RMI remote object on the remote host\&. See the \f3jstbtd\fR commbnd \f3-n\fRoption for more informbtion\&.
+sfrvfrnbmf
+Tif trfbtmfnt of tiis pbrbmftfr dfpfnds on tif implfmfntbtion\&. For tif optimizfd, lodbl protodol, tiis fifld is ignorfd\&. For tif \f3rmi\fR protodol, tiis pbrbmftfr is b string tibt rfprfsfnts tif nbmf of tif RMI rfmotf objfdt on tif rfmotf iost\&. Sff tif \f3jstbtd\fR dommbnd \f3-n\fRoption for morf informbtion\&.
 .SH OUTPUT\ FORMAT    
-The output of the \f3jps\fR commbnd follows the following pbttern:
+Tif output of tif \f3jps\fR dommbnd follows tif following pbttfrn:
 .sp     
 .nf     
-\f3lvmid [ [ clbssnbme | JARfilenbme | "Unknown"] [ brg* ] [ jvmbrg* ] ]\fP
+\f3lvmid [ [ dlbssnbmf | JARfilfnbmf | "Unknown"] [ brg* ] [ jvmbrg* ] ]\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-All output tokens bre sepbrbted by white spbce\&. An \f3brg\fR vblue thbt includes embedded white spbce introduces bmbiguity when bttempting to mbp brguments to their bctubl positionbl pbrbmeters\&.
+All output tokfns brf sfpbrbtfd by wiitf spbdf\&. An \f3brg\fR vbluf tibt indludfs fmbfddfd wiitf spbdf introdudfs bmbiguity wifn bttfmpting to mbp brgumfnts to tifir bdtubl positionbl pbrbmftfrs\&.
 .PP
-\fINote:\fR It is recommended thbt you do not write scripts to pbrse \f3jps\fR output becbuse the formbt might chbnge in future relebses\&. If you write scripts thbt pbrse \f3jps\fR output, then expect to modify them for future relebses of this tool\&.
+\fINotf:\fR It is rfdommfndfd tibt you do not writf sdripts to pbrsf \f3jps\fR output bfdbusf tif formbt migit dibngf in futurf rflfbsfs\&. If you writf sdripts tibt pbrsf \f3jps\fR output, tifn fxpfdt to modify tifm for futurf rflfbsfs of tiis tool\&.
 .SH EXAMPLES    
-This section provides exbmples of the \f3jps\fR commbnd\&.
+Tiis sfdtion providfs fxbmplfs of tif \f3jps\fR dommbnd\&.
 .PP
-List the instrumented JVMs on the locbl host:
+List tif instrumfntfd JVMs on tif lodbl iost:
 .sp     
 .nf     
 \f3jps\fP
 .fi     
 .nf     
-\f318027 Jbvb2Demo\&.JAR\fP
+\f318027 Jbvb2Dfmo\&.JAR\fP
 .fi     
 .nf     
 \f318032 jps\fP
@@ -156,13 +156,13 @@ List the instrumented JVMs on the locbl host:
 \f3\fP
 .fi     
 .sp     
-The following exbmple lists the instrumented JVMs on b remote host\&. This exbmple bssumes thbt the \f3jstbt\fR server bnd either the its internbl RMI registry or b sepbrbte externbl rmiregistry process bre running on the remote host on the defbult port (port 1099)\&. It blso bssumes thbt the locbl host hbs bppropribte permissions to bccess the remote host\&. This exbmple blso includes the \f3-l\fR option to output the long form of the clbss nbmes or JAR file nbmes\&.
+Tif following fxbmplf lists tif instrumfntfd JVMs on b rfmotf iost\&. Tiis fxbmplf bssumfs tibt tif \f3jstbt\fR sfrvfr bnd fitifr tif its intfrnbl RMI rfgistry or b sfpbrbtf fxtfrnbl rmirfgistry prodfss brf running on tif rfmotf iost on tif dffbult port (port 1099)\&. It blso bssumfs tibt tif lodbl iost ibs bppropribtf pfrmissions to bddfss tif rfmotf iost\&. Tiis fxbmplf blso indludfs tif \f3-l\fR option to output tif long form of tif dlbss nbmfs or JAR filf nbmfs\&.
 .sp     
 .nf     
-\f3jps \-l remote\&.dombin\fP
+\f3jps \-l rfmotf\&.dombin\fP
 .fi     
 .nf     
-\f33002 /opt/jdk1\&.7\&.0/demo/jfc/Jbvb2D/Jbvb2Demo\&.JAR\fP
+\f33002 /opt/jdk1\&.7\&.0/dfmo/jfd/Jbvb2D/Jbvb2Dfmo\&.JAR\fP
 .fi     
 .nf     
 \f32857 sun\&.tools\&.jstbtd\&.jstbtd\fP
@@ -171,13 +171,13 @@ The following exbmple lists the instrumented JVMs on b remote host\&. This exbmp
 \f3\fP
 .fi     
 .sp     
-The following exbmple lists the instrumented JVMs on b remote host with b non-defbult port for the RMI registry\&. This exbmple bssumes thbt the \f3jstbtd\fR server, with bn internbl RMI registry bound to port 2002, is running on the remote host\&. This exbmple blso uses the \f3-m\fR option to include the brguments pbssed to the \f3mbin\fR method of ebch of the listed Jbvb bpplicbtions\&.
+Tif following fxbmplf lists tif instrumfntfd JVMs on b rfmotf iost witi b non-dffbult port for tif RMI rfgistry\&. Tiis fxbmplf bssumfs tibt tif \f3jstbtd\fR sfrvfr, witi bn intfrnbl RMI rfgistry bound to port 2002, is running on tif rfmotf iost\&. Tiis fxbmplf blso usfs tif \f3-m\fR option to indludf tif brgumfnts pbssfd to tif \f3mbin\fR mftiod of fbdi of tif listfd Jbvb bpplidbtions\&.
 .sp     
 .nf     
-\f3jps \-m remote\&.dombin:2002\fP
+\f3jps \-m rfmotf\&.dombin:2002\fP
 .fi     
 .nf     
-\f33002 /opt/jdk1\&.7\&.0/demo/jfc/Jbvb2D/Jbvb2Demo\&.JAR\fP
+\f33002 /opt/jdk1\&.7\&.0/dfmo/jfd/Jbvb2D/Jbvb2Dfmo\&.JAR\fP
 .fi     
 .nf     
 \f33102 sun\&.tools\&.jstbtd\&.jstbtd \-p 2002\fP
@@ -198,7 +198,7 @@ jstbt(1)
 jstbtd(1)
 .TP 0.2i    
 \(bu
-rmiregistry(1)
+rmirfgistry(1)
 .RE
 .br
 'pl 8.5i

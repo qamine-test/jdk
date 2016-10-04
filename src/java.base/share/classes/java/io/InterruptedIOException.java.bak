@@ -1,74 +1,74 @@
 /*
- * Copyright (c) 1995, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.io;
+pbdkbgf jbvb.io;
 
 /**
- * Signals that an I/O operation has been interrupted. An
- * <code>InterruptedIOException</code> is thrown to indicate that an
- * input or output transfer has been terminated because the thread
- * performing it was interrupted. The field {@link #bytesTransferred}
- * indicates how many bytes were successfully transferred before
- * the interruption occurred.
+ * Signbls tibt bn I/O opfrbtion ibs bffn intfrruptfd. An
+ * <dodf>IntfrruptfdIOExdfption</dodf> is tirown to indidbtf tibt bn
+ * input or output trbnsffr ibs bffn tfrminbtfd bfdbusf tif tirfbd
+ * pfrforming it wbs intfrruptfd. Tif fifld {@link #bytfsTrbnsffrrfd}
+ * indidbtfs iow mbny bytfs wfrf suddfssfully trbnsffrrfd bfforf
+ * tif intfrruption oddurrfd.
  *
- * @author  unascribed
- * @see     java.io.InputStream
- * @see     java.io.OutputStream
- * @see     java.lang.Thread#interrupt()
- * @since   1.0
+ * @butior  unbsdribfd
+ * @sff     jbvb.io.InputStrfbm
+ * @sff     jbvb.io.OutputStrfbm
+ * @sff     jbvb.lbng.Tirfbd#intfrrupt()
+ * @sindf   1.0
  */
-public
-class InterruptedIOException extends IOException {
-    private static final long serialVersionUID = 4020568460727500567L;
+publid
+dlbss IntfrruptfdIOExdfption fxtfnds IOExdfption {
+    privbtf stbtid finbl long sfriblVfrsionUID = 4020568460727500567L;
 
     /**
-     * Constructs an <code>InterruptedIOException</code> with
-     * <code>null</code> as its error detail message.
+     * Construdts bn <dodf>IntfrruptfdIOExdfption</dodf> witi
+     * <dodf>null</dodf> bs its frror dftbil mfssbgf.
      */
-    public InterruptedIOException() {
-        super();
+    publid IntfrruptfdIOExdfption() {
+        supfr();
     }
 
     /**
-     * Constructs an <code>InterruptedIOException</code> with the
-     * specified detail message. The string <code>s</code> can be
-     * retrieved later by the
-     * <code>{@link java.lang.Throwable#getMessage}</code>
-     * method of class <code>java.lang.Throwable</code>.
+     * Construdts bn <dodf>IntfrruptfdIOExdfption</dodf> witi tif
+     * spfdififd dftbil mfssbgf. Tif string <dodf>s</dodf> dbn bf
+     * rftrifvfd lbtfr by tif
+     * <dodf>{@link jbvb.lbng.Tirowbblf#gftMfssbgf}</dodf>
+     * mftiod of dlbss <dodf>jbvb.lbng.Tirowbblf</dodf>.
      *
-     * @param   s   the detail message.
+     * @pbrbm   s   tif dftbil mfssbgf.
      */
-    public InterruptedIOException(String s) {
-        super(s);
+    publid IntfrruptfdIOExdfption(String s) {
+        supfr(s);
     }
 
     /**
-     * Reports how many bytes had been transferred as part of the I/O
-     * operation before it was interrupted.
+     * Rfports iow mbny bytfs ibd bffn trbnsffrrfd bs pbrt of tif I/O
+     * opfrbtion bfforf it wbs intfrruptfd.
      *
-     * @serial
+     * @sfribl
      */
-    public int bytesTransferred = 0;
+    publid int bytfsTrbnsffrrfd = 0;
 }

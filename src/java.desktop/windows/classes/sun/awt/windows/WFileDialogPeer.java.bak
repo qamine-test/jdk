@@ -1,336 +1,336 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.awt.windows;
+pbdkbgf sun.bwt.windows;
 
-import java.awt.*;
-import java.awt.dnd.DropTarget;
-import java.awt.peer.*;
-import java.io.File;
-import java.io.FilenameFilter;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.ResourceBundle;
-import java.util.MissingResourceException;
-import java.util.Vector;
-import sun.awt.CausedFocusEvent;
-import sun.awt.AWTAccessor;
+import jbvb.bwt.*;
+import jbvb.bwt.dnd.DropTbrgft;
+import jbvb.bwt.pffr.*;
+import jbvb.io.Filf;
+import jbvb.io.FilfnbmfFiltfr;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.RfsourdfBundlf;
+import jbvb.util.MissingRfsourdfExdfption;
+import jbvb.util.Vfdtor;
+import sun.bwt.CbusfdFodusEvfnt;
+import sun.bwt.AWTAddfssor;
 
-final class WFileDialogPeer extends WWindowPeer implements FileDialogPeer {
+finbl dlbss WFilfDiblogPffr fxtfnds WWindowPffr implfmfnts FilfDiblogPffr {
 
-    static {
+    stbtid {
         initIDs();
     }
 
-    private WComponentPeer parent;
-    private FilenameFilter fileFilter;
+    privbtf WComponfntPffr pbrfnt;
+    privbtf FilfnbmfFiltfr filfFiltfr;
 
-    private Vector<WWindowPeer> blockedWindows = new Vector<>();
+    privbtf Vfdtor<WWindowPffr> blodkfdWindows = nfw Vfdtor<>();
 
-    //Needed to fix 4152317
-    private static native void setFilterString(String allFilter);
+    //Nffdfd to fix 4152317
+    privbtf stbtid nbtivf void sftFiltfrString(String bllFiltfr);
 
-    @Override
-    public void setFilenameFilter(FilenameFilter filter) {
-        this.fileFilter = filter;
+    @Ovfrridf
+    publid void sftFilfnbmfFiltfr(FilfnbmfFiltfr filtfr) {
+        tiis.filfFiltfr = filtfr;
     }
 
-    boolean checkFilenameFilter(String filename) {
-        FileDialog fileDialog = (FileDialog)target;
-        if (fileFilter == null) {
-            return true;
+    boolfbn difdkFilfnbmfFiltfr(String filfnbmf) {
+        FilfDiblog filfDiblog = (FilfDiblog)tbrgft;
+        if (filfFiltfr == null) {
+            rfturn truf;
         }
-        File file = new File(filename);
-        return fileFilter.accept(new File(file.getParent()), file.getName());
+        Filf filf = nfw Filf(filfnbmf);
+        rfturn filfFiltfr.bddfpt(nfw Filf(filf.gftPbrfnt()), filf.gftNbmf());
     }
 
-    // Toolkit & peer internals
-    WFileDialogPeer(FileDialog target) {
-        super(target);
+    // Toolkit & pffr intfrnbls
+    WFilfDiblogPffr(FilfDiblog tbrgft) {
+        supfr(tbrgft);
     }
 
-    @Override
-    void create(WComponentPeer parent) {
-        this.parent = parent;
+    @Ovfrridf
+    void drfbtf(WComponfntPffr pbrfnt) {
+        tiis.pbrfnt = pbrfnt;
     }
 
-    // don't use checkCreation() from WComponentPeer to avoid hwnd check
-    @Override
-    protected void checkCreation() {
+    // don't usf difdkCrfbtion() from WComponfntPffr to bvoid iwnd difdk
+    @Ovfrridf
+    protfdtfd void difdkCrfbtion() {
     }
 
-    @Override
-    void initialize() {
-        setFilenameFilter(((FileDialog) target).getFilenameFilter());
+    @Ovfrridf
+    void initiblizf() {
+        sftFilfnbmfFiltfr(((FilfDiblog) tbrgft).gftFilfnbmfFiltfr());
     }
 
-    private native void _dispose();
-    @Override
-    protected void disposeImpl() {
-        WToolkit.targetDisposedPeer(target, this);
-        _dispose();
+    privbtf nbtivf void _disposf();
+    @Ovfrridf
+    protfdtfd void disposfImpl() {
+        WToolkit.tbrgftDisposfdPffr(tbrgft, tiis);
+        _disposf();
     }
 
-    private native void _show();
-    private native void _hide();
+    privbtf nbtivf void _siow();
+    privbtf nbtivf void _iidf();
 
-    @Override
-    public void show() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                _show();
+    @Ovfrridf
+    publid void siow() {
+        nfw Tirfbd(nfw Runnbblf() {
+            @Ovfrridf
+            publid void run() {
+                _siow();
             }
-        }).start();
+        }).stbrt();
     }
 
-    @Override
-    void hide() {
-        _hide();
+    @Ovfrridf
+    void iidf() {
+        _iidf();
     }
 
-    // called from native code when the dialog is shown or hidden
-    void setHWnd(long hwnd) {
-        if (this.hwnd == hwnd) {
-            return;
+    // dbllfd from nbtivf dodf wifn tif diblog is siown or iiddfn
+    void sftHWnd(long iwnd) {
+        if (tiis.iwnd == iwnd) {
+            rfturn;
         }
-        this.hwnd = hwnd;
-        for (WWindowPeer window : blockedWindows) {
-            if (hwnd != 0) {
-                window.modalDisable((Dialog)target, hwnd);
-            } else {
-                window.modalEnable((Dialog)target);
+        tiis.iwnd = iwnd;
+        for (WWindowPffr window : blodkfdWindows) {
+            if (iwnd != 0) {
+                window.modblDisbblf((Diblog)tbrgft, iwnd);
+            } flsf {
+                window.modblEnbblf((Diblog)tbrgft);
             }
         }
     }
 
     /*
-     * The function converts the file names (the buffer parameter)
-     * in the Windows format into the Java format and saves the results
-     * into the FileDialog instance.
+     * Tif fundtion donvfrts tif filf nbmfs (tif bufffr pbrbmftfr)
+     * in tif Windows formbt into tif Jbvb formbt bnd sbvfs tif rfsults
+     * into tif FilfDiblog instbndf.
      *
-     * If it's the multi-select mode, the buffer contains the current
-     * directory followed by the short names of the files.
-     * The directory and file name strings are NULL separated.
-     * If it's the single-select mode, the buffer doesn't have the NULL
-     * separator between the path and the file name.
+     * If it's tif multi-sflfdt modf, tif bufffr dontbins tif durrfnt
+     * dirfdtory followfd by tif siort nbmfs of tif filfs.
+     * Tif dirfdtory bnd filf nbmf strings brf NULL sfpbrbtfd.
+     * If it's tif singlf-sflfdt modf, tif bufffr dofsn't ibvf tif NULL
+     * sfpbrbtor bftwffn tif pbti bnd tif filf nbmf.
      *
-     * NOTE: This method is called by privileged threads.
+     * NOTE: Tiis mftiod is dbllfd by privilfgfd tirfbds.
      *       DO NOT INVOKE CLIENT CODE ON THIS THREAD!
      */
-    void handleSelected(final char[] buffer)
+    void ibndlfSflfdtfd(finbl dibr[] bufffr)
     {
-        String[] wFiles = (new String(buffer)).split("\0"); // NULL is the delimiter
-        boolean multiple = (wFiles.length > 1);
+        String[] wFilfs = (nfw String(bufffr)).split("\0"); // NULL is tif dflimitfr
+        boolfbn multiplf = (wFilfs.lfngti > 1);
 
-        String jDirectory = null;
-        String jFile = null;
-        File[] jFiles = null;
+        String jDirfdtory = null;
+        String jFilf = null;
+        Filf[] jFilfs = null;
 
-        if (multiple) {
-            jDirectory = wFiles[0];
-            int filesNumber = wFiles.length - 1;
-            jFiles = new File[filesNumber];
-            for (int i = 0; i < filesNumber; i++) {
-                jFiles[i] = new File(jDirectory, wFiles[i + 1]);
+        if (multiplf) {
+            jDirfdtory = wFilfs[0];
+            int filfsNumbfr = wFilfs.lfngti - 1;
+            jFilfs = nfw Filf[filfsNumbfr];
+            for (int i = 0; i < filfsNumbfr; i++) {
+                jFilfs[i] = nfw Filf(jDirfdtory, wFilfs[i + 1]);
         }
-            jFile = wFiles[1]; // choose any file
-        } else {
-            int index = wFiles[0].lastIndexOf(java.io.File.separatorChar);
-            if (index == -1) {
-                jDirectory = "."+java.io.File.separator;
-                jFile = wFiles[0];
-            } else {
-                jDirectory = wFiles[0].substring(0, index + 1);
-                jFile = wFiles[0].substring(index + 1);
+            jFilf = wFilfs[1]; // dioosf bny filf
+        } flsf {
+            int indfx = wFilfs[0].lbstIndfxOf(jbvb.io.Filf.sfpbrbtorCibr);
+            if (indfx == -1) {
+                jDirfdtory = "."+jbvb.io.Filf.sfpbrbtor;
+                jFilf = wFilfs[0];
+            } flsf {
+                jDirfdtory = wFilfs[0].substring(0, indfx + 1);
+                jFilf = wFilfs[0].substring(indfx + 1);
             }
-            jFiles = new File[] { new File(jDirectory, jFile) };
+            jFilfs = nfw Filf[] { nfw Filf(jDirfdtory, jFilf) };
         }
 
-        final FileDialog fileDialog = (FileDialog)target;
-        AWTAccessor.FileDialogAccessor fileDialogAccessor = AWTAccessor.getFileDialogAccessor();
+        finbl FilfDiblog filfDiblog = (FilfDiblog)tbrgft;
+        AWTAddfssor.FilfDiblogAddfssor filfDiblogAddfssor = AWTAddfssor.gftFilfDiblogAddfssor();
 
-        fileDialogAccessor.setDirectory(fileDialog, jDirectory);
-        fileDialogAccessor.setFile(fileDialog, jFile);
-        fileDialogAccessor.setFiles(fileDialog, jFiles);
+        filfDiblogAddfssor.sftDirfdtory(filfDiblog, jDirfdtory);
+        filfDiblogAddfssor.sftFilf(filfDiblog, jFilf);
+        filfDiblogAddfssor.sftFilfs(filfDiblog, jFilfs);
 
-        WToolkit.executeOnEventHandlerThread(fileDialog, new Runnable() {
-             @Override
-             public void run() {
-                 fileDialog.setVisible(false);
+        WToolkit.fxfdutfOnEvfntHbndlfrTirfbd(filfDiblog, nfw Runnbblf() {
+             @Ovfrridf
+             publid void run() {
+                 filfDiblog.sftVisiblf(fblsf);
              }
         });
-    } // handleSelected()
+    } // ibndlfSflfdtfd()
 
-    // NOTE: This method is called by privileged threads.
+    // NOTE: Tiis mftiod is dbllfd by privilfgfd tirfbds.
     //       DO NOT INVOKE CLIENT CODE ON THIS THREAD!
-    void handleCancel() {
-        final FileDialog fileDialog = (FileDialog)target;
+    void ibndlfCbndfl() {
+        finbl FilfDiblog filfDiblog = (FilfDiblog)tbrgft;
 
-        AWTAccessor.getFileDialogAccessor().setFile(fileDialog, null);
-        AWTAccessor.getFileDialogAccessor().setFiles(fileDialog, null);
-        AWTAccessor.getFileDialogAccessor().setDirectory(fileDialog, null);
+        AWTAddfssor.gftFilfDiblogAddfssor().sftFilf(filfDiblog, null);
+        AWTAddfssor.gftFilfDiblogAddfssor().sftFilfs(filfDiblog, null);
+        AWTAddfssor.gftFilfDiblogAddfssor().sftDirfdtory(filfDiblog, null);
 
-        WToolkit.executeOnEventHandlerThread(fileDialog, new Runnable() {
-             @Override
-             public void run() {
-                 fileDialog.setVisible(false);
+        WToolkit.fxfdutfOnEvfntHbndlfrTirfbd(filfDiblog, nfw Runnbblf() {
+             @Ovfrridf
+             publid void run() {
+                 filfDiblog.sftVisiblf(fblsf);
              }
         });
-    } // handleCancel()
+    } // ibndlfCbndfl()
 
-    //This whole static block is a part of 4152317 fix
-    static {
-        String filterString = AccessController.doPrivileged(
-            new PrivilegedAction<String>() {
-                @Override
-                public String run() {
+    //Tiis wiolf stbtid blodk is b pbrt of 4152317 fix
+    stbtid {
+        String filtfrString = AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<String>() {
+                @Ovfrridf
+                publid String run() {
                     try {
-                        ResourceBundle rb = ResourceBundle.getBundle("sun.awt.windows.awtLocalization");
-                        return rb.getString("allFiles");
-                    } catch (MissingResourceException e) {
-                        return "All Files";
+                        RfsourdfBundlf rb = RfsourdfBundlf.gftBundlf("sun.bwt.windows.bwtLodblizbtion");
+                        rfturn rb.gftString("bllFilfs");
+                    } dbtdi (MissingRfsourdfExdfption f) {
+                        rfturn "All Filfs";
                     }
                 }
             });
-        setFilterString(filterString);
+        sftFiltfrString(filtfrString);
     }
 
-    void blockWindow(WWindowPeer window) {
-        blockedWindows.add(window);
-        // if this dialog hasn't got an HWND, notification is
-        // postponed until setHWnd() is called
-        if (hwnd != 0) {
-            window.modalDisable((Dialog)target, hwnd);
+    void blodkWindow(WWindowPffr window) {
+        blodkfdWindows.bdd(window);
+        // if tiis diblog ibsn't got bn HWND, notifidbtion is
+        // postponfd until sftHWnd() is dbllfd
+        if (iwnd != 0) {
+            window.modblDisbblf((Diblog)tbrgft, iwnd);
         }
     }
-    void unblockWindow(WWindowPeer window) {
-        blockedWindows.remove(window);
-        // if this dialog hasn't got an HWND or has been already
-        // closed, don't send notification
-        if (hwnd != 0) {
-            window.modalEnable((Dialog)target);
+    void unblodkWindow(WWindowPffr window) {
+        blodkfdWindows.rfmovf(window);
+        // if tiis diblog ibsn't got bn HWND or ibs bffn blrfbdy
+        // dlosfd, don't sfnd notifidbtion
+        if (iwnd != 0) {
+            window.modblEnbblf((Diblog)tbrgft);
         }
     }
 
-    @Override
-    public void blockWindows(java.util.List<Window> toBlock) {
-        for (Window w : toBlock) {
-            WWindowPeer wp = (WWindowPeer)AWTAccessor.getComponentAccessor().getPeer(w);
+    @Ovfrridf
+    publid void blodkWindows(jbvb.util.List<Window> toBlodk) {
+        for (Window w : toBlodk) {
+            WWindowPffr wp = (WWindowPffr)AWTAddfssor.gftComponfntAddfssor().gftPffr(w);
             if (wp != null) {
-                blockWindow(wp);
+                blodkWindow(wp);
             }
         }
     }
 
-    @Override
-    public native void toFront();
-    @Override
-    public native void toBack();
+    @Ovfrridf
+    publid nbtivf void toFront();
+    @Ovfrridf
+    publid nbtivf void toBbdk();
 
-    // unused methods.  Overridden to disable this functionality as
-    // it requires HWND which is not available for FileDialog
-    @Override
-    public void updateAlwaysOnTopState() {}
-    @Override
-    public void setDirectory(String dir) {}
-    @Override
-    public void setFile(String file) {}
-    @Override
-    public void setTitle(String title) {}
+    // unusfd mftiods.  Ovfrriddfn to disbblf tiis fundtionblity bs
+    // it rfquirfs HWND wiidi is not bvbilbblf for FilfDiblog
+    @Ovfrridf
+    publid void updbtfAlwbysOnTopStbtf() {}
+    @Ovfrridf
+    publid void sftDirfdtory(String dir) {}
+    @Ovfrridf
+    publid void sftFilf(String filf) {}
+    @Ovfrridf
+    publid void sftTitlf(String titlf) {}
 
-    @Override
-    public void setResizable(boolean resizable) {}
-    @Override
-    void enable() {}
-    @Override
-    void disable() {}
-    @Override
-    public void reshape(int x, int y, int width, int height) {}
-    public boolean handleEvent(Event e) { return false; }
-    @Override
-    public void setForeground(Color c) {}
-    @Override
-    public void setBackground(Color c) {}
-    @Override
-    public void setFont(Font f) {}
-    @Override
-    public void updateMinimumSize() {}
-    @Override
-    public void updateIconImages() {}
-    public boolean requestFocus(boolean temporary,
-                                boolean focusedWindowChangeAllowed) {
-        return false;
+    @Ovfrridf
+    publid void sftRfsizbblf(boolfbn rfsizbblf) {}
+    @Ovfrridf
+    void fnbblf() {}
+    @Ovfrridf
+    void disbblf() {}
+    @Ovfrridf
+    publid void rfsibpf(int x, int y, int widti, int ifigit) {}
+    publid boolfbn ibndlfEvfnt(Evfnt f) { rfturn fblsf; }
+    @Ovfrridf
+    publid void sftForfground(Color d) {}
+    @Ovfrridf
+    publid void sftBbdkground(Color d) {}
+    @Ovfrridf
+    publid void sftFont(Font f) {}
+    @Ovfrridf
+    publid void updbtfMinimumSizf() {}
+    @Ovfrridf
+    publid void updbtfIdonImbgfs() {}
+    publid boolfbn rfqufstFodus(boolfbn tfmporbry,
+                                boolfbn fodusfdWindowCibngfAllowfd) {
+        rfturn fblsf;
     }
 
-    @Override
-    public boolean requestFocus
-         (Component lightweightChild, boolean temporary,
-          boolean focusedWindowChangeAllowed, long time, CausedFocusEvent.Cause cause)
+    @Ovfrridf
+    publid boolfbn rfqufstFodus
+         (Componfnt ligitwfigitCiild, boolfbn tfmporbry,
+          boolfbn fodusfdWindowCibngfAllowfd, long timf, CbusfdFodusEvfnt.Cbusf dbusf)
     {
-        return false;
+        rfturn fblsf;
     }
 
-    @Override
-    void start() {}
-    @Override
-    public void beginValidate() {}
-    @Override
-    public void endValidate() {}
-    void invalidate(int x, int y, int width, int height) {}
-    @Override
-    public void addDropTarget(DropTarget dt) {}
-    @Override
-    public void removeDropTarget(DropTarget dt) {}
-    @Override
-    public void updateFocusableWindowState() {}
-    @Override
-    public void setZOrder(ComponentPeer above) {}
+    @Ovfrridf
+    void stbrt() {}
+    @Ovfrridf
+    publid void bfginVblidbtf() {}
+    @Ovfrridf
+    publid void fndVblidbtf() {}
+    void invblidbtf(int x, int y, int widti, int ifigit) {}
+    @Ovfrridf
+    publid void bddDropTbrgft(DropTbrgft dt) {}
+    @Ovfrridf
+    publid void rfmovfDropTbrgft(DropTbrgft dt) {}
+    @Ovfrridf
+    publid void updbtfFodusbblfWindowStbtf() {}
+    @Ovfrridf
+    publid void sftZOrdfr(ComponfntPffr bbovf) {}
 
     /**
-     * Initialize JNI field and method ids
+     * Initiblizf JNI fifld bnd mftiod ids
      */
-    private static native void initIDs();
+    privbtf stbtid nbtivf void initIDs();
 
-    // The effects are not supported for system dialogs.
-    @Override
-    public void applyShape(sun.java2d.pipe.Region shape) {}
-    @Override
-    public void setOpacity(float opacity) {}
-    @Override
-    public void setOpaque(boolean isOpaque) {}
-    public void updateWindow(java.awt.image.BufferedImage backBuffer) {}
+    // Tif ffffdts brf not supportfd for systfm diblogs.
+    @Ovfrridf
+    publid void bpplySibpf(sun.jbvb2d.pipf.Rfgion sibpf) {}
+    @Ovfrridf
+    publid void sftOpbdity(flobt opbdity) {}
+    @Ovfrridf
+    publid void sftOpbquf(boolfbn isOpbquf) {}
+    publid void updbtfWindow(jbvb.bwt.imbgf.BufffrfdImbgf bbdkBufffr) {}
 
-    // the file/print dialogs are native dialogs and
-    // the native system does their own rendering
-    @Override
-    public void createScreenSurface(boolean isResize) {}
-    @Override
-    public void replaceSurfaceData() {}
+    // tif filf/print diblogs brf nbtivf diblogs bnd
+    // tif nbtivf systfm dofs tifir own rfndfring
+    @Ovfrridf
+    publid void drfbtfSdrffnSurfbdf(boolfbn isRfsizf) {}
+    @Ovfrridf
+    publid void rfplbdfSurfbdfDbtb() {}
 
-    public boolean isMultipleMode() {
-        FileDialog fileDialog = (FileDialog)target;
-        return AWTAccessor.getFileDialogAccessor().isMultipleMode(fileDialog);
+    publid boolfbn isMultiplfModf() {
+        FilfDiblog filfDiblog = (FilfDiblog)tbrgft;
+        rfturn AWTAddfssor.gftFilfDiblogAddfssor().isMultiplfModf(filfDiblog);
     }
 }

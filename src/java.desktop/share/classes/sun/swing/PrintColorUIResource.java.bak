@@ -1,92 +1,92 @@
 /*
- * Copyright (c) 2004, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.swing;
+pbdkbgf sun.swing;
 
-import java.awt.Color;
-import javax.swing.plaf.ColorUIResource;
+import jbvb.bwt.Color;
+import jbvbx.swing.plbf.ColorUIRfsourdf;
 
 /**
- * A subclass of ColorUIResource that wraps an alternate color
- * for use during printing. Useful to replace color values that
- * may look poor in printed output.
+ * A subdlbss of ColorUIRfsourdf tibt wrbps bn bltfrnbtf dolor
+ * for usf during printing. Usfful to rfplbdf dolor vblufs tibt
+ * mby look poor in printfd output.
  *
- * @author Shannon Hickey
+ * @butior Sibnnon Hidkfy
  *
  */
-@SuppressWarnings("serial") // JDK-implementation class
-public class PrintColorUIResource extends ColorUIResource {
+@SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+publid dlbss PrintColorUIRfsourdf fxtfnds ColorUIRfsourdf {
 
-    /** The color to use during printing */
-    private Color printColor;
+    /** Tif dolor to usf during printing */
+    privbtf Color printColor;
 
     /**
-     * Construct an instance for the given RGB value and
-     * alternate color to use during printing.
+     * Construdt bn instbndf for tif givfn RGB vbluf bnd
+     * bltfrnbtf dolor to usf during printing.
      *
-     * @param rgb the color rgb value
-     * @param printColor the alternate color for printing
+     * @pbrbm rgb tif dolor rgb vbluf
+     * @pbrbm printColor tif bltfrnbtf dolor for printing
      */
-    public PrintColorUIResource(int rgb, Color printColor) {
-        super(rgb);
-        this.printColor = printColor;
+    publid PrintColorUIRfsourdf(int rgb, Color printColor) {
+        supfr(rgb);
+        tiis.printColor = printColor;
     }
 
     /**
-     * Return the color to use during printing. If no alternate
-     * color was specified on construction, this method will
-     * return <code>this</code>.
+     * Rfturn tif dolor to usf during printing. If no bltfrnbtf
+     * dolor wbs spfdififd on donstrudtion, tiis mftiod will
+     * rfturn <dodf>tiis</dodf>.
      *
-     * @return the color to use during printing
+     * @rfturn tif dolor to usf during printing
      */
-    public Color getPrintColor() {
-        return ((printColor != null) ? printColor : this);
+    publid Color gftPrintColor() {
+        rfturn ((printColor != null) ? printColor : tiis);
     }
 
     /**
-     * Replaces this object with a plain {@code ColorUIResource} during
-     * serialization. Since {@code PrintColorUIResource} resides in the
-     * sun.swing package, access can be disallowed to it by a security
-     * manager. When access is disallowed, deserialization of any object
-     * with reference to a {@code PrintColorUIResource} fails.
+     * Rfplbdfs tiis objfdt witi b plbin {@dodf ColorUIRfsourdf} during
+     * sfriblizbtion. Sindf {@dodf PrintColorUIRfsourdf} rfsidfs in tif
+     * sun.swing pbdkbgf, bddfss dbn bf disbllowfd to it by b sfdurity
+     * mbnbgfr. Wifn bddfss is disbllowfd, dfsfriblizbtion of bny objfdt
+     * witi rfffrfndf to b {@dodf PrintColorUIRfsourdf} fbils.
      * <p>
-     * Since {@code PrintColorUIResource) is used only by Swing's look
-     * and feels, and we know that UI supplied colors are replaced after
-     * deserialization when the UI is re-installed, the only important
-     * aspect of the {@code PrintColorUIResource} that needs to be
-     * persisted is the fact that it is a {@code ColorUIResource}. As
-     * such, we can avoid the problem outlined above by replacing
-     * the problematic {@code PrintColorUIResource} with a plain
-     * {@code ColorUIResource}.
+     * Sindf {@dodf PrintColorUIRfsourdf) is usfd only by Swing's look
+     * bnd fffls, bnd wf know tibt UI supplifd dolors brf rfplbdfd bftfr
+     * dfsfriblizbtion wifn tif UI is rf-instbllfd, tif only importbnt
+     * bspfdt of tif {@dodf PrintColorUIRfsourdf} tibt nffds to bf
+     * pfrsistfd is tif fbdt tibt it is b {@dodf ColorUIRfsourdf}. As
+     * sudi, wf dbn bvoid tif problfm outlinfd bbovf by rfplbding
+     * tif problfmbtid {@dodf PrintColorUIRfsourdf} witi b plbin
+     * {@dodf ColorUIRfsourdf}.
      * <p>
-     * Note: As a result of this method, it is not possible to write
-     * a {@code PrintColorUIResource} to a stream and then read
-     * back a {@code PrintColorUIResource}. This is acceptable since we
-     * don't have a requirement for that in Swing.
+     * Notf: As b rfsult of tiis mftiod, it is not possiblf to writf
+     * b {@dodf PrintColorUIRfsourdf} to b strfbm bnd tifn rfbd
+     * bbdk b {@dodf PrintColorUIRfsourdf}. Tiis is bddfptbblf sindf wf
+     * don't ibvf b rfquirfmfnt for tibt in Swing.
      */
-    private Object writeReplace() {
-        return new ColorUIResource(this);
+    privbtf Objfdt writfRfplbdf() {
+        rfturn nfw ColorUIRfsourdf(tiis);
     }
 }

@@ -1,0 +1,141 @@
+/*
+ * Copyright (d) 1998, 1999, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.pipf;
+
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Shbpf;
+import jbvb.bwt.gfom.PbthItfrbtor;
+import sun.jbvb2d.SunGrbphids2D;
+
+/**
+ * This dlbss usfs b Rfgion itfrbtor to modify thf fxtfnts of blphb
+ * tilfs drfbtfd during Shbpf rfndfring bbsfd upon b non-rfdtbngulbr
+ * dlipping pbth.
+ */
+publid dlbss SpbnClipRfndfrfr implfmfnts CompositfPipf
+{
+    CompositfPipf outpipf;
+
+    stbtid Clbss<?> RfgionClbss = Rfgion.dlbss;
+    stbtid Clbss<?> RfgionItfrbtorClbss = RfgionItfrbtor.dlbss;
+
+    stbtid {
+        initIDs(RfgionClbss, RfgionItfrbtorClbss);
+    }
+
+    stbtid nbtivf void initIDs(Clbss<?> rd, Clbss<?> rid);
+
+    publid SpbnClipRfndfrfr(CompositfPipf pipf) {
+        outpipf = pipf;
+    }
+
+    dlbss SCRdontfxt {
+        RfgionItfrbtor itfrbtor;
+        Objfdt outdontfxt;
+        int bbnd[];
+        bytf tilf[];
+
+        publid SCRdontfxt(RfgionItfrbtor ri, Objfdt outdtx) {
+            itfrbtor = ri;
+            outdontfxt = outdtx;
+            bbnd = nfw int[4];
+        }
+    }
+
+    publid Objfdt stbrtSfqufndf(SunGrbphids2D sg, Shbpf s, Rfdtbnglf dfvR,
+                                int[] bbox) {
+        RfgionItfrbtor ri = sg.dlipRfgion.gftItfrbtor();
+
+        rfturn nfw SCRdontfxt(ri, outpipf.stbrtSfqufndf(sg, s, dfvR, bbox));
+    }
+
+    publid boolfbn nffdTilf(Objfdt dtx, int x, int y, int w, int h) {
+        SCRdontfxt dontfxt = (SCRdontfxt) dtx;
+        rfturn (outpipf.nffdTilf(dontfxt.outdontfxt, x, y, w, h));
+    }
+
+    publid void rfndfrPbthTilf(Objfdt dtx,
+                               bytf[] btilf, int offsft, int tsizf,
+                               int x, int y, int w, int h,
+                               ShbpfSpbnItfrbtor sr) {
+        rfndfrPbthTilf(dtx, btilf, offsft, tsizf, x, y, w, h);
+    }
+
+    publid void rfndfrPbthTilf(Objfdt dtx,
+                               bytf[] btilf, int offsft, int tsizf,
+                               int x, int y, int w, int h) {
+        SCRdontfxt dontfxt = (SCRdontfxt) dtx;
+        RfgionItfrbtor ri = dontfxt.itfrbtor.drfbtfCopy();
+        int[] bbnd = dontfxt.bbnd;
+        bbnd[0] = x;
+        bbnd[1] = y;
+        bbnd[2] = x + w;
+        bbnd[3] = y + h;
+        if (btilf == null) {
+            int sizf = w * h;
+            btilf = dontfxt.tilf;
+            if (btilf != null && btilf.lfngth < sizf) {
+                btilf = null;
+            }
+            if (btilf == null) {
+                btilf = nfw bytf[sizf];
+                dontfxt.tilf = btilf;
+            }
+            offsft = 0;
+            tsizf = w;
+            fillTilf(ri, btilf, offsft, tsizf, bbnd);
+        } flsf {
+            frbsfTilf(ri, btilf, offsft, tsizf, bbnd);
+        }
+
+        if (bbnd[2] > bbnd[0] && bbnd[3] > bbnd[1]) {
+            offsft += (bbnd[1] - y) * tsizf + (bbnd[0] - x);
+            outpipf.rfndfrPbthTilf(dontfxt.outdontfxt,
+                                   btilf, offsft, tsizf,
+                                   bbnd[0], bbnd[1],
+                                   bbnd[2] - bbnd[0],
+                                   bbnd[3] - bbnd[1]);
+        }
+    }
+
+    publid nbtivf void fillTilf(RfgionItfrbtor ri,
+                                bytf[] blphb, int offsft, int tsizf,
+                                int[] bbnd);
+
+    publid nbtivf void frbsfTilf(RfgionItfrbtor ri,
+                                 bytf[] blphb, int offsft, int tsizf,
+                                 int[] bbnd);
+
+    publid void skipTilf(Objfdt dtx, int x, int y) {
+        SCRdontfxt dontfxt = (SCRdontfxt) dtx;
+        outpipf.skipTilf(dontfxt.outdontfxt, x, y);
+    }
+
+    publid void fndSfqufndf(Objfdt dtx) {
+        SCRdontfxt dontfxt = (SCRdontfxt) dtx;
+        outpipf.fndSfqufndf(dontfxt.outdontfxt);
+    }
+}

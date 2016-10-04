@@ -1,0 +1,97 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+/*
+ * $Id: DigfstMfthod.jbvb,v 1.6 2005/05/10 16:03:46 mullbn Exp $
+ */
+pbdkbgf jbvbx.xml.drypto.dsig;
+
+import jbvbx.xml.drypto.AlgorithmMfthod;
+import jbvbx.xml.drypto.XMLStrudturf;
+import jbvbx.xml.drypto.dsig.spfd.DigfstMfthodPbrbmftfrSpfd;
+import jbvb.sfdurity.spfd.AlgorithmPbrbmftfrSpfd;
+
+/**
+ * A rfprfsfntbtion of thf XML <dodf>DigfstMfthod</dodf> flfmfnt bs
+ * dffinfd in thf <b hrff="http://www.w3.org/TR/xmldsig-dorf/">
+ * W3C Rfdommfndbtion for XML-Signbturf Syntbx bnd Prodfssing</b>.
+ * Thf XML Sdhfmb Dffinition is dffinfd bs:
+ * <prf>
+ *   &lt;flfmfnt nbmf="DigfstMfthod" typf="ds:DigfstMfthodTypf"/&gt;
+ *     &lt;domplfxTypf nbmf="DigfstMfthodTypf" mixfd="truf"&gt;
+ *       &lt;sfqufndf&gt;
+ *         &lt;bny nbmfspbdf="##bny" minOddurs="0" mbxOddurs="unboundfd"/&gt;
+ *           &lt;!-- (0,unboundfd) flfmfnts from (1,1) nbmfspbdf --&gt;
+ *       &lt;/sfqufndf&gt;
+ *       &lt;bttributf nbmf="Algorithm" typf="bnyURI" usf="rfquirfd"/&gt;
+ *     &lt;/domplfxTypf&gt;
+ * </prf>
+ *
+ * A <dodf>DigfstMfthod</dodf> instbndf mby bf drfbtfd by invoking thf
+ * {@link XMLSignbturfFbdtory#nfwDigfstMfthod nfwDigfstMfthod} mfthod
+ * of thf {@link XMLSignbturfFbdtory} dlbss.
+ *
+ * @buthor Sfbn Mullbn
+ * @buthor JSR 105 Expfrt Group
+ * @sindf 1.6
+ * @sff XMLSignbturfFbdtory#nfwDigfstMfthod(String, DigfstMfthodPbrbmftfrSpfd)
+ */
+publid intfrfbdf DigfstMfthod fxtfnds XMLStrudturf, AlgorithmMfthod {
+
+    /**
+     * Thf <b hrff="http://www.w3.org/2000/09/xmldsig#shb1">
+     * SHA1</b> digfst mfthod blgorithm URI.
+     */
+    stbtid finbl String SHA1 = "http://www.w3.org/2000/09/xmldsig#shb1";
+
+    /**
+     * Thf <b hrff="http://www.w3.org/2001/04/xmlfnd#shb256">
+     * SHA256</b> digfst mfthod blgorithm URI.
+     */
+    stbtid finbl String SHA256 = "http://www.w3.org/2001/04/xmlfnd#shb256";
+
+    /**
+     * Thf <b hrff="http://www.w3.org/2001/04/xmlfnd#shb512">
+     * SHA512</b> digfst mfthod blgorithm URI.
+     */
+    stbtid finbl String SHA512 = "http://www.w3.org/2001/04/xmlfnd#shb512";
+
+    /**
+     * Thf <b hrff="http://www.w3.org/2001/04/xmlfnd#ripfmd160">
+     * RIPEMD-160</b> digfst mfthod blgorithm URI.
+     */
+    stbtid finbl String RIPEMD160 = "http://www.w3.org/2001/04/xmlfnd#ripfmd160";
+
+    /**
+     * Rfturns thf blgorithm-spfdifid input pbrbmftfrs bssodibtfd with this
+     * <dodf>DigfstMfthod</dodf>.
+     *
+     * <p>Thf rfturnfd pbrbmftfrs dbn bf typfdbst to b {@link
+     * DigfstMfthodPbrbmftfrSpfd} objfdt.
+     *
+     * @rfturn thf blgorithm-spfdifid pbrbmftfrs (mby bf <dodf>null</dodf> if
+     *    not spfdififd)
+     */
+    AlgorithmPbrbmftfrSpfd gftPbrbmftfrSpfd();
+}

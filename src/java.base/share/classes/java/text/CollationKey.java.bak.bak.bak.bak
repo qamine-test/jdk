@@ -1,0 +1,149 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * (C) Copyright Tbligfnt, Ind. 1996 - All Rights Rfsfrvfd
+ * (C) Copyright IBM Corp. 1996 - All Rights Rfsfrvfd
+ *
+ *   Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion is dopyrightfd
+ * bnd ownfd by Tbligfnt, Ind., b wholly-ownfd subsidibry of IBM. Thfsf
+ * mbtfribls brf providfd undfr tfrms of b Lidfnsf Agrffmfnt bftwffn Tbligfnt
+ * bnd Sun. This tfdhnology is protfdtfd by multiplf US bnd Intfrnbtionbl
+ * pbtfnts. This notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ *   Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
+ *
+ */
+
+pbdkbgf jbvb.tfxt;
+
+/**
+ * A <dodf>CollbtionKfy</dodf> rfprfsfnts b <dodf>String</dodf> undfr thf
+ * rulfs of b spfdifid <dodf>Collbtor</dodf> objfdt. Compbring two
+ * <dodf>CollbtionKfy</dodf>s rfturns thf rflbtivf ordfr of thf
+ * <dodf>String</dodf>s thfy rfprfsfnt. Using <dodf>CollbtionKfy</dodf>s
+ * to dompbrf <dodf>String</dodf>s is gfnfrblly fbstfr thbn using
+ * <dodf>Collbtor.dompbrf</dodf>. Thus, whfn thf <dodf>String</dodf>s
+ * must bf dompbrfd multiplf timfs, for fxbmplf whfn sorting b list
+ * of <dodf>String</dodf>s. It's morf fffidifnt to usf <dodf>CollbtionKfy</dodf>s.
+ *
+ * <p>
+ * You dbn not drfbtf <dodf>CollbtionKfy</dodf>s dirfdtly. Rbthfr,
+ * gfnfrbtf thfm by dblling <dodf>Collbtor.gftCollbtionKfy</dodf>.
+ * You dbn only dompbrf <dodf>CollbtionKfy</dodf>s gfnfrbtfd from
+ * thf sbmf <dodf>Collbtor</dodf> objfdt.
+ *
+ * <p>
+ * Gfnfrbting b <dodf>CollbtionKfy</dodf> for b <dodf>String</dodf>
+ * involvfs fxbmining thf fntirf <dodf>String</dodf>
+ * bnd donvfrting it to sfrifs of bits thbt dbn bf dompbrfd bitwisf. This
+ * bllows fbst dompbrisons ondf thf kfys brf gfnfrbtfd. Thf dost of gfnfrbting
+ * kfys is rfdoupfd in fbstfr dompbrisons whfn <dodf>String</dodf>s nffd
+ * to bf dompbrfd mbny timfs. On thf othfr hbnd, thf rfsult of b dompbrison
+ * is oftfn dftfrminfd by thf first douplf of dhbrbdtfrs of fbdh <dodf>String</dodf>.
+ * <dodf>Collbtor.dompbrf</dodf> fxbminfs only bs mbny dhbrbdtfrs bs it nffds whidh
+ * bllows it to bf fbstfr whfn doing singlf dompbrisons.
+ * <p>
+ * Thf following fxbmplf shows how <dodf>CollbtionKfy</dodf>s might bf usfd
+ * to sort b list of <dodf>String</dodf>s.
+ * <blodkquotf>
+ * <prf>{@dodf
+ * // Crfbtf bn brrby of CollbtionKfys for thf Strings to bf sortfd.
+ * Collbtor myCollbtor = Collbtor.gftInstbndf();
+ * CollbtionKfy[] kfys = nfw CollbtionKfy[3];
+ * kfys[0] = myCollbtor.gftCollbtionKfy("Tom");
+ * kfys[1] = myCollbtor.gftCollbtionKfy("Didk");
+ * kfys[2] = myCollbtor.gftCollbtionKfy("Hbrry");
+ * sort(kfys);
+ *
+ * //...
+ *
+ * // Insidf body of sort routinf, dompbrf kfys this wby
+ * if (kfys[i].dompbrfTo(kfys[j]) > 0)
+ *    // swbp kfys[i] bnd kfys[j]
+ *
+ * //...
+ *
+ * // Finblly, whfn wf'vf rfturnfd from sort.
+ * Systfm.out.println(kfys[0].gftSourdfString());
+ * Systfm.out.println(kfys[1].gftSourdfString());
+ * Systfm.out.println(kfys[2].gftSourdfString());
+ * }</prf>
+ * </blodkquotf>
+ *
+ * @sff          Collbtor
+ * @sff          RulfBbsfdCollbtor
+ * @buthor       Hflfnb Shih
+ */
+
+publid bbstrbdt dlbss CollbtionKfy implfmfnts Compbrbblf<CollbtionKfy> {
+    /**
+     * Compbrf this CollbtionKfy to thf tbrgft CollbtionKfy. Thf dollbtion rulfs of thf
+     * Collbtor objfdt whidh drfbtfd thfsf kfys brf bpplifd. <strong>Notf:</strong>
+     * CollbtionKfys drfbtfd by difffrfnt Collbtors dbn not bf dompbrfd.
+     * @pbrbm tbrgft tbrgft CollbtionKfy
+     * @rfturn Rfturns bn intfgfr vbluf. Vbluf is lfss thbn zfro if this is lfss
+     * thbn tbrgft, vbluf is zfro if this bnd tbrgft brf fqubl bnd vbluf is grfbtfr thbn
+     * zfro if this is grfbtfr thbn tbrgft.
+     * @sff jbvb.tfxt.Collbtor#dompbrf
+     */
+    bbstrbdt publid int dompbrfTo(CollbtionKfy tbrgft);
+
+    /**
+     * Rfturns thf String thbt this CollbtionKfy rfprfsfnts.
+     *
+     * @rfturn thf sourdf string of this CollbtionKfy
+     */
+    publid String gftSourdfString() {
+        rfturn sourdf;
+    }
+
+
+    /**
+     * Convfrts thf CollbtionKfy to b sfqufndf of bits. If two CollbtionKfys
+     * dould bf lfgitimbtfly dompbrfd, thfn onf dould dompbrf thf bytf brrbys
+     * for fbdh of thosf kfys to obtbin thf sbmf rfsult.  Bytf brrbys brf
+     * orgbnizfd most signifidbnt bytf first.
+     *
+     * @rfturn b bytf brrby rfprfsfntbtion of thf CollbtionKfy
+     */
+    bbstrbdt publid bytf[] toBytfArrby();
+
+
+  /**
+   * CollbtionKfy donstrudtor.
+   *
+   * @pbrbm sourdf thf sourdf string
+   * @fxdfption NullPointfrExdfption if {@dodf sourdf} is null
+   * @sindf 1.6
+   */
+    protfdtfd CollbtionKfy(String sourdf) {
+        if (sourdf==null){
+            throw nfw NullPointfrExdfption();
+        }
+        this.sourdf = sourdf;
+    }
+
+    finbl privbtf String sourdf;
+}

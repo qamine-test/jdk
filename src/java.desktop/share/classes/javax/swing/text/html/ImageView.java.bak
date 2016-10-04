@@ -1,1026 +1,1026 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.text.html;
+pbdkbgf jbvbx.swing.tfxt.itml;
 
-import java.awt.*;
-import java.awt.image.ImageObserver;
-import java.net.*;
-import java.util.Dictionary;
-import javax.swing.*;
-import javax.swing.text.*;
-import javax.swing.event.*;
+import jbvb.bwt.*;
+import jbvb.bwt.imbgf.ImbgfObsfrvfr;
+import jbvb.nft.*;
+import jbvb.util.Didtionbry;
+import jbvbx.swing.*;
+import jbvbx.swing.tfxt.*;
+import jbvbx.swing.fvfnt.*;
 
 /**
- * View of an Image, intended to support the HTML &lt;IMG&gt; tag.
- * Supports scaling via the HEIGHT and WIDTH attributes of the tag.
- * If the image is unable to be loaded any text specified via the
- * <code>ALT</code> attribute will be rendered.
+ * Vifw of bn Imbgf, intfndfd to support tif HTML &lt;IMG&gt; tbg.
+ * Supports sdbling vib tif HEIGHT bnd WIDTH bttributfs of tif tbg.
+ * If tif imbgf is unbblf to bf lobdfd bny tfxt spfdififd vib tif
+ * <dodf>ALT</dodf> bttributf will bf rfndfrfd.
  * <p>
- * While this class has been part of swing for a while now, it is public
- * as of 1.4.
+ * Wiilf tiis dlbss ibs bffn pbrt of swing for b wiilf now, it is publid
+ * bs of 1.4.
  *
- * @author  Scott Violet
- * @see IconView
- * @since 1.4
+ * @butior  Sdott Violft
+ * @sff IdonVifw
+ * @sindf 1.4
  */
-public class ImageView extends View {
+publid dlbss ImbgfVifw fxtfnds Vifw {
     /**
-     * If true, when some of the bits are available a repaint is done.
+     * If truf, wifn somf of tif bits brf bvbilbblf b rfpbint is donf.
      * <p>
-     * This is set to false as swing does not offer a repaint that takes a
-     * delay. If this were true, a bunch of immediate repaints would get
-     * generated that end up significantly delaying the loading of the image
-     * (or anything else going on for that matter).
+     * Tiis is sft to fblsf bs swing dofs not offfr b rfpbint tibt tbkfs b
+     * dflby. If tiis wfrf truf, b bundi of immfdibtf rfpbints would gft
+     * gfnfrbtfd tibt fnd up signifidbntly dflbying tif lobding of tif imbgf
+     * (or bnytiing flsf going on for tibt mbttfr).
      */
-    private static boolean sIsInc = false;
+    privbtf stbtid boolfbn sIsInd = fblsf;
     /**
-     * Repaint delay when some of the bits are available.
+     * Rfpbint dflby wifn somf of tif bits brf bvbilbblf.
      */
-    private static int sIncRate = 100;
+    privbtf stbtid int sIndRbtf = 100;
     /**
-     * Property name for pending image icon
+     * Propfrty nbmf for pfnding imbgf idon
      */
-    private static final String PENDING_IMAGE = "html.pendingImage";
+    privbtf stbtid finbl String PENDING_IMAGE = "itml.pfndingImbgf";
     /**
-     * Property name for missing image icon
+     * Propfrty nbmf for missing imbgf idon
      */
-    private static final String MISSING_IMAGE = "html.missingImage";
+    privbtf stbtid finbl String MISSING_IMAGE = "itml.missingImbgf";
 
     /**
-     * Document property for image cache.
+     * Dodumfnt propfrty for imbgf dbdif.
      */
-    private static final String IMAGE_CACHE_PROPERTY = "imageCache";
+    privbtf stbtid finbl String IMAGE_CACHE_PROPERTY = "imbgfCbdif";
 
-    // Height/width to use before we know the real size, these should at least
-    // the size of <code>sMissingImageIcon</code> and
-    // <code>sPendingImageIcon</code>
-    private static final int DEFAULT_WIDTH = 38;
-    private static final int DEFAULT_HEIGHT= 38;
+    // Hfigit/widti to usf bfforf wf know tif rfbl sizf, tifsf siould bt lfbst
+    // tif sizf of <dodf>sMissingImbgfIdon</dodf> bnd
+    // <dodf>sPfndingImbgfIdon</dodf>
+    privbtf stbtid finbl int DEFAULT_WIDTH = 38;
+    privbtf stbtid finbl int DEFAULT_HEIGHT= 38;
 
     /**
-     * Default border to use if one is not specified.
+     * Dffbult bordfr to usf if onf is not spfdififd.
      */
-    private static final int DEFAULT_BORDER = 2;
+    privbtf stbtid finbl int DEFAULT_BORDER = 2;
 
-    // Bitmask values
-    private static final int LOADING_FLAG = 1;
-    private static final int LINK_FLAG = 2;
-    private static final int WIDTH_FLAG = 4;
-    private static final int HEIGHT_FLAG = 8;
-    private static final int RELOAD_FLAG = 16;
-    private static final int RELOAD_IMAGE_FLAG = 32;
-    private static final int SYNC_LOAD_FLAG = 64;
+    // Bitmbsk vblufs
+    privbtf stbtid finbl int LOADING_FLAG = 1;
+    privbtf stbtid finbl int LINK_FLAG = 2;
+    privbtf stbtid finbl int WIDTH_FLAG = 4;
+    privbtf stbtid finbl int HEIGHT_FLAG = 8;
+    privbtf stbtid finbl int RELOAD_FLAG = 16;
+    privbtf stbtid finbl int RELOAD_IMAGE_FLAG = 32;
+    privbtf stbtid finbl int SYNC_LOAD_FLAG = 64;
 
-    private AttributeSet attr;
-    private Image image;
-    private Image disabledImage;
-    private int width;
-    private int height;
-    /** Bitmask containing some of the above bitmask values. Because the
-     * image loading notification can happen on another thread access to
-     * this is synchronized (at least for modifying it). */
-    private int state;
-    private Container container;
-    private Rectangle fBounds;
-    private Color borderColor;
-    // Size of the border, the insets contains this valid. For example, if
-    // the HSPACE attribute was 4 and BORDER 2, leftInset would be 6.
-    private short borderSize;
-    // Insets, obtained from the painter.
-    private short leftInset;
-    private short rightInset;
-    private short topInset;
-    private short bottomInset;
+    privbtf AttributfSft bttr;
+    privbtf Imbgf imbgf;
+    privbtf Imbgf disbblfdImbgf;
+    privbtf int widti;
+    privbtf int ifigit;
+    /** Bitmbsk dontbining somf of tif bbovf bitmbsk vblufs. Bfdbusf tif
+     * imbgf lobding notifidbtion dbn ibppfn on bnotifr tirfbd bddfss to
+     * tiis is syndironizfd (bt lfbst for modifying it). */
+    privbtf int stbtf;
+    privbtf Contbinfr dontbinfr;
+    privbtf Rfdtbnglf fBounds;
+    privbtf Color bordfrColor;
+    // Sizf of tif bordfr, tif insfts dontbins tiis vblid. For fxbmplf, if
+    // tif HSPACE bttributf wbs 4 bnd BORDER 2, lfftInsft would bf 6.
+    privbtf siort bordfrSizf;
+    // Insfts, obtbinfd from tif pbintfr.
+    privbtf siort lfftInsft;
+    privbtf siort rigitInsft;
+    privbtf siort topInsft;
+    privbtf siort bottomInsft;
     /**
-     * We don't directly implement ImageObserver, instead we use an instance
-     * that calls back to us.
+     * Wf don't dirfdtly implfmfnt ImbgfObsfrvfr, instfbd wf usf bn instbndf
+     * tibt dblls bbdk to us.
      */
-    private ImageObserver imageObserver;
+    privbtf ImbgfObsfrvfr imbgfObsfrvfr;
     /**
-     * Used for alt text. Will be non-null if the image couldn't be found,
-     * and there is valid alt text.
+     * Usfd for blt tfxt. Will bf non-null if tif imbgf douldn't bf found,
+     * bnd tifrf is vblid blt tfxt.
      */
-    private View altView;
-    /** Alignment along the vertical (Y) axis. */
-    private float vAlign;
+    privbtf Vifw bltVifw;
+    /** Alignmfnt blong tif vfrtidbl (Y) bxis. */
+    privbtf flobt vAlign;
 
 
 
     /**
-     * Creates a new view that represents an IMG element.
+     * Crfbtfs b nfw vifw tibt rfprfsfnts bn IMG flfmfnt.
      *
-     * @param elem the element to create a view for
+     * @pbrbm flfm tif flfmfnt to drfbtf b vifw for
      */
-    public ImageView(Element elem) {
-        super(elem);
-        fBounds = new Rectangle();
-        imageObserver = new ImageHandler();
-        state = RELOAD_FLAG | RELOAD_IMAGE_FLAG;
+    publid ImbgfVifw(Elfmfnt flfm) {
+        supfr(flfm);
+        fBounds = nfw Rfdtbnglf();
+        imbgfObsfrvfr = nfw ImbgfHbndlfr();
+        stbtf = RELOAD_FLAG | RELOAD_IMAGE_FLAG;
     }
 
     /**
-     * Returns the text to display if the image cannot be loaded. This is
-     * obtained from the Elements attribute set with the attribute name
-     * <code>HTML.Attribute.ALT</code>.
+     * Rfturns tif tfxt to displby if tif imbgf dbnnot bf lobdfd. Tiis is
+     * obtbinfd from tif Elfmfnts bttributf sft witi tif bttributf nbmf
+     * <dodf>HTML.Attributf.ALT</dodf>.
      *
-     * @return the test to display if the image cannot be loaded.
+     * @rfturn tif tfst to displby if tif imbgf dbnnot bf lobdfd.
      */
-    public String getAltText() {
-        return (String)getElement().getAttributes().getAttribute
-            (HTML.Attribute.ALT);
+    publid String gftAltTfxt() {
+        rfturn (String)gftElfmfnt().gftAttributfs().gftAttributf
+            (HTML.Attributf.ALT);
     }
 
     /**
-     * Return a URL for the image source,
-     * or null if it could not be determined.
+     * Rfturn b URL for tif imbgf sourdf,
+     * or null if it dould not bf dftfrminfd.
      *
-     * @return the URL for the image source, or null if it could not be determined.
+     * @rfturn tif URL for tif imbgf sourdf, or null if it dould not bf dftfrminfd.
      */
-    public URL getImageURL() {
-        String src = (String)getElement().getAttributes().
-                             getAttribute(HTML.Attribute.SRC);
-        if (src == null) {
-            return null;
+    publid URL gftImbgfURL() {
+        String srd = (String)gftElfmfnt().gftAttributfs().
+                             gftAttributf(HTML.Attributf.SRC);
+        if (srd == null) {
+            rfturn null;
         }
 
-        URL reference = ((HTMLDocument)getDocument()).getBase();
+        URL rfffrfndf = ((HTMLDodumfnt)gftDodumfnt()).gftBbsf();
         try {
-            URL u = new URL(reference,src);
-            return u;
-        } catch (MalformedURLException e) {
-            return null;
+            URL u = nfw URL(rfffrfndf,srd);
+            rfturn u;
+        } dbtdi (MblformfdURLExdfption f) {
+            rfturn null;
         }
     }
 
     /**
-     * Returns the icon to use if the image could not be found.
+     * Rfturns tif idon to usf if tif imbgf dould not bf found.
      *
-     * @return the icon to use if the image could not be found.
+     * @rfturn tif idon to usf if tif imbgf dould not bf found.
      */
-    public Icon getNoImageIcon() {
-        return (Icon) UIManager.getLookAndFeelDefaults().get(MISSING_IMAGE);
+    publid Idon gftNoImbgfIdon() {
+        rfturn (Idon) UIMbnbgfr.gftLookAndFfflDffbults().gft(MISSING_IMAGE);
     }
 
     /**
-     * Returns the icon to use while in the process of loading the image.
+     * Rfturns tif idon to usf wiilf in tif prodfss of lobding tif imbgf.
      *
-     * @return the icon to use while in the process of loading the image.
+     * @rfturn tif idon to usf wiilf in tif prodfss of lobding tif imbgf.
      */
-    public Icon getLoadingImageIcon() {
-        return (Icon) UIManager.getLookAndFeelDefaults().get(PENDING_IMAGE);
+    publid Idon gftLobdingImbgfIdon() {
+        rfturn (Idon) UIMbnbgfr.gftLookAndFfflDffbults().gft(PENDING_IMAGE);
     }
 
     /**
-     * Returns the image to render.
+     * Rfturns tif imbgf to rfndfr.
      *
-     * @return the image to render.
+     * @rfturn tif imbgf to rfndfr.
      */
-    public Image getImage() {
-        sync();
-        return image;
+    publid Imbgf gftImbgf() {
+        synd();
+        rfturn imbgf;
     }
 
-    private Image getImage(boolean enabled) {
-        Image img = getImage();
-        if (! enabled) {
-            if (disabledImage == null) {
-                disabledImage = GrayFilter.createDisabledImage(img);
+    privbtf Imbgf gftImbgf(boolfbn fnbblfd) {
+        Imbgf img = gftImbgf();
+        if (! fnbblfd) {
+            if (disbblfdImbgf == null) {
+                disbblfdImbgf = GrbyFiltfr.drfbtfDisbblfdImbgf(img);
             }
-            img = disabledImage;
+            img = disbblfdImbgf;
         }
-        return img;
+        rfturn img;
     }
 
     /**
-     * Sets how the image is loaded. If <code>newValue</code> is true,
-     * the image will be loaded when first asked for, otherwise it will
-     * be loaded asynchronously. The default is to not load synchronously,
-     * that is to load the image asynchronously.
+     * Sfts iow tif imbgf is lobdfd. If <dodf>nfwVbluf</dodf> is truf,
+     * tif imbgf will bf lobdfd wifn first bskfd for, otifrwisf it will
+     * bf lobdfd bsyndironously. Tif dffbult is to not lobd syndironously,
+     * tibt is to lobd tif imbgf bsyndironously.
      *
-     * @param newValue if {@code true} the image will be loaded when first asked for,
-     *                 otherwise it will be asynchronously.
+     * @pbrbm nfwVbluf if {@dodf truf} tif imbgf will bf lobdfd wifn first bskfd for,
+     *                 otifrwisf it will bf bsyndironously.
      */
-    public void setLoadsSynchronously(boolean newValue) {
-        synchronized(this) {
-            if (newValue) {
-                state |= SYNC_LOAD_FLAG;
+    publid void sftLobdsSyndironously(boolfbn nfwVbluf) {
+        syndironizfd(tiis) {
+            if (nfwVbluf) {
+                stbtf |= SYNC_LOAD_FLAG;
             }
-            else {
-                state = (state | SYNC_LOAD_FLAG) ^ SYNC_LOAD_FLAG;
+            flsf {
+                stbtf = (stbtf | SYNC_LOAD_FLAG) ^ SYNC_LOAD_FLAG;
             }
         }
     }
 
     /**
-     * Returns {@code true} if the image should be loaded when first asked for.
+     * Rfturns {@dodf truf} if tif imbgf siould bf lobdfd wifn first bskfd for.
      *
-     * @return {@code true} if the image should be loaded when first asked for.
+     * @rfturn {@dodf truf} if tif imbgf siould bf lobdfd wifn first bskfd for.
      */
-    public boolean getLoadsSynchronously() {
-        return ((state & SYNC_LOAD_FLAG) != 0);
+    publid boolfbn gftLobdsSyndironously() {
+        rfturn ((stbtf & SYNC_LOAD_FLAG) != 0);
     }
 
     /**
-     * Convenient method to get the StyleSheet.
+     * Convfnifnt mftiod to gft tif StylfSifft.
      *
-     * @return the StyleSheet
+     * @rfturn tif StylfSifft
      */
-    protected StyleSheet getStyleSheet() {
-        HTMLDocument doc = (HTMLDocument) getDocument();
-        return doc.getStyleSheet();
+    protfdtfd StylfSifft gftStylfSifft() {
+        HTMLDodumfnt dod = (HTMLDodumfnt) gftDodumfnt();
+        rfturn dod.gftStylfSifft();
     }
 
     /**
-     * Fetches the attributes to use when rendering.  This is
-     * implemented to multiplex the attributes specified in the
-     * model with a StyleSheet.
+     * Fftdifs tif bttributfs to usf wifn rfndfring.  Tiis is
+     * implfmfntfd to multiplfx tif bttributfs spfdififd in tif
+     * modfl witi b StylfSifft.
      */
-    public AttributeSet getAttributes() {
-        sync();
-        return attr;
+    publid AttributfSft gftAttributfs() {
+        synd();
+        rfturn bttr;
     }
 
     /**
-     * For images the tooltip text comes from text specified with the
-     * <code>ALT</code> attribute. This is overriden to return
-     * <code>getAltText</code>.
+     * For imbgfs tif tooltip tfxt domfs from tfxt spfdififd witi tif
+     * <dodf>ALT</dodf> bttributf. Tiis is ovfrridfn to rfturn
+     * <dodf>gftAltTfxt</dodf>.
      *
-     * @see JTextComponent#getToolTipText
+     * @sff JTfxtComponfnt#gftToolTipTfxt
      */
-    public String getToolTipText(float x, float y, Shape allocation) {
-        return getAltText();
+    publid String gftToolTipTfxt(flobt x, flobt y, Sibpf bllodbtion) {
+        rfturn gftAltTfxt();
     }
 
     /**
-     * Update any cached values that come from attributes.
+     * Updbtf bny dbdifd vblufs tibt domf from bttributfs.
      */
-    protected void setPropertiesFromAttributes() {
-        StyleSheet sheet = getStyleSheet();
-        this.attr = sheet.getViewAttributes(this);
+    protfdtfd void sftPropfrtifsFromAttributfs() {
+        StylfSifft sifft = gftStylfSifft();
+        tiis.bttr = sifft.gftVifwAttributfs(tiis);
 
-        // Gutters
-        borderSize = (short)getIntAttr(HTML.Attribute.BORDER, isLink() ?
+        // Guttfrs
+        bordfrSizf = (siort)gftIntAttr(HTML.Attributf.BORDER, isLink() ?
                                        DEFAULT_BORDER : 0);
 
-        leftInset = rightInset = (short)(getIntAttr(HTML.Attribute.HSPACE,
-                                                    0) + borderSize);
-        topInset = bottomInset = (short)(getIntAttr(HTML.Attribute.VSPACE,
-                                                    0) + borderSize);
+        lfftInsft = rigitInsft = (siort)(gftIntAttr(HTML.Attributf.HSPACE,
+                                                    0) + bordfrSizf);
+        topInsft = bottomInsft = (siort)(gftIntAttr(HTML.Attributf.VSPACE,
+                                                    0) + bordfrSizf);
 
-        borderColor = ((StyledDocument)getDocument()).getForeground
-                      (getAttributes());
+        bordfrColor = ((StylfdDodumfnt)gftDodumfnt()).gftForfground
+                      (gftAttributfs());
 
-        AttributeSet attr = getElement().getAttributes();
+        AttributfSft bttr = gftElfmfnt().gftAttributfs();
 
-        // Alignment.
-        // PENDING: This needs to be changed to support the CSS versions
-        // when conversion from ALIGN to VERTICAL_ALIGN is complete.
-        Object alignment = attr.getAttribute(HTML.Attribute.ALIGN);
+        // Alignmfnt.
+        // PENDING: Tiis nffds to bf dibngfd to support tif CSS vfrsions
+        // wifn donvfrsion from ALIGN to VERTICAL_ALIGN is domplftf.
+        Objfdt blignmfnt = bttr.gftAttributf(HTML.Attributf.ALIGN);
 
         vAlign = 1.0f;
-        if (alignment != null) {
-            alignment = alignment.toString();
-            if ("top".equals(alignment)) {
+        if (blignmfnt != null) {
+            blignmfnt = blignmfnt.toString();
+            if ("top".fqubls(blignmfnt)) {
                 vAlign = 0f;
             }
-            else if ("middle".equals(alignment)) {
+            flsf if ("middlf".fqubls(blignmfnt)) {
                 vAlign = .5f;
             }
         }
 
-        AttributeSet anchorAttr = (AttributeSet)attr.getAttribute(HTML.Tag.A);
-        if (anchorAttr != null && anchorAttr.isDefined
-            (HTML.Attribute.HREF)) {
-            synchronized(this) {
-                state |= LINK_FLAG;
+        AttributfSft bndiorAttr = (AttributfSft)bttr.gftAttributf(HTML.Tbg.A);
+        if (bndiorAttr != null && bndiorAttr.isDffinfd
+            (HTML.Attributf.HREF)) {
+            syndironizfd(tiis) {
+                stbtf |= LINK_FLAG;
             }
         }
-        else {
-            synchronized(this) {
-                state = (state | LINK_FLAG) ^ LINK_FLAG;
+        flsf {
+            syndironizfd(tiis) {
+                stbtf = (stbtf | LINK_FLAG) ^ LINK_FLAG;
             }
         }
     }
 
     /**
-     * Establishes the parent view for this view.
-     * Seize this moment to cache the AWT Container I'm in.
+     * Estbblisifs tif pbrfnt vifw for tiis vifw.
+     * Sfizf tiis momfnt to dbdif tif AWT Contbinfr I'm in.
      */
-    public void setParent(View parent) {
-        View oldParent = getParent();
-        super.setParent(parent);
-        container = (parent != null) ? getContainer() : null;
-        if (oldParent != parent) {
-            synchronized(this) {
-                state |= RELOAD_FLAG;
+    publid void sftPbrfnt(Vifw pbrfnt) {
+        Vifw oldPbrfnt = gftPbrfnt();
+        supfr.sftPbrfnt(pbrfnt);
+        dontbinfr = (pbrfnt != null) ? gftContbinfr() : null;
+        if (oldPbrfnt != pbrfnt) {
+            syndironizfd(tiis) {
+                stbtf |= RELOAD_FLAG;
             }
         }
     }
 
     /**
-     * Invoked when the Elements attributes have changed. Recreates the image.
+     * Invokfd wifn tif Elfmfnts bttributfs ibvf dibngfd. Rfdrfbtfs tif imbgf.
      */
-    public void changedUpdate(DocumentEvent e, Shape a, ViewFactory f) {
-        super.changedUpdate(e,a,f);
+    publid void dibngfdUpdbtf(DodumfntEvfnt f, Sibpf b, VifwFbdtory f) {
+        supfr.dibngfdUpdbtf(f,b,f);
 
-        synchronized(this) {
-            state |= RELOAD_FLAG | RELOAD_IMAGE_FLAG;
+        syndironizfd(tiis) {
+            stbtf |= RELOAD_FLAG | RELOAD_IMAGE_FLAG;
         }
 
-        // Assume the worst.
-        preferenceChanged(null, true, true);
+        // Assumf tif worst.
+        prfffrfndfCibngfd(null, truf, truf);
     }
 
     /**
-     * Paints the View.
+     * Pbints tif Vifw.
      *
-     * @param g the rendering surface to use
-     * @param a the allocated region to render into
-     * @see View#paint
+     * @pbrbm g tif rfndfring surfbdf to usf
+     * @pbrbm b tif bllodbtfd rfgion to rfndfr into
+     * @sff Vifw#pbint
      */
-    public void paint(Graphics g, Shape a) {
-        sync();
+    publid void pbint(Grbpiids g, Sibpf b) {
+        synd();
 
-        Rectangle rect = (a instanceof Rectangle) ? (Rectangle)a :
-                         a.getBounds();
-        Rectangle clip = g.getClipBounds();
+        Rfdtbnglf rfdt = (b instbndfof Rfdtbnglf) ? (Rfdtbnglf)b :
+                         b.gftBounds();
+        Rfdtbnglf dlip = g.gftClipBounds();
 
-        fBounds.setBounds(rect);
-        paintHighlights(g, a);
-        paintBorder(g, rect);
-        if (clip != null) {
-            g.clipRect(rect.x + leftInset, rect.y + topInset,
-                       rect.width - leftInset - rightInset,
-                       rect.height - topInset - bottomInset);
+        fBounds.sftBounds(rfdt);
+        pbintHigiligits(g, b);
+        pbintBordfr(g, rfdt);
+        if (dlip != null) {
+            g.dlipRfdt(rfdt.x + lfftInsft, rfdt.y + topInsft,
+                       rfdt.widti - lfftInsft - rigitInsft,
+                       rfdt.ifigit - topInsft - bottomInsft);
         }
 
-        Container host = getContainer();
-        Image img = getImage(host == null || host.isEnabled());
+        Contbinfr iost = gftContbinfr();
+        Imbgf img = gftImbgf(iost == null || iost.isEnbblfd());
         if (img != null) {
-            if (! hasPixels(img)) {
-                // No pixels yet, use the default
-                Icon icon = getLoadingImageIcon();
-                if (icon != null) {
-                    icon.paintIcon(host, g,
-                            rect.x + leftInset, rect.y + topInset);
+            if (! ibsPixfls(img)) {
+                // No pixfls yft, usf tif dffbult
+                Idon idon = gftLobdingImbgfIdon();
+                if (idon != null) {
+                    idon.pbintIdon(iost, g,
+                            rfdt.x + lfftInsft, rfdt.y + topInsft);
                 }
             }
-            else {
-                // Draw the image
-                g.drawImage(img, rect.x + leftInset, rect.y + topInset,
-                            width, height, imageObserver);
+            flsf {
+                // Drbw tif imbgf
+                g.drbwImbgf(img, rfdt.x + lfftInsft, rfdt.y + topInsft,
+                            widti, ifigit, imbgfObsfrvfr);
             }
         }
-        else {
-            Icon icon = getNoImageIcon();
-            if (icon != null) {
-                icon.paintIcon(host, g,
-                        rect.x + leftInset, rect.y + topInset);
+        flsf {
+            Idon idon = gftNoImbgfIdon();
+            if (idon != null) {
+                idon.pbintIdon(iost, g,
+                        rfdt.x + lfftInsft, rfdt.y + topInsft);
             }
-            View view = getAltView();
-            // Paint the view representing the alt text, if its non-null
-            if (view != null && ((state & WIDTH_FLAG) == 0 ||
-                                 width > DEFAULT_WIDTH)) {
-                // Assume layout along the y direction
-                Rectangle altRect = new Rectangle
-                    (rect.x + leftInset + DEFAULT_WIDTH, rect.y + topInset,
-                     rect.width - leftInset - rightInset - DEFAULT_WIDTH,
-                     rect.height - topInset - bottomInset);
+            Vifw vifw = gftAltVifw();
+            // Pbint tif vifw rfprfsfnting tif blt tfxt, if its non-null
+            if (vifw != null && ((stbtf & WIDTH_FLAG) == 0 ||
+                                 widti > DEFAULT_WIDTH)) {
+                // Assumf lbyout blong tif y dirfdtion
+                Rfdtbnglf bltRfdt = nfw Rfdtbnglf
+                    (rfdt.x + lfftInsft + DEFAULT_WIDTH, rfdt.y + topInsft,
+                     rfdt.widti - lfftInsft - rigitInsft - DEFAULT_WIDTH,
+                     rfdt.ifigit - topInsft - bottomInsft);
 
-                view.paint(g, altRect);
+                vifw.pbint(g, bltRfdt);
             }
         }
-        if (clip != null) {
-            // Reset clip.
-            g.setClip(clip.x, clip.y, clip.width, clip.height);
-        }
-    }
-
-    private void paintHighlights(Graphics g, Shape shape) {
-        if (container instanceof JTextComponent) {
-            JTextComponent tc = (JTextComponent)container;
-            Highlighter h = tc.getHighlighter();
-            if (h instanceof LayeredHighlighter) {
-                ((LayeredHighlighter)h).paintLayeredHighlights
-                    (g, getStartOffset(), getEndOffset(), shape, tc, this);
-            }
+        if (dlip != null) {
+            // Rfsft dlip.
+            g.sftClip(dlip.x, dlip.y, dlip.widti, dlip.ifigit);
         }
     }
 
-    private void paintBorder(Graphics g, Rectangle rect) {
-        Color color = borderColor;
-
-        if ((borderSize > 0 || image == null) && color != null) {
-            int xOffset = leftInset - borderSize;
-            int yOffset = topInset - borderSize;
-            g.setColor(color);
-            int n = (image == null) ? 1 : borderSize;
-            for (int counter = 0; counter < n; counter++) {
-                g.drawRect(rect.x + xOffset + counter,
-                           rect.y + yOffset + counter,
-                           rect.width - counter - counter - xOffset -xOffset-1,
-                           rect.height - counter - counter -yOffset-yOffset-1);
+    privbtf void pbintHigiligits(Grbpiids g, Sibpf sibpf) {
+        if (dontbinfr instbndfof JTfxtComponfnt) {
+            JTfxtComponfnt td = (JTfxtComponfnt)dontbinfr;
+            Higiligitfr i = td.gftHigiligitfr();
+            if (i instbndfof LbyfrfdHigiligitfr) {
+                ((LbyfrfdHigiligitfr)i).pbintLbyfrfdHigiligits
+                    (g, gftStbrtOffsft(), gftEndOffsft(), sibpf, td, tiis);
             }
         }
     }
 
-    /**
-     * Determines the preferred span for this view along an
-     * axis.
-     *
-     * @param axis may be either X_AXIS or Y_AXIS
-     * @return   the span the view would like to be rendered into;
-     *           typically the view is told to render into the span
-     *           that is returned, although there is no guarantee;
-     *           the parent may choose to resize or break the view
-     */
-    public float getPreferredSpan(int axis) {
-        sync();
+    privbtf void pbintBordfr(Grbpiids g, Rfdtbnglf rfdt) {
+        Color dolor = bordfrColor;
 
-        // If the attributes specified a width/height, always use it!
-        if (axis == View.X_AXIS && (state & WIDTH_FLAG) == WIDTH_FLAG) {
-            getPreferredSpanFromAltView(axis);
-            return width + leftInset + rightInset;
-        }
-        if (axis == View.Y_AXIS && (state & HEIGHT_FLAG) == HEIGHT_FLAG) {
-            getPreferredSpanFromAltView(axis);
-            return height + topInset + bottomInset;
-        }
-
-        Image image = getImage();
-
-        if (image != null) {
-            switch (axis) {
-            case View.X_AXIS:
-                return width + leftInset + rightInset;
-            case View.Y_AXIS:
-                return height + topInset + bottomInset;
-            default:
-                throw new IllegalArgumentException("Invalid axis: " + axis);
-            }
-        }
-        else {
-            View view = getAltView();
-            float retValue = 0f;
-
-            if (view != null) {
-                retValue = view.getPreferredSpan(axis);
-            }
-            switch (axis) {
-            case View.X_AXIS:
-                return retValue + (float)(width + leftInset + rightInset);
-            case View.Y_AXIS:
-                return retValue + (float)(height + topInset + bottomInset);
-            default:
-                throw new IllegalArgumentException("Invalid axis: " + axis);
+        if ((bordfrSizf > 0 || imbgf == null) && dolor != null) {
+            int xOffsft = lfftInsft - bordfrSizf;
+            int yOffsft = topInsft - bordfrSizf;
+            g.sftColor(dolor);
+            int n = (imbgf == null) ? 1 : bordfrSizf;
+            for (int dountfr = 0; dountfr < n; dountfr++) {
+                g.drbwRfdt(rfdt.x + xOffsft + dountfr,
+                           rfdt.y + yOffsft + dountfr,
+                           rfdt.widti - dountfr - dountfr - xOffsft -xOffsft-1,
+                           rfdt.ifigit - dountfr - dountfr -yOffsft-yOffsft-1);
             }
         }
     }
 
     /**
-     * Determines the desired alignment for this view along an
-     * axis.  This is implemented to give the alignment to the
-     * bottom of the icon along the y axis, and the default
-     * along the x axis.
+     * Dftfrminfs tif prfffrrfd spbn for tiis vifw blong bn
+     * bxis.
      *
-     * @param axis may be either X_AXIS or Y_AXIS
-     * @return the desired alignment; this should be a value
-     *   between 0.0 and 1.0 where 0 indicates alignment at the
-     *   origin and 1.0 indicates alignment to the full span
-     *   away from the origin; an alignment of 0.5 would be the
-     *   center of the view
+     * @pbrbm bxis mby bf fitifr X_AXIS or Y_AXIS
+     * @rfturn   tif spbn tif vifw would likf to bf rfndfrfd into;
+     *           typidblly tif vifw is told to rfndfr into tif spbn
+     *           tibt is rfturnfd, bltiougi tifrf is no gubrbntff;
+     *           tif pbrfnt mby dioosf to rfsizf or brfbk tif vifw
      */
-    public float getAlignment(int axis) {
-        switch (axis) {
-        case View.Y_AXIS:
-            return vAlign;
-        default:
-            return super.getAlignment(axis);
+    publid flobt gftPrfffrrfdSpbn(int bxis) {
+        synd();
+
+        // If tif bttributfs spfdififd b widti/ifigit, blwbys usf it!
+        if (bxis == Vifw.X_AXIS && (stbtf & WIDTH_FLAG) == WIDTH_FLAG) {
+            gftPrfffrrfdSpbnFromAltVifw(bxis);
+            rfturn widti + lfftInsft + rigitInsft;
+        }
+        if (bxis == Vifw.Y_AXIS && (stbtf & HEIGHT_FLAG) == HEIGHT_FLAG) {
+            gftPrfffrrfdSpbnFromAltVifw(bxis);
+            rfturn ifigit + topInsft + bottomInsft;
+        }
+
+        Imbgf imbgf = gftImbgf();
+
+        if (imbgf != null) {
+            switdi (bxis) {
+            dbsf Vifw.X_AXIS:
+                rfturn widti + lfftInsft + rigitInsft;
+            dbsf Vifw.Y_AXIS:
+                rfturn ifigit + topInsft + bottomInsft;
+            dffbult:
+                tirow nfw IllfgblArgumfntExdfption("Invblid bxis: " + bxis);
+            }
+        }
+        flsf {
+            Vifw vifw = gftAltVifw();
+            flobt rftVbluf = 0f;
+
+            if (vifw != null) {
+                rftVbluf = vifw.gftPrfffrrfdSpbn(bxis);
+            }
+            switdi (bxis) {
+            dbsf Vifw.X_AXIS:
+                rfturn rftVbluf + (flobt)(widti + lfftInsft + rigitInsft);
+            dbsf Vifw.Y_AXIS:
+                rfturn rftVbluf + (flobt)(ifigit + topInsft + bottomInsft);
+            dffbult:
+                tirow nfw IllfgblArgumfntExdfption("Invblid bxis: " + bxis);
+            }
         }
     }
 
     /**
-     * Provides a mapping from the document model coordinate space
-     * to the coordinate space of the view mapped to it.
+     * Dftfrminfs tif dfsirfd blignmfnt for tiis vifw blong bn
+     * bxis.  Tiis is implfmfntfd to givf tif blignmfnt to tif
+     * bottom of tif idon blong tif y bxis, bnd tif dffbult
+     * blong tif x bxis.
      *
-     * @param pos the position to convert
-     * @param a the allocated region to render into
-     * @return the bounding box of the given position
-     * @exception BadLocationException  if the given position does not represent a
-     *   valid location in the associated document
-     * @see View#modelToView
+     * @pbrbm bxis mby bf fitifr X_AXIS or Y_AXIS
+     * @rfturn tif dfsirfd blignmfnt; tiis siould bf b vbluf
+     *   bftwffn 0.0 bnd 1.0 wifrf 0 indidbtfs blignmfnt bt tif
+     *   origin bnd 1.0 indidbtfs blignmfnt to tif full spbn
+     *   bwby from tif origin; bn blignmfnt of 0.5 would bf tif
+     *   dfntfr of tif vifw
      */
-    public Shape modelToView(int pos, Shape a, Position.Bias b) throws BadLocationException {
-        int p0 = getStartOffset();
-        int p1 = getEndOffset();
+    publid flobt gftAlignmfnt(int bxis) {
+        switdi (bxis) {
+        dbsf Vifw.Y_AXIS:
+            rfturn vAlign;
+        dffbult:
+            rfturn supfr.gftAlignmfnt(bxis);
+        }
+    }
+
+    /**
+     * Providfs b mbpping from tif dodumfnt modfl doordinbtf spbdf
+     * to tif doordinbtf spbdf of tif vifw mbppfd to it.
+     *
+     * @pbrbm pos tif position to donvfrt
+     * @pbrbm b tif bllodbtfd rfgion to rfndfr into
+     * @rfturn tif bounding box of tif givfn position
+     * @fxdfption BbdLodbtionExdfption  if tif givfn position dofs not rfprfsfnt b
+     *   vblid lodbtion in tif bssodibtfd dodumfnt
+     * @sff Vifw#modflToVifw
+     */
+    publid Sibpf modflToVifw(int pos, Sibpf b, Position.Bibs b) tirows BbdLodbtionExdfption {
+        int p0 = gftStbrtOffsft();
+        int p1 = gftEndOffsft();
         if ((pos >= p0) && (pos <= p1)) {
-            Rectangle r = a.getBounds();
+            Rfdtbnglf r = b.gftBounds();
             if (pos == p1) {
-                r.x += r.width;
+                r.x += r.widti;
             }
-            r.width = 0;
-            return r;
+            r.widti = 0;
+            rfturn r;
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Provides a mapping from the view coordinate space to the logical
-     * coordinate space of the model.
+     * Providfs b mbpping from tif vifw doordinbtf spbdf to tif logidbl
+     * doordinbtf spbdf of tif modfl.
      *
-     * @param x the X coordinate
-     * @param y the Y coordinate
-     * @param a the allocated region to render into
-     * @return the location within the model that best represents the
-     *  given point of view
-     * @see View#viewToModel
+     * @pbrbm x tif X doordinbtf
+     * @pbrbm y tif Y doordinbtf
+     * @pbrbm b tif bllodbtfd rfgion to rfndfr into
+     * @rfturn tif lodbtion witiin tif modfl tibt bfst rfprfsfnts tif
+     *  givfn point of vifw
+     * @sff Vifw#vifwToModfl
      */
-    public int viewToModel(float x, float y, Shape a, Position.Bias[] bias) {
-        Rectangle alloc = (Rectangle) a;
-        if (x < alloc.x + alloc.width) {
-            bias[0] = Position.Bias.Forward;
-            return getStartOffset();
+    publid int vifwToModfl(flobt x, flobt y, Sibpf b, Position.Bibs[] bibs) {
+        Rfdtbnglf bllod = (Rfdtbnglf) b;
+        if (x < bllod.x + bllod.widti) {
+            bibs[0] = Position.Bibs.Forwbrd;
+            rfturn gftStbrtOffsft();
         }
-        bias[0] = Position.Bias.Backward;
-        return getEndOffset();
+        bibs[0] = Position.Bibs.Bbdkwbrd;
+        rfturn gftEndOffsft();
     }
 
     /**
-     * Sets the size of the view.  This should cause
-     * layout of the view if it has any layout duties.
+     * Sfts tif sizf of tif vifw.  Tiis siould dbusf
+     * lbyout of tif vifw if it ibs bny lbyout dutifs.
      *
-     * @param width the width &gt;= 0
-     * @param height the height &gt;= 0
+     * @pbrbm widti tif widti &gt;= 0
+     * @pbrbm ifigit tif ifigit &gt;= 0
      */
-    public void setSize(float width, float height) {
-        sync();
+    publid void sftSizf(flobt widti, flobt ifigit) {
+        synd();
 
-        if (getImage() == null) {
-            View view = getAltView();
+        if (gftImbgf() == null) {
+            Vifw vifw = gftAltVifw();
 
-            if (view != null) {
-                view.setSize(Math.max(0f, width - (float)(DEFAULT_WIDTH + leftInset + rightInset)),
-                             Math.max(0f, height - (float)(topInset + bottomInset)));
+            if (vifw != null) {
+                vifw.sftSizf(Mbti.mbx(0f, widti - (flobt)(DEFAULT_WIDTH + lfftInsft + rigitInsft)),
+                             Mbti.mbx(0f, ifigit - (flobt)(topInsft + bottomInsft)));
             }
         }
     }
 
     /**
-     * Returns true if this image within a link?
+     * Rfturns truf if tiis imbgf witiin b link?
      */
-    private boolean isLink() {
-        return ((state & LINK_FLAG) == LINK_FLAG);
+    privbtf boolfbn isLink() {
+        rfturn ((stbtf & LINK_FLAG) == LINK_FLAG);
     }
 
     /**
-     * Returns true if the passed in image has a non-zero width and height.
+     * Rfturns truf if tif pbssfd in imbgf ibs b non-zfro widti bnd ifigit.
      */
-    private boolean hasPixels(Image image) {
-        return image != null &&
-            (image.getHeight(imageObserver) > 0) &&
-            (image.getWidth(imageObserver) > 0);
+    privbtf boolfbn ibsPixfls(Imbgf imbgf) {
+        rfturn imbgf != null &&
+            (imbgf.gftHfigit(imbgfObsfrvfr) > 0) &&
+            (imbgf.gftWidti(imbgfObsfrvfr) > 0);
     }
 
     /**
-     * Returns the preferred span of the View used to display the alt text,
-     * or 0 if the view does not exist.
+     * Rfturns tif prfffrrfd spbn of tif Vifw usfd to displby tif blt tfxt,
+     * or 0 if tif vifw dofs not fxist.
      */
-    private float getPreferredSpanFromAltView(int axis) {
-        if (getImage() == null) {
-            View view = getAltView();
+    privbtf flobt gftPrfffrrfdSpbnFromAltVifw(int bxis) {
+        if (gftImbgf() == null) {
+            Vifw vifw = gftAltVifw();
 
-            if (view != null) {
-                return view.getPreferredSpan(axis);
+            if (vifw != null) {
+                rfturn vifw.gftPrfffrrfdSpbn(bxis);
             }
         }
-        return 0f;
+        rfturn 0f;
     }
 
     /**
-     * Request that this view be repainted.
-     * Assumes the view is still at its last-drawn location.
+     * Rfqufst tibt tiis vifw bf rfpbintfd.
+     * Assumfs tif vifw is still bt its lbst-drbwn lodbtion.
      */
-    private void repaint(long delay) {
-        if (container != null && fBounds != null) {
-            container.repaint(delay, fBounds.x, fBounds.y, fBounds.width,
-                               fBounds.height);
+    privbtf void rfpbint(long dflby) {
+        if (dontbinfr != null && fBounds != null) {
+            dontbinfr.rfpbint(dflby, fBounds.x, fBounds.y, fBounds.widti,
+                               fBounds.ifigit);
         }
     }
 
     /**
-     * Convenient method for getting an integer attribute from the elements
-     * AttributeSet.
+     * Convfnifnt mftiod for gftting bn intfgfr bttributf from tif flfmfnts
+     * AttributfSft.
      */
-    private int getIntAttr(HTML.Attribute name, int deflt) {
-        AttributeSet attr = getElement().getAttributes();
-        if (attr.isDefined(name)) {             // does not check parents!
+    privbtf int gftIntAttr(HTML.Attributf nbmf, int dfflt) {
+        AttributfSft bttr = gftElfmfnt().gftAttributfs();
+        if (bttr.isDffinfd(nbmf)) {             // dofs not difdk pbrfnts!
             int i;
-            String val = (String)attr.getAttribute(name);
-            if (val == null) {
-                i = deflt;
+            String vbl = (String)bttr.gftAttributf(nbmf);
+            if (vbl == null) {
+                i = dfflt;
             }
-            else {
+            flsf {
                 try{
-                    i = Math.max(0, Integer.parseInt(val));
-                }catch( NumberFormatException x ) {
-                    i = deflt;
+                    i = Mbti.mbx(0, Intfgfr.pbrsfInt(vbl));
+                }dbtdi( NumbfrFormbtExdfption x ) {
+                    i = dfflt;
                 }
             }
-            return i;
-        } else
-            return deflt;
+            rfturn i;
+        } flsf
+            rfturn dfflt;
     }
 
     /**
-     * Makes sure the necessary properties and image is loaded.
+     * Mbkfs surf tif nfdfssbry propfrtifs bnd imbgf is lobdfd.
      */
-    private void sync() {
-        int s = state;
+    privbtf void synd() {
+        int s = stbtf;
         if ((s & RELOAD_IMAGE_FLAG) != 0) {
-            refreshImage();
+            rffrfsiImbgf();
         }
-        s = state;
+        s = stbtf;
         if ((s & RELOAD_FLAG) != 0) {
-            synchronized(this) {
-                state = (state | RELOAD_FLAG) ^ RELOAD_FLAG;
+            syndironizfd(tiis) {
+                stbtf = (stbtf | RELOAD_FLAG) ^ RELOAD_FLAG;
             }
-            setPropertiesFromAttributes();
+            sftPropfrtifsFromAttributfs();
         }
     }
 
     /**
-     * Loads the image and updates the size accordingly. This should be
-     * invoked instead of invoking <code>loadImage</code> or
-     * <code>updateImageSize</code> directly.
+     * Lobds tif imbgf bnd updbtfs tif sizf bddordingly. Tiis siould bf
+     * invokfd instfbd of invoking <dodf>lobdImbgf</dodf> or
+     * <dodf>updbtfImbgfSizf</dodf> dirfdtly.
      */
-    private void refreshImage() {
-        synchronized(this) {
-            // clear out width/height/realoadimage flag and set loading flag
-            state = (state | LOADING_FLAG | RELOAD_IMAGE_FLAG | WIDTH_FLAG |
+    privbtf void rffrfsiImbgf() {
+        syndironizfd(tiis) {
+            // dlfbr out widti/ifigit/rfblobdimbgf flbg bnd sft lobding flbg
+            stbtf = (stbtf | LOADING_FLAG | RELOAD_IMAGE_FLAG | WIDTH_FLAG |
                      HEIGHT_FLAG) ^ (WIDTH_FLAG | HEIGHT_FLAG |
                                      RELOAD_IMAGE_FLAG);
-            image = null;
-            width = height = 0;
+            imbgf = null;
+            widti = ifigit = 0;
         }
 
         try {
-            // Load the image
-            loadImage();
+            // Lobd tif imbgf
+            lobdImbgf();
 
-            // And update the size params
-            updateImageSize();
+            // And updbtf tif sizf pbrbms
+            updbtfImbgfSizf();
         }
-        finally {
-            synchronized(this) {
-                // Clear out state in case someone threw an exception.
-                state = (state | LOADING_FLAG) ^ LOADING_FLAG;
+        finblly {
+            syndironizfd(tiis) {
+                // Clfbr out stbtf in dbsf somfonf tirfw bn fxdfption.
+                stbtf = (stbtf | LOADING_FLAG) ^ LOADING_FLAG;
             }
         }
     }
 
     /**
-     * Loads the image from the URL <code>getImageURL</code>. This should
-     * only be invoked from <code>refreshImage</code>.
+     * Lobds tif imbgf from tif URL <dodf>gftImbgfURL</dodf>. Tiis siould
+     * only bf invokfd from <dodf>rffrfsiImbgf</dodf>.
      */
-    private void loadImage() {
-        URL src = getImageURL();
-        Image newImage = null;
-        if (src != null) {
-            @SuppressWarnings("unchecked")
-            Dictionary<URL, Image> cache = (Dictionary)getDocument().
-                getProperty(IMAGE_CACHE_PROPERTY);
-            if (cache != null) {
-                newImage = cache.get(src);
+    privbtf void lobdImbgf() {
+        URL srd = gftImbgfURL();
+        Imbgf nfwImbgf = null;
+        if (srd != null) {
+            @SupprfssWbrnings("undifdkfd")
+            Didtionbry<URL, Imbgf> dbdif = (Didtionbry)gftDodumfnt().
+                gftPropfrty(IMAGE_CACHE_PROPERTY);
+            if (dbdif != null) {
+                nfwImbgf = dbdif.gft(srd);
             }
-            else {
-                newImage = Toolkit.getDefaultToolkit().createImage(src);
-                if (newImage != null && getLoadsSynchronously()) {
-                    // Force the image to be loaded by using an ImageIcon.
-                    ImageIcon ii = new ImageIcon();
-                    ii.setImage(newImage);
+            flsf {
+                nfwImbgf = Toolkit.gftDffbultToolkit().drfbtfImbgf(srd);
+                if (nfwImbgf != null && gftLobdsSyndironously()) {
+                    // Fordf tif imbgf to bf lobdfd by using bn ImbgfIdon.
+                    ImbgfIdon ii = nfw ImbgfIdon();
+                    ii.sftImbgf(nfwImbgf);
                 }
             }
         }
-        image = newImage;
+        imbgf = nfwImbgf;
     }
 
     /**
-     * Recreates and reloads the image.  This should
-     * only be invoked from <code>refreshImage</code>.
+     * Rfdrfbtfs bnd rflobds tif imbgf.  Tiis siould
+     * only bf invokfd from <dodf>rffrfsiImbgf</dodf>.
      */
-    private void updateImageSize() {
-        int newWidth = 0;
-        int newHeight = 0;
-        int newState = 0;
-        Image newImage = getImage();
+    privbtf void updbtfImbgfSizf() {
+        int nfwWidti = 0;
+        int nfwHfigit = 0;
+        int nfwStbtf = 0;
+        Imbgf nfwImbgf = gftImbgf();
 
-        if (newImage != null) {
-            Element elem = getElement();
-            AttributeSet attr = elem.getAttributes();
+        if (nfwImbgf != null) {
+            Elfmfnt flfm = gftElfmfnt();
+            AttributfSft bttr = flfm.gftAttributfs();
 
-            // Get the width/height and set the state ivar before calling
-            // anything that might cause the image to be loaded, and thus the
-            // ImageHandler to be called.
-            newWidth = getIntAttr(HTML.Attribute.WIDTH, -1);
-            if (newWidth > 0) {
-                newState |= WIDTH_FLAG;
+            // Gft tif widti/ifigit bnd sft tif stbtf ivbr bfforf dblling
+            // bnytiing tibt migit dbusf tif imbgf to bf lobdfd, bnd tius tif
+            // ImbgfHbndlfr to bf dbllfd.
+            nfwWidti = gftIntAttr(HTML.Attributf.WIDTH, -1);
+            if (nfwWidti > 0) {
+                nfwStbtf |= WIDTH_FLAG;
             }
-            newHeight = getIntAttr(HTML.Attribute.HEIGHT, -1);
-            if (newHeight > 0) {
-                newState |= HEIGHT_FLAG;
+            nfwHfigit = gftIntAttr(HTML.Attributf.HEIGHT, -1);
+            if (nfwHfigit > 0) {
+                nfwStbtf |= HEIGHT_FLAG;
             }
 
-            if (newWidth <= 0) {
-                newWidth = newImage.getWidth(imageObserver);
-                if (newWidth <= 0) {
-                    newWidth = DEFAULT_WIDTH;
+            if (nfwWidti <= 0) {
+                nfwWidti = nfwImbgf.gftWidti(imbgfObsfrvfr);
+                if (nfwWidti <= 0) {
+                    nfwWidti = DEFAULT_WIDTH;
                 }
             }
 
-            if (newHeight <= 0) {
-                newHeight = newImage.getHeight(imageObserver);
-                if (newHeight <= 0) {
-                    newHeight = DEFAULT_HEIGHT;
+            if (nfwHfigit <= 0) {
+                nfwHfigit = nfwImbgf.gftHfigit(imbgfObsfrvfr);
+                if (nfwHfigit <= 0) {
+                    nfwHfigit = DEFAULT_HEIGHT;
                 }
             }
 
-            // Make sure the image starts loading:
-            if ((newState & (WIDTH_FLAG | HEIGHT_FLAG)) != 0) {
-                Toolkit.getDefaultToolkit().prepareImage(newImage, newWidth,
-                                                         newHeight,
-                                                         imageObserver);
+            // Mbkf surf tif imbgf stbrts lobding:
+            if ((nfwStbtf & (WIDTH_FLAG | HEIGHT_FLAG)) != 0) {
+                Toolkit.gftDffbultToolkit().prfpbrfImbgf(nfwImbgf, nfwWidti,
+                                                         nfwHfigit,
+                                                         imbgfObsfrvfr);
             }
-            else {
-                Toolkit.getDefaultToolkit().prepareImage(newImage, -1, -1,
-                                                         imageObserver);
+            flsf {
+                Toolkit.gftDffbultToolkit().prfpbrfImbgf(nfwImbgf, -1, -1,
+                                                         imbgfObsfrvfr);
             }
 
-            boolean createText = false;
-            synchronized(this) {
-                // If imageloading failed, other thread may have called
-                // ImageLoader which will null out image, hence we check
+            boolfbn drfbtfTfxt = fblsf;
+            syndironizfd(tiis) {
+                // If imbgflobding fbilfd, otifr tirfbd mby ibvf dbllfd
+                // ImbgfLobdfr wiidi will null out imbgf, ifndf wf difdk
                 // for it.
-                if (image != null) {
-                    if ((newState & WIDTH_FLAG) == WIDTH_FLAG || width == 0) {
-                        width = newWidth;
+                if (imbgf != null) {
+                    if ((nfwStbtf & WIDTH_FLAG) == WIDTH_FLAG || widti == 0) {
+                        widti = nfwWidti;
                     }
-                    if ((newState & HEIGHT_FLAG) == HEIGHT_FLAG ||
-                        height == 0) {
-                        height = newHeight;
-                    }
-                }
-                else {
-                    createText = true;
-                    if ((newState & WIDTH_FLAG) == WIDTH_FLAG) {
-                        width = newWidth;
-                    }
-                    if ((newState & HEIGHT_FLAG) == HEIGHT_FLAG) {
-                        height = newHeight;
+                    if ((nfwStbtf & HEIGHT_FLAG) == HEIGHT_FLAG ||
+                        ifigit == 0) {
+                        ifigit = nfwHfigit;
                     }
                 }
-                state = state | newState;
-                state = (state | LOADING_FLAG) ^ LOADING_FLAG;
+                flsf {
+                    drfbtfTfxt = truf;
+                    if ((nfwStbtf & WIDTH_FLAG) == WIDTH_FLAG) {
+                        widti = nfwWidti;
+                    }
+                    if ((nfwStbtf & HEIGHT_FLAG) == HEIGHT_FLAG) {
+                        ifigit = nfwHfigit;
+                    }
+                }
+                stbtf = stbtf | nfwStbtf;
+                stbtf = (stbtf | LOADING_FLAG) ^ LOADING_FLAG;
             }
-            if (createText) {
-                // Only reset if this thread determined image is null
-                updateAltTextView();
+            if (drfbtfTfxt) {
+                // Only rfsft if tiis tirfbd dftfrminfd imbgf is null
+                updbtfAltTfxtVifw();
             }
         }
-        else {
-            width = height = DEFAULT_HEIGHT;
-            updateAltTextView();
+        flsf {
+            widti = ifigit = DEFAULT_HEIGHT;
+            updbtfAltTfxtVifw();
         }
     }
 
     /**
-     * Updates the view representing the alt text.
+     * Updbtfs tif vifw rfprfsfnting tif blt tfxt.
      */
-    private void updateAltTextView() {
-        String text = getAltText();
+    privbtf void updbtfAltTfxtVifw() {
+        String tfxt = gftAltTfxt();
 
-        if (text != null) {
-            ImageLabelView newView;
+        if (tfxt != null) {
+            ImbgfLbbflVifw nfwVifw;
 
-            newView = new ImageLabelView(getElement(), text);
-            synchronized(this) {
-                altView = newView;
+            nfwVifw = nfw ImbgfLbbflVifw(gftElfmfnt(), tfxt);
+            syndironizfd(tiis) {
+                bltVifw = nfwVifw;
             }
         }
     }
 
     /**
-     * Returns the view to use for alternate text. This may be null.
+     * Rfturns tif vifw to usf for bltfrnbtf tfxt. Tiis mby bf null.
      */
-    private View getAltView() {
-        View view;
+    privbtf Vifw gftAltVifw() {
+        Vifw vifw;
 
-        synchronized(this) {
-            view = altView;
+        syndironizfd(tiis) {
+            vifw = bltVifw;
         }
-        if (view != null && view.getParent() == null) {
-            view.setParent(getParent());
+        if (vifw != null && vifw.gftPbrfnt() == null) {
+            vifw.sftPbrfnt(gftPbrfnt());
         }
-        return view;
+        rfturn vifw;
     }
 
     /**
-     * Invokes <code>preferenceChanged</code> on the event displatching
-     * thread.
+     * Invokfs <dodf>prfffrfndfCibngfd</dodf> on tif fvfnt displbtdiing
+     * tirfbd.
      */
-    private void safePreferenceChanged() {
-        if (SwingUtilities.isEventDispatchThread()) {
-            Document doc = getDocument();
-            if (doc instanceof AbstractDocument) {
-                ((AbstractDocument)doc).readLock();
+    privbtf void sbffPrfffrfndfCibngfd() {
+        if (SwingUtilitifs.isEvfntDispbtdiTirfbd()) {
+            Dodumfnt dod = gftDodumfnt();
+            if (dod instbndfof AbstrbdtDodumfnt) {
+                ((AbstrbdtDodumfnt)dod).rfbdLodk();
             }
-            preferenceChanged(null, true, true);
-            if (doc instanceof AbstractDocument) {
-                ((AbstractDocument)doc).readUnlock();
+            prfffrfndfCibngfd(null, truf, truf);
+            if (dod instbndfof AbstrbdtDodumfnt) {
+                ((AbstrbdtDodumfnt)dod).rfbdUnlodk();
             }
         }
-        else {
-            SwingUtilities.invokeLater(new Runnable() {
-                    public void run() {
-                        safePreferenceChanged();
+        flsf {
+            SwingUtilitifs.invokfLbtfr(nfw Runnbblf() {
+                    publid void run() {
+                        sbffPrfffrfndfCibngfd();
                     }
                 });
         }
     }
 
     /**
-     * ImageHandler implements the ImageObserver to correctly update the
-     * display as new parts of the image become available.
+     * ImbgfHbndlfr implfmfnts tif ImbgfObsfrvfr to dorrfdtly updbtf tif
+     * displby bs nfw pbrts of tif imbgf bfdomf bvbilbblf.
      */
-    private class ImageHandler implements ImageObserver {
-        // This can come on any thread. If we are in the process of reloading
-        // the image and determining our state (loading == true) we don't fire
-        // preference changed, or repaint, we just reset the fWidth/fHeight as
-        // necessary and return. This is ok as we know when loading finishes
-        // it will pick up the new height/width, if necessary.
-        public boolean imageUpdate(Image img, int flags, int x, int y,
-                                   int newWidth, int newHeight ) {
-            if (img != image && img != disabledImage ||
-                image == null || getParent() == null) {
+    privbtf dlbss ImbgfHbndlfr implfmfnts ImbgfObsfrvfr {
+        // Tiis dbn domf on bny tirfbd. If wf brf in tif prodfss of rflobding
+        // tif imbgf bnd dftfrmining our stbtf (lobding == truf) wf don't firf
+        // prfffrfndf dibngfd, or rfpbint, wf just rfsft tif fWidti/fHfigit bs
+        // nfdfssbry bnd rfturn. Tiis is ok bs wf know wifn lobding finisifs
+        // it will pidk up tif nfw ifigit/widti, if nfdfssbry.
+        publid boolfbn imbgfUpdbtf(Imbgf img, int flbgs, int x, int y,
+                                   int nfwWidti, int nfwHfigit ) {
+            if (img != imbgf && img != disbblfdImbgf ||
+                imbgf == null || gftPbrfnt() == null) {
 
-                return false;
+                rfturn fblsf;
             }
 
-            // Bail out if there was an error:
-            if ((flags & (ABORT|ERROR)) != 0) {
-                repaint(0);
-                synchronized(ImageView.this) {
-                    if (image == img) {
-                        // Be sure image hasn't changed since we don't
-                        // initialy synchronize
-                        image = null;
-                        if ((state & WIDTH_FLAG) != WIDTH_FLAG) {
-                            width = DEFAULT_WIDTH;
+            // Bbil out if tifrf wbs bn frror:
+            if ((flbgs & (ABORT|ERROR)) != 0) {
+                rfpbint(0);
+                syndironizfd(ImbgfVifw.tiis) {
+                    if (imbgf == img) {
+                        // Bf surf imbgf ibsn't dibngfd sindf wf don't
+                        // initibly syndironizf
+                        imbgf = null;
+                        if ((stbtf & WIDTH_FLAG) != WIDTH_FLAG) {
+                            widti = DEFAULT_WIDTH;
                         }
-                        if ((state & HEIGHT_FLAG) != HEIGHT_FLAG) {
-                            height = DEFAULT_HEIGHT;
+                        if ((stbtf & HEIGHT_FLAG) != HEIGHT_FLAG) {
+                            ifigit = DEFAULT_HEIGHT;
                         }
-                    } else {
-                        disabledImage = null;
+                    } flsf {
+                        disbblfdImbgf = null;
                     }
-                    if ((state & LOADING_FLAG) == LOADING_FLAG) {
-                        // No need to resize or repaint, still in the process
-                        // of loading.
-                        return false;
+                    if ((stbtf & LOADING_FLAG) == LOADING_FLAG) {
+                        // No nffd to rfsizf or rfpbint, still in tif prodfss
+                        // of lobding.
+                        rfturn fblsf;
                     }
                 }
-                updateAltTextView();
-                safePreferenceChanged();
-                return false;
+                updbtfAltTfxtVifw();
+                sbffPrfffrfndfCibngfd();
+                rfturn fblsf;
             }
 
-            if (image == img) {
-                // Resize image if necessary:
-                short changed = 0;
-                if ((flags & ImageObserver.HEIGHT) != 0 && !getElement().
-                      getAttributes().isDefined(HTML.Attribute.HEIGHT)) {
-                    changed |= 1;
+            if (imbgf == img) {
+                // Rfsizf imbgf if nfdfssbry:
+                siort dibngfd = 0;
+                if ((flbgs & ImbgfObsfrvfr.HEIGHT) != 0 && !gftElfmfnt().
+                      gftAttributfs().isDffinfd(HTML.Attributf.HEIGHT)) {
+                    dibngfd |= 1;
                 }
-                if ((flags & ImageObserver.WIDTH) != 0 && !getElement().
-                      getAttributes().isDefined(HTML.Attribute.WIDTH)) {
-                    changed |= 2;
+                if ((flbgs & ImbgfObsfrvfr.WIDTH) != 0 && !gftElfmfnt().
+                      gftAttributfs().isDffinfd(HTML.Attributf.WIDTH)) {
+                    dibngfd |= 2;
                 }
 
-                synchronized(ImageView.this) {
-                    if ((changed & 1) == 1 && (state & WIDTH_FLAG) == 0) {
-                        width = newWidth;
+                syndironizfd(ImbgfVifw.tiis) {
+                    if ((dibngfd & 1) == 1 && (stbtf & WIDTH_FLAG) == 0) {
+                        widti = nfwWidti;
                     }
-                    if ((changed & 2) == 2 && (state & HEIGHT_FLAG) == 0) {
-                        height = newHeight;
+                    if ((dibngfd & 2) == 2 && (stbtf & HEIGHT_FLAG) == 0) {
+                        ifigit = nfwHfigit;
                     }
-                    if ((state & LOADING_FLAG) == LOADING_FLAG) {
-                        // No need to resize or repaint, still in the process of
-                        // loading.
-                        return true;
+                    if ((stbtf & LOADING_FLAG) == LOADING_FLAG) {
+                        // No nffd to rfsizf or rfpbint, still in tif prodfss of
+                        // lobding.
+                        rfturn truf;
                     }
                 }
-                if (changed != 0) {
-                    // May need to resize myself, asynchronously:
-                    safePreferenceChanged();
-                    return true;
+                if (dibngfd != 0) {
+                    // Mby nffd to rfsizf mysflf, bsyndironously:
+                    sbffPrfffrfndfCibngfd();
+                    rfturn truf;
                 }
             }
 
-            // Repaint when done or when new pixels arrive:
-            if ((flags & (FRAMEBITS|ALLBITS)) != 0) {
-                repaint(0);
+            // Rfpbint wifn donf or wifn nfw pixfls brrivf:
+            if ((flbgs & (FRAMEBITS|ALLBITS)) != 0) {
+                rfpbint(0);
             }
-            else if ((flags & SOMEBITS) != 0 && sIsInc) {
-                repaint(sIncRate);
+            flsf if ((flbgs & SOMEBITS) != 0 && sIsInd) {
+                rfpbint(sIndRbtf);
             }
-            return ((flags & ALLBITS) == 0);
+            rfturn ((flbgs & ALLBITS) == 0);
         }
     }
 
 
     /**
-     * ImageLabelView is used if the image can't be loaded, and
-     * the attribute specified an alt attribute. It overriden a handle of
-     * methods as the text is hardcoded and does not come from the document.
+     * ImbgfLbbflVifw is usfd if tif imbgf dbn't bf lobdfd, bnd
+     * tif bttributf spfdififd bn blt bttributf. It ovfrridfn b ibndlf of
+     * mftiods bs tif tfxt is ibrddodfd bnd dofs not domf from tif dodumfnt.
      */
-    private class ImageLabelView extends InlineView {
-        private Segment segment;
-        private Color fg;
+    privbtf dlbss ImbgfLbbflVifw fxtfnds InlinfVifw {
+        privbtf Sfgmfnt sfgmfnt;
+        privbtf Color fg;
 
-        ImageLabelView(Element e, String text) {
-            super(e);
-            reset(text);
+        ImbgfLbbflVifw(Elfmfnt f, String tfxt) {
+            supfr(f);
+            rfsft(tfxt);
         }
 
-        public void reset(String text) {
-            segment = new Segment(text.toCharArray(), 0, text.length());
+        publid void rfsft(String tfxt) {
+            sfgmfnt = nfw Sfgmfnt(tfxt.toCibrArrby(), 0, tfxt.lfngti());
         }
 
-        public void paint(Graphics g, Shape a) {
-            // Don't use supers paint, otherwise selection will be wrong
-            // as our start/end offsets are fake.
-            GlyphPainter painter = getGlyphPainter();
+        publid void pbint(Grbpiids g, Sibpf b) {
+            // Don't usf supfrs pbint, otifrwisf sflfdtion will bf wrong
+            // bs our stbrt/fnd offsfts brf fbkf.
+            GlypiPbintfr pbintfr = gftGlypiPbintfr();
 
-            if (painter != null) {
-                g.setColor(getForeground());
-                painter.paint(this, g, a, getStartOffset(), getEndOffset());
+            if (pbintfr != null) {
+                g.sftColor(gftForfground());
+                pbintfr.pbint(tiis, g, b, gftStbrtOffsft(), gftEndOffsft());
             }
         }
 
-        public Segment getText(int p0, int p1) {
-            if (p0 < 0 || p1 > segment.array.length) {
-                throw new RuntimeException("ImageLabelView: Stale view");
+        publid Sfgmfnt gftTfxt(int p0, int p1) {
+            if (p0 < 0 || p1 > sfgmfnt.brrby.lfngti) {
+                tirow nfw RuntimfExdfption("ImbgfLbbflVifw: Stblf vifw");
             }
-            segment.offset = p0;
-            segment.count = p1 - p0;
-            return segment;
+            sfgmfnt.offsft = p0;
+            sfgmfnt.dount = p1 - p0;
+            rfturn sfgmfnt;
         }
 
-        public int getStartOffset() {
-            return 0;
+        publid int gftStbrtOffsft() {
+            rfturn 0;
         }
 
-        public int getEndOffset() {
-            return segment.array.length;
+        publid int gftEndOffsft() {
+            rfturn sfgmfnt.brrby.lfngti;
         }
 
-        public View breakView(int axis, int p0, float pos, float len) {
-            // Don't allow a break
-            return this;
+        publid Vifw brfbkVifw(int bxis, int p0, flobt pos, flobt lfn) {
+            // Don't bllow b brfbk
+            rfturn tiis;
         }
 
-        public Color getForeground() {
-            View parent;
-            if (fg == null && (parent = getParent()) != null) {
-                Document doc = getDocument();
-                AttributeSet attr = parent.getAttributes();
+        publid Color gftForfground() {
+            Vifw pbrfnt;
+            if (fg == null && (pbrfnt = gftPbrfnt()) != null) {
+                Dodumfnt dod = gftDodumfnt();
+                AttributfSft bttr = pbrfnt.gftAttributfs();
 
-                if (attr != null && (doc instanceof StyledDocument)) {
-                    fg = ((StyledDocument)doc).getForeground(attr);
+                if (bttr != null && (dod instbndfof StylfdDodumfnt)) {
+                    fg = ((StylfdDodumfnt)dod).gftForfground(bttr);
                 }
             }
-            return fg;
+            rfturn fg;
         }
     }
 }

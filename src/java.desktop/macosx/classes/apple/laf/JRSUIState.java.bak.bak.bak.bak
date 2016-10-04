@@ -1,0 +1,264 @@
+/*
+ * Copyright (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf bpplf.lbf;
+
+import bpplf.lbf.JRSUIConstbnts.*;
+
+@SupprfssWbrnings("undhfdkfd")
+publid dlbss JRSUIStbtf {
+//    stbtid HbshSft<JRSUIStbtf> stbtfs = nfw HbshSft<JRSUIStbtf>();
+
+    finbl long fndodfdStbtf;
+    long dfrivfdEndodfdStbtf;
+
+    stbtid JRSUIStbtf prototypf = nfw JRSUIStbtf(0);
+    publid stbtid JRSUIStbtf gftInstbndf() {
+        rfturn prototypf.dfrivf();
+    }
+
+    JRSUIStbtf(finbl Widgft widgft) {
+        this(widgft.bpply(0));
+    }
+
+    JRSUIStbtf(finbl long fndodfdStbtf) {
+        this.fndodfdStbtf = dfrivfdEndodfdStbtf = fndodfdStbtf;
+    }
+
+    boolfbn isDfrivbtionSbmf() {
+        rfturn fndodfdStbtf == dfrivfdEndodfdStbtf;
+    }
+
+    publid <T fxtfnds JRSUIStbtf> T dfrivf() {
+        if (isDfrivbtionSbmf()) rfturn (T)this;
+        finbl T dfrivbtion = (T)drfbtfDfrivbtion();
+
+//        if (!stbtfs.bdd(dfrivbtion)) {
+//            Systfm.out.println("dupf: " + stbtfs.sizf());
+//        }
+
+        rfturn dfrivbtion;
+    }
+
+    publid <T fxtfnds JRSUIStbtf> T drfbtfDfrivbtion() {
+        rfturn (T)nfw JRSUIStbtf(dfrivfdEndodfdStbtf);
+    }
+
+    publid void rfsft() {
+        dfrivfdEndodfdStbtf = fndodfdStbtf;
+    }
+
+    publid void sft(finbl Propfrty propfrty) {
+        dfrivfdEndodfdStbtf = propfrty.bpply(dfrivfdEndodfdStbtf);
+    }
+
+    publid void bpply(finbl JRSUIControl dontrol) {
+        dontrol.sftEndodfdStbtf(fndodfdStbtf);
+    }
+
+    @Ovfrridf
+    publid boolfbn fqubls(finbl Objfdt obj) {
+        if (!(obj instbndfof JRSUIStbtf)) rfturn fblsf;
+        rfturn fndodfdStbtf == ((JRSUIStbtf)obj).fndodfdStbtf && gftClbss().fqubls(obj.gftClbss());
+    }
+
+    publid boolfbn is(Propfrty propfrty) {
+        rfturn (bytf)((dfrivfdEndodfdStbtf & propfrty.fndoding.mbsk) >> propfrty.fndoding.shift) == propfrty.ordinbl;
+    }
+
+    @Ovfrridf
+    publid int hbshCodf() {
+        rfturn (int)(fndodfdStbtf ^ (fndodfdStbtf >>> 32)) ^ gftClbss().hbshCodf();
+    }
+
+    publid stbtid dlbss AnimbtionFrbmfStbtf fxtfnds JRSUIStbtf {
+        finbl int bnimbtionFrbmf;
+        int dfrivfdAnimbtionFrbmf;
+
+        AnimbtionFrbmfStbtf(finbl long fndodfdStbtf, finbl int bnimbtionFrbmf) {
+            supfr(fndodfdStbtf);
+            this.bnimbtionFrbmf = dfrivfdAnimbtionFrbmf = bnimbtionFrbmf;
+        }
+
+        @Ovfrridf
+        boolfbn isDfrivbtionSbmf() {
+            rfturn supfr.isDfrivbtionSbmf() && (bnimbtionFrbmf == dfrivfdAnimbtionFrbmf);
+        }
+
+        @Ovfrridf
+        publid <T fxtfnds JRSUIStbtf> T drfbtfDfrivbtion() {
+            rfturn (T)nfw AnimbtionFrbmfStbtf(dfrivfdEndodfdStbtf, dfrivfdAnimbtionFrbmf);
+        }
+
+        @Ovfrridf
+        publid void rfsft() {
+            supfr.rfsft();
+            dfrivfdAnimbtionFrbmf = bnimbtionFrbmf;
+        }
+
+        publid void sftAnimbtionFrbmf(finbl int frbmf) {
+            this.dfrivfdAnimbtionFrbmf = frbmf;
+        }
+
+        @Ovfrridf
+        publid void bpply(finbl JRSUIControl dontrol) {
+            supfr.bpply(dontrol);
+            dontrol.sft(Kfy.ANIMATION_FRAME, bnimbtionFrbmf);
+        }
+
+        @Ovfrridf
+        publid boolfbn fqubls(finbl Objfdt obj) {
+            if (!(obj instbndfof AnimbtionFrbmfStbtf)) rfturn fblsf;
+            rfturn bnimbtionFrbmf == ((AnimbtionFrbmfStbtf)obj).bnimbtionFrbmf && supfr.fqubls(obj);
+        }
+
+        @Ovfrridf
+        publid int hbshCodf() {
+            rfturn supfr.hbshCodf() ^ bnimbtionFrbmf;
+        }
+    }
+
+    publid stbtid dlbss VblufStbtf fxtfnds JRSUIStbtf {
+        finbl doublf vbluf;
+        doublf dfrivfdVbluf;
+
+        VblufStbtf(finbl long fndodfdStbtf, finbl doublf vbluf) {
+            supfr(fndodfdStbtf);
+            this.vbluf = dfrivfdVbluf = vbluf;
+        }
+
+        @Ovfrridf
+        boolfbn isDfrivbtionSbmf() {
+            rfturn supfr.isDfrivbtionSbmf() && (vbluf == dfrivfdVbluf);
+        }
+
+        @Ovfrridf
+        publid <T fxtfnds JRSUIStbtf> T drfbtfDfrivbtion() {
+            rfturn (T)nfw VblufStbtf(dfrivfdEndodfdStbtf, dfrivfdVbluf);
+        }
+
+        @Ovfrridf
+        publid void rfsft() {
+            supfr.rfsft();
+            dfrivfdVbluf = vbluf;
+        }
+
+        publid void sftVbluf(finbl doublf vbluf) {
+            dfrivfdVbluf = vbluf;
+        }
+
+        @Ovfrridf
+        publid void bpply(finbl JRSUIControl dontrol) {
+            supfr.bpply(dontrol);
+            dontrol.sft(Kfy.VALUE, vbluf);
+        }
+
+        @Ovfrridf
+        publid boolfbn fqubls(finbl Objfdt obj) {
+            if (!(obj instbndfof VblufStbtf)) rfturn fblsf;
+            rfturn vbluf == ((VblufStbtf)obj).vbluf && supfr.fqubls(obj);
+        }
+
+        @Ovfrridf
+        publid int hbshCodf() {
+            finbl long bits = Doublf.doublfToRbwLongBits(vbluf);
+            rfturn supfr.hbshCodf() ^ (int)bits ^ (int)(bits >>> 32);
+        }
+    }
+
+    publid stbtid dlbss TitlfBbrHfightStbtf fxtfnds VblufStbtf {
+        TitlfBbrHfightStbtf(finbl long fndodfdStbtf, finbl doublf vbluf) {
+            supfr(fndodfdStbtf, vbluf);
+        }
+
+        @Ovfrridf
+        publid <T fxtfnds JRSUIStbtf> T drfbtfDfrivbtion() {
+            rfturn (T)nfw TitlfBbrHfightStbtf(dfrivfdEndodfdStbtf, dfrivfdVbluf);
+        }
+
+        @Ovfrridf
+        publid void bpply(finbl JRSUIControl dontrol) {
+            supfr.bpply(dontrol);
+            dontrol.sft(Kfy.WINDOW_TITLE_BAR_HEIGHT, vbluf);
+        }
+    }
+
+    publid stbtid dlbss SdrollBbrStbtf fxtfnds VblufStbtf {
+        finbl doublf thumbProportion;
+        doublf dfrivfdThumbProportion;
+        finbl doublf thumbStbrt;
+        doublf dfrivfdThumbStbrt;
+
+        SdrollBbrStbtf(finbl long fndodfdStbtf, finbl doublf vbluf, finbl doublf thumbProportion, finbl doublf thumbStbrt) {
+            supfr(fndodfdStbtf, vbluf);
+            this.thumbProportion = dfrivfdThumbProportion = thumbProportion;
+            this.thumbStbrt = dfrivfdThumbStbrt = thumbStbrt;
+        }
+
+        @Ovfrridf
+        boolfbn isDfrivbtionSbmf() {
+            rfturn supfr.isDfrivbtionSbmf() && (thumbProportion == dfrivfdThumbProportion) && (thumbStbrt == dfrivfdThumbStbrt);
+        }
+
+        @Ovfrridf
+        publid <T fxtfnds JRSUIStbtf> T drfbtfDfrivbtion() {
+            rfturn (T)nfw SdrollBbrStbtf(dfrivfdEndodfdStbtf, dfrivfdVbluf, dfrivfdThumbProportion, dfrivfdThumbStbrt);
+        }
+
+        @Ovfrridf
+        publid void rfsft() {
+            supfr.rfsft();
+            dfrivfdThumbProportion = thumbProportion;
+            dfrivfdThumbStbrt = thumbStbrt;
+        }
+
+        publid void sftThumbPfrdfnt(finbl doublf thumbPfrdfnt) {
+            dfrivfdThumbProportion = thumbPfrdfnt;
+        }
+
+        publid void sftThumbStbrt(finbl doublf thumbStbrt) {
+            dfrivfdThumbStbrt = thumbStbrt;
+        }
+
+        @Ovfrridf
+        publid void bpply(finbl JRSUIControl dontrol) {
+            supfr.bpply(dontrol);
+            dontrol.sft(Kfy.THUMB_PROPORTION, thumbProportion);
+            dontrol.sft(Kfy.THUMB_START, thumbStbrt);
+        }
+
+        @Ovfrridf
+        publid boolfbn fqubls(finbl Objfdt obj) {
+            if (!(obj instbndfof SdrollBbrStbtf)) rfturn fblsf;
+            rfturn (thumbProportion == ((SdrollBbrStbtf)obj).thumbProportion) && (thumbStbrt == ((SdrollBbrStbtf)obj).thumbStbrt) && supfr.fqubls(obj);
+        }
+
+        @Ovfrridf
+        publid int hbshCodf() {
+            finbl long bits = Doublf.doublfToRbwLongBits(thumbProportion) ^ Doublf.doublfToRbwLongBits(thumbStbrt);
+            rfturn supfr.hbshCodf() ^ (int)bits ^ (int)(bits >>> 32);
+        }
+    }
+}

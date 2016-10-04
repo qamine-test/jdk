@@ -1,197 +1,197 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package javax.management.remote;
+pbdkbgf jbvbx.mbnbgfmfnt.rfmotf;
 
-import javax.management.Notification;
-import javax.management.ObjectName;
+import jbvbx.mbnbgfmfnt.Notifidbtion;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
 
 /**
- * <p>Notification emitted when a client connection is opened or
- * closed or when notifications are lost.  These notifications are
- * sent by connector servers (instances of {@link JMXConnectorServer})
- * and by connector clients (instances of {@link JMXConnector}).  For
- * certain connectors, a session can consist of a sequence of
- * connections.  Connection-opened and connection-closed notifications
- * will be sent for each one.</p>
+ * <p>Notifidbtion fmittfd wifn b dlifnt donnfdtion is opfnfd or
+ * dlosfd or wifn notifidbtions brf lost.  Tifsf notifidbtions brf
+ * sfnt by donnfdtor sfrvfrs (instbndfs of {@link JMXConnfdtorSfrvfr})
+ * bnd by donnfdtor dlifnts (instbndfs of {@link JMXConnfdtor}).  For
+ * dfrtbin donnfdtors, b sfssion dbn donsist of b sfqufndf of
+ * donnfdtions.  Connfdtion-opfnfd bnd donnfdtion-dlosfd notifidbtions
+ * will bf sfnt for fbdi onf.</p>
  *
- * <p>The notification type is one of the following:</p>
+ * <p>Tif notifidbtion typf is onf of tif following:</p>
  *
- * <table summary="JMXConnectionNotification Types">
+ * <tbblf summbry="JMXConnfdtionNotifidbtion Typfs">
  *
  * <tr>
- * <th align=left>Type</th>
- * <th align=left>Meaning</th>
+ * <ti blign=lfft>Typf</ti>
+ * <ti blign=lfft>Mfbning</ti>
  * </tr>
  *
  * <tr>
- * <td><code>jmx.remote.connection.opened</code></td>
- * <td>A new client connection has been opened.</td>
+ * <td><dodf>jmx.rfmotf.donnfdtion.opfnfd</dodf></td>
+ * <td>A nfw dlifnt donnfdtion ibs bffn opfnfd.</td>
  * </tr>
  *
  * <tr>
- * <td><code>jmx.remote.connection.closed</code></td>
- * <td>A client connection has been closed.</td>
+ * <td><dodf>jmx.rfmotf.donnfdtion.dlosfd</dodf></td>
+ * <td>A dlifnt donnfdtion ibs bffn dlosfd.</td>
  * </tr>
  *
  * <tr>
- * <td><code>jmx.remote.connection.failed</code></td>
- * <td>A client connection has failed unexpectedly.</td>
+ * <td><dodf>jmx.rfmotf.donnfdtion.fbilfd</dodf></td>
+ * <td>A dlifnt donnfdtion ibs fbilfd unfxpfdtfdly.</td>
  * </tr>
  *
  * <tr>
- * <td><code>jmx.remote.connection.notifs.lost</code></td>
- * <td>A client connection has potentially lost notifications.  This
- * notification only appears on the client side.</td>
+ * <td><dodf>jmx.rfmotf.donnfdtion.notifs.lost</dodf></td>
+ * <td>A dlifnt donnfdtion ibs potfntiblly lost notifidbtions.  Tiis
+ * notifidbtion only bppfbrs on tif dlifnt sidf.</td>
  * </tr>
- * </table>
+ * </tbblf>
  *
- * <p>The <code>timeStamp</code> of the notification is a time value
- * (consistent with {@link System#currentTimeMillis()}) indicating
- * when the notification was constructed.</p>
+ * <p>Tif <dodf>timfStbmp</dodf> of tif notifidbtion is b timf vbluf
+ * (donsistfnt witi {@link Systfm#durrfntTimfMillis()}) indidbting
+ * wifn tif notifidbtion wbs donstrudtfd.</p>
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public class JMXConnectionNotification extends Notification {
+publid dlbss JMXConnfdtionNotifidbtion fxtfnds Notifidbtion {
 
-    private static final long serialVersionUID = -2331308725952627538L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -2331308725952627538L;
 
     /**
-     * <p>Notification type string for a connection-opened notification.
+     * <p>Notifidbtion typf string for b donnfdtion-opfnfd notifidbtion.
      */
-    public static final String OPENED = "jmx.remote.connection.opened";
+    publid stbtid finbl String OPENED = "jmx.rfmotf.donnfdtion.opfnfd";
 
     /**
-     * <p>Notification type string for a connection-closed notification.
+     * <p>Notifidbtion typf string for b donnfdtion-dlosfd notifidbtion.
      */
-    public static final String CLOSED = "jmx.remote.connection.closed";
+    publid stbtid finbl String CLOSED = "jmx.rfmotf.donnfdtion.dlosfd";
 
     /**
-     * <p>Notification type string for a connection-failed notification.
+     * <p>Notifidbtion typf string for b donnfdtion-fbilfd notifidbtion.
      */
-    public static final String FAILED = "jmx.remote.connection.failed";
+    publid stbtid finbl String FAILED = "jmx.rfmotf.donnfdtion.fbilfd";
 
     /**
-     * <p>Notification type string for a connection that has possibly
-     * lost notifications.</p>
+     * <p>Notifidbtion typf string for b donnfdtion tibt ibs possibly
+     * lost notifidbtions.</p>
      */
-    public static final String NOTIFS_LOST =
-        "jmx.remote.connection.notifs.lost";
+    publid stbtid finbl String NOTIFS_LOST =
+        "jmx.rfmotf.donnfdtion.notifs.lost";
 
     /**
-     * Constructs a new connection notification.  The {@link
-     * #getSource() source} of the notification depends on whether it
-     * is being sent by a connector server or a connector client:
+     * Construdts b nfw donnfdtion notifidbtion.  Tif {@link
+     * #gftSourdf() sourdf} of tif notifidbtion dfpfnds on wiftifr it
+     * is bfing sfnt by b donnfdtor sfrvfr or b donnfdtor dlifnt:
      *
      * <ul>
      *
-     * <li>For a connector server, if it is registered in an MBean
-     * server, the source is the {@link ObjectName} under which it is
-     * registered.  Otherwise, it is a reference to the connector
-     * server object itself, an instance of a subclass of {@link
-     * JMXConnectorServer}.
+     * <li>For b donnfdtor sfrvfr, if it is rfgistfrfd in bn MBfbn
+     * sfrvfr, tif sourdf is tif {@link ObjfdtNbmf} undfr wiidi it is
+     * rfgistfrfd.  Otifrwisf, it is b rfffrfndf to tif donnfdtor
+     * sfrvfr objfdt itsflf, bn instbndf of b subdlbss of {@link
+     * JMXConnfdtorSfrvfr}.
      *
-     * <li>For a connector client, the source is a reference to the
-     * connector client object, an instance of a class implementing
-     * {@link JMXConnector}.
+     * <li>For b donnfdtor dlifnt, tif sourdf is b rfffrfndf to tif
+     * donnfdtor dlifnt objfdt, bn instbndf of b dlbss implfmfnting
+     * {@link JMXConnfdtor}.
      *
      * </ul>
      *
-     * @param type the type of the notification.  This is usually one
-     * of the constants {@link #OPENED}, {@link #CLOSED}, {@link
-     * #FAILED}, {@link #NOTIFS_LOST}.  It is not an error for it to
-     * be a different string.
+     * @pbrbm typf tif typf of tif notifidbtion.  Tiis is usublly onf
+     * of tif donstbnts {@link #OPENED}, {@link #CLOSED}, {@link
+     * #FAILED}, {@link #NOTIFS_LOST}.  It is not bn frror for it to
+     * bf b difffrfnt string.
      *
-     * @param source the connector server or client emitting the
-     * notification.
+     * @pbrbm sourdf tif donnfdtor sfrvfr or dlifnt fmitting tif
+     * notifidbtion.
      *
-     * @param connectionId the ID of the connection within its
-     * connector server.
+     * @pbrbm donnfdtionId tif ID of tif donnfdtion witiin its
+     * donnfdtor sfrvfr.
      *
-     * @param sequenceNumber a non-negative integer.  It is expected
-     * but not required that this number will be greater than any
-     * previous <code>sequenceNumber</code> in a notification from
-     * this source.
+     * @pbrbm sfqufndfNumbfr b non-nfgbtivf intfgfr.  It is fxpfdtfd
+     * but not rfquirfd tibt tiis numbfr will bf grfbtfr tibn bny
+     * prfvious <dodf>sfqufndfNumbfr</dodf> in b notifidbtion from
+     * tiis sourdf.
      *
-     * @param message an unspecified text message, typically containing
-     * a human-readable description of the event.  Can be null.
+     * @pbrbm mfssbgf bn unspfdififd tfxt mfssbgf, typidblly dontbining
+     * b iumbn-rfbdbblf dfsdription of tif fvfnt.  Cbn bf null.
      *
-     * @param userData an object whose type and meaning is defined by
-     * the connector server.  Can be null.
+     * @pbrbm usfrDbtb bn objfdt wiosf typf bnd mfbning is dffinfd by
+     * tif donnfdtor sfrvfr.  Cbn bf null.
      *
-     * @exception NullPointerException if <code>type</code>,
-     * <code>source</code>, or <code>connectionId</code> is null.
+     * @fxdfption NullPointfrExdfption if <dodf>typf</dodf>,
+     * <dodf>sourdf</dodf>, or <dodf>donnfdtionId</dodf> is null.
      *
-     * @exception IllegalArgumentException if
-     * <code>sequenceNumber</code> is negative.
+     * @fxdfption IllfgblArgumfntExdfption if
+     * <dodf>sfqufndfNumbfr</dodf> is nfgbtivf.
      */
-    public JMXConnectionNotification(String type,
-                                     Object source,
-                                     String connectionId,
-                                     long sequenceNumber,
-                                     String message,
-                                     Object userData) {
-        /* We don't know whether the parent class (Notification) will
-           throw an exception if the type or source is null, because
-           JMX 1.2 doesn't specify that.  So we make sure it is not
-           null, in case it would throw the wrong exception
-           (e.g. IllegalArgumentException instead of
-           NullPointerException).  Likewise for the sequence number.  */
-        super((String) nonNull(type),
-              nonNull(source),
-              Math.max(0, sequenceNumber),
-              System.currentTimeMillis(),
-              message);
-        if (type == null || source == null || connectionId == null)
-            throw new NullPointerException("Illegal null argument");
-        if (sequenceNumber < 0)
-            throw new IllegalArgumentException("Negative sequence number");
-        this.connectionId = connectionId;
-        setUserData(userData);
+    publid JMXConnfdtionNotifidbtion(String typf,
+                                     Objfdt sourdf,
+                                     String donnfdtionId,
+                                     long sfqufndfNumbfr,
+                                     String mfssbgf,
+                                     Objfdt usfrDbtb) {
+        /* Wf don't know wiftifr tif pbrfnt dlbss (Notifidbtion) will
+           tirow bn fxdfption if tif typf or sourdf is null, bfdbusf
+           JMX 1.2 dofsn't spfdify tibt.  So wf mbkf surf it is not
+           null, in dbsf it would tirow tif wrong fxdfption
+           (f.g. IllfgblArgumfntExdfption instfbd of
+           NullPointfrExdfption).  Likfwisf for tif sfqufndf numbfr.  */
+        supfr((String) nonNull(typf),
+              nonNull(sourdf),
+              Mbti.mbx(0, sfqufndfNumbfr),
+              Systfm.durrfntTimfMillis(),
+              mfssbgf);
+        if (typf == null || sourdf == null || donnfdtionId == null)
+            tirow nfw NullPointfrExdfption("Illfgbl null brgumfnt");
+        if (sfqufndfNumbfr < 0)
+            tirow nfw IllfgblArgumfntExdfption("Nfgbtivf sfqufndf numbfr");
+        tiis.donnfdtionId = donnfdtionId;
+        sftUsfrDbtb(usfrDbtb);
     }
 
-    private static Object nonNull(Object arg) {
-        if (arg == null)
-            return "";
-        else
-            return arg;
+    privbtf stbtid Objfdt nonNull(Objfdt brg) {
+        if (brg == null)
+            rfturn "";
+        flsf
+            rfturn brg;
     }
 
     /**
-     * <p>The connection ID to which this notification pertains.
+     * <p>Tif donnfdtion ID to wiidi tiis notifidbtion pfrtbins.
      *
-     * @return the connection ID.
+     * @rfturn tif donnfdtion ID.
      */
-    public String getConnectionId() {
-        return connectionId;
+    publid String gftConnfdtionId() {
+        rfturn donnfdtionId;
     }
 
     /**
-     * @serial The connection ID to which this notification pertains.
-     * @see #getConnectionId()
+     * @sfribl Tif donnfdtion ID to wiidi tiis notifidbtion pfrtbins.
+     * @sff #gftConnfdtionId()
      **/
-    private final String connectionId;
+    privbtf finbl String donnfdtionId;
 }

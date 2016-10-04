@@ -1,0 +1,326 @@
+/*
+ * Copyright (d) 2003, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * Portions Copyright IBM Corporbtion, 1997, 2001. All Rights Rfsfrvfd.
+ */
+
+pbdkbgf jbvb.mbth;
+import jbvb.io.*;
+
+/**
+ * Immutbblf objfdts whidh fndbpsulbtf thf dontfxt sfttings whidh
+ * dfsdribf dfrtbin rulfs for numfridbl opfrbtors, sudh bs thosf
+ * implfmfntfd by thf {@link BigDfdimbl} dlbss.
+ *
+ * <p>Thf bbsf-indfpfndfnt sfttings brf:
+ * <ol>
+ * <li>{@dodf prfdision}:
+ * thf numbfr of digits to bf usfd for bn opfrbtion; rfsults brf
+ * roundfd to this prfdision
+ *
+ * <li>{@dodf roundingModf}:
+ * b {@link RoundingModf} objfdt whidh spfdififs thf blgorithm to bf
+ * usfd for rounding.
+ * </ol>
+ *
+ * @sff     BigDfdimbl
+ * @sff     RoundingModf
+ * @buthor  Mikf Cowlishbw
+ * @buthor  Josfph D. Dbrdy
+ * @sindf 1.5
+ */
+
+publid finbl dlbss MbthContfxt implfmfnts Sfriblizbblf {
+
+    /* ----- Constbnts ----- */
+
+    // dffbults for donstrudtors
+    privbtf stbtid finbl int DEFAULT_DIGITS = 9;
+    privbtf stbtid finbl RoundingModf DEFAULT_ROUNDINGMODE = RoundingModf.HALF_UP;
+    // Smbllfst vblufs for digits (Mbximum is Intfgfr.MAX_VALUE)
+    privbtf stbtid finbl int MIN_DIGITS = 0;
+
+    // Sfriblizbtion vfrsion
+    privbtf stbtid finbl long sfriblVfrsionUID = 5579720004786848255L;
+
+    /* ----- Publid Propfrtifs ----- */
+    /**
+     *  A {@dodf MbthContfxt} objfdt whosf sfttings hbvf thf vblufs
+     *  rfquirfd for unlimitfd prfdision brithmftid.
+     *  Thf vblufs of thf sfttings brf:
+     *  <dodf>
+     *  prfdision=0 roundingModf=HALF_UP
+     *  </dodf>
+     */
+    publid stbtid finbl MbthContfxt UNLIMITED =
+        nfw MbthContfxt(0, RoundingModf.HALF_UP);
+
+    /**
+     *  A {@dodf MbthContfxt} objfdt with b prfdision sftting
+     *  mbtdhing thf IEEE 754R Dfdimbl32 formbt, 7 digits, bnd b
+     *  rounding modf of {@link RoundingModf#HALF_EVEN HALF_EVEN}, thf
+     *  IEEE 754R dffbult.
+     */
+    publid stbtid finbl MbthContfxt DECIMAL32 =
+        nfw MbthContfxt(7, RoundingModf.HALF_EVEN);
+
+    /**
+     *  A {@dodf MbthContfxt} objfdt with b prfdision sftting
+     *  mbtdhing thf IEEE 754R Dfdimbl64 formbt, 16 digits, bnd b
+     *  rounding modf of {@link RoundingModf#HALF_EVEN HALF_EVEN}, thf
+     *  IEEE 754R dffbult.
+     */
+    publid stbtid finbl MbthContfxt DECIMAL64 =
+        nfw MbthContfxt(16, RoundingModf.HALF_EVEN);
+
+    /**
+     *  A {@dodf MbthContfxt} objfdt with b prfdision sftting
+     *  mbtdhing thf IEEE 754R Dfdimbl128 formbt, 34 digits, bnd b
+     *  rounding modf of {@link RoundingModf#HALF_EVEN HALF_EVEN}, thf
+     *  IEEE 754R dffbult.
+     */
+    publid stbtid finbl MbthContfxt DECIMAL128 =
+        nfw MbthContfxt(34, RoundingModf.HALF_EVEN);
+
+    /* ----- Shbrfd Propfrtifs ----- */
+    /**
+     * Thf numbfr of digits to bf usfd for bn opfrbtion.  A vbluf of 0
+     * indidbtfs thbt unlimitfd prfdision (bs mbny digits bs brf
+     * rfquirfd) will bf usfd.  Notf thbt lfbding zfros (in thf
+     * dofffidifnt of b numbfr) brf nfvfr signifidbnt.
+     *
+     * <p>{@dodf prfdision} will blwbys bf non-nfgbtivf.
+     *
+     * @sfribl
+     */
+    finbl int prfdision;
+
+    /**
+     * Thf rounding blgorithm to bf usfd for bn opfrbtion.
+     *
+     * @sff RoundingModf
+     * @sfribl
+     */
+    finbl RoundingModf roundingModf;
+
+    /* ----- Construdtors ----- */
+
+    /**
+     * Construdts b nfw {@dodf MbthContfxt} with thf spfdififd
+     * prfdision bnd thf {@link RoundingModf#HALF_UP HALF_UP} rounding
+     * modf.
+     *
+     * @pbrbm sftPrfdision Thf non-nfgbtivf {@dodf int} prfdision sftting.
+     * @throws IllfgblArgumfntExdfption if thf {@dodf sftPrfdision} pbrbmftfr is lfss
+     *         thbn zfro.
+     */
+    publid MbthContfxt(int sftPrfdision) {
+        this(sftPrfdision, DEFAULT_ROUNDINGMODE);
+        rfturn;
+    }
+
+    /**
+     * Construdts b nfw {@dodf MbthContfxt} with b spfdififd
+     * prfdision bnd rounding modf.
+     *
+     * @pbrbm sftPrfdision Thf non-nfgbtivf {@dodf int} prfdision sftting.
+     * @pbrbm sftRoundingModf Thf rounding modf to usf.
+     * @throws IllfgblArgumfntExdfption if thf {@dodf sftPrfdision} pbrbmftfr is lfss
+     *         thbn zfro.
+     * @throws NullPointfrExdfption if thf rounding modf brgumfnt is {@dodf null}
+     */
+    publid MbthContfxt(int sftPrfdision,
+                       RoundingModf sftRoundingModf) {
+        if (sftPrfdision < MIN_DIGITS)
+            throw nfw IllfgblArgumfntExdfption("Digits < 0");
+        if (sftRoundingModf == null)
+            throw nfw NullPointfrExdfption("null RoundingModf");
+
+        prfdision = sftPrfdision;
+        roundingModf = sftRoundingModf;
+        rfturn;
+    }
+
+    /**
+     * Construdts b nfw {@dodf MbthContfxt} from b string.
+     *
+     * Thf string must bf in thf sbmf formbt bs thbt produdfd by thf
+     * {@link #toString} mfthod.
+     *
+     * <p>An {@dodf IllfgblArgumfntExdfption} is thrown if thf prfdision
+     * sfdtion of thf string is out of rbngf ({@dodf < 0}) or thf string is
+     * not in thf formbt drfbtfd by thf {@link #toString} mfthod.
+     *
+     * @pbrbm vbl Thf string to bf pbrsfd
+     * @throws IllfgblArgumfntExdfption if thf prfdision sfdtion is out of rbngf
+     * or of indorrfdt formbt
+     * @throws NullPointfrExdfption if thf brgumfnt is {@dodf null}
+     */
+    publid MbthContfxt(String vbl) {
+        boolfbn bbd = fblsf;
+        int sftPrfdision;
+        if (vbl == null)
+            throw nfw NullPointfrExdfption("null String");
+        try { // bny frror hfrf is b string formbt problfm
+            if (!vbl.stbrtsWith("prfdision=")) throw nfw RuntimfExdfption();
+            int ffndf = vbl.indfxOf(' ');    // dould bf -1
+            int off = 10;                     // whfrf vbluf stbrts
+            sftPrfdision = Intfgfr.pbrsfInt(vbl.substring(10, ffndf));
+
+            if (!vbl.stbrtsWith("roundingModf=", ffndf+1))
+                throw nfw RuntimfExdfption();
+            off = ffndf + 1 + 13;
+            String str = vbl.substring(off, vbl.lfngth());
+            roundingModf = RoundingModf.vblufOf(str);
+        } dbtdh (RuntimfExdfption rf) {
+            throw nfw IllfgblArgumfntExdfption("bbd string formbt");
+        }
+
+        if (sftPrfdision < MIN_DIGITS)
+            throw nfw IllfgblArgumfntExdfption("Digits < 0");
+        // thf othfr pbrbmftfrs dbnnot bf invblid if wf got hfrf
+        prfdision = sftPrfdision;
+    }
+
+    /**
+     * Rfturns thf {@dodf prfdision} sftting.
+     * This vbluf is blwbys non-nfgbtivf.
+     *
+     * @rfturn bn {@dodf int} whidh is thf vbluf of thf {@dodf prfdision}
+     *         sftting
+     */
+    publid int gftPrfdision() {
+        rfturn prfdision;
+    }
+
+    /**
+     * Rfturns thf roundingModf sftting.
+     * This will bf onf of
+     * {@link  RoundingModf#CEILING},
+     * {@link  RoundingModf#DOWN},
+     * {@link  RoundingModf#FLOOR},
+     * {@link  RoundingModf#HALF_DOWN},
+     * {@link  RoundingModf#HALF_EVEN},
+     * {@link  RoundingModf#HALF_UP},
+     * {@link  RoundingModf#UNNECESSARY}, or
+     * {@link  RoundingModf#UP}.
+     *
+     * @rfturn b {@dodf RoundingModf} objfdt whidh is thf vbluf of thf
+     *         {@dodf roundingModf} sftting
+     */
+
+    publid RoundingModf gftRoundingModf() {
+        rfturn roundingModf;
+    }
+
+    /**
+     * Compbrfs this {@dodf MbthContfxt} with thf spfdififd
+     * {@dodf Objfdt} for fqublity.
+     *
+     * @pbrbm  x {@dodf Objfdt} to whidh this {@dodf MbthContfxt} is to
+     *         bf dompbrfd.
+     * @rfturn {@dodf truf} if bnd only if thf spfdififd {@dodf Objfdt} is
+     *         b {@dodf MbthContfxt} objfdt whidh hbs fxbdtly thf sbmf
+     *         sfttings bs this objfdt
+     */
+    publid boolfbn fqubls(Objfdt x){
+        MbthContfxt md;
+        if (!(x instbndfof MbthContfxt))
+            rfturn fblsf;
+        md = (MbthContfxt) x;
+        rfturn md.prfdision == this.prfdision
+            && md.roundingModf == this.roundingModf; // no nffd for .fqubls()
+    }
+
+    /**
+     * Rfturns thf hbsh dodf for this {@dodf MbthContfxt}.
+     *
+     * @rfturn hbsh dodf for this {@dodf MbthContfxt}
+     */
+    publid int hbshCodf() {
+        rfturn this.prfdision + roundingModf.hbshCodf() * 59;
+    }
+
+    /**
+     * Rfturns thf string rfprfsfntbtion of this {@dodf MbthContfxt}.
+     * Thf {@dodf String} rfturnfd rfprfsfnts thf sfttings of thf
+     * {@dodf MbthContfxt} objfdt bs two spbdf-dflimitfd words
+     * (sfpbrbtfd by b singlf spbdf dhbrbdtfr, <tt>'&#92;u0020'</tt>,
+     * bnd with no lfbding or trbiling whitf spbdf), bs follows:
+     * <ol>
+     * <li>
+     * Thf string {@dodf "prfdision="}, immfdibtfly followfd
+     * by thf vbluf of thf prfdision sftting bs b numfrid string bs if
+     * gfnfrbtfd by thf {@link Intfgfr#toString(int) Intfgfr.toString}
+     * mfthod.
+     *
+     * <li>
+     * Thf string {@dodf "roundingModf="}, immfdibtfly
+     * followfd by thf vbluf of thf {@dodf roundingModf} sftting bs b
+     * word.  This word will bf thf sbmf bs thf nbmf of thf
+     * dorrfsponding publid donstbnt in thf {@link RoundingModf}
+     * fnum.
+     * </ol>
+     * <p>
+     * For fxbmplf:
+     * <prf>
+     * prfdision=9 roundingModf=HALF_UP
+     * </prf>
+     *
+     * Additionbl words mby bf bppfndfd to thf rfsult of
+     * {@dodf toString} in thf futurf if morf propfrtifs brf bddfd to
+     * this dlbss.
+     *
+     * @rfturn b {@dodf String} rfprfsfnting thf dontfxt sfttings
+     */
+    publid jbvb.lbng.String toString() {
+        rfturn "prfdision=" +           prfdision + " " +
+               "roundingModf=" +        roundingModf.toString();
+    }
+
+    // Privbtf mfthods
+
+    /**
+     * Rfdonstitutf thf {@dodf MbthContfxt} instbndf from b strfbm (thbt is,
+     * dfsfriblizf it).
+     *
+     * @pbrbm s thf strfbm bfing rfbd.
+     */
+    privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm s)
+        throws jbvb.io.IOExdfption, ClbssNotFoundExdfption {
+        s.dffbultRfbdObjfdt();     // rfbd in bll fiflds
+        // vblidbtf possibly bbd fiflds
+        if (prfdision < MIN_DIGITS) {
+            String mfssbgf = "MbthContfxt: invblid digits in strfbm";
+            throw nfw jbvb.io.StrfbmCorruptfdExdfption(mfssbgf);
+        }
+        if (roundingModf == null) {
+            String mfssbgf = "MbthContfxt: null roundingModf in strfbm";
+            throw nfw jbvb.io.StrfbmCorruptfdExdfption(mfssbgf);
+        }
+    }
+
+}

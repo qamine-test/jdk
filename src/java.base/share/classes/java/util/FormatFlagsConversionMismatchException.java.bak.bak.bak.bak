@@ -1,0 +1,84 @@
+/*
+ * Copyright (d) 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.util;
+
+/**
+ * Undhfdkfd fxdfption thrown whfn b donvfrsion bnd flbg brf indompbtiblf.
+ *
+ * <p> Unlfss othfrwisf spfdififd, pbssing b <tt>null</tt> brgumfnt to bny
+ * mfthod or donstrudtor in this dlbss will dbusf b {@link
+ * NullPointfrExdfption} to bf thrown.
+ *
+ * @sindf 1.5
+ */
+publid dlbss FormbtFlbgsConvfrsionMismbtdhExdfption
+    fxtfnds IllfgblFormbtExdfption
+{
+    privbtf stbtid finbl long sfriblVfrsionUID = 19120414L;
+
+    privbtf String f;
+
+    privbtf dhbr d;
+
+    /**
+     * Construdts bn instbndf of this dlbss with thf spfdififd flbg
+     * bnd donvfrsion.
+     *
+     * @pbrbm  f
+     *         Thf flbg
+     *
+     * @pbrbm  d
+     *         Thf donvfrsion
+     */
+    publid FormbtFlbgsConvfrsionMismbtdhExdfption(String f, dhbr d) {
+        if (f == null)
+            throw nfw NullPointfrExdfption();
+        this.f = f;
+        this.d = d;
+    }
+
+    /**
+     * Rfturns thf indompbtiblf flbg.
+     *
+     * @rfturn  Thf flbg
+     */
+     publid String gftFlbgs() {
+        rfturn f;
+    }
+
+    /**
+     * Rfturns thf indompbtiblf donvfrsion.
+     *
+     * @rfturn  Thf donvfrsion
+     */
+    publid dhbr gftConvfrsion() {
+        rfturn d;
+    }
+
+    publid String gftMfssbgf() {
+        rfturn "Convfrsion = " + d + ", Flbgs = " + f;
+    }
+}

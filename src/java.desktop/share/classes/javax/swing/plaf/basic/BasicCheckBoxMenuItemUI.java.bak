@@ -1,81 +1,81 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.plaf.basic;
+pbdkbgf jbvbx.swing.plbf.bbsid;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.plaf.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
 
 /**
- * BasicCheckboxMenuItem implementation
+ * BbsidCifdkboxMfnuItfm implfmfntbtion
  *
- * @author Georges Saab
- * @author David Karlton
- * @author Arnaud Weber
+ * @butior Gforgfs Sbbb
+ * @butior Dbvid Kbrlton
+ * @butior Arnbud Wfbfr
  */
-public class BasicCheckBoxMenuItemUI extends BasicMenuItemUI {
+publid dlbss BbsidCifdkBoxMfnuItfmUI fxtfnds BbsidMfnuItfmUI {
 
     /**
-     * Constructs a new instance of {@code BasicCheckBoxMenuItemUI}.
+     * Construdts b nfw instbndf of {@dodf BbsidCifdkBoxMfnuItfmUI}.
      *
-     * @param c a component
-     * @return a new instance of {@code BasicCheckBoxMenuItemUI}
+     * @pbrbm d b domponfnt
+     * @rfturn b nfw instbndf of {@dodf BbsidCifdkBoxMfnuItfmUI}
      */
-    public static ComponentUI createUI(JComponent c) {
-        return new BasicCheckBoxMenuItemUI();
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt d) {
+        rfturn nfw BbsidCifdkBoxMfnuItfmUI();
     }
 
-    protected String getPropertyPrefix() {
-        return "CheckBoxMenuItem";
+    protfdtfd String gftPropfrtyPrffix() {
+        rfturn "CifdkBoxMfnuItfm";
     }
 
     /**
-     * Invoked when mouse event occurs.
+     * Invokfd wifn mousf fvfnt oddurs.
      *
-     * @param item a menu item
-     * @param e a mouse event
-     * @param path an array of {@code MenuElement}
-     * @param manager an instance of {@code MenuSelectionManager}
+     * @pbrbm itfm b mfnu itfm
+     * @pbrbm f b mousf fvfnt
+     * @pbrbm pbti bn brrby of {@dodf MfnuElfmfnt}
+     * @pbrbm mbnbgfr bn instbndf of {@dodf MfnuSflfdtionMbnbgfr}
      */
-    public void processMouseEvent(JMenuItem item,MouseEvent e,MenuElement path[],MenuSelectionManager manager) {
-        Point p = e.getPoint();
-        if(p.x >= 0 && p.x < item.getWidth() &&
-           p.y >= 0 && p.y < item.getHeight()) {
-            if(e.getID() == MouseEvent.MOUSE_RELEASED) {
-                manager.clearSelectedPath();
-                item.doClick(0);
-            } else
-                manager.setSelectedPath(path);
-        } else if(item.getModel().isArmed()) {
-            MenuElement newPath[] = new MenuElement[path.length-1];
-            int i,c;
-            for(i=0,c=path.length-1;i<c;i++)
-                newPath[i] = path[i];
-            manager.setSelectedPath(newPath);
+    publid void prodfssMousfEvfnt(JMfnuItfm itfm,MousfEvfnt f,MfnuElfmfnt pbti[],MfnuSflfdtionMbnbgfr mbnbgfr) {
+        Point p = f.gftPoint();
+        if(p.x >= 0 && p.x < itfm.gftWidti() &&
+           p.y >= 0 && p.y < itfm.gftHfigit()) {
+            if(f.gftID() == MousfEvfnt.MOUSE_RELEASED) {
+                mbnbgfr.dlfbrSflfdtfdPbti();
+                itfm.doClidk(0);
+            } flsf
+                mbnbgfr.sftSflfdtfdPbti(pbti);
+        } flsf if(itfm.gftModfl().isArmfd()) {
+            MfnuElfmfnt nfwPbti[] = nfw MfnuElfmfnt[pbti.lfngti-1];
+            int i,d;
+            for(i=0,d=pbti.lfngti-1;i<d;i++)
+                nfwPbti[i] = pbti[i];
+            mbnbgfr.sftSflfdtfdPbti(nfwPbti);
         }
     }
 }

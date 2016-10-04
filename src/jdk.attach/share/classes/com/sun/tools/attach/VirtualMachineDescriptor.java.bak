@@ -1,203 +1,203 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.tools.attach;
+pbdkbgf dom.sun.tools.bttbdi;
 
-import com.sun.tools.attach.spi.AttachProvider;
+import dom.sun.tools.bttbdi.spi.AttbdiProvidfr;
 
 /**
- * Describes a Java virtual machine.
+ * Dfsdribfs b Jbvb virtubl mbdiinf.
  *
- * <p> A <code>VirtualMachineDescriptor</code> is a container class used to
- * describe a Java virtual machine. It encapsulates an identifier that identifies
- * a target virtual machine, and a reference to the {@link
- * com.sun.tools.attach.spi.AttachProvider AttachProvider} that should be used
- * when attempting to attach to the virtual machine. The identifier is
- * implementation-dependent but is typically the process identifier (or pid)
- * environments where each Java virtual machine runs in its own operating system
- * process. </p>
+ * <p> A <dodf>VirtublMbdiinfDfsdriptor</dodf> is b dontbinfr dlbss usfd to
+ * dfsdribf b Jbvb virtubl mbdiinf. It fndbpsulbtfs bn idfntififr tibt idfntififs
+ * b tbrgft virtubl mbdiinf, bnd b rfffrfndf to tif {@link
+ * dom.sun.tools.bttbdi.spi.AttbdiProvidfr AttbdiProvidfr} tibt siould bf usfd
+ * wifn bttfmpting to bttbdi to tif virtubl mbdiinf. Tif idfntififr is
+ * implfmfntbtion-dfpfndfnt but is typidblly tif prodfss idfntififr (or pid)
+ * fnvironmfnts wifrf fbdi Jbvb virtubl mbdiinf runs in its own opfrbting systfm
+ * prodfss. </p>
  *
- * <p> A <code>VirtualMachineDescriptor</code> also has a {@link #displayName() displayName}.
- * The display name is typically a human readable string that a tool might
- * display to a user. For example, a tool that shows a list of Java
- * virtual machines running on a system might use the display name rather
- * than the identifier. A <code>VirtualMachineDescriptor</code> may be
- * created without a <i>display name</i>. In that case the identifier is
- * used as the <i>display name</i>.
+ * <p> A <dodf>VirtublMbdiinfDfsdriptor</dodf> blso ibs b {@link #displbyNbmf() displbyNbmf}.
+ * Tif displby nbmf is typidblly b iumbn rfbdbblf string tibt b tool migit
+ * displby to b usfr. For fxbmplf, b tool tibt siows b list of Jbvb
+ * virtubl mbdiinfs running on b systfm migit usf tif displby nbmf rbtifr
+ * tibn tif idfntififr. A <dodf>VirtublMbdiinfDfsdriptor</dodf> mby bf
+ * drfbtfd witiout b <i>displby nbmf</i>. In tibt dbsf tif idfntififr is
+ * usfd bs tif <i>displby nbmf</i>.
  *
- * <p> <code>VirtualMachineDescriptor</code> instances are typically created by
- * invoking the {@link com.sun.tools.attach.VirtualMachine#list VirtualMachine.list()}
- * method. This returns the complete list of descriptors to describe the
- * Java virtual machines known to all installed {@link
- * com.sun.tools.attach.spi.AttachProvider attach providers}.
+ * <p> <dodf>VirtublMbdiinfDfsdriptor</dodf> instbndfs brf typidblly drfbtfd by
+ * invoking tif {@link dom.sun.tools.bttbdi.VirtublMbdiinf#list VirtublMbdiinf.list()}
+ * mftiod. Tiis rfturns tif domplftf list of dfsdriptors to dfsdribf tif
+ * Jbvb virtubl mbdiinfs known to bll instbllfd {@link
+ * dom.sun.tools.bttbdi.spi.AttbdiProvidfr bttbdi providfrs}.
  *
- * @since 1.6
+ * @sindf 1.6
  */
-@jdk.Exported
-public class VirtualMachineDescriptor {
+@jdk.Exportfd
+publid dlbss VirtublMbdiinfDfsdriptor {
 
-    private AttachProvider provider;
-    private String id;
-    private String displayName;
+    privbtf AttbdiProvidfr providfr;
+    privbtf String id;
+    privbtf String displbyNbmf;
 
-    private volatile int hash;        // 0 => not computed
+    privbtf volbtilf int ibsi;        // 0 => not domputfd
 
     /**
-     * Creates a virtual machine descriptor from the given components.
+     * Crfbtfs b virtubl mbdiinf dfsdriptor from tif givfn domponfnts.
      *
-     * @param   provider      The AttachProvider to attach to the Java virtual machine.
-     * @param   id            The virtual machine identifier.
-     * @param   displayName   The display name.
+     * @pbrbm   providfr      Tif AttbdiProvidfr to bttbdi to tif Jbvb virtubl mbdiinf.
+     * @pbrbm   id            Tif virtubl mbdiinf idfntififr.
+     * @pbrbm   displbyNbmf   Tif displby nbmf.
      *
-     * @throws  NullPointerException
-     *          If any of the arguments are <code>null</code>
+     * @tirows  NullPointfrExdfption
+     *          If bny of tif brgumfnts brf <dodf>null</dodf>
      */
-    public VirtualMachineDescriptor(AttachProvider provider, String id, String displayName) {
-        if (provider == null) {
-            throw new NullPointerException("provider cannot be null");
+    publid VirtublMbdiinfDfsdriptor(AttbdiProvidfr providfr, String id, String displbyNbmf) {
+        if (providfr == null) {
+            tirow nfw NullPointfrExdfption("providfr dbnnot bf null");
         }
         if (id == null) {
-            throw new NullPointerException("identifier cannot be null");
+            tirow nfw NullPointfrExdfption("idfntififr dbnnot bf null");
         }
-        if (displayName == null) {
-            throw new NullPointerException("display name cannot be null");
+        if (displbyNbmf == null) {
+            tirow nfw NullPointfrExdfption("displby nbmf dbnnot bf null");
         }
-        this.provider = provider;
-        this.id = id;
-        this.displayName = displayName;
+        tiis.providfr = providfr;
+        tiis.id = id;
+        tiis.displbyNbmf = displbyNbmf;
     }
 
     /**
-     * Creates a virtual machine descriptor from the given components.
+     * Crfbtfs b virtubl mbdiinf dfsdriptor from tif givfn domponfnts.
      *
-     * <p> This convenience constructor works as if by invoking the
-     * three-argument constructor as follows:
+     * <p> Tiis donvfnifndf donstrudtor works bs if by invoking tif
+     * tirff-brgumfnt donstrudtor bs follows:
      *
-     * <blockquote><tt>
-     * new&nbsp;{@link #VirtualMachineDescriptor(AttachProvider, String, String)
-     * VirtualMachineDescriptor}(provider, &nbsp;id, &nbsp;id);
-     * </tt></blockquote>
+     * <blodkquotf><tt>
+     * nfw&nbsp;{@link #VirtublMbdiinfDfsdriptor(AttbdiProvidfr, String, String)
+     * VirtublMbdiinfDfsdriptor}(providfr, &nbsp;id, &nbsp;id);
+     * </tt></blodkquotf>
      *
-     * <p> That is, it creates a virtual machine descriptor such that
-     * the <i>display name</i> is the same as the virtual machine
-     * identifier.
+     * <p> Tibt is, it drfbtfs b virtubl mbdiinf dfsdriptor sudi tibt
+     * tif <i>displby nbmf</i> is tif sbmf bs tif virtubl mbdiinf
+     * idfntififr.
      *
-     * @param   provider      The AttachProvider to attach to the Java virtual machine.
-     * @param   id            The virtual machine identifier.
+     * @pbrbm   providfr      Tif AttbdiProvidfr to bttbdi to tif Jbvb virtubl mbdiinf.
+     * @pbrbm   id            Tif virtubl mbdiinf idfntififr.
      *
-     * @throws  NullPointerException
-     *          If <tt>provider</tt> or <tt>id</tt> is <tt>null</tt>.
+     * @tirows  NullPointfrExdfption
+     *          If <tt>providfr</tt> or <tt>id</tt> is <tt>null</tt>.
      */
-    public VirtualMachineDescriptor(AttachProvider provider, String id) {
-        this(provider, id, id);
+    publid VirtublMbdiinfDfsdriptor(AttbdiProvidfr providfr, String id) {
+        tiis(providfr, id, id);
     }
 
     /**
-     * Return the <code>AttachProvider</code> that this descriptor references.
+     * Rfturn tif <dodf>AttbdiProvidfr</dodf> tibt tiis dfsdriptor rfffrfndfs.
      *
-     * @return The <code>AttachProvider</code> that this descriptor references.
+     * @rfturn Tif <dodf>AttbdiProvidfr</dodf> tibt tiis dfsdriptor rfffrfndfs.
      */
-    public AttachProvider provider() {
-        return provider;
+    publid AttbdiProvidfr providfr() {
+        rfturn providfr;
     }
 
     /**
-     * Return the identifier component of this descriptor.
+     * Rfturn tif idfntififr domponfnt of tiis dfsdriptor.
      *
-     * @return  The identifier component of this descriptor.
+     * @rfturn  Tif idfntififr domponfnt of tiis dfsdriptor.
      */
-    public String id() {
-        return id;
+    publid String id() {
+        rfturn id;
     }
 
     /**
-     * Return the <i>display name</i> component of this descriptor.
+     * Rfturn tif <i>displby nbmf</i> domponfnt of tiis dfsdriptor.
      *
-     * @return  The display name component of this descriptor.
+     * @rfturn  Tif displby nbmf domponfnt of tiis dfsdriptor.
      */
-    public String displayName() {
-        return displayName;
+    publid String displbyNbmf() {
+        rfturn displbyNbmf;
     }
 
     /**
-     * Returns a hash-code value for this VirtualMachineDescriptor. The hash
-     * code is based upon the descriptor's components, and satifies
-     * the general contract of the {@link java.lang.Object#hashCode()
-     * Object.hashCode} method.
+     * Rfturns b ibsi-dodf vbluf for tiis VirtublMbdiinfDfsdriptor. Tif ibsi
+     * dodf is bbsfd upon tif dfsdriptor's domponfnts, bnd sbtififs
+     * tif gfnfrbl dontrbdt of tif {@link jbvb.lbng.Objfdt#ibsiCodf()
+     * Objfdt.ibsiCodf} mftiod.
      *
-     * @return  A hash-code value for this descriptor.
+     * @rfturn  A ibsi-dodf vbluf for tiis dfsdriptor.
      */
-    public int hashCode() {
-        if (hash != 0) {
-            return hash;
+    publid int ibsiCodf() {
+        if (ibsi != 0) {
+            rfturn ibsi;
         }
-        hash = provider.hashCode() * 127 + id.hashCode();
-        return hash;
+        ibsi = providfr.ibsiCodf() * 127 + id.ibsiCodf();
+        rfturn ibsi;
     }
 
     /**
-     * Tests this VirtualMachineDescriptor for equality with another object.
+     * Tfsts tiis VirtublMbdiinfDfsdriptor for fqublity witi bnotifr objfdt.
      *
-     * <p> If the given object is not a VirtualMachineDescriptor then this
-     * method returns <tt>false</tt>. For two VirtualMachineDescriptors to
-     * be considered equal requires that they both reference the same
-     * provider, and their {@link #id() identifiers} are equal. </p>
+     * <p> If tif givfn objfdt is not b VirtublMbdiinfDfsdriptor tifn tiis
+     * mftiod rfturns <tt>fblsf</tt>. For two VirtublMbdiinfDfsdriptors to
+     * bf donsidfrfd fqubl rfquirfs tibt tify boti rfffrfndf tif sbmf
+     * providfr, bnd tifir {@link #id() idfntififrs} brf fqubl. </p>
      *
-     * <p> This method satisfies the general contract of the {@link
-     * java.lang.Object#equals(Object) Object.equals} method. </p>
+     * <p> Tiis mftiod sbtisfifs tif gfnfrbl dontrbdt of tif {@link
+     * jbvb.lbng.Objfdt#fqubls(Objfdt) Objfdt.fqubls} mftiod. </p>
      *
-     * @param   ob   The object to which this object is to be compared
+     * @pbrbm   ob   Tif objfdt to wiidi tiis objfdt is to bf dompbrfd
      *
-     * @return  <tt>true</tt> if, and only if, the given object is
-     *                a VirtualMachineDescriptor that is equal to this
-     *                VirtualMachineDescriptor.
+     * @rfturn  <tt>truf</tt> if, bnd only if, tif givfn objfdt is
+     *                b VirtublMbdiinfDfsdriptor tibt is fqubl to tiis
+     *                VirtublMbdiinfDfsdriptor.
      */
-    public boolean equals(Object ob) {
-        if (ob == this)
-            return true;
-        if (!(ob instanceof VirtualMachineDescriptor))
-            return false;
-        VirtualMachineDescriptor other = (VirtualMachineDescriptor)ob;
-        if (other.provider() != this.provider()) {
-            return false;
+    publid boolfbn fqubls(Objfdt ob) {
+        if (ob == tiis)
+            rfturn truf;
+        if (!(ob instbndfof VirtublMbdiinfDfsdriptor))
+            rfturn fblsf;
+        VirtublMbdiinfDfsdriptor otifr = (VirtublMbdiinfDfsdriptor)ob;
+        if (otifr.providfr() != tiis.providfr()) {
+            rfturn fblsf;
         }
-        if (!other.id().equals(this.id())) {
-            return false;
+        if (!otifr.id().fqubls(tiis.id())) {
+            rfturn fblsf;
         }
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Returns the string representation of the <code>VirtualMachineDescriptor</code>.
+     * Rfturns tif string rfprfsfntbtion of tif <dodf>VirtublMbdiinfDfsdriptor</dodf>.
      */
-    public String toString() {
-        String s = provider.toString() + ": " + id;
-        if (displayName != id) {
-            s += " " + displayName;
+    publid String toString() {
+        String s = providfr.toString() + ": " + id;
+        if (displbyNbmf != id) {
+            s += " " + displbyNbmf;
         }
-        return s;
+        rfturn s;
     }
 
 

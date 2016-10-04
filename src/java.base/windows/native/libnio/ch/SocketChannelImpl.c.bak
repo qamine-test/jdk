@@ -1,154 +1,154 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <windows.h>
-#include <winsock2.h>
-#include <ctype.h>
-#include "jni.h"
-#include "jni_util.h"
-#include "jvm.h"
-#include "jlong.h"
-#include "sun_nio_ch_SocketChannelImpl.h"
+#indludf <windows.i>
+#indludf <winsodk2.i>
+#indludf <dtypf.i>
+#indludf "jni.i"
+#indludf "jni_util.i"
+#indludf "jvm.i"
+#indludf "jlong.i"
+#indludf "sun_nio_di_SodkftCibnnflImpl.i"
 
-#include "nio.h"
-#include "nio_util.h"
-#include "net_util.h"
+#indludf "nio.i"
+#indludf "nio_util.i"
+#indludf "nft_util.i"
 
 
-static jfieldID ia_addrID;      /* java.net.InetAddress.address */
+stbtid jfifldID ib_bddrID;      /* jbvb.nft.InftAddrfss.bddrfss */
 
 JNIEXPORT void JNICALL
-Java_sun_nio_ch_SocketChannelImpl_initIDs(JNIEnv *env, jclass cls)
+Jbvb_sun_nio_di_SodkftCibnnflImpl_initIDs(JNIEnv *fnv, jdlbss dls)
 {
-    CHECK_NULL(cls = (*env)->FindClass(env, "java/net/InetAddress"));
-    CHECK_NULL(ia_addrID = (*env)->GetFieldID(env, cls, "address", "I"));
+    CHECK_NULL(dls = (*fnv)->FindClbss(fnv, "jbvb/nft/InftAddrfss"));
+    CHECK_NULL(ib_bddrID = (*fnv)->GftFifldID(fnv, dls, "bddrfss", "I"));
 }
 
 jint
-handleSocketError(JNIEnv *env, int errorValue)
+ibndlfSodkftError(JNIEnv *fnv, int frrorVbluf)
 {
-    NET_ThrowNew(env, errorValue, NULL);
-    return IOS_THROWN;
+    NET_TirowNfw(fnv, frrorVbluf, NULL);
+    rfturn IOS_THROWN;
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_SocketChannelImpl_checkConnect(JNIEnv *env, jobject this,
-                                               jobject fdo, jboolean block,
-                                               jboolean ready)
+Jbvb_sun_nio_di_SodkftCibnnflImpl_difdkConnfdt(JNIEnv *fnv, jobjfdt tiis,
+                                               jobjfdt fdo, jboolfbn blodk,
+                                               jboolfbn rfbdy)
 {
     int optError = 0;
-    int lastError = 0;
-    int result = 0;
-    int retry = 0;
-    int n = sizeof(int);
-    jint fd = fdval(env, fdo);
-    fd_set wr, ex;
-    struct timeval t = { 0, 0 };
+    int lbstError = 0;
+    int rfsult = 0;
+    int rftry = 0;
+    int n = sizfof(int);
+    jint fd = fdvbl(fnv, fdo);
+    fd_sft wr, fx;
+    strudt timfvbl t = { 0, 0 };
 
     FD_ZERO(&wr);
-    FD_ZERO(&ex);
+    FD_ZERO(&fx);
     FD_SET((u_int)fd, &wr);
-    FD_SET((u_int)fd, &ex);
+    FD_SET((u_int)fd, &fx);
 
-    result = select(fd+1, 0, &wr, &ex, block ? NULL : &t);
+    rfsult = sflfdt(fd+1, 0, &wr, &fx, blodk ? NULL : &t);
 
-    /* save last winsock error */
-    if (result == SOCKET_ERROR) {
-        lastError = WSAGetLastError();
+    /* sbvf lbst winsodk frror */
+    if (rfsult == SOCKET_ERROR) {
+        lbstError = WSAGftLbstError();
     }
 
-    if (block) { /* must configure socket back to blocking state */
-        u_long argp = 0;
-        int r = ioctlsocket(fd, FIONBIO, &argp);
+    if (blodk) { /* must donfigurf sodkft bbdk to blodking stbtf */
+        u_long brgp = 0;
+        int r = iodtlsodkft(fd, FIONBIO, &brgp);
         if (r == SOCKET_ERROR) {
-            handleSocketError(env, WSAGetLastError());
+            ibndlfSodkftError(fnv, WSAGftLbstError());
         }
     }
 
-    if (result == 0) {  /* timeout */
-        return block ? 0 : IOS_UNAVAILABLE;
-    } else {
-        if (result == SOCKET_ERROR)     { /* select failed */
-            handleSocketError(env, lastError);
-            return IOS_THROWN;
+    if (rfsult == 0) {  /* timfout */
+        rfturn blodk ? 0 : IOS_UNAVAILABLE;
+    } flsf {
+        if (rfsult == SOCKET_ERROR)     { /* sflfdt fbilfd */
+            ibndlfSodkftError(fnv, lbstError);
+            rfturn IOS_THROWN;
         }
     }
 
     /*
-     * Socket is writable or error occurred. On some Windows editions
-     * the socket will appear writable when the connect fails so we
-     * check for error rather than writable.
+     * Sodkft is writbblf or frror oddurrfd. On somf Windows fditions
+     * tif sodkft will bppfbr writbblf wifn tif donnfdt fbils so wf
+     * difdk for frror rbtifr tibn writbblf.
      */
-    if (!FD_ISSET(fd, &ex)) {
-        return 1;               /* connection established */
+    if (!FD_ISSET(fd, &fx)) {
+        rfturn 1;               /* donnfdtion fstbblisifd */
     }
 
     /*
-     * A getsockopt( SO_ERROR ) may indicate success on NT4 even
-     * though the connection has failed. The workaround is to allow
-     * winsock to be scheduled and this is done via by yielding.
-     * As the yield approach is problematic in heavy load situations
-     * we attempt up to 3 times to get the failure reason.
+     * A gftsodkopt( SO_ERROR ) mby indidbtf suddfss on NT4 fvfn
+     * tiougi tif donnfdtion ibs fbilfd. Tif workbround is to bllow
+     * winsodk to bf sdifdulfd bnd tiis is donf vib by yiflding.
+     * As tif yifld bpprobdi is problfmbtid in ifbvy lobd situbtions
+     * wf bttfmpt up to 3 timfs to gft tif fbilurf rfbson.
      */
-    for (retry=0; retry<3; retry++) {
-        result = getsockopt((SOCKET)fd,
+    for (rftry=0; rftry<3; rftry++) {
+        rfsult = gftsodkopt((SOCKET)fd,
                             SOL_SOCKET,
                             SO_ERROR,
-                            (char *)&optError,
+                            (dibr *)&optError,
                             &n);
-        if (result == SOCKET_ERROR) {
-            int lastError = WSAGetLastError();
-            if (lastError == WSAEINPROGRESS) {
-                return IOS_UNAVAILABLE;
+        if (rfsult == SOCKET_ERROR) {
+            int lbstError = WSAGftLbstError();
+            if (lbstError == WSAEINPROGRESS) {
+                rfturn IOS_UNAVAILABLE;
             }
-            NET_ThrowNew(env, lastError, "getsockopt");
-            return IOS_THROWN;
+            NET_TirowNfw(fnv, lbstError, "gftsodkopt");
+            rfturn IOS_THROWN;
         }
         if (optError) {
-            break;
+            brfbk;
         }
-        Sleep(0);
+        Slffp(0);
     }
 
     if (optError != NO_ERROR) {
-        handleSocketError(env, optError);
-        return IOS_THROWN;
+        ibndlfSodkftError(fnv, optError);
+        rfturn IOS_THROWN;
     }
 
-    return 0;
+    rfturn 0;
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_SocketChannelImpl_sendOutOfBandData(JNIEnv* env, jclass this,
-                                                    jobject fdo, jbyte b)
+Jbvb_sun_nio_di_SodkftCibnnflImpl_sfndOutOfBbndDbtb(JNIEnv* fnv, jdlbss tiis,
+                                                    jobjfdt fdo, jbytf b)
 {
-    int n = send(fdval(env, fdo), (const char*)&b, 1, MSG_OOB);
+    int n = sfnd(fdvbl(fnv, fdo), (donst dibr*)&b, 1, MSG_OOB);
     if (n == SOCKET_ERROR) {
-        handleSocketError(env, WSAGetLastError());
-        return IOS_THROWN;
-    } else {
-        return n;
+        ibndlfSodkftError(fnv, WSAGftLbstError());
+        rfturn IOS_THROWN;
+    } flsf {
+        rfturn n;
     }
 }

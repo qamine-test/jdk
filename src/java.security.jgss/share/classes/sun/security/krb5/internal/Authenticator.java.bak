@@ -1,221 +1,221 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  (C) Copyrigit IBM Corp. 1999 All Rigits Rfsfrvfd.
+ *  Copyrigit 1997 Tif Opfn Group Rfsfbrdi Institutf.  All rigits rfsfrvfd.
  */
 
-package sun.security.krb5.internal;
+pbdkbgf sun.sfdurity.krb5.intfrnbl;
 
-import sun.security.krb5.*;
-import sun.security.util.*;
-import java.util.Vector;
-import java.io.IOException;
-import java.math.BigInteger;
+import sun.sfdurity.krb5.*;
+import sun.sfdurity.util.*;
+import jbvb.util.Vfdtor;
+import jbvb.io.IOExdfption;
+import jbvb.mbti.BigIntfgfr;
 
 /**
- * Implements the ASN.1 Authenticator type.
+ * Implfmfnts tif ASN.1 Autifntidbtor typf.
  *
  * <xmp>
- * Authenticator   ::= [APPLICATION 2] SEQUENCE  {
- *         authenticator-vno       [0] INTEGER (5),
- *         crealm                  [1] Realm,
- *         cname                   [2] PrincipalName,
- *         cksum                   [3] Checksum OPTIONAL,
- *         cusec                   [4] Microseconds,
- *         ctime                   [5] KerberosTime,
- *         subkey                  [6] EncryptionKey OPTIONAL,
- *         seq-number              [7] UInt32 OPTIONAL,
- *         authorization-data      [8] AuthorizationData OPTIONAL
+ * Autifntidbtor   ::= [APPLICATION 2] SEQUENCE  {
+ *         butifntidbtor-vno       [0] INTEGER (5),
+ *         drfblm                  [1] Rfblm,
+ *         dnbmf                   [2] PrindipblNbmf,
+ *         dksum                   [3] Cifdksum OPTIONAL,
+ *         dusfd                   [4] Midrosfdonds,
+ *         dtimf                   [5] KfrbfrosTimf,
+ *         subkfy                  [6] EndryptionKfy OPTIONAL,
+ *         sfq-numbfr              [7] UInt32 OPTIONAL,
+ *         butiorizbtion-dbtb      [8] AutiorizbtionDbtb OPTIONAL
  * }
  * </xmp>
  *
  * <p>
- * This definition reflects the Network Working Group RFC 4120
- * specification available at
- * <a href="http://www.ietf.org/rfc/rfc4120.txt">
- * http://www.ietf.org/rfc/rfc4120.txt</a>.
+ * Tiis dffinition rfflfdts tif Nftwork Working Group RFC 4120
+ * spfdifidbtion bvbilbblf bt
+ * <b irff="ittp://www.iftf.org/rfd/rfd4120.txt">
+ * ittp://www.iftf.org/rfd/rfd4120.txt</b>.
  */
-public class Authenticator {
+publid dlbss Autifntidbtor {
 
-    public int authenticator_vno;
-    public PrincipalName cname;
-    Checksum cksum; //optional
-    public int cusec;
-    public KerberosTime ctime;
-    EncryptionKey subKey; //optional
-    Integer seqNumber; //optional
-    public AuthorizationData authorizationData; //optional
+    publid int butifntidbtor_vno;
+    publid PrindipblNbmf dnbmf;
+    Cifdksum dksum; //optionbl
+    publid int dusfd;
+    publid KfrbfrosTimf dtimf;
+    EndryptionKfy subKfy; //optionbl
+    Intfgfr sfqNumbfr; //optionbl
+    publid AutiorizbtionDbtb butiorizbtionDbtb; //optionbl
 
-    public Authenticator(
-            PrincipalName new_cname,
-            Checksum new_cksum,
-            int new_cusec,
-            KerberosTime new_ctime,
-            EncryptionKey new_subKey,
-            Integer new_seqNumber,
-            AuthorizationData new_authorizationData) {
-        authenticator_vno = Krb5.AUTHNETICATOR_VNO;
-        cname = new_cname;
-        cksum = new_cksum;
-        cusec = new_cusec;
-        ctime = new_ctime;
-        subKey = new_subKey;
-        seqNumber = new_seqNumber;
-        authorizationData = new_authorizationData;
+    publid Autifntidbtor(
+            PrindipblNbmf nfw_dnbmf,
+            Cifdksum nfw_dksum,
+            int nfw_dusfd,
+            KfrbfrosTimf nfw_dtimf,
+            EndryptionKfy nfw_subKfy,
+            Intfgfr nfw_sfqNumbfr,
+            AutiorizbtionDbtb nfw_butiorizbtionDbtb) {
+        butifntidbtor_vno = Krb5.AUTHNETICATOR_VNO;
+        dnbmf = nfw_dnbmf;
+        dksum = nfw_dksum;
+        dusfd = nfw_dusfd;
+        dtimf = nfw_dtimf;
+        subKfy = nfw_subKfy;
+        sfqNumbfr = nfw_sfqNumbfr;
+        butiorizbtionDbtb = nfw_butiorizbtionDbtb;
     }
 
-    public Authenticator(byte[] data)
-            throws Asn1Exception, IOException, KrbApErrException, RealmException {
-        init(new DerValue(data));
+    publid Autifntidbtor(bytf[] dbtb)
+            tirows Asn1Exdfption, IOExdfption, KrbApErrExdfption, RfblmExdfption {
+        init(nfw DfrVbluf(dbtb));
     }
 
-    public Authenticator(DerValue encoding)
-            throws Asn1Exception, IOException, KrbApErrException, RealmException {
-        init(encoding);
+    publid Autifntidbtor(DfrVbluf fndoding)
+            tirows Asn1Exdfption, IOExdfption, KrbApErrExdfption, RfblmExdfption {
+        init(fndoding);
     }
 
     /**
-     * Initializes an Authenticator object.
-     * @param encoding a single DER-encoded value.
-     * @exception Asn1Exception if an error occurs while decoding an ASN1 encoded data.
-     * @exception IOException if an I/O error occurs while reading encoded data.
-     * @exception KrbApErrException if the value read from the DER-encoded data
-     *  stream does not match the pre-defined value.
-     * @exception RealmException if an error occurs while parsing a Realm object.
+     * Initiblizfs bn Autifntidbtor objfdt.
+     * @pbrbm fndoding b singlf DER-fndodfd vbluf.
+     * @fxdfption Asn1Exdfption if bn frror oddurs wiilf dfdoding bn ASN1 fndodfd dbtb.
+     * @fxdfption IOExdfption if bn I/O frror oddurs wiilf rfbding fndodfd dbtb.
+     * @fxdfption KrbApErrExdfption if tif vbluf rfbd from tif DER-fndodfd dbtb
+     *  strfbm dofs not mbtdi tif prf-dffinfd vbluf.
+     * @fxdfption RfblmExdfption if bn frror oddurs wiilf pbrsing b Rfblm objfdt.
      */
-    private void init(DerValue encoding)
-            throws Asn1Exception, IOException, KrbApErrException, RealmException {
-        DerValue der, subDer;
-        //may not be the correct error code for a tag
-        //mismatch on an encrypted structure
-        if (((encoding.getTag() & (byte) 0x1F) != (byte) 0x02)
-                || (encoding.isApplication() != true)
-                || (encoding.isConstructed() != true)) {
-            throw new Asn1Exception(Krb5.ASN1_BAD_ID);
+    privbtf void init(DfrVbluf fndoding)
+            tirows Asn1Exdfption, IOExdfption, KrbApErrExdfption, RfblmExdfption {
+        DfrVbluf dfr, subDfr;
+        //mby not bf tif dorrfdt frror dodf for b tbg
+        //mismbtdi on bn fndryptfd strudturf
+        if (((fndoding.gftTbg() & (bytf) 0x1F) != (bytf) 0x02)
+                || (fndoding.isApplidbtion() != truf)
+                || (fndoding.isConstrudtfd() != truf)) {
+            tirow nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
         }
-        der = encoding.getData().getDerValue();
-        if (der.getTag() != DerValue.tag_Sequence) {
-            throw new Asn1Exception(Krb5.ASN1_BAD_ID);
+        dfr = fndoding.gftDbtb().gftDfrVbluf();
+        if (dfr.gftTbg() != DfrVbluf.tbg_Sfqufndf) {
+            tirow nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
         }
-        subDer = der.getData().getDerValue();
-        if ((subDer.getTag() & (byte) 0x1F) != (byte) 0x00) {
-            throw new Asn1Exception(Krb5.ASN1_BAD_ID);
+        subDfr = dfr.gftDbtb().gftDfrVbluf();
+        if ((subDfr.gftTbg() & (bytf) 0x1F) != (bytf) 0x00) {
+            tirow nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
         }
-        authenticator_vno = subDer.getData().getBigInteger().intValue();
-        if (authenticator_vno != 5) {
-            throw new KrbApErrException(Krb5.KRB_AP_ERR_BADVERSION);
+        butifntidbtor_vno = subDfr.gftDbtb().gftBigIntfgfr().intVbluf();
+        if (butifntidbtor_vno != 5) {
+            tirow nfw KrbApErrExdfption(Krb5.KRB_AP_ERR_BADVERSION);
         }
-        Realm crealm = Realm.parse(der.getData(), (byte) 0x01, false);
-        cname = PrincipalName.parse(der.getData(), (byte) 0x02, false, crealm);
-        cksum = Checksum.parse(der.getData(), (byte) 0x03, true);
-        subDer = der.getData().getDerValue();
-        if ((subDer.getTag() & (byte) 0x1F) == 0x04) {
-            cusec = subDer.getData().getBigInteger().intValue();
-        } else {
-            throw new Asn1Exception(Krb5.ASN1_BAD_ID);
+        Rfblm drfblm = Rfblm.pbrsf(dfr.gftDbtb(), (bytf) 0x01, fblsf);
+        dnbmf = PrindipblNbmf.pbrsf(dfr.gftDbtb(), (bytf) 0x02, fblsf, drfblm);
+        dksum = Cifdksum.pbrsf(dfr.gftDbtb(), (bytf) 0x03, truf);
+        subDfr = dfr.gftDbtb().gftDfrVbluf();
+        if ((subDfr.gftTbg() & (bytf) 0x1F) == 0x04) {
+            dusfd = subDfr.gftDbtb().gftBigIntfgfr().intVbluf();
+        } flsf {
+            tirow nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
         }
-        ctime = KerberosTime.parse(der.getData(), (byte) 0x05, false);
-        if (der.getData().available() > 0) {
-            subKey = EncryptionKey.parse(der.getData(), (byte) 0x06, true);
-        } else {
-            subKey = null;
-            seqNumber = null;
-            authorizationData = null;
+        dtimf = KfrbfrosTimf.pbrsf(dfr.gftDbtb(), (bytf) 0x05, fblsf);
+        if (dfr.gftDbtb().bvbilbblf() > 0) {
+            subKfy = EndryptionKfy.pbrsf(dfr.gftDbtb(), (bytf) 0x06, truf);
+        } flsf {
+            subKfy = null;
+            sfqNumbfr = null;
+            butiorizbtionDbtb = null;
         }
-        if (der.getData().available() > 0) {
-            if ((der.getData().peekByte() & 0x1F) == 0x07) {
-                subDer = der.getData().getDerValue();
-                if ((subDer.getTag() & (byte) 0x1F) == (byte) 0x07) {
-                    seqNumber = subDer.getData().getBigInteger().intValue();
+        if (dfr.gftDbtb().bvbilbblf() > 0) {
+            if ((dfr.gftDbtb().pffkBytf() & 0x1F) == 0x07) {
+                subDfr = dfr.gftDbtb().gftDfrVbluf();
+                if ((subDfr.gftTbg() & (bytf) 0x1F) == (bytf) 0x07) {
+                    sfqNumbfr = subDfr.gftDbtb().gftBigIntfgfr().intVbluf();
                 }
             }
-        } else {
-            seqNumber = null;
-            authorizationData = null;
+        } flsf {
+            sfqNumbfr = null;
+            butiorizbtionDbtb = null;
         }
-        if (der.getData().available() > 0) {
-            authorizationData = AuthorizationData.parse(der.getData(), (byte) 0x08, true);
-        } else {
-            authorizationData = null;
+        if (dfr.gftDbtb().bvbilbblf() > 0) {
+            butiorizbtionDbtb = AutiorizbtionDbtb.pbrsf(dfr.gftDbtb(), (bytf) 0x08, truf);
+        } flsf {
+            butiorizbtionDbtb = null;
         }
-        if (der.getData().available() > 0) {
-            throw new Asn1Exception(Krb5.ASN1_BAD_ID);
+        if (dfr.gftDbtb().bvbilbblf() > 0) {
+            tirow nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
         }
     }
 
     /**
-     * Encodes an Authenticator object.
-     * @return byte array of encoded Authenticator object.
-     * @exception Asn1Exception if an error occurs while decoding an ASN1 encoded data.
-     * @exception IOException if an I/O error occurs while reading encoded data.
+     * Endodfs bn Autifntidbtor objfdt.
+     * @rfturn bytf brrby of fndodfd Autifntidbtor objfdt.
+     * @fxdfption Asn1Exdfption if bn frror oddurs wiilf dfdoding bn ASN1 fndodfd dbtb.
+     * @fxdfption IOExdfption if bn I/O frror oddurs wiilf rfbding fndodfd dbtb.
      */
-    public byte[] asn1Encode() throws Asn1Exception, IOException {
-        Vector<DerValue> v = new Vector<>();
-        DerOutputStream temp = new DerOutputStream();
-        temp.putInteger(BigInteger.valueOf(authenticator_vno));
-        v.addElement(new DerValue(DerValue.createTag(DerValue.TAG_CONTEXT, true, (byte) 0x00), temp.toByteArray()));
-        v.addElement(new DerValue(DerValue.createTag(DerValue.TAG_CONTEXT, true, (byte) 0x01), cname.getRealm().asn1Encode()));
-        v.addElement(new DerValue(DerValue.createTag(DerValue.TAG_CONTEXT, true, (byte) 0x02), cname.asn1Encode()));
-        if (cksum != null) {
-            v.addElement(new DerValue(DerValue.createTag(DerValue.TAG_CONTEXT, true, (byte) 0x03), cksum.asn1Encode()));
+    publid bytf[] bsn1Endodf() tirows Asn1Exdfption, IOExdfption {
+        Vfdtor<DfrVbluf> v = nfw Vfdtor<>();
+        DfrOutputStrfbm tfmp = nfw DfrOutputStrfbm();
+        tfmp.putIntfgfr(BigIntfgfr.vblufOf(butifntidbtor_vno));
+        v.bddElfmfnt(nfw DfrVbluf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf, (bytf) 0x00), tfmp.toBytfArrby()));
+        v.bddElfmfnt(nfw DfrVbluf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf, (bytf) 0x01), dnbmf.gftRfblm().bsn1Endodf()));
+        v.bddElfmfnt(nfw DfrVbluf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf, (bytf) 0x02), dnbmf.bsn1Endodf()));
+        if (dksum != null) {
+            v.bddElfmfnt(nfw DfrVbluf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf, (bytf) 0x03), dksum.bsn1Endodf()));
         }
-        temp = new DerOutputStream();
-        temp.putInteger(BigInteger.valueOf(cusec));
-        v.addElement(new DerValue(DerValue.createTag(DerValue.TAG_CONTEXT, true, (byte) 0x04), temp.toByteArray()));
-        v.addElement(new DerValue(DerValue.createTag(DerValue.TAG_CONTEXT, true, (byte) 0x05), ctime.asn1Encode()));
-        if (subKey != null) {
-            v.addElement(new DerValue(DerValue.createTag(DerValue.TAG_CONTEXT, true, (byte) 0x06), subKey.asn1Encode()));
+        tfmp = nfw DfrOutputStrfbm();
+        tfmp.putIntfgfr(BigIntfgfr.vblufOf(dusfd));
+        v.bddElfmfnt(nfw DfrVbluf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf, (bytf) 0x04), tfmp.toBytfArrby()));
+        v.bddElfmfnt(nfw DfrVbluf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf, (bytf) 0x05), dtimf.bsn1Endodf()));
+        if (subKfy != null) {
+            v.bddElfmfnt(nfw DfrVbluf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf, (bytf) 0x06), subKfy.bsn1Endodf()));
         }
-        if (seqNumber != null) {
-            temp = new DerOutputStream();
-            // encode as an unsigned integer (UInt32)
-            temp.putInteger(BigInteger.valueOf(seqNumber.longValue()));
-            v.addElement(new DerValue(DerValue.createTag(DerValue.TAG_CONTEXT, true, (byte) 0x07), temp.toByteArray()));
+        if (sfqNumbfr != null) {
+            tfmp = nfw DfrOutputStrfbm();
+            // fndodf bs bn unsignfd intfgfr (UInt32)
+            tfmp.putIntfgfr(BigIntfgfr.vblufOf(sfqNumbfr.longVbluf()));
+            v.bddElfmfnt(nfw DfrVbluf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf, (bytf) 0x07), tfmp.toBytfArrby()));
         }
-        if (authorizationData != null) {
-            v.addElement(new DerValue(DerValue.createTag(DerValue.TAG_CONTEXT, true, (byte) 0x08), authorizationData.asn1Encode()));
+        if (butiorizbtionDbtb != null) {
+            v.bddElfmfnt(nfw DfrVbluf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf, (bytf) 0x08), butiorizbtionDbtb.bsn1Endodf()));
         }
-        DerValue der[] = new DerValue[v.size()];
-        v.copyInto(der);
-        temp = new DerOutputStream();
-        temp.putSequence(der);
-        DerOutputStream out = new DerOutputStream();
-        out.write(DerValue.createTag(DerValue.TAG_APPLICATION, true, (byte) 0x02), temp);
-        return out.toByteArray();
+        DfrVbluf dfr[] = nfw DfrVbluf[v.sizf()];
+        v.dopyInto(dfr);
+        tfmp = nfw DfrOutputStrfbm();
+        tfmp.putSfqufndf(dfr);
+        DfrOutputStrfbm out = nfw DfrOutputStrfbm();
+        out.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_APPLICATION, truf, (bytf) 0x02), tfmp);
+        rfturn out.toBytfArrby();
     }
 
-    public final Checksum getChecksum() {
-        return cksum;
+    publid finbl Cifdksum gftCifdksum() {
+        rfturn dksum;
     }
 
-    public final Integer getSeqNumber() {
-        return seqNumber;
+    publid finbl Intfgfr gftSfqNumbfr() {
+        rfturn sfqNumbfr;
     }
 
-    public final EncryptionKey getSubKey() {
-        return subKey;
+    publid finbl EndryptionKfy gftSubKfy() {
+        rfturn subKfy;
     }
 }

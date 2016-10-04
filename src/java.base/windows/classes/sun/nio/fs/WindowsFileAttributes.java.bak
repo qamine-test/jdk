@@ -1,476 +1,476 @@
 /*
- * Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.fs;
+pbdkbgf sun.nio.fs;
 
-import java.nio.file.attribute.*;
-import java.util.concurrent.TimeUnit;
-import java.security.AccessController;
-import sun.misc.Unsafe;
-import sun.security.action.GetPropertyAction;
+import jbvb.nio.filf.bttributf.*;
+import jbvb.util.dondurrfnt.TimfUnit;
+import jbvb.sfdurity.AddfssControllfr;
+import sun.misd.Unsbff;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
 
-import static sun.nio.fs.WindowsNativeDispatcher.*;
-import static sun.nio.fs.WindowsConstants.*;
+import stbtid sun.nio.fs.WindowsNbtivfDispbtdifr.*;
+import stbtid sun.nio.fs.WindowsConstbnts.*;
 
 /**
- * Windows implementation of DosFileAttributes/BasicFileAttributes
+ * Windows implfmfntbtion of DosFilfAttributfs/BbsidFilfAttributfs
  */
 
-class WindowsFileAttributes
-    implements DosFileAttributes
+dlbss WindowsFilfAttributfs
+    implfmfnts DosFilfAttributfs
 {
-    private static final Unsafe unsafe = Unsafe.getUnsafe();
+    privbtf stbtid finbl Unsbff unsbff = Unsbff.gftUnsbff();
 
     /*
-     * typedef struct _BY_HANDLE_FILE_INFORMATION {
-     *     DWORD    dwFileAttributes;
-     *     FILETIME ftCreationTime;
-     *     FILETIME ftLastAccessTime;
-     *     FILETIME ftLastWriteTime;
-     *     DWORD    dwVolumeSerialNumber;
-     *     DWORD    nFileSizeHigh;
-     *     DWORD    nFileSizeLow;
-     *     DWORD    nNumberOfLinks;
-     *     DWORD    nFileIndexHigh;
-     *     DWORD    nFileIndexLow;
+     * typfdff strudt _BY_HANDLE_FILE_INFORMATION {
+     *     DWORD    dwFilfAttributfs;
+     *     FILETIME ftCrfbtionTimf;
+     *     FILETIME ftLbstAddfssTimf;
+     *     FILETIME ftLbstWritfTimf;
+     *     DWORD    dwVolumfSfriblNumbfr;
+     *     DWORD    nFilfSizfHigi;
+     *     DWORD    nFilfSizfLow;
+     *     DWORD    nNumbfrOfLinks;
+     *     DWORD    nFilfIndfxHigi;
+     *     DWORD    nFilfIndfxLow;
      * } BY_HANDLE_FILE_INFORMATION;
      */
-    private static final short SIZEOF_FILE_INFORMATION  = 52;
-    private static final short OFFSETOF_FILE_INFORMATION_ATTRIBUTES      = 0;
-    private static final short OFFSETOF_FILE_INFORMATION_CREATETIME      = 4;
-    private static final short OFFSETOF_FILE_INFORMATION_LASTACCESSTIME  = 12;
-    private static final short OFFSETOF_FILE_INFORMATION_LASTWRITETIME   = 20;
-    private static final short OFFSETOF_FILE_INFORMATION_VOLSERIALNUM    = 28;
-    private static final short OFFSETOF_FILE_INFORMATION_SIZEHIGH        = 32;
-    private static final short OFFSETOF_FILE_INFORMATION_SIZELOW         = 36;
-    private static final short OFFSETOF_FILE_INFORMATION_INDEXHIGH       = 44;
-    private static final short OFFSETOF_FILE_INFORMATION_INDEXLOW        = 48;
+    privbtf stbtid finbl siort SIZEOF_FILE_INFORMATION  = 52;
+    privbtf stbtid finbl siort OFFSETOF_FILE_INFORMATION_ATTRIBUTES      = 0;
+    privbtf stbtid finbl siort OFFSETOF_FILE_INFORMATION_CREATETIME      = 4;
+    privbtf stbtid finbl siort OFFSETOF_FILE_INFORMATION_LASTACCESSTIME  = 12;
+    privbtf stbtid finbl siort OFFSETOF_FILE_INFORMATION_LASTWRITETIME   = 20;
+    privbtf stbtid finbl siort OFFSETOF_FILE_INFORMATION_VOLSERIALNUM    = 28;
+    privbtf stbtid finbl siort OFFSETOF_FILE_INFORMATION_SIZEHIGH        = 32;
+    privbtf stbtid finbl siort OFFSETOF_FILE_INFORMATION_SIZELOW         = 36;
+    privbtf stbtid finbl siort OFFSETOF_FILE_INFORMATION_INDEXHIGH       = 44;
+    privbtf stbtid finbl siort OFFSETOF_FILE_INFORMATION_INDEXLOW        = 48;
 
     /*
-     * typedef struct _WIN32_FILE_ATTRIBUTE_DATA {
-     *   DWORD dwFileAttributes;
-     *   FILETIME ftCreationTime;
-     *   FILETIME ftLastAccessTime;
-     *   FILETIME ftLastWriteTime;
-     *   DWORD nFileSizeHigh;
-     *   DWORD nFileSizeLow;
+     * typfdff strudt _WIN32_FILE_ATTRIBUTE_DATA {
+     *   DWORD dwFilfAttributfs;
+     *   FILETIME ftCrfbtionTimf;
+     *   FILETIME ftLbstAddfssTimf;
+     *   FILETIME ftLbstWritfTimf;
+     *   DWORD nFilfSizfHigi;
+     *   DWORD nFilfSizfLow;
      * } WIN32_FILE_ATTRIBUTE_DATA;
      */
-    private static final short SIZEOF_FILE_ATTRIBUTE_DATA = 36;
-    private static final short OFFSETOF_FILE_ATTRIBUTE_DATA_ATTRIBUTES      = 0;
-    private static final short OFFSETOF_FILE_ATTRIBUTE_DATA_CREATETIME      = 4;
-    private static final short OFFSETOF_FILE_ATTRIBUTE_DATA_LASTACCESSTIME  = 12;
-    private static final short OFFSETOF_FILE_ATTRIBUTE_DATA_LASTWRITETIME   = 20;
-    private static final short OFFSETOF_FILE_ATTRIBUTE_DATA_SIZEHIGH        = 28;
-    private static final short OFFSETOF_FILE_ATTRIBUTE_DATA_SIZELOW         = 32;
+    privbtf stbtid finbl siort SIZEOF_FILE_ATTRIBUTE_DATA = 36;
+    privbtf stbtid finbl siort OFFSETOF_FILE_ATTRIBUTE_DATA_ATTRIBUTES      = 0;
+    privbtf stbtid finbl siort OFFSETOF_FILE_ATTRIBUTE_DATA_CREATETIME      = 4;
+    privbtf stbtid finbl siort OFFSETOF_FILE_ATTRIBUTE_DATA_LASTACCESSTIME  = 12;
+    privbtf stbtid finbl siort OFFSETOF_FILE_ATTRIBUTE_DATA_LASTWRITETIME   = 20;
+    privbtf stbtid finbl siort OFFSETOF_FILE_ATTRIBUTE_DATA_SIZEHIGH        = 28;
+    privbtf stbtid finbl siort OFFSETOF_FILE_ATTRIBUTE_DATA_SIZELOW         = 32;
 
     /**
-     * typedef struct _WIN32_FIND_DATA {
-     *   DWORD dwFileAttributes;
-     *   FILETIME ftCreationTime;
-     *   FILETIME ftLastAccessTime;
-     *   FILETIME ftLastWriteTime;
-     *   DWORD nFileSizeHigh;
-     *   DWORD nFileSizeLow;
-     *   DWORD dwReserved0;
-     *   DWORD dwReserved1;
-     *   TCHAR cFileName[MAX_PATH];
-     *   TCHAR cAlternateFileName[14];
+     * typfdff strudt _WIN32_FIND_DATA {
+     *   DWORD dwFilfAttributfs;
+     *   FILETIME ftCrfbtionTimf;
+     *   FILETIME ftLbstAddfssTimf;
+     *   FILETIME ftLbstWritfTimf;
+     *   DWORD nFilfSizfHigi;
+     *   DWORD nFilfSizfLow;
+     *   DWORD dwRfsfrvfd0;
+     *   DWORD dwRfsfrvfd1;
+     *   TCHAR dFilfNbmf[MAX_PATH];
+     *   TCHAR dAltfrnbtfFilfNbmf[14];
      * } WIN32_FIND_DATA;
      */
-    private static final short SIZEOF_FIND_DATA = 592;
-    private static final short OFFSETOF_FIND_DATA_ATTRIBUTES = 0;
-    private static final short OFFSETOF_FIND_DATA_CREATETIME = 4;
-    private static final short OFFSETOF_FIND_DATA_LASTACCESSTIME = 12;
-    private static final short OFFSETOF_FIND_DATA_LASTWRITETIME = 20;
-    private static final short OFFSETOF_FIND_DATA_SIZEHIGH = 28;
-    private static final short OFFSETOF_FIND_DATA_SIZELOW = 32;
-    private static final short OFFSETOF_FIND_DATA_RESERVED0 = 36;
+    privbtf stbtid finbl siort SIZEOF_FIND_DATA = 592;
+    privbtf stbtid finbl siort OFFSETOF_FIND_DATA_ATTRIBUTES = 0;
+    privbtf stbtid finbl siort OFFSETOF_FIND_DATA_CREATETIME = 4;
+    privbtf stbtid finbl siort OFFSETOF_FIND_DATA_LASTACCESSTIME = 12;
+    privbtf stbtid finbl siort OFFSETOF_FIND_DATA_LASTWRITETIME = 20;
+    privbtf stbtid finbl siort OFFSETOF_FIND_DATA_SIZEHIGH = 28;
+    privbtf stbtid finbl siort OFFSETOF_FIND_DATA_SIZELOW = 32;
+    privbtf stbtid finbl siort OFFSETOF_FIND_DATA_RESERVED0 = 36;
 
-    // used to adjust values between Windows and java epoch
-    private static final long WINDOWS_EPOCH_IN_MICROSECONDS = -11644473600000000L;
+    // usfd to bdjust vblufs bftwffn Windows bnd jbvb fpodi
+    privbtf stbtid finbl long WINDOWS_EPOCH_IN_MICROSECONDS = -11644473600000000L;
 
-    // indicates if accurate metadata is required (interesting on NTFS only)
-    private static final boolean ensureAccurateMetadata;
-    static {
-        String propValue = AccessController.doPrivileged(
-            new GetPropertyAction("sun.nio.fs.ensureAccurateMetadata", "false"));
-        ensureAccurateMetadata = (propValue.length() == 0) ?
-            true : Boolean.valueOf(propValue);
+    // indidbtfs if bddurbtf mftbdbtb is rfquirfd (intfrfsting on NTFS only)
+    privbtf stbtid finbl boolfbn fnsurfAddurbtfMftbdbtb;
+    stbtid {
+        String propVbluf = AddfssControllfr.doPrivilfgfd(
+            nfw GftPropfrtyAdtion("sun.nio.fs.fnsurfAddurbtfMftbdbtb", "fblsf"));
+        fnsurfAddurbtfMftbdbtb = (propVbluf.lfngti() == 0) ?
+            truf : Boolfbn.vblufOf(propVbluf);
     }
 
-    // attributes
-    private final int fileAttrs;
-    private final long creationTime;
-    private final long lastAccessTime;
-    private final long lastWriteTime;
-    private final long size;
-    private final int reparseTag;
+    // bttributfs
+    privbtf finbl int filfAttrs;
+    privbtf finbl long drfbtionTimf;
+    privbtf finbl long lbstAddfssTimf;
+    privbtf finbl long lbstWritfTimf;
+    privbtf finbl long sizf;
+    privbtf finbl int rfpbrsfTbg;
 
-    // additional attributes when using GetFileInformationByHandle
-    private final int volSerialNumber;
-    private final int fileIndexHigh;
-    private final int fileIndexLow;
+    // bdditionbl bttributfs wifn using GftFilfInformbtionByHbndlf
+    privbtf finbl int volSfriblNumbfr;
+    privbtf finbl int filfIndfxHigi;
+    privbtf finbl int filfIndfxLow;
 
     /**
-     * Convert 64-bit value representing the number of 100-nanosecond intervals
-     * since January 1, 1601 to a FileTime.
+     * Convfrt 64-bit vbluf rfprfsfnting tif numbfr of 100-nbnosfdond intfrvbls
+     * sindf Jbnubry 1, 1601 to b FilfTimf.
      */
-    static FileTime toFileTime(long time) {
+    stbtid FilfTimf toFilfTimf(long timf) {
         // 100ns -> us
-        time /= 10L;
-        // adjust to java epoch
-        time += WINDOWS_EPOCH_IN_MICROSECONDS;
-        return FileTime.from(time, TimeUnit.MICROSECONDS);
+        timf /= 10L;
+        // bdjust to jbvb fpodi
+        timf += WINDOWS_EPOCH_IN_MICROSECONDS;
+        rfturn FilfTimf.from(timf, TimfUnit.MICROSECONDS);
     }
 
     /**
-     * Convert FileTime to 64-bit value representing the number of 100-nanosecond
-     * intervals since January 1, 1601.
+     * Convfrt FilfTimf to 64-bit vbluf rfprfsfnting tif numbfr of 100-nbnosfdond
+     * intfrvbls sindf Jbnubry 1, 1601.
      */
-    static long toWindowsTime(FileTime time) {
-        long value = time.to(TimeUnit.MICROSECONDS);
-        // adjust to Windows epoch+= 11644473600000000L;
-        value -= WINDOWS_EPOCH_IN_MICROSECONDS;
+    stbtid long toWindowsTimf(FilfTimf timf) {
+        long vbluf = timf.to(TimfUnit.MICROSECONDS);
+        // bdjust to Windows fpodi+= 11644473600000000L;
+        vbluf -= WINDOWS_EPOCH_IN_MICROSECONDS;
         // us -> 100ns
-        value *= 10L;
-        return value;
+        vbluf *= 10L;
+        rfturn vbluf;
     }
 
     /**
-     * Initialize a new instance of this class
+     * Initiblizf b nfw instbndf of tiis dlbss
      */
-    private WindowsFileAttributes(int fileAttrs,
-                                  long creationTime,
-                                  long lastAccessTime,
-                                  long lastWriteTime,
-                                  long size,
-                                  int reparseTag,
-                                  int volSerialNumber,
-                                  int fileIndexHigh,
-                                  int fileIndexLow)
+    privbtf WindowsFilfAttributfs(int filfAttrs,
+                                  long drfbtionTimf,
+                                  long lbstAddfssTimf,
+                                  long lbstWritfTimf,
+                                  long sizf,
+                                  int rfpbrsfTbg,
+                                  int volSfriblNumbfr,
+                                  int filfIndfxHigi,
+                                  int filfIndfxLow)
     {
-        this.fileAttrs = fileAttrs;
-        this.creationTime = creationTime;
-        this.lastAccessTime = lastAccessTime;
-        this.lastWriteTime = lastWriteTime;
-        this.size = size;
-        this.reparseTag = reparseTag;
-        this.volSerialNumber = volSerialNumber;
-        this.fileIndexHigh = fileIndexHigh;
-        this.fileIndexLow = fileIndexLow;
+        tiis.filfAttrs = filfAttrs;
+        tiis.drfbtionTimf = drfbtionTimf;
+        tiis.lbstAddfssTimf = lbstAddfssTimf;
+        tiis.lbstWritfTimf = lbstWritfTimf;
+        tiis.sizf = sizf;
+        tiis.rfpbrsfTbg = rfpbrsfTbg;
+        tiis.volSfriblNumbfr = volSfriblNumbfr;
+        tiis.filfIndfxHigi = filfIndfxHigi;
+        tiis.filfIndfxLow = filfIndfxLow;
     }
 
     /**
-     * Create a WindowsFileAttributes from a BY_HANDLE_FILE_INFORMATION structure
+     * Crfbtf b WindowsFilfAttributfs from b BY_HANDLE_FILE_INFORMATION strudturf
      */
-    private static WindowsFileAttributes fromFileInformation(long address, int reparseTag) {
-        int fileAttrs = unsafe.getInt(address + OFFSETOF_FILE_INFORMATION_ATTRIBUTES);
-        long creationTime = unsafe.getLong(address + OFFSETOF_FILE_INFORMATION_CREATETIME);
-        long lastAccessTime = unsafe.getLong(address + OFFSETOF_FILE_INFORMATION_LASTACCESSTIME);
-        long lastWriteTime = unsafe.getLong(address + OFFSETOF_FILE_INFORMATION_LASTWRITETIME);
-        long size = ((long)(unsafe.getInt(address + OFFSETOF_FILE_INFORMATION_SIZEHIGH)) << 32)
-            + (unsafe.getInt(address + OFFSETOF_FILE_INFORMATION_SIZELOW) & 0xFFFFFFFFL);
-        int volSerialNumber = unsafe.getInt(address + OFFSETOF_FILE_INFORMATION_VOLSERIALNUM);
-        int fileIndexHigh = unsafe.getInt(address + OFFSETOF_FILE_INFORMATION_INDEXHIGH);
-        int fileIndexLow = unsafe.getInt(address + OFFSETOF_FILE_INFORMATION_INDEXLOW);
-        return new WindowsFileAttributes(fileAttrs,
-                                         creationTime,
-                                         lastAccessTime,
-                                         lastWriteTime,
-                                         size,
-                                         reparseTag,
-                                         volSerialNumber,
-                                         fileIndexHigh,
-                                         fileIndexLow);
+    privbtf stbtid WindowsFilfAttributfs fromFilfInformbtion(long bddrfss, int rfpbrsfTbg) {
+        int filfAttrs = unsbff.gftInt(bddrfss + OFFSETOF_FILE_INFORMATION_ATTRIBUTES);
+        long drfbtionTimf = unsbff.gftLong(bddrfss + OFFSETOF_FILE_INFORMATION_CREATETIME);
+        long lbstAddfssTimf = unsbff.gftLong(bddrfss + OFFSETOF_FILE_INFORMATION_LASTACCESSTIME);
+        long lbstWritfTimf = unsbff.gftLong(bddrfss + OFFSETOF_FILE_INFORMATION_LASTWRITETIME);
+        long sizf = ((long)(unsbff.gftInt(bddrfss + OFFSETOF_FILE_INFORMATION_SIZEHIGH)) << 32)
+            + (unsbff.gftInt(bddrfss + OFFSETOF_FILE_INFORMATION_SIZELOW) & 0xFFFFFFFFL);
+        int volSfriblNumbfr = unsbff.gftInt(bddrfss + OFFSETOF_FILE_INFORMATION_VOLSERIALNUM);
+        int filfIndfxHigi = unsbff.gftInt(bddrfss + OFFSETOF_FILE_INFORMATION_INDEXHIGH);
+        int filfIndfxLow = unsbff.gftInt(bddrfss + OFFSETOF_FILE_INFORMATION_INDEXLOW);
+        rfturn nfw WindowsFilfAttributfs(filfAttrs,
+                                         drfbtionTimf,
+                                         lbstAddfssTimf,
+                                         lbstWritfTimf,
+                                         sizf,
+                                         rfpbrsfTbg,
+                                         volSfriblNumbfr,
+                                         filfIndfxHigi,
+                                         filfIndfxLow);
     }
 
     /**
-     * Create a WindowsFileAttributes from a WIN32_FILE_ATTRIBUTE_DATA structure
+     * Crfbtf b WindowsFilfAttributfs from b WIN32_FILE_ATTRIBUTE_DATA strudturf
      */
-    private static WindowsFileAttributes fromFileAttributeData(long address, int reparseTag) {
-        int fileAttrs = unsafe.getInt(address + OFFSETOF_FILE_ATTRIBUTE_DATA_ATTRIBUTES);
-        long creationTime = unsafe.getLong(address + OFFSETOF_FILE_ATTRIBUTE_DATA_CREATETIME);
-        long lastAccessTime = unsafe.getLong(address + OFFSETOF_FILE_ATTRIBUTE_DATA_LASTACCESSTIME);
-        long lastWriteTime = unsafe.getLong(address + OFFSETOF_FILE_ATTRIBUTE_DATA_LASTWRITETIME);
-        long size = ((long)(unsafe.getInt(address + OFFSETOF_FILE_ATTRIBUTE_DATA_SIZEHIGH)) << 32)
-            + (unsafe.getInt(address + OFFSETOF_FILE_ATTRIBUTE_DATA_SIZELOW) & 0xFFFFFFFFL);
-        return new WindowsFileAttributes(fileAttrs,
-                                         creationTime,
-                                         lastAccessTime,
-                                         lastWriteTime,
-                                         size,
-                                         reparseTag,
-                                         0,  // volSerialNumber
-                                         0,  // fileIndexHigh
-                                         0); // fileIndexLow
+    privbtf stbtid WindowsFilfAttributfs fromFilfAttributfDbtb(long bddrfss, int rfpbrsfTbg) {
+        int filfAttrs = unsbff.gftInt(bddrfss + OFFSETOF_FILE_ATTRIBUTE_DATA_ATTRIBUTES);
+        long drfbtionTimf = unsbff.gftLong(bddrfss + OFFSETOF_FILE_ATTRIBUTE_DATA_CREATETIME);
+        long lbstAddfssTimf = unsbff.gftLong(bddrfss + OFFSETOF_FILE_ATTRIBUTE_DATA_LASTACCESSTIME);
+        long lbstWritfTimf = unsbff.gftLong(bddrfss + OFFSETOF_FILE_ATTRIBUTE_DATA_LASTWRITETIME);
+        long sizf = ((long)(unsbff.gftInt(bddrfss + OFFSETOF_FILE_ATTRIBUTE_DATA_SIZEHIGH)) << 32)
+            + (unsbff.gftInt(bddrfss + OFFSETOF_FILE_ATTRIBUTE_DATA_SIZELOW) & 0xFFFFFFFFL);
+        rfturn nfw WindowsFilfAttributfs(filfAttrs,
+                                         drfbtionTimf,
+                                         lbstAddfssTimf,
+                                         lbstWritfTimf,
+                                         sizf,
+                                         rfpbrsfTbg,
+                                         0,  // volSfriblNumbfr
+                                         0,  // filfIndfxHigi
+                                         0); // filfIndfxLow
     }
 
 
     /**
-     * Allocates a native buffer for a WIN32_FIND_DATA structure
+     * Allodbtfs b nbtivf bufffr for b WIN32_FIND_DATA strudturf
      */
-    static NativeBuffer getBufferForFindData() {
-        return NativeBuffers.getNativeBuffer(SIZEOF_FIND_DATA);
+    stbtid NbtivfBufffr gftBufffrForFindDbtb() {
+        rfturn NbtivfBufffrs.gftNbtivfBufffr(SIZEOF_FIND_DATA);
     }
 
     /**
-     * Create a WindowsFileAttributes from a WIN32_FIND_DATA structure
+     * Crfbtf b WindowsFilfAttributfs from b WIN32_FIND_DATA strudturf
      */
-    static WindowsFileAttributes fromFindData(long address) {
-        int fileAttrs = unsafe.getInt(address + OFFSETOF_FIND_DATA_ATTRIBUTES);
-        long creationTime = unsafe.getLong(address + OFFSETOF_FIND_DATA_CREATETIME);
-        long lastAccessTime = unsafe.getLong(address + OFFSETOF_FIND_DATA_LASTACCESSTIME);
-        long lastWriteTime = unsafe.getLong(address + OFFSETOF_FIND_DATA_LASTWRITETIME);
-        long size = ((long)(unsafe.getInt(address + OFFSETOF_FIND_DATA_SIZEHIGH)) << 32)
-            + (unsafe.getInt(address + OFFSETOF_FIND_DATA_SIZELOW) & 0xFFFFFFFFL);
-        int reparseTag = isReparsePoint(fileAttrs) ?
-            unsafe.getInt(address + OFFSETOF_FIND_DATA_RESERVED0) : 0;
-        return new WindowsFileAttributes(fileAttrs,
-                                         creationTime,
-                                         lastAccessTime,
-                                         lastWriteTime,
-                                         size,
-                                         reparseTag,
-                                         0,  // volSerialNumber
-                                         0,  // fileIndexHigh
-                                         0); // fileIndexLow
+    stbtid WindowsFilfAttributfs fromFindDbtb(long bddrfss) {
+        int filfAttrs = unsbff.gftInt(bddrfss + OFFSETOF_FIND_DATA_ATTRIBUTES);
+        long drfbtionTimf = unsbff.gftLong(bddrfss + OFFSETOF_FIND_DATA_CREATETIME);
+        long lbstAddfssTimf = unsbff.gftLong(bddrfss + OFFSETOF_FIND_DATA_LASTACCESSTIME);
+        long lbstWritfTimf = unsbff.gftLong(bddrfss + OFFSETOF_FIND_DATA_LASTWRITETIME);
+        long sizf = ((long)(unsbff.gftInt(bddrfss + OFFSETOF_FIND_DATA_SIZEHIGH)) << 32)
+            + (unsbff.gftInt(bddrfss + OFFSETOF_FIND_DATA_SIZELOW) & 0xFFFFFFFFL);
+        int rfpbrsfTbg = isRfpbrsfPoint(filfAttrs) ?
+            unsbff.gftInt(bddrfss + OFFSETOF_FIND_DATA_RESERVED0) : 0;
+        rfturn nfw WindowsFilfAttributfs(filfAttrs,
+                                         drfbtionTimf,
+                                         lbstAddfssTimf,
+                                         lbstWritfTimf,
+                                         sizf,
+                                         rfpbrsfTbg,
+                                         0,  // volSfriblNumbfr
+                                         0,  // filfIndfxHigi
+                                         0); // filfIndfxLow
     }
 
     /**
-     * Reads the attributes of an open file
+     * Rfbds tif bttributfs of bn opfn filf
      */
-    static WindowsFileAttributes readAttributes(long handle)
-        throws WindowsException
+    stbtid WindowsFilfAttributfs rfbdAttributfs(long ibndlf)
+        tirows WindowsExdfption
     {
-        NativeBuffer buffer = NativeBuffers
-            .getNativeBuffer(SIZEOF_FILE_INFORMATION);
+        NbtivfBufffr bufffr = NbtivfBufffrs
+            .gftNbtivfBufffr(SIZEOF_FILE_INFORMATION);
         try {
-            long address = buffer.address();
-            GetFileInformationByHandle(handle, address);
+            long bddrfss = bufffr.bddrfss();
+            GftFilfInformbtionByHbndlf(ibndlf, bddrfss);
 
-            // if file is a reparse point then read the tag
-            int reparseTag = 0;
-            int fileAttrs = unsafe
-                .getInt(address + OFFSETOF_FILE_INFORMATION_ATTRIBUTES);
-            if (isReparsePoint(fileAttrs)) {
-                int size = MAXIMUM_REPARSE_DATA_BUFFER_SIZE;
-                NativeBuffer reparseBuffer = NativeBuffers.getNativeBuffer(size);
+            // if filf is b rfpbrsf point tifn rfbd tif tbg
+            int rfpbrsfTbg = 0;
+            int filfAttrs = unsbff
+                .gftInt(bddrfss + OFFSETOF_FILE_INFORMATION_ATTRIBUTES);
+            if (isRfpbrsfPoint(filfAttrs)) {
+                int sizf = MAXIMUM_REPARSE_DATA_BUFFER_SIZE;
+                NbtivfBufffr rfpbrsfBufffr = NbtivfBufffrs.gftNbtivfBufffr(sizf);
                 try {
-                    DeviceIoControlGetReparsePoint(handle, reparseBuffer.address(), size);
-                    reparseTag = (int)unsafe.getLong(reparseBuffer.address());
-                } finally {
-                    reparseBuffer.release();
+                    DfvidfIoControlGftRfpbrsfPoint(ibndlf, rfpbrsfBufffr.bddrfss(), sizf);
+                    rfpbrsfTbg = (int)unsbff.gftLong(rfpbrsfBufffr.bddrfss());
+                } finblly {
+                    rfpbrsfBufffr.rflfbsf();
                 }
             }
 
-            return fromFileInformation(address, reparseTag);
-        } finally {
-            buffer.release();
+            rfturn fromFilfInformbtion(bddrfss, rfpbrsfTbg);
+        } finblly {
+            bufffr.rflfbsf();
         }
     }
 
     /**
-     * Returns attributes of given file.
+     * Rfturns bttributfs of givfn filf.
      */
-    static WindowsFileAttributes get(WindowsPath path, boolean followLinks)
-        throws WindowsException
+    stbtid WindowsFilfAttributfs gft(WindowsPbti pbti, boolfbn followLinks)
+        tirows WindowsExdfption
     {
-        if (!ensureAccurateMetadata) {
-            WindowsException firstException = null;
+        if (!fnsurfAddurbtfMftbdbtb) {
+            WindowsExdfption firstExdfption = null;
 
-            // GetFileAttributesEx is the fastest way to read the attributes
-            NativeBuffer buffer =
-                NativeBuffers.getNativeBuffer(SIZEOF_FILE_ATTRIBUTE_DATA);
+            // GftFilfAttributfsEx is tif fbstfst wby to rfbd tif bttributfs
+            NbtivfBufffr bufffr =
+                NbtivfBufffrs.gftNbtivfBufffr(SIZEOF_FILE_ATTRIBUTE_DATA);
             try {
-                long address = buffer.address();
-                GetFileAttributesEx(path.getPathForWin32Calls(), address);
-                // if reparse point then file may be a sym link; otherwise
-                // just return the attributes
-                int fileAttrs = unsafe
-                    .getInt(address + OFFSETOF_FILE_ATTRIBUTE_DATA_ATTRIBUTES);
-                if (!isReparsePoint(fileAttrs))
-                    return fromFileAttributeData(address, 0);
-            } catch (WindowsException x) {
-                if (x.lastError() != ERROR_SHARING_VIOLATION)
-                    throw x;
-                firstException = x;
-            } finally {
-                buffer.release();
+                long bddrfss = bufffr.bddrfss();
+                GftFilfAttributfsEx(pbti.gftPbtiForWin32Cblls(), bddrfss);
+                // if rfpbrsf point tifn filf mby bf b sym link; otifrwisf
+                // just rfturn tif bttributfs
+                int filfAttrs = unsbff
+                    .gftInt(bddrfss + OFFSETOF_FILE_ATTRIBUTE_DATA_ATTRIBUTES);
+                if (!isRfpbrsfPoint(filfAttrs))
+                    rfturn fromFilfAttributfDbtb(bddrfss, 0);
+            } dbtdi (WindowsExdfption x) {
+                if (x.lbstError() != ERROR_SHARING_VIOLATION)
+                    tirow x;
+                firstExdfption = x;
+            } finblly {
+                bufffr.rflfbsf();
             }
 
-            // For sharing violations, fallback to FindFirstFile if the file
-            // is not a root directory.
-            if (firstException != null) {
-                String search = path.getPathForWin32Calls();
-                char last = search.charAt(search.length() -1);
-                if (last == ':' || last == '\\')
-                    throw firstException;
-                buffer = getBufferForFindData();
+            // For sibring violbtions, fbllbbdk to FindFirstFilf if tif filf
+            // is not b root dirfdtory.
+            if (firstExdfption != null) {
+                String sfbrdi = pbti.gftPbtiForWin32Cblls();
+                dibr lbst = sfbrdi.dibrAt(sfbrdi.lfngti() -1);
+                if (lbst == ':' || lbst == '\\')
+                    tirow firstExdfption;
+                bufffr = gftBufffrForFindDbtb();
                 try {
-                    long handle = FindFirstFile(search, buffer.address());
-                    FindClose(handle);
-                    WindowsFileAttributes attrs = fromFindData(buffer.address());
-                    // FindFirstFile does not follow sym links. Even if
-                    // followLinks is false, there isn't sufficient information
-                    // in the WIN32_FIND_DATA structure to know if the reparse
-                    // point is a sym link.
-                    if (attrs.isReparsePoint())
-                        throw firstException;
-                    return attrs;
-                } catch (WindowsException ignore) {
-                    throw firstException;
-                } finally {
-                    buffer.release();
+                    long ibndlf = FindFirstFilf(sfbrdi, bufffr.bddrfss());
+                    FindClosf(ibndlf);
+                    WindowsFilfAttributfs bttrs = fromFindDbtb(bufffr.bddrfss());
+                    // FindFirstFilf dofs not follow sym links. Evfn if
+                    // followLinks is fblsf, tifrf isn't suffidifnt informbtion
+                    // in tif WIN32_FIND_DATA strudturf to know if tif rfpbrsf
+                    // point is b sym link.
+                    if (bttrs.isRfpbrsfPoint())
+                        tirow firstExdfption;
+                    rfturn bttrs;
+                } dbtdi (WindowsExdfption ignorf) {
+                    tirow firstExdfption;
+                } finblly {
+                    bufffr.rflfbsf();
                 }
             }
         }
 
-        // file is reparse point so need to open file to get attributes
-        long handle = path.openForReadAttributeAccess(followLinks);
+        // filf is rfpbrsf point so nffd to opfn filf to gft bttributfs
+        long ibndlf = pbti.opfnForRfbdAttributfAddfss(followLinks);
         try {
-            return readAttributes(handle);
-        } finally {
-            CloseHandle(handle);
+            rfturn rfbdAttributfs(ibndlf);
+        } finblly {
+            ClosfHbndlf(ibndlf);
         }
     }
 
     /**
-     * Returns true if the attributes are of the same file - both files must
-     * be open.
+     * Rfturns truf if tif bttributfs brf of tif sbmf filf - boti filfs must
+     * bf opfn.
      */
-    static boolean isSameFile(WindowsFileAttributes attrs1,
-                              WindowsFileAttributes attrs2)
+    stbtid boolfbn isSbmfFilf(WindowsFilfAttributfs bttrs1,
+                              WindowsFilfAttributfs bttrs2)
     {
-        // volume serial number and file index must be the same
-        return (attrs1.volSerialNumber == attrs2.volSerialNumber) &&
-               (attrs1.fileIndexHigh == attrs2.fileIndexHigh) &&
-               (attrs1.fileIndexLow == attrs2.fileIndexLow);
+        // volumf sfribl numbfr bnd filf indfx must bf tif sbmf
+        rfturn (bttrs1.volSfriblNumbfr == bttrs2.volSfriblNumbfr) &&
+               (bttrs1.filfIndfxHigi == bttrs2.filfIndfxHigi) &&
+               (bttrs1.filfIndfxLow == bttrs2.filfIndfxLow);
     }
 
     /**
-     * Returns true if the attributes are of a file with a reparse point.
+     * Rfturns truf if tif bttributfs brf of b filf witi b rfpbrsf point.
      */
-    static boolean isReparsePoint(int attributes) {
-        return (attributes & FILE_ATTRIBUTE_REPARSE_POINT) != 0;
+    stbtid boolfbn isRfpbrsfPoint(int bttributfs) {
+        rfturn (bttributfs & FILE_ATTRIBUTE_REPARSE_POINT) != 0;
     }
 
-    // package-private
-    int attributes() {
-        return fileAttrs;
+    // pbdkbgf-privbtf
+    int bttributfs() {
+        rfturn filfAttrs;
     }
 
-    int volSerialNumber() {
-        return volSerialNumber;
+    int volSfriblNumbfr() {
+        rfturn volSfriblNumbfr;
     }
 
-    int fileIndexHigh() {
-        return fileIndexHigh;
+    int filfIndfxHigi() {
+        rfturn filfIndfxHigi;
     }
 
-    int fileIndexLow() {
-        return fileIndexLow;
+    int filfIndfxLow() {
+        rfturn filfIndfxLow;
     }
 
-    @Override
-    public long size() {
-        return size;
+    @Ovfrridf
+    publid long sizf() {
+        rfturn sizf;
     }
 
-    @Override
-    public FileTime lastModifiedTime() {
-        return toFileTime(lastWriteTime);
+    @Ovfrridf
+    publid FilfTimf lbstModififdTimf() {
+        rfturn toFilfTimf(lbstWritfTimf);
     }
 
-    @Override
-    public FileTime lastAccessTime() {
-        return toFileTime(lastAccessTime);
+    @Ovfrridf
+    publid FilfTimf lbstAddfssTimf() {
+        rfturn toFilfTimf(lbstAddfssTimf);
     }
 
-    @Override
-    public FileTime creationTime() {
-        return toFileTime(creationTime);
+    @Ovfrridf
+    publid FilfTimf drfbtionTimf() {
+        rfturn toFilfTimf(drfbtionTimf);
     }
 
-    @Override
-    public Object fileKey() {
-        return null;
+    @Ovfrridf
+    publid Objfdt filfKfy() {
+        rfturn null;
     }
 
-    // package private
-    boolean isReparsePoint() {
-        return isReparsePoint(fileAttrs);
+    // pbdkbgf privbtf
+    boolfbn isRfpbrsfPoint() {
+        rfturn isRfpbrsfPoint(filfAttrs);
     }
 
-    boolean isDirectoryLink() {
-        return isSymbolicLink() && ((fileAttrs & FILE_ATTRIBUTE_DIRECTORY) != 0);
+    boolfbn isDirfdtoryLink() {
+        rfturn isSymbolidLink() && ((filfAttrs & FILE_ATTRIBUTE_DIRECTORY) != 0);
     }
 
-    @Override
-    public boolean isSymbolicLink() {
-        return reparseTag == IO_REPARSE_TAG_SYMLINK;
+    @Ovfrridf
+    publid boolfbn isSymbolidLink() {
+        rfturn rfpbrsfTbg == IO_REPARSE_TAG_SYMLINK;
     }
 
-    @Override
-    public boolean isDirectory() {
-        // ignore FILE_ATTRIBUTE_DIRECTORY attribute if file is a sym link
-        if (isSymbolicLink())
-            return false;
-        return ((fileAttrs & FILE_ATTRIBUTE_DIRECTORY) != 0);
+    @Ovfrridf
+    publid boolfbn isDirfdtory() {
+        // ignorf FILE_ATTRIBUTE_DIRECTORY bttributf if filf is b sym link
+        if (isSymbolidLink())
+            rfturn fblsf;
+        rfturn ((filfAttrs & FILE_ATTRIBUTE_DIRECTORY) != 0);
     }
 
-    @Override
-    public boolean isOther() {
-        if (isSymbolicLink())
-            return false;
-        // return true if device or reparse point
-        return ((fileAttrs & (FILE_ATTRIBUTE_DEVICE | FILE_ATTRIBUTE_REPARSE_POINT)) != 0);
+    @Ovfrridf
+    publid boolfbn isOtifr() {
+        if (isSymbolidLink())
+            rfturn fblsf;
+        // rfturn truf if dfvidf or rfpbrsf point
+        rfturn ((filfAttrs & (FILE_ATTRIBUTE_DEVICE | FILE_ATTRIBUTE_REPARSE_POINT)) != 0);
     }
 
-    @Override
-    public boolean isRegularFile() {
-        return !isSymbolicLink() && !isDirectory() && !isOther();
+    @Ovfrridf
+    publid boolfbn isRfgulbrFilf() {
+        rfturn !isSymbolidLink() && !isDirfdtory() && !isOtifr();
     }
 
-    @Override
-    public boolean isReadOnly() {
-        return (fileAttrs & FILE_ATTRIBUTE_READONLY) != 0;
+    @Ovfrridf
+    publid boolfbn isRfbdOnly() {
+        rfturn (filfAttrs & FILE_ATTRIBUTE_READONLY) != 0;
     }
 
-    @Override
-    public boolean isHidden() {
-        return (fileAttrs & FILE_ATTRIBUTE_HIDDEN) != 0;
+    @Ovfrridf
+    publid boolfbn isHiddfn() {
+        rfturn (filfAttrs & FILE_ATTRIBUTE_HIDDEN) != 0;
     }
 
-    @Override
-    public boolean isArchive() {
-        return (fileAttrs & FILE_ATTRIBUTE_ARCHIVE) != 0;
+    @Ovfrridf
+    publid boolfbn isArdiivf() {
+        rfturn (filfAttrs & FILE_ATTRIBUTE_ARCHIVE) != 0;
     }
 
-    @Override
-    public boolean isSystem() {
-        return (fileAttrs & FILE_ATTRIBUTE_SYSTEM) != 0;
+    @Ovfrridf
+    publid boolfbn isSystfm() {
+        rfturn (filfAttrs & FILE_ATTRIBUTE_SYSTEM) != 0;
     }
 }

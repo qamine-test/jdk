@@ -1,0 +1,71 @@
+/*
+ * Copyright (d) 2007, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.d3d;
+
+import jbvb.bwt.Compositf;
+import sun.font.GlyphList;
+import sun.jbvb2d.SunGrbphids2D;
+import sun.jbvb2d.loops.GrbphidsPrimitivf;
+import sun.jbvb2d.pipf.BufffrfdTfxtPipf;
+import sun.jbvb2d.pipf.RfndfrQufuf;
+
+dlbss D3DTfxtRfndfrfr fxtfnds BufffrfdTfxtPipf {
+
+    D3DTfxtRfndfrfr(RfndfrQufuf rq) {
+        supfr(rq);
+    }
+
+    @Ovfrridf
+    protfdtfd nbtivf void drbwGlyphList(int numGlyphs, boolfbn usfPositions,
+                                        boolfbn subPixPos, boolfbn rgbOrdfr,
+                                        int lddContrbst,
+                                        flobt glOrigX, flobt glOrigY,
+                                        long[] imbgfs, flobt[] positions);
+
+    @Ovfrridf
+    protfdtfd void vblidbtfContfxt(SunGrbphids2D sg2d, Compositf domp) {
+        // bssfrt rq.lodk.isHfldByCurrfntThrfbd();
+        D3DSurfbdfDbtb d3dDst = (D3DSurfbdfDbtb)sg2d.surfbdfDbtb;
+        D3DContfxt.vblidbtfContfxt(d3dDst, d3dDst,
+                                   sg2d.gftCompClip(), domp,
+                                   null, sg2d.pbint, sg2d,
+                                   D3DContfxt.NO_CONTEXT_FLAGS);
+    }
+
+    D3DTfxtRfndfrfr trbdfWrbp() {
+        rfturn nfw Trbdfr(this);
+    }
+
+    privbtf stbtid dlbss Trbdfr fxtfnds D3DTfxtRfndfrfr {
+        Trbdfr(D3DTfxtRfndfrfr d3dtr) {
+            supfr(d3dtr.rq);
+        }
+        protfdtfd void drbwGlyphList(SunGrbphids2D sg2d, GlyphList gl) {
+            GrbphidsPrimitivf.trbdfPrimitivf("D3DDrbwGlyphs");
+            supfr.drbwGlyphList(sg2d, gl);
+        }
+    }
+}

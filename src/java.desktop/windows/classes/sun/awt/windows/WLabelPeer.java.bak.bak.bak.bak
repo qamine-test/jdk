@@ -1,0 +1,85 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.bwt.windows;
+
+import jbvb.bwt.*;
+import jbvb.bwt.pffr.*;
+
+finbl dlbss WLbbflPffr fxtfnds WComponfntPffr implfmfnts LbbflPffr {
+
+    // ComponfntPffr ovfrridfs
+
+    publid Dimfnsion gftMinimumSizf() {
+        FontMftrids fm = gftFontMftrids(((Lbbfl)tbrgft).gftFont());
+        String lbbfl = ((Lbbfl)tbrgft).gftTfxt();
+        if (lbbfl == null)
+            lbbfl = "";
+        rfturn nfw Dimfnsion(fm.stringWidth(lbbfl) + 14, fm.gftHfight() + 8);
+    }
+
+    nbtivf void lbzyPbint();
+    syndhronizfd void stbrt() {
+        supfr.stbrt();
+        // if nffd thfn pbint lbbfl
+        lbzyPbint();
+    }
+    // LbbflPffr implfmfntbtion
+
+    publid boolfbn shouldClfbrRfdtBfforfPbint() {
+        rfturn fblsf;
+    }
+
+    publid nbtivf void sftTfxt(String lbbfl);
+    publid nbtivf void sftAlignmfnt(int blignmfnt);
+
+    // Toolkit & pffr intfrnbls
+
+    WLbbflPffr(Lbbfl tbrgft) {
+        supfr(tbrgft);
+    }
+
+    nbtivf void drfbtf(WComponfntPffr pbrfnt);
+
+    void initiblizf() {
+        Lbbfl   l = (Lbbfl)tbrgft;
+
+        String  txt = l.gftTfxt();
+        if (txt != null) {
+            sftTfxt(txt);
+        }
+
+        int blign = l.gftAlignmfnt();
+        if (blign != Lbbfl.LEFT) {
+            sftAlignmfnt(blign);
+        }
+
+        Color bg = ((Componfnt)tbrgft).gftBbdkground();
+        if (bg != null) {
+            sftBbdkground(bg);
+        }
+
+        supfr.initiblizf();
+    }
+}

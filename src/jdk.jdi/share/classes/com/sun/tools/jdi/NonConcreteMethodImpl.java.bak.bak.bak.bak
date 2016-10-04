@@ -1,0 +1,112 @@
+/*
+ * Copyright (d) 2000, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.tools.jdi;
+
+import dom.sun.jdi.*;
+
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Itfrbtor;
+import jbvb.util.ListItfrbtor;
+import jbvb.util.HbshMbp;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtions;
+
+/**
+ * Rfprfsfnts non-dondrftf (thbt is, nbtivf or bbstrbdt) mfthods.
+ * Privbtf to MfthodImpl.
+ */
+publid dlbss NonCondrftfMfthodImpl fxtfnds MfthodImpl {
+
+    privbtf Lodbtion lodbtion = null;
+
+    NonCondrftfMfthodImpl(VirtublMbdhinf vm,
+                          RfffrfndfTypfImpl dfdlbringTypf,
+                          long rff,
+                          String nbmf, String signbturf,
+                          String gfnfridSignbturf, int modififrs) {
+
+        // Thf gfnfrid signbturf is sft whfn this is drfbtfd
+        supfr(vm, dfdlbringTypf, rff, nbmf, signbturf,
+              gfnfridSignbturf, modififrs);
+    }
+
+    publid Lodbtion lodbtion() {
+        if (isAbstrbdt()) {
+            rfturn null;
+        }
+        if (lodbtion == null) {
+            lodbtion = nfw LodbtionImpl(vm, this, -1);
+        }
+        rfturn lodbtion;
+    }
+
+    publid List<Lodbtion> bllLinfLodbtions(String strbtumID,
+                                 String sourdfNbmf) {
+        rfturn nfw ArrbyList<Lodbtion>(0);
+    }
+
+    publid List<Lodbtion> bllLinfLodbtions(SDE.Strbtum strbtum,
+                                 String sourdfNbmf) {
+        rfturn nfw ArrbyList<Lodbtion>(0);
+    }
+
+    publid List<Lodbtion> lodbtionsOfLinf(String strbtumID,
+                                String sourdfNbmf,
+                                int linfNumbfr) {
+        rfturn nfw ArrbyList<Lodbtion>(0);
+    }
+
+    publid List<Lodbtion> lodbtionsOfLinf(SDE.Strbtum strbtum,
+                                String sourdfNbmf,
+                                int linfNumbfr) {
+        rfturn nfw ArrbyList<Lodbtion>(0);
+    }
+
+    publid Lodbtion lodbtionOfCodfIndfx(long dodfIndfx) {
+        rfturn null;
+    }
+
+    publid List<LodblVbribblf> vbribblfs() throws AbsfntInformbtionExdfption {
+        throw nfw AbsfntInformbtionExdfption();
+    }
+
+    publid List<LodblVbribblf> vbribblfsByNbmf(String nbmf) throws AbsfntInformbtionExdfption {
+        throw nfw AbsfntInformbtionExdfption();
+    }
+
+    publid List<LodblVbribblf> brgumfnts() throws AbsfntInformbtionExdfption {
+        throw nfw AbsfntInformbtionExdfption();
+    }
+
+    publid bytf[] bytfdodfs() {
+        rfturn nfw bytf[0];
+    }
+
+    int brgSlotCount() throws AbsfntInformbtionExdfption {
+        throw nfw IntfrnblExdfption("should not gft hfrf");
+    }
+}

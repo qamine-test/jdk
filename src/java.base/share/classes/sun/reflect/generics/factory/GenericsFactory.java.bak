@@ -1,190 +1,190 @@
 /*
- * Copyright (c) 2003, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.reflect.generics.factory;
+pbdkbgf sun.rfflfdt.gfnfrids.fbdtory;
 
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.lang.reflect.TypeVariable;
-import java.lang.reflect.WildcardType;
-import sun.reflect.generics.tree.FieldTypeSignature;
+import jbvb.lbng.rfflfdt.PbrbmftfrizfdTypf;
+import jbvb.lbng.rfflfdt.Typf;
+import jbvb.lbng.rfflfdt.TypfVbribblf;
+import jbvb.lbng.rfflfdt.WilddbrdTypf;
+import sun.rfflfdt.gfnfrids.trff.FifldTypfSignbturf;
 
 /**
- * A factory interface for reflective objects representing generic types.
- * Implementors (such as core reflection or JDI, or possibly javadoc
- * will manufacture instances of (potentially) different classes
- * in response to invocations of the methods described here.
- * <p> The intent is that reflective systems use these factories to
- * produce generic type information on demand.
- * Certain components of such reflective systems can be independent
- * of a specific implementation by using this interface. For example,
- * repositories of generic type information are initialized with a
- * factory conforming to this interface, and use it to generate the
- * tpe information they are required to provide. As a result, such
- * repository code can be shared across different reflective systems.
+ * A fbdtory intfrfbdf for rfflfdtivf objfdts rfprfsfnting gfnfrid typfs.
+ * Implfmfntors (sudi bs dorf rfflfdtion or JDI, or possibly jbvbdod
+ * will mbnufbdturf instbndfs of (potfntiblly) difffrfnt dlbssfs
+ * in rfsponsf to invodbtions of tif mftiods dfsdribfd ifrf.
+ * <p> Tif intfnt is tibt rfflfdtivf systfms usf tifsf fbdtorifs to
+ * produdf gfnfrid typf informbtion on dfmbnd.
+ * Cfrtbin domponfnts of sudi rfflfdtivf systfms dbn bf indfpfndfnt
+ * of b spfdifid implfmfntbtion by using tiis intfrfbdf. For fxbmplf,
+ * rfpositorifs of gfnfrid typf informbtion brf initiblizfd witi b
+ * fbdtory donforming to tiis intfrfbdf, bnd usf it to gfnfrbtf tif
+ * tpf informbtion tify brf rfquirfd to providf. As b rfsult, sudi
+ * rfpository dodf dbn bf sibrfd bdross difffrfnt rfflfdtivf systfms.
  */
-public interface GenericsFactory {
+publid intfrfbdf GfnfridsFbdtory {
     /**
-     * Returns a new type variable declaration. Note that <tt>name</tt>
-     * may be empty (but not <tt>null</tt>). If <tt>bounds</tt> is
-     * empty, a bound of <tt>java.lang.Object</tt> is used.
-     * @param name The name of the type variable
-     * @param bounds An array of abstract syntax trees representing
-     * the upper bound(s) on the type variable being declared
-     * @return a new type variable declaration
-     * @throws NullPointerException - if any of the actual parameters
-     * or any of the elements of <tt>bounds</tt> are <tt>null</tt>.
+     * Rfturns b nfw typf vbribblf dfdlbrbtion. Notf tibt <tt>nbmf</tt>
+     * mby bf fmpty (but not <tt>null</tt>). If <tt>bounds</tt> is
+     * fmpty, b bound of <tt>jbvb.lbng.Objfdt</tt> is usfd.
+     * @pbrbm nbmf Tif nbmf of tif typf vbribblf
+     * @pbrbm bounds An brrby of bbstrbdt syntbx trffs rfprfsfnting
+     * tif uppfr bound(s) on tif typf vbribblf bfing dfdlbrfd
+     * @rfturn b nfw typf vbribblf dfdlbrbtion
+     * @tirows NullPointfrExdfption - if bny of tif bdtubl pbrbmftfrs
+     * or bny of tif flfmfnts of <tt>bounds</tt> brf <tt>null</tt>.
      */
-    TypeVariable<?> makeTypeVariable(String name,
-                                     FieldTypeSignature[] bounds);
+    TypfVbribblf<?> mbkfTypfVbribblf(String nbmf,
+                                     FifldTypfSignbturf[] bounds);
     /**
-     * Return an instance of the <tt>ParameterizedType</tt> interface
-     * that corresponds to a generic type instantiation of the
-     * generic declaration <tt>declaration</tt> with actual type arguments
-     * <tt>typeArgs</tt>.
-     * If <tt>owner</tt> is <tt>null</tt>, the declaring class of
-     * <tt>declaration</tt> is used as the owner of this parameterized
-     * type.
-     * <p> This method throws a MalformedParameterizedTypeException
-     * under the following circumstances:
-     * If the type declaration does not represent a generic declaration
-     * (i.e., it is not an instance of <tt>GenericDeclaration</tt>).
-     * If the number of actual type arguments (i.e., the size of the
-     * array <tt>typeArgs</tt>) does not correspond to the number of
-     * formal type arguments.
-     * If any of the actual type arguments is not an instance of the
-     * bounds on the corresponding formal.
-     * @param declaration - the generic type declaration that is to be
-     * instantiated
-     * @param typeArgs - the list of actual type arguments
-     * @return - a parameterized type representing the instantiation
-     * of the declaration with the actual type arguments
-     * @throws MalformedParameterizedTypeException - if the instantiation
-     * is invalid
-     * @throws NullPointerException - if any of <tt>declaration</tt>
-     * , <tt>typeArgs</tt>
-     * or any of the elements of <tt>typeArgs</tt> are <tt>null</tt>
+     * Rfturn bn instbndf of tif <tt>PbrbmftfrizfdTypf</tt> intfrfbdf
+     * tibt dorrfsponds to b gfnfrid typf instbntibtion of tif
+     * gfnfrid dfdlbrbtion <tt>dfdlbrbtion</tt> witi bdtubl typf brgumfnts
+     * <tt>typfArgs</tt>.
+     * If <tt>ownfr</tt> is <tt>null</tt>, tif dfdlbring dlbss of
+     * <tt>dfdlbrbtion</tt> is usfd bs tif ownfr of tiis pbrbmftfrizfd
+     * typf.
+     * <p> Tiis mftiod tirows b MblformfdPbrbmftfrizfdTypfExdfption
+     * undfr tif following dirdumstbndfs:
+     * If tif typf dfdlbrbtion dofs not rfprfsfnt b gfnfrid dfdlbrbtion
+     * (i.f., it is not bn instbndf of <tt>GfnfridDfdlbrbtion</tt>).
+     * If tif numbfr of bdtubl typf brgumfnts (i.f., tif sizf of tif
+     * brrby <tt>typfArgs</tt>) dofs not dorrfspond to tif numbfr of
+     * formbl typf brgumfnts.
+     * If bny of tif bdtubl typf brgumfnts is not bn instbndf of tif
+     * bounds on tif dorrfsponding formbl.
+     * @pbrbm dfdlbrbtion - tif gfnfrid typf dfdlbrbtion tibt is to bf
+     * instbntibtfd
+     * @pbrbm typfArgs - tif list of bdtubl typf brgumfnts
+     * @rfturn - b pbrbmftfrizfd typf rfprfsfnting tif instbntibtion
+     * of tif dfdlbrbtion witi tif bdtubl typf brgumfnts
+     * @tirows MblformfdPbrbmftfrizfdTypfExdfption - if tif instbntibtion
+     * is invblid
+     * @tirows NullPointfrExdfption - if bny of <tt>dfdlbrbtion</tt>
+     * , <tt>typfArgs</tt>
+     * or bny of tif flfmfnts of <tt>typfArgs</tt> brf <tt>null</tt>
      */
-    ParameterizedType makeParameterizedType(Type declaration,
-                                            Type[] typeArgs,
-                                            Type owner);
+    PbrbmftfrizfdTypf mbkfPbrbmftfrizfdTypf(Typf dfdlbrbtion,
+                                            Typf[] typfArgs,
+                                            Typf ownfr);
 
     /**
-     * Returns the type variable with name <tt>name</tt>, if such
-     * a type variable is declared in the
-     * scope used to create this factory.
-     * Returns <tt>null</tt> otherwise.
-     * @param name - the name of the type variable to search for
-     * @return - the type variable with name <tt>name</tt>, or <tt>null</tt>
-     * @throws  NullPointerException - if any of actual parameters are
+     * Rfturns tif typf vbribblf witi nbmf <tt>nbmf</tt>, if sudi
+     * b typf vbribblf is dfdlbrfd in tif
+     * sdopf usfd to drfbtf tiis fbdtory.
+     * Rfturns <tt>null</tt> otifrwisf.
+     * @pbrbm nbmf - tif nbmf of tif typf vbribblf to sfbrdi for
+     * @rfturn - tif typf vbribblf witi nbmf <tt>nbmf</tt>, or <tt>null</tt>
+     * @tirows  NullPointfrExdfption - if bny of bdtubl pbrbmftfrs brf
      * <tt>null</tt>
      */
-    TypeVariable<?> findTypeVariable(String name);
+    TypfVbribblf<?> findTypfVbribblf(String nbmf);
 
     /**
-     * Returns a new wildcard type variable. If
-     * <tt>ubs</tt> is empty, a bound of <tt>java.lang.Object</tt> is used.
-     * @param ubs An array of abstract syntax trees representing
-     * the upper bound(s) on the type variable being declared
-     * @param lbs An array of abstract syntax trees representing
-     * the lower bound(s) on the type variable being declared
-     * @return a new wildcard type variable
-     * @throws NullPointerException - if any of the actual parameters
-     * or any of the elements of <tt>ubs</tt> or <tt>lbs</tt>are
+     * Rfturns b nfw wilddbrd typf vbribblf. If
+     * <tt>ubs</tt> is fmpty, b bound of <tt>jbvb.lbng.Objfdt</tt> is usfd.
+     * @pbrbm ubs An brrby of bbstrbdt syntbx trffs rfprfsfnting
+     * tif uppfr bound(s) on tif typf vbribblf bfing dfdlbrfd
+     * @pbrbm lbs An brrby of bbstrbdt syntbx trffs rfprfsfnting
+     * tif lowfr bound(s) on tif typf vbribblf bfing dfdlbrfd
+     * @rfturn b nfw wilddbrd typf vbribblf
+     * @tirows NullPointfrExdfption - if bny of tif bdtubl pbrbmftfrs
+     * or bny of tif flfmfnts of <tt>ubs</tt> or <tt>lbs</tt>brf
      * <tt>null</tt>
      */
-    WildcardType makeWildcard(FieldTypeSignature[] ubs,
-                              FieldTypeSignature[] lbs);
+    WilddbrdTypf mbkfWilddbrd(FifldTypfSignbturf[] ubs,
+                              FifldTypfSignbturf[] lbs);
 
-    Type makeNamedType(String name);
-
-    /**
-     * Returns a (possibly generic) array type.
-     * If the component type is a parameterized type, it must
-     * only have unbounded wildcard arguemnts, otherwise
-     * a MalformedParameterizedTypeException is thrown.
-     * @param componentType - the component type of the array
-     * @return a (possibly generic) array type.
-     * @throws MalformedParameterizedTypeException if <tt>componentType</tt>
-     * is a parameterized type with non-wildcard type arguments
-     * @throws NullPointerException - if any of the actual parameters
-     * are <tt>null</tt>
-     */
-    Type makeArrayType(Type componentType);
+    Typf mbkfNbmfdTypf(String nbmf);
 
     /**
-     * Returns the reflective representation of type <tt>byte</tt>.
-     * @return the reflective representation of type <tt>byte</tt>.
+     * Rfturns b (possibly gfnfrid) brrby typf.
+     * If tif domponfnt typf is b pbrbmftfrizfd typf, it must
+     * only ibvf unboundfd wilddbrd brgufmnts, otifrwisf
+     * b MblformfdPbrbmftfrizfdTypfExdfption is tirown.
+     * @pbrbm domponfntTypf - tif domponfnt typf of tif brrby
+     * @rfturn b (possibly gfnfrid) brrby typf.
+     * @tirows MblformfdPbrbmftfrizfdTypfExdfption if <tt>domponfntTypf</tt>
+     * is b pbrbmftfrizfd typf witi non-wilddbrd typf brgumfnts
+     * @tirows NullPointfrExdfption - if bny of tif bdtubl pbrbmftfrs
+     * brf <tt>null</tt>
      */
-    Type makeByte();
+    Typf mbkfArrbyTypf(Typf domponfntTypf);
 
     /**
-     * Returns the reflective representation of type <tt>boolean</tt>.
-     * @return the reflective representation of type <tt>boolean</tt>.
+     * Rfturns tif rfflfdtivf rfprfsfntbtion of typf <tt>bytf</tt>.
+     * @rfturn tif rfflfdtivf rfprfsfntbtion of typf <tt>bytf</tt>.
      */
-    Type makeBool();
+    Typf mbkfBytf();
 
     /**
-     * Returns the reflective representation of type <tt>short</tt>.
-     * @return the reflective representation of type <tt>short</tt>.
+     * Rfturns tif rfflfdtivf rfprfsfntbtion of typf <tt>boolfbn</tt>.
+     * @rfturn tif rfflfdtivf rfprfsfntbtion of typf <tt>boolfbn</tt>.
      */
-    Type makeShort();
+    Typf mbkfBool();
 
     /**
-     * Returns the reflective representation of type <tt>char</tt>.
-     * @return the reflective representation of type <tt>char</tt>.
+     * Rfturns tif rfflfdtivf rfprfsfntbtion of typf <tt>siort</tt>.
+     * @rfturn tif rfflfdtivf rfprfsfntbtion of typf <tt>siort</tt>.
      */
-    Type makeChar();
+    Typf mbkfSiort();
 
     /**
-     * Returns the reflective representation of type <tt>int</tt>.
-     * @return the reflective representation of type <tt>int</tt>.
+     * Rfturns tif rfflfdtivf rfprfsfntbtion of typf <tt>dibr</tt>.
+     * @rfturn tif rfflfdtivf rfprfsfntbtion of typf <tt>dibr</tt>.
      */
-    Type makeInt();
+    Typf mbkfCibr();
 
     /**
-     * Returns the reflective representation of type <tt>long</tt>.
-     * @return the reflective representation of type <tt>long</tt>.
+     * Rfturns tif rfflfdtivf rfprfsfntbtion of typf <tt>int</tt>.
+     * @rfturn tif rfflfdtivf rfprfsfntbtion of typf <tt>int</tt>.
      */
-    Type makeLong();
+    Typf mbkfInt();
 
     /**
-     * Returns the reflective representation of type <tt>float</tt>.
-     * @return the reflective representation of type <tt>float</tt>.
+     * Rfturns tif rfflfdtivf rfprfsfntbtion of typf <tt>long</tt>.
+     * @rfturn tif rfflfdtivf rfprfsfntbtion of typf <tt>long</tt>.
      */
-    Type makeFloat();
+    Typf mbkfLong();
 
     /**
-     * Returns the reflective representation of type <tt>double</tt>.
-     * @return the reflective representation of type <tt>double</tt>.
+     * Rfturns tif rfflfdtivf rfprfsfntbtion of typf <tt>flobt</tt>.
+     * @rfturn tif rfflfdtivf rfprfsfntbtion of typf <tt>flobt</tt>.
      */
-    Type makeDouble();
+    Typf mbkfFlobt();
 
     /**
-     * Returns the reflective representation of <tt>void</tt>.
-     * @return the reflective representation of <tt>void</tt>.
+     * Rfturns tif rfflfdtivf rfprfsfntbtion of typf <tt>doublf</tt>.
+     * @rfturn tif rfflfdtivf rfprfsfntbtion of typf <tt>doublf</tt>.
      */
-    Type makeVoid();
+    Typf mbkfDoublf();
+
+    /**
+     * Rfturns tif rfflfdtivf rfprfsfntbtion of <tt>void</tt>.
+     * @rfturn tif rfflfdtivf rfprfsfntbtion of <tt>void</tt>.
+     */
+    Typf mbkfVoid();
 }

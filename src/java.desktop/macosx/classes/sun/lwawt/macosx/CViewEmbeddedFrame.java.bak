@@ -1,106 +1,106 @@
 /*
- * Copyright (c) 2012, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package sun.lwawt.macosx;
+pbdkbgf sun.lwbwt.mbdosx;
 
-import java.awt.AWTKeyStroke;
-import java.awt.Toolkit;
-import java.lang.reflect.InvocationTargetException;
+import jbvb.bwt.AWTKfyStrokf;
+import jbvb.bwt.Toolkit;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
 
-import sun.awt.EmbeddedFrame;
-import sun.lwawt.LWWindowPeer;
+import sun.bwt.EmbfddfdFrbmf;
+import sun.lwbwt.LWWindowPffr;
 
 /*
- * The CViewEmbeddedFrame class is used in the SWT_AWT bridge.
- * This is a part of public API and should not be renamed or moved
+ * Tif CVifwEmbfddfdFrbmf dlbss is usfd in tif SWT_AWT bridgf.
+ * Tiis is b pbrt of publid API bnd siould not bf rfnbmfd or movfd
  */
-@SuppressWarnings("serial") // JDK implementation class
-public class CViewEmbeddedFrame extends EmbeddedFrame {
+@SupprfssWbrnings("sfribl") // JDK implfmfntbtion dlbss
+publid dlbss CVifwEmbfddfdFrbmf fxtfnds EmbfddfdFrbmf {
 
-    private final long nsViewPtr;
+    privbtf finbl long nsVifwPtr;
 
-    private boolean isActive = false;
+    privbtf boolfbn isAdtivf = fblsf;
 
-    public CViewEmbeddedFrame(long nsViewPtr) {
-        this.nsViewPtr = nsViewPtr;
+    publid CVifwEmbfddfdFrbmf(long nsVifwPtr) {
+        tiis.nsVifwPtr = nsVifwPtr;
     }
 
-    @SuppressWarnings("deprecation")
-    @Override
-    public void addNotify() {
-        if (getPeer() == null) {
-            LWCToolkit toolkit = (LWCToolkit) Toolkit.getDefaultToolkit();
-            setPeer(toolkit.createEmbeddedFrame(this));
+    @SupprfssWbrnings("dfprfdbtion")
+    @Ovfrridf
+    publid void bddNotify() {
+        if (gftPffr() == null) {
+            LWCToolkit toolkit = (LWCToolkit) Toolkit.gftDffbultToolkit();
+            sftPffr(toolkit.drfbtfEmbfddfdFrbmf(tiis));
         }
-        super.addNotify();
+        supfr.bddNotify();
     }
 
-    public long getEmbedderHandle() {
-        return nsViewPtr;
+    publid long gftEmbfddfrHbndlf() {
+        rfturn nsVifwPtr;
     }
 
-    @Override
-    public void registerAccelerator(AWTKeyStroke awtks) {
+    @Ovfrridf
+    publid void rfgistfrAddflfrbtor(AWTKfyStrokf bwtks) {
     }
 
-    @Override
-    public void unregisterAccelerator(AWTKeyStroke awtks) {
+    @Ovfrridf
+    publid void unrfgistfrAddflfrbtor(AWTKfyStrokf bwtks) {
     }
 
-    public boolean isParentWindowActive() {
-        return isActive;
+    publid boolfbn isPbrfntWindowAdtivf() {
+        rfturn isAdtivf;
     }
 
     /*
-     * Synthetic event delivery for focus management
+     * Syntiftid fvfnt dflivfry for fodus mbnbgfmfnt
      */
-    @Override
-    public void synthesizeWindowActivation(boolean activated) {
-        if (isActive != activated) {
-            isActive = activated;
-            ((LWWindowPeer)getPeer()).notifyActivation(activated, null);
+    @Ovfrridf
+    publid void syntifsizfWindowAdtivbtion(boolfbn bdtivbtfd) {
+        if (isAdtivf != bdtivbtfd) {
+            isAdtivf = bdtivbtfd;
+            ((LWWindowPffr)gftPffr()).notifyAdtivbtion(bdtivbtfd, null);
         }
     }
 
     /*
-     * Initializes the embedded frame bounds and validates a component.
-     * Designed to be called from the main thread
-     * This method should be called once from the initialization of the SWT_AWT Bridge
+     * Initiblizfs tif fmbfddfd frbmf bounds bnd vblidbtfs b domponfnt.
+     * Dfsignfd to bf dbllfd from tif mbin tirfbd
+     * Tiis mftiod siould bf dbllfd ondf from tif initiblizbtion of tif SWT_AWT Bridgf
      */
-    @SuppressWarnings("deprecation")
-    public void validateWithBounds(final int x, final int y, final int width, final int height) {
+    @SupprfssWbrnings("dfprfdbtion")
+    publid void vblidbtfWitiBounds(finbl int x, finbl int y, finbl int widti, finbl int ifigit) {
         try {
-            LWCToolkit.invokeAndWait(new Runnable() {
-                @Override
-                public void run() {
-                    ((LWWindowPeer) getPeer()).setBoundsPrivate(0, 0, width, height);
-                    validate();
-                    setVisible(true);
+            LWCToolkit.invokfAndWbit(nfw Runnbblf() {
+                @Ovfrridf
+                publid void run() {
+                    ((LWWindowPffr) gftPffr()).sftBoundsPrivbtf(0, 0, widti, ifigit);
+                    vblidbtf();
+                    sftVisiblf(truf);
                 }
-            }, this);
-        } catch (InvocationTargetException ex) {}
+            }, tiis);
+        } dbtdi (InvodbtionTbrgftExdfption fx) {}
     }
 }

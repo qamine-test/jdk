@@ -1,306 +1,306 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bfbns.*;
 
-import javax.swing.plaf.*;
-import javax.accessibility.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.bddfssibility.*;
 
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.IOException;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.IOExdfption;
 
 
 /**
- * An implementation of a radio button -- an item that can be selected or
- * deselected, and which displays its state to the user.
- * Used with a {@link ButtonGroup} object to create a group of buttons
- * in which only one button at a time can be selected. (Create a ButtonGroup
- * object and use its <code>add</code> method to include the JRadioButton objects
- * in the group.)
- * <blockquote>
- * <strong>Note:</strong>
- * The ButtonGroup object is a logical grouping -- not a physical grouping.
- * To create a button panel, you should still create a {@link JPanel} or similar
- * container-object and add a {@link javax.swing.border.Border} to it to set it off from surrounding
- * components.
- * </blockquote>
+ * An implfmfntbtion of b rbdio button -- bn itfm tibt dbn bf sflfdtfd or
+ * dfsflfdtfd, bnd wiidi displbys its stbtf to tif usfr.
+ * Usfd witi b {@link ButtonGroup} objfdt to drfbtf b group of buttons
+ * in wiidi only onf button bt b timf dbn bf sflfdtfd. (Crfbtf b ButtonGroup
+ * objfdt bnd usf its <dodf>bdd</dodf> mftiod to indludf tif JRbdioButton objfdts
+ * in tif group.)
+ * <blodkquotf>
+ * <strong>Notf:</strong>
+ * Tif ButtonGroup objfdt is b logidbl grouping -- not b piysidbl grouping.
+ * To drfbtf b button pbnfl, you siould still drfbtf b {@link JPbnfl} or similbr
+ * dontbinfr-objfdt bnd bdd b {@link jbvbx.swing.bordfr.Bordfr} to it to sft it off from surrounding
+ * domponfnts.
+ * </blodkquotf>
  * <p>
- * Buttons can be configured, and to some degree controlled, by
- * <code><a href="Action.html">Action</a></code>s.  Using an
- * <code>Action</code> with a button has many benefits beyond directly
- * configuring a button.  Refer to <a href="Action.html#buttonActions">
- * Swing Components Supporting <code>Action</code></a> for more
- * details, and you can find more information in <a
- * href="http://docs.oracle.com/javase/tutorial/uiswing/misc/action.html">How
- * to Use Actions</a>, a section in <em>The Java Tutorial</em>.
+ * Buttons dbn bf donfigurfd, bnd to somf dfgrff dontrollfd, by
+ * <dodf><b irff="Adtion.itml">Adtion</b></dodf>s.  Using bn
+ * <dodf>Adtion</dodf> witi b button ibs mbny bfnffits bfyond dirfdtly
+ * donfiguring b button.  Rfffr to <b irff="Adtion.itml#buttonAdtions">
+ * Swing Componfnts Supporting <dodf>Adtion</dodf></b> for morf
+ * dftbils, bnd you dbn find morf informbtion in <b
+ * irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/misd/bdtion.itml">How
+ * to Usf Adtions</b>, b sfdtion in <fm>Tif Jbvb Tutoribl</fm>.
  * <p>
- * See <a href="http://docs.oracle.com/javase/tutorial/uiswing/components/button.html">How to Use Buttons, Check Boxes, and Radio Buttons</a>
- * in <em>The Java Tutorial</em>
- * for further documentation.
+ * Sff <b irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/button.itml">How to Usf Buttons, Cifdk Boxfs, bnd Rbdio Buttons</b>
+ * in <fm>Tif Jbvb Tutoribl</fm>
+ * for furtifr dodumfntbtion.
  * <p>
- * <strong>Warning:</strong> Swing is not thread safe. For more
- * information see <a
- * href="package-summary.html#threading">Swing's Threading
- * Policy</a>.
+ * <strong>Wbrning:</strong> Swing is not tirfbd sbff. For morf
+ * informbtion sff <b
+ * irff="pbdkbgf-summbry.itml#tirfbding">Swing's Tirfbding
+ * Polidy</b>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @beaninfo
- *   attribute: isContainer false
- * description: A component which can display it's state as selected or deselected.
+ * @bfbninfo
+ *   bttributf: isContbinfr fblsf
+ * dfsdription: A domponfnt wiidi dbn displby it's stbtf bs sflfdtfd or dfsflfdtfd.
  *
- * @see ButtonGroup
- * @see JCheckBox
- * @author Jeff Dinkins
- * @since 1.2
+ * @sff ButtonGroup
+ * @sff JCifdkBox
+ * @butior Jfff Dinkins
+ * @sindf 1.2
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class JRadioButton extends JToggleButton implements Accessible {
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss JRbdioButton fxtfnds JTogglfButton implfmfnts Addfssiblf {
 
     /**
-     * @see #getUIClassID
-     * @see #readObject
+     * @sff #gftUIClbssID
+     * @sff #rfbdObjfdt
      */
-    private static final String uiClassID = "RadioButtonUI";
+    privbtf stbtid finbl String uiClbssID = "RbdioButtonUI";
 
 
     /**
-     * Creates an initially unselected radio button
-     * with no set text.
+     * Crfbtfs bn initiblly unsflfdtfd rbdio button
+     * witi no sft tfxt.
      */
-    public JRadioButton () {
-        this(null, null, false);
+    publid JRbdioButton () {
+        tiis(null, null, fblsf);
     }
 
     /**
-     * Creates an initially unselected radio button
-     * with the specified image but no text.
+     * Crfbtfs bn initiblly unsflfdtfd rbdio button
+     * witi tif spfdififd imbgf but no tfxt.
      *
-     * @param icon  the image that the button should display
+     * @pbrbm idon  tif imbgf tibt tif button siould displby
      */
-    public JRadioButton(Icon icon) {
-        this(null, icon, false);
+    publid JRbdioButton(Idon idon) {
+        tiis(null, idon, fblsf);
     }
 
     /**
-     * Creates a radiobutton where properties are taken from the
-     * Action supplied.
+     * Crfbtfs b rbdiobutton wifrf propfrtifs brf tbkfn from tif
+     * Adtion supplifd.
      *
-     * @param a an {@code Action}
-     * @since 1.3
+     * @pbrbm b bn {@dodf Adtion}
+     * @sindf 1.3
      */
-    public JRadioButton(Action a) {
-        this();
-        setAction(a);
+    publid JRbdioButton(Adtion b) {
+        tiis();
+        sftAdtion(b);
     }
 
     /**
-     * Creates a radio button with the specified image
-     * and selection state, but no text.
+     * Crfbtfs b rbdio button witi tif spfdififd imbgf
+     * bnd sflfdtion stbtf, but no tfxt.
      *
-     * @param icon  the image that the button should display
-     * @param selected  if true, the button is initially selected;
-     *                  otherwise, the button is initially unselected
+     * @pbrbm idon  tif imbgf tibt tif button siould displby
+     * @pbrbm sflfdtfd  if truf, tif button is initiblly sflfdtfd;
+     *                  otifrwisf, tif button is initiblly unsflfdtfd
      */
-    public JRadioButton(Icon icon, boolean selected) {
-        this(null, icon, selected);
+    publid JRbdioButton(Idon idon, boolfbn sflfdtfd) {
+        tiis(null, idon, sflfdtfd);
     }
 
     /**
-     * Creates an unselected radio button with the specified text.
+     * Crfbtfs bn unsflfdtfd rbdio button witi tif spfdififd tfxt.
      *
-     * @param text  the string displayed on the radio button
+     * @pbrbm tfxt  tif string displbyfd on tif rbdio button
      */
-    public JRadioButton (String text) {
-        this(text, null, false);
+    publid JRbdioButton (String tfxt) {
+        tiis(tfxt, null, fblsf);
     }
 
     /**
-     * Creates a radio button with the specified text
-     * and selection state.
+     * Crfbtfs b rbdio button witi tif spfdififd tfxt
+     * bnd sflfdtion stbtf.
      *
-     * @param text  the string displayed on the radio button
-     * @param selected  if true, the button is initially selected;
-     *                  otherwise, the button is initially unselected
+     * @pbrbm tfxt  tif string displbyfd on tif rbdio button
+     * @pbrbm sflfdtfd  if truf, tif button is initiblly sflfdtfd;
+     *                  otifrwisf, tif button is initiblly unsflfdtfd
      */
-    public JRadioButton (String text, boolean selected) {
-        this(text, null, selected);
+    publid JRbdioButton (String tfxt, boolfbn sflfdtfd) {
+        tiis(tfxt, null, sflfdtfd);
     }
 
     /**
-     * Creates a radio button that has the specified text and image,
-     * and that is initially unselected.
+     * Crfbtfs b rbdio button tibt ibs tif spfdififd tfxt bnd imbgf,
+     * bnd tibt is initiblly unsflfdtfd.
      *
-     * @param text  the string displayed on the radio button
-     * @param icon  the image that the button should display
+     * @pbrbm tfxt  tif string displbyfd on tif rbdio button
+     * @pbrbm idon  tif imbgf tibt tif button siould displby
      */
-    public JRadioButton(String text, Icon icon) {
-        this(text, icon, false);
+    publid JRbdioButton(String tfxt, Idon idon) {
+        tiis(tfxt, idon, fblsf);
     }
 
     /**
-     * Creates a radio button that has the specified text, image,
-     * and selection state.
+     * Crfbtfs b rbdio button tibt ibs tif spfdififd tfxt, imbgf,
+     * bnd sflfdtion stbtf.
      *
-     * @param text  the string displayed on the radio button
-     * @param icon  the image that the button should display
-     * @param selected if {@code true}, the button is initially selected
-     *                 otherwise, the button is initially unselected
+     * @pbrbm tfxt  tif string displbyfd on tif rbdio button
+     * @pbrbm idon  tif imbgf tibt tif button siould displby
+     * @pbrbm sflfdtfd if {@dodf truf}, tif button is initiblly sflfdtfd
+     *                 otifrwisf, tif button is initiblly unsflfdtfd
      */
-    public JRadioButton (String text, Icon icon, boolean selected) {
-        super(text, icon, selected);
-        setBorderPainted(false);
-        setHorizontalAlignment(LEADING);
+    publid JRbdioButton (String tfxt, Idon idon, boolfbn sflfdtfd) {
+        supfr(tfxt, idon, sflfdtfd);
+        sftBordfrPbintfd(fblsf);
+        sftHorizontblAlignmfnt(LEADING);
     }
 
 
     /**
-     * Resets the UI property to a value from the current look and feel.
+     * Rfsfts tif UI propfrty to b vbluf from tif durrfnt look bnd fffl.
      *
-     * @see JComponent#updateUI
+     * @sff JComponfnt#updbtfUI
      */
-    public void updateUI() {
-        setUI((ButtonUI)UIManager.getUI(this));
+    publid void updbtfUI() {
+        sftUI((ButtonUI)UIMbnbgfr.gftUI(tiis));
     }
 
 
     /**
-     * Returns the name of the L&amp;F class
-     * that renders this component.
+     * Rfturns tif nbmf of tif L&bmp;F dlbss
+     * tibt rfndfrs tiis domponfnt.
      *
-     * @return String "RadioButtonUI"
-     * @see JComponent#getUIClassID
-     * @see UIDefaults#getUI
-     * @beaninfo
-     *        expert: true
-     *   description: A string that specifies the name of the L&amp;F class.
+     * @rfturn String "RbdioButtonUI"
+     * @sff JComponfnt#gftUIClbssID
+     * @sff UIDffbults#gftUI
+     * @bfbninfo
+     *        fxpfrt: truf
+     *   dfsdription: A string tibt spfdififs tif nbmf of tif L&bmp;F dlbss.
      */
-    public String getUIClassID() {
-        return uiClassID;
+    publid String gftUIClbssID() {
+        rfturn uiClbssID;
     }
 
 
     /**
-     * The icon for radio buttons comes from the look and feel,
-     * not the Action.
+     * Tif idon for rbdio buttons domfs from tif look bnd fffl,
+     * not tif Adtion.
      */
-    void setIconFromAction(Action a) {
+    void sftIdonFromAdtion(Adtion b) {
     }
 
     /**
-     * See readObject() and writeObject() in JComponent for more
-     * information about serialization in Swing.
+     * Sff rfbdObjfdt() bnd writfObjfdt() in JComponfnt for morf
+     * informbtion bbout sfriblizbtion in Swing.
      */
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        s.defaultWriteObject();
-        if (getUIClassID().equals(uiClassID)) {
-            byte count = JComponent.getWriteObjCounter(this);
-            JComponent.setWriteObjCounter(this, --count);
-            if (count == 0 && ui != null) {
-                ui.installUI(this);
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s) tirows IOExdfption {
+        s.dffbultWritfObjfdt();
+        if (gftUIClbssID().fqubls(uiClbssID)) {
+            bytf dount = JComponfnt.gftWritfObjCountfr(tiis);
+            JComponfnt.sftWritfObjCountfr(tiis, --dount);
+            if (dount == 0 && ui != null) {
+                ui.instbllUI(tiis);
             }
         }
     }
 
 
     /**
-     * Returns a string representation of this JRadioButton. This method
-     * is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not
-     * be <code>null</code>.
+     * Rfturns b string rfprfsfntbtion of tiis JRbdioButton. Tiis mftiod
+     * is intfndfd to bf usfd only for dfbugging purposfs, bnd tif
+     * dontfnt bnd formbt of tif rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Tif rfturnfd string mby bf fmpty but mby not
+     * bf <dodf>null</dodf>.
      *
-     * @return  a string representation of this JRadioButton.
+     * @rfturn  b string rfprfsfntbtion of tiis JRbdioButton.
      */
-    protected String paramString() {
-        return super.paramString();
+    protfdtfd String pbrbmString() {
+        rfturn supfr.pbrbmString();
     }
 
 
 /////////////////
-// Accessibility support
+// Addfssibility support
 ////////////////
 
 
     /**
-     * Gets the AccessibleContext associated with this JRadioButton.
-     * For JRadioButtons, the AccessibleContext takes the form of an
-     * AccessibleJRadioButton.
-     * A new AccessibleJRadioButton instance is created if necessary.
+     * Gfts tif AddfssiblfContfxt bssodibtfd witi tiis JRbdioButton.
+     * For JRbdioButtons, tif AddfssiblfContfxt tbkfs tif form of bn
+     * AddfssiblfJRbdioButton.
+     * A nfw AddfssiblfJRbdioButton instbndf is drfbtfd if nfdfssbry.
      *
-     * @return an AccessibleJRadioButton that serves as the
-     *         AccessibleContext of this JRadioButton
-     * @beaninfo
-     *       expert: true
-     *  description: The AccessibleContext associated with this Button
+     * @rfturn bn AddfssiblfJRbdioButton tibt sfrvfs bs tif
+     *         AddfssiblfContfxt of tiis JRbdioButton
+     * @bfbninfo
+     *       fxpfrt: truf
+     *  dfsdription: Tif AddfssiblfContfxt bssodibtfd witi tiis Button
      */
-    public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleJRadioButton();
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfJRbdioButton();
         }
-        return accessibleContext;
+        rfturn bddfssiblfContfxt;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>JRadioButton</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to radio button
-     * user-interface elements.
+     * Tiis dlbss implfmfnts bddfssibility support for tif
+     * <dodf>JRbdioButton</dodf> dlbss.  It providfs bn implfmfntbtion of tif
+     * Jbvb Addfssibility API bppropribtf to rbdio button
+     * usfr-intfrfbdf flfmfnts.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+     * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+     * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+     * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    protected class AccessibleJRadioButton extends AccessibleJToggleButton {
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    protfdtfd dlbss AddfssiblfJRbdioButton fxtfnds AddfssiblfJTogglfButton {
 
         /**
-         * Get the role of this object.
+         * Gft tif rolf of tiis objfdt.
          *
-         * @return an instance of AccessibleRole describing the role of the object
-         * @see AccessibleRole
+         * @rfturn bn instbndf of AddfssiblfRolf dfsdribing tif rolf of tif objfdt
+         * @sff AddfssiblfRolf
          */
-        public AccessibleRole getAccessibleRole() {
-            return AccessibleRole.RADIO_BUTTON;
+        publid AddfssiblfRolf gftAddfssiblfRolf() {
+            rfturn AddfssiblfRolf.RADIO_BUTTON;
         }
 
-    } // inner class AccessibleJRadioButton
+    } // innfr dlbss AddfssiblfJRbdioButton
 }

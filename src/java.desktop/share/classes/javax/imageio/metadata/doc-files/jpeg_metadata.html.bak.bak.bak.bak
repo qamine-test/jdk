@@ -1,0 +1,1175 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<html>
+<hfbd>
+<!--
+Copyright (d) 2000, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+
+This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+bddompbnifd this dodf).
+
+You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+qufstions.
+-->
+
+<titlf>JPEG Mftbdbtb Formbt Spfdifidbtion bnd Usbgf Notfs</titlf>
+</hfbd>
+
+<body bgdolor="whitf">
+
+<dfntfr><h1>
+JPEG Mftbdbtb Formbt Spfdifidbtion bnd Usbgf Notfs
+</h1></dfntfr>
+
+<p>
+<b hrff=#mftbdbtb>JPEG Mftbdbtb</b><br>
+<b hrff=#bbbrfv>Abbrfvibtfd Strfbms</b><br>
+<b hrff=#tbblfs>Sourdfs of Tbblfs</b><br>
+<b hrff=#dolor>Colorspbdf Trbnsformbtions bnd Convfntionbl Mbrkfrs</b><br>
+<b hrff=#thumbs>Thumbnbil Imbgfs</b><br>
+<b hrff=#prog>Progrfssivf Endoding</b><br>
+<b hrff=#trff>Nbtivf Mftbdbtb Formbt Trff Strudturf bnd Editing</b><br>
+<b hrff=#imbgf>Imbgf Mftbdbtb DTD</b><br>
+<b hrff=#strfbm>Strfbm Mftbdbtb DTD</b>
+<p>
+<bold>NOTE</bold>: It is importbnt to dbll <dodf>disposf()</dodf> 
+on thf JPEG rfbdfr bnd writfr objfdts whfn thfy brf no longfr nffdfd, bs 
+thfy donsumf signifidbnt nbtivf rfsourdfs whidh brf not bdfqubtfly rfdovfrfd 
+by gbrbbgf dollfdtion.  Both rfbdfr bnd writfr dbll <dodf>disposf()</dodf> 
+in thfir finblizfrs, but thosf finblizfrs mby not bf dbllfd bfforf thf nbtivf 
+dodf hbs fxhbustfd nbtivf mfmory.
+
+<p>
+
+Thf JPEG writfr dofs not support rfplbding pixfls.
+
+<p>
+<h2>
+<b nbmf=mftbdbtb>JPEG Mftbdbtb</b>
+</h2>
+JPEG mftbdbtb donsists of thf dbtb dontbinfd in mbrkfr sfgmfnts in b JPEG
+strfbm.  Thf imbgf mftbdbtb objfdt rfturnfd from b rfbd dfsdribfs thf
+dontfnts of thf mbrkfr sfgmfnts bftwffn thf <dodf>SOI</dodf> mbrkfr bnd 
+thf <dodf>EOI</dodf> mbrkfr for thbt imbgf.  Thf imbgf mftbdbtb objfdt 
+pbssfd into b writf dftfrminfs thf dontfnts of thf strfbm bftwffn thf 
+<dodf>SOI</dodf> mbrkfr bnd thf <dodf>EOI</dodf> mbrkfr for thbt imbgf, 
+subjfdt to thf dontrols in bny <dodf>ImbgfWritfPbrbm</dodf>.
+
+<p>
+Strfbm mftbdbtb is usfd only for tbblfs-only imbgfs found (or to bf 
+plbdfd) bt thf bfginning of b strfbm dontbining bbbrfvibtfd imbgfs.  
+Tbblfs-only imbgfs brf not trfbtfd bs imbgfs bnd do not donsumf bn 
+imbgf indfx.  Thf strfbm mftbdbtb objfdt rfturnfd from b rfbd dfsdribfs thf
+dontfnts of thf mbrkfr sfgmfnts bftwffn thf <dodf>SOI</dodf> mbrkfr bnd 
+thf <dodf>EOI</dodf> mbrkfr for thf singlf tbblfs-only imbgf bt thf 
+bfginning of thf strfbm, if onf is prfsfnt.  If no tbblfs-only imbgf is 
+prfsfnt bt thf front of thf strfbm, thf <dodf>gftStrfbmMftbdbtb</dodf> 
+mfthod of <dodf>ImbgfRfbdfr</dodf> rfturns <dodf>null</dodf>.  If 
+strfbm mftbdbtb is providfd to thf writfr, b singlf tbblfs-only imbgf 
+dontbining thf tbblfs from thf strfbm mftbdbtb objfdt will bf writtfn bt 
+thf bfginning of thf strfbm.  If thf strfbm mftbdbtb objfdt dontbins no
+tbblfs, dffbult tbblfs will bf writtfn.  As thf solf purposf of strfbm
+mftbdbtb is for spfdifying tbblfs-only imbgfs bt thf front of bbbrfvibtfd 
+strfbms, thf strfbm mftbdbtb brgumfnt is usfful only on thf 
+<dodf>ImbgfWritfr.prfpbrfWritfSfqufndf</dodf> mfthod.  It is ignorfd on bll 
+othfr mfthods.
+
+<p> 
+Thf <dodf>ImbgfWritfr.gftDffbultStrfbmMftbdbtb</dodf> mfthod rfturns bn 
+objfdt dontbining thf tbblfs from thf <dodf>ImbgfWritfPbrbm</dodf> brgumfnt, 
+if it is b <dodf>JPEGImbgfWritfPbrbm</dodf> bnd dontbins tbblfs.  Othfrwisf, 
+thf rfturnfd objfdt will dontbin dffbult tbblfs.
+
+<p>Thf <dodf>ImbgfWritfr.gftDffbultImbgfMftbdbtb</dodf> mfthod rfturns b 
+mftbdbtb objfdt dontbining <bold>no</bold> tbblfs if thf 
+<dodf>ImbgfWritfPbrbm</dodf> brgumfnt dontbins tbblfs.  Othfrwisf thf 
+rfturnfd mftbdbtb objfdt will dontbin dffbult visublly losslfss tbblfs.  
+Of doursf, only b <dodf>JPEGImbgfWritfPbrbm</dodf> mby dontbin tbblfs.
+
+<p>
+If <dodf>ignorfMftbdbtb</dodf> is sft to <dodf>truf</dodf> whfn thf input
+is sft on thf rfbdfr, strfbm mftbdbtb will not bf bvbilbblf, but imbgf
+mftbdbtb will.
+
+<p>
+<h2>
+<b nbmf=bbbrfv>Abbrfvibtfd Strfbms</b>
+</h2>
+Both thf rfbdfr bnd thf writfr rftbin thfir tbblfs from onf opfrbtion to thf 
+nfxt, thus pfrmitting thf usf of bbbrfvibtfd strfbms quitf nbturblly, with b 
+ffw minor rfstridtions:  
+<ol>
+  <li> Abbrfvibtfd strfbms mby dontbin only onf tbblfs-only imbgf, whidh must 
+       domf first in thf strfbm.  Subsfqufnt tbblfs-only imbgfs will dbusf
+       undffinfd bfhbvior.</li>
+  <li> Abbrfvibtfd strfbms must bf rfbd fully bnd in ordfr.  No rbndom bddfss
+       is bllowfd, in fithfr dirfdtion.  Thf sbmf imbgf mby bf rfbd multiplf 
+       timfs.  If b dbll is mbdf with bn imbgf indfx thbt is not thf sbmf bs
+       or onf grfbtfr thbn thf most rfdfnt dbll (or 0 if no dblls hbvf bffn
+       mbdf), thfn bn <dodf>IllfgblArgumfntExdfption</dodf> is thrown.</li>
+</ol>
+Thfsf rfstridtions mfbn thbt strfbms mby dontbin bbbrfvibtfd imbgfs 
+intfrspfrsfd with imbgfs dontbining tbblfs.  As rfquirfd by JPEG, bny tbblfs
+bppfbring in thf strfbm ovfrridf prfvious tbblfs, rfgbrdlfss of thf sourdf
+of thf prfvious tbblfs.  
+
+<p>
+Notf thbt ondf b tbblfs-only imbgf hbs bffn rfbd, it's dontfnts is bvbilbblf
+bs strfbm mftbdbtb from thf rfbdfr until fithfr bnothfr tbblfs-only imbgf
+is rfbd from bnothfr strfbm or thf rfbdfr is rfsft.  Chbnging thf input dofs
+not rfsft thf strfbm mftbdbtb.  This is usfful for rfbding thf tbblfs from
+onf filf, thfn dhbnging thf input to rfbd bn bbbrfvibtfd strfbm dontbining 
+b sfqufndf of imbgfs.  Thf tbblfs will bf usfd butombtidblly, bnd will rfmbin
+bvbilbblf bs "strfbm" mftbdbtb.
+
+<p>
+Abbrfvibtfd strfbms brf writtfn using thf sfqufndf mfthods of 
+<dodf>ImbgfWritfr</dodf>.  Strfbm mftbdbtb is usfd to writf b tbblfs-only 
+imbgf bt thf bfginning of thf strfbm, bnd thf tbblfs brf sft up for usf, using
+<dodf>ImbgfWritfr.prfpbrfWritfSfqufndf</dodf>.  If no strfbm mftbdbtb is 
+supplifd to <dodf>ImbgfWritfr.prfpbrfWritfSfqufndf</dodf>, thfn no 
+tbblfs-only imbgf is writtfn.  If strfbm mftbdbtb dontbining no tbblfs is
+supplifd to <dodf>ImbgfWritfr.prfpbrfWritfSfqufndf</dodf>, thfn b tbblfs-only
+imbgf dontbining dffbult visublly losslfss tbblfs is writtfn.
+
+<h2>
+<b nbmf=tbblfs>Sourdfs of Tbblfs</b>
+</h2>
+<p>
+Imbgfs brf writtfn with tbblfs if tbblfs brf prfsfnt in thfir mftbdbtb objfdts 
+or without thfm if no tbblfs brf prfsfnt in thfir mftbdbtb objfdts.  If no
+mftbdbtb objfdt is prfsfnt thfn thf tbblfs brf writtfn.  Thf tbblfs usfd for 
+domprfssion brf tbkfn from onf of thf following sourdfs, whidh brf donsultfd 
+in ordfr: 
+<ol>
+  <li> If thfrf is bn <dodf>ImbgfWritfPbrbm</dodf> bnd thf domprfssion modf is
+       sft to <dodf>EXPLICIT</dodf>, dffbult tbblfs donstrudtfd using thf
+       qublity sftting brf usfd.  Thfy brf writtfn only if thf mftbdbtb 
+       dontbins tbblfs or if thfrf is no mftbdbtb, but thfy rfplbdf thf 
+       tbblfs in thf mftbdbtb.</li>
+  <li> If thfrf is bn <dodf>ImbgfWritfPbrbm</dodf> bnd thf domprfssion modf is
+       sft to <dodf>DEFAULT</dodf>, dffbult visublly losslfs tbblfs brf usfd.
+       Thfy brf writtfn only if thf mftbdbtb dontbins tbblfs or if
+       thfrf is no mftbdbtb, but thfy rfplbdf thf tbblfs in thf
+       mftbdbtb.</li>
+  <li> Othfrwisf thf domprfssion modf on thf <dodf>ImbgfWritfPbrbm</dodf> must
+       bf MODE_COPY_FROM_<dodf>METADATA</dodf>, in whidh dbsf thf following
+       brf usfd:
+    <ol>
+      <li> thf tbblfs in thf imbgf mftbdbtb, if prfsfnt</li>
+      <li> thf tbblfs in thf strfbm mftbdbtb, if prfsfnt</li>
+      <li> thf tbblfs in thf <dodf>JPEGImbgfWritfPbrbm</dodf>, if prfsfnt</li>
+      <li> dffbult visublly losslfss tbblfs</li>
+    </ol> Tbblfs brf writtfn only if thfy brf tbkfn from imbgf mftbdbtb.
+  </li>
+</ol>
+
+This ordfring implfmfnts thf dfsign intfntion thbt tbblfs should bf indludfd 
+in <dodf>JPEGImbgfWritfPbrbm</dodf>s only bs b mfbns of spfdifying tbblfs 
+whfn no othfr sourdf is bvbilbblf, bnd this dbn oddur only whfn writing to bn
+bbbrfvibtfd strfbm without tbblfs using known non-stbndbrd tbblfs for 
+domprfssion.
+
+<p>
+Whfn rfbding, tbblfs in b <dodf>JPEGImbgfRfbdPbrbm</dodf> brf donsultfd only 
+if tbblfs hbvf not bffn sft by bny prfvious rfbd.  Tbblfs sft from b 
+<dodf>JPEGImbgfRfbdPbrbm</dodf> brf ovfrriddfn by bny tbblfs prfsfnt in thf 
+strfbm bfing rfbd.
+
+<p>
+Notf thbt if no imbgf mftbdbtb objfdt is spfdififd for b pbrtidulbr imbgf, b 
+dffbult objfdt is usfd, whidh indludfs dffbult tbblfs.
+
+<p>
+<h2>
+<b nbmf=dolor>Colorspbdf Trbnsformbtions bnd Convfntionbl Mbrkfrs</b>
+</h2>
+Colorspbdf trbnsformbtions brf dontrollfd by thf dfstinbtion typf for
+both rfbding bnd writing of imbgfs.  Whfn <dodf>Rbstfr</dodf>s brf
+rfbd, no dolorspbdf trbnsformbtion is pfrformfd, bnd bny dfstinbtion typf 
+is ignorfd.  A wbrning is sfnt to bny listfnfrs if b dfstinbtion typf is 
+spfdififd in this dbsf.  Whfn <dodf>Rbstfr</dodf>s brf writtfn, bny 
+dfstinbtion typf is usfd to intfrprft thf bbnds.  This might rfsult in b
+JFIF or Adobf hfbdfr bfing writtfn, or difffrfnt domponfnt ids bfing writtfn 
+to thf frbmf bnd sdbn hfbdfrs.  If vblufs prfsfnt in b mftbdbtb objfdt do not 
+mbtdh thf dfstinbtion typf, thf dfstinbtion typf is usfd bnd b wbrning is sfnt 
+to bny listfnfrs.
+
+<p>
+
+<b nbmf=optdolor><b>Optionbl ColorSpbdf support:</b></b>
+Hbndling of PhotoYCC (YCC), PhotoYCCA (YCCA), RGBA bnd YCbCrA dolor spbdfs
+by thf stbndbrd plugin, bs dfsdribfd bflow, is dfpfndfnt on dbpbbilitifs
+of thf librbrifs usfd to intfrprft thf JPEG dbtb. Thus bll donsfqufntibl
+bfhbviors brf optionbl. If thf support is not bvbilbblf whfn dfdoding,
+thf dolor spbdf will bf trfbtfd bs unrfdognizfd bnd thf bppropribtf
+dffbult dolor spbdf for thf spfdififd numbfr of domponfnt dhbnnfls
+mby bf usfd.
+Whfn writing, bn Exdfption mby bf thrown if no suitbblf donvfrsion
+dbn bf bpplifd bfforf fndoding.
+But whfrf thf support for thfsf dolor spbdfs is bvbilbblf, thf bfhbvior
+must bf bs dodumfntfd. 
+<p>
+
+Whfn rfbding, thf dontfnts of thf strfbm brf intfrprftfd by thf usubl
+JPEG donvfntions, bs follows:
+
+<ul>
+  <li> If b JFIF <dodf>APP0</dodf> mbrkfr sfgmfnt is prfsfnt, thf dolorspbdf
+       is known to bf fithfr grbysdblf or YCbCr.  If bn <dodf>APP2</dodf>
+       mbrkfr sfgmfnt dontbining bn fmbfddfd ICC profilf is blso prfsfnt, thfn
+       thf YCbCr is donvfrtfd to RGB bddording to thf formulbs givfn in thf
+       JFIF spfd, bnd thf ICC profilf is bssumfd to rfffr to thf rfsulting RGB
+       spbdf.
+  <p>
+  <li> If bn Adobf <dodf>APP14</dodf> mbrkfr sfgmfnt is prfsfnt, thf 
+       dolorspbdf is dftfrminfd by donsulting thf <dodf>trbnsform</dodf> flbg.
+       Thf <dodf>trbnsform</dodf> flbg tbkfs onf of thrff vblufs:
+    <ul>
+      <li> 2 - Thf imbgf is fndodfd bs YCCK (impliditly donvfrtfd from
+           CMYK on fndoding).
+
+      <li> 1 - Thf imbgf is fndodfd bs YCbCr (impliditly donvfrtfd from RGB
+           on fndoding).
+
+      <li> 0 - Unknown.  3-dhbnnfl imbgfs brf bssumfd to bf RGB, 4-dhbnnfl 
+           imbgfs brf bssumfd to bf CMYK.
+    </ul>
+   <p>
+  <li> If nfithfr mbrkfr sfgmfnt is prfsfnt, thf following prodfdurf is
+       followfd: Singlf-dhbnnfl imbgfs brf bssumfd to bf grbysdblf, bnd
+       2-dhbnnfl imbgfs brf bssumfd to bf grbysdblf with bn blphb dhbnnfl.
+       For 3- bnd 4-dhbnnfl imbgfs, thf domponfnt ids brf donsultfd.  If thfsf
+       vblufs brf 1-3 for b 3-dhbnnfl imbgf, thfn thf imbgf is bssumfd to bf
+       YCbCr. Subjfdt to thf bvbilbbility of thf
+       <b hrff=#optdolor>optionbl dolor spbdf support</b>
+       dfsdribfd bbovf, if thfsf vblufs brf 1-4 for b 4-dhbnnfl imbgf,
+       thfn thf imbgf is bssumfd to bf YCbCrA. 
+       If thfsf vblufs brf > 4, thfy brf dhfdkfd 
+       bgbinst thf ASCII dodfs for 'R', 'G', 'B', 'A', 'C', 'd'.  Thfsf dbn 
+       fndodf thf following dolorspbdfs:
+       <p>
+       <br>RGB
+       <br>RGBA
+       <br>YCC (bs 'Y','C','d'), bssumfd to bf PhotoYCC
+       <br>YCCA (bs 'Y','C','d','A'), bssumfd to bf PhotoYCCA
+       <p>
+       Othfrwisf, 3-dhbnnfl subsbmplfd imbgfs brf bssumfd to bf YCbCr, 
+       3-dhbnnfl non-subsbmplfd imbgfs brf bssumfd to bf RGB, 4-dhbnnfl 
+       subsbmplfd imbgfs brf bssumfd to bf YCCK, bnd 4-dhbnnfl, non-subsbmplfd
+       imbgfs brf bssumfd to bf CMYK.
+
+  <p>
+  <li> All othfr imbgfs brf dfdlbrfd unintfrprftbblf bnd bn fxdfption is
+       thrown if bn bttfmpt is mbdf to rfbd onf bs b 
+       <dodf>BufffrfdImbgf</dodf>.  Sudh bn imbgf mby bf rfbd only bs b 
+       <dodf>Rbstfr</dodf>.  If bn imbgf is intfrprftbblf but thfrf is no Jbvb
+       <dodf>ColorSpbdf</dodf> bvbilbblf dorrfsponding to thf fndodfd 
+       dolorspbdf (<itblid>f.g.</itblid> YCbCr), thfn 
+       <dodf>ImbgfRfbdfr.gftRbwImbgfTypf</dodf> will rfturn <dodf>null</dodf>.
+</ul>
+
+Ondf bn fndodfd dolorspbdf is dftfrminfd, thfn thf tbrgft dolorspbdf is 
+dftfrminfd bs follows:
+
+<ul>
+  <li> If b dfstinbtion typf is not sft, thfn thf following dffbult
+       trbnsformbtions tbkf plbdf bftfr upsbmpling: YCbCr (bnd YCbCrA) imbgfs 
+       brf donvfrtfd to RGB (bnd RGBA) using thf donvfrsion providfd by thf
+       undfrlying IJG librbry bnd fithfr thf built-in sRGB 
+       <dodf>ColorSpbdf</dodf> or b dustom RGB <dodf>ColorSpbdf</dodf> objfdt
+       bbsfd on bn fmbfddfd ICC profilf is usfd to drfbtf thf output
+       <dodf>ColorModfl</dodf>.  PhotoYCC bnd PhotoYCCA imbgfs brf not
+       donvfrtfd.  CMYK bnd YCCK imbgfs brf durrfntly not supportfd.</li>
+
+  <li> If b dfstinbtion imbgf or typf is sft, it is usfd bs follows:
+       If thf IJG librbry providfs bn bppropribtf donvfrsion, it is usfd.
+       Othfrwisf thf dffbult librbry donvfrsion is followfd by b dolorspbdf 
+       donvfrsion in Jbvb.</li>
+
+  <li> Bbnds brf sflfdtfd AFTER bny librbry dolorspbdf donvfrsion.  If b 
+       subsft of fithfr sourdf or dfstinbtion bbnds is usfd, thfn thf dffbult 
+       librbry donvfrsions brf usfd with no furthfr donvfrsion in Jbvb,
+       rfgbrdlfss of bny dfstinbtion typf.</li>
+
+  <li> An fxdfption is thrown if bn bttfmpt is mbdf to rfbd bn imbgf in bn 
+       unsupportfd jpfg dolorspbdf bs b <dodf>BufffrfdImbgf</dodf> 
+       (<itblid>f.g.</itblid> CMYK).  Sudh imbgfs mby bf rfbd bs
+       <dodf>Rbstfr</dodf>s.  If bn imbgf dolorspbdf is unsupportfd or
+       unintfrprftbblf, thfn <dodf>ImbgfRfbdfr.gftImbgfTypfs</dodf> will
+       rfturn bn fmpty <dodf>Itfrbtor</dodf>.   If b subsft of thf rbw bbnds
+       brf rfquirfd, b <dodf>Rbstfr</dodf> must bf obtbinfd first bnd thf
+       bbnds obtbinfd from thbt. </li>
+</ul>
+
+<p>
+For writing, thf dolor trbnsformbtion to bpply is dftfrminfd bs
+follows:
+
+<p>
+If b subsft of thf sourdf bbnds is to bf writtfn, no dolor donvfrsion is 
+pfrformfd.  Any dfstinbtion, if sft, must mbtdh thf numbfr of bbnds thbt will 
+bf writtfn, bnd sfrvfs bs bn intfrprftbtion of thf sflfdtfd bbnds, rbthfr thbn 
+b donvfrsion rfqufst.  This bfhbvior is idfntidbl to thbt for 
+<dodf>Rbstfr</dodf>s.  If bll thf bbnds brf to bf writtfn bnd bn imbgf 
+(bs opposfd to b <dodf>Rbstfr</dodf>) is bfing writtfn, bny dfstinbtion typf 
+is ignorfd bnd b wbrning is sfnt to bny listfnfrs.
+
+<p>
+If b dfstinbtion typf is usfd bnd bny bspfdt of thf mftbdbtb objfdt, if thfrf 
+is onf, is not dompbtiblf with thbt typf, thf dfstinbtion typf is usfd, thf 
+mftbdbtb writtfn is modififd from thbt providfd, bnd b wbrning is sfnt to 
+listfnfrs.  This indludfs thf <dodf>bpp0JFIF</dodf> bnd 
+<dodf>bpp14Adobf</dodf> nodfs.  Thf domponfnt ids in thf <dodf>sof</dodf> bnd 
+<dodf>sos</dodf> nodfs brf not modififd, howfvfr, bs unlfss b 
+<dodf>bpp0JFIF</dodf> nodf is prfsfnt, bny vblufs mby bf usfd.
+<p>
+
+Whfn b full imbgf is writtfn, b dfstinbtion dolorspbdf will bf 
+dhosfn bbsfd on thf imbgf dontfnts bnd thf mftbdbtb sfttings, bddording to 
+thf following blgorithm:
+
+<p>
+
+If no mftbdbtb objfdt is spfdififd, thfn thf following dffbults bpply:
+
+<ul>
+  <li> Grbysdblf imbgfs brf writtfn with b JFIF <dodf>APP0</dodf> mbrkfr
+       sfgmfnt.  Grbysdblf imbgfs with blphb brf writtfn with no spfdibl
+       mbrkfr.  As rfquirfd by JFIF, thf domponfnt ids in thf frbmf bnd
+       sdbn hfbdfr is sft to 1.
+
+  <li> RGB imbgfs brf donvfrtfd to YCbCr, subsbmplfd in thf dhrominbndf
+       dhbnnfls by hblf both vfrtidblly bnd horizontblly, bnd writtfn with b
+       JFIF <dodf>APP0</dodf> mbrkfr sfgmfnt.  If thf <dodf>ColorSpbdf</dodf>
+       of thf imbgf is bbsfd on bn <dodf>ICCProfilf</dodf> (it is bn instbndf
+       of <dodf>ICC_ColorSpbdf</dodf>, but is not onf of thf stbndbrd built-in 
+       <dodf>ColorSpbdfs</dodf>), thfn thbt profilf is fmbfddfd in bn 
+       <dodf>APP2</dodf> mbrkfr sfgmfnt.  As rfquirfd by JFIF, thf 
+       domponfnt ids in thf frbmf bnd sdbn hfbdfrs brf sft to 1, 2, bnd 3.
+
+
+  <li> Subjfdt to thf <b hrff=#optdolor>optionbl librbry support</b>
+        dfsdribfd bbovf,
+       RGBA imbgfs brf donvfrtfd to YCbCrA, subsbmplfd in thf
+       dhrominbndf dhbnnfls by hblf both vfrtidblly bnd horizontblly, bnd
+       writtfn without bny spfdibl mbrkfr sfgmfnts.  Thf domponfnt ids 
+       in thf frbmf bnd sdbn hfbdfrs brf sft to 1, 2, 3, bnd 4.
+
+  <li> Subjfdt to thf <b hrff=#optdolor>optionbl librbry support</b>
+       dfsdribfd bbovf,
+       PhotoYCC bnd YCCAimbgfs brf subsbmplfd by hblf in thf dhrominbndf
+       dhbnnfls both vfrtidblly bnd horizontblly bnd writtfn with bn
+       Adobf <dodf>APP14</dodf> mbrkfr sfgmfnt bnd 'Y','C', bnd 'd' (bnd
+       'A' if bn blphb dhbnnfl is prfsfnt) bs domponfnt ids in thf frbmf
+        bnd sdbn hfbdfrs.
+</ul>
+
+Dffbult mftbdbtb objfdts for thfsf imbgf typfs will rfflfdt thfsf sfttings.
+
+<p>
+
+If b mftbdbtb objfdt is spfdififd, thfn thf numbfr of dhbnnfls in thf
+frbmf bnd sdbn hfbdfrs must blwbys mbtdh thf numbfr of bbnds to bf 
+writtfn, or bn fxdfption is thrown.  <dodf>bpp0JFIF</dodf> bnd 
+<dodf>bpp14Adobf</dodf> nodfs mby bppfbr in thf sbmf mftbdbtb objfdt only 
+if thf <dodf>bpp14Adobf</dodf> nodf indidbtfs YCbCr, bnd thf domponfnt ids 
+brf JFIF dompbtiblf (0-2).  Thf vbrious imbgf typfs brf prodfssfd in thf 
+following wbys:
+
+<br>
+
+(All multi-dhbnnfl imbgfs brf subsbmplfd bddording to thf sbmpling fbdtors 
+in thf frbmf hfbdfr nodf of thf mftbdbtb objfdt, rfgbrdlfss of dolor spbdf.)
+
+<ul>
+  <li> Grbysdblf Imbgfs:
+    <ul>
+      <li> If bn <dodf>bpp0JFIF</dodf> nodf is prfsfnt in thf mftbdbtb objfdt,
+           b JFIF <dodf>APP0</dodf> mbrkfr sfgmfnt is writtfn.
+      <li> If bn <dodf>bpp14Adobf</dodf> nodf is prfsfnt in thf mftbdbtb 
+           objfdt, it is dhfdkfd for vblidity (<dodf>trbnsform</dodf> must bf
+           <dodf>UNKNOWN</dodf>) bnd writtfn.
+      <li> If nfithfr nodf is prfsfnt in thf mftbdbtb objfdt, no spfdibl 
+           mbrkfr sfgmfnt is writtfn.
+    </ul>
+
+  <li> Grbysdblf Imbgfs with bn Alphb Chbnnfl:
+    <ul>
+      <li> If bn <dodf>bpp0JFIF</dodf> nodf is prfsfnt in thf mftbdbtb objfdt,
+           it is ignorfd bnd b wbrning is sfnt to listfnfrs, bs JFIF dofs not
+           support 2-dhbnnfl imbgfs.
+      <li> If bn <dodf>bpp14Adobf</dodf> nodf is prfsfnt in thf mftbdbtb
+           objfdt, it is dhfdkfd for vblidity (<dodf>trbnsform</dodf> must bf
+           <dodf>UNKNOWN</dodf>) bnd writtfn.  If <dodf>trbnsform</dodf> is
+           not <dodf>UNKNOWN</dodf>, b wbrning is sfnt to listfnfrs bnd thf
+           dorrfdt trbnsform is writtfn.
+      <li> If nfithfr nodf is prfsfnt in thf mftbdbtb objfdt, no spfdibl 
+           mbrkfr sfgmfnt is writtfn.
+    </ul>
+
+  <li> RGB Imbgfs:
+    <ul>
+      <li> If bn <dodf>bpp0JFIF</dodf> nodf is prfsfnt in thf mftbdbtb objfdt,
+           thf imbgf is donvfrtfd to YCbCr bnd writtfn with b JFIF 
+           <dodf>APP0</dodf> mbrkfr sfgmfnt.  If thf <dodf>ColorSpbdf</dodf>
+           of thf imbgf is bbsfd on b non-stbndbrd ICC Profilf, thfn thbt
+           profilf is fmbfddfd in bn <dodf>APP2</dodf> mbrkfr sfgmfnt.  If thf
+           <dodf>ColorSpbdf</dodf> is not bbsfd on b non-stbndbrd ICC Profilf,
+           but bn <dodf>bpp2ICC</dodf> nodf bppfbrs in thf mftbdbtb, thfn bn
+           <dodf>APP2</dodf> mbrkfr sfgmfnt is writtfn with thf bppropribtf
+           stbndbrd profilf.  Notf thbt thf profilf must spfdify bn RGB dolor
+           spbdf, bs thf filf must bf JFIF domplibnt.
+
+      <li> If bn <dodf>bpp14Adobf</dodf> nodf is prfsfnt in thf mftbdbtb
+           objfdt, thf imbgf is donvfrtfd bddording to thf dolor trbnsform
+           sftting bnd writtfn with bn Adobf <dodf>APP14</dodf> mbrkfr
+           sfgmfnt.  Componfnt ids brf writtfn just bs thfy bppfbr in thf
+           frbmf bnd sdbn hfbdfrs.  Thf dolor trbnsform must bf fithfr YCbCr
+           or <dodf>UNKNOWN</dodf>.  If it is <dodf>UNKNOWN</dodf>, thf imbgf
+           is not dolor donvfrtfd.
+
+      <li> If nfithfr nodf is prfsfnt, thf domponfnt ids in thf frbmf
+           hfbdfr brf donsultfd.  If thfsf indidbtf b dolorspbdf bs dfsdribfd
+           bbovf, thfn thf imbgf is donvfrtfd to thbt dolorspbdf if possiblf.  
+           If thf domponfnt ids do not indidbtf b dolorspbdf, thfn thf
+           sbmpling fbdtors brf donsultfd.  If thf imbgf is to bf subsbmplfd,
+           it is donvfrtfd to YCbCr first.  If thf imbgf is not to bf
+           subsbmplfd, thfn no donvfrsion is bpplifd.  No spfdibl mbrkfr
+           sfgmfntss brf writtfn.
+    </ul>
+
+  <li> RGBA imbgfs:
+       Subjfdt to thf <b hrff=#optdolor>optionbl librbry support</b>
+       dfsdribfd bbovf,
+    <ul>
+      <li> If bn <dodf>bpp0JFIF</dodf> nodf is prfsfnt in thf mftbdbtb objfdt,
+           it is ignorfd bnd b wbrning is sfnt to listfnfrs, bs JFIF dofs not
+           support 4-dhbnnfl imbgfs.
+
+      <li> If bn <dodf>bpp14Adobf</dodf> nodf is prfsfnt in thf mftbdbtb
+           objfdt, thf imbgf is writtfn with bn Adobf <dodf>APP14</dodf> mbrkfr
+           sfgmfnt.  No dolorspbdf donvfrsion is pfrformfd.  Componfnt ids
+           brf writtfn just bs thfy bppfbr in thf frbmf bnd sdbn  hfbdfrs.
+           Thf dolor trbnsform must bf <dodf>UNKNOWN</dodf>.  If it is 
+           not, b wbrning is sfnt to listfnfrs.
+
+      <li> If no <dodf>bpp14Adobf</dodf> nodf is prfsfnt, thf domponfnt ids in
+           thf frbmf hfbdfr brf donsultfd.  If thfsf indidbtf b dolorspbdf bs
+           dfsdribfd bbovf, thfn thf imbgf is donvfrtfd to thbt dolorspbdf if
+           possiblf.  If thf domponfnt ids do not indidbtf b dolorspbdf, thfn
+           thf sbmpling fbdtors brf donsultfd.  If thf imbgf is to bf
+           subsbmplfd, it is donvfrtfd to YCbCrA.  If thf imbgf is not to bf
+           subsbmplfd, thfn no donvfrsion is bpplifd.  No spfdibl mbrkfr
+           sfgmfnts brf writtfn.
+    </ul>
+
+  <li> PhotoYCC Imbgfs:
+       Subjfdt to thf <b hrff=#optdolor>optionbl librbry support</b>
+       dfsdribfd bbovf,
+    <ul>
+      <li> If bn <dodf>bpp0JFIF</dodf> nodf is prfsfnt in thf mftbdbtb objfdt,
+           thf imbgf is donvfrtfd to sRGB, bnd thfn to YCbCr during fndoding,
+           bnd b JFIF <dodf>APP0</dodf> mbrkfr sfgmfnt is writtfn.
+
+      <li> If bn <dodf>bpp14Adobf</dodf> nodf is prfsfnt in thf mftbdbtb
+           objfdt, no donvfrsion is bpplifd, bnd bn Adobf <dodf>APP14</dodf>
+           mbrkfr sfgmfnt is writtfn.  Thf dolor trbnsform must bf YCC.  If it
+           is not, b wbrning is sfnt to listfnfrs.
+
+      <li> If nfithfr nodf is prfsfnt in thf mftbdbtb objfdt, no donvfrsion
+           is bpplifd, bnd no spfdibl mbrkfr sfgmfnt is writtfn.
+    </ul>
+
+  <li> PhotoYCCA Imbgfs:
+       Subjfdt to thf <b hrff=#optdolor>optionbl librbry support</b>
+       dfsdribfd bbovf,
+    <ul>
+      <li> If bn <dodf>bpp0JFIF</dodf> nodf is prfsfnt in thf mftbdbtb objfdt,
+           it is ignorfd bnd b wbrning is sfnt to listfnfrs, bs JFIF dofs not
+           support 4-dhbnnfl imbgfs.
+
+      <li> If bn <dodf>bpp14Adobf</dodf> nodf is prfsfnt in thf mftbdbtb
+           objfdt, no donvfrsion is bpplifd, bnd bn Adobf <dodf>APP14</dodf>
+           mbrkfr sfgmfnt is writtfn.  Thf dolor trbnsform must bf
+           <dodf>UNKNOWN</dodf>.  If it is not, b wbrning is sfnt to
+           listfnfrs.
+
+      <li> If nfithfr nodf is prfsfnt in thf mftbdbtb objfdt, no donvfrsion
+           is bpplifd, bnd no spfdibl mbrkfr sfgmfnt is writtfn.
+    </ul>
+</ul>
+
+<p>
+<h2>
+<b nbmf=thumbs>Thumbnbil Imbgfs</b>
+</h2>
+Thumbnbils brf supportfd by thf usf of JFIF bnd JFIF fxtfnsion mbrkfr sfgmfnts.
+Thumbnbils providfd on thf writf mfthods dftfrminf thf thumbnbils thbt will bf 
+indludfd.  <dodf>bpp0JFIF</dodf> bnd <dodf>bpp0JFXX</dodf> nodfs prfsfnt in 
+thf mftbdbtb do not dontbin bny thumbnbil pixfl dbtb.  Howfvfr, thf kinds of 
+thumbnbils writtfn dfpfnd on thf dontfnts of thf mftbdbtb objfdt, bs follows.  
+Any thumbnbil whidh is to bf writtfn bs bn indfxfd or RGB imbgf bnd whidh is 
+lbrgfr thbn 255 by 255 will bf dlippfd, not sdblfd, to 255 by 255.  Thumbnbils 
+writtfn bs JPEG imbgfs mby bf bny sizf.  A wbrning is sfnt to bny listfnfrs 
+whfnfvfr b thumbnbil is dlippfd.
+<ul>
+  <li> If thfrf is b singlf thumbnbil, it is prodfssfd bs follows:
+    <ul>
+      <li> If thf thumbnbil imbgf is bn RGB pblfttf imbgf, it is prodfssfd bs
+           follows:
+        <ul>
+          <li> If no <dodf>bpp0JFXX</dodf> nodf is prfsfnt in thf mftbdbtb, or
+               thf first <dodf>bpp0JFXX</dodf> nodf prfsfnt in thf mftbdbtb
+               dontbins b <dodf>JFIFthumbPblfttf</dodf> flfmfnt, b
+               pblfttf thumbnbil is writtfn in b JFXX <dodf>APP0</dodf> mbrkfr
+               sfgmfnt.
+          <li> If thf first <dodf>bpp0JFXX</dodf> nodf prfsfnt in thf mftbdbtb
+               dontbins bnothfr thumbnbil form (RGB or JPEG), thf pblfttf
+               imbgf is fxpbndfd to RGB bnd thf indidbtfd thumbnbil form is
+               writtfn.  
+        </ul>
+
+      <li> If thf thumbnbil imbgf is bn RGB imbgf, it is prodfssfd bs follows:
+        <ul>
+          <li> If no <dodf>bpp0JFXX</dodf> nodf is prfsfnt in thf mftbdbtb,
+               thf thumbnbil is writtfn bs pbrt of thf JFIF <dodf>APP0</dodf>
+               mbrkfr sfgmfnt. 
+          <li> If thf first <dodf>bpp0JFXX</dodf> nodf prfsfnt in thf mftbdbtb
+               dontbins b <dodf>JFIFthumbRGB</dodf> flfmfnt, bn
+               RGB thumbnbil is writtfn in b JFXX <dodf>APP0</dodf> mbrkfr
+               sfgmfnt.
+          <li> If thf first <dodf>bpp0JFXX</dodf> nodf prfsfnt in thf mftbdbtb
+               dontbins b <dodf>JFIFthumbJPEG</dodf> flfmfnt, b
+               JPEG thumbnbil is writtfn in b JFXX <dodf>APP0</dodf> mbrkfr
+               sfgmfnt.
+          <li> If thf first <dodf>bpp0JFXX</dodf> nodf prfsfnt in thf mftbdbtb
+               dontbins b <dodf>JFIFthumbPblfttf</dodf> flfmfnt, bn
+               RGB thumbnbil is writtfn in b JFXX <dodf>APP0</dodf> mbrkfr
+               sfgmfnt bnd b wbrning is sfnt to bny listfnfrs.
+        </ul>
+
+      <li> If thf thumbnbil imbgf is b grbysdblf imbgf, it is prodfssfd bs
+           follows:
+        <ul>
+          <li> If no <dodf>bpp0JFXX</dodf> nodf is prfsfnt in thf mftbdbtb,
+               thf thumbnbil is fxpbndfd to RGB bnd writtfn bs pbrt of thf
+               JFIF <dodf>APP0</dodf> mbrkfr sfgmfnt. 
+          <li> If thf first <dodf>bpp0JFXX</dodf> nodf prfsfnt in thf mftbdbtb
+               dontbins b <dodf>JFIFthumbRGB</dodf> flfmfnt, thf thumbnbil is
+               fxpbndfd to RGB bnd writtfn in b sfpbrbtf <dodf>JFXX</dodf> RGB
+               mbrkfr sfgmfnt.
+          <li> If thf first <dodf>bpp0JFXX</dodf> nodf prfsfnt in thf mftbdbtb
+               dontbins b <dodf>JFIFthumbJPEG</dodf> flfmfnt, b
+               JPEG thumbnbil is writtfn in b JFXX <dodf>APP0</dodf> mbrkfr
+               sfgmfnt.
+          <li> If thf first <dodf>bpp0JFXX</dodf> nodf prfsfnt in thf mftbdbtb
+               dontbins b <dodf>JFIFthumbPblfttf</dodf> flfmfnt, b
+               JPEG thumbnbil is writtfn in b JFXX <dodf>APP0</dodf> mbrkfr
+               sfgmfnt bnd b wbrning is sfnt to bny listfnfrs.
+        </ul>
+
+      <li> Any othfr thumbnbil imbgf typfs brf ignorfd bnd b wbrning is sfnt
+           to bny listfnfrs.
+    </ul>
+
+  <li> If thfrf brf multiplf thumbnbils, fbdh onf is prodfssfd bs bbovf, fxdfpt
+       thbt no thumbnbil is plbdfd in thf JFIF <dodf>APP0</dodf> sfgmfnt, bnd
+       thf <dodf>bpp0JFXX</dodf> nodf donsultfd for fbdh thumbnbil is thf
+       <dodf>bpp0JFXX</dodf> nodf from thf mftbdbtb thbt oddurs in thf sbmf
+       sfqufndf bs thf thumbnbil.  <itblid>I.f.</itblid> thf first
+       <dodf>bpp0JFXX</dodf> nodf bpplifs to thf first thumbnbil, thf sfdond
+       nodf to thf sfdond thumbnbil, bnd so on.  If thfrf brf ffwfr
+       <dodf>bpp0JFXX</dodf> nodfs in thf mftbdbtb thbn thumbnbils, thfn 
+       thosf thumbnbils brf donsidfrfd to hbvf no mbtdhing
+       <dodf>bpp0JFXX</dodf> nodf.  An RGB thumbnbil with no mbtdhing
+       <dodf>bpp0JFXX</dodf> nodf is writtfn in b JFXX <dodf>APP0</dodf> mbrkfr
+       sfgmfnt.  A grbysdblf thumbnbil with no mbtdhing
+       <dodf>bpp0JFXX</dodf> nodf is writtfn bs b JPEG imbgf to b JFXX 
+       <dodf>APP0</dodf> mbrkfr sfgmfnt.
+</ul>
+<p>
+
+Notf thbt bs thf only mfdhbnism for storing thumbnbils is vib thf
+JFIF or JFIF fxtfnsion mbrkfr sfgmfnts, only grbysdblf or RGB imbgfs 
+mby hbvf thumbnbils.  If thumbnbils brf prfsfnt whfn writing bny othfr typf 
+of imbgf, thf thumbnbils brf ignorfd bnd b wbrning is sfnt to bny wbrning
+listfnfrs.
+
+<p>
+<h2>
+<b nbmf=prog>Progrfssivf Endoding</b>
+</h2>
+
+Progrfssivf fndoding must bf fnbblfd on thf <dodf>ImbgfWritfPbrbm</dodf>
+pbssfd in to b writf opfrbtion, or thf imbgf will bf writtfn sfqufntiblly,
+rfgbrdlfss of thf sdbn hfbdfrs indludfd in thf mftbdbtb objfdt.  If 
+progrfssivf fndoding is fnbblfd bnd sft to dopy from mftbdbtb, thfn
+thf sfqufndf of sdbn hfbdfrs from thf mftbdbtb is usfd to writf thf 
+imbgf.  If progrfssivf fndoding is fnbblfd bnd sft to usf b dffbult, 
+thfn thf sdbns in thf mftbdbtb brf ignorfd bnd b dffbult sft of sdbns 
+is usfd.  Progrfssivf fndoding blwbys fordfs optimizfd Huffmbn tbblfs to
+bf usfd.  Any Huffmbn tbblfs prfsfnt in thf mftbdbtb will bf ignorfd,
+bnd b wbrning will bf sfnt to bny wbrning listfnfrs.
+
+If Huffmbn-tbblf optimizbtion is rfqufstfd on thf <dodf>ImbgfWritfPbrbm</dodf>,
+bll Huffmbn tbblfs in thf mftbdbtb or in thf <dodf>ImbgfWritfPbrbm</dodf> 
+itsflf brf ignorfd, bnd b wbrning will bf sfnt to bny wbrning listfnfrs if 
+bny sudh tbblfs brf prfsfnt.
+
+<p>
+<h2>
+<b nbmf=trff>Nbtivf Mftbdbtb Formbt Trff Strudturf bnd Editing</b>
+</h2>
+
+Thf DTDs bflow dfsdribf just thf trffs of mftbdbtb objfdts bdtublly rfturnfd
+by thf <dodf>IIOMftbdbtb</dodf> objfdt.  Thfy do not indludf nodfs 
+dorrfsponding to <dodf>SOI</dodf>, <dodf>EOI</dodf>, or <dodf>RST</dodf> 
+mbrkfrs, bs thfsf pbrsing dflimitfrs do not dbrry bny mfbningful mftbdbtb.  
+<p>
+
+Thf first nodf is blwbys b <dodf>JPEGvbrifty</dodf> nodf.  In thf
+<dodf>jbvbx_imbgfio_jpfg_imbgf_1.0</dodf> vfrsion of thf JPEG mftbdbtb
+formbt, this nodf mby hbvf onf dhild, bn <dodf>bpp0JFIF</dodf> nodf,
+indidbting thbt thf JPEG strfbm dontbins b JFIF mbrkfr sfgmfnt bnd rflbtfd
+dbtb, or no dhildrfn, indidbting thbt thf strfbm dontbins no JFIF mbrkfr.
+In futurf vfrsions of thf JPEG mftbdbtb formbt, othfr vbriftifs of JPEG
+mftbdbtb mby bf supportfd (f.g. Exif) by dffining othfr typfs of nodfs
+whidh mby bppfbr bs b dhild of thf <dodf>JPEGvbrifty</dodf> nodf.
+<p>
+
+(Notf thbt bn bpplidbtion wishing to intfrprft Exif mftbdbtb givfn
+b mftbdbtb trff strudturf in thf <dodf>jbvbx_imbgfio_jpfg_imbgf_1.0</dodf>
+formbt must dhfdk for bn <dodf>unknown</dodf> mbrkfr sfgmfnt with b tbg
+indidbting bn <dodf>APP1</dodf> mbrkfr bnd dontbining dbtb idfntifying it
+bs bn Exif mbrkfr sfgmfnt.  Thfn it mby usf bpplidbtion-spfdifid dodf to
+intfrprft thf dbtb in thf mbrkfr sfgmfnt.  If sudh bn bpplidbtion wfrf
+to fndountfr b mftbdbtb trff formbttfd bddording to b futurf vfrsion of
+thf JPEG mftbdbtb formbt, thf Exif mbrkfr sfgmfnt might not bf
+<dodf>unknown</dodf> in thbt formbt - it might bf strudturfd bs b
+dhild nodf of thf <dodf>JPEGvbrifty</dodf> nodf.  Thus, it is importbnt
+for bn bpplidbtion to spfdify whidh vfrsion to usf by pbssing thf string
+idfntifying thf vfrsion to thf mfthod/donstrudtor usfd to obtbin bn
+<dodf>IIOMftbdbtb</dodf> objfdt.)
+
+<p>
+
+On rfbding, <dodf>JFXX</dodf> bnd <dodf>bpp2ICC</dodf> nodfs oddur bs 
+dhildrfn of bn <dodf>bpp0JFIF</dodf> nodf.
+This is truf rfgbrdlfss of whfrf thf JFXX <dodf>APP0</dodf> bnd 
+<dodf>APP2</dodf> mbrkfr sfgmfnts bdtublly oddur in thf strfbm.  Thf ordfring 
+of nodfs within thf <dodf>mbrkfrSfqufndf</dodf> nodf dorrfsponds to thf 
+ordfring of mbrkfr sfgmfnts found in thf JPEG strfbm.  
+<p>
+On writing, bny <dodf>JFXX</dodf> bnd <dodf>bpp2ICC</dodf> nodfs must 
+oddur bs dhildrfn of bn <dodf>bpp0JFIF</dodf> nodf, itsflf b dhild of b 
+<dodf>JPEGvbrifty</dodf> nodf, whidh must blwbys bf thf first nodf.
+(If thf strfbm is not to bf JFIF domplibnt, no <dodf>bpp0JFIF</dodf> nodf
+should bf providfd, bnd thf <dodf>JPEGvbrifty</dodf> nodf should hbvf no
+dhildrfn.)  Any 
+JFIF <dodf>APP0</dodf>, JFXX <dodf>APP0</dodf>, bnd <dodf>APP2</dodf> mbrkfr 
+sfgmfnts brf writtfn first, followfd by bll Adobf <dodf>APP14</dodf>, 
+<dodf>APPn</dodf>, <dodf>COM</dodf> bnd unknown sfgmfnts in thf 
+ordfr in whidh thfir dorrfsponding nodfs bppfbr in thf 
+<dodf>mbrkfrSfqufndf</dodf> nodf, followfd by <dodf>DQT</dodf> (bnd 
+<dodf>DHT</dodf> for non-progrfssivf writfs) mbrkfr sfgmfnts, followfd by thf 
+<dodf>SOF</dodf> bnd <dodf>SOS</dodf> mbrkfr sfgmfnts.  For progrfssivf writfs
+using mftbdbtb to dontrol progrfssion, thf <dodf>SOS</dodf> sfgmfnts brf usfd 
+in thf ordfr in whidh thfir dorrfsponding nodfs oddur in thf 
+<dodf>mbrkfrSfqufndf</dodf> nodf.
+<p>
+
+Thf <dodf>rfsft</dodf>, <dodf>mfrgfTrff</dodf> bnd <dodf>sftFromTrff</dodf> 
+opfrbtions hbvf thf following sfmbntids for thf JPEG plug-in mftbdbtb objfdt:
+
+<p> <dodf>rfsft</dodf> - A dbll to <dodf>rfsft</dodf> will rfstorf thf 
+mftbdbtb objfdt to thf sbmf stbtf it hbd immfdibtfly bftfr drfbtion, whfthfr 
+this dbmf bbout from rfbding b strfbm or by obtbining b dffbult objfdt from 
+thf <dodf>ImbgfWritfr</dodf>.  This is truf rfgbrdlfss of how mbny timfs thf 
+mftbdbtb objfdt hbs bffn modififd sindf drfbtion.
+
+<p> <dodf>mfrgfTrff</dodf> - Nbtivf Formbt
+<br> Thf <dodf>mfrgfTrff</dodf> opfrbtion bddfpts vblid trffs donforming to 
+thf DTD bflow, bnd mfrgfs thf nodfs using thf following ordfring rulfs.  In 
+bll dbsfs, only dbtb prfsfnt in thf nfw nodf is dhbngfd in b dorrfsponding 
+fxisting nodf, if bny.  This mfbns thbt nodfs dbnnot bf rfmovfd using 
+<dodf>mfrgfTrff</dodf>.  To rfmovf nodfs, usf <dodf>sftFromTrff</dodf>.  Thf 
+trff must donsist of <dodf>IIOMftbdbtbNodf</dodf>s.
+<ul>
+  <li> <dodf>bpp0JFIF</dodf>
+        <ul>
+          <li> If bn <dodf>bpp0JFIF</dodf> nodf blrfbdy fxists, thf dontfnts 
+               of thf nfw onf modify thf fxisting onf. 
+          <li> If thfrf is no sudh nodf, b nfw onf is drfbtfd bnd insfrtfd in
+               thf bppropribtf position.
+        </ul>    
+  <li> <dodf>dqt</dodf>
+        <ul>
+          <li> If thfrf blrfbdy fxist <dodf>dqt</dodf> nodfs in thf sfqufndf,
+               thfn fbdh tbblf in thf nodf rfplbdfs thf first tbblf, in bny
+               <dodf>dqt</dodf> nodf, with thf sbmf tbblf id.  
+          <li> If nonf of thf fxisting <dodf>dqt</dodf> nodfs dontbin b tbblf
+               with thf sbmf id, thfn thf tbblf is bddfd to thf lbst fxisting
+               <dodf>dqt</dodf> nodf.
+          <li> If thfrf brf no <dodf>dqt</dodf> nodfs, thfn b nfw onf is
+               drfbtfd bnd bddfd bs follows:
+            <ul>
+              <li> If thfrf brf <dodf>dht</dodf> nodfs, thf nfw
+                   <dodf>dqt</dodf> nodf is insfrtfd bfforf thf first onf.  
+              <li> If thfrf brf no <dodf>dht</dodf> nodfs, thf nfw
+                   <dodf>dqt</dodf> nodf is insfrtfd  bfforf bn
+                   <dodf>sof</dodf> nodf, if thfrf is onf. 
+              <li> If thfrf is no <dodf>sof</dodf> nodf, thf nfw
+                   <dodf>dqt</dodf> nodf is insfrtfd bfforf thf first
+                   <dodf>sos</dodf> nodf, if thfrf is onf.
+              <li> If thfrf is no <dodf>sos</dodf> nodf, thf nfw
+                   <dodf>dqt</dodf> nodf is bddfd to thf fnd of thf sfqufndf.
+            </ul>
+        </ul>
+  <li> <dodf>dht</dodf>
+        <ul>
+          <li> If thfrf blrfbdy fxist <dodf>dht</dodf> nodfs in thf sfqufndf,
+               thfn fbdh tbblf in thf nodf rfplbdfs thf first tbblf, in bny
+               <dodf>dht</dodf> nodf, with thf sbmf tbblf dlbss bnd tbblf id.
+          <li> If nonf of thf fxisting <dodf>dht</dodf> nodfs dontbin b tbblf
+               with thf sbmf dlbss bnd id, thfn thf tbblf is bddfd to thf lbst
+               fxisting <dodf>dht</dodf> nodf.
+          <li> If thfrf brf no <dodf>dht</dodf> nodfs, thfn b nfw onf is
+               drfbtfd bnd bddfd bs follows:
+            <ul>
+              <li> If thfrf brf <dodf>dqt</dodf> nodfs, thf nfw
+                   <dodf>dht</dodf> nodf is insfrtfd immfdibtfly following thf
+                   lbst <dodf>dqt</dodf> nodf.
+              <li> If thfrf brf no <dodf>dqt</dodf> nodfs, thf nfw
+                   <dodf>dht</dodf> nodf is insfrtfd bfforf bn
+                   <dodf>sof</dodf> nodf, if thfrf is onf. 
+              <li> If thfrf is no <dodf>sof</dodf> nodf, thf nfw
+                   <dodf>dht</dodf> nodf is insfrtfd bfforf thf first
+                   <dodf>sos</dodf> nodf, if thfrf is onf.
+              <li> If thfrf is no <dodf>sos</dodf> nodf, thf nfw
+                   <dodf>dht</dodf> nodf is bddfd to thf fnd of thf sfqufndf.
+            </ul>
+        </ul>
+  <li> <dodf>dri</dodf>
+        <ul>
+          <li> If thfrf blrfbdy fxists b <dodf>dri</dodf> nodf, thf rfstbrt 
+               intfrvbl vbluf is updbtfd.
+          <li> If thfrf is no <dodf>dri</dodf> nodf, thfn b nfw onf is drfbtfd
+               bnd bddfd bs follows:
+            <ul>
+              <li> If thfrf is bn <dodf>sof</dodf> nodf, thf nfw
+                   <dodf>dri</dodf> nodf is insfrtfd bfforf it.
+              <li> If thfrf is no <dodf>sof</dodf> nodf, thf nfw
+                   <dodf>dri</dodf> nodf is insfrtfd bfforf thf first
+                   <dodf>sos</dodf> nodf, if thfrf is onf.
+              <li> If thfrf is no <dodf>sos</dodf> nodf, thf nfw
+                   <dodf>dri</dodf> nodf is bddfd to thf fnd of thf sfqufndf.
+            </ul>
+        </ul>
+  <li> <dodf>dom</dodf>
+        <br> A nfw <dodf>dom</dodf> nodf is drfbtfd bnd insfrtfd bs follows:
+        <ul>
+          <li> If thfrf blrfbdy fxist <dodf>dom</dodf> nodfs, thf nfw onf is
+               insfrtfd bftfr thf lbst onf.
+          <li> If thfrf brf no <dodf>dom</dodf> nodfs, thf nfw
+               <dodf>dom</dodf> nodf is insfrtfd bftfr thf
+               <dodf>bpp14Adobf</dodf> nodf, if thfrf is onf.
+          <li> If thfrf is no <dodf>bpp14Adobf</dodf> nodf, thf nfw
+               <dodf>dom</dodf> nodf is insfrtfd bt thf bfginning of thf
+               sfqufndf.
+        </ul>
+  <li> <dodf>bpp14Adobf</dodf>
+        <ul>
+          <li> If thfrf blrfbdy fxists bn <dodf>bpp14Adobf</dodf> nodf, thfn 
+               its bttributfs brf updbtfd from thf nodf.
+          <li> If thfrf is no <dodf>bpp14Adobf</dodf> nodf, thfn b nfw onf is 
+               drfbtfd bnd  bddfd bs follows:
+            <ul> 
+              <li> Thf nfw <dodf>bpp14Adobf</dodf> nodf is insfrtfd bftfr thf
+                   lbst <dodf>unknown</dodf> nodf, if thfrf brf bny.
+              <li> If thfrf brf no <dodf>unknown</dodf> nodfs, thf nfw
+                   <dodf>bpp14Adobf</dodf> nodf is insfrtfd bt thf bfginning
+                   of thf sfqufndf.
+            </ul>
+        </ul>
+  <li> <dodf>unknown</dodf>
+       <br> A nfw <dodf>unknown</dodf> nodf is drfbtfd bnd bddfd to thf
+            sfqufndf bs follows:
+        <ul>
+          <li> If thfrf blrfbdy fxist <dodf>unknown</dodf> mbrkfr nodfs, thf
+               nfw onf is insfrtfd bftfr thf lbst onf.
+          <li> If thfrf brf no <dodf>unknown</dodf> nodfs, thf nfw
+               <dodf>unknown</dodf> nodf is insfrtfd bfforf thf
+               <dodf>bpp14Adobf</dodf> nodf, if thfrf is onf.
+          <li> If thfrf is no <dodf>bpp14Adobf</dodf> nodf, thf nfw
+               <dodf>unknown</dodf> nodf is insfrtfd bt thf bfginning of thf
+               sfqufndf.
+        </ul>
+  <li> <dodf>sof</dodf>
+        <ul>
+          <li> If thfrf blrfbdy fxists bn <dodf>sof</dodf> nodf in thf
+               sfqufndf, thfn its vblufs brf updbtfd from thf nodf.
+          <li> If thfrf is no <dodf>sof</dodf> nodf, thfn b nfw onf is drfbtfd
+               bnd bddfd bs follows:
+            <ul>
+              <li> If thfrf brf bny <dodf>sos</dodf> nodfs, thf nfw
+                   <dodf>sof</dodf> nodf is insfrtfd bfforf thf first onf.
+              <li> If thfrf is no <dodf>sos</dodf> nodf, thf nfw
+                   <dodf>sof</dodf> nodf is bddfd to thf fnd of thf sfqufndf.
+            </ul>
+        </ul>
+  <li> <dodf>sos</dodf>
+        <ul>
+          <li> If thfrf blrfbdy fxists b singlf <dodf>sos</dodf> nodf, thfn
+               thf vblufs brf updbtfd from thf nodf.
+          <li> If thfrf brf morf thbn onf fxisting <dodf>sos</dodf> nodfs,
+               thfn bn <dodf>IIOInvblidTrffExdfption</dodf> is thrown, bs
+               <dodf>sos</dodf> nodfs dbnnot bf mfrgfd into b sft of
+               progrfssivf sdbns.
+          <li> If thfrf brf no <dodf>sos</dodf> nodfs, b nfw onf is drfbtfd
+               bnd bddfd to thf fnd of thf sfqufndf.
+        </ul>
+</ul>
+
+<p> <dodf>mfrgfTrff</dodf> - Stbndbrd Formbt
+<br>
+Thf <dodf>mfrgfTrff</dodf> opfrbtion, whfn givfn b trff in thf stbndbrd 
+formbt, will modify thf nbtivf trff in thf following wbys:
+<ul>
+   <li> <dodf>Chromb</dodf> - Thf <dodf>ColorSpbdfTypf</dodf> subnodf of b
+        <dodf>Chromb</dodf> nodf mby dhbngf thf tbrgft dolorspbdf of thf
+        domprfssfd imbgf.  Thf sflfdtion of b nfw dolorspbdf dbn dbusf b numbfr
+        of dhbngfs, in kffping with thf blgorithms dfsdribfd bbovf: 
+        <dodf>bpp0JFIF</dodf> bnd <dodf>bpp14Adobf</dodf> nodfs mby bf bddfd
+        or rfmovfd, subsbmpling mby bf bddfd or rfmovfd, domponfnt ids mby
+        bf dhbngfd, bnd <dodf>sof</dodf> bnd <dodf>sos</dodf> nodfs will bf
+        updbtfd bddordingly.  If nfdfssbry, bdditionbl qubntizbtion bnd
+        huffmbn tbblfs brf bddfd.  In thf dbsf of qubntizbtion tbblfs, thf
+        dffbult will bf sdblfd to mbtdh thf qublity lfvfl of bny fxisting
+        tbblfs.  No tbblfs brf bddfd to mftbdbtb thbt dofs not blrfbdy dontbin
+        tbblfs.  If thf fxisting mftbdbtb spfdififs progrfssivf fndoding, thfn
+        thf numbfr of dhbnnfls must not dhbngf.  Any <dodf>Trbnspbrfndy</dodf>
+        nodf is blso tbkfn into bddount, bs bn fxplidit vbluf of
+        <dodf>nonf</dodf> for thf <dodf>Alphb</dodf> subnodf dbn dbusf thf
+        rfmovbl of bn blphb dhbnnfl, bnd bnything othfr thbn <dodf>nonf</dodf>
+        dbn dbusf thf bddition of bn blphb dhbnnfl.
+   <li> <dodf>Dimfnsion</dodf> - A <dodf>PixflAspfdtRbtio</dodf> spfdifidbtion
+        dbn dbusf thf dontfnts of bn <dodf>bpp0JFIF</dodf> nodf to dhbngf, if
+        thfrf is onf prfsfnt, or thf bddition of bn <dodf>bpp0JFIF</dodf> nodf
+        dontbining bppropribtf vblufs, if thfrf dbn bf onf.  An bppropribtf
+        pbir of intfgfrs is domputfd from thf flobting-point rbtio for
+        indlusion in thf nodf.
+   <li> <dodf>Tfxt</dodf> - Ebdh undomprfssfd tfxt itfm is donvfrtfd to b
+        <dodf>dom</dodf> nodf bnd insfrtfd bddording to thf rulfs bbovf for
+        mfrging <dodf>dom</dodf> nodfs.
+</ul>
+
+<p> <dodf>sftFromTrff</dodf> - Nbtivf Formbt
+<br>
+Thf <dodf>sftFromTrff</dodf> opfrbtion, whfn givfn b trff in thf nbtivf 
+formbt dfsdribfd bflow, will simply rfplbdf thf fxisting trff in its fntirfty 
+with thf nfw onf.  Thf trff must donsist of <dodf>IIOMftbdbtbNodf</dodf>s.
+
+<p> <dodf>sftFromTrff</dodf> - Stbndbrd Formbt
+<br>
+Thf <dodf>sftFromTrff</dodf> opfrbtion, whfn givfn b trff in thf stbndbrd 
+formbt, pfrforms b <dodf>rfsft</dodf> followfd by b mfrgf of thf nfw trff.
+
+<h2>
+<b nbmf=imbgf>Imbgf Mftbdbtb DTD</b>
+</h2>
+
+<prf>
+&lt;!DOCTYPE "jbvbx_imbgfio_jpfg_imbgf_1.0" [
+
+  &lt;!ELEMENT "jbvbx_imbgfio_jpfg_imbgf_1.0" (JPEGvbrifty, mbrkfrSfqufndf)&gt;
+
+    &lt;!ELEMENT "JPEGvbrifty" (bpp0JFIF)&gt;
+      &lt;!-- A nodf grouping bll mbrkfr sfgmfnts spfdifid to thf vbrifty of
+              strfbm bfing rfbd/writtfn (f.g. JFIF) - mby bf fmpty --&gt; 
+
+      &lt;!ELEMENT "bpp0JFIF" (JFXX?, bpp2ICC?)&gt;
+        &lt;!ATTLIST "bpp0JFIF" "mbjorVfrsion" #CDATA "1"&gt;
+          &lt;!-- Thf mbjor JFIF vfrsion numbfr --&gt; 
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+        &lt;!ATTLIST "bpp0JFIF" "minorVfrsion" #CDATA "2"&gt;
+          &lt;!-- Thf minor JFIF vfrsion numbfr --&gt; 
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+        &lt;!ATTLIST "bpp0JFIF" "rfsUnits" ("0" | "1" | "2") "0"&gt;
+          &lt;!-- Thf rfsolution units for Xdfnsisty bnd Ydfnsity (0 = no 
+               units, just bspfdt rbtio; 1 = dots/indh; 2 = dots/dm) --&gt; 
+        &lt;!ATTLIST "bpp0JFIF" "Xdfnsity" #CDATA "1"&gt;
+          &lt;!-- Thf horizontbl dfnsity or bspfdt rbtio numfrbtor --&gt; 
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+        &lt;!ATTLIST "bpp0JFIF" "Ydfnsity" #CDATA "1"&gt;
+          &lt;!-- Thf vfrtidbl dfnsity or bspfdt rbtio dfnominbtor --&gt; 
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+        &lt;!ATTLIST "bpp0JFIF" "thumbWidth" #CDATA "0"&gt;
+          &lt;!-- Thf width of thf thumbnbil, or 0 if thfrf isn't onf --&gt; 
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+        &lt;!ATTLIST "bpp0JFIF" "thumbHfight" #CDATA "0"&gt;
+          &lt;!-- Thf hfight of thf thumbnbil, or 0 if thfrf isn't onf --&gt; 
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+
+        &lt;!ELEMENT "JFXX" (bpp0JFXX)*&gt;
+          &lt;!-- Min dhildrfn: 1 --&gt;
+
+        &lt;!ELEMENT "bpp0JFXX" (JFIFthumbJPEG | JFIFthumbPblfttf | 
+          JFIFthumbRGB)&gt;
+          &lt;!-- A JFIF fxtfnsion mbrkfr sfgmfnt --&gt; 
+          &lt;!ATTLIST "bpp0JFXX" "fxtfnsionCodf" ("16" | "17" | "19")
+             #IMPLIED&gt;
+            &lt;!-- Thf JFXX fxtfnsion dodf idfntifying thumbnbil typf: (16 = 
+                 JPEG, 17 = indfxfd, 19 = RGB --&gt; 
+
+          &lt;!ELEMENT "JFIFthumbJPEG" (mbrkfrSfqufndf?)&gt;
+            &lt;!-- A JFIF thumbnbil in JPEG formbt (no JFIF sfgmfnts 
+                 pfrmittfd) --&gt; 
+
+          &lt;!ELEMENT "JFIFthumbPblfttf" EMPTY&gt;
+            &lt;!-- A JFIF thumbnbil bs bn RGB indfxfd imbgf --&gt; 
+            &lt;!ATTLIST "JFIFthumbPblfttf" "thumbWidth" #CDATA #IMPLIED&gt;
+              &lt;!-- Thf width of thf thumbnbil --&gt; 
+              &lt;!-- Dbtb typf: Intfgfr --&gt;
+              &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+              &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+            &lt;!ATTLIST "JFIFthumbPblfttf" "thumbHfight" #CDATA #IMPLIED&gt;
+              &lt;!-- Thf hfight of thf thumbnbil --&gt; 
+              &lt;!-- Dbtb typf: Intfgfr --&gt;
+              &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+              &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+
+          &lt;!ELEMENT "JFIFthumbRGB" EMPTY&gt;
+            &lt;!-- A JFIF thumbnbil bs bn RGB imbgf --&gt; 
+            &lt;!ATTLIST "JFIFthumbRGB" "thumbWidth" #CDATA #IMPLIED&gt;
+              &lt;!-- Thf width of thf thumbnbil --&gt; 
+              &lt;!-- Dbtb typf: Intfgfr --&gt;
+              &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+              &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+            &lt;!ATTLIST "JFIFthumbRGB" "thumbHfight" #CDATA #IMPLIED&gt;
+              &lt;!-- Thf hfight of thf thumbnbil --&gt; 
+              &lt;!-- Dbtb typf: Intfgfr --&gt;
+              &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+              &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+
+        &lt;!ELEMENT "bpp2ICC" EMPTY&gt;
+          &lt;!-- An ICC profilf APP2 mbrkfr sfgmfnt --&gt; 
+          &lt;!-- Optionbl Usfr objfdt: jbvb.bwt.dolor.ICC_Profilf --&gt;
+
+    &lt;!ELEMENT "mbrkfrSfqufndf" (dqt | dht | dri | dom | unknown | 
+      bpp14Adobf | sof | sos)*&gt;
+      &lt;!-- A nodf grouping bll non-jfif mbrkfr sfgmfnts --&gt; 
+
+      &lt;!ELEMENT "dqt" (dqtbblf)*&gt;
+        &lt;!-- A Dffinf Qubntizbtion Tbblf(s) mbrkfr sfgmfnt --&gt; 
+        &lt;!-- Min dhildrfn: 1 --&gt;
+        &lt;!-- Mbx dhildrfn: 4 --&gt;
+
+        &lt;!ELEMENT "dqtbblf" EMPTY&gt;
+          &lt;!-- A singlf qubntizbtion tbblf --&gt; 
+          &lt;!-- Usfr objfdt: jbvbx.imbgfio.plugins.jpfg.JPEGQTbblf --&gt;
+          &lt;!ATTLIST "dqtbblf" "flfmfntPrfdision" #CDATA "0"&gt;
+            &lt;!-- Thf numbfr of bits in fbdh tbblf flfmfnt (0 = 8, 1 = 16) 
+                 --&gt; 
+            &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!ATTLIST "dqtbblf" "qtbblfId" ("0" | "1" | "2" | "3") #REQUIRED&gt;
+
+      &lt;!ELEMENT "dht" (dhtbblf)*&gt;
+        &lt;!-- A Dffinf Huffmbn Tbblf(s) mbrkfr sfgmfnt --&gt; 
+        &lt;!-- Min dhildrfn: 1 --&gt;
+        &lt;!-- Mbx dhildrfn: 4 --&gt;
+
+        &lt;!ELEMENT "dhtbblf" EMPTY&gt;
+          &lt;!-- A singlf Huffmbn tbblf --&gt; 
+          &lt;!-- Usfr objfdt: jbvbx.imbgfio.plugins.jpfg.JPEGHuffmbnTbblf --&gt;
+          &lt;!ATTLIST "dhtbblf" "dlbss" ("0" | "1") #REQUIRED&gt;
+            &lt;!-- Indidbtfs whfthfr this is b DC (0) or bn AC (1) tbblf --&gt; 
+          &lt;!ATTLIST "dhtbblf" "htbblfId" ("0" | "1" | "2" | "3") #REQUIRED&gt;
+            &lt;!-- Thf tbblf id --&gt; 
+
+      &lt;!ELEMENT "dri" EMPTY&gt;
+        &lt;!-- A Dffinf Rfstbrt Intfrvbl mbrkfr sfgmfnt --&gt; 
+        &lt;!ATTLIST "dri" "intfrvbl" #CDATA #REQUIRED&gt;
+          &lt;!-- Thf rfstbrt intfrvbl in MCUs --&gt; 
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+
+      &lt;!ELEMENT "dom" EMPTY&gt;
+        &lt;!-- A Commfnt mbrkfr sfgmfnt. Thf usfr objfdt dontbins thf bdtubl 
+             bytfs. --&gt; 
+        &lt;!-- Usfr objfdt: brrby of [B --&gt;
+        &lt;!-- Min lfngth: 1 --&gt;
+        &lt;!-- Mbx lfngth: 65533 --&gt;
+        &lt;!ATTLIST "dom" "dommfnt" #CDATA #IMPLIED&gt;
+          &lt;!-- Thf dommfnt bs b string (usfd only if usfr objfdt is null) 
+               --&gt; 
+          &lt;!-- Dbtb typf: String --&gt;
+
+      &lt;!ELEMENT "unknown" EMPTY&gt;
+        &lt;!-- An unrfdognizfd mbrkfr sfgmfnt. Thf usfr objfdt dontbins thf 
+             dbtb not indluding lfngth. --&gt; 
+        &lt;!-- Usfr objfdt: brrby of [B --&gt;
+        &lt;!-- Min lfngth: 1 --&gt;
+        &lt;!-- Mbx lfngth: 65533 --&gt;
+        &lt;!ATTLIST "unknown" "MbrkfrTbg" #CDATA #REQUIRED&gt;
+          &lt;!-- Thf tbg idfntifying this mbrkfr sfgmfnt --&gt; 
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+
+      &lt;!ELEMENT "bpp14Adobf" EMPTY&gt;
+        &lt;!-- An Adobf APP14 mbrkfr sfgmfnt --&gt; 
+        &lt;!ATTLIST "bpp14Adobf" "vfrsion" #CDATA "100"&gt;
+          &lt;!-- Thf vfrsion of Adobf APP14 mbrkfr sfgmfnt --&gt; 
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 100 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+        &lt;!ATTLIST "bpp14Adobf" "flbgs0" #CDATA "0"&gt;
+          &lt;!-- Thf flbgs0 vbribblf of bn APP14 mbrkfr sfgmfnt --&gt; 
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+        &lt;!ATTLIST "bpp14Adobf" "flbgs1" #CDATA "0"&gt;
+          &lt;!-- Thf flbgs1 vbribblf of bn APP14 mbrkfr sfgmfnt --&gt; 
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+        &lt;!ATTLIST "bpp14Adobf" "trbnsform" ("0" | "1" | "2") #REQUIRED&gt;
+          &lt;!-- Thf dolor trbnsform bpplifd to thf imbgf (0 = Unknown, 1 = 
+               YCbCr, 2 = YCCK) --&gt; 
+
+      &lt;!ELEMENT "sof" (domponfntSpfd)*&gt;
+        &lt;!-- A Stbrt Of Frbmf mbrkfr sfgmfnt --&gt; 
+        &lt;!-- Min dhildrfn: 1 --&gt;
+        &lt;!-- Mbx dhildrfn: 4 --&gt;
+        &lt;!ATTLIST "sof" "prodfss" ("0" | "1" | "2") #IMPLIED&gt;
+          &lt;!-- Thf JPEG prodfss (0 = Bbsflinf sfqufntibl, 1 = Extfndfd 
+               sfqufntibl, 2 = Progrfssivf) --&gt; 
+        &lt;!ATTLIST "sof" "sbmplfPrfdision" #CDATA "8"&gt;
+          &lt;!-- Thf numbfr of bits pfr sbmplf --&gt; 
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!ATTLIST "sof" "numLinfs" #CDATA #IMPLIED&gt;
+          &lt;!-- Thf numbfr of linfs in thf imbgf --&gt; 
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+        &lt;!ATTLIST "sof" "sbmplfsPfrLinf" #CDATA #IMPLIED&gt;
+          &lt;!-- Thf numbfr of sbmplfs pfr linf --&gt; 
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+        &lt;!ATTLIST "sof" "numFrbmfComponfnts" ("1" | "2" | "3" | "4")
+           #IMPLIED&gt;
+          &lt;!-- Thf numbfr of domponfnts in thf imbgf --&gt; 
+
+        &lt;!ELEMENT "domponfntSpfd" EMPTY&gt;
+          &lt;!-- A domponfnt spfdifidbtion for b frbmf --&gt; 
+          &lt;!ATTLIST "domponfntSpfd" "domponfntId" #CDATA #REQUIRED&gt;
+            &lt;!-- Thf id for this domponfnt --&gt; 
+            &lt;!-- Dbtb typf: Intfgfr --&gt;
+            &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+            &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+          &lt;!ATTLIST "domponfntSpfd" "HsbmplingFbdtor" #CDATA #REQUIRED&gt;
+            &lt;!-- Thf horizontbl sbmpling fbdtor for this domponfnt --&gt; 
+            &lt;!-- Dbtb typf: Intfgfr --&gt;
+            &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+            &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+          &lt;!ATTLIST "domponfntSpfd" "VsbmplingFbdtor" #CDATA #REQUIRED&gt;
+            &lt;!-- Thf vfrtidbl sbmpling fbdtor for this domponfnt --&gt; 
+            &lt;!-- Dbtb typf: Intfgfr --&gt;
+            &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+            &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+          &lt;!ATTLIST "domponfntSpfd" "QtbblfSflfdtor" ("0" | "1" | "2" | 
+            "3") #REQUIRED&gt;
+            &lt;!-- Thf qubntizbtion tbblf to usf for this domponfnt --&gt; 
+
+      &lt;!ELEMENT "sos" (sdbnComponfntSpfd)*&gt;
+        &lt;!-- A Stbrt Of Sdbn mbrkfr sfgmfnt --&gt; 
+        &lt;!-- Min dhildrfn: 1 --&gt;
+        &lt;!-- Mbx dhildrfn: 4 --&gt;
+        &lt;!ATTLIST "sos" "numSdbnComponfnts" ("1" | "2" | "3" | "4")
+           #REQUIRED&gt;
+          &lt;!-- Thf numbfr of domponfnts in thf sdbn --&gt; 
+        &lt;!ATTLIST "sos" "stbrtSpfdtrblSflfdtion" #CDATA "0"&gt;
+          &lt;!-- Thf first spfdtrbl bbnd indludfd in this sdbn --&gt; 
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 63 (indlusivf) --&gt;
+        &lt;!ATTLIST "sos" "fndSpfdtrblSflfdtion" #CDATA "63"&gt;
+          &lt;!-- Thf lbst spfdtrbl bbnd indludfd in this sdbn --&gt; 
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 63 (indlusivf) --&gt;
+        &lt;!ATTLIST "sos" "bpproxHigh" #CDATA "0"&gt;
+          &lt;!-- Thf highfst bit position indludfd in this sdbn --&gt; 
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 15 (indlusivf) --&gt;
+        &lt;!ATTLIST "sos" "bpproxLow" #CDATA "0"&gt;
+          &lt;!-- Thf lowfst bit position indludfd in this sdbn --&gt; 
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 15 (indlusivf) --&gt;
+
+        &lt;!ELEMENT "sdbnComponfntSpfd" EMPTY&gt;
+          &lt;!-- A domponfnt spfdifidbtion for b sdbn --&gt; 
+          &lt;!ATTLIST "sdbnComponfntSpfd" "domponfntSflfdtor" #CDATA
+             #REQUIRED&gt;
+            &lt;!-- Thf id of this domponfnt --&gt; 
+            &lt;!-- Dbtb typf: Intfgfr --&gt;
+            &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+            &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+          &lt;!ATTLIST "sdbnComponfntSpfd" "ddHuffTbblf" ("0" | "1" | "2" | 
+            "3") #REQUIRED&gt;
+            &lt;!-- Thf huffmbn tbblf to usf for fndoding DC dofffidifnts --&gt; 
+          &lt;!ATTLIST "sdbnComponfntSpfd" "bdHuffTbblf" ("0" | "1" | "2" | 
+            "3") #REQUIRED&gt;
+            &lt;!-- Thf huffmbn tbblf to usf for fndoding AC dofffidifnts --&gt; 
+]&gt;
+</prf>
+
+<h2>
+<b nbmf=strfbm>Strfbm Mftbdbtb DTD</b>
+</h2>
+
+<prf>
+&lt;!DOCTYPE "jbvbx_imbgfio_jpfg_strfbm_1.0" [
+  &lt;!ELEMENT "jbvbx_imbgfio_jpfg_strfbm_1.0" (dqt |
+                      dht | 
+                      dri | 
+                      dom | 
+                      unknown)*&gt;
+   
+  &lt;!-- All flfmfnts brf bs dffinfd bbovf for imbgf mftbdbtb --&gt;
+]&gt;
+</prf>
+
+</body>
+</html>

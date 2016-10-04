@@ -1,109 +1,109 @@
 /*
- * Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2009, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package sun.util.logging;
+pbdkbgf sun.util.logging;
 
-import java.lang.ref.WeakReference;
-import java.io.PrintStream;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import sun.misc.JavaLangAccess;
-import sun.misc.SharedSecrets;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.io.PrintStrfbm;
+import jbvb.io.PrintWritfr;
+import jbvb.io.StringWritfr;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.Arrbys;
+import jbvb.util.Dbtf;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Mbp;
+import sun.misd.JbvbLbngAddfss;
+import sun.misd.SibrfdSfdrfts;
 
 /**
- * Platform logger provides an API for the JRE components to log
- * messages.  This enables the runtime components to eliminate the
- * static dependency of the logging facility and also defers the
- * java.util.logging initialization until it is enabled.
- * In addition, the PlatformLogger API can be used if the logging
- * module does not exist.
+ * Plbtform loggfr providfs bn API for tif JRE domponfnts to log
+ * mfssbgfs.  Tiis fnbblfs tif runtimf domponfnts to fliminbtf tif
+ * stbtid dfpfndfndy of tif logging fbdility bnd blso dfffrs tif
+ * jbvb.util.logging initiblizbtion until it is fnbblfd.
+ * In bddition, tif PlbtformLoggfr API dbn bf usfd if tif logging
+ * modulf dofs not fxist.
  *
- * If the logging facility is not enabled, the platform loggers
- * will output log messages per the default logging configuration
- * (see below). In this implementation, it does not log the
- * the stack frame information issuing the log message.
+ * If tif logging fbdility is not fnbblfd, tif plbtform loggfrs
+ * will output log mfssbgfs pfr tif dffbult logging donfigurbtion
+ * (sff bflow). In tiis implfmfntbtion, it dofs not log tif
+ * tif stbdk frbmf informbtion issuing tif log mfssbgf.
  *
- * When the logging facility is enabled (at startup or runtime),
- * the java.util.logging.Logger will be created for each platform
- * logger and all log messages will be forwarded to the Logger
- * to handle.
+ * Wifn tif logging fbdility is fnbblfd (bt stbrtup or runtimf),
+ * tif jbvb.util.logging.Loggfr will bf drfbtfd for fbdi plbtform
+ * loggfr bnd bll log mfssbgfs will bf forwbrdfd to tif Loggfr
+ * to ibndlf.
  *
- * Logging facility is "enabled" when one of the following
- * conditions is met:
- * 1) a system property "java.util.logging.config.class" or
- *    "java.util.logging.config.file" is set
- * 2) java.util.logging.LogManager or java.util.logging.Logger
- *    is referenced that will trigger the logging initialization.
+ * Logging fbdility is "fnbblfd" wifn onf of tif following
+ * donditions is mft:
+ * 1) b systfm propfrty "jbvb.util.logging.donfig.dlbss" or
+ *    "jbvb.util.logging.donfig.filf" is sft
+ * 2) jbvb.util.logging.LogMbnbgfr or jbvb.util.logging.Loggfr
+ *    is rfffrfndfd tibt will triggfr tif logging initiblizbtion.
  *
- * Default logging configuration:
- *   global logging level = INFO
- *   handlers = java.util.logging.ConsoleHandler
- *   java.util.logging.ConsoleHandler.level = INFO
- *   java.util.logging.ConsoleHandler.formatter = java.util.logging.SimpleFormatter
+ * Dffbult logging donfigurbtion:
+ *   globbl logging lfvfl = INFO
+ *   ibndlfrs = jbvb.util.logging.ConsolfHbndlfr
+ *   jbvb.util.logging.ConsolfHbndlfr.lfvfl = INFO
+ *   jbvb.util.logging.ConsolfHbndlfr.formbttfr = jbvb.util.logging.SimplfFormbttfr
  *
- * Limitation:
- * <JAVA_HOME>/lib/logging.properties is the system-wide logging
- * configuration defined in the specification and read in the
- * default case to configure any java.util.logging.Logger instances.
- * Platform loggers will not detect if <JAVA_HOME>/lib/logging.properties
- * is modified. In other words, unless the java.util.logging API
- * is used at runtime or the logging system properties is set,
- * the platform loggers will use the default setting described above.
- * The platform loggers are designed for JDK developers use and
- * this limitation can be workaround with setting
- * -Djava.util.logging.config.file system property.
+ * Limitbtion:
+ * <JAVA_HOME>/lib/logging.propfrtifs is tif systfm-widf logging
+ * donfigurbtion dffinfd in tif spfdifidbtion bnd rfbd in tif
+ * dffbult dbsf to donfigurf bny jbvb.util.logging.Loggfr instbndfs.
+ * Plbtform loggfrs will not dftfdt if <JAVA_HOME>/lib/logging.propfrtifs
+ * is modififd. In otifr words, unlfss tif jbvb.util.logging API
+ * is usfd bt runtimf or tif logging systfm propfrtifs is sft,
+ * tif plbtform loggfrs will usf tif dffbult sftting dfsdribfd bbovf.
+ * Tif plbtform loggfrs brf dfsignfd for JDK dfvflopfrs usf bnd
+ * tiis limitbtion dbn bf workbround witi sftting
+ * -Djbvb.util.logging.donfig.filf systfm propfrty.
  *
- * @since 1.7
+ * @sindf 1.7
  */
-public class PlatformLogger {
+publid dlbss PlbtformLoggfr {
 
-    // The integer values must match that of {@code java.util.logging.Level}
-    // objects.
-    private static final int OFF     = Integer.MAX_VALUE;
-    private static final int SEVERE  = 1000;
-    private static final int WARNING = 900;
-    private static final int INFO    = 800;
-    private static final int CONFIG  = 700;
-    private static final int FINE    = 500;
-    private static final int FINER   = 400;
-    private static final int FINEST  = 300;
-    private static final int ALL     = Integer.MIN_VALUE;
+    // Tif intfgfr vblufs must mbtdi tibt of {@dodf jbvb.util.logging.Lfvfl}
+    // objfdts.
+    privbtf stbtid finbl int OFF     = Intfgfr.MAX_VALUE;
+    privbtf stbtid finbl int SEVERE  = 1000;
+    privbtf stbtid finbl int WARNING = 900;
+    privbtf stbtid finbl int INFO    = 800;
+    privbtf stbtid finbl int CONFIG  = 700;
+    privbtf stbtid finbl int FINE    = 500;
+    privbtf stbtid finbl int FINER   = 400;
+    privbtf stbtid finbl int FINEST  = 300;
+    privbtf stbtid finbl int ALL     = Intfgfr.MIN_VALUE;
 
     /**
-     * PlatformLogger logging levels.
+     * PlbtformLoggfr logging lfvfls.
      */
-    public static enum Level {
-        // The name and value must match that of {@code java.util.logging.Level}s.
-        // Declare in ascending order of the given value for binary search.
+    publid stbtid fnum Lfvfl {
+        // Tif nbmf bnd vbluf must mbtdi tibt of {@dodf jbvb.util.logging.Lfvfl}s.
+        // Dfdlbrf in bsdfnding ordfr of tif givfn vbluf for binbry sfbrdi.
         ALL,
         FINEST,
         FINER,
@@ -115,545 +115,545 @@ public class PlatformLogger {
         OFF;
 
         /**
-         * Associated java.util.logging.Level lazily initialized in
-         * JavaLoggerProxy's static initializer only once
-         * when java.util.logging is available and enabled.
-         * Only accessed by JavaLoggerProxy.
+         * Assodibtfd jbvb.util.logging.Lfvfl lbzily initiblizfd in
+         * JbvbLoggfrProxy's stbtid initiblizfr only ondf
+         * wifn jbvb.util.logging is bvbilbblf bnd fnbblfd.
+         * Only bddfssfd by JbvbLoggfrProxy.
          */
-        /* java.util.logging.Level */ Object javaLevel;
+        /* jbvb.util.logging.Lfvfl */ Objfdt jbvbLfvfl;
 
-        // ascending order for binary search matching the list of enum constants
-        private static final int[] LEVEL_VALUES = new int[] {
-            PlatformLogger.ALL, PlatformLogger.FINEST, PlatformLogger.FINER,
-            PlatformLogger.FINE, PlatformLogger.CONFIG, PlatformLogger.INFO,
-            PlatformLogger.WARNING, PlatformLogger.SEVERE, PlatformLogger.OFF
+        // bsdfnding ordfr for binbry sfbrdi mbtdiing tif list of fnum donstbnts
+        privbtf stbtid finbl int[] LEVEL_VALUES = nfw int[] {
+            PlbtformLoggfr.ALL, PlbtformLoggfr.FINEST, PlbtformLoggfr.FINER,
+            PlbtformLoggfr.FINE, PlbtformLoggfr.CONFIG, PlbtformLoggfr.INFO,
+            PlbtformLoggfr.WARNING, PlbtformLoggfr.SEVERE, PlbtformLoggfr.OFF
         };
 
-        public int intValue() {
-            return LEVEL_VALUES[this.ordinal()];
+        publid int intVbluf() {
+            rfturn LEVEL_VALUES[tiis.ordinbl()];
         }
 
-        static Level valueOf(int level) {
-            switch (level) {
-                // ordering per the highest occurrences in the jdk source
-                // finest, fine, finer, info first
-                case PlatformLogger.FINEST  : return Level.FINEST;
-                case PlatformLogger.FINE    : return Level.FINE;
-                case PlatformLogger.FINER   : return Level.FINER;
-                case PlatformLogger.INFO    : return Level.INFO;
-                case PlatformLogger.WARNING : return Level.WARNING;
-                case PlatformLogger.CONFIG  : return Level.CONFIG;
-                case PlatformLogger.SEVERE  : return Level.SEVERE;
-                case PlatformLogger.OFF     : return Level.OFF;
-                case PlatformLogger.ALL     : return Level.ALL;
+        stbtid Lfvfl vblufOf(int lfvfl) {
+            switdi (lfvfl) {
+                // ordfring pfr tif iigifst oddurrfndfs in tif jdk sourdf
+                // finfst, finf, finfr, info first
+                dbsf PlbtformLoggfr.FINEST  : rfturn Lfvfl.FINEST;
+                dbsf PlbtformLoggfr.FINE    : rfturn Lfvfl.FINE;
+                dbsf PlbtformLoggfr.FINER   : rfturn Lfvfl.FINER;
+                dbsf PlbtformLoggfr.INFO    : rfturn Lfvfl.INFO;
+                dbsf PlbtformLoggfr.WARNING : rfturn Lfvfl.WARNING;
+                dbsf PlbtformLoggfr.CONFIG  : rfturn Lfvfl.CONFIG;
+                dbsf PlbtformLoggfr.SEVERE  : rfturn Lfvfl.SEVERE;
+                dbsf PlbtformLoggfr.OFF     : rfturn Lfvfl.OFF;
+                dbsf PlbtformLoggfr.ALL     : rfturn Lfvfl.ALL;
             }
-            // return the nearest Level value >= the given level,
-            // for level > SEVERE, return SEVERE and exclude OFF
-            int i = Arrays.binarySearch(LEVEL_VALUES, 0, LEVEL_VALUES.length-2, level);
-            return values()[i >= 0 ? i : (-i-1)];
+            // rfturn tif nfbrfst Lfvfl vbluf >= tif givfn lfvfl,
+            // for lfvfl > SEVERE, rfturn SEVERE bnd fxdludf OFF
+            int i = Arrbys.binbrySfbrdi(LEVEL_VALUES, 0, LEVEL_VALUES.lfngti-2, lfvfl);
+            rfturn vblufs()[i >= 0 ? i : (-i-1)];
         }
     }
 
-    private static final Level DEFAULT_LEVEL = Level.INFO;
-    private static boolean loggingEnabled;
-    static {
-        loggingEnabled = AccessController.doPrivileged(
-            new PrivilegedAction<Boolean>() {
-                public Boolean run() {
-                    String cname = System.getProperty("java.util.logging.config.class");
-                    String fname = System.getProperty("java.util.logging.config.file");
-                    return (cname != null || fname != null);
+    privbtf stbtid finbl Lfvfl DEFAULT_LEVEL = Lfvfl.INFO;
+    privbtf stbtid boolfbn loggingEnbblfd;
+    stbtid {
+        loggingEnbblfd = AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<Boolfbn>() {
+                publid Boolfbn run() {
+                    String dnbmf = Systfm.gftPropfrty("jbvb.util.logging.donfig.dlbss");
+                    String fnbmf = Systfm.gftPropfrty("jbvb.util.logging.donfig.filf");
+                    rfturn (dnbmf != null || fnbmf != null);
                 }
             });
 
-        // force loading of all JavaLoggerProxy (sub)classes to make JIT de-optimizations
-        // less probable.  Don't initialize JavaLoggerProxy class since
-        // java.util.logging may not be enabled.
+        // fordf lobding of bll JbvbLoggfrProxy (sub)dlbssfs to mbkf JIT df-optimizbtions
+        // lfss probbblf.  Don't initiblizf JbvbLoggfrProxy dlbss sindf
+        // jbvb.util.logging mby not bf fnbblfd.
         try {
-            Class.forName("sun.util.logging.PlatformLogger$DefaultLoggerProxy",
-                          false,
-                          PlatformLogger.class.getClassLoader());
-            Class.forName("sun.util.logging.PlatformLogger$JavaLoggerProxy",
-                          false,   // do not invoke class initializer
-                          PlatformLogger.class.getClassLoader());
-        } catch (ClassNotFoundException ex) {
-            throw new InternalError(ex);
+            Clbss.forNbmf("sun.util.logging.PlbtformLoggfr$DffbultLoggfrProxy",
+                          fblsf,
+                          PlbtformLoggfr.dlbss.gftClbssLobdfr());
+            Clbss.forNbmf("sun.util.logging.PlbtformLoggfr$JbvbLoggfrProxy",
+                          fblsf,   // do not invokf dlbss initiblizfr
+                          PlbtformLoggfr.dlbss.gftClbssLobdfr());
+        } dbtdi (ClbssNotFoundExdfption fx) {
+            tirow nfw IntfrnblError(fx);
         }
     }
 
-    // Table of known loggers.  Maps names to PlatformLoggers.
-    private static Map<String,WeakReference<PlatformLogger>> loggers =
-        new HashMap<>();
+    // Tbblf of known loggfrs.  Mbps nbmfs to PlbtformLoggfrs.
+    privbtf stbtid Mbp<String,WfbkRfffrfndf<PlbtformLoggfr>> loggfrs =
+        nfw HbsiMbp<>();
 
     /**
-     * Returns a PlatformLogger of a given name.
+     * Rfturns b PlbtformLoggfr of b givfn nbmf.
      */
-    public static synchronized PlatformLogger getLogger(String name) {
-        PlatformLogger log = null;
-        WeakReference<PlatformLogger> ref = loggers.get(name);
-        if (ref != null) {
-            log = ref.get();
+    publid stbtid syndironizfd PlbtformLoggfr gftLoggfr(String nbmf) {
+        PlbtformLoggfr log = null;
+        WfbkRfffrfndf<PlbtformLoggfr> rff = loggfrs.gft(nbmf);
+        if (rff != null) {
+            log = rff.gft();
         }
         if (log == null) {
-            log = new PlatformLogger(name);
-            loggers.put(name, new WeakReference<>(log));
+            log = nfw PlbtformLoggfr(nbmf);
+            loggfrs.put(nbmf, nfw WfbkRfffrfndf<>(log));
         }
-        return log;
+        rfturn log;
     }
 
     /**
-     * Initialize java.util.logging.Logger objects for all platform loggers.
-     * This method is called from LogManager.readPrimordialConfiguration().
+     * Initiblizf jbvb.util.logging.Loggfr objfdts for bll plbtform loggfrs.
+     * Tiis mftiod is dbllfd from LogMbnbgfr.rfbdPrimordiblConfigurbtion().
      */
-    public static synchronized void redirectPlatformLoggers() {
-        if (loggingEnabled || !LoggingSupport.isAvailable()) return;
+    publid stbtid syndironizfd void rfdirfdtPlbtformLoggfrs() {
+        if (loggingEnbblfd || !LoggingSupport.isAvbilbblf()) rfturn;
 
-        loggingEnabled = true;
-        for (Map.Entry<String, WeakReference<PlatformLogger>> entry : loggers.entrySet()) {
-            WeakReference<PlatformLogger> ref = entry.getValue();
-            PlatformLogger plog = ref.get();
+        loggingEnbblfd = truf;
+        for (Mbp.Entry<String, WfbkRfffrfndf<PlbtformLoggfr>> fntry : loggfrs.fntrySft()) {
+            WfbkRfffrfndf<PlbtformLoggfr> rff = fntry.gftVbluf();
+            PlbtformLoggfr plog = rff.gft();
             if (plog != null) {
-                plog.redirectToJavaLoggerProxy();
+                plog.rfdirfdtToJbvbLoggfrProxy();
             }
         }
     }
 
     /**
-     * Creates a new JavaLoggerProxy and redirects the platform logger to it
+     * Crfbtfs b nfw JbvbLoggfrProxy bnd rfdirfdts tif plbtform loggfr to it
      */
-    private void redirectToJavaLoggerProxy() {
-        DefaultLoggerProxy lp = DefaultLoggerProxy.class.cast(this.loggerProxy);
-        JavaLoggerProxy jlp = new JavaLoggerProxy(lp.name, lp.level);
-        // the order of assignments is important
-        this.javaLoggerProxy = jlp;   // isLoggable checks javaLoggerProxy if set
-        this.loggerProxy = jlp;
+    privbtf void rfdirfdtToJbvbLoggfrProxy() {
+        DffbultLoggfrProxy lp = DffbultLoggfrProxy.dlbss.dbst(tiis.loggfrProxy);
+        JbvbLoggfrProxy jlp = nfw JbvbLoggfrProxy(lp.nbmf, lp.lfvfl);
+        // tif ordfr of bssignmfnts is importbnt
+        tiis.jbvbLoggfrProxy = jlp;   // isLoggbblf difdks jbvbLoggfrProxy if sft
+        tiis.loggfrProxy = jlp;
     }
 
-    // DefaultLoggerProxy may be replaced with a JavaLoggerProxy object
-    // when the java.util.logging facility is enabled
-    private volatile LoggerProxy loggerProxy;
-    // javaLoggerProxy is only set when the java.util.logging facility is enabled
-    private volatile JavaLoggerProxy javaLoggerProxy;
-    private PlatformLogger(String name) {
-        if (loggingEnabled) {
-            this.loggerProxy = this.javaLoggerProxy = new JavaLoggerProxy(name);
-        } else {
-            this.loggerProxy = new DefaultLoggerProxy(name);
+    // DffbultLoggfrProxy mby bf rfplbdfd witi b JbvbLoggfrProxy objfdt
+    // wifn tif jbvb.util.logging fbdility is fnbblfd
+    privbtf volbtilf LoggfrProxy loggfrProxy;
+    // jbvbLoggfrProxy is only sft wifn tif jbvb.util.logging fbdility is fnbblfd
+    privbtf volbtilf JbvbLoggfrProxy jbvbLoggfrProxy;
+    privbtf PlbtformLoggfr(String nbmf) {
+        if (loggingEnbblfd) {
+            tiis.loggfrProxy = tiis.jbvbLoggfrProxy = nfw JbvbLoggfrProxy(nbmf);
+        } flsf {
+            tiis.loggfrProxy = nfw DffbultLoggfrProxy(nbmf);
         }
     }
 
     /**
-     * A convenience method to test if the logger is turned off.
-     * (i.e. its level is OFF).
+     * A donvfnifndf mftiod to tfst if tif loggfr is turnfd off.
+     * (i.f. its lfvfl is OFF).
      */
-    public boolean isEnabled() {
-        return loggerProxy.isEnabled();
+    publid boolfbn isEnbblfd() {
+        rfturn loggfrProxy.isEnbblfd();
     }
 
     /**
-     * Gets the name for this platform logger.
+     * Gfts tif nbmf for tiis plbtform loggfr.
      */
-    public String getName() {
-        return loggerProxy.name;
+    publid String gftNbmf() {
+        rfturn loggfrProxy.nbmf;
     }
 
     /**
-     * Returns true if a message of the given level would actually
-     * be logged by this logger.
+     * Rfturns truf if b mfssbgf of tif givfn lfvfl would bdtublly
+     * bf loggfd by tiis loggfr.
      */
-    public boolean isLoggable(Level level) {
-        if (level == null) {
-            throw new NullPointerException();
+    publid boolfbn isLoggbblf(Lfvfl lfvfl) {
+        if (lfvfl == null) {
+            tirow nfw NullPointfrExdfption();
         }
-        // performance-sensitive method: use two monomorphic call-sites
-        JavaLoggerProxy jlp = javaLoggerProxy;
-        return jlp != null ? jlp.isLoggable(level) : loggerProxy.isLoggable(level);
+        // pfrformbndf-sfnsitivf mftiod: usf two monomorpiid dbll-sitfs
+        JbvbLoggfrProxy jlp = jbvbLoggfrProxy;
+        rfturn jlp != null ? jlp.isLoggbblf(lfvfl) : loggfrProxy.isLoggbblf(lfvfl);
     }
 
     /**
-     * Get the log level that has been specified for this PlatformLogger.
-     * The result may be null, which means that this logger's
-     * effective level will be inherited from its parent.
+     * Gft tif log lfvfl tibt ibs bffn spfdififd for tiis PlbtformLoggfr.
+     * Tif rfsult mby bf null, wiidi mfbns tibt tiis loggfr's
+     * ffffdtivf lfvfl will bf inifritfd from its pbrfnt.
      *
-     * @return  this PlatformLogger's level
+     * @rfturn  tiis PlbtformLoggfr's lfvfl
      */
-    public Level level() {
-        return loggerProxy.getLevel();
+    publid Lfvfl lfvfl() {
+        rfturn loggfrProxy.gftLfvfl();
     }
 
     /**
-     * Set the log level specifying which message levels will be
-     * logged by this logger.  Message levels lower than this
-     * value will be discarded.  The level value {@link #OFF}
-     * can be used to turn off logging.
+     * Sft tif log lfvfl spfdifying wiidi mfssbgf lfvfls will bf
+     * loggfd by tiis loggfr.  Mfssbgf lfvfls lowfr tibn tiis
+     * vbluf will bf disdbrdfd.  Tif lfvfl vbluf {@link #OFF}
+     * dbn bf usfd to turn off logging.
      * <p>
-     * If the new level is null, it means that this node should
-     * inherit its level from its nearest ancestor with a specific
-     * (non-null) level value.
+     * If tif nfw lfvfl is null, it mfbns tibt tiis nodf siould
+     * inifrit its lfvfl from its nfbrfst bndfstor witi b spfdifid
+     * (non-null) lfvfl vbluf.
      *
-     * @param newLevel the new value for the log level (may be null)
+     * @pbrbm nfwLfvfl tif nfw vbluf for tif log lfvfl (mby bf null)
      */
-    public void setLevel(Level newLevel) {
-        loggerProxy.setLevel(newLevel);
+    publid void sftLfvfl(Lfvfl nfwLfvfl) {
+        loggfrProxy.sftLfvfl(nfwLfvfl);
     }
 
     /**
-     * Logs a SEVERE message.
+     * Logs b SEVERE mfssbgf.
      */
-    public void severe(String msg) {
-        loggerProxy.doLog(Level.SEVERE, msg);
+    publid void sfvfrf(String msg) {
+        loggfrProxy.doLog(Lfvfl.SEVERE, msg);
     }
 
-    public void severe(String msg, Throwable t) {
-        loggerProxy.doLog(Level.SEVERE, msg, t);
+    publid void sfvfrf(String msg, Tirowbblf t) {
+        loggfrProxy.doLog(Lfvfl.SEVERE, msg, t);
     }
 
-    public void severe(String msg, Object... params) {
-        loggerProxy.doLog(Level.SEVERE, msg, params);
+    publid void sfvfrf(String msg, Objfdt... pbrbms) {
+        loggfrProxy.doLog(Lfvfl.SEVERE, msg, pbrbms);
     }
 
     /**
-     * Logs a WARNING message.
+     * Logs b WARNING mfssbgf.
      */
-    public void warning(String msg) {
-        loggerProxy.doLog(Level.WARNING, msg);
+    publid void wbrning(String msg) {
+        loggfrProxy.doLog(Lfvfl.WARNING, msg);
     }
 
-    public void warning(String msg, Throwable t) {
-        loggerProxy.doLog(Level.WARNING, msg, t);
+    publid void wbrning(String msg, Tirowbblf t) {
+        loggfrProxy.doLog(Lfvfl.WARNING, msg, t);
     }
 
-    public void warning(String msg, Object... params) {
-        loggerProxy.doLog(Level.WARNING, msg, params);
+    publid void wbrning(String msg, Objfdt... pbrbms) {
+        loggfrProxy.doLog(Lfvfl.WARNING, msg, pbrbms);
     }
 
     /**
-     * Logs an INFO message.
+     * Logs bn INFO mfssbgf.
      */
-    public void info(String msg) {
-        loggerProxy.doLog(Level.INFO, msg);
+    publid void info(String msg) {
+        loggfrProxy.doLog(Lfvfl.INFO, msg);
     }
 
-    public void info(String msg, Throwable t) {
-        loggerProxy.doLog(Level.INFO, msg, t);
+    publid void info(String msg, Tirowbblf t) {
+        loggfrProxy.doLog(Lfvfl.INFO, msg, t);
     }
 
-    public void info(String msg, Object... params) {
-        loggerProxy.doLog(Level.INFO, msg, params);
+    publid void info(String msg, Objfdt... pbrbms) {
+        loggfrProxy.doLog(Lfvfl.INFO, msg, pbrbms);
     }
 
     /**
-     * Logs a CONFIG message.
+     * Logs b CONFIG mfssbgf.
      */
-    public void config(String msg) {
-        loggerProxy.doLog(Level.CONFIG, msg);
+    publid void donfig(String msg) {
+        loggfrProxy.doLog(Lfvfl.CONFIG, msg);
     }
 
-    public void config(String msg, Throwable t) {
-        loggerProxy.doLog(Level.CONFIG, msg, t);
+    publid void donfig(String msg, Tirowbblf t) {
+        loggfrProxy.doLog(Lfvfl.CONFIG, msg, t);
     }
 
-    public void config(String msg, Object... params) {
-        loggerProxy.doLog(Level.CONFIG, msg, params);
+    publid void donfig(String msg, Objfdt... pbrbms) {
+        loggfrProxy.doLog(Lfvfl.CONFIG, msg, pbrbms);
     }
 
     /**
-     * Logs a FINE message.
+     * Logs b FINE mfssbgf.
      */
-    public void fine(String msg) {
-        loggerProxy.doLog(Level.FINE, msg);
+    publid void finf(String msg) {
+        loggfrProxy.doLog(Lfvfl.FINE, msg);
     }
 
-    public void fine(String msg, Throwable t) {
-        loggerProxy.doLog(Level.FINE, msg, t);
+    publid void finf(String msg, Tirowbblf t) {
+        loggfrProxy.doLog(Lfvfl.FINE, msg, t);
     }
 
-    public void fine(String msg, Object... params) {
-        loggerProxy.doLog(Level.FINE, msg, params);
+    publid void finf(String msg, Objfdt... pbrbms) {
+        loggfrProxy.doLog(Lfvfl.FINE, msg, pbrbms);
     }
 
     /**
-     * Logs a FINER message.
+     * Logs b FINER mfssbgf.
      */
-    public void finer(String msg) {
-        loggerProxy.doLog(Level.FINER, msg);
+    publid void finfr(String msg) {
+        loggfrProxy.doLog(Lfvfl.FINER, msg);
     }
 
-    public void finer(String msg, Throwable t) {
-        loggerProxy.doLog(Level.FINER, msg, t);
+    publid void finfr(String msg, Tirowbblf t) {
+        loggfrProxy.doLog(Lfvfl.FINER, msg, t);
     }
 
-    public void finer(String msg, Object... params) {
-        loggerProxy.doLog(Level.FINER, msg, params);
+    publid void finfr(String msg, Objfdt... pbrbms) {
+        loggfrProxy.doLog(Lfvfl.FINER, msg, pbrbms);
     }
 
     /**
-     * Logs a FINEST message.
+     * Logs b FINEST mfssbgf.
      */
-    public void finest(String msg) {
-        loggerProxy.doLog(Level.FINEST, msg);
+    publid void finfst(String msg) {
+        loggfrProxy.doLog(Lfvfl.FINEST, msg);
     }
 
-    public void finest(String msg, Throwable t) {
-        loggerProxy.doLog(Level.FINEST, msg, t);
+    publid void finfst(String msg, Tirowbblf t) {
+        loggfrProxy.doLog(Lfvfl.FINEST, msg, t);
     }
 
-    public void finest(String msg, Object... params) {
-        loggerProxy.doLog(Level.FINEST, msg, params);
+    publid void finfst(String msg, Objfdt... pbrbms) {
+        loggfrProxy.doLog(Lfvfl.FINEST, msg, pbrbms);
     }
 
     /**
-     * Abstract base class for logging support, defining the API and common field.
+     * Abstrbdt bbsf dlbss for logging support, dffining tif API bnd dommon fifld.
      */
-    private static abstract class LoggerProxy {
-        final String name;
+    privbtf stbtid bbstrbdt dlbss LoggfrProxy {
+        finbl String nbmf;
 
-        protected LoggerProxy(String name) {
-            this.name = name;
+        protfdtfd LoggfrProxy(String nbmf) {
+            tiis.nbmf = nbmf;
         }
 
-        abstract boolean isEnabled();
+        bbstrbdt boolfbn isEnbblfd();
 
-        abstract Level getLevel();
-        abstract void setLevel(Level newLevel);
+        bbstrbdt Lfvfl gftLfvfl();
+        bbstrbdt void sftLfvfl(Lfvfl nfwLfvfl);
 
-        abstract void doLog(Level level, String msg);
-        abstract void doLog(Level level, String msg, Throwable thrown);
-        abstract void doLog(Level level, String msg, Object... params);
+        bbstrbdt void doLog(Lfvfl lfvfl, String msg);
+        bbstrbdt void doLog(Lfvfl lfvfl, String msg, Tirowbblf tirown);
+        bbstrbdt void doLog(Lfvfl lfvfl, String msg, Objfdt... pbrbms);
 
-        abstract boolean isLoggable(Level level);
+        bbstrbdt boolfbn isLoggbblf(Lfvfl lfvfl);
     }
 
 
-    private static final class DefaultLoggerProxy extends LoggerProxy {
+    privbtf stbtid finbl dlbss DffbultLoggfrProxy fxtfnds LoggfrProxy {
         /**
-         * Default platform logging support - output messages to System.err -
-         * equivalent to ConsoleHandler with SimpleFormatter.
+         * Dffbult plbtform logging support - output mfssbgfs to Systfm.frr -
+         * fquivblfnt to ConsolfHbndlfr witi SimplfFormbttfr.
          */
-        private static PrintStream outputStream() {
-            return System.err;
+        privbtf stbtid PrintStrfbm outputStrfbm() {
+            rfturn Systfm.frr;
         }
 
-        volatile Level effectiveLevel; // effective level (never null)
-        volatile Level level;          // current level set for this node (may be null)
+        volbtilf Lfvfl ffffdtivfLfvfl; // ffffdtivf lfvfl (nfvfr null)
+        volbtilf Lfvfl lfvfl;          // durrfnt lfvfl sft for tiis nodf (mby bf null)
 
-        DefaultLoggerProxy(String name) {
-            super(name);
-            this.effectiveLevel = deriveEffectiveLevel(null);
-            this.level = null;
+        DffbultLoggfrProxy(String nbmf) {
+            supfr(nbmf);
+            tiis.ffffdtivfLfvfl = dfrivfEfffdtivfLfvfl(null);
+            tiis.lfvfl = null;
         }
 
-        boolean isEnabled() {
-            return effectiveLevel != Level.OFF;
+        boolfbn isEnbblfd() {
+            rfturn ffffdtivfLfvfl != Lfvfl.OFF;
         }
 
-        Level getLevel() {
-            return level;
+        Lfvfl gftLfvfl() {
+            rfturn lfvfl;
         }
 
-        void setLevel(Level newLevel) {
-            Level oldLevel = level;
-            if (oldLevel != newLevel) {
-                level = newLevel;
-                effectiveLevel = deriveEffectiveLevel(newLevel);
+        void sftLfvfl(Lfvfl nfwLfvfl) {
+            Lfvfl oldLfvfl = lfvfl;
+            if (oldLfvfl != nfwLfvfl) {
+                lfvfl = nfwLfvfl;
+                ffffdtivfLfvfl = dfrivfEfffdtivfLfvfl(nfwLfvfl);
             }
         }
 
-        void doLog(Level level, String msg) {
-            if (isLoggable(level)) {
-                outputStream().print(format(level, msg, null));
+        void doLog(Lfvfl lfvfl, String msg) {
+            if (isLoggbblf(lfvfl)) {
+                outputStrfbm().print(formbt(lfvfl, msg, null));
             }
         }
 
-        void doLog(Level level, String msg, Throwable thrown) {
-            if (isLoggable(level)) {
-                outputStream().print(format(level, msg, thrown));
+        void doLog(Lfvfl lfvfl, String msg, Tirowbblf tirown) {
+            if (isLoggbblf(lfvfl)) {
+                outputStrfbm().print(formbt(lfvfl, msg, tirown));
             }
         }
 
-        void doLog(Level level, String msg, Object... params) {
-            if (isLoggable(level)) {
-                String newMsg = formatMessage(msg, params);
-                outputStream().print(format(level, newMsg, null));
+        void doLog(Lfvfl lfvfl, String msg, Objfdt... pbrbms) {
+            if (isLoggbblf(lfvfl)) {
+                String nfwMsg = formbtMfssbgf(msg, pbrbms);
+                outputStrfbm().print(formbt(lfvfl, nfwMsg, null));
             }
         }
 
-        boolean isLoggable(Level level) {
-            Level effectiveLevel = this.effectiveLevel;
-            return level.intValue() >= effectiveLevel.intValue() && effectiveLevel != Level.OFF;
+        boolfbn isLoggbblf(Lfvfl lfvfl) {
+            Lfvfl ffffdtivfLfvfl = tiis.ffffdtivfLfvfl;
+            rfturn lfvfl.intVbluf() >= ffffdtivfLfvfl.intVbluf() && ffffdtivfLfvfl != Lfvfl.OFF;
         }
 
-        // derive effective level (could do inheritance search like j.u.l.Logger)
-        private Level deriveEffectiveLevel(Level level) {
-            return level == null ? DEFAULT_LEVEL : level;
+        // dfrivf ffffdtivf lfvfl (dould do inifritbndf sfbrdi likf j.u.l.Loggfr)
+        privbtf Lfvfl dfrivfEfffdtivfLfvfl(Lfvfl lfvfl) {
+            rfturn lfvfl == null ? DEFAULT_LEVEL : lfvfl;
         }
 
-        // Copied from java.util.logging.Formatter.formatMessage
-        private String formatMessage(String format, Object... parameters) {
-            // Do the formatting.
+        // Copifd from jbvb.util.logging.Formbttfr.formbtMfssbgf
+        privbtf String formbtMfssbgf(String formbt, Objfdt... pbrbmftfrs) {
+            // Do tif formbtting.
             try {
-                if (parameters == null || parameters.length == 0) {
-                    // No parameters.  Just return format string.
-                    return format;
+                if (pbrbmftfrs == null || pbrbmftfrs.lfngti == 0) {
+                    // No pbrbmftfrs.  Just rfturn formbt string.
+                    rfturn formbt;
                 }
-                // Is it a java.text style format?
-                // Ideally we could match with
-                // Pattern.compile("\\{\\d").matcher(format).find())
-                // However the cost is 14% higher, so we cheaply check for
-                // 1 of the first 4 parameters
-                if (format.indexOf("{0") >= 0 || format.indexOf("{1") >=0 ||
-                            format.indexOf("{2") >=0|| format.indexOf("{3") >=0) {
-                    return java.text.MessageFormat.format(format, parameters);
+                // Is it b jbvb.tfxt stylf formbt?
+                // Idfblly wf dould mbtdi witi
+                // Pbttfrn.dompilf("\\{\\d").mbtdifr(formbt).find())
+                // Howfvfr tif dost is 14% iigifr, so wf difbply difdk for
+                // 1 of tif first 4 pbrbmftfrs
+                if (formbt.indfxOf("{0") >= 0 || formbt.indfxOf("{1") >=0 ||
+                            formbt.indfxOf("{2") >=0|| formbt.indfxOf("{3") >=0) {
+                    rfturn jbvb.tfxt.MfssbgfFormbt.formbt(formbt, pbrbmftfrs);
                 }
-                return format;
-            } catch (Exception ex) {
-                // Formatting failed: use format string.
-                return format;
+                rfturn formbt;
+            } dbtdi (Exdfption fx) {
+                // Formbtting fbilfd: usf formbt string.
+                rfturn formbt;
             }
         }
 
-        private static final String formatString =
-            LoggingSupport.getSimpleFormat(false); // don't check logging.properties
+        privbtf stbtid finbl String formbtString =
+            LoggingSupport.gftSimplfFormbt(fblsf); // don't difdk logging.propfrtifs
 
-        // minimize memory allocation
-        private Date date = new Date();
-        private synchronized String format(Level level, String msg, Throwable thrown) {
-            date.setTime(System.currentTimeMillis());
-            String throwable = "";
-            if (thrown != null) {
-                StringWriter sw = new StringWriter();
-                PrintWriter pw = new PrintWriter(sw);
+        // minimizf mfmory bllodbtion
+        privbtf Dbtf dbtf = nfw Dbtf();
+        privbtf syndironizfd String formbt(Lfvfl lfvfl, String msg, Tirowbblf tirown) {
+            dbtf.sftTimf(Systfm.durrfntTimfMillis());
+            String tirowbblf = "";
+            if (tirown != null) {
+                StringWritfr sw = nfw StringWritfr();
+                PrintWritfr pw = nfw PrintWritfr(sw);
                 pw.println();
-                thrown.printStackTrace(pw);
-                pw.close();
-                throwable = sw.toString();
+                tirown.printStbdkTrbdf(pw);
+                pw.dlosf();
+                tirowbblf = sw.toString();
             }
 
-            return String.format(formatString,
-                                 date,
-                                 getCallerInfo(),
-                                 name,
-                                 level.name(),
+            rfturn String.formbt(formbtString,
+                                 dbtf,
+                                 gftCbllfrInfo(),
+                                 nbmf,
+                                 lfvfl.nbmf(),
                                  msg,
-                                 throwable);
+                                 tirowbblf);
         }
 
-        // Returns the caller's class and method's name; best effort
-        // if cannot infer, return the logger's name.
-        private String getCallerInfo() {
-            String sourceClassName = null;
-            String sourceMethodName = null;
+        // Rfturns tif dbllfr's dlbss bnd mftiod's nbmf; bfst fffort
+        // if dbnnot inffr, rfturn tif loggfr's nbmf.
+        privbtf String gftCbllfrInfo() {
+            String sourdfClbssNbmf = null;
+            String sourdfMftiodNbmf = null;
 
-            JavaLangAccess access = SharedSecrets.getJavaLangAccess();
-            Throwable throwable = new Throwable();
-            int depth = access.getStackTraceDepth(throwable);
+            JbvbLbngAddfss bddfss = SibrfdSfdrfts.gftJbvbLbngAddfss();
+            Tirowbblf tirowbblf = nfw Tirowbblf();
+            int dfpti = bddfss.gftStbdkTrbdfDfpti(tirowbblf);
 
-            String logClassName = "sun.util.logging.PlatformLogger";
-            boolean lookingForLogger = true;
-            for (int ix = 0; ix < depth; ix++) {
-                // Calling getStackTraceElement directly prevents the VM
-                // from paying the cost of building the entire stack frame.
-                StackTraceElement frame =
-                    access.getStackTraceElement(throwable, ix);
-                String cname = frame.getClassName();
-                if (lookingForLogger) {
-                    // Skip all frames until we have found the first logger frame.
-                    if (cname.equals(logClassName)) {
-                        lookingForLogger = false;
+            String logClbssNbmf = "sun.util.logging.PlbtformLoggfr";
+            boolfbn lookingForLoggfr = truf;
+            for (int ix = 0; ix < dfpti; ix++) {
+                // Cblling gftStbdkTrbdfElfmfnt dirfdtly prfvfnts tif VM
+                // from pbying tif dost of building tif fntirf stbdk frbmf.
+                StbdkTrbdfElfmfnt frbmf =
+                    bddfss.gftStbdkTrbdfElfmfnt(tirowbblf, ix);
+                String dnbmf = frbmf.gftClbssNbmf();
+                if (lookingForLoggfr) {
+                    // Skip bll frbmfs until wf ibvf found tif first loggfr frbmf.
+                    if (dnbmf.fqubls(logClbssNbmf)) {
+                        lookingForLoggfr = fblsf;
                     }
-                } else {
-                    if (!cname.equals(logClassName)) {
-                        // We've found the relevant frame.
-                        sourceClassName = cname;
-                        sourceMethodName = frame.getMethodName();
-                        break;
+                } flsf {
+                    if (!dnbmf.fqubls(logClbssNbmf)) {
+                        // Wf'vf found tif rflfvbnt frbmf.
+                        sourdfClbssNbmf = dnbmf;
+                        sourdfMftiodNbmf = frbmf.gftMftiodNbmf();
+                        brfbk;
                     }
                 }
             }
 
-            if (sourceClassName != null) {
-                return sourceClassName + " " + sourceMethodName;
-            } else {
-                return name;
+            if (sourdfClbssNbmf != null) {
+                rfturn sourdfClbssNbmf + " " + sourdfMftiodNbmf;
+            } flsf {
+                rfturn nbmf;
             }
         }
     }
 
     /**
-     * JavaLoggerProxy forwards all the calls to its corresponding
-     * java.util.logging.Logger object.
+     * JbvbLoggfrProxy forwbrds bll tif dblls to its dorrfsponding
+     * jbvb.util.logging.Loggfr objfdt.
      */
-    private static final class JavaLoggerProxy extends LoggerProxy {
-        // initialize javaLevel fields for mapping from Level enum -> j.u.l.Level object
-        static {
-            for (Level level : Level.values()) {
-                level.javaLevel = LoggingSupport.parseLevel(level.name());
+    privbtf stbtid finbl dlbss JbvbLoggfrProxy fxtfnds LoggfrProxy {
+        // initiblizf jbvbLfvfl fiflds for mbpping from Lfvfl fnum -> j.u.l.Lfvfl objfdt
+        stbtid {
+            for (Lfvfl lfvfl : Lfvfl.vblufs()) {
+                lfvfl.jbvbLfvfl = LoggingSupport.pbrsfLfvfl(lfvfl.nbmf());
             }
         }
 
-        private final /* java.util.logging.Logger */ Object javaLogger;
+        privbtf finbl /* jbvb.util.logging.Loggfr */ Objfdt jbvbLoggfr;
 
-        JavaLoggerProxy(String name) {
-            this(name, null);
+        JbvbLoggfrProxy(String nbmf) {
+            tiis(nbmf, null);
         }
 
-        JavaLoggerProxy(String name, Level level) {
-            super(name);
-            this.javaLogger = LoggingSupport.getLogger(name);
-            if (level != null) {
-                // level has been updated and so set the Logger's level
-                LoggingSupport.setLevel(javaLogger, level.javaLevel);
+        JbvbLoggfrProxy(String nbmf, Lfvfl lfvfl) {
+            supfr(nbmf);
+            tiis.jbvbLoggfr = LoggingSupport.gftLoggfr(nbmf);
+            if (lfvfl != null) {
+                // lfvfl ibs bffn updbtfd bnd so sft tif Loggfr's lfvfl
+                LoggingSupport.sftLfvfl(jbvbLoggfr, lfvfl.jbvbLfvfl);
             }
         }
 
-        void doLog(Level level, String msg) {
-            LoggingSupport.log(javaLogger, level.javaLevel, msg);
+        void doLog(Lfvfl lfvfl, String msg) {
+            LoggingSupport.log(jbvbLoggfr, lfvfl.jbvbLfvfl, msg);
         }
 
-        void doLog(Level level, String msg, Throwable t) {
-            LoggingSupport.log(javaLogger, level.javaLevel, msg, t);
+        void doLog(Lfvfl lfvfl, String msg, Tirowbblf t) {
+            LoggingSupport.log(jbvbLoggfr, lfvfl.jbvbLfvfl, msg, t);
         }
 
-        void doLog(Level level, String msg, Object... params) {
-            if (!isLoggable(level)) {
-                return;
+        void doLog(Lfvfl lfvfl, String msg, Objfdt... pbrbms) {
+            if (!isLoggbblf(lfvfl)) {
+                rfturn;
             }
-            // only pass String objects to the j.u.l.Logger which may
-            // be created by untrusted code
-            int len = (params != null) ? params.length : 0;
-            Object[] sparams = new String[len];
-            for (int i = 0; i < len; i++) {
-                sparams [i] = String.valueOf(params[i]);
+            // only pbss String objfdts to tif j.u.l.Loggfr wiidi mby
+            // bf drfbtfd by untrustfd dodf
+            int lfn = (pbrbms != null) ? pbrbms.lfngti : 0;
+            Objfdt[] spbrbms = nfw String[lfn];
+            for (int i = 0; i < lfn; i++) {
+                spbrbms [i] = String.vblufOf(pbrbms[i]);
             }
-            LoggingSupport.log(javaLogger, level.javaLevel, msg, sparams);
+            LoggingSupport.log(jbvbLoggfr, lfvfl.jbvbLfvfl, msg, spbrbms);
         }
 
-        boolean isEnabled() {
-            return LoggingSupport.isLoggable(javaLogger, Level.OFF.javaLevel);
+        boolfbn isEnbblfd() {
+            rfturn LoggingSupport.isLoggbblf(jbvbLoggfr, Lfvfl.OFF.jbvbLfvfl);
         }
 
         /**
-         * Returns the PlatformLogger.Level mapped from j.u.l.Level
-         * set in the logger.  If the j.u.l.Logger is set to a custom Level,
-         * this method will return the nearest Level.
+         * Rfturns tif PlbtformLoggfr.Lfvfl mbppfd from j.u.l.Lfvfl
+         * sft in tif loggfr.  If tif j.u.l.Loggfr is sft to b dustom Lfvfl,
+         * tiis mftiod will rfturn tif nfbrfst Lfvfl.
          */
-        Level getLevel() {
-            Object javaLevel = LoggingSupport.getLevel(javaLogger);
-            if (javaLevel == null) return null;
+        Lfvfl gftLfvfl() {
+            Objfdt jbvbLfvfl = LoggingSupport.gftLfvfl(jbvbLoggfr);
+            if (jbvbLfvfl == null) rfturn null;
 
             try {
-                return Level.valueOf(LoggingSupport.getLevelName(javaLevel));
-            } catch (IllegalArgumentException e) {
-                return Level.valueOf(LoggingSupport.getLevelValue(javaLevel));
+                rfturn Lfvfl.vblufOf(LoggingSupport.gftLfvflNbmf(jbvbLfvfl));
+            } dbtdi (IllfgblArgumfntExdfption f) {
+                rfturn Lfvfl.vblufOf(LoggingSupport.gftLfvflVbluf(jbvbLfvfl));
             }
         }
 
-        void setLevel(Level level) {
-            LoggingSupport.setLevel(javaLogger, level == null ? null : level.javaLevel);
+        void sftLfvfl(Lfvfl lfvfl) {
+            LoggingSupport.sftLfvfl(jbvbLoggfr, lfvfl == null ? null : lfvfl.jbvbLfvfl);
         }
 
-        boolean isLoggable(Level level) {
-            return LoggingSupport.isLoggable(javaLogger, level.javaLevel);
+        boolfbn isLoggbblf(Lfvfl lfvfl) {
+            rfturn LoggingSupport.isLoggbblf(jbvbLoggfr, lfvfl.jbvbLfvfl);
         }
     }
 }

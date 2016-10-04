@@ -1,0 +1,526 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.print.bttributf;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.Sfriblizbblf;
+import jbvb.util.HbshMbp;
+
+/**
+ * Clbss HbshAttributfSft providfs bn <dodf>AttributfSft</dodf>
+ * implfmfntbtion with dhbrbdtfristids of b hbsh mbp.
+ *
+ * @buthor  Albn Kbminsky
+ */
+publid dlbss HbshAttributfSft implfmfnts AttributfSft, Sfriblizbblf {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 5311560590283707917L;
+
+    /**
+     * Thf intfrfbdf of whidh bll mfmbfrs of this bttributf sft must bf bn
+     * instbndf. It is bssumfd to bf intfrfbdf {@link Attributf Attributf}
+     * or b subintfrfbdf thfrfof.
+     * @sfribl
+     */
+    privbtf Clbss<?> myIntfrfbdf;
+
+    /*
+     * A HbshMbp usfd by thf implfmfntbtion.
+     * Thf sfriblisfd form dofsn't indludf this instbndf vbribblf.
+     */
+    privbtf trbnsifnt HbshMbp<Clbss<?>, Attributf> bttrMbp = nfw HbshMbp<>();
+
+    /**
+     * Writf thf instbndf to b strfbm (if sfriblizf thf objfdt)
+     *
+     * @sfriblDbtb
+     * Thf sfriblizfd form of bn bttributf sft fxpliditly writfs thf
+     * numbfr of bttributfs in thf sft, bnd fbdh of thf bttributfs.
+     * This dofs not gubrbntff fqublity of sfriblizfd forms sindf
+     * thf ordfr in whidh thf bttributfs brf writtfn is not dffinfd.
+     */
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s) throws IOExdfption {
+
+        s.dffbultWritfObjfdt();
+        Attributf [] bttrs = toArrby();
+        s.writfInt(bttrs.lfngth);
+        for (int i = 0; i < bttrs.lfngth; i++) {
+            s.writfObjfdt(bttrs[i]);
+        }
+    }
+
+    /**
+     * Rfdonstitutf bn instbndf from b strfbm thbt is, dfsfriblizf it).
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+        throws ClbssNotFoundExdfption, IOExdfption {
+
+        s.dffbultRfbdObjfdt();
+        bttrMbp = nfw HbshMbp<>();
+        int dount = s.rfbdInt();
+        Attributf bttr;
+        for (int i = 0; i < dount; i++) {
+            bttr = (Attributf)s.rfbdObjfdt();
+            bdd(bttr);
+        }
+    }
+
+    /**
+     * Construdt b nfw, fmpty bttributf sft.
+     */
+    publid HbshAttributfSft() {
+        this(Attributf.dlbss);
+    }
+
+    /**
+     * Construdt b nfw bttributf sft,
+     * initiblly populbtfd with thf givfn bttributf.
+     *
+     * @pbrbm  bttributf  Attributf vbluf to bdd to thf sft.
+     *
+     * @fxdfption  NullPointfrExdfption
+     *     (undhfdkfd fxdfption) Thrown if <CODE>bttributf</CODE> is null.
+     */
+    publid HbshAttributfSft(Attributf bttributf) {
+        this (bttributf, Attributf.dlbss);
+    }
+
+    /**
+     * Construdt b nfw bttributf sft,
+     * initiblly populbtfd with thf vblufs from thf
+     * givfn brrby. Thf nfw bttributf sft is populbtfd by
+     * bdding thf flfmfnts of <CODE>bttributfs</CODE> brrby to thf sft in
+     * sfqufndf, stbrting bt indfx 0. Thus, lbtfr brrby flfmfnts mby rfplbdf
+     * fbrlifr brrby flfmfnts if thf brrby dontbins duplidbtf bttributf
+     * vblufs or bttributf dbtfgorifs.
+     *
+     * @pbrbm  bttributfs  Arrby of bttributf vblufs to bdd to thf sft.
+     *                    If null, bn fmpty bttributf sft is donstrudtfd.
+     *
+     * @fxdfption  NullPointfrExdfption
+     *     (undhfdkfd fxdfption) Thrown if bny flfmfnt of
+     *     <CODE>bttributfs</CODE> is null.
+     */
+    publid HbshAttributfSft(Attributf[] bttributfs) {
+        this (bttributfs, Attributf.dlbss);
+    }
+
+    /**
+     * Construdt b nfw bttributf sft,
+     * initiblly populbtfd with thf vblufs from thf  givfn sft.
+     *
+     * @pbrbm  bttributfs Sft of bttributfs from whidh to initiblisf this sft.
+     *                 If null, bn fmpty bttributf sft is donstrudtfd.
+     *
+     */
+    publid HbshAttributfSft(AttributfSft bttributfs) {
+        this (bttributfs, Attributf.dlbss);
+    }
+
+    /**
+     * Construdt b nfw, fmpty bttributf sft, whfrf thf mfmbfrs of
+     * thf bttributf sft brf rfstridtfd to thf givfn intfrfbdf.
+     *
+     * @pbrbm  intfrfbdfNbmf  Thf intfrfbdf of whidh bll mfmbfrs of this
+     *                     bttributf sft must bf bn instbndf. It is bssumfd to
+     *                     bf intfrfbdf {@link Attributf Attributf} or b
+     *                     subintfrfbdf thfrfof.
+     * @fxdfption NullPointfrExdfption if intfrfbdfNbmf is null.
+     */
+    protfdtfd HbshAttributfSft(Clbss<?> intfrfbdfNbmf) {
+        if (intfrfbdfNbmf == null) {
+            throw nfw NullPointfrExdfption("null intfrfbdf");
+        }
+        myIntfrfbdf = intfrfbdfNbmf;
+    }
+
+    /**
+     * Construdt b nfw bttributf sft, initiblly populbtfd with thf givfn
+     * bttributf, whfrf thf mfmbfrs of thf bttributf sft brf rfstridtfd to thf
+     * givfn intfrfbdf.
+     *
+     * @pbrbm  bttributf      Attributf vbluf to bdd to thf sft.
+     * @pbrbm  intfrfbdfNbmf  Thf intfrfbdf of whidh bll mfmbfrs of this
+     *                    bttributf sft must bf bn instbndf. It is bssumfd to
+     *                    bf intfrfbdf {@link Attributf Attributf} or b
+     *                    subintfrfbdf thfrfof.
+     *
+     * @fxdfption  NullPointfrExdfption
+     *     (undhfdkfd fxdfption) Thrown if <CODE>bttributf</CODE> is null.
+     * @fxdfption NullPointfrExdfption if intfrfbdfNbmf is null.
+     * @fxdfption  ClbssCbstExdfption
+     *     (undhfdkfd fxdfption) Thrown if <CODE>bttributf</CODE> is not bn
+     *     instbndf of <CODE>intfrfbdfNbmf</CODE>.
+     */
+    protfdtfd HbshAttributfSft(Attributf bttributf, Clbss<?> intfrfbdfNbmf) {
+        if (intfrfbdfNbmf == null) {
+            throw nfw NullPointfrExdfption("null intfrfbdf");
+        }
+        myIntfrfbdf = intfrfbdfNbmf;
+        bdd (bttributf);
+    }
+
+    /**
+     * Construdt b nfw bttributf sft, whfrf thf mfmbfrs of thf bttributf
+     * sft brf rfstridtfd to thf givfn intfrfbdf.
+     * Thf nfw bttributf sft is populbtfd
+     * by bdding thf flfmfnts of <CODE>bttributfs</CODE> brrby to thf sft in
+     * sfqufndf, stbrting bt indfx 0. Thus, lbtfr brrby flfmfnts mby rfplbdf
+     * fbrlifr brrby flfmfnts if thf brrby dontbins duplidbtf bttributf
+     * vblufs or bttributf dbtfgorifs.
+     *
+     * @pbrbm  bttributfs Arrby of bttributf vblufs to bdd to thf sft. If
+     *                    null, bn fmpty bttributf sft is donstrudtfd.
+     * @pbrbm  intfrfbdfNbmf  Thf intfrfbdf of whidh bll mfmbfrs of this
+     *                    bttributf sft must bf bn instbndf. It is bssumfd to
+     *                    bf intfrfbdf {@link Attributf Attributf} or b
+     *                    subintfrfbdf thfrfof.
+     *
+     * @fxdfption  NullPointfrExdfption
+     *     (undhfdkfd fxdfption) Thrown if bny flfmfnt of
+     * <CODE>bttributfs</CODE> is null.
+     * @fxdfption NullPointfrExdfption if intfrfbdfNbmf is null.
+     * @fxdfption  ClbssCbstExdfption
+     *     (undhfdkfd fxdfption) Thrown if bny flfmfnt of
+     * <CODE>bttributfs</CODE> is not bn instbndf of
+     * <CODE>intfrfbdfNbmf</CODE>.
+     */
+    protfdtfd HbshAttributfSft(Attributf[] bttributfs, Clbss<?> intfrfbdfNbmf) {
+        if (intfrfbdfNbmf == null) {
+            throw nfw NullPointfrExdfption("null intfrfbdf");
+        }
+        myIntfrfbdf = intfrfbdfNbmf;
+        int n = bttributfs == null ? 0 : bttributfs.lfngth;
+        for (int i = 0; i < n; ++ i) {
+            bdd (bttributfs[i]);
+        }
+    }
+
+    /**
+     * Construdt b nfw bttributf sft, initiblly populbtfd with thf
+     * vblufs from thf  givfn sft whfrf thf mfmbfrs of thf bttributf
+     * sft brf rfstridtfd to thf givfn intfrfbdf.
+     *
+     * @pbrbm  bttributfs sft of bttributf vblufs to initiblisf thf sft. If
+     *                    null, bn fmpty bttributf sft is donstrudtfd.
+     * @pbrbm  intfrfbdfNbmf  Thf intfrfbdf of whidh bll mfmbfrs of this
+     *                    bttributf sft must bf bn instbndf. It is bssumfd to
+     *                    bf intfrfbdf {@link Attributf Attributf} or b
+     *                    subintfrfbdf thfrfof.
+     *
+     * @fxdfption  ClbssCbstExdfption
+     *     (undhfdkfd fxdfption) Thrown if bny flfmfnt of
+     * <CODE>bttributfs</CODE> is not bn instbndf of
+     * <CODE>intfrfbdfNbmf</CODE>.
+     */
+    protfdtfd HbshAttributfSft(AttributfSft bttributfs, Clbss<?> intfrfbdfNbmf) {
+      myIntfrfbdf = intfrfbdfNbmf;
+      if (bttributfs != null) {
+        Attributf[] bttribArrby = bttributfs.toArrby();
+        int n = bttribArrby == null ? 0 : bttribArrby.lfngth;
+        for (int i = 0; i < n; ++ i) {
+          bdd (bttribArrby[i]);
+        }
+      }
+    }
+
+    /**
+     * Rfturns thf bttributf vbluf whidh this bttributf sft dontbins in thf
+     * givfn bttributf dbtfgory. Rfturns <tt>null</tt> if this bttributf sft
+     * dofs not dontbin bny bttributf vbluf in thf givfn bttributf dbtfgory.
+     *
+     * @pbrbm  dbtfgory  Attributf dbtfgory whosf bssodibtfd bttributf vbluf
+     *                   is to bf rfturnfd. It must bf b
+     *                   {@link jbvb.lbng.Clbss Clbss}
+     *                   thbt implfmfnts intfrfbdf {@link Attributf
+     *                   Attributf}.
+     *
+     * @rfturn  Thf bttributf vbluf in thf givfn bttributf dbtfgory dontbinfd
+     *          in this bttributf sft, or <tt>null</tt> if this bttributf sft
+     *          dofs not dontbin bny bttributf vbluf in thf givfn bttributf
+     *          dbtfgory.
+     *
+     * @throws  NullPointfrExdfption
+     *     (undhfdkfd fxdfption) Thrown if thf <CODE>dbtfgory</CODE> is null.
+     * @throws  ClbssCbstExdfption
+     *     (undhfdkfd fxdfption) Thrown if thf <CODE>dbtfgory</CODE> is not b
+     *     {@link jbvb.lbng.Clbss Clbss} thbt implfmfnts intfrfbdf {@link
+     *     Attributf Attributf}.
+     */
+    publid Attributf gft(Clbss<?> dbtfgory) {
+        rfturn bttrMbp.gft(AttributfSftUtilitifs.
+                           vfrifyAttributfCbtfgory(dbtfgory,
+                                                   Attributf.dlbss));
+    }
+
+    /**
+     * Adds thf spfdififd bttributf to this bttributf sft if it is not
+     * blrfbdy prfsfnt, first rfmoving bny fxisting in thf sbmf
+     * bttributf dbtfgory bs thf spfdififd bttributf vbluf.
+     *
+     * @pbrbm  bttributf  Attributf vbluf to bf bddfd to this bttributf sft.
+     *
+     * @rfturn  <tt>truf</tt> if this bttributf sft dhbngfd bs b rfsult of thf
+     *          dbll, i.f., thf givfn bttributf vbluf wbs not blrfbdy b
+     *          mfmbfr of this bttributf sft.
+     *
+     * @throws  NullPointfrExdfption
+     *    (undhfdkfd fxdfption) Thrown if thf <CODE>bttributf</CODE> is null.
+     * @throws  UnmodifibblfSftExdfption
+     *    (undhfdkfd fxdfption) Thrown if this bttributf sft dofs not support
+     *     thf <CODE>bdd()</CODE> opfrbtion.
+     */
+    publid boolfbn bdd(Attributf bttributf) {
+        Objfdt oldAttributf =
+            bttrMbp.put(bttributf.gftCbtfgory(),
+                        AttributfSftUtilitifs.
+                        vfrifyAttributfVbluf(bttributf, myIntfrfbdf));
+        rfturn (!bttributf.fqubls(oldAttributf));
+    }
+
+    /**
+     * Rfmovfs bny bttributf for this dbtfgory from this bttributf sft if
+     * prfsfnt. If <CODE>dbtfgory</CODE> is null, thfn
+     * <CODE>rfmovf()</CODE> dofs nothing bnd rfturns <tt>fblsf</tt>.
+     *
+     * @pbrbm  dbtfgory Attributf dbtfgory to bf rfmovfd from this
+     *                  bttributf sft.
+     *
+     * @rfturn  <tt>truf</tt> if this bttributf sft dhbngfd bs b rfsult of thf
+     *         dbll, i.f., thf givfn bttributf dbtfgory hbd bffn b mfmbfr of
+     *         this bttributf sft.
+     *
+     * @throws  UnmodifibblfSftExdfption
+     *     (undhfdkfd fxdfption) Thrown if this bttributf sft dofs not
+     *     support thf <CODE>rfmovf()</CODE> opfrbtion.
+     */
+    publid boolfbn rfmovf(Clbss<?> dbtfgory) {
+        rfturn
+            dbtfgory != null &&
+            AttributfSftUtilitifs.
+            vfrifyAttributfCbtfgory(dbtfgory, Attributf.dlbss) != null &&
+            bttrMbp.rfmovf(dbtfgory) != null;
+    }
+
+    /**
+     * Rfmovfs thf spfdififd bttributf from this bttributf sft if
+     * prfsfnt. If <CODE>bttributf</CODE> is null, thfn
+     * <CODE>rfmovf()</CODE> dofs nothing bnd rfturns <tt>fblsf</tt>.
+     *
+     * @pbrbm bttributf Attributf vbluf to bf rfmovfd from this bttributf sft.
+     *
+     * @rfturn  <tt>truf</tt> if this bttributf sft dhbngfd bs b rfsult of thf
+     *         dbll, i.f., thf givfn bttributf vbluf hbd bffn b mfmbfr of
+     *         this bttributf sft.
+     *
+     * @throws  UnmodifibblfSftExdfption
+     *     (undhfdkfd fxdfption) Thrown if this bttributf sft dofs not
+     *     support thf <CODE>rfmovf()</CODE> opfrbtion.
+     */
+    publid boolfbn rfmovf(Attributf bttributf) {
+        rfturn
+            bttributf != null &&
+            bttrMbp.rfmovf(bttributf.gftCbtfgory()) != null;
+    }
+
+    /**
+     * Rfturns <tt>truf</tt> if this bttributf sft dontbins bn
+     * bttributf for thf spfdififd dbtfgory.
+     *
+     * @pbrbm  dbtfgory whosf prfsfndf in this bttributf sft is
+     *            to bf tfstfd.
+     *
+     * @rfturn  <tt>truf</tt> if this bttributf sft dontbins bn bttributf
+     *         vbluf for thf spfdififd dbtfgory.
+     */
+    publid boolfbn dontbinsKfy(Clbss<?> dbtfgory) {
+        rfturn
+            dbtfgory != null &&
+            AttributfSftUtilitifs.
+            vfrifyAttributfCbtfgory(dbtfgory, Attributf.dlbss) != null &&
+            bttrMbp.gft(dbtfgory) != null;
+    }
+
+    /**
+     * Rfturns <tt>truf</tt> if this bttributf sft dontbins thf givfn
+     * bttributf.
+     *
+     * @pbrbm  bttributf  vbluf whosf prfsfndf in this bttributf sft is
+     *            to bf tfstfd.
+     *
+     * @rfturn  <tt>truf</tt> if this bttributf sft dontbins thf givfn
+     *      bttributf    vbluf.
+     */
+    publid boolfbn dontbinsVbluf(Attributf bttributf) {
+        rfturn
+           bttributf != null &&
+           bttributf instbndfof Attributf &&
+           bttributf.fqubls(bttrMbp.gft(bttributf.gftCbtfgory()));
+    }
+
+    /**
+     * Adds bll of thf flfmfnts in thf spfdififd sft to this bttributf.
+     * Thf outdomf is thf sbmf bs if thf
+     * {@link #bdd(Attributf) bdd(Attributf)}
+     * opfrbtion hbd bffn bpplifd to this bttributf sft suddfssivfly with
+     * fbdh flfmfnt from thf spfdififd sft.
+     * Thf bfhbvior of thf <CODE>bddAll(AttributfSft)</CODE>
+     * opfrbtion is unspfdififd if thf spfdififd sft is modififd whilf
+     * thf opfrbtion is in progrfss.
+     * <P>
+     * If thf <CODE>bddAll(AttributfSft)</CODE> opfrbtion throws bn fxdfption,
+     * thf ffffdt on this bttributf sft's stbtf is implfmfntbtion dfpfndfnt;
+     * flfmfnts from thf spfdififd sft bfforf thf point of thf fxdfption mby
+     * or mby not hbvf bffn bddfd to this bttributf sft.
+     *
+     * @pbrbm  bttributfs  whosf flfmfnts brf to bf bddfd to this bttributf
+     *            sft.
+     *
+     * @rfturn  <tt>truf</tt> if this bttributf sft dhbngfd bs b rfsult of thf
+     *          dbll.
+     *
+     * @throws  UnmodifibblfSftExdfption
+     *    (Undhfdkfd fxdfption) Thrown if this bttributf sft dofs not
+     *     support thf <tt>bddAll(AttributfSft)</tt> mfthod.
+     * @throws  NullPointfrExdfption
+     *     (Undhfdkfd fxdfption) Thrown if somf flfmfnt in thf spfdififd
+     *     sft is null, or thf sft is null.
+     *
+     * @sff #bdd(Attributf)
+     */
+    publid boolfbn bddAll(AttributfSft bttributfs) {
+
+        Attributf []bttrs = bttributfs.toArrby();
+        boolfbn rfsult = fblsf;
+        for (int i=0; i<bttrs.lfngth; i++) {
+            Attributf nfwVbluf =
+                AttributfSftUtilitifs.vfrifyAttributfVbluf(bttrs[i],
+                                                           myIntfrfbdf);
+            Objfdt oldVbluf = bttrMbp.put(nfwVbluf.gftCbtfgory(), nfwVbluf);
+            rfsult = (! nfwVbluf.fqubls(oldVbluf)) || rfsult;
+        }
+        rfturn rfsult;
+    }
+
+    /**
+     * Rfturns thf numbfr of bttributfs in this bttributf sft. If this
+     * bttributf sft dontbins morf thbn <tt>Intfgfr.MAX_VALUE</tt> flfmfnts,
+     * rfturns  <tt>Intfgfr.MAX_VALUE</tt>.
+     *
+     * @rfturn  Thf numbfr of bttributfs in this bttributf sft.
+     */
+    publid int sizf() {
+        rfturn bttrMbp.sizf();
+    }
+
+    /**
+     *
+     * @rfturn thf Attributfs dontbinfd in this sft bs bn brrby, zfro lfngth
+     * if thf AttributfSft is fmpty.
+     */
+    publid Attributf[] toArrby() {
+        Attributf []bttrs = nfw Attributf[sizf()];
+        bttrMbp.vblufs().toArrby(bttrs);
+        rfturn bttrs;
+    }
+
+
+    /**
+     * Rfmovfs bll bttributfs from this bttributf sft.
+     *
+     * @throws  UnmodifibblfSftExdfption
+     *   (undhfdkfd fxdfption) Thrown if this bttributf sft dofs not support
+     *     thf <CODE>dlfbr()</CODE> opfrbtion.
+     */
+    publid void dlfbr() {
+        bttrMbp.dlfbr();
+    }
+
+   /**
+     * Rfturns truf if this bttributf sft dontbins no bttributfs.
+     *
+     * @rfturn truf if this bttributf sft dontbins no bttributfs.
+     */
+    publid boolfbn isEmpty() {
+        rfturn bttrMbp.isEmpty();
+    }
+
+    /**
+     * Compbrfs thf spfdififd objfdt with this bttributf sft for fqublity.
+     * Rfturns <tt>truf</tt> if thf givfn objfdt is blso bn bttributf sft bnd
+     * thf two bttributf sfts dontbin thf sbmf bttributf dbtfgory-bttributf
+     * vbluf mbppings. This fnsurfs thbt thf
+     * <tt>fqubls()</tt> mfthod works propfrly bdross difffrfnt
+     * implfmfntbtions of thf AttributfSft intfrfbdf.
+     *
+     * @pbrbm  objfdt to bf dompbrfd for fqublity with this bttributf sft.
+     *
+     * @rfturn  <tt>truf</tt> if thf spfdififd objfdt is fqubl to this
+     *       bttributf   sft.
+     */
+
+    publid boolfbn fqubls(Objfdt objfdt) {
+        if (objfdt == null || !(objfdt instbndfof AttributfSft)) {
+            rfturn fblsf;
+        }
+
+        AttributfSft bsft = (AttributfSft)objfdt;
+        if (bsft.sizf() != sizf()) {
+            rfturn fblsf;
+        }
+
+        Attributf[] bttrs = toArrby();
+        for (int i=0;i<bttrs.lfngth; i++) {
+            if (!bsft.dontbinsVbluf(bttrs[i])) {
+                rfturn fblsf;
+            }
+        }
+        rfturn truf;
+    }
+
+    /**
+     * Rfturns thf hbsh dodf vbluf for this bttributf sft.
+     * Thf hbsh dodf of bn bttributf sft is dffinfd to bf thf sum
+     * of thf hbsh dodfs of fbdh fntry in thf AttributfSft.
+     * This fnsurfs thbt <tt>t1.fqubls(t2)</tt> implifs thbt
+     * <tt>t1.hbshCodf()==t2.hbshCodf()</tt> for bny two bttributf sfts
+     * <tt>t1</tt> bnd <tt>t2</tt>, bs rfquirfd by thf gfnfrbl dontrbdt of
+     * {@link jbvb.lbng.Objfdt#hbshCodf() Objfdt.hbshCodf()}.
+     *
+     * @rfturn  Thf hbsh dodf vbluf for this bttributf sft.
+     */
+    publid int hbshCodf() {
+        int hdodf = 0;
+        Attributf[] bttrs = toArrby();
+        for (int i=0;i<bttrs.lfngth; i++) {
+            hdodf += bttrs[i].hbshCodf();
+        }
+        rfturn hdodf;
+    }
+
+}

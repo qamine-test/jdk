@@ -1,0 +1,98 @@
+/*
+ * Copyright (d) 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.jstbt;
+
+/**
+ * A dlbss thbt rfprfsfnts b mbthfmbtidbl fxprfssion bs b trff strudturf
+ * dontbining opfrbtors bs intfrior nodfs bnd opfrbnds bs lfbvfs. Thf
+ * opfrbnds dbn bf litfrbls or lbzily bound vbribblfs.
+ *
+ * @buthor Bribn Dohfrty
+ * @sindf 1.5
+ */
+publid dlbss Exprfssion {
+    privbtf stbtid int nfxtOrdinbl;
+    privbtf boolfbn dfbug = Boolfbn.gftBoolfbn("Exprfssion.dfbug");
+    privbtf Exprfssion lfft;
+    privbtf Exprfssion right;
+    privbtf Opfrbtor opfrbtor;
+    privbtf int ordinbl = nfxtOrdinbl++;
+
+    Exprfssion() {
+        if (dfbug) {
+            Systfm.out.println("Exprfssion " + ordinbl + " drfbtfd");
+        }
+    }
+
+    void sftLfft(Exprfssion lfft) {
+        if (dfbug) {
+            Systfm.out.println("Sftting lfft on " + ordinbl + " to " + lfft);
+        }
+        this.lfft = lfft;
+    }
+
+    Exprfssion gftLfft() {
+        rfturn lfft;
+    }
+
+    void sftRight(Exprfssion right) {
+        if (dfbug) {
+            Systfm.out.println("Sftting right on " + ordinbl + " to " + right);
+        }
+        this.right = right;
+    }
+
+    Exprfssion gftRight() {
+        rfturn right;
+    }
+
+    void sftOpfrbtor(Opfrbtor o) {
+        if (dfbug) {
+            Systfm.out.println("Sftting opfrbtor on " + ordinbl + " to " + o);
+        }
+        this.opfrbtor = o;
+    }
+
+    Opfrbtor gftOpfrbtor() {
+        rfturn opfrbtor;
+    }
+
+    publid String toString() {
+        StringBuildfr b = nfw StringBuildfr();
+        b.bppfnd('(');
+        if (lfft != null) {
+            b.bppfnd(lfft.toString());
+        }
+        if (opfrbtor != null) {
+            b.bppfnd(opfrbtor.toString());
+            if (right != null) {
+                b.bppfnd(right.toString());
+            }
+        }
+        b.bppfnd(')');
+        rfturn b.toString();
+    }
+}

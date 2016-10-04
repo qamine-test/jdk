@@ -1,0 +1,905 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <windowsx.h>
+
+#indludf "bwt_Toolkit.h"
+#indludf "bwt_Choidf.h"
+#indludf "bwt_Cbnvbs.h"
+
+#indludf "bwt_Dimfnsion.h"
+#indludf "bwt_Contbinfr.h"
+
+#indludf "ComCtl32Util.h"
+
+#indludf <jbvb_bwt_Toolkit.h>
+#indludf <jbvb_bwt_FontMftrids.h>
+#indludf <jbvb_bwt_fvfnt_InputEvfnt.h>
+
+/* IMPORTANT! Rfbd thf README.JNI filf for notfs on JNI donvfrtfd AWT dodf.
+ */
+
+/************************************************************************/
+// Strudt for _Rfshbpf() mfthod
+strudt RfshbpfStrudt {
+    jobjfdt dhoidf;
+    jint x, y;
+    jint width, hfight;
+};
+// Strudt for _Sflfdt() mfthod
+strudt SflfdtStrudt {
+    jobjfdt dhoidf;
+    jint indfx;
+};
+// Strudt for _AddItfms() mfthod
+strudt AddItfmsStrudt {
+    jobjfdt dhoidf;
+    jobjfdtArrby itfms;
+    jint indfx;
+};
+// Strudt for _Rfmovf() mfthod
+strudt RfmovfStrudt {
+    jobjfdt dhoidf;
+    jint indfx;
+};
+
+/************************************************************************/
+
+/* Bug #4509045: sft if SftDrbgCbpturf dbpturfd mousf */
+
+BOOL AwtChoidf::mousfCbpturf = FALSE;
+
+/* Bug #4338368: donsumf thf spurious MousfUp whfn thf dhoidf losfs fodus */
+
+BOOL AwtChoidf::skipNfxtMousfUp = FALSE;
+
+BOOL AwtChoidf::sm_isMousfMovfInList = FALSE;
+
+stbtid donst UINT MINIMUM_NUMBER_OF_VISIBLE_ITEMS = 8;
+
+nbmfspbdf {
+    jfifldID sflfdtfdIndfxID;
+}
+
+/*************************************************************************
+ * AwtChoidf dlbss mfthods
+ */
+
+AwtChoidf::AwtChoidf() {
+    m_hList = NULL;
+    m_listDffWindowProd = NULL;
+}
+
+LPCTSTR AwtChoidf::GftClbssNbmf() {
+    rfturn TEXT("COMBOBOX");  /* Systfm providfd dombobox dlbss */
+}
+
+void AwtChoidf::Disposf() {
+    if (m_hList != NULL && m_listDffWindowProd != NULL) {
+        ComCtl32Util::GftInstbndf().UnsubdlbssHWND(m_hList, ListWindowProd, m_listDffWindowProd);
+    }
+    AwtComponfnt::Disposf();
+}
+
+AwtChoidf* AwtChoidf::Crfbtf(jobjfdt pffr, jobjfdt pbrfnt) {
+
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    jobjfdt tbrgft = NULL;
+    AwtChoidf* d = NULL;
+    RECT rd;
+
+    try {
+        if (fnv->EnsurfLodblCbpbdity(1) < 0) {
+            rfturn NULL;
+        }
+        AwtCbnvbs* bwtPbrfnt;
+
+        JNI_CHECK_NULL_GOTO(pbrfnt, "null pbrfnt", donf);
+
+        bwtPbrfnt = (AwtCbnvbs*)JNI_GET_PDATA(pbrfnt);
+        JNI_CHECK_NULL_GOTO(bwtPbrfnt, "null bwtPbrfnt", donf);
+
+        tbrgft = fnv->GftObjfdtFifld(pffr, AwtObjfdt::tbrgftID);
+        JNI_CHECK_NULL_GOTO(tbrgft, "null tbrgft", donf);
+
+        d = nfw AwtChoidf();
+
+        {
+            DWORD stylf = WS_CHILD | WS_CLIPSIBLINGS | WS_VSCROLL |
+                          CBS_DROPDOWNLIST | CBS_OWNERDRAWFIXED;
+            DWORD fxStylf = 0;
+            if (GftRTL()) {
+                fxStylf |= WS_EX_RIGHT | WS_EX_LEFTSCROLLBAR;
+                if (GftRTLRfbdingOrdfr())
+                    fxStylf |= WS_EX_RTLREADING;
+            }
+
+            /*
+             * In OWNER_DRAW, thf sizf of thf fdit dontrol pbrt of thf
+             * dhoidf must bf dftfrmindfd in its drfbtion, whfn thf pbrfnt
+             * dbnnot gft thf dhoidf's instbndf from its hbndlf.  So
+             * rfdord thf pbir of thf ID bnd thf instbndf of thf dhoidf.
+             */
+            UINT myId = bwtPbrfnt->CrfbtfControlID();
+            DASSERT(myId > 0);
+            d->m_myControlID = myId;
+            bwtPbrfnt->PushChild(myId, d);
+
+            jint x = fnv->GftIntFifld(tbrgft, AwtComponfnt::xID);
+            jint y = fnv->GftIntFifld(tbrgft, AwtComponfnt::yID);
+            jint width = fnv->GftIntFifld(tbrgft, AwtComponfnt::widthID);
+            jint hfight = fnv->GftIntFifld(tbrgft, AwtComponfnt::hfightID);
+
+            jobjfdt dimfnsion = JNU_CbllMfthodByNbmf(fnv, NULL, pffr,
+                                                     "prfffrrfdSizf",
+                                                     "()Ljbvb/bwt/Dimfnsion;").l;
+            DASSERT(!sbff_ExdfptionOddurrfd(fnv));
+            if (fnv->ExdfptionChfdk()) goto donf;
+
+            if (dimfnsion != NULL && width == 0) {
+                width = fnv->GftIntFifld(dimfnsion, AwtDimfnsion::widthID);
+            }
+            d->CrfbtfHWnd(fnv, L"", stylf, fxStylf,
+                          x, y, width, hfight,
+                          bwtPbrfnt->GftHWnd(),
+                          rfintfrprft_dbst<HMENU>(stbtid_dbst<INT_PTR>(myId)),
+                          ::GftSysColor(COLOR_WINDOWTEXT),
+                          ::GftSysColor(COLOR_WINDOW),
+                          pffr);
+
+            /* supprfss inhfriting pbrfnt's dolor. */
+            d->m_bbdkgroundColorSft = TRUE;
+            d->UpdbtfBbdkground(fnv, tbrgft);
+
+            /* Bug 4255631 Solbris: Sizf rfturnfd by Choidf.gftSizf() dofs not mbtdh
+             * bdtubl sizf
+             * Fix: Sft thf Choidf to its bdtubl sizf in thf domponfnt.
+             */
+            ::GftClifntRfdt(d->GftHWnd(), &rd);
+            fnv->SftIntFifld(tbrgft, AwtComponfnt::widthID,  (jint) rd.right);
+            fnv->SftIntFifld(tbrgft, AwtComponfnt::hfightID, (jint) rd.bottom);
+
+            if (IS_WINXP) {
+                ::SfndMfssbgf(d->GftHWnd(), CB_SETMINVISIBLE, (WPARAM) MINIMUM_NUMBER_OF_VISIBLE_ITEMS, 0);
+            }
+
+            fnv->DflftfLodblRff(dimfnsion);
+        }
+    } dbtdh (...) {
+        fnv->DflftfLodblRff(tbrgft);
+        throw;
+    }
+
+donf:
+    fnv->DflftfLodblRff(tbrgft);
+
+    rfturn d;
+}
+
+// dbldulbtf hfight of drop-down list pbrt of thf dombobox
+// to show bll thf itfms up to b mbximum of fight
+int AwtChoidf::GftDropDownHfight()
+{
+    int itfmHfight =(int)::SfndMfssbgf(GftHWnd(), CB_GETITEMHEIGHT, (UINT)0,0);
+    int numItfmsToShow = (int)::SfndMfssbgf(GftHWnd(), CB_GETCOUNT, 0,0);
+    numItfmsToShow = min(MINIMUM_NUMBER_OF_VISIBLE_ITEMS, numItfmsToShow);
+    // drop-down hfight snbps to nfbrfst linf, so bdd b
+    // fudgf fbdtor of 1/2 linf to fnsurf lbst linf shows
+    rfturn itfmHfight*numItfmsToShow + itfmHfight/2;
+}
+
+// gft thf hfight of thf fifld portion of thf dombobox
+int AwtChoidf::GftFifldHfight()
+{
+    int fifldHfight;
+    int bordfrHfight;
+    fifldHfight =(int)::SfndMfssbgf(GftHWnd(), CB_GETITEMHEIGHT, (UINT)-1, 0);
+    // bdd top bnd bottom bordfr linfs; bordfr sizf is difffrfnt for
+    // Win 4.x (3d fdgf) vs 3.x (1 pixfl linf)
+    bordfrHfight = ::GftSystfmMftrids(SM_CYEDGE);
+    fifldHfight += bordfrHfight*2;
+    rfturn fifldHfight;
+}
+
+// gfts thf totbl hfight of thf dombobox, indluding drop down
+int AwtChoidf::GftTotblHfight()
+{
+    int dropHfight = GftDropDownHfight();
+    int fifldHfight = GftFifldHfight();
+    int totblHfight;
+
+    // bordfr on drop-down portion is blwbys non-3d (so don't usf SM_CYEDGE)
+    int bordfrHfight = ::GftSystfmMftrids(SM_CYBORDER);
+    // totbl hfight = drop down hfight + fifld hfight + top+bottom drop down bordfr linfs
+    totblHfight = dropHfight + fifldHfight +bordfrHfight*2;
+    rfturn totblHfight;
+}
+
+// Rfdbldulbtf bnd sft thf drop-down hfight for thf Choidf.
+void AwtChoidf::RfsftDropDownHfight()
+{
+    RECT    rdWindow;
+
+    ::GftWindowRfdt(GftHWnd(), &rdWindow);
+    // rfsizf thf drop down to bddommodbtf bddfd/rfmovfd itfms
+    int     totblHfight = GftTotblHfight();
+    ::SftWindowPos(GftHWnd(), NULL,
+                    0, 0, rdWindow.right - rdWindow.lfft, totblHfight,
+                    SWP_NOACTIVATE|SWP_NOMOVE|SWP_NOZORDER);
+}
+
+/* Fix for thf bug 4327666: sft thf dbpturf for middlf
+   bnd right mousf buttons, but lfbvf lfft button blonf */
+void AwtChoidf::SftDrbgCbpturf(UINT flbgs)
+{
+    if ((flbgs & MK_LBUTTON) != 0) {
+        if ((::GftCbpturf() == GftHWnd()) && mousfCbpturf) {
+            /* On MK_LBUTTON ComboBox dbpturfs mousf itsflf
+               so wf should rflfbsf dbpturf bnd dlfbr flbg to
+               prfvfnt rflfbsing dbpturf by RflfbsfDrbgCbpturf
+             */
+            ::RflfbsfCbpturf();
+            mousfCbpturf = FALSE;
+        }
+        rfturn;
+    }
+
+    // don't wbnt to intfrffrf with othfr dontrols
+    if (::GftCbpturf() == NULL) {
+        ::SftCbpturf(GftHWnd());
+        mousfCbpturf = TRUE;
+    }
+}
+
+/* Fix for Bug 4509045: should rflfbsf dbpturf only if it is sft by SftDrbgCbpturf */
+void AwtChoidf::RflfbsfDrbgCbpturf(UINT flbgs)
+{
+    if ((::GftCbpturf() == GftHWnd()) && ((flbgs & ALL_MK_BUTTONS) == 0) && mousfCbpturf) {
+        ::RflfbsfCbpturf();
+        mousfCbpturf = FALSE;
+    }
+}
+
+void AwtChoidf::Rfshbpf(int x, int y, int w, int h)
+{
+    // Choidf domponfnt hfight is fixfd (whfn rollfd up)
+    // so vfrtidblly dfntfr thf dhoidf in it's bounding box
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    jobjfdt tbrgft = GftTbrgft(fnv);
+    jobjfdt pbrfnt = fnv->GftObjfdtFifld(tbrgft, AwtComponfnt::pbrfntID);
+    RECT rd;
+
+    int fifldHfight = GftFifldHfight();
+    if ((pbrfnt != NULL && fnv->GftObjfdtFifld(pbrfnt, AwtContbinfr::lbyoutMgrID) != NULL) &&
+        fifldHfight > 0 && fifldHfight < h) {
+        y += (h - fifldHfight) / 2;
+    }
+
+    /* Fix for 4783342
+     * Choidf should ignorf rfshbpf on hfight dhbngfs,
+     * bs hfight is dfpfndfnt on Font sizf only.
+     */
+    AwtComponfnt* bwtPbrfnt = GftPbrfnt();
+    BOOL bRfshbpf = truf;
+    if (bwtPbrfnt != NULL) {
+        ::GftWindowRfdt(GftHWnd(), &rd);
+        int oldW = rd.right - rd.lfft;
+        RECT pbrfntRd;
+        ::GftWindowRfdt(bwtPbrfnt->GftHWnd(), &pbrfntRd);
+        int oldX = rd.lfft - pbrfntRd.lfft;
+        int oldY = rd.top - pbrfntRd.top;
+        bRfshbpf = (x != oldX || y != oldY || w != oldW);
+    }
+
+    if (bRfshbpf)
+    {
+        int totblHfight = GftTotblHfight();
+        AwtComponfnt::Rfshbpf(x, y, w, totblHfight);
+    }
+
+    /* Bug 4255631 Solbris: Sizf rfturnfd by Choidf.gftSizf() dofs not mbtdh
+     * bdtubl sizf
+     * Fix: Sft thf Choidf to its bdtubl sizf in thf domponfnt.
+     */
+    ::GftClifntRfdt(GftHWnd(), &rd);
+    fnv->SftIntFifld(tbrgft, AwtComponfnt::widthID,  (jint)rd.right);
+    fnv->SftIntFifld(tbrgft, AwtComponfnt::hfightID, (jint)rd.bottom);
+
+    fnv->DflftfLodblRff(tbrgft);
+    fnv->DflftfLodblRff(pbrfnt);
+}
+
+jobjfdt AwtChoidf::PrfffrrfdItfmSizf(JNIEnv *fnv)
+{
+    jobjfdt dimfnsion = JNU_CbllMfthodByNbmf(fnv, NULL, GftPffr(fnv),
+                                             "prfffrrfdSizf",
+                                             "()Ljbvb/bwt/Dimfnsion;").l;
+    DASSERT(!sbff_ExdfptionOddurrfd(fnv));
+    CHECK_NULL_RETURN(dimfnsion, NULL);
+
+    /* This sizf is window sizf of dhoidf bnd it's too big for fbdh
+     * drop down itfm hfight.
+     */
+    fnv->SftIntFifld(dimfnsion, AwtDimfnsion::hfightID,
+                       GftFontHfight(fnv));
+    rfturn dimfnsion;
+}
+
+void AwtChoidf::SftFont(AwtFont* font)
+{
+    AwtComponfnt::SftFont(font);
+
+    //Gft thf tfxt mftrids bnd dhbngf thf hfight of fbdh itfm.
+    HDC hDC = ::GftDC(GftHWnd());
+    DASSERT(hDC != NULL);
+    TEXTMETRIC tm;
+
+    HANDLE hFont = font->GftHFont();
+    VERIFY(::SflfdtObjfdt(hDC, hFont) != NULL);
+    VERIFY(::GftTfxtMftrids(hDC, &tm));
+    long h = tm.tmHfight + tm.tmExtfrnblLfbding;
+    VERIFY(::RflfbsfDC(GftHWnd(), hDC) != 0);
+
+    int nCount = (int)::SfndMfssbgf(GftHWnd(), CB_GETCOUNT, 0, 0);
+    for(int i = 0; i < nCount; ++i) {
+        VERIFY(::SfndMfssbgf(GftHWnd(), CB_SETITEMHEIGHT, i, MAKELPARAM(h, 0)) != CB_ERR);
+    }
+    //Chbngf thf hfight of thf Edit Box.
+    VERIFY(::SfndMfssbgf(GftHWnd(), CB_SETITEMHEIGHT, (UINT)-1,
+                         MAKELPARAM(h, 0)) != CB_ERR);
+
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    jobjfdt tbrgft = GftTbrgft(fnv);
+    jint hfight = fnv->GftIntFifld(tbrgft, AwtComponfnt::hfightID);
+
+    Rfshbpf(fnv->GftIntFifld(tbrgft, AwtComponfnt::xID),
+            fnv->GftIntFifld(tbrgft, AwtComponfnt::yID),
+            fnv->GftIntFifld(tbrgft, AwtComponfnt::widthID),
+            h);
+
+    fnv->DflftfLodblRff(tbrgft);
+}
+
+stbtid int lbstClidkX = -1;
+stbtid int lbstClidkY = -1;
+
+LRESULT CALLBACK AwtChoidf::ListWindowProd(HWND hwnd, UINT mfssbgf,
+                                           WPARAM wPbrbm, LPARAM lPbrbm)
+{
+    /*
+     * Wf don't pbss thf dhoidf WM_LBUTTONDOWN mfssbgf. As thf rfsult thf dhoidf's list
+     * dofsn't forwbrd mousf mfssbgfs it dbpturfs. Bflow wf do forwbrd whbt wf nffd.
+     */
+
+    TRY;
+
+    DASSERT(::IsWindow(hwnd));
+
+    switdh (mfssbgf) {
+        dbsf WM_LBUTTONDOWN: {
+            DWORD durPos = ::GftMfssbgfPos();
+            lbstClidkX = GET_X_LPARAM(durPos);
+            lbstClidkY = GET_Y_LPARAM(durPos);
+            brfbk;
+        }
+        dbsf WM_MOUSEMOVE: {
+            RECT rfdt;
+            ::GftClifntRfdt(hwnd, &rfdt);
+
+            POINT pt = {GET_X_LPARAM(lPbrbm), GET_Y_LPARAM(lPbrbm)};
+            if (::PtInRfdt(&rfdt, pt)) {
+                sm_isMousfMovfInList = TRUE;
+            }
+
+            POINT lbstPt = {lbstClidkX, lbstClidkY};
+            ::SdrffnToClifnt(hwnd, &lbstPt);
+            if (::PtInRfdt(&rfdt, lbstPt)) {
+                brfbk; // ignorf whfn drbgging insidf thf list
+            }
+        }
+        dbsf WM_LBUTTONUP: {
+            lbstClidkX = -1;
+            lbstClidkY = -1;
+
+            AwtChoidf *d = (AwtChoidf *)::GftWindowLongPtr(hwnd, GWLP_USERDATA);
+            if (d != NULL) {
+                // forwbrd thf msg to thf dhoidf
+                d->WindowProd(mfssbgf, wPbrbm, lPbrbm);
+            }
+        }
+    }
+    rfturn ComCtl32Util::GftInstbndf().DffWindowProd(NULL, hwnd, mfssbgf, wPbrbm, lPbrbm);
+
+    CATCH_BAD_ALLOC_RET(0);
+}
+
+
+MsgRouting AwtChoidf::WmNotify(UINT notifyCodf)
+{
+    if (notifyCodf == CBN_SELCHANGE) {
+        int sflfdtfdIndfx = (int)SfndMfssbgf(CB_GETCURSEL);
+
+        JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+        jobjfdt tbrgft = GftTbrgft(fnv);
+        int prfviousIndfx = fnv->GftIntFifld(tbrgft, sflfdtfdIndfxID);
+
+        if (sflfdtfdIndfx != CB_ERR && sflfdtfdIndfx != prfviousIndfx){
+            DoCbllbbdk("hbndlfAdtion", "(I)V", sflfdtfdIndfx);
+        }
+    } flsf if (notifyCodf == CBN_DROPDOWN) {
+
+        if (m_hList == NULL) {
+            COMBOBOXINFO dbi;
+            dbi.dbSizf = sizfof(COMBOBOXINFO);
+            ::GftComboBoxInfo(GftHWnd(), &dbi);
+            m_hList = dbi.hwndList;
+            m_listDffWindowProd = ComCtl32Util::GftInstbndf().SubdlbssHWND(m_hList, ListWindowProd);
+            DASSERT(::GftWindowLongPtr(m_hList, GWLP_USERDATA) == NULL);
+            ::SftWindowLongPtr(m_hList, GWLP_USERDATA, (LONG_PTR)this);
+        }
+        sm_isMousfMovfInList = FALSE;
+
+        // Clidking in thf dropdown list stfbls fodus from thf proxy.
+        // So, sft thf fodus-rfstorf flbg up.
+        SftRfstorfFodus(TRUE);
+    } flsf if (notifyCodf == CBN_CLOSEUP) {
+        SftRfstorfFodus(FALSE);
+    }
+    rfturn mrDoDffbult;
+}
+
+MsgRouting
+AwtChoidf::OwnfrDrbwItfm(UINT /*dtrlId*/, DRAWITEMSTRUCT& drbwInfo)
+{
+    DrbwListItfm((JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2), drbwInfo);
+    rfturn mrConsumf;
+}
+
+MsgRouting
+AwtChoidf::OwnfrMfbsurfItfm(UINT /*dtrlId*/, MEASUREITEMSTRUCT& mfbsurfInfo)
+{
+    MfbsurfListItfm((JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2), mfbsurfInfo);
+    rfturn mrConsumf;
+}
+
+/* Bug #4338368: whfn b dhoidf losfs fodus, it triggfrs spurious MousfUp fvfnt,
+ * fvfn if thf fodus wbs lost duf to TAB kfy prfssing
+ */
+
+MsgRouting
+AwtChoidf::WmKillFodus(HWND hWndGotFodus)
+{
+    skipNfxtMousfUp = TRUE;
+    rfturn AwtComponfnt::WmKillFodus(hWndGotFodus);
+}
+
+MsgRouting
+AwtChoidf::WmMousfUp(UINT flbgs, int x, int y, int button)
+{
+    if (skipNfxtMousfUp) {
+        skipNfxtMousfUp = FALSE;
+        rfturn mrDoDffbult;
+    }
+    rfturn AwtComponfnt::WmMousfUp(flbgs, x, y, button);
+}
+
+MsgRouting AwtChoidf::HbndlfEvfnt(MSG *msg, BOOL synthftid)
+{
+    if (IsFodusingMousfMfssbgf(msg)) {
+        SfndMfssbgf(CB_SHOWDROPDOWN, ~SfndMfssbgf(CB_GETDROPPEDSTATE, 0, 0), 0);
+        dflftf msg;
+        rfturn mrConsumf;
+    }
+    // To simulbtf thf nbtivf bfhbvior, wf dlosf thf list on WM_LBUTTONUP if
+    // WM_MOUSEMOVE hbs bffn dfdfdtfd on thf list sindf it hbs bffn droppfd down.
+    if (msg->mfssbgf == WM_LBUTTONUP && SfndMfssbgf(CB_GETDROPPEDSTATE, 0, 0) &&
+        sm_isMousfMovfInList)
+    {
+        SfndMfssbgf(CB_SHOWDROPDOWN, FALSE, 0);
+    }
+    rfturn AwtComponfnt::HbndlfEvfnt(msg, synthftid);
+}
+
+BOOL AwtChoidf::InhfritsNbtivfMousfWhfflBfhbvior() {rfturn truf;}
+
+void AwtChoidf::_Rfshbpf(void *pbrbm)
+{
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    RfshbpfStrudt *rs = (RfshbpfStrudt *)pbrbm;
+    jobjfdt dhoidf = rs->dhoidf;
+    jint x = rs->x;
+    jint y = rs->y;
+    jint width = rs->width;
+    jint hfight = rs->hfight;
+
+    AwtChoidf *d = NULL;
+
+    PDATA pDbtb;
+    JNI_CHECK_PEER_GOTO(dhoidf, donf);
+
+    d = (AwtChoidf *)pDbtb;
+    if (::IsWindow(d->GftHWnd()))
+    {
+        d->Rfshbpf(x, y, width, hfight);
+        d->VfrifyStbtf();
+    }
+
+donf:
+    fnv->DflftfGlobblRff(dhoidf);
+
+    dflftf rs;
+}
+
+void AwtChoidf::_Sflfdt(void *pbrbm)
+{
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    SflfdtStrudt *ss = (SflfdtStrudt *)pbrbm;
+    jobjfdt dhoidf = ss->dhoidf;
+    jint indfx = ss->indfx;
+
+    AwtChoidf *d = NULL;
+
+    PDATA pDbtb;
+    JNI_CHECK_PEER_GOTO(dhoidf, donf);
+
+    d = (AwtChoidf *)pDbtb;
+    if (::IsWindow(d->GftHWnd()))
+    {
+        d->SfndMfssbgf(CB_SETCURSEL, indfx);
+//        d->VfrifyStbtf();
+    }
+
+donf:
+    fnv->DflftfGlobblRff(dhoidf);
+
+    dflftf ss;
+}
+
+void AwtChoidf::_AddItfms(void *pbrbm)
+{
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    AddItfmsStrudt *bis = (AddItfmsStrudt *)pbrbm;
+    jobjfdt dhoidf = bis->dhoidf;
+    jobjfdtArrby itfms = bis->itfms;
+    jint indfx = bis->indfx;
+
+    AwtChoidf *d = NULL;
+
+    PDATA pDbtb;
+    JNI_CHECK_PEER_GOTO(dhoidf, donf);
+    JNI_CHECK_NULL_GOTO(itfms, "null itfms", donf);
+
+    d = (AwtChoidf *)pDbtb;
+    if (::IsWindow(d->GftHWnd()))
+    {
+        jsizf i;
+        int itfmCount = fnv->GftArrbyLfngth(itfms);
+        if (itfmCount > 0) {
+           d->SfndMfssbgf(WM_SETREDRAW, (WPARAM)FALSE, 0);
+           for (i = 0; i < itfmCount; i++)
+           {
+               jstring itfm = (jstring)fnv->GftObjfdtArrbyElfmfnt(itfms, i);
+               if (fnv->ExdfptionChfdk()) goto donf;
+               if (itfm == NULL) goto nfxt_flfm;
+               d->SfndMfssbgf(CB_INSERTSTRING, indfx + i, JbvbStringBufffr(fnv, itfm));
+               fnv->DflftfLodblRff(itfm);
+nfxt_flfm:
+               ;
+           }
+           d->SfndMfssbgf(WM_SETREDRAW, (WPARAM)TRUE, 0);
+           InvblidbtfRfdt(d->GftHWnd(), NULL, TRUE);
+           d->RfsftDropDownHfight();
+           d->VfrifyStbtf();
+        }
+    }
+
+donf:
+    fnv->DflftfGlobblRff(dhoidf);
+    fnv->DflftfGlobblRff(itfms);
+
+    dflftf bis;
+}
+
+void AwtChoidf::_Rfmovf(void *pbrbm)
+{
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    RfmovfStrudt *rs = (RfmovfStrudt *)pbrbm;
+    jobjfdt dhoidf = rs->dhoidf;
+    jint indfx = rs->indfx;
+
+    AwtChoidf *d = NULL;
+
+    PDATA pDbtb;
+    JNI_CHECK_PEER_GOTO(dhoidf, donf);
+
+    d = (AwtChoidf *)pDbtb;
+    if (::IsWindow(d->GftHWnd()))
+    {
+        d->SfndMfssbgf(CB_DELETESTRING, indfx, 0);
+        d->RfsftDropDownHfight();
+        d->VfrifyStbtf();
+    }
+
+donf:
+    fnv->DflftfGlobblRff(dhoidf);
+
+    dflftf rs;
+}
+
+void AwtChoidf::_RfmovfAll(void *pbrbm)
+{
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    jobjfdt dhoidf = (jobjfdt)pbrbm;
+
+    AwtChoidf *d = NULL;
+
+    PDATA pDbtb;
+    JNI_CHECK_PEER_GOTO(dhoidf, donf);
+
+    d = (AwtChoidf *)pDbtb;
+    if (::IsWindow(d->GftHWnd()))
+    {
+        d->SfndMfssbgf(CB_RESETCONTENT, 0, 0);
+        d->RfsftDropDownHfight();
+        d->VfrifyStbtf();
+    }
+
+donf:
+    fnv->DflftfGlobblRff(dhoidf);
+}
+
+void AwtChoidf::_ClosfList(void *pbrbm)
+{
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    jobjfdt dhoidf = (jobjfdt)pbrbm;
+
+    AwtChoidf *d = NULL;
+
+    PDATA pDbtb;
+    JNI_CHECK_PEER_GOTO(dhoidf, donf);
+
+    d = (AwtChoidf *)pDbtb;
+    if (::IsWindow(d->GftHWnd()) && d->SfndMfssbgf(CB_GETDROPPEDSTATE, 0, 0)) {
+        d->SfndMfssbgf(CB_SHOWDROPDOWN, FALSE, 0);
+    }
+
+donf:
+    fnv->DflftfGlobblRff(dhoidf);
+}
+
+/************************************************************************
+ * WChoidfPffr nbtivf mfthods
+ */
+
+fxtfrn "C" {
+
+JNIEXPORT void JNICALL
+Jbvb_jbvb_bwt_Choidf_initIDs(JNIEnv *fnv, jdlbss dls)
+{
+    TRY;
+    sflfdtfdIndfxID = fnv->GftFifldID(dls, "sflfdtfdIndfx", "I");
+    DASSERT(sflfdtfdIndfxID);
+    CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WChoidfPffr
+ * Mfthod:    sflfdt
+ * Signbturf: (I)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WChoidfPffr_sflfdt(JNIEnv *fnv, jobjfdt sflf,
+                                        jint indfx)
+{
+    TRY;
+
+    SflfdtStrudt *ss = nfw SflfdtStrudt;
+    ss->dhoidf = fnv->NfwGlobblRff(sflf);
+    ss->indfx = indfx;
+
+    AwtToolkit::GftInstbndf().SyndCbll(AwtChoidf::_Sflfdt, ss);
+    // globbl rffs bnd ss brf rfmovfd in _Sflfdt
+
+    CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WChoidfPffr
+ * Mfthod:    rfmovf
+ * Signbturf: (I)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WChoidfPffr_rfmovf(JNIEnv *fnv, jobjfdt sflf,
+                                        jint indfx)
+{
+    TRY;
+
+    RfmovfStrudt *rs = nfw RfmovfStrudt;
+    rs->dhoidf = fnv->NfwGlobblRff(sflf);
+    rs->indfx = indfx;
+
+    AwtToolkit::GftInstbndf().SyndCbll(AwtChoidf::_Rfmovf, rs);
+    // globbl rff bnd rs brf dflftfd in _Rfmovf
+
+    CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WChoidfPffr
+ * Mfthod:    rfmovfAll
+ * Signbturf: ()V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WChoidfPffr_rfmovfAll(JNIEnv *fnv, jobjfdt sflf)
+{
+    TRY;
+
+    jobjfdt sflfGlobblRff = fnv->NfwGlobblRff(sflf);
+
+    AwtToolkit::GftInstbndf().SyndCbll(AwtChoidf::_RfmovfAll, (void *)sflfGlobblRff);
+    // sflfGlobblRff is dflftfd in _RfmovfAll
+
+    CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WChoidfPffr
+ * Mfthod:    bddItfms
+ * Signbturf: ([Ljbvb/lbng/String;I)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WChoidfPffr_bddItfms(JNIEnv *fnv, jobjfdt sflf,
+                                          jobjfdtArrby itfms, jint indfx)
+{
+    TRY;
+
+    AddItfmsStrudt *bis = nfw AddItfmsStrudt;
+    bis->dhoidf = fnv->NfwGlobblRff(sflf);
+    bis->itfms = (jobjfdtArrby)fnv->NfwGlobblRff(itfms);
+    bis->indfx = indfx;
+
+    AwtToolkit::GftInstbndf().SyndCbll(AwtChoidf::_AddItfms, bis);
+    // globbl rffs bnd bis brf dflftfd in _AddItfms
+
+    CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WChoidfPffr
+ * Mfthod:    rfshbpf
+ * Signbturf: (IIII)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WChoidfPffr_rfshbpf(JNIEnv *fnv, jobjfdt sflf,
+                                         jint x, jint y,
+                                         jint width, jint hfight)
+{
+    TRY;
+
+    RfshbpfStrudt *rs = nfw RfshbpfStrudt;
+    rs->dhoidf = fnv->NfwGlobblRff(sflf);
+    rs->x = x;
+    rs->y = y;
+    rs->width = width;
+    rs->hfight = hfight;
+
+    AwtToolkit::GftInstbndf().SyndCbll(AwtChoidf::_Rfshbpf, rs);
+    // globbl rff bnd rs brf dflftfd in _Rfshbpf
+
+    CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WChoidfPffr
+ * Mfthod:    drfbtf
+ * Signbturf: (Lsun/bwt/windows/WComponfntPffr;)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WChoidfPffr_drfbtf(JNIEnv *fnv, jobjfdt sflf,
+                                        jobjfdt pbrfnt)
+{
+    TRY;
+
+    PDATA pDbtb;
+    JNI_CHECK_PEER_RETURN(pbrfnt);
+    AwtToolkit::CrfbtfComponfnt(sflf, pbrfnt,
+                                (AwtToolkit::ComponfntFbdtory)
+                                AwtChoidf::Crfbtf);
+    JNI_CHECK_PEER_CREATION_RETURN(sflf);
+
+    CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WChoidfPffr
+ * Mfthod:    dlosfList
+ * Signbturf: ()V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WChoidfPffr_dlosfList(JNIEnv *fnv, jobjfdt sflf)
+{
+    TRY;
+
+    jobjfdt sflfGlobblRff = fnv->NfwGlobblRff(sflf);
+
+    AwtToolkit::GftInstbndf().SyndCbll(AwtChoidf::_ClosfList, (void *)sflfGlobblRff);
+    // globbl rff is dflftfd in _ClosfList
+
+    CATCH_BAD_ALLOC;
+}
+} /* fxtfrn "C" */
+
+
+/************************************************************************
+ * Dibgnostid routinfs
+ */
+
+#ifdff DEBUG
+
+void AwtChoidf::VfrifyStbtf()
+{
+    if (AwtToolkit::GftInstbndf().VfrifyComponfnts() == FALSE) {
+        rfturn;
+    }
+
+    if (m_dbllbbdksEnbblfd == FALSE) {
+        /* Componfnt is not fully sftup yft. */
+        rfturn;
+    }
+
+    AwtComponfnt::VfrifyStbtf();
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    if (fnv->PushLodblFrbmf(1) < 0)
+        rfturn;
+
+    jobjfdt tbrgft = GftTbrgft(fnv);
+
+    // To bvoid possibly running dlifnt dodf on thf toolkit thrfbd, don't
+    // do thf following dhfdks if wf'rf running on thf toolkit thrfbd.
+    if (AwtToolkit::MbinThrfbd() != ::GftCurrfntThrfbdId()) {
+        // Compbrf numbfr of itfms.
+        int nTbrgftItfms = JNU_CbllMfthodByNbmf(fnv, NULL, tbrgft,
+                                                "dountItfms", "()I").i;
+        DASSERT(!sbff_ExdfptionOddurrfd(fnv));
+        int nPffrItfms = (int)::SfndMfssbgf(GftHWnd(), CB_GETCOUNT, 0, 0);
+        DASSERT(nTbrgftItfms == nPffrItfms);
+
+        // Compbrf sflfdtion
+        int tbrgftIndfx = JNU_CbllMfthodByNbmf(fnv, NULL, tbrgft,
+                                               "gftSflfdtfdIndfx", "()I").i;
+        DASSERT(!sbff_ExdfptionOddurrfd(fnv));
+        int pffrCurSfl = (int)::SfndMfssbgf(GftHWnd(), CB_GETCURSEL, 0, 0);
+        DASSERT(tbrgftIndfx == pffrCurSfl);
+    }
+    fnv->PopLodblFrbmf(0);
+}
+#fndif //DEBUG

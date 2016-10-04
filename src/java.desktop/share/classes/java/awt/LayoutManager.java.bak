@@ -1,88 +1,88 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.awt;
+pbdkbgf jbvb.bwt;
 
 /**
- * Defines the interface for classes that know how to lay out
- * <code>Container</code>s.
+ * Dffinfs tif intfrfbdf for dlbssfs tibt know iow to lby out
+ * <dodf>Contbinfr</dodf>s.
  * <p>
- * Swing's painting architecture assumes the children of a
- * <code>JComponent</code> do not overlap.  If a
- * <code>JComponent</code>'s <code>LayoutManager</code> allows
- * children to overlap, the <code>JComponent</code> must override
- * <code>isOptimizedDrawingEnabled</code> to return false.
+ * Swing's pbinting brdiitfdturf bssumfs tif diildrfn of b
+ * <dodf>JComponfnt</dodf> do not ovfrlbp.  If b
+ * <dodf>JComponfnt</dodf>'s <dodf>LbyoutMbnbgfr</dodf> bllows
+ * diildrfn to ovfrlbp, tif <dodf>JComponfnt</dodf> must ovfrridf
+ * <dodf>isOptimizfdDrbwingEnbblfd</dodf> to rfturn fblsf.
  *
- * @see Container
- * @see javax.swing.JComponent#isOptimizedDrawingEnabled
+ * @sff Contbinfr
+ * @sff jbvbx.swing.JComponfnt#isOptimizfdDrbwingEnbblfd
  *
- * @author      Sami Shaio
- * @author      Arthur van Hoff
+ * @butior      Sbmi Sibio
+ * @butior      Artiur vbn Hoff
  */
-public interface LayoutManager {
+publid intfrfbdf LbyoutMbnbgfr {
     /**
-     * If the layout manager uses a per-component string,
-     * adds the component <code>comp</code> to the layout,
-     * associating it
-     * with the string specified by <code>name</code>.
+     * If tif lbyout mbnbgfr usfs b pfr-domponfnt string,
+     * bdds tif domponfnt <dodf>domp</dodf> to tif lbyout,
+     * bssodibting it
+     * witi tif string spfdififd by <dodf>nbmf</dodf>.
      *
-     * @param name the string to be associated with the component
-     * @param comp the component to be added
+     * @pbrbm nbmf tif string to bf bssodibtfd witi tif domponfnt
+     * @pbrbm domp tif domponfnt to bf bddfd
      */
-    void addLayoutComponent(String name, Component comp);
+    void bddLbyoutComponfnt(String nbmf, Componfnt domp);
 
     /**
-     * Removes the specified component from the layout.
-     * @param comp the component to be removed
+     * Rfmovfs tif spfdififd domponfnt from tif lbyout.
+     * @pbrbm domp tif domponfnt to bf rfmovfd
      */
-    void removeLayoutComponent(Component comp);
+    void rfmovfLbyoutComponfnt(Componfnt domp);
 
     /**
-     * Calculates the preferred size dimensions for the specified
-     * container, given the components it contains.
+     * Cbldulbtfs tif prfffrrfd sizf dimfnsions for tif spfdififd
+     * dontbinfr, givfn tif domponfnts it dontbins.
      *
-     * @param  parent the container to be laid out
-     * @return the preferred dimension for the container
+     * @pbrbm  pbrfnt tif dontbinfr to bf lbid out
+     * @rfturn tif prfffrrfd dimfnsion for tif dontbinfr
      *
-     * @see #minimumLayoutSize
+     * @sff #minimumLbyoutSizf
      */
-    Dimension preferredLayoutSize(Container parent);
+    Dimfnsion prfffrrfdLbyoutSizf(Contbinfr pbrfnt);
 
     /**
-     * Calculates the minimum size dimensions for the specified
-     * container, given the components it contains.
+     * Cbldulbtfs tif minimum sizf dimfnsions for tif spfdififd
+     * dontbinfr, givfn tif domponfnts it dontbins.
      *
-     * @param  parent the component to be laid out
-     * @return the minimum dimension for the container
+     * @pbrbm  pbrfnt tif domponfnt to bf lbid out
+     * @rfturn tif minimum dimfnsion for tif dontbinfr
      *
-     * @see #preferredLayoutSize
+     * @sff #prfffrrfdLbyoutSizf
      */
-    Dimension minimumLayoutSize(Container parent);
+    Dimfnsion minimumLbyoutSizf(Contbinfr pbrfnt);
 
     /**
-     * Lays out the specified container.
-     * @param parent the container to be laid out
+     * Lbys out tif spfdififd dontbinfr.
+     * @pbrbm pbrfnt tif dontbinfr to bf lbid out
      */
-    void layoutContainer(Container parent);
+    void lbyoutContbinfr(Contbinfr pbrfnt);
 }

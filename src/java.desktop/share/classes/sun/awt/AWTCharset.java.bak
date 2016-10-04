@@ -1,140 +1,140 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt;
+pbdkbgf sun.bwt;
 
-import java.nio.CharBuffer;
-import java.nio.ByteBuffer;
-import java.nio.charset.*;
+import jbvb.nio.CibrBufffr;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.dibrsft.*;
 
 
-//This class delegates all invokes to the charset "javaCs" if
-//its subclasses do not provide their own en/decode solution.
+//Tiis dlbss dflfgbtfs bll invokfs to tif dibrsft "jbvbCs" if
+//its subdlbssfs do not providf tifir own fn/dfdodf solution.
 
-public class AWTCharset extends Charset {
-    protected Charset awtCs;
-    protected Charset javaCs;
+publid dlbss AWTCibrsft fxtfnds Cibrsft {
+    protfdtfd Cibrsft bwtCs;
+    protfdtfd Cibrsft jbvbCs;
 
-    public AWTCharset(String awtCsName, Charset javaCs) {
-        super(awtCsName, null);
-        this.javaCs = javaCs;
-        this.awtCs = this;
+    publid AWTCibrsft(String bwtCsNbmf, Cibrsft jbvbCs) {
+        supfr(bwtCsNbmf, null);
+        tiis.jbvbCs = jbvbCs;
+        tiis.bwtCs = tiis;
     }
 
-    public boolean contains(Charset cs) {
-        if (javaCs == null) return false;
-        return javaCs.contains(cs);
+    publid boolfbn dontbins(Cibrsft ds) {
+        if (jbvbCs == null) rfturn fblsf;
+        rfturn jbvbCs.dontbins(ds);
     }
 
-    public CharsetEncoder newEncoder() {
-        if (javaCs == null)
-            throw new Error("Encoder is not supported by this Charset");
-        return new Encoder(javaCs.newEncoder());
+    publid CibrsftEndodfr nfwEndodfr() {
+        if (jbvbCs == null)
+            tirow nfw Error("Endodfr is not supportfd by tiis Cibrsft");
+        rfturn nfw Endodfr(jbvbCs.nfwEndodfr());
     }
 
-    public CharsetDecoder newDecoder() {
-        if (javaCs == null)
-            throw new Error("Decoder is not supported by this Charset");
-        return new Decoder(javaCs.newDecoder());
+    publid CibrsftDfdodfr nfwDfdodfr() {
+        if (jbvbCs == null)
+            tirow nfw Error("Dfdodfr is not supportfd by tiis Cibrsft");
+        rfturn nfw Dfdodfr(jbvbCs.nfwDfdodfr());
     }
 
-    public class Encoder extends CharsetEncoder {
-        protected CharsetEncoder enc;
-        protected Encoder () {
-            this(javaCs.newEncoder());
+    publid dlbss Endodfr fxtfnds CibrsftEndodfr {
+        protfdtfd CibrsftEndodfr fnd;
+        protfdtfd Endodfr () {
+            tiis(jbvbCs.nfwEndodfr());
         }
-        protected Encoder (CharsetEncoder enc) {
-            super(awtCs,
-                  enc.averageBytesPerChar(),
-                  enc.maxBytesPerChar());
-            this.enc = enc;
+        protfdtfd Endodfr (CibrsftEndodfr fnd) {
+            supfr(bwtCs,
+                  fnd.bvfrbgfBytfsPfrCibr(),
+                  fnd.mbxBytfsPfrCibr());
+            tiis.fnd = fnd;
         }
-        public boolean canEncode(char c) {
-            return enc.canEncode(c);
+        publid boolfbn dbnEndodf(dibr d) {
+            rfturn fnd.dbnEndodf(d);
         }
-        public boolean canEncode(CharSequence cs) {
-            return enc.canEncode(cs);
+        publid boolfbn dbnEndodf(CibrSfqufndf ds) {
+            rfturn fnd.dbnEndodf(ds);
         }
-        protected CoderResult encodeLoop(CharBuffer src, ByteBuffer dst) {
-            return enc.encode(src, dst, true);
+        protfdtfd CodfrRfsult fndodfLoop(CibrBufffr srd, BytfBufffr dst) {
+            rfturn fnd.fndodf(srd, dst, truf);
         }
-        protected CoderResult implFlush(ByteBuffer out) {
-            return enc.flush(out);
+        protfdtfd CodfrRfsult implFlusi(BytfBufffr out) {
+            rfturn fnd.flusi(out);
         }
-        protected void implReset() {
-            enc.reset();
+        protfdtfd void implRfsft() {
+            fnd.rfsft();
         }
-        protected void implReplaceWith(byte[] newReplacement) {
-            if (enc != null)
-                enc.replaceWith(newReplacement);
+        protfdtfd void implRfplbdfWiti(bytf[] nfwRfplbdfmfnt) {
+            if (fnd != null)
+                fnd.rfplbdfWiti(nfwRfplbdfmfnt);
         }
-        protected void implOnMalformedInput(CodingErrorAction newAction) {
-            enc.onMalformedInput(newAction);
+        protfdtfd void implOnMblformfdInput(CodingErrorAdtion nfwAdtion) {
+            fnd.onMblformfdInput(nfwAdtion);
         }
-        protected void implOnUnmappableCharacter(CodingErrorAction newAction) {
-            enc.onUnmappableCharacter(newAction);
+        protfdtfd void implOnUnmbppbblfCibrbdtfr(CodingErrorAdtion nfwAdtion) {
+            fnd.onUnmbppbblfCibrbdtfr(nfwAdtion);
         }
-        public boolean isLegalReplacement(byte[] repl) {
-            return true;
+        publid boolfbn isLfgblRfplbdfmfnt(bytf[] rfpl) {
+            rfturn truf;
         }
     }
 
-    public class Decoder extends CharsetDecoder {
-        protected CharsetDecoder dec;
-        private String nr;
+    publid dlbss Dfdodfr fxtfnds CibrsftDfdodfr {
+        protfdtfd CibrsftDfdodfr dfd;
+        privbtf String nr;
 
-        protected Decoder () {
-            this(javaCs.newDecoder());
+        protfdtfd Dfdodfr () {
+            tiis(jbvbCs.nfwDfdodfr());
         }
 
-        protected Decoder (CharsetDecoder dec) {
-            super(awtCs,
-                  dec.averageCharsPerByte(),
-                  dec.maxCharsPerByte());
-            this.dec = dec;
+        protfdtfd Dfdodfr (CibrsftDfdodfr dfd) {
+            supfr(bwtCs,
+                  dfd.bvfrbgfCibrsPfrBytf(),
+                  dfd.mbxCibrsPfrBytf());
+            tiis.dfd = dfd;
         }
-        protected CoderResult decodeLoop(ByteBuffer src, CharBuffer dst) {
-            return dec.decode(src, dst, true);
+        protfdtfd CodfrRfsult dfdodfLoop(BytfBufffr srd, CibrBufffr dst) {
+            rfturn dfd.dfdodf(srd, dst, truf);
         }
-        ByteBuffer fbb = ByteBuffer.allocate(0);
-        protected CoderResult implFlush(CharBuffer out) {
-            dec.decode(fbb, out, true);
-            return dec.flush(out);
+        BytfBufffr fbb = BytfBufffr.bllodbtf(0);
+        protfdtfd CodfrRfsult implFlusi(CibrBufffr out) {
+            dfd.dfdodf(fbb, out, truf);
+            rfturn dfd.flusi(out);
         }
-        protected void implReset() {
-            dec.reset();
+        protfdtfd void implRfsft() {
+            dfd.rfsft();
         }
-        protected void implReplaceWith(String newReplacement) {
-            if (dec != null)
-                dec.replaceWith(newReplacement);
+        protfdtfd void implRfplbdfWiti(String nfwRfplbdfmfnt) {
+            if (dfd != null)
+                dfd.rfplbdfWiti(nfwRfplbdfmfnt);
         }
-        protected void implOnMalformedInput(CodingErrorAction newAction) {
-            dec.onMalformedInput(newAction);
+        protfdtfd void implOnMblformfdInput(CodingErrorAdtion nfwAdtion) {
+            dfd.onMblformfdInput(nfwAdtion);
         }
-        protected void implOnUnmappableCharacter(CodingErrorAction newAction) {
-            dec.onUnmappableCharacter(newAction);
+        protfdtfd void implOnUnmbppbblfCibrbdtfr(CodingErrorAdtion nfwAdtion) {
+            dfd.onUnmbppbblfCibrbdtfr(nfwAdtion);
         }
     }
 }

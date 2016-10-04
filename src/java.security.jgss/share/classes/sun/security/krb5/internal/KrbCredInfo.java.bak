@@ -1,201 +1,201 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  *
- *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  (C) Copyrigit IBM Corp. 1999 All Rigits Rfsfrvfd.
+ *  Copyrigit 1997 Tif Opfn Group Rfsfbrdi Institutf.  All rigits rfsfrvfd.
  */
 
-package sun.security.krb5.internal;
+pbdkbgf sun.sfdurity.krb5.intfrnbl;
 
-import sun.security.krb5.*;
-import sun.security.util.*;
-import java.util.Vector;
-import java.io.IOException;
+import sun.sfdurity.krb5.*;
+import sun.sfdurity.util.*;
+import jbvb.util.Vfdtor;
+import jbvb.io.IOExdfption;
 
 /**
- * Implements the ASN.1 KrbCredInfo type.
+ * Implfmfnts tif ASN.1 KrbCrfdInfo typf.
  *
  * <xmp>
- * KrbCredInfo  ::= SEQUENCE {
- *      key             [0] EncryptionKey,
- *      prealm          [1] Realm OPTIONAL,
- *      pname           [2] PrincipalName OPTIONAL,
- *      flags           [3] TicketFlags OPTIONAL,
- *      authtime        [4] KerberosTime OPTIONAL,
- *      starttime       [5] KerberosTime OPTIONAL,
- *      endtime         [6] KerberosTime OPTIONAL,
- *      renew-till      [7] KerberosTime OPTIONAL,
- *      srealm          [8] Realm OPTIONAL,
- *      sname           [9] PrincipalName OPTIONAL,
- *      caddr           [10] HostAddresses OPTIONAL
+ * KrbCrfdInfo  ::= SEQUENCE {
+ *      kfy             [0] EndryptionKfy,
+ *      prfblm          [1] Rfblm OPTIONAL,
+ *      pnbmf           [2] PrindipblNbmf OPTIONAL,
+ *      flbgs           [3] TidkftFlbgs OPTIONAL,
+ *      butitimf        [4] KfrbfrosTimf OPTIONAL,
+ *      stbrttimf       [5] KfrbfrosTimf OPTIONAL,
+ *      fndtimf         [6] KfrbfrosTimf OPTIONAL,
+ *      rfnfw-till      [7] KfrbfrosTimf OPTIONAL,
+ *      srfblm          [8] Rfblm OPTIONAL,
+ *      snbmf           [9] PrindipblNbmf OPTIONAL,
+ *      dbddr           [10] HostAddrfssfs OPTIONAL
  * }
  * </xmp>
  *
  * <p>
- * This definition reflects the Network Working Group RFC 4120
- * specification available at
- * <a href="http://www.ietf.org/rfc/rfc4120.txt">
- * http://www.ietf.org/rfc/rfc4120.txt</a>.
+ * Tiis dffinition rfflfdts tif Nftwork Working Group RFC 4120
+ * spfdifidbtion bvbilbblf bt
+ * <b irff="ittp://www.iftf.org/rfd/rfd4120.txt">
+ * ittp://www.iftf.org/rfd/rfd4120.txt</b>.
  */
 
-public class KrbCredInfo {
-    public EncryptionKey key;
-    public PrincipalName pname; //optional
-    public TicketFlags flags; //optional
-    public KerberosTime authtime; //optional
-    public KerberosTime starttime; //optional
-    public KerberosTime endtime; //optional
-    public KerberosTime renewTill; //optional
-    public PrincipalName sname; //optional
-    public HostAddresses caddr; //optional
+publid dlbss KrbCrfdInfo {
+    publid EndryptionKfy kfy;
+    publid PrindipblNbmf pnbmf; //optionbl
+    publid TidkftFlbgs flbgs; //optionbl
+    publid KfrbfrosTimf butitimf; //optionbl
+    publid KfrbfrosTimf stbrttimf; //optionbl
+    publid KfrbfrosTimf fndtimf; //optionbl
+    publid KfrbfrosTimf rfnfwTill; //optionbl
+    publid PrindipblNbmf snbmf; //optionbl
+    publid HostAddrfssfs dbddr; //optionbl
 
-    private KrbCredInfo() {
+    privbtf KrbCrfdInfo() {
     }
 
-    public KrbCredInfo(
-                       EncryptionKey new_key,
-                       PrincipalName new_pname,
-                       TicketFlags new_flags,
-                       KerberosTime new_authtime,
-                       KerberosTime new_starttime,
-                       KerberosTime new_endtime,
-                       KerberosTime new_renewTill,
-                       PrincipalName new_sname,
-                       HostAddresses new_caddr
+    publid KrbCrfdInfo(
+                       EndryptionKfy nfw_kfy,
+                       PrindipblNbmf nfw_pnbmf,
+                       TidkftFlbgs nfw_flbgs,
+                       KfrbfrosTimf nfw_butitimf,
+                       KfrbfrosTimf nfw_stbrttimf,
+                       KfrbfrosTimf nfw_fndtimf,
+                       KfrbfrosTimf nfw_rfnfwTill,
+                       PrindipblNbmf nfw_snbmf,
+                       HostAddrfssfs nfw_dbddr
                            ) {
-        key = new_key;
-        pname = new_pname;
-        flags = new_flags;
-        authtime = new_authtime;
-        starttime = new_starttime;
-        endtime = new_endtime;
-        renewTill = new_renewTill;
-        sname = new_sname;
-        caddr = new_caddr;
+        kfy = nfw_kfy;
+        pnbmf = nfw_pnbmf;
+        flbgs = nfw_flbgs;
+        butitimf = nfw_butitimf;
+        stbrttimf = nfw_stbrttimf;
+        fndtimf = nfw_fndtimf;
+        rfnfwTill = nfw_rfnfwTill;
+        snbmf = nfw_snbmf;
+        dbddr = nfw_dbddr;
     }
 
     /**
-     * Constructs a KrbCredInfo object.
-     * @param encoding a Der-encoded data.
-     * @exception Asn1Exception if an error occurs while decoding an ASN1 encoded data.
-     * @exception IOException if an I/O error occurs while reading encoded data.
-     * @exception RealmException if an error occurs while parsing a Realm object.
+     * Construdts b KrbCrfdInfo objfdt.
+     * @pbrbm fndoding b Dfr-fndodfd dbtb.
+     * @fxdfption Asn1Exdfption if bn frror oddurs wiilf dfdoding bn ASN1 fndodfd dbtb.
+     * @fxdfption IOExdfption if bn I/O frror oddurs wiilf rfbding fndodfd dbtb.
+     * @fxdfption RfblmExdfption if bn frror oddurs wiilf pbrsing b Rfblm objfdt.
      */
-    public KrbCredInfo(DerValue encoding)
-            throws Asn1Exception, IOException, RealmException{
-        if (encoding.getTag() != DerValue.tag_Sequence) {
-            throw new Asn1Exception(Krb5.ASN1_BAD_ID);
+    publid KrbCrfdInfo(DfrVbluf fndoding)
+            tirows Asn1Exdfption, IOExdfption, RfblmExdfption{
+        if (fndoding.gftTbg() != DfrVbluf.tbg_Sfqufndf) {
+            tirow nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
         }
-        pname = null;
-        flags = null;
-        authtime = null;
-        starttime = null;
-        endtime = null;
-        renewTill = null;
-        sname = null;
-        caddr = null;
-        key = EncryptionKey.parse(encoding.getData(), (byte)0x00, false);
-        Realm prealm = null, srealm = null;
-        if (encoding.getData().available() > 0)
-            prealm = Realm.parse(encoding.getData(), (byte)0x01, true);
-        if (encoding.getData().available() > 0)
-            pname = PrincipalName.parse(encoding.getData(), (byte)0x02, true, prealm);
-        if (encoding.getData().available() > 0)
-            flags = TicketFlags.parse(encoding.getData(), (byte)0x03, true);
-        if (encoding.getData().available() > 0)
-            authtime = KerberosTime.parse(encoding.getData(), (byte)0x04, true);
-        if (encoding.getData().available() > 0)
-            starttime = KerberosTime.parse(encoding.getData(), (byte)0x05, true);
-        if (encoding.getData().available() > 0)
-            endtime = KerberosTime.parse(encoding.getData(), (byte)0x06, true);
-        if (encoding.getData().available() > 0)
-            renewTill = KerberosTime.parse(encoding.getData(), (byte)0x07, true);
-        if (encoding.getData().available() > 0)
-            srealm = Realm.parse(encoding.getData(), (byte)0x08, true);
-        if (encoding.getData().available() > 0)
-            sname = PrincipalName.parse(encoding.getData(), (byte)0x09, true, srealm);
-        if (encoding.getData().available() > 0)
-            caddr = HostAddresses.parse(encoding.getData(), (byte)0x0A, true);
-        if (encoding.getData().available() > 0)
-            throw new Asn1Exception(Krb5.ASN1_BAD_ID);
+        pnbmf = null;
+        flbgs = null;
+        butitimf = null;
+        stbrttimf = null;
+        fndtimf = null;
+        rfnfwTill = null;
+        snbmf = null;
+        dbddr = null;
+        kfy = EndryptionKfy.pbrsf(fndoding.gftDbtb(), (bytf)0x00, fblsf);
+        Rfblm prfblm = null, srfblm = null;
+        if (fndoding.gftDbtb().bvbilbblf() > 0)
+            prfblm = Rfblm.pbrsf(fndoding.gftDbtb(), (bytf)0x01, truf);
+        if (fndoding.gftDbtb().bvbilbblf() > 0)
+            pnbmf = PrindipblNbmf.pbrsf(fndoding.gftDbtb(), (bytf)0x02, truf, prfblm);
+        if (fndoding.gftDbtb().bvbilbblf() > 0)
+            flbgs = TidkftFlbgs.pbrsf(fndoding.gftDbtb(), (bytf)0x03, truf);
+        if (fndoding.gftDbtb().bvbilbblf() > 0)
+            butitimf = KfrbfrosTimf.pbrsf(fndoding.gftDbtb(), (bytf)0x04, truf);
+        if (fndoding.gftDbtb().bvbilbblf() > 0)
+            stbrttimf = KfrbfrosTimf.pbrsf(fndoding.gftDbtb(), (bytf)0x05, truf);
+        if (fndoding.gftDbtb().bvbilbblf() > 0)
+            fndtimf = KfrbfrosTimf.pbrsf(fndoding.gftDbtb(), (bytf)0x06, truf);
+        if (fndoding.gftDbtb().bvbilbblf() > 0)
+            rfnfwTill = KfrbfrosTimf.pbrsf(fndoding.gftDbtb(), (bytf)0x07, truf);
+        if (fndoding.gftDbtb().bvbilbblf() > 0)
+            srfblm = Rfblm.pbrsf(fndoding.gftDbtb(), (bytf)0x08, truf);
+        if (fndoding.gftDbtb().bvbilbblf() > 0)
+            snbmf = PrindipblNbmf.pbrsf(fndoding.gftDbtb(), (bytf)0x09, truf, srfblm);
+        if (fndoding.gftDbtb().bvbilbblf() > 0)
+            dbddr = HostAddrfssfs.pbrsf(fndoding.gftDbtb(), (bytf)0x0A, truf);
+        if (fndoding.gftDbtb().bvbilbblf() > 0)
+            tirow nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
     }
 
     /**
-     * Encodes an KrbCredInfo object.
-     * @return the byte array of encoded KrbCredInfo object.
-     * @exception Asn1Exception if an error occurs while decoding an ASN1 encoded data.
-     * @exception IOException if an I/O error occurs while reading encoded data.
+     * Endodfs bn KrbCrfdInfo objfdt.
+     * @rfturn tif bytf brrby of fndodfd KrbCrfdInfo objfdt.
+     * @fxdfption Asn1Exdfption if bn frror oddurs wiilf dfdoding bn ASN1 fndodfd dbtb.
+     * @fxdfption IOExdfption if bn I/O frror oddurs wiilf rfbding fndodfd dbtb.
      */
-    public byte[] asn1Encode() throws Asn1Exception, IOException {
-        Vector<DerValue> v = new Vector<>();
-        v.addElement(new DerValue(DerValue.createTag(DerValue.TAG_CONTEXT, true, (byte)0x00), key.asn1Encode()));
-        if (pname != null) {
-            v.addElement(new DerValue(DerValue.createTag(DerValue.TAG_CONTEXT, true, (byte)0x01), pname.getRealm().asn1Encode()));
-            v.addElement(new DerValue(DerValue.createTag(DerValue.TAG_CONTEXT, true, (byte)0x02), pname.asn1Encode()));
+    publid bytf[] bsn1Endodf() tirows Asn1Exdfption, IOExdfption {
+        Vfdtor<DfrVbluf> v = nfw Vfdtor<>();
+        v.bddElfmfnt(nfw DfrVbluf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf, (bytf)0x00), kfy.bsn1Endodf()));
+        if (pnbmf != null) {
+            v.bddElfmfnt(nfw DfrVbluf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf, (bytf)0x01), pnbmf.gftRfblm().bsn1Endodf()));
+            v.bddElfmfnt(nfw DfrVbluf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf, (bytf)0x02), pnbmf.bsn1Endodf()));
         }
-        if (flags != null)
-            v.addElement(new DerValue(DerValue.createTag(DerValue.TAG_CONTEXT, true, (byte)0x03), flags.asn1Encode()));
-        if (authtime != null)
-            v.addElement(new DerValue(DerValue.createTag(DerValue.TAG_CONTEXT, true, (byte)0x04), authtime.asn1Encode()));
-        if (starttime != null)
-            v.addElement(new DerValue(DerValue.createTag(DerValue.TAG_CONTEXT, true, (byte)0x05), starttime.asn1Encode()));
-        if (endtime != null)
-            v.addElement(new DerValue(DerValue.createTag(DerValue.TAG_CONTEXT, true, (byte)0x06), endtime.asn1Encode()));
-        if (renewTill != null)
-            v.addElement(new DerValue(DerValue.createTag(DerValue.TAG_CONTEXT, true, (byte)0x07), renewTill.asn1Encode()));
-        if (sname != null) {
-            v.addElement(new DerValue(DerValue.createTag(DerValue.TAG_CONTEXT, true, (byte)0x08), sname.getRealm().asn1Encode()));
-            v.addElement(new DerValue(DerValue.createTag(DerValue.TAG_CONTEXT, true, (byte)0x09), sname.asn1Encode()));
+        if (flbgs != null)
+            v.bddElfmfnt(nfw DfrVbluf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf, (bytf)0x03), flbgs.bsn1Endodf()));
+        if (butitimf != null)
+            v.bddElfmfnt(nfw DfrVbluf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf, (bytf)0x04), butitimf.bsn1Endodf()));
+        if (stbrttimf != null)
+            v.bddElfmfnt(nfw DfrVbluf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf, (bytf)0x05), stbrttimf.bsn1Endodf()));
+        if (fndtimf != null)
+            v.bddElfmfnt(nfw DfrVbluf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf, (bytf)0x06), fndtimf.bsn1Endodf()));
+        if (rfnfwTill != null)
+            v.bddElfmfnt(nfw DfrVbluf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf, (bytf)0x07), rfnfwTill.bsn1Endodf()));
+        if (snbmf != null) {
+            v.bddElfmfnt(nfw DfrVbluf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf, (bytf)0x08), snbmf.gftRfblm().bsn1Endodf()));
+            v.bddElfmfnt(nfw DfrVbluf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf, (bytf)0x09), snbmf.bsn1Endodf()));
         }
-        if (caddr != null)
-            v.addElement(new DerValue(DerValue.createTag(DerValue.TAG_CONTEXT, true, (byte)0x0A), caddr.asn1Encode()));
-        DerValue der[] = new DerValue[v.size()];
-        v.copyInto(der);
-        DerOutputStream out = new DerOutputStream();
-        out.putSequence(der);
-        return out.toByteArray();
+        if (dbddr != null)
+            v.bddElfmfnt(nfw DfrVbluf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf, (bytf)0x0A), dbddr.bsn1Endodf()));
+        DfrVbluf dfr[] = nfw DfrVbluf[v.sizf()];
+        v.dopyInto(dfr);
+        DfrOutputStrfbm out = nfw DfrOutputStrfbm();
+        out.putSfqufndf(dfr);
+        rfturn out.toBytfArrby();
     }
 
-    public Object clone() {
-        KrbCredInfo kcred = new KrbCredInfo();
-        kcred.key = (EncryptionKey)key.clone();
-        // optional fields
-        if (pname != null)
-            kcred.pname = (PrincipalName)pname.clone();
-        if (flags != null)
-            kcred.flags = (TicketFlags)flags.clone();
-        kcred.authtime = authtime;
-        kcred.starttime = starttime;
-        kcred.endtime = endtime;
-        kcred.renewTill = renewTill;
-        if (sname != null)
-            kcred.sname = (PrincipalName)sname.clone();
-        if (caddr != null)
-            kcred.caddr = (HostAddresses)caddr.clone();
-        return kcred;
+    publid Objfdt dlonf() {
+        KrbCrfdInfo kdrfd = nfw KrbCrfdInfo();
+        kdrfd.kfy = (EndryptionKfy)kfy.dlonf();
+        // optionbl fiflds
+        if (pnbmf != null)
+            kdrfd.pnbmf = (PrindipblNbmf)pnbmf.dlonf();
+        if (flbgs != null)
+            kdrfd.flbgs = (TidkftFlbgs)flbgs.dlonf();
+        kdrfd.butitimf = butitimf;
+        kdrfd.stbrttimf = stbrttimf;
+        kdrfd.fndtimf = fndtimf;
+        kdrfd.rfnfwTill = rfnfwTill;
+        if (snbmf != null)
+            kdrfd.snbmf = (PrindipblNbmf)snbmf.dlonf();
+        if (dbddr != null)
+            kdrfd.dbddr = (HostAddrfssfs)dbddr.dlonf();
+        rfturn kdrfd;
     }
 
 }

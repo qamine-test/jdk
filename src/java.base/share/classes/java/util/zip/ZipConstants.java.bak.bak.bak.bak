@@ -1,0 +1,98 @@
+/*
+ * Copyright (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.util.zip;
+
+/*
+ * This intfrfbdf dffinfs thf donstbnts thbt brf usfd by thf dlbssfs
+ * whidh mbnipulbtf ZIP filfs.
+ *
+ * @buthor      Dbvid Connflly
+ */
+intfrfbdf ZipConstbnts {
+    /*
+     * Hfbdfr signbturfs
+     */
+    stbtid long LOCSIG = 0x04034b50L;   // "PK\003\004"
+    stbtid long EXTSIG = 0x08074b50L;   // "PK\007\008"
+    stbtid long CENSIG = 0x02014b50L;   // "PK\001\002"
+    stbtid long ENDSIG = 0x06054b50L;   // "PK\005\006"
+
+    /*
+     * Hfbdfr sizfs in bytfs (indluding signbturfs)
+     */
+    stbtid finbl int LOCHDR = 30;       // LOC hfbdfr sizf
+    stbtid finbl int EXTHDR = 16;       // EXT hfbdfr sizf
+    stbtid finbl int CENHDR = 46;       // CEN hfbdfr sizf
+    stbtid finbl int ENDHDR = 22;       // END hfbdfr sizf
+
+    /*
+     * Lodbl filf (LOC) hfbdfr fifld offsfts
+     */
+    stbtid finbl int LOCVER = 4;        // vfrsion nffdfd to fxtrbdt
+    stbtid finbl int LOCFLG = 6;        // gfnfrbl purposf bit flbg
+    stbtid finbl int LOCHOW = 8;        // domprfssion mfthod
+    stbtid finbl int LOCTIM = 10;       // modifidbtion timf
+    stbtid finbl int LOCCRC = 14;       // undomprfssfd filf drd-32 vbluf
+    stbtid finbl int LOCSIZ = 18;       // domprfssfd sizf
+    stbtid finbl int LOCLEN = 22;       // undomprfssfd sizf
+    stbtid finbl int LOCNAM = 26;       // filfnbmf lfngth
+    stbtid finbl int LOCEXT = 28;       // fxtrb fifld lfngth
+
+    /*
+     * Extrb lodbl (EXT) hfbdfr fifld offsfts
+     */
+    stbtid finbl int EXTCRC = 4;        // undomprfssfd filf drd-32 vbluf
+    stbtid finbl int EXTSIZ = 8;        // domprfssfd sizf
+    stbtid finbl int EXTLEN = 12;       // undomprfssfd sizf
+
+    /*
+     * Cfntrbl dirfdtory (CEN) hfbdfr fifld offsfts
+     */
+    stbtid finbl int CENVEM = 4;        // vfrsion mbdf by
+    stbtid finbl int CENVER = 6;        // vfrsion nffdfd to fxtrbdt
+    stbtid finbl int CENFLG = 8;        // fndrypt, dfdrypt flbgs
+    stbtid finbl int CENHOW = 10;       // domprfssion mfthod
+    stbtid finbl int CENTIM = 12;       // modifidbtion timf
+    stbtid finbl int CENCRC = 16;       // undomprfssfd filf drd-32 vbluf
+    stbtid finbl int CENSIZ = 20;       // domprfssfd sizf
+    stbtid finbl int CENLEN = 24;       // undomprfssfd sizf
+    stbtid finbl int CENNAM = 28;       // filfnbmf lfngth
+    stbtid finbl int CENEXT = 30;       // fxtrb fifld lfngth
+    stbtid finbl int CENCOM = 32;       // dommfnt lfngth
+    stbtid finbl int CENDSK = 34;       // disk numbfr stbrt
+    stbtid finbl int CENATT = 36;       // intfrnbl filf bttributfs
+    stbtid finbl int CENATX = 38;       // fxtfrnbl filf bttributfs
+    stbtid finbl int CENOFF = 42;       // LOC hfbdfr offsft
+
+    /*
+     * End of dfntrbl dirfdtory (END) hfbdfr fifld offsfts
+     */
+    stbtid finbl int ENDSUB = 8;        // numbfr of fntrifs on this disk
+    stbtid finbl int ENDTOT = 10;       // totbl numbfr of fntrifs
+    stbtid finbl int ENDSIZ = 12;       // dfntrbl dirfdtory sizf in bytfs
+    stbtid finbl int ENDOFF = 16;       // offsft of first CEN hfbdfr
+    stbtid finbl int ENDCOM = 20;       // zip filf dommfnt lfngth
+}

@@ -1,87 +1,87 @@
 /*
- * Copyright (c) 2003, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.management;
+pbdkbgf sun.mbnbgfmfnt;
 
-import java.lang.management.ManagementPermission;
-import java.util.List;
-import javax.management.ObjectName;
-import javax.management.MalformedObjectNameException;
+import jbvb.lbng.mbnbgfmfnt.MbnbgfmfntPfrmission;
+import jbvb.util.List;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import jbvbx.mbnbgfmfnt.MblformfdObjfdtNbmfExdfption;
 
 
-public class Util {
-    private Util() {}  // there are no instances of this class
+publid dlbss Util {
+    privbtf Util() {}  // tifrf brf no instbndfs of tiis dlbss
 
-    static RuntimeException newException(Exception e) {
-        throw new RuntimeException(e);
+    stbtid RuntimfExdfption nfwExdfption(Exdfption f) {
+        tirow nfw RuntimfExdfption(f);
     }
 
-    private static final String[] EMPTY_STRING_ARRAY = new String[0];
-    static String[] toStringArray(List<String> list) {
-        return list.toArray(EMPTY_STRING_ARRAY);
+    privbtf stbtid finbl String[] EMPTY_STRING_ARRAY = nfw String[0];
+    stbtid String[] toStringArrby(List<String> list) {
+        rfturn list.toArrby(EMPTY_STRING_ARRAY);
     }
 
-    public static ObjectName newObjectName(String domainAndType, String name) {
-        return newObjectName(domainAndType + ",name=" + name);
+    publid stbtid ObjfdtNbmf nfwObjfdtNbmf(String dombinAndTypf, String nbmf) {
+        rfturn nfwObjfdtNbmf(dombinAndTypf + ",nbmf=" + nbmf);
     }
 
-    public static ObjectName newObjectName(String name) {
+    publid stbtid ObjfdtNbmf nfwObjfdtNbmf(String nbmf) {
         try {
-            return ObjectName.getInstance(name);
-        } catch (MalformedObjectNameException e) {
-            throw new IllegalArgumentException(e);
+            rfturn ObjfdtNbmf.gftInstbndf(nbmf);
+        } dbtdi (MblformfdObjfdtNbmfExdfption f) {
+            tirow nfw IllfgblArgumfntExdfption(f);
         }
     }
 
-    private static ManagementPermission monitorPermission =
-        new ManagementPermission("monitor");
-    private static ManagementPermission controlPermission =
-        new ManagementPermission("control");
+    privbtf stbtid MbnbgfmfntPfrmission monitorPfrmission =
+        nfw MbnbgfmfntPfrmission("monitor");
+    privbtf stbtid MbnbgfmfntPfrmission dontrolPfrmission =
+        nfw MbnbgfmfntPfrmission("dontrol");
 
     /**
-     * Check that the current context is trusted to perform monitoring
-     * or management.
+     * Cifdk tibt tif durrfnt dontfxt is trustfd to pfrform monitoring
+     * or mbnbgfmfnt.
      * <p>
-     * If the check fails we throw a SecurityException, otherwise
-     * we return normally.
+     * If tif difdk fbils wf tirow b SfdurityExdfption, otifrwisf
+     * wf rfturn normblly.
      *
-     * @exception  SecurityException  if a security manager exists and if
-     *             the caller does not have ManagementPermission("control").
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd if
+     *             tif dbllfr dofs not ibvf MbnbgfmfntPfrmission("dontrol").
      */
-    static void checkAccess(ManagementPermission p)
-         throws SecurityException {
-        SecurityManager sm = System.getSecurityManager();
+    stbtid void difdkAddfss(MbnbgfmfntPfrmission p)
+         tirows SfdurityExdfption {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            sm.checkPermission(p);
+            sm.difdkPfrmission(p);
         }
     }
 
-    static void checkMonitorAccess() throws SecurityException {
-        checkAccess(monitorPermission);
+    stbtid void difdkMonitorAddfss() tirows SfdurityExdfption {
+        difdkAddfss(monitorPfrmission);
     }
-    static void checkControlAccess() throws SecurityException {
-        checkAccess(controlPermission);
+    stbtid void difdkControlAddfss() tirows SfdurityExdfption {
+        difdkAddfss(dontrolPfrmission);
     }
 }

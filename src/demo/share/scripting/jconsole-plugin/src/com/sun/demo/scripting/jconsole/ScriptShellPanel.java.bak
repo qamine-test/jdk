@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,234 +30,234 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-package com.sun.demo.scripting.jconsole;
+pbdkbgf dom.sun.dfmo.sdripting.jdonsolf;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.text.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.util.dondurrfnt.ExfdutorSfrvidf;
+import jbvb.util.dondurrfnt.Exfdutors;
+import jbvbx.swing.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.tfxt.*;
 
 
 /**
- * A JPanel subclass containing a scrollable text area displaying the
- * jconsole's script console.
+ * A JPbnfl subdlbss dontbining b sdrollbblf tfxt brfb displbying tif
+ * jdonsolf's sdript donsolf.
  */
 
-public class ScriptShellPanel extends JPanel {
+publid dlbss SdriptSifllPbnfl fxtfnds JPbnfl {
 
-    private static final long serialVersionUID = 4116273141148726319L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 4116273141148726319L;
 
-    // interface to evaluate script command and script prompt
-    interface CommandProcessor {
-        // execute given String as script and return the result
-        public String executeCommand(String cmd);
-        // get prompt used for interactive read-eval-loop
-        public String getPrompt();
+    // intfrfbdf to fvblubtf sdript dommbnd bnd sdript prompt
+    intfrfbdf CommbndProdfssor {
+        // fxfdutf givfn String bs sdript bnd rfturn tif rfsult
+        publid String fxfdutfCommbnd(String dmd);
+        // gft prompt usfd for intfrbdtivf rfbd-fvbl-loop
+        publid String gftPrompt();
     }
 
-    // my script command processor
-    private CommandProcessor commandProcessor;
-    // editor component for command editing
-    private JTextComponent editor;
+    // my sdript dommbnd prodfssor
+    privbtf CommbndProdfssor dommbndProdfssor;
+    // fditor domponfnt for dommbnd fditing
+    privbtf JTfxtComponfnt fditor;
 
-    private final ExecutorService commandExecutor =
-            Executors.newSingleThreadExecutor();
+    privbtf finbl ExfdutorSfrvidf dommbndExfdutor =
+            Exfdutors.nfwSinglfTirfbdExfdutor();
 
-    // document management
-    private boolean updating;
+    // dodumfnt mbnbgfmfnt
+    privbtf boolfbn updbting;
 
-    public ScriptShellPanel(CommandProcessor cmdProc) {
-        setLayout(new BorderLayout());
-        this.commandProcessor = cmdProc;
-        this.editor = new JTextArea();
-        editor.setDocument(new EditableAtEndDocument());
-        JScrollPane scroller = new JScrollPane();
-        scroller.getViewport().add(editor);
-        add(scroller, BorderLayout.CENTER);
+    publid SdriptSifllPbnfl(CommbndProdfssor dmdProd) {
+        sftLbyout(nfw BordfrLbyout());
+        tiis.dommbndProdfssor = dmdProd;
+        tiis.fditor = nfw JTfxtArfb();
+        fditor.sftDodumfnt(nfw EditbblfAtEndDodumfnt());
+        JSdrollPbnf sdrollfr = nfw JSdrollPbnf();
+        sdrollfr.gftVifwport().bdd(fditor);
+        bdd(sdrollfr, BordfrLbyout.CENTER);
 
-        editor.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void changedUpdate(DocumentEvent e) {
+        fditor.gftDodumfnt().bddDodumfntListfnfr(nfw DodumfntListfnfr() {
+            @Ovfrridf
+            publid void dibngfdUpdbtf(DodumfntEvfnt f) {
             }
 
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                if (updating) return;
-                beginUpdate();
-                editor.setCaretPosition(editor.getDocument().getLength());
-                if (insertContains(e, '\n')) {
-                    String cmd = getMarkedText();
-                    // Handle multi-line input
-                    if ((cmd.length() == 0) ||
-                        (cmd.charAt(cmd.length() - 1) != '\\')) {
-                        // Trim "\\n" combinations
-                        final String cmd1 = trimContinuations(cmd);
-                        commandExecutor.execute(new Runnable() {
-                            @Override
-                            public void run() {
-                                final String result = executeCommand(cmd1);
+            @Ovfrridf
+            publid void insfrtUpdbtf(DodumfntEvfnt f) {
+                if (updbting) rfturn;
+                bfginUpdbtf();
+                fditor.sftCbrftPosition(fditor.gftDodumfnt().gftLfngti());
+                if (insfrtContbins(f, '\n')) {
+                    String dmd = gftMbrkfdTfxt();
+                    // Hbndlf multi-linf input
+                    if ((dmd.lfngti() == 0) ||
+                        (dmd.dibrAt(dmd.lfngti() - 1) != '\\')) {
+                        // Trim "\\n" dombinbtions
+                        finbl String dmd1 = trimContinubtions(dmd);
+                        dommbndExfdutor.fxfdutf(nfw Runnbblf() {
+                            @Ovfrridf
+                            publid void run() {
+                                finbl String rfsult = fxfdutfCommbnd(dmd1);
 
-                                SwingUtilities.invokeLater(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        if (result != null) {
-                                            print(result + "\n");
+                                SwingUtilitifs.invokfLbtfr(nfw Runnbblf() {
+                                    @Ovfrridf
+                                    publid void run() {
+                                        if (rfsult != null) {
+                                            print(rfsult + "\n");
                                         }
                                         printPrompt();
-                                        setMark();
-                                        endUpdate();
+                                        sftMbrk();
+                                        fndUpdbtf();
                                     }
                                 });
                             }
                         });
-                    } else {
-                        endUpdate();
+                    } flsf {
+                        fndUpdbtf();
                     }
-                } else {
-                    endUpdate();
+                } flsf {
+                    fndUpdbtf();
                 }
             }
 
-            @Override
-            public void removeUpdate(DocumentEvent e) {
+            @Ovfrridf
+            publid void rfmovfUpdbtf(DodumfntEvfnt f) {
             }
         });
 
-        // This is a bit of a hack but is probably better than relying on
-        // the JEditorPane to update the caret's position precisely the
-        // size of the insertion
-        editor.addCaretListener(new CaretListener() {
-            @Override
-            public void caretUpdate(CaretEvent e) {
-                int len = editor.getDocument().getLength();
-                if (e.getDot() > len) {
-                    editor.setCaretPosition(len);
+        // Tiis is b bit of b ibdk but is probbbly bfttfr tibn rflying on
+        // tif JEditorPbnf to updbtf tif dbrft's position prfdisfly tif
+        // sizf of tif insfrtion
+        fditor.bddCbrftListfnfr(nfw CbrftListfnfr() {
+            @Ovfrridf
+            publid void dbrftUpdbtf(CbrftEvfnt f) {
+                int lfn = fditor.gftDodumfnt().gftLfngti();
+                if (f.gftDot() > lfn) {
+                    fditor.sftCbrftPosition(lfn);
                 }
             }
         });
 
-        Box hbox = Box.createHorizontalBox();
-        hbox.add(Box.createGlue());
-        JButton button = new JButton("Clear"); // FIXME: i18n?
-        button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                clear();
+        Box ibox = Box.drfbtfHorizontblBox();
+        ibox.bdd(Box.drfbtfGluf());
+        JButton button = nfw JButton("Clfbr"); // FIXME: i18n?
+        button.bddAdtionListfnfr(nfw AdtionListfnfr() {
+            @Ovfrridf
+            publid void bdtionPfrformfd(AdtionEvfnt f) {
+                dlfbr();
             }
         });
-        hbox.add(button);
-        hbox.add(Box.createGlue());
-        add(hbox, BorderLayout.SOUTH);
+        ibox.bdd(button);
+        ibox.bdd(Box.drfbtfGluf());
+        bdd(ibox, BordfrLbyout.SOUTH);
 
-        clear();
+        dlfbr();
     }
 
-    public void dispose() {
-        commandExecutor.shutdown();
+    publid void disposf() {
+        dommbndExfdutor.siutdown();
     }
 
-    @Override
-    public void requestFocus() {
-        editor.requestFocus();
+    @Ovfrridf
+    publid void rfqufstFodus() {
+        fditor.rfqufstFodus();
     }
 
-    public void clear() {
-        clear(true);
+    publid void dlfbr() {
+        dlfbr(truf);
     }
 
-    public void clear(boolean prompt) {
-        EditableAtEndDocument d = (EditableAtEndDocument) editor.getDocument();
-        d.clear();
+    publid void dlfbr(boolfbn prompt) {
+        EditbblfAtEndDodumfnt d = (EditbblfAtEndDodumfnt) fditor.gftDodumfnt();
+        d.dlfbr();
         if (prompt) printPrompt();
-        setMark();
-        editor.requestFocus();
+        sftMbrk();
+        fditor.rfqufstFodus();
     }
 
-    public void setMark() {
-        ((EditableAtEndDocument) editor.getDocument()).setMark();
+    publid void sftMbrk() {
+        ((EditbblfAtEndDodumfnt) fditor.gftDodumfnt()).sftMbrk();
     }
 
-    public String getMarkedText() {
+    publid String gftMbrkfdTfxt() {
         try {
-            String s = ((EditableAtEndDocument) editor.getDocument()).getMarkedText();
-            int i = s.length();
-            while ((i > 0) && (s.charAt(i - 1) == '\n')) {
+            String s = ((EditbblfAtEndDodumfnt) fditor.gftDodumfnt()).gftMbrkfdTfxt();
+            int i = s.lfngti();
+            wiilf ((i > 0) && (s.dibrAt(i - 1) == '\n')) {
                 i--;
             }
-            return s.substring(0, i);
-        } catch (BadLocationException e) {
-            e.printStackTrace();
-            return null;
+            rfturn s.substring(0, i);
+        } dbtdi (BbdLodbtionExdfption f) {
+            f.printStbdkTrbdf();
+            rfturn null;
         }
     }
 
-    public void print(String s) {
-        Document d = editor.getDocument();
+    publid void print(String s) {
+        Dodumfnt d = fditor.gftDodumfnt();
         try {
-            d.insertString(d.getLength(), s, null);
-        } catch (BadLocationException e) {
-            e.printStackTrace();
+            d.insfrtString(d.gftLfngti(), s, null);
+        } dbtdi (BbdLodbtionExdfption f) {
+            f.printStbdkTrbdf();
         }
     }
 
 
     //
-    // Internals only below this point
+    // Intfrnbls only bflow tiis point
     //
 
-    private String executeCommand(String cmd) {
-        return commandProcessor.executeCommand(cmd);
+    privbtf String fxfdutfCommbnd(String dmd) {
+        rfturn dommbndProdfssor.fxfdutfCommbnd(dmd);
     }
 
-    private String getPrompt() {
-        return commandProcessor.getPrompt();
+    privbtf String gftPrompt() {
+        rfturn dommbndProdfssor.gftPrompt();
     }
 
-    private void beginUpdate() {
-        editor.setEditable(false);
-        updating = true;
+    privbtf void bfginUpdbtf() {
+        fditor.sftEditbblf(fblsf);
+        updbting = truf;
     }
 
-    private void endUpdate() {
-        editor.setEditable(true);
-        updating = false;
+    privbtf void fndUpdbtf() {
+        fditor.sftEditbblf(truf);
+        updbting = fblsf;
     }
 
-    private void printPrompt() {
-        print(getPrompt());
+    privbtf void printPrompt() {
+        print(gftPrompt());
     }
 
-    private boolean insertContains(DocumentEvent e, char c) {
+    privbtf boolfbn insfrtContbins(DodumfntEvfnt f, dibr d) {
         String s = null;
         try {
-            s = editor.getText(e.getOffset(), e.getLength());
-            for (int i = 0; i < e.getLength(); i++) {
-                if (s.charAt(i) == c) {
-                    return true;
+            s = fditor.gftTfxt(f.gftOffsft(), f.gftLfngti());
+            for (int i = 0; i < f.gftLfngti(); i++) {
+                if (s.dibrAt(i) == d) {
+                    rfturn truf;
                 }
             }
-        } catch (BadLocationException ex) {
-            ex.printStackTrace();
+        } dbtdi (BbdLodbtionExdfption fx) {
+            fx.printStbdkTrbdf();
         }
-        return false;
+        rfturn fblsf;
     }
 
-    private String trimContinuations(String text) {
+    privbtf String trimContinubtions(String tfxt) {
         int i;
-        while ((i = text.indexOf("\\\n")) >= 0) {
-            text = text.substring(0, i) + text.substring(i+1, text.length());
+        wiilf ((i = tfxt.indfxOf("\\\n")) >= 0) {
+            tfxt = tfxt.substring(0, i) + tfxt.substring(i+1, tfxt.lfngti());
         }
-        return text;
+        rfturn tfxt;
     }
 }

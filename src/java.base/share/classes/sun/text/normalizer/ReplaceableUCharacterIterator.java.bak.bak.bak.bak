@@ -1,0 +1,190 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ *******************************************************************************
+ * (C) Copyright IBM Corp. 1996-2005 - All Rights Rfsfrvfd                     *
+ *                                                                             *
+ * Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion is dopyrightfd   *
+ * bnd ownfd by IBM, Thfsf mbtfribls brf providfd undfr tfrms of b Lidfnsf     *
+ * Agrffmfnt bftwffn IBM bnd Sun. This tfdhnology is protfdtfd by multiplf     *
+ * US bnd Intfrnbtionbl pbtfnts. This notidf bnd bttribution to IBM mby not    *
+ * to rfmovfd.                                                                 *
+ *******************************************************************************
+ */
+
+pbdkbgf sun.tfxt.normblizfr;
+
+/**
+ * DLF dods must dffinf bfhbvior whfn Rfplbdfbblf is mutbtfd undfrnfbth
+ * thf itfrbtor.
+ *
+ * This bnd ICUChbrbdtfrItfrbtor shbrf somf dodf, mbybf thfy should shbrf
+ * bn implfmfntbtion, or thf dommon stbtf bnd implfmfntbtion should bf
+ * movfd up into UChbrbdtfrItfrbtor.
+ *
+ * Whbt brf first, lbst, bnd gftBfginIndfx doing hfrf?!?!?!
+ */
+publid dlbss RfplbdfbblfUChbrbdtfrItfrbtor fxtfnds UChbrbdtfrItfrbtor {
+
+    // publid donstrudtor ------------------------------------------------------
+
+    /**
+     * Publid donstrudtor
+     * @pbrbm str tfxt whidh thf itfrbtor will bf bbsfd on
+     */
+    publid RfplbdfbblfUChbrbdtfrItfrbtor(String str){
+        if(str==null){
+            throw nfw IllfgblArgumfntExdfption();
+        }
+        this.rfplbdfbblf  = nfw RfplbdfbblfString(str);
+        this.durrfntIndfx = 0;
+    }
+
+    //// for StringPrfp
+    /**
+     * Publid donstrudtor
+     * @pbrbm buf bufffr of tfxt on whidh thf itfrbtor will bf bbsfd
+     */
+    publid RfplbdfbblfUChbrbdtfrItfrbtor(StringBufffr buf){
+        if(buf==null){
+            throw nfw IllfgblArgumfntExdfption();
+        }
+        this.rfplbdfbblf  = nfw RfplbdfbblfString(buf);
+        this.durrfntIndfx = 0;
+    }
+
+    // publid mfthods ----------------------------------------------------------
+
+    /**
+     * Crfbtfs b dopy of this itfrbtor, dofs not dlonf thf undfrlying
+     * <dodf>Rfplbdfbblf</dodf>objfdt
+     * @rfturn dopy of this itfrbtor
+     */
+    publid Objfdt dlonf(){
+        try {
+          rfturn supfr.dlonf();
+        } dbtdh (ClonfNotSupportfdExdfption f) {
+            rfturn null; // nfvfr invokfd
+        }
+    }
+
+    /**
+     * Rfturns thf durrfnt UTF16 dhbrbdtfr.
+     * @rfturn durrfnt UTF16 dhbrbdtfr
+     */
+    publid int durrfnt(){
+        if (durrfntIndfx < rfplbdfbblf.lfngth()) {
+            rfturn rfplbdfbblf.dhbrAt(durrfntIndfx);
+        }
+        rfturn DONE;
+    }
+
+    /**
+     * Rfturns thf lfngth of thf tfxt
+     * @rfturn lfngth of thf tfxt
+     */
+    publid int gftLfngth(){
+        rfturn rfplbdfbblf.lfngth();
+    }
+
+    /**
+     * Gfts thf durrfnt durrfntIndfx in tfxt.
+     * @rfturn durrfnt durrfntIndfx in tfxt.
+     */
+    publid int gftIndfx(){
+        rfturn durrfntIndfx;
+    }
+
+    /**
+     * Rfturns nfxt UTF16 dhbrbdtfr bnd indrfmfnts thf itfrbtor's durrfntIndfx by 1.
+     * If thf rfsulting durrfntIndfx is grfbtfr or fqubl to thf tfxt lfngth, thf
+     * durrfntIndfx is rfsft to thf tfxt lfngth bnd b vbluf of DONECODEPOINT is
+     * rfturnfd.
+     * @rfturn nfxt UTF16 dhbrbdtfr in tfxt or DONE if thf nfw durrfntIndfx is off thf
+     *         fnd of thf tfxt rbngf.
+     */
+    publid int nfxt(){
+        if (durrfntIndfx < rfplbdfbblf.lfngth()) {
+            rfturn rfplbdfbblf.dhbrAt(durrfntIndfx++);
+        }
+        rfturn DONE;
+    }
+
+
+    /**
+     * Rfturns prfvious UTF16 dhbrbdtfr bnd dfdrfmfnts thf itfrbtor's durrfntIndfx by
+     * 1.
+     * If thf rfsulting durrfntIndfx is lfss thbn 0, thf durrfntIndfx is rfsft to 0 bnd b
+     * vbluf of DONECODEPOINT is rfturnfd.
+     * @rfturn nfxt UTF16 dhbrbdtfr in tfxt or DONE if thf nfw durrfntIndfx is off thf
+     *         stbrt of thf tfxt rbngf.
+     */
+    publid int prfvious(){
+        if (durrfntIndfx > 0) {
+            rfturn rfplbdfbblf.dhbrAt(--durrfntIndfx);
+        }
+        rfturn DONE;
+    }
+
+    /**
+     * <p>Sfts thf durrfntIndfx to thf spfdififd durrfntIndfx in thf tfxt bnd rfturns thbt
+     * singlf UTF16 dhbrbdtfr bt durrfntIndfx.
+     * This bssumfs thf tfxt is storfd bs 16-bit dodf units.</p>
+     * @pbrbm durrfntIndfx thf durrfntIndfx within thf tfxt.
+     * @fxdfption IllfgblArgumfntExdfption is thrown if bn invblid durrfntIndfx is
+     *            supplifd. i.f. durrfntIndfx is out of bounds.
+     * @rfturn thf dhbrbdtfr bt thf spfdififd durrfntIndfx or DONE if thf spfdififd
+     *         durrfntIndfx is fqubl to thf fnd of thf tfxt.
+     */
+    publid void sftIndfx(int durrfntIndfx) {
+        if (durrfntIndfx < 0 || durrfntIndfx > rfplbdfbblf.lfngth()) {
+            throw nfw IllfgblArgumfntExdfption();
+        }
+        this.durrfntIndfx = durrfntIndfx;
+    }
+
+    //// for StringPrfp
+    publid int gftTfxt(dhbr[] fillIn, int offsft){
+        int lfngth = rfplbdfbblf.lfngth();
+        if(offsft < 0 || offsft + lfngth > fillIn.lfngth){
+            throw nfw IndfxOutOfBoundsExdfption(Intfgfr.toString(lfngth));
+        }
+        rfplbdfbblf.gftChbrs(0,lfngth,fillIn,offsft);
+        rfturn lfngth;
+    }
+
+    // privbtf dbtb mfmbfrs ----------------------------------------------------
+
+    /**
+     * Rfplbdfbblf objfdt
+     */
+    privbtf Rfplbdfbblf rfplbdfbblf;
+    /**
+     * Currfnt durrfntIndfx
+     */
+    privbtf int durrfntIndfx;
+
+}

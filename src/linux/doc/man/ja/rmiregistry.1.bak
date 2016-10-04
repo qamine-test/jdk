@@ -1,62 +1,62 @@
 '\" t
-.\" Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
-.\" Title: rmiregistry
-.\" Language: English
-.\" Date: 2013Ç¯11·î21Æü
-.\" SectDesc: Remote Method Invocation (RMI)¥Ä¡¼¥ë
-.\" Software: JDK 8
-.\" Arch: ÈÆÍÑ
+.\" Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Titlf: rmirfgistry
+.\" Lbngubgf: Englisi
+.\" Dbtf: 2013Ç¯11·î21Æü
+.\" SfdtDfsd: Rfmotf Mftiod Invodbtion (RMI)¥Ä¡¼¥ë
+.\" Softwbrf: JDK 8
+.\" Ardi: ÈÆÍÑ
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free software; you can redistribute it and/or modify it
-.\" under the terms of the GNU General Public License version 2 only, as
-.\" published by the Free Software Foundation.
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
 .\"
-.\" This code is distributed in the hope that it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-.\" version 2 for more details (a copy is included in the LICENSE file that
-.\" accompanied this code).
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
 .\"
-.\" You should have received a copy of the GNU General Public License version
-.\" 2 along with this work; if not, write to the Free Software Foundation,
-.\" Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-.\" or visit www.oracle.com if you need additional information or have any
-.\" questions.
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
 .\"
 .pl 99999
-.TH "rmiregistry" "1" "2013Ç¯11·î21Æü" "JDK 8" "Remote Method Invocation (RMI)"
+.TH "rmirfgistry" "1" "2013Ç¯11·î21Æü" "JDK 8" "Rfmotf Mftiod Invodbtion (RMI)"
 .\" -----------------------------------------------------------------
-.\" * Define some portability stuff
+.\" * Dffinf somf portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debian.org/507673
-.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(aq
-.el       .ds Aq '
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set default formatting
+.\" * sft dffbult formbtting
 .\" -----------------------------------------------------------------
-.\" disable hyphenation
-.nh
-.\" disable justification (adjust text to left margin only)
-.ad l
+.\" disbblf iypifnbtion
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 .SH "NAME"
-rmiregistry \- ¸½ºß¤Î¥Û¥¹¥È¤Î»ØÄê¤·¤¿¥Ý¡¼¥È¾å¤Ë¥ê¥â¡¼¥È¡¦¥ª¥Ö¥¸¥§¥¯¥È¡¦¥ì¥¸¥¹¥È¥ê¤ò³«»Ï¤·¤Þ¤¹¡£
+rmirfgistry \- ¸½ºß¤Î¥Û¥¹¥È¤Î»ØÄê¤·¤¿¥Ý¡¼¥È¾å¤Ë¥ê¥â¡¼¥È¡¦¥ª¥Ö¥¸¥§¥¯¥È¡¦¥ì¥¸¥¹¥È¥ê¤ò³«»Ï¤·¤Þ¤¹¡£
 .SH "³µÍ×"
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-\fIrmiregistry\fR [ \fIport\fR ]
+\fIrmirfgistry\fR [ \fIport\fR ]
 .fi
 .if n \{\
 .RE
@@ -68,13 +68,13 @@ rmiregistry \- ¸½ºß¤Î¥Û¥¹¥È¤Î»ØÄê¤·¤¿¥Ý¡¼¥È¾å¤Ë¥ê¥â¡¼¥È¡¦¥ª¥Ö¥¸¥§¥¯¥È¡¦¥ì¥¸¥¹¥È¥
 .RE
 .SH "ÀâÌÀ"
 .PP
-\fIrmiregistry\fR¥³¥Þ¥ó¥É¤Ï¡¢¸½ºß¤Î¥Û¥¹¥È¤Î»ØÄê¤·¤¿¥Ý¡¼¥È¾å¤Ë¥ê¥â¡¼¥È¡¦¥ª¥Ö¥¸¥§¥¯¥È¡¦¥ì¥¸¥¹¥È¥ê¤òºîÀ®¤·¡¢³«»Ï¤·¤Þ¤¹¡£port¤Î»ØÄê¤ò¾ÊÎ¬¤·¤¿¾ì¹ç¡¢¥ì¥¸¥¹¥È¥ê¤Ï¥Ý¡¼¥È1099¤Ç³«»Ï¤·¤Þ¤¹¡£\fIrmiregistry\fR¥³¥Þ¥ó¥É¤Ë¡¢½ÐÎÏµ¡Ç½¤Ï¤¢¤ê¤Þ¤»¤ó¡£ÄÌ¾ï¡¢¤³¤ì¤Ï¥Ð¥Ã¥¯¥°¥é¥¦¥ó¥É¤Ç¼Â¹Ô¤µ¤ì¤Þ¤¹¡£¼¡¤ËÎã¤ò¼¨¤·¤Þ¤¹¡£
+\fIrmirfgistry\fR¥³¥Þ¥ó¥É¤Ï¡¢¸½ºß¤Î¥Û¥¹¥È¤Î»ØÄê¤·¤¿¥Ý¡¼¥È¾å¤Ë¥ê¥â¡¼¥È¡¦¥ª¥Ö¥¸¥§¥¯¥È¡¦¥ì¥¸¥¹¥È¥ê¤òºîÀ®¤·¡¢³«»Ï¤·¤Þ¤¹¡£port¤Î»ØÄê¤ò¾ÊÎ¬¤·¤¿¾ì¹ç¡¢¥ì¥¸¥¹¥È¥ê¤Ï¥Ý¡¼¥È1099¤Ç³«»Ï¤·¤Þ¤¹¡£\fIrmirfgistry\fR¥³¥Þ¥ó¥É¤Ë¡¢½ÐÎÏµ¡Ç½¤Ï¤¢¤ê¤Þ¤»¤ó¡£ÄÌ¾ï¡¢¤³¤ì¤Ï¥Ð¥Ã¥¯¥°¥é¥¦¥ó¥É¤Ç¼Â¹Ô¤µ¤ì¤Þ¤¹¡£¼¡¤ËÎã¤ò¼¨¤·¤Þ¤¹¡£
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-rmiregistry &
+rmirfgistry &
 .fi
 .if n \{\
 .RE
@@ -84,48 +84,48 @@ rmiregistry &
 .PP
 ¥ì¥¸¥¹¥È¥ê¤Ï¡¢°ìÈÌÅª¤Ë¡¢ºÇ½é¤Î¥ê¥â¡¼¥È¡¦¥ª¥Ö¥¸¥§¥¯¥È¤Î°ÌÃÖ¤ò»ØÄê¤·¤Þ¤¹¡£¤½¤³¤Ç¡¢¥¢¥×¥ê¥±¡¼¥·¥ç¥ó¤Ï¥á¥½¥Ã¥É¤ò¸Æ¤Ó½Ð¤¹É¬Í×¤¬¤¢¤ê¤Þ¤¹¡£¤½¤Î¸å¡¢¤½¤Î¥ª¥Ö¥¸¥§¥¯¥È¤Ï¥¢¥×¥ê¥±¡¼¥·¥ç¥ó»ØÄê¤Î¥µ¥Ý¡¼¥È¤òÄó¶¡¤·¡¢Â¾¤Î¥ª¥Ö¥¸¥§¥¯¥È¤òÃµ¤·¤Þ¤¹¡£
 .PP
-\fIjava\&.rmi\&.registry\&.LocateRegistry\fR¥¯¥é¥¹¤Î¥á¥½¥Ã¥É¤Ï¡¢¥í¡¼¥«¥ë¡¦¥Û¥¹¥È¡¢¤Þ¤¿¤Ï¥í¡¼¥«¥ë¡¦¥Û¥¹¥È¤È¥Ý¡¼¥È¤ÇÆ°ºî¤¹¤ë¥ì¥¸¥¹¥È¥ê¤ò¼èÆÀ¤¹¤ë¤¿¤á¤Ë»ÈÍÑ¤µ¤ì¤Þ¤¹¡£
+\fIjbvb\&.rmi\&.rfgistry\&.LodbtfRfgistry\fR¥¯¥é¥¹¤Î¥á¥½¥Ã¥É¤Ï¡¢¥í¡¼¥«¥ë¡¦¥Û¥¹¥È¡¢¤Þ¤¿¤Ï¥í¡¼¥«¥ë¡¦¥Û¥¹¥È¤È¥Ý¡¼¥È¤ÇÆ°ºî¤¹¤ë¥ì¥¸¥¹¥È¥ê¤ò¼èÆÀ¤¹¤ë¤¿¤á¤Ë»ÈÍÑ¤µ¤ì¤Þ¤¹¡£
 .PP
-\fIjava\&.rmi\&.Naming\fR¥¯¥é¥¹¤ÎURL¥Ù¡¼¥¹¡¦¥á¥½¥Ã¥É¤Ï¥ì¥¸¥¹¥È¥ê¤ËÂÐ¤·¤ÆÁàºî¤ò¼Â¹Ô¤·¡¢Ç¤°Õ¤Î¥Û¥¹¥È¤ª¤è¤Ó¥í¡¼¥«¥ë¡¦¥Û¥¹¥È¤Ç¤Î¥ê¥â¡¼¥È¡¦¥ª¥Ö¥¸¥§¥¯¥È¤Î¸¡º÷¤Ë»ÈÍÑ¤Ç¤­¤Þ¤¹¡£Ã±½ãÌ¾(Ê¸»úÎó)¤ò¥ê¥â¡¼¥È¡¦¥ª¥Ö¥¸¥§¥¯¥È¤Ë¥Ð¥¤¥ó¥É¤·¡¢¿·¤·¤¤Ì¾Á°¤ò¥ê¥â¡¼¥È¡¦¥ª¥Ö¥¸¥§¥¯¥È¤ËºÆ¥Ð¥¤¥ó¥É¤·(¸Å¤¤¥Ð¥¤¥ó¥É¤ò¥ª¡¼¥Ð¡¼¥é¥¤¥É)¡¢¥ê¥â¡¼¥È¡¦¥ª¥Ö¥¸¥§¥¯¥È¤ò¥¢¥ó¥Ð¥¤¥ó¥É¤·¡¢¥ì¥¸¥¹¥È¥ê¤Ë¥Ð¥¤¥ó¥É¤µ¤ì¤Æ¤¤¤ëURL¤ò¥ê¥¹¥ÈÉ½¼¨¤·¤Þ¤¹¡£
+\fIjbvb\&.rmi\&.Nbming\fR¥¯¥é¥¹¤ÎURL¥Ù¡¼¥¹¡¦¥á¥½¥Ã¥É¤Ï¥ì¥¸¥¹¥È¥ê¤ËÂÐ¤·¤ÆÁàºî¤ò¼Â¹Ô¤·¡¢Ç¤°Õ¤Î¥Û¥¹¥È¤ª¤è¤Ó¥í¡¼¥«¥ë¡¦¥Û¥¹¥È¤Ç¤Î¥ê¥â¡¼¥È¡¦¥ª¥Ö¥¸¥§¥¯¥È¤Î¸¡º÷¤Ë»ÈÍÑ¤Ç¤­¤Þ¤¹¡£Ã±½ãÌ¾(Ê¸»úÎó)¤ò¥ê¥â¡¼¥È¡¦¥ª¥Ö¥¸¥§¥¯¥È¤Ë¥Ð¥¤¥ó¥É¤·¡¢¿·¤·¤¤Ì¾Á°¤ò¥ê¥â¡¼¥È¡¦¥ª¥Ö¥¸¥§¥¯¥È¤ËºÆ¥Ð¥¤¥ó¥É¤·(¸Å¤¤¥Ð¥¤¥ó¥É¤ò¥ª¡¼¥Ð¡¼¥é¥¤¥É)¡¢¥ê¥â¡¼¥È¡¦¥ª¥Ö¥¸¥§¥¯¥È¤ò¥¢¥ó¥Ð¥¤¥ó¥É¤·¡¢¥ì¥¸¥¹¥È¥ê¤Ë¥Ð¥¤¥ó¥É¤µ¤ì¤Æ¤¤¤ëURL¤ò¥ê¥¹¥ÈÉ½¼¨¤·¤Þ¤¹¡£
 .SH "¥ª¥×¥·¥ç¥ó"
 .PP
 \-J
 .RS 4
-Java¥ª¥×¥·¥ç¥ó¤È¤È¤â¤Ë»ÈÍÑ¤·¤Æ¡¢\fI\-J\fR¤Î¸å¤í¤ËÂ³¤¯¥ª¥×¥·¥ç¥ó¤òJava¥¤¥ó¥¿¥×¥ê¥¿¤Ë°ú¤­ÅÏ¤·¤Þ¤¹(\fI\-J\fR¤È¥ª¥×¥·¥ç¥ó¤Î´Ö¤Ë¥¹¥Ú¡¼¥¹¤ÏÆþ¤ì¤Þ¤»¤ó)¡£
+Jbvb¥ª¥×¥·¥ç¥ó¤È¤È¤â¤Ë»ÈÍÑ¤·¤Æ¡¢\fI\-J\fR¤Î¸å¤í¤ËÂ³¤¯¥ª¥×¥·¥ç¥ó¤òJbvb¥¤¥ó¥¿¥×¥ê¥¿¤Ë°ú¤­ÅÏ¤·¤Þ¤¹(\fI\-J\fR¤È¥ª¥×¥·¥ç¥ó¤Î´Ö¤Ë¥¹¥Ú¡¼¥¹¤ÏÆþ¤ì¤Þ¤»¤ó)¡£
 .RE
 .SH "´ØÏ¢¹àÌÜ"
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.if n \{\
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.fl \{\
 .sp -1
 .IP \(bu 2.3
 .\}
-java(1)
+jbvb(1)
 .RE
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.if n \{\
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.fl \{\
 .sp -1
 .IP \(bu 2.3
 .\}
-\fI¡Öjava\&.rmi\&.registry\&.LocateRegistry¡×\fR(http://docs\&.oracle\&.com/javase/8/docs/api/java/rmi/registry/LocateRegistry\&.html)
+\fI¡Öjbvb\&.rmi\&.rfgistry\&.LodbtfRfgistry¡×\fR(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/jbvb/rmi/rfgistry/LodbtfRfgistry\&.itml)
 .RE
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.if n \{\
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.fl \{\
 .sp -1
 .IP \(bu 2.3
 .\}
-\fI¡Öjava\&.rmi\&.Naming class description¡×\fR(http://docs\&.oracle\&.com/javase/8/docs/api/java/rmi/Naming\&.html)
+\fI¡Öjbvb\&.rmi\&.Nbming dlbss dfsdription¡×\fR(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/jbvb/rmi/Nbming\&.itml)
 .RE
 .br
 'pl 8.5i

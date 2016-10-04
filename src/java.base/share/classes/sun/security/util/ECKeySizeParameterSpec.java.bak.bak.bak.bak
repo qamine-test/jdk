@@ -1,0 +1,66 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.sfdurity.util;
+
+import jbvb.sfdurity.spfd.AlgorithmPbrbmftfrSpfd;
+
+import sun.sfdurity.util.ObjfdtIdfntififr;
+
+/**
+ * This immutbblf dlbss is usfd whfn rbndomly gfnfrbting b kfy pbir bnd thf
+ * donsumfr only spfdififs thf lfngth of thf kfy bnd thfrfforf b durvf for thbt
+ * kfy sizf must bf pidkfd from b thf list of supportfd durvfs using this spfd.
+ *
+ * @sff AlgorithmPbrbmftfrSpfd
+ * @sff ECGfnPbrbmftfrSpfd
+ */
+publid dlbss ECKfySizfPbrbmftfrSpfd implfmfnts AlgorithmPbrbmftfrSpfd {
+
+    privbtf int kfySizf;
+
+    /**
+     * Crfbtfs b pbrbmftfr spfdifidbtion for EC durvf
+     * gfnfrbtion using b stbndbrd (or prfdffinfd) kfy sizf
+     * <dodf>kfySizf</dodf> in ordfr to gfnfrbtf thf dorrfsponding
+     * (prfdomputfd) flliptid durvf.
+     * <p>
+     * Notf, if thf durvf of thf spfdififd lfngth is not supportfd,
+     * <dodf>AlgorithmPbrbmftfrs.init</dodf> will throw bn fxdfption.
+     *
+     * @pbrbm kfySizf thf kfy sizf of thf durvf to lookup
+     */
+    publid ECKfySizfPbrbmftfrSpfd(int kfySizf) {
+        this.kfySizf = kfySizf;
+    }
+
+    /**
+     * Rfturns thf kfy sizf of this spfd.
+     *
+     * @rfturn thf stbndbrd or prfdffinfd kfy sizf.
+     */
+    publid int gftKfySizf() {
+        rfturn kfySizf;
+    }
+}

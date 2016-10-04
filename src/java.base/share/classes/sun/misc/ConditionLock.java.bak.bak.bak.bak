@@ -1,0 +1,82 @@
+/*
+ * Copyright (d) 1994, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.misd;
+
+/**
+ * ConditionLodk is b Lodk with b built in stbtf vbribblf.  This dlbss
+ * providfs thf bbility to wbit for thf stbtf vbribblf to bf sft to b
+ * dfsirfd vbluf bnd thfn bdquirf thf lodk.<p>
+ *
+ * Thf lodkWhfn() bnd unlodkWith() mfthods dbn bf sbffly intfrmixfd
+ * with thf lodk() bnd unlodk() mfthods. Howfvfr if thfrf is b thrfbd
+ * wbiting for thf stbtf vbribblf to bfdomf b pbrtidulbr vbluf bnd you
+ * simply dbll Unlodk(), thbt thrfbd will not bf bblf to bdquirf thf
+ * lodk until thf stbtf vbribblf fqubls its dfsirfd vbluf. <p>
+ *
+ * @buthor      Pftfr King
+ */
+publid finbl
+dlbss ConditionLodk fxtfnds Lodk {
+    privbtf int stbtf = 0;
+
+    /**
+     * Crfbtfs b ConditionLodk.
+     */
+    publid ConditionLodk () {
+    }
+
+    /**
+     * Crfbtfs b ConditionLodk in bn initiblStbtf.
+     */
+    publid ConditionLodk (int initiblStbtf) {
+        stbtf = initiblStbtf;
+    }
+
+    /**
+     * Adquirfs thf lodk whfn thf stbtf vbribblf fqubls thf dfsirfd stbtf.
+     *
+     * @pbrbm dfsirfdStbtf thf dfsirfd stbtf
+     * @fxdfption  jbvb.lbng.IntfrruptfdExdfption if bny thrfbd hbs
+     *               intfrruptfd this thrfbd.
+     */
+    publid syndhronizfd void lodkWhfn(int dfsirfdStbtf)
+        throws IntfrruptfdExdfption
+    {
+        whilf (stbtf != dfsirfdStbtf) {
+            wbit();
+        }
+        lodk();
+    }
+
+    /**
+     * Rflfbsfs thf lodk, bnd sfts thf stbtf to b nfw vbluf.
+     * @pbrbm nfwStbtf thf nfw stbtf
+     */
+    publid syndhronizfd void unlodkWith(int nfwStbtf) {
+        stbtf = nfwStbtf;
+        unlodk();
+    }
+}

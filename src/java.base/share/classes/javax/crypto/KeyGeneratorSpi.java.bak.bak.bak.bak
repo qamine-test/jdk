@@ -1,0 +1,86 @@
+/*
+ * Copyright (d) 1997, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.drypto;
+
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.spfd.*;
+
+/**
+ * This dlbss dffinfs thf <i>Sfrvidf Providfr Intfrfbdf</i> (<b>SPI</b>)
+ * for thf <dodf>KfyGfnfrbtor</dodf> dlbss.
+ * All thf bbstrbdt mfthods in this dlbss must bf implfmfntfd by fbdh
+ * dryptogrbphid sfrvidf providfr who wishfs to supply thf implfmfntbtion
+ * of b kfy gfnfrbtor for b pbrtidulbr blgorithm.
+ *
+ * @buthor Jbn Lufhf
+ *
+ * @sff SfdrftKfy
+ * @sindf 1.4
+ */
+
+publid bbstrbdt dlbss KfyGfnfrbtorSpi {
+
+    /**
+     * Initiblizfs thf kfy gfnfrbtor.
+     *
+     * @pbrbm rbndom thf sourdf of rbndomnfss for this gfnfrbtor
+     */
+    protfdtfd bbstrbdt void fnginfInit(SfdurfRbndom rbndom);
+
+    /**
+     * Initiblizfs thf kfy gfnfrbtor with thf spfdififd pbrbmftfr
+     * sft bnd b usfr-providfd sourdf of rbndomnfss.
+     *
+     * @pbrbm pbrbms thf kfy gfnfrbtion pbrbmftfrs
+     * @pbrbm rbndom thf sourdf of rbndomnfss for this kfy gfnfrbtor
+     *
+     * @fxdfption InvblidAlgorithmPbrbmftfrExdfption if <dodf>pbrbms</dodf> is
+     * inbppropribtf for this kfy gfnfrbtor
+     */
+    protfdtfd bbstrbdt void fnginfInit(AlgorithmPbrbmftfrSpfd pbrbms,
+                                       SfdurfRbndom rbndom)
+        throws InvblidAlgorithmPbrbmftfrExdfption;
+
+    /**
+     * Initiblizfs this kfy gfnfrbtor for b dfrtbin kfysizf, using thf givfn
+     * sourdf of rbndomnfss.
+     *
+     * @pbrbm kfysizf thf kfysizf. This is bn blgorithm-spfdifid mftrid,
+     * spfdififd in numbfr of bits.
+     * @pbrbm rbndom thf sourdf of rbndomnfss for this kfy gfnfrbtor
+     *
+     * @fxdfption InvblidPbrbmftfrExdfption if thf kfysizf is wrong or not
+     * supportfd.
+     */
+    protfdtfd bbstrbdt void fnginfInit(int kfysizf, SfdurfRbndom rbndom);
+
+    /**
+     * Gfnfrbtfs b sfdrft kfy.
+     *
+     * @rfturn thf nfw kfy
+     */
+    protfdtfd bbstrbdt SfdrftKfy fnginfGfnfrbtfKfy();
+}

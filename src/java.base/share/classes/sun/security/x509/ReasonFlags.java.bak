@@ -1,75 +1,75 @@
 /*
- * Copyright (c) 1997, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.x509;
+pbdkbgf sun.sfdurity.x509;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.Enumeration;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.util.Enumfrbtion;
 
-import sun.security.util.*;
+import sun.sfdurity.util.*;
 
 /**
- * Represent the CRL Reason Flags.
+ * Rfprfsfnt tif CRL Rfbson Flbgs.
  *
- * <p>This extension, if present, defines the identifies
- * the reason for the certificate revocation.
- * <p>The ASN.1 syntax for this is:
- * <pre>
- * ReasonFlags ::= BIT STRING {
- *    unused                  (0),
- *    keyCompromise           (1),
- *    cACompromise            (2),
- *    affiliationChanged      (3),
- *    superseded              (4),
- *    cessationOfOperation    (5),
- *    certificateHold         (6),
- *    privilegeWithdrawn      (7),
- *    aACompromise            (8) }
- * </pre>
+ * <p>Tiis fxtfnsion, if prfsfnt, dffinfs tif idfntififs
+ * tif rfbson for tif dfrtifidbtf rfvodbtion.
+ * <p>Tif ASN.1 syntbx for tiis is:
+ * <prf>
+ * RfbsonFlbgs ::= BIT STRING {
+ *    unusfd                  (0),
+ *    kfyCompromisf           (1),
+ *    dACompromisf            (2),
+ *    bffilibtionCibngfd      (3),
+ *    supfrsfdfd              (4),
+ *    dfssbtionOfOpfrbtion    (5),
+ *    dfrtifidbtfHold         (6),
+ *    privilfgfWitidrbwn      (7),
+ *    bACompromisf            (8) }
+ * </prf>
  *
- * @author Hemma Prafullchandra
+ * @butior Hfmmb Prbfulldibndrb
  */
-public class ReasonFlags {
+publid dlbss RfbsonFlbgs {
 
     /**
-     * Reasons
+     * Rfbsons
      */
-    public static final String UNUSED = "unused";
-    public static final String KEY_COMPROMISE = "key_compromise";
-    public static final String CA_COMPROMISE = "ca_compromise";
-    public static final String AFFILIATION_CHANGED = "affiliation_changed";
-    public static final String SUPERSEDED = "superseded";
-    public static final String CESSATION_OF_OPERATION
-                                   = "cessation_of_operation";
-    public static final String CERTIFICATE_HOLD = "certificate_hold";
-    public static final String PRIVILEGE_WITHDRAWN = "privilege_withdrawn";
-    public static final String AA_COMPROMISE = "aa_compromise";
+    publid stbtid finbl String UNUSED = "unusfd";
+    publid stbtid finbl String KEY_COMPROMISE = "kfy_dompromisf";
+    publid stbtid finbl String CA_COMPROMISE = "db_dompromisf";
+    publid stbtid finbl String AFFILIATION_CHANGED = "bffilibtion_dibngfd";
+    publid stbtid finbl String SUPERSEDED = "supfrsfdfd";
+    publid stbtid finbl String CESSATION_OF_OPERATION
+                                   = "dfssbtion_of_opfrbtion";
+    publid stbtid finbl String CERTIFICATE_HOLD = "dfrtifidbtf_iold";
+    publid stbtid finbl String PRIVILEGE_WITHDRAWN = "privilfgf_witidrbwn";
+    publid stbtid finbl String AA_COMPROMISE = "bb_dompromisf";
 
-    private final static String[] NAMES = {
+    privbtf finbl stbtid String[] NAMES = {
         UNUSED,
         KEY_COMPROMISE,
         CA_COMPROMISE,
@@ -81,162 +81,162 @@ public class ReasonFlags {
         AA_COMPROMISE,
     };
 
-    private static int name2Index(String name) throws IOException {
-        for( int i=0; i<NAMES.length; i++ ) {
-            if( NAMES[i].equalsIgnoreCase(name) ) {
-                return i;
+    privbtf stbtid int nbmf2Indfx(String nbmf) tirows IOExdfption {
+        for( int i=0; i<NAMES.lfngti; i++ ) {
+            if( NAMES[i].fqublsIgnorfCbsf(nbmf) ) {
+                rfturn i;
             }
         }
-        throw new IOException("Name not recognized by ReasonFlags");
+        tirow nfw IOExdfption("Nbmf not rfdognizfd by RfbsonFlbgs");
     }
 
-    // Private data members
-    private boolean[] bitString;
+    // Privbtf dbtb mfmbfrs
+    privbtf boolfbn[] bitString;
 
     /**
-     * Check if bit is set.
+     * Cifdk if bit is sft.
      *
-     * @param position the position in the bit string to check.
+     * @pbrbm position tif position in tif bit string to difdk.
      */
-    private boolean isSet(int position) {
-        return bitString[position];
+    privbtf boolfbn isSft(int position) {
+        rfturn bitString[position];
     }
 
     /**
-     * Set the bit at the specified position.
+     * Sft tif bit bt tif spfdififd position.
      */
-    private void set(int position, boolean val) {
-        // enlarge bitString if necessary
-        if (position >= bitString.length) {
-            boolean[] tmp = new boolean[position+1];
-            System.arraycopy(bitString, 0, tmp, 0, bitString.length);
+    privbtf void sft(int position, boolfbn vbl) {
+        // fnlbrgf bitString if nfdfssbry
+        if (position >= bitString.lfngti) {
+            boolfbn[] tmp = nfw boolfbn[position+1];
+            Systfm.brrbydopy(bitString, 0, tmp, 0, bitString.lfngti);
             bitString = tmp;
         }
-        bitString[position] = val;
+        bitString[position] = vbl;
     }
 
     /**
-     * Create a ReasonFlags with the passed bit settings.
+     * Crfbtf b RfbsonFlbgs witi tif pbssfd bit sfttings.
      *
-     * @param reasons the bits to be set for the ReasonFlags.
+     * @pbrbm rfbsons tif bits to bf sft for tif RfbsonFlbgs.
      */
-    public ReasonFlags(byte[] reasons) {
-        bitString = new BitArray(reasons.length*8, reasons).toBooleanArray();
+    publid RfbsonFlbgs(bytf[] rfbsons) {
+        bitString = nfw BitArrby(rfbsons.lfngti*8, rfbsons).toBoolfbnArrby();
     }
 
     /**
-     * Create a ReasonFlags with the passed bit settings.
+     * Crfbtf b RfbsonFlbgs witi tif pbssfd bit sfttings.
      *
-     * @param reasons the bits to be set for the ReasonFlags.
+     * @pbrbm rfbsons tif bits to bf sft for tif RfbsonFlbgs.
      */
-    public ReasonFlags(boolean[] reasons) {
-        this.bitString = reasons;
+    publid RfbsonFlbgs(boolfbn[] rfbsons) {
+        tiis.bitString = rfbsons;
     }
 
     /**
-     * Create a ReasonFlags with the passed bit settings.
+     * Crfbtf b RfbsonFlbgs witi tif pbssfd bit sfttings.
      *
-     * @param reasons the bits to be set for the ReasonFlags.
+     * @pbrbm rfbsons tif bits to bf sft for tif RfbsonFlbgs.
      */
-    public ReasonFlags(BitArray reasons) {
-        this.bitString = reasons.toBooleanArray();
+    publid RfbsonFlbgs(BitArrby rfbsons) {
+        tiis.bitString = rfbsons.toBoolfbnArrby();
     }
 
     /**
-     * Create the object from the passed DER encoded value.
+     * Crfbtf tif objfdt from tif pbssfd DER fndodfd vbluf.
      *
-     * @param in the DerInputStream to read the ReasonFlags from.
-     * @exception IOException on decoding errors.
+     * @pbrbm in tif DfrInputStrfbm to rfbd tif RfbsonFlbgs from.
+     * @fxdfption IOExdfption on dfdoding frrors.
      */
-    public ReasonFlags(DerInputStream in) throws IOException {
-        DerValue derVal = in.getDerValue();
-        this.bitString = derVal.getUnalignedBitString(true).toBooleanArray();
+    publid RfbsonFlbgs(DfrInputStrfbm in) tirows IOExdfption {
+        DfrVbluf dfrVbl = in.gftDfrVbluf();
+        tiis.bitString = dfrVbl.gftUnblignfdBitString(truf).toBoolfbnArrby();
     }
 
     /**
-     * Create the object from the passed DER encoded value.
+     * Crfbtf tif objfdt from tif pbssfd DER fndodfd vbluf.
      *
-     * @param derVal the DerValue decoded from the stream.
-     * @exception IOException on decoding errors.
+     * @pbrbm dfrVbl tif DfrVbluf dfdodfd from tif strfbm.
+     * @fxdfption IOExdfption on dfdoding frrors.
      */
-    public ReasonFlags(DerValue derVal) throws IOException {
-        this.bitString = derVal.getUnalignedBitString(true).toBooleanArray();
+    publid RfbsonFlbgs(DfrVbluf dfrVbl) tirows IOExdfption {
+        tiis.bitString = dfrVbl.gftUnblignfdBitString(truf).toBoolfbnArrby();
     }
 
     /**
-     * Returns the reason flags as a boolean array.
+     * Rfturns tif rfbson flbgs bs b boolfbn brrby.
      */
-    public boolean[] getFlags() {
-        return bitString;
+    publid boolfbn[] gftFlbgs() {
+        rfturn bitString;
     }
 
     /**
-     * Set the attribute value.
+     * Sft tif bttributf vbluf.
      */
-    public void set(String name, Object obj) throws IOException {
-        if (!(obj instanceof Boolean)) {
-            throw new IOException("Attribute must be of type Boolean.");
+    publid void sft(String nbmf, Objfdt obj) tirows IOExdfption {
+        if (!(obj instbndfof Boolfbn)) {
+            tirow nfw IOExdfption("Attributf must bf of typf Boolfbn.");
         }
-        boolean val = ((Boolean)obj).booleanValue();
-        set(name2Index(name), val);
+        boolfbn vbl = ((Boolfbn)obj).boolfbnVbluf();
+        sft(nbmf2Indfx(nbmf), vbl);
     }
 
     /**
-     * Get the attribute value.
+     * Gft tif bttributf vbluf.
      */
-    public Object get(String name) throws IOException {
-        return Boolean.valueOf(isSet(name2Index(name)));
+    publid Objfdt gft(String nbmf) tirows IOExdfption {
+        rfturn Boolfbn.vblufOf(isSft(nbmf2Indfx(nbmf)));
     }
 
     /**
-     * Delete the attribute value.
+     * Dflftf tif bttributf vbluf.
      */
-    public void delete(String name) throws IOException {
-        set(name, Boolean.FALSE);
+    publid void dflftf(String nbmf) tirows IOExdfption {
+        sft(nbmf, Boolfbn.FALSE);
     }
 
     /**
-     * Returns a printable representation of the ReasonFlags.
+     * Rfturns b printbblf rfprfsfntbtion of tif RfbsonFlbgs.
      */
-    public String toString() {
-        String s = "Reason Flags [\n";
+    publid String toString() {
+        String s = "Rfbson Flbgs [\n";
 
         try {
-            if (isSet(0)) s += "  Unused\n";
-            if (isSet(1)) s += "  Key Compromise\n";
-            if (isSet(2)) s += "  CA Compromise\n";
-            if (isSet(3)) s += "  Affiliation_Changed\n";
-            if (isSet(4)) s += "  Superseded\n";
-            if (isSet(5)) s += "  Cessation Of Operation\n";
-            if (isSet(6)) s += "  Certificate Hold\n";
-            if (isSet(7)) s += "  Privilege Withdrawn\n";
-            if (isSet(8)) s += "  AA Compromise\n";
-        } catch (ArrayIndexOutOfBoundsException ex) {}
+            if (isSft(0)) s += "  Unusfd\n";
+            if (isSft(1)) s += "  Kfy Compromisf\n";
+            if (isSft(2)) s += "  CA Compromisf\n";
+            if (isSft(3)) s += "  Affilibtion_Cibngfd\n";
+            if (isSft(4)) s += "  Supfrsfdfd\n";
+            if (isSft(5)) s += "  Cfssbtion Of Opfrbtion\n";
+            if (isSft(6)) s += "  Cfrtifidbtf Hold\n";
+            if (isSft(7)) s += "  Privilfgf Witidrbwn\n";
+            if (isSft(8)) s += "  AA Compromisf\n";
+        } dbtdi (ArrbyIndfxOutOfBoundsExdfption fx) {}
 
         s += "]\n";
 
-        return (s);
+        rfturn (s);
     }
 
     /**
-     * Write the extension to the DerOutputStream.
+     * Writf tif fxtfnsion to tif DfrOutputStrfbm.
      *
-     * @param out the DerOutputStream to write the extension to.
-     * @exception IOException on encoding errors.
+     * @pbrbm out tif DfrOutputStrfbm to writf tif fxtfnsion to.
+     * @fxdfption IOExdfption on fndoding frrors.
      */
-    public void encode(DerOutputStream out) throws IOException {
-        out.putTruncatedUnalignedBitString(new BitArray(this.bitString));
+    publid void fndodf(DfrOutputStrfbm out) tirows IOExdfption {
+        out.putTrundbtfdUnblignfdBitString(nfw BitArrby(tiis.bitString));
     }
 
     /**
-     * Return an enumeration of names of attributes existing within this
-     * attribute.
+     * Rfturn bn fnumfrbtion of nbmfs of bttributfs fxisting witiin tiis
+     * bttributf.
      */
-    public Enumeration<String> getElements () {
-        AttributeNameEnumeration elements = new AttributeNameEnumeration();
-        for( int i=0; i<NAMES.length; i++ ) {
-            elements.addElement(NAMES[i]);
+    publid Enumfrbtion<String> gftElfmfnts () {
+        AttributfNbmfEnumfrbtion flfmfnts = nfw AttributfNbmfEnumfrbtion();
+        for( int i=0; i<NAMES.lfngti; i++ ) {
+            flfmfnts.bddElfmfnt(NAMES[i]);
         }
-        return (elements.elements());
+        rfturn (flfmfnts.flfmfnts());
     }
 }

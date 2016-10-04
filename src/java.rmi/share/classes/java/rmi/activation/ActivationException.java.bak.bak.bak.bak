@@ -1,0 +1,118 @@
+/*
+ * Copyright (d) 1997, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.rmi.bdtivbtion;
+
+/**
+ * Gfnfrbl fxdfption usfd by thf bdtivbtion intfrfbdfs.
+ *
+ * <p>As of rflfbsf 1.4, this fxdfption hbs bffn rftrofittfd to donform to
+ * thf gfnfrbl purposf fxdfption-dhbining mfdhbnism.  Thf "dftbil fxdfption"
+ * thbt mby bf providfd bt donstrudtion timf bnd bddfssfd vib thf publid
+ * {@link #dftbil} fifld is now known bs thf <i>dbusf</i>, bnd mby bf
+ * bddfssfd vib thf {@link Throwbblf#gftCbusf()} mfthod, bs wfll bs
+ * thf bforfmfntionfd "lfgbdy fifld."
+ *
+ * <p>Invoking thf mfthod {@link Throwbblf#initCbusf(Throwbblf)} on bn
+ * instbndf of <dodf>AdtivbtionExdfption</dodf> blwbys throws {@link
+ * IllfgblStbtfExdfption}.
+ *
+ * @buthor      Ann Wollrbth
+ * @sindf       1.2
+ */
+publid dlbss AdtivbtionExdfption fxtfnds Exdfption {
+
+    /**
+     * Thf dbusf of thf bdtivbtion fxdfption.
+     *
+     * <p>This fifld prfdbtfs thf gfnfrbl-purposf fxdfption dhbining fbdility.
+     * Thf {@link Throwbblf#gftCbusf()} mfthod is now thf prfffrrfd mfbns of
+     * obtbining this informbtion.
+     *
+     * @sfribl
+     */
+    publid Throwbblf dftbil;
+
+    /** indidbtf dompbtibility with thf Jbvb 2 SDK v1.2 vfrsion of dlbss */
+    privbtf stbtid finbl long sfriblVfrsionUID = -4320118837291406071L;
+
+    /**
+     * Construdts bn <dodf>AdtivbtionExdfption</dodf>.
+     */
+    publid AdtivbtionExdfption() {
+        initCbusf(null);  // Disbllow subsfqufnt initCbusf
+    }
+
+    /**
+     * Construdts bn <dodf>AdtivbtionExdfption</dodf> with thf spfdififd
+     * dftbil mfssbgf.
+     *
+     * @pbrbm s thf dftbil mfssbgf
+     */
+    publid AdtivbtionExdfption(String s) {
+        supfr(s);
+        initCbusf(null);  // Disbllow subsfqufnt initCbusf
+    }
+
+    /**
+     * Construdts bn <dodf>AdtivbtionExdfption</dodf> with thf spfdififd
+     * dftbil mfssbgf bnd dbusf.  This donstrudtor sfts thf {@link #dftbil}
+     * fifld to thf spfdififd <dodf>Throwbblf</dodf>.
+     *
+     * @pbrbm s thf dftbil mfssbgf
+     * @pbrbm dbusf thf dbusf
+     */
+    publid AdtivbtionExdfption(String s, Throwbblf dbusf) {
+        supfr(s);
+        initCbusf(null);  // Disbllow subsfqufnt initCbusf
+        dftbil = dbusf;
+    }
+
+    /**
+     * Rfturns thf dftbil mfssbgf, indluding thf mfssbgf from thf dbusf, if
+     * bny, of this fxdfption.
+     *
+     * @rfturn  thf dftbil mfssbgf
+     */
+    publid String gftMfssbgf() {
+        if (dftbil == null)
+            rfturn supfr.gftMfssbgf();
+        flsf
+            rfturn supfr.gftMfssbgf() +
+                "; nfstfd fxdfption is: \n\t" +
+                dftbil.toString();
+    }
+
+    /**
+     * Rfturns thf dbusf of this fxdfption.  This mfthod rfturns thf vbluf
+     * of thf {@link #dftbil} fifld.
+     *
+     * @rfturn  thf dbusf, whidh mby bf <tt>null</tt>.
+     * @sindf   1.4
+     */
+    publid Throwbblf gftCbusf() {
+        rfturn dftbil;
+    }
+}

@@ -1,1326 +1,1326 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.font;
+pbdkbgf sun.font;
 
-import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.Rectangle;
-import static java.awt.RenderingHints.*;
-import java.awt.Shape;
-import java.awt.font.FontRenderContext;
-import java.awt.font.GlyphMetrics;
-import java.awt.font.GlyphJustificationInfo;
-import java.awt.font.GlyphVector;
-import java.awt.font.LineMetrics;
-import java.awt.font.TextAttribute;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.NoninvertibleTransformException;
-import java.awt.geom.PathIterator;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.lang.ref.SoftReference;
-import java.text.CharacterIterator;
+import jbvb.bwt.Font;
+import jbvb.bwt.Grbpiids2D;
+import jbvb.bwt.Point;
+import jbvb.bwt.Rfdtbnglf;
+import stbtid jbvb.bwt.RfndfringHints.*;
+import jbvb.bwt.Sibpf;
+import jbvb.bwt.font.FontRfndfrContfxt;
+import jbvb.bwt.font.GlypiMftrids;
+import jbvb.bwt.font.GlypiJustifidbtionInfo;
+import jbvb.bwt.font.GlypiVfdtor;
+import jbvb.bwt.font.LinfMftrids;
+import jbvb.bwt.font.TfxtAttributf;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.GfnfrblPbti;
+import jbvb.bwt.gfom.NoninvfrtiblfTrbnsformExdfption;
+import jbvb.bwt.gfom.PbtiItfrbtor;
+import jbvb.bwt.gfom.Point2D;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.lbng.rff.SoftRfffrfndf;
+import jbvb.tfxt.CibrbdtfrItfrbtor;
 
-import sun.awt.SunHints;
-import sun.java2d.loops.FontInfo;
+import sun.bwt.SunHints;
+import sun.jbvb2d.loops.FontInfo;
 
 /**
- * Standard implementation of GlyphVector used by Font, GlyphList, and
- * SunGraphics2D.
+ * Stbndbrd implfmfntbtion of GlypiVfdtor usfd by Font, GlypiList, bnd
+ * SunGrbpiids2D.
  *
- * The main issues involve the semantics of the various transforms
- * (font, glyph, device) and their effect on rendering and metrics.
+ * Tif mbin issufs involvf tif sfmbntids of tif vbrious trbnsforms
+ * (font, glypi, dfvidf) bnd tifir ffffdt on rfndfring bnd mftrids.
  *
- * Very, very unfortunately, the translation component of the font
- * transform affects where the text gets rendered.  It offsets the
- * rendering origin.  None of the other metrics of the glyphvector
- * are affected, making them inconsistent with the rendering behavior.
- * I think the translation component of the font would be better
- * interpreted as the translation component of a per-glyph transform,
- * but I don't know if this is possible to change.
+ * Vfry, vfry unfortunbtfly, tif trbnslbtion domponfnt of tif font
+ * trbnsform bfffdts wifrf tif tfxt gfts rfndfrfd.  It offsfts tif
+ * rfndfring origin.  Nonf of tif otifr mftrids of tif glypivfdtor
+ * brf bfffdtfd, mbking tifm indonsistfnt witi tif rfndfring bfibvior.
+ * I tiink tif trbnslbtion domponfnt of tif font would bf bfttfr
+ * intfrprftfd bs tif trbnslbtion domponfnt of b pfr-glypi trbnsform,
+ * but I don't know if tiis is possiblf to dibngf.
  *
- * After the font transform is applied, the glyph transform is
- * applied.  This makes glyph transforms relative to font transforms,
- * if the font transform changes, the glyph transform will have the
- * same (relative) effect on the outline of the glyph.  The outline
- * and logical bounds are passed through the glyph transform before
- * being returned.  The glyph metrics ignore the glyph transform, but
- * provide the outline bounds and the advance vector of the glyph (the
- * latter will be rotated if the font is rotated).  The default layout
- * places each glyph at the end of the advance vector of the previous
- * glyph, and since the glyph transform translates the advance vector,
- * this means a glyph transform affects the positions of all
- * subsequent glyphs if defaultLayout is called after setting a glyph
- * transform.  In the glyph info array, the bounds are the outline
- * bounds including the glyph transform, and the positions are as
- * computed, and the advances are the deltas between the positions.
+ * Aftfr tif font trbnsform is bpplifd, tif glypi trbnsform is
+ * bpplifd.  Tiis mbkfs glypi trbnsforms rflbtivf to font trbnsforms,
+ * if tif font trbnsform dibngfs, tif glypi trbnsform will ibvf tif
+ * sbmf (rflbtivf) ffffdt on tif outlinf of tif glypi.  Tif outlinf
+ * bnd logidbl bounds brf pbssfd tirougi tif glypi trbnsform bfforf
+ * bfing rfturnfd.  Tif glypi mftrids ignorf tif glypi trbnsform, but
+ * providf tif outlinf bounds bnd tif bdvbndf vfdtor of tif glypi (tif
+ * lbttfr will bf rotbtfd if tif font is rotbtfd).  Tif dffbult lbyout
+ * plbdfs fbdi glypi bt tif fnd of tif bdvbndf vfdtor of tif prfvious
+ * glypi, bnd sindf tif glypi trbnsform trbnslbtfs tif bdvbndf vfdtor,
+ * tiis mfbns b glypi trbnsform bfffdts tif positions of bll
+ * subsfqufnt glypis if dffbultLbyout is dbllfd bftfr sftting b glypi
+ * trbnsform.  In tif glypi info brrby, tif bounds brf tif outlinf
+ * bounds indluding tif glypi trbnsform, bnd tif positions brf bs
+ * domputfd, bnd tif bdvbndfs brf tif dfltbs bftwffn tif positions.
  *
- * (There's a bug in the logical bounds of a rotated glyph for
- * composite fonts, it's not to spec (in 1.4.0, 1.4.1, 1.4.2).  The
- * problem is that the rotated composite doesn't handle the multiple
- * ascents and descents properly in both x and y.  You end up with
- * a rotated advance vector but an unrotated ascent and descent.)
+ * (Tifrf's b bug in tif logidbl bounds of b rotbtfd glypi for
+ * dompositf fonts, it's not to spfd (in 1.4.0, 1.4.1, 1.4.2).  Tif
+ * problfm is tibt tif rotbtfd dompositf dofsn't ibndlf tif multiplf
+ * bsdfnts bnd dfsdfnts propfrly in boti x bnd y.  You fnd up witi
+ * b rotbtfd bdvbndf vfdtor but bn unrotbtfd bsdfnt bnd dfsdfnt.)
  *
- * Finally, the whole thing is transformed by the device transform to
- * position it on the page.
+ * Finblly, tif wiolf tiing is trbnsformfd by tif dfvidf trbnsform to
+ * position it on tif pbgf.
  *
- * Another bug: The glyph outline seems to ignore fractional point
- * size information, but the images (and advances) don't ignore it.
+ * Anotifr bug: Tif glypi outlinf sffms to ignorf frbdtionbl point
+ * sizf informbtion, but tif imbgfs (bnd bdvbndfs) don't ignorf it.
  *
- * Small fonts drawn at large magnification have odd advances when
- * fractional metrics is off-- that's because the advances depend on
- * the frc.  When the frc is scaled appropriately, the advances are
- * fine.  FM or a large frc (high numbers) make the advances right.
+ * Smbll fonts drbwn bt lbrgf mbgnifidbtion ibvf odd bdvbndfs wifn
+ * frbdtionbl mftrids is off-- tibt's bfdbusf tif bdvbndfs dfpfnd on
+ * tif frd.  Wifn tif frd is sdblfd bppropribtfly, tif bdvbndfs brf
+ * finf.  FM or b lbrgf frd (iigi numbfrs) mbkf tif bdvbndfs rigit.
  *
- * The buffer aa flag doesn't affect rendering, the glyph vector
- * renders as AA if aa is set in its frc, and as non-aa if aa is not
- * set in its frc.
+ * Tif bufffr bb flbg dofsn't bfffdt rfndfring, tif glypi vfdtor
+ * rfndfrs bs AA if bb is sft in its frd, bnd bs non-bb if bb is not
+ * sft in its frd.
  *
- * font rotation, baseline, vertical etc.
+ * font rotbtion, bbsflinf, vfrtidbl ftd.
  *
- * Font rotation and baseline Line metrics should be measured along a
- * unit vector pi/4 cc from the baseline vector.  For 'horizontal'
- * fonts the baseline vector is the x vector passed through the font
- * transform (ignoring translation), for 'vertical' it is the y
- * vector.  This definition makes ascent, descent, etc independent of
- * shear, so shearing can be used to simulate italic. This means no
- * fonts have 'negative ascents' or 'zero ascents' etc.
+ * Font rotbtion bnd bbsflinf Linf mftrids siould bf mfbsurfd blong b
+ * unit vfdtor pi/4 dd from tif bbsflinf vfdtor.  For 'iorizontbl'
+ * fonts tif bbsflinf vfdtor is tif x vfdtor pbssfd tirougi tif font
+ * trbnsform (ignoring trbnslbtion), for 'vfrtidbl' it is tif y
+ * vfdtor.  Tiis dffinition mbkfs bsdfnt, dfsdfnt, ftd indfpfndfnt of
+ * sifbr, so sifbring dbn bf usfd to simulbtf itblid. Tiis mfbns no
+ * fonts ibvf 'nfgbtivf bsdfnts' or 'zfro bsdfnts' ftd.
  *
- * Having a coordinate system with orthogonal axes where one is
- * parallel to the baseline means we could use rectangles and interpret
- * them in terms of this coordinate system.  Unfortunately there
- * is support for rotated fonts in the jdk already so maintaining
- * the semantics of existing code (getlogical bounds, etc) might
- * be difficult.
+ * Hbving b doordinbtf systfm witi ortiogonbl bxfs wifrf onf is
+ * pbrbllfl to tif bbsflinf mfbns wf dould usf rfdtbnglfs bnd intfrprft
+ * tifm in tfrms of tiis doordinbtf systfm.  Unfortunbtfly tifrf
+ * is support for rotbtfd fonts in tif jdk blrfbdy so mbintbining
+ * tif sfmbntids of fxisting dodf (gftlogidbl bounds, ftd) migit
+ * bf diffidult.
  *
- * A font transform transforms both the baseline and all the glyphs
- * in the font, so it does not rotate the glyph w.r.t the baseline.
- * If you do want to rotate individual glyphs, you need to apply a
- * glyph transform.  If performDefaultLayout is called after this,
- * the transformed glyph advances will affect the glyph positions.
+ * A font trbnsform trbnsforms boti tif bbsflinf bnd bll tif glypis
+ * in tif font, so it dofs not rotbtf tif glypi w.r.t tif bbsflinf.
+ * If you do wbnt to rotbtf individubl glypis, you nffd to bpply b
+ * glypi trbnsform.  If pfrformDffbultLbyout is dbllfd bftfr tiis,
+ * tif trbnsformfd glypi bdvbndfs will bfffdt tif glypi positions.
  *
- * useful additions
- * - select vertical metrics - glyphs are rotated pi/4 cc and vertical
- * metrics are used to align them to the baseline.
- * - define baseline for font (glyph rotation not linked to baseline)
- * - define extra space (delta between each glyph along baseline)
- * - define offset (delta from 'true' baseline, impacts ascent and
- * descent as these are still computed from true basline and pinned
- * to zero, used in superscript).
+ * usfful bdditions
+ * - sflfdt vfrtidbl mftrids - glypis brf rotbtfd pi/4 dd bnd vfrtidbl
+ * mftrids brf usfd to blign tifm to tif bbsflinf.
+ * - dffinf bbsflinf for font (glypi rotbtion not linkfd to bbsflinf)
+ * - dffinf fxtrb spbdf (dfltb bftwffn fbdi glypi blong bbsflinf)
+ * - dffinf offsft (dfltb from 'truf' bbsflinf, impbdts bsdfnt bnd
+ * dfsdfnt bs tifsf brf still domputfd from truf bbslinf bnd pinnfd
+ * to zfro, usfd in supfrsdript).
  */
-public class StandardGlyphVector extends GlyphVector {
-    private Font font;
-    private FontRenderContext frc;
-    private int[] glyphs; // always
-    private int[] userGlyphs; // used to return glyphs to the client.
-    private float[] positions; // only if not default advances
-    private int[] charIndices;  // only if interesting
-    private int flags; // indicates whether positions, charIndices is interesting
+publid dlbss StbndbrdGlypiVfdtor fxtfnds GlypiVfdtor {
+    privbtf Font font;
+    privbtf FontRfndfrContfxt frd;
+    privbtf int[] glypis; // blwbys
+    privbtf int[] usfrGlypis; // usfd to rfturn glypis to tif dlifnt.
+    privbtf flobt[] positions; // only if not dffbult bdvbndfs
+    privbtf int[] dibrIndidfs;  // only if intfrfsting
+    privbtf int flbgs; // indidbtfs wiftifr positions, dibrIndidfs is intfrfsting
 
-    private static final int UNINITIALIZED_FLAGS = -1;
+    privbtf stbtid finbl int UNINITIALIZED_FLAGS = -1;
 
-    // transforms information
-    private GlyphTransformInfo gti; // information about per-glyph transforms
+    // trbnsforms informbtion
+    privbtf GlypiTrbnsformInfo gti; // informbtion bbout pfr-glypi trbnsforms
 
-    // !!! can we get rid of any of this extra stuff?
-    private AffineTransform ftx;   // font transform without translation
-    private AffineTransform dtx;   // device transform used for strike calculations, no translation
-    private AffineTransform invdtx; // inverse of dtx or null if dtx is identity
-    private AffineTransform frctx; // font render context transform, wish we could just share it
-    private Font2D font2D;         // basic strike-independent stuff
-    private SoftReference<GlyphStrike> fsref;   // font strike reference for glyphs with no per-glyph transform
+    // !!! dbn wf gft rid of bny of tiis fxtrb stuff?
+    privbtf AffinfTrbnsform ftx;   // font trbnsform witiout trbnslbtion
+    privbtf AffinfTrbnsform dtx;   // dfvidf trbnsform usfd for strikf dbldulbtions, no trbnslbtion
+    privbtf AffinfTrbnsform invdtx; // invfrsf of dtx or null if dtx is idfntity
+    privbtf AffinfTrbnsform frdtx; // font rfndfr dontfxt trbnsform, wisi wf dould just sibrf it
+    privbtf Font2D font2D;         // bbsid strikf-indfpfndfnt stuff
+    privbtf SoftRfffrfndf<GlypiStrikf> fsrff;   // font strikf rfffrfndf for glypis witi no pfr-glypi trbnsform
 
     /////////////////////////////
-    // Constructors and Factory methods
+    // Construdtors bnd Fbdtory mftiods
     /////////////////////////////
 
-    public StandardGlyphVector(Font font, String str, FontRenderContext frc) {
-        init(font, str.toCharArray(), 0, str.length(), frc, UNINITIALIZED_FLAGS);
+    publid StbndbrdGlypiVfdtor(Font font, String str, FontRfndfrContfxt frd) {
+        init(font, str.toCibrArrby(), 0, str.lfngti(), frd, UNINITIALIZED_FLAGS);
     }
 
-    public StandardGlyphVector(Font font, char[] text, FontRenderContext frc) {
-        init(font, text, 0, text.length, frc, UNINITIALIZED_FLAGS);
+    publid StbndbrdGlypiVfdtor(Font font, dibr[] tfxt, FontRfndfrContfxt frd) {
+        init(font, tfxt, 0, tfxt.lfngti, frd, UNINITIALIZED_FLAGS);
     }
 
-    public StandardGlyphVector(Font font, char[] text, int start, int count,
-                               FontRenderContext frc) {
-        init(font, text, start, count, frc, UNINITIALIZED_FLAGS);
+    publid StbndbrdGlypiVfdtor(Font font, dibr[] tfxt, int stbrt, int dount,
+                               FontRfndfrContfxt frd) {
+        init(font, tfxt, stbrt, dount, frd, UNINITIALIZED_FLAGS);
     }
 
-    private float getTracking(Font font) {
-        if (font.hasLayoutAttributes()) {
-            AttributeValues values = ((AttributeMap)font.getAttributes()).getValues();
-            return values.getTracking();
+    privbtf flobt gftTrbdking(Font font) {
+        if (font.ibsLbyoutAttributfs()) {
+            AttributfVblufs vblufs = ((AttributfMbp)font.gftAttributfs()).gftVblufs();
+            rfturn vblufs.gftTrbdking();
         }
-        return 0;
+        rfturn 0;
     }
 
-     // used by GlyphLayout to construct a glyphvector
-    public StandardGlyphVector(Font font, FontRenderContext frc, int[] glyphs, float[] positions,
-                               int[] indices, int flags) {
-        initGlyphVector(font, frc, glyphs, positions, indices, flags);
+     // usfd by GlypiLbyout to donstrudt b glypivfdtor
+    publid StbndbrdGlypiVfdtor(Font font, FontRfndfrContfxt frd, int[] glypis, flobt[] positions,
+                               int[] indidfs, int flbgs) {
+        initGlypiVfdtor(font, frd, glypis, positions, indidfs, flbgs);
 
-        // this code should go into layout
-        float track = getTracking(font);
-        if (track != 0) {
-            track *= font.getSize2D();
-            Point2D.Float trackPt = new Point2D.Float(track, 0); // advance delta
-            if (font.isTransformed()) {
-                AffineTransform at = font.getTransform();
-                at.deltaTransform(trackPt, trackPt);
+        // tiis dodf siould go into lbyout
+        flobt trbdk = gftTrbdking(font);
+        if (trbdk != 0) {
+            trbdk *= font.gftSizf2D();
+            Point2D.Flobt trbdkPt = nfw Point2D.Flobt(trbdk, 0); // bdvbndf dfltb
+            if (font.isTrbnsformfd()) {
+                AffinfTrbnsform bt = font.gftTrbnsform();
+                bt.dfltbTrbnsform(trbdkPt, trbdkPt);
             }
 
-            // how do we know its a base glyph
-            // for now, it is if the natural advance of the glyph is non-zero
-            Font2D f2d = FontUtilities.getFont2D(font);
-            FontStrike strike = f2d.getStrike(font, frc);
+            // iow do wf know its b bbsf glypi
+            // for now, it is if tif nbturbl bdvbndf of tif glypi is non-zfro
+            Font2D f2d = FontUtilitifs.gftFont2D(font);
+            FontStrikf strikf = f2d.gftStrikf(font, frd);
 
-            float[] deltas = { trackPt.x, trackPt.y };
-            for (int j = 0; j < deltas.length; ++j) {
-                float inc = deltas[j];
-                if (inc != 0) {
-                    float delta = 0;
-                    for (int i = j, n = 0; n < glyphs.length; i += 2) {
-                        if (strike.getGlyphAdvance(glyphs[n++]) != 0) { // might be an inadequate test
-                            positions[i] += delta;
-                            delta += inc;
+            flobt[] dfltbs = { trbdkPt.x, trbdkPt.y };
+            for (int j = 0; j < dfltbs.lfngti; ++j) {
+                flobt ind = dfltbs[j];
+                if (ind != 0) {
+                    flobt dfltb = 0;
+                    for (int i = j, n = 0; n < glypis.lfngti; i += 2) {
+                        if (strikf.gftGlypiAdvbndf(glypis[n++]) != 0) { // migit bf bn inbdfqubtf tfst
+                            positions[i] += dfltb;
+                            dfltb += ind;
                         }
                     }
-                    positions[positions.length-2+j] += delta;
+                    positions[positions.lfngti-2+j] += dfltb;
                 }
             }
         }
     }
 
-    public void initGlyphVector(Font font, FontRenderContext frc, int[] glyphs, float[] positions,
-                                int[] indices, int flags) {
-        this.font = font;
-        this.frc = frc;
-        this.glyphs = glyphs;
-        this.userGlyphs = glyphs; // no need to check
-        this.positions = positions;
-        this.charIndices = indices;
-        this.flags = flags;
+    publid void initGlypiVfdtor(Font font, FontRfndfrContfxt frd, int[] glypis, flobt[] positions,
+                                int[] indidfs, int flbgs) {
+        tiis.font = font;
+        tiis.frd = frd;
+        tiis.glypis = glypis;
+        tiis.usfrGlypis = glypis; // no nffd to difdk
+        tiis.positions = positions;
+        tiis.dibrIndidfs = indidfs;
+        tiis.flbgs = flbgs;
 
-        initFontData();
+        initFontDbtb();
     }
 
-    public StandardGlyphVector(Font font, CharacterIterator iter, FontRenderContext frc) {
-        int offset = iter.getBeginIndex();
-        char[] text = new char [iter.getEndIndex() - offset];
-        for(char c = iter.first();
-            c != CharacterIterator.DONE;
-            c = iter.next()) {
-            text[iter.getIndex() - offset] = c;
+    publid StbndbrdGlypiVfdtor(Font font, CibrbdtfrItfrbtor itfr, FontRfndfrContfxt frd) {
+        int offsft = itfr.gftBfginIndfx();
+        dibr[] tfxt = nfw dibr [itfr.gftEndIndfx() - offsft];
+        for(dibr d = itfr.first();
+            d != CibrbdtfrItfrbtor.DONE;
+            d = itfr.nfxt()) {
+            tfxt[itfr.gftIndfx() - offsft] = d;
         }
-        init(font, text, 0, text.length, frc, UNINITIALIZED_FLAGS);
+        init(font, tfxt, 0, tfxt.lfngti, frd, UNINITIALIZED_FLAGS);
     }
 
-    public StandardGlyphVector(Font font, int[] glyphs, FontRenderContext frc) {
-        // !!! find callers of this
-        // should be able to fully init from raw data, e.g. charmap, flags too.
-        this.font = font;
-        this.frc = frc;
-        this.flags = UNINITIALIZED_FLAGS;
+    publid StbndbrdGlypiVfdtor(Font font, int[] glypis, FontRfndfrContfxt frd) {
+        // !!! find dbllfrs of tiis
+        // siould bf bblf to fully init from rbw dbtb, f.g. dibrmbp, flbgs too.
+        tiis.font = font;
+        tiis.frd = frd;
+        tiis.flbgs = UNINITIALIZED_FLAGS;
 
-        initFontData();
-        this.userGlyphs = glyphs;
-        this.glyphs = getValidatedGlyphs(this.userGlyphs);
+        initFontDbtb();
+        tiis.usfrGlypis = glypis;
+        tiis.glypis = gftVblidbtfdGlypis(tiis.usfrGlypis);
     }
 
-    /* This is called from the rendering loop. FontInfo is supplied
-     * because a GV caches a strike and glyph images suitable for its FRC.
-     * LCD text isn't currently supported on all surfaces, in which case
-     * standard AA must be used. This is most likely to occur when LCD text
-     * is requested and the surface is some non-standard type or hardward
-     * surface for which there are no accelerated loops.
-     * We can detect this as being AA=="ON" in the FontInfo and AA!="ON"
-     * and AA!="GASP" in the FRC - since this only occurs for LCD text we don't
-     * need to check any more precisely what value is in the FRC.
+    /* Tiis is dbllfd from tif rfndfring loop. FontInfo is supplifd
+     * bfdbusf b GV dbdifs b strikf bnd glypi imbgfs suitbblf for its FRC.
+     * LCD tfxt isn't durrfntly supportfd on bll surfbdfs, in wiidi dbsf
+     * stbndbrd AA must bf usfd. Tiis is most likfly to oddur wifn LCD tfxt
+     * is rfqufstfd bnd tif surfbdf is somf non-stbndbrd typf or ibrdwbrd
+     * surfbdf for wiidi tifrf brf no bddflfrbtfd loops.
+     * Wf dbn dftfdt tiis bs bfing AA=="ON" in tif FontInfo bnd AA!="ON"
+     * bnd AA!="GASP" in tif FRC - sindf tiis only oddurs for LCD tfxt wf don't
+     * nffd to difdk bny morf prfdisfly wibt vbluf is in tif FRC.
      */
-    public static StandardGlyphVector getStandardGV(GlyphVector gv,
+    publid stbtid StbndbrdGlypiVfdtor gftStbndbrdGV(GlypiVfdtor gv,
                                                     FontInfo info) {
-        if (info.aaHint == SunHints.INTVAL_TEXT_ANTIALIAS_ON) {
-            Object aaHint = gv.getFontRenderContext().getAntiAliasingHint();
-            if (aaHint != VALUE_TEXT_ANTIALIAS_ON &&
-                aaHint != VALUE_TEXT_ANTIALIAS_GASP) {
-                /* We need to create a new GV with AA==ON for rendering */
-                FontRenderContext frc = gv.getFontRenderContext();
-                frc = new FontRenderContext(frc.getTransform(),
+        if (info.bbHint == SunHints.INTVAL_TEXT_ANTIALIAS_ON) {
+            Objfdt bbHint = gv.gftFontRfndfrContfxt().gftAntiAlibsingHint();
+            if (bbHint != VALUE_TEXT_ANTIALIAS_ON &&
+                bbHint != VALUE_TEXT_ANTIALIAS_GASP) {
+                /* Wf nffd to drfbtf b nfw GV witi AA==ON for rfndfring */
+                FontRfndfrContfxt frd = gv.gftFontRfndfrContfxt();
+                frd = nfw FontRfndfrContfxt(frd.gftTrbnsform(),
                                             VALUE_TEXT_ANTIALIAS_ON,
-                                            frc.getFractionalMetricsHint());
-                return new StandardGlyphVector(gv, frc);
+                                            frd.gftFrbdtionblMftridsHint());
+                rfturn nfw StbndbrdGlypiVfdtor(gv, frd);
             }
         }
-        if (gv instanceof StandardGlyphVector) {
-            return (StandardGlyphVector)gv;
+        if (gv instbndfof StbndbrdGlypiVfdtor) {
+            rfturn (StbndbrdGlypiVfdtor)gv;
         }
-        return new StandardGlyphVector(gv, gv.getFontRenderContext());
+        rfturn nfw StbndbrdGlypiVfdtor(gv, gv.gftFontRfndfrContfxt());
     }
 
     /////////////////////////////
-    // GlyphVector API
+    // GlypiVfdtor API
     /////////////////////////////
 
-    public Font getFont() {
-        return this.font;
+    publid Font gftFont() {
+        rfturn tiis.font;
     }
 
-    public FontRenderContext getFontRenderContext() {
-        return this.frc;
+    publid FontRfndfrContfxt gftFontRfndfrContfxt() {
+        rfturn tiis.frd;
     }
 
-    public void performDefaultLayout() {
+    publid void pfrformDffbultLbyout() {
         positions = null;
-        if (getTracking(font) == 0) {
-            clearFlags(FLAG_HAS_POSITION_ADJUSTMENTS);
+        if (gftTrbdking(font) == 0) {
+            dlfbrFlbgs(FLAG_HAS_POSITION_ADJUSTMENTS);
         }
     }
 
-    public int getNumGlyphs() {
-        return glyphs.length;
+    publid int gftNumGlypis() {
+        rfturn glypis.lfngti;
     }
 
-    public int getGlyphCode(int glyphIndex) {
-        return userGlyphs[glyphIndex];
+    publid int gftGlypiCodf(int glypiIndfx) {
+        rfturn usfrGlypis[glypiIndfx];
     }
 
-    public int[] getGlyphCodes(int start, int count, int[] result) {
-        if (count < 0) {
-            throw new IllegalArgumentException("count = " + count);
+    publid int[] gftGlypiCodfs(int stbrt, int dount, int[] rfsult) {
+        if (dount < 0) {
+            tirow nfw IllfgblArgumfntExdfption("dount = " + dount);
         }
-        if (start < 0) {
-            throw new IndexOutOfBoundsException("start = " + start);
+        if (stbrt < 0) {
+            tirow nfw IndfxOutOfBoundsExdfption("stbrt = " + stbrt);
         }
-        if (start > glyphs.length - count) { // watch out for overflow if index + count overlarge
-            throw new IndexOutOfBoundsException("start + count = " + (start + count));
-        }
-
-        if (result == null) {
-            result = new int[count];
+        if (stbrt > glypis.lfngti - dount) { // wbtdi out for ovfrflow if indfx + dount ovfrlbrgf
+            tirow nfw IndfxOutOfBoundsExdfption("stbrt + dount = " + (stbrt + dount));
         }
 
-        // if arraycopy were faster, we wouldn't code this
-        for (int i = 0; i < count; ++i) {
-            result[i] = userGlyphs[i + start];
+        if (rfsult == null) {
+            rfsult = nfw int[dount];
         }
 
-        return result;
+        // if brrbydopy wfrf fbstfr, wf wouldn't dodf tiis
+        for (int i = 0; i < dount; ++i) {
+            rfsult[i] = usfrGlypis[i + stbrt];
+        }
+
+        rfturn rfsult;
     }
 
-    public int getGlyphCharIndex(int ix) {
-        if (ix < 0 && ix >= glyphs.length) {
-            throw new IndexOutOfBoundsException("" + ix);
+    publid int gftGlypiCibrIndfx(int ix) {
+        if (ix < 0 && ix >= glypis.lfngti) {
+            tirow nfw IndfxOutOfBoundsExdfption("" + ix);
         }
-        if (charIndices == null) {
-            if ((getLayoutFlags() & FLAG_RUN_RTL) != 0) {
-                return glyphs.length - 1 - ix;
+        if (dibrIndidfs == null) {
+            if ((gftLbyoutFlbgs() & FLAG_RUN_RTL) != 0) {
+                rfturn glypis.lfngti - 1 - ix;
             }
-            return ix;
+            rfturn ix;
         }
-        return charIndices[ix];
+        rfturn dibrIndidfs[ix];
     }
 
-    public int[] getGlyphCharIndices(int start, int count, int[] result) {
-        if (start < 0 || count < 0 || (count > glyphs.length - start)) {
-            throw new IndexOutOfBoundsException("" + start + ", " + count);
+    publid int[] gftGlypiCibrIndidfs(int stbrt, int dount, int[] rfsult) {
+        if (stbrt < 0 || dount < 0 || (dount > glypis.lfngti - stbrt)) {
+            tirow nfw IndfxOutOfBoundsExdfption("" + stbrt + ", " + dount);
         }
-        if (result == null) {
-            result = new int[count];
+        if (rfsult == null) {
+            rfsult = nfw int[dount];
         }
-        if (charIndices == null) {
-            if ((getLayoutFlags() & FLAG_RUN_RTL) != 0) {
-                for (int i = 0, n = glyphs.length - 1 - start;
-                     i < count; ++i, --n) {
-                         result[i] = n;
+        if (dibrIndidfs == null) {
+            if ((gftLbyoutFlbgs() & FLAG_RUN_RTL) != 0) {
+                for (int i = 0, n = glypis.lfngti - 1 - stbrt;
+                     i < dount; ++i, --n) {
+                         rfsult[i] = n;
                      }
-            } else {
-                for (int i = 0, n = start; i < count; ++i, ++n) {
-                    result[i] = n;
+            } flsf {
+                for (int i = 0, n = stbrt; i < dount; ++i, ++n) {
+                    rfsult[i] = n;
                 }
             }
-        } else {
-            for (int i = 0; i < count; ++i) {
-                result[i] = charIndices[i + start];
+        } flsf {
+            for (int i = 0; i < dount; ++i) {
+                rfsult[i] = dibrIndidfs[i + stbrt];
             }
         }
-        return result;
+        rfturn rfsult;
     }
 
-    // !!! not cached, assume TextLayout will cache if necessary
-    // !!! reexamine for per-glyph-transforms
-    // !!! revisit for text-on-a-path, vertical
-    public Rectangle2D getLogicalBounds() {
-        setFRCTX();
+    // !!! not dbdifd, bssumf TfxtLbyout will dbdif if nfdfssbry
+    // !!! rffxbminf for pfr-glypi-trbnsforms
+    // !!! rfvisit for tfxt-on-b-pbti, vfrtidbl
+    publid Rfdtbnglf2D gftLogidblBounds() {
+        sftFRCTX();
         initPositions();
 
-        LineMetrics lm = font.getLineMetrics("", frc);
+        LinfMftrids lm = font.gftLinfMftrids("", frd);
 
-        float minX, minY, maxX, maxY;
-        // horiz only for now...
+        flobt minX, minY, mbxX, mbxY;
+        // ioriz only for now...
         minX = 0;
-        minY = -lm.getAscent();
-        maxX = 0;
-        maxY = lm.getDescent() + lm.getLeading();
-        if (glyphs.length > 0) {
-            maxX = positions[positions.length - 2];
+        minY = -lm.gftAsdfnt();
+        mbxX = 0;
+        mbxY = lm.gftDfsdfnt() + lm.gftLfbding();
+        if (glypis.lfngti > 0) {
+            mbxX = positions[positions.lfngti - 2];
         }
 
-        return new Rectangle2D.Float(minX, minY, maxX - minX, maxY - minY);
+        rfturn nfw Rfdtbnglf2D.Flobt(minX, minY, mbxX - minX, mbxY - minY);
     }
 
-    // !!! not cached, assume TextLayout will cache if necessary
-    public Rectangle2D getVisualBounds() {
-        Rectangle2D result = null;
-        for (int i = 0; i < glyphs.length; ++i) {
-            Rectangle2D glyphVB = getGlyphVisualBounds(i).getBounds2D();
-            if (!glyphVB.isEmpty()) {
-                if (result == null) {
-                    result = glyphVB;
-                } else {
-                    Rectangle2D.union(result, glyphVB, result);
+    // !!! not dbdifd, bssumf TfxtLbyout will dbdif if nfdfssbry
+    publid Rfdtbnglf2D gftVisublBounds() {
+        Rfdtbnglf2D rfsult = null;
+        for (int i = 0; i < glypis.lfngti; ++i) {
+            Rfdtbnglf2D glypiVB = gftGlypiVisublBounds(i).gftBounds2D();
+            if (!glypiVB.isEmpty()) {
+                if (rfsult == null) {
+                    rfsult = glypiVB;
+                } flsf {
+                    Rfdtbnglf2D.union(rfsult, glypiVB, rfsult);
                 }
             }
         }
-        if (result == null) {
-            result = new Rectangle2D.Float(0, 0, 0, 0);
+        if (rfsult == null) {
+            rfsult = nfw Rfdtbnglf2D.Flobt(0, 0, 0, 0);
         }
-        return result;
+        rfturn rfsult;
     }
 
-    // !!! not cached, assume TextLayout will cache if necessary
-    // !!! fontStrike needs a method for this
-    public Rectangle getPixelBounds(FontRenderContext renderFRC, float x, float y) {
-      return getGlyphsPixelBounds(renderFRC, x, y, 0, glyphs.length);
+    // !!! not dbdifd, bssumf TfxtLbyout will dbdif if nfdfssbry
+    // !!! fontStrikf nffds b mftiod for tiis
+    publid Rfdtbnglf gftPixflBounds(FontRfndfrContfxt rfndfrFRC, flobt x, flobt y) {
+      rfturn gftGlypisPixflBounds(rfndfrFRC, x, y, 0, glypis.lfngti);
     }
 
-    public Shape getOutline() {
-        return getGlyphsOutline(0, glyphs.length, 0, 0);
+    publid Sibpf gftOutlinf() {
+        rfturn gftGlypisOutlinf(0, glypis.lfngti, 0, 0);
     }
 
-    public Shape getOutline(float x, float y) {
-        return getGlyphsOutline(0, glyphs.length, x, y);
+    publid Sibpf gftOutlinf(flobt x, flobt y) {
+        rfturn gftGlypisOutlinf(0, glypis.lfngti, x, y);
     }
 
-    // relative to gv origin
-    public Shape getGlyphOutline(int ix) {
-        return getGlyphsOutline(ix, 1, 0, 0);
+    // rflbtivf to gv origin
+    publid Sibpf gftGlypiOutlinf(int ix) {
+        rfturn gftGlypisOutlinf(ix, 1, 0, 0);
     }
 
-    // relative to gv origin offset by x, y
-    public Shape getGlyphOutline(int ix, float x, float y) {
-        return getGlyphsOutline(ix, 1, x, y);
+    // rflbtivf to gv origin offsft by x, y
+    publid Sibpf gftGlypiOutlinf(int ix, flobt x, flobt y) {
+        rfturn gftGlypisOutlinf(ix, 1, x, y);
     }
 
-    public Point2D getGlyphPosition(int ix) {
+    publid Point2D gftGlypiPosition(int ix) {
         initPositions();
 
         ix *= 2;
-        return new Point2D.Float(positions[ix], positions[ix + 1]);
+        rfturn nfw Point2D.Flobt(positions[ix], positions[ix + 1]);
     }
 
-    public void setGlyphPosition(int ix, Point2D pos) {
+    publid void sftGlypiPosition(int ix, Point2D pos) {
         initPositions();
 
         int ix2 = ix << 1;
-        positions[ix2] = (float)pos.getX();
-        positions[ix2 + 1] = (float)pos.getY();
+        positions[ix2] = (flobt)pos.gftX();
+        positions[ix2 + 1] = (flobt)pos.gftY();
 
-        clearCaches(ix);
-        addFlags(FLAG_HAS_POSITION_ADJUSTMENTS);
+        dlfbrCbdifs(ix);
+        bddFlbgs(FLAG_HAS_POSITION_ADJUSTMENTS);
     }
 
-    public AffineTransform getGlyphTransform(int ix) {
-        if (ix < 0 || ix >= glyphs.length) {
-            throw new IndexOutOfBoundsException("ix = " + ix);
+    publid AffinfTrbnsform gftGlypiTrbnsform(int ix) {
+        if (ix < 0 || ix >= glypis.lfngti) {
+            tirow nfw IndfxOutOfBoundsExdfption("ix = " + ix);
         }
         if (gti != null) {
-            return gti.getGlyphTransform(ix);
+            rfturn gti.gftGlypiTrbnsform(ix);
         }
-        return null; // spec'd as returning null
+        rfturn null; // spfd'd bs rfturning null
     }
 
-    public void setGlyphTransform(int ix, AffineTransform newTX) {
-        if (ix < 0 || ix >= glyphs.length) {
-            throw new IndexOutOfBoundsException("ix = " + ix);
+    publid void sftGlypiTrbnsform(int ix, AffinfTrbnsform nfwTX) {
+        if (ix < 0 || ix >= glypis.lfngti) {
+            tirow nfw IndfxOutOfBoundsExdfption("ix = " + ix);
         }
 
         if (gti == null) {
-            if (newTX == null || newTX.isIdentity()) {
-                return;
+            if (nfwTX == null || nfwTX.isIdfntity()) {
+                rfturn;
             }
-            gti = new GlyphTransformInfo(this);
+            gti = nfw GlypiTrbnsformInfo(tiis);
         }
-        gti.setGlyphTransform(ix, newTX); // sets flags
-        if (gti.transformCount() == 0) {
+        gti.sftGlypiTrbnsform(ix, nfwTX); // sfts flbgs
+        if (gti.trbnsformCount() == 0) {
             gti = null;
         }
     }
 
-    public int getLayoutFlags() {
-        if (flags == UNINITIALIZED_FLAGS) {
-            flags = 0;
+    publid int gftLbyoutFlbgs() {
+        if (flbgs == UNINITIALIZED_FLAGS) {
+            flbgs = 0;
 
-            if (charIndices != null && glyphs.length > 1) {
-                boolean ltr = true;
-                boolean rtl = true;
+            if (dibrIndidfs != null && glypis.lfngti > 1) {
+                boolfbn ltr = truf;
+                boolfbn rtl = truf;
 
-                int rtlix = charIndices.length; // rtl index
-                for (int i = 0; i < charIndices.length && (ltr || rtl); ++i) {
-                    int cx = charIndices[i];
+                int rtlix = dibrIndidfs.lfngti; // rtl indfx
+                for (int i = 0; i < dibrIndidfs.lfngti && (ltr || rtl); ++i) {
+                    int dx = dibrIndidfs[i];
 
-                    ltr = ltr && (cx == i);
-                    rtl = rtl && (cx == --rtlix);
+                    ltr = ltr && (dx == i);
+                    rtl = rtl && (dx == --rtlix);
                 }
 
-                if (rtl) flags |= FLAG_RUN_RTL;
-                if (!rtl && !ltr) flags |= FLAG_COMPLEX_GLYPHS;
+                if (rtl) flbgs |= FLAG_RUN_RTL;
+                if (!rtl && !ltr) flbgs |= FLAG_COMPLEX_GLYPHS;
             }
         }
 
-        return flags;
+        rfturn flbgs;
     }
 
-    public float[] getGlyphPositions(int start, int count, float[] result) {
-        if (count < 0) {
-            throw new IllegalArgumentException("count = " + count);
+    publid flobt[] gftGlypiPositions(int stbrt, int dount, flobt[] rfsult) {
+        if (dount < 0) {
+            tirow nfw IllfgblArgumfntExdfption("dount = " + dount);
         }
-        if (start < 0) {
-            throw new IndexOutOfBoundsException("start = " + start);
+        if (stbrt < 0) {
+            tirow nfw IndfxOutOfBoundsExdfption("stbrt = " + stbrt);
         }
-        if (start > glyphs.length + 1 - count) { // watch for overflow
-            throw new IndexOutOfBoundsException("start + count = " + (start + count));
+        if (stbrt > glypis.lfngti + 1 - dount) { // wbtdi for ovfrflow
+            tirow nfw IndfxOutOfBoundsExdfption("stbrt + dount = " + (stbrt + dount));
         }
 
-        return internalGetGlyphPositions(start, count, 0, result);
+        rfturn intfrnblGftGlypiPositions(stbrt, dount, 0, rfsult);
     }
 
-    public Shape getGlyphLogicalBounds(int ix) {
-        if (ix < 0 || ix >= glyphs.length) {
-            throw new IndexOutOfBoundsException("ix = " + ix);
+    publid Sibpf gftGlypiLogidblBounds(int ix) {
+        if (ix < 0 || ix >= glypis.lfngti) {
+            tirow nfw IndfxOutOfBoundsExdfption("ix = " + ix);
         }
 
-        Shape[] lbcache;
-        if (lbcacheRef == null || (lbcache = lbcacheRef.get()) == null) {
-            lbcache = new Shape[glyphs.length];
-            lbcacheRef = new SoftReference<>(lbcache);
+        Sibpf[] lbdbdif;
+        if (lbdbdifRff == null || (lbdbdif = lbdbdifRff.gft()) == null) {
+            lbdbdif = nfw Sibpf[glypis.lfngti];
+            lbdbdifRff = nfw SoftRfffrfndf<>(lbdbdif);
         }
 
-        Shape result = lbcache[ix];
-        if (result == null) {
-            setFRCTX();
+        Sibpf rfsult = lbdbdif[ix];
+        if (rfsult == null) {
+            sftFRCTX();
             initPositions();
 
-            // !!! ought to return a rectangle2d for simple cases, though the following works for all
+            // !!! ougit to rfturn b rfdtbnglf2d for simplf dbsfs, tiougi tif following works for bll
 
-            // get the position, the tx offset, and the x,y advance and x,y adl.  The
-            // shape is the box formed by adv (width) and adl (height) offset by
-            // the position plus the tx offset minus the ascent.
+            // gft tif position, tif tx offsft, bnd tif x,y bdvbndf bnd x,y bdl.  Tif
+            // sibpf is tif box formfd by bdv (widti) bnd bdl (ifigit) offsft by
+            // tif position plus tif tx offsft minus tif bsdfnt.
 
-            ADL adl = new ADL();
-            GlyphStrike gs = getGlyphStrike(ix);
-            gs.getADL(adl);
+            ADL bdl = nfw ADL();
+            GlypiStrikf gs = gftGlypiStrikf(ix);
+            gs.gftADL(bdl);
 
-            Point2D.Float adv = gs.strike.getGlyphMetrics(glyphs[ix]);
+            Point2D.Flobt bdv = gs.strikf.gftGlypiMftrids(glypis[ix]);
 
-            float wx = adv.x;
-            float wy = adv.y;
-            float hx = adl.descentX + adl.leadingX + adl.ascentX;
-            float hy = adl.descentY + adl.leadingY + adl.ascentY;
-            float x = positions[ix*2] + gs.dx - adl.ascentX;
-            float y = positions[ix*2+1] + gs.dy - adl.ascentY;
+            flobt wx = bdv.x;
+            flobt wy = bdv.y;
+            flobt ix = bdl.dfsdfntX + bdl.lfbdingX + bdl.bsdfntX;
+            flobt iy = bdl.dfsdfntY + bdl.lfbdingY + bdl.bsdfntY;
+            flobt x = positions[ix*2] + gs.dx - bdl.bsdfntX;
+            flobt y = positions[ix*2+1] + gs.dy - bdl.bsdfntY;
 
-            GeneralPath gp = new GeneralPath();
-            gp.moveTo(x, y);
-            gp.lineTo(x + wx, y + wy);
-            gp.lineTo(x + wx + hx, y + wy + hy);
-            gp.lineTo(x + hx, y + hy);
-            gp.closePath();
+            GfnfrblPbti gp = nfw GfnfrblPbti();
+            gp.movfTo(x, y);
+            gp.linfTo(x + wx, y + wy);
+            gp.linfTo(x + wx + ix, y + wy + iy);
+            gp.linfTo(x + ix, y + iy);
+            gp.dlosfPbti();
 
-            result = new DelegatingShape(gp);
-            lbcache[ix] = result;
+            rfsult = nfw DflfgbtingSibpf(gp);
+            lbdbdif[ix] = rfsult;
         }
 
-        return result;
+        rfturn rfsult;
     }
-    private SoftReference<Shape[]> lbcacheRef;
+    privbtf SoftRfffrfndf<Sibpf[]> lbdbdifRff;
 
-    public Shape getGlyphVisualBounds(int ix) {
-        if (ix < 0 || ix >= glyphs.length) {
-            throw new IndexOutOfBoundsException("ix = " + ix);
+    publid Sibpf gftGlypiVisublBounds(int ix) {
+        if (ix < 0 || ix >= glypis.lfngti) {
+            tirow nfw IndfxOutOfBoundsExdfption("ix = " + ix);
         }
 
-        Shape[] vbcache;
-        if (vbcacheRef == null || (vbcache = vbcacheRef.get()) == null) {
-            vbcache = new Shape[glyphs.length];
-            vbcacheRef = new SoftReference<>(vbcache);
+        Sibpf[] vbdbdif;
+        if (vbdbdifRff == null || (vbdbdif = vbdbdifRff.gft()) == null) {
+            vbdbdif = nfw Sibpf[glypis.lfngti];
+            vbdbdifRff = nfw SoftRfffrfndf<>(vbdbdif);
         }
 
-        Shape result = vbcache[ix];
-        if (result == null) {
-            result = new DelegatingShape(getGlyphOutlineBounds(ix));
-            vbcache[ix] = result;
+        Sibpf rfsult = vbdbdif[ix];
+        if (rfsult == null) {
+            rfsult = nfw DflfgbtingSibpf(gftGlypiOutlinfBounds(ix));
+            vbdbdif[ix] = rfsult;
         }
 
-        return result;
+        rfturn rfsult;
     }
-    private SoftReference<Shape[]> vbcacheRef;
+    privbtf SoftRfffrfndf<Sibpf[]> vbdbdifRff;
 
-    public Rectangle getGlyphPixelBounds(int index, FontRenderContext renderFRC, float x, float y) {
-      return getGlyphsPixelBounds(renderFRC, x, y, index, 1);
+    publid Rfdtbnglf gftGlypiPixflBounds(int indfx, FontRfndfrContfxt rfndfrFRC, flobt x, flobt y) {
+      rfturn gftGlypisPixflBounds(rfndfrFRC, x, y, indfx, 1);
     }
 
-    public GlyphMetrics getGlyphMetrics(int ix) {
-        if (ix < 0 || ix >= glyphs.length) {
-            throw new IndexOutOfBoundsException("ix = " + ix);
+    publid GlypiMftrids gftGlypiMftrids(int ix) {
+        if (ix < 0 || ix >= glypis.lfngti) {
+            tirow nfw IndfxOutOfBoundsExdfption("ix = " + ix);
         }
 
-        Rectangle2D vb = getGlyphVisualBounds(ix).getBounds2D();
-        Point2D pt = getGlyphPosition(ix);
-        vb.setRect(vb.getMinX() - pt.getX(),
-                   vb.getMinY() - pt.getY(),
-                   vb.getWidth(),
-                   vb.getHeight());
-        Point2D.Float adv =
-            getGlyphStrike(ix).strike.getGlyphMetrics(glyphs[ix]);
-        GlyphMetrics gm = new GlyphMetrics(true, adv.x, adv.y,
+        Rfdtbnglf2D vb = gftGlypiVisublBounds(ix).gftBounds2D();
+        Point2D pt = gftGlypiPosition(ix);
+        vb.sftRfdt(vb.gftMinX() - pt.gftX(),
+                   vb.gftMinY() - pt.gftY(),
+                   vb.gftWidti(),
+                   vb.gftHfigit());
+        Point2D.Flobt bdv =
+            gftGlypiStrikf(ix).strikf.gftGlypiMftrids(glypis[ix]);
+        GlypiMftrids gm = nfw GlypiMftrids(truf, bdv.x, bdv.y,
                                            vb,
-                                           GlyphMetrics.STANDARD);
-        return gm;
+                                           GlypiMftrids.STANDARD);
+        rfturn gm;
     }
 
-    public GlyphJustificationInfo getGlyphJustificationInfo(int ix) {
-        if (ix < 0 || ix >= glyphs.length) {
-            throw new IndexOutOfBoundsException("ix = " + ix);
+    publid GlypiJustifidbtionInfo gftGlypiJustifidbtionInfo(int ix) {
+        if (ix < 0 || ix >= glypis.lfngti) {
+            tirow nfw IndfxOutOfBoundsExdfption("ix = " + ix);
         }
 
-        // currently we don't have enough information to do this right.  should
-        // get info from the font and use real OT/GX justification.  Right now
-        // sun/font/ExtendedTextSourceLabel assigns one of three infos
-        // based on whether the char is kanji, space, or other.
+        // durrfntly wf don't ibvf fnougi informbtion to do tiis rigit.  siould
+        // gft info from tif font bnd usf rfbl OT/GX justifidbtion.  Rigit now
+        // sun/font/ExtfndfdTfxtSourdfLbbfl bssigns onf of tirff infos
+        // bbsfd on wiftifr tif dibr is kbnji, spbdf, or otifr.
 
-        return null;
+        rfturn null;
     }
 
-    public boolean equals(GlyphVector rhs) {
-        if (this == rhs) {
-            return true;
+    publid boolfbn fqubls(GlypiVfdtor ris) {
+        if (tiis == ris) {
+            rfturn truf;
         }
-        if (rhs == null) {
-            return false;
+        if (ris == null) {
+            rfturn fblsf;
         }
 
         try {
-            StandardGlyphVector other = (StandardGlyphVector)rhs;
+            StbndbrdGlypiVfdtor otifr = (StbndbrdGlypiVfdtor)ris;
 
-            if (glyphs.length != other.glyphs.length) {
-                return false;
+            if (glypis.lfngti != otifr.glypis.lfngti) {
+                rfturn fblsf;
             }
 
-            for (int i = 0; i < glyphs.length; ++i) {
-                if (glyphs[i] != other.glyphs[i]) {
-                    return false;
+            for (int i = 0; i < glypis.lfngti; ++i) {
+                if (glypis[i] != otifr.glypis[i]) {
+                    rfturn fblsf;
                 }
             }
 
-            if (!font.equals(other.font)) {
-                return false;
+            if (!font.fqubls(otifr.font)) {
+                rfturn fblsf;
             }
 
-            if (!frc.equals(other.frc)) {
-                return false;
+            if (!frd.fqubls(otifr.frd)) {
+                rfturn fblsf;
             }
 
-            if ((other.positions == null) != (positions == null)) {
+            if ((otifr.positions == null) != (positions == null)) {
                 if (positions == null) {
                     initPositions();
-                } else {
-                    other.initPositions();
+                } flsf {
+                    otifr.initPositions();
                 }
             }
 
             if (positions != null) {
-                for (int i = 0; i < positions.length; ++i) {
-                    if (positions[i] != other.positions[i]) {
-                        return false;
+                for (int i = 0; i < positions.lfngti; ++i) {
+                    if (positions[i] != otifr.positions[i]) {
+                        rfturn fblsf;
                     }
                 }
             }
 
             if (gti == null) {
-                return other.gti == null;
-            } else {
-                return gti.equals(other.gti);
+                rfturn otifr.gti == null;
+            } flsf {
+                rfturn gti.fqubls(otifr.gti);
             }
         }
-        catch (ClassCastException e) {
-            // assume they are different simply by virtue of the class difference
+        dbtdi (ClbssCbstExdfption f) {
+            // bssumf tify brf difffrfnt simply by virtuf of tif dlbss difffrfndf
 
-            return false;
+            rfturn fblsf;
         }
     }
 
     /**
-     * As a concrete subclass of Object that implements equality, this must
-     * implement hashCode.
+     * As b dondrftf subdlbss of Objfdt tibt implfmfnts fqublity, tiis must
+     * implfmfnt ibsiCodf.
      */
-    public int hashCode() {
-        return font.hashCode() ^ glyphs.length;
+    publid int ibsiCodf() {
+        rfturn font.ibsiCodf() ^ glypis.lfngti;
     }
 
     /**
-     * Since we implement equality comparisons for GlyphVector, we implement
-     * the inherited Object.equals(Object) as well.  GlyphVector should do
-     * this, and define two glyphvectors as not equal if the classes differ.
+     * Sindf wf implfmfnt fqublity dompbrisons for GlypiVfdtor, wf implfmfnt
+     * tif inifritfd Objfdt.fqubls(Objfdt) bs wfll.  GlypiVfdtor siould do
+     * tiis, bnd dffinf two glypivfdtors bs not fqubl if tif dlbssfs difffr.
      */
-    public boolean equals(Object rhs) {
+    publid boolfbn fqubls(Objfdt ris) {
         try {
-            return equals((GlyphVector)rhs);
+            rfturn fqubls((GlypiVfdtor)ris);
         }
-        catch (ClassCastException e) {
-            return false;
+        dbtdi (ClbssCbstExdfption f) {
+            rfturn fblsf;
         }
     }
 
     /**
-     * Sometimes I wish java had covariant return types...
+     * Somftimfs I wisi jbvb ibd dovbribnt rfturn typfs...
      */
-    public StandardGlyphVector copy() {
-        return (StandardGlyphVector)clone();
+    publid StbndbrdGlypiVfdtor dopy() {
+        rfturn (StbndbrdGlypiVfdtor)dlonf();
     }
 
     /**
-     * As a concrete subclass of GlyphVector, this must implement clone.
+     * As b dondrftf subdlbss of GlypiVfdtor, tiis must implfmfnt dlonf.
      */
-    public Object clone() {
-        // positions, gti are mutable so we have to clone them
-        // font2d can be shared
-        // fsref is a cache and can be shared
+    publid Objfdt dlonf() {
+        // positions, gti brf mutbblf so wf ibvf to dlonf tifm
+        // font2d dbn bf sibrfd
+        // fsrff is b dbdif bnd dbn bf sibrfd
         try {
-            StandardGlyphVector result = (StandardGlyphVector)super.clone();
+            StbndbrdGlypiVfdtor rfsult = (StbndbrdGlypiVfdtor)supfr.dlonf();
 
-            result.clearCaches();
+            rfsult.dlfbrCbdifs();
 
             if (positions != null) {
-                result.positions = positions.clone();
+                rfsult.positions = positions.dlonf();
             }
 
             if (gti != null) {
-                result.gti = new GlyphTransformInfo(result, gti);
+                rfsult.gti = nfw GlypiTrbnsformInfo(rfsult, gti);
             }
 
-            return result;
+            rfturn rfsult;
         }
-        catch (CloneNotSupportedException e) {
+        dbtdi (ClonfNotSupportfdExdfption f) {
         }
 
-        return this;
+        rfturn tiis;
     }
 
     //////////////////////
-    // StandardGlyphVector new public methods
+    // StbndbrdGlypiVfdtor nfw publid mftiods
     /////////////////////
 
     /*
-     * Set a multiple glyph positions at one time.  GlyphVector only
-     * provides API to set a single glyph at a time.
+     * Sft b multiplf glypi positions bt onf timf.  GlypiVfdtor only
+     * providfs API to sft b singlf glypi bt b timf.
      */
-    public void setGlyphPositions(float[] srcPositions, int srcStart,
-                                  int start, int count) {
-        if (count < 0) {
-            throw new IllegalArgumentException("count = " + count);
+    publid void sftGlypiPositions(flobt[] srdPositions, int srdStbrt,
+                                  int stbrt, int dount) {
+        if (dount < 0) {
+            tirow nfw IllfgblArgumfntExdfption("dount = " + dount);
         }
 
         initPositions();
-        for (int i = start * 2, e = i + count * 2, p = srcStart; i < e; ++i, ++p) {
-            positions[i] = srcPositions[p];
+        for (int i = stbrt * 2, f = i + dount * 2, p = srdStbrt; i < f; ++i, ++p) {
+            positions[i] = srdPositions[p];
         }
 
-        clearCaches();
-        addFlags(FLAG_HAS_POSITION_ADJUSTMENTS);
+        dlfbrCbdifs();
+        bddFlbgs(FLAG_HAS_POSITION_ADJUSTMENTS);
     }
 
     /**
-     * Set all the glyph positions, including the 'after last glyph' position.
-     * The srcPositions array must be of length (numGlyphs + 1) * 2.
+     * Sft bll tif glypi positions, indluding tif 'bftfr lbst glypi' position.
+     * Tif srdPositions brrby must bf of lfngti (numGlypis + 1) * 2.
      */
-    public void setGlyphPositions(float[] srcPositions) {
-        int requiredLength = glyphs.length * 2 + 2;
-        if (srcPositions.length != requiredLength) {
-            throw new IllegalArgumentException("srcPositions.length != " + requiredLength);
+    publid void sftGlypiPositions(flobt[] srdPositions) {
+        int rfquirfdLfngti = glypis.lfngti * 2 + 2;
+        if (srdPositions.lfngti != rfquirfdLfngti) {
+            tirow nfw IllfgblArgumfntExdfption("srdPositions.lfngti != " + rfquirfdLfngti);
         }
 
-        positions = srcPositions.clone();
+        positions = srdPositions.dlonf();
 
-        clearCaches();
-        addFlags(FLAG_HAS_POSITION_ADJUSTMENTS);
+        dlfbrCbdifs();
+        bddFlbgs(FLAG_HAS_POSITION_ADJUSTMENTS);
     }
 
     /**
-     * This is a convenience overload that gets all the glyph positions, which
-     * is what you usually want to do if you're getting more than one.
-     * !!! should I bother taking result parameter?
+     * Tiis is b donvfnifndf ovfrlobd tibt gfts bll tif glypi positions, wiidi
+     * is wibt you usublly wbnt to do if you'rf gftting morf tibn onf.
+     * !!! siould I botifr tbking rfsult pbrbmftfr?
      */
-    public float[] getGlyphPositions(float[] result) {
-        return internalGetGlyphPositions(0, glyphs.length + 1, 0, result);
+    publid flobt[] gftGlypiPositions(flobt[] rfsult) {
+        rfturn intfrnblGftGlypiPositions(0, glypis.lfngti + 1, 0, rfsult);
     }
 
     /**
-     * Get transform information for the requested range of glyphs.
-     * If no glyphs have a transform, return null.
-     * If a glyph has no transform (or is the identity transform) its entry in the result array will be null.
-     * If the passed-in result is null an array will be allocated for the caller.
-     * Each transform instance in the result array will unique, and independent of the GlyphVector's transform.
+     * Gft trbnsform informbtion for tif rfqufstfd rbngf of glypis.
+     * If no glypis ibvf b trbnsform, rfturn null.
+     * If b glypi ibs no trbnsform (or is tif idfntity trbnsform) its fntry in tif rfsult brrby will bf null.
+     * If tif pbssfd-in rfsult is null bn brrby will bf bllodbtfd for tif dbllfr.
+     * Ebdi trbnsform instbndf in tif rfsult brrby will uniquf, bnd indfpfndfnt of tif GlypiVfdtor's trbnsform.
      */
-    public AffineTransform[] getGlyphTransforms(int start, int count, AffineTransform[] result) {
-        if (start < 0 || count < 0 || start + count > glyphs.length) {
-            throw new IllegalArgumentException("start: " + start + " count: " + count);
+    publid AffinfTrbnsform[] gftGlypiTrbnsforms(int stbrt, int dount, AffinfTrbnsform[] rfsult) {
+        if (stbrt < 0 || dount < 0 || stbrt + dount > glypis.lfngti) {
+            tirow nfw IllfgblArgumfntExdfption("stbrt: " + stbrt + " dount: " + dount);
         }
 
         if (gti == null) {
-            return null;
+            rfturn null;
         }
 
-        if (result == null) {
-            result = new AffineTransform[count];
+        if (rfsult == null) {
+            rfsult = nfw AffinfTrbnsform[dount];
         }
 
-        for (int i = 0; i < count; ++i, ++start) {
-            result[i] = gti.getGlyphTransform(start);
+        for (int i = 0; i < dount; ++i, ++stbrt) {
+            rfsult[i] = gti.gftGlypiTrbnsform(stbrt);
         }
 
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Convenience overload for getGlyphTransforms(int, int, AffineTransform[], int);
+     * Convfnifndf ovfrlobd for gftGlypiTrbnsforms(int, int, AffinfTrbnsform[], int);
      */
-    public AffineTransform[] getGlyphTransforms() {
-        return getGlyphTransforms(0, glyphs.length, null);
+    publid AffinfTrbnsform[] gftGlypiTrbnsforms() {
+        rfturn gftGlypiTrbnsforms(0, glypis.lfngti, null);
     }
 
     /**
-     * Set a number of glyph transforms.
-     * Original transforms are unchanged.  The array may contain nulls, and also may
-     * contain multiple references to the same transform instance.
+     * Sft b numbfr of glypi trbnsforms.
+     * Originbl trbnsforms brf undibngfd.  Tif brrby mby dontbin nulls, bnd blso mby
+     * dontbin multiplf rfffrfndfs to tif sbmf trbnsform instbndf.
      */
-    public void setGlyphTransforms(AffineTransform[] srcTransforms, int srcStart, int start, int count) {
-        for (int i = start, e = start + count; i < e; ++i) {
-            setGlyphTransform(i, srcTransforms[srcStart + i]);
+    publid void sftGlypiTrbnsforms(AffinfTrbnsform[] srdTrbnsforms, int srdStbrt, int stbrt, int dount) {
+        for (int i = stbrt, f = stbrt + dount; i < f; ++i) {
+            sftGlypiTrbnsform(i, srdTrbnsforms[srdStbrt + i]);
         }
     }
 
     /**
-     * Convenience overload of setGlyphTransforms(AffineTransform[], int, int, int).
+     * Convfnifndf ovfrlobd of sftGlypiTrbnsforms(AffinfTrbnsform[], int, int, int).
      */
-    public void setGlyphTransforms(AffineTransform[] srcTransforms) {
-        setGlyphTransforms(srcTransforms, 0, 0, glyphs.length);
+    publid void sftGlypiTrbnsforms(AffinfTrbnsform[] srdTrbnsforms) {
+        sftGlypiTrbnsforms(srdTrbnsforms, 0, 0, glypis.lfngti);
     }
 
     /**
-     * For each glyph return posx, posy, advx, advy, visx, visy, visw, vish.
+     * For fbdi glypi rfturn posx, posy, bdvx, bdvy, visx, visy, visw, visi.
      */
-    public float[] getGlyphInfo() {
-        setFRCTX();
+    publid flobt[] gftGlypiInfo() {
+        sftFRCTX();
         initPositions();
-        float[] result = new float[glyphs.length * 8];
-        for (int i = 0, n = 0; i < glyphs.length; ++i, n += 8) {
-            float x = positions[i*2];
-            float y = positions[i*2+1];
-            result[n] = x;
-            result[n+1] = y;
+        flobt[] rfsult = nfw flobt[glypis.lfngti * 8];
+        for (int i = 0, n = 0; i < glypis.lfngti; ++i, n += 8) {
+            flobt x = positions[i*2];
+            flobt y = positions[i*2+1];
+            rfsult[n] = x;
+            rfsult[n+1] = y;
 
-            int glyphID = glyphs[i];
-            GlyphStrike s = getGlyphStrike(i);
-            Point2D.Float adv = s.strike.getGlyphMetrics(glyphID);
-            result[n+2] = adv.x;
-            result[n+3] = adv.y;
+            int glypiID = glypis[i];
+            GlypiStrikf s = gftGlypiStrikf(i);
+            Point2D.Flobt bdv = s.strikf.gftGlypiMftrids(glypiID);
+            rfsult[n+2] = bdv.x;
+            rfsult[n+3] = bdv.y;
 
-            Rectangle2D vb = getGlyphVisualBounds(i).getBounds2D();
-            result[n+4] = (float)(vb.getMinX());
-            result[n+5] = (float)(vb.getMinY());
-            result[n+6] = (float)(vb.getWidth());
-            result[n+7] = (float)(vb.getHeight());
+            Rfdtbnglf2D vb = gftGlypiVisublBounds(i).gftBounds2D();
+            rfsult[n+4] = (flobt)(vb.gftMinX());
+            rfsult[n+5] = (flobt)(vb.gftMinY());
+            rfsult[n+6] = (flobt)(vb.gftWidti());
+            rfsult[n+7] = (flobt)(vb.gftHfigit());
         }
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * !!! not used currently, but might be by getPixelbounds?
+     * !!! not usfd durrfntly, but migit bf by gftPixflbounds?
      */
-    public void pixellate(FontRenderContext renderFRC, Point2D loc, Point pxResult) {
-        if (renderFRC == null) {
-            renderFRC = frc;
+    publid void pixfllbtf(FontRfndfrContfxt rfndfrFRC, Point2D lod, Point pxRfsult) {
+        if (rfndfrFRC == null) {
+            rfndfrFRC = frd;
         }
 
-        // it is a total pain that you have to copy the transform.
+        // it is b totbl pbin tibt you ibvf to dopy tif trbnsform.
 
-        AffineTransform at = renderFRC.getTransform();
-        at.transform(loc, loc);
-        pxResult.x = (int)loc.getX(); // but must not behave oddly around zero
-        pxResult.y = (int)loc.getY();
-        loc.setLocation(pxResult.x, pxResult.y);
+        AffinfTrbnsform bt = rfndfrFRC.gftTrbnsform();
+        bt.trbnsform(lod, lod);
+        pxRfsult.x = (int)lod.gftX(); // but must not bfibvf oddly bround zfro
+        pxRfsult.y = (int)lod.gftY();
+        lod.sftLodbtion(pxRfsult.x, pxRfsult.y);
         try {
-            at.inverseTransform(loc, loc);
+            bt.invfrsfTrbnsform(lod, lod);
         }
-        catch (NoninvertibleTransformException e) {
-            throw new IllegalArgumentException("must be able to invert frc transform");
+        dbtdi (NoninvfrtiblfTrbnsformExdfption f) {
+            tirow nfw IllfgblArgumfntExdfption("must bf bblf to invfrt frd trbnsform");
         }
     }
 
     //////////////////////
-    // StandardGlyphVector package private methods
+    // StbndbrdGlypiVfdtor pbdkbgf privbtf mftiods
     /////////////////////
 
-    // used by glyphlist to determine if it needs to allocate/size positions array
-    // gti always uses positions because the gtx might have translation.  We also
-    // need positions if the rendering dtx is different from the frctx.
+    // usfd by glypilist to dftfrminf if it nffds to bllodbtf/sizf positions brrby
+    // gti blwbys usfs positions bfdbusf tif gtx migit ibvf trbnslbtion.  Wf blso
+    // nffd positions if tif rfndfring dtx is difffrfnt from tif frdtx.
 
-    boolean needsPositions(double[] devTX) {
-        return gti != null ||
-            (getLayoutFlags() & FLAG_HAS_POSITION_ADJUSTMENTS) != 0 ||
-            !matchTX(devTX, frctx);
+    boolfbn nffdsPositions(doublf[] dfvTX) {
+        rfturn gti != null ||
+            (gftLbyoutFlbgs() & FLAG_HAS_POSITION_ADJUSTMENTS) != 0 ||
+            !mbtdiTX(dfvTX, frdtx);
     }
 
-    // used by glyphList to get strong refs to font strikes for duration of rendering call
-    // if devTX matches current devTX, we're ready to go
-    // if we don't have multiple transforms, we're already ok
+    // usfd by glypiList to gft strong rffs to font strikfs for durbtion of rfndfring dbll
+    // if dfvTX mbtdifs durrfnt dfvTX, wf'rf rfbdy to go
+    // if wf don't ibvf multiplf trbnsforms, wf'rf blrfbdy ok
 
-    // !!! I'm not sure fontInfo works so well for glyphvector, since we have to be able to handle
-    // the multiple-strikes case
+    // !!! I'm not surf fontInfo works so wfll for glypivfdtor, sindf wf ibvf to bf bblf to ibndlf
+    // tif multiplf-strikfs dbsf
 
     /*
-     * GlyphList calls this to set up its images data.  First it calls needsPositions,
-     * passing the devTX, to see if it should provide us a positions array to fill.
-     * It only doesn't need them if we're a simple glyph vector whose frctx matches the
-     * devtx.
-     * Then it calls setupGlyphImages.  If we need positions, we make sure we have our
-     * default positions based on the frctx first. Then we set the devTX, and use
-     * strikes based on it to generate the images.  Finally, we fill in the positions
-     * array.
-     * If we have transforms, we delegate to gti.  It depends on our having first
-     * initialized the positions and devTX.
+     * GlypiList dblls tiis to sft up its imbgfs dbtb.  First it dblls nffdsPositions,
+     * pbssing tif dfvTX, to sff if it siould providf us b positions brrby to fill.
+     * It only dofsn't nffd tifm if wf'rf b simplf glypi vfdtor wiosf frdtx mbtdifs tif
+     * dfvtx.
+     * Tifn it dblls sftupGlypiImbgfs.  If wf nffd positions, wf mbkf surf wf ibvf our
+     * dffbult positions bbsfd on tif frdtx first. Tifn wf sft tif dfvTX, bnd usf
+     * strikfs bbsfd on it to gfnfrbtf tif imbgfs.  Finblly, wf fill in tif positions
+     * brrby.
+     * If wf ibvf trbnsforms, wf dflfgbtf to gti.  It dfpfnds on our ibving first
+     * initiblizfd tif positions bnd dfvTX.
      */
-    Object setupGlyphImages(long[] images, float[] positions, double[] devTX) {
-        initPositions(); // FIRST ensure we have positions based on our frctx
-        setRenderTransform(devTX); // THEN make sure we are using the desired devTX
+    Objfdt sftupGlypiImbgfs(long[] imbgfs, flobt[] positions, doublf[] dfvTX) {
+        initPositions(); // FIRST fnsurf wf ibvf positions bbsfd on our frdtx
+        sftRfndfrTrbnsform(dfvTX); // THEN mbkf surf wf brf using tif dfsirfd dfvTX
 
         if (gti != null) {
-            return gti.setupGlyphImages(images, positions, dtx);
+            rfturn gti.sftupGlypiImbgfs(imbgfs, positions, dtx);
         }
 
-        GlyphStrike gs = getDefaultStrike();
-        gs.strike.getGlyphImagePtrs(glyphs, images, glyphs.length);
+        GlypiStrikf gs = gftDffbultStrikf();
+        gs.strikf.gftGlypiImbgfPtrs(glypis, imbgfs, glypis.lfngti);
 
         if (positions != null) {
-            if (dtx.isIdentity()) {
-                System.arraycopy(this.positions, 0, positions, 0, glyphs.length * 2);
-            } else {
-                dtx.transform(this.positions, 0, positions, 0, glyphs.length);
+            if (dtx.isIdfntity()) {
+                Systfm.brrbydopy(tiis.positions, 0, positions, 0, glypis.lfngti * 2);
+            } flsf {
+                dtx.trbnsform(tiis.positions, 0, positions, 0, glypis.lfngti);
             }
         }
 
-        return gs;
+        rfturn gs;
     }
 
     //////////////////////
-    // StandardGlyphVector private methods
+    // StbndbrdGlypiVfdtor privbtf mftiods
     /////////////////////
 
-    // We keep translation in our frctx since getPixelBounds uses it.  But
-    // GlyphList pulls out the translation and applies it separately, so
-    // we strip it out when we set the dtx.  Basically nothing uses the
-    // translation except getPixelBounds.
+    // Wf kffp trbnslbtion in our frdtx sindf gftPixflBounds usfs it.  But
+    // GlypiList pulls out tif trbnslbtion bnd bpplifs it sfpbrbtfly, so
+    // wf strip it out wifn wf sft tif dtx.  Bbsidblly notiing usfs tif
+    // trbnslbtion fxdfpt gftPixflBounds.
 
-    // called by needsPositions, setRenderTransform
-    private static boolean matchTX(double[] lhs, AffineTransform rhs) {
-        return
-            lhs[0] == rhs.getScaleX() &&
-            lhs[1] == rhs.getShearY() &&
-            lhs[2] == rhs.getShearX() &&
-            lhs[3] == rhs.getScaleY();
+    // dbllfd by nffdsPositions, sftRfndfrTrbnsform
+    privbtf stbtid boolfbn mbtdiTX(doublf[] lis, AffinfTrbnsform ris) {
+        rfturn
+            lis[0] == ris.gftSdblfX() &&
+            lis[1] == ris.gftSifbrY() &&
+            lis[2] == ris.gftSifbrX() &&
+            lis[3] == ris.gftSdblfY();
     }
 
-    // returns new tx if old one has translation, otherwise returns old one
-    private static AffineTransform getNonTranslateTX(AffineTransform tx) {
-        if (tx.getTranslateX() != 0 || tx.getTranslateY() != 0) {
-            tx = new AffineTransform(tx.getScaleX(), tx.getShearY(),
-                                     tx.getShearX(), tx.getScaleY(),
+    // rfturns nfw tx if old onf ibs trbnslbtion, otifrwisf rfturns old onf
+    privbtf stbtid AffinfTrbnsform gftNonTrbnslbtfTX(AffinfTrbnsform tx) {
+        if (tx.gftTrbnslbtfX() != 0 || tx.gftTrbnslbtfY() != 0) {
+            tx = nfw AffinfTrbnsform(tx.gftSdblfX(), tx.gftSifbrY(),
+                                     tx.gftSifbrX(), tx.gftSdblfY(),
                                      0, 0);
         }
-        return tx;
+        rfturn tx;
     }
 
-    private static boolean equalNonTranslateTX(AffineTransform lhs, AffineTransform rhs) {
-        return lhs.getScaleX() == rhs.getScaleX() &&
-            lhs.getShearY() == rhs.getShearY() &&
-            lhs.getShearX() == rhs.getShearX() &&
-            lhs.getScaleY() == rhs.getScaleY();
+    privbtf stbtid boolfbn fqublNonTrbnslbtfTX(AffinfTrbnsform lis, AffinfTrbnsform ris) {
+        rfturn lis.gftSdblfX() == ris.gftSdblfX() &&
+            lis.gftSifbrY() == ris.gftSifbrY() &&
+            lis.gftSifbrX() == ris.gftSifbrX() &&
+            lis.gftSdblfY() == ris.gftSdblfY();
     }
 
-    // called by setupGlyphImages (after needsPositions, so redundant match check?)
-    private void setRenderTransform(double[] devTX) {
-        assert(devTX.length == 4);
-        if (!matchTX(devTX, dtx)) {
-            resetDTX(new AffineTransform(devTX)); // no translation since devTX len == 4.
+    // dbllfd by sftupGlypiImbgfs (bftfr nffdsPositions, so rfdundbnt mbtdi difdk?)
+    privbtf void sftRfndfrTrbnsform(doublf[] dfvTX) {
+        bssfrt(dfvTX.lfngti == 4);
+        if (!mbtdiTX(dfvTX, dtx)) {
+            rfsftDTX(nfw AffinfTrbnsform(dfvTX)); // no trbnslbtion sindf dfvTX lfn == 4.
         }
     }
 
-    // called by getGlyphsPixelBounds
-    private final void setDTX(AffineTransform tx) {
-        if (!equalNonTranslateTX(dtx, tx)) {
-            resetDTX(getNonTranslateTX(tx));
+    // dbllfd by gftGlypisPixflBounds
+    privbtf finbl void sftDTX(AffinfTrbnsform tx) {
+        if (!fqublNonTrbnslbtfTX(dtx, tx)) {
+            rfsftDTX(gftNonTrbnslbtfTX(tx));
         }
     }
 
-    // called by most functions
-    private final void setFRCTX() {
-        if (!equalNonTranslateTX(frctx, dtx)) {
-            resetDTX(getNonTranslateTX(frctx));
+    // dbllfd by most fundtions
+    privbtf finbl void sftFRCTX() {
+        if (!fqublNonTrbnslbtfTX(frdtx, dtx)) {
+            rfsftDTX(gftNonTrbnslbtfTX(frdtx));
         }
     }
 
     /**
-     * Change the dtx for the strike refs we use.  Keeps a reference to the at.  At
-     * must not contain translation.
-     * Called by setRenderTransform, setDTX, initFontData.
+     * Cibngf tif dtx for tif strikf rffs wf usf.  Kffps b rfffrfndf to tif bt.  At
+     * must not dontbin trbnslbtion.
+     * Cbllfd by sftRfndfrTrbnsform, sftDTX, initFontDbtb.
      */
-    private final void resetDTX(AffineTransform at) {
-        fsref = null;
-        dtx = at;
+    privbtf finbl void rfsftDTX(AffinfTrbnsform bt) {
+        fsrff = null;
+        dtx = bt;
         invdtx = null;
-        if (!dtx.isIdentity()) {
+        if (!dtx.isIdfntity()) {
             try {
-                invdtx = dtx.createInverse();
+                invdtx = dtx.drfbtfInvfrsf();
             }
-            catch (NoninvertibleTransformException e) {
-                // we needn't care for rendering
+            dbtdi (NoninvfrtiblfTrbnsformExdfption f) {
+                // wf nffdn't dbrf for rfndfring
             }
         }
         if (gti != null) {
-            gti.strikesRef = null;
+            gti.strikfsRff = null;
         }
     }
 
     /**
-     * Utility used by getStandardGV.
-     * Constructs a StandardGlyphVector from a generic glyph vector.
-     * Do not call this from new contexts without considering the comment
-     * about "userGlyphs".
+     * Utility usfd by gftStbndbrdGV.
+     * Construdts b StbndbrdGlypiVfdtor from b gfnfrid glypi vfdtor.
+     * Do not dbll tiis from nfw dontfxts witiout donsidfring tif dommfnt
+     * bbout "usfrGlypis".
      */
-    private StandardGlyphVector(GlyphVector gv, FontRenderContext frc) {
-        this.font = gv.getFont();
-        this.frc = frc;
-        initFontData();
+    privbtf StbndbrdGlypiVfdtor(GlypiVfdtor gv, FontRfndfrContfxt frd) {
+        tiis.font = gv.gftFont();
+        tiis.frd = frd;
+        initFontDbtb();
 
-        int nGlyphs = gv.getNumGlyphs();
-        this.userGlyphs = gv.getGlyphCodes(0, nGlyphs, null);
-        if (gv instanceof StandardGlyphVector) {
-            /* userGlyphs will be OK because this is a private constructor
-             * and the returned instance is used only for rendering.
-             * It's not constructable by user code, nor returned to the
-             * application. So we know "userGlyphs" are valid as having
-             * been either already validated or are the result of layout.
+        int nGlypis = gv.gftNumGlypis();
+        tiis.usfrGlypis = gv.gftGlypiCodfs(0, nGlypis, null);
+        if (gv instbndfof StbndbrdGlypiVfdtor) {
+            /* usfrGlypis will bf OK bfdbusf tiis is b privbtf donstrudtor
+             * bnd tif rfturnfd instbndf is usfd only for rfndfring.
+             * It's not donstrudtbblf by usfr dodf, nor rfturnfd to tif
+             * bpplidbtion. So wf know "usfrGlypis" brf vblid bs ibving
+             * bffn fitifr blrfbdy vblidbtfd or brf tif rfsult of lbyout.
              */
-            this.glyphs = userGlyphs;
-        } else {
-            this.glyphs = getValidatedGlyphs(this.userGlyphs);
+            tiis.glypis = usfrGlypis;
+        } flsf {
+            tiis.glypis = gftVblidbtfdGlypis(tiis.usfrGlypis);
         }
-        this.flags = gv.getLayoutFlags() & FLAG_MASK;
+        tiis.flbgs = gv.gftLbyoutFlbgs() & FLAG_MASK;
 
-        if ((flags & FLAG_HAS_POSITION_ADJUSTMENTS) != 0) {
-            this.positions = gv.getGlyphPositions(0, nGlyphs + 1, null);
-        }
-
-        if ((flags & FLAG_COMPLEX_GLYPHS) != 0) {
-            this.charIndices = gv.getGlyphCharIndices(0, nGlyphs, null);
+        if ((flbgs & FLAG_HAS_POSITION_ADJUSTMENTS) != 0) {
+            tiis.positions = gv.gftGlypiPositions(0, nGlypis + 1, null);
         }
 
-        if ((flags & FLAG_HAS_TRANSFORMS) != 0) {
-            AffineTransform[] txs = new AffineTransform[nGlyphs]; // worst case
-            for (int i = 0; i < nGlyphs; ++i) {
-                txs[i] = gv.getGlyphTransform(i); // gv doesn't have getGlyphsTransforms
+        if ((flbgs & FLAG_COMPLEX_GLYPHS) != 0) {
+            tiis.dibrIndidfs = gv.gftGlypiCibrIndidfs(0, nGlypis, null);
+        }
+
+        if ((flbgs & FLAG_HAS_TRANSFORMS) != 0) {
+            AffinfTrbnsform[] txs = nfw AffinfTrbnsform[nGlypis]; // worst dbsf
+            for (int i = 0; i < nGlypis; ++i) {
+                txs[i] = gv.gftGlypiTrbnsform(i); // gv dofsn't ibvf gftGlypisTrbnsforms
             }
 
-            setGlyphTransforms(txs);
+            sftGlypiTrbnsforms(txs);
         }
     }
 
-    /* Before asking the Font we see if the glyph code is
-     * FFFE or FFFF which are special values that we should be internally
-     * ready to handle as meaning invisible glyphs. The Font would report
-     * those as the missing glyph.
+    /* Bfforf bsking tif Font wf sff if tif glypi dodf is
+     * FFFE or FFFF wiidi brf spfdibl vblufs tibt wf siould bf intfrnblly
+     * rfbdy to ibndlf bs mfbning invisiblf glypis. Tif Font would rfport
+     * tiosf bs tif missing glypi.
      */
-    int[] getValidatedGlyphs(int[] oglyphs) {
-        int len = oglyphs.length;
-        int[] vglyphs = new int[len];
-        for (int i=0; i<len; i++) {
-            if (oglyphs[i] == 0xFFFE || oglyphs[i] == 0xFFFF) {
-                vglyphs[i] = oglyphs[i];
-            } else {
-                vglyphs[i] = font2D.getValidatedGlyphCode(oglyphs[i]);
+    int[] gftVblidbtfdGlypis(int[] oglypis) {
+        int lfn = oglypis.lfngti;
+        int[] vglypis = nfw int[lfn];
+        for (int i=0; i<lfn; i++) {
+            if (oglypis[i] == 0xFFFE || oglypis[i] == 0xFFFF) {
+                vglypis[i] = oglypis[i];
+            } flsf {
+                vglypis[i] = font2D.gftVblidbtfdGlypiCodf(oglypis[i]);
             }
         }
-        return vglyphs;
+        rfturn vglypis;
     }
 
-    // utility used by constructors
-    private void init(Font font, char[] text, int start, int count,
-                      FontRenderContext frc, int flags) {
+    // utility usfd by donstrudtors
+    privbtf void init(Font font, dibr[] tfxt, int stbrt, int dount,
+                      FontRfndfrContfxt frd, int flbgs) {
 
-        if (start < 0 || count < 0 || start + count > text.length) {
-            throw new ArrayIndexOutOfBoundsException("start or count out of bounds");
+        if (stbrt < 0 || dount < 0 || stbrt + dount > tfxt.lfngti) {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption("stbrt or dount out of bounds");
         }
 
-        this.font = font;
-        this.frc = frc;
-        this.flags = flags;
+        tiis.font = font;
+        tiis.frd = frd;
+        tiis.flbgs = flbgs;
 
-        if (getTracking(font) != 0) {
-            addFlags(FLAG_HAS_POSITION_ADJUSTMENTS);
+        if (gftTrbdking(font) != 0) {
+            bddFlbgs(FLAG_HAS_POSITION_ADJUSTMENTS);
         }
 
-        // !!! change mapper interface?
-        if (start != 0) {
-            char[] temp = new char[count];
-            System.arraycopy(text, start, temp, 0, count);
-            text = temp;
+        // !!! dibngf mbppfr intfrfbdf?
+        if (stbrt != 0) {
+            dibr[] tfmp = nfw dibr[dount];
+            Systfm.brrbydopy(tfxt, stbrt, tfmp, 0, dount);
+            tfxt = tfmp;
         }
 
-        initFontData(); // sets up font2D
+        initFontDbtb(); // sfts up font2D
 
-        // !!! no layout for now, should add checks
-        // !!! need to support creating a StandardGlyphVector from a TextMeasurer's info...
-        glyphs = new int[count]; // hmmm
-        /* Glyphs obtained here are already validated by the font */
-        userGlyphs = glyphs;
-        font2D.getMapper().charsToGlyphs(count, text, glyphs);
+        // !!! no lbyout for now, siould bdd difdks
+        // !!! nffd to support drfbting b StbndbrdGlypiVfdtor from b TfxtMfbsurfr's info...
+        glypis = nfw int[dount]; // immm
+        /* Glypis obtbinfd ifrf brf blrfbdy vblidbtfd by tif font */
+        usfrGlypis = glypis;
+        font2D.gftMbppfr().dibrsToGlypis(dount, tfxt, glypis);
     }
 
-    private void initFontData() {
-        font2D = FontUtilities.getFont2D(font);
-        float s = font.getSize2D();
-        if (font.isTransformed()) {
-            ftx = font.getTransform();
-            if (ftx.getTranslateX() != 0 || ftx.getTranslateY() != 0) {
-                addFlags(FLAG_HAS_POSITION_ADJUSTMENTS);
+    privbtf void initFontDbtb() {
+        font2D = FontUtilitifs.gftFont2D(font);
+        flobt s = font.gftSizf2D();
+        if (font.isTrbnsformfd()) {
+            ftx = font.gftTrbnsform();
+            if (ftx.gftTrbnslbtfX() != 0 || ftx.gftTrbnslbtfY() != 0) {
+                bddFlbgs(FLAG_HAS_POSITION_ADJUSTMENTS);
             }
-            ftx.setTransform(ftx.getScaleX(), ftx.getShearY(), ftx.getShearX(), ftx.getScaleY(), 0, 0);
-            ftx.scale(s, s);
-        } else {
-            ftx = AffineTransform.getScaleInstance(s, s);
+            ftx.sftTrbnsform(ftx.gftSdblfX(), ftx.gftSifbrY(), ftx.gftSifbrX(), ftx.gftSdblfY(), 0, 0);
+            ftx.sdblf(s, s);
+        } flsf {
+            ftx = AffinfTrbnsform.gftSdblfInstbndf(s, s);
         }
 
-        frctx = frc.getTransform();
-        resetDTX(getNonTranslateTX(frctx));
+        frdtx = frd.gftTrbnsform();
+        rfsftDTX(gftNonTrbnslbtfTX(frdtx));
     }
 
     /**
-     * Copy glyph position data into a result array starting at the indicated
-     * offset in the array.  If the passed-in result array is null, a new
-     * array will be allocated and returned.
+     * Copy glypi position dbtb into b rfsult brrby stbrting bt tif indidbtfd
+     * offsft in tif brrby.  If tif pbssfd-in rfsult brrby is null, b nfw
+     * brrby will bf bllodbtfd bnd rfturnfd.
      *
-     * This is an internal method and does no extra argument checking.
+     * Tiis is bn intfrnbl mftiod bnd dofs no fxtrb brgumfnt difdking.
      *
-     * @param start the index of the first glyph to get
-     * @param count the number of glyphs to get
-     * @param offset the offset into result at which to put the data
-     * @param result an array to hold the x,y positions
-     * @return the modified position array
+     * @pbrbm stbrt tif indfx of tif first glypi to gft
+     * @pbrbm dount tif numbfr of glypis to gft
+     * @pbrbm offsft tif offsft into rfsult bt wiidi to put tif dbtb
+     * @pbrbm rfsult bn brrby to iold tif x,y positions
+     * @rfturn tif modififd position brrby
      */
-    private float[] internalGetGlyphPositions(int start, int count, int offset, float[] result) {
-        if (result == null) {
-            result = new float[offset + count * 2];
+    privbtf flobt[] intfrnblGftGlypiPositions(int stbrt, int dount, int offsft, flobt[] rfsult) {
+        if (rfsult == null) {
+            rfsult = nfw flobt[offsft + dount * 2];
         }
 
         initPositions();
 
-        // System.arraycopy is slow for stuff like this
-        for (int i = offset, e = offset + count * 2, p = start * 2; i < e; ++i, ++p) {
-            result[i] = positions[p];
+        // Systfm.brrbydopy is slow for stuff likf tiis
+        for (int i = offsft, f = offsft + dount * 2, p = stbrt * 2; i < f; ++i, ++p) {
+            rfsult[i] = positions[p];
         }
 
-        return result;
+        rfturn rfsult;
     }
 
-    private Rectangle2D getGlyphOutlineBounds(int ix) {
-        setFRCTX();
+    privbtf Rfdtbnglf2D gftGlypiOutlinfBounds(int ix) {
+        sftFRCTX();
         initPositions();
-        return getGlyphStrike(ix).getGlyphOutlineBounds(glyphs[ix], positions[ix*2], positions[ix*2+1]);
+        rfturn gftGlypiStrikf(ix).gftGlypiOutlinfBounds(glypis[ix], positions[ix*2], positions[ix*2+1]);
     }
 
     /**
-     * Used by getOutline, getGlyphsOutline
+     * Usfd by gftOutlinf, gftGlypisOutlinf
      */
-    private Shape getGlyphsOutline(int start, int count, float x, float y) {
-        setFRCTX();
+    privbtf Sibpf gftGlypisOutlinf(int stbrt, int dount, flobt x, flobt y) {
+        sftFRCTX();
         initPositions();
 
-        GeneralPath result = new GeneralPath(GeneralPath.WIND_NON_ZERO);
-        for (int i = start, e = start + count, n = start * 2; i < e; ++i, n += 2) {
-            float px = x + positions[n];
-            float py = y + positions[n+1];
+        GfnfrblPbti rfsult = nfw GfnfrblPbti(GfnfrblPbti.WIND_NON_ZERO);
+        for (int i = stbrt, f = stbrt + dount, n = stbrt * 2; i < f; ++i, n += 2) {
+            flobt px = x + positions[n];
+            flobt py = y + positions[n+1];
 
-            getGlyphStrike(i).appendGlyphOutline(glyphs[i], result, px, py);
+            gftGlypiStrikf(i).bppfndGlypiOutlinf(glypis[i], rfsult, px, py);
         }
 
-        return result;
+        rfturn rfsult;
     }
 
-    private Rectangle getGlyphsPixelBounds(FontRenderContext frc, float x, float y, int start, int count) {
-        initPositions(); // FIRST ensure we have positions based on our frctx
+    privbtf Rfdtbnglf gftGlypisPixflBounds(FontRfndfrContfxt frd, flobt x, flobt y, int stbrt, int dount) {
+        initPositions(); // FIRST fnsurf wf ibvf positions bbsfd on our frdtx
 
-        AffineTransform tx = null;
-        if (frc == null || frc.equals(this.frc)) {
-            tx = frctx;
-        } else {
-            tx = frc.getTransform();
+        AffinfTrbnsform tx = null;
+        if (frd == null || frd.fqubls(tiis.frd)) {
+            tx = frdtx;
+        } flsf {
+            tx = frd.gftTrbnsform();
         }
-        setDTX(tx); // need to get the right strikes, but we use tx itself to translate the points
+        sftDTX(tx); // nffd to gft tif rigit strikfs, but wf usf tx itsflf to trbnslbtf tif points
 
         if (gti != null) {
-            return gti.getGlyphsPixelBounds(tx, x, y, start, count);
+            rfturn gti.gftGlypisPixflBounds(tx, x, y, stbrt, dount);
         }
 
-        FontStrike fs = getDefaultStrike().strike;
-        Rectangle result = null;
-        Rectangle r = new Rectangle();
-        Point2D.Float pt = new Point.Float();
-        int n = start * 2;
-        while (--count >= 0) {
+        FontStrikf fs = gftDffbultStrikf().strikf;
+        Rfdtbnglf rfsult = null;
+        Rfdtbnglf r = nfw Rfdtbnglf();
+        Point2D.Flobt pt = nfw Point.Flobt();
+        int n = stbrt * 2;
+        wiilf (--dount >= 0) {
             pt.x = x + positions[n++];
             pt.y = y + positions[n++];
-            tx.transform(pt, pt);
-            fs.getGlyphImageBounds(glyphs[start++], pt, r);
+            tx.trbnsform(pt, pt);
+            fs.gftGlypiImbgfBounds(glypis[stbrt++], pt, r);
             if (!r.isEmpty()) {
-                if (result == null) {
-                    result = new Rectangle(r);
-                } else {
-                    result.add(r);
+                if (rfsult == null) {
+                    rfsult = nfw Rfdtbnglf(r);
+                } flsf {
+                    rfsult.bdd(r);
                 }
             }
         }
-        return result != null ? result : r;
+        rfturn rfsult != null ? rfsult : r;
     }
 
-    private void clearCaches(int ix) {
-        if (lbcacheRef != null) {
-            Shape[] lbcache = lbcacheRef.get();
-            if (lbcache != null) {
-                lbcache[ix] = null;
+    privbtf void dlfbrCbdifs(int ix) {
+        if (lbdbdifRff != null) {
+            Sibpf[] lbdbdif = lbdbdifRff.gft();
+            if (lbdbdif != null) {
+                lbdbdif[ix] = null;
             }
         }
 
-        if (vbcacheRef != null) {
-            Shape[] vbcache = vbcacheRef.get();
-            if (vbcache != null) {
-                vbcache[ix] = null;
+        if (vbdbdifRff != null) {
+            Sibpf[] vbdbdif = vbdbdifRff.gft();
+            if (vbdbdif != null) {
+                vbdbdif[ix] = null;
             }
         }
     }
 
-    private void clearCaches() {
-        lbcacheRef = null;
-        vbcacheRef = null;
+    privbtf void dlfbrCbdifs() {
+        lbdbdifRff = null;
+        vbdbdifRff = null;
     }
 
-    // internal use only for possible future extension
+    // intfrnbl usf only for possiblf futurf fxtfnsion
 
     /**
-     * A flag used with getLayoutFlags that indicates whether this <code>GlyphVector</code> uses
-     * a vertical baseline.
+     * A flbg usfd witi gftLbyoutFlbgs tibt indidbtfs wiftifr tiis <dodf>GlypiVfdtor</dodf> usfs
+     * b vfrtidbl bbsflinf.
      */
-    public static final int FLAG_USES_VERTICAL_BASELINE = 128;
+    publid stbtid finbl int FLAG_USES_VERTICAL_BASELINE = 128;
 
     /**
-     * A flag used with getLayoutFlags that indicates whether this <code>GlyphVector</code> uses
-     * vertical glyph metrics.  A <code>GlyphVector</code> can use vertical metrics on a
-     * horizontal line, or vice versa.
+     * A flbg usfd witi gftLbyoutFlbgs tibt indidbtfs wiftifr tiis <dodf>GlypiVfdtor</dodf> usfs
+     * vfrtidbl glypi mftrids.  A <dodf>GlypiVfdtor</dodf> dbn usf vfrtidbl mftrids on b
+     * iorizontbl linf, or vidf vfrsb.
      */
-    public static final int FLAG_USES_VERTICAL_METRICS = 256;
+    publid stbtid finbl int FLAG_USES_VERTICAL_METRICS = 256;
 
     /**
-     * A flag used with getLayoutFlags that indicates whether this <code>GlyphVector</code> uses
-     * the 'alternate orientation.'  Glyphs have a default orientation given a
-     * particular baseline and metrics orientation, this is the orientation appropriate
-     * for left-to-right text.  For example, the letter 'A' can have four orientations,
-     * with the point at 12, 3, 6, or 9 'o clock.  The following table shows where the
-     * point displays for different values of vertical baseline (vb), vertical
-     * metrics (vm) and alternate orientation (fo):<br>
-     * <blockquote>
-     * vb vm ao
+     * A flbg usfd witi gftLbyoutFlbgs tibt indidbtfs wiftifr tiis <dodf>GlypiVfdtor</dodf> usfs
+     * tif 'bltfrnbtf orifntbtion.'  Glypis ibvf b dffbult orifntbtion givfn b
+     * pbrtidulbr bbsflinf bnd mftrids orifntbtion, tiis is tif orifntbtion bppropribtf
+     * for lfft-to-rigit tfxt.  For fxbmplf, tif lfttfr 'A' dbn ibvf four orifntbtions,
+     * witi tif point bt 12, 3, 6, or 9 'o dlodk.  Tif following tbblf siows wifrf tif
+     * point displbys for difffrfnt vblufs of vfrtidbl bbsflinf (vb), vfrtidbl
+     * mftrids (vm) bnd bltfrnbtf orifntbtion (fo):<br>
+     * <blodkquotf>
+     * vb vm bo
      * -- -- --  --
-     *  f  f  f  12   ^  horizontal metrics on horizontal lines
+     *  f  f  f  12   ^  iorizontbl mftrids on iorizontbl linfs
      *  f  f  t   6   v
-     *  f  t  f   9   <  vertical metrics on horizontal lines
+     *  f  t  f   9   <  vfrtidbl mftrids on iorizontbl linfs
      *  f  t  t   3   >
-     *  t  f  f   3   >  horizontal metrics on vertical lines
+     *  t  f  f   3   >  iorizontbl mftrids on vfrtidbl linfs
      *  t  f  t   9   <
-     *  t  t  f  12   ^  vertical metrics on vertical lines
+     *  t  t  f  12   ^  vfrtidbl mftrids on vfrtidbl linfs
      *  t  t  t   6   v
-     * </blockquote>
+     * </blodkquotf>
      */
-    public static final int FLAG_USES_ALTERNATE_ORIENTATION = 512;
+    publid stbtid finbl int FLAG_USES_ALTERNATE_ORIENTATION = 512;
 
 
     /**
-     * Ensure that the positions array exists and holds position data.
-     * If the array is null, this allocates it and sets default positions.
+     * Ensurf tibt tif positions brrby fxists bnd iolds position dbtb.
+     * If tif brrby is null, tiis bllodbtfs it bnd sfts dffbult positions.
      */
-    private void initPositions() {
+    privbtf void initPositions() {
         if (positions == null) {
-            setFRCTX();
+            sftFRCTX();
 
-            positions = new float[glyphs.length * 2 + 2];
+            positions = nfw flobt[glypis.lfngti * 2 + 2];
 
-            Point2D.Float trackPt = null;
-            float track = getTracking(font);
-            if (track != 0) {
-                track *= font.getSize2D();
-                trackPt = new Point2D.Float(track, 0); // advance delta
+            Point2D.Flobt trbdkPt = null;
+            flobt trbdk = gftTrbdking(font);
+            if (trbdk != 0) {
+                trbdk *= font.gftSizf2D();
+                trbdkPt = nfw Point2D.Flobt(trbdk, 0); // bdvbndf dfltb
             }
 
-            Point2D.Float pt = new Point2D.Float(0, 0);
-            if (font.isTransformed()) {
-                AffineTransform at = font.getTransform();
-                at.transform(pt, pt);
+            Point2D.Flobt pt = nfw Point2D.Flobt(0, 0);
+            if (font.isTrbnsformfd()) {
+                AffinfTrbnsform bt = font.gftTrbnsform();
+                bt.trbnsform(pt, pt);
                 positions[0] = pt.x;
                 positions[1] = pt.y;
 
-                if (trackPt != null) {
-                    at.deltaTransform(trackPt, trackPt);
+                if (trbdkPt != null) {
+                    bt.dfltbTrbnsform(trbdkPt, trbdkPt);
                 }
             }
-            for (int i = 0, n = 2; i < glyphs.length; ++i, n += 2) {
-                getGlyphStrike(i).addDefaultGlyphAdvance(glyphs[i], pt);
-                if (trackPt != null) {
-                    pt.x += trackPt.x;
-                    pt.y += trackPt.y;
+            for (int i = 0, n = 2; i < glypis.lfngti; ++i, n += 2) {
+                gftGlypiStrikf(i).bddDffbultGlypiAdvbndf(glypis[i], pt);
+                if (trbdkPt != null) {
+                    pt.x += trbdkPt.x;
+                    pt.y += trbdkPt.y;
                 }
                 positions[n] = pt.x;
                 positions[n+1] = pt.y;
@@ -1329,608 +1329,608 @@ public class StandardGlyphVector extends GlyphVector {
     }
 
     /**
-     * OR newFlags with existing flags.  First computes existing flags if needed.
+     * OR nfwFlbgs witi fxisting flbgs.  First domputfs fxisting flbgs if nffdfd.
      */
-    private void addFlags(int newflags) {
-        flags = getLayoutFlags() | newflags;
+    privbtf void bddFlbgs(int nfwflbgs) {
+        flbgs = gftLbyoutFlbgs() | nfwflbgs;
     }
 
     /**
-     * AND the complement of clearedFlags with existing flags.  First computes existing flags if needed.
+     * AND tif domplfmfnt of dlfbrfdFlbgs witi fxisting flbgs.  First domputfs fxisting flbgs if nffdfd.
      */
-    private void clearFlags(int clearedFlags) {
-        flags = getLayoutFlags() & ~clearedFlags;
+    privbtf void dlfbrFlbgs(int dlfbrfdFlbgs) {
+        flbgs = gftLbyoutFlbgs() & ~dlfbrfdFlbgs;
     }
 
-    // general utility methods
+    // gfnfrbl utility mftiods
 
-    // encapsulate the test to check whether we have per-glyph transforms
-    private GlyphStrike getGlyphStrike(int ix) {
+    // fndbpsulbtf tif tfst to difdk wiftifr wf ibvf pfr-glypi trbnsforms
+    privbtf GlypiStrikf gftGlypiStrikf(int ix) {
         if (gti == null) {
-            return getDefaultStrike();
-        } else {
-            return gti.getStrike(ix);
+            rfturn gftDffbultStrikf();
+        } flsf {
+            rfturn gti.gftStrikf(ix);
         }
     }
 
-    // encapsulate access to cached default glyph strike
-    private GlyphStrike getDefaultStrike() {
-        GlyphStrike gs = null;
-        if (fsref != null) {
-            gs = fsref.get();
+    // fndbpsulbtf bddfss to dbdifd dffbult glypi strikf
+    privbtf GlypiStrikf gftDffbultStrikf() {
+        GlypiStrikf gs = null;
+        if (fsrff != null) {
+            gs = fsrff.gft();
         }
         if (gs == null) {
-            gs = GlyphStrike.create(this, dtx, null);
-            fsref = new SoftReference<>(gs);
+            gs = GlypiStrikf.drfbtf(tiis, dtx, null);
+            fsrff = nfw SoftRfffrfndf<>(gs);
         }
-        return gs;
+        rfturn gs;
     }
 
 
     /////////////////////
-    // Internal utility classes
+    // Intfrnbl utility dlbssfs
     /////////////////////
 
-    // !!! I have this as a separate class instead of just inside SGV,
-    // but I previously didn't bother.  Now I'm trying this again.
-    // Probably still not worth it, but I'd like to keep sgv's small in the common case.
+    // !!! I ibvf tiis bs b sfpbrbtf dlbss instfbd of just insidf SGV,
+    // but I prfviously didn't botifr.  Now I'm trying tiis bgbin.
+    // Probbbly still not worti it, but I'd likf to kffp sgv's smbll in tif dommon dbsf.
 
-    static final class GlyphTransformInfo {
-        StandardGlyphVector sgv;  // reference back to glyph vector - yuck
-        int[] indices;            // index into unique strikes
-        double[] transforms;      // six doubles per unique transform, because AT is a pain to manipulate
-        SoftReference<GlyphStrike[]> strikesRef; // ref to unique strikes, one per transform
-        boolean haveAllStrikes;   // true if the strike array has been filled by getStrikes().
+    stbtid finbl dlbss GlypiTrbnsformInfo {
+        StbndbrdGlypiVfdtor sgv;  // rfffrfndf bbdk to glypi vfdtor - yudk
+        int[] indidfs;            // indfx into uniquf strikfs
+        doublf[] trbnsforms;      // six doublfs pfr uniquf trbnsform, bfdbusf AT is b pbin to mbnipulbtf
+        SoftRfffrfndf<GlypiStrikf[]> strikfsRff; // rff to uniquf strikfs, onf pfr trbnsform
+        boolfbn ibvfAllStrikfs;   // truf if tif strikf brrby ibs bffn fillfd by gftStrikfs().
 
-        // used when first setting a transform
-        GlyphTransformInfo(StandardGlyphVector sgv) {
-            this.sgv = sgv;
+        // usfd wifn first sftting b trbnsform
+        GlypiTrbnsformInfo(StbndbrdGlypiVfdtor sgv) {
+            tiis.sgv = sgv;
         }
 
-        // used when cloning a glyph vector, need to set back link
-        GlyphTransformInfo(StandardGlyphVector sgv, GlyphTransformInfo rhs) {
-            this.sgv = sgv;
+        // usfd wifn dloning b glypi vfdtor, nffd to sft bbdk link
+        GlypiTrbnsformInfo(StbndbrdGlypiVfdtor sgv, GlypiTrbnsformInfo ris) {
+            tiis.sgv = sgv;
 
-            this.indices = rhs.indices == null ? null : rhs.indices.clone();
-            this.transforms = rhs.transforms == null ? null : rhs.transforms.clone();
-            this.strikesRef = null; // can't share cache, so rather than clone, we just null out
+            tiis.indidfs = ris.indidfs == null ? null : ris.indidfs.dlonf();
+            tiis.trbnsforms = ris.trbnsforms == null ? null : ris.trbnsforms.dlonf();
+            tiis.strikfsRff = null; // dbn't sibrf dbdif, so rbtifr tibn dlonf, wf just null out
         }
 
-        // used in sgv equality
-        public boolean equals(GlyphTransformInfo rhs) {
-            if (rhs == null) {
-                return false;
+        // usfd in sgv fqublity
+        publid boolfbn fqubls(GlypiTrbnsformInfo ris) {
+            if (ris == null) {
+                rfturn fblsf;
             }
-            if (rhs == this) {
-                return true;
+            if (ris == tiis) {
+                rfturn truf;
             }
-            if (this.indices.length != rhs.indices.length) {
-                return false;
+            if (tiis.indidfs.lfngti != ris.indidfs.lfngti) {
+                rfturn fblsf;
             }
-            if (this.transforms.length != rhs.transforms.length) {
-                return false;
+            if (tiis.trbnsforms.lfngti != ris.trbnsforms.lfngti) {
+                rfturn fblsf;
             }
 
-            // slow since we end up processing the same transforms multiple
-            // times, but since transforms can be in any order, we either do
-            // this or create a mapping.  Equality tests aren't common so
-            // leave it like this.
-            for (int i = 0; i < this.indices.length; ++i) {
-                int tix = this.indices[i];
-                int rix = rhs.indices[i];
+            // slow sindf wf fnd up prodfssing tif sbmf trbnsforms multiplf
+            // timfs, but sindf trbnsforms dbn bf in bny ordfr, wf fitifr do
+            // tiis or drfbtf b mbpping.  Equblity tfsts brfn't dommon so
+            // lfbvf it likf tiis.
+            for (int i = 0; i < tiis.indidfs.lfngti; ++i) {
+                int tix = tiis.indidfs[i];
+                int rix = ris.indidfs[i];
                 if ((tix == 0) != (rix == 0)) {
-                    return false;
+                    rfturn fblsf;
                 }
                 if (tix != 0) {
                     tix *= 6;
                     rix *= 6;
                     for (int j = 6; j > 0; --j) {
-                        if (this.indices[--tix] != rhs.indices[--rix]) {
-                            return false;
+                        if (tiis.indidfs[--tix] != ris.indidfs[--rix]) {
+                            rfturn fblsf;
                         }
                     }
                 }
             }
-            return true;
+            rfturn truf;
         }
 
-        // implements sgv.setGlyphTransform
-        void setGlyphTransform(int glyphIndex, AffineTransform newTX) {
+        // implfmfnts sgv.sftGlypiTrbnsform
+        void sftGlypiTrbnsform(int glypiIndfx, AffinfTrbnsform nfwTX) {
 
-            // we store all the glyph transforms as a double array, and for each glyph there
-            // is an entry in the txIndices array indicating which transform to use.  0 means
-            // there's no transform, 1 means use the first transform (the 6 doubles at offset
-            // 0), 2 means use the second transform (the 6 doubles at offset 6), etc.
+            // wf storf bll tif glypi trbnsforms bs b doublf brrby, bnd for fbdi glypi tifrf
+            // is bn fntry in tif txIndidfs brrby indidbting wiidi trbnsform to usf.  0 mfbns
+            // tifrf's no trbnsform, 1 mfbns usf tif first trbnsform (tif 6 doublfs bt offsft
+            // 0), 2 mfbns usf tif sfdond trbnsform (tif 6 doublfs bt offsft 6), ftd.
             //
-            // Since this can be called multiple times, and since the number of transforms
-            // affects the time it takes to construct the glyphs, we try to keep the arrays as
-            // compact as possible, by removing transforms that are no longer used, and reusing
-            // transforms where we already have them.
+            // Sindf tiis dbn bf dbllfd multiplf timfs, bnd sindf tif numbfr of trbnsforms
+            // bfffdts tif timf it tbkfs to donstrudt tif glypis, wf try to kffp tif brrbys bs
+            // dompbdt bs possiblf, by rfmoving trbnsforms tibt brf no longfr usfd, bnd rfusing
+            // trbnsforms wifrf wf blrfbdy ibvf tifm.
 
-            double[] temp = new double[6];
-            boolean isIdentity = true;
-            if (newTX == null || newTX.isIdentity()) {
-                // Fill in temp
-                temp[0] = temp[3] = 1.0;
+            doublf[] tfmp = nfw doublf[6];
+            boolfbn isIdfntity = truf;
+            if (nfwTX == null || nfwTX.isIdfntity()) {
+                // Fill in tfmp
+                tfmp[0] = tfmp[3] = 1.0;
             }
-            else {
-                isIdentity = false;
-                newTX.getMatrix(temp);
+            flsf {
+                isIdfntity = fblsf;
+                nfwTX.gftMbtrix(tfmp);
             }
 
-            if (indices == null) {
-                if (isIdentity) { // no change
-                    return;
+            if (indidfs == null) {
+                if (isIdfntity) { // no dibngf
+                    rfturn;
                 }
 
-                indices = new int[sgv.glyphs.length];
-                indices[glyphIndex] = 1;
-                transforms = temp;
-            } else {
-                boolean addSlot = false; // assume we're not growing
-                int newIndex = -1;
-                if (isIdentity) {
-                    newIndex = 0; // might shrink
-                } else {
-                    addSlot = true; // assume no match
+                indidfs = nfw int[sgv.glypis.lfngti];
+                indidfs[glypiIndfx] = 1;
+                trbnsforms = tfmp;
+            } flsf {
+                boolfbn bddSlot = fblsf; // bssumf wf'rf not growing
+                int nfwIndfx = -1;
+                if (isIdfntity) {
+                    nfwIndfx = 0; // migit sirink
+                } flsf {
+                    bddSlot = truf; // bssumf no mbtdi
                     int i;
                 loop:
-                    for (i = 0; i < transforms.length; i += 6) {
+                    for (i = 0; i < trbnsforms.lfngti; i += 6) {
                         for (int j = 0; j < 6; ++j) {
-                            if (transforms[i + j] != temp[j]) {
-                                continue loop;
+                            if (trbnsforms[i + j] != tfmp[j]) {
+                                dontinuf loop;
                             }
                         }
-                        addSlot = false;
-                        break;
+                        bddSlot = fblsf;
+                        brfbk;
                     }
-                    newIndex = i / 6 + 1; // if no match, end of list
+                    nfwIndfx = i / 6 + 1; // if no mbtdi, fnd of list
                 }
 
-                // if we're using the same transform, nothing to do
-                int oldIndex = indices[glyphIndex];
-                if (newIndex != oldIndex) {
-                    // see if we are removing last use of the old slot
-                    boolean removeSlot = false;
-                    if (oldIndex != 0) {
-                        removeSlot = true;
-                        for (int i = 0; i < indices.length; ++i) {
-                            if (indices[i] == oldIndex && i != glyphIndex) {
-                                removeSlot = false;
-                                break;
+                // if wf'rf using tif sbmf trbnsform, notiing to do
+                int oldIndfx = indidfs[glypiIndfx];
+                if (nfwIndfx != oldIndfx) {
+                    // sff if wf brf rfmoving lbst usf of tif old slot
+                    boolfbn rfmovfSlot = fblsf;
+                    if (oldIndfx != 0) {
+                        rfmovfSlot = truf;
+                        for (int i = 0; i < indidfs.lfngti; ++i) {
+                            if (indidfs[i] == oldIndfx && i != glypiIndfx) {
+                                rfmovfSlot = fblsf;
+                                brfbk;
                             }
                         }
                     }
 
-                    if (removeSlot && addSlot) { // reuse old slot with new transform
-                        newIndex = oldIndex;
-                        System.arraycopy(temp, 0, transforms, (newIndex - 1) * 6, 6);
-                    } else if (removeSlot) {
-                        if (transforms.length == 6) { // removing last one, so clear arrays
-                            indices = null;
-                            transforms = null;
+                    if (rfmovfSlot && bddSlot) { // rfusf old slot witi nfw trbnsform
+                        nfwIndfx = oldIndfx;
+                        Systfm.brrbydopy(tfmp, 0, trbnsforms, (nfwIndfx - 1) * 6, 6);
+                    } flsf if (rfmovfSlot) {
+                        if (trbnsforms.lfngti == 6) { // rfmoving lbst onf, so dlfbr brrbys
+                            indidfs = null;
+                            trbnsforms = null;
 
-                            sgv.clearCaches(glyphIndex);
-                            sgv.clearFlags(FLAG_HAS_TRANSFORMS);
-                            strikesRef = null;
+                            sgv.dlfbrCbdifs(glypiIndfx);
+                            sgv.dlfbrFlbgs(FLAG_HAS_TRANSFORMS);
+                            strikfsRff = null;
 
-                            return;
+                            rfturn;
                         }
 
-                        double[] ttemp = new double[transforms.length - 6];
-                        System.arraycopy(transforms, 0, ttemp, 0, (oldIndex - 1) * 6);
-                        System.arraycopy(transforms, oldIndex * 6, ttemp, (oldIndex - 1) * 6,
-                                         transforms.length - oldIndex * 6);
-                        transforms = ttemp;
+                        doublf[] ttfmp = nfw doublf[trbnsforms.lfngti - 6];
+                        Systfm.brrbydopy(trbnsforms, 0, ttfmp, 0, (oldIndfx - 1) * 6);
+                        Systfm.brrbydopy(trbnsforms, oldIndfx * 6, ttfmp, (oldIndfx - 1) * 6,
+                                         trbnsforms.lfngti - oldIndfx * 6);
+                        trbnsforms = ttfmp;
 
-                        // clean up indices
-                        for (int i = 0; i < indices.length; ++i) {
-                            if (indices[i] > oldIndex) { // ignore == oldIndex, it's going away
-                                indices[i] -= 1;
+                        // dlfbn up indidfs
+                        for (int i = 0; i < indidfs.lfngti; ++i) {
+                            if (indidfs[i] > oldIndfx) { // ignorf == oldIndfx, it's going bwby
+                                indidfs[i] -= 1;
                             }
                         }
-                        if (newIndex > oldIndex) { // don't forget to decrement this too if we need to
-                            --newIndex;
+                        if (nfwIndfx > oldIndfx) { // don't forgft to dfdrfmfnt tiis too if wf nffd to
+                            --nfwIndfx;
                         }
-                    } else if (addSlot) {
-                        double[] ttemp = new double[transforms.length + 6];
-                        System.arraycopy(transforms, 0, ttemp, 0, transforms.length);
-                        System.arraycopy(temp, 0, ttemp, transforms.length, 6);
-                        transforms = ttemp;
+                    } flsf if (bddSlot) {
+                        doublf[] ttfmp = nfw doublf[trbnsforms.lfngti + 6];
+                        Systfm.brrbydopy(trbnsforms, 0, ttfmp, 0, trbnsforms.lfngti);
+                        Systfm.brrbydopy(tfmp, 0, ttfmp, trbnsforms.lfngti, 6);
+                        trbnsforms = ttfmp;
                     }
 
-                    indices[glyphIndex] = newIndex;
+                    indidfs[glypiIndfx] = nfwIndfx;
                 }
             }
 
-            sgv.clearCaches(glyphIndex);
-            sgv.addFlags(FLAG_HAS_TRANSFORMS);
-            strikesRef = null;
+            sgv.dlfbrCbdifs(glypiIndfx);
+            sgv.bddFlbgs(FLAG_HAS_TRANSFORMS);
+            strikfsRff = null;
         }
 
-        // implements sgv.getGlyphTransform
-        AffineTransform getGlyphTransform(int ix) {
-            int index = indices[ix];
-            if (index == 0) {
-                return null;
+        // implfmfnts sgv.gftGlypiTrbnsform
+        AffinfTrbnsform gftGlypiTrbnsform(int ix) {
+            int indfx = indidfs[ix];
+            if (indfx == 0) {
+                rfturn null;
             }
 
-            int x = (index - 1) * 6;
-            return new AffineTransform(transforms[x + 0],
-                                       transforms[x + 1],
-                                       transforms[x + 2],
-                                       transforms[x + 3],
-                                       transforms[x + 4],
-                                       transforms[x + 5]);
+            int x = (indfx - 1) * 6;
+            rfturn nfw AffinfTrbnsform(trbnsforms[x + 0],
+                                       trbnsforms[x + 1],
+                                       trbnsforms[x + 2],
+                                       trbnsforms[x + 3],
+                                       trbnsforms[x + 4],
+                                       trbnsforms[x + 5]);
         }
 
-        int transformCount() {
-            if (transforms == null) {
-                return 0;
+        int trbnsformCount() {
+            if (trbnsforms == null) {
+                rfturn 0;
             }
-            return transforms.length / 6;
+            rfturn trbnsforms.lfngti / 6;
         }
 
         /**
-         * The strike cache works like this.
+         * Tif strikf dbdif works likf tiis.
          *
-         * -Each glyph is thought of as having a transform, usually identity.
-         * -Each request for a strike is based on a device transform, either the
-         * one in the frc or the rendering transform.
-         * -For general info, strikes are held with soft references.
-         * -When rendering, strikes must be held with hard references for the
-         * duration of the rendering call.  GlyphList will have to hold this
-         * info along with the image and position info, but toss the strike info
-         * when done.
-         * -Build the strike cache as needed.  If the dev transform we want to use
-         * has changed from the last time it is built, the cache is flushed by
-         * the caller before these methods are called.
+         * -Ebdi glypi is tiougit of bs ibving b trbnsform, usublly idfntity.
+         * -Ebdi rfqufst for b strikf is bbsfd on b dfvidf trbnsform, fitifr tif
+         * onf in tif frd or tif rfndfring trbnsform.
+         * -For gfnfrbl info, strikfs brf ifld witi soft rfffrfndfs.
+         * -Wifn rfndfring, strikfs must bf ifld witi ibrd rfffrfndfs for tif
+         * durbtion of tif rfndfring dbll.  GlypiList will ibvf to iold tiis
+         * info blong witi tif imbgf bnd position info, but toss tif strikf info
+         * wifn donf.
+         * -Build tif strikf dbdif bs nffdfd.  If tif dfv trbnsform wf wbnt to usf
+         * ibs dibngfd from tif lbst timf it is built, tif dbdif is flusifd by
+         * tif dbllfr bfforf tifsf mftiods brf dbllfd.
          *
-         * Use a tx that doesn't include translation components of dst tx.
+         * Usf b tx tibt dofsn't indludf trbnslbtion domponfnts of dst tx.
          */
-        Object setupGlyphImages(long[] images, float[] positions, AffineTransform tx) {
-            int len = sgv.glyphs.length;
+        Objfdt sftupGlypiImbgfs(long[] imbgfs, flobt[] positions, AffinfTrbnsform tx) {
+            int lfn = sgv.glypis.lfngti;
 
-            GlyphStrike[] sl = getAllStrikes();
-            for (int i = 0; i < len; ++i) {
-                GlyphStrike gs = sl[indices[i]];
-                int glyphID = sgv.glyphs[i];
-                images[i] = gs.strike.getGlyphImagePtr(glyphID);
+            GlypiStrikf[] sl = gftAllStrikfs();
+            for (int i = 0; i < lfn; ++i) {
+                GlypiStrikf gs = sl[indidfs[i]];
+                int glypiID = sgv.glypis[i];
+                imbgfs[i] = gs.strikf.gftGlypiImbgfPtr(glypiID);
 
-                gs.getGlyphPosition(glyphID, i*2, sgv.positions, positions);
+                gs.gftGlypiPosition(glypiID, i*2, sgv.positions, positions);
             }
-            tx.transform(positions, 0, positions, 0, len);
+            tx.trbnsform(positions, 0, positions, 0, lfn);
 
-            return sl;
+            rfturn sl;
         }
 
-        Rectangle getGlyphsPixelBounds(AffineTransform tx, float x, float y, int start, int count) {
-            Rectangle result = null;
-            Rectangle r = new Rectangle();
-            Point2D.Float pt = new Point.Float();
-            int n = start * 2;
-            while (--count >= 0) {
-                GlyphStrike gs = getStrike(start);
+        Rfdtbnglf gftGlypisPixflBounds(AffinfTrbnsform tx, flobt x, flobt y, int stbrt, int dount) {
+            Rfdtbnglf rfsult = null;
+            Rfdtbnglf r = nfw Rfdtbnglf();
+            Point2D.Flobt pt = nfw Point.Flobt();
+            int n = stbrt * 2;
+            wiilf (--dount >= 0) {
+                GlypiStrikf gs = gftStrikf(stbrt);
                 pt.x = x + sgv.positions[n++] + gs.dx;
                 pt.y = y + sgv.positions[n++] + gs.dy;
-                tx.transform(pt, pt);
-                gs.strike.getGlyphImageBounds(sgv.glyphs[start++], pt, r);
+                tx.trbnsform(pt, pt);
+                gs.strikf.gftGlypiImbgfBounds(sgv.glypis[stbrt++], pt, r);
                 if (!r.isEmpty()) {
-                    if (result == null) {
-                        result = new Rectangle(r);
-                    } else {
-                        result.add(r);
+                    if (rfsult == null) {
+                        rfsult = nfw Rfdtbnglf(r);
+                    } flsf {
+                        rfsult.bdd(r);
                     }
                 }
             }
-            return result != null ? result : r;
+            rfturn rfsult != null ? rfsult : r;
         }
 
-        GlyphStrike getStrike(int glyphIndex) {
-            if (indices != null) {
-                GlyphStrike[] strikes = getStrikeArray();
-                return getStrikeAtIndex(strikes, indices[glyphIndex]);
+        GlypiStrikf gftStrikf(int glypiIndfx) {
+            if (indidfs != null) {
+                GlypiStrikf[] strikfs = gftStrikfArrby();
+                rfturn gftStrikfAtIndfx(strikfs, indidfs[glypiIndfx]);
             }
-            return sgv.getDefaultStrike();
+            rfturn sgv.gftDffbultStrikf();
         }
 
-        private GlyphStrike[] getAllStrikes() {
-            if (indices == null) {
-                return null;
+        privbtf GlypiStrikf[] gftAllStrikfs() {
+            if (indidfs == null) {
+                rfturn null;
             }
 
-            GlyphStrike[] strikes = getStrikeArray();
-            if (!haveAllStrikes) {
-                for (int i = 0; i < strikes.length; ++i) {
-                    getStrikeAtIndex(strikes, i);
+            GlypiStrikf[] strikfs = gftStrikfArrby();
+            if (!ibvfAllStrikfs) {
+                for (int i = 0; i < strikfs.lfngti; ++i) {
+                    gftStrikfAtIndfx(strikfs, i);
                 }
-                haveAllStrikes = true;
+                ibvfAllStrikfs = truf;
             }
 
-            return strikes;
+            rfturn strikfs;
         }
 
-        private GlyphStrike[] getStrikeArray() {
-            GlyphStrike[] strikes = null;
-            if (strikesRef != null) {
-                strikes = strikesRef.get();
+        privbtf GlypiStrikf[] gftStrikfArrby() {
+            GlypiStrikf[] strikfs = null;
+            if (strikfsRff != null) {
+                strikfs = strikfsRff.gft();
             }
-            if (strikes == null) {
-                haveAllStrikes = false;
-                strikes = new GlyphStrike[transformCount() + 1];
-                strikesRef = new SoftReference<>(strikes);
+            if (strikfs == null) {
+                ibvfAllStrikfs = fblsf;
+                strikfs = nfw GlypiStrikf[trbnsformCount() + 1];
+                strikfsRff = nfw SoftRfffrfndf<>(strikfs);
             }
 
-            return strikes;
+            rfturn strikfs;
         }
 
-        private GlyphStrike getStrikeAtIndex(GlyphStrike[] strikes, int strikeIndex) {
-            GlyphStrike strike = strikes[strikeIndex];
-            if (strike == null) {
-                if (strikeIndex == 0) {
-                    strike = sgv.getDefaultStrike();
-                } else {
-                    int ix = (strikeIndex - 1) * 6;
-                    AffineTransform gtx = new AffineTransform(transforms[ix],
-                                                              transforms[ix+1],
-                                                              transforms[ix+2],
-                                                              transforms[ix+3],
-                                                              transforms[ix+4],
-                                                              transforms[ix+5]);
+        privbtf GlypiStrikf gftStrikfAtIndfx(GlypiStrikf[] strikfs, int strikfIndfx) {
+            GlypiStrikf strikf = strikfs[strikfIndfx];
+            if (strikf == null) {
+                if (strikfIndfx == 0) {
+                    strikf = sgv.gftDffbultStrikf();
+                } flsf {
+                    int ix = (strikfIndfx - 1) * 6;
+                    AffinfTrbnsform gtx = nfw AffinfTrbnsform(trbnsforms[ix],
+                                                              trbnsforms[ix+1],
+                                                              trbnsforms[ix+2],
+                                                              trbnsforms[ix+3],
+                                                              trbnsforms[ix+4],
+                                                              trbnsforms[ix+5]);
 
-                    strike = GlyphStrike.create(sgv, sgv.dtx, gtx);
+                    strikf = GlypiStrikf.drfbtf(sgv, sgv.dtx, gtx);
                 }
-                strikes[strikeIndex] = strike;
+                strikfs[strikfIndfx] = strikf;
             }
-            return strike;
+            rfturn strikf;
         }
     }
 
-    // This adjusts the metrics by the translation components of the glyph
-    // transform.  It is done here since the translation is not known by the
-    // strike.
-    // It adjusts the position of the image and the advance.
+    // Tiis bdjusts tif mftrids by tif trbnslbtion domponfnts of tif glypi
+    // trbnsform.  It is donf ifrf sindf tif trbnslbtion is not known by tif
+    // strikf.
+    // It bdjusts tif position of tif imbgf bnd tif bdvbndf.
 
-    public static final class GlyphStrike {
-        StandardGlyphVector sgv;
-        FontStrike strike; // hard reference
-        float dx;
-        float dy;
+    publid stbtid finbl dlbss GlypiStrikf {
+        StbndbrdGlypiVfdtor sgv;
+        FontStrikf strikf; // ibrd rfffrfndf
+        flobt dx;
+        flobt dy;
 
-        static GlyphStrike create(StandardGlyphVector sgv, AffineTransform dtx, AffineTransform gtx) {
-            float dx = 0;
-            float dy = 0;
+        stbtid GlypiStrikf drfbtf(StbndbrdGlypiVfdtor sgv, AffinfTrbnsform dtx, AffinfTrbnsform gtx) {
+            flobt dx = 0;
+            flobt dy = 0;
 
-            AffineTransform tx = sgv.ftx;
-            if (!dtx.isIdentity() || gtx != null) {
-                tx = new AffineTransform(sgv.ftx);
+            AffinfTrbnsform tx = sgv.ftx;
+            if (!dtx.isIdfntity() || gtx != null) {
+                tx = nfw AffinfTrbnsform(sgv.ftx);
                 if (gtx != null) {
-                    tx.preConcatenate(gtx);
-                    dx = (float)tx.getTranslateX(); // uses ftx then gtx to get translation
-                    dy = (float)tx.getTranslateY();
+                    tx.prfCondbtfnbtf(gtx);
+                    dx = (flobt)tx.gftTrbnslbtfX(); // usfs ftx tifn gtx to gft trbnslbtion
+                    dy = (flobt)tx.gftTrbnslbtfY();
                 }
-                if (!dtx.isIdentity()) {
-                    tx.preConcatenate(dtx);
+                if (!dtx.isIdfntity()) {
+                    tx.prfCondbtfnbtf(dtx);
                 }
             }
 
-            int ptSize = 1; // only matters for 'gasp' case.
-            Object aaHint = sgv.frc.getAntiAliasingHint();
-            if (aaHint == VALUE_TEXT_ANTIALIAS_GASP) {
-                /* Must pass in the calculated point size for rendering.
-                 * If the glyph tx is anything other than identity or a
-                 *  simple translate, calculate the transformed point size.
+            int ptSizf = 1; // only mbttfrs for 'gbsp' dbsf.
+            Objfdt bbHint = sgv.frd.gftAntiAlibsingHint();
+            if (bbHint == VALUE_TEXT_ANTIALIAS_GASP) {
+                /* Must pbss in tif dbldulbtfd point sizf for rfndfring.
+                 * If tif glypi tx is bnytiing otifr tibn idfntity or b
+                 *  simplf trbnslbtf, dbldulbtf tif trbnsformfd point sizf.
                  */
-                if (!tx.isIdentity() &&
-                    (tx.getType() & ~AffineTransform.TYPE_TRANSLATION) != 0) {
-                    double shearx = tx.getShearX();
-                    if (shearx != 0) {
-                        double scaley = tx.getScaleY();
-                        ptSize =
-                            (int)Math.sqrt(shearx * shearx + scaley * scaley);
-                    } else {
-                        ptSize = (int)(Math.abs(tx.getScaleY()));
+                if (!tx.isIdfntity() &&
+                    (tx.gftTypf() & ~AffinfTrbnsform.TYPE_TRANSLATION) != 0) {
+                    doublf sifbrx = tx.gftSifbrX();
+                    if (sifbrx != 0) {
+                        doublf sdblfy = tx.gftSdblfY();
+                        ptSizf =
+                            (int)Mbti.sqrt(sifbrx * sifbrx + sdblfy * sdblfy);
+                    } flsf {
+                        ptSizf = (int)(Mbti.bbs(tx.gftSdblfY()));
                     }
                 }
             }
-            int aa = FontStrikeDesc.getAAHintIntVal(aaHint,sgv.font2D, ptSize);
-            int fm = FontStrikeDesc.getFMHintIntVal
-                (sgv.frc.getFractionalMetricsHint());
-            FontStrikeDesc desc = new FontStrikeDesc(dtx,
+            int bb = FontStrikfDfsd.gftAAHintIntVbl(bbHint,sgv.font2D, ptSizf);
+            int fm = FontStrikfDfsd.gftFMHintIntVbl
+                (sgv.frd.gftFrbdtionblMftridsHint());
+            FontStrikfDfsd dfsd = nfw FontStrikfDfsd(dtx,
                                                      tx,
-                                                     sgv.font.getStyle(),
-                                                     aa, fm);
-            // Get the strike via the handle. Shouldn't matter
-            // if we've invalidated the font but its an extra precaution.
-            FontStrike strike = sgv.font2D.handle.font2D.getStrike(desc);  // !!! getStrike(desc, false)
+                                                     sgv.font.gftStylf(),
+                                                     bb, fm);
+            // Gft tif strikf vib tif ibndlf. Siouldn't mbttfr
+            // if wf'vf invblidbtfd tif font but its bn fxtrb prfdbution.
+            FontStrikf strikf = sgv.font2D.ibndlf.font2D.gftStrikf(dfsd);  // !!! gftStrikf(dfsd, fblsf)
 
-            return new GlyphStrike(sgv, strike, dx, dy);
+            rfturn nfw GlypiStrikf(sgv, strikf, dx, dy);
         }
 
-        private GlyphStrike(StandardGlyphVector sgv, FontStrike strike, float dx, float dy) {
-            this.sgv = sgv;
-            this.strike = strike;
-            this.dx = dx;
-            this.dy = dy;
+        privbtf GlypiStrikf(StbndbrdGlypiVfdtor sgv, FontStrikf strikf, flobt dx, flobt dy) {
+            tiis.sgv = sgv;
+            tiis.strikf = strikf;
+            tiis.dx = dx;
+            tiis.dy = dy;
         }
 
-        void getADL(ADL result) {
-            StrikeMetrics sm = strike.getFontMetrics();
-            Point2D.Float delta = null;
-            if (sgv.font.isTransformed()) {
-                delta = new Point2D.Float();
-                delta.x = (float)sgv.font.getTransform().getTranslateX();
-                delta.y = (float)sgv.font.getTransform().getTranslateY();
+        void gftADL(ADL rfsult) {
+            StrikfMftrids sm = strikf.gftFontMftrids();
+            Point2D.Flobt dfltb = null;
+            if (sgv.font.isTrbnsformfd()) {
+                dfltb = nfw Point2D.Flobt();
+                dfltb.x = (flobt)sgv.font.gftTrbnsform().gftTrbnslbtfX();
+                dfltb.y = (flobt)sgv.font.gftTrbnsform().gftTrbnslbtfY();
             }
 
-            result.ascentX = -sm.ascentX;
-            result.ascentY = -sm.ascentY;
-            result.descentX = sm.descentX;
-            result.descentY = sm.descentY;
-            result.leadingX = sm.leadingX;
-            result.leadingY = sm.leadingY;
+            rfsult.bsdfntX = -sm.bsdfntX;
+            rfsult.bsdfntY = -sm.bsdfntY;
+            rfsult.dfsdfntX = sm.dfsdfntX;
+            rfsult.dfsdfntY = sm.dfsdfntY;
+            rfsult.lfbdingX = sm.lfbdingX;
+            rfsult.lfbdingY = sm.lfbdingY;
         }
 
-        void getGlyphPosition(int glyphID, int ix, float[] positions, float[] result) {
-            result[ix] = positions[ix] + dx;
+        void gftGlypiPosition(int glypiID, int ix, flobt[] positions, flobt[] rfsult) {
+            rfsult[ix] = positions[ix] + dx;
             ++ix;
-            result[ix] = positions[ix] + dy;
+            rfsult[ix] = positions[ix] + dy;
         }
 
-        void addDefaultGlyphAdvance(int glyphID, Point2D.Float result) {
-            // !!! change this API?  Creates unnecessary garbage.  Also the name doesn't quite fit.
-            // strike.addGlyphAdvance(Point2D.Float adv);  // hey, whaddya know, matches my api :-)
-            Point2D.Float adv = strike.getGlyphMetrics(glyphID);
-            result.x += adv.x + dx;
-            result.y += adv.y + dy;
+        void bddDffbultGlypiAdvbndf(int glypiID, Point2D.Flobt rfsult) {
+            // !!! dibngf tiis API?  Crfbtfs unnfdfssbry gbrbbgf.  Also tif nbmf dofsn't quitf fit.
+            // strikf.bddGlypiAdvbndf(Point2D.Flobt bdv);  // ify, wibddyb know, mbtdifs my bpi :-)
+            Point2D.Flobt bdv = strikf.gftGlypiMftrids(glypiID);
+            rfsult.x += bdv.x + dx;
+            rfsult.y += bdv.y + dy;
         }
 
-        Rectangle2D getGlyphOutlineBounds(int glyphID, float x, float y) {
-            Rectangle2D result = null;
+        Rfdtbnglf2D gftGlypiOutlinfBounds(int glypiID, flobt x, flobt y) {
+            Rfdtbnglf2D rfsult = null;
             if (sgv.invdtx == null) {
-                result = new Rectangle2D.Float();
-                result.setRect(strike.getGlyphOutlineBounds(glyphID)); // don't mutate cached rect
-            } else {
-                GeneralPath gp = strike.getGlyphOutline(glyphID, 0, 0);
-                gp.transform(sgv.invdtx);
-                result = gp.getBounds2D();
+                rfsult = nfw Rfdtbnglf2D.Flobt();
+                rfsult.sftRfdt(strikf.gftGlypiOutlinfBounds(glypiID)); // don't mutbtf dbdifd rfdt
+            } flsf {
+                GfnfrblPbti gp = strikf.gftGlypiOutlinf(glypiID, 0, 0);
+                gp.trbnsform(sgv.invdtx);
+                rfsult = gp.gftBounds2D();
             }
-            /* Since x is the logical advance of the glyph to this point.
-             * Because of the way that Rectangle.union is specified, this
-             * means that subsequent unioning of a rect including that
-             * will be affected, even if the glyph is empty. So skip such
-             * cases. This alone isn't a complete solution since x==0
-             * may also not be what is wanted. The code that does the
-             * unioning also needs to be aware to ignore empty glyphs.
+            /* Sindf x is tif logidbl bdvbndf of tif glypi to tiis point.
+             * Bfdbusf of tif wby tibt Rfdtbnglf.union is spfdififd, tiis
+             * mfbns tibt subsfqufnt unioning of b rfdt indluding tibt
+             * will bf bfffdtfd, fvfn if tif glypi is fmpty. So skip sudi
+             * dbsfs. Tiis blonf isn't b domplftf solution sindf x==0
+             * mby blso not bf wibt is wbntfd. Tif dodf tibt dofs tif
+             * unioning blso nffds to bf bwbrf to ignorf fmpty glypis.
              */
-            if (!result.isEmpty()) {
-                result.setRect(result.getMinX() + x + dx,
-                               result.getMinY() + y + dy,
-                               result.getWidth(), result.getHeight());
+            if (!rfsult.isEmpty()) {
+                rfsult.sftRfdt(rfsult.gftMinX() + x + dx,
+                               rfsult.gftMinY() + y + dy,
+                               rfsult.gftWidti(), rfsult.gftHfigit());
             }
-            return result;
+            rfturn rfsult;
         }
 
-        void appendGlyphOutline(int glyphID, GeneralPath result, float x, float y) {
-            // !!! fontStrike needs a method for this.  For that matter, GeneralPath does.
-            GeneralPath gp = null;
+        void bppfndGlypiOutlinf(int glypiID, GfnfrblPbti rfsult, flobt x, flobt y) {
+            // !!! fontStrikf nffds b mftiod for tiis.  For tibt mbttfr, GfnfrblPbti dofs.
+            GfnfrblPbti gp = null;
             if (sgv.invdtx == null) {
-                gp = strike.getGlyphOutline(glyphID, x + dx, y + dy);
-            } else {
-                gp = strike.getGlyphOutline(glyphID, 0, 0);
-                gp.transform(sgv.invdtx);
-                gp.transform(AffineTransform.getTranslateInstance(x + dx, y + dy));
+                gp = strikf.gftGlypiOutlinf(glypiID, x + dx, y + dy);
+            } flsf {
+                gp = strikf.gftGlypiOutlinf(glypiID, 0, 0);
+                gp.trbnsform(sgv.invdtx);
+                gp.trbnsform(AffinfTrbnsform.gftTrbnslbtfInstbndf(x + dx, y + dy));
             }
-            PathIterator iterator = gp.getPathIterator(null);
-            result.append(iterator, false);
+            PbtiItfrbtor itfrbtor = gp.gftPbtiItfrbtor(null);
+            rfsult.bppfnd(itfrbtor, fblsf);
         }
     }
 
-    public String toString() {
-        return appendString(null).toString();
+    publid String toString() {
+        rfturn bppfndString(null).toString();
     }
 
-    StringBuffer appendString(StringBuffer buf) {
+    StringBufffr bppfndString(StringBufffr buf) {
         if (buf == null) {
-            buf = new StringBuffer();
+            buf = nfw StringBufffr();
         }
         try {
-            buf.append("SGV{font: ");
-            buf.append(font.toString());
-            buf.append(", frc: ");
-            buf.append(frc.toString());
-            buf.append(", glyphs: (");
-            buf.append(glyphs.length);
-            buf.append(")[");
-            for (int i = 0; i < glyphs.length; ++i) {
+            buf.bppfnd("SGV{font: ");
+            buf.bppfnd(font.toString());
+            buf.bppfnd(", frd: ");
+            buf.bppfnd(frd.toString());
+            buf.bppfnd(", glypis: (");
+            buf.bppfnd(glypis.lfngti);
+            buf.bppfnd(")[");
+            for (int i = 0; i < glypis.lfngti; ++i) {
                 if (i > 0) {
-                    buf.append(", ");
+                    buf.bppfnd(", ");
                 }
-                buf.append(Integer.toHexString(glyphs[i]));
+                buf.bppfnd(Intfgfr.toHfxString(glypis[i]));
             }
-            buf.append("]");
+            buf.bppfnd("]");
             if (positions != null) {
-                buf.append(", positions: (");
-                buf.append(positions.length);
-                buf.append(")[");
-                for (int i = 0; i < positions.length; i += 2) {
+                buf.bppfnd(", positions: (");
+                buf.bppfnd(positions.lfngti);
+                buf.bppfnd(")[");
+                for (int i = 0; i < positions.lfngti; i += 2) {
                     if (i > 0) {
-                        buf.append(", ");
+                        buf.bppfnd(", ");
                     }
-                    buf.append(positions[i]);
-                    buf.append("@");
-                    buf.append(positions[i+1]);
+                    buf.bppfnd(positions[i]);
+                    buf.bppfnd("@");
+                    buf.bppfnd(positions[i+1]);
                 }
-                buf.append("]");
+                buf.bppfnd("]");
             }
-            if (charIndices != null) {
-                buf.append(", indices: (");
-                buf.append(charIndices.length);
-                buf.append(")[");
-                for (int i = 0; i < charIndices.length; ++i) {
+            if (dibrIndidfs != null) {
+                buf.bppfnd(", indidfs: (");
+                buf.bppfnd(dibrIndidfs.lfngti);
+                buf.bppfnd(")[");
+                for (int i = 0; i < dibrIndidfs.lfngti; ++i) {
                     if (i > 0) {
-                        buf.append(", ");
+                        buf.bppfnd(", ");
                     }
-                    buf.append(charIndices[i]);
+                    buf.bppfnd(dibrIndidfs[i]);
                 }
-                buf.append("]");
+                buf.bppfnd("]");
             }
-            buf.append(", flags:");
-            if (getLayoutFlags() == 0) {
-                buf.append(" default");
-            } else {
-                if ((flags & FLAG_HAS_TRANSFORMS) != 0) {
-                    buf.append(" tx");
+            buf.bppfnd(", flbgs:");
+            if (gftLbyoutFlbgs() == 0) {
+                buf.bppfnd(" dffbult");
+            } flsf {
+                if ((flbgs & FLAG_HAS_TRANSFORMS) != 0) {
+                    buf.bppfnd(" tx");
                 }
-                if ((flags & FLAG_HAS_POSITION_ADJUSTMENTS) != 0) {
-                    buf.append(" pos");
+                if ((flbgs & FLAG_HAS_POSITION_ADJUSTMENTS) != 0) {
+                    buf.bppfnd(" pos");
                 }
-                if ((flags & FLAG_RUN_RTL) != 0) {
-                    buf.append(" rtl");
+                if ((flbgs & FLAG_RUN_RTL) != 0) {
+                    buf.bppfnd(" rtl");
                 }
-                if ((flags & FLAG_COMPLEX_GLYPHS) != 0) {
-                    buf.append(" complex");
+                if ((flbgs & FLAG_COMPLEX_GLYPHS) != 0) {
+                    buf.bppfnd(" domplfx");
                 }
             }
         }
-        catch(Exception e) {
-            buf.append(" " + e.getMessage());
+        dbtdi(Exdfption f) {
+            buf.bppfnd(" " + f.gftMfssbgf());
         }
-        buf.append("}");
+        buf.bppfnd("}");
 
-        return buf;
+        rfturn buf;
     }
 
-    static class ADL {
-        public float ascentX;
-        public float ascentY;
-        public float descentX;
-        public float descentY;
-        public float leadingX;
-        public float leadingY;
+    stbtid dlbss ADL {
+        publid flobt bsdfntX;
+        publid flobt bsdfntY;
+        publid flobt dfsdfntX;
+        publid flobt dfsdfntY;
+        publid flobt lfbdingX;
+        publid flobt lfbdingY;
 
-        public String toString() {
-            return toStringBuffer(null).toString();
+        publid String toString() {
+            rfturn toStringBufffr(null).toString();
         }
 
-        protected StringBuffer toStringBuffer(StringBuffer result) {
-            if (result == null) {
-                result = new StringBuffer();
+        protfdtfd StringBufffr toStringBufffr(StringBufffr rfsult) {
+            if (rfsult == null) {
+                rfsult = nfw StringBufffr();
             }
-            result.append("ax: ");
-            result.append(ascentX);
-            result.append(" ay: ");
-            result.append(ascentY);
-            result.append(" dx: ");
-            result.append(descentX);
-            result.append(" dy: ");
-            result.append(descentY);
-            result.append(" lx: ");
-            result.append(leadingX);
-            result.append(" ly: ");
-            result.append(leadingY);
+            rfsult.bppfnd("bx: ");
+            rfsult.bppfnd(bsdfntX);
+            rfsult.bppfnd(" by: ");
+            rfsult.bppfnd(bsdfntY);
+            rfsult.bppfnd(" dx: ");
+            rfsult.bppfnd(dfsdfntX);
+            rfsult.bppfnd(" dy: ");
+            rfsult.bppfnd(dfsdfntY);
+            rfsult.bppfnd(" lx: ");
+            rfsult.bppfnd(lfbdingX);
+            rfsult.bppfnd(" ly: ");
+            rfsult.bppfnd(lfbdingY);
 
-            return result;
+            rfturn rfsult;
         }
     }
 }

@@ -1,216 +1,216 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.media.sound;
+pbdkbgf dom.sun.mfdib.sound;
 
-import java.io.InputStream;
+import jbvb.io.InputStrfbm;
 
-import javax.sound.midi.Soundbank;
-import javax.sound.midi.SoundbankResource;
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
+import jbvbx.sound.midi.Soundbbnk;
+import jbvbx.sound.midi.SoundbbnkRfsourdf;
+import jbvbx.sound.sbmplfd.AudioFormbt;
+import jbvbx.sound.sbmplfd.AudioInputStrfbm;
 
 /**
- * Soundfont sample storage.
+ * Soundfont sbmplf storbgf.
  *
- * @author Karl Helgason
+ * @butior Kbrl Hflgbson
  */
-public final class SF2Sample extends SoundbankResource {
+publid finbl dlbss SF2Sbmplf fxtfnds SoundbbnkRfsourdf {
 
-    String name = "";
-    long startLoop = 0;
-    long endLoop = 0;
-    long sampleRate = 44100;
-    int originalPitch = 60;
-    byte pitchCorrection = 0;
-    int sampleLink = 0;
-    int sampleType = 0;
-    ModelByteBuffer data;
-    ModelByteBuffer data24;
+    String nbmf = "";
+    long stbrtLoop = 0;
+    long fndLoop = 0;
+    long sbmplfRbtf = 44100;
+    int originblPitdi = 60;
+    bytf pitdiCorrfdtion = 0;
+    int sbmplfLink = 0;
+    int sbmplfTypf = 0;
+    ModflBytfBufffr dbtb;
+    ModflBytfBufffr dbtb24;
 
-    public SF2Sample(Soundbank soundBank) {
-        super(soundBank, null, AudioInputStream.class);
+    publid SF2Sbmplf(Soundbbnk soundBbnk) {
+        supfr(soundBbnk, null, AudioInputStrfbm.dlbss);
     }
 
-    public SF2Sample() {
-        super(null, null, AudioInputStream.class);
+    publid SF2Sbmplf() {
+        supfr(null, null, AudioInputStrfbm.dlbss);
     }
 
-    public Object getData() {
+    publid Objfdt gftDbtb() {
 
-        AudioFormat format = getFormat();
+        AudioFormbt formbt = gftFormbt();
         /*
-        if (sampleFile != null) {
-            FileInputStream fis;
+        if (sbmplfFilf != null) {
+            FilfInputStrfbm fis;
             try {
-                fis = new FileInputStream(sampleFile);
-                RIFFReader riff = new RIFFReader(fis);
-                if (!riff.getFormat().equals("RIFF")) {
-                    throw new RIFFInvalidDataException(
-                        "Input stream is not a valid RIFF stream!");
+                fis = nfw FilfInputStrfbm(sbmplfFilf);
+                RIFFRfbdfr riff = nfw RIFFRfbdfr(fis);
+                if (!riff.gftFormbt().fqubls("RIFF")) {
+                    tirow nfw RIFFInvblidDbtbExdfption(
+                        "Input strfbm is not b vblid RIFF strfbm!");
                 }
-                if (!riff.getType().equals("sfbk")) {
-                    throw new RIFFInvalidDataException(
-                        "Input stream is not a valid SoundFont!");
+                if (!riff.gftTypf().fqubls("sfbk")) {
+                    tirow nfw RIFFInvblidDbtbExdfption(
+                        "Input strfbm is not b vblid SoundFont!");
                 }
-                while (riff.hasNextChunk()) {
-                    RIFFReader chunk = riff.nextChunk();
-                    if (chunk.getFormat().equals("LIST")) {
-                        if (chunk.getType().equals("sdta")) {
-                            while(chunk.hasNextChunk()) {
-                                RIFFReader chunkchunk = chunk.nextChunk();
-                                if(chunkchunk.getFormat().equals("smpl")) {
-                                    chunkchunk.skip(sampleOffset);
-                                    return new AudioInputStream(chunkchunk,
-                                            format, sampleLen);
+                wiilf (riff.ibsNfxtCiunk()) {
+                    RIFFRfbdfr diunk = riff.nfxtCiunk();
+                    if (diunk.gftFormbt().fqubls("LIST")) {
+                        if (diunk.gftTypf().fqubls("sdtb")) {
+                            wiilf(diunk.ibsNfxtCiunk()) {
+                                RIFFRfbdfr diunkdiunk = diunk.nfxtCiunk();
+                                if(diunkdiunk.gftFormbt().fqubls("smpl")) {
+                                    diunkdiunk.skip(sbmplfOffsft);
+                                    rfturn nfw AudioInputStrfbm(diunkdiunk,
+                                            formbt, sbmplfLfn);
                                 }
                             }
                         }
                     }
                 }
-                return null;
-            } catch (Exception e) {
-                return new Throwable(e.toString());
+                rfturn null;
+            } dbtdi (Exdfption f) {
+                rfturn nfw Tirowbblf(f.toString());
             }
         }
         */
-        InputStream is = data.getInputStream();
+        InputStrfbm is = dbtb.gftInputStrfbm();
         if (is == null)
-            return null;
-        return new AudioInputStream(is, format, data.capacity());
+            rfturn null;
+        rfturn nfw AudioInputStrfbm(is, formbt, dbtb.dbpbdity());
     }
 
-    public ModelByteBuffer getDataBuffer() {
-        return data;
+    publid ModflBytfBufffr gftDbtbBufffr() {
+        rfturn dbtb;
     }
 
-    public ModelByteBuffer getData24Buffer() {
-        return data24;
+    publid ModflBytfBufffr gftDbtb24Bufffr() {
+        rfturn dbtb24;
     }
 
-    public AudioFormat getFormat() {
-        return new AudioFormat(sampleRate, 16, 1, true, false);
+    publid AudioFormbt gftFormbt() {
+        rfturn nfw AudioFormbt(sbmplfRbtf, 16, 1, truf, fblsf);
     }
 
-    public void setData(ModelByteBuffer data) {
-        this.data = data;
+    publid void sftDbtb(ModflBytfBufffr dbtb) {
+        tiis.dbtb = dbtb;
     }
 
-    public void setData(byte[] data) {
-        this.data = new ModelByteBuffer(data);
+    publid void sftDbtb(bytf[] dbtb) {
+        tiis.dbtb = nfw ModflBytfBufffr(dbtb);
     }
 
-    public void setData(byte[] data, int offset, int length) {
-        this.data = new ModelByteBuffer(data, offset, length);
+    publid void sftDbtb(bytf[] dbtb, int offsft, int lfngti) {
+        tiis.dbtb = nfw ModflBytfBufffr(dbtb, offsft, lfngti);
     }
 
-    public void setData24(ModelByteBuffer data24) {
-        this.data24 = data24;
+    publid void sftDbtb24(ModflBytfBufffr dbtb24) {
+        tiis.dbtb24 = dbtb24;
     }
 
-    public void setData24(byte[] data24) {
-        this.data24 = new ModelByteBuffer(data24);
+    publid void sftDbtb24(bytf[] dbtb24) {
+        tiis.dbtb24 = nfw ModflBytfBufffr(dbtb24);
     }
 
-    public void setData24(byte[] data24, int offset, int length) {
-        this.data24 = new ModelByteBuffer(data24, offset, length);
+    publid void sftDbtb24(bytf[] dbtb24, int offsft, int lfngti) {
+        tiis.dbtb24 = nfw ModflBytfBufffr(dbtb24, offsft, lfngti);
     }
 
     /*
-    public void setData(File file, int offset, int length) {
-        this.data = null;
-        this.sampleFile = file;
-        this.sampleOffset = offset;
-        this.sampleLen = length;
+    publid void sftDbtb(Filf filf, int offsft, int lfngti) {
+        tiis.dbtb = null;
+        tiis.sbmplfFilf = filf;
+        tiis.sbmplfOffsft = offsft;
+        tiis.sbmplfLfn = lfngti;
     }
     */
 
-    public String getName() {
-        return name;
+    publid String gftNbmf() {
+        rfturn nbmf;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    publid void sftNbmf(String nbmf) {
+        tiis.nbmf = nbmf;
     }
 
-    public long getEndLoop() {
-        return endLoop;
+    publid long gftEndLoop() {
+        rfturn fndLoop;
     }
 
-    public void setEndLoop(long endLoop) {
-        this.endLoop = endLoop;
+    publid void sftEndLoop(long fndLoop) {
+        tiis.fndLoop = fndLoop;
     }
 
-    public int getOriginalPitch() {
-        return originalPitch;
+    publid int gftOriginblPitdi() {
+        rfturn originblPitdi;
     }
 
-    public void setOriginalPitch(int originalPitch) {
-        this.originalPitch = originalPitch;
+    publid void sftOriginblPitdi(int originblPitdi) {
+        tiis.originblPitdi = originblPitdi;
     }
 
-    public byte getPitchCorrection() {
-        return pitchCorrection;
+    publid bytf gftPitdiCorrfdtion() {
+        rfturn pitdiCorrfdtion;
     }
 
-    public void setPitchCorrection(byte pitchCorrection) {
-        this.pitchCorrection = pitchCorrection;
+    publid void sftPitdiCorrfdtion(bytf pitdiCorrfdtion) {
+        tiis.pitdiCorrfdtion = pitdiCorrfdtion;
     }
 
-    public int getSampleLink() {
-        return sampleLink;
+    publid int gftSbmplfLink() {
+        rfturn sbmplfLink;
     }
 
-    public void setSampleLink(int sampleLink) {
-        this.sampleLink = sampleLink;
+    publid void sftSbmplfLink(int sbmplfLink) {
+        tiis.sbmplfLink = sbmplfLink;
     }
 
-    public long getSampleRate() {
-        return sampleRate;
+    publid long gftSbmplfRbtf() {
+        rfturn sbmplfRbtf;
     }
 
-    public void setSampleRate(long sampleRate) {
-        this.sampleRate = sampleRate;
+    publid void sftSbmplfRbtf(long sbmplfRbtf) {
+        tiis.sbmplfRbtf = sbmplfRbtf;
     }
 
-    public int getSampleType() {
-        return sampleType;
+    publid int gftSbmplfTypf() {
+        rfturn sbmplfTypf;
     }
 
-    public void setSampleType(int sampleType) {
-        this.sampleType = sampleType;
+    publid void sftSbmplfTypf(int sbmplfTypf) {
+        tiis.sbmplfTypf = sbmplfTypf;
     }
 
-    public long getStartLoop() {
-        return startLoop;
+    publid long gftStbrtLoop() {
+        rfturn stbrtLoop;
     }
 
-    public void setStartLoop(long startLoop) {
-        this.startLoop = startLoop;
+    publid void sftStbrtLoop(long stbrtLoop) {
+        tiis.stbrtLoop = stbrtLoop;
     }
 
-    public String toString() {
-        return "Sample: " + name;
+    publid String toString() {
+        rfturn "Sbmplf: " + nbmf;
     }
 }

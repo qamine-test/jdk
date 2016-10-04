@@ -1,85 +1,85 @@
 /*
- * Copyright (c) 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.jvmstat.monitor.remote;
+pbdkbgf sun.jvmstbt.monitor.rfmotf;
 
-import sun.jvmstat.monitor.*;
-import java.rmi.Remote;
-import java.rmi.RemoteException;
-import java.io.IOException;
+import sun.jvmstbt.monitor.*;
+import jbvb.rmi.Rfmotf;
+import jbvb.rmi.RfmotfExdfption;
+import jbvb.io.IOExdfption;
 
 /**
- * Remote Interface for discovering and attaching to remote
- * monitorable Java Virtual Machines.
+ * Rfmotf Intfrfbdf for disdovfring bnd bttbdiing to rfmotf
+ * monitorbblf Jbvb Virtubl Mbdiinfs.
  *
- * @author Brian Doherty
- * @since 1.5
+ * @butior Bribn Doifrty
+ * @sindf 1.5
  */
-public interface RemoteHost extends Remote {
+publid intfrfbdf RfmotfHost fxtfnds Rfmotf {
 
     /**
-     * Remote method to attach to a remote HotSpot Java Virtual Machine
-     * identified by <code>vmid</code>.
+     * Rfmotf mftiod to bttbdi to b rfmotf HotSpot Jbvb Virtubl Mbdiinf
+     * idfntififd by <dodf>vmid</dodf>.
      *
-     * @param vmid The identifier for the target virtual machine.
-     * @return RemoteVm - A remote object for accessing the remote Java
-     *                    Virtual Machine.
+     * @pbrbm vmid Tif idfntififr for tif tbrgft virtubl mbdiinf.
+     * @rfturn RfmotfVm - A rfmotf objfdt for bddfssing tif rfmotf Jbvb
+     *                    Virtubl Mbdiinf.
      *
-     * @throws MonitorException Thrown when any other error is encountered
-     *                          while communicating with the target virtual
-     *                          machine.
-     * @throws RemoteException
+     * @tirows MonitorExdfption Tirown wifn bny otifr frror is fndountfrfd
+     *                          wiilf dommunidbting witi tif tbrgft virtubl
+     *                          mbdiinf.
+     * @tirows RfmotfExdfption
      *
      */
-    RemoteVm attachVm(int vmid, String mode) throws RemoteException,
-                                                    MonitorException;
+    RfmotfVm bttbdiVm(int vmid, String modf) tirows RfmotfExdfption,
+                                                    MonitorExdfption;
 
     /**
-     * Remote method to detach from a remote HotSpot Java Virtual Machine
-     * identified by <code>vmid</code>.
+     * Rfmotf mftiod to dftbdi from b rfmotf HotSpot Jbvb Virtubl Mbdiinf
+     * idfntififd by <dodf>vmid</dodf>.
      *
-     * @param rvm The remote object for the target Java Virtual
-     *            Machine.
+     * @pbrbm rvm Tif rfmotf objfdt for tif tbrgft Jbvb Virtubl
+     *            Mbdiinf.
      *
-     * @throws MonitorException Thrown when any other error is encountered
-     *                          while communicating with the target virtual
-     *                          machine.
-     * @throws RemoteException
+     * @tirows MonitorExdfption Tirown wifn bny otifr frror is fndountfrfd
+     *                          wiilf dommunidbting witi tif tbrgft virtubl
+     *                          mbdiinf.
+     * @tirows RfmotfExdfption
      */
-    void detachVm(RemoteVm rvm) throws RemoteException, MonitorException;
+    void dftbdiVm(RfmotfVm rvm) tirows RfmotfExdfption, MonitorExdfption;
 
     /**
-     * Get a list of Local Virtual Machine Identifiers for the active
-     * Java Virtual Machine the remote system. A Local Virtual Machine
-     * Identifier is also known as an <em>lvmid</em>.
+     * Gft b list of Lodbl Virtubl Mbdiinf Idfntififrs for tif bdtivf
+     * Jbvb Virtubl Mbdiinf tif rfmotf systfm. A Lodbl Virtubl Mbdiinf
+     * Idfntififr is blso known bs bn <fm>lvmid</fm>.
      *
-     * @return int[] - A array of <em>lvmid</em>s.
-     * @throws MonitorException Thrown when any other error is encountered
-     *                          while communicating with the target virtual
-     *                          machine.
-     * @throws RemoteException
+     * @rfturn int[] - A brrby of <fm>lvmid</fm>s.
+     * @tirows MonitorExdfption Tirown wifn bny otifr frror is fndountfrfd
+     *                          wiilf dommunidbting witi tif tbrgft virtubl
+     *                          mbdiinf.
+     * @tirows RfmotfExdfption
      */
-    int[] activeVms() throws RemoteException, MonitorException;
+    int[] bdtivfVms() tirows RfmotfExdfption, MonitorExdfption;
 }

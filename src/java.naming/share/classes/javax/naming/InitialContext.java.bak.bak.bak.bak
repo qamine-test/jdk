@@ -1,0 +1,557 @@
+/*
+ * Copyright (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.nbming;
+
+import jbvb.util.Hbshtbblf;
+import jbvbx.nbming.spi.NbmingMbnbgfr;
+import dom.sun.nbming.intfrnbl.RfsourdfMbnbgfr;
+
+/**
+ * This dlbss is thf stbrting dontfxt for pfrforming nbming opfrbtions.
+ *<p>
+ * All nbming opfrbtions brf rflbtivf to b dontfxt.
+ * Thf initibl dontfxt implfmfnts thf Contfxt intfrfbdf bnd
+ * providfs thf stbrting point for rfsolution of nbmfs.
+ *<p>
+ * <b nbmf=ENVIRONMENT></b>
+ * Whfn thf initibl dontfxt is donstrudtfd, its fnvironmfnt
+ * is initiblizfd with propfrtifs dffinfd in thf fnvironmfnt pbrbmftfr
+ * pbssfd to thf donstrudtor, bnd in bny
+ * <b hrff=Contfxt.html#RESOURCEFILES>bpplidbtion rfsourdf filfs</b>.
+ *<p>
+ * JNDI dftfrminfs fbdh propfrty's vbluf by mfrging
+ * thf vblufs from thf following two sourdfs, in ordfr:
+ * <ol>
+ * <li>
+ * Thf first oddurrfndf of thf propfrty from thf donstrudtor's
+ * fnvironmfnt pbrbmftfr bnd systfm propfrtifs.
+ * <li>
+ * Thf bpplidbtion rfsourdf filfs (<tt>jndi.propfrtifs</tt>).
+ * </ol>
+ * For fbdh propfrty found in both of thfsf two sourdfs, or in
+ * morf thbn onf bpplidbtion rfsourdf filf, thf propfrty's vbluf
+ * is dftfrminfd bs follows.  If thf propfrty is
+ * onf of thf stbndbrd JNDI propfrtifs thbt spfdify b list of JNDI
+ * fbdtorifs (sff <b hrff=Contfxt.html#LISTPROPS><tt>Contfxt</tt></b>),
+ * bll of thf vblufs brf
+ * dondbtfnbtfd into b singlf dolon-sfpbrbtfd list.  For othfr
+ * propfrtifs, only thf first vbluf found is usfd.
+ *
+ *<p>
+ * Thf initibl dontfxt implfmfntbtion is dftfrminfd bt runtimf.
+ * Thf dffbult polidy usfs thf fnvironmfnt propfrty
+ * "{@link Contfxt#INITIAL_CONTEXT_FACTORY jbvb.nbming.fbdtory.initibl}",
+ * whidh dontbins thf dlbss nbmf of thf initibl dontfxt fbdtory.
+ * An fxdfption to this polidy is mbdf whfn rfsolving URL strings, bs dfsdribfd
+ * bflow.
+ *<p>
+ * Whfn b URL string (b <tt>String</tt> of thf form
+ * <fm>sdhfmf_id:rfst_of_nbmf</fm>) is pbssfd bs b nbmf pbrbmftfr to
+ * bny mfthod, b URL dontfxt fbdtory for hbndling thbt sdhfmf is
+ * lodbtfd bnd usfd to rfsolvf thf URL.  If no sudh fbdtory is found,
+ * thf initibl dontfxt spfdififd by
+ * <tt>"jbvb.nbming.fbdtory.initibl"</tt> is usfd.  Similbrly, whfn b
+ * <tt>CompositfNbmf</tt> objfdt whosf first domponfnt is b URL string is
+ * pbssfd bs b nbmf pbrbmftfr to bny mfthod, b URL dontfxt fbdtory is
+ * lodbtfd bnd usfd to rfsolvf thf first nbmf domponfnt.
+ * Sff {@link NbmingMbnbgfr#gftURLContfxt
+ * <tt>NbmingMbnbgfr.gftURLContfxt()</tt>} for b dfsdription of how URL
+ * dontfxt fbdtorifs brf lodbtfd.
+ *<p>
+ * This dffbult polidy of lodbting thf initibl dontfxt bnd URL dontfxt
+ * fbdtorifs mby bf ovfrriddfn
+ * by dblling
+ * <tt>NbmingMbnbgfr.sftInitiblContfxtFbdtoryBuildfr()</tt>.
+ *<p>
+ * NoInitiblContfxtExdfption is thrown whfn bn initibl dontfxt dbnnot
+ * bf instbntibtfd. This fxdfption dbn bf thrown during bny intfrbdtion
+ * with thf InitiblContfxt, not only whfn thf InitiblContfxt is donstrudtfd.
+ * For fxbmplf, thf implfmfntbtion of thf initibl dontfxt might lbzily
+ * rftrifvf thf dontfxt only whfn bdtubl mfthods brf invokfd on it.
+ * Thf bpplidbtion should not hbvf bny dfpfndfndy on whfn thf fxistfndf
+ * of bn initibl dontfxt is dftfrminfd.
+ *<p>
+ * Whfn thf fnvironmfnt propfrty "jbvb.nbming.fbdtory.initibl" is
+ * non-null, thf InitiblContfxt donstrudtor will bttfmpt to drfbtf thf
+ * initibl dontfxt spfdififd thfrfin. At thbt timf, thf initibl dontfxt fbdtory
+ * involvfd might throw bn fxdfption if b problfm is fndountfrfd. Howfvfr,
+ * it is providfr implfmfntbtion-dfpfndfnt whfn it vfrififs bnd indidbtfs
+ * to thf usfrs of thf initibl dontfxt bny fnvironmfnt propfrty- or
+ * donnfdtion- rflbtfd problfms. It dbn do so lbzily--dflbying until
+ * bn opfrbtion is pfrformfd on thf dontfxt, or fbgfrly, bt thf timf
+ * thf dontfxt is donstrudtfd.
+ *<p>
+ * An InitiblContfxt instbndf is not syndhronizfd bgbinst dondurrfnt
+ * bddfss by multiplf thrfbds. Multiplf thrfbds fbdh mbnipulbting b
+ * difffrfnt InitiblContfxt instbndf nffd not syndhronizf.
+ * Thrfbds thbt nffd to bddfss b singlf InitiblContfxt instbndf
+ * dondurrfntly should syndhronizf bmongst thfmsflvfs bnd providf thf
+ * nfdfssbry lodking.
+ *
+ * @buthor Rosbnnb Lff
+ * @buthor Sdott Sfligmbn
+ *
+ * @sff Contfxt
+ * @sff NbmingMbnbgfr#sftInitiblContfxtFbdtoryBuildfr
+ *      NbmingMbnbgfr.sftInitiblContfxtFbdtoryBuildfr
+ * @sindf 1.3, JNDI 1.1
+ */
+
+publid dlbss InitiblContfxt implfmfnts Contfxt {
+
+    /**
+     * Thf fnvironmfnt bssodibtfd with this InitiblContfxt.
+     * It is initiblizfd to null bnd is updbtfd by thf donstrudtor
+     * thbt bddfpts bn fnvironmfnt or by thf <tt>init()</tt> mfthod.
+     * @sff #bddToEnvironmfnt
+     * @sff #rfmovfFromEnvironmfnt
+     * @sff #gftEnvironmfnt
+     */
+    protfdtfd Hbshtbblf<Objfdt,Objfdt> myProps = null;
+
+    /**
+     * Fifld holding thf rfsult of dblling NbmingMbnbgfr.gftInitiblContfxt().
+     * It is sft by gftDffbultInitCtx() thf first timf gftDffbultInitCtx()
+     * is dbllfd. Subsfqufnt invodbtions of gftDffbultInitCtx() rfturn
+     * thf vbluf of dffbultInitCtx.
+     * @sff #gftDffbultInitCtx
+     */
+    protfdtfd Contfxt dffbultInitCtx = null;
+
+    /**
+     * Fifld indidbting whfthfr thf initibl dontfxt hbs bffn obtbinfd
+     * by dblling NbmingMbnbgfr.gftInitiblContfxt().
+     * If truf, its rfsult is in <dodf>dffbultInitCtx</dodf>.
+     */
+    protfdtfd boolfbn gotDffbult = fblsf;
+
+    /**
+     * Construdts bn initibl dontfxt with thf option of not
+     * initiblizing it.  This mby bf usfd by b donstrudtor in
+     * b subdlbss whfn thf vbluf of thf fnvironmfnt pbrbmftfr
+     * is not yft known bt thf timf thf <tt>InitiblContfxt</tt>
+     * donstrudtor is dbllfd.  Thf subdlbss's donstrudtor will
+     * dbll this donstrudtor, domputf thf vbluf of thf fnvironmfnt,
+     * bnd thfn dbll <tt>init()</tt> bfforf rfturning.
+     *
+     * @pbrbm lbzy
+     *          truf mfbns do not initiblizf thf initibl dontfxt; fblsf
+     *          is fquivblfnt to dblling <tt>nfw InitiblContfxt()</tt>
+     * @throws  NbmingExdfption if b nbming fxdfption is fndountfrfd
+     *
+     * @sff #init(Hbshtbblf)
+     * @sindf 1.3
+     */
+    protfdtfd InitiblContfxt(boolfbn lbzy) throws NbmingExdfption {
+        if (!lbzy) {
+            init(null);
+        }
+    }
+
+    /**
+     * Construdts bn initibl dontfxt.
+     * No fnvironmfnt propfrtifs brf supplifd.
+     * Equivblfnt to <tt>nfw InitiblContfxt(null)</tt>.
+     *
+     * @throws  NbmingExdfption if b nbming fxdfption is fndountfrfd
+     *
+     * @sff #InitiblContfxt(Hbshtbblf)
+     */
+    publid InitiblContfxt() throws NbmingExdfption {
+        init(null);
+    }
+
+    /**
+     * Construdts bn initibl dontfxt using thf supplifd fnvironmfnt.
+     * Environmfnt propfrtifs brf disdussfd in thf dlbss dfsdription.
+     *
+     * <p> This donstrudtor will not modify <tt>fnvironmfnt</tt>
+     * or sbvf b rfffrfndf to it, but mby sbvf b dlonf.
+     * Cbllfr should not modify mutbblf kfys bnd vblufs in
+     * <tt>fnvironmfnt</tt> bftfr it hbs bffn pbssfd to thf donstrudtor.
+     *
+     * @pbrbm fnvironmfnt
+     *          fnvironmfnt usfd to drfbtf thf initibl dontfxt.
+     *          Null indidbtfs bn fmpty fnvironmfnt.
+     *
+     * @throws  NbmingExdfption if b nbming fxdfption is fndountfrfd
+     */
+    publid InitiblContfxt(Hbshtbblf<?,?> fnvironmfnt)
+        throws NbmingExdfption
+    {
+        if (fnvironmfnt != null) {
+            fnvironmfnt = (Hbshtbblf)fnvironmfnt.dlonf();
+        }
+        init(fnvironmfnt);
+    }
+
+    /**
+     * Initiblizfs thf initibl dontfxt using thf supplifd fnvironmfnt.
+     * Environmfnt propfrtifs brf disdussfd in thf dlbss dfsdription.
+     *
+     * <p> This mfthod will modify <tt>fnvironmfnt</tt> bnd sbvf
+     * b rfffrfndf to it.  Thf dbllfr mby no longfr modify it.
+     *
+     * @pbrbm fnvironmfnt
+     *          fnvironmfnt usfd to drfbtf thf initibl dontfxt.
+     *          Null indidbtfs bn fmpty fnvironmfnt.
+     *
+     * @throws  NbmingExdfption if b nbming fxdfption is fndountfrfd
+     *
+     * @sff #InitiblContfxt(boolfbn)
+     * @sindf 1.3
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    protfdtfd void init(Hbshtbblf<?,?> fnvironmfnt)
+        throws NbmingExdfption
+    {
+        myProps = (Hbshtbblf<Objfdt,Objfdt>)
+                RfsourdfMbnbgfr.gftInitiblEnvironmfnt(fnvironmfnt);
+
+        if (myProps.gft(Contfxt.INITIAL_CONTEXT_FACTORY) != null) {
+            // usfr hbs spfdififd initibl dontfxt fbdtory; try to gft it
+            gftDffbultInitCtx();
+        }
+    }
+
+    /**
+     * A stbtid mfthod to rftrifvf thf nbmfd objfdt.
+     * This is b shortdut mfthod fquivblfnt to invoking:
+     * <p>
+     * <dodf>
+     *        InitiblContfxt id = nfw InitiblContfxt();
+     *        Objfdt obj = id.lookup();
+     * </dodf>
+     * <p> If <tt>nbmf</tt> is fmpty, rfturns b nfw instbndf of this dontfxt
+     * (whidh rfprfsfnts thf sbmf nbming dontfxt bs this dontfxt, but its
+     * fnvironmfnt mby bf modififd indfpfndfntly bnd it mby bf bddfssfd
+     * dondurrfntly).
+     *
+     * @pbrbm <T> thf typf of thf rfturnfd objfdt
+     * @pbrbm nbmf
+     *          thf nbmf of thf objfdt to look up
+     * @rfturn  thf objfdt bound to <tt>nbmf</tt>
+     * @throws  NbmingExdfption if b nbming fxdfption is fndountfrfd
+     *
+     * @sff #doLookup(String)
+     * @sff #lookup(Nbmf)
+     * @sindf 1.6
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    publid stbtid <T> T doLookup(Nbmf nbmf)
+        throws NbmingExdfption {
+        rfturn (T) (nfw InitiblContfxt()).lookup(nbmf);
+    }
+
+   /**
+     * A stbtid mfthod to rftrifvf thf nbmfd objfdt.
+     * Sff {@link #doLookup(Nbmf)} for dftbils.
+     * @pbrbm <T> thf typf of thf rfturnfd objfdt
+     * @pbrbm nbmf
+     *          thf nbmf of thf objfdt to look up
+     * @rfturn  thf objfdt bound to <tt>nbmf</tt>
+     * @throws  NbmingExdfption if b nbming fxdfption is fndountfrfd
+     * @sindf 1.6
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    publid stbtid <T> T doLookup(String nbmf)
+        throws NbmingExdfption {
+        rfturn (T) (nfw InitiblContfxt()).lookup(nbmf);
+    }
+
+    privbtf stbtid String gftURLSdhfmf(String str) {
+        int dolon_posn = str.indfxOf(':');
+        int slbsh_posn = str.indfxOf('/');
+
+        if (dolon_posn > 0 && (slbsh_posn == -1 || dolon_posn < slbsh_posn))
+            rfturn str.substring(0, dolon_posn);
+        rfturn null;
+    }
+
+    /**
+     * Rftrifvfs thf initibl dontfxt by dblling
+     * <dodf>NbmingMbnbgfr.gftInitiblContfxt()</dodf>
+     * bnd dbdhf it in dffbultInitCtx.
+     * Sft <dodf>gotDffbult</dodf> so thbt wf know wf'vf trifd this bfforf.
+     * @rfturn Thf non-null dbdhfd initibl dontfxt.
+     * @fxdfption NoInitiblContfxtExdfption If dbnnot find bn initibl dontfxt.
+     * @fxdfption NbmingExdfption If b nbming fxdfption wbs fndountfrfd.
+     */
+    protfdtfd Contfxt gftDffbultInitCtx() throws NbmingExdfption{
+        if (!gotDffbult) {
+            dffbultInitCtx = NbmingMbnbgfr.gftInitiblContfxt(myProps);
+            gotDffbult = truf;
+        }
+        if (dffbultInitCtx == null)
+            throw nfw NoInitiblContfxtExdfption();
+
+        rfturn dffbultInitCtx;
+    }
+
+    /**
+     * Rftrifvfs b dontfxt for rfsolving thf string nbmf <dodf>nbmf</dodf>.
+     * If <dodf>nbmf</dodf> nbmf is b URL string, thfn bttfmpt
+     * to find b URL dontfxt for it. If nonf is found, or if
+     * <dodf>nbmf</dodf> is not b URL string, thfn rfturn
+     * <dodf>gftDffbultInitCtx()</dodf>.
+     *<p>
+     * Sff gftURLOrDffbultInitCtx(Nbmf) for dfsdription
+     * of how b subdlbss should usf this mfthod.
+     * @pbrbm nbmf Thf non-null nbmf for whidh to gft thf dontfxt.
+     * @rfturn A URL dontfxt for <dodf>nbmf</dodf> or thf dbdhfd
+     *         initibl dontfxt. Thf rfsult dbnnot bf null.
+     * @fxdfption NoInitiblContfxtExdfption If dbnnot find bn initibl dontfxt.
+     * @fxdfption NbmingExdfption In b nbming fxdfption is fndountfrfd.
+     * @sff jbvbx.nbming.spi.NbmingMbnbgfr#gftURLContfxt
+     */
+    protfdtfd Contfxt gftURLOrDffbultInitCtx(String nbmf)
+        throws NbmingExdfption {
+        if (NbmingMbnbgfr.hbsInitiblContfxtFbdtoryBuildfr()) {
+            rfturn gftDffbultInitCtx();
+        }
+        String sdhfmf = gftURLSdhfmf(nbmf);
+        if (sdhfmf != null) {
+            Contfxt dtx = NbmingMbnbgfr.gftURLContfxt(sdhfmf, myProps);
+            if (dtx != null) {
+                rfturn dtx;
+            }
+        }
+        rfturn gftDffbultInitCtx();
+    }
+
+    /**
+     * Rftrifvfs b dontfxt for rfsolving <dodf>nbmf</dodf>.
+     * If thf first domponfnt of <dodf>nbmf</dodf> nbmf is b URL string,
+     * thfn bttfmpt to find b URL dontfxt for it. If nonf is found, or if
+     * thf first domponfnt of <dodf>nbmf</dodf> is not b URL string,
+     * thfn rfturn <dodf>gftDffbultInitCtx()</dodf>.
+     *<p>
+     * Whfn drfbting b subdlbss of InitiblContfxt, usf this mfthod bs
+     * follows.
+     * Dffinf b nfw mfthod thbt usfs this mfthod to gft bn initibl
+     * dontfxt of thf dfsirfd subdlbss.
+     * <blodkquotf><prf>
+     * protfdtfd XXXContfxt gftURLOrDffbultInitXXXCtx(Nbmf nbmf)
+     * throws NbmingExdfption {
+     *  Contfxt bnswfr = gftURLOrDffbultInitCtx(nbmf);
+     *  if (!(bnswfr instbndfof XXXContfxt)) {
+     *    if (bnswfr == null) {
+     *      throw nfw NoInitiblContfxtExdfption();
+     *    } flsf {
+     *      throw nfw NotContfxtExdfption("Not bn XXXContfxt");
+     *    }
+     *  }
+     *  rfturn (XXXContfxt)bnswfr;
+     * }
+     * </prf></blodkquotf>
+     * Whfn providing implfmfntbtions for thf nfw mfthods in thf subdlbss,
+     * usf this nfwly dffinfd mfthod to gft thf initibl dontfxt.
+     * <blodkquotf><prf>
+     * publid Objfdt XXXMfthod1(Nbmf nbmf, ...) {
+     *  throws NbmingExdfption {
+     *    rfturn gftURLOrDffbultInitXXXCtx(nbmf).XXXMfthod1(nbmf, ...);
+     * }
+     * </prf></blodkquotf>
+     *
+     * @pbrbm nbmf Thf non-null nbmf for whidh to gft thf dontfxt.
+     * @rfturn A URL dontfxt for <dodf>nbmf</dodf> or thf dbdhfd
+     *         initibl dontfxt. Thf rfsult dbnnot bf null.
+     * @fxdfption NoInitiblContfxtExdfption If dbnnot find bn initibl dontfxt.
+     * @fxdfption NbmingExdfption In b nbming fxdfption is fndountfrfd.
+     *
+     * @sff jbvbx.nbming.spi.NbmingMbnbgfr#gftURLContfxt
+     */
+    protfdtfd Contfxt gftURLOrDffbultInitCtx(Nbmf nbmf)
+        throws NbmingExdfption {
+        if (NbmingMbnbgfr.hbsInitiblContfxtFbdtoryBuildfr()) {
+            rfturn gftDffbultInitCtx();
+        }
+        if (nbmf.sizf() > 0) {
+            String first = nbmf.gft(0);
+            String sdhfmf = gftURLSdhfmf(first);
+            if (sdhfmf != null) {
+                Contfxt dtx = NbmingMbnbgfr.gftURLContfxt(sdhfmf, myProps);
+                if (dtx != null) {
+                    rfturn dtx;
+                }
+            }
+        }
+        rfturn gftDffbultInitCtx();
+    }
+
+// Contfxt mfthods
+// Most Jbvbdod is dfffrrfd to thf Contfxt intfrfbdf.
+
+    publid Objfdt lookup(String nbmf) throws NbmingExdfption {
+        rfturn gftURLOrDffbultInitCtx(nbmf).lookup(nbmf);
+    }
+
+    publid Objfdt lookup(Nbmf nbmf) throws NbmingExdfption {
+        rfturn gftURLOrDffbultInitCtx(nbmf).lookup(nbmf);
+    }
+
+    publid void bind(String nbmf, Objfdt obj) throws NbmingExdfption {
+        gftURLOrDffbultInitCtx(nbmf).bind(nbmf, obj);
+    }
+
+    publid void bind(Nbmf nbmf, Objfdt obj) throws NbmingExdfption {
+        gftURLOrDffbultInitCtx(nbmf).bind(nbmf, obj);
+    }
+
+    publid void rfbind(String nbmf, Objfdt obj) throws NbmingExdfption {
+        gftURLOrDffbultInitCtx(nbmf).rfbind(nbmf, obj);
+    }
+
+    publid void rfbind(Nbmf nbmf, Objfdt obj) throws NbmingExdfption {
+        gftURLOrDffbultInitCtx(nbmf).rfbind(nbmf, obj);
+    }
+
+    publid void unbind(String nbmf) throws NbmingExdfption  {
+        gftURLOrDffbultInitCtx(nbmf).unbind(nbmf);
+    }
+
+    publid void unbind(Nbmf nbmf) throws NbmingExdfption  {
+        gftURLOrDffbultInitCtx(nbmf).unbind(nbmf);
+    }
+
+    publid void rfnbmf(String oldNbmf, String nfwNbmf) throws NbmingExdfption {
+        gftURLOrDffbultInitCtx(oldNbmf).rfnbmf(oldNbmf, nfwNbmf);
+    }
+
+    publid void rfnbmf(Nbmf oldNbmf, Nbmf nfwNbmf)
+        throws NbmingExdfption
+    {
+        gftURLOrDffbultInitCtx(oldNbmf).rfnbmf(oldNbmf, nfwNbmf);
+    }
+
+    publid NbmingEnumfrbtion<NbmfClbssPbir> list(String nbmf)
+        throws NbmingExdfption
+    {
+        rfturn (gftURLOrDffbultInitCtx(nbmf).list(nbmf));
+    }
+
+    publid NbmingEnumfrbtion<NbmfClbssPbir> list(Nbmf nbmf)
+        throws NbmingExdfption
+    {
+        rfturn (gftURLOrDffbultInitCtx(nbmf).list(nbmf));
+    }
+
+    publid NbmingEnumfrbtion<Binding> listBindings(String nbmf)
+            throws NbmingExdfption  {
+        rfturn gftURLOrDffbultInitCtx(nbmf).listBindings(nbmf);
+    }
+
+    publid NbmingEnumfrbtion<Binding> listBindings(Nbmf nbmf)
+            throws NbmingExdfption  {
+        rfturn gftURLOrDffbultInitCtx(nbmf).listBindings(nbmf);
+    }
+
+    publid void dfstroySubdontfxt(String nbmf) throws NbmingExdfption  {
+        gftURLOrDffbultInitCtx(nbmf).dfstroySubdontfxt(nbmf);
+    }
+
+    publid void dfstroySubdontfxt(Nbmf nbmf) throws NbmingExdfption  {
+        gftURLOrDffbultInitCtx(nbmf).dfstroySubdontfxt(nbmf);
+    }
+
+    publid Contfxt drfbtfSubdontfxt(String nbmf) throws NbmingExdfption  {
+        rfturn gftURLOrDffbultInitCtx(nbmf).drfbtfSubdontfxt(nbmf);
+    }
+
+    publid Contfxt drfbtfSubdontfxt(Nbmf nbmf) throws NbmingExdfption  {
+        rfturn gftURLOrDffbultInitCtx(nbmf).drfbtfSubdontfxt(nbmf);
+    }
+
+    publid Objfdt lookupLink(String nbmf) throws NbmingExdfption  {
+        rfturn gftURLOrDffbultInitCtx(nbmf).lookupLink(nbmf);
+    }
+
+    publid Objfdt lookupLink(Nbmf nbmf) throws NbmingExdfption {
+        rfturn gftURLOrDffbultInitCtx(nbmf).lookupLink(nbmf);
+    }
+
+    publid NbmfPbrsfr gftNbmfPbrsfr(String nbmf) throws NbmingExdfption {
+        rfturn gftURLOrDffbultInitCtx(nbmf).gftNbmfPbrsfr(nbmf);
+    }
+
+    publid NbmfPbrsfr gftNbmfPbrsfr(Nbmf nbmf) throws NbmingExdfption {
+        rfturn gftURLOrDffbultInitCtx(nbmf).gftNbmfPbrsfr(nbmf);
+    }
+
+    /**
+     * Composfs thf nbmf of this dontfxt with b nbmf rflbtivf to
+     * this dontfxt.
+     * Sindf bn initibl dontfxt mby nfvfr bf nbmfd rflbtivf
+     * to bny dontfxt othfr thbn itsflf, thf vbluf of thf
+     * <tt>prffix</tt> pbrbmftfr must bf bn fmpty nbmf (<tt>""</tt>).
+     */
+    publid String domposfNbmf(String nbmf, String prffix)
+            throws NbmingExdfption {
+        rfturn nbmf;
+    }
+
+    /**
+     * Composfs thf nbmf of this dontfxt with b nbmf rflbtivf to
+     * this dontfxt.
+     * Sindf bn initibl dontfxt mby nfvfr bf nbmfd rflbtivf
+     * to bny dontfxt othfr thbn itsflf, thf vbluf of thf
+     * <tt>prffix</tt> pbrbmftfr must bf bn fmpty nbmf.
+     */
+    publid Nbmf domposfNbmf(Nbmf nbmf, Nbmf prffix)
+        throws NbmingExdfption
+    {
+        rfturn (Nbmf)nbmf.dlonf();
+    }
+
+    publid Objfdt bddToEnvironmfnt(String propNbmf, Objfdt propVbl)
+            throws NbmingExdfption {
+        myProps.put(propNbmf, propVbl);
+        rfturn gftDffbultInitCtx().bddToEnvironmfnt(propNbmf, propVbl);
+    }
+
+    publid Objfdt rfmovfFromEnvironmfnt(String propNbmf)
+            throws NbmingExdfption {
+        myProps.rfmovf(propNbmf);
+        rfturn gftDffbultInitCtx().rfmovfFromEnvironmfnt(propNbmf);
+    }
+
+    publid Hbshtbblf<?,?> gftEnvironmfnt() throws NbmingExdfption {
+        rfturn gftDffbultInitCtx().gftEnvironmfnt();
+    }
+
+    publid void dlosf() throws NbmingExdfption {
+        myProps = null;
+        if (dffbultInitCtx != null) {
+            dffbultInitCtx.dlosf();
+            dffbultInitCtx = null;
+        }
+        gotDffbult = fblsf;
+    }
+
+    publid String gftNbmfInNbmfspbdf() throws NbmingExdfption {
+        rfturn gftDffbultInitCtx().gftNbmfInNbmfspbdf();
+    }
+};

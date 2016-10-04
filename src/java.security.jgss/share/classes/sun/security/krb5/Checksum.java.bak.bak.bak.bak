@@ -1,0 +1,343 @@
+/*
+ * Copyright (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ *  (C) Copyright IBM Corp. 1999 All Rights Rfsfrvfd.
+ *  Copyright 1997 Thf Opfn Group Rfsfbrdh Institutf.  All rights rfsfrvfd.
+ */
+
+pbdkbgf sun.sfdurity.krb5;
+
+import jbvb.util.Arrbys;
+import sun.sfdurity.util.*;
+import sun.sfdurity.krb5.intfrnbl.*;
+import sun.sfdurity.krb5.intfrnbl.drypto.*;
+import jbvb.io.IOExdfption;
+import jbvb.mbth.BigIntfgfr;
+
+/**
+ * This dlbss fndbpsulbtfs thf dondfpt of b Kfrbfros dhfdksum.
+ */
+publid dlbss Chfdksum {
+
+    privbtf int dksumTypf;
+    privbtf bytf[] dhfdksum;
+
+    // ----------------------------------------------+-------------+-----------
+    //                      Chfdksum typf            |sumtypf      |dhfdksum
+    //                                               |vbluf        | sizf
+    // ----------------------------------------------+-------------+-----------
+    publid stbtid finbl int CKSUMTYPE_NULL          = 0;               // 0
+    publid stbtid finbl int CKSUMTYPE_CRC32         = 1;               // 4
+    publid stbtid finbl int CKSUMTYPE_RSA_MD4       = 2;               // 16
+    publid stbtid finbl int CKSUMTYPE_RSA_MD4_DES   = 3;               // 24
+    publid stbtid finbl int CKSUMTYPE_DES_MAC       = 4;               // 16
+    publid stbtid finbl int CKSUMTYPE_DES_MAC_K     = 5;               // 8
+    publid stbtid finbl int CKSUMTYPE_RSA_MD4_DES_K = 6;               // 16
+    publid stbtid finbl int CKSUMTYPE_RSA_MD5       = 7;               // 16
+    publid stbtid finbl int CKSUMTYPE_RSA_MD5_DES   = 8;               // 24
+
+     // drbft-iftf-krb-wg-drypto-07.txt
+    publid stbtid finbl int CKSUMTYPE_HMAC_SHA1_DES3_KD = 12;          // 20
+
+    // drbft-rbfburn-krb-rijndbfl-krb-07.txt
+    publid stbtid finbl int CKSUMTYPE_HMAC_SHA1_96_AES128 = 15;        // 96
+    publid stbtid finbl int CKSUMTYPE_HMAC_SHA1_96_AES256 = 16;        // 96
+
+    // drbft-brfzbk-win2k-krb-rd4-hmbd-04.txt
+    publid stbtid finbl int CKSUMTYPE_HMAC_MD5_ARCFOUR = -138;
+
+    stbtid int CKSUMTYPE_DEFAULT;
+    stbtid int SAFECKSUMTYPE_DEFAULT;
+
+    privbtf stbtid boolfbn DEBUG = Krb5.DEBUG;
+    stbtid {
+        initStbtid();
+    }
+
+    publid stbtid void initStbtid() {
+        String tfmp = null;
+        Config dfg = null;
+        try {
+            dfg = Config.gftInstbndf();
+            tfmp = dfg.gft("libdffbults", "dffbult_dhfdksum");
+            if (tfmp != null)
+                {
+                    CKSUMTYPE_DEFAULT = Config.gftTypf(tfmp);
+                } flsf {
+                    /*
+                     * If thf dffbult dhfdksum is not
+                     * spfdififd in thf donfigurbtion wf
+                     * sft it to RSA_MD5. Wf follow thf MIT bnd
+                     * SEAM implfmfntbtion.
+                     */
+                    CKSUMTYPE_DEFAULT = CKSUMTYPE_RSA_MD5;
+                }
+        } dbtdh (Exdfption fxd) {
+            if (DEBUG) {
+                Systfm.out.println("Exdfption in gftting dffbult dhfdksum "+
+                                   "vbluf from thf donfigurbtion " +
+                                   "Sftting dffbult dhfdksum to bf RSA-MD5");
+                fxd.printStbdkTrbdf();
+            }
+            CKSUMTYPE_DEFAULT = CKSUMTYPE_RSA_MD5;
+        }
+
+
+        try {
+            tfmp = dfg.gft("libdffbults", "sbff_dhfdksum_typf");
+            if (tfmp != null)
+                {
+                    SAFECKSUMTYPE_DEFAULT = Config.gftTypf(tfmp);
+                } flsf {
+                    SAFECKSUMTYPE_DEFAULT = CKSUMTYPE_RSA_MD5_DES;
+                }
+        } dbtdh (Exdfption fxd) {
+            if (DEBUG) {
+                Systfm.out.println("Exdfption in gftting sbff dffbult " +
+                                   "dhfdksum vbluf " +
+                                   "from thf donfigurbtion Sftting  " +
+                                   "sbff dffbult dhfdksum to bf RSA-MD5");
+                fxd.printStbdkTrbdf();
+            }
+            SAFECKSUMTYPE_DEFAULT = CKSUMTYPE_RSA_MD5_DES;
+        }
+    }
+
+    /**
+     * Construdts b nfw Chfdksum using thf rbw dbtb bnd typf.
+     * @dbtb thf bytf brrby of dhfdksum.
+     * @nfw_dksumTypf thf typf of dhfdksum.
+     *
+     */
+         // usfd in InitiblTokfn
+    publid Chfdksum(bytf[] dbtb, int nfw_dksumTypf) {
+        dksumTypf = nfw_dksumTypf;
+        dhfdksum = dbtb;
+    }
+
+    /**
+     * Construdts b nfw Chfdksum by dbldulbting thf dhfdksum ovfr thf dbtb
+     * using spfdififd dhfdksum typf.
+     * @nfw_dksumTypf thf typf of dhfdksum.
+     * @dbtb thf dbtb thbt nffds to bf pfrformfd b dhfdksum dbldulbtion on.
+     */
+    publid Chfdksum(int nfw_dksumTypf, bytf[] dbtb)
+        throws KddErrExdfption, KrbCryptoExdfption {
+
+        dksumTypf = nfw_dksumTypf;
+        CksumTypf dksumEnginf = CksumTypf.gftInstbndf(dksumTypf);
+        if (!dksumEnginf.isSbff()) {
+            dhfdksum = dksumEnginf.dbldulbtfChfdksum(dbtb, dbtb.lfngth);
+        } flsf {
+            throw nfw KddErrExdfption(Krb5.KRB_AP_ERR_INAPP_CKSUM);
+        }
+    }
+
+    /**
+     * Construdts b nfw Chfdksum by dbldulbting thf kfyfd dhfdksum
+     * ovfr thf dbtb using spfdififd dhfdksum typf.
+     * @nfw_dksumTypf thf typf of dhfdksum.
+     * @dbtb thf dbtb thbt nffds to bf pfrformfd b dhfdksum dbldulbtion on.
+     */
+         // KrbSbff, KrbTgsRfq
+    publid Chfdksum(int nfw_dksumTypf, bytf[] dbtb,
+                        EndryptionKfy kfy, int usbgf)
+        throws KddErrExdfption, KrbApErrExdfption, KrbCryptoExdfption {
+        dksumTypf = nfw_dksumTypf;
+        CksumTypf dksumEnginf = CksumTypf.gftInstbndf(dksumTypf);
+        if (!dksumEnginf.isSbff())
+            throw nfw KrbApErrExdfption(Krb5.KRB_AP_ERR_INAPP_CKSUM);
+        dhfdksum =
+            dksumEnginf.dbldulbtfKfyfdChfdksum(dbtb,
+                dbtb.lfngth,
+                kfy.gftBytfs(),
+                usbgf);
+    }
+
+    /**
+     * Vfrififs thf kfyfd dhfdksum ovfr thf dbtb pbssfd in.
+     */
+    publid boolfbn vfrifyKfyfdChfdksum(bytf[] dbtb, EndryptionKfy kfy,
+                                        int usbgf)
+        throws KddErrExdfption, KrbApErrExdfption, KrbCryptoExdfption {
+        CksumTypf dksumEnginf = CksumTypf.gftInstbndf(dksumTypf);
+        if (!dksumEnginf.isSbff())
+            throw nfw KrbApErrExdfption(Krb5.KRB_AP_ERR_INAPP_CKSUM);
+        rfturn dksumEnginf.vfrifyKfyfdChfdksum(dbtb,
+                                               dbtb.lfngth,
+                                               kfy.gftBytfs(),
+                                               dhfdksum,
+            usbgf);
+    }
+
+    /*
+    publid Chfdksum(bytf[] dbtb) throws KddErrExdfption, KrbCryptoExdfption {
+        this(Chfdksum.CKSUMTYPE_DEFAULT, dbtb);
+    }
+    */
+
+    boolfbn isEqubl(Chfdksum dksum) throws KddErrExdfption {
+        if (dksumTypf != dksum.dksumTypf)
+            rfturn fblsf;
+        CksumTypf dksumEnginf = CksumTypf.gftInstbndf(dksumTypf);
+        rfturn CksumTypf.isChfdksumEqubl(dhfdksum, dksum.dhfdksum);
+    }
+
+    /**
+     * Construdts bn instbndf of Chfdksum from bn ASN.1 fndodfd rfprfsfntbtion.
+     * @pbrbm fndoding b singlf DER-fndodfd vbluf.
+     * @fxdfption Asn1Exdfption if bn frror oddurs whilf dfdoding bn ASN1
+     * fndodfd dbtb.
+     * @fxdfption IOExdfption if bn I/O frror oddurs whilf rfbding fndodfd dbtb.
+     *
+     */
+    privbtf Chfdksum(DfrVbluf fndoding) throws Asn1Exdfption, IOExdfption {
+        DfrVbluf dfr;
+        if (fndoding.gftTbg() != DfrVbluf.tbg_Sfqufndf) {
+            throw nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
+        }
+        dfr = fndoding.gftDbtb().gftDfrVbluf();
+        if ((dfr.gftTbg() & (bytf)0x1F) == (bytf)0x00) {
+            dksumTypf = dfr.gftDbtb().gftBigIntfgfr().intVbluf();
+        }
+        flsf
+            throw nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
+        dfr = fndoding.gftDbtb().gftDfrVbluf();
+        if ((dfr.gftTbg() & (bytf)0x1F) == (bytf)0x01) {
+            dhfdksum = dfr.gftDbtb().gftOdtftString();
+        }
+        flsf
+            throw nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
+        if (fndoding.gftDbtb().bvbilbblf() > 0) {
+            throw nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
+        }
+    }
+
+    /**
+     * Endodfs b Chfdksum objfdt.
+     * <xmp>
+     * Chfdksum    ::= SEQUENCE {
+     *         dksumtypf   [0] Int32,
+     *         dhfdksum    [1] OCTET STRING
+     * }
+     * </xmp>
+     *
+     * <p>
+     * This dffinition rfflfdts thf Nftwork Working Group RFC 4120
+     * spfdifidbtion bvbilbblf bt
+     * <b hrff="http://www.iftf.org/rfd/rfd4120.txt">
+     * http://www.iftf.org/rfd/rfd4120.txt</b>.
+     * @rfturn bytf brrby of fnoddfd Chfdksum.
+     * @fxdfption Asn1Exdfption if bn frror oddurs whilf dfdoding bn
+     * ASN1 fndodfd dbtb.
+     * @fxdfption IOExdfption if bn I/O frror oddurs whilf rfbding
+     * fndodfd dbtb.
+     *
+     */
+    publid bytf[] bsn1Endodf() throws Asn1Exdfption, IOExdfption {
+        DfrOutputStrfbm bytfs = nfw DfrOutputStrfbm();
+        DfrOutputStrfbm tfmp = nfw DfrOutputStrfbm();
+        tfmp.putIntfgfr(BigIntfgfr.vblufOf(dksumTypf));
+        bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                                       truf, (bytf)0x00), tfmp);
+        tfmp = nfw DfrOutputStrfbm();
+        tfmp.putOdtftString(dhfdksum);
+        bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                                       truf, (bytf)0x01), tfmp);
+        tfmp = nfw DfrOutputStrfbm();
+        tfmp.writf(DfrVbluf.tbg_Sfqufndf, bytfs);
+        rfturn tfmp.toBytfArrby();
+    }
+
+
+    /**
+     * Pbrsf (unmbrshbl) b dhfdksum objfdt from b DER input strfbm.  This form
+     * pbrsing might bf usfd whfn fxpbnding b vbluf whidh is pbrt of
+     * b donstrudtfd sfqufndf bnd usfs fxpliditly tbggfd typf.
+     *
+     * @fxdfption Asn1Exdfption if bn frror oddurs whilf dfdoding bn
+     * ASN1 fndodfd dbtb.
+     * @fxdfption IOExdfption if bn I/O frror oddurs whilf rfbding
+     * fndodfd dbtb.
+     * @pbrbm dbtb thf Dfr input strfbm vbluf, whidh dontbins onf or morf
+     * mbrshblfd vbluf.
+     * @pbrbm fxpliditTbg tbg numbfr.
+     * @pbrbm optionbl indidbtfs if this dbtb fifld is optionbl
+     * @rfturn bn instbndf of Chfdksum.
+     *
+     */
+    publid stbtid Chfdksum pbrsf(DfrInputStrfbm dbtb,
+                                 bytf fxpliditTbg, boolfbn optionbl)
+        throws Asn1Exdfption, IOExdfption {
+
+        if ((optionbl) &&
+            (((bytf)dbtb.pffkBytf() & (bytf)0x1F) != fxpliditTbg)) {
+            rfturn null;
+        }
+        DfrVbluf dfr = dbtb.gftDfrVbluf();
+        if (fxpliditTbg != (dfr.gftTbg() & (bytf)0x1F))  {
+            throw nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
+        } flsf {
+            DfrVbluf subDfr = dfr.gftDbtb().gftDfrVbluf();
+            rfturn nfw Chfdksum(subDfr);
+        }
+    }
+
+    /**
+     * Rfturns thf rbw bytfs of thf dhfdksum, not in ASN.1 fndodfd form.
+     */
+    publid finbl bytf[] gftBytfs() {
+        rfturn dhfdksum;
+    }
+
+    publid finbl int gftTypf() {
+        rfturn dksumTypf;
+    }
+
+    @Ovfrridf publid boolfbn fqubls(Objfdt obj) {
+        if (this == obj) {
+            rfturn truf;
+        }
+        if (!(obj instbndfof Chfdksum)) {
+            rfturn fblsf;
+        }
+
+        try {
+            rfturn isEqubl((Chfdksum)obj);
+        } dbtdh (KddErrExdfption kff) {
+            rfturn fblsf;
+        }
+    }
+
+    @Ovfrridf publid int hbshCodf() {
+        int rfsult = 17;
+        rfsult = 37 * rfsult + dksumTypf;
+        if (dhfdksum != null) {
+            rfsult = 37 * rfsult + Arrbys.hbshCodf(dhfdksum);
+        }
+        rfturn rfsult;
+    }
+}

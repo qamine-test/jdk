@@ -1,271 +1,271 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.io;
+pbdkbgf jbvb.io;
 
 
 /**
- * Writes text to a character-output stream, buffering characters so as to
- * provide for the efficient writing of single characters, arrays, and strings.
+ * Writfs tfxt to b dibrbdtfr-output strfbm, bufffring dibrbdtfrs so bs to
+ * providf for tif fffidifnt writing of singlf dibrbdtfrs, brrbys, bnd strings.
  *
- * <p> The buffer size may be specified, or the default size may be accepted.
- * The default is large enough for most purposes.
+ * <p> Tif bufffr sizf mby bf spfdififd, or tif dffbult sizf mby bf bddfptfd.
+ * Tif dffbult is lbrgf fnougi for most purposfs.
  *
- * <p> A newLine() method is provided, which uses the platform's own notion of
- * line separator as defined by the system property <tt>line.separator</tt>.
- * Not all platforms use the newline character ('\n') to terminate lines.
- * Calling this method to terminate each output line is therefore preferred to
- * writing a newline character directly.
+ * <p> A nfwLinf() mftiod is providfd, wiidi usfs tif plbtform's own notion of
+ * linf sfpbrbtor bs dffinfd by tif systfm propfrty <tt>linf.sfpbrbtor</tt>.
+ * Not bll plbtforms usf tif nfwlinf dibrbdtfr ('\n') to tfrminbtf linfs.
+ * Cblling tiis mftiod to tfrminbtf fbdi output linf is tifrfforf prfffrrfd to
+ * writing b nfwlinf dibrbdtfr dirfdtly.
  *
- * <p> In general, a Writer sends its output immediately to the underlying
- * character or byte stream.  Unless prompt output is required, it is advisable
- * to wrap a BufferedWriter around any Writer whose write() operations may be
- * costly, such as FileWriters and OutputStreamWriters.  For example,
+ * <p> In gfnfrbl, b Writfr sfnds its output immfdibtfly to tif undfrlying
+ * dibrbdtfr or bytf strfbm.  Unlfss prompt output is rfquirfd, it is bdvisbblf
+ * to wrbp b BufffrfdWritfr bround bny Writfr wiosf writf() opfrbtions mby bf
+ * dostly, sudi bs FilfWritfrs bnd OutputStrfbmWritfrs.  For fxbmplf,
  *
- * <pre>
- * PrintWriter out
- *   = new PrintWriter(new BufferedWriter(new FileWriter("foo.out")));
- * </pre>
+ * <prf>
+ * PrintWritfr out
+ *   = nfw PrintWritfr(nfw BufffrfdWritfr(nfw FilfWritfr("foo.out")));
+ * </prf>
  *
- * will buffer the PrintWriter's output to the file.  Without buffering, each
- * invocation of a print() method would cause characters to be converted into
- * bytes that would then be written immediately to the file, which can be very
- * inefficient.
+ * will bufffr tif PrintWritfr's output to tif filf.  Witiout bufffring, fbdi
+ * invodbtion of b print() mftiod would dbusf dibrbdtfrs to bf donvfrtfd into
+ * bytfs tibt would tifn bf writtfn immfdibtfly to tif filf, wiidi dbn bf vfry
+ * infffidifnt.
  *
- * @see PrintWriter
- * @see FileWriter
- * @see OutputStreamWriter
- * @see java.nio.file.Files#newBufferedWriter
+ * @sff PrintWritfr
+ * @sff FilfWritfr
+ * @sff OutputStrfbmWritfr
+ * @sff jbvb.nio.filf.Filfs#nfwBufffrfdWritfr
  *
- * @author      Mark Reinhold
- * @since       1.1
+ * @butior      Mbrk Rfiniold
+ * @sindf       1.1
  */
 
-public class BufferedWriter extends Writer {
+publid dlbss BufffrfdWritfr fxtfnds Writfr {
 
-    private Writer out;
+    privbtf Writfr out;
 
-    private char cb[];
-    private int nChars, nextChar;
+    privbtf dibr db[];
+    privbtf int nCibrs, nfxtCibr;
 
-    private static int defaultCharBufferSize = 8192;
+    privbtf stbtid int dffbultCibrBufffrSizf = 8192;
 
     /**
-     * Line separator string.  This is the value of the line.separator
-     * property at the moment that the stream was created.
+     * Linf sfpbrbtor string.  Tiis is tif vbluf of tif linf.sfpbrbtor
+     * propfrty bt tif momfnt tibt tif strfbm wbs drfbtfd.
      */
-    private String lineSeparator;
+    privbtf String linfSfpbrbtor;
 
     /**
-     * Creates a buffered character-output stream that uses a default-sized
-     * output buffer.
+     * Crfbtfs b bufffrfd dibrbdtfr-output strfbm tibt usfs b dffbult-sizfd
+     * output bufffr.
      *
-     * @param  out  A Writer
+     * @pbrbm  out  A Writfr
      */
-    public BufferedWriter(Writer out) {
-        this(out, defaultCharBufferSize);
+    publid BufffrfdWritfr(Writfr out) {
+        tiis(out, dffbultCibrBufffrSizf);
     }
 
     /**
-     * Creates a new buffered character-output stream that uses an output
-     * buffer of the given size.
+     * Crfbtfs b nfw bufffrfd dibrbdtfr-output strfbm tibt usfs bn output
+     * bufffr of tif givfn sizf.
      *
-     * @param  out  A Writer
-     * @param  sz   Output-buffer size, a positive integer
+     * @pbrbm  out  A Writfr
+     * @pbrbm  sz   Output-bufffr sizf, b positivf intfgfr
      *
-     * @exception  IllegalArgumentException  If {@code sz <= 0}
+     * @fxdfption  IllfgblArgumfntExdfption  If {@dodf sz <= 0}
      */
-    public BufferedWriter(Writer out, int sz) {
-        super(out);
+    publid BufffrfdWritfr(Writfr out, int sz) {
+        supfr(out);
         if (sz <= 0)
-            throw new IllegalArgumentException("Buffer size <= 0");
-        this.out = out;
-        cb = new char[sz];
-        nChars = sz;
-        nextChar = 0;
+            tirow nfw IllfgblArgumfntExdfption("Bufffr sizf <= 0");
+        tiis.out = out;
+        db = nfw dibr[sz];
+        nCibrs = sz;
+        nfxtCibr = 0;
 
-        lineSeparator = java.security.AccessController.doPrivileged(
-            new sun.security.action.GetPropertyAction("line.separator"));
+        linfSfpbrbtor = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw sun.sfdurity.bdtion.GftPropfrtyAdtion("linf.sfpbrbtor"));
     }
 
-    /** Checks to make sure that the stream has not been closed */
-    private void ensureOpen() throws IOException {
+    /** Cifdks to mbkf surf tibt tif strfbm ibs not bffn dlosfd */
+    privbtf void fnsurfOpfn() tirows IOExdfption {
         if (out == null)
-            throw new IOException("Stream closed");
+            tirow nfw IOExdfption("Strfbm dlosfd");
     }
 
     /**
-     * Flushes the output buffer to the underlying character stream, without
-     * flushing the stream itself.  This method is non-private only so that it
-     * may be invoked by PrintStream.
+     * Flusifs tif output bufffr to tif undfrlying dibrbdtfr strfbm, witiout
+     * flusiing tif strfbm itsflf.  Tiis mftiod is non-privbtf only so tibt it
+     * mby bf invokfd by PrintStrfbm.
      */
-    void flushBuffer() throws IOException {
-        synchronized (lock) {
-            ensureOpen();
-            if (nextChar == 0)
-                return;
-            out.write(cb, 0, nextChar);
-            nextChar = 0;
+    void flusiBufffr() tirows IOExdfption {
+        syndironizfd (lodk) {
+            fnsurfOpfn();
+            if (nfxtCibr == 0)
+                rfturn;
+            out.writf(db, 0, nfxtCibr);
+            nfxtCibr = 0;
         }
     }
 
     /**
-     * Writes a single character.
+     * Writfs b singlf dibrbdtfr.
      *
-     * @exception  IOException  If an I/O error occurs
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
      */
-    public void write(int c) throws IOException {
-        synchronized (lock) {
-            ensureOpen();
-            if (nextChar >= nChars)
-                flushBuffer();
-            cb[nextChar++] = (char) c;
+    publid void writf(int d) tirows IOExdfption {
+        syndironizfd (lodk) {
+            fnsurfOpfn();
+            if (nfxtCibr >= nCibrs)
+                flusiBufffr();
+            db[nfxtCibr++] = (dibr) d;
         }
     }
 
     /**
-     * Our own little min method, to avoid loading java.lang.Math if we've run
-     * out of file descriptors and we're trying to print a stack trace.
+     * Our own littlf min mftiod, to bvoid lobding jbvb.lbng.Mbti if wf'vf run
+     * out of filf dfsdriptors bnd wf'rf trying to print b stbdk trbdf.
      */
-    private int min(int a, int b) {
-        if (a < b) return a;
-        return b;
+    privbtf int min(int b, int b) {
+        if (b < b) rfturn b;
+        rfturn b;
     }
 
     /**
-     * Writes a portion of an array of characters.
+     * Writfs b portion of bn brrby of dibrbdtfrs.
      *
-     * <p> Ordinarily this method stores characters from the given array into
-     * this stream's buffer, flushing the buffer to the underlying stream as
-     * needed.  If the requested length is at least as large as the buffer,
-     * however, then this method will flush the buffer and write the characters
-     * directly to the underlying stream.  Thus redundant
-     * <code>BufferedWriter</code>s will not copy data unnecessarily.
+     * <p> Ordinbrily tiis mftiod storfs dibrbdtfrs from tif givfn brrby into
+     * tiis strfbm's bufffr, flusiing tif bufffr to tif undfrlying strfbm bs
+     * nffdfd.  If tif rfqufstfd lfngti is bt lfbst bs lbrgf bs tif bufffr,
+     * iowfvfr, tifn tiis mftiod will flusi tif bufffr bnd writf tif dibrbdtfrs
+     * dirfdtly to tif undfrlying strfbm.  Tius rfdundbnt
+     * <dodf>BufffrfdWritfr</dodf>s will not dopy dbtb unnfdfssbrily.
      *
-     * @param  cbuf  A character array
-     * @param  off   Offset from which to start reading characters
-     * @param  len   Number of characters to write
+     * @pbrbm  dbuf  A dibrbdtfr brrby
+     * @pbrbm  off   Offsft from wiidi to stbrt rfbding dibrbdtfrs
+     * @pbrbm  lfn   Numbfr of dibrbdtfrs to writf
      *
-     * @exception  IOException  If an I/O error occurs
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
      */
-    public void write(char cbuf[], int off, int len) throws IOException {
-        synchronized (lock) {
-            ensureOpen();
-            if ((off < 0) || (off > cbuf.length) || (len < 0) ||
-                ((off + len) > cbuf.length) || ((off + len) < 0)) {
-                throw new IndexOutOfBoundsException();
-            } else if (len == 0) {
-                return;
+    publid void writf(dibr dbuf[], int off, int lfn) tirows IOExdfption {
+        syndironizfd (lodk) {
+            fnsurfOpfn();
+            if ((off < 0) || (off > dbuf.lfngti) || (lfn < 0) ||
+                ((off + lfn) > dbuf.lfngti) || ((off + lfn) < 0)) {
+                tirow nfw IndfxOutOfBoundsExdfption();
+            } flsf if (lfn == 0) {
+                rfturn;
             }
 
-            if (len >= nChars) {
-                /* If the request length exceeds the size of the output buffer,
-                   flush the buffer and then write the data directly.  In this
-                   way buffered streams will cascade harmlessly. */
-                flushBuffer();
-                out.write(cbuf, off, len);
-                return;
+            if (lfn >= nCibrs) {
+                /* If tif rfqufst lfngti fxdffds tif sizf of tif output bufffr,
+                   flusi tif bufffr bnd tifn writf tif dbtb dirfdtly.  In tiis
+                   wby bufffrfd strfbms will dbsdbdf ibrmlfssly. */
+                flusiBufffr();
+                out.writf(dbuf, off, lfn);
+                rfturn;
             }
 
-            int b = off, t = off + len;
-            while (b < t) {
-                int d = min(nChars - nextChar, t - b);
-                System.arraycopy(cbuf, b, cb, nextChar, d);
+            int b = off, t = off + lfn;
+            wiilf (b < t) {
+                int d = min(nCibrs - nfxtCibr, t - b);
+                Systfm.brrbydopy(dbuf, b, db, nfxtCibr, d);
                 b += d;
-                nextChar += d;
-                if (nextChar >= nChars)
-                    flushBuffer();
+                nfxtCibr += d;
+                if (nfxtCibr >= nCibrs)
+                    flusiBufffr();
             }
         }
     }
 
     /**
-     * Writes a portion of a String.
+     * Writfs b portion of b String.
      *
-     * <p> If the value of the <tt>len</tt> parameter is negative then no
-     * characters are written.  This is contrary to the specification of this
-     * method in the {@linkplain java.io.Writer#write(java.lang.String,int,int)
-     * superclass}, which requires that an {@link IndexOutOfBoundsException} be
-     * thrown.
+     * <p> If tif vbluf of tif <tt>lfn</tt> pbrbmftfr is nfgbtivf tifn no
+     * dibrbdtfrs brf writtfn.  Tiis is dontrbry to tif spfdifidbtion of tiis
+     * mftiod in tif {@linkplbin jbvb.io.Writfr#writf(jbvb.lbng.String,int,int)
+     * supfrdlbss}, wiidi rfquirfs tibt bn {@link IndfxOutOfBoundsExdfption} bf
+     * tirown.
      *
-     * @param  s     String to be written
-     * @param  off   Offset from which to start reading characters
-     * @param  len   Number of characters to be written
+     * @pbrbm  s     String to bf writtfn
+     * @pbrbm  off   Offsft from wiidi to stbrt rfbding dibrbdtfrs
+     * @pbrbm  lfn   Numbfr of dibrbdtfrs to bf writtfn
      *
-     * @exception  IOException  If an I/O error occurs
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
      */
-    public void write(String s, int off, int len) throws IOException {
-        synchronized (lock) {
-            ensureOpen();
+    publid void writf(String s, int off, int lfn) tirows IOExdfption {
+        syndironizfd (lodk) {
+            fnsurfOpfn();
 
-            int b = off, t = off + len;
-            while (b < t) {
-                int d = min(nChars - nextChar, t - b);
-                s.getChars(b, b + d, cb, nextChar);
+            int b = off, t = off + lfn;
+            wiilf (b < t) {
+                int d = min(nCibrs - nfxtCibr, t - b);
+                s.gftCibrs(b, b + d, db, nfxtCibr);
                 b += d;
-                nextChar += d;
-                if (nextChar >= nChars)
-                    flushBuffer();
+                nfxtCibr += d;
+                if (nfxtCibr >= nCibrs)
+                    flusiBufffr();
             }
         }
     }
 
     /**
-     * Writes a line separator.  The line separator string is defined by the
-     * system property <tt>line.separator</tt>, and is not necessarily a single
-     * newline ('\n') character.
+     * Writfs b linf sfpbrbtor.  Tif linf sfpbrbtor string is dffinfd by tif
+     * systfm propfrty <tt>linf.sfpbrbtor</tt>, bnd is not nfdfssbrily b singlf
+     * nfwlinf ('\n') dibrbdtfr.
      *
-     * @exception  IOException  If an I/O error occurs
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
      */
-    public void newLine() throws IOException {
-        write(lineSeparator);
+    publid void nfwLinf() tirows IOExdfption {
+        writf(linfSfpbrbtor);
     }
 
     /**
-     * Flushes the stream.
+     * Flusifs tif strfbm.
      *
-     * @exception  IOException  If an I/O error occurs
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
      */
-    public void flush() throws IOException {
-        synchronized (lock) {
-            flushBuffer();
-            out.flush();
+    publid void flusi() tirows IOExdfption {
+        syndironizfd (lodk) {
+            flusiBufffr();
+            out.flusi();
         }
     }
 
-    @SuppressWarnings("try")
-    public void close() throws IOException {
-        synchronized (lock) {
+    @SupprfssWbrnings("try")
+    publid void dlosf() tirows IOExdfption {
+        syndironizfd (lodk) {
             if (out == null) {
-                return;
+                rfturn;
             }
-            try (Writer w = out) {
-                flushBuffer();
-            } finally {
+            try (Writfr w = out) {
+                flusiBufffr();
+            } finblly {
                 out = null;
-                cb = null;
+                db = null;
             }
         }
     }

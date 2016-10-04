@@ -1,0 +1,1893 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.print;
+
+import jbvb.lbng.rff.SoftRfffrfndf;
+import jbvb.util.Hbshtbblf;
+import sun.font.ChbrToGlyphMbppfr;
+import sun.font.CompositfFont;
+import sun.font.Font2D;
+import sun.font.Font2DHbndlf;
+import sun.font.FontMbnbgfr;
+import sun.font.FontMbnbgfrFbdtory;
+import sun.font.FontUtilitifs;
+
+import jbvb.bwt.Color;
+import jbvb.bwt.Font;
+import jbvb.bwt.Grbphids2D;
+import jbvb.bwt.Imbgf;
+import jbvb.bwt.Pbint;
+import jbvb.bwt.Polygon;
+import jbvb.bwt.Shbpf;
+
+import jbvb.bwt.gfom.Pbth2D;
+import jbvb.tfxt.AttributfdChbrbdtfrItfrbtor;
+
+import jbvb.bwt.font.FontRfndfrContfxt;
+import jbvb.bwt.font.GlyphVfdtor;
+import jbvb.bwt.font.TfxtAttributf;
+import jbvb.bwt.font.TfxtLbyout;
+
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.Ard2D;
+import jbvb.bwt.gfom.Ellipsf2D;
+import jbvb.bwt.gfom.Linf2D;
+import jbvb.bwt.gfom.Point2D;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.bwt.gfom.RoundRfdtbnglf2D;
+import jbvb.bwt.gfom.PbthItfrbtor;
+
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.BufffrfdImbgfOp;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.DbtbBufffr;
+import jbvb.bwt.imbgf.DbtbBufffrInt;
+import jbvb.bwt.imbgf.ImbgfObsfrvfr;
+import jbvb.bwt.imbgf.IndfxColorModfl;
+import jbvb.bwt.imbgf.Rbstfr;
+import jbvb.bwt.imbgf.RfndfrfdImbgf;
+import jbvb.bwt.imbgf.SbmplfModfl;
+import jbvb.bwt.imbgf.SinglfPixflPbdkfdSbmplfModfl;
+import jbvb.bwt.imbgf.VolbtilfImbgf;
+import sun.bwt.imbgf.BytfComponfntRbstfr;
+import sun.bwt.imbgf.ToolkitImbgf;
+import sun.bwt.imbgf.SunWritbblfRbstfr;
+
+import jbvb.bwt.print.PbgfFormbt;
+import jbvb.bwt.print.Printbblf;
+import jbvb.bwt.print.PrintfrExdfption;
+import jbvb.bwt.print.PrintfrGrbphids;
+import jbvb.bwt.print.PrintfrJob;
+
+import jbvb.util.Mbp;
+
+publid bbstrbdt dlbss PbthGrbphids fxtfnds ProxyGrbphids2D {
+
+    privbtf Printbblf mPbintfr;
+    privbtf PbgfFormbt mPbgfFormbt;
+    privbtf int mPbgfIndfx;
+    privbtf boolfbn mCbnRfdrbw;
+    protfdtfd boolfbn printingGlyphVfdtor;
+
+    protfdtfd PbthGrbphids(Grbphids2D grbphids, PrintfrJob printfrJob,
+                           Printbblf pbintfr, PbgfFormbt pbgfFormbt,
+                           int pbgfIndfx, boolfbn dbnRfdrbw) {
+        supfr(grbphids, printfrJob);
+
+        mPbintfr = pbintfr;
+        mPbgfFormbt = pbgfFormbt;
+        mPbgfIndfx = pbgfIndfx;
+        mCbnRfdrbw = dbnRfdrbw;
+    }
+
+    /**
+     * Rfturn thf Printbblf instbndf rfsponsiblf for drbwing
+     * into this Grbphids.
+     */
+    protfdtfd Printbblf gftPrintbblf() {
+        rfturn mPbintfr;
+    }
+
+    /**
+     * Rfturn thf PbgfFormbt bssodibtfd with this pbgf of
+     * Grbphids.
+     */
+    protfdtfd PbgfFormbt gftPbgfFormbt() {
+        rfturn mPbgfFormbt;
+    }
+
+    /**
+     * Rfturn thf pbgf indfx bssodibtfd with this Grbphids.
+     */
+    protfdtfd int gftPbgfIndfx() {
+        rfturn mPbgfIndfx;
+    }
+
+    /**
+     * Rfturn truf if wf brf bllowfd to bsk thf bpplidbtion
+     * to rfdrbw portions of thf pbgf. In gfnfrbl, with thf
+     * PrintfrJob API, thf bpplidbtion dbn bf bskfd to do b
+     * rfdrbw. Whfn PrintfrJob is fmulbting PrintJob thfn wf
+     * dbn not.
+     */
+    publid boolfbn dbnDoRfdrbws() {
+        rfturn mCbnRfdrbw;
+    }
+
+     /**
+      * Rfdrbw b rfdtbnglulbr brfb using b proxy grbphids
+      */
+    publid bbstrbdt void rfdrbwRfgion(Rfdtbnglf2D rfgion,
+                                      doublf sdblfX, doublf sdblfY,
+                                      Shbpf dlip,
+                                      AffinfTrbnsform dfvTrbnsform)
+
+                    throws PrintfrExdfption ;
+
+    /**
+     * Drbws b linf, using thf durrfnt dolor, bftwffn thf points
+     * <dodf>(x1,&nbsp;y1)</dodf> bnd <dodf>(x2,&nbsp;y2)</dodf>
+     * in this grbphids dontfxt's doordinbtf systfm.
+     * @pbrbm   x1  thf first point's <i>x</i> doordinbtf.
+     * @pbrbm   y1  thf first point's <i>y</i> doordinbtf.
+     * @pbrbm   x2  thf sfdond point's <i>x</i> doordinbtf.
+     * @pbrbm   y2  thf sfdond point's <i>y</i> doordinbtf.
+     */
+    publid void drbwLinf(int x1, int y1, int x2, int y2) {
+
+        Pbint pbint = gftPbint();
+
+        try {
+            AffinfTrbnsform dfvidfTrbnsform = gftTrbnsform();
+            if (gftClip() != null) {
+                dfvidfClip(gftClip().gftPbthItfrbtor(dfvidfTrbnsform));
+            }
+
+            dfvidfDrbwLinf(x1, y1, x2, y2, (Color) pbint);
+
+        } dbtdh (ClbssCbstExdfption f) {
+            throw nfw IllfgblArgumfntExdfption("Expfdtfd b Color instbndf");
+        }
+    }
+
+
+    /**
+     * Drbws thf outlinf of thf spfdififd rfdtbnglf.
+     * Thf lfft bnd right fdgfs of thf rfdtbnglf brf bt
+     * <dodf>x</dodf> bnd <dodf>x&nbsp;+&nbsp;width</dodf>.
+     * Thf top bnd bottom fdgfs brf bt
+     * <dodf>y</dodf> bnd <dodf>y&nbsp;+&nbsp;hfight</dodf>.
+     * Thf rfdtbnglf is drbwn using thf grbphids dontfxt's durrfnt dolor.
+     * @pbrbm         x   thf <i>x</i> doordinbtf
+     *                         of thf rfdtbnglf to bf drbwn.
+     * @pbrbm         y   thf <i>y</i> doordinbtf
+     *                         of thf rfdtbnglf to bf drbwn.
+     * @pbrbm         width   thf width of thf rfdtbnglf to bf drbwn.
+     * @pbrbm         hfight   thf hfight of thf rfdtbnglf to bf drbwn.
+     * @sff          jbvb.bwt.Grbphids#fillRfdt
+     * @sff          jbvb.bwt.Grbphids#dlfbrRfdt
+     */
+    publid void drbwRfdt(int x, int y, int width, int hfight) {
+
+        Pbint pbint = gftPbint();
+
+        try {
+            AffinfTrbnsform dfvidfTrbnsform = gftTrbnsform();
+            if (gftClip() != null) {
+                dfvidfClip(gftClip().gftPbthItfrbtor(dfvidfTrbnsform));
+            }
+
+            dfvidfFrbmfRfdt(x, y, width, hfight, (Color) pbint);
+
+        } dbtdh (ClbssCbstExdfption f) {
+            throw nfw IllfgblArgumfntExdfption("Expfdtfd b Color instbndf");
+        }
+
+    }
+
+    /**
+     * Fills thf spfdififd rfdtbnglf.
+     * Thf lfft bnd right fdgfs of thf rfdtbnglf brf bt
+     * <dodf>x</dodf> bnd <dodf>x&nbsp;+&nbsp;width&nbsp;-&nbsp;1</dodf>.
+     * Thf top bnd bottom fdgfs brf bt
+     * <dodf>y</dodf> bnd <dodf>y&nbsp;+&nbsp;hfight&nbsp;-&nbsp;1</dodf>.
+     * Thf rfsulting rfdtbnglf dovfrs bn brfb
+     * <dodf>width</dodf> pixfls widf by
+     * <dodf>hfight</dodf> pixfls tbll.
+     * Thf rfdtbnglf is fillfd using thf grbphids dontfxt's durrfnt dolor.
+     * @pbrbm         x   thf <i>x</i> doordinbtf
+     *                         of thf rfdtbnglf to bf fillfd.
+     * @pbrbm         y   thf <i>y</i> doordinbtf
+     *                         of thf rfdtbnglf to bf fillfd.
+     * @pbrbm         width   thf width of thf rfdtbnglf to bf fillfd.
+     * @pbrbm         hfight   thf hfight of thf rfdtbnglf to bf fillfd.
+     * @sff           jbvb.bwt.Grbphids#dlfbrRfdt
+     * @sff           jbvb.bwt.Grbphids#drbwRfdt
+     */
+    publid void fillRfdt(int x, int y, int width, int hfight){
+
+        Pbint pbint = gftPbint();
+
+        try {
+            AffinfTrbnsform dfvidfTrbnsform = gftTrbnsform();
+            if (gftClip() != null) {
+                dfvidfClip(gftClip().gftPbthItfrbtor(dfvidfTrbnsform));
+            }
+
+            dfvidfFillRfdt(x, y, width, hfight, (Color) pbint);
+
+        } dbtdh (ClbssCbstExdfption f) {
+            throw nfw IllfgblArgumfntExdfption("Expfdtfd b Color instbndf");
+        }
+    }
+
+       /**
+     * Clfbrs thf spfdififd rfdtbnglf by filling it with thf bbdkground
+     * dolor of thf durrfnt drbwing surfbdf. This opfrbtion dofs not
+     * usf thf durrfnt pbint modf.
+     * <p>
+     * Bfginning with Jbvb&nbsp;1.1, thf bbdkground dolor
+     * of offsdrffn imbgfs mby bf systfm dfpfndfnt. Applidbtions should
+     * usf <dodf>sftColor</dodf> followfd by <dodf>fillRfdt</dodf> to
+     * fnsurf thbt bn offsdrffn imbgf is dlfbrfd to b spfdifid dolor.
+     * @pbrbm       x thf <i>x</i> doordinbtf of thf rfdtbnglf to dlfbr.
+     * @pbrbm       y thf <i>y</i> doordinbtf of thf rfdtbnglf to dlfbr.
+     * @pbrbm       width thf width of thf rfdtbnglf to dlfbr.
+     * @pbrbm       hfight thf hfight of thf rfdtbnglf to dlfbr.
+     * @sff         jbvb.bwt.Grbphids#fillRfdt(int, int, int, int)
+     * @sff         jbvb.bwt.Grbphids#drbwRfdt
+     * @sff         jbvb.bwt.Grbphids#sftColor(jbvb.bwt.Color)
+     * @sff         jbvb.bwt.Grbphids#sftPbintModf
+     * @sff         jbvb.bwt.Grbphids#sftXORModf(jbvb.bwt.Color)
+     */
+    publid void dlfbrRfdt(int x, int y, int width, int hfight) {
+
+        fill(nfw Rfdtbnglf2D.Flobt(x, y, width, hfight), gftBbdkground());
+    }
+
+        /**
+     * Drbws bn outlinfd round-dornfrfd rfdtbnglf using this grbphids
+     * dontfxt's durrfnt dolor. Thf lfft bnd right fdgfs of thf rfdtbnglf
+     * brf bt <dodf>x</dodf> bnd <dodf>x&nbsp;+&nbsp;width</dodf>,
+     * rfspfdtivfly. Thf top bnd bottom fdgfs of thf rfdtbnglf brf bt
+     * <dodf>y</dodf> bnd <dodf>y&nbsp;+&nbsp;hfight</dodf>.
+     * @pbrbm      x thf <i>x</i> doordinbtf of thf rfdtbnglf to bf drbwn.
+     * @pbrbm      y thf <i>y</i> doordinbtf of thf rfdtbnglf to bf drbwn.
+     * @pbrbm      width thf width of thf rfdtbnglf to bf drbwn.
+     * @pbrbm      hfight thf hfight of thf rfdtbnglf to bf drbwn.
+     * @pbrbm      brdWidth thf horizontbl dibmftfr of thf brd
+     *                    bt thf four dornfrs.
+     * @pbrbm      brdHfight thf vfrtidbl dibmftfr of thf brd
+     *                    bt thf four dornfrs.
+     * @sff        jbvb.bwt.Grbphids#fillRoundRfdt
+     */
+    publid void drbwRoundRfdt(int x, int y, int width, int hfight,
+                              int brdWidth, int brdHfight) {
+
+        drbw(nfw RoundRfdtbnglf2D.Flobt(x, y,
+                                        width, hfight,
+                                        brdWidth, brdHfight));
+    }
+
+
+    /**
+     * Fills thf spfdififd roundfd dornfr rfdtbnglf with thf durrfnt dolor.
+     * Thf lfft bnd right fdgfs of thf rfdtbnglf
+     * brf bt <dodf>x</dodf> bnd <dodf>x&nbsp;+&nbsp;width&nbsp;-&nbsp;1</dodf>,
+     * rfspfdtivfly. Thf top bnd bottom fdgfs of thf rfdtbnglf brf bt
+     * <dodf>y</dodf> bnd <dodf>y&nbsp;+&nbsp;hfight&nbsp;-&nbsp;1</dodf>.
+     * @pbrbm       x thf <i>x</i> doordinbtf of thf rfdtbnglf to bf fillfd.
+     * @pbrbm       y thf <i>y</i> doordinbtf of thf rfdtbnglf to bf fillfd.
+     * @pbrbm       width thf width of thf rfdtbnglf to bf fillfd.
+     * @pbrbm       hfight thf hfight of thf rfdtbnglf to bf fillfd.
+     * @pbrbm       brdWidth thf horizontbl dibmftfr
+     *                     of thf brd bt thf four dornfrs.
+     * @pbrbm       brdHfight thf vfrtidbl dibmftfr
+     *                     of thf brd bt thf four dornfrs.
+     * @sff         jbvb.bwt.Grbphids#drbwRoundRfdt
+     */
+    publid void fillRoundRfdt(int x, int y, int width, int hfight,
+                              int brdWidth, int brdHfight) {
+
+        fill(nfw RoundRfdtbnglf2D.Flobt(x, y,
+                                        width, hfight,
+                                        brdWidth, brdHfight));
+    }
+
+    /**
+     * Drbws thf outlinf of bn ovbl.
+     * Thf rfsult is b dirdlf or fllipsf thbt fits within thf
+     * rfdtbnglf spfdififd by thf <dodf>x</dodf>, <dodf>y</dodf>,
+     * <dodf>width</dodf>, bnd <dodf>hfight</dodf> brgumfnts.
+     * <p>
+     * Thf ovbl dovfrs bn brfb thbt is
+     * <dodf>width&nbsp;+&nbsp;1</dodf> pixfls widf
+     * bnd <dodf>hfight&nbsp;+&nbsp;1</dodf> pixfls tbll.
+     * @pbrbm       x thf <i>x</i> doordinbtf of thf uppfr lfft
+     *                     dornfr of thf ovbl to bf drbwn.
+     * @pbrbm       y thf <i>y</i> doordinbtf of thf uppfr lfft
+     *                     dornfr of thf ovbl to bf drbwn.
+     * @pbrbm       width thf width of thf ovbl to bf drbwn.
+     * @pbrbm       hfight thf hfight of thf ovbl to bf drbwn.
+     * @sff         jbvb.bwt.Grbphids#fillOvbl
+     * @sindf       1.0
+     */
+    publid void drbwOvbl(int x, int y, int width, int hfight) {
+        drbw(nfw Ellipsf2D.Flobt(x, y, width, hfight));
+    }
+
+        /**
+     * Fills bn ovbl boundfd by thf spfdififd rfdtbnglf with thf
+     * durrfnt dolor.
+     * @pbrbm       x thf <i>x</i> doordinbtf of thf uppfr lfft dornfr
+     *                     of thf ovbl to bf fillfd.
+     * @pbrbm       y thf <i>y</i> doordinbtf of thf uppfr lfft dornfr
+     *                     of thf ovbl to bf fillfd.
+     * @pbrbm       width thf width of thf ovbl to bf fillfd.
+     * @pbrbm       hfight thf hfight of thf ovbl to bf fillfd.
+     * @sff         jbvb.bwt.Grbphids#drbwOvbl
+     */
+    publid void fillOvbl(int x, int y, int width, int hfight){
+
+        fill(nfw Ellipsf2D.Flobt(x, y, width, hfight));
+    }
+
+    /**
+     * Drbws thf outlinf of b dirdulbr or flliptidbl brd
+     * dovfring thf spfdififd rfdtbnglf.
+     * <p>
+     * Thf rfsulting brd bfgins bt <dodf>stbrtAnglf</dodf> bnd fxtfnds
+     * for <dodf>brdAnglf</dodf> dfgrffs, using thf durrfnt dolor.
+     * Anglfs brf intfrprftfd sudh thbt 0&nbsp;dfgrffs
+     * is bt thf 3&nbsp;o'dlodk position.
+     * A positivf vbluf indidbtfs b dountfr-dlodkwisf rotbtion
+     * whilf b nfgbtivf vbluf indidbtfs b dlodkwisf rotbtion.
+     * <p>
+     * Thf dfntfr of thf brd is thf dfntfr of thf rfdtbnglf whosf origin
+     * is (<i>x</i>,&nbsp;<i>y</i>) bnd whosf sizf is spfdififd by thf
+     * <dodf>width</dodf> bnd <dodf>hfight</dodf> brgumfnts.
+     * <p>
+     * Thf rfsulting brd dovfrs bn brfb
+     * <dodf>width&nbsp;+&nbsp;1</dodf> pixfls widf
+     * by <dodf>hfight&nbsp;+&nbsp;1</dodf> pixfls tbll.
+     * <p>
+     * Thf bnglfs brf spfdififd rflbtivf to thf non-squbrf fxtfnts of
+     * thf bounding rfdtbnglf sudh thbt 45 dfgrffs blwbys fblls on thf
+     * linf from thf dfntfr of thf fllipsf to thf uppfr right dornfr of
+     * thf bounding rfdtbnglf. As b rfsult, if thf bounding rfdtbnglf is
+     * notidfbbly longfr in onf bxis thbn thf othfr, thf bnglfs to thf
+     * stbrt bnd fnd of thf brd sfgmfnt will bf skfwfd fbrthfr blong thf
+     * longfr bxis of thf bounds.
+     * @pbrbm        x thf <i>x</i> doordinbtf of thf
+     *                    uppfr-lfft dornfr of thf brd to bf drbwn.
+     * @pbrbm        y thf <i>y</i>  doordinbtf of thf
+     *                    uppfr-lfft dornfr of thf brd to bf drbwn.
+     * @pbrbm        width thf width of thf brd to bf drbwn.
+     * @pbrbm        hfight thf hfight of thf brd to bf drbwn.
+     * @pbrbm        stbrtAnglf thf bfginning bnglf.
+     * @pbrbm        brdAnglf thf bngulbr fxtfnt of thf brd,
+     *                    rflbtivf to thf stbrt bnglf.
+     * @sff         jbvb.bwt.Grbphids#fillArd
+     */
+    publid void drbwArd(int x, int y, int width, int hfight,
+                                 int stbrtAnglf, int brdAnglf) {
+        drbw(nfw Ard2D.Flobt(x, y, width, hfight,
+                             stbrtAnglf, brdAnglf,
+                             Ard2D.OPEN));
+    }
+
+
+    /**
+     * Fills b dirdulbr or flliptidbl brd dovfring thf spfdififd rfdtbnglf.
+     * <p>
+     * Thf rfsulting brd bfgins bt <dodf>stbrtAnglf</dodf> bnd fxtfnds
+     * for <dodf>brdAnglf</dodf> dfgrffs.
+     * Anglfs brf intfrprftfd sudh thbt 0&nbsp;dfgrffs
+     * is bt thf 3&nbsp;o'dlodk position.
+     * A positivf vbluf indidbtfs b dountfr-dlodkwisf rotbtion
+     * whilf b nfgbtivf vbluf indidbtfs b dlodkwisf rotbtion.
+     * <p>
+     * Thf dfntfr of thf brd is thf dfntfr of thf rfdtbnglf whosf origin
+     * is (<i>x</i>,&nbsp;<i>y</i>) bnd whosf sizf is spfdififd by thf
+     * <dodf>width</dodf> bnd <dodf>hfight</dodf> brgumfnts.
+     * <p>
+     * Thf rfsulting brd dovfrs bn brfb
+     * <dodf>width&nbsp;+&nbsp;1</dodf> pixfls widf
+     * by <dodf>hfight&nbsp;+&nbsp;1</dodf> pixfls tbll.
+     * <p>
+     * Thf bnglfs brf spfdififd rflbtivf to thf non-squbrf fxtfnts of
+     * thf bounding rfdtbnglf sudh thbt 45 dfgrffs blwbys fblls on thf
+     * linf from thf dfntfr of thf fllipsf to thf uppfr right dornfr of
+     * thf bounding rfdtbnglf. As b rfsult, if thf bounding rfdtbnglf is
+     * notidfbbly longfr in onf bxis thbn thf othfr, thf bnglfs to thf
+     * stbrt bnd fnd of thf brd sfgmfnt will bf skfwfd fbrthfr blong thf
+     * longfr bxis of thf bounds.
+     * @pbrbm        x thf <i>x</i> doordinbtf of thf
+     *                    uppfr-lfft dornfr of thf brd to bf fillfd.
+     * @pbrbm        y thf <i>y</i>  doordinbtf of thf
+     *                    uppfr-lfft dornfr of thf brd to bf fillfd.
+     * @pbrbm        width thf width of thf brd to bf fillfd.
+     * @pbrbm        hfight thf hfight of thf brd to bf fillfd.
+     * @pbrbm        stbrtAnglf thf bfginning bnglf.
+     * @pbrbm        brdAnglf thf bngulbr fxtfnt of thf brd,
+     *                    rflbtivf to thf stbrt bnglf.
+     * @sff         jbvb.bwt.Grbphids#drbwArd
+     */
+    publid void fillArd(int x, int y, int width, int hfight,
+                                 int stbrtAnglf, int brdAnglf) {
+
+        fill(nfw Ard2D.Flobt(x, y, width, hfight,
+                             stbrtAnglf, brdAnglf,
+                             Ard2D.PIE));
+    }
+
+    /**
+     * Drbws b sfqufndf of donnfdtfd linfs dffinfd by
+     * brrbys of <i>x</i> bnd <i>y</i> doordinbtfs.
+     * Ebdh pbir of (<i>x</i>,&nbsp;<i>y</i>) doordinbtfs dffinfs b point.
+     * Thf figurf is not dlosfd if thf first point
+     * difffrs from thf lbst point.
+     * @pbrbm       xPoints bn brrby of <i>x</i> points
+     * @pbrbm       yPoints bn brrby of <i>y</i> points
+     * @pbrbm       nPoints thf totbl numbfr of points
+     * @sff         jbvb.bwt.Grbphids#drbwPolygon(int[], int[], int)
+     * @sindf       1.1
+     */
+    publid void drbwPolylinf(int xPoints[], int yPoints[],
+                             int nPoints) {
+
+        if (nPoints == 2) {
+            drbw(nfw Linf2D.Flobt(xPoints[0], yPoints[0],
+                                  xPoints[1], yPoints[1]));
+        } flsf if (nPoints > 2) {
+            Pbth2D pbth = nfw Pbth2D.Flobt(Pbth2D.WIND_EVEN_ODD, nPoints);
+            pbth.movfTo(xPoints[0], yPoints[0]);
+            for(int i = 1; i < nPoints; i++) {
+                pbth.linfTo(xPoints[i], yPoints[i]);
+            }
+            drbw(pbth);
+        }
+    }
+
+
+    /**
+     * Drbws b dlosfd polygon dffinfd by
+     * brrbys of <i>x</i> bnd <i>y</i> doordinbtfs.
+     * Ebdh pbir of (<i>x</i>,&nbsp;<i>y</i>) doordinbtfs dffinfs b point.
+     * <p>
+     * This mfthod drbws thf polygon dffinfd by <dodf>nPoint</dodf> linf
+     * sfgmfnts, whfrf thf first <dodf>nPoint&nbsp;-&nbsp;1</dodf>
+     * linf sfgmfnts brf linf sfgmfnts from
+     * <dodf>(xPoints[i&nbsp;-&nbsp;1],&nbsp;yPoints[i&nbsp;-&nbsp;1])</dodf>
+     * to <dodf>(xPoints[i],&nbsp;yPoints[i])</dodf>, for
+     * 1&nbsp;&lf;&nbsp;<i>i</i>&nbsp;&lf;&nbsp;<dodf>nPoints</dodf>.
+     * Thf figurf is butombtidblly dlosfd by drbwing b linf donnfdting
+     * thf finbl point to thf first point, if thosf points brf difffrfnt.
+     * @pbrbm        xPoints   b bn brrby of <dodf>x</dodf> doordinbtfs.
+     * @pbrbm        yPoints   b bn brrby of <dodf>y</dodf> doordinbtfs.
+     * @pbrbm        nPoints   b thf totbl numbfr of points.
+     * @sff          jbvb.bwt.Grbphids#fillPolygon
+     * @sff          jbvb.bwt.Grbphids#drbwPolylinf
+     */
+    publid void drbwPolygon(int xPoints[], int yPoints[],
+                                     int nPoints) {
+
+        drbw(nfw Polygon(xPoints, yPoints, nPoints));
+    }
+
+    /**
+     * Drbws thf outlinf of b polygon dffinfd by thf spfdififd
+     * <dodf>Polygon</dodf> objfdt.
+     * @pbrbm        p thf polygon to drbw.
+     * @sff          jbvb.bwt.Grbphids#fillPolygon
+     * @sff          jbvb.bwt.Grbphids#drbwPolylinf
+     */
+    publid void drbwPolygon(Polygon p) {
+        drbw(p);
+    }
+
+     /**
+     * Fills b dlosfd polygon dffinfd by
+     * brrbys of <i>x</i> bnd <i>y</i> doordinbtfs.
+     * <p>
+     * This mfthod drbws thf polygon dffinfd by <dodf>nPoint</dodf> linf
+     * sfgmfnts, whfrf thf first <dodf>nPoint&nbsp;-&nbsp;1</dodf>
+     * linf sfgmfnts brf linf sfgmfnts from
+     * <dodf>(xPoints[i&nbsp;-&nbsp;1],&nbsp;yPoints[i&nbsp;-&nbsp;1])</dodf>
+     * to <dodf>(xPoints[i],&nbsp;yPoints[i])</dodf>, for
+     * 1&nbsp;&lf;&nbsp;<i>i</i>&nbsp;&lf;&nbsp;<dodf>nPoints</dodf>.
+     * Thf figurf is butombtidblly dlosfd by drbwing b linf donnfdting
+     * thf finbl point to thf first point, if thosf points brf difffrfnt.
+     * <p>
+     * Thf brfb insidf thf polygon is dffinfd using bn
+     * fvfn-odd fill rulf, blso known bs thf bltfrnbting rulf.
+     * @pbrbm        xPoints   b bn brrby of <dodf>x</dodf> doordinbtfs.
+     * @pbrbm        yPoints   b bn brrby of <dodf>y</dodf> doordinbtfs.
+     * @pbrbm        nPoints   b thf totbl numbfr of points.
+     * @sff          jbvb.bwt.Grbphids#drbwPolygon(int[], int[], int)
+     */
+    publid void fillPolygon(int xPoints[], int yPoints[],
+                            int nPoints) {
+
+        fill(nfw Polygon(xPoints, yPoints, nPoints));
+    }
+
+
+    /**
+     * Fills thf polygon dffinfd by thf spfdififd Polygon objfdt with
+     * thf grbphids dontfxt's durrfnt dolor.
+     * <p>
+     * Thf brfb insidf thf polygon is dffinfd using bn
+     * fvfn-odd fill rulf, blso known bs thf bltfrnbting rulf.
+     * @pbrbm        p thf polygon to fill.
+     * @sff          jbvb.bwt.Grbphids#drbwPolygon(int[], int[], int)
+     */
+    publid void fillPolygon(Polygon p) {
+
+        fill(p);
+    }
+
+    /**
+     * Drbws thf tfxt givfn by thf spfdififd string, using this
+     * grbphids dontfxt's durrfnt font bnd dolor. Thf bbsflinf of thf
+     * first dhbrbdtfr is bt position (<i>x</i>,&nbsp;<i>y</i>) in this
+     * grbphids dontfxt's doordinbtf systfm.
+     * @pbrbm       str      thf string to bf drbwn.
+     * @pbrbm       x        thf <i>x</i> doordinbtf.
+     * @pbrbm       y        thf <i>y</i> doordinbtf.
+     * @sff         jbvb.bwt.Grbphids#drbwBytfs
+     * @sff         jbvb.bwt.Grbphids#drbwChbrs
+     * @sindf       1.0
+     */
+    publid void drbwString(String str, int x, int y) {
+        drbwString(str, (flobt) x, (flobt) y);
+    }
+
+    publid void drbwString(String str, flobt x, flobt y) {
+        if (str.lfngth() == 0) {
+            rfturn;
+        }
+        TfxtLbyout lbyout =
+            nfw TfxtLbyout(str, gftFont(), gftFontRfndfrContfxt());
+        lbyout.drbw(this, x, y);
+    }
+
+    protfdtfd void drbwString(String str, flobt x, flobt y,
+                              Font font, FontRfndfrContfxt frd, flobt w) {
+        TfxtLbyout lbyout =
+            nfw TfxtLbyout(str, font, frd);
+        Shbpf tfxtShbpf =
+            lbyout.gftOutlinf(AffinfTrbnsform.gftTrbnslbtfInstbndf(x, y));
+        fill(tfxtShbpf);
+    }
+
+    /**
+     * Drbws thf tfxt givfn by thf spfdififd itfrbtor, using this
+     * grbphids dontfxt's durrfnt dolor. Thf itfrbtor hbs to spfdify b font
+     * for fbdh dhbrbdtfr. Thf bbsflinf of thf
+     * first dhbrbdtfr is bt position (<i>x</i>,&nbsp;<i>y</i>) in this
+     * grbphids dontfxt's doordinbtf systfm.
+     * @pbrbm       itfrbtor thf itfrbtor whosf tfxt is to bf drbwn
+     * @pbrbm       x        thf <i>x</i> doordinbtf.
+     * @pbrbm       y        thf <i>y</i> doordinbtf.
+     * @sff         jbvb.bwt.Grbphids#drbwBytfs
+     * @sff         jbvb.bwt.Grbphids#drbwChbrs
+     */
+    publid void drbwString(AttributfdChbrbdtfrItfrbtor itfrbtor,
+                           int x, int y) {
+        drbwString(itfrbtor, (flobt) x, (flobt) y);
+    }
+    publid void drbwString(AttributfdChbrbdtfrItfrbtor itfrbtor,
+                           flobt x, flobt y) {
+        if (itfrbtor == null) {
+            throw
+                nfw NullPointfrExdfption("bttributfddhbrbdtfritfrbtor is null");
+        }
+        TfxtLbyout lbyout =
+            nfw TfxtLbyout(itfrbtor, gftFontRfndfrContfxt());
+        lbyout.drbw(this, x, y);
+    }
+
+    /**
+     * Drbws b GlyphVfdtor.
+     * Thf rfndfring bttributfs bpplifd indludf thf dlip, trbnsform,
+     * pbint or dolor, bnd dompositf bttributfs.  Thf GlyphVfdtor spfdififs
+     * individubl glyphs from b Font.
+     * @pbrbm g Thf GlyphVfdtor to bf drbwn.
+     * @pbrbm x,y Thf doordinbtfs whfrf thf glyphs should bf drbwn.
+     * @sff #sftPbint
+     * @sff jbvb.bwt.Grbphids#sftColor
+     * @sff #trbnsform
+     * @sff #sftTrbnsform
+     * @sff #sftCompositf
+     * @sff #dlip
+     * @sff #sftClip
+     */
+    publid void drbwGlyphVfdtor(GlyphVfdtor g,
+                                flobt x,
+                                flobt y) {
+
+        /* Wf should not rfbdh hfrf if printingGlyphVfdtor is blrfbdy truf.
+         * Add bn bssfrt so this dbn bf tfstfd if nffd bf.
+         * But blso fnsurf thbt wf do bt lfbst rfndfr propfrly by filling
+         * thf outlinf.
+         */
+        if (printingGlyphVfdtor) {
+            bssfrt !printingGlyphVfdtor; // if fblsf.
+            fill(g.gftOutlinf(x, y));
+            rfturn;
+        }
+
+        try {
+            printingGlyphVfdtor = truf;
+            if (RbstfrPrintfrJob.shbpfTfxtProp ||
+                !printfdSimplfGlyphVfdtor(g, x, y)) {
+                fill(g.gftOutlinf(x, y));
+            }
+        } finblly {
+            printingGlyphVfdtor = fblsf;
+        }
+    }
+
+    protfdtfd stbtid SoftRfffrfndf<Hbshtbblf<Font2DHbndlf,Objfdt>>
+        fontMbpRff = nfw SoftRfffrfndf<Hbshtbblf<Font2DHbndlf,Objfdt>>(null);
+
+    protfdtfd int plbtformFontCount(Font font, String str) {
+        rfturn 0;
+    }
+
+    /**
+     * Dffbult implfmfntbtion rfturns fblsf.
+     * Cbllfrs of this mfthod must blwbys bf prfpbrfd for this,
+     * bnd dflfgbtf to outlinfs or somf othfr solution.
+     */
+    protfdtfd boolfbn printGlyphVfdtor(GlyphVfdtor gv, flobt x, flobt y) {
+        rfturn fblsf;
+    }
+
+    /* GlyphVfdtors brf usublly fndountfrfd bfdbusf TfxtLbyout is in usf.
+     * Somf timfs TfxtLbyout is nffdfd to hbndlf domplfx tfxt or somf
+     * rfndfring bttributfs triggfr it.
+     * Wf try to print GlyphVfdtors by rfdonstituting into b String,
+     * bs thbt is most rfdovfrbblf for bpplidbtions thbt fxport to formbts
+     * sudh bs Postsdript or PDF. In somf dbsfs (fg whfrf its not domplfx
+     * tfxt bnd its just thbt positions brfn't whbt wf'd fxpfdt) wf print
+     * onf dhbrbdtfr bt b timf. positioning individublly.
+     * Fbiling thbt, if wf dbn dirfdtly sfnd glyph dodfs to thf printfr
+     * thfn wf do thbt (printGlyphVfdtor).
+     * As b lbst rfsort wf rfturn fblsf bnd lft thf dbllfr print bs fillfd
+     * shbpfs.
+     */
+    boolfbn printfdSimplfGlyphVfdtor(GlyphVfdtor g, flobt x, flobt y) {
+
+        int flbgs = g.gftLbyoutFlbgs();
+
+        /* Wf dbn't hbndlf RTL, rf-ordfring, domplfx glyphs ftd by
+         * rfdonstituting glyphs into b String. So if bny flbgs bfsidfs
+         * position bdjustmfnts brf sft, sff if wf dbn dirfdtly
+         * print thf GlyphVfdtor bs glyph dodfs, using thf positions
+         * lbyout hbs bssignfd. If thbt fbils rfturn fblsf;
+         */
+        if (flbgs != 0 && flbgs != GlyphVfdtor.FLAG_HAS_POSITION_ADJUSTMENTS) {
+            rfturn printGlyphVfdtor(g, x, y);
+        }
+
+        Font font = g.gftFont();
+        Font2D font2D = FontUtilitifs.gftFont2D(font);
+        if (font2D.hbndlf.font2D != font2D) {
+            /* suspidious, mby bf b bbd font. lfts bbil */
+            rfturn fblsf;
+        }
+        Hbshtbblf<Font2DHbndlf,Objfdt> fontMbp;
+        syndhronizfd (PbthGrbphids.dlbss) {
+            fontMbp = fontMbpRff.gft();
+            if (fontMbp == null) {
+                fontMbp = nfw Hbshtbblf<Font2DHbndlf,Objfdt>();
+                fontMbpRff =
+                    nfw SoftRfffrfndf<Hbshtbblf<Font2DHbndlf,Objfdt>>(fontMbp);
+            }
+        }
+
+        int numGlyphs = g.gftNumGlyphs();
+        int[] glyphCodfs = g.gftGlyphCodfs(0, numGlyphs, null);
+
+        dhbr[] glyphToChbrMbp = null;
+        dhbr[][] mbpArrby = null;
+        CompositfFont df = null;
+
+        /* Build thf nffdfd mbps for this font in b syndhronizfd blodk */
+        syndhronizfd (fontMbp) {
+            if (font2D instbndfof CompositfFont) {
+                df = (CompositfFont)font2D;
+                int numSlots = df.gftNumSlots();
+                mbpArrby = (dhbr[][])fontMbp.gft(font2D.hbndlf);
+                if (mbpArrby == null) {
+                    mbpArrby = nfw dhbr[numSlots][];
+                    fontMbp.put(font2D.hbndlf, mbpArrby);
+                }
+                for (int i=0; i<numGlyphs;i++) {
+                    int slot = glyphCodfs[i] >>> 24;
+                    if (slot >= numSlots) { /* shouldn't hbppfn */
+                        rfturn fblsf;
+                    }
+                    if (mbpArrby[slot] == null) {
+                        Font2D slotFont = df.gftSlotFont(slot);
+                        dhbr[] mbp = (dhbr[])fontMbp.gft(slotFont.hbndlf);
+                        if (mbp == null) {
+                            mbp = gftGlyphToChbrMbpForFont(slotFont);
+                        }
+                        mbpArrby[slot] = mbp;
+                    }
+                }
+            } flsf {
+                glyphToChbrMbp = (dhbr[])fontMbp.gft(font2D.hbndlf);
+                if (glyphToChbrMbp == null) {
+                    glyphToChbrMbp = gftGlyphToChbrMbpForFont(font2D);
+                    fontMbp.put(font2D.hbndlf, glyphToChbrMbp);
+                }
+            }
+        }
+
+        dhbr[] dhbrs = nfw dhbr[numGlyphs];
+        if (df != null) {
+            for (int i=0; i<numGlyphs; i++) {
+                int gd = glyphCodfs[i];
+                dhbr[] mbp = mbpArrby[gd >>> 24];
+                gd = gd & 0xffffff;
+                if (mbp == null) {
+                    rfturn fblsf;
+                }
+                /* X11 symbol & dingbbts fonts usfd only for globbl mftrids,
+                 * so thf glyph dodfs wf hbvf rfblly rfffr to Ludidb Sbns
+                 * Rfgulbr.
+                 * So its possiblf thf glyph dodf mby bppfbr out of rbngf.
+                 * Notf thbt lbtfr on wf doublf-dhfdk thf glyph dodfs thbt
+                 * wf gft from rf-drfbting thf GV from thf string brf thf
+                 * sbmf bs thosf wf stbrtfd with.
+                 *
+                 * If thf glyphdodf is INVISIBLE_GLYPH_ID thfn this mby
+                 * bf \t, \n or \r whidh brf mbppfd to thbt by lbyout.
+                 * This is b dbsf wf dbn hbndlf. It dofsn't mbttfr whbt
+                 * dhbrbdtfr wf usf (wf usf \n) so long bs lbyout mbps it
+                 * bbdk to this in thf vfrifidbtion, sindf thf invisiblf
+                 * glyph isn't visiblf :)
+                 */
+                dhbr dh;
+                if (gd == ChbrToGlyphMbppfr.INVISIBLE_GLYPH_ID) {
+                    dh = '\n';
+                } flsf if (gd < 0 || gd >= mbp.lfngth) {
+                    rfturn fblsf;
+                } flsf {
+                    dh = mbp[gd];
+                }
+                if (dh != ChbrToGlyphMbppfr.INVISIBLE_GLYPH_ID) {
+                    dhbrs[i] = dh;
+                } flsf {
+                    rfturn fblsf;
+                }
+            }
+        } flsf {
+            for (int i=0; i<numGlyphs; i++) {
+                int gd = glyphCodfs[i];
+                dhbr dh;
+                if (gd == ChbrToGlyphMbppfr.INVISIBLE_GLYPH_ID) {
+                    dh = '\n';
+                } flsf if (gd < 0 || gd >= glyphToChbrMbp.lfngth) {
+                    rfturn fblsf;
+                } flsf {
+                    dh = glyphToChbrMbp[gd];
+                }
+                if (dh != ChbrToGlyphMbppfr.INVISIBLE_GLYPH_ID) {
+                    dhbrs[i] = dh;
+                } flsf {
+                    rfturn fblsf;
+                }
+            }
+        }
+
+        FontRfndfrContfxt gvFrd = g.gftFontRfndfrContfxt();
+        GlyphVfdtor gv2 = font.drfbtfGlyphVfdtor(gvFrd, dhbrs);
+        if (gv2.gftNumGlyphs() != numGlyphs) {
+            rfturn printGlyphVfdtor(g, x, y);
+        }
+        int[] glyphCodfs2 = gv2.gftGlyphCodfs(0, numGlyphs, null);
+        /*
+         * Nffdfd to doublf-dhfdk rfmbpping of X11 symbol & dingbbts.
+         */
+        for (int i=0; i<numGlyphs; i++) {
+            if (glyphCodfs[i] != glyphCodfs2[i]) {
+                rfturn printGlyphVfdtor(g, x, y);
+            }
+        }
+
+        FontRfndfrContfxt g2dFrd = gftFontRfndfrContfxt();
+        boolfbn dompbtiblfFRC = gvFrd.fqubls(g2dFrd);
+        /* If difffr only in spfdifying A-A or b trbnslbtion, thfsf brf
+         * blso dompbtiblf FRC's, bnd wf dbn do onf drbwString dbll.
+         */
+        if (!dompbtiblfFRC &&
+            gvFrd.usfsFrbdtionblMftrids() == g2dFrd.usfsFrbdtionblMftrids()) {
+            AffinfTrbnsform gvAT = gvFrd.gftTrbnsform();
+            AffinfTrbnsform g2dAT = gftTrbnsform();
+            doublf[] gvMbtrix = nfw doublf[4];
+            doublf[] g2dMbtrix = nfw doublf[4];
+            gvAT.gftMbtrix(gvMbtrix);
+            g2dAT.gftMbtrix(g2dMbtrix);
+            dompbtiblfFRC = truf;
+            for (int i=0;i<4;i++) {
+                if (gvMbtrix[i] != g2dMbtrix[i]) {
+                    dompbtiblfFRC = fblsf;
+                    brfbk;
+                }
+            }
+        }
+
+        String str = nfw String(dhbrs, 0, numGlyphs);
+        int numFonts = plbtformFontCount(font, str);
+        if (numFonts == 0) {
+            rfturn fblsf;
+        }
+
+        flobt[] positions = g.gftGlyphPositions(0, numGlyphs, null);
+        boolfbn noPositionAdjustmfnts =
+            ((flbgs & GlyphVfdtor.FLAG_HAS_POSITION_ADJUSTMENTS) == 0) ||
+            sbmfPositions(gv2, glyphCodfs2, glyphCodfs, positions);
+
+        /* Wf hbvf to donsidfr thbt thf bpplidbtion mby bf dirfdtly
+         * drfbting b GlyphVfdtor, rbthfr thbn onf bfing drfbtfd by
+         * TfxtLbyout or indirfdtly from drbwString. In sudh b dbsf, if thf
+         * font hbs lbyout bttributfs, thf tfxt mby mfbsurf difffrfntly
+         * whfn wf rfdonstitutf it into b String bnd bsk for thf lfngth thbt
+         * drbwString would usf. For fxbmplf, KERNING will bf bpplifd in sudh
+         * b dbsf but thbt Font bttributf is not bpplifd whfn thf bpplidbtion
+         * dirfdtly drfbtfd b GlyphVfdtor. So in this dbsf wf nffd to vfrify
+         * thbt thf tfxt mfbsurfs thf sbmf in both dbsfs - if thbt thf
+         * lbyout bttributf hbs no ffffdt. If it dofs wf dbn't blwbys
+         * usf thf drbwString dbll unlfss wf dbn dofrdf thf drbwString dbll
+         * into mfbsuring bnd displbying thf string to thf sbmf lfngth.
+         * Thbt is thf dbsf whfrf thfrf is only onf font usfd bnd wf dbn
+         * spfdify thf ovfrbll bdvbndf of thf string. (Sff bflow).
+         */
+
+        Point2D gvAdvbndfPt = g.gftGlyphPosition(numGlyphs);
+        flobt gvAdvbndfX = (flobt)gvAdvbndfPt.gftX();
+        boolfbn lbyoutAfffdtsAdvbndf = fblsf;
+        if (font.hbsLbyoutAttributfs() && printingGlyphVfdtor &&
+            noPositionAdjustmfnts) {
+
+            /* If TRACKING is in usf thfn thf glyph vfdtor will rfport
+             * position bdjustmfnts, thfn thbt ought to bf suffidifnt to
+             * tfll us wf dbn't just bsk nbtivf to do "drbwString". But lbyout
+             * blwbys sfts thf position bdjustmfnt flbg, so wf don't bflifvf
+             * it bnd vfrify thf positions brf rfblly difffrfnt thbn
+             * drfbtfGlyphVfdtor() (with no lbyout) would drfbtf. Howfvfr
+             * indonsistfntly, TRACKING is bpplifd whfn drfbting b GlyphVfdtor,
+             * sindf it dofsn't bdtublly rfquirf "lbyout" (fvfn though its
+             * donsidfrfd b lbyout bttributf), it just rfquirfs b frbdtionbl
+             * twfbk to thf[dffbult]bdvbndfs. So wf nffd to spfdifidblly
+             * dhfdk for trbdking until sudh timf bs bs wf dbn trust
+             * thf GlyphVfdtor.FLAG_HAS_POSITION_ADJUSTMENTS bit.
+             */
+            Mbp<TfxtAttributf, ?> mbp = font.gftAttributfs();
+            Objfdt o = mbp.gft(TfxtAttributf.TRACKING);
+            boolfbn trbdking = o != null && (o instbndfof Numbfr) &&
+                (((Numbfr)o).flobtVbluf() != 0f);
+
+            if (trbdking) {
+                noPositionAdjustmfnts = fblsf;
+            } flsf {
+                Rfdtbnglf2D bounds = font.gftStringBounds(str, gvFrd);
+                flobt strAdvbndfX = (flobt)bounds.gftWidth();
+                if (Mbth.bbs(strAdvbndfX - gvAdvbndfX) > 0.00001) {
+                    lbyoutAfffdtsAdvbndf = truf;
+                }
+            }
+        }
+
+        if (dompbtiblfFRC && noPositionAdjustmfnts && !lbyoutAfffdtsAdvbndf) {
+            drbwString(str, x, y, font, gvFrd, 0f);
+            rfturn truf;
+        }
+
+        /* If positions hbvf not bffn fxpliditly bssignfd, wf dbn
+         * bsk thf string to bf drbwn bdjustfd to this width.
+         * This dbll is supportfd only in thf PS gfnfrbtor.
+         * GDI hbs API to spfdify thf bdvbndf for fbdh glyph in b
+         * string whidh dould bf usfd hfrf too, but thbt is not yft
+         * implfmfntfd, bnd wf'd nffd to updbtf thf signbturf of thf
+         * drbwString mfthod to tbkf thf bdvbndfs (if rflbtivf positions)
+         * bnd usf thbt instfbd of thf width.
+         */
+        if (numFonts == 1 && dbnDrbwStringToWidth() && noPositionAdjustmfnts) {
+            drbwString(str, x, y, font, gvFrd, gvAdvbndfX);
+            rfturn truf;
+        }
+
+        /* In somf sdripts dhbrs drbwn individublly do not hbvf thf
+         * sbmf rfprfsfntbtion (glyphs) bs whfn dombinfd with othfr dhbrs.
+         * Thf logid hfrf is frring on thf sidf of dbution, in pbrtidulbr
+         * in indluding supplfmfntbry dhbrbdtfrs.
+         */
+        if (FontUtilitifs.isComplfxTfxt(dhbrs, 0, dhbrs.lfngth)) {
+            rfturn printGlyphVfdtor(g, x, y);
+        }
+
+        /* If wf rfbdh hfrf wf hbvf mbppfd bll thf glyphs bbdk
+         * onf-to-onf to simplf unidodf dhbrs thbt wf know brf in thf font.
+         * Wf dbn dbll "drbwChbrs" on fbdh onf of thfm in turn, sftting
+         * thf position bbsfd on thf glyph positions.
+         * Thfrf's typidblly ovfrhfbd in this. If numGlyphs is 'lbrgf',
+         * it mby fvfn bf bfttfr to try printGlyphVfdtor() in this dbsf.
+         * This mby bf lfss rfdovfrbblf for bpps, but sophistidbtfd bpps
+         * should bf bblf to rfdovfr thf tfxt from simplf glyph vfdtors
+         * bnd wf dbn bvoid pfnblising thf morf dommon dbsf - blthough
+         * this is blrfbdy b minority dbsf.
+         */
+        if (numGlyphs > 10 && printGlyphVfdtor(g, x, y)) {
+            rfturn truf;
+        }
+
+        for (int i=0; i<numGlyphs; i++) {
+            String s = nfw String(dhbrs, i, 1);
+            drbwString(s, x+positions[i*2], y+positions[i*2+1],
+                       font, gvFrd, 0f);
+        }
+        rfturn truf;
+    }
+
+    /* Thf sbmf dodfs must bf in thf sbmf positions for this to rfturn truf.
+     * This would look dlfbnfr if it took thf originbl GV bs b pbrbmftfr but
+     * wf blrfbdy hbvf thf dodfs bnd will nffd to gft thf positions brrby
+     * too in most dbsfs bnywby. So its dhfbpfr to pbss thfm in.
+     * This dbll wouldn't bf nfdfssbry if lbyout didn't blwbys sft thf
+     * FLAG_HAS_POSITION_ADJUSTMENTS fvfn if thf dffbult bdvbndfs brf usfd
+     * bnd thfrf wbs no rf-ordfring (this should bf fixfd somf dby).
+     */
+    privbtf boolfbn sbmfPositions(GlyphVfdtor gv, int[] gvdodfs,
+                                  int[] origCodfs, flobt[] origPositions) {
+
+        int numGlyphs = gv.gftNumGlyphs();
+        flobt[] gvpos = gv.gftGlyphPositions(0, numGlyphs, null);
+
+        /* this shouldn't hbppfn hfrf, but just in dbsf */
+        if (numGlyphs != gvdodfs.lfngth ||  /* rfbl pbrbnoib hfrf */
+            origCodfs.lfngth != gvdodfs.lfngth ||
+            origPositions.lfngth != gvpos.lfngth) {
+            rfturn fblsf;
+        }
+
+        for (int i=0; i<numGlyphs; i++) {
+            if (gvdodfs[i] != origCodfs[i] || gvpos[i] != origPositions[i]) {
+                rfturn fblsf;
+            }
+        }
+        rfturn truf;
+    }
+
+    protfdtfd boolfbn dbnDrbwStringToWidth() {
+        rfturn fblsf;
+    }
+
+    /* rfturn bn brrby whidh dbn mbp glyphs bbdk to dhbr dodfs.
+     * Glyphs whidh brfn't mbppfd from b simplf unidodf dodf point
+     * will hbvf no mbpping in this brrby, bnd will bf bssumfd to bf
+     * bfdbusf of somf substitution thbt wf dbn't hbndlf.
+     */
+    privbtf stbtid dhbr[] gftGlyphToChbrMbpForFont(Font2D font2D) {
+        /* NB Compositfs rfport thf numbfr of glyphs in slot 0.
+         * So if b string usfs b dhbr from b lbtfr slot, or b fbllbbdk slot,
+         * it will not bf bblf to usf this fbstfr pbth.
+         */
+        int numGlyphs = font2D.gftNumGlyphs();
+        int missingGlyph = font2D.gftMissingGlyphCodf();
+        dhbr[] glyphToChbrMbp = nfw dhbr[numGlyphs];
+        int glyph;
+
+        for (int i=0;i<numGlyphs; i++) {
+            glyphToChbrMbp[i] = ChbrToGlyphMbppfr.INVISIBLE_GLYPH_ID;
+        }
+
+        /* Considfr rffining thf rbngfs to try to mbp by bsking thf font
+         * whbt rbngfs it supports.
+         * Sindf b glyph mby bf mbppfd by multiplf dodf points, bnd this
+         * dodf dbn't hbndlf thbt, wf blwbys prfffr thf fbrlifr dodf point.
+         */
+        for (dhbr d=0; d<0xFFFF; d++) {
+           if (d >= ChbrToGlyphMbppfr.HI_SURROGATE_START &&
+               d <= ChbrToGlyphMbppfr.LO_SURROGATE_END) {
+                dontinuf;
+            }
+            glyph = font2D.dhbrToGlyph(d);
+            if (glyph != missingGlyph &&
+                glyph >= 0 && glyph < numGlyphs &&
+                (glyphToChbrMbp[glyph] ==
+                 ChbrToGlyphMbppfr.INVISIBLE_GLYPH_ID)) {
+                glyphToChbrMbp[glyph] = d;
+            }
+        }
+        rfturn glyphToChbrMbp;
+    }
+
+    /**
+     * Strokfs thf outlinf of b Shbpf using thf sfttings of thf durrfnt
+     * grbphids stbtf.  Thf rfndfring bttributfs bpplifd indludf thf
+     * dlip, trbnsform, pbint or dolor, dompositf bnd strokf bttributfs.
+     * @pbrbm s Thf shbpf to bf drbwn.
+     * @sff #sftStrokf
+     * @sff #sftPbint
+     * @sff jbvb.bwt.Grbphids#sftColor
+     * @sff #trbnsform
+     * @sff #sftTrbnsform
+     * @sff #dlip
+     * @sff #sftClip
+     * @sff #sftCompositf
+     */
+    publid void drbw(Shbpf s) {
+
+        fill(gftStrokf().drfbtfStrokfdShbpf(s));
+    }
+
+    /**
+     * Fills thf intfrior of b Shbpf using thf sfttings of thf durrfnt
+     * grbphids stbtf. Thf rfndfring bttributfs bpplifd indludf thf
+     * dlip, trbnsform, pbint or dolor, bnd dompositf.
+     * @sff #sftPbint
+     * @sff jbvb.bwt.Grbphids#sftColor
+     * @sff #trbnsform
+     * @sff #sftTrbnsform
+     * @sff #sftCompositf
+     * @sff #dlip
+     * @sff #sftClip
+     */
+    publid void fill(Shbpf s) {
+        Pbint pbint = gftPbint();
+
+        try {
+            fill(s, (Color) pbint);
+
+        /* Thf PbthGrbphids dlbss only supports filling with
+         * solid dolors bnd so wf do not fxpfdt thf dbst of Pbint
+         * to Color to fbil. If it dofs fbil thfn somfthing wfnt
+         * wrong, likf thf bpp drbw b pbgf with b solid dolor but
+         * thfn rfdrfw it with b Grbdifnt.
+         */
+        } dbtdh (ClbssCbstExdfption f) {
+            throw nfw IllfgblArgumfntExdfption("Expfdtfd b Color instbndf");
+        }
+    }
+
+    publid void fill(Shbpf s, Color dolor) {
+        AffinfTrbnsform dfvidfTrbnsform = gftTrbnsform();
+
+        if (gftClip() != null) {
+            dfvidfClip(gftClip().gftPbthItfrbtor(dfvidfTrbnsform));
+        }
+        dfvidfFill(s.gftPbthItfrbtor(dfvidfTrbnsform), dolor);
+    }
+
+    /**
+     * Fill thf pbth dffinfd by <dodf>pbthItfr</dodf>
+     * with thf spfdififd dolor.
+     * Thf pbth is providfd in dfvidf doordinbtfs.
+     */
+    protfdtfd bbstrbdt void dfvidfFill(PbthItfrbtor pbthItfr, Color dolor);
+
+    /*
+     * Sft thf dlipping pbth to thbt dffinfd by
+     * thf pbssfd in <dodf>PbthItfrbtor</dodf>.
+     */
+    protfdtfd bbstrbdt void dfvidfClip(PbthItfrbtor pbthItfr);
+
+    /*
+     * Drbw thf outlinf of thf rfdtbnglf without using pbth
+     * if supportfd by plbtform.
+     */
+    protfdtfd bbstrbdt void dfvidfFrbmfRfdt(int x, int y,
+                                            int width, int hfight,
+                                            Color dolor);
+
+    /*
+     * Drbw b linf without using pbth if supportfd by plbtform.
+     */
+    protfdtfd bbstrbdt void dfvidfDrbwLinf(int xBfgin, int yBfgin,
+                                           int xEnd, int yEnd, Color dolor);
+
+    /*
+     * Fill b rfdtbnglf using spfdififd dolor.
+     */
+    protfdtfd bbstrbdt void dfvidfFillRfdt(int x, int y,
+                                           int width, int hfight, Color dolor);
+
+    /* Obtbin b BI from known implfmfntbtions of jbvb.bwt.Imbgf
+     */
+    protfdtfd BufffrfdImbgf gftBufffrfdImbgf(Imbgf img) {
+        if (img instbndfof BufffrfdImbgf) {
+            // Othfrwisf wf fxpfdt b BufffrfdImbgf to bfhbvf bs b stbndbrd BI
+            rfturn (BufffrfdImbgf)img;
+        } flsf if (img instbndfof ToolkitImbgf) {
+            // This dbn bf null if thf imbgf isn't lobdfd yft.
+            // This is finf bs in thbt dbsf our dbllfr will rfturn
+            // bs it will only drbw b fully lobdfd imbgf
+            rfturn ((ToolkitImbgf)img).gftBufffrfdImbgf();
+        } flsf if (img instbndfof VolbtilfImbgf) {
+            // VI nffds to mbkf b nfw BI: this is unbvoidbblf but
+            // I don't fxpfdt VI's to bf "hugf" in bny dbsf.
+            rfturn ((VolbtilfImbgf)img).gftSnbpshot();
+        } flsf {
+            // mby bf null or mby bf somf non-stbndbrd Imbgf whidh
+            // shouldn't hbppfn bs Imbgf is implfmfntfd by thf plbtform
+            // not by bpplidbtions
+            // If you bdd b nfw Imbgf implfmfntbtion to thf plbtform you
+            // will nffd to support it hfrf similbrly to VI.
+            rfturn null;
+        }
+    }
+
+    /**
+     * Rfturn truf if thf BufffrfdImbgf brgumfnt hbs non-opbquf
+     * bits in it bnd thfrfforf dbn not bf dirfdtly rfndfrfd by
+     * GDI. Rfturn fblsf if thf imbgf is opbquf. If this fundtion
+     * dbn not tfll for surf whfthfr thf imbgf hbs trbnspbrfnt
+     * pixfls thfn it bssumfs thbt it dofs.
+     */
+    protfdtfd boolfbn hbsTrbnspbrfntPixfls(BufffrfdImbgf bufffrfdImbgf) {
+        ColorModfl dolorModfl = bufffrfdImbgf.gftColorModfl();
+        boolfbn hbsTrbnspbrfndy = dolorModfl == null
+            ? truf
+            : dolorModfl.gftTrbnspbrfndy() != ColorModfl.OPAQUE;
+
+        /*
+         * For thf dffbult INT ARGB dhfdk thf imbgf to sff if bny pixfls brf
+         * rfblly trbnspbrfnt. If thfrf brf no trbnspbrfnt pixfls thfn thf
+         * trbnspbrfndy of thf dolor modfl dbn bf ignorfd.
+         * Wf bssumf thbt IndfxColorModfl imbgfs hbvf blrfbdy bffn
+         * dhfdkfd for trbnspbrfndy bnd will bf OPAQUE unlfss thfy bdtublly
+         * hbvf trbnspbrfnt pixfls prfsfnt.
+         */
+        if (hbsTrbnspbrfndy && bufffrfdImbgf != null) {
+            if (bufffrfdImbgf.gftTypf()==BufffrfdImbgf.TYPE_INT_ARGB ||
+                bufffrfdImbgf.gftTypf()==BufffrfdImbgf.TYPE_INT_ARGB_PRE) {
+                DbtbBufffr db =  bufffrfdImbgf.gftRbstfr().gftDbtbBufffr();
+                SbmplfModfl sm = bufffrfdImbgf.gftRbstfr().gftSbmplfModfl();
+                if (db instbndfof DbtbBufffrInt &&
+                    sm instbndfof SinglfPixflPbdkfdSbmplfModfl) {
+                    SinglfPixflPbdkfdSbmplfModfl psm =
+                        (SinglfPixflPbdkfdSbmplfModfl)sm;
+                    // Stfbling thf dbtb brrby for rfbding only...
+                    int[] int_dbtb =
+                        SunWritbblfRbstfr.stfblDbtb((DbtbBufffrInt) db, 0);
+                    int x = bufffrfdImbgf.gftMinX();
+                    int y = bufffrfdImbgf.gftMinY();
+                    int w = bufffrfdImbgf.gftWidth();
+                    int h = bufffrfdImbgf.gftHfight();
+                    int stridf = psm.gftSdbnlinfStridf();
+                    boolfbn hbstrbnspixfl = fblsf;
+                    for (int j = y; j < y+h; j++) {
+                        int yoff = j * stridf;
+                        for (int i = x; i < x+w; i++) {
+                            if ((int_dbtb[yoff+i] & 0xff000000)!=0xff000000 ) {
+                                hbstrbnspixfl = truf;
+                                brfbk;
+                            }
+                        }
+                        if (hbstrbnspixfl) {
+                            brfbk;
+                        }
+                    }
+                    if (hbstrbnspixfl == fblsf) {
+                        hbsTrbnspbrfndy = fblsf;
+                    }
+                }
+            }
+        }
+
+        rfturn hbsTrbnspbrfndy;
+    }
+
+    protfdtfd boolfbn isBitmbskTrbnspbrfndy(BufffrfdImbgf bufffrfdImbgf) {
+        ColorModfl dolorModfl = bufffrfdImbgf.gftColorModfl();
+        rfturn (dolorModfl != null &&
+                dolorModfl.gftTrbnspbrfndy() == ColorModfl.BITMASK);
+    }
+
+
+    /* An optimisbtion for thf spfdibl dbsf of ICM imbgfs whidh hbvf
+     * bitmbsk trbnspbrfndy.
+     */
+    protfdtfd boolfbn drbwBitmbskImbgf(BufffrfdImbgf bufffrfdImbgf,
+                                       AffinfTrbnsform xform,
+                                       Color bgdolor,
+                                       int srdX, int srdY,
+                                       int srdWidth, int srdHfight) {
+
+        ColorModfl dolorModfl = bufffrfdImbgf.gftColorModfl();
+        IndfxColorModfl idm;
+        int [] pixfls;
+
+        if (!(dolorModfl instbndfof IndfxColorModfl)) {
+            rfturn fblsf;
+        } flsf {
+            idm = (IndfxColorModfl)dolorModfl;
+        }
+
+        if (dolorModfl.gftTrbnspbrfndy() != ColorModfl.BITMASK) {
+            rfturn fblsf;
+        }
+
+        // to bf dompbtiblf with 1.1 printing whidh trfbtfd b/g dolors
+        // with blphb 128 bs opbquf
+        if (bgdolor != null && bgdolor.gftAlphb() < 128) {
+            rfturn fblsf;
+        }
+
+        if ((xform.gftTypf()
+             & ~( AffinfTrbnsform.TYPE_UNIFORM_SCALE
+                  | AffinfTrbnsform.TYPE_TRANSLATION
+                  | AffinfTrbnsform.TYPE_QUADRANT_ROTATION
+                  )) != 0) {
+            rfturn fblsf;
+        }
+
+        if ((gftTrbnsform().gftTypf()
+             & ~( AffinfTrbnsform.TYPE_UNIFORM_SCALE
+                  | AffinfTrbnsform.TYPE_TRANSLATION
+                  | AffinfTrbnsform.TYPE_QUADRANT_ROTATION
+                  )) != 0) {
+            rfturn fblsf;
+        }
+
+        BufffrfdImbgf subImbgf = null;
+        Rbstfr rbstfr = bufffrfdImbgf.gftRbstfr();
+        int trbnspixfl = idm.gftTrbnspbrfntPixfl();
+        bytf[] blphbs = nfw bytf[idm.gftMbpSizf()];
+        idm.gftAlphbs(blphbs);
+        if (trbnspixfl >= 0) {
+            blphbs[trbnspixfl] = 0;
+        }
+
+        /* don't just usf srdWidth & srdHfight from bpplidbtion - thfy
+         * mby fxdffd thf fxtfnt of thf imbgf - mby nffd to dlip.
+         * Thf imbgf xform will fnsurf thbt points brf still mbppfd propfrly.
+         */
+        int rw = rbstfr.gftWidth();
+        int rh = rbstfr.gftHfight();
+        if (srdX > rw || srdY > rh) {
+            rfturn fblsf;
+        }
+        int right, bottom, wid, hgt;
+        if (srdX+srdWidth > rw) {
+            right = rw;
+            wid = right - srdX;
+        } flsf {
+            right = srdX+srdWidth;
+            wid = srdWidth;
+        }
+        if (srdY+srdHfight > rh) {
+            bottom = rh;
+            hgt = bottom - srdY;
+        } flsf {
+            bottom = srdY+srdHfight;
+            hgt = srdHfight;
+        }
+        pixfls = nfw int[wid];
+        for (int j=srdY; j<bottom; j++) {
+            int stbrtx = -1;
+            rbstfr.gftPixfls(srdX, j, wid, 1, pixfls);
+            for (int i=srdX; i<right; i++) {
+                if (blphbs[pixfls[i-srdX]] == 0) {
+                    if (stbrtx >=0) {
+                        subImbgf = bufffrfdImbgf.gftSubimbgf(stbrtx, j,
+                                                             i-stbrtx, 1);
+                        xform.trbnslbtf(stbrtx, j);
+                        drbwImbgfToPlbtform(subImbgf, xform, bgdolor,
+                                      0, 0, i-stbrtx, 1, truf);
+                        xform.trbnslbtf(-stbrtx, -j);
+                        stbrtx = -1;
+                    }
+                } flsf if (stbrtx < 0) {
+                    stbrtx = i;
+                }
+            }
+            if (stbrtx >= 0) {
+                subImbgf = bufffrfdImbgf.gftSubimbgf(stbrtx, j,
+                                                     right - stbrtx, 1);
+                xform.trbnslbtf(stbrtx, j);
+                drbwImbgfToPlbtform(subImbgf, xform, bgdolor,
+                              0, 0, right - stbrtx, 1, truf);
+                xform.trbnslbtf(-stbrtx, -j);
+            }
+        }
+        rfturn truf;
+    }
+
+
+
+    /**
+     * Thf vbrious <dodf>drbwImbgf()</dodf> mfthods for
+     * <dodf>PbthGrbphids</dodf> brf bll dfdomposfd
+     * into bn invodbtion of <dodf>drbwImbgfToPlbtform</dodf>.
+     * Thf portion of thf pbssfd in imbgf dffinfd by
+     * <dodf>srdX, srdY, srdWidth, bnd srdHfight</dodf>
+     * is trbnsformfd by thf supplifd AffinfTrbnsform bnd
+     * drbwn using PS to thf printfr dontfxt.
+     *
+     * @pbrbm   img     Thf imbgf to bf drbwn.
+     *                  This mfthod dofs nothing if <dodf>img</dodf> is null.
+     * @pbrbm   xform   Usfd to trbnsform thf imbgf bfforf drbwing.
+     *                  This dbn bf null.
+     * @pbrbm   bgdolor This dolor is drbwn whfrf thf imbgf hbs trbnspbrfnt
+     *                  pixfls. If this pbrbmftfr is null thfn thf
+     *                  pixfls blrfbdy in thf dfstinbtion should show
+     *                  through.
+     * @pbrbm   srdX    With srdY this dffinfs thf uppfr-lfft dornfr
+     *                  of thf portion of thf imbgf to bf drbwn.
+     *
+     * @pbrbm   srdY    With srdX this dffinfs thf uppfr-lfft dornfr
+     *                  of thf portion of thf imbgf to bf drbwn.
+     * @pbrbm   srdWidth    Thf width of thf portion of thf imbgf to
+     *                      bf drbwn.
+     * @pbrbm   srdHfight   Thf hfight of thf portion of thf imbgf to
+     *                      bf drbwn.
+     * @pbrbm   hbndlingTrbnspbrfndy if bfing rfdursivfly dbllfd to
+     *                    print opbquf rfgion of trbnspbrfnt imbgf
+     */
+    protfdtfd bbstrbdt boolfbn
+        drbwImbgfToPlbtform(Imbgf img, AffinfTrbnsform xform,
+                            Color bgdolor,
+                            int srdX, int srdY,
+                            int srdWidth, int srdHfight,
+                            boolfbn hbndlingTrbnspbrfndy);
+
+    /**
+     * Drbws bs mudh of thf spfdififd imbgf bs is durrfntly bvbilbblf.
+     * Thf imbgf is drbwn with its top-lfft dornfr bt
+     * (<i>x</i>,&nbsp;<i>y</i>) in this grbphids dontfxt's doordinbtf
+     * spbdf. Trbnspbrfnt pixfls in thf imbgf do not bfffdt whbtfvfr
+     * pixfls brf blrfbdy thfrf.
+     * <p>
+     * This mfthod rfturns immfdibtfly in bll dbsfs, fvfn if thf
+     * domplftf imbgf hbs not yft bffn lobdfd, bnd it hbs not bffn dithfrfd
+     * bnd donvfrtfd for thf durrfnt output dfvidf.
+     * <p>
+     * If thf imbgf hbs not yft bffn domplftfly lobdfd, thfn
+     * <dodf>drbwImbgf</dodf> rfturns <dodf>fblsf</dodf>. As morf of
+     * thf imbgf bfdomfs bvbilbblf, thf prodfss thbt drbws thf imbgf notififs
+     * thf spfdififd imbgf obsfrvfr.
+     * @pbrbm    img thf spfdififd imbgf to bf drbwn.
+     * @pbrbm    x   thf <i>x</i> doordinbtf.
+     * @pbrbm    y   thf <i>y</i> doordinbtf.
+     * @pbrbm    obsfrvfr    objfdt to bf notififd bs morf of
+     *                          thf imbgf is donvfrtfd.
+     * @sff      jbvb.bwt.Imbgf
+     * @sff      jbvb.bwt.imbgf.ImbgfObsfrvfr
+     * @sff      jbvb.bwt.imbgf.ImbgfObsfrvfr#imbgfUpdbtf(jbvb.bwt.Imbgf, int, int, int, int, int)
+     * @sindf    1.0
+     */
+    publid boolfbn drbwImbgf(Imbgf img, int x, int y,
+                             ImbgfObsfrvfr obsfrvfr) {
+
+        rfturn drbwImbgf(img, x, y, null, obsfrvfr);
+    }
+
+    /**
+     * Drbws bs mudh of thf spfdififd imbgf bs hbs blrfbdy bffn sdblfd
+     * to fit insidf thf spfdififd rfdtbnglf.
+     * <p>
+     * Thf imbgf is drbwn insidf thf spfdififd rfdtbnglf of this
+     * grbphids dontfxt's doordinbtf spbdf, bnd is sdblfd if
+     * nfdfssbry. Trbnspbrfnt pixfls do not bfffdt whbtfvfr pixfls
+     * brf blrfbdy thfrf.
+     * <p>
+     * This mfthod rfturns immfdibtfly in bll dbsfs, fvfn if thf
+     * fntirf imbgf hbs not yft bffn sdblfd, dithfrfd, bnd donvfrtfd
+     * for thf durrfnt output dfvidf.
+     * If thf durrfnt output rfprfsfntbtion is not yft domplftf, thfn
+     * <dodf>drbwImbgf</dodf> rfturns <dodf>fblsf</dodf>. As morf of
+     * thf imbgf bfdomfs bvbilbblf, thf prodfss thbt drbws thf imbgf notififs
+     * thf imbgf obsfrvfr by dblling its <dodf>imbgfUpdbtf</dodf> mfthod.
+     * <p>
+     * A sdblfd vfrsion of bn imbgf will not nfdfssbrily bf
+     * bvbilbblf immfdibtfly just bfdbusf bn unsdblfd vfrsion of thf
+     * imbgf hbs bffn donstrudtfd for this output dfvidf.  Ebdh sizf of
+     * thf imbgf mby bf dbdhfd sfpbrbtfly bnd gfnfrbtfd from thf originbl
+     * dbtb in b sfpbrbtf imbgf produdtion sfqufndf.
+     * @pbrbm    img    thf spfdififd imbgf to bf drbwn.
+     * @pbrbm    x      thf <i>x</i> doordinbtf.
+     * @pbrbm    y      thf <i>y</i> doordinbtf.
+     * @pbrbm    width  thf width of thf rfdtbnglf.
+     * @pbrbm    hfight thf hfight of thf rfdtbnglf.
+     * @pbrbm    obsfrvfr    objfdt to bf notififd bs morf of
+     *                          thf imbgf is donvfrtfd.
+     * @sff      jbvb.bwt.Imbgf
+     * @sff      jbvb.bwt.imbgf.ImbgfObsfrvfr
+     * @sff      jbvb.bwt.imbgf.ImbgfObsfrvfr#imbgfUpdbtf(jbvb.bwt.Imbgf, int, int, int, int, int)
+     * @sindf    1.0
+     */
+    publid boolfbn drbwImbgf(Imbgf img, int x, int y,
+                             int width, int hfight,
+                             ImbgfObsfrvfr obsfrvfr) {
+
+        rfturn drbwImbgf(img, x, y, width, hfight, null, obsfrvfr);
+
+    }
+
+    /*
+     * Drbws bs mudh of thf spfdififd imbgf bs is durrfntly bvbilbblf.
+     * Thf imbgf is drbwn with its top-lfft dornfr bt
+     * (<i>x</i>,&nbsp;<i>y</i>) in this grbphids dontfxt's doordinbtf
+     * spbdf.  Trbnspbrfnt pixfls brf drbwn in thf spfdififd
+     * bbdkground dolor.
+     * <p>
+     * This opfrbtion is fquivblfnt to filling b rfdtbnglf of thf
+     * width bnd hfight of thf spfdififd imbgf with thf givfn dolor bnd thfn
+     * drbwing thf imbgf on top of it, but possibly morf fffidifnt.
+     * <p>
+     * This mfthod rfturns immfdibtfly in bll dbsfs, fvfn if thf
+     * domplftf imbgf hbs not yft bffn lobdfd, bnd it hbs not bffn dithfrfd
+     * bnd donvfrtfd for thf durrfnt output dfvidf.
+     * <p>
+     * If thf imbgf hbs not yft bffn domplftfly lobdfd, thfn
+     * <dodf>drbwImbgf</dodf> rfturns <dodf>fblsf</dodf>. As morf of
+     * thf imbgf bfdomfs bvbilbblf, thf prodfss thbt drbws thf imbgf notififs
+     * thf spfdififd imbgf obsfrvfr.
+     * @pbrbm    img    thf spfdififd imbgf to bf drbwn.
+     *                  This mfthod dofs nothing if <dodf>img</dodf> is null.
+     * @pbrbm    x      thf <i>x</i> doordinbtf.
+     * @pbrbm    y      thf <i>y</i> doordinbtf.
+     * @pbrbm    bgdolor thf bbdkground dolor to pbint undfr thf
+     *                   non-opbquf portions of thf imbgf.
+     *                   In this WPbthGrbphids implfmfntbtion,
+     *                   this pbrbmftfr dbn bf null in whidh
+     *                   dbsf thbt bbdkground is mbdf b trbnspbrfnt
+     *                   whitf.
+     * @pbrbm    obsfrvfr    objfdt to bf notififd bs morf of
+     *                          thf imbgf is donvfrtfd.
+     * @sff      jbvb.bwt.Imbgf
+     * @sff      jbvb.bwt.imbgf.ImbgfObsfrvfr
+     * @sff      jbvb.bwt.imbgf.ImbgfObsfrvfr#imbgfUpdbtf(jbvb.bwt.Imbgf, int, int, int, int, int)
+     * @sindf    1.0
+     */
+    publid boolfbn drbwImbgf(Imbgf img, int x, int y,
+                             Color bgdolor,
+                             ImbgfObsfrvfr obsfrvfr) {
+
+        if (img == null) {
+            rfturn truf;
+        }
+
+        boolfbn rfsult;
+        int srdWidth = img.gftWidth(null);
+        int srdHfight = img.gftHfight(null);
+
+        if (srdWidth < 0 || srdHfight < 0) {
+            rfsult = fblsf;
+        } flsf {
+            rfsult = drbwImbgf(img, x, y, srdWidth, srdHfight, bgdolor, obsfrvfr);
+        }
+
+        rfturn rfsult;
+    }
+
+    /**
+     * Drbws bs mudh of thf spfdififd imbgf bs hbs blrfbdy bffn sdblfd
+     * to fit insidf thf spfdififd rfdtbnglf.
+     * <p>
+     * Thf imbgf is drbwn insidf thf spfdififd rfdtbnglf of this
+     * grbphids dontfxt's doordinbtf spbdf, bnd is sdblfd if
+     * nfdfssbry. Trbnspbrfnt pixfls brf drbwn in thf spfdififd
+     * bbdkground dolor.
+     * This opfrbtion is fquivblfnt to filling b rfdtbnglf of thf
+     * width bnd hfight of thf spfdififd imbgf with thf givfn dolor bnd thfn
+     * drbwing thf imbgf on top of it, but possibly morf fffidifnt.
+     * <p>
+     * This mfthod rfturns immfdibtfly in bll dbsfs, fvfn if thf
+     * fntirf imbgf hbs not yft bffn sdblfd, dithfrfd, bnd donvfrtfd
+     * for thf durrfnt output dfvidf.
+     * If thf durrfnt output rfprfsfntbtion is not yft domplftf thfn
+     * <dodf>drbwImbgf</dodf> rfturns <dodf>fblsf</dodf>. As morf of
+     * thf imbgf bfdomfs bvbilbblf, thf prodfss thbt drbws thf imbgf notififs
+     * thf spfdififd imbgf obsfrvfr.
+     * <p>
+     * A sdblfd vfrsion of bn imbgf will not nfdfssbrily bf
+     * bvbilbblf immfdibtfly just bfdbusf bn unsdblfd vfrsion of thf
+     * imbgf hbs bffn donstrudtfd for this output dfvidf.  Ebdh sizf of
+     * thf imbgf mby bf dbdhfd sfpbrbtfly bnd gfnfrbtfd from thf originbl
+     * dbtb in b sfpbrbtf imbgf produdtion sfqufndf.
+     * @pbrbm    img       thf spfdififd imbgf to bf drbwn.
+     *                     This mfthod dofs nothing if <dodf>img</dodf> is null.
+     * @pbrbm    x         thf <i>x</i> doordinbtf.
+     * @pbrbm    y         thf <i>y</i> doordinbtf.
+     * @pbrbm    width     thf width of thf rfdtbnglf.
+     * @pbrbm    hfight    thf hfight of thf rfdtbnglf.
+     * @pbrbm    bgdolor   thf bbdkground dolor to pbint undfr thf
+     *                         non-opbquf portions of thf imbgf.
+     * @pbrbm    obsfrvfr    objfdt to bf notififd bs morf of
+     *                          thf imbgf is donvfrtfd.
+     * @sff      jbvb.bwt.Imbgf
+     * @sff      jbvb.bwt.imbgf.ImbgfObsfrvfr
+     * @sff      jbvb.bwt.imbgf.ImbgfObsfrvfr#imbgfUpdbtf(jbvb.bwt.Imbgf, int, int, int, int, int)
+     * @sindf    1.0
+     */
+    publid boolfbn drbwImbgf(Imbgf img, int x, int y,
+                             int width, int hfight,
+                             Color bgdolor,
+                             ImbgfObsfrvfr obsfrvfr) {
+
+        if (img == null) {
+            rfturn truf;
+        }
+
+        boolfbn rfsult;
+        int srdWidth = img.gftWidth(null);
+        int srdHfight = img.gftHfight(null);
+
+        if (srdWidth < 0 || srdHfight < 0) {
+            rfsult = fblsf;
+        } flsf {
+            rfsult = drbwImbgf(img,
+                         x, y, x + width, y + hfight,
+                         0, 0, srdWidth, srdHfight,
+                         obsfrvfr);
+        }
+
+        rfturn rfsult;
+    }
+
+    /**
+     * Drbws bs mudh of thf spfdififd brfb of thf spfdififd imbgf bs is
+     * durrfntly bvbilbblf, sdbling it on thf fly to fit insidf thf
+     * spfdififd brfb of thf dfstinbtion drbwbblf surfbdf. Trbnspbrfnt pixfls
+     * do not bfffdt whbtfvfr pixfls brf blrfbdy thfrf.
+     * <p>
+     * This mfthod rfturns immfdibtfly in bll dbsfs, fvfn if thf
+     * imbgf brfb to bf drbwn hbs not yft bffn sdblfd, dithfrfd, bnd donvfrtfd
+     * for thf durrfnt output dfvidf.
+     * If thf durrfnt output rfprfsfntbtion is not yft domplftf thfn
+     * <dodf>drbwImbgf</dodf> rfturns <dodf>fblsf</dodf>. As morf of
+     * thf imbgf bfdomfs bvbilbblf, thf prodfss thbt drbws thf imbgf notififs
+     * thf spfdififd imbgf obsfrvfr.
+     * <p>
+     * This mfthod blwbys usfs thf unsdblfd vfrsion of thf imbgf
+     * to rfndfr thf sdblfd rfdtbnglf bnd pfrforms thf rfquirfd
+     * sdbling on thf fly. It dofs not usf b dbdhfd, sdblfd vfrsion
+     * of thf imbgf for this opfrbtion. Sdbling of thf imbgf from sourdf
+     * to dfstinbtion is pfrformfd sudh thbt thf first doordinbtf
+     * of thf sourdf rfdtbnglf is mbppfd to thf first doordinbtf of
+     * thf dfstinbtion rfdtbnglf, bnd thf sfdond sourdf doordinbtf is
+     * mbppfd to thf sfdond dfstinbtion doordinbtf. Thf subimbgf is
+     * sdblfd bnd flippfd bs nffdfd to prfsfrvf thosf mbppings.
+     * @pbrbm       img thf spfdififd imbgf to bf drbwn
+     * @pbrbm       dx1 thf <i>x</i> doordinbtf of thf first dornfr of thf
+     *                    dfstinbtion rfdtbnglf.
+     * @pbrbm       dy1 thf <i>y</i> doordinbtf of thf first dornfr of thf
+     *                    dfstinbtion rfdtbnglf.
+     * @pbrbm       dx2 thf <i>x</i> doordinbtf of thf sfdond dornfr of thf
+     *                    dfstinbtion rfdtbnglf.
+     * @pbrbm       dy2 thf <i>y</i> doordinbtf of thf sfdond dornfr of thf
+     *                    dfstinbtion rfdtbnglf.
+     * @pbrbm       sx1 thf <i>x</i> doordinbtf of thf first dornfr of thf
+     *                    sourdf rfdtbnglf.
+     * @pbrbm       sy1 thf <i>y</i> doordinbtf of thf first dornfr of thf
+     *                    sourdf rfdtbnglf.
+     * @pbrbm       sx2 thf <i>x</i> doordinbtf of thf sfdond dornfr of thf
+     *                    sourdf rfdtbnglf.
+     * @pbrbm       sy2 thf <i>y</i> doordinbtf of thf sfdond dornfr of thf
+     *                    sourdf rfdtbnglf.
+     * @pbrbm       obsfrvfr objfdt to bf notififd bs morf of thf imbgf is
+     *                    sdblfd bnd donvfrtfd.
+     * @sff         jbvb.bwt.Imbgf
+     * @sff         jbvb.bwt.imbgf.ImbgfObsfrvfr
+     * @sff         jbvb.bwt.imbgf.ImbgfObsfrvfr#imbgfUpdbtf(jbvb.bwt.Imbgf, int, int, int, int, int)
+     * @sindf       1.1
+     */
+    publid boolfbn drbwImbgf(Imbgf img,
+                             int dx1, int dy1, int dx2, int dy2,
+                             int sx1, int sy1, int sx2, int sy2,
+                             ImbgfObsfrvfr obsfrvfr) {
+
+        rfturn drbwImbgf(img,
+                         dx1, dy1, dx2, dy2,
+                         sx1, sy1, sx2, sy2,
+                         null, obsfrvfr);
+    }
+
+    /**
+     * Drbws bs mudh of thf spfdififd brfb of thf spfdififd imbgf bs is
+     * durrfntly bvbilbblf, sdbling it on thf fly to fit insidf thf
+     * spfdififd brfb of thf dfstinbtion drbwbblf surfbdf.
+     * <p>
+     * Trbnspbrfnt pixfls brf drbwn in thf spfdififd bbdkground dolor.
+     * This opfrbtion is fquivblfnt to filling b rfdtbnglf of thf
+     * width bnd hfight of thf spfdififd imbgf with thf givfn dolor bnd thfn
+     * drbwing thf imbgf on top of it, but possibly morf fffidifnt.
+     * <p>
+     * This mfthod rfturns immfdibtfly in bll dbsfs, fvfn if thf
+     * imbgf brfb to bf drbwn hbs not yft bffn sdblfd, dithfrfd, bnd donvfrtfd
+     * for thf durrfnt output dfvidf.
+     * If thf durrfnt output rfprfsfntbtion is not yft domplftf thfn
+     * <dodf>drbwImbgf</dodf> rfturns <dodf>fblsf</dodf>. As morf of
+     * thf imbgf bfdomfs bvbilbblf, thf prodfss thbt drbws thf imbgf notififs
+     * thf spfdififd imbgf obsfrvfr.
+     * <p>
+     * This mfthod blwbys usfs thf unsdblfd vfrsion of thf imbgf
+     * to rfndfr thf sdblfd rfdtbnglf bnd pfrforms thf rfquirfd
+     * sdbling on thf fly. It dofs not usf b dbdhfd, sdblfd vfrsion
+     * of thf imbgf for this opfrbtion. Sdbling of thf imbgf from sourdf
+     * to dfstinbtion is pfrformfd sudh thbt thf first doordinbtf
+     * of thf sourdf rfdtbnglf is mbppfd to thf first doordinbtf of
+     * thf dfstinbtion rfdtbnglf, bnd thf sfdond sourdf doordinbtf is
+     * mbppfd to thf sfdond dfstinbtion doordinbtf. Thf subimbgf is
+     * sdblfd bnd flippfd bs nffdfd to prfsfrvf thosf mbppings.
+     * @pbrbm       img thf spfdififd imbgf to bf drbwn
+     *                  This mfthod dofs nothing if <dodf>img</dodf> is null.
+     * @pbrbm       dx1 thf <i>x</i> doordinbtf of thf first dornfr of thf
+     *                    dfstinbtion rfdtbnglf.
+     * @pbrbm       dy1 thf <i>y</i> doordinbtf of thf first dornfr of thf
+     *                    dfstinbtion rfdtbnglf.
+     * @pbrbm       dx2 thf <i>x</i> doordinbtf of thf sfdond dornfr of thf
+     *                    dfstinbtion rfdtbnglf.
+     * @pbrbm       dy2 thf <i>y</i> doordinbtf of thf sfdond dornfr of thf
+     *                    dfstinbtion rfdtbnglf.
+     * @pbrbm       sx1 thf <i>x</i> doordinbtf of thf first dornfr of thf
+     *                    sourdf rfdtbnglf.
+     * @pbrbm       sy1 thf <i>y</i> doordinbtf of thf first dornfr of thf
+     *                    sourdf rfdtbnglf.
+     * @pbrbm       sx2 thf <i>x</i> doordinbtf of thf sfdond dornfr of thf
+     *                    sourdf rfdtbnglf.
+     * @pbrbm       sy2 thf <i>y</i> doordinbtf of thf sfdond dornfr of thf
+     *                    sourdf rfdtbnglf.
+     * @pbrbm       bgdolor thf bbdkground dolor to pbint undfr thf
+     *                    non-opbquf portions of thf imbgf.
+     * @pbrbm       obsfrvfr objfdt to bf notififd bs morf of thf imbgf is
+     *                    sdblfd bnd donvfrtfd.
+     * @sff         jbvb.bwt.Imbgf
+     * @sff         jbvb.bwt.imbgf.ImbgfObsfrvfr
+     * @sff         jbvb.bwt.imbgf.ImbgfObsfrvfr#imbgfUpdbtf(jbvb.bwt.Imbgf, int, int, int, int, int)
+     * @sindf       1.1
+     */
+    publid boolfbn drbwImbgf(Imbgf img,
+                             int dx1, int dy1, int dx2, int dy2,
+                             int sx1, int sy1, int sx2, int sy2,
+                             Color bgdolor,
+                             ImbgfObsfrvfr obsfrvfr) {
+
+        if (img == null) {
+            rfturn truf;
+        }
+        int imgWidth = img.gftWidth(null);
+        int imgHfight = img.gftHfight(null);
+
+        if (imgWidth < 0 || imgHfight < 0) {
+            rfturn truf;
+        }
+
+        int srdWidth = sx2 - sx1;
+        int srdHfight = sy2 - sy1;
+
+        /* Crfbtf b trbnsform whidh dfsdribfs thf dhbngfs
+         * from thf sourdf doordinbtfs to thf dfstinbtion
+         * doordinbtfs. Thf sdbling is dftfrminfd by thf
+         * rbtio of thf two rfdtbnglfs, whilf thf trbnslbtion
+         * domfs from thf difffrfndf of thfir origins.
+         */
+        flobt sdblfx = (flobt) (dx2 - dx1) / srdWidth;
+        flobt sdblfy = (flobt) (dy2 - dy1) / srdHfight;
+        AffinfTrbnsform xForm
+            = nfw AffinfTrbnsform(sdblfx,
+                                  0,
+                                  0,
+                                  sdblfy,
+                                  dx1 - (sx1 * sdblfx),
+                                  dy1 - (sy1 * sdblfy));
+
+        /* drbwImbgfToPlbtform nffds thf top-lfft of thf sourdf brfb bnd
+         * b positivf width bnd hfight. Thf xform dfsdribfs how to mbp
+         * srd->dfst, so thbt informbtion is not lost.
+         */
+        int tmp=0;
+        if (sx2 < sx1) {
+            tmp = sx1;
+            sx1 = sx2;
+            sx2 = tmp;
+        }
+        if (sy2 < sy1) {
+            tmp = sy1;
+            sy1 = sy2;
+            sy2 = tmp;
+        }
+
+        /* if srd brfb is bfyond thf bounds of thf imbgf, wf must dlip it.
+         * Thf trbnsform is bbsfd on thf spfdififd brfb, not thf dlippfd onf.
+         */
+        if (sx1 < 0) {
+            sx1 = 0;
+        } flsf if (sx1 > imgWidth) { // fmpty srdArfb, nothing to drbw
+            sx1 = imgWidth;
+        }
+        if (sx2 < 0) { // fmpty srdArfb, nothing to drbw
+            sx2 = 0;
+        } flsf if (sx2 > imgWidth) {
+            sx2 = imgWidth;
+        }
+        if (sy1 < 0) {
+            sy1 = 0;
+        } flsf if (sy1 > imgHfight) { // fmpty srdArfb
+            sy1 = imgHfight;
+        }
+        if (sy2 < 0) {  // fmpty srdArfb
+            sy2 = 0;
+        } flsf if (sy2 > imgHfight) {
+            sy2 = imgHfight;
+        }
+
+        srdWidth =  sx2 - sx1;
+        srdHfight = sy2 - sy1;
+
+        if (srdWidth <= 0 || srdHfight <= 0) {
+            rfturn truf;
+        }
+
+        rfturn drbwImbgfToPlbtform(img, xForm, bgdolor,
+                                   sx1, sy1, srdWidth, srdHfight, fblsf);
+
+
+    }
+
+    /**
+     * Drbws bn imbgf, bpplying b trbnsform from imbgf spbdf into usfr spbdf
+     * bfforf drbwing.
+     * Thf trbnsformbtion from usfr spbdf into dfvidf spbdf is donf with
+     * thf durrfnt trbnsform in thf Grbphids2D.
+     * Thf givfn trbnsformbtion is bpplifd to thf imbgf bfforf thf
+     * trbnsform bttributf in thf Grbphids2D stbtf is bpplifd.
+     * Thf rfndfring bttributfs bpplifd indludf thf dlip, trbnsform,
+     * bnd dompositf bttributfs. Notf thbt thf rfsult is
+     * undffinfd, if thf givfn trbnsform is noninvfrtiblf.
+     * @pbrbm img Thf imbgf to bf drbwn.
+     *            This mfthod dofs nothing if <dodf>img</dodf> is null.
+     * @pbrbm xform Thf trbnsformbtion from imbgf spbdf into usfr spbdf.
+     * @pbrbm obs Thf imbgf obsfrvfr to bf notififd bs morf of thf imbgf
+     * is donvfrtfd.
+     * @sff #trbnsform
+     * @sff #sftTrbnsform
+     * @sff #sftCompositf
+     * @sff #dlip
+     * @sff #sftClip
+     */
+    publid boolfbn drbwImbgf(Imbgf img,
+                             AffinfTrbnsform xform,
+                             ImbgfObsfrvfr obs) {
+
+        if (img == null) {
+            rfturn truf;
+        }
+
+        boolfbn rfsult;
+        int srdWidth = img.gftWidth(null);
+        int srdHfight = img.gftHfight(null);
+
+        if (srdWidth < 0 || srdHfight < 0) {
+            rfsult = fblsf;
+        } flsf {
+            rfsult = drbwImbgfToPlbtform(img, xform, null,
+                                         0, 0, srdWidth, srdHfight, fblsf);
+        }
+
+        rfturn rfsult;
+    }
+
+    /**
+     * Drbws b BufffrfdImbgf thbt is filtfrfd with b BufffrfdImbgfOp.
+     * Thf rfndfring bttributfs bpplifd indludf thf dlip, trbnsform
+     * bnd dompositf bttributfs.  This is fquivblfnt to:
+     * <prf>
+     * img1 = op.filtfr(img, null);
+     * drbwImbgf(img1, nfw AffinfTrbnsform(1f,0f,0f,1f,x,y), null);
+     * </prf>
+     * @pbrbm op Thf filtfr to bf bpplifd to thf imbgf bfforf drbwing.
+     * @pbrbm img Thf BufffrfdImbgf to bf drbwn.
+     *            This mfthod dofs nothing if <dodf>img</dodf> is null.
+     * @pbrbm x,y Thf lodbtion in usfr spbdf whfrf thf imbgf should bf drbwn.
+     * @sff #trbnsform
+     * @sff #sftTrbnsform
+     * @sff #sftCompositf
+     * @sff #dlip
+     * @sff #sftClip
+     */
+    publid void drbwImbgf(BufffrfdImbgf img,
+                          BufffrfdImbgfOp op,
+                          int x,
+                          int y) {
+
+        if (img == null) {
+            rfturn;
+        }
+
+        int srdWidth = img.gftWidth(null);
+        int srdHfight = img.gftHfight(null);
+
+        if (op != null) {
+            img = op.filtfr(img, null);
+        }
+        if (srdWidth <= 0 || srdHfight <= 0) {
+            rfturn;
+        } flsf {
+            AffinfTrbnsform xform = nfw AffinfTrbnsform(1f,0f,0f,1f,x,y);
+            drbwImbgfToPlbtform(img, xform, null,
+                                0, 0, srdWidth, srdHfight, fblsf);
+        }
+
+    }
+
+    /**
+     * Drbws bn imbgf, bpplying b trbnsform from imbgf spbdf into usfr spbdf
+     * bfforf drbwing.
+     * Thf trbnsformbtion from usfr spbdf into dfvidf spbdf is donf with
+     * thf durrfnt trbnsform in thf Grbphids2D.
+     * Thf givfn trbnsformbtion is bpplifd to thf imbgf bfforf thf
+     * trbnsform bttributf in thf Grbphids2D stbtf is bpplifd.
+     * Thf rfndfring bttributfs bpplifd indludf thf dlip, trbnsform,
+     * bnd dompositf bttributfs. Notf thbt thf rfsult is
+     * undffinfd, if thf givfn trbnsform is noninvfrtiblf.
+     * @pbrbm img Thf imbgf to bf drbwn.
+     *            This mfthod dofs nothing if <dodf>img</dodf> is null.
+     * @pbrbm xform Thf trbnsformbtion from imbgf spbdf into usfr spbdf.
+     * @sff #trbnsform
+     * @sff #sftTrbnsform
+     * @sff #sftCompositf
+     * @sff #dlip
+     * @sff #sftClip
+     */
+    publid void drbwRfndfrfdImbgf(RfndfrfdImbgf img,
+                                  AffinfTrbnsform xform) {
+
+        if (img == null) {
+            rfturn;
+        }
+
+        BufffrfdImbgf bufffrfdImbgf = null;
+        int srdWidth = img.gftWidth();
+        int srdHfight = img.gftHfight();
+
+        if (srdWidth <= 0 || srdHfight <= 0) {
+            rfturn;
+        }
+
+        if (img instbndfof BufffrfdImbgf) {
+            bufffrfdImbgf = (BufffrfdImbgf) img;
+        } flsf {
+            bufffrfdImbgf = nfw BufffrfdImbgf(srdWidth, srdHfight,
+                                              BufffrfdImbgf.TYPE_INT_ARGB);
+            Grbphids2D imbgfGrbphids = bufffrfdImbgf.drfbtfGrbphids();
+            imbgfGrbphids.drbwRfndfrfdImbgf(img, xform);
+        }
+
+        drbwImbgfToPlbtform(bufffrfdImbgf, xform, null,
+                            0, 0, srdWidth, srdHfight, fblsf);
+
+    }
+
+}

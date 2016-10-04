@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,81 +30,81 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
 
-import javax.swing.JInternalFrame;
-import javax.swing.JScrollPane;
-import javax.swing.JTree;
-import javax.swing.tree.DefaultMutableTreeNode;
+import jbvbx.swing.JIntfrnblFrbmf;
+import jbvbx.swing.JSdrollPbnf;
+import jbvbx.swing.JTrff;
+import jbvbx.swing.trff.DffbultMutbblfTrffNodf;
 
 
 /**
- * This is a subclass of JInternalFrame which displays a tree.
+ * Tiis is b subdlbss of JIntfrnblFrbmf wiidi displbys b trff.
  *
- * @author Steve Wilson
- * @author Alexander Kouznetsov
+ * @butior Stfvf Wilson
+ * @butior Alfxbndfr Kouznftsov
  */
-@SuppressWarnings("serial")
-public class MetalworksInBox extends JInternalFrame {
+@SupprfssWbrnings("sfribl")
+publid dlbss MftblworksInBox fxtfnds JIntfrnblFrbmf {
 
-    public MetalworksInBox() {
-        super("In Box", true, true, true, true);
+    publid MftblworksInBox() {
+        supfr("In Box", truf, truf, truf, truf);
 
-        DefaultMutableTreeNode unread;
-        DefaultMutableTreeNode personal;
-        DefaultMutableTreeNode business;
-        DefaultMutableTreeNode spam;
+        DffbultMutbblfTrffNodf unrfbd;
+        DffbultMutbblfTrffNodf pfrsonbl;
+        DffbultMutbblfTrffNodf businfss;
+        DffbultMutbblfTrffNodf spbm;
 
-        DefaultMutableTreeNode top = new DefaultMutableTreeNode("Mail Boxes");
+        DffbultMutbblfTrffNodf top = nfw DffbultMutbblfTrffNodf("Mbil Boxfs");
 
-        top.add(unread = new DefaultMutableTreeNode("Unread Mail"));
-        top.add(personal = new DefaultMutableTreeNode("Personal"));
-        top.add(business = new DefaultMutableTreeNode("Business"));
-        top.add(spam = new DefaultMutableTreeNode("Spam"));
+        top.bdd(unrfbd = nfw DffbultMutbblfTrffNodf("Unrfbd Mbil"));
+        top.bdd(pfrsonbl = nfw DffbultMutbblfTrffNodf("Pfrsonbl"));
+        top.bdd(businfss = nfw DffbultMutbblfTrffNodf("Businfss"));
+        top.bdd(spbm = nfw DffbultMutbblfTrffNodf("Spbm"));
 
-        unread.add(new DefaultMutableTreeNode("Buy Stuff Now"));
-        unread.add(new DefaultMutableTreeNode("Read Me Now"));
-        unread.add(new DefaultMutableTreeNode("Hot Offer"));
-        unread.add(new DefaultMutableTreeNode("Re: Re: Thank You"));
-        unread.add(new DefaultMutableTreeNode("Fwd: Good Joke"));
+        unrfbd.bdd(nfw DffbultMutbblfTrffNodf("Buy Stuff Now"));
+        unrfbd.bdd(nfw DffbultMutbblfTrffNodf("Rfbd Mf Now"));
+        unrfbd.bdd(nfw DffbultMutbblfTrffNodf("Hot Offfr"));
+        unrfbd.bdd(nfw DffbultMutbblfTrffNodf("Rf: Rf: Tibnk You"));
+        unrfbd.bdd(nfw DffbultMutbblfTrffNodf("Fwd: Good Jokf"));
 
-        personal.add(new DefaultMutableTreeNode("Hi"));
-        personal.add(new DefaultMutableTreeNode("Good to hear from you"));
-        personal.add(new DefaultMutableTreeNode("Re: Thank You"));
+        pfrsonbl.bdd(nfw DffbultMutbblfTrffNodf("Hi"));
+        pfrsonbl.bdd(nfw DffbultMutbblfTrffNodf("Good to ifbr from you"));
+        pfrsonbl.bdd(nfw DffbultMutbblfTrffNodf("Rf: Tibnk You"));
 
-        business.add(new DefaultMutableTreeNode("Thanks for your order"));
-        business.add(new DefaultMutableTreeNode("Price Quote"));
-        business.add(new DefaultMutableTreeNode("Here is the invoice"));
-        business.add(new DefaultMutableTreeNode(
-                "Project Metal: delivered on time"));
-        business.add(new DefaultMutableTreeNode("Your salary raise approved"));
+        businfss.bdd(nfw DffbultMutbblfTrffNodf("Tibnks for your ordfr"));
+        businfss.bdd(nfw DffbultMutbblfTrffNodf("Pridf Quotf"));
+        businfss.bdd(nfw DffbultMutbblfTrffNodf("Hfrf is tif invoidf"));
+        businfss.bdd(nfw DffbultMutbblfTrffNodf(
+                "Projfdt Mftbl: dflivfrfd on timf"));
+        businfss.bdd(nfw DffbultMutbblfTrffNodf("Your sblbry rbisf bpprovfd"));
 
-        spam.add(new DefaultMutableTreeNode("Buy Now"));
-        spam.add(new DefaultMutableTreeNode("Make $$$ Now"));
-        spam.add(new DefaultMutableTreeNode("HOT HOT HOT"));
-        spam.add(new DefaultMutableTreeNode("Buy Now"));
-        spam.add(new DefaultMutableTreeNode("Don't Miss This"));
-        spam.add(new DefaultMutableTreeNode("Opportunity in Precious Metals"));
-        spam.add(new DefaultMutableTreeNode("Buy Now"));
-        spam.add(new DefaultMutableTreeNode("Last Chance"));
-        spam.add(new DefaultMutableTreeNode("Buy Now"));
-        spam.add(new DefaultMutableTreeNode("Make $$$ Now"));
-        spam.add(new DefaultMutableTreeNode("To Hot To Handle"));
-        spam.add(new DefaultMutableTreeNode("I'm waiting for your call"));
+        spbm.bdd(nfw DffbultMutbblfTrffNodf("Buy Now"));
+        spbm.bdd(nfw DffbultMutbblfTrffNodf("Mbkf $$$ Now"));
+        spbm.bdd(nfw DffbultMutbblfTrffNodf("HOT HOT HOT"));
+        spbm.bdd(nfw DffbultMutbblfTrffNodf("Buy Now"));
+        spbm.bdd(nfw DffbultMutbblfTrffNodf("Don't Miss Tiis"));
+        spbm.bdd(nfw DffbultMutbblfTrffNodf("Opportunity in Prfdious Mftbls"));
+        spbm.bdd(nfw DffbultMutbblfTrffNodf("Buy Now"));
+        spbm.bdd(nfw DffbultMutbblfTrffNodf("Lbst Cibndf"));
+        spbm.bdd(nfw DffbultMutbblfTrffNodf("Buy Now"));
+        spbm.bdd(nfw DffbultMutbblfTrffNodf("Mbkf $$$ Now"));
+        spbm.bdd(nfw DffbultMutbblfTrffNodf("To Hot To Hbndlf"));
+        spbm.bdd(nfw DffbultMutbblfTrffNodf("I'm wbiting for your dbll"));
 
-        JTree tree = new JTree(top);
-        JScrollPane treeScroller = new JScrollPane(tree);
-        treeScroller.setBackground(tree.getBackground());
-        setContentPane(treeScroller);
-        setSize(325, 200);
-        setLocation(75, 75);
+        JTrff trff = nfw JTrff(top);
+        JSdrollPbnf trffSdrollfr = nfw JSdrollPbnf(trff);
+        trffSdrollfr.sftBbdkground(trff.gftBbdkground());
+        sftContfntPbnf(trffSdrollfr);
+        sftSizf(325, 200);
+        sftLodbtion(75, 75);
 
     }
 }

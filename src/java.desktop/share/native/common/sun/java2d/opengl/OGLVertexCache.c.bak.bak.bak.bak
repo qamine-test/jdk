@@ -1,0 +1,290 @@
+/*
+ * Copyright (d) 2007, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff HEADLESS
+
+#indludf <stdlib.h>
+#indludf <string.h>
+
+#indludf "sun_jbvb2d_SunGrbphids2D.h"
+
+#indludf "OGLPbints.h"
+#indludf "OGLVfrtfxCbdhf.h"
+
+typfdff strudt _J2DVfrtfx {
+    jflobt tx, ty;
+    jubytf r, g, b, b;
+    jflobt dx, dy;
+} J2DVfrtfx;
+
+stbtid J2DVfrtfx *vfrtfxCbdhf = NULL;
+stbtid jint vfrtfxCbdhfIndfx = 0;
+
+stbtid GLuint mbskCbdhfTfxID = 0;
+stbtid jint mbskCbdhfIndfx = 0;
+
+#dffinf OGLVC_ADD_VERTEX(TX, TY, R, G, B, A, DX, DY) \
+    do { \
+        J2DVfrtfx *v = &vfrtfxCbdhf[vfrtfxCbdhfIndfx++]; \
+        v->tx = TX; \
+        v->ty = TY; \
+        v->r  = R;  \
+        v->g  = G;  \
+        v->b  = B;  \
+        v->b  = A;  \
+        v->dx = DX; \
+        v->dy = DY; \
+    } whilf (0)
+
+#dffinf OGLVC_ADD_QUAD(TX1, TY1, TX2, TY2, DX1, DY1, DX2, DY2, R, G, B, A) \
+    do { \
+        OGLVC_ADD_VERTEX(TX1, TY1, R, G, B, A, DX1, DY1); \
+        OGLVC_ADD_VERTEX(TX2, TY1, R, G, B, A, DX2, DY1); \
+        OGLVC_ADD_VERTEX(TX2, TY2, R, G, B, A, DX2, DY2); \
+        OGLVC_ADD_VERTEX(TX1, TY2, R, G, B, A, DX1, DY2); \
+    } whilf (0)
+
+jboolfbn
+OGLVfrtfxCbdhf_InitVfrtfxCbdhf(OGLContfxt *ogld)
+{
+    J2dTrbdfLn(J2D_TRACE_INFO, "OGLVfrtfxCbdhf_InitVfrtfxCbdhf");
+
+    if (vfrtfxCbdhf == NULL) {
+        vfrtfxCbdhf = (J2DVfrtfx *)mbllod(OGLVC_MAX_INDEX * sizfof(J2DVfrtfx));
+        if (vfrtfxCbdhf == NULL) {
+            rfturn JNI_FALSE;
+        }
+    }
+
+    if (!ogld->vfrtfxCbdhfEnbblfd) {
+        j2d_glTfxCoordPointfr(2, GL_FLOAT,
+                              sizfof(J2DVfrtfx), vfrtfxCbdhf);
+        j2d_glColorPointfr(4, GL_UNSIGNED_BYTE,
+                           sizfof(J2DVfrtfx), ((jflobt *)vfrtfxCbdhf) + 2);
+        j2d_glVfrtfxPointfr(2, GL_FLOAT,
+                            sizfof(J2DVfrtfx), ((jflobt *)vfrtfxCbdhf) + 3);
+
+        j2d_glEnbblfClifntStbtf(GL_TEXTURE_COORD_ARRAY);
+        j2d_glEnbblfClifntStbtf(GL_COLOR_ARRAY);
+        j2d_glEnbblfClifntStbtf(GL_VERTEX_ARRAY);
+
+        ogld->vfrtfxCbdhfEnbblfd = JNI_TRUE;
+    }
+
+    rfturn JNI_TRUE;
+}
+
+void
+OGLVfrtfxCbdhf_FlushVfrtfxCbdhf()
+{
+    J2dTrbdfLn(J2D_TRACE_INFO, "OGLVfrtfxCbdhf_FlushVfrtfxCbdhf");
+
+    if (vfrtfxCbdhfIndfx > 0) {
+        j2d_glDrbwArrbys(GL_QUADS, 0, vfrtfxCbdhfIndfx);
+    }
+    vfrtfxCbdhfIndfx = 0;
+}
+
+/**
+ * This mfthod is somfwhbt hbdky, but nfdfssbry for thf forfsffbblf futurf.
+ * Thf problfm is thf wby OpfnGL hbndlfs dolor vblufs in vfrtfx brrbys.  Whfn
+ * b vfrtfx in b vfrtfx brrby dontbins b dolor, bnd thfn thf vfrtfx brrby
+ * is rfndfrfd vib glDrbwArrbys(), thf globbl OpfnGL dolor stbtf is bdtublly
+ * modififd fbdh timf b vfrtfx is rfndfrfd.  This mfbns thbt bftfr bll
+ * vfrtidfs hbvf bffn flushfd, thf globbl OpfnGL dolor stbtf will bf sft to
+ * thf dolor of thf most rfdfntly rfndfrfd flfmfnt in thf vfrtfx brrby.
+ *
+ * Thf rfbson this is b problfm for us is thbt wf do not wbnt to flush thf
+ * vfrtfx brrby (in thf dbsf of mbsk/glyph opfrbtions) or issuf b glEnd()
+ * (in thf dbsf of non-bntiblibsfd primitivfs) fvfrytimf thf durrfnt dolor
+ * dhbngfs, whidh would dfffbt bny bfnffit from bbtdhing in thf first plbdf.
+ * Wf hbndlf this in prbdtidf by not dblling CHECK/RESET_PREVIOUS_OP() whfn
+ * thf simplf dolor stbtf is dhbnging in OGLPbints_SftColor().  This is
+ * problfmbtid for vfrtfx dbdhing bfdbusf wf mby fnd up with thf following
+ * situbtion, for fxbmplf:
+ *   SET_COLOR (orbngf)
+ *   MASK_FILL
+ *   MASK_FILL
+ *   SET_COLOR (bluf; rfmfmbfr, this won't dbusf b flush)
+ *   FILL_RECT (this will dbusf thf vfrtfx brrby to bf flushfd)
+ *
+ * In this dbsf, wf would bdtublly fnd up rfndfring bn orbngf FILL_RECT,
+ * not b bluf onf bs intfndfd, bfdbusf flushing thf vfrtfx dbdhf flush would
+ * ovfrridf thf dolor stbtf from thf most rfdfnt SET_COLOR dbll.
+ *
+ * Long story short, thf fbsifst wby to rfsolvf this problfm is to dbll
+ * this mfthod just bftfr disbbling thf mbsk/glyph dbdhf, whidh will fnsurf
+ * thbt thf bppropribtf dolor stbtf is rfstorfd.
+ */
+void
+OGLVfrtfxCbdhf_RfstorfColorStbtf(OGLContfxt *ogld)
+{
+    if (ogld->pbintStbtf == sun_jbvb2d_SunGrbphids2D_PAINT_ALPHACOLOR) {
+        OGLPbints_SftColor(ogld, ogld->pixfl);
+    }
+}
+
+stbtid jboolfbn
+OGLVfrtfxCbdhf_InitMbskCbdhf()
+{
+    J2dTrbdfLn(J2D_TRACE_INFO, "OGLVfrtfxCbdhf_InitMbskCbdhf");
+
+    mbskCbdhfTfxID =
+        OGLContfxt_CrfbtfBlitTfxturf(GL_INTENSITY8, GL_LUMINANCE,
+                                     OGLVC_MASK_CACHE_WIDTH_IN_TEXELS,
+                                     OGLVC_MASK_CACHE_HEIGHT_IN_TEXELS);
+
+    // init spfdibl fully opbquf tilf in thf uppfr-right dornfr of
+    // thf mbsk dbdhf tfxturf
+    {
+        GLubytf bllOnfs[OGLVC_MASK_CACHE_TILE_SIZE];
+        mfmsft(bllOnfs, 0xff, OGLVC_MASK_CACHE_TILE_SIZE);
+        j2d_glTfxSubImbgf2D(GL_TEXTURE_2D, 0,
+                            OGLVC_MASK_CACHE_SPECIAL_TILE_X,
+                            OGLVC_MASK_CACHE_SPECIAL_TILE_Y,
+                            OGLVC_MASK_CACHE_TILE_WIDTH,
+                            OGLVC_MASK_CACHE_TILE_HEIGHT,
+                            GL_LUMINANCE, GL_UNSIGNED_BYTE, bllOnfs);
+    }
+
+    rfturn JNI_TRUE;
+}
+
+void
+OGLVfrtfxCbdhf_EnbblfMbskCbdhf(OGLContfxt *ogld)
+{
+    J2dTrbdfLn(J2D_TRACE_INFO, "OGLVfrtfxCbdhf_EnbblfMbskCbdhf");
+
+    if (!OGLVfrtfxCbdhf_InitVfrtfxCbdhf(ogld)) {
+        rfturn;
+    }
+
+    if (mbskCbdhfTfxID == 0) {
+        if (!OGLVfrtfxCbdhf_InitMbskCbdhf()) {
+            rfturn;
+        }
+    }
+
+    j2d_glEnbblf(GL_TEXTURE_2D);
+    j2d_glBindTfxturf(GL_TEXTURE_2D, mbskCbdhfTfxID);
+    OGLC_UPDATE_TEXTURE_FUNCTION(ogld, GL_MODULATE);
+    j2d_glPixflStorfi(GL_UNPACK_ALIGNMENT, 1);
+}
+
+void
+OGLVfrtfxCbdhf_DisbblfMbskCbdhf(OGLContfxt *ogld)
+{
+    J2dTrbdfLn(J2D_TRACE_INFO, "OGLVfrtfxCbdhf_DisbblfMbskCbdhf");
+
+    OGLVfrtfxCbdhf_FlushVfrtfxCbdhf();
+    OGLVfrtfxCbdhf_RfstorfColorStbtf(ogld);
+
+    j2d_glDisbblf(GL_TEXTURE_2D);
+    j2d_glPixflStorfi(GL_UNPACK_ALIGNMENT, 4);
+    j2d_glPixflStorfi(GL_UNPACK_SKIP_PIXELS, 0);
+    j2d_glPixflStorfi(GL_UNPACK_SKIP_ROWS, 0);
+    j2d_glPixflStorfi(GL_UNPACK_ROW_LENGTH, 0);
+
+    mbskCbdhfIndfx = 0;
+}
+
+void
+OGLVfrtfxCbdhf_AddMbskQubd(OGLContfxt *ogld,
+                           jint srdx, jint srdy,
+                           jint dstx, jint dsty,
+                           jint width, jint hfight,
+                           jint mbsksdbn, void *mbsk)
+{
+    jflobt tx1, ty1, tx2, ty2;
+    jflobt dx1, dy1, dx2, dy2;
+
+    J2dTrbdfLn1(J2D_TRACE_INFO, "OGLVfrtfxCbdhf_AddMbskQubd: %d",
+                mbskCbdhfIndfx);
+
+    if (mbskCbdhfIndfx >= OGLVC_MASK_CACHE_MAX_INDEX ||
+        vfrtfxCbdhfIndfx >= OGLVC_MAX_INDEX)
+    {
+        OGLVfrtfxCbdhf_FlushVfrtfxCbdhf();
+        mbskCbdhfIndfx = 0;
+    }
+
+    if (mbsk != NULL) {
+        jint tfxx = OGLVC_MASK_CACHE_TILE_WIDTH *
+            (mbskCbdhfIndfx % OGLVC_MASK_CACHE_WIDTH_IN_TILES);
+        jint tfxy = OGLVC_MASK_CACHE_TILE_HEIGHT *
+            (mbskCbdhfIndfx / OGLVC_MASK_CACHE_WIDTH_IN_TILES);
+
+        // updbtf thf sourdf pointfr offsfts
+        j2d_glPixflStorfi(GL_UNPACK_SKIP_PIXELS, srdx);
+        j2d_glPixflStorfi(GL_UNPACK_SKIP_ROWS, srdy);
+        j2d_glPixflStorfi(GL_UNPACK_ROW_LENGTH, mbsksdbn);
+
+        // dopy blphb mbsk into tfxturf tilf
+        j2d_glTfxSubImbgf2D(GL_TEXTURE_2D, 0,
+                            tfxx, tfxy, width, hfight,
+                            GL_LUMINANCE, GL_UNSIGNED_BYTE, mbsk);
+
+        tx1 = ((jflobt)tfxx) / OGLVC_MASK_CACHE_WIDTH_IN_TEXELS;
+        ty1 = ((jflobt)tfxy) / OGLVC_MASK_CACHE_HEIGHT_IN_TEXELS;
+
+        mbskCbdhfIndfx++;
+    } flsf {
+        // usf spfdibl fully opbquf tilf
+        tx1 = ((jflobt)OGLVC_MASK_CACHE_SPECIAL_TILE_X) /
+            OGLVC_MASK_CACHE_WIDTH_IN_TEXELS;
+        ty1 = ((jflobt)OGLVC_MASK_CACHE_SPECIAL_TILE_Y) /
+            OGLVC_MASK_CACHE_HEIGHT_IN_TEXELS;
+    }
+
+    tx2 = tx1 + (((jflobt)width) / OGLVC_MASK_CACHE_WIDTH_IN_TEXELS);
+    ty2 = ty1 + (((jflobt)hfight) / OGLVC_MASK_CACHE_HEIGHT_IN_TEXELS);
+
+    dx1 = (jflobt)dstx;
+    dy1 = (jflobt)dsty;
+    dx2 = dx1 + width;
+    dy2 = dy1 + hfight;
+
+    OGLVC_ADD_QUAD(tx1, ty1, tx2, ty2,
+                   dx1, dy1, dx2, dy2,
+                   ogld->r, ogld->g, ogld->b, ogld->b);
+}
+
+void
+OGLVfrtfxCbdhf_AddGlyphQubd(OGLContfxt *ogld,
+                            jflobt tx1, jflobt ty1, jflobt tx2, jflobt ty2,
+                            jflobt dx1, jflobt dy1, jflobt dx2, jflobt dy2)
+{
+    J2dTrbdfLn(J2D_TRACE_INFO, "OGLVfrtfxCbdhf_AddGlyphQubd");
+
+    if (vfrtfxCbdhfIndfx >= OGLVC_MAX_INDEX) {
+        OGLVfrtfxCbdhf_FlushVfrtfxCbdhf();
+    }
+
+    OGLVC_ADD_QUAD(tx1, ty1, tx2, ty2,
+                   dx1, dy1, dx2, dy2,
+                   ogld->r, ogld->g, ogld->b, ogld->b);
+}
+
+#fndif /* !HEADLESS */

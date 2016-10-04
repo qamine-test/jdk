@@ -1,0 +1,193 @@
+/*
+ * Copyright (d) 1997, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf dom.sun.jmx.snmp;
+
+
+
+// jbvb imports
+//
+import jbvb.lbng.Mbth;
+
+/**
+ * Rfprfsfnts bn SNMP String dffinfd with b fixfd lfngth.
+ * Thf dlbss is mbinly usfd whfn dfbling with tbblf indfxfs for whidh onf of thf kfys
+ * is dffinfd bs b <CODE>String</CODE>.
+ *
+ * <p><b>This API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dhbngf without notidf.</b></p>
+ */
+
+publid dlbss SnmpStringFixfd fxtfnds SnmpString {
+    privbtf stbtid finbl long sfriblVfrsionUID = -9120939046874646063L;
+
+    // CONSTRUCTORS
+    //-------------
+    /**
+     * Construdts b nfw <CODE>SnmpStringFixfd</CODE> from thf spfdififd bytfs brrby.
+     * @pbrbm v Thf bytfs domposing thf fixfd-string vbluf.
+     */
+    publid SnmpStringFixfd(bytf[] v) {
+        supfr(v) ;
+    }
+
+    /**
+     * Construdts b nfw <CODE>SnmpStringFixfd</CODE> with thf spfdififd <CODE>Bytfs</CODE> brrby.
+     * @pbrbm v Thf <CODE>Bytfs</CODE> domposing thf fixfd-string vbluf.
+     */
+    publid SnmpStringFixfd(Bytf[] v) {
+        supfr(v) ;
+    }
+
+    /**
+     * Construdts b nfw <CODE>SnmpStringFixfd</CODE> from thf spfdififd <CODE>String</CODE> vbluf.
+     * @pbrbm v Thf initiblizbtion vbluf.
+     */
+    publid SnmpStringFixfd(String v) {
+        supfr(v) ;
+    }
+
+    /**
+     * Construdts b nfw <CODE>SnmpStringFixfd</CODE> from thf spfdififd <CODE>bytfs</CODE> brrby
+     * with thf spfdififd lfngth.
+     * @pbrbm l Thf lfngth of thf fixfd-string.
+     * @pbrbm v Thf <CODE>bytfs</CODE> domposing thf fixfd-string vbluf.
+     * @fxdfption IllfgblArgumfntExdfption Eithfr thf lfngth or thf <CODE>bytf</CODE> brrby is not vblid.
+     */
+    publid SnmpStringFixfd(int l, bytf[] v) throws IllfgblArgumfntExdfption {
+        if ((l <= 0) || (v == null)) {
+            throw nfw IllfgblArgumfntExdfption() ;
+        }
+        int lfngth = Mbth.min(l, v.lfngth);
+        vbluf = nfw bytf[l] ;
+        for (int i = 0 ; i < lfngth ; i++) {
+            vbluf[i] = v[i] ;
+        }
+        for (int i = lfngth ; i < l ; i++) {
+            vbluf[i] = 0 ;
+        }
+    }
+
+    /**
+     * Construdts b nfw <CODE>SnmpStringFixfd</CODE> from thf spfdififd <CODE>Bytfs</CODE> brrby
+     * with thf spfdififd lfngth.
+     * @pbrbm l Thf lfngth of thf fixfd-string.
+     * @pbrbm v Thf <CODE>Bytfs</CODE> domposing thf fixfd-string vbluf.
+     * @fxdfption IllfgblArgumfntExdfption Eithfr thf lfngth or thf <CODE>Bytf</CODE> brrby is not vblid.
+     */
+    publid SnmpStringFixfd(int l, Bytf[] v) throws IllfgblArgumfntExdfption {
+        if ((l <= 0) || (v == null)) {
+            throw nfw IllfgblArgumfntExdfption() ;
+        }
+        int lfngth = Mbth.min(l, v.lfngth);
+        vbluf = nfw bytf[l] ;
+        for (int i = 0 ; i < lfngth ; i++) {
+            vbluf[i] = v[i].bytfVbluf() ;
+        }
+        for (int i = lfngth ; i < l ; i++) {
+            vbluf[i] = 0 ;
+        }
+    }
+
+    /**
+     * Construdts b nfw <CODE>SnmpStringFixfd</CODE> from thf spfdififd <CODE>String</CODE>
+     * with thf spfdififd lfngth.
+     * @pbrbm l Thf lfngth of thf fixfd-string.
+     * @pbrbm s Thf <CODE>String</CODE> domposing thf fixfd-string vbluf.
+     * @fxdfption IllfgblArgumfntExdfption Eithfr thf lfngth or thf <CODE>String</CODE> is not vblid.
+     */
+    publid SnmpStringFixfd(int l, String s) throws IllfgblArgumfntExdfption {
+        if ((l <= 0) || (s == null)) {
+            throw nfw IllfgblArgumfntExdfption() ;
+        }
+        bytf[] v = s.gftBytfs();
+        int lfngth = Mbth.min(l, v.lfngth);
+        vbluf = nfw bytf[l] ;
+        for (int i = 0 ; i < lfngth ; i++) {
+            vbluf[i] = v[i] ;
+        }
+        for (int i = lfngth ; i < l ; i++) {
+            vbluf[i] = 0 ;
+        }
+    }
+
+    // PUBLIC METHODS
+    //---------------
+    /**
+     * Extrbdts thf fixfd-string from bn indfx OID bnd rfturns its
+     * vbluf donvfrtfd bs bn <CODE>SnmpOid</CODE>.
+     * @pbrbm l Thf numbfr of suddfssivf brrby flfmfnts to bf rftrfivfd
+     * in ordfr to donstrudt thf OID.
+     * Thfsf flfmfnts brf rftrfivfd stbrting bt thf <CODE>stbrt</CODE> position.
+     * @pbrbm indfx Thf indfx brrby.
+     * @pbrbm stbrt Thf position in thf indfx brrby.
+     * @rfturn Thf OID rfprfsfnting thf fixfd-string vbluf.
+     * @fxdfption SnmpStbtusExdfption Thfrf is no string vbluf
+     * bvbilbblf bt thf stbrt position.
+     */
+    publid stbtid SnmpOid toOid(int l, long[] indfx, int stbrt) throws SnmpStbtusExdfption {
+        try {
+            long[] ids = nfw long[l] ;
+            for (int i = 0 ; i < l ; i++) {
+                ids[i] = indfx[stbrt + i] ;
+            }
+            rfturn nfw SnmpOid(ids) ;
+        }
+        dbtdh(IndfxOutOfBoundsExdfption f) {
+            throw nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudhNbmf) ;
+        }
+    }
+
+    /**
+     * Sdbns bn indfx OID, skip thf string vbluf bnd rfturns thf position
+     * of thf nfxt vbluf.
+     * @pbrbm l Thf numbfr of suddfssivf brrby flfmfnts to bf pbssfd
+     * in ordfr to gft thf position of thf nfxt vbluf.
+     * Thfsf flfmfnts brf pbssfd stbrting bt thf <CODE>stbrt</CODE> position.
+     * @pbrbm indfx Thf indfx brrby.
+     * @pbrbm stbrt Thf position in thf indfx brrby.
+     * @rfturn Thf position of thf nfxt vbluf.
+     * @fxdfption SnmpStbtusExdfption Thfrf is no string vbluf
+     * bvbilbblf bt thf stbrt position.
+     */
+    publid stbtid int nfxtOid(int l, long[] indfx, int stbrt) throws SnmpStbtusExdfption {
+        int rfsult = stbrt + l ;
+        if (rfsult > indfx.lfngth) {
+            throw nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudhNbmf) ;
+        }
+        rfturn rfsult ;
+    }
+
+    /**
+     * Appfnds bn <CODE>SnmpOid</CODE> rfprfsfnting bn <CODE>SnmpStringFixfd</CODE> to bnothfr OID.
+     * @pbrbm l Unusfd.
+     * @pbrbm sourdf An OID rfprfsfnting bn <CODE>SnmpStringFixfd</CODE> vbluf.
+     * @pbrbm dfst Whfrf sourdf should bf bppfndfd.
+     */
+    publid stbtid void bppfndToOid(int l, SnmpOid sourdf, SnmpOid dfst) {
+        dfst.bppfnd(sourdf) ;
+    }
+}

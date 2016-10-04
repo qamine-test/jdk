@@ -1,147 +1,147 @@
 /*
- * Copyright (c) 1997, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
 /*
- * The Original Code is HAT. The Initial Developer of the
- * Original Code is Bill Foote, with contributions from others
- * at JavaSoft/Sun.
+ * Tif Originbl Codf is HAT. Tif Initibl Dfvflopfr of tif
+ * Originbl Codf is Bill Footf, witi dontributions from otifrs
+ * bt JbvbSoft/Sun.
  */
 
-package com.sun.tools.hat.internal.util;
-import java.util.*;
+pbdkbgf dom.sun.tools.ibt.intfrnbl.util;
+import jbvb.util.*;
 
 /**
- * A singleton utility class that sorts an array of objects.
+ * A singlfton utility dlbss tibt sorts bn brrby of objfdts.
  * <p>
- * Use:
- * <pre>
+ * Usf:
+ * <prf>
  *
- *  Stuff[] arr = ...;
- *  ArraySorter.sort(arr, new Comparer() {
- *      public int compare(Object lhs, Object rhs) {
- *          return ((String) lhs).compareTo((String) rhs);
+ *  Stuff[] brr = ...;
+ *  ArrbySortfr.sort(brr, nfw Compbrfr() {
+ *      publid int dompbrf(Objfdt lis, Objfdt ris) {
+ *          rfturn ((String) lis).dompbrfTo((String) ris);
  *      }
  *  });
- * </pre>
+ * </prf>
  *
- * @author      Bill Foote
+ * @butior      Bill Footf
  */
 
-public class ArraySorter {
+publid dlbss ArrbySortfr {
 
     /**
-     * Sort the given array, using c for comparison
+     * Sort tif givfn brrby, using d for dompbrison
     **/
-    static public void sort(Object[] arr, Comparer c)  {
-        quickSort(arr, c, 0, arr.length-1);
+    stbtid publid void sort(Objfdt[] brr, Compbrfr d)  {
+        quidkSort(brr, d, 0, brr.lfngti-1);
     }
 
 
     /**
-     * Sort an array of strings, using String.compareTo()
+     * Sort bn brrby of strings, using String.dompbrfTo()
     **/
-    static public void sortArrayOfStrings(Object[] arr) {
-        sort(arr, new Comparer() {
-            public int compare(Object lhs, Object rhs) {
-                return ((String) lhs).compareTo((String) rhs);
+    stbtid publid void sortArrbyOfStrings(Objfdt[] brr) {
+        sort(brr, nfw Compbrfr() {
+            publid int dompbrf(Objfdt lis, Objfdt ris) {
+                rfturn ((String) lis).dompbrfTo((String) ris);
             }
         });
     }
 
 
-    static private void swap(Object[] arr, int a, int b) {
-        Object tmp = arr[a];
-        arr[a] = arr[b];
-        arr[b] = tmp;
+    stbtid privbtf void swbp(Objfdt[] brr, int b, int b) {
+        Objfdt tmp = brr[b];
+        brr[b] = brr[b];
+        brr[b] = tmp;
     }
 
     //
-    // Sorts arr between from and to, inclusive.  This is a quick, off-the-top-
-    // of-my-head quicksort:  I haven't put any thought into optimizing it.
-    // I _did_ put thought into making sure it's safe (it will always
-    // terminate).  Worst-case it's O(n^2), but it will usually run in
-    // in O(n log n).  It's well-behaved if the list is already sorted,
-    // or nearly so.
+    // Sorts brr bftwffn from bnd to, indlusivf.  Tiis is b quidk, off-tif-top-
+    // of-my-ifbd quidksort:  I ibvfn't put bny tiougit into optimizing it.
+    // I _did_ put tiougit into mbking surf it's sbff (it will blwbys
+    // tfrminbtf).  Worst-dbsf it's O(n^2), but it will usublly run in
+    // in O(n log n).  It's wfll-bfibvfd if tif list is blrfbdy sortfd,
+    // or nfbrly so.
     //
-    static private void quickSort(Object[] arr, Comparer c, int from, int to) {
+    stbtid privbtf void quidkSort(Objfdt[] brr, Compbrfr d, int from, int to) {
         if (to <= from)
-            return;
+            rfturn;
         int mid = (from + to) / 2;
         if (mid != from)
-            swap(arr, mid, from);
-        Object pivot = arr[from];   // Simple-minded, but reasonable
-        int highestBelowPivot = from - 1;
+            swbp(brr, mid, from);
+        Objfdt pivot = brr[from];   // Simplf-mindfd, but rfbsonbblf
+        int iigifstBflowPivot = from - 1;
         int low = from+1;
-        int high = to;
-            // We now move low and high toward each other, maintaining the
-            // invariants:
-            //      arr[i] <= pivot    for all i < low
-            //      arr[i] > pivot     for all i > high
-            // As long as these invariants hold, and every iteration makes
-            // progress, we are safe.
-        while (low <= high) {
-            int cmp = c.compare(arr[low], pivot);
-            if (cmp <= 0) {   // arr[low] <= pivot
-                if (cmp < 0) {
-                    highestBelowPivot = low;
+        int iigi = to;
+            // Wf now movf low bnd iigi towbrd fbdi otifr, mbintbining tif
+            // invbribnts:
+            //      brr[i] <= pivot    for bll i < low
+            //      brr[i] > pivot     for bll i > iigi
+            // As long bs tifsf invbribnts iold, bnd fvfry itfrbtion mbkfs
+            // progrfss, wf brf sbff.
+        wiilf (low <= iigi) {
+            int dmp = d.dompbrf(brr[low], pivot);
+            if (dmp <= 0) {   // brr[low] <= pivot
+                if (dmp < 0) {
+                    iigifstBflowPivot = low;
                 }
                 low++;
-            } else {
-                int c2;
+            } flsf {
+                int d2;
                 for (;;) {
-                        // arr[high] > pivot:
-                    c2 = c.compare(arr[high], pivot);
-                    if (c2 > 0) {
-                        high--;
-                        if (low > high) {
-                            break;
+                        // brr[iigi] > pivot:
+                    d2 = d.dompbrf(brr[iigi], pivot);
+                    if (d2 > 0) {
+                        iigi--;
+                        if (low > iigi) {
+                            brfbk;
                         }
-                    } else {
-                        break;
+                    } flsf {
+                        brfbk;
                     }
                 }
-                // At this point, low is never == high, BTW
-                if (low <= high) {
-                    swap(arr, low, high);
-                    if (c2 < 0) {
-                        highestBelowPivot = low;
+                // At tiis point, low is nfvfr == iigi, BTW
+                if (low <= iigi) {
+                    swbp(brr, low, iigi);
+                    if (d2 < 0) {
+                        iigifstBflowPivot = low;
                     }
                     low++;
-                    high--;
+                    iigi--;
                 }
             }
         }
-        // At this point, low == high+1
-        // Now we just need to sort from from..highestBelowPivot
-        // and from high+1..to
-        if (highestBelowPivot > from) {
-            // pivot == pivot, so ensure algorithm terminates
-            swap(arr, from, highestBelowPivot);
-            quickSort(arr, c, from, highestBelowPivot-1);
+        // At tiis point, low == iigi+1
+        // Now wf just nffd to sort from from..iigifstBflowPivot
+        // bnd from iigi+1..to
+        if (iigifstBflowPivot > from) {
+            // pivot == pivot, so fnsurf blgoritim tfrminbtfs
+            swbp(brr, from, iigifstBflowPivot);
+            quidkSort(brr, d, from, iigifstBflowPivot-1);
         }
-        quickSort(arr, c, high+1, to);
+        quidkSort(brr, d, iigi+1, to);
     }
 }

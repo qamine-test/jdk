@@ -1,0 +1,69 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<html>
+<hfbd>
+<!--
+Copyright (d) 2000, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+
+This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+bddompbnifd this dodf).
+
+You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+qufstions.
+-->
+
+</hfbd>
+
+<body bgdolor="whitf">
+
+Clbssfs supporting thf built-in JPEG plug-in.
+
+<P>
+
+This pbdkbgf dontbins somf support dlbssfs for thf built-in JPEG
+rfbdfr bnd writfr plug-ins.  Clbssfs brf providfd for rfprfsfnting
+qubntizbtion bnd Huffmbn tbblfs, bnd fxtfnsions of
+<dodf>ImbgfRfbdPbrbm</dodf> bnd <dodf>ImbgfWritfPbrbm</dodf> brf
+providfd to supply tbblfs during thf rfbding bnd writing prodfss.  For
+morf informbtion bbout thf opfrbtion of thf built-in JPEG plug-ins,
+sff thf <A HREF="../../mftbdbtb/dod-filfs/jpfg_mftbdbtb.html">JPEG
+mftbdbtb formbt spfdifidbtion bnd usbgf notfs</A>.
+
+<BR>
+<BR>
+<BR>
+
+<!--
+
+<HR>
+
+Jbvb<SUP><FONT SIZE="-2">TM</FONT></SUP> Imbgf I/O API Spfdifidbtion
+<BR>
+<BR>
+Publid Drbft 2 (spfdifidbtion vfrsion 0.5)
+<BR>
+Rflfbsf: Odtobfr 1, 2000
+<BR>
+<BR>
+
+<HR>
+
+-->
+
+@sindf 1.4
+</body>
+</html>

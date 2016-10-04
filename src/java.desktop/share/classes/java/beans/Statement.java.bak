@@ -1,363 +1,363 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.beans;
+pbdkbgf jbvb.bfbns;
 
-import java.lang.reflect.AccessibleObject;
-import java.lang.reflect.Array;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.security.AccessControlContext;
-import java.security.AccessController;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
+import jbvb.lbng.rfflfdt.AddfssiblfObjfdt;
+import jbvb.lbng.rfflfdt.Arrby;
+import jbvb.lbng.rfflfdt.Construdtor;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+import jbvb.lbng.rfflfdt.Mftiod;
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtionExdfption;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
 
-import com.sun.beans.finder.ClassFinder;
-import com.sun.beans.finder.ConstructorFinder;
-import com.sun.beans.finder.MethodFinder;
-import sun.reflect.misc.MethodUtil;
+import dom.sun.bfbns.findfr.ClbssFindfr;
+import dom.sun.bfbns.findfr.ConstrudtorFindfr;
+import dom.sun.bfbns.findfr.MftiodFindfr;
+import sun.rfflfdt.misd.MftiodUtil;
 
 /**
- * A <code>Statement</code> object represents a primitive statement
- * in which a single method is applied to a target and
- * a set of arguments - as in <code>"a.setFoo(b)"</code>.
- * Note that where this example uses names
- * to denote the target and its argument, a statement
- * object does not require a name space and is constructed with
- * the values themselves.
- * The statement object associates the named method
- * with its environment as a simple set of values:
- * the target and an array of argument values.
+ * A <dodf>Stbtfmfnt</dodf> objfdt rfprfsfnts b primitivf stbtfmfnt
+ * in wiidi b singlf mftiod is bpplifd to b tbrgft bnd
+ * b sft of brgumfnts - bs in <dodf>"b.sftFoo(b)"</dodf>.
+ * Notf tibt wifrf tiis fxbmplf usfs nbmfs
+ * to dfnotf tif tbrgft bnd its brgumfnt, b stbtfmfnt
+ * objfdt dofs not rfquirf b nbmf spbdf bnd is donstrudtfd witi
+ * tif vblufs tifmsflvfs.
+ * Tif stbtfmfnt objfdt bssodibtfs tif nbmfd mftiod
+ * witi its fnvironmfnt bs b simplf sft of vblufs:
+ * tif tbrgft bnd bn brrby of brgumfnt vblufs.
  *
- * @since 1.4
+ * @sindf 1.4
  *
- * @author Philip Milne
+ * @butior Piilip Milnf
  */
-public class Statement {
+publid dlbss Stbtfmfnt {
 
-    private static Object[] emptyArray = new Object[]{};
+    privbtf stbtid Objfdt[] fmptyArrby = nfw Objfdt[]{};
 
-    static ExceptionListener defaultExceptionListener = new ExceptionListener() {
-        public void exceptionThrown(Exception e) {
-            System.err.println(e);
-            // e.printStackTrace();
-            System.err.println("Continuing ...");
+    stbtid ExdfptionListfnfr dffbultExdfptionListfnfr = nfw ExdfptionListfnfr() {
+        publid void fxdfptionTirown(Exdfption f) {
+            Systfm.frr.println(f);
+            // f.printStbdkTrbdf();
+            Systfm.frr.println("Continuing ...");
         }
     };
 
-    private final AccessControlContext acc = AccessController.getContext();
-    private final Object target;
-    private final String methodName;
-    private final Object[] arguments;
-    ClassLoader loader;
+    privbtf finbl AddfssControlContfxt bdd = AddfssControllfr.gftContfxt();
+    privbtf finbl Objfdt tbrgft;
+    privbtf finbl String mftiodNbmf;
+    privbtf finbl Objfdt[] brgumfnts;
+    ClbssLobdfr lobdfr;
 
     /**
-     * Creates a new {@link Statement} object
-     * for the specified target object to invoke the method
-     * specified by the name and by the array of arguments.
+     * Crfbtfs b nfw {@link Stbtfmfnt} objfdt
+     * for tif spfdififd tbrgft objfdt to invokf tif mftiod
+     * spfdififd by tif nbmf bnd by tif brrby of brgumfnts.
      * <p>
-     * The {@code target} and the {@code methodName} values should not be {@code null}.
-     * Otherwise an attempt to execute this {@code Expression}
-     * will result in a {@code NullPointerException}.
-     * If the {@code arguments} value is {@code null},
-     * an empty array is used as the value of the {@code arguments} property.
+     * Tif {@dodf tbrgft} bnd tif {@dodf mftiodNbmf} vblufs siould not bf {@dodf null}.
+     * Otifrwisf bn bttfmpt to fxfdutf tiis {@dodf Exprfssion}
+     * will rfsult in b {@dodf NullPointfrExdfption}.
+     * If tif {@dodf brgumfnts} vbluf is {@dodf null},
+     * bn fmpty brrby is usfd bs tif vbluf of tif {@dodf brgumfnts} propfrty.
      *
-     * @param target  the target object of this statement
-     * @param methodName  the name of the method to invoke on the specified target
-     * @param arguments  the array of arguments to invoke the specified method
+     * @pbrbm tbrgft  tif tbrgft objfdt of tiis stbtfmfnt
+     * @pbrbm mftiodNbmf  tif nbmf of tif mftiod to invokf on tif spfdififd tbrgft
+     * @pbrbm brgumfnts  tif brrby of brgumfnts to invokf tif spfdififd mftiod
      */
-    @ConstructorProperties({"target", "methodName", "arguments"})
-    public Statement(Object target, String methodName, Object[] arguments) {
-        this.target = target;
-        this.methodName = methodName;
-        this.arguments = (arguments == null) ? emptyArray : arguments.clone();
+    @ConstrudtorPropfrtifs({"tbrgft", "mftiodNbmf", "brgumfnts"})
+    publid Stbtfmfnt(Objfdt tbrgft, String mftiodNbmf, Objfdt[] brgumfnts) {
+        tiis.tbrgft = tbrgft;
+        tiis.mftiodNbmf = mftiodNbmf;
+        tiis.brgumfnts = (brgumfnts == null) ? fmptyArrby : brgumfnts.dlonf();
     }
 
     /**
-     * Returns the target object of this statement.
-     * If this method returns {@code null},
-     * the {@link #execute} method
-     * throws a {@code NullPointerException}.
+     * Rfturns tif tbrgft objfdt of tiis stbtfmfnt.
+     * If tiis mftiod rfturns {@dodf null},
+     * tif {@link #fxfdutf} mftiod
+     * tirows b {@dodf NullPointfrExdfption}.
      *
-     * @return the target object of this statement
+     * @rfturn tif tbrgft objfdt of tiis stbtfmfnt
      */
-    public Object getTarget() {
-        return target;
+    publid Objfdt gftTbrgft() {
+        rfturn tbrgft;
     }
 
     /**
-     * Returns the name of the method to invoke.
-     * If this method returns {@code null},
-     * the {@link #execute} method
-     * throws a {@code NullPointerException}.
+     * Rfturns tif nbmf of tif mftiod to invokf.
+     * If tiis mftiod rfturns {@dodf null},
+     * tif {@link #fxfdutf} mftiod
+     * tirows b {@dodf NullPointfrExdfption}.
      *
-     * @return the name of the method
+     * @rfturn tif nbmf of tif mftiod
      */
-    public String getMethodName() {
-        return methodName;
+    publid String gftMftiodNbmf() {
+        rfturn mftiodNbmf;
     }
 
     /**
-     * Returns the arguments for the method to invoke.
-     * The number of arguments and their types
-     * must match the method being  called.
-     * {@code null} can be used as a synonym of an empty array.
+     * Rfturns tif brgumfnts for tif mftiod to invokf.
+     * Tif numbfr of brgumfnts bnd tifir typfs
+     * must mbtdi tif mftiod bfing  dbllfd.
+     * {@dodf null} dbn bf usfd bs b synonym of bn fmpty brrby.
      *
-     * @return the array of arguments
+     * @rfturn tif brrby of brgumfnts
      */
-    public Object[] getArguments() {
-        return this.arguments.clone();
+    publid Objfdt[] gftArgumfnts() {
+        rfturn tiis.brgumfnts.dlonf();
     }
 
     /**
-     * The {@code execute} method finds a method whose name is the same
-     * as the {@code methodName} property, and invokes the method on
-     * the target.
+     * Tif {@dodf fxfdutf} mftiod finds b mftiod wiosf nbmf is tif sbmf
+     * bs tif {@dodf mftiodNbmf} propfrty, bnd invokfs tif mftiod on
+     * tif tbrgft.
      *
-     * When the target's class defines many methods with the given name
-     * the implementation should choose the most specific method using
-     * the algorithm specified in the Java Language Specification
-     * (15.11). The dynamic class of the target and arguments are used
-     * in place of the compile-time type information and, like the
-     * {@link java.lang.reflect.Method} class itself, conversion between
-     * primitive values and their associated wrapper classes is handled
-     * internally.
+     * Wifn tif tbrgft's dlbss dffinfs mbny mftiods witi tif givfn nbmf
+     * tif implfmfntbtion siould dioosf tif most spfdifid mftiod using
+     * tif blgoritim spfdififd in tif Jbvb Lbngubgf Spfdifidbtion
+     * (15.11). Tif dynbmid dlbss of tif tbrgft bnd brgumfnts brf usfd
+     * in plbdf of tif dompilf-timf typf informbtion bnd, likf tif
+     * {@link jbvb.lbng.rfflfdt.Mftiod} dlbss itsflf, donvfrsion bftwffn
+     * primitivf vblufs bnd tifir bssodibtfd wrbppfr dlbssfs is ibndlfd
+     * intfrnblly.
      * <p>
-     * The following method types are handled as special cases:
+     * Tif following mftiod typfs brf ibndlfd bs spfdibl dbsfs:
      * <ul>
      * <li>
-     * Static methods may be called by using a class object as the target.
+     * Stbtid mftiods mby bf dbllfd by using b dlbss objfdt bs tif tbrgft.
      * <li>
-     * The reserved method name "new" may be used to call a class's constructor
-     * as if all classes defined static "new" methods. Constructor invocations
-     * are typically considered {@code Expression}s rather than {@code Statement}s
-     * as they return a value.
+     * Tif rfsfrvfd mftiod nbmf "nfw" mby bf usfd to dbll b dlbss's donstrudtor
+     * bs if bll dlbssfs dffinfd stbtid "nfw" mftiods. Construdtor invodbtions
+     * brf typidblly donsidfrfd {@dodf Exprfssion}s rbtifr tibn {@dodf Stbtfmfnt}s
+     * bs tify rfturn b vbluf.
      * <li>
-     * The method names "get" and "set" defined in the {@link java.util.List}
-     * interface may also be applied to array instances, mapping to
-     * the static methods of the same name in the {@code Array} class.
+     * Tif mftiod nbmfs "gft" bnd "sft" dffinfd in tif {@link jbvb.util.List}
+     * intfrfbdf mby blso bf bpplifd to brrby instbndfs, mbpping to
+     * tif stbtid mftiods of tif sbmf nbmf in tif {@dodf Arrby} dlbss.
      * </ul>
      *
-     * @throws NullPointerException if the value of the {@code target} or
-     *                              {@code methodName} property is {@code null}
-     * @throws NoSuchMethodException if a matching method is not found
-     * @throws SecurityException if a security manager exists and
-     *                           it denies the method invocation
-     * @throws Exception that is thrown by the invoked method
+     * @tirows NullPointfrExdfption if tif vbluf of tif {@dodf tbrgft} or
+     *                              {@dodf mftiodNbmf} propfrty is {@dodf null}
+     * @tirows NoSudiMftiodExdfption if b mbtdiing mftiod is not found
+     * @tirows SfdurityExdfption if b sfdurity mbnbgfr fxists bnd
+     *                           it dfnifs tif mftiod invodbtion
+     * @tirows Exdfption tibt is tirown by tif invokfd mftiod
      *
-     * @see java.lang.reflect.Method
+     * @sff jbvb.lbng.rfflfdt.Mftiod
      */
-    public void execute() throws Exception {
-        invoke();
+    publid void fxfdutf() tirows Exdfption {
+        invokf();
     }
 
-    Object invoke() throws Exception {
-        AccessControlContext acc = this.acc;
-        if ((acc == null) && (System.getSecurityManager() != null)) {
-            throw new SecurityException("AccessControlContext is not set");
+    Objfdt invokf() tirows Exdfption {
+        AddfssControlContfxt bdd = tiis.bdd;
+        if ((bdd == null) && (Systfm.gftSfdurityMbnbgfr() != null)) {
+            tirow nfw SfdurityExdfption("AddfssControlContfxt is not sft");
         }
         try {
-            return AccessController.doPrivileged(
-                    new PrivilegedExceptionAction<Object>() {
-                        public Object run() throws Exception {
-                            return invokeInternal();
+            rfturn AddfssControllfr.doPrivilfgfd(
+                    nfw PrivilfgfdExdfptionAdtion<Objfdt>() {
+                        publid Objfdt run() tirows Exdfption {
+                            rfturn invokfIntfrnbl();
                         }
                     },
-                    acc
+                    bdd
             );
         }
-        catch (PrivilegedActionException exception) {
-            throw exception.getException();
+        dbtdi (PrivilfgfdAdtionExdfption fxdfption) {
+            tirow fxdfption.gftExdfption();
         }
     }
 
-    private Object invokeInternal() throws Exception {
-        Object target = getTarget();
-        String methodName = getMethodName();
+    privbtf Objfdt invokfIntfrnbl() tirows Exdfption {
+        Objfdt tbrgft = gftTbrgft();
+        String mftiodNbmf = gftMftiodNbmf();
 
-        if (target == null || methodName == null) {
-            throw new NullPointerException((target == null ? "target" :
-                                            "methodName") + " should not be null");
-        }
-
-        Object[] arguments = getArguments();
-        if (arguments == null) {
-            arguments = emptyArray;
-        }
-        // Class.forName() won't load classes outside
-        // of core from a class inside core. Special
-        // case this method.
-        if (target == Class.class && methodName.equals("forName")) {
-            return ClassFinder.resolveClass((String)arguments[0], this.loader);
-        }
-        Class<?>[] argClasses = new Class<?>[arguments.length];
-        for(int i = 0; i < arguments.length; i++) {
-            argClasses[i] = (arguments[i] == null) ? null : arguments[i].getClass();
+        if (tbrgft == null || mftiodNbmf == null) {
+            tirow nfw NullPointfrExdfption((tbrgft == null ? "tbrgft" :
+                                            "mftiodNbmf") + " siould not bf null");
         }
 
-        AccessibleObject m = null;
-        if (target instanceof Class) {
+        Objfdt[] brgumfnts = gftArgumfnts();
+        if (brgumfnts == null) {
+            brgumfnts = fmptyArrby;
+        }
+        // Clbss.forNbmf() won't lobd dlbssfs outsidf
+        // of dorf from b dlbss insidf dorf. Spfdibl
+        // dbsf tiis mftiod.
+        if (tbrgft == Clbss.dlbss && mftiodNbmf.fqubls("forNbmf")) {
+            rfturn ClbssFindfr.rfsolvfClbss((String)brgumfnts[0], tiis.lobdfr);
+        }
+        Clbss<?>[] brgClbssfs = nfw Clbss<?>[brgumfnts.lfngti];
+        for(int i = 0; i < brgumfnts.lfngti; i++) {
+            brgClbssfs[i] = (brgumfnts[i] == null) ? null : brgumfnts[i].gftClbss();
+        }
+
+        AddfssiblfObjfdt m = null;
+        if (tbrgft instbndfof Clbss) {
             /*
-            For class methods, simluate the effect of a meta class
-            by taking the union of the static methods of the
-            actual class, with the instance methods of "Class.class"
-            and the overloaded "newInstance" methods defined by the
-            constructors.
-            This way "System.class", for example, will perform both
-            the static method getProperties() and the instance method
-            getSuperclass() defined in "Class.class".
+            For dlbss mftiods, simlubtf tif ffffdt of b mftb dlbss
+            by tbking tif union of tif stbtid mftiods of tif
+            bdtubl dlbss, witi tif instbndf mftiods of "Clbss.dlbss"
+            bnd tif ovfrlobdfd "nfwInstbndf" mftiods dffinfd by tif
+            donstrudtors.
+            Tiis wby "Systfm.dlbss", for fxbmplf, will pfrform boti
+            tif stbtid mftiod gftPropfrtifs() bnd tif instbndf mftiod
+            gftSupfrdlbss() dffinfd in "Clbss.dlbss".
             */
-            if (methodName.equals("new")) {
-                methodName = "newInstance";
+            if (mftiodNbmf.fqubls("nfw")) {
+                mftiodNbmf = "nfwInstbndf";
             }
-            // Provide a short form for array instantiation by faking an nary-constructor.
-            if (methodName.equals("newInstance") && ((Class)target).isArray()) {
-                Object result = Array.newInstance(((Class)target).getComponentType(), arguments.length);
-                for(int i = 0; i < arguments.length; i++) {
-                    Array.set(result, i, arguments[i]);
+            // Providf b siort form for brrby instbntibtion by fbking bn nbry-donstrudtor.
+            if (mftiodNbmf.fqubls("nfwInstbndf") && ((Clbss)tbrgft).isArrby()) {
+                Objfdt rfsult = Arrby.nfwInstbndf(((Clbss)tbrgft).gftComponfntTypf(), brgumfnts.lfngti);
+                for(int i = 0; i < brgumfnts.lfngti; i++) {
+                    Arrby.sft(rfsult, i, brgumfnts[i]);
                 }
-                return result;
+                rfturn rfsult;
             }
-            if (methodName.equals("newInstance") && arguments.length != 0) {
-                // The Character class, as of 1.4, does not have a constructor
-                // which takes a String. All of the other "wrapper" classes
-                // for Java's primitive types have a String constructor so we
-                // fake such a constructor here so that this special case can be
-                // ignored elsewhere.
-                if (target == Character.class && arguments.length == 1 &&
-                    argClasses[0] == String.class) {
-                    return ((String)arguments[0]).charAt(0);
+            if (mftiodNbmf.fqubls("nfwInstbndf") && brgumfnts.lfngti != 0) {
+                // Tif Cibrbdtfr dlbss, bs of 1.4, dofs not ibvf b donstrudtor
+                // wiidi tbkfs b String. All of tif otifr "wrbppfr" dlbssfs
+                // for Jbvb's primitivf typfs ibvf b String donstrudtor so wf
+                // fbkf sudi b donstrudtor ifrf so tibt tiis spfdibl dbsf dbn bf
+                // ignorfd flsfwifrf.
+                if (tbrgft == Cibrbdtfr.dlbss && brgumfnts.lfngti == 1 &&
+                    brgClbssfs[0] == String.dlbss) {
+                    rfturn ((String)brgumfnts[0]).dibrAt(0);
                 }
                 try {
-                    m = ConstructorFinder.findConstructor((Class)target, argClasses);
+                    m = ConstrudtorFindfr.findConstrudtor((Clbss)tbrgft, brgClbssfs);
                 }
-                catch (NoSuchMethodException exception) {
+                dbtdi (NoSudiMftiodExdfption fxdfption) {
                     m = null;
                 }
             }
-            if (m == null && target != Class.class) {
-                m = getMethod((Class)target, methodName, argClasses);
+            if (m == null && tbrgft != Clbss.dlbss) {
+                m = gftMftiod((Clbss)tbrgft, mftiodNbmf, brgClbssfs);
             }
             if (m == null) {
-                m = getMethod(Class.class, methodName, argClasses);
+                m = gftMftiod(Clbss.dlbss, mftiodNbmf, brgClbssfs);
             }
         }
-        else {
+        flsf {
             /*
-            This special casing of arrays is not necessary, but makes files
-            involving arrays much shorter and simplifies the archiving infrastrcure.
-            The Array.set() method introduces an unusual idea - that of a static method
-            changing the state of an instance. Normally statements with side
-            effects on objects are instance methods of the objects themselves
-            and we reinstate this rule (perhaps temporarily) by special-casing arrays.
+            Tiis spfdibl dbsing of brrbys is not nfdfssbry, but mbkfs filfs
+            involving brrbys mudi siortfr bnd simplififs tif brdiiving infrbstrdurf.
+            Tif Arrby.sft() mftiod introdudfs bn unusubl idfb - tibt of b stbtid mftiod
+            dibnging tif stbtf of bn instbndf. Normblly stbtfmfnts witi sidf
+            ffffdts on objfdts brf instbndf mftiods of tif objfdts tifmsflvfs
+            bnd wf rfinstbtf tiis rulf (pfribps tfmporbrily) by spfdibl-dbsing brrbys.
             */
-            if (target.getClass().isArray() &&
-                (methodName.equals("set") || methodName.equals("get"))) {
-                int index = ((Integer)arguments[0]).intValue();
-                if (methodName.equals("get")) {
-                    return Array.get(target, index);
+            if (tbrgft.gftClbss().isArrby() &&
+                (mftiodNbmf.fqubls("sft") || mftiodNbmf.fqubls("gft"))) {
+                int indfx = ((Intfgfr)brgumfnts[0]).intVbluf();
+                if (mftiodNbmf.fqubls("gft")) {
+                    rfturn Arrby.gft(tbrgft, indfx);
                 }
-                else {
-                    Array.set(target, index, arguments[1]);
-                    return null;
+                flsf {
+                    Arrby.sft(tbrgft, indfx, brgumfnts[1]);
+                    rfturn null;
                 }
             }
-            m = getMethod(target.getClass(), methodName, argClasses);
+            m = gftMftiod(tbrgft.gftClbss(), mftiodNbmf, brgClbssfs);
         }
         if (m != null) {
             try {
-                if (m instanceof Method) {
-                    return MethodUtil.invoke((Method)m, target, arguments);
+                if (m instbndfof Mftiod) {
+                    rfturn MftiodUtil.invokf((Mftiod)m, tbrgft, brgumfnts);
                 }
-                else {
-                    return ((Constructor)m).newInstance(arguments);
+                flsf {
+                    rfturn ((Construdtor)m).nfwInstbndf(brgumfnts);
                 }
             }
-            catch (IllegalAccessException iae) {
-                throw new Exception("Statement cannot invoke: " +
-                                    methodName + " on " + target.getClass(),
-                                    iae);
+            dbtdi (IllfgblAddfssExdfption ibf) {
+                tirow nfw Exdfption("Stbtfmfnt dbnnot invokf: " +
+                                    mftiodNbmf + " on " + tbrgft.gftClbss(),
+                                    ibf);
             }
-            catch (InvocationTargetException ite) {
-                Throwable te = ite.getTargetException();
-                if (te instanceof Exception) {
-                    throw (Exception)te;
+            dbtdi (InvodbtionTbrgftExdfption itf) {
+                Tirowbblf tf = itf.gftTbrgftExdfption();
+                if (tf instbndfof Exdfption) {
+                    tirow (Exdfption)tf;
                 }
-                else {
-                    throw ite;
+                flsf {
+                    tirow itf;
                 }
             }
         }
-        throw new NoSuchMethodException(toString());
+        tirow nfw NoSudiMftiodExdfption(toString());
     }
 
-    String instanceName(Object instance) {
-        if (instance == null) {
-            return "null";
-        } else if (instance.getClass() == String.class) {
-            return "\""+(String)instance + "\"";
-        } else {
-            // Note: there is a minor problem with using the non-caching
-            // NameGenerator method. The return value will not have
-            // specific information about the inner class name. For example,
-            // In 1.4.2 an inner class would be represented as JList$1 now
-            // would be named Class.
+    String instbndfNbmf(Objfdt instbndf) {
+        if (instbndf == null) {
+            rfturn "null";
+        } flsf if (instbndf.gftClbss() == String.dlbss) {
+            rfturn "\""+(String)instbndf + "\"";
+        } flsf {
+            // Notf: tifrf is b minor problfm witi using tif non-dbdiing
+            // NbmfGfnfrbtor mftiod. Tif rfturn vbluf will not ibvf
+            // spfdifid informbtion bbout tif innfr dlbss nbmf. For fxbmplf,
+            // In 1.4.2 bn innfr dlbss would bf rfprfsfntfd bs JList$1 now
+            // would bf nbmfd Clbss.
 
-            return NameGenerator.unqualifiedClassName(instance.getClass());
+            rfturn NbmfGfnfrbtor.unqublififdClbssNbmf(instbndf.gftClbss());
         }
     }
 
     /**
-     * Prints the value of this statement using a Java-style syntax.
+     * Prints tif vbluf of tiis stbtfmfnt using b Jbvb-stylf syntbx.
      */
-    public String toString() {
-        // Respect a subclass's implementation here.
-        Object target = getTarget();
-        String methodName = getMethodName();
-        Object[] arguments = getArguments();
-        if (arguments == null) {
-            arguments = emptyArray;
+    publid String toString() {
+        // Rfspfdt b subdlbss's implfmfntbtion ifrf.
+        Objfdt tbrgft = gftTbrgft();
+        String mftiodNbmf = gftMftiodNbmf();
+        Objfdt[] brgumfnts = gftArgumfnts();
+        if (brgumfnts == null) {
+            brgumfnts = fmptyArrby;
         }
-        StringBuilder result = new StringBuilder(instanceName(target) + "." + methodName + "(");
-        int n = arguments.length;
+        StringBuildfr rfsult = nfw StringBuildfr(instbndfNbmf(tbrgft) + "." + mftiodNbmf + "(");
+        int n = brgumfnts.lfngti;
         for(int i = 0; i < n; i++) {
-            result.append(instanceName(arguments[i]));
+            rfsult.bppfnd(instbndfNbmf(brgumfnts[i]));
             if (i != n -1) {
-                result.append(", ");
+                rfsult.bppfnd(", ");
             }
         }
-        result.append(");");
-        return result.toString();
+        rfsult.bppfnd(");");
+        rfturn rfsult.toString();
     }
 
-    static Method getMethod(Class<?> type, String name, Class<?>... args) {
+    stbtid Mftiod gftMftiod(Clbss<?> typf, String nbmf, Clbss<?>... brgs) {
         try {
-            return MethodFinder.findMethod(type, name, args);
+            rfturn MftiodFindfr.findMftiod(typf, nbmf, brgs);
         }
-        catch (NoSuchMethodException exception) {
-            return null;
+        dbtdi (NoSudiMftiodExdfption fxdfption) {
+            rfturn null;
         }
     }
 }

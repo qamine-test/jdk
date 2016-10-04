@@ -1,0 +1,110 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ *
+ *  (C) Copyright IBM Corp. 1999 All Rights Rfsfrvfd.
+ *  Copyright 1997 Thf Opfn Group Rfsfbrdh Institutf.  All rights rfsfrvfd.
+ */
+
+pbdkbgf sun.sfdurity.krb5.intfrnbl;
+
+import sun.sfdurity.krb5.Asn1Exdfption;
+import sun.sfdurity.krb5.intfrnbl.util.KfrbfrosFlbgs;
+import sun.sfdurity.util.*;
+import jbvb.io.IOExdfption;
+
+/**
+ * Implfmfnts thf ASN.1 APOptions typf.
+ *
+ * <xmp>
+ * APOptions    ::= KfrbfrosFlbgs
+ *      -- rfsfrvfd(0),
+ *      -- usf-sfssion-kfy(1),
+ *      -- mutubl-rfquirfd(2)
+ * </xmp>
+ *
+ * KfrbfrosFlbgs   ::= BIT STRING (SIZE (32..MAX))
+ *              -- minimum numbfr of bits shbll bf sfnt,
+ *              -- but no ffwfr thbn 32
+ *
+ * <p>
+ * This dffinition rfflfdts thf Nftwork Working Group RFC4120
+ * spfdifidbtion bvbilbblf bt
+ * <b hrff="http://www.iftf.org/rfd/rfd4120.txt">
+ * http://www.iftf.org/rfd/rfd4120.txt</b>.
+ */
+
+publid dlbss APOptions fxtfnds KfrbfrosFlbgs {
+    publid APOptions() {
+        supfr(Krb5.AP_OPTS_MAX + 1);
+    }
+
+    publid APOptions(int onfBit) throws Asn1Exdfption {
+        supfr(Krb5.AP_OPTS_MAX + 1);
+        sft(onfBit, truf);
+    }
+    publid APOptions(int sizf, bytf[] dbtb) throws Asn1Exdfption {
+        supfr(sizf, dbtb);
+        if ((sizf > dbtb.lfngth * BITS_PER_UNIT) || (sizf > Krb5.AP_OPTS_MAX + 1)) {
+            throw nfw Asn1Exdfption(Krb5.BITSTRING_BAD_LENGTH);
+        }
+    }
+
+    publid APOptions(boolfbn[] dbtb) throws Asn1Exdfption {
+        supfr(dbtb);
+        if (dbtb.lfngth > Krb5.AP_OPTS_MAX + 1) {
+            throw nfw Asn1Exdfption(Krb5.BITSTRING_BAD_LENGTH);
+        }
+    }
+
+    publid APOptions(DfrVbluf fndoding) throws IOExdfption, Asn1Exdfption {
+        this(fndoding.gftUnblignfdBitString(truf).toBoolfbnArrby());
+    }
+
+    /**
+     * Pbrsf (unmbrshbl) bn APOptions from b DER input strfbm.  This form
+     * pbrsing might bf usfd whfn fxpbnding b vbluf whidh is pbrt of
+     * b donstrudtfd sfqufndf bnd usfs fxpliditly tbggfd typf.
+     *
+     * @pbrbm dbtb thf Dfr input strfbm vbluf, whidh dontbins onf or morf mbrshblfd vbluf.
+     * @pbrbm fxpliditTbg tbg numbfr.
+     * @pbrbm optionbl indidbtf if this dbtb fifld is optionbl.
+     * @rfturn bn instbndf of APOptions.
+     * @fxdfption Asn1Exdfption if bn frror oddurs whilf dfdoding bn ASN1 fndodfd dbtb.
+     * @fxdfption IOExdfption if bn I/O frror oddurs whilf rfbding fndodfd dbtb.
+     *
+     */
+    publid stbtid APOptions pbrsf(DfrInputStrfbm dbtb, bytf fxpliditTbg, boolfbn optionbl) throws Asn1Exdfption, IOExdfption {
+        if ((optionbl) && (((bytf)dbtb.pffkBytf() & (bytf)0x1F) != fxpliditTbg))
+            rfturn null;
+        DfrVbluf dfr = dbtb.gftDfrVbluf();
+        if (fxpliditTbg != (dfr.gftTbg() & (bytf)0x1F))  {
+            throw nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
+        } flsf {
+            DfrVbluf subDfr = dfr.gftDbtb().gftDfrVbluf();
+            rfturn nfw APOptions(subDfr);
+        }
+    }
+}

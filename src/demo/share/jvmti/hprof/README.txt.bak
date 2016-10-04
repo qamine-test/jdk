@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2003, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -32,86 +32,86 @@
 README
 ------
 
-Design and Implementation:
+Dfsign bnd Implfmfntbtion:
 
-    * The Tracker Class (Tracker.java & hprof_tracker.c)
-        It was added to the sun.tools.hprof.Tracker in JDK 5.0 FCS, then
-	moved to a package that didn't cause classload errors due to
-	the security manager not liking the sun.* package name.
-	5091195 detected that this class needs to be in com.sun.demo.jvmti.hprof.
-        The BCI code will call these static methods, which will in turn
-        (if engaged) call matching native methods in the hprof library,
-	with the additional current Thread argument (Thread.currentThread()).
-	Doing the currentThread call on the Java side was necessary due
-	to the difficulty of getting the current thread while inside one
-	of these Tracker native methods.  This class lives in rt.jar.
+    * Tif Trbdkfr Clbss (Trbdkfr.jbvb & iprof_trbdkfr.d)
+        It wbs bddfd to tif sun.tools.iprof.Trbdkfr in JDK 5.0 FCS, tifn
+	movfd to b pbdkbgf tibt didn't dbusf dlbsslobd frrors duf to
+	tif sfdurity mbnbgfr not liking tif sun.* pbdkbgf nbmf.
+	5091195 dftfdtfd tibt tiis dlbss nffds to bf in dom.sun.dfmo.jvmti.iprof.
+        Tif BCI dodf will dbll tifsf stbtid mftiods, wiidi will in turn
+        (if fngbgfd) dbll mbtdiing nbtivf mftiods in tif iprof librbry,
+	witi tif bdditionbl durrfnt Tirfbd brgumfnt (Tirfbd.durrfntTirfbd()).
+	Doing tif durrfntTirfbd dbll on tif Jbvb sidf wbs nfdfssbry duf
+	to tif diffidulty of gftting tif durrfnt tirfbd wiilf insidf onf
+	of tifsf Trbdkfr nbtivf mftiods.  Tiis dlbss livfs in rt.jbr.
 
-    * Byte Code Instrumentation (BCI)
-        Using the ClassFileLoadHook feature and a C language
-        implementation of a byte code injection transformer, the following
-        bytecodes get injections:
-	    - On entry to the java.lang.Object <init> method, 
-	      a invokestatic call to
-		Tracker.ObjectInit(this);
-	      is injected. 
-	    - On any newarray type opcode, immediately following it, 
-	      the array object is duplicated on the stack and an
-	      invokestatic call to
-		Tracker.NewArray(obj);
-	      is injected. 
-	    - On entry to all methods, a invokestatic call to 
-		Tracker.CallSite(cnum,mnum);
-	      is injected. The hprof agent can map the two integers
-	      (cnum,mnum) to a method in a class. This is the BCI based
-	      "method entry" event.
-	    - On return from any method (any return opcode),
-	      a invokestatic call to
-		Tracker.ReturnSite(cnum,mnum);
-	      is injected.  
-        All classes found via ClassFileLoadHook are injected with the
-        exception of some system class methods "<init>" and "finalize" 
-        whose length is 1 and system class methods with name "<clinit>",
-	and also java.lang.Thread.currentThread() which is used in the
-	class Tracker (preventing nasty recursion issue).
-        System classes are currently defined as any class seen by the
-	ClassFileLoadHook prior to VM_INIT. This does mean that
-	objects created in the system classes inside <clinit> might not
-	get tracked initially.
-	See the java_crw_demo source and documentation for more info.
-	The injections are based on what the hprof options
-	are requesting, e.g. if heap=sites or heap=all is requested, the
-	newarray and Object.<init> method injections happen.
-	If cpu=times is requested, all methods get their entries and
-	returns tracked. Options like cpu=samples or monitor=y
-	do not require BCI.
+    * Bytf Codf Instrumfntbtion (BCI)
+        Using tif ClbssFilfLobdHook ffbturf bnd b C lbngubgf
+        implfmfntbtion of b bytf dodf injfdtion trbnsformfr, tif following
+        bytfdodfs gft injfdtions:
+	    - On fntry to tif jbvb.lbng.Objfdt <init> mftiod, 
+	      b invokfstbtid dbll to
+		Trbdkfr.ObjfdtInit(tiis);
+	      is injfdtfd. 
+	    - On bny nfwbrrby typf opdodf, immfdibtfly following it, 
+	      tif brrby objfdt is duplidbtfd on tif stbdk bnd bn
+	      invokfstbtid dbll to
+		Trbdkfr.NfwArrby(obj);
+	      is injfdtfd. 
+	    - On fntry to bll mftiods, b invokfstbtid dbll to 
+		Trbdkfr.CbllSitf(dnum,mnum);
+	      is injfdtfd. Tif iprof bgfnt dbn mbp tif two intfgfrs
+	      (dnum,mnum) to b mftiod in b dlbss. Tiis is tif BCI bbsfd
+	      "mftiod fntry" fvfnt.
+	    - On rfturn from bny mftiod (bny rfturn opdodf),
+	      b invokfstbtid dbll to
+		Trbdkfr.RfturnSitf(dnum,mnum);
+	      is injfdtfd.  
+        All dlbssfs found vib ClbssFilfLobdHook brf injfdtfd witi tif
+        fxdfption of somf systfm dlbss mftiods "<init>" bnd "finblizf" 
+        wiosf lfngti is 1 bnd systfm dlbss mftiods witi nbmf "<dlinit>",
+	bnd blso jbvb.lbng.Tirfbd.durrfntTirfbd() wiidi is usfd in tif
+	dlbss Trbdkfr (prfvfnting nbsty rfdursion issuf).
+        Systfm dlbssfs brf durrfntly dffinfd bs bny dlbss sffn by tif
+	ClbssFilfLobdHook prior to VM_INIT. Tiis dofs mfbn tibt
+	objfdts drfbtfd in tif systfm dlbssfs insidf <dlinit> migit not
+	gft trbdkfd initiblly.
+	Sff tif jbvb_drw_dfmo sourdf bnd dodumfntbtion for morf info.
+	Tif injfdtions brf bbsfd on wibt tif iprof options
+	brf rfqufsting, f.g. if ifbp=sitfs or ifbp=bll is rfqufstfd, tif
+	nfwbrrby bnd Objfdt.<init> mftiod injfdtions ibppfn.
+	If dpu=timfs is rfqufstfd, bll mftiods gft tifir fntrifs bnd
+	rfturns trbdkfd. Options likf dpu=sbmplfs or monitor=y
+	do not rfquirf BCI.
 
-    * BCI Allocation Tags (hprof_tag.c)
-        The current jlong tag being used on allocated objects
-	is an ObjectIndex, or an index into the object table inside
-	the hprof code. Depending on whether heap=sites or heap=dump 
-	was asked for, these ObjectIndex's might represent unique
-	objects, or unique allocation sites for types of objects.
-	The heap=dump option requires considerable more space
-	due to the one jobject per ObjectIndex mapping.
+    * BCI Allodbtion Tbgs (iprof_tbg.d)
+        Tif durrfnt jlong tbg bfing usfd on bllodbtfd objfdts
+	is bn ObjfdtIndfx, or bn indfx into tif objfdt tbblf insidf
+	tif iprof dodf. Dfpfnding on wiftifr ifbp=sitfs or ifbp=dump 
+	wbs bskfd for, tifsf ObjfdtIndfx's migit rfprfsfnt uniquf
+	objfdts, or uniquf bllodbtion sitfs for typfs of objfdts.
+	Tif ifbp=dump option rfquirfs donsidfrbblf morf spbdf
+	duf to tif onf jobjfdt pfr ObjfdtIndfx mbpping.
 
-    * BCI Performance
-        The cpu=times seems to have the most negative affect on
-	performance, this could be improved by not having the 
-	Tracker class methods call native code directly, but accumulate
-	the data in a file or memory somehow and letting it buffer down
-	to the agent. The cpu=samples is probably a better way to
-	measure cpu usage, varying the interval as needed.
-	The heap=dump seems to use memory like crazy, but that's 
-	partially the way it has always been. 
+    * BCI Pfrformbndf
+        Tif dpu=timfs sffms to ibvf tif most nfgbtivf bfffdt on
+	pfrformbndf, tiis dould bf improvfd by not ibving tif 
+	Trbdkfr dlbss mftiods dbll nbtivf dodf dirfdtly, but bddumulbtf
+	tif dbtb in b filf or mfmory somfiow bnd lftting it bufffr down
+	to tif bgfnt. Tif dpu=sbmplfs is probbbly b bfttfr wby to
+	mfbsurf dpu usbgf, vbrying tif intfrvbl bs nffdfd.
+	Tif ifbp=dump sffms to usf mfmory likf drbzy, but tibt's 
+	pbrtiblly tif wby it ibs blwbys bffn. 
 
-    * Sources in the JDK workspace
-        The sources and Makefiles live in:
-                src/share/classes/com/sun/demo/jvmti/hprof/*
-                src/share/demo/jvmti/hprof/*
-                src/share/demo/jvmti/java_crw_demo/*
-                src/solaris/demo/jvmti/hprof/*
-                src/windows/demo/jvmti/hprof/*
-                make/java/java_hprof_demo/*
-                make/java/java_crw_demo/*
+    * Sourdfs in tif JDK workspbdf
+        Tif sourdfs bnd Mbkffilfs livf in:
+                srd/sibrf/dlbssfs/dom/sun/dfmo/jvmti/iprof/*
+                srd/sibrf/dfmo/jvmti/iprof/*
+                srd/sibrf/dfmo/jvmti/jbvb_drw_dfmo/*
+                srd/solbris/dfmo/jvmti/iprof/*
+                srd/windows/dfmo/jvmti/iprof/*
+                mbkf/jbvb/jbvb_iprof_dfmo/*
+                mbkf/jbvb/jbvb_drw_dfmo/*
    
 --------

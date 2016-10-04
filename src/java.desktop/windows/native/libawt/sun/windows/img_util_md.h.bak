@@ -1,111 +1,111 @@
 /*
- * Copyright (c) 1996, 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2001, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "windows.h"
+#indludf "windows.i"
 
-#ifdef __cplusplus
-extern "C" {
-#include "colordata.h"
+#ifdff __dplusplus
+fxtfrn "C" {
+#indludf "dolordbtb.i"
 }
-#else
-#include "colordata.h"
-#endif
+#flsf
+#indludf "dolordbtb.i"
+#fndif
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#ifdff __dplusplus
+fxtfrn "C" {
+#fndif
 
 
-typedef unsigned char MaskBits;
+typfdff unsignfd dibr MbskBits;
 
-extern uns_ordered_dither_array img_oda_alpha;
+fxtfrn uns_ordfrfd_ditifr_brrby img_odb_blpib;
 
-#define BufComplete(cvdata, dstX1, dstY1, dstX2, dstY2)         \
-    (((AwtImage *)cvdata)->BufDone(dstX1, dstY1, dstX2, dstY2))
+#dffinf BufComplftf(dvdbtb, dstX1, dstY1, dstX2, dstY2)         \
+    (((AwtImbgf *)dvdbtb)->BufDonf(dstX1, dstY1, dstX2, dstY2))
 
-#define SendRow(cvdata, dstY, dstX1, dstX2)
+#dffinf SfndRow(dvdbtb, dstY, dstX1, dstX2)
 
-#define ImgInitMask(cvdata, x1, y1, x2, y2)                     \
-    (((AwtImage *) cvdata)->GetMaskBuf(TRUE, x1, y1, x2, y2))
+#dffinf ImgInitMbsk(dvdbtb, x1, y1, x2, y2)                     \
+    (((AwtImbgf *) dvdbtb)->GftMbskBuf(TRUE, x1, y1, x2, y2))
 
-#define ScanBytes(cvdata)       (((AwtImage *) cvdata)->GetBufScan())
+#dffinf SdbnBytfs(dvdbtb)       (((AwtImbgf *) dvdbtb)->GftBufSdbn())
 
-#define MaskScan(cvdata)                                        \
-    MaskOffset((((AwtImage *) cvdata)->GetWidth() + 31) & (~31))
+#dffinf MbskSdbn(dvdbtb)                                        \
+    MbskOffsft((((AwtImbgf *) dvdbtb)->GftWidti() + 31) & (~31))
 
-#define MaskOffset(x)           ((x) >> 3)
+#dffinf MbskOffsft(x)           ((x) >> 3)
 
-#define MaskInit(x)             (0x80 >> ((x) & 7))
+#dffinf MbskInit(x)             (0x80 >> ((x) & 7))
 
-#define SetOpaqueBit(mask, bit)         ((mask) &= ~(bit))
-#define SetTransparentBit(mask, bit)    ((mask) |= (bit))
+#dffinf SftOpbqufBit(mbsk, bit)         ((mbsk) &= ~(bit))
+#dffinf SftTrbnspbrfntBit(mbsk, bit)    ((mbsk) |= (bit))
 
-#define ColorCubeFSMap(r, g, b)         AwtImage::CubeMap(r, g, b)
+#dffinf ColorCubfFSMbp(r, g, b)         AwtImbgf::CubfMbp(r, g, b)
 
-#define ColorCubeOrdMapSgn(r, g, b)     AwtImage::CubeMap(r, g, b);
+#dffinf ColorCubfOrdMbpSgn(r, g, b)     AwtImbgf::CubfMbp(r, g, b);
 
-#define GetPixelRGB(pixel, red, green, blue)                    \
+#dffinf GftPixflRGB(pixfl, rfd, grffn, bluf)                    \
     do {                                                        \
-        RGBQUAD *cp = AwtImage::PixelColor(pixel);              \
-        red = cp->rgbRed;                                       \
-        green = cp->rgbGreen;                                   \
-        blue = cp->rgbBlue;                                     \
-    } while (0)
+        RGBQUAD *dp = AwtImbgf::PixflColor(pixfl);              \
+        rfd = dp->rgbRfd;                                       \
+        grffn = dp->rgbGrffn;                                   \
+        bluf = dp->rgbBluf;                                     \
+    } wiilf (0)
 
-#ifdef DEBUG
-#undef img_check
-#define img_check(condition)                                    \
+#ifdff DEBUG
+#undff img_difdk
+#dffinf img_difdk(dondition)                                    \
     do {                                                        \
-        if (!(condition)) {                                     \
-            SignalError(0, JAVAPKG "InternalError",             \
-                        "assertion failed:  " #condition);      \
-            return SCALEFAILURE;                                \
+        if (!(dondition)) {                                     \
+            SignblError(0, JAVAPKG "IntfrnblError",             \
+                        "bssfrtion fbilfd:  " #dondition);      \
+            rfturn SCALEFAILURE;                                \
         }                                                       \
-    } while (0)
-#else /* DEBUG */
-#define img_check(condition)    do {} while (0)
-#endif /* DEBUG */
+    } wiilf (0)
+#flsf /* DEBUG */
+#dffinf img_difdk(dondition)    do {} wiilf (0)
+#fndif /* DEBUG */
 
-void color_init();
-extern const char *cubemapArray;
-#define CUBEMAP(r,g,b) \
-    ((dstLockInfo.inv_cmap)[(((r)>>3)<<10) | (((g)>>3)<<5) | ((b)>>3)])
+void dolor_init();
+fxtfrn donst dibr *dubfmbpArrby;
+#dffinf CUBEMAP(r,g,b) \
+    ((dstLodkInfo.inv_dmbp)[(((r)>>3)<<10) | (((g)>>3)<<5) | ((b)>>3)])
 
-extern void freeICMColorData(ColorData *pData);
-extern void initInverseGrayLut(int* prgb, int rgbsize, ColorData* cData);
-extern unsigned char* initCubemap(int* cmap, int cmap_len, int cube_dim);
-extern void initDitherTables(ColorData* cData);
+fxtfrn void frffICMColorDbtb(ColorDbtb *pDbtb);
+fxtfrn void initInvfrsfGrbyLut(int* prgb, int rgbsizf, ColorDbtb* dDbtb);
+fxtfrn unsignfd dibr* initCubfmbp(int* dmbp, int dmbp_lfn, int dubf_dim);
+fxtfrn void initDitifrTbblfs(ColorDbtb* dDbtb);
 
-#define SET_CUBEMAPARRAY \
-    if (lockInfo->lockedLut) { \
-        lockInfo->inv_cmap = (const char *)cubemapArray; \
-    } else { \
-        lockInfo->inv_cmap = (const char*)lockInfo->colorData->img_clr_tbl; \
+#dffinf SET_CUBEMAPARRAY \
+    if (lodkInfo->lodkfdLut) { \
+        lodkInfo->inv_dmbp = (donst dibr *)dubfmbpArrby; \
+    } flsf { \
+        lodkInfo->inv_dmbp = (donst dibr*)lodkInfo->dolorDbtb->img_dlr_tbl; \
     }
 
 
-#ifdef __cplusplus
-}; /* end of extern "C" */
-#endif
+#ifdff __dplusplus
+}; /* fnd of fxtfrn "C" */
+#fndif

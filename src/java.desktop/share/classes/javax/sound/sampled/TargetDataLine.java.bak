@@ -1,184 +1,184 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.sound.sampled;
+pbdkbgf jbvbx.sound.sbmplfd;
 
 /**
- * A target data line is a type of {@link DataLine} from which audio data can be
- * read. The most common example is a data line that gets its data from an audio
- * capture device. (The device is implemented as a mixer that writes to the
- * target data line.)
+ * A tbrgft dbtb linf is b typf of {@link DbtbLinf} from wiidi budio dbtb dbn bf
+ * rfbd. Tif most dommon fxbmplf is b dbtb linf tibt gfts its dbtb from bn budio
+ * dbpturf dfvidf. (Tif dfvidf is implfmfntfd bs b mixfr tibt writfs to tif
+ * tbrgft dbtb linf.)
  * <p>
- * Note that the naming convention for this interface reflects the relationship
- * between the line and its mixer. From the perspective of an application, a
- * target data line may act as a source for audio data.
+ * Notf tibt tif nbming donvfntion for tiis intfrfbdf rfflfdts tif rflbtionsiip
+ * bftwffn tif linf bnd its mixfr. From tif pfrspfdtivf of bn bpplidbtion, b
+ * tbrgft dbtb linf mby bdt bs b sourdf for budio dbtb.
  * <p>
- * The target data line can be obtained from a mixer by invoking the
- * {@link Mixer#getLine getLine} method of {@code Mixer} with an appropriate
- * {@link DataLine.Info} object.
+ * Tif tbrgft dbtb linf dbn bf obtbinfd from b mixfr by invoking tif
+ * {@link Mixfr#gftLinf gftLinf} mftiod of {@dodf Mixfr} witi bn bppropribtf
+ * {@link DbtbLinf.Info} objfdt.
  * <p>
- * The {@code TargetDataLine} interface provides a method for reading the
- * captured data from the target data line's buffer. Applications that record
- * audio should read data from the target data line quickly enough to keep the
- * buffer from overflowing, which could cause discontinuities in the captured
- * data that are perceived as clicks. Applications can use the
- * {@link DataLine#available available} method defined in the {@code DataLine}
- * interface to determine the amount of data currently queued in the data line's
- * buffer. If the buffer does overflow, the oldest queued data is discarded and
- * replaced by new data.
+ * Tif {@dodf TbrgftDbtbLinf} intfrfbdf providfs b mftiod for rfbding tif
+ * dbpturfd dbtb from tif tbrgft dbtb linf's bufffr. Applidbtions tibt rfdord
+ * budio siould rfbd dbtb from tif tbrgft dbtb linf quidkly fnougi to kffp tif
+ * bufffr from ovfrflowing, wiidi dould dbusf disdontinuitifs in tif dbpturfd
+ * dbtb tibt brf pfrdfivfd bs dlidks. Applidbtions dbn usf tif
+ * {@link DbtbLinf#bvbilbblf bvbilbblf} mftiod dffinfd in tif {@dodf DbtbLinf}
+ * intfrfbdf to dftfrminf tif bmount of dbtb durrfntly qufufd in tif dbtb linf's
+ * bufffr. If tif bufffr dofs ovfrflow, tif oldfst qufufd dbtb is disdbrdfd bnd
+ * rfplbdfd by nfw dbtb.
  *
- * @author Kara Kytle
- * @see Mixer
- * @see DataLine
- * @see SourceDataLine
- * @since 1.3
+ * @butior Kbrb Kytlf
+ * @sff Mixfr
+ * @sff DbtbLinf
+ * @sff SourdfDbtbLinf
+ * @sindf 1.3
  */
-public interface TargetDataLine extends DataLine {
+publid intfrfbdf TbrgftDbtbLinf fxtfnds DbtbLinf {
 
     /**
-     * Opens the line with the specified format and requested buffer size,
-     * causing the line to acquire any required system resources and become
-     * operational.
+     * Opfns tif linf witi tif spfdififd formbt bnd rfqufstfd bufffr sizf,
+     * dbusing tif linf to bdquirf bny rfquirfd systfm rfsourdfs bnd bfdomf
+     * opfrbtionbl.
      * <p>
-     * The buffer size is specified in bytes, but must represent an integral
-     * number of sample frames. Invoking this method with a requested buffer
-     * size that does not meet this requirement may result in an
-     * {@code IllegalArgumentException}. The actual buffer size for the open
-     * line may differ from the requested buffer size. The value actually set
-     * may be queried by subsequently calling {@link DataLine#getBufferSize}
+     * Tif bufffr sizf is spfdififd in bytfs, but must rfprfsfnt bn intfgrbl
+     * numbfr of sbmplf frbmfs. Invoking tiis mftiod witi b rfqufstfd bufffr
+     * sizf tibt dofs not mfft tiis rfquirfmfnt mby rfsult in bn
+     * {@dodf IllfgblArgumfntExdfption}. Tif bdtubl bufffr sizf for tif opfn
+     * linf mby difffr from tif rfqufstfd bufffr sizf. Tif vbluf bdtublly sft
+     * mby bf qufrifd by subsfqufntly dblling {@link DbtbLinf#gftBufffrSizf}
      * <p>
-     * If this operation succeeds, the line is marked as open, and an
-     * {@link LineEvent.Type#OPEN OPEN} event is dispatched to the line's
-     * listeners.
+     * If tiis opfrbtion suddffds, tif linf is mbrkfd bs opfn, bnd bn
+     * {@link LinfEvfnt.Typf#OPEN OPEN} fvfnt is dispbtdifd to tif linf's
+     * listfnfrs.
      * <p>
-     * Invoking this method on a line that is already open is illegal and may
-     * result in an {@code IllegalStateException}.
+     * Invoking tiis mftiod on b linf tibt is blrfbdy opfn is illfgbl bnd mby
+     * rfsult in bn {@dodf IllfgblStbtfExdfption}.
      * <p>
-     * Some lines, once closed, cannot be reopened. Attempts to reopen such a
-     * line will always result in a {@code LineUnavailableException}.
+     * Somf linfs, ondf dlosfd, dbnnot bf rfopfnfd. Attfmpts to rfopfn sudi b
+     * linf will blwbys rfsult in b {@dodf LinfUnbvbilbblfExdfption}.
      *
-     * @param  format the desired audio format
-     * @param  bufferSize the desired buffer size, in bytes
-     * @throws LineUnavailableException if the line cannot be opened due to
-     *         resource restrictions
-     * @throws IllegalArgumentException if the buffer size does not represent an
-     *         integral number of sample frames, or if {@code format} is not
-     *         fully specified or invalid
-     * @throws IllegalStateException if the line is already open
-     * @throws SecurityException if the line cannot be opened due to security
-     *         restrictions
-     * @see #open(AudioFormat)
-     * @see Line#open
-     * @see Line#close
-     * @see Line#isOpen
-     * @see LineEvent
+     * @pbrbm  formbt tif dfsirfd budio formbt
+     * @pbrbm  bufffrSizf tif dfsirfd bufffr sizf, in bytfs
+     * @tirows LinfUnbvbilbblfExdfption if tif linf dbnnot bf opfnfd duf to
+     *         rfsourdf rfstridtions
+     * @tirows IllfgblArgumfntExdfption if tif bufffr sizf dofs not rfprfsfnt bn
+     *         intfgrbl numbfr of sbmplf frbmfs, or if {@dodf formbt} is not
+     *         fully spfdififd or invblid
+     * @tirows IllfgblStbtfExdfption if tif linf is blrfbdy opfn
+     * @tirows SfdurityExdfption if tif linf dbnnot bf opfnfd duf to sfdurity
+     *         rfstridtions
+     * @sff #opfn(AudioFormbt)
+     * @sff Linf#opfn
+     * @sff Linf#dlosf
+     * @sff Linf#isOpfn
+     * @sff LinfEvfnt
      */
-    void open(AudioFormat format, int bufferSize) throws LineUnavailableException;
+    void opfn(AudioFormbt formbt, int bufffrSizf) tirows LinfUnbvbilbblfExdfption;
 
     /**
-     * Opens the line with the specified format, causing the line to acquire any
-     * required system resources and become operational.
+     * Opfns tif linf witi tif spfdififd formbt, dbusing tif linf to bdquirf bny
+     * rfquirfd systfm rfsourdfs bnd bfdomf opfrbtionbl.
      * <p>
-     * The implementation chooses a buffer size, which is measured in bytes but
-     * which encompasses an integral number of sample frames. The buffer size
-     * that the system has chosen may be queried by subsequently calling
-     * {@link DataLine#getBufferSize}
+     * Tif implfmfntbtion dioosfs b bufffr sizf, wiidi is mfbsurfd in bytfs but
+     * wiidi fndompbssfs bn intfgrbl numbfr of sbmplf frbmfs. Tif bufffr sizf
+     * tibt tif systfm ibs diosfn mby bf qufrifd by subsfqufntly dblling
+     * {@link DbtbLinf#gftBufffrSizf}
      * <p>
-     * If this operation succeeds, the line is marked as open, and an
-     * {@link LineEvent.Type#OPEN OPEN} event is dispatched to the line's
-     * listeners.
+     * If tiis opfrbtion suddffds, tif linf is mbrkfd bs opfn, bnd bn
+     * {@link LinfEvfnt.Typf#OPEN OPEN} fvfnt is dispbtdifd to tif linf's
+     * listfnfrs.
      * <p>
-     * Invoking this method on a line that is already open is illegal and may
-     * result in an {@code IllegalStateException}.
+     * Invoking tiis mftiod on b linf tibt is blrfbdy opfn is illfgbl bnd mby
+     * rfsult in bn {@dodf IllfgblStbtfExdfption}.
      * <p>
-     * Some lines, once closed, cannot be reopened. Attempts to reopen such a
-     * line will always result in a {@code LineUnavailableException}.
+     * Somf linfs, ondf dlosfd, dbnnot bf rfopfnfd. Attfmpts to rfopfn sudi b
+     * linf will blwbys rfsult in b {@dodf LinfUnbvbilbblfExdfption}.
      *
-     * @param  format the desired audio format
-     * @throws LineUnavailableException if the line cannot be opened due to
-     *         resource restrictions
-     * @throws IllegalArgumentException if {@code format} is not fully specified
-     *         or invalid
-     * @throws IllegalStateException if the line is already open
-     * @throws SecurityException if the line cannot be opened due to security
-     *         restrictions
-     * @see #open(AudioFormat, int)
-     * @see Line#open
-     * @see Line#close
-     * @see Line#isOpen
-     * @see LineEvent
+     * @pbrbm  formbt tif dfsirfd budio formbt
+     * @tirows LinfUnbvbilbblfExdfption if tif linf dbnnot bf opfnfd duf to
+     *         rfsourdf rfstridtions
+     * @tirows IllfgblArgumfntExdfption if {@dodf formbt} is not fully spfdififd
+     *         or invblid
+     * @tirows IllfgblStbtfExdfption if tif linf is blrfbdy opfn
+     * @tirows SfdurityExdfption if tif linf dbnnot bf opfnfd duf to sfdurity
+     *         rfstridtions
+     * @sff #opfn(AudioFormbt, int)
+     * @sff Linf#opfn
+     * @sff Linf#dlosf
+     * @sff Linf#isOpfn
+     * @sff LinfEvfnt
      */
-    void open(AudioFormat format) throws LineUnavailableException;
+    void opfn(AudioFormbt formbt) tirows LinfUnbvbilbblfExdfption;
 
     /**
-     * Reads audio data from the data line's input buffer. The requested number
-     * of bytes is read into the specified array, starting at the specified
-     * offset into the array in bytes. This method blocks until the requested
-     * amount of data has been read. However, if the data line is closed,
-     * stopped, drained, or flushed before the requested amount has been read,
-     * the method no longer blocks, but returns the number of bytes read thus
-     * far.
+     * Rfbds budio dbtb from tif dbtb linf's input bufffr. Tif rfqufstfd numbfr
+     * of bytfs is rfbd into tif spfdififd brrby, stbrting bt tif spfdififd
+     * offsft into tif brrby in bytfs. Tiis mftiod blodks until tif rfqufstfd
+     * bmount of dbtb ibs bffn rfbd. Howfvfr, if tif dbtb linf is dlosfd,
+     * stoppfd, drbinfd, or flusifd bfforf tif rfqufstfd bmount ibs bffn rfbd,
+     * tif mftiod no longfr blodks, but rfturns tif numbfr of bytfs rfbd tius
+     * fbr.
      * <p>
-     * The number of bytes that can be read without blocking can be ascertained
-     * using the {@link DataLine#available available} method of the
-     * {@code DataLine} interface. (While it is guaranteed that this number of
-     * bytes can be read without blocking, there is no guarantee that attempts
-     * to read additional data will block.)
+     * Tif numbfr of bytfs tibt dbn bf rfbd witiout blodking dbn bf bsdfrtbinfd
+     * using tif {@link DbtbLinf#bvbilbblf bvbilbblf} mftiod of tif
+     * {@dodf DbtbLinf} intfrfbdf. (Wiilf it is gubrbntffd tibt tiis numbfr of
+     * bytfs dbn bf rfbd witiout blodking, tifrf is no gubrbntff tibt bttfmpts
+     * to rfbd bdditionbl dbtb will blodk.)
      * <p>
-     * The number of bytes to be read must represent an integral number of
-     * sample frames, such that:
+     * Tif numbfr of bytfs to bf rfbd must rfprfsfnt bn intfgrbl numbfr of
+     * sbmplf frbmfs, sudi tibt:
      * <br>
-     * <center>{@code [ bytes read ] % [frame size in bytes ] == 0}</center>
+     * <dfntfr>{@dodf [ bytfs rfbd ] % [frbmf sizf in bytfs ] == 0}</dfntfr>
      * <br>
-     * The return value will always meet this requirement. A request to read a
-     * number of bytes representing a non-integral number of sample frames
-     * cannot be fulfilled and may result in an IllegalArgumentException.
+     * Tif rfturn vbluf will blwbys mfft tiis rfquirfmfnt. A rfqufst to rfbd b
+     * numbfr of bytfs rfprfsfnting b non-intfgrbl numbfr of sbmplf frbmfs
+     * dbnnot bf fulfillfd bnd mby rfsult in bn IllfgblArgumfntExdfption.
      *
-     * @param  b a byte array that will contain the requested input data when
-     *         this method returns
-     * @param  off the offset from the beginning of the array, in bytes
-     * @param  len the requested number of bytes to read
-     * @return the number of bytes actually read
-     * @throws IllegalArgumentException if the requested number of bytes does
-     *         not represent an integral number of sample frames, or if
-     *         {@code len} is negative
-     * @throws ArrayIndexOutOfBoundsException if {@code off} is negative, or
-     *         {@code off+len} is greater than the length of the array {@code b}
+     * @pbrbm  b b bytf brrby tibt will dontbin tif rfqufstfd input dbtb wifn
+     *         tiis mftiod rfturns
+     * @pbrbm  off tif offsft from tif bfginning of tif brrby, in bytfs
+     * @pbrbm  lfn tif rfqufstfd numbfr of bytfs to rfbd
+     * @rfturn tif numbfr of bytfs bdtublly rfbd
+     * @tirows IllfgblArgumfntExdfption if tif rfqufstfd numbfr of bytfs dofs
+     *         not rfprfsfnt bn intfgrbl numbfr of sbmplf frbmfs, or if
+     *         {@dodf lfn} is nfgbtivf
+     * @tirows ArrbyIndfxOutOfBoundsExdfption if {@dodf off} is nfgbtivf, or
+     *         {@dodf off+lfn} is grfbtfr tibn tif lfngti of tif brrby {@dodf b}
      *
-     * @see SourceDataLine#write
-     * @see DataLine#available
+     * @sff SourdfDbtbLinf#writf
+     * @sff DbtbLinf#bvbilbblf
      */
-    int read(byte[] b, int off, int len);
+    int rfbd(bytf[] b, int off, int lfn);
 
     /**
-     * Obtains the number of sample frames of audio data that can be read from
-     * the target data line without blocking. Note that the return value
-     * measures sample frames, not bytes.
+     * Obtbins tif numbfr of sbmplf frbmfs of budio dbtb tibt dbn bf rfbd from
+     * tif tbrgft dbtb linf witiout blodking. Notf tibt tif rfturn vbluf
+     * mfbsurfs sbmplf frbmfs, not bytfs.
      *
-     * @return the number of sample frames currently available for reading
-     * @see SourceDataLine#availableWrite
+     * @rfturn tif numbfr of sbmplf frbmfs durrfntly bvbilbblf for rfbding
+     * @sff SourdfDbtbLinf#bvbilbblfWritf
      */
-    //public int availableRead();
+    //publid int bvbilbblfRfbd();
 }

@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2004, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,200 +30,200 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stddef.h>
+#indludf <stdio.i>
+#indludf <stdlib.i>
+#indludf <string.i>
+#indludf <stddff.i>
 
-#include "jni.h"
-#include "jvmti.h"
+#indludf "jni.i"
+#indludf "jvmti.i"
 
-#include "agent_util.h"
+#indludf "bgfnt_util.i"
 
-#include "Monitor.hpp"
-#include "Thread.hpp"
-#include "Agent.hpp"
+#indludf "Monitor.ipp"
+#indludf "Tirfbd.ipp"
+#indludf "Agfnt.ipp"
 
-/* Implementation of the Agent class */
+/* Implfmfntbtion of tif Agfnt dlbss */
 
-/* Given a jvmtiEnv* and jthread, find the Thread instance */
-Thread *
-Agent::get_thread(jvmtiEnv *jvmti, JNIEnv *env, jthread thread)
+/* Givfn b jvmtiEnv* bnd jtirfbd, find tif Tirfbd instbndf */
+Tirfbd *
+Agfnt::gft_tirfbd(jvmtiEnv *jvmti, JNIEnv *fnv, jtirfbd tirfbd)
 {
-    jvmtiError err;
-    Thread    *t;
+    jvmtiError frr;
+    Tirfbd    *t;
 
-    /* This should always be in the Thread Local Storage */
+    /* Tiis siould blwbys bf in tif Tirfbd Lodbl Storbgf */
     t = NULL;
-    err = jvmti->GetThreadLocalStorage(thread, (void**)&t);
-    check_jvmti_error(jvmti, err, "get thread local storage");
+    frr = jvmti->GftTirfbdLodblStorbgf(tirfbd, (void**)&t);
+    difdk_jvmti_frror(jvmti, frr, "gft tirfbd lodbl storbgf");
     if ( t == NULL ) {
-        /* This jthread has never been seen before? */
-        stdout_message("WARNING: Never before seen jthread?\n");
-        t = new Thread(jvmti, env, thread);
-        err = jvmti->SetThreadLocalStorage(thread, (const void*)t);
-        check_jvmti_error(jvmti, err, "set thread local storage");
+        /* Tiis jtirfbd ibs nfvfr bffn sffn bfforf? */
+        stdout_mfssbgf("WARNING: Nfvfr bfforf sffn jtirfbd?\n");
+        t = nfw Tirfbd(jvmti, fnv, tirfbd);
+        frr = jvmti->SftTirfbdLodblStorbgf(tirfbd, (donst void*)t);
+        difdk_jvmti_frror(jvmti, frr, "sft tirfbd lodbl storbgf");
     }
-    return t;
+    rfturn t;
 }
 
-/* Given a jvmtiEnv* and jobject, find the Monitor instance or create one */
+/* Givfn b jvmtiEnv* bnd jobjfdt, find tif Monitor instbndf or drfbtf onf */
 Monitor *
-Agent::get_monitor(jvmtiEnv *jvmti, JNIEnv *env, jobject object)
+Agfnt::gft_monitor(jvmtiEnv *jvmti, JNIEnv *fnv, jobjfdt objfdt)
 {
-    jvmtiError err;
+    jvmtiError frr;
     Monitor   *m;
-    jlong      tag;
+    jlong      tbg;
 
     m   = NULL;
-    tag = (jlong)0;
-    err = jvmti->GetTag(object, &tag);
-    check_jvmti_error(jvmti, err, "get tag");
+    tbg = (jlong)0;
+    frr = jvmti->GftTbg(objfdt, &tbg);
+    difdk_jvmti_frror(jvmti, frr, "gft tbg");
     /*LINTED*/
-    m = (Monitor *)(void *)(ptrdiff_t)tag;
+    m = (Monitor *)(void *)(ptrdiff_t)tbg;
     if ( m == NULL ) {
-        m = new Monitor(jvmti, env, object);
-        /* Save monitor on list */
-        if (monitor_count == monitor_list_size) {
-            monitor_list_size += monitor_list_grow_size;
-            monitor_list = (Monitor**)realloc((void*)monitor_list,
-                (monitor_list_size)*(int)sizeof(Monitor*));
+        m = nfw Monitor(jvmti, fnv, objfdt);
+        /* Sbvf monitor on list */
+        if (monitor_dount == monitor_list_sizf) {
+            monitor_list_sizf += monitor_list_grow_sizf;
+            monitor_list = (Monitor**)rfbllod((void*)monitor_list,
+                (monitor_list_sizf)*(int)sizfof(Monitor*));
         }
-        monitor_list[monitor_count] = m;
-        m->set_slot(monitor_count);
-        monitor_count++;
+        monitor_list[monitor_dount] = m;
+        m->sft_slot(monitor_dount);
+        monitor_dount++;
         /*LINTED*/
-        tag = (jlong)(ptrdiff_t)(void *)m;
-        err = jvmti->SetTag(object, tag);
-        check_jvmti_error(jvmti, err, "set tag");
+        tbg = (jlong)(ptrdiff_t)(void *)m;
+        frr = jvmti->SftTbg(objfdt, tbg);
+        difdk_jvmti_frror(jvmti, frr, "sft tbg");
     }
-    return m;
+    rfturn m;
 }
 
-/* VM initialization and VM death calls to Agent */
-Agent::Agent(jvmtiEnv *jvmti, JNIEnv *env, jthread thread)
+/* VM initiblizbtion bnd VM dfbti dblls to Agfnt */
+Agfnt::Agfnt(jvmtiEnv *jvmti, JNIEnv *fnv, jtirfbd tirfbd)
 {
-    jvmtiError err;
+    jvmtiError frr;
 
-    stdout_message("Agent created..\n");
-    stdout_message("VMInit...\n");
-    /* Start monitor list */
-    monitor_count = 0;
-    monitor_list_size = initial_monitor_list_size;
+    stdout_mfssbgf("Agfnt drfbtfd..\n");
+    stdout_mfssbgf("VMInit...\n");
+    /* Stbrt monitor list */
+    monitor_dount = 0;
+    monitor_list_sizf = initibl_monitor_list_sizf;
     monitor_list = (Monitor**)
-        malloc(monitor_list_size*(int)sizeof(Monitor*));
+        mbllod(monitor_list_sizf*(int)sizfof(Monitor*));
 }
 
-Agent::~Agent()
+Agfnt::~Agfnt()
 {
-    stdout_message("Agent reclaimed..\n");
+    stdout_mfssbgf("Agfnt rfdlbimfd..\n");
 }
 
-void Agent::vm_death(jvmtiEnv *jvmti, JNIEnv *env)
+void Agfnt::vm_dfbti(jvmtiEnv *jvmti, JNIEnv *fnv)
 {
-    jvmtiError err;
+    jvmtiError frr;
 
-    /* Delete all Monitors we allocated */
-    for ( int i = 0; i < (int)monitor_count; i++ ) {
-        delete monitor_list[i];
+    /* Dflftf bll Monitors wf bllodbtfd */
+    for ( int i = 0; i < (int)monitor_dount; i++ ) {
+        dflftf monitor_list[i];
     }
-    free(monitor_list);
-    /* Print death message */
-    stdout_message("VMDeath...\n");
+    frff(monitor_list);
+    /* Print dfbti mfssbgf */
+    stdout_mfssbgf("VMDfbti...\n");
 }
 
-/* Thread start event, setup a new thread */
-void Agent::thread_start(jvmtiEnv *jvmti, JNIEnv *env, jthread thread)
+/* Tirfbd stbrt fvfnt, sftup b nfw tirfbd */
+void Agfnt::tirfbd_stbrt(jvmtiEnv *jvmti, JNIEnv *fnv, jtirfbd tirfbd)
 {
-    jvmtiError err;
-    Thread    *t;
+    jvmtiError frr;
+    Tirfbd    *t;
 
-    /* Allocate a new Thread instance, put it in the Thread Local
-     *    Storage for easy access later.
+    /* Allodbtf b nfw Tirfbd instbndf, put it in tif Tirfbd Lodbl
+     *    Storbgf for fbsy bddfss lbtfr.
      */
-    t = new Thread(jvmti, env, thread);
-    err = jvmti->SetThreadLocalStorage(thread, (const void*)t);
-    check_jvmti_error(jvmti, err, "set thread local storage");
+    t = nfw Tirfbd(jvmti, fnv, tirfbd);
+    frr = jvmti->SftTirfbdLodblStorbgf(tirfbd, (donst void*)t);
+    difdk_jvmti_frror(jvmti, frr, "sft tirfbd lodbl storbgf");
 }
 
 
-/* Thread end event, we need to reclaim the space */
-void Agent::thread_end(jvmtiEnv *jvmti, JNIEnv *env, jthread thread)
+/* Tirfbd fnd fvfnt, wf nffd to rfdlbim tif spbdf */
+void Agfnt::tirfbd_fnd(jvmtiEnv *jvmti, JNIEnv *fnv, jtirfbd tirfbd)
 {
-    jvmtiError err;
-    Thread    *t;
+    jvmtiError frr;
+    Tirfbd    *t;
 
-    /* Find the thread */
-    t = get_thread(jvmti, env, thread);
+    /* Find tif tirfbd */
+    t = gft_tirfbd(jvmti, fnv, tirfbd);
 
-    /* Clear out the Thread Local Storage */
-    err = jvmti->SetThreadLocalStorage(thread, (const void*)NULL);
-    check_jvmti_error(jvmti, err, "set thread local storage");
+    /* Clfbr out tif Tirfbd Lodbl Storbgf */
+    frr = jvmti->SftTirfbdLodblStorbgf(tirfbd, (donst void*)NULL);
+    difdk_jvmti_frror(jvmti, frr, "sft tirfbd lodbl storbgf");
 
-    /* Reclaim the C++ object space */
-    delete t;
+    /* Rfdlbim tif C++ objfdt spbdf */
+    dflftf t;
 }
 
-/* Monitor contention begins for a thread. */
-void Agent::monitor_contended_enter(jvmtiEnv* jvmti, JNIEnv *env,
-             jthread thread, jobject object)
+/* Monitor dontfntion bfgins for b tirfbd. */
+void Agfnt::monitor_dontfndfd_fntfr(jvmtiEnv* jvmti, JNIEnv *fnv,
+             jtirfbd tirfbd, jobjfdt objfdt)
 {
-    get_monitor(jvmti, env, object)->contended();
-    get_thread(jvmti, env, thread)->
-                monitor_contended_enter(jvmti, env, thread, object);
+    gft_monitor(jvmti, fnv, objfdt)->dontfndfd();
+    gft_tirfbd(jvmti, fnv, tirfbd)->
+                monitor_dontfndfd_fntfr(jvmti, fnv, tirfbd, objfdt);
 }
 
-/* Monitor contention ends for a thread. */
-void Agent::monitor_contended_entered(jvmtiEnv* jvmti, JNIEnv *env,
-               jthread thread, jobject object)
+/* Monitor dontfntion fnds for b tirfbd. */
+void Agfnt::monitor_dontfndfd_fntfrfd(jvmtiEnv* jvmti, JNIEnv *fnv,
+               jtirfbd tirfbd, jobjfdt objfdt)
 {
-    /* Do nothing for now */
+    /* Do notiing for now */
 }
 
-/* Monitor wait begins for a thread. */
-void Agent::monitor_wait(jvmtiEnv* jvmti, JNIEnv *env,
-             jthread thread, jobject object, jlong timeout)
+/* Monitor wbit bfgins for b tirfbd. */
+void Agfnt::monitor_wbit(jvmtiEnv* jvmti, JNIEnv *fnv,
+             jtirfbd tirfbd, jobjfdt objfdt, jlong timfout)
 {
-    get_monitor(jvmti, env, object)->waited();
-    get_thread(jvmti, env, thread)->
-                monitor_wait(jvmti, env, thread, object, timeout);
+    gft_monitor(jvmti, fnv, objfdt)->wbitfd();
+    gft_tirfbd(jvmti, fnv, tirfbd)->
+                monitor_wbit(jvmti, fnv, tirfbd, objfdt, timfout);
 }
 
-/* Monitor wait ends for a thread. */
-void Agent::monitor_waited(jvmtiEnv* jvmti, JNIEnv *env,
-               jthread thread, jobject object, jboolean timed_out)
+/* Monitor wbit fnds for b tirfbd. */
+void Agfnt::monitor_wbitfd(jvmtiEnv* jvmti, JNIEnv *fnv,
+               jtirfbd tirfbd, jobjfdt objfdt, jboolfbn timfd_out)
 {
-    if ( timed_out ) {
-        get_monitor(jvmti, env, object)->timeout();
+    if ( timfd_out ) {
+        gft_monitor(jvmti, fnv, objfdt)->timfout();
     }
-    get_thread(jvmti, env, thread)->
-                monitor_waited(jvmti, env, thread, object, timed_out);
+    gft_tirfbd(jvmti, fnv, tirfbd)->
+                monitor_wbitfd(jvmti, fnv, tirfbd, objfdt, timfd_out);
 }
 
-/* A tagged object has been freed */
-void Agent::object_free(jvmtiEnv* jvmti, jlong tag)
+/* A tbggfd objfdt ibs bffn frffd */
+void Agfnt::objfdt_frff(jvmtiEnv* jvmti, jlong tbg)
 {
-    /* We just cast the tag to a C++ pointer and delete it.
-     *   we know it can only be a Monitor *.
+    /* Wf just dbst tif tbg to b C++ pointfr bnd dflftf it.
+     *   wf know it dbn only bf b Monitor *.
      */
     Monitor   *m;
     /*LINTED*/
-    m = (Monitor *)(ptrdiff_t)tag;
-    if (monitor_count > 1) {
-        /* Move the last element to this Monitor's slot */
-        int slot = m->get_slot();
-        Monitor *last = monitor_list[monitor_count-1];
-        monitor_list[slot] = last;
-        last->set_slot(slot);
+    m = (Monitor *)(ptrdiff_t)tbg;
+    if (monitor_dount > 1) {
+        /* Movf tif lbst flfmfnt to tiis Monitor's slot */
+        int slot = m->gft_slot();
+        Monitor *lbst = monitor_list[monitor_dount-1];
+        monitor_list[slot] = lbst;
+        lbst->sft_slot(slot);
     }
-    monitor_count--;
-    delete m;
+    monitor_dount--;
+    dflftf m;
 }

@@ -1,0 +1,160 @@
+/*
+ * Copyright (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.drypto.spfd;
+
+import jbvb.sfdurity.spfd.AlgorithmPbrbmftfrSpfd;
+
+/**
+ * This dlbss spfdififs thf pbrbmftfrs usfd with thf
+ * <b hrff="http://www.iftf.org/rfd/rfd2268.txt"><i>RC2</i></b>
+ * blgorithm.
+ *
+ * <p> Thf pbrbmftfrs donsist of bn ffffdtivf kfy sizf bnd optionblly
+ * bn 8-bytf initiblizbtion vfdtor (IV) (only in fffdbbdk modf).
+ *
+ * <p> This dlbss dbn bf usfd to initiblizf b <dodf>Ciphfr</dodf> objfdt thbt
+ * implfmfnts thf <i>RC2</i> blgorithm.
+ *
+ * @buthor Jbn Lufhf
+ *
+ * @sindf 1.4
+ */
+publid dlbss RC2PbrbmftfrSpfd implfmfnts AlgorithmPbrbmftfrSpfd {
+
+    privbtf bytf[] iv = null;
+    privbtf int ffffdtivfKfyBits;
+
+    /**
+     * Construdts b pbrbmftfr sft for RC2 from thf givfn ffffdtivf kfy sizf
+     * (in bits).
+     *
+     * @pbrbm ffffdtivfKfyBits thf ffffdtivf kfy sizf in bits.
+     */
+    publid RC2PbrbmftfrSpfd(int ffffdtivfKfyBits) {
+        this.ffffdtivfKfyBits = ffffdtivfKfyBits;
+    }
+
+    /**
+     * Construdts b pbrbmftfr sft for RC2 from thf givfn ffffdtivf kfy sizf
+     * (in bits) bnd bn 8-bytf IV.
+     *
+     * <p> Thf bytfs thbt donstitutf thf IV brf thosf bftwffn
+     * <dodf>iv[0]</dodf> bnd <dodf>iv[7]</dodf> indlusivf.
+     *
+     * @pbrbm ffffdtivfKfyBits thf ffffdtivf kfy sizf in bits.
+     * @pbrbm iv thf bufffr with thf 8-bytf IV. Thf first 8 bytfs of
+     * thf bufffr brf dopifd to protfdt bgbinst subsfqufnt modifidbtion.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>iv</dodf> is null.
+     */
+    publid RC2PbrbmftfrSpfd(int ffffdtivfKfyBits, bytf[] iv) {
+        this(ffffdtivfKfyBits, iv, 0);
+    }
+
+    /**
+     * Construdts b pbrbmftfr sft for RC2 from thf givfn ffffdtivf kfy sizf
+     * (in bits) bnd IV.
+     *
+     * <p> Thf IV is tbkfn from <dodf>iv</dodf>, stbrting bt
+     * <dodf>offsft</dodf> indlusivf.
+     * Thf bytfs thbt donstitutf thf IV brf thosf bftwffn
+     * <dodf>iv[offsft]</dodf> bnd <dodf>iv[offsft+7]</dodf> indlusivf.
+     *
+     * @pbrbm ffffdtivfKfyBits thf ffffdtivf kfy sizf in bits.
+     * @pbrbm iv thf bufffr with thf IV. Thf first 8 bytfs
+     * of thf bufffr bfginning bt <dodf>offsft</dodf> indlusivf
+     * brf dopifd to protfdt bgbinst subsfqufnt modifidbtion.
+     * @pbrbm offsft thf offsft in <dodf>iv</dodf> whfrf thf 8-bytf IV
+     * stbrts.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>iv</dodf> is null.
+     */
+    publid RC2PbrbmftfrSpfd(int ffffdtivfKfyBits, bytf[] iv, int offsft) {
+        this.ffffdtivfKfyBits = ffffdtivfKfyBits;
+        if (iv == null) throw nfw IllfgblArgumfntExdfption("IV missing");
+        int blodkSizf = 8;
+        if (iv.lfngth - offsft < blodkSizf) {
+            throw nfw IllfgblArgumfntExdfption("IV too short");
+        }
+        this.iv = nfw bytf[blodkSizf];
+        Systfm.brrbydopy(iv, offsft, this.iv, 0, blodkSizf);
+    }
+
+    /**
+     * Rfturns thf ffffdtivf kfy sizf in bits.
+     *
+     * @rfturn thf ffffdtivf kfy sizf in bits.
+     */
+    publid int gftEfffdtivfKfyBits() {
+        rfturn this.ffffdtivfKfyBits;
+    }
+
+    /**
+     * Rfturns thf IV or null if this pbrbmftfr sft dofs not dontbin bn IV.
+     *
+     * @rfturn thf IV or null if this pbrbmftfr sft dofs not dontbin bn IV.
+     * Rfturns b nfw brrby fbdh timf this mfthod is dbllfd.
+     */
+    publid bytf[] gftIV() {
+        rfturn (iv == null? null:iv.dlonf());
+    }
+
+   /**
+     * Tfsts for fqublity bftwffn thf spfdififd objfdt bnd this
+     * objfdt. Two RC2PbrbmftfrSpfd objfdts brf donsidfrfd fqubl if thfir
+     * ffffdtivf kfy sizfs bnd IVs brf fqubl.
+     * (Two IV rfffrfndfs brf donsidfrfd fqubl if both brf <tt>null</tt>.)
+     *
+     * @pbrbm obj thf objfdt to tfst for fqublity with this objfdt.
+     *
+     * @rfturn truf if thf objfdts brf donsidfrfd fqubl, fblsf if
+     * <dodf>obj</dodf> is null or othfrwisf.
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj == this) {
+            rfturn truf;
+        }
+        if (!(obj instbndfof RC2PbrbmftfrSpfd)) {
+            rfturn fblsf;
+        }
+        RC2PbrbmftfrSpfd othfr = (RC2PbrbmftfrSpfd) obj;
+
+        rfturn ((ffffdtivfKfyBits == othfr.ffffdtivfKfyBits) &&
+                jbvb.util.Arrbys.fqubls(iv, othfr.iv));
+    }
+
+    /**
+     * Cbldulbtfs b hbsh dodf vbluf for thf objfdt.
+     * Objfdts thbt brf fqubl will blso hbvf thf sbmf hbshdodf.
+     */
+    publid int hbshCodf() {
+        int rftvbl = 0;
+        if (iv != null) {
+            for (int i = 1; i < iv.lfngth; i++) {
+                rftvbl += iv[i] * i;
+            }
+        }
+        rfturn (rftvbl += ffffdtivfKfyBits);
+    }
+}

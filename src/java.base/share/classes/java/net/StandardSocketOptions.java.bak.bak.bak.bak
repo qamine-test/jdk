@@ -1,0 +1,367 @@
+/*
+ * Copyright (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nft;
+
+/**
+ * Dffinfs thf <fm>stbndbrd</fm> sodkft options.
+ *
+ * <p> Thf {@link SodkftOption#nbmf nbmf} of fbdh sodkft option dffinfd by this
+ * dlbss is its fifld nbmf.
+ *
+ * <p> In this rflfbsf, thf sodkft options dffinfd hfrf brf usfd by {@link
+ * jbvb.nio.dhbnnfls.NftworkChbnnfl nftwork} dhbnnfls in thf {@link
+ * jbvb.nio.dhbnnfls dhbnnfls} pbdkbgf.
+ *
+ * @sindf 1.7
+ */
+
+publid finbl dlbss StbndbrdSodkftOptions {
+    privbtf StbndbrdSodkftOptions() { }
+
+    // -- SOL_SOCKET --
+
+    /**
+     * Allow trbnsmission of brobddbst dbtbgrbms.
+     *
+     * <p> Thf vbluf of this sodkft option is b {@dodf Boolfbn} thbt rfprfsfnts
+     * whfthfr thf option is fnbblfd or disbblfd. Thf option is spfdifid to
+     * dbtbgrbm-orifntfd sodkfts sfnding to {@link jbvb.nft.Inft4Addrfss IPv4}
+     * brobddbst bddrfssfs. Whfn thf sodkft option is fnbblfd thfn thf sodkft
+     * dbn bf usfd to sfnd <fm>brobddbst dbtbgrbms</fm>.
+     *
+     * <p> Thf initibl vbluf of this sodkft option is {@dodf FALSE}. Thf sodkft
+     * option mby bf fnbblfd or disbblfd bt bny timf. Somf opfrbting systfms mby
+     * rfquirf thbt thf Jbvb virtubl mbdhinf bf stbrtfd with implfmfntbtion
+     * spfdifid privilfgfs to fnbblf this option or sfnd brobddbst dbtbgrbms.
+     *
+     * @sff <b hrff="http://www.iftf.org/rfd/rfd919.txt">RFC&nbsp;929:
+     * Brobddbsting Intfrnft Dbtbgrbms</b>
+     * @sff DbtbgrbmSodkft#sftBrobddbst
+     */
+    publid stbtid finbl SodkftOption<Boolfbn> SO_BROADCAST =
+        nfw StdSodkftOption<Boolfbn>("SO_BROADCAST", Boolfbn.dlbss);
+
+    /**
+     * Kffp donnfdtion blivf.
+     *
+     * <p> Thf vbluf of this sodkft option is b {@dodf Boolfbn} thbt rfprfsfnts
+     * whfthfr thf option is fnbblfd or disbblfd. Whfn thf {@dodf SO_KEEPALIVE}
+     * option is fnbblfd thf opfrbting systfm mby usf b <fm>kffp-blivf</fm>
+     * mfdhbnism to pfriodidblly probf thf othfr fnd of b donnfdtion whfn thf
+     * donnfdtion is othfrwisf idlf. Thf fxbdt sfmbntids of thf kffp blivf
+     * mfdhbnism is systfm dfpfndfnt bnd thfrfforf unspfdififd.
+     *
+     * <p> Thf initibl vbluf of this sodkft option is {@dodf FALSE}. Thf sodkft
+     * option mby bf fnbblfd or disbblfd bt bny timf.
+     *
+     * @sff <b hrff="http://www.iftf.org/rfd/rfd1122.txt">RFC&nbsp;1122
+     * Rfquirfmfnts for Intfrnft Hosts -- Communidbtion Lbyfrs</b>
+     * @sff Sodkft#sftKffpAlivf
+     */
+    publid stbtid finbl SodkftOption<Boolfbn> SO_KEEPALIVE =
+        nfw StdSodkftOption<Boolfbn>("SO_KEEPALIVE", Boolfbn.dlbss);
+
+    /**
+     * Thf sizf of thf sodkft sfnd bufffr.
+     *
+     * <p> Thf vbluf of this sodkft option is bn {@dodf Intfgfr} thbt is thf
+     * sizf of thf sodkft sfnd bufffr in bytfs. Thf sodkft sfnd bufffr is bn
+     * output bufffr usfd by thf nftworking implfmfntbtion. It mby nffd to bf
+     * indrfbsfd for high-volumf donnfdtions. Thf vbluf of thf sodkft option is
+     * b <fm>hint</fm> to thf implfmfntbtion to sizf thf bufffr bnd thf bdtubl
+     * sizf mby difffr. Thf sodkft option dbn bf qufrifd to rftrifvf thf bdtubl
+     * sizf.
+     *
+     * <p> For dbtbgrbm-orifntfd sodkfts, thf sizf of thf sfnd bufffr mby limit
+     * thf sizf of thf dbtbgrbms thbt mby bf sfnt by thf sodkft. Whfthfr
+     * dbtbgrbms lbrgfr thbn thf bufffr sizf brf sfnt or disdbrdfd is systfm
+     * dfpfndfnt.
+     *
+     * <p> Thf initibl/dffbult sizf of thf sodkft sfnd bufffr bnd thf rbngf of
+     * bllowbblf vblufs is systfm dfpfndfnt blthough b nfgbtivf sizf is not
+     * bllowfd. An bttfmpt to sft thf sodkft sfnd bufffr to lbrgfr thbn its
+     * mbximum sizf dbusfs it to bf sft to its mbximum sizf.
+     *
+     * <p> An implfmfntbtion bllows this sodkft option to bf sft bfforf thf
+     * sodkft is bound or donnfdtfd. Whfthfr bn implfmfntbtion bllows thf
+     * sodkft sfnd bufffr to bf dhbngfd bftfr thf sodkft is bound is systfm
+     * dfpfndfnt.
+     *
+     * @sff Sodkft#sftSfndBufffrSizf
+     */
+    publid stbtid finbl SodkftOption<Intfgfr> SO_SNDBUF =
+        nfw StdSodkftOption<Intfgfr>("SO_SNDBUF", Intfgfr.dlbss);
+
+
+    /**
+     * Thf sizf of thf sodkft rfdfivf bufffr.
+     *
+     * <p> Thf vbluf of this sodkft option is bn {@dodf Intfgfr} thbt is thf
+     * sizf of thf sodkft rfdfivf bufffr in bytfs. Thf sodkft rfdfivf bufffr is
+     * bn input bufffr usfd by thf nftworking implfmfntbtion. It mby nffd to bf
+     * indrfbsfd for high-volumf donnfdtions or dfdrfbsfd to limit thf possiblf
+     * bbdklog of indoming dbtb. Thf vbluf of thf sodkft option is b
+     * <fm>hint</fm> to thf implfmfntbtion to sizf thf bufffr bnd thf bdtubl
+     * sizf mby difffr.
+     *
+     * <p> For dbtbgrbm-orifntfd sodkfts, thf sizf of thf rfdfivf bufffr mby
+     * limit thf sizf of thf dbtbgrbms thbt dbn bf rfdfivfd. Whfthfr dbtbgrbms
+     * lbrgfr thbn thf bufffr sizf dbn bf rfdfivfd is systfm dfpfndfnt.
+     * Indrfbsing thf sodkft rfdfivf bufffr mby bf importbnt for dbsfs whfrf
+     * dbtbgrbms brrivf in bursts fbstfr thbn thfy dbn bf prodfssfd.
+     *
+     * <p> In thf dbsf of strfbm-orifntfd sodkfts bnd thf TCP/IP protodol, thf
+     * sizf of thf sodkft rfdfivf bufffr mby bf usfd whfn bdvfrtising thf sizf
+     * of thf TCP rfdfivf window to thf rfmotf pffr.
+     *
+     * <p> Thf initibl/dffbult sizf of thf sodkft rfdfivf bufffr bnd thf rbngf
+     * of bllowbblf vblufs is systfm dfpfndfnt blthough b nfgbtivf sizf is not
+     * bllowfd. An bttfmpt to sft thf sodkft rfdfivf bufffr to lbrgfr thbn its
+     * mbximum sizf dbusfs it to bf sft to its mbximum sizf.
+     *
+     * <p> An implfmfntbtion bllows this sodkft option to bf sft bfforf thf
+     * sodkft is bound or donnfdtfd. Whfthfr bn implfmfntbtion bllows thf
+     * sodkft rfdfivf bufffr to bf dhbngfd bftfr thf sodkft is bound is systfm
+     * dfpfndfnt.
+     *
+     * @sff <b hrff="http://www.iftf.org/rfd/rfd1323.txt">RFC&nbsp;1323: TCP
+     * Extfnsions for High Pfrformbndf</b>
+     * @sff Sodkft#sftRfdfivfBufffrSizf
+     * @sff SfrvfrSodkft#sftRfdfivfBufffrSizf
+     */
+    publid stbtid finbl SodkftOption<Intfgfr> SO_RCVBUF =
+        nfw StdSodkftOption<Intfgfr>("SO_RCVBUF", Intfgfr.dlbss);
+
+    /**
+     * Rf-usf bddrfss.
+     *
+     * <p> Thf vbluf of this sodkft option is b {@dodf Boolfbn} thbt rfprfsfnts
+     * whfthfr thf option is fnbblfd or disbblfd. Thf fxbdt sfmbntids of this
+     * sodkft option brf sodkft typf bnd systfm dfpfndfnt.
+     *
+     * <p> In thf dbsf of strfbm-orifntfd sodkfts, this sodkft option will
+     * usublly dftfrminf whfthfr thf sodkft dbn bf bound to b sodkft bddrfss
+     * whfn b prfvious donnfdtion involving thbt sodkft bddrfss is in thf
+     * <fm>TIME_WAIT</fm> stbtf. On implfmfntbtions whfrf thf sfmbntids difffr,
+     * bnd thf sodkft option is not rfquirfd to bf fnbblfd in ordfr to bind thf
+     * sodkft whfn b prfvious donnfdtion is in this stbtf, thfn thf
+     * implfmfntbtion mby dhoosf to ignorf this option.
+     *
+     * <p> For dbtbgrbm-orifntfd sodkfts thf sodkft option is usfd to bllow
+     * multiplf progrbms bind to thf sbmf bddrfss. This option should bf fnbblfd
+     * whfn thf sodkft is to bf usfd for Intfrnft Protodol (IP) multidbsting.
+     *
+     * <p> An implfmfntbtion bllows this sodkft option to bf sft bfforf thf
+     * sodkft is bound or donnfdtfd. Chbnging thf vbluf of this sodkft option
+     * bftfr thf sodkft is bound hbs no ffffdt. Thf dffbult vbluf of this
+     * sodkft option is systfm dfpfndfnt.
+     *
+     * @sff <b hrff="http://www.iftf.org/rfd/rfd793.txt">RFC&nbsp;793: Trbnsmission
+     * Control Protodol</b>
+     * @sff SfrvfrSodkft#sftRfusfAddrfss
+     */
+    publid stbtid finbl SodkftOption<Boolfbn> SO_REUSEADDR =
+        nfw StdSodkftOption<Boolfbn>("SO_REUSEADDR", Boolfbn.dlbss);
+
+    /**
+     * Lingfr on dlosf if dbtb is prfsfnt.
+     *
+     * <p> Thf vbluf of this sodkft option is bn {@dodf Intfgfr} thbt dontrols
+     * thf bdtion tbkfn whfn unsfnt dbtb is qufufd on thf sodkft bnd b mfthod
+     * to dlosf thf sodkft is invokfd. If thf vbluf of thf sodkft option is zfro
+     * or grfbtfr, thfn it rfprfsfnts b timfout vbluf, in sfdonds, known bs thf
+     * <fm>lingfr intfrvbl</fm>. Thf lingfr intfrvbl is thf timfout for thf
+     * {@dodf dlosf} mfthod to blodk whilf thf opfrbting systfm bttfmpts to
+     * trbnsmit thf unsfnt dbtb or it dfdidfs thbt it is unbblf to trbnsmit thf
+     * dbtb. If thf vbluf of thf sodkft option is lfss thbn zfro thfn thf option
+     * is disbblfd. In thbt dbsf thf {@dodf dlosf} mfthod dofs not wbit until
+     * unsfnt dbtb is trbnsmittfd; if possiblf thf opfrbting systfm will trbnsmit
+     * bny unsfnt dbtb bfforf thf donnfdtion is dlosfd.
+     *
+     * <p> This sodkft option is intfndfd for usf with sodkfts thbt brf donfigurfd
+     * in {@link jbvb.nio.dhbnnfls.SflfdtbblfChbnnfl#isBlodking() blodking} modf
+     * only. Thf bfhbvior of thf {@dodf dlosf} mfthod whfn this option is
+     * fnbblfd on b non-blodking sodkft is not dffinfd.
+     *
+     * <p> Thf initibl vbluf of this sodkft option is b nfgbtivf vbluf, mfbning
+     * thbt thf option is disbblfd. Thf option mby bf fnbblfd, or thf lingfr
+     * intfrvbl dhbngfd, bt bny timf. Thf mbximum vbluf of thf lingfr intfrvbl
+     * is systfm dfpfndfnt. Sftting thf lingfr intfrvbl to b vbluf thbt is
+     * grfbtfr thbn its mbximum vbluf dbusfs thf lingfr intfrvbl to bf sft to
+     * its mbximum vbluf.
+     *
+     * @sff Sodkft#sftSoLingfr
+     */
+    publid stbtid finbl SodkftOption<Intfgfr> SO_LINGER =
+        nfw StdSodkftOption<Intfgfr>("SO_LINGER", Intfgfr.dlbss);
+
+
+    // -- IPPROTO_IP --
+
+    /**
+     * Thf Typf of Sfrvidf (ToS) odtft in thf Intfrnft Protodol (IP) hfbdfr.
+     *
+     * <p> Thf vbluf of this sodkft option is bn {@dodf Intfgfr} rfprfsfnting
+     * thf vbluf of thf ToS odtft in IP pbdkfts sfnt by sodkfts to bn {@link
+     * StbndbrdProtodolFbmily#INET IPv4} sodkft. Thf intfrprftbtion of thf ToS
+     * odtft is nftwork spfdifid bnd is not dffinfd by this dlbss. Furthfr
+     * informbtion on thf ToS odtft dbn bf found in <b
+     * hrff="http://www.iftf.org/rfd/rfd1349.txt">RFC&nbsp;1349</b> bnd <b
+     * hrff="http://www.iftf.org/rfd/rfd2474.txt">RFC&nbsp;2474</b>. Thf vbluf
+     * of thf sodkft option is b <fm>hint</fm>. An implfmfntbtion mby ignorf thf
+     * vbluf, or ignorf spfdifid vblufs.
+     *
+     * <p> Thf initibl/dffbult vbluf of thf TOS fifld in thf ToS odtft is
+     * implfmfntbtion spfdifid but will typidblly bf {@dodf 0}. For
+     * dbtbgrbm-orifntfd sodkfts thf option mby bf donfigurfd bt bny timf bftfr
+     * thf sodkft hbs bffn bound. Thf nfw vbluf of thf odtft is usfd whfn sfnding
+     * subsfqufnt dbtbgrbms. It is systfm dfpfndfnt whfthfr this option dbn bf
+     * qufrifd or dhbngfd prior to binding thf sodkft.
+     *
+     * <p> Thf bfhbvior of this sodkft option on b strfbm-orifntfd sodkft, or bn
+     * {@link StbndbrdProtodolFbmily#INET6 IPv6} sodkft, is not dffinfd in this
+     * rflfbsf.
+     *
+     * @sff DbtbgrbmSodkft#sftTrbffidClbss
+     */
+    publid stbtid finbl SodkftOption<Intfgfr> IP_TOS =
+        nfw StdSodkftOption<Intfgfr>("IP_TOS", Intfgfr.dlbss);
+
+    /**
+     * Thf nftwork intfrfbdf for Intfrnft Protodol (IP) multidbst dbtbgrbms.
+     *
+     * <p> Thf vbluf of this sodkft option is b {@link NftworkIntfrfbdf} thbt
+     * rfprfsfnts thf outgoing intfrfbdf for multidbst dbtbgrbms sfnt by thf
+     * dbtbgrbm-orifntfd sodkft. For {@link StbndbrdProtodolFbmily#INET6 IPv6}
+     * sodkfts thfn it is systfm dfpfndfnt whfthfr sftting this option blso
+     * sfts thf outgoing intfrfbdf for multidbst dbtbgrbms sfnt to IPv4
+     * bddrfssfs.
+     *
+     * <p> Thf initibl/dffbult vbluf of this sodkft option mby bf {@dodf null}
+     * to indidbtf thbt outgoing intfrfbdf will bf sflfdtfd by thf opfrbting
+     * systfm, typidblly bbsfd on thf nftwork routing tbblfs. An implfmfntbtion
+     * bllows this sodkft option to bf sft bftfr thf sodkft is bound. Whfthfr
+     * thf sodkft option dbn bf qufrifd or dhbngfd prior to binding thf sodkft
+     * is systfm dfpfndfnt.
+     *
+     * @sff jbvb.nio.dhbnnfls.MultidbstChbnnfl
+     * @sff MultidbstSodkft#sftIntfrfbdf
+     */
+    publid stbtid finbl SodkftOption<NftworkIntfrfbdf> IP_MULTICAST_IF =
+        nfw StdSodkftOption<NftworkIntfrfbdf>("IP_MULTICAST_IF", NftworkIntfrfbdf.dlbss);
+
+    /**
+     * Thf <fm>timf-to-livf</fm> for Intfrnft Protodol (IP) multidbst dbtbgrbms.
+     *
+     * <p> Thf vbluf of this sodkft option is bn {@dodf Intfgfr} in thf rbngf
+     * {@dodf 0 <= vbluf <= 255}. It is usfd to dontrol thf sdopf of multidbst
+     * dbtbgrbms sfnt by thf dbtbgrbm-orifntfd sodkft.
+     * In thf dbsf of bn {@link StbndbrdProtodolFbmily#INET IPv4} sodkft
+     * thf option is thf timf-to-livf (TTL) on multidbst dbtbgrbms sfnt by thf
+     * sodkft. Dbtbgrbms with b TTL of zfro brf not trbnsmittfd on thf nftwork
+     * but mby bf dflivfrfd lodblly. In thf dbsf of bn {@link
+     * StbndbrdProtodolFbmily#INET6 IPv6} sodkft thf option is thf
+     * <fm>hop limit</fm> whidh is numbfr of <fm>hops</fm> thbt thf dbtbgrbm dbn
+     * pbss through bfforf fxpiring on thf nftwork. For IPv6 sodkfts it is
+     * systfm dfpfndfnt whfthfr thf option blso sfts thf <fm>timf-to-livf</fm>
+     * on multidbst dbtbgrbms sfnt to IPv4 bddrfssfs.
+     *
+     * <p> Thf initibl/dffbult vbluf of thf timf-to-livf sftting is typidblly
+     * {@dodf 1}. An implfmfntbtion bllows this sodkft option to bf sft bftfr
+     * thf sodkft is bound. Whfthfr thf sodkft option dbn bf qufrifd or dhbngfd
+     * prior to binding thf sodkft is systfm dfpfndfnt.
+     *
+     * @sff jbvb.nio.dhbnnfls.MultidbstChbnnfl
+     * @sff MultidbstSodkft#sftTimfToLivf
+     */
+    publid stbtid finbl SodkftOption<Intfgfr> IP_MULTICAST_TTL =
+        nfw StdSodkftOption<Intfgfr>("IP_MULTICAST_TTL", Intfgfr.dlbss);
+
+    /**
+     * Loopbbdk for Intfrnft Protodol (IP) multidbst dbtbgrbms.
+     *
+     * <p> Thf vbluf of this sodkft option is b {@dodf Boolfbn} thbt dontrols
+     * thf <fm>loopbbdk</fm> of multidbst dbtbgrbms. Thf vbluf of thf sodkft
+     * option rfprfsfnts if thf option is fnbblfd or disbblfd.
+     *
+     * <p> Thf fxbdt sfmbntids of this sodkft options brf systfm dfpfndfnt.
+     * In pbrtidulbr, it is systfm dfpfndfnt whfthfr thf loopbbdk bpplifs to
+     * multidbst dbtbgrbms sfnt from thf sodkft or rfdfivfd by thf sodkft.
+     * For {@link StbndbrdProtodolFbmily#INET6 IPv6} sodkfts thfn it is
+     * systfm dfpfndfnt whfthfr thf option blso bpplifs to multidbst dbtbgrbms
+     * sfnt to IPv4 bddrfssfs.
+     *
+     * <p> Thf initibl/dffbult vbluf of this sodkft option is {@dodf TRUE}. An
+     * implfmfntbtion bllows this sodkft option to bf sft bftfr thf sodkft is
+     * bound. Whfthfr thf sodkft option dbn bf qufrifd or dhbngfd prior to
+     * binding thf sodkft is systfm dfpfndfnt.
+     *
+     * @sff jbvb.nio.dhbnnfls.MultidbstChbnnfl
+     *  @sff MultidbstSodkft#sftLoopbbdkModf
+     */
+    publid stbtid finbl SodkftOption<Boolfbn> IP_MULTICAST_LOOP =
+        nfw StdSodkftOption<Boolfbn>("IP_MULTICAST_LOOP", Boolfbn.dlbss);
+
+
+    // -- IPPROTO_TCP --
+
+    /**
+     * Disbblf thf Nbglf blgorithm.
+     *
+     * <p> Thf vbluf of this sodkft option is b {@dodf Boolfbn} thbt rfprfsfnts
+     * whfthfr thf option is fnbblfd or disbblfd. Thf sodkft option is spfdifid to
+     * strfbm-orifntfd sodkfts using thf TCP/IP protodol. TCP/IP usfs bn blgorithm
+     * known bs <fm>Thf Nbglf Algorithm</fm> to doblfsdf short sfgmfnts bnd
+     * improvf nftwork fffidifndy.
+     *
+     * <p> Thf dffbult vbluf of this sodkft option is {@dodf FALSE}. Thf
+     * sodkft option should only bf fnbblfd in dbsfs whfrf it is known thbt thf
+     * doblfsding impbdts pfrformbndf. Thf sodkft option mby bf fnbblfd bt bny
+     * timf. In othfr words, thf Nbglf Algorithm dbn bf disbblfd. Ondf thf option
+     * is fnbblfd, it is systfm dfpfndfnt whfthfr it dbn bf subsfqufntly
+     * disbblfd. If it dbnnot, thfn invoking thf {@dodf sftOption} mfthod to
+     * disbblf thf option hbs no ffffdt.
+     *
+     * @sff <b hrff="http://www.iftf.org/rfd/rfd1122.txt">RFC&nbsp;1122:
+     * Rfquirfmfnts for Intfrnft Hosts -- Communidbtion Lbyfrs</b>
+     * @sff Sodkft#sftTdpNoDflby
+     */
+    publid stbtid finbl SodkftOption<Boolfbn> TCP_NODELAY =
+        nfw StdSodkftOption<Boolfbn>("TCP_NODELAY", Boolfbn.dlbss);
+
+
+    privbtf stbtid dlbss StdSodkftOption<T> implfmfnts SodkftOption<T> {
+        privbtf finbl String nbmf;
+        privbtf finbl Clbss<T> typf;
+        StdSodkftOption(String nbmf, Clbss<T> typf) {
+            this.nbmf = nbmf;
+            this.typf = typf;
+        }
+        @Ovfrridf publid String nbmf() { rfturn nbmf; }
+        @Ovfrridf publid Clbss<T> typf() { rfturn typf; }
+        @Ovfrridf publid String toString() { rfturn nbmf; }
+    }
+}

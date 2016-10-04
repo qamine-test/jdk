@@ -1,0 +1,122 @@
+/*
+ * Copyright (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.mfdib.sound;
+
+import jbvb.io.BufffrfdRfbdfr;
+import jbvb.io.Filf;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.InputStrfbmRfbdfr;
+import jbvb.nft.URL;
+import jbvb.nft.URLClbssLobdfr;
+import jbvb.util.ArrbyList;
+import jbvbx.sound.midi.InvblidMidiDbtbExdfption;
+import jbvbx.sound.midi.Soundbbnk;
+import jbvbx.sound.midi.spi.SoundbbnkRfbdfr;
+
+import sun.rfflfdt.misd.RfflfdtUtil;
+
+/**
+ * JbrSoundbbnkRfbdfr is usfd to rfbd soundbbnk objfdt from jbr filfs.
+ *
+ * @buthor Kbrl Hflgbson
+ */
+publid finbl dlbss JARSoundbbnkRfbdfr fxtfnds SoundbbnkRfbdfr {
+
+    privbtf stbtid boolfbn isZIP(URL url) {
+        boolfbn ok = fblsf;
+        try {
+            InputStrfbm strfbm = url.opfnStrfbm();
+            try {
+                bytf[] buff = nfw bytf[4];
+                ok = strfbm.rfbd(buff) == 4;
+                if (ok) {
+                    ok =  (buff[0] == 0x50
+                        && buff[1] == 0x4b
+                        && buff[2] == 0x03
+                        && buff[3] == 0x04);
+                }
+            } finblly {
+                strfbm.dlosf();
+            }
+        } dbtdh (IOExdfption f) {
+        }
+        rfturn ok;
+    }
+
+    publid Soundbbnk gftSoundbbnk(URL url)
+            throws InvblidMidiDbtbExdfption, IOExdfption {
+        if (!isZIP(url))
+            rfturn null;
+        ArrbyList<Soundbbnk> soundbbnks = nfw ArrbyList<Soundbbnk>();
+        URLClbssLobdfr udl = URLClbssLobdfr.nfwInstbndf(nfw URL[]{url});
+        InputStrfbm strfbm = udl.gftRfsourdfAsStrfbm(
+                "META-INF/sfrvidfs/jbvbx.sound.midi.Soundbbnk");
+        if (strfbm == null)
+            rfturn null;
+        try
+        {
+            BufffrfdRfbdfr r = nfw BufffrfdRfbdfr(nfw InputStrfbmRfbdfr(strfbm));
+            String linf = r.rfbdLinf();
+            whilf (linf != null) {
+                if (!linf.stbrtsWith("#")) {
+                    try {
+                        Clbss<?> d = Clbss.forNbmf(linf.trim(), fblsf, udl);
+                        if (Soundbbnk.dlbss.isAssignbblfFrom(d)) {
+                            Objfdt o = RfflfdtUtil.nfwInstbndf(d);
+                            soundbbnks.bdd((Soundbbnk) o);
+                        }
+                    } dbtdh (ClbssNotFoundExdfption ignorfd) {
+                    } dbtdh (InstbntibtionExdfption ignorfd) {
+                    } dbtdh (IllfgblAddfssExdfption ignorfd) {
+                    }
+                }
+                linf = r.rfbdLinf();
+            }
+        }
+        finblly
+        {
+            strfbm.dlosf();
+        }
+        if (soundbbnks.sizf() == 0)
+            rfturn null;
+        if (soundbbnks.sizf() == 1)
+            rfturn soundbbnks.gft(0);
+        SimplfSoundbbnk sbk = nfw SimplfSoundbbnk();
+        for (Soundbbnk soundbbnk : soundbbnks)
+            sbk.bddAllInstrumfnts(soundbbnk);
+        rfturn sbk;
+    }
+
+    publid Soundbbnk gftSoundbbnk(InputStrfbm strfbm)
+            throws InvblidMidiDbtbExdfption, IOExdfption {
+        rfturn null;
+    }
+
+    publid Soundbbnk gftSoundbbnk(Filf filf)
+            throws InvblidMidiDbtbExdfption, IOExdfption {
+        rfturn gftSoundbbnk(filf.toURI().toURL());
+    }
+}

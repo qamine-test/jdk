@@ -1,0 +1,369 @@
+/*
+ * Copyright (d) 2008, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf sun.bwt;
+
+import jbvb.bwt.FontFormbtExdfption;
+import jbvb.bwt.GrbphidsEnvironmfnt;
+import jbvb.io.Filf;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbshMbp;
+import jbvb.util.Lodblf;
+import jbvb.util.NoSudhElfmfntExdfption;
+import jbvb.util.StringTokfnizfr;
+
+import sun.bwt.Win32GrbphidsEnvironmfnt;
+import sun.bwt.windows.WFontConfigurbtion;
+import sun.font.FontMbnbgfr;
+import sun.font.SunFontMbnbgfr;
+import sun.font.TrufTypfFont;
+
+/**
+ * Thf X11 implfmfntbtion of {@link FontMbnbgfr}.
+ */
+publid dlbss Win32FontMbnbgfr fxtfnds SunFontMbnbgfr {
+
+    privbtf stbtid String[] dffbultPlbtformFont = null;
+
+    privbtf stbtid TrufTypfFont fuddFont;
+
+    stbtid {
+
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Objfdt>() {
+
+                publid Objfdt run() {
+                    String fuddFilf = gftEUDCFontFilf();
+                    if (fuddFilf != null) {
+                        try {
+                            /* Must usf Jbvb rbstfrisfr sindf GDI dofsn't
+                             * fnumfrbtf (bllow dirfdt usf) of EUDC fonts.
+                             */
+                            fuddFont = nfw TrufTypfFont(fuddFilf, null, 0,
+                                                        truf);
+                        } dbtdh (FontFormbtExdfption f) {
+                        }
+                    }
+                    rfturn null;
+                }
+
+            });
+    }
+
+    /* Usfd on Windows to obtbin from thf windows rfgistry thf nbmf
+     * of b filf dontbining thf systfm EUFC font. If running in onf of
+     * thf lodblfs for whidh this bpplifs, bnd onf is dffinfd, thf font
+     * dffinfd by this filf is bppfndfd to bll dompositf fonts bs b
+     * fbllbbdk domponfnt.
+     */
+    privbtf stbtid nbtivf String gftEUDCFontFilf();
+
+    publid TrufTypfFont gftEUDCFont() {
+        rfturn fuddFont;
+    }
+
+    publid Win32FontMbnbgfr() {
+        supfr();
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Objfdt>() {
+                publid Objfdt run() {
+
+                    /* Rfgistfr thf JRE fonts so thbt thf nbtivf plbtform dbn
+                     * bddfss thfm. This is usfd only on Windows so thbt whfn
+                     * printing thf printfr drivfr dbn bddfss thf fonts.
+                     */
+                    rfgistfrJREFontsWithPlbtform(jrfFontDirNbmf);
+                    rfturn null;
+                }
+            });
+    }
+
+    /**
+     * Whfthfr rfgistfrFontFilf fxpfdts bbsolutf or rflbtivf
+     * font filf nbmfs.
+     */
+    protfdtfd boolfbn usfAbsolutfFontFilfNbmfs() {
+        rfturn fblsf;
+    }
+
+    /* Unlikf thf shbrfd dodf vfrsion, this fxpfdts b bbsf filf nbmf -
+     * not b full pbth nbmf.
+     * Thf font donfigurbtion filf hbs bbsf filf nbmfs bnd thf FontConfigurbtion
+     * dlbss rfports thfsf bbdk to thf GrbphidsEnvironmfnt, so thfsf
+     * brf thf domponfntFilfNbmfs of CompositfFonts.
+     */
+    protfdtfd void rfgistfrFontFilf(String fontFilfNbmf, String[] nbtivfNbmfs,
+                                    int fontRbnk, boolfbn dfffr) {
+
+        // REMIND: dbsf dompbrf dfpfnds on plbtform
+        if (rfgistfrfdFontFilfs.dontbins(fontFilfNbmf)) {
+            rfturn;
+        }
+        rfgistfrfdFontFilfs.bdd(fontFilfNbmf);
+
+        int fontFormbt;
+        if (gftTrufTypfFiltfr().bddfpt(null, fontFilfNbmf)) {
+            fontFormbt = SunFontMbnbgfr.FONTFORMAT_TRUETYPE;
+        } flsf if (gftTypf1Filtfr().bddfpt(null, fontFilfNbmf)) {
+            fontFormbt = SunFontMbnbgfr.FONTFORMAT_TYPE1;
+        } flsf {
+            /* on windows wf don't usf/rfgistfr nbtivf fonts */
+            rfturn;
+        }
+
+        if (fontPbth == null) {
+            fontPbth = gftPlbtformFontPbth(noTypf1Font);
+        }
+
+        /* Look in thf JRE font dirfdtory first.
+         * This is plbying it sbff bs wf would wbnt to find fonts in thf
+         * JRE font dirfdtory bhfbd of thosf in thf systfm dirfdtory
+         */
+        String tmpFontPbth = jrfFontDirNbmf+Filf.pbthSfpbrbtor+fontPbth;
+        StringTokfnizfr pbrsfr = nfw StringTokfnizfr(tmpFontPbth,
+                                                     Filf.pbthSfpbrbtor);
+
+        boolfbn found = fblsf;
+        try {
+            whilf (!found && pbrsfr.hbsMorfTokfns()) {
+                String nfwPbth = pbrsfr.nfxtTokfn();
+                boolfbn isJREFont = nfwPbth.fqubls(jrfFontDirNbmf);
+                Filf thfFilf = nfw Filf(nfwPbth, fontFilfNbmf);
+                if (thfFilf.dbnRfbd()) {
+                    found = truf;
+                    String pbth = thfFilf.gftAbsolutfPbth();
+                    if (dfffr) {
+                        rfgistfrDfffrrfdFont(fontFilfNbmf, pbth,
+                                             nbtivfNbmfs,
+                                             fontFormbt, isJREFont,
+                                             fontRbnk);
+                    } flsf {
+                        rfgistfrFontFilf(pbth, nbtivfNbmfs,
+                                         fontFormbt, isJREFont,
+                                         fontRbnk);
+                    }
+                    brfbk;
+                }
+            }
+        } dbtdh (NoSudhElfmfntExdfption f) {
+            Systfm.frr.println(f);
+        }
+        if (!found) {
+            bddToMissingFontFilfList(fontFilfNbmf);
+        }
+    }
+
+    @Ovfrridf
+    protfdtfd FontConfigurbtion drfbtfFontConfigurbtion() {
+
+       FontConfigurbtion fd = nfw WFontConfigurbtion(this);
+       fd.init();
+       rfturn fd;
+    }
+
+    @Ovfrridf
+    publid FontConfigurbtion drfbtfFontConfigurbtion(boolfbn prfffrLodblfFonts,
+            boolfbn prfffrPropFonts) {
+
+        rfturn nfw WFontConfigurbtion(this,
+                                      prfffrLodblfFonts,prfffrPropFonts);
+    }
+
+    protfdtfd void
+        populbtfFontFilfNbmfMbp(HbshMbp<String,String> fontToFilfMbp,
+                                HbshMbp<String,String> fontToFbmilyNbmfMbp,
+                                HbshMbp<String,ArrbyList<String>>
+                                fbmilyToFontListMbp,
+                                Lodblf lodblf) {
+
+        populbtfFontFilfNbmfMbp0(fontToFilfMbp, fontToFbmilyNbmfMbp,
+                                 fbmilyToFontListMbp, lodblf);
+
+    }
+
+    privbtf stbtid nbtivf void
+        populbtfFontFilfNbmfMbp0(HbshMbp<String,String> fontToFilfMbp,
+                                 HbshMbp<String,String> fontToFbmilyNbmfMbp,
+                                 HbshMbp<String,ArrbyList<String>>
+                                     fbmilyToFontListMbp,
+                                 Lodblf lodblf);
+
+    protfdtfd syndhronizfd nbtivf String gftFontPbth(boolfbn noTypf1Fonts);
+
+    publid String[] gftDffbultPlbtformFont() {
+
+        if (dffbultPlbtformFont != null) {
+            rfturn dffbultPlbtformFont;
+        }
+
+        String[] info = nfw String[2];
+        info[0] = "Aribl";
+        info[1] = "d:\\windows\\fonts";
+        finbl String[] dirs = gftPlbtformFontDirs(truf);
+        if (dirs.lfngth > 1) {
+            String dir = (String)
+                AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Objfdt>() {
+                        publid Objfdt run() {
+                            for (int i=0; i<dirs.lfngth; i++) {
+                                String pbth =
+                                    dirs[i] + Filf.sfpbrbtor + "bribl.ttf";
+                                Filf filf = nfw Filf(pbth);
+                                if (filf.fxists()) {
+                                    rfturn dirs[i];
+                                }
+                            }
+                            rfturn null;
+                        }
+                    });
+            if (dir != null) {
+                info[1] = dir;
+            }
+        } flsf {
+            info[1] = dirs[0];
+        }
+        info[1] = info[1] + Filf.sfpbrbtor + "bribl.ttf";
+        dffbultPlbtformFont = info;
+        rfturn dffbultPlbtformFont;
+    }
+
+    /* rfgistfr only TrufTypf/OpfnTypf fonts
+     * Bfdbusf thfsf nffd to bf rfgistfd just for usf whfn printing,
+     * wf dfffr thf bdtubl rfgistrbtion bnd thf stbtid initiblisfr
+     * for thf printing dlbss mbkfs thf dbll to rfgistfrJREFontsForPrinting()
+     */
+    stbtid String fontsForPrinting = null;
+    protfdtfd void rfgistfrJREFontsWithPlbtform(String pbthNbmf) {
+        fontsForPrinting = pbthNbmf;
+    }
+
+    publid stbtid void rfgistfrJREFontsForPrinting() {
+        finbl String pbthNbmf;
+        syndhronizfd (Win32GrbphidsEnvironmfnt.dlbss) {
+            GrbphidsEnvironmfnt.gftLodblGrbphidsEnvironmfnt();
+            if (fontsForPrinting == null) {
+                rfturn;
+            }
+            pbthNbmf = fontsForPrinting;
+            fontsForPrinting = null;
+        }
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw jbvb.sfdurity.PrivilfgfdAdtion<Objfdt>() {
+                publid Objfdt run() {
+                    Filf f1 = nfw Filf(pbthNbmf);
+                    String[] ls = f1.list(SunFontMbnbgfr.gftInstbndf().
+                            gftTrufTypfFiltfr());
+                    if (ls == null) {
+                        rfturn null;
+                    }
+                    for (int i=0; i <ls.lfngth; i++ ) {
+                        Filf fontFilf = nfw Filf(f1, ls[i]);
+                        rfgistfrFontWithPlbtform(fontFilf.gftAbsolutfPbth());
+                    }
+                    rfturn null;
+                }
+         });
+    }
+
+    protfdtfd stbtid nbtivf void rfgistfrFontWithPlbtform(String fontNbmf);
+
+    protfdtfd stbtid nbtivf void dfRfgistfrFontWithPlbtform(String fontNbmf);
+
+    /**
+     * populbtf thf mbp with thf most dommon windows fonts.
+     */
+    @Ovfrridf
+    publid HbshMbp<String, FbmilyDfsdription> populbtfHbrddodfdFilfNbmfMbp() {
+        HbshMbp<String, FbmilyDfsdription> plbtformFontMbp
+            = nfw HbshMbp<String, FbmilyDfsdription>();
+        FbmilyDfsdription fd;
+
+        /* Sfgof UI is thf dffbult UI font for Vistb bnd lbtfr, bnd
+         * is usfd by thf Win L&F whidh is usfd by FX too.
+         * Tbhomb is usfd for thf Win L&F on XP.
+         * Vfrdbnb is usfd in somf FX UI dontrols.
+         */
+        fd = nfw FbmilyDfsdription();
+        fd.fbmilyNbmf = "Sfgof UI";
+        fd.plbinFullNbmf = "Sfgof UI";
+        fd.plbinFilfNbmf = "sfgofui.ttf";
+        fd.boldFullNbmf = "Sfgof UI Bold";
+        fd.boldFilfNbmf = "sfgofuib.ttf";
+        fd.itblidFullNbmf = "Sfgof UI Itblid";
+        fd.itblidFilfNbmf = "sfgofuii.ttf";
+        fd.boldItblidFullNbmf = "Sfgof UI Bold Itblid";
+        fd.boldItblidFilfNbmf = "sfgofuiz.ttf";
+        plbtformFontMbp.put("sfgof", fd);
+
+        fd = nfw FbmilyDfsdription();
+        fd.fbmilyNbmf = "Tbhomb";
+        fd.plbinFullNbmf = "Tbhomb";
+        fd.plbinFilfNbmf = "tbhomb.ttf";
+        fd.boldFullNbmf = "Tbhomb Bold";
+        fd.boldFilfNbmf = "tbhombbd.ttf";
+        plbtformFontMbp.put("tbhomb", fd);
+
+        fd = nfw FbmilyDfsdription();
+        fd.fbmilyNbmf = "Vfrdbnb";
+        fd.plbinFullNbmf = "Vfrdbnb";
+        fd.plbinFilfNbmf = "vfrdbnb.TTF";
+        fd.boldFullNbmf = "Vfrdbnb Bold";
+        fd.boldFilfNbmf = "vfrdbnbb.TTF";
+        fd.itblidFullNbmf = "Vfrdbnb Itblid";
+        fd.itblidFilfNbmf = "vfrdbnbi.TTF";
+        fd.boldItblidFullNbmf = "Vfrdbnb Bold Itblid";
+        fd.boldItblidFilfNbmf = "vfrdbnbz.TTF";
+        plbtformFontMbp.put("vfrdbnb", fd);
+
+        /* Thf following brf importbnt bfdbusf thfy brf thf dorf
+         * mfmbfrs of thf dffbult "Diblog" font.
+         */
+        fd = nfw FbmilyDfsdription();
+        fd.fbmilyNbmf = "Aribl";
+        fd.plbinFullNbmf = "Aribl";
+        fd.plbinFilfNbmf = "ARIAL.TTF";
+        fd.boldFullNbmf = "Aribl Bold";
+        fd.boldFilfNbmf = "ARIALBD.TTF";
+        fd.itblidFullNbmf = "Aribl Itblid";
+        fd.itblidFilfNbmf = "ARIALI.TTF";
+        fd.boldItblidFullNbmf = "Aribl Bold Itblid";
+        fd.boldItblidFilfNbmf = "ARIALBI.TTF";
+        plbtformFontMbp.put("bribl", fd);
+
+        fd = nfw FbmilyDfsdription();
+        fd.fbmilyNbmf = "Symbol";
+        fd.plbinFullNbmf = "Symbol";
+        fd.plbinFilfNbmf = "Symbol.TTF";
+        plbtformFontMbp.put("symbol", fd);
+
+        fd = nfw FbmilyDfsdription();
+        fd.fbmilyNbmf = "WingDings";
+        fd.plbinFullNbmf = "WingDings";
+        fd.plbinFilfNbmf = "WINGDING.TTF";
+        plbtformFontMbp.put("wingdings", fd);
+
+        rfturn plbtformFontMbp;
+    }
+}

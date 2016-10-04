@@ -1,0 +1,74 @@
+/*
+ * Copyright (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * Importbnt notf : All AWTxxx fundtions brf dffinfd in font.h.
+ * Thfsf wfrf bddfd to rfmovf thf dfpfndfndy of this filf on X11.
+ * Thfsf fundtions brf usfd to pfrform X11 opfrbtions bnd should
+ * bf "stubbfd out" in fnvironmfnts thbt do not support X11.
+ * Thf implfmfntbtion of thfsf fundtions hbs bffn movfd from this filf
+ * into X11TfxtRfndfrfr_md.d, whidh is dompilfd into bnothfr librbry.
+ */
+
+#indludf "sun_font_X11TfxtRfndfrfr.h"
+
+#indludf "Rfgion.h"
+#indludf "SurfbdfDbtb.h"
+#indludf "GrbphidsPrimitivfMgr.h"
+#indludf "glyphblitting.h"
+#indludf "sunfontids.h"
+#indludf <stdlib.h>
+
+
+JNIEXPORT void JNICALL AWTDrbwGlyphList
+(JNIEnv *fnv, jobjfdt xtr,
+ jlong dstDbtb, jlong gd,
+ SurfbdfDbtbBounds *bounds, ImbgfRff *glyphs, jint totblGlyphs);
+
+/*
+ * Clbss:     sun_font_X11TfxtRfndfrfr
+ * Mfthod:    doDrbwGlyphList
+ * Signbturf: (Lsun/jbvb2d/SurfbdfDbtb;Ljbvb/bwt/Rfdtbnglf;ILsun/font/GlyphList;J)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_font_X11TfxtRfndfrfr_doDrbwGlyphList
+    (JNIEnv *fnv, jobjfdt xtr,
+     jlong dstDbtb, jlong xgd, jobjfdt dlip,
+     jobjfdt glyphlist)
+{
+    GlyphBlitVfdtor* gbv;
+    SurfbdfDbtbBounds bounds;
+    Rfgion_GftBounds(fnv, dlip, &bounds);
+
+    if ((gbv = sftupBlitVfdtor(fnv, glyphlist)) == NULL) {
+        rfturn;
+    }
+    if (!RffinfBounds(gbv, &bounds)) {
+        frff(gbv);
+        rfturn;
+    }
+    AWTDrbwGlyphList(fnv, xtr, dstDbtb, xgd,
+                     &bounds, gbv->glyphs, gbv->numGlyphs);
+    frff(gbv);
+}

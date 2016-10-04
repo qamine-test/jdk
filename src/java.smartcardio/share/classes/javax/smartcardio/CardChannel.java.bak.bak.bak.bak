@@ -1,0 +1,184 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.smbrtdbrdio;
+
+import jbvb.nio.*;
+
+/**
+ * A logidbl dhbnnfl donnfdtion to b Smbrt Cbrd. It is usfd to fxdhbngf APDUs
+ * with b Smbrt Cbrd.
+ * A CbrdChbnnfl objfdt dbn bf obtbinfd by dblling thf mfthod
+ * {@linkplbin Cbrd#gftBbsidChbnnfl} or {@linkplbin Cbrd#opfnLogidblChbnnfl}.
+ *
+ * @sff Cbrd
+ * @sff CommbndAPDU
+ * @sff RfsponsfAPDU
+ *
+ * @sindf   1.6
+ * @buthor  Andrfbs Stfrbfnz
+ * @buthor  JSR 268 Expfrt Group
+ */
+publid bbstrbdt dlbss CbrdChbnnfl {
+
+    /**
+     * Construdts b nfw CbrdChbnnfl objfdt.
+     *
+     * <p>This donstrudtor is dbllfd by subdlbssfs only. Applidbtion should
+     * dbll thf {@linkplbin Cbrd#gftBbsidChbnnfl} bnd
+     * {@linkplbin Cbrd#opfnLogidblChbnnfl} mfthods to obtbin b CbrdChbnnfl
+     * objfdt.
+     */
+    protfdtfd CbrdChbnnfl() {
+        // fmpty
+    }
+
+    /**
+     * Rfturns thf Cbrd this dhbnnfl is bssodibtfd with.
+     *
+     * @rfturn thf Cbrd this dhbnnfl is bssodibtfd with
+     */
+    publid bbstrbdt Cbrd gftCbrd();
+
+    /**
+     * Rfturns thf dhbnnfl numbfr of this CbrdChbnnfl. A dhbnnfl numbfr of
+     * 0 indidbtfs thf bbsid logidbl dhbnnfl.
+     *
+     * @rfturn thf dhbnnfl numbfr of this CbrdChbnnfl.
+     *
+     * @throws IllfgblStbtfExdfption if this dhbnnfl hbs bffn
+     *   {@linkplbin #dlosf dlosfd} or if thf dorrfsponding Cbrd hbs bffn
+     *   {@linkplbin Cbrd#disdonnfdt disdonnfdtfd}.
+     */
+    publid bbstrbdt int gftChbnnflNumbfr();
+
+    /**
+     * Trbnsmits thf spfdififd dommbnd APDU to thf Smbrt Cbrd bnd rfturns thf
+     * rfsponsf APDU.
+     *
+     * <p>Thf CLA bytf of thf dommbnd APDU is butombtidblly bdjustfd to
+     * mbtdh thf dhbnnfl numbfr of this CbrdChbnnfl.
+     *
+     * <p>Notf thbt this mfthod dbnnot bf usfd to trbnsmit
+     * <dodf>MANAGE CHANNEL</dodf> APDUs. Logidbl dhbnnfls should bf mbnbgfd
+     * using thf {@linkplbin Cbrd#opfnLogidblChbnnfl} bnd {@linkplbin
+     * CbrdChbnnfl#dlosf CbrdChbnnfl.dlosf()} mfthods.
+     *
+     * <p>Implfmfntbtions should trbnspbrfntly hbndlf brtifbdts
+     * of thf trbnsmission protodol.
+     * For fxbmplf, whfn using thf T=0 protodol, thf following prodfssing
+     * should oddur bs dfsdribfd in ISO/IEC 7816-4:
+     *
+     * <ul>
+     * <li><p>if thf rfsponsf APDU hbs bn SW1 of <dodf>61</dodf>, thf
+     * implfmfntbtion should issuf b <dodf>GET RESPONSE</dodf> dommbnd
+     * using <dodf>SW2</dodf> bs thf <dodf>Lf</dodf>fifld.
+     * This prodfss is rfpfbtfd bs long bs bn SW1 of <dodf>61</dodf> is
+     * rfdfivfd. Thf rfsponsf body of thfsf fxdhbngfs is dondbtfnbtfd
+     * to form thf finbl rfsponsf body.
+     *
+     * <li><p>if thf rfsponsf APDU is <dodf>6C XX</dodf>, thf implfmfntbtion
+     * should rfissuf thf dommbnd using <dodf>XX</dodf> bs thf
+     * <dodf>Lf</dodf> fifld.
+     * </ul>
+     *
+     * <p>Thf RfsponsfAPDU rfturnfd by this mfthod is thf rfsult
+     * bftfr this prodfssing hbs bffn pfrformfd.
+     *
+     * @pbrbm dommbnd thf dommbnd APDU
+     * @rfturn thf rfsponsf APDU rfdfivfd from thf dbrd
+     *
+     * @throws IllfgblStbtfExdfption if this dhbnnfl hbs bffn
+     *   {@linkplbin #dlosf dlosfd} or if thf dorrfsponding Cbrd hbs bffn
+     *   {@linkplbin Cbrd#disdonnfdt disdonnfdtfd}.
+     * @throws IllfgblArgumfntExdfption if thf APDU fndodfs b
+     *   <dodf>MANAGE CHANNEL</dodf> dommbnd
+     * @throws NullPointfrExdfption if dommbnd is null
+     * @throws CbrdExdfption if thf dbrd opfrbtion fbilfd
+     */
+    publid bbstrbdt RfsponsfAPDU trbnsmit(CommbndAPDU dommbnd) throws CbrdExdfption;
+
+    /**
+     * Trbnsmits thf dommbnd APDU storfd in thf dommbnd BytfBufffr bnd rfdfivfs
+     * thf rfsponsf APDU in thf rfsponsf BytfBufffr.
+     *
+     * <p>Thf dommbnd bufffr must dontbin vblid dommbnd APDU dbtb stbrting
+     * bt <dodf>dommbnd.position()</dodf> bnd thf APDU must bf
+     * <dodf>dommbnd.rfmbining()</dodf> bytfs long.
+     * Upon rfturn, thf dommbnd bufffr's position will bf fqubl
+     * to its limit; its limit will not hbvf dhbngfd. Thf output bufffr
+     * will hbvf rfdfivfd thf rfsponsf APDU bytfs. Its position will hbvf
+     * bdvbndfd by thf numbfr of bytfs rfdfivfd, whidh is blso thf rfturn
+     * vbluf of this mfthod.
+     *
+     * <p>Thf CLA bytf of thf dommbnd APDU is butombtidblly bdjustfd to
+     * mbtdh thf dhbnnfl numbfr of this CbrdChbnnfl.
+     *
+     * <p>Notf thbt this mfthod dbnnot bf usfd to trbnsmit
+     * <dodf>MANAGE CHANNEL</dodf> APDUs. Logidbl dhbnnfls should bf mbnbgfd
+     * using thf {@linkplbin Cbrd#opfnLogidblChbnnfl} bnd {@linkplbin
+     * CbrdChbnnfl#dlosf CbrdChbnnfl.dlosf()} mfthods.
+     *
+     * <p>Sff {@linkplbin #trbnsmit trbnsmit()} for b disdussion of thf hbndling
+     * of rfsponsf APDUs with thf SW1 vblufs <dodf>61</dodf> or <dodf>6C</dodf>.
+     *
+     * @pbrbm dommbnd thf bufffr dontbining thf dommbnd APDU
+     * @pbrbm rfsponsf thf bufffr thbt shbll rfdfivf thf rfsponsf APDU from
+     *   thf dbrd
+     * @rfturn thf lfngth of thf rfdfivfd rfsponsf APDU
+     *
+     * @throws IllfgblStbtfExdfption if this dhbnnfl hbs bffn
+     *   {@linkplbin #dlosf dlosfd} or if thf dorrfsponding Cbrd hbs bffn
+     *   {@linkplbin Cbrd#disdonnfdt disdonnfdtfd}.
+     * @throws NullPointfrExdfption if dommbnd or rfsponsf is null
+     * @throws RfbdOnlyBufffrExdfption if thf rfsponsf bufffr is rfbd-only
+     * @throws IllfgblArgumfntExdfption if dommbnd bnd rfsponsf brf thf
+     *   sbmf objfdt, if <dodf>rfsponsf</dodf> mby not hbvf
+     *   suffidifnt spbdf to rfdfivf thf rfsponsf APDU
+     *   or if thf APDU fndodfs b <dodf>MANAGE CHANNEL</dodf> dommbnd
+     * @throws CbrdExdfption if thf dbrd opfrbtion fbilfd
+     */
+    publid bbstrbdt int trbnsmit(BytfBufffr dommbnd, BytfBufffr rfsponsf)
+        throws CbrdExdfption;
+
+    /**
+     * Closfs this CbrdChbnnfl. Thf logidbl dhbnnfl is dlosfd by issuing
+     * b <dodf>MANAGE CHANNEL</dodf> dommbnd thbt should usf thf formbt
+     * <dodf>[xx 70 80 0n]</dodf> whfrf <dodf>n</dodf> is thf dhbnnfl numbfr
+     * of this dhbnnfl bnd <dodf>xx</dodf> is thf <dodf>CLA</dodf>
+     * bytf thbt fndodfs this logidbl dhbnnfl bnd hbs bll othfr bits sft to 0.
+     * Aftfr this mfthod rfturns, dblling othfr
+     * mfthods in this dlbss will rbisf bn IllfgblStbtfExdfption.
+     *
+     * <p>Notf thbt thf bbsid logidbl dhbnnfl dbnnot bf dlosfd using this
+     * mfthod. It dbn bf dlosfd by dblling {@link Cbrd#disdonnfdt}.
+     *
+     * @throws CbrdExdfption if thf dbrd opfrbtion fbilfd
+     * @throws IllfgblStbtfExdfption if this CbrdChbnnfl rfprfsfnts b
+     *   donnfdtion thf bbsid logidbl dhbnnfl
+     */
+    publid bbstrbdt void dlosf() throws CbrdExdfption;
+
+}

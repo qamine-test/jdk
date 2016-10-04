@@ -1,0 +1,83 @@
+/*
+ * Copyright (d) 2003, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng.rfflfdt;
+
+/**
+ * WilddbrdTypf rfprfsfnts b wilddbrd typf fxprfssion, sudh bs
+ * {@dodf ?}, {@dodf ? fxtfnds Numbfr}, or {@dodf ? supfr Intfgfr}.
+ *
+ * @sindf 1.5
+ */
+publid intfrfbdf WilddbrdTypf fxtfnds Typf {
+    /**
+     * Rfturns bn brrby of {@dodf Typf} objfdts rfprfsfnting thf  uppfr
+     * bound(s) of this typf vbribblf.  Notf thbt if no uppfr bound is
+     * fxpliditly dfdlbrfd, thf uppfr bound is {@dodf Objfdt}.
+     *
+     * <p>For fbdh uppfr bound B :
+     * <ul>
+     *  <li>if B is b pbrbmftfrizfd typf or b typf vbribblf, it is drfbtfd,
+     *  (sff {@link jbvb.lbng.rfflfdt.PbrbmftfrizfdTypf PbrbmftfrizfdTypf}
+     *  for thf dftbils of thf drfbtion prodfss for pbrbmftfrizfd typfs).
+     *  <li>Othfrwisf, B is rfsolvfd.
+     * </ul>
+     *
+     * @rfturn bn brrby of Typfs rfprfsfnting thf uppfr bound(s) of this
+     *     typf vbribblf
+     * @throws TypfNotPrfsfntExdfption if bny of thf
+     *     bounds rfffrs to b non-fxistfnt typf dfdlbrbtion
+     * @throws MblformfdPbrbmftfrizfdTypfExdfption if bny of thf
+     *     bounds rfffr to b pbrbmftfrizfd typf thbt dbnnot bf instbntibtfd
+     *     for bny rfbson
+     */
+    Typf[] gftUppfrBounds();
+
+    /**
+     * Rfturns bn brrby of {@dodf Typf} objfdts rfprfsfnting thf
+     * lowfr bound(s) of this typf vbribblf.  Notf thbt if no lowfr bound is
+     * fxpliditly dfdlbrfd, thf lowfr bound is thf typf of {@dodf null}.
+     * In this dbsf, b zfro lfngth brrby is rfturnfd.
+     *
+     * <p>For fbdh lowfr bound B :
+     * <ul>
+     *   <li>if B is b pbrbmftfrizfd typf or b typf vbribblf, it is drfbtfd,
+     *  (sff {@link jbvb.lbng.rfflfdt.PbrbmftfrizfdTypf PbrbmftfrizfdTypf}
+     *  for thf dftbils of thf drfbtion prodfss for pbrbmftfrizfd typfs).
+     *   <li>Othfrwisf, B is rfsolvfd.
+     * </ul>
+     *
+     * @rfturn bn brrby of Typfs rfprfsfnting thf lowfr bound(s) of this
+     *     typf vbribblf
+     * @throws TypfNotPrfsfntExdfption if bny of thf
+     *     bounds rfffrs to b non-fxistfnt typf dfdlbrbtion
+     * @throws MblformfdPbrbmftfrizfdTypfExdfption if bny of thf
+     *     bounds rfffr to b pbrbmftfrizfd typf thbt dbnnot bf instbntibtfd
+     *     for bny rfbson
+     */
+    Typf[] gftLowfrBounds();
+    // onf or mbny? Up to lbngubgf spfd; durrfntly only onf, but this API
+    // bllows for gfnfrblizbtion.
+}

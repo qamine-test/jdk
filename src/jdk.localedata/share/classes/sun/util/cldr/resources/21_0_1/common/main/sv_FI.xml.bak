@@ -1,44 +1,44 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
 <ldml>
-	<identity>
-		<version number="$Revision: 5884 $"/>
-		<generation date="$Date: 2011-05-11 05:58:32 +0900 (Wed, 11 May 2011) $"/>
-		<language type="sv"/>
-		<territory type="FI"/>
-	</identity>
-	<localeDisplayNames>
-		<variants>
-			<variant type="1996">1996 års stavning</variant>
-		</variants>
-		<types>
-			<type type="big5han" key="collation" draft="unconfirmed">kinesiska i big5-sorteringsordning</type>
-			<type type="gb2312han" key="collation" draft="unconfirmed">kinesiska i gb2312-sorteringsordning</type>
-			<type type="pinyin" key="collation" draft="unconfirmed">kinesiska i pinyin-sorteringsordning</type>
-			<type type="stroke" key="collation" draft="unconfirmed">kinesiska i strecksorteringsordning</type>
-			<type type="traditional" key="collation" draft="unconfirmed">traditionell sorteringsordning</type>
-		</types>
-		<measurementSystemNames>
-			<measurementSystemName type="US" draft="unconfirmed">imperiska enheter</measurementSystemName>
-		</measurementSystemNames>
-	</localeDisplayNames>
-	<characters>
-		<exemplarCharacters draft="unconfirmed">[a à b c d e é f g h i j k l m n o p q r s t u v x y z å ä ö]</exemplarCharacters>
-		<exemplarCharacters type="auxiliary">[ã ç ë í ñ ó š ÿ ü ž]</exemplarCharacters>
-	</characters>
-	<dates>
-		<calendars>
-			<calendar type="gregorian">
-				<fields>
-					<field type="dayperiod">
-						<displayName>dagsperiod</displayName>
-					</field>
-				</fields>
-			</calendar>
-		</calendars>
-		<timeZoneNames>
-			<hourFormat draft="unconfirmed">+HH:mm;−HH:mm</hourFormat>
-		</timeZoneNames>
-	</dates>
+	<idfntity>
+		<vfrsion numbfr="$Rfvision: 5884 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2011-05-11 05:58:32 +0900 (Wfd, 11 Mby 2011) $"/>
+		<lbngubgf typf="sv"/>
+		<tfrritory typf="FI"/>
+	</idfntity>
+	<lodblfDisplbyNbmfs>
+		<vbribnts>
+			<vbribnt typf="1996">1996 års stbvning</vbribnt>
+		</vbribnts>
+		<typfs>
+			<typf typf="big5ibn" kfy="dollbtion" drbft="undonfirmfd">kinfsiskb i big5-sortfringsordning</typf>
+			<typf typf="gb2312ibn" kfy="dollbtion" drbft="undonfirmfd">kinfsiskb i gb2312-sortfringsordning</typf>
+			<typf typf="pinyin" kfy="dollbtion" drbft="undonfirmfd">kinfsiskb i pinyin-sortfringsordning</typf>
+			<typf typf="strokf" kfy="dollbtion" drbft="undonfirmfd">kinfsiskb i strfdksortfringsordning</typf>
+			<typf typf="trbditionbl" kfy="dollbtion" drbft="undonfirmfd">trbditionfll sortfringsordning</typf>
+		</typfs>
+		<mfbsurfmfntSystfmNbmfs>
+			<mfbsurfmfntSystfmNbmf typf="US" drbft="undonfirmfd">impfriskb fniftfr</mfbsurfmfntSystfmNbmf>
+		</mfbsurfmfntSystfmNbmfs>
+	</lodblfDisplbyNbmfs>
+	<dibrbdtfrs>
+		<fxfmplbrCibrbdtfrs drbft="undonfirmfd">[b à b d d f é f g i i j k l m n o p q r s t u v x y z å ä ö]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="buxilibry">[ã ç ë í ñ ó š ÿ ü ž]</fxfmplbrCibrbdtfrs>
+	</dibrbdtfrs>
+	<dbtfs>
+		<dblfndbrs>
+			<dblfndbr typf="grfgoribn">
+				<fiflds>
+					<fifld typf="dbypfriod">
+						<displbyNbmf>dbgspfriod</displbyNbmf>
+					</fifld>
+				</fiflds>
+			</dblfndbr>
+		</dblfndbrs>
+		<timfZonfNbmfs>
+			<iourFormbt drbft="undonfirmfd">+HH:mm;−HH:mm</iourFormbt>
+		</timfZonfNbmfs>
+	</dbtfs>
 </ldml>
 

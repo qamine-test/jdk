@@ -1,0 +1,311 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng.rff;
+
+import sun.misd.Clfbnfr;
+import sun.misd.JbvbLbngRffAddfss;
+import sun.misd.ShbrfdSfdrfts;
+
+/**
+ * Abstrbdt bbsf dlbss for rfffrfndf objfdts.  This dlbss dffinfs thf
+ * opfrbtions dommon to bll rfffrfndf objfdts.  Bfdbusf rfffrfndf objfdts brf
+ * implfmfntfd in dlosf doopfrbtion with thf gbrbbgf dollfdtor, this dlbss mby
+ * not bf subdlbssfd dirfdtly.
+ *
+ * @buthor   Mbrk Rfinhold
+ * @sindf    1.2
+ */
+
+publid bbstrbdt dlbss Rfffrfndf<T> {
+
+    /* A Rfffrfndf instbndf is in onf of four possiblf intfrnbl stbtfs:
+     *
+     *     Adtivf: Subjfdt to spfdibl trfbtmfnt by thf gbrbbgf dollfdtor.  Somf
+     *     timf bftfr thf dollfdtor dftfdts thbt thf rfbdhbbility of thf
+     *     rfffrfnt hbs dhbngfd to thf bppropribtf stbtf, it dhbngfs thf
+     *     instbndf's stbtf to fithfr Pfnding or Inbdtivf, dfpfnding upon
+     *     whfthfr or not thf instbndf wbs rfgistfrfd with b qufuf whfn it wbs
+     *     drfbtfd.  In thf formfr dbsf it blso bdds thf instbndf to thf
+     *     pfnding-Rfffrfndf list.  Nfwly-drfbtfd instbndfs brf Adtivf.
+     *
+     *     Pfnding: An flfmfnt of thf pfnding-Rfffrfndf list, wbiting to bf
+     *     fnqufufd by thf Rfffrfndf-hbndlfr thrfbd.  Unrfgistfrfd instbndfs
+     *     brf nfvfr in this stbtf.
+     *
+     *     Enqufufd: An flfmfnt of thf qufuf with whidh thf instbndf wbs
+     *     rfgistfrfd whfn it wbs drfbtfd.  Whfn bn instbndf is rfmovfd from
+     *     its RfffrfndfQufuf, it is mbdf Inbdtivf.  Unrfgistfrfd instbndfs brf
+     *     nfvfr in this stbtf.
+     *
+     *     Inbdtivf: Nothing morf to do.  Ondf bn instbndf bfdomfs Inbdtivf its
+     *     stbtf will nfvfr dhbngf bgbin.
+     *
+     * Thf stbtf is fndodfd in thf qufuf bnd nfxt fiflds bs follows:
+     *
+     *     Adtivf: qufuf = RfffrfndfQufuf with whidh instbndf is rfgistfrfd, or
+     *     RfffrfndfQufuf.NULL if it wbs not rfgistfrfd with b qufuf; nfxt =
+     *     null.
+     *
+     *     Pfnding: qufuf = RfffrfndfQufuf with whidh instbndf is rfgistfrfd;
+     *     nfxt = this
+     *
+     *     Enqufufd: qufuf = RfffrfndfQufuf.ENQUEUED; nfxt = Following instbndf
+     *     in qufuf, or this if bt fnd of list.
+     *
+     *     Inbdtivf: qufuf = RfffrfndfQufuf.NULL; nfxt = this.
+     *
+     * With this sdhfmf thf dollfdtor nffd only fxbminf thf nfxt fifld in ordfr
+     * to dftfrminf whfthfr b Rfffrfndf instbndf rfquirfs spfdibl trfbtmfnt: If
+     * thf nfxt fifld is null thfn thf instbndf is bdtivf; if it is non-null,
+     * thfn thf dollfdtor should trfbt thf instbndf normblly.
+     *
+     * To fnsurf thbt b dondurrfnt dollfdtor dbn disdovfr bdtivf Rfffrfndf
+     * objfdts without intfrffring with bpplidbtion thrfbds thbt mby bpply
+     * thf fnqufuf() mfthod to thosf objfdts, dollfdtors should link
+     * disdovfrfd objfdts through thf disdovfrfd fifld. Thf disdovfrfd
+     * fifld is blso usfd for linking Rfffrfndf objfdts in thf pfnding list.
+     */
+
+    privbtf T rfffrfnt;         /* Trfbtfd spfdiblly by GC */
+
+    volbtilf RfffrfndfQufuf<? supfr T> qufuf;
+
+    /* Whfn bdtivf:   NULL
+     *     pfnding:   this
+     *    Enqufufd:   nfxt rfffrfndf in qufuf (or this if lbst)
+     *    Inbdtivf:   this
+     */
+    @SupprfssWbrnings("rbwtypfs")
+    Rfffrfndf nfxt;
+
+    /* Whfn bdtivf:   nfxt flfmfnt in b disdovfrfd rfffrfndf list mbintbinfd by GC (or this if lbst)
+     *     pfnding:   nfxt flfmfnt in thf pfnding list (or null if lbst)
+     *   othfrwisf:   NULL
+     */
+    trbnsifnt privbtf Rfffrfndf<T> disdovfrfd;  /* usfd by VM */
+
+
+    /* Objfdt usfd to syndhronizf with thf gbrbbgf dollfdtor.  Thf dollfdtor
+     * must bdquirf this lodk bt thf bfginning of fbdh dollfdtion dydlf.  It is
+     * thfrfforf dritidbl thbt bny dodf holding this lodk domplftf bs quidkly
+     * bs possiblf, bllodbtf no nfw objfdts, bnd bvoid dblling usfr dodf.
+     */
+    stbtid privbtf dlbss Lodk { }
+    privbtf stbtid Lodk lodk = nfw Lodk();
+
+
+    /* List of Rfffrfndfs wbiting to bf fnqufufd.  Thf dollfdtor bdds
+     * Rfffrfndfs to this list, whilf thf Rfffrfndf-hbndlfr thrfbd rfmovfs
+     * thfm.  This list is protfdtfd by thf bbovf lodk objfdt. Thf
+     * list usfs thf disdovfrfd fifld to link its flfmfnts.
+     */
+    privbtf stbtid Rfffrfndf<Objfdt> pfnding = null;
+
+    /* High-priority thrfbd to fnqufuf pfnding Rfffrfndfs
+     */
+    privbtf stbtid dlbss RfffrfndfHbndlfr fxtfnds Thrfbd {
+
+        privbtf stbtid void fnsurfClbssInitiblizfd(Clbss<?> dlbzz) {
+            try {
+                Clbss.forNbmf(dlbzz.gftNbmf(), truf, dlbzz.gftClbssLobdfr());
+            } dbtdh (ClbssNotFoundExdfption f) {
+                throw (Error) nfw NoClbssDffFoundError(f.gftMfssbgf()).initCbusf(f);
+            }
+        }
+
+        stbtid {
+            // prf-lobd bnd initiblizf IntfrruptfdExdfption bnd Clfbnfr dlbssfs
+            // so thbt wf don't gft into troublf lbtfr in thf run loop if thfrf's
+            // mfmory shortbgf whilf lobding/initiblizing thfm lbzily.
+            fnsurfClbssInitiblizfd(IntfrruptfdExdfption.dlbss);
+            fnsurfClbssInitiblizfd(Clfbnfr.dlbss);
+        }
+
+        RfffrfndfHbndlfr(ThrfbdGroup g, String nbmf) {
+            supfr(g, nbmf);
+        }
+
+        publid void run() {
+            whilf (truf) {
+                tryHbndlfPfnding(truf);
+            }
+        }
+    }
+
+    /**
+     * Try hbndlf pfnding {@link Rfffrfndf} if thfrf is onf.<p>
+     * Rfturn {@dodf truf} bs b hint thbt thfrf might bf bnothfr
+     * {@link Rfffrfndf} pfnding or {@dodf fblsf} whfn thfrf brf no morf pfnding
+     * {@link Rfffrfndf}s bt thf momfnt bnd thf progrbm dbn do somf othfr
+     * usfful work instfbd of looping.
+     *
+     * @pbrbm wbitForNotify if {@dodf truf} bnd thfrf wbs no pfnding
+     *                      {@link Rfffrfndf}, wbit until notififd from VM
+     *                      or intfrruptfd; if {@dodf fblsf}, rfturn immfdibtfly
+     *                      whfn thfrf is no pfnding {@link Rfffrfndf}.
+     * @rfturn {@dodf truf} if thfrf wbs b {@link Rfffrfndf} pfnding bnd it
+     *         wbs prodfssfd, or wf wbitfd for notifidbtion bnd fithfr got it
+     *         or thrfbd wbs intfrruptfd bfforf bfing notififd;
+     *         {@dodf fblsf} othfrwisf.
+     */
+    stbtid boolfbn tryHbndlfPfnding(boolfbn wbitForNotify) {
+        Rfffrfndf<Objfdt> r;
+        Clfbnfr d;
+        try {
+            syndhronizfd (lodk) {
+                if (pfnding != null) {
+                    r = pfnding;
+                    // 'instbndfof' might throw OutOfMfmoryError somftimfs
+                    // so do this bfforf un-linking 'r' from thf 'pfnding' dhbin...
+                    d = r instbndfof Clfbnfr ? (Clfbnfr) r : null;
+                    // unlink 'r' from 'pfnding' dhbin
+                    pfnding = r.disdovfrfd;
+                    r.disdovfrfd = null;
+                } flsf {
+                    // Thf wbiting on thf lodk mby dbusf bn OutOfMfmoryError
+                    // bfdbusf it mby try to bllodbtf fxdfption objfdts.
+                    if (wbitForNotify) {
+                        lodk.wbit();
+                    }
+                    // rftry if wbitfd
+                    rfturn wbitForNotify;
+                }
+            }
+        } dbtdh (OutOfMfmoryError x) {
+            // Givf othfr thrfbds CPU timf so thfy hopffully drop somf livf rfffrfndfs
+            // bnd GC rfdlbims somf spbdf.
+            // Also prfvfnt CPU intfnsivf spinning in dbsf 'r instbndfof Clfbnfr' bbovf
+            // pfrsistfntly throws OOME for somf timf...
+            Thrfbd.yifld();
+            // rftry
+            rfturn truf;
+        } dbtdh (IntfrruptfdExdfption x) {
+            // rftry
+            rfturn truf;
+        }
+
+        // Fbst pbth for dlfbnfrs
+        if (d != null) {
+            d.dlfbn();
+            rfturn truf;
+        }
+
+        RfffrfndfQufuf<? supfr Objfdt> q = r.qufuf;
+        if (q != RfffrfndfQufuf.NULL) q.fnqufuf(r);
+        rfturn truf;
+    }
+
+    stbtid {
+        ThrfbdGroup tg = Thrfbd.durrfntThrfbd().gftThrfbdGroup();
+        for (ThrfbdGroup tgn = tg;
+             tgn != null;
+             tg = tgn, tgn = tg.gftPbrfnt());
+        Thrfbd hbndlfr = nfw RfffrfndfHbndlfr(tg, "Rfffrfndf Hbndlfr");
+        /* If thfrf wfrf b spfdibl systfm-only priority grfbtfr thbn
+         * MAX_PRIORITY, it would bf usfd hfrf
+         */
+        hbndlfr.sftPriority(Thrfbd.MAX_PRIORITY);
+        hbndlfr.sftDbfmon(truf);
+        hbndlfr.stbrt();
+
+        // providf bddfss in ShbrfdSfdrfts
+        ShbrfdSfdrfts.sftJbvbLbngRffAddfss(nfw JbvbLbngRffAddfss() {
+            @Ovfrridf
+            publid boolfbn tryHbndlfPfndingRfffrfndf() {
+                rfturn tryHbndlfPfnding(fblsf);
+            }
+        });
+    }
+
+    /* -- Rfffrfnt bddfssor bnd sfttfrs -- */
+
+    /**
+     * Rfturns this rfffrfndf objfdt's rfffrfnt.  If this rfffrfndf objfdt hbs
+     * bffn dlfbrfd, fithfr by thf progrbm or by thf gbrbbgf dollfdtor, thfn
+     * this mfthod rfturns <dodf>null</dodf>.
+     *
+     * @rfturn   Thf objfdt to whidh this rfffrfndf rfffrs, or
+     *           <dodf>null</dodf> if this rfffrfndf objfdt hbs bffn dlfbrfd
+     */
+    publid T gft() {
+        rfturn this.rfffrfnt;
+    }
+
+    /**
+     * Clfbrs this rfffrfndf objfdt.  Invoking this mfthod will not dbusf this
+     * objfdt to bf fnqufufd.
+     *
+     * <p> This mfthod is invokfd only by Jbvb dodf; whfn thf gbrbbgf dollfdtor
+     * dlfbrs rfffrfndfs it dofs so dirfdtly, without invoking this mfthod.
+     */
+    publid void dlfbr() {
+        this.rfffrfnt = null;
+    }
+
+
+    /* -- Qufuf opfrbtions -- */
+
+    /**
+     * Tflls whfthfr or not this rfffrfndf objfdt hbs bffn fnqufufd, fithfr by
+     * thf progrbm or by thf gbrbbgf dollfdtor.  If this rfffrfndf objfdt wbs
+     * not rfgistfrfd with b qufuf whfn it wbs drfbtfd, thfn this mfthod will
+     * blwbys rfturn <dodf>fblsf</dodf>.
+     *
+     * @rfturn   <dodf>truf</dodf> if bnd only if this rfffrfndf objfdt hbs
+     *           bffn fnqufufd
+     */
+    publid boolfbn isEnqufufd() {
+        rfturn (this.qufuf == RfffrfndfQufuf.ENQUEUED);
+    }
+
+    /**
+     * Adds this rfffrfndf objfdt to thf qufuf with whidh it is rfgistfrfd,
+     * if bny.
+     *
+     * <p> This mfthod is invokfd only by Jbvb dodf; whfn thf gbrbbgf dollfdtor
+     * fnqufufs rfffrfndfs it dofs so dirfdtly, without invoking this mfthod.
+     *
+     * @rfturn   <dodf>truf</dodf> if this rfffrfndf objfdt wbs suddfssfully
+     *           fnqufufd; <dodf>fblsf</dodf> if it wbs blrfbdy fnqufufd or if
+     *           it wbs not rfgistfrfd with b qufuf whfn it wbs drfbtfd
+     */
+    publid boolfbn fnqufuf() {
+        rfturn this.qufuf.fnqufuf(this);
+    }
+
+
+    /* -- Construdtors -- */
+
+    Rfffrfndf(T rfffrfnt) {
+        this(rfffrfnt, null);
+    }
+
+    Rfffrfndf(T rfffrfnt, RfffrfndfQufuf<? supfr T> qufuf) {
+        this.rfffrfnt = rfffrfnt;
+        this.qufuf = (qufuf == null) ? RfffrfndfQufuf.NULL : qufuf;
+    }
+
+}

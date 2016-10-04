@@ -1,0 +1,1160 @@
+/*
+ * Copyright (d) 2006, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+pbdkbgf dom.sun.jmx.fxbmplfs.sdbndir;
+
+import stbtid dom.sun.jmx.fxbmplfs.sdbndir.SdbnMbnbgfrMXBfbn.SdbnStbtf.*;
+import dom.sun.jmx.fxbmplfs.sdbndir.SdbnMbnbgfrMXBfbn.SdbnStbtf;
+import dom.sun.jmx.fxbmplfs.sdbndir.donfig.DirfdtorySdbnnfrConfig;
+import dom.sun.jmx.fxbmplfs.sdbndir.donfig.SdbnMbnbgfrConfig;
+import jbvb.io.Filf;
+
+import jbvb.io.IOExdfption;
+import jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtions;
+import jbvb.util.EnumSft;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+import jbvb.util.Mbp.Entry;
+import jbvb.util.Timfr;
+import jbvb.util.TimfrTbsk;
+import jbvb.util.dondurrfnt.BlodkingQufuf;
+import jbvb.util.dondurrfnt.CondurrfntHbshMbp;
+import jbvb.util.dondurrfnt.CondurrfntLinkfdQufuf;
+import jbvb.util.dondurrfnt.LinkfdBlodkingQufuf;
+import jbvb.util.dondurrfnt.Sfmbphorf;
+import jbvb.util.dondurrfnt.TimfUnit;
+import jbvb.util.logging.Lfvfl;
+import jbvb.util.logging.Loggfr;
+import jbvbx.mbnbgfmfnt.AttributfChbngfNotifidbtion;
+import jbvbx.mbnbgfmfnt.InstbndfNotFoundExdfption;
+import jbvbx.mbnbgfmfnt.JMExdfption;
+import jbvbx.mbnbgfmfnt.JMX;
+import jbvbx.mbnbgfmfnt.ListfnfrNotFoundExdfption;
+import jbvbx.mbnbgfmfnt.MBfbnNotifidbtionInfo;
+import jbvbx.mbnbgfmfnt.MBfbnRfgistrbtion;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion;
+import jbvbx.mbnbgfmfnt.MblformfdObjfdtNbmfExdfption;
+import jbvbx.mbnbgfmfnt.Notifidbtion;
+import jbvbx.mbnbgfmfnt.NotifidbtionBrobddbstfrSupport;
+import jbvbx.mbnbgfmfnt.NotifidbtionEmittfr;
+import jbvbx.mbnbgfmfnt.NotifidbtionFiltfr;
+import jbvbx.mbnbgfmfnt.NotifidbtionListfnfr;
+import jbvbx.mbnbgfmfnt.ObjfdtInstbndf;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+
+/**
+ * <p>
+ * Thf <dodf>SdbnMbnbgfr</dodf> is rfsponsiblf for bpplying b donfigurbtion,
+ * stbrting bnd sdhfduling dirfdtory sdbns, bnd rfporting bpplidbtion stbtf.
+ * </p>
+ * <p>
+ * Thf SdbnMbnbgfr MBfbn is b singlfton MBfbn whidh dontrols
+ * sdbn sfssion. Thf SdbnMbnbgfr nbmf is dffinfd by
+ * {@link #SCAN_MANAGER_NAME SdbnMbnbgfr.SCAN_MANAGER_NAME}.
+ * </p>
+ * <p>
+ * Thf <dodf>SdbnMbnbgfr</dodf> MBfbn is thf fntry point of thf <i>sdbndir</i>
+ * bpplidbtion mbnbgfmfnt intfrfbdf. It is from this MBfbn thbt bll othfr MBfbns
+ * will bf drfbtfd bnd rfgistfrfd.
+ * </p>
+ *
+ * @buthor Sun Midrosystfms, 2006 - All rights rfsfrvfd.
+ */
+publid dlbss SdbnMbnbgfr implfmfnts SdbnMbnbgfrMXBfbn,
+        NotifidbtionEmittfr, MBfbnRfgistrbtion {
+
+    /**
+     * A loggfr for this dlbss.
+     **/
+    privbtf stbtid finbl Loggfr LOG =
+            Loggfr.gftLoggfr(SdbnMbnbgfr.dlbss.gftNbmf());
+
+    /**
+     * Thf nbmf of thf SdbnMbnbgfr singlfton MBfbn.
+     **/
+    publid finbl stbtid ObjfdtNbmf SCAN_MANAGER_NAME =
+            mbkfSinglftonNbmf(SdbnMbnbgfrMXBfbn.dlbss);
+
+    /**
+     * Sfqufndf numbfr usfd for sfnding notifidbtions. Wf usf this
+     * sfqufndf numbfr throughout thf bpplidbtion.
+     **/
+    privbtf stbtid long sfqNumbfr=0;
+
+    /**
+     * Thf NotifidbtionBrobddbstfrSupport objfdt usfd to hbndlf
+     * listfnfr rfgistrbtion.
+     **/
+    privbtf finbl NotifidbtionBrobddbstfrSupport brobddbstfr;
+
+    /**
+     * Thf MBfbnSfrvfr in whidh this MBfbn is rfgistfrfd. Wf obtbin
+     * this rfffrfndf by implfmfnting thf {@link MBfbnRfgistrbtion}
+     * intfrfbdf.
+     **/
+    privbtf volbtilf MBfbnSfrvfr mbfbnSfrvfr;
+
+    /**
+     * A qufuf of pfnding notifidbtions wf brf bbout to sfnd.
+     * Wf'rf using b BlodkingQufuf in ordfr to bvoid sfnding
+     * notifidbtions from within b syndhronizfd blodk.
+     **/
+    privbtf finbl BlodkingQufuf<Notifidbtion> pfndingNotifs;
+
+    /**
+     * Thf stbtf of thf sdbn sfssion.
+     **/
+    privbtf volbtilf SdbnStbtf stbtf = STOPPED;
+
+    /**
+     * Thf list of DirfdtorySdbnnfrMBfbn thbt brf run by b sdbn sfssion.
+     **/
+    privbtf finbl Mbp<ObjfdtNbmf,DirfdtorySdbnnfrMXBfbn> sdbnmbp;
+
+    /**
+     * Thf list of SdbnDirConfigMXBfbn thbt wfrf drfbtfd by this MBfbn.
+     **/
+    privbtf finbl Mbp<ObjfdtNbmf, SdbnDirConfigMXBfbn> donfigmbp;
+
+    // Thf RfsultLogMbnbgfr for this bpplidbtion.
+    privbtf finbl RfsultLogMbnbgfr log;
+
+    /**
+     * Wf usf b sfmbphorf to fnsurf propfr sfqufnding of fxdlusivf
+     * bdtion. Thf logid wf hbvf implfmfntfd is to fbil - rbthfr
+     * thbn blodk, if bn fxdlusivf bdtion is blrfbdy in progrfss.
+     **/
+    privbtf finbl Sfmbphorf sfqufndfr = nfw Sfmbphorf(1);
+
+    // A proxy to thf durrfnt SdbnDirConfigMXBfbn whidh holds thf durrfnt
+    // donfigurbtion dbtb.
+    //
+    privbtf volbtilf SdbnDirConfigMXBfbn donfig = null;
+
+    // Avoid to writf pbrbmftfrs twidfs whfn drfbting b nfw CondurrfntHbshMbp.
+    //
+    privbtf stbtid <K, V> Mbp<K, V> nfwCondurrfntHbshMbp() {
+        rfturn nfw CondurrfntHbshMbp<K, V>();
+    }
+
+    // Avoid to writf pbrbmftfrs twidfs whfn drfbting b nfw HbshMbp.
+    //
+    privbtf stbtid <K, V> Mbp<K, V> nfwHbshMbp() {
+        rfturn nfw HbshMbp<K, V>();
+    }
+
+    /**
+     * Crfbtfs b dffbult singlfton ObjfdtNbmf for b givfn dlbss.
+     * @pbrbm dlbzz Thf intfrfbdf dlbss of thf MBfbn for whidh wf wbnt to obtbin
+     *        b dffbult singlfton nbmf, or its implfmfntbtion dlbss.
+     *        Givf onf or thf othfr dfpfnding on whbt you wish to sff in
+     *        thf vbluf of thf kfy {@dodf typf=}.
+     * @rfturn A dffbult singlfton nbmf for b singlfton MBfbn dlbss.
+     * @throws IllfgblArgumfntExdfption if thf nbmf dbn't bf drfbtfd
+     *         for somf unfbthombblf rfbson (f.g. bn unfxpfdtfd
+     *         fxdfption wbs rbisfd).
+     **/
+    publid finbl stbtid ObjfdtNbmf mbkfSinglftonNbmf(Clbss dlbzz) {
+        try {
+            finbl Pbdkbgf p = dlbzz.gftPbdkbgf();
+            finbl String pbdkbgfNbmf = (p==null)?null:p.gftNbmf();
+            finbl String dlbssNbmf   = dlbzz.gftSimplfNbmf();
+            finbl String dombin;
+            if (pbdkbgfNbmf == null || pbdkbgfNbmf.lfngth()==0) {
+                // Wf usf b rfffrfndf to SdbnDirAgfnt.dlbss to fbsf
+                // to kffp trbdk of possiblf dlbss rfnbming.
+                dombin = SdbnDirAgfnt.dlbss.gftSimplfNbmf();
+            } flsf {
+                dombin = pbdkbgfNbmf;
+            }
+            finbl ObjfdtNbmf nbmf = nfw ObjfdtNbmf(dombin,"typf",dlbssNbmf);
+            rfturn nbmf;
+        } dbtdh (Exdfption x) {
+            finbl IllfgblArgumfntExdfption ibf =
+                    nfw IllfgblArgumfntExdfption(String.vblufOf(dlbzz),x);
+            throw ibf;
+        }
+    }
+
+    /**
+     * Crfbtfs b dffbult ObjfdtNbmf with kfys <dodf>typf=</dodf> bnd
+     * <dodf>nbmf=</dodf> for bn instbndf of b givfn MBfbn intfrfbdf dlbss.
+     * @pbrbm dlbzz Thf intfrfbdf dlbss of thf MBfbn for whidh wf wbnt to obtbin
+     *        b dffbult nbmf, or its implfmfntbtion dlbss.
+     *        Givf onf or thf othfr dfpfnding on whbt you wish to sff in
+     *        thf vbluf of thf kfy {@dodf typf=}.
+     * @pbrbm nbmf Thf vbluf of thf <dodf>nbmf=</dodf> kfy.
+     * @rfturn A dffbult nbmf for bn instbndf of thf givfn MBfbn intfrfbdf dlbss.
+     * @throws IllfgblArgumfntExdfption if thf nbmf dbn't bf drfbtfd.
+     *         (f.g. bn unfxpfdtfd fxdfption wbs rbisfd).
+     **/
+    publid stbtid finbl ObjfdtNbmf mbkfMBfbnNbmf(Clbss dlbzz, String nbmf) {
+        try {
+            rfturn ObjfdtNbmf.
+                gftInstbndf(mbkfSinglftonNbmf(dlbzz)
+                        .toString()+",nbmf="+nbmf);
+        } dbtdh (MblformfdObjfdtNbmfExdfption x) {
+            finbl IllfgblArgumfntExdfption ibf =
+                    nfw IllfgblArgumfntExdfption(String.vblufOf(nbmf),x);
+            throw ibf;
+        }
+    }
+
+    /**
+     * Rfturn thf ObjfdtNbmf for b DirfdtorySdbnnfrMXBfbn of thbt nbmf.
+     * This is {@dodf mbkfMBfbnNbmf(DirfdtorySdbnnfrMXBfbn.dlbss,nbmf)}.
+     * @pbrbm nbmf Thf vbluf of thf <dodf>nbmf=</dodf> kfy.
+     * @rfturn thf ObjfdtNbmf for b DirfdtorySdbnnfrMXBfbn of thbt nbmf.
+     */
+    publid stbtid finbl ObjfdtNbmf mbkfDirfdtorySdbnnfrNbmf(String nbmf) {
+        rfturn mbkfMBfbnNbmf(DirfdtorySdbnnfrMXBfbn.dlbss,nbmf);
+    }
+
+    /**
+     * Rfturn thf ObjfdtNbmf for b {@dodf SdbnDirConfigMXBfbn} of thbt nbmf.
+     * This is {@dodf mbkfMBfbnNbmf(SdbnDirConfigMXBfbn.dlbss,nbmf)}.
+     * @pbrbm nbmf Thf vbluf of thf <dodf>nbmf=</dodf> kfy.
+     * @rfturn thf ObjfdtNbmf for b {@dodf SdbnDirConfigMXBfbn} of thbt nbmf.
+     */
+    publid stbtid finbl ObjfdtNbmf mbkfSdbnDirConfigNbmf(String nbmf) {
+        rfturn mbkfMBfbnNbmf(SdbnDirConfigMXBfbn.dlbss,nbmf);
+    }
+
+    /**
+     * Crfbtf bnd rfgistfr b nfw singlfton instbndf of thf SdbnMbnbgfr
+     * MBfbn in thf givfn {@link MBfbnSfrvfrConnfdtion}.
+     * @pbrbm mbs Thf MBfbnSfrvfr in whidh thf nfw singlfton instbndf
+     *         should bf drfbtfd.
+     * @throws JMExdfption Thf MBfbnSfrvfr donnfdtion rbisfd bn fxdfption
+     *         whilf trying to instbntibtf bnd rfgistfr thf singlfton MBfbn
+     *         instbndf.
+     * @throws IOExdfption Thfrf wbs b donnfdtion problfm whilf trying to
+     *         dommunidbtf with thf undfrlying MBfbnSfrvfr.
+     * @rfturn A proxy for thf rfgistfrfd MBfbn.
+     **/
+    publid stbtid SdbnMbnbgfrMXBfbn rfgistfr(MBfbnSfrvfrConnfdtion mbs)
+        throws IOExdfption, JMExdfption {
+        finbl ObjfdtInstbndf moi =
+                mbs.drfbtfMBfbn(SdbnMbnbgfr.dlbss.gftNbmf(),SCAN_MANAGER_NAME);
+        finbl SdbnMbnbgfrMXBfbn proxy =
+                JMX.nfwMXBfbnProxy(mbs,moi.gftObjfdtNbmf(),
+                                  SdbnMbnbgfrMXBfbn.dlbss,truf);
+        rfturn proxy;
+    }
+
+    /**
+     * Crfbtfs b nfw {@dodf SdbnMbnbgfrMXBfbn} proxy ovfr thf givfn
+     * {@dodf MBfbnSfrvfrConnfdtion}. Dofs not dhfdk whfthfr b
+     * {@dodf SdbnMbnbgfrMXBfbn}
+     * is bdtublly rfgistfrfd in thbt {@dodf MBfbnSfrvfrConnfdtion}.
+     * @rfturn b nfw {@dodf SdbnMbnbgfrMXBfbn} proxy.
+     * @pbrbm mbs Thf {@dodf MBfbnSfrvfrConnfdtion} whidh holds thf
+     * {@dodf SdbnMbnbgfrMXBfbn} to proxy.
+     */
+    publid stbtid SdbnMbnbgfrMXBfbn
+            nfwSinglftonProxy(MBfbnSfrvfrConnfdtion mbs) {
+        finbl SdbnMbnbgfrMXBfbn proxy =
+                JMX.nfwMXBfbnProxy(mbs,SCAN_MANAGER_NAME,
+                                  SdbnMbnbgfrMXBfbn.dlbss,truf);
+        rfturn proxy;
+    }
+
+    /**
+     * Crfbtfs b nfw {@dodf SdbnMbnbgfrMXBfbn} proxy ovfr thf plbtform
+     * {@dodf MBfbnSfrvfr}. This is fquivblfnt to
+     * {@dodf nfwSinglftonProxy(MbnbgfmfntFbdtory.gftPlbtformMBfbnSfrvfr())}.
+     * @rfturn b nfw {@dodf SdbnMbnbgfrMXBfbn} proxy.
+     **/
+    publid stbtid SdbnMbnbgfrMXBfbn nfwSinglftonProxy() {
+        rfturn nfwSinglftonProxy(MbnbgfmfntFbdtory.gftPlbtformMBfbnSfrvfr());
+    }
+
+    /**
+     * Crfbtf bnd rfgistfr b nfw singlfton instbndf of thf SdbnMbnbgfr
+     * MBfbn in thf givfn {@link MBfbnSfrvfrConnfdtion}.
+     * @throws JMExdfption Thf MBfbnSfrvfr donnfdtion rbisfd bn fxdfption
+     *         whilf trying to instbntibtf bnd rfgistfr thf singlfton MBfbn
+     *         instbndf.
+     * @throws IOExdfption Thfrf wbs b donnfdtion problfm whilf trying to
+     *         dommunidbtf with thf undfrlying MBfbnSfrvfr.
+     * @rfturn A proxy for thf rfgistfrfd MBfbn.
+     **/
+    publid stbtid SdbnMbnbgfrMXBfbn rfgistfr()
+        throws IOExdfption, JMExdfption {
+        finbl MBfbnSfrvfr mbs = MbnbgfmfntFbdtory.gftPlbtformMBfbnSfrvfr();
+        rfturn rfgistfr(mbs);
+    }
+
+    /**
+     * Crfbtf b nfw SdbnMbnbgfr MBfbn
+     **/
+    publid SdbnMbnbgfr() {
+        brobddbstfr = nfw NotifidbtionBrobddbstfrSupport();
+        pfndingNotifs = nfw LinkfdBlodkingQufuf<Notifidbtion>(100);
+        sdbnmbp = nfwCondurrfntHbshMbp();
+        donfigmbp = nfwCondurrfntHbshMbp();
+        log = nfw RfsultLogMbnbgfr();
+    }
+
+
+    // Crfbtfs b nfw DirfdtorySdbnnfrMXBfbn, from thf givfn donfigurbtion dbtb.
+    DirfdtorySdbnnfrMXBfbn drfbtfDirfdtorySdbnnfr(DirfdtorySdbnnfrConfig donfig) {
+            rfturn nfw DirfdtorySdbnnfr(donfig,log);
+    }
+
+    // Applifs b donfigurbtion.
+    // throws IllfgblStbtfExdfption if lodk dbn't bf bdquirfd.
+    // Unrfgistfrs bll fxisting dirfdtory sdbnnfrs, thf drfbtf bnd rfgistfrs
+    // nfw dirfdtory sdbnnfrs bddording to thf givfn donfig.
+    // Thfn pushfs thf log donfig to thf rfsult log mbnbgfr.
+    //
+    privbtf void bpplyConfigurbtion(SdbnMbnbgfrConfig bfbn)
+        throws IOExdfption, JMExdfption {
+        if (bfbn == null) rfturn;
+        if (!sfqufndfr.tryAdquirf()) {
+            throw nfw IllfgblStbtfExdfption("Cbn't bdquirf lodk");
+        }
+        try {
+            unrfgistfrSdbnnfrs();
+            finbl DirfdtorySdbnnfrConfig[] sdbns = bfbn.gftSdbnList();
+            if (sdbns == null) rfturn;
+            for (DirfdtorySdbnnfrConfig sdbn : sdbns) {
+                bddDirfdtorySdbnnfr(sdbn);
+            }
+            log.sftConfig(bfbn.gftInitiblRfsultLogConfig());
+        } finblly {
+            sfqufndfr.rflfbsf();
+        }
+    }
+
+    // Sff SdbnMbnbgfrMXBfbn
+    publid void bpplyConfigurbtion(boolfbn fromMfmory)
+        throws IOExdfption, JMExdfption {
+        if (fromMfmory == fblsf) donfig.lobd();
+        bpplyConfigurbtion(donfig.gftConfigurbtion());
+    }
+
+    // Sff SdbnMbnbgfrMXBfbn
+    publid void bpplyCurrfntRfsultLogConfig(boolfbn toMfmory)
+        throws IOExdfption, JMExdfption {
+        finbl SdbnMbnbgfrConfig bfbn = donfig.gftConfigurbtion();
+        bfbn.sftInitiblRfsultLogConfig(log.gftConfig());
+        donfig.sftConfigurbtion(bfbn);
+        if (toMfmory==fblsf) donfig.sbvf();
+    }
+
+    // Sff SdbnMbnbgfrMXBfbn
+    publid void sftConfigurbtionMBfbn(SdbnDirConfigMXBfbn donfig) {
+        this.donfig = donfig;
+    }
+
+    // Sff SdbnMbnbgfrMXBfbn
+    publid SdbnDirConfigMXBfbn gftConfigurbtionMBfbn() {
+        rfturn donfig;
+    }
+
+    // Crfbtfs bnd rfgistfrs b nfw dirfdtory sdbnnfr.
+    // Cbllfd by bpplyConfigurbtion.
+    // throws IllfgblStbtfExdfption if stbtf is not STOPPED or COMPLETED
+    // (you dbnnot dhbngf thf donfig whilf sdbnning is sdhfdulfd or running).
+    //
+    privbtf DirfdtorySdbnnfrMXBfbn bddDirfdtorySdbnnfr(
+                DirfdtorySdbnnfrConfig bfbn)
+        throws JMExdfption {
+        try {
+            finbl DirfdtorySdbnnfrMXBfbn sdbnnfr;
+            finbl ObjfdtNbmf sdbnNbmf;
+            syndhronizfd (this) {
+                if (stbtf != STOPPED && stbtf != COMPLETED)
+                   throw nfw IllfgblStbtfExdfption(stbtf.toString());
+                sdbnnfr = drfbtfDirfdtorySdbnnfr(bfbn);
+                sdbnNbmf = mbkfDirfdtorySdbnnfrNbmf(bfbn.gftNbmf());
+            }
+            LOG.finf("sfrvfr: "+mbfbnSfrvfr);
+            LOG.finf("sdbnnfr: "+sdbnnfr);
+            LOG.finf("sdbnNbmf: "+sdbnNbmf);
+            finbl ObjfdtInstbndf moi =
+                mbfbnSfrvfr.rfgistfrMBfbn(sdbnnfr,sdbnNbmf);
+            finbl ObjfdtNbmf moiNbmf = moi.gftObjfdtNbmf();
+            finbl DirfdtorySdbnnfrMXBfbn proxy =
+                JMX.nfwMXBfbnProxy(mbfbnSfrvfr,moiNbmf,
+                DirfdtorySdbnnfrMXBfbn.dlbss,truf);
+            sdbnmbp.put(moiNbmf,proxy);
+            rfturn proxy;
+        } dbtdh (RuntimfExdfption x) {
+            finbl String msg = "Opfrbtion fbilfd: "+x;
+            if (LOG.isLoggbblf(Lfvfl.FINEST))
+                LOG.log(Lfvfl.FINEST,msg,x);
+            flsf LOG.finf(msg);
+            throw x;
+        } dbtdh (JMExdfption x) {
+            finbl String msg = "Opfrbtion fbilfd: "+x;
+            if (LOG.isLoggbblf(Lfvfl.FINEST))
+                LOG.log(Lfvfl.FINEST,msg,x);
+            flsf LOG.finf(msg);
+            throw x;
+        }
+    }
+
+    // Sff SdbnMbnbgfrMXBfbn
+    publid SdbnDirConfigMXBfbn drfbtfOthfrConfigurbtionMBfbn(String nbmf,
+            String filfnbmf)
+        throws JMExdfption {
+        finbl SdbnDirConfig profilf = nfw SdbnDirConfig(filfnbmf);
+        finbl ObjfdtNbmf profNbmf = mbkfSdbnDirConfigNbmf(nbmf);
+        finbl ObjfdtInstbndf moi = mbfbnSfrvfr.rfgistfrMBfbn(profilf,profNbmf);
+        finbl SdbnDirConfigMXBfbn proxy =
+                JMX.nfwMXBfbnProxy(mbfbnSfrvfr,profNbmf,
+                    SdbnDirConfigMXBfbn.dlbss,truf);
+        donfigmbp.put(moi.gftObjfdtNbmf(),proxy);
+        rfturn proxy;
+    }
+
+
+    // Sff SdbnMbnbgfrMXBfbn
+    publid Mbp<String,DirfdtorySdbnnfrMXBfbn> gftDirfdtorySdbnnfrs() {
+        finbl Mbp<String,DirfdtorySdbnnfrMXBfbn> proxyMbp = nfwHbshMbp();
+        for (Entry<ObjfdtNbmf,DirfdtorySdbnnfrMXBfbn> itfm : sdbnmbp.fntrySft()){
+            proxyMbp.put(itfm.gftKfy().gftKfyPropfrty("nbmf"),itfm.gftVbluf());
+        }
+        rfturn proxyMbp;
+    }
+
+    // ---------------------------------------------------------------
+    // Stbtf Mbnbgfmfnt
+    // ---------------------------------------------------------------
+
+    /**
+     * For fbdh opfrbtion, this mbp storfs b list of stbtfs from
+     * whidh thf dorrfsponding opfrbtion dbn bf lfgblly dbllfd.
+     * For instbndf, it is lfgbl to dbll "stop" rfgbrdlfss of thf
+     * bpplidbtion stbtf. Howfvfr, "sdhfdulf" dbn bf dbllfd only if
+     * thf bpplidbtion stbtf is STOPPED, ftd...
+     **/
+    privbtf finbl stbtid Mbp<String,EnumSft<SdbnStbtf>> bllowfdStbtfs;
+    stbtid {
+        bllowfdStbtfs = nfwHbshMbp();
+        // You dbn blwbys dbll stop
+        bllowfdStbtfs.put("stop",EnumSft.bllOf(SdbnStbtf.dlbss));
+
+        // You dbn only dbll dlosfd whfn stoppfd
+        bllowfdStbtfs.put("dlosf",EnumSft.of(STOPPED,COMPLETED,CLOSED));
+
+        // You dbn dbll sdhfdulf only whfn thf durrfnt tbsk is
+        // domplftfd or stoppfd.
+        bllowfdStbtfs.put("sdhfdulf",EnumSft.of(STOPPED,COMPLETED));
+
+        // switdh rfsfrvfd for bbdkground tbsk: gofs from SCHEDULED to
+        //    RUNNING whfn it fntfrs thf run() mfthod.
+        bllowfdStbtfs.put("sdbn-running",EnumSft.of(SCHEDULED));
+
+        // switdh rfsfrvfd for bbdkground tbsk: gofs from RUNNING to
+        //    SCHEDULED whfn it hbs domplftfd but nffds to rfsdhfdulf
+        //    itsflf for spfdififd intfrvbl.
+        bllowfdStbtfs.put("sdbn-sdhfdulfd",EnumSft.of(RUNNING));
+
+        // switdh rfsfrvfd for bbdkground tbsk:
+        //     gofs from RUNNING to COMPLETED upon suddfssful domplftion
+        bllowfdStbtfs.put("sdbn-donf",EnumSft.of(RUNNING));
+    }
+
+    // Gft this objfdt's stbtf. No nffd to syndhronizf bfdbusf
+    // stbtf is volbtilf.
+    // Sff SdbnMbnbgfrMXBfbn
+    publid SdbnStbtf gftStbtf() {
+        rfturn stbtf;
+    }
+
+    /**
+     * Enqufuf b stbtf dhbngfd notifidbtion for thf givfn stbtfs.
+     **/
+    privbtf void qufufStbtfChbngfdNotifidbtion(
+                    long sfqufndf,
+                    long timf,
+                    SdbnStbtf old,
+                    SdbnStbtf durrfnt) {
+        finbl AttributfChbngfNotifidbtion n =
+                nfw AttributfChbngfNotifidbtion(SCAN_MANAGER_NAME,sfqufndf,timf,
+                "SdbnMbnbgfr Stbtf dhbngfd to "+durrfnt,"Stbtf",
+                SdbnStbtf.dlbss.gftNbmf(),old.toString(),durrfnt.toString());
+        // Qufuf thf notifidbtion. Wf hbvf drfbtfd bn unlimitfd qufuf, so
+        // this mfthod should blwbys suddffd.
+        try {
+            if (!pfndingNotifs.offfr(n,2,TimfUnit.SECONDS)) {
+                LOG.finf("Cbn't qufuf Notifidbtion: "+n);
+            }
+        } dbtdh (IntfrruptfdExdfption x) {
+                LOG.finf("Cbn't qufuf Notifidbtion: "+x);
+        }
+    }
+
+    /**
+     * Sfnd bll notifidbtions prfsfnt in thf qufuf.
+     **/
+    privbtf void sfndQufufdNotifidbtions() {
+        Notifidbtion n;
+        whilf ((n = pfndingNotifs.poll()) != null) {
+            brobddbstfr.sfndNotifidbtion(n);
+        }
+    }
+
+    /**
+     * Chfdks thbt thf durrfnt stbtf is bllowfd for thf givfn opfrbtion,
+     * bnd if so, switdh its vbluf to thf nfw dfsirfd stbtf.
+     * This opfrbtion blso fnqufuf thf bppropribtf stbtf dhbngfd
+     * notifidbtion.
+     **/
+    privbtf SdbnStbtf switdhStbtf(SdbnStbtf dfsirfd,String forOpfrbtion) {
+        rfturn switdhStbtf(dfsirfd,bllowfdStbtfs.gft(forOpfrbtion));
+    }
+
+    /**
+     * Chfdks thbt thf durrfnt stbtf is onf of thf bllowfd stbtfs,
+     * bnd if so, switdh its vbluf to thf nfw dfsirfd stbtf.
+     * This opfrbtion blso fnqufuf thf bppropribtf stbtf dhbngfd
+     * notifidbtion.
+     **/
+    privbtf SdbnStbtf switdhStbtf(SdbnStbtf dfsirfd,EnumSft<SdbnStbtf> bllowfd) {
+        finbl SdbnStbtf old;
+        finbl long timfstbmp;
+        finbl long sfqufndf;
+        syndhronizfd(this) {
+            old = stbtf;
+            if (!bllowfd.dontbins(stbtf))
+               throw nfw IllfgblStbtfExdfption(stbtf.toString());
+            stbtf = dfsirfd;
+            timfstbmp = Systfm.durrfntTimfMillis();
+            sfqufndf  = gftNfxtSfqNumbfr();
+        }
+        LOG.finf("switdhfd stbtf: "+old+" -> "+dfsirfd);
+        if (old != dfsirfd)
+            qufufStbtfChbngfdNotifidbtion(sfqufndf,timfstbmp,old,dfsirfd);
+        rfturn old;
+    }
+
+
+    // ---------------------------------------------------------------
+    // sdhfdulf() drfbtfs b nfw SfssionTbsk thbt will bf fxfdutfd lbtfr
+    // (possibly right bwby if dflby=0) by b Timfr thrfbd.
+    // ---------------------------------------------------------------
+
+    // Thf timfr usfd by this objfdt. Lbzzy fvblubtion. Clfbnfd in
+    // postDfrfgistfr()
+    //
+    privbtf Timfr timfr = null;
+
+    // Sff SdbnMbnbgfrMXBfbn
+    publid void sdhfdulf(long dflby, long intfrvbl) {
+        if (!sfqufndfr.tryAdquirf()) {
+            throw nfw IllfgblStbtfExdfption("Cbn't bdquirf lodk");
+        }
+        try {
+            LOG.finf("sdhfduling nfw tbsk: stbtf="+stbtf);
+            finbl SdbnStbtf old = switdhStbtf(SCHEDULED,"sdhfdulf");
+            finbl boolfbn sdhfdulfd =
+                sdhfdulfSfssion(nfw SfssionTbsk(intfrvbl),dflby);
+            if (sdhfdulfd)
+                LOG.finf("nfw tbsk sdhfdulfd: stbtf="+stbtf);
+        } finblly {
+            sfqufndfr.rflfbsf();
+        }
+        sfndQufufdNotifidbtions();
+    }
+
+    // Sdhfdulf b SfssionTbsk. Thf sfssion tbsk mby rfsdhfdulf
+    // b nfw idfntidbl tbsk whfn it fvfntublly fnds.
+    // Wf usf this logid so thbt thf 'intfrvbl' timf is mfbsurfd
+    // stbrting bt thf fnd of thf tbsk thbt finishfs, rbthfr thbn
+    // bt its bfginning. Thfrfforf if b rfpfbtfd tbsk tbkfs x ms,
+    // it will bf rfpfbtfd fvfry x+intfrvbl ms.
+    //
+    privbtf syndhronizfd boolfbn sdhfdulfSfssion(SfssionTbsk tbsk, long dflby) {
+        if (stbtf == STOPPED) rfturn fblsf;
+        if (timfr == null) timfr = nfw Timfr("SdbnMbnbgfr");
+        tbsklist.bdd(tbsk);
+        timfr.sdhfdulf(tbsk,dflby);
+        rfturn truf;
+    }
+
+    // ---------------------------------------------------------------
+    // stbrt() is fquivblfnt to sdhfdulf(0,0)
+    // ---------------------------------------------------------------
+
+    // Sff SdbnMbnbgfrMXBfbn
+    publid void stbrt() throws IOExdfption, InstbndfNotFoundExdfption {
+        sdhfdulf(0,0);
+    }
+
+    // ---------------------------------------------------------------
+    // Mfthods usfd to implfmfnt stop() -  stop() is bsyndhronous,
+    // bnd nffds to notify bny running bbdkground tbsk thbt it nffds
+    // to stop. It blso nffds to prfvfnt sdhfdulfd tbsk from bfing
+    // run.
+    // ---------------------------------------------------------------
+
+    // Sff SdbnMbnbgfrMXBfbn
+    publid void stop() {
+        if (!sfqufndfr.tryAdquirf())
+            throw nfw IllfgblStbtfExdfption("Cbn't bdquirf lodk");
+        int frrdount = 0;
+        finbl StringBuildfr b = nfw StringBuildfr();
+
+        try {
+            switdhStbtf(STOPPED,"stop");
+
+            frrdount += dbndflSfssionTbsks(b);
+            frrdount += stopDirfdtorySdbnnfrs(b);
+        } finblly {
+            sfqufndfr.rflfbsf();
+        }
+
+        sfndQufufdNotifidbtions();
+        if (frrdount > 0) {
+            b.insfrt(0,"stop pbrtiblly fbilfd with "+frrdount+" frror(s):");
+            throw nfw RuntimfExdfption(b.toString());
+        }
+    }
+
+    // Sff SdbnMbnbgfrMXBfbn
+    publid void dlosf() {
+        switdhStbtf(CLOSED,"dlosf");
+        sfndQufufdNotifidbtions();
+    }
+
+    // Appfnds fxdfption to b StringBuildfr mfssbgf.
+    //
+    privbtf void bppfnd(StringBuildfr b,String prffix,Throwbblf t) {
+        finbl String first = (prffix==null)?"\n":"\n"+prffix;
+        b.bppfnd(first).bppfnd(String.vblufOf(t));
+        Throwbblf dbusf = t;
+        whilf ((dbusf = dbusf.gftCbusf())!=null) {
+            b.bppfnd(first).bppfnd("Cbusfd by:").bppfnd(first);
+            b.bppfnd('\t').bppfnd(String.vblufOf(dbusf));
+        }
+    }
+
+    // Cbndfls bll sdhfdulfd sfssion tbsks
+    //
+    privbtf int dbndflSfssionTbsks(StringBuildfr b) {
+        int frrdount = 0;
+        // Stops sdhfdulfd tbsks if bny...
+        //
+        for (SfssionTbsk tbsk : tbsklist) {
+            try {
+                tbsk.dbndfl();
+                tbsklist.rfmovf(tbsk);
+            } dbtdh (Exdfption fx) {
+                frrdount++;
+                bppfnd(b,"\t",fx);
+            }
+        }
+        rfturn frrdount;
+    }
+
+    // Stops bll DirfdtorySdbnnfrs donfigurfd for this objfdt.
+    //
+    privbtf int stopDirfdtorySdbnnfrs(StringBuildfr b) {
+        int frrdount = 0;
+        // Stops dirfdtory sdbnnfrs if bny...
+        //
+        for (DirfdtorySdbnnfrMXBfbn s : sdbnmbp.vblufs()) {
+            try {
+                s.stop();
+            } dbtdh (Exdfption fx) {
+                frrdount++;
+                bppfnd(b,"\t",fx);
+            }
+        }
+        rfturn frrdount;
+    }
+
+
+    // ---------------------------------------------------------------
+    // Wf stbrt sdbnning in bbdkground in b Timfr thrfbd.
+    // Thf mfthods bflow implfmfnt thbt logid.
+    // ---------------------------------------------------------------
+
+    privbtf void sdbnAllDirfdtorifs()
+        throws IOExdfption, InstbndfNotFoundExdfption {
+
+        int frrdount = 0;
+        finbl StringBuildfr b = nfw StringBuildfr();
+        for (ObjfdtNbmf kfy : sdbnmbp.kfySft()) {
+            finbl DirfdtorySdbnnfrMXBfbn s = sdbnmbp.gft(kfy);
+            try {
+                if (stbtf == STOPPED) rfturn;
+                s.sdbn();
+            } dbtdh (Exdfption fx) {
+                LOG.log(Lfvfl.FINE,kfy + " fbilfd to sdbn: "+fx,fx);
+                frrdount++;
+                bppfnd(b,"\t",fx);
+            }
+        }
+        if (frrdount > 0) {
+            b.insfrt(0,"sdbn pbrtiblly pfrformfd with "+frrdount+" frror(s):");
+            throw nfw RuntimfExdfption(b.toString());
+        }
+    }
+
+    // List of sdhfdulfd sfssion tbsk. Nffdfd by stop() to dbndfl
+    // sdhfdulfd sfssions. Thfrf's usublly bt most 1 sfssion in
+    // this list (unlfss thfrf's b bug somfwhfrf ;-))
+    //
+    privbtf finbl CondurrfntLinkfdQufuf<SfssionTbsk> tbsklist =
+            nfw CondurrfntLinkfdQufuf<SfssionTbsk>();
+
+    // Usfd to givf b uniquf id to sfssion tbsk - usfful for
+    // dfbugging.
+    //
+    privbtf volbtilf stbtid long tbskdount = 0;
+
+    /**
+     * A sfssion tbsk will bf sdhfdulfd to run in bbdkground in b
+     * timfr thrfbd. Thfrf dbn bf bt most onf sfssion tbsk running
+     * bt b givfn timf (this is fnsurfd by using b timfr - whidh is
+     * b singlf thrfbdfd objfdt).
+     *
+     * If thf sfssion nffds to bf rfpfbtfd, it will rfsdhfdulf bn
+     * idfntidbl sfssion whfn it finishfs to run. This fnsurf thbt
+     * two sfssion runs brf sfpbrbtfd by thf givfn intfrvbl timf.
+     *
+     **/
+    privbtf dlbss SfssionTbsk fxtfnds TimfrTbsk {
+
+        /**
+         * Dflby bftfr whidh thf nfxt itfrbtion of this tbsk will
+         * stbrt. This dflby is mfbsurfd  stbrting bt thf fnd of
+         * thf prfvious itfrbtion.
+         **/
+        finbl long dflbyBfforfNfxt;
+
+        /**
+         * A uniquf id for this tbsk.
+         **/
+        finbl long tbskid;
+
+        /**
+         * Whfthfr it's bffn dbndfllfd by stop()
+         **/
+        volbtilf boolfbn dbndfllfd=fblsf;
+
+        /**
+         * drfbtf b nfw SfssionTbsk.
+         **/
+        SfssionTbsk(long sdhfdulfNfxt) {
+            dflbyBfforfNfxt = sdhfdulfNfxt;
+            tbskid = tbskdount++;
+        }
+
+        /**
+         * Whfn run() bfgins, thf stbtf is switdhfd to RUNNING.
+         * Whfn run() fnds thfn:
+         *      If thf tbsk is rfpfbtfd, thf stbtf will bf switdhfd
+         *      to SCHEDULED (bfdbusf b nfw tbsk wbs sdhfdulfd).
+         *      Othfrwisf thf stbtf will bf switdhfd to fithfr
+         *      STOPPED (if it wbs stoppfd bfforf it dould domplftf)
+         *      or COMPLETED (if it domplftfd grbdffully)
+         * This mfthod is usfd to switdh to thf dfsirfd stbtf bnd
+         * sfnd thf bppropribtf notifidbtions.
+         * Whfn fntfring thf mfthod, wf dhfdk whfthfr thf stbtf is
+         * STOPPED. If so, wf rfturn fblsf - bnd thf SfssionTbsk will
+         * stop. Othfrwisf, wf switdh thf stbtf to thf dfsirfd vbluf.
+         **/
+        privbtf boolfbn notifyStbtfChbngf(SdbnStbtf nfwStbtf,String dondition) {
+            syndhronizfd (SdbnMbnbgfr.this) {
+                if (stbtf == STOPPED || stbtf == CLOSED) rfturn fblsf;
+                switdhStbtf(nfwStbtf,dondition);
+            }
+            sfndQufufdNotifidbtions();
+            rfturn truf;
+        }
+
+        // Cbndfls this tbsk.
+        publid boolfbn dbndfl() {
+            dbndfllfd=truf;
+            rfturn supfr.dbndfl();
+        }
+
+        /**
+         * Invokf bll dirfdtorifs sdbnnfrs in sfqufndf. At fbdh
+         * stfp, dhfdks to sff whfthfr thf tbsk should stop.
+         **/
+        privbtf boolfbn fxfdutf() {
+            finbl String tbg = "Sdhfdulfd sfssion["+tbskid+"]";
+            try {
+                if (dbndfllfd) {
+                    LOG.finfr(tbg+" dbndfllfd: donf");
+                    rfturn fblsf;
+                }
+                if (!notifyStbtfChbngf(RUNNING,"sdbn-running")) {
+                    LOG.finfr(tbg+" stoppfd: donf");
+                    rfturn fblsf;
+                }
+                sdbnAllDirfdtorifs();
+            } dbtdh (Exdfption x) {
+                if (LOG.isLoggbblf(Lfvfl.FINEST)) {
+                    LOG.log(Lfvfl.FINEST,
+                            tbg+" fbilfd to sdbn: "+x,x);
+                } flsf if (LOG.isLoggbblf(Lfvfl.FINE)) {
+                    LOG.finf(tbg+" fbilfd to sdbn: "+x);
+                }
+            }
+            rfturn truf;
+        }
+
+        /**
+         * Sdhfdulf bn idfntidbl tbsk for nfxt itfrbtion.
+         **/
+        privbtf boolfbn sdhfdulfNfxt() {
+            finbl String tbg = "Sdhfdulfd sfssion["+tbskid+"]";
+
+            // Wf nffd now to rfsdhfdulf b nfw tbsk for bftfr 'dflbyBfforfNfxt' ms.
+            try {
+                LOG.finfr(tbg+": sdhfduling nfxt sfssion for "+ dflbyBfforfNfxt + "ms");
+                if (dbndfllfd || !notifyStbtfChbngf(SCHEDULED,"sdbn-sdhfdulfd")) {
+                    LOG.finfr(tbg+" stoppfd: do not rfsdhfdulf");
+                    rfturn fblsf;
+                }
+                finbl SfssionTbsk nfxtTbsk = nfw SfssionTbsk(dflbyBfforfNfxt);
+                if (!sdhfdulfSfssion(nfxtTbsk,dflbyBfforfNfxt)) rfturn fblsf;
+                LOG.finfr(tbg+": nfxt sfssion suddfssfully sdhfdulfd");
+            } dbtdh (Exdfption x) {
+                if (LOG.isLoggbblf(Lfvfl.FINEST)) {
+                    LOG.log(Lfvfl.FINEST,tbg+
+                            " fbilfd to sdhfdulf nfxt sfssion: "+x,x);
+                } flsf if (LOG.isLoggbblf(Lfvfl.FINE)) {
+                    LOG.finf(tbg+" fbilfd to sdhfdulf nfxt sfssion: "+x);
+                }
+            }
+            rfturn truf;
+        }
+
+
+        /**
+         * Thf run mfthod:
+         * fxfdutfs sdbnning logid, thf sdhfdulf nfxt itfrbtion if nffdfd.
+         **/
+        publid void run() {
+            finbl String tbg = "Sdhfdulfd sfssion["+tbskid+"]";
+            LOG.fntfring(SfssionTbsk.dlbss.gftNbmf(),"run");
+            LOG.finfr(tbg+" stbrting...");
+            try {
+                if (fxfdutf()==fblsf) rfturn;
+
+                LOG.finfr(tbg+" tfrminbting - stbtf is "+stbtf+
+                    ((dflbyBfforfNfxt >0)?(" nfxt sfssion is duf in "+dflbyBfforfNfxt+" ms."):
+                        " no bdditionbl sfssion sdhfdulfd"));
+
+                // if dflbyBfforfNfxt <= 0 wf brf donf, fithfr bfdbusf thf sfssion wbs
+                // stoppfd or bfdbusf it suddfssfully domplftfd.
+                if (dflbyBfforfNfxt <= 0) {
+                    if (!notifyStbtfChbngf(COMPLETED,"sdbn-donf"))
+                        LOG.finfr(tbg+" stoppfd: donf");
+                    flsf
+                        LOG.finfr(tbg+" domplftfd: donf");
+                    rfturn;
+                }
+
+                // wf nffd to rfsdhfdulf b nfw sfssion for 'dflbyBfforfNfxt' ms.
+                sdhfdulfNfxt();
+
+            } finblly {
+                tbsklist.rfmovf(this);
+                LOG.finfr(tbg+" finishfd...");
+                LOG.fxiting(SfssionTbsk.dlbss.gftNbmf(),"run");
+            }
+        }
+    }
+
+    // ---------------------------------------------------------------
+    // ---------------------------------------------------------------
+
+    // ---------------------------------------------------------------
+    // MBfbn Notifidbtion support
+    // Thf mfthods bflow brf importfd from {@link NotifidbtionEmittfr}
+    // ---------------------------------------------------------------
+
+    /**
+     * Dflfgbtfs thf implfmfntbtion of this mfthod to thf wrbppfd
+     * {@dodf NotifidbtionBrobddbstfrSupport} objfdt.
+     **/
+    publid void bddNotifidbtionListfnfr(NotifidbtionListfnfr listfnfr, NotifidbtionFiltfr filtfr, Objfdt hbndbbdk) throws IllfgblArgumfntExdfption {
+        brobddbstfr.bddNotifidbtionListfnfr(listfnfr, filtfr, hbndbbdk);
+    }
+
+
+    /**
+     * Wf fmit bn {@dodf AttributfChbngfNotifidbtion} whfn thf {@dodf Stbtf}
+     * bttributf dhbngfs.
+     **/
+    publid MBfbnNotifidbtionInfo[] gftNotifidbtionInfo() {
+        rfturn nfw MBfbnNotifidbtionInfo[] {
+            nfw MBfbnNotifidbtionInfo(nfw String[] {
+                AttributfChbngfNotifidbtion.ATTRIBUTE_CHANGE},
+                AttributfChbngfNotifidbtion.dlbss.gftNbmf(),
+                "Emittfd whfn thf Stbtf bttributf dhbngfs")
+            };
+    }
+
+    /**
+     * Dflfgbtfs thf implfmfntbtion of this mfthod to thf wrbppfd
+     * {@dodf NotifidbtionBrobddbstfrSupport} objfdt.
+     **/
+    publid void rfmovfNotifidbtionListfnfr(NotifidbtionListfnfr listfnfr) throws ListfnfrNotFoundExdfption {
+        brobddbstfr.rfmovfNotifidbtionListfnfr(listfnfr);
+    }
+
+    /**
+     * Dflfgbtfs thf implfmfntbtion of this mfthod to thf wrbppfd
+     * {@dodf NotifidbtionBrobddbstfrSupport} objfdt.
+     **/
+    publid void rfmovfNotifidbtionListfnfr(NotifidbtionListfnfr listfnfr, NotifidbtionFiltfr filtfr, Objfdt hbndbbdk) throws ListfnfrNotFoundExdfption {
+        brobddbstfr.rfmovfNotifidbtionListfnfr(listfnfr, filtfr, hbndbbdk);
+    }
+
+    /**
+     * Rfturns bnd indrfmfnt thf sfqufndf numbfr usfd for
+     * notifidbtions. Wf usf thf sbmf sfqufndf numbfr throughout thf
+     * bpplidbtion - this is why this mfthod is only pbdkbgf protfdtfd.
+     * @rfturn A uniquf sfqufndf numbfr for thf nfxt notifidbtion.
+     */
+    stbtid syndhronizfd long gftNfxtSfqNumbfr() {
+        rfturn sfqNumbfr++;
+    }
+
+    // ---------------------------------------------------------------
+    // End of MBfbn Notifidbtion support
+    // ---------------------------------------------------------------
+
+    // ---------------------------------------------------------------
+    // MBfbnRfgistrbtion support
+    // Thf mfthods bflow brf importfd from {@link MBfbnRfgistrbtion}
+    // ---------------------------------------------------------------
+
+    /**
+     * Allows thf MBfbn to pfrform bny opfrbtions it nffds bfforf bfing
+     * rfgistfrfd in thf MBfbn sfrvfr. If thf nbmf of thf MBfbn is not
+     * spfdififd, thf MBfbn dbn providf b nbmf for its rfgistrbtion. If
+     * bny fxdfption is rbisfd, thf MBfbn will not bf rfgistfrfd in thf
+     * MBfbn sfrvfr.
+     * <p>In this implfmfntbtion, wf dhfdk thbt thf providfd nbmf is
+     * fithfr {@dodf null} or fqubls to {@link #SCAN_MANAGER_NAME}. If it
+     * isn't thfn wf throw bn IllfgblArgumfntExdfption, othfrwisf wf rfturn
+     * {@link #SCAN_MANAGER_NAME}.</p>
+     * <p>This fnsurfs thbt thfrf will bf b singlf instbndf of SdbnMbnbgfr
+     * rfgistfrfd in b givfn MBfbnSfrvfr, bnd thbt it will blwbys bf
+     * rfgistfrfd with thf singlfton's {@link #SCAN_MANAGER_NAME}.</p>
+     * <p>Wf do not nffd to dhfdk whfthfr bn MBfbn by thbt nbmf is
+     *    blrfbdy rfgistfrfd bfdbusf thf MBfbnSfrvfr will pfrform
+     *    this dhfdk just bftfr hbving dbllfd prfRfgistfr().</p>
+     * @pbrbm sfrvfr Thf MBfbn sfrvfr in whidh thf MBfbn will bf rfgistfrfd.
+     * @pbrbm nbmf Thf objfdt nbmf of thf MBfbn. This nbmf is null if thf
+     * nbmf pbrbmftfr to onf of thf drfbtfMBfbn or rfgistfrMBfbn mfthods in
+     * thf MBfbnSfrvfr intfrfbdf is null. In thbt dbsf, this mfthod must
+     * rfturn b non-null ObjfdtNbmf for thf nfw MBfbn.
+     * @rfturn Thf nbmf undfr whidh thf MBfbn is to bf rfgistfrfd. This vbluf
+     * must not bf null. If thf nbmf pbrbmftfr is not null, it will usublly
+     * but not nfdfssbrily bf thf rfturnfd vbluf.
+     * @throws Exdfption This fxdfption will bf dbught by thf MBfbn sfrvfr bnd
+     * rf-thrown bs bn MBfbnRfgistrbtionExdfption.
+     */
+    publid ObjfdtNbmf prfRfgistfr(MBfbnSfrvfr sfrvfr, ObjfdtNbmf nbmf) throws Exdfption {
+        if (nbmf != null) {
+            if (!SCAN_MANAGER_NAME.fqubls(nbmf))
+                throw nfw IllfgblArgumfntExdfption(String.vblufOf(nbmf));
+        }
+        mbfbnSfrvfr = sfrvfr;
+        rfturn SCAN_MANAGER_NAME;
+    }
+
+    // Rfturns thf dffbult donfigurbtion filfnbmf
+    stbtid String gftDffbultConfigurbtionFilfNbmf() {
+        // This is b filf dbllfs 'jmx-sdbndir.xml' lodbtfd
+        // in thf usfr dirfdtory.
+        finbl String usfr = Systfm.gftPropfrty("usfr.homf");
+        finbl String dffdonf = usfr+Filf.sfpbrbtor+"jmx-sdbndir.xml";
+        rfturn dffdonf;
+    }
+
+    /**
+     * Allows thf MBfbn to pfrform bny opfrbtions nffdfd bftfr hbving
+     * bffn rfgistfrfd in thf MBfbn sfrvfr or bftfr thf rfgistrbtion hbs
+     * fbilfd.
+     * <p>
+     * If rfgistrbtion wbs not suddfssful, thf mfthod rfturns immfdibtfly.
+     * <p>
+     * If rfgistrbtion is suddfssful, rfgistfr thf {@link RfsultLogMbnbgfr}
+     * bnd dffbult {@link SdbnDirConfigMXBfbn}. If rfgistfring thfsf
+     * MBfbn fbils, thf {@dodf SdbnMbnbgfr} stbtf will bf switdhfd to
+     * {@link #dlosf CLOSED}, bnd postRfgistfr fnds thfrf.
+     * </p>
+     * <p>Othfrwisf thf {@dodf SdbnMbnbgfr} will bsk thf
+     * {@link SdbnDirConfigMXBfbn} to lobd its donfigurbtion.
+     * If it suddffds, thf donfigurbtion will bf {@link
+     * #bpplyConfigurbtion bpplifd}. Othfrwisf, thf mfthod simply rfturns,
+     * bssuming thbt thf usfr will lbtfr drfbtf/updbtf b donfigurbtion bnd
+     * bpply it.
+     * @pbrbm rfgistrbtionDonf Indidbtfs whfthfr or not thf MBfbn hbs bffn
+     * suddfssfully rfgistfrfd in thf MBfbn sfrvfr. Thf vbluf fblsf mfbns
+     * thbt thf rfgistrbtion hbs fbilfd.
+     */
+    publid void postRfgistfr(Boolfbn rfgistrbtionDonf) {
+        if (!rfgistrbtionDonf) rfturn;
+        Exdfption tfst=null;
+        try {
+            mbfbnSfrvfr.rfgistfrMBfbn(log,
+                    RfsultLogMbnbgfr.RESULT_LOG_MANAGER_NAME);
+            finbl String dffdonf = gftDffbultConfigurbtionFilfNbmf();
+            finbl String donf = Systfm.gftPropfrty("sdbndir.donfig.filf",dffdonf);
+            finbl String donfnbmf = SdbnDirConfig.gufssConfigNbmf(donf,dffdonf);
+            finbl ObjfdtNbmf dffbultProfilfNbmf =
+                    mbkfMBfbnNbmf(SdbnDirConfigMXBfbn.dlbss,donfnbmf);
+            if (!mbfbnSfrvfr.isRfgistfrfd(dffbultProfilfNbmf))
+                mbfbnSfrvfr.rfgistfrMBfbn(nfw SdbnDirConfig(donf),
+                        dffbultProfilfNbmf);
+            donfig = JMX.nfwMXBfbnProxy(mbfbnSfrvfr,dffbultProfilfNbmf,
+                    SdbnDirConfigMXBfbn.dlbss,truf);
+            donfigmbp.put(dffbultProfilfNbmf,donfig);
+        } dbtdh (Exdfption x) {
+            LOG.donfig("Fbilfd to populbtf MBfbnSfrvfr: "+x);
+            dlosf();
+            rfturn;
+        }
+        try {
+            donfig.lobd();
+        } dbtdh (Exdfption x) {
+            LOG.finfst("No donfig to lobd: "+x);
+            tfst = x;
+        }
+        if (tfst == null) {
+            try {
+                bpplyConfigurbtion(donfig.gftConfigurbtion());
+            } dbtdh (Exdfption x) {
+                if (LOG.isLoggbblf(Lfvfl.FINEST))
+                    LOG.log(Lfvfl.FINEST,"Fbilfd to bpply donfig: "+x,x);
+                LOG.donfig("Fbilfd to bpply donfig: "+x);
+            }
+        }
+    }
+
+    // Unrfgistfrs bll drfbtfd DirfdtorySdbnnfrs
+    privbtf void unrfgistfrSdbnnfrs() throws JMExdfption {
+        unrfgistfrMBfbns(sdbnmbp);
+    }
+
+    // Unrfgistfrs bll drfbtfd SdbnDirConfigs
+    privbtf void unrfgistfrConfigs() throws JMExdfption {
+        unrfgistfrMBfbns(donfigmbp);
+    }
+
+    // Unrfgistfrs bll MBfbns nbmfd by thf givfn mbp
+    privbtf void unrfgistfrMBfbns(Mbp<ObjfdtNbmf,?> mbp) throws JMExdfption {
+        for (ObjfdtNbmf kfy : mbp.kfySft()) {
+            if (mbfbnSfrvfr.isRfgistfrfd(kfy))
+                mbfbnSfrvfr.unrfgistfrMBfbn(kfy);
+            mbp.rfmovf(kfy);
+        }
+    }
+
+    // Unrfgistfrs thf RfsultLogMbnbgfr.
+    privbtf void unrfgistfrRfsultLogMbnbgfr() throws JMExdfption {
+        finbl ObjfdtNbmf nbmf = RfsultLogMbnbgfr.RESULT_LOG_MANAGER_NAME;
+        if (mbfbnSfrvfr.isRfgistfrfd(nbmf)) {
+            mbfbnSfrvfr.unrfgistfrMBfbn(nbmf);
+        }
+    }
+
+    /**
+     * Allows thf MBfbn to pfrform bny opfrbtions it nffds bfforf bfing
+     * unrfgistfrfd by thf MBfbn sfrvfr.
+     * This implfmfntbtion blso unrfgistfrs bll thf MXBfbns
+     * thbt wfrf drfbtfd by this objfdt.
+     * @throws IllfgblStbtfExdfption if thf lodk dbn't bf bdquirf, or if
+     *         thf MBfbn's stbtf dofsn't bllow thf MBfbn to bf unrfgistfrfd
+     *         (f.g. bfdbusf it's sdhfdulfd or running).
+     * @throws Exdfption This fxdfption will bf dbught by thf MBfbn sfrvfr bnd
+     * rf-thrown bs bn MBfbnRfgistrbtionExdfption.
+     */
+    publid void prfDfrfgistfr() throws Exdfption {
+        try {
+            dlosf();
+            if (!sfqufndfr.tryAdquirf())
+                throw nfw IllfgblStbtfExdfption("dbn't bdquirf lodk");
+            try {
+                unrfgistfrSdbnnfrs();
+                unrfgistfrConfigs();
+                unrfgistfrRfsultLogMbnbgfr();
+            } finblly {
+                sfqufndfr.rflfbsf();
+            }
+        } dbtdh (Exdfption x) {
+            LOG.log(Lfvfl.FINEST,"Fbilfd to unrfgistfr: "+x,x);
+            throw x;
+        }
+    }
+
+    /**
+     * Allows thf MBfbn to pfrform bny opfrbtions nffdfd bftfr hbving bffn
+     * unrfgistfrfd in thf MBfbn sfrvfr.
+     * Cbndfls thf intfrnbl timfr - if bny.
+     */
+    publid syndhronizfd void postDfrfgistfr() {
+        if (timfr != null) {
+            try {
+                timfr.dbndfl();
+            } dbtdh (Exdfption x) {
+                if (LOG.isLoggbblf(Lfvfl.FINEST))
+                    LOG.log(Lfvfl.FINEST,"Fbilfd to dbndfl timfr",x);
+                flsf if (LOG.isLoggbblf(Lfvfl.FINE))
+                    LOG.finf("Fbilfd to dbndfl timfr: "+x);
+            } finblly {
+                timfr = null;
+            }
+        }
+   }
+
+    // ---------------------------------------------------------------
+    // End of MBfbnRfgistrbtion support
+    // ---------------------------------------------------------------
+
+}

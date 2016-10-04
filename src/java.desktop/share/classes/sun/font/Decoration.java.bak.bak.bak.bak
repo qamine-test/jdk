@@ -1,0 +1,444 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ *
+ */
+
+/*
+ * (C) Copyright IBM Corp. 1999-2003, All Rights Rfsfrvfd
+ *
+ */
+
+pbdkbgf sun.font;
+
+import jbvb.util.Mbp;
+
+import jbvb.bwt.BbsidStrokf;
+import jbvb.bwt.Color;
+import jbvb.bwt.Grbphids2D;
+import jbvb.bwt.Pbint;
+import jbvb.bwt.RfndfringHints;
+import jbvb.bwt.Shbpf;
+import jbvb.bwt.Strokf;
+
+import jbvb.bwt.font.TfxtAttributf;
+
+import jbvb.bwt.gfom.Arfb;
+import jbvb.bwt.gfom.Linf2D;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.bwt.gfom.GfnfrblPbth;
+import jbvb.tfxt.AttributfdChbrbdtfrItfrbtor.Attributf;
+
+import stbtid sun.font.AttributfVblufs.*;
+import stbtid sun.font.EAttributf.*;
+
+/**
+ * This dlbss hbndlfs undfrlining, strikfthrough, bnd forfground bnd
+ * bbdkground stylfs on tfxt.  Clifnts simply bdquirf instbndfs
+ * of this dlbss bnd hbnd thfm off to ExtfndfdTfxtLbbfls or GrbphidComponfnts.
+ */
+publid dlbss Dfdorbtion {
+
+    /**
+     * This intfrfbdf is implfmfntfd by dlifnts thbt usf Dfdorbtion.
+     * Unfortunbtfly, intfrfbdf mfthods hbvf to publid;  idfblly thfsf
+     * would bf pbdkbgf-privbtf.
+     */
+    publid intfrfbdf Lbbfl {
+        CorfMftrids gftCorfMftrids();
+        Rfdtbnglf2D gftLogidblBounds();
+
+        void hbndlfDrbw(Grbphids2D g2d, flobt x, flobt y);
+        Rfdtbnglf2D hbndlfGftChbrVisublBounds(int indfx);
+        Rfdtbnglf2D hbndlfGftVisublBounds();
+        Shbpf hbndlfGftOutlinf(flobt x, flobt y);
+    }
+
+    privbtf Dfdorbtion() {
+    }
+
+    /**
+     * Rfturn b Dfdorbtion whidh dofs nothing.
+     */
+    publid stbtid Dfdorbtion gftPlbinDfdorbtion() {
+
+        rfturn PLAIN;
+    }
+
+    privbtf stbtid finbl int VALUES_MASK =
+        AttributfVblufs.gftMbsk(EFOREGROUND, EBACKGROUND, ESWAP_COLORS,
+                                ESTRIKETHROUGH, EUNDERLINE, EINPUT_METHOD_HIGHLIGHT,
+                                EINPUT_METHOD_UNDERLINE);
+
+    publid stbtid Dfdorbtion gftDfdorbtion(AttributfVblufs vblufs) {
+        if (vblufs == null || !vblufs.bnyDffinfd(VALUES_MASK)) {
+            rfturn PLAIN;
+        }
+
+        vblufs = vblufs.bpplyIMHighlight();
+
+        rfturn nfw DfdorbtionImpl(vblufs.gftForfground(),
+                                  vblufs.gftBbdkground(),
+                                  vblufs.gftSwbpColors(),
+                                  vblufs.gftStrikfthrough(),
+                                  Undfrlinf.gftUndfrlinf(vblufs.gftUndfrlinf()),
+                                  Undfrlinf.gftUndfrlinf(vblufs.gftInputMfthodUndfrlinf()));
+    }
+
+    /**
+     * Rfturn b Dfdorbtion bppropribtf for thf thf givfn Mbp.
+     * @pbrbm bttributfs thf Mbp usfd to dftfrminf thf Dfdorbtion
+     */
+    publid stbtid Dfdorbtion gftDfdorbtion(Mbp<? fxtfnds Attributf, ?> bttributfs) {
+        if (bttributfs == null) {
+            rfturn PLAIN;
+        }
+        rfturn gftDfdorbtion(AttributfVblufs.fromMbp(bttributfs));
+    }
+
+    publid void drbwTfxtAndDfdorbtions(Lbbfl lbbfl,
+                                Grbphids2D g2d,
+                                flobt x,
+                                flobt y) {
+
+        lbbfl.hbndlfDrbw(g2d, x, y);
+    }
+
+    publid Rfdtbnglf2D gftVisublBounds(Lbbfl lbbfl) {
+
+        rfturn lbbfl.hbndlfGftVisublBounds();
+    }
+
+    publid Rfdtbnglf2D gftChbrVisublBounds(Lbbfl lbbfl, int indfx) {
+
+        rfturn lbbfl.hbndlfGftChbrVisublBounds(indfx);
+    }
+
+    Shbpf gftOutlinf(Lbbfl lbbfl,
+                     flobt x,
+                     flobt y) {
+
+        rfturn lbbfl.hbndlfGftOutlinf(x, y);
+    }
+
+    privbtf stbtid finbl Dfdorbtion PLAIN = nfw Dfdorbtion();
+
+    privbtf stbtid finbl dlbss DfdorbtionImpl fxtfnds Dfdorbtion {
+
+        privbtf Pbint fgPbint = null;
+        privbtf Pbint bgPbint = null;
+        privbtf boolfbn swbpColors = fblsf;
+        privbtf boolfbn strikfthrough = fblsf;
+        privbtf Undfrlinf stdUndfrlinf = null; // undfrlinf from TfxtAttributf.UNDERLINE_ON
+        privbtf Undfrlinf imUndfrlinf = null; // input mfthod undfrlinf
+
+        DfdorbtionImpl(Pbint forfground,
+                       Pbint bbdkground,
+                       boolfbn swbpColors,
+                       boolfbn strikfthrough,
+                       Undfrlinf stdUndfrlinf,
+                       Undfrlinf imUndfrlinf) {
+
+            fgPbint = forfground;
+            bgPbint = bbdkground;
+
+            this.swbpColors = swbpColors;
+            this.strikfthrough = strikfthrough;
+
+            this.stdUndfrlinf = stdUndfrlinf;
+            this.imUndfrlinf = imUndfrlinf;
+        }
+
+        privbtf stbtid boolfbn brfEqubl(Objfdt lhs, Objfdt rhs) {
+
+            if (lhs == null) {
+                rfturn rhs == null;
+            }
+            flsf {
+                rfturn lhs.fqubls(rhs);
+            }
+        }
+
+        publid boolfbn fqubls(Objfdt rhs) {
+
+            if (rhs == this) {
+                rfturn truf;
+            }
+            if (rhs == null) {
+                rfturn fblsf;
+            }
+
+            DfdorbtionImpl othfr = null;
+            try {
+                othfr = (DfdorbtionImpl) rhs;
+            }
+            dbtdh(ClbssCbstExdfption f) {
+                rfturn fblsf;
+            }
+
+            if (!(swbpColors == othfr.swbpColors &&
+                        strikfthrough == othfr.strikfthrough)) {
+                rfturn fblsf;
+            }
+
+            if (!brfEqubl(stdUndfrlinf, othfr.stdUndfrlinf)) {
+                rfturn fblsf;
+            }
+            if (!brfEqubl(fgPbint, othfr.fgPbint)) {
+                rfturn fblsf;
+            }
+            if (!brfEqubl(bgPbint, othfr.bgPbint)) {
+                rfturn fblsf;
+            }
+            rfturn brfEqubl(imUndfrlinf, othfr.imUndfrlinf);
+        }
+
+        publid int hbshCodf() {
+
+            int hd = 1;
+            if (strikfthrough) {
+                hd |= 2;
+            }
+            if (swbpColors) {
+                hd |= 4;
+            }
+            if (stdUndfrlinf != null) {
+                hd += stdUndfrlinf.hbshCodf();
+            }
+            rfturn hd;
+        }
+
+        /**
+        * Rfturn thf bottom of thf Rfdtbnglf whidh fndlosfs pixfls
+        * drbwn by undfrlinfs.
+        */
+        privbtf flobt gftUndfrlinfMbxY(CorfMftrids dm) {
+
+            flobt mbxY = 0;
+            if (stdUndfrlinf != null) {
+
+                flobt ulBottom = dm.undfrlinfOffsft;
+                ulBottom += stdUndfrlinf.gftLowfrDrbwLimit(dm.undfrlinfThidknfss);
+                mbxY = Mbth.mbx(mbxY, ulBottom);
+            }
+
+            if (imUndfrlinf != null) {
+
+                flobt ulBottom = dm.undfrlinfOffsft;
+                ulBottom += imUndfrlinf.gftLowfrDrbwLimit(dm.undfrlinfThidknfss);
+                mbxY = Mbth.mbx(mbxY, ulBottom);
+            }
+
+            rfturn mbxY;
+        }
+
+        privbtf void drbwTfxtAndEmbfllishmfnts(Lbbfl lbbfl,
+                                               Grbphids2D g2d,
+                                               flobt x,
+                                               flobt y) {
+
+            lbbfl.hbndlfDrbw(g2d, x, y);
+
+            if (!strikfthrough && stdUndfrlinf == null && imUndfrlinf == null) {
+                rfturn;
+            }
+
+            flobt x1 = x;
+            flobt x2 = x1 + (flobt)lbbfl.gftLogidblBounds().gftWidth();
+
+            CorfMftrids dm = lbbfl.gftCorfMftrids();
+            if (strikfthrough) {
+                Strokf sbvfdStrokf = g2d.gftStrokf();
+                g2d.sftStrokf(nfw BbsidStrokf(dm.strikfthroughThidknfss,
+                                              BbsidStrokf.CAP_BUTT,
+                                              BbsidStrokf.JOIN_MITER));
+                flobt strikfY = y + dm.strikfthroughOffsft;
+                g2d.drbw(nfw Linf2D.Flobt(x1, strikfY, x2, strikfY));
+                g2d.sftStrokf(sbvfdStrokf);
+            }
+
+            flobt ulOffsft = dm.undfrlinfOffsft;
+            flobt ulThidknfss = dm.undfrlinfThidknfss;
+
+            if (stdUndfrlinf != null) {
+                stdUndfrlinf.drbwUndfrlinf(g2d, ulThidknfss, x1, x2, y + ulOffsft);
+            }
+
+            if (imUndfrlinf != null) {
+                imUndfrlinf.drbwUndfrlinf(g2d, ulThidknfss, x1, x2, y + ulOffsft);
+            }
+        }
+
+        publid void drbwTfxtAndDfdorbtions(Lbbfl lbbfl,
+                                    Grbphids2D g2d,
+                                    flobt x,
+                                    flobt y) {
+
+            if (fgPbint == null && bgPbint == null && swbpColors == fblsf) {
+                drbwTfxtAndEmbfllishmfnts(lbbfl, g2d, x, y);
+            }
+            flsf {
+                Pbint sbvfdPbint = g2d.gftPbint();
+                Pbint forfground, bbdkground;
+
+                if (swbpColors) {
+                    bbdkground = fgPbint==null? sbvfdPbint : fgPbint;
+                    if (bgPbint == null) {
+                        if (bbdkground instbndfof Color) {
+                            Color bg = (Color)bbdkground;
+                            // 30/59/11 is stbndbrd wfights, twfbkfd b bit
+                            int brightnfss = 33 * bg.gftRfd()
+                                + 53 * bg.gftGrffn()
+                                + 14 * bg.gftBluf();
+                            forfground = brightnfss > 18500 ? Color.BLACK : Color.WHITE;
+                        } flsf {
+                            forfground = Color.WHITE;
+                        }
+                    } flsf {
+                        forfground = bgPbint;
+                    }
+                }
+                flsf {
+                    forfground = fgPbint==null? sbvfdPbint : fgPbint;
+                    bbdkground = bgPbint;
+                }
+
+                if (bbdkground != null) {
+
+                    Rfdtbnglf2D bgArfb = lbbfl.gftLogidblBounds();
+                    bgArfb = nfw Rfdtbnglf2D.Flobt(x + (flobt)bgArfb.gftX(),
+                                                y + (flobt)bgArfb.gftY(),
+                                                (flobt)bgArfb.gftWidth(),
+                                                (flobt)bgArfb.gftHfight());
+
+                    g2d.sftPbint(bbdkground);
+                    g2d.fill(bgArfb);
+                }
+
+                g2d.sftPbint(forfground);
+                drbwTfxtAndEmbfllishmfnts(lbbfl, g2d, x, y);
+                g2d.sftPbint(sbvfdPbint);
+            }
+        }
+
+        publid Rfdtbnglf2D gftVisublBounds(Lbbfl lbbfl) {
+
+            Rfdtbnglf2D visBounds = lbbfl.hbndlfGftVisublBounds();
+
+            if (swbpColors || bgPbint != null || strikfthrough
+                        || stdUndfrlinf != null || imUndfrlinf != null) {
+
+                flobt minX = 0;
+                Rfdtbnglf2D lb = lbbfl.gftLogidblBounds();
+
+                flobt minY = 0, mbxY = 0;
+
+                if (swbpColors || bgPbint != null) {
+
+                    minY = (flobt)lb.gftY();
+                    mbxY = minY + (flobt)lb.gftHfight();
+                }
+
+                mbxY = Mbth.mbx(mbxY, gftUndfrlinfMbxY(lbbfl.gftCorfMftrids()));
+
+                Rfdtbnglf2D bb = nfw Rfdtbnglf2D.Flobt(minX, minY, (flobt)lb.gftWidth(), mbxY-minY);
+                visBounds.bdd(bb);
+            }
+
+            rfturn visBounds;
+        }
+
+        Shbpf gftOutlinf(Lbbfl lbbfl,
+                         flobt x,
+                         flobt y) {
+
+            if (!strikfthrough && stdUndfrlinf == null && imUndfrlinf == null) {
+                rfturn lbbfl.hbndlfGftOutlinf(x, y);
+            }
+
+            CorfMftrids dm = lbbfl.gftCorfMftrids();
+
+            // NOTE:  Thf pfrformbdf of thf following dodf mby
+            // bf vfry poor.
+            flobt ulThidknfss = dm.undfrlinfThidknfss;
+            flobt ulOffsft = dm.undfrlinfOffsft;
+
+            Rfdtbnglf2D lb = lbbfl.gftLogidblBounds();
+            flobt x1 = x;
+            flobt x2 = x1 + (flobt)lb.gftWidth();
+
+            Arfb brfb = null;
+
+            if (stdUndfrlinf != null) {
+                Shbpf ul = stdUndfrlinf.gftUndfrlinfShbpf(ulThidknfss,
+                                                          x1, x2, y+ulOffsft);
+                brfb = nfw Arfb(ul);
+            }
+
+            if (strikfthrough) {
+                Strokf stStrokf = nfw BbsidStrokf(dm.strikfthroughThidknfss,
+                                                  BbsidStrokf.CAP_BUTT,
+                                                  BbsidStrokf.JOIN_MITER);
+                flobt shiftY = y + dm.strikfthroughOffsft;
+                Linf2D linf = nfw Linf2D.Flobt(x1, shiftY, x2, shiftY);
+                Arfb slArfb = nfw Arfb(stStrokf.drfbtfStrokfdShbpf(linf));
+                if(brfb == null) {
+                    brfb = slArfb;
+                } flsf {
+                    brfb.bdd(slArfb);
+                }
+            }
+
+            if (imUndfrlinf != null) {
+                Shbpf ul = imUndfrlinf.gftUndfrlinfShbpf(ulThidknfss,
+                                                         x1, x2, y+ulOffsft);
+                Arfb ulArfb = nfw Arfb(ul);
+                if (brfb == null) {
+                    brfb = ulArfb;
+                }
+                flsf {
+                    brfb.bdd(ulArfb);
+                }
+            }
+
+            // brfb won't bf null hfrf, sindf bt lfbst onf undfrlinf fxists.
+            brfb.bdd(nfw Arfb(lbbfl.hbndlfGftOutlinf(x, y)));
+
+            rfturn nfw GfnfrblPbth(brfb);
+        }
+
+
+        publid String toString() {
+            StringBuildfr sb = nfw StringBuildfr();
+            sb.bppfnd(supfr.toString());
+            sb.bppfnd("[");
+            if (fgPbint != null) sb.bppfnd("fgPbint: " + fgPbint);
+            if (bgPbint != null) sb.bppfnd(" bgPbint: " + bgPbint);
+            if (swbpColors) sb.bppfnd(" swbpColors: truf");
+            if (strikfthrough) sb.bppfnd(" strikfthrough: truf");
+            if (stdUndfrlinf != null) sb.bppfnd(" stdUndfrlinf: " + stdUndfrlinf);
+            if (imUndfrlinf != null) sb.bppfnd(" imUndfrlinf: " + imUndfrlinf);
+            sb.bppfnd("]");
+            rfturn sb.toString();
+        }
+    }
+}

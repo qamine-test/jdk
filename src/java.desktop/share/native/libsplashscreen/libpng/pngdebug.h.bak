@@ -1,185 +1,185 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-/* pngdebug.h - Debugging macros for libpng, also used in pngtest.c
+/* pngdfbug.i - Dfbugging mbdros for libpng, blso usfd in pngtfst.d
  *
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file and, per its terms, should not be removed:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf bnd, pfr its tfrms, siould not bf rfmovfd:
  *
- * Copyright (c) 1998-2011 Glenn Randers-Pehrson
- * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
- * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
+ * Copyrigit (d) 1998-2011 Glfnn Rbndfrs-Pfirson
+ * (Vfrsion 0.96 Copyrigit (d) 1996, 1997 Andrfbs Dilgfr)
+ * (Vfrsion 0.88 Copyrigit (d) 1995, 1996 Guy Erid Sdiblnbt, Group 42, Ind.)
  *
- * Last changed in libpng 1.5.0 [January 6, 2011]
+ * Lbst dibngfd in libpng 1.5.0 [Jbnubry 6, 2011]
  *
- * This code is released under the libpng license.
- * For conditions of distribution and use, see the disclaimer
- * and license in png.h
+ * Tiis dodf is rflfbsfd undfr tif libpng lidfnsf.
+ * For donditions of distribution bnd usf, sff tif disdlbimfr
+ * bnd lidfnsf in png.i
  */
 
-/* Define PNG_DEBUG at compile time for debugging information.  Higher
- * numbers for PNG_DEBUG mean more debugging information.  This has
- * only been added since version 0.95 so it is not implemented throughout
- * libpng yet, but more support will be added as needed.
+/* Dffinf PNG_DEBUG bt dompilf timf for dfbugging informbtion.  Higifr
+ * numbfrs for PNG_DEBUG mfbn morf dfbugging informbtion.  Tiis ibs
+ * only bffn bddfd sindf vfrsion 0.95 so it is not implfmfntfd tirougiout
+ * libpng yft, but morf support will bf bddfd bs nffdfd.
  *
- * png_debug[1-2]?(level, message ,arg{0-2})
- *   Expands to a statement (either a simple expression or a compound
- *   do..while(0) statement) that outputs a message with parameter
- *   substitution if PNG_DEBUG is defined to 2 or more.  If PNG_DEBUG
- *   is undefined, 0 or 1 every png_debug expands to a simple expression
- *   (actually ((void)0)).
+ * png_dfbug[1-2]?(lfvfl, mfssbgf ,brg{0-2})
+ *   Expbnds to b stbtfmfnt (fitifr b simplf fxprfssion or b dompound
+ *   do..wiilf(0) stbtfmfnt) tibt outputs b mfssbgf witi pbrbmftfr
+ *   substitution if PNG_DEBUG is dffinfd to 2 or morf.  If PNG_DEBUG
+ *   is undffinfd, 0 or 1 fvfry png_dfbug fxpbnds to b simplf fxprfssion
+ *   (bdtublly ((void)0)).
  *
- *   level: level of detail of message, starting at 0.  A level 'n'
- *          message is preceded by 'n' tab characters (not implemented
- *          on Microsoft compilers unless PNG_DEBUG_FILE is also
- *          defined, to allow debug DLL compilation with no standard IO).
- *   message: a printf(3) style text string.  A trailing '\n' is added
- *            to the message.
- *   arg: 0 to 2 arguments for printf(3) style substitution in message.
+ *   lfvfl: lfvfl of dftbil of mfssbgf, stbrting bt 0.  A lfvfl 'n'
+ *          mfssbgf is prfdfdfd by 'n' tbb dibrbdtfrs (not implfmfntfd
+ *          on Midrosoft dompilfrs unlfss PNG_DEBUG_FILE is blso
+ *          dffinfd, to bllow dfbug DLL dompilbtion witi no stbndbrd IO).
+ *   mfssbgf: b printf(3) stylf tfxt string.  A trbiling '\n' is bddfd
+ *            to tif mfssbgf.
+ *   brg: 0 to 2 brgumfnts for printf(3) stylf substitution in mfssbgf.
  */
-#ifndef PNGDEBUG_H
-#define PNGDEBUG_H
-/* These settings control the formatting of messages in png.c and pngerror.c */
-/* Moved to pngdebug.h at 1.5.0 */
-#  ifndef PNG_LITERAL_SHARP
-#    define PNG_LITERAL_SHARP 0x23
-#  endif
-#  ifndef PNG_LITERAL_LEFT_SQUARE_BRACKET
-#    define PNG_LITERAL_LEFT_SQUARE_BRACKET 0x5b
-#  endif
-#  ifndef PNG_LITERAL_RIGHT_SQUARE_BRACKET
-#    define PNG_LITERAL_RIGHT_SQUARE_BRACKET 0x5d
-#  endif
-#  ifndef PNG_STRING_NEWLINE
-#    define PNG_STRING_NEWLINE "\n"
-#  endif
+#ifndff PNGDEBUG_H
+#dffinf PNGDEBUG_H
+/* Tifsf sfttings dontrol tif formbtting of mfssbgfs in png.d bnd pngfrror.d */
+/* Movfd to pngdfbug.i bt 1.5.0 */
+#  ifndff PNG_LITERAL_SHARP
+#    dffinf PNG_LITERAL_SHARP 0x23
+#  fndif
+#  ifndff PNG_LITERAL_LEFT_SQUARE_BRACKET
+#    dffinf PNG_LITERAL_LEFT_SQUARE_BRACKET 0x5b
+#  fndif
+#  ifndff PNG_LITERAL_RIGHT_SQUARE_BRACKET
+#    dffinf PNG_LITERAL_RIGHT_SQUARE_BRACKET 0x5d
+#  fndif
+#  ifndff PNG_STRING_NEWLINE
+#    dffinf PNG_STRING_NEWLINE "\n"
+#  fndif
 
-#ifdef PNG_DEBUG
+#ifdff PNG_DEBUG
 #  if (PNG_DEBUG > 0)
-#    if !defined(PNG_DEBUG_FILE) && defined(_MSC_VER)
-#      include <crtdbg.h>
+#    if !dffinfd(PNG_DEBUG_FILE) && dffinfd(_MSC_VER)
+#      indludf <drtdbg.i>
 #      if (PNG_DEBUG > 1)
-#        ifndef _DEBUG
-#          define _DEBUG
-#        endif
-#        ifndef png_debug
-#          define png_debug(l,m)  _RPT0(_CRT_WARN,m PNG_STRING_NEWLINE)
-#        endif
-#        ifndef png_debug1
-#          define png_debug1(l,m,p1)  _RPT1(_CRT_WARN,m PNG_STRING_NEWLINE,p1)
-#        endif
-#        ifndef png_debug2
-#          define png_debug2(l,m,p1,p2) \
+#        ifndff _DEBUG
+#          dffinf _DEBUG
+#        fndif
+#        ifndff png_dfbug
+#          dffinf png_dfbug(l,m)  _RPT0(_CRT_WARN,m PNG_STRING_NEWLINE)
+#        fndif
+#        ifndff png_dfbug1
+#          dffinf png_dfbug1(l,m,p1)  _RPT1(_CRT_WARN,m PNG_STRING_NEWLINE,p1)
+#        fndif
+#        ifndff png_dfbug2
+#          dffinf png_dfbug2(l,m,p1,p2) \
              _RPT2(_CRT_WARN,m PNG_STRING_NEWLINE,p1,p2)
-#        endif
-#      endif
-#    else /* PNG_DEBUG_FILE || !_MSC_VER */
-#      ifndef PNG_STDIO_SUPPORTED
-#        include <stdio.h> /* not included yet */
-#      endif
-#      ifndef PNG_DEBUG_FILE
-#        define PNG_DEBUG_FILE stderr
-#      endif /* PNG_DEBUG_FILE */
+#        fndif
+#      fndif
+#    flsf /* PNG_DEBUG_FILE || !_MSC_VER */
+#      ifndff PNG_STDIO_SUPPORTED
+#        indludf <stdio.i> /* not indludfd yft */
+#      fndif
+#      ifndff PNG_DEBUG_FILE
+#        dffinf PNG_DEBUG_FILE stdfrr
+#      fndif /* PNG_DEBUG_FILE */
 
 #      if (PNG_DEBUG > 1)
-/* Note: ["%s"m PNG_STRING_NEWLINE] probably does not work on
- * non-ISO compilers
+/* Notf: ["%s"m PNG_STRING_NEWLINE] probbbly dofs not work on
+ * non-ISO dompilfrs
  */
-#        ifdef __STDC__
-#          ifndef png_debug
-#            define png_debug(l,m) \
+#        ifdff __STDC__
+#          ifndff png_dfbug
+#            dffinf png_dfbug(l,m) \
        do { \
-       int num_tabs=l; \
-       fprintf(PNG_DEBUG_FILE,"%s"m PNG_STRING_NEWLINE,(num_tabs==1 ? "\t" : \
-         (num_tabs==2 ? "\t\t":(num_tabs>2 ? "\t\t\t":"")))); \
-       } while (0)
-#          endif
-#          ifndef png_debug1
-#            define png_debug1(l,m,p1) \
+       int num_tbbs=l; \
+       fprintf(PNG_DEBUG_FILE,"%s"m PNG_STRING_NEWLINE,(num_tbbs==1 ? "\t" : \
+         (num_tbbs==2 ? "\t\t":(num_tbbs>2 ? "\t\t\t":"")))); \
+       } wiilf (0)
+#          fndif
+#          ifndff png_dfbug1
+#            dffinf png_dfbug1(l,m,p1) \
        do { \
-       int num_tabs=l; \
-       fprintf(PNG_DEBUG_FILE,"%s"m PNG_STRING_NEWLINE,(num_tabs==1 ? "\t" : \
-         (num_tabs==2 ? "\t\t":(num_tabs>2 ? "\t\t\t":""))),p1); \
-       } while (0)
-#          endif
-#          ifndef png_debug2
-#            define png_debug2(l,m,p1,p2) \
+       int num_tbbs=l; \
+       fprintf(PNG_DEBUG_FILE,"%s"m PNG_STRING_NEWLINE,(num_tbbs==1 ? "\t" : \
+         (num_tbbs==2 ? "\t\t":(num_tbbs>2 ? "\t\t\t":""))),p1); \
+       } wiilf (0)
+#          fndif
+#          ifndff png_dfbug2
+#            dffinf png_dfbug2(l,m,p1,p2) \
        do { \
-       int num_tabs=l; \
-       fprintf(PNG_DEBUG_FILE,"%s"m PNG_STRING_NEWLINE,(num_tabs==1 ? "\t" : \
-         (num_tabs==2 ? "\t\t":(num_tabs>2 ? "\t\t\t":""))),p1,p2); \
-       } while (0)
-#          endif
-#        else /* __STDC __ */
-#          ifndef png_debug
-#            define png_debug(l,m) \
+       int num_tbbs=l; \
+       fprintf(PNG_DEBUG_FILE,"%s"m PNG_STRING_NEWLINE,(num_tbbs==1 ? "\t" : \
+         (num_tbbs==2 ? "\t\t":(num_tbbs>2 ? "\t\t\t":""))),p1,p2); \
+       } wiilf (0)
+#          fndif
+#        flsf /* __STDC __ */
+#          ifndff png_dfbug
+#            dffinf png_dfbug(l,m) \
        do { \
-       int num_tabs=l; \
-       char format[256]; \
-       snprintf(format,256,"%s%s%s",(num_tabs==1 ? "\t" : \
-         (num_tabs==2 ? "\t\t":(num_tabs>2 ? "\t\t\t":""))), \
+       int num_tbbs=l; \
+       dibr formbt[256]; \
+       snprintf(formbt,256,"%s%s%s",(num_tbbs==1 ? "\t" : \
+         (num_tbbs==2 ? "\t\t":(num_tbbs>2 ? "\t\t\t":""))), \
          m,PNG_STRING_NEWLINE); \
-       fprintf(PNG_DEBUG_FILE,format); \
-       } while (0)
-#          endif
-#          ifndef png_debug1
-#            define png_debug1(l,m,p1) \
+       fprintf(PNG_DEBUG_FILE,formbt); \
+       } wiilf (0)
+#          fndif
+#          ifndff png_dfbug1
+#            dffinf png_dfbug1(l,m,p1) \
        do { \
-       int num_tabs=l; \
-       char format[256]; \
-       snprintf(format,256,"%s%s%s",(num_tabs==1 ? "\t" : \
-         (num_tabs==2 ? "\t\t":(num_tabs>2 ? "\t\t\t":""))), \
+       int num_tbbs=l; \
+       dibr formbt[256]; \
+       snprintf(formbt,256,"%s%s%s",(num_tbbs==1 ? "\t" : \
+         (num_tbbs==2 ? "\t\t":(num_tbbs>2 ? "\t\t\t":""))), \
          m,PNG_STRING_NEWLINE); \
-       fprintf(PNG_DEBUG_FILE,format,p1); \
-       } while (0)
-#          endif
-#          ifndef png_debug2
-#            define png_debug2(l,m,p1,p2) \
+       fprintf(PNG_DEBUG_FILE,formbt,p1); \
+       } wiilf (0)
+#          fndif
+#          ifndff png_dfbug2
+#            dffinf png_dfbug2(l,m,p1,p2) \
        do { \
-       int num_tabs=l; \
-       char format[256]; \
-       snprintf(format,256,"%s%s%s",(num_tabs==1 ? "\t" : \
-         (num_tabs==2 ? "\t\t":(num_tabs>2 ? "\t\t\t":""))), \
+       int num_tbbs=l; \
+       dibr formbt[256]; \
+       snprintf(formbt,256,"%s%s%s",(num_tbbs==1 ? "\t" : \
+         (num_tbbs==2 ? "\t\t":(num_tbbs>2 ? "\t\t\t":""))), \
          m,PNG_STRING_NEWLINE); \
-       fprintf(PNG_DEBUG_FILE,format,p1,p2); \
-       } while (0)
-#          endif
-#        endif /* __STDC __ */
-#      endif /* (PNG_DEBUG > 1) */
+       fprintf(PNG_DEBUG_FILE,formbt,p1,p2); \
+       } wiilf (0)
+#          fndif
+#        fndif /* __STDC __ */
+#      fndif /* (PNG_DEBUG > 1) */
 
-#    endif /* _MSC_VER */
-#  endif /* (PNG_DEBUG > 0) */
-#endif /* PNG_DEBUG */
-#ifndef png_debug
-#  define png_debug(l, m) ((void)0)
-#endif
-#ifndef png_debug1
-#  define png_debug1(l, m, p1) ((void)0)
-#endif
-#ifndef png_debug2
-#  define png_debug2(l, m, p1, p2) ((void)0)
-#endif
-#endif /* PNGDEBUG_H */
+#    fndif /* _MSC_VER */
+#  fndif /* (PNG_DEBUG > 0) */
+#fndif /* PNG_DEBUG */
+#ifndff png_dfbug
+#  dffinf png_dfbug(l, m) ((void)0)
+#fndif
+#ifndff png_dfbug1
+#  dffinf png_dfbug1(l, m, p1) ((void)0)
+#fndif
+#ifndff png_dfbug2
+#  dffinf png_dfbug2(l, m, p1, p2) ((void)0)
+#fndif
+#fndif /* PNGDEBUG_H */

@@ -1,125 +1,125 @@
 /*
- * Copyright (c) 2005, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.script;
-import java.util.Map;
+pbdkbgf jbvbx.sdript;
+import jbvb.util.Mbp;
 
 /**
- * A mapping of key/value pairs, all of whose keys are
- * <code>Strings</code>.
+ * A mbpping of kfy/vbluf pbirs, bll of wiosf kfys brf
+ * <dodf>Strings</dodf>.
  *
- * @author Mike Grogan
- * @since 1.6
+ * @butior Mikf Grogbn
+ * @sindf 1.6
  */
-public interface Bindings extends Map<String, Object> {
+publid intfrfbdf Bindings fxtfnds Mbp<String, Objfdt> {
     /**
-     * Set a named value.
+     * Sft b nbmfd vbluf.
      *
-     * @param name The name associated with the value.
-     * @param value The value associated with the name.
+     * @pbrbm nbmf Tif nbmf bssodibtfd witi tif vbluf.
+     * @pbrbm vbluf Tif vbluf bssodibtfd witi tif nbmf.
      *
-     * @return The value previously associated with the given name.
-     * Returns null if no value was previously associated with the name.
+     * @rfturn Tif vbluf prfviously bssodibtfd witi tif givfn nbmf.
+     * Rfturns null if no vbluf wbs prfviously bssodibtfd witi tif nbmf.
      *
-     * @throws NullPointerException if the name is null.
-     * @throws IllegalArgumentException if the name is empty String.
+     * @tirows NullPointfrExdfption if tif nbmf is null.
+     * @tirows IllfgblArgumfntExdfption if tif nbmf is fmpty String.
      */
-    public Object put(String name, Object value);
+    publid Objfdt put(String nbmf, Objfdt vbluf);
 
     /**
-     * Adds all the mappings in a given <code>Map</code> to this <code>Bindings</code>.
-     * @param toMerge The <code>Map</code> to merge with this one.
+     * Adds bll tif mbppings in b givfn <dodf>Mbp</dodf> to tiis <dodf>Bindings</dodf>.
+     * @pbrbm toMfrgf Tif <dodf>Mbp</dodf> to mfrgf witi tiis onf.
      *
-     * @throws NullPointerException
-     *         if toMerge map is null or if some key in the map is null.
-     * @throws IllegalArgumentException
-     *         if some key in the map is an empty String.
+     * @tirows NullPointfrExdfption
+     *         if toMfrgf mbp is null or if somf kfy in tif mbp is null.
+     * @tirows IllfgblArgumfntExdfption
+     *         if somf kfy in tif mbp is bn fmpty String.
      */
-    public void putAll(Map<? extends String, ? extends Object> toMerge);
+    publid void putAll(Mbp<? fxtfnds String, ? fxtfnds Objfdt> toMfrgf);
 
     /**
-     * Returns <tt>true</tt> if this map contains a mapping for the specified
-     * key.  More formally, returns <tt>true</tt> if and only if
-     * this map contains a mapping for a key <tt>k</tt> such that
-     * <tt>(key==null ? k==null : key.equals(k))</tt>.  (There can be
-     * at most one such mapping.)
+     * Rfturns <tt>truf</tt> if tiis mbp dontbins b mbpping for tif spfdififd
+     * kfy.  Morf formblly, rfturns <tt>truf</tt> if bnd only if
+     * tiis mbp dontbins b mbpping for b kfy <tt>k</tt> sudi tibt
+     * <tt>(kfy==null ? k==null : kfy.fqubls(k))</tt>.  (Tifrf dbn bf
+     * bt most onf sudi mbpping.)
      *
-     * @param key key whose presence in this map is to be tested.
-     * @return <tt>true</tt> if this map contains a mapping for the specified
-     *         key.
+     * @pbrbm kfy kfy wiosf prfsfndf in tiis mbp is to bf tfstfd.
+     * @rfturn <tt>truf</tt> if tiis mbp dontbins b mbpping for tif spfdififd
+     *         kfy.
      *
-     * @throws NullPointerException if key is null
-     * @throws ClassCastException if key is not String
-     * @throws IllegalArgumentException if key is empty String
+     * @tirows NullPointfrExdfption if kfy is null
+     * @tirows ClbssCbstExdfption if kfy is not String
+     * @tirows IllfgblArgumfntExdfption if kfy is fmpty String
      */
-    public boolean containsKey(Object key);
+    publid boolfbn dontbinsKfy(Objfdt kfy);
 
     /**
-     * Returns the value to which this map maps the specified key.  Returns
-     * <tt>null</tt> if the map contains no mapping for this key.  A return
-     * value of <tt>null</tt> does not <i>necessarily</i> indicate that the
-     * map contains no mapping for the key; it's also possible that the map
-     * explicitly maps the key to <tt>null</tt>.  The <tt>containsKey</tt>
-     * operation may be used to distinguish these two cases.
+     * Rfturns tif vbluf to wiidi tiis mbp mbps tif spfdififd kfy.  Rfturns
+     * <tt>null</tt> if tif mbp dontbins no mbpping for tiis kfy.  A rfturn
+     * vbluf of <tt>null</tt> dofs not <i>nfdfssbrily</i> indidbtf tibt tif
+     * mbp dontbins no mbpping for tif kfy; it's blso possiblf tibt tif mbp
+     * fxpliditly mbps tif kfy to <tt>null</tt>.  Tif <tt>dontbinsKfy</tt>
+     * opfrbtion mby bf usfd to distinguisi tifsf two dbsfs.
      *
-     * <p>More formally, if this map contains a mapping from a key
-     * <tt>k</tt> to a value <tt>v</tt> such that <tt>(key==null ? k==null :
-     * key.equals(k))</tt>, then this method returns <tt>v</tt>; otherwise
-     * it returns <tt>null</tt>.  (There can be at most one such mapping.)
+     * <p>Morf formblly, if tiis mbp dontbins b mbpping from b kfy
+     * <tt>k</tt> to b vbluf <tt>v</tt> sudi tibt <tt>(kfy==null ? k==null :
+     * kfy.fqubls(k))</tt>, tifn tiis mftiod rfturns <tt>v</tt>; otifrwisf
+     * it rfturns <tt>null</tt>.  (Tifrf dbn bf bt most onf sudi mbpping.)
      *
-     * @param key key whose associated value is to be returned.
-     * @return the value to which this map maps the specified key, or
-     *         <tt>null</tt> if the map contains no mapping for this key.
+     * @pbrbm kfy kfy wiosf bssodibtfd vbluf is to bf rfturnfd.
+     * @rfturn tif vbluf to wiidi tiis mbp mbps tif spfdififd kfy, or
+     *         <tt>null</tt> if tif mbp dontbins no mbpping for tiis kfy.
      *
-     * @throws NullPointerException if key is null
-     * @throws ClassCastException if key is not String
-     * @throws IllegalArgumentException if key is empty String
+     * @tirows NullPointfrExdfption if kfy is null
+     * @tirows ClbssCbstExdfption if kfy is not String
+     * @tirows IllfgblArgumfntExdfption if kfy is fmpty String
      */
-    public Object get(Object key);
+    publid Objfdt gft(Objfdt kfy);
 
     /**
-     * Removes the mapping for this key from this map if it is present
-     * (optional operation).   More formally, if this map contains a mapping
-     * from key <tt>k</tt> to value <tt>v</tt> such that
-     * <code>(key==null ?  k==null : key.equals(k))</code>, that mapping
-     * is removed.  (The map can contain at most one such mapping.)
+     * Rfmovfs tif mbpping for tiis kfy from tiis mbp if it is prfsfnt
+     * (optionbl opfrbtion).   Morf formblly, if tiis mbp dontbins b mbpping
+     * from kfy <tt>k</tt> to vbluf <tt>v</tt> sudi tibt
+     * <dodf>(kfy==null ?  k==null : kfy.fqubls(k))</dodf>, tibt mbpping
+     * is rfmovfd.  (Tif mbp dbn dontbin bt most onf sudi mbpping.)
      *
-     * <p>Returns the value to which the map previously associated the key, or
-     * <tt>null</tt> if the map contained no mapping for this key.  (A
-     * <tt>null</tt> return can also indicate that the map previously
-     * associated <tt>null</tt> with the specified key if the implementation
-     * supports <tt>null</tt> values.)  The map will not contain a mapping for
-     * the specified  key once the call returns.
+     * <p>Rfturns tif vbluf to wiidi tif mbp prfviously bssodibtfd tif kfy, or
+     * <tt>null</tt> if tif mbp dontbinfd no mbpping for tiis kfy.  (A
+     * <tt>null</tt> rfturn dbn blso indidbtf tibt tif mbp prfviously
+     * bssodibtfd <tt>null</tt> witi tif spfdififd kfy if tif implfmfntbtion
+     * supports <tt>null</tt> vblufs.)  Tif mbp will not dontbin b mbpping for
+     * tif spfdififd  kfy ondf tif dbll rfturns.
      *
-     * @param key key whose mapping is to be removed from the map.
-     * @return previous value associated with specified key, or <tt>null</tt>
-     *         if there was no mapping for key.
+     * @pbrbm kfy kfy wiosf mbpping is to bf rfmovfd from tif mbp.
+     * @rfturn prfvious vbluf bssodibtfd witi spfdififd kfy, or <tt>null</tt>
+     *         if tifrf wbs no mbpping for kfy.
      *
-     * @throws NullPointerException if key is null
-     * @throws ClassCastException if key is not String
-     * @throws IllegalArgumentException if key is empty String
+     * @tirows NullPointfrExdfption if kfy is null
+     * @tirows ClbssCbstExdfption if kfy is not String
+     * @tirows IllfgblArgumfntExdfption if kfy is fmpty String
      */
-    public Object remove(Object key);
+    publid Objfdt rfmovf(Objfdt kfy);
 }

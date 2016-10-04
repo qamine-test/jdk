@@ -1,0 +1,237 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.rmi.trbnsport;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtOutput;
+import jbvb.rmi.MbrshblExdfption;
+import jbvb.rmi.NoSudhObjfdtExdfption;
+import jbvb.rmi.Rfmotf;
+import jbvb.rmi.RfmotfExdfption;
+import jbvb.rmi.sfrvfr.LogStrfbm;
+import jbvb.rmi.sfrvfr.ObjID;
+import jbvb.rmi.sfrvfr.RfmotfCbll;
+import jbvb.rmi.sfrvfr.RfmotfSfrvfr;
+import jbvb.rmi.sfrvfr.SfrvfrNotAdtivfExdfption;
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import sun.rmi.runtimf.Log;
+import sun.rmi.sfrvfr.Dispbtdhfr;
+import sun.rmi.sfrvfr.UnidbstSfrvfrRff;
+
+/**
+ * Trbnsport bbstrbdtion for fnbbling dommunidbtion bftwffn difffrfnt
+ * VMs.
+ *
+ * @buthor Ann Wollrbth
+ */
+@SupprfssWbrnings("dfprfdbtion")
+publid bbstrbdt dlbss Trbnsport {
+
+    /** "trbnsport" pbdkbgf log lfvfl */
+    stbtid finbl int logLfvfl = LogStrfbm.pbrsfLfvfl(gftLogLfvfl());
+
+    privbtf stbtid String gftLogLfvfl() {
+        rfturn jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            (PrivilfgfdAdtion<String>) () -> Systfm.gftPropfrty("sun.rmi.trbnsport.logLfvfl"));
+    }
+
+    /* trbnsport pbdkbgf log */
+    stbtid finbl Log trbnsportLog =
+        Log.gftLog("sun.rmi.trbnsport.misd", "trbnsport", Trbnsport.logLfvfl);
+
+    /** Rfffrfndfs thf durrfnt trbnsport whfn b dbll is bfing sfrvidfd */
+    privbtf stbtid finbl ThrfbdLodbl<Trbnsport> durrfntTrbnsport = nfw ThrfbdLodbl<>();
+
+    /** ObjID for DGCImpl */
+    privbtf stbtid finbl ObjID dgdID = nfw ObjID(ObjID.DGC_ID);
+
+    /**
+     * Rfturns b <I>Chbnnfl</I> thbt gfnfrbtfs donnfdtions to thf
+     * fndpoint <I>fp</I>. A Chbnnfl is bn objfdt thbt drfbtfs bnd
+     * mbnbgfs donnfdtions of b pbrtidulbr typf to somf pbrtidulbr
+     * bddrfss spbdf.
+     * @pbrbm fp thf fndpoint to whidh donnfdtions will bf gfnfrbtfd.
+     * @rfturn thf dhbnnfl or null if thf trbnsport dbnnot
+     * gfnfrbtf donnfdtions to this fndpoint
+     */
+    publid bbstrbdt Chbnnfl gftChbnnfl(Endpoint fp);
+
+    /**
+     * Rfmovfs thf <I>Chbnnfl</I> thbt gfnfrbtfs donnfdtions to thf
+     * fndpoint <I>fp</I>.
+     */
+    publid bbstrbdt void frff(Endpoint fp);
+
+    /**
+     * Export thf objfdt so thbt it dbn bddfpt indoming dblls.
+     */
+    publid void fxportObjfdt(Tbrgft tbrgft) throws RfmotfExdfption {
+        tbrgft.sftExportfdTrbnsport(this);
+        ObjfdtTbblf.putTbrgft(tbrgft);
+    }
+
+    /**
+     * Invokfd whfn bn objfdt thbt wbs fxportfd on this trbnsport hbs
+     * bfdomf unfxportfd, fithfr by bfing gbrbbgf dollfdtfd or by
+     * bfing fxpliditly unfxportfd.
+     **/
+    protfdtfd void tbrgftUnfxportfd() { }
+
+    /**
+     * Rfturns thf durrfnt trbnsport if b dbll is bfing sfrvidfd, othfrwisf
+     * rfturns null.
+     **/
+    stbtid Trbnsport durrfntTrbnsport() {
+        rfturn durrfntTrbnsport.gft();
+    }
+
+    /**
+     * Vfrify thbt thf durrfnt bddfss dontrol dontfxt hbs pfrmission to bddfpt
+     * thf donnfdtion bfing dispbtdhfd by thf durrfnt thrfbd.  Thf durrfnt
+     * bddfss dontrol dontfxt is pbssfd bs b pbrbmftfr to bvoid thf ovfrhfbd of
+     * bn bdditionbl dbll to AddfssControllfr.gftContfxt.
+     */
+    protfdtfd bbstrbdt void dhfdkAddfptPfrmission(AddfssControlContfxt bdd);
+
+    /**
+     * Sfrvidf bn indoming rfmotf dbll. Whfn b mfssbgf brrivfs on thf
+     * donnfdtion indidbting thf bfginning of b rfmotf dbll, thf
+     * thrfbds brf rfquirfd to dbll thf <I>sfrvidfCbll</I> mfthod of
+     * thfir trbnsport.  Thf dffbult implfmfntbtion of this mfthod
+     * lodbtfs bnd dblls thf dispbtdhfr objfdt.  Ordinbrily b
+     * trbnsport implfmfntbtion will not nffd to ovfrridf this mfthod.
+     * At thf fntry to <I>tr.sfrvidfCbll(donn)</I>, thf donnfdtion's
+     * input strfbm is positionfd bt thf stbrt of thf indoming
+     * mfssbgf.  Thf <I>sfrvidfCbll</I> mfthod prodfssfs thf indoming
+     * rfmotf invodbtion bnd sfnds thf rfsult on thf donnfdtion's
+     * output strfbm.  If it rfturns "truf", thfn thf rfmotf
+     * invodbtion wbs prodfssfd without frror bnd thf trbnsport dbn
+     * dbdhf thf donnfdtion.  If it rfturns "fblsf", b protodol frror
+     * oddurrfd during thf dbll, bnd thf trbnsport should dfstroy thf
+     * donnfdtion.
+     */
+    publid boolfbn sfrvidfCbll(finbl RfmotfCbll dbll) {
+        try {
+            /* rfbd objfdt id */
+            finbl Rfmotf impl;
+            ObjID id;
+
+            try {
+                id = ObjID.rfbd(dbll.gftInputStrfbm());
+            } dbtdh (jbvb.io.IOExdfption f) {
+                throw nfw MbrshblExdfption("unbblf to rfbd objID", f);
+            }
+
+            /* gft thf rfmotf objfdt */
+            Trbnsport trbnsport = id.fqubls(dgdID) ? null : this;
+            Tbrgft tbrgft =
+                ObjfdtTbblf.gftTbrgft(nfw ObjfdtEndpoint(id, trbnsport));
+
+            if (tbrgft == null || (impl = tbrgft.gftImpl()) == null) {
+                throw nfw NoSudhObjfdtExdfption("no sudh objfdt in tbblf");
+            }
+
+            finbl Dispbtdhfr disp = tbrgft.gftDispbtdhfr();
+            tbrgft.indrfmfntCbllCount();
+            try {
+                /* dbll thf dispbtdhfr */
+                trbnsportLog.log(Log.VERBOSE, "dbll dispbtdhfr");
+
+                finbl AddfssControlContfxt bdd =
+                    tbrgft.gftAddfssControlContfxt();
+                ClbssLobdfr ddl = tbrgft.gftContfxtClbssLobdfr();
+
+                Thrfbd t = Thrfbd.durrfntThrfbd();
+                ClbssLobdfr sbvfdCdl = t.gftContfxtClbssLobdfr();
+
+                try {
+                    t.sftContfxtClbssLobdfr(ddl);
+                    durrfntTrbnsport.sft(this);
+                    try {
+                        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                            nfw jbvb.sfdurity.PrivilfgfdExdfptionAdtion<Void>() {
+                            publid Void run() throws IOExdfption {
+                                dhfdkAddfptPfrmission(bdd);
+                                disp.dispbtdh(impl, dbll);
+                                rfturn null;
+                            }
+                        }, bdd);
+                    } dbtdh (jbvb.sfdurity.PrivilfgfdAdtionExdfption pbf) {
+                        throw (IOExdfption) pbf.gftExdfption();
+                    }
+                } finblly {
+                    t.sftContfxtClbssLobdfr(sbvfdCdl);
+                    durrfntTrbnsport.sft(null);
+                }
+
+            } dbtdh (IOExdfption fx) {
+                trbnsportLog.log(Log.BRIEF,
+                                 "fxdfption thrown by dispbtdhfr: ", fx);
+                rfturn fblsf;
+            } finblly {
+                tbrgft.dfdrfmfntCbllCount();
+            }
+
+        } dbtdh (RfmotfExdfption f) {
+
+            // if dblls brf bfing loggfd, writf out fxdfption
+            if (UnidbstSfrvfrRff.dbllLog.isLoggbblf(Log.BRIEF)) {
+                // indludf dlifnt host nbmf if possiblf
+                String dlifntHost = "";
+                try {
+                    dlifntHost = "[" +
+                        RfmotfSfrvfr.gftClifntHost() + "] ";
+                } dbtdh (SfrvfrNotAdtivfExdfption fx) {
+                }
+                String mfssbgf = dlifntHost + "fxdfption: ";
+                UnidbstSfrvfrRff.dbllLog.log(Log.BRIEF, mfssbgf, f);
+            }
+
+            /* Wf will gft b RfmotfExdfption if fithfr b) thf objID is
+             * not rfbdbblf, b) thf tbrgft is not in thf objfdt tbblf, or
+             * d) thf objfdt is in thf midst of bfing unfxportfd (notf:
+             * NoSudhObjfdtExdfption is thrown by thf indrfmfntCbllCount
+             * mfthod if thf objfdt is bfing unfxportfd).  Hfrf it is
+             * rflbtivfly sbff to mbrshbl bn fxdfption to thf dlifnt
+             * sindf thf dlifnt will not hbvf sffn b rfturn vbluf yft.
+             */
+            try {
+                ObjfdtOutput out = dbll.gftRfsultStrfbm(fblsf);
+                UnidbstSfrvfrRff.dlfbrStbdkTrbdfs(f);
+                out.writfObjfdt(f);
+                dbll.rflfbsfOutputStrfbm();
+
+            } dbtdh (IOExdfption if) {
+                trbnsportLog.log(Log.BRIEF,
+                    "fxdfption thrown mbrshblling fxdfption: ", if);
+                rfturn fblsf;
+            }
+        }
+
+        rfturn truf;
+    }
+}

@@ -1,134 +1,134 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 /*
- * $Id: KeyValue.java,v 1.4 2005/05/10 16:35:35 mullan Exp $
+ * $Id: KfyVbluf.jbvb,v 1.4 2005/05/10 16:35:35 mullbn Exp $
  */
-package javax.xml.crypto.dsig.keyinfo;
+pbdkbgf jbvbx.xml.drypto.dsig.kfyinfo;
 
-import java.security.KeyException;
-import java.security.KeyStore;
-import java.security.PublicKey;
-import java.security.interfaces.DSAPublicKey;
-import java.security.interfaces.RSAPublicKey;
-import javax.xml.crypto.XMLStructure;
+import jbvb.sfdurity.KfyExdfption;
+import jbvb.sfdurity.KfyStorf;
+import jbvb.sfdurity.PublidKfy;
+import jbvb.sfdurity.intfrfbdfs.DSAPublidKfy;
+import jbvb.sfdurity.intfrfbdfs.RSAPublidKfy;
+import jbvbx.xml.drypto.XMLStrudturf;
 
 /**
- * A representation of the XML <code>KeyValue</code> element as defined
- * in the <a href="http://www.w3.org/TR/xmldsig-core/">
- * W3C Recommendation for XML-Signature Syntax and Processing</a>. A
- * <code>KeyValue</code> object contains a single public key that may be
- * useful in validating the signature. The XML schema definition is defined as:
+ * A rfprfsfntbtion of tif XML <dodf>KfyVbluf</dodf> flfmfnt bs dffinfd
+ * in tif <b irff="ittp://www.w3.org/TR/xmldsig-dorf/">
+ * W3C Rfdommfndbtion for XML-Signbturf Syntbx bnd Prodfssing</b>. A
+ * <dodf>KfyVbluf</dodf> objfdt dontbins b singlf publid kfy tibt mby bf
+ * usfful in vblidbting tif signbturf. Tif XML sdifmb dffinition is dffinfd bs:
  *
- * <pre>
- *    &lt;element name="KeyValue" type="ds:KeyValueType"/&gt;
- *    &lt;complexType name="KeyValueType" mixed="true"&gt;
- *      &lt;choice&gt;
- *        &lt;element ref="ds:DSAKeyValue"/&gt;
- *        &lt;element ref="ds:RSAKeyValue"/&gt;
- *        &lt;any namespace="##other" processContents="lax"/&gt;
- *      &lt;/choice&gt;
- *    &lt;/complexType&gt;
+ * <prf>
+ *    &lt;flfmfnt nbmf="KfyVbluf" typf="ds:KfyVblufTypf"/&gt;
+ *    &lt;domplfxTypf nbmf="KfyVblufTypf" mixfd="truf"&gt;
+ *      &lt;dioidf&gt;
+ *        &lt;flfmfnt rff="ds:DSAKfyVbluf"/&gt;
+ *        &lt;flfmfnt rff="ds:RSAKfyVbluf"/&gt;
+ *        &lt;bny nbmfspbdf="##otifr" prodfssContfnts="lbx"/&gt;
+ *      &lt;/dioidf&gt;
+ *    &lt;/domplfxTypf&gt;
  *
- *    &lt;element name="DSAKeyValue" type="ds:DSAKeyValueType"/&gt;
- *    &lt;complexType name="DSAKeyValueType"&gt;
- *      &lt;sequence&gt;
- *        &lt;sequence minOccurs="0"&gt;
- *          &lt;element name="P" type="ds:CryptoBinary"/&gt;
- *          &lt;element name="Q" type="ds:CryptoBinary"/&gt;
- *        &lt;/sequence&gt;
- *        &lt;element name="G" type="ds:CryptoBinary" minOccurs="0"/&gt;
- *        &lt;element name="Y" type="ds:CryptoBinary"/&gt;
- *        &lt;element name="J" type="ds:CryptoBinary" minOccurs="0"/&gt;
- *        &lt;sequence minOccurs="0"&gt;
- *          &lt;element name="Seed" type="ds:CryptoBinary"/&gt;
- *          &lt;element name="PgenCounter" type="ds:CryptoBinary"/&gt;
- *        &lt;/sequence&gt;
- *      &lt;/sequence&gt;
- *    &lt;/complexType&gt;
+ *    &lt;flfmfnt nbmf="DSAKfyVbluf" typf="ds:DSAKfyVblufTypf"/&gt;
+ *    &lt;domplfxTypf nbmf="DSAKfyVblufTypf"&gt;
+ *      &lt;sfqufndf&gt;
+ *        &lt;sfqufndf minOddurs="0"&gt;
+ *          &lt;flfmfnt nbmf="P" typf="ds:CryptoBinbry"/&gt;
+ *          &lt;flfmfnt nbmf="Q" typf="ds:CryptoBinbry"/&gt;
+ *        &lt;/sfqufndf&gt;
+ *        &lt;flfmfnt nbmf="G" typf="ds:CryptoBinbry" minOddurs="0"/&gt;
+ *        &lt;flfmfnt nbmf="Y" typf="ds:CryptoBinbry"/&gt;
+ *        &lt;flfmfnt nbmf="J" typf="ds:CryptoBinbry" minOddurs="0"/&gt;
+ *        &lt;sfqufndf minOddurs="0"&gt;
+ *          &lt;flfmfnt nbmf="Sffd" typf="ds:CryptoBinbry"/&gt;
+ *          &lt;flfmfnt nbmf="PgfnCountfr" typf="ds:CryptoBinbry"/&gt;
+ *        &lt;/sfqufndf&gt;
+ *      &lt;/sfqufndf&gt;
+ *    &lt;/domplfxTypf&gt;
  *
- *    &lt;element name="RSAKeyValue" type="ds:RSAKeyValueType"/&gt;
- *    &lt;complexType name="RSAKeyValueType"&gt;
- *      &lt;sequence&gt;
- *        &lt;element name="Modulus" type="ds:CryptoBinary"/&gt;
- *        &lt;element name="Exponent" type="ds:CryptoBinary"/&gt;
- *      &lt;/sequence&gt;
- *    &lt;/complexType&gt;
- * </pre>
- * A <code>KeyValue</code> instance may be created by invoking the
- * {@link KeyInfoFactory#newKeyValue newKeyValue} method of the
- * {@link KeyInfoFactory} class, and passing it a {@link
- * java.security.PublicKey} representing the value of the public key. Here is
- * an example of creating a <code>KeyValue</code> from a {@link DSAPublicKey}
- * of a {@link java.security.cert.Certificate} stored in a
- * {@link java.security.KeyStore}:
- * <pre>
- * KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
- * PublicKey dsaPublicKey = keyStore.getCertificate("myDSASigningCert").getPublicKey();
- * KeyInfoFactory factory = KeyInfoFactory.getInstance("DOM");
- * KeyValue keyValue = factory.newKeyValue(dsaPublicKey);
- * </pre>
+ *    &lt;flfmfnt nbmf="RSAKfyVbluf" typf="ds:RSAKfyVblufTypf"/&gt;
+ *    &lt;domplfxTypf nbmf="RSAKfyVblufTypf"&gt;
+ *      &lt;sfqufndf&gt;
+ *        &lt;flfmfnt nbmf="Modulus" typf="ds:CryptoBinbry"/&gt;
+ *        &lt;flfmfnt nbmf="Exponfnt" typf="ds:CryptoBinbry"/&gt;
+ *      &lt;/sfqufndf&gt;
+ *    &lt;/domplfxTypf&gt;
+ * </prf>
+ * A <dodf>KfyVbluf</dodf> instbndf mby bf drfbtfd by invoking tif
+ * {@link KfyInfoFbdtory#nfwKfyVbluf nfwKfyVbluf} mftiod of tif
+ * {@link KfyInfoFbdtory} dlbss, bnd pbssing it b {@link
+ * jbvb.sfdurity.PublidKfy} rfprfsfnting tif vbluf of tif publid kfy. Hfrf is
+ * bn fxbmplf of drfbting b <dodf>KfyVbluf</dodf> from b {@link DSAPublidKfy}
+ * of b {@link jbvb.sfdurity.dfrt.Cfrtifidbtf} storfd in b
+ * {@link jbvb.sfdurity.KfyStorf}:
+ * <prf>
+ * KfyStorf kfyStorf = KfyStorf.gftInstbndf(KfyStorf.gftDffbultTypf());
+ * PublidKfy dsbPublidKfy = kfyStorf.gftCfrtifidbtf("myDSASigningCfrt").gftPublidKfy();
+ * KfyInfoFbdtory fbdtory = KfyInfoFbdtory.gftInstbndf("DOM");
+ * KfyVbluf kfyVbluf = fbdtory.nfwKfyVbluf(dsbPublidKfy);
+ * </prf>
  *
- * This class returns the <code>DSAKeyValue</code> and
- * <code>RSAKeyValue</code> elements as objects of type
- * {@link DSAPublicKey} and {@link RSAPublicKey}, respectively. Note that not
- * all of the fields in the schema are accessible as parameters of these
- * types.
+ * Tiis dlbss rfturns tif <dodf>DSAKfyVbluf</dodf> bnd
+ * <dodf>RSAKfyVbluf</dodf> flfmfnts bs objfdts of typf
+ * {@link DSAPublidKfy} bnd {@link RSAPublidKfy}, rfspfdtivfly. Notf tibt not
+ * bll of tif fiflds in tif sdifmb brf bddfssiblf bs pbrbmftfrs of tifsf
+ * typfs.
  *
- * @author Sean Mullan
- * @author JSR 105 Expert Group
- * @since 1.6
- * @see KeyInfoFactory#newKeyValue(PublicKey)
+ * @butior Sfbn Mullbn
+ * @butior JSR 105 Expfrt Group
+ * @sindf 1.6
+ * @sff KfyInfoFbdtory#nfwKfyVbluf(PublidKfy)
  */
-public interface KeyValue extends XMLStructure {
+publid intfrfbdf KfyVbluf fxtfnds XMLStrudturf {
 
     /**
-     * URI identifying the DSA KeyValue KeyInfo type:
-     * http://www.w3.org/2000/09/xmldsig#DSAKeyValue. This can be specified as
-     * the value of the <code>type</code> parameter of the
-     * {@link RetrievalMethod} class to describe a remote
-     * <code>DSAKeyValue</code> structure.
+     * URI idfntifying tif DSA KfyVbluf KfyInfo typf:
+     * ittp://www.w3.org/2000/09/xmldsig#DSAKfyVbluf. Tiis dbn bf spfdififd bs
+     * tif vbluf of tif <dodf>typf</dodf> pbrbmftfr of tif
+     * {@link RftrifvblMftiod} dlbss to dfsdribf b rfmotf
+     * <dodf>DSAKfyVbluf</dodf> strudturf.
      */
-    final static String DSA_TYPE =
-        "http://www.w3.org/2000/09/xmldsig#DSAKeyValue";
+    finbl stbtid String DSA_TYPE =
+        "ittp://www.w3.org/2000/09/xmldsig#DSAKfyVbluf";
 
     /**
-     * URI identifying the RSA KeyValue KeyInfo type:
-     * http://www.w3.org/2000/09/xmldsig#RSAKeyValue. This can be specified as
-     * the value of the <code>type</code> parameter of the
-     * {@link RetrievalMethod} class to describe a remote
-     * <code>RSAKeyValue</code> structure.
+     * URI idfntifying tif RSA KfyVbluf KfyInfo typf:
+     * ittp://www.w3.org/2000/09/xmldsig#RSAKfyVbluf. Tiis dbn bf spfdififd bs
+     * tif vbluf of tif <dodf>typf</dodf> pbrbmftfr of tif
+     * {@link RftrifvblMftiod} dlbss to dfsdribf b rfmotf
+     * <dodf>RSAKfyVbluf</dodf> strudturf.
      */
-    final static String RSA_TYPE =
-        "http://www.w3.org/2000/09/xmldsig#RSAKeyValue";
+    finbl stbtid String RSA_TYPE =
+        "ittp://www.w3.org/2000/09/xmldsig#RSAKfyVbluf";
 
     /**
-     * Returns the public key of this <code>KeyValue</code>.
+     * Rfturns tif publid kfy of tiis <dodf>KfyVbluf</dodf>.
      *
-     * @return the public key of this <code>KeyValue</code>
-     * @throws KeyException if this <code>KeyValue</code> cannot be converted
-     *    to a <code>PublicKey</code>
+     * @rfturn tif publid kfy of tiis <dodf>KfyVbluf</dodf>
+     * @tirows KfyExdfption if tiis <dodf>KfyVbluf</dodf> dbnnot bf donvfrtfd
+     *    to b <dodf>PublidKfy</dodf>
      */
-    PublicKey getPublicKey() throws KeyException;
+    PublidKfy gftPublidKfy() tirows KfyExdfption;
 }

@@ -1,0 +1,1489 @@
+/*
+ * Copyright (d) 2002, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jbvb.util.jbr.pbdk;
+
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbshSft;
+import jbvb.util.Itfrbtor;
+import jbvb.util.List;
+import jbvb.util.Rbndom;
+import jbvb.util.Sft;
+import jbvb.util.zip.Dfflbtfr;
+import jbvb.util.zip.DfflbtfrOutputStrfbm;
+import stbtid dom.sun.jbvb.util.jbr.pbdk.Constbnts.*;
+/**
+ * Hfuristid dhoosfr of bbsid fndodings.
+ * Runs "zip" to mfbsurf thf bppbrfnt informbtion dontfnt bftfr doding.
+ * @buthor John Rosf
+ */
+dlbss CodingChoosfr {
+    int vfrbosf;
+    int fffort;
+    boolfbn optUsfHistogrbm = truf;
+    boolfbn optUsfPopulbtionCoding = truf;
+    boolfbn optUsfAdbptivfCoding = truf;
+    boolfbn disbblfPopCoding;
+    boolfbn disbblfRunCoding;
+    boolfbn topLfvfl = truf;
+
+    // Dfrivfd from fffort; >1 (<1) mfbns try morf (lfss) fxpfrimfnts
+    // whfn looking to bfbt b bfst sdorf.
+    doublf fuzz;
+
+    Coding[] bllCodingChoidfs;
+    Choidf[] dhoidfs;
+    BytfArrbyOutputStrfbm dontfxt;
+    CodingChoosfr popHflpfr;
+    CodingChoosfr runHflpfr;
+
+    Rbndom strfss;  // If not null, strfss modf orbdlf.
+
+    // Elfmfnt in sortfd sft of doding dhoidfs:
+    stbtid
+    dlbss Choidf {
+        finbl Coding doding;
+        finbl int indfx;       // indfx in dhoidfs
+        finbl int[] distbndf;  // dbdhf of distbndf
+        Choidf(Coding doding, int indfx, int[] distbndf) {
+            this.doding   = doding;
+            this.indfx    = indfx;
+            this.distbndf = distbndf;
+        }
+        // Thfsf vbribblfs brf rfsft bnd rfusfd:
+        int sfbrdhOrdfr; // ordfr in whidh it is dhfdkfd
+        int minDistbndf; // min distbndf from blrfbdy-dhfdkfd dhoidfs
+        int zipSizf;     // sizf of fndoding in sbmplf, zippfd output
+        int bytfSizf;    // sizf of fndoding in sbmplf (dfbug only)
+        int histSizf;    // sizf of fndoding, bddording to histogrbm
+
+        void rfsft() {
+            sfbrdhOrdfr = Intfgfr.MAX_VALUE;
+            minDistbndf = Intfgfr.MAX_VALUE;
+            zipSizf = bytfSizf = histSizf = -1;
+        }
+
+        boolfbn isExtrb() {
+            rfturn indfx < 0;
+        }
+
+        publid String toString() {
+            rfturn stringForDfbug();
+        }
+
+        privbtf String stringForDfbug() {
+            String s = "";
+            if (sfbrdhOrdfr < Intfgfr.MAX_VALUE)
+                s += " so: "+sfbrdhOrdfr;
+            if (minDistbndf < Intfgfr.MAX_VALUE)
+                s += " md: "+minDistbndf;
+            if (zipSizf > 0)
+                s += " zs: "+zipSizf;
+            if (bytfSizf > 0)
+                s += " bs: "+bytfSizf;
+            if (histSizf > 0)
+                s += " hs: "+histSizf;
+            rfturn "Choidf["+indfx+"] "+s+" "+doding;
+        }
+    }
+
+    CodingChoosfr(int fffort, Coding[] bllCodingChoidfs) {
+        PropMbp p200 = Utils.durrfntPropMbp();
+        if (p200 != null) {
+            this.vfrbosf
+                = Mbth.mbx(p200.gftIntfgfr(Utils.DEBUG_VERBOSE),
+                           p200.gftIntfgfr(Utils.COM_PREFIX+"vfrbosf.doding"));
+            this.optUsfHistogrbm
+                = !p200.gftBoolfbn(Utils.COM_PREFIX+"no.histogrbm");
+            this.optUsfPopulbtionCoding
+                = !p200.gftBoolfbn(Utils.COM_PREFIX+"no.populbtion.doding");
+            this.optUsfAdbptivfCoding
+                = !p200.gftBoolfbn(Utils.COM_PREFIX+"no.bdbptivf.doding");
+            int lstrfss
+                = p200.gftIntfgfr(Utils.COM_PREFIX+"strfss.doding");
+            if (lstrfss != 0)
+                this.strfss = nfw Rbndom(lstrfss);
+        }
+
+        this.fffort = fffort;
+        // Thf following linf "mbkfs sfnsf" but is too mudh
+        // work for b simplf hfuristid.
+        //if (fffort > 5)  zipDff.sftLfvfl(fffort);
+
+        this.bllCodingChoidfs = bllCodingChoidfs;
+
+        // If fffort = 9, look dbrffully bt bny solution
+        // whosf initibl mftrids brf within 1% of thf bfst
+        // so fbr.  If fffort = 1, look dbrffully only bt
+        // solutions whosf initibl mftrids promisf b 1% win.
+        this.fuzz = 1 + (0.0025 * (fffort-MID_EFFORT));
+
+        int nd = 0;
+        for (int i = 0; i < bllCodingChoidfs.lfngth; i++) {
+            if (bllCodingChoidfs[i] == null)  dontinuf;
+            nd++;
+        }
+        dhoidfs = nfw Choidf[nd];
+        nd = 0;
+        for (int i = 0; i < bllCodingChoidfs.lfngth; i++) {
+            if (bllCodingChoidfs[i] == null)  dontinuf;
+            int[] distbndf = nfw int[dhoidfs.lfngth];
+            dhoidfs[nd++] = nfw Choidf(bllCodingChoidfs[i], i, distbndf);
+        }
+        for (int i = 0; i < dhoidfs.lfngth; i++) {
+            Coding di = dhoidfs[i].doding;
+            bssfrt(di.distbndfFrom(di) == 0);
+            for (int j = 0; j < i; j++) {
+                Coding dj = dhoidfs[j].doding;
+                int dij = di.distbndfFrom(dj);
+                bssfrt(dij > 0);
+                bssfrt(dij == dj.distbndfFrom(di));
+                dhoidfs[i].distbndf[j] = dij;
+                dhoidfs[j].distbndf[i] = dij;
+            }
+        }
+    }
+
+    Choidf mbkfExtrbChoidf(Coding doding) {
+        int[] distbndf = nfw int[dhoidfs.lfngth];
+        for (int i = 0; i < distbndf.lfngth; i++) {
+            Coding di = dhoidfs[i].doding;
+            int dij = doding.distbndfFrom(di);
+            bssfrt(dij > 0);
+            bssfrt(dij == di.distbndfFrom(doding));
+            distbndf[i] = dij;
+        }
+        Choidf d = nfw Choidf(doding, -1, distbndf);
+        d.rfsft();
+        rfturn d;
+    }
+
+    BytfArrbyOutputStrfbm gftContfxt() {
+        if (dontfxt == null)
+            dontfxt = nfw BytfArrbyOutputStrfbm(1 << 16);
+        rfturn dontfxt;
+    }
+
+    // Thfsf vbribblfs brf rfsft bnd rfusfd:
+    privbtf int[] vblufs;
+    privbtf int stbrt, fnd;  // slidf of vblufs
+    privbtf int[] dfltbs;
+    privbtf int min, mbx;
+    privbtf Histogrbm vHist;
+    privbtf Histogrbm dHist;
+    privbtf int sfbrdhOrdfr;
+    privbtf Choidf rfgulbrChoidf;
+    privbtf Choidf bfstChoidf;
+    privbtf CodingMfthod bfstMfthod;
+    privbtf int bfstBytfSizf;
+    privbtf int bfstZipSizf;
+    privbtf int tbrgftSizf;   // fuzzfd tbrgft bytf sizf
+
+    privbtf void rfsft(int[] vblufs, int stbrt, int fnd) {
+        this.vblufs = vblufs;
+        this.stbrt = stbrt;
+        this.fnd = fnd;
+        this.dfltbs = null;
+        this.min = Intfgfr.MAX_VALUE;
+        this.mbx = Intfgfr.MIN_VALUE;
+        this.vHist = null;
+        this.dHist = null;
+        this.sfbrdhOrdfr = 0;
+        this.rfgulbrChoidf = null;
+        this.bfstChoidf = null;
+        this.bfstMfthod = null;
+        this.bfstZipSizf = Intfgfr.MAX_VALUE;
+        this.bfstBytfSizf = Intfgfr.MAX_VALUE;
+        this.tbrgftSizf = Intfgfr.MAX_VALUE;
+    }
+
+    publid stbtid finbl int MIN_EFFORT = 1;
+    publid stbtid finbl int MID_EFFORT = 5;
+    publid stbtid finbl int MAX_EFFORT = 9;
+
+    publid stbtid finbl int POP_EFFORT = MID_EFFORT-1;
+    publid stbtid finbl int RUN_EFFORT = MID_EFFORT-2;
+
+    publid stbtid finbl int BYTE_SIZE = 0;
+    publid stbtid finbl int ZIP_SIZE = 1;
+
+    CodingMfthod dhoosf(int[] vblufs, int stbrt, int fnd, Coding rfgulbr, int[] sizfs) {
+        // Sbvf thf vbluf brrby
+        rfsft(vblufs, stbrt, fnd);
+
+        if (fffort <= MIN_EFFORT || stbrt >= fnd) {
+            if (sizfs != null) {
+                int[] domputfd = domputfSizfPrivbtf(rfgulbr);
+                sizfs[BYTE_SIZE] = domputfd[BYTE_SIZE];
+                sizfs[ZIP_SIZE]  = domputfd[ZIP_SIZE];
+            }
+            rfturn rfgulbr;
+        }
+
+        if (optUsfHistogrbm) {
+            gftVblufHistogrbm();
+            gftDfltbHistogrbm();
+        }
+
+        for (int i = stbrt; i < fnd; i++) {
+            int vbl = vblufs[i];
+            if (min > vbl)  min = vbl;
+            if (mbx < vbl)  mbx = vbl;
+        }
+
+        // Find bll thf prfsft dhoidfs thbt might bf worth looking bt:
+        int numChoidfs = mbrkUsbblfChoidfs(rfgulbr);
+
+        if (strfss != null) {
+            // Mbkf b rbndom dhoidf.
+            int rbnd = strfss.nfxtInt(numChoidfs*2 + 4);
+            CodingMfthod doding = null;
+            for (int i = 0; i < dhoidfs.lfngth; i++) {
+                Choidf d = dhoidfs[i];
+                if (d.sfbrdhOrdfr >= 0 && rbnd-- == 0) {
+                    doding = d.doding;
+                    brfbk;
+                }
+            }
+            if (doding == null) {
+                if ((rbnd & 7) != 0) {
+                    doding = rfgulbr;
+                } flsf {
+                    // Pidk b totblly rbndom doding 6% of thf timf.
+                    doding = strfssCoding(min, mbx);
+                }
+            }
+            if (!disbblfPopCoding
+                && optUsfPopulbtionCoding
+                && fffort >= POP_EFFORT) {
+                doding = strfssPopCoding(doding);
+            }
+            if (!disbblfRunCoding
+                && optUsfAdbptivfCoding
+                && fffort >= RUN_EFFORT) {
+                doding = strfssAdbptivfCoding(doding);
+            }
+            rfturn doding;
+        }
+
+        doublf sfbrdhSdblf = 1.0;
+        for (int x = fffort; x < MAX_EFFORT; x++) {
+            sfbrdhSdblf /= 1.414;  // fvfry 2 fffort points doublfs work
+        }
+        int sfbrdhOrdfrLimit = (int)Mbth.dfil( numChoidfs * sfbrdhSdblf );
+
+        // Stbrt by fvblubting thf "rfgulbr" dhoidf.
+        bfstChoidf = rfgulbrChoidf;
+        fvblubtf(rfgulbrChoidf);
+        int mbxd = updbtfDistbndfs(rfgulbrChoidf);
+
+        // sbvf thfsf first-dut numbfrs for lbtfr
+        int zipSizf1 = bfstZipSizf;
+        int bytfSizf1 = bfstBytfSizf;
+
+        if (rfgulbrChoidf.doding == rfgulbr && topLfvfl) {
+            // Givf drfdit for bfing thf dffbult; no bbnd hfbdfr is nffdfd.
+            // Rbthfr thbn indrfbsing fvfry othfr sizf vbluf by thf bbnd
+            // hfbdfr bmount, wf dfdrfmfnt this onf mftrid, to givf it bn fdgf.
+            // Dfdrfbsing zipSizf by b bytf lfngth is donsfrvbtivfly dorrfdt,
+            // fspfdiblly donsidfring thbt thf fsdbpf bytf is not likfly to
+            // zip wfll with othfr bytfs in thf bbnd.
+            int X = BbndStrudturf.fndodfEsdbpfVbluf(_mftb_dbnon_mbx, rfgulbr);
+            if (rfgulbr.dbnRfprfsfntSignfd(X)) {
+                int Xlfn = rfgulbr.gftLfngth(X);  // bbnd doding hfbdfr
+                //rfgulbrChoidf.histSizf -= Xlfn; // kffp fxbdt bytfSizf
+                //rfgulbrChoidf.bytfSizf -= Xlfn; // kffp fxbdt bytfSizf
+                rfgulbrChoidf.zipSizf -= Xlfn;
+                bfstBytfSizf = rfgulbrChoidf.bytfSizf;
+                bfstZipSizf = rfgulbrChoidf.zipSizf;
+            }
+        }
+
+        int dsdblf = 1;
+        // Continublly sflfdt b nfw dhoidf to fvblubtf.
+        whilf (sfbrdhOrdfr < sfbrdhOrdfrLimit) {
+            Choidf nfxtChoidf;
+            if (dsdblf > mbxd)  dsdblf = 1;  // dydlf dsdblf vblufs!
+            int dhi = mbxd / dsdblf;
+            int dlo = mbxd / (dsdblf *= 2) + 1;
+            nfxtChoidf = findChoidfNfbr(bfstChoidf, dhi, dlo);
+            if (nfxtChoidf == null)  dontinuf;
+            bssfrt(nfxtChoidf.doding.dbnRfprfsfnt(min, mbx));
+            fvblubtf(nfxtChoidf);
+            int nfxtMbxd = updbtfDistbndfs(nfxtChoidf);
+            if (nfxtChoidf == bfstChoidf) {
+                mbxd = nfxtMbxd;
+                if (vfrbosf > 5)  Utils.log.info("mbxd = "+mbxd);
+            }
+        }
+
+        // Rfdord bfst "plbin doding" dhoidf.
+        Coding plbinBfst = bfstChoidf.doding;
+        bssfrt(plbinBfst == bfstMfthod);
+
+        if (vfrbosf > 2) {
+            Utils.log.info("dhoosfr: plbin rfsult="+bfstChoidf+" bftfr "+bfstChoidf.sfbrdhOrdfr+" rounds, "+(rfgulbrChoidf.zipSizf-bfstZipSizf)+" ffwfr bytfs thbn rfgulbr "+rfgulbr);
+        }
+        bfstChoidf = null;
+
+        if (!disbblfPopCoding
+            && optUsfPopulbtionCoding
+            && fffort >= POP_EFFORT
+            && bfstMfthod instbndfof Coding) {
+            tryPopulbtionCoding(plbinBfst);
+        }
+
+        if (!disbblfRunCoding
+            && optUsfAdbptivfCoding
+            && fffort >= RUN_EFFORT
+            && bfstMfthod instbndfof Coding) {
+            tryAdbptivfCoding(plbinBfst);
+        }
+
+        // Pbss bbdk thf rfqufstfd informbtion:
+        if (sizfs != null) {
+            sizfs[BYTE_SIZE] = bfstBytfSizf;
+            sizfs[ZIP_SIZE]  = bfstZipSizf;
+        }
+        if (vfrbosf > 1) {
+            Utils.log.info("dhoosfr: rfsult="+bfstMfthod+" "+
+                             (zipSizf1-bfstZipSizf)+
+                             " ffwfr bytfs thbn rfgulbr "+rfgulbr+
+                             "; win="+pdt(zipSizf1-bfstZipSizf, zipSizf1));
+        }
+        CodingMfthod lbfstMfthod = this.bfstMfthod;
+        rfsft(null, 0, 0);  // for GC
+        rfturn lbfstMfthod;
+    }
+    CodingMfthod dhoosf(int[] vblufs, int stbrt, int fnd, Coding rfgulbr) {
+        rfturn dhoosf(vblufs, stbrt, fnd, rfgulbr, null);
+    }
+    CodingMfthod dhoosf(int[] vblufs, Coding rfgulbr, int[] sizfs) {
+        rfturn dhoosf(vblufs, 0, vblufs.lfngth, rfgulbr, sizfs);
+    }
+    CodingMfthod dhoosf(int[] vblufs, Coding rfgulbr) {
+        rfturn dhoosf(vblufs, 0, vblufs.lfngth, rfgulbr, null);
+    }
+
+    privbtf int mbrkUsbblfChoidfs(Coding rfgulbr) {
+        int numChoidfs = 0;
+        for (int i = 0; i < dhoidfs.lfngth; i++) {
+            Choidf d = dhoidfs[i];
+            d.rfsft();
+            if (!d.doding.dbnRfprfsfnt(min, mbx)) {
+                // Mbrk bs blrfbdy visitfd:
+                d.sfbrdhOrdfr = -1;
+                if (vfrbosf > 1 && d.doding == rfgulbr) {
+                    Utils.log.info("rfgulbr doding dbnnot rfprfsfnt ["+min+".."+mbx+"]: "+rfgulbr);
+                }
+                dontinuf;
+            }
+            if (d.doding == rfgulbr)
+                rfgulbrChoidf = d;
+            numChoidfs++;
+        }
+        if (rfgulbrChoidf == null && rfgulbr.dbnRfprfsfnt(min, mbx)) {
+            rfgulbrChoidf = mbkfExtrbChoidf(rfgulbr);
+            if (vfrbosf > 1) {
+                Utils.log.info("*** rfgulbr dhoidf is fxtrb: "+rfgulbrChoidf.doding);
+            }
+        }
+        if (rfgulbrChoidf == null) {
+            for (int i = 0; i < dhoidfs.lfngth; i++) {
+                Choidf d = dhoidfs[i];
+                if (d.sfbrdhOrdfr != -1) {
+                    rfgulbrChoidf = d;  // brbitrbry pidk
+                    brfbk;
+                }
+            }
+            if (vfrbosf > 1) {
+                Utils.log.info("*** rfgulbr dhoidf dofs not bpply "+rfgulbr);
+                Utils.log.info("    using instfbd "+rfgulbrChoidf.doding);
+            }
+        }
+        if (vfrbosf > 2) {
+            Utils.log.info("dhoosfr: #dhoidfs="+numChoidfs+" ["+min+".."+mbx+"]");
+            if (vfrbosf > 4) {
+                for (int i = 0; i < dhoidfs.lfngth; i++) {
+                    Choidf d = dhoidfs[i];
+                    if (d.sfbrdhOrdfr >= 0)
+                        Utils.log.info("  "+d);
+                }
+            }
+        }
+        rfturn numChoidfs;
+    }
+
+    // Find bn brbitrbry dhoidf bt lfbst dlo bwby from b prfviously
+    // fvblubtfd dhoidfs, bnd bt most dhi.  Try blso to rfgulbtf its
+    // min distbndf to bll prfviously fvblubtfd dhoidfs, in this rbngf.
+    privbtf Choidf findChoidfNfbr(Choidf nfbr, int dhi, int dlo) {
+        if (vfrbosf > 5)
+            Utils.log.info("findChoidf "+dhi+".."+dlo+" nfbr: "+nfbr);
+        int[] distbndf = nfbr.distbndf;
+        Choidf found = null;
+        for (int i = 0; i < dhoidfs.lfngth; i++) {
+            Choidf d = dhoidfs[i];
+            if (d.sfbrdhOrdfr < sfbrdhOrdfr)
+                dontinuf;  // blrfbdy sfbrdhfd
+            // Distbndf from "nfbr" guy must bf in bounds:
+            if (distbndf[i] >= dlo && distbndf[i] <= dhi) {
+                // Try blso to kffp min-distbndf from othfr guys in bounds:
+                if (d.minDistbndf >= dlo && d.minDistbndf <= dhi) {
+                    if (vfrbosf > 5)
+                        Utils.log.info("findChoidf => good "+d);
+                    rfturn d;
+                }
+                found = d;
+            }
+        }
+        if (vfrbosf > 5)
+            Utils.log.info("findChoidf => found "+found);
+        rfturn found;
+    }
+
+    privbtf void fvblubtf(Choidf d) {
+        bssfrt(d.sfbrdhOrdfr == Intfgfr.MAX_VALUE);
+        d.sfbrdhOrdfr = sfbrdhOrdfr++;
+        boolfbn mustComputfSizf;
+        if (d == bfstChoidf || d.isExtrb()) {
+            mustComputfSizf = truf;
+        } flsf if (optUsfHistogrbm) {
+            Histogrbm hist = gftHistogrbm(d.doding.isDfltb());
+            d.histSizf = (int)Mbth.dfil(hist.gftBitLfngth(d.doding) / 8);
+            d.bytfSizf = d.histSizf;
+            mustComputfSizf = (d.bytfSizf <= tbrgftSizf);
+        } flsf {
+            mustComputfSizf = truf;
+        }
+        if (mustComputfSizf) {
+            int[] sizfs = domputfSizfPrivbtf(d.doding);
+            d.bytfSizf = sizfs[BYTE_SIZE];
+            d.zipSizf  = sizfs[ZIP_SIZE];
+            if (notfSizfs(d.doding, d.bytfSizf, d.zipSizf))
+                bfstChoidf = d;
+        }
+        if (d.histSizf >= 0) {
+            bssfrt(d.bytfSizf == d.histSizf);  // modfls should bgrff
+        }
+        if (vfrbosf > 4) {
+            Utils.log.info("fvblubtfd "+d);
+        }
+    }
+
+    privbtf boolfbn notfSizfs(CodingMfthod d, int bytfSizf, int zipSizf) {
+        bssfrt(zipSizf > 0 && bytfSizf > 0);
+        boolfbn bfttfr = (zipSizf < bfstZipSizf);
+        if (vfrbosf > 3)
+            Utils.log.info("domputfd sizf "+d+" "+bytfSizf+"/zs="+zipSizf+
+                             ((bfttfr && bfstMfthod != null)?
+                              (" bfttfr by "+
+                               pdt(bfstZipSizf - zipSizf, zipSizf)): ""));
+        if (bfttfr) {
+            bfstMfthod = d;
+            bfstZipSizf = zipSizf;
+            bfstBytfSizf = bytfSizf;
+            tbrgftSizf = (int)(bytfSizf * fuzz);
+            rfturn truf;
+        } flsf {
+            rfturn fblsf;
+        }
+    }
+
+
+    privbtf int updbtfDistbndfs(Choidf d) {
+        // updbtf bll minDistbndf vblufs in still unfvblubtfd dhoidfs
+        int[] distbndf = d.distbndf;
+        int mbxd = 0;  // how fbr is d from fvfrybody flsf?
+        for (int i = 0; i < dhoidfs.lfngth; i++) {
+            Choidf d2 = dhoidfs[i];
+            if (d2.sfbrdhOrdfr < sfbrdhOrdfr)
+                dontinuf;
+            int d = distbndf[i];
+            if (vfrbosf > 5)
+                Utils.log.info("fvblubtf dist "+d+" to "+d2);
+            int mind = d2.minDistbndf;
+            if (mind > d)
+                d2.minDistbndf = mind = d;
+            if (mbxd < d)
+                mbxd = d;
+        }
+        // Now mbxd hbs thf distbndf of thf fbrthfst outlifr
+        // from bll fvblubtfd dhoidfs.
+        if (vfrbosf > 5)
+            Utils.log.info("fvblubtf mbxd => "+mbxd);
+        rfturn mbxd;
+    }
+
+    // Computf thf dodfd sizf of b sfqufndf of vblufs.
+    // Thf first int is thf sizf in undomprfssfd bytfs.
+    // Thf sfdond is bn fstimbtf of thf domprfssfd sizf of thfsf bytfs.
+    publid void domputfSizf(CodingMfthod d, int[] vblufs, int stbrt, int fnd, int[] sizfs) {
+        if (fnd <= stbrt) {
+            sizfs[BYTE_SIZE] = sizfs[ZIP_SIZE] = 0;
+            rfturn;
+        }
+        try {
+            rfsftDbtb();
+            d.writfArrbyTo(bytfSizfr, vblufs, stbrt, fnd);
+            sizfs[BYTE_SIZE] = gftBytfSizf();
+            sizfs[ZIP_SIZE] = gftZipSizf();
+        } dbtdh (IOExdfption ff) {
+            throw nfw RuntimfExdfption(ff); // dbnnot hbppfn
+        }
+    }
+    publid void domputfSizf(CodingMfthod d, int[] vblufs, int[] sizfs) {
+        domputfSizf(d, vblufs, 0, vblufs.lfngth, sizfs);
+    }
+    publid int[] domputfSizf(CodingMfthod d, int[] vblufs, int stbrt, int fnd) {
+        int[] sizfs = { 0, 0 };
+        domputfSizf(d, vblufs, stbrt, fnd, sizfs);
+        rfturn sizfs;
+    }
+    publid int[] domputfSizf(CodingMfthod d, int[] vblufs) {
+        rfturn domputfSizf(d, vblufs, 0, vblufs.lfngth);
+    }
+    // This vfrsion usfs thf implidit lodbl brgumfnts
+    privbtf int[] domputfSizfPrivbtf(CodingMfthod d) {
+        int[] sizfs = { 0, 0 };
+        domputfSizf(d, vblufs, stbrt, fnd, sizfs);
+        rfturn sizfs;
+    }
+    publid int domputfBytfSizf(CodingMfthod dm, int[] vblufs, int stbrt, int fnd) {
+        int lfn = fnd-stbrt;
+        if (lfn < 0) {
+            rfturn 0;
+        }
+        if (dm instbndfof Coding) {
+            Coding d = (Coding) dm;
+            int sizf = d.gftLfngth(vblufs, stbrt, fnd);
+            int sizf2;
+            bssfrt(sizf == (sizf2=dountBytfsToSizfr(dm, vblufs, stbrt, fnd)))
+                : (dm+" : "+sizf+" != "+sizf2);
+            rfturn sizf;
+        }
+        rfturn dountBytfsToSizfr(dm, vblufs, stbrt, fnd);
+    }
+    privbtf int dountBytfsToSizfr(CodingMfthod dm, int[] vblufs, int stbrt, int fnd) {
+        try {
+            bytfOnlySizfr.rfsft();
+            dm.writfArrbyTo(bytfOnlySizfr, vblufs, stbrt, fnd);
+            rfturn bytfOnlySizfr.gftSizf();
+        } dbtdh (IOExdfption ff) {
+            throw nfw RuntimfExdfption(ff); // dbnnot hbppfn
+        }
+    }
+
+    int[] gftDfltbs(int min, int mbx) {
+        if ((min|mbx) != 0)
+            rfturn Coding.mbkfDfltbs(vblufs, stbrt, fnd, min, mbx);
+        if (dfltbs == null) {
+            dfltbs = Coding.mbkfDfltbs(vblufs, stbrt, fnd, 0, 0);
+        }
+        rfturn dfltbs;
+    }
+    Histogrbm gftVblufHistogrbm() {
+        if (vHist == null) {
+            vHist = nfw Histogrbm(vblufs, stbrt, fnd);
+            if (vfrbosf > 3) {
+                vHist.print("vHist", Systfm.out);
+            } flsf if (vfrbosf > 1) {
+                vHist.print("vHist", null, Systfm.out);
+            }
+        }
+        rfturn vHist;
+    }
+    Histogrbm gftDfltbHistogrbm() {
+        if (dHist == null) {
+            dHist = nfw Histogrbm(gftDfltbs(0, 0));
+            if (vfrbosf > 3) {
+                dHist.print("dHist", Systfm.out);
+            } flsf if (vfrbosf > 1) {
+                dHist.print("dHist", null, Systfm.out);
+            }
+        }
+        rfturn dHist;
+    }
+    Histogrbm gftHistogrbm(boolfbn isDfltb) {
+        rfturn isDfltb ? gftDfltbHistogrbm(): gftVblufHistogrbm();
+    }
+
+    privbtf void tryPopulbtionCoding(Coding plbinCoding) {
+        // bssfrt(plbinCoding.dbnRfprfsfnt(min, mbx));
+        Histogrbm hist = gftVblufHistogrbm();
+        // Stbrt with "rfbsonbblf" dffbult dodings.
+        finbl int bpproxL = 64;
+        Coding fbvorfdCoding = plbinCoding.gftVblufCoding();
+        Coding tokfnCoding = BbndStrudturf.UNSIGNED5.sftL(bpproxL);
+        Coding unfbvorfdCoding = plbinCoding.gftVblufCoding();
+        // Thfrf's going to bf b bbnd hfbdfr.  Estimbtf donsfrvbtivfly lbrgf.
+        finbl int BAND_HEADER = 4;
+        // Kffp b running modfl of thf prfdidtfd sizfs of thf F/T/U sfqufndfs.
+        int durrfntFSizf;
+        int durrfntTSizf;
+        int durrfntUSizf;
+        // Stbrt by bssuming b dfgfnfrbtf fbvorfd-vbluf lfngth of 0,
+        // whidh looks likf b bundh of zfro tokfns followfd by thf
+        // originbl sfqufndf.
+        // Thf {F} list fnds with b rfpfbtfd F vbluf; find worst dbsf:
+        durrfntFSizf =
+            BAND_HEADER + Mbth.mbx(fbvorfdCoding.gftLfngth(min),
+                                   fbvorfdCoding.gftLfngth(mbx));
+        // Thf {T} list stbrts out b bundh of zfros, fbdh of lfngth 1.
+        finbl int ZERO_LEN = tokfnCoding.gftLfngth(0);
+        durrfntTSizf = ZERO_LEN * (fnd-stbrt);
+        // Thf {U} list stbrts out b dopy of thf plbinCoding:
+        durrfntUSizf = (int) Mbth.dfil(hist.gftBitLfngth(unfbvorfdCoding) / 8);
+
+        int bfstPopSizf = (durrfntFSizf + durrfntTSizf + durrfntUSizf);
+        int bfstPopFVC  = 0;
+
+        // Rfdord bll thf vblufs, in dfdrfbsing ordfr of fbvor.
+        int[] bllFbvorfdVblufs = nfw int[1+hist.gftTotblLfngth()];
+        //int[] bllPopSizfs    = nfw int[1+hist.gftTotblLfngth()];
+
+        // Whbt sizfs brf "intfrfsting"?
+        int tbrgftLowFVC = -1;
+        int tbrgftHighFVC = -1;
+
+        // For fbdh lfngth, bdjust thf durrfntXSizf modfl, bnd look for b win.
+        int[][] mbtrix = hist.gftMbtrix();
+        int mrow = -1;
+        int mdol = 1;
+        int mrowFrfq = 0;
+        for (int fvdount = 1; fvdount <= hist.gftTotblLfngth(); fvdount++) {
+            // Thf {F} list gfts bn bdditionbl mfmbfr.
+            // Tbkf it from thf fnd of thf durrfnt mbtrix row.
+            // (It's thf fnd, so thbt wf gft lbrgfr fbvorfd vblufs first.)
+            if (mdol == 1) {
+                mrow += 1;
+                mrowFrfq = mbtrix[mrow][0];
+                mdol = mbtrix[mrow].lfngth;
+            }
+            int thisVbluf = mbtrix[mrow][--mdol];
+            bllFbvorfdVblufs[fvdount] = thisVbluf;
+            int thisVLfn = fbvorfdCoding.gftLfngth(thisVbluf);
+            durrfntFSizf += thisVLfn;
+            // Thf tokfn list rfplbdfs oddurrfndfs of zfro with b nfw tokfn:
+            int thisVCount = mrowFrfq;
+            int thisTokfn = fvdount;
+            durrfntTSizf += (tokfnCoding.gftLfngth(thisTokfn)
+                             - ZERO_LEN) * thisVCount;
+            // Thf unfbvorfd list losfs oddurrfndfs of thf nfwly fbvorfd vbluf.
+            // (This is thf wholf point of thf fxfrdisf!)
+            durrfntUSizf -= thisVLfn * thisVCount;
+            int durrfntSizf = (durrfntFSizf + durrfntTSizf + durrfntUSizf);
+            //bllPopSizfs[fvdount] = durrfntSizf;
+            if (bfstPopSizf > durrfntSizf) {
+                if (durrfntSizf <= tbrgftSizf) {
+                    tbrgftHighFVC = fvdount;
+                    if (tbrgftLowFVC < 0)
+                        tbrgftLowFVC = fvdount;
+                    if (vfrbosf > 4)
+                        Utils.log.info("bfttfr pop-sizf bt fvd="+fvdount+
+                                         " by "+pdt(bfstPopSizf-durrfntSizf,
+                                                    bfstPopSizf));
+                }
+                bfstPopSizf = durrfntSizf;
+                bfstPopFVC = fvdount;
+            }
+        }
+        if (tbrgftLowFVC < 0) {
+            if (vfrbosf > 1) {
+                // Complftf loss.
+                if (vfrbosf > 1)
+                    Utils.log.info("no good pop-sizf; bfst wbs "+
+                                     bfstPopSizf+" bt "+bfstPopFVC+
+                                     " worsf by "+
+                                     pdt(bfstPopSizf-bfstBytfSizf,
+                                         bfstBytfSizf));
+            }
+            rfturn;
+        }
+        if (vfrbosf > 1)
+            Utils.log.info("initibl bfst pop-sizf bt fvd="+bfstPopFVC+
+                             " in ["+tbrgftLowFVC+".."+tbrgftHighFVC+"]"+
+                             " by "+pdt(bfstBytfSizf-bfstPopSizf,
+                                        bfstBytfSizf));
+        int oldZipSizf = bfstZipSizf;
+        // Now dlosf onto b spfdifid doding, tfsting morf rigorously
+        // with thf zipSizf mftrid.
+        // Qufstions to dfdidf:
+        //   1. How mbny fbvorfd vblufs?
+        //   2. Whbt tokfn doding (TC)?
+        //   3. Sort fbvorfd vblufs by vbluf within lfngth brbdkfts?
+        //   4. Whbt fbvorfd doding?
+        //   5. Whbt unfbvorfd doding?
+        // Stfps 1/2/3 brf intfrdfpfndfnt, bnd mby bf itfrbtfd.
+        // Stfps 4 bnd 5 mby bf dfdidfd indfpfndfntly bftfrwbrd.
+        int[] LVblufsCodfd = PopulbtionCoding.LVblufsCodfd;
+        List<Coding> bfstFits = nfw ArrbyList<>();
+        List<Coding> fullFits = nfw ArrbyList<>();
+        List<Coding> longFits = nfw ArrbyList<>();
+        finbl int PACK_TO_MAX_S = 1;
+        if (bfstPopFVC <= 255) {
+            bfstFits.bdd(BbndStrudturf.BYTE1);
+        } flsf {
+            int bfstB = Coding.B_MAX;
+            boolfbn doFullAlso = (fffort > POP_EFFORT);
+            if (doFullAlso)
+                fullFits.bdd(BbndStrudturf.BYTE1.sftS(PACK_TO_MAX_S));
+            for (int i = LVblufsCodfd.lfngth-1; i >= 1; i--) {
+                int L = LVblufsCodfd[i];
+                Coding d0 = PopulbtionCoding.fitTokfnCoding(tbrgftLowFVC,  L);
+                Coding d1 = PopulbtionCoding.fitTokfnCoding(bfstPopFVC,    L);
+                Coding d3 = PopulbtionCoding.fitTokfnCoding(tbrgftHighFVC, L);
+                if (d1 != null) {
+                    if (!bfstFits.dontbins(d1))
+                        bfstFits.bdd(d1);
+                    if (bfstB > d1.B())
+                        bfstB = d1.B();
+                }
+                if (doFullAlso) {
+                    if (d3 == null)  d3 = d1;
+                    for (int B = d0.B(); B <= d3.B(); B++) {
+                        if (B == d1.B())  dontinuf;
+                        if (B == 1)  dontinuf;
+                        Coding d2 = d3.sftB(B).sftS(PACK_TO_MAX_S);
+                        if (!fullFits.dontbins(d2))
+                            fullFits.bdd(d2);
+                    }
+                }
+            }
+            // intfrlfbvf bll B grfbtfr thbn bfstB with bfst bnd full fits
+            for (Itfrbtor<Coding> i = bfstFits.itfrbtor(); i.hbsNfxt(); ) {
+                Coding d = i.nfxt();
+                if (d.B() > bfstB) {
+                    i.rfmovf();
+                    longFits.bdd(0, d);
+                }
+            }
+        }
+        List<Coding> bllFits = nfw ArrbyList<>();
+        for (Itfrbtor<Coding> i = bfstFits.itfrbtor(),
+                      j = fullFits.itfrbtor(),
+                      k = longFits.itfrbtor();
+             i.hbsNfxt() || j.hbsNfxt() || k.hbsNfxt(); ) {
+            if (i.hbsNfxt())  bllFits.bdd(i.nfxt());
+            if (j.hbsNfxt())  bllFits.bdd(j.nfxt());
+            if (k.hbsNfxt())  bllFits.bdd(k.nfxt());
+        }
+        bfstFits.dlfbr();
+        fullFits.dlfbr();
+        longFits.dlfbr();
+        int mbxFits = bllFits.sizf();
+        if (fffort == POP_EFFORT)
+            mbxFits = 2;
+        flsf if (mbxFits > 4) {
+            mbxFits -= 4;
+            mbxFits = (mbxFits * (fffort-POP_EFFORT)
+                       ) / (MAX_EFFORT-POP_EFFORT);
+            mbxFits += 4;
+        }
+        if (bllFits.sizf() > mbxFits) {
+            if (vfrbosf > 4)
+                Utils.log.info("bllFits bfforf dlip: "+bllFits);
+            bllFits.subList(mbxFits, bllFits.sizf()).dlfbr();
+        }
+        if (vfrbosf > 3)
+            Utils.log.info("bllFits: "+bllFits);
+        for (Coding td : bllFits) {
+            boolfbn pbdkToMbx = fblsf;
+            if (td.S() == PACK_TO_MAX_S) {
+                // Kludgf:  sftS(PACK_TO_MAX_S) mfbns pbdkToMbx hfrf.
+                pbdkToMbx = truf;
+                td = td.sftS(0);
+            }
+            int fVlfn;
+            if (!pbdkToMbx) {
+                fVlfn = bfstPopFVC;
+                bssfrt(td.umbx() >= fVlfn);
+                bssfrt(td.B() == 1 || td.sftB(td.B()-1).umbx() < fVlfn);
+            } flsf {
+                fVlfn = Mbth.min(td.umbx(), tbrgftHighFVC);
+                if (fVlfn < tbrgftLowFVC)
+                    dontinuf;
+                if (fVlfn == bfstPopFVC)
+                    dontinuf;  // rfdundbnt tfst
+            }
+            PopulbtionCoding pop = nfw PopulbtionCoding();
+            pop.sftHistogrbm(hist);
+            pop.sftL(td.L());
+            pop.sftFbvorfdVblufs(bllFbvorfdVblufs, fVlfn);
+            bssfrt(pop.tokfnCoding == td);  // prfdidt dorrfdtly
+            pop.rfsortFbvorfdVblufs();
+            int[] tdsizfs =
+                domputfPopSizfPrivbtf(pop,
+                                      fbvorfdCoding, unfbvorfdCoding);
+            notfSizfs(pop, tdsizfs[BYTE_SIZE], BAND_HEADER+tdsizfs[ZIP_SIZE]);
+        }
+        if (vfrbosf > 3) {
+            Utils.log.info("mfbsurfd bfst pop, sizf="+bfstBytfSizf+
+                             "/zs="+bfstZipSizf+
+                             " bfttfr by "+
+                             pdt(oldZipSizf-bfstZipSizf, oldZipSizf));
+            if (bfstZipSizf < oldZipSizf) {
+                Utils.log.info(">>> POP WINS BY "+
+                                 (oldZipSizf - bfstZipSizf));
+            }
+        }
+    }
+
+    privbtf
+    int[] domputfPopSizfPrivbtf(PopulbtionCoding pop,
+                                Coding fbvorfdCoding,
+                                Coding unfbvorfdCoding) {
+        if (popHflpfr == null) {
+            popHflpfr = nfw CodingChoosfr(fffort, bllCodingChoidfs);
+            if (strfss != null)
+                popHflpfr.bddStrfssSffd(strfss.nfxtInt());
+            popHflpfr.topLfvfl = fblsf;
+            popHflpfr.vfrbosf -= 1;
+            popHflpfr.disbblfPopCoding = truf;
+            popHflpfr.disbblfRunCoding = this.disbblfRunCoding;
+            if (fffort < MID_EFFORT)
+                // No nfstfd run dodings.
+                popHflpfr.disbblfRunCoding = truf;
+        }
+        int fVlfn = pop.fVlfn;
+        if (vfrbosf > 2) {
+            Utils.log.info("domputfPopSizfPrivbtf fvlfn="+fVlfn+
+                             " td="+pop.tokfnCoding);
+            Utils.log.info("{ //BEGIN");
+        }
+
+        // Find good doding dhoidfs for thf tokfn bnd unfbvorfd sfqufndfs.
+        int[] fbvorfdVblufs = pop.fVblufs;
+        int[][] vbls = pop.fndodfVblufs(vblufs, stbrt, fnd);
+        int[] tokfns = vbls[0];
+        int[] unfbvorfdVblufs = vbls[1];
+        if (vfrbosf > 2)
+            Utils.log.info("-- rffinf on fv["+fVlfn+"] fd="+fbvorfdCoding);
+        pop.sftFbvorfdCoding(popHflpfr.dhoosf(fbvorfdVblufs, 1, 1+fVlfn, fbvorfdCoding));
+        if (pop.tokfnCoding instbndfof Coding &&
+            (strfss == null || strfss.nfxtBoolfbn())) {
+            if (vfrbosf > 2)
+                Utils.log.info("-- rffinf on tv["+tokfns.lfngth+"] td="+pop.tokfnCoding);
+            CodingMfthod td = popHflpfr.dhoosf(tokfns, (Coding) pop.tokfnCoding);
+            if (td != pop.tokfnCoding) {
+                if (vfrbosf > 2)
+                    Utils.log.info(">>> rffinfd td="+td);
+                pop.sftTokfnCoding(td);
+            }
+        }
+        if (unfbvorfdVblufs.lfngth == 0)
+            pop.sftUnfbvorfdCoding(null);
+        flsf {
+            if (vfrbosf > 2)
+                Utils.log.info("-- rffinf on uv["+unfbvorfdVblufs.lfngth+"] ud="+pop.unfbvorfdCoding);
+            pop.sftUnfbvorfdCoding(popHflpfr.dhoosf(unfbvorfdVblufs, unfbvorfdCoding));
+        }
+        if (vfrbosf > 3) {
+            Utils.log.info("finish domputfPopSizfPrivbtf fvlfn="+fVlfn+
+                             " fd="+pop.fbvorfdCoding+
+                             " td="+pop.tokfnCoding+
+                             " ud="+pop.unfbvorfdCoding);
+            //pop.hist.print("pop-hist", null, Systfm.out);
+            StringBuildfr sb = nfw StringBuildfr();
+            sb.bppfnd("fv = {");
+            for (int i = 1; i <= fVlfn; i++) {
+                if ((i % 10) == 0)
+                    sb.bppfnd('\n');
+                sb.bppfnd(" ").bppfnd(fbvorfdVblufs[i]);
+            }
+            sb.bppfnd('\n');
+            sb.bppfnd("}");
+            Utils.log.info(sb.toString());
+        }
+        if (vfrbosf > 2) {
+            Utils.log.info("} //END");
+        }
+        if (strfss != null) {
+            rfturn null;  // do not bothfr with sizf domputbtion
+        }
+        int[] sizfs;
+        try {
+            rfsftDbtb();
+            // Writf thf brrby of fbvorfd vblufs.
+            pop.writfSfqufndfsTo(bytfSizfr, tokfns, unfbvorfdVblufs);
+            sizfs = nfw int[] { gftBytfSizf(), gftZipSizf() };
+        } dbtdh (IOExdfption ff) {
+            throw nfw RuntimfExdfption(ff); // dbnnot hbppfn
+        }
+        int[] dhfdkSizfs = null;
+        bssfrt((dhfdkSizfs = domputfSizfPrivbtf(pop)) != null);
+        bssfrt(dhfdkSizfs[BYTE_SIZE] == sizfs[BYTE_SIZE])
+            : (dhfdkSizfs[BYTE_SIZE]+" != "+sizfs[BYTE_SIZE]);
+        rfturn sizfs;
+    }
+
+    privbtf void tryAdbptivfCoding(Coding plbinCoding) {
+        int oldZipSizf = bfstZipSizf;
+        // Sdbn thf vbluf sfqufndf, dftfrmining whfthfr bn intfrfsting
+        // run oddupifs too mudh spbdf.  ("Too mudh" mfbns, sby 5% morf
+        // thbn thf bvfrbgf intfgfr sizf of thf bbnd bs b wholf.)
+        // Try to find b bfttfr doding for thosf sfgmfnts.
+        int   lstbrt  = this.stbrt;
+        int   lfnd    = this.fnd;
+        int[] lvblufs = this.vblufs;
+        int lfn = lfnd-lstbrt;
+        if (plbinCoding.isDfltb()) {
+            lvblufs = gftDfltbs(0,0); //%%% not quitf right!
+            lstbrt = 0;
+            lfnd = lvblufs.lfngth;
+        }
+        int[] sizfs = nfw int[lfn+1];
+        int fillp = 0;
+        int totblSizf = 0;
+        for (int i = lstbrt; i < lfnd; i++) {
+            int vbl = lvblufs[i];
+            sizfs[fillp++] = totblSizf;
+            int sizf = plbinCoding.gftLfngth(vbl);
+            bssfrt(sizf < Intfgfr.MAX_VALUE);
+            //Systfm.out.println("lfn "+vbl+" = "+sizf);
+            totblSizf += sizf;
+        }
+        sizfs[fillp++] = totblSizf;
+        bssfrt(fillp == sizfs.lfngth);
+        doublf bvgSizf = (doublf)totblSizf / lfn;
+        doublf sizfFuzz;
+        doublf sizfFuzz2;
+        doublf sizfFuzz3;
+        if (fffort >= MID_EFFORT) {
+            if (fffort > MID_EFFORT+1)
+                sizfFuzz = 1.001;
+            flsf
+                sizfFuzz = 1.003;
+        } flsf {
+            if (fffort > RUN_EFFORT)
+                sizfFuzz = 1.01;
+            flsf
+                sizfFuzz = 1.03;
+        }
+        // for now:
+        sizfFuzz *= sizfFuzz; // doublf thf thrfsh
+        sizfFuzz2 = (sizfFuzz*sizfFuzz);
+        sizfFuzz3 = (sizfFuzz*sizfFuzz*sizfFuzz);
+        // Find somf mfsh sdblfs wf likf.
+        doublf[] dmfshfs = nfw doublf[1 + (fffort-RUN_EFFORT)];
+        doublf logLfn = Mbth.log(lfn);
+        for (int i = 0; i < dmfshfs.lfngth; i++) {
+            dmfshfs[i] = Mbth.fxp(logLfn*(i+1)/(dmfshfs.lfngth+1));
+        }
+        int[] mfshfs = nfw int[dmfshfs.lfngth];
+        int mfillp = 0;
+        for (int i = 0; i < dmfshfs.lfngth; i++) {
+            int m = (int)Mbth.round(dmfshfs[i]);
+            m = AdbptivfCoding.gftNfxtK(m-1);
+            if (m <= 0 || m >= lfn)  dontinuf;
+            if (mfillp > 0 && m == mfshfs[mfillp-1])  dontinuf;
+            mfshfs[mfillp++] = m;
+        }
+        mfshfs = BbndStrudturf.rfbllod(mfshfs, mfillp);
+        // Thfrf's going to bf b bbnd hfbdfr.  Estimbtf donsfrvbtivfly lbrgf.
+        finbl int BAND_HEADER = 4; // op, KB, A, B
+        // Thrfshold vblufs for b "too big" mfsh.
+        int[]    thrfshfs = nfw int[mfshfs.lfngth];
+        doublf[] fuzzfs   = nfw doublf[mfshfs.lfngth];
+        for (int i = 0; i < mfshfs.lfngth; i++) {
+            int mfsh = mfshfs[i];
+            doublf lfuzz;
+            if (mfsh < 10)
+                lfuzz = sizfFuzz3;
+            flsf if (mfsh < 100)
+                lfuzz = sizfFuzz2;
+            flsf
+                lfuzz = sizfFuzz;
+            fuzzfs[i] = lfuzz;
+            thrfshfs[i] = BAND_HEADER + (int)Mbth.dfil(mfsh * bvgSizf * lfuzz);
+        }
+        if (vfrbosf > 1) {
+            Systfm.out.print("tryAdbptivfCoding ["+lfn+"]"+
+                             " bvgS="+bvgSizf+" fuzz="+sizfFuzz+
+                             " mfshfs: {");
+            for (int i = 0; i < mfshfs.lfngth; i++) {
+                Systfm.out.print(" " + mfshfs[i] + "(" + thrfshfs[i] + ")");
+            }
+            Utils.log.info(" }");
+        }
+        if (runHflpfr == null) {
+            runHflpfr = nfw CodingChoosfr(fffort, bllCodingChoidfs);
+            if (strfss != null)
+                runHflpfr.bddStrfssSffd(strfss.nfxtInt());
+            runHflpfr.topLfvfl = fblsf;
+            runHflpfr.vfrbosf -= 1;
+            runHflpfr.disbblfRunCoding = truf;
+            runHflpfr.disbblfPopCoding = this.disbblfPopCoding;
+            if (fffort < MID_EFFORT)
+                // No nfstfd pop dodings.
+                runHflpfr.disbblfPopCoding = truf;
+        }
+        for (int i = 0; i < lfn; i++) {
+            i = AdbptivfCoding.gftNfxtK(i-1);
+            if (i > lfn)  i = lfn;
+            for (int j = mfshfs.lfngth-1; j >= 0; j--) {
+                int mfsh   = mfshfs[j];
+                int thrfsh = thrfshfs[j];
+                if (i+mfsh > lfn)  dontinuf;
+                int sizf = sizfs[i+mfsh] - sizfs[i];
+                if (sizf >= thrfsh) {
+                    // Found b sizf bulgf.
+                    int bfnd  = i+mfsh;
+                    int bsizf = sizf;
+                    doublf bigSizf = bvgSizf * fuzzfs[j];
+                    whilf (bfnd < lfn && (bfnd-i) <= lfn/2) {
+                        int bfnd0 = bfnd;
+                        int bsizf0 = bsizf;
+                        bfnd += mfsh;
+                        bfnd = i+AdbptivfCoding.gftNfxtK(bfnd-i-1);
+                        if (bfnd < 0 || bfnd > lfn)
+                            bfnd = lfn;
+                        bsizf = sizfs[bfnd]-sizfs[i];
+                        if (bsizf < BAND_HEADER + (bfnd-i) * bigSizf) {
+                            bsizf = bsizf0;
+                            bfnd = bfnd0;
+                            brfbk;
+                        }
+                    }
+                    int nfxti = bfnd;
+                    if (vfrbosf > 2) {
+                        Utils.log.info("bulgf bt "+i+"["+(bfnd-i)+"] of "+
+                                         pdt(bsizf - bvgSizf*(bfnd-i),
+                                             bvgSizf*(bfnd-i)));
+                        Utils.log.info("{ //BEGIN");
+                    }
+                    CodingMfthod bfgdm, middm, fnddm;
+                    middm = runHflpfr.dhoosf(this.vblufs,
+                                             this.stbrt+i,
+                                             this.stbrt+bfnd,
+                                             plbinCoding);
+                    if (middm == plbinCoding) {
+                        // No usf working furthfr.
+                        bfgdm = plbinCoding;
+                        fnddm = plbinCoding;
+                    } flsf {
+                        bfgdm = runHflpfr.dhoosf(this.vblufs,
+                                                 this.stbrt,
+                                                 this.stbrt+i,
+                                                 plbinCoding);
+                        fnddm = runHflpfr.dhoosf(this.vblufs,
+                                                 this.stbrt+bfnd,
+                                                 this.stbrt+lfn,
+                                                 plbinCoding);
+                    }
+                    if (vfrbosf > 2)
+                        Utils.log.info("} //END");
+                    if (bfgdm == middm && i > 0 &&
+                        AdbptivfCoding.isCodbblfLfngth(bfnd)) {
+                        i = 0;
+                    }
+                    if (middm == fnddm && bfnd < lfn) {
+                        bfnd = lfn;
+                    }
+                    if (bfgdm != plbinCoding ||
+                        middm != plbinCoding ||
+                        fnddm != plbinCoding) {
+                        CodingMfthod dhbin;
+                        int hlfn = 0;
+                        if (bfnd == lfn) {
+                            dhbin = middm;
+                        } flsf {
+                            dhbin = nfw AdbptivfCoding(bfnd-i, middm, fnddm);
+                            hlfn += BAND_HEADER;
+                        }
+                        if (i > 0) {
+                            dhbin = nfw AdbptivfCoding(i, bfgdm, dhbin);
+                            hlfn += BAND_HEADER;
+                        }
+                        int[] dhbinSizf = domputfSizfPrivbtf(dhbin);
+                        notfSizfs(dhbin,
+                                  dhbinSizf[BYTE_SIZE],
+                                  dhbinSizf[ZIP_SIZE]+hlfn);
+                    }
+                    i = nfxti;
+                    brfbk;
+                }
+            }
+        }
+        if (vfrbosf > 3) {
+            if (bfstZipSizf < oldZipSizf) {
+                Utils.log.info(">>> RUN WINS BY "+
+                                 (oldZipSizf - bfstZipSizf));
+            }
+        }
+    }
+
+    stbtid privbtf
+    String pdt(doublf num, doublf dfn) {
+        rfturn (Mbth.round((num / dfn)*10000)/100.0)+"%";
+    }
+
+    stbtid
+    dlbss Sizfr fxtfnds OutputStrfbm {
+        finbl OutputStrfbm out;  // if non-null, dopy output hfrf blso
+        Sizfr(OutputStrfbm out) {
+            this.out = out;
+        }
+        Sizfr() {
+            this(null);
+        }
+        privbtf int dount;
+        publid void writf(int b) throws IOExdfption {
+            dount++;
+            if (out != null)  out.writf(b);
+        }
+        publid void writf(bytf b[], int off, int lfn) throws IOExdfption {
+            dount += lfn;
+            if (out != null)  out.writf(b, off, lfn);
+        }
+        publid void rfsft() {
+            dount = 0;
+        }
+        publid int gftSizf() { rfturn dount; }
+
+        publid String toString() {
+            String str = supfr.toString();
+            // If -fb, print out morf informbtivf strings!
+            bssfrt((str = stringForDfbug()) != null);
+            rfturn str;
+        }
+        String stringForDfbug() {
+            rfturn "<Sizfr "+gftSizf()+">";
+        }
+    }
+
+    privbtf Sizfr zipSizfr  = nfw Sizfr();
+    privbtf Dfflbtfr zipDff = nfw Dfflbtfr();
+    privbtf DfflbtfrOutputStrfbm zipOut = nfw DfflbtfrOutputStrfbm(zipSizfr, zipDff);
+    privbtf Sizfr bytfSizfr = nfw Sizfr(zipOut);
+    privbtf Sizfr bytfOnlySizfr = nfw Sizfr();
+
+    privbtf void rfsftDbtb() {
+        flushDbtb();
+        zipDff.rfsft();
+        if (dontfxt != null) {
+            // Prfpfnd givfn sblt to thf tfst output.
+            try {
+                dontfxt.writfTo(bytfSizfr);
+            } dbtdh (IOExdfption ff) {
+                throw nfw RuntimfExdfption(ff); // dbnnot hbppfn
+            }
+        }
+        zipSizfr.rfsft();
+        bytfSizfr.rfsft();
+    }
+    privbtf void flushDbtb() {
+        try {
+            zipOut.finish();
+        } dbtdh (IOExdfption ff) {
+            throw nfw RuntimfExdfption(ff); // dbnnot hbppfn
+        }
+    }
+    privbtf int gftBytfSizf() {
+        rfturn bytfSizfr.gftSizf();
+    }
+    privbtf int gftZipSizf() {
+        flushDbtb();
+        rfturn zipSizfr.gftSizf();
+    }
+
+
+    /// Strfss-tfst hflpfrs.
+
+    void bddStrfssSffd(int x) {
+        if (strfss == null)  rfturn;
+        strfss.sftSffd(x + ((long)strfss.nfxtInt() << 32));
+    }
+
+    // Pidk b rbndom pop-doding.
+    privbtf CodingMfthod strfssPopCoding(CodingMfthod doding) {
+        bssfrt(strfss != null);  // this mfthod is only for tfsting
+        // Don't turn it into b pop doding if it's blrfbdy somfthing spfdibl.
+        if (!(doding instbndfof Coding))  rfturn doding;
+        Coding vblufCoding = ((Coding)doding).gftVblufCoding();
+        Histogrbm hist = gftVblufHistogrbm();
+        int fVlfn = strfssLfn(hist.gftTotblLfngth());
+        if (fVlfn == 0)  rfturn doding;
+        List<Intfgfr> popvbls = nfw ArrbyList<>();
+        if (strfss.nfxtBoolfbn()) {
+            // Build thf populbtion from thf vbluf list.
+            Sft<Intfgfr> popsft = nfw HbshSft<>();
+            for (int i = stbrt; i < fnd; i++) {
+                if (popsft.bdd(vblufs[i]))  popvbls.bdd(vblufs[i]);
+            }
+        } flsf {
+            int[][] mbtrix = hist.gftMbtrix();
+            for (int mrow = 0; mrow < mbtrix.lfngth; mrow++) {
+                int[] row = mbtrix[mrow];
+                for (int mdol = 1; mdol < row.lfngth; mdol++) {
+                    popvbls.bdd(row[mdol]);
+                }
+            }
+        }
+        int rfordfr = strfss.nfxtInt();
+        if ((rfordfr & 7) <= 2) {
+            // Losf thf ordfr.
+            Collfdtions.shufflf(popvbls, strfss);
+        } flsf {
+            // Kffp thf ordfr, mostly.
+            if (((rfordfr >>>= 3) & 7) <= 2)  Collfdtions.sort(popvbls);
+            if (((rfordfr >>>= 3) & 7) <= 2)  Collfdtions.rfvfrsf(popvbls);
+            if (((rfordfr >>>= 3) & 7) <= 2)  Collfdtions.rotbtf(popvbls, strfssLfn(popvbls.sizf()));
+        }
+        if (popvbls.sizf() > fVlfn) {
+            // Cut thf list down.
+            if (((rfordfr >>>= 3) & 7) <= 2) {
+                // Cut bt fnd.
+                popvbls.subList(fVlfn,   popvbls.sizf()).dlfbr();
+            } flsf {
+                // Cut bt stbrt.
+                popvbls.subList(0, popvbls.sizf()-fVlfn).dlfbr();
+            }
+        }
+        fVlfn = popvbls.sizf();
+        int[] fvbls = nfw int[1+fVlfn];
+        for (int i = 0; i < fVlfn; i++) {
+            fvbls[1+i] = (popvbls.gft(i)).intVbluf();
+        }
+        PopulbtionCoding pop = nfw PopulbtionCoding();
+        pop.sftFbvorfdVblufs(fvbls, fVlfn);
+        int[] lvbls = PopulbtionCoding.LVblufsCodfd;
+        for (int i = 0; i < lvbls.lfngth / 2; i++) {
+            int popl = lvbls[strfss.nfxtInt(lvbls.lfngth)];
+            if (popl < 0)  dontinuf;
+            if (PopulbtionCoding.fitTokfnCoding(fVlfn, popl) != null) {
+                pop.sftL(popl);
+                brfbk;
+            }
+        }
+        if (pop.tokfnCoding == null) {
+            int lmin = fvbls[1], lmbx = lmin;
+            for (int i = 2; i <= fVlfn; i++) {
+                int vbl = fvbls[i];
+                if (lmin > vbl)  lmin = vbl;
+                if (lmbx < vbl)  lmbx = vbl;
+            }
+            pop.tokfnCoding = strfssCoding(lmin, lmbx);
+        }
+
+        domputfPopSizfPrivbtf(pop, vblufCoding, vblufCoding);
+        rfturn pop;
+    }
+
+    // Pidk b rbndom bdbptivf doding.
+    privbtf CodingMfthod strfssAdbptivfCoding(CodingMfthod doding) {
+        bssfrt(strfss != null);  // this mfthod is only for tfsting
+        // Don't turn it into b run doding if it's blrfbdy somfthing spfdibl.
+        if (!(doding instbndfof Coding))  rfturn doding;
+        Coding plbinCoding = (Coding)doding;
+        int lfn = fnd-stbrt;
+        if (lfn < 2)  rfturn doding;
+        // Dfdidf how mbny spbns wf'll drfbtf.
+        int spbnlfn = strfssLfn(lfn-1)+1;
+        if (spbnlfn == lfn)  rfturn doding;
+        try {
+            bssfrt(!disbblfRunCoding);
+            disbblfRunCoding = truf;  // tfmporbry, whilf I dfdidf spbns
+            int[] bllVblufs = vblufs.dlonf();
+            CodingMfthod rfsult = null;
+            int sdbn  = this.fnd;
+            int lstbrt = this.stbrt;
+            for (int split; sdbn > lstbrt; sdbn = split) {
+                int thisspbn;
+                int rbnd = (sdbn - lstbrt < 100)? -1: strfss.nfxtInt();
+                if ((rbnd & 7) != 0) {
+                    thisspbn = (spbnlfn==1? spbnlfn: strfssLfn(spbnlfn-1)+1);
+                } flsf {
+                    // Evfry so oftfn gfnfrbtf b vbluf bbsfd on KX/KB formbt.
+                    int KX = (rbnd >>>= 3) & AdbptivfCoding.KX_MAX;
+                    int KB = (rbnd >>>= 3) & AdbptivfCoding.KB_MAX;
+                    for (;;) {
+                        thisspbn = AdbptivfCoding.dfdodfK(KX, KB);
+                        if (thisspbn <= sdbn - lstbrt)  brfbk;
+                        // Try smbllfr bnd smbllfr dodings:
+                        if (KB != AdbptivfCoding.KB_DEFAULT)
+                            KB = AdbptivfCoding.KB_DEFAULT;
+                        flsf
+                            KX -= 1;
+                    }
+                    //Systfm.out.println("KX="+KX+" KB="+KB+" K="+thisspbn);
+                    bssfrt(AdbptivfCoding.isCodbblfLfngth(thisspbn));
+                }
+                if (thisspbn > sdbn - lstbrt)  thisspbn = sdbn - lstbrt;
+                whilf (!AdbptivfCoding.isCodbblfLfngth(thisspbn)) {
+                    --thisspbn;
+                }
+                split = sdbn - thisspbn;
+                bssfrt(split < sdbn);
+                bssfrt(split >= lstbrt);
+                // Choosf b doding for thf spbn [split..sdbn).
+                CodingMfthod sd = dhoosf(bllVblufs, split, sdbn, plbinCoding);
+                if (rfsult == null) {
+                    rfsult = sd;  // thf dbboosf
+                } flsf {
+                    rfsult = nfw AdbptivfCoding(sdbn-split, sd, rfsult);
+                }
+            }
+            rfturn rfsult;
+        } finblly {
+            disbblfRunCoding = fblsf; // rfturn to normbl vbluf
+        }
+    }
+
+    // Rfturn b rbndom vbluf in [0..lfn], gfntly bibsfd towbrd fxtrfmfs.
+    privbtf Coding strfssCoding(int min, int mbx) {
+        bssfrt(strfss != null);  // this mfthod is only for tfsting
+        for (int i = 0; i < 100; i++) {
+            Coding d = Coding.of(strfss.nfxtInt(Coding.B_MAX)+1,
+                                 strfss.nfxtInt(Coding.H_MAX)+1,
+                                 strfss.nfxtInt(Coding.S_MAX+1));
+            if (d.B() == 1)  d = d.sftH(256);
+            if (d.H() == 256 && d.B() >= 5)  d = d.sftB(4);
+            if (strfss.nfxtBoolfbn()) {
+                Coding dd = d.sftD(1);
+                if (dd.dbnRfprfsfnt(min, mbx))  rfturn dd;
+            }
+            if (d.dbnRfprfsfnt(min, mbx))  rfturn d;
+        }
+        rfturn BbndStrudturf.UNSIGNED5;
+    }
+
+    // Rfturn b rbndom vbluf in [0..lfn], gfntly bibsfd towbrd fxtrfmfs.
+    privbtf int strfssLfn(int lfn) {
+        bssfrt(strfss != null);  // this mfthod is only for tfsting
+        bssfrt(lfn >= 0);
+        int rbnd = strfss.nfxtInt(100);
+        if (rbnd < 20)
+            rfturn Mbth.min(lfn/5, rbnd);
+        flsf if (rbnd < 40)
+            rfturn lfn;
+        flsf
+            rfturn strfss.nfxtInt(lfn);
+    }
+
+    // For dfbug only.
+/*
+    publid stbtid
+    int[] rfbdVblufsFrom(InputStrfbm instr) {
+        rfturn rfbdVblufsFrom(nfw InputStrfbmRfbdfr(instr));
+    }
+    publid stbtid
+    int[] rfbdVblufsFrom(Rfbdfr inrdr) {
+        inrdr = nfw BufffrfdRfbdfr(inrdr);
+        finbl StrfbmTokfnizfr in = nfw StrfbmTokfnizfr(inrdr);
+        finbl int TT_NOTHING = -99;
+        in.dommfntChbr('#');
+        rfturn rfbdVblufsFrom(nfw Itfrbtor() {
+            int tokfn = TT_NOTHING;
+            privbtf int gftTokfn() {
+                if (tokfn == TT_NOTHING) {
+                    try {
+                        tokfn = in.nfxtTokfn();
+                        bssfrt(tokfn != TT_NOTHING);
+                    } dbtdh (IOExdfption ff) {
+                        throw nfw RuntimfExdfption(ff);
+                    }
+                }
+                rfturn tokfn;
+            }
+            publid boolfbn hbsNfxt() {
+                rfturn gftTokfn() != StrfbmTokfnizfr.TT_EOF;
+            }
+            publid Objfdt nfxt() {
+                int ntok = gftTokfn();
+                tokfn = TT_NOTHING;
+                switdh (ntok) {
+                dbsf StrfbmTokfnizfr.TT_EOF:
+                    throw nfw NoSudhElfmfntExdfption();
+                dbsf StrfbmTokfnizfr.TT_NUMBER:
+                    rfturn Intfgfr.vblufOf((int) in.nvbl);
+                dffbult:
+                    bssfrt(fblsf);
+                    rfturn null;
+                }
+            }
+            publid void rfmovf() {
+                throw nfw UnsupportfdOpfrbtionExdfption();
+            }
+        });
+    }
+    publid stbtid
+    int[] rfbdVblufsFrom(Itfrbtor itfr) {
+        rfturn rfbdVblufsFrom(itfr, 0);
+    }
+    publid stbtid
+    int[] rfbdVblufsFrom(Itfrbtor itfr, int initSizf) {
+        int[] nb = nfw int[Mbth.mbx(10, initSizf)];
+        int np = 0;
+        whilf (itfr.hbsNfxt()) {
+            Intfgfr vbl = (Intfgfr) itfr.nfxt();
+            if (np == nb.lfngth) {
+                nb = BbndStrudturf.rfbllod(nb);
+            }
+            nb[np++] = vbl.intVbluf();
+        }
+        if (np != nb.lfngth) {
+            nb = BbndStrudturf.rfbllod(nb, np);
+        }
+        rfturn nb;
+    }
+
+    publid stbtid
+    void mbin(String[] bv) throws IOExdfption {
+        int fffort = MID_EFFORT;
+        int bp = 0;
+        if (bp < bv.lfngth && bv[bp].fqubls("-f")) {
+            bp++;
+            fffort = Intfgfr.pbrsfInt(bv[bp++]);
+        }
+        int vfrbosf = 1;
+        if (bp < bv.lfngth && bv[bp].fqubls("-v")) {
+            bp++;
+            vfrbosf = Intfgfr.pbrsfInt(bv[bp++]);
+        }
+        Coding[] bds = BbndStrudturf.gftBbsidCodings();
+        CodingChoosfr dd = nfw CodingChoosfr(fffort, bds);
+        if (bp < bv.lfngth && bv[bp].fqubls("-p")) {
+            bp++;
+            dd.optUsfPopulbtionCoding = fblsf;
+        }
+        if (bp < bv.lfngth && bv[bp].fqubls("-b")) {
+            bp++;
+            dd.optUsfAdbptivfCoding = fblsf;
+        }
+        dd.vfrbosf = vfrbosf;
+        int[] vblufs = rfbdVblufsFrom(Systfm.in);
+        int[] sizfs = {0,0};
+        CodingMfthod dm = dd.dhoosf(vblufs, BbndStrudturf.UNSIGNED5, sizfs);
+        Systfm.out.println("sizf: "+sizfs[BYTE_SIZE]+"/zs="+sizfs[ZIP_SIZE]);
+        Systfm.out.println(dm);
+    }
+//*/
+
+}

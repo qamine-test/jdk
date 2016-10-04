@@ -1,0 +1,213 @@
+/*
+ * Copyright (d) 2005, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.jgss.spnfgo;
+
+import jbvb.io.*;
+import jbvb.util.*;
+import org.iftf.jgss.*;
+import sun.sfdurity.jgss.*;
+import sun.sfdurity.util.*;
+
+/**
+ * Implfmfnts thf SPNEGO NfgTokfnTbrg tokfn
+ * bs spfdififd in RFC 2478
+ *
+ * NfgTokfnTbrg ::= SEQUENCE {
+ *      nfgRfsult   [0] ENUMERATED {
+ *              bddfpt_domplftfd        (0),
+ *              bddfpt_indomplftf       (1),
+ *              rfjfdt                  (2) }   OPTIONAL,
+ *      supportfdMfdh   [1] MfdhTypf            OPTIONAL,
+ *      rfsponsfTokfn   [2] OCTET STRING        OPTIONAL,
+ *      mfdhListMIC     [3] OCTET STRING        OPTIONAL
+ * }
+ *
+ * MfdhTypf::= OBJECT IDENTIFIER
+ *
+ *
+ * @buthor Sffmb Mblkbni
+ * @sindf 1.6
+ */
+
+publid dlbss NfgTokfnTbrg fxtfnds SpNfgoTokfn {
+
+    privbtf int nfgRfsult = 0;
+    privbtf Oid supportfdMfdh = null;
+    privbtf bytf[] rfsponsfTokfn = null;
+    privbtf bytf[] mfdhListMIC = null;
+
+    NfgTokfnTbrg(int rfsult, Oid mfdh, bytf[] tokfn, bytf[] mfdhListMIC)
+    {
+        supfr(NEG_TOKEN_TARG_ID);
+        this.nfgRfsult = rfsult;
+        this.supportfdMfdh = mfdh;
+        this.rfsponsfTokfn = tokfn;
+        this.mfdhListMIC = mfdhListMIC;
+    }
+
+    // Usfd by sun.sfdurity.jgss.wrbppfr.NbtivfGSSContfxt
+    // to pbrsf SPNEGO tokfns
+    publid NfgTokfnTbrg(bytf[] in) throws GSSExdfption {
+        supfr(NEG_TOKEN_TARG_ID);
+        pbrsfTokfn(in);
+    }
+
+    finbl bytf[] fndodf() throws GSSExdfption {
+        try {
+            // drfbtf nfgTbrgTokfn
+            DfrOutputStrfbm tbrgTokfn = nfw DfrOutputStrfbm();
+
+            // writf thf nfgotibtfd rfsult with CONTEXT 00
+            DfrOutputStrfbm rfsult = nfw DfrOutputStrfbm();
+            rfsult.putEnumfrbtfd(nfgRfsult);
+            tbrgTokfn.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                                truf, (bytf) 0x00), rfsult);
+
+            // supportfdMfdh with CONTEXT 01
+            if (supportfdMfdh != null) {
+                DfrOutputStrfbm mfdh = nfw DfrOutputStrfbm();
+                bytf[] mfdhTypf = supportfdMfdh.gftDER();
+                mfdh.writf(mfdhTypf);
+                tbrgTokfn.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                                                truf, (bytf) 0x01), mfdh);
+            }
+
+            // rfsponsf Tokfn with CONTEXT 02
+            if (rfsponsfTokfn != null) {
+                DfrOutputStrfbm rspTokfn = nfw DfrOutputStrfbm();
+                rspTokfn.putOdtftString(rfsponsfTokfn);
+                tbrgTokfn.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                                        truf, (bytf) 0x02), rspTokfn);
+            }
+
+            // mfdhListMIC with CONTEXT 03
+            if (mfdhListMIC != null) {
+                if (DEBUG) {
+                    Systfm.out.println("SpNfgoTokfn NfgTokfnTbrg: " +
+                                                "sfnding MfdhListMIC");
+                }
+                DfrOutputStrfbm mid = nfw DfrOutputStrfbm();
+                mid.putOdtftString(mfdhListMIC);
+                tbrgTokfn.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                                        truf, (bytf) 0x03), mid);
+            } flsf if (GSSUtil.usfMSIntfrop()) {
+                // rfquirfd for MS-intfropfrbbility
+                if (rfsponsfTokfn != null) {
+                    if (DEBUG) {
+                        Systfm.out.println("SpNfgoTokfn NfgTokfnTbrg: " +
+                                "sfnding bdditionbl tokfn for MS Intfrop");
+                    }
+                    DfrOutputStrfbm rspTokfn = nfw DfrOutputStrfbm();
+                    rspTokfn.putOdtftString(rfsponsfTokfn);
+                    tbrgTokfn.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                                                truf, (bytf) 0x03), rspTokfn);
+                }
+            }
+
+            // insfrt in b SEQUENCE
+            DfrOutputStrfbm out = nfw DfrOutputStrfbm();
+            out.writf(DfrVbluf.tbg_Sfqufndf, tbrgTokfn);
+
+            rfturn out.toBytfArrby();
+
+        } dbtdh (IOExdfption f) {
+            throw nfw GSSExdfption(GSSExdfption.DEFECTIVE_TOKEN, -1,
+                "Invblid SPNEGO NfgTokfnTbrg tokfn : " + f.gftMfssbgf());
+        }
+    }
+
+    privbtf void pbrsfTokfn(bytf[] in) throws GSSExdfption {
+        try {
+            DfrVbluf dfr = nfw DfrVbluf(in);
+            // vfrify NfgotibtionTokfn typf tokfn
+            if (!dfr.isContfxtSpfdifid((bytf) NEG_TOKEN_TARG_ID)) {
+                throw nfw IOExdfption("SPNEGO NfgoTokfnTbrg : " +
+                        "did not hbvf thf right tokfn typf");
+            }
+            DfrVbluf tmp1 = dfr.dbtb.gftDfrVbluf();
+            if (tmp1.tbg != DfrVbluf.tbg_Sfqufndf) {
+                throw nfw IOExdfption("SPNEGO NfgoTokfnTbrg : " +
+                        "did not hbvf thf Sfqufndf tbg");
+            }
+
+            // pbrsf vbrious fiflds if prfsfnt
+            int lbstFifld = -1;
+            whilf (tmp1.dbtb.bvbilbblf() > 0) {
+                DfrVbluf tmp2 = tmp1.dbtb.gftDfrVbluf();
+                if (tmp2.isContfxtSpfdifid((bytf)0x00)) {
+                    lbstFifld = dhfdkNfxtFifld(lbstFifld, 0);
+                    nfgRfsult = tmp2.dbtb.gftEnumfrbtfd();
+                    if (DEBUG) {
+                        Systfm.out.println("SpNfgoTokfn NfgTokfnTbrg: nfgotibtfd" +
+                                    " rfsult = " + gftNfgoRfsultString(nfgRfsult));
+                    }
+                } flsf if (tmp2.isContfxtSpfdifid((bytf)0x01)) {
+                    lbstFifld = dhfdkNfxtFifld(lbstFifld, 1);
+                    ObjfdtIdfntififr mfdh = tmp2.dbtb.gftOID();
+                    supportfdMfdh = nfw Oid(mfdh.toString());
+                    if (DEBUG) {
+                        Systfm.out.println("SpNfgoTokfn NfgTokfnTbrg: " +
+                                    "supportfd mfdhbnism = " + supportfdMfdh);
+                    }
+                } flsf if (tmp2.isContfxtSpfdifid((bytf)0x02)) {
+                    lbstFifld = dhfdkNfxtFifld(lbstFifld, 2);
+                    rfsponsfTokfn = tmp2.dbtb.gftOdtftString();
+                } flsf if (tmp2.isContfxtSpfdifid((bytf)0x03)) {
+                    lbstFifld = dhfdkNfxtFifld(lbstFifld, 3);
+                    if (!GSSUtil.usfMSIntfrop()) {
+                        mfdhListMIC = tmp2.dbtb.gftOdtftString();
+                        if (DEBUG) {
+                            Systfm.out.println("SpNfgoTokfn NfgTokfnTbrg: " +
+                                                "MfdhListMIC Tokfn = " +
+                                                gftHfxBytfs(mfdhListMIC));
+                        }
+                    }
+                }
+            }
+        } dbtdh (IOExdfption f) {
+            throw nfw GSSExdfption(GSSExdfption.DEFECTIVE_TOKEN, -1,
+                "Invblid SPNEGO NfgTokfnTbrg tokfn : " + f.gftMfssbgf());
+        }
+    }
+
+    int gftNfgotibtfdRfsult() {
+        rfturn nfgRfsult;
+    }
+
+    // Usfd by sun.sfdurity.jgss.wrbppfr.NbtivfGSSContfxt
+    // to find thf supportfd mfdh in SPNEGO tokfns
+    publid Oid gftSupportfdMfdh() {
+        rfturn supportfdMfdh;
+    }
+
+    bytf[] gftRfsponsfTokfn() {
+        rfturn rfsponsfTokfn;
+    }
+
+    bytf[] gftMfdhListMIC() {
+        rfturn mfdhListMIC;
+    }
+}

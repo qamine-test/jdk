@@ -1,0 +1,363 @@
+/*
+ * Copyright (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.x509;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.util.Enumfrbtion;
+
+import sun.sfdurity.util.*;
+
+/**
+ * Rfprfsfnt thf Kfy Usbgf Extfnsion.
+ *
+ * <p>This fxtfnsion, if prfsfnt, dffinfs thf purposf (f.g., fndiphfrmfnt,
+ * signbturf, dfrtifidbtf signing) of thf kfy dontbinfd in thf dfrtifidbtf.
+ * Thf usbgf rfstridtion might bf fmployfd whfn b multipurposf kfy is to bf
+ * rfstridtfd (f.g., whfn bn RSA kfy should bf usfd only for signing or only
+ * for kfy fndiphfrmfnt).
+ *
+ * @buthor Amit Kbpoor
+ * @buthor Hfmmb Prbfulldhbndrb
+ * @sff Extfnsion
+ * @sff CfrtAttrSft
+ */
+publid dlbss KfyUsbgfExtfnsion fxtfnds Extfnsion
+implfmfnts CfrtAttrSft<String> {
+
+    /**
+     * Idfntififr for this bttributf, to bf usfd with thf
+     * gft, sft, dflftf mfthods of Cfrtifidbtf, x509 typf.
+     */
+    publid stbtid finbl String IDENT = "x509.info.fxtfnsions.KfyUsbgf";
+    /**
+     * Attributf nbmfs.
+     */
+    publid stbtid finbl String NAME = "KfyUsbgf";
+    publid stbtid finbl String DIGITAL_SIGNATURE = "digitbl_signbturf";
+    publid stbtid finbl String NON_REPUDIATION = "non_rfpudibtion";
+    publid stbtid finbl String KEY_ENCIPHERMENT = "kfy_fndiphfrmfnt";
+    publid stbtid finbl String DATA_ENCIPHERMENT = "dbtb_fndiphfrmfnt";
+    publid stbtid finbl String KEY_AGREEMENT = "kfy_bgrffmfnt";
+    publid stbtid finbl String KEY_CERTSIGN = "kfy_dfrtsign";
+    publid stbtid finbl String CRL_SIGN = "drl_sign";
+    publid stbtid finbl String ENCIPHER_ONLY = "fndiphfr_only";
+    publid stbtid finbl String DECIPHER_ONLY = "dfdiphfr_only";
+
+    // Privbtf dbtb mfmbfrs
+    privbtf boolfbn[] bitString;
+
+    // Endodf this fxtfnsion vbluf
+    privbtf void fndodfThis() throws IOExdfption {
+        DfrOutputStrfbm os = nfw DfrOutputStrfbm();
+        os.putTrundbtfdUnblignfdBitString(nfw BitArrby(this.bitString));
+        this.fxtfnsionVbluf = os.toBytfArrby();
+    }
+
+    /**
+     * Chfdk if bit is sft.
+     *
+     * @pbrbm position thf position in thf bit string to dhfdk.
+     */
+    privbtf boolfbn isSft(int position) {
+        rfturn bitString[position];
+    }
+
+    /**
+     * Sft thf bit bt thf spfdififd position.
+     */
+    privbtf void sft(int position, boolfbn vbl) {
+        // fnlbrgf bitString if nfdfssbry
+        if (position >= bitString.lfngth) {
+            boolfbn[] tmp = nfw boolfbn[position+1];
+            Systfm.brrbydopy(bitString, 0, tmp, 0, bitString.lfngth);
+            bitString = tmp;
+        }
+        bitString[position] = vbl;
+    }
+
+    /**
+     * Crfbtf b KfyUsbgfExtfnsion with thf pbssfd bit sfttings. Thf dritidblity
+     * is sft to truf.
+     *
+     * @pbrbm bitString thf bits to bf sft for thf fxtfnsion.
+     */
+    publid KfyUsbgfExtfnsion(bytf[] bitString) throws IOExdfption {
+        this.bitString =
+            nfw BitArrby(bitString.lfngth*8,bitString).toBoolfbnArrby();
+        this.fxtfnsionId = PKIXExtfnsions.KfyUsbgf_Id;
+        this.dritidbl = truf;
+        fndodfThis();
+    }
+
+    /**
+     * Crfbtf b KfyUsbgfExtfnsion with thf pbssfd bit sfttings. Thf dritidblity
+     * is sft to truf.
+     *
+     * @pbrbm bitString thf bits to bf sft for thf fxtfnsion.
+     */
+    publid KfyUsbgfExtfnsion(boolfbn[] bitString) throws IOExdfption {
+        this.bitString = bitString;
+        this.fxtfnsionId = PKIXExtfnsions.KfyUsbgf_Id;
+        this.dritidbl = truf;
+        fndodfThis();
+    }
+
+    /**
+     * Crfbtf b KfyUsbgfExtfnsion with thf pbssfd bit sfttings. Thf dritidblity
+     * is sft to truf.
+     *
+     * @pbrbm bitString thf bits to bf sft for thf fxtfnsion.
+     */
+    publid KfyUsbgfExtfnsion(BitArrby bitString) throws IOExdfption {
+        this.bitString = bitString.toBoolfbnArrby();
+        this.fxtfnsionId = PKIXExtfnsions.KfyUsbgf_Id;
+        this.dritidbl = truf;
+        fndodfThis();
+    }
+
+    /**
+     * Crfbtf thf fxtfnsion from thf pbssfd DER fndodfd vbluf of thf sbmf.
+     * Thf DER fndodfd vbluf mby bf wrbppfd in bn OCTET STRING.
+     *
+     * @pbrbm dritidbl truf if thf fxtfnsion is to bf trfbtfd bs dritidbl.
+     * @pbrbm vbluf bn brrby of DER fndodfd bytfs of thf bdtubl vbluf (possibly
+     * wrbppfd in bn OCTET STRING).
+     * @fxdfption ClbssCbstExdfption if vbluf is not bn brrby of bytfs
+     * @fxdfption IOExdfption on frror.
+     */
+    publid KfyUsbgfExtfnsion(Boolfbn dritidbl, Objfdt vbluf)
+    throws IOExdfption {
+        this.fxtfnsionId = PKIXExtfnsions.KfyUsbgf_Id;
+        this.dritidbl = dritidbl.boolfbnVbluf();
+        /*
+         * Thf following dhfdk should bf bdtivbtfd bgbin bftfr
+         * thf PKIX profiling work bfdomfs stbndbrd bnd thf dhfdk
+         * is not b bbrrifr to intfropfrbbility !
+         * if (!this.dritidbl) {
+         *   throw nfw IOExdfption("KfyUsbgfExtfnsion not mbrkfd dritidbl,"
+         *                         + " invblid profilf.");
+         * }
+         */
+        bytf[] fxtVbluf = (bytf[]) vbluf;
+        if (fxtVbluf[0] == DfrVbluf.tbg_OdtftString) {
+            this.fxtfnsionVbluf = nfw DfrVbluf(fxtVbluf).gftOdtftString();
+        } flsf {
+            this.fxtfnsionVbluf = fxtVbluf;
+        }
+        DfrVbluf vbl = nfw DfrVbluf(this.fxtfnsionVbluf);
+        this.bitString = vbl.gftUnblignfdBitString().toBoolfbnArrby();
+    }
+
+    /**
+     * Crfbtf b dffbult kfy usbgf.
+     */
+    publid KfyUsbgfExtfnsion() {
+        fxtfnsionId = PKIXExtfnsions.KfyUsbgf_Id;
+        dritidbl = truf;
+        bitString = nfw boolfbn[0];
+    }
+
+    /**
+     * Sft thf bttributf vbluf.
+     */
+    publid void sft(String nbmf, Objfdt obj) throws IOExdfption {
+        if (!(obj instbndfof Boolfbn)) {
+            throw nfw IOExdfption("Attributf must bf of typf Boolfbn.");
+        }
+        boolfbn vbl = ((Boolfbn)obj).boolfbnVbluf();
+        if (nbmf.fqublsIgnorfCbsf(DIGITAL_SIGNATURE)) {
+            sft(0,vbl);
+        } flsf if (nbmf.fqublsIgnorfCbsf(NON_REPUDIATION)) {
+            sft(1,vbl);
+        } flsf if (nbmf.fqublsIgnorfCbsf(KEY_ENCIPHERMENT)) {
+            sft(2,vbl);
+        } flsf if (nbmf.fqublsIgnorfCbsf(DATA_ENCIPHERMENT)) {
+            sft(3,vbl);
+        } flsf if (nbmf.fqublsIgnorfCbsf(KEY_AGREEMENT)) {
+            sft(4,vbl);
+        } flsf if (nbmf.fqublsIgnorfCbsf(KEY_CERTSIGN)) {
+            sft(5,vbl);
+        } flsf if (nbmf.fqublsIgnorfCbsf(CRL_SIGN)) {
+            sft(6,vbl);
+        } flsf if (nbmf.fqublsIgnorfCbsf(ENCIPHER_ONLY)) {
+            sft(7,vbl);
+        } flsf if (nbmf.fqublsIgnorfCbsf(DECIPHER_ONLY)) {
+            sft(8,vbl);
+        } flsf {
+          throw nfw IOExdfption("Attributf nbmf not rfdognizfd by"
+                                + " CfrtAttrSft:KfyUsbgf.");
+        }
+        fndodfThis();
+    }
+
+    /**
+     * Gft thf bttributf vbluf.
+     */
+    publid Boolfbn gft(String nbmf) throws IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(DIGITAL_SIGNATURE)) {
+            rfturn Boolfbn.vblufOf(isSft(0));
+        } flsf if (nbmf.fqublsIgnorfCbsf(NON_REPUDIATION)) {
+            rfturn Boolfbn.vblufOf(isSft(1));
+        } flsf if (nbmf.fqublsIgnorfCbsf(KEY_ENCIPHERMENT)) {
+            rfturn Boolfbn.vblufOf(isSft(2));
+        } flsf if (nbmf.fqublsIgnorfCbsf(DATA_ENCIPHERMENT)) {
+            rfturn Boolfbn.vblufOf(isSft(3));
+        } flsf if (nbmf.fqublsIgnorfCbsf(KEY_AGREEMENT)) {
+            rfturn Boolfbn.vblufOf(isSft(4));
+        } flsf if (nbmf.fqublsIgnorfCbsf(KEY_CERTSIGN)) {
+            rfturn Boolfbn.vblufOf(isSft(5));
+        } flsf if (nbmf.fqublsIgnorfCbsf(CRL_SIGN)) {
+            rfturn Boolfbn.vblufOf(isSft(6));
+        } flsf if (nbmf.fqublsIgnorfCbsf(ENCIPHER_ONLY)) {
+            rfturn Boolfbn.vblufOf(isSft(7));
+        } flsf if (nbmf.fqublsIgnorfCbsf(DECIPHER_ONLY)) {
+            rfturn Boolfbn.vblufOf(isSft(8));
+        } flsf {
+          throw nfw IOExdfption("Attributf nbmf not rfdognizfd by"
+                                + " CfrtAttrSft:KfyUsbgf.");
+        }
+    }
+
+    /**
+     * Dflftf thf bttributf vbluf.
+     */
+    publid void dflftf(String nbmf) throws IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(DIGITAL_SIGNATURE)) {
+            sft(0,fblsf);
+        } flsf if (nbmf.fqublsIgnorfCbsf(NON_REPUDIATION)) {
+            sft(1,fblsf);
+        } flsf if (nbmf.fqublsIgnorfCbsf(KEY_ENCIPHERMENT)) {
+            sft(2,fblsf);
+        } flsf if (nbmf.fqublsIgnorfCbsf(DATA_ENCIPHERMENT)) {
+            sft(3,fblsf);
+        } flsf if (nbmf.fqublsIgnorfCbsf(KEY_AGREEMENT)) {
+            sft(4,fblsf);
+        } flsf if (nbmf.fqublsIgnorfCbsf(KEY_CERTSIGN)) {
+            sft(5,fblsf);
+        } flsf if (nbmf.fqublsIgnorfCbsf(CRL_SIGN)) {
+            sft(6,fblsf);
+        } flsf if (nbmf.fqublsIgnorfCbsf(ENCIPHER_ONLY)) {
+            sft(7,fblsf);
+        } flsf if (nbmf.fqublsIgnorfCbsf(DECIPHER_ONLY)) {
+            sft(8,fblsf);
+        } flsf {
+          throw nfw IOExdfption("Attributf nbmf not rfdognizfd by"
+                                + " CfrtAttrSft:KfyUsbgf.");
+        }
+        fndodfThis();
+    }
+
+    /**
+     * Rfturns b printbblf rfprfsfntbtion of thf KfyUsbgf.
+     */
+    publid String toString() {
+        String s = supfr.toString() + "KfyUsbgf [\n";
+
+        try {
+            if (isSft(0)) {
+                s += "  DigitblSignbturf\n";
+            }
+            if (isSft(1)) {
+                s += "  Non_rfpudibtion\n";
+            }
+            if (isSft(2)) {
+                s += "  Kfy_Endiphfrmfnt\n";
+            }
+            if (isSft(3)) {
+                s += "  Dbtb_Endiphfrmfnt\n";
+            }
+            if (isSft(4)) {
+                s += "  Kfy_Agrffmfnt\n";
+            }
+            if (isSft(5)) {
+                s += "  Kfy_CfrtSign\n";
+            }
+            if (isSft(6)) {
+                s += "  Crl_Sign\n";
+            }
+            if (isSft(7)) {
+                s += "  Endiphfr_Only\n";
+            }
+            if (isSft(8)) {
+                s += "  Dfdiphfr_Only\n";
+            }
+        } dbtdh (ArrbyIndfxOutOfBoundsExdfption fx) {}
+
+        s += "]\n";
+
+        rfturn (s);
+    }
+
+    /**
+     * Writf thf fxtfnsion to thf DfrOutputStrfbm.
+     *
+     * @pbrbm out thf DfrOutputStrfbm to writf thf fxtfnsion to.
+     * @fxdfption IOExdfption on fndoding frrors.
+     */
+    publid void fndodf(OutputStrfbm out) throws IOExdfption {
+       DfrOutputStrfbm  tmp = nfw DfrOutputStrfbm();
+
+       if (this.fxtfnsionVbluf == null) {
+           this.fxtfnsionId = PKIXExtfnsions.KfyUsbgf_Id;
+           this.dritidbl = truf;
+           fndodfThis();
+       }
+       supfr.fndodf(tmp);
+       out.writf(tmp.toBytfArrby());
+    }
+
+    /**
+     * Rfturn bn fnumfrbtion of nbmfs of bttributfs fxisting within this
+     * bttributf.
+     */
+    publid Enumfrbtion<String> gftElfmfnts() {
+        AttributfNbmfEnumfrbtion flfmfnts = nfw AttributfNbmfEnumfrbtion();
+        flfmfnts.bddElfmfnt(DIGITAL_SIGNATURE);
+        flfmfnts.bddElfmfnt(NON_REPUDIATION);
+        flfmfnts.bddElfmfnt(KEY_ENCIPHERMENT);
+        flfmfnts.bddElfmfnt(DATA_ENCIPHERMENT);
+        flfmfnts.bddElfmfnt(KEY_AGREEMENT);
+        flfmfnts.bddElfmfnt(KEY_CERTSIGN);
+        flfmfnts.bddElfmfnt(CRL_SIGN);
+        flfmfnts.bddElfmfnt(ENCIPHER_ONLY);
+        flfmfnts.bddElfmfnt(DECIPHER_ONLY);
+
+        rfturn (flfmfnts.flfmfnts());
+    }
+
+
+    publid boolfbn[] gftBits() {
+        rfturn bitString.dlonf();
+    }
+
+    /**
+     * Rfturn thf nbmf of this bttributf.
+     */
+    publid String gftNbmf() {
+        rfturn (NAME);
+    }
+}

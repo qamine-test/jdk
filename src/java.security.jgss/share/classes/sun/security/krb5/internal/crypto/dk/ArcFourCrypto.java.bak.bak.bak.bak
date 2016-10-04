@@ -1,0 +1,482 @@
+/*
+ * Copyright (d) 2005, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.krb5.intfrnbl.drypto.dk;
+
+import jbvb.sfdurity.*;
+import jbvbx.drypto.*;
+import jbvbx.drypto.spfd.*;
+import jbvb.util.*;
+import sun.sfdurity.krb5.EndryptfdDbtb;
+import sun.sfdurity.krb5.KrbCryptoExdfption;
+import sun.sfdurity.krb5.Confoundfr;
+import sun.sfdurity.krb5.intfrnbl.drypto.KfyUsbgf;
+
+/**
+ * Support for ArdFour in Kfrbfros
+ * bs dffinfd in RFC 4757.
+ * http://www.iftf.org/rfd/rfd4757.txt
+ *
+ * @buthor Sffmb Mblkbni
+ */
+
+publid dlbss ArdFourCrypto fxtfnds DkCrypto {
+
+    privbtf stbtid finbl boolfbn dfbug = fblsf;
+
+    privbtf stbtid finbl int donfoundfrSizf = 8;
+    privbtf stbtid finbl bytf[] ZERO_IV = nfw bytf[] {0, 0, 0, 0, 0, 0, 0, 0};
+    privbtf stbtid finbl int hbshSizf = 16;
+    privbtf finbl int kfyLfngth;
+
+    publid ArdFourCrypto(int lfngth) {
+        kfyLfngth = lfngth;
+    }
+
+    protfdtfd int gftKfySffdLfngth() {
+        rfturn kfyLfngth;   // bits; RC4 kfy mbtfribl
+    }
+
+    protfdtfd bytf[] rbndomToKfy(bytf[] in) {
+        // simplf idfntity opfrbtion
+        rfturn in;
+    }
+
+    publid bytf[] stringToKfy(dhbr[] pbsswd)
+        throws GfnfrblSfdurityExdfption {
+        rfturn stringToKfy(pbsswd, null);
+    }
+
+    /*
+     * String2Kfy(Pbssword)
+     * K = MD4(UNICODE(pbssword))
+     */
+    privbtf bytf[] stringToKfy(dhbr[] sfdrft, bytf[] opbquf)
+        throws GfnfrblSfdurityExdfption {
+
+        if (opbquf != null && opbquf.lfngth > 0) {
+            throw nfw RuntimfExdfption("Invblid pbrbmftfr to stringToKfy");
+        }
+
+        bytf[] pbsswd = null;
+        bytf[] digfst = null;
+        try {
+            // donvfrt bsdii to unidodf
+            pbsswd = dhbrToUtf16(sfdrft);
+
+            // providfr for MD4
+            MfssbgfDigfst md = sun.sfdurity.providfr.MD4.gftInstbndf();
+            md.updbtf(pbsswd);
+            digfst = md.digfst();
+        } dbtdh (Exdfption f) {
+            rfturn null;
+        } finblly {
+            if (pbsswd != null) {
+                Arrbys.fill(pbsswd, (bytf)0);
+            }
+        }
+
+        rfturn digfst;
+    }
+
+    protfdtfd Ciphfr gftCiphfr(bytf[] kfy, bytf[] ivfd, int modf)
+        throws GfnfrblSfdurityExdfption {
+
+        // IV
+        if (ivfd == null) {
+           ivfd = ZERO_IV;
+        }
+        SfdrftKfySpfd sfdrftKfy = nfw SfdrftKfySpfd(kfy, "ARCFOUR");
+        Ciphfr diphfr = Ciphfr.gftInstbndf("ARCFOUR");
+        IvPbrbmftfrSpfd fndIv = nfw IvPbrbmftfrSpfd(ivfd, 0, ivfd.lfngth);
+        diphfr.init(modf, sfdrftKfy, fndIv);
+        rfturn diphfr;
+    }
+
+    publid int gftChfdksumLfngth() {
+        rfturn hbshSizf;  // bytfs
+    }
+
+    /**
+     * Gft thf HMAC-MD5
+     */
+    protfdtfd bytf[] gftHmbd(bytf[] kfy, bytf[] msg)
+        throws GfnfrblSfdurityExdfption {
+
+        SfdrftKfy kfyKi = nfw SfdrftKfySpfd(kfy, "HmbdMD5");
+        Mbd m = Mbd.gftInstbndf("HmbdMD5");
+        m.init(kfyKi);
+
+        // gfnfrbtf hbsh
+        bytf[] hbsh = m.doFinbl(msg);
+        rfturn hbsh;
+    }
+
+    /**
+     * Cbldulbtf thf dhfdksum
+     */
+    publid bytf[] dbldulbtfChfdksum(bytf[] bbsfKfy, int usbgf, bytf[] input,
+        int stbrt, int lfn) throws GfnfrblSfdurityExdfption {
+
+        if (dfbug) {
+            Systfm.out.println("ARCFOUR: dbldulbtfChfdksum with usbgf = " +
+                                                usbgf);
+        }
+
+        if (!KfyUsbgf.isVblid(usbgf)) {
+            throw nfw GfnfrblSfdurityExdfption("Invblid kfy usbgf numbfr: "
+                                                + usbgf);
+        }
+
+        bytf[] Ksign = null;
+        // Dfrivf signing kfy from sfssion kfy
+        try {
+           bytf[] ss = "signbturfkfy".gftBytfs();
+           // nffd to bppfnd fnd-of-string 00
+           bytf[] nfw_ss = nfw bytf[ss.lfngth+1];
+           Systfm.brrbydopy(ss, 0, nfw_ss, 0, ss.lfngth);
+           Ksign = gftHmbd(bbsfKfy, nfw_ss);
+        } dbtdh (Exdfption f) {
+            GfnfrblSfdurityExdfption gsf =
+                nfw GfnfrblSfdurityExdfption("Cbldulbtf Chfdkum Fbilfd!");
+            gsf.initCbusf(f);
+            throw gsf;
+        }
+
+        // gft thf sblt using kfy usbgf
+        bytf[] sblt = gftSblt(usbgf);
+
+        // Gfnfrbtf dhfdksum of mfssbgf
+        MfssbgfDigfst mfssbgfDigfst = null;
+        try {
+            mfssbgfDigfst = MfssbgfDigfst.gftInstbndf("MD5");
+        } dbtdh (NoSudhAlgorithmExdfption f) {
+            GfnfrblSfdurityExdfption gsf =
+                nfw GfnfrblSfdurityExdfption("Cbldulbtf Chfdkum Fbilfd!");
+            gsf.initCbusf(f);
+            throw gsf;
+        }
+        mfssbgfDigfst.updbtf(sblt);
+        mfssbgfDigfst.updbtf(input, stbrt, lfn);
+        bytf[] md5tmp = mfssbgfDigfst.digfst();
+
+        // Gfnfrbtf dhfdksum
+        bytf[] hmbd = gftHmbd(Ksign, md5tmp);
+        if (dfbug) {
+            trbdfOutput("hmbd", hmbd, 0, hmbd.lfngth);
+        }
+        if (hmbd.lfngth == gftChfdksumLfngth()) {
+            rfturn hmbd;
+        } flsf if (hmbd.lfngth > gftChfdksumLfngth()) {
+            bytf[] buf = nfw bytf[gftChfdksumLfngth()];
+            Systfm.brrbydopy(hmbd, 0, buf, 0, buf.lfngth);
+            rfturn buf;
+        } flsf {
+            throw nfw GfnfrblSfdurityExdfption("dhfdksum sizf too short: " +
+                        hmbd.lfngth + "; fxpfdting : " + gftChfdksumLfngth());
+        }
+    }
+
+    /**
+     * Pfrforms fndryption of Sfqufndf Numbfr using dfrivfd kfy.
+     */
+    publid bytf[] fndryptSfq(bytf[] bbsfKfy, int usbgf,
+        bytf[] dhfdksum, bytf[] plbintfxt, int stbrt, int lfn)
+        throws GfnfrblSfdurityExdfption, KrbCryptoExdfption {
+
+        if (!KfyUsbgf.isVblid(usbgf)) {
+            throw nfw GfnfrblSfdurityExdfption("Invblid kfy usbgf numbfr: "
+                                                + usbgf);
+        }
+        // dfrivf fndryption for sfqufndf numbfr
+        bytf[] sblt = nfw bytf[4];
+        bytf[] kSfq = gftHmbd(bbsfKfy, sblt);
+
+        // dfrivf nfw fndryption kfy sbltfd with sfqufndf numbfr
+        kSfq = gftHmbd(kSfq, dhfdksum);
+
+        Ciphfr diphfr = Ciphfr.gftInstbndf("ARCFOUR");
+        SfdrftKfySpfd sfdrftKfy = nfw SfdrftKfySpfd(kSfq, "ARCFOUR");
+        diphfr.init(Ciphfr.ENCRYPT_MODE, sfdrftKfy);
+        bytf[] output = diphfr.doFinbl(plbintfxt, stbrt, lfn);
+
+        rfturn output;
+    }
+
+    /**
+     * Pfrforms dfdryption of Sfqufndf Numbfr using dfrivfd kfy.
+     */
+    publid bytf[] dfdryptSfq(bytf[] bbsfKfy, int usbgf,
+        bytf[] dhfdksum, bytf[] diphfrtfxt, int stbrt, int lfn)
+        throws GfnfrblSfdurityExdfption, KrbCryptoExdfption {
+
+        if (!KfyUsbgf.isVblid(usbgf)) {
+            throw nfw GfnfrblSfdurityExdfption("Invblid kfy usbgf numbfr: "
+                                                + usbgf);
+        }
+
+        // dfrivf dfdryption for sfqufndf numbfr
+        bytf[] sblt = nfw bytf[4];
+        bytf[] kSfq = gftHmbd(bbsfKfy, sblt);
+
+        // dfrivf nfw fndryption kfy sbltfd with sfqufndf numbfr
+        kSfq = gftHmbd(kSfq, dhfdksum);
+
+        Ciphfr diphfr = Ciphfr.gftInstbndf("ARCFOUR");
+        SfdrftKfySpfd sfdrftKfy = nfw SfdrftKfySpfd(kSfq, "ARCFOUR");
+        diphfr.init(Ciphfr.DECRYPT_MODE, sfdrftKfy);
+        bytf[] output = diphfr.doFinbl(diphfrtfxt, stbrt, lfn);
+
+        rfturn output;
+    }
+
+    /**
+     * Pfrforms fndryption using dfrivfd kfy; bdds donfoundfr.
+     */
+    publid bytf[] fndrypt(bytf[] bbsfKfy, int usbgf,
+        bytf[] ivfd, bytf[] nfw_ivfd, bytf[] plbintfxt, int stbrt, int lfn)
+        throws GfnfrblSfdurityExdfption, KrbCryptoExdfption {
+
+        if (!KfyUsbgf.isVblid(usbgf)) {
+            throw nfw GfnfrblSfdurityExdfption("Invblid kfy usbgf numbfr: "
+                                                 + usbgf);
+        }
+
+        if (dfbug) {
+            Systfm.out.println("ArdFour: ENCRYPT with kfy usbgf = " + usbgf);
+        }
+
+        // gft thf donfoundfr
+        bytf[] donfoundfr = Confoundfr.bytfs(donfoundfrSizf);
+
+        // bdd donfoundfr to thf plbintfxt for fndryption
+        int plbinSizf = roundup(donfoundfr.lfngth + lfn, 1);
+        bytf[] toBfEndryptfd = nfw bytf[plbinSizf];
+        Systfm.brrbydopy(donfoundfr, 0, toBfEndryptfd, 0, donfoundfr.lfngth);
+        Systfm.brrbydopy(plbintfxt, stbrt, toBfEndryptfd,
+                                donfoundfr.lfngth, lfn);
+
+        /* bfgin thf fndryption, domputf K1 */
+        bytf[] k1 = nfw bytf[bbsfKfy.lfngth];
+        Systfm.brrbydopy(bbsfKfy, 0, k1, 0, bbsfKfy.lfngth);
+
+        // gft thf sblt using kfy usbgf
+        bytf[] sblt = gftSblt(usbgf);
+
+        // domputf K2 using K1
+        bytf[] k2 = gftHmbd(k1, sblt);
+
+        // gfnfrbtf dhfdksum using K2
+        bytf[] dhfdksum = gftHmbd(k2, toBfEndryptfd);
+
+        // domputf K3 using K2 bnd dhfdksum
+        bytf[] k3 = gftHmbd(k2, dhfdksum);
+
+        Ciphfr diphfr = Ciphfr.gftInstbndf("ARCFOUR");
+        SfdrftKfySpfd sfdrftKfy = nfw SfdrftKfySpfd(k3, "ARCFOUR");
+        diphfr.init(Ciphfr.ENCRYPT_MODE, sfdrftKfy);
+        bytf[] output = diphfr.doFinbl(toBfEndryptfd, 0, toBfEndryptfd.lfngth);
+
+        // fndryptfdDbtb + HMAC
+        bytf[] rfsult = nfw bytf[hbshSizf + output.lfngth];
+        Systfm.brrbydopy(dhfdksum, 0, rfsult, 0, hbshSizf);
+        Systfm.brrbydopy(output, 0, rfsult, hbshSizf, output.lfngth);
+
+        rfturn rfsult;
+    }
+
+    /**
+     * Pfrforms fndryption using dfrivfd kfy; dofs not bdd donfoundfr.
+     */
+    publid bytf[] fndryptRbw(bytf[] bbsfKfy, int usbgf,
+        bytf[] sfqNum, bytf[] plbintfxt, int stbrt, int lfn)
+        throws GfnfrblSfdurityExdfption, KrbCryptoExdfption {
+
+        if (!KfyUsbgf.isVblid(usbgf)) {
+            throw nfw GfnfrblSfdurityExdfption("Invblid kfy usbgf numbfr: "
+                                                + usbgf);
+        }
+
+        if (dfbug) {
+            Systfm.out.println("\nARCFOUR: fndryptRbw with usbgf = " + usbgf);
+        }
+
+        // Dfrivf fndryption kfy for dbtb
+        //   Kfy dfrivbtion sblt = 0
+        bytf[] klodbl = nfw bytf[bbsfKfy.lfngth];
+        for (int i = 0; i <= 15; i++) {
+            klodbl[i] = (bytf) (bbsfKfy[i] ^ 0xF0);
+        }
+        bytf[] sblt = nfw bytf[4];
+        bytf[] kdrypt = gftHmbd(klodbl, sblt);
+
+        // Notf: Whfn using this RC4 bbsfd fndryption typf, thf sfqufndf numbfr
+        // is blwbys sfnt in big-fndibn rbthfr thbn littlf-fndibn ordfr.
+
+        // nfw fndryption kfy sbltfd with sfqufndf numbfr
+        kdrypt = gftHmbd(kdrypt, sfqNum);
+
+        Ciphfr diphfr = Ciphfr.gftInstbndf("ARCFOUR");
+        SfdrftKfySpfd sfdrftKfy = nfw SfdrftKfySpfd(kdrypt, "ARCFOUR");
+        diphfr.init(Ciphfr.ENCRYPT_MODE, sfdrftKfy);
+        bytf[] output = diphfr.doFinbl(plbintfxt, stbrt, lfn);
+
+        rfturn output;
+    }
+
+    /**
+     * @pbrbm bbsfKfy kfy from whidh kfys brf to bf dfrivfd using usbgf
+     * @pbrbm diphfrtfxt  E(Kf, donf | plbintfxt | pbdding, ivfd) | H1[1..h]
+     */
+    publid bytf[] dfdrypt(bytf[] bbsfKfy, int usbgf, bytf[] ivfd,
+        bytf[] diphfrtfxt, int stbrt, int lfn)
+        throws GfnfrblSfdurityExdfption {
+
+        if (!KfyUsbgf.isVblid(usbgf)) {
+            throw nfw GfnfrblSfdurityExdfption("Invblid kfy usbgf numbfr: "
+                                                + usbgf);
+        }
+        if (dfbug) {
+            Systfm.out.println("\nARCFOUR: DECRYPT using kfy usbgf = " + usbgf);
+        }
+
+        // domputf K1
+        bytf[] k1 = nfw bytf[bbsfKfy.lfngth];
+        Systfm.brrbydopy(bbsfKfy, 0, k1, 0, bbsfKfy.lfngth);
+
+        // gft thf sblt using kfy usbgf
+        bytf[] sblt = gftSblt(usbgf);
+
+        // domputf K2 using K1
+        bytf[] k2 = gftHmbd(k1, sblt);
+
+        // domputf K3 using K2 bnd dhfdksum
+        bytf[] dhfdksum = nfw bytf[hbshSizf];
+        Systfm.brrbydopy(diphfrtfxt, stbrt, dhfdksum, 0, hbshSizf);
+        bytf[] k3 = gftHmbd(k2, dhfdksum);
+
+        // Dfdrypt [donfoundfr | plbintfxt ] (without dhfdksum)
+        Ciphfr diphfr = Ciphfr.gftInstbndf("ARCFOUR");
+        SfdrftKfySpfd sfdrftKfy = nfw SfdrftKfySpfd(k3, "ARCFOUR");
+        diphfr.init(Ciphfr.DECRYPT_MODE, sfdrftKfy);
+        bytf[] plbintfxt = diphfr.doFinbl(diphfrtfxt, stbrt+hbshSizf,
+                                                lfn-hbshSizf);
+
+        // Vfrify dhfdksum
+        bytf[] dbldulbtfdHmbd = gftHmbd(k2, plbintfxt);
+        if (dfbug) {
+            trbdfOutput("dbldulbtfd Hmbd", dbldulbtfdHmbd, 0,
+                                dbldulbtfdHmbd.lfngth);
+            trbdfOutput("mfssbgf Hmbd", diphfrtfxt, 0,
+                                hbshSizf);
+        }
+        boolfbn dksumFbilfd = fblsf;
+        if (dbldulbtfdHmbd.lfngth >= hbshSizf) {
+            for (int i = 0; i < hbshSizf; i++) {
+                if (dbldulbtfdHmbd[i] != diphfrtfxt[i]) {
+                    dksumFbilfd = truf;
+                    if (dfbug) {
+                        Systfm.frr.println("Chfdksum fbilfd !");
+                    }
+                    brfbk;
+                }
+            }
+        }
+        if (dksumFbilfd) {
+            throw nfw GfnfrblSfdurityExdfption("Chfdksum fbilfd");
+        }
+
+        // Gft rid of donfoundfr
+        // [ donfoundfr | plbintfxt ]
+        bytf[] output = nfw bytf[plbintfxt.lfngth - donfoundfrSizf];
+        Systfm.brrbydopy(plbintfxt, donfoundfrSizf, output, 0, output.lfngth);
+
+        rfturn output;
+    }
+
+    /**
+     * Dfdrypts dbtb using spfdififd kfy bnd initibl vfdtor.
+     * @pbrbm bbsfKfy fndryption kfy to usf
+     * @pbrbm diphfrtfxt  fndryptfd dbtb to bf dfdryptfd
+     * @pbrbm usbgf ignorfd
+     */
+    publid bytf[] dfdryptRbw(bytf[] bbsfKfy, int usbgf, bytf[] ivfd,
+        bytf[] diphfrtfxt, int stbrt, int lfn, bytf[] sfqNum)
+        throws GfnfrblSfdurityExdfption {
+
+        if (!KfyUsbgf.isVblid(usbgf)) {
+            throw nfw GfnfrblSfdurityExdfption("Invblid kfy usbgf numbfr: "
+                                                + usbgf);
+        }
+        if (dfbug) {
+            Systfm.out.println("\nARCFOUR: dfdryptRbw with usbgf = " + usbgf);
+        }
+
+        // Dfrivf fndryption kfy for dbtb
+        //   Kfy dfrivbtion sblt = 0
+        bytf[] klodbl = nfw bytf[bbsfKfy.lfngth];
+        for (int i = 0; i <= 15; i++) {
+            klodbl[i] = (bytf) (bbsfKfy[i] ^ 0xF0);
+        }
+        bytf[] sblt = nfw bytf[4];
+        bytf[] kdrypt = gftHmbd(klodbl, sblt);
+
+        // nffd only first 4 bytfs of sfqufndf numbfr
+        bytf[] sfqufndfNum = nfw bytf[4];
+        Systfm.brrbydopy(sfqNum, 0, sfqufndfNum, 0, sfqufndfNum.lfngth);
+
+        // nfw fndryption kfy sbltfd with sfqufndf numbfr
+        kdrypt = gftHmbd(kdrypt, sfqufndfNum);
+
+        Ciphfr diphfr = Ciphfr.gftInstbndf("ARCFOUR");
+        SfdrftKfySpfd sfdrftKfy = nfw SfdrftKfySpfd(kdrypt, "ARCFOUR");
+        diphfr.init(Ciphfr.DECRYPT_MODE, sfdrftKfy);
+        bytf[] output = diphfr.doFinbl(diphfrtfxt, stbrt, lfn);
+
+        rfturn output;
+    }
+
+    // gft thf sblt using kfy usbgf
+    privbtf bytf[] gftSblt(int usbgf) {
+        int ms_usbgf = brdfour_trbnslbtf_usbgf(usbgf);
+        bytf[] sblt = nfw bytf[4];
+        sblt[0] = (bytf)(ms_usbgf & 0xff);
+        sblt[1] = (bytf)((ms_usbgf >> 8) & 0xff);
+        sblt[2] = (bytf)((ms_usbgf >> 16) & 0xff);
+        sblt[3] = (bytf)((ms_usbgf >> 24) & 0xff);
+        rfturn sblt;
+    }
+
+    // Kfy usbgf trbnslbtion for MS
+    privbtf int brdfour_trbnslbtf_usbgf(int usbgf) {
+        switdh (usbgf) {
+            dbsf 3: rfturn 8;
+            dbsf 9: rfturn 8;
+            dbsf 23: rfturn 13;
+            dffbult: rfturn usbgf;
+        }
+    }
+
+}

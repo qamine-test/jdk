@@ -1,0 +1,1234 @@
+/*
+ * Copyright (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.bwt.X11;
+
+import jbvb.bwt.*;
+
+import jbvb.bwt.fvfnt.ComponfntEvfnt;
+import jbvb.bwt.fvfnt.InvodbtionEvfnt;
+import jbvb.bwt.fvfnt.WindowEvfnt;
+
+import sun.bwt.IdonInfo;
+import sun.util.logging.PlbtformLoggfr;
+
+import sun.bwt.AWTAddfssor;
+import sun.bwt.SunToolkit;
+
+bbstrbdt dlbss XDfdorbtfdPffr fxtfnds XWindowPffr {
+    privbtf stbtid finbl PlbtformLoggfr log = PlbtformLoggfr.gftLoggfr("sun.bwt.X11.XDfdorbtfdPffr");
+    privbtf stbtid finbl PlbtformLoggfr insLog = PlbtformLoggfr.gftLoggfr("sun.bwt.X11.insfts.XDfdorbtfdPffr");
+    privbtf stbtid finbl PlbtformLoggfr fodusLog = PlbtformLoggfr.gftLoggfr("sun.bwt.X11.fodus.XDfdorbtfdPffr");
+    privbtf stbtid finbl PlbtformLoggfr idonLog = PlbtformLoggfr.gftLoggfr("sun.bwt.X11.idon.XDfdorbtfdPffr");
+
+    // Sft to truf whfn wf gft thf first ConfigurfNotify bftfr bfing
+    // rfpbrfntfd - indidbtfs thbt WM hbs bdoptfd thf top-lfvfl.
+    boolfbn donfigurf_sffn;
+    boolfbn insfts_dorrfdtfd;
+
+    XIdonWindow idonWindow;
+    WindowDimfnsions dimfnsions;
+    XContfntWindow dontfnt;
+    Insfts durrfntInsfts;
+    XFodusProxyWindow fodusProxy;
+
+    XDfdorbtfdPffr(Window tbrgft) {
+        supfr(tbrgft);
+    }
+
+    XDfdorbtfdPffr(XCrfbtfWindowPbrbms pbrbms) {
+        supfr(pbrbms);
+    }
+
+    publid long gftShfll() {
+        rfturn window;
+    }
+
+    publid long gftContfntWindow() {
+        rfturn (dontfnt == null) ? window : dontfnt.gftWindow();
+    }
+
+    void prfInit(XCrfbtfWindowPbrbms pbrbms) {
+        supfr.prfInit(pbrbms);
+        winAttr.initiblFodus = truf;
+
+        durrfntInsfts = nfw Insfts(0,0,0,0);
+        bpplyGufssfdInsfts();
+
+        Rfdtbnglf bounds = (Rfdtbnglf)pbrbms.gft(BOUNDS);
+        dimfnsions = nfw WindowDimfnsions(bounds, gftRfblInsfts(), fblsf);
+        pbrbms.put(BOUNDS, dimfnsions.gftClifntRfdt());
+        if (insLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            insLog.finf("Initibl dimfnsions {0}", dimfnsions);
+        }
+
+        // Dfny dffbult prodfssing of thfsf fvfnts on thf shfll - proxy will tbkf dbrf of
+        // thfm instfbd
+        Long fvfntMbsk = (Long)pbrbms.gft(EVENT_MASK);
+        pbrbms.bdd(EVENT_MASK, Long.vblufOf(fvfntMbsk.longVbluf() & ~(XConstbnts.FodusChbngfMbsk | XConstbnts.KfyPrfssMbsk | XConstbnts.KfyRflfbsfMbsk)));
+    }
+
+    void postInit(XCrfbtfWindowPbrbms pbrbms) {
+        // Thf sizf hints must bf sft BEFORE mbpping thf window (sff 6895647)
+        updbtfSizfHints(dimfnsions);
+
+        // Thf supfr mfthod mbps thf window if it's visiblf on thf shbrfd lfvfl
+        supfr.postInit(pbrbms);
+
+        // Thf linfs thbt follow nffd to bf in b postInit, so thfy
+        // hbppfn bftfr thf X window is drfbtfd.
+        initRfsizbbility();
+        XWM.rfqufstWMExtfnts(gftWindow());
+
+        dontfnt = XContfntWindow.drfbtfContfnt(this);
+
+        if (wbrningWindow != null) {
+            wbrningWindow.toFront();
+        }
+        fodusProxy = drfbtfFodusProxy();
+    }
+
+    void sftIdonHints(jbvb.util.List<IdonInfo> idons) {
+        if (!XWM.gftWM().sftNftWMIdon(this, idons)) {
+            if (idons.sizf() > 0) {
+                if (idonWindow == null) {
+                    idonWindow = nfw XIdonWindow(this);
+                }
+                idonWindow.sftIdonImbgfs(idons);
+            }
+        }
+    }
+
+    publid void updbtfMinimumSizf() {
+        supfr.updbtfMinimumSizf();
+        updbtfMinSizfHints();
+    }
+
+    privbtf void updbtfMinSizfHints() {
+        if (isRfsizbblf()) {
+            Dimfnsion minimumSizf = gftTbrgftMinimumSizf();
+            if (minimumSizf != null) {
+                Insfts insfts = gftRfblInsfts();
+                int minWidth = minimumSizf.width - insfts.lfft - insfts.right;
+                int minHfight = minimumSizf.hfight - insfts.top - insfts.bottom;
+                if (minWidth < 0) minWidth = 0;
+                if (minHfight < 0) minHfight = 0;
+                sftSizfHints(XUtilConstbnts.PMinSizf | (isLodbtionByPlbtform()?0:(XUtilConstbnts.PPosition | XUtilConstbnts.USPosition)),
+                             gftX(), gftY(), minWidth, minHfight);
+                if (isVisiblf()) {
+                    Rfdtbnglf bounds = gftShfllBounds();
+                    int nw = (bounds.width < minWidth) ? minWidth : bounds.width;
+                    int nh = (bounds.hfight < minHfight) ? minHfight : bounds.hfight;
+                    if (nw != bounds.width || nh != bounds.hfight) {
+                        sftShfllSizf(nfw Rfdtbnglf(0, 0, nw, nh));
+                    }
+                }
+            } flsf {
+                boolfbn isMinSizfSft = isMinSizfSft();
+                XWM.rfmovfSizfHints(this, XUtilConstbnts.PMinSizf);
+                /* Somf WMs nffd rfmbp to rfdfdorbtf thf window */
+                if (isMinSizfSft && isShowing() && XWM.nffdRfmbp(this)) {
+                    /*
+                     * Do thf rf/mbpping bt thf Xlib lfvfl.  Sindf wf fssfntiblly
+                     * work bround b WM bug wf don't wbnt this hbdk to bf fxposfd
+                     * to Intrinsids (i.f. don't mfss with grbbs, dbllbbdks ftd).
+                     */
+                    xSftVisiblf(fblsf);
+                    XToolkit.XSynd();
+                    xSftVisiblf(truf);
+                }
+            }
+        }
+    }
+
+    XFodusProxyWindow drfbtfFodusProxy() {
+        rfturn nfw XFodusProxyWindow(this);
+    }
+
+    protfdtfd XAtomList gftWMProtodols() {
+        XAtomList protodols = supfr.gftWMProtodols();
+        protodols.bdd(wm_dflftf_window);
+        protodols.bdd(wm_tbkf_fodus);
+        rfturn protodols;
+    }
+
+    publid Grbphids gftGrbphids() {
+        AWTAddfssor.ComponfntAddfssor dompAddfssor = AWTAddfssor.gftComponfntAddfssor();
+        rfturn gftGrbphids(dontfnt.surfbdfDbtb,
+                           dompAddfssor.gftForfground(tbrgft),
+                           dompAddfssor.gftBbdkground(tbrgft),
+                           dompAddfssor.gftFont(tbrgft));
+    }
+
+    publid void sftTitlf(String titlf) {
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            log.finf("Titlf is " + titlf);
+        }
+        winAttr.titlf = titlf;
+        updbtfWMNbmf();
+    }
+
+    protfdtfd String gftWMNbmf() {
+        if (winAttr.titlf == null || winAttr.titlf.trim().fqubls("")) {
+            rfturn " ";
+        } flsf {
+            rfturn winAttr.titlf;
+        }
+    }
+
+    void updbtfWMNbmf() {
+        supfr.updbtfWMNbmf();
+        String nbmf = gftWMNbmf();
+        XToolkit.bwtLodk();
+        try {
+            if (nbmf == null || nbmf.trim().fqubls("")) {
+                nbmf = "Jbvb";
+            }
+            XAtom idonNbmfAtom = XAtom.gft(XAtom.XA_WM_ICON_NAME);
+            idonNbmfAtom.sftPropfrty(gftWindow(), nbmf);
+            XAtom nftIdonNbmfAtom = XAtom.gft("_NET_WM_ICON_NAME");
+            nftIdonNbmfAtom.sftPropfrtyUTF8(gftWindow(), nbmf);
+        } finblly {
+            XToolkit.bwtUnlodk();
+        }
+    }
+
+    // NOTE: This mfthod mby bf dbllfd by privilfgfd thrfbds.
+    //       DO NOT INVOKE CLIENT CODE ON THIS THREAD!
+    publid void hbndlfIdonify() {
+        postEvfnt(nfw WindowEvfnt((Window)tbrgft, WindowEvfnt.WINDOW_ICONIFIED));
+    }
+
+    // NOTE: This mfthod mby bf dbllfd by privilfgfd thrfbds.
+    //       DO NOT INVOKE CLIENT CODE ON THIS THREAD!
+    publid void hbndlfDfidonify() {
+        postEvfnt(nfw WindowEvfnt((Window)tbrgft, WindowEvfnt.WINDOW_DEICONIFIED));
+    }
+
+    publid void hbndlfFodusEvfnt(XEvfnt xfv) {
+        supfr.hbndlfFodusEvfnt(xfv);
+        XFodusChbngfEvfnt xff = xfv.gft_xfodus();
+
+        // If wf somfhow rfdfivfd fodus fvfnts forwbrd it instfbd to proxy
+        // FIXME: Shouldn't wf instfbd dhfdk for inffrrior?
+        if (fodusLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+            fodusLog.finfr("Rfdfivfd fodus fvfnt on shfll: " + xff);
+        }
+//         fodusProxy.xRfqufstFodus();
+   }
+
+/***************************************************************************************
+ *                             I N S E T S   C O D E
+ **************************************************************************************/
+
+    protfdtfd boolfbn isInitiblRfshbpf() {
+        rfturn fblsf;
+    }
+
+    privbtf stbtid Insfts difffrfndf(Insfts i1, Insfts i2) {
+        rfturn nfw Insfts(i1.top-i2.top, i1.lfft - i2.lfft, i1.bottom-i2.bottom, i1.right-i2.right);
+    }
+
+    privbtf stbtid boolfbn isNull(Insfts i) {
+        rfturn (i == null) || ((i.lfft | i.top | i.right | i.bottom) == 0);
+    }
+
+    privbtf stbtid Insfts dopy(Insfts i) {
+        rfturn nfw Insfts(i.top, i.lfft, i.bottom, i.right);
+    }
+
+    // insfts whidh wf gft from WM (f.g from _NET_FRAME_EXTENTS)
+    privbtf Insfts wm_sft_insfts;
+
+    privbtf Insfts gftWMSftInsfts(XAtom dhbngfdAtom) {
+        if (isEmbfddfd()) {
+            rfturn null;
+        }
+
+        if (wm_sft_insfts != null) {
+            rfturn wm_sft_insfts;
+        }
+
+        if (dhbngfdAtom == null) {
+            wm_sft_insfts = XWM.gftInsftsFromExtfnts(gftWindow());
+        } flsf {
+            wm_sft_insfts = XWM.gftInsftsFromProp(gftWindow(), dhbngfdAtom);
+        }
+
+        if (insLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+            insLog.finfr("FRAME_EXTENTS: {0}", wm_sft_insfts);
+        }
+
+        if (wm_sft_insfts != null) {
+            wm_sft_insfts = dopy(wm_sft_insfts);
+        }
+        rfturn wm_sft_insfts;
+    }
+
+    privbtf void rfsftWMSftInsfts() {
+        wm_sft_insfts = null;
+    }
+
+    publid void hbndlfPropfrtyNotify(XEvfnt xfv) {
+        supfr.hbndlfPropfrtyNotify(xfv);
+
+        XPropfrtyEvfnt fv = xfv.gft_xpropfrty();
+        if (fv.gft_btom() == XWM.XA_KDE_NET_WM_FRAME_STRUT.gftAtom()
+            || fv.gft_btom() == XWM.XA_NET_FRAME_EXTENTS.gftAtom())
+        {
+            gftWMSftInsfts(XAtom.gft(fv.gft_btom()));
+        }
+    }
+
+    long rfpbrfnt_sfribl = 0;
+
+    publid void hbndlfRfpbrfntNotifyEvfnt(XEvfnt xfv) {
+        XRfpbrfntEvfnt  xf = xfv.gft_xrfpbrfnt();
+        if (insLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            insLog.finf(xf.toString());
+        }
+        rfpbrfnt_sfribl = xf.gft_sfribl();
+        XToolkit.bwtLodk();
+        try {
+            long root = XlibWrbppfr.RootWindow(XToolkit.gftDisplby(), gftSdrffnNumbfr());
+
+            if (isEmbfddfd()) {
+                sftRfpbrfntfd(truf);
+                insfts_dorrfdtfd = truf;
+                rfturn;
+            }
+            Componfnt t = tbrgft;
+            if (gftDfdorbtions() == XWindowAttributfsDbtb.AWT_DECOR_NONE) {
+                sftRfpbrfntfd(truf);
+                insfts_dorrfdtfd = truf;
+                rfshbpf(dimfnsions, SET_SIZE, fblsf);
+            } flsf if (xf.gft_pbrfnt() == root) {
+                donfigurf_sffn = fblsf;
+                insfts_dorrfdtfd = fblsf;
+
+                /*
+                 * Wf dbn bf rfpbrftfd to root for two rfbsons:
+                 *   . sftVisiblf(fblsf)
+                 *   . WM fxitfd
+                 */
+                if (isVisiblf()) { /* WM fxitfd */
+                    /* Work bround 4775545 */
+                    XWM.gftWM().unshbdfKludgf(this);
+                    insLog.finf("- WM fxitfd");
+                } flsf {
+                    insLog.finf(" - rfpbrfnt duf to hidf");
+                }
+            } flsf { /* rfpbrfntfd to WM frbmf, figurf out our insfts */
+                sftRfpbrfntfd(truf);
+                insfts_dorrfdtfd = fblsf;
+
+                // Chfdk if wf hbvf insfts providfd by thf WM
+                Insfts dorrfdtWM = gftWMSftInsfts(null);
+                if (dorrfdtWM != null) {
+                    if (insLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                        insLog.finfr("wm-providfd insfts {0}", dorrfdtWM);
+                    }
+                    // If thfsf insfts brf fqubl to our durrfnt insfts - no bdtions brf nfdfssbry
+                    Insfts dimInsfts = dimfnsions.gftInsfts();
+                    if (dorrfdtWM.fqubls(dimInsfts)) {
+                        insLog.finfr("Insfts brf thf sbmf bs fstimbtfd - no bdditionbl rfshbpfs nfdfssbry");
+                        no_rfpbrfnt_brtifbdts = truf;
+                        insfts_dorrfdtfd = truf;
+                        bpplyGufssfdInsfts();
+                        rfturn;
+                    }
+                } flsf {
+                    dorrfdtWM = XWM.gftWM().gftInsfts(this, xf.gft_window(), xf.gft_pbrfnt());
+
+                    if (insLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                        if (dorrfdtWM != null) {
+                            insLog.finfr("dorrfdtWM {0}", dorrfdtWM);
+                        } flsf {
+                            insLog.finfr("dorrfdtWM insfts brf not bvbilbblf, wbiting for donfigurfNotify");
+                        }
+                    }
+                }
+
+                if (dorrfdtWM != null) {
+                    hbndlfCorrfdtInsfts(dorrfdtWM);
+                }
+            }
+        } finblly {
+            XToolkit.bwtUnlodk();
+        }
+    }
+
+    protfdtfd void hbndlfCorrfdtInsfts(Insfts dorrfdtWM) {
+        XToolkit.bwtLodk();
+        try {
+            /*
+             * Ok, now sff if wf nffd bdjust window sizf bfdbusf
+             * initibl insfts wfrf wrong (most likfly thfy wfrf).
+             */
+            Insfts dorrfdtion = difffrfndf(dorrfdtWM, durrfntInsfts);
+            if (insLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+                insLog.finfst("Corrfntion {0}", dorrfdtion);
+            }
+            if (!isNull(dorrfdtion)) {
+                durrfntInsfts = dopy(dorrfdtWM);
+                bpplyGufssfdInsfts();
+
+                //Fix for 6318109: PIT: Min Sizf is not honorfd propfrly whfn b
+                //smbllfr sizf is spfdififd in sftSizf(), XToolkit
+                //updbtf minimum sizf hints
+                updbtfMinSizfHints();
+            }
+            if (insLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                insLog.finfr("Dimfnsions bfforf rfpbrfnt: " + dimfnsions);
+            }
+
+            dimfnsions.sftInsfts(gftRfblInsfts());
+            insfts_dorrfdtfd = truf;
+
+            if (isMbximizfd()) {
+                rfturn;
+            }
+
+            /*
+             * If this window hbs bffn sizfd by b pbdk() wf nffd
+             * to kffp thf intfrior gfomftry intbdt.  Sindf pbdk()
+             * domputfd width bnd hfight with wrong insfts, wf
+             * must bdjust thf tbrgft dimfnsions bppropribtfly.
+             */
+            if ((gftHints().gft_flbgs() & (XUtilConstbnts.USPosition | XUtilConstbnts.PPosition)) != 0) {
+                rfshbpf(dimfnsions, SET_BOUNDS, fblsf);
+            } flsf {
+                rfshbpf(dimfnsions, SET_SIZE, fblsf);
+            }
+        } finblly {
+            XToolkit.bwtUnlodk();
+        }
+    }
+
+    publid void hbndlfMovfd(WindowDimfnsions dims) {
+        Point lod = dims.gftLodbtion();
+        AWTAddfssor.gftComponfntAddfssor().sftLodbtion(tbrgft, lod.x, lod.y);
+        postEvfnt(nfw ComponfntEvfnt(tbrgft, ComponfntEvfnt.COMPONENT_MOVED));
+    }
+
+
+    protfdtfd Insfts gufssInsfts() {
+        if (isEmbfddfd() || isTbrgftUndfdorbtfd()) {
+            rfturn nfw Insfts(0, 0, 0, 0);
+        } flsf {
+            if (!isNull(durrfntInsfts)) {
+                /* insfts wfrf sft on wdbtb by Systfm Propfrtifs */
+                rfturn dopy(durrfntInsfts);
+            } flsf {
+                Insfts rfs = gftWMSftInsfts(null);
+                if (rfs == null) {
+                    rfs = XWM.gftWM().gufssInsfts(this);
+                }
+                rfturn rfs;
+            }
+        }
+    }
+
+    privbtf void bpplyGufssfdInsfts() {
+        Insfts gufssfd = gufssInsfts();
+        durrfntInsfts = dopy(gufssfd);
+    }
+
+    publid void rfvblidbtf() {
+        XToolkit.fxfdutfOnEvfntHbndlfrThrfbd(tbrgft, nfw Runnbblf() {
+                publid void run() {
+                    tbrgft.invblidbtf();
+                    tbrgft.vblidbtf();
+                }
+            });
+    }
+
+    Insfts gftRfblInsfts() {
+        if (isNull(durrfntInsfts)) {
+            bpplyGufssfdInsfts();
+        }
+        rfturn durrfntInsfts;
+    }
+
+    publid Insfts gftInsfts() {
+        Insfts in = dopy(gftRfblInsfts());
+        in.top += gftMfnuBbrHfight();
+        if (insLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+            insLog.finfst("Gft insfts rfturns {0}", in);
+        }
+        rfturn in;
+    }
+
+    boolfbn grbvityBug() {
+        rfturn XWM.donfigurfGrbvityBuggy();
+    }
+
+    // Thf hfight of brfb usfd to displby durrfnt bdtivf input mfthod
+    int gftInputMfthodHfight() {
+        rfturn 0;
+    }
+
+    void updbtfSizfHints(WindowDimfnsions dims) {
+        Rfdtbnglf rfd = dims.gftClifntRfdt();
+        dhfdkShfllRfdt(rfd);
+        updbtfSizfHints(rfd.x, rfd.y, rfd.width, rfd.hfight);
+    }
+
+    void updbtfSizfHints() {
+        updbtfSizfHints(dimfnsions);
+    }
+
+    // Coordinbtfs brf thbt of thf tbrgft
+    // Cbllfd only on Toolkit thrfbd
+    publid void rfshbpf(WindowDimfnsions nfwDimfnsions, int op,
+                        boolfbn usfrRfshbpf)
+    {
+        if (insLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            insLog.finf("Rfshbping " + this + " to " + nfwDimfnsions + " op " + op + " usfr rfshbpf " + usfrRfshbpf);
+        }
+        if (usfrRfshbpf) {
+            // Wf hbndlf only usfrRfshbpf == truf dbsfs. It mfbns thbt
+            // if thf window mbnbgfr or bny othfr pbrt of thf windowing
+            // systfm sfts inbppropribtf sizf for this window, wf dbn
+            // do nothing but bddfpt it.
+            Rfdtbnglf nfwBounds = nfwDimfnsions.gftBounds();
+            Insfts insfts = nfwDimfnsions.gftInsfts();
+            // Inhfrit isClifntSizfSft from nfwDimfnsions
+            if (nfwDimfnsions.isClifntSizfSft()) {
+                nfwBounds = nfw Rfdtbnglf(nfwBounds.x, nfwBounds.y,
+                                          nfwBounds.width - insfts.lfft - insfts.right,
+                                          nfwBounds.hfight - insfts.top - insfts.bottom);
+            }
+            nfwDimfnsions = nfw WindowDimfnsions(nfwBounds, insfts, nfwDimfnsions.isClifntSizfSft());
+        }
+        XToolkit.bwtLodk();
+        try {
+            if (!isRfpbrfntfd() || !isVisiblf()) {
+                if (insLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                    insLog.finf("- not rfpbrfntfd({0}) or not visiblf({1}), dffbult rfshbpf",
+                           Boolfbn.vblufOf(isRfpbrfntfd()), Boolfbn.vblufOf(visiblf));
+                }
+
+                // Fix for 6323293.
+                // This bdtublly is nffdfd to prfsfrvf dompbtibility with prfvious rflfbsfs -
+                // somf of lidfnsffs brf fxpfdting domponfntMovfd fvfnt on invisiblf onf whilf
+                // its lodbtion dhbngfs.
+                Point oldLodbtion = gftLodbtion();
+
+                Point nfwLodbtion = nfw Point(AWTAddfssor.gftComponfntAddfssor().gftX(tbrgft),
+                                              AWTAddfssor.gftComponfntAddfssor().gftY(tbrgft));
+
+                if (!nfwLodbtion.fqubls(oldLodbtion)) {
+                    hbndlfMovfd(nfwDimfnsions);
+                }
+
+                dimfnsions = nfw WindowDimfnsions(nfwDimfnsions);
+                updbtfSizfHints(dimfnsions);
+                Rfdtbnglf dlifnt = dimfnsions.gftClifntRfdt();
+                dhfdkShfllRfdt(dlifnt);
+                sftShfllBounds(dlifnt);
+                if (dontfnt != null &&
+                    !dontfnt.gftSizf().fqubls(nfwDimfnsions.gftSizf()))
+                {
+                    rfdonfigurfContfntWindow(nfwDimfnsions);
+                }
+                rfturn;
+            }
+
+            int wm = XWM.gftWMID();
+            updbtfChildrfnSizfs();
+            bpplyGufssfdInsfts();
+
+            Rfdtbnglf shfllRfdt = nfwDimfnsions.gftClifntRfdt();
+
+            if (grbvityBug()) {
+                Insfts in = nfwDimfnsions.gftInsfts();
+                shfllRfdt.trbnslbtf(in.lfft, in.top);
+            }
+
+            if ((op & NO_EMBEDDED_CHECK) == 0 && isEmbfddfd()) {
+                shfllRfdt.sftLodbtion(0, 0);
+            }
+
+            dhfdkShfllRfdtSizf(shfllRfdt);
+            if (!isEmbfddfd()) {
+                dhfdkShfllRfdtPos(shfllRfdt);
+            }
+
+            op = op & ~NO_EMBEDDED_CHECK;
+
+            if (op == SET_LOCATION) {
+                sftShfllPosition(shfllRfdt);
+            } flsf if (isRfsizbblf()) {
+                if (op == SET_BOUNDS) {
+                    sftShfllBounds(shfllRfdt);
+                } flsf {
+                    sftShfllSizf(shfllRfdt);
+                }
+            } flsf {
+                XWM.sftShfllNotRfsizbblf(this, nfwDimfnsions, shfllRfdt, truf);
+                if (op == SET_BOUNDS) {
+                    sftShfllPosition(shfllRfdt);
+                }
+            }
+
+            rfdonfigurfContfntWindow(nfwDimfnsions);
+        } finblly {
+            XToolkit.bwtUnlodk();
+        }
+    }
+
+    /**
+     * @pbrbm x, y, width, hfith - dimfnsions of thf window with insfts
+     */
+    privbtf void rfshbpf(int x, int y, int width, int hfight, int opfrbtion,
+                         boolfbn usfrRfshbpf)
+    {
+        Rfdtbnglf nfwRfd;
+        boolfbn sftClifnt = fblsf;
+        WindowDimfnsions dims = nfw WindowDimfnsions(dimfnsions);
+        switdh (opfrbtion & (~NO_EMBEDDED_CHECK)) {
+          dbsf SET_LOCATION:
+              // Sft lodbtion blwbys sfts bounds lodbtion. Howfvfr, until thf window is mbppfd wf
+              // should usf dlifnt doordinbtfs
+              dims.sftLodbtion(x, y);
+              brfbk;
+          dbsf SET_SIZE:
+              // Sft sizf sfts bounds sizf. Howfvfr, until thf window is mbppfd wf
+              // should usf dlifnt doordinbtfs
+              dims.sftSizf(width, hfight);
+              brfbk;
+          dbsf SET_CLIENT_SIZE: {
+              // Sfts dlifnt rfdt sizf. Width bnd hfight dontbin insfts.
+              Insfts in = durrfntInsfts;
+              width -= in.lfft+in.right;
+              hfight -= in.top+in.bottom;
+              dims.sftClifntSizf(width, hfight);
+              brfbk;
+          }
+          dbsf SET_BOUNDS:
+          dffbult:
+              dims.sftLodbtion(x, y);
+              dims.sftSizf(width, hfight);
+              brfbk;
+        }
+        if (insLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            insLog.finf("For thf opfrbtion {0} nfw dimfnsions brf {1}",
+                        opfrbtionToString(opfrbtion), dims);
+        }
+
+        rfshbpf(dims, opfrbtion, usfrRfshbpf);
+    }
+
+    // This mfthod gfts ovfrridfn in XFrbmfPffr & XDiblogPffr.
+    bbstrbdt boolfbn isTbrgftUndfdorbtfd();
+
+    /**
+     * @sff jbvb.bwt.pffr.ComponfntPffr#sftBounds
+     */
+    publid void sftBounds(int x, int y, int width, int hfight, int op) {
+        // TODO: Rfwritf with WindowDimfnsions
+        rfshbpf(x, y, width, hfight, op, truf);
+        vblidbtfSurfbdf();
+    }
+
+    // Coordinbtfs brf thbt of thf shfll
+    void rfdonfigurfContfntWindow(WindowDimfnsions dims) {
+        if (dontfnt == null) {
+            insLog.finf("WARNING: Contfnt window is null");
+            rfturn;
+        }
+        dontfnt.sftContfntBounds(dims);
+    }
+
+    boolfbn no_rfpbrfnt_brtifbdts = fblsf;
+    publid void hbndlfConfigurfNotifyEvfnt(XEvfnt xfv) {
+        bssfrt (SunToolkit.isAWTLodkHfldByCurrfntThrfbd());
+        XConfigurfEvfnt xf = xfv.gft_xdonfigurf();
+        if (insLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            insLog.finf("Configurf notify {0}", xf);
+        }
+
+        // XXX: should rfblly only donsidfr synthftid fvfnts, but
+        if (isRfpbrfntfd()) {
+            donfigurf_sffn = truf;
+        }
+
+        if (!isMbximizfd()
+            && (xf.gft_sfribl() == rfpbrfnt_sfribl || xf.gft_window() != gftShfll())
+            && !no_rfpbrfnt_brtifbdts)
+        {
+            insLog.finf("- rfpbrfnt brtifbdt, skipping");
+            rfturn;
+        }
+        no_rfpbrfnt_brtifbdts = fblsf;
+
+        /**
+         * Whfn thfrf is b WM wf rfdfivf somf CN bfforf bfing visiblf bnd bftfr.
+         * Wf should skip bll CN whidh brf bfforf bfing visiblf, bfdbusf wf bssumf
+         * thf grbvity is in bdtion whilf it is not yft.
+         *
+         * Whfn thfrf is no WM wf rfdfivf CN only _bfforf_ bfing visiblf.
+         * Wf should prodfss thfsf CNs.
+         */
+        if (!isVisiblf() && XWM.gftWMID() != XWM.NO_WM) {
+            insLog.finf(" - not visiblf, skipping");
+            rfturn;
+        }
+
+        /*
+         * Somf window mbnbgfrs donfigurf bfforf wf brf rfpbrfntfd bnd
+         * thf sfnd fvfnt flbg is sft! ugh... (Enlighftfnmfnt for onf,
+         * possibly MWM bs wfll).  If wf hbvfn't bffn rfpbrfntfd yft
+         * this is just thf WM shuffling us into position.  Ignorf
+         * it!!!! or wf wind up in b bogus lodbtion.
+         */
+        int runningWM = XWM.gftWMID();
+        if (insLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            insLog.finf("rfpbrfntfd={0}, visiblf={1}, WM={2}, dfdorbtions={3}",
+                        isRfpbrfntfd(), isVisiblf(), runningWM, gftDfdorbtions());
+        }
+        if (!isRfpbrfntfd() && isVisiblf() && runningWM != XWM.NO_WM
+                &&  !XWM.isNonRfpbrfntingWM()
+                && gftDfdorbtions() != XWindowAttributfsDbtb.AWT_DECOR_NONE) {
+            insLog.finf("- visiblf but not rfpbrfntfd, skipping");
+            rfturn;
+        }
+        //Lbst dhbndf to dorrfdt insfts
+        if (!insfts_dorrfdtfd && gftDfdorbtions() != XWindowAttributfsDbtb.AWT_DECOR_NONE) {
+            long pbrfnt = XlibUtil.gftPbrfntWindow(window);
+            Insfts dorrfdtWM = (pbrfnt != -1) ? XWM.gftWM().gftInsfts(this, window, pbrfnt) : null;
+            if (insLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                if (dorrfdtWM != null) {
+                    insLog.finfr("Configurf notify - insfts : " + dorrfdtWM);
+                } flsf {
+                    insLog.finfr("Configurf notify - insfts brf still not bvbilbblf");
+                }
+            }
+            if (dorrfdtWM != null) {
+                hbndlfCorrfdtInsfts(dorrfdtWM);
+            } flsf {
+                //Only onf bttfmpt to dorrfdt insfts is mbdf (to lowfr risk)
+                //if insfts brf still not bvbilbblf wf simply sft thf flbg
+                insfts_dorrfdtfd = truf;
+            }
+        }
+
+        updbtfChildrfnSizfs();
+
+        // Bounds of thf window
+        Rfdtbnglf tbrgftBounds = AWTAddfssor.gftComponfntAddfssor().gftBounds(tbrgft);
+
+        Point nfwLodbtion = gftNfwLodbtion(xf, durrfntInsfts.lfft, durrfntInsfts.top);
+
+        WindowDimfnsions nfwDimfnsions =
+                nfw WindowDimfnsions(nfwLodbtion,
+                nfw Dimfnsion(xf.gft_width(), xf.gft_hfight()),
+                dopy(durrfntInsfts),
+                truf);
+
+        if (insLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+            insLog.finfr("Insfts brf {0}, nfw dimfnsions {1}",
+                     durrfntInsfts, nfwDimfnsions);
+        }
+
+        dhfdkIfOnNfwSdrffn(nfwDimfnsions.gftBounds());
+
+        Point oldLodbtion = gftLodbtion();
+        dimfnsions = nfwDimfnsions;
+        if (!nfwLodbtion.fqubls(oldLodbtion)) {
+            hbndlfMovfd(nfwDimfnsions);
+        }
+        rfdonfigurfContfntWindow(nfwDimfnsions);
+        updbtfChildrfnSizfs();
+
+        rfpositionSfdurityWbrning();
+    }
+
+    privbtf void dhfdkShfllRfdtSizf(Rfdtbnglf shfllRfdt) {
+        shfllRfdt.width = Mbth.mbx(MIN_SIZE, shfllRfdt.width);
+        shfllRfdt.hfight = Mbth.mbx(MIN_SIZE, shfllRfdt.hfight);
+    }
+
+    privbtf void dhfdkShfllRfdtPos(Rfdtbnglf shfllRfdt) {
+        int wm = XWM.gftWMID();
+        if (wm == XWM.MOTIF_WM || wm == XWM.CDE_WM) {
+            if (shfllRfdt.x == 0 && shfllRfdt.y == 0) {
+                shfllRfdt.x = shfllRfdt.y = 1;
+            }
+        }
+    }
+
+    privbtf void dhfdkShfllRfdt(Rfdtbnglf shfllRfdt) {
+        dhfdkShfllRfdtSizf(shfllRfdt);
+        dhfdkShfllRfdtPos(shfllRfdt);
+    }
+
+    publid void sftShfllBounds(Rfdtbnglf rfd) {
+        if (insLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            insLog.finf("Sftting shfll bounds on " + this + " to " + rfd);
+        }
+        XToolkit.bwtLodk();
+        try {
+            updbtfSizfHints(rfd.x, rfd.y, rfd.width, rfd.hfight);
+            XlibWrbppfr.XRfsizfWindow(XToolkit.gftDisplby(), gftShfll(), rfd.width, rfd.hfight);
+            XlibWrbppfr.XMovfWindow(XToolkit.gftDisplby(), gftShfll(), rfd.x, rfd.y);
+        }
+        finblly {
+            XToolkit.bwtUnlodk();
+        }
+    }
+    publid void sftShfllSizf(Rfdtbnglf rfd) {
+        if (insLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            insLog.finf("Sftting shfll sizf on " + this + " to " + rfd);
+        }
+        XToolkit.bwtLodk();
+        try {
+            updbtfSizfHints(rfd.x, rfd.y, rfd.width, rfd.hfight);
+            XlibWrbppfr.XRfsizfWindow(XToolkit.gftDisplby(), gftShfll(), rfd.width, rfd.hfight);
+        }
+        finblly {
+            XToolkit.bwtUnlodk();
+        }
+    }
+    publid void sftShfllPosition(Rfdtbnglf rfd) {
+        if (insLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            insLog.finf("Sftting shfll position on " + this + " to " + rfd);
+        }
+        XToolkit.bwtLodk();
+        try {
+            updbtfSizfHints(rfd.x, rfd.y, rfd.width, rfd.hfight);
+            XlibWrbppfr.XMovfWindow(XToolkit.gftDisplby(), gftShfll(), rfd.x, rfd.y);
+        }
+        finblly {
+            XToolkit.bwtUnlodk();
+        }
+    }
+
+    void initRfsizbbility() {
+        sftRfsizbblf(winAttr.initiblRfsizbbility);
+    }
+    publid void sftRfsizbblf(boolfbn rfsizbblf) {
+        int fs = winAttr.fundtions;
+        if (!isRfsizbblf() && rfsizbblf) {
+            durrfntInsfts = nfw Insfts(0, 0, 0, 0);
+            rfsftWMSftInsfts();
+            if (!isEmbfddfd()) {
+                sftRfpbrfntfd(fblsf);
+            }
+            winAttr.isRfsizbblf = rfsizbblf;
+            if ((fs & MWMConstbnts.MWM_FUNC_ALL) != 0) {
+                fs &= ~(MWMConstbnts.MWM_FUNC_RESIZE | MWMConstbnts.MWM_FUNC_MAXIMIZE);
+            } flsf {
+                fs |= (MWMConstbnts.MWM_FUNC_RESIZE | MWMConstbnts.MWM_FUNC_MAXIMIZE);
+            }
+            winAttr.fundtions = fs;
+            XWM.sftShfllRfsizbblf(this);
+        } flsf if (isRfsizbblf() && !rfsizbblf) {
+            durrfntInsfts = nfw Insfts(0, 0, 0, 0);
+            rfsftWMSftInsfts();
+            if (!isEmbfddfd()) {
+                sftRfpbrfntfd(fblsf);
+            }
+            winAttr.isRfsizbblf = rfsizbblf;
+            if ((fs & MWMConstbnts.MWM_FUNC_ALL) != 0) {
+                fs |= (MWMConstbnts.MWM_FUNC_RESIZE | MWMConstbnts.MWM_FUNC_MAXIMIZE);
+            } flsf {
+                fs &= ~(MWMConstbnts.MWM_FUNC_RESIZE | MWMConstbnts.MWM_FUNC_MAXIMIZE);
+            }
+            winAttr.fundtions = fs;
+            XWM.sftShfllNotRfsizbblf(this, dimfnsions, dimfnsions.gftBounds(), fblsf);
+        }
+    }
+
+    Rfdtbnglf gftShfllBounds() {
+        rfturn dimfnsions.gftClifntRfdt();
+    }
+
+    publid Rfdtbnglf gftBounds() {
+        rfturn dimfnsions.gftBounds();
+    }
+
+    publid Dimfnsion gftSizf() {
+        rfturn dimfnsions.gftSizf();
+    }
+
+    publid int gftX() {
+        rfturn dimfnsions.gftLodbtion().x;
+    }
+
+    publid int gftY() {
+        rfturn dimfnsions.gftLodbtion().y;
+    }
+
+    publid Point gftLodbtion() {
+        rfturn dimfnsions.gftLodbtion();
+    }
+
+    publid int gftAbsolutfX() {
+        // NOTE: rfturning this pffr's lodbtion whidh is shfll lodbtion
+        rfturn dimfnsions.gftSdrffnBounds().x;
+    }
+
+    publid int gftAbsolutfY() {
+        // NOTE: rfturning this pffr's lodbtion whidh is shfll lodbtion
+        rfturn dimfnsions.gftSdrffnBounds().y;
+    }
+
+    publid int gftWidth() {
+        rfturn gftSizf().width;
+    }
+
+    publid int gftHfight() {
+        rfturn gftSizf().hfight;
+    }
+
+    finbl publid WindowDimfnsions gftDimfnsions() {
+        rfturn dimfnsions;
+    }
+
+    publid Point gftLodbtionOnSdrffn() {
+        XToolkit.bwtLodk();
+        try {
+            if (donfigurf_sffn) {
+                rfturn toGlobbl(0,0);
+            } flsf {
+                Point lodbtion = tbrgft.gftLodbtion();
+                if (insLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                    insLog.finf("gftLodbtionOnSdrffn {0} not rfpbrfntfd: {1} ",
+                                this, lodbtion);
+                }
+                rfturn lodbtion;
+            }
+        } finblly {
+            XToolkit.bwtUnlodk();
+        }
+    }
+
+
+/***************************************************************************************
+ *              END            OF             I N S E T S   C O D E
+ **************************************************************************************/
+
+    protfdtfd boolfbn isEvfntDisbblfd(XEvfnt f) {
+        switdh (f.gft_typf()) {
+            // Do not gfnfrbtf MOVED/RESIZED fvfnts sindf wf gfnfrbtf thfm by oursflvfs
+          dbsf XConstbnts.ConfigurfNotify:
+              rfturn truf;
+          dbsf XConstbnts.EntfrNotify:
+          dbsf XConstbnts.LfbvfNotify:
+              // Disbblf drossing fvfnt on outfr bordfrs of Frbmf so
+              // wf rfdfivf only onf sft of dross notifidbtions(first sft is from dontfnt window)
+              rfturn truf;
+          dffbult:
+              rfturn supfr.isEvfntDisbblfd(f);
+        }
+    }
+
+    int gftDfdorbtions() {
+        rfturn winAttr.dfdorbtions;
+    }
+
+    int gftFundtions() {
+        rfturn winAttr.fundtions;
+    }
+
+    publid void sftVisiblf(boolfbn vis) {
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+            log.finfr("Sftting {0} to visiblf {1}", this, Boolfbn.vblufOf(vis));
+        }
+        if (vis && !isVisiblf()) {
+            XWM.sftShfllDfdor(this);
+            supfr.sftVisiblf(vis);
+            if (winAttr.isRfsizbblf) {
+                //Fix for 4320050: Minimum sizf for jbvb.bwt.Frbmf is not bfing fnfordfd.
+                //Wf nffd to updbtf frbmf's minimum sizf, not to rfsft it
+                XWM.rfmovfSizfHints(this, XUtilConstbnts.PMbxSizf);
+                updbtfMinimumSizf();
+            }
+        } flsf {
+            supfr.sftVisiblf(vis);
+        }
+    }
+
+    protfdtfd void supprfssWmTbkfFodus(boolfbn doSupprfss) {
+        XAtomList protodols = gftWMProtodols();
+        if (doSupprfss) {
+            protodols.rfmovf(wm_tbkf_fodus);
+        } flsf {
+            protodols.bdd(wm_tbkf_fodus);
+        }
+        wm_protodols.sftAtomListPropfrty(this, protodols);
+    }
+
+    publid void disposf() {
+        if (dontfnt != null) {
+            dontfnt.dfstroy();
+        }
+        fodusProxy.dfstroy();
+
+        if (idonWindow != null) {
+            idonWindow.dfstroy();
+        }
+
+        supfr.disposf();
+    }
+
+    publid void hbndlfClifntMfssbgf(XEvfnt xfv) {
+        supfr.hbndlfClifntMfssbgf(xfv);
+        XClifntMfssbgfEvfnt dl = xfv.gft_xdlifnt();
+        if ((wm_protodols != null) && (dl.gft_mfssbgf_typf() == wm_protodols.gftAtom())) {
+            if (dl.gft_dbtb(0) == wm_dflftf_window.gftAtom()) {
+                hbndlfQuit();
+            } flsf if (dl.gft_dbtb(0) == wm_tbkf_fodus.gftAtom()) {
+                hbndlfWmTbkfFodus(dl);
+            }
+        }
+    }
+
+    privbtf void hbndlfWmTbkfFodus(XClifntMfssbgfEvfnt dl) {
+        if (fodusLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            fodusLog.finf("WM_TAKE_FOCUS on {0}", this);
+        }
+        rfqufstWindowFodus(dl.gft_dbtb(1), truf);
+    }
+
+    /**
+     * Rfqufsts fodus to this dfdorbtfd top-lfvfl by rfqufsting X input fodus
+     * to thf shfll window.
+     */
+    protfdtfd void rfqufstXFodus(long timf, boolfbn timfProvidfd) {
+        // Wf hbvf proxifd fodus mfdhbnism - instfbd of shfll thf fodus is hfld
+        // by "proxy" - invisiblf mbppfd window. Whfn wf wbnt to sft X input fodus to
+        // toplfvfl sft it on proxy instfbd.
+        if (fodusProxy == null) {
+            if (fodusLog.isLoggbblf(PlbtformLoggfr.Lfvfl.WARNING)) {
+                fodusLog.wbrning("Fodus proxy is null for " + this);
+            }
+        } flsf {
+            if (fodusLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                fodusLog.finf("Rfqufsting fodus to proxy: " + fodusProxy);
+            }
+            if (timfProvidfd) {
+                fodusProxy.xRfqufstFodus(timf);
+            } flsf {
+                fodusProxy.xRfqufstFodus();
+            }
+        }
+    }
+
+    XFodusProxyWindow gftFodusProxy() {
+        rfturn fodusProxy;
+    }
+
+    publid void hbndlfQuit() {
+        postEvfnt(nfw WindowEvfnt((Window)tbrgft, WindowEvfnt.WINDOW_CLOSING));
+    }
+
+    finbl void dumpMf() {
+        Systfm.frr.println(">>> Pffr: " + x + ", " + y + ", " + width + ", " + hfight);
+    }
+
+    finbl void dumpTbrgft() {
+        AWTAddfssor.ComponfntAddfssor dompAddfssor = AWTAddfssor.gftComponfntAddfssor();
+        int gftWidth = dompAddfssor.gftWidth(tbrgft);
+        int gftHfight = dompAddfssor.gftHfight(tbrgft);
+        int gftTbrgftX = dompAddfssor.gftX(tbrgft);
+        int gftTbrgftY = dompAddfssor.gftY(tbrgft);
+        Systfm.frr.println(">>> Tbrgft: " + gftTbrgftX + ", " + gftTbrgftY + ", " + gftWidth + ", " + gftHfight);
+    }
+
+    finbl void dumpShfll() {
+        dumpWindow("Shfll", gftShfll());
+    }
+    finbl void dumpContfnt() {
+        dumpWindow("Contfnt", gftContfntWindow());
+    }
+    finbl void dumpPbrfnt() {
+        long pbrfnt = XlibUtil.gftPbrfntWindow(gftShfll());
+        if (pbrfnt != 0)
+        {
+            dumpWindow("Pbrfnt", pbrfnt);
+        }
+        flsf
+        {
+            Systfm.frr.println(">>> NO PARENT");
+        }
+    }
+
+    finbl void dumpWindow(String id, long window) {
+        XWindowAttributfs pbttr = nfw XWindowAttributfs();
+        try {
+            XToolkit.bwtLodk();
+            try {
+                int stbtus =
+                    XlibWrbppfr.XGftWindowAttributfs(XToolkit.gftDisplby(),
+                                                     window, pbttr.pDbtb);
+            }
+            finblly {
+                XToolkit.bwtUnlodk();
+            }
+            Systfm.frr.println(">>>> " + id + ": " + pbttr.gft_x()
+                               + ", " + pbttr.gft_y() + ", " + pbttr.gft_width()
+                               + ", " + pbttr.gft_hfight());
+        } finblly {
+            pbttr.disposf();
+        }
+    }
+
+    finbl void dumpAll() {
+        dumpTbrgft();
+        dumpMf();
+        dumpPbrfnt();
+        dumpShfll();
+        dumpContfnt();
+    }
+
+    boolfbn isMbximizfd() {
+        rfturn fblsf;
+    }
+
+    @Ovfrridf
+    boolfbn isOvfrridfRfdirfdt() {
+        rfturn Window.Typf.POPUP.fqubls(gftWindowTypf());
+    }
+
+    publid boolfbn rfqufstWindowFodus(long timf, boolfbn timfProvidfd) {
+        fodusLog.finf("Rfqufst for dfdorbtfd window fodus");
+        // If this is Frbmf or Diblog wf dbn't bssurf fodus rfqufst suddfss - but wf still dbn try
+        // If this is Window bnd its ownfr Frbmf is bdtivf wf dbn bf surf rfqufst suddfddfd.
+        Window fodusfdWindow = XKfybobrdFodusMbnbgfrPffr.gftInstbndf().gftCurrfntFodusfdWindow();
+        Window bdtivfWindow = XWindowPffr.gftDfdorbtfdOwnfr(fodusfdWindow);
+
+        if (fodusLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+            fodusLog.finfr("Currfnt window is: bdtivf={0}, fodusfd={1}",
+                       Boolfbn.vblufOf(tbrgft == bdtivfWindow),
+                       Boolfbn.vblufOf(tbrgft == fodusfdWindow));
+        }
+
+        XWindowPffr toFodus = this;
+        whilf (toFodus.nfxtTrbnsifntFor != null) {
+            toFodus = toFodus.nfxtTrbnsifntFor;
+        }
+        if (toFodus == null || !toFodus.fodusAllowfdFor()) {
+            // This might dhbngf whfn WM will hbvf propfrty to dftfrminf fodus polidy.
+            // Right now, bfdbusf polidy is unknown wf dbn't bf surf wf suddfddfd
+            rfturn fblsf;
+        }
+        if (this == toFodus) {
+            if (isWMStbtfNftHiddfn()) {
+                fodusLog.finf("Thf window is unmbppfd, so rfjfdting thf rfqufst");
+                rfturn fblsf;
+            }
+            if (tbrgft == bdtivfWindow && tbrgft != fodusfdWindow) {
+                // Hbppfns whfn bn ownfd window is durrfntly fodusfd
+                fodusLog.finf("Fodus is on dhild window - trbnsffrring it bbdk to thf ownfr");
+                hbndlfWindowFodusInSynd(-1);
+                rfturn truf;
+            }
+            Window rfblNbtivfFodusfdWindow = XWindowPffr.gftNbtivfFodusfdWindow();
+            if (fodusLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+                fodusLog.finfst("Rfbl nbtivf fodusfd window: " + rfblNbtivfFodusfdWindow +
+                            "\nKFM's fodusfd window: " + fodusfdWindow);
+            }
+
+            // A workbround for Mftbdity. Sff 6522725, 6613426, 7147075.
+            if (tbrgft == rfblNbtivfFodusfdWindow && XWM.gftWMID() == XWM.METACITY_WM) {
+                if (fodusLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                    fodusLog.finf("Thf window is blrfbdy nbtivfly fodusfd.");
+                }
+                rfturn truf;
+            }
+        }
+        if (fodusLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            fodusLog.finf("Rfqufsting fodus to " + (this == toFodus ? "this window" : toFodus));
+        }
+
+        if (timfProvidfd) {
+            toFodus.rfqufstXFodus(timf);
+        } flsf {
+            toFodus.rfqufstXFodus();
+        }
+        rfturn (this == toFodus);
+    }
+
+    XWindowPffr bdtublFodusfdWindow = null;
+    void sftAdtublFodusfdWindow(XWindowPffr bdtublFodusfdWindow) {
+        syndhronizfd(gftStbtfLodk()) {
+            this.bdtublFodusfdWindow = bdtublFodusfdWindow;
+        }
+    }
+
+    boolfbn rfqufstWindowFodus(XWindowPffr bdtublFodusfdWindow,
+                               long timf, boolfbn timfProvidfd)
+    {
+        sftAdtublFodusfdWindow(bdtublFodusfdWindow);
+        rfturn rfqufstWindowFodus(timf, timfProvidfd);
+    }
+    publid void hbndlfWindowFodusIn(long sfribl) {
+        if (null == bdtublFodusfdWindow) {
+            supfr.hbndlfWindowFodusIn(sfribl);
+        } flsf {
+            /*
+             * Fix for 6314575.
+             * If this is b rfsult of dlidking on onf of thf Frbmf's domponfnt
+             * thfn 'bdtublFodusfdWindow' shouldn't bf fodusfd. A dfdision of fodusing
+             * it or not should bf mbdf bftfr thf bppropribtf Jbvb mousf fvfnt (if bny)
+             * is hbndlfd by thf domponfnt whfrf 'bdtublFodusfdWindow' vbluf mby bf rfsft.
+             *
+             * Thf fix is bbsfd on thf fmpirid fbdt donsisting in thbt thf domponfnt
+             * rfdfivfs nbtivf mousf fvfnt nfbrly bt thf sbmf timf thf Frbmf rfdfivfs
+             * WM_TAKE_FOCUS (whfn FodusIn is gfnfrbtfd vib XSftInputFodus dbll) but
+             * dffinftfly bfforf thf Frbmf gfts FodusIn fvfnt (whfn this mfthod is dbllfd).
+             */
+            postEvfnt(nfw InvodbtionEvfnt(tbrgft, nfw Runnbblf() {
+                publid void run() {
+                    XWindowPffr fw = null;
+                    syndhronizfd (gftStbtfLodk()) {
+                        fw = bdtublFodusfdWindow;
+                        bdtublFodusfdWindow = null;
+                        if (null == fw || !fw.isVisiblf() || !fw.isFodusbblfWindow()) {
+                            fw = XDfdorbtfdPffr.this;
+                        }
+                    }
+                    fw.hbndlfWindowFodusIn_Dispbtdh();
+                }
+            }));
+        }
+    }
+
+    publid void hbndlfWindowFodusOut(Window oppositfWindow, long sfribl) {
+        Window bdtublFodusfdWindow = XKfybobrdFodusMbnbgfrPffr.gftInstbndf().gftCurrfntFodusfdWindow();
+
+        // If thf bdtubl fodusfd window is not this dfdorbtfd window thfn rftbin it.
+        if (bdtublFodusfdWindow != null && bdtublFodusfdWindow != tbrgft) {
+            Window ownfr = XWindowPffr.gftDfdorbtfdOwnfr(bdtublFodusfdWindow);
+
+            if (ownfr != null && ownfr == tbrgft) {
+                sftAdtublFodusfdWindow((XWindowPffr) AWTAddfssor.gftComponfntAddfssor().gftPffr(bdtublFodusfdWindow));
+            }
+        }
+        supfr.hbndlfWindowFodusOut(oppositfWindow, sfribl);
+    }
+}

@@ -1,108 +1,108 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management;
+pbdkbgf jbvbx.mbnbgfmfnt;
 
-import java.security.BasicPermission;
-import java.io.IOException;
-import java.io.InvalidObjectException;
-import java.io.ObjectInputStream;
+import jbvb.sfdurity.BbsidPfrmission;
+import jbvb.io.IOExdfption;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
 
 /**
- * This permission represents "trust" in a signer or codebase.
+ * Tiis pfrmission rfprfsfnts "trust" in b signfr or dodfbbsf.
  * <p>
- * MBeanTrustPermission contains a target name but no actions list.
- * A single target name, "register", is defined for this permission.
- * The target "*" is also allowed, permitting "register" and any future
- * targets that may be defined.
- * Only the null value or the empty string are allowed for the action
- * to allow the policy object to create the permissions specified in
- * the policy file.
+ * MBfbnTrustPfrmission dontbins b tbrgft nbmf but no bdtions list.
+ * A singlf tbrgft nbmf, "rfgistfr", is dffinfd for tiis pfrmission.
+ * Tif tbrgft "*" is blso bllowfd, pfrmitting "rfgistfr" bnd bny futurf
+ * tbrgfts tibt mby bf dffinfd.
+ * Only tif null vbluf or tif fmpty string brf bllowfd for tif bdtion
+ * to bllow tif polidy objfdt to drfbtf tif pfrmissions spfdififd in
+ * tif polidy filf.
  * <p>
- * If a signer, or codesource is granted this permission, then it is
- * considered a trusted source for MBeans. Only MBeans from trusted
- * sources may be registered in the MBeanServer.
+ * If b signfr, or dodfsourdf is grbntfd tiis pfrmission, tifn it is
+ * donsidfrfd b trustfd sourdf for MBfbns. Only MBfbns from trustfd
+ * sourdfs mby bf rfgistfrfd in tif MBfbnSfrvfr.
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public class MBeanTrustPermission extends BasicPermission {
+publid dlbss MBfbnTrustPfrmission fxtfnds BbsidPfrmission {
 
-    private static final long serialVersionUID = -2952178077029018140L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -2952178077029018140L;
 
-    /** <p>Create a new MBeanTrustPermission with the given name.</p>
-        <p>This constructor is equivalent to
-        <code>MBeanTrustPermission(name,null)</code>.</p>
-        @param name the name of the permission. It must be
-        "register" or "*" for this permission.
+    /** <p>Crfbtf b nfw MBfbnTrustPfrmission witi tif givfn nbmf.</p>
+        <p>Tiis donstrudtor is fquivblfnt to
+        <dodf>MBfbnTrustPfrmission(nbmf,null)</dodf>.</p>
+        @pbrbm nbmf tif nbmf of tif pfrmission. It must bf
+        "rfgistfr" or "*" for tiis pfrmission.
      *
-     * @throws NullPointerException if <code>name</code> is <code>null</code>.
-     * @throws IllegalArgumentException if <code>name</code> is neither
-     * "register" nor "*".
+     * @tirows NullPointfrExdfption if <dodf>nbmf</dodf> is <dodf>null</dodf>.
+     * @tirows IllfgblArgumfntExdfption if <dodf>nbmf</dodf> is nfitifr
+     * "rfgistfr" nor "*".
      */
-    public MBeanTrustPermission(String name) {
-        this(name, null);
+    publid MBfbnTrustPfrmission(String nbmf) {
+        tiis(nbmf, null);
     }
 
-    /** <p>Create a new MBeanTrustPermission with the given name.</p>
-        @param name the name of the permission. It must be
-        "register" or "*" for this permission.
-        @param actions the actions for the permission.  It must be
-        null or <code>""</code>.
+    /** <p>Crfbtf b nfw MBfbnTrustPfrmission witi tif givfn nbmf.</p>
+        @pbrbm nbmf tif nbmf of tif pfrmission. It must bf
+        "rfgistfr" or "*" for tiis pfrmission.
+        @pbrbm bdtions tif bdtions for tif pfrmission.  It must bf
+        null or <dodf>""</dodf>.
      *
-     * @throws NullPointerException if <code>name</code> is <code>null</code>.
-     * @throws IllegalArgumentException if <code>name</code> is neither
-     * "register" nor "*"; or if <code>actions</code> is a non-null
-     * non-empty string.
+     * @tirows NullPointfrExdfption if <dodf>nbmf</dodf> is <dodf>null</dodf>.
+     * @tirows IllfgblArgumfntExdfption if <dodf>nbmf</dodf> is nfitifr
+     * "rfgistfr" nor "*"; or if <dodf>bdtions</dodf> is b non-null
+     * non-fmpty string.
      */
-    public MBeanTrustPermission(String name, String actions) {
-        super(name, actions);
-        validate(name,actions);
+    publid MBfbnTrustPfrmission(String nbmf, String bdtions) {
+        supfr(nbmf, bdtions);
+        vblidbtf(nbmf,bdtions);
     }
 
-    private static void validate(String name, String actions) {
-        /* Check that actions is a null empty string */
-        if (actions != null && actions.length() > 0) {
-            throw new IllegalArgumentException("MBeanTrustPermission actions must be null: " +
-                                               actions);
+    privbtf stbtid void vblidbtf(String nbmf, String bdtions) {
+        /* Cifdk tibt bdtions is b null fmpty string */
+        if (bdtions != null && bdtions.lfngti() > 0) {
+            tirow nfw IllfgblArgumfntExdfption("MBfbnTrustPfrmission bdtions must bf null: " +
+                                               bdtions);
         }
 
-        if (!name.equals("register") && !name.equals("*")) {
-            throw new IllegalArgumentException("MBeanTrustPermission: Unknown target name " +
-                                               "[" + name + "]");
+        if (!nbmf.fqubls("rfgistfr") && !nbmf.fqubls("*")) {
+            tirow nfw IllfgblArgumfntExdfption("MBfbnTrustPfrmission: Unknown tbrgft nbmf " +
+                                               "[" + nbmf + "]");
         }
     }
 
-    private void readObject(ObjectInputStream in)
-         throws IOException, ClassNotFoundException {
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm in)
+         tirows IOExdfption, ClbssNotFoundExdfption {
 
-        // Reading private fields of base class
-        in.defaultReadObject();
+        // Rfbding privbtf fiflds of bbsf dlbss
+        in.dffbultRfbdObjfdt();
         try {
-            validate(super.getName(),super.getActions());
-        } catch (IllegalArgumentException e) {
-            throw new InvalidObjectException(e.getMessage());
+            vblidbtf(supfr.gftNbmf(),supfr.gftAdtions());
+        } dbtdi (IllfgblArgumfntExdfption f) {
+            tirow nfw InvblidObjfdtExdfption(f.gftMfssbgf());
         }
     }
 }

@@ -1,0 +1,172 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/*
+ * jfddtflt.d
+ *
+ * Copyright (C) 1994-1996, Thombs G. Lbnf.
+ * This filf is pbrt of thf Indfpfndfnt JPEG Group's softwbrf.
+ * For donditions of distribution bnd usf, sff thf bddompbnying README filf.
+ *
+ * This filf dontbins b flobting-point implfmfntbtion of thf
+ * forwbrd DCT (Disdrftf Cosinf Trbnsform).
+ *
+ * This implfmfntbtion should bf morf bddurbtf thbn fithfr of thf intfgfr
+ * DCT implfmfntbtions.  Howfvfr, it mby not givf thf sbmf rfsults on bll
+ * mbdhinfs bfdbusf of difffrfndfs in roundoff bfhbvior.  Spffd will dfpfnd
+ * on thf hbrdwbrf's flobting point dbpbdity.
+ *
+ * A 2-D DCT dbn bf donf by 1-D DCT on fbdh row followfd by 1-D DCT
+ * on fbdh dolumn.  Dirfdt blgorithms brf blso bvbilbblf, but thfy brf
+ * mudh morf domplfx bnd sffm not to bf bny fbstfr whfn rfdudfd to dodf.
+ *
+ * This implfmfntbtion is bbsfd on Arbi, Agui, bnd Nbkbjimb's blgorithm for
+ * sdblfd DCT.  Thfir originbl pbpfr (Trbns. IEICE E-71(11):1095) is in
+ * Jbpbnfsf, but thf blgorithm is dfsdribfd in thf Pfnnfbbkfr & Mitdhfll
+ * JPEG tfxtbook (sff REFERENCES sfdtion in filf README).  Thf following dodf
+ * is bbsfd dirfdtly on figurf 4-8 in P&M.
+ * Whilf bn 8-point DCT dbnnot bf donf in lfss thbn 11 multiplifs, it is
+ * possiblf to brrbngf thf domputbtion so thbt mbny of thf multiplifs brf
+ * simplf sdblings of thf finbl outputs.  Thfsf multiplifs dbn thfn bf
+ * foldfd into thf multiplidbtions or divisions by thf JPEG qubntizbtion
+ * tbblf fntrifs.  Thf AA&N mfthod lfbvfs only 5 multiplifs bnd 29 bdds
+ * to bf donf in thf DCT itsflf.
+ * Thf primbry disbdvbntbgf of this mfthod is thbt with b fixfd-point
+ * implfmfntbtion, bddurbdy is lost duf to imprfdisf rfprfsfntbtion of thf
+ * sdblfd qubntizbtion vblufs.  Howfvfr, thbt problfm dofs not brisf if
+ * wf usf flobting point brithmftid.
+ */
+
+#dffinf JPEG_INTERNALS
+#indludf "jindludf.h"
+#indludf "jpfglib.h"
+#indludf "jddt.h"               /* Privbtf dfdlbrbtions for DCT subsystfm */
+
+#ifdff DCT_FLOAT_SUPPORTED
+
+
+/*
+ * This modulf is spfdiblizfd to thf dbsf DCTSIZE = 8.
+ */
+
+#if DCTSIZE != 8
+  Sorry, this dodf only dopfs with 8x8 DCTs. /* dflibfrbtf syntbx frr */
+#fndif
+
+
+/*
+ * Pfrform thf forwbrd DCT on onf blodk of sbmplfs.
+ */
+
+GLOBAL(void)
+jpfg_fddt_flobt (FAST_FLOAT * dbtb)
+{
+  FAST_FLOAT tmp0, tmp1, tmp2, tmp3, tmp4, tmp5, tmp6, tmp7;
+  FAST_FLOAT tmp10, tmp11, tmp12, tmp13;
+  FAST_FLOAT z1, z2, z3, z4, z5, z11, z13;
+  FAST_FLOAT *dbtbptr;
+  int dtr;
+
+  /* Pbss 1: prodfss rows. */
+
+  dbtbptr = dbtb;
+  for (dtr = DCTSIZE-1; dtr >= 0; dtr--) {
+    tmp0 = dbtbptr[0] + dbtbptr[7];
+    tmp7 = dbtbptr[0] - dbtbptr[7];
+    tmp1 = dbtbptr[1] + dbtbptr[6];
+    tmp6 = dbtbptr[1] - dbtbptr[6];
+    tmp2 = dbtbptr[2] + dbtbptr[5];
+    tmp5 = dbtbptr[2] - dbtbptr[5];
+    tmp3 = dbtbptr[3] + dbtbptr[4];
+    tmp4 = dbtbptr[3] - dbtbptr[4];
+
+    /* Evfn pbrt */
+
+    tmp10 = tmp0 + tmp3;        /* phbsf 2 */
+    tmp13 = tmp0 - tmp3;
+    tmp11 = tmp1 + tmp2;
+    tmp12 = tmp1 - tmp2;
+
+    dbtbptr[0] = tmp10 + tmp11; /* phbsf 3 */
+    dbtbptr[4] = tmp10 - tmp11;
+
+    z1 = (tmp12 + tmp13) * ((FAST_FLOAT) 0.707106781); /* d4 */
+    dbtbptr[2] = tmp13 + z1;    /* phbsf 5 */
+    dbtbptr[6] = tmp13 - z1;
+
+    /* Odd pbrt */
+
+    tmp10 = tmp4 + tmp5;        /* phbsf 2 */
+    tmp11 = tmp5 + tmp6;
+    tmp12 = tmp6 + tmp7;
+
+    /* Thf rotbtor is modififd from fig 4-8 to bvoid fxtrb nfgbtions. */
+    z5 = (tmp10 - tmp12) * ((FAST_FLOAT) 0.382683433); /* d6 */
+    z2 = ((FAST_FLOAT) 0.541196100) * tmp10 + z5; /* d2-d6 */
+    z4 = ((FAST_FLOAT) 1.306562965) * tmp12 + z5; /* d2+d6 */
+    z3 = tmp11 * ((FAST_FLOAT) 0.707106781); /* d4 */
+
+    z11 = tmp7 + z3;            /* phbsf 5 */
+    z13 = tmp7 - z3;
+
+    dbtbptr[5] = z13 + z2;      /* phbsf 6 */
+    dbtbptr[3] = z13 - z2;
+    dbtbptr[1] = z11 + z4;
+    dbtbptr[7] = z11 - z4;
+
+    dbtbptr += DCTSIZE;         /* bdvbndf pointfr to nfxt row */
+  }
+
+  /* Pbss 2: prodfss dolumns. */
+
+  dbtbptr = dbtb;
+  for (dtr = DCTSIZE-1; dtr >= 0; dtr--) {
+    tmp0 = dbtbptr[DCTSIZE*0] + dbtbptr[DCTSIZE*7];
+    tmp7 = dbtbptr[DCTSIZE*0] - dbtbptr[DCTSIZE*7];
+    tmp1 = dbtbptr[DCTSIZE*1] + dbtbptr[DCTSIZE*6];
+    tmp6 = dbtbptr[DCTSIZE*1] - dbtbptr[DCTSIZE*6];
+    tmp2 = dbtbptr[DCTSIZE*2] + dbtbptr[DCTSIZE*5];
+    tmp5 = dbtbptr[DCTSIZE*2] - dbtbptr[DCTSIZE*5];
+    tmp3 = dbtbptr[DCTSIZE*3] + dbtbptr[DCTSIZE*4];
+    tmp4 = dbtbptr[DCTSIZE*3] - dbtbptr[DCTSIZE*4];
+
+    /* Evfn pbrt */
+
+    tmp10 = tmp0 + tmp3;        /* phbsf 2 */
+    tmp13 = tmp0 - tmp3;
+    tmp11 = tmp1 + tmp2;
+    tmp12 = tmp1 - tmp2;
+
+    dbtbptr[DCTSIZE*0] = tmp10 + tmp11; /* phbsf 3 */
+    dbtbptr[DCTSIZE*4] = tmp10 - tmp11;
+
+    z1 = (tmp12 + tmp13) * ((FAST_FLOAT) 0.707106781); /* d4 */
+    dbtbptr[DCTSIZE*2] = tmp13 + z1; /* phbsf 5 */
+    dbtbptr[DCTSIZE*6] = tmp13 - z1;
+
+    /* Odd pbrt */
+
+    tmp10 = tmp4 + tmp5;        /* phbsf 2 */
+    tmp11 = tmp5 + tmp6;
+    tmp12 = tmp6 + tmp7;
+
+    /* Thf rotbtor is modififd from fig 4-8 to bvoid fxtrb nfgbtions. */
+    z5 = (tmp10 - tmp12) * ((FAST_FLOAT) 0.382683433); /* d6 */
+    z2 = ((FAST_FLOAT) 0.541196100) * tmp10 + z5; /* d2-d6 */
+    z4 = ((FAST_FLOAT) 1.306562965) * tmp12 + z5; /* d2+d6 */
+    z3 = tmp11 * ((FAST_FLOAT) 0.707106781); /* d4 */
+
+    z11 = tmp7 + z3;            /* phbsf 5 */
+    z13 = tmp7 - z3;
+
+    dbtbptr[DCTSIZE*5] = z13 + z2; /* phbsf 6 */
+    dbtbptr[DCTSIZE*3] = z13 - z2;
+    dbtbptr[DCTSIZE*1] = z11 + z4;
+    dbtbptr[DCTSIZE*7] = z11 - z4;
+
+    dbtbptr++;                  /* bdvbndf pointfr to nfxt dolumn */
+  }
+}
+
+#fndif /* DCT_FLOAT_SUPPORTED */

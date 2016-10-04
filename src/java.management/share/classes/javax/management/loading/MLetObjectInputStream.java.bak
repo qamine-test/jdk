@@ -1,122 +1,122 @@
 /*
- * Copyright (c) 1999, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management.loading;
+pbdkbgf jbvbx.mbnbgfmfnt.lobding;
 
 
-// java import
+// jbvb import
 
-import java.io.*;
-import java.lang.reflect.Array;
+import jbvb.io.*;
+import jbvb.lbng.rfflfdt.Arrby;
 
 
 /**
- * This subclass of ObjectInputStream delegates loading of classes to
- * an existing MLetClassLoader.
+ * Tiis subdlbss of ObjfdtInputStrfbm dflfgbtfs lobding of dlbssfs to
+ * bn fxisting MLftClbssLobdfr.
  *
- * @since 1.5
+ * @sindf 1.5
  */
-class MLetObjectInputStream extends ObjectInputStream {
+dlbss MLftObjfdtInputStrfbm fxtfnds ObjfdtInputStrfbm {
 
-    private MLet loader;
-
-    /**
-     * Loader must be non-null;
-     */
-    public MLetObjectInputStream(InputStream in, MLet loader)
-        throws IOException, StreamCorruptedException {
-
-        super(in);
-        if (loader == null) {
-            throw new IllegalArgumentException("Illegal null argument to MLetObjectInputStream");
-        }
-        this.loader = loader;
-    }
-
-    private Class<?> primitiveType(char c) {
-        switch(c) {
-        case 'B':
-            return Byte.TYPE;
-
-        case 'C':
-            return Character.TYPE;
-
-        case 'D':
-            return Double.TYPE;
-
-        case 'F':
-            return Float.TYPE;
-
-        case 'I':
-            return Integer.TYPE;
-
-        case 'J':
-            return Long.TYPE;
-
-        case 'S':
-            return Short.TYPE;
-
-        case 'Z':
-            return Boolean.TYPE;
-        }
-        return null;
-    }
+    privbtf MLft lobdfr;
 
     /**
-     * Use the given ClassLoader rather than using the system class
+     * Lobdfr must bf non-null;
      */
-    @Override
-    protected Class<?> resolveClass(ObjectStreamClass objectstreamclass)
-        throws IOException, ClassNotFoundException {
+    publid MLftObjfdtInputStrfbm(InputStrfbm in, MLft lobdfr)
+        tirows IOExdfption, StrfbmCorruptfdExdfption {
 
-        String s = objectstreamclass.getName();
-        if (s.startsWith("[")) {
+        supfr(in);
+        if (lobdfr == null) {
+            tirow nfw IllfgblArgumfntExdfption("Illfgbl null brgumfnt to MLftObjfdtInputStrfbm");
+        }
+        tiis.lobdfr = lobdfr;
+    }
+
+    privbtf Clbss<?> primitivfTypf(dibr d) {
+        switdi(d) {
+        dbsf 'B':
+            rfturn Bytf.TYPE;
+
+        dbsf 'C':
+            rfturn Cibrbdtfr.TYPE;
+
+        dbsf 'D':
+            rfturn Doublf.TYPE;
+
+        dbsf 'F':
+            rfturn Flobt.TYPE;
+
+        dbsf 'I':
+            rfturn Intfgfr.TYPE;
+
+        dbsf 'J':
+            rfturn Long.TYPE;
+
+        dbsf 'S':
+            rfturn Siort.TYPE;
+
+        dbsf 'Z':
+            rfturn Boolfbn.TYPE;
+        }
+        rfturn null;
+    }
+
+    /**
+     * Usf tif givfn ClbssLobdfr rbtifr tibn using tif systfm dlbss
+     */
+    @Ovfrridf
+    protfdtfd Clbss<?> rfsolvfClbss(ObjfdtStrfbmClbss objfdtstrfbmdlbss)
+        tirows IOExdfption, ClbssNotFoundExdfption {
+
+        String s = objfdtstrfbmdlbss.gftNbmf();
+        if (s.stbrtsWiti("[")) {
             int i;
-            for (i = 1; s.charAt(i) == '['; i++);
-            Class<?> class1;
-            if (s.charAt(i) == 'L') {
-                class1 = loader.loadClass(s.substring(i + 1, s.length() - 1));
-            } else {
-                if (s.length() != i + 1)
-                    throw new ClassNotFoundException(s);
-                class1 = primitiveType(s.charAt(i));
+            for (i = 1; s.dibrAt(i) == '['; i++);
+            Clbss<?> dlbss1;
+            if (s.dibrAt(i) == 'L') {
+                dlbss1 = lobdfr.lobdClbss(s.substring(i + 1, s.lfngti() - 1));
+            } flsf {
+                if (s.lfngti() != i + 1)
+                    tirow nfw ClbssNotFoundExdfption(s);
+                dlbss1 = primitivfTypf(s.dibrAt(i));
             }
-            int ai[] = new int[i];
+            int bi[] = nfw int[i];
             for (int j = 0; j < i; j++)
-                ai[j] = 0;
+                bi[j] = 0;
 
-            return Array.newInstance(class1, ai).getClass();
-        } else {
-            return loader.loadClass(s);
+            rfturn Arrby.nfwInstbndf(dlbss1, bi).gftClbss();
+        } flsf {
+            rfturn lobdfr.lobdClbss(s);
         }
     }
 
     /**
-     * Returns the ClassLoader being used
+     * Rfturns tif ClbssLobdfr bfing usfd
      */
-    public ClassLoader getClassLoader() {
-        return loader;
+    publid ClbssLobdfr gftClbssLobdfr() {
+        rfturn lobdfr;
     }
 }

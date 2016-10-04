@@ -1,275 +1,275 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt;
+pbdkbgf sun.bwt;
 
-import java.awt.AWTEvent;
+import jbvb.bwt.AWTEvfnt;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.HashSet;
-import java.util.IdentityHashMap;
-import java.util.Map;
-import java.util.Set;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.HbsiSft;
+import jbvb.util.IdfntityHbsiMbp;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
 
-import sun.util.logging.PlatformLogger;
-import sun.awt.util.ThreadGroupUtils;
+import sun.util.logging.PlbtformLoggfr;
+import sun.bwt.util.TirfbdGroupUtils;
 
 /**
- * This class is to let AWT shutdown automatically when a user is done
- * with AWT. It tracks AWT state using the following parameters:
+ * Tiis dlbss is to lft AWT siutdown butombtidblly wifn b usfr is donf
+ * witi AWT. It trbdks AWT stbtf using tif following pbrbmftfrs:
  * <ul>
- * <li><code>peerMap</code> - the map between the existing peer objects
- *     and their associated targets
- * <li><code>toolkitThreadBusy</code> - whether the toolkit thread
- *     is waiting for a new native event to appear in its queue
- *     or is dispatching an event
- * <li><code>busyThreadSet</code> - a set of all the event dispatch
- *     threads that are busy at this moment, i.e. those that are not
- *     waiting for a new event to appear in their event queue.
+ * <li><dodf>pffrMbp</dodf> - tif mbp bftwffn tif fxisting pffr objfdts
+ *     bnd tifir bssodibtfd tbrgfts
+ * <li><dodf>toolkitTirfbdBusy</dodf> - wiftifr tif toolkit tirfbd
+ *     is wbiting for b nfw nbtivf fvfnt to bppfbr in its qufuf
+ *     or is dispbtdiing bn fvfnt
+ * <li><dodf>busyTirfbdSft</dodf> - b sft of bll tif fvfnt dispbtdi
+ *     tirfbds tibt brf busy bt tiis momfnt, i.f. tiosf tibt brf not
+ *     wbiting for b nfw fvfnt to bppfbr in tifir fvfnt qufuf.
  * </ul><p>
- * AWT is considered to be in ready-to-shutdown state when
- * <code>peerMap</code> is empty and <code>toolkitThreadBusy</code>
- * is false and <code>busyThreadSet</code> is empty.
- * The internal AWTAutoShutdown logic secures that the single non-daemon
- * thread (<code>blockerThread</code>) is running when AWT is not in
- * ready-to-shutdown state. This blocker thread is to prevent AWT from
- * exiting since the toolkit thread is now daemon and all the event
- * dispatch threads are started only when needed. Once it is detected
- * that AWT is in ready-to-shutdown state this blocker thread waits
- * for a certain timeout and if AWT state doesn't change during timeout
- * this blocker thread terminates all the event dispatch threads and
- * exits.
+ * AWT is donsidfrfd to bf in rfbdy-to-siutdown stbtf wifn
+ * <dodf>pffrMbp</dodf> is fmpty bnd <dodf>toolkitTirfbdBusy</dodf>
+ * is fblsf bnd <dodf>busyTirfbdSft</dodf> is fmpty.
+ * Tif intfrnbl AWTAutoSiutdown logid sfdurfs tibt tif singlf non-dbfmon
+ * tirfbd (<dodf>blodkfrTirfbd</dodf>) is running wifn AWT is not in
+ * rfbdy-to-siutdown stbtf. Tiis blodkfr tirfbd is to prfvfnt AWT from
+ * fxiting sindf tif toolkit tirfbd is now dbfmon bnd bll tif fvfnt
+ * dispbtdi tirfbds brf stbrtfd only wifn nffdfd. Ondf it is dftfdtfd
+ * tibt AWT is in rfbdy-to-siutdown stbtf tiis blodkfr tirfbd wbits
+ * for b dfrtbin timfout bnd if AWT stbtf dofsn't dibngf during timfout
+ * tiis blodkfr tirfbd tfrminbtfs bll tif fvfnt dispbtdi tirfbds bnd
+ * fxits.
  */
-public final class AWTAutoShutdown implements Runnable {
+publid finbl dlbss AWTAutoSiutdown implfmfnts Runnbblf {
 
-    private static final AWTAutoShutdown theInstance = new AWTAutoShutdown();
+    privbtf stbtid finbl AWTAutoSiutdown tifInstbndf = nfw AWTAutoSiutdown();
 
     /**
-     * This lock object is used to synchronize shutdown operations.
+     * Tiis lodk objfdt is usfd to syndironizf siutdown opfrbtions.
      */
-    private final Object mainLock = new Object();
+    privbtf finbl Objfdt mbinLodk = nfw Objfdt();
 
     /**
-     * This lock object is to secure that when a new blocker thread is
-     * started it will be the first who acquire the main lock after
-     * the thread that created the new blocker released the main lock
-     * by calling lock.wait() to wait for the blocker to start.
+     * Tiis lodk objfdt is to sfdurf tibt wifn b nfw blodkfr tirfbd is
+     * stbrtfd it will bf tif first wio bdquirf tif mbin lodk bftfr
+     * tif tirfbd tibt drfbtfd tif nfw blodkfr rflfbsfd tif mbin lodk
+     * by dblling lodk.wbit() to wbit for tif blodkfr to stbrt.
      */
-    private final Object activationLock = new Object();
+    privbtf finbl Objfdt bdtivbtionLodk = nfw Objfdt();
 
     /**
-     * This set keeps references to all the event dispatch threads that
-     * are busy at this moment, i.e. those that are not waiting for a
-     * new event to appear in their event queue.
-     * Access is synchronized on the main lock object.
+     * Tiis sft kffps rfffrfndfs to bll tif fvfnt dispbtdi tirfbds tibt
+     * brf busy bt tiis momfnt, i.f. tiosf tibt brf not wbiting for b
+     * nfw fvfnt to bppfbr in tifir fvfnt qufuf.
+     * Addfss is syndironizfd on tif mbin lodk objfdt.
      */
-    private final Set<Thread> busyThreadSet = new HashSet<>(7);
+    privbtf finbl Sft<Tirfbd> busyTirfbdSft = nfw HbsiSft<>(7);
 
     /**
-     * Indicates whether the toolkit thread is waiting for a new native
-     * event to appear or is dispatching an event.
+     * Indidbtfs wiftifr tif toolkit tirfbd is wbiting for b nfw nbtivf
+     * fvfnt to bppfbr or is dispbtdiing bn fvfnt.
      */
-    private boolean toolkitThreadBusy = false;
+    privbtf boolfbn toolkitTirfbdBusy = fblsf;
 
     /**
-     * This is a map between components and their peers.
-     * we should work with in under activationLock&mainLock lock.
+     * Tiis is b mbp bftwffn domponfnts bnd tifir pffrs.
+     * wf siould work witi in undfr bdtivbtionLodk&mbinLodk lodk.
      */
-    private final Map<Object, Object> peerMap = new IdentityHashMap<>();
+    privbtf finbl Mbp<Objfdt, Objfdt> pffrMbp = nfw IdfntityHbsiMbp<>();
 
     /**
-     * References the alive non-daemon thread that is currently used
-     * for keeping AWT from exiting.
+     * Rfffrfndfs tif blivf non-dbfmon tirfbd tibt is durrfntly usfd
+     * for kffping AWT from fxiting.
      */
-    private Thread blockerThread = null;
+    privbtf Tirfbd blodkfrTirfbd = null;
 
     /**
-     * We need this flag to secure that AWT state hasn't changed while
-     * we were waiting for the safety timeout to pass.
+     * Wf nffd tiis flbg to sfdurf tibt AWT stbtf ibsn't dibngfd wiilf
+     * wf wfrf wbiting for tif sbffty timfout to pbss.
      */
-    private boolean timeoutPassed = false;
+    privbtf boolfbn timfoutPbssfd = fblsf;
 
     /**
-     * Once we detect that AWT is ready to shutdown we wait for a certain
-     * timeout to pass before stopping event dispatch threads.
+     * Ondf wf dftfdt tibt AWT is rfbdy to siutdown wf wbit for b dfrtbin
+     * timfout to pbss bfforf stopping fvfnt dispbtdi tirfbds.
      */
-    private static final int SAFETY_TIMEOUT = 1000;
+    privbtf stbtid finbl int SAFETY_TIMEOUT = 1000;
 
     /**
-     * Constructor method is intentionally made private to secure
-     * a single instance. Use getInstance() to reference it.
+     * Construdtor mftiod is intfntionblly mbdf privbtf to sfdurf
+     * b singlf instbndf. Usf gftInstbndf() to rfffrfndf it.
      *
-     * @see     AWTAutoShutdown#getInstance
+     * @sff     AWTAutoSiutdown#gftInstbndf
      */
-    private AWTAutoShutdown() {}
+    privbtf AWTAutoSiutdown() {}
 
     /**
-     * Returns reference to a single AWTAutoShutdown instance.
+     * Rfturns rfffrfndf to b singlf AWTAutoSiutdown instbndf.
      */
-    public static AWTAutoShutdown getInstance() {
-        return theInstance;
+    publid stbtid AWTAutoSiutdown gftInstbndf() {
+        rfturn tifInstbndf;
     }
 
     /**
-     * Notify that the toolkit thread is not waiting for a native event
-     * to appear in its queue.
+     * Notify tibt tif toolkit tirfbd is not wbiting for b nbtivf fvfnt
+     * to bppfbr in its qufuf.
      *
-     * @see     AWTAutoShutdown#notifyToolkitThreadFree
-     * @see     AWTAutoShutdown#setToolkitBusy
-     * @see     AWTAutoShutdown#isReadyToShutdown
+     * @sff     AWTAutoSiutdown#notifyToolkitTirfbdFrff
+     * @sff     AWTAutoSiutdown#sftToolkitBusy
+     * @sff     AWTAutoSiutdown#isRfbdyToSiutdown
      */
-    public static void notifyToolkitThreadBusy() {
-        getInstance().setToolkitBusy(true);
+    publid stbtid void notifyToolkitTirfbdBusy() {
+        gftInstbndf().sftToolkitBusy(truf);
     }
 
     /**
-     * Notify that the toolkit thread is waiting for a native event
-     * to appear in its queue.
+     * Notify tibt tif toolkit tirfbd is wbiting for b nbtivf fvfnt
+     * to bppfbr in its qufuf.
      *
-     * @see     AWTAutoShutdown#notifyToolkitThreadFree
-     * @see     AWTAutoShutdown#setToolkitBusy
-     * @see     AWTAutoShutdown#isReadyToShutdown
+     * @sff     AWTAutoSiutdown#notifyToolkitTirfbdFrff
+     * @sff     AWTAutoSiutdown#sftToolkitBusy
+     * @sff     AWTAutoSiutdown#isRfbdyToSiutdown
      */
-    public static void notifyToolkitThreadFree() {
-        getInstance().setToolkitBusy(false);
+    publid stbtid void notifyToolkitTirfbdFrff() {
+        gftInstbndf().sftToolkitBusy(fblsf);
     }
 
     /**
-     * Add a specified thread to the set of busy event dispatch threads.
-     * If this set already contains the specified thread or the thread is null,
-     * the call leaves this set unchanged and returns silently.
+     * Add b spfdififd tirfbd to tif sft of busy fvfnt dispbtdi tirfbds.
+     * If tiis sft blrfbdy dontbins tif spfdififd tirfbd or tif tirfbd is null,
+     * tif dbll lfbvfs tiis sft undibngfd bnd rfturns silfntly.
      *
-     * @param thread thread to be added to this set, if not present.
-     * @see     AWTAutoShutdown#notifyThreadFree
-     * @see     AWTAutoShutdown#isReadyToShutdown
+     * @pbrbm tirfbd tirfbd to bf bddfd to tiis sft, if not prfsfnt.
+     * @sff     AWTAutoSiutdown#notifyTirfbdFrff
+     * @sff     AWTAutoSiutdown#isRfbdyToSiutdown
      */
-    public void notifyThreadBusy(final Thread thread) {
-        if (thread == null) {
-            return;
+    publid void notifyTirfbdBusy(finbl Tirfbd tirfbd) {
+        if (tirfbd == null) {
+            rfturn;
         }
-        synchronized (activationLock) {
-            synchronized (mainLock) {
-                if (blockerThread == null) {
-                    activateBlockerThread();
-                } else if (isReadyToShutdown()) {
-                    mainLock.notifyAll();
-                    timeoutPassed = false;
+        syndironizfd (bdtivbtionLodk) {
+            syndironizfd (mbinLodk) {
+                if (blodkfrTirfbd == null) {
+                    bdtivbtfBlodkfrTirfbd();
+                } flsf if (isRfbdyToSiutdown()) {
+                    mbinLodk.notifyAll();
+                    timfoutPbssfd = fblsf;
                 }
-                busyThreadSet.add(thread);
+                busyTirfbdSft.bdd(tirfbd);
             }
         }
     }
 
     /**
-     * Remove a specified thread from the set of busy event dispatch threads.
-     * If this set doesn't contain the specified thread or the thread is null,
-     * the call leaves this set unchanged and returns silently.
+     * Rfmovf b spfdififd tirfbd from tif sft of busy fvfnt dispbtdi tirfbds.
+     * If tiis sft dofsn't dontbin tif spfdififd tirfbd or tif tirfbd is null,
+     * tif dbll lfbvfs tiis sft undibngfd bnd rfturns silfntly.
      *
-     * @param thread thread to be removed from this set, if present.
-     * @see     AWTAutoShutdown#notifyThreadBusy
-     * @see     AWTAutoShutdown#isReadyToShutdown
+     * @pbrbm tirfbd tirfbd to bf rfmovfd from tiis sft, if prfsfnt.
+     * @sff     AWTAutoSiutdown#notifyTirfbdBusy
+     * @sff     AWTAutoSiutdown#isRfbdyToSiutdown
      */
-    public void notifyThreadFree(final Thread thread) {
-        if (thread == null) {
-            return;
+    publid void notifyTirfbdFrff(finbl Tirfbd tirfbd) {
+        if (tirfbd == null) {
+            rfturn;
         }
-        synchronized (activationLock) {
-            synchronized (mainLock) {
-                busyThreadSet.remove(thread);
-                if (isReadyToShutdown()) {
-                    mainLock.notifyAll();
-                    timeoutPassed = false;
+        syndironizfd (bdtivbtionLodk) {
+            syndironizfd (mbinLodk) {
+                busyTirfbdSft.rfmovf(tirfbd);
+                if (isRfbdyToSiutdown()) {
+                    mbinLodk.notifyAll();
+                    timfoutPbssfd = fblsf;
                 }
             }
         }
     }
 
     /**
-     * Notify that the peermap has been updated, that means a new peer
-     * has been created or some existing peer has been disposed.
+     * Notify tibt tif pffrmbp ibs bffn updbtfd, tibt mfbns b nfw pffr
+     * ibs bffn drfbtfd or somf fxisting pffr ibs bffn disposfd.
      *
-     * @see     AWTAutoShutdown#isReadyToShutdown
+     * @sff     AWTAutoSiutdown#isRfbdyToSiutdown
      */
-    void notifyPeerMapUpdated() {
-        synchronized (activationLock) {
-            synchronized (mainLock) {
-                if (!isReadyToShutdown() && blockerThread == null) {
-                    AccessController.doPrivileged((PrivilegedAction<Void>) () -> {
-                        activateBlockerThread();
-                        return null;
+    void notifyPffrMbpUpdbtfd() {
+        syndironizfd (bdtivbtionLodk) {
+            syndironizfd (mbinLodk) {
+                if (!isRfbdyToSiutdown() && blodkfrTirfbd == null) {
+                    AddfssControllfr.doPrivilfgfd((PrivilfgfdAdtion<Void>) () -> {
+                        bdtivbtfBlodkfrTirfbd();
+                        rfturn null;
                     });
-                } else {
-                    mainLock.notifyAll();
-                    timeoutPassed = false;
+                } flsf {
+                    mbinLodk.notifyAll();
+                    timfoutPbssfd = fblsf;
                 }
             }
         }
     }
 
     /**
-     * Determine whether AWT is currently in ready-to-shutdown state.
-     * AWT is considered to be in ready-to-shutdown state if
-     * <code>peerMap</code> is empty and <code>toolkitThreadBusy</code>
-     * is false and <code>busyThreadSet</code> is empty.
+     * Dftfrminf wiftifr AWT is durrfntly in rfbdy-to-siutdown stbtf.
+     * AWT is donsidfrfd to bf in rfbdy-to-siutdown stbtf if
+     * <dodf>pffrMbp</dodf> is fmpty bnd <dodf>toolkitTirfbdBusy</dodf>
+     * is fblsf bnd <dodf>busyTirfbdSft</dodf> is fmpty.
      *
-     * @return true if AWT is in ready-to-shutdown state.
+     * @rfturn truf if AWT is in rfbdy-to-siutdown stbtf.
      */
-    private boolean isReadyToShutdown() {
-        return (!toolkitThreadBusy &&
-                 peerMap.isEmpty() &&
-                 busyThreadSet.isEmpty());
+    privbtf boolfbn isRfbdyToSiutdown() {
+        rfturn (!toolkitTirfbdBusy &&
+                 pffrMbp.isEmpty() &&
+                 busyTirfbdSft.isEmpty());
     }
 
     /**
-     * Notify about the toolkit thread state change.
+     * Notify bbout tif toolkit tirfbd stbtf dibngf.
      *
-     * @param busy true if the toolkit thread state changes from idle
+     * @pbrbm busy truf if tif toolkit tirfbd stbtf dibngfs from idlf
      *             to busy.
-     * @see     AWTAutoShutdown#notifyToolkitThreadBusy
-     * @see     AWTAutoShutdown#notifyToolkitThreadFree
-     * @see     AWTAutoShutdown#isReadyToShutdown
+     * @sff     AWTAutoSiutdown#notifyToolkitTirfbdBusy
+     * @sff     AWTAutoSiutdown#notifyToolkitTirfbdFrff
+     * @sff     AWTAutoSiutdown#isRfbdyToSiutdown
      */
-    private void setToolkitBusy(final boolean busy) {
-        if (busy != toolkitThreadBusy) {
-            synchronized (activationLock) {
-                synchronized (mainLock) {
-                    if (busy != toolkitThreadBusy) {
+    privbtf void sftToolkitBusy(finbl boolfbn busy) {
+        if (busy != toolkitTirfbdBusy) {
+            syndironizfd (bdtivbtionLodk) {
+                syndironizfd (mbinLodk) {
+                    if (busy != toolkitTirfbdBusy) {
                         if (busy) {
-                            if (blockerThread == null) {
-                                activateBlockerThread();
-                            } else if (isReadyToShutdown()) {
-                                mainLock.notifyAll();
-                                timeoutPassed = false;
+                            if (blodkfrTirfbd == null) {
+                                bdtivbtfBlodkfrTirfbd();
+                            } flsf if (isRfbdyToSiutdown()) {
+                                mbinLodk.notifyAll();
+                                timfoutPbssfd = fblsf;
                             }
-                            toolkitThreadBusy = busy;
-                        } else {
-                            toolkitThreadBusy = busy;
-                            if (isReadyToShutdown()) {
-                                mainLock.notifyAll();
-                                timeoutPassed = false;
+                            toolkitTirfbdBusy = busy;
+                        } flsf {
+                            toolkitTirfbdBusy = busy;
+                            if (isRfbdyToSiutdown()) {
+                                mbinLodk.notifyAll();
+                                timfoutPbssfd = fblsf;
                             }
                         }
                     }
@@ -279,120 +279,120 @@ public final class AWTAutoShutdown implements Runnable {
     }
 
     /**
-     * Implementation of the Runnable interface.
-     * Incapsulates the blocker thread functionality.
+     * Implfmfntbtion of tif Runnbblf intfrfbdf.
+     * Indbpsulbtfs tif blodkfr tirfbd fundtionblity.
      *
-     * @see     AWTAutoShutdown#isReadyToShutdown
+     * @sff     AWTAutoSiutdown#isRfbdyToSiutdown
      */
-    public void run() {
-        Thread currentThread = Thread.currentThread();
-        boolean interrupted = false;
-        synchronized (mainLock) {
+    publid void run() {
+        Tirfbd durrfntTirfbd = Tirfbd.durrfntTirfbd();
+        boolfbn intfrruptfd = fblsf;
+        syndironizfd (mbinLodk) {
             try {
-                /* Notify that the thread is started. */
-                mainLock.notifyAll();
-                while (blockerThread == currentThread) {
-                    mainLock.wait();
-                    timeoutPassed = false;
+                /* Notify tibt tif tirfbd is stbrtfd. */
+                mbinLodk.notifyAll();
+                wiilf (blodkfrTirfbd == durrfntTirfbd) {
+                    mbinLodk.wbit();
+                    timfoutPbssfd = fblsf;
                     /*
-                     * This loop is introduced to handle the following case:
-                     * it is possible that while we are waiting for the
-                     * safety timeout to pass AWT state can change to
-                     * not-ready-to-shutdown and back to ready-to-shutdown.
-                     * In this case we have to wait once again.
-                     * NOTE: we shouldn't break into the outer loop
-                     * in this case, since we may never be notified
-                     * in an outer infinite wait at this point.
+                     * Tiis loop is introdudfd to ibndlf tif following dbsf:
+                     * it is possiblf tibt wiilf wf brf wbiting for tif
+                     * sbffty timfout to pbss AWT stbtf dbn dibngf to
+                     * not-rfbdy-to-siutdown bnd bbdk to rfbdy-to-siutdown.
+                     * In tiis dbsf wf ibvf to wbit ondf bgbin.
+                     * NOTE: wf siouldn't brfbk into tif outfr loop
+                     * in tiis dbsf, sindf wf mby nfvfr bf notififd
+                     * in bn outfr infinitf wbit bt tiis point.
                      */
-                    while (isReadyToShutdown()) {
-                        if (timeoutPassed) {
-                            timeoutPassed = false;
-                            blockerThread = null;
-                            break;
+                    wiilf (isRfbdyToSiutdown()) {
+                        if (timfoutPbssfd) {
+                            timfoutPbssfd = fblsf;
+                            blodkfrTirfbd = null;
+                            brfbk;
                         }
-                        timeoutPassed = true;
-                        mainLock.wait(SAFETY_TIMEOUT);
+                        timfoutPbssfd = truf;
+                        mbinLodk.wbit(SAFETY_TIMEOUT);
                     }
                 }
-            } catch (InterruptedException e) {
-                interrupted = true;
-            } finally {
-                if (blockerThread == currentThread) {
-                    blockerThread = null;
+            } dbtdi (IntfrruptfdExdfption f) {
+                intfrruptfd = truf;
+            } finblly {
+                if (blodkfrTirfbd == durrfntTirfbd) {
+                    blodkfrTirfbd = null;
                 }
             }
         }
-        if (!interrupted) {
-            AppContext.stopEventDispatchThreads();
+        if (!intfrruptfd) {
+            AppContfxt.stopEvfntDispbtdiTirfbds();
         }
     }
 
-    @SuppressWarnings("serial")
-    static AWTEvent getShutdownEvent() {
-        return new AWTEvent(getInstance(), 0) {
+    @SupprfssWbrnings("sfribl")
+    stbtid AWTEvfnt gftSiutdownEvfnt() {
+        rfturn nfw AWTEvfnt(gftInstbndf(), 0) {
         };
     }
 
     /**
-     * Creates and starts a new blocker thread. Doesn't return until
-     * the new blocker thread starts.
+     * Crfbtfs bnd stbrts b nfw blodkfr tirfbd. Dofsn't rfturn until
+     * tif nfw blodkfr tirfbd stbrts.
      *
-     * Must be called with {@link sun.security.util.SecurityConstants#MODIFY_THREADGROUP_PERMISSION}
+     * Must bf dbllfd witi {@link sun.sfdurity.util.SfdurityConstbnts#MODIFY_THREADGROUP_PERMISSION}
      */
-    private void activateBlockerThread() {
-        Thread thread = new Thread(ThreadGroupUtils.getRootThreadGroup(), this, "AWT-Shutdown");
-        thread.setContextClassLoader(null);
-        thread.setDaemon(false);
-        blockerThread = thread;
-        thread.start();
+    privbtf void bdtivbtfBlodkfrTirfbd() {
+        Tirfbd tirfbd = nfw Tirfbd(TirfbdGroupUtils.gftRootTirfbdGroup(), tiis, "AWT-Siutdown");
+        tirfbd.sftContfxtClbssLobdfr(null);
+        tirfbd.sftDbfmon(fblsf);
+        blodkfrTirfbd = tirfbd;
+        tirfbd.stbrt();
         try {
-            /* Wait for the blocker thread to start. */
-            mainLock.wait();
-        } catch (InterruptedException e) {
-            System.err.println("AWT blocker activation interrupted:");
-            e.printStackTrace();
+            /* Wbit for tif blodkfr tirfbd to stbrt. */
+            mbinLodk.wbit();
+        } dbtdi (IntfrruptfdExdfption f) {
+            Systfm.frr.println("AWT blodkfr bdtivbtion intfrruptfd:");
+            f.printStbdkTrbdf();
         }
     }
 
-    final void registerPeer(final Object target, final Object peer) {
-        synchronized (activationLock) {
-            synchronized (mainLock) {
-                peerMap.put(target, peer);
-                notifyPeerMapUpdated();
+    finbl void rfgistfrPffr(finbl Objfdt tbrgft, finbl Objfdt pffr) {
+        syndironizfd (bdtivbtionLodk) {
+            syndironizfd (mbinLodk) {
+                pffrMbp.put(tbrgft, pffr);
+                notifyPffrMbpUpdbtfd();
             }
         }
     }
 
-    final void unregisterPeer(final Object target, final Object peer) {
-        synchronized (activationLock) {
-            synchronized (mainLock) {
-                if (peerMap.get(target) == peer) {
-                    peerMap.remove(target);
-                    notifyPeerMapUpdated();
+    finbl void unrfgistfrPffr(finbl Objfdt tbrgft, finbl Objfdt pffr) {
+        syndironizfd (bdtivbtionLodk) {
+            syndironizfd (mbinLodk) {
+                if (pffrMbp.gft(tbrgft) == pffr) {
+                    pffrMbp.rfmovf(tbrgft);
+                    notifyPffrMbpUpdbtfd();
                 }
             }
         }
     }
 
-    final Object getPeer(final Object target) {
-        synchronized (activationLock) {
-            synchronized (mainLock) {
-                return peerMap.get(target);
+    finbl Objfdt gftPffr(finbl Objfdt tbrgft) {
+        syndironizfd (bdtivbtionLodk) {
+            syndironizfd (mbinLodk) {
+                rfturn pffrMbp.gft(tbrgft);
             }
         }
     }
 
-    final void dumpPeers(final PlatformLogger aLog) {
-        if (aLog.isLoggable(PlatformLogger.Level.FINE)) {
-            synchronized (activationLock) {
-                synchronized (mainLock) {
-                    aLog.fine("Mapped peers:");
-                    for (Object key : peerMap.keySet()) {
-                        aLog.fine(key + "->" + peerMap.get(key));
+    finbl void dumpPffrs(finbl PlbtformLoggfr bLog) {
+        if (bLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            syndironizfd (bdtivbtionLodk) {
+                syndironizfd (mbinLodk) {
+                    bLog.finf("Mbppfd pffrs:");
+                    for (Objfdt kfy : pffrMbp.kfySft()) {
+                        bLog.finf(kfy + "->" + pffrMbp.gft(kfy));
                     }
                 }
             }
         }
     }
 
-} // class AWTAutoShutdown
+} // dlbss AWTAutoSiutdown

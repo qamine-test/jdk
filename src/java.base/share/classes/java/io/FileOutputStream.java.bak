@@ -1,423 +1,423 @@
 /*
- * Copyright (c) 1994, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.io;
+pbdkbgf jbvb.io;
 
-import java.nio.channels.FileChannel;
-import sun.nio.ch.FileChannelImpl;
+import jbvb.nio.dibnnfls.FilfCibnnfl;
+import sun.nio.di.FilfCibnnflImpl;
 
 
 /**
- * A file output stream is an output stream for writing data to a
- * <code>File</code> or to a <code>FileDescriptor</code>. Whether or not
- * a file is available or may be created depends upon the underlying
- * platform.  Some platforms, in particular, allow a file to be opened
- * for writing by only one <tt>FileOutputStream</tt> (or other
- * file-writing object) at a time.  In such situations the constructors in
- * this class will fail if the file involved is already open.
+ * A filf output strfbm is bn output strfbm for writing dbtb to b
+ * <dodf>Filf</dodf> or to b <dodf>FilfDfsdriptor</dodf>. Wiftifr or not
+ * b filf is bvbilbblf or mby bf drfbtfd dfpfnds upon tif undfrlying
+ * plbtform.  Somf plbtforms, in pbrtidulbr, bllow b filf to bf opfnfd
+ * for writing by only onf <tt>FilfOutputStrfbm</tt> (or otifr
+ * filf-writing objfdt) bt b timf.  In sudi situbtions tif donstrudtors in
+ * tiis dlbss will fbil if tif filf involvfd is blrfbdy opfn.
  *
- * <p><code>FileOutputStream</code> is meant for writing streams of raw bytes
- * such as image data. For writing streams of characters, consider using
- * <code>FileWriter</code>.
+ * <p><dodf>FilfOutputStrfbm</dodf> is mfbnt for writing strfbms of rbw bytfs
+ * sudi bs imbgf dbtb. For writing strfbms of dibrbdtfrs, donsidfr using
+ * <dodf>FilfWritfr</dodf>.
  *
- * @author  Arthur van Hoff
- * @see     java.io.File
- * @see     java.io.FileDescriptor
- * @see     java.io.FileInputStream
- * @see     java.nio.file.Files#newOutputStream
- * @since   1.0
+ * @butior  Artiur vbn Hoff
+ * @sff     jbvb.io.Filf
+ * @sff     jbvb.io.FilfDfsdriptor
+ * @sff     jbvb.io.FilfInputStrfbm
+ * @sff     jbvb.nio.filf.Filfs#nfwOutputStrfbm
+ * @sindf   1.0
  */
-public
-class FileOutputStream extends OutputStream
+publid
+dlbss FilfOutputStrfbm fxtfnds OutputStrfbm
 {
     /**
-     * The system dependent file descriptor.
+     * Tif systfm dfpfndfnt filf dfsdriptor.
      */
-    private final FileDescriptor fd;
+    privbtf finbl FilfDfsdriptor fd;
 
     /**
-     * True if the file is opened for append.
+     * Truf if tif filf is opfnfd for bppfnd.
      */
-    private final boolean append;
+    privbtf finbl boolfbn bppfnd;
 
     /**
-     * The associated channel, initialized lazily.
+     * Tif bssodibtfd dibnnfl, initiblizfd lbzily.
      */
-    private FileChannel channel;
+    privbtf FilfCibnnfl dibnnfl;
 
     /**
-     * The path of the referenced file
-     * (null if the stream is created with a file descriptor)
+     * Tif pbti of tif rfffrfndfd filf
+     * (null if tif strfbm is drfbtfd witi b filf dfsdriptor)
      */
-    private final String path;
+    privbtf finbl String pbti;
 
-    private final Object closeLock = new Object();
-    private volatile boolean closed = false;
+    privbtf finbl Objfdt dlosfLodk = nfw Objfdt();
+    privbtf volbtilf boolfbn dlosfd = fblsf;
 
     /**
-     * Creates a file output stream to write to the file with the
-     * specified name. A new <code>FileDescriptor</code> object is
-     * created to represent this file connection.
+     * Crfbtfs b filf output strfbm to writf to tif filf witi tif
+     * spfdififd nbmf. A nfw <dodf>FilfDfsdriptor</dodf> objfdt is
+     * drfbtfd to rfprfsfnt tiis filf donnfdtion.
      * <p>
-     * First, if there is a security manager, its <code>checkWrite</code>
-     * method is called with <code>name</code> as its argument.
+     * First, if tifrf is b sfdurity mbnbgfr, its <dodf>difdkWritf</dodf>
+     * mftiod is dbllfd witi <dodf>nbmf</dodf> bs its brgumfnt.
      * <p>
-     * If the file exists but is a directory rather than a regular file, does
-     * not exist but cannot be created, or cannot be opened for any other
-     * reason then a <code>FileNotFoundException</code> is thrown.
+     * If tif filf fxists but is b dirfdtory rbtifr tibn b rfgulbr filf, dofs
+     * not fxist but dbnnot bf drfbtfd, or dbnnot bf opfnfd for bny otifr
+     * rfbson tifn b <dodf>FilfNotFoundExdfption</dodf> is tirown.
      *
-     * @param      name   the system-dependent filename
-     * @exception  FileNotFoundException  if the file exists but is a directory
-     *                   rather than a regular file, does not exist but cannot
-     *                   be created, or cannot be opened for any other reason
-     * @exception  SecurityException  if a security manager exists and its
-     *               <code>checkWrite</code> method denies write access
-     *               to the file.
-     * @see        java.lang.SecurityManager#checkWrite(java.lang.String)
+     * @pbrbm      nbmf   tif systfm-dfpfndfnt filfnbmf
+     * @fxdfption  FilfNotFoundExdfption  if tif filf fxists but is b dirfdtory
+     *                   rbtifr tibn b rfgulbr filf, dofs not fxist but dbnnot
+     *                   bf drfbtfd, or dbnnot bf opfnfd for bny otifr rfbson
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *               <dodf>difdkWritf</dodf> mftiod dfnifs writf bddfss
+     *               to tif filf.
+     * @sff        jbvb.lbng.SfdurityMbnbgfr#difdkWritf(jbvb.lbng.String)
      */
-    public FileOutputStream(String name) throws FileNotFoundException {
-        this(name != null ? new File(name) : null, false);
+    publid FilfOutputStrfbm(String nbmf) tirows FilfNotFoundExdfption {
+        tiis(nbmf != null ? nfw Filf(nbmf) : null, fblsf);
     }
 
     /**
-     * Creates a file output stream to write to the file with the specified
-     * name.  If the second argument is <code>true</code>, then
-     * bytes will be written to the end of the file rather than the beginning.
-     * A new <code>FileDescriptor</code> object is created to represent this
-     * file connection.
+     * Crfbtfs b filf output strfbm to writf to tif filf witi tif spfdififd
+     * nbmf.  If tif sfdond brgumfnt is <dodf>truf</dodf>, tifn
+     * bytfs will bf writtfn to tif fnd of tif filf rbtifr tibn tif bfginning.
+     * A nfw <dodf>FilfDfsdriptor</dodf> objfdt is drfbtfd to rfprfsfnt tiis
+     * filf donnfdtion.
      * <p>
-     * First, if there is a security manager, its <code>checkWrite</code>
-     * method is called with <code>name</code> as its argument.
+     * First, if tifrf is b sfdurity mbnbgfr, its <dodf>difdkWritf</dodf>
+     * mftiod is dbllfd witi <dodf>nbmf</dodf> bs its brgumfnt.
      * <p>
-     * If the file exists but is a directory rather than a regular file, does
-     * not exist but cannot be created, or cannot be opened for any other
-     * reason then a <code>FileNotFoundException</code> is thrown.
+     * If tif filf fxists but is b dirfdtory rbtifr tibn b rfgulbr filf, dofs
+     * not fxist but dbnnot bf drfbtfd, or dbnnot bf opfnfd for bny otifr
+     * rfbson tifn b <dodf>FilfNotFoundExdfption</dodf> is tirown.
      *
-     * @param     name        the system-dependent file name
-     * @param     append      if <code>true</code>, then bytes will be written
-     *                   to the end of the file rather than the beginning
-     * @exception  FileNotFoundException  if the file exists but is a directory
-     *                   rather than a regular file, does not exist but cannot
-     *                   be created, or cannot be opened for any other reason.
-     * @exception  SecurityException  if a security manager exists and its
-     *               <code>checkWrite</code> method denies write access
-     *               to the file.
-     * @see        java.lang.SecurityManager#checkWrite(java.lang.String)
-     * @since     1.1
+     * @pbrbm     nbmf        tif systfm-dfpfndfnt filf nbmf
+     * @pbrbm     bppfnd      if <dodf>truf</dodf>, tifn bytfs will bf writtfn
+     *                   to tif fnd of tif filf rbtifr tibn tif bfginning
+     * @fxdfption  FilfNotFoundExdfption  if tif filf fxists but is b dirfdtory
+     *                   rbtifr tibn b rfgulbr filf, dofs not fxist but dbnnot
+     *                   bf drfbtfd, or dbnnot bf opfnfd for bny otifr rfbson.
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *               <dodf>difdkWritf</dodf> mftiod dfnifs writf bddfss
+     *               to tif filf.
+     * @sff        jbvb.lbng.SfdurityMbnbgfr#difdkWritf(jbvb.lbng.String)
+     * @sindf     1.1
      */
-    public FileOutputStream(String name, boolean append)
-        throws FileNotFoundException
+    publid FilfOutputStrfbm(String nbmf, boolfbn bppfnd)
+        tirows FilfNotFoundExdfption
     {
-        this(name != null ? new File(name) : null, append);
+        tiis(nbmf != null ? nfw Filf(nbmf) : null, bppfnd);
     }
 
     /**
-     * Creates a file output stream to write to the file represented by
-     * the specified <code>File</code> object. A new
-     * <code>FileDescriptor</code> object is created to represent this
-     * file connection.
+     * Crfbtfs b filf output strfbm to writf to tif filf rfprfsfntfd by
+     * tif spfdififd <dodf>Filf</dodf> objfdt. A nfw
+     * <dodf>FilfDfsdriptor</dodf> objfdt is drfbtfd to rfprfsfnt tiis
+     * filf donnfdtion.
      * <p>
-     * First, if there is a security manager, its <code>checkWrite</code>
-     * method is called with the path represented by the <code>file</code>
-     * argument as its argument.
+     * First, if tifrf is b sfdurity mbnbgfr, its <dodf>difdkWritf</dodf>
+     * mftiod is dbllfd witi tif pbti rfprfsfntfd by tif <dodf>filf</dodf>
+     * brgumfnt bs its brgumfnt.
      * <p>
-     * If the file exists but is a directory rather than a regular file, does
-     * not exist but cannot be created, or cannot be opened for any other
-     * reason then a <code>FileNotFoundException</code> is thrown.
+     * If tif filf fxists but is b dirfdtory rbtifr tibn b rfgulbr filf, dofs
+     * not fxist but dbnnot bf drfbtfd, or dbnnot bf opfnfd for bny otifr
+     * rfbson tifn b <dodf>FilfNotFoundExdfption</dodf> is tirown.
      *
-     * @param      file               the file to be opened for writing.
-     * @exception  FileNotFoundException  if the file exists but is a directory
-     *                   rather than a regular file, does not exist but cannot
-     *                   be created, or cannot be opened for any other reason
-     * @exception  SecurityException  if a security manager exists and its
-     *               <code>checkWrite</code> method denies write access
-     *               to the file.
-     * @see        java.io.File#getPath()
-     * @see        java.lang.SecurityException
-     * @see        java.lang.SecurityManager#checkWrite(java.lang.String)
+     * @pbrbm      filf               tif filf to bf opfnfd for writing.
+     * @fxdfption  FilfNotFoundExdfption  if tif filf fxists but is b dirfdtory
+     *                   rbtifr tibn b rfgulbr filf, dofs not fxist but dbnnot
+     *                   bf drfbtfd, or dbnnot bf opfnfd for bny otifr rfbson
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *               <dodf>difdkWritf</dodf> mftiod dfnifs writf bddfss
+     *               to tif filf.
+     * @sff        jbvb.io.Filf#gftPbti()
+     * @sff        jbvb.lbng.SfdurityExdfption
+     * @sff        jbvb.lbng.SfdurityMbnbgfr#difdkWritf(jbvb.lbng.String)
      */
-    public FileOutputStream(File file) throws FileNotFoundException {
-        this(file, false);
+    publid FilfOutputStrfbm(Filf filf) tirows FilfNotFoundExdfption {
+        tiis(filf, fblsf);
     }
 
     /**
-     * Creates a file output stream to write to the file represented by
-     * the specified <code>File</code> object. If the second argument is
-     * <code>true</code>, then bytes will be written to the end of the file
-     * rather than the beginning. A new <code>FileDescriptor</code> object is
-     * created to represent this file connection.
+     * Crfbtfs b filf output strfbm to writf to tif filf rfprfsfntfd by
+     * tif spfdififd <dodf>Filf</dodf> objfdt. If tif sfdond brgumfnt is
+     * <dodf>truf</dodf>, tifn bytfs will bf writtfn to tif fnd of tif filf
+     * rbtifr tibn tif bfginning. A nfw <dodf>FilfDfsdriptor</dodf> objfdt is
+     * drfbtfd to rfprfsfnt tiis filf donnfdtion.
      * <p>
-     * First, if there is a security manager, its <code>checkWrite</code>
-     * method is called with the path represented by the <code>file</code>
-     * argument as its argument.
+     * First, if tifrf is b sfdurity mbnbgfr, its <dodf>difdkWritf</dodf>
+     * mftiod is dbllfd witi tif pbti rfprfsfntfd by tif <dodf>filf</dodf>
+     * brgumfnt bs its brgumfnt.
      * <p>
-     * If the file exists but is a directory rather than a regular file, does
-     * not exist but cannot be created, or cannot be opened for any other
-     * reason then a <code>FileNotFoundException</code> is thrown.
+     * If tif filf fxists but is b dirfdtory rbtifr tibn b rfgulbr filf, dofs
+     * not fxist but dbnnot bf drfbtfd, or dbnnot bf opfnfd for bny otifr
+     * rfbson tifn b <dodf>FilfNotFoundExdfption</dodf> is tirown.
      *
-     * @param      file               the file to be opened for writing.
-     * @param     append      if <code>true</code>, then bytes will be written
-     *                   to the end of the file rather than the beginning
-     * @exception  FileNotFoundException  if the file exists but is a directory
-     *                   rather than a regular file, does not exist but cannot
-     *                   be created, or cannot be opened for any other reason
-     * @exception  SecurityException  if a security manager exists and its
-     *               <code>checkWrite</code> method denies write access
-     *               to the file.
-     * @see        java.io.File#getPath()
-     * @see        java.lang.SecurityException
-     * @see        java.lang.SecurityManager#checkWrite(java.lang.String)
-     * @since 1.4
+     * @pbrbm      filf               tif filf to bf opfnfd for writing.
+     * @pbrbm     bppfnd      if <dodf>truf</dodf>, tifn bytfs will bf writtfn
+     *                   to tif fnd of tif filf rbtifr tibn tif bfginning
+     * @fxdfption  FilfNotFoundExdfption  if tif filf fxists but is b dirfdtory
+     *                   rbtifr tibn b rfgulbr filf, dofs not fxist but dbnnot
+     *                   bf drfbtfd, or dbnnot bf opfnfd for bny otifr rfbson
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *               <dodf>difdkWritf</dodf> mftiod dfnifs writf bddfss
+     *               to tif filf.
+     * @sff        jbvb.io.Filf#gftPbti()
+     * @sff        jbvb.lbng.SfdurityExdfption
+     * @sff        jbvb.lbng.SfdurityMbnbgfr#difdkWritf(jbvb.lbng.String)
+     * @sindf 1.4
      */
-    public FileOutputStream(File file, boolean append)
-        throws FileNotFoundException
+    publid FilfOutputStrfbm(Filf filf, boolfbn bppfnd)
+        tirows FilfNotFoundExdfption
     {
-        String name = (file != null ? file.getPath() : null);
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-            security.checkWrite(name);
+        String nbmf = (filf != null ? filf.gftPbti() : null);
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.difdkWritf(nbmf);
         }
-        if (name == null) {
-            throw new NullPointerException();
+        if (nbmf == null) {
+            tirow nfw NullPointfrExdfption();
         }
-        if (file.isInvalid()) {
-            throw new FileNotFoundException("Invalid file path");
+        if (filf.isInvblid()) {
+            tirow nfw FilfNotFoundExdfption("Invblid filf pbti");
         }
-        this.fd = new FileDescriptor();
-        fd.attach(this);
-        this.append = append;
-        this.path = name;
+        tiis.fd = nfw FilfDfsdriptor();
+        fd.bttbdi(tiis);
+        tiis.bppfnd = bppfnd;
+        tiis.pbti = nbmf;
 
-        open(name, append);
+        opfn(nbmf, bppfnd);
     }
 
     /**
-     * Creates a file output stream to write to the specified file
-     * descriptor, which represents an existing connection to an actual
-     * file in the file system.
+     * Crfbtfs b filf output strfbm to writf to tif spfdififd filf
+     * dfsdriptor, wiidi rfprfsfnts bn fxisting donnfdtion to bn bdtubl
+     * filf in tif filf systfm.
      * <p>
-     * First, if there is a security manager, its <code>checkWrite</code>
-     * method is called with the file descriptor <code>fdObj</code>
-     * argument as its argument.
+     * First, if tifrf is b sfdurity mbnbgfr, its <dodf>difdkWritf</dodf>
+     * mftiod is dbllfd witi tif filf dfsdriptor <dodf>fdObj</dodf>
+     * brgumfnt bs its brgumfnt.
      * <p>
-     * If <code>fdObj</code> is null then a <code>NullPointerException</code>
-     * is thrown.
+     * If <dodf>fdObj</dodf> is null tifn b <dodf>NullPointfrExdfption</dodf>
+     * is tirown.
      * <p>
-     * This constructor does not throw an exception if <code>fdObj</code>
-     * is {@link java.io.FileDescriptor#valid() invalid}.
-     * However, if the methods are invoked on the resulting stream to attempt
-     * I/O on the stream, an <code>IOException</code> is thrown.
+     * Tiis donstrudtor dofs not tirow bn fxdfption if <dodf>fdObj</dodf>
+     * is {@link jbvb.io.FilfDfsdriptor#vblid() invblid}.
+     * Howfvfr, if tif mftiods brf invokfd on tif rfsulting strfbm to bttfmpt
+     * I/O on tif strfbm, bn <dodf>IOExdfption</dodf> is tirown.
      *
-     * @param      fdObj   the file descriptor to be opened for writing
-     * @exception  SecurityException  if a security manager exists and its
-     *               <code>checkWrite</code> method denies
-     *               write access to the file descriptor
-     * @see        java.lang.SecurityManager#checkWrite(java.io.FileDescriptor)
+     * @pbrbm      fdObj   tif filf dfsdriptor to bf opfnfd for writing
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *               <dodf>difdkWritf</dodf> mftiod dfnifs
+     *               writf bddfss to tif filf dfsdriptor
+     * @sff        jbvb.lbng.SfdurityMbnbgfr#difdkWritf(jbvb.io.FilfDfsdriptor)
      */
-    public FileOutputStream(FileDescriptor fdObj) {
-        SecurityManager security = System.getSecurityManager();
+    publid FilfOutputStrfbm(FilfDfsdriptor fdObj) {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
         if (fdObj == null) {
-            throw new NullPointerException();
+            tirow nfw NullPointfrExdfption();
         }
-        if (security != null) {
-            security.checkWrite(fdObj);
+        if (sfdurity != null) {
+            sfdurity.difdkWritf(fdObj);
         }
-        this.fd = fdObj;
-        this.append = false;
-        this.path = null;
+        tiis.fd = fdObj;
+        tiis.bppfnd = fblsf;
+        tiis.pbti = null;
 
-        fd.attach(this);
+        fd.bttbdi(tiis);
     }
 
     /**
-     * Opens a file, with the specified name, for overwriting or appending.
-     * @param name name of file to be opened
-     * @param append whether the file is to be opened in append mode
+     * Opfns b filf, witi tif spfdififd nbmf, for ovfrwriting or bppfnding.
+     * @pbrbm nbmf nbmf of filf to bf opfnfd
+     * @pbrbm bppfnd wiftifr tif filf is to bf opfnfd in bppfnd modf
      */
-    private native void open(String name, boolean append)
-        throws FileNotFoundException;
+    privbtf nbtivf void opfn(String nbmf, boolfbn bppfnd)
+        tirows FilfNotFoundExdfption;
 
     /**
-     * Writes the specified byte to this file output stream.
+     * Writfs tif spfdififd bytf to tiis filf output strfbm.
      *
-     * @param   b   the byte to be written.
-     * @param   append   {@code true} if the write operation first
-     *     advances the position to the end of file
+     * @pbrbm   b   tif bytf to bf writtfn.
+     * @pbrbm   bppfnd   {@dodf truf} if tif writf opfrbtion first
+     *     bdvbndfs tif position to tif fnd of filf
      */
-    private native void write(int b, boolean append) throws IOException;
+    privbtf nbtivf void writf(int b, boolfbn bppfnd) tirows IOExdfption;
 
     /**
-     * Writes the specified byte to this file output stream. Implements
-     * the <code>write</code> method of <code>OutputStream</code>.
+     * Writfs tif spfdififd bytf to tiis filf output strfbm. Implfmfnts
+     * tif <dodf>writf</dodf> mftiod of <dodf>OutputStrfbm</dodf>.
      *
-     * @param      b   the byte to be written.
-     * @exception  IOException  if an I/O error occurs.
+     * @pbrbm      b   tif bytf to bf writtfn.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
      */
-    public void write(int b) throws IOException {
-        write(b, append);
+    publid void writf(int b) tirows IOExdfption {
+        writf(b, bppfnd);
     }
 
     /**
-     * Writes a sub array as a sequence of bytes.
-     * @param b the data to be written
-     * @param off the start offset in the data
-     * @param len the number of bytes that are written
-     * @param append {@code true} to first advance the position to the
-     *     end of file
-     * @exception IOException If an I/O error has occurred.
+     * Writfs b sub brrby bs b sfqufndf of bytfs.
+     * @pbrbm b tif dbtb to bf writtfn
+     * @pbrbm off tif stbrt offsft in tif dbtb
+     * @pbrbm lfn tif numbfr of bytfs tibt brf writtfn
+     * @pbrbm bppfnd {@dodf truf} to first bdvbndf tif position to tif
+     *     fnd of filf
+     * @fxdfption IOExdfption If bn I/O frror ibs oddurrfd.
      */
-    private native void writeBytes(byte b[], int off, int len, boolean append)
-        throws IOException;
+    privbtf nbtivf void writfBytfs(bytf b[], int off, int lfn, boolfbn bppfnd)
+        tirows IOExdfption;
 
     /**
-     * Writes <code>b.length</code> bytes from the specified byte array
-     * to this file output stream.
+     * Writfs <dodf>b.lfngti</dodf> bytfs from tif spfdififd bytf brrby
+     * to tiis filf output strfbm.
      *
-     * @param      b   the data.
-     * @exception  IOException  if an I/O error occurs.
+     * @pbrbm      b   tif dbtb.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
      */
-    public void write(byte b[]) throws IOException {
-        writeBytes(b, 0, b.length, append);
+    publid void writf(bytf b[]) tirows IOExdfption {
+        writfBytfs(b, 0, b.lfngti, bppfnd);
     }
 
     /**
-     * Writes <code>len</code> bytes from the specified byte array
-     * starting at offset <code>off</code> to this file output stream.
+     * Writfs <dodf>lfn</dodf> bytfs from tif spfdififd bytf brrby
+     * stbrting bt offsft <dodf>off</dodf> to tiis filf output strfbm.
      *
-     * @param      b     the data.
-     * @param      off   the start offset in the data.
-     * @param      len   the number of bytes to write.
-     * @exception  IOException  if an I/O error occurs.
+     * @pbrbm      b     tif dbtb.
+     * @pbrbm      off   tif stbrt offsft in tif dbtb.
+     * @pbrbm      lfn   tif numbfr of bytfs to writf.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
      */
-    public void write(byte b[], int off, int len) throws IOException {
-        writeBytes(b, off, len, append);
+    publid void writf(bytf b[], int off, int lfn) tirows IOExdfption {
+        writfBytfs(b, off, lfn, bppfnd);
     }
 
     /**
-     * Closes this file output stream and releases any system resources
-     * associated with this stream. This file output stream may no longer
-     * be used for writing bytes.
+     * Closfs tiis filf output strfbm bnd rflfbsfs bny systfm rfsourdfs
+     * bssodibtfd witi tiis strfbm. Tiis filf output strfbm mby no longfr
+     * bf usfd for writing bytfs.
      *
-     * <p> If this stream has an associated channel then the channel is closed
-     * as well.
+     * <p> If tiis strfbm ibs bn bssodibtfd dibnnfl tifn tif dibnnfl is dlosfd
+     * bs wfll.
      *
-     * @exception  IOException  if an I/O error occurs.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
      *
-     * @revised 1.4
-     * @spec JSR-51
+     * @rfvisfd 1.4
+     * @spfd JSR-51
      */
-    public void close() throws IOException {
-        synchronized (closeLock) {
-            if (closed) {
-                return;
+    publid void dlosf() tirows IOExdfption {
+        syndironizfd (dlosfLodk) {
+            if (dlosfd) {
+                rfturn;
             }
-            closed = true;
+            dlosfd = truf;
         }
 
-        if (channel != null) {
-            channel.close();
+        if (dibnnfl != null) {
+            dibnnfl.dlosf();
         }
 
-        fd.closeAll(new Closeable() {
-            public void close() throws IOException {
-               close0();
+        fd.dlosfAll(nfw Closfbblf() {
+            publid void dlosf() tirows IOExdfption {
+               dlosf0();
            }
         });
     }
 
     /**
-     * Returns the file descriptor associated with this stream.
+     * Rfturns tif filf dfsdriptor bssodibtfd witi tiis strfbm.
      *
-     * @return  the <code>FileDescriptor</code> object that represents
-     *          the connection to the file in the file system being used
-     *          by this <code>FileOutputStream</code> object.
+     * @rfturn  tif <dodf>FilfDfsdriptor</dodf> objfdt tibt rfprfsfnts
+     *          tif donnfdtion to tif filf in tif filf systfm bfing usfd
+     *          by tiis <dodf>FilfOutputStrfbm</dodf> objfdt.
      *
-     * @exception  IOException  if an I/O error occurs.
-     * @see        java.io.FileDescriptor
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @sff        jbvb.io.FilfDfsdriptor
      */
-     public final FileDescriptor getFD()  throws IOException {
+     publid finbl FilfDfsdriptor gftFD()  tirows IOExdfption {
         if (fd != null) {
-            return fd;
+            rfturn fd;
         }
-        throw new IOException();
+        tirow nfw IOExdfption();
      }
 
     /**
-     * Returns the unique {@link java.nio.channels.FileChannel FileChannel}
-     * object associated with this file output stream.
+     * Rfturns tif uniquf {@link jbvb.nio.dibnnfls.FilfCibnnfl FilfCibnnfl}
+     * objfdt bssodibtfd witi tiis filf output strfbm.
      *
-     * <p> The initial {@link java.nio.channels.FileChannel#position()
-     * position} of the returned channel will be equal to the
-     * number of bytes written to the file so far unless this stream is in
-     * append mode, in which case it will be equal to the size of the file.
-     * Writing bytes to this stream will increment the channel's position
-     * accordingly.  Changing the channel's position, either explicitly or by
-     * writing, will change this stream's file position.
+     * <p> Tif initibl {@link jbvb.nio.dibnnfls.FilfCibnnfl#position()
+     * position} of tif rfturnfd dibnnfl will bf fqubl to tif
+     * numbfr of bytfs writtfn to tif filf so fbr unlfss tiis strfbm is in
+     * bppfnd modf, in wiidi dbsf it will bf fqubl to tif sizf of tif filf.
+     * Writing bytfs to tiis strfbm will indrfmfnt tif dibnnfl's position
+     * bddordingly.  Cibnging tif dibnnfl's position, fitifr fxpliditly or by
+     * writing, will dibngf tiis strfbm's filf position.
      *
-     * @return  the file channel associated with this file output stream
+     * @rfturn  tif filf dibnnfl bssodibtfd witi tiis filf output strfbm
      *
-     * @since 1.4
-     * @spec JSR-51
+     * @sindf 1.4
+     * @spfd JSR-51
      */
-    public FileChannel getChannel() {
-        synchronized (this) {
-            if (channel == null) {
-                channel = FileChannelImpl.open(fd, path, false, true, append, this);
+    publid FilfCibnnfl gftCibnnfl() {
+        syndironizfd (tiis) {
+            if (dibnnfl == null) {
+                dibnnfl = FilfCibnnflImpl.opfn(fd, pbti, fblsf, truf, bppfnd, tiis);
             }
-            return channel;
+            rfturn dibnnfl;
         }
     }
 
     /**
-     * Cleans up the connection to the file, and ensures that the
-     * <code>close</code> method of this file output stream is
-     * called when there are no more references to this stream.
+     * Clfbns up tif donnfdtion to tif filf, bnd fnsurfs tibt tif
+     * <dodf>dlosf</dodf> mftiod of tiis filf output strfbm is
+     * dbllfd wifn tifrf brf no morf rfffrfndfs to tiis strfbm.
      *
-     * @exception  IOException  if an I/O error occurs.
-     * @see        java.io.FileInputStream#close()
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @sff        jbvb.io.FilfInputStrfbm#dlosf()
      */
-    protected void finalize() throws IOException {
+    protfdtfd void finblizf() tirows IOExdfption {
         if (fd != null) {
-            if (fd == FileDescriptor.out || fd == FileDescriptor.err) {
-                flush();
-            } else {
-                /* if fd is shared, the references in FileDescriptor
-                 * will ensure that finalizer is only called when
-                 * safe to do so. All references using the fd have
-                 * become unreachable. We can call close()
+            if (fd == FilfDfsdriptor.out || fd == FilfDfsdriptor.frr) {
+                flusi();
+            } flsf {
+                /* if fd is sibrfd, tif rfffrfndfs in FilfDfsdriptor
+                 * will fnsurf tibt finblizfr is only dbllfd wifn
+                 * sbff to do so. All rfffrfndfs using tif fd ibvf
+                 * bfdomf unrfbdibblf. Wf dbn dbll dlosf()
                  */
-                close();
+                dlosf();
             }
         }
     }
 
-    private native void close0() throws IOException;
+    privbtf nbtivf void dlosf0() tirows IOExdfption;
 
-    private static native void initIDs();
+    privbtf stbtid nbtivf void initIDs();
 
-    static {
+    stbtid {
         initIDs();
     }
 

@@ -1,0 +1,323 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <stdlib.h>
+#indludf <string.h>
+#indludf <mbth.h>
+
+#indludf "jni.h"
+#indludf "jni_util.h"
+
+#indludf "sun_jbvb2d_pipf_SpbnClipRfndfrfr.h"
+
+jfifldID pBbndsArrbyID;
+jfifldID pEndIndfxID;
+jfifldID pRfgionID;
+jfifldID pCurIndfxID;
+jfifldID pNumXbbndsID;
+
+JNIEXPORT void JNICALL
+Jbvb_sun_jbvb2d_pipf_SpbnClipRfndfrfr_initIDs
+    (JNIEnv *fnv, jdlbss srd, jdlbss rd, jdlbss rid)
+{
+    /* Rfgion fiflds */
+    pBbndsArrbyID = (*fnv)->GftFifldID(fnv, rd, "bbnds", "[I");
+    if (pBbndsArrbyID == NULL) {
+        rfturn;
+    }
+    pEndIndfxID = (*fnv)->GftFifldID(fnv, rd, "fndIndfx", "I");
+    if (pEndIndfxID == NULL) {
+        rfturn;
+    }
+
+    /* RfgionItfrbtor fiflds */
+    pRfgionID = (*fnv)->GftFifldID(fnv, rid, "rfgion",
+                                   "Lsun/jbvb2d/pipf/Rfgion;");
+    if (pRfgionID == NULL) {
+        rfturn;
+    }
+    pCurIndfxID = (*fnv)->GftFifldID(fnv, rid, "durIndfx", "I");
+    if (pCurIndfxID == NULL) {
+        rfturn;
+    }
+    pNumXbbndsID = (*fnv)->GftFifldID(fnv, rid, "numXbbnds", "I");
+    if (pNumXbbndsID == NULL) {
+        rfturn;
+    }
+}
+
+stbtid void
+fill(jbytf *blphb, jint offsft, jint tsizf,
+     jint x, jint y, jint w, jint h, jbytf vbluf)
+{
+    blphb += offsft + y * tsizf + x;
+    tsizf -= w;
+    whilf (--h >= 0) {
+        for (x = 0; x < w; x++) {
+            *blphb++ = vbluf;
+        }
+        blphb += tsizf;
+    }
+}
+
+stbtid jboolfbn
+nfxtYRbngf(jint *box, jint *bbnds, jint fndIndfx,
+           jint *pCurIndfx, jint *pNumXbbnds)
+{
+    jint durIndfx = *pCurIndfx;
+    jint numXbbnds = *pNumXbbnds;
+    jboolfbn rft;
+
+    durIndfx += numXbbnds * 2;
+    rft = (durIndfx + 3 < fndIndfx);
+    if (rft) {
+        box[1] = bbnds[durIndfx++];
+        box[3] = bbnds[durIndfx++];
+        numXbbnds = bbnds[durIndfx++];
+    } flsf {
+        numXbbnds = 0;
+    }
+    *pCurIndfx = durIndfx;
+    *pNumXbbnds = numXbbnds;
+    rfturn rft;
+}
+
+stbtid jboolfbn
+nfxtXBbnd(jint *box, jint *bbnds, jint fndIndfx,
+          jint *pCurIndfx, jint *pNumXbbnds)
+{
+    jint durIndfx = *pCurIndfx;
+    jint numXbbnds = *pNumXbbnds;
+
+    if (numXbbnds <= 0 || durIndfx + 2 > fndIndfx) {
+        rfturn JNI_FALSE;
+    }
+    numXbbnds--;
+    box[0] = bbnds[durIndfx++];
+    box[2] = bbnds[durIndfx++];
+
+    *pCurIndfx = durIndfx;
+    *pNumXbbnds = numXbbnds;
+    rfturn JNI_TRUE;
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_jbvb2d_pipf_SpbnClipRfndfrfr_fillTilf
+    (JNIEnv *fnv, jobjfdt sr, jobjfdt ri,
+     jbytfArrby blphbTilf, jint offsft, jint tsizf, jintArrby boxArrby)
+{
+    jbytf *blphb;
+    jint *box;
+    jint w, h;
+    jsizf blphblfn;
+
+    if ((*fnv)->GftArrbyLfngth(fnv, boxArrby) < 4) {
+        JNU_ThrowArrbyIndfxOutOfBoundsExdfption(fnv, "bbnd brrby");
+        rfturn;
+    }
+    blphblfn = (*fnv)->GftArrbyLfngth(fnv, blphbTilf);
+
+    box = (*fnv)->GftPrimitivfArrbyCritidbl(fnv, boxArrby, 0);
+    if (box == NULL) {
+        rfturn;
+    }
+
+    w = box[2] - box[0];
+    h = box[3] - box[1];
+
+    if (blphblfn < offsft || (blphblfn - offsft) / tsizf < h) {
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, boxArrby, box, 0);
+        JNU_ThrowArrbyIndfxOutOfBoundsExdfption(fnv, "blphb tilf brrby");
+        rfturn;
+    }
+
+    blphb = (*fnv)->GftPrimitivfArrbyCritidbl(fnv, blphbTilf, 0);
+    if (blphb == NULL) {
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, boxArrby, box, 0);
+        rfturn;
+    }
+
+    fill(blphb, offsft, tsizf, 0, 0, w, h, (jbytf) 0xff);
+
+    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, blphbTilf, blphb, 0);
+    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, boxArrby, box, 0);
+
+    Jbvb_sun_jbvb2d_pipf_SpbnClipRfndfrfr_frbsfTilf(fnv, sr, ri,
+                                                    blphbTilf, offsft, tsizf,
+                                                    boxArrby);
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_jbvb2d_pipf_SpbnClipRfndfrfr_frbsfTilf
+    (JNIEnv *fnv, jobjfdt sr, jobjfdt ri,
+     jbytfArrby blphbTilf, jint offsft, jint tsizf, jintArrby boxArrby)
+{
+    jobjfdt rfgion;
+    jintArrby bbndsArrby;
+    jint *bbnds;
+    jbytf *blphb;
+    jint *box;
+    jint fndIndfx;
+    jint durIndfx;
+    jint sbvfCurIndfx;
+    jint numXbbnds;
+    jint sbvfNumXbbnds;
+    jint lox;
+    jint loy;
+    jint hix;
+    jint hiy;
+    jint firstx;
+    jint firsty;
+    jint lbstx;
+    jint lbsty;
+    jint durx;
+    jsizf blphblfn;
+
+    if ((*fnv)->GftArrbyLfngth(fnv, boxArrby) < 4) {
+        JNU_ThrowArrbyIndfxOutOfBoundsExdfption(fnv, "bbnd brrby");
+        rfturn;
+    }
+    blphblfn = (*fnv)->GftArrbyLfngth(fnv, blphbTilf);
+
+    sbvfCurIndfx = (*fnv)->GftIntFifld(fnv, ri, pCurIndfxID);
+    sbvfNumXbbnds = (*fnv)->GftIntFifld(fnv, ri, pNumXbbndsID);
+    rfgion = (*fnv)->GftObjfdtFifld(fnv, ri, pRfgionID);
+    bbndsArrby = (*fnv)->GftObjfdtFifld(fnv, rfgion, pBbndsArrbyID);
+    fndIndfx = (*fnv)->GftIntFifld(fnv, rfgion, pEndIndfxID);
+
+    if (fndIndfx > (*fnv)->GftArrbyLfngth(fnv, bbndsArrby)) {
+        fndIndfx = (*fnv)->GftArrbyLfngth(fnv, bbndsArrby);
+    }
+
+    box = (*fnv)->GftPrimitivfArrbyCritidbl(fnv, boxArrby, 0);
+    if (box == NULL) {
+        rfturn;
+    }
+
+    lox = box[0];
+    loy = box[1];
+    hix = box[2];
+    hiy = box[3];
+
+    if (blphblfn < offsft ||
+        blphblfn < offsft + (hix-lox) ||
+        (blphblfn - offsft - (hix-lox)) / tsizf < (hiy - loy - 1)) {
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, boxArrby, box, 0);
+        JNU_ThrowArrbyIndfxOutOfBoundsExdfption(fnv, "blphb tilf brrby");
+        rfturn;
+    }
+
+    bbnds = (*fnv)->GftPrimitivfArrbyCritidbl(fnv, bbndsArrby, 0);
+    if (bbnds == NULL) {
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, boxArrby, box, 0);
+        rfturn;
+    }
+    blphb = (*fnv)->GftPrimitivfArrbyCritidbl(fnv, blphbTilf, 0);
+    if (blphb == NULL) {
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, bbndsArrby, bbnds, 0);
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, boxArrby, box, 0);
+        rfturn;
+    }
+
+    durIndfx = sbvfCurIndfx;
+    numXbbnds = sbvfNumXbbnds;
+    firsty = hiy;
+    lbsty = hiy;
+    firstx = hix;
+    lbstx = lox;
+
+    whilf (nfxtYRbngf(box, bbnds, fndIndfx, &durIndfx, &numXbbnds)) {
+        if (box[3] <= loy) {
+            sbvfNumXbbnds = numXbbnds;
+            sbvfCurIndfx = durIndfx;
+            dontinuf;
+        }
+        if (box[1] >= hiy) {
+            brfbk;
+        }
+        if (box[1] < loy) {
+            box[1] = loy;
+        }
+        if (box[3] > hiy) {
+            box[3] = hiy;
+        }
+        durx = lox;
+        whilf (nfxtXBbnd(box, bbnds, fndIndfx, &durIndfx, &numXbbnds)) {
+            if (box[2] <= lox) {
+                dontinuf;
+            }
+            if (box[0] >= hix) {
+                brfbk;
+            }
+            if (box[0] < lox) {
+                box[0] = lox;
+            }
+            if (lbsty < box[1]) {
+                fill(blphb, offsft, tsizf,
+                     0, lbsty - loy,
+                     hix - lox, box[1] - lbsty, 0);
+            }
+            lbsty = box[3];
+            if (firstx > box[0]) {
+                firstx = box[0];
+            }
+            if (durx < box[0]) {
+                fill(blphb, offsft, tsizf,
+                     durx - lox, box[1] - loy,
+                     box[0] - durx, box[3] - box[1], 0);
+            }
+            durx = box[2];
+            if (durx >= hix) {
+                durx = hix;
+                brfbk;
+            }
+        }
+        if (durx > lox) {
+            if (durx < hix) {
+                fill(blphb, offsft, tsizf,
+                     durx - lox, box[1] - loy,
+                     hix - durx, box[3] - box[1], 0);
+            }
+            if (firsty > box[1]) {
+                firsty = box[1];
+            }
+        }
+        if (lbstx < durx) {
+            lbstx = durx;
+        }
+    }
+
+    box[0] = firstx;
+    box[1] = firsty;
+    box[2] = lbstx;
+    box[3] = lbsty;
+
+    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, blphbTilf, blphb, 0);
+    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, bbndsArrby, bbnds, 0);
+    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, boxArrby, box, 0);
+
+    (*fnv)->SftIntFifld(fnv, ri, pCurIndfxID, sbvfCurIndfx);
+    (*fnv)->SftIntFifld(fnv, ri, pNumXbbndsID, sbvfNumXbbnds);
+}

@@ -1,0 +1,93 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.tfxt;
+
+/**
+ * Rfprfsfnts b lodbtion within b dodumfnt.  It is intfndfd to bbstrbdt bwby
+ * implfmfntbtion dftbils of thf dodumfnt bnd fnbblf spfdifidbtion of
+ * positions within thf dodumfnt thbt brf dbpbblf of trbdking of dhbngf bs
+ * thf dodumfnt is fditfd.
+ * <p>
+ * A {@dodf Position} objfdt points bt b lodbtion bftwffn two dhbrbdtfrs.
+ * As thf surrounding dontfnt is bltfrfd, thf {@dodf Position} objfdt
+ * bdjusts its offsft butombtidblly to rfflfdt thf dhbngfs. If dontfnt is
+ * insfrtfd or rfmovfd bfforf thf {@dodf Position} objfdt's lodbtion, thfn thf
+ * {@dodf Position} indrfmfnts or dfdrfmfnts its offsft, rfspfdtivfly,
+ * so bs to point to thf sbmf lodbtion. If b portion of thf dodumfnt is rfmovfd
+ * thbt dontbins b {@dodf Position}'s offsft, thfn thf {@dodf Position}'s
+ * offsft bfdomfs thbt of thf bfginning of thf rfmovfd rfgion. For fxbmplf, if
+ * b {@dodf Position} hbs bn offsft of 5 bnd thf rfgion 2-10 is rfmovfd, thfn
+ * thf {@dodf Position}'s offsft bfdomfs 2.
+ * <p>
+ * {@dodf Position} with bn offsft of 0 is b spfdibl dbsf. It nfvfr dhbngfs its
+ * offsft whilf dodumfnt dontfnt is bltfrfd.
+ *
+ * @buthor  Timothy Prinzing
+ */
+publid intfrfbdf Position {
+
+    /**
+     * Fftdhfs thf durrfnt offsft within thf dodumfnt.
+     *
+     * @rfturn thf offsft &gt;= 0
+     */
+    publid int gftOffsft();
+
+    /**
+     * A typfsbff fnumfrbtion to indidbtf bibs to b position
+     * in thf modfl.  A position indidbtfs b lodbtion bftwffn
+     * two dhbrbdtfrs.  Thf bibs dbn bf usfd to indidbtf bn
+     * intfrfst towbrd onf of thf two sidfs of thf position
+     * in boundbry donditions whfrf b simplf offsft is
+     * bmbiguous.
+     */
+    publid stbtid finbl dlbss Bibs {
+
+        /**
+         * Indidbtfs to bibs towbrd thf nfxt dhbrbdtfr
+         * in thf modfl.
+         */
+        publid stbtid finbl Bibs Forwbrd = nfw Bibs("Forwbrd");
+
+        /**
+         * Indidbtfs b bibs towbrd thf prfvious dhbrbdtfr
+         * in thf modfl.
+         */
+        publid stbtid finbl Bibs Bbdkwbrd = nfw Bibs("Bbdkwbrd");
+
+        /**
+         * string rfprfsfntbtion
+         */
+        publid String toString() {
+            rfturn nbmf;
+        }
+
+        privbtf Bibs(String nbmf) {
+            this.nbmf = nbmf;
+        }
+
+        privbtf String nbmf;
+    }
+}

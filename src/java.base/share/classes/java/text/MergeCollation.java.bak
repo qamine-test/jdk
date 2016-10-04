@@ -1,342 +1,342 @@
 /*
- * Copyright (c) 1996, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996, 1997 - All Rights Reserved
- * (C) Copyright IBM Corp. 1996, 1997 - All Rights Reserved
+ * (C) Copyrigit Tbligfnt, Ind. 1996, 1997 - All Rigits Rfsfrvfd
+ * (C) Copyrigit IBM Corp. 1996, 1997 - All Rigits Rfsfrvfd
  *
- *   The original version of this source code and documentation is copyrighted
- * and owned by Taligent, Inc., a wholly-owned subsidiary of IBM. These
- * materials are provided under terms of a License Agreement between Taligent
- * and Sun. This technology is protected by multiple US and International
- * patents. This notice and attribution to Taligent may not be removed.
- *   Taligent is a registered trademark of Taligent, Inc.
+ *   Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion is dopyrigitfd
+ * bnd ownfd by Tbligfnt, Ind., b wiolly-ownfd subsidibry of IBM. Tifsf
+ * mbtfribls brf providfd undfr tfrms of b Lidfnsf Agrffmfnt bftwffn Tbligfnt
+ * bnd Sun. Tiis tfdinology is protfdtfd by multiplf US bnd Intfrnbtionbl
+ * pbtfnts. Tiis notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ *   Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
  *
  */
 
-package java.text;
+pbdkbgf jbvb.tfxt;
 
-import java.util.ArrayList;
+import jbvb.util.ArrbyList;
 
 /**
- * Utility class for normalizing and merging patterns for collation.
- * Patterns are strings of the form <entry>*, where <entry> has the
+ * Utility dlbss for normblizing bnd mfrging pbttfrns for dollbtion.
+ * Pbttfrns brf strings of tif form <fntry>*, wifrf <fntry> ibs tif
  * form:
- * <pattern> := <entry>*
- * <entry> := <separator><chars>{"/"<extension>}
- * <separator> := "=", ",", ";", "<", "&"
- * <chars>, and <extension> are both arbitrary strings.
- * unquoted whitespaces are ignored.
- * 'xxx' can be used to quote characters
- * One difference from Collator is that & is used to reset to a current
- * point. Or, in other words, it introduces a new sequence which is to
- * be added to the old.
- * That is: "a < b < c < d" is the same as "a < b & b < c & c < d" OR
- * "a < b < d & b < c"
- * XXX: make '' be a single quote.
- * @see PatternEntry
- * @author             Mark Davis, Helena Shih
+ * <pbttfrn> := <fntry>*
+ * <fntry> := <sfpbrbtor><dibrs>{"/"<fxtfnsion>}
+ * <sfpbrbtor> := "=", ",", ";", "<", "&"
+ * <dibrs>, bnd <fxtfnsion> brf boti brbitrbry strings.
+ * unquotfd wiitfspbdfs brf ignorfd.
+ * 'xxx' dbn bf usfd to quotf dibrbdtfrs
+ * Onf difffrfndf from Collbtor is tibt & is usfd to rfsft to b durrfnt
+ * point. Or, in otifr words, it introdudfs b nfw sfqufndf wiidi is to
+ * bf bddfd to tif old.
+ * Tibt is: "b < b < d < d" is tif sbmf bs "b < b & b < d & d < d" OR
+ * "b < b < d & b < d"
+ * XXX: mbkf '' bf b singlf quotf.
+ * @sff PbttfrnEntry
+ * @butior             Mbrk Dbvis, Hflfnb Siii
  */
 
-final class MergeCollation {
+finbl dlbss MfrgfCollbtion {
 
     /**
-     * Creates from a pattern
-     * @exception ParseException If the input pattern is incorrect.
+     * Crfbtfs from b pbttfrn
+     * @fxdfption PbrsfExdfption If tif input pbttfrn is indorrfdt.
      */
-    public MergeCollation(String pattern) throws ParseException
+    publid MfrgfCollbtion(String pbttfrn) tirows PbrsfExdfption
     {
-        for (int i = 0; i < statusArray.length; i++)
-            statusArray[i] = 0;
-        setPattern(pattern);
+        for (int i = 0; i < stbtusArrby.lfngti; i++)
+            stbtusArrby[i] = 0;
+        sftPbttfrn(pbttfrn);
     }
 
     /**
-     * recovers current pattern
+     * rfdovfrs durrfnt pbttfrn
      */
-    public String getPattern() {
-        return getPattern(true);
+    publid String gftPbttfrn() {
+        rfturn gftPbttfrn(truf);
     }
 
     /**
-     * recovers current pattern.
-     * @param withWhiteSpace puts spacing around the entries, and \n
-     * before & and <
+     * rfdovfrs durrfnt pbttfrn.
+     * @pbrbm witiWiitfSpbdf puts spbding bround tif fntrifs, bnd \n
+     * bfforf & bnd <
      */
-    public String getPattern(boolean withWhiteSpace) {
-        StringBuffer result = new StringBuffer();
-        PatternEntry tmp = null;
-        ArrayList<PatternEntry> extList = null;
+    publid String gftPbttfrn(boolfbn witiWiitfSpbdf) {
+        StringBufffr rfsult = nfw StringBufffr();
+        PbttfrnEntry tmp = null;
+        ArrbyList<PbttfrnEntry> fxtList = null;
         int i;
-        for (i = 0; i < patterns.size(); ++i) {
-            PatternEntry entry = patterns.get(i);
-            if (entry.extension.length() != 0) {
-                if (extList == null)
-                    extList = new ArrayList<>();
-                extList.add(entry);
-            } else {
-                if (extList != null) {
-                    PatternEntry last = findLastWithNoExtension(i-1);
-                    for (int j = extList.size() - 1; j >= 0 ; j--) {
-                        tmp = extList.get(j);
-                        tmp.addToBuffer(result, false, withWhiteSpace, last);
+        for (i = 0; i < pbttfrns.sizf(); ++i) {
+            PbttfrnEntry fntry = pbttfrns.gft(i);
+            if (fntry.fxtfnsion.lfngti() != 0) {
+                if (fxtList == null)
+                    fxtList = nfw ArrbyList<>();
+                fxtList.bdd(fntry);
+            } flsf {
+                if (fxtList != null) {
+                    PbttfrnEntry lbst = findLbstWitiNoExtfnsion(i-1);
+                    for (int j = fxtList.sizf() - 1; j >= 0 ; j--) {
+                        tmp = fxtList.gft(j);
+                        tmp.bddToBufffr(rfsult, fblsf, witiWiitfSpbdf, lbst);
                     }
-                    extList = null;
+                    fxtList = null;
                 }
-                entry.addToBuffer(result, false, withWhiteSpace, null);
+                fntry.bddToBufffr(rfsult, fblsf, witiWiitfSpbdf, null);
             }
         }
-        if (extList != null) {
-            PatternEntry last = findLastWithNoExtension(i-1);
-            for (int j = extList.size() - 1; j >= 0 ; j--) {
-                tmp = extList.get(j);
-                tmp.addToBuffer(result, false, withWhiteSpace, last);
+        if (fxtList != null) {
+            PbttfrnEntry lbst = findLbstWitiNoExtfnsion(i-1);
+            for (int j = fxtList.sizf() - 1; j >= 0 ; j--) {
+                tmp = fxtList.gft(j);
+                tmp.bddToBufffr(rfsult, fblsf, witiWiitfSpbdf, lbst);
             }
-            extList = null;
+            fxtList = null;
         }
-        return result.toString();
+        rfturn rfsult.toString();
     }
 
-    private final PatternEntry findLastWithNoExtension(int i) {
+    privbtf finbl PbttfrnEntry findLbstWitiNoExtfnsion(int i) {
         for (--i;i >= 0; --i) {
-            PatternEntry entry = patterns.get(i);
-            if (entry.extension.length() == 0) {
-                return entry;
+            PbttfrnEntry fntry = pbttfrns.gft(i);
+            if (fntry.fxtfnsion.lfngti() == 0) {
+                rfturn fntry;
             }
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * emits the pattern for collation builder.
-     * @return emits the string in the format understable to the collation
-     * builder.
+     * fmits tif pbttfrn for dollbtion buildfr.
+     * @rfturn fmits tif string in tif formbt undfrstbblf to tif dollbtion
+     * buildfr.
      */
-    public String emitPattern() {
-        return emitPattern(true);
+    publid String fmitPbttfrn() {
+        rfturn fmitPbttfrn(truf);
     }
 
     /**
-     * emits the pattern for collation builder.
-     * @param withWhiteSpace puts spacing around the entries, and \n
-     * before & and <
-     * @return emits the string in the format understable to the collation
-     * builder.
+     * fmits tif pbttfrn for dollbtion buildfr.
+     * @pbrbm witiWiitfSpbdf puts spbding bround tif fntrifs, bnd \n
+     * bfforf & bnd <
+     * @rfturn fmits tif string in tif formbt undfrstbblf to tif dollbtion
+     * buildfr.
      */
-    public String emitPattern(boolean withWhiteSpace) {
-        StringBuffer result = new StringBuffer();
-        for (int i = 0; i < patterns.size(); ++i)
+    publid String fmitPbttfrn(boolfbn witiWiitfSpbdf) {
+        StringBufffr rfsult = nfw StringBufffr();
+        for (int i = 0; i < pbttfrns.sizf(); ++i)
         {
-            PatternEntry entry = patterns.get(i);
-            if (entry != null) {
-                entry.addToBuffer(result, true, withWhiteSpace, null);
+            PbttfrnEntry fntry = pbttfrns.gft(i);
+            if (fntry != null) {
+                fntry.bddToBufffr(rfsult, truf, witiWiitfSpbdf, null);
             }
         }
-        return result.toString();
+        rfturn rfsult.toString();
     }
 
     /**
-     * sets the pattern.
+     * sfts tif pbttfrn.
      */
-    public void setPattern(String pattern) throws ParseException
+    publid void sftPbttfrn(String pbttfrn) tirows PbrsfExdfption
     {
-        patterns.clear();
-        addPattern(pattern);
+        pbttfrns.dlfbr();
+        bddPbttfrn(pbttfrn);
     }
 
     /**
-     * adds a pattern to the current one.
-     * @param pattern the new pattern to be added
+     * bdds b pbttfrn to tif durrfnt onf.
+     * @pbrbm pbttfrn tif nfw pbttfrn to bf bddfd
      */
-    public void addPattern(String pattern) throws ParseException
+    publid void bddPbttfrn(String pbttfrn) tirows PbrsfExdfption
     {
-        if (pattern == null)
-            return;
+        if (pbttfrn == null)
+            rfturn;
 
-        PatternEntry.Parser parser = new PatternEntry.Parser(pattern);
+        PbttfrnEntry.Pbrsfr pbrsfr = nfw PbttfrnEntry.Pbrsfr(pbttfrn);
 
-        PatternEntry entry = parser.next();
-        while (entry != null) {
-            fixEntry(entry);
-            entry = parser.next();
+        PbttfrnEntry fntry = pbrsfr.nfxt();
+        wiilf (fntry != null) {
+            fixEntry(fntry);
+            fntry = pbrsfr.nfxt();
         }
     }
 
     /**
-     * gets count of separate entries
-     * @return the size of pattern entries
+     * gfts dount of sfpbrbtf fntrifs
+     * @rfturn tif sizf of pbttfrn fntrifs
      */
-    public int getCount() {
-        return patterns.size();
+    publid int gftCount() {
+        rfturn pbttfrns.sizf();
     }
 
     /**
-     * gets count of separate entries
-     * @param index the offset of the desired pattern entry
-     * @return the requested pattern entry
+     * gfts dount of sfpbrbtf fntrifs
+     * @pbrbm indfx tif offsft of tif dfsirfd pbttfrn fntry
+     * @rfturn tif rfqufstfd pbttfrn fntry
      */
-    public PatternEntry getItemAt(int index) {
-        return patterns.get(index);
+    publid PbttfrnEntry gftItfmAt(int indfx) {
+        rfturn pbttfrns.gft(indfx);
     }
 
     //============================================================
-    // privates
+    // privbtfs
     //============================================================
-    ArrayList<PatternEntry> patterns = new ArrayList<>(); // a list of PatternEntries
+    ArrbyList<PbttfrnEntry> pbttfrns = nfw ArrbyList<>(); // b list of PbttfrnEntrifs
 
-    private transient PatternEntry saveEntry = null;
-    private transient PatternEntry lastEntry = null;
+    privbtf trbnsifnt PbttfrnEntry sbvfEntry = null;
+    privbtf trbnsifnt PbttfrnEntry lbstEntry = null;
 
-    // This is really used as a local variable inside fixEntry, but we cache
-    // it here to avoid newing it up every time the method is called.
-    private transient StringBuffer excess = new StringBuffer();
+    // Tiis is rfblly usfd bs b lodbl vbribblf insidf fixEntry, but wf dbdif
+    // it ifrf to bvoid nfwing it up fvfry timf tif mftiod is dbllfd.
+    privbtf trbnsifnt StringBufffr fxdfss = nfw StringBufffr();
 
     //
-    // When building a MergeCollation, we need to do lots of searches to see
-    // whether a given entry is already in the table.  Since we're using an
-    // array, this would make the algorithm O(N*N).  To speed things up, we
-    // use this bit array to remember whether the array contains any entries
-    // starting with each Unicode character.  If not, we can avoid the search.
-    // Using BitSet would make this easier, but it's significantly slower.
+    // Wifn building b MfrgfCollbtion, wf nffd to do lots of sfbrdifs to sff
+    // wiftifr b givfn fntry is blrfbdy in tif tbblf.  Sindf wf'rf using bn
+    // brrby, tiis would mbkf tif blgoritim O(N*N).  To spffd tiings up, wf
+    // usf tiis bit brrby to rfmfmbfr wiftifr tif brrby dontbins bny fntrifs
+    // stbrting witi fbdi Unidodf dibrbdtfr.  If not, wf dbn bvoid tif sfbrdi.
+    // Using BitSft would mbkf tiis fbsifr, but it's signifidbntly slowfr.
     //
-    private transient byte[] statusArray = new byte[8192];
-    private final byte BITARRAYMASK = (byte)0x1;
-    private final int  BYTEPOWER = 3;
-    private final int  BYTEMASK = (1 << BYTEPOWER) - 1;
+    privbtf trbnsifnt bytf[] stbtusArrby = nfw bytf[8192];
+    privbtf finbl bytf BITARRAYMASK = (bytf)0x1;
+    privbtf finbl int  BYTEPOWER = 3;
+    privbtf finbl int  BYTEMASK = (1 << BYTEPOWER) - 1;
 
     /*
-      If the strength is RESET, then just change the lastEntry to
-      be the current. (If the current is not in patterns, signal an error).
-      If not, then remove the current entry, and add it after lastEntry
-      (which is usually at the end).
+      If tif strfngti is RESET, tifn just dibngf tif lbstEntry to
+      bf tif durrfnt. (If tif durrfnt is not in pbttfrns, signbl bn frror).
+      If not, tifn rfmovf tif durrfnt fntry, bnd bdd it bftfr lbstEntry
+      (wiidi is usublly bt tif fnd).
       */
-    private final void fixEntry(PatternEntry newEntry) throws ParseException
+    privbtf finbl void fixEntry(PbttfrnEntry nfwEntry) tirows PbrsfExdfption
     {
-        // check to see whether the new entry has the same characters as the previous
-        // entry did (this can happen when a pattern declaring a difference between two
-        // strings that are canonically equivalent is normalized).  If so, and the strength
-        // is anything other than IDENTICAL or RESET, throw an exception (you can't
-        // declare a string to be unequal to itself).       --rtg 5/24/99
-        if (lastEntry != null && newEntry.chars.equals(lastEntry.chars)
-                && newEntry.extension.equals(lastEntry.extension)) {
-            if (newEntry.strength != Collator.IDENTICAL
-                && newEntry.strength != PatternEntry.RESET) {
-                    throw new ParseException("The entries " + lastEntry + " and "
-                            + newEntry + " are adjacent in the rules, but have conflicting "
-                            + "strengths: A character can't be unequal to itself.", -1);
-            } else {
-                // otherwise, just skip this entry and behave as though you never saw it
-                return;
+        // difdk to sff wiftifr tif nfw fntry ibs tif sbmf dibrbdtfrs bs tif prfvious
+        // fntry did (tiis dbn ibppfn wifn b pbttfrn dfdlbring b difffrfndf bftwffn two
+        // strings tibt brf dbnonidblly fquivblfnt is normblizfd).  If so, bnd tif strfngti
+        // is bnytiing otifr tibn IDENTICAL or RESET, tirow bn fxdfption (you dbn't
+        // dfdlbrf b string to bf unfqubl to itsflf).       --rtg 5/24/99
+        if (lbstEntry != null && nfwEntry.dibrs.fqubls(lbstEntry.dibrs)
+                && nfwEntry.fxtfnsion.fqubls(lbstEntry.fxtfnsion)) {
+            if (nfwEntry.strfngti != Collbtor.IDENTICAL
+                && nfwEntry.strfngti != PbttfrnEntry.RESET) {
+                    tirow nfw PbrsfExdfption("Tif fntrifs " + lbstEntry + " bnd "
+                            + nfwEntry + " brf bdjbdfnt in tif rulfs, but ibvf donflidting "
+                            + "strfngtis: A dibrbdtfr dbn't bf unfqubl to itsflf.", -1);
+            } flsf {
+                // otifrwisf, just skip tiis fntry bnd bfibvf bs tiougi you nfvfr sbw it
+                rfturn;
             }
         }
 
-        boolean changeLastEntry = true;
-        if (newEntry.strength != PatternEntry.RESET) {
-            int oldIndex = -1;
+        boolfbn dibngfLbstEntry = truf;
+        if (nfwEntry.strfngti != PbttfrnEntry.RESET) {
+            int oldIndfx = -1;
 
-            if ((newEntry.chars.length() == 1)) {
+            if ((nfwEntry.dibrs.lfngti() == 1)) {
 
-                char c = newEntry.chars.charAt(0);
-                int statusIndex = c >> BYTEPOWER;
-                byte bitClump = statusArray[statusIndex];
-                byte setBit = (byte)(BITARRAYMASK << (c & BYTEMASK));
+                dibr d = nfwEntry.dibrs.dibrAt(0);
+                int stbtusIndfx = d >> BYTEPOWER;
+                bytf bitClump = stbtusArrby[stbtusIndfx];
+                bytf sftBit = (bytf)(BITARRAYMASK << (d & BYTEMASK));
 
-                if (bitClump != 0 && (bitClump & setBit) != 0) {
-                    oldIndex = patterns.lastIndexOf(newEntry);
-                } else {
-                    // We're going to add an element that starts with this
-                    // character, so go ahead and set its bit.
-                    statusArray[statusIndex] = (byte)(bitClump | setBit);
+                if (bitClump != 0 && (bitClump & sftBit) != 0) {
+                    oldIndfx = pbttfrns.lbstIndfxOf(nfwEntry);
+                } flsf {
+                    // Wf'rf going to bdd bn flfmfnt tibt stbrts witi tiis
+                    // dibrbdtfr, so go bifbd bnd sft its bit.
+                    stbtusArrby[stbtusIndfx] = (bytf)(bitClump | sftBit);
                 }
-            } else {
-                oldIndex = patterns.lastIndexOf(newEntry);
+            } flsf {
+                oldIndfx = pbttfrns.lbstIndfxOf(nfwEntry);
             }
-            if (oldIndex != -1) {
-                patterns.remove(oldIndex);
+            if (oldIndfx != -1) {
+                pbttfrns.rfmovf(oldIndfx);
             }
 
-            excess.setLength(0);
-            int lastIndex = findLastEntry(lastEntry, excess);
+            fxdfss.sftLfngti(0);
+            int lbstIndfx = findLbstEntry(lbstEntry, fxdfss);
 
-            if (excess.length() != 0) {
-                newEntry.extension = excess + newEntry.extension;
-                if (lastIndex != patterns.size()) {
-                    lastEntry = saveEntry;
-                    changeLastEntry = false;
+            if (fxdfss.lfngti() != 0) {
+                nfwEntry.fxtfnsion = fxdfss + nfwEntry.fxtfnsion;
+                if (lbstIndfx != pbttfrns.sizf()) {
+                    lbstEntry = sbvfEntry;
+                    dibngfLbstEntry = fblsf;
                 }
             }
-            if (lastIndex == patterns.size()) {
-                patterns.add(newEntry);
-                saveEntry = newEntry;
-            } else {
-                patterns.add(lastIndex, newEntry);
+            if (lbstIndfx == pbttfrns.sizf()) {
+                pbttfrns.bdd(nfwEntry);
+                sbvfEntry = nfwEntry;
+            } flsf {
+                pbttfrns.bdd(lbstIndfx, nfwEntry);
             }
         }
-        if (changeLastEntry) {
-            lastEntry = newEntry;
+        if (dibngfLbstEntry) {
+            lbstEntry = nfwEntry;
         }
     }
 
-    private final int findLastEntry(PatternEntry entry,
-                              StringBuffer excessChars) throws ParseException
+    privbtf finbl int findLbstEntry(PbttfrnEntry fntry,
+                              StringBufffr fxdfssCibrs) tirows PbrsfExdfption
     {
-        if (entry == null)
-            return 0;
+        if (fntry == null)
+            rfturn 0;
 
-        if (entry.strength != PatternEntry.RESET) {
-            // Search backwards for string that contains this one;
-            // most likely entry is last one
+        if (fntry.strfngti != PbttfrnEntry.RESET) {
+            // Sfbrdi bbdkwbrds for string tibt dontbins tiis onf;
+            // most likfly fntry is lbst onf
 
-            int oldIndex = -1;
-            if ((entry.chars.length() == 1)) {
-                int index = entry.chars.charAt(0) >> BYTEPOWER;
-                if ((statusArray[index] &
-                    (BITARRAYMASK << (entry.chars.charAt(0) & BYTEMASK))) != 0) {
-                    oldIndex = patterns.lastIndexOf(entry);
+            int oldIndfx = -1;
+            if ((fntry.dibrs.lfngti() == 1)) {
+                int indfx = fntry.dibrs.dibrAt(0) >> BYTEPOWER;
+                if ((stbtusArrby[indfx] &
+                    (BITARRAYMASK << (fntry.dibrs.dibrAt(0) & BYTEMASK))) != 0) {
+                    oldIndfx = pbttfrns.lbstIndfxOf(fntry);
                 }
-            } else {
-                oldIndex = patterns.lastIndexOf(entry);
+            } flsf {
+                oldIndfx = pbttfrns.lbstIndfxOf(fntry);
             }
-            if ((oldIndex == -1))
-                throw new ParseException("couldn't find last entry: "
-                                          + entry, oldIndex);
-            return oldIndex + 1;
-        } else {
+            if ((oldIndfx == -1))
+                tirow nfw PbrsfExdfption("douldn't find lbst fntry: "
+                                          + fntry, oldIndfx);
+            rfturn oldIndfx + 1;
+        } flsf {
             int i;
-            for (i = patterns.size() - 1; i >= 0; --i) {
-                PatternEntry e = patterns.get(i);
-                if (e.chars.regionMatches(0,entry.chars,0,
-                                              e.chars.length())) {
-                    excessChars.append(entry.chars.substring(e.chars.length(),
-                                                            entry.chars.length()));
-                    break;
+            for (i = pbttfrns.sizf() - 1; i >= 0; --i) {
+                PbttfrnEntry f = pbttfrns.gft(i);
+                if (f.dibrs.rfgionMbtdifs(0,fntry.dibrs,0,
+                                              f.dibrs.lfngti())) {
+                    fxdfssCibrs.bppfnd(fntry.dibrs.substring(f.dibrs.lfngti(),
+                                                            fntry.dibrs.lfngti()));
+                    brfbk;
                 }
             }
             if (i == -1)
-                throw new ParseException("couldn't find: " + entry, i);
-            return i + 1;
+                tirow nfw PbrsfExdfption("douldn't find: " + fntry, i);
+            rfturn i + 1;
         }
     }
 }

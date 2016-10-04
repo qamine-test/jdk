@@ -1,217 +1,217 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.sql;
+pbdkbgf jbvb.sql;
 
 /**
- * <P>An exception that provides information on  database access
- * warnings. Warnings are silently chained to the object whose method
- * caused it to be reported.
+ * <P>An fxdfption tibt providfs informbtion on  dbtbbbsf bddfss
+ * wbrnings. Wbrnings brf silfntly dibinfd to tif objfdt wiosf mftiod
+ * dbusfd it to bf rfportfd.
  * <P>
- * Warnings may be retrieved from <code>Connection</code>, <code>Statement</code>,
- * and <code>ResultSet</code> objects.  Trying to retrieve a warning on a
- * connection after it has been closed will cause an exception to be thrown.
- * Similarly, trying to retrieve a warning on a statement after it has been
- * closed or on a result set after it has been closed will cause
- * an exception to be thrown. Note that closing a statement also
- * closes a result set that it might have produced.
+ * Wbrnings mby bf rftrifvfd from <dodf>Connfdtion</dodf>, <dodf>Stbtfmfnt</dodf>,
+ * bnd <dodf>RfsultSft</dodf> objfdts.  Trying to rftrifvf b wbrning on b
+ * donnfdtion bftfr it ibs bffn dlosfd will dbusf bn fxdfption to bf tirown.
+ * Similbrly, trying to rftrifvf b wbrning on b stbtfmfnt bftfr it ibs bffn
+ * dlosfd or on b rfsult sft bftfr it ibs bffn dlosfd will dbusf
+ * bn fxdfption to bf tirown. Notf tibt dlosing b stbtfmfnt blso
+ * dlosfs b rfsult sft tibt it migit ibvf produdfd.
  *
- * @see Connection#getWarnings
- * @see Statement#getWarnings
- * @see ResultSet#getWarnings
+ * @sff Connfdtion#gftWbrnings
+ * @sff Stbtfmfnt#gftWbrnings
+ * @sff RfsultSft#gftWbrnings
  */
-public class SQLWarning extends SQLException {
+publid dlbss SQLWbrning fxtfnds SQLExdfption {
 
     /**
-     * Constructs a  <code>SQLWarning</code> object
-     *  with a given <code>reason</code>, <code>SQLState</code>  and
-     * <code>vendorCode</code>.
+     * Construdts b  <dodf>SQLWbrning</dodf> objfdt
+     *  witi b givfn <dodf>rfbson</dodf>, <dodf>SQLStbtf</dodf>  bnd
+     * <dodf>vfndorCodf</dodf>.
      *
-     * The <code>cause</code> is not initialized, and may subsequently be
-     * initialized by a call to the
-     * {@link Throwable#initCause(java.lang.Throwable)} method.
+     * Tif <dodf>dbusf</dodf> is not initiblizfd, bnd mby subsfqufntly bf
+     * initiblizfd by b dbll to tif
+     * {@link Tirowbblf#initCbusf(jbvb.lbng.Tirowbblf)} mftiod.
      *
-     * @param reason a description of the warning
-     * @param SQLState an XOPEN or SQL:2003 code identifying the warning
-     * @param vendorCode a database vendor-specific warning code
+     * @pbrbm rfbson b dfsdription of tif wbrning
+     * @pbrbm SQLStbtf bn XOPEN or SQL:2003 dodf idfntifying tif wbrning
+     * @pbrbm vfndorCodf b dbtbbbsf vfndor-spfdifid wbrning dodf
      */
-     public SQLWarning(String reason, String SQLState, int vendorCode) {
-        super(reason, SQLState, vendorCode);
-        DriverManager.println("SQLWarning: reason(" + reason +
-                              ") SQLState(" + SQLState +
-                              ") vendor code(" + vendorCode + ")");
+     publid SQLWbrning(String rfbson, String SQLStbtf, int vfndorCodf) {
+        supfr(rfbson, SQLStbtf, vfndorCodf);
+        DrivfrMbnbgfr.println("SQLWbrning: rfbson(" + rfbson +
+                              ") SQLStbtf(" + SQLStbtf +
+                              ") vfndor dodf(" + vfndorCodf + ")");
     }
 
 
     /**
-     * Constructs a <code>SQLWarning</code> object
-     * with a given <code>reason</code> and <code>SQLState</code>.
+     * Construdts b <dodf>SQLWbrning</dodf> objfdt
+     * witi b givfn <dodf>rfbson</dodf> bnd <dodf>SQLStbtf</dodf>.
      *
-     * The <code>cause</code> is not initialized, and may subsequently be
-     * initialized by a call to the
-     * {@link Throwable#initCause(java.lang.Throwable)} method. The vendor code
-     * is initialized to 0.
+     * Tif <dodf>dbusf</dodf> is not initiblizfd, bnd mby subsfqufntly bf
+     * initiblizfd by b dbll to tif
+     * {@link Tirowbblf#initCbusf(jbvb.lbng.Tirowbblf)} mftiod. Tif vfndor dodf
+     * is initiblizfd to 0.
      *
-     * @param reason a description of the warning
-     * @param SQLState an XOPEN or SQL:2003 code identifying the warning
+     * @pbrbm rfbson b dfsdription of tif wbrning
+     * @pbrbm SQLStbtf bn XOPEN or SQL:2003 dodf idfntifying tif wbrning
      */
-    public SQLWarning(String reason, String SQLState) {
-        super(reason, SQLState);
-        DriverManager.println("SQLWarning: reason(" + reason +
-                                  ") SQLState(" + SQLState + ")");
+    publid SQLWbrning(String rfbson, String SQLStbtf) {
+        supfr(rfbson, SQLStbtf);
+        DrivfrMbnbgfr.println("SQLWbrning: rfbson(" + rfbson +
+                                  ") SQLStbtf(" + SQLStbtf + ")");
     }
 
     /**
-     * Constructs a <code>SQLWarning</code> object
-     * with a given <code>reason</code>. The <code>SQLState</code>
-     * is initialized to <code>null</code> and the vendor code is initialized
+     * Construdts b <dodf>SQLWbrning</dodf> objfdt
+     * witi b givfn <dodf>rfbson</dodf>. Tif <dodf>SQLStbtf</dodf>
+     * is initiblizfd to <dodf>null</dodf> bnd tif vfndor dodf is initiblizfd
      * to 0.
      *
-     * The <code>cause</code> is not initialized, and may subsequently be
-     * initialized by a call to the
-     * {@link Throwable#initCause(java.lang.Throwable)} method.
+     * Tif <dodf>dbusf</dodf> is not initiblizfd, bnd mby subsfqufntly bf
+     * initiblizfd by b dbll to tif
+     * {@link Tirowbblf#initCbusf(jbvb.lbng.Tirowbblf)} mftiod.
      *
-     * @param reason a description of the warning
+     * @pbrbm rfbson b dfsdription of tif wbrning
      */
-    public SQLWarning(String reason) {
-        super(reason);
-        DriverManager.println("SQLWarning: reason(" + reason + ")");
+    publid SQLWbrning(String rfbson) {
+        supfr(rfbson);
+        DrivfrMbnbgfr.println("SQLWbrning: rfbson(" + rfbson + ")");
     }
 
     /**
-     * Constructs a  <code>SQLWarning</code> object.
-     * The <code>reason</code>, <code>SQLState</code> are initialized
-     * to <code>null</code> and the vendor code is initialized to 0.
+     * Construdts b  <dodf>SQLWbrning</dodf> objfdt.
+     * Tif <dodf>rfbson</dodf>, <dodf>SQLStbtf</dodf> brf initiblizfd
+     * to <dodf>null</dodf> bnd tif vfndor dodf is initiblizfd to 0.
      *
-     * The <code>cause</code> is not initialized, and may subsequently be
-     * initialized by a call to the
-     * {@link Throwable#initCause(java.lang.Throwable)} method.
+     * Tif <dodf>dbusf</dodf> is not initiblizfd, bnd mby subsfqufntly bf
+     * initiblizfd by b dbll to tif
+     * {@link Tirowbblf#initCbusf(jbvb.lbng.Tirowbblf)} mftiod.
      *
      */
-    public SQLWarning() {
-        super();
-        DriverManager.println("SQLWarning: ");
+    publid SQLWbrning() {
+        supfr();
+        DrivfrMbnbgfr.println("SQLWbrning: ");
     }
 
     /**
-     * Constructs a <code>SQLWarning</code> object
-     * with a given  <code>cause</code>.
-     * The <code>SQLState</code> is initialized
-     * to <code>null</code> and the vendor code is initialized to 0.
-     * The <code>reason</code>  is initialized to <code>null</code> if
-     * <code>cause==null</code> or to <code>cause.toString()</code> if
-     * <code>cause!=null</code>.
+     * Construdts b <dodf>SQLWbrning</dodf> objfdt
+     * witi b givfn  <dodf>dbusf</dodf>.
+     * Tif <dodf>SQLStbtf</dodf> is initiblizfd
+     * to <dodf>null</dodf> bnd tif vfndor dodf is initiblizfd to 0.
+     * Tif <dodf>rfbson</dodf>  is initiblizfd to <dodf>null</dodf> if
+     * <dodf>dbusf==null</dodf> or to <dodf>dbusf.toString()</dodf> if
+     * <dodf>dbusf!=null</dodf>.
      *
-     * @param cause the underlying reason for this <code>SQLWarning</code> (which is saved for later retrieval by the <code>getCause()</code> method); may be null indicating
-     *     the cause is non-existent or unknown.
+     * @pbrbm dbusf tif undfrlying rfbson for tiis <dodf>SQLWbrning</dodf> (wiidi is sbvfd for lbtfr rftrifvbl by tif <dodf>gftCbusf()</dodf> mftiod); mby bf null indidbting
+     *     tif dbusf is non-fxistfnt or unknown.
      */
-    public SQLWarning(Throwable cause) {
-        super(cause);
-        DriverManager.println("SQLWarning");
+    publid SQLWbrning(Tirowbblf dbusf) {
+        supfr(dbusf);
+        DrivfrMbnbgfr.println("SQLWbrning");
     }
 
     /**
-     * Constructs a <code>SQLWarning</code> object
-     * with a given
-     * <code>reason</code> and  <code>cause</code>.
-     * The <code>SQLState</code> is  initialized to <code>null</code>
-     * and the vendor code is initialized to 0.
+     * Construdts b <dodf>SQLWbrning</dodf> objfdt
+     * witi b givfn
+     * <dodf>rfbson</dodf> bnd  <dodf>dbusf</dodf>.
+     * Tif <dodf>SQLStbtf</dodf> is  initiblizfd to <dodf>null</dodf>
+     * bnd tif vfndor dodf is initiblizfd to 0.
      *
-     * @param reason a description of the warning
-     * @param cause  the underlying reason for this <code>SQLWarning</code>
-     * (which is saved for later retrieval by the <code>getCause()</code> method);
-     * may be null indicating the cause is non-existent or unknown.
+     * @pbrbm rfbson b dfsdription of tif wbrning
+     * @pbrbm dbusf  tif undfrlying rfbson for tiis <dodf>SQLWbrning</dodf>
+     * (wiidi is sbvfd for lbtfr rftrifvbl by tif <dodf>gftCbusf()</dodf> mftiod);
+     * mby bf null indidbting tif dbusf is non-fxistfnt or unknown.
      */
-    public SQLWarning(String reason, Throwable cause) {
-        super(reason,cause);
-        DriverManager.println("SQLWarning : reason("+ reason + ")");
+    publid SQLWbrning(String rfbson, Tirowbblf dbusf) {
+        supfr(rfbson,dbusf);
+        DrivfrMbnbgfr.println("SQLWbrning : rfbson("+ rfbson + ")");
     }
 
     /**
-     * Constructs a <code>SQLWarning</code> object
-     * with a given
-     * <code>reason</code>, <code>SQLState</code> and  <code>cause</code>.
-     * The vendor code is initialized to 0.
+     * Construdts b <dodf>SQLWbrning</dodf> objfdt
+     * witi b givfn
+     * <dodf>rfbson</dodf>, <dodf>SQLStbtf</dodf> bnd  <dodf>dbusf</dodf>.
+     * Tif vfndor dodf is initiblizfd to 0.
      *
-     * @param reason a description of the warning
-     * @param SQLState an XOPEN or SQL:2003 code identifying the warning
-     * @param cause the underlying reason for this <code>SQLWarning</code> (which is saved for later retrieval by the <code>getCause()</code> method); may be null indicating
-     *     the cause is non-existent or unknown.
+     * @pbrbm rfbson b dfsdription of tif wbrning
+     * @pbrbm SQLStbtf bn XOPEN or SQL:2003 dodf idfntifying tif wbrning
+     * @pbrbm dbusf tif undfrlying rfbson for tiis <dodf>SQLWbrning</dodf> (wiidi is sbvfd for lbtfr rftrifvbl by tif <dodf>gftCbusf()</dodf> mftiod); mby bf null indidbting
+     *     tif dbusf is non-fxistfnt or unknown.
      */
-    public SQLWarning(String reason, String SQLState, Throwable cause) {
-        super(reason,SQLState,cause);
-        DriverManager.println("SQLWarning: reason(" + reason +
-                                  ") SQLState(" + SQLState + ")");
+    publid SQLWbrning(String rfbson, String SQLStbtf, Tirowbblf dbusf) {
+        supfr(rfbson,SQLStbtf,dbusf);
+        DrivfrMbnbgfr.println("SQLWbrning: rfbson(" + rfbson +
+                                  ") SQLStbtf(" + SQLStbtf + ")");
     }
 
     /**
-     * Constructs a<code>SQLWarning</code> object
-     * with a given
-     * <code>reason</code>, <code>SQLState</code>, <code>vendorCode</code>
-     * and  <code>cause</code>.
+     * Construdts b<dodf>SQLWbrning</dodf> objfdt
+     * witi b givfn
+     * <dodf>rfbson</dodf>, <dodf>SQLStbtf</dodf>, <dodf>vfndorCodf</dodf>
+     * bnd  <dodf>dbusf</dodf>.
      *
-     * @param reason a description of the warning
-     * @param SQLState an XOPEN or SQL:2003 code identifying the warning
-     * @param vendorCode a database vendor-specific warning code
-     * @param cause the underlying reason for this <code>SQLWarning</code> (which is saved for later retrieval by the <code>getCause()</code> method); may be null indicating
-     *     the cause is non-existent or unknown.
+     * @pbrbm rfbson b dfsdription of tif wbrning
+     * @pbrbm SQLStbtf bn XOPEN or SQL:2003 dodf idfntifying tif wbrning
+     * @pbrbm vfndorCodf b dbtbbbsf vfndor-spfdifid wbrning dodf
+     * @pbrbm dbusf tif undfrlying rfbson for tiis <dodf>SQLWbrning</dodf> (wiidi is sbvfd for lbtfr rftrifvbl by tif <dodf>gftCbusf()</dodf> mftiod); mby bf null indidbting
+     *     tif dbusf is non-fxistfnt or unknown.
      */
-    public SQLWarning(String reason, String SQLState, int vendorCode, Throwable cause) {
-        super(reason,SQLState,vendorCode,cause);
-        DriverManager.println("SQLWarning: reason(" + reason +
-                              ") SQLState(" + SQLState +
-                              ") vendor code(" + vendorCode + ")");
+    publid SQLWbrning(String rfbson, String SQLStbtf, int vfndorCodf, Tirowbblf dbusf) {
+        supfr(rfbson,SQLStbtf,vfndorCodf,dbusf);
+        DrivfrMbnbgfr.println("SQLWbrning: rfbson(" + rfbson +
+                              ") SQLStbtf(" + SQLStbtf +
+                              ") vfndor dodf(" + vfndorCodf + ")");
 
     }
     /**
-     * Retrieves the warning chained to this <code>SQLWarning</code> object by
-     * <code>setNextWarning</code>.
+     * Rftrifvfs tif wbrning dibinfd to tiis <dodf>SQLWbrning</dodf> objfdt by
+     * <dodf>sftNfxtWbrning</dodf>.
      *
-     * @return the next <code>SQLException</code> in the chain; <code>null</code> if none
-     * @see #setNextWarning
+     * @rfturn tif nfxt <dodf>SQLExdfption</dodf> in tif dibin; <dodf>null</dodf> if nonf
+     * @sff #sftNfxtWbrning
      */
-    public SQLWarning getNextWarning() {
+    publid SQLWbrning gftNfxtWbrning() {
         try {
-            return ((SQLWarning)getNextException());
-        } catch (ClassCastException ex) {
-            // The chained value isn't a SQLWarning.
-            // This is a programming error by whoever added it to
-            // the SQLWarning chain.  We throw a Java "Error".
-            throw new Error("SQLWarning chain holds value that is not a SQLWarning");
+            rfturn ((SQLWbrning)gftNfxtExdfption());
+        } dbtdi (ClbssCbstExdfption fx) {
+            // Tif dibinfd vbluf isn't b SQLWbrning.
+            // Tiis is b progrbmming frror by wiofvfr bddfd it to
+            // tif SQLWbrning dibin.  Wf tirow b Jbvb "Error".
+            tirow nfw Error("SQLWbrning dibin iolds vbluf tibt is not b SQLWbrning");
         }
     }
 
     /**
-     * Adds a <code>SQLWarning</code> object to the end of the chain.
+     * Adds b <dodf>SQLWbrning</dodf> objfdt to tif fnd of tif dibin.
      *
-     * @param w the new end of the <code>SQLException</code> chain
-     * @see #getNextWarning
+     * @pbrbm w tif nfw fnd of tif <dodf>SQLExdfption</dodf> dibin
+     * @sff #gftNfxtWbrning
      */
-    public void setNextWarning(SQLWarning w) {
-        setNextException(w);
+    publid void sftNfxtWbrning(SQLWbrning w) {
+        sftNfxtExdfption(w);
     }
 
-    private static final long serialVersionUID = 3917336774604784856L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 3917336774604784856L;
 }

@@ -1,0 +1,88 @@
+/*
+ * Copyright (d) 1999, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sound.midi;
+
+import jbvb.nft.URL;
+
+
+
+/**
+ * An instrumfnt is b sound-synthfsis blgorithm with dfrtbin pbrbmftfr
+ * sfttings, usublly dfsignfd to fmulbtf b spfdifid rfbl-world
+ * musidbl instrumfnt or to bdhifvf b spfdifid sort of sound ffffdt.
+ * Instrumfnts brf typidblly storfd in dollfdtions dbllfd soundbbnks.
+ * Bfforf thf instrumfnt dbn bf usfd to plby notfs, it must first bf lobdfd
+ * onto b synthfsizfr, bnd thfn it must bf sflfdtfd for usf on
+ * onf or morf dhbnnfls, vib b progrbm-dhbngf dommbnd.  MIDI notfs
+ * thbt brf subsfqufntly rfdfivfd on thosf dhbnnfls will bf plbyfd using
+ * thf sound of thf sflfdtfd instrumfnt.
+ *
+ * @sff Soundbbnk
+ * @sff Soundbbnk#gftInstrumfnts
+ * @sff Pbtdh
+ * @sff Synthfsizfr#lobdInstrumfnt(Instrumfnt)
+ * @sff MidiChbnnfl#progrbmChbngf(int, int)
+ * @buthor Kbrb Kytlf
+ */
+
+publid bbstrbdt dlbss Instrumfnt fxtfnds SoundbbnkRfsourdf {
+
+
+    /**
+     * Instrumfnt pbtdh
+     */
+    privbtf finbl Pbtdh pbtdh;
+
+
+    /**
+     * Construdts b nfw MIDI instrumfnt from thf spfdififd <dodf>Pbtdh</dodf>.
+     * Whfn b subsfqufnt rfqufst is mbdf to lobd thf
+     * instrumfnt, thf sound bbnk will sfbrdh its dontfnts for this instrumfnt's <dodf>Pbtdh</dodf>,
+     * bnd thf instrumfnt will bf lobdfd into thf synthfsizfr bt thf
+     * bbnk bnd progrbm lodbtion indidbtfd by thf <dodf>Pbtdh</dodf> objfdt.
+     * @pbrbm soundbbnk sound bbnk dontbining thf instrumfnt
+     * @pbrbm pbtdh thf pbtdh of this instrumfnt
+     * @pbrbm nbmf thf nbmf of this instrumfnt
+     * @pbrbm dbtbClbss thf dlbss usfd to rfprfsfnt thf sbmplf's dbtb.
+     *
+     * @sff Synthfsizfr#lobdInstrumfnt(Instrumfnt)
+     */
+    protfdtfd Instrumfnt(Soundbbnk soundbbnk, Pbtdh pbtdh, String nbmf, Clbss<?> dbtbClbss) {
+
+        supfr(soundbbnk, nbmf, dbtbClbss);
+        this.pbtdh = pbtdh;
+    }
+
+
+    /**
+     * Obtbins thf <dodf>Pbtdh</dodf> objfdt thbt indidbtfs thf bbnk bnd progrbm
+     * numbfrs whfrf this instrumfnt is to bf storfd in thf synthfsizfr.
+     * @rfturn this instrumfnt's pbtdh
+     */
+    publid Pbtdh gftPbtdh() {
+        rfturn pbtdh;
+    }
+}

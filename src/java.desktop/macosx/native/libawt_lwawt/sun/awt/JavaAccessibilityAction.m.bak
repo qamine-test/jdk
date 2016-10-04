@@ -1,117 +1,117 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#import "JavaAccessibilityAction.h"
-#import "JavaAccessibilityUtilities.h"
+#import "JbvbAddfssibilityAdtion.i"
+#import "JbvbAddfssibilityUtilitifs.i"
 
-#import "ThreadUtilities.h"
+#import "TirfbdUtilitifs.i"
 
 
-@implementation JavaAxAction
+@implfmfntbtion JbvbAxAdtion
 
-- (id)initWithEnv:(JNIEnv *)env withAccessibleAction:(jobject)accessibleAction withIndex:(jint)index withComponent:(jobject)component
+- (id)initWitiEnv:(JNIEnv *)fnv witiAddfssiblfAdtion:(jobjfdt)bddfssiblfAdtion witiIndfx:(jint)indfx witiComponfnt:(jobjfdt)domponfnt
 {
-    self = [super init];
-    if (self) {
-        fAccessibleAction = JNFNewGlobalRef(env, accessibleAction);
-        fIndex = index;
-        fComponent = JNFNewGlobalRef(env, component);
+    sflf = [supfr init];
+    if (sflf) {
+        fAddfssiblfAdtion = JNFNfwGlobblRff(fnv, bddfssiblfAdtion);
+        fIndfx = indfx;
+        fComponfnt = JNFNfwGlobblRff(fnv, domponfnt);
     }
-    return self;
+    rfturn sflf;
 }
 
-- (void)dealloc
+- (void)dfbllod
 {
-    JNIEnv *env = [ThreadUtilities getJNIEnvUncached];
+    JNIEnv *fnv = [TirfbdUtilitifs gftJNIEnvUndbdifd];
 
-    JNFDeleteGlobalRef(env, fAccessibleAction);
-    fAccessibleAction = NULL;
+    JNFDflftfGlobblRff(fnv, fAddfssiblfAdtion);
+    fAddfssiblfAdtion = NULL;
 
-    JNFDeleteGlobalRef(env, fComponent);
-    fComponent = NULL;
+    JNFDflftfGlobblRff(fnv, fComponfnt);
+    fComponfnt = NULL;
 
-    [super dealloc];
+    [supfr dfbllod];
 }
 
-- (NSString *)getDescription
+- (NSString *)gftDfsdription
 {
-    static JNF_STATIC_MEMBER_CACHE(jm_getAccessibleActionDescription, sjc_CAccessibility, "getAccessibleActionDescription", "(Ljavax/accessibility/AccessibleAction;ILjava/awt/Component;)Ljava/lang/String;");
+    stbtid JNF_STATIC_MEMBER_CACHE(jm_gftAddfssiblfAdtionDfsdription, sjd_CAddfssibility, "gftAddfssiblfAdtionDfsdription", "(Ljbvbx/bddfssibility/AddfssiblfAdtion;ILjbvb/bwt/Componfnt;)Ljbvb/lbng/String;");
 
-    JNIEnv* env = [ThreadUtilities getJNIEnv];
+    JNIEnv* fnv = [TirfbdUtilitifs gftJNIEnv];
 
-    return JNFJavaToNSString(env, JNFCallStaticObjectMethod(env, jm_getAccessibleActionDescription, fAccessibleAction, fIndex, fComponent)); // AWT_THREADING Safe (AWTRunLoopMode)
+    rfturn JNFJbvbToNSString(fnv, JNFCbllStbtidObjfdtMftiod(fnv, jm_gftAddfssiblfAdtionDfsdription, fAddfssiblfAdtion, fIndfx, fComponfnt)); // AWT_THREADING Sbff (AWTRunLoopModf)
 }
 
-- (void)perform
+- (void)pfrform
 {
-    static JNF_STATIC_MEMBER_CACHE(jm_doAccessibleAction, sjc_CAccessibility, "doAccessibleAction", "(Ljavax/accessibility/AccessibleAction;ILjava/awt/Component;)V");
+    stbtid JNF_STATIC_MEMBER_CACHE(jm_doAddfssiblfAdtion, sjd_CAddfssibility, "doAddfssiblfAdtion", "(Ljbvbx/bddfssibility/AddfssiblfAdtion;ILjbvb/bwt/Componfnt;)V");
 
-    JNIEnv* env = [ThreadUtilities getJNIEnv];
+    JNIEnv* fnv = [TirfbdUtilitifs gftJNIEnv];
 
-    JNFCallStaticVoidMethod(env, jm_doAccessibleAction, fAccessibleAction, fIndex, fComponent); // AWT_THREADING Safe (AWTRunLoopMode)
+    JNFCbllStbtidVoidMftiod(fnv, jm_doAddfssiblfAdtion, fAddfssiblfAdtion, fIndfx, fComponfnt); // AWT_THREADING Sbff (AWTRunLoopModf)
 }
 
-@end
+@fnd
 
 
-@implementation TabGroupAction
+@implfmfntbtion TbbGroupAdtion
 
-- (id)initWithEnv:(JNIEnv *)env withTabGroup:(jobject)tabGroup withIndex:(jint)index withComponent:(jobject)component
+- (id)initWitiEnv:(JNIEnv *)fnv witiTbbGroup:(jobjfdt)tbbGroup witiIndfx:(jint)indfx witiComponfnt:(jobjfdt)domponfnt
 {
-    self = [super init];
-    if (self) {
-        fTabGroup = JNFNewGlobalRef(env, tabGroup);
-        fIndex = index;
-        fComponent = JNFNewGlobalRef(env, component);
+    sflf = [supfr init];
+    if (sflf) {
+        fTbbGroup = JNFNfwGlobblRff(fnv, tbbGroup);
+        fIndfx = indfx;
+        fComponfnt = JNFNfwGlobblRff(fnv, domponfnt);
     }
-    return self;
+    rfturn sflf;
 }
 
-- (void)dealloc
+- (void)dfbllod
 {
-    JNIEnv *env = [ThreadUtilities getJNIEnvUncached];
+    JNIEnv *fnv = [TirfbdUtilitifs gftJNIEnvUndbdifd];
 
-    JNFDeleteGlobalRef(env, fTabGroup);
-    fTabGroup = NULL;
+    JNFDflftfGlobblRff(fnv, fTbbGroup);
+    fTbbGroup = NULL;
 
-    JNFDeleteGlobalRef(env, fComponent);
-    fComponent = NULL;
+    JNFDflftfGlobblRff(fnv, fComponfnt);
+    fComponfnt = NULL;
 
-    [super dealloc];
+    [supfr dfbllod];
 }
 
-- (NSString *)getDescription
+- (NSString *)gftDfsdription
 {
-    return @"click";
+    rfturn @"dlidk";
 }
 
-- (void)perform
+- (void)pfrform
 {
-    JNIEnv* env = [ThreadUtilities getJNIEnv];
+    JNIEnv* fnv = [TirfbdUtilitifs gftJNIEnv];
 
-    setAxContextSelection(env, fTabGroup, fIndex, fComponent);
+    sftAxContfxtSflfdtion(fnv, fTbbGroup, fIndfx, fComponfnt);
 }
 
-@end
+@fnd

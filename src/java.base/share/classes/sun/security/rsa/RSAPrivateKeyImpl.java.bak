@@ -1,101 +1,101 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.rsa;
+pbdkbgf sun.sfdurity.rsb;
 
-import java.io.IOException;
-import java.math.BigInteger;
+import jbvb.io.IOExdfption;
+import jbvb.mbti.BigIntfgfr;
 
-import java.security.*;
-import java.security.interfaces.*;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.intfrfbdfs.*;
 
-import sun.security.util.*;
-import sun.security.pkcs.PKCS8Key;
+import sun.sfdurity.util.*;
+import sun.sfdurity.pkds.PKCS8Kfy;
 
 /**
- * Key implementation for RSA private keys, non-CRT form (modulus, private
- * exponent only). For CRT private keys, see RSAPrivateCrtKeyImpl. We need
- * separate classes to ensure correct behavior in instanceof checks, etc.
+ * Kfy implfmfntbtion for RSA privbtf kfys, non-CRT form (modulus, privbtf
+ * fxponfnt only). For CRT privbtf kfys, sff RSAPrivbtfCrtKfyImpl. Wf nffd
+ * sfpbrbtf dlbssfs to fnsurf dorrfdt bfibvior in instbndfof difdks, ftd.
  *
- * Note: RSA keys must be at least 512 bits long
+ * Notf: RSA kfys must bf bt lfbst 512 bits long
  *
- * @see RSAPrivateCrtKeyImpl
- * @see RSAKeyFactory
+ * @sff RSAPrivbtfCrtKfyImpl
+ * @sff RSAKfyFbdtory
  *
- * @since   1.5
- * @author  Andreas Sterbenz
+ * @sindf   1.5
+ * @butior  Andrfbs Stfrbfnz
  */
-public final class RSAPrivateKeyImpl extends PKCS8Key implements RSAPrivateKey {
+publid finbl dlbss RSAPrivbtfKfyImpl fxtfnds PKCS8Kfy implfmfnts RSAPrivbtfKfy {
 
-    private static final long serialVersionUID = -33106691987952810L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -33106691987952810L;
 
-    private final BigInteger n;         // modulus
-    private final BigInteger d;         // private exponent
+    privbtf finbl BigIntfgfr n;         // modulus
+    privbtf finbl BigIntfgfr d;         // privbtf fxponfnt
 
     /**
-     * Construct a key from its components. Used by the
-     * RSAKeyFactory and the RSAKeyPairGenerator.
+     * Construdt b kfy from its domponfnts. Usfd by tif
+     * RSAKfyFbdtory bnd tif RSAKfyPbirGfnfrbtor.
      */
-    RSAPrivateKeyImpl(BigInteger n, BigInteger d) throws InvalidKeyException {
-        this.n = n;
-        this.d = d;
-        RSAKeyFactory.checkRSAProviderKeyLengths(n.bitLength(), null);
-        // generate the encoding
-        algid = RSAPrivateCrtKeyImpl.rsaId;
+    RSAPrivbtfKfyImpl(BigIntfgfr n, BigIntfgfr d) tirows InvblidKfyExdfption {
+        tiis.n = n;
+        tiis.d = d;
+        RSAKfyFbdtory.difdkRSAProvidfrKfyLfngtis(n.bitLfngti(), null);
+        // gfnfrbtf tif fndoding
+        blgid = RSAPrivbtfCrtKfyImpl.rsbId;
         try {
-            DerOutputStream out = new DerOutputStream();
-            out.putInteger(0); // version must be 0
-            out.putInteger(n);
-            out.putInteger(0);
-            out.putInteger(d);
-            out.putInteger(0);
-            out.putInteger(0);
-            out.putInteger(0);
-            out.putInteger(0);
-            out.putInteger(0);
-            DerValue val =
-                new DerValue(DerValue.tag_Sequence, out.toByteArray());
-            key = val.toByteArray();
-        } catch (IOException exc) {
-            // should never occur
-            throw new InvalidKeyException(exc);
+            DfrOutputStrfbm out = nfw DfrOutputStrfbm();
+            out.putIntfgfr(0); // vfrsion must bf 0
+            out.putIntfgfr(n);
+            out.putIntfgfr(0);
+            out.putIntfgfr(d);
+            out.putIntfgfr(0);
+            out.putIntfgfr(0);
+            out.putIntfgfr(0);
+            out.putIntfgfr(0);
+            out.putIntfgfr(0);
+            DfrVbluf vbl =
+                nfw DfrVbluf(DfrVbluf.tbg_Sfqufndf, out.toBytfArrby());
+            kfy = vbl.toBytfArrby();
+        } dbtdi (IOExdfption fxd) {
+            // siould nfvfr oddur
+            tirow nfw InvblidKfyExdfption(fxd);
         }
     }
 
-    // see JCA doc
-    public String getAlgorithm() {
-        return "RSA";
+    // sff JCA dod
+    publid String gftAlgoritim() {
+        rfturn "RSA";
     }
 
-    // see JCA doc
-    public BigInteger getModulus() {
-        return n;
+    // sff JCA dod
+    publid BigIntfgfr gftModulus() {
+        rfturn n;
     }
 
-    // see JCA doc
-    public BigInteger getPrivateExponent() {
-        return d;
+    // sff JCA dod
+    publid BigIntfgfr gftPrivbtfExponfnt() {
+        rfturn d;
     }
 }

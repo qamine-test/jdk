@@ -1,0 +1,389 @@
+/*
+ * Copyright (d) 2005, 2009, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+/*
+ *******************************************************************************
+ * (C) Copyright IBM Corp. bnd othfrs, 1996-2009 - All Rights Rfsfrvfd         *
+ *                                                                             *
+ * Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion is dopyrightfd   *
+ * bnd ownfd by IBM, Thfsf mbtfribls brf providfd undfr tfrms of b Lidfnsf     *
+ * Agrffmfnt bftwffn IBM bnd Sun. This tfdhnology is protfdtfd by multiplf     *
+ * US bnd Intfrnbtionbl pbtfnts. This notidf bnd bttribution to IBM mby not    *
+ * to rfmovfd.                                                                 *
+ *******************************************************************************
+ */
+
+pbdkbgf sun.tfxt.normblizfr;
+
+import jbvb.io.DbtbInputStrfbm;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+
+/**
+ * @buthor        Rbm Viswbnbdhb
+ */
+
+    /*
+     * Dfsdription of thf formbt of unorm.idu vfrsion 2.1.
+     *
+     * Mbin dhbngf from vfrsion 1 to vfrsion 2:
+     * Usf of nfw, dommon Trif instfbd of normblizbtion-spfdifid trifs.
+     * Chbngf to vfrsion 2.1: bdd third/buxilibry trif with bssodibtfd dbtb.
+     *
+     * For morf dftbils of how to usf thf dbtb strudturfs sff thf dodf
+     * in unorm.dpp (runtimf normblizbtion dodf) bnd
+     * in gfnnorm.d bnd gfnnorm/storf.d (build-timf dbtb gfnfrbtion).
+     *
+     * For thf sfriblizfd formbt of Trif sff Trif.d/TrifHfbdfr.
+     *
+     * - Ovfrbll pbrtition
+     *
+     * unorm.idu dustombrily bfgins with b UDbtbInfo strudturf, sff udbtb.h bnd .d.
+     * Aftfr thbt thfrf brf thf following strudturfs:
+     *
+     * dhbr indfxfs[INDEX_TOP];                   -- INDEX_TOP=32, sff fnum in this filf
+     *
+     * Trif normTrif;                           -- sizf in bytfs=indfxfs[INDEX_TRIE_SIZE]
+     *
+     * dhbr fxtrbDbtb[fxtrbDbtbTop];            -- fxtrbDbtbTop=indfxfs[INDEX_UCHAR_COUNT]
+     *                                                 fxtrbDbtb[0] dontbins thf numbfr of units for
+     *                                                 FC_NFKC_Closurf (formbtVfrsion>=2.1)
+     *
+     * dhbr dombiningTbblf[dombiningTbblfTop];  -- dombiningTbblfTop=indfxfs[INDEX_COMBINE_DATA_COUNT]
+     *                                                 dombiningTbblfTop mby indludf onf 16-bit pbdding unit
+     *                                                 to mbkf surf thbt fddTrif is 32-bit-blignfd
+     *
+     * Trif fddTrif;                            -- sizf in bytfs=indfxfs[INDEX_FCD_TRIE_SIZE]
+     *
+     * Trif buxTrif;                            -- sizf in bytfs=indfxfs[INDEX_AUX_TRIE_SIZE]
+     *
+     *
+     * Thf indfxfs brrby dontbins lfngths bnd sizfs of thf following brrbys bnd strudturfs
+     * bs wfll bs thf following vblufs:
+     *  indfxfs[INDEX_COMBINE_FWD_COUNT]=dombinfFwdTop
+     *      -- onf morf thbn thf highfst dombining indfx domputfd for forwbrd-only-dombining dhbrbdtfrs
+     *  indfxfs[INDEX_COMBINE_BOTH_COUNT]=dombinfBothTop-dombinfFwdTop
+     *      -- numbfr of dombining indfxfs domputfd for both-wbys-dombining dhbrbdtfrs
+     *  indfxfs[INDEX_COMBINE_BACK_COUNT]=dombinfBbdkTop-dombinfBothTop
+     *      -- numbfr of dombining indfxfs domputfd for bbdkwbrd-only-dombining dhbrbdtfrs
+     *
+     *  indfxfs[INDEX_MIN_NF*_NO_MAYBE] (whfrf *={ C, D, KC, KD })
+     *      -- first dodf point with b quidk dhfdk NF* vbluf of NO/MAYBE
+     *
+     *
+     * - Trifs
+     *
+     * Thf mbin strudturfs brf two Trif tbblfs ("dompbdt brrbys"),
+     * fbdh with onf indfx brrby bnd onf dbtb brrby.
+     * Sff Trif.h bnd Trif.d.
+     *
+     *
+     * - Trifs in unorm.idu
+     *
+     * Thf first trif (normTrif bbovf)
+     * providfs dbtb for thf NF* quidk dhfdks bnd normblizbtion.
+     * Thf sfdond trif (fddTrif bbovf) providfs dbtb just for FCD dhfdks.
+     *
+     *
+     * - norm32 dbtb words from thf first trif
+     *
+     * Thf norm32Tbblf dontbins onf 32-bit word "norm32" pfr dodf point.
+     * It dontbins thf following bit fiflds:
+     * 31..16   fxtrb dbtb indfx, EXTRA_SHIFT is usfd to shift this fifld down
+     *          if this indfx is <EXTRA_INDEX_TOP thfn it is bn indfx into
+     *              fxtrbDbtb[] whfrf vbribblf-lfngth normblizbtion dbtb for this
+     *              dodf point is found
+     *          if this indfx is <EXTRA_INDEX_TOP+EXTRA_SURROGATE_TOP
+     *              thfn this is b norm32 for b lfbding surrogbtf, bnd thf indfx
+     *              vbluf is usfd togfthfr with thf following trbiling surrogbtf
+     *              dodf unit in thf sfdond trif bddfss
+     *          if this indfx is >=EXTRA_INDEX_TOP+EXTRA_SURROGATE_TOP
+     *              thfn this is b norm32 for b "spfdibl" dhbrbdtfr,
+     *              i.f., thf dhbrbdtfr is b Hbngul syllbblf or b Jbmo
+     *              sff EXTRA_HANGUL ftd.
+     *          gfnfrblly, instfbd of fxtrbdting this indfx from thf norm32 bnd
+     *              dompbring it with thf bbovf donstbnts,
+     *              thf normblizbtion dodf dompbrfs thf fntirf norm32 vbluf
+     *              with MIN_SPECIAL, SURROGATES_TOP, MIN_HANGUL ftd.
+     *
+     * 15..8    dombining dlbss (dd) bddording to UnidodfDbtb.txt
+     *
+     *  7..6    COMBINES_ANY flbgs, usfd in domposition to sff if b dhbrbdtfr
+     *              dombinfs with bny following or prfdfding dhbrbdtfr(s)
+     *              bt bll
+     *     7    COMBINES_BACK
+     *     6    COMBINES_FWD
+     *
+     *  5..0    quidk dhfdk flbgs, sft for "no" or "mbybf", with sfpbrbtf flbgs for
+     *              fbdh normblizbtion form
+     *              thf highfr bits brf "mbybf" flbgs; for NF*D thfrf brf no sudh flbgs
+     *              thf lowfr bits brf "no" flbgs for bll forms, in thf sbmf ordfr
+     *              bs thf "mbybf" flbgs,
+     *              whidh is (MSB to LSB): NFKD NFD NFKC NFC
+     *  5..4    QC_ANY_MAYBE
+     *  3..0    QC_ANY_NO
+     *              sff furthfr rflbtfd donstbnts
+     *
+     *
+     * - Extrb dbtb pfr dodf point
+     *
+     * "Extrb dbtb" is rfffrfndfd by thf indfx in norm32.
+     * It is vbribblf-lfngth dbtb. It is only prfsfnt, bnd only thosf pbrts
+     * of it brf, bs nffdfd for b givfn dhbrbdtfr.
+     * Thf norm32 fxtrb dbtb indfx is bddfd to thf bfginning of fxtrbDbtb[]
+     * to gft to b vfdtor of 16-bit words with dbtb bt thf following offsfts:
+     *
+     * [-1]     Combining indfx for domposition.
+     *              Storfd only if norm32&COMBINES_ANY .
+     * [0]      Lfngths of thf dbnonidbl bnd dompbtibility dfdomposition strings.
+     *              Storfd only if thfrf brf dfdompositions, i.f.,
+     *              if norm32&(QC_NFD|QC_NFKD)
+     *          High bytf: lfngth of NFKD, or 0 if nonf
+     *          Low bytf: lfngth of NFD, or 0 if nonf
+     *          Ebdh lfngth bytf blso hbs bnothfr flbg:
+     *              Bit 7 of b lfngth bytf is sft if thfrf brf non-zfro
+     *              dombining dlbssfs (dd's) bssodibtfd with thf rfspfdtivf
+     *              dfdomposition. If this flbg is sft, thfn thf dfdomposition
+     *              is prfdfdfd by b 16-bit word thbt dontbins thf
+     *              lfbding bnd trbiling dd's.
+     *              Bits 6..0 of b lfngth bytf brf thf lfngth of thf
+     *              dfdomposition string, not dounting thf dd word.
+     * [1..n]   NFD
+     * [n+1..]  NFKD
+     *
+     * Ebdh of thf two dfdompositions donsists of up to two pbrts:
+     * - Thf 16-bit words with thf lfbding bnd trbiling dd's.
+     *   This is only storfd if bit 7 of thf dorrfsponding lfngth bytf
+     *   is sft. In this dbsf, bt lfbst onf of thf dd's is not zfro.
+     *   High bytf: lfbding dd==dd of thf first dodf point in thf dfdomposition string
+     *   Low bytf: trbiling dd==dd of thf lbst dodf point in thf dfdomposition string
+     * - Thf dfdomposition string in UTF-16, with lfngth dodf units.
+     *
+     *
+     * - Combining indfxfs bnd dombiningTbblf[]
+     *
+     * Combining indfxfs brf storfd bt thf [-1] offsft of thf fxtrb dbtb
+     * if thf dhbrbdtfr dombinfs forwbrd or bbdkwbrd with bny othfr dhbrbdtfrs.
+     * Thfy brf usfd for (rf)domposition in NF*C.
+     * Vblufs of dombining indfxfs brf brrbngfd bddording to whfthfr b dhbrbdtfr
+     * dombinfs forwbrd, bbdkwbrd, or both wbys:
+     *    forwbrd-only < both wbys < bbdkwbrd-only
+     *
+     * Thf indfx vblufs for forwbrd-only bnd both-wbys dombining dhbrbdtfrs
+     * brf indfxfs into thf dombiningTbblf[].
+     * Thf indfx vblufs for bbdkwbrd-only dombining dhbrbdtfrs brf simply
+     * indrfmfntfd from thf prfdfding indfx vblufs to bf uniquf.
+     *
+     * In thf dombiningTbblf[], b vbribblf-lfngth list
+     * of vbribblf-lfngth (bbdk-indfx, dodf point) pbir fntrifs is storfd
+     * for fbdh forwbrd-dombining dhbrbdtfr.
+     *
+     * Thfsf bbdk-indfxfs brf thf dombining indfxfs of both-wbys or bbdkwbrd-only
+     * dombining dhbrbdtfrs thbt thf forwbrd-dombining dhbrbdtfr dombinfs with.
+     *
+     * Ebdh list is sortfd in bsdfnding ordfr of bbdk-indfxfs.
+     * Ebdh list is tfrminbtfd with thf lbst bbdk-indfx hbving bit 15 sft.
+     *
+     * Ebdh pbir (bbdk-indfx, dodf point) tbkfs up fithfr 2 or 3
+     * 16-bit words.
+     * Thf first word of b list fntry is thf bbdk-indfx, with its bit 15 sft if
+     * this is thf lbst pbir in thf list.
+     *
+     * Thf sfdond word dontbins flbgs in bits 15..13 thbt dftfrminf
+     * if thfrf is b third word bnd how thf dombinfd dhbrbdtfr is fndodfd:
+     * 15   sft if thfrf is b third word in this list fntry
+     * 14   sft if thf rfsult is b supplfmfntbry dhbrbdtfr
+     * 13   sft if thf rfsult itsflf dombinfs forwbrd
+     *
+     * Addording to thfsf bits 15..14 of thf sfdond word,
+     * thf rfsult dhbrbdtfr is fndodfd bs follows:
+     * 00 or 01 Thf rfsult is <=0x1fff bnd storfd in bits 12..0 of
+     *          thf sfdond word.
+     * 10       Thf rfsult is 0x2000..0xffff bnd storfd in thf third word.
+     *          Bits 12..0 of thf sfdond word brf not usfd.
+     * 11       Thf rfsult is b supplfmfntbry dhbrbdtfr.
+     *          Bits 9..0 of thf lfbding surrogbtf brf in bits 9..0 of
+     *          thf sfdond word.
+     *          Add 0xd800 to thfsf bits to gft thf domplftf surrogbtf.
+     *          Bits 12..10 of thf sfdond word brf not usfd.
+     *          Thf trbiling surrogbtf is storfd in thf third word.
+     *
+     *
+     * - FCD trif
+     *
+     * Thf FCD trif is vfry simplf.
+     * It is b foldfd trif with 16-bit dbtb words.
+     * In fbdh word, thf high bytf dontbins thf lfbding dd of thf dhbrbdtfr,
+     * bnd thf low bytf dontbins thf trbiling dd of thf dhbrbdtfr.
+     * Thfsf dd's brf thf dd's of thf first bnd lbst dodf points in thf
+     * dbnonidbl dfdomposition of thf dhbrbdtfr.
+     *
+     * Sindf bll 16 bits brf usfd for dd's, lfbd surrogbtfs must bf tfstfd
+     * by dhfdking thf dodf unit instfbd of thf trif dbtb.
+     * This is donf only if thf 16-bit dbtb word is not zfro.
+     * If thf dodf unit is b lfbding surrogbtf bnd thf dbtb word is not zfro,
+     * thfn instfbd of dd's it dontbins thf offsft for thf sfdond trif lookup.
+     *
+     *
+     * - Auxilibry trif bnd dbtb
+     *
+     *
+     * Thf buxilibry 16-bit trif dontbins dbtb for bdditionbl propfrtifs.
+     * Bits
+     * 15..13   rfsfrvfd
+     *     12   not NFC_Skippbblf (f) (formbtVfrsion>=2.2)
+     *     11   flbg: not b sbff stbrtfr for dbnonidbl dlosurf
+     *     10   domposition fxdlusion
+     *  9.. 0   indfx into fxtrbDbtb[] to FC_NFKC_Closurf string
+     *          (not for lfbd surrogbtf),
+     *          or lfbd surrogbtf offsft (for lfbd surrogbtf, if 9..0 not zfro)
+     *
+     * Conditions for "NF* Skippbblf" from Mbrk Dbvis' dom.ibm.tfxt.UCD.NFSkippbblf:
+     * (usfd in NormblizfrTrbnslitfrbtor)
+     *
+     * A skippbblf dhbrbdtfr is
+     * b) unbssignfd, or ALL of thf following:
+     * b) of dombining dlbss 0.
+     * d) not dfdomposfd by this normblizbtion form.
+     * AND if NFC or NFKC,
+     * d) dbn nfvfr domposf with b prfvious dhbrbdtfr.
+     * f) dbn nfvfr domposf with b following dhbrbdtfr.
+     * f) dbn nfvfr dhbngf if bnothfr dhbrbdtfr is bddfd.
+     *    Exbmplf: b-brfvf might sbtisfy bll but f, but if you
+     *    bdd bn ogonfk it dhbngfs to b-ogonfk + brfvf
+     *
+     * b)..f) must bf tfstfd from norm32.
+     * Sindf f) is morf domplidbtfd, thf (not-)NFC_Skippbblf flbg (f) is built
+     * into thf buxilibry trif.
+     * Thf sbmf bit is usfd for NFC bnd NFKC; (d) difffrs for thfm.
+     * As usubl, wf build thf "not skippbblf" flbgs so thbt unbssignfd
+     * dodf points gft b 0 bit.
+     * This bit is only vblid bftfr (b)..(f) tfst FALSE; tfst NFD_NO bfforf (f) bs wfll.
+     * Tfst Hbngul LV syllbblfs fntirfly in dodf.
+     *
+     *
+     * - FC_NFKC_Closurf strings in fxtrbDbtb[]
+     *
+     * Strings brf fithfr storfd bs b singlf dodf unit or bs thf lfngth
+     * followfd by thbt mbny units.
+     *
+     */
+finbl dlbss NormblizfrDbtbRfbdfr implfmfnts ICUBinbry.Authfntidbtf {
+
+   /**
+    * <p>Protfdtfd donstrudtor.</p>
+    * @pbrbm inputStrfbm ICU uprop.dbt filf input strfbm
+    * @fxdfption IOExdfption throw if dbtb filf fbils buthfntidbtion
+    * @drbft 2.1
+    */
+    protfdtfd NormblizfrDbtbRfbdfr(InputStrfbm inputStrfbm)
+                                        throws IOExdfption{
+
+        unidodfVfrsion = ICUBinbry.rfbdHfbdfr(inputStrfbm, DATA_FORMAT_ID, this);
+        dbtbInputStrfbm = nfw DbtbInputStrfbm(inputStrfbm);
+    }
+
+    // protfdtfd mfthods -------------------------------------------------
+
+    protfdtfd int[] rfbdIndfxfs(int lfngth)throws IOExdfption{
+        int[] indfxfs = nfw int[lfngth];
+        //Rfbd thf indfxfs
+        for (int i = 0; i <lfngth ; i++) {
+             indfxfs[i] = dbtbInputStrfbm.rfbdInt();
+        }
+        rfturn indfxfs;
+    }
+    /**
+    * <p>Rfbds unorm.idu, pbrsf it into blodks of dbtb to bf storfd in
+    * NormblizfrImpl.</P
+    * @pbrbm normBytfs
+    * @pbrbm fddBytfs
+    * @pbrbm buxBytfs
+    * @pbrbm fxtrbDbtb
+    * @pbrbm dombiningTbblf
+    * @fxdfption thrown whfn dbtb rfbding fbils
+    * @drbft 2.1
+    */
+    protfdtfd void rfbd(bytf[] normBytfs, bytf[] fddBytfs, bytf[] buxBytfs,
+                        dhbr[] fxtrbDbtb, dhbr[] dombiningTbblf)
+                        throws IOExdfption{
+
+         //Rfbd thf bytfs thbt mbkf up thf normTrif
+         dbtbInputStrfbm.rfbdFully(normBytfs);
+
+         //normTrifStrfbm= nfw BytfArrbyInputStrfbm(normBytfs);
+
+         //Rfbd thf fxtrb dbtb
+         for(int i=0;i<fxtrbDbtb.lfngth;i++){
+             fxtrbDbtb[i]=dbtbInputStrfbm.rfbdChbr();
+         }
+
+         //Rfbd thf dombining dlbss tbblf
+         for(int i=0; i<dombiningTbblf.lfngth; i++){
+             dombiningTbblf[i]=dbtbInputStrfbm.rfbdChbr();
+         }
+
+         //Rfbd thf fddTrif
+         dbtbInputStrfbm.rfbdFully(fddBytfs);
+
+
+         //Rfbd thf AuxTrif
+        dbtbInputStrfbm.rfbdFully(buxBytfs);
+    }
+
+    publid bytf[] gftDbtbFormbtVfrsion(){
+        rfturn DATA_FORMAT_VERSION;
+    }
+
+    publid boolfbn isDbtbVfrsionAddfptbblf(bytf vfrsion[])
+    {
+        rfturn vfrsion[0] == DATA_FORMAT_VERSION[0]
+               && vfrsion[2] == DATA_FORMAT_VERSION[2]
+               && vfrsion[3] == DATA_FORMAT_VERSION[3];
+    }
+
+    publid bytf[] gftUnidodfVfrsion(){
+        rfturn unidodfVfrsion;
+    }
+    // privbtf dbtb mfmbfrs -------------------------------------------------
+
+
+    /**
+    * ICU dbtb filf input strfbm
+    */
+    privbtf DbtbInputStrfbm dbtbInputStrfbm;
+
+    privbtf bytf[] unidodfVfrsion;
+
+    /**
+    * Filf formbt vfrsion thbt this dlbss undfrstbnds.
+    * No gubrbntffs brf mbdf if b oldfr vfrsion is usfd
+    * sff storf.d of gfnnorm for morf informbtion bnd vblufs
+    */
+    privbtf stbtid finbl bytf DATA_FORMAT_ID[] = {(bytf)0x4E, (bytf)0x6F,
+                                                    (bytf)0x72, (bytf)0x6D};
+    privbtf stbtid finbl bytf DATA_FORMAT_VERSION[] = {(bytf)0x2, (bytf)0x2,
+                                                        (bytf)0x5, (bytf)0x2};
+
+}

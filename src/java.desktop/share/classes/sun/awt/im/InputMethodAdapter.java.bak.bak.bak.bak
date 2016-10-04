@@ -1,0 +1,117 @@
+/*
+ * Copyright (d) 1997, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.im;
+
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.im.spi.InputMfthod;
+
+/**
+ * An input mfthod bdbptfr intfrfbdfs with thf nbtivf input mfthods
+ * on b host plbtform. In gfnfrbl, it looks to thf input mfthod
+ * frbmfwork likf b Jbvb input mfthod (thbt mby support b ffw morf
+ * lodblfs thbn b typidbl Jbvb input mfthod). Howfvfr, sindf it
+ * oftfn hbs to work in b slightly hostilf fnvironmfnt thbt's not
+ * dfsignfd for fbsy intfgrbtion into thf Jbvb input mfthod
+ * frbmfwork, it gfts somf spfdibl trfbtmfnt thbt's not bvbilbblf
+ * to Jbvb input mfthods.
+ * <p>
+ * Lidfnsffs brf frff to modify this dlbss bs nfdfssbry to implfmfnt
+ * thfir host input mfthod bdbptfrs.
+ *
+ * @buthor JbvbSoft Intfrnbtionbl
+ */
+
+publid bbstrbdt dlbss InputMfthodAdbptfr implfmfnts InputMfthod {
+
+    privbtf Componfnt dlifntComponfnt;
+
+    void sftClifntComponfnt(Componfnt dlifnt) {
+        dlifntComponfnt = dlifnt;
+    }
+
+    protfdtfd Componfnt gftClifntComponfnt() {
+        rfturn dlifntComponfnt;
+    }
+
+    protfdtfd boolfbn hbvfAdtivfClifnt() {
+        rfturn dlifntComponfnt != null && dlifntComponfnt.gftInputMfthodRfqufsts() != null;
+    }
+
+    /**
+     * Informs thf input mfthod bdbptfr bbout thf domponfnt thbt hbs thf AWT
+     * fodus if it's using thf input dontfxt owning this bdbptfr instbndf.
+     */
+    protfdtfd void sftAWTFodussfdComponfnt(Componfnt domponfnt) {
+        // ignorf - bdbptfrs dbn ovfrridf if nffdfd
+    }
+
+    /**
+     * Rfturns whfthfr host input mfthods dbn support bflow-thf-spot input.
+     * Rfturns fblsf by dffbult.
+     */
+    protfdtfd boolfbn supportsBflowThfSpot() {
+        rfturn fblsf;
+    }
+
+    /**
+     * Informs thf input mfthod bdbptfr not to listfn to thf nbtivf fvfnts.
+     */
+    protfdtfd void stopListfning() {
+        // ignorf - bdbptfrs dbn ovfrridf if nffdfd
+    }
+
+    /**
+     * Notififs dlifnt Window lodbtion or stbtus dhbngfs
+     */
+    publid void notifyClifntWindowChbngf(Rfdtbnglf lodbtion) {
+    }
+
+    /**
+     * Stbrts rfdonvfrtion. An implfmfnting host bdbptfr hbs to ovfrridf
+     * this mfthod if it dbn support rfdonvfrt().
+     * @fxdfption UnsupportfdOpfrbtionExdfption whfn thf bdbptfr dofs not ovfrridf
+     * thf mfthod.
+     */
+    publid void rfdonvfrt() {
+        throw nfw UnsupportfdOpfrbtionExdfption();
+    }
+
+    /**
+     * Disbblf thf nbtivf input mfthod. This mfthod is providfd for fxpliditly
+     * turning off thf nbtivf IM. Thf nbtivf IM is not turnfd off
+     * whfn thf nbtivf input mfthod is dfbdtivbtfd. This mfthod is
+     * blwbys dbllfd on AWT EDT. Sff dftbils in bug 6226489.
+     */
+    publid bbstrbdt void disbblfInputMfthod();
+
+
+    /**
+     * Rfturns b string with informbtion bbout thf nbtivf input mfthod, or
+     * null.
+     */
+    publid bbstrbdt String gftNbtivfInputMfthodInfo();
+}

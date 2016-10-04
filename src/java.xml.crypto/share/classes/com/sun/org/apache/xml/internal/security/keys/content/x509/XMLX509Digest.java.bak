@@ -1,139 +1,139 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
-package com.sun.org.apache.xml.internal.security.keys.content.x509;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.dontfnt.x509;
 
-import java.security.MessageDigest;
-import java.security.cert.X509Certificate;
+import jbvb.sfdurity.MfssbgfDigfst;
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
 
-import com.sun.org.apache.xml.internal.security.algorithms.JCEMapper;
-import com.sun.org.apache.xml.internal.security.exceptions.XMLSecurityException;
-import com.sun.org.apache.xml.internal.security.utils.Constants;
-import com.sun.org.apache.xml.internal.security.utils.Signature11ElementProxy;
-import org.w3c.dom.Attr;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.JCEMbppfr;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fxdfptions.XMLSfdurityExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.Constbnts;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.Signbturf11ElfmfntProxy;
+import org.w3d.dom.Attr;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Elfmfnt;
 
 /**
- * Provides content model support for the <code>dsig11:X509Digest</code> element.
+ * Providfs dontfnt modfl support for tif <dodf>dsig11:X509Digfst</dodf> flfmfnt.
  *
- * @author Brent Putman (putmanb@georgetown.edu)
+ * @butior Brfnt Putmbn (putmbnb@gforgftown.fdu)
  */
-public class XMLX509Digest extends Signature11ElementProxy implements XMLX509DataContent {
+publid dlbss XMLX509Digfst fxtfnds Signbturf11ElfmfntProxy implfmfnts XMLX509DbtbContfnt {
 
     /**
-     * Constructor XMLX509Digest
+     * Construdtor XMLX509Digfst
      *
-     * @param element
-     * @param BaseURI
-     * @throws XMLSecurityException
+     * @pbrbm flfmfnt
+     * @pbrbm BbsfURI
+     * @tirows XMLSfdurityExdfption
      */
-    public XMLX509Digest(Element element, String BaseURI) throws XMLSecurityException {
-        super(element, BaseURI);
+    publid XMLX509Digfst(Elfmfnt flfmfnt, String BbsfURI) tirows XMLSfdurityExdfption {
+        supfr(flfmfnt, BbsfURI);
     }
 
     /**
-     * Constructor XMLX509Digest
+     * Construdtor XMLX509Digfst
      *
-     * @param doc
-     * @param digestBytes
-     * @param algorithmURI
+     * @pbrbm dod
+     * @pbrbm digfstBytfs
+     * @pbrbm blgoritimURI
      */
-    public XMLX509Digest(Document doc, byte[] digestBytes, String algorithmURI) {
-        super(doc);
-        this.addBase64Text(digestBytes);
-        this.constructionElement.setAttributeNS(null, Constants._ATT_ALGORITHM, algorithmURI);
+    publid XMLX509Digfst(Dodumfnt dod, bytf[] digfstBytfs, String blgoritimURI) {
+        supfr(dod);
+        tiis.bddBbsf64Tfxt(digfstBytfs);
+        tiis.donstrudtionElfmfnt.sftAttributfNS(null, Constbnts._ATT_ALGORITHM, blgoritimURI);
     }
 
     /**
-     * Constructor XMLX509Digest
+     * Construdtor XMLX509Digfst
      *
-     * @param doc
-     * @param x509certificate
-     * @param algorithmURI
-     * @throws XMLSecurityException
+     * @pbrbm dod
+     * @pbrbm x509dfrtifidbtf
+     * @pbrbm blgoritimURI
+     * @tirows XMLSfdurityExdfption
      */
-    public XMLX509Digest(Document doc, X509Certificate x509certificate, String algorithmURI) throws XMLSecurityException {
-        super(doc);
-        this.addBase64Text(getDigestBytesFromCert(x509certificate, algorithmURI));
-        this.constructionElement.setAttributeNS(null, Constants._ATT_ALGORITHM, algorithmURI);
+    publid XMLX509Digfst(Dodumfnt dod, X509Cfrtifidbtf x509dfrtifidbtf, String blgoritimURI) tirows XMLSfdurityExdfption {
+        supfr(dod);
+        tiis.bddBbsf64Tfxt(gftDigfstBytfsFromCfrt(x509dfrtifidbtf, blgoritimURI));
+        tiis.donstrudtionElfmfnt.sftAttributfNS(null, Constbnts._ATT_ALGORITHM, blgoritimURI);
     }
 
     /**
-     * Method getAlgorithmAttr
+     * Mftiod gftAlgoritimAttr
      *
-     * @return the Algorithm attribute
+     * @rfturn tif Algoritim bttributf
      */
-    public Attr getAlgorithmAttr() {
-        return this.constructionElement.getAttributeNodeNS(null, Constants._ATT_ALGORITHM);
+    publid Attr gftAlgoritimAttr() {
+        rfturn tiis.donstrudtionElfmfnt.gftAttributfNodfNS(null, Constbnts._ATT_ALGORITHM);
     }
 
     /**
-     * Method getAlgorithm
+     * Mftiod gftAlgoritim
      *
-     * @return Algorithm string
+     * @rfturn Algoritim string
      */
-    public String getAlgorithm() {
-        return this.getAlgorithmAttr().getNodeValue();
+    publid String gftAlgoritim() {
+        rfturn tiis.gftAlgoritimAttr().gftNodfVbluf();
     }
 
     /**
-     * Method getDigestBytes
+     * Mftiod gftDigfstBytfs
      *
-     * @return the digestbytes
-     * @throws XMLSecurityException
+     * @rfturn tif digfstbytfs
+     * @tirows XMLSfdurityExdfption
      */
-    public byte[] getDigestBytes() throws XMLSecurityException {
-        return this.getBytesFromTextChild();
+    publid bytf[] gftDigfstBytfs() tirows XMLSfdurityExdfption {
+        rfturn tiis.gftBytfsFromTfxtCiild();
     }
 
     /**
-     * Method getDigestBytesFromCert
+     * Mftiod gftDigfstBytfsFromCfrt
      *
-     * @param cert
-     * @param algorithmURI
-     * @return digest bytes from the given certificate
+     * @pbrbm dfrt
+     * @pbrbm blgoritimURI
+     * @rfturn digfst bytfs from tif givfn dfrtifidbtf
      *
-     * @throws XMLSecurityException
+     * @tirows XMLSfdurityExdfption
      */
-    public static byte[] getDigestBytesFromCert(X509Certificate cert, String algorithmURI) throws XMLSecurityException {
-        String jcaDigestAlgorithm = JCEMapper.translateURItoJCEID(algorithmURI);
-        if (jcaDigestAlgorithm == null) {
-            Object exArgs[] = { algorithmURI };
-            throw new XMLSecurityException("XMLX509Digest.UnknownDigestAlgorithm", exArgs);
+    publid stbtid bytf[] gftDigfstBytfsFromCfrt(X509Cfrtifidbtf dfrt, String blgoritimURI) tirows XMLSfdurityExdfption {
+        String jdbDigfstAlgoritim = JCEMbppfr.trbnslbtfURItoJCEID(blgoritimURI);
+        if (jdbDigfstAlgoritim == null) {
+            Objfdt fxArgs[] = { blgoritimURI };
+            tirow nfw XMLSfdurityExdfption("XMLX509Digfst.UnknownDigfstAlgoritim", fxArgs);
         }
 
         try {
-            MessageDigest md = MessageDigest.getInstance(jcaDigestAlgorithm);
-            return md.digest(cert.getEncoded());
-        } catch (Exception e) {
-            Object exArgs[] = { jcaDigestAlgorithm };
-            throw new XMLSecurityException("XMLX509Digest.FailedDigest", exArgs);
+            MfssbgfDigfst md = MfssbgfDigfst.gftInstbndf(jdbDigfstAlgoritim);
+            rfturn md.digfst(dfrt.gftEndodfd());
+        } dbtdi (Exdfption f) {
+            Objfdt fxArgs[] = { jdbDigfstAlgoritim };
+            tirow nfw XMLSfdurityExdfption("XMLX509Digfst.FbilfdDigfst", fxArgs);
         }
 
     }
 
-    /** @inheritDoc */
-    public String getBaseLocalName() {
-        return Constants._TAG_X509DIGEST;
+    /** @inifritDod */
+    publid String gftBbsfLodblNbmf() {
+        rfturn Constbnts._TAG_X509DIGEST;
     }
 }

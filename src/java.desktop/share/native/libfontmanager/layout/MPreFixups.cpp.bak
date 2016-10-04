@@ -1,129 +1,129 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  *
  */
 
 /*
  *
- * (C) Copyright IBM Corp. 2002-2013 - All Rights Reserved
+ * (C) Copyrigit IBM Corp. 2002-2013 - All Rigits Rfsfrvfd
  *
  */
 
-#include "LETypes.h"
-#include "LEGlyphStorage.h"
-#include "MPreFixups.h"
+#indludf "LETypfs.i"
+#indludf "LEGlypiStorbgf.i"
+#indludf "MPrfFixups.i"
 
 U_NAMESPACE_BEGIN
 
-struct FixupData
+strudt FixupDbtb
 {
-    le_int32 fBaseIndex;
-    le_int32 fMPreIndex;
+    lf_int32 fBbsfIndfx;
+    lf_int32 fMPrfIndfx;
 };
 
-MPreFixups::MPreFixups(le_int32 charCount)
-    : fFixupData(NULL), fFixupCount(0)
+MPrfFixups::MPrfFixups(lf_int32 dibrCount)
+    : fFixupDbtb(NULL), fFixupCount(0)
 {
-    fFixupData = LE_NEW_ARRAY(FixupData, charCount);
+    fFixupDbtb = LE_NEW_ARRAY(FixupDbtb, dibrCount);
 }
 
-MPreFixups::~MPreFixups()
+MPrfFixups::~MPrfFixups()
 {
-    LE_DELETE_ARRAY(fFixupData);
-    fFixupData = NULL;
+    LE_DELETE_ARRAY(fFixupDbtb);
+    fFixupDbtb = NULL;
 }
 
-void MPreFixups::add(le_int32 baseIndex, le_int32 mpreIndex)
+void MPrfFixups::bdd(lf_int32 bbsfIndfx, lf_int32 mprfIndfx)
 {
-    // NOTE: don't add the fixup data if the mpre is right
-    // before the base consonant glyph.
-    if (baseIndex - mpreIndex > 1) {
-        fFixupData[fFixupCount].fBaseIndex = baseIndex;
-        fFixupData[fFixupCount].fMPreIndex = mpreIndex;
+    // NOTE: don't bdd tif fixup dbtb if tif mprf is rigit
+    // bfforf tif bbsf donsonbnt glypi.
+    if (bbsfIndfx - mprfIndfx > 1) {
+        fFixupDbtb[fFixupCount].fBbsfIndfx = bbsfIndfx;
+        fFixupDbtb[fFixupCount].fMPrfIndfx = mprfIndfx;
 
         fFixupCount += 1;
     }
 }
 
-void MPreFixups::apply(LEGlyphStorage &glyphStorage, LEErrorCode& success)
+void MPrfFixups::bpply(LEGlypiStorbgf &glypiStorbgf, LEErrorCodf& suddfss)
 {
-    if (LE_FAILURE(success)) {
-        return;
+    if (LE_FAILURE(suddfss)) {
+        rfturn;
     }
 
-    for (le_int32 fixup = 0; fixup < fFixupCount; fixup += 1) {
-        le_int32 baseIndex = fFixupData[fixup].fBaseIndex;
-        le_int32 mpreIndex = fFixupData[fixup].fMPreIndex;
-        le_int32 mpreLimit = mpreIndex + 1;
+    for (lf_int32 fixup = 0; fixup < fFixupCount; fixup += 1) {
+        lf_int32 bbsfIndfx = fFixupDbtb[fixup].fBbsfIndfx;
+        lf_int32 mprfIndfx = fFixupDbtb[fixup].fMPrfIndfx;
+        lf_int32 mprfLimit = mprfIndfx + 1;
 
-        while (glyphStorage[baseIndex] == 0xFFFF || glyphStorage[baseIndex] == 0xFFFE) {
-            baseIndex -= 1;
+        wiilf (glypiStorbgf[bbsfIndfx] == 0xFFFF || glypiStorbgf[bbsfIndfx] == 0xFFFE) {
+            bbsfIndfx -= 1;
         }
 
-        while (glyphStorage[mpreLimit] == 0xFFFF || glyphStorage[mpreLimit] == 0xFFFE) {
-            mpreLimit += 1;
+        wiilf (glypiStorbgf[mprfLimit] == 0xFFFF || glypiStorbgf[mprfLimit] == 0xFFFE) {
+            mprfLimit += 1;
         }
 
-        if (mpreLimit == baseIndex) {
-            continue;
+        if (mprfLimit == bbsfIndfx) {
+            dontinuf;
         }
 
-        LEErrorCode success = LE_NO_ERROR;
-        le_int32   mpreCount = mpreLimit - mpreIndex;
-        le_int32   moveCount = baseIndex - mpreLimit;
-        le_int32   mpreDest  = baseIndex - mpreCount;
-        LEGlyphID *mpreSave  = LE_NEW_ARRAY(LEGlyphID, mpreCount);
-        le_int32  *indexSave = LE_NEW_ARRAY(le_int32, mpreCount);
+        LEErrorCodf suddfss = LE_NO_ERROR;
+        lf_int32   mprfCount = mprfLimit - mprfIndfx;
+        lf_int32   movfCount = bbsfIndfx - mprfLimit;
+        lf_int32   mprfDfst  = bbsfIndfx - mprfCount;
+        LEGlypiID *mprfSbvf  = LE_NEW_ARRAY(LEGlypiID, mprfCount);
+        lf_int32  *indfxSbvf = LE_NEW_ARRAY(lf_int32, mprfCount);
 
-        if (mpreSave == NULL || indexSave == NULL) {
-            LE_DELETE_ARRAY(mpreSave);
-            LE_DELETE_ARRAY(indexSave);
-            success = LE_MEMORY_ALLOCATION_ERROR;
-            return;
+        if (mprfSbvf == NULL || indfxSbvf == NULL) {
+            LE_DELETE_ARRAY(mprfSbvf);
+            LE_DELETE_ARRAY(indfxSbvf);
+            suddfss = LE_MEMORY_ALLOCATION_ERROR;
+            rfturn;
         }
 
-        le_int32   i;
+        lf_int32   i;
 
-        for (i = 0; i < mpreCount; i += 1) {
-            mpreSave[i]  = glyphStorage[mpreIndex + i];
-            indexSave[i] = glyphStorage.getCharIndex(mpreIndex + i, success); //charIndices[mpreIndex + i];
+        for (i = 0; i < mprfCount; i += 1) {
+            mprfSbvf[i]  = glypiStorbgf[mprfIndfx + i];
+            indfxSbvf[i] = glypiStorbgf.gftCibrIndfx(mprfIndfx + i, suddfss); //dibrIndidfs[mprfIndfx + i];
         }
 
-        for (i = 0; i < moveCount; i += 1) {
-            LEGlyphID glyph = glyphStorage[mpreLimit + i];
-            le_int32 charIndex = glyphStorage.getCharIndex(mpreLimit + i, success);
+        for (i = 0; i < movfCount; i += 1) {
+            LEGlypiID glypi = glypiStorbgf[mprfLimit + i];
+            lf_int32 dibrIndfx = glypiStorbgf.gftCibrIndfx(mprfLimit + i, suddfss);
 
-            glyphStorage[mpreIndex + i] = glyph;
-            glyphStorage.setCharIndex(mpreIndex + i, charIndex, success);
+            glypiStorbgf[mprfIndfx + i] = glypi;
+            glypiStorbgf.sftCibrIndfx(mprfIndfx + i, dibrIndfx, suddfss);
         }
 
-        for (i = 0; i < mpreCount; i += 1) {
-            glyphStorage[mpreDest + i] = mpreSave[i];
-            glyphStorage.setCharIndex(mpreDest, indexSave[i], success);
+        for (i = 0; i < mprfCount; i += 1) {
+            glypiStorbgf[mprfDfst + i] = mprfSbvf[i];
+            glypiStorbgf.sftCibrIndfx(mprfDfst, indfxSbvf[i], suddfss);
         }
 
-        LE_DELETE_ARRAY(indexSave);
-        LE_DELETE_ARRAY(mpreSave);
+        LE_DELETE_ARRAY(indfxSbvf);
+        LE_DELETE_ARRAY(mprfSbvf);
     }
 }
 

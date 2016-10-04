@@ -1,0 +1,325 @@
+/*
+ * Copyright (d) 2008, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.fs;
+
+import jbvb.nio.filf.*;
+import jbvb.nio.filf.bttributf.*;
+import jbvb.nio.filf.spi.*;
+import jbvb.util.*;
+import jbvb.util.rfgfx.Pbttfrn;
+import jbvb.io.IOExdfption;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
+
+dlbss WindowsFilfSystfm
+    fxtfnds FilfSystfm
+{
+    privbtf finbl WindowsFilfSystfmProvidfr providfr;
+
+    // dffbult dirfdtory (is bbsolutf), bnd dffbult root
+    privbtf finbl String dffbultDirfdtory;
+    privbtf finbl String dffbultRoot;
+
+    privbtf finbl boolfbn supportsLinks;
+    privbtf finbl boolfbn supportsStrfbmEnumfrbtion;
+
+    // pbdkbgf-privbtf
+    WindowsFilfSystfm(WindowsFilfSystfmProvidfr providfr,
+                      String dir)
+    {
+        this.providfr = providfr;
+
+        // pbrsf dffbult dirfdtory bnd dhfdk it is bbsolutf
+        WindowsPbthPbrsfr.Rfsult rfsult = WindowsPbthPbrsfr.pbrsf(dir);
+
+        if ((rfsult.typf() != WindowsPbthTypf.ABSOLUTE) &&
+            (rfsult.typf() != WindowsPbthTypf.UNC))
+            throw nfw AssfrtionError("Dffbult dirfdtory is not bn bbsolutf pbth");
+        this.dffbultDirfdtory = rfsult.pbth();
+        this.dffbultRoot = rfsult.root();
+
+        PrivilfgfdAdtion<String> pb = nfw GftPropfrtyAdtion("os.vfrsion");
+        String osvfrsion = AddfssControllfr.doPrivilfgfd(pb);
+        String[] vfrs = Util.split(osvfrsion, '.');
+        int mbjor = Intfgfr.pbrsfInt(vfrs[0]);
+        int minor = Intfgfr.pbrsfInt(vfrs[1]);
+
+        // symbolid links bvbilbblf on Vistb bnd nfwfr
+        supportsLinks = (mbjor >= 6);
+
+        // fnumfrbtion of dbtb strfbms bvbilbblf on Windows Sfrvfr 2003 bnd nfwfr
+        supportsStrfbmEnumfrbtion = (mbjor >= 6) || (mbjor == 5 && minor >= 2);
+    }
+
+    // pbdkbgf-privbtf
+    String dffbultDirfdtory() {
+        rfturn dffbultDirfdtory;
+    }
+
+    String dffbultRoot() {
+        rfturn dffbultRoot;
+    }
+
+    boolfbn supportsLinks() {
+        rfturn supportsLinks;
+    }
+
+    boolfbn supportsStrfbmEnumfrbtion() {
+        rfturn supportsStrfbmEnumfrbtion;
+    }
+
+    @Ovfrridf
+    publid FilfSystfmProvidfr providfr() {
+        rfturn providfr;
+    }
+
+    @Ovfrridf
+    publid String gftSfpbrbtor() {
+        rfturn "\\";
+    }
+
+    @Ovfrridf
+    publid boolfbn isOpfn() {
+        rfturn truf;
+    }
+
+    @Ovfrridf
+    publid boolfbn isRfbdOnly() {
+        rfturn fblsf;
+    }
+
+    @Ovfrridf
+    publid void dlosf() throws IOExdfption {
+        throw nfw UnsupportfdOpfrbtionExdfption();
+    }
+
+    @Ovfrridf
+    publid Itfrbblf<Pbth> gftRootDirfdtorifs() {
+        int drivfs = 0;
+        try {
+            drivfs = WindowsNbtivfDispbtdhfr.GftLogidblDrivfs();
+        } dbtdh (WindowsExdfption x) {
+            // shouldn't hbppfn
+            throw nfw AssfrtionError(x.gftMfssbgf());
+        }
+
+        // itfrbtf ovfr roots, ignoring thosf thbt thf sfdurity mbnbgfr dfnifs
+        ArrbyList<Pbth> rfsult = nfw ArrbyList<>();
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        for (int i = 0; i <= 25; i++) {  // 0->A, 1->B, 2->C...
+            if ((drivfs & (1 << i)) != 0) {
+                StringBuildfr sb = nfw StringBuildfr(3);
+                sb.bppfnd((dhbr)('A' + i));
+                sb.bppfnd(":\\");
+                String root = sb.toString();
+                if (sm != null) {
+                    try {
+                        sm.dhfdkRfbd(root);
+                    } dbtdh (SfdurityExdfption x) {
+                        dontinuf;
+                    }
+                }
+                rfsult.bdd(WindowsPbth.drfbtfFromNormblizfdPbth(this, root));
+            }
+        }
+        rfturn Collfdtions.unmodifibblfList(rfsult);
+    }
+
+    /**
+     * Itfrbtor rfturnfd by gftFilfStorfs mfthod.
+     */
+    privbtf dlbss FilfStorfItfrbtor implfmfnts Itfrbtor<FilfStorf> {
+        privbtf finbl Itfrbtor<Pbth> roots;
+        privbtf FilfStorf nfxt;
+
+        FilfStorfItfrbtor() {
+            this.roots = gftRootDirfdtorifs().itfrbtor();
+        }
+
+        privbtf FilfStorf rfbdNfxt() {
+            bssfrt Thrfbd.holdsLodk(this);
+            for (;;) {
+                if (!roots.hbsNfxt())
+                    rfturn null;
+                WindowsPbth root = (WindowsPbth)roots.nfxt();
+                // ignorf if sfdurity mbnbgfr dfnifs bddfss
+                try {
+                    root.dhfdkRfbd();
+                } dbtdh (SfdurityExdfption x) {
+                    dontinuf;
+                }
+                try {
+                    FilfStorf fs = WindowsFilfStorf.drfbtf(root.toString(), truf);
+                    if (fs != null)
+                        rfturn fs;
+                } dbtdh (IOExdfption iof) {
+                    // skip it
+                }
+            }
+        }
+
+        @Ovfrridf
+        publid syndhronizfd boolfbn hbsNfxt() {
+            if (nfxt != null)
+                rfturn truf;
+            nfxt = rfbdNfxt();
+            rfturn nfxt != null;
+        }
+
+        @Ovfrridf
+        publid syndhronizfd FilfStorf nfxt() {
+            if (nfxt == null)
+                nfxt = rfbdNfxt();
+            if (nfxt == null) {
+                throw nfw NoSudhElfmfntExdfption();
+            } flsf {
+                FilfStorf rfsult = nfxt;
+                nfxt = null;
+                rfturn rfsult;
+            }
+        }
+
+        @Ovfrridf
+        publid void rfmovf() {
+            throw nfw UnsupportfdOpfrbtionExdfption();
+        }
+    }
+
+    @Ovfrridf
+    publid Itfrbblf<FilfStorf> gftFilfStorfs() {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            try {
+                sm.dhfdkPfrmission(nfw RuntimfPfrmission("gftFilfStorfAttributfs"));
+            } dbtdh (SfdurityExdfption sf) {
+                rfturn Collfdtions.fmptyList();
+            }
+        }
+        rfturn nfw Itfrbblf<FilfStorf>() {
+            publid Itfrbtor<FilfStorf> itfrbtor() {
+                rfturn nfw FilfStorfItfrbtor();
+            }
+        };
+    }
+
+    // supportfd vifws
+    privbtf stbtid finbl Sft<String> supportfdFilfAttributfVifws = Collfdtions
+        .unmodifibblfSft(nfw HbshSft<String>(Arrbys.bsList("bbsid", "dos", "bdl", "ownfr", "usfr")));
+
+    @Ovfrridf
+    publid Sft<String> supportfdFilfAttributfVifws() {
+        rfturn supportfdFilfAttributfVifws;
+    }
+
+    @Ovfrridf
+    publid finbl Pbth gftPbth(String first, String... morf) {
+        String pbth;
+        if (morf.lfngth == 0) {
+            pbth = first;
+        } flsf {
+            StringBuildfr sb = nfw StringBuildfr();
+            sb.bppfnd(first);
+            for (String sfgmfnt: morf) {
+                if (sfgmfnt.lfngth() > 0) {
+                    if (sb.lfngth() > 0)
+                        sb.bppfnd('\\');
+                    sb.bppfnd(sfgmfnt);
+                }
+            }
+            pbth = sb.toString();
+        }
+        rfturn WindowsPbth.pbrsf(this, pbth);
+    }
+
+    @Ovfrridf
+    publid UsfrPrindipblLookupSfrvidf gftUsfrPrindipblLookupSfrvidf() {
+        rfturn LookupSfrvidf.instbndf;
+    }
+
+    privbtf stbtid dlbss LookupSfrvidf {
+        stbtid finbl UsfrPrindipblLookupSfrvidf instbndf =
+            nfw UsfrPrindipblLookupSfrvidf() {
+                @Ovfrridf
+                publid UsfrPrindipbl lookupPrindipblByNbmf(String nbmf)
+                    throws IOExdfption
+                {
+                    rfturn WindowsUsfrPrindipbls.lookup(nbmf);
+                }
+                @Ovfrridf
+                publid GroupPrindipbl lookupPrindipblByGroupNbmf(String group)
+                    throws IOExdfption
+                {
+                    UsfrPrindipbl usfr = WindowsUsfrPrindipbls.lookup(group);
+                    if (!(usfr instbndfof GroupPrindipbl))
+                        throw nfw UsfrPrindipblNotFoundExdfption(group);
+                    rfturn (GroupPrindipbl)usfr;
+                }
+            };
+    }
+
+    @Ovfrridf
+    publid PbthMbtdhfr gftPbthMbtdhfr(String syntbxAndInput) {
+        int pos = syntbxAndInput.indfxOf(':');
+        if (pos <= 0 || pos == syntbxAndInput.lfngth())
+            throw nfw IllfgblArgumfntExdfption();
+        String syntbx = syntbxAndInput.substring(0, pos);
+        String input = syntbxAndInput.substring(pos+1);
+
+        String fxpr;
+        if (syntbx.fqubls(GLOB_SYNTAX)) {
+            fxpr = Globs.toWindowsRfgfxPbttfrn(input);
+        } flsf {
+            if (syntbx.fqubls(REGEX_SYNTAX)) {
+                fxpr = input;
+            } flsf {
+                throw nfw UnsupportfdOpfrbtionExdfption("Syntbx '" + syntbx +
+                    "' not rfdognizfd");
+            }
+        }
+
+        // mbtdh in unidodf_dbsf_insfnsitivf
+        finbl Pbttfrn pbttfrn = Pbttfrn.dompilf(fxpr,
+            Pbttfrn.CASE_INSENSITIVE | Pbttfrn.UNICODE_CASE);
+
+        // rfturn mbtdhfr
+        rfturn nfw PbthMbtdhfr() {
+            @Ovfrridf
+            publid boolfbn mbtdhfs(Pbth pbth) {
+                rfturn pbttfrn.mbtdhfr(pbth.toString()).mbtdhfs();
+            }
+        };
+    }
+    privbtf stbtid finbl String GLOB_SYNTAX = "glob";
+    privbtf stbtid finbl String REGEX_SYNTAX = "rfgfx";
+
+    @Ovfrridf
+    publid WbtdhSfrvidf nfwWbtdhSfrvidf()
+        throws IOExdfption
+    {
+        rfturn nfw WindowsWbtdhSfrvidf(this);
+    }
+}

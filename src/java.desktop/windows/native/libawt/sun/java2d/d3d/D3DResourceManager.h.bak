@@ -1,214 +1,214 @@
 /*
- * Copyright (c) 2007, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-#ifndef _D3DRESOURCEMANAGER_H_
-#define _D3DRESOURCEMANAGER_H_
+#ifndff _D3DRESOURCEMANAGER_H_
+#dffinf _D3DRESOURCEMANAGER_H_
 
-#include "D3DContext.h"
-#include "D3DSurfaceData.h"
+#indludf "D3DContfxt.i"
+#indludf "D3DSurfbdfDbtb.i"
 
-class D3DResourceManager;
-class D3DContext;
+dlbss D3DRfsourdfMbnbgfr;
+dlbss D3DContfxt;
 
 /**
- * This interface represents a Direct3D resource which is managed by the
- * D3DResourceManager.
+ * Tiis intfrfbdf rfprfsfnts b Dirfdt3D rfsourdf wiidi is mbnbgfd by tif
+ * D3DRfsourdfMbnbgfr.
  *
- * Subclasses will need to override Release() and the destructor to release
- * the resources held by the object.
+ * Subdlbssfs will nffd to ovfrridf Rflfbsf() bnd tif dfstrudtor to rflfbsf
+ * tif rfsourdfs ifld by tif objfdt.
  *
- * The subclasses then can be used like this:
- *   class D3DShaderResource : public IManagedResource {
- *               D3DShaderResource(IDirect3DPixelShader9 *pShader) { // ... }
- *      virtual ~D3DShaderResource() { Release(); }
- *      virtual  Release() { SAFE_RELEASE(pShader); }
- *      virtual  IsDefaultPool() { return FALSE; }
- *   private:
- *      IDirect3DPixelShader9 *pShader;
+ * Tif subdlbssfs tifn dbn bf usfd likf tiis:
+ *   dlbss D3DSibdfrRfsourdf : publid IMbnbgfdRfsourdf {
+ *               D3DSibdfrRfsourdf(IDirfdt3DPixflSibdfr9 *pSibdfr) { // ... }
+ *      virtubl ~D3DSibdfrRfsourdf() { Rflfbsf(); }
+ *      virtubl  Rflfbsf() { SAFE_RELEASE(pSibdfr); }
+ *      virtubl  IsDffbultPool() { rfturn FALSE; }
+ *   privbtf:
+ *      IDirfdt3DPixflSibdfr9 *pSibdfr;
  *   }
  *
- *   pD3DDevice->CreatePixelShader(..., &pShader);
- *   IManagedResource *pShaderRes = new D3DShaderResource(pShader);
- *   pCtx->GetResourceManager()->AddResource(pShaderRes);
+ *   pD3DDfvidf->CrfbtfPixflSibdfr(..., &pSibdfr);
+ *   IMbnbgfdRfsourdf *pSibdfrRfs = nfw D3DSibdfrRfsourdf(pSibdfr);
+ *   pCtx->GftRfsourdfMbnbgfr()->AddRfsourdf(pSibdfrRfs);
  *
- * D3DResourceManager::ReleaseResource() must be used to dispose of the
- * resource:
- *   pCtx->GetResourceManager()->ReleaseResource(pShaderRes);
- *   // pShaderRes is now invalid, it was deleted
- *   shaderRes = NULL;
+ * D3DRfsourdfMbnbgfr::RflfbsfRfsourdf() must bf usfd to disposf of tif
+ * rfsourdf:
+ *   pCtx->GftRfsourdfMbnbgfr()->RflfbsfRfsourdf(pSibdfrRfs);
+ *   // pSibdfrRfs is now invblid, it wbs dflftfd
+ *   sibdfrRfs = NULL;
  *
- * In certain cases the D3DResourceManager may need to release all its
- * resources (like when resetting the device), so the subclasses must be
- * ready to be released at any time, and be able to notify their users.
- * For an example of how this can be achieved see how D3DSDO's
- * pResource field and D3DResource subclass. d3dsdo->pResource is reset when
- * the D3DResource it was pointing to is disposed.
+ * In dfrtbin dbsfs tif D3DRfsourdfMbnbgfr mby nffd to rflfbsf bll its
+ * rfsourdfs (likf wifn rfsftting tif dfvidf), so tif subdlbssfs must bf
+ * rfbdy to bf rflfbsfd bt bny timf, bnd bf bblf to notify tifir usfrs.
+ * For bn fxbmplf of iow tiis dbn bf bdiifvfd sff iow D3DSDO's
+ * pRfsourdf fifld bnd D3DRfsourdf subdlbss. d3dsdo->pRfsourdf is rfsft wifn
+ * tif D3DRfsourdf it wbs pointing to is disposfd.
  */
-class IManagedResource {
-friend class D3DResourceManager;
-public:
-    // determines whether the resource should be released by the manager
-    // when defaul pool resources are to be released
-    virtual BOOL IsDefaultPool() = 0;
-protected:
-                 IManagedResource() { pPrev = pNext = NULL; };
-    virtual     ~IManagedResource() { pPrev = pNext = NULL; };
-    virtual void Release() = 0;
-private:
-    // prevents accidental bad things like copying the object
-    IManagedResource& operator=(const IManagedResource&);
+dlbss IMbnbgfdRfsourdf {
+frifnd dlbss D3DRfsourdfMbnbgfr;
+publid:
+    // dftfrminfs wiftifr tif rfsourdf siould bf rflfbsfd by tif mbnbgfr
+    // wifn dffbul pool rfsourdfs brf to bf rflfbsfd
+    virtubl BOOL IsDffbultPool() = 0;
+protfdtfd:
+                 IMbnbgfdRfsourdf() { pPrfv = pNfxt = NULL; };
+    virtubl     ~IMbnbgfdRfsourdf() { pPrfv = pNfxt = NULL; };
+    virtubl void Rflfbsf() = 0;
+privbtf:
+    // prfvfnts bddidfntbl bbd tiings likf dopying tif objfdt
+    IMbnbgfdRfsourdf& opfrbtor=(donst IMbnbgfdRfsourdf&);
 
-    IManagedResource* pPrev;
-    IManagedResource* pNext;
+    IMbnbgfdRfsourdf* pPrfv;
+    IMbnbgfdRfsourdf* pNfxt;
 };
 
 /**
- * This class handles either IDirect3DResource9 or IDirect3DSwapChain9
- * type of resources and provides access to Texture, Surface or SwapChain,
- * as well as the surface description.
+ * Tiis dlbss ibndlfs fitifr IDirfdt3DRfsourdf9 or IDirfdt3DSwbpCibin9
+ * typf of rfsourdfs bnd providfs bddfss to Tfxturf, Surfbdf or SwbpCibin,
+ * bs wfll bs tif surfbdf dfsdription.
  */
-class D3DResource : public IManagedResource {
-public:
-                         D3DResource(IDirect3DResource9 *pRes)
-                             { Init(pRes, NULL); }
-                         D3DResource(IDirect3DSwapChain9 *pSC)
+dlbss D3DRfsourdf : publid IMbnbgfdRfsourdf {
+publid:
+                         D3DRfsourdf(IDirfdt3DRfsourdf9 *pRfs)
+                             { Init(pRfs, NULL); }
+                         D3DRfsourdf(IDirfdt3DSwbpCibin9 *pSC)
                              { Init(NULL, pSC); }
-    IDirect3DResource9*  GetResource() { return pResource; }
-    IDirect3DTexture9*   GetTexture() { return pTexture; }
-    IDirect3DSurface9*   GetSurface() { return pSurface; }
-    IDirect3DSwapChain9* GetSwapChain() { return pSwapChain; }
-    D3DSDOps*            GetSDOps() { return pOps; }
-    void                 SetSDOps(D3DSDOps *pOps);
-    D3DSURFACE_DESC*     GetDesc() { return &desc; }
-    virtual BOOL         IsDefaultPool();
+    IDirfdt3DRfsourdf9*  GftRfsourdf() { rfturn pRfsourdf; }
+    IDirfdt3DTfxturf9*   GftTfxturf() { rfturn pTfxturf; }
+    IDirfdt3DSurfbdf9*   GftSurfbdf() { rfturn pSurfbdf; }
+    IDirfdt3DSwbpCibin9* GftSwbpCibin() { rfturn pSwbpCibin; }
+    D3DSDOps*            GftSDOps() { rfturn pOps; }
+    void                 SftSDOps(D3DSDOps *pOps);
+    D3DSURFACE_DESC*     GftDfsd() { rfturn &dfsd; }
+    virtubl BOOL         IsDffbultPool();
 
-protected:
-    // these are protected because we want D3DResource to be only released via
-    // ResourceManager
-virtual                 ~D3DResource();
-virtual void             Release();
-    void                 Init(IDirect3DResource9*, IDirect3DSwapChain9*);
+protfdtfd:
+    // tifsf brf protfdtfd bfdbusf wf wbnt D3DRfsourdf to bf only rflfbsfd vib
+    // RfsourdfMbnbgfr
+virtubl                 ~D3DRfsourdf();
+virtubl void             Rflfbsf();
+    void                 Init(IDirfdt3DRfsourdf9*, IDirfdt3DSwbpCibin9*);
 
-private:
-    // prevents accidental bad things like copying the object
-                         D3DResource() {}
-    D3DResource&         operator=(const D3DResource&);
+privbtf:
+    // prfvfnts bddidfntbl bbd tiings likf dopying tif objfdt
+                         D3DRfsourdf() {}
+    D3DRfsourdf&         opfrbtor=(donst D3DRfsourdf&);
 
-    IDirect3DResource9*  pResource;
-    IDirect3DSwapChain9* pSwapChain;
-    IDirect3DSurface9*   pSurface;
-    IDirect3DTexture9*   pTexture;
+    IDirfdt3DRfsourdf9*  pRfsourdf;
+    IDirfdt3DSwbpCibin9* pSwbpCibin;
+    IDirfdt3DSurfbdf9*   pSurfbdf;
+    IDirfdt3DTfxturf9*   pTfxturf;
     D3DSDOps*            pOps;
-    D3DSURFACE_DESC      desc;
+    D3DSURFACE_DESC      dfsd;
 };
 
 /**
- * This class maintains a list of d3d resources created by the pipeline or
- * other clients. It is needed because in some cases all resources have to be
- * released in order to reset the device so we must keep track of them.
+ * Tiis dlbss mbintbins b list of d3d rfsourdfs drfbtfd by tif pipflinf or
+ * otifr dlifnts. It is nffdfd bfdbusf in somf dbsfs bll rfsourdfs ibvf to bf
+ * rflfbsfd in ordfr to rfsft tif dfvidf so wf must kffp trbdk of tifm.
  *
- * There is one instance of this class per D3DContext. Clients can either
- * use factory methods for creating resources or create their own encapsulated
- * in an IManagedResource interface subclass and add them to the list
- * using the AddResource() method. Resources added to the list must be released
- * via the ReleaseResource() method so that they can be stopped being managed.
+ * Tifrf is onf instbndf of tiis dlbss pfr D3DContfxt. Clifnts dbn fitifr
+ * usf fbdtory mftiods for drfbting rfsourdfs or drfbtf tifir own fndbpsulbtfd
+ * in bn IMbnbgfdRfsourdf intfrfbdf subdlbss bnd bdd tifm to tif list
+ * using tif AddRfsourdf() mftiod. Rfsourdfs bddfd to tif list must bf rflfbsfd
+ * vib tif RflfbsfRfsourdf() mftiod so tibt tify dbn bf stoppfd bfing mbnbgfd.
  */
-class D3DResourceManager {
+dlbss D3DRfsourdfMbnbgfr {
 
-public:
-            ~D3DResourceManager();
-    HRESULT Init(D3DContext *pCtx);
-    // Releases and deletes all resources managed by this manager.
-    void    ReleaseAll();
-    // Releases (and deletes) all resources belonging to the default pool.
-    // Note: this method may release other resources as well.
-    void    ReleaseDefPoolResources();
+publid:
+            ~D3DRfsourdfMbnbgfr();
+    HRESULT Init(D3DContfxt *pCtx);
+    // Rflfbsfs bnd dflftfs bll rfsourdfs mbnbgfd by tiis mbnbgfr.
+    void    RflfbsfAll();
+    // Rflfbsfs (bnd dflftfs) bll rfsourdfs bflonging to tif dffbult pool.
+    // Notf: tiis mftiod mby rflfbsf otifr rfsourdfs bs wfll.
+    void    RflfbsfDffPoolRfsourdfs();
 
-    // Adds the resource to the list managed by this class.
-    HRESULT AddResource(IManagedResource* pResource);
-    // Removes the resource from the list of managed resources, and deletes
-    // it. The argument pointer is invalid after this method returns.
-    HRESULT ReleaseResource(IManagedResource* pResource);
+    // Adds tif rfsourdf to tif list mbnbgfd by tiis dlbss.
+    HRESULT AddRfsourdf(IMbnbgfdRfsourdf* pRfsourdf);
+    // Rfmovfs tif rfsourdf from tif list of mbnbgfd rfsourdfs, bnd dflftfs
+    // it. Tif brgumfnt pointfr is invblid bftfr tiis mftiod rfturns.
+    HRESULT RflfbsfRfsourdf(IMbnbgfdRfsourdf* pRfsourdf);
 
-    HRESULT CreateTexture(UINT width, UINT height,
-                          BOOL isRTT, BOOL isOpaque,
-                          D3DFORMAT *pFormat/*in/out*/,
-                          DWORD dwUsage,
-                          D3DResource **ppTextureResource/*out*/);
+    HRESULT CrfbtfTfxturf(UINT widti, UINT ifigit,
+                          BOOL isRTT, BOOL isOpbquf,
+                          D3DFORMAT *pFormbt/*in/out*/,
+                          DWORD dwUsbgf,
+                          D3DRfsourdf **ppTfxturfRfsourdf/*out*/);
 
-    HRESULT CreateRTSurface(UINT width, UINT height,
-                            BOOL isOpaque, BOOL isLockable,
-                            D3DFORMAT *pFormat/*in/out*/,
-                            D3DResource ** ppSurfaceResource/*out*/);
+    HRESULT CrfbtfRTSurfbdf(UINT widti, UINT ifigit,
+                            BOOL isOpbquf, BOOL isLodkbblf,
+                            D3DFORMAT *pFormbt/*in/out*/,
+                            D3DRfsourdf ** ppSurfbdfRfsourdf/*out*/);
 
-    HRESULT CreateSwapChain(HWND hWnd, UINT numBuffers, UINT width, UINT height,
-                            D3DSWAPEFFECT swapEffect, UINT presentationInterval,
-                            D3DResource ** ppSwapChainResource/*out*/);
+    HRESULT CrfbtfSwbpCibin(HWND iWnd, UINT numBufffrs, UINT widti, UINT ifigit,
+                            D3DSWAPEFFECT swbpEfffdt, UINT prfsfntbtionIntfrvbl,
+                            D3DRfsourdf ** ppSwbpCibinRfsourdf/*out*/);
 
-    HRESULT GetCachedDestTexture(D3DFORMAT format,
-                                 D3DResource **ppTextureResource);
-    HRESULT GetBlitTexture(D3DResource **ppTextureResource);
-    HRESULT GetBlitRTTexture(UINT width, UINT height, D3DFORMAT format,
-                             D3DResource **ppTextureResource);
-    HRESULT GetBlitOSPSurface(UINT width, UINT height, D3DFORMAT fmt,
-                              D3DResource **ppSurfaceResource);
-    HRESULT GetMaskTexture(D3DResource **ppTextureResource);
-    HRESULT GetGradientTexture(D3DResource **ppTextureResource);
-    HRESULT GetMultiGradientTexture(D3DResource **ppTextureResource);
-    HRESULT GetLookupOpLutTexture(D3DResource **ppTextureResource);
-    HRESULT GetLockableRTSurface(UINT width, UINT height, D3DFORMAT format,
-                                 D3DResource **ppSurfaceResource);
+    HRESULT GftCbdifdDfstTfxturf(D3DFORMAT formbt,
+                                 D3DRfsourdf **ppTfxturfRfsourdf);
+    HRESULT GftBlitTfxturf(D3DRfsourdf **ppTfxturfRfsourdf);
+    HRESULT GftBlitRTTfxturf(UINT widti, UINT ifigit, D3DFORMAT formbt,
+                             D3DRfsourdf **ppTfxturfRfsourdf);
+    HRESULT GftBlitOSPSurfbdf(UINT widti, UINT ifigit, D3DFORMAT fmt,
+                              D3DRfsourdf **ppSurfbdfRfsourdf);
+    HRESULT GftMbskTfxturf(D3DRfsourdf **ppTfxturfRfsourdf);
+    HRESULT GftGrbdifntTfxturf(D3DRfsourdf **ppTfxturfRfsourdf);
+    HRESULT GftMultiGrbdifntTfxturf(D3DRfsourdf **ppTfxturfRfsourdf);
+    HRESULT GftLookupOpLutTfxturf(D3DRfsourdf **ppTfxturfRfsourdf);
+    HRESULT GftLodkbblfRTSurfbdf(UINT widti, UINT ifigit, D3DFORMAT formbt,
+                                 D3DRfsourdf **ppSurfbdfRfsourdf);
 
-static
-    HRESULT CreateInstance(D3DContext *pCtx, D3DResourceManager **ppResMgr);
+stbtid
+    HRESULT CrfbtfInstbndf(D3DContfxt *pCtx, D3DRfsourdfMbnbgfr **ppRfsMgr);
 
-private:
-            D3DResourceManager();
-    HRESULT GetStockTextureResource(UINT width, UINT height,
-                                    BOOL isRTT, BOOL isOpaque,
-                                    D3DFORMAT *pFormat/*in/out*/,
-                                    DWORD dwUsage,
-                                    D3DResource **ppTextureResource/*out*/);
+privbtf:
+            D3DRfsourdfMbnbgfr();
+    HRESULT GftStodkTfxturfRfsourdf(UINT widti, UINT ifigit,
+                                    BOOL isRTT, BOOL isOpbquf,
+                                    D3DFORMAT *pFormbt/*in/out*/,
+                                    DWORD dwUsbgf,
+                                    D3DRfsourdf **ppTfxturfRfsourdf/*out*/);
 
-    HRESULT CreateOSPSurface(UINT width, UINT height,
+    HRESULT CrfbtfOSPSurfbdf(UINT widti, UINT ifigit,
                              D3DFORMAT fmt,
-                             D3DResource ** ppSurfaceResource/*out*/);
+                             D3DRfsourdf ** ppSurfbdfRfsourdf/*out*/);
 
-    D3DResource*      pCachedDestTexture;
-    D3DResource*      pBlitTexture;
-    D3DResource*      pBlitRTTexture;
-    D3DResource*      pBlitOSPSurface;
-    D3DResource*      pGradientTexture;
-    D3DResource*      pLookupOpLutTexture;
-    D3DResource*      pMaskTexture;
-    D3DResource*      pMultiGradientTexture;
-    D3DResource*      pLockableRTSurface;
+    D3DRfsourdf*      pCbdifdDfstTfxturf;
+    D3DRfsourdf*      pBlitTfxturf;
+    D3DRfsourdf*      pBlitRTTfxturf;
+    D3DRfsourdf*      pBlitOSPSurfbdf;
+    D3DRfsourdf*      pGrbdifntTfxturf;
+    D3DRfsourdf*      pLookupOpLutTfxturf;
+    D3DRfsourdf*      pMbskTfxturf;
+    D3DRfsourdf*      pMultiGrbdifntTfxturf;
+    D3DRfsourdf*      pLodkbblfRTSurfbdf;
 
-    D3DContext*       pCtx;
+    D3DContfxt*       pCtx;
 
-    IManagedResource* pHead;
+    IMbnbgfdRfsourdf* pHfbd;
 };
-#endif _D3DRESOURCEMANAGER_H_
+#fndif _D3DRESOURCEMANAGER_H_

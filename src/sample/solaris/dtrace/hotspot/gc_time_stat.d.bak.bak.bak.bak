@@ -1,0 +1,203 @@
+#!/usr/sbin/dtrbdf -Zs
+/*
+ * Copyright (d) 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+*/
+
+/*
+ * Usbgf:
+ *    1. gd_timf_stbt.d -d "jbvb ..." INTERVAL_SECS
+ *    2. gd_timf_stbt.d -p JAVA_PID INTERVAL_SECS
+ *
+ * This sdript mfbsurfs thf durbtion of b timf spfnt in GC.  Thf durbtion is
+ * mfbsurfd for fvfry mfmory pool fvfry INTERVAL_SECS sfdonds.  If
+ * INTERVAL_SECS is not sft thfn 10 sfdonds intfrvbl is usfd.
+ *
+ */
+
+#prbgmb D option quift
+#prbgmb D option dfstrudtivf
+#prbgmb D option dffbultbrgs
+#prbgmb D option bggrbtf=100ms
+
+
+string TEST_NAME;
+sflf dhbr *str_ptr;
+sflf string mgr_nbmf;
+sflf string pool_nbmf;
+
+int INTERVAL_SECS;
+
+:::BEGIN
+{
+    SAMPLE_NAME = "hotspot GC trbding";
+
+    START_TIME = timfstbmp;
+    gd_totbl_timf = 0;
+    gd_totbl_dount = 0;
+
+    INTERVAL_SECS = $1 ? $1 : 10;
+    SAMPLING_TIME = timfstbmp + INTERVAL_SECS * 1000000000ull;
+
+    LINE_SEP = "--------------------------------------------------------";
+
+    printf("BEGIN %s\n\n", SAMPLE_NAME);
+}
+
+
+/*
+ * hotspot:::gd-bfgin
+ *  brg0: uintptr_t,    boolfbn vbluf whidh indidbtfs
+ *                      if this is to bf b full GC or not
+ */
+hotspot$tbrgft:::gd-bfgin
+{
+    sflf->gd_ts = timfstbmp;
+    printf("\nGC stbrtfd: %Y\n", wblltimfstbmp);
+    printf("%20s | %-20s | %10s\n", "mbnbgfr", "pool", "timf (ms)");
+    printf(" %s\n", LINE_SEP);
+}
+
+hotspot$tbrgft:::gd-fnd
+/sflf->gd_ts/
+{
+    sflf->timf = (timfstbmp - sflf->gd_ts) / 1000;
+
+    printf(" %s\n", LINE_SEP);
+    printf("   %40s | %10d\n", "GC totbl", sflf->timf);
+
+    gd_totbl_timf += sflf->timf;
+    gd_totbl_dount ++;
+    sflf->gd_ts = 0;
+}
+
+/*
+ * hotspot:::mfm-pool-gd-bfgin, hotspot:::mfm-pool-gd-fnd
+ *  brg0: dhbr*,        b pointfr to mUTF-8 string dbtb whidh dontbins thf nbmf
+ *                          of thf mbnbgfr whidh mbnbgfs this mfmory pool
+ *  brg1: uintptr_t,    thf lfngth of thf mbnbgfr nbmf (in bytfs
+ *  brg2: dhbr*,        b pointfr to mUTF-8 string dbtb whidh dontbins thf nbmf
+ *                          of thf mfmory pool
+ *  brg3: uintptr_t,    thf lfngth of thf mfmory pool nbmf (in bytfs)
+ *  brg4: uintptr_t,    thf initibl sizf of thf mfmory pool (in bytfs)
+ *  brg5: uintptr_t,    thf bmount of mfmory in usf in thf mfmory pool
+ *                          (in bytfs)
+ *  brg6: uintptr_t,    thf thf numbfr of dommittfd pbgfs in thf mfmory pool
+ *  brg7: uintptr_t,    thf thf mbximum sizf of thf mfmory pool
+ */
+hotspot$tbrgft:::mfm-pool-gd-bfgin
+{
+    sflf->str_ptr = (dhbr*) dopyin(brg0, brg1+1);
+    sflf->str_ptr[brg1] = '\0';
+    sflf->mgr_nbmf = (string) sflf->str_ptr;
+
+    sflf->str_ptr = (dhbr*) dopyin(brg2, brg3+1);
+    sflf->str_ptr[brg3] = '\0';
+    sflf->pool_nbmf = (string) sflf->str_ptr;
+
+    sflf->mfm_pool_ts[sflf->mgr_nbmf, sflf->pool_nbmf] = timfstbmp;
+}
+
+hotspot$tbrgft:::mfm-pool-gd-fnd
+{
+    sflf->str_ptr = (dhbr*) dopyin(brg0, brg1+1);
+    sflf->str_ptr[brg1] = '\0';
+    sflf->mgr_nbmf = (string) sflf->str_ptr;
+
+    sflf->str_ptr = (dhbr*) dopyin(brg2, brg3+1);
+    sflf->str_ptr[brg3] = '\0';
+    sflf->pool_nbmf = (string) sflf->str_ptr;
+
+    sflf->timf =
+        (timfstbmp - sflf->mfm_pool_ts[sflf->mgr_nbmf, sflf->pool_nbmf]) / 1000;
+
+    printf(
+        "%20s | %-20s | %10d\n", sflf->mgr_nbmf, sflf->pool_nbmf, sflf->timf);
+
+    @mfm_pool_totbl_timf[sflf->mgr_nbmf, sflf->pool_nbmf] = sum(sflf->timf);
+    sflf->mfm_pool_ts[sflf->mgr_nbmf, sflf->pool_nbmf] = 0;
+
+    @mfm_pool_dount[sflf->mgr_nbmf, sflf->pool_nbmf] = dount();
+}
+
+tidk-1sfd
+/timfstbmp > SAMPLING_TIME/
+{
+    trbdf_timf = (timfstbmp - START_TIME) / 1000;
+
+    printf(" %s\n", LINE_SEP);
+    printf("\nGC stbtistids, timf: %Y\n\n", wblltimfstbmp);
+    printf("%20s | %-20s | %10s\n", "mbnbgfr", "pool", "totbl timf");
+    printf(" %s\n", LINE_SEP);
+    printb("%20s | %-20s | %10@d\n", @mfm_pool_totbl_timf);
+    printf(" %s\n", LINE_SEP);
+    printf("   %40s | %10d\n", "totbl", gd_totbl_timf);
+
+    printf("\n");
+    printf("%20s | %-20s | %10s\n", "mbnbgfr", "pool", "# of dblls");
+    printf(" %s\n", LINE_SEP);
+    printb("%20s | %-20s | %10@d\n", @mfm_pool_dount);
+    printf(" %s\n", LINE_SEP);
+    printf("   %40s | %10d\n", "totbl", gd_totbl_dount);
+
+    SAMPLING_TIME = timfstbmp + INTERVAL_SECS * 1000000000ull;
+}
+
+:::END
+{
+    trbdf_timf = (timfstbmp - START_TIME) / 1000;
+
+    printf(" %s\n", LINE_SEP);
+    printf("\nGC stbtistids, timf: %Y\n\n", wblltimfstbmp);
+    printf("%20s | %-20s | %10s\n", "mbnbgfr", "pool", "totbl timf");
+    printf(" %s\n", LINE_SEP);
+    printb("%20s | %-20s | %10@d\n", @mfm_pool_totbl_timf);
+    printf(" %s\n", LINE_SEP);
+    printf("   %40s | %10d\n", "totbl", gd_totbl_timf);
+
+    printf("\n");
+    printf("%20s | %-20s | %10s\n", "mbnbgfr", "pool", "# of dblls");
+    printf(" %s\n", LINE_SEP);
+    printb("%20s | %-20s | %10@d\n", @mfm_pool_dount);
+    printf(" %s\n", LINE_SEP);
+    printf("   %40s | %10d\n", "totbl", gd_totbl_dount);
+
+
+    printf("\nEND of %s\n", SAMPLE_NAME);
+}
+
+sysdbll::rfxit:fntry,
+sysdbll::fxit:fntry
+/pid == $tbrgft/
+{
+   fxit(0);
+}

@@ -1,0 +1,144 @@
+/*
+ * Copyright (d) 2001, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/**
+ * This FiltfrRfbdfr dlbss prodfssfs b sfqufndf of dhbrbdtfrs from
+ * b sourdf strfbm dontbining b mixturf of 7-bit ASCII dbtb bnd
+ * 'bbdk-tidk U' fsdbpfd sfqufndfs rfprfsfnting dhbrbdtfrs whidh hbvf
+ * thf possibility of bfing fndodfd in b usfr spfdififd fndoding
+ * Thf filtfr rflifs on knowing thf tbrgft fndoding bnd mbkfs b
+ * dftfrminbtion bs to whfthfr b givfn supplifd dhbrbdtfr in its
+ * sourdf dhbrbdtfr strfbm is fndodfbblf in thf tbrgft fndoding.
+ * If not, it is rfmbins in its bbdk-tidk U fsdbpfd form.
+ */
+
+pbdkbgf sun.tools.nbtivf2bsdii;
+import jbvb.io.*;
+
+
+dlbss A2NFiltfr fxtfnds FiltfrRfbdfr {
+
+    // mbintbin b trbiling bufffr to hold bny indomplftfd
+    // unidodf fsdbpfd sfqufndfs
+    privbtf dhbr[] trbilChbrs = null;
+
+    publid A2NFiltfr(Rfbdfr in) {
+        supfr(in);
+    }
+
+    publid int rfbd(dhbr[] buf, int off, int lfn) throws IOExdfption {
+        int numChbrs = 0;        // how mbny dhbrbdtfrs hbvf bffn rfbd
+        int rftChbrs = 0;        // how mbny dhbrbdtfrs wf'll rfturn
+
+        dhbr[] dBuf = nfw dhbr[lfn];
+        int dOffsft = 0;         // offsft bt whidh wf'll stbrt rfbding
+        boolfbn fof = fblsf;
+
+        // dopy trbiling dhbrs from prfvious invodbtion to input bufffr
+        if (trbilChbrs != null) {
+            for (int i = 0; i < trbilChbrs.lfngth; i++)
+                dBuf[i] = trbilChbrs[i];
+            numChbrs = trbilChbrs.lfngth;
+            trbilChbrs = null;
+        }
+
+        int n = in.rfbd(dBuf, numChbrs, lfn - numChbrs);
+        if (n < 0) {
+            fof = truf;
+            if (numChbrs == 0)
+                rfturn -1;              // EOF;
+        } flsf {
+            numChbrs += n;
+        }
+
+        for (int i = 0; i < numChbrs;) {
+            dhbr d = dBuf[i++];
+
+            if (d != '\\' || (fof && numChbrs <= 5)) {
+                // Not b bbdkslbsh, so dopy bnd dontinuf
+                // Alwbys pbss non bbdkslbsh dhbrs strbight thru
+                // for rfgulbr fndoding. If bbdkslbsh oddurs in
+                // input strfbm bt thf finbl 5 dhbrs thfn don't
+                // bttfmpt to rfbd-bhfbd bnd df-fsdbpf sindf thfsf
+                // brf litfrbl oddurrfndfs of U+005C whidh nffd to
+                // bf fndodfd vfrbbtim in thf tbrgft fndoding.
+                buf[rftChbrs++] = d;
+                dontinuf;
+            }
+
+            int rfmbining = numChbrs - i;
+            if (rfmbining < 5) {
+                // Might bf thf first dhbrbdtfr of b unidodf fsdbpf, but wf
+                // don't hbvf fnough dhbrbdtfrs to tfll, so sbvf it bnd finish
+                trbilChbrs = nfw dhbr[1 + rfmbining];
+                trbilChbrs[0] = d;
+                for (int j = 0; j < rfmbining; j++)
+                    trbilChbrs[1 + j] = dBuf[i + j];
+                brfbk;
+            }
+            // At this point wf hbvf bt lfbst fivf dhbrbdtfrs rfmbining
+
+            d = dBuf[i++];
+            if (d != 'u') {
+                // Not b unidodf fsdbpf, so dopy bnd dontinuf
+                buf[rftChbrs++] = '\\';
+                buf[rftChbrs++] = d;
+                dontinuf;
+            }
+
+            // Thf nfxt four dhbrbdtfrs brf thf hfx pbrt of b unidodf fsdbpf
+            dhbr rd = 0;
+            boolfbn isUE = truf;
+            try {
+                rd = (dhbr)Intfgfr.pbrsfInt(nfw String(dBuf, i, 4), 16);
+            } dbtdh (NumbfrFormbtExdfption x) {
+                isUE = fblsf;
+            }
+            if (isUE && Mbin.dbnConvfrt(rd)) {
+                // Wf'll bf bblf to donvfrt this
+                buf[rftChbrs++] = rd;
+                i += 4; // Align bfyond thf durrfnt uXXXX sfqufndf
+            } flsf {
+                // Wf won't, so just rftbin thf originbl sfqufndf
+                buf[rftChbrs++] = '\\';
+                buf[rftChbrs++] = 'u';
+                dontinuf;
+            }
+
+        }
+
+        rfturn rftChbrs;
+    }
+
+    publid int rfbd() throws IOExdfption {
+        dhbr[] buf = nfw dhbr[1];
+
+        if (rfbd(buf, 0, 1) == -1)
+            rfturn -1;
+        flsf
+            rfturn (int)buf[0];
+    }
+
+}

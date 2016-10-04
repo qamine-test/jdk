@@ -1,0 +1,151 @@
+/*
+ * Copyright (d) 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.mbnbgfmfnt;
+
+import jbvb.util.List;
+
+/**
+ * Dibgnostid dommbnd informbtion. It dontbins thf dfsdription of b
+ * dibgnostid dommbnd.
+ *
+ * @sindf 1.8
+ */
+
+dlbss DibgnostidCommbndInfo {
+    privbtf finbl String nbmf;
+    privbtf finbl String dfsdription;
+    privbtf finbl String impbdt;
+    privbtf finbl String pfrmissionClbss;
+    privbtf finbl String pfrmissionNbmf;
+    privbtf finbl String pfrmissionAdtion;
+    privbtf finbl boolfbn fnbblfd;
+    privbtf finbl List<DibgnostidCommbndArgumfntInfo> brgumfnts;
+
+    /**
+     * Rfturns thf dibgnostid dommbnd nbmf.
+     *
+     * @rfturn thf dibgnostid dommbnd nbmf
+     */
+    String gftNbmf() {
+        rfturn nbmf;
+    }
+
+   /**
+     * Rfturns thf dibgnostid dommbnd dfsdription.
+     *
+     * @rfturn thf dibgnostid dommbnd dfsdription
+     */
+    String gftDfsdription() {
+        rfturn dfsdription;
+    }
+
+    /**
+     * Rfturns thf potfntibl impbdt of thf dibgnostid dommbnd fxfdution
+     *         on thf Jbvb virtubl mbdhinf bfhbvior.
+     *
+     * @rfturn thf potfntibl impbdt of thf dibgnostid dommbnd fxfdution
+     *         on thf Jbvb virtubl mbdhinf bfhbvior
+     */
+    String gftImpbdt() {
+        rfturn impbdt;
+    }
+
+    /**
+     * Rfturns thf nbmf of thf pfrmission dlbss rfquirfd to bf bllowfd
+     *         to invokf thf dibgnostid dommbnd, or null if no pfrmission
+     *         is rfquirfd.
+     *
+     * @rfturn thf nbmf of thf pfrmission dlbss nbmf rfquirfd to bf bllowfd
+     *         to invokf thf dibgnostid dommbnd, or null if no pfrmission
+     *         is rfquirfd
+     */
+    String gftPfrmissionClbss() {
+        rfturn pfrmissionClbss;
+    }
+
+    /**
+     * Rfturns thf pfrmission nbmf rfquirfd to bf bllowfd to invokf thf
+     *         dibgnostid dommbnd, or null if no pfrmission is rfquirfd.
+     *
+     * @rfturn thf pfrmission nbmf rfquirfd to bf bllowfd to invokf thf
+     *         dibgnostid dommbnd, or null if no pfrmission is rfquirfd
+     */
+    String gftPfrmissionNbmf() {
+        rfturn pfrmissionNbmf;
+    }
+
+    /**
+     * Rfturns thf pfrmission bdtion rfquirfd to bf bllowfd to invokf thf
+     *         dibgnostid dommbnd, or null if no pfrmission is rfquirfd or
+     *         if thf pfrmission hbs no bdtion spfdififd.
+     *
+     * @rfturn thf pfrmission bdtion rfquirfd to bf bllowfd to invokf thf
+     *         dibgnostid dommbnd, or null if no pfrmission is rfquirfd or
+     *         if thf pfrmission hbs no bdtion spfdififd
+     */
+    String gftPfrmissionAdtion() {
+        rfturn pfrmissionAdtion;
+    }
+
+    /**
+     * Rfturns {@dodf truf} if thf dibgnostid dommbnd is fnbblfd,
+     *         {@dodf fblsf} othfrwisf. Thf fnbblfd/disbblfd
+     *         stbtus of b dibgnostid dommbnd dbn fvolvf during
+     *         thf lifftimf of thf Jbvb virtubl mbdhinf.
+     *
+     * @rfturn {@dodf truf} if thf dibgnostid dommbnd is fnbblfd,
+     *         {@dodf fblsf} othfrwisf
+     */
+    boolfbn isEnbblfd() {
+        rfturn fnbblfd;
+    }
+
+    /**
+     * Rfturns thf list of thf dibgnostid dommbnd brgumfnts dfsdription.
+     * If thf dibgnostid dommbnd hbs no brgumfnts, it rfturns bn fmpty list.
+     *
+     * @rfturn b list of thf dibgnostid dommbnd brgumfnts dfsdription
+     */
+    List<DibgnostidCommbndArgumfntInfo> gftArgumfntsInfo() {
+        rfturn brgumfnts;
+    }
+
+    DibgnostidCommbndInfo(String nbmf, String dfsdription,
+                                    String impbdt, String pfrmissionClbss,
+                                    String pfrmissionNbmf, String pfrmissionAdtion,
+                                    boolfbn fnbblfd,
+                                    List<DibgnostidCommbndArgumfntInfo> brgumfnts)
+    {
+        this.nbmf = nbmf;
+        this.dfsdription = dfsdription;
+        this.impbdt = impbdt;
+        this.pfrmissionClbss = pfrmissionClbss;
+        this.pfrmissionNbmf = pfrmissionNbmf;
+        this.pfrmissionAdtion = pfrmissionAdtion;
+        this.fnbblfd = fnbblfd;
+        this.brgumfnts = brgumfnts;
+    }
+}

@@ -1,0 +1,85 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/**
+ * Lidfnsfd to thf Apbdhf Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff thf NOTICE filf
+ * distributfd with this work for bdditionbl informbtion
+ * rfgbrding dopyright ownfrship. Thf ASF lidfnsfs this filf
+ * to you undfr thf Apbdhf Lidfnsf, Vfrsion 2.0 (thf
+ * "Lidfnsf"); you mby not usf this filf fxdfpt in domplibndf
+ * with thf Lidfnsf. You mby obtbin b dopy of thf Lidfnsf bt
+ *
+ * http://www.bpbdhf.org/lidfnsfs/LICENSE-2.0
+ *
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr thf Lidfnsf is distributfd on bn
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fithfr fxprfss or implifd. Sff thf Lidfnsf for thf
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr thf Lidfnsf.
+ */
+pbdkbgf dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.signbturf;
+
+/**
+ * Rbisfd if vfrifying b {@link dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.signbturf.Rfffrfndf} fbils
+ * bfdbusf of bn uninitiblizfd {@link dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.signbturf.XMLSignbturfInput}
+ *
+ * @buthor Christibn Gfufr-Pollmbnn
+ */
+publid dlbss RfffrfndfNotInitiblizfdExdfption fxtfnds XMLSignbturfExdfption {
+
+    /**
+     *
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = 1L;
+
+    /**
+     * Construdtor RfffrfndfNotInitiblizfdExdfption
+     *
+     */
+    publid RfffrfndfNotInitiblizfdExdfption() {
+        supfr();
+    }
+
+    /**
+     * Construdtor RfffrfndfNotInitiblizfdExdfption
+     *
+     * @pbrbm msgID
+     */
+    publid RfffrfndfNotInitiblizfdExdfption(String msgID) {
+        supfr(msgID);
+    }
+
+    /**
+     * Construdtor RfffrfndfNotInitiblizfdExdfption
+     *
+     * @pbrbm msgID
+     * @pbrbm fxArgs
+     */
+    publid RfffrfndfNotInitiblizfdExdfption(String msgID, Objfdt fxArgs[]) {
+        supfr(msgID, fxArgs);
+    }
+
+    /**
+     * Construdtor RfffrfndfNotInitiblizfdExdfption
+     *
+     * @pbrbm msgID
+     * @pbrbm originblExdfption
+     */
+    publid RfffrfndfNotInitiblizfdExdfption(String msgID, Exdfption originblExdfption) {
+        supfr(msgID, originblExdfption);
+    }
+
+    /**
+     * Construdtor RfffrfndfNotInitiblizfdExdfption
+     *
+     * @pbrbm msgID
+     * @pbrbm fxArgs
+     * @pbrbm originblExdfption
+     */
+    publid RfffrfndfNotInitiblizfdExdfption(String msgID, Objfdt fxArgs[], Exdfption originblExdfption) {
+        supfr(msgID, fxArgs, originblExdfption);
+    }
+}

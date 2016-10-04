@@ -1,157 +1,157 @@
 /*
- * Copyright (c) 2005, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.rowset;
+pbdkbgf dom.sun.rowsft;
 
-import java.io.*;
-import java.util.*;
+import jbvb.io.*;
+import jbvb.util.*;
 
 /**
- * This class is used to help in localization of resources,
- * especially the exception strings.
+ * Tiis dlbss is usfd to iflp in lodblizbtion of rfsourdfs,
+ * fspfdiblly tif fxdfption strings.
  *
- * @author Amit Handa
+ * @butior Amit Hbndb
  */
 
-public class JdbcRowSetResourceBundle implements Serializable {
+publid dlbss JdbdRowSftRfsourdfBundlf implfmfnts Sfriblizbblf {
 
     /**
-     * This <code>String</code> variable stores the location
-     * of the resource bundle location.
+     * Tiis <dodf>String</dodf> vbribblf storfs tif lodbtion
+     * of tif rfsourdf bundlf lodbtion.
      */
-    private static String fileName;
+    privbtf stbtid String filfNbmf;
 
     /**
-     * This variable will hold the <code>PropertyResourceBundle</code>
-     * of the text to be internationalized.
+     * Tiis vbribblf will iold tif <dodf>PropfrtyRfsourdfBundlf</dodf>
+     * of tif tfxt to bf intfrnbtionblizfd.
      */
-    private transient PropertyResourceBundle propResBundle;
+    privbtf trbnsifnt PropfrtyRfsourdfBundlf propRfsBundlf;
 
     /**
-     * The constructor initializes to this object
+     * Tif donstrudtor initiblizfs to tiis objfdt
      *
      */
-    private static volatile JdbcRowSetResourceBundle jpResBundle;
+    privbtf stbtid volbtilf JdbdRowSftRfsourdfBundlf jpRfsBundlf;
 
     /**
-     * The variable which will represent the properties
-     * the suffix or extension of the resource bundle.
+     * Tif vbribblf wiidi will rfprfsfnt tif propfrtifs
+     * tif suffix or fxtfnsion of tif rfsourdf bundlf.
      **/
-    private static final String PROPERTIES = "properties";
+    privbtf stbtid finbl String PROPERTIES = "propfrtifs";
 
     /**
-     * The variable to represent underscore
+     * Tif vbribblf to rfprfsfnt undfrsdorf
      **/
-    private static final String UNDERSCORE = "_";
+    privbtf stbtid finbl String UNDERSCORE = "_";
 
     /**
-     * The variable which will represent dot
+     * Tif vbribblf wiidi will rfprfsfnt dot
      **/
-    private static final String DOT = ".";
+    privbtf stbtid finbl String DOT = ".";
 
     /**
-     * The variable which will represent the slash.
+     * Tif vbribblf wiidi will rfprfsfnt tif slbsi.
      **/
-    private static final String SLASH = "/";
+    privbtf stbtid finbl String SLASH = "/";
 
     /**
-     * The variable where the default resource bundle will
-     * be placed.
+     * Tif vbribblf wifrf tif dffbult rfsourdf bundlf will
+     * bf plbdfd.
      **/
-    private static final String PATH = "com/sun/rowset/RowSetResourceBundle";
+    privbtf stbtid finbl String PATH = "dom/sun/rowsft/RowSftRfsourdfBundlf";
 
     /**
-     * The constructor which initializes the resource bundle.
-     * Note this is a private constructor and follows Singleton
-     * Design Pattern.
+     * Tif donstrudtor wiidi initiblizfs tif rfsourdf bundlf.
+     * Notf tiis is b privbtf donstrudtor bnd follows Singlfton
+     * Dfsign Pbttfrn.
      *
-     * @throws IOException if unable to load the ResourceBundle
-     * according to locale or the default one.
+     * @tirows IOExdfption if unbblf to lobd tif RfsourdfBundlf
+     * bddording to lodblf or tif dffbult onf.
      */
-    private JdbcRowSetResourceBundle () throws IOException {
-        // Try to load the resource bundle according
-        // to the locale. Else if no bundle found according
-        // to the locale load the default.
+    privbtf JdbdRowSftRfsourdfBundlf () tirows IOExdfption {
+        // Try to lobd tif rfsourdf bundlf bddording
+        // to tif lodblf. Elsf if no bundlf found bddording
+        // to tif lodblf lobd tif dffbult.
 
-        // In default case the default locale resource bundle
-        // should always be loaded else it
-        // will be difficult to throw appropriate
-        // exception string messages.
-        Locale locale = Locale.getDefault();
+        // In dffbult dbsf tif dffbult lodblf rfsourdf bundlf
+        // siould blwbys bf lobdfd flsf it
+        // will bf diffidult to tirow bppropribtf
+        // fxdfption string mfssbgfs.
+        Lodblf lodblf = Lodblf.gftDffbult();
 
-        // Load appropriate bundle according to locale
-         propResBundle = (PropertyResourceBundle) ResourceBundle.getBundle(PATH,
-                           locale, Thread.currentThread().getContextClassLoader());
+        // Lobd bppropribtf bundlf bddording to lodblf
+         propRfsBundlf = (PropfrtyRfsourdfBundlf) RfsourdfBundlf.gftBundlf(PATH,
+                           lodblf, Tirfbd.durrfntTirfbd().gftContfxtClbssLobdfr());
 
    }
 
     /**
-     * This method is used to get a handle to the
-     * initialized instance of this class. Note that
-     * at any time there is only one instance of this
-     * class initialized which will be returned.
+     * Tiis mftiod is usfd to gft b ibndlf to tif
+     * initiblizfd instbndf of tiis dlbss. Notf tibt
+     * bt bny timf tifrf is only onf instbndf of tiis
+     * dlbss initiblizfd wiidi will bf rfturnfd.
      *
-     * @throws IOException if unable to find the RowSetResourceBundle.properties
+     * @tirows IOExdfption if unbblf to find tif RowSftRfsourdfBundlf.propfrtifs
      */
-    public static JdbcRowSetResourceBundle getJdbcRowSetResourceBundle()
-    throws IOException {
+    publid stbtid JdbdRowSftRfsourdfBundlf gftJdbdRowSftRfsourdfBundlf()
+    tirows IOExdfption {
 
-         if(jpResBundle == null){
-             synchronized(JdbcRowSetResourceBundle.class) {
-                if(jpResBundle == null){
-                    jpResBundle = new JdbcRowSetResourceBundle();
-                } //end if
-             } //end synchronized block
-         } //end if
-         return jpResBundle;
+         if(jpRfsBundlf == null){
+             syndironizfd(JdbdRowSftRfsourdfBundlf.dlbss) {
+                if(jpRfsBundlf == null){
+                    jpRfsBundlf = nfw JdbdRowSftRfsourdfBundlf();
+                } //fnd if
+             } //fnd syndironizfd blodk
+         } //fnd if
+         rfturn jpRfsBundlf;
     }
 
     /**
-     * This method returns an enumerated handle of the keys
-     * which correspond to values translated to various locales.
+     * Tiis mftiod rfturns bn fnumfrbtfd ibndlf of tif kfys
+     * wiidi dorrfspond to vblufs trbnslbtfd to vbrious lodblfs.
      *
-     * @return an enumeration of keys which have messages tranlated to
-     * corresponding locales.
+     * @rfturn bn fnumfrbtion of kfys wiidi ibvf mfssbgfs trbnlbtfd to
+     * dorrfsponding lodblfs.
      */
-    @SuppressWarnings("rawtypes")
-    public Enumeration getKeys() {
-       return propResBundle.getKeys();
+    @SupprfssWbrnings("rbwtypfs")
+    publid Enumfrbtion gftKfys() {
+       rfturn propRfsBundlf.gftKfys();
     }
 
 
     /**
-     * This method takes the key as an argument and
-     * returns the corresponding value reading it
-     * from the Resource Bundle loaded earlier.
+     * Tiis mftiod tbkfs tif kfy bs bn brgumfnt bnd
+     * rfturns tif dorrfsponding vbluf rfbding it
+     * from tif Rfsourdf Bundlf lobdfd fbrlifr.
      *
-     * @return value in locale specific language
-     * according to the key passed.
+     * @rfturn vbluf in lodblf spfdifid lbngubgf
+     * bddording to tif kfy pbssfd.
      */
-    public Object handleGetObject(String key) {
-       return propResBundle.handleGetObject(key);
+    publid Objfdt ibndlfGftObjfdt(String kfy) {
+       rfturn propRfsBundlf.ibndlfGftObjfdt(kfy);
     }
 
-    static final long serialVersionUID = 436199386225359954L;
+    stbtid finbl long sfriblVfrsionUID = 436199386225359954L;
 }

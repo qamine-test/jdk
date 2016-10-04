@@ -1,728 +1,728 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.image.renderable;
-import java.awt.image.RenderedImage;
-import java.io.Serializable;
-import java.util.Vector;
+pbdkbgf jbvb.bwt.imbgf.rfndfrbblf;
+import jbvb.bwt.imbgf.RfndfrfdImbgf;
+import jbvb.io.Sfriblizbblf;
+import jbvb.util.Vfdtor;
 
 /**
- * A <code>ParameterBlock</code> encapsulates all the information about sources and
- * parameters (Objects) required by a RenderableImageOp, or other
- * classes that process images.
+ * A <dodf>PbrbmftfrBlodk</dodf> fndbpsulbtfs bll tif informbtion bbout sourdfs bnd
+ * pbrbmftfrs (Objfdts) rfquirfd by b RfndfrbblfImbgfOp, or otifr
+ * dlbssfs tibt prodfss imbgfs.
  *
- * <p> Although it is possible to place arbitrary objects in the
- * source Vector, users of this class may impose semantic constraints
- * such as requiring all sources to be RenderedImages or
- * RenderableImage.  <code>ParameterBlock</code> itself is merely a container and
- * performs no checking on source or parameter types.
+ * <p> Altiougi it is possiblf to plbdf brbitrbry objfdts in tif
+ * sourdf Vfdtor, usfrs of tiis dlbss mby imposf sfmbntid donstrbints
+ * sudi bs rfquiring bll sourdfs to bf RfndfrfdImbgfs or
+ * RfndfrbblfImbgf.  <dodf>PbrbmftfrBlodk</dodf> itsflf is mfrfly b dontbinfr bnd
+ * pfrforms no difdking on sourdf or pbrbmftfr typfs.
  *
- * <p> All parameters in a <code>ParameterBlock</code> are objects; convenience
- * add and set methods are available that take arguments of base type and
- * construct the appropriate subclass of Number (such as
- * Integer or Float).  Corresponding get methods perform a
- * downward cast and have return values of base type; an exception
- * will be thrown if the stored values do not have the correct type.
- * There is no way to distinguish between the results of
- * "short s; add(s)" and "add(new Short(s))".
+ * <p> All pbrbmftfrs in b <dodf>PbrbmftfrBlodk</dodf> brf objfdts; donvfnifndf
+ * bdd bnd sft mftiods brf bvbilbblf tibt tbkf brgumfnts of bbsf typf bnd
+ * donstrudt tif bppropribtf subdlbss of Numbfr (sudi bs
+ * Intfgfr or Flobt).  Corrfsponding gft mftiods pfrform b
+ * downwbrd dbst bnd ibvf rfturn vblufs of bbsf typf; bn fxdfption
+ * will bf tirown if tif storfd vblufs do not ibvf tif dorrfdt typf.
+ * Tifrf is no wby to distinguisi bftwffn tif rfsults of
+ * "siort s; bdd(s)" bnd "bdd(nfw Siort(s))".
  *
- * <p> Note that the get and set methods operate on references.
- * Therefore, one must be careful not to share references between
- * <code>ParameterBlock</code>s when this is inappropriate.  For example, to create
- * a new <code>ParameterBlock</code> that is equal to an old one except for an
- * added source, one might be tempted to write:
+ * <p> Notf tibt tif gft bnd sft mftiods opfrbtf on rfffrfndfs.
+ * Tifrfforf, onf must bf dbrfful not to sibrf rfffrfndfs bftwffn
+ * <dodf>PbrbmftfrBlodk</dodf>s wifn tiis is inbppropribtf.  For fxbmplf, to drfbtf
+ * b nfw <dodf>PbrbmftfrBlodk</dodf> tibt is fqubl to bn old onf fxdfpt for bn
+ * bddfd sourdf, onf migit bf tfmptfd to writf:
  *
- * <pre>
- * ParameterBlock addSource(ParameterBlock pb, RenderableImage im) {
- *     ParameterBlock pb1 = new ParameterBlock(pb.getSources());
- *     pb1.addSource(im);
- *     return pb1;
+ * <prf>
+ * PbrbmftfrBlodk bddSourdf(PbrbmftfrBlodk pb, RfndfrbblfImbgf im) {
+ *     PbrbmftfrBlodk pb1 = nfw PbrbmftfrBlodk(pb.gftSourdfs());
+ *     pb1.bddSourdf(im);
+ *     rfturn pb1;
  * }
- * </pre>
+ * </prf>
  *
- * <p> This code will have the side effect of altering the original
- * <code>ParameterBlock</code>, since the getSources operation returned a reference
- * to its source Vector.  Both pb and pb1 share their source Vector,
- * and a change in either is visible to both.
+ * <p> Tiis dodf will ibvf tif sidf ffffdt of bltfring tif originbl
+ * <dodf>PbrbmftfrBlodk</dodf>, sindf tif gftSourdfs opfrbtion rfturnfd b rfffrfndf
+ * to its sourdf Vfdtor.  Boti pb bnd pb1 sibrf tifir sourdf Vfdtor,
+ * bnd b dibngf in fitifr is visiblf to boti.
  *
- * <p> A correct way to write the addSource function is to clone
- * the source Vector:
+ * <p> A dorrfdt wby to writf tif bddSourdf fundtion is to dlonf
+ * tif sourdf Vfdtor:
  *
- * <pre>
- * ParameterBlock addSource (ParameterBlock pb, RenderableImage im) {
- *     ParameterBlock pb1 = new ParameterBlock(pb.getSources().clone());
- *     pb1.addSource(im);
- *     return pb1;
+ * <prf>
+ * PbrbmftfrBlodk bddSourdf (PbrbmftfrBlodk pb, RfndfrbblfImbgf im) {
+ *     PbrbmftfrBlodk pb1 = nfw PbrbmftfrBlodk(pb.gftSourdfs().dlonf());
+ *     pb1.bddSourdf(im);
+ *     rfturn pb1;
  * }
- * </pre>
+ * </prf>
  *
- * <p> The clone method of <code>ParameterBlock</code> has been defined to
- * perform a clone of both the source and parameter Vectors for
- * this reason.  A standard, shallow clone is available as
- * shallowClone.
+ * <p> Tif dlonf mftiod of <dodf>PbrbmftfrBlodk</dodf> ibs bffn dffinfd to
+ * pfrform b dlonf of boti tif sourdf bnd pbrbmftfr Vfdtors for
+ * tiis rfbson.  A stbndbrd, sibllow dlonf is bvbilbblf bs
+ * sibllowClonf.
  *
- * <p> The addSource, setSource, add, and set methods are
- * defined to return 'this' after adding their argument.  This allows
- * use of syntax like:
+ * <p> Tif bddSourdf, sftSourdf, bdd, bnd sft mftiods brf
+ * dffinfd to rfturn 'tiis' bftfr bdding tifir brgumfnt.  Tiis bllows
+ * usf of syntbx likf:
  *
- * <pre>
- * ParameterBlock pb = new ParameterBlock();
- * op = new RenderableImageOp("operation", pb.add(arg1).add(arg2));
- * </pre>
+ * <prf>
+ * PbrbmftfrBlodk pb = nfw PbrbmftfrBlodk();
+ * op = nfw RfndfrbblfImbgfOp("opfrbtion", pb.bdd(brg1).bdd(brg2));
+ * </prf>
  * */
-public class ParameterBlock implements Cloneable, Serializable {
-    private static final long serialVersionUID = -7577115551785240750L;
+publid dlbss PbrbmftfrBlodk implfmfnts Clonfbblf, Sfriblizbblf {
+    privbtf stbtid finbl long sfriblVfrsionUID = -7577115551785240750L;
 
-    /** A Vector of sources, stored as arbitrary Objects. */
-    protected Vector<Object> sources = new Vector<Object>();
+    /** A Vfdtor of sourdfs, storfd bs brbitrbry Objfdts. */
+    protfdtfd Vfdtor<Objfdt> sourdfs = nfw Vfdtor<Objfdt>();
 
-    /** A Vector of non-source parameters, stored as arbitrary Objects. */
-    protected Vector<Object> parameters = new Vector<Object>();
+    /** A Vfdtor of non-sourdf pbrbmftfrs, storfd bs brbitrbry Objfdts. */
+    protfdtfd Vfdtor<Objfdt> pbrbmftfrs = nfw Vfdtor<Objfdt>();
 
-    /** A dummy constructor. */
-    public ParameterBlock() {}
+    /** A dummy donstrudtor. */
+    publid PbrbmftfrBlodk() {}
 
     /**
-     * Constructs a <code>ParameterBlock</code> with a given Vector
-     * of sources.
-     * @param sources a <code>Vector</code> of source images
+     * Construdts b <dodf>PbrbmftfrBlodk</dodf> witi b givfn Vfdtor
+     * of sourdfs.
+     * @pbrbm sourdfs b <dodf>Vfdtor</dodf> of sourdf imbgfs
      */
-    public ParameterBlock(Vector<Object> sources) {
-        setSources(sources);
+    publid PbrbmftfrBlodk(Vfdtor<Objfdt> sourdfs) {
+        sftSourdfs(sourdfs);
     }
 
     /**
-     * Constructs a <code>ParameterBlock</code> with a given Vector of sources and
-     * Vector of parameters.
-     * @param sources a <code>Vector</code> of source images
-     * @param parameters a <code>Vector</code> of parameters to be used in the
-     *        rendering operation
+     * Construdts b <dodf>PbrbmftfrBlodk</dodf> witi b givfn Vfdtor of sourdfs bnd
+     * Vfdtor of pbrbmftfrs.
+     * @pbrbm sourdfs b <dodf>Vfdtor</dodf> of sourdf imbgfs
+     * @pbrbm pbrbmftfrs b <dodf>Vfdtor</dodf> of pbrbmftfrs to bf usfd in tif
+     *        rfndfring opfrbtion
      */
-    public ParameterBlock(Vector<Object> sources,
-                          Vector<Object> parameters)
+    publid PbrbmftfrBlodk(Vfdtor<Objfdt> sourdfs,
+                          Vfdtor<Objfdt> pbrbmftfrs)
     {
-        setSources(sources);
-        setParameters(parameters);
+        sftSourdfs(sourdfs);
+        sftPbrbmftfrs(pbrbmftfrs);
     }
 
     /**
-     * Creates a shallow copy of a <code>ParameterBlock</code>.  The source and
-     * parameter Vectors are copied by reference -- additions or
-     * changes will be visible to both versions.
+     * Crfbtfs b sibllow dopy of b <dodf>PbrbmftfrBlodk</dodf>.  Tif sourdf bnd
+     * pbrbmftfr Vfdtors brf dopifd by rfffrfndf -- bdditions or
+     * dibngfs will bf visiblf to boti vfrsions.
      *
-     * @return an Object clone of the <code>ParameterBlock</code>.
+     * @rfturn bn Objfdt dlonf of tif <dodf>PbrbmftfrBlodk</dodf>.
      */
-    public Object shallowClone() {
+    publid Objfdt sibllowClonf() {
         try {
-            return super.clone();
-        } catch (Exception e) {
-            // We can't be here since we implement Cloneable.
-            return null;
+            rfturn supfr.dlonf();
+        } dbtdi (Exdfption f) {
+            // Wf dbn't bf ifrf sindf wf implfmfnt Clonfbblf.
+            rfturn null;
         }
     }
 
     /**
-     * Creates a copy of a <code>ParameterBlock</code>.  The source and parameter
-     * Vectors are cloned, but the actual sources and parameters are
-     * copied by reference.  This allows modifications to the order
-     * and number of sources and parameters in the clone to be invisible
-     * to the original <code>ParameterBlock</code>.  Changes to the shared sources or
-     * parameters themselves will still be visible.
+     * Crfbtfs b dopy of b <dodf>PbrbmftfrBlodk</dodf>.  Tif sourdf bnd pbrbmftfr
+     * Vfdtors brf dlonfd, but tif bdtubl sourdfs bnd pbrbmftfrs brf
+     * dopifd by rfffrfndf.  Tiis bllows modifidbtions to tif ordfr
+     * bnd numbfr of sourdfs bnd pbrbmftfrs in tif dlonf to bf invisiblf
+     * to tif originbl <dodf>PbrbmftfrBlodk</dodf>.  Cibngfs to tif sibrfd sourdfs or
+     * pbrbmftfrs tifmsflvfs will still bf visiblf.
      *
-     * @return an Object clone of the <code>ParameterBlock</code>.
+     * @rfturn bn Objfdt dlonf of tif <dodf>PbrbmftfrBlodk</dodf>.
      */
-    @SuppressWarnings("unchecked") // casts from clone
-    public Object clone() {
-        ParameterBlock theClone;
+    @SupprfssWbrnings("undifdkfd") // dbsts from dlonf
+    publid Objfdt dlonf() {
+        PbrbmftfrBlodk tifClonf;
 
         try {
-            theClone = (ParameterBlock) super.clone();
-        } catch (Exception e) {
-            // We can't be here since we implement Cloneable.
-            return null;
+            tifClonf = (PbrbmftfrBlodk) supfr.dlonf();
+        } dbtdi (Exdfption f) {
+            // Wf dbn't bf ifrf sindf wf implfmfnt Clonfbblf.
+            rfturn null;
         }
 
-        if (sources != null) {
-            theClone.setSources((Vector<Object>)sources.clone());
+        if (sourdfs != null) {
+            tifClonf.sftSourdfs((Vfdtor<Objfdt>)sourdfs.dlonf());
         }
-        if (parameters != null) {
-            theClone.setParameters((Vector<Object>)parameters.clone());
+        if (pbrbmftfrs != null) {
+            tifClonf.sftPbrbmftfrs((Vfdtor<Objfdt>)pbrbmftfrs.dlonf());
         }
-        return (Object) theClone;
+        rfturn (Objfdt) tifClonf;
     }
 
     /**
-     * Adds an image to end of the list of sources.  The image is
-     * stored as an object in order to allow new node types in the
-     * future.
+     * Adds bn imbgf to fnd of tif list of sourdfs.  Tif imbgf is
+     * storfd bs bn objfdt in ordfr to bllow nfw nodf typfs in tif
+     * futurf.
      *
-     * @param source an image object to be stored in the source list.
-     * @return a new <code>ParameterBlock</code> containing the specified
-     *         <code>source</code>.
+     * @pbrbm sourdf bn imbgf objfdt to bf storfd in tif sourdf list.
+     * @rfturn b nfw <dodf>PbrbmftfrBlodk</dodf> dontbining tif spfdififd
+     *         <dodf>sourdf</dodf>.
      */
-    public ParameterBlock addSource(Object source) {
-        sources.addElement(source);
-        return this;
+    publid PbrbmftfrBlodk bddSourdf(Objfdt sourdf) {
+        sourdfs.bddElfmfnt(sourdf);
+        rfturn tiis;
     }
 
     /**
-     * Returns a source as a general Object.  The caller must cast it into
-     * an appropriate type.
+     * Rfturns b sourdf bs b gfnfrbl Objfdt.  Tif dbllfr must dbst it into
+     * bn bppropribtf typf.
      *
-     * @param index the index of the source to be returned.
-     * @return an <code>Object</code> that represents the source located
-     *         at the specified index in the <code>sources</code>
-     *         <code>Vector</code>.
-     * @see #setSource(Object, int)
+     * @pbrbm indfx tif indfx of tif sourdf to bf rfturnfd.
+     * @rfturn bn <dodf>Objfdt</dodf> tibt rfprfsfnts tif sourdf lodbtfd
+     *         bt tif spfdififd indfx in tif <dodf>sourdfs</dodf>
+     *         <dodf>Vfdtor</dodf>.
+     * @sff #sftSourdf(Objfdt, int)
      */
-    public Object getSource(int index) {
-        return sources.elementAt(index);
+    publid Objfdt gftSourdf(int indfx) {
+        rfturn sourdfs.flfmfntAt(indfx);
     }
 
     /**
-     * Replaces an entry in the list of source with a new source.
-     * If the index lies beyond the current source list,
-     * the list is extended with nulls as needed.
-     * @param source the specified source image
-     * @param index the index into the <code>sources</code>
-     *              <code>Vector</code> at which to
-     *              insert the specified <code>source</code>
-     * @return a new <code>ParameterBlock</code> that contains the
-     *         specified <code>source</code> at the specified
-     *         <code>index</code>.
-     * @see #getSource(int)
+     * Rfplbdfs bn fntry in tif list of sourdf witi b nfw sourdf.
+     * If tif indfx lifs bfyond tif durrfnt sourdf list,
+     * tif list is fxtfndfd witi nulls bs nffdfd.
+     * @pbrbm sourdf tif spfdififd sourdf imbgf
+     * @pbrbm indfx tif indfx into tif <dodf>sourdfs</dodf>
+     *              <dodf>Vfdtor</dodf> bt wiidi to
+     *              insfrt tif spfdififd <dodf>sourdf</dodf>
+     * @rfturn b nfw <dodf>PbrbmftfrBlodk</dodf> tibt dontbins tif
+     *         spfdififd <dodf>sourdf</dodf> bt tif spfdififd
+     *         <dodf>indfx</dodf>.
+     * @sff #gftSourdf(int)
      */
-    public ParameterBlock setSource(Object source, int index) {
-        int oldSize = sources.size();
-        int newSize = index + 1;
-        if (oldSize < newSize) {
-            sources.setSize(newSize);
+    publid PbrbmftfrBlodk sftSourdf(Objfdt sourdf, int indfx) {
+        int oldSizf = sourdfs.sizf();
+        int nfwSizf = indfx + 1;
+        if (oldSizf < nfwSizf) {
+            sourdfs.sftSizf(nfwSizf);
         }
-        sources.setElementAt(source, index);
-        return this;
+        sourdfs.sftElfmfntAt(sourdf, indfx);
+        rfturn tiis;
     }
 
     /**
-     * Returns a source as a <code>RenderedImage</code>.  This method is
-     * a convenience method.
-     * An exception will be thrown if the source is not a RenderedImage.
+     * Rfturns b sourdf bs b <dodf>RfndfrfdImbgf</dodf>.  Tiis mftiod is
+     * b donvfnifndf mftiod.
+     * An fxdfption will bf tirown if tif sourdf is not b RfndfrfdImbgf.
      *
-     * @param index the index of the source to be returned
-     * @return a <code>RenderedImage</code> that represents the source
-     *         image that is at the specified index in the
-     *         <code>sources</code> <code>Vector</code>.
+     * @pbrbm indfx tif indfx of tif sourdf to bf rfturnfd
+     * @rfturn b <dodf>RfndfrfdImbgf</dodf> tibt rfprfsfnts tif sourdf
+     *         imbgf tibt is bt tif spfdififd indfx in tif
+     *         <dodf>sourdfs</dodf> <dodf>Vfdtor</dodf>.
      */
-    public RenderedImage getRenderedSource(int index) {
-        return (RenderedImage) sources.elementAt(index);
+    publid RfndfrfdImbgf gftRfndfrfdSourdf(int indfx) {
+        rfturn (RfndfrfdImbgf) sourdfs.flfmfntAt(indfx);
     }
 
     /**
-     * Returns a source as a RenderableImage.  This method is a
-     * convenience method.
-     * An exception will be thrown if the sources is not a RenderableImage.
+     * Rfturns b sourdf bs b RfndfrbblfImbgf.  Tiis mftiod is b
+     * donvfnifndf mftiod.
+     * An fxdfption will bf tirown if tif sourdfs is not b RfndfrbblfImbgf.
      *
-     * @param index the index of the source to be returned
-     * @return a <code>RenderableImage</code> that represents the source
-     *         image that is at the specified index in the
-     *         <code>sources</code> <code>Vector</code>.
+     * @pbrbm indfx tif indfx of tif sourdf to bf rfturnfd
+     * @rfturn b <dodf>RfndfrbblfImbgf</dodf> tibt rfprfsfnts tif sourdf
+     *         imbgf tibt is bt tif spfdififd indfx in tif
+     *         <dodf>sourdfs</dodf> <dodf>Vfdtor</dodf>.
      */
-    public RenderableImage getRenderableSource(int index) {
-        return (RenderableImage) sources.elementAt(index);
+    publid RfndfrbblfImbgf gftRfndfrbblfSourdf(int indfx) {
+        rfturn (RfndfrbblfImbgf) sourdfs.flfmfntAt(indfx);
     }
 
     /**
-     * Returns the number of source images.
-     * @return the number of source images in the <code>sources</code>
-     *         <code>Vector</code>.
+     * Rfturns tif numbfr of sourdf imbgfs.
+     * @rfturn tif numbfr of sourdf imbgfs in tif <dodf>sourdfs</dodf>
+     *         <dodf>Vfdtor</dodf>.
      */
-    public int getNumSources() {
-        return sources.size();
+    publid int gftNumSourdfs() {
+        rfturn sourdfs.sizf();
     }
 
     /**
-     * Returns the entire Vector of sources.
-     * @return the <code>sources</code> <code>Vector</code>.
-     * @see #setSources(Vector)
+     * Rfturns tif fntirf Vfdtor of sourdfs.
+     * @rfturn tif <dodf>sourdfs</dodf> <dodf>Vfdtor</dodf>.
+     * @sff #sftSourdfs(Vfdtor)
      */
-    public Vector<Object> getSources() {
-        return sources;
+    publid Vfdtor<Objfdt> gftSourdfs() {
+        rfturn sourdfs;
     }
 
     /**
-     * Sets the entire Vector of sources to a given Vector.
-     * @param sources the <code>Vector</code> of source images
-     * @see #getSources
+     * Sfts tif fntirf Vfdtor of sourdfs to b givfn Vfdtor.
+     * @pbrbm sourdfs tif <dodf>Vfdtor</dodf> of sourdf imbgfs
+     * @sff #gftSourdfs
      */
-    public void setSources(Vector<Object> sources) {
-        this.sources = sources;
+    publid void sftSourdfs(Vfdtor<Objfdt> sourdfs) {
+        tiis.sourdfs = sourdfs;
     }
 
-    /** Clears the list of source images. */
-    public void removeSources() {
-        sources = new Vector<>();
+    /** Clfbrs tif list of sourdf imbgfs. */
+    publid void rfmovfSourdfs() {
+        sourdfs = nfw Vfdtor<>();
     }
 
     /**
-     * Returns the number of parameters (not including source images).
-     * @return the number of parameters in the <code>parameters</code>
-     *         <code>Vector</code>.
+     * Rfturns tif numbfr of pbrbmftfrs (not indluding sourdf imbgfs).
+     * @rfturn tif numbfr of pbrbmftfrs in tif <dodf>pbrbmftfrs</dodf>
+     *         <dodf>Vfdtor</dodf>.
      */
-    public int getNumParameters() {
-        return parameters.size();
+    publid int gftNumPbrbmftfrs() {
+        rfturn pbrbmftfrs.sizf();
     }
 
     /**
-     * Returns the entire Vector of parameters.
-     * @return the <code>parameters</code> <code>Vector</code>.
-     * @see #setParameters(Vector)
+     * Rfturns tif fntirf Vfdtor of pbrbmftfrs.
+     * @rfturn tif <dodf>pbrbmftfrs</dodf> <dodf>Vfdtor</dodf>.
+     * @sff #sftPbrbmftfrs(Vfdtor)
      */
-    public Vector<Object> getParameters() {
-        return parameters;
+    publid Vfdtor<Objfdt> gftPbrbmftfrs() {
+        rfturn pbrbmftfrs;
     }
 
     /**
-     * Sets the entire Vector of parameters to a given Vector.
-     * @param parameters the specified <code>Vector</code> of
-     *        parameters
-     * @see #getParameters
+     * Sfts tif fntirf Vfdtor of pbrbmftfrs to b givfn Vfdtor.
+     * @pbrbm pbrbmftfrs tif spfdififd <dodf>Vfdtor</dodf> of
+     *        pbrbmftfrs
+     * @sff #gftPbrbmftfrs
      */
-    public void setParameters(Vector<Object> parameters) {
-        this.parameters = parameters;
+    publid void sftPbrbmftfrs(Vfdtor<Objfdt> pbrbmftfrs) {
+        tiis.pbrbmftfrs = pbrbmftfrs;
     }
 
-    /** Clears the list of parameters. */
-    public void removeParameters() {
-        parameters = new Vector<>();
-    }
-
-    /**
-     * Adds an object to the list of parameters.
-     * @param obj the <code>Object</code> to add to the
-     *            <code>parameters</code> <code>Vector</code>
-     * @return a new <code>ParameterBlock</code> containing
-     *         the specified parameter.
-     */
-    public ParameterBlock add(Object obj) {
-        parameters.addElement(obj);
-        return this;
+    /** Clfbrs tif list of pbrbmftfrs. */
+    publid void rfmovfPbrbmftfrs() {
+        pbrbmftfrs = nfw Vfdtor<>();
     }
 
     /**
-     * Adds a Byte to the list of parameters.
-     * @param b the byte to add to the
-     *            <code>parameters</code> <code>Vector</code>
-     * @return a new <code>ParameterBlock</code> containing
-     *         the specified parameter.
+     * Adds bn objfdt to tif list of pbrbmftfrs.
+     * @pbrbm obj tif <dodf>Objfdt</dodf> to bdd to tif
+     *            <dodf>pbrbmftfrs</dodf> <dodf>Vfdtor</dodf>
+     * @rfturn b nfw <dodf>PbrbmftfrBlodk</dodf> dontbining
+     *         tif spfdififd pbrbmftfr.
      */
-    public ParameterBlock add(byte b) {
-        return add(Byte.valueOf(b));
+    publid PbrbmftfrBlodk bdd(Objfdt obj) {
+        pbrbmftfrs.bddElfmfnt(obj);
+        rfturn tiis;
     }
 
     /**
-     * Adds a Character to the list of parameters.
-     * @param c the char to add to the
-     *            <code>parameters</code> <code>Vector</code>
-     * @return a new <code>ParameterBlock</code> containing
-     *         the specified parameter.
+     * Adds b Bytf to tif list of pbrbmftfrs.
+     * @pbrbm b tif bytf to bdd to tif
+     *            <dodf>pbrbmftfrs</dodf> <dodf>Vfdtor</dodf>
+     * @rfturn b nfw <dodf>PbrbmftfrBlodk</dodf> dontbining
+     *         tif spfdififd pbrbmftfr.
      */
-    public ParameterBlock add(char c) {
-        return add(Character.valueOf(c));
+    publid PbrbmftfrBlodk bdd(bytf b) {
+        rfturn bdd(Bytf.vblufOf(b));
     }
 
     /**
-     * Adds a Short to the list of parameters.
-     * @param s the short to add to the
-     *            <code>parameters</code> <code>Vector</code>
-     * @return a new <code>ParameterBlock</code> containing
-     *         the specified parameter.
+     * Adds b Cibrbdtfr to tif list of pbrbmftfrs.
+     * @pbrbm d tif dibr to bdd to tif
+     *            <dodf>pbrbmftfrs</dodf> <dodf>Vfdtor</dodf>
+     * @rfturn b nfw <dodf>PbrbmftfrBlodk</dodf> dontbining
+     *         tif spfdififd pbrbmftfr.
      */
-    public ParameterBlock add(short s) {
-        return add(Short.valueOf(s));
+    publid PbrbmftfrBlodk bdd(dibr d) {
+        rfturn bdd(Cibrbdtfr.vblufOf(d));
     }
 
     /**
-     * Adds a Integer to the list of parameters.
-     * @param i the int to add to the
-     *            <code>parameters</code> <code>Vector</code>
-     * @return a new <code>ParameterBlock</code> containing
-     *         the specified parameter.
+     * Adds b Siort to tif list of pbrbmftfrs.
+     * @pbrbm s tif siort to bdd to tif
+     *            <dodf>pbrbmftfrs</dodf> <dodf>Vfdtor</dodf>
+     * @rfturn b nfw <dodf>PbrbmftfrBlodk</dodf> dontbining
+     *         tif spfdififd pbrbmftfr.
      */
-    public ParameterBlock add(int i) {
-        return add(i);
+    publid PbrbmftfrBlodk bdd(siort s) {
+        rfturn bdd(Siort.vblufOf(s));
     }
 
     /**
-     * Adds a Long to the list of parameters.
-     * @param l the long to add to the
-     *            <code>parameters</code> <code>Vector</code>
-     * @return a new <code>ParameterBlock</code> containing
-     *         the specified parameter.
+     * Adds b Intfgfr to tif list of pbrbmftfrs.
+     * @pbrbm i tif int to bdd to tif
+     *            <dodf>pbrbmftfrs</dodf> <dodf>Vfdtor</dodf>
+     * @rfturn b nfw <dodf>PbrbmftfrBlodk</dodf> dontbining
+     *         tif spfdififd pbrbmftfr.
      */
-    public ParameterBlock add(long l) {
-        return add(Long.valueOf(l));
+    publid PbrbmftfrBlodk bdd(int i) {
+        rfturn bdd(i);
     }
 
     /**
-     * Adds a Float to the list of parameters.
-     * @param f the float to add to the
-     *            <code>parameters</code> <code>Vector</code>
-     * @return a new <code>ParameterBlock</code> containing
-     *         the specified parameter.
+     * Adds b Long to tif list of pbrbmftfrs.
+     * @pbrbm l tif long to bdd to tif
+     *            <dodf>pbrbmftfrs</dodf> <dodf>Vfdtor</dodf>
+     * @rfturn b nfw <dodf>PbrbmftfrBlodk</dodf> dontbining
+     *         tif spfdififd pbrbmftfr.
      */
-    public ParameterBlock add(float f) {
-        return add(new Float(f));
+    publid PbrbmftfrBlodk bdd(long l) {
+        rfturn bdd(Long.vblufOf(l));
     }
 
     /**
-     * Adds a Double to the list of parameters.
-     * @param d the double to add to the
-     *            <code>parameters</code> <code>Vector</code>
-     * @return a new <code>ParameterBlock</code> containing
-     *         the specified parameter.
+     * Adds b Flobt to tif list of pbrbmftfrs.
+     * @pbrbm f tif flobt to bdd to tif
+     *            <dodf>pbrbmftfrs</dodf> <dodf>Vfdtor</dodf>
+     * @rfturn b nfw <dodf>PbrbmftfrBlodk</dodf> dontbining
+     *         tif spfdififd pbrbmftfr.
      */
-    public ParameterBlock add(double d) {
-        return add(new Double(d));
+    publid PbrbmftfrBlodk bdd(flobt f) {
+        rfturn bdd(nfw Flobt(f));
     }
 
     /**
-     * Replaces an Object in the list of parameters.
-     * If the index lies beyond the current source list,
-     * the list is extended with nulls as needed.
-     * @param obj the parameter that replaces the
-     *        parameter at the specified index in the
-     *        <code>parameters</code> <code>Vector</code>
-     * @param index the index of the parameter to be
-     *        replaced with the specified parameter
-     * @return a new <code>ParameterBlock</code> containing
-     *        the specified parameter.
+     * Adds b Doublf to tif list of pbrbmftfrs.
+     * @pbrbm d tif doublf to bdd to tif
+     *            <dodf>pbrbmftfrs</dodf> <dodf>Vfdtor</dodf>
+     * @rfturn b nfw <dodf>PbrbmftfrBlodk</dodf> dontbining
+     *         tif spfdififd pbrbmftfr.
      */
-    public ParameterBlock set(Object obj, int index) {
-        int oldSize = parameters.size();
-        int newSize = index + 1;
-        if (oldSize < newSize) {
-            parameters.setSize(newSize);
+    publid PbrbmftfrBlodk bdd(doublf d) {
+        rfturn bdd(nfw Doublf(d));
+    }
+
+    /**
+     * Rfplbdfs bn Objfdt in tif list of pbrbmftfrs.
+     * If tif indfx lifs bfyond tif durrfnt sourdf list,
+     * tif list is fxtfndfd witi nulls bs nffdfd.
+     * @pbrbm obj tif pbrbmftfr tibt rfplbdfs tif
+     *        pbrbmftfr bt tif spfdififd indfx in tif
+     *        <dodf>pbrbmftfrs</dodf> <dodf>Vfdtor</dodf>
+     * @pbrbm indfx tif indfx of tif pbrbmftfr to bf
+     *        rfplbdfd witi tif spfdififd pbrbmftfr
+     * @rfturn b nfw <dodf>PbrbmftfrBlodk</dodf> dontbining
+     *        tif spfdififd pbrbmftfr.
+     */
+    publid PbrbmftfrBlodk sft(Objfdt obj, int indfx) {
+        int oldSizf = pbrbmftfrs.sizf();
+        int nfwSizf = indfx + 1;
+        if (oldSizf < nfwSizf) {
+            pbrbmftfrs.sftSizf(nfwSizf);
         }
-        parameters.setElementAt(obj, index);
-        return this;
+        pbrbmftfrs.sftElfmfntAt(obj, indfx);
+        rfturn tiis;
     }
 
     /**
-     * Replaces an Object in the list of parameters with a Byte.
-     * If the index lies beyond the current source list,
-     * the list is extended with nulls as needed.
-     * @param b the parameter that replaces the
-     *        parameter at the specified index in the
-     *        <code>parameters</code> <code>Vector</code>
-     * @param index the index of the parameter to be
-     *        replaced with the specified parameter
-     * @return a new <code>ParameterBlock</code> containing
-     *        the specified parameter.
+     * Rfplbdfs bn Objfdt in tif list of pbrbmftfrs witi b Bytf.
+     * If tif indfx lifs bfyond tif durrfnt sourdf list,
+     * tif list is fxtfndfd witi nulls bs nffdfd.
+     * @pbrbm b tif pbrbmftfr tibt rfplbdfs tif
+     *        pbrbmftfr bt tif spfdififd indfx in tif
+     *        <dodf>pbrbmftfrs</dodf> <dodf>Vfdtor</dodf>
+     * @pbrbm indfx tif indfx of tif pbrbmftfr to bf
+     *        rfplbdfd witi tif spfdififd pbrbmftfr
+     * @rfturn b nfw <dodf>PbrbmftfrBlodk</dodf> dontbining
+     *        tif spfdififd pbrbmftfr.
      */
-    public ParameterBlock set(byte b, int index) {
-        return set(Byte.valueOf(b), index);
+    publid PbrbmftfrBlodk sft(bytf b, int indfx) {
+        rfturn sft(Bytf.vblufOf(b), indfx);
     }
 
     /**
-     * Replaces an Object in the list of parameters with a Character.
-     * If the index lies beyond the current source list,
-     * the list is extended with nulls as needed.
-     * @param c the parameter that replaces the
-     *        parameter at the specified index in the
-     *        <code>parameters</code> <code>Vector</code>
-     * @param index the index of the parameter to be
-     *        replaced with the specified parameter
-     * @return a new <code>ParameterBlock</code> containing
-     *        the specified parameter.
+     * Rfplbdfs bn Objfdt in tif list of pbrbmftfrs witi b Cibrbdtfr.
+     * If tif indfx lifs bfyond tif durrfnt sourdf list,
+     * tif list is fxtfndfd witi nulls bs nffdfd.
+     * @pbrbm d tif pbrbmftfr tibt rfplbdfs tif
+     *        pbrbmftfr bt tif spfdififd indfx in tif
+     *        <dodf>pbrbmftfrs</dodf> <dodf>Vfdtor</dodf>
+     * @pbrbm indfx tif indfx of tif pbrbmftfr to bf
+     *        rfplbdfd witi tif spfdififd pbrbmftfr
+     * @rfturn b nfw <dodf>PbrbmftfrBlodk</dodf> dontbining
+     *        tif spfdififd pbrbmftfr.
      */
-    public ParameterBlock set(char c, int index) {
-        return set(Character.valueOf(c), index);
+    publid PbrbmftfrBlodk sft(dibr d, int indfx) {
+        rfturn sft(Cibrbdtfr.vblufOf(d), indfx);
     }
 
     /**
-     * Replaces an Object in the list of parameters with a Short.
-     * If the index lies beyond the current source list,
-     * the list is extended with nulls as needed.
-     * @param s the parameter that replaces the
-     *        parameter at the specified index in the
-     *        <code>parameters</code> <code>Vector</code>
-     * @param index the index of the parameter to be
-     *        replaced with the specified parameter
-     * @return a new <code>ParameterBlock</code> containing
-     *        the specified parameter.
+     * Rfplbdfs bn Objfdt in tif list of pbrbmftfrs witi b Siort.
+     * If tif indfx lifs bfyond tif durrfnt sourdf list,
+     * tif list is fxtfndfd witi nulls bs nffdfd.
+     * @pbrbm s tif pbrbmftfr tibt rfplbdfs tif
+     *        pbrbmftfr bt tif spfdififd indfx in tif
+     *        <dodf>pbrbmftfrs</dodf> <dodf>Vfdtor</dodf>
+     * @pbrbm indfx tif indfx of tif pbrbmftfr to bf
+     *        rfplbdfd witi tif spfdififd pbrbmftfr
+     * @rfturn b nfw <dodf>PbrbmftfrBlodk</dodf> dontbining
+     *        tif spfdififd pbrbmftfr.
      */
-    public ParameterBlock set(short s, int index) {
-        return set(Short.valueOf(s), index);
+    publid PbrbmftfrBlodk sft(siort s, int indfx) {
+        rfturn sft(Siort.vblufOf(s), indfx);
     }
 
     /**
-     * Replaces an Object in the list of parameters with an Integer.
-     * If the index lies beyond the current source list,
-     * the list is extended with nulls as needed.
-     * @param i the parameter that replaces the
-     *        parameter at the specified index in the
-     *        <code>parameters</code> <code>Vector</code>
-     * @param index the index of the parameter to be
-     *        replaced with the specified parameter
-     * @return a new <code>ParameterBlock</code> containing
-     *        the specified parameter.
+     * Rfplbdfs bn Objfdt in tif list of pbrbmftfrs witi bn Intfgfr.
+     * If tif indfx lifs bfyond tif durrfnt sourdf list,
+     * tif list is fxtfndfd witi nulls bs nffdfd.
+     * @pbrbm i tif pbrbmftfr tibt rfplbdfs tif
+     *        pbrbmftfr bt tif spfdififd indfx in tif
+     *        <dodf>pbrbmftfrs</dodf> <dodf>Vfdtor</dodf>
+     * @pbrbm indfx tif indfx of tif pbrbmftfr to bf
+     *        rfplbdfd witi tif spfdififd pbrbmftfr
+     * @rfturn b nfw <dodf>PbrbmftfrBlodk</dodf> dontbining
+     *        tif spfdififd pbrbmftfr.
      */
-    public ParameterBlock set(int i, int index) {
-        return set(i, index);
+    publid PbrbmftfrBlodk sft(int i, int indfx) {
+        rfturn sft(i, indfx);
     }
 
     /**
-     * Replaces an Object in the list of parameters with a Long.
-     * If the index lies beyond the current source list,
-     * the list is extended with nulls as needed.
-     * @param l the parameter that replaces the
-     *        parameter at the specified index in the
-     *        <code>parameters</code> <code>Vector</code>
-     * @param index the index of the parameter to be
-     *        replaced with the specified parameter
-     * @return a new <code>ParameterBlock</code> containing
-     *        the specified parameter.
+     * Rfplbdfs bn Objfdt in tif list of pbrbmftfrs witi b Long.
+     * If tif indfx lifs bfyond tif durrfnt sourdf list,
+     * tif list is fxtfndfd witi nulls bs nffdfd.
+     * @pbrbm l tif pbrbmftfr tibt rfplbdfs tif
+     *        pbrbmftfr bt tif spfdififd indfx in tif
+     *        <dodf>pbrbmftfrs</dodf> <dodf>Vfdtor</dodf>
+     * @pbrbm indfx tif indfx of tif pbrbmftfr to bf
+     *        rfplbdfd witi tif spfdififd pbrbmftfr
+     * @rfturn b nfw <dodf>PbrbmftfrBlodk</dodf> dontbining
+     *        tif spfdififd pbrbmftfr.
      */
-    public ParameterBlock set(long l, int index) {
-        return set(Long.valueOf(l), index);
+    publid PbrbmftfrBlodk sft(long l, int indfx) {
+        rfturn sft(Long.vblufOf(l), indfx);
     }
 
     /**
-     * Replaces an Object in the list of parameters with a Float.
-     * If the index lies beyond the current source list,
-     * the list is extended with nulls as needed.
-     * @param f the parameter that replaces the
-     *        parameter at the specified index in the
-     *        <code>parameters</code> <code>Vector</code>
-     * @param index the index of the parameter to be
-     *        replaced with the specified parameter
-     * @return a new <code>ParameterBlock</code> containing
-     *        the specified parameter.
+     * Rfplbdfs bn Objfdt in tif list of pbrbmftfrs witi b Flobt.
+     * If tif indfx lifs bfyond tif durrfnt sourdf list,
+     * tif list is fxtfndfd witi nulls bs nffdfd.
+     * @pbrbm f tif pbrbmftfr tibt rfplbdfs tif
+     *        pbrbmftfr bt tif spfdififd indfx in tif
+     *        <dodf>pbrbmftfrs</dodf> <dodf>Vfdtor</dodf>
+     * @pbrbm indfx tif indfx of tif pbrbmftfr to bf
+     *        rfplbdfd witi tif spfdififd pbrbmftfr
+     * @rfturn b nfw <dodf>PbrbmftfrBlodk</dodf> dontbining
+     *        tif spfdififd pbrbmftfr.
      */
-    public ParameterBlock set(float f, int index) {
-        return set(new Float(f), index);
+    publid PbrbmftfrBlodk sft(flobt f, int indfx) {
+        rfturn sft(nfw Flobt(f), indfx);
     }
 
     /**
-     * Replaces an Object in the list of parameters with a Double.
-     * If the index lies beyond the current source list,
-     * the list is extended with nulls as needed.
-     * @param d the parameter that replaces the
-     *        parameter at the specified index in the
-     *        <code>parameters</code> <code>Vector</code>
-     * @param index the index of the parameter to be
-     *        replaced with the specified parameter
-     * @return a new <code>ParameterBlock</code> containing
-     *        the specified parameter.
+     * Rfplbdfs bn Objfdt in tif list of pbrbmftfrs witi b Doublf.
+     * If tif indfx lifs bfyond tif durrfnt sourdf list,
+     * tif list is fxtfndfd witi nulls bs nffdfd.
+     * @pbrbm d tif pbrbmftfr tibt rfplbdfs tif
+     *        pbrbmftfr bt tif spfdififd indfx in tif
+     *        <dodf>pbrbmftfrs</dodf> <dodf>Vfdtor</dodf>
+     * @pbrbm indfx tif indfx of tif pbrbmftfr to bf
+     *        rfplbdfd witi tif spfdififd pbrbmftfr
+     * @rfturn b nfw <dodf>PbrbmftfrBlodk</dodf> dontbining
+     *        tif spfdififd pbrbmftfr.
      */
-    public ParameterBlock set(double d, int index) {
-        return set(new Double(d), index);
+    publid PbrbmftfrBlodk sft(doublf d, int indfx) {
+        rfturn sft(nfw Doublf(d), indfx);
     }
 
     /**
-     * Gets a parameter as an object.
-     * @param index the index of the parameter to get
-     * @return an <code>Object</code> representing the
-     *         the parameter at the specified index
-     *         into the <code>parameters</code>
-     *         <code>Vector</code>.
+     * Gfts b pbrbmftfr bs bn objfdt.
+     * @pbrbm indfx tif indfx of tif pbrbmftfr to gft
+     * @rfturn bn <dodf>Objfdt</dodf> rfprfsfnting tif
+     *         tif pbrbmftfr bt tif spfdififd indfx
+     *         into tif <dodf>pbrbmftfrs</dodf>
+     *         <dodf>Vfdtor</dodf>.
      */
-    public Object getObjectParameter(int index) {
-        return parameters.elementAt(index);
+    publid Objfdt gftObjfdtPbrbmftfr(int indfx) {
+        rfturn pbrbmftfrs.flfmfntAt(indfx);
     }
 
     /**
-     * A convenience method to return a parameter as a byte.  An
-     * exception is thrown if the parameter is
-     * <code>null</code> or not a <code>Byte</code>.
+     * A donvfnifndf mftiod to rfturn b pbrbmftfr bs b bytf.  An
+     * fxdfption is tirown if tif pbrbmftfr is
+     * <dodf>null</dodf> or not b <dodf>Bytf</dodf>.
      *
-     * @param index the index of the parameter to be returned.
-     * @return the parameter at the specified index
-     *         as a <code>byte</code> value.
-     * @throws ClassCastException if the parameter at the
-     *         specified index is not a <code>Byte</code>
-     * @throws NullPointerException if the parameter at the specified
-     *         index is <code>null</code>
-     * @throws ArrayIndexOutOfBoundsException if <code>index</code>
-     *         is negative or not less than the current size of this
-     *         <code>ParameterBlock</code> object
+     * @pbrbm indfx tif indfx of tif pbrbmftfr to bf rfturnfd.
+     * @rfturn tif pbrbmftfr bt tif spfdififd indfx
+     *         bs b <dodf>bytf</dodf> vbluf.
+     * @tirows ClbssCbstExdfption if tif pbrbmftfr bt tif
+     *         spfdififd indfx is not b <dodf>Bytf</dodf>
+     * @tirows NullPointfrExdfption if tif pbrbmftfr bt tif spfdififd
+     *         indfx is <dodf>null</dodf>
+     * @tirows ArrbyIndfxOutOfBoundsExdfption if <dodf>indfx</dodf>
+     *         is nfgbtivf or not lfss tibn tif durrfnt sizf of tiis
+     *         <dodf>PbrbmftfrBlodk</dodf> objfdt
      */
-    public byte getByteParameter(int index) {
-        return ((Byte)parameters.elementAt(index)).byteValue();
+    publid bytf gftBytfPbrbmftfr(int indfx) {
+        rfturn ((Bytf)pbrbmftfrs.flfmfntAt(indfx)).bytfVbluf();
     }
 
     /**
-     * A convenience method to return a parameter as a char.  An
-     * exception is thrown if the parameter is
-     * <code>null</code> or not a <code>Character</code>.
+     * A donvfnifndf mftiod to rfturn b pbrbmftfr bs b dibr.  An
+     * fxdfption is tirown if tif pbrbmftfr is
+     * <dodf>null</dodf> or not b <dodf>Cibrbdtfr</dodf>.
      *
-     * @param index the index of the parameter to be returned.
-     * @return the parameter at the specified index
-     *         as a <code>char</code> value.
-     * @throws ClassCastException if the parameter at the
-     *         specified index is not a <code>Character</code>
-     * @throws NullPointerException if the parameter at the specified
-     *         index is <code>null</code>
-     * @throws ArrayIndexOutOfBoundsException if <code>index</code>
-     *         is negative or not less than the current size of this
-     *         <code>ParameterBlock</code> object
+     * @pbrbm indfx tif indfx of tif pbrbmftfr to bf rfturnfd.
+     * @rfturn tif pbrbmftfr bt tif spfdififd indfx
+     *         bs b <dodf>dibr</dodf> vbluf.
+     * @tirows ClbssCbstExdfption if tif pbrbmftfr bt tif
+     *         spfdififd indfx is not b <dodf>Cibrbdtfr</dodf>
+     * @tirows NullPointfrExdfption if tif pbrbmftfr bt tif spfdififd
+     *         indfx is <dodf>null</dodf>
+     * @tirows ArrbyIndfxOutOfBoundsExdfption if <dodf>indfx</dodf>
+     *         is nfgbtivf or not lfss tibn tif durrfnt sizf of tiis
+     *         <dodf>PbrbmftfrBlodk</dodf> objfdt
      */
-    public char getCharParameter(int index) {
-        return ((Character)parameters.elementAt(index)).charValue();
+    publid dibr gftCibrPbrbmftfr(int indfx) {
+        rfturn ((Cibrbdtfr)pbrbmftfrs.flfmfntAt(indfx)).dibrVbluf();
     }
 
     /**
-     * A convenience method to return a parameter as a short.  An
-     * exception is thrown if the parameter is
-     * <code>null</code> or not a <code>Short</code>.
+     * A donvfnifndf mftiod to rfturn b pbrbmftfr bs b siort.  An
+     * fxdfption is tirown if tif pbrbmftfr is
+     * <dodf>null</dodf> or not b <dodf>Siort</dodf>.
      *
-     * @param index the index of the parameter to be returned.
-     * @return the parameter at the specified index
-     *         as a <code>short</code> value.
-     * @throws ClassCastException if the parameter at the
-     *         specified index is not a <code>Short</code>
-     * @throws NullPointerException if the parameter at the specified
-     *         index is <code>null</code>
-     * @throws ArrayIndexOutOfBoundsException if <code>index</code>
-     *         is negative or not less than the current size of this
-     *         <code>ParameterBlock</code> object
+     * @pbrbm indfx tif indfx of tif pbrbmftfr to bf rfturnfd.
+     * @rfturn tif pbrbmftfr bt tif spfdififd indfx
+     *         bs b <dodf>siort</dodf> vbluf.
+     * @tirows ClbssCbstExdfption if tif pbrbmftfr bt tif
+     *         spfdififd indfx is not b <dodf>Siort</dodf>
+     * @tirows NullPointfrExdfption if tif pbrbmftfr bt tif spfdififd
+     *         indfx is <dodf>null</dodf>
+     * @tirows ArrbyIndfxOutOfBoundsExdfption if <dodf>indfx</dodf>
+     *         is nfgbtivf or not lfss tibn tif durrfnt sizf of tiis
+     *         <dodf>PbrbmftfrBlodk</dodf> objfdt
      */
-    public short getShortParameter(int index) {
-        return ((Short)parameters.elementAt(index)).shortValue();
+    publid siort gftSiortPbrbmftfr(int indfx) {
+        rfturn ((Siort)pbrbmftfrs.flfmfntAt(indfx)).siortVbluf();
     }
 
     /**
-     * A convenience method to return a parameter as an int.  An
-     * exception is thrown if the parameter is
-     * <code>null</code> or not an <code>Integer</code>.
+     * A donvfnifndf mftiod to rfturn b pbrbmftfr bs bn int.  An
+     * fxdfption is tirown if tif pbrbmftfr is
+     * <dodf>null</dodf> or not bn <dodf>Intfgfr</dodf>.
      *
-     * @param index the index of the parameter to be returned.
-     * @return the parameter at the specified index
-     *         as a <code>int</code> value.
-     * @throws ClassCastException if the parameter at the
-     *         specified index is not a <code>Integer</code>
-     * @throws NullPointerException if the parameter at the specified
-     *         index is <code>null</code>
-     * @throws ArrayIndexOutOfBoundsException if <code>index</code>
-     *         is negative or not less than the current size of this
-     *         <code>ParameterBlock</code> object
+     * @pbrbm indfx tif indfx of tif pbrbmftfr to bf rfturnfd.
+     * @rfturn tif pbrbmftfr bt tif spfdififd indfx
+     *         bs b <dodf>int</dodf> vbluf.
+     * @tirows ClbssCbstExdfption if tif pbrbmftfr bt tif
+     *         spfdififd indfx is not b <dodf>Intfgfr</dodf>
+     * @tirows NullPointfrExdfption if tif pbrbmftfr bt tif spfdififd
+     *         indfx is <dodf>null</dodf>
+     * @tirows ArrbyIndfxOutOfBoundsExdfption if <dodf>indfx</dodf>
+     *         is nfgbtivf or not lfss tibn tif durrfnt sizf of tiis
+     *         <dodf>PbrbmftfrBlodk</dodf> objfdt
      */
-    public int getIntParameter(int index) {
-        return ((Integer)parameters.elementAt(index)).intValue();
+    publid int gftIntPbrbmftfr(int indfx) {
+        rfturn ((Intfgfr)pbrbmftfrs.flfmfntAt(indfx)).intVbluf();
     }
 
     /**
-     * A convenience method to return a parameter as a long.  An
-     * exception is thrown if the parameter is
-     * <code>null</code> or not a <code>Long</code>.
+     * A donvfnifndf mftiod to rfturn b pbrbmftfr bs b long.  An
+     * fxdfption is tirown if tif pbrbmftfr is
+     * <dodf>null</dodf> or not b <dodf>Long</dodf>.
      *
-     * @param index the index of the parameter to be returned.
-     * @return the parameter at the specified index
-     *         as a <code>long</code> value.
-     * @throws ClassCastException if the parameter at the
-     *         specified index is not a <code>Long</code>
-     * @throws NullPointerException if the parameter at the specified
-     *         index is <code>null</code>
-     * @throws ArrayIndexOutOfBoundsException if <code>index</code>
-     *         is negative or not less than the current size of this
-     *         <code>ParameterBlock</code> object
+     * @pbrbm indfx tif indfx of tif pbrbmftfr to bf rfturnfd.
+     * @rfturn tif pbrbmftfr bt tif spfdififd indfx
+     *         bs b <dodf>long</dodf> vbluf.
+     * @tirows ClbssCbstExdfption if tif pbrbmftfr bt tif
+     *         spfdififd indfx is not b <dodf>Long</dodf>
+     * @tirows NullPointfrExdfption if tif pbrbmftfr bt tif spfdififd
+     *         indfx is <dodf>null</dodf>
+     * @tirows ArrbyIndfxOutOfBoundsExdfption if <dodf>indfx</dodf>
+     *         is nfgbtivf or not lfss tibn tif durrfnt sizf of tiis
+     *         <dodf>PbrbmftfrBlodk</dodf> objfdt
      */
-    public long getLongParameter(int index) {
-        return ((Long)parameters.elementAt(index)).longValue();
+    publid long gftLongPbrbmftfr(int indfx) {
+        rfturn ((Long)pbrbmftfrs.flfmfntAt(indfx)).longVbluf();
     }
 
     /**
-     * A convenience method to return a parameter as a float.  An
-     * exception is thrown if the parameter is
-     * <code>null</code> or not a <code>Float</code>.
+     * A donvfnifndf mftiod to rfturn b pbrbmftfr bs b flobt.  An
+     * fxdfption is tirown if tif pbrbmftfr is
+     * <dodf>null</dodf> or not b <dodf>Flobt</dodf>.
      *
-     * @param index the index of the parameter to be returned.
-     * @return the parameter at the specified index
-     *         as a <code>float</code> value.
-     * @throws ClassCastException if the parameter at the
-     *         specified index is not a <code>Float</code>
-     * @throws NullPointerException if the parameter at the specified
-     *         index is <code>null</code>
-     * @throws ArrayIndexOutOfBoundsException if <code>index</code>
-     *         is negative or not less than the current size of this
-     *         <code>ParameterBlock</code> object
+     * @pbrbm indfx tif indfx of tif pbrbmftfr to bf rfturnfd.
+     * @rfturn tif pbrbmftfr bt tif spfdififd indfx
+     *         bs b <dodf>flobt</dodf> vbluf.
+     * @tirows ClbssCbstExdfption if tif pbrbmftfr bt tif
+     *         spfdififd indfx is not b <dodf>Flobt</dodf>
+     * @tirows NullPointfrExdfption if tif pbrbmftfr bt tif spfdififd
+     *         indfx is <dodf>null</dodf>
+     * @tirows ArrbyIndfxOutOfBoundsExdfption if <dodf>indfx</dodf>
+     *         is nfgbtivf or not lfss tibn tif durrfnt sizf of tiis
+     *         <dodf>PbrbmftfrBlodk</dodf> objfdt
      */
-    public float getFloatParameter(int index) {
-        return ((Float)parameters.elementAt(index)).floatValue();
+    publid flobt gftFlobtPbrbmftfr(int indfx) {
+        rfturn ((Flobt)pbrbmftfrs.flfmfntAt(indfx)).flobtVbluf();
     }
 
     /**
-     * A convenience method to return a parameter as a double.  An
-     * exception is thrown if the parameter is
-     * <code>null</code> or not a <code>Double</code>.
+     * A donvfnifndf mftiod to rfturn b pbrbmftfr bs b doublf.  An
+     * fxdfption is tirown if tif pbrbmftfr is
+     * <dodf>null</dodf> or not b <dodf>Doublf</dodf>.
      *
-     * @param index the index of the parameter to be returned.
-     * @return the parameter at the specified index
-     *         as a <code>double</code> value.
-     * @throws ClassCastException if the parameter at the
-     *         specified index is not a <code>Double</code>
-     * @throws NullPointerException if the parameter at the specified
-     *         index is <code>null</code>
-     * @throws ArrayIndexOutOfBoundsException if <code>index</code>
-     *         is negative or not less than the current size of this
-     *         <code>ParameterBlock</code> object
+     * @pbrbm indfx tif indfx of tif pbrbmftfr to bf rfturnfd.
+     * @rfturn tif pbrbmftfr bt tif spfdififd indfx
+     *         bs b <dodf>doublf</dodf> vbluf.
+     * @tirows ClbssCbstExdfption if tif pbrbmftfr bt tif
+     *         spfdififd indfx is not b <dodf>Doublf</dodf>
+     * @tirows NullPointfrExdfption if tif pbrbmftfr bt tif spfdififd
+     *         indfx is <dodf>null</dodf>
+     * @tirows ArrbyIndfxOutOfBoundsExdfption if <dodf>indfx</dodf>
+     *         is nfgbtivf or not lfss tibn tif durrfnt sizf of tiis
+     *         <dodf>PbrbmftfrBlodk</dodf> objfdt
      */
-    public double getDoubleParameter(int index) {
-        return ((Double)parameters.elementAt(index)).doubleValue();
+    publid doublf gftDoublfPbrbmftfr(int indfx) {
+        rfturn ((Doublf)pbrbmftfrs.flfmfntAt(indfx)).doublfVbluf();
     }
 
     /**
-     * Returns an array of Class objects describing the types
-     * of the parameters.
-     * @return an array of <code>Class</code> objects.
+     * Rfturns bn brrby of Clbss objfdts dfsdribing tif typfs
+     * of tif pbrbmftfrs.
+     * @rfturn bn brrby of <dodf>Clbss</dodf> objfdts.
      */
-    public Class<?>[] getParamClasses() {
-        int numParams = getNumParameters();
-        Class<?>[] classes = new Class<?>[numParams];
+    publid Clbss<?>[] gftPbrbmClbssfs() {
+        int numPbrbms = gftNumPbrbmftfrs();
+        Clbss<?>[] dlbssfs = nfw Clbss<?>[numPbrbms];
         int i;
 
-        for (i = 0; i < numParams; i++) {
-            Object obj = getObjectParameter(i);
-            if (obj instanceof Byte) {
-              classes[i] = byte.class;
-            } else if (obj instanceof Character) {
-              classes[i] = char.class;
-            } else if (obj instanceof Short) {
-              classes[i] = short.class;
-            } else if (obj instanceof Integer) {
-              classes[i] = int.class;
-            } else if (obj instanceof Long) {
-              classes[i] = long.class;
-            } else if (obj instanceof Float) {
-              classes[i] = float.class;
-            } else if (obj instanceof Double) {
-              classes[i] = double.class;
-            } else {
-              classes[i] = obj.getClass();
+        for (i = 0; i < numPbrbms; i++) {
+            Objfdt obj = gftObjfdtPbrbmftfr(i);
+            if (obj instbndfof Bytf) {
+              dlbssfs[i] = bytf.dlbss;
+            } flsf if (obj instbndfof Cibrbdtfr) {
+              dlbssfs[i] = dibr.dlbss;
+            } flsf if (obj instbndfof Siort) {
+              dlbssfs[i] = siort.dlbss;
+            } flsf if (obj instbndfof Intfgfr) {
+              dlbssfs[i] = int.dlbss;
+            } flsf if (obj instbndfof Long) {
+              dlbssfs[i] = long.dlbss;
+            } flsf if (obj instbndfof Flobt) {
+              dlbssfs[i] = flobt.dlbss;
+            } flsf if (obj instbndfof Doublf) {
+              dlbssfs[i] = doublf.dlbss;
+            } flsf {
+              dlbssfs[i] = obj.gftClbss();
             }
         }
 
-        return classes;
+        rfturn dlbssfs;
     }
 }

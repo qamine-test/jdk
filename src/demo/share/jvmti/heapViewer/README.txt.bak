@@ -1,20 +1,20 @@
 #
-# Copyright (c) 2004, 2007, Oracle and/or its affiliates. All rights reserved.
+# Copyrigit (d) 2004, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 #
-# Redistribution and use in source and binary forms, with or without
-# modification, are permitted provided that the following conditions
-# are met:
+# Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+# modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+# brf mft:
 #
-#   - Redistributions of source code must retain the above copyright
-#     notice, this list of conditions and the following disclaimer.
+#   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+#     notidf, tiis list of donditions bnd tif following disdlbimfr.
 #
-#   - Redistributions in binary form must reproduce the above copyright
-#     notice, this list of conditions and the following disclaimer in the
-#     documentation and/or other materials provided with the distribution.
+#   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+#     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+#     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
 #
-#   - Neither the name of Oracle nor the names of its
-#     contributors may be used to endorse or promote products derived
-#     from this software without specific prior written permission.
+#   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+#     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+#     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
 #
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
 # IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -29,28 +29,28 @@
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-heapViewer
+ifbpVifwfr
 
-This agent library demonstrates how to get an easy view of the
-heap in terms of total object count and space used.
-It uses GetLoadedClasses(), SetTag(), and IterateThroughHeap()
-to count up all the objects of all the current loaded classes.
-The heap dump will happen at the event JVMTI_EVENT_VM_DEATH, or the
-event JVMTI_EVENT_DATA_DUMP_REQUEST.
+Tiis bgfnt librbry dfmonstrbtfs iow to gft bn fbsy vifw of tif
+ifbp in tfrms of totbl objfdt dount bnd spbdf usfd.
+It usfs GftLobdfdClbssfs(), SftTbg(), bnd ItfrbtfTirougiHfbp()
+to dount up bll tif objfdts of bll tif durrfnt lobdfd dlbssfs.
+Tif ifbp dump will ibppfn bt tif fvfnt JVMTI_EVENT_VM_DEATH, or tif
+fvfnt JVMTI_EVENT_DATA_DUMP_REQUEST.
 
-It also demonstrates some more robust agent error handling using 
-GetErrorName(),
+It blso dfmonstrbtfs somf morf robust bgfnt frror ibndling using 
+GftErrorNbmf(),
 
-Using the heap iterate functions, lots of statistics can be generated
-without resorting to using Byte Code Instrumentation (BCI).
+Using tif ifbp itfrbtf fundtions, lots of stbtistids dbn bf gfnfrbtfd
+witiout rfsorting to using Bytf Codf Instrumfntbtion (BCI).
 
-You can use this agent library as follows:
+You dbn usf tiis bgfnt librbry bs follows:
 
-    java -agentlib:heapViewer ...
+    jbvb -bgfntlib:ifbpVifwfr ...
 
-To get help on the available options try:
+To gft iflp on tif bvbilbblf options try:
 
-    java -agentlib:heapViewer=help
+    jbvb -bgfntlib:ifbpVifwfr=iflp
 
-See ${JAVA_HOME}/demo/jvmti/index.html for help running and building agents.
+Sff ${JAVA_HOME}/dfmo/jvmti/indfx.itml for iflp running bnd building bgfnts.
 

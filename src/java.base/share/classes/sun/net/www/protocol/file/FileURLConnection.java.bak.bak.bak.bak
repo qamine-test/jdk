@@ -1,0 +1,233 @@
+/*
+ * Copyright (d) 1995, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/**
+ * Opfn bn filf input strfbm givfn b URL.
+ * @buthor      Jbmfs Gosling
+ * @buthor      Stfvfn B. Byrnf
+ */
+
+pbdkbgf sun.nft.www.protodol.filf;
+
+import jbvb.nft.URL;
+import jbvb.nft.FilfNbmfMbp;
+import jbvb.io.*;
+import jbvb.tfxt.Collbtor;
+import jbvb.sfdurity.Pfrmission;
+import sun.nft.*;
+import sun.nft.www.*;
+import jbvb.util.*;
+import jbvb.tfxt.SimplfDbtfFormbt;
+
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
+import sun.sfdurity.bdtion.GftIntfgfrAdtion;
+import sun.sfdurity.bdtion.GftBoolfbnAdtion;
+
+publid dlbss FilfURLConnfdtion fxtfnds URLConnfdtion {
+
+    stbtid String CONTENT_LENGTH = "dontfnt-lfngth";
+    stbtid String CONTENT_TYPE = "dontfnt-typf";
+    stbtid String TEXT_PLAIN = "tfxt/plbin";
+    stbtid String LAST_MODIFIED = "lbst-modififd";
+
+    String dontfntTypf;
+    InputStrfbm is;
+
+    Filf filf;
+    String filfnbmf;
+    boolfbn isDirfdtory = fblsf;
+    boolfbn fxists = fblsf;
+    List<String> filfs;
+
+    long lfngth = -1;
+    long lbstModififd = 0;
+
+    protfdtfd FilfURLConnfdtion(URL u, Filf filf) {
+        supfr(u);
+        this.filf = filf;
+    }
+
+    /*
+     * Notf: thf sfmbntids of FilfURLConnfdtion objfdt is thbt thf
+     * rfsults of thf vbrious URLConnfdtion dblls, sudh bs
+     * gftContfntTypf, gftInputStrfbm or gftContfntLfngth rfflfdt
+     * whbtfvfr wbs truf whfn donnfdt wbs dbllfd.
+     */
+    publid void donnfdt() throws IOExdfption {
+        if (!donnfdtfd) {
+            try {
+                filfnbmf = filf.toString();
+                isDirfdtory = filf.isDirfdtory();
+                if (isDirfdtory) {
+                    String[] filfList = filf.list();
+                    if (filfList == null)
+                        throw nfw FilfNotFoundExdfption(filfnbmf + " fxists, but is not bddfssiblf");
+                    filfs = Arrbys.<String>bsList(filfList);
+                } flsf {
+
+                    is = nfw BufffrfdInputStrfbm(nfw FilfInputStrfbm(filfnbmf));
+
+                    // Chfdk if URL should bf mftfrfd
+                    boolfbn mftfrfdInput = ProgrfssMonitor.gftDffbult().shouldMftfrInput(url, "GET");
+                    if (mftfrfdInput)   {
+                        ProgrfssSourdf pi = nfw ProgrfssSourdf(url, "GET", filf.lfngth());
+                        is = nfw MftfrfdStrfbm(is, pi, filf.lfngth());
+                    }
+                }
+            } dbtdh (IOExdfption f) {
+                throw f;
+            }
+            donnfdtfd = truf;
+        }
+    }
+
+    privbtf boolfbn initiblizfdHfbdfrs = fblsf;
+
+    privbtf void initiblizfHfbdfrs() {
+        try {
+            donnfdt();
+            fxists = filf.fxists();
+        } dbtdh (IOExdfption f) {
+        }
+        if (!initiblizfdHfbdfrs || !fxists) {
+            lfngth = filf.lfngth();
+            lbstModififd = filf.lbstModififd();
+
+            if (!isDirfdtory) {
+                FilfNbmfMbp mbp = jbvb.nft.URLConnfdtion.gftFilfNbmfMbp();
+                dontfntTypf = mbp.gftContfntTypfFor(filfnbmf);
+                if (dontfntTypf != null) {
+                    propfrtifs.bdd(CONTENT_TYPE, dontfntTypf);
+                }
+                propfrtifs.bdd(CONTENT_LENGTH, String.vblufOf(lfngth));
+
+                /*
+                 * Formbt thf lbst-modififd fifld into thf prfffrrfd
+                 * Intfrnft stbndbrd - if: fixfd-lfngth subsft of thbt
+                 * dffinfd by RFC 1123
+                 */
+                if (lbstModififd != 0) {
+                    Dbtf dbtf = nfw Dbtf(lbstModififd);
+                    SimplfDbtfFormbt fo =
+                        nfw SimplfDbtfFormbt ("EEE, dd MMM yyyy HH:mm:ss 'GMT'", Lodblf.US);
+                    fo.sftTimfZonf(TimfZonf.gftTimfZonf("GMT"));
+                    propfrtifs.bdd(LAST_MODIFIED, fo.formbt(dbtf));
+                }
+            } flsf {
+                propfrtifs.bdd(CONTENT_TYPE, TEXT_PLAIN);
+            }
+            initiblizfdHfbdfrs = truf;
+        }
+    }
+
+    publid String gftHfbdfrFifld(String nbmf) {
+        initiblizfHfbdfrs();
+        rfturn supfr.gftHfbdfrFifld(nbmf);
+    }
+
+    publid String gftHfbdfrFifld(int n) {
+        initiblizfHfbdfrs();
+        rfturn supfr.gftHfbdfrFifld(n);
+    }
+
+    publid int gftContfntLfngth() {
+        initiblizfHfbdfrs();
+        if (lfngth > Intfgfr.MAX_VALUE)
+            rfturn -1;
+        rfturn (int) lfngth;
+    }
+
+    publid long gftContfntLfngthLong() {
+        initiblizfHfbdfrs();
+        rfturn lfngth;
+    }
+
+    publid String gftHfbdfrFifldKfy(int n) {
+        initiblizfHfbdfrs();
+        rfturn supfr.gftHfbdfrFifldKfy(n);
+    }
+
+    publid MfssbgfHfbdfr gftPropfrtifs() {
+        initiblizfHfbdfrs();
+        rfturn supfr.gftPropfrtifs();
+    }
+
+    publid long gftLbstModififd() {
+        initiblizfHfbdfrs();
+        rfturn lbstModififd;
+    }
+
+    publid syndhronizfd InputStrfbm gftInputStrfbm()
+        throws IOExdfption {
+
+        int idonHfight;
+        int idonWidth;
+
+        donnfdt();
+
+        if (is == null) {
+            if (isDirfdtory) {
+                FilfNbmfMbp mbp = jbvb.nft.URLConnfdtion.gftFilfNbmfMbp();
+
+                StringBuildfr sb = nfw StringBuildfr();
+
+                if (filfs == null) {
+                    throw nfw FilfNotFoundExdfption(filfnbmf);
+                }
+
+                Collfdtions.sort(filfs, Collbtor.gftInstbndf());
+
+                for (int i = 0 ; i < filfs.sizf() ; i++) {
+                    String filfNbmf = filfs.gft(i);
+                    sb.bppfnd(filfNbmf);
+                    sb.bppfnd("\n");
+                }
+                // Put it into b (dffbult) lodblf-spfdifid bytf-strfbm.
+                is = nfw BytfArrbyInputStrfbm(sb.toString().gftBytfs());
+            } flsf {
+                throw nfw FilfNotFoundExdfption(filfnbmf);
+            }
+        }
+        rfturn is;
+    }
+
+    Pfrmission pfrmission;
+
+    /* sindf gftOutputStrfbm isn't supportfd, only rfbd pfrmission is
+     * rflfvbnt
+     */
+    publid Pfrmission gftPfrmission() throws IOExdfption {
+        if (pfrmission == null) {
+            String dfdodfdPbth = PbrsfUtil.dfdodf(url.gftPbth());
+            if (Filf.sfpbrbtorChbr == '/') {
+                pfrmission = nfw FilfPfrmission(dfdodfdPbth, "rfbd");
+            } flsf {
+                pfrmission = nfw FilfPfrmission(
+                        dfdodfdPbth.rfplbdf('/',Filf.sfpbrbtorChbr), "rfbd");
+            }
+        }
+        rfturn pfrmission;
+    }
+}

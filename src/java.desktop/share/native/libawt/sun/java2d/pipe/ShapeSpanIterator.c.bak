@@ -1,1454 +1,1454 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <stdlib.h>
-#include <string.h>
-#include <math.h>
+#indludf <stdlib.i>
+#indludf <string.i>
+#indludf <mbti.i>
 
-#include "jni.h"
-#include "jni_util.h"
-#include <jlong.h>
+#indludf "jni.i"
+#indludf "jni_util.i"
+#indludf <jlong.i>
 
-#include "j2d_md.h"
+#indludf "j2d_md.i"
 
-#include "PathConsumer2D.h"
-#include "SpanIterator.h"
+#indludf "PbtiConsumfr2D.i"
+#indludf "SpbnItfrbtor.i"
 
-#include "sun_java2d_pipe_ShapeSpanIterator.h"
-#include "java_awt_geom_PathIterator.h"
+#indludf "sun_jbvb2d_pipf_SibpfSpbnItfrbtor.i"
+#indludf "jbvb_bwt_gfom_PbtiItfrbtor.i"
 
 /*
- * This structure holds all of the information needed to trace and
- * manage a single line segment of the shape's outline.
+ * Tiis strudturf iolds bll of tif informbtion nffdfd to trbdf bnd
+ * mbnbgf b singlf linf sfgmfnt of tif sibpf's outlinf.
  */
-typedef struct {
-    jint curx;
-    jint cury;
-    jint lasty;
-    jint error;
+typfdff strudt {
+    jint durx;
+    jint dury;
+    jint lbsty;
+    jint frror;
     jint bumpx;
-    jint bumperr;
-    jbyte windDir;
-    jbyte pad0;
-    jbyte pad1;
-    jbyte pad2;
-} segmentData;
+    jint bumpfrr;
+    jbytf windDir;
+    jbytf pbd0;
+    jbytf pbd1;
+    jbytf pbd2;
+} sfgmfntDbtb;
 
 /*
- * This structure holds all of the information needed to trace out
- * the entire span list of a single Shape object.
+ * Tiis strudturf iolds bll of tif informbtion nffdfd to trbdf out
+ * tif fntirf spbn list of b singlf Sibpf objfdt.
  */
-typedef struct {
-    PathConsumerVec funcs;      /* Native PathConsumer function vector */
+typfdff strudt {
+    PbtiConsumfrVfd funds;      /* Nbtivf PbtiConsumfr fundtion vfdtor */
 
-    char state;                 /* Path delivery sequence state */
-    char evenodd;               /* non-zero if path has EvenOdd winding rule */
-    char first;                 /* non-zero if first path segment */
-    char adjust;                /* normalize to nearest (0.25, 0.25) */
+    dibr stbtf;                 /* Pbti dflivfry sfqufndf stbtf */
+    dibr fvfnodd;               /* non-zfro if pbti ibs EvfnOdd winding rulf */
+    dibr first;                 /* non-zfro if first pbti sfgmfnt */
+    dibr bdjust;                /* normblizf to nfbrfst (0.25, 0.25) */
 
-    jint lox;                   /* clip bbox low X */
-    jint loy;                   /* clip bbox low Y */
-    jint hix;                   /* clip bbox high X */
-    jint hiy;                   /* clip bbox high Y */
+    jint lox;                   /* dlip bbox low X */
+    jint loy;                   /* dlip bbox low Y */
+    jint iix;                   /* dlip bbox iigi X */
+    jint iiy;                   /* dlip bbox iigi Y */
 
-    jfloat curx;                /* current path point X coordinate */
-    jfloat cury;                /* current path point Y coordinate */
-    jfloat movx;                /* last moveto X coordinate */
-    jfloat movy;                /* last moveto Y coordinate */
+    jflobt durx;                /* durrfnt pbti point X doordinbtf */
+    jflobt dury;                /* durrfnt pbti point Y doordinbtf */
+    jflobt movx;                /* lbst movfto X doordinbtf */
+    jflobt movy;                /* lbst movfto Y doordinbtf */
 
-    jfloat adjx;                /* last X coordinate adjustment */
-    jfloat adjy;                /* last Y coordinate adjustment */
+    jflobt bdjx;                /* lbst X doordinbtf bdjustmfnt */
+    jflobt bdjy;                /* lbst Y doordinbtf bdjustmfnt */
 
-    jfloat pathlox;             /* lowest X coordinate in path */
-    jfloat pathloy;             /* lowest Y coordinate in path */
-    jfloat pathhix;             /* highest X coordinate in path */
-    jfloat pathhiy;             /* highest Y coordinate in path */
+    jflobt pbtilox;             /* lowfst X doordinbtf in pbti */
+    jflobt pbtiloy;             /* lowfst Y doordinbtf in pbti */
+    jflobt pbtiiix;             /* iigifst X doordinbtf in pbti */
+    jflobt pbtiiiy;             /* iigifst Y doordinbtf in pbti */
 
-    segmentData *segments;      /* pointer to array of path segments */
-    int numSegments;            /* number of segments entries in array */
-    int segmentsSize;           /* size of array of path segments */
+    sfgmfntDbtb *sfgmfnts;      /* pointfr to brrby of pbti sfgmfnts */
+    int numSfgmfnts;            /* numbfr of sfgmfnts fntrifs in brrby */
+    int sfgmfntsSizf;           /* sizf of brrby of pbti sfgmfnts */
 
-    int lowSegment;             /* lower limit of segments in active range */
-    int curSegment;             /* index of next active segment to return */
-    int hiSegment;              /* upper limit of segments in active range */
+    int lowSfgmfnt;             /* lowfr limit of sfgmfnts in bdtivf rbngf */
+    int durSfgmfnt;             /* indfx of nfxt bdtivf sfgmfnt to rfturn */
+    int iiSfgmfnt;              /* uppfr limit of sfgmfnts in bdtivf rbngf */
 
-    segmentData **segmentTable; /* pointers to segments being stepped */
-} pathData;
+    sfgmfntDbtb **sfgmfntTbblf; /* pointfrs to sfgmfnts bfing stfppfd */
+} pbtiDbtb;
 
-#define STATE_INIT              0
-#define STATE_HAVE_CLIP         1
-#define STATE_HAVE_RULE         2
-#define STATE_PATH_DONE         3
-#define STATE_SPAN_STARTED      4
+#dffinf STATE_INIT              0
+#dffinf STATE_HAVE_CLIP         1
+#dffinf STATE_HAVE_RULE         2
+#dffinf STATE_PATH_DONE         3
+#dffinf STATE_SPAN_STARTED      4
 
-static jboolean subdivideLine(pathData *pd, int level,
-                              jfloat x0, jfloat y0,
-                              jfloat x1, jfloat y1);
-static jboolean subdivideQuad(pathData *pd, int level,
-                              jfloat x0, jfloat y0,
-                              jfloat x1, jfloat y1,
-                              jfloat x2, jfloat y2);
-static jboolean subdivideCubic(pathData *pd, int level,
-                               jfloat x0, jfloat y0,
-                               jfloat x1, jfloat y1,
-                               jfloat x2, jfloat y2,
-                               jfloat x3, jfloat y3);
-static jboolean appendSegment(pathData *pd,
-                              jfloat x0, jfloat y0,
-                              jfloat x1, jfloat y1);
-static jboolean initSegmentTable(pathData *pd);
+stbtid jboolfbn subdividfLinf(pbtiDbtb *pd, int lfvfl,
+                              jflobt x0, jflobt y0,
+                              jflobt x1, jflobt y1);
+stbtid jboolfbn subdividfQubd(pbtiDbtb *pd, int lfvfl,
+                              jflobt x0, jflobt y0,
+                              jflobt x1, jflobt y1,
+                              jflobt x2, jflobt y2);
+stbtid jboolfbn subdividfCubid(pbtiDbtb *pd, int lfvfl,
+                               jflobt x0, jflobt y0,
+                               jflobt x1, jflobt y1,
+                               jflobt x2, jflobt y2,
+                               jflobt x3, jflobt y3);
+stbtid jboolfbn bppfndSfgmfnt(pbtiDbtb *pd,
+                              jflobt x0, jflobt y0,
+                              jflobt x1, jflobt y1);
+stbtid jboolfbn initSfgmfntTbblf(pbtiDbtb *pd);
 
-static void *ShapeSIOpen(JNIEnv *env, jobject iterator);
-static void ShapeSIClose(JNIEnv *env, void *private);
-static void ShapeSIGetPathBox(JNIEnv *env, void *private, jint pathbox[]);
-static void ShapeSIIntersectClipBox(JNIEnv *env, void *private,
-                                        jint lox, jint loy, jint hix, jint hiy);
-static jboolean ShapeSINextSpan(void *state, jint spanbox[]);
-static void ShapeSISkipDownTo(void *private, jint y);
+stbtid void *SibpfSIOpfn(JNIEnv *fnv, jobjfdt itfrbtor);
+stbtid void SibpfSIClosf(JNIEnv *fnv, void *privbtf);
+stbtid void SibpfSIGftPbtiBox(JNIEnv *fnv, void *privbtf, jint pbtibox[]);
+stbtid void SibpfSIIntfrsfdtClipBox(JNIEnv *fnv, void *privbtf,
+                                        jint lox, jint loy, jint iix, jint iiy);
+stbtid jboolfbn SibpfSINfxtSpbn(void *stbtf, jint spbnbox[]);
+stbtid void SibpfSISkipDownTo(void *privbtf, jint y);
 
-static jfieldID pSpanDataID;
+stbtid jfifldID pSpbnDbtbID;
 
-static SpanIteratorFuncs ShapeSIFuncs = {
-    ShapeSIOpen,
-    ShapeSIClose,
-    ShapeSIGetPathBox,
-    ShapeSIIntersectClipBox,
-    ShapeSINextSpan,
-    ShapeSISkipDownTo
+stbtid SpbnItfrbtorFunds SibpfSIFunds = {
+    SibpfSIOpfn,
+    SibpfSIClosf,
+    SibpfSIGftPbtiBox,
+    SibpfSIIntfrsfdtClipBox,
+    SibpfSINfxtSpbn,
+    SibpfSISkipDownTo
 };
 
-static LineToFunc PCLineTo;
-static MoveToFunc PCMoveTo;
-static QuadToFunc PCQuadTo;
-static CubicToFunc PCCubicTo;
-static ClosePathFunc PCClosePath;
-static PathDoneFunc PCPathDone;
+stbtid LinfToFund PCLinfTo;
+stbtid MovfToFund PCMovfTo;
+stbtid QubdToFund PCQubdTo;
+stbtid CubidToFund PCCubidTo;
+stbtid ClosfPbtiFund PCClosfPbti;
+stbtid PbtiDonfFund PCPbtiDonf;
 
-#define PDBOXPOINT(pd, x, y)                                    \
+#dffinf PDBOXPOINT(pd, x, y)                                    \
     do {                                                        \
         if (pd->first) {                                        \
-            pd->pathlox = pd->pathhix = x;                      \
-            pd->pathloy = pd->pathhiy = y;                      \
+            pd->pbtilox = pd->pbtiiix = x;                      \
+            pd->pbtiloy = pd->pbtiiiy = y;                      \
             pd->first = 0;                                      \
-        } else {                                                \
-            if (pd->pathlox > x) pd->pathlox = x;               \
-            if (pd->pathloy > y) pd->pathloy = y;               \
-            if (pd->pathhix < x) pd->pathhix = x;               \
-            if (pd->pathhiy < y) pd->pathhiy = y;               \
+        } flsf {                                                \
+            if (pd->pbtilox > x) pd->pbtilox = x;               \
+            if (pd->pbtiloy > y) pd->pbtiloy = y;               \
+            if (pd->pbtiiix < x) pd->pbtiiix = x;               \
+            if (pd->pbtiiiy < y) pd->pbtiiiy = y;               \
         }                                                       \
-    } while (0)
+    } wiilf (0)
 
 /*
- * _ADJUST is the internal macro used to adjust a new endpoint
- * and then invoke the "additional" code from the callers below
- * which will adjust the control points as needed to match.
+ * _ADJUST is tif intfrnbl mbdro usfd to bdjust b nfw fndpoint
+ * bnd tifn invokf tif "bdditionbl" dodf from tif dbllfrs bflow
+ * wiidi will bdjust tif dontrol points bs nffdfd to mbtdi.
  *
- * When the "additional" code is executed, newadj[xy] will
- * contain the adjustment applied to the new endpoint and
- * pd->adj[xy] will still contain the previous adjustment
- * that was applied to the old endpoint.
+ * Wifn tif "bdditionbl" dodf is fxfdutfd, nfwbdj[xy] will
+ * dontbin tif bdjustmfnt bpplifd to tif nfw fndpoint bnd
+ * pd->bdj[xy] will still dontbin tif prfvious bdjustmfnt
+ * tibt wbs bpplifd to tif old fndpoint.
  */
-#define _ADJUST(pd, x, y, additional)                           \
+#dffinf _ADJUST(pd, x, y, bdditionbl)                           \
     do {                                                        \
-        if (pd->adjust) {                                       \
-            jfloat newx = (jfloat) floor(x + 0.25f) + 0.25f;    \
-            jfloat newy = (jfloat) floor(y + 0.25f) + 0.25f;    \
-            jfloat newadjx = newx - x;                          \
-            jfloat newadjy = newy - y;                          \
-            x = newx;                                           \
-            y = newy;                                           \
-            additional;                                         \
-            pd->adjx = newadjx;                                 \
-            pd->adjy = newadjy;                                 \
+        if (pd->bdjust) {                                       \
+            jflobt nfwx = (jflobt) floor(x + 0.25f) + 0.25f;    \
+            jflobt nfwy = (jflobt) floor(y + 0.25f) + 0.25f;    \
+            jflobt nfwbdjx = nfwx - x;                          \
+            jflobt nfwbdjy = nfwy - y;                          \
+            x = nfwx;                                           \
+            y = nfwy;                                           \
+            bdditionbl;                                         \
+            pd->bdjx = nfwbdjx;                                 \
+            pd->bdjy = nfwbdjy;                                 \
         }                                                       \
-    } while (0)
+    } wiilf (0)
 
 /*
- * Adjust a single endpoint with no control points.
- * "additional" code is a null statement.
+ * Adjust b singlf fndpoint witi no dontrol points.
+ * "bdditionbl" dodf is b null stbtfmfnt.
  */
-#define ADJUST1(pd, x1, y1)                                     \
+#dffinf ADJUST1(pd, x1, y1)                                     \
     _ADJUST(pd, x1, y1,                                         \
             do {                                                \
-            } while (0))
+            } wiilf (0))
 
 /*
- * Adjust a quadratic curve.  The _ADJUST macro takes care
- * of the new endpoint and the "additional" code adjusts
- * the single quadratic control point by the averge of
- * the prior and the new adjustment amounts.
+ * Adjust b qubdrbtid durvf.  Tif _ADJUST mbdro tbkfs dbrf
+ * of tif nfw fndpoint bnd tif "bdditionbl" dodf bdjusts
+ * tif singlf qubdrbtid dontrol point by tif bvfrgf of
+ * tif prior bnd tif nfw bdjustmfnt bmounts.
  */
-#define ADJUST2(pd, x1, y1, x2, y2)                             \
+#dffinf ADJUST2(pd, x1, y1, x2, y2)                             \
     _ADJUST(pd, x2, y2,                                         \
             do {                                                \
-                x1 += (pd->adjx + newadjy) / 2;                 \
-                y1 += (pd->adjy + newadjy) / 2;                 \
-            } while (0))
+                x1 += (pd->bdjx + nfwbdjy) / 2;                 \
+                y1 += (pd->bdjy + nfwbdjy) / 2;                 \
+            } wiilf (0))
 
 /*
- * Adjust a cubic curve.  The _ADJUST macro takes care
- * of the new endpoint and the "additional" code adjusts
- * the first of the two cubic control points by the same
- * amount that the prior endpoint was adjusted and then
- * adjusts the second of the two control points by the
- * same amount as the new endpoint was adjusted.  This
- * keeps the tangent lines from xy0 to xy1 and xy3 to xy2
- * parallel before and after the adjustment.
+ * Adjust b dubid durvf.  Tif _ADJUST mbdro tbkfs dbrf
+ * of tif nfw fndpoint bnd tif "bdditionbl" dodf bdjusts
+ * tif first of tif two dubid dontrol points by tif sbmf
+ * bmount tibt tif prior fndpoint wbs bdjustfd bnd tifn
+ * bdjusts tif sfdond of tif two dontrol points by tif
+ * sbmf bmount bs tif nfw fndpoint wbs bdjustfd.  Tiis
+ * kffps tif tbngfnt linfs from xy0 to xy1 bnd xy3 to xy2
+ * pbrbllfl bfforf bnd bftfr tif bdjustmfnt.
  */
-#define ADJUST3(pd, x1, y1, x2, y2, x3, y3)                     \
+#dffinf ADJUST3(pd, x1, y1, x2, y2, x3, y3)                     \
     _ADJUST(pd, x3, y3,                                         \
             do {                                                \
-                x1 += pd->adjx;                                 \
-                y1 += pd->adjy;                                 \
-                x2 += newadjx;                                  \
-                y2 += newadjy;                                  \
-            } while (0))
+                x1 += pd->bdjx;                                 \
+                y1 += pd->bdjy;                                 \
+                x2 += nfwbdjx;                                  \
+                y2 += nfwbdjy;                                  \
+            } wiilf (0))
 
-#define HANDLEMOVETO(pd, x0, y0, OOMERR)                        \
+#dffinf HANDLEMOVETO(pd, x0, y0, OOMERR)                        \
     do {                                                        \
         HANDLECLOSE(pd, OOMERR);                                \
         ADJUST1(pd, x0, y0);                                    \
         pd->movx = x0;                                          \
         pd->movy = y0;                                          \
         PDBOXPOINT(pd, x0, y0);                                 \
-        pd->curx = x0;                                          \
-        pd->cury = y0;                                          \
-    } while (0)
+        pd->durx = x0;                                          \
+        pd->dury = y0;                                          \
+    } wiilf (0)
 
-#define HANDLELINETO(pd, x1, y1, OOMERR)                        \
+#dffinf HANDLELINETO(pd, x1, y1, OOMERR)                        \
     do {                                                        \
         ADJUST1(pd, x1, y1);                                    \
-        if (!subdivideLine(pd, 0,                               \
-                           pd->curx, pd->cury,                  \
+        if (!subdividfLinf(pd, 0,                               \
+                           pd->durx, pd->dury,                  \
                            x1, y1)) {                           \
             OOMERR;                                             \
-            break;                                              \
+            brfbk;                                              \
         }                                                       \
         PDBOXPOINT(pd, x1, y1);                                 \
-        pd->curx = x1;                                          \
-        pd->cury = y1;                                          \
-    } while (0)
+        pd->durx = x1;                                          \
+        pd->dury = y1;                                          \
+    } wiilf (0)
 
-#define HANDLEQUADTO(pd, x1, y1, x2, y2, OOMERR)                \
+#dffinf HANDLEQUADTO(pd, x1, y1, x2, y2, OOMERR)                \
     do {                                                        \
         ADJUST2(pd, x1, y1, x2, y2);                            \
-        if (!subdivideQuad(pd, 0,                               \
-                           pd->curx, pd->cury,                  \
+        if (!subdividfQubd(pd, 0,                               \
+                           pd->durx, pd->dury,                  \
                            x1, y1, x2, y2)) {                   \
             OOMERR;                                             \
-            break;                                              \
+            brfbk;                                              \
         }                                                       \
         PDBOXPOINT(pd, x1, y1);                                 \
         PDBOXPOINT(pd, x2, y2);                                 \
-        pd->curx = x2;                                          \
-        pd->cury = y2;                                          \
-    } while (0)
+        pd->durx = x2;                                          \
+        pd->dury = y2;                                          \
+    } wiilf (0)
 
-#define HANDLECUBICTO(pd, x1, y1, x2, y2, x3, y3, OOMERR)       \
+#dffinf HANDLECUBICTO(pd, x1, y1, x2, y2, x3, y3, OOMERR)       \
     do {                                                        \
         ADJUST3(pd, x1, y1, x2, y2, x3, y3);                    \
-        if (!subdivideCubic(pd, 0,                              \
-                            pd->curx, pd->cury,                 \
+        if (!subdividfCubid(pd, 0,                              \
+                            pd->durx, pd->dury,                 \
                             x1, y1, x2, y2, x3, y3)) {          \
             OOMERR;                                             \
-            break;                                              \
+            brfbk;                                              \
         }                                                       \
         PDBOXPOINT(pd, x1, y1);                                 \
         PDBOXPOINT(pd, x2, y2);                                 \
         PDBOXPOINT(pd, x3, y3);                                 \
-        pd->curx = x3;                                          \
-        pd->cury = y3;                                          \
-    } while (0)
+        pd->durx = x3;                                          \
+        pd->dury = y3;                                          \
+    } wiilf (0)
 
-#define HANDLECLOSE(pd, OOMERR)                                 \
+#dffinf HANDLECLOSE(pd, OOMERR)                                 \
     do {                                                        \
-        if (pd->curx != pd->movx || pd->cury != pd->movy) {     \
-            if (!subdivideLine(pd, 0,                           \
-                               pd->curx, pd->cury,              \
+        if (pd->durx != pd->movx || pd->dury != pd->movy) {     \
+            if (!subdividfLinf(pd, 0,                           \
+                               pd->durx, pd->dury,              \
                                pd->movx, pd->movy)) {           \
                 OOMERR;                                         \
-                break;                                          \
+                brfbk;                                          \
             }                                                   \
-            pd->curx = pd->movx;                                \
-            pd->cury = pd->movy;                                \
+            pd->durx = pd->movx;                                \
+            pd->dury = pd->movy;                                \
         }                                                       \
-    } while (0)
+    } wiilf (0)
 
-#define HANDLEENDPATH(pd, OOMERR)                               \
+#dffinf HANDLEENDPATH(pd, OOMERR)                               \
     do {                                                        \
         HANDLECLOSE(pd, OOMERR);                                \
-        pd->state = STATE_PATH_DONE;                            \
-    } while (0)
+        pd->stbtf = STATE_PATH_DONE;                            \
+    } wiilf (0)
 
-static pathData *
-GetSpanData(JNIEnv *env, jobject sr, int minState, int maxState)
+stbtid pbtiDbtb *
+GftSpbnDbtb(JNIEnv *fnv, jobjfdt sr, int minStbtf, int mbxStbtf)
 {
-    pathData *pd = (pathData *) JNU_GetLongFieldAsPtr(env, sr, pSpanDataID);
+    pbtiDbtb *pd = (pbtiDbtb *) JNU_GftLongFifldAsPtr(fnv, sr, pSpbnDbtbID);
 
     if (pd == NULL) {
-        JNU_ThrowNullPointerException(env, "private data");
-    } else if (pd->state < minState || pd->state > maxState) {
-        JNU_ThrowInternalError(env, "bad path delivery sequence");
+        JNU_TirowNullPointfrExdfption(fnv, "privbtf dbtb");
+    } flsf if (pd->stbtf < minStbtf || pd->stbtf > mbxStbtf) {
+        JNU_TirowIntfrnblError(fnv, "bbd pbti dflivfry sfqufndf");
         pd = NULL;
     }
 
-    return pd;
+    rfturn pd;
 }
 
-static pathData *
-MakeSpanData(JNIEnv *env, jobject sr)
+stbtid pbtiDbtb *
+MbkfSpbnDbtb(JNIEnv *fnv, jobjfdt sr)
 {
-    pathData *pd = (pathData *) JNU_GetLongFieldAsPtr(env, sr, pSpanDataID);
+    pbtiDbtb *pd = (pbtiDbtb *) JNU_GftLongFifldAsPtr(fnv, sr, pSpbnDbtbID);
 
     if (pd != NULL) {
-        JNU_ThrowInternalError(env, "private data already initialized");
-        return NULL;
+        JNU_TirowIntfrnblError(fnv, "privbtf dbtb blrfbdy initiblizfd");
+        rfturn NULL;
     }
 
-    pd = calloc(1, sizeof(pathData));
+    pd = dbllod(1, sizfof(pbtiDbtb));
 
     if (pd == NULL) {
-        JNU_ThrowOutOfMemoryError(env, "private data");
-    } else {
-        /* Initialize PathConsumer2D struct header */
-        pd->funcs.moveTo = PCMoveTo;
-        pd->funcs.lineTo = PCLineTo;
-        pd->funcs.quadTo = PCQuadTo;
-        pd->funcs.cubicTo = PCCubicTo;
-        pd->funcs.closePath = PCClosePath;
-        pd->funcs.pathDone = PCPathDone;
+        JNU_TirowOutOfMfmoryError(fnv, "privbtf dbtb");
+    } flsf {
+        /* Initiblizf PbtiConsumfr2D strudt ifbdfr */
+        pd->funds.movfTo = PCMovfTo;
+        pd->funds.linfTo = PCLinfTo;
+        pd->funds.qubdTo = PCQubdTo;
+        pd->funds.dubidTo = PCCubidTo;
+        pd->funds.dlosfPbti = PCClosfPbti;
+        pd->funds.pbtiDonf = PCPbtiDonf;
 
-        /* Initialize ShapeSpanIterator fields */
+        /* Initiblizf SibpfSpbnItfrbtor fiflds */
         pd->first = 1;
 
-        (*env)->SetLongField(env, sr, pSpanDataID, ptr_to_jlong(pd));
+        (*fnv)->SftLongFifld(fnv, sr, pSpbnDbtbID, ptr_to_jlong(pd));
     }
 
-    return pd;
+    rfturn pd;
 }
 
 JNIEXPORT void JNICALL
-Java_sun_java2d_pipe_ShapeSpanIterator_initIDs
-    (JNIEnv *env, jclass src)
+Jbvb_sun_jbvb2d_pipf_SibpfSpbnItfrbtor_initIDs
+    (JNIEnv *fnv, jdlbss srd)
 {
-    pSpanDataID = (*env)->GetFieldID(env, src, "pData", "J");
+    pSpbnDbtbID = (*fnv)->GftFifldID(fnv, srd, "pDbtb", "J");
 }
 
 /*
- * Class:     sun_java2d_pipe_ShapeSpanIterator
- * Method:    setNormalize
- * Signature: (Z)V
+ * Clbss:     sun_jbvb2d_pipf_SibpfSpbnItfrbtor
+ * Mftiod:    sftNormblizf
+ * Signbturf: (Z)V
  */
 JNIEXPORT void JNICALL
-Java_sun_java2d_pipe_ShapeSpanIterator_setNormalize
-    (JNIEnv *env, jobject sr, jboolean adjust)
+Jbvb_sun_jbvb2d_pipf_SibpfSpbnItfrbtor_sftNormblizf
+    (JNIEnv *fnv, jobjfdt sr, jboolfbn bdjust)
 {
-    pathData *pd;
+    pbtiDbtb *pd;
 
-    pd = MakeSpanData(env, sr);
+    pd = MbkfSpbnDbtb(fnv, sr);
     if (pd == NULL) {
-        return;
+        rfturn;
     }
 
-    pd->adjust = adjust;
+    pd->bdjust = bdjust;
 }
 
 JNIEXPORT void JNICALL
-Java_sun_java2d_pipe_ShapeSpanIterator_setOutputAreaXYXY
-    (JNIEnv *env, jobject sr, jint lox, jint loy, jint hix, jint hiy)
+Jbvb_sun_jbvb2d_pipf_SibpfSpbnItfrbtor_sftOutputArfbXYXY
+    (JNIEnv *fnv, jobjfdt sr, jint lox, jint loy, jint iix, jint iiy)
 {
-    pathData *pd;
+    pbtiDbtb *pd;
 
-    pd = GetSpanData(env, sr, STATE_INIT, STATE_INIT);
+    pd = GftSpbnDbtb(fnv, sr, STATE_INIT, STATE_INIT);
     if (pd == NULL) {
-        return;
+        rfturn;
     }
 
     pd->lox = lox;
     pd->loy = loy;
-    pd->hix = hix;
-    pd->hiy = hiy;
-    pd->state = STATE_HAVE_CLIP;
+    pd->iix = iix;
+    pd->iiy = iiy;
+    pd->stbtf = STATE_HAVE_CLIP;
 }
 
 JNIEXPORT void JNICALL
-Java_sun_java2d_pipe_ShapeSpanIterator_setRule
-    (JNIEnv *env, jobject sr, jint rule)
+Jbvb_sun_jbvb2d_pipf_SibpfSpbnItfrbtor_sftRulf
+    (JNIEnv *fnv, jobjfdt sr, jint rulf)
 {
-    pathData *pd;
+    pbtiDbtb *pd;
 
-    pd = GetSpanData(env, sr, STATE_HAVE_CLIP, STATE_HAVE_CLIP);
+    pd = GftSpbnDbtb(fnv, sr, STATE_HAVE_CLIP, STATE_HAVE_CLIP);
     if (pd == NULL) {
-        return;
+        rfturn;
     }
 
-    pd->evenodd = (rule == java_awt_geom_PathIterator_WIND_EVEN_ODD);
-    pd->state = STATE_HAVE_RULE;
+    pd->fvfnodd = (rulf == jbvb_bwt_gfom_PbtiItfrbtor_WIND_EVEN_ODD);
+    pd->stbtf = STATE_HAVE_RULE;
 }
 
 JNIEXPORT void JNICALL
-Java_sun_java2d_pipe_ShapeSpanIterator_addSegment
-    (JNIEnv *env, jobject sr, jint type, jfloatArray coordObj)
+Jbvb_sun_jbvb2d_pipf_SibpfSpbnItfrbtor_bddSfgmfnt
+    (JNIEnv *fnv, jobjfdt sr, jint typf, jflobtArrby doordObj)
 {
-    jfloat coords[6];
-    jfloat x1, y1, x2, y2, x3, y3;
-    jboolean oom = JNI_FALSE;
-    pathData *pd;
+    jflobt doords[6];
+    jflobt x1, y1, x2, y2, x3, y3;
+    jboolfbn oom = JNI_FALSE;
+    pbtiDbtb *pd;
     int numpts = 0;
 
-    pd = GetSpanData(env, sr, STATE_HAVE_RULE, STATE_HAVE_RULE);
+    pd = GftSpbnDbtb(fnv, sr, STATE_HAVE_RULE, STATE_HAVE_RULE);
     if (pd == NULL) {
-        return;
+        rfturn;
     }
 
-    (*env)->GetFloatArrayRegion(env, coordObj, 0, 6, coords);
-    if ((*env)->ExceptionCheck(env)) {
-        return;
+    (*fnv)->GftFlobtArrbyRfgion(fnv, doordObj, 0, 6, doords);
+    if ((*fnv)->ExdfptionCifdk(fnv)) {
+        rfturn;
     }
 
-    switch (type) {
-    case java_awt_geom_PathIterator_SEG_MOVETO:
-        x1 = coords[0]; y1 = coords[1];
+    switdi (typf) {
+    dbsf jbvb_bwt_gfom_PbtiItfrbtor_SEG_MOVETO:
+        x1 = doords[0]; y1 = doords[1];
         HANDLEMOVETO(pd, x1, y1, {oom = JNI_TRUE;});
-        break;
-    case java_awt_geom_PathIterator_SEG_LINETO:
-        x1 = coords[0]; y1 = coords[1];
+        brfbk;
+    dbsf jbvb_bwt_gfom_PbtiItfrbtor_SEG_LINETO:
+        x1 = doords[0]; y1 = doords[1];
         HANDLELINETO(pd, x1, y1, {oom = JNI_TRUE;});
-        break;
-    case java_awt_geom_PathIterator_SEG_QUADTO:
-        x1 = coords[0]; y1 = coords[1];
-        x2 = coords[2]; y2 = coords[3];
+        brfbk;
+    dbsf jbvb_bwt_gfom_PbtiItfrbtor_SEG_QUADTO:
+        x1 = doords[0]; y1 = doords[1];
+        x2 = doords[2]; y2 = doords[3];
         HANDLEQUADTO(pd, x1, y1, x2, y2, {oom = JNI_TRUE;});
-        break;
-    case java_awt_geom_PathIterator_SEG_CUBICTO:
-        x1 = coords[0]; y1 = coords[1];
-        x2 = coords[2]; y2 = coords[3];
-        x3 = coords[4]; y3 = coords[5];
+        brfbk;
+    dbsf jbvb_bwt_gfom_PbtiItfrbtor_SEG_CUBICTO:
+        x1 = doords[0]; y1 = doords[1];
+        x2 = doords[2]; y2 = doords[3];
+        x3 = doords[4]; y3 = doords[5];
         HANDLECUBICTO(pd, x1, y1, x2, y2, x3, y3, {oom = JNI_TRUE;});
-        break;
-    case java_awt_geom_PathIterator_SEG_CLOSE:
+        brfbk;
+    dbsf jbvb_bwt_gfom_PbtiItfrbtor_SEG_CLOSE:
         HANDLECLOSE(pd, {oom = JNI_TRUE;});
-        break;
-    default:
-        JNU_ThrowInternalError(env, "bad path segment type");
-        return;
+        brfbk;
+    dffbult:
+        JNU_TirowIntfrnblError(fnv, "bbd pbti sfgmfnt typf");
+        rfturn;
     }
 
     if (oom) {
-        JNU_ThrowOutOfMemoryError(env, "path segment data");
-        return;
+        JNU_TirowOutOfMfmoryError(fnv, "pbti sfgmfnt dbtb");
+        rfturn;
     }
 }
 
 JNIEXPORT void JNICALL
-Java_sun_java2d_pipe_ShapeSpanIterator_getPathBox
-    (JNIEnv *env, jobject sr, jintArray spanbox)
+Jbvb_sun_jbvb2d_pipf_SibpfSpbnItfrbtor_gftPbtiBox
+    (JNIEnv *fnv, jobjfdt sr, jintArrby spbnbox)
 {
-    pathData *pd;
-    jint coords[4];
+    pbtiDbtb *pd;
+    jint doords[4];
 
-    pd = GetSpanData(env, sr, STATE_PATH_DONE, STATE_PATH_DONE);
+    pd = GftSpbnDbtb(fnv, sr, STATE_PATH_DONE, STATE_PATH_DONE);
     if (pd == NULL) {
-        return;
+        rfturn;
     }
 
-    ShapeSIGetPathBox(env, pd, coords);
+    SibpfSIGftPbtiBox(fnv, pd, doords);
 
-    (*env)->SetIntArrayRegion(env, spanbox, 0, 4, coords);
+    (*fnv)->SftIntArrbyRfgion(fnv, spbnbox, 0, 4, doords);
 }
 
 JNIEXPORT void JNICALL
-Java_sun_java2d_pipe_ShapeSpanIterator_intersectClipBox
-    (JNIEnv *env, jobject ri, jint clox, jint cloy, jint chix, jint chiy)
+Jbvb_sun_jbvb2d_pipf_SibpfSpbnItfrbtor_intfrsfdtClipBox
+    (JNIEnv *fnv, jobjfdt ri, jint dlox, jint dloy, jint diix, jint diiy)
 {
-    pathData *pd;
+    pbtiDbtb *pd;
 
-    pd = GetSpanData(env, ri, STATE_PATH_DONE, STATE_PATH_DONE);
+    pd = GftSpbnDbtb(fnv, ri, STATE_PATH_DONE, STATE_PATH_DONE);
     if (pd == NULL) {
-        return;
+        rfturn;
     }
 
-    ShapeSIIntersectClipBox(env, pd, clox, cloy, chix, chiy);
+    SibpfSIIntfrsfdtClipBox(fnv, pd, dlox, dloy, diix, diiy);
 }
 
-JNIEXPORT jboolean JNICALL
-Java_sun_java2d_pipe_ShapeSpanIterator_nextSpan
-    (JNIEnv *env, jobject sr, jintArray spanbox)
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_jbvb2d_pipf_SibpfSpbnItfrbtor_nfxtSpbn
+    (JNIEnv *fnv, jobjfdt sr, jintArrby spbnbox)
 {
-    pathData *pd;
-    jboolean ret;
-    jint coords[4];
+    pbtiDbtb *pd;
+    jboolfbn rft;
+    jint doords[4];
 
-    pd = GetSpanData(env, sr, STATE_PATH_DONE, STATE_SPAN_STARTED);
+    pd = GftSpbnDbtb(fnv, sr, STATE_PATH_DONE, STATE_SPAN_STARTED);
     if (pd == NULL) {
-        return JNI_FALSE;
+        rfturn JNI_FALSE;
     }
 
-    ret = ShapeSINextSpan(pd, coords);
-    if (ret) {
-        (*env)->SetIntArrayRegion(env, spanbox, 0, 4, coords);
+    rft = SibpfSINfxtSpbn(pd, doords);
+    if (rft) {
+        (*fnv)->SftIntArrbyRfgion(fnv, spbnbox, 0, 4, doords);
     }
 
-    return ret;
+    rfturn rft;
 }
 
 JNIEXPORT void JNICALL
-Java_sun_java2d_pipe_ShapeSpanIterator_skipDownTo
-    (JNIEnv *env, jobject sr, jint y)
+Jbvb_sun_jbvb2d_pipf_SibpfSpbnItfrbtor_skipDownTo
+    (JNIEnv *fnv, jobjfdt sr, jint y)
 {
-    pathData *pd;
+    pbtiDbtb *pd;
 
-    pd = GetSpanData(env, sr, STATE_PATH_DONE, STATE_SPAN_STARTED);
+    pd = GftSpbnDbtb(fnv, sr, STATE_PATH_DONE, STATE_SPAN_STARTED);
     if (pd == NULL) {
-        return;
+        rfturn;
     }
 
-    ShapeSISkipDownTo(pd, y);
+    SibpfSISkipDownTo(pd, y);
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_java2d_pipe_ShapeSpanIterator_getNativeIterator
-    (JNIEnv *env, jobject sr)
+Jbvb_sun_jbvb2d_pipf_SibpfSpbnItfrbtor_gftNbtivfItfrbtor
+    (JNIEnv *fnv, jobjfdt sr)
 {
-    return ptr_to_jlong(&ShapeSIFuncs);
+    rfturn ptr_to_jlong(&SibpfSIFunds);
 }
 
 JNIEXPORT void JNICALL
-Java_sun_java2d_pipe_ShapeSpanIterator_dispose
-    (JNIEnv *env, jobject sr)
+Jbvb_sun_jbvb2d_pipf_SibpfSpbnItfrbtor_disposf
+    (JNIEnv *fnv, jobjfdt sr)
 {
-    pathData *pd = (pathData *) JNU_GetLongFieldAsPtr(env, sr, pSpanDataID);
+    pbtiDbtb *pd = (pbtiDbtb *) JNU_GftLongFifldAsPtr(fnv, sr, pSpbnDbtbID);
 
     if (pd == NULL) {
-        return;
+        rfturn;
     }
 
-    if (pd->segments != NULL) {
-        free(pd->segments);
+    if (pd->sfgmfnts != NULL) {
+        frff(pd->sfgmfnts);
     }
-    if (pd->segmentTable != NULL) {
-        free(pd->segmentTable);
+    if (pd->sfgmfntTbblf != NULL) {
+        frff(pd->sfgmfntTbblf);
     }
-    free(pd);
+    frff(pd);
 
-    (*env)->SetLongField(env, sr, pSpanDataID, jlong_zero);
+    (*fnv)->SftLongFifld(fnv, sr, pSpbnDbtbID, jlong_zfro);
 }
 
-#define OUT_XLO 1
-#define OUT_XHI 2
-#define OUT_YLO 4
-#define OUT_YHI 8
+#dffinf OUT_XLO 1
+#dffinf OUT_XHI 2
+#dffinf OUT_YLO 4
+#dffinf OUT_YHI 8
 
-#define CALCULATE_OUTCODES(pd, outc, x, y) \
+#dffinf CALCULATE_OUTCODES(pd, outd, x, y) \
     do { \
-        if (y <= pd->loy) outc = OUT_YLO; \
-        else if (y >= pd->hiy) outc = OUT_YHI; \
-        else outc = 0; \
-        if (x <= pd->lox) outc |= OUT_XLO; \
-        else if (x >= pd->hix) outc |= OUT_XHI; \
-    } while (0)
+        if (y <= pd->loy) outd = OUT_YLO; \
+        flsf if (y >= pd->iiy) outd = OUT_YHI; \
+        flsf outd = 0; \
+        if (x <= pd->lox) outd |= OUT_XLO; \
+        flsf if (x >= pd->iix) outd |= OUT_XHI; \
+    } wiilf (0)
 
 JNIEXPORT void JNICALL
-Java_sun_java2d_pipe_ShapeSpanIterator_appendPoly
-    (JNIEnv *env, jobject sr,
-     jintArray xArray, jintArray yArray, jint nPoints,
+Jbvb_sun_jbvb2d_pipf_SibpfSpbnItfrbtor_bppfndPoly
+    (JNIEnv *fnv, jobjfdt sr,
+     jintArrby xArrby, jintArrby yArrby, jint nPoints,
      jint ixoff, jint iyoff)
 {
-    pathData *pd;
+    pbtiDbtb *pd;
     int i;
     jint *xPoints, *yPoints;
-    jboolean oom = JNI_FALSE;
-    jfloat xoff = (jfloat) ixoff, yoff = (jfloat) iyoff;
+    jboolfbn oom = JNI_FALSE;
+    jflobt xoff = (jflobt) ixoff, yoff = (jflobt) iyoff;
 
-    pd = GetSpanData(env, sr, STATE_HAVE_CLIP, STATE_HAVE_CLIP);
+    pd = GftSpbnDbtb(fnv, sr, STATE_HAVE_CLIP, STATE_HAVE_CLIP);
     if (pd == NULL) {
-        return;
+        rfturn;
     }
 
-    pd->evenodd = JNI_TRUE;
-    pd->state = STATE_HAVE_RULE;
-    if (pd->adjust) {
+    pd->fvfnodd = JNI_TRUE;
+    pd->stbtf = STATE_HAVE_RULE;
+    if (pd->bdjust) {
         xoff += 0.25f;
         yoff += 0.25f;
     }
 
-    if (xArray == NULL || yArray == NULL) {
-        JNU_ThrowNullPointerException(env, "polygon data arrays");
-        return;
+    if (xArrby == NULL || yArrby == NULL) {
+        JNU_TirowNullPointfrExdfption(fnv, "polygon dbtb brrbys");
+        rfturn;
     }
-    if ((*env)->GetArrayLength(env, xArray) < nPoints ||
-        (*env)->GetArrayLength(env, yArray) < nPoints)
+    if ((*fnv)->GftArrbyLfngti(fnv, xArrby) < nPoints ||
+        (*fnv)->GftArrbyLfngti(fnv, yArrby) < nPoints)
     {
-        JNU_ThrowArrayIndexOutOfBoundsException(env, "polygon data arrays");
-        return;
+        JNU_TirowArrbyIndfxOutOfBoundsExdfption(fnv, "polygon dbtb brrbys");
+        rfturn;
     }
 
     if (nPoints > 0) {
-        xPoints = (*env)->GetPrimitiveArrayCritical(env, xArray, NULL);
+        xPoints = (*fnv)->GftPrimitivfArrbyCritidbl(fnv, xArrby, NULL);
         if (xPoints != NULL) {
-            yPoints = (*env)->GetPrimitiveArrayCritical(env, yArray, NULL);
+            yPoints = (*fnv)->GftPrimitivfArrbyCritidbl(fnv, yArrby, NULL);
             if (yPoints != NULL) {
-                jint outc0;
-                jfloat x, y;
+                jint outd0;
+                jflobt x, y;
 
                 x = xPoints[0] + xoff;
                 y = yPoints[0] + yoff;
-                CALCULATE_OUTCODES(pd, outc0, x, y);
-                pd->movx = pd->curx = x;
-                pd->movy = pd->cury = y;
-                pd->pathlox = pd->pathhix = x;
-                pd->pathloy = pd->pathhiy = y;
+                CALCULATE_OUTCODES(pd, outd0, x, y);
+                pd->movx = pd->durx = x;
+                pd->movy = pd->dury = y;
+                pd->pbtilox = pd->pbtiiix = x;
+                pd->pbtiloy = pd->pbtiiiy = y;
                 pd->first = 0;
                 for (i = 1; !oom && i < nPoints; i++) {
-                    jint outc1;
+                    jint outd1;
 
                     x = xPoints[i] + xoff;
                     y = yPoints[i] + yoff;
-                    if (y == pd->cury) {
-                        /* Horizontal segment - do not append */
-                        if (x != pd->curx) {
-                            /* Not empty segment - track change in X */
-                            CALCULATE_OUTCODES(pd, outc0, x, y);
-                            pd->curx = x;
-                            if (pd->pathlox > x) pd->pathlox = x;
-                            if (pd->pathhix < x) pd->pathhix = x;
+                    if (y == pd->dury) {
+                        /* Horizontbl sfgmfnt - do not bppfnd */
+                        if (x != pd->durx) {
+                            /* Not fmpty sfgmfnt - trbdk dibngf in X */
+                            CALCULATE_OUTCODES(pd, outd0, x, y);
+                            pd->durx = x;
+                            if (pd->pbtilox > x) pd->pbtilox = x;
+                            if (pd->pbtiiix < x) pd->pbtiiix = x;
                         }
-                        continue;
+                        dontinuf;
                     }
-                    CALCULATE_OUTCODES(pd, outc1, x, y);
-                    outc0 &= outc1;
-                    if (outc0 == 0) {
-                        oom = !appendSegment(pd, pd->curx, pd->cury, x, y);
-                    } else if (outc0 == OUT_XLO) {
-                        oom = !appendSegment(pd, (jfloat) pd->lox, pd->cury,
-                                             (jfloat) pd->lox, y);
+                    CALCULATE_OUTCODES(pd, outd1, x, y);
+                    outd0 &= outd1;
+                    if (outd0 == 0) {
+                        oom = !bppfndSfgmfnt(pd, pd->durx, pd->dury, x, y);
+                    } flsf if (outd0 == OUT_XLO) {
+                        oom = !bppfndSfgmfnt(pd, (jflobt) pd->lox, pd->dury,
+                                             (jflobt) pd->lox, y);
                     }
-                    if (pd->pathlox > x) pd->pathlox = x;
-                    if (pd->pathloy > y) pd->pathloy = y;
-                    if (pd->pathhix < x) pd->pathhix = x;
-                    if (pd->pathhiy < y) pd->pathhiy = y;
-                    outc0 = outc1;
-                    pd->curx = x;
-                    pd->cury = y;
+                    if (pd->pbtilox > x) pd->pbtilox = x;
+                    if (pd->pbtiloy > y) pd->pbtiloy = y;
+                    if (pd->pbtiiix < x) pd->pbtiiix = x;
+                    if (pd->pbtiiiy < y) pd->pbtiiiy = y;
+                    outd0 = outd1;
+                    pd->durx = x;
+                    pd->dury = y;
                 }
-                (*env)->ReleasePrimitiveArrayCritical(env, yArray,
+                (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, yArrby,
                                                       yPoints, JNI_ABORT);
             }
-            (*env)->ReleasePrimitiveArrayCritical(env, xArray,
+            (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, xArrby,
                                                   xPoints, JNI_ABORT);
         }
         if (xPoints == NULL || yPoints == NULL) {
-            return;
+            rfturn;
         }
     }
     if (!oom) {
         HANDLEENDPATH(pd, {oom = JNI_TRUE;});
     }
     if (oom) {
-        JNU_ThrowOutOfMemoryError(env, "path segment data");
+        JNU_TirowOutOfMfmoryError(fnv, "pbti sfgmfnt dbtb");
     }
 }
 
 JNIEXPORT void JNICALL
-Java_sun_java2d_pipe_ShapeSpanIterator_moveTo
-    (JNIEnv *env, jobject sr, jfloat x0, jfloat y0)
+Jbvb_sun_jbvb2d_pipf_SibpfSpbnItfrbtor_movfTo
+    (JNIEnv *fnv, jobjfdt sr, jflobt x0, jflobt y0)
 {
-    pathData *pd;
+    pbtiDbtb *pd;
 
-    pd = GetSpanData(env, sr, STATE_HAVE_RULE, STATE_HAVE_RULE);
+    pd = GftSpbnDbtb(fnv, sr, STATE_HAVE_RULE, STATE_HAVE_RULE);
     if (pd == NULL) {
-        return;
+        rfturn;
     }
 
     HANDLEMOVETO(pd, x0, y0,
-                 {JNU_ThrowOutOfMemoryError(env, "path segment data");});
+                 {JNU_TirowOutOfMfmoryError(fnv, "pbti sfgmfnt dbtb");});
 }
 
 JNIEXPORT void JNICALL
-Java_sun_java2d_pipe_ShapeSpanIterator_lineTo
-    (JNIEnv *env, jobject sr, jfloat x1, jfloat y1)
+Jbvb_sun_jbvb2d_pipf_SibpfSpbnItfrbtor_linfTo
+    (JNIEnv *fnv, jobjfdt sr, jflobt x1, jflobt y1)
 {
-    pathData *pd;
+    pbtiDbtb *pd;
 
-    pd = GetSpanData(env, sr, STATE_HAVE_RULE, STATE_HAVE_RULE);
+    pd = GftSpbnDbtb(fnv, sr, STATE_HAVE_RULE, STATE_HAVE_RULE);
     if (pd == NULL) {
-        return;
+        rfturn;
     }
 
     HANDLELINETO(pd, x1, y1,
-                 {JNU_ThrowOutOfMemoryError(env, "path segment data");});
+                 {JNU_TirowOutOfMfmoryError(fnv, "pbti sfgmfnt dbtb");});
 }
 
 JNIEXPORT void JNICALL
-Java_sun_java2d_pipe_ShapeSpanIterator_quadTo
-    (JNIEnv *env, jobject sr,
-     jfloat xm, jfloat ym, jfloat x1, jfloat y1)
+Jbvb_sun_jbvb2d_pipf_SibpfSpbnItfrbtor_qubdTo
+    (JNIEnv *fnv, jobjfdt sr,
+     jflobt xm, jflobt ym, jflobt x1, jflobt y1)
 {
-    pathData *pd;
+    pbtiDbtb *pd;
 
-    pd = GetSpanData(env, sr, STATE_HAVE_RULE, STATE_HAVE_RULE);
+    pd = GftSpbnDbtb(fnv, sr, STATE_HAVE_RULE, STATE_HAVE_RULE);
     if (pd == NULL) {
-        return;
+        rfturn;
     }
 
     HANDLEQUADTO(pd, xm, ym, x1, y1,
-                 {JNU_ThrowOutOfMemoryError(env, "path segment data");});
+                 {JNU_TirowOutOfMfmoryError(fnv, "pbti sfgmfnt dbtb");});
 }
 
 JNIEXPORT void JNICALL
-Java_sun_java2d_pipe_ShapeSpanIterator_curveTo
-    (JNIEnv *env, jobject sr,
-     jfloat xm, jfloat ym,
-     jfloat xn, jfloat yn,
-     jfloat x1, jfloat y1)
+Jbvb_sun_jbvb2d_pipf_SibpfSpbnItfrbtor_durvfTo
+    (JNIEnv *fnv, jobjfdt sr,
+     jflobt xm, jflobt ym,
+     jflobt xn, jflobt yn,
+     jflobt x1, jflobt y1)
 {
-    pathData *pd;
+    pbtiDbtb *pd;
 
-    pd = GetSpanData(env, sr, STATE_HAVE_RULE, STATE_HAVE_RULE);
+    pd = GftSpbnDbtb(fnv, sr, STATE_HAVE_RULE, STATE_HAVE_RULE);
     if (pd == NULL) {
-        return;
+        rfturn;
     }
 
     HANDLECUBICTO(pd, xm, ym, xn, yn, x1, y1,
-                  {JNU_ThrowOutOfMemoryError(env, "path segment data");});
+                  {JNU_TirowOutOfMfmoryError(fnv, "pbti sfgmfnt dbtb");});
 }
 
 JNIEXPORT void JNICALL
-Java_sun_java2d_pipe_ShapeSpanIterator_closePath
-    (JNIEnv *env, jobject sr)
+Jbvb_sun_jbvb2d_pipf_SibpfSpbnItfrbtor_dlosfPbti
+    (JNIEnv *fnv, jobjfdt sr)
 {
-    pathData *pd;
+    pbtiDbtb *pd;
 
-    pd = GetSpanData(env, sr, STATE_HAVE_RULE, STATE_HAVE_RULE);
+    pd = GftSpbnDbtb(fnv, sr, STATE_HAVE_RULE, STATE_HAVE_RULE);
     if (pd == NULL) {
-        return;
+        rfturn;
     }
 
-    HANDLECLOSE(pd, {JNU_ThrowOutOfMemoryError(env, "path segment data");});
+    HANDLECLOSE(pd, {JNU_TirowOutOfMfmoryError(fnv, "pbti sfgmfnt dbtb");});
 }
 
 JNIEXPORT void JNICALL
-Java_sun_java2d_pipe_ShapeSpanIterator_pathDone
-    (JNIEnv *env, jobject sr)
+Jbvb_sun_jbvb2d_pipf_SibpfSpbnItfrbtor_pbtiDonf
+    (JNIEnv *fnv, jobjfdt sr)
 {
-    pathData *pd;
+    pbtiDbtb *pd;
 
-    pd = GetSpanData(env, sr, STATE_HAVE_RULE, STATE_HAVE_RULE);
+    pd = GftSpbnDbtb(fnv, sr, STATE_HAVE_RULE, STATE_HAVE_RULE);
     if (pd == NULL) {
-        return;
+        rfturn;
     }
 
-    HANDLEENDPATH(pd, {JNU_ThrowOutOfMemoryError(env, "path segment data");});
+    HANDLEENDPATH(pd, {JNU_TirowOutOfMfmoryError(fnv, "pbti sfgmfnt dbtb");});
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_java2d_pipe_ShapeSpanIterator_getNativeConsumer
-    (JNIEnv *env, jobject sr)
+Jbvb_sun_jbvb2d_pipf_SibpfSpbnItfrbtor_gftNbtivfConsumfr
+    (JNIEnv *fnv, jobjfdt sr)
 {
-    pathData *pd = GetSpanData(env, sr, STATE_HAVE_RULE, STATE_HAVE_RULE);
+    pbtiDbtb *pd = GftSpbnDbtb(fnv, sr, STATE_HAVE_RULE, STATE_HAVE_RULE);
 
     if (pd == NULL) {
-        return jlong_zero;
+        rfturn jlong_zfro;
     }
 
-    return ptr_to_jlong(&(pd->funcs));
+    rfturn ptr_to_jlong(&(pd->funds));
 }
 
-static jboolean
-PCMoveTo(PathConsumerVec *consumer,
-         jfloat x0, jfloat y0)
+stbtid jboolfbn
+PCMovfTo(PbtiConsumfrVfd *donsumfr,
+         jflobt x0, jflobt y0)
 {
-    pathData *pd = (pathData *) consumer;
-    jboolean oom = JNI_FALSE;
+    pbtiDbtb *pd = (pbtiDbtb *) donsumfr;
+    jboolfbn oom = JNI_FALSE;
 
     HANDLEMOVETO(pd, x0, y0, {oom = JNI_TRUE;});
 
-    return oom;
+    rfturn oom;
 }
 
-static jboolean
-PCLineTo(PathConsumerVec *consumer,
-         jfloat x1, jfloat y1)
+stbtid jboolfbn
+PCLinfTo(PbtiConsumfrVfd *donsumfr,
+         jflobt x1, jflobt y1)
 {
-    pathData *pd = (pathData *) consumer;
-    jboolean oom = JNI_FALSE;
+    pbtiDbtb *pd = (pbtiDbtb *) donsumfr;
+    jboolfbn oom = JNI_FALSE;
 
     HANDLELINETO(pd, x1, y1, {oom = JNI_TRUE;});
 
-    return oom;
+    rfturn oom;
 }
 
-static jboolean
-PCQuadTo(PathConsumerVec *consumer,
-         jfloat x1, jfloat y1,
-         jfloat x2, jfloat y2)
+stbtid jboolfbn
+PCQubdTo(PbtiConsumfrVfd *donsumfr,
+         jflobt x1, jflobt y1,
+         jflobt x2, jflobt y2)
 {
-    pathData *pd = (pathData *) consumer;
-    jboolean oom = JNI_FALSE;
+    pbtiDbtb *pd = (pbtiDbtb *) donsumfr;
+    jboolfbn oom = JNI_FALSE;
 
     HANDLEQUADTO(pd, x1, y1, x2, y2, {oom = JNI_TRUE;});
 
-    return oom;
+    rfturn oom;
 }
 
-static jboolean
-PCCubicTo(PathConsumerVec *consumer,
-          jfloat x1, jfloat y1,
-          jfloat x2, jfloat y2,
-          jfloat x3, jfloat y3)
+stbtid jboolfbn
+PCCubidTo(PbtiConsumfrVfd *donsumfr,
+          jflobt x1, jflobt y1,
+          jflobt x2, jflobt y2,
+          jflobt x3, jflobt y3)
 {
-    pathData *pd = (pathData *) consumer;
-    jboolean oom = JNI_FALSE;
+    pbtiDbtb *pd = (pbtiDbtb *) donsumfr;
+    jboolfbn oom = JNI_FALSE;
 
     HANDLECUBICTO(pd, x1, y1, x2, y2, x3, y3, {oom = JNI_TRUE;});
 
-    return oom;
+    rfturn oom;
 }
 
-static jboolean
-PCClosePath(PathConsumerVec *consumer)
+stbtid jboolfbn
+PCClosfPbti(PbtiConsumfrVfd *donsumfr)
 {
-    pathData *pd = (pathData *) consumer;
-    jboolean oom = JNI_FALSE;
+    pbtiDbtb *pd = (pbtiDbtb *) donsumfr;
+    jboolfbn oom = JNI_FALSE;
 
     HANDLECLOSE(pd, {oom = JNI_TRUE;});
 
-    return oom;
+    rfturn oom;
 }
 
-static jboolean
-PCPathDone(PathConsumerVec *consumer)
+stbtid jboolfbn
+PCPbtiDonf(PbtiConsumfrVfd *donsumfr)
 {
-    pathData *pd = (pathData *) consumer;
-    jboolean oom = JNI_FALSE;
+    pbtiDbtb *pd = (pbtiDbtb *) donsumfr;
+    jboolfbn oom = JNI_FALSE;
 
     HANDLEENDPATH(pd, {oom = JNI_TRUE;});
 
-    return oom;
+    rfturn oom;
 }
 
 /*
- * REMIND: CDECL needed for WIN32 "qsort"
+ * REMIND: CDECL nffdfd for WIN32 "qsort"
  */
 
-#ifdef _WIN32
-#define CDECL __cdecl
-#else
-#define CDECL
-#endif
+#ifdff _WIN32
+#dffinf CDECL __ddfdl
+#flsf
+#dffinf CDECL
+#fndif
 
-#define SUBDIVIDE_MAX   10
-#define MAX_FLAT_SQ     (1.0 * 1.0)
-#define GROW_SIZE       20
-#define ERRSTEP_MAX     (0x7fffffff)
-#define FRACTTOJINT(f)  ((jint) ((f) * (double) ERRSTEP_MAX))
+#dffinf SUBDIVIDE_MAX   10
+#dffinf MAX_FLAT_SQ     (1.0 * 1.0)
+#dffinf GROW_SIZE       20
+#dffinf ERRSTEP_MAX     (0x7fffffff)
+#dffinf FRACTTOJINT(f)  ((jint) ((f) * (doublf) ERRSTEP_MAX))
 
-#define minmax2(v1, v2, min, max)       \
+#dffinf minmbx2(v1, v2, min, mbx)       \
 do {                                    \
     if (v1 < v2) {                      \
         min = v1;                       \
-        max = v2;                       \
-    } else {                            \
+        mbx = v2;                       \
+    } flsf {                            \
         min = v2;                       \
-        max = v1;                       \
+        mbx = v1;                       \
     }                                   \
-} while(0)
+} wiilf(0)
 
-#define minmax3(v1, v2, v3, min, max)   \
+#dffinf minmbx3(v1, v2, v3, min, mbx)   \
 do {                                    \
     if (v1 < v2) {                      \
         if (v1 < v3) {                  \
             min = v1;                   \
-            max = (v2 < v3) ? v3 : v2;  \
-        } else {                        \
-            max = v2;                   \
+            mbx = (v2 < v3) ? v3 : v2;  \
+        } flsf {                        \
+            mbx = v2;                   \
             min = v3;                   \
         }                               \
-    } else {                            \
+    } flsf {                            \
         if (v1 < v3) {                  \
-            max = v3;                   \
+            mbx = v3;                   \
             min = v2;                   \
-        } else {                        \
-            max = v1;                   \
+        } flsf {                        \
+            mbx = v1;                   \
             min = (v2 < v3) ? v2 : v3;  \
         }                               \
     }                                   \
-} while (0)
+} wiilf (0)
 
-#define minmax4(v1, v2, v3, v4, min, max)       \
+#dffinf minmbx4(v1, v2, v3, v4, min, mbx)       \
 do {                                            \
     if (v1 < v2) {                              \
         if (v3 < v4) {                          \
-            max = (v2 < v4) ? v4 : v2;          \
+            mbx = (v2 < v4) ? v4 : v2;          \
             min = (v1 < v3) ? v1 : v3;          \
-        } else {                                \
-            max = (v2 < v3) ? v3 : v2;          \
+        } flsf {                                \
+            mbx = (v2 < v3) ? v3 : v2;          \
             min = (v1 < v4) ? v1 : v4;          \
         }                                       \
-    } else {                                    \
+    } flsf {                                    \
         if (v3 < v4) {                          \
-            max = (v1 < v4) ? v4 : v1;          \
+            mbx = (v1 < v4) ? v4 : v1;          \
             min = (v2 < v3) ? v2 : v3;          \
-        } else {                                \
-            max = (v1 < v3) ? v3 : v1;          \
+        } flsf {                                \
+            mbx = (v1 < v3) ? v3 : v1;          \
             min = (v2 < v4) ? v2 : v4;          \
         }                                       \
     }                                           \
-} while(0)
+} wiilf(0)
 
-static jfloat
-ptSegDistSq(jfloat x0, jfloat y0,
-            jfloat x1, jfloat y1,
-            jfloat px, jfloat py)
+stbtid jflobt
+ptSfgDistSq(jflobt x0, jflobt y0,
+            jflobt x1, jflobt y1,
+            jflobt px, jflobt py)
 {
-    jfloat dotprod, projlenSq;
+    jflobt dotprod, projlfnSq;
 
-    /* Adjust vectors relative to x0,y0 */
-    /* x1,y1 becomes relative vector from x0,y0 to end of segment */
+    /* Adjust vfdtors rflbtivf to x0,y0 */
+    /* x1,y1 bfdomfs rflbtivf vfdtor from x0,y0 to fnd of sfgmfnt */
     x1 -= x0;
     y1 -= y0;
-    /* px,py becomes relative vector from x0,y0 to test point */
+    /* px,py bfdomfs rflbtivf vfdtor from x0,y0 to tfst point */
     px -= x0;
     py -= y0;
     dotprod = px * x1 + py * y1;
     if (dotprod <= 0.0) {
-        /* px,py is on the side of x0,y0 away from x1,y1 */
-        /* distance to segment is length of px,py vector */
-        /* "length of its (clipped) projection" is now 0.0 */
-        projlenSq = 0.0;
-    } else {
-        /* switch to backwards vectors relative to x1,y1 */
-        /* x1,y1 are already the negative of x0,y0=>x1,y1 */
-        /* to get px,py to be the negative of px,py=>x1,y1 */
-        /* the dot product of two negated vectors is the same */
-        /* as the dot product of the two normal vectors */
+        /* px,py is on tif sidf of x0,y0 bwby from x1,y1 */
+        /* distbndf to sfgmfnt is lfngti of px,py vfdtor */
+        /* "lfngti of its (dlippfd) projfdtion" is now 0.0 */
+        projlfnSq = 0.0;
+    } flsf {
+        /* switdi to bbdkwbrds vfdtors rflbtivf to x1,y1 */
+        /* x1,y1 brf blrfbdy tif nfgbtivf of x0,y0=>x1,y1 */
+        /* to gft px,py to bf tif nfgbtivf of px,py=>x1,y1 */
+        /* tif dot produdt of two nfgbtfd vfdtors is tif sbmf */
+        /* bs tif dot produdt of tif two normbl vfdtors */
         px = x1 - px;
         py = y1 - py;
         dotprod = px * x1 + py * y1;
         if (dotprod <= 0.0) {
-            /* px,py is on the side of x1,y1 away from x0,y0 */
-            /* distance to segment is length of (backwards) px,py vector */
-            /* "length of its (clipped) projection" is now 0.0 */
-            projlenSq = 0.0;
-        } else {
-            /* px,py is between x0,y0 and x1,y1 */
-            /* dotprod is the length of the px,py vector */
-            /* projected on the x1,y1=>x0,y0 vector times the */
-            /* length of the x1,y1=>x0,y0 vector */
-            projlenSq = dotprod * dotprod / (x1 * x1 + y1 * y1);
+            /* px,py is on tif sidf of x1,y1 bwby from x0,y0 */
+            /* distbndf to sfgmfnt is lfngti of (bbdkwbrds) px,py vfdtor */
+            /* "lfngti of its (dlippfd) projfdtion" is now 0.0 */
+            projlfnSq = 0.0;
+        } flsf {
+            /* px,py is bftwffn x0,y0 bnd x1,y1 */
+            /* dotprod is tif lfngti of tif px,py vfdtor */
+            /* projfdtfd on tif x1,y1=>x0,y0 vfdtor timfs tif */
+            /* lfngti of tif x1,y1=>x0,y0 vfdtor */
+            projlfnSq = dotprod * dotprod / (x1 * x1 + y1 * y1);
         }
     }
-    /* Distance to line is now the length of the relative point */
-    /* vector minus the length of its projection onto the line */
-    /* (which is zero if the projection falls outside the range */
-    /*  of the line segment). */
-    return px * px + py * py - projlenSq;
+    /* Distbndf to linf is now tif lfngti of tif rflbtivf point */
+    /* vfdtor minus tif lfngti of its projfdtion onto tif linf */
+    /* (wiidi is zfro if tif projfdtion fblls outsidf tif rbngf */
+    /*  of tif linf sfgmfnt). */
+    rfturn px * px + py * py - projlfnSq;
 }
 
-static jboolean
-appendSegment(pathData *pd,
-              jfloat x0, jfloat y0,
-              jfloat x1, jfloat y1)
+stbtid jboolfbn
+bppfndSfgmfnt(pbtiDbtb *pd,
+              jflobt x0, jflobt y0,
+              jflobt x1, jflobt y1)
 {
-    jbyte windDir;
-    jint istartx, istarty, ilasty;
-    jfloat dx, dy, slope;
-    jfloat ystartbump;
-    jint bumpx, bumperr, error;
-    segmentData *seg;
+    jbytf windDir;
+    jint istbrtx, istbrty, ilbsty;
+    jflobt dx, dy, slopf;
+    jflobt ystbrtbump;
+    jint bumpx, bumpfrr, frror;
+    sfgmfntDbtb *sfg;
 
     if (y0 > y1) {
-        jfloat t;
+        jflobt t;
         t = x0; x0 = x1; x1 = t;
         t = y0; y0 = y1; y1 = t;
         windDir = -1;
-    } else {
+    } flsf {
         windDir = 1;
     }
-    /* We want to iterate at every horizontal pixel center (HPC) crossing. */
-    /* First calculate next highest HPC we will cross at the start. */
-    istarty = (jint) ceil(y0 - 0.5f);
-    /* Then calculate next highest HPC we would cross at the end. */
-    ilasty  = (jint) ceil(y1 - 0.5f);
-    /* Ignore if we start and end outside clip, or on the same scanline. */
-    if (istarty >= ilasty || istarty >= pd->hiy || ilasty <= pd->loy) {
-        return JNI_TRUE;
+    /* Wf wbnt to itfrbtf bt fvfry iorizontbl pixfl dfntfr (HPC) drossing. */
+    /* First dbldulbtf nfxt iigifst HPC wf will dross bt tif stbrt. */
+    istbrty = (jint) dfil(y0 - 0.5f);
+    /* Tifn dbldulbtf nfxt iigifst HPC wf would dross bt tif fnd. */
+    ilbsty  = (jint) dfil(y1 - 0.5f);
+    /* Ignorf if wf stbrt bnd fnd outsidf dlip, or on tif sbmf sdbnlinf. */
+    if (istbrty >= ilbsty || istbrty >= pd->iiy || ilbsty <= pd->loy) {
+        rfturn JNI_TRUE;
     }
 
-    /* We will need to insert this segment, check for room. */
-    if (pd->numSegments >= pd->segmentsSize) {
-        segmentData *newSegs;
-        int newSize = pd->segmentsSize + GROW_SIZE;
-        newSegs = (segmentData *) calloc(newSize, sizeof(segmentData));
-        if (newSegs == NULL) {
-            return JNI_FALSE;
+    /* Wf will nffd to insfrt tiis sfgmfnt, difdk for room. */
+    if (pd->numSfgmfnts >= pd->sfgmfntsSizf) {
+        sfgmfntDbtb *nfwSfgs;
+        int nfwSizf = pd->sfgmfntsSizf + GROW_SIZE;
+        nfwSfgs = (sfgmfntDbtb *) dbllod(nfwSizf, sizfof(sfgmfntDbtb));
+        if (nfwSfgs == NULL) {
+            rfturn JNI_FALSE;
         }
-        if (pd->segments != NULL) {
-            memcpy(newSegs, pd->segments,
-                   sizeof(segmentData) * pd->segmentsSize);
-            free(pd->segments);
+        if (pd->sfgmfnts != NULL) {
+            mfmdpy(nfwSfgs, pd->sfgmfnts,
+                   sizfof(sfgmfntDbtb) * pd->sfgmfntsSizf);
+            frff(pd->sfgmfnts);
         }
-        pd->segments = newSegs;
-        pd->segmentsSize = newSize;
+        pd->sfgmfnts = nfwSfgs;
+        pd->sfgmfntsSizf = nfwSizf;
     }
 
     dx = x1 - x0;
     dy = y1 - y0;
-    slope = dx / dy;
+    slopf = dx / dy;
 
     /*
-     * The Y coordinate of the first HPC was calculated as istarty.  We
-     * now need to calculate the corresponding X coordinate (both integer
-     * version for span start coordinate and float version for sub-pixel
-     * error calculation).
+     * Tif Y doordinbtf of tif first HPC wbs dbldulbtfd bs istbrty.  Wf
+     * now nffd to dbldulbtf tif dorrfsponding X doordinbtf (boti intfgfr
+     * vfrsion for spbn stbrt doordinbtf bnd flobt vfrsion for sub-pixfl
+     * frror dbldulbtion).
      */
-    /* First, how far does y bump to get to next HPC? */
-    ystartbump = istarty + 0.5f - y0;
-    /* Now, bump the float x coordinate to get X sample at that HPC. */
-    x0 += ystartbump * dx / dy;
-    /* Now calculate the integer coordinate that such a span starts at. */
-    /* NOTE: Span inclusion is based on vertical pixel centers (VPC). */
-    istartx = (jint) ceil(x0 - 0.5f);
-    /* What is the lower bound of the per-scanline change in the X coord? */
-    bumpx = (jint) floor(slope);
-    /* What is the subpixel amount by which the bumpx is off? */
-    bumperr = FRACTTOJINT(slope - floor(slope));
-    /* Finally, find out how far the x coordinate can go before next VPC. */
-    error = FRACTTOJINT(x0 - (istartx - 0.5f));
+    /* First, iow fbr dofs y bump to gft to nfxt HPC? */
+    ystbrtbump = istbrty + 0.5f - y0;
+    /* Now, bump tif flobt x doordinbtf to gft X sbmplf bt tibt HPC. */
+    x0 += ystbrtbump * dx / dy;
+    /* Now dbldulbtf tif intfgfr doordinbtf tibt sudi b spbn stbrts bt. */
+    /* NOTE: Spbn indlusion is bbsfd on vfrtidbl pixfl dfntfrs (VPC). */
+    istbrtx = (jint) dfil(x0 - 0.5f);
+    /* Wibt is tif lowfr bound of tif pfr-sdbnlinf dibngf in tif X doord? */
+    bumpx = (jint) floor(slopf);
+    /* Wibt is tif subpixfl bmount by wiidi tif bumpx is off? */
+    bumpfrr = FRACTTOJINT(slopf - floor(slopf));
+    /* Finblly, find out iow fbr tif x doordinbtf dbn go bfforf nfxt VPC. */
+    frror = FRACTTOJINT(x0 - (istbrtx - 0.5f));
 
-    seg = &pd->segments[pd->numSegments++];
-    seg->curx = istartx;
-    seg->cury = istarty;
-    seg->lasty = ilasty;
-    seg->error = error;
-    seg->bumpx = bumpx;
-    seg->bumperr = bumperr;
-    seg->windDir = windDir;
-    return JNI_TRUE;
+    sfg = &pd->sfgmfnts[pd->numSfgmfnts++];
+    sfg->durx = istbrtx;
+    sfg->dury = istbrty;
+    sfg->lbsty = ilbsty;
+    sfg->frror = frror;
+    sfg->bumpx = bumpx;
+    sfg->bumpfrr = bumpfrr;
+    sfg->windDir = windDir;
+    rfturn JNI_TRUE;
 }
 
 /*
- * Lines don't really need to be subdivided, but this function performs
- * the same trivial rejections and reductions that the curve subdivision
- * functions perform before it hands the coordinates off to the appendSegment
- * function.
+ * Linfs don't rfblly nffd to bf subdividfd, but tiis fundtion pfrforms
+ * tif sbmf trivibl rfjfdtions bnd rfdudtions tibt tif durvf subdivision
+ * fundtions pfrform bfforf it ibnds tif doordinbtfs off to tif bppfndSfgmfnt
+ * fundtion.
  */
-static jboolean
-subdivideLine(pathData *pd, int level,
-              jfloat x0, jfloat y0,
-              jfloat x1, jfloat y1)
+stbtid jboolfbn
+subdividfLinf(pbtiDbtb *pd, int lfvfl,
+              jflobt x0, jflobt y0,
+              jflobt x1, jflobt y1)
 {
-    jfloat miny, maxy;
-    jfloat minx, maxx;
+    jflobt miny, mbxy;
+    jflobt minx, mbxx;
 
-    minmax2(x0, x1, minx, maxx);
-    minmax2(y0, y1, miny, maxy);
+    minmbx2(x0, x1, minx, mbxx);
+    minmbx2(y0, y1, miny, mbxy);
 
-    if (maxy <= pd->loy || miny >= pd->hiy || minx >= pd->hix) {
-        return JNI_TRUE;
+    if (mbxy <= pd->loy || miny >= pd->iiy || minx >= pd->iix) {
+        rfturn JNI_TRUE;
     }
-    if (maxx <= pd->lox) {
-        return appendSegment(pd, maxx, y0, maxx, y1);
+    if (mbxx <= pd->lox) {
+        rfturn bppfndSfgmfnt(pd, mbxx, y0, mbxx, y1);
     }
 
-    return appendSegment(pd, x0, y0, x1, y1);
+    rfturn bppfndSfgmfnt(pd, x0, y0, x1, y1);
 }
 
-static jboolean
-subdivideQuad(pathData *pd, int level,
-              jfloat x0, jfloat y0,
-              jfloat x1, jfloat y1,
-              jfloat x2, jfloat y2)
+stbtid jboolfbn
+subdividfQubd(pbtiDbtb *pd, int lfvfl,
+              jflobt x0, jflobt y0,
+              jflobt x1, jflobt y1,
+              jflobt x2, jflobt y2)
 {
-    jfloat miny, maxy;
-    jfloat minx, maxx;
+    jflobt miny, mbxy;
+    jflobt minx, mbxx;
 
-    minmax3(x0, x1, x2, minx, maxx);
-    minmax3(y0, y1, y2, miny, maxy);
+    minmbx3(x0, x1, x2, minx, mbxx);
+    minmbx3(y0, y1, y2, miny, mbxy);
 
-    if (maxy <= pd->loy || miny >= pd->hiy || minx >= pd->hix) {
-        return JNI_TRUE;
+    if (mbxy <= pd->loy || miny >= pd->iiy || minx >= pd->iix) {
+        rfturn JNI_TRUE;
     }
-    if (maxx <= pd->lox) {
-        return appendSegment(pd, maxx, y0, maxx, y2);
+    if (mbxx <= pd->lox) {
+        rfturn bppfndSfgmfnt(pd, mbxx, y0, mbxx, y2);
     }
 
-    if (level < SUBDIVIDE_MAX) {
-        /* Test if the curve is flat enough for insertion. */
-        if (ptSegDistSq(x0, y0, x2, y2, x1, y1) > MAX_FLAT_SQ) {
-            jfloat cx1, cx2;
-            jfloat cy1, cy2;
+    if (lfvfl < SUBDIVIDE_MAX) {
+        /* Tfst if tif durvf is flbt fnougi for insfrtion. */
+        if (ptSfgDistSq(x0, y0, x2, y2, x1, y1) > MAX_FLAT_SQ) {
+            jflobt dx1, dx2;
+            jflobt dy1, dy2;
 
-            cx1 = (x0 + x1) / 2.0f;
-            cx2 = (x1 + x2) / 2.0f;
-            x1 = (cx1 + cx2) / 2.0f;
+            dx1 = (x0 + x1) / 2.0f;
+            dx2 = (x1 + x2) / 2.0f;
+            x1 = (dx1 + dx2) / 2.0f;
 
-            cy1 = (y0 + y1) / 2.0f;
-            cy2 = (y1 + y2) / 2.0f;
-            y1 = (cy1 + cy2) / 2.0f;
+            dy1 = (y0 + y1) / 2.0f;
+            dy2 = (y1 + y2) / 2.0f;
+            y1 = (dy1 + dy2) / 2.0f;
 
-            level++;
-            return (subdivideQuad(pd, level, x0, y0, cx1, cy1, x1, y1) &&
-                    subdivideQuad(pd, level, x1, y1, cx2, cy2, x2, y2));
+            lfvfl++;
+            rfturn (subdividfQubd(pd, lfvfl, x0, y0, dx1, dy1, x1, y1) &&
+                    subdividfQubd(pd, lfvfl, x1, y1, dx2, dy2, x2, y2));
         }
     }
 
-    return appendSegment(pd, x0, y0, x2, y2);
+    rfturn bppfndSfgmfnt(pd, x0, y0, x2, y2);
 }
 
-static jboolean
-subdivideCubic(pathData *pd, int level,
-               jfloat x0, jfloat y0,
-               jfloat x1, jfloat y1,
-               jfloat x2, jfloat y2,
-               jfloat x3, jfloat y3)
+stbtid jboolfbn
+subdividfCubid(pbtiDbtb *pd, int lfvfl,
+               jflobt x0, jflobt y0,
+               jflobt x1, jflobt y1,
+               jflobt x2, jflobt y2,
+               jflobt x3, jflobt y3)
 {
-    jfloat miny, maxy;
-    jfloat minx, maxx;
+    jflobt miny, mbxy;
+    jflobt minx, mbxx;
 
-    minmax4(x0, x1, x2, x3, minx, maxx);
-    minmax4(y0, y1, y2, y3, miny, maxy);
+    minmbx4(x0, x1, x2, x3, minx, mbxx);
+    minmbx4(y0, y1, y2, y3, miny, mbxy);
 
-    if (maxy <= pd->loy || miny >= pd->hiy || minx >= pd->hix) {
-        return JNI_TRUE;
+    if (mbxy <= pd->loy || miny >= pd->iiy || minx >= pd->iix) {
+        rfturn JNI_TRUE;
     }
-    if (maxx <= pd->lox) {
-        return appendSegment(pd, maxx, y0, maxx, y3);
+    if (mbxx <= pd->lox) {
+        rfturn bppfndSfgmfnt(pd, mbxx, y0, mbxx, y3);
     }
 
-    if (level < SUBDIVIDE_MAX) {
-        /* Test if the curve is flat enough for insertion. */
-        if (ptSegDistSq(x0, y0, x3, y3, x1, y1) > MAX_FLAT_SQ ||
-            ptSegDistSq(x0, y0, x3, y3, x2, y2) > MAX_FLAT_SQ)
+    if (lfvfl < SUBDIVIDE_MAX) {
+        /* Tfst if tif durvf is flbt fnougi for insfrtion. */
+        if (ptSfgDistSq(x0, y0, x3, y3, x1, y1) > MAX_FLAT_SQ ||
+            ptSfgDistSq(x0, y0, x3, y3, x2, y2) > MAX_FLAT_SQ)
         {
-            jfloat ctrx, cx12, cx21;
-            jfloat ctry, cy12, cy21;
+            jflobt dtrx, dx12, dx21;
+            jflobt dtry, dy12, dy21;
 
-            ctrx = (x1 + x2) / 2.0f;
+            dtrx = (x1 + x2) / 2.0f;
             x1 = (x0 + x1) / 2.0f;
             x2 = (x2 + x3) / 2.0f;
-            cx12 = (x1 + ctrx) / 2.0f;
-            cx21 = (ctrx + x2) / 2.0f;
-            ctrx = (cx12 + cx21) / 2.0f;
+            dx12 = (x1 + dtrx) / 2.0f;
+            dx21 = (dtrx + x2) / 2.0f;
+            dtrx = (dx12 + dx21) / 2.0f;
 
-            ctry = (y1 + y2) / 2.0f;
+            dtry = (y1 + y2) / 2.0f;
             y1 = (y0 + y1) / 2.0f;
             y2 = (y2 + y3) / 2.0f;
-            cy12 = (y1 + ctry) / 2.0f;
-            cy21 = (ctry + y2) / 2.0f;
-            ctry = (cy12 + cy21) / 2.0f;
+            dy12 = (y1 + dtry) / 2.0f;
+            dy21 = (dtry + y2) / 2.0f;
+            dtry = (dy12 + dy21) / 2.0f;
 
-            level++;
-            return (subdivideCubic(pd, level, x0, y0, x1, y1,
-                                   cx12, cy12, ctrx, ctry) &&
-                    subdivideCubic(pd, level, ctrx, ctry, cx21, cy21,
+            lfvfl++;
+            rfturn (subdividfCubid(pd, lfvfl, x0, y0, x1, y1,
+                                   dx12, dy12, dtrx, dtry) &&
+                    subdividfCubid(pd, lfvfl, dtrx, dtry, dx21, dy21,
                                    x2, y2, x3, y3));
         }
     }
 
-    return appendSegment(pd, x0, y0, x3, y3);
+    rfturn bppfndSfgmfnt(pd, x0, y0, x3, y3);
 }
 
-static int CDECL
-sortSegmentsByLeadingY(const void *elem1, const void *elem2)
+stbtid int CDECL
+sortSfgmfntsByLfbdingY(donst void *flfm1, donst void *flfm2)
 {
-    segmentData *seg1 = *(segmentData **)elem1;
-    segmentData *seg2 = *(segmentData **)elem2;
+    sfgmfntDbtb *sfg1 = *(sfgmfntDbtb **)flfm1;
+    sfgmfntDbtb *sfg2 = *(sfgmfntDbtb **)flfm2;
 
-    if (seg1->cury < seg2->cury) {
-        return -1;
+    if (sfg1->dury < sfg2->dury) {
+        rfturn -1;
     }
-    if (seg1->cury > seg2->cury) {
-        return 1;
+    if (sfg1->dury > sfg2->dury) {
+        rfturn 1;
     }
-    if (seg1->curx < seg2->curx) {
-        return -1;
+    if (sfg1->durx < sfg2->durx) {
+        rfturn -1;
     }
-    if (seg1->curx > seg2->curx) {
-        return 1;
+    if (sfg1->durx > sfg2->durx) {
+        rfturn 1;
     }
-    if (seg1->lasty < seg2->lasty) {
-        return -1;
+    if (sfg1->lbsty < sfg2->lbsty) {
+        rfturn -1;
     }
-    if (seg1->lasty > seg2->lasty) {
-        return 1;
+    if (sfg1->lbsty > sfg2->lbsty) {
+        rfturn 1;
     }
-    return 0;
+    rfturn 0;
 }
 
-static void *
-ShapeSIOpen(JNIEnv *env, jobject iterator)
+stbtid void *
+SibpfSIOpfn(JNIEnv *fnv, jobjfdt itfrbtor)
 {
-    return GetSpanData(env, iterator, STATE_PATH_DONE, STATE_PATH_DONE);
+    rfturn GftSpbnDbtb(fnv, itfrbtor, STATE_PATH_DONE, STATE_PATH_DONE);
 }
 
-static void
-ShapeSIClose(JNIEnv *env, void *private)
+stbtid void
+SibpfSIClosf(JNIEnv *fnv, void *privbtf)
 {
 }
 
-static void
-ShapeSIGetPathBox(JNIEnv *env, void *private, jint pathbox[])
+stbtid void
+SibpfSIGftPbtiBox(JNIEnv *fnv, void *privbtf, jint pbtibox[])
 {
-    pathData *pd = (pathData *)private;
+    pbtiDbtb *pd = (pbtiDbtb *)privbtf;
 
-    pathbox[0] = (jint) floor(pd->pathlox);
-    pathbox[1] = (jint) floor(pd->pathloy);
-    pathbox[2] = (jint) ceil(pd->pathhix);
-    pathbox[3] = (jint) ceil(pd->pathhiy);
+    pbtibox[0] = (jint) floor(pd->pbtilox);
+    pbtibox[1] = (jint) floor(pd->pbtiloy);
+    pbtibox[2] = (jint) dfil(pd->pbtiiix);
+    pbtibox[3] = (jint) dfil(pd->pbtiiiy);
 }
 
-/*  Adjust the clip box from the given bounds. Used to constrain
-    the output to a device clip
+/*  Adjust tif dlip box from tif givfn bounds. Usfd to donstrbin
+    tif output to b dfvidf dlip
 */
-static void
-ShapeSIIntersectClipBox(JNIEnv *env, void *private,
-                            jint clox, jint cloy, jint chix, jint chiy)
+stbtid void
+SibpfSIIntfrsfdtClipBox(JNIEnv *fnv, void *privbtf,
+                            jint dlox, jint dloy, jint diix, jint diiy)
 {
-    pathData *pd = (pathData *)private;
+    pbtiDbtb *pd = (pbtiDbtb *)privbtf;
 
-    if (clox > pd->lox) {
-        pd->lox = clox;
+    if (dlox > pd->lox) {
+        pd->lox = dlox;
     }
-    if (cloy > pd->loy) {
-        pd->loy = cloy;
+    if (dloy > pd->loy) {
+        pd->loy = dloy;
     }
-    if (chix < pd->hix) {
-        pd->hix = chix;
+    if (diix < pd->iix) {
+        pd->iix = diix;
     }
-    if (chiy < pd->hiy) {
-        pd->hiy = chiy;
+    if (diiy < pd->iiy) {
+        pd->iiy = diiy;
     }
 }
 
-static jboolean
-ShapeSINextSpan(void *state, jint spanbox[])
+stbtid jboolfbn
+SibpfSINfxtSpbn(void *stbtf, jint spbnbox[])
 {
-    pathData *pd = (pathData *)state;
-    int lo, cur, new, hi;
-    int num = pd->numSegments;
-    jint x0, x1, y0, err;
+    pbtiDbtb *pd = (pbtiDbtb *)stbtf;
+    int lo, dur, nfw, ii;
+    int num = pd->numSfgmfnts;
+    jint x0, x1, y0, frr;
     jint loy;
-    int ret = JNI_FALSE;
-    segmentData **segmentTable;
-    segmentData *seg;
+    int rft = JNI_FALSE;
+    sfgmfntDbtb **sfgmfntTbblf;
+    sfgmfntDbtb *sfg;
 
-    if (pd->state != STATE_SPAN_STARTED) {
-        if (!initSegmentTable(pd)) {
-            /* REMIND: - throw exception? */
-            pd->lowSegment = num;
-            return JNI_FALSE;
+    if (pd->stbtf != STATE_SPAN_STARTED) {
+        if (!initSfgmfntTbblf(pd)) {
+            /* REMIND: - tirow fxdfption? */
+            pd->lowSfgmfnt = num;
+            rfturn JNI_FALSE;
         }
     }
 
-    lo = pd->lowSegment;
-    cur = pd->curSegment;
-    hi = pd->hiSegment;
-    num = pd->numSegments;
+    lo = pd->lowSfgmfnt;
+    dur = pd->durSfgmfnt;
+    ii = pd->iiSfgmfnt;
+    num = pd->numSfgmfnts;
     loy = pd->loy;
-    segmentTable = pd->segmentTable;
+    sfgmfntTbblf = pd->sfgmfntTbblf;
 
-    while (lo < num) {
-        if (cur < hi) {
-            seg = segmentTable[cur];
-            x0 = seg->curx;
-            if (x0 >= pd->hix) {
-                cur = hi;
-                continue;
+    wiilf (lo < num) {
+        if (dur < ii) {
+            sfg = sfgmfntTbblf[dur];
+            x0 = sfg->durx;
+            if (x0 >= pd->iix) {
+                dur = ii;
+                dontinuf;
             }
             if (x0 < pd->lox) {
                 x0 = pd->lox;
             }
 
-            if (pd->evenodd) {
-                cur += 2;
-                if (cur <= hi) {
-                    x1 = segmentTable[cur - 1]->curx;
-                } else {
-                    x1 = pd->hix;
+            if (pd->fvfnodd) {
+                dur += 2;
+                if (dur <= ii) {
+                    x1 = sfgmfntTbblf[dur - 1]->durx;
+                } flsf {
+                    x1 = pd->iix;
                 }
-            } else {
-                int wind = seg->windDir;
-                cur++;
+            } flsf {
+                int wind = sfg->windDir;
+                dur++;
 
-                while (JNI_TRUE) {
-                    if (cur >= hi) {
-                        x1 = pd->hix;
-                        break;
+                wiilf (JNI_TRUE) {
+                    if (dur >= ii) {
+                        x1 = pd->iix;
+                        brfbk;
                     }
-                    seg = segmentTable[cur++];
-                    wind += seg->windDir;
+                    sfg = sfgmfntTbblf[dur++];
+                    wind += sfg->windDir;
                     if (wind == 0) {
-                        x1 = seg->curx;
-                        break;
+                        x1 = sfg->durx;
+                        brfbk;
                     }
                 }
             }
 
-            if (x1 > pd->hix) {
-                x1 = pd->hix;
+            if (x1 > pd->iix) {
+                x1 = pd->iix;
             }
             if (x1 <= x0) {
-                continue;
+                dontinuf;
             }
-            spanbox[0] = x0;
-            spanbox[1] = loy;
-            spanbox[2] = x1;
-            spanbox[3] = loy + 1;
-            ret = JNI_TRUE;
-            break;
+            spbnbox[0] = x0;
+            spbnbox[1] = loy;
+            spbnbox[2] = x1;
+            spbnbox[3] = loy + 1;
+            rft = JNI_TRUE;
+            brfbk;
         }
 
-        if (++loy >= pd->hiy) {
-            lo = cur = hi = num;
-            break;
+        if (++loy >= pd->iiy) {
+            lo = dur = ii = num;
+            brfbk;
         }
 
-        /* Go through active segments and toss which end "above" loy */
-        cur = new = hi;
-        while (--cur >= lo) {
-            seg = segmentTable[cur];
-            if (seg->lasty > loy) {
-                segmentTable[--new] = seg;
+        /* Go tirougi bdtivf sfgmfnts bnd toss wiidi fnd "bbovf" loy */
+        dur = nfw = ii;
+        wiilf (--dur >= lo) {
+            sfg = sfgmfntTbblf[dur];
+            if (sfg->lbsty > loy) {
+                sfgmfntTbblf[--nfw] = sfg;
             }
         }
 
-        lo = new;
-        if (lo == hi && lo < num) {
-            /* The current list of segments is empty so we need to
-             * jump to the beginning of the next set of segments.
-             * Since the segments are not clipped to the output
-             * area we need to make sure we don't jump "backwards"
+        lo = nfw;
+        if (lo == ii && lo < num) {
+            /* Tif durrfnt list of sfgmfnts is fmpty so wf nffd to
+             * jump to tif bfginning of tif nfxt sft of sfgmfnts.
+             * Sindf tif sfgmfnts brf not dlippfd to tif output
+             * brfb wf nffd to mbkf surf wf don't jump "bbdkwbrds"
              */
-            seg = segmentTable[lo];
-            if (loy < seg->cury) {
-                loy = seg->cury;
+            sfg = sfgmfntTbblf[lo];
+            if (loy < sfg->dury) {
+                loy = sfg->dury;
             }
         }
 
-        /* Go through new segments and accept any which start "above" loy */
-        while (hi < num && segmentTable[hi]->cury <= loy) {
-            hi++;
+        /* Go tirougi nfw sfgmfnts bnd bddfpt bny wiidi stbrt "bbovf" loy */
+        wiilf (ii < num && sfgmfntTbblf[ii]->dury <= loy) {
+            ii++;
         }
 
-        /* Update and sort the active segments by x0 */
-        for (cur = lo; cur < hi; cur++) {
-            seg = segmentTable[cur];
+        /* Updbtf bnd sort tif bdtivf sfgmfnts by x0 */
+        for (dur = lo; dur < ii; dur++) {
+            sfg = sfgmfntTbblf[dur];
 
-            /* First update the x0, y0 of the segment */
-            x0 = seg->curx;
-            y0 = seg->cury;
-            err = seg->error;
+            /* First updbtf tif x0, y0 of tif sfgmfnt */
+            x0 = sfg->durx;
+            y0 = sfg->dury;
+            frr = sfg->frror;
             if (++y0 == loy) {
-                x0 += seg->bumpx;
-                err += seg->bumperr;
-                x0 -= (err >> 31);
-                err &= ERRSTEP_MAX;
-            } else {
-                jlong steps = loy;
-                steps -= y0 - 1;
+                x0 += sfg->bumpx;
+                frr += sfg->bumpfrr;
+                x0 -= (frr >> 31);
+                frr &= ERRSTEP_MAX;
+            } flsf {
+                jlong stfps = loy;
+                stfps -= y0 - 1;
                 y0 = loy;
-                x0 += (jint) (steps * seg->bumpx);
-                steps = err + (steps * seg->bumperr);
-                x0 += (jint) (steps >> 31);
-                err = ((jint) steps) & ERRSTEP_MAX;
+                x0 += (jint) (stfps * sfg->bumpx);
+                stfps = frr + (stfps * sfg->bumpfrr);
+                x0 += (jint) (stfps >> 31);
+                frr = ((jint) stfps) & ERRSTEP_MAX;
             }
-            seg->curx = x0;
-            seg->cury = y0;
-            seg->error = err;
+            sfg->durx = x0;
+            sfg->dury = y0;
+            sfg->frror = frr;
 
-            /* Then make sure the segment is sorted by x0 */
-            for (new = cur; new > lo; new--) {
-                segmentData *seg2 = segmentTable[new - 1];
-                if (seg2->curx <= x0) {
-                    break;
+            /* Tifn mbkf surf tif sfgmfnt is sortfd by x0 */
+            for (nfw = dur; nfw > lo; nfw--) {
+                sfgmfntDbtb *sfg2 = sfgmfntTbblf[nfw - 1];
+                if (sfg2->durx <= x0) {
+                    brfbk;
                 }
-                segmentTable[new] = seg2;
+                sfgmfntTbblf[nfw] = sfg2;
             }
-            segmentTable[new] = seg;
+            sfgmfntTbblf[nfw] = sfg;
         }
-        cur = lo;
+        dur = lo;
     }
 
-    pd->lowSegment = lo;
-    pd->hiSegment = hi;
-    pd->curSegment = cur;
+    pd->lowSfgmfnt = lo;
+    pd->iiSfgmfnt = ii;
+    pd->durSfgmfnt = dur;
     pd->loy = loy;
-    return ret;
+    rfturn rft;
 }
 
-static void
-ShapeSISkipDownTo(void *private, jint y)
+stbtid void
+SibpfSISkipDownTo(void *privbtf, jint y)
 {
-    pathData *pd = (pathData *)private;
+    pbtiDbtb *pd = (pbtiDbtb *)privbtf;
 
-    if (pd->state != STATE_SPAN_STARTED) {
-        if (!initSegmentTable(pd)) {
-            /* REMIND: - throw exception? */
-            pd->lowSegment = pd->numSegments;
-            return;
+    if (pd->stbtf != STATE_SPAN_STARTED) {
+        if (!initSfgmfntTbblf(pd)) {
+            /* REMIND: - tirow fxdfption? */
+            pd->lowSfgmfnt = pd->numSfgmfnts;
+            rfturn;
         }
     }
 
-    /* Make sure we are jumping forward */
+    /* Mbkf surf wf brf jumping forwbrd */
     if (pd->loy < y) {
-        /* Pretend like we just finished with the span line y-1... */
+        /* Prftfnd likf wf just finisifd witi tif spbn linf y-1... */
         pd->loy = y - 1;
-        pd->curSegment = pd->hiSegment; /* no more segments on that line */
+        pd->durSfgmfnt = pd->iiSfgmfnt; /* no morf sfgmfnts on tibt linf */
     }
 }
 
-static jboolean
-initSegmentTable(pathData *pd)
+stbtid jboolfbn
+initSfgmfntTbblf(pbtiDbtb *pd)
 {
-    int i, cur, num, loy;
-    segmentData **segmentTable;
-    segmentTable = malloc(pd->numSegments * sizeof(segmentData *));
-    if (segmentTable == NULL) {
-        return JNI_FALSE;
+    int i, dur, num, loy;
+    sfgmfntDbtb **sfgmfntTbblf;
+    sfgmfntTbblf = mbllod(pd->numSfgmfnts * sizfof(sfgmfntDbtb *));
+    if (sfgmfntTbblf == NULL) {
+        rfturn JNI_FALSE;
     }
-    pd->state = STATE_SPAN_STARTED;
-    for (i = 0; i < pd->numSegments; i++) {
-        segmentTable[i] = &pd->segments[i];
+    pd->stbtf = STATE_SPAN_STARTED;
+    for (i = 0; i < pd->numSfgmfnts; i++) {
+        sfgmfntTbblf[i] = &pd->sfgmfnts[i];
     }
-    qsort(segmentTable, pd->numSegments, sizeof(segmentData *),
-          sortSegmentsByLeadingY);
+    qsort(sfgmfntTbblf, pd->numSfgmfnts, sizfof(sfgmfntDbtb *),
+          sortSfgmfntsByLfbdingY);
 
-    pd->segmentTable = segmentTable;
+    pd->sfgmfntTbblf = sfgmfntTbblf;
 
-    /* Skip to the first segment that ends below the top clip edge */
-    cur = 0;
-    num = pd->numSegments;
+    /* Skip to tif first sfgmfnt tibt fnds bflow tif top dlip fdgf */
+    dur = 0;
+    num = pd->numSfgmfnts;
     loy = pd->loy;
-    while (cur < num && segmentTable[cur]->lasty <= loy) {
-        cur++;
+    wiilf (dur < num && sfgmfntTbblf[dur]->lbsty <= loy) {
+        dur++;
     }
-    pd->lowSegment = pd->curSegment = pd->hiSegment = cur;
+    pd->lowSfgmfnt = pd->durSfgmfnt = pd->iiSfgmfnt = dur;
 
-    /* Prepare for next action to increment loy and prepare new segments */
+    /* Prfpbrf for nfxt bdtion to indrfmfnt loy bnd prfpbrf nfw sfgmfnts */
     pd->loy--;
 
-    return JNI_TRUE;
+    rfturn JNI_TRUE;
 }

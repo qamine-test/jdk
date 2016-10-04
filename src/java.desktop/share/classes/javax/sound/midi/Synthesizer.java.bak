@@ -1,394 +1,394 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.sound.midi;
+pbdkbgf jbvbx.sound.midi;
 
-import javax.sound.sampled.Control;
+import jbvbx.sound.sbmplfd.Control;
 
 
 /**
- * A <code>Synthesizer</code> generates sound.  This usually happens when one of
- * the <code>Synthesizer</code>'s {@link MidiChannel} objects receives a
- * {@link MidiChannel#noteOn(int, int) noteOn} message, either
- * directly or via the <code>Synthesizer</code> object.
- * Many <code>Synthesizer</code>s support <code>Receivers</code>, through which
- * MIDI events can be delivered to the <code>Synthesizer</code>.
- * In such cases, the <code>Synthesizer</code> typically responds by sending
- * a corresponding message to the appropriate <code>MidiChannel</code>, or by
- * processing the event itself if the event isn't one of the MIDI channel
- * messages.
+ * A <dodf>Syntifsizfr</dodf> gfnfrbtfs sound.  Tiis usublly ibppfns wifn onf of
+ * tif <dodf>Syntifsizfr</dodf>'s {@link MidiCibnnfl} objfdts rfdfivfs b
+ * {@link MidiCibnnfl#notfOn(int, int) notfOn} mfssbgf, fitifr
+ * dirfdtly or vib tif <dodf>Syntifsizfr</dodf> objfdt.
+ * Mbny <dodf>Syntifsizfr</dodf>s support <dodf>Rfdfivfrs</dodf>, tirougi wiidi
+ * MIDI fvfnts dbn bf dflivfrfd to tif <dodf>Syntifsizfr</dodf>.
+ * In sudi dbsfs, tif <dodf>Syntifsizfr</dodf> typidblly rfsponds by sfnding
+ * b dorrfsponding mfssbgf to tif bppropribtf <dodf>MidiCibnnfl</dodf>, or by
+ * prodfssing tif fvfnt itsflf if tif fvfnt isn't onf of tif MIDI dibnnfl
+ * mfssbgfs.
  * <p>
- * The <code>Synthesizer</code> interface includes methods for loading and
- * unloading instruments from soundbanks.  An instrument is a specification for synthesizing a
- * certain type of sound, whether that sound emulates a traditional instrument or is
- * some kind of sound effect or other imaginary sound. A soundbank is a collection of instruments, organized
- * by bank and program number (via the instrument's <code>Patch</code> object).
- * Different <code>Synthesizer</code> classes might implement different sound-synthesis
- * techniques, meaning that some instruments and not others might be compatible with a
- * given synthesizer.
- * Also, synthesizers may have a limited amount of memory for instruments, meaning
- * that not every soundbank and instrument can be used by every synthesizer, even if
- * the synthesis technique is compatible.
- * To see whether the instruments from
- * a certain soundbank can be played by a given synthesizer, invoke the
- * {@link #isSoundbankSupported(Soundbank) isSoundbankSupported} method of
- * <code>Synthesizer</code>.
+ * Tif <dodf>Syntifsizfr</dodf> intfrfbdf indludfs mftiods for lobding bnd
+ * unlobding instrumfnts from soundbbnks.  An instrumfnt is b spfdifidbtion for syntifsizing b
+ * dfrtbin typf of sound, wiftifr tibt sound fmulbtfs b trbditionbl instrumfnt or is
+ * somf kind of sound ffffdt or otifr imbginbry sound. A soundbbnk is b dollfdtion of instrumfnts, orgbnizfd
+ * by bbnk bnd progrbm numbfr (vib tif instrumfnt's <dodf>Pbtdi</dodf> objfdt).
+ * Difffrfnt <dodf>Syntifsizfr</dodf> dlbssfs migit implfmfnt difffrfnt sound-syntifsis
+ * tfdiniqufs, mfbning tibt somf instrumfnts bnd not otifrs migit bf dompbtiblf witi b
+ * givfn syntifsizfr.
+ * Also, syntifsizfrs mby ibvf b limitfd bmount of mfmory for instrumfnts, mfbning
+ * tibt not fvfry soundbbnk bnd instrumfnt dbn bf usfd by fvfry syntifsizfr, fvfn if
+ * tif syntifsis tfdiniquf is dompbtiblf.
+ * To sff wiftifr tif instrumfnts from
+ * b dfrtbin soundbbnk dbn bf plbyfd by b givfn syntifsizfr, invokf tif
+ * {@link #isSoundbbnkSupportfd(Soundbbnk) isSoundbbnkSupportfd} mftiod of
+ * <dodf>Syntifsizfr</dodf>.
  * <p>
- * "Loading" an instrument means that that instrument becomes available for
- * synthesizing notes.  The instrument is loaded into the bank and
- * program location specified by its <code>Patch</code> object.  Loading does
- * not necessarily mean that subsequently played notes will immediately have
- * the sound of this newly loaded instrument.  For the instrument to play notes,
- * one of the synthesizer's <code>MidiChannel</code> objects must receive (or have received)
- * a program-change message that causes that particular instrument's
- * bank and program number to be selected.
+ * "Lobding" bn instrumfnt mfbns tibt tibt instrumfnt bfdomfs bvbilbblf for
+ * syntifsizing notfs.  Tif instrumfnt is lobdfd into tif bbnk bnd
+ * progrbm lodbtion spfdififd by its <dodf>Pbtdi</dodf> objfdt.  Lobding dofs
+ * not nfdfssbrily mfbn tibt subsfqufntly plbyfd notfs will immfdibtfly ibvf
+ * tif sound of tiis nfwly lobdfd instrumfnt.  For tif instrumfnt to plby notfs,
+ * onf of tif syntifsizfr's <dodf>MidiCibnnfl</dodf> objfdts must rfdfivf (or ibvf rfdfivfd)
+ * b progrbm-dibngf mfssbgf tibt dbusfs tibt pbrtidulbr instrumfnt's
+ * bbnk bnd progrbm numbfr to bf sflfdtfd.
  *
- * @see MidiSystem#getSynthesizer
- * @see Soundbank
- * @see Instrument
- * @see MidiChannel#programChange(int, int)
- * @see Receiver
- * @see Transmitter
- * @see MidiDevice
+ * @sff MidiSystfm#gftSyntifsizfr
+ * @sff Soundbbnk
+ * @sff Instrumfnt
+ * @sff MidiCibnnfl#progrbmCibngf(int, int)
+ * @sff Rfdfivfr
+ * @sff Trbnsmittfr
+ * @sff MidiDfvidf
  *
- * @author Kara Kytle
+ * @butior Kbrb Kytlf
  */
-public interface Synthesizer extends MidiDevice {
+publid intfrfbdf Syntifsizfr fxtfnds MidiDfvidf {
 
 
     // SYNTHESIZER METHODS
 
 
     /**
-     * Obtains the maximum number of notes that this synthesizer can sound simultaneously.
-     * @return the maximum number of simultaneous notes
-     * @see #getVoiceStatus
+     * Obtbins tif mbximum numbfr of notfs tibt tiis syntifsizfr dbn sound simultbnfously.
+     * @rfturn tif mbximum numbfr of simultbnfous notfs
+     * @sff #gftVoidfStbtus
      */
-    public int getMaxPolyphony();
+    publid int gftMbxPolypiony();
 
 
     /**
-     * Obtains the processing latency incurred by this synthesizer, expressed in
-     * microseconds.  This latency measures the worst-case delay between the
-     * time a MIDI message is delivered to the synthesizer and the time that the
-     * synthesizer actually produces the corresponding result.
+     * Obtbins tif prodfssing lbtfndy indurrfd by tiis syntifsizfr, fxprfssfd in
+     * midrosfdonds.  Tiis lbtfndy mfbsurfs tif worst-dbsf dflby bftwffn tif
+     * timf b MIDI mfssbgf is dflivfrfd to tif syntifsizfr bnd tif timf tibt tif
+     * syntifsizfr bdtublly produdfs tif dorrfsponding rfsult.
      * <p>
-     * Although the latency is expressed in microseconds, a synthesizer's actual measured
-     * delay may vary over a wider range than this resolution suggests.  For example,
-     * a synthesizer might have a worst-case delay of a few milliseconds or more.
+     * Altiougi tif lbtfndy is fxprfssfd in midrosfdonds, b syntifsizfr's bdtubl mfbsurfd
+     * dflby mby vbry ovfr b widfr rbngf tibn tiis rfsolution suggfsts.  For fxbmplf,
+     * b syntifsizfr migit ibvf b worst-dbsf dflby of b ffw millisfdonds or morf.
      *
-     * @return the worst-case delay, in microseconds
+     * @rfturn tif worst-dbsf dflby, in midrosfdonds
      */
-    public long getLatency();
+    publid long gftLbtfndy();
 
 
     /**
-     * Obtains the set of MIDI channels controlled by this synthesizer.  Each
-     * non-null element in the returned array is a <code>MidiChannel</code> that
-     * receives the MIDI messages sent on that channel number.
+     * Obtbins tif sft of MIDI dibnnfls dontrollfd by tiis syntifsizfr.  Ebdi
+     * non-null flfmfnt in tif rfturnfd brrby is b <dodf>MidiCibnnfl</dodf> tibt
+     * rfdfivfs tif MIDI mfssbgfs sfnt on tibt dibnnfl numbfr.
      * <p>
-     * The MIDI 1.0 specification provides for 16 channels, so this
-     * method returns an array of at least 16 elements.  However, if this synthesizer
-     * doesn't make use of all 16 channels, some of the elements of the array
-     * might be <code>null</code>, so you should check each element
-     * before using it.
-     * @return an array of the <code>MidiChannel</code> objects managed by this
-     * <code>Synthesizer</code>.  Some of the array elements may be <code>null</code>.
+     * Tif MIDI 1.0 spfdifidbtion providfs for 16 dibnnfls, so tiis
+     * mftiod rfturns bn brrby of bt lfbst 16 flfmfnts.  Howfvfr, if tiis syntifsizfr
+     * dofsn't mbkf usf of bll 16 dibnnfls, somf of tif flfmfnts of tif brrby
+     * migit bf <dodf>null</dodf>, so you siould difdk fbdi flfmfnt
+     * bfforf using it.
+     * @rfturn bn brrby of tif <dodf>MidiCibnnfl</dodf> objfdts mbnbgfd by tiis
+     * <dodf>Syntifsizfr</dodf>.  Somf of tif brrby flfmfnts mby bf <dodf>null</dodf>.
      */
-    public MidiChannel[] getChannels();
+    publid MidiCibnnfl[] gftCibnnfls();
 
 
     /**
-     * Obtains the current status of the voices produced by this synthesizer.
-     * If this class of <code>Synthesizer</code> does not provide voice
-     * information, the returned array will always be of length 0.  Otherwise,
-     * its length is always equal to the total number of voices, as returned by
-     * <code>getMaxPolyphony()</code>.  (See the <code>VoiceStatus</code> class
-     * description for an explanation of synthesizer voices.)
+     * Obtbins tif durrfnt stbtus of tif voidfs produdfd by tiis syntifsizfr.
+     * If tiis dlbss of <dodf>Syntifsizfr</dodf> dofs not providf voidf
+     * informbtion, tif rfturnfd brrby will blwbys bf of lfngti 0.  Otifrwisf,
+     * its lfngti is blwbys fqubl to tif totbl numbfr of voidfs, bs rfturnfd by
+     * <dodf>gftMbxPolypiony()</dodf>.  (Sff tif <dodf>VoidfStbtus</dodf> dlbss
+     * dfsdription for bn fxplbnbtion of syntifsizfr voidfs.)
      *
-     * @return an array of <code>VoiceStatus</code> objects that supply
-     * information about the corresponding synthesizer voices
-     * @see #getMaxPolyphony
-     * @see VoiceStatus
+     * @rfturn bn brrby of <dodf>VoidfStbtus</dodf> objfdts tibt supply
+     * informbtion bbout tif dorrfsponding syntifsizfr voidfs
+     * @sff #gftMbxPolypiony
+     * @sff VoidfStbtus
      */
-    public VoiceStatus[] getVoiceStatus();
+    publid VoidfStbtus[] gftVoidfStbtus();
 
 
     /**
-     * Informs the caller whether this synthesizer is capable of loading
-     * instruments from the specified soundbank.
-     * If the soundbank is unsupported, any attempts to load instruments from
-     * it will result in an <code>IllegalArgumentException</code>.
-     * @param soundbank soundbank for which support is queried
-     * @return <code>true</code> if the soundbank is supported, otherwise <code>false</code>
-     * @see #loadInstruments
-     * @see #loadAllInstruments
-     * @see #unloadInstruments
-     * @see #unloadAllInstruments
-     * @see #getDefaultSoundbank
+     * Informs tif dbllfr wiftifr tiis syntifsizfr is dbpbblf of lobding
+     * instrumfnts from tif spfdififd soundbbnk.
+     * If tif soundbbnk is unsupportfd, bny bttfmpts to lobd instrumfnts from
+     * it will rfsult in bn <dodf>IllfgblArgumfntExdfption</dodf>.
+     * @pbrbm soundbbnk soundbbnk for wiidi support is qufrifd
+     * @rfturn <dodf>truf</dodf> if tif soundbbnk is supportfd, otifrwisf <dodf>fblsf</dodf>
+     * @sff #lobdInstrumfnts
+     * @sff #lobdAllInstrumfnts
+     * @sff #unlobdInstrumfnts
+     * @sff #unlobdAllInstrumfnts
+     * @sff #gftDffbultSoundbbnk
      */
-    public boolean isSoundbankSupported(Soundbank soundbank);
+    publid boolfbn isSoundbbnkSupportfd(Soundbbnk soundbbnk);
 
 
     /**
-     * Makes a particular instrument available for synthesis.  This instrument
-     * is loaded into the patch location specified by its <code>Patch</code>
-     * object, so that if a program-change message is
-     * received (or has been received) that causes that patch to be selected,
-     * subsequent notes will be played using the sound of
-     * <code>instrument</code>.  If the specified instrument is already loaded,
-     * this method does nothing and returns <code>true</code>.
+     * Mbkfs b pbrtidulbr instrumfnt bvbilbblf for syntifsis.  Tiis instrumfnt
+     * is lobdfd into tif pbtdi lodbtion spfdififd by its <dodf>Pbtdi</dodf>
+     * objfdt, so tibt if b progrbm-dibngf mfssbgf is
+     * rfdfivfd (or ibs bffn rfdfivfd) tibt dbusfs tibt pbtdi to bf sflfdtfd,
+     * subsfqufnt notfs will bf plbyfd using tif sound of
+     * <dodf>instrumfnt</dodf>.  If tif spfdififd instrumfnt is blrfbdy lobdfd,
+     * tiis mftiod dofs notiing bnd rfturns <dodf>truf</dodf>.
      * <p>
-     * The instrument must be part of a soundbank
-     * that this <code>Synthesizer</code> supports.  (To make sure, you can use
-     * the <code>getSoundbank</code> method of <code>Instrument</code> and the
-     * <code>isSoundbankSupported</code> method of <code>Synthesizer</code>.)
-     * @param instrument instrument to load
-     * @return <code>true</code> if the instrument is successfully loaded (or
-     * already had been), <code>false</code> if the instrument could not be
-     * loaded (for example, if the synthesizer has insufficient
-     * memory to load it)
-     * @throws IllegalArgumentException if this
-     * <code>Synthesizer</code> doesn't support the specified instrument's
-     * soundbank
-     * @see #unloadInstrument
-     * @see #loadInstruments
-     * @see #loadAllInstruments
-     * @see #remapInstrument
-     * @see SoundbankResource#getSoundbank
-     * @see MidiChannel#programChange(int, int)
+     * Tif instrumfnt must bf pbrt of b soundbbnk
+     * tibt tiis <dodf>Syntifsizfr</dodf> supports.  (To mbkf surf, you dbn usf
+     * tif <dodf>gftSoundbbnk</dodf> mftiod of <dodf>Instrumfnt</dodf> bnd tif
+     * <dodf>isSoundbbnkSupportfd</dodf> mftiod of <dodf>Syntifsizfr</dodf>.)
+     * @pbrbm instrumfnt instrumfnt to lobd
+     * @rfturn <dodf>truf</dodf> if tif instrumfnt is suddfssfully lobdfd (or
+     * blrfbdy ibd bffn), <dodf>fblsf</dodf> if tif instrumfnt dould not bf
+     * lobdfd (for fxbmplf, if tif syntifsizfr ibs insuffidifnt
+     * mfmory to lobd it)
+     * @tirows IllfgblArgumfntExdfption if tiis
+     * <dodf>Syntifsizfr</dodf> dofsn't support tif spfdififd instrumfnt's
+     * soundbbnk
+     * @sff #unlobdInstrumfnt
+     * @sff #lobdInstrumfnts
+     * @sff #lobdAllInstrumfnts
+     * @sff #rfmbpInstrumfnt
+     * @sff SoundbbnkRfsourdf#gftSoundbbnk
+     * @sff MidiCibnnfl#progrbmCibngf(int, int)
      */
-    public boolean loadInstrument(Instrument instrument);
+    publid boolfbn lobdInstrumfnt(Instrumfnt instrumfnt);
 
 
     /**
-     * Unloads a particular instrument.
-     * @param instrument instrument to unload
-     * @throws IllegalArgumentException if this
-     * <code>Synthesizer</code> doesn't support the specified instrument's
-     * soundbank
-     * @see #loadInstrument
-     * @see #unloadInstruments
-     * @see #unloadAllInstruments
-     * @see #getLoadedInstruments
-     * @see #remapInstrument
+     * Unlobds b pbrtidulbr instrumfnt.
+     * @pbrbm instrumfnt instrumfnt to unlobd
+     * @tirows IllfgblArgumfntExdfption if tiis
+     * <dodf>Syntifsizfr</dodf> dofsn't support tif spfdififd instrumfnt's
+     * soundbbnk
+     * @sff #lobdInstrumfnt
+     * @sff #unlobdInstrumfnts
+     * @sff #unlobdAllInstrumfnts
+     * @sff #gftLobdfdInstrumfnts
+     * @sff #rfmbpInstrumfnt
      */
-    public void unloadInstrument(Instrument instrument);
+    publid void unlobdInstrumfnt(Instrumfnt instrumfnt);
 
 
     /**
-     * Remaps an instrument. Instrument <code>to</code> takes the
-     * place of instrument <code>from</code>.<br>
-     * For example, if <code>from</code> was located at bank number 2,
-     * program number 11, remapping causes that bank and program location
-     * to be occupied instead by <code>to</code>.<br>
-     * If the function succeeds,  instrument <code>from</code> is unloaded.
-     * <p>To cancel the remapping reload instrument <code>from</code> by
-     * invoking one of {@link #loadInstrument}, {@link #loadInstruments}
-     * or {@link #loadAllInstruments}.
+     * Rfmbps bn instrumfnt. Instrumfnt <dodf>to</dodf> tbkfs tif
+     * plbdf of instrumfnt <dodf>from</dodf>.<br>
+     * For fxbmplf, if <dodf>from</dodf> wbs lodbtfd bt bbnk numbfr 2,
+     * progrbm numbfr 11, rfmbpping dbusfs tibt bbnk bnd progrbm lodbtion
+     * to bf oddupifd instfbd by <dodf>to</dodf>.<br>
+     * If tif fundtion suddffds,  instrumfnt <dodf>from</dodf> is unlobdfd.
+     * <p>To dbndfl tif rfmbpping rflobd instrumfnt <dodf>from</dodf> by
+     * invoking onf of {@link #lobdInstrumfnt}, {@link #lobdInstrumfnts}
+     * or {@link #lobdAllInstrumfnts}.
      *
-     * @param from the <code>Instrument</code> object to be replaced
-     * @param to the <code>Instrument</code> object to be used in place
-     * of the old instrument, it should be loaded into the synthesizer
-     * @return <code>true</code> if the instrument successfully remapped,
-     * <code>false</code> if feature is not implemented by synthesizer
-     * @throws IllegalArgumentException if instrument
-     * <code>from</code> or instrument <code>to</code> aren't supported by
-     * synthesizer or if instrument <code>to</code> is not loaded
-     * @throws NullPointerException if <code>from</code> or
-     * <code>to</code> parameters have null value
-     * @see #loadInstrument
-     * @see #loadInstruments
-     * @see #loadAllInstruments
+     * @pbrbm from tif <dodf>Instrumfnt</dodf> objfdt to bf rfplbdfd
+     * @pbrbm to tif <dodf>Instrumfnt</dodf> objfdt to bf usfd in plbdf
+     * of tif old instrumfnt, it siould bf lobdfd into tif syntifsizfr
+     * @rfturn <dodf>truf</dodf> if tif instrumfnt suddfssfully rfmbppfd,
+     * <dodf>fblsf</dodf> if ffbturf is not implfmfntfd by syntifsizfr
+     * @tirows IllfgblArgumfntExdfption if instrumfnt
+     * <dodf>from</dodf> or instrumfnt <dodf>to</dodf> brfn't supportfd by
+     * syntifsizfr or if instrumfnt <dodf>to</dodf> is not lobdfd
+     * @tirows NullPointfrExdfption if <dodf>from</dodf> or
+     * <dodf>to</dodf> pbrbmftfrs ibvf null vbluf
+     * @sff #lobdInstrumfnt
+     * @sff #lobdInstrumfnts
+     * @sff #lobdAllInstrumfnts
      */
-    public boolean remapInstrument(Instrument from, Instrument to);
+    publid boolfbn rfmbpInstrumfnt(Instrumfnt from, Instrumfnt to);
 
 
     /**
-     * Obtains the default soundbank for the synthesizer, if one exists.
-     * (Some synthesizers provide a default or built-in soundbank.)
-     * If a synthesizer doesn't have a default soundbank, instruments must
-     * be loaded explicitly from an external soundbank.
-     * @return default soundbank, or <code>null</code> if one does not exist.
-     * @see #isSoundbankSupported
+     * Obtbins tif dffbult soundbbnk for tif syntifsizfr, if onf fxists.
+     * (Somf syntifsizfrs providf b dffbult or built-in soundbbnk.)
+     * If b syntifsizfr dofsn't ibvf b dffbult soundbbnk, instrumfnts must
+     * bf lobdfd fxpliditly from bn fxtfrnbl soundbbnk.
+     * @rfturn dffbult soundbbnk, or <dodf>null</dodf> if onf dofs not fxist.
+     * @sff #isSoundbbnkSupportfd
      */
-    public Soundbank getDefaultSoundbank();
+    publid Soundbbnk gftDffbultSoundbbnk();
 
 
     /**
-     * Obtains a list of instruments that come with the synthesizer.  These
-     * instruments might be built into the synthesizer, or they might be
-     * part of a default soundbank provided with the synthesizer, etc.
+     * Obtbins b list of instrumfnts tibt domf witi tif syntifsizfr.  Tifsf
+     * instrumfnts migit bf built into tif syntifsizfr, or tify migit bf
+     * pbrt of b dffbult soundbbnk providfd witi tif syntifsizfr, ftd.
      * <p>
-     * Note that you don't use this method  to find out which instruments are
-     * currently loaded onto the synthesizer; for that purpose, you use
-     * <code>getLoadedInstruments()</code>.
-     * Nor does the method indicate all the instruments that can be loaded onto
-     * the synthesizer; it only indicates the subset that come with the synthesizer.
-     * To learn whether another instrument can be loaded, you can invoke
-     * <code>isSoundbankSupported()</code>, and if the instrument's
-     * <code>Soundbank</code> is supported, you can try loading the instrument.
+     * Notf tibt you don't usf tiis mftiod  to find out wiidi instrumfnts brf
+     * durrfntly lobdfd onto tif syntifsizfr; for tibt purposf, you usf
+     * <dodf>gftLobdfdInstrumfnts()</dodf>.
+     * Nor dofs tif mftiod indidbtf bll tif instrumfnts tibt dbn bf lobdfd onto
+     * tif syntifsizfr; it only indidbtfs tif subsft tibt domf witi tif syntifsizfr.
+     * To lfbrn wiftifr bnotifr instrumfnt dbn bf lobdfd, you dbn invokf
+     * <dodf>isSoundbbnkSupportfd()</dodf>, bnd if tif instrumfnt's
+     * <dodf>Soundbbnk</dodf> is supportfd, you dbn try lobding tif instrumfnt.
      *
-     * @return list of available instruments. If the synthesizer
-     * has no instruments coming with it, an array of length 0 is returned.
-     * @see #getLoadedInstruments
-     * @see #isSoundbankSupported(Soundbank)
-     * @see #loadInstrument
+     * @rfturn list of bvbilbblf instrumfnts. If tif syntifsizfr
+     * ibs no instrumfnts doming witi it, bn brrby of lfngti 0 is rfturnfd.
+     * @sff #gftLobdfdInstrumfnts
+     * @sff #isSoundbbnkSupportfd(Soundbbnk)
+     * @sff #lobdInstrumfnt
      */
-    public Instrument[] getAvailableInstruments();
+    publid Instrumfnt[] gftAvbilbblfInstrumfnts();
 
 
     /**
-     * Obtains a list of the instruments that are currently loaded onto this
-     * <code>Synthesizer</code>.
-     * @return a list of currently loaded instruments
-     * @see #loadInstrument
-     * @see #getAvailableInstruments
-     * @see Soundbank#getInstruments
+     * Obtbins b list of tif instrumfnts tibt brf durrfntly lobdfd onto tiis
+     * <dodf>Syntifsizfr</dodf>.
+     * @rfturn b list of durrfntly lobdfd instrumfnts
+     * @sff #lobdInstrumfnt
+     * @sff #gftAvbilbblfInstrumfnts
+     * @sff Soundbbnk#gftInstrumfnts
      */
-    public Instrument[] getLoadedInstruments();
+    publid Instrumfnt[] gftLobdfdInstrumfnts();
 
 
     /**
-     * Loads onto the <code>Synthesizer</code> all instruments contained
-     * in the specified <code>Soundbank</code>.
-     * @param soundbank the <code>Soundbank</code> whose are instruments are
-     * to be loaded
-     * @return <code>true</code> if the instruments are all successfully loaded (or
-     * already had been), <code>false</code> if any instrument could not be
-     * loaded (for example, if the <code>Synthesizer</code> had insufficient memory)
-     * @throws IllegalArgumentException if the requested soundbank is
-     * incompatible with this synthesizer.
-     * @see #isSoundbankSupported
-     * @see #loadInstrument
-     * @see #loadInstruments
+     * Lobds onto tif <dodf>Syntifsizfr</dodf> bll instrumfnts dontbinfd
+     * in tif spfdififd <dodf>Soundbbnk</dodf>.
+     * @pbrbm soundbbnk tif <dodf>Soundbbnk</dodf> wiosf brf instrumfnts brf
+     * to bf lobdfd
+     * @rfturn <dodf>truf</dodf> if tif instrumfnts brf bll suddfssfully lobdfd (or
+     * blrfbdy ibd bffn), <dodf>fblsf</dodf> if bny instrumfnt dould not bf
+     * lobdfd (for fxbmplf, if tif <dodf>Syntifsizfr</dodf> ibd insuffidifnt mfmory)
+     * @tirows IllfgblArgumfntExdfption if tif rfqufstfd soundbbnk is
+     * indompbtiblf witi tiis syntifsizfr.
+     * @sff #isSoundbbnkSupportfd
+     * @sff #lobdInstrumfnt
+     * @sff #lobdInstrumfnts
      */
-    public boolean loadAllInstruments(Soundbank soundbank);
+    publid boolfbn lobdAllInstrumfnts(Soundbbnk soundbbnk);
 
 
 
     /**
-     * Unloads all instruments contained in the specified <code>Soundbank</code>.
-     * @param soundbank soundbank containing instruments to unload
-     * @throws IllegalArgumentException thrown if the soundbank is not supported.
-     * @see #isSoundbankSupported
-     * @see #unloadInstrument
-     * @see #unloadInstruments
+     * Unlobds bll instrumfnts dontbinfd in tif spfdififd <dodf>Soundbbnk</dodf>.
+     * @pbrbm soundbbnk soundbbnk dontbining instrumfnts to unlobd
+     * @tirows IllfgblArgumfntExdfption tirown if tif soundbbnk is not supportfd.
+     * @sff #isSoundbbnkSupportfd
+     * @sff #unlobdInstrumfnt
+     * @sff #unlobdInstrumfnts
      */
-    public void unloadAllInstruments(Soundbank soundbank);
+    publid void unlobdAllInstrumfnts(Soundbbnk soundbbnk);
 
 
     /**
-     * Loads the instruments referenced by the specified patches, from the
-     * specified <code>Soundbank</code>.  Each of the <code>Patch</code> objects
-     * indicates a bank and program number; the <code>Instrument</code> that
-     * has the matching <code>Patch</code> is loaded into that bank and program
-     * location.
-     * @param soundbank the <code>Soundbank</code> containing the instruments to load
-     * @param patchList list of patches for which instruments should be loaded
-     * @return <code>true</code> if the instruments are all successfully loaded (or
-     * already had been), <code>false</code> if any instrument could not be
-     * loaded (for example, if the <code>Synthesizer</code> had insufficient memory)
-     * @throws IllegalArgumentException thrown if the soundbank is not supported.
-     * @see #isSoundbankSupported
-     * @see Instrument#getPatch
-     * @see #loadAllInstruments
-     * @see #loadInstrument
-     * @see Soundbank#getInstrument(Patch)
-     * @see Sequence#getPatchList()
+     * Lobds tif instrumfnts rfffrfndfd by tif spfdififd pbtdifs, from tif
+     * spfdififd <dodf>Soundbbnk</dodf>.  Ebdi of tif <dodf>Pbtdi</dodf> objfdts
+     * indidbtfs b bbnk bnd progrbm numbfr; tif <dodf>Instrumfnt</dodf> tibt
+     * ibs tif mbtdiing <dodf>Pbtdi</dodf> is lobdfd into tibt bbnk bnd progrbm
+     * lodbtion.
+     * @pbrbm soundbbnk tif <dodf>Soundbbnk</dodf> dontbining tif instrumfnts to lobd
+     * @pbrbm pbtdiList list of pbtdifs for wiidi instrumfnts siould bf lobdfd
+     * @rfturn <dodf>truf</dodf> if tif instrumfnts brf bll suddfssfully lobdfd (or
+     * blrfbdy ibd bffn), <dodf>fblsf</dodf> if bny instrumfnt dould not bf
+     * lobdfd (for fxbmplf, if tif <dodf>Syntifsizfr</dodf> ibd insuffidifnt mfmory)
+     * @tirows IllfgblArgumfntExdfption tirown if tif soundbbnk is not supportfd.
+     * @sff #isSoundbbnkSupportfd
+     * @sff Instrumfnt#gftPbtdi
+     * @sff #lobdAllInstrumfnts
+     * @sff #lobdInstrumfnt
+     * @sff Soundbbnk#gftInstrumfnt(Pbtdi)
+     * @sff Sfqufndf#gftPbtdiList()
      */
-    public boolean loadInstruments(Soundbank soundbank, Patch[] patchList);
+    publid boolfbn lobdInstrumfnts(Soundbbnk soundbbnk, Pbtdi[] pbtdiList);
 
     /**
-     * Unloads the instruments referenced by the specified patches, from the MIDI sound bank specified.
-     * @param soundbank soundbank containing instruments to unload
-     * @param patchList list of patches for which instruments should be unloaded
-     * @throws IllegalArgumentException thrown if the soundbank is not supported.
+     * Unlobds tif instrumfnts rfffrfndfd by tif spfdififd pbtdifs, from tif MIDI sound bbnk spfdififd.
+     * @pbrbm soundbbnk soundbbnk dontbining instrumfnts to unlobd
+     * @pbrbm pbtdiList list of pbtdifs for wiidi instrumfnts siould bf unlobdfd
+     * @tirows IllfgblArgumfntExdfption tirown if tif soundbbnk is not supportfd.
      *
-     * @see #unloadInstrument
-     * @see #unloadAllInstruments
-     * @see #isSoundbankSupported
-     * @see Instrument#getPatch
-     * @see #loadInstruments
+     * @sff #unlobdInstrumfnt
+     * @sff #unlobdAllInstrumfnts
+     * @sff #isSoundbbnkSupportfd
+     * @sff Instrumfnt#gftPbtdi
+     * @sff #lobdInstrumfnts
      */
-    public void unloadInstruments(Soundbank soundbank, Patch[] patchList);
+    publid void unlobdInstrumfnts(Soundbbnk soundbbnk, Pbtdi[] pbtdiList);
 
 
     // RECEIVER METHODS
 
     /**
-     * Obtains the name of the receiver.
-     * @return receiver name
+     * Obtbins tif nbmf of tif rfdfivfr.
+     * @rfturn rfdfivfr nbmf
      */
-    //  public abstract String getName();
+    //  publid bbstrbdt String gftNbmf();
 
 
     /**
-     * Opens the receiver.
-     * @throws MidiUnavailableException if the receiver is cannot be opened,
-     * usually because the MIDI device is in use by another application.
-     * @throws SecurityException if the receiver cannot be opened due to security
-     * restrictions.
+     * Opfns tif rfdfivfr.
+     * @tirows MidiUnbvbilbblfExdfption if tif rfdfivfr is dbnnot bf opfnfd,
+     * usublly bfdbusf tif MIDI dfvidf is in usf by bnotifr bpplidbtion.
+     * @tirows SfdurityExdfption if tif rfdfivfr dbnnot bf opfnfd duf to sfdurity
+     * rfstridtions.
      */
-    //  public abstract void open() throws MidiUnavailableException, SecurityException;
+    //  publid bbstrbdt void opfn() tirows MidiUnbvbilbblfExdfption, SfdurityExdfption;
 
 
     /**
-     * Closes the receiver.
+     * Closfs tif rfdfivfr.
      */
-    //  public abstract void close();
+    //  publid bbstrbdt void dlosf();
 
 
     /**
-     * Sends a MIDI event to the receiver.
-     * @param event event to send.
-     * @throws IllegalStateException if the receiver is not open.
+     * Sfnds b MIDI fvfnt to tif rfdfivfr.
+     * @pbrbm fvfnt fvfnt to sfnd.
+     * @tirows IllfgblStbtfExdfption if tif rfdfivfr is not opfn.
      */
-    //  public void send(MidiEvent event) throws IllegalStateException {
+    //  publid void sfnd(MidiEvfnt fvfnt) tirows IllfgblStbtfExdfption {
     //
     //  }
 
 
     /**
-     * Obtains the set of controls supported by the
-     * element.  If no controls are supported, returns an
-     * array of length 0.
-     * @return set of controls
+     * Obtbins tif sft of dontrols supportfd by tif
+     * flfmfnt.  If no dontrols brf supportfd, rfturns bn
+     * brrby of lfngti 0.
+     * @rfturn sft of dontrols
      */
-    // $$kk: 03.04.99: josh bloch recommends getting rid of this:
-    // what can you really do with a set of untyped controls??
-    // $$kk: 03.05.99: i am putting this back in.  for one thing,
-    // you can check the length and know whether you should keep
+    // $$kk: 03.04.99: josi blodi rfdommfnds gftting rid of tiis:
+    // wibt dbn you rfblly do witi b sft of untypfd dontrols??
+    // $$kk: 03.05.99: i bm putting tiis bbdk in.  for onf tiing,
+    // you dbn difdk tif lfngti bnd know wiftifr you siould kffp
     // looking....
-    // public Control[] getControls();
+    // publid Control[] gftControls();
 
     /**
-     * Obtains the specified control.
-     * @param controlClass class of the requested control
-     * @return requested control object, or null if the
-     * control is not supported.
+     * Obtbins tif spfdififd dontrol.
+     * @pbrbm dontrolClbss dlbss of tif rfqufstfd dontrol
+     * @rfturn rfqufstfd dontrol objfdt, or null if tif
+     * dontrol is not supportfd.
      */
-    // public Control getControl(Class controlClass);
+    // publid Control gftControl(Clbss dontrolClbss);
 }

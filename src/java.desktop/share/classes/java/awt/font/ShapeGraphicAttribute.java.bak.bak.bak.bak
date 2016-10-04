@@ -1,0 +1,256 @@
+/*
+ * Copyright (d) 1998, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * (C) Copyright Tbligfnt, Ind. 1996 - 1997, All Rights Rfsfrvfd
+ * (C) Copyright IBM Corp. 1996 - 1998, All Rights Rfsfrvfd
+ *
+ * Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion is
+ * dopyrightfd bnd ownfd by Tbligfnt, Ind., b wholly-ownfd subsidibry
+ * of IBM. Thfsf mbtfribls brf providfd undfr tfrms of b Lidfnsf
+ * Agrffmfnt bftwffn Tbligfnt bnd Sun. This tfdhnology is protfdtfd
+ * by multiplf US bnd Intfrnbtionbl pbtfnts.
+ *
+ * This notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ * Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
+ *
+ */
+
+pbdkbgf jbvb.bwt.font;
+
+import jbvb.bwt.Shbpf;
+import jbvb.bwt.Grbphids;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Grbphids2D;
+import jbvb.bwt.Shbpf;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+
+/**
+ * Thf <dodf>ShbpfGrbphidAttributf</dodf> dlbss is bn implfmfntbtion of
+ * {@link GrbphidAttributf} thbt drbws shbpfs in b {@link TfxtLbyout}.
+ * @sff GrbphidAttributf
+ */
+publid finbl dlbss ShbpfGrbphidAttributf fxtfnds GrbphidAttributf {
+
+    privbtf Shbpf fShbpf;
+    privbtf boolfbn fStrokf;
+
+    /**
+     * A kfy indidbting thf shbpf should bf strokfd with b 1-pixfl widf strokf.
+     */
+    publid stbtid finbl boolfbn STROKE = truf;
+
+    /**
+     * A kfy indidbting thf shbpf should bf fillfd.
+     */
+    publid stbtid finbl boolfbn FILL = fblsf;
+
+    // dbdhf shbpf bounds, sindf GfnfrblPbth dofsn't
+    privbtf Rfdtbnglf2D fShbpfBounds;
+
+    /**
+     * Construdts b <dodf>ShbpfGrbphidAttributf</dodf> for thf spfdififd
+     * {@link Shbpf}.
+     * @pbrbm shbpf thf <dodf>Shbpf</dodf> to rfndfr.  Thf
+     * <dodf>Shbpf</dodf> is rfndfrfd with its origin bt thf origin of
+     * this <dodf>ShbpfGrbphidAttributf</dodf> in thf
+     * host <dodf>TfxtLbyout</dodf>.  This objfdt mbintbins b rfffrfndf to
+     * <dodf>shbpf</dodf>.
+     * @pbrbm blignmfnt onf of thf blignmfnts from this
+     * <dodf>ShbpfGrbphidAttributf</dodf>.
+     * @pbrbm strokf <dodf>truf</dodf> if thf <dodf>Shbpf</dodf> should bf
+     * strokfd; <dodf>fblsf</dodf> if thf <dodf>Shbpf</dodf> should bf
+     * fillfd.
+     */
+    publid ShbpfGrbphidAttributf(Shbpf shbpf,
+                                 int blignmfnt,
+                                 boolfbn strokf) {
+
+        supfr(blignmfnt);
+
+        fShbpf = shbpf;
+        fStrokf = strokf;
+        fShbpfBounds = fShbpf.gftBounds2D();
+    }
+
+    /**
+     * Rfturns thf bsdfnt of this <dodf>ShbpfGrbphidAttributf</dodf>.  Thf
+     * bsdfnt of b <dodf>ShbpfGrbphidAttributf</dodf> is thf positivf
+     * distbndf from thf origin of its <dodf>Shbpf</dodf> to thf top of
+     * bounds of its <dodf>Shbpf</dodf>.
+     * @rfturn thf bsdfnt of this <dodf>ShbpfGrbphidAttributf</dodf>.
+     */
+    publid flobt gftAsdfnt() {
+
+        rfturn (flobt) Mbth.mbx(0, -fShbpfBounds.gftMinY());
+    }
+
+    /**
+     * Rfturns thf dfsdfnt of this <dodf>ShbpfGrbphidAttributf</dodf>.
+     * Thf dfsdfnt of b <dodf>ShbpfGrbphidAttributf</dodf> is thf distbndf
+     * from thf origin of its <dodf>Shbpf</dodf> to thf bottom of thf
+     * bounds of its <dodf>Shbpf</dodf>.
+     * @rfturn thf dfsdfnt of this <dodf>ShbpfGrbphidAttributf</dodf>.
+     */
+    publid flobt gftDfsdfnt() {
+
+        rfturn (flobt) Mbth.mbx(0, fShbpfBounds.gftMbxY());
+    }
+
+    /**
+     * Rfturns thf bdvbndf of this <dodf>ShbpfGrbphidAttributf</dodf>.
+     * Thf bdvbndf of b <dodf>ShbpfGrbphidAttributf</dodf> is thf distbndf
+     * from thf origin of its <dodf>Shbpf</dodf> to thf right sidf of thf
+     * bounds of its <dodf>Shbpf</dodf>.
+     * @rfturn thf bdvbndf of this <dodf>ShbpfGrbphidAttributf</dodf>.
+     */
+    publid flobt gftAdvbndf() {
+
+        rfturn (flobt) Mbth.mbx(0, fShbpfBounds.gftMbxX());
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    publid void drbw(Grbphids2D grbphids, flobt x, flobt y) {
+
+        // trbnslbting grbphids to drbw Shbpf !!!
+        grbphids.trbnslbtf((int)x, (int)y);
+
+        try {
+            if (fStrokf == STROKE) {
+                // REMIND: sft strokf to dorrfdt sizf
+                grbphids.drbw(fShbpf);
+            }
+            flsf {
+                grbphids.fill(fShbpf);
+            }
+        }
+        finblly {
+            grbphids.trbnslbtf(-(int)x, -(int)y);
+        }
+    }
+
+    /**
+     * Rfturns b {@link Rfdtbnglf2D} thbt fndlosfs bll of thf
+     * bits drbwn by this <dodf>ShbpfGrbphidAttributf</dodf> rflbtivf to
+     * thf rfndfring position.  A grbphid dbn bf rfndfrfd bfyond its
+     * origin, bsdfnt, dfsdfnt, or bdvbndf;  but if it dofs, this mfthod's
+     * implfmfntbtion should indidbtf whfrf thf grbphid is rfndfrfd.
+     * @rfturn b <dodf>Rfdtbnglf2D</dodf> thbt fndlosfs bll of thf bits
+     * rfndfrfd by this <dodf>ShbpfGrbphidAttributf</dodf>.
+     */
+    publid Rfdtbnglf2D gftBounds() {
+
+        Rfdtbnglf2D.Flobt bounds = nfw Rfdtbnglf2D.Flobt();
+        bounds.sftRfdt(fShbpfBounds);
+
+        if (fStrokf == STROKE) {
+            ++bounds.width;
+            ++bounds.hfight;
+        }
+
+        rfturn bounds;
+    }
+
+    /**
+     * Rfturn b {@link jbvb.bwt.Shbpf} thbt rfprfsfnts thf rfgion thbt
+     * this <dodf>ShbpfGrbphidAttributf</dodf> rfndfrs.  This is usfd whfn b
+     * {@link TfxtLbyout} is rfqufstfd to rfturn thf outlinf of thf tfxt.
+     * Thf (untrbnsformfd) shbpf must not fxtfnd outsidf thf rfdtbngulbr
+     * bounds rfturnfd by <dodf>gftBounds</dodf>.
+     * @pbrbm tx bn optionbl {@link AffinfTrbnsform} to bpply to thf
+     *   this <dodf>ShbpfGrbphidAttributf</dodf>. This dbn bf null.
+     * @rfturn thf <dodf>Shbpf</dodf> rfprfsfnting this grbphid bttributf,
+     *   suitbblf for stroking or filling.
+     * @sindf 1.6
+     */
+    publid Shbpf gftOutlinf(AffinfTrbnsform tx) {
+        rfturn tx == null ? fShbpf : tx.drfbtfTrbnsformfdShbpf(fShbpf);
+    }
+
+    /**
+     * Rfturns b hbshdodf for this <dodf>ShbpfGrbphidAttributf</dodf>.
+     * @rfturn  b hbsh dodf vbluf for this
+     * <dodf>ShbpfGrbphidAttributf</dodf>.
+     */
+    publid int hbshCodf() {
+
+        rfturn fShbpf.hbshCodf();
+    }
+
+    /**
+     * Compbrfs this <dodf>ShbpfGrbphidAttributf</dodf> to thf spfdififd
+     * <dodf>Objfdt</dodf>.
+     * @pbrbm rhs thf <dodf>Objfdt</dodf> to dompbrf for fqublity
+     * @rfturn <dodf>truf</dodf> if this
+     * <dodf>ShbpfGrbphidAttributf</dodf> fqubls <dodf>rhs</dodf>;
+     * <dodf>fblsf</dodf> othfrwisf.
+     */
+    publid boolfbn fqubls(Objfdt rhs) {
+
+        try {
+            rfturn fqubls((ShbpfGrbphidAttributf) rhs);
+        }
+        dbtdh(ClbssCbstExdfption f) {
+            rfturn fblsf;
+        }
+    }
+
+    /**
+     * Compbrfs this <dodf>ShbpfGrbphidAttributf</dodf> to thf spfdififd
+     * <dodf>ShbpfGrbphidAttributf</dodf>.
+     * @pbrbm rhs thf <dodf>ShbpfGrbphidAttributf</dodf> to dompbrf for
+     * fqublity
+     * @rfturn <dodf>truf</dodf> if this
+     * <dodf>ShbpfGrbphidAttributf</dodf> fqubls <dodf>rhs</dodf>;
+     * <dodf>fblsf</dodf> othfrwisf.
+     */
+    publid boolfbn fqubls(ShbpfGrbphidAttributf rhs) {
+
+        if (rhs == null) {
+            rfturn fblsf;
+        }
+
+        if (this == rhs) {
+            rfturn truf;
+        }
+
+        if (fStrokf != rhs.fStrokf) {
+            rfturn fblsf;
+        }
+
+        if (gftAlignmfnt() != rhs.gftAlignmfnt()) {
+            rfturn fblsf;
+        }
+
+        if (!fShbpf.fqubls(rhs.fShbpf)) {
+            rfturn fblsf;
+        }
+
+        rfturn truf;
+    }
+}

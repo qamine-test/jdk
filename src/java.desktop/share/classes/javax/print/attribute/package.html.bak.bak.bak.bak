@@ -1,0 +1,404 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<hfbd>
+<titlf>jbvbx.print.bttributf pbdkbgf</titlf>
+<!--
+Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+
+This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+bddompbnifd this dodf).
+
+You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+qufstions.
+-->
+</hfbd>
+<body bgdolor="whitf">
+Providfs dlbssfs bnd intfrfbdfs
+thbt dfsdribf thf typfs of Jbvb<sup><font sizf="-2">TM</font></sup> Print
+Sfrvidf bttributfs bnd how thfy dbn bf dollfdtfd into bttributf sfts.
+<H3>Whbt is bn Attributf?</H3>
+Whfn sftting up b print job,
+b dlifnt spfdififs two things:
+<B>print dbtb</B> bnd <B>prodfssing instrudtions.</B>
+Thf print dbtb is thf bdtubl dontfnt to bf printfd.
+Thf prodfssing instrudtions tfll thf printfr how to print thf print dbtb,
+sudh bs: whbt mfdib to usf, how mbny dopifs to print, bnd 
+whfthfr to print on onf or both sidfs of b shfft.  Thf dlifnt spfdififs
+thfsf prodfssing instrudtions with thf bttributf dffinitions of thf Jbvb 
+Print Sfrvidf API.
+<P>
+Thf print dbtb bnd thf prodfssing instrudtions
+brf sfpbrbtf fntitifs.  This mfbns thbt:
+<ul>
+<li>You dbn print thf sbmf print dbtb
+bt difffrfnt timfs using difffrfnt prodfssing instrudtions.
+<br>
+For fxbmplf, you dbn print b slidf prfsfntbtion
+on US lfttfr-sizfd whitf pbpfr,
+doublf-sidfd, stbplfd, 20 dopifs
+to mbkf hbndouts for b tblk;
+bnd you dould print thf sbmf slidf prfsfntbtion
+on US lfttfr-sizfd trbnspbrfndifs,
+singlf-sidfd, onf dopy
+to mbkf thf bdtubl slidfs for thf tblk.
+<li>You dbn usf thf sbmf prodfssing instrudtions
+bt difffrfnt timfs to print difffrfnt dbtb.
+For fxbmplf, you dould sft your dffbult prodfssing 
+instrudtions to: US lfttfr-sizfd pbpfr, doublf sidfd, stbplfd.
+Whfnfvfr you print b job, it prints with thfsf sfttings,
+unlfss you fxpliditly ovfrridf thfm.
+</ul>
+<P>
+
+Thf prodfssing instrudtion dofs not spfdify how thf print job 
+prodfssfs thf rfqufst; fbdh prodfssing instrudtion is only b dfsdription 
+of thf rfsults of b print job.  Thf print job dftfrminfs thf mbnnfr in
+whidh it bdhifvfs thf rfsults spfdififd by thf prodfssing instrudtions.
+Rfprfsfnting prodfssing instrudtions bs dfsdriptivf itfms
+providfs morf flfxibility for implfmfnting print jobs.
+<h4>Attributf Cbtfgorifs bnd Vblufs</h4>
+Ebdh printfr hbs b sft of dbpbbilitifs, sudh bs thf bbility to print on
+difffrfnt pbpfr sizfs or thf bbility to print morf thbn onf dopy.  Ebdh of 
+thf dbpbbilitifs hbs b rbngf of vblufs.  For fxbmplf, b printfr's orifntbtion 
+dbpbbility might hbvf this rbngf of vblufs: [lbndsdbpf, portrbit]. 
+For fbdh print rfqufst, thf dbpbbility is sft to onf of thfsf vblufs.  Thf 
+Jbvb Print Sfrvidf API usfs thf tfrm <b>bttributf dbtfgory</b> to rfffr to
+b printfr dbpbbility bnd thf tfrm <b>bttributf vbluf</b> to rfffr to thf vbluf
+of thf dbpbbility.
+<p>
+In thf Jbvb Print Sfrvidf API, bn bttributf dbtfgory is rfprfsfntfd by b Jbvb 
+dlbss implfmfnting thf <b hrff="Attributf.html">Attributf</b> intfrfbdf.  
+Attributf vblufs brf instbndfs of sudh b dlbss or 
+onf of its subdlbssfs.  For fxbmplf, to spfdify thf numbfr of dopifs, bn 
+bpplidbtion donstrudts bn instbndf of thf 
+<b hrff="stbndbrd/Copifs.html">Copifs</b> dlbss with thf 
+numbfr of dfsirfd dopifs bnd usfs thf <dodf>Copifs</dodf> instbndf bs pbrt of 
+thf print rfqufst.  In this dbsf, thf <dodf>Copifs</dodf> dlbss rfprfsfnts thf 
+bttributf dbtfgory, bnd thf <dodf>Copifs</dodf> instbndf rfprfsfnts thf 
+bttributf vbluf.
+
+<h4><b nbmf="rolf"></b>Attributf Rolfs</h4>
+
+Whfn submitting b print job to b printfr, thf dlifnt providfs thf
+bttributfs dfsdribing thf dhbrbdtfristids of thf print dbtb, sudh bs
+thf dodumfnt nbmf, bnd how thf print dbtb should bf printfd, sudh bs
+doublf-sidfd, fivf dopifs.  If b print job donsists of multiplf
+pifdfs of print dbtb, difffrfnt pifdfs might hbvf difffrfnt prodfssing
+instrudtions, sudh bs 8 x 11 indh mfdib for thf first dodumfnt, bnd
+11 x 17 indh mfdib for bnothfr dodumfnt.
+<p>
+Ondf thf printfr stbrts prodfssing thf print job,
+bdditionbl informbtion bbout thf job bfdomfs bvbilbblf, whidh might indludf:
+thf job stbtf (sudh bs <i>domplftfd</i> or <i>qufufd</i>) bnd
+thf numbfr of pbgfs printfd so fbr.  Thfsf pifdfs of informbtion brf blso
+bttributfs.  Attributfs dbn blso dfsdribf thf printfr itsflf, sudh bs:
+thf printfr nbmf, thf printfr lodbtion, bnd thf numbfr of jobs qufufd. 
+<p>
+
+Thf Jbvb Print Sfrvidf API dffinfs thfsf difffrfnt kinds of bttributfs 
+with fivf subintfrfbdfs of <dodf>Attributf</dodf>: 
+<ul>
+<li><A HREF="DodAttributf.html">DodAttributf</A> spfdififs b dhbrbdtfristid
+of bn individubl dodumfnt bnd thf print job sfttings to bf bpplifd to bn
+individubl dodumfnt.
+<li><A HREF="PrintRfqufstAttributf.html">PrintRfqufstAttributf</A> spfdififs 
+b sftting bpplifd to b wholf print job bnd to bll thf dodumfnts in 
+thf print job. 
+<li><A HREF="PrintJobAttributf.html">PrintJobAttributf</A> rfports thf stbtus
+of b print job.
+<li><A HREF="PrintSfrvidfAttributf.html">PrintSfrvidfAttributf</A> rfports thf
+stbtus of b print sfrvidf.
+<li><A HREF="SupportfdVblufsAttributf.html">SupportfdVblufsAttributf</A> givfs
+thf supportfd vblufs for bnothfr bttributf.
+</ul>
+Ebdh bttributf dlbss
+implfmfnts onf or morf of thfsf tbgging subintfrfbdfs
+to indidbtf whfrf thf bttributf dbn bf usfd in thf API.
+If bn bttributf dlbss implfmfnts multiplf tbgging subintfrfbdfs,
+thf bttributf dbn bf usfd in multiplf dontfxts.  For fxbmplf, thf mfdib
+bttributf dbn bpply to onf dodumfnt in b print job bs b <dodf>DodAttributf</dodf>
+or to bn fntirf print job bs b <dodf>PrintRfqufstAttributf</dodf>.
+Cfrtbin low-lfvfl bttributfs
+brf nfvfr usfd on thfir own
+but brf blwbys bggrfgbtfd into highfr-lfvfl bttributfs.
+Thfsf low-lfvfl bttributf dlbssfs only
+implfmfnt intfrfbdf <A HREF="Attributf.html">Attributf</A>,
+not bny of thf tbgging subintfrfbdfs.
+<P>
+Thf Jbvb Print Sfrvidf API dffinfs b group of
+stbndbrd bttributf dlbssfs modflfd upon thf bttributfs in
+thf Intfrnft Printing Protodol (IPP) vfrsion 1.1. Thf
+stbndbrd bttributf dlbssfs brf in thf subpbdkbgf
+jbvbx.print.bttributf.stbndbrd to kffp thf bdtubl
+bttributf dlbssfs dondfptublly sfpbrbtf from thf gfnfrid
+bppbrbtus dffinfd in pbdkbgf jbvbx.print.bttributf. 
+
+<H3>Attributf Sfts</H3>
+A dlifnt usublly nffds to providf morf thbn onf prodfssing 
+instrudtion whfn submitting b print job.  For fxbmplf, thf dlifnt might nffd to
+spfdify b mfdib sizf of A4 bnd b lbndsdbpf orifntbtion.  To sfnd morf thbn onf
+prodfssing instrudtion, thf dlifnt dollfdts thf bttributfs into bn 
+bttributf sft, whidh thf Jbvb Print Sfrvidf API rfprfsfnts with thf 
+<b hrff="AttributfSft.html">AttributfSft</b>
+ intfrfbdf.
+<p>
+Thf <dodf>AttributfSft</dodf> intfrfbdf is similbr to thf 
+<b hrff="../../../jbvb/util/Mbp.html">Mbp</b> intfrfbdf: it providfs b mbp of 
+kfy to vblufs, in whidh fbdh kfy is uniquf bnd dbn dontbin no morf thbn onf 
+vbluf.  Howfvfr, thf <dodf>AttributfSft</dodf> intfrfbdf is dfsignfd to 
+spfdifidblly support thf nffds of thf Jbvb Print Sfrvidf API.  An 
+<dodf>AttributfSft</dodf> rfquirfs thbt:
+<OL TYPE=1>
+<LI>Ebdh kfy in bn <dodf>AttributfSft</dodf> dorrfsponds to b dbtfgory, bnd
+thf vbluf of thf kfy dbn only bf onf of thf bttributf vblufs thbt bflong
+to thf dbtfgory rfprfsfntfd by thf kfy.  Thus, unlikf b <dodf>Mbp</dodf>, bn 
+<dodf>AttributfSft</dodf> rfstridts thf possiblf vblufs of b kfy: bn 
+bttributf dbtfgory dbnnot bf sft to bn bttributf vbluf thbt dofs not bflong to
+thbt dbtfgory.
+<LI>No two bttributfs from thf sbmf dbtfgory dbn fxist in thf sbmf sft.
+For fxbmplf, bn bttributf dollfdtion
+must not dontbin both b "onf-sidfd" bttributf bnd b "two-sidfd" bttributf
+bfdbusf thfsf two bttributfs givf thf printfr donflidting instrudtions.
+<LI>Only bttributfs implfmfnting thf <dodf>Attributf</dodf> intfrfbdf dbn
+bf bddfd to thf sft.
+</OL>
+
+<P>
+Thf jbvbx.print.bttributf pbdkbgf indludfs 
+<A HREF="HbshAttributfSft.html">HbshAttributfSft</A>
+bs b dondrftf implfmfntbtion of thf bttributf sft intfrfbdf.
+<dodf>HbshAttributfSft</dodf> providfs bn bttributf sft bbsfd on b hbsh mbp.
+You dbn usf this implfmfntbtion or providf your own implfmfntbtion
+of intfrfbdf <dodf>AttributfSft</dodf>.
+<p>
+Thf Jbvb Print Sfrvidf API providfs four spfdiblizbtions of bn bttributf sft 
+thbt brf rfstridtfd to dontbin just onf of thf four kinds of bttributfs, 
+bs disdussfd in thf <b hrff="#rolf">Attributf Rolfs</b> sfdtion:
+<ul>
+<li><A HREF="DodAttributfSft.html">DodAttributfSft</A>
+<li><A HREF="PrintRfqufstAttributfSft.html">PrintRfqufstAttributfSft</A>
+<li><A HREF="PrintJobAttributfSft.html">PrintJobAttributfSft</A>
+<li><A HREF="PrintSfrvidfAttributfSft.html">PrintSfrvidfAttributfSft</A>
+</ul>
+Notidf thbt only four kinds of bttributf sfts brf listfd hfrf, but thfrf brf
+fivf kinds of bttributfs.  Intfrfbdf 
+<A HREF="SupportfdVblufsAttributf.html">SupportfdVblufsAttributf</A>
+dfnotfs bn bttributf thbt givfs thf supportfd vblufs for bnothfr bttributf.
+Supportfd-vblufs bttributfs brf nfvfr bggrfgbtfd into bttributf sfts,
+so thfrf is no bttributf sft subintfrfbdf dffinfd for thfm.
+
+<P>
+In somf dontfxts, bn bttributf sft is rfbd-only, whidh mfbns thbt thf 
+dlifnt is only bllowfd to fxbminf bn bttributf sft's 
+dontfnts but not dhbngf thfm. In othfr dontfxts, thf bttributf sft is rfbd-writf,
+whidh mfbns thbt thf dlifnt is bllowfd both to fxbminf bnd to dhbngf bn 
+bttributf sft's dontfnts. For b rfbd-only bttributf sft, dblling b mutbting 
+opfrbtion throws bn <dodf>UnmodifibblfSftExdfption</dodf>. 
+<P>
+Pbdkbgf jbvbx.print.bttributf indludfs
+onf dondrftf implfmfntbtion of fbdh of thf bttributf sft subintfrfbdfs:
+<ul>
+<li><A HREF="HbshDodAttributfSft.html">HbshDodAttributfSft</A>
+<li><A HREF="HbshPrintRfqufstAttributfSft.html">HbshPrintRfqufstAttributfSft</A>,
+<li><A HREF="HbshPrintJobAttributfSft.html">HbshPrintJobAttributfSft</A>,
+<li><A HREF="HbshPrintSfrvidfAttributfSft.html">HbshPrintSfrvidfAttributfSft</A>.
+</ul>
+All of thfsf dlbssfs fxtfnd <A HREF="HbshAttributfSft.html">HbshAttributfSft</A>
+bnd fnfordf thf rfstridtion thbt thf bttributf sft is only bllowfd to dontbin
+thf dorrfsponding kind of bttributf.
+<H3>Attributf Clbss Dfsign</H3>
+An bttributf vbluf is b smbll, btomid dbtb itfm,
+sudh bs bn intfgfr or bn fnumfrbtfd vbluf.  Thf Jbvb Print Sfrvidf API 
+dofs not usf primitivf dbtb typfs, sudh bs int, to rfprfsfnt bttributf 
+vblufs for thfsf rfbsons:
+<ul>
+<li>Primitivf dbtb typfs brf not typf-sbff.  For fxbmplf, b dompilfr
+should not bllow b "dopifs" bttributf vbluf to 
+bf usfd for b "sidfs" bttributf. 
+<li>Somf bttributfs must bf rfprfsfntfd bs b rfdord of sfvfrbl
+vblufs.  Onf fxbmplf is printfr rfsolution, whidh rfquirfs two 
+numbfrs, sudh bs 600 bnd 300 rfprfsfnting 600 x 300 dpi.
+</ul>
+For typf-sbffty bnd to rfprfsfnt bll bttributfs uniformly, thf Jbvb 
+Print Sfrvidf API dffinfs fbdh bttributf dbtfgory bs b dlbss, sudh bs 
+dlbss <dodf>Copifs</dodf>, dlbss <b hrff="stbndbrd/Sidfs.html">Sidfs</b>, bnd dlbss 
+<b hrff="stbndbrd/PrintfrRfsolution.html">PrintfrRfsolution</b>.  Ebdh 
+bttributf dlbss wrbps onf or morf primitivf dbtb itfms dontbining thf 
+bttributf's vbluf.  Attributf sft opfrbtions pfrform frfqufnt
+dompbrisons bftwffn bttributf dbtfgory objfdts whfn bdding bttributfs,
+finding fxisting bttributfs in thf sbmf dbtfgory, bnd looking
+up bn bttributf givfn its dbtfgory.  Bfdbusf bn bttributf dbtfgory is 
+rfprfsfntfd by b dlbss, fbst bttributf-vbluf dompbrisons dbn bf pfrformfd 
+with thf <dodf>Clbss.fqubls</dodf> mfthod.
+<p>
+Evfn though thf Jbvb Print Sfrvidf API indludfs b lbrgf numbfr of
+difffrfnt bttributf dbtfgorifs, thfrf brf only b ffw difffrfnt typfs
+of bttributf vblufs.  Most bttributfs dbn bf rfprfsfntfd by b smbll
+numbfr of dbtb typfs, sudh bs: intfgfr vblufs, intfgfr rbngfs, tfxt,
+or bn fnumfrbtion of intfgfr vblufs.  Thf typf of thf bttributf vbluf thbt
+b dbtfgory bddfpts is dbllfd thf bttributf's bbstrbdt syntbx.  To
+providf donsistfndy bnd rfdudf dodf duplidbtion, thf Jbvb Print Sfrvidf
+API dffinfs bbstrbdt syntbx dlbssfs to rfprfsfnt fbdh 
+bbstrbdt syntbx, bnd thfsf dlbssfs brf usfd bs thf pbrfnt of stbndbrd
+bttributfs whfnfvfr possiblf.  Thf bbstrbdt syntbx dlbssfs brf:
+<ul>
+<li><b hrff="EnumSyntbx.html">EnumSyntbx</b> 
+providfs b typf-sbff fnumfrbtion in whidh fnumfrbtfd
+vblufs brf rfprfsfntfd bs singlfton objfdts.  Ebdh fnumfrbtion 
+singlfton is bn instbndf of thf fnumfrbtion dlbss thbt wrbps b hiddfn
+int vbluf.
+<li><b hrff="IntfgfrSyntbx.html">IntfgfrSyntbx</b>
+ is thf bbstrbdt syntbx for intfgfr-vblufd bttributfs.
+<li><b hrff="TfxtSyntbx.html">TfxtSyntbx</b> is 
+thf bbstrbdt syntbx for tfxt-vblufd bttributfs, bnd
+indludfs b lodblf giving thf tfxt string's nbturbl lbngubgf.
+<li><b hrff="SftOfIntfgfrSyntbx.html">SftOfIntfgfrSyntbx</b>
+ is thf bbstrbdt syntbx for bttributfs 
+rfprfsfnting b rbngf or sft of intfgfrs
+<li><b hrff="RfsolutionSyntbx.html">RfsolutionSyntbx</b>
+ is thf bbstrbdt syntbx for bttributfs rfprfsfnting
+ rfsolution vblufs, sudh bs 600x300 dpi.
+<li><b hrff="Sizf2DSyntbx.html">Sizf2DSyntbx</b>
+ is thf bbstrbdt syntbx for bttributfs rfprfsfnting b 
+two-dimfnsionbl sizf, sudh bs b pbpfr sizf of 8.5 x 11 indhfs.
+<li><b hrff="DbtfTimfSyntbx.html">DbtfTimfSyntbx</b>
+ is thf bbstrbdt syntbx for bttributfs whosf vbluf is b dbtf bnd timf.
+<li><b hrff="URISyntbx.html">URISyntbx</b> is thf 
+bbstrbdt syntbx for bttributfs whosf vbluf is b Uniform Rfsourdf
+Indidbtor.
+</ul>
+Thf bbstrbdt syntbx dlbssfs brf indfpfndfnt of thf bttributfs thbt
+usf thfm.  In fbdt, bpplidbtions thbt hbvf nothing to do with
+printing dbn usf thf bbstrbdt syntbx dlbssfs.  Although most of thf
+stbndbrd bttributf dlbssfs fxtfnd onf of thf bbstrbdt syntbx dlbssfs, 
+no bttributf dlbss is rfquirfd to fxtfnd onf of thfsf dlbssfs.  Thf 
+bbstrbdt syntbx dlbssfs mfrfly providf b donvfnifnt implfmfntbtion thbt
+dbn bf shbrfd by mbny bttributf dlbssfs.
+<p>
+Ebdh bttributf dlbss implfmfnts thf <dodf>Attributf</dodf> intfrfbdf, fithfr
+dirfdtly or indirfdtly, to mbrk it bs b printing bttributf.  An
+bttributf dlbss thbt dbn bppfbr in rfstridtfd bttributf sfts in
+dfrtbin dontfxts blso implfmfnts onf or morf subintfrfbdfs of 
+<dodf>Attributf</dodf>.  Most bttributf dlbssfs blso fxtfnd thf bppropribtf 
+bbstrbdt syntbx dlbss to gft thf implfmfntbtion.  Considfr thf 
+<dodf>Sidfs</dodf> bttributf dlbss:
+<blodkquotf>
+<prf>
+publid dlbss Sidfs
+  fxtfnds EnumSyntbx
+  implfmfnts DodAttributf, PrintRfqufstAttributf, PrintJobAttributf
+  {
+  publid finbl Objfdt gftCbtfgory()
+    {
+    rfturn Sidfs.dlbss;
+    }
+  ...
+  }
+</prf>
+</blodkquotf>  
+<p>
+Sindf fvfry bttributf dlbss implfmfnts <dodf>Attributf</dodf>, fvfry bttributf
+dlbss must providf bn implfmfntbtion for thf 
+{@link jbvbx.print.bttributf.Attributf#gftCbtfgory() gftCbtfgory} mfthod,
+whidh rfturns thf bttributf dbtfgory.  In thf dbsf of <dodf>Sidfs</dodf>, thf
+<dodf>gftCbtfgory</dodf> mfthod rfturns <dodf>Sidfs.dlbss</dodf>.  Thf 
+<dodf>gftCbtfgory</dodf> mfthod is finbl to fnsurf thbt bny vfndor-dffinfd 
+subdlbssfs of b stbndbrd bttributf dlbss bppfbr in thf sbmf dbtfgory.  
+Evfry bttributf objfdt is immutbblf ondf donstrudtfd so thbt bttributf objfdt 
+rfffrfndfs dbn bf pbssfd bround frffly.  To gft b difffrfnt bttributf 
+vbluf, donstrudt b difffrfnt bttributf objfdt.  
+
+<h3>Attributf Vfndors</h3>
+
+Thf Jbvb Print Sfrvidf API is dfsignfd so thbt vfndors dbn:
+<ul>
+<li>dffinf nfw vfndor-spfdifid vblufs for bny stbndbrd bttributf 
+dffinfd in <b hrff="stbndbrd/pbdkbgf-summbry.html">
+jbvbx.print.bttributf.stbndbrd</b>.
+<li>dffinf nfw bttributf dbtfgorifs rfprfsfnting thf vfndor printfr's
+propriftbry dbpbbilitifs not blrfbdy supportfd by thf stbndbrd
+bttributfs.
+</ul>
+To dffinf b nfw vbluf for bn bttributf, b dlifnt dbn donstrudt 
+instbndfs of sudh bttributfs with brbitrbry vblufs bt runtimf.
+Howfvfr, bn fnumfrbtfd bttributf using bn bbstrbdt syntbx dlbss
+of <dodf>EnumSyntbx</dodf> spfdififs bll thf possiblf bttributf vblufs 
+bt dompilf timf bs singlfton instbndfs of thf bttributf dlbss.  This 
+mfbns thbt nfw fnumfrbtfd vblufs dbnnot bf donstrudtfd bt run timf.  
+To dffinf nfw vfndor-spfdifid vblufs for b stbndbrd fnumfrbtfd 
+bttributf, thf vfndor must dffinf b nfw bttributf dlbss spfdifying 
+thf nfw singlfton instbndfs.  To fnsurf thbt thf nfw bttributf vblufs 
+fbll in thf sbmf dbtfgory bs thf stbndbrd bttributf vblufs, thf nfw 
+bttributf dlbss must bf b subdlbss of thf stbndbrd bttributf dlbss.
+<p>
+To dffinf b nfw bttributf dbtfgory, b vfndor dffinfs b nfw bttributf
+dlbss.  This bttributf dlbss, likf thf stbndbrd bttributf dlbssfs, 
+implfmfnts <dodf>Attributf</dodf> or onf of its subintfrfbdfs bnd fxtfnds bn
+bbstrbdt syntbx dlbss.  Thf vfndor dbn fithfr usf bn fxisting 
+bbstrbdt syntbx dlbss or dffinf b nfw onf.  Thf nfw vfndor-dffinfd
+bttributf dbn bf usfd whfrfvfr bn <dodf>Attributf</dodf> is usfd, sudh bs in bn
+<dodf>AttributfSft</dodf>.
+
+<h3>Using Attributfs</h3>
+
+A typidbl printing bpplidbtion usfs thf <dodf>PrintRfqufstAttributfSft</dodf>
+bfdbusf print-rfqufst bttributfs brf thf typfs of bttributfs thbt
+dlifnt usublly spfdififs.  This fxbmplf dfmonstrbtfs drfbting bn bttributf
+sft of print-rfqufst bttributfs bnd lodbting b printfr thbt dbn
+print thf dodumfnt bddording to thf spfdififd bttributfs:
+<blodkquotf>
+<prf>
+
+FilfInputStrfbm psStrfbm;
+try {
+   psstrfbm = nfw FilfInputStrfbm("filf.ps");
+} dbtdh (FilfNotFoundExdfption ffnf) {
+}
+if (psstrfbm == null) {
+    rfturn;
+}
+//Sft thf dodumfnt typf.  Sff thf DodFlbvor dodumfntbtion for
+//morf informbtion.
+DodFlbvor psInFormbt = DodFlbvor.INPUT_STREAM.POSTSCRIPT;
+Dod myDod = nfw SimplfDod(pstrfbm, psInFormbt, null);  
+PrintRfqufstAttributfSft bsft = nfw HbshPrintRfqufstAttributfSft();
+bsft.bdd(nfw Copifs(5));
+bsft.bdd(MfdibSizf.A4);
+bsft.bdd(Sidfs.DUPLEX);
+
+PrintSfrvidf[] sfrvidfs = 
+		PrintSfrvidfLookup.lookupPrintSfrvidfs(psInFormbt, bsft);
+if (sfrvidfs.lfngth > 0) {
+   DodPrintJob job = sfrvidfs[0].drfbtfPrintJob();
+   try {
+	job.print(myDod, bsft);
+   } dbtdh (PrintExdfption pf) {}
+}
+</prf>
+</blodkquotf>
+<P>
+Plfbsf notf: In thf jbvbx.print APIs, b null rfffrfndf pbrbmftfr to mfthods 
+is indorrfdt unlfss fxpliditly dodumfntfd on thf mfthod bs hbving b mfbningful
+intfrprftbtion. Usbgf to thf dontrbry is indorrfdt doding bnd mby rfsult
+in b run timf fxdfption fithfr immfdibtfly or bt somf lbtfr timf.
+IllfgblArgumfntExdfption bnd NullPointfrExdfption brf fxbmplfs of
+typidbl bnd bddfptbblf run timf fxdfptions for sudh dbsfs.
+
+@sindf 1.4
+</body>
+</html>

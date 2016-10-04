@@ -1,887 +1,887 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.text;
+pbdkbgf jbvbx.swing.tfxt;
 
-import sun.awt.SunToolkit;
+import sun.bwt.SunToolkit;
 
-import java.io.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.text.*;
-import javax.swing.Action;
-import javax.swing.KeyStroke;
-import javax.swing.SwingConstants;
-import javax.swing.UIManager;
+import jbvb.io.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.AdtionEvfnt;
+import jbvb.tfxt.*;
+import jbvbx.swing.Adtion;
+import jbvbx.swing.KfyStrokf;
+import jbvbx.swing.SwingConstbnts;
+import jbvbx.swing.UIMbnbgfr;
 
 /**
- * This is the set of things needed by a text component
- * to be a reasonably functioning editor for some <em>type</em>
- * of text document.  This implementation provides a default
- * implementation which treats text as plain text and
- * provides a minimal set of actions for a simple editor.
+ * Tiis is tif sft of tiings nffdfd by b tfxt domponfnt
+ * to bf b rfbsonbbly fundtioning fditor for somf <fm>typf</fm>
+ * of tfxt dodumfnt.  Tiis implfmfntbtion providfs b dffbult
+ * implfmfntbtion wiidi trfbts tfxt bs plbin tfxt bnd
+ * providfs b minimbl sft of bdtions for b simplf fditor.
  *
  * <dl>
- * <dt><b>Newlines</b>
+ * <dt><b>Nfwlinfs</b>
  * <dd>
- * There are two properties which deal with newlines.  The
- * system property, <code>line.separator</code>, is defined to be
- * platform-dependent, either "\n", "\r", or "\r\n".  There is also
- * a property defined in <code>DefaultEditorKit</code>, called
- * <a href=#EndOfLineStringProperty><code>EndOfLineStringProperty</code></a>,
- * which is defined automatically when a document is loaded, to be
- * the first occurrence of any of the newline characters.
- * When a document is loaded, <code>EndOfLineStringProperty</code>
- * is set appropriately, and when the document is written back out, the
- * <code>EndOfLineStringProperty</code> is used.  But while the document
- * is in memory, the "\n" character is used to define a
- * newline, regardless of how the newline is defined when
- * the document is on disk.  Therefore, for searching purposes,
- * "\n" should always be used.  When a new document is created,
- * and the <code>EndOfLineStringProperty</code> has not been defined,
- * it will use the System property when writing out the
- * document.
- * <p>Note that <code>EndOfLineStringProperty</code> is set
- * on the <code>Document</code> using the <code>get/putProperty</code>
- * methods.  Subclasses may override this behavior.
+ * Tifrf brf two propfrtifs wiidi dfbl witi nfwlinfs.  Tif
+ * systfm propfrty, <dodf>linf.sfpbrbtor</dodf>, is dffinfd to bf
+ * plbtform-dfpfndfnt, fitifr "\n", "\r", or "\r\n".  Tifrf is blso
+ * b propfrty dffinfd in <dodf>DffbultEditorKit</dodf>, dbllfd
+ * <b irff=#EndOfLinfStringPropfrty><dodf>EndOfLinfStringPropfrty</dodf></b>,
+ * wiidi is dffinfd butombtidblly wifn b dodumfnt is lobdfd, to bf
+ * tif first oddurrfndf of bny of tif nfwlinf dibrbdtfrs.
+ * Wifn b dodumfnt is lobdfd, <dodf>EndOfLinfStringPropfrty</dodf>
+ * is sft bppropribtfly, bnd wifn tif dodumfnt is writtfn bbdk out, tif
+ * <dodf>EndOfLinfStringPropfrty</dodf> is usfd.  But wiilf tif dodumfnt
+ * is in mfmory, tif "\n" dibrbdtfr is usfd to dffinf b
+ * nfwlinf, rfgbrdlfss of iow tif nfwlinf is dffinfd wifn
+ * tif dodumfnt is on disk.  Tifrfforf, for sfbrdiing purposfs,
+ * "\n" siould blwbys bf usfd.  Wifn b nfw dodumfnt is drfbtfd,
+ * bnd tif <dodf>EndOfLinfStringPropfrty</dodf> ibs not bffn dffinfd,
+ * it will usf tif Systfm propfrty wifn writing out tif
+ * dodumfnt.
+ * <p>Notf tibt <dodf>EndOfLinfStringPropfrty</dodf> is sft
+ * on tif <dodf>Dodumfnt</dodf> using tif <dodf>gft/putPropfrty</dodf>
+ * mftiods.  Subdlbssfs mby ovfrridf tiis bfibvior.
  *
  * </dl>
  *
- * @author  Timothy Prinzing
+ * @butior  Timotiy Prinzing
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class DefaultEditorKit extends EditorKit {
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss DffbultEditorKit fxtfnds EditorKit {
 
     /**
-     * default constructor for DefaultEditorKit
+     * dffbult donstrudtor for DffbultEditorKit
      */
-    public DefaultEditorKit() {
+    publid DffbultEditorKit() {
     }
 
     /**
-     * Gets the MIME type of the data that this
-     * kit represents support for.  The default
-     * is <code>text/plain</code>.
+     * Gfts tif MIME typf of tif dbtb tibt tiis
+     * kit rfprfsfnts support for.  Tif dffbult
+     * is <dodf>tfxt/plbin</dodf>.
      *
-     * @return the type
+     * @rfturn tif typf
      */
-    public String getContentType() {
-        return "text/plain";
+    publid String gftContfntTypf() {
+        rfturn "tfxt/plbin";
     }
 
     /**
-     * Fetches a factory that is suitable for producing
-     * views of any models that are produced by this
-     * kit.  The default is to have the UI produce the
-     * factory, so this method has no implementation.
+     * Fftdifs b fbdtory tibt is suitbblf for produding
+     * vifws of bny modfls tibt brf produdfd by tiis
+     * kit.  Tif dffbult is to ibvf tif UI produdf tif
+     * fbdtory, so tiis mftiod ibs no implfmfntbtion.
      *
-     * @return the view factory
+     * @rfturn tif vifw fbdtory
      */
-    public ViewFactory getViewFactory() {
-        return null;
+    publid VifwFbdtory gftVifwFbdtory() {
+        rfturn null;
     }
 
     /**
-     * Fetches the set of commands that can be used
-     * on a text component that is using a model and
-     * view produced by this kit.
+     * Fftdifs tif sft of dommbnds tibt dbn bf usfd
+     * on b tfxt domponfnt tibt is using b modfl bnd
+     * vifw produdfd by tiis kit.
      *
-     * @return the command list
+     * @rfturn tif dommbnd list
      */
-    public Action[] getActions() {
-        return defaultActions;
+    publid Adtion[] gftAdtions() {
+        rfturn dffbultAdtions;
     }
 
     /**
-     * Fetches a caret that can navigate through views
-     * produced by the associated ViewFactory.
+     * Fftdifs b dbrft tibt dbn nbvigbtf tirougi vifws
+     * produdfd by tif bssodibtfd VifwFbdtory.
      *
-     * @return the caret
+     * @rfturn tif dbrft
      */
-    public Caret createCaret() {
-        return null;
+    publid Cbrft drfbtfCbrft() {
+        rfturn null;
     }
 
     /**
-     * Creates an uninitialized text storage model (PlainDocument)
-     * that is appropriate for this type of editor.
+     * Crfbtfs bn uninitiblizfd tfxt storbgf modfl (PlbinDodumfnt)
+     * tibt is bppropribtf for tiis typf of fditor.
      *
-     * @return the model
+     * @rfturn tif modfl
      */
-    public Document createDefaultDocument() {
-        return new PlainDocument();
+    publid Dodumfnt drfbtfDffbultDodumfnt() {
+        rfturn nfw PlbinDodumfnt();
     }
 
     /**
-     * Inserts content from the given stream which is expected
-     * to be in a format appropriate for this kind of content
-     * handler.
+     * Insfrts dontfnt from tif givfn strfbm wiidi is fxpfdtfd
+     * to bf in b formbt bppropribtf for tiis kind of dontfnt
+     * ibndlfr.
      *
-     * @param in  The stream to read from
-     * @param doc The destination for the insertion.
-     * @param pos The location in the document to place the
-     *   content &gt;=0.
-     * @exception IOException on any I/O error
-     * @exception BadLocationException if pos represents an invalid
-     *   location within the document.
+     * @pbrbm in  Tif strfbm to rfbd from
+     * @pbrbm dod Tif dfstinbtion for tif insfrtion.
+     * @pbrbm pos Tif lodbtion in tif dodumfnt to plbdf tif
+     *   dontfnt &gt;=0.
+     * @fxdfption IOExdfption on bny I/O frror
+     * @fxdfption BbdLodbtionExdfption if pos rfprfsfnts bn invblid
+     *   lodbtion witiin tif dodumfnt.
      */
-    public void read(InputStream in, Document doc, int pos)
-        throws IOException, BadLocationException {
+    publid void rfbd(InputStrfbm in, Dodumfnt dod, int pos)
+        tirows IOExdfption, BbdLodbtionExdfption {
 
-        read(new InputStreamReader(in), doc, pos);
+        rfbd(nfw InputStrfbmRfbdfr(in), dod, pos);
     }
 
     /**
-     * Writes content from a document to the given stream
-     * in a format appropriate for this kind of content handler.
+     * Writfs dontfnt from b dodumfnt to tif givfn strfbm
+     * in b formbt bppropribtf for tiis kind of dontfnt ibndlfr.
      *
-     * @param out The stream to write to
-     * @param doc The source for the write.
-     * @param pos The location in the document to fetch the
-     *   content &gt;=0.
-     * @param len The amount to write out &gt;=0.
-     * @exception IOException on any I/O error
-     * @exception BadLocationException if pos represents an invalid
-     *   location within the document.
+     * @pbrbm out Tif strfbm to writf to
+     * @pbrbm dod Tif sourdf for tif writf.
+     * @pbrbm pos Tif lodbtion in tif dodumfnt to fftdi tif
+     *   dontfnt &gt;=0.
+     * @pbrbm lfn Tif bmount to writf out &gt;=0.
+     * @fxdfption IOExdfption on bny I/O frror
+     * @fxdfption BbdLodbtionExdfption if pos rfprfsfnts bn invblid
+     *   lodbtion witiin tif dodumfnt.
      */
-    public void write(OutputStream out, Document doc, int pos, int len)
-        throws IOException, BadLocationException {
-        OutputStreamWriter osw = new OutputStreamWriter(out);
+    publid void writf(OutputStrfbm out, Dodumfnt dod, int pos, int lfn)
+        tirows IOExdfption, BbdLodbtionExdfption {
+        OutputStrfbmWritfr osw = nfw OutputStrfbmWritfr(out);
 
-        write(osw, doc, pos, len);
-        osw.flush();
+        writf(osw, dod, pos, lfn);
+        osw.flusi();
     }
 
     /**
-     * Gets the input attributes for the pane. This method exists for
-     * the benefit of StyledEditorKit so that the read method will
-     * pick up the correct attributes to apply to inserted text.
-     * This class's implementation simply returns null.
+     * Gfts tif input bttributfs for tif pbnf. Tiis mftiod fxists for
+     * tif bfnffit of StylfdEditorKit so tibt tif rfbd mftiod will
+     * pidk up tif dorrfdt bttributfs to bpply to insfrtfd tfxt.
+     * Tiis dlbss's implfmfntbtion simply rfturns null.
      *
-     * @return null
+     * @rfturn null
      */
-    MutableAttributeSet getInputAttributes() {
-        return null;
+    MutbblfAttributfSft gftInputAttributfs() {
+        rfturn null;
     }
 
     /**
-     * Inserts content from the given stream, which will be
-     * treated as plain text.
+     * Insfrts dontfnt from tif givfn strfbm, wiidi will bf
+     * trfbtfd bs plbin tfxt.
      *
-     * @param in  The stream to read from
-     * @param doc The destination for the insertion.
-     * @param pos The location in the document to place the
-     *   content &gt;=0.
-     * @exception IOException on any I/O error
-     * @exception BadLocationException if pos represents an invalid
-     *   location within the document.
+     * @pbrbm in  Tif strfbm to rfbd from
+     * @pbrbm dod Tif dfstinbtion for tif insfrtion.
+     * @pbrbm pos Tif lodbtion in tif dodumfnt to plbdf tif
+     *   dontfnt &gt;=0.
+     * @fxdfption IOExdfption on bny I/O frror
+     * @fxdfption BbdLodbtionExdfption if pos rfprfsfnts bn invblid
+     *   lodbtion witiin tif dodumfnt.
      */
-    public void read(Reader in, Document doc, int pos)
-        throws IOException, BadLocationException {
+    publid void rfbd(Rfbdfr in, Dodumfnt dod, int pos)
+        tirows IOExdfption, BbdLodbtionExdfption {
 
-        char[] buff = new char[4096];
-        int nch;
-        boolean lastWasCR = false;
-        boolean isCRLF = false;
-        boolean isCR = false;
-        int last;
-        boolean wasEmpty = (doc.getLength() == 0);
-        AttributeSet attr = getInputAttributes();
+        dibr[] buff = nfw dibr[4096];
+        int ndi;
+        boolfbn lbstWbsCR = fblsf;
+        boolfbn isCRLF = fblsf;
+        boolfbn isCR = fblsf;
+        int lbst;
+        boolfbn wbsEmpty = (dod.gftLfngti() == 0);
+        AttributfSft bttr = gftInputAttributfs();
 
-        // Read in a block at a time, mapping \r\n to \n, as well as single
-        // \r's to \n's. If a \r\n is encountered, \r\n will be set as the
-        // newline string for the document, if \r is encountered it will
-        // be set as the newline character, otherwise the newline property
-        // for the document will be removed.
-        while ((nch = in.read(buff, 0, buff.length)) != -1) {
-            last = 0;
-            for(int counter = 0; counter < nch; counter++) {
-                switch(buff[counter]) {
-                case '\r':
-                    if (lastWasCR) {
-                        isCR = true;
-                        if (counter == 0) {
-                            doc.insertString(pos, "\n", attr);
+        // Rfbd in b blodk bt b timf, mbpping \r\n to \n, bs wfll bs singlf
+        // \r's to \n's. If b \r\n is fndountfrfd, \r\n will bf sft bs tif
+        // nfwlinf string for tif dodumfnt, if \r is fndountfrfd it will
+        // bf sft bs tif nfwlinf dibrbdtfr, otifrwisf tif nfwlinf propfrty
+        // for tif dodumfnt will bf rfmovfd.
+        wiilf ((ndi = in.rfbd(buff, 0, buff.lfngti)) != -1) {
+            lbst = 0;
+            for(int dountfr = 0; dountfr < ndi; dountfr++) {
+                switdi(buff[dountfr]) {
+                dbsf '\r':
+                    if (lbstWbsCR) {
+                        isCR = truf;
+                        if (dountfr == 0) {
+                            dod.insfrtString(pos, "\n", bttr);
                             pos++;
                         }
-                        else {
-                            buff[counter - 1] = '\n';
+                        flsf {
+                            buff[dountfr - 1] = '\n';
                         }
                     }
-                    else {
-                        lastWasCR = true;
+                    flsf {
+                        lbstWbsCR = truf;
                     }
-                    break;
-                case '\n':
-                    if (lastWasCR) {
-                        if (counter > (last + 1)) {
-                            doc.insertString(pos, new String(buff, last,
-                                            counter - last - 1), attr);
-                            pos += (counter - last - 1);
+                    brfbk;
+                dbsf '\n':
+                    if (lbstWbsCR) {
+                        if (dountfr > (lbst + 1)) {
+                            dod.insfrtString(pos, nfw String(buff, lbst,
+                                            dountfr - lbst - 1), bttr);
+                            pos += (dountfr - lbst - 1);
                         }
-                        // else nothing to do, can skip \r, next write will
-                        // write \n
-                        lastWasCR = false;
-                        last = counter;
-                        isCRLF = true;
+                        // flsf notiing to do, dbn skip \r, nfxt writf will
+                        // writf \n
+                        lbstWbsCR = fblsf;
+                        lbst = dountfr;
+                        isCRLF = truf;
                     }
-                    break;
-                default:
-                    if (lastWasCR) {
-                        isCR = true;
-                        if (counter == 0) {
-                            doc.insertString(pos, "\n", attr);
+                    brfbk;
+                dffbult:
+                    if (lbstWbsCR) {
+                        isCR = truf;
+                        if (dountfr == 0) {
+                            dod.insfrtString(pos, "\n", bttr);
                             pos++;
                         }
-                        else {
-                            buff[counter - 1] = '\n';
+                        flsf {
+                            buff[dountfr - 1] = '\n';
                         }
-                        lastWasCR = false;
+                        lbstWbsCR = fblsf;
                     }
-                    break;
+                    brfbk;
                 }
             }
-            if (last < nch) {
-                if(lastWasCR) {
-                    if (last < (nch - 1)) {
-                        doc.insertString(pos, new String(buff, last,
-                                         nch - last - 1), attr);
-                        pos += (nch - last - 1);
+            if (lbst < ndi) {
+                if(lbstWbsCR) {
+                    if (lbst < (ndi - 1)) {
+                        dod.insfrtString(pos, nfw String(buff, lbst,
+                                         ndi - lbst - 1), bttr);
+                        pos += (ndi - lbst - 1);
                     }
                 }
-                else {
-                    doc.insertString(pos, new String(buff, last,
-                                     nch - last), attr);
-                    pos += (nch - last);
+                flsf {
+                    dod.insfrtString(pos, nfw String(buff, lbst,
+                                     ndi - lbst), bttr);
+                    pos += (ndi - lbst);
                 }
             }
         }
-        if (lastWasCR) {
-            doc.insertString(pos, "\n", attr);
-            isCR = true;
+        if (lbstWbsCR) {
+            dod.insfrtString(pos, "\n", bttr);
+            isCR = truf;
         }
-        if (wasEmpty) {
+        if (wbsEmpty) {
             if (isCRLF) {
-                doc.putProperty(EndOfLineStringProperty, "\r\n");
+                dod.putPropfrty(EndOfLinfStringPropfrty, "\r\n");
             }
-            else if (isCR) {
-                doc.putProperty(EndOfLineStringProperty, "\r");
+            flsf if (isCR) {
+                dod.putPropfrty(EndOfLinfStringPropfrty, "\r");
             }
-            else {
-                doc.putProperty(EndOfLineStringProperty, "\n");
+            flsf {
+                dod.putPropfrty(EndOfLinfStringPropfrty, "\n");
             }
         }
     }
 
     /**
-     * Writes content from a document to the given stream
-     * as plain text.
+     * Writfs dontfnt from b dodumfnt to tif givfn strfbm
+     * bs plbin tfxt.
      *
-     * @param out  The stream to write to
-     * @param doc The source for the write.
-     * @param pos The location in the document to fetch the
-     *   content from &gt;=0.
-     * @param len The amount to write out &gt;=0.
-     * @exception IOException on any I/O error
-     * @exception BadLocationException if pos is not within 0 and
-     *   the length of the document.
+     * @pbrbm out  Tif strfbm to writf to
+     * @pbrbm dod Tif sourdf for tif writf.
+     * @pbrbm pos Tif lodbtion in tif dodumfnt to fftdi tif
+     *   dontfnt from &gt;=0.
+     * @pbrbm lfn Tif bmount to writf out &gt;=0.
+     * @fxdfption IOExdfption on bny I/O frror
+     * @fxdfption BbdLodbtionExdfption if pos is not witiin 0 bnd
+     *   tif lfngti of tif dodumfnt.
      */
-    public void write(Writer out, Document doc, int pos, int len)
-        throws IOException, BadLocationException {
+    publid void writf(Writfr out, Dodumfnt dod, int pos, int lfn)
+        tirows IOExdfption, BbdLodbtionExdfption {
 
-        if ((pos < 0) || ((pos + len) > doc.getLength())) {
-            throw new BadLocationException("DefaultEditorKit.write", pos);
+        if ((pos < 0) || ((pos + lfn) > dod.gftLfngti())) {
+            tirow nfw BbdLodbtionExdfption("DffbultEditorKit.writf", pos);
         }
-        Segment data = new Segment();
-        int nleft = len;
+        Sfgmfnt dbtb = nfw Sfgmfnt();
+        int nlfft = lfn;
         int offs = pos;
-        Object endOfLineProperty = doc.getProperty(EndOfLineStringProperty);
-        if (endOfLineProperty == null) {
-            endOfLineProperty = System.lineSeparator();
+        Objfdt fndOfLinfPropfrty = dod.gftPropfrty(EndOfLinfStringPropfrty);
+        if (fndOfLinfPropfrty == null) {
+            fndOfLinfPropfrty = Systfm.linfSfpbrbtor();
         }
-        String endOfLine;
-        if (endOfLineProperty instanceof String) {
-            endOfLine = (String)endOfLineProperty;
+        String fndOfLinf;
+        if (fndOfLinfPropfrty instbndfof String) {
+            fndOfLinf = (String)fndOfLinfPropfrty;
         }
-        else {
-            endOfLine = null;
+        flsf {
+            fndOfLinf = null;
         }
-        if (endOfLineProperty != null && !endOfLine.equals("\n")) {
-            // There is an end of line string that isn't \n, have to iterate
-            // through and find all \n's and translate to end of line string.
-            while (nleft > 0) {
-                int n = Math.min(nleft, 4096);
-                doc.getText(offs, n, data);
-                int last = data.offset;
-                char[] array = data.array;
-                int maxCounter = last + data.count;
-                for (int counter = last; counter < maxCounter; counter++) {
-                    if (array[counter] == '\n') {
-                        if (counter > last) {
-                            out.write(array, last, counter - last);
+        if (fndOfLinfPropfrty != null && !fndOfLinf.fqubls("\n")) {
+            // Tifrf is bn fnd of linf string tibt isn't \n, ibvf to itfrbtf
+            // tirougi bnd find bll \n's bnd trbnslbtf to fnd of linf string.
+            wiilf (nlfft > 0) {
+                int n = Mbti.min(nlfft, 4096);
+                dod.gftTfxt(offs, n, dbtb);
+                int lbst = dbtb.offsft;
+                dibr[] brrby = dbtb.brrby;
+                int mbxCountfr = lbst + dbtb.dount;
+                for (int dountfr = lbst; dountfr < mbxCountfr; dountfr++) {
+                    if (brrby[dountfr] == '\n') {
+                        if (dountfr > lbst) {
+                            out.writf(brrby, lbst, dountfr - lbst);
                         }
-                        out.write(endOfLine);
-                        last = counter + 1;
+                        out.writf(fndOfLinf);
+                        lbst = dountfr + 1;
                     }
                 }
-                if (maxCounter > last) {
-                    out.write(array, last, maxCounter - last);
+                if (mbxCountfr > lbst) {
+                    out.writf(brrby, lbst, mbxCountfr - lbst);
                 }
                 offs += n;
-                nleft -= n;
+                nlfft -= n;
             }
         }
-        else {
-            // Just write out text, will already have \n, no mapping to
+        flsf {
+            // Just writf out tfxt, will blrfbdy ibvf \n, no mbpping to
             // do.
-            while (nleft > 0) {
-                int n = Math.min(nleft, 4096);
-                doc.getText(offs, n, data);
-                out.write(data.array, data.offset, data.count);
+            wiilf (nlfft > 0) {
+                int n = Mbti.min(nlfft, 4096);
+                dod.gftTfxt(offs, n, dbtb);
+                out.writf(dbtb.brrby, dbtb.offsft, dbtb.dount);
                 offs += n;
-                nleft -= n;
+                nlfft -= n;
             }
         }
-        out.flush();
+        out.flusi();
     }
 
 
     /**
-     * When reading a document if a CRLF is encountered a property
-     * with this name is added and the value will be "\r\n".
+     * Wifn rfbding b dodumfnt if b CRLF is fndountfrfd b propfrty
+     * witi tiis nbmf is bddfd bnd tif vbluf will bf "\r\n".
      */
-    public static final String EndOfLineStringProperty = "__EndOfLine__";
+    publid stbtid finbl String EndOfLinfStringPropfrty = "__EndOfLinf__";
 
-    // --- names of well-known actions ---------------------------
+    // --- nbmfs of wfll-known bdtions ---------------------------
 
     /**
-     * Name of the action to place content into the associated
-     * document.  If there is a selection, it is removed before
-     * the new content is added.
-     * @see #getActions
+     * Nbmf of tif bdtion to plbdf dontfnt into tif bssodibtfd
+     * dodumfnt.  If tifrf is b sflfdtion, it is rfmovfd bfforf
+     * tif nfw dontfnt is bddfd.
+     * @sff #gftAdtions
      */
-    public static final String insertContentAction = "insert-content";
+    publid stbtid finbl String insfrtContfntAdtion = "insfrt-dontfnt";
 
     /**
-     * Name of the action to place a line/paragraph break into
-     * the document.  If there is a selection, it is removed before
-     * the break is added.
-     * @see #getActions
+     * Nbmf of tif bdtion to plbdf b linf/pbrbgrbpi brfbk into
+     * tif dodumfnt.  If tifrf is b sflfdtion, it is rfmovfd bfforf
+     * tif brfbk is bddfd.
+     * @sff #gftAdtions
      */
-    public static final String insertBreakAction = "insert-break";
+    publid stbtid finbl String insfrtBrfbkAdtion = "insfrt-brfbk";
 
     /**
-     * Name of the action to place a tab character into
-     * the document.  If there is a selection, it is removed before
-     * the tab is added.
-     * @see #getActions
+     * Nbmf of tif bdtion to plbdf b tbb dibrbdtfr into
+     * tif dodumfnt.  If tifrf is b sflfdtion, it is rfmovfd bfforf
+     * tif tbb is bddfd.
+     * @sff #gftAdtions
      */
-    public static final String insertTabAction = "insert-tab";
+    publid stbtid finbl String insfrtTbbAdtion = "insfrt-tbb";
 
     /**
-     * Name of the action to delete the character of content that
-     * precedes the current caret position.
-     * @see #getActions
+     * Nbmf of tif bdtion to dflftf tif dibrbdtfr of dontfnt tibt
+     * prfdfdfs tif durrfnt dbrft position.
+     * @sff #gftAdtions
      */
-    public static final String deletePrevCharAction = "delete-previous";
+    publid stbtid finbl String dflftfPrfvCibrAdtion = "dflftf-prfvious";
 
     /**
-     * Name of the action to delete the character of content that
-     * follows the current caret position.
-     * @see #getActions
+     * Nbmf of tif bdtion to dflftf tif dibrbdtfr of dontfnt tibt
+     * follows tif durrfnt dbrft position.
+     * @sff #gftAdtions
      */
-    public static final String deleteNextCharAction = "delete-next";
+    publid stbtid finbl String dflftfNfxtCibrAdtion = "dflftf-nfxt";
 
     /**
-     * Name of the action to delete the word that
-     * follows the beginning of the selection.
-     * @see #getActions
-     * @see JTextComponent#getSelectionStart
-     * @since 1.6
+     * Nbmf of tif bdtion to dflftf tif word tibt
+     * follows tif bfginning of tif sflfdtion.
+     * @sff #gftAdtions
+     * @sff JTfxtComponfnt#gftSflfdtionStbrt
+     * @sindf 1.6
      */
-    public static final String deleteNextWordAction = "delete-next-word";
+    publid stbtid finbl String dflftfNfxtWordAdtion = "dflftf-nfxt-word";
 
     /**
-     * Name of the action to delete the word that
-     * precedes the beginning of the selection.
-     * @see #getActions
-     * @see JTextComponent#getSelectionStart
-     * @since 1.6
+     * Nbmf of tif bdtion to dflftf tif word tibt
+     * prfdfdfs tif bfginning of tif sflfdtion.
+     * @sff #gftAdtions
+     * @sff JTfxtComponfnt#gftSflfdtionStbrt
+     * @sindf 1.6
      */
-    public static final String deletePrevWordAction = "delete-previous-word";
+    publid stbtid finbl String dflftfPrfvWordAdtion = "dflftf-prfvious-word";
 
     /**
-     * Name of the action to set the editor into read-only
-     * mode.
-     * @see #getActions
+     * Nbmf of tif bdtion to sft tif fditor into rfbd-only
+     * modf.
+     * @sff #gftAdtions
      */
-    public static final String readOnlyAction = "set-read-only";
+    publid stbtid finbl String rfbdOnlyAdtion = "sft-rfbd-only";
 
     /**
-     * Name of the action to set the editor into writeable
-     * mode.
-     * @see #getActions
+     * Nbmf of tif bdtion to sft tif fditor into writfbblf
+     * modf.
+     * @sff #gftAdtions
      */
-    public static final String writableAction = "set-writable";
+    publid stbtid finbl String writbblfAdtion = "sft-writbblf";
 
     /**
-     * Name of the action to cut the selected region
-     * and place the contents into the system clipboard.
-     * @see JTextComponent#cut
-     * @see #getActions
+     * Nbmf of tif bdtion to dut tif sflfdtfd rfgion
+     * bnd plbdf tif dontfnts into tif systfm dlipbobrd.
+     * @sff JTfxtComponfnt#dut
+     * @sff #gftAdtions
      */
-    public static final String cutAction = "cut-to-clipboard";
+    publid stbtid finbl String dutAdtion = "dut-to-dlipbobrd";
 
     /**
-     * Name of the action to copy the selected region
-     * and place the contents into the system clipboard.
-     * @see JTextComponent#copy
-     * @see #getActions
+     * Nbmf of tif bdtion to dopy tif sflfdtfd rfgion
+     * bnd plbdf tif dontfnts into tif systfm dlipbobrd.
+     * @sff JTfxtComponfnt#dopy
+     * @sff #gftAdtions
      */
-    public static final String copyAction = "copy-to-clipboard";
+    publid stbtid finbl String dopyAdtion = "dopy-to-dlipbobrd";
 
     /**
-     * Name of the action to paste the contents of the
-     * system clipboard into the selected region, or before the
-     * caret if nothing is selected.
-     * @see JTextComponent#paste
-     * @see #getActions
+     * Nbmf of tif bdtion to pbstf tif dontfnts of tif
+     * systfm dlipbobrd into tif sflfdtfd rfgion, or bfforf tif
+     * dbrft if notiing is sflfdtfd.
+     * @sff JTfxtComponfnt#pbstf
+     * @sff #gftAdtions
      */
-    public static final String pasteAction = "paste-from-clipboard";
+    publid stbtid finbl String pbstfAdtion = "pbstf-from-dlipbobrd";
 
     /**
-     * Name of the action to create a beep.
-     * @see #getActions
+     * Nbmf of tif bdtion to drfbtf b bffp.
+     * @sff #gftAdtions
      */
-    public static final String beepAction = "beep";
+    publid stbtid finbl String bffpAdtion = "bffp";
 
     /**
-     * Name of the action to page up vertically.
-     * @see #getActions
+     * Nbmf of tif bdtion to pbgf up vfrtidblly.
+     * @sff #gftAdtions
      */
-    public static final String pageUpAction = "page-up";
+    publid stbtid finbl String pbgfUpAdtion = "pbgf-up";
 
     /**
-     * Name of the action to page down vertically.
-     * @see #getActions
+     * Nbmf of tif bdtion to pbgf down vfrtidblly.
+     * @sff #gftAdtions
      */
-    public static final String pageDownAction = "page-down";
+    publid stbtid finbl String pbgfDownAdtion = "pbgf-down";
 
     /**
-     * Name of the action to page up vertically, and move the
-     * selection.
-     * @see #getActions
+     * Nbmf of tif bdtion to pbgf up vfrtidblly, bnd movf tif
+     * sflfdtion.
+     * @sff #gftAdtions
      */
-    /*public*/ static final String selectionPageUpAction = "selection-page-up";
+    /*publid*/ stbtid finbl String sflfdtionPbgfUpAdtion = "sflfdtion-pbgf-up";
 
     /**
-     * Name of the action to page down vertically, and move the
-     * selection.
-     * @see #getActions
+     * Nbmf of tif bdtion to pbgf down vfrtidblly, bnd movf tif
+     * sflfdtion.
+     * @sff #gftAdtions
      */
-    /*public*/ static final String selectionPageDownAction = "selection-page-down";
+    /*publid*/ stbtid finbl String sflfdtionPbgfDownAdtion = "sflfdtion-pbgf-down";
 
     /**
-     * Name of the action to page left horizontally, and move the
-     * selection.
-     * @see #getActions
+     * Nbmf of tif bdtion to pbgf lfft iorizontblly, bnd movf tif
+     * sflfdtion.
+     * @sff #gftAdtions
      */
-    /*public*/ static final String selectionPageLeftAction = "selection-page-left";
+    /*publid*/ stbtid finbl String sflfdtionPbgfLfftAdtion = "sflfdtion-pbgf-lfft";
 
     /**
-     * Name of the action to page right horizontally, and move the
-     * selection.
-     * @see #getActions
+     * Nbmf of tif bdtion to pbgf rigit iorizontblly, bnd movf tif
+     * sflfdtion.
+     * @sff #gftAdtions
      */
-    /*public*/ static final String selectionPageRightAction = "selection-page-right";
+    /*publid*/ stbtid finbl String sflfdtionPbgfRigitAdtion = "sflfdtion-pbgf-rigit";
 
     /**
-     * Name of the Action for moving the caret
-     * logically forward one position.
-     * @see #getActions
+     * Nbmf of tif Adtion for moving tif dbrft
+     * logidblly forwbrd onf position.
+     * @sff #gftAdtions
      */
-    public static final String forwardAction = "caret-forward";
+    publid stbtid finbl String forwbrdAdtion = "dbrft-forwbrd";
 
     /**
-     * Name of the Action for moving the caret
-     * logically backward one position.
-     * @see #getActions
+     * Nbmf of tif Adtion for moving tif dbrft
+     * logidblly bbdkwbrd onf position.
+     * @sff #gftAdtions
      */
-    public static final String backwardAction = "caret-backward";
+    publid stbtid finbl String bbdkwbrdAdtion = "dbrft-bbdkwbrd";
 
     /**
-     * Name of the Action for extending the selection
-     * by moving the caret logically forward one position.
-     * @see #getActions
+     * Nbmf of tif Adtion for fxtfnding tif sflfdtion
+     * by moving tif dbrft logidblly forwbrd onf position.
+     * @sff #gftAdtions
      */
-    public static final String selectionForwardAction = "selection-forward";
+    publid stbtid finbl String sflfdtionForwbrdAdtion = "sflfdtion-forwbrd";
 
     /**
-     * Name of the Action for extending the selection
-     * by moving the caret logically backward one position.
-     * @see #getActions
+     * Nbmf of tif Adtion for fxtfnding tif sflfdtion
+     * by moving tif dbrft logidblly bbdkwbrd onf position.
+     * @sff #gftAdtions
      */
-    public static final String selectionBackwardAction = "selection-backward";
+    publid stbtid finbl String sflfdtionBbdkwbrdAdtion = "sflfdtion-bbdkwbrd";
 
     /**
-     * Name of the Action for moving the caret
-     * logically upward one position.
-     * @see #getActions
+     * Nbmf of tif Adtion for moving tif dbrft
+     * logidblly upwbrd onf position.
+     * @sff #gftAdtions
      */
-    public static final String upAction = "caret-up";
+    publid stbtid finbl String upAdtion = "dbrft-up";
 
     /**
-     * Name of the Action for moving the caret
-     * logically downward one position.
-     * @see #getActions
+     * Nbmf of tif Adtion for moving tif dbrft
+     * logidblly downwbrd onf position.
+     * @sff #gftAdtions
      */
-    public static final String downAction = "caret-down";
+    publid stbtid finbl String downAdtion = "dbrft-down";
 
     /**
-     * Name of the Action for moving the caret
-     * logically upward one position, extending the selection.
-     * @see #getActions
+     * Nbmf of tif Adtion for moving tif dbrft
+     * logidblly upwbrd onf position, fxtfnding tif sflfdtion.
+     * @sff #gftAdtions
      */
-    public static final String selectionUpAction = "selection-up";
+    publid stbtid finbl String sflfdtionUpAdtion = "sflfdtion-up";
 
     /**
-     * Name of the Action for moving the caret
-     * logically downward one position, extending the selection.
-     * @see #getActions
+     * Nbmf of tif Adtion for moving tif dbrft
+     * logidblly downwbrd onf position, fxtfnding tif sflfdtion.
+     * @sff #gftAdtions
      */
-    public static final String selectionDownAction = "selection-down";
+    publid stbtid finbl String sflfdtionDownAdtion = "sflfdtion-down";
 
     /**
-     * Name of the <code>Action</code> for moving the caret
-     * to the beginning of a word.
-     * @see #getActions
+     * Nbmf of tif <dodf>Adtion</dodf> for moving tif dbrft
+     * to tif bfginning of b word.
+     * @sff #gftAdtions
      */
-    public static final String beginWordAction = "caret-begin-word";
+    publid stbtid finbl String bfginWordAdtion = "dbrft-bfgin-word";
 
     /**
-     * Name of the Action for moving the caret
-     * to the end of a word.
-     * @see #getActions
+     * Nbmf of tif Adtion for moving tif dbrft
+     * to tif fnd of b word.
+     * @sff #gftAdtions
      */
-    public static final String endWordAction = "caret-end-word";
+    publid stbtid finbl String fndWordAdtion = "dbrft-fnd-word";
 
     /**
-     * Name of the <code>Action</code> for moving the caret
-     * to the beginning of a word, extending the selection.
-     * @see #getActions
+     * Nbmf of tif <dodf>Adtion</dodf> for moving tif dbrft
+     * to tif bfginning of b word, fxtfnding tif sflfdtion.
+     * @sff #gftAdtions
      */
-    public static final String selectionBeginWordAction = "selection-begin-word";
+    publid stbtid finbl String sflfdtionBfginWordAdtion = "sflfdtion-bfgin-word";
 
     /**
-     * Name of the Action for moving the caret
-     * to the end of a word, extending the selection.
-     * @see #getActions
+     * Nbmf of tif Adtion for moving tif dbrft
+     * to tif fnd of b word, fxtfnding tif sflfdtion.
+     * @sff #gftAdtions
      */
-    public static final String selectionEndWordAction = "selection-end-word";
+    publid stbtid finbl String sflfdtionEndWordAdtion = "sflfdtion-fnd-word";
 
     /**
-     * Name of the <code>Action</code> for moving the caret to the
-     * beginning of the previous word.
-     * @see #getActions
+     * Nbmf of tif <dodf>Adtion</dodf> for moving tif dbrft to tif
+     * bfginning of tif prfvious word.
+     * @sff #gftAdtions
      */
-    public static final String previousWordAction = "caret-previous-word";
+    publid stbtid finbl String prfviousWordAdtion = "dbrft-prfvious-word";
 
     /**
-     * Name of the <code>Action</code> for moving the caret to the
-     * beginning of the next word.
-     * @see #getActions
+     * Nbmf of tif <dodf>Adtion</dodf> for moving tif dbrft to tif
+     * bfginning of tif nfxt word.
+     * @sff #gftAdtions
      */
-    public static final String nextWordAction = "caret-next-word";
+    publid stbtid finbl String nfxtWordAdtion = "dbrft-nfxt-word";
 
     /**
-     * Name of the <code>Action</code> for moving the selection to the
-     * beginning of the previous word, extending the selection.
-     * @see #getActions
+     * Nbmf of tif <dodf>Adtion</dodf> for moving tif sflfdtion to tif
+     * bfginning of tif prfvious word, fxtfnding tif sflfdtion.
+     * @sff #gftAdtions
      */
-    public static final String selectionPreviousWordAction = "selection-previous-word";
+    publid stbtid finbl String sflfdtionPrfviousWordAdtion = "sflfdtion-prfvious-word";
 
     /**
-     * Name of the <code>Action</code> for moving the selection to the
-     * beginning of the next word, extending the selection.
-     * @see #getActions
+     * Nbmf of tif <dodf>Adtion</dodf> for moving tif sflfdtion to tif
+     * bfginning of tif nfxt word, fxtfnding tif sflfdtion.
+     * @sff #gftAdtions
      */
-    public static final String selectionNextWordAction = "selection-next-word";
+    publid stbtid finbl String sflfdtionNfxtWordAdtion = "sflfdtion-nfxt-word";
 
     /**
-     * Name of the <code>Action</code> for moving the caret
-     * to the beginning of a line.
-     * @see #getActions
+     * Nbmf of tif <dodf>Adtion</dodf> for moving tif dbrft
+     * to tif bfginning of b linf.
+     * @sff #gftAdtions
      */
-    public static final String beginLineAction = "caret-begin-line";
+    publid stbtid finbl String bfginLinfAdtion = "dbrft-bfgin-linf";
 
     /**
-     * Name of the <code>Action</code> for moving the caret
-     * to the end of a line.
-     * @see #getActions
+     * Nbmf of tif <dodf>Adtion</dodf> for moving tif dbrft
+     * to tif fnd of b linf.
+     * @sff #gftAdtions
      */
-    public static final String endLineAction = "caret-end-line";
+    publid stbtid finbl String fndLinfAdtion = "dbrft-fnd-linf";
 
     /**
-     * Name of the <code>Action</code> for moving the caret
-     * to the beginning of a line, extending the selection.
-     * @see #getActions
+     * Nbmf of tif <dodf>Adtion</dodf> for moving tif dbrft
+     * to tif bfginning of b linf, fxtfnding tif sflfdtion.
+     * @sff #gftAdtions
      */
-    public static final String selectionBeginLineAction = "selection-begin-line";
+    publid stbtid finbl String sflfdtionBfginLinfAdtion = "sflfdtion-bfgin-linf";
 
     /**
-     * Name of the <code>Action</code> for moving the caret
-     * to the end of a line, extending the selection.
-     * @see #getActions
+     * Nbmf of tif <dodf>Adtion</dodf> for moving tif dbrft
+     * to tif fnd of b linf, fxtfnding tif sflfdtion.
+     * @sff #gftAdtions
      */
-    public static final String selectionEndLineAction = "selection-end-line";
+    publid stbtid finbl String sflfdtionEndLinfAdtion = "sflfdtion-fnd-linf";
 
     /**
-     * Name of the <code>Action</code> for moving the caret
-     * to the beginning of a paragraph.
-     * @see #getActions
+     * Nbmf of tif <dodf>Adtion</dodf> for moving tif dbrft
+     * to tif bfginning of b pbrbgrbpi.
+     * @sff #gftAdtions
      */
-    public static final String beginParagraphAction = "caret-begin-paragraph";
+    publid stbtid finbl String bfginPbrbgrbpiAdtion = "dbrft-bfgin-pbrbgrbpi";
 
     /**
-     * Name of the <code>Action</code> for moving the caret
-     * to the end of a paragraph.
-     * @see #getActions
+     * Nbmf of tif <dodf>Adtion</dodf> for moving tif dbrft
+     * to tif fnd of b pbrbgrbpi.
+     * @sff #gftAdtions
      */
-    public static final String endParagraphAction = "caret-end-paragraph";
+    publid stbtid finbl String fndPbrbgrbpiAdtion = "dbrft-fnd-pbrbgrbpi";
 
     /**
-     * Name of the <code>Action</code> for moving the caret
-     * to the beginning of a paragraph, extending the selection.
-     * @see #getActions
+     * Nbmf of tif <dodf>Adtion</dodf> for moving tif dbrft
+     * to tif bfginning of b pbrbgrbpi, fxtfnding tif sflfdtion.
+     * @sff #gftAdtions
      */
-    public static final String selectionBeginParagraphAction = "selection-begin-paragraph";
+    publid stbtid finbl String sflfdtionBfginPbrbgrbpiAdtion = "sflfdtion-bfgin-pbrbgrbpi";
 
     /**
-     * Name of the <code>Action</code> for moving the caret
-     * to the end of a paragraph, extending the selection.
-     * @see #getActions
+     * Nbmf of tif <dodf>Adtion</dodf> for moving tif dbrft
+     * to tif fnd of b pbrbgrbpi, fxtfnding tif sflfdtion.
+     * @sff #gftAdtions
      */
-    public static final String selectionEndParagraphAction = "selection-end-paragraph";
+    publid stbtid finbl String sflfdtionEndPbrbgrbpiAdtion = "sflfdtion-fnd-pbrbgrbpi";
 
     /**
-     * Name of the <code>Action</code> for moving the caret
-     * to the beginning of the document.
-     * @see #getActions
+     * Nbmf of tif <dodf>Adtion</dodf> for moving tif dbrft
+     * to tif bfginning of tif dodumfnt.
+     * @sff #gftAdtions
      */
-    public static final String beginAction = "caret-begin";
+    publid stbtid finbl String bfginAdtion = "dbrft-bfgin";
 
     /**
-     * Name of the <code>Action</code> for moving the caret
-     * to the end of the document.
-     * @see #getActions
+     * Nbmf of tif <dodf>Adtion</dodf> for moving tif dbrft
+     * to tif fnd of tif dodumfnt.
+     * @sff #gftAdtions
      */
-    public static final String endAction = "caret-end";
+    publid stbtid finbl String fndAdtion = "dbrft-fnd";
 
     /**
-     * Name of the <code>Action</code> for moving the caret
-     * to the beginning of the document.
-     * @see #getActions
+     * Nbmf of tif <dodf>Adtion</dodf> for moving tif dbrft
+     * to tif bfginning of tif dodumfnt.
+     * @sff #gftAdtions
      */
-    public static final String selectionBeginAction = "selection-begin";
+    publid stbtid finbl String sflfdtionBfginAdtion = "sflfdtion-bfgin";
 
     /**
-     * Name of the Action for moving the caret
-     * to the end of the document.
-     * @see #getActions
+     * Nbmf of tif Adtion for moving tif dbrft
+     * to tif fnd of tif dodumfnt.
+     * @sff #gftAdtions
      */
-    public static final String selectionEndAction = "selection-end";
+    publid stbtid finbl String sflfdtionEndAdtion = "sflfdtion-fnd";
 
     /**
-     * Name of the Action for selecting a word around the caret.
-     * @see #getActions
+     * Nbmf of tif Adtion for sflfdting b word bround tif dbrft.
+     * @sff #gftAdtions
      */
-    public static final String selectWordAction = "select-word";
+    publid stbtid finbl String sflfdtWordAdtion = "sflfdt-word";
 
     /**
-     * Name of the Action for selecting a line around the caret.
-     * @see #getActions
+     * Nbmf of tif Adtion for sflfdting b linf bround tif dbrft.
+     * @sff #gftAdtions
      */
-    public static final String selectLineAction = "select-line";
+    publid stbtid finbl String sflfdtLinfAdtion = "sflfdt-linf";
 
     /**
-     * Name of the Action for selecting a paragraph around the caret.
-     * @see #getActions
+     * Nbmf of tif Adtion for sflfdting b pbrbgrbpi bround tif dbrft.
+     * @sff #gftAdtions
      */
-    public static final String selectParagraphAction = "select-paragraph";
+    publid stbtid finbl String sflfdtPbrbgrbpiAdtion = "sflfdt-pbrbgrbpi";
 
     /**
-     * Name of the Action for selecting the entire document
-     * @see #getActions
+     * Nbmf of tif Adtion for sflfdting tif fntirf dodumfnt
+     * @sff #gftAdtions
      */
-    public static final String selectAllAction = "select-all";
+    publid stbtid finbl String sflfdtAllAdtion = "sflfdt-bll";
 
     /**
-     * Name of the Action for removing selection
-     * @see #getActions
+     * Nbmf of tif Adtion for rfmoving sflfdtion
+     * @sff #gftAdtions
      */
-    /*public*/ static final String unselectAction = "unselect";
+    /*publid*/ stbtid finbl String unsflfdtAdtion = "unsflfdt";
 
     /**
-     * Name of the Action for toggling the component's orientation.
-     * @see #getActions
+     * Nbmf of tif Adtion for toggling tif domponfnt's orifntbtion.
+     * @sff #gftAdtions
      */
-    /*public*/ static final String toggleComponentOrientationAction
-        = "toggle-componentOrientation";
+    /*publid*/ stbtid finbl String togglfComponfntOrifntbtionAdtion
+        = "togglf-domponfntOrifntbtion";
 
     /**
-     * Name of the action that is executed by default if
-     * a <em>key typed event</em> is received and there
-     * is no keymap entry.
-     * @see #getActions
+     * Nbmf of tif bdtion tibt is fxfdutfd by dffbult if
+     * b <fm>kfy typfd fvfnt</fm> is rfdfivfd bnd tifrf
+     * is no kfymbp fntry.
+     * @sff #gftAdtions
      */
-    public static final String defaultKeyTypedAction = "default-typed";
+    publid stbtid finbl String dffbultKfyTypfdAdtion = "dffbult-typfd";
 
-    // --- Action implementations ---------------------------------
+    // --- Adtion implfmfntbtions ---------------------------------
 
-    private static final Action[] defaultActions = {
-        new InsertContentAction(), new DeletePrevCharAction(),
-        new DeleteNextCharAction(), new ReadOnlyAction(),
-        new DeleteWordAction(deletePrevWordAction),
-        new DeleteWordAction(deleteNextWordAction),
-        new WritableAction(), new CutAction(),
-        new CopyAction(), new PasteAction(),
-        new VerticalPageAction(pageUpAction, -1, false),
-        new VerticalPageAction(pageDownAction, 1, false),
-        new VerticalPageAction(selectionPageUpAction, -1, true),
-        new VerticalPageAction(selectionPageDownAction, 1, true),
-        new PageAction(selectionPageLeftAction, true, true),
-        new PageAction(selectionPageRightAction, false, true),
-        new InsertBreakAction(), new BeepAction(),
-        new NextVisualPositionAction(forwardAction, false,
-                                     SwingConstants.EAST),
-        new NextVisualPositionAction(backwardAction, false,
-                                     SwingConstants.WEST),
-        new NextVisualPositionAction(selectionForwardAction, true,
-                                     SwingConstants.EAST),
-        new NextVisualPositionAction(selectionBackwardAction, true,
-                                     SwingConstants.WEST),
-        new NextVisualPositionAction(upAction, false,
-                                     SwingConstants.NORTH),
-        new NextVisualPositionAction(downAction, false,
-                                     SwingConstants.SOUTH),
-        new NextVisualPositionAction(selectionUpAction, true,
-                                     SwingConstants.NORTH),
-        new NextVisualPositionAction(selectionDownAction, true,
-                                     SwingConstants.SOUTH),
-        new BeginWordAction(beginWordAction, false),
-        new EndWordAction(endWordAction, false),
-        new BeginWordAction(selectionBeginWordAction, true),
-        new EndWordAction(selectionEndWordAction, true),
-        new PreviousWordAction(previousWordAction, false),
-        new NextWordAction(nextWordAction, false),
-        new PreviousWordAction(selectionPreviousWordAction, true),
-        new NextWordAction(selectionNextWordAction, true),
-        new BeginLineAction(beginLineAction, false),
-        new EndLineAction(endLineAction, false),
-        new BeginLineAction(selectionBeginLineAction, true),
-        new EndLineAction(selectionEndLineAction, true),
-        new BeginParagraphAction(beginParagraphAction, false),
-        new EndParagraphAction(endParagraphAction, false),
-        new BeginParagraphAction(selectionBeginParagraphAction, true),
-        new EndParagraphAction(selectionEndParagraphAction, true),
-        new BeginAction(beginAction, false),
-        new EndAction(endAction, false),
-        new BeginAction(selectionBeginAction, true),
-        new EndAction(selectionEndAction, true),
-        new DefaultKeyTypedAction(), new InsertTabAction(),
-        new SelectWordAction(), new SelectLineAction(),
-        new SelectParagraphAction(), new SelectAllAction(),
-        new UnselectAction(), new ToggleComponentOrientationAction(),
-        new DumpModelAction()
+    privbtf stbtid finbl Adtion[] dffbultAdtions = {
+        nfw InsfrtContfntAdtion(), nfw DflftfPrfvCibrAdtion(),
+        nfw DflftfNfxtCibrAdtion(), nfw RfbdOnlyAdtion(),
+        nfw DflftfWordAdtion(dflftfPrfvWordAdtion),
+        nfw DflftfWordAdtion(dflftfNfxtWordAdtion),
+        nfw WritbblfAdtion(), nfw CutAdtion(),
+        nfw CopyAdtion(), nfw PbstfAdtion(),
+        nfw VfrtidblPbgfAdtion(pbgfUpAdtion, -1, fblsf),
+        nfw VfrtidblPbgfAdtion(pbgfDownAdtion, 1, fblsf),
+        nfw VfrtidblPbgfAdtion(sflfdtionPbgfUpAdtion, -1, truf),
+        nfw VfrtidblPbgfAdtion(sflfdtionPbgfDownAdtion, 1, truf),
+        nfw PbgfAdtion(sflfdtionPbgfLfftAdtion, truf, truf),
+        nfw PbgfAdtion(sflfdtionPbgfRigitAdtion, fblsf, truf),
+        nfw InsfrtBrfbkAdtion(), nfw BffpAdtion(),
+        nfw NfxtVisublPositionAdtion(forwbrdAdtion, fblsf,
+                                     SwingConstbnts.EAST),
+        nfw NfxtVisublPositionAdtion(bbdkwbrdAdtion, fblsf,
+                                     SwingConstbnts.WEST),
+        nfw NfxtVisublPositionAdtion(sflfdtionForwbrdAdtion, truf,
+                                     SwingConstbnts.EAST),
+        nfw NfxtVisublPositionAdtion(sflfdtionBbdkwbrdAdtion, truf,
+                                     SwingConstbnts.WEST),
+        nfw NfxtVisublPositionAdtion(upAdtion, fblsf,
+                                     SwingConstbnts.NORTH),
+        nfw NfxtVisublPositionAdtion(downAdtion, fblsf,
+                                     SwingConstbnts.SOUTH),
+        nfw NfxtVisublPositionAdtion(sflfdtionUpAdtion, truf,
+                                     SwingConstbnts.NORTH),
+        nfw NfxtVisublPositionAdtion(sflfdtionDownAdtion, truf,
+                                     SwingConstbnts.SOUTH),
+        nfw BfginWordAdtion(bfginWordAdtion, fblsf),
+        nfw EndWordAdtion(fndWordAdtion, fblsf),
+        nfw BfginWordAdtion(sflfdtionBfginWordAdtion, truf),
+        nfw EndWordAdtion(sflfdtionEndWordAdtion, truf),
+        nfw PrfviousWordAdtion(prfviousWordAdtion, fblsf),
+        nfw NfxtWordAdtion(nfxtWordAdtion, fblsf),
+        nfw PrfviousWordAdtion(sflfdtionPrfviousWordAdtion, truf),
+        nfw NfxtWordAdtion(sflfdtionNfxtWordAdtion, truf),
+        nfw BfginLinfAdtion(bfginLinfAdtion, fblsf),
+        nfw EndLinfAdtion(fndLinfAdtion, fblsf),
+        nfw BfginLinfAdtion(sflfdtionBfginLinfAdtion, truf),
+        nfw EndLinfAdtion(sflfdtionEndLinfAdtion, truf),
+        nfw BfginPbrbgrbpiAdtion(bfginPbrbgrbpiAdtion, fblsf),
+        nfw EndPbrbgrbpiAdtion(fndPbrbgrbpiAdtion, fblsf),
+        nfw BfginPbrbgrbpiAdtion(sflfdtionBfginPbrbgrbpiAdtion, truf),
+        nfw EndPbrbgrbpiAdtion(sflfdtionEndPbrbgrbpiAdtion, truf),
+        nfw BfginAdtion(bfginAdtion, fblsf),
+        nfw EndAdtion(fndAdtion, fblsf),
+        nfw BfginAdtion(sflfdtionBfginAdtion, truf),
+        nfw EndAdtion(sflfdtionEndAdtion, truf),
+        nfw DffbultKfyTypfdAdtion(), nfw InsfrtTbbAdtion(),
+        nfw SflfdtWordAdtion(), nfw SflfdtLinfAdtion(),
+        nfw SflfdtPbrbgrbpiAdtion(), nfw SflfdtAllAdtion(),
+        nfw UnsflfdtAdtion(), nfw TogglfComponfntOrifntbtionAdtion(),
+        nfw DumpModflAdtion()
     };
 
     /**
-     * The action that is executed by default if
-     * a <em>key typed event</em> is received and there
-     * is no keymap entry.  There is a variation across
-     * different VM's in what gets sent as a <em>key typed</em>
-     * event, and this action tries to filter out the undesired
-     * events.  This filters the control characters and those
-     * with the ALT modifier.  It allows Control-Alt sequences
-     * through as these form legitimate unicode characters on
-     * some PC keyboards.
+     * Tif bdtion tibt is fxfdutfd by dffbult if
+     * b <fm>kfy typfd fvfnt</fm> is rfdfivfd bnd tifrf
+     * is no kfymbp fntry.  Tifrf is b vbribtion bdross
+     * difffrfnt VM's in wibt gfts sfnt bs b <fm>kfy typfd</fm>
+     * fvfnt, bnd tiis bdtion trifs to filtfr out tif undfsirfd
+     * fvfnts.  Tiis filtfrs tif dontrol dibrbdtfrs bnd tiosf
+     * witi tif ALT modififr.  It bllows Control-Alt sfqufndfs
+     * tirougi bs tifsf form lfgitimbtf unidodf dibrbdtfrs on
+     * somf PC kfybobrds.
      * <p>
-     * If the event doesn't get filtered, it will try to insert
-     * content into the text editor.  The content is fetched
-     * from the command string of the ActionEvent.  The text
-     * entry is done through the <code>replaceSelection</code>
-     * method on the target text component.  This is the
-     * action that will be fired for most text entry tasks.
+     * If tif fvfnt dofsn't gft filtfrfd, it will try to insfrt
+     * dontfnt into tif tfxt fditor.  Tif dontfnt is fftdifd
+     * from tif dommbnd string of tif AdtionEvfnt.  Tif tfxt
+     * fntry is donf tirougi tif <dodf>rfplbdfSflfdtion</dodf>
+     * mftiod on tif tbrgft tfxt domponfnt.  Tiis is tif
+     * bdtion tibt will bf firfd for most tfxt fntry tbsks.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+     * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+     * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+     * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
      *
-     * @see DefaultEditorKit#defaultKeyTypedAction
-     * @see DefaultEditorKit#getActions
-     * @see Keymap#setDefaultAction
-     * @see Keymap#getDefaultAction
+     * @sff DffbultEditorKit#dffbultKfyTypfdAdtion
+     * @sff DffbultEditorKit#gftAdtions
+     * @sff Kfymbp#sftDffbultAdtion
+     * @sff Kfymbp#gftDffbultAdtion
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    public static class DefaultKeyTypedAction extends TextAction {
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    publid stbtid dlbss DffbultKfyTypfdAdtion fxtfnds TfxtAdtion {
 
         /**
-         * Creates this object with the appropriate identifier.
+         * Crfbtfs tiis objfdt witi tif bppropribtf idfntififr.
          */
-        public DefaultKeyTypedAction() {
-            super(defaultKeyTypedAction);
+        publid DffbultKfyTypfdAdtion() {
+            supfr(dffbultKfyTypfdAdtion);
         }
 
         /**
-         * The operation to perform when this action is triggered.
+         * Tif opfrbtion to pfrform wifn tiis bdtion is triggfrfd.
          *
-         * @param e the action event
+         * @pbrbm f tif bdtion fvfnt
          */
-        public void actionPerformed(ActionEvent e) {
-            JTextComponent target = getTextComponent(e);
-            if ((target != null) && (e != null)) {
-                if ((! target.isEditable()) || (! target.isEnabled())) {
-                    return;
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            JTfxtComponfnt tbrgft = gftTfxtComponfnt(f);
+            if ((tbrgft != null) && (f != null)) {
+                if ((! tbrgft.isEditbblf()) || (! tbrgft.isEnbblfd())) {
+                    rfturn;
                 }
-                String content = e.getActionCommand();
-                int mod = e.getModifiers();
-                if ((content != null) && (content.length() > 0)) {
-                    boolean isPrintableMask = true;
-                    Toolkit tk = Toolkit.getDefaultToolkit();
-                    if (tk instanceof SunToolkit) {
-                        isPrintableMask = ((SunToolkit)tk).isPrintableCharacterModifiersMask(mod);
+                String dontfnt = f.gftAdtionCommbnd();
+                int mod = f.gftModififrs();
+                if ((dontfnt != null) && (dontfnt.lfngti() > 0)) {
+                    boolfbn isPrintbblfMbsk = truf;
+                    Toolkit tk = Toolkit.gftDffbultToolkit();
+                    if (tk instbndfof SunToolkit) {
+                        isPrintbblfMbsk = ((SunToolkit)tk).isPrintbblfCibrbdtfrModififrsMbsk(mod);
                     }
 
-                    if (isPrintableMask) {
-                        char c = content.charAt(0);
-                        if ((c >= 0x20) && (c != 0x7F)) {
-                            target.replaceSelection(content);
+                    if (isPrintbblfMbsk) {
+                        dibr d = dontfnt.dibrAt(0);
+                        if ((d >= 0x20) && (d != 0x7F)) {
+                            tbrgft.rfplbdfSflfdtion(dontfnt);
                         }
                     }
                 }
@@ -890,322 +890,322 @@ public class DefaultEditorKit extends EditorKit {
     }
 
     /**
-     * Places content into the associated document.
-     * If there is a selection, it is removed before
-     * the new content is added.
+     * Plbdfs dontfnt into tif bssodibtfd dodumfnt.
+     * If tifrf is b sflfdtion, it is rfmovfd bfforf
+     * tif nfw dontfnt is bddfd.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+     * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+     * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+     * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
      *
-     * @see DefaultEditorKit#insertContentAction
-     * @see DefaultEditorKit#getActions
+     * @sff DffbultEditorKit#insfrtContfntAdtion
+     * @sff DffbultEditorKit#gftAdtions
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    public static class InsertContentAction extends TextAction {
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    publid stbtid dlbss InsfrtContfntAdtion fxtfnds TfxtAdtion {
 
         /**
-         * Creates this object with the appropriate identifier.
+         * Crfbtfs tiis objfdt witi tif bppropribtf idfntififr.
          */
-        public InsertContentAction() {
-            super(insertContentAction);
+        publid InsfrtContfntAdtion() {
+            supfr(insfrtContfntAdtion);
         }
 
         /**
-         * The operation to perform when this action is triggered.
+         * Tif opfrbtion to pfrform wifn tiis bdtion is triggfrfd.
          *
-         * @param e the action event
+         * @pbrbm f tif bdtion fvfnt
          */
-        public void actionPerformed(ActionEvent e) {
-            JTextComponent target = getTextComponent(e);
-            if ((target != null) && (e != null)) {
-                if ((! target.isEditable()) || (! target.isEnabled())) {
-                    UIManager.getLookAndFeel().provideErrorFeedback(target);
-                    return;
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            JTfxtComponfnt tbrgft = gftTfxtComponfnt(f);
+            if ((tbrgft != null) && (f != null)) {
+                if ((! tbrgft.isEditbblf()) || (! tbrgft.isEnbblfd())) {
+                    UIMbnbgfr.gftLookAndFffl().providfErrorFffdbbdk(tbrgft);
+                    rfturn;
                 }
-                String content = e.getActionCommand();
-                if (content != null) {
-                    target.replaceSelection(content);
-                } else {
-                    UIManager.getLookAndFeel().provideErrorFeedback(target);
+                String dontfnt = f.gftAdtionCommbnd();
+                if (dontfnt != null) {
+                    tbrgft.rfplbdfSflfdtion(dontfnt);
+                } flsf {
+                    UIMbnbgfr.gftLookAndFffl().providfErrorFffdbbdk(tbrgft);
                 }
             }
         }
     }
 
     /**
-     * Places a line/paragraph break into the document.
-     * If there is a selection, it is removed before
-     * the break is added.
+     * Plbdfs b linf/pbrbgrbpi brfbk into tif dodumfnt.
+     * If tifrf is b sflfdtion, it is rfmovfd bfforf
+     * tif brfbk is bddfd.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+     * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+     * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+     * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
      *
-     * @see DefaultEditorKit#insertBreakAction
-     * @see DefaultEditorKit#getActions
+     * @sff DffbultEditorKit#insfrtBrfbkAdtion
+     * @sff DffbultEditorKit#gftAdtions
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    public static class InsertBreakAction extends TextAction {
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    publid stbtid dlbss InsfrtBrfbkAdtion fxtfnds TfxtAdtion {
 
         /**
-         * Creates this object with the appropriate identifier.
+         * Crfbtfs tiis objfdt witi tif bppropribtf idfntififr.
          */
-        public InsertBreakAction() {
-            super(insertBreakAction);
+        publid InsfrtBrfbkAdtion() {
+            supfr(insfrtBrfbkAdtion);
         }
 
         /**
-         * The operation to perform when this action is triggered.
+         * Tif opfrbtion to pfrform wifn tiis bdtion is triggfrfd.
          *
-         * @param e the action event
+         * @pbrbm f tif bdtion fvfnt
          */
-        public void actionPerformed(ActionEvent e) {
-            JTextComponent target = getTextComponent(e);
-            if (target != null) {
-                if ((! target.isEditable()) || (! target.isEnabled())) {
-                    UIManager.getLookAndFeel().provideErrorFeedback(target);
-                    return;
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            JTfxtComponfnt tbrgft = gftTfxtComponfnt(f);
+            if (tbrgft != null) {
+                if ((! tbrgft.isEditbblf()) || (! tbrgft.isEnbblfd())) {
+                    UIMbnbgfr.gftLookAndFffl().providfErrorFffdbbdk(tbrgft);
+                    rfturn;
                 }
-                target.replaceSelection("\n");
+                tbrgft.rfplbdfSflfdtion("\n");
             }
         }
     }
 
     /**
-     * Places a tab character into the document. If there
-     * is a selection, it is removed before the tab is added.
+     * Plbdfs b tbb dibrbdtfr into tif dodumfnt. If tifrf
+     * is b sflfdtion, it is rfmovfd bfforf tif tbb is bddfd.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+     * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+     * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+     * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
      *
-     * @see DefaultEditorKit#insertTabAction
-     * @see DefaultEditorKit#getActions
+     * @sff DffbultEditorKit#insfrtTbbAdtion
+     * @sff DffbultEditorKit#gftAdtions
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    public static class InsertTabAction extends TextAction {
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    publid stbtid dlbss InsfrtTbbAdtion fxtfnds TfxtAdtion {
 
         /**
-         * Creates this object with the appropriate identifier.
+         * Crfbtfs tiis objfdt witi tif bppropribtf idfntififr.
          */
-        public InsertTabAction() {
-            super(insertTabAction);
+        publid InsfrtTbbAdtion() {
+            supfr(insfrtTbbAdtion);
         }
 
         /**
-         * The operation to perform when this action is triggered.
+         * Tif opfrbtion to pfrform wifn tiis bdtion is triggfrfd.
          *
-         * @param e the action event
+         * @pbrbm f tif bdtion fvfnt
          */
-        public void actionPerformed(ActionEvent e) {
-            JTextComponent target = getTextComponent(e);
-            if (target != null) {
-                if ((! target.isEditable()) || (! target.isEnabled())) {
-                    UIManager.getLookAndFeel().provideErrorFeedback(target);
-                    return;
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            JTfxtComponfnt tbrgft = gftTfxtComponfnt(f);
+            if (tbrgft != null) {
+                if ((! tbrgft.isEditbblf()) || (! tbrgft.isEnbblfd())) {
+                    UIMbnbgfr.gftLookAndFffl().providfErrorFffdbbdk(tbrgft);
+                    rfturn;
                 }
-                target.replaceSelection("\t");
+                tbrgft.rfplbdfSflfdtion("\t");
             }
         }
     }
 
     /*
-     * Deletes the character of content that precedes the
-     * current caret position.
-     * @see DefaultEditorKit#deletePrevCharAction
-     * @see DefaultEditorKit#getActions
+     * Dflftfs tif dibrbdtfr of dontfnt tibt prfdfdfs tif
+     * durrfnt dbrft position.
+     * @sff DffbultEditorKit#dflftfPrfvCibrAdtion
+     * @sff DffbultEditorKit#gftAdtions
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    static class DeletePrevCharAction extends TextAction {
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    stbtid dlbss DflftfPrfvCibrAdtion fxtfnds TfxtAdtion {
 
         /**
-         * Creates this object with the appropriate identifier.
+         * Crfbtfs tiis objfdt witi tif bppropribtf idfntififr.
          */
-        DeletePrevCharAction() {
-            super(deletePrevCharAction);
+        DflftfPrfvCibrAdtion() {
+            supfr(dflftfPrfvCibrAdtion);
         }
 
         /**
-         * The operation to perform when this action is triggered.
+         * Tif opfrbtion to pfrform wifn tiis bdtion is triggfrfd.
          *
-         * @param e the action event
+         * @pbrbm f tif bdtion fvfnt
          */
-        public void actionPerformed(ActionEvent e) {
-            JTextComponent target = getTextComponent(e);
-            boolean beep = true;
-            if ((target != null) && (target.isEditable())) {
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            JTfxtComponfnt tbrgft = gftTfxtComponfnt(f);
+            boolfbn bffp = truf;
+            if ((tbrgft != null) && (tbrgft.isEditbblf())) {
                 try {
-                    Document doc = target.getDocument();
-                    Caret caret = target.getCaret();
-                    int dot = caret.getDot();
-                    int mark = caret.getMark();
-                    if (dot != mark) {
-                        doc.remove(Math.min(dot, mark), Math.abs(dot - mark));
-                        beep = false;
-                    } else if (dot > 0) {
-                        int delChars = 1;
+                    Dodumfnt dod = tbrgft.gftDodumfnt();
+                    Cbrft dbrft = tbrgft.gftCbrft();
+                    int dot = dbrft.gftDot();
+                    int mbrk = dbrft.gftMbrk();
+                    if (dot != mbrk) {
+                        dod.rfmovf(Mbti.min(dot, mbrk), Mbti.bbs(dot - mbrk));
+                        bffp = fblsf;
+                    } flsf if (dot > 0) {
+                        int dflCibrs = 1;
 
                         if (dot > 1) {
-                            String dotChars = doc.getText(dot - 2, 2);
-                            char c0 = dotChars.charAt(0);
-                            char c1 = dotChars.charAt(1);
+                            String dotCibrs = dod.gftTfxt(dot - 2, 2);
+                            dibr d0 = dotCibrs.dibrAt(0);
+                            dibr d1 = dotCibrs.dibrAt(1);
 
-                            if (c0 >= '\uD800' && c0 <= '\uDBFF' &&
-                                c1 >= '\uDC00' && c1 <= '\uDFFF') {
-                                delChars = 2;
+                            if (d0 >= '\uD800' && d0 <= '\uDBFF' &&
+                                d1 >= '\uDC00' && d1 <= '\uDFFF') {
+                                dflCibrs = 2;
                             }
                         }
 
-                        doc.remove(dot - delChars, delChars);
-                        beep = false;
+                        dod.rfmovf(dot - dflCibrs, dflCibrs);
+                        bffp = fblsf;
                     }
-                } catch (BadLocationException bl) {
+                } dbtdi (BbdLodbtionExdfption bl) {
                 }
             }
-            if (beep) {
-                UIManager.getLookAndFeel().provideErrorFeedback(target);
+            if (bffp) {
+                UIMbnbgfr.gftLookAndFffl().providfErrorFffdbbdk(tbrgft);
             }
         }
     }
 
     /*
-     * Deletes the character of content that follows the
-     * current caret position.
-     * @see DefaultEditorKit#deleteNextCharAction
-     * @see DefaultEditorKit#getActions
+     * Dflftfs tif dibrbdtfr of dontfnt tibt follows tif
+     * durrfnt dbrft position.
+     * @sff DffbultEditorKit#dflftfNfxtCibrAdtion
+     * @sff DffbultEditorKit#gftAdtions
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    static class DeleteNextCharAction extends TextAction {
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    stbtid dlbss DflftfNfxtCibrAdtion fxtfnds TfxtAdtion {
 
-        /* Create this object with the appropriate identifier. */
-        DeleteNextCharAction() {
-            super(deleteNextCharAction);
+        /* Crfbtf tiis objfdt witi tif bppropribtf idfntififr. */
+        DflftfNfxtCibrAdtion() {
+            supfr(dflftfNfxtCibrAdtion);
         }
 
-        /** The operation to perform when this action is triggered. */
-        public void actionPerformed(ActionEvent e) {
-            JTextComponent target = getTextComponent(e);
-            boolean beep = true;
-            if ((target != null) && (target.isEditable())) {
+        /** Tif opfrbtion to pfrform wifn tiis bdtion is triggfrfd. */
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            JTfxtComponfnt tbrgft = gftTfxtComponfnt(f);
+            boolfbn bffp = truf;
+            if ((tbrgft != null) && (tbrgft.isEditbblf())) {
                 try {
-                    Document doc = target.getDocument();
-                    Caret caret = target.getCaret();
-                    int dot = caret.getDot();
-                    int mark = caret.getMark();
-                    if (dot != mark) {
-                        doc.remove(Math.min(dot, mark), Math.abs(dot - mark));
-                        beep = false;
-                    } else if (dot < doc.getLength()) {
-                        int delChars = 1;
+                    Dodumfnt dod = tbrgft.gftDodumfnt();
+                    Cbrft dbrft = tbrgft.gftCbrft();
+                    int dot = dbrft.gftDot();
+                    int mbrk = dbrft.gftMbrk();
+                    if (dot != mbrk) {
+                        dod.rfmovf(Mbti.min(dot, mbrk), Mbti.bbs(dot - mbrk));
+                        bffp = fblsf;
+                    } flsf if (dot < dod.gftLfngti()) {
+                        int dflCibrs = 1;
 
-                        if (dot < doc.getLength() - 1) {
-                            String dotChars = doc.getText(dot, 2);
-                            char c0 = dotChars.charAt(0);
-                            char c1 = dotChars.charAt(1);
+                        if (dot < dod.gftLfngti() - 1) {
+                            String dotCibrs = dod.gftTfxt(dot, 2);
+                            dibr d0 = dotCibrs.dibrAt(0);
+                            dibr d1 = dotCibrs.dibrAt(1);
 
-                            if (c0 >= '\uD800' && c0 <= '\uDBFF' &&
-                                c1 >= '\uDC00' && c1 <= '\uDFFF') {
-                                delChars = 2;
+                            if (d0 >= '\uD800' && d0 <= '\uDBFF' &&
+                                d1 >= '\uDC00' && d1 <= '\uDFFF') {
+                                dflCibrs = 2;
                             }
                         }
 
-                        doc.remove(dot, delChars);
-                        beep = false;
+                        dod.rfmovf(dot, dflCibrs);
+                        bffp = fblsf;
                     }
-                } catch (BadLocationException bl) {
+                } dbtdi (BbdLodbtionExdfption bl) {
                 }
             }
-            if (beep) {
-                UIManager.getLookAndFeel().provideErrorFeedback(target);
+            if (bffp) {
+                UIMbnbgfr.gftLookAndFffl().providfErrorFffdbbdk(tbrgft);
             }
         }
     }
 
 
     /*
-     * Deletes the word that precedes/follows the beginning of the selection.
-     * @see DefaultEditorKit#getActions
+     * Dflftfs tif word tibt prfdfdfs/follows tif bfginning of tif sflfdtion.
+     * @sff DffbultEditorKit#gftAdtions
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    static class DeleteWordAction extends TextAction {
-        DeleteWordAction(String name) {
-            super(name);
-            assert (name == deletePrevWordAction)
-                || (name == deleteNextWordAction);
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    stbtid dlbss DflftfWordAdtion fxtfnds TfxtAdtion {
+        DflftfWordAdtion(String nbmf) {
+            supfr(nbmf);
+            bssfrt (nbmf == dflftfPrfvWordAdtion)
+                || (nbmf == dflftfNfxtWordAdtion);
         }
         /**
-         * The operation to perform when this action is triggered.
+         * Tif opfrbtion to pfrform wifn tiis bdtion is triggfrfd.
          *
-         * @param e the action event
+         * @pbrbm f tif bdtion fvfnt
          */
-        public void actionPerformed(ActionEvent e) {
-            final JTextComponent target = getTextComponent(e);
-            if ((target != null) && (e != null)) {
-                if ((! target.isEditable()) || (! target.isEnabled())) {
-                    UIManager.getLookAndFeel().provideErrorFeedback(target);
-                    return;
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            finbl JTfxtComponfnt tbrgft = gftTfxtComponfnt(f);
+            if ((tbrgft != null) && (f != null)) {
+                if ((! tbrgft.isEditbblf()) || (! tbrgft.isEnbblfd())) {
+                    UIMbnbgfr.gftLookAndFffl().providfErrorFffdbbdk(tbrgft);
+                    rfturn;
                 }
-                boolean beep = true;
+                boolfbn bffp = truf;
                 try {
-                    final int start = target.getSelectionStart();
-                    final Element line =
-                        Utilities.getParagraphElement(target, start);
-                    int end;
-                    if (deleteNextWordAction == getValue(Action.NAME)) {
-                        end = Utilities.
-                            getNextWordInParagraph(target, line, start, false);
-                        if (end == java.text.BreakIterator.DONE) {
-                            //last word in the paragraph
-                            final int endOfLine = line.getEndOffset();
-                            if (start == endOfLine - 1) {
-                                //for last position remove last \n
-                                end = endOfLine;
-                            } else {
-                                //remove to the end of the paragraph
-                                end = endOfLine - 1;
+                    finbl int stbrt = tbrgft.gftSflfdtionStbrt();
+                    finbl Elfmfnt linf =
+                        Utilitifs.gftPbrbgrbpiElfmfnt(tbrgft, stbrt);
+                    int fnd;
+                    if (dflftfNfxtWordAdtion == gftVbluf(Adtion.NAME)) {
+                        fnd = Utilitifs.
+                            gftNfxtWordInPbrbgrbpi(tbrgft, linf, stbrt, fblsf);
+                        if (fnd == jbvb.tfxt.BrfbkItfrbtor.DONE) {
+                            //lbst word in tif pbrbgrbpi
+                            finbl int fndOfLinf = linf.gftEndOffsft();
+                            if (stbrt == fndOfLinf - 1) {
+                                //for lbst position rfmovf lbst \n
+                                fnd = fndOfLinf;
+                            } flsf {
+                                //rfmovf to tif fnd of tif pbrbgrbpi
+                                fnd = fndOfLinf - 1;
                             }
                         }
-                    } else {
-                        end = Utilities.
-                            getPrevWordInParagraph(target, line, start);
-                        if (end == java.text.BreakIterator.DONE) {
-                            //there is no previous word in the paragraph
-                            final int startOfLine = line.getStartOffset();
-                            if (start == startOfLine) {
-                                //for first position remove previous \n
-                                end = startOfLine - 1;
-                            } else {
-                                //remove to the start of the paragraph
-                                end = startOfLine;
+                    } flsf {
+                        fnd = Utilitifs.
+                            gftPrfvWordInPbrbgrbpi(tbrgft, linf, stbrt);
+                        if (fnd == jbvb.tfxt.BrfbkItfrbtor.DONE) {
+                            //tifrf is no prfvious word in tif pbrbgrbpi
+                            finbl int stbrtOfLinf = linf.gftStbrtOffsft();
+                            if (stbrt == stbrtOfLinf) {
+                                //for first position rfmovf prfvious \n
+                                fnd = stbrtOfLinf - 1;
+                            } flsf {
+                                //rfmovf to tif stbrt of tif pbrbgrbpi
+                                fnd = stbrtOfLinf;
                             }
                         }
                     }
-                    int offs = Math.min(start, end);
-                    int len = Math.abs(end - start);
+                    int offs = Mbti.min(stbrt, fnd);
+                    int lfn = Mbti.bbs(fnd - stbrt);
                     if (offs >= 0) {
-                        target.getDocument().remove(offs, len);
-                        beep = false;
+                        tbrgft.gftDodumfnt().rfmovf(offs, lfn);
+                        bffp = fblsf;
                     }
-                } catch (BadLocationException ignore) {
+                } dbtdi (BbdLodbtionExdfption ignorf) {
                 }
-                if (beep) {
-                    UIManager.getLookAndFeel().provideErrorFeedback(target);
+                if (bffp) {
+                    UIMbnbgfr.gftLookAndFffl().providfErrorFffdbbdk(tbrgft);
                 }
             }
         }
@@ -1213,1130 +1213,1130 @@ public class DefaultEditorKit extends EditorKit {
 
 
     /*
-     * Sets the editor into read-only mode.
-     * @see DefaultEditorKit#readOnlyAction
-     * @see DefaultEditorKit#getActions
+     * Sfts tif fditor into rfbd-only modf.
+     * @sff DffbultEditorKit#rfbdOnlyAdtion
+     * @sff DffbultEditorKit#gftAdtions
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    static class ReadOnlyAction extends TextAction {
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    stbtid dlbss RfbdOnlyAdtion fxtfnds TfxtAdtion {
 
-        /* Create this object with the appropriate identifier. */
-        ReadOnlyAction() {
-            super(readOnlyAction);
+        /* Crfbtf tiis objfdt witi tif bppropribtf idfntififr. */
+        RfbdOnlyAdtion() {
+            supfr(rfbdOnlyAdtion);
         }
 
         /**
-         * The operation to perform when this action is triggered.
+         * Tif opfrbtion to pfrform wifn tiis bdtion is triggfrfd.
          *
-         * @param e the action event
+         * @pbrbm f tif bdtion fvfnt
          */
-        public void actionPerformed(ActionEvent e) {
-            JTextComponent target = getTextComponent(e);
-            if (target != null) {
-                target.setEditable(false);
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            JTfxtComponfnt tbrgft = gftTfxtComponfnt(f);
+            if (tbrgft != null) {
+                tbrgft.sftEditbblf(fblsf);
             }
         }
     }
 
     /*
-     * Sets the editor into writeable mode.
-     * @see DefaultEditorKit#writableAction
-     * @see DefaultEditorKit#getActions
+     * Sfts tif fditor into writfbblf modf.
+     * @sff DffbultEditorKit#writbblfAdtion
+     * @sff DffbultEditorKit#gftAdtions
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    static class WritableAction extends TextAction {
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    stbtid dlbss WritbblfAdtion fxtfnds TfxtAdtion {
 
-        /* Create this object with the appropriate identifier. */
-        WritableAction() {
-            super(writableAction);
+        /* Crfbtf tiis objfdt witi tif bppropribtf idfntififr. */
+        WritbblfAdtion() {
+            supfr(writbblfAdtion);
         }
 
         /**
-         * The operation to perform when this action is triggered.
+         * Tif opfrbtion to pfrform wifn tiis bdtion is triggfrfd.
          *
-         * @param e the action event
+         * @pbrbm f tif bdtion fvfnt
          */
-        public void actionPerformed(ActionEvent e) {
-            JTextComponent target = getTextComponent(e);
-            if (target != null) {
-                target.setEditable(true);
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            JTfxtComponfnt tbrgft = gftTfxtComponfnt(f);
+            if (tbrgft != null) {
+                tbrgft.sftEditbblf(truf);
             }
         }
     }
 
     /**
-     * Cuts the selected region and place its contents
-     * into the system clipboard.
+     * Cuts tif sflfdtfd rfgion bnd plbdf its dontfnts
+     * into tif systfm dlipbobrd.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+     * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+     * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+     * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
      *
-     * @see DefaultEditorKit#cutAction
-     * @see DefaultEditorKit#getActions
+     * @sff DffbultEditorKit#dutAdtion
+     * @sff DffbultEditorKit#gftAdtions
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    public static class CutAction extends TextAction {
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    publid stbtid dlbss CutAdtion fxtfnds TfxtAdtion {
 
-        /** Create this object with the appropriate identifier. */
-        public CutAction() {
-            super(cutAction);
+        /** Crfbtf tiis objfdt witi tif bppropribtf idfntififr. */
+        publid CutAdtion() {
+            supfr(dutAdtion);
         }
 
         /**
-         * The operation to perform when this action is triggered.
+         * Tif opfrbtion to pfrform wifn tiis bdtion is triggfrfd.
          *
-         * @param e the action event
+         * @pbrbm f tif bdtion fvfnt
          */
-        public void actionPerformed(ActionEvent e) {
-            JTextComponent target = getTextComponent(e);
-            if (target != null) {
-                target.cut();
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            JTfxtComponfnt tbrgft = gftTfxtComponfnt(f);
+            if (tbrgft != null) {
+                tbrgft.dut();
             }
         }
     }
 
     /**
-     * Copies the selected region and place its contents
-     * into the system clipboard.
+     * Copifs tif sflfdtfd rfgion bnd plbdf its dontfnts
+     * into tif systfm dlipbobrd.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+     * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+     * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+     * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
      *
-     * @see DefaultEditorKit#copyAction
-     * @see DefaultEditorKit#getActions
+     * @sff DffbultEditorKit#dopyAdtion
+     * @sff DffbultEditorKit#gftAdtions
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    public static class CopyAction extends TextAction {
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    publid stbtid dlbss CopyAdtion fxtfnds TfxtAdtion {
 
-        /** Create this object with the appropriate identifier. */
-        public CopyAction() {
-            super(copyAction);
+        /** Crfbtf tiis objfdt witi tif bppropribtf idfntififr. */
+        publid CopyAdtion() {
+            supfr(dopyAdtion);
         }
 
         /**
-         * The operation to perform when this action is triggered.
+         * Tif opfrbtion to pfrform wifn tiis bdtion is triggfrfd.
          *
-         * @param e the action event
+         * @pbrbm f tif bdtion fvfnt
          */
-        public void actionPerformed(ActionEvent e) {
-            JTextComponent target = getTextComponent(e);
-            if (target != null) {
-                target.copy();
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            JTfxtComponfnt tbrgft = gftTfxtComponfnt(f);
+            if (tbrgft != null) {
+                tbrgft.dopy();
             }
         }
     }
 
     /**
-     * Pastes the contents of the system clipboard into the
-     * selected region, or before the caret if nothing is
-     * selected.
+     * Pbstfs tif dontfnts of tif systfm dlipbobrd into tif
+     * sflfdtfd rfgion, or bfforf tif dbrft if notiing is
+     * sflfdtfd.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+     * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+     * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+     * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
      *
-     * @see DefaultEditorKit#pasteAction
-     * @see DefaultEditorKit#getActions
+     * @sff DffbultEditorKit#pbstfAdtion
+     * @sff DffbultEditorKit#gftAdtions
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    public static class PasteAction extends TextAction {
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    publid stbtid dlbss PbstfAdtion fxtfnds TfxtAdtion {
 
-        /** Create this object with the appropriate identifier. */
-        public PasteAction() {
-            super(pasteAction);
+        /** Crfbtf tiis objfdt witi tif bppropribtf idfntififr. */
+        publid PbstfAdtion() {
+            supfr(pbstfAdtion);
         }
 
         /**
-         * The operation to perform when this action is triggered.
+         * Tif opfrbtion to pfrform wifn tiis bdtion is triggfrfd.
          *
-         * @param e the action event
+         * @pbrbm f tif bdtion fvfnt
          */
-        public void actionPerformed(ActionEvent e) {
-            JTextComponent target = getTextComponent(e);
-            if (target != null) {
-                target.paste();
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            JTfxtComponfnt tbrgft = gftTfxtComponfnt(f);
+            if (tbrgft != null) {
+                tbrgft.pbstf();
             }
         }
     }
 
     /**
-     * Creates a beep.
+     * Crfbtfs b bffp.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+     * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+     * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+     * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
      *
-     * @see DefaultEditorKit#beepAction
-     * @see DefaultEditorKit#getActions
+     * @sff DffbultEditorKit#bffpAdtion
+     * @sff DffbultEditorKit#gftAdtions
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    public static class BeepAction extends TextAction {
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    publid stbtid dlbss BffpAdtion fxtfnds TfxtAdtion {
 
-        /** Create this object with the appropriate identifier. */
-        public BeepAction() {
-            super(beepAction);
+        /** Crfbtf tiis objfdt witi tif bppropribtf idfntififr. */
+        publid BffpAdtion() {
+            supfr(bffpAdtion);
         }
 
         /**
-         * The operation to perform when this action is triggered.
+         * Tif opfrbtion to pfrform wifn tiis bdtion is triggfrfd.
          *
-         * @param e the action event
+         * @pbrbm f tif bdtion fvfnt
          */
-        public void actionPerformed(ActionEvent e) {
-            JTextComponent target = getTextComponent(e);
-            UIManager.getLookAndFeel().provideErrorFeedback(target);
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            JTfxtComponfnt tbrgft = gftTfxtComponfnt(f);
+            UIMbnbgfr.gftLookAndFffl().providfErrorFffdbbdk(tbrgft);
         }
     }
 
     /**
-     * Scrolls up/down vertically.  The select version of this action extends
-     * the selection, instead of simply moving the caret.
+     * Sdrolls up/down vfrtidblly.  Tif sflfdt vfrsion of tiis bdtion fxtfnds
+     * tif sflfdtion, instfbd of simply moving tif dbrft.
      *
-     * @see DefaultEditorKit#pageUpAction
-     * @see DefaultEditorKit#pageDownAction
-     * @see DefaultEditorKit#getActions
+     * @sff DffbultEditorKit#pbgfUpAdtion
+     * @sff DffbultEditorKit#pbgfDownAdtion
+     * @sff DffbultEditorKit#gftAdtions
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    static class VerticalPageAction extends TextAction {
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    stbtid dlbss VfrtidblPbgfAdtion fxtfnds TfxtAdtion {
 
-        /** Create this object with the appropriate identifier. */
-        public VerticalPageAction(String nm, int direction, boolean select) {
-            super(nm);
-            this.select = select;
-            this.direction = direction;
+        /** Crfbtf tiis objfdt witi tif bppropribtf idfntififr. */
+        publid VfrtidblPbgfAdtion(String nm, int dirfdtion, boolfbn sflfdt) {
+            supfr(nm);
+            tiis.sflfdt = sflfdt;
+            tiis.dirfdtion = dirfdtion;
         }
 
-        /** The operation to perform when this action is triggered. */
-        public void actionPerformed(ActionEvent e) {
-            JTextComponent target = getTextComponent(e);
-            if (target != null) {
-                Rectangle visible = target.getVisibleRect();
-                Rectangle newVis = new Rectangle(visible);
-                int selectedIndex = target.getCaretPosition();
-                int scrollAmount = direction *
-                        target.getScrollableBlockIncrement(
-                                  visible, SwingConstants.VERTICAL, direction);
-                int initialY = visible.y;
-                Caret caret = target.getCaret();
-                Point magicPosition = caret.getMagicCaretPosition();
+        /** Tif opfrbtion to pfrform wifn tiis bdtion is triggfrfd. */
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            JTfxtComponfnt tbrgft = gftTfxtComponfnt(f);
+            if (tbrgft != null) {
+                Rfdtbnglf visiblf = tbrgft.gftVisiblfRfdt();
+                Rfdtbnglf nfwVis = nfw Rfdtbnglf(visiblf);
+                int sflfdtfdIndfx = tbrgft.gftCbrftPosition();
+                int sdrollAmount = dirfdtion *
+                        tbrgft.gftSdrollbblfBlodkIndrfmfnt(
+                                  visiblf, SwingConstbnts.VERTICAL, dirfdtion);
+                int initiblY = visiblf.y;
+                Cbrft dbrft = tbrgft.gftCbrft();
+                Point mbgidPosition = dbrft.gftMbgidCbrftPosition();
 
-                if (selectedIndex != -1) {
+                if (sflfdtfdIndfx != -1) {
                     try {
-                        Rectangle dotBounds = target.modelToView(
-                                                     selectedIndex);
-                        int x = (magicPosition != null) ? magicPosition.x :
+                        Rfdtbnglf dotBounds = tbrgft.modflToVifw(
+                                                     sflfdtfdIndfx);
+                        int x = (mbgidPosition != null) ? mbgidPosition.x :
                                                           dotBounds.x;
-                        int h = dotBounds.height;
-                        if (h > 0) {
-                            // We want to scroll by a multiple of caret height,
-                            // rounding towards lower integer
-                            scrollAmount = scrollAmount / h * h;
+                        int i = dotBounds.ifigit;
+                        if (i > 0) {
+                            // Wf wbnt to sdroll by b multiplf of dbrft ifigit,
+                            // rounding towbrds lowfr intfgfr
+                            sdrollAmount = sdrollAmount / i * i;
                         }
-                        newVis.y = constrainY(target,
-                                initialY + scrollAmount, visible.height);
+                        nfwVis.y = donstrbinY(tbrgft,
+                                initiblY + sdrollAmount, visiblf.ifigit);
 
-                        int newIndex;
+                        int nfwIndfx;
 
-                        if (visible.contains(dotBounds.x, dotBounds.y)) {
-                            // Dot is currently visible, base the new
-                            // location off the old, or
-                            newIndex = target.viewToModel(
-                                new Point(x, constrainY(target,
-                                          dotBounds.y + scrollAmount, 0)));
+                        if (visiblf.dontbins(dotBounds.x, dotBounds.y)) {
+                            // Dot is durrfntly visiblf, bbsf tif nfw
+                            // lodbtion off tif old, or
+                            nfwIndfx = tbrgft.vifwToModfl(
+                                nfw Point(x, donstrbinY(tbrgft,
+                                          dotBounds.y + sdrollAmount, 0)));
                         }
-                        else {
-                            // Dot isn't visible, choose the top or the bottom
-                            // for the new location.
-                            if (direction == -1) {
-                                newIndex = target.viewToModel(new Point(
-                                    x, newVis.y));
+                        flsf {
+                            // Dot isn't visiblf, dioosf tif top or tif bottom
+                            // for tif nfw lodbtion.
+                            if (dirfdtion == -1) {
+                                nfwIndfx = tbrgft.vifwToModfl(nfw Point(
+                                    x, nfwVis.y));
                             }
-                            else {
-                                newIndex = target.viewToModel(new Point(
-                                    x, newVis.y + visible.height));
+                            flsf {
+                                nfwIndfx = tbrgft.vifwToModfl(nfw Point(
+                                    x, nfwVis.y + visiblf.ifigit));
                             }
                         }
-                        newIndex = constrainOffset(target, newIndex);
-                        if (newIndex != selectedIndex) {
-                            // Make sure the new visible location contains
-                            // the location of dot, otherwise Caret will
-                            // cause an additional scroll.
-                            int newY = getAdjustedY(target, newVis, newIndex);
+                        nfwIndfx = donstrbinOffsft(tbrgft, nfwIndfx);
+                        if (nfwIndfx != sflfdtfdIndfx) {
+                            // Mbkf surf tif nfw visiblf lodbtion dontbins
+                            // tif lodbtion of dot, otifrwisf Cbrft will
+                            // dbusf bn bdditionbl sdroll.
+                            int nfwY = gftAdjustfdY(tbrgft, nfwVis, nfwIndfx);
 
-                            if (direction == -1 && newY <= initialY || direction == 1 && newY >= initialY) {
-                                // Change index and correct newVis.y only if won't cause scrolling upward
-                                newVis.y = newY;
+                            if (dirfdtion == -1 && nfwY <= initiblY || dirfdtion == 1 && nfwY >= initiblY) {
+                                // Cibngf indfx bnd dorrfdt nfwVis.y only if won't dbusf sdrolling upwbrd
+                                nfwVis.y = nfwY;
 
-                                if (select) {
-                                    target.moveCaretPosition(newIndex);
-                                } else {
-                                    target.setCaretPosition(newIndex);
+                                if (sflfdt) {
+                                    tbrgft.movfCbrftPosition(nfwIndfx);
+                                } flsf {
+                                    tbrgft.sftCbrftPosition(nfwIndfx);
                                 }
                             }
                         }
-                    } catch (BadLocationException ble) { }
-                } else {
-                    newVis.y = constrainY(target,
-                            initialY + scrollAmount, visible.height);
+                    } dbtdi (BbdLodbtionExdfption blf) { }
+                } flsf {
+                    nfwVis.y = donstrbinY(tbrgft,
+                            initiblY + sdrollAmount, visiblf.ifigit);
                 }
-                if (magicPosition != null) {
-                    caret.setMagicCaretPosition(magicPosition);
+                if (mbgidPosition != null) {
+                    dbrft.sftMbgidCbrftPosition(mbgidPosition);
                 }
-                target.scrollRectToVisible(newVis);
+                tbrgft.sdrollRfdtToVisiblf(nfwVis);
             }
         }
 
         /**
-         * Makes sure <code>y</code> is a valid location in
-         * <code>target</code>.
+         * Mbkfs surf <dodf>y</dodf> is b vblid lodbtion in
+         * <dodf>tbrgft</dodf>.
          */
-        private int constrainY(JTextComponent target, int y, int vis) {
+        privbtf int donstrbinY(JTfxtComponfnt tbrgft, int y, int vis) {
             if (y < 0) {
                 y = 0;
             }
-            else if (y + vis > target.getHeight()) {
-                y = Math.max(0, target.getHeight() - vis);
+            flsf if (y + vis > tbrgft.gftHfigit()) {
+                y = Mbti.mbx(0, tbrgft.gftHfigit() - vis);
             }
-            return y;
+            rfturn y;
         }
 
         /**
-         * Ensures that <code>offset</code> is a valid offset into the
-         * model for <code>text</code>.
+         * Ensurfs tibt <dodf>offsft</dodf> is b vblid offsft into tif
+         * modfl for <dodf>tfxt</dodf>.
          */
-        private int constrainOffset(JTextComponent text, int offset) {
-            Document doc = text.getDocument();
+        privbtf int donstrbinOffsft(JTfxtComponfnt tfxt, int offsft) {
+            Dodumfnt dod = tfxt.gftDodumfnt();
 
-            if ((offset != 0) && (offset > doc.getLength())) {
-                offset = doc.getLength();
+            if ((offsft != 0) && (offsft > dod.gftLfngti())) {
+                offsft = dod.gftLfngti();
             }
-            if (offset  < 0) {
-                offset = 0;
+            if (offsft  < 0) {
+                offsft = 0;
             }
-            return offset;
+            rfturn offsft;
         }
 
         /**
-         * Returns adjustsed {@code y} position that indicates the location to scroll to
-         * after selecting <code>index</code>.
+         * Rfturns bdjustsfd {@dodf y} position tibt indidbtfs tif lodbtion to sdroll to
+         * bftfr sflfdting <dodf>indfx</dodf>.
          */
-        private int getAdjustedY(JTextComponent text, Rectangle visible, int index) {
-            int result = visible.y;
+        privbtf int gftAdjustfdY(JTfxtComponfnt tfxt, Rfdtbnglf visiblf, int indfx) {
+            int rfsult = visiblf.y;
 
             try {
-                Rectangle dotBounds = text.modelToView(index);
+                Rfdtbnglf dotBounds = tfxt.modflToVifw(indfx);
 
-                if (dotBounds.y < visible.y) {
-                    result = dotBounds.y;
-                } else {
-                    if ((dotBounds.y > visible.y + visible.height) ||
-                            (dotBounds.y + dotBounds.height > visible.y + visible.height)) {
-                        result = dotBounds.y + dotBounds.height - visible.height;
+                if (dotBounds.y < visiblf.y) {
+                    rfsult = dotBounds.y;
+                } flsf {
+                    if ((dotBounds.y > visiblf.y + visiblf.ifigit) ||
+                            (dotBounds.y + dotBounds.ifigit > visiblf.y + visiblf.ifigit)) {
+                        rfsult = dotBounds.y + dotBounds.ifigit - visiblf.ifigit;
                     }
                 }
-            } catch (BadLocationException ble) {
+            } dbtdi (BbdLodbtionExdfption blf) {
             }
 
-            return result;
+            rfturn rfsult;
         }
 
         /**
-         * Adjusts the Rectangle to contain the bounds of the character at
-         * <code>index</code> in response to a page up.
+         * Adjusts tif Rfdtbnglf to dontbin tif bounds of tif dibrbdtfr bt
+         * <dodf>indfx</dodf> in rfsponsf to b pbgf up.
          */
-        private boolean select;
+        privbtf boolfbn sflfdt;
 
         /**
-         * Direction to scroll, 1 is down, -1 is up.
+         * Dirfdtion to sdroll, 1 is down, -1 is up.
          */
-        private int direction;
+        privbtf int dirfdtion;
     }
 
 
     /**
-     * Pages one view to the left or right.
+     * Pbgfs onf vifw to tif lfft or rigit.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    static class PageAction extends TextAction {
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    stbtid dlbss PbgfAdtion fxtfnds TfxtAdtion {
 
-        /** Create this object with the appropriate identifier. */
-        public PageAction(String nm, boolean left, boolean select) {
-            super(nm);
-            this.select = select;
-            this.left = left;
+        /** Crfbtf tiis objfdt witi tif bppropribtf idfntififr. */
+        publid PbgfAdtion(String nm, boolfbn lfft, boolfbn sflfdt) {
+            supfr(nm);
+            tiis.sflfdt = sflfdt;
+            tiis.lfft = lfft;
         }
 
-        /** The operation to perform when this action is triggered. */
-        public void actionPerformed(ActionEvent e) {
-            JTextComponent target = getTextComponent(e);
-            if (target != null) {
-                int selectedIndex;
-                Rectangle visible = new Rectangle();
-                target.computeVisibleRect(visible);
-                if (left) {
-                    visible.x = Math.max(0, visible.x - visible.width);
+        /** Tif opfrbtion to pfrform wifn tiis bdtion is triggfrfd. */
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            JTfxtComponfnt tbrgft = gftTfxtComponfnt(f);
+            if (tbrgft != null) {
+                int sflfdtfdIndfx;
+                Rfdtbnglf visiblf = nfw Rfdtbnglf();
+                tbrgft.domputfVisiblfRfdt(visiblf);
+                if (lfft) {
+                    visiblf.x = Mbti.mbx(0, visiblf.x - visiblf.widti);
                 }
-                else {
-                    visible.x += visible.width;
+                flsf {
+                    visiblf.x += visiblf.widti;
                 }
 
-                selectedIndex = target.getCaretPosition();
-                if(selectedIndex != -1) {
-                    if (left) {
-                        selectedIndex = target.viewToModel
-                            (new Point(visible.x, visible.y));
+                sflfdtfdIndfx = tbrgft.gftCbrftPosition();
+                if(sflfdtfdIndfx != -1) {
+                    if (lfft) {
+                        sflfdtfdIndfx = tbrgft.vifwToModfl
+                            (nfw Point(visiblf.x, visiblf.y));
                     }
-                    else {
-                        selectedIndex = target.viewToModel
-                            (new Point(visible.x + visible.width - 1,
-                                       visible.y + visible.height - 1));
+                    flsf {
+                        sflfdtfdIndfx = tbrgft.vifwToModfl
+                            (nfw Point(visiblf.x + visiblf.widti - 1,
+                                       visiblf.y + visiblf.ifigit - 1));
                     }
-                    Document doc = target.getDocument();
-                    if ((selectedIndex != 0) &&
-                        (selectedIndex  > (doc.getLength()-1))) {
-                        selectedIndex = doc.getLength()-1;
+                    Dodumfnt dod = tbrgft.gftDodumfnt();
+                    if ((sflfdtfdIndfx != 0) &&
+                        (sflfdtfdIndfx  > (dod.gftLfngti()-1))) {
+                        sflfdtfdIndfx = dod.gftLfngti()-1;
                     }
-                    else if(selectedIndex  < 0) {
-                        selectedIndex = 0;
+                    flsf if(sflfdtfdIndfx  < 0) {
+                        sflfdtfdIndfx = 0;
                     }
-                    if (select)
-                        target.moveCaretPosition(selectedIndex);
-                    else
-                        target.setCaretPosition(selectedIndex);
+                    if (sflfdt)
+                        tbrgft.movfCbrftPosition(sflfdtfdIndfx);
+                    flsf
+                        tbrgft.sftCbrftPosition(sflfdtfdIndfx);
                 }
             }
         }
 
-        private boolean select;
-        private boolean left;
+        privbtf boolfbn sflfdt;
+        privbtf boolfbn lfft;
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    static class DumpModelAction extends TextAction {
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    stbtid dlbss DumpModflAdtion fxtfnds TfxtAdtion {
 
-        DumpModelAction() {
-            super("dump-model");
+        DumpModflAdtion() {
+            supfr("dump-modfl");
         }
 
-        public void actionPerformed(ActionEvent e) {
-            JTextComponent target = getTextComponent(e);
-            if (target != null) {
-                Document d = target.getDocument();
-                if (d instanceof AbstractDocument) {
-                    ((AbstractDocument) d).dump(System.err);
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            JTfxtComponfnt tbrgft = gftTfxtComponfnt(f);
+            if (tbrgft != null) {
+                Dodumfnt d = tbrgft.gftDodumfnt();
+                if (d instbndfof AbstrbdtDodumfnt) {
+                    ((AbstrbdtDodumfnt) d).dump(Systfm.frr);
                 }
             }
         }
     }
 
     /*
-     * Action to move the selection by way of the
-     * getNextVisualPositionFrom method. Constructor indicates direction
-     * to use.
+     * Adtion to movf tif sflfdtion by wby of tif
+     * gftNfxtVisublPositionFrom mftiod. Construdtor indidbtfs dirfdtion
+     * to usf.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    static class NextVisualPositionAction extends TextAction {
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    stbtid dlbss NfxtVisublPositionAdtion fxtfnds TfxtAdtion {
 
         /**
-         * Create this action with the appropriate identifier.
-         * @param nm  the name of the action, Action.NAME.
-         * @param select whether to extend the selection when
-         *  changing the caret position.
+         * Crfbtf tiis bdtion witi tif bppropribtf idfntififr.
+         * @pbrbm nm  tif nbmf of tif bdtion, Adtion.NAME.
+         * @pbrbm sflfdt wiftifr to fxtfnd tif sflfdtion wifn
+         *  dibnging tif dbrft position.
          */
-        NextVisualPositionAction(String nm, boolean select, int direction) {
-            super(nm);
-            this.select = select;
-            this.direction = direction;
+        NfxtVisublPositionAdtion(String nm, boolfbn sflfdt, int dirfdtion) {
+            supfr(nm);
+            tiis.sflfdt = sflfdt;
+            tiis.dirfdtion = dirfdtion;
         }
 
-        /** The operation to perform when this action is triggered. */
-        public void actionPerformed(ActionEvent e) {
-            JTextComponent target = getTextComponent(e);
-            if (target != null) {
-                Caret caret = target.getCaret();
-                DefaultCaret bidiCaret = (caret instanceof DefaultCaret) ?
-                                              (DefaultCaret)caret : null;
-                int dot = caret.getDot();
-                Position.Bias[] bias = new Position.Bias[1];
-                Point magicPosition = caret.getMagicCaretPosition();
+        /** Tif opfrbtion to pfrform wifn tiis bdtion is triggfrfd. */
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            JTfxtComponfnt tbrgft = gftTfxtComponfnt(f);
+            if (tbrgft != null) {
+                Cbrft dbrft = tbrgft.gftCbrft();
+                DffbultCbrft bidiCbrft = (dbrft instbndfof DffbultCbrft) ?
+                                              (DffbultCbrft)dbrft : null;
+                int dot = dbrft.gftDot();
+                Position.Bibs[] bibs = nfw Position.Bibs[1];
+                Point mbgidPosition = dbrft.gftMbgidCbrftPosition();
 
                 try {
-                    if(magicPosition == null &&
-                       (direction == SwingConstants.NORTH ||
-                        direction == SwingConstants.SOUTH)) {
-                        Rectangle r = (bidiCaret != null) ?
-                                target.getUI().modelToView(target, dot,
-                                                      bidiCaret.getDotBias()) :
-                                target.modelToView(dot);
-                        magicPosition = new Point(r.x, r.y);
+                    if(mbgidPosition == null &&
+                       (dirfdtion == SwingConstbnts.NORTH ||
+                        dirfdtion == SwingConstbnts.SOUTH)) {
+                        Rfdtbnglf r = (bidiCbrft != null) ?
+                                tbrgft.gftUI().modflToVifw(tbrgft, dot,
+                                                      bidiCbrft.gftDotBibs()) :
+                                tbrgft.modflToVifw(dot);
+                        mbgidPosition = nfw Point(r.x, r.y);
                     }
 
-                    NavigationFilter filter = target.getNavigationFilter();
+                    NbvigbtionFiltfr filtfr = tbrgft.gftNbvigbtionFiltfr();
 
-                    if (filter != null) {
-                        dot = filter.getNextVisualPositionFrom
-                                     (target, dot, (bidiCaret != null) ?
-                                      bidiCaret.getDotBias() :
-                                      Position.Bias.Forward, direction, bias);
+                    if (filtfr != null) {
+                        dot = filtfr.gftNfxtVisublPositionFrom
+                                     (tbrgft, dot, (bidiCbrft != null) ?
+                                      bidiCbrft.gftDotBibs() :
+                                      Position.Bibs.Forwbrd, dirfdtion, bibs);
                     }
-                    else {
-                        dot = target.getUI().getNextVisualPositionFrom
-                                     (target, dot, (bidiCaret != null) ?
-                                      bidiCaret.getDotBias() :
-                                      Position.Bias.Forward, direction, bias);
+                    flsf {
+                        dot = tbrgft.gftUI().gftNfxtVisublPositionFrom
+                                     (tbrgft, dot, (bidiCbrft != null) ?
+                                      bidiCbrft.gftDotBibs() :
+                                      Position.Bibs.Forwbrd, dirfdtion, bibs);
                     }
-                    if(bias[0] == null) {
-                        bias[0] = Position.Bias.Forward;
+                    if(bibs[0] == null) {
+                        bibs[0] = Position.Bibs.Forwbrd;
                     }
-                    if(bidiCaret != null) {
-                        if (select) {
-                            bidiCaret.moveDot(dot, bias[0]);
-                        } else {
-                            bidiCaret.setDot(dot, bias[0]);
+                    if(bidiCbrft != null) {
+                        if (sflfdt) {
+                            bidiCbrft.movfDot(dot, bibs[0]);
+                        } flsf {
+                            bidiCbrft.sftDot(dot, bibs[0]);
                         }
                     }
-                    else {
-                        if (select) {
-                            caret.moveDot(dot);
-                        } else {
-                            caret.setDot(dot);
+                    flsf {
+                        if (sflfdt) {
+                            dbrft.movfDot(dot);
+                        } flsf {
+                            dbrft.sftDot(dot);
                         }
                     }
-                    if(magicPosition != null &&
-                       (direction == SwingConstants.NORTH ||
-                        direction == SwingConstants.SOUTH)) {
-                        target.getCaret().setMagicCaretPosition(magicPosition);
+                    if(mbgidPosition != null &&
+                       (dirfdtion == SwingConstbnts.NORTH ||
+                        dirfdtion == SwingConstbnts.SOUTH)) {
+                        tbrgft.gftCbrft().sftMbgidCbrftPosition(mbgidPosition);
                     }
-                } catch (BadLocationException ex) {
+                } dbtdi (BbdLodbtionExdfption fx) {
                 }
             }
         }
 
-        private boolean select;
-        private int direction;
+        privbtf boolfbn sflfdt;
+        privbtf int dirfdtion;
     }
 
     /*
-     * Position the caret to the beginning of the word.
-     * @see DefaultEditorKit#beginWordAction
-     * @see DefaultEditorKit#selectBeginWordAction
-     * @see DefaultEditorKit#getActions
+     * Position tif dbrft to tif bfginning of tif word.
+     * @sff DffbultEditorKit#bfginWordAdtion
+     * @sff DffbultEditorKit#sflfdtBfginWordAdtion
+     * @sff DffbultEditorKit#gftAdtions
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    static class BeginWordAction extends TextAction {
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    stbtid dlbss BfginWordAdtion fxtfnds TfxtAdtion {
 
         /**
-         * Create this action with the appropriate identifier.
-         * @param nm  the name of the action, Action.NAME.
-         * @param select whether to extend the selection when
-         *  changing the caret position.
+         * Crfbtf tiis bdtion witi tif bppropribtf idfntififr.
+         * @pbrbm nm  tif nbmf of tif bdtion, Adtion.NAME.
+         * @pbrbm sflfdt wiftifr to fxtfnd tif sflfdtion wifn
+         *  dibnging tif dbrft position.
          */
-        BeginWordAction(String nm, boolean select) {
-            super(nm);
-            this.select = select;
+        BfginWordAdtion(String nm, boolfbn sflfdt) {
+            supfr(nm);
+            tiis.sflfdt = sflfdt;
         }
 
-        /** The operation to perform when this action is triggered. */
-        public void actionPerformed(ActionEvent e) {
-            JTextComponent target = getTextComponent(e);
-            if (target != null) {
+        /** Tif opfrbtion to pfrform wifn tiis bdtion is triggfrfd. */
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            JTfxtComponfnt tbrgft = gftTfxtComponfnt(f);
+            if (tbrgft != null) {
                 try {
-                    int offs = target.getCaretPosition();
-                    int begOffs = Utilities.getWordStart(target, offs);
-                    if (select) {
-                        target.moveCaretPosition(begOffs);
-                    } else {
-                        target.setCaretPosition(begOffs);
+                    int offs = tbrgft.gftCbrftPosition();
+                    int bfgOffs = Utilitifs.gftWordStbrt(tbrgft, offs);
+                    if (sflfdt) {
+                        tbrgft.movfCbrftPosition(bfgOffs);
+                    } flsf {
+                        tbrgft.sftCbrftPosition(bfgOffs);
                     }
-                } catch (BadLocationException bl) {
-                    UIManager.getLookAndFeel().provideErrorFeedback(target);
+                } dbtdi (BbdLodbtionExdfption bl) {
+                    UIMbnbgfr.gftLookAndFffl().providfErrorFffdbbdk(tbrgft);
                 }
             }
         }
 
-        private boolean select;
+        privbtf boolfbn sflfdt;
     }
 
     /*
-     * Position the caret to the end of the word.
-     * @see DefaultEditorKit#endWordAction
-     * @see DefaultEditorKit#selectEndWordAction
-     * @see DefaultEditorKit#getActions
+     * Position tif dbrft to tif fnd of tif word.
+     * @sff DffbultEditorKit#fndWordAdtion
+     * @sff DffbultEditorKit#sflfdtEndWordAdtion
+     * @sff DffbultEditorKit#gftAdtions
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    static class EndWordAction extends TextAction {
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    stbtid dlbss EndWordAdtion fxtfnds TfxtAdtion {
 
         /**
-         * Create this action with the appropriate identifier.
-         * @param nm  the name of the action, Action.NAME.
-         * @param select whether to extend the selection when
-         *  changing the caret position.
+         * Crfbtf tiis bdtion witi tif bppropribtf idfntififr.
+         * @pbrbm nm  tif nbmf of tif bdtion, Adtion.NAME.
+         * @pbrbm sflfdt wiftifr to fxtfnd tif sflfdtion wifn
+         *  dibnging tif dbrft position.
          */
-        EndWordAction(String nm, boolean select) {
-            super(nm);
-            this.select = select;
+        EndWordAdtion(String nm, boolfbn sflfdt) {
+            supfr(nm);
+            tiis.sflfdt = sflfdt;
         }
 
-        /** The operation to perform when this action is triggered. */
-        public void actionPerformed(ActionEvent e) {
-            JTextComponent target = getTextComponent(e);
-            if (target != null) {
+        /** Tif opfrbtion to pfrform wifn tiis bdtion is triggfrfd. */
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            JTfxtComponfnt tbrgft = gftTfxtComponfnt(f);
+            if (tbrgft != null) {
                 try {
-                    int offs = target.getCaretPosition();
-                    int endOffs = Utilities.getWordEnd(target, offs);
-                    if (select) {
-                        target.moveCaretPosition(endOffs);
-                    } else {
-                        target.setCaretPosition(endOffs);
+                    int offs = tbrgft.gftCbrftPosition();
+                    int fndOffs = Utilitifs.gftWordEnd(tbrgft, offs);
+                    if (sflfdt) {
+                        tbrgft.movfCbrftPosition(fndOffs);
+                    } flsf {
+                        tbrgft.sftCbrftPosition(fndOffs);
                     }
-                } catch (BadLocationException bl) {
-                    UIManager.getLookAndFeel().provideErrorFeedback(target);
+                } dbtdi (BbdLodbtionExdfption bl) {
+                    UIMbnbgfr.gftLookAndFffl().providfErrorFffdbbdk(tbrgft);
                 }
             }
         }
 
-        private boolean select;
+        privbtf boolfbn sflfdt;
     }
 
     /*
-     * Position the caret to the beginning of the previous word.
-     * @see DefaultEditorKit#previousWordAction
-     * @see DefaultEditorKit#selectPreviousWordAction
-     * @see DefaultEditorKit#getActions
+     * Position tif dbrft to tif bfginning of tif prfvious word.
+     * @sff DffbultEditorKit#prfviousWordAdtion
+     * @sff DffbultEditorKit#sflfdtPrfviousWordAdtion
+     * @sff DffbultEditorKit#gftAdtions
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    static class PreviousWordAction extends TextAction {
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    stbtid dlbss PrfviousWordAdtion fxtfnds TfxtAdtion {
 
         /**
-         * Create this action with the appropriate identifier.
-         * @param nm  the name of the action, Action.NAME.
-         * @param select whether to extend the selection when
-         *  changing the caret position.
+         * Crfbtf tiis bdtion witi tif bppropribtf idfntififr.
+         * @pbrbm nm  tif nbmf of tif bdtion, Adtion.NAME.
+         * @pbrbm sflfdt wiftifr to fxtfnd tif sflfdtion wifn
+         *  dibnging tif dbrft position.
          */
-        PreviousWordAction(String nm, boolean select) {
-            super(nm);
-            this.select = select;
+        PrfviousWordAdtion(String nm, boolfbn sflfdt) {
+            supfr(nm);
+            tiis.sflfdt = sflfdt;
         }
 
-        /** The operation to perform when this action is triggered. */
-        public void actionPerformed(ActionEvent e) {
-            JTextComponent target = getTextComponent(e);
-            if (target != null) {
-                int offs = target.getCaretPosition();
-                boolean failed = false;
+        /** Tif opfrbtion to pfrform wifn tiis bdtion is triggfrfd. */
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            JTfxtComponfnt tbrgft = gftTfxtComponfnt(f);
+            if (tbrgft != null) {
+                int offs = tbrgft.gftCbrftPosition();
+                boolfbn fbilfd = fblsf;
                 try {
-                    Element curPara =
-                            Utilities.getParagraphElement(target, offs);
-                    offs = Utilities.getPreviousWord(target, offs);
-                    if(offs < curPara.getStartOffset()) {
-                        // we should first move to the end of the
-                        // previous paragraph (bug #4278839)
-                        offs = Utilities.getParagraphElement(target, offs).
-                                getEndOffset() - 1;
+                    Elfmfnt durPbrb =
+                            Utilitifs.gftPbrbgrbpiElfmfnt(tbrgft, offs);
+                    offs = Utilitifs.gftPrfviousWord(tbrgft, offs);
+                    if(offs < durPbrb.gftStbrtOffsft()) {
+                        // wf siould first movf to tif fnd of tif
+                        // prfvious pbrbgrbpi (bug #4278839)
+                        offs = Utilitifs.gftPbrbgrbpiElfmfnt(tbrgft, offs).
+                                gftEndOffsft() - 1;
                     }
-                } catch (BadLocationException bl) {
+                } dbtdi (BbdLodbtionExdfption bl) {
                     if (offs != 0) {
                         offs = 0;
                     }
-                    else {
-                        failed = true;
+                    flsf {
+                        fbilfd = truf;
                     }
                 }
-                if (!failed) {
-                    if (select) {
-                        target.moveCaretPosition(offs);
-                    } else {
-                        target.setCaretPosition(offs);
+                if (!fbilfd) {
+                    if (sflfdt) {
+                        tbrgft.movfCbrftPosition(offs);
+                    } flsf {
+                        tbrgft.sftCbrftPosition(offs);
                     }
                 }
-                else {
-                    UIManager.getLookAndFeel().provideErrorFeedback(target);
+                flsf {
+                    UIMbnbgfr.gftLookAndFffl().providfErrorFffdbbdk(tbrgft);
                 }
             }
         }
 
-        private boolean select;
+        privbtf boolfbn sflfdt;
     }
 
     /*
-     * Position the caret to the next of the word.
-     * @see DefaultEditorKit#nextWordAction
-     * @see DefaultEditorKit#selectNextWordAction
-     * @see DefaultEditorKit#getActions
+     * Position tif dbrft to tif nfxt of tif word.
+     * @sff DffbultEditorKit#nfxtWordAdtion
+     * @sff DffbultEditorKit#sflfdtNfxtWordAdtion
+     * @sff DffbultEditorKit#gftAdtions
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    static class NextWordAction extends TextAction {
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    stbtid dlbss NfxtWordAdtion fxtfnds TfxtAdtion {
 
         /**
-         * Create this action with the appropriate identifier.
-         * @param nm  the name of the action, Action.NAME.
-         * @param select whether to extend the selection when
-         *  changing the caret position.
+         * Crfbtf tiis bdtion witi tif bppropribtf idfntififr.
+         * @pbrbm nm  tif nbmf of tif bdtion, Adtion.NAME.
+         * @pbrbm sflfdt wiftifr to fxtfnd tif sflfdtion wifn
+         *  dibnging tif dbrft position.
          */
-        NextWordAction(String nm, boolean select) {
-            super(nm);
-            this.select = select;
+        NfxtWordAdtion(String nm, boolfbn sflfdt) {
+            supfr(nm);
+            tiis.sflfdt = sflfdt;
         }
 
-        /** The operation to perform when this action is triggered. */
-        public void actionPerformed(ActionEvent e) {
-            JTextComponent target = getTextComponent(e);
-            if (target != null) {
-                int offs = target.getCaretPosition();
-                boolean failed = false;
+        /** Tif opfrbtion to pfrform wifn tiis bdtion is triggfrfd. */
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            JTfxtComponfnt tbrgft = gftTfxtComponfnt(f);
+            if (tbrgft != null) {
+                int offs = tbrgft.gftCbrftPosition();
+                boolfbn fbilfd = fblsf;
                 int oldOffs = offs;
-                Element curPara =
-                        Utilities.getParagraphElement(target, offs);
+                Elfmfnt durPbrb =
+                        Utilitifs.gftPbrbgrbpiElfmfnt(tbrgft, offs);
                 try {
-                    offs = Utilities.getNextWord(target, offs);
-                    if(offs >= curPara.getEndOffset() &&
-                            oldOffs != curPara.getEndOffset() - 1) {
-                        // we should first move to the end of current
-                        // paragraph (bug #4278839)
-                        offs = curPara.getEndOffset() - 1;
+                    offs = Utilitifs.gftNfxtWord(tbrgft, offs);
+                    if(offs >= durPbrb.gftEndOffsft() &&
+                            oldOffs != durPbrb.gftEndOffsft() - 1) {
+                        // wf siould first movf to tif fnd of durrfnt
+                        // pbrbgrbpi (bug #4278839)
+                        offs = durPbrb.gftEndOffsft() - 1;
                     }
-                } catch (BadLocationException bl) {
-                    int end = target.getDocument().getLength();
-                    if (offs != end) {
-                        if(oldOffs != curPara.getEndOffset() - 1) {
-                            offs = curPara.getEndOffset() - 1;
-                        } else {
-                        offs = end;
+                } dbtdi (BbdLodbtionExdfption bl) {
+                    int fnd = tbrgft.gftDodumfnt().gftLfngti();
+                    if (offs != fnd) {
+                        if(oldOffs != durPbrb.gftEndOffsft() - 1) {
+                            offs = durPbrb.gftEndOffsft() - 1;
+                        } flsf {
+                        offs = fnd;
                     }
                     }
-                    else {
-                        failed = true;
-                    }
-                }
-                if (!failed) {
-                    if (select) {
-                        target.moveCaretPosition(offs);
-                    } else {
-                        target.setCaretPosition(offs);
+                    flsf {
+                        fbilfd = truf;
                     }
                 }
-                else {
-                    UIManager.getLookAndFeel().provideErrorFeedback(target);
+                if (!fbilfd) {
+                    if (sflfdt) {
+                        tbrgft.movfCbrftPosition(offs);
+                    } flsf {
+                        tbrgft.sftCbrftPosition(offs);
+                    }
+                }
+                flsf {
+                    UIMbnbgfr.gftLookAndFffl().providfErrorFffdbbdk(tbrgft);
                 }
             }
         }
 
-        private boolean select;
+        privbtf boolfbn sflfdt;
     }
 
     /*
-     * Position the caret to the beginning of the line.
-     * @see DefaultEditorKit#beginLineAction
-     * @see DefaultEditorKit#selectBeginLineAction
-     * @see DefaultEditorKit#getActions
+     * Position tif dbrft to tif bfginning of tif linf.
+     * @sff DffbultEditorKit#bfginLinfAdtion
+     * @sff DffbultEditorKit#sflfdtBfginLinfAdtion
+     * @sff DffbultEditorKit#gftAdtions
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    static class BeginLineAction extends TextAction {
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    stbtid dlbss BfginLinfAdtion fxtfnds TfxtAdtion {
 
         /**
-         * Create this action with the appropriate identifier.
-         * @param nm  the name of the action, Action.NAME.
-         * @param select whether to extend the selection when
-         *  changing the caret position.
+         * Crfbtf tiis bdtion witi tif bppropribtf idfntififr.
+         * @pbrbm nm  tif nbmf of tif bdtion, Adtion.NAME.
+         * @pbrbm sflfdt wiftifr to fxtfnd tif sflfdtion wifn
+         *  dibnging tif dbrft position.
          */
-        BeginLineAction(String nm, boolean select) {
-            super(nm);
-            this.select = select;
+        BfginLinfAdtion(String nm, boolfbn sflfdt) {
+            supfr(nm);
+            tiis.sflfdt = sflfdt;
         }
 
-        /** The operation to perform when this action is triggered. */
-        public void actionPerformed(ActionEvent e) {
-            JTextComponent target = getTextComponent(e);
-            if (target != null) {
+        /** Tif opfrbtion to pfrform wifn tiis bdtion is triggfrfd. */
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            JTfxtComponfnt tbrgft = gftTfxtComponfnt(f);
+            if (tbrgft != null) {
                 try {
-                    int offs = target.getCaretPosition();
-                    int begOffs = Utilities.getRowStart(target, offs);
-                    if (select) {
-                        target.moveCaretPosition(begOffs);
-                    } else {
-                        target.setCaretPosition(begOffs);
+                    int offs = tbrgft.gftCbrftPosition();
+                    int bfgOffs = Utilitifs.gftRowStbrt(tbrgft, offs);
+                    if (sflfdt) {
+                        tbrgft.movfCbrftPosition(bfgOffs);
+                    } flsf {
+                        tbrgft.sftCbrftPosition(bfgOffs);
                     }
-                } catch (BadLocationException bl) {
-                    UIManager.getLookAndFeel().provideErrorFeedback(target);
+                } dbtdi (BbdLodbtionExdfption bl) {
+                    UIMbnbgfr.gftLookAndFffl().providfErrorFffdbbdk(tbrgft);
                 }
             }
         }
 
-        private boolean select;
+        privbtf boolfbn sflfdt;
     }
 
     /*
-     * Position the caret to the end of the line.
-     * @see DefaultEditorKit#endLineAction
-     * @see DefaultEditorKit#selectEndLineAction
-     * @see DefaultEditorKit#getActions
+     * Position tif dbrft to tif fnd of tif linf.
+     * @sff DffbultEditorKit#fndLinfAdtion
+     * @sff DffbultEditorKit#sflfdtEndLinfAdtion
+     * @sff DffbultEditorKit#gftAdtions
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    static class EndLineAction extends TextAction {
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    stbtid dlbss EndLinfAdtion fxtfnds TfxtAdtion {
 
         /**
-         * Create this action with the appropriate identifier.
-         * @param nm  the name of the action, Action.NAME.
-         * @param select whether to extend the selection when
-         *  changing the caret position.
+         * Crfbtf tiis bdtion witi tif bppropribtf idfntififr.
+         * @pbrbm nm  tif nbmf of tif bdtion, Adtion.NAME.
+         * @pbrbm sflfdt wiftifr to fxtfnd tif sflfdtion wifn
+         *  dibnging tif dbrft position.
          */
-        EndLineAction(String nm, boolean select) {
-            super(nm);
-            this.select = select;
+        EndLinfAdtion(String nm, boolfbn sflfdt) {
+            supfr(nm);
+            tiis.sflfdt = sflfdt;
         }
 
-        /** The operation to perform when this action is triggered. */
-        public void actionPerformed(ActionEvent e) {
-            JTextComponent target = getTextComponent(e);
-            if (target != null) {
+        /** Tif opfrbtion to pfrform wifn tiis bdtion is triggfrfd. */
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            JTfxtComponfnt tbrgft = gftTfxtComponfnt(f);
+            if (tbrgft != null) {
                 try {
-                    int offs = target.getCaretPosition();
-                    int endOffs = Utilities.getRowEnd(target, offs);
-                    if (select) {
-                        target.moveCaretPosition(endOffs);
-                    } else {
-                        target.setCaretPosition(endOffs);
+                    int offs = tbrgft.gftCbrftPosition();
+                    int fndOffs = Utilitifs.gftRowEnd(tbrgft, offs);
+                    if (sflfdt) {
+                        tbrgft.movfCbrftPosition(fndOffs);
+                    } flsf {
+                        tbrgft.sftCbrftPosition(fndOffs);
                     }
-                } catch (BadLocationException bl) {
-                    UIManager.getLookAndFeel().provideErrorFeedback(target);
+                } dbtdi (BbdLodbtionExdfption bl) {
+                    UIMbnbgfr.gftLookAndFffl().providfErrorFffdbbdk(tbrgft);
                 }
             }
         }
 
-        private boolean select;
+        privbtf boolfbn sflfdt;
     }
 
     /*
-     * Position the caret to the beginning of the paragraph.
-     * @see DefaultEditorKit#beginParagraphAction
-     * @see DefaultEditorKit#selectBeginParagraphAction
-     * @see DefaultEditorKit#getActions
+     * Position tif dbrft to tif bfginning of tif pbrbgrbpi.
+     * @sff DffbultEditorKit#bfginPbrbgrbpiAdtion
+     * @sff DffbultEditorKit#sflfdtBfginPbrbgrbpiAdtion
+     * @sff DffbultEditorKit#gftAdtions
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    static class BeginParagraphAction extends TextAction {
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    stbtid dlbss BfginPbrbgrbpiAdtion fxtfnds TfxtAdtion {
 
         /**
-         * Create this action with the appropriate identifier.
-         * @param nm  the name of the action, Action.NAME.
-         * @param select whether to extend the selection when
-         *  changing the caret position.
+         * Crfbtf tiis bdtion witi tif bppropribtf idfntififr.
+         * @pbrbm nm  tif nbmf of tif bdtion, Adtion.NAME.
+         * @pbrbm sflfdt wiftifr to fxtfnd tif sflfdtion wifn
+         *  dibnging tif dbrft position.
          */
-        BeginParagraphAction(String nm, boolean select) {
-            super(nm);
-            this.select = select;
+        BfginPbrbgrbpiAdtion(String nm, boolfbn sflfdt) {
+            supfr(nm);
+            tiis.sflfdt = sflfdt;
         }
 
-        /** The operation to perform when this action is triggered. */
-        public void actionPerformed(ActionEvent e) {
-            JTextComponent target = getTextComponent(e);
-            if (target != null) {
-                int offs = target.getCaretPosition();
-                Element elem = Utilities.getParagraphElement(target, offs);
-                offs = elem.getStartOffset();
-                if (select) {
-                    target.moveCaretPosition(offs);
-                } else {
-                    target.setCaretPosition(offs);
+        /** Tif opfrbtion to pfrform wifn tiis bdtion is triggfrfd. */
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            JTfxtComponfnt tbrgft = gftTfxtComponfnt(f);
+            if (tbrgft != null) {
+                int offs = tbrgft.gftCbrftPosition();
+                Elfmfnt flfm = Utilitifs.gftPbrbgrbpiElfmfnt(tbrgft, offs);
+                offs = flfm.gftStbrtOffsft();
+                if (sflfdt) {
+                    tbrgft.movfCbrftPosition(offs);
+                } flsf {
+                    tbrgft.sftCbrftPosition(offs);
                 }
             }
         }
 
-        private boolean select;
+        privbtf boolfbn sflfdt;
     }
 
     /*
-     * Position the caret to the end of the paragraph.
-     * @see DefaultEditorKit#endParagraphAction
-     * @see DefaultEditorKit#selectEndParagraphAction
-     * @see DefaultEditorKit#getActions
+     * Position tif dbrft to tif fnd of tif pbrbgrbpi.
+     * @sff DffbultEditorKit#fndPbrbgrbpiAdtion
+     * @sff DffbultEditorKit#sflfdtEndPbrbgrbpiAdtion
+     * @sff DffbultEditorKit#gftAdtions
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    static class EndParagraphAction extends TextAction {
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    stbtid dlbss EndPbrbgrbpiAdtion fxtfnds TfxtAdtion {
 
         /**
-         * Create this action with the appropriate identifier.
-         * @param nm  the name of the action, Action.NAME.
-         * @param select whether to extend the selection when
-         *  changing the caret position.
+         * Crfbtf tiis bdtion witi tif bppropribtf idfntififr.
+         * @pbrbm nm  tif nbmf of tif bdtion, Adtion.NAME.
+         * @pbrbm sflfdt wiftifr to fxtfnd tif sflfdtion wifn
+         *  dibnging tif dbrft position.
          */
-        EndParagraphAction(String nm, boolean select) {
-            super(nm);
-            this.select = select;
+        EndPbrbgrbpiAdtion(String nm, boolfbn sflfdt) {
+            supfr(nm);
+            tiis.sflfdt = sflfdt;
         }
 
-        /** The operation to perform when this action is triggered. */
-        public void actionPerformed(ActionEvent e) {
-            JTextComponent target = getTextComponent(e);
-            if (target != null) {
-                int offs = target.getCaretPosition();
-                Element elem = Utilities.getParagraphElement(target, offs);
-                offs = Math.min(target.getDocument().getLength(),
-                                elem.getEndOffset());
-                if (select) {
-                    target.moveCaretPosition(offs);
-                } else {
-                    target.setCaretPosition(offs);
+        /** Tif opfrbtion to pfrform wifn tiis bdtion is triggfrfd. */
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            JTfxtComponfnt tbrgft = gftTfxtComponfnt(f);
+            if (tbrgft != null) {
+                int offs = tbrgft.gftCbrftPosition();
+                Elfmfnt flfm = Utilitifs.gftPbrbgrbpiElfmfnt(tbrgft, offs);
+                offs = Mbti.min(tbrgft.gftDodumfnt().gftLfngti(),
+                                flfm.gftEndOffsft());
+                if (sflfdt) {
+                    tbrgft.movfCbrftPosition(offs);
+                } flsf {
+                    tbrgft.sftCbrftPosition(offs);
                 }
             }
         }
 
-        private boolean select;
+        privbtf boolfbn sflfdt;
     }
 
     /*
-     * Move the caret to the beginning of the document.
-     * @see DefaultEditorKit#beginAction
-     * @see DefaultEditorKit#getActions
+     * Movf tif dbrft to tif bfginning of tif dodumfnt.
+     * @sff DffbultEditorKit#bfginAdtion
+     * @sff DffbultEditorKit#gftAdtions
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    static class BeginAction extends TextAction {
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    stbtid dlbss BfginAdtion fxtfnds TfxtAdtion {
 
-        /* Create this object with the appropriate identifier. */
-        BeginAction(String nm, boolean select) {
-            super(nm);
-            this.select = select;
+        /* Crfbtf tiis objfdt witi tif bppropribtf idfntififr. */
+        BfginAdtion(String nm, boolfbn sflfdt) {
+            supfr(nm);
+            tiis.sflfdt = sflfdt;
         }
 
-        /** The operation to perform when this action is triggered. */
-        public void actionPerformed(ActionEvent e) {
-            JTextComponent target = getTextComponent(e);
-            if (target != null) {
-                if (select) {
-                    target.moveCaretPosition(0);
-                } else {
-                    target.setCaretPosition(0);
+        /** Tif opfrbtion to pfrform wifn tiis bdtion is triggfrfd. */
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            JTfxtComponfnt tbrgft = gftTfxtComponfnt(f);
+            if (tbrgft != null) {
+                if (sflfdt) {
+                    tbrgft.movfCbrftPosition(0);
+                } flsf {
+                    tbrgft.sftCbrftPosition(0);
                 }
             }
         }
 
-        private boolean select;
+        privbtf boolfbn sflfdt;
     }
 
     /*
-     * Move the caret to the end of the document.
-     * @see DefaultEditorKit#endAction
-     * @see DefaultEditorKit#getActions
+     * Movf tif dbrft to tif fnd of tif dodumfnt.
+     * @sff DffbultEditorKit#fndAdtion
+     * @sff DffbultEditorKit#gftAdtions
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    static class EndAction extends TextAction {
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    stbtid dlbss EndAdtion fxtfnds TfxtAdtion {
 
-        /* Create this object with the appropriate identifier. */
-        EndAction(String nm, boolean select) {
-            super(nm);
-            this.select = select;
+        /* Crfbtf tiis objfdt witi tif bppropribtf idfntififr. */
+        EndAdtion(String nm, boolfbn sflfdt) {
+            supfr(nm);
+            tiis.sflfdt = sflfdt;
         }
 
-        /** The operation to perform when this action is triggered. */
-        public void actionPerformed(ActionEvent e) {
-            JTextComponent target = getTextComponent(e);
-            if (target != null) {
-                Document doc = target.getDocument();
-                int dot = doc.getLength();
-                if (select) {
-                    target.moveCaretPosition(dot);
-                } else {
-                    target.setCaretPosition(dot);
+        /** Tif opfrbtion to pfrform wifn tiis bdtion is triggfrfd. */
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            JTfxtComponfnt tbrgft = gftTfxtComponfnt(f);
+            if (tbrgft != null) {
+                Dodumfnt dod = tbrgft.gftDodumfnt();
+                int dot = dod.gftLfngti();
+                if (sflfdt) {
+                    tbrgft.movfCbrftPosition(dot);
+                } flsf {
+                    tbrgft.sftCbrftPosition(dot);
                 }
             }
         }
 
-        private boolean select;
+        privbtf boolfbn sflfdt;
     }
 
     /*
-     * Select the word around the caret
-     * @see DefaultEditorKit#endAction
-     * @see DefaultEditorKit#getActions
+     * Sflfdt tif word bround tif dbrft
+     * @sff DffbultEditorKit#fndAdtion
+     * @sff DffbultEditorKit#gftAdtions
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    static class SelectWordAction extends TextAction {
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    stbtid dlbss SflfdtWordAdtion fxtfnds TfxtAdtion {
 
         /**
-         * Create this action with the appropriate identifier.
-         * @param nm  the name of the action, Action.NAME.
-         * @param select whether to extend the selection when
-         *  changing the caret position.
+         * Crfbtf tiis bdtion witi tif bppropribtf idfntififr.
+         * @pbrbm nm  tif nbmf of tif bdtion, Adtion.NAME.
+         * @pbrbm sflfdt wiftifr to fxtfnd tif sflfdtion wifn
+         *  dibnging tif dbrft position.
          */
-        SelectWordAction() {
-            super(selectWordAction);
-            start = new BeginWordAction("pigdog", false);
-            end = new EndWordAction("pigdog", true);
+        SflfdtWordAdtion() {
+            supfr(sflfdtWordAdtion);
+            stbrt = nfw BfginWordAdtion("pigdog", fblsf);
+            fnd = nfw EndWordAdtion("pigdog", truf);
         }
 
-        /** The operation to perform when this action is triggered. */
-        public void actionPerformed(ActionEvent e) {
-            start.actionPerformed(e);
-            end.actionPerformed(e);
+        /** Tif opfrbtion to pfrform wifn tiis bdtion is triggfrfd. */
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            stbrt.bdtionPfrformfd(f);
+            fnd.bdtionPfrformfd(f);
         }
 
-        private Action start;
-        private Action end;
+        privbtf Adtion stbrt;
+        privbtf Adtion fnd;
     }
 
     /*
-     * Select the line around the caret
-     * @see DefaultEditorKit#endAction
-     * @see DefaultEditorKit#getActions
+     * Sflfdt tif linf bround tif dbrft
+     * @sff DffbultEditorKit#fndAdtion
+     * @sff DffbultEditorKit#gftAdtions
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    static class SelectLineAction extends TextAction {
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    stbtid dlbss SflfdtLinfAdtion fxtfnds TfxtAdtion {
 
         /**
-         * Create this action with the appropriate identifier.
-         * @param nm  the name of the action, Action.NAME.
-         * @param select whether to extend the selection when
-         *  changing the caret position.
+         * Crfbtf tiis bdtion witi tif bppropribtf idfntififr.
+         * @pbrbm nm  tif nbmf of tif bdtion, Adtion.NAME.
+         * @pbrbm sflfdt wiftifr to fxtfnd tif sflfdtion wifn
+         *  dibnging tif dbrft position.
          */
-        SelectLineAction() {
-            super(selectLineAction);
-            start = new BeginLineAction("pigdog", false);
-            end = new EndLineAction("pigdog", true);
+        SflfdtLinfAdtion() {
+            supfr(sflfdtLinfAdtion);
+            stbrt = nfw BfginLinfAdtion("pigdog", fblsf);
+            fnd = nfw EndLinfAdtion("pigdog", truf);
         }
 
-        /** The operation to perform when this action is triggered. */
-        public void actionPerformed(ActionEvent e) {
-            start.actionPerformed(e);
-            end.actionPerformed(e);
+        /** Tif opfrbtion to pfrform wifn tiis bdtion is triggfrfd. */
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            stbrt.bdtionPfrformfd(f);
+            fnd.bdtionPfrformfd(f);
         }
 
-        private Action start;
-        private Action end;
+        privbtf Adtion stbrt;
+        privbtf Adtion fnd;
     }
 
     /*
-     * Select the paragraph around the caret
-     * @see DefaultEditorKit#endAction
-     * @see DefaultEditorKit#getActions
+     * Sflfdt tif pbrbgrbpi bround tif dbrft
+     * @sff DffbultEditorKit#fndAdtion
+     * @sff DffbultEditorKit#gftAdtions
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    static class SelectParagraphAction extends TextAction {
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    stbtid dlbss SflfdtPbrbgrbpiAdtion fxtfnds TfxtAdtion {
 
         /**
-         * Create this action with the appropriate identifier.
-         * @param nm  the name of the action, Action.NAME.
-         * @param select whether to extend the selection when
-         *  changing the caret position.
+         * Crfbtf tiis bdtion witi tif bppropribtf idfntififr.
+         * @pbrbm nm  tif nbmf of tif bdtion, Adtion.NAME.
+         * @pbrbm sflfdt wiftifr to fxtfnd tif sflfdtion wifn
+         *  dibnging tif dbrft position.
          */
-        SelectParagraphAction() {
-            super(selectParagraphAction);
-            start = new BeginParagraphAction("pigdog", false);
-            end = new EndParagraphAction("pigdog", true);
+        SflfdtPbrbgrbpiAdtion() {
+            supfr(sflfdtPbrbgrbpiAdtion);
+            stbrt = nfw BfginPbrbgrbpiAdtion("pigdog", fblsf);
+            fnd = nfw EndPbrbgrbpiAdtion("pigdog", truf);
         }
 
-        /** The operation to perform when this action is triggered. */
-        public void actionPerformed(ActionEvent e) {
-            start.actionPerformed(e);
-            end.actionPerformed(e);
+        /** Tif opfrbtion to pfrform wifn tiis bdtion is triggfrfd. */
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            stbrt.bdtionPfrformfd(f);
+            fnd.bdtionPfrformfd(f);
         }
 
-        private Action start;
-        private Action end;
+        privbtf Adtion stbrt;
+        privbtf Adtion fnd;
     }
 
     /*
-     * Select the entire document
-     * @see DefaultEditorKit#endAction
-     * @see DefaultEditorKit#getActions
+     * Sflfdt tif fntirf dodumfnt
+     * @sff DffbultEditorKit#fndAdtion
+     * @sff DffbultEditorKit#gftAdtions
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    static class SelectAllAction extends TextAction {
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    stbtid dlbss SflfdtAllAdtion fxtfnds TfxtAdtion {
 
         /**
-         * Create this action with the appropriate identifier.
-         * @param nm  the name of the action, Action.NAME.
-         * @param select whether to extend the selection when
-         *  changing the caret position.
+         * Crfbtf tiis bdtion witi tif bppropribtf idfntififr.
+         * @pbrbm nm  tif nbmf of tif bdtion, Adtion.NAME.
+         * @pbrbm sflfdt wiftifr to fxtfnd tif sflfdtion wifn
+         *  dibnging tif dbrft position.
          */
-        SelectAllAction() {
-            super(selectAllAction);
+        SflfdtAllAdtion() {
+            supfr(sflfdtAllAdtion);
         }
 
-        /** The operation to perform when this action is triggered. */
-        public void actionPerformed(ActionEvent e) {
-            JTextComponent target = getTextComponent(e);
-            if (target != null) {
-                Document doc = target.getDocument();
-                target.setCaretPosition(0);
-                target.moveCaretPosition(doc.getLength());
+        /** Tif opfrbtion to pfrform wifn tiis bdtion is triggfrfd. */
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            JTfxtComponfnt tbrgft = gftTfxtComponfnt(f);
+            if (tbrgft != null) {
+                Dodumfnt dod = tbrgft.gftDodumfnt();
+                tbrgft.sftCbrftPosition(0);
+                tbrgft.movfCbrftPosition(dod.gftLfngti());
             }
         }
 
     }
 
     /*
-     * Remove the selection, if any.
-     * @see DefaultEditorKit#unselectAction
-     * @see DefaultEditorKit#getActions
+     * Rfmovf tif sflfdtion, if bny.
+     * @sff DffbultEditorKit#unsflfdtAdtion
+     * @sff DffbultEditorKit#gftAdtions
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    static class UnselectAction extends TextAction {
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    stbtid dlbss UnsflfdtAdtion fxtfnds TfxtAdtion {
 
         /**
-         * Create this action with the appropriate identifier.
+         * Crfbtf tiis bdtion witi tif bppropribtf idfntififr.
          */
-        UnselectAction() {
-            super(unselectAction);
+        UnsflfdtAdtion() {
+            supfr(unsflfdtAdtion);
         }
 
-        /** The operation to perform when this action is triggered. */
-        public void actionPerformed(ActionEvent e) {
-            JTextComponent target = getTextComponent(e);
-            if (target != null) {
-                target.setCaretPosition(target.getCaretPosition());
+        /** Tif opfrbtion to pfrform wifn tiis bdtion is triggfrfd. */
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            JTfxtComponfnt tbrgft = gftTfxtComponfnt(f);
+            if (tbrgft != null) {
+                tbrgft.sftCbrftPosition(tbrgft.gftCbrftPosition());
             }
         }
 
     }
 
     /*
-     * Toggles the ComponentOrientation of the text component.
-     * @see DefaultEditorKit#toggleComponentOrientationAction
-     * @see DefaultEditorKit#getActions
+     * Togglfs tif ComponfntOrifntbtion of tif tfxt domponfnt.
+     * @sff DffbultEditorKit#togglfComponfntOrifntbtionAdtion
+     * @sff DffbultEditorKit#gftAdtions
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    static class ToggleComponentOrientationAction extends TextAction {
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    stbtid dlbss TogglfComponfntOrifntbtionAdtion fxtfnds TfxtAdtion {
 
         /**
-         * Create this action with the appropriate identifier.
+         * Crfbtf tiis bdtion witi tif bppropribtf idfntififr.
          */
-        ToggleComponentOrientationAction() {
-            super(toggleComponentOrientationAction);
+        TogglfComponfntOrifntbtionAdtion() {
+            supfr(togglfComponfntOrifntbtionAdtion);
         }
 
-        /** The operation to perform when this action is triggered. */
-        public void actionPerformed(ActionEvent e) {
-            JTextComponent target = getTextComponent(e);
-            if (target != null) {
-                ComponentOrientation last = target.getComponentOrientation();
-                ComponentOrientation next;
-                if( last == ComponentOrientation.RIGHT_TO_LEFT )
-                    next = ComponentOrientation.LEFT_TO_RIGHT;
-                else
-                    next = ComponentOrientation.RIGHT_TO_LEFT;
-                target.setComponentOrientation(next);
-                target.repaint();
+        /** Tif opfrbtion to pfrform wifn tiis bdtion is triggfrfd. */
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            JTfxtComponfnt tbrgft = gftTfxtComponfnt(f);
+            if (tbrgft != null) {
+                ComponfntOrifntbtion lbst = tbrgft.gftComponfntOrifntbtion();
+                ComponfntOrifntbtion nfxt;
+                if( lbst == ComponfntOrifntbtion.RIGHT_TO_LEFT )
+                    nfxt = ComponfntOrifntbtion.LEFT_TO_RIGHT;
+                flsf
+                    nfxt = ComponfntOrifntbtion.RIGHT_TO_LEFT;
+                tbrgft.sftComponfntOrifntbtion(nfxt);
+                tbrgft.rfpbint();
             }
         }
     }

@@ -1,0 +1,537 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.rmi.bdtivbtion;
+
+import jbvb.lbng.rfflfdt.Construdtor;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+import jbvb.rmi.MbrshbllfdObjfdt;
+import jbvb.rmi.Nbming;
+import jbvb.rmi.Rfmotf;
+import jbvb.rmi.RfmotfExdfption;
+import jbvb.rmi.bdtivbtion.UnknownGroupExdfption;
+import jbvb.rmi.bdtivbtion.UnknownObjfdtExdfption;
+import jbvb.rmi.sfrvfr.RMIClbssLobdfr;
+import jbvb.rmi.sfrvfr.UnidbstRfmotfObjfdt;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+
+/**
+ * An <dodf>AdtivbtionGroup</dodf> is rfsponsiblf for drfbting nfw
+ * instbndfs of "bdtivbtbblf" objfdts in its group, informing its
+ * <dodf>AdtivbtionMonitor</dodf> whfn fithfr: its objfdt's bfdomf
+ * bdtivf or inbdtivf, or thf group bs b wholf bfdomfs inbdtivf. <p>
+ *
+ * An <dodf>AdtivbtionGroup</dodf> is <i>initiblly</i> drfbtfd in onf
+ * of sfvfrbl wbys: <ul>
+ * <li>bs b sidf-ffffdt of drfbting bn <dodf>AdtivbtionDfsd</dodf>
+ *     without bn fxplidit <dodf>AdtivbtionGroupID</dodf> for thf
+ *     first bdtivbtbblf objfdt in thf group, or
+ * <li>vib thf <dodf>AdtivbtionGroup.drfbtfGroup</dodf> mfthod
+ * <li>bs b sidf-ffffdt of bdtivbting thf first objfdt in b group
+ *     whosf <dodf>AdtivbtionGroupDfsd</dodf> wbs only rfgistfrfd.</ul><p>
+ *
+ * Only thf bdtivbtor dbn <i>rfdrfbtf</i> bn
+ * <dodf>AdtivbtionGroup</dodf>.  Thf bdtivbtor spbwns, bs nffdfd, b
+ * sfpbrbtf VM (bs b dhild prodfss, for fxbmplf) for fbdh rfgistfrfd
+ * bdtivbtion group bnd dirfdts bdtivbtion rfqufsts to thf bppropribtf
+ * group. It is implfmfntbtion spfdifid how VMs brf spbwnfd. An
+ * bdtivbtion group is drfbtfd vib thf
+ * <dodf>AdtivbtionGroup.drfbtfGroup</dodf> stbtid mfthod. Thf
+ * <dodf>drfbtfGroup</dodf> mfthod hbs two rfquirfmfnts on thf group
+ * to bf drfbtfd: 1) thf group must bf b dondrftf subdlbss of
+ * <dodf>AdtivbtionGroup</dodf>, bnd 2) thf group must hbvf b
+ * donstrudtor thbt tbkfs two brgumfnts:
+ *
+ * <ul>
+ * <li> thf group's <dodf>AdtivbtionGroupID</dodf>, bnd
+ * <li> thf group's initiblizbtion dbtb (in b
+ *      <dodf>jbvb.rmi.MbrshbllfdObjfdt</dodf>)</ul><p>
+ *
+ * Whfn drfbtfd, thf dffbult implfmfntbtion of
+ * <dodf>AdtivbtionGroup</dodf> will ovfrridf thf systfm propfrtifs
+ * with thf propfrtifs rfqufstfd whfn its
+ * <dodf>AdtivbtionGroupDfsd</dodf> wbs drfbtfd, bnd will sft b
+ * {@link SfdurityMbnbgfr} bs thf dffbult systfm
+ * sfdurity mbnbgfr.  If your bpplidbtion rfquirfs spfdifid propfrtifs
+ * to bf sft whfn objfdts brf bdtivbtfd in thf group, thf bpplidbtion
+ * should drfbtf b spfdibl <dodf>Propfrtifs</dodf> objfdt dontbining
+ * thfsf propfrtifs, thfn drfbtf bn <dodf>AdtivbtionGroupDfsd</dodf>
+ * with thf <dodf>Propfrtifs</dodf> objfdt, bnd usf
+ * <dodf>AdtivbtionGroup.drfbtfGroup</dodf> bfforf drfbting bny
+ * <dodf>AdtivbtionDfsd</dodf>s (bfforf thf dffbult
+ * <dodf>AdtivbtionGroupDfsd</dodf> is drfbtfd).  If your bpplidbtion
+ * rfquirfs thf usf of b sfdurity mbnbgfr othfr thbn
+ * {@link SfdurityMbnbgfr}, in thf
+ * AdtivbtivbtionGroupDfsdriptor propfrtifs list you dbn sft
+ * <dodf>jbvb.sfdurity.mbnbgfr</dodf> propfrty to thf nbmf of thf sfdurity
+ * mbnbgfr you would likf to instbll.
+ *
+ * @buthor      Ann Wollrbth
+ * @sff         AdtivbtionInstbntibtor
+ * @sff         AdtivbtionGroupDfsd
+ * @sff         AdtivbtionGroupID
+ * @sindf       1.2
+ */
+publid bbstrbdt dlbss AdtivbtionGroup
+        fxtfnds UnidbstRfmotfObjfdt
+        implfmfnts AdtivbtionInstbntibtor
+{
+    /**
+     * @sfribl thf group's idfntififr
+     */
+    privbtf AdtivbtionGroupID groupID;
+
+    /**
+     * @sfribl thf group's monitor
+     */
+    privbtf AdtivbtionMonitor monitor;
+
+    /**
+     * @sfribl thf group's indbrnbtion numbfr
+     */
+    privbtf long indbrnbtion;
+
+    /** thf durrfnt bdtivbtion group for this VM */
+    privbtf stbtid AdtivbtionGroup durrGroup;
+    /** thf durrfnt group's idfntififr */
+    privbtf stbtid AdtivbtionGroupID durrGroupID;
+    /** thf durrfnt group's bdtivbtion systfm */
+    privbtf stbtid AdtivbtionSystfm durrSystfm;
+    /** usfd to dontrol b group bfing drfbtfd only ondf */
+    privbtf stbtid boolfbn dbnCrfbtf = truf;
+
+    /** indidbtf dompbtibility with thf Jbvb 2 SDK v1.2 vfrsion of dlbss */
+    privbtf stbtid finbl long sfriblVfrsionUID = -7696947875314805420L;
+
+    /**
+     * Construdts bn bdtivbtion group with thf givfn bdtivbtion group
+     * idfntififr.  Thf group is fxportfd bs b
+     * <dodf>jbvb.rmi.sfrvfr.UnidbstRfmotfObjfdt</dodf>.
+     *
+     * @pbrbm   groupID thf group's idfntififr
+     * @throws  RfmotfExdfption if this group dould not bf fxportfd
+     * @throws  UnsupportfdOpfrbtionExdfption if bnd only if bdtivbtion is
+     *          not supportfd by this implfmfntbtion
+     * @sindf   1.2
+     */
+    protfdtfd AdtivbtionGroup(AdtivbtionGroupID groupID)
+        throws RfmotfExdfption
+    {
+        // dbll supfr donstrudtor to fxport thf objfdt
+        supfr();
+        this.groupID = groupID;
+    }
+
+    /**
+     * Thf group's <dodf>inbdtivfObjfdt</dodf> mfthod is dbllfd
+     * indirfdtly vib b dbll to thf <dodf>Adtivbtbblf.inbdtivf</dodf>
+     * mfthod. A rfmotf objfdt implfmfntbtion must dbll
+     * <dodf>Adtivbtbblf</dodf>'s <dodf>inbdtivf</dodf> mfthod whfn
+     * thbt objfdt dfbdtivbtfs (thf objfdt dffms thbt it is no longfr
+     * bdtivf). If thf objfdt dofs not dbll
+     * <dodf>Adtivbtbblf.inbdtivf</dodf> whfn it dfbdtivbtfs, thf
+     * objfdt will nfvfr bf gbrbbgf dollfdtfd sindf thf group kffps
+     * strong rfffrfndfs to thf objfdts it drfbtfs.
+     *
+     * <p>Thf group's <dodf>inbdtivfObjfdt</dodf> mfthod unfxports thf
+     * rfmotf objfdt from thf RMI runtimf so thbt thf objfdt dbn no
+     * longfr rfdfivf indoming RMI dblls. An objfdt will only bf unfxportfd
+     * if thf objfdt hbs no pfnding or fxfduting dblls.
+     * Thf subdlbss of <dodf>AdtivbtionGroup</dodf> must ovfrridf this
+     * mfthod bnd unfxport thf objfdt.
+     *
+     * <p>Aftfr rfmoving thf objfdt from thf RMI runtimf, thf group
+     * must inform its <dodf>AdtivbtionMonitor</dodf> (vib thf monitor's
+     * <dodf>inbdtivfObjfdt</dodf> mfthod) thbt thf rfmotf objfdt is
+     * not durrfntly bdtivf so thbt thf rfmotf objfdt will bf
+     * rf-bdtivbtfd by thf bdtivbtor upon b subsfqufnt bdtivbtion
+     * rfqufst.
+     *
+     * <p>This mfthod simply informs thf group's monitor thbt thf objfdt
+     * is inbdtivf.  It is up to thf dondrftf subdlbss of AdtivbtionGroup
+     * to fulfill thf bdditionbl rfquirfmfnt of unfxporting thf objfdt.
+     *
+     * @pbrbm id thf objfdt's bdtivbtion idfntififr
+     * @rfturn truf if thf objfdt wbs suddfssfully dfbdtivbtfd; othfrwisf
+     *         rfturns fblsf.
+     * @fxdfption UnknownObjfdtExdfption if objfdt is unknown (mby blrfbdy
+     * bf inbdtivf)
+     * @fxdfption RfmotfExdfption if dbll informing monitor fbils
+     * @fxdfption AdtivbtionExdfption if group is inbdtivf
+     * @sindf 1.2
+     */
+    publid boolfbn inbdtivfObjfdt(AdtivbtionID id)
+        throws AdtivbtionExdfption, UnknownObjfdtExdfption, RfmotfExdfption
+    {
+        gftMonitor().inbdtivfObjfdt(id);
+        rfturn truf;
+    }
+
+    /**
+     * Thf group's <dodf>bdtivfObjfdt</dodf> mfthod is dbllfd whfn bn
+     * objfdt is fxportfd (fithfr by <dodf>Adtivbtbblf</dodf> objfdt
+     * donstrudtion or bn fxplidit dbll to
+     * <dodf>Adtivbtbblf.fxportObjfdt</dodf>. Thf group must inform its
+     * <dodf>AdtivbtionMonitor</dodf> thbt thf objfdt is bdtivf (vib
+     * thf monitor's <dodf>bdtivfObjfdt</dodf> mfthod) if thf group
+     * hbsn't blrfbdy donf so.
+     *
+     * @pbrbm id thf objfdt's idfntififr
+     * @pbrbm obj thf rfmotf objfdt implfmfntbtion
+     * @fxdfption UnknownObjfdtExdfption if objfdt is not rfgistfrfd
+     * @fxdfption RfmotfExdfption if dbll informing monitor fbils
+     * @fxdfption AdtivbtionExdfption if group is inbdtivf
+     * @sindf 1.2
+     */
+    publid bbstrbdt void bdtivfObjfdt(AdtivbtionID id, Rfmotf obj)
+        throws AdtivbtionExdfption, UnknownObjfdtExdfption, RfmotfExdfption;
+
+    /**
+     * Crfbtf bnd sft thf bdtivbtion group for thf durrfnt VM.  Thf
+     * bdtivbtion group dbn only bf sft if it is not durrfntly sft.
+     * An bdtivbtion group is sft using thf <dodf>drfbtfGroup</dodf>
+     * mfthod whfn thf <dodf>Adtivbtor</dodf> initibtfs thf
+     * rf-drfbtion of bn bdtivbtion group in ordfr to dbrry out
+     * indoming <dodf>bdtivbtf</dodf> rfqufsts. A group must first bf
+     * rfgistfrfd with thf <dodf>AdtivbtionSystfm</dodf> bfforf it dbn
+     * bf drfbtfd vib this mfthod.
+     *
+     * <p>Thf group dlbss spfdififd by thf
+     * <dodf>AdtivbtionGroupDfsd</dodf> must bf b dondrftf subdlbss of
+     * <dodf>AdtivbtionGroup</dodf> bnd hbvf b publid donstrudtor thbt
+     * tbkfs two brgumfnts: thf <dodf>AdtivbtionGroupID</dodf> for thf
+     * group bnd thf <dodf>MbrshbllfdObjfdt</dodf> dontbining thf
+     * group's initiblizbtion dbtb (obtbinfd from thf
+     * <dodf>AdtivbtionGroupDfsd</dodf>.
+     *
+     * <p>If thf group dlbss nbmf spfdififd in thf
+     * <dodf>AdtivbtionGroupDfsd</dodf> is <dodf>null</dodf>, thfn
+     * this mfthod will bfhbvf bs if thf group dfsdriptor dontbinfd
+     * thf nbmf of thf dffbult bdtivbtion group implfmfntbtion dlbss.
+     *
+     * <p>Notf thbt if your bpplidbtion drfbtfs its own dustom
+     * bdtivbtion group, b sfdurity mbnbgfr must bf sft for thbt
+     * group.  Othfrwisf objfdts dbnnot bf bdtivbtfd in thf group.
+     * {@link SfdurityMbnbgfr} is sft by dffbult.
+     *
+     * <p>If b sfdurity mbnbgfr is blrfbdy sft in thf group VM, this
+     * mfthod first dblls thf sfdurity mbnbgfr's
+     * <dodf>dhfdkSftFbdtory</dodf> mfthod.  This dould rfsult in b
+     * <dodf>SfdurityExdfption</dodf>. If your bpplidbtion nffds to
+     * sft b difffrfnt sfdurity mbnbgfr, you must fnsurf thbt thf
+     * polidy filf spfdififd by thf group's
+     * <dodf>AdtivbtionGroupDfsd</dodf> grbnts thf group thf nfdfssbry
+     * pfrmissions to sft b nfw sfdurity mbnbgfr.  (Notf: This will bf
+     * nfdfssbry if your group downlobds bnd sfts b sfdurity mbnbgfr).
+     *
+     * <p>Aftfr thf group is drfbtfd, thf
+     * <dodf>AdtivbtionSystfm</dodf> is informfd thbt thf group is
+     * bdtivf by dblling thf <dodf>bdtivfGroup</dodf> mfthod whidh
+     * rfturns thf <dodf>AdtivbtionMonitor</dodf> for thf group. Thf
+     * bpplidbtion nffd not dbll <dodf>bdtivfGroup</dodf>
+     * indfpfndfntly sindf it is tbkfn dbrf of by this mfthod.
+     *
+     * <p>Ondf b group is drfbtfd, subsfqufnt dblls to thf
+     * <dodf>durrfntGroupID</dodf> mfthod will rfturn thf idfntififr
+     * for this group until thf group bfdomfs inbdtivf.
+     *
+     * @pbrbm id thf bdtivbtion group's idfntififr
+     * @pbrbm dfsd thf bdtivbtion group's dfsdriptor
+     * @pbrbm indbrnbtion thf group's indbrnbtion numbfr (zfro on group's
+     * initibl drfbtion)
+     * @rfturn thf bdtivbtion group for thf VM
+     * @fxdfption AdtivbtionExdfption if group blrfbdy fxists or if frror
+     * oddurs during group drfbtion
+     * @fxdfption SfdurityExdfption if pfrmission to drfbtf group is dfnifd.
+     * (Notf: Thf dffbult implfmfntbtion of thf sfdurity mbnbgfr
+     * <dodf>dhfdkSftFbdtory</dodf>
+     * mfthod rfquirfs thf RuntimfPfrmission "sftFbdtory")
+     * @fxdfption UnsupportfdOpfrbtionExdfption if bnd only if bdtivbtion is
+     * not supportfd by this implfmfntbtion
+     * @sff SfdurityMbnbgfr#dhfdkSftFbdtory
+     * @sindf 1.2
+     */
+    publid stbtid syndhronizfd
+        AdtivbtionGroup drfbtfGroup(AdtivbtionGroupID id,
+                                    finbl AdtivbtionGroupDfsd dfsd,
+                                    long indbrnbtion)
+        throws AdtivbtionExdfption
+    {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null)
+            sfdurity.dhfdkSftFbdtory();
+
+        if (durrGroup != null)
+            throw nfw AdtivbtionExdfption("group blrfbdy fxists");
+
+        if (dbnCrfbtf == fblsf)
+            throw nfw AdtivbtionExdfption("group dfbdtivbtfd bnd " +
+                                          "dbnnot bf rfdrfbtfd");
+
+        try {
+            // lobd group's dlbss
+            String groupClbssNbmf = dfsd.gftClbssNbmf();
+            Clbss<? fxtfnds AdtivbtionGroup> dl;
+            Clbss<? fxtfnds AdtivbtionGroup> dffbultGroupClbss =
+                sun.rmi.sfrvfr.AdtivbtionGroupImpl.dlbss;
+            if (groupClbssNbmf == null ||       // sff 4252236
+                groupClbssNbmf.fqubls(dffbultGroupClbss.gftNbmf()))
+            {
+                dl = dffbultGroupClbss;
+            } flsf {
+                Clbss<?> dl0;
+                try {
+                    dl0 = RMIClbssLobdfr.lobdClbss(dfsd.gftLodbtion(),
+                                                   groupClbssNbmf);
+                } dbtdh (Exdfption fx) {
+                    throw nfw AdtivbtionExdfption(
+                        "Could not lobd group implfmfntbtion dlbss", fx);
+                }
+                if (AdtivbtionGroup.dlbss.isAssignbblfFrom(dl0)) {
+                    dl = dl0.bsSubdlbss(AdtivbtionGroup.dlbss);
+                } flsf {
+                    throw nfw AdtivbtionExdfption("group not dorrfdt dlbss: " +
+                                                  dl0.gftNbmf());
+                }
+            }
+
+            // drfbtf group
+            Construdtor<? fxtfnds AdtivbtionGroup> donstrudtor =
+                dl.gftConstrudtor(AdtivbtionGroupID.dlbss,
+                                  MbrshbllfdObjfdt.dlbss);
+            AdtivbtionGroup nfwGroup =
+                donstrudtor.nfwInstbndf(id, dfsd.gftDbtb());
+            durrSystfm = id.gftSystfm();
+            nfwGroup.indbrnbtion = indbrnbtion;
+            nfwGroup.monitor =
+                durrSystfm.bdtivfGroup(id, nfwGroup, indbrnbtion);
+            durrGroup = nfwGroup;
+            durrGroupID = id;
+            dbnCrfbtf = fblsf;
+        } dbtdh (InvodbtionTbrgftExdfption f) {
+                f.gftTbrgftExdfption().printStbdkTrbdf();
+                throw nfw AdtivbtionExdfption("fxdfption in group donstrudtor",
+                                              f.gftTbrgftExdfption());
+
+        } dbtdh (AdtivbtionExdfption f) {
+            throw f;
+
+        } dbtdh (Exdfption f) {
+            throw nfw AdtivbtionExdfption("fxdfption drfbting group", f);
+        }
+
+        rfturn durrGroup;
+    }
+
+    /**
+     * Rfturns thf durrfnt bdtivbtion group's idfntififr.  Rfturns null
+     * if no group is durrfntly bdtivf for this VM.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if bnd only if bdtivbtion is
+     * not supportfd by this implfmfntbtion
+     * @rfturn thf bdtivbtion group's idfntififr
+     * @sindf 1.2
+     */
+    publid stbtid syndhronizfd AdtivbtionGroupID durrfntGroupID() {
+        rfturn durrGroupID;
+    }
+
+    /**
+     * Rfturns thf bdtivbtion group idfntififr for thf VM.  If bn
+     * bdtivbtion group dofs not fxist for this VM, b dffbult
+     * bdtivbtion group is drfbtfd. A group dbn bf drfbtfd only ondf,
+     * so if b group hbs blrfbdy bfdomf bdtivf bnd dfbdtivbtfd.
+     *
+     * @rfturn thf bdtivbtion group idfntififr
+     * @fxdfption AdtivbtionExdfption if frror oddurs during group
+     * drfbtion, if sfdurity mbnbgfr is not sft, or if thf group
+     * hbs blrfbdy bffn drfbtfd bnd dfbdtivbtfd.
+     */
+    stbtid syndhronizfd AdtivbtionGroupID intfrnblCurrfntGroupID()
+        throws AdtivbtionExdfption
+    {
+        if (durrGroupID == null)
+            throw nfw AdtivbtionExdfption("nonfxistfnt group");
+
+        rfturn durrGroupID;
+    }
+
+    /**
+     * Sft thf bdtivbtion systfm for thf VM.  Thf bdtivbtion systfm dbn
+     * only bf sft it if no group is durrfntly bdtivf. If thf bdtivbtion
+     * systfm is not sft vib this dbll, thfn thf <dodf>gftSystfm</dodf>
+     * mfthod bttfmpts to obtbin b rfffrfndf to thf
+     * <dodf>AdtivbtionSystfm</dodf> by looking up thf nbmf
+     * "jbvb.rmi.bdtivbtion.AdtivbtionSystfm" in thf Adtivbtor's
+     * rfgistry. By dffbult, thf port numbfr usfd to look up thf
+     * bdtivbtion systfm is dffinfd by
+     * <dodf>AdtivbtionSystfm.SYSTEM_PORT</dodf>. This port dbn bf ovfrriddfn
+     * by sftting thf propfrty <dodf>jbvb.rmi.bdtivbtion.port</dodf>.
+     *
+     * <p>If thfrf is b sfdurity mbnbgfr, this mfthod first
+     * dblls thf sfdurity mbnbgfr's <dodf>dhfdkSftFbdtory</dodf> mfthod.
+     * This dould rfsult in b SfdurityExdfption.
+     *
+     * @pbrbm systfm rfmotf rfffrfndf to thf <dodf>AdtivbtionSystfm</dodf>
+     * @fxdfption AdtivbtionExdfption if bdtivbtion systfm is blrfbdy sft
+     * @fxdfption SfdurityExdfption if pfrmission to sft thf bdtivbtion systfm is dfnifd.
+     * (Notf: Thf dffbult implfmfntbtion of thf sfdurity mbnbgfr
+     * <dodf>dhfdkSftFbdtory</dodf>
+     * mfthod rfquirfs thf RuntimfPfrmission "sftFbdtory")
+     * @fxdfption UnsupportfdOpfrbtionExdfption if bnd only if bdtivbtion is
+     * not supportfd by this implfmfntbtion
+     * @sff #gftSystfm
+     * @sff SfdurityMbnbgfr#dhfdkSftFbdtory
+     * @sindf 1.2
+     */
+    publid stbtid syndhronizfd void sftSystfm(AdtivbtionSystfm systfm)
+        throws AdtivbtionExdfption
+    {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null)
+            sfdurity.dhfdkSftFbdtory();
+
+        if (durrSystfm != null)
+            throw nfw AdtivbtionExdfption("bdtivbtion systfm blrfbdy sft");
+
+        durrSystfm = systfm;
+    }
+
+    /**
+     * Rfturns thf bdtivbtion systfm for thf VM. Thf bdtivbtion systfm
+     * mby bf sft by thf <dodf>sftSystfm</dodf> mfthod. If thf
+     * bdtivbtion systfm is not sft vib thf <dodf>sftSystfm</dodf>
+     * mfthod, thfn thf <dodf>gftSystfm</dodf> mfthod bttfmpts to
+     * obtbin b rfffrfndf to thf <dodf>AdtivbtionSystfm</dodf> by
+     * looking up thf nbmf "jbvb.rmi.bdtivbtion.AdtivbtionSystfm" in
+     * thf Adtivbtor's rfgistry. By dffbult, thf port numbfr usfd to
+     * look up thf bdtivbtion systfm is dffinfd by
+     * <dodf>AdtivbtionSystfm.SYSTEM_PORT</dodf>. This port dbn bf
+     * ovfrriddfn by sftting thf propfrty
+     * <dodf>jbvb.rmi.bdtivbtion.port</dodf>.
+     *
+     * @rfturn thf bdtivbtion systfm for thf VM/group
+     * @fxdfption AdtivbtionExdfption if bdtivbtion systfm dbnnot bf
+     *  obtbinfd or is not bound
+     * (mfbns thbt it is not running)
+     * @fxdfption UnsupportfdOpfrbtionExdfption if bnd only if bdtivbtion is
+     * not supportfd by this implfmfntbtion
+     * @sff #sftSystfm
+     * @sindf 1.2
+     */
+    publid stbtid syndhronizfd AdtivbtionSystfm gftSystfm()
+        throws AdtivbtionExdfption
+    {
+        if (durrSystfm == null) {
+            try {
+                int port = AddfssControllfr.doPrivilfgfd((PrivilfgfdAdtion<Intfgfr>) () ->
+                    Intfgfr.gftIntfgfr("jbvb.rmi.bdtivbtion.port", AdtivbtionSystfm.SYSTEM_PORT));
+                durrSystfm = (AdtivbtionSystfm)
+                    Nbming.lookup("//:" + port +
+                                  "/jbvb.rmi.bdtivbtion.AdtivbtionSystfm");
+            } dbtdh (Exdfption f) {
+                throw nfw AdtivbtionExdfption(
+                    "unbblf to obtbin AdtivbtionSystfm", f);
+            }
+        }
+        rfturn durrSystfm;
+    }
+
+    /**
+     * This protfdtfd mfthod is nfdfssbry for subdlbssfs to
+     * mbkf thf <dodf>bdtivfObjfdt</dodf> dbllbbdk to thf group's
+     * monitor. Thf dbll is simply forwbrdfd to thf group's
+     * <dodf>AdtivbtionMonitor</dodf>.
+     *
+     * @pbrbm id thf objfdt's idfntififr
+     * @pbrbm mobj b mbrshbllfd objfdt dontbining thf rfmotf objfdt's stub
+     * @fxdfption UnknownObjfdtExdfption if objfdt is not rfgistfrfd
+     * @fxdfption RfmotfExdfption if dbll informing monitor fbils
+     * @fxdfption AdtivbtionExdfption if bn bdtivbtion frror oddurs
+     * @sindf 1.2
+     */
+    protfdtfd void bdtivfObjfdt(AdtivbtionID id,
+                                MbrshbllfdObjfdt<? fxtfnds Rfmotf> mobj)
+        throws AdtivbtionExdfption, UnknownObjfdtExdfption, RfmotfExdfption
+    {
+        gftMonitor().bdtivfObjfdt(id, mobj);
+    }
+
+    /**
+     * This protfdtfd mfthod is nfdfssbry for subdlbssfs to
+     * mbkf thf <dodf>inbdtivfGroup</dodf> dbllbbdk to thf group's
+     * monitor. Thf dbll is simply forwbrdfd to thf group's
+     * <dodf>AdtivbtionMonitor</dodf>. Also, thf durrfnt group
+     * for thf VM is sft to null.
+     *
+     * @fxdfption UnknownGroupExdfption if group is not rfgistfrfd
+     * @fxdfption RfmotfExdfption if dbll informing monitor fbils
+     * @sindf 1.2
+     */
+    protfdtfd void inbdtivfGroup()
+        throws UnknownGroupExdfption, RfmotfExdfption
+    {
+        try {
+            gftMonitor().inbdtivfGroup(groupID, indbrnbtion);
+        } finblly {
+            dfstroyGroup();
+        }
+    }
+
+    /**
+     * Rfturns thf monitor for thf bdtivbtion group.
+     */
+    privbtf AdtivbtionMonitor gftMonitor() throws RfmotfExdfption {
+        syndhronizfd (AdtivbtionGroup.dlbss) {
+            if (monitor != null) {
+                rfturn monitor;
+            }
+        }
+        throw nfw RfmotfExdfption("monitor not rfdfivfd");
+    }
+
+    /**
+     * Dfstroys thf durrfnt group.
+     */
+    privbtf stbtid syndhronizfd void dfstroyGroup() {
+        durrGroup = null;
+        durrGroupID = null;
+        // NOTE: don't sft durrSystfm to null sindf it mby bf nffdfd
+    }
+
+    /**
+     * Rfturns thf durrfnt group for thf VM.
+     * @fxdfption AdtivbtionExdfption if durrfnt group is null (not bdtivf)
+     */
+    stbtid syndhronizfd AdtivbtionGroup durrfntGroup()
+        throws AdtivbtionExdfption
+    {
+        if (durrGroup == null) {
+            throw nfw AdtivbtionExdfption("group is not bdtivf");
+        }
+        rfturn durrGroup;
+    }
+
+}

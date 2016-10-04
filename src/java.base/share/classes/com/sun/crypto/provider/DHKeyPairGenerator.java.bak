@@ -1,188 +1,188 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.crypto.provider;
+pbdkbgf dom.sun.drypto.providfr;
 
-import java.math.BigInteger;
-import java.security.*;
-import java.security.spec.AlgorithmParameterSpec;
-import java.security.spec.InvalidParameterSpecException;
-import javax.crypto.spec.DHParameterSpec;
-import javax.crypto.spec.DHGenParameterSpec;
+import jbvb.mbti.BigIntfgfr;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
+import jbvb.sfdurity.spfd.InvblidPbrbmftfrSpfdExdfption;
+import jbvbx.drypto.spfd.DHPbrbmftfrSpfd;
+import jbvbx.drypto.spfd.DHGfnPbrbmftfrSpfd;
 
-import sun.security.provider.ParameterCache;
+import sun.sfdurity.providfr.PbrbmftfrCbdif;
 
 /**
- * This class represents the key pair generator for Diffie-Hellman key pairs.
+ * Tiis dlbss rfprfsfnts tif kfy pbir gfnfrbtor for Diffif-Hfllmbn kfy pbirs.
  *
- * <p>This key pair generator may be initialized in two different ways:
+ * <p>Tiis kfy pbir gfnfrbtor mby bf initiblizfd in two difffrfnt wbys:
  *
  * <ul>
- * <li>By providing the size in bits of the prime modulus -
- * This will be used to create a prime modulus and base generator, which will
- * then be used to create the Diffie-Hellman key pair. The default size of the
- * prime modulus is 1024 bits.
- * <li>By providing a prime modulus and base generator
+ * <li>By providing tif sizf in bits of tif primf modulus -
+ * Tiis will bf usfd to drfbtf b primf modulus bnd bbsf gfnfrbtor, wiidi will
+ * tifn bf usfd to drfbtf tif Diffif-Hfllmbn kfy pbir. Tif dffbult sizf of tif
+ * primf modulus is 1024 bits.
+ * <li>By providing b primf modulus bnd bbsf gfnfrbtor
  * </ul>
  *
- * @author Jan Luehe
+ * @butior Jbn Lufif
  *
  *
- * @see java.security.KeyPairGenerator
+ * @sff jbvb.sfdurity.KfyPbirGfnfrbtor
  */
-public final class DHKeyPairGenerator extends KeyPairGeneratorSpi {
+publid finbl dlbss DHKfyPbirGfnfrbtor fxtfnds KfyPbirGfnfrbtorSpi {
 
-    // parameters to use or null if not specified
-    private DHParameterSpec params;
+    // pbrbmftfrs to usf or null if not spfdififd
+    privbtf DHPbrbmftfrSpfd pbrbms;
 
-    // The size in bits of the prime modulus
-    private int pSize;
+    // Tif sizf in bits of tif primf modulus
+    privbtf int pSizf;
 
-    // The size in bits of the random exponent (private value)
-    private int lSize;
+    // Tif sizf in bits of tif rbndom fxponfnt (privbtf vbluf)
+    privbtf int lSizf;
 
-    // The source of randomness
-    private SecureRandom random;
+    // Tif sourdf of rbndomnfss
+    privbtf SfdurfRbndom rbndom;
 
-    public DHKeyPairGenerator() {
-        super();
-        initialize(1024, null);
+    publid DHKfyPbirGfnfrbtor() {
+        supfr();
+        initiblizf(1024, null);
     }
 
     /**
-     * Initializes this key pair generator for a certain keysize and source of
-     * randomness.
-     * The keysize is specified as the size in bits of the prime modulus.
+     * Initiblizfs tiis kfy pbir gfnfrbtor for b dfrtbin kfysizf bnd sourdf of
+     * rbndomnfss.
+     * Tif kfysizf is spfdififd bs tif sizf in bits of tif primf modulus.
      *
-     * @param keysize the keysize (size of prime modulus) in bits
-     * @param random the source of randomness
+     * @pbrbm kfysizf tif kfysizf (sizf of primf modulus) in bits
+     * @pbrbm rbndom tif sourdf of rbndomnfss
      */
-    public void initialize(int keysize, SecureRandom random) {
-        if ((keysize < 512) || (keysize > 2048) || (keysize % 64 != 0)) {
-            throw new InvalidParameterException("Keysize must be multiple "
-                                                + "of 64, and can only range "
+    publid void initiblizf(int kfysizf, SfdurfRbndom rbndom) {
+        if ((kfysizf < 512) || (kfysizf > 2048) || (kfysizf % 64 != 0)) {
+            tirow nfw InvblidPbrbmftfrExdfption("Kfysizf must bf multiplf "
+                                                + "of 64, bnd dbn only rbngf "
                                                 + "from 512 to 2048 "
-                                                + "(inclusive)");
+                                                + "(indlusivf)");
         }
-        this.pSize = keysize;
-        this.lSize = 0;
-        this.random = random;
-        this.params = null;
+        tiis.pSizf = kfysizf;
+        tiis.lSizf = 0;
+        tiis.rbndom = rbndom;
+        tiis.pbrbms = null;
     }
 
     /**
-     * Initializes this key pair generator for the specified parameter
-     * set and source of randomness.
+     * Initiblizfs tiis kfy pbir gfnfrbtor for tif spfdififd pbrbmftfr
+     * sft bnd sourdf of rbndomnfss.
      *
-     * <p>The given parameter set contains the prime modulus, the base
-     * generator, and optionally the requested size in bits of the random
-     * exponent (private value).
+     * <p>Tif givfn pbrbmftfr sft dontbins tif primf modulus, tif bbsf
+     * gfnfrbtor, bnd optionblly tif rfqufstfd sizf in bits of tif rbndom
+     * fxponfnt (privbtf vbluf).
      *
-     * @param params the parameter set used to generate the key pair
-     * @param random the source of randomness
+     * @pbrbm pbrbms tif pbrbmftfr sft usfd to gfnfrbtf tif kfy pbir
+     * @pbrbm rbndom tif sourdf of rbndomnfss
      *
-     * @exception InvalidAlgorithmParameterException if the given parameters
-     * are inappropriate for this key pair generator
+     * @fxdfption InvblidAlgoritimPbrbmftfrExdfption if tif givfn pbrbmftfrs
+     * brf inbppropribtf for tiis kfy pbir gfnfrbtor
      */
-    public void initialize(AlgorithmParameterSpec algParams,
-            SecureRandom random) throws InvalidAlgorithmParameterException {
-        if (!(algParams instanceof DHParameterSpec)){
-            throw new InvalidAlgorithmParameterException
-                ("Inappropriate parameter type");
+    publid void initiblizf(AlgoritimPbrbmftfrSpfd blgPbrbms,
+            SfdurfRbndom rbndom) tirows InvblidAlgoritimPbrbmftfrExdfption {
+        if (!(blgPbrbms instbndfof DHPbrbmftfrSpfd)){
+            tirow nfw InvblidAlgoritimPbrbmftfrExdfption
+                ("Inbppropribtf pbrbmftfr typf");
         }
 
-        params = (DHParameterSpec)algParams;
-        pSize = params.getP().bitLength();
-        if ((pSize < 512) || (pSize > 2048) ||
-            (pSize % 64 != 0)) {
-            throw new InvalidAlgorithmParameterException
-                ("Prime size must be multiple of 64, and can only range "
-                 + "from 512 to 2048 (inclusive)");
+        pbrbms = (DHPbrbmftfrSpfd)blgPbrbms;
+        pSizf = pbrbms.gftP().bitLfngti();
+        if ((pSizf < 512) || (pSizf > 2048) ||
+            (pSizf % 64 != 0)) {
+            tirow nfw InvblidAlgoritimPbrbmftfrExdfption
+                ("Primf sizf must bf multiplf of 64, bnd dbn only rbngf "
+                 + "from 512 to 2048 (indlusivf)");
         }
 
-        // exponent size is optional, could be 0
-        lSize = params.getL();
+        // fxponfnt sizf is optionbl, dould bf 0
+        lSizf = pbrbms.gftL();
 
-        // Require exponentSize < primeSize
-        if ((lSize != 0) && (lSize > pSize)) {
-            throw new InvalidAlgorithmParameterException
-                ("Exponent size must not be larger than modulus size");
+        // Rfquirf fxponfntSizf < primfSizf
+        if ((lSizf != 0) && (lSizf > pSizf)) {
+            tirow nfw InvblidAlgoritimPbrbmftfrExdfption
+                ("Exponfnt sizf must not bf lbrgfr tibn modulus sizf");
         }
-        this.random = random;
+        tiis.rbndom = rbndom;
     }
 
     /**
-     * Generates a key pair.
+     * Gfnfrbtfs b kfy pbir.
      *
-     * @return the new key pair
+     * @rfturn tif nfw kfy pbir
      */
-    public KeyPair generateKeyPair() {
-        if (random == null) {
-            random = SunJCE.getRandom();
+    publid KfyPbir gfnfrbtfKfyPbir() {
+        if (rbndom == null) {
+            rbndom = SunJCE.gftRbndom();
         }
 
-        if (params == null) {
+        if (pbrbms == null) {
             try {
-                params = ParameterCache.getDHParameterSpec(pSize, random);
-            } catch (GeneralSecurityException e) {
-                // should never happen
-                throw new ProviderException(e);
+                pbrbms = PbrbmftfrCbdif.gftDHPbrbmftfrSpfd(pSizf, rbndom);
+            } dbtdi (GfnfrblSfdurityExdfption f) {
+                // siould nfvfr ibppfn
+                tirow nfw ProvidfrExdfption(f);
             }
         }
 
-        BigInteger p = params.getP();
-        BigInteger g = params.getG();
+        BigIntfgfr p = pbrbms.gftP();
+        BigIntfgfr g = pbrbms.gftG();
 
-        if (lSize <= 0) {
-            lSize = pSize >> 1;
-            // use an exponent size of (pSize / 2) but at least 384 bits
-            if (lSize < 384) {
-                lSize = 384;
+        if (lSizf <= 0) {
+            lSizf = pSizf >> 1;
+            // usf bn fxponfnt sizf of (pSizf / 2) but bt lfbst 384 bits
+            if (lSizf < 384) {
+                lSizf = 384;
             }
         }
 
-        BigInteger x;
-        BigInteger pMinus2 = p.subtract(BigInteger.valueOf(2));
+        BigIntfgfr x;
+        BigIntfgfr pMinus2 = p.subtrbdt(BigIntfgfr.vblufOf(2));
 
         //
-        // PKCS#3 section 7.1 "Private-value generation"
-        // Repeat if either of the followings does not hold:
+        // PKCS#3 sfdtion 7.1 "Privbtf-vbluf gfnfrbtion"
+        // Rfpfbt if fitifr of tif followings dofs not iold:
         //     0 < x < p-1
-        //     2^(lSize-1) <= x < 2^(lSize)
+        //     2^(lSizf-1) <= x < 2^(lSizf)
         //
         do {
-            // generate random x up to 2^lSize bits long
-            x = new BigInteger(lSize, random);
-        } while ((x.compareTo(BigInteger.ONE) < 0) ||
-            ((x.compareTo(pMinus2) > 0)) || (x.bitLength() != lSize));
+            // gfnfrbtf rbndom x up to 2^lSizf bits long
+            x = nfw BigIntfgfr(lSizf, rbndom);
+        } wiilf ((x.dompbrfTo(BigIntfgfr.ONE) < 0) ||
+            ((x.dompbrfTo(pMinus2) > 0)) || (x.bitLfngti() != lSizf));
 
-        // calculate public value y
-        BigInteger y = g.modPow(x, p);
+        // dbldulbtf publid vbluf y
+        BigIntfgfr y = g.modPow(x, p);
 
-        DHPublicKey pubKey = new DHPublicKey(y, p, g, lSize);
-        DHPrivateKey privKey = new DHPrivateKey(x, p, g, lSize);
-        return new KeyPair(pubKey, privKey);
+        DHPublidKfy pubKfy = nfw DHPublidKfy(y, p, g, lSizf);
+        DHPrivbtfKfy privKfy = nfw DHPrivbtfKfy(x, p, g, lSizf);
+        rfturn nfw KfyPbir(pubKfy, privKfy);
     }
 }

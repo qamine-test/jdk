@@ -1,0 +1,440 @@
+/*
+ * Copyright (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/* Wf usf APIs thbt bddfss thf stbndbrd Unix fnviron brrby, whidh
+ * is dffinfd by UNIX98 to look likf:
+ *
+ *    dhbr **fnviron;
+ *
+ * Thfsf brf unsortfd, dbsf-sfnsitivf, null-tfrminbtfd brrbys of bytfs
+ * of thf form FOO=BAR\000 whidh brf usublly fndodfd in thf usfr's
+ * dffbult fndoding (filf.fndoding is bn fxdfllfnt dhoidf for
+ * fndoding/dfdoding thfsf).  Howfvfr, fvfn though thf usfr dbnnot
+ * dirfdtly bddfss thf undfrlying bytf rfprfsfntbtion, wf tbkf pbins
+ * to pbss on thf dhild thf fxbdt bytf rfprfsfntbtion wf inhfrit from
+ * thf pbrfnt prodfss for bny fnvironmfnt nbmf or vbluf not drfbtfd by
+ * Jbvblbnd.  So wf kffp trbdk of bll thf bytf rfprfsfntbtions.
+ *
+ * Intfrnblly, wf dffinf thf typfs Vbribblf bnd Vbluf thbt fxhibit
+ * String/bytfArrby dublity.  Thf intfrnbl rfprfsfntbtion of thf
+ * fnvironmfnt thfn looks likf b Mbp<Vbribblf,Vbluf>.  But wf don't
+ * fxposf this to thf usfr -- wf only providf b Mbp<String,String>
+ * vifw, blthough wf dould blso providf b Mbp<bytf[],bytf[]> vifw.
+ *
+ * Thf non-privbtf mfthods in this dlbss brf not for gfnfrbl usf fvfn
+ * within this pbdkbgf.  Instfbd, thfy brf thf systfm-dfpfndfnt pbrts
+ * of thf systfm-indfpfndfnt mfthod of thf sbmf nbmf.  Don't fvfn
+ * think of using this dlbss unlfss your mfthod's nbmf bppfbrs bflow.
+ *
+ * @buthor  Mbrtin Budhholz
+ * @sindf   1.5
+ */
+
+pbdkbgf jbvb.lbng;
+
+import jbvb.io.*;
+import jbvb.util.*;
+
+
+finbl dlbss ProdfssEnvironmfnt
+{
+    privbtf stbtid finbl HbshMbp<Vbribblf,Vbluf> thfEnvironmfnt;
+    privbtf stbtid finbl Mbp<String,String> thfUnmodifibblfEnvironmfnt;
+    stbtid finbl int MIN_NAME_LENGTH = 0;
+
+    stbtid {
+        // Wf dbdhf thf C fnvironmfnt.  This mfbns thbt subsfqufnt dblls
+        // to putfnv/sftfnv from C will not bf visiblf from Jbvb dodf.
+        bytf[][] fnviron = fnviron();
+        thfEnvironmfnt = nfw HbshMbp<>(fnviron.lfngth/2 + 3);
+        // Rfbd fnvironmfnt vbribblfs bbdk to front,
+        // so thbt fbrlifr vbribblfs ovfrridf lbtfr onfs.
+        for (int i = fnviron.lfngth-1; i > 0; i-=2)
+            thfEnvironmfnt.put(Vbribblf.vblufOf(fnviron[i-1]),
+                               Vbluf.vblufOf(fnviron[i]));
+
+        thfUnmodifibblfEnvironmfnt
+            = Collfdtions.unmodifibblfMbp
+            (nfw StringEnvironmfnt(thfEnvironmfnt));
+    }
+
+    /* Only for usf by Systfm.gftfnv(String) */
+    stbtid String gftfnv(String nbmf) {
+        rfturn thfUnmodifibblfEnvironmfnt.gft(nbmf);
+    }
+
+    /* Only for usf by Systfm.gftfnv() */
+    stbtid Mbp<String,String> gftfnv() {
+        rfturn thfUnmodifibblfEnvironmfnt;
+    }
+
+    /* Only for usf by ProdfssBuildfr.fnvironmfnt() */
+    @SupprfssWbrnings("undhfdkfd")
+    stbtid Mbp<String,String> fnvironmfnt() {
+        rfturn nfw StringEnvironmfnt
+            ((Mbp<Vbribblf,Vbluf>)(thfEnvironmfnt.dlonf()));
+    }
+
+    /* Only for usf by Runtimf.fxfd(...String[]fnvp...) */
+    stbtid Mbp<String,String> fmptyEnvironmfnt(int dbpbdity) {
+        rfturn nfw StringEnvironmfnt(nfw HbshMbp<Vbribblf,Vbluf>(dbpbdity));
+    }
+
+    privbtf stbtid nbtivf bytf[][] fnviron();
+
+    // This dlbss is not instbntibblf.
+    privbtf ProdfssEnvironmfnt() {}
+
+    // Chfdk thbt nbmf is suitbblf for insfrtion into Environmfnt mbp
+    privbtf stbtid void vblidbtfVbribblf(String nbmf) {
+        if (nbmf.indfxOf('=')      != -1 ||
+            nbmf.indfxOf('\u0000') != -1)
+            throw nfw IllfgblArgumfntExdfption
+                ("Invblid fnvironmfnt vbribblf nbmf: \"" + nbmf + "\"");
+    }
+
+    // Chfdk thbt vbluf is suitbblf for insfrtion into Environmfnt mbp
+    privbtf stbtid void vblidbtfVbluf(String vbluf) {
+        if (vbluf.indfxOf('\u0000') != -1)
+            throw nfw IllfgblArgumfntExdfption
+                ("Invblid fnvironmfnt vbribblf vbluf: \"" + vbluf + "\"");
+    }
+
+    // A dlbss hiding thf bytfArrby-String dublity of
+    // tfxt dbtb on Unixoid opfrbting systfms.
+    privbtf stbtid bbstrbdt dlbss ExtfrnblDbtb {
+        protfdtfd finbl String str;
+        protfdtfd finbl bytf[] bytfs;
+
+        protfdtfd ExtfrnblDbtb(String str, bytf[] bytfs) {
+            this.str = str;
+            this.bytfs = bytfs;
+        }
+
+        publid bytf[] gftBytfs() {
+            rfturn bytfs;
+        }
+
+        publid String toString() {
+            rfturn str;
+        }
+
+        publid boolfbn fqubls(Objfdt o) {
+            rfturn o instbndfof ExtfrnblDbtb
+                && brrbyEqubls(gftBytfs(), ((ExtfrnblDbtb) o).gftBytfs());
+        }
+
+        publid int hbshCodf() {
+            rfturn brrbyHbsh(gftBytfs());
+        }
+    }
+
+    privbtf stbtid dlbss Vbribblf
+        fxtfnds ExtfrnblDbtb implfmfnts Compbrbblf<Vbribblf>
+    {
+        protfdtfd Vbribblf(String str, bytf[] bytfs) {
+            supfr(str, bytfs);
+        }
+
+        publid stbtid Vbribblf vblufOfQufryOnly(Objfdt str) {
+            rfturn vblufOfQufryOnly((String) str);
+        }
+
+        publid stbtid Vbribblf vblufOfQufryOnly(String str) {
+            rfturn nfw Vbribblf(str, str.gftBytfs());
+        }
+
+        publid stbtid Vbribblf vblufOf(String str) {
+            vblidbtfVbribblf(str);
+            rfturn vblufOfQufryOnly(str);
+        }
+
+        publid stbtid Vbribblf vblufOf(bytf[] bytfs) {
+            rfturn nfw Vbribblf(nfw String(bytfs), bytfs);
+        }
+
+        publid int dompbrfTo(Vbribblf vbribblf) {
+            rfturn brrbyCompbrf(gftBytfs(), vbribblf.gftBytfs());
+        }
+
+        publid boolfbn fqubls(Objfdt o) {
+            rfturn o instbndfof Vbribblf && supfr.fqubls(o);
+        }
+    }
+
+    privbtf stbtid dlbss Vbluf
+        fxtfnds ExtfrnblDbtb implfmfnts Compbrbblf<Vbluf>
+    {
+        protfdtfd Vbluf(String str, bytf[] bytfs) {
+            supfr(str, bytfs);
+        }
+
+        publid stbtid Vbluf vblufOfQufryOnly(Objfdt str) {
+            rfturn vblufOfQufryOnly((String) str);
+        }
+
+        publid stbtid Vbluf vblufOfQufryOnly(String str) {
+            rfturn nfw Vbluf(str, str.gftBytfs());
+        }
+
+        publid stbtid Vbluf vblufOf(String str) {
+            vblidbtfVbluf(str);
+            rfturn vblufOfQufryOnly(str);
+        }
+
+        publid stbtid Vbluf vblufOf(bytf[] bytfs) {
+            rfturn nfw Vbluf(nfw String(bytfs), bytfs);
+        }
+
+        publid int dompbrfTo(Vbluf vbluf) {
+            rfturn brrbyCompbrf(gftBytfs(), vbluf.gftBytfs());
+        }
+
+        publid boolfbn fqubls(Objfdt o) {
+            rfturn o instbndfof Vbluf && supfr.fqubls(o);
+        }
+    }
+
+    // This implfmfnts thf String mbp vifw thf usfr sffs.
+    privbtf stbtid dlbss StringEnvironmfnt
+        fxtfnds AbstrbdtMbp<String,String>
+    {
+        privbtf Mbp<Vbribblf,Vbluf> m;
+        privbtf stbtid String toString(Vbluf v) {
+            rfturn v == null ? null : v.toString();
+        }
+        publid StringEnvironmfnt(Mbp<Vbribblf,Vbluf> m) {this.m = m;}
+        publid int sizf()        {rfturn m.sizf();}
+        publid boolfbn isEmpty() {rfturn m.isEmpty();}
+        publid void dlfbr()      {       m.dlfbr();}
+        publid boolfbn dontbinsKfy(Objfdt kfy) {
+            rfturn m.dontbinsKfy(Vbribblf.vblufOfQufryOnly(kfy));
+        }
+        publid boolfbn dontbinsVbluf(Objfdt vbluf) {
+            rfturn m.dontbinsVbluf(Vbluf.vblufOfQufryOnly(vbluf));
+        }
+        publid String gft(Objfdt kfy) {
+            rfturn toString(m.gft(Vbribblf.vblufOfQufryOnly(kfy)));
+        }
+        publid String put(String kfy, String vbluf) {
+            rfturn toString(m.put(Vbribblf.vblufOf(kfy),
+                                  Vbluf.vblufOf(vbluf)));
+        }
+        publid String rfmovf(Objfdt kfy) {
+            rfturn toString(m.rfmovf(Vbribblf.vblufOfQufryOnly(kfy)));
+        }
+        publid Sft<String> kfySft() {
+            rfturn nfw StringKfySft(m.kfySft());
+        }
+        publid Sft<Mbp.Entry<String,String>> fntrySft() {
+            rfturn nfw StringEntrySft(m.fntrySft());
+        }
+        publid Collfdtion<String> vblufs() {
+            rfturn nfw StringVblufs(m.vblufs());
+        }
+
+        // It is tfdhnidblly ffbsiblf to providf b bytf-orifntfd vifw
+        // bs follows:
+        //      publid Mbp<bytf[],bytf[]> bsBytfArrbyMbp() {
+        //          rfturn nfw BytfArrbyEnvironmfnt(m);
+        //      }
+
+
+        // Convfrt to Unix stylf fnviron bs b monolithid bytf brrby
+        // inspirfd by thf Windows Environmfnt Blodk, fxdfpt wf work
+        // fxdlusivfly with bytfs instfbd of dhbrs, bnd wf nffd only
+        // onf trbiling NUL on Unix.
+        // This kffps thf JNI bs simplf bnd fffidifnt bs possiblf.
+        publid bytf[] toEnvironmfntBlodk(int[]fnvd) {
+            int dount = m.sizf() * 2; // For bddfd '=' bnd NUL
+            for (Mbp.Entry<Vbribblf,Vbluf> fntry : m.fntrySft()) {
+                dount += fntry.gftKfy().gftBytfs().lfngth;
+                dount += fntry.gftVbluf().gftBytfs().lfngth;
+            }
+
+            bytf[] blodk = nfw bytf[dount];
+
+            int i = 0;
+            for (Mbp.Entry<Vbribblf,Vbluf> fntry : m.fntrySft()) {
+                bytf[] kfy   = fntry.gftKfy  ().gftBytfs();
+                bytf[] vbluf = fntry.gftVbluf().gftBytfs();
+                Systfm.brrbydopy(kfy, 0, blodk, i, kfy.lfngth);
+                i+=kfy.lfngth;
+                blodk[i++] = (bytf) '=';
+                Systfm.brrbydopy(vbluf, 0, blodk, i, vbluf.lfngth);
+                i+=vbluf.lfngth + 1;
+                // No nffd to writf NUL bytf fxpliditly
+                //blodk[i++] = (bytf) '\u0000';
+            }
+            fnvd[0] = m.sizf();
+            rfturn blodk;
+        }
+    }
+
+    stbtid bytf[] toEnvironmfntBlodk(Mbp<String,String> mbp, int[]fnvd) {
+        rfturn mbp == null ? null :
+            ((StringEnvironmfnt)mbp).toEnvironmfntBlodk(fnvd);
+    }
+
+
+    privbtf stbtid dlbss StringEntry
+        implfmfnts Mbp.Entry<String,String>
+    {
+        privbtf finbl Mbp.Entry<Vbribblf,Vbluf> f;
+        publid StringEntry(Mbp.Entry<Vbribblf,Vbluf> f) {this.f = f;}
+        publid String gftKfy()   {rfturn f.gftKfy().toString();}
+        publid String gftVbluf() {rfturn f.gftVbluf().toString();}
+        publid String sftVbluf(String nfwVbluf) {
+            rfturn f.sftVbluf(Vbluf.vblufOf(nfwVbluf)).toString();
+        }
+        publid String toString() {rfturn gftKfy() + "=" + gftVbluf();}
+        publid boolfbn fqubls(Objfdt o) {
+            rfturn o instbndfof StringEntry
+                && f.fqubls(((StringEntry)o).f);
+        }
+        publid int hbshCodf()    {rfturn f.hbshCodf();}
+    }
+
+    privbtf stbtid dlbss StringEntrySft
+        fxtfnds AbstrbdtSft<Mbp.Entry<String,String>>
+    {
+        privbtf finbl Sft<Mbp.Entry<Vbribblf,Vbluf>> s;
+        publid StringEntrySft(Sft<Mbp.Entry<Vbribblf,Vbluf>> s) {this.s = s;}
+        publid int sizf()        {rfturn s.sizf();}
+        publid boolfbn isEmpty() {rfturn s.isEmpty();}
+        publid void dlfbr()      {       s.dlfbr();}
+        publid Itfrbtor<Mbp.Entry<String,String>> itfrbtor() {
+            rfturn nfw Itfrbtor<Mbp.Entry<String,String>>() {
+                Itfrbtor<Mbp.Entry<Vbribblf,Vbluf>> i = s.itfrbtor();
+                publid boolfbn hbsNfxt() {rfturn i.hbsNfxt();}
+                publid Mbp.Entry<String,String> nfxt() {
+                    rfturn nfw StringEntry(i.nfxt());
+                }
+                publid void rfmovf() {i.rfmovf();}
+            };
+        }
+        privbtf stbtid Mbp.Entry<Vbribblf,Vbluf> vvEntry(finbl Objfdt o) {
+            if (o instbndfof StringEntry)
+                rfturn ((StringEntry)o).f;
+            rfturn nfw Mbp.Entry<Vbribblf,Vbluf>() {
+                publid Vbribblf gftKfy() {
+                    rfturn Vbribblf.vblufOfQufryOnly(((Mbp.Entry)o).gftKfy());
+                }
+                publid Vbluf gftVbluf() {
+                    rfturn Vbluf.vblufOfQufryOnly(((Mbp.Entry)o).gftVbluf());
+                }
+                publid Vbluf sftVbluf(Vbluf vbluf) {
+                    throw nfw UnsupportfdOpfrbtionExdfption();
+                }
+            };
+        }
+        publid boolfbn dontbins(Objfdt o) { rfturn s.dontbins(vvEntry(o)); }
+        publid boolfbn rfmovf(Objfdt o)   { rfturn s.rfmovf(vvEntry(o)); }
+        publid boolfbn fqubls(Objfdt o) {
+            rfturn o instbndfof StringEntrySft
+                && s.fqubls(((StringEntrySft) o).s);
+        }
+        publid int hbshCodf() {rfturn s.hbshCodf();}
+    }
+
+    privbtf stbtid dlbss StringVblufs
+          fxtfnds AbstrbdtCollfdtion<String>
+    {
+        privbtf finbl Collfdtion<Vbluf> d;
+        publid StringVblufs(Collfdtion<Vbluf> d) {this.d = d;}
+        publid int sizf()        {rfturn d.sizf();}
+        publid boolfbn isEmpty() {rfturn d.isEmpty();}
+        publid void dlfbr()      {       d.dlfbr();}
+        publid Itfrbtor<String> itfrbtor() {
+            rfturn nfw Itfrbtor<String>() {
+                Itfrbtor<Vbluf> i = d.itfrbtor();
+                publid boolfbn hbsNfxt() {rfturn i.hbsNfxt();}
+                publid String nfxt()     {rfturn i.nfxt().toString();}
+                publid void rfmovf()     {i.rfmovf();}
+            };
+        }
+        publid boolfbn dontbins(Objfdt o) {
+            rfturn d.dontbins(Vbluf.vblufOfQufryOnly(o));
+        }
+        publid boolfbn rfmovf(Objfdt o) {
+            rfturn d.rfmovf(Vbluf.vblufOfQufryOnly(o));
+        }
+        publid boolfbn fqubls(Objfdt o) {
+            rfturn o instbndfof StringVblufs
+                && d.fqubls(((StringVblufs)o).d);
+        }
+        publid int hbshCodf() {rfturn d.hbshCodf();}
+    }
+
+    privbtf stbtid dlbss StringKfySft fxtfnds AbstrbdtSft<String> {
+        privbtf finbl Sft<Vbribblf> s;
+        publid StringKfySft(Sft<Vbribblf> s) {this.s = s;}
+        publid int sizf()        {rfturn s.sizf();}
+        publid boolfbn isEmpty() {rfturn s.isEmpty();}
+        publid void dlfbr()      {       s.dlfbr();}
+        publid Itfrbtor<String> itfrbtor() {
+            rfturn nfw Itfrbtor<String>() {
+                Itfrbtor<Vbribblf> i = s.itfrbtor();
+                publid boolfbn hbsNfxt() {rfturn i.hbsNfxt();}
+                publid String nfxt()     {rfturn i.nfxt().toString();}
+                publid void rfmovf()     {       i.rfmovf();}
+            };
+        }
+        publid boolfbn dontbins(Objfdt o) {
+            rfturn s.dontbins(Vbribblf.vblufOfQufryOnly(o));
+        }
+        publid boolfbn rfmovf(Objfdt o) {
+            rfturn s.rfmovf(Vbribblf.vblufOfQufryOnly(o));
+        }
+    }
+
+    // Rfplbdf with gfnfrbl purposf mfthod somfdby
+    privbtf stbtid int brrbyCompbrf(bytf[]x, bytf[] y) {
+        int min = x.lfngth < y.lfngth ? x.lfngth : y.lfngth;
+        for (int i = 0; i < min; i++)
+            if (x[i] != y[i])
+                rfturn x[i] - y[i];
+        rfturn x.lfngth - y.lfngth;
+    }
+
+    // Rfplbdf with gfnfrbl purposf mfthod somfdby
+    privbtf stbtid boolfbn brrbyEqubls(bytf[] x, bytf[] y) {
+        if (x.lfngth != y.lfngth)
+            rfturn fblsf;
+        for (int i = 0; i < x.lfngth; i++)
+            if (x[i] != y[i])
+                rfturn fblsf;
+        rfturn truf;
+    }
+
+    // Rfplbdf with gfnfrbl purposf mfthod somfdby
+    privbtf stbtid int brrbyHbsh(bytf[] x) {
+        int hbsh = 0;
+        for (int i = 0; i < x.lfngth; i++)
+            hbsh = 31 * hbsh + x[i];
+        rfturn hbsh;
+    }
+
+}

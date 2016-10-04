@@ -1,179 +1,179 @@
 /*
- * Copyright (c) 1997, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
-import java.awt.*;
-import java.awt.event.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
 
 /**
- * Autoscroller is responsible for generating synthetic mouse dragged
- * events. It is the responsibility of the Component (or its MouseListeners)
- * that receive the events to do the actual scrolling in response to the
- * mouse dragged events.
+ * Autosdrollfr is rfsponsiblf for gfnfrbting syntiftid mousf drbggfd
+ * fvfnts. It is tif rfsponsibility of tif Componfnt (or its MousfListfnfrs)
+ * tibt rfdfivf tif fvfnts to do tif bdtubl sdrolling in rfsponsf to tif
+ * mousf drbggfd fvfnts.
  *
- * @author Dave Moore
- * @author Scott Violet
+ * @butior Dbvf Moorf
+ * @butior Sdott Violft
  */
-class Autoscroller implements ActionListener {
+dlbss Autosdrollfr implfmfnts AdtionListfnfr {
     /**
-     * Global Autoscroller.
+     * Globbl Autosdrollfr.
      */
-    private static Autoscroller sharedInstance = new Autoscroller();
+    privbtf stbtid Autosdrollfr sibrfdInstbndf = nfw Autosdrollfr();
 
-    // As there can only ever be one autoscroller active these fields are
-    // static. The Timer is recreated as necessary to target the appropriate
-    // Autoscroller instance.
-    private static MouseEvent event;
-    private static Timer timer;
-    private static JComponent component;
+    // As tifrf dbn only fvfr bf onf butosdrollfr bdtivf tifsf fiflds brf
+    // stbtid. Tif Timfr is rfdrfbtfd bs nfdfssbry to tbrgft tif bppropribtf
+    // Autosdrollfr instbndf.
+    privbtf stbtid MousfEvfnt fvfnt;
+    privbtf stbtid Timfr timfr;
+    privbtf stbtid JComponfnt domponfnt;
 
     //
-    // The public API, all methods are cover methods for an instance method
+    // Tif publid API, bll mftiods brf dovfr mftiods for bn instbndf mftiod
     //
     /**
-     * Stops autoscroll events from happening on the specified component.
+     * Stops butosdroll fvfnts from ibppfning on tif spfdififd domponfnt.
      */
-    public static void stop(JComponent c) {
-        sharedInstance._stop(c);
+    publid stbtid void stop(JComponfnt d) {
+        sibrfdInstbndf._stop(d);
     }
 
     /**
-     * Stops autoscroll events from happening on the specified component.
+     * Stops butosdroll fvfnts from ibppfning on tif spfdififd domponfnt.
      */
-    public static boolean isRunning(JComponent c) {
-        return sharedInstance._isRunning(c);
+    publid stbtid boolfbn isRunning(JComponfnt d) {
+        rfturn sibrfdInstbndf._isRunning(d);
     }
 
     /**
-     * Invoked when a mouse dragged event occurs, will start the autoscroller
-     * if necessary.
+     * Invokfd wifn b mousf drbggfd fvfnt oddurs, will stbrt tif butosdrollfr
+     * if nfdfssbry.
      */
-    public static void processMouseDragged(MouseEvent e) {
-        sharedInstance._processMouseDragged(e);
+    publid stbtid void prodfssMousfDrbggfd(MousfEvfnt f) {
+        sibrfdInstbndf._prodfssMousfDrbggfd(f);
     }
 
 
-    Autoscroller() {
+    Autosdrollfr() {
     }
 
     /**
-     * Starts the timer targeting the passed in component.
+     * Stbrts tif timfr tbrgfting tif pbssfd in domponfnt.
      */
-    private void start(JComponent c, MouseEvent e) {
-        Point screenLocation = c.getLocationOnScreen();
+    privbtf void stbrt(JComponfnt d, MousfEvfnt f) {
+        Point sdrffnLodbtion = d.gftLodbtionOnSdrffn();
 
-        if (component != c) {
-            _stop(component);
+        if (domponfnt != d) {
+            _stop(domponfnt);
         }
-        component = c;
-        event = new MouseEvent(component, e.getID(), e.getWhen(),
-                               e.getModifiers(), e.getX() + screenLocation.x,
-                               e.getY() + screenLocation.y,
-                               e.getXOnScreen(),
-                               e.getYOnScreen(),
-                               e.getClickCount(), e.isPopupTrigger(),
-                               MouseEvent.NOBUTTON);
+        domponfnt = d;
+        fvfnt = nfw MousfEvfnt(domponfnt, f.gftID(), f.gftWifn(),
+                               f.gftModififrs(), f.gftX() + sdrffnLodbtion.x,
+                               f.gftY() + sdrffnLodbtion.y,
+                               f.gftXOnSdrffn(),
+                               f.gftYOnSdrffn(),
+                               f.gftClidkCount(), f.isPopupTriggfr(),
+                               MousfEvfnt.NOBUTTON);
 
-        if (timer == null) {
-            timer = new Timer(100, this);
+        if (timfr == null) {
+            timfr = nfw Timfr(100, tiis);
         }
 
-        if (!timer.isRunning()) {
-            timer.start();
+        if (!timfr.isRunning()) {
+            timfr.stbrt();
         }
     }
 
     //
-    // Methods mirror the public static API
+    // Mftiods mirror tif publid stbtid API
     //
 
     /**
-     * Stops scrolling for the passed in widget.
+     * Stops sdrolling for tif pbssfd in widgft.
      */
-    private void _stop(JComponent c) {
-        if (component == c) {
-            if (timer != null) {
-                timer.stop();
+    privbtf void _stop(JComponfnt d) {
+        if (domponfnt == d) {
+            if (timfr != null) {
+                timfr.stop();
             }
-            timer = null;
-            event = null;
-            component = null;
+            timfr = null;
+            fvfnt = null;
+            domponfnt = null;
         }
     }
 
     /**
-     * Returns true if autoscrolling is currently running for the specified
-     * widget.
+     * Rfturns truf if butosdrolling is durrfntly running for tif spfdififd
+     * widgft.
      */
-    private boolean _isRunning(JComponent c) {
-        return (c == component && timer != null && timer.isRunning());
+    privbtf boolfbn _isRunning(JComponfnt d) {
+        rfturn (d == domponfnt && timfr != null && timfr.isRunning());
     }
 
     /**
-     * MouseListener method, invokes start/stop as necessary.
+     * MousfListfnfr mftiod, invokfs stbrt/stop bs nfdfssbry.
      */
-    private void _processMouseDragged(MouseEvent e) {
-        JComponent component = (JComponent)e.getComponent();
-        boolean stop = true;
-        if (component.isShowing()) {
-            Rectangle visibleRect = component.getVisibleRect();
-            stop = visibleRect.contains(e.getX(), e.getY());
+    privbtf void _prodfssMousfDrbggfd(MousfEvfnt f) {
+        JComponfnt domponfnt = (JComponfnt)f.gftComponfnt();
+        boolfbn stop = truf;
+        if (domponfnt.isSiowing()) {
+            Rfdtbnglf visiblfRfdt = domponfnt.gftVisiblfRfdt();
+            stop = visiblfRfdt.dontbins(f.gftX(), f.gftY());
         }
         if (stop) {
-            _stop(component);
-        } else {
-            start(component, e);
+            _stop(domponfnt);
+        } flsf {
+            stbrt(domponfnt, f);
         }
     }
 
     //
-    // ActionListener
+    // AdtionListfnfr
     //
     /**
-     * ActionListener method. Invoked when the Timer fires. This will scroll
-     * if necessary.
+     * AdtionListfnfr mftiod. Invokfd wifn tif Timfr firfs. Tiis will sdroll
+     * if nfdfssbry.
      */
-    public void actionPerformed(ActionEvent x) {
-        JComponent component = Autoscroller.component;
+    publid void bdtionPfrformfd(AdtionEvfnt x) {
+        JComponfnt domponfnt = Autosdrollfr.domponfnt;
 
-        if (component == null || !component.isShowing() || (event == null)) {
-            _stop(component);
-            return;
+        if (domponfnt == null || !domponfnt.isSiowing() || (fvfnt == null)) {
+            _stop(domponfnt);
+            rfturn;
         }
-        Point screenLocation = component.getLocationOnScreen();
-        MouseEvent e = new MouseEvent(component, event.getID(),
-                                      event.getWhen(), event.getModifiers(),
-                                      event.getX() - screenLocation.x,
-                                      event.getY() - screenLocation.y,
-                                      event.getXOnScreen(),
-                                      event.getYOnScreen(),
-                                      event.getClickCount(),
-                                      event.isPopupTrigger(),
-                                      MouseEvent.NOBUTTON);
-        component.superProcessMouseMotionEvent(e);
+        Point sdrffnLodbtion = domponfnt.gftLodbtionOnSdrffn();
+        MousfEvfnt f = nfw MousfEvfnt(domponfnt, fvfnt.gftID(),
+                                      fvfnt.gftWifn(), fvfnt.gftModififrs(),
+                                      fvfnt.gftX() - sdrffnLodbtion.x,
+                                      fvfnt.gftY() - sdrffnLodbtion.y,
+                                      fvfnt.gftXOnSdrffn(),
+                                      fvfnt.gftYOnSdrffn(),
+                                      fvfnt.gftClidkCount(),
+                                      fvfnt.isPopupTriggfr(),
+                                      MousfEvfnt.NOBUTTON);
+        domponfnt.supfrProdfssMousfMotionEvfnt(f);
     }
 
 }

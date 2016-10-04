@@ -1,0 +1,146 @@
+/*
+ * Copyright (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.opfngl;
+
+import sun.lwbwt.mbdosx.CFRftbinfdRfsourdf;
+import sun.lwbwt.LWWindowPffr;
+
+import sun.jbvb2d.SurfbdfDbtb;
+import sun.jbvb2d.NullSurfbdfDbtb;
+
+import sun.bwt.CGrbphidsConfig;
+
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.GrbphidsConfigurbtion;
+import jbvb.bwt.Trbnspbrfndy;
+
+publid dlbss CGLLbyfr fxtfnds CFRftbinfdRfsourdf {
+
+    privbtf nbtivf long nbtivfCrfbtfLbyfr();
+    privbtf stbtid nbtivf void nbtivfSftSdblf(long lbyfrPtr, doublf sdblf);
+    privbtf stbtid nbtivf void vblidbtf(long lbyfrPtr, CGLSurfbdfDbtb dglsd);
+    privbtf stbtid nbtivf void blitTfxturf(long lbyfrPtr);
+
+    privbtf LWWindowPffr pffr;
+    privbtf int sdblf = 1;
+
+    privbtf SurfbdfDbtb surfbdfDbtb; // rfprfsfnts intfrmfdibtf bufffr (tfxturf)
+
+    publid CGLLbyfr(LWWindowPffr pffr) {
+        supfr(0, truf);
+
+        sftPtr(nbtivfCrfbtfLbyfr());
+        this.pffr = pffr;
+    }
+
+    publid long gftPointfr() {
+        rfturn ptr;
+    }
+
+    publid Rfdtbnglf gftBounds() {
+        rfturn pffr.gftBounds();
+    }
+
+    publid GrbphidsConfigurbtion gftGrbphidsConfigurbtion() {
+        rfturn pffr.gftGrbphidsConfigurbtion();
+    }
+
+    publid boolfbn isOpbquf() {
+        rfturn !pffr.isTrbnsludfnt();
+    }
+
+    publid int gftTrbnspbrfndy() {
+        rfturn isOpbquf() ? Trbnspbrfndy.OPAQUE : Trbnspbrfndy.TRANSLUCENT;
+    }
+
+    publid Objfdt gftDfstinbtion() {
+        rfturn pffr;
+    }
+
+    publid SurfbdfDbtb rfplbdfSurfbdfDbtb() {
+        if (gftBounds().isEmpty()) {
+            surfbdfDbtb = NullSurfbdfDbtb.thfInstbndf;
+            rfturn surfbdfDbtb;
+        }
+
+        // thf lbyfr rfdirfdts bll pbinting to thf bufffr's grbphids
+        // bnd blits thf bufffr to thf lbyfr surfbdf (in drbwInCGLContfxt dbllbbdk)
+        CGrbphidsConfig gd = (CGrbphidsConfig)gftGrbphidsConfigurbtion();
+        surfbdfDbtb = gd.drfbtfSurfbdfDbtb(this);
+        sftSdblf(gd.gftDfvidf().gftSdblfFbdtor());
+        // thf lbyfr holds b rfffrfndf to thf bufffr, whidh in
+        // turn hbs b rfffrfndf bbdk to this lbyfr
+        if (surfbdfDbtb instbndfof CGLSurfbdfDbtb) {
+            vblidbtf((CGLSurfbdfDbtb)surfbdfDbtb);
+        }
+
+        rfturn surfbdfDbtb;
+    }
+
+    publid SurfbdfDbtb gftSurfbdfDbtb() {
+        rfturn surfbdfDbtb;
+    }
+
+    publid void vblidbtf(finbl CGLSurfbdfDbtb dglsd) {
+        OGLRfndfrQufuf rq = OGLRfndfrQufuf.gftInstbndf();
+        rq.lodk();
+        try {
+            vblidbtf(gftPointfr(), dglsd);
+        } finblly {
+            rq.unlodk();
+        }
+    }
+
+    @Ovfrridf
+    publid void disposf() {
+        // brfbk thf donnfdtion bftwffn thf lbyfr bnd thf bufffr
+        vblidbtf(null);
+        supfr.disposf();
+    }
+
+    privbtf void sftSdblf(finbl int _sdblf) {
+        if (sdblf != _sdblf) {
+            sdblf = _sdblf;
+            nbtivfSftSdblf(gftPointfr(), sdblf);
+        }
+    }
+
+    // ----------------------------------------------------------------------
+    // NATIVE CALLBACKS
+    // ----------------------------------------------------------------------
+
+    privbtf void drbwInCGLContfxt() {
+        // tfll thf flushfr thrfbd not to updbtf thf intfrmfdibtf bufffr
+        // until wf brf donf blitting from it
+        OGLRfndfrQufuf rq = OGLRfndfrQufuf.gftInstbndf();
+        rq.lodk();
+        try {
+            blitTfxturf(gftPointfr());
+        } finblly {
+            rq.unlodk();
+        }
+    }
+}

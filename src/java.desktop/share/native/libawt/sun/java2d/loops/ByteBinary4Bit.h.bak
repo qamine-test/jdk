@@ -1,130 +1,130 @@
 /*
- * Copyright (c) 2000, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef ByteBinary4Bit_h_Included
-#define ByteBinary4Bit_h_Included
+#ifndff BytfBinbry4Bit_i_Indludfd
+#dffinf BytfBinbry4Bit_i_Indludfd
 
-#include "AnyByteBinary.h"
+#indludf "AnyBytfBinbry.i"
 
 /*
- * This file contains macro and type definitions used by the macros in
- * LoopMacros.h to manipulate a surface of type "ByteBinary4Bit".
+ * Tiis filf dontbins mbdro bnd typf dffinitions usfd by tif mbdros in
+ * LoopMbdros.i to mbnipulbtf b surfbdf of typf "BytfBinbry4Bit".
  */
 
-typedef jubyte  ByteBinary4BitPixelType;
-typedef jubyte  ByteBinary4BitDataType;
+typfdff jubytf  BytfBinbry4BitPixflTypf;
+typfdff jubytf  BytfBinbry4BitDbtbTypf;
 
-#define ByteBinary4BitPixelStride      0
-#define ByteBinary4BitPixelsPerByte    2
-#define ByteBinary4BitBitsPerPixel     4
-#define ByteBinary4BitMaxBitOffset     4
-#define ByteBinary4BitPixelMask        0xf
+#dffinf BytfBinbry4BitPixflStridf      0
+#dffinf BytfBinbry4BitPixflsPfrBytf    2
+#dffinf BytfBinbry4BitBitsPfrPixfl     4
+#dffinf BytfBinbry4BitMbxBitOffsft     4
+#dffinf BytfBinbry4BitPixflMbsk        0xf
 
-#define DeclareByteBinary4BitLoadVars     DeclareByteBinaryLoadVars
-#define DeclareByteBinary4BitStoreVars    DeclareByteBinaryStoreVars
-#define SetByteBinary4BitStoreVarsYPos    SetByteBinaryStoreVarsYPos
-#define SetByteBinary4BitStoreVarsXPos    SetByteBinaryStoreVarsXPos
-#define InitByteBinary4BitLoadVars        InitByteBinaryLoadVars
-#define InitByteBinary4BitStoreVarsY      InitByteBinaryStoreVarsY
-#define InitByteBinary4BitStoreVarsX      InitByteBinaryStoreVarsX
-#define NextByteBinary4BitStoreVarsY      NextByteBinaryStoreVarsY
-#define NextByteBinary4BitStoreVarsX      NextByteBinaryStoreVarsX
+#dffinf DfdlbrfBytfBinbry4BitLobdVbrs     DfdlbrfBytfBinbryLobdVbrs
+#dffinf DfdlbrfBytfBinbry4BitStorfVbrs    DfdlbrfBytfBinbryStorfVbrs
+#dffinf SftBytfBinbry4BitStorfVbrsYPos    SftBytfBinbryStorfVbrsYPos
+#dffinf SftBytfBinbry4BitStorfVbrsXPos    SftBytfBinbryStorfVbrsXPos
+#dffinf InitBytfBinbry4BitLobdVbrs        InitBytfBinbryLobdVbrs
+#dffinf InitBytfBinbry4BitStorfVbrsY      InitBytfBinbryStorfVbrsY
+#dffinf InitBytfBinbry4BitStorfVbrsX      InitBytfBinbryStorfVbrsX
+#dffinf NfxtBytfBinbry4BitStorfVbrsY      NfxtBytfBinbryStorfVbrsY
+#dffinf NfxtBytfBinbry4BitStorfVbrsX      NfxtBytfBinbryStorfVbrsX
 
-#define DeclareByteBinary4BitInitialLoadVars(pRasInfo, pRas, PREFIX, x) \
-    DeclareByteBinaryInitialLoadVars(ByteBinary4Bit, pRasInfo, pRas, PREFIX, x)
+#dffinf DfdlbrfBytfBinbry4BitInitiblLobdVbrs(pRbsInfo, pRbs, PREFIX, x) \
+    DfdlbrfBytfBinbryInitiblLobdVbrs(BytfBinbry4Bit, pRbsInfo, pRbs, PREFIX, x)
 
-#define InitialLoadByteBinary4Bit(pRas, PREFIX) \
-    InitialLoadByteBinary(ByteBinary4Bit, pRas, PREFIX)
+#dffinf InitiblLobdBytfBinbry4Bit(pRbs, PREFIX) \
+    InitiblLobdBytfBinbry(BytfBinbry4Bit, pRbs, PREFIX)
 
-#define ShiftBitsByteBinary4Bit(PREFIX) \
-    ShiftBitsByteBinary(ByteBinary4Bit, PREFIX)
+#dffinf SiiftBitsBytfBinbry4Bit(PREFIX) \
+    SiiftBitsBytfBinbry(BytfBinbry4Bit, PREFIX)
 
-#define FinalStoreByteBinary4Bit(pRas, PREFIX) \
-    FinalStoreByteBinary(ByteBinary4Bit, pRas, PREFIX)
+#dffinf FinblStorfBytfBinbry4Bit(pRbs, PREFIX) \
+    FinblStorfBytfBinbry(BytfBinbry4Bit, pRbs, PREFIX)
 
-#define CurrentPixelByteBinary4Bit(PREFIX) \
-    CurrentPixelByteBinary(ByteBinary4Bit, PREFIX)
-
-
-#define StoreByteBinary4BitPixel(pRas, x, pixel) \
-    StoreByteBinaryPixel(ByteBinary4Bit, pRas, x, pixel)
-
-#define StoreByteBinary4BitPixelData(pPix, x, pixel, PREFIX) \
-    StoreByteBinaryPixelData(ByteBinary4Bit, pPix, x, pixel, PREFIX)
-
-#define ByteBinary4BitPixelFromArgb(pixel, rgb, pRasInfo) \
-    ByteBinaryPixelFromArgb(ByteBinary4Bit, pixel, rgb, pRasInfo)
-
-#define XorByteBinary4BitPixelData(pDst, x, PREFIX, srcpixel, xorpixel, mask)\
-    XorByteBinaryPixelData(ByteBinary4Bit, pDst, x, PREFIX, \
-                           srcpixel, xorpixel, mask)
+#dffinf CurrfntPixflBytfBinbry4Bit(PREFIX) \
+    CurrfntPixflBytfBinbry(BytfBinbry4Bit, PREFIX)
 
 
-#define LoadByteBinary4BitTo1IntRgb(pRas, PREFIX, x, rgb) \
-    LoadByteBinaryTo1IntRgb(ByteBinary4Bit, pRas, PREFIX, x, rgb)
+#dffinf StorfBytfBinbry4BitPixfl(pRbs, x, pixfl) \
+    StorfBytfBinbryPixfl(BytfBinbry4Bit, pRbs, x, pixfl)
 
-#define LoadByteBinary4BitTo1IntArgb(pRas, PREFIX, x, argb) \
-    LoadByteBinaryTo1IntArgb(ByteBinary4Bit, pRas, PREFIX, x, argb)
+#dffinf StorfBytfBinbry4BitPixflDbtb(pPix, x, pixfl, PREFIX) \
+    StorfBytfBinbryPixflDbtb(BytfBinbry4Bit, pPix, x, pixfl, PREFIX)
 
-#define LoadByteBinary4BitTo3ByteRgb(pRas, PREFIX, x, r, g, b) \
-    LoadByteBinaryTo3ByteRgb(ByteBinary4Bit, pRas, PREFIX, x, r, g, b)
+#dffinf BytfBinbry4BitPixflFromArgb(pixfl, rgb, pRbsInfo) \
+    BytfBinbryPixflFromArgb(BytfBinbry4Bit, pixfl, rgb, pRbsInfo)
 
-#define LoadByteBinary4BitTo4ByteArgb(pRas, PREFIX, x, a, r, g, b) \
-    LoadByteBinaryTo4ByteArgb(ByteBinary4Bit, pRas, PREFIX, x, a, r, g, b)
-
-#define StoreByteBinary4BitFrom1IntRgb(pRas, PREFIX, x, rgb) \
-    StoreByteBinaryFrom1IntRgb(ByteBinary4Bit, pRas, PREFIX, x, rgb)
-
-#define StoreByteBinary4BitFrom1IntArgb(pRas, PREFIX, x, argb) \
-    StoreByteBinaryFrom1IntArgb(ByteBinary4Bit, pRas, PREFIX, x, argb)
-
-#define StoreByteBinary4BitFrom3ByteRgb(pRas, PREFIX, x, r, g, b) \
-    StoreByteBinaryFrom3ByteRgb(ByteBinary4Bit, pRas, PREFIX, x, r, g, b)
-
-#define StoreByteBinary4BitFrom4ByteArgb(pRas, PREFIX, x, a, r, g, b) \
-    StoreByteBinaryFrom4ByteArgb(ByteBinary4Bit, pRas, PREFIX, x, a, r, g, b)
+#dffinf XorBytfBinbry4BitPixflDbtb(pDst, x, PREFIX, srdpixfl, xorpixfl, mbsk)\
+    XorBytfBinbryPixflDbtb(BytfBinbry4Bit, pDst, x, PREFIX, \
+                           srdpixfl, xorpixfl, mbsk)
 
 
-#define DeclareByteBinary4BitAlphaLoadData(PREFIX) \
-    DeclareByteBinaryAlphaLoadData(ByteBinary4Bit, PREFIX)
+#dffinf LobdBytfBinbry4BitTo1IntRgb(pRbs, PREFIX, x, rgb) \
+    LobdBytfBinbryTo1IntRgb(BytfBinbry4Bit, pRbs, PREFIX, x, rgb)
 
-#define InitByteBinary4BitAlphaLoadData(PREFIX, pRasInfo) \
-    InitByteBinaryAlphaLoadData(ByteBinary4Bit, PREFIX, pRasInfo)
+#dffinf LobdBytfBinbry4BitTo1IntArgb(pRbs, PREFIX, x, brgb) \
+    LobdBytfBinbryTo1IntArgb(BytfBinbry4Bit, pRbs, PREFIX, x, brgb)
 
-#define LoadAlphaFromByteBinary4BitFor4ByteArgb(pRas, PREFIX, COMP_PREFIX) \
-    LoadAlphaFromByteBinaryFor4ByteArgb(ByteBinary4Bit, pRas, PREFIX, \
+#dffinf LobdBytfBinbry4BitTo3BytfRgb(pRbs, PREFIX, x, r, g, b) \
+    LobdBytfBinbryTo3BytfRgb(BytfBinbry4Bit, pRbs, PREFIX, x, r, g, b)
+
+#dffinf LobdBytfBinbry4BitTo4BytfArgb(pRbs, PREFIX, x, b, r, g, b) \
+    LobdBytfBinbryTo4BytfArgb(BytfBinbry4Bit, pRbs, PREFIX, x, b, r, g, b)
+
+#dffinf StorfBytfBinbry4BitFrom1IntRgb(pRbs, PREFIX, x, rgb) \
+    StorfBytfBinbryFrom1IntRgb(BytfBinbry4Bit, pRbs, PREFIX, x, rgb)
+
+#dffinf StorfBytfBinbry4BitFrom1IntArgb(pRbs, PREFIX, x, brgb) \
+    StorfBytfBinbryFrom1IntArgb(BytfBinbry4Bit, pRbs, PREFIX, x, brgb)
+
+#dffinf StorfBytfBinbry4BitFrom3BytfRgb(pRbs, PREFIX, x, r, g, b) \
+    StorfBytfBinbryFrom3BytfRgb(BytfBinbry4Bit, pRbs, PREFIX, x, r, g, b)
+
+#dffinf StorfBytfBinbry4BitFrom4BytfArgb(pRbs, PREFIX, x, b, r, g, b) \
+    StorfBytfBinbryFrom4BytfArgb(BytfBinbry4Bit, pRbs, PREFIX, x, b, r, g, b)
+
+
+#dffinf DfdlbrfBytfBinbry4BitAlpibLobdDbtb(PREFIX) \
+    DfdlbrfBytfBinbryAlpibLobdDbtb(BytfBinbry4Bit, PREFIX)
+
+#dffinf InitBytfBinbry4BitAlpibLobdDbtb(PREFIX, pRbsInfo) \
+    InitBytfBinbryAlpibLobdDbtb(BytfBinbry4Bit, PREFIX, pRbsInfo)
+
+#dffinf LobdAlpibFromBytfBinbry4BitFor4BytfArgb(pRbs, PREFIX, COMP_PREFIX) \
+    LobdAlpibFromBytfBinbryFor4BytfArgb(BytfBinbry4Bit, pRbs, PREFIX, \
                                         COMP_PREFIX)
 
-#define Postload4ByteArgbFromByteBinary4Bit(pRas, PREFIX, COMP_PREFIX) \
-    Postload4ByteArgbFromByteBinary(ByteBinary4Bit, pRas, PREFIX, COMP_PREFIX)
+#dffinf Postlobd4BytfArgbFromBytfBinbry4Bit(pRbs, PREFIX, COMP_PREFIX) \
+    Postlobd4BytfArgbFromBytfBinbry(BytfBinbry4Bit, pRbs, PREFIX, COMP_PREFIX)
 
 
-#define ByteBinary4BitIsPremultiplied    ByteBinaryIsPremultiplied
+#dffinf BytfBinbry4BitIsPrfmultiplifd    BytfBinbryIsPrfmultiplifd
 
-#define StoreByteBinary4BitFrom4ByteArgbComps(pRas, PREFIX, x, COMP_PREFIX) \
-    StoreByteBinaryFrom4ByteArgbComps(ByteBinary4Bit, pRas, \
+#dffinf StorfBytfBinbry4BitFrom4BytfArgbComps(pRbs, PREFIX, x, COMP_PREFIX) \
+    StorfBytfBinbryFrom4BytfArgbComps(BytfBinbry4Bit, pRbs, \
                                       PREFIX, x, COMP_PREFIX)
 
-#endif /* ByteBinary4Bit_h_Included */
+#fndif /* BytfBinbry4Bit_i_Indludfd */

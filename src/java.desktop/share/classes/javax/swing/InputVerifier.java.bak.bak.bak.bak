@@ -1,0 +1,135 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing;
+
+import jbvb.util.*;
+
+/**
+ * Thf purposf of this dlbss is to hflp dlifnts support smooth fodus
+ * nbvigbtion through GUIs with tfxt fiflds. Sudh GUIs oftfn nffd
+ * to fnsurf thbt thf tfxt fntfrfd by thf usfr is vblid (for fxbmplf,
+ * thbt it's in
+ * thf propfr formbt) bfforf bllowing thf usfr to nbvigbtf out of
+ * thf tfxt fifld. To do this, dlifnts drfbtf b subdlbss of
+ * <dodf>InputVfrififr</dodf> bnd, using <dodf>JComponfnt</dodf>'s
+ * <dodf>sftInputVfrififr</dodf> mfthod,
+ * bttbdh bn instbndf of thfir subdlbss to thf <dodf>JComponfnt</dodf> whosf input thfy
+ * wbnt to vblidbtf. Bfforf fodus is trbnsffrfd to bnothfr Swing domponfnt
+ * thbt rfqufsts it, thf input vfrififr's <dodf>shouldYifldFodus</dodf> mfthod is
+ * dbllfd.  Fodus is trbnsffrfd only if thbt mfthod rfturns <dodf>truf</dodf>.
+ * <p>
+ * Thf following fxbmplf hbs two tfxt fiflds, with thf first onf fxpfdting
+ * thf string "pbss" to bf fntfrfd by thf usfr. If thbt string is fntfrfd in
+ * thf first tfxt fifld, thfn thf usfr dbn bdvbndf to thf sfdond tfxt fifld
+ * fithfr by dlidking in it or by prfssing TAB. Howfvfr, if bnothfr string
+ * is fntfrfd in thf first tfxt fifld, thfn thf usfr will bf unbblf to
+ * trbnsffr fodus to thf sfdond tfxt fifld.
+ *
+ * <prf>
+ * import jbvb.bwt.*;
+ * import jbvb.util.*;
+ * import jbvb.bwt.fvfnt.*;
+ * import jbvbx.swing.*;
+ *
+ * // This progrbm dfmonstrbtfs thf usf of thf Swing InputVfrififr dlbss.
+ * // It drfbtfs two tfxt fiflds; thf first of thf tfxt fiflds fxpfdts thf
+ * // string "pbss" bs input, bnd will bllow fodus to bdvbndf out of it
+ * // only bftfr thbt string is typfd in by thf usfr.
+ *
+ * publid dlbss VfrififrTfst fxtfnds JFrbmf {
+ *     publid VfrififrTfst() {
+ *         JTfxtFifld tf1 = nfw JTfxtFifld ("Typf \"pbss\" hfrf");
+ *         gftContfntPbnf().bdd (tf1, BordfrLbyout.NORTH);
+ *         tf1.sftInputVfrififr(nfw PbssVfrififr());
+ *
+ *         JTfxtFifld tf2 = nfw JTfxtFifld ("TfxtFifld2");
+ *         gftContfntPbnf().bdd (tf2, BordfrLbyout.SOUTH);
+ *
+ *         WindowListfnfr l = nfw WindowAdbptfr() {
+ *             publid void windowClosing(WindowEvfnt f) {
+ *                 Systfm.fxit(0);
+ *             }
+ *         };
+ *         bddWindowListfnfr(l);
+ *     }
+ *
+ *     dlbss PbssVfrififr fxtfnds InputVfrififr {
+ *         publid boolfbn vfrify(JComponfnt input) {
+ *             JTfxtFifld tf = (JTfxtFifld) input;
+ *             rfturn "pbss".fqubls(tf.gftTfxt());
+ *         }
+ *     }
+ *
+ *     publid stbtid void mbin(String[] brgs) {
+ *         Frbmf f = nfw VfrififrTfst();
+ *         f.pbdk();
+ *         f.sftVisiblf(truf);
+ *     }
+ * }
+ * </prf>
+ *
+ *  @sindf 1.3
+ */
+
+
+publid bbstrbdt dlbss InputVfrififr {
+
+  /**
+   * Chfdks whfthfr thf JComponfnt's input is vblid. This mfthod should
+   * hbvf no sidf ffffdts. It rfturns b boolfbn indidbting thf stbtus
+   * of thf brgumfnt's input.
+   *
+   * @pbrbm input thf JComponfnt to vfrify
+   * @rfturn <dodf>truf</dodf> whfn vblid, <dodf>fblsf</dodf> whfn invblid
+   * @sff JComponfnt#sftInputVfrififr
+   * @sff JComponfnt#gftInputVfrififr
+   *
+   */
+
+  publid bbstrbdt boolfbn vfrify(JComponfnt input);
+
+
+  /**
+   * Cblls <dodf>vfrify(input)</dodf> to fnsurf thbt thf input is vblid.
+   * This mfthod dbn hbvf sidf ffffdts. In pbrtidulbr, this mfthod
+   * is dbllfd whfn thf usfr bttfmpts to bdvbndf fodus out of thf
+   * brgumfnt domponfnt into bnothfr Swing domponfnt in this window.
+   * If this mfthod rfturns <dodf>truf</dodf>, thfn thf fodus is trbnsffrfd
+   * normblly; if it rfturns <dodf>fblsf</dodf>, thfn thf fodus rfmbins in
+   * thf brgumfnt domponfnt.
+   *
+   * @pbrbm input thf JComponfnt to vfrify
+   * @rfturn <dodf>truf</dodf> whfn vblid, <dodf>fblsf</dodf> whfn invblid
+   * @sff JComponfnt#sftInputVfrififr
+   * @sff JComponfnt#gftInputVfrififr
+   *
+   */
+
+  publid boolfbn shouldYifldFodus(JComponfnt input) {
+    rfturn vfrify(input);
+  }
+
+}

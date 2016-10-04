@@ -1,60 +1,60 @@
 /*
- * Copyright (c) 2002, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "sun_awt_windows_WBufferStrategy.h"
-#include "jni_util.h"
+#indludf "sun_bwt_windows_WBufffrStrbtfgy.i"
+#indludf "jni_util.i"
 
 
-static jmethodID getBackBufferID;
+stbtid jmftiodID gftBbdkBufffrID;
 
 /*
- * Class:     sun_awt_windows_WBufferStrategy
- * Method:    initIDs
- * Signature: (Ljava/lang/Class;)V
+ * Clbss:     sun_bwt_windows_WBufffrStrbtfgy
+ * Mftiod:    initIDs
+ * Signbturf: (Ljbvb/lbng/Clbss;)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WBufferStrategy_initIDs(JNIEnv *env, jclass wbs,
-                                             jclass componentClass)
+Jbvb_sun_bwt_windows_WBufffrStrbtfgy_initIDs(JNIEnv *fnv, jdlbss wbs,
+                                             jdlbss domponfntClbss)
 {
-    getBackBufferID = env->GetMethodID(componentClass, "getBackBuffer",
-                                       "()Ljava/awt/Image;");
+    gftBbdkBufffrID = fnv->GftMftiodID(domponfntClbss, "gftBbdkBufffr",
+                                       "()Ljbvb/bwt/Imbgf;");
 }
 
 /**
- * Native method of WBufferStrategy.java.  Given a Component
- * object, this method will find the back buffer associated
- * with the Component's BufferStrategy and return a handle
+ * Nbtivf mftiod of WBufffrStrbtfgy.jbvb.  Givfn b Componfnt
+ * objfdt, tiis mftiod will find tif bbdk bufffr bssodibtfd
+ * witi tif Componfnt's BufffrStrbtfgy bnd rfturn b ibndlf
  * to it.
  */
-extern "C" JNIEXPORT jobject JNICALL
-Java_sun_awt_windows_WBufferStrategy_getDrawBuffer(JNIEnv *env, jclass wbs,
-                                                   jobject component)
+fxtfrn "C" JNIEXPORT jobjfdt JNICALL
+Jbvb_sun_bwt_windows_WBufffrStrbtfgy_gftDrbwBufffr(JNIEnv *fnv, jdlbss wbs,
+                                                   jobjfdt domponfnt)
 {
-    if (!JNU_IsNull(env, getBackBufferID)) {
-        return env->CallObjectMethod(component, getBackBufferID);
-    } else {
-        return NULL;
+    if (!JNU_IsNull(fnv, gftBbdkBufffrID)) {
+        rfturn fnv->CbllObjfdtMftiod(domponfnt, gftBbdkBufffrID);
+    } flsf {
+        rfturn NULL;
     }
 }

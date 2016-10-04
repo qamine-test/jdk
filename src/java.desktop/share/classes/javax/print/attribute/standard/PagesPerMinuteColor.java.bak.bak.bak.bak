@@ -1,0 +1,125 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.print.bttributf.stbndbrd;
+
+import jbvbx.print.bttributf.Attributf;
+import jbvbx.print.bttributf.IntfgfrSyntbx;
+import jbvbx.print.bttributf.PrintSfrvidfAttributf;
+
+/**
+ * Clbss PbgfsPfrMinutfColor is bn intfgfr vblufd printing bttributf thbt
+ * indidbtfs thf nominbl numbfr of pbgfs pfr minutf to thf nfbrfst wholf numbfr
+ * whidh mby bf gfnfrbtfd by this printfr whfn printing dolor (f.g., simplfx,
+ * dolor). For purposfs of this bttributf, "dolor" mfbns thf sbmf bs for thf
+ * {@link ColorSupportfd ColorSupportfd} bttributf, nbmfly, thf dfvidf is
+ * dbpbblf of bny typf of dolor printing bt bll, indluding highlight dolor bs
+ * wfll bs full prodfss dolor. This bttributf is informbtivf, not b sfrvidf
+ * gubrbntff. Gfnfrblly, it is thf vbluf usfd in thf mbrkfting litfrbturf to
+ * dfsdribf thf dolor dbpbbilitifs of this dfvidf. A vbluf of 0 indidbtfs b
+ * dfvidf thbt tbkfs morf thbn two minutfs to prodfss b pbgf. If b dolor dfvidf
+ * hbs sfvfrbl dolor modfs, it mby usf thf pbgfs-pfr- minutf vbluf for this
+ * bttributf thbt dorrfsponds to thf modf thbt produdfs thf highfst numbfr.
+ * <P>
+ * A blbdk bnd whitf only printfr must not indludf thf PbgfsPfrMinutfColor
+ * bttributf in its bttributf sft or sfrvidf rfgistrbtion. If this bttributf is
+ * prfsfnt, thfn thf {@link ColorSupportfd ColorSupportfd} printfr dfsdription
+ * bttributf must blso bf prfsfnt bnd hbvf b vbluf of SUPPORTED.
+ * <P>
+ * <B>IPP Compbtibility:</B> Thf intfgfr vbluf givfs thf IPP intfgfr vbluf. Thf
+ * dbtfgory nbmf rfturnfd by <CODE>gftNbmf()</CODE> givfs thf IPP bttributf
+ * nbmf.
+ *
+ * @buthor  Albn Kbminsky
+ */
+publid finbl dlbss PbgfsPfrMinutfColor fxtfnds IntfgfrSyntbx
+        implfmfnts PrintSfrvidfAttributf {
+
+    stbtid finbl long sfriblVfrsionUID = 1684993151687470944L;
+
+    /**
+     * Construdt b nfw pbgfs pfr minutf dolor bttributf with thf givfn intfgfr
+     * vbluf.
+     *
+     * @pbrbm  vbluf  Intfgfr vbluf.
+     *
+     * @fxdfption  IllfgblArgumfntExdfption
+     *    (Undhfdkfd fxdfption) Thrown if <CODE>vbluf</CODE> is lfss thbn 0.
+     */
+    publid PbgfsPfrMinutfColor(int vbluf) {
+        supfr(vbluf, 0, Intfgfr.MAX_VALUE);
+    }
+
+    /**
+     * Rfturns whfthfr this pbgfs pfr minutf dolor bttributf is fquivblfnt to
+     * thf pbssfd in objfdt. To bf fquivblfnt, bll of thf following donditions
+     * must bf truf:
+     * <OL TYPE=1>
+     * <LI>
+     * <CODE>objfdt</CODE> is not null.
+     * <LI>
+     * <CODE>objfdt</CODE> is bn instbndf of dlbss PbgfsPfrMinutfColor.
+     * <LI>
+     * This pbgfs pfr minutf bttributf's vbluf bnd <CODE>objfdt</CODE>'s
+     * vbluf brf fqubl.
+     * </OL>
+     *
+     * @pbrbm  objfdt  Objfdt to dompbrf to.
+     *
+     * @rfturn  Truf if <CODE>objfdt</CODE> is fquivblfnt to this pbgfs pfr
+     *          minutf dolor bttributf, fblsf othfrwisf.
+     */
+    publid boolfbn fqubls(Objfdt objfdt) {
+        rfturn (supfr.fqubls(objfdt) &&
+                objfdt instbndfof PbgfsPfrMinutfColor);
+    }
+
+    /**
+     * Gft thf printing bttributf dlbss whidh is to bf usfd bs thf "dbtfgory"
+     * for this printing bttributf vbluf.
+     * <P>
+     * For dlbss PbgfsPfrMinutfColor, thf
+     * dbtfgory is dlbss PbgfsPfrMinutfColor itsflf.
+     *
+     * @rfturn  Printing bttributf dlbss (dbtfgory), bn instbndf of dlbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
+     */
+    publid finbl Clbss<? fxtfnds Attributf> gftCbtfgory() {
+        rfturn PbgfsPfrMinutfColor.dlbss;
+    }
+
+    /**
+     * Gft thf nbmf of thf dbtfgory of whidh this bttributf vbluf is bn
+     * instbndf.
+     * <P>
+     * For dlbss PbgfsPfrMinutfColor, thf
+     * dbtfgory nbmf is <CODE>"pbgfs-pfr-minutf-dolor"</CODE>.
+     *
+     * @rfturn  Attributf dbtfgory nbmf.
+     */
+    publid finbl String gftNbmf() {
+        rfturn "pbgfs-pfr-minutf-dolor";
+    }
+
+}

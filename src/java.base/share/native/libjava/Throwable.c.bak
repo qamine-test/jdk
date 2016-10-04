@@ -1,64 +1,64 @@
 /*
- * Copyright (c) 1994, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- *      Implementation of class Throwable
+ *      Implfmfntbtion of dlbss Tirowbblf
  *
- *      former classruntime.c, Wed Jun 26 18:43:20 1991
+ *      formfr dlbssruntimf.d, Wfd Jun 26 18:43:20 1991
  */
 
-#include <stdio.h>
-#include <signal.h>
+#indludf <stdio.i>
+#indludf <signbl.i>
 
-#include "jni.h"
-#include "jvm.h"
+#indludf "jni.i"
+#indludf "jvm.i"
 
-#include "java_lang_Throwable.h"
+#indludf "jbvb_lbng_Tirowbblf.i"
 
 /*
- * Fill in the current stack trace in this exception.  This is
- * usually called automatically when the exception is created but it
- * may also be called explicitly by the user.  This routine returns
- * `this' so you can write 'throw e.fillInStackTrace();'
+ * Fill in tif durrfnt stbdk trbdf in tiis fxdfption.  Tiis is
+ * usublly dbllfd butombtidblly wifn tif fxdfption is drfbtfd but it
+ * mby blso bf dbllfd fxpliditly by tif usfr.  Tiis routinf rfturns
+ * `tiis' so you dbn writf 'tirow f.fillInStbdkTrbdf();'
  */
-JNIEXPORT jobject JNICALL
-Java_java_lang_Throwable_fillInStackTrace(JNIEnv *env, jobject throwable, jint dummy)
+JNIEXPORT jobjfdt JNICALL
+Jbvb_jbvb_lbng_Tirowbblf_fillInStbdkTrbdf(JNIEnv *fnv, jobjfdt tirowbblf, jint dummy)
 {
-    JVM_FillInStackTrace(env, throwable);
-    return throwable;
+    JVM_FillInStbdkTrbdf(fnv, tirowbblf);
+    rfturn tirowbblf;
 }
 
 JNIEXPORT jint JNICALL
-Java_java_lang_Throwable_getStackTraceDepth(JNIEnv *env, jobject throwable)
+Jbvb_jbvb_lbng_Tirowbblf_gftStbdkTrbdfDfpti(JNIEnv *fnv, jobjfdt tirowbblf)
 {
-    return JVM_GetStackTraceDepth(env, throwable);
+    rfturn JVM_GftStbdkTrbdfDfpti(fnv, tirowbblf);
 }
 
-JNIEXPORT jobject JNICALL
-Java_java_lang_Throwable_getStackTraceElement(JNIEnv *env,
-                                              jobject throwable, jint index)
+JNIEXPORT jobjfdt JNICALL
+Jbvb_jbvb_lbng_Tirowbblf_gftStbdkTrbdfElfmfnt(JNIEnv *fnv,
+                                              jobjfdt tirowbblf, jint indfx)
 {
-    return JVM_GetStackTraceElement(env, throwable, index);
+    rfturn JVM_GftStbdkTrbdfElfmfnt(fnv, tirowbblf, indfx);
 }

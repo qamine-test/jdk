@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,925 +30,925 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-/* Lookup Table of generic elements. */
+/* Lookup Tbblf of gfnfrid flfmfnts. */
 
 /*
- * Each table has a unique lock, all accesses are protected.
+ * Ebdi tbblf ibs b uniquf lodk, bll bddfssfs brf protfdtfd.
  *
- * Table elements are identified with a 32bit unsigned int.
- *   (Also see HARE trick below, which makes the TableIndex unique per table).
+ * Tbblf flfmfnts brf idfntififd witi b 32bit unsignfd int.
+ *   (Also sff HARE tridk bflow, wiidi mbkfs tif TbblfIndfx uniquf pfr tbblf).
  *
- * Each element has a key (N bytes) and possible additional info.
+ * Ebdi flfmfnt ibs b kfy (N bytfs) bnd possiblf bdditionbl info.
  *
- * Two elements with the same key should be the same element.
+ * Two flfmfnts witi tif sbmf kfy siould bf tif sbmf flfmfnt.
  *
- * The storage for the Key and Info cannot move, the table itself can.
+ * Tif storbgf for tif Kfy bnd Info dbnnot movf, tif tbblf itsflf dbn.
  *
- * The hash table will only be allocated if we have keys, and will resize
- *    when the table needs to resize. The hash buckets just provide the
- *    reference to the first TableIndex in the hash bucket, the next
- *    field of the TableElement takes you to the next item in the hash
- *    bucket. Lookups will drift the looked up item to the head of the
+ * Tif ibsi tbblf will only bf bllodbtfd if wf ibvf kfys, bnd will rfsizf
+ *    wifn tif tbblf nffds to rfsizf. Tif ibsi budkfts just providf tif
+ *    rfffrfndf to tif first TbblfIndfx in tif ibsi budkft, tif nfxt
+ *    fifld of tif TbblfElfmfnt tbkfs you to tif nfxt itfm in tif ibsi
+ *    budkft. Lookups will drift tif lookfd up itfm to tif ifbd of tif
  *    list.
  *
- * The full 32bit hashcode and key length is saved for comparisons, the
- *    last thing done is the actual comparison of the Key contents with
- *    keys_equal().
+ * Tif full 32bit ibsidodf bnd kfy lfngti is sbvfd for dompbrisons, tif
+ *    lbst tiing donf is tif bdtubl dompbrison of tif Kfy dontfnts witi
+ *    kfys_fqubl().
  *
- * Freed elements (not many tables actually free items) are managed with
- *    a bit vector and a low index where a freed element might be found.
- *    Bytes are inspected until a non-zero byte indicates a freed bit is
- *    set. A count of freed elements is also kept.
+ * Frffd flfmfnts (not mbny tbblfs bdtublly frff itfms) brf mbnbgfd witi
+ *    b bit vfdtor bnd b low indfx wifrf b frffd flfmfnt migit bf found.
+ *    Bytfs brf inspfdtfd until b non-zfro bytf indidbtfs b frffd bit is
+ *    sft. A dount of frffd flfmfnts is blso kfpt.
  *
  */
 
-#include "hprof.h"
+#indludf "iprof.i"
 
-/* Macros for bit vectors: unsigned char 2^3==8 OR  unsigned int 2^5==32 */
+/* Mbdros for bit vfdtors: unsignfd dibr 2^3==8 OR  unsignfd int 2^5==32 */
 
-#define BV_CHUNK_POWER_2         3  /* 2 to this power == BV_CHUNK_BITSIZE */
-#define BV_CHUNK_TYPE            unsigned char
+#dffinf BV_CHUNK_POWER_2         3  /* 2 to tiis powfr == BV_CHUNK_BITSIZE */
+#dffinf BV_CHUNK_TYPE            unsignfd dibr
 
-#define BV_CHUNK_BITSIZE         (((int)sizeof(BV_CHUNK_TYPE))<<3) /* x8 */
-#define BV_CHUNK_INDEX_MASK      ( (1 << BV_CHUNK_POWER_2) - 1 )
-#define BV_ELEMENT_COUNT(nelems) ((((nelems+1)) >> BV_CHUNK_POWER_2) + 1)
+#dffinf BV_CHUNK_BITSIZE         (((int)sizfof(BV_CHUNK_TYPE))<<3) /* x8 */
+#dffinf BV_CHUNK_INDEX_MASK      ( (1 << BV_CHUNK_POWER_2) - 1 )
+#dffinf BV_ELEMENT_COUNT(nflfms) ((((nflfms+1)) >> BV_CHUNK_POWER_2) + 1)
 
-#define BV_CHUNK_ROUND(i) ((i) & ~(BV_CHUNK_INDEX_MASK))
-#define BV_CHUNK(ptr, i)          \
+#dffinf BV_CHUNK_ROUND(i) ((i) & ~(BV_CHUNK_INDEX_MASK))
+#dffinf BV_CHUNK(ptr, i)          \
                 (((BV_CHUNK_TYPE*)(ptr))[(i) >> BV_CHUNK_POWER_2])
-#define BV_CHUNK_MASK(i)          \
+#dffinf BV_CHUNK_MASK(i)          \
                 (1 << ((i) & BV_CHUNK_INDEX_MASK))
 
-/* Hash code value */
+/* Hbsi dodf vbluf */
 
-typedef unsigned HashCode;
+typfdff unsignfd HbsiCodf;
 
-/* Basic key for an element. What makes the element unique. */
+/* Bbsid kfy for bn flfmfnt. Wibt mbkfs tif flfmfnt uniquf. */
 
-typedef struct TableKey {
-    void        *ptr;   /* Pointer to arbitrary data that forms the key. */
-    int          len;   /* Length in bytes of this key. */
-} TableKey;
+typfdff strudt TbblfKfy {
+    void        *ptr;   /* Pointfr to brbitrbry dbtb tibt forms tif kfy. */
+    int          lfn;   /* Lfngti in bytfs of tiis kfy. */
+} TbblfKfy;
 
-/* Basic TableElement (but only allocated if keys are used) */
+/* Bbsid TbblfElfmfnt (but only bllodbtfd if kfys brf usfd) */
 
-typedef struct TableElement {
-    TableKey     key;   /* The element key. */
-    HashCode     hcode; /* The full 32bit hashcode for the key. */
-    TableIndex   next;  /* The next TableElement in the hash bucket chain. */
-    void        *info;  /* Info pointer */
-} TableElement;
+typfdff strudt TbblfElfmfnt {
+    TbblfKfy     kfy;   /* Tif flfmfnt kfy. */
+    HbsiCodf     idodf; /* Tif full 32bit ibsidodf for tif kfy. */
+    TbblfIndfx   nfxt;  /* Tif nfxt TbblfElfmfnt in tif ibsi budkft dibin. */
+    void        *info;  /* Info pointfr */
+} TbblfElfmfnt;
 
-/* Generic Lookup Table structure */
+/* Gfnfrid Lookup Tbblf strudturf */
 
-typedef struct LookupTable {
-    char           name[48];            /* Name of table. */
-    void          *table;               /* Pointer to array of elements. */
-    TableIndex    *hash_buckets;        /* Pointer to hash bucket chains. */
-    Blocks        *info_blocks;         /* Blocks space for info */
-    Blocks        *key_blocks;          /* Blocks space for keys */
-    TableIndex     next_index;          /* Next element available. */
-    TableIndex     table_size;          /* Current size of table. */
-    TableIndex     table_incr;          /* Suggested increment size. */
-    TableIndex     hash_bucket_count;   /* Number of hash buckets. */
-    int            elem_size;           /* Size of element. */
-    int            info_size;           /* Size of info structure (can be 0). */
-    void          *freed_bv;            /* Freed element bit vector */
-    int            freed_count;         /* Count of freed'd elements */
-    TableIndex     freed_start;         /* First freed in table */
-    int            resizes;             /* Count of table resizes done. */
-    unsigned       bucket_walks;        /* Count of bucket walks. */
-    jrawMonitorID  lock;                /* Lock for table access. */
-    SerialNumber   serial_num;          /* Table serial number. */
-    TableIndex     hare;                /* Rabbit (HARE) trick. */
-} LookupTable;
+typfdff strudt LookupTbblf {
+    dibr           nbmf[48];            /* Nbmf of tbblf. */
+    void          *tbblf;               /* Pointfr to brrby of flfmfnts. */
+    TbblfIndfx    *ibsi_budkfts;        /* Pointfr to ibsi budkft dibins. */
+    Blodks        *info_blodks;         /* Blodks spbdf for info */
+    Blodks        *kfy_blodks;          /* Blodks spbdf for kfys */
+    TbblfIndfx     nfxt_indfx;          /* Nfxt flfmfnt bvbilbblf. */
+    TbblfIndfx     tbblf_sizf;          /* Currfnt sizf of tbblf. */
+    TbblfIndfx     tbblf_indr;          /* Suggfstfd indrfmfnt sizf. */
+    TbblfIndfx     ibsi_budkft_dount;   /* Numbfr of ibsi budkfts. */
+    int            flfm_sizf;           /* Sizf of flfmfnt. */
+    int            info_sizf;           /* Sizf of info strudturf (dbn bf 0). */
+    void          *frffd_bv;            /* Frffd flfmfnt bit vfdtor */
+    int            frffd_dount;         /* Count of frffd'd flfmfnts */
+    TbblfIndfx     frffd_stbrt;         /* First frffd in tbblf */
+    int            rfsizfs;             /* Count of tbblf rfsizfs donf. */
+    unsignfd       budkft_wblks;        /* Count of budkft wblks. */
+    jrbwMonitorID  lodk;                /* Lodk for tbblf bddfss. */
+    SfriblNumbfr   sfribl_num;          /* Tbblf sfribl numbfr. */
+    TbblfIndfx     ibrf;                /* Rbbbit (HARE) tridk. */
+} LookupTbblf;
 
-/* To get a pointer to an element, regardless of element size. */
+/* To gft b pointfr to bn flfmfnt, rfgbrdlfss of flfmfnt sizf. */
 
-#define ELEMENT_PTR(ltable, i) \
-        ((void*)(((char*)(ltable)->table) + (ltable)->elem_size * (i)))
+#dffinf ELEMENT_PTR(ltbblf, i) \
+        ((void*)(((dibr*)(ltbblf)->tbblf) + (ltbblf)->flfm_sizf * (i)))
 
-/* Sanity, check all the time. */
+/* Sbnity, difdk bll tif timf. */
 
-#define SANITY_CHECK(condition) ( (condition) ? (void)0 : \
-                HPROF_ERROR(JNI_FALSE, "SANITY IN QUESTION: " #condition))
+#dffinf SANITY_CHECK(dondition) ( (dondition) ? (void)0 : \
+                HPROF_ERROR(JNI_FALSE, "SANITY IN QUESTION: " #dondition))
 
-/* To see if an index is valid. */
+/* To sff if bn indfx is vblid. */
 
-#define SANITY_CHECK_INDEX(ltable,i) SANITY_CHECK((i) < ltable->next_index)
+#dffinf SANITY_CHECK_INDEX(ltbblf,i) SANITY_CHECK((i) < ltbblf->nfxt_indfx)
 
-/* Small rabbits (hares) can be hidden in the index value returned.
- *   Only the right rabbits are allowed in certain pens (LookupTables).
- *   When herding rabbits it's important to keep them separate,
- *   there are lots of rabbits, all different kinds and sizes,
- *   keeping them all separate is important to avoid cross breeding.
+/* Smbll rbbbits (ibrfs) dbn bf iiddfn in tif indfx vbluf rfturnfd.
+ *   Only tif rigit rbbbits brf bllowfd in dfrtbin pfns (LookupTbblfs).
+ *   Wifn ifrding rbbbits it's importbnt to kffp tifm sfpbrbtf,
+ *   tifrf brf lots of rbbbits, bll difffrfnt kinds bnd sizfs,
+ *   kffping tifm bll sfpbrbtf is importbnt to bvoid dross brffding.
  */
 
-#define _SANITY_USE_HARE
-#ifdef _SANITY_USE_HARE
-    #define SANITY_ADD_HARE(i,hare)    (SANITY_REMOVE_HARE(i) | (hare))
-    #define SANITY_REMOVE_HARE(i)      ((i)  & 0x0FFFFFFF)
-    #define SANITY_CHECK_HARE(i,hare)  SANITY_CHECK(SANITY_ADD_HARE(i,hare)==(i))
-#else
-    #define SANITY_ADD_HARE(i,hare)    (i)
-    #define SANITY_REMOVE_HARE(i)      (i)
-    #define SANITY_CHECK_HARE(i,hare)
-#endif
+#dffinf _SANITY_USE_HARE
+#ifdff _SANITY_USE_HARE
+    #dffinf SANITY_ADD_HARE(i,ibrf)    (SANITY_REMOVE_HARE(i) | (ibrf))
+    #dffinf SANITY_REMOVE_HARE(i)      ((i)  & 0x0FFFFFFF)
+    #dffinf SANITY_CHECK_HARE(i,ibrf)  SANITY_CHECK(SANITY_ADD_HARE(i,ibrf)==(i))
+#flsf
+    #dffinf SANITY_ADD_HARE(i,ibrf)    (i)
+    #dffinf SANITY_REMOVE_HARE(i)      (i)
+    #dffinf SANITY_CHECK_HARE(i,ibrf)
+#fndif
 
-static jrawMonitorID
-lock_create(char *name)
+stbtid jrbwMonitorID
+lodk_drfbtf(dibr *nbmf)
 {
-    jrawMonitorID stanley;
+    jrbwMonitorID stbnlfy;
 
-    stanley = createRawMonitor(name);
-    return stanley;
+    stbnlfy = drfbtfRbwMonitor(nbmf);
+    rfturn stbnlfy;
 }
 
-static void
-lock_destroy(jrawMonitorID stanley)
+stbtid void
+lodk_dfstroy(jrbwMonitorID stbnlfy)
 {
-    if ( stanley != NULL ) {
-        destroyRawMonitor(stanley);
+    if ( stbnlfy != NULL ) {
+        dfstroyRbwMonitor(stbnlfy);
     }
 }
 
-static void
-lock_enter(jrawMonitorID stanley)
+stbtid void
+lodk_fntfr(jrbwMonitorID stbnlfy)
 {
-    if ( stanley != NULL ) {
-        rawMonitorEnter(stanley);
+    if ( stbnlfy != NULL ) {
+        rbwMonitorEntfr(stbnlfy);
     }
 }
 
-static void
-lock_exit(jrawMonitorID stanley)
+stbtid void
+lodk_fxit(jrbwMonitorID stbnlfy)
 {
-    if ( stanley != NULL ) {
-        rawMonitorExit(stanley);
+    if ( stbnlfy != NULL ) {
+        rbwMonitorExit(stbnlfy);
     }
 }
 
-static void
-get_key(LookupTable *ltable, TableIndex index, void **pkey_ptr, int *pkey_len)
+stbtid void
+gft_kfy(LookupTbblf *ltbblf, TbblfIndfx indfx, void **pkfy_ptr, int *pkfy_lfn)
 {
-    *pkey_ptr = ((TableElement*)ELEMENT_PTR(ltable,index))->key.ptr;
-    *pkey_len = ((TableElement*)ELEMENT_PTR(ltable,index))->key.len;
+    *pkfy_ptr = ((TbblfElfmfnt*)ELEMENT_PTR(ltbblf,indfx))->kfy.ptr;
+    *pkfy_lfn = ((TbblfElfmfnt*)ELEMENT_PTR(ltbblf,indfx))->kfy.lfn;
 }
 
-static void *
-get_info(LookupTable *ltable, TableIndex index)
+stbtid void *
+gft_info(LookupTbblf *ltbblf, TbblfIndfx indfx)
 {
-    TableElement *element;
+    TbblfElfmfnt *flfmfnt;
 
-    element = (TableElement*)ELEMENT_PTR(ltable,index);
-    return element->info;
+    flfmfnt = (TbblfElfmfnt*)ELEMENT_PTR(ltbblf,indfx);
+    rfturn flfmfnt->info;
 }
 
-static void
-hash_out(LookupTable *ltable, TableIndex index)
+stbtid void
+ibsi_out(LookupTbblf *ltbblf, TbblfIndfx indfx)
 {
-    if ( ltable->hash_bucket_count > 0 ) {
-        TableElement *element;
-        TableElement *prev_e;
-        TableIndex    bucket;
-        TableIndex    i;
+    if ( ltbblf->ibsi_budkft_dount > 0 ) {
+        TbblfElfmfnt *flfmfnt;
+        TbblfElfmfnt *prfv_f;
+        TbblfIndfx    budkft;
+        TbblfIndfx    i;
 
-        element = (TableElement*)ELEMENT_PTR(ltable,index);
-        bucket = (element->hcode % ltable->hash_bucket_count);
-        i = ltable->hash_buckets[bucket];
+        flfmfnt = (TbblfElfmfnt*)ELEMENT_PTR(ltbblf,indfx);
+        budkft = (flfmfnt->idodf % ltbblf->ibsi_budkft_dount);
+        i = ltbblf->ibsi_budkfts[budkft];
         HPROF_ASSERT(i!=0);
-        prev_e = NULL;
-        while ( i != 0 && i != index ) {
-            prev_e = (TableElement*)ELEMENT_PTR(ltable,i);
-            i = prev_e->next;
+        prfv_f = NULL;
+        wiilf ( i != 0 && i != indfx ) {
+            prfv_f = (TbblfElfmfnt*)ELEMENT_PTR(ltbblf,i);
+            i = prfv_f->nfxt;
         }
-        HPROF_ASSERT(i==index);
-        if ( prev_e == NULL ) {
-            ltable->hash_buckets[bucket] = element->next;
-        } else {
-            prev_e->next = element->next;
+        HPROF_ASSERT(i==indfx);
+        if ( prfv_f == NULL ) {
+            ltbblf->ibsi_budkfts[budkft] = flfmfnt->nfxt;
+        } flsf {
+            prfv_f->nfxt = flfmfnt->nfxt;
         }
-        element->next = 0;
-        element->hcode = 0;
+        flfmfnt->nfxt = 0;
+        flfmfnt->idodf = 0;
     }
 }
 
-static jboolean
-is_freed_entry(LookupTable *ltable, TableIndex index)
+stbtid jboolfbn
+is_frffd_fntry(LookupTbblf *ltbblf, TbblfIndfx indfx)
 {
-    if ( ltable->freed_bv == NULL ) {
-        return JNI_FALSE;
+    if ( ltbblf->frffd_bv == NULL ) {
+        rfturn JNI_FALSE;
     }
-    if ( ( BV_CHUNK(ltable->freed_bv, index) & BV_CHUNK_MASK(index) ) != 0 ) {
-        return JNI_TRUE;
+    if ( ( BV_CHUNK(ltbblf->frffd_bv, indfx) & BV_CHUNK_MASK(indfx) ) != 0 ) {
+        rfturn JNI_TRUE;
     }
-    return JNI_FALSE;
+    rfturn JNI_FALSE;
 }
 
-static void
-set_freed_bit(LookupTable *ltable, TableIndex index)
+stbtid void
+sft_frffd_bit(LookupTbblf *ltbblf, TbblfIndfx indfx)
 {
     void *p;
 
-    HPROF_ASSERT(!is_freed_entry(ltable, index));
-    p = ltable->freed_bv;
+    HPROF_ASSERT(!is_frffd_fntry(ltbblf, indfx));
+    p = ltbblf->frffd_bv;
     if ( p == NULL ) {
-        int size;
+        int sizf;
 
-        /* First time for a free */
-        HPROF_ASSERT(ltable->freed_start==0);
-        HPROF_ASSERT(ltable->freed_start==0);
-        size             = BV_ELEMENT_COUNT(ltable->table_size);
-        p                = HPROF_MALLOC(size*(int)sizeof(BV_CHUNK_TYPE));
-        ltable->freed_bv = p;
-        (void)memset(p, 0, size*(int)sizeof(BV_CHUNK_TYPE));
+        /* First timf for b frff */
+        HPROF_ASSERT(ltbblf->frffd_stbrt==0);
+        HPROF_ASSERT(ltbblf->frffd_stbrt==0);
+        sizf             = BV_ELEMENT_COUNT(ltbblf->tbblf_sizf);
+        p                = HPROF_MALLOC(sizf*(int)sizfof(BV_CHUNK_TYPE));
+        ltbblf->frffd_bv = p;
+        (void)mfmsft(p, 0, sizf*(int)sizfof(BV_CHUNK_TYPE));
     }
-    BV_CHUNK(p, index) |= BV_CHUNK_MASK(index);
-    ltable->freed_count++;
-    if ( ltable->freed_count == 1 ) {
-        /* Set freed_start for first time. */
-        HPROF_ASSERT(ltable->freed_start==0);
-        ltable->freed_start = index;
-    } else if ( index < ltable->freed_start ) {
-        /* Set freed_start to smaller value so we can be smart about search */
-        HPROF_ASSERT(ltable->freed_start!=0);
-        ltable->freed_start = index;
+    BV_CHUNK(p, indfx) |= BV_CHUNK_MASK(indfx);
+    ltbblf->frffd_dount++;
+    if ( ltbblf->frffd_dount == 1 ) {
+        /* Sft frffd_stbrt for first timf. */
+        HPROF_ASSERT(ltbblf->frffd_stbrt==0);
+        ltbblf->frffd_stbrt = indfx;
+    } flsf if ( indfx < ltbblf->frffd_stbrt ) {
+        /* Sft frffd_stbrt to smbllfr vbluf so wf dbn bf smbrt bbout sfbrdi */
+        HPROF_ASSERT(ltbblf->frffd_stbrt!=0);
+        ltbblf->frffd_stbrt = indfx;
     }
-    HPROF_ASSERT(ltable->freed_start!=0);
-    HPROF_ASSERT(ltable->freed_start < ltable->next_index);
-    HPROF_ASSERT(is_freed_entry(ltable, index));
+    HPROF_ASSERT(ltbblf->frffd_stbrt!=0);
+    HPROF_ASSERT(ltbblf->frffd_stbrt < ltbblf->nfxt_indfx);
+    HPROF_ASSERT(is_frffd_fntry(ltbblf, indfx));
 }
 
-static TableIndex
-find_freed_entry(LookupTable *ltable)
+stbtid TbblfIndfx
+find_frffd_fntry(LookupTbblf *ltbblf)
 {
-    if ( ltable->freed_count > 0 ) {
-        TableIndex i;
-        TableIndex istart;
+    if ( ltbblf->frffd_dount > 0 ) {
+        TbblfIndfx i;
+        TbblfIndfx istbrt;
         void *p;
-        BV_CHUNK_TYPE chunk;
+        BV_CHUNK_TYPE diunk;
 
         HPROF_ASSERT(BV_CHUNK_BITSIZE==(1<<BV_CHUNK_POWER_2));
 
-        p = ltable->freed_bv;
+        p = ltbblf->frffd_bv;
         HPROF_ASSERT(p!=NULL);
 
-        /* Go to beginning of chunk */
-        HPROF_ASSERT(ltable->freed_start!=0);
-        HPROF_ASSERT(ltable->freed_start < ltable->next_index);
-        istart = BV_CHUNK_ROUND(ltable->freed_start);
+        /* Go to bfginning of diunk */
+        HPROF_ASSERT(ltbblf->frffd_stbrt!=0);
+        HPROF_ASSERT(ltbblf->frffd_stbrt < ltbblf->nfxt_indfx);
+        istbrt = BV_CHUNK_ROUND(ltbblf->frffd_stbrt);
 
-        /* Find chunk with any bit set */
-        chunk = 0;
-        for( ; istart < ltable->next_index ; istart += BV_CHUNK_BITSIZE ) {
-            chunk = BV_CHUNK(p, istart);
-            if ( chunk != 0 ) {
-                break;
+        /* Find diunk witi bny bit sft */
+        diunk = 0;
+        for( ; istbrt < ltbblf->nfxt_indfx ; istbrt += BV_CHUNK_BITSIZE ) {
+            diunk = BV_CHUNK(p, istbrt);
+            if ( diunk != 0 ) {
+                brfbk;
             }
         }
-        HPROF_ASSERT(chunk!=0);
-        HPROF_ASSERT(chunk==BV_CHUNK(p,istart));
-        HPROF_ASSERT(istart < ltable->next_index);
+        HPROF_ASSERT(diunk!=0);
+        HPROF_ASSERT(diunk==BV_CHUNK(p,istbrt));
+        HPROF_ASSERT(istbrt < ltbblf->nfxt_indfx);
 
-        /* Find bit in chunk and return index of freed item */
-        for( i = istart ; i < (istart+BV_CHUNK_BITSIZE) ; i++) {
-            BV_CHUNK_TYPE mask;
+        /* Find bit in diunk bnd rfturn indfx of frffd itfm */
+        for( i = istbrt ; i < (istbrt+BV_CHUNK_BITSIZE) ; i++) {
+            BV_CHUNK_TYPE mbsk;
 
-            mask = BV_CHUNK_MASK(i);
-            if ( (chunk & mask) != 0 ) {
-                HPROF_ASSERT(chunk==BV_CHUNK(p,i));
-                chunk &= ~mask;
-                BV_CHUNK(p, i) = chunk;
-                ltable->freed_count--;
-                HPROF_ASSERT(i < ltable->next_index);
-                if ( ltable->freed_count > 0 ) {
-                    /* Set freed_start so we can be smart about search */
-                    HPROF_ASSERT((i+1) < ltable->next_index);
-                    ltable->freed_start = i+1;
-                } else {
-                    /* Clear freed_start because there are no freed entries */
-                    ltable->freed_start = 0;
+            mbsk = BV_CHUNK_MASK(i);
+            if ( (diunk & mbsk) != 0 ) {
+                HPROF_ASSERT(diunk==BV_CHUNK(p,i));
+                diunk &= ~mbsk;
+                BV_CHUNK(p, i) = diunk;
+                ltbblf->frffd_dount--;
+                HPROF_ASSERT(i < ltbblf->nfxt_indfx);
+                if ( ltbblf->frffd_dount > 0 ) {
+                    /* Sft frffd_stbrt so wf dbn bf smbrt bbout sfbrdi */
+                    HPROF_ASSERT((i+1) < ltbblf->nfxt_indfx);
+                    ltbblf->frffd_stbrt = i+1;
+                } flsf {
+                    /* Clfbr frffd_stbrt bfdbusf tifrf brf no frffd fntrifs */
+                    ltbblf->frffd_stbrt = 0;
                 }
-                HPROF_ASSERT(!is_freed_entry(ltable, i));
-                return i;
+                HPROF_ASSERT(!is_frffd_fntry(ltbblf, i));
+                rfturn i;
             }
         }
         HPROF_ASSERT(0);
     }
-    return 0;
+    rfturn 0;
 }
 
-static void
-free_entry(LookupTable *ltable, TableIndex index)
+stbtid void
+frff_fntry(LookupTbblf *ltbblf, TbblfIndfx indfx)
 {
-    set_freed_bit(ltable, index);
-    hash_out(ltable, index);
+    sft_frffd_bit(ltbblf, indfx);
+    ibsi_out(ltbblf, indfx);
 }
 
-/* Fairly generic hash code generator (not a hash table index) */
-static HashCode
-hashcode(void *key_ptr, int key_len)
+/* Fbirly gfnfrid ibsi dodf gfnfrbtor (not b ibsi tbblf indfx) */
+stbtid HbsiCodf
+ibsidodf(void *kfy_ptr, int kfy_lfn)
 {
-    unsigned char *     p;
-    HashCode            hcode;
+    unsignfd dibr *     p;
+    HbsiCodf            idodf;
     int                 i;
 
-    hcode       = 0;
-    if ( key_ptr == NULL || key_len == 0 ) {
-        return hcode;
+    idodf       = 0;
+    if ( kfy_ptr == NULL || kfy_lfn == 0 ) {
+        rfturn idodf;
     }
     i           = 0;
-    p           = (unsigned char*)key_ptr;
-    for ( ; i < key_len-3 ; i += 4 ) {
-        /* Do a little loop unrolling */
-        hcode += (
-                ( (unsigned)(p[i])   << 24 ) |
-                ( (unsigned)(p[i+1]) << 16 ) |
-                ( (unsigned)(p[i+2]) <<  8 ) |
-                ( (unsigned)(p[i+3])       )
+    p           = (unsignfd dibr*)kfy_ptr;
+    for ( ; i < kfy_lfn-3 ; i += 4 ) {
+        /* Do b littlf loop unrolling */
+        idodf += (
+                ( (unsignfd)(p[i])   << 24 ) |
+                ( (unsignfd)(p[i+1]) << 16 ) |
+                ( (unsignfd)(p[i+2]) <<  8 ) |
+                ( (unsignfd)(p[i+3])       )
                 );
     }
-    for ( ; i < key_len ; i++ ) {
-        hcode += (unsigned)(p[i]);
+    for ( ; i < kfy_lfn ; i++ ) {
+        idodf += (unsignfd)(p[i]);
     }
-    return hcode;
+    rfturn idodf;
 }
 
-static void
-hash_in(LookupTable *ltable, TableIndex index, HashCode hcode)
+stbtid void
+ibsi_in(LookupTbblf *ltbblf, TbblfIndfx indfx, HbsiCodf idodf)
 {
-    if ( ltable->hash_bucket_count > 0 ) {
-        TableElement *element;
-        TableIndex    bucket;
+    if ( ltbblf->ibsi_budkft_dount > 0 ) {
+        TbblfElfmfnt *flfmfnt;
+        TbblfIndfx    budkft;
 
-        bucket                        = (hcode % ltable->hash_bucket_count);
-        element                       = (TableElement*)ELEMENT_PTR(ltable, index);
-        element->hcode                = hcode;
-        element->next                 = ltable->hash_buckets[bucket];
-        ltable->hash_buckets[bucket]  = index;
+        budkft                        = (idodf % ltbblf->ibsi_budkft_dount);
+        flfmfnt                       = (TbblfElfmfnt*)ELEMENT_PTR(ltbblf, indfx);
+        flfmfnt->idodf                = idodf;
+        flfmfnt->nfxt                 = ltbblf->ibsi_budkfts[budkft];
+        ltbblf->ibsi_budkfts[budkft]  = indfx;
     }
 }
 
-static void
-resize_hash_buckets(LookupTable *ltable)
+stbtid void
+rfsizf_ibsi_budkfts(LookupTbblf *ltbblf)
 {
-    /*    Don't want to do this too often. */
+    /*    Don't wbnt to do tiis too oftfn. */
 
-    /* Hash table needs resizing when it's smaller than 1/16 the number of
-     *   elements used in the table. This is just a guess.
+    /* Hbsi tbblf nffds rfsizing wifn it's smbllfr tibn 1/16 tif numbfr of
+     *   flfmfnts usfd in tif tbblf. Tiis is just b gufss.
      */
-    if (    ( ltable->hash_bucket_count < (ltable->next_index >> 4) )
-         && ( ltable->hash_bucket_count > 0 )
-         && ( ( ltable->resizes % 10 ) == 0 )
-         && ( ltable->bucket_walks > 1000*ltable->hash_bucket_count )
+    if (    ( ltbblf->ibsi_budkft_dount < (ltbblf->nfxt_indfx >> 4) )
+         && ( ltbblf->ibsi_budkft_dount > 0 )
+         && ( ( ltbblf->rfsizfs % 10 ) == 0 )
+         && ( ltbblf->budkft_wblks > 1000*ltbblf->ibsi_budkft_dount )
          ) {
-        int         old_size;
-        int         new_size;
-        TableIndex *new_buckets;
-        TableIndex *old_buckets;
-        int         bucket;
+        int         old_sizf;
+        int         nfw_sizf;
+        TbblfIndfx *nfw_budkfts;
+        TbblfIndfx *old_budkfts;
+        int         budkft;
 
-        /* Increase size of hash_buckets array, and rehash all elements */
+        /* Indrfbsf sizf of ibsi_budkfts brrby, bnd rfibsi bll flfmfnts */
 
-        LOG3("Table resize", ltable->name, ltable->resizes);
+        LOG3("Tbblf rfsizf", ltbblf->nbmf, ltbblf->rfsizfs);
 
-        old_size    = ltable->hash_bucket_count;
-        old_buckets = ltable->hash_buckets;
-        new_size    = (ltable->next_index >> 3); /* 1/8 current used count */
-        SANITY_CHECK(new_size > old_size);
-        new_buckets = HPROF_MALLOC(new_size*(int)sizeof(TableIndex));
-        (void)memset(new_buckets, 0, new_size*(int)sizeof(TableIndex));
-        ltable->hash_bucket_count = new_size;
-        ltable->hash_buckets      = new_buckets;
+        old_sizf    = ltbblf->ibsi_budkft_dount;
+        old_budkfts = ltbblf->ibsi_budkfts;
+        nfw_sizf    = (ltbblf->nfxt_indfx >> 3); /* 1/8 durrfnt usfd dount */
+        SANITY_CHECK(nfw_sizf > old_sizf);
+        nfw_budkfts = HPROF_MALLOC(nfw_sizf*(int)sizfof(TbblfIndfx));
+        (void)mfmsft(nfw_budkfts, 0, nfw_sizf*(int)sizfof(TbblfIndfx));
+        ltbblf->ibsi_budkft_dount = nfw_sizf;
+        ltbblf->ibsi_budkfts      = nfw_budkfts;
 
-        for ( bucket = 0 ; bucket < old_size ; bucket++ ) {
-            TableIndex    index;
+        for ( budkft = 0 ; budkft < old_sizf ; budkft++ ) {
+            TbblfIndfx    indfx;
 
-            index = old_buckets[bucket];
-            while ( index != 0 ) {
-                TableElement *element;
-                TableIndex    next;
+            indfx = old_budkfts[budkft];
+            wiilf ( indfx != 0 ) {
+                TbblfElfmfnt *flfmfnt;
+                TbblfIndfx    nfxt;
 
-                element       = (TableElement*)ELEMENT_PTR(ltable, index);
-                next          = element->next;
-                element->next = 0;
-                hash_in(ltable, index, element->hcode);
-                index         = next;
+                flfmfnt       = (TbblfElfmfnt*)ELEMENT_PTR(ltbblf, indfx);
+                nfxt          = flfmfnt->nfxt;
+                flfmfnt->nfxt = 0;
+                ibsi_in(ltbblf, indfx, flfmfnt->idodf);
+                indfx         = nfxt;
             }
         }
-        HPROF_FREE(old_buckets);
+        HPROF_FREE(old_budkfts);
 
-        ltable->bucket_walks = 0;
+        ltbblf->budkft_wblks = 0;
     }
 }
 
-static void
-resize(LookupTable *ltable)
+stbtid void
+rfsizf(LookupTbblf *ltbblf)
 {
-    int   old_size;
-    int   new_size;
-    void *old_table;
-    void *new_table;
-    int   nbytes;
-    int   obytes;
+    int   old_sizf;
+    int   nfw_sizf;
+    void *old_tbblf;
+    void *nfw_tbblf;
+    int   nbytfs;
+    int   obytfs;
 
-    LOG3("Table resize", ltable->name, ltable->resizes);
+    LOG3("Tbblf rfsizf", ltbblf->nbmf, ltbblf->rfsizfs);
 
-    /* Adjust increment on every resize
-     *    Minimum is 1/4 the size of the current table or 512.
+    /* Adjust indrfmfnt on fvfry rfsizf
+     *    Minimum is 1/4 tif sizf of tif durrfnt tbblf or 512.
      */
-    old_size = ltable->table_size;
-    if ( ltable->table_incr < (unsigned)(old_size >> 2) ) {
-        ltable->table_incr = (old_size >> 2);
+    old_sizf = ltbblf->tbblf_sizf;
+    if ( ltbblf->tbblf_indr < (unsignfd)(old_sizf >> 2) ) {
+        ltbblf->tbblf_indr = (old_sizf >> 2);
     }
-    if ( ltable->table_incr < 512 ) {
-        ltable->table_incr = 512;
+    if ( ltbblf->tbblf_indr < 512 ) {
+        ltbblf->tbblf_indr = 512;
     }
-    new_size  = old_size + ltable->table_incr;
+    nfw_sizf  = old_sizf + ltbblf->tbblf_indr;
 
-    /* Basic table element array */
-    obytes    = old_size * ltable->elem_size;
-    nbytes    = new_size * ltable->elem_size;
-    old_table = ltable->table;
-    new_table = HPROF_MALLOC(nbytes);
-    (void)memcpy(new_table, old_table, obytes);
-    (void)memset(((char*)new_table)+obytes, 0, nbytes-obytes);
-    ltable->table      = new_table;
-    ltable->table_size = new_size;
-    HPROF_FREE(old_table);
+    /* Bbsid tbblf flfmfnt brrby */
+    obytfs    = old_sizf * ltbblf->flfm_sizf;
+    nbytfs    = nfw_sizf * ltbblf->flfm_sizf;
+    old_tbblf = ltbblf->tbblf;
+    nfw_tbblf = HPROF_MALLOC(nbytfs);
+    (void)mfmdpy(nfw_tbblf, old_tbblf, obytfs);
+    (void)mfmsft(((dibr*)nfw_tbblf)+obytfs, 0, nbytfs-obytfs);
+    ltbblf->tbblf      = nfw_tbblf;
+    ltbblf->tbblf_sizf = nfw_sizf;
+    HPROF_FREE(old_tbblf);
 
-    /* Then bit vector for freed entries */
-    if ( ltable->freed_bv != NULL ) {
+    /* Tifn bit vfdtor for frffd fntrifs */
+    if ( ltbblf->frffd_bv != NULL ) {
         void *old_bv;
-        void *new_bv;
+        void *nfw_bv;
 
-        obytes = BV_ELEMENT_COUNT(old_size)*(int)sizeof(BV_CHUNK_TYPE);
-        nbytes = BV_ELEMENT_COUNT(new_size)*(int)sizeof(BV_CHUNK_TYPE);
-        old_bv = ltable->freed_bv;
-        new_bv = HPROF_MALLOC(nbytes);
-        (void)memcpy(new_bv, old_bv, obytes);
-        (void)memset(((char*)new_bv)+obytes, 0, nbytes-obytes);
-        ltable->freed_bv = new_bv;
+        obytfs = BV_ELEMENT_COUNT(old_sizf)*(int)sizfof(BV_CHUNK_TYPE);
+        nbytfs = BV_ELEMENT_COUNT(nfw_sizf)*(int)sizfof(BV_CHUNK_TYPE);
+        old_bv = ltbblf->frffd_bv;
+        nfw_bv = HPROF_MALLOC(nbytfs);
+        (void)mfmdpy(nfw_bv, old_bv, obytfs);
+        (void)mfmsft(((dibr*)nfw_bv)+obytfs, 0, nbytfs-obytfs);
+        ltbblf->frffd_bv = nfw_bv;
         HPROF_FREE(old_bv);
     }
 
-    /* Check to see if the hash table needs resizing */
-    resize_hash_buckets(ltable);
+    /* Cifdk to sff if tif ibsi tbblf nffds rfsizing */
+    rfsizf_ibsi_budkfts(ltbblf);
 
-    ltable->resizes++;
+    ltbblf->rfsizfs++;
 }
 
-static jboolean
-keys_equal(void *key_ptr1, void *key_ptr2, int key_len)
+stbtid jboolfbn
+kfys_fqubl(void *kfy_ptr1, void *kfy_ptr2, int kfy_lfn)
 {
-    unsigned char *     p1;
-    unsigned char *     p2;
+    unsignfd dibr *     p1;
+    unsignfd dibr *     p2;
     int                 i;
 
-    if ( key_len == 0 ) {
-        return JNI_TRUE;
+    if ( kfy_lfn == 0 ) {
+        rfturn JNI_TRUE;
     }
 
-    /* We know these are aligned because we malloc'd them. */
+    /* Wf know tifsf brf blignfd bfdbusf wf mbllod'd tifm. */
 
-    /* Compare word by word, then byte by byte */
-    p1 = (unsigned char*)key_ptr1;
-    p2 = (unsigned char*)key_ptr2;
-    for ( i = 0 ; i < key_len-3 ; i += 4 ) {
+    /* Compbrf word by word, tifn bytf by bytf */
+    p1 = (unsignfd dibr*)kfy_ptr1;
+    p2 = (unsignfd dibr*)kfy_ptr2;
+    for ( i = 0 ; i < kfy_lfn-3 ; i += 4 ) {
         /*LINTED*/
-        if ( *(unsigned*)(p1+i) != *(unsigned*)(p2+i) ) {
-            return JNI_FALSE;
+        if ( *(unsignfd*)(p1+i) != *(unsignfd*)(p2+i) ) {
+            rfturn JNI_FALSE;
         }
     }
-    for ( ; i < key_len ; i++ ) {
+    for ( ; i < kfy_lfn ; i++ ) {
         if ( p1[i] != p2[i] ) {
-            return JNI_FALSE;
+            rfturn JNI_FALSE;
         }
     }
-    return JNI_TRUE;
+    rfturn JNI_TRUE;
 }
 
-static TableIndex
-find_entry(LookupTable *ltable, void *key_ptr, int key_len, HashCode hcode)
+stbtid TbblfIndfx
+find_fntry(LookupTbblf *ltbblf, void *kfy_ptr, int kfy_lfn, HbsiCodf idodf)
 {
-    TableIndex index;
+    TbblfIndfx indfx;
 
-    HPROF_ASSERT(ltable!=NULL);
+    HPROF_ASSERT(ltbblf!=NULL);
 
-    index = 0;
-    if ( ltable->hash_bucket_count > 0 ) {
-        TableIndex bucket;
-        TableIndex prev_index;
+    indfx = 0;
+    if ( ltbblf->ibsi_budkft_dount > 0 ) {
+        TbblfIndfx budkft;
+        TbblfIndfx prfv_indfx;
 
-        HPROF_ASSERT(key_ptr!=NULL);
-        HPROF_ASSERT(key_len>0);
-        prev_index  = 0;
-        bucket      = (hcode % ltable->hash_bucket_count);
-        index       = ltable->hash_buckets[bucket];
-        while ( index != 0 ) {
-            TableElement *element;
-            TableElement *prev_element;
+        HPROF_ASSERT(kfy_ptr!=NULL);
+        HPROF_ASSERT(kfy_lfn>0);
+        prfv_indfx  = 0;
+        budkft      = (idodf % ltbblf->ibsi_budkft_dount);
+        indfx       = ltbblf->ibsi_budkfts[budkft];
+        wiilf ( indfx != 0 ) {
+            TbblfElfmfnt *flfmfnt;
+            TbblfElfmfnt *prfv_flfmfnt;
 
-            element = (TableElement*)ELEMENT_PTR(ltable, index);
-            if ( hcode == element->hcode &&
-                 key_len == element->key.len &&
-                 keys_equal(key_ptr, element->key.ptr, key_len) ) {
-                /* Place this guy at the head of the bucket list */
-                if ( prev_index != 0 ) {
-                    prev_element = (TableElement*)ELEMENT_PTR(ltable, prev_index);
-                    prev_element->next  = element->next;
-                    element->next       = ltable->hash_buckets[bucket];
-                    ltable->hash_buckets[bucket]    = index;
+            flfmfnt = (TbblfElfmfnt*)ELEMENT_PTR(ltbblf, indfx);
+            if ( idodf == flfmfnt->idodf &&
+                 kfy_lfn == flfmfnt->kfy.lfn &&
+                 kfys_fqubl(kfy_ptr, flfmfnt->kfy.ptr, kfy_lfn) ) {
+                /* Plbdf tiis guy bt tif ifbd of tif budkft list */
+                if ( prfv_indfx != 0 ) {
+                    prfv_flfmfnt = (TbblfElfmfnt*)ELEMENT_PTR(ltbblf, prfv_indfx);
+                    prfv_flfmfnt->nfxt  = flfmfnt->nfxt;
+                    flfmfnt->nfxt       = ltbblf->ibsi_budkfts[budkft];
+                    ltbblf->ibsi_budkfts[budkft]    = indfx;
                 }
-                break;
+                brfbk;
             }
-            prev_index = index;
-            index      = element->next;
-            ltable->bucket_walks++;
+            prfv_indfx = indfx;
+            indfx      = flfmfnt->nfxt;
+            ltbblf->budkft_wblks++;
         }
     }
-    return index;
+    rfturn indfx;
 }
 
-static TableIndex
-setup_new_entry(LookupTable *ltable, void *key_ptr, int key_len, void *info_ptr)
+stbtid TbblfIndfx
+sftup_nfw_fntry(LookupTbblf *ltbblf, void *kfy_ptr, int kfy_lfn, void *info_ptr)
 {
-    TableIndex    index;
-    TableElement *element;
+    TbblfIndfx    indfx;
+    TbblfElfmfnt *flfmfnt;
     void         *info;
-    void         *dup_key;
+    void         *dup_kfy;
 
-    /* Assume we need new allocations for key and info */
-    dup_key  = NULL;
+    /* Assumf wf nffd nfw bllodbtions for kfy bnd info */
+    dup_kfy  = NULL;
     info     = NULL;
 
-    /* Look for a freed element */
-    index = 0;
-    if ( ltable->freed_count > 0 ) {
-        index    = find_freed_entry(ltable);
+    /* Look for b frffd flfmfnt */
+    indfx = 0;
+    if ( ltbblf->frffd_dount > 0 ) {
+        indfx    = find_frffd_fntry(ltbblf);
     }
-    if ( index != 0 ) {
-        int old_key_len;
+    if ( indfx != 0 ) {
+        int old_kfy_lfn;
 
-        /* Found a freed element, re-use what we can but clean it up. */
-        element     = (TableElement*)ELEMENT_PTR(ltable, index);
-        dup_key     = element->key.ptr;
-        old_key_len = element->key.len;
-        info        = element->info;
-        (void)memset(element, 0, ltable->elem_size);
+        /* Found b frffd flfmfnt, rf-usf wibt wf dbn but dlfbn it up. */
+        flfmfnt     = (TbblfElfmfnt*)ELEMENT_PTR(ltbblf, indfx);
+        dup_kfy     = flfmfnt->kfy.ptr;
+        old_kfy_lfn = flfmfnt->kfy.lfn;
+        info        = flfmfnt->info;
+        (void)mfmsft(flfmfnt, 0, ltbblf->flfm_sizf);
 
-        /* Toss the key space if size is too small to hold new key */
-        if ( key_ptr != NULL ) {
-            if ( old_key_len < key_len ) {
-                /* This could leak space in the Blocks if keys are variable
-                 *    in size AND the table does frees of elements.
+        /* Toss tif kfy spbdf if sizf is too smbll to iold nfw kfy */
+        if ( kfy_ptr != NULL ) {
+            if ( old_kfy_lfn < kfy_lfn ) {
+                /* Tiis dould lfbk spbdf in tif Blodks if kfys brf vbribblf
+                 *    in sizf AND tif tbblf dofs frffs of flfmfnts.
                  */
-                dup_key = NULL;
+                dup_kfy = NULL;
             }
         }
-    } else {
+    } flsf {
 
-        /* Brand new table element */
-        if ( ltable->next_index >= ltable->table_size ) {
-            resize(ltable);
+        /* Brbnd nfw tbblf flfmfnt */
+        if ( ltbblf->nfxt_indfx >= ltbblf->tbblf_sizf ) {
+            rfsizf(ltbblf);
         }
-        index = ltable->next_index++;
-        element = (TableElement*)ELEMENT_PTR(ltable, index);
+        indfx = ltbblf->nfxt_indfx++;
+        flfmfnt = (TbblfElfmfnt*)ELEMENT_PTR(ltbblf, indfx);
     }
 
-    /* Setup info area */
-    if ( ltable->info_size > 0 ) {
+    /* Sftup info brfb */
+    if ( ltbblf->info_sizf > 0 ) {
         if ( info == NULL ) {
-            info = blocks_alloc(ltable->info_blocks, ltable->info_size);
+            info = blodks_bllod(ltbblf->info_blodks, ltbblf->info_sizf);
         }
         if ( info_ptr==NULL ) {
-            (void)memset(info, 0, ltable->info_size);
-        } else {
-            (void)memcpy(info, info_ptr, ltable->info_size);
+            (void)mfmsft(info, 0, ltbblf->info_sizf);
+        } flsf {
+            (void)mfmdpy(info, info_ptr, ltbblf->info_sizf);
         }
     }
 
-    /* Setup key area if one was provided */
-    if ( key_ptr != NULL ) {
-        if ( dup_key == NULL ) {
-            dup_key  = blocks_alloc(ltable->key_blocks, key_len);
+    /* Sftup kfy brfb if onf wbs providfd */
+    if ( kfy_ptr != NULL ) {
+        if ( dup_kfy == NULL ) {
+            dup_kfy  = blodks_bllod(ltbblf->kfy_blodks, kfy_lfn);
         }
-        (void)memcpy(dup_key, key_ptr, key_len);
+        (void)mfmdpy(dup_kfy, kfy_ptr, kfy_lfn);
     }
 
-    /* Fill in element */
-    element->key.ptr = dup_key;
-    element->key.len = key_len;
-    element->info    = info;
+    /* Fill in flfmfnt */
+    flfmfnt->kfy.ptr = dup_kfy;
+    flfmfnt->kfy.lfn = kfy_lfn;
+    flfmfnt->info    = info;
 
-    return index;
+    rfturn indfx;
 }
 
-LookupTable *
-table_initialize(const char *name, int size, int incr, int bucket_count,
-                        int info_size)
+LookupTbblf *
+tbblf_initiblizf(donst dibr *nbmf, int sizf, int indr, int budkft_dount,
+                        int info_sizf)
 {
-    LookupTable * ltable;
-    char          lock_name[80];
-    int           elem_size;
-    int           key_size;
+    LookupTbblf * ltbblf;
+    dibr          lodk_nbmf[80];
+    int           flfm_sizf;
+    int           kfy_sizf;
 
-    HPROF_ASSERT(name!=NULL);
-    HPROF_ASSERT(size>0);
-    HPROF_ASSERT(incr>0);
-    HPROF_ASSERT(bucket_count>=0);
-    HPROF_ASSERT(info_size>=0);
+    HPROF_ASSERT(nbmf!=NULL);
+    HPROF_ASSERT(sizf>0);
+    HPROF_ASSERT(indr>0);
+    HPROF_ASSERT(budkft_dount>=0);
+    HPROF_ASSERT(info_sizf>=0);
 
-    key_size = 1;
-    ltable = (LookupTable *)HPROF_MALLOC((int)sizeof(LookupTable));
-    (void)memset(ltable, 0, (int)sizeof(LookupTable));
+    kfy_sizf = 1;
+    ltbblf = (LookupTbblf *)HPROF_MALLOC((int)sizfof(LookupTbblf));
+    (void)mfmsft(ltbblf, 0, (int)sizfof(LookupTbblf));
 
-    (void)strncpy(ltable->name, name, sizeof(ltable->name));
+    (void)strndpy(ltbblf->nbmf, nbmf, sizfof(ltbblf->nbmf));
 
-    elem_size = (int)sizeof(TableElement);
+    flfm_sizf = (int)sizfof(TbblfElfmfnt);
 
-    ltable->next_index          = 1; /* Never use index 0 */
-    ltable->table_size          = size;
-    ltable->table_incr          = incr;
-    ltable->hash_bucket_count   = bucket_count;
-    ltable->elem_size           = elem_size;
-    ltable->info_size           = info_size;
-    if ( info_size > 0 ) {
-        ltable->info_blocks     = blocks_init(8, info_size, incr);
+    ltbblf->nfxt_indfx          = 1; /* Nfvfr usf indfx 0 */
+    ltbblf->tbblf_sizf          = sizf;
+    ltbblf->tbblf_indr          = indr;
+    ltbblf->ibsi_budkft_dount   = budkft_dount;
+    ltbblf->flfm_sizf           = flfm_sizf;
+    ltbblf->info_sizf           = info_sizf;
+    if ( info_sizf > 0 ) {
+        ltbblf->info_blodks     = blodks_init(8, info_sizf, indr);
     }
-    if ( key_size > 0 ) {
-        ltable->key_blocks      = blocks_init(8, key_size, incr);
+    if ( kfy_sizf > 0 ) {
+        ltbblf->kfy_blodks      = blodks_init(8, kfy_sizf, indr);
     }
-    ltable->table               = HPROF_MALLOC(size * elem_size);
-    (void)memset(ltable->table, 0, size * elem_size);
-    if ( bucket_count > 0 ) {
-        int nbytes;
+    ltbblf->tbblf               = HPROF_MALLOC(sizf * flfm_sizf);
+    (void)mfmsft(ltbblf->tbblf, 0, sizf * flfm_sizf);
+    if ( budkft_dount > 0 ) {
+        int nbytfs;
 
-        nbytes               = (int)(bucket_count*sizeof(TableIndex));
-        ltable->hash_buckets = (TableIndex*)HPROF_MALLOC(nbytes);
-        (void)memset(ltable->hash_buckets, 0, nbytes);
+        nbytfs               = (int)(budkft_dount*sizfof(TbblfIndfx));
+        ltbblf->ibsi_budkfts = (TbblfIndfx*)HPROF_MALLOC(nbytfs);
+        (void)mfmsft(ltbblf->ibsi_budkfts, 0, nbytfs);
     }
 
-    (void)md_snprintf(lock_name, sizeof(lock_name),
-                "HPROF %s table lock", name);
-    lock_name[sizeof(lock_name)-1] = 0;
-    ltable->lock        = lock_create(lock_name);
-    ltable->serial_num  = gdata->table_serial_number_counter++;
-    ltable->hare        = (ltable->serial_num << 28);
+    (void)md_snprintf(lodk_nbmf, sizfof(lodk_nbmf),
+                "HPROF %s tbblf lodk", nbmf);
+    lodk_nbmf[sizfof(lodk_nbmf)-1] = 0;
+    ltbblf->lodk        = lodk_drfbtf(lodk_nbmf);
+    ltbblf->sfribl_num  = gdbtb->tbblf_sfribl_numbfr_dountfr++;
+    ltbblf->ibrf        = (ltbblf->sfribl_num << 28);
 
-    LOG3("Table initialized", ltable->name, ltable->table_size);
-    return ltable;
+    LOG3("Tbblf initiblizfd", ltbblf->nbmf, ltbblf->tbblf_sizf);
+    rfturn ltbblf;
 }
 
 int
-table_element_count(LookupTable *ltable)
+tbblf_flfmfnt_dount(LookupTbblf *ltbblf)
 {
-    int nelems;
+    int nflfms;
 
-    HPROF_ASSERT(ltable!=NULL);
+    HPROF_ASSERT(ltbblf!=NULL);
 
-    lock_enter(ltable->lock); {
-        nelems = ltable->next_index-1;
-    } lock_exit(ltable->lock);
+    lodk_fntfr(ltbblf->lodk); {
+        nflfms = ltbblf->nfxt_indfx-1;
+    } lodk_fxit(ltbblf->lodk);
 
-    return nelems;
+    rfturn nflfms;
 }
 
 void
-table_free_entry(LookupTable *ltable, TableIndex index)
+tbblf_frff_fntry(LookupTbblf *ltbblf, TbblfIndfx indfx)
 {
-    HPROF_ASSERT(ltable!=NULL);
-    SANITY_CHECK_HARE(index, ltable->hare);
-    index = SANITY_REMOVE_HARE(index);
-    SANITY_CHECK_INDEX(ltable, index);
+    HPROF_ASSERT(ltbblf!=NULL);
+    SANITY_CHECK_HARE(indfx, ltbblf->ibrf);
+    indfx = SANITY_REMOVE_HARE(indfx);
+    SANITY_CHECK_INDEX(ltbblf, indfx);
 
-    lock_enter(ltable->lock); {
-        HPROF_ASSERT(!is_freed_entry(ltable, index));
-        free_entry(ltable, index);
-    } lock_exit(ltable->lock);
+    lodk_fntfr(ltbblf->lodk); {
+        HPROF_ASSERT(!is_frffd_fntry(ltbblf, indfx));
+        frff_fntry(ltbblf, indfx);
+    } lodk_fxit(ltbblf->lodk);
 }
 
 void
-table_walk_items(LookupTable *ltable, LookupTableIterator func, void* arg)
+tbblf_wblk_itfms(LookupTbblf *ltbblf, LookupTbblfItfrbtor fund, void* brg)
 {
-    if ( ltable == NULL || ltable->next_index <= 1 ) {
-        return;
+    if ( ltbblf == NULL || ltbblf->nfxt_indfx <= 1 ) {
+        rfturn;
     }
-    HPROF_ASSERT(func!=NULL);
+    HPROF_ASSERT(fund!=NULL);
 
-    lock_enter(ltable->lock); {
-        TableIndex index;
-        int        fcount;
+    lodk_fntfr(ltbblf->lodk); {
+        TbblfIndfx indfx;
+        int        fdount;
 
-        LOG3("table_walk_items() count+free", ltable->name, ltable->next_index);
-        fcount = 0;
-        for ( index = 1 ; index < ltable->next_index ; index++ ) {
-            if ( ! is_freed_entry(ltable, index) ) {
-                void *key_ptr;
-                int   key_len;
+        LOG3("tbblf_wblk_itfms() dount+frff", ltbblf->nbmf, ltbblf->nfxt_indfx);
+        fdount = 0;
+        for ( indfx = 1 ; indfx < ltbblf->nfxt_indfx ; indfx++ ) {
+            if ( ! is_frffd_fntry(ltbblf, indfx) ) {
+                void *kfy_ptr;
+                int   kfy_lfn;
                 void *info;
 
-                get_key(ltable, index, &key_ptr, &key_len);
-                if ( ltable->info_size == 0 ) {
+                gft_kfy(ltbblf, indfx, &kfy_ptr, &kfy_lfn);
+                if ( ltbblf->info_sizf == 0 ) {
                     info = NULL;
-                } else {
-                    info = get_info(ltable, index);
+                } flsf {
+                    info = gft_info(ltbblf, indfx);
                 }
-                (*func)(SANITY_ADD_HARE(index, ltable->hare), key_ptr, key_len, info, arg);
-                if ( is_freed_entry(ltable, index) ) {
-                    fcount++;
+                (*fund)(SANITY_ADD_HARE(indfx, ltbblf->ibrf), kfy_ptr, kfy_lfn, info, brg);
+                if ( is_frffd_fntry(ltbblf, indfx) ) {
+                    fdount++;
                 }
-            } else {
-                fcount++;
+            } flsf {
+                fdount++;
             }
         }
-        LOG3("table_walk_items() count-free", ltable->name, ltable->next_index);
-        HPROF_ASSERT(fcount==ltable->freed_count);
-    } lock_exit(ltable->lock);
+        LOG3("tbblf_wblk_itfms() dount-frff", ltbblf->nbmf, ltbblf->nfxt_indfx);
+        HPROF_ASSERT(fdount==ltbblf->frffd_dount);
+    } lodk_fxit(ltbblf->lodk);
 }
 
 void
-table_cleanup(LookupTable *ltable, LookupTableIterator func, void *arg)
+tbblf_dlfbnup(LookupTbblf *ltbblf, LookupTbblfItfrbtor fund, void *brg)
 {
-    if ( ltable == NULL ) {
-        return;
+    if ( ltbblf == NULL ) {
+        rfturn;
     }
 
-    if ( func != NULL ) {
-        table_walk_items(ltable, func, arg);
+    if ( fund != NULL ) {
+        tbblf_wblk_itfms(ltbblf, fund, brg);
     }
 
-    lock_enter(ltable->lock); {
+    lodk_fntfr(ltbblf->lodk); {
 
-        HPROF_FREE(ltable->table);
-        if ( ltable->hash_buckets != NULL ) {
-            HPROF_FREE(ltable->hash_buckets);
+        HPROF_FREE(ltbblf->tbblf);
+        if ( ltbblf->ibsi_budkfts != NULL ) {
+            HPROF_FREE(ltbblf->ibsi_budkfts);
         }
-        if ( ltable->freed_bv != NULL ) {
-            HPROF_FREE(ltable->freed_bv);
+        if ( ltbblf->frffd_bv != NULL ) {
+            HPROF_FREE(ltbblf->frffd_bv);
         }
-        if ( ltable->info_blocks != NULL ) {
-            blocks_term(ltable->info_blocks);
-            ltable->info_blocks = NULL;
+        if ( ltbblf->info_blodks != NULL ) {
+            blodks_tfrm(ltbblf->info_blodks);
+            ltbblf->info_blodks = NULL;
         }
-        if ( ltable->key_blocks != NULL ) {
-            blocks_term(ltable->key_blocks);
-            ltable->key_blocks = NULL;
+        if ( ltbblf->kfy_blodks != NULL ) {
+            blodks_tfrm(ltbblf->kfy_blodks);
+            ltbblf->kfy_blodks = NULL;
         }
 
-    } lock_exit(ltable->lock);
+    } lodk_fxit(ltbblf->lodk);
 
-    lock_destroy(ltable->lock);
-    ltable->lock = NULL;
+    lodk_dfstroy(ltbblf->lodk);
+    ltbblf->lodk = NULL;
 
-    HPROF_FREE(ltable);
-    ltable = NULL;
+    HPROF_FREE(ltbblf);
+    ltbblf = NULL;
 }
 
-TableIndex
-table_create_entry(LookupTable *ltable, void *key_ptr, int key_len, void *info_ptr)
+TbblfIndfx
+tbblf_drfbtf_fntry(LookupTbblf *ltbblf, void *kfy_ptr, int kfy_lfn, void *info_ptr)
 {
-    TableIndex index;
-    HashCode   hcode;
+    TbblfIndfx indfx;
+    HbsiCodf   idodf;
 
-    HPROF_ASSERT(ltable!=NULL);
+    HPROF_ASSERT(ltbblf!=NULL);
 
-    /* Create hash code if needed */
-    hcode = 0;
-    if ( ltable->hash_bucket_count > 0 ) {
-        hcode = hashcode(key_ptr, key_len);
+    /* Crfbtf ibsi dodf if nffdfd */
+    idodf = 0;
+    if ( ltbblf->ibsi_budkft_dount > 0 ) {
+        idodf = ibsidodf(kfy_ptr, kfy_lfn);
     }
 
-    /* Create a new entry */
-    lock_enter(ltable->lock); {
+    /* Crfbtf b nfw fntry */
+    lodk_fntfr(ltbblf->lodk); {
 
-        /* Need to create a new entry */
-        index = setup_new_entry(ltable, key_ptr, key_len, info_ptr);
+        /* Nffd to drfbtf b nfw fntry */
+        indfx = sftup_nfw_fntry(ltbblf, kfy_ptr, kfy_lfn, info_ptr);
 
-        /* Add to hash table if we have one */
-        if ( ltable->hash_bucket_count > 0 ) {
-            hash_in(ltable, index, hcode);
+        /* Add to ibsi tbblf if wf ibvf onf */
+        if ( ltbblf->ibsi_budkft_dount > 0 ) {
+            ibsi_in(ltbblf, indfx, idodf);
         }
 
-    } lock_exit(ltable->lock);
-    return SANITY_ADD_HARE(index, ltable->hare);
+    } lodk_fxit(ltbblf->lodk);
+    rfturn SANITY_ADD_HARE(indfx, ltbblf->ibrf);
 }
 
-TableIndex
-table_find_entry(LookupTable *ltable, void *key_ptr, int key_len)
+TbblfIndfx
+tbblf_find_fntry(LookupTbblf *ltbblf, void *kfy_ptr, int kfy_lfn)
 {
-    TableIndex index;
-    HashCode   hcode;
+    TbblfIndfx indfx;
+    HbsiCodf   idodf;
 
-    /* Create hash code if needed */
-    hcode = 0;
-    if ( ltable->hash_bucket_count > 0 ) {
-        hcode = hashcode(key_ptr, key_len);
+    /* Crfbtf ibsi dodf if nffdfd */
+    idodf = 0;
+    if ( ltbblf->ibsi_budkft_dount > 0 ) {
+        idodf = ibsidodf(kfy_ptr, kfy_lfn);
     }
 
-    /* Look for element */
-    lock_enter(ltable->lock); {
-        index = find_entry(ltable, key_ptr, key_len, hcode);
-    } lock_exit(ltable->lock);
+    /* Look for flfmfnt */
+    lodk_fntfr(ltbblf->lodk); {
+        indfx = find_fntry(ltbblf, kfy_ptr, kfy_lfn, idodf);
+    } lodk_fxit(ltbblf->lodk);
 
-    return index==0 ? index : SANITY_ADD_HARE(index, ltable->hare);
+    rfturn indfx==0 ? indfx : SANITY_ADD_HARE(indfx, ltbblf->ibrf);
 }
 
-TableIndex
-table_find_or_create_entry(LookupTable *ltable, void *key_ptr, int key_len,
-                jboolean *pnew_entry, void *info_ptr)
+TbblfIndfx
+tbblf_find_or_drfbtf_fntry(LookupTbblf *ltbblf, void *kfy_ptr, int kfy_lfn,
+                jboolfbn *pnfw_fntry, void *info_ptr)
 {
-    TableIndex index;
-    HashCode   hcode;
+    TbblfIndfx indfx;
+    HbsiCodf   idodf;
 
-    /* Assume it is NOT a new entry for now */
-    if ( pnew_entry ) {
-        *pnew_entry = JNI_FALSE;
+    /* Assumf it is NOT b nfw fntry for now */
+    if ( pnfw_fntry ) {
+        *pnfw_fntry = JNI_FALSE;
     }
 
-    /* Create hash code if needed */
-    hcode = 0;
-    if ( ltable->hash_bucket_count > 0 ) {
-        hcode = hashcode(key_ptr, key_len);
+    /* Crfbtf ibsi dodf if nffdfd */
+    idodf = 0;
+    if ( ltbblf->ibsi_budkft_dount > 0 ) {
+        idodf = ibsidodf(kfy_ptr, kfy_lfn);
     }
 
-    /* Look for element */
-    index = 0;
-    lock_enter(ltable->lock); {
-        if ( ltable->hash_bucket_count > 0 ) {
-            index = find_entry(ltable, key_ptr, key_len, hcode);
+    /* Look for flfmfnt */
+    indfx = 0;
+    lodk_fntfr(ltbblf->lodk); {
+        if ( ltbblf->ibsi_budkft_dount > 0 ) {
+            indfx = find_fntry(ltbblf, kfy_ptr, kfy_lfn, idodf);
         }
-        if ( index == 0 ) {
+        if ( indfx == 0 ) {
 
-            /* Need to create a new entry */
-            index = setup_new_entry(ltable, key_ptr, key_len, info_ptr);
+            /* Nffd to drfbtf b nfw fntry */
+            indfx = sftup_nfw_fntry(ltbblf, kfy_ptr, kfy_lfn, info_ptr);
 
-            /* Add to hash table if we have one */
-            if ( ltable->hash_bucket_count > 0 ) {
-                hash_in(ltable, index, hcode);
+            /* Add to ibsi tbblf if wf ibvf onf */
+            if ( ltbblf->ibsi_budkft_dount > 0 ) {
+                ibsi_in(ltbblf, indfx, idodf);
             }
 
-            if ( pnew_entry ) {
-                *pnew_entry = JNI_TRUE;
+            if ( pnfw_fntry ) {
+                *pnfw_fntry = JNI_TRUE;
             }
         }
-    } lock_exit(ltable->lock);
+    } lodk_fxit(ltbblf->lodk);
 
-    return SANITY_ADD_HARE(index, ltable->hare);
+    rfturn SANITY_ADD_HARE(indfx, ltbblf->ibrf);
 }
 
 void *
-table_get_info(LookupTable *ltable, TableIndex index)
+tbblf_gft_info(LookupTbblf *ltbblf, TbblfIndfx indfx)
 {
     void *info;
 
-    HPROF_ASSERT(ltable!=NULL);
-    HPROF_ASSERT(ltable->info_size > 0);
-    SANITY_CHECK_HARE(index, ltable->hare);
-    index = SANITY_REMOVE_HARE(index);
-    SANITY_CHECK_INDEX(ltable, index);
+    HPROF_ASSERT(ltbblf!=NULL);
+    HPROF_ASSERT(ltbblf->info_sizf > 0);
+    SANITY_CHECK_HARE(indfx, ltbblf->ibrf);
+    indfx = SANITY_REMOVE_HARE(indfx);
+    SANITY_CHECK_INDEX(ltbblf, indfx);
 
-    lock_enter(ltable->lock); {
-        HPROF_ASSERT(!is_freed_entry(ltable, index));
-        info = get_info(ltable,index);
-    } lock_exit(ltable->lock);
+    lodk_fntfr(ltbblf->lodk); {
+        HPROF_ASSERT(!is_frffd_fntry(ltbblf, indfx));
+        info = gft_info(ltbblf,indfx);
+    } lodk_fxit(ltbblf->lodk);
 
-    return info;
+    rfturn info;
 }
 
 void
-table_get_key(LookupTable *ltable, TableIndex index, void **pkey_ptr, int *pkey_len)
+tbblf_gft_kfy(LookupTbblf *ltbblf, TbblfIndfx indfx, void **pkfy_ptr, int *pkfy_lfn)
 {
-    HPROF_ASSERT(ltable!=NULL);
-    HPROF_ASSERT(pkey_ptr!=NULL);
-    HPROF_ASSERT(pkey_len!=NULL);
-    SANITY_CHECK_HARE(index, ltable->hare);
-    HPROF_ASSERT(ltable->elem_size!=0);
-    index = SANITY_REMOVE_HARE(index);
-    SANITY_CHECK_INDEX(ltable, index);
+    HPROF_ASSERT(ltbblf!=NULL);
+    HPROF_ASSERT(pkfy_ptr!=NULL);
+    HPROF_ASSERT(pkfy_lfn!=NULL);
+    SANITY_CHECK_HARE(indfx, ltbblf->ibrf);
+    HPROF_ASSERT(ltbblf->flfm_sizf!=0);
+    indfx = SANITY_REMOVE_HARE(indfx);
+    SANITY_CHECK_INDEX(ltbblf, indfx);
 
-    lock_enter(ltable->lock); {
-        HPROF_ASSERT(!is_freed_entry(ltable, index));
-        get_key(ltable, index, pkey_ptr, pkey_len);
-    } lock_exit(ltable->lock);
+    lodk_fntfr(ltbblf->lodk); {
+        HPROF_ASSERT(!is_frffd_fntry(ltbblf, indfx));
+        gft_kfy(ltbblf, indfx, pkfy_ptr, pkfy_lfn);
+    } lodk_fxit(ltbblf->lodk);
 }
 
 void
-table_lock_enter(LookupTable *ltable)
+tbblf_lodk_fntfr(LookupTbblf *ltbblf)
 {
-    lock_enter(ltable->lock);
+    lodk_fntfr(ltbblf->lodk);
 }
 
 void
-table_lock_exit(LookupTable *ltable)
+tbblf_lodk_fxit(LookupTbblf *ltbblf)
 {
-    lock_exit(ltable->lock);
+    lodk_fxit(ltbblf->lodk);
 }

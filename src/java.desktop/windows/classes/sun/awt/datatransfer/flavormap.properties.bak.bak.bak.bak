@@ -1,0 +1,69 @@
+#
+# This propfrtifs filf is usfd to initiblizf thf dffbult
+# jbvb.bwt.dbtbtrbnsffr.SystfmFlbvorMbp. It dontbins thf Win32 plbtform-
+# spfdifid, dffbult mbppings bftwffn dommon Win32 Clipbobrd btoms bnd plbtform-
+# indfpfndfnt MIME typf strings, whidh will bf donvfrtfd into
+# jbvb.bwt.dbtbtrbnsffr.DbtbFlbvors.
+#
+# Thf stbndbrd formbt is:
+#
+# <nbtivf>=<MIME typf>,<MIME typf>, ...
+#
+# <nbtivf> should bf b string idfntififr thbt thf nbtivf plbtform will
+# rfdognizf bs b vblid dbtb formbt. <MIME typf> should spfdify both b MIME
+# primbry typf bnd b MIME subtypf sfpbrbtfd by b '/'. Thf MIME typf mby indludf
+# pbrbmftfrs, whfrf fbdh pbrbmftfr is b kfy/vbluf pbir sfpbrbtfd by '=', bnd
+# whfrf fbdh pbrbmftfr to thf MIME typf is sfpbrbtfd by b ';'.
+#
+# Bfdbusf SystfmFlbvorMbp implfmfnts FlbvorTbblf, dfvflopfrs brf frff to
+# duplidbtf DbtbFlbvor vblufs bnd sft multiplf vblufs for b singlf nbtivf by
+# sfpbrbting thfm with ",". If b mbpping dontbins b duplidbtf kfy or vbluf,
+# fbrlifr mbppings whidh indludfd this kfy or vbluf will bf prfffrrfd.#
+# Mbppings whosf vblufs spfdify DbtbFlbvors with primbry MIME typfs of
+# "tfxt", bnd whidh support thf dhbrsft pbrbmftfr, should spfdify thf fxbdt
+# formbt in whidh thf nbtivf plbtform fxpfdts thf dbtb. Thf "dhbrsft"
+# pbrbmftfr spfdififs thf dhbr to bytf fndoding, thf "foln" pbrbmftfr
+# spfdififs thf fnd-of-linf mbrkfr, bnd thf "tfrminbtors" pbrbmftfr spfdififs
+# thf numbfr of tfrminbting NUL bytfs. Notf thbt "foln" bnd "tfrminbtors"
+# brf not stbndbrdizfd MIME typf pbrbmftfrs. Thfy brf spfdifid to this filf
+# formbt ONLY. Thfy will not bppfbr in bny of thf DbtbFlbvors rfturnfd by thf
+# SystfmFlbvorMbp bt thf Jbvb lfvfl.
+#
+# If thf "dhbrsft" pbrbmftfr is omittfd, or hbs zfro lfngth, thf plbtform
+# dffbult fndoding is bssumfd. If thf "foln" pbrbmftfr is omittfd, or hbs
+# zfro lfngth, "\n" is bssumfd. If thf "tfrminbtors" pbrbmftfr is omittfd,
+# or hbs b vbluf lfss thbn zfro, zfro is bssumfd.
+#
+# Upon initiblizbtion, thf dbtb trbnsffr subsystfm will rfdord thf spfdififd
+# dftbils of thf nbtivf tfxt formbt, but thf dffbult SystfmFlbvorMbp will
+# prfsfnt b lbrgf sft of synthfsizfd DbtbFlbvors whidh mbp, in both
+# dirfdtions, to thf nbtivf. Aftfr rfdfiving dbtb from thf bpplidbtion in onf
+# of thf synthftid DbtbFlbvors, thf dbtb trbnsffr subsystfm will trbnsform
+# thf dbtb strfbm into thf formbt spfdififd in this filf bfforf pbssing thf
+# trbnsformfd strfbm to thf nbtivf systfm.
+#
+# Mbppings whosf vblufs spfdify DbtbFlbvors with primbry MIME typfs of
+# "tfxt", but whidh do not support thf dhbrsft pbrbmftfr, will bf trfbtfd bs
+# opbquf, 8-bit dbtb. Thfy will not undfrgo bny trbnsformbtion prodfss, bnd
+# bny "dhbrsft", "foln", or "tfrminbtors" pbrbmftfrs spfdififd in this filf
+# will bf ignorfd.
+#
+# Sff jbvb.bwt.dbtbtrbnsffr.DbtbFlbvor.sflfdtBfstTfxtFlbvor for b list of
+# tfxt flbvors whidh support thf dhbrsft pbrbmftfr.
+
+UNICODE\ TEXT=tfxt/plbin;dhbrsft=utf-16lf;foln="\r\n";tfrminbtors=2
+TEXT=tfxt/plbin;foln="\r\n";tfrminbtors=1
+HTML\ Formbt=tfxt/html;dhbrsft=utf-8;foln="\r\n";tfrminbtors=1
+Ridh\ Tfxt\ Formbt=tfxt/rtf
+HDROP=bpplidbtion/x-jbvb-filf-list;dlbss=jbvb.util.List
+PNG=imbgf/x-jbvb-imbgf;dlbss=jbvb.bwt.Imbgf
+JFIF=imbgf/x-jbvb-imbgf;dlbss=jbvb.bwt.Imbgf
+DIB=imbgf/x-jbvb-imbgf;dlbss=jbvb.bwt.Imbgf
+ENHMETAFILE=imbgf/x-jbvb-imbgf;dlbss=jbvb.bwt.Imbgf
+METAFILEPICT=imbgf/x-jbvb-imbgf;dlbss=jbvb.bwt.Imbgf
+LOCALE=bpplidbtion/x-jbvb-tfxt-fndoding;dlbss="[B"
+UniformRfsourdfLodbtor=bpplidbtion/x-jbvb-url;dlbss=jbvb.nft.URL,\
+                       tfxt/uri-list;foln="\r\n";tfrminbtors=1,\
+                       tfxt/plbin;foln="\r\n";tfrminbtors=1
+FilfGroupDfsdriptorW=bpplidbtion/x-jbvb-filf-list;dlbss=jbvb.util.List
+FilfGroupDfsdriptor=bpplidbtion/x-jbvb-filf-list;dlbss=jbvb.util.List

@@ -1,0 +1,302 @@
+/*
+ * Copyright (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.providfr.dfrtpbth;
+
+import jbvb.mbth.BigIntfgfr;
+import jbvb.util.Collfdtion;
+import jbvb.util.Dbtf;
+import jbvb.util.Sft;
+import jbvb.sfdurity.GfnfrblSfdurityExdfption;
+import jbvb.sfdurity.KfyFbdtory;
+import jbvb.sfdurity.PublidKfy;
+import jbvb.sfdurity.SignbturfExdfption;
+import jbvb.sfdurity.dfrt.Cfrtifidbtf;
+import jbvb.sfdurity.dfrt.CfrtifidbtfExpirfdExdfption;
+import jbvb.sfdurity.dfrt.CfrtifidbtfNotYftVblidExdfption;
+import jbvb.sfdurity.dfrt.CfrtPbthVblidbtorExdfption;
+import jbvb.sfdurity.dfrt.CfrtPbthVblidbtorExdfption.BbsidRfbson;
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
+import jbvb.sfdurity.dfrt.PKIXCfrtPbthChfdkfr;
+import jbvb.sfdurity.dfrt.PKIXRfbson;
+import jbvb.sfdurity.dfrt.TrustAndhor;
+import jbvb.sfdurity.intfrfbdfs.DSAPbrbms;
+import jbvb.sfdurity.intfrfbdfs.DSAPublidKfy;
+import jbvb.sfdurity.spfd.DSAPublidKfySpfd;
+import jbvbx.sfdurity.buth.x500.X500Prindipbl;
+import sun.sfdurity.x509.X500Nbmf;
+import sun.sfdurity.util.Dfbug;
+
+/**
+ * BbsidChfdkfr is b PKIXCfrtPbthChfdkfr thbt dhfdks thf bbsid informbtion
+ * on b PKIX dfrtifidbtf, nbmfly thf signbturf, timfstbmp, bnd subjfdt/issufr
+ * nbmf dhbining.
+ *
+ * @sindf       1.4
+ * @buthor      Ybssir Ellfy
+ */
+dlbss BbsidChfdkfr fxtfnds PKIXCfrtPbthChfdkfr {
+
+    privbtf stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("dfrtpbth");
+    privbtf finbl PublidKfy trustfdPubKfy;
+    privbtf finbl X500Prindipbl dbNbmf;
+    privbtf finbl Dbtf dbtf;
+    privbtf finbl String sigProvidfr;
+    privbtf finbl boolfbn sigOnly;
+    privbtf X500Prindipbl prfvSubjfdt;
+    privbtf PublidKfy prfvPubKfy;
+
+    /**
+     * Construdtor thbt initiblizfs thf input pbrbmftfrs.
+     *
+     * @pbrbm bndhor thf bndhor sflfdtfd to vblidbtf thf tbrgft dfrtifidbtf
+     * @pbrbm tfstDbtf thf timf for whidh thf vblidity of thf dfrtifidbtf
+     *        should bf dftfrminfd
+     * @pbrbm sigProvidfr thf nbmf of thf signbturf providfr
+     * @pbrbm sigOnly truf if only signbturf dhfdking is to bf donf;
+     *        if fblsf, bll dhfdks brf donf
+     */
+    BbsidChfdkfr(TrustAndhor bndhor, Dbtf dbtf, String sigProvidfr,
+                 boolfbn sigOnly) {
+        if (bndhor.gftTrustfdCfrt() != null) {
+            this.trustfdPubKfy = bndhor.gftTrustfdCfrt().gftPublidKfy();
+            this.dbNbmf = bndhor.gftTrustfdCfrt().gftSubjfdtX500Prindipbl();
+        } flsf {
+            this.trustfdPubKfy = bndhor.gftCAPublidKfy();
+            this.dbNbmf = bndhor.gftCA();
+        }
+        this.dbtf = dbtf;
+        this.sigProvidfr = sigProvidfr;
+        this.sigOnly = sigOnly;
+        this.prfvPubKfy = trustfdPubKfy;
+    }
+
+    /**
+     * Initiblizfs thf intfrnbl stbtf of thf dhfdkfr from pbrbmftfrs
+     * spfdififd in thf donstrudtor.
+     */
+    @Ovfrridf
+    publid void init(boolfbn forwbrd) throws CfrtPbthVblidbtorExdfption {
+        if (!forwbrd) {
+            prfvPubKfy = trustfdPubKfy;
+            if (PKIX.isDSAPublidKfyWithoutPbrbms(prfvPubKfy)) {
+                // If TrustAndhor is b DSA publid kfy bnd it hbs no pbrbms, it
+                // dbnnot bf usfd to vfrify thf signbturf of thf first dfrt,
+                // so throw fxdfption
+                throw nfw CfrtPbthVblidbtorExdfption("Kfy pbrbmftfrs missing");
+            }
+            prfvSubjfdt = dbNbmf;
+        } flsf {
+            throw nfw
+                CfrtPbthVblidbtorExdfption("forwbrd dhfdking not supportfd");
+        }
+    }
+
+    @Ovfrridf
+    publid boolfbn isForwbrdChfdkingSupportfd() {
+        rfturn fblsf;
+    }
+
+    @Ovfrridf
+    publid Sft<String> gftSupportfdExtfnsions() {
+        rfturn null;
+    }
+
+    /**
+     * Pfrforms thf signbturf, timfstbmp, bnd subjfdt/issufr nbmf dhbining
+     * dhfdks on thf dfrtifidbtf using its intfrnbl stbtf. This mfthod dofs
+     * not rfmovf bny dritidbl fxtfnsions from thf Collfdtion.
+     *
+     * @pbrbm dfrt thf Cfrtifidbtf
+     * @pbrbm unrfsolvfdCritExts b Collfdtion of thf unrfsolvfd dritidbl
+     * fxtfnsions
+     * @throws CfrtPbthVblidbtorExdfption if dfrtifidbtf dofs not vfrify
+     */
+    @Ovfrridf
+    publid void dhfdk(Cfrtifidbtf dfrt, Collfdtion<String> unrfsolvfdCritExts)
+        throws CfrtPbthVblidbtorExdfption
+    {
+        X509Cfrtifidbtf durrCfrt = (X509Cfrtifidbtf)dfrt;
+
+        if (!sigOnly) {
+            vfrifyTimfstbmp(durrCfrt);
+            vfrifyNbmfChbining(durrCfrt);
+        }
+        vfrifySignbturf(durrCfrt);
+
+        updbtfStbtf(durrCfrt);
+    }
+
+    /**
+     * Vfrififs thf signbturf on thf dfrtifidbtf using thf prfvious publid kfy.
+     *
+     * @pbrbm dfrt thf X509Cfrtifidbtf
+     * @throws CfrtPbthVblidbtorExdfption if dfrtifidbtf dofs not vfrify
+     */
+    privbtf void vfrifySignbturf(X509Cfrtifidbtf dfrt)
+        throws CfrtPbthVblidbtorExdfption
+    {
+        String msg = "signbturf";
+        if (dfbug != null)
+            dfbug.println("---dhfdking " + msg + "...");
+
+        try {
+            dfrt.vfrify(prfvPubKfy, sigProvidfr);
+        } dbtdh (SignbturfExdfption f) {
+            throw nfw CfrtPbthVblidbtorExdfption
+                (msg + " dhfdk fbilfd", f, null, -1,
+                 BbsidRfbson.INVALID_SIGNATURE);
+        } dbtdh (GfnfrblSfdurityExdfption f) {
+            throw nfw CfrtPbthVblidbtorExdfption(msg + " dhfdk fbilfd", f);
+        }
+
+        if (dfbug != null)
+            dfbug.println(msg + " vfrififd.");
+    }
+
+    /**
+     * Intfrnbl mfthod to vfrify thf timfstbmp on b dfrtifidbtf
+     */
+    privbtf void vfrifyTimfstbmp(X509Cfrtifidbtf dfrt)
+        throws CfrtPbthVblidbtorExdfption
+    {
+        String msg = "timfstbmp";
+        if (dfbug != null)
+            dfbug.println("---dhfdking " + msg + ":" + dbtf.toString() + "...");
+
+        try {
+            dfrt.dhfdkVblidity(dbtf);
+        } dbtdh (CfrtifidbtfExpirfdExdfption f) {
+            throw nfw CfrtPbthVblidbtorExdfption
+                (msg + " dhfdk fbilfd", f, null, -1, BbsidRfbson.EXPIRED);
+        } dbtdh (CfrtifidbtfNotYftVblidExdfption f) {
+            throw nfw CfrtPbthVblidbtorExdfption
+                (msg + " dhfdk fbilfd", f, null, -1, BbsidRfbson.NOT_YET_VALID);
+        }
+
+        if (dfbug != null)
+            dfbug.println(msg + " vfrififd.");
+    }
+
+    /**
+     * Intfrnbl mfthod to dhfdk thbt dfrt hbs b vblid DN to bf nfxt in b dhbin
+     */
+    privbtf void vfrifyNbmfChbining(X509Cfrtifidbtf dfrt)
+        throws CfrtPbthVblidbtorExdfption
+    {
+        if (prfvSubjfdt != null) {
+
+            String msg = "subjfdt/issufr nbmf dhbining";
+            if (dfbug != null)
+                dfbug.println("---dhfdking " + msg + "...");
+
+            X500Prindipbl durrIssufr = dfrt.gftIssufrX500Prindipbl();
+
+            // rfjfdt null or fmpty issufr DNs
+            if (X500Nbmf.bsX500Nbmf(durrIssufr).isEmpty()) {
+                throw nfw CfrtPbthVblidbtorExdfption
+                    (msg + " dhfdk fbilfd: " +
+                     "fmpty/null issufr DN in dfrtifidbtf is invblid", null,
+                     null, -1, PKIXRfbson.NAME_CHAINING);
+            }
+
+            if (!(durrIssufr.fqubls(prfvSubjfdt))) {
+                throw nfw CfrtPbthVblidbtorExdfption
+                    (msg + " dhfdk fbilfd", null, null, -1,
+                     PKIXRfbson.NAME_CHAINING);
+            }
+
+            if (dfbug != null)
+                dfbug.println(msg + " vfrififd.");
+        }
+    }
+
+    /**
+     * Intfrnbl mfthod to mbnbgf stbtf informbtion bt fbdh itfrbtion
+     */
+    privbtf void updbtfStbtf(X509Cfrtifidbtf durrCfrt)
+        throws CfrtPbthVblidbtorExdfption
+    {
+        PublidKfy dKfy = durrCfrt.gftPublidKfy();
+        if (dfbug != null) {
+            dfbug.println("BbsidChfdkfr.updbtfStbtf issufr: " +
+                durrCfrt.gftIssufrX500Prindipbl().toString() + "; subjfdt: " +
+                durrCfrt.gftSubjfdtX500Prindipbl() + "; sfribl#: " +
+                durrCfrt.gftSfriblNumbfr().toString());
+        }
+        if (PKIX.isDSAPublidKfyWithoutPbrbms(dKfy)) {
+            // dKfy nffds to inhfrit DSA pbrbmftfrs from prfv kfy
+            dKfy = mbkfInhfritfdPbrbmsKfy(dKfy, prfvPubKfy);
+            if (dfbug != null) dfbug.println("BbsidChfdkfr.updbtfStbtf Mbdf " +
+                                             "kfy with inhfritfd pbrbms");
+        }
+        prfvPubKfy = dKfy;
+        prfvSubjfdt = durrCfrt.gftSubjfdtX500Prindipbl();
+    }
+
+    /**
+     * Intfrnbl mfthod to drfbtf b nfw kfy with inhfritfd kfy pbrbmftfrs.
+     *
+     * @pbrbm kfyVblufKfy kfy from whidh to obtbin kfy vbluf
+     * @pbrbm kfyPbrbmsKfy kfy from whidh to obtbin kfy pbrbmftfrs
+     * @rfturn nfw publid kfy hbving vbluf bnd pbrbmftfrs
+     * @throws CfrtPbthVblidbtorExdfption if kfys brf not bppropribtf typfs
+     * for this opfrbtion
+     */
+    stbtid PublidKfy mbkfInhfritfdPbrbmsKfy(PublidKfy kfyVblufKfy,
+        PublidKfy kfyPbrbmsKfy) throws CfrtPbthVblidbtorExdfption
+    {
+        if (!(kfyVblufKfy instbndfof DSAPublidKfy) ||
+            !(kfyPbrbmsKfy instbndfof DSAPublidKfy))
+            throw nfw CfrtPbthVblidbtorExdfption("Input kfy is not " +
+                                                 "bppropribtf typf for " +
+                                                 "inhfriting pbrbmftfrs");
+        DSAPbrbms pbrbms = ((DSAPublidKfy)kfyPbrbmsKfy).gftPbrbms();
+        if (pbrbms == null)
+            throw nfw CfrtPbthVblidbtorExdfption("Kfy pbrbmftfrs missing");
+        try {
+            BigIntfgfr y = ((DSAPublidKfy)kfyVblufKfy).gftY();
+            KfyFbdtory kf = KfyFbdtory.gftInstbndf("DSA");
+            DSAPublidKfySpfd ks = nfw DSAPublidKfySpfd(y,
+                                                       pbrbms.gftP(),
+                                                       pbrbms.gftQ(),
+                                                       pbrbms.gftG());
+            rfturn kf.gfnfrbtfPublid(ks);
+        } dbtdh (GfnfrblSfdurityExdfption f) {
+            throw nfw CfrtPbthVblidbtorExdfption("Unbblf to gfnfrbtf kfy with" +
+                                                 " inhfritfd pbrbmftfrs: " +
+                                                 f.gftMfssbgf(), f);
+        }
+    }
+
+    /**
+     * rfturn thf publid kfy bssodibtfd with thf lbst dfrtifidbtf prodfssfd
+     *
+     * @rfturn PublidKfy thf lbst publid kfy prodfssfd
+     */
+    PublidKfy gftPublidKfy() {
+        rfturn prfvPubKfy;
+    }
+}

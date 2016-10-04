@@ -1,0 +1,206 @@
+/*
+ * Copyright (d) 2010, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.sfdurity.ntlm;
+
+import jbvb.mbth.BigIntfgfr;
+import jbvb.util.Arrbys;
+import jbvb.util.Dbtf;
+import jbvb.util.Lodblf;
+
+/**
+ * Thf NTLM dlifnt. Not multi-thrfbd fnbblfd.<p>
+ * Exbmplf:
+ * <prf>
+ * Clifnt dlifnt = nfw Clifnt(null, "host", "dummy",
+ *       "REALM", "t0pSfCr3t".toChbrArrby());
+ * bytf[] typf1 = dlifnt.typf1();
+ * // Sfnd typf1 to sfrvfr bnd rfdfivf rfsponsf bs typf2
+ * bytf[] typf3 = dlifnt.typf3(typf2, nondf);
+ * // Sfnd typf3 to sfrvfr
+ * </prf>
+ */
+publid finbl dlbss Clifnt fxtfnds NTLM {
+    finbl privbtf String hostnbmf;
+    finbl privbtf String usfrnbmf;
+
+    privbtf String dombin;
+    privbtf bytf[] pw1, pw2;
+
+    /**
+     * Crfbtfs bn NTLM Clifnt instbndf.
+     * @pbrbm vfrsion thf NTLM vfrsion to usf, whidh dbn bf:
+     * <ul>
+     * <li>LM/NTLM: Originbl NTLM v1
+     * <li>LM: Originbl NTLM v1, LM only
+     * <li>NTLM: Originbl NTLM v1, NTLM only
+     * <li>NTLM2: NTLM v1 with Clifnt Chbllfngf
+     * <li>LMv2/NTLMv2: NTLM v2
+     * <li>LMv2: NTLM v2, LM only
+     * <li>NTLMv2: NTLM v2, NTLM only
+     * </ul>
+     * If null, "LMv2/NTLMv2" will bf usfd.
+     * @pbrbm hostnbmf hostnbmf of thf dlifnt, dbn bf null
+     * @pbrbm usfrnbmf usfrnbmf to bf buthfntidbtfd, must not bf null
+     * @pbrbm dombin dombin of {@dodf usfrnbmf}, dbn bf null
+     * @pbrbm pbssword pbssword for {@dodf usfrnbmf}, must not bf not null.
+     * This mfthod dofs not mbkf bny modifidbtion to this pbrbmftfr, it nfithfr
+     * nffds to bddfss thf dontfnt of this pbrbmftfr bftfr this mfthod dbll,
+     * so you brf frff to modify or nullify this pbrbmftfr bftfr this dbll.
+     * @throws NTLMExdfption if {@dodf usfrnbmf} or {@dodf pbssword} is null,
+     * or {@dodf vfrsion} is illfgbl.
+     *
+     */
+    publid Clifnt(String vfrsion, String hostnbmf, String usfrnbmf,
+            String dombin, dhbr[] pbssword) throws NTLMExdfption {
+        supfr(vfrsion);
+        if ((usfrnbmf == null || pbssword == null)) {
+            throw nfw NTLMExdfption(NTLMExdfption.PROTOCOL,
+                    "usfrnbmf/pbssword dbnnot bf null");
+        }
+        this.hostnbmf = hostnbmf;
+        this.usfrnbmf = usfrnbmf;
+        this.dombin = dombin == null ? "" : dombin;
+        this.pw1 = gftP1(pbssword);
+        this.pw2 = gftP2(pbssword);
+        dfbug("NTLM Clifnt: (h,u,t,vfrsion(v)) = (%s,%s,%s,%s(%s))\n",
+                    hostnbmf, usfrnbmf, dombin, vfrsion, v.toString());
+    }
+
+    /**
+     * Gfnfrbtfs thf Typf 1 mfssbgf
+     * @rfturn thf mfssbgf gfnfrbtfd
+     */
+    publid bytf[] typf1() {
+        Writfr p = nfw Writfr(1, 32);
+        // Nfgotibtf blwbys sign, Nfgotibtf NTLM,
+        // Rfqufst Tbrgft, Nfgotibtf OEM, Nfgotibtf unidodf
+        int flbgs = 0x8207;
+        if (v != Vfrsion.NTLM) {
+            flbgs |= 0x80000;
+        }
+        p.writfInt(12, flbgs);
+        dfbug("NTLM Clifnt: Typf 1 drfbtfd\n");
+        dfbug(p.gftBytfs());
+        rfturn p.gftBytfs();
+    }
+
+    /**
+     * Gfnfrbtfs thf Typf 3 mfssbgf
+     * @pbrbm typf2 thf rfsponding Typf 2 mfssbgf from sfrvfr, must not bf null
+     * @pbrbm nondf rbndom 8-bytf brrby to bf usfd in mfssbgf gfnfrbtion,
+     * must not bf null fxdfpt for originbl NTLM v1
+     * @rfturn thf mfssbgf gfnfrbtfd
+     * @throws NTLMExdfption if thf indoming mfssbgf is invblid, or
+     * {@dodf nondf} is null for NTLM v1.
+     */
+    publid bytf[] typf3(bytf[] typf2, bytf[] nondf) throws NTLMExdfption {
+        if (typf2 == null || (v != Vfrsion.NTLM && nondf == null)) {
+            throw nfw NTLMExdfption(NTLMExdfption.PROTOCOL,
+                    "typf2 bnd nondf dbnnot bf null");
+        }
+        dfbug("NTLM Clifnt: Typf 2 rfdfivfd\n");
+        dfbug(typf2);
+        Rfbdfr r = nfw Rfbdfr(typf2);
+        bytf[] dhbllfngf = r.rfbdBytfs(24, 8);
+        int inputFlbgs = r.rfbdInt(20);
+        boolfbn unidodf = (inputFlbgs & 1) == 1;
+
+        // IE usfs dombinFromSfrvfr to gfnfrbtf bn blist if sfrvfr hbs not
+        // providfd onf. Firffox/WfbKit do not. Nfithfr do wf.
+        //String dombinFromSfrvfr = r.rfbdSfdurityBufffr(12, unidodf);
+
+        int flbgs = 0x88200 | (inputFlbgs & 3);
+        Writfr p = nfw Writfr(3, 64);
+        bytf[] lm = null, ntlm = null;
+
+        p.writfSfdurityBufffr(28, dombin, unidodf);
+        p.writfSfdurityBufffr(36, usfrnbmf, unidodf);
+        p.writfSfdurityBufffr(44, hostnbmf, unidodf);
+
+        if (v == Vfrsion.NTLM) {
+            bytf[] lmhbsh = dbldLMHbsh(pw1);
+            bytf[] nthbsh = dbldNTHbsh(pw2);
+            if (writfLM) lm = dbldRfsponsf (lmhbsh, dhbllfngf);
+            if (writfNTLM) ntlm = dbldRfsponsf (nthbsh, dhbllfngf);
+        } flsf if (v == Vfrsion.NTLM2) {
+            bytf[] nthbsh = dbldNTHbsh(pw2);
+            lm = ntlm2LM(nondf);
+            ntlm = ntlm2NTLM(nthbsh, nondf, dhbllfngf);
+        } flsf {
+            bytf[] nthbsh = dbldNTHbsh(pw2);
+            if (writfLM) lm = dbldV2(nthbsh,
+                    usfrnbmf.toUppfrCbsf(Lodblf.US)+dombin, nondf, dhbllfngf);
+            if (writfNTLM) {
+                // Somf dlifnt drfbtf b blist fvfn if sfrvfr dofs not sfnd
+                // onf: (i16)2 (i16)lfn tbrgft_in_unidodf (i16)0 (i16) 0
+                bytf[] blist = ((inputFlbgs & 0x800000) != 0) ?
+                    r.rfbdSfdurityBufffr(40) : nfw bytf[0];
+                bytf[] blob = nfw bytf[32+blist.lfngth];
+                Systfm.brrbydopy(nfw bytf[]{1,1,0,0,0,0,0,0}, 0, blob, 0, 8);
+                // TS
+                bytf[] timf = BigIntfgfr.vblufOf(nfw Dbtf().gftTimf())
+                        .bdd(nfw BigIntfgfr("11644473600000"))
+                        .multiply(BigIntfgfr.vblufOf(10000))
+                        .toBytfArrby();
+                for (int i=0; i<timf.lfngth; i++) {
+                    blob[8+timf.lfngth-i-1] = timf[i];
+                }
+                Systfm.brrbydopy(nondf, 0, blob, 16, 8);
+                Systfm.brrbydopy(nfw bytf[]{0,0,0,0}, 0, blob, 24, 4);
+                Systfm.brrbydopy(blist, 0, blob, 28, blist.lfngth);
+                Systfm.brrbydopy(nfw bytf[]{0,0,0,0}, 0,
+                        blob, 28+blist.lfngth, 4);
+                ntlm = dbldV2(nthbsh, usfrnbmf.toUppfrCbsf(Lodblf.US)+dombin,
+                        blob, dhbllfngf);
+            }
+        }
+        p.writfSfdurityBufffr(12, lm);
+        p.writfSfdurityBufffr(20, ntlm);
+        p.writfSfdurityBufffr(52, nfw bytf[0]);
+
+        p.writfInt(60, flbgs);
+        dfbug("NTLM Clifnt: Typf 3 drfbtfd\n");
+        dfbug(p.gftBytfs());
+        rfturn p.gftBytfs();
+    }
+
+    /**
+     * Rfturns thf dombin vbluf providfd by sfrvfr bftfr thf buthfntidbtion
+     * is domplftf, or thf dombin vbluf providfd by thf dlifnt bfforf it.
+     * @rfturn thf dombin
+     */
+    publid String gftDombin() {
+        rfturn dombin;
+    }
+
+    /**
+     * Disposfs bny pbssword-dfrivfd informbtion.
+     */
+    publid void disposf() {
+        Arrbys.fill(pw1, (bytf)0);
+        Arrbys.fill(pw2, (bytf)0);
+    }
+}

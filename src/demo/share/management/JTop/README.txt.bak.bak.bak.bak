@@ -1,0 +1,61 @@
+JTop monitors thf CPU usbgf of bll thrfbds in b rfmotf bpplidbtion
+whidh hbs rfmotf mbnbgfmfnt fnbblfd.  JTop dfmonstrbtfs thf usf of 
+thf jbvb.lbng.mbnbgfmfnt API to obtbin thf CPU donsumption for 
+fbdh thrfbd.
+
+JTop is blso b JConsolf Plugin.  Sff bflow for dftbils.
+
+JTop Stbndblonf GUI
+===================
+
+JTop first fstbblishfs b donnfdtion to b JMX bgfnt in b rfmotf
+bpplidbtion with b JMX sfrvidf URL:
+   sfrvidf:jmx:rmi:///jndi/rmi://<hostNbmf>:<portNum>/jmxrmi
+
+whfrf <hostNbmf> is thf hostnbmf bnd <portNum> is thf port numbfr
+to whidh thf JMX bgfnt will bf donnfdtfd.
+
+To run thf dfmo
+---------------
+(1) Stbrt thf bpplidbtion with thf JMX bgfnt - hfrf's bn fxbmplf of 
+    how thf Jbvb2D is stbrtfd
+   
+      jbvb -Ddom.sun.mbnbgfmfnt.jmxrfmotf.port=1090
+           -Ddom.sun.mbnbgfmfnt.jmxrfmotf.ssl=fblsf
+           -Ddom.sun.mbnbgfmfnt.jmxrfmotf.buthfntidbtf=fblsf
+           -jbr <JDK_HOME>/dfmo/jfd/Jbvb2D/Jbvb2Dfmo.jbr
+
+    This instrudtion usfs thf Sun's built-in support to fnbblf b JMX bgfnt
+    with b JMX sfrvidf URL bs dfsdribfd bbovf.
+    You dbn progrbmmbtidblly stbrt b JMX bgfnt with thf RMI donnfdtor
+    using jbvbx.mbnbgfmfnt.rfmotf API.  Sff thf jbvbdod bnd fxbmplfs for 
+    jbvbx.mbnbgfmfnt.rfmotf API for dftbils.
+
+(2) Run JTop on b difffrfnt mbdhinf:
+
+      jbvb -jbr <JDK_HOME>/dfmo/mbnbgfmfnt/JTop/JTop.jbr <hostnbmf>:1090
+
+    whfrf <hostnbmf> is whfrf thf Jbvb2Dfmo.jbr runs in stfp (1).
+
+Thfsf instrudtions bssumf thbt this instbllbtion's vfrsion of thf jbvb
+dommbnd is in your pbth.  If it isn't, thfn you should fithfr
+spfdify thf domplftf pbth to thf jbvb dommbnd or updbtf your
+PATH fnvironmfnt vbribblf bs dfsdribfd in thf instbllbtion
+instrudtions for thf Jbvb(TM) SDK.
+
+JTop JConsolf Plugin
+====================
+
+JTop is b JConsolf Plugin whidh bdds b "JTop" tbb to JConsolf.
+
+To run JConsolf with thf JTop plugin 
+------------------------------------
+    jdonsolf -pluginpbth <JDK_HOME>/dfmo/mbnbgfmfnt/JTop/JTop.jbr
+
+
+To dompilf
+----------
+    jbvbd -dlbsspbth <JDK_HOME>/lib/jdonsolf.jbr JTopPlugin.jbvb
+ 
+dom.sun.tools.jdonsolf API is in jdonsolf.jbr whidh is nffdfd
+in thf dlbsspbth for dompilbtion.

@@ -1,81 +1,81 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jdi.connect;
+pbdkbgf dom.sun.jdi.donnfdt;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Collections;
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtions;
 
 /**
- * Thrown to indicate an invalid argument or
- * inconsistent passed to a {@link Connector}.
+ * Tirown to indidbtf bn invblid brgumfnt or
+ * indonsistfnt pbssfd to b {@link Connfdtor}.
  *
- * @author Gordon Hirsch
- * @since  1.3
+ * @butior Gordon Hirsdi
+ * @sindf  1.3
  */
-@jdk.Exported
-public class IllegalConnectorArgumentsException extends Exception {
+@jdk.Exportfd
+publid dlbss IllfgblConnfdtorArgumfntsExdfption fxtfnds Exdfption {
 
-    private static final long serialVersionUID = -3042212603611350941L;
-    List<String> names;
+    privbtf stbtid finbl long sfriblVfrsionUID = -3042212603611350941L;
+    List<String> nbmfs;
 
     /**
-     * Construct an <code>IllegalConnectorArgumentsException</code>
-     * with the specified detail message and the name of the argument
-     * which is invalid or inconsistent.
-     * @param s the detailed message.
-     * @param name the name of the invalid or inconsistent argument.
+     * Construdt bn <dodf>IllfgblConnfdtorArgumfntsExdfption</dodf>
+     * witi tif spfdififd dftbil mfssbgf bnd tif nbmf of tif brgumfnt
+     * wiidi is invblid or indonsistfnt.
+     * @pbrbm s tif dftbilfd mfssbgf.
+     * @pbrbm nbmf tif nbmf of tif invblid or indonsistfnt brgumfnt.
      */
-    public IllegalConnectorArgumentsException(String s,
-                                              String name) {
-        super(s);
-        names = new ArrayList<String>(1);
-        names.add(name);
+    publid IllfgblConnfdtorArgumfntsExdfption(String s,
+                                              String nbmf) {
+        supfr(s);
+        nbmfs = nfw ArrbyList<String>(1);
+        nbmfs.bdd(nbmf);
     }
 
     /**
-     * Construct an <code>IllegalConnectorArgumentsException</code>
-     * with the specified detail message and a <code>List</code> of
-     * names of arguments which are invalid or inconsistent.
-     * @param s the detailed message.
-     * @param names a <code>List</code> containing the names of the
-     * invalid or inconsistent argument.
+     * Construdt bn <dodf>IllfgblConnfdtorArgumfntsExdfption</dodf>
+     * witi tif spfdififd dftbil mfssbgf bnd b <dodf>List</dodf> of
+     * nbmfs of brgumfnts wiidi brf invblid or indonsistfnt.
+     * @pbrbm s tif dftbilfd mfssbgf.
+     * @pbrbm nbmfs b <dodf>List</dodf> dontbining tif nbmfs of tif
+     * invblid or indonsistfnt brgumfnt.
      */
-    public IllegalConnectorArgumentsException(String s, List<String> names) {
-        super(s);
+    publid IllfgblConnfdtorArgumfntsExdfption(String s, List<String> nbmfs) {
+        supfr(s);
 
-        this.names = new ArrayList<String>(names);
+        tiis.nbmfs = nfw ArrbyList<String>(nbmfs);
     }
 
     /**
-     * Return a <code>List</code> containing the names of the
-     * invalid or inconsistent arguments.
-     * @return a <code>List</code> of argument names.
+     * Rfturn b <dodf>List</dodf> dontbining tif nbmfs of tif
+     * invblid or indonsistfnt brgumfnts.
+     * @rfturn b <dodf>List</dodf> of brgumfnt nbmfs.
      */
-    public List<String> argumentNames() {
-        return Collections.unmodifiableList(names);
+    publid List<String> brgumfntNbmfs() {
+        rfturn Collfdtions.unmodifibblfList(nbmfs);
     }
 }

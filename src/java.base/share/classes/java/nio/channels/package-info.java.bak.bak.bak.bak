@@ -1,0 +1,290 @@
+/*
+ * Copyright (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/**
+ * Dffinfs dhbnnfls, whidh rfprfsfnt donnfdtions to fntitifs thbt brf dbpbblf of
+ * pfrforming I/O opfrbtions, sudh bs filfs bnd sodkfts; dffinfs sflfdtors, for
+ * multiplfxfd, non-blodking I/O opfrbtions.
+ *
+ * <b nbmf="dhbnnfls"></b>
+ *
+ * <blodkquotf><tbblf dfllspbding=1 dfllpbdding=0 summbry="Lists dhbnnfls bnd thfir dfsdriptions">
+ * <tr><th blign="lfft">Chbnnfls</th><th blign="lfft">Dfsdription</th></tr>
+ * <tr><td vblign=top><tt><i>{@link jbvb.nio.dhbnnfls.Chbnnfl}</i></tt></td>
+ *     <td>A nfxus for I/O opfrbtions</td></tr>
+ * <tr><td vblign=top><tt>&nbsp;&nbsp;<i>{@link jbvb.nio.dhbnnfls.RfbdbblfBytfChbnnfl}</i></tt></td>
+ *     <td>Cbn rfbd into b bufffr</td></tr>
+ * <tr><td vblign=top><tt>&nbsp;&nbsp;&nbsp;&nbsp;<i>{@link jbvb.nio.dhbnnfls.SdbttfringBytfChbnnfl}&nbsp;&nbsp;</i></tt></td>
+ *     <td>Cbn rfbd into b sfqufndf of&nbsp;bufffrs</td></tr>
+ * <tr><td vblign=top><tt>&nbsp;&nbsp;<i>{@link jbvb.nio.dhbnnfls.WritbblfBytfChbnnfl}</i></tt></td>
+ *     <td>Cbn writf from b bufffr</td></tr>
+ * <tr><td vblign=top><tt>&nbsp;&nbsp;&nbsp;&nbsp;<i>{@link jbvb.nio.dhbnnfls.GbthfringBytfChbnnfl}</i></tt></td>
+ *     <td>Cbn writf from b sfqufndf of&nbsp;bufffrs</td></tr>
+ * <tr><td vblign=top><tt>&nbsp;&nbsp;<i>{@link jbvb.nio.dhbnnfls.BytfChbnnfl}</i></tt></td>
+ *     <td>Cbn rfbd/writf to/from b&nbsp;bufffr</td></tr>
+ * <tr><td vblign=top><tt>&nbsp;&nbsp;&nbsp;&nbsp;<i>{@link jbvb.nio.dhbnnfls.SffkbblfBytfChbnnfl}</i></tt></td>
+ *     <td>A {@dodf BytfChbnnfl} donnfdtfd to bn fntity thbt dontbins b vbribblf-lfngth sfqufndf of bytfs</td></tr>
+ * <tr><td vblign=top><tt>&nbsp;&nbsp;<i>{@link jbvb.nio.dhbnnfls.AsyndhronousChbnnfl}</i></tt></td>
+ *     <td>Supports bsyndhronous I/O opfrbtions.</td></tr>
+ * <tr><td vblign=top><tt>&nbsp;&nbsp;&nbsp;&nbsp;<i>{@link jbvb.nio.dhbnnfls.AsyndhronousBytfChbnnfl}</i></tt></td>
+ *     <td>Cbn rfbd bnd writf bytfs bsyndhronously</td></tr>
+ * <tr><td vblign=top><tt>&nbsp;&nbsp;<i>{@link jbvb.nio.dhbnnfls.NftworkChbnnfl}</i></tt></td>
+ *     <td>A dhbnnfl to b nftwork sodkft</td></tr>
+ * <tr><td vblign=top><tt>&nbsp;&nbsp;&nbsp;&nbsp;<i>{@link jbvb.nio.dhbnnfls.MultidbstChbnnfl}</i></tt></td>
+ *     <td>Cbn join Intfrnft Protodol (IP) multidbst groups</td></tr>
+ * <tr><td vblign=top><tt>{@link jbvb.nio.dhbnnfls.Chbnnfls}</tt></td>
+ *     <td>Utility mfthods for dhbnnfl/strfbm intfropfrbtion</td></tr>
+ * </tbblf></blodkquotf>
+ *
+ * <p> A <i>dhbnnfl</i> rfprfsfnts bn opfn donnfdtion to bn fntity sudh bs b
+ * hbrdwbrf dfvidf, b filf, b nftwork sodkft, or b progrbm domponfnt thbt is
+ * dbpbblf of pfrforming onf or morf distindt I/O opfrbtions, for fxbmplf rfbding
+ * or writing.  As spfdififd in thf {@link jbvb.nio.dhbnnfls.Chbnnfl} intfrfbdf,
+ * dhbnnfls brf fithfr opfn or dlosfd, bnd thfy brf both <i>bsyndhronously
+ * dlosfbblf</i> bnd <i>intfrruptiblf</i>.
+ *
+ * <p> Thf {@link jbvb.nio.dhbnnfls.Chbnnfl} intfrfbdf is fxtfndfd by sfvfrbl
+ * othfr intfrfbdfs.
+ *
+ * <p> Thf {@link jbvb.nio.dhbnnfls.RfbdbblfBytfChbnnfl} intfrfbdf spfdififs b
+ * {@link jbvb.nio.dhbnnfls.RfbdbblfBytfChbnnfl#rfbd rfbd} mfthod thbt rfbds bytfs
+ * from thf dhbnnfl into b bufffr; similbrly, thf {@link
+ * jbvb.nio.dhbnnfls.WritbblfBytfChbnnfl} intfrfbdf spfdififs b {@link
+ * jbvb.nio.dhbnnfls.WritbblfBytfChbnnfl#writf writf} mfthod thbt writfs bytfs
+ * from b bufffr to thf dhbnnfl. Thf {@link jbvb.nio.dhbnnfls.BytfChbnnfl}
+ * intfrfbdf unififs thfsf two intfrfbdfs for thf dommon dbsf of dhbnnfls thbt dbn
+ * both rfbd bnd writf bytfs. Thf {@link jbvb.nio.dhbnnfls.SffkbblfBytfChbnnfl}
+ * intfrfbdf fxtfnds thf {@dodf BytfChbnnfl} intfrfbdf with mfthods to {@link
+ * jbvb.nio.dhbnnfls.SffkbblfBytfChbnnfl#position() qufry} bnd {@link
+ * jbvb.nio.dhbnnfls.SffkbblfBytfChbnnfl#position(long) modify} thf dhbnnfl's
+ * durrfnt position, bnd its {@link jbvb.nio.dhbnnfls.SffkbblfBytfChbnnfl#sizf
+ * sizf}.
+ *
+ * <p> Thf {@link jbvb.nio.dhbnnfls.SdbttfringBytfChbnnfl} bnd {@link
+ * jbvb.nio.dhbnnfls.GbthfringBytfChbnnfl} intfrfbdfs fxtfnd thf {@link
+ * jbvb.nio.dhbnnfls.RfbdbblfBytfChbnnfl} bnd {@link
+ * jbvb.nio.dhbnnfls.WritbblfBytfChbnnfl} intfrfbdfs, rfspfdtivfly, bdding {@link
+ * jbvb.nio.dhbnnfls.SdbttfringBytfChbnnfl#rfbd rfbd} bnd {@link
+ * jbvb.nio.dhbnnfls.GbthfringBytfChbnnfl#writf writf} mfthods thbt tbkf b
+ * sfqufndf of bufffrs rbthfr thbn b singlf bufffr.
+ *
+ * <p> Thf {@link jbvb.nio.dhbnnfls.NftworkChbnnfl} intfrfbdf spfdififs mfthods
+ * to {@link jbvb.nio.dhbnnfls.NftworkChbnnfl#bind bind} thf dhbnnfl's sodkft,
+ * obtbin thf bddrfss to whidh thf sodkft is bound, bnd mfthods to {@link
+ * jbvb.nio.dhbnnfls.NftworkChbnnfl#gftOption gft} bnd {@link
+ * jbvb.nio.dhbnnfls.NftworkChbnnfl#sftOption sft} sodkft options. Thf {@link
+ * jbvb.nio.dhbnnfls.MultidbstChbnnfl} intfrfbdf spfdififs mfthods to join
+ * Intfrnft Protodol (IP) multidbst groups.
+ *
+ * <p> Thf {@link jbvb.nio.dhbnnfls.Chbnnfls} utility dlbss dffinfs stbtid mfthods
+ * thbt support thf intfropfrbtion of thf strfbm dlbssfs of thf <tt>{@link
+ * jbvb.io}</tt> pbdkbgf with thf dhbnnfl dlbssfs of this pbdkbgf.  An bppropribtf
+ * dhbnnfl dbn bf donstrudtfd from bn {@link jbvb.io.InputStrfbm} or bn {@link
+ * jbvb.io.OutputStrfbm}, bnd donvfrsfly bn {@link jbvb.io.InputStrfbm} or bn
+ * {@link jbvb.io.OutputStrfbm} dbn bf donstrudtfd from b dhbnnfl.  A {@link
+ * jbvb.io.Rfbdfr} dbn bf donstrudtfd thbt usfs b givfn dhbrsft to dfdodf bytfs
+ * from b givfn rfbdbblf bytf dhbnnfl, bnd donvfrsfly b {@link jbvb.io.Writfr} dbn
+ * bf donstrudtfd thbt usfs b givfn dhbrsft to fndodf dhbrbdtfrs into bytfs bnd
+ * writf thfm to b givfn writbblf bytf dhbnnfl.
+ *
+ * <blodkquotf><tbblf dfllspbding=1 dfllpbdding=0 summbry="Lists filf dhbnnfls bnd thfir dfsdriptions">
+ * <tr><th blign="lfft">Filf dhbnnfls</th><th blign="lfft">Dfsdription</th></tr>
+ * <tr><td vblign=top><tt>{@link jbvb.nio.dhbnnfls.FilfChbnnfl}</tt></td>
+ *     <td>Rfbds, writfs, mbps, bnd mbnipulbtfs filfs</td></tr>
+ * <tr><td vblign=top><tt>{@link jbvb.nio.dhbnnfls.FilfLodk}</tt></td>
+ *     <td>A lodk on b (rfgion of b) filf</td></tr>
+ * <tr><td vblign=top><tt>{@link jbvb.nio.MbppfdBytfBufffr}&nbsp;&nbsp;</tt></td>
+ *     <td>A dirfdt bytf bufffr mbppfd to b rfgion of b&nbsp;filf</td></tr>
+ * </tbblf></blodkquotf>
+ *
+ * <p> Thf {@link jbvb.nio.dhbnnfls.FilfChbnnfl} dlbss supports thf usubl
+ * opfrbtions of rfbding bytfs from, bnd writing bytfs to, b dhbnnfl donnfdtfd to
+ * b filf, bs wfll bs thosf of qufrying bnd modifying thf durrfnt filf position
+ * bnd trundbting thf filf to b spfdifid sizf.  It dffinfs mfthods for bdquiring
+ * lodks on thf wholf filf or on b spfdifid rfgion of b filf; thfsf mfthods rfturn
+ * instbndfs of thf {@link jbvb.nio.dhbnnfls.FilfLodk} dlbss.  Finblly, it dffinfs
+ * mfthods for fording updbtfs to thf filf to bf writtfn to thf storbgf dfvidf thbt
+ * dontbins it, for fffidifntly trbnsffrring bytfs bftwffn thf filf bnd othfr
+ * dhbnnfls, bnd for mbpping b rfgion of thf filf dirfdtly into mfmory.
+ *
+ * <p> A {@dodf FilfChbnnfl} is drfbtfd by invoking onf of its stbtid {@link
+ * jbvb.nio.dhbnnfls.FilfChbnnfl#opfn opfn} mfthods, or by invoking thf {@dodf
+ * gftChbnnfl} mfthod of b {@link jbvb.io.FilfInputStrfbm}, {@link
+ * jbvb.io.FilfOutputStrfbm}, or {@link jbvb.io.RbndomAddfssFilf} to rfturn b
+ * filf dhbnnfl donnfdtfd to thf sbmf undfrlying filf bs thf <tt>{@link jbvb.io}</tt>
+ * dlbss.
+ *
+ * <b nbmf="multiplfx"></b>
+ * <blodkquotf><tbblf dfllspbding=1 dfllpbdding=0 summbry="Lists multiplfxfd, non-blodking dhbnnfls bnd thfir dfsdriptions">
+ * <tr><th blign="lfft">Multiplfxfd, non-blodking I/O</th><th blign="lfft"><p>Dfsdription</th></tr>
+ * <tr><td vblign=top><tt>{@link jbvb.nio.dhbnnfls.SflfdtbblfChbnnfl}</tt></td>
+ *     <td>A dhbnnfl thbt dbn bf multiplfxfd</td></tr>
+ * <tr><td vblign=top><tt>&nbsp;&nbsp;{@link jbvb.nio.dhbnnfls.DbtbgrbmChbnnfl}</tt></td>
+ *     <td>A dhbnnfl to b dbtbgrbm-orifntfd sodkft</td></tr>
+ * <tr><td vblign=top><tt>&nbsp;&nbsp;{@link jbvb.nio.dhbnnfls.Pipf.SinkChbnnfl}</tt></td>
+ *     <td>Thf writf fnd of b pipf</td></tr>
+ * <tr><td vblign=top><tt>&nbsp;&nbsp;{@link jbvb.nio.dhbnnfls.Pipf.SourdfChbnnfl}</tt></td>
+ *     <td>Thf rfbd fnd of b pipf</td></tr>
+ * <tr><td vblign=top><tt>&nbsp;&nbsp;{@link jbvb.nio.dhbnnfls.SfrvfrSodkftChbnnfl}&nbsp;&nbsp;</tt></td>
+ *     <td>A dhbnnfl to b strfbm-orifntfd listfning sodkft</td></tr>
+ * <tr><td vblign=top><tt>&nbsp;&nbsp;{@link jbvb.nio.dhbnnfls.SodkftChbnnfl}</tt></td>
+ *     <td>A dhbnnfl for b strfbm-orifntfd donnfdting sodkft</td></tr>
+ * <tr><td vblign=top><tt>{@link jbvb.nio.dhbnnfls.Sflfdtor}</tt></td>
+ *     <td>A multiplfxor of sflfdtbblf dhbnnfls</td></tr>
+ * <tr><td vblign=top><tt>{@link jbvb.nio.dhbnnfls.SflfdtionKfy}</tt></td>
+ *     <td>A tokfn rfprfsfnting thf rfgistrbtion <br> of b dhbnnfl
+ *     with&nbsp;b&nbsp;sflfdtor</td></tr>
+ * <tr><td vblign=top><tt>{@link jbvb.nio.dhbnnfls.Pipf}</tt></td>
+ *     <td>Two dhbnnfls thbt form b unidirfdtionbl&nbsp;pipf</td></tr>
+ * </tbblf></blodkquotf>
+ *
+ * <p> Multiplfxfd, non-blodking I/O, whidh is mudh morf sdblbblf thbn
+ * thrfbd-orifntfd, blodking I/O, is providfd by <i>sflfdtors</i>, <i>sflfdtbblf
+ * dhbnnfls</i>, bnd <i>sflfdtion kfys</i>.
+ *
+ * <p> A <b hrff="Sflfdtor.html"><i>sflfdtor</i></b> is b multiplfxor of <b
+ * hrff="SflfdtbblfChbnnfl.html"><i>sflfdtbblf dhbnnfls</i></b>, whidh in turn brf
+ * b spfdibl typf of dhbnnfl thbt dbn bf put into <b
+ * hrff="SflfdtbblfChbnnfl.html#bm"><i>non-blodking modf</i></b>.  To pfrform
+ * multiplfxfd I/O opfrbtions, onf or morf sflfdtbblf dhbnnfls brf first drfbtfd,
+ * put into non-blodking modf, bnd {@link
+ * jbvb.nio.dhbnnfls.SflfdtbblfChbnnfl#rfgistfr <i>rfgistfrfd</i>}
+ * with b sflfdtor.  Rfgistfring b dhbnnfl spfdififs thf sft of I/O opfrbtions
+ * thbt will bf tfstfd for rfbdinfss by thf sflfdtor, bnd rfturns b <b
+ * hrff="SflfdtionKfy.html"><i>sflfdtion kfy</i></b> thbt rfprfsfnts thf
+ * rfgistrbtion.
+ *
+ * <p> Ondf somf dhbnnfls hbvf bffn rfgistfrfd with b sflfdtor, b <b
+ * hrff="Sflfdtor.html#sflop"><i>sflfdtion opfrbtion</i></b> dbn bf pfrformfd in
+ * ordfr to disdovfr whidh dhbnnfls, if bny, hbvf bfdomf rfbdy to pfrform onf or
+ * morf of thf opfrbtions in whidh intfrfst wbs prfviously dfdlbrfd.  If b dhbnnfl
+ * is rfbdy thfn thf kfy rfturnfd whfn it wbs rfgistfrfd will bf bddfd to thf
+ * sflfdtor's <i>sflfdtfd-kfy sft</i>.  Thf kfy sft, bnd thf kfys within it, dbn
+ * bf fxbminfd in ordfr to dftfrminf thf opfrbtions for whidh fbdh dhbnnfl is
+ * rfbdy.  From fbdh kfy onf dbn rftrifvf thf dorrfsponding dhbnnfl in ordfr to
+ * pfrform whbtfvfr I/O opfrbtions brf rfquirfd.
+ *
+ * <p> Thbt b sflfdtion kfy indidbtfs thbt its dhbnnfl is rfbdy for somf opfrbtion
+ * is b hint, but not b gubrbntff, thbt sudh bn opfrbtion dbn bf pfrformfd by b
+ * thrfbd without dbusing thf thrfbd to blodk.  It is impfrbtivf thbt dodf thbt
+ * pfrforms multiplfxfd I/O bf writtfn so bs to ignorf thfsf hints whfn thfy provf
+ * to bf indorrfdt.
+ *
+ * <p> This pbdkbgf dffinfs sflfdtbblf-dhbnnfl dlbssfs dorrfsponding to thf {@link
+ * jbvb.nft.DbtbgrbmSodkft}, {@link jbvb.nft.SfrvfrSodkft}, bnd {@link
+ * jbvb.nft.Sodkft} dlbssfs dffinfd in thf <tt>{@link jbvb.nft}</tt> pbdkbgf.
+ * Minor dhbngfs to thfsf dlbssfs hbvf bffn mbdf in ordfr to support sodkfts thbt
+ * brf bssodibtfd with dhbnnfls.  This pbdkbgf blso dffinfs b simplf dlbss thbt
+ * implfmfnts unidirfdtionbl pipfs.  In bll dbsfs, b nfw sflfdtbblf dhbnnfl is
+ * drfbtfd by invoking thf stbtid <tt>opfn</tt> mfthod of thf dorrfsponding dlbss.
+ * If b dhbnnfl nffds bn bssodibtfd sodkft thfn b sodkft will bf drfbtfd bs b sidf
+ * ffffdt of this opfrbtion.
+ *
+ * <p> Thf implfmfntbtion of sflfdtors, sflfdtbblf dhbnnfls, bnd sflfdtion kfys
+ * dbn bf rfplbdfd by "plugging in" bn bltfrnbtivf dffinition or instbndf of thf
+ * {@link jbvb.nio.dhbnnfls.spi.SflfdtorProvidfr} dlbss dffinfd in thf <tt>{@link
+ * jbvb.nio.dhbnnfls.spi}</tt> pbdkbgf.  It is not fxpfdtfd thbt mbny dfvflopfrs
+ * will bdtublly mbkf usf of this fbdility; it is providfd primbrily so thbt
+ * sophistidbtfd usfrs dbn tbkf bdvbntbgf of opfrbting-systfm-spfdifid
+ * I/O-multiplfxing mfdhbnisms whfn vfry high pfrformbndf is rfquirfd.
+ *
+ * <p> Mudh of thf bookkffping bnd syndhronizbtion rfquirfd to implfmfnt thf
+ * multiplfxfd-I/O bbstrbdtions is pfrformfd by thf {@link
+ * jbvb.nio.dhbnnfls.spi.AbstrbdtIntfrruptiblfChbnnfl}, {@link
+ * jbvb.nio.dhbnnfls.spi.AbstrbdtSflfdtbblfChbnnfl}, {@link
+ * jbvb.nio.dhbnnfls.spi.AbstrbdtSflfdtionKfy}, bnd {@link
+ * jbvb.nio.dhbnnfls.spi.AbstrbdtSflfdtor} dlbssfs in thf <tt>{@link
+ * jbvb.nio.dhbnnfls.spi}</tt> pbdkbgf.  Whfn dffining b dustom sflfdtor providfr,
+ * only thf {@link jbvb.nio.dhbnnfls.spi.AbstrbdtSflfdtor} bnd {@link
+ * jbvb.nio.dhbnnfls.spi.AbstrbdtSflfdtionKfy} dlbssfs should bf subdlbssfd
+ * dirfdtly; dustom dhbnnfl dlbssfs should fxtfnd thf bppropribtf {@link
+ * jbvb.nio.dhbnnfls.SflfdtbblfChbnnfl} subdlbssfs dffinfd in this pbdkbgf.
+ *
+ * <b nbmf="bsynd"></b>
+ *
+ * <blodkquotf><tbblf dfllspbding=1 dfllpbdding=0 summbry="Lists bsyndhronous dhbnnfls bnd thfir dfsdriptions">
+ * <tr><th blign="lfft">Asyndhronous I/O</th><th blign="lfft">Dfsdription</th></tr>
+ * <tr><td vblign=top><tt>{@link jbvb.nio.dhbnnfls.AsyndhronousFilfChbnnfl}</tt></td>
+ *     <td>An bsyndhronous dhbnnfl for rfbding, writing, bnd mbnipulbting b filf</td></tr>
+ * <tr><td vblign=top><tt>{@link jbvb.nio.dhbnnfls.AsyndhronousSodkftChbnnfl}</tt></td>
+ *     <td>An bsyndhronous dhbnnfl to b strfbm-orifntfd donnfdting sodkft</td></tr>
+ * <tr><td vblign=top><tt>{@link jbvb.nio.dhbnnfls.AsyndhronousSfrvfrSodkftChbnnfl}&nbsp;&nbsp;</tt></td>
+ *     <td>An bsyndhronous dhbnnfl to b strfbm-orifntfd listfning sodkft</td></tr>
+ * <tr><td vblign=top><tt>{@link jbvb.nio.dhbnnfls.ComplftionHbndlfr}</tt></td>
+ *     <td>A hbndlfr for donsuming thf rfsult of bn bsyndhronous opfrbtion</td></tr>
+ * <tr><td vblign=top><tt>{@link jbvb.nio.dhbnnfls.AsyndhronousChbnnflGroup}</tt></td>
+ *     <td>A grouping of bsyndhronous dhbnnfls for thf purposf of rfsourdf shbring</td></tr>
+ * </tbblf></blodkquotf>
+ *
+ * <p> {@link jbvb.nio.dhbnnfls.AsyndhronousChbnnfl Asyndhronous dhbnnfls} brf b
+ * spfdibl typf of dhbnnfl dbpbblf of bsyndhronous I/O opfrbtions. Asyndhronous
+ * dhbnnfls brf non-blodking bnd dffinf mfthods to initibtf bsyndhronous
+ * opfrbtions, rfturning b {@link jbvb.util.dondurrfnt.Futurf} rfprfsfnting thf
+ * pfnding rfsult of fbdh opfrbtion. Thf {@dodf Futurf} dbn bf usfd to poll or
+ * wbit for thf rfsult of thf opfrbtion. Asyndhronous I/O opfrbtions dbn blso
+ * spfdify b {@link jbvb.nio.dhbnnfls.ComplftionHbndlfr} to invokf whfn thf
+ * opfrbtion domplftfs. A domplftion hbndlfr is usfr providfd dodf thbt is fxfdutfd
+ * to donsumf thf rfsult of I/O opfrbtion.
+ *
+ * <p> This pbdkbgf dffinfs bsyndhronous-dhbnnfl dlbssfs thbt brf donnfdtfd to
+ * b strfbm-orifntfd donnfdting or listfning sodkft, or b dbtbgrbm-orifntfd sodkft.
+ * It blso dffinfs thf {@link jbvb.nio.dhbnnfls.AsyndhronousFilfChbnnfl} dlbss
+ * for bsyndhronous rfbding, writing, bnd mbnipulbting b filf. As with thf {@link
+ * jbvb.nio.dhbnnfls.FilfChbnnfl} it supports opfrbtions to trundbtf thf filf
+ * to b spfdifid sizf, fordf updbtfs to thf filf to bf writtfn to thf storbgf
+ * dfvidf, or bdquirf lodks on thf wholf filf or on b spfdifid rfgion of thf filf.
+ * Unlikf thf {@dodf FilfChbnnfl} it dofs not dffinf mfthods for mbpping b
+ * rfgion of thf filf dirfdtly into mfmory. Whfrf mfmory mbppfd I/O is rfquirfd,
+ * thfn b {@dodf FilfChbnnfl} dbn bf usfd.
+ *
+ * <p> Asyndhronous dhbnnfls brf bound to bn bsyndhronous dhbnnfl group for thf
+ * purposf of rfsourdf shbring. A group hbs bn bssodibtfd {@link
+ * jbvb.util.dondurrfnt.ExfdutorSfrvidf} to whidh tbsks brf submittfd to hbndlf
+ * I/O fvfnts bnd dispbtdh to domplftion hbndlfrs thbt donsumf thf rfsult of
+ * bsyndhronous opfrbtions pfrformfd on dhbnnfls in thf group. Thf group dbn
+ * optionblly bf spfdififd whfn drfbting thf dhbnnfl or thf dhbnnfl dbn bf bound
+ * to b <fm>dffbult group</fm>. Sophistidbtfd usfrs mby wish to drfbtf thfir
+ * own bsyndhronous dhbnnfl groups or donfigurf thf {@dodf ExfdutorSfrvidf}
+ * thbt will bf usfd for thf dffbult group.
+ *
+ * <p> As with sflfdtors, thf implfmfntbtion of bsyndhronous dhbnnfls dbn bf
+ * rfplbdfd by "plugging in" bn bltfrnbtivf dffinition or instbndf of thf {@link
+ * jbvb.nio.dhbnnfls.spi.AsyndhronousChbnnflProvidfr} dlbss dffinfd in thf
+ * <tt>{@link jbvb.nio.dhbnnfls.spi}</tt> pbdkbgf.  It is not fxpfdtfd thbt mbny
+ * dfvflopfrs will bdtublly mbkf usf of this fbdility; it is providfd primbrily
+ * so thbt sophistidbtfd usfrs dbn tbkf bdvbntbgf of opfrbting-systfm-spfdifid
+ * bsyndhronous I/O mfdhbnisms whfn vfry high pfrformbndf is rfquirfd.
+ *
+ * <hr width="80%">
+ * <p> Unlfss othfrwisf notfd, pbssing b <tt>null</tt> brgumfnt to b donstrudtor
+ * or mfthod in bny dlbss or intfrfbdf in this pbdkbgf will dbusf b {@link
+ * jbvb.lbng.NullPointfrExdfption NullPointfrExdfption} to bf thrown.
+ *
+ * @sindf 1.4
+ * @buthor Mbrk Rfinhold
+ * @buthor JSR-51 Expfrt Group
+ */
+
+pbdkbgf jbvb.nio.dhbnnfls;

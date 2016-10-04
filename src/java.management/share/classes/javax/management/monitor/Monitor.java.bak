@@ -1,80 +1,80 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management.monitor;
+pbdkbgf jbvbx.mbnbgfmfnt.monitor;
 
-import static com.sun.jmx.defaults.JmxProperties.MONITOR_LOGGER;
-import com.sun.jmx.mbeanserver.GetPropertyAction;
-import com.sun.jmx.mbeanserver.Introspector;
-import java.io.IOException;
-import java.security.AccessControlContext;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.security.ProtectionDomain;
-import java.util.List;
-import java.util.Map;
-import java.util.WeakHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicLong;
-import java.util.logging.Level;
-import javax.management.AttributeNotFoundException;
-import javax.management.InstanceNotFoundException;
-import javax.management.IntrospectionException;
-import javax.management.MBeanAttributeInfo;
-import javax.management.MBeanException;
-import javax.management.MBeanInfo;
-import javax.management.MBeanRegistration;
-import javax.management.MBeanServer;
-import javax.management.MBeanServerConnection;
-import javax.management.NotificationBroadcasterSupport;
-import javax.management.ObjectName;
-import javax.management.ReflectionException;
-import static javax.management.monitor.MonitorNotification.*;
+import stbtid dom.sun.jmx.dffbults.JmxPropfrtifs.MONITOR_LOGGER;
+import dom.sun.jmx.mbfbnsfrvfr.GftPropfrtyAdtion;
+import dom.sun.jmx.mbfbnsfrvfr.Introspfdtor;
+import jbvb.io.IOExdfption;
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.ProtfdtionDombin;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.WfbkHbsiMbp;
+import jbvb.util.dondurrfnt.CopyOnWritfArrbyList;
+import jbvb.util.dondurrfnt.Exfdutors;
+import jbvb.util.dondurrfnt.Futurf;
+import jbvb.util.dondurrfnt.LinkfdBlodkingQufuf;
+import jbvb.util.dondurrfnt.SdifdulfdExfdutorSfrvidf;
+import jbvb.util.dondurrfnt.SdifdulfdFuturf;
+import jbvb.util.dondurrfnt.TirfbdFbdtory;
+import jbvb.util.dondurrfnt.TirfbdPoolExfdutor;
+import jbvb.util.dondurrfnt.TimfUnit;
+import jbvb.util.dondurrfnt.btomid.AtomidIntfgfr;
+import jbvb.util.dondurrfnt.btomid.AtomidLong;
+import jbvb.util.logging.Lfvfl;
+import jbvbx.mbnbgfmfnt.AttributfNotFoundExdfption;
+import jbvbx.mbnbgfmfnt.InstbndfNotFoundExdfption;
+import jbvbx.mbnbgfmfnt.IntrospfdtionExdfption;
+import jbvbx.mbnbgfmfnt.MBfbnAttributfInfo;
+import jbvbx.mbnbgfmfnt.MBfbnExdfption;
+import jbvbx.mbnbgfmfnt.MBfbnInfo;
+import jbvbx.mbnbgfmfnt.MBfbnRfgistrbtion;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion;
+import jbvbx.mbnbgfmfnt.NotifidbtionBrobddbstfrSupport;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import jbvbx.mbnbgfmfnt.RfflfdtionExdfption;
+import stbtid jbvbx.mbnbgfmfnt.monitor.MonitorNotifidbtion.*;
 
 /**
- * Defines the part common to all monitor MBeans.
- * A monitor MBean monitors values of an attribute common to a set of observed
- * MBeans. The observed attribute is monitored at intervals specified by the
- * granularity period. A gauge value (derived gauge) is derived from the values
- * of the observed attribute.
+ * Dffinfs tif pbrt dommon to bll monitor MBfbns.
+ * A monitor MBfbn monitors vblufs of bn bttributf dommon to b sft of obsfrvfd
+ * MBfbns. Tif obsfrvfd bttributf is monitorfd bt intfrvbls spfdififd by tif
+ * grbnulbrity pfriod. A gbugf vbluf (dfrivfd gbugf) is dfrivfd from tif vblufs
+ * of tif obsfrvfd bttributf.
  *
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public abstract class Monitor
-    extends NotificationBroadcasterSupport
-    implements MonitorMBean, MBeanRegistration {
+publid bbstrbdt dlbss Monitor
+    fxtfnds NotifidbtionBrobddbstfrSupport
+    implfmfnts MonitorMBfbn, MBfbnRfgistrbtion {
 
     /*
      * ------------------------------------------
@@ -82,39 +82,39 @@ public abstract class Monitor
      * ------------------------------------------
      */
 
-    static class ObservedObject {
+    stbtid dlbss ObsfrvfdObjfdt {
 
-        public ObservedObject(ObjectName observedObject) {
-            this.observedObject = observedObject;
-        }
-
-        public final ObjectName getObservedObject() {
-            return observedObject;
-        }
-        public final synchronized int getAlreadyNotified() {
-            return alreadyNotified;
-        }
-        public final synchronized void setAlreadyNotified(int alreadyNotified) {
-            this.alreadyNotified = alreadyNotified;
-        }
-        public final synchronized Object getDerivedGauge() {
-            return derivedGauge;
-        }
-        public final synchronized void setDerivedGauge(Object derivedGauge) {
-            this.derivedGauge = derivedGauge;
-        }
-        public final synchronized long getDerivedGaugeTimeStamp() {
-            return derivedGaugeTimeStamp;
-        }
-        public final synchronized void setDerivedGaugeTimeStamp(
-                                                 long derivedGaugeTimeStamp) {
-            this.derivedGaugeTimeStamp = derivedGaugeTimeStamp;
+        publid ObsfrvfdObjfdt(ObjfdtNbmf obsfrvfdObjfdt) {
+            tiis.obsfrvfdObjfdt = obsfrvfdObjfdt;
         }
 
-        private final ObjectName observedObject;
-        private int alreadyNotified;
-        private Object derivedGauge;
-        private long derivedGaugeTimeStamp;
+        publid finbl ObjfdtNbmf gftObsfrvfdObjfdt() {
+            rfturn obsfrvfdObjfdt;
+        }
+        publid finbl syndironizfd int gftAlrfbdyNotififd() {
+            rfturn blrfbdyNotififd;
+        }
+        publid finbl syndironizfd void sftAlrfbdyNotififd(int blrfbdyNotififd) {
+            tiis.blrfbdyNotififd = blrfbdyNotififd;
+        }
+        publid finbl syndironizfd Objfdt gftDfrivfdGbugf() {
+            rfturn dfrivfdGbugf;
+        }
+        publid finbl syndironizfd void sftDfrivfdGbugf(Objfdt dfrivfdGbugf) {
+            tiis.dfrivfdGbugf = dfrivfdGbugf;
+        }
+        publid finbl syndironizfd long gftDfrivfdGbugfTimfStbmp() {
+            rfturn dfrivfdGbugfTimfStbmp;
+        }
+        publid finbl syndironizfd void sftDfrivfdGbugfTimfStbmp(
+                                                 long dfrivfdGbugfTimfStbmp) {
+            tiis.dfrivfdGbugfTimfStbmp = dfrivfdGbugfTimfStbmp;
+        }
+
+        privbtf finbl ObjfdtNbmf obsfrvfdObjfdt;
+        privbtf int blrfbdyNotififd;
+        privbtf Objfdt dfrivfdGbugf;
+        privbtf long dfrivfdGbugfTimfStbmp;
     }
 
     /*
@@ -124,120 +124,120 @@ public abstract class Monitor
      */
 
     /**
-     * Attribute to observe.
+     * Attributf to obsfrvf.
      */
-    private String observedAttribute;
+    privbtf String obsfrvfdAttributf;
 
     /**
-     * Monitor granularity period (in milliseconds).
-     * The default value is set to 10 seconds.
+     * Monitor grbnulbrity pfriod (in millisfdonds).
+     * Tif dffbult vbluf is sft to 10 sfdonds.
      */
-    private long granularityPeriod = 10000;
+    privbtf long grbnulbrityPfriod = 10000;
 
     /**
-     * Monitor state.
-     * The default value is set to <CODE>false</CODE>.
+     * Monitor stbtf.
+     * Tif dffbult vbluf is sft to <CODE>fblsf</CODE>.
      */
-    private boolean isActive = false;
+    privbtf boolfbn isAdtivf = fblsf;
 
     /**
-     * Monitor sequence number.
-     * The default value is set to 0.
+     * Monitor sfqufndf numbfr.
+     * Tif dffbult vbluf is sft to 0.
      */
-    private final AtomicLong sequenceNumber = new AtomicLong();
+    privbtf finbl AtomidLong sfqufndfNumbfr = nfw AtomidLong();
 
     /**
-     * Complex type attribute flag.
-     * The default value is set to <CODE>false</CODE>.
+     * Complfx typf bttributf flbg.
+     * Tif dffbult vbluf is sft to <CODE>fblsf</CODE>.
      */
-    private boolean isComplexTypeAttribute = false;
+    privbtf boolfbn isComplfxTypfAttributf = fblsf;
 
     /**
-     * First attribute name extracted from complex type attribute name.
+     * First bttributf nbmf fxtrbdtfd from domplfx typf bttributf nbmf.
      */
-    private String firstAttribute;
+    privbtf String firstAttributf;
 
     /**
-     * Remaining attribute names extracted from complex type attribute name.
+     * Rfmbining bttributf nbmfs fxtrbdtfd from domplfx typf bttributf nbmf.
      */
-    private final List<String> remainingAttributes =
-        new CopyOnWriteArrayList<String>();
+    privbtf finbl List<String> rfmbiningAttributfs =
+        nfw CopyOnWritfArrbyList<String>();
 
     /**
-     * AccessControlContext of the Monitor.start() caller.
+     * AddfssControlContfxt of tif Monitor.stbrt() dbllfr.
      */
-    private static final AccessControlContext noPermissionsACC =
-            new AccessControlContext(
-            new ProtectionDomain[] {new ProtectionDomain(null, null)});
-    private volatile AccessControlContext acc = noPermissionsACC;
+    privbtf stbtid finbl AddfssControlContfxt noPfrmissionsACC =
+            nfw AddfssControlContfxt(
+            nfw ProtfdtionDombin[] {nfw ProtfdtionDombin(null, null)});
+    privbtf volbtilf AddfssControlContfxt bdd = noPfrmissionsACC;
 
     /**
-     * Scheduler Service.
+     * Sdifdulfr Sfrvidf.
      */
-    private static final ScheduledExecutorService scheduler =
-        Executors.newSingleThreadScheduledExecutor(
-            new DaemonThreadFactory("Scheduler"));
+    privbtf stbtid finbl SdifdulfdExfdutorSfrvidf sdifdulfr =
+        Exfdutors.nfwSinglfTirfbdSdifdulfdExfdutor(
+            nfw DbfmonTirfbdFbdtory("Sdifdulfr"));
 
     /**
-     * Map containing the thread pool executor per thread group.
+     * Mbp dontbining tif tirfbd pool fxfdutor pfr tirfbd group.
      */
-    private static final Map<ThreadPoolExecutor, Void> executors =
-            new WeakHashMap<ThreadPoolExecutor, Void>();
+    privbtf stbtid finbl Mbp<TirfbdPoolExfdutor, Void> fxfdutors =
+            nfw WfbkHbsiMbp<TirfbdPoolExfdutor, Void>();
 
     /**
-     * Lock for executors map.
+     * Lodk for fxfdutors mbp.
      */
-    private static final Object executorsLock = new Object();
+    privbtf stbtid finbl Objfdt fxfdutorsLodk = nfw Objfdt();
 
     /**
-     * Maximum Pool Size
+     * Mbximum Pool Sizf
      */
-    private static final int maximumPoolSize;
-    static {
-        final String maximumPoolSizeSysProp = "jmx.x.monitor.maximum.pool.size";
-        final String maximumPoolSizeStr = AccessController.doPrivileged(
-            new GetPropertyAction(maximumPoolSizeSysProp));
-        if (maximumPoolSizeStr == null ||
-            maximumPoolSizeStr.trim().length() == 0) {
-            maximumPoolSize = 10;
-        } else {
-            int maximumPoolSizeTmp = 10;
+    privbtf stbtid finbl int mbximumPoolSizf;
+    stbtid {
+        finbl String mbximumPoolSizfSysProp = "jmx.x.monitor.mbximum.pool.sizf";
+        finbl String mbximumPoolSizfStr = AddfssControllfr.doPrivilfgfd(
+            nfw GftPropfrtyAdtion(mbximumPoolSizfSysProp));
+        if (mbximumPoolSizfStr == null ||
+            mbximumPoolSizfStr.trim().lfngti() == 0) {
+            mbximumPoolSizf = 10;
+        } flsf {
+            int mbximumPoolSizfTmp = 10;
             try {
-                maximumPoolSizeTmp = Integer.parseInt(maximumPoolSizeStr);
-            } catch (NumberFormatException e) {
-                if (MONITOR_LOGGER.isLoggable(Level.FINER)) {
-                    MONITOR_LOGGER.logp(Level.FINER, Monitor.class.getName(),
-                            "<static initializer>",
-                            "Wrong value for " + maximumPoolSizeSysProp +
-                            " system property", e);
-                    MONITOR_LOGGER.logp(Level.FINER, Monitor.class.getName(),
-                            "<static initializer>",
-                            maximumPoolSizeSysProp + " defaults to 10");
+                mbximumPoolSizfTmp = Intfgfr.pbrsfInt(mbximumPoolSizfStr);
+            } dbtdi (NumbfrFormbtExdfption f) {
+                if (MONITOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                    MONITOR_LOGGER.logp(Lfvfl.FINER, Monitor.dlbss.gftNbmf(),
+                            "<stbtid initiblizfr>",
+                            "Wrong vbluf for " + mbximumPoolSizfSysProp +
+                            " systfm propfrty", f);
+                    MONITOR_LOGGER.logp(Lfvfl.FINER, Monitor.dlbss.gftNbmf(),
+                            "<stbtid initiblizfr>",
+                            mbximumPoolSizfSysProp + " dffbults to 10");
                 }
-                maximumPoolSizeTmp = 10;
+                mbximumPoolSizfTmp = 10;
             }
-            if (maximumPoolSizeTmp < 1) {
-                maximumPoolSize = 1;
-            } else {
-                maximumPoolSize = maximumPoolSizeTmp;
+            if (mbximumPoolSizfTmp < 1) {
+                mbximumPoolSizf = 1;
+            } flsf {
+                mbximumPoolSizf = mbximumPoolSizfTmp;
             }
         }
     }
 
     /**
-     * Future associated to the current monitor task.
+     * Futurf bssodibtfd to tif durrfnt monitor tbsk.
      */
-    private Future<?> monitorFuture;
+    privbtf Futurf<?> monitorFuturf;
 
     /**
-     * Scheduler task to be executed by the Scheduler Service.
+     * Sdifdulfr tbsk to bf fxfdutfd by tif Sdifdulfr Sfrvidf.
      */
-    private final SchedulerTask schedulerTask = new SchedulerTask();
+    privbtf finbl SdifdulfrTbsk sdifdulfrTbsk = nfw SdifdulfrTbsk();
 
     /**
-     * ScheduledFuture associated to the current scheduler task.
+     * SdifdulfdFuturf bssodibtfd to tif durrfnt sdifdulfr tbsk.
      */
-    private ScheduledFuture<?> schedulerFuture;
+    privbtf SdifdulfdFuturf<?> sdifdulfrFuturf;
 
     /*
      * ------------------------------------------
@@ -246,96 +246,96 @@ public abstract class Monitor
      */
 
     /**
-     * The amount by which the capacity of the monitor arrays are
-     * automatically incremented when their size becomes greater than
-     * their capacity.
+     * Tif bmount by wiidi tif dbpbdity of tif monitor brrbys brf
+     * butombtidblly indrfmfntfd wifn tifir sizf bfdomfs grfbtfr tibn
+     * tifir dbpbdity.
      */
-    protected final static int capacityIncrement = 16;
+    protfdtfd finbl stbtid int dbpbdityIndrfmfnt = 16;
 
     /**
-     * The number of valid components in the vector of observed objects.
+     * Tif numbfr of vblid domponfnts in tif vfdtor of obsfrvfd objfdts.
      *
      */
-    protected int elementCount = 0;
+    protfdtfd int flfmfntCount = 0;
 
     /**
-     * Monitor errors that have already been notified.
-     * @deprecated equivalent to {@link #alreadyNotifieds}[0].
+     * Monitor frrors tibt ibvf blrfbdy bffn notififd.
+     * @dfprfdbtfd fquivblfnt to {@link #blrfbdyNotififds}[0].
      */
-    @Deprecated
-    protected int alreadyNotified = 0;
+    @Dfprfdbtfd
+    protfdtfd int blrfbdyNotififd = 0;
 
     /**
-     * <p>Selected monitor errors that have already been notified.</p>
+     * <p>Sflfdtfd monitor frrors tibt ibvf blrfbdy bffn notififd.</p>
      *
-     * <p>Each element in this array corresponds to an observed object
-     * in the vector.  It contains a bit mask of the flags {@link
-     * #OBSERVED_OBJECT_ERROR_NOTIFIED} etc, indicating whether the
-     * corresponding notification has already been sent for the MBean
-     * being monitored.</p>
+     * <p>Ebdi flfmfnt in tiis brrby dorrfsponds to bn obsfrvfd objfdt
+     * in tif vfdtor.  It dontbins b bit mbsk of tif flbgs {@link
+     * #OBSERVED_OBJECT_ERROR_NOTIFIED} ftd, indidbting wiftifr tif
+     * dorrfsponding notifidbtion ibs blrfbdy bffn sfnt for tif MBfbn
+     * bfing monitorfd.</p>
      *
      */
-    protected int alreadyNotifieds[] = new int[capacityIncrement];
+    protfdtfd int blrfbdyNotififds[] = nfw int[dbpbdityIndrfmfnt];
 
     /**
-     * Reference to the MBean server.  This reference is null when the
-     * monitor MBean is not registered in an MBean server.  This
-     * reference is initialized before the monitor MBean is registered
-     * in the MBean server.
-     * @see #preRegister(MBeanServer server, ObjectName name)
+     * Rfffrfndf to tif MBfbn sfrvfr.  Tiis rfffrfndf is null wifn tif
+     * monitor MBfbn is not rfgistfrfd in bn MBfbn sfrvfr.  Tiis
+     * rfffrfndf is initiblizfd bfforf tif monitor MBfbn is rfgistfrfd
+     * in tif MBfbn sfrvfr.
+     * @sff #prfRfgistfr(MBfbnSfrvfr sfrvfr, ObjfdtNbmf nbmf)
      */
-    protected MBeanServer server;
+    protfdtfd MBfbnSfrvfr sfrvfr;
 
-    // Flags defining possible monitor errors.
+    // Flbgs dffining possiblf monitor frrors.
     //
 
     /**
-     * This flag is used to reset the {@link #alreadyNotifieds
-     * alreadyNotifieds} monitor attribute.
+     * Tiis flbg is usfd to rfsft tif {@link #blrfbdyNotififds
+     * blrfbdyNotififds} monitor bttributf.
      */
-    protected static final int RESET_FLAGS_ALREADY_NOTIFIED             = 0;
+    protfdtfd stbtid finbl int RESET_FLAGS_ALREADY_NOTIFIED             = 0;
 
     /**
-     * Flag denoting that a notification has occurred after changing
-     * the observed object.  This flag is used to check that the new
-     * observed object is registered in the MBean server at the time
-     * of the first notification.
+     * Flbg dfnoting tibt b notifidbtion ibs oddurrfd bftfr dibnging
+     * tif obsfrvfd objfdt.  Tiis flbg is usfd to difdk tibt tif nfw
+     * obsfrvfd objfdt is rfgistfrfd in tif MBfbn sfrvfr bt tif timf
+     * of tif first notifidbtion.
      */
-    protected static final int OBSERVED_OBJECT_ERROR_NOTIFIED           = 1;
+    protfdtfd stbtid finbl int OBSERVED_OBJECT_ERROR_NOTIFIED           = 1;
 
     /**
-     * Flag denoting that a notification has occurred after changing
-     * the observed attribute.  This flag is used to check that the
-     * new observed attribute belongs to the observed object at the
-     * time of the first notification.
+     * Flbg dfnoting tibt b notifidbtion ibs oddurrfd bftfr dibnging
+     * tif obsfrvfd bttributf.  Tiis flbg is usfd to difdk tibt tif
+     * nfw obsfrvfd bttributf bflongs to tif obsfrvfd objfdt bt tif
+     * timf of tif first notifidbtion.
      */
-    protected static final int OBSERVED_ATTRIBUTE_ERROR_NOTIFIED        = 2;
+    protfdtfd stbtid finbl int OBSERVED_ATTRIBUTE_ERROR_NOTIFIED        = 2;
 
     /**
-     * Flag denoting that a notification has occurred after changing
-     * the observed object or the observed attribute.  This flag is
-     * used to check that the observed attribute type is correct
-     * (depending on the monitor in use) at the time of the first
-     * notification.
+     * Flbg dfnoting tibt b notifidbtion ibs oddurrfd bftfr dibnging
+     * tif obsfrvfd objfdt or tif obsfrvfd bttributf.  Tiis flbg is
+     * usfd to difdk tibt tif obsfrvfd bttributf typf is dorrfdt
+     * (dfpfnding on tif monitor in usf) bt tif timf of tif first
+     * notifidbtion.
      */
-    protected static final int OBSERVED_ATTRIBUTE_TYPE_ERROR_NOTIFIED   = 4;
+    protfdtfd stbtid finbl int OBSERVED_ATTRIBUTE_TYPE_ERROR_NOTIFIED   = 4;
 
     /**
-     * Flag denoting that a notification has occurred after changing
-     * the observed object or the observed attribute.  This flag is
-     * used to notify any exception (except the cases described above)
-     * when trying to get the value of the observed attribute at the
-     * time of the first notification.
+     * Flbg dfnoting tibt b notifidbtion ibs oddurrfd bftfr dibnging
+     * tif obsfrvfd objfdt or tif obsfrvfd bttributf.  Tiis flbg is
+     * usfd to notify bny fxdfption (fxdfpt tif dbsfs dfsdribfd bbovf)
+     * wifn trying to gft tif vbluf of tif obsfrvfd bttributf bt tif
+     * timf of tif first notifidbtion.
      */
-    protected static final int RUNTIME_ERROR_NOTIFIED                   = 8;
+    protfdtfd stbtid finbl int RUNTIME_ERROR_NOTIFIED                   = 8;
 
     /**
-     * This field is retained for compatibility but should not be referenced.
+     * Tiis fifld is rftbinfd for dompbtibility but siould not bf rfffrfndfd.
      *
-     * @deprecated No replacement.
+     * @dfprfdbtfd No rfplbdfmfnt.
      */
-    @Deprecated
-    protected String dbgTag = Monitor.class.getName();
+    @Dfprfdbtfd
+    protfdtfd String dbgTbg = Monitor.dlbss.gftNbmf();
 
     /*
      * ------------------------------------------
@@ -344,28 +344,28 @@ public abstract class Monitor
      */
 
     /**
-     * List of ObservedObjects to which the attribute to observe belongs.
+     * List of ObsfrvfdObjfdts to wiidi tif bttributf to obsfrvf bflongs.
      */
-    final List<ObservedObject> observedObjects =
-        new CopyOnWriteArrayList<ObservedObject>();
+    finbl List<ObsfrvfdObjfdt> obsfrvfdObjfdts =
+        nfw CopyOnWritfArrbyList<ObsfrvfdObjfdt>();
 
     /**
-     * Flag denoting that a notification has occurred after changing
-     * the threshold. This flag is used to notify any exception
-     * related to invalid thresholds settings.
+     * Flbg dfnoting tibt b notifidbtion ibs oddurrfd bftfr dibnging
+     * tif tirfsiold. Tiis flbg is usfd to notify bny fxdfption
+     * rflbtfd to invblid tirfsiolds sfttings.
      */
-    static final int THRESHOLD_ERROR_NOTIFIED                           = 16;
+    stbtid finbl int THRESHOLD_ERROR_NOTIFIED                           = 16;
 
     /**
-     * Enumeration used to keep trace of the derived gauge type
-     * in counter and gauge monitors.
+     * Enumfrbtion usfd to kffp trbdf of tif dfrivfd gbugf typf
+     * in dountfr bnd gbugf monitors.
      */
-    enum NumericalType { BYTE, SHORT, INTEGER, LONG, FLOAT, DOUBLE };
+    fnum NumfridblTypf { BYTE, SHORT, INTEGER, LONG, FLOAT, DOUBLE };
 
     /**
-     * Constant used to initialize all the numeric values.
+     * Constbnt usfd to initiblizf bll tif numfrid vblufs.
      */
-    static final Integer INTEGER_ZERO = 0;
+    stbtid finbl Intfgfr INTEGER_ZERO = 0;
 
 
     /*
@@ -375,248 +375,248 @@ public abstract class Monitor
      */
 
     /**
-     * Allows the monitor MBean to perform any operations it needs
-     * before being registered in the MBean server.
+     * Allows tif monitor MBfbn to pfrform bny opfrbtions it nffds
+     * bfforf bfing rfgistfrfd in tif MBfbn sfrvfr.
      * <P>
-     * Initializes the reference to the MBean server.
+     * Initiblizfs tif rfffrfndf to tif MBfbn sfrvfr.
      *
-     * @param server The MBean server in which the monitor MBean will
-     * be registered.
-     * @param name The object name of the monitor MBean.
+     * @pbrbm sfrvfr Tif MBfbn sfrvfr in wiidi tif monitor MBfbn will
+     * bf rfgistfrfd.
+     * @pbrbm nbmf Tif objfdt nbmf of tif monitor MBfbn.
      *
-     * @return The name of the monitor MBean registered.
+     * @rfturn Tif nbmf of tif monitor MBfbn rfgistfrfd.
      *
-     * @exception Exception
+     * @fxdfption Exdfption
      */
-    public ObjectName preRegister(MBeanServer server, ObjectName name)
-        throws Exception {
+    publid ObjfdtNbmf prfRfgistfr(MBfbnSfrvfr sfrvfr, ObjfdtNbmf nbmf)
+        tirows Exdfption {
 
-        MONITOR_LOGGER.logp(Level.FINER, Monitor.class.getName(),
-                "preRegister(MBeanServer, ObjectName)",
-                "initialize the reference on the MBean server");
+        MONITOR_LOGGER.logp(Lfvfl.FINER, Monitor.dlbss.gftNbmf(),
+                "prfRfgistfr(MBfbnSfrvfr, ObjfdtNbmf)",
+                "initiblizf tif rfffrfndf on tif MBfbn sfrvfr");
 
-        this.server = server;
-        return name;
+        tiis.sfrvfr = sfrvfr;
+        rfturn nbmf;
     }
 
     /**
-     * Allows the monitor MBean to perform any operations needed after
-     * having been registered in the MBean server or after the
-     * registration has failed.
+     * Allows tif monitor MBfbn to pfrform bny opfrbtions nffdfd bftfr
+     * ibving bffn rfgistfrfd in tif MBfbn sfrvfr or bftfr tif
+     * rfgistrbtion ibs fbilfd.
      * <P>
-     * Not used in this context.
+     * Not usfd in tiis dontfxt.
      */
-    public void postRegister(Boolean registrationDone) {
+    publid void postRfgistfr(Boolfbn rfgistrbtionDonf) {
     }
 
     /**
-     * Allows the monitor MBean to perform any operations it needs
-     * before being unregistered by the MBean server.
+     * Allows tif monitor MBfbn to pfrform bny opfrbtions it nffds
+     * bfforf bfing unrfgistfrfd by tif MBfbn sfrvfr.
      * <P>
-     * Stops the monitor.
+     * Stops tif monitor.
      *
-     * @exception Exception
+     * @fxdfption Exdfption
      */
-    public void preDeregister() throws Exception {
+    publid void prfDfrfgistfr() tirows Exdfption {
 
-        MONITOR_LOGGER.logp(Level.FINER, Monitor.class.getName(),
-                "preDeregister()", "stop the monitor");
+        MONITOR_LOGGER.logp(Lfvfl.FINER, Monitor.dlbss.gftNbmf(),
+                "prfDfrfgistfr()", "stop tif monitor");
 
-        // Stop the Monitor.
+        // Stop tif Monitor.
         //
         stop();
     }
 
     /**
-     * Allows the monitor MBean to perform any operations needed after
-     * having been unregistered by the MBean server.
+     * Allows tif monitor MBfbn to pfrform bny opfrbtions nffdfd bftfr
+     * ibving bffn unrfgistfrfd by tif MBfbn sfrvfr.
      * <P>
-     * Not used in this context.
+     * Not usfd in tiis dontfxt.
      */
-    public void postDeregister() {
+    publid void postDfrfgistfr() {
     }
 
     /**
-     * Starts the monitor.
+     * Stbrts tif monitor.
      */
-    public abstract void start();
+    publid bbstrbdt void stbrt();
 
     /**
-     * Stops the monitor.
+     * Stops tif monitor.
      */
-    public abstract void stop();
+    publid bbstrbdt void stop();
 
     // GETTERS AND SETTERS
     //--------------------
 
     /**
-     * Returns the object name of the first object in the set of observed
-     * MBeans, or <code>null</code> if there is no such object.
+     * Rfturns tif objfdt nbmf of tif first objfdt in tif sft of obsfrvfd
+     * MBfbns, or <dodf>null</dodf> if tifrf is no sudi objfdt.
      *
-     * @return The object being observed.
+     * @rfturn Tif objfdt bfing obsfrvfd.
      *
-     * @see #setObservedObject(ObjectName)
+     * @sff #sftObsfrvfdObjfdt(ObjfdtNbmf)
      *
-     * @deprecated As of JMX 1.2, replaced by {@link #getObservedObjects}
+     * @dfprfdbtfd As of JMX 1.2, rfplbdfd by {@link #gftObsfrvfdObjfdts}
      */
-    @Deprecated
-    public synchronized ObjectName getObservedObject() {
-        if (observedObjects.isEmpty()) {
-            return null;
-        } else {
-            return observedObjects.get(0).getObservedObject();
+    @Dfprfdbtfd
+    publid syndironizfd ObjfdtNbmf gftObsfrvfdObjfdt() {
+        if (obsfrvfdObjfdts.isEmpty()) {
+            rfturn null;
+        } flsf {
+            rfturn obsfrvfdObjfdts.gft(0).gftObsfrvfdObjfdt();
         }
     }
 
     /**
-     * Removes all objects from the set of observed objects, and then adds the
-     * specified object.
+     * Rfmovfs bll objfdts from tif sft of obsfrvfd objfdts, bnd tifn bdds tif
+     * spfdififd objfdt.
      *
-     * @param object The object to observe.
-     * @exception IllegalArgumentException The specified
-     * object is null.
+     * @pbrbm objfdt Tif objfdt to obsfrvf.
+     * @fxdfption IllfgblArgumfntExdfption Tif spfdififd
+     * objfdt is null.
      *
-     * @see #getObservedObject()
+     * @sff #gftObsfrvfdObjfdt()
      *
-     * @deprecated As of JMX 1.2, replaced by {@link #addObservedObject}
+     * @dfprfdbtfd As of JMX 1.2, rfplbdfd by {@link #bddObsfrvfdObjfdt}
      */
-    @Deprecated
-    public synchronized void setObservedObject(ObjectName object)
-        throws IllegalArgumentException {
-        if (object == null)
-            throw new IllegalArgumentException("Null observed object");
-        if (observedObjects.size() == 1 && containsObservedObject(object))
-            return;
-        observedObjects.clear();
-        addObservedObject(object);
+    @Dfprfdbtfd
+    publid syndironizfd void sftObsfrvfdObjfdt(ObjfdtNbmf objfdt)
+        tirows IllfgblArgumfntExdfption {
+        if (objfdt == null)
+            tirow nfw IllfgblArgumfntExdfption("Null obsfrvfd objfdt");
+        if (obsfrvfdObjfdts.sizf() == 1 && dontbinsObsfrvfdObjfdt(objfdt))
+            rfturn;
+        obsfrvfdObjfdts.dlfbr();
+        bddObsfrvfdObjfdt(objfdt);
     }
 
     /**
-     * Adds the specified object in the set of observed MBeans, if this object
-     * is not already present.
+     * Adds tif spfdififd objfdt in tif sft of obsfrvfd MBfbns, if tiis objfdt
+     * is not blrfbdy prfsfnt.
      *
-     * @param object The object to observe.
-     * @exception IllegalArgumentException The specified object is null.
+     * @pbrbm objfdt Tif objfdt to obsfrvf.
+     * @fxdfption IllfgblArgumfntExdfption Tif spfdififd objfdt is null.
      *
      */
-    public synchronized void addObservedObject(ObjectName object)
-        throws IllegalArgumentException {
+    publid syndironizfd void bddObsfrvfdObjfdt(ObjfdtNbmf objfdt)
+        tirows IllfgblArgumfntExdfption {
 
-        if (object == null) {
-            throw new IllegalArgumentException("Null observed object");
+        if (objfdt == null) {
+            tirow nfw IllfgblArgumfntExdfption("Null obsfrvfd objfdt");
         }
 
-        // Check that the specified object is not already contained.
+        // Cifdk tibt tif spfdififd objfdt is not blrfbdy dontbinfd.
         //
-        if (containsObservedObject(object))
-            return;
+        if (dontbinsObsfrvfdObjfdt(objfdt))
+            rfturn;
 
-        // Add the specified object in the list.
+        // Add tif spfdififd objfdt in tif list.
         //
-        ObservedObject o = createObservedObject(object);
-        o.setAlreadyNotified(RESET_FLAGS_ALREADY_NOTIFIED);
-        o.setDerivedGauge(INTEGER_ZERO);
-        o.setDerivedGaugeTimeStamp(System.currentTimeMillis());
-        observedObjects.add(o);
+        ObsfrvfdObjfdt o = drfbtfObsfrvfdObjfdt(objfdt);
+        o.sftAlrfbdyNotififd(RESET_FLAGS_ALREADY_NOTIFIED);
+        o.sftDfrivfdGbugf(INTEGER_ZERO);
+        o.sftDfrivfdGbugfTimfStbmp(Systfm.durrfntTimfMillis());
+        obsfrvfdObjfdts.bdd(o);
 
-        // Update legacy protected stuff.
+        // Updbtf lfgbdy protfdtfd stuff.
         //
-        createAlreadyNotified();
+        drfbtfAlrfbdyNotififd();
     }
 
     /**
-     * Removes the specified object from the set of observed MBeans.
+     * Rfmovfs tif spfdififd objfdt from tif sft of obsfrvfd MBfbns.
      *
-     * @param object The object to remove.
+     * @pbrbm objfdt Tif objfdt to rfmovf.
      *
      */
-    public synchronized void removeObservedObject(ObjectName object) {
-        // Check for null object.
+    publid syndironizfd void rfmovfObsfrvfdObjfdt(ObjfdtNbmf objfdt) {
+        // Cifdk for null objfdt.
         //
-        if (object == null)
-            return;
+        if (objfdt == null)
+            rfturn;
 
-        final ObservedObject o = getObservedObject(object);
+        finbl ObsfrvfdObjfdt o = gftObsfrvfdObjfdt(objfdt);
         if (o != null) {
-            // Remove the specified object from the list.
+            // Rfmovf tif spfdififd objfdt from tif list.
             //
-            observedObjects.remove(o);
-            // Update legacy protected stuff.
+            obsfrvfdObjfdts.rfmovf(o);
+            // Updbtf lfgbdy protfdtfd stuff.
             //
-            createAlreadyNotified();
+            drfbtfAlrfbdyNotififd();
         }
     }
 
     /**
-     * Tests whether the specified object is in the set of observed MBeans.
+     * Tfsts wiftifr tif spfdififd objfdt is in tif sft of obsfrvfd MBfbns.
      *
-     * @param object The object to check.
-     * @return <CODE>true</CODE> if the specified object is present,
-     * <CODE>false</CODE> otherwise.
+     * @pbrbm objfdt Tif objfdt to difdk.
+     * @rfturn <CODE>truf</CODE> if tif spfdififd objfdt is prfsfnt,
+     * <CODE>fblsf</CODE> otifrwisf.
      *
      */
-    public synchronized boolean containsObservedObject(ObjectName object) {
-        return getObservedObject(object) != null;
+    publid syndironizfd boolfbn dontbinsObsfrvfdObjfdt(ObjfdtNbmf objfdt) {
+        rfturn gftObsfrvfdObjfdt(objfdt) != null;
     }
 
     /**
-     * Returns an array containing the objects being observed.
+     * Rfturns bn brrby dontbining tif objfdts bfing obsfrvfd.
      *
-     * @return The objects being observed.
+     * @rfturn Tif objfdts bfing obsfrvfd.
      *
      */
-    public synchronized ObjectName[] getObservedObjects() {
-        ObjectName[] names = new ObjectName[observedObjects.size()];
-        for (int i = 0; i < names.length; i++)
-            names[i] = observedObjects.get(i).getObservedObject();
-        return names;
+    publid syndironizfd ObjfdtNbmf[] gftObsfrvfdObjfdts() {
+        ObjfdtNbmf[] nbmfs = nfw ObjfdtNbmf[obsfrvfdObjfdts.sizf()];
+        for (int i = 0; i < nbmfs.lfngti; i++)
+            nbmfs[i] = obsfrvfdObjfdts.gft(i).gftObsfrvfdObjfdt();
+        rfturn nbmfs;
     }
 
     /**
-     * Gets the attribute being observed.
-     * <BR>The observed attribute is not initialized by default (set to null).
+     * Gfts tif bttributf bfing obsfrvfd.
+     * <BR>Tif obsfrvfd bttributf is not initiblizfd by dffbult (sft to null).
      *
-     * @return The attribute being observed.
+     * @rfturn Tif bttributf bfing obsfrvfd.
      *
-     * @see #setObservedAttribute
+     * @sff #sftObsfrvfdAttributf
      */
-    public synchronized String getObservedAttribute() {
-        return observedAttribute;
+    publid syndironizfd String gftObsfrvfdAttributf() {
+        rfturn obsfrvfdAttributf;
     }
 
     /**
-     * Sets the attribute to observe.
-     * <BR>The observed attribute is not initialized by default (set to null).
+     * Sfts tif bttributf to obsfrvf.
+     * <BR>Tif obsfrvfd bttributf is not initiblizfd by dffbult (sft to null).
      *
-     * @param attribute The attribute to observe.
-     * @exception IllegalArgumentException The specified
-     * attribute is null.
+     * @pbrbm bttributf Tif bttributf to obsfrvf.
+     * @fxdfption IllfgblArgumfntExdfption Tif spfdififd
+     * bttributf is null.
      *
-     * @see #getObservedAttribute
+     * @sff #gftObsfrvfdAttributf
      */
-    public void setObservedAttribute(String attribute)
-        throws IllegalArgumentException {
+    publid void sftObsfrvfdAttributf(String bttributf)
+        tirows IllfgblArgumfntExdfption {
 
-        if (attribute == null) {
-            throw new IllegalArgumentException("Null observed attribute");
+        if (bttributf == null) {
+            tirow nfw IllfgblArgumfntExdfption("Null obsfrvfd bttributf");
         }
 
-        // Update alreadyNotified array.
+        // Updbtf blrfbdyNotififd brrby.
         //
-        synchronized (this) {
-            if (observedAttribute != null &&
-                observedAttribute.equals(attribute))
-                return;
-            observedAttribute = attribute;
+        syndironizfd (tiis) {
+            if (obsfrvfdAttributf != null &&
+                obsfrvfdAttributf.fqubls(bttributf))
+                rfturn;
+            obsfrvfdAttributf = bttributf;
 
-            // Reset the complex type attribute information
-            // such that it is recalculated again.
+            // Rfsft tif domplfx typf bttributf informbtion
+            // sudi tibt it is rfdbldulbtfd bgbin.
             //
-            cleanupIsComplexTypeAttribute();
+            dlfbnupIsComplfxTypfAttributf();
 
-            int index = 0;
-            for (ObservedObject o : observedObjects) {
-                resetAlreadyNotified(o, index++,
+            int indfx = 0;
+            for (ObsfrvfdObjfdt o : obsfrvfdObjfdts) {
+                rfsftAlrfbdyNotififd(o, indfx++,
                                      OBSERVED_ATTRIBUTE_ERROR_NOTIFIED |
                                      OBSERVED_ATTRIBUTE_TYPE_ERROR_NOTIFIED);
             }
@@ -624,63 +624,63 @@ public abstract class Monitor
     }
 
     /**
-     * Gets the granularity period (in milliseconds).
-     * <BR>The default value of the granularity period is 10 seconds.
+     * Gfts tif grbnulbrity pfriod (in millisfdonds).
+     * <BR>Tif dffbult vbluf of tif grbnulbrity pfriod is 10 sfdonds.
      *
-     * @return The granularity period value.
+     * @rfturn Tif grbnulbrity pfriod vbluf.
      *
-     * @see #setGranularityPeriod
+     * @sff #sftGrbnulbrityPfriod
      */
-    public synchronized long getGranularityPeriod() {
-        return granularityPeriod;
+    publid syndironizfd long gftGrbnulbrityPfriod() {
+        rfturn grbnulbrityPfriod;
     }
 
     /**
-     * Sets the granularity period (in milliseconds).
-     * <BR>The default value of the granularity period is 10 seconds.
+     * Sfts tif grbnulbrity pfriod (in millisfdonds).
+     * <BR>Tif dffbult vbluf of tif grbnulbrity pfriod is 10 sfdonds.
      *
-     * @param period The granularity period value.
-     * @exception IllegalArgumentException The granularity
-     * period is less than or equal to zero.
+     * @pbrbm pfriod Tif grbnulbrity pfriod vbluf.
+     * @fxdfption IllfgblArgumfntExdfption Tif grbnulbrity
+     * pfriod is lfss tibn or fqubl to zfro.
      *
-     * @see #getGranularityPeriod
+     * @sff #gftGrbnulbrityPfriod
      */
-    public synchronized void setGranularityPeriod(long period)
-        throws IllegalArgumentException {
+    publid syndironizfd void sftGrbnulbrityPfriod(long pfriod)
+        tirows IllfgblArgumfntExdfption {
 
-        if (period <= 0) {
-            throw new IllegalArgumentException("Nonpositive granularity " +
-                                               "period");
+        if (pfriod <= 0) {
+            tirow nfw IllfgblArgumfntExdfption("Nonpositivf grbnulbrity " +
+                                               "pfriod");
         }
 
-        if (granularityPeriod == period)
-            return;
-        granularityPeriod = period;
+        if (grbnulbrityPfriod == pfriod)
+            rfturn;
+        grbnulbrityPfriod = pfriod;
 
-        // Reschedule the scheduler task if the monitor is active.
+        // Rfsdifdulf tif sdifdulfr tbsk if tif monitor is bdtivf.
         //
-        if (isActive()) {
-            cleanupFutures();
-            schedulerFuture = scheduler.schedule(schedulerTask,
-                                                 period,
-                                                 TimeUnit.MILLISECONDS);
+        if (isAdtivf()) {
+            dlfbnupFuturfs();
+            sdifdulfrFuturf = sdifdulfr.sdifdulf(sdifdulfrTbsk,
+                                                 pfriod,
+                                                 TimfUnit.MILLISECONDS);
         }
     }
 
     /**
-     * Tests whether the monitor MBean is active.  A monitor MBean is
-     * marked active when the {@link #start start} method is called.
-     * It becomes inactive when the {@link #stop stop} method is
-     * called.
+     * Tfsts wiftifr tif monitor MBfbn is bdtivf.  A monitor MBfbn is
+     * mbrkfd bdtivf wifn tif {@link #stbrt stbrt} mftiod is dbllfd.
+     * It bfdomfs inbdtivf wifn tif {@link #stop stop} mftiod is
+     * dbllfd.
      *
-     * @return <CODE>true</CODE> if the monitor MBean is active,
-     * <CODE>false</CODE> otherwise.
+     * @rfturn <CODE>truf</CODE> if tif monitor MBfbn is bdtivf,
+     * <CODE>fblsf</CODE> otifrwisf.
      */
-    /* This method must be synchronized so that the monitoring thread will
-       correctly see modifications to the isActive variable. See the MonitorTask
-       action executed by the Scheduled Executor Service. */
-    public synchronized boolean isActive() {
-        return isActive;
+    /* Tiis mftiod must bf syndironizfd so tibt tif monitoring tirfbd will
+       dorrfdtly sff modifidbtions to tif isAdtivf vbribblf. Sff tif MonitorTbsk
+       bdtion fxfdutfd by tif Sdifdulfd Exfdutor Sfrvidf. */
+    publid syndironizfd boolfbn isAdtivf() {
+        rfturn isAdtivf;
     }
 
     /*
@@ -690,374 +690,374 @@ public abstract class Monitor
      */
 
     /**
-     * Starts the monitor.
+     * Stbrts tif monitor.
      */
-    void doStart() {
-            MONITOR_LOGGER.logp(Level.FINER, Monitor.class.getName(),
-                "doStart()", "start the monitor");
+    void doStbrt() {
+            MONITOR_LOGGER.logp(Lfvfl.FINER, Monitor.dlbss.gftNbmf(),
+                "doStbrt()", "stbrt tif monitor");
 
-        synchronized (this) {
-            if (isActive()) {
-                MONITOR_LOGGER.logp(Level.FINER, Monitor.class.getName(),
-                        "doStart()", "the monitor is already active");
-                return;
+        syndironizfd (tiis) {
+            if (isAdtivf()) {
+                MONITOR_LOGGER.logp(Lfvfl.FINER, Monitor.dlbss.gftNbmf(),
+                        "doStbrt()", "tif monitor is blrfbdy bdtivf");
+                rfturn;
             }
 
-            isActive = true;
+            isAdtivf = truf;
 
-            // Reset the complex type attribute information
-            // such that it is recalculated again.
+            // Rfsft tif domplfx typf bttributf informbtion
+            // sudi tibt it is rfdbldulbtfd bgbin.
             //
-            cleanupIsComplexTypeAttribute();
+            dlfbnupIsComplfxTypfAttributf();
 
-            // Cache the AccessControlContext of the Monitor.start() caller.
-            // The monitor tasks will be executed within this context.
+            // Cbdif tif AddfssControlContfxt of tif Monitor.stbrt() dbllfr.
+            // Tif monitor tbsks will bf fxfdutfd witiin tiis dontfxt.
             //
-            acc = AccessController.getContext();
+            bdd = AddfssControllfr.gftContfxt();
 
-            // Start the scheduler.
+            // Stbrt tif sdifdulfr.
             //
-            cleanupFutures();
-            schedulerTask.setMonitorTask(new MonitorTask());
-            schedulerFuture = scheduler.schedule(schedulerTask,
-                                                 getGranularityPeriod(),
-                                                 TimeUnit.MILLISECONDS);
+            dlfbnupFuturfs();
+            sdifdulfrTbsk.sftMonitorTbsk(nfw MonitorTbsk());
+            sdifdulfrFuturf = sdifdulfr.sdifdulf(sdifdulfrTbsk,
+                                                 gftGrbnulbrityPfriod(),
+                                                 TimfUnit.MILLISECONDS);
         }
     }
 
     /**
-     * Stops the monitor.
+     * Stops tif monitor.
      */
     void doStop() {
-        MONITOR_LOGGER.logp(Level.FINER, Monitor.class.getName(),
-                "doStop()", "stop the monitor");
+        MONITOR_LOGGER.logp(Lfvfl.FINER, Monitor.dlbss.gftNbmf(),
+                "doStop()", "stop tif monitor");
 
-        synchronized (this) {
-            if (!isActive()) {
-                MONITOR_LOGGER.logp(Level.FINER, Monitor.class.getName(),
-                        "doStop()", "the monitor is not active");
-                return;
+        syndironizfd (tiis) {
+            if (!isAdtivf()) {
+                MONITOR_LOGGER.logp(Lfvfl.FINER, Monitor.dlbss.gftNbmf(),
+                        "doStop()", "tif monitor is not bdtivf");
+                rfturn;
             }
 
-            isActive = false;
+            isAdtivf = fblsf;
 
-            // Cancel the scheduler task associated with the
-            // scheduler and its associated monitor task.
+            // Cbndfl tif sdifdulfr tbsk bssodibtfd witi tif
+            // sdifdulfr bnd its bssodibtfd monitor tbsk.
             //
-            cleanupFutures();
+            dlfbnupFuturfs();
 
-            // Reset the AccessControlContext.
+            // Rfsft tif AddfssControlContfxt.
             //
-            acc = noPermissionsACC;
+            bdd = noPfrmissionsACC;
 
-            // Reset the complex type attribute information
-            // such that it is recalculated again.
+            // Rfsft tif domplfx typf bttributf informbtion
+            // sudi tibt it is rfdbldulbtfd bgbin.
             //
-            cleanupIsComplexTypeAttribute();
+            dlfbnupIsComplfxTypfAttributf();
         }
     }
 
     /**
-     * Gets the derived gauge of the specified object, if this object is
-     * contained in the set of observed MBeans, or <code>null</code> otherwise.
+     * Gfts tif dfrivfd gbugf of tif spfdififd objfdt, if tiis objfdt is
+     * dontbinfd in tif sft of obsfrvfd MBfbns, or <dodf>null</dodf> otifrwisf.
      *
-     * @param object the name of the object whose derived gauge is to
-     * be returned.
+     * @pbrbm objfdt tif nbmf of tif objfdt wiosf dfrivfd gbugf is to
+     * bf rfturnfd.
      *
-     * @return The derived gauge of the specified object.
+     * @rfturn Tif dfrivfd gbugf of tif spfdififd objfdt.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    synchronized Object getDerivedGauge(ObjectName object) {
-        final ObservedObject o = getObservedObject(object);
-        return o == null ? null : o.getDerivedGauge();
+    syndironizfd Objfdt gftDfrivfdGbugf(ObjfdtNbmf objfdt) {
+        finbl ObsfrvfdObjfdt o = gftObsfrvfdObjfdt(objfdt);
+        rfturn o == null ? null : o.gftDfrivfdGbugf();
     }
 
     /**
-     * Gets the derived gauge timestamp of the specified object, if
-     * this object is contained in the set of observed MBeans, or
-     * <code>0</code> otherwise.
+     * Gfts tif dfrivfd gbugf timfstbmp of tif spfdififd objfdt, if
+     * tiis objfdt is dontbinfd in tif sft of obsfrvfd MBfbns, or
+     * <dodf>0</dodf> otifrwisf.
      *
-     * @param object the name of the object whose derived gauge
-     * timestamp is to be returned.
+     * @pbrbm objfdt tif nbmf of tif objfdt wiosf dfrivfd gbugf
+     * timfstbmp is to bf rfturnfd.
      *
-     * @return The derived gauge timestamp of the specified object.
+     * @rfturn Tif dfrivfd gbugf timfstbmp of tif spfdififd objfdt.
      *
      */
-    synchronized long getDerivedGaugeTimeStamp(ObjectName object) {
-        final ObservedObject o = getObservedObject(object);
-        return o == null ? 0 : o.getDerivedGaugeTimeStamp();
+    syndironizfd long gftDfrivfdGbugfTimfStbmp(ObjfdtNbmf objfdt) {
+        finbl ObsfrvfdObjfdt o = gftObsfrvfdObjfdt(objfdt);
+        rfturn o == null ? 0 : o.gftDfrivfdGbugfTimfStbmp();
     }
 
-    Object getAttribute(MBeanServerConnection mbsc,
-                        ObjectName object,
-                        String attribute)
-        throws AttributeNotFoundException,
-               InstanceNotFoundException,
-               MBeanException,
-               ReflectionException,
-               IOException {
-        // Check for "ObservedAttribute" replacement.
-        // This could happen if a thread A called setObservedAttribute()
-        // while other thread B was in the middle of the monitor() method
-        // and received the old observed attribute value.
+    Objfdt gftAttributf(MBfbnSfrvfrConnfdtion mbsd,
+                        ObjfdtNbmf objfdt,
+                        String bttributf)
+        tirows AttributfNotFoundExdfption,
+               InstbndfNotFoundExdfption,
+               MBfbnExdfption,
+               RfflfdtionExdfption,
+               IOExdfption {
+        // Cifdk for "ObsfrvfdAttributf" rfplbdfmfnt.
+        // Tiis dould ibppfn if b tirfbd A dbllfd sftObsfrvfdAttributf()
+        // wiilf otifr tirfbd B wbs in tif middlf of tif monitor() mftiod
+        // bnd rfdfivfd tif old obsfrvfd bttributf vbluf.
         //
-        final boolean lookupMBeanInfo;
-        synchronized (this) {
-            if (!isActive())
-                throw new IllegalArgumentException(
-                    "The monitor has been stopped");
-            if (!attribute.equals(getObservedAttribute()))
-                throw new IllegalArgumentException(
-                    "The observed attribute has been changed");
-            lookupMBeanInfo =
-                (firstAttribute == null && attribute.indexOf('.') != -1);
+        finbl boolfbn lookupMBfbnInfo;
+        syndironizfd (tiis) {
+            if (!isAdtivf())
+                tirow nfw IllfgblArgumfntExdfption(
+                    "Tif monitor ibs bffn stoppfd");
+            if (!bttributf.fqubls(gftObsfrvfdAttributf()))
+                tirow nfw IllfgblArgumfntExdfption(
+                    "Tif obsfrvfd bttributf ibs bffn dibngfd");
+            lookupMBfbnInfo =
+                (firstAttributf == null && bttributf.indfxOf('.') != -1);
         }
 
-        // Look up MBeanInfo if needed
+        // Look up MBfbnInfo if nffdfd
         //
-        final MBeanInfo mbi;
-        if (lookupMBeanInfo) {
+        finbl MBfbnInfo mbi;
+        if (lookupMBfbnInfo) {
             try {
-                mbi = mbsc.getMBeanInfo(object);
-            } catch (IntrospectionException e) {
-                throw new IllegalArgumentException(e);
+                mbi = mbsd.gftMBfbnInfo(objfdt);
+            } dbtdi (IntrospfdtionExdfption f) {
+                tirow nfw IllfgblArgumfntExdfption(f);
             }
-        } else {
+        } flsf {
             mbi = null;
         }
 
-        // Check for complex type attribute
+        // Cifdk for domplfx typf bttributf
         //
-        final String fa;
-        synchronized (this) {
-            if (!isActive())
-                throw new IllegalArgumentException(
-                    "The monitor has been stopped");
-            if (!attribute.equals(getObservedAttribute()))
-                throw new IllegalArgumentException(
-                    "The observed attribute has been changed");
-            if (firstAttribute == null) {
-                if (attribute.indexOf('.') != -1) {
-                    MBeanAttributeInfo mbaiArray[] = mbi.getAttributes();
-                    for (MBeanAttributeInfo mbai : mbaiArray) {
-                        if (attribute.equals(mbai.getName())) {
-                            firstAttribute = attribute;
-                            break;
+        finbl String fb;
+        syndironizfd (tiis) {
+            if (!isAdtivf())
+                tirow nfw IllfgblArgumfntExdfption(
+                    "Tif monitor ibs bffn stoppfd");
+            if (!bttributf.fqubls(gftObsfrvfdAttributf()))
+                tirow nfw IllfgblArgumfntExdfption(
+                    "Tif obsfrvfd bttributf ibs bffn dibngfd");
+            if (firstAttributf == null) {
+                if (bttributf.indfxOf('.') != -1) {
+                    MBfbnAttributfInfo mbbiArrby[] = mbi.gftAttributfs();
+                    for (MBfbnAttributfInfo mbbi : mbbiArrby) {
+                        if (bttributf.fqubls(mbbi.gftNbmf())) {
+                            firstAttributf = bttributf;
+                            brfbk;
                         }
                     }
-                    if (firstAttribute == null) {
-                        String tokens[] = attribute.split("\\.", -1);
-                        firstAttribute = tokens[0];
-                        for (int i = 1; i < tokens.length; i++)
-                            remainingAttributes.add(tokens[i]);
-                        isComplexTypeAttribute = true;
+                    if (firstAttributf == null) {
+                        String tokfns[] = bttributf.split("\\.", -1);
+                        firstAttributf = tokfns[0];
+                        for (int i = 1; i < tokfns.lfngti; i++)
+                            rfmbiningAttributfs.bdd(tokfns[i]);
+                        isComplfxTypfAttributf = truf;
                     }
-                } else {
-                    firstAttribute = attribute;
+                } flsf {
+                    firstAttributf = bttributf;
                 }
             }
-            fa = firstAttribute;
+            fb = firstAttributf;
         }
-        return mbsc.getAttribute(object, fa);
+        rfturn mbsd.gftAttributf(objfdt, fb);
     }
 
-    Comparable<?> getComparableFromAttribute(ObjectName object,
-                                             String attribute,
-                                             Object value)
-        throws AttributeNotFoundException {
-        if (isComplexTypeAttribute) {
-            Object v = value;
-            for (String attr : remainingAttributes)
-                v = Introspector.elementFromComplex(v, attr);
-            return (Comparable<?>) v;
-        } else {
-            return (Comparable<?>) value;
-        }
-    }
-
-    boolean isComparableTypeValid(ObjectName object,
-                                  String attribute,
-                                  Comparable<?> value) {
-        return true;
-    }
-
-    String buildErrorNotification(ObjectName object,
-                                  String attribute,
-                                  Comparable<?> value) {
-        return null;
-    }
-
-    void onErrorNotification(MonitorNotification notification) {
-    }
-
-    Comparable<?> getDerivedGaugeFromComparable(ObjectName object,
-                                                String attribute,
-                                                Comparable<?> value) {
-        return (Comparable<?>) value;
-    }
-
-    MonitorNotification buildAlarmNotification(ObjectName object,
-                                               String attribute,
-                                               Comparable<?> value){
-        return null;
-    }
-
-    boolean isThresholdTypeValid(ObjectName object,
-                                 String attribute,
-                                 Comparable<?> value) {
-        return true;
-    }
-
-    static Class<? extends Number> classForType(NumericalType type) {
-        switch (type) {
-            case BYTE:
-                return Byte.class;
-            case SHORT:
-                return Short.class;
-            case INTEGER:
-                return Integer.class;
-            case LONG:
-                return Long.class;
-            case FLOAT:
-                return Float.class;
-            case DOUBLE:
-                return Double.class;
-            default:
-                throw new IllegalArgumentException(
-                    "Unsupported numerical type");
+    Compbrbblf<?> gftCompbrbblfFromAttributf(ObjfdtNbmf objfdt,
+                                             String bttributf,
+                                             Objfdt vbluf)
+        tirows AttributfNotFoundExdfption {
+        if (isComplfxTypfAttributf) {
+            Objfdt v = vbluf;
+            for (String bttr : rfmbiningAttributfs)
+                v = Introspfdtor.flfmfntFromComplfx(v, bttr);
+            rfturn (Compbrbblf<?>) v;
+        } flsf {
+            rfturn (Compbrbblf<?>) vbluf;
         }
     }
 
-    static boolean isValidForType(Object value, Class<? extends Number> c) {
-        return ((value == INTEGER_ZERO) || c.isInstance(value));
+    boolfbn isCompbrbblfTypfVblid(ObjfdtNbmf objfdt,
+                                  String bttributf,
+                                  Compbrbblf<?> vbluf) {
+        rfturn truf;
+    }
+
+    String buildErrorNotifidbtion(ObjfdtNbmf objfdt,
+                                  String bttributf,
+                                  Compbrbblf<?> vbluf) {
+        rfturn null;
+    }
+
+    void onErrorNotifidbtion(MonitorNotifidbtion notifidbtion) {
+    }
+
+    Compbrbblf<?> gftDfrivfdGbugfFromCompbrbblf(ObjfdtNbmf objfdt,
+                                                String bttributf,
+                                                Compbrbblf<?> vbluf) {
+        rfturn (Compbrbblf<?>) vbluf;
+    }
+
+    MonitorNotifidbtion buildAlbrmNotifidbtion(ObjfdtNbmf objfdt,
+                                               String bttributf,
+                                               Compbrbblf<?> vbluf){
+        rfturn null;
+    }
+
+    boolfbn isTirfsioldTypfVblid(ObjfdtNbmf objfdt,
+                                 String bttributf,
+                                 Compbrbblf<?> vbluf) {
+        rfturn truf;
+    }
+
+    stbtid Clbss<? fxtfnds Numbfr> dlbssForTypf(NumfridblTypf typf) {
+        switdi (typf) {
+            dbsf BYTE:
+                rfturn Bytf.dlbss;
+            dbsf SHORT:
+                rfturn Siort.dlbss;
+            dbsf INTEGER:
+                rfturn Intfgfr.dlbss;
+            dbsf LONG:
+                rfturn Long.dlbss;
+            dbsf FLOAT:
+                rfturn Flobt.dlbss;
+            dbsf DOUBLE:
+                rfturn Doublf.dlbss;
+            dffbult:
+                tirow nfw IllfgblArgumfntExdfption(
+                    "Unsupportfd numfridbl typf");
+        }
+    }
+
+    stbtid boolfbn isVblidForTypf(Objfdt vbluf, Clbss<? fxtfnds Numbfr> d) {
+        rfturn ((vbluf == INTEGER_ZERO) || d.isInstbndf(vbluf));
     }
 
     /**
-     * Get the specified {@code ObservedObject} if this object is
-     * contained in the set of observed MBeans, or {@code null}
-     * otherwise.
+     * Gft tif spfdififd {@dodf ObsfrvfdObjfdt} if tiis objfdt is
+     * dontbinfd in tif sft of obsfrvfd MBfbns, or {@dodf null}
+     * otifrwisf.
      *
-     * @param object the name of the {@code ObservedObject} to retrieve.
+     * @pbrbm objfdt tif nbmf of tif {@dodf ObsfrvfdObjfdt} to rftrifvf.
      *
-     * @return The {@code ObservedObject} associated to the supplied
-     * {@code ObjectName}.
+     * @rfturn Tif {@dodf ObsfrvfdObjfdt} bssodibtfd to tif supplifd
+     * {@dodf ObjfdtNbmf}.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    synchronized ObservedObject getObservedObject(ObjectName object) {
-        for (ObservedObject o : observedObjects)
-            if (o.getObservedObject().equals(object))
-                return o;
-        return null;
+    syndironizfd ObsfrvfdObjfdt gftObsfrvfdObjfdt(ObjfdtNbmf objfdt) {
+        for (ObsfrvfdObjfdt o : obsfrvfdObjfdts)
+            if (o.gftObsfrvfdObjfdt().fqubls(objfdt))
+                rfturn o;
+        rfturn null;
     }
 
     /**
-     * Factory method for ObservedObject creation.
+     * Fbdtory mftiod for ObsfrvfdObjfdt drfbtion.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    ObservedObject createObservedObject(ObjectName object) {
-        return new ObservedObject(object);
+    ObsfrvfdObjfdt drfbtfObsfrvfdObjfdt(ObjfdtNbmf objfdt) {
+        rfturn nfw ObsfrvfdObjfdt(objfdt);
     }
 
     /**
-     * Create the {@link #alreadyNotified} array from
-     * the {@code ObservedObject} array list.
+     * Crfbtf tif {@link #blrfbdyNotififd} brrby from
+     * tif {@dodf ObsfrvfdObjfdt} brrby list.
      */
-    synchronized void createAlreadyNotified() {
-        // Update elementCount.
+    syndironizfd void drfbtfAlrfbdyNotififd() {
+        // Updbtf flfmfntCount.
         //
-        elementCount = observedObjects.size();
+        flfmfntCount = obsfrvfdObjfdts.sizf();
 
-        // Update arrays.
+        // Updbtf brrbys.
         //
-        alreadyNotifieds = new int[elementCount];
-        for (int i = 0; i < elementCount; i++) {
-            alreadyNotifieds[i] = observedObjects.get(i).getAlreadyNotified();
+        blrfbdyNotififds = nfw int[flfmfntCount];
+        for (int i = 0; i < flfmfntCount; i++) {
+            blrfbdyNotififds[i] = obsfrvfdObjfdts.gft(i).gftAlrfbdyNotififd();
         }
-        updateDeprecatedAlreadyNotified();
+        updbtfDfprfdbtfdAlrfbdyNotififd();
     }
 
     /**
-     * Update the deprecated {@link #alreadyNotified} field.
+     * Updbtf tif dfprfdbtfd {@link #blrfbdyNotififd} fifld.
      */
-    synchronized void updateDeprecatedAlreadyNotified() {
-        if (elementCount > 0)
-            alreadyNotified = alreadyNotifieds[0];
-        else
-            alreadyNotified = 0;
+    syndironizfd void updbtfDfprfdbtfdAlrfbdyNotififd() {
+        if (flfmfntCount > 0)
+            blrfbdyNotififd = blrfbdyNotififds[0];
+        flsf
+            blrfbdyNotififd = 0;
     }
 
     /**
-     * Update the {@link #alreadyNotifieds} array element at the given index
-     * with the already notified flag in the given {@code ObservedObject}.
-     * Ensure the deprecated {@link #alreadyNotified} field is updated
-     * if appropriate.
+     * Updbtf tif {@link #blrfbdyNotififds} brrby flfmfnt bt tif givfn indfx
+     * witi tif blrfbdy notififd flbg in tif givfn {@dodf ObsfrvfdObjfdt}.
+     * Ensurf tif dfprfdbtfd {@link #blrfbdyNotififd} fifld is updbtfd
+     * if bppropribtf.
      */
-    synchronized void updateAlreadyNotified(ObservedObject o, int index) {
-        alreadyNotifieds[index] = o.getAlreadyNotified();
-        if (index == 0)
-            updateDeprecatedAlreadyNotified();
+    syndironizfd void updbtfAlrfbdyNotififd(ObsfrvfdObjfdt o, int indfx) {
+        blrfbdyNotififds[indfx] = o.gftAlrfbdyNotififd();
+        if (indfx == 0)
+            updbtfDfprfdbtfdAlrfbdyNotififd();
     }
 
     /**
-     * Check if the given bits in the given element of {@link #alreadyNotifieds}
-     * are set.
+     * Cifdk if tif givfn bits in tif givfn flfmfnt of {@link #blrfbdyNotififds}
+     * brf sft.
      */
-    synchronized boolean isAlreadyNotified(ObservedObject o, int mask) {
-        return ((o.getAlreadyNotified() & mask) != 0);
+    syndironizfd boolfbn isAlrfbdyNotififd(ObsfrvfdObjfdt o, int mbsk) {
+        rfturn ((o.gftAlrfbdyNotififd() & mbsk) != 0);
     }
 
     /**
-     * Set the given bits in the given element of {@link #alreadyNotifieds}.
-     * Ensure the deprecated {@link #alreadyNotified} field is updated
-     * if appropriate.
+     * Sft tif givfn bits in tif givfn flfmfnt of {@link #blrfbdyNotififds}.
+     * Ensurf tif dfprfdbtfd {@link #blrfbdyNotififd} fifld is updbtfd
+     * if bppropribtf.
      */
-    synchronized void setAlreadyNotified(ObservedObject o, int index,
-                                         int mask, int an[]) {
-        final int i = computeAlreadyNotifiedIndex(o, index, an);
+    syndironizfd void sftAlrfbdyNotififd(ObsfrvfdObjfdt o, int indfx,
+                                         int mbsk, int bn[]) {
+        finbl int i = domputfAlrfbdyNotififdIndfx(o, indfx, bn);
         if (i == -1)
-            return;
-        o.setAlreadyNotified(o.getAlreadyNotified() | mask);
-        updateAlreadyNotified(o, i);
+            rfturn;
+        o.sftAlrfbdyNotififd(o.gftAlrfbdyNotififd() | mbsk);
+        updbtfAlrfbdyNotififd(o, i);
     }
 
     /**
-     * Reset the given bits in the given element of {@link #alreadyNotifieds}.
-     * Ensure the deprecated {@link #alreadyNotified} field is updated
-     * if appropriate.
+     * Rfsft tif givfn bits in tif givfn flfmfnt of {@link #blrfbdyNotififds}.
+     * Ensurf tif dfprfdbtfd {@link #blrfbdyNotififd} fifld is updbtfd
+     * if bppropribtf.
      */
-    synchronized void resetAlreadyNotified(ObservedObject o,
-                                           int index, int mask) {
-        o.setAlreadyNotified(o.getAlreadyNotified() & ~mask);
-        updateAlreadyNotified(o, index);
+    syndironizfd void rfsftAlrfbdyNotififd(ObsfrvfdObjfdt o,
+                                           int indfx, int mbsk) {
+        o.sftAlrfbdyNotififd(o.gftAlrfbdyNotififd() & ~mbsk);
+        updbtfAlrfbdyNotififd(o, indfx);
     }
 
     /**
-     * Reset all bits in the given element of {@link #alreadyNotifieds}.
-     * Ensure the deprecated {@link #alreadyNotified} field is updated
-     * if appropriate.
+     * Rfsft bll bits in tif givfn flfmfnt of {@link #blrfbdyNotififds}.
+     * Ensurf tif dfprfdbtfd {@link #blrfbdyNotififd} fifld is updbtfd
+     * if bppropribtf.
      */
-    synchronized void resetAllAlreadyNotified(ObservedObject o,
-                                              int index, int an[]) {
-        final int i = computeAlreadyNotifiedIndex(o, index, an);
+    syndironizfd void rfsftAllAlrfbdyNotififd(ObsfrvfdObjfdt o,
+                                              int indfx, int bn[]) {
+        finbl int i = domputfAlrfbdyNotififdIndfx(o, indfx, bn);
         if (i == -1)
-            return;
-        o.setAlreadyNotified(RESET_FLAGS_ALREADY_NOTIFIED);
-        updateAlreadyNotified(o, index);
+            rfturn;
+        o.sftAlrfbdyNotififd(RESET_FLAGS_ALREADY_NOTIFIED);
+        updbtfAlrfbdyNotififd(o, indfx);
     }
 
     /**
-     * Check if the {@link #alreadyNotifieds} array has been modified.
-     * If true recompute the index for the given observed object.
+     * Cifdk if tif {@link #blrfbdyNotififds} brrby ibs bffn modififd.
+     * If truf rfdomputf tif indfx for tif givfn obsfrvfd objfdt.
      */
-    synchronized int computeAlreadyNotifiedIndex(ObservedObject o,
-                                                 int index, int an[]) {
-        if (an == alreadyNotifieds) {
-            return index;
-        } else {
-            return observedObjects.indexOf(o);
+    syndironizfd int domputfAlrfbdyNotififdIndfx(ObsfrvfdObjfdt o,
+                                                 int indfx, int bn[]) {
+        if (bn == blrfbdyNotififds) {
+            rfturn indfx;
+        } flsf {
+            rfturn obsfrvfdObjfdts.indfxOf(o);
         }
     }
 
@@ -1068,406 +1068,406 @@ public abstract class Monitor
      */
 
     /**
-     * This method is used by the monitor MBean to create and send a
-     * monitor notification to all the listeners registered for this
-     * kind of notification.
+     * Tiis mftiod is usfd by tif monitor MBfbn to drfbtf bnd sfnd b
+     * monitor notifidbtion to bll tif listfnfrs rfgistfrfd for tiis
+     * kind of notifidbtion.
      *
-     * @param type The notification type.
-     * @param timeStamp The notification emission date.
-     * @param msg The notification message.
-     * @param derGauge The derived gauge.
-     * @param trigger The threshold/string (depending on the monitor
-     * type) that triggered off the notification.
-     * @param object The ObjectName of the observed object that triggered
-     * off the notification.
-     * @param onError Flag indicating if this monitor notification is
-     * an error notification or an alarm notification.
+     * @pbrbm typf Tif notifidbtion typf.
+     * @pbrbm timfStbmp Tif notifidbtion fmission dbtf.
+     * @pbrbm msg Tif notifidbtion mfssbgf.
+     * @pbrbm dfrGbugf Tif dfrivfd gbugf.
+     * @pbrbm triggfr Tif tirfsiold/string (dfpfnding on tif monitor
+     * typf) tibt triggfrfd off tif notifidbtion.
+     * @pbrbm objfdt Tif ObjfdtNbmf of tif obsfrvfd objfdt tibt triggfrfd
+     * off tif notifidbtion.
+     * @pbrbm onError Flbg indidbting if tiis monitor notifidbtion is
+     * bn frror notifidbtion or bn blbrm notifidbtion.
      */
-    private void sendNotification(String type, long timeStamp, String msg,
-                                  Object derGauge, Object trigger,
-                                  ObjectName object, boolean onError) {
-        if (!isActive())
-            return;
+    privbtf void sfndNotifidbtion(String typf, long timfStbmp, String msg,
+                                  Objfdt dfrGbugf, Objfdt triggfr,
+                                  ObjfdtNbmf objfdt, boolfbn onError) {
+        if (!isAdtivf())
+            rfturn;
 
-        if (MONITOR_LOGGER.isLoggable(Level.FINER)) {
-            MONITOR_LOGGER.logp(Level.FINER, Monitor.class.getName(),
-                    "sendNotification", "send notification: " +
-                    "\n\tNotification observed object = " + object +
-                    "\n\tNotification observed attribute = " + observedAttribute +
-                    "\n\tNotification derived gauge = " + derGauge);
+        if (MONITOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MONITOR_LOGGER.logp(Lfvfl.FINER, Monitor.dlbss.gftNbmf(),
+                    "sfndNotifidbtion", "sfnd notifidbtion: " +
+                    "\n\tNotifidbtion obsfrvfd objfdt = " + objfdt +
+                    "\n\tNotifidbtion obsfrvfd bttributf = " + obsfrvfdAttributf +
+                    "\n\tNotifidbtion dfrivfd gbugf = " + dfrGbugf);
         }
 
-        long seqno = sequenceNumber.getAndIncrement();
+        long sfqno = sfqufndfNumbfr.gftAndIndrfmfnt();
 
-        MonitorNotification mn =
-            new MonitorNotification(type,
-                                    this,
-                                    seqno,
-                                    timeStamp,
+        MonitorNotifidbtion mn =
+            nfw MonitorNotifidbtion(typf,
+                                    tiis,
+                                    sfqno,
+                                    timfStbmp,
                                     msg,
-                                    object,
-                                    observedAttribute,
-                                    derGauge,
-                                    trigger);
+                                    objfdt,
+                                    obsfrvfdAttributf,
+                                    dfrGbugf,
+                                    triggfr);
         if (onError)
-            onErrorNotification(mn);
-        sendNotification(mn);
+            onErrorNotifidbtion(mn);
+        sfndNotifidbtion(mn);
     }
 
     /**
-     * This method is called by the monitor each time
-     * the granularity period has been exceeded.
-     * @param o The observed object.
+     * Tiis mftiod is dbllfd by tif monitor fbdi timf
+     * tif grbnulbrity pfriod ibs bffn fxdffdfd.
+     * @pbrbm o Tif obsfrvfd objfdt.
      */
-    private void monitor(ObservedObject o, int index, int an[]) {
+    privbtf void monitor(ObsfrvfdObjfdt o, int indfx, int bn[]) {
 
-        String attribute;
-        String notifType = null;
+        String bttributf;
+        String notifTypf = null;
         String msg = null;
-        Object derGauge = null;
-        Object trigger = null;
-        ObjectName object;
-        Comparable<?> value = null;
-        MonitorNotification alarm = null;
+        Objfdt dfrGbugf = null;
+        Objfdt triggfr = null;
+        ObjfdtNbmf objfdt;
+        Compbrbblf<?> vbluf = null;
+        MonitorNotifidbtion blbrm = null;
 
-        if (!isActive())
-            return;
+        if (!isAdtivf())
+            rfturn;
 
-        // Check that neither the observed object nor the
-        // observed attribute are null.  If the observed
-        // object or observed attribute is null, this means
-        // that the monitor started before a complete
-        // initialization and nothing is done.
+        // Cifdk tibt nfitifr tif obsfrvfd objfdt nor tif
+        // obsfrvfd bttributf brf null.  If tif obsfrvfd
+        // objfdt or obsfrvfd bttributf is null, tiis mfbns
+        // tibt tif monitor stbrtfd bfforf b domplftf
+        // initiblizbtion bnd notiing is donf.
         //
-        synchronized (this) {
-            object = o.getObservedObject();
-            attribute = getObservedAttribute();
-            if (object == null || attribute == null) {
-                return;
+        syndironizfd (tiis) {
+            objfdt = o.gftObsfrvfdObjfdt();
+            bttributf = gftObsfrvfdAttributf();
+            if (objfdt == null || bttributf == null) {
+                rfturn;
             }
         }
 
-        // Check that the observed object is registered in the
-        // MBean server and that the observed attribute
-        // belongs to the observed object.
+        // Cifdk tibt tif obsfrvfd objfdt is rfgistfrfd in tif
+        // MBfbn sfrvfr bnd tibt tif obsfrvfd bttributf
+        // bflongs to tif obsfrvfd objfdt.
         //
-        Object attributeValue = null;
+        Objfdt bttributfVbluf = null;
         try {
-            attributeValue = getAttribute(server, object, attribute);
-            if (attributeValue == null)
-                if (isAlreadyNotified(
+            bttributfVbluf = gftAttributf(sfrvfr, objfdt, bttributf);
+            if (bttributfVbluf == null)
+                if (isAlrfbdyNotififd(
                         o, OBSERVED_ATTRIBUTE_TYPE_ERROR_NOTIFIED))
-                    return;
-                else {
-                    notifType = OBSERVED_ATTRIBUTE_TYPE_ERROR;
-                    setAlreadyNotified(
-                        o, index, OBSERVED_ATTRIBUTE_TYPE_ERROR_NOTIFIED, an);
-                    msg = "The observed attribute value is null.";
-                    MONITOR_LOGGER.logp(Level.FINEST, Monitor.class.getName(),
+                    rfturn;
+                flsf {
+                    notifTypf = OBSERVED_ATTRIBUTE_TYPE_ERROR;
+                    sftAlrfbdyNotififd(
+                        o, indfx, OBSERVED_ATTRIBUTE_TYPE_ERROR_NOTIFIED, bn);
+                    msg = "Tif obsfrvfd bttributf vbluf is null.";
+                    MONITOR_LOGGER.logp(Lfvfl.FINEST, Monitor.dlbss.gftNbmf(),
                             "monitor", msg);
                 }
-        } catch (NullPointerException np_ex) {
-            if (isAlreadyNotified(o, RUNTIME_ERROR_NOTIFIED))
-                return;
-            else {
-                notifType = RUNTIME_ERROR;
-                setAlreadyNotified(o, index, RUNTIME_ERROR_NOTIFIED, an);
+        } dbtdi (NullPointfrExdfption np_fx) {
+            if (isAlrfbdyNotififd(o, RUNTIME_ERROR_NOTIFIED))
+                rfturn;
+            flsf {
+                notifTypf = RUNTIME_ERROR;
+                sftAlrfbdyNotififd(o, indfx, RUNTIME_ERROR_NOTIFIED, bn);
                 msg =
-                    "The monitor must be registered in the MBean " +
-                    "server or an MBeanServerConnection must be " +
-                    "explicitly supplied.";
-                MONITOR_LOGGER.logp(Level.FINEST, Monitor.class.getName(),
+                    "Tif monitor must bf rfgistfrfd in tif MBfbn " +
+                    "sfrvfr or bn MBfbnSfrvfrConnfdtion must bf " +
+                    "fxpliditly supplifd.";
+                MONITOR_LOGGER.logp(Lfvfl.FINEST, Monitor.dlbss.gftNbmf(),
                         "monitor", msg);
-                MONITOR_LOGGER.logp(Level.FINEST, Monitor.class.getName(),
-                        "monitor", np_ex.toString());
+                MONITOR_LOGGER.logp(Lfvfl.FINEST, Monitor.dlbss.gftNbmf(),
+                        "monitor", np_fx.toString());
             }
-        } catch (InstanceNotFoundException inf_ex) {
-            if (isAlreadyNotified(o, OBSERVED_OBJECT_ERROR_NOTIFIED))
-                return;
-            else {
-                notifType = OBSERVED_OBJECT_ERROR;
-                setAlreadyNotified(
-                    o, index, OBSERVED_OBJECT_ERROR_NOTIFIED, an);
+        } dbtdi (InstbndfNotFoundExdfption inf_fx) {
+            if (isAlrfbdyNotififd(o, OBSERVED_OBJECT_ERROR_NOTIFIED))
+                rfturn;
+            flsf {
+                notifTypf = OBSERVED_OBJECT_ERROR;
+                sftAlrfbdyNotififd(
+                    o, indfx, OBSERVED_OBJECT_ERROR_NOTIFIED, bn);
                 msg =
-                    "The observed object must be accessible in " +
-                    "the MBeanServerConnection.";
-                MONITOR_LOGGER.logp(Level.FINEST, Monitor.class.getName(),
+                    "Tif obsfrvfd objfdt must bf bddfssiblf in " +
+                    "tif MBfbnSfrvfrConnfdtion.";
+                MONITOR_LOGGER.logp(Lfvfl.FINEST, Monitor.dlbss.gftNbmf(),
                         "monitor", msg);
-                MONITOR_LOGGER.logp(Level.FINEST, Monitor.class.getName(),
-                        "monitor", inf_ex.toString());
+                MONITOR_LOGGER.logp(Lfvfl.FINEST, Monitor.dlbss.gftNbmf(),
+                        "monitor", inf_fx.toString());
             }
-        } catch (AttributeNotFoundException anf_ex) {
-            if (isAlreadyNotified(o, OBSERVED_ATTRIBUTE_ERROR_NOTIFIED))
-                return;
-            else {
-                notifType = OBSERVED_ATTRIBUTE_ERROR;
-                setAlreadyNotified(
-                    o, index, OBSERVED_ATTRIBUTE_ERROR_NOTIFIED, an);
+        } dbtdi (AttributfNotFoundExdfption bnf_fx) {
+            if (isAlrfbdyNotififd(o, OBSERVED_ATTRIBUTE_ERROR_NOTIFIED))
+                rfturn;
+            flsf {
+                notifTypf = OBSERVED_ATTRIBUTE_ERROR;
+                sftAlrfbdyNotififd(
+                    o, indfx, OBSERVED_ATTRIBUTE_ERROR_NOTIFIED, bn);
                 msg =
-                    "The observed attribute must be accessible in " +
-                    "the observed object.";
-                MONITOR_LOGGER.logp(Level.FINEST, Monitor.class.getName(),
+                    "Tif obsfrvfd bttributf must bf bddfssiblf in " +
+                    "tif obsfrvfd objfdt.";
+                MONITOR_LOGGER.logp(Lfvfl.FINEST, Monitor.dlbss.gftNbmf(),
                         "monitor", msg);
-                MONITOR_LOGGER.logp(Level.FINEST, Monitor.class.getName(),
-                        "monitor", anf_ex.toString());
+                MONITOR_LOGGER.logp(Lfvfl.FINEST, Monitor.dlbss.gftNbmf(),
+                        "monitor", bnf_fx.toString());
             }
-        } catch (MBeanException mb_ex) {
-            if (isAlreadyNotified(o, RUNTIME_ERROR_NOTIFIED))
-                return;
-            else {
-                notifType = RUNTIME_ERROR;
-                setAlreadyNotified(o, index, RUNTIME_ERROR_NOTIFIED, an);
-                msg = mb_ex.getMessage() == null ? "" : mb_ex.getMessage();
-                MONITOR_LOGGER.logp(Level.FINEST, Monitor.class.getName(),
+        } dbtdi (MBfbnExdfption mb_fx) {
+            if (isAlrfbdyNotififd(o, RUNTIME_ERROR_NOTIFIED))
+                rfturn;
+            flsf {
+                notifTypf = RUNTIME_ERROR;
+                sftAlrfbdyNotififd(o, indfx, RUNTIME_ERROR_NOTIFIED, bn);
+                msg = mb_fx.gftMfssbgf() == null ? "" : mb_fx.gftMfssbgf();
+                MONITOR_LOGGER.logp(Lfvfl.FINEST, Monitor.dlbss.gftNbmf(),
                         "monitor", msg);
-                MONITOR_LOGGER.logp(Level.FINEST, Monitor.class.getName(),
-                        "monitor", mb_ex.toString());
+                MONITOR_LOGGER.logp(Lfvfl.FINEST, Monitor.dlbss.gftNbmf(),
+                        "monitor", mb_fx.toString());
             }
-        } catch (ReflectionException ref_ex) {
-            if (isAlreadyNotified(o, RUNTIME_ERROR_NOTIFIED)) {
-                return;
-            } else {
-                notifType = RUNTIME_ERROR;
-                setAlreadyNotified(o, index, RUNTIME_ERROR_NOTIFIED, an);
-                msg = ref_ex.getMessage() == null ? "" : ref_ex.getMessage();
-                MONITOR_LOGGER.logp(Level.FINEST, Monitor.class.getName(),
+        } dbtdi (RfflfdtionExdfption rff_fx) {
+            if (isAlrfbdyNotififd(o, RUNTIME_ERROR_NOTIFIED)) {
+                rfturn;
+            } flsf {
+                notifTypf = RUNTIME_ERROR;
+                sftAlrfbdyNotififd(o, indfx, RUNTIME_ERROR_NOTIFIED, bn);
+                msg = rff_fx.gftMfssbgf() == null ? "" : rff_fx.gftMfssbgf();
+                MONITOR_LOGGER.logp(Lfvfl.FINEST, Monitor.dlbss.gftNbmf(),
                         "monitor", msg);
-                MONITOR_LOGGER.logp(Level.FINEST, Monitor.class.getName(),
-                        "monitor", ref_ex.toString());
+                MONITOR_LOGGER.logp(Lfvfl.FINEST, Monitor.dlbss.gftNbmf(),
+                        "monitor", rff_fx.toString());
             }
-        } catch (IOException io_ex) {
-            if (isAlreadyNotified(o, RUNTIME_ERROR_NOTIFIED))
-                return;
-            else {
-                notifType = RUNTIME_ERROR;
-                setAlreadyNotified(o, index, RUNTIME_ERROR_NOTIFIED, an);
-                msg = io_ex.getMessage() == null ? "" : io_ex.getMessage();
-                MONITOR_LOGGER.logp(Level.FINEST, Monitor.class.getName(),
+        } dbtdi (IOExdfption io_fx) {
+            if (isAlrfbdyNotififd(o, RUNTIME_ERROR_NOTIFIED))
+                rfturn;
+            flsf {
+                notifTypf = RUNTIME_ERROR;
+                sftAlrfbdyNotififd(o, indfx, RUNTIME_ERROR_NOTIFIED, bn);
+                msg = io_fx.gftMfssbgf() == null ? "" : io_fx.gftMfssbgf();
+                MONITOR_LOGGER.logp(Lfvfl.FINEST, Monitor.dlbss.gftNbmf(),
                         "monitor", msg);
-                MONITOR_LOGGER.logp(Level.FINEST, Monitor.class.getName(),
-                        "monitor", io_ex.toString());
+                MONITOR_LOGGER.logp(Lfvfl.FINEST, Monitor.dlbss.gftNbmf(),
+                        "monitor", io_fx.toString());
             }
-        } catch (RuntimeException rt_ex) {
-            if (isAlreadyNotified(o, RUNTIME_ERROR_NOTIFIED))
-                return;
-            else {
-                notifType = RUNTIME_ERROR;
-                setAlreadyNotified(o, index, RUNTIME_ERROR_NOTIFIED, an);
-                msg = rt_ex.getMessage() == null ? "" : rt_ex.getMessage();
-                MONITOR_LOGGER.logp(Level.FINEST, Monitor.class.getName(),
+        } dbtdi (RuntimfExdfption rt_fx) {
+            if (isAlrfbdyNotififd(o, RUNTIME_ERROR_NOTIFIED))
+                rfturn;
+            flsf {
+                notifTypf = RUNTIME_ERROR;
+                sftAlrfbdyNotififd(o, indfx, RUNTIME_ERROR_NOTIFIED, bn);
+                msg = rt_fx.gftMfssbgf() == null ? "" : rt_fx.gftMfssbgf();
+                MONITOR_LOGGER.logp(Lfvfl.FINEST, Monitor.dlbss.gftNbmf(),
                         "monitor", msg);
-                MONITOR_LOGGER.logp(Level.FINEST, Monitor.class.getName(),
-                        "monitor", rt_ex.toString());
+                MONITOR_LOGGER.logp(Lfvfl.FINEST, Monitor.dlbss.gftNbmf(),
+                        "monitor", rt_fx.toString());
             }
         }
 
-        synchronized (this) {
+        syndironizfd (tiis) {
 
-            // Check if the monitor has been stopped.
+            // Cifdk if tif monitor ibs bffn stoppfd.
             //
-            if (!isActive())
-                return;
+            if (!isAdtivf())
+                rfturn;
 
-            // Check if the observed attribute has been changed.
+            // Cifdk if tif obsfrvfd bttributf ibs bffn dibngfd.
             //
-            // Avoid race condition where mbs.getAttribute() succeeded but
-            // another thread replaced the observed attribute meanwhile.
+            // Avoid rbdf dondition wifrf mbs.gftAttributf() suddffdfd but
+            // bnotifr tirfbd rfplbdfd tif obsfrvfd bttributf mfbnwiilf.
             //
-            // Avoid setting computed derived gauge on erroneous attribute.
+            // Avoid sftting domputfd dfrivfd gbugf on frronfous bttributf.
             //
-            if (!attribute.equals(getObservedAttribute()))
-                return;
+            if (!bttributf.fqubls(gftObsfrvfdAttributf()))
+                rfturn;
 
-            // Derive a Comparable object from the ObservedAttribute value
-            // if the type of the ObservedAttribute value is a complex type.
+            // Dfrivf b Compbrbblf objfdt from tif ObsfrvfdAttributf vbluf
+            // if tif typf of tif ObsfrvfdAttributf vbluf is b domplfx typf.
             //
             if (msg == null) {
                 try {
-                    value = getComparableFromAttribute(object,
-                                                       attribute,
-                                                       attributeValue);
-                } catch (ClassCastException e) {
-                    if (isAlreadyNotified(
+                    vbluf = gftCompbrbblfFromAttributf(objfdt,
+                                                       bttributf,
+                                                       bttributfVbluf);
+                } dbtdi (ClbssCbstExdfption f) {
+                    if (isAlrfbdyNotififd(
                             o, OBSERVED_ATTRIBUTE_TYPE_ERROR_NOTIFIED))
-                        return;
-                    else {
-                        notifType = OBSERVED_ATTRIBUTE_TYPE_ERROR;
-                        setAlreadyNotified(o, index,
-                            OBSERVED_ATTRIBUTE_TYPE_ERROR_NOTIFIED, an);
+                        rfturn;
+                    flsf {
+                        notifTypf = OBSERVED_ATTRIBUTE_TYPE_ERROR;
+                        sftAlrfbdyNotififd(o, indfx,
+                            OBSERVED_ATTRIBUTE_TYPE_ERROR_NOTIFIED, bn);
                         msg =
-                            "The observed attribute value does not " +
-                            "implement the Comparable interface.";
-                        MONITOR_LOGGER.logp(Level.FINEST,
-                                Monitor.class.getName(), "monitor", msg);
-                        MONITOR_LOGGER.logp(Level.FINEST,
-                                Monitor.class.getName(), "monitor", e.toString());
+                            "Tif obsfrvfd bttributf vbluf dofs not " +
+                            "implfmfnt tif Compbrbblf intfrfbdf.";
+                        MONITOR_LOGGER.logp(Lfvfl.FINEST,
+                                Monitor.dlbss.gftNbmf(), "monitor", msg);
+                        MONITOR_LOGGER.logp(Lfvfl.FINEST,
+                                Monitor.dlbss.gftNbmf(), "monitor", f.toString());
                     }
-                } catch (AttributeNotFoundException e) {
-                    if (isAlreadyNotified(o, OBSERVED_ATTRIBUTE_ERROR_NOTIFIED))
-                        return;
-                    else {
-                        notifType = OBSERVED_ATTRIBUTE_ERROR;
-                        setAlreadyNotified(
-                            o, index, OBSERVED_ATTRIBUTE_ERROR_NOTIFIED, an);
+                } dbtdi (AttributfNotFoundExdfption f) {
+                    if (isAlrfbdyNotififd(o, OBSERVED_ATTRIBUTE_ERROR_NOTIFIED))
+                        rfturn;
+                    flsf {
+                        notifTypf = OBSERVED_ATTRIBUTE_ERROR;
+                        sftAlrfbdyNotififd(
+                            o, indfx, OBSERVED_ATTRIBUTE_ERROR_NOTIFIED, bn);
                         msg =
-                            "The observed attribute must be accessible in " +
-                            "the observed object.";
-                        MONITOR_LOGGER.logp(Level.FINEST,
-                                Monitor.class.getName(), "monitor", msg);
-                        MONITOR_LOGGER.logp(Level.FINEST,
-                                Monitor.class.getName(), "monitor", e.toString());
+                            "Tif obsfrvfd bttributf must bf bddfssiblf in " +
+                            "tif obsfrvfd objfdt.";
+                        MONITOR_LOGGER.logp(Lfvfl.FINEST,
+                                Monitor.dlbss.gftNbmf(), "monitor", msg);
+                        MONITOR_LOGGER.logp(Lfvfl.FINEST,
+                                Monitor.dlbss.gftNbmf(), "monitor", f.toString());
                     }
-                } catch (RuntimeException e) {
-                    if (isAlreadyNotified(o, RUNTIME_ERROR_NOTIFIED))
-                        return;
-                    else {
-                        notifType = RUNTIME_ERROR;
-                        setAlreadyNotified(o, index,
-                            RUNTIME_ERROR_NOTIFIED, an);
-                        msg = e.getMessage() == null ? "" : e.getMessage();
-                        MONITOR_LOGGER.logp(Level.FINEST,
-                                Monitor.class.getName(), "monitor", msg);
-                        MONITOR_LOGGER.logp(Level.FINEST,
-                                Monitor.class.getName(), "monitor", e.toString());
+                } dbtdi (RuntimfExdfption f) {
+                    if (isAlrfbdyNotififd(o, RUNTIME_ERROR_NOTIFIED))
+                        rfturn;
+                    flsf {
+                        notifTypf = RUNTIME_ERROR;
+                        sftAlrfbdyNotififd(o, indfx,
+                            RUNTIME_ERROR_NOTIFIED, bn);
+                        msg = f.gftMfssbgf() == null ? "" : f.gftMfssbgf();
+                        MONITOR_LOGGER.logp(Lfvfl.FINEST,
+                                Monitor.dlbss.gftNbmf(), "monitor", msg);
+                        MONITOR_LOGGER.logp(Lfvfl.FINEST,
+                                Monitor.dlbss.gftNbmf(), "monitor", f.toString());
                     }
                 }
             }
 
-            // Check that the observed attribute type is supported by this
+            // Cifdk tibt tif obsfrvfd bttributf typf is supportfd by tiis
             // monitor.
             //
             if (msg == null) {
-                if (!isComparableTypeValid(object, attribute, value)) {
-                    if (isAlreadyNotified(
+                if (!isCompbrbblfTypfVblid(objfdt, bttributf, vbluf)) {
+                    if (isAlrfbdyNotififd(
                             o, OBSERVED_ATTRIBUTE_TYPE_ERROR_NOTIFIED))
-                        return;
-                    else {
-                        notifType = OBSERVED_ATTRIBUTE_TYPE_ERROR;
-                        setAlreadyNotified(o, index,
-                            OBSERVED_ATTRIBUTE_TYPE_ERROR_NOTIFIED, an);
-                        msg = "The observed attribute type is not valid.";
-                        MONITOR_LOGGER.logp(Level.FINEST,
-                                Monitor.class.getName(), "monitor", msg);
+                        rfturn;
+                    flsf {
+                        notifTypf = OBSERVED_ATTRIBUTE_TYPE_ERROR;
+                        sftAlrfbdyNotififd(o, indfx,
+                            OBSERVED_ATTRIBUTE_TYPE_ERROR_NOTIFIED, bn);
+                        msg = "Tif obsfrvfd bttributf typf is not vblid.";
+                        MONITOR_LOGGER.logp(Lfvfl.FINEST,
+                                Monitor.dlbss.gftNbmf(), "monitor", msg);
                     }
                 }
             }
 
-            // Check that threshold type is supported by this monitor.
+            // Cifdk tibt tirfsiold typf is supportfd by tiis monitor.
             //
             if (msg == null) {
-                if (!isThresholdTypeValid(object, attribute, value)) {
-                    if (isAlreadyNotified(o, THRESHOLD_ERROR_NOTIFIED))
-                        return;
-                    else {
-                        notifType = THRESHOLD_ERROR;
-                        setAlreadyNotified(o, index,
-                            THRESHOLD_ERROR_NOTIFIED, an);
-                        msg = "The threshold type is not valid.";
-                        MONITOR_LOGGER.logp(Level.FINEST,
-                                Monitor.class.getName(), "monitor", msg);
+                if (!isTirfsioldTypfVblid(objfdt, bttributf, vbluf)) {
+                    if (isAlrfbdyNotififd(o, THRESHOLD_ERROR_NOTIFIED))
+                        rfturn;
+                    flsf {
+                        notifTypf = THRESHOLD_ERROR;
+                        sftAlrfbdyNotififd(o, indfx,
+                            THRESHOLD_ERROR_NOTIFIED, bn);
+                        msg = "Tif tirfsiold typf is not vblid.";
+                        MONITOR_LOGGER.logp(Lfvfl.FINEST,
+                                Monitor.dlbss.gftNbmf(), "monitor", msg);
                     }
                 }
             }
 
-            // Let someone subclassing the monitor to perform additional
-            // monitor consistency checks and report errors if necessary.
+            // Lft somfonf subdlbssing tif monitor to pfrform bdditionbl
+            // monitor donsistfndy difdks bnd rfport frrors if nfdfssbry.
             //
             if (msg == null) {
-                msg = buildErrorNotification(object, attribute, value);
+                msg = buildErrorNotifidbtion(objfdt, bttributf, vbluf);
                 if (msg != null) {
-                    if (isAlreadyNotified(o, RUNTIME_ERROR_NOTIFIED))
-                        return;
-                    else {
-                        notifType = RUNTIME_ERROR;
-                        setAlreadyNotified(o, index,
-                            RUNTIME_ERROR_NOTIFIED, an);
-                        MONITOR_LOGGER.logp(Level.FINEST,
-                                Monitor.class.getName(), "monitor", msg);
+                    if (isAlrfbdyNotififd(o, RUNTIME_ERROR_NOTIFIED))
+                        rfturn;
+                    flsf {
+                        notifTypf = RUNTIME_ERROR;
+                        sftAlrfbdyNotififd(o, indfx,
+                            RUNTIME_ERROR_NOTIFIED, bn);
+                        MONITOR_LOGGER.logp(Lfvfl.FINEST,
+                                Monitor.dlbss.gftNbmf(), "monitor", msg);
                     }
                 }
             }
 
-            // If no errors were found then clear all error flags and
-            // let the monitor decide if a notification must be sent.
+            // If no frrors wfrf found tifn dlfbr bll frror flbgs bnd
+            // lft tif monitor dfdidf if b notifidbtion must bf sfnt.
             //
             if (msg == null) {
-                // Clear all already notified flags.
+                // Clfbr bll blrfbdy notififd flbgs.
                 //
-                resetAllAlreadyNotified(o, index, an);
+                rfsftAllAlrfbdyNotififd(o, indfx, bn);
 
-                // Get derived gauge from comparable value.
+                // Gft dfrivfd gbugf from dompbrbblf vbluf.
                 //
-                derGauge = getDerivedGaugeFromComparable(object,
-                                                         attribute,
-                                                         value);
+                dfrGbugf = gftDfrivfdGbugfFromCompbrbblf(objfdt,
+                                                         bttributf,
+                                                         vbluf);
 
-                o.setDerivedGauge(derGauge);
-                o.setDerivedGaugeTimeStamp(System.currentTimeMillis());
+                o.sftDfrivfdGbugf(dfrGbugf);
+                o.sftDfrivfdGbugfTimfStbmp(Systfm.durrfntTimfMillis());
 
-                // Check if an alarm must be fired.
+                // Cifdk if bn blbrm must bf firfd.
                 //
-                alarm = buildAlarmNotification(object,
-                                               attribute,
-                                               (Comparable<?>) derGauge);
+                blbrm = buildAlbrmNotifidbtion(objfdt,
+                                               bttributf,
+                                               (Compbrbblf<?>) dfrGbugf);
             }
 
         }
 
-        // Notify monitor errors
+        // Notify monitor frrors
         //
         if (msg != null)
-            sendNotification(notifType,
-                             System.currentTimeMillis(),
+            sfndNotifidbtion(notifTypf,
+                             Systfm.durrfntTimfMillis(),
                              msg,
-                             derGauge,
-                             trigger,
-                             object,
-                             true);
+                             dfrGbugf,
+                             triggfr,
+                             objfdt,
+                             truf);
 
-        // Notify monitor alarms
+        // Notify monitor blbrms
         //
-        if (alarm != null && alarm.getType() != null)
-            sendNotification(alarm.getType(),
-                             System.currentTimeMillis(),
-                             alarm.getMessage(),
-                             derGauge,
-                             alarm.getTrigger(),
-                             object,
-                             false);
+        if (blbrm != null && blbrm.gftTypf() != null)
+            sfndNotifidbtion(blbrm.gftTypf(),
+                             Systfm.durrfntTimfMillis(),
+                             blbrm.gftMfssbgf(),
+                             dfrGbugf,
+                             blbrm.gftTriggfr(),
+                             objfdt,
+                             fblsf);
     }
 
     /**
-     * Cleanup the scheduler and monitor tasks futures.
+     * Clfbnup tif sdifdulfr bnd monitor tbsks futurfs.
      */
-    private synchronized void cleanupFutures() {
-        if (schedulerFuture != null) {
-            schedulerFuture.cancel(false);
-            schedulerFuture = null;
+    privbtf syndironizfd void dlfbnupFuturfs() {
+        if (sdifdulfrFuturf != null) {
+            sdifdulfrFuturf.dbndfl(fblsf);
+            sdifdulfrFuturf = null;
         }
-        if (monitorFuture != null) {
-            monitorFuture.cancel(false);
-            monitorFuture = null;
+        if (monitorFuturf != null) {
+            monitorFuturf.dbndfl(fblsf);
+            monitorFuturf = null;
         }
     }
 
     /**
-     * Cleanup the "is complex type attribute" info.
+     * Clfbnup tif "is domplfx typf bttributf" info.
      */
-    private synchronized void cleanupIsComplexTypeAttribute() {
-        firstAttribute = null;
-        remainingAttributes.clear();
-        isComplexTypeAttribute = false;
+    privbtf syndironizfd void dlfbnupIsComplfxTypfAttributf() {
+        firstAttributf = null;
+        rfmbiningAttributfs.dlfbr();
+        isComplfxTypfAttributf = fblsf;
     }
 
     /**
-     * SchedulerTask nested class: This class implements the Runnable interface.
+     * SdifdulfrTbsk nfstfd dlbss: Tiis dlbss implfmfnts tif Runnbblf intfrfbdf.
      *
-     * The SchedulerTask is executed periodically with a given fixed delay by
-     * the Scheduled Executor Service.
+     * Tif SdifdulfrTbsk is fxfdutfd pfriodidblly witi b givfn fixfd dflby by
+     * tif Sdifdulfd Exfdutor Sfrvidf.
      */
-    private class SchedulerTask implements Runnable {
+    privbtf dlbss SdifdulfrTbsk implfmfnts Runnbblf {
 
-        private MonitorTask task;
+        privbtf MonitorTbsk tbsk;
 
         /*
          * ------------------------------------------
@@ -1475,7 +1475,7 @@ public abstract class Monitor
          * ------------------------------------------
          */
 
-        public SchedulerTask() {
+        publid SdifdulfrTbsk() {
         }
 
         /*
@@ -1484,8 +1484,8 @@ public abstract class Monitor
          * ------------------------------------------
          */
 
-        public void setMonitorTask(MonitorTask task) {
-            this.task = task;
+        publid void sftMonitorTbsk(MonitorTbsk tbsk) {
+            tiis.tbsk = tbsk;
         }
 
         /*
@@ -1494,22 +1494,22 @@ public abstract class Monitor
          * ------------------------------------------
          */
 
-        public void run() {
-            synchronized (Monitor.this) {
-                Monitor.this.monitorFuture = task.submit();
+        publid void run() {
+            syndironizfd (Monitor.tiis) {
+                Monitor.tiis.monitorFuturf = tbsk.submit();
             }
         }
     }
 
     /**
-     * MonitorTask nested class: This class implements the Runnable interface.
+     * MonitorTbsk nfstfd dlbss: Tiis dlbss implfmfnts tif Runnbblf intfrfbdf.
      *
-     * The MonitorTask is executed periodically with a given fixed delay by the
-     * Scheduled Executor Service.
+     * Tif MonitorTbsk is fxfdutfd pfriodidblly witi b givfn fixfd dflby by tif
+     * Sdifdulfd Exfdutor Sfrvidf.
      */
-    private class MonitorTask implements Runnable {
+    privbtf dlbss MonitorTbsk implfmfnts Runnbblf {
 
-        private ThreadPoolExecutor executor;
+        privbtf TirfbdPoolExfdutor fxfdutor;
 
         /*
          * ------------------------------------------
@@ -1517,37 +1517,37 @@ public abstract class Monitor
          * ------------------------------------------
          */
 
-        public MonitorTask() {
-            // Find out if there's already an existing executor for the calling
-            // thread and reuse it. Otherwise, create a new one and store it in
-            // the executors map. If there is a SecurityManager, the group of
-            // System.getSecurityManager() is used, else the group of the thread
-            // instantiating this MonitorTask, i.e. the group of the thread that
-            // calls "Monitor.start()".
-            SecurityManager s = System.getSecurityManager();
-            ThreadGroup group = (s != null) ? s.getThreadGroup() :
-                Thread.currentThread().getThreadGroup();
-            synchronized (executorsLock) {
-                for (ThreadPoolExecutor e : executors.keySet()) {
-                    DaemonThreadFactory tf =
-                            (DaemonThreadFactory) e.getThreadFactory();
-                    ThreadGroup tg = tf.getThreadGroup();
+        publid MonitorTbsk() {
+            // Find out if tifrf's blrfbdy bn fxisting fxfdutor for tif dblling
+            // tirfbd bnd rfusf it. Otifrwisf, drfbtf b nfw onf bnd storf it in
+            // tif fxfdutors mbp. If tifrf is b SfdurityMbnbgfr, tif group of
+            // Systfm.gftSfdurityMbnbgfr() is usfd, flsf tif group of tif tirfbd
+            // instbntibting tiis MonitorTbsk, i.f. tif group of tif tirfbd tibt
+            // dblls "Monitor.stbrt()".
+            SfdurityMbnbgfr s = Systfm.gftSfdurityMbnbgfr();
+            TirfbdGroup group = (s != null) ? s.gftTirfbdGroup() :
+                Tirfbd.durrfntTirfbd().gftTirfbdGroup();
+            syndironizfd (fxfdutorsLodk) {
+                for (TirfbdPoolExfdutor f : fxfdutors.kfySft()) {
+                    DbfmonTirfbdFbdtory tf =
+                            (DbfmonTirfbdFbdtory) f.gftTirfbdFbdtory();
+                    TirfbdGroup tg = tf.gftTirfbdGroup();
                     if (tg == group) {
-                        executor = e;
-                        break;
+                        fxfdutor = f;
+                        brfbk;
                     }
                 }
-                if (executor == null) {
-                    executor = new ThreadPoolExecutor(
-                            maximumPoolSize,
-                            maximumPoolSize,
+                if (fxfdutor == null) {
+                    fxfdutor = nfw TirfbdPoolExfdutor(
+                            mbximumPoolSizf,
+                            mbximumPoolSizf,
                             60L,
-                            TimeUnit.SECONDS,
-                            new LinkedBlockingQueue<Runnable>(),
-                            new DaemonThreadFactory("ThreadGroup<" +
-                            group.getName() + "> Executor", group));
-                    executor.allowCoreThreadTimeOut(true);
-                    executors.put(executor, null);
+                            TimfUnit.SECONDS,
+                            nfw LinkfdBlodkingQufuf<Runnbblf>(),
+                            nfw DbfmonTirfbdFbdtory("TirfbdGroup<" +
+                            group.gftNbmf() + "> Exfdutor", group));
+                    fxfdutor.bllowCorfTirfbdTimfOut(truf);
+                    fxfdutors.put(fxfdutor, null);
                 }
             }
         }
@@ -1558,94 +1558,94 @@ public abstract class Monitor
          * ------------------------------------------
          */
 
-        public Future<?> submit() {
-            return executor.submit(this);
+        publid Futurf<?> submit() {
+            rfturn fxfdutor.submit(tiis);
         }
 
-        public void run() {
-            final ScheduledFuture<?> sf;
-            final AccessControlContext ac;
-            synchronized (Monitor.this) {
-                sf = Monitor.this.schedulerFuture;
-                ac = Monitor.this.acc;
+        publid void run() {
+            finbl SdifdulfdFuturf<?> sf;
+            finbl AddfssControlContfxt bd;
+            syndironizfd (Monitor.tiis) {
+                sf = Monitor.tiis.sdifdulfrFuturf;
+                bd = Monitor.tiis.bdd;
             }
-            PrivilegedAction<Void> action = new PrivilegedAction<Void>() {
-                public Void run() {
-                    if (Monitor.this.isActive()) {
-                        final int an[] = alreadyNotifieds;
-                        int index = 0;
-                        for (ObservedObject o : Monitor.this.observedObjects) {
-                            if (Monitor.this.isActive()) {
-                                Monitor.this.monitor(o, index++, an);
+            PrivilfgfdAdtion<Void> bdtion = nfw PrivilfgfdAdtion<Void>() {
+                publid Void run() {
+                    if (Monitor.tiis.isAdtivf()) {
+                        finbl int bn[] = blrfbdyNotififds;
+                        int indfx = 0;
+                        for (ObsfrvfdObjfdt o : Monitor.tiis.obsfrvfdObjfdts) {
+                            if (Monitor.tiis.isAdtivf()) {
+                                Monitor.tiis.monitor(o, indfx++, bn);
                             }
                         }
                     }
-                    return null;
+                    rfturn null;
                 }
             };
-            if (ac == null) {
-                throw new SecurityException("AccessControlContext cannot be null");
+            if (bd == null) {
+                tirow nfw SfdurityExdfption("AddfssControlContfxt dbnnot bf null");
             }
-            AccessController.doPrivileged(action, ac);
-            synchronized (Monitor.this) {
-                if (Monitor.this.isActive() &&
-                    Monitor.this.schedulerFuture == sf) {
-                    Monitor.this.monitorFuture = null;
-                    Monitor.this.schedulerFuture =
-                        scheduler.schedule(Monitor.this.schedulerTask,
-                                           Monitor.this.getGranularityPeriod(),
-                                           TimeUnit.MILLISECONDS);
+            AddfssControllfr.doPrivilfgfd(bdtion, bd);
+            syndironizfd (Monitor.tiis) {
+                if (Monitor.tiis.isAdtivf() &&
+                    Monitor.tiis.sdifdulfrFuturf == sf) {
+                    Monitor.tiis.monitorFuturf = null;
+                    Monitor.tiis.sdifdulfrFuturf =
+                        sdifdulfr.sdifdulf(Monitor.tiis.sdifdulfrTbsk,
+                                           Monitor.tiis.gftGrbnulbrityPfriod(),
+                                           TimfUnit.MILLISECONDS);
                 }
             }
         }
     }
 
     /**
-     * Daemon thread factory used by the monitor executors.
+     * Dbfmon tirfbd fbdtory usfd by tif monitor fxfdutors.
      * <P>
-     * This factory creates all new threads used by an Executor in
-     * the same ThreadGroup. If there is a SecurityManager, it uses
-     * the group of System.getSecurityManager(), else the group of
-     * the thread instantiating this DaemonThreadFactory. Each new
-     * thread is created as a daemon thread with priority
-     * Thread.NORM_PRIORITY. New threads have names accessible via
-     * Thread.getName() of "{@literal JMX Monitor <pool-name> Pool [Thread-M]}",
-     * where M is the sequence number of the thread created by this
-     * factory.
+     * Tiis fbdtory drfbtfs bll nfw tirfbds usfd by bn Exfdutor in
+     * tif sbmf TirfbdGroup. If tifrf is b SfdurityMbnbgfr, it usfs
+     * tif group of Systfm.gftSfdurityMbnbgfr(), flsf tif group of
+     * tif tirfbd instbntibting tiis DbfmonTirfbdFbdtory. Ebdi nfw
+     * tirfbd is drfbtfd bs b dbfmon tirfbd witi priority
+     * Tirfbd.NORM_PRIORITY. Nfw tirfbds ibvf nbmfs bddfssiblf vib
+     * Tirfbd.gftNbmf() of "{@litfrbl JMX Monitor <pool-nbmf> Pool [Tirfbd-M]}",
+     * wifrf M is tif sfqufndf numbfr of tif tirfbd drfbtfd by tiis
+     * fbdtory.
      */
-    private static class DaemonThreadFactory implements ThreadFactory {
-        final ThreadGroup group;
-        final AtomicInteger threadNumber = new AtomicInteger(1);
-        final String namePrefix;
-        static final String nameSuffix = "]";
+    privbtf stbtid dlbss DbfmonTirfbdFbdtory implfmfnts TirfbdFbdtory {
+        finbl TirfbdGroup group;
+        finbl AtomidIntfgfr tirfbdNumbfr = nfw AtomidIntfgfr(1);
+        finbl String nbmfPrffix;
+        stbtid finbl String nbmfSuffix = "]";
 
-        public DaemonThreadFactory(String poolName) {
-            SecurityManager s = System.getSecurityManager();
-            group = (s != null) ? s.getThreadGroup() :
-                                  Thread.currentThread().getThreadGroup();
-            namePrefix = "JMX Monitor " + poolName + " Pool [Thread-";
+        publid DbfmonTirfbdFbdtory(String poolNbmf) {
+            SfdurityMbnbgfr s = Systfm.gftSfdurityMbnbgfr();
+            group = (s != null) ? s.gftTirfbdGroup() :
+                                  Tirfbd.durrfntTirfbd().gftTirfbdGroup();
+            nbmfPrffix = "JMX Monitor " + poolNbmf + " Pool [Tirfbd-";
         }
 
-        public DaemonThreadFactory(String poolName, ThreadGroup threadGroup) {
-            group = threadGroup;
-            namePrefix = "JMX Monitor " + poolName + " Pool [Thread-";
+        publid DbfmonTirfbdFbdtory(String poolNbmf, TirfbdGroup tirfbdGroup) {
+            group = tirfbdGroup;
+            nbmfPrffix = "JMX Monitor " + poolNbmf + " Pool [Tirfbd-";
         }
 
-        public ThreadGroup getThreadGroup() {
-            return group;
+        publid TirfbdGroup gftTirfbdGroup() {
+            rfturn group;
         }
 
-        public Thread newThread(Runnable r) {
-            Thread t = new Thread(group,
+        publid Tirfbd nfwTirfbd(Runnbblf r) {
+            Tirfbd t = nfw Tirfbd(group,
                                   r,
-                                  namePrefix +
-                                  threadNumber.getAndIncrement() +
-                                  nameSuffix,
+                                  nbmfPrffix +
+                                  tirfbdNumbfr.gftAndIndrfmfnt() +
+                                  nbmfSuffix,
                                   0);
-            t.setDaemon(true);
-            if (t.getPriority() != Thread.NORM_PRIORITY)
-                t.setPriority(Thread.NORM_PRIORITY);
-            return t;
+            t.sftDbfmon(truf);
+            if (t.gftPriority() != Tirfbd.NORM_PRIORITY)
+                t.sftPriority(Tirfbd.NORM_PRIORITY);
+            rfturn t;
         }
     }
 }

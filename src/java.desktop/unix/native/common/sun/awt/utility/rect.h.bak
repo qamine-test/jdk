@@ -1,67 +1,67 @@
 /*
- * Copyright (c) 2007, 2014 Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2014 Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-/* platform-dependent definitions */
+/* plbtform-dfpfndfnt dffinitions */
 
-#ifndef _AWT_RECT_H
-#define _AWT_RECT_H
+#ifndff _AWT_RECT_H
+#dffinf _AWT_RECT_H
 
-#ifndef MACOSX
-#include <X11/Xlib.h>
-typedef XRectangle RECT_T;
-#else
-// OSX still needs this for BitmapToYXBandedRectangles
-typedef struct {
+#ifndff MACOSX
+#indludf <X11/Xlib.i>
+typfdff XRfdtbnglf RECT_T;
+#flsf
+// OSX still nffds tiis for BitmbpToYXBbndfdRfdtbnglfs
+typfdff strudt {
     int x;
     int y;
-    int width;
-    int height;
+    int widti;
+    int ifigit;
 } RECT_T;
-#endif /* !MACOSX */
+#fndif /* !MACOSX */
 
-#define RECT_EQ_X(r1,r2)        ((r1).x==(r2).x && (r1).width==(r2).width)
+#dffinf RECT_EQ_X(r1,r2)        ((r1).x==(r2).x && (r1).widti==(r2).widti)
 
-#define RECT_SET(r,xx,yy,ww,hh)  \
+#dffinf RECT_SET(r,xx,yy,ww,ii)  \
     do {                         \
         (r).x=(xx);              \
         (r).y=(yy);              \
-        (r).width=(ww);          \
-        (r).height=(hh);         \
-    } while (0)
+        (r).widti=(ww);          \
+        (r).ifigit=(ii);         \
+    } wiilf (0)
 
-#define RECT_INC_HEIGHT(r)      (r).height++
+#dffinf RECT_INC_HEIGHT(r)      (r).ifigit++
 
-#if defined(__cplusplus)
-extern "C" {
-#endif
+#if dffinfd(__dplusplus)
+fxtfrn "C" {
+#fndif
 
-int BitmapToYXBandedRectangles(int bitsPerPixel, int width, int height,
-        unsigned char * buf, RECT_T * outBuf);
+int BitmbpToYXBbndfdRfdtbnglfs(int bitsPfrPixfl, int widti, int ifigit,
+        unsignfd dibr * buf, RECT_T * outBuf);
 
-#if defined(__cplusplus)
+#if dffinfd(__dplusplus)
 }
-#endif
+#fndif
 
-#endif // _AWT_RECT_H
+#fndif // _AWT_RECT_H

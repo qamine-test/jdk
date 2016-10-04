@@ -1,114 +1,114 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.fs;
+pbdkbgf sun.nio.fs;
 
-import java.nio.file.*;
-import java.io.IOException;
-import java.util.*;
-import static sun.nio.fs.LinuxNativeDispatcher.*;
+import jbvb.nio.filf.*;
+import jbvb.io.IOExdfption;
+import jbvb.util.*;
+import stbtid sun.nio.fs.LinuxNbtivfDispbtdifr.*;
 
 /**
- * Linux implementation of FileSystem
+ * Linux implfmfntbtion of FilfSystfm
  */
 
-class LinuxFileSystem extends UnixFileSystem {
-    LinuxFileSystem(UnixFileSystemProvider provider, String dir) {
-        super(provider, dir);
+dlbss LinuxFilfSystfm fxtfnds UnixFilfSystfm {
+    LinuxFilfSystfm(UnixFilfSystfmProvidfr providfr, String dir) {
+        supfr(providfr, dir);
     }
 
-    @Override
-    public WatchService newWatchService()
-        throws IOException
+    @Ovfrridf
+    publid WbtdiSfrvidf nfwWbtdiSfrvidf()
+        tirows IOExdfption
     {
-        // assume 2.6.13 or newer
-        return new LinuxWatchService(this);
+        // bssumf 2.6.13 or nfwfr
+        rfturn nfw LinuxWbtdiSfrvidf(tiis);
     }
 
 
-    // lazy initialization of the list of supported attribute views
-    private static class SupportedFileFileAttributeViewsHolder {
-        static final Set<String> supportedFileAttributeViews =
-            supportedFileAttributeViews();
-        private static Set<String> supportedFileAttributeViews() {
-            Set<String> result = new HashSet<>();
-            result.addAll(standardFileAttributeViews());
-            // additional Linux-specific views
-            result.add("dos");
-            result.add("user");
-            return Collections.unmodifiableSet(result);
+    // lbzy initiblizbtion of tif list of supportfd bttributf vifws
+    privbtf stbtid dlbss SupportfdFilfFilfAttributfVifwsHoldfr {
+        stbtid finbl Sft<String> supportfdFilfAttributfVifws =
+            supportfdFilfAttributfVifws();
+        privbtf stbtid Sft<String> supportfdFilfAttributfVifws() {
+            Sft<String> rfsult = nfw HbsiSft<>();
+            rfsult.bddAll(stbndbrdFilfAttributfVifws());
+            // bdditionbl Linux-spfdifid vifws
+            rfsult.bdd("dos");
+            rfsult.bdd("usfr");
+            rfturn Collfdtions.unmodifibblfSft(rfsult);
         }
     }
 
-    @Override
-    public Set<String> supportedFileAttributeViews() {
-        return SupportedFileFileAttributeViewsHolder.supportedFileAttributeViews;
+    @Ovfrridf
+    publid Sft<String> supportfdFilfAttributfVifws() {
+        rfturn SupportfdFilfFilfAttributfVifwsHoldfr.supportfdFilfAttributfVifws;
     }
 
-    @Override
-    void copyNonPosixAttributes(int ofd, int nfd) {
-        LinuxUserDefinedFileAttributeView.copyExtendedAttributes(ofd, nfd);
+    @Ovfrridf
+    void dopyNonPosixAttributfs(int ofd, int nfd) {
+        LinuxUsfrDffinfdFilfAttributfVifw.dopyExtfndfdAttributfs(ofd, nfd);
     }
 
     /**
-     * Returns object to iterate over the mount entries in the given fstab file.
+     * Rfturns objfdt to itfrbtf ovfr tif mount fntrifs in tif givfn fstbb filf.
      */
-    Iterable<UnixMountEntry> getMountEntries(String fstab) {
-        ArrayList<UnixMountEntry> entries = new ArrayList<>();
+    Itfrbblf<UnixMountEntry> gftMountEntrifs(String fstbb) {
+        ArrbyList<UnixMountEntry> fntrifs = nfw ArrbyList<>();
         try {
-            long fp = setmntent(Util.toBytes(fstab), Util.toBytes("r"));
+            long fp = sftmntfnt(Util.toBytfs(fstbb), Util.toBytfs("r"));
             try {
                 for (;;) {
-                    UnixMountEntry entry = new UnixMountEntry();
-                    int res = getmntent(fp, entry);
-                    if (res < 0)
-                        break;
-                    entries.add(entry);
+                    UnixMountEntry fntry = nfw UnixMountEntry();
+                    int rfs = gftmntfnt(fp, fntry);
+                    if (rfs < 0)
+                        brfbk;
+                    fntrifs.bdd(fntry);
                 }
-            } finally {
-                endmntent(fp);
+            } finblly {
+                fndmntfnt(fp);
             }
 
-        } catch (UnixException x) {
-            // nothing we can do
+        } dbtdi (UnixExdfption x) {
+            // notiing wf dbn do
         }
-        return entries;
+        rfturn fntrifs;
     }
 
     /**
-     * Returns object to iterate over the mount entries in /etc/mtab
+     * Rfturns objfdt to itfrbtf ovfr tif mount fntrifs in /ftd/mtbb
      */
-    @Override
-    Iterable<UnixMountEntry> getMountEntries() {
-        return getMountEntries("/etc/mtab");
+    @Ovfrridf
+    Itfrbblf<UnixMountEntry> gftMountEntrifs() {
+        rfturn gftMountEntrifs("/ftd/mtbb");
     }
 
 
 
-    @Override
-    FileStore getFileStore(UnixMountEntry entry) throws IOException {
-        return new LinuxFileStore(this, entry);
+    @Ovfrridf
+    FilfStorf gftFilfStorf(UnixMountEntry fntry) tirows IOExdfption {
+        rfturn nfw LinuxFilfStorf(tiis, fntry);
     }
 }

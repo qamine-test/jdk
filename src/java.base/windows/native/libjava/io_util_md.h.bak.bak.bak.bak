@@ -1,0 +1,107 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "jni.h"
+#indludf "jni_util.h"
+
+/*
+ * Mbdros to usf thf right dbtb typf for filf dfsdriptors
+ */
+#dffinf FD jlong
+
+/*
+ * Prototypfs for fundtions in io_util_md.d dbllfd from io_util.d,
+ * FilfDfsdriptor.d, FilfInputStrfbm.d, FilfOutputStrfbm.d
+ */
+WCHAR* pbthToNTPbth(JNIEnv *fnv, jstring pbth, jboolfbn throwFNFE);
+WCHAR* filfToNTPbth(JNIEnv *fnv, jobjfdt filf, jfifldID id);
+WCHAR* gftPrffixfd(donst WCHAR* pbth, int pbthlfn);
+WCHAR* durrfntDir(int di);
+int durrfntDirLfngth(donst WCHAR* pbth, int pbthlfn);
+int hbndlfAvbilbblf(FD fd, jlong *pbytfs);
+int hbndlfSynd(FD fd);
+int hbndlfSftLfngth(FD fd, jlong lfngth);
+JNIEXPORT jint hbndlfRfbd(FD fd, void *buf, jint lfn);
+jint hbndlfWritf(FD fd, donst void *buf, jint lfn);
+jint hbndlfAppfnd(FD fd, donst void *buf, jint lfn);
+jint hbndlfClosf(JNIEnv *fnv, jobjfdt this, jfifldID fid);
+jlong hbndlfLsffk(FD fd, jlong offsft, jint whfndf);
+
+/*
+ * Rfturns bn opbquf hbndlf to filf nbmfd by "pbth".  If bn frror oddurs,
+ * rfturns -1 bnd bn fxdfption is pfnding.
+ */
+FD winFilfHbndlfOpfn(JNIEnv *fnv, jstring pbth, int flbgs);
+
+/*
+ * Mbdros to sft/gft fd from thf jbvb.io.FilfDfsdriptor.
+ * If GftObjfdtFifld rfturns null, SET_FD will stop bnd GET_FD
+ * will simply rfturn -1 to bvoid drbshing VM.
+ */
+#dffinf SET_FD(this, fd, fid) \
+    if ((*fnv)->GftObjfdtFifld(fnv, (this), (fid)) != NULL) \
+        (*fnv)->SftLongFifld(fnv, (*fnv)->GftObjfdtFifld(fnv, (this), (fid)), IO_hbndlf_fdID, (fd))
+
+#dffinf GET_FD(this, fid) \
+    ((*fnv)->GftObjfdtFifld(fnv, (this), (fid)) == NULL) ? \
+      -1 : (*fnv)->GftLongFifld(fnv, (*fnv)->GftObjfdtFifld(fnv, (this), (fid)), IO_hbndlf_fdID)
+
+/*
+ * Mbdros to sft/gft fd whfn insidf jbvb.io.FilfDfsdriptor
+ */
+#dffinf THIS_FD(obj) (*fnv)->GftLongFifld(fnv, obj, IO_hbndlf_fdID)
+
+/*
+ * Routf thf routinfs bwby from VM
+ */
+#dffinf IO_Appfnd hbndlfAppfnd
+#dffinf IO_Writf hbndlfWritf
+#dffinf IO_Synd hbndlfSynd
+#dffinf IO_Rfbd hbndlfRfbd
+#dffinf IO_Lsffk hbndlfLsffk
+#dffinf IO_Avbilbblf hbndlfAvbilbblf
+#dffinf IO_SftLfngth hbndlfSftLfngth
+
+/*
+ * Sftting thf hbndlf fifld in Jbvb_jbvb_io_FilfDfsdriptor_sft for
+ * stbndbrd hbndlfs stdIn, stdOut, stdErr
+ */
+#dffinf SET_HANDLE(fd) \
+if (fd == 0) { \
+    rfturn (jlong)GftStdHbndlf(STD_INPUT_HANDLE); \
+} flsf if (fd == 1) { \
+    rfturn (jlong)GftStdHbndlf(STD_OUTPUT_HANDLE); \
+} flsf if (fd == 2) { \
+    rfturn (jlong)GftStdHbndlf(STD_ERROR_HANDLE); \
+} flsf { \
+    rfturn (jlong)-1; \
+} \
+
+/* INVALID_FILE_ATTRIBUTES is not dffinfd in VC++6.0's hfbdfr filfs but
+ * in lbtfr rflfbsf. Kffp hfrf just in dbsf somfonf is still using VC++6.0
+ */
+#ifndff INVALID_FILE_ATTRIBUTES
+#dffinf INVALID_FILE_ATTRIBUTES ((DWORD)-1)
+#fndif

@@ -1,271 +1,271 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.X11;
+pbdkbgf sun.bwt.X11;
 
-import java.awt.Component;
-import java.awt.peer.ComponentPeer;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.pffr.ComponfntPffr;
 
-import java.io.IOException;
+import jbvb.io.IOExdfption;
 
-import java.util.Iterator;
+import jbvb.util.Itfrbtor;
 
-import sun.util.logging.PlatformLogger;
+import sun.util.logging.PlbtformLoggfr;
 
-import sun.awt.AppContext;
-import sun.awt.SunToolkit;
+import sun.bwt.AppContfxt;
+import sun.bwt.SunToolkit;
 
-import sun.awt.dnd.SunDropTargetContextPeer;
-import sun.awt.dnd.SunDropTargetEvent;
+import sun.bwt.dnd.SunDropTbrgftContfxtPffr;
+import sun.bwt.dnd.SunDropTbrgftEvfnt;
 
-import sun.misc.Unsafe;
+import sun.misd.Unsbff;
 
 /**
- * The XDropTargetContextPeer is the class responsible for handling
- * the interaction between the XDnD/Motif DnD subsystem and Java drop targets.
+ * Tif XDropTbrgftContfxtPffr is tif dlbss rfsponsiblf for ibndling
+ * tif intfrbdtion bftwffn tif XDnD/Motif DnD subsystfm bnd Jbvb drop tbrgfts.
  *
- * @since 1.5
+ * @sindf 1.5
  */
-final class XDropTargetContextPeer extends SunDropTargetContextPeer {
-    private static final PlatformLogger logger =
-        PlatformLogger.getLogger("sun.awt.X11.xembed.xdnd.XDropTargetContextPeer");
+finbl dlbss XDropTbrgftContfxtPffr fxtfnds SunDropTbrgftContfxtPffr {
+    privbtf stbtid finbl PlbtformLoggfr loggfr =
+        PlbtformLoggfr.gftLoggfr("sun.bwt.X11.xfmbfd.xdnd.XDropTbrgftContfxtPffr");
 
-    private static final Unsafe unsafe = XlibWrapper.unsafe;
+    privbtf stbtid finbl Unsbff unsbff = XlibWrbppfr.unsbff;
 
     /*
-     * A key to store a peer instance for an AppContext.
+     * A kfy to storf b pffr instbndf for bn AppContfxt.
      */
-    private static final Object DTCP_KEY = "DropTargetContextPeer";
+    privbtf stbtid finbl Objfdt DTCP_KEY = "DropTbrgftContfxtPffr";
 
-    private XDropTargetContextPeer() {}
+    privbtf XDropTbrgftContfxtPffr() {}
 
-    static XDropTargetContextPeer getPeer(AppContext appContext) {
-        synchronized (_globalLock) {
-            XDropTargetContextPeer peer =
-                (XDropTargetContextPeer)appContext.get(DTCP_KEY);
-            if (peer == null) {
-                peer = new XDropTargetContextPeer();
-                appContext.put(DTCP_KEY, peer);
+    stbtid XDropTbrgftContfxtPffr gftPffr(AppContfxt bppContfxt) {
+        syndironizfd (_globblLodk) {
+            XDropTbrgftContfxtPffr pffr =
+                (XDropTbrgftContfxtPffr)bppContfxt.gft(DTCP_KEY);
+            if (pffr == null) {
+                pffr = nfw XDropTbrgftContfxtPffr();
+                bppContfxt.put(DTCP_KEY, pffr);
             }
 
-            return peer;
+            rfturn pffr;
         }
     }
 
-    static XDropTargetProtocolListener getXDropTargetProtocolListener() {
-        return XDropTargetProtocolListenerImpl.getInstance();
+    stbtid XDropTbrgftProtodolListfnfr gftXDropTbrgftProtodolListfnfr() {
+        rfturn XDropTbrgftProtodolListfnfrImpl.gftInstbndf();
     }
 
     /*
-     * @param returnValue the drop action selected by the Java drop target.
+     * @pbrbm rfturnVbluf tif drop bdtion sflfdtfd by tif Jbvb drop tbrgft.
      */
-    protected void eventProcessed(SunDropTargetEvent e, int returnValue,
-                                  boolean dispatcherDone) {
-        /* The native context is the pointer to the XClientMessageEvent
-           structure. */
-        long ctxt = getNativeDragContext();
-        /* If the event was not consumed, send a response to the source. */
+    protfdtfd void fvfntProdfssfd(SunDropTbrgftEvfnt f, int rfturnVbluf,
+                                  boolfbn dispbtdifrDonf) {
+        /* Tif nbtivf dontfxt is tif pointfr to tif XClifntMfssbgfEvfnt
+           strudturf. */
+        long dtxt = gftNbtivfDrbgContfxt();
+        /* If tif fvfnt wbs not donsumfd, sfnd b rfsponsf to tif sourdf. */
         try {
-            if (ctxt != 0 && !e.isConsumed()) {
-                Iterator<XDropTargetProtocol> dropTargetProtocols =
-                    XDragAndDropProtocols.getDropTargetProtocols();
+            if (dtxt != 0 && !f.isConsumfd()) {
+                Itfrbtor<XDropTbrgftProtodol> dropTbrgftProtodols =
+                    XDrbgAndDropProtodols.gftDropTbrgftProtodols();
 
-                while (dropTargetProtocols.hasNext()) {
-                    XDropTargetProtocol dropTargetProtocol =
-                        dropTargetProtocols.next();
-                    if (dropTargetProtocol.sendResponse(ctxt, e.getID(),
-                                                        returnValue)) {
-                        break;
+                wiilf (dropTbrgftProtodols.ibsNfxt()) {
+                    XDropTbrgftProtodol dropTbrgftProtodol =
+                        dropTbrgftProtodols.nfxt();
+                    if (dropTbrgftProtodol.sfndRfsponsf(dtxt, f.gftID(),
+                                                        rfturnVbluf)) {
+                        brfbk;
                     }
                 }
             }
-        } finally {
-            if (dispatcherDone && ctxt != 0) {
-                unsafe.freeMemory(ctxt);
+        } finblly {
+            if (dispbtdifrDonf && dtxt != 0) {
+                unsbff.frffMfmory(dtxt);
             }
         }
     }
 
-    protected void doDropDone(boolean success, int dropAction,
-                              boolean isLocal) {
-        /* The native context is the pointer to the XClientMessageEvent
-           structure. */
-        long ctxt = getNativeDragContext();
+    protfdtfd void doDropDonf(boolfbn suddfss, int dropAdtion,
+                              boolfbn isLodbl) {
+        /* Tif nbtivf dontfxt is tif pointfr to tif XClifntMfssbgfEvfnt
+           strudturf. */
+        long dtxt = gftNbtivfDrbgContfxt();
 
-        if (ctxt != 0) {
+        if (dtxt != 0) {
             try {
-                Iterator<XDropTargetProtocol> dropTargetProtocols =
-                    XDragAndDropProtocols.getDropTargetProtocols();
+                Itfrbtor<XDropTbrgftProtodol> dropTbrgftProtodols =
+                    XDrbgAndDropProtodols.gftDropTbrgftProtodols();
 
-                while (dropTargetProtocols.hasNext()) {
-                    XDropTargetProtocol dropTargetProtocol =
-                        dropTargetProtocols.next();
-                    if (dropTargetProtocol.sendDropDone(ctxt, success,
-                                                        dropAction)) {
-                        break;
+                wiilf (dropTbrgftProtodols.ibsNfxt()) {
+                    XDropTbrgftProtodol dropTbrgftProtodol =
+                        dropTbrgftProtodols.nfxt();
+                    if (dropTbrgftProtodol.sfndDropDonf(dtxt, suddfss,
+                                                        dropAdtion)) {
+                        brfbk;
                     }
                 }
-            } finally {
-                unsafe.freeMemory(ctxt);
+            } finblly {
+                unsbff.frffMfmory(dtxt);
             }
         }
     }
 
-    protected Object getNativeData(long format)
-      throws IOException {
-        /* The native context is the pointer to the XClientMessageEvent
-           structure. */
-        long ctxt = getNativeDragContext();
+    protfdtfd Objfdt gftNbtivfDbtb(long formbt)
+      tirows IOExdfption {
+        /* Tif nbtivf dontfxt is tif pointfr to tif XClifntMfssbgfEvfnt
+           strudturf. */
+        long dtxt = gftNbtivfDrbgContfxt();
 
-        if (ctxt != 0) {
-            Iterator<XDropTargetProtocol> dropTargetProtocols =
-                XDragAndDropProtocols.getDropTargetProtocols();
+        if (dtxt != 0) {
+            Itfrbtor<XDropTbrgftProtodol> dropTbrgftProtodols =
+                XDrbgAndDropProtodols.gftDropTbrgftProtodols();
 
-            while (dropTargetProtocols.hasNext()) {
-                XDropTargetProtocol dropTargetProtocol =
-                    dropTargetProtocols.next();
-                // getData throws IAE if ctxt is not for this protocol.
+            wiilf (dropTbrgftProtodols.ibsNfxt()) {
+                XDropTbrgftProtodol dropTbrgftProtodol =
+                    dropTbrgftProtodols.nfxt();
+                // gftDbtb tirows IAE if dtxt is not for tiis protodol.
                 try {
-                    return dropTargetProtocol.getData(ctxt, format);
-                } catch (IllegalArgumentException iae) {
+                    rfturn dropTbrgftProtodol.gftDbtb(dtxt, formbt);
+                } dbtdi (IllfgblArgumfntExdfption ibf) {
                 }
             }
         }
 
-        return null;
+        rfturn null;
     }
 
-    private void cleanup() {
+    privbtf void dlfbnup() {
     }
 
-    protected void processEnterMessage(SunDropTargetEvent event) {
-        if (!processSunDropTargetEvent(event)) {
-            super.processEnterMessage(event);
+    protfdtfd void prodfssEntfrMfssbgf(SunDropTbrgftEvfnt fvfnt) {
+        if (!prodfssSunDropTbrgftEvfnt(fvfnt)) {
+            supfr.prodfssEntfrMfssbgf(fvfnt);
         }
     }
 
-    protected void processExitMessage(SunDropTargetEvent event) {
-        if (!processSunDropTargetEvent(event)) {
-            super.processExitMessage(event);
+    protfdtfd void prodfssExitMfssbgf(SunDropTbrgftEvfnt fvfnt) {
+        if (!prodfssSunDropTbrgftEvfnt(fvfnt)) {
+            supfr.prodfssExitMfssbgf(fvfnt);
         }
     }
 
-    protected void processMotionMessage(SunDropTargetEvent event,
-                                        boolean operationChanged) {
-        if (!processSunDropTargetEvent(event)) {
-            super.processMotionMessage(event, operationChanged);
+    protfdtfd void prodfssMotionMfssbgf(SunDropTbrgftEvfnt fvfnt,
+                                        boolfbn opfrbtionCibngfd) {
+        if (!prodfssSunDropTbrgftEvfnt(fvfnt)) {
+            supfr.prodfssMotionMfssbgf(fvfnt, opfrbtionCibngfd);
         }
     }
 
-    protected void processDropMessage(SunDropTargetEvent event) {
-        if (!processSunDropTargetEvent(event)) {
-            super.processDropMessage(event);
+    protfdtfd void prodfssDropMfssbgf(SunDropTbrgftEvfnt fvfnt) {
+        if (!prodfssSunDropTbrgftEvfnt(fvfnt)) {
+            supfr.prodfssDropMfssbgf(fvfnt);
         }
     }
 
-    // If source is an XEmbedCanvasPeer, passes the event to it for processing and
-    // return true if the event is forwarded to the XEmbed child.
-    // Otherwise, does nothing and return false.
-    private boolean processSunDropTargetEvent(SunDropTargetEvent event) {
-        Object source = event.getSource();
+    // If sourdf is bn XEmbfdCbnvbsPffr, pbssfs tif fvfnt to it for prodfssing bnd
+    // rfturn truf if tif fvfnt is forwbrdfd to tif XEmbfd diild.
+    // Otifrwisf, dofs notiing bnd rfturn fblsf.
+    privbtf boolfbn prodfssSunDropTbrgftEvfnt(SunDropTbrgftEvfnt fvfnt) {
+        Objfdt sourdf = fvfnt.gftSourdf();
 
-        if (source instanceof Component) {
-            ComponentPeer peer = ((Component)source).getPeer();
-            if (peer instanceof XEmbedCanvasPeer) {
-                XEmbedCanvasPeer xEmbedCanvasPeer = (XEmbedCanvasPeer)peer;
-                /* The native context is the pointer to the XClientMessageEvent
-                   structure. */
-                long ctxt = getNativeDragContext();
+        if (sourdf instbndfof Componfnt) {
+            ComponfntPffr pffr = ((Componfnt)sourdf).gftPffr();
+            if (pffr instbndfof XEmbfdCbnvbsPffr) {
+                XEmbfdCbnvbsPffr xEmbfdCbnvbsPffr = (XEmbfdCbnvbsPffr)pffr;
+                /* Tif nbtivf dontfxt is tif pointfr to tif XClifntMfssbgfEvfnt
+                   strudturf. */
+                long dtxt = gftNbtivfDrbgContfxt();
 
-                if (logger.isLoggable(PlatformLogger.Level.FINER)) {
-                    logger.finer("        processing " + event + " ctxt=" + ctxt +
-                                 " consumed=" + event.isConsumed());
+                if (loggfr.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                    loggfr.finfr("        prodfssing " + fvfnt + " dtxt=" + dtxt +
+                                 " donsumfd=" + fvfnt.isConsumfd());
                 }
-                /* If the event is not consumed, pass it to the
-                   XEmbedCanvasPeer for processing. */
-                if (!event.isConsumed()) {
-                    // NOTE: ctxt can be zero at this point.
-                    if (xEmbedCanvasPeer.processXEmbedDnDEvent(ctxt,
-                                                               event.getID())) {
-                        event.consume();
-                        return true;
+                /* If tif fvfnt is not donsumfd, pbss it to tif
+                   XEmbfdCbnvbsPffr for prodfssing. */
+                if (!fvfnt.isConsumfd()) {
+                    // NOTE: dtxt dbn bf zfro bt tiis point.
+                    if (xEmbfdCbnvbsPffr.prodfssXEmbfdDnDEvfnt(dtxt,
+                                                               fvfnt.gftID())) {
+                        fvfnt.donsumf();
+                        rfturn truf;
                     }
                 }
             }
         }
 
-        return false;
+        rfturn fblsf;
     }
 
-    public void forwardEventToEmbedded(long embedded, long ctxt,
-                                       int eventID) {
-        Iterator<XDropTargetProtocol> dropTargetProtocols =
-            XDragAndDropProtocols.getDropTargetProtocols();
+    publid void forwbrdEvfntToEmbfddfd(long fmbfddfd, long dtxt,
+                                       int fvfntID) {
+        Itfrbtor<XDropTbrgftProtodol> dropTbrgftProtodols =
+            XDrbgAndDropProtodols.gftDropTbrgftProtodols();
 
-        while (dropTargetProtocols.hasNext()) {
-            XDropTargetProtocol dropTargetProtocol = dropTargetProtocols.next();
-            if (dropTargetProtocol.forwardEventToEmbedded(embedded, ctxt,
-                                                          eventID)) {
-                break;
+        wiilf (dropTbrgftProtodols.ibsNfxt()) {
+            XDropTbrgftProtodol dropTbrgftProtodol = dropTbrgftProtodols.nfxt();
+            if (dropTbrgftProtodol.forwbrdEvfntToEmbfddfd(fmbfddfd, dtxt,
+                                                          fvfntID)) {
+                brfbk;
             }
         }
     }
 
-    static final class XDropTargetProtocolListenerImpl
-        implements XDropTargetProtocolListener {
+    stbtid finbl dlbss XDropTbrgftProtodolListfnfrImpl
+        implfmfnts XDropTbrgftProtodolListfnfr {
 
-        private final static XDropTargetProtocolListener theInstance =
-            new XDropTargetProtocolListenerImpl();
+        privbtf finbl stbtid XDropTbrgftProtodolListfnfr tifInstbndf =
+            nfw XDropTbrgftProtodolListfnfrImpl();
 
-        private XDropTargetProtocolListenerImpl() {}
+        privbtf XDropTbrgftProtodolListfnfrImpl() {}
 
-        static XDropTargetProtocolListener getInstance() {
-            return theInstance;
+        stbtid XDropTbrgftProtodolListfnfr gftInstbndf() {
+            rfturn tifInstbndf;
         }
 
-        public void handleDropTargetNotification(XWindow xwindow, int x, int y,
-                                                 int dropAction, int actions,
-                                                 long[] formats, long nativeCtxt,
-                                                 int eventID) {
-            Object target = xwindow.getTarget();
+        publid void ibndlfDropTbrgftNotifidbtion(XWindow xwindow, int x, int y,
+                                                 int dropAdtion, int bdtions,
+                                                 long[] formbts, long nbtivfCtxt,
+                                                 int fvfntID) {
+            Objfdt tbrgft = xwindow.gftTbrgft();
 
-            // The Every component is associated with some AppContext.
-            assert target instanceof Component;
+            // Tif Evfry domponfnt is bssodibtfd witi somf AppContfxt.
+            bssfrt tbrgft instbndfof Componfnt;
 
-            Component component = (Component)target;
+            Componfnt domponfnt = (Componfnt)tbrgft;
 
-            AppContext appContext = SunToolkit.targetToAppContext(target);
+            AppContfxt bppContfxt = SunToolkit.tbrgftToAppContfxt(tbrgft);
 
-            // Every component is associated with some AppContext.
-            assert appContext != null;
+            // Evfry domponfnt is bssodibtfd witi somf AppContfxt.
+            bssfrt bppContfxt != null;
 
-            XDropTargetContextPeer peer = XDropTargetContextPeer.getPeer(appContext);
+            XDropTbrgftContfxtPffr pffr = XDropTbrgftContfxtPffr.gftPffr(bppContfxt);
 
-            peer.postDropTargetEvent(component, x, y, dropAction, actions, formats,
-                                     nativeCtxt, eventID,
-                                     !SunDropTargetContextPeer.DISPATCH_SYNC);
+            pffr.postDropTbrgftEvfnt(domponfnt, x, y, dropAdtion, bdtions, formbts,
+                                     nbtivfCtxt, fvfntID,
+                                     !SunDropTbrgftContfxtPffr.DISPATCH_SYNC);
         }
     }
 }

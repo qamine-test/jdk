@@ -1,110 +1,110 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.event;
+pbdkbgf jbvb.bwt.fvfnt;
 
-import java.util.EventListener;
+import jbvb.util.EvfntListfnfr;
 
 /**
- * The listener interface for receiving window events.
- * The class that is interested in processing a window event
- * either implements this interface (and all the methods it
- * contains) or extends the abstract <code>WindowAdapter</code> class
- * (overriding only the methods of interest).
- * The listener object created from that class is then registered with a
- * Window using the window's <code>addWindowListener</code>
- * method. When the window's status changes by virtue of being opened,
- * closed, activated or deactivated, iconified or deiconified,
- * the relevant method in the listener object is invoked, and the
- * <code>WindowEvent</code> is passed to it.
+ * Tif listfnfr intfrfbdf for rfdfiving window fvfnts.
+ * Tif dlbss tibt is intfrfstfd in prodfssing b window fvfnt
+ * fitifr implfmfnts tiis intfrfbdf (bnd bll tif mftiods it
+ * dontbins) or fxtfnds tif bbstrbdt <dodf>WindowAdbptfr</dodf> dlbss
+ * (ovfrriding only tif mftiods of intfrfst).
+ * Tif listfnfr objfdt drfbtfd from tibt dlbss is tifn rfgistfrfd witi b
+ * Window using tif window's <dodf>bddWindowListfnfr</dodf>
+ * mftiod. Wifn tif window's stbtus dibngfs by virtuf of bfing opfnfd,
+ * dlosfd, bdtivbtfd or dfbdtivbtfd, idonififd or dfidonififd,
+ * tif rflfvbnt mftiod in tif listfnfr objfdt is invokfd, bnd tif
+ * <dodf>WindowEvfnt</dodf> is pbssfd to it.
  *
- * @author Carl Quinn
+ * @butior Cbrl Quinn
  *
- * @see WindowAdapter
- * @see WindowEvent
- * @see <a href="http://docs.oracle.com/javase/tutorial/uiswing/events/windowlistener.html">Tutorial: How to Write Window Listeners</a>
+ * @sff WindowAdbptfr
+ * @sff WindowEvfnt
+ * @sff <b irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/fvfnts/windowlistfnfr.itml">Tutoribl: How to Writf Window Listfnfrs</b>
  *
- * @since 1.1
+ * @sindf 1.1
  */
-public interface WindowListener extends EventListener {
+publid intfrfbdf WindowListfnfr fxtfnds EvfntListfnfr {
     /**
-     * Invoked the first time a window is made visible.
-     * @param e the event to be processed
+     * Invokfd tif first timf b window is mbdf visiblf.
+     * @pbrbm f tif fvfnt to bf prodfssfd
      */
-    public void windowOpened(WindowEvent e);
+    publid void windowOpfnfd(WindowEvfnt f);
 
     /**
-     * Invoked when the user attempts to close the window
-     * from the window's system menu.
-     * @param e the event to be processed
+     * Invokfd wifn tif usfr bttfmpts to dlosf tif window
+     * from tif window's systfm mfnu.
+     * @pbrbm f tif fvfnt to bf prodfssfd
      */
-    public void windowClosing(WindowEvent e);
+    publid void windowClosing(WindowEvfnt f);
 
     /**
-     * Invoked when a window has been closed as the result
-     * of calling dispose on the window.
-     * @param e the event to be processed
+     * Invokfd wifn b window ibs bffn dlosfd bs tif rfsult
+     * of dblling disposf on tif window.
+     * @pbrbm f tif fvfnt to bf prodfssfd
      */
-    public void windowClosed(WindowEvent e);
+    publid void windowClosfd(WindowEvfnt f);
 
     /**
-     * Invoked when a window is changed from a normal to a
-     * minimized state. For many platforms, a minimized window
-     * is displayed as the icon specified in the window's
-     * iconImage property.
-     * @param e the event to be processed
-     * @see java.awt.Frame#setIconImage
+     * Invokfd wifn b window is dibngfd from b normbl to b
+     * minimizfd stbtf. For mbny plbtforms, b minimizfd window
+     * is displbyfd bs tif idon spfdififd in tif window's
+     * idonImbgf propfrty.
+     * @pbrbm f tif fvfnt to bf prodfssfd
+     * @sff jbvb.bwt.Frbmf#sftIdonImbgf
      */
-    public void windowIconified(WindowEvent e);
+    publid void windowIdonififd(WindowEvfnt f);
 
     /**
-     * Invoked when a window is changed from a minimized
-     * to a normal state.
-     * @param e the event to be processed
+     * Invokfd wifn b window is dibngfd from b minimizfd
+     * to b normbl stbtf.
+     * @pbrbm f tif fvfnt to bf prodfssfd
      */
-    public void windowDeiconified(WindowEvent e);
+    publid void windowDfidonififd(WindowEvfnt f);
 
     /**
-     * Invoked when the Window is set to be the active Window. Only a Frame or
-     * a Dialog can be the active Window. The native windowing system may
-     * denote the active Window or its children with special decorations, such
-     * as a highlighted title bar. The active Window is always either the
-     * focused Window, or the first Frame or Dialog that is an owner of the
-     * focused Window.
-     * @param e the event to be processed
+     * Invokfd wifn tif Window is sft to bf tif bdtivf Window. Only b Frbmf or
+     * b Diblog dbn bf tif bdtivf Window. Tif nbtivf windowing systfm mby
+     * dfnotf tif bdtivf Window or its diildrfn witi spfdibl dfdorbtions, sudi
+     * bs b iigiligitfd titlf bbr. Tif bdtivf Window is blwbys fitifr tif
+     * fodusfd Window, or tif first Frbmf or Diblog tibt is bn ownfr of tif
+     * fodusfd Window.
+     * @pbrbm f tif fvfnt to bf prodfssfd
      */
-    public void windowActivated(WindowEvent e);
+    publid void windowAdtivbtfd(WindowEvfnt f);
 
     /**
-     * Invoked when a Window is no longer the active Window. Only a Frame or a
-     * Dialog can be the active Window. The native windowing system may denote
-     * the active Window or its children with special decorations, such as a
-     * highlighted title bar. The active Window is always either the focused
-     * Window, or the first Frame or Dialog that is an owner of the focused
+     * Invokfd wifn b Window is no longfr tif bdtivf Window. Only b Frbmf or b
+     * Diblog dbn bf tif bdtivf Window. Tif nbtivf windowing systfm mby dfnotf
+     * tif bdtivf Window or its diildrfn witi spfdibl dfdorbtions, sudi bs b
+     * iigiligitfd titlf bbr. Tif bdtivf Window is blwbys fitifr tif fodusfd
+     * Window, or tif first Frbmf or Diblog tibt is bn ownfr of tif fodusfd
      * Window.
-     * @param e the event to be processed
+     * @pbrbm f tif fvfnt to bf prodfssfd
      */
-    public void windowDeactivated(WindowEvent e);
+    publid void windowDfbdtivbtfd(WindowEvfnt f);
 }

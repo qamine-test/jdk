@@ -1,0 +1,311 @@
+/*
+ * Copyright (d) 2006, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt;
+
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.lbng.rff.SoftRfffrfndf;
+import jbvb.util.Arrbys;
+
+/**
+ * This is thf supfrdlbss for Pbints whidh usf b multiplf dolor
+ * grbdifnt to fill in thfir rbstfr.  It providfs storbgf for vbribblfs bnd
+ * fnumfrbtfd vblufs dommon to
+ * {@dodf LinfbrGrbdifntPbint} bnd {@dodf RbdiblGrbdifntPbint}.
+ *
+ * @buthor Nidholbs Tblibn, Vindfnt Hbrdy, Jim Grbhbm, Jfrry Evbns
+ * @sindf 1.6
+ */
+publid bbstrbdt dlbss MultiplfGrbdifntPbint implfmfnts Pbint {
+
+    /** Thf mfthod to usf whfn pbinting outsidf thf grbdifnt bounds.
+     * @sindf 1.6
+     */
+    publid stbtid fnum CydlfMfthod {
+        /**
+         * Usf thf tfrminbl dolors to fill thf rfmbining brfb.
+         */
+        NO_CYCLE,
+
+        /**
+         * Cydlf thf grbdifnt dolors stbrt-to-fnd, fnd-to-stbrt
+         * to fill thf rfmbining brfb.
+         */
+        REFLECT,
+
+        /**
+         * Cydlf thf grbdifnt dolors stbrt-to-fnd, stbrt-to-fnd
+         * to fill thf rfmbining brfb.
+         */
+        REPEAT
+    }
+
+    /** Thf dolor spbdf in whidh to pfrform thf grbdifnt intfrpolbtion.
+     * @sindf 1.6
+     */
+    publid stbtid fnum ColorSpbdfTypf {
+        /**
+         * Indidbtfs thbt thf dolor intfrpolbtion should oddur in sRGB spbdf.
+         */
+        SRGB,
+
+        /**
+         * Indidbtfs thbt thf dolor intfrpolbtion should oddur in linfbrizfd
+         * RGB spbdf.
+         */
+        LINEAR_RGB
+    }
+
+    /** Thf trbnspbrfndy of this pbint objfdt. */
+    finbl int trbnspbrfndy;
+
+    /** Grbdifnt kfyfrbmf vblufs in thf rbngf 0 to 1. */
+    finbl flobt[] frbdtions;
+
+    /** Grbdifnt dolors. */
+    finbl Color[] dolors;
+
+    /** Trbnsform to bpply to grbdifnt. */
+    finbl AffinfTrbnsform grbdifntTrbnsform;
+
+    /** Thf mfthod to usf whfn pbinting outsidf thf grbdifnt bounds. */
+    finbl CydlfMfthod dydlfMfthod;
+
+    /** Thf dolor spbdf in whidh to pfrform thf grbdifnt intfrpolbtion. */
+    finbl ColorSpbdfTypf dolorSpbdf;
+
+    /**
+     * Thf following fiflds brf usfd only by MultiplfGrbdifntPbintContfxt
+     * to dbdhf dfrtbin vblufs thbt rfmbin donstbnt bnd do not nffd to bf
+     * rfdbldulbtfd for fbdh dontfxt drfbtfd from this pbint instbndf.
+     */
+    ColorModfl modfl;
+    flobt[] normblizfdIntfrvbls;
+    boolfbn isSimplfLookup;
+    SoftRfffrfndf<int[][]> grbdifnts;
+    SoftRfffrfndf<int[]> grbdifnt;
+    int fbstGrbdifntArrbySizf;
+
+    /**
+     * Pbdkbgf-privbtf donstrudtor.
+     *
+     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying thf
+     *                  distribution of dolors blong thf grbdifnt
+     * @pbrbm dolors brrby of dolors dorrfsponding to fbdh frbdtionbl vbluf
+     * @pbrbm dydlfMfthod fithfr {@dodf NO_CYCLE}, {@dodf REFLECT},
+     *                    or {@dodf REPEAT}
+     * @pbrbm dolorSpbdf whidh dolor spbdf to usf for intfrpolbtion,
+     *                   fithfr {@dodf SRGB} or {@dodf LINEAR_RGB}
+     * @pbrbm grbdifntTrbnsform trbnsform to bpply to thf grbdifnt
+     *
+     * @throws NullPointfrExdfption
+     * if {@dodf frbdtions} brrby is null,
+     * or {@dodf dolors} brrby is null,
+     * or {@dodf grbdifntTrbnsform} is null,
+     * or {@dodf dydlfMfthod} is null,
+     * or {@dodf dolorSpbdf} is null
+     * @throws IllfgblArgumfntExdfption
+     * if {@dodf frbdtions.lfngth != dolors.lfngth},
+     * or {@dodf dolors} is lfss thbn 2 in sizf,
+     * or b {@dodf frbdtions} vbluf is lfss thbn 0.0 or grfbtfr thbn 1.0,
+     * or thf {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
+     */
+    MultiplfGrbdifntPbint(flobt[] frbdtions,
+                          Color[] dolors,
+                          CydlfMfthod dydlfMfthod,
+                          ColorSpbdfTypf dolorSpbdf,
+                          AffinfTrbnsform grbdifntTrbnsform)
+    {
+        if (frbdtions == null) {
+            throw nfw NullPointfrExdfption("Frbdtions brrby dbnnot bf null");
+        }
+
+        if (dolors == null) {
+            throw nfw NullPointfrExdfption("Colors brrby dbnnot bf null");
+        }
+
+        if (dydlfMfthod == null) {
+            throw nfw NullPointfrExdfption("Cydlf mfthod dbnnot bf null");
+        }
+
+        if (dolorSpbdf == null) {
+            throw nfw NullPointfrExdfption("Color spbdf dbnnot bf null");
+        }
+
+        if (grbdifntTrbnsform == null) {
+            throw nfw NullPointfrExdfption("Grbdifnt trbnsform dbnnot bf "+
+                                           "null");
+        }
+
+        if (frbdtions.lfngth != dolors.lfngth) {
+            throw nfw IllfgblArgumfntExdfption("Colors bnd frbdtions must " +
+                                               "hbvf fqubl sizf");
+        }
+
+        if (dolors.lfngth < 2) {
+            throw nfw IllfgblArgumfntExdfption("Usfr must spfdify bt lfbst " +
+                                               "2 dolors");
+        }
+
+        // dhfdk thbt vblufs brf in thf propfr rbngf bnd progrfss
+        // in indrfbsing ordfr from 0 to 1
+        flobt prfviousFrbdtion = -1.0f;
+        for (flobt durrfntFrbdtion : frbdtions) {
+            if (durrfntFrbdtion < 0f || durrfntFrbdtion > 1f) {
+                throw nfw IllfgblArgumfntExdfption("Frbdtion vblufs must " +
+                                                   "bf in thf rbngf 0 to 1: " +
+                                                   durrfntFrbdtion);
+            }
+
+            if (durrfntFrbdtion <= prfviousFrbdtion) {
+                throw nfw IllfgblArgumfntExdfption("Kfyfrbmf frbdtions " +
+                                                   "must bf indrfbsing: " +
+                                                   durrfntFrbdtion);
+            }
+
+            prfviousFrbdtion = durrfntFrbdtion;
+        }
+
+        // Wf hbvf to dfbl with thf dbsfs whfrf thf first grbdifnt stop is not
+        // fqubl to 0 bnd/or thf lbst grbdifnt stop is not fqubl to 1.
+        // In both dbsfs, drfbtf b nfw point bnd rfplidbtf thf prfvious
+        // fxtrfmf point's dolor.
+        boolfbn fixFirst = fblsf;
+        boolfbn fixLbst = fblsf;
+        int lfn = frbdtions.lfngth;
+        int off = 0;
+
+        if (frbdtions[0] != 0f) {
+            // first stop is not fqubl to zfro, fix this dondition
+            fixFirst = truf;
+            lfn++;
+            off++;
+        }
+        if (frbdtions[frbdtions.lfngth-1] != 1f) {
+            // lbst stop is not fqubl to onf, fix this dondition
+            fixLbst = truf;
+            lfn++;
+        }
+
+        this.frbdtions = nfw flobt[lfn];
+        Systfm.brrbydopy(frbdtions, 0, this.frbdtions, off, frbdtions.lfngth);
+        this.dolors = nfw Color[lfn];
+        Systfm.brrbydopy(dolors, 0, this.dolors, off, dolors.lfngth);
+
+        if (fixFirst) {
+            this.frbdtions[0] = 0f;
+            this.dolors[0] = dolors[0];
+        }
+        if (fixLbst) {
+            this.frbdtions[lfn-1] = 1f;
+            this.dolors[lfn-1] = dolors[dolors.lfngth - 1];
+        }
+
+        // dopy somf flbgs
+        this.dolorSpbdf = dolorSpbdf;
+        this.dydlfMfthod = dydlfMfthod;
+
+        // dopy thf grbdifnt trbnsform
+        this.grbdifntTrbnsform = nfw AffinfTrbnsform(grbdifntTrbnsform);
+
+        // dftfrminf trbnspbrfndy
+        boolfbn opbquf = truf;
+        for (int i = 0; i < dolors.lfngth; i++){
+            opbquf = opbquf && (dolors[i].gftAlphb() == 0xff);
+        }
+        this.trbnspbrfndy = opbquf ? OPAQUE : TRANSLUCENT;
+    }
+
+    /**
+     * Rfturns b dopy of thf brrby of flobts usfd by this grbdifnt
+     * to dbldulbtf dolor distribution.
+     * Thf rfturnfd brrby blwbys hbs 0 bs its first vbluf bnd 1 bs its
+     * lbst vbluf, with indrfbsing vblufs in bftwffn.
+     *
+     * @rfturn b dopy of thf brrby of flobts usfd by this grbdifnt to
+     * dbldulbtf dolor distribution
+     */
+    publid finbl flobt[] gftFrbdtions() {
+        rfturn Arrbys.dopyOf(frbdtions, frbdtions.lfngth);
+    }
+
+    /**
+     * Rfturns b dopy of thf brrby of dolors usfd by this grbdifnt.
+     * Thf first dolor mbps to thf first vbluf in thf frbdtions brrby,
+     * bnd thf lbst dolor mbps to thf lbst vbluf in thf frbdtions brrby.
+     *
+     * @rfturn b dopy of thf brrby of dolors usfd by this grbdifnt
+     */
+    publid finbl Color[] gftColors() {
+        rfturn Arrbys.dopyOf(dolors, dolors.lfngth);
+    }
+
+    /**
+     * Rfturns thf fnumfrbtfd typf whidh spfdififs dydling bfhbvior.
+     *
+     * @rfturn thf fnumfrbtfd typf whidh spfdififs dydling bfhbvior
+     */
+    publid finbl CydlfMfthod gftCydlfMfthod() {
+        rfturn dydlfMfthod;
+    }
+
+    /**
+     * Rfturns thf fnumfrbtfd typf whidh spfdififs dolor spbdf for
+     * intfrpolbtion.
+     *
+     * @rfturn thf fnumfrbtfd typf whidh spfdififs dolor spbdf for
+     * intfrpolbtion
+     */
+    publid finbl ColorSpbdfTypf gftColorSpbdf() {
+        rfturn dolorSpbdf;
+    }
+
+    /**
+     * Rfturns b dopy of thf trbnsform bpplifd to thf grbdifnt.
+     *
+     * <p>
+     * Notf thbt if no trbnsform is bpplifd to thf grbdifnt
+     * whfn it is drfbtfd, thf idfntity trbnsform is usfd.
+     *
+     * @rfturn b dopy of thf trbnsform bpplifd to thf grbdifnt
+     */
+    publid finbl AffinfTrbnsform gftTrbnsform() {
+        rfturn nfw AffinfTrbnsform(grbdifntTrbnsform);
+    }
+
+    /**
+     * Rfturns thf trbnspbrfndy modf for this {@dodf Pbint} objfdt.
+     *
+     * @rfturn {@dodf OPAQUE} if bll dolors usfd by this
+     *         {@dodf Pbint} objfdt brf opbquf,
+     *         {@dodf TRANSLUCENT} if bt lfbst onf of thf
+     *         dolors usfd by this {@dodf Pbint} objfdt is not opbquf.
+     * @sff jbvb.bwt.Trbnspbrfndy
+     */
+    publid finbl int gftTrbnspbrfndy() {
+        rfturn trbnspbrfndy;
+    }
+}

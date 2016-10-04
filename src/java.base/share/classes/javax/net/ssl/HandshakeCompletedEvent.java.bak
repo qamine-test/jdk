@@ -1,235 +1,235 @@
 /*
- * Copyright (c) 1997, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.net.ssl;
+pbdkbgf jbvbx.nft.ssl;
 
-import java.util.EventObject;
-import java.security.cert.Certificate;
-import java.security.Principal;
-import java.security.cert.X509Certificate;
+import jbvb.util.EvfntObjfdt;
+import jbvb.sfdurity.dfrt.Cfrtifidbtf;
+import jbvb.sfdurity.Prindipbl;
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
 
 /**
- * This event indicates that an SSL handshake completed on a given
- * SSL connection.  All of the core information about that handshake's
- * result is captured through an "SSLSession" object.  As a convenience,
- * this event class provides direct access to some important session
- * attributes.
+ * Tiis fvfnt indidbtfs tibt bn SSL ibndsibkf domplftfd on b givfn
+ * SSL donnfdtion.  All of tif dorf informbtion bbout tibt ibndsibkf's
+ * rfsult is dbpturfd tirougi bn "SSLSfssion" objfdt.  As b donvfnifndf,
+ * tiis fvfnt dlbss providfs dirfdt bddfss to somf importbnt sfssion
+ * bttributfs.
  *
- * <P> The source of this event is the SSLSocket on which handshaking
- * just completed.
+ * <P> Tif sourdf of tiis fvfnt is tif SSLSodkft on wiidi ibndsibking
+ * just domplftfd.
  *
- * @see SSLSocket
- * @see HandshakeCompletedListener
- * @see SSLSession
+ * @sff SSLSodkft
+ * @sff HbndsibkfComplftfdListfnfr
+ * @sff SSLSfssion
  *
- * @since 1.4
- * @author David Brownell
+ * @sindf 1.4
+ * @butior Dbvid Brownfll
  */
-public class HandshakeCompletedEvent extends EventObject
+publid dlbss HbndsibkfComplftfdEvfnt fxtfnds EvfntObjfdt
 {
-    private static final long serialVersionUID = 7914963744257769778L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 7914963744257769778L;
 
-    private transient SSLSession session;
+    privbtf trbnsifnt SSLSfssion sfssion;
 
     /**
-     * Constructs a new HandshakeCompletedEvent.
+     * Construdts b nfw HbndsibkfComplftfdEvfnt.
      *
-     * @param sock the SSLSocket acting as the source of the event
-     * @param s the SSLSession this event is associated with
+     * @pbrbm sodk tif SSLSodkft bdting bs tif sourdf of tif fvfnt
+     * @pbrbm s tif SSLSfssion tiis fvfnt is bssodibtfd witi
      */
-    public HandshakeCompletedEvent(SSLSocket sock, SSLSession s)
+    publid HbndsibkfComplftfdEvfnt(SSLSodkft sodk, SSLSfssion s)
     {
-        super(sock);
-        session = s;
+        supfr(sodk);
+        sfssion = s;
     }
 
 
     /**
-     * Returns the session that triggered this event.
+     * Rfturns tif sfssion tibt triggfrfd tiis fvfnt.
      *
-     * @return the <code>SSLSession</code> for this handshake
+     * @rfturn tif <dodf>SSLSfssion</dodf> for tiis ibndsibkf
      */
-    public SSLSession getSession()
+    publid SSLSfssion gftSfssion()
     {
-        return session;
+        rfturn sfssion;
     }
 
 
     /**
-     * Returns the cipher suite in use by the session which was produced
-     * by the handshake.  (This is a convenience method for
-     * getting the ciphersuite from the SSLsession.)
+     * Rfturns tif dipifr suitf in usf by tif sfssion wiidi wbs produdfd
+     * by tif ibndsibkf.  (Tiis is b donvfnifndf mftiod for
+     * gftting tif dipifrsuitf from tif SSLsfssion.)
      *
-     * @return the name of the cipher suite negotiated during this session.
+     * @rfturn tif nbmf of tif dipifr suitf nfgotibtfd during tiis sfssion.
      */
-    public String getCipherSuite()
+    publid String gftCipifrSuitf()
     {
-        return session.getCipherSuite();
+        rfturn sfssion.gftCipifrSuitf();
     }
 
 
     /**
-     * Returns the certificate(s) that were sent to the peer during
-     * handshaking.
-     * Note: This method is useful only when using certificate-based
-     * cipher suites.
+     * Rfturns tif dfrtifidbtf(s) tibt wfrf sfnt to tif pffr during
+     * ibndsibking.
+     * Notf: Tiis mftiod is usfful only wifn using dfrtifidbtf-bbsfd
+     * dipifr suitfs.
      *
-     * When multiple certificates are available for use in a
-     * handshake, the implementation chooses what it considers the
-     * "best" certificate chain available, and transmits that to
-     * the other side.  This method allows the caller to know
-     * which certificate chain was actually used.
+     * Wifn multiplf dfrtifidbtfs brf bvbilbblf for usf in b
+     * ibndsibkf, tif implfmfntbtion dioosfs wibt it donsidfrs tif
+     * "bfst" dfrtifidbtf dibin bvbilbblf, bnd trbnsmits tibt to
+     * tif otifr sidf.  Tiis mftiod bllows tif dbllfr to know
+     * wiidi dfrtifidbtf dibin wbs bdtublly usfd.
      *
-     * @return an ordered array of certificates, with the local
-     *          certificate first followed by any
-     *          certificate authorities.  If no certificates were sent,
-     *          then null is returned.
-     * @see #getLocalPrincipal()
+     * @rfturn bn ordfrfd brrby of dfrtifidbtfs, witi tif lodbl
+     *          dfrtifidbtf first followfd by bny
+     *          dfrtifidbtf butioritifs.  If no dfrtifidbtfs wfrf sfnt,
+     *          tifn null is rfturnfd.
+     * @sff #gftLodblPrindipbl()
      */
-    public java.security.cert.Certificate [] getLocalCertificates()
+    publid jbvb.sfdurity.dfrt.Cfrtifidbtf [] gftLodblCfrtifidbtfs()
     {
-        return session.getLocalCertificates();
+        rfturn sfssion.gftLodblCfrtifidbtfs();
     }
 
 
     /**
-     * Returns the identity of the peer which was established as part
-     * of defining the session.
-     * Note: This method can be used only when using certificate-based
-     * cipher suites; using it with non-certificate-based cipher suites,
-     * such as Kerberos, will throw an SSLPeerUnverifiedException.
+     * Rfturns tif idfntity of tif pffr wiidi wbs fstbblisifd bs pbrt
+     * of dffining tif sfssion.
+     * Notf: Tiis mftiod dbn bf usfd only wifn using dfrtifidbtf-bbsfd
+     * dipifr suitfs; using it witi non-dfrtifidbtf-bbsfd dipifr suitfs,
+     * sudi bs Kfrbfros, will tirow bn SSLPffrUnvfrififdExdfption.
      *
-     * @return an ordered array of the peer certificates,
-     *          with the peer's own certificate first followed by
-     *          any certificate authorities.
-     * @exception SSLPeerUnverifiedException if the peer is not verified.
-     * @see #getPeerPrincipal()
+     * @rfturn bn ordfrfd brrby of tif pffr dfrtifidbtfs,
+     *          witi tif pffr's own dfrtifidbtf first followfd by
+     *          bny dfrtifidbtf butioritifs.
+     * @fxdfption SSLPffrUnvfrififdExdfption if tif pffr is not vfrififd.
+     * @sff #gftPffrPrindipbl()
      */
-    public java.security.cert.Certificate [] getPeerCertificates()
-            throws SSLPeerUnverifiedException
+    publid jbvb.sfdurity.dfrt.Cfrtifidbtf [] gftPffrCfrtifidbtfs()
+            tirows SSLPffrUnvfrififdExdfption
     {
-        return session.getPeerCertificates();
+        rfturn sfssion.gftPffrCfrtifidbtfs();
     }
 
 
     /**
-     * Returns the identity of the peer which was identified as part
-     * of defining the session.
-     * Note: This method can be used only when using certificate-based
-     * cipher suites; using it with non-certificate-based cipher suites,
-     * such as Kerberos, will throw an SSLPeerUnverifiedException.
+     * Rfturns tif idfntity of tif pffr wiidi wbs idfntififd bs pbrt
+     * of dffining tif sfssion.
+     * Notf: Tiis mftiod dbn bf usfd only wifn using dfrtifidbtf-bbsfd
+     * dipifr suitfs; using it witi non-dfrtifidbtf-bbsfd dipifr suitfs,
+     * sudi bs Kfrbfros, will tirow bn SSLPffrUnvfrififdExdfption.
      *
-     * <p><em>Note: this method exists for compatibility with previous
-     * releases. New applications should use
-     * {@link #getPeerCertificates} instead.</em></p>
+     * <p><fm>Notf: tiis mftiod fxists for dompbtibility witi prfvious
+     * rflfbsfs. Nfw bpplidbtions siould usf
+     * {@link #gftPffrCfrtifidbtfs} instfbd.</fm></p>
      *
-     * @return an ordered array of peer X.509 certificates,
-     *          with the peer's own certificate first followed by any
-     *          certificate authorities.  (The certificates are in
-     *          the original JSSE
-     *          {@link javax.security.cert.X509Certificate} format).
-     * @exception SSLPeerUnverifiedException if the peer is not verified.
-     * @see #getPeerPrincipal()
+     * @rfturn bn ordfrfd brrby of pffr X.509 dfrtifidbtfs,
+     *          witi tif pffr's own dfrtifidbtf first followfd by bny
+     *          dfrtifidbtf butioritifs.  (Tif dfrtifidbtfs brf in
+     *          tif originbl JSSE
+     *          {@link jbvbx.sfdurity.dfrt.X509Cfrtifidbtf} formbt).
+     * @fxdfption SSLPffrUnvfrififdExdfption if tif pffr is not vfrififd.
+     * @sff #gftPffrPrindipbl()
      */
-    public javax.security.cert.X509Certificate [] getPeerCertificateChain()
-            throws SSLPeerUnverifiedException
+    publid jbvbx.sfdurity.dfrt.X509Cfrtifidbtf [] gftPffrCfrtifidbtfCibin()
+            tirows SSLPffrUnvfrififdExdfption
     {
-        return session.getPeerCertificateChain();
+        rfturn sfssion.gftPffrCfrtifidbtfCibin();
     }
 
     /**
-     * Returns the identity of the peer which was established as part of
-     * defining the session.
+     * Rfturns tif idfntity of tif pffr wiidi wbs fstbblisifd bs pbrt of
+     * dffining tif sfssion.
      *
-     * @return the peer's principal. Returns an X500Principal of the
-     * end-entity certiticate for X509-based cipher suites, and
-     * KerberosPrincipal for Kerberos cipher suites.
+     * @rfturn tif pffr's prindipbl. Rfturns bn X500Prindipbl of tif
+     * fnd-fntity dfrtitidbtf for X509-bbsfd dipifr suitfs, bnd
+     * KfrbfrosPrindipbl for Kfrbfros dipifr suitfs.
      *
-     * @throws SSLPeerUnverifiedException if the peer's identity has not
-     *          been verified
+     * @tirows SSLPffrUnvfrififdExdfption if tif pffr's idfntity ibs not
+     *          bffn vfrififd
      *
-     * @see #getPeerCertificates()
-     * @see #getLocalPrincipal()
+     * @sff #gftPffrCfrtifidbtfs()
+     * @sff #gftLodblPrindipbl()
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public Principal getPeerPrincipal()
-            throws SSLPeerUnverifiedException
+    publid Prindipbl gftPffrPrindipbl()
+            tirows SSLPffrUnvfrififdExdfption
     {
-        Principal principal;
+        Prindipbl prindipbl;
         try {
-            principal = session.getPeerPrincipal();
-        } catch (AbstractMethodError e) {
-            // if the provider does not support it, fallback to peer certs.
-            // return the X500Principal of the end-entity cert.
-            Certificate[] certs = getPeerCertificates();
-            principal = ((X509Certificate)certs[0]).getSubjectX500Principal();
+            prindipbl = sfssion.gftPffrPrindipbl();
+        } dbtdi (AbstrbdtMftiodError f) {
+            // if tif providfr dofs not support it, fbllbbdk to pffr dfrts.
+            // rfturn tif X500Prindipbl of tif fnd-fntity dfrt.
+            Cfrtifidbtf[] dfrts = gftPffrCfrtifidbtfs();
+            prindipbl = ((X509Cfrtifidbtf)dfrts[0]).gftSubjfdtX500Prindipbl();
         }
-        return principal;
+        rfturn prindipbl;
     }
 
     /**
-     * Returns the principal that was sent to the peer during handshaking.
+     * Rfturns tif prindipbl tibt wbs sfnt to tif pffr during ibndsibking.
      *
-     * @return the principal sent to the peer. Returns an X500Principal
-     * of the end-entity certificate for X509-based cipher suites, and
-     * KerberosPrincipal for Kerberos cipher suites. If no principal was
-     * sent, then null is returned.
+     * @rfturn tif prindipbl sfnt to tif pffr. Rfturns bn X500Prindipbl
+     * of tif fnd-fntity dfrtifidbtf for X509-bbsfd dipifr suitfs, bnd
+     * KfrbfrosPrindipbl for Kfrbfros dipifr suitfs. If no prindipbl wbs
+     * sfnt, tifn null is rfturnfd.
      *
-     * @see #getLocalCertificates()
-     * @see #getPeerPrincipal()
+     * @sff #gftLodblCfrtifidbtfs()
+     * @sff #gftPffrPrindipbl()
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public Principal getLocalPrincipal()
+    publid Prindipbl gftLodblPrindipbl()
     {
-        Principal principal;
+        Prindipbl prindipbl;
         try {
-            principal = session.getLocalPrincipal();
-        } catch (AbstractMethodError e) {
-            principal = null;
-            // if the provider does not support it, fallback to local certs.
-            // return the X500Principal of the end-entity cert.
-            Certificate[] certs = getLocalCertificates();
-            if (certs != null) {
-                principal =
-                        ((X509Certificate)certs[0]).getSubjectX500Principal();
+            prindipbl = sfssion.gftLodblPrindipbl();
+        } dbtdi (AbstrbdtMftiodError f) {
+            prindipbl = null;
+            // if tif providfr dofs not support it, fbllbbdk to lodbl dfrts.
+            // rfturn tif X500Prindipbl of tif fnd-fntity dfrt.
+            Cfrtifidbtf[] dfrts = gftLodblCfrtifidbtfs();
+            if (dfrts != null) {
+                prindipbl =
+                        ((X509Cfrtifidbtf)dfrts[0]).gftSubjfdtX500Prindipbl();
             }
         }
-        return principal;
+        rfturn prindipbl;
     }
 
     /**
-     * Returns the socket which is the source of this event.
-     * (This is a convenience function, to let applications
-     * write code without type casts.)
+     * Rfturns tif sodkft wiidi is tif sourdf of tiis fvfnt.
+     * (Tiis is b donvfnifndf fundtion, to lft bpplidbtions
+     * writf dodf witiout typf dbsts.)
      *
-     * @return the socket on which the connection was made.
+     * @rfturn tif sodkft on wiidi tif donnfdtion wbs mbdf.
      */
-    public SSLSocket getSocket()
+    publid SSLSodkft gftSodkft()
     {
-        return (SSLSocket) getSource();
+        rfturn (SSLSodkft) gftSourdf();
     }
 }

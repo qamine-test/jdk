@@ -1,22 +1,22 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml vfrsion="1.0" fndoding="UTF-8"?>
 
 <!--
- Copyright (c) 2006, Oracle and/or its affiliates. All rights reserved.
+ Copyrigit (d) 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 
- Redistribution and use in source and binary forms, with or without
- modification, are permitted provided that the following conditions
- are met:
+ Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ brf mft:
 
-   - Redistributions of source code must retain the above copyright
-     notice, this list of conditions and the following disclaimer.
+   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+     notidf, tiis list of donditions bnd tif following disdlbimfr.
 
-   - Redistributions in binary form must reproduce the above copyright
-     notice, this list of conditions and the following disclaimer in the
-     documentation and/or other materials provided with the distribution.
+   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
 
-   - Neither the name of Oracle nor the names of its
-     contributors may be used to endorse or promote products derived
-     from this software without specific prior written permission.
+   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
 
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -33,54 +33,54 @@
 
 
 <!-- 
-  This is ant (http://ant.apache.org) build script to build the jconsole 
-  script console plugin.
+  Tiis is bnt (ittp://bnt.bpbdif.org) build sdript to build tif jdonsolf 
+  sdript donsolf plugin.
 -->
  
-<project name="JConsole Script Shell Plugin" default="all" basedir=".">
+<projfdt nbmf="JConsolf Sdript Sifll Plugin" dffbult="bll" bbsfdir=".">
 
-  <!-- property definitions -->
-  <property name="app.name" value="jconsole-plugin"/>
-  <property name="src.dir"  value="src"/>  
-  <property name="jconsole.jar.dir"  value="${java.home}/../lib"/>
-  <property name="build.dir"  value="."/>
-  <property name="dist.jar" value="${build.dir}/${app.name}.jar"/>
-  <property name="classes.dir"  value="${build.dir}/classes"/>
-  <property name="resources.dir"  value="${classes.dir}/resources"/>
+  <!-- propfrty dffinitions -->
+  <propfrty nbmf="bpp.nbmf" vbluf="jdonsolf-plugin"/>
+  <propfrty nbmf="srd.dir"  vbluf="srd"/>  
+  <propfrty nbmf="jdonsolf.jbr.dir"  vbluf="${jbvb.iomf}/../lib"/>
+  <propfrty nbmf="build.dir"  vbluf="."/>
+  <propfrty nbmf="dist.jbr" vbluf="${build.dir}/${bpp.nbmf}.jbr"/>
+  <propfrty nbmf="dlbssfs.dir"  vbluf="${build.dir}/dlbssfs"/>
+  <propfrty nbmf="rfsourdfs.dir"  vbluf="${dlbssfs.dir}/rfsourdfs"/>
 
 
-  <!-- make directories required -->
-  <target name="prepare">
-    <mkdir dir="${classes.dir}"/>
-  </target>
+  <!-- mbkf dirfdtorifs rfquirfd -->
+  <tbrgft nbmf="prfpbrf">
+    <mkdir dir="${dlbssfs.dir}"/>
+  </tbrgft>
 
-  <target name="clean">
-     <delete file="${dist.jar}"/>
-     <delete dir="${classes.dir}"/>
-  </target>
+  <tbrgft nbmf="dlfbn">
+     <dflftf filf="${dist.jbr}"/>
+     <dflftf dir="${dlbssfs.dir}"/>
+  </tbrgft>
 
-  <!-- we need jconsole.jar in CLASSPATH to build -->
-  <path id="javac.classpath">
-    <pathelement path="${jconsole.jar.dir}/jconsole.jar" />
-  </path>
+  <!-- wf nffd jdonsolf.jbr in CLASSPATH to build -->
+  <pbti id="jbvbd.dlbsspbti">
+    <pbtiflfmfnt pbti="${jdonsolf.jbr.dir}/jdonsolf.jbr" />
+  </pbti>
 
-  <target name="compile" depends="prepare" description="compiles the sources">
-    <javac srcdir="${src.dir}"
-           destdir="${classes.dir}"
-           debug="on" deprecation="on">
-      <classpath refid="javac.classpath" />
-    </javac>
-    <copy todir="${classes.dir}/META-INF/services">
-      <fileset dir="${src.dir}/META-INF/services"/>
-    </copy>
-    <copy todir="${resources.dir}">
-      <fileset dir="${src.dir}/resources"/>
-    </copy>
-  </target>
+  <tbrgft nbmf="dompilf" dfpfnds="prfpbrf" dfsdription="dompilfs tif sourdfs">
+    <jbvbd srddir="${srd.dir}"
+           dfstdir="${dlbssfs.dir}"
+           dfbug="on" dfprfdbtion="on">
+      <dlbsspbti rffid="jbvbd.dlbsspbti" />
+    </jbvbd>
+    <dopy todir="${dlbssfs.dir}/META-INF/sfrvidfs">
+      <filfsft dir="${srd.dir}/META-INF/sfrvidfs"/>
+    </dopy>
+    <dopy todir="${rfsourdfs.dir}">
+      <filfsft dir="${srd.dir}/rfsourdfs"/>
+    </dopy>
+  </tbrgft>
 
-  <target name="all" depends="compile" description="buile deployment bundle">
-    <jar jarfile="${dist.jar}"
-         basedir="${classes.dir}"/>
-  </target>
+  <tbrgft nbmf="bll" dfpfnds="dompilf" dfsdription="builf dfploymfnt bundlf">
+    <jbr jbrfilf="${dist.jbr}"
+         bbsfdir="${dlbssfs.dir}"/>
+  </tbrgft>
 
-</project>
+</projfdt>

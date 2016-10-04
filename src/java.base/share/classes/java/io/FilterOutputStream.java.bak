@@ -1,161 +1,161 @@
 /*
- * Copyright (c) 1994, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.io;
+pbdkbgf jbvb.io;
 
 /**
- * This class is the superclass of all classes that filter output
- * streams. These streams sit on top of an already existing output
- * stream (the <i>underlying</i> output stream) which it uses as its
- * basic sink of data, but possibly transforming the data along the
- * way or providing additional functionality.
+ * Tiis dlbss is tif supfrdlbss of bll dlbssfs tibt filtfr output
+ * strfbms. Tifsf strfbms sit on top of bn blrfbdy fxisting output
+ * strfbm (tif <i>undfrlying</i> output strfbm) wiidi it usfs bs its
+ * bbsid sink of dbtb, but possibly trbnsforming tif dbtb blong tif
+ * wby or providing bdditionbl fundtionblity.
  * <p>
- * The class <code>FilterOutputStream</code> itself simply overrides
- * all methods of <code>OutputStream</code> with versions that pass
- * all requests to the underlying output stream. Subclasses of
- * <code>FilterOutputStream</code> may further override some of these
- * methods as well as provide additional methods and fields.
+ * Tif dlbss <dodf>FiltfrOutputStrfbm</dodf> itsflf simply ovfrridfs
+ * bll mftiods of <dodf>OutputStrfbm</dodf> witi vfrsions tibt pbss
+ * bll rfqufsts to tif undfrlying output strfbm. Subdlbssfs of
+ * <dodf>FiltfrOutputStrfbm</dodf> mby furtifr ovfrridf somf of tifsf
+ * mftiods bs wfll bs providf bdditionbl mftiods bnd fiflds.
  *
- * @author  Jonathan Payne
- * @since   1.0
+ * @butior  Jonbtibn Pbynf
+ * @sindf   1.0
  */
-public
-class FilterOutputStream extends OutputStream {
+publid
+dlbss FiltfrOutputStrfbm fxtfnds OutputStrfbm {
     /**
-     * The underlying output stream to be filtered.
+     * Tif undfrlying output strfbm to bf filtfrfd.
      */
-    protected OutputStream out;
+    protfdtfd OutputStrfbm out;
 
     /**
-     * Creates an output stream filter built on top of the specified
-     * underlying output stream.
+     * Crfbtfs bn output strfbm filtfr built on top of tif spfdififd
+     * undfrlying output strfbm.
      *
-     * @param   out   the underlying output stream to be assigned to
-     *                the field <tt>this.out</tt> for later use, or
-     *                <code>null</code> if this instance is to be
-     *                created without an underlying stream.
+     * @pbrbm   out   tif undfrlying output strfbm to bf bssignfd to
+     *                tif fifld <tt>tiis.out</tt> for lbtfr usf, or
+     *                <dodf>null</dodf> if tiis instbndf is to bf
+     *                drfbtfd witiout bn undfrlying strfbm.
      */
-    public FilterOutputStream(OutputStream out) {
-        this.out = out;
+    publid FiltfrOutputStrfbm(OutputStrfbm out) {
+        tiis.out = out;
     }
 
     /**
-     * Writes the specified <code>byte</code> to this output stream.
+     * Writfs tif spfdififd <dodf>bytf</dodf> to tiis output strfbm.
      * <p>
-     * The <code>write</code> method of <code>FilterOutputStream</code>
-     * calls the <code>write</code> method of its underlying output stream,
-     * that is, it performs <tt>out.write(b)</tt>.
+     * Tif <dodf>writf</dodf> mftiod of <dodf>FiltfrOutputStrfbm</dodf>
+     * dblls tif <dodf>writf</dodf> mftiod of its undfrlying output strfbm,
+     * tibt is, it pfrforms <tt>out.writf(b)</tt>.
      * <p>
-     * Implements the abstract <tt>write</tt> method of <tt>OutputStream</tt>.
+     * Implfmfnts tif bbstrbdt <tt>writf</tt> mftiod of <tt>OutputStrfbm</tt>.
      *
-     * @param      b   the <code>byte</code>.
-     * @exception  IOException  if an I/O error occurs.
+     * @pbrbm      b   tif <dodf>bytf</dodf>.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
      */
-    public void write(int b) throws IOException {
-        out.write(b);
+    publid void writf(int b) tirows IOExdfption {
+        out.writf(b);
     }
 
     /**
-     * Writes <code>b.length</code> bytes to this output stream.
+     * Writfs <dodf>b.lfngti</dodf> bytfs to tiis output strfbm.
      * <p>
-     * The <code>write</code> method of <code>FilterOutputStream</code>
-     * calls its <code>write</code> method of three arguments with the
-     * arguments <code>b</code>, <code>0</code>, and
-     * <code>b.length</code>.
+     * Tif <dodf>writf</dodf> mftiod of <dodf>FiltfrOutputStrfbm</dodf>
+     * dblls its <dodf>writf</dodf> mftiod of tirff brgumfnts witi tif
+     * brgumfnts <dodf>b</dodf>, <dodf>0</dodf>, bnd
+     * <dodf>b.lfngti</dodf>.
      * <p>
-     * Note that this method does not call the one-argument
-     * <code>write</code> method of its underlying stream with the single
-     * argument <code>b</code>.
+     * Notf tibt tiis mftiod dofs not dbll tif onf-brgumfnt
+     * <dodf>writf</dodf> mftiod of its undfrlying strfbm witi tif singlf
+     * brgumfnt <dodf>b</dodf>.
      *
-     * @param      b   the data to be written.
-     * @exception  IOException  if an I/O error occurs.
-     * @see        java.io.FilterOutputStream#write(byte[], int, int)
+     * @pbrbm      b   tif dbtb to bf writtfn.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @sff        jbvb.io.FiltfrOutputStrfbm#writf(bytf[], int, int)
      */
-    public void write(byte b[]) throws IOException {
-        write(b, 0, b.length);
+    publid void writf(bytf b[]) tirows IOExdfption {
+        writf(b, 0, b.lfngti);
     }
 
     /**
-     * Writes <code>len</code> bytes from the specified
-     * <code>byte</code> array starting at offset <code>off</code> to
-     * this output stream.
+     * Writfs <dodf>lfn</dodf> bytfs from tif spfdififd
+     * <dodf>bytf</dodf> brrby stbrting bt offsft <dodf>off</dodf> to
+     * tiis output strfbm.
      * <p>
-     * The <code>write</code> method of <code>FilterOutputStream</code>
-     * calls the <code>write</code> method of one argument on each
-     * <code>byte</code> to output.
+     * Tif <dodf>writf</dodf> mftiod of <dodf>FiltfrOutputStrfbm</dodf>
+     * dblls tif <dodf>writf</dodf> mftiod of onf brgumfnt on fbdi
+     * <dodf>bytf</dodf> to output.
      * <p>
-     * Note that this method does not call the <code>write</code> method
-     * of its underlying input stream with the same arguments. Subclasses
-     * of <code>FilterOutputStream</code> should provide a more efficient
-     * implementation of this method.
+     * Notf tibt tiis mftiod dofs not dbll tif <dodf>writf</dodf> mftiod
+     * of its undfrlying input strfbm witi tif sbmf brgumfnts. Subdlbssfs
+     * of <dodf>FiltfrOutputStrfbm</dodf> siould providf b morf fffidifnt
+     * implfmfntbtion of tiis mftiod.
      *
-     * @param      b     the data.
-     * @param      off   the start offset in the data.
-     * @param      len   the number of bytes to write.
-     * @exception  IOException  if an I/O error occurs.
-     * @see        java.io.FilterOutputStream#write(int)
+     * @pbrbm      b     tif dbtb.
+     * @pbrbm      off   tif stbrt offsft in tif dbtb.
+     * @pbrbm      lfn   tif numbfr of bytfs to writf.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @sff        jbvb.io.FiltfrOutputStrfbm#writf(int)
      */
-    public void write(byte b[], int off, int len) throws IOException {
-        if ((off | len | (b.length - (len + off)) | (off + len)) < 0)
-            throw new IndexOutOfBoundsException();
+    publid void writf(bytf b[], int off, int lfn) tirows IOExdfption {
+        if ((off | lfn | (b.lfngti - (lfn + off)) | (off + lfn)) < 0)
+            tirow nfw IndfxOutOfBoundsExdfption();
 
-        for (int i = 0 ; i < len ; i++) {
-            write(b[off + i]);
+        for (int i = 0 ; i < lfn ; i++) {
+            writf(b[off + i]);
         }
     }
 
     /**
-     * Flushes this output stream and forces any buffered output bytes
-     * to be written out to the stream.
+     * Flusifs tiis output strfbm bnd fordfs bny bufffrfd output bytfs
+     * to bf writtfn out to tif strfbm.
      * <p>
-     * The <code>flush</code> method of <code>FilterOutputStream</code>
-     * calls the <code>flush</code> method of its underlying output stream.
+     * Tif <dodf>flusi</dodf> mftiod of <dodf>FiltfrOutputStrfbm</dodf>
+     * dblls tif <dodf>flusi</dodf> mftiod of its undfrlying output strfbm.
      *
-     * @exception  IOException  if an I/O error occurs.
-     * @see        java.io.FilterOutputStream#out
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @sff        jbvb.io.FiltfrOutputStrfbm#out
      */
-    public void flush() throws IOException {
-        out.flush();
+    publid void flusi() tirows IOExdfption {
+        out.flusi();
     }
 
     /**
-     * Closes this output stream and releases any system resources
-     * associated with the stream.
+     * Closfs tiis output strfbm bnd rflfbsfs bny systfm rfsourdfs
+     * bssodibtfd witi tif strfbm.
      * <p>
-     * The <code>close</code> method of <code>FilterOutputStream</code>
-     * calls its <code>flush</code> method, and then calls the
-     * <code>close</code> method of its underlying output stream.
+     * Tif <dodf>dlosf</dodf> mftiod of <dodf>FiltfrOutputStrfbm</dodf>
+     * dblls its <dodf>flusi</dodf> mftiod, bnd tifn dblls tif
+     * <dodf>dlosf</dodf> mftiod of its undfrlying output strfbm.
      *
-     * @exception  IOException  if an I/O error occurs.
-     * @see        java.io.FilterOutputStream#flush()
-     * @see        java.io.FilterOutputStream#out
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @sff        jbvb.io.FiltfrOutputStrfbm#flusi()
+     * @sff        jbvb.io.FiltfrOutputStrfbm#out
      */
-    @SuppressWarnings("try")
-    public void close() throws IOException {
-        try (OutputStream ostream = out) {
-            flush();
+    @SupprfssWbrnings("try")
+    publid void dlosf() tirows IOExdfption {
+        try (OutputStrfbm ostrfbm = out) {
+            flusi();
         }
     }
 }

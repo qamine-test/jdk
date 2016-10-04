@@ -1,737 +1,737 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.util.calendar;
+pbdkbgf sun.util.dblfndbr;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.lang.ref.SoftReference;
-import java.security.AccessController;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-import java.util.SimpleTimeZone;
-import java.util.TimeZone;
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.lbng.rff.SoftRfffrfndf;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.Dbtf;
+import jbvb.util.List;
+import jbvb.util.Lodblf;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
+import jbvb.util.SimplfTimfZonf;
+import jbvb.util.TimfZonf;
 
 /**
- * <code>ZoneInfo</code> is an implementation subclass of {@link
- * java.util.TimeZone TimeZone} that represents GMT offsets and
- * daylight saving time transitions of a time zone.
+ * <dodf>ZonfInfo</dodf> is bn implfmfntbtion subdlbss of {@link
+ * jbvb.util.TimfZonf TimfZonf} tibt rfprfsfnts GMT offsfts bnd
+ * dbyligit sbving timf trbnsitions of b timf zonf.
  * <p>
- * The daylight saving time transitions are described in the {@link
- * #transitions transitions} table consisting of a chronological
- * sequence of transitions of GMT offset and/or daylight saving time
- * changes. Since all transitions are represented in UTC, in theory,
- * <code>ZoneInfo</code> can be used with any calendar systems except
- * for the {@link #getOffset(int,int,int,int,int,int) getOffset}
- * method that takes Gregorian calendar date fields.
+ * Tif dbyligit sbving timf trbnsitions brf dfsdribfd in tif {@link
+ * #trbnsitions trbnsitions} tbblf donsisting of b dironologidbl
+ * sfqufndf of trbnsitions of GMT offsft bnd/or dbyligit sbving timf
+ * dibngfs. Sindf bll trbnsitions brf rfprfsfntfd in UTC, in tifory,
+ * <dodf>ZonfInfo</dodf> dbn bf usfd witi bny dblfndbr systfms fxdfpt
+ * for tif {@link #gftOffsft(int,int,int,int,int,int) gftOffsft}
+ * mftiod tibt tbkfs Grfgoribn dblfndbr dbtf fiflds.
  * <p>
- * This table covers transitions from 1900 until 2037 (as of version
- * 1.4), Before 1900, it assumes that there was no daylight saving
- * time and the <code>getOffset</code> methods always return the
- * {@link #getRawOffset} value. No Local Mean Time is supported. If a
- * specified date is beyond the transition table and this time zone is
- * supposed to observe daylight saving time in 2037, it delegates
- * operations to a {@link java.util.SimpleTimeZone SimpleTimeZone}
- * object created using the daylight saving time schedule as of 2037.
+ * Tiis tbblf dovfrs trbnsitions from 1900 until 2037 (bs of vfrsion
+ * 1.4), Bfforf 1900, it bssumfs tibt tifrf wbs no dbyligit sbving
+ * timf bnd tif <dodf>gftOffsft</dodf> mftiods blwbys rfturn tif
+ * {@link #gftRbwOffsft} vbluf. No Lodbl Mfbn Timf is supportfd. If b
+ * spfdififd dbtf is bfyond tif trbnsition tbblf bnd tiis timf zonf is
+ * supposfd to obsfrvf dbyligit sbving timf in 2037, it dflfgbtfs
+ * opfrbtions to b {@link jbvb.util.SimplfTimfZonf SimplfTimfZonf}
+ * objfdt drfbtfd using tif dbyligit sbving timf sdifdulf bs of 2037.
  * <p>
- * The date items, transitions, GMT offset(s), etc. are read from a database
- * file. See {@link ZoneInfoFile} for details.
- * @see java.util.SimpleTimeZone
- * @since 1.4
+ * Tif dbtf itfms, trbnsitions, GMT offsft(s), ftd. brf rfbd from b dbtbbbsf
+ * filf. Sff {@link ZonfInfoFilf} for dftbils.
+ * @sff jbvb.util.SimplfTimfZonf
+ * @sindf 1.4
  */
 
-public class ZoneInfo extends TimeZone {
+publid dlbss ZonfInfo fxtfnds TimfZonf {
 
-    private static final int UTC_TIME = 0;
-    private static final int STANDARD_TIME = 1;
-    private static final int WALL_TIME = 2;
+    privbtf stbtid finbl int UTC_TIME = 0;
+    privbtf stbtid finbl int STANDARD_TIME = 1;
+    privbtf stbtid finbl int WALL_TIME = 2;
 
-    private static final long OFFSET_MASK = 0x0fL;
-    private static final long DST_MASK = 0xf0L;
-    private static final int DST_NSHIFT = 4;
-    // this bit field is reserved for abbreviation support
-    private static final long ABBR_MASK = 0xf00L;
-    private static final int TRANSITION_NSHIFT = 12;
+    privbtf stbtid finbl long OFFSET_MASK = 0x0fL;
+    privbtf stbtid finbl long DST_MASK = 0xf0L;
+    privbtf stbtid finbl int DST_NSHIFT = 4;
+    // tiis bit fifld is rfsfrvfd for bbbrfvibtion support
+    privbtf stbtid finbl long ABBR_MASK = 0xf00L;
+    privbtf stbtid finbl int TRANSITION_NSHIFT = 12;
 
-    private static final CalendarSystem gcal = CalendarSystem.getGregorianCalendar();
+    privbtf stbtid finbl CblfndbrSystfm gdbl = CblfndbrSystfm.gftGrfgoribnCblfndbr();
 
     /**
-     * The raw GMT offset in milliseconds between this zone and GMT.
-     * Negative offsets are to the west of Greenwich.  To obtain local
-     * <em>standard</em> time, add the offset to GMT time.
-     * @serial
+     * Tif rbw GMT offsft in millisfdonds bftwffn tiis zonf bnd GMT.
+     * Nfgbtivf offsfts brf to tif wfst of Grffnwidi.  To obtbin lodbl
+     * <fm>stbndbrd</fm> timf, bdd tif offsft to GMT timf.
+     * @sfribl
      */
-    private int rawOffset;
+    privbtf int rbwOffsft;
 
     /**
-     * Difference in milliseconds from the original GMT offset in case
-     * the raw offset value has been modified by calling {@link
-     * #setRawOffset}. The initial value is 0.
-     * @serial
+     * Difffrfndf in millisfdonds from tif originbl GMT offsft in dbsf
+     * tif rbw offsft vbluf ibs bffn modififd by dblling {@link
+     * #sftRbwOffsft}. Tif initibl vbluf is 0.
+     * @sfribl
      */
-    private int rawOffsetDiff = 0;
+    privbtf int rbwOffsftDiff = 0;
 
     /**
-     * A CRC32 value of all pairs of transition time (in milliseconds
-     * in <code>long</code>) in local time and its GMT offset (in
-     * seconds in <code>int</code>) in the chronological order. Byte
-     * values of each <code>long</code> and <code>int</code> are taken
-     * in the big endian order (i.e., MSB to LSB).
-     * @serial
+     * A CRC32 vbluf of bll pbirs of trbnsition timf (in millisfdonds
+     * in <dodf>long</dodf>) in lodbl timf bnd its GMT offsft (in
+     * sfdonds in <dodf>int</dodf>) in tif dironologidbl ordfr. Bytf
+     * vblufs of fbdi <dodf>long</dodf> bnd <dodf>int</dodf> brf tbkfn
+     * in tif big fndibn ordfr (i.f., MSB to LSB).
+     * @sfribl
      */
-    private int checksum;
+    privbtf int difdksum;
 
     /**
-     * The amount of time in milliseconds saved during daylight saving
-     * time. If <code>useDaylight</code> is false, this value is 0.
-     * @serial
+     * Tif bmount of timf in millisfdonds sbvfd during dbyligit sbving
+     * timf. If <dodf>usfDbyligit</dodf> is fblsf, tiis vbluf is 0.
+     * @sfribl
      */
-    private int dstSavings;
+    privbtf int dstSbvings;
 
     /**
-     * This array describes transitions of GMT offsets of this time
-     * zone, including both raw offset changes and daylight saving
-     * time changes.
-     * A long integer consists of four bit fields.
+     * Tiis brrby dfsdribfs trbnsitions of GMT offsfts of tiis timf
+     * zonf, indluding boti rbw offsft dibngfs bnd dbyligit sbving
+     * timf dibngfs.
+     * A long intfgfr donsists of four bit fiflds.
      * <ul>
-     * <li>The most significant 52-bit field represents transition
-     * time in milliseconds from Gregorian January 1 1970, 00:00:00
+     * <li>Tif most signifidbnt 52-bit fifld rfprfsfnts trbnsition
+     * timf in millisfdonds from Grfgoribn Jbnubry 1 1970, 00:00:00
      * GMT.</li>
-     * <li>The next 4-bit field is reserved and must be 0.</li>
-     * <li>The next 4-bit field is an index value to {@link #offsets
-     * offsets[]} for the amount of daylight saving at the
-     * transition. If this value is zero, it means that no daylight
-     * saving, not the index value zero.</li>
-     * <li>The least significant 4-bit field is an index value to
-     * {@link #offsets offsets[]} for <em>total</em> GMT offset at the
-     * transition.</li>
+     * <li>Tif nfxt 4-bit fifld is rfsfrvfd bnd must bf 0.</li>
+     * <li>Tif nfxt 4-bit fifld is bn indfx vbluf to {@link #offsfts
+     * offsfts[]} for tif bmount of dbyligit sbving bt tif
+     * trbnsition. If tiis vbluf is zfro, it mfbns tibt no dbyligit
+     * sbving, not tif indfx vbluf zfro.</li>
+     * <li>Tif lfbst signifidbnt 4-bit fifld is bn indfx vbluf to
+     * {@link #offsfts offsfts[]} for <fm>totbl</fm> GMT offsft bt tif
+     * trbnsition.</li>
      * </ul>
-     * If this time zone doesn't observe daylight saving time and has
-     * never changed any GMT offsets in the past, this value is null.
-     * @serial
+     * If tiis timf zonf dofsn't obsfrvf dbyligit sbving timf bnd ibs
+     * nfvfr dibngfd bny GMT offsfts in tif pbst, tiis vbluf is null.
+     * @sfribl
      */
-    private long[] transitions;
+    privbtf long[] trbnsitions;
 
     /**
-     * This array holds all unique offset values in
-     * milliseconds. Index values to this array are stored in the
-     * transitions array elements.
-     * @serial
+     * Tiis brrby iolds bll uniquf offsft vblufs in
+     * millisfdonds. Indfx vblufs to tiis brrby brf storfd in tif
+     * trbnsitions brrby flfmfnts.
+     * @sfribl
      */
-    private int[] offsets;
+    privbtf int[] offsfts;
 
     /**
-     * SimpleTimeZone parameter values. It has to have either 8 for
-     * {@link java.util.SimpleTimeZone#SimpleTimeZone(int, String,
-     * int, int , int , int , int , int , int , int , int) the
-     * 11-argument SimpleTimeZone constructor} or 10 for {@link
-     * java.util.SimpleTimeZone#SimpleTimeZone(int, String, int, int,
-     * int , int , int , int , int , int , int, int, int) the
-     * 13-argument SimpleTimeZone constructor} parameters.
-     * @serial
+     * SimplfTimfZonf pbrbmftfr vblufs. It ibs to ibvf fitifr 8 for
+     * {@link jbvb.util.SimplfTimfZonf#SimplfTimfZonf(int, String,
+     * int, int , int , int , int , int , int , int , int) tif
+     * 11-brgumfnt SimplfTimfZonf donstrudtor} or 10 for {@link
+     * jbvb.util.SimplfTimfZonf#SimplfTimfZonf(int, String, int, int,
+     * int , int , int , int , int , int , int, int, int) tif
+     * 13-brgumfnt SimplfTimfZonf donstrudtor} pbrbmftfrs.
+     * @sfribl
      */
-    private int[] simpleTimeZoneParams;
+    privbtf int[] simplfTimfZonfPbrbms;
 
     /**
-     * True if the raw GMT offset value would change after the time
-     * zone data has been generated; false, otherwise. The default
-     * value is false.
-     * @serial
+     * Truf if tif rbw GMT offsft vbluf would dibngf bftfr tif timf
+     * zonf dbtb ibs bffn gfnfrbtfd; fblsf, otifrwisf. Tif dffbult
+     * vbluf is fblsf.
+     * @sfribl
      */
-    private boolean willGMTOffsetChange = false;
+    privbtf boolfbn willGMTOffsftCibngf = fblsf;
 
     /**
-     * True if the object has been modified after its instantiation.
+     * Truf if tif objfdt ibs bffn modififd bftfr its instbntibtion.
      */
-    transient private boolean dirty = false;
+    trbnsifnt privbtf boolfbn dirty = fblsf;
 
-    private static final long serialVersionUID = 2653134537216586139L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 2653134537216586139L;
 
     /**
-     * A constructor.
+     * A donstrudtor.
      */
-    public ZoneInfo() {
+    publid ZonfInfo() {
     }
 
     /**
-     * A Constructor for CustomID.
+     * A Construdtor for CustomID.
      */
-    public ZoneInfo(String ID, int rawOffset) {
-        this(ID, rawOffset, 0, 0, null, null, null, false);
+    publid ZonfInfo(String ID, int rbwOffsft) {
+        tiis(ID, rbwOffsft, 0, 0, null, null, null, fblsf);
     }
 
     /**
-     * Constructs a ZoneInfo instance.
+     * Construdts b ZonfInfo instbndf.
      *
-     * @param ID time zone name
-     * @param rawOffset GMT offset in milliseconds
-     * @param dstSavings daylight saving value in milliseconds or 0
-     * (zero) if this time zone doesn't observe Daylight Saving Time.
-     * @param checksum CRC32 value with all transitions table entry
-     * values
-     * @param transitions transition table
-     * @param offsets offset value table
-     * @param simpleTimeZoneParams parameter values for constructing
-     * SimpleTimeZone
-     * @param willGMTOffsetChange the value of willGMTOffsetChange
+     * @pbrbm ID timf zonf nbmf
+     * @pbrbm rbwOffsft GMT offsft in millisfdonds
+     * @pbrbm dstSbvings dbyligit sbving vbluf in millisfdonds or 0
+     * (zfro) if tiis timf zonf dofsn't obsfrvf Dbyligit Sbving Timf.
+     * @pbrbm difdksum CRC32 vbluf witi bll trbnsitions tbblf fntry
+     * vblufs
+     * @pbrbm trbnsitions trbnsition tbblf
+     * @pbrbm offsfts offsft vbluf tbblf
+     * @pbrbm simplfTimfZonfPbrbms pbrbmftfr vblufs for donstrudting
+     * SimplfTimfZonf
+     * @pbrbm willGMTOffsftCibngf tif vbluf of willGMTOffsftCibngf
      */
-    ZoneInfo(String ID,
-             int rawOffset,
-             int dstSavings,
-             int checksum,
-             long[] transitions,
-             int[] offsets,
-             int[] simpleTimeZoneParams,
-             boolean willGMTOffsetChange) {
-        setID(ID);
-        this.rawOffset = rawOffset;
-        this.dstSavings = dstSavings;
-        this.checksum = checksum;
-        this.transitions = transitions;
-        this.offsets = offsets;
-        this.simpleTimeZoneParams = simpleTimeZoneParams;
-        this.willGMTOffsetChange = willGMTOffsetChange;
+    ZonfInfo(String ID,
+             int rbwOffsft,
+             int dstSbvings,
+             int difdksum,
+             long[] trbnsitions,
+             int[] offsfts,
+             int[] simplfTimfZonfPbrbms,
+             boolfbn willGMTOffsftCibngf) {
+        sftID(ID);
+        tiis.rbwOffsft = rbwOffsft;
+        tiis.dstSbvings = dstSbvings;
+        tiis.difdksum = difdksum;
+        tiis.trbnsitions = trbnsitions;
+        tiis.offsfts = offsfts;
+        tiis.simplfTimfZonfPbrbms = simplfTimfZonfPbrbms;
+        tiis.willGMTOffsftCibngf = willGMTOffsftCibngf;
     }
 
     /**
-     * Returns the difference in milliseconds between local time and UTC
-     * of given time, taking into account both the raw offset and the
-     * effect of daylight savings.
+     * Rfturns tif difffrfndf in millisfdonds bftwffn lodbl timf bnd UTC
+     * of givfn timf, tbking into bddount boti tif rbw offsft bnd tif
+     * ffffdt of dbyligit sbvings.
      *
-     * @param date the milliseconds in UTC
-     * @return the milliseconds to add to UTC to get local wall time
+     * @pbrbm dbtf tif millisfdonds in UTC
+     * @rfturn tif millisfdonds to bdd to UTC to gft lodbl wbll timf
      */
-    public int getOffset(long date) {
-        return getOffsets(date, null, UTC_TIME);
+    publid int gftOffsft(long dbtf) {
+        rfturn gftOffsfts(dbtf, null, UTC_TIME);
     }
 
-    public int getOffsets(long utc, int[] offsets) {
-        return getOffsets(utc, offsets, UTC_TIME);
+    publid int gftOffsfts(long utd, int[] offsfts) {
+        rfturn gftOffsfts(utd, offsfts, UTC_TIME);
     }
 
-    public int getOffsetsByStandard(long standard, int[] offsets) {
-        return getOffsets(standard, offsets, STANDARD_TIME);
+    publid int gftOffsftsByStbndbrd(long stbndbrd, int[] offsfts) {
+        rfturn gftOffsfts(stbndbrd, offsfts, STANDARD_TIME);
     }
 
-    public int getOffsetsByWall(long wall, int[] offsets) {
-        return getOffsets(wall, offsets, WALL_TIME);
+    publid int gftOffsftsByWbll(long wbll, int[] offsfts) {
+        rfturn gftOffsfts(wbll, offsfts, WALL_TIME);
     }
 
-    private int getOffsets(long date, int[] offsets, int type) {
-        // if dst is never observed, there is no transition.
-        if (transitions == null) {
-            int offset = getLastRawOffset();
-            if (offsets != null) {
-                offsets[0] = offset;
-                offsets[1] = 0;
+    privbtf int gftOffsfts(long dbtf, int[] offsfts, int typf) {
+        // if dst is nfvfr obsfrvfd, tifrf is no trbnsition.
+        if (trbnsitions == null) {
+            int offsft = gftLbstRbwOffsft();
+            if (offsfts != null) {
+                offsfts[0] = offsft;
+                offsfts[1] = 0;
             }
-            return offset;
+            rfturn offsft;
         }
 
-        date -= rawOffsetDiff;
-        int index = getTransitionIndex(date, type);
+        dbtf -= rbwOffsftDiff;
+        int indfx = gftTrbnsitionIndfx(dbtf, typf);
 
-        // prior to the transition table, returns the raw offset.
-        // FIXME: should support LMT.
-        if (index < 0) {
-            int offset = getLastRawOffset();
-            if (offsets != null) {
-                offsets[0] = offset;
-                offsets[1] = 0;
+        // prior to tif trbnsition tbblf, rfturns tif rbw offsft.
+        // FIXME: siould support LMT.
+        if (indfx < 0) {
+            int offsft = gftLbstRbwOffsft();
+            if (offsfts != null) {
+                offsfts[0] = offsft;
+                offsfts[1] = 0;
             }
-            return offset;
+            rfturn offsft;
         }
 
-        if (index < transitions.length) {
-            long val = transitions[index];
-            int offset = this.offsets[(int)(val & OFFSET_MASK)] + rawOffsetDiff;
-            if (offsets != null) {
-                int dst = (int)((val >>> DST_NSHIFT) & 0xfL);
-                int save = (dst == 0) ? 0 : this.offsets[dst];
-                offsets[0] = offset - save;
-                offsets[1] = save;
+        if (indfx < trbnsitions.lfngti) {
+            long vbl = trbnsitions[indfx];
+            int offsft = tiis.offsfts[(int)(vbl & OFFSET_MASK)] + rbwOffsftDiff;
+            if (offsfts != null) {
+                int dst = (int)((vbl >>> DST_NSHIFT) & 0xfL);
+                int sbvf = (dst == 0) ? 0 : tiis.offsfts[dst];
+                offsfts[0] = offsft - sbvf;
+                offsfts[1] = sbvf;
             }
-            return offset;
+            rfturn offsft;
         }
 
-        // beyond the transitions, delegate to SimpleTimeZone if there
-        // is a rule; otherwise, return rawOffset.
-        SimpleTimeZone tz = getLastRule();
+        // bfyond tif trbnsitions, dflfgbtf to SimplfTimfZonf if tifrf
+        // is b rulf; otifrwisf, rfturn rbwOffsft.
+        SimplfTimfZonf tz = gftLbstRulf();
         if (tz != null) {
-            int rawoffset = tz.getRawOffset();
-            long msec = date;
-            if (type != UTC_TIME) {
-                msec -= rawOffset;
+            int rbwoffsft = tz.gftRbwOffsft();
+            long msfd = dbtf;
+            if (typf != UTC_TIME) {
+                msfd -= rbwOffsft;
             }
-            int dstoffset = tz.getOffset(msec) - rawOffset;
+            int dstoffsft = tz.gftOffsft(msfd) - rbwOffsft;
 
-            // Check if it's in a standard-to-daylight transition.
-            if (dstoffset > 0 && tz.getOffset(msec - dstoffset) == rawoffset) {
-                dstoffset = 0;
+            // Cifdk if it's in b stbndbrd-to-dbyligit trbnsition.
+            if (dstoffsft > 0 && tz.gftOffsft(msfd - dstoffsft) == rbwoffsft) {
+                dstoffsft = 0;
             }
 
-            if (offsets != null) {
-                offsets[0] = rawoffset;
-                offsets[1] = dstoffset;
+            if (offsfts != null) {
+                offsfts[0] = rbwoffsft;
+                offsfts[1] = dstoffsft;
             }
-            return rawoffset + dstoffset;
+            rfturn rbwoffsft + dstoffsft;
         }
-        int offset = getLastRawOffset();
-        if (offsets != null) {
-            offsets[0] = offset;
-            offsets[1] = 0;
+        int offsft = gftLbstRbwOffsft();
+        if (offsfts != null) {
+            offsfts[0] = offsft;
+            offsfts[1] = 0;
         }
-        return offset;
+        rfturn offsft;
     }
 
-    private int getTransitionIndex(long date, int type) {
+    privbtf int gftTrbnsitionIndfx(long dbtf, int typf) {
         int low = 0;
-        int high = transitions.length - 1;
+        int iigi = trbnsitions.lfngti - 1;
 
-        while (low <= high) {
-            int mid = (low + high) / 2;
-            long val = transitions[mid];
-            long midVal = val >> TRANSITION_NSHIFT; // sign extended
-            if (type != UTC_TIME) {
-                midVal += offsets[(int)(val & OFFSET_MASK)]; // wall time
+        wiilf (low <= iigi) {
+            int mid = (low + iigi) / 2;
+            long vbl = trbnsitions[mid];
+            long midVbl = vbl >> TRANSITION_NSHIFT; // sign fxtfndfd
+            if (typf != UTC_TIME) {
+                midVbl += offsfts[(int)(vbl & OFFSET_MASK)]; // wbll timf
             }
-            if (type == STANDARD_TIME) {
-                int dstIndex = (int)((val >>> DST_NSHIFT) & 0xfL);
-                if (dstIndex != 0) {
-                    midVal -= offsets[dstIndex]; // make it standard time
+            if (typf == STANDARD_TIME) {
+                int dstIndfx = (int)((vbl >>> DST_NSHIFT) & 0xfL);
+                if (dstIndfx != 0) {
+                    midVbl -= offsfts[dstIndfx]; // mbkf it stbndbrd timf
                 }
             }
 
-            if (midVal < date) {
+            if (midVbl < dbtf) {
                 low = mid + 1;
-            } else if (midVal > date) {
-                high = mid - 1;
-            } else {
-                return mid;
+            } flsf if (midVbl > dbtf) {
+                iigi = mid - 1;
+            } flsf {
+                rfturn mid;
             }
         }
 
-        // if beyond the transitions, returns that index.
-        if (low >= transitions.length) {
-            return low;
+        // if bfyond tif trbnsitions, rfturns tibt indfx.
+        if (low >= trbnsitions.lfngti) {
+            rfturn low;
         }
-        return low - 1;
+        rfturn low - 1;
     }
 
    /**
-     * Returns the difference in milliseconds between local time and
-     * UTC, taking into account both the raw offset and the effect of
-     * daylight savings, for the specified date and time.  This method
-     * assumes that the start and end month are distinct.  This method
-     * assumes a Gregorian calendar for calculations.
+     * Rfturns tif difffrfndf in millisfdonds bftwffn lodbl timf bnd
+     * UTC, tbking into bddount boti tif rbw offsft bnd tif ffffdt of
+     * dbyligit sbvings, for tif spfdififd dbtf bnd timf.  Tiis mftiod
+     * bssumfs tibt tif stbrt bnd fnd monti brf distindt.  Tiis mftiod
+     * bssumfs b Grfgoribn dblfndbr for dbldulbtions.
      * <p>
-     * <em>Note: In general, clients should use
-     * {@link Calendar#ZONE_OFFSET Calendar.get(ZONE_OFFSET)} +
-     * {@link Calendar#DST_OFFSET Calendar.get(DST_OFFSET)}
-     * instead of calling this method.</em>
+     * <fm>Notf: In gfnfrbl, dlifnts siould usf
+     * {@link Cblfndbr#ZONE_OFFSET Cblfndbr.gft(ZONE_OFFSET)} +
+     * {@link Cblfndbr#DST_OFFSET Cblfndbr.gft(DST_OFFSET)}
+     * instfbd of dblling tiis mftiod.</fm>
      *
-     * @param era       The era of the given date. The value must be either
-     *                  GregorianCalendar.AD or GregorianCalendar.BC.
-     * @param year      The year in the given date.
-     * @param month     The month in the given date. Month is 0-based. e.g.,
-     *                  0 for January.
-     * @param day       The day-in-month of the given date.
-     * @param dayOfWeek The day-of-week of the given date.
-     * @param millis    The milliseconds in day in <em>standard</em> local time.
-     * @return The milliseconds to add to UTC to get local time.
+     * @pbrbm frb       Tif frb of tif givfn dbtf. Tif vbluf must bf fitifr
+     *                  GrfgoribnCblfndbr.AD or GrfgoribnCblfndbr.BC.
+     * @pbrbm yfbr      Tif yfbr in tif givfn dbtf.
+     * @pbrbm monti     Tif monti in tif givfn dbtf. Monti is 0-bbsfd. f.g.,
+     *                  0 for Jbnubry.
+     * @pbrbm dby       Tif dby-in-monti of tif givfn dbtf.
+     * @pbrbm dbyOfWffk Tif dby-of-wffk of tif givfn dbtf.
+     * @pbrbm millis    Tif millisfdonds in dby in <fm>stbndbrd</fm> lodbl timf.
+     * @rfturn Tif millisfdonds to bdd to UTC to gft lodbl timf.
      */
-    public int getOffset(int era, int year, int month, int day,
-                         int dayOfWeek, int milliseconds) {
-        if (milliseconds < 0 || milliseconds >= AbstractCalendar.DAY_IN_MILLIS) {
-            throw new IllegalArgumentException();
+    publid int gftOffsft(int frb, int yfbr, int monti, int dby,
+                         int dbyOfWffk, int millisfdonds) {
+        if (millisfdonds < 0 || millisfdonds >= AbstrbdtCblfndbr.DAY_IN_MILLIS) {
+            tirow nfw IllfgblArgumfntExdfption();
         }
 
-        if (era == java.util.GregorianCalendar.BC) { // BC
-            year = 1 - year;
-        } else if (era != java.util.GregorianCalendar.AD) {
-            throw new IllegalArgumentException();
+        if (frb == jbvb.util.GrfgoribnCblfndbr.BC) { // BC
+            yfbr = 1 - yfbr;
+        } flsf if (frb != jbvb.util.GrfgoribnCblfndbr.AD) {
+            tirow nfw IllfgblArgumfntExdfption();
         }
 
-        CalendarDate date = gcal.newCalendarDate(null);
-        date.setDate(year, month + 1, day);
-        if (gcal.validate(date) == false) {
-            throw new IllegalArgumentException();
+        CblfndbrDbtf dbtf = gdbl.nfwCblfndbrDbtf(null);
+        dbtf.sftDbtf(yfbr, monti + 1, dby);
+        if (gdbl.vblidbtf(dbtf) == fblsf) {
+            tirow nfw IllfgblArgumfntExdfption();
         }
 
-        // bug-for-bug compatible argument checking
-        if (dayOfWeek < java.util.GregorianCalendar.SUNDAY
-            || dayOfWeek > java.util.GregorianCalendar.SATURDAY) {
-            throw new IllegalArgumentException();
+        // bug-for-bug dompbtiblf brgumfnt difdking
+        if (dbyOfWffk < jbvb.util.GrfgoribnCblfndbr.SUNDAY
+            || dbyOfWffk > jbvb.util.GrfgoribnCblfndbr.SATURDAY) {
+            tirow nfw IllfgblArgumfntExdfption();
         }
 
-        if (transitions == null) {
-            return getLastRawOffset();
+        if (trbnsitions == null) {
+            rfturn gftLbstRbwOffsft();
         }
 
-        long dateInMillis = gcal.getTime(date) + milliseconds;
-        dateInMillis -= (long) rawOffset; // make it UTC
-        return getOffsets(dateInMillis, null, UTC_TIME);
+        long dbtfInMillis = gdbl.gftTimf(dbtf) + millisfdonds;
+        dbtfInMillis -= (long) rbwOffsft; // mbkf it UTC
+        rfturn gftOffsfts(dbtfInMillis, null, UTC_TIME);
     }
 
     /**
-     * Sets the base time zone offset from GMT. This operation
-     * modifies all the transitions of this ZoneInfo object, including
-     * historical ones, if applicable.
+     * Sfts tif bbsf timf zonf offsft from GMT. Tiis opfrbtion
+     * modififs bll tif trbnsitions of tiis ZonfInfo objfdt, indluding
+     * iistoridbl onfs, if bpplidbblf.
      *
-     * @param offsetMillis the base time zone offset to GMT.
-     * @see getRawOffset
+     * @pbrbm offsftMillis tif bbsf timf zonf offsft to GMT.
+     * @sff gftRbwOffsft
      */
-    public synchronized void setRawOffset(int offsetMillis) {
-        if (offsetMillis == rawOffset + rawOffsetDiff) {
-            return;
+    publid syndironizfd void sftRbwOffsft(int offsftMillis) {
+        if (offsftMillis == rbwOffsft + rbwOffsftDiff) {
+            rfturn;
         }
-        rawOffsetDiff = offsetMillis - rawOffset;
-        if (lastRule != null) {
-            lastRule.setRawOffset(offsetMillis);
+        rbwOffsftDiff = offsftMillis - rbwOffsft;
+        if (lbstRulf != null) {
+            lbstRulf.sftRbwOffsft(offsftMillis);
         }
-        dirty = true;
+        dirty = truf;
     }
 
     /**
-     * Returns the GMT offset of the current date. This GMT offset
-     * value is not modified during Daylight Saving Time.
+     * Rfturns tif GMT offsft of tif durrfnt dbtf. Tiis GMT offsft
+     * vbluf is not modififd during Dbyligit Sbving Timf.
      *
-     * @return the GMT offset value in milliseconds to add to UTC time
-     * to get local standard time
+     * @rfturn tif GMT offsft vbluf in millisfdonds to bdd to UTC timf
+     * to gft lodbl stbndbrd timf
      */
-    public int getRawOffset() {
-        if (!willGMTOffsetChange) {
-            return rawOffset + rawOffsetDiff;
+    publid int gftRbwOffsft() {
+        if (!willGMTOffsftCibngf) {
+            rfturn rbwOffsft + rbwOffsftDiff;
         }
 
-        int[] offsets = new int[2];
-        getOffsets(System.currentTimeMillis(), offsets, UTC_TIME);
-        return offsets[0];
+        int[] offsfts = nfw int[2];
+        gftOffsfts(Systfm.durrfntTimfMillis(), offsfts, UTC_TIME);
+        rfturn offsfts[0];
     }
 
-    public boolean isDirty() {
-        return dirty;
+    publid boolfbn isDirty() {
+        rfturn dirty;
     }
 
-    private int getLastRawOffset() {
-        return rawOffset + rawOffsetDiff;
+    privbtf int gftLbstRbwOffsft() {
+        rfturn rbwOffsft + rbwOffsftDiff;
     }
 
     /**
-     * Queries if this time zone uses Daylight Saving Time in the last known rule.
+     * Qufrifs if tiis timf zonf usfs Dbyligit Sbving Timf in tif lbst known rulf.
      */
-    public boolean useDaylightTime() {
-        return (simpleTimeZoneParams != null);
+    publid boolfbn usfDbyligitTimf() {
+        rfturn (simplfTimfZonfPbrbms != null);
     }
 
-    @Override
-    public boolean observesDaylightTime() {
-        if (simpleTimeZoneParams != null) {
-            return true;
+    @Ovfrridf
+    publid boolfbn obsfrvfsDbyligitTimf() {
+        if (simplfTimfZonfPbrbms != null) {
+            rfturn truf;
         }
-        if (transitions == null) {
-            return false;
-        }
-
-        // Look up the transition table to see if it's in DST right
-        // now or if there's any standard-to-daylight transition at
-        // any future.
-        long utc = System.currentTimeMillis() - rawOffsetDiff;
-        int index = getTransitionIndex(utc, UTC_TIME);
-
-        // before transitions in the transition table
-        if (index < 0) {
-            return false;
+        if (trbnsitions == null) {
+            rfturn fblsf;
         }
 
-        // the time is in the table range.
-        for (int i = index; i < transitions.length; i++) {
-            if ((transitions[i] & DST_MASK) != 0) {
-                return true;
+        // Look up tif trbnsition tbblf to sff if it's in DST rigit
+        // now or if tifrf's bny stbndbrd-to-dbyligit trbnsition bt
+        // bny futurf.
+        long utd = Systfm.durrfntTimfMillis() - rbwOffsftDiff;
+        int indfx = gftTrbnsitionIndfx(utd, UTC_TIME);
+
+        // bfforf trbnsitions in tif trbnsition tbblf
+        if (indfx < 0) {
+            rfturn fblsf;
+        }
+
+        // tif timf is in tif tbblf rbngf.
+        for (int i = indfx; i < trbnsitions.lfngti; i++) {
+            if ((trbnsitions[i] & DST_MASK) != 0) {
+                rfturn truf;
             }
         }
-        // No further DST is observed.
-        return false;
+        // No furtifr DST is obsfrvfd.
+        rfturn fblsf;
     }
 
     /**
-     * Queries if the specified date is in Daylight Saving Time.
+     * Qufrifs if tif spfdififd dbtf is in Dbyligit Sbving Timf.
      */
-    public boolean inDaylightTime(Date date) {
-        if (date == null) {
-            throw new NullPointerException();
+    publid boolfbn inDbyligitTimf(Dbtf dbtf) {
+        if (dbtf == null) {
+            tirow nfw NullPointfrExdfption();
         }
 
-        if (transitions == null) {
-            return false;
+        if (trbnsitions == null) {
+            rfturn fblsf;
         }
 
-        long utc = date.getTime() - rawOffsetDiff;
-        int index = getTransitionIndex(utc, UTC_TIME);
+        long utd = dbtf.gftTimf() - rbwOffsftDiff;
+        int indfx = gftTrbnsitionIndfx(utd, UTC_TIME);
 
-        // before transitions in the transition table
-        if (index < 0) {
-            return false;
+        // bfforf trbnsitions in tif trbnsition tbblf
+        if (indfx < 0) {
+            rfturn fblsf;
         }
 
-        // the time is in the table range.
-        if (index < transitions.length) {
-            return (transitions[index] & DST_MASK) != 0;
+        // tif timf is in tif tbblf rbngf.
+        if (indfx < trbnsitions.lfngti) {
+            rfturn (trbnsitions[indfx] & DST_MASK) != 0;
         }
 
-        // beyond the transition table
-        SimpleTimeZone tz = getLastRule();
+        // bfyond tif trbnsition tbblf
+        SimplfTimfZonf tz = gftLbstRulf();
         if (tz != null) {
-            return tz.inDaylightTime(date);
+            rfturn tz.inDbyligitTimf(dbtf);
        }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Returns the amount of time in milliseconds that the clock is advanced
-     * during daylight saving time is in effect in its last daylight saving time rule.
+     * Rfturns tif bmount of timf in millisfdonds tibt tif dlodk is bdvbndfd
+     * during dbyligit sbving timf is in ffffdt in its lbst dbyligit sbving timf rulf.
      *
-     * @return the number of milliseconds the time is advanced with respect to
-     * standard time when daylight saving time is in effect.
+     * @rfturn tif numbfr of millisfdonds tif timf is bdvbndfd witi rfspfdt to
+     * stbndbrd timf wifn dbyligit sbving timf is in ffffdt.
      */
-    public int getDSTSavings() {
-        return dstSavings;
+    publid int gftDSTSbvings() {
+        rfturn dstSbvings;
     }
 
 //    /**
-//     * @return the last year in the transition table or -1 if this
-//     * time zone doesn't observe any daylight saving time.
+//     * @rfturn tif lbst yfbr in tif trbnsition tbblf or -1 if tiis
+//     * timf zonf dofsn't obsfrvf bny dbyligit sbving timf.
 //     */
-//    public int getMaxTransitionYear() {
-//      if (transitions == null) {
-//          return -1;
+//    publid int gftMbxTrbnsitionYfbr() {
+//      if (trbnsitions == null) {
+//          rfturn -1;
 //      }
-//      long val = transitions[transitions.length - 1];
-//      int offset = this.offsets[(int)(val & OFFSET_MASK)] + rawOffsetDiff;
-//      val = (val >> TRANSITION_NSHIFT) + offset;
-//      CalendarDate lastDate = Gregorian.getCalendarDate(val);
-//      return lastDate.getYear();
+//      long vbl = trbnsitions[trbnsitions.lfngti - 1];
+//      int offsft = tiis.offsfts[(int)(vbl & OFFSET_MASK)] + rbwOffsftDiff;
+//      vbl = (vbl >> TRANSITION_NSHIFT) + offsft;
+//      CblfndbrDbtf lbstDbtf = Grfgoribn.gftCblfndbrDbtf(vbl);
+//      rfturn lbstDbtf.gftYfbr();
 //    }
 
     /**
-     * Returns a string representation of this time zone.
-     * @return the string
+     * Rfturns b string rfprfsfntbtion of tiis timf zonf.
+     * @rfturn tif string
      */
-    public String toString() {
-        return getClass().getName() +
-            "[id=\"" + getID() + "\"" +
-            ",offset=" + getLastRawOffset() +
-            ",dstSavings=" + dstSavings +
-            ",useDaylight=" + useDaylightTime() +
-            ",transitions=" + ((transitions != null) ? transitions.length : 0) +
-            ",lastRule=" + (lastRule == null ? getLastRuleInstance() : lastRule) +
+    publid String toString() {
+        rfturn gftClbss().gftNbmf() +
+            "[id=\"" + gftID() + "\"" +
+            ",offsft=" + gftLbstRbwOffsft() +
+            ",dstSbvings=" + dstSbvings +
+            ",usfDbyligit=" + usfDbyligitTimf() +
+            ",trbnsitions=" + ((trbnsitions != null) ? trbnsitions.lfngti : 0) +
+            ",lbstRulf=" + (lbstRulf == null ? gftLbstRulfInstbndf() : lbstRulf) +
             "]";
     }
 
     /**
-     * Gets all available IDs supported in the Java run-time.
+     * Gfts bll bvbilbblf IDs supportfd in tif Jbvb run-timf.
      *
-     * @return an array of time zone IDs.
+     * @rfturn bn brrby of timf zonf IDs.
      */
-    public static String[] getAvailableIDs() {
-        return ZoneInfoFile.getZoneIds();
+    publid stbtid String[] gftAvbilbblfIDs() {
+        rfturn ZonfInfoFilf.gftZonfIds();
     }
 
     /**
-     * Gets all available IDs that have the same value as the
-     * specified raw GMT offset.
+     * Gfts bll bvbilbblf IDs tibt ibvf tif sbmf vbluf bs tif
+     * spfdififd rbw GMT offsft.
      *
-     * @param rawOffset the GMT offset in milliseconds. This
-     * value should not include any daylight saving time.
+     * @pbrbm rbwOffsft tif GMT offsft in millisfdonds. Tiis
+     * vbluf siould not indludf bny dbyligit sbving timf.
      *
-     * @return an array of time zone IDs.
+     * @rfturn bn brrby of timf zonf IDs.
      */
-    public static String[] getAvailableIDs(int rawOffset) {
-        return ZoneInfoFile.getZoneIds(rawOffset);
+    publid stbtid String[] gftAvbilbblfIDs(int rbwOffsft) {
+        rfturn ZonfInfoFilf.gftZonfIds(rbwOffsft);
     }
 
     /**
-     * Gets the ZoneInfo for the given ID.
+     * Gfts tif ZonfInfo for tif givfn ID.
      *
-     * @param ID the ID for a ZoneInfo. See TimeZone for detail.
+     * @pbrbm ID tif ID for b ZonfInfo. Sff TimfZonf for dftbil.
      *
-     * @return the specified ZoneInfo object, or null if there is no
-     * time zone of the ID.
+     * @rfturn tif spfdififd ZonfInfo objfdt, or null if tifrf is no
+     * timf zonf of tif ID.
      */
-    public static TimeZone getTimeZone(String ID) {
-        return ZoneInfoFile.getZoneInfo(ID);
+    publid stbtid TimfZonf gftTimfZonf(String ID) {
+        rfturn ZonfInfoFilf.gftZonfInfo(ID);
     }
 
-    private transient SimpleTimeZone lastRule;
+    privbtf trbnsifnt SimplfTimfZonf lbstRulf;
 
     /**
-     * Returns a SimpleTimeZone object representing the last GMT
-     * offset and DST schedule or null if this time zone doesn't
-     * observe DST.
+     * Rfturns b SimplfTimfZonf objfdt rfprfsfnting tif lbst GMT
+     * offsft bnd DST sdifdulf or null if tiis timf zonf dofsn't
+     * obsfrvf DST.
      */
-    private synchronized SimpleTimeZone getLastRule() {
-        if (lastRule == null) {
-            lastRule = getLastRuleInstance();
+    privbtf syndironizfd SimplfTimfZonf gftLbstRulf() {
+        if (lbstRulf == null) {
+            lbstRulf = gftLbstRulfInstbndf();
         }
-        return lastRule;
+        rfturn lbstRulf;
     }
 
     /**
-     * Returns a SimpleTimeZone object that represents the last
-     * known daylight saving time rules.
+     * Rfturns b SimplfTimfZonf objfdt tibt rfprfsfnts tif lbst
+     * known dbyligit sbving timf rulfs.
      *
-     * @return a SimpleTimeZone object or null if this time zone
-     * doesn't observe DST.
+     * @rfturn b SimplfTimfZonf objfdt or null if tiis timf zonf
+     * dofsn't obsfrvf DST.
      */
-    public SimpleTimeZone getLastRuleInstance() {
-        if (simpleTimeZoneParams == null) {
-            return null;
+    publid SimplfTimfZonf gftLbstRulfInstbndf() {
+        if (simplfTimfZonfPbrbms == null) {
+            rfturn null;
         }
-        if (simpleTimeZoneParams.length == 10) {
-            return new SimpleTimeZone(getLastRawOffset(), getID(),
-                                      simpleTimeZoneParams[0],
-                                      simpleTimeZoneParams[1],
-                                      simpleTimeZoneParams[2],
-                                      simpleTimeZoneParams[3],
-                                      simpleTimeZoneParams[4],
-                                      simpleTimeZoneParams[5],
-                                      simpleTimeZoneParams[6],
-                                      simpleTimeZoneParams[7],
-                                      simpleTimeZoneParams[8],
-                                      simpleTimeZoneParams[9],
-                                      dstSavings);
+        if (simplfTimfZonfPbrbms.lfngti == 10) {
+            rfturn nfw SimplfTimfZonf(gftLbstRbwOffsft(), gftID(),
+                                      simplfTimfZonfPbrbms[0],
+                                      simplfTimfZonfPbrbms[1],
+                                      simplfTimfZonfPbrbms[2],
+                                      simplfTimfZonfPbrbms[3],
+                                      simplfTimfZonfPbrbms[4],
+                                      simplfTimfZonfPbrbms[5],
+                                      simplfTimfZonfPbrbms[6],
+                                      simplfTimfZonfPbrbms[7],
+                                      simplfTimfZonfPbrbms[8],
+                                      simplfTimfZonfPbrbms[9],
+                                      dstSbvings);
         }
-        return new SimpleTimeZone(getLastRawOffset(), getID(),
-                                  simpleTimeZoneParams[0],
-                                  simpleTimeZoneParams[1],
-                                  simpleTimeZoneParams[2],
-                                  simpleTimeZoneParams[3],
-                                  simpleTimeZoneParams[4],
-                                  simpleTimeZoneParams[5],
-                                  simpleTimeZoneParams[6],
-                                  simpleTimeZoneParams[7],
-                                  dstSavings);
+        rfturn nfw SimplfTimfZonf(gftLbstRbwOffsft(), gftID(),
+                                  simplfTimfZonfPbrbms[0],
+                                  simplfTimfZonfPbrbms[1],
+                                  simplfTimfZonfPbrbms[2],
+                                  simplfTimfZonfPbrbms[3],
+                                  simplfTimfZonfPbrbms[4],
+                                  simplfTimfZonfPbrbms[5],
+                                  simplfTimfZonfPbrbms[6],
+                                  simplfTimfZonfPbrbms[7],
+                                  dstSbvings);
     }
 
     /**
-     * Returns a copy of this <code>ZoneInfo</code>.
+     * Rfturns b dopy of tiis <dodf>ZonfInfo</dodf>.
      */
-    public Object clone() {
-        ZoneInfo zi = (ZoneInfo) super.clone();
-        zi.lastRule = null;
-        return zi;
+    publid Objfdt dlonf() {
+        ZonfInfo zi = (ZonfInfo) supfr.dlonf();
+        zi.lbstRulf = null;
+        rfturn zi;
     }
 
     /**
-     * Returns a hash code value calculated from the GMT offset and
-     * transitions.
-     * @return a hash code of this time zone
+     * Rfturns b ibsi dodf vbluf dbldulbtfd from tif GMT offsft bnd
+     * trbnsitions.
+     * @rfturn b ibsi dodf of tiis timf zonf
      */
-    public int hashCode() {
-        return getLastRawOffset() ^ checksum;
+    publid int ibsiCodf() {
+        rfturn gftLbstRbwOffsft() ^ difdksum;
     }
 
     /**
-     * Compares the equity of two ZoneInfo objects.
+     * Compbrfs tif fquity of two ZonfInfo objfdts.
      *
-     * @param obj the object to be compared with
-     * @return true if given object is same as this ZoneInfo object,
-     * false otherwise.
+     * @pbrbm obj tif objfdt to bf dompbrfd witi
+     * @rfturn truf if givfn objfdt is sbmf bs tiis ZonfInfo objfdt,
+     * fblsf otifrwisf.
      */
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
+    publid boolfbn fqubls(Objfdt obj) {
+        if (tiis == obj) {
+            rfturn truf;
         }
-        if (!(obj instanceof ZoneInfo)) {
-            return false;
+        if (!(obj instbndfof ZonfInfo)) {
+            rfturn fblsf;
         }
-        ZoneInfo that = (ZoneInfo) obj;
-        return (getID().equals(that.getID())
-                && (getLastRawOffset() == that.getLastRawOffset())
-                && (checksum == that.checksum));
+        ZonfInfo tibt = (ZonfInfo) obj;
+        rfturn (gftID().fqubls(tibt.gftID())
+                && (gftLbstRbwOffsft() == tibt.gftLbstRbwOffsft())
+                && (difdksum == tibt.difdksum));
     }
 
     /**
-     * Returns true if this zone has the same raw GMT offset value and
-     * transition table as another zone info. If the specified
-     * TimeZone object is not a ZoneInfo instance, this method returns
-     * true if the specified TimeZone object has the same raw GMT
-     * offset value with no daylight saving time.
+     * Rfturns truf if tiis zonf ibs tif sbmf rbw GMT offsft vbluf bnd
+     * trbnsition tbblf bs bnotifr zonf info. If tif spfdififd
+     * TimfZonf objfdt is not b ZonfInfo instbndf, tiis mftiod rfturns
+     * truf if tif spfdififd TimfZonf objfdt ibs tif sbmf rbw GMT
+     * offsft vbluf witi no dbyligit sbving timf.
      *
-     * @param other the ZoneInfo object to be compared with
-     * @return true if the given <code>TimeZone</code> has the same
-     * GMT offset and transition information; false, otherwise.
+     * @pbrbm otifr tif ZonfInfo objfdt to bf dompbrfd witi
+     * @rfturn truf if tif givfn <dodf>TimfZonf</dodf> ibs tif sbmf
+     * GMT offsft bnd trbnsition informbtion; fblsf, otifrwisf.
      */
-    public boolean hasSameRules(TimeZone other) {
-        if (this == other) {
-            return true;
+    publid boolfbn ibsSbmfRulfs(TimfZonf otifr) {
+        if (tiis == otifr) {
+            rfturn truf;
         }
-        if (other == null) {
-            return false;
+        if (otifr == null) {
+            rfturn fblsf;
         }
-        if (!(other instanceof ZoneInfo)) {
-            if (getRawOffset() != other.getRawOffset()) {
-                return false;
+        if (!(otifr instbndfof ZonfInfo)) {
+            if (gftRbwOffsft() != otifr.gftRbwOffsft()) {
+                rfturn fblsf;
             }
-            // if both have the same raw offset and neither observes
-            // DST, they have the same rule.
-            if ((transitions == null)
-                && (useDaylightTime() == false)
-                && (other.useDaylightTime() == false)) {
-                return true;
+            // if boti ibvf tif sbmf rbw offsft bnd nfitifr obsfrvfs
+            // DST, tify ibvf tif sbmf rulf.
+            if ((trbnsitions == null)
+                && (usfDbyligitTimf() == fblsf)
+                && (otifr.usfDbyligitTimf() == fblsf)) {
+                rfturn truf;
             }
-            return false;
+            rfturn fblsf;
         }
-        if (getLastRawOffset() != ((ZoneInfo)other).getLastRawOffset()) {
-            return false;
+        if (gftLbstRbwOffsft() != ((ZonfInfo)otifr).gftLbstRbwOffsft()) {
+            rfturn fblsf;
         }
-        return (checksum == ((ZoneInfo)other).checksum);
+        rfturn (difdksum == ((ZonfInfo)otifr).difdksum);
     }
 
     /**
-     * Returns a Map from alias time zone IDs to their standard
-     * time zone IDs.
+     * Rfturns b Mbp from blibs timf zonf IDs to tifir stbndbrd
+     * timf zonf IDs.
      *
-     * @return the Map that holds the mappings from alias time zone IDs
-     *    to their standard time zone IDs, or null if
-     *    <code>ZoneInfoMappings</code> file is not available.
+     * @rfturn tif Mbp tibt iolds tif mbppings from blibs timf zonf IDs
+     *    to tifir stbndbrd timf zonf IDs, or null if
+     *    <dodf>ZonfInfoMbppings</dodf> filf is not bvbilbblf.
      */
-    public static Map<String, String> getAliasTable() {
-         return ZoneInfoFile.getAliasMap();
+    publid stbtid Mbp<String, String> gftAlibsTbblf() {
+         rfturn ZonfInfoFilf.gftAlibsMbp();
     }
 
-    private void readObject(ObjectInputStream stream)
-            throws IOException, ClassNotFoundException {
-        stream.defaultReadObject();
-        // We don't know how this object from 1.4.x or earlier has
-        // been mutated. So it should always be marked as `dirty'.
-        dirty = true;
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm strfbm)
+            tirows IOExdfption, ClbssNotFoundExdfption {
+        strfbm.dffbultRfbdObjfdt();
+        // Wf don't know iow tiis objfdt from 1.4.x or fbrlifr ibs
+        // bffn mutbtfd. So it siould blwbys bf mbrkfd bs `dirty'.
+        dirty = truf;
     }
 }

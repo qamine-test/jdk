@@ -1,1084 +1,1084 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.imageio.plugins.gif;
+pbdkbgf dom.sun.imbgfio.plugins.gif;
 
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBuffer;
-import java.awt.image.WritableRaster;
-import java.io.EOFException;
-import java.io.IOException;
-import java.nio.ByteOrder;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import javax.imageio.IIOException;
-import javax.imageio.ImageReader;
-import javax.imageio.ImageReadParam;
-import javax.imageio.ImageTypeSpecifier;
-import javax.imageio.metadata.IIOMetadata;
-import javax.imageio.spi.ImageReaderSpi;
-import javax.imageio.stream.ImageInputStream;
-import com.sun.imageio.plugins.common.ReaderUtil;
-import java.awt.image.ColorModel;
-import java.awt.image.IndexColorModel;
-import java.awt.image.MultiPixelPackedSampleModel;
-import java.awt.image.PixelInterleavedSampleModel;
-import java.awt.image.SampleModel;
+import jbvb.bwt.Point;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.DbtbBufffr;
+import jbvb.bwt.imbgf.WritbblfRbstfr;
+import jbvb.io.EOFExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.nio.BytfOrdfr;
+import jbvb.util.ArrbyList;
+import jbvb.util.Itfrbtor;
+import jbvb.util.List;
+import jbvbx.imbgfio.IIOExdfption;
+import jbvbx.imbgfio.ImbgfRfbdfr;
+import jbvbx.imbgfio.ImbgfRfbdPbrbm;
+import jbvbx.imbgfio.ImbgfTypfSpfdififr;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtb;
+import jbvbx.imbgfio.spi.ImbgfRfbdfrSpi;
+import jbvbx.imbgfio.strfbm.ImbgfInputStrfbm;
+import dom.sun.imbgfio.plugins.dommon.RfbdfrUtil;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.IndfxColorModfl;
+import jbvb.bwt.imbgf.MultiPixflPbdkfdSbmplfModfl;
+import jbvb.bwt.imbgf.PixflIntfrlfbvfdSbmplfModfl;
+import jbvb.bwt.imbgf.SbmplfModfl;
 
-public class GIFImageReader extends ImageReader {
+publid dlbss GIFImbgfRfbdfr fxtfnds ImbgfRfbdfr {
 
-    // The current ImageInputStream source.
-    ImageInputStream stream = null;
+    // Tif durrfnt ImbgfInputStrfbm sourdf.
+    ImbgfInputStrfbm strfbm = null;
 
-    // Per-stream settings
+    // Pfr-strfbm sfttings
 
-    // True if the file header including stream metadata has been read.
-    boolean gotHeader = false;
+    // Truf if tif filf ifbdfr indluding strfbm mftbdbtb ibs bffn rfbd.
+    boolfbn gotHfbdfr = fblsf;
 
-    // Global metadata, read once per input setting.
-    GIFStreamMetadata streamMetadata = null;
+    // Globbl mftbdbtb, rfbd ondf pfr input sftting.
+    GIFStrfbmMftbdbtb strfbmMftbdbtb = null;
 
-    // The current image index
-    int currIndex = -1;
+    // Tif durrfnt imbgf indfx
+    int durrIndfx = -1;
 
-    // Metadata for image at 'currIndex', or null.
-    GIFImageMetadata imageMetadata = null;
+    // Mftbdbtb for imbgf bt 'durrIndfx', or null.
+    GIFImbgfMftbdbtb imbgfMftbdbtb = null;
 
-    // A List of Longs indicating the stream positions of the
-    // start of the metadata for each image.  Entries are added
-    // as needed.
-    List<Long> imageStartPosition = new ArrayList<>();
+    // A List of Longs indidbting tif strfbm positions of tif
+    // stbrt of tif mftbdbtb for fbdi imbgf.  Entrifs brf bddfd
+    // bs nffdfd.
+    List<Long> imbgfStbrtPosition = nfw ArrbyList<>();
 
-    // Length of metadata for image at 'currIndex', valid only if
-    // imageMetadata != null.
-    int imageMetadataLength;
+    // Lfngti of mftbdbtb for imbgf bt 'durrIndfx', vblid only if
+    // imbgfMftbdbtb != null.
+    int imbgfMftbdbtbLfngti;
 
-    // The number of images in the stream, if known, otherwise -1.
-    int numImages = -1;
+    // Tif numbfr of imbgfs in tif strfbm, if known, otifrwisf -1.
+    int numImbgfs = -1;
 
-    // Variables used by the LZW decoding process
-    byte[] block = new byte[255];
-    int blockLength = 0;
+    // Vbribblfs usfd by tif LZW dfdoding prodfss
+    bytf[] blodk = nfw bytf[255];
+    int blodkLfngti = 0;
     int bitPos = 0;
-    int nextByte = 0;
-    int initCodeSize;
-    int clearCode;
-    int eofCode;
+    int nfxtBytf = 0;
+    int initCodfSizf;
+    int dlfbrCodf;
+    int fofCodf;
 
-    // 32-bit lookahead buffer
-    int next32Bits = 0;
+    // 32-bit lookbifbd bufffr
+    int nfxt32Bits = 0;
 
-    // Try if the end of the data blocks has been found,
-    // and we are simply draining the 32-bit buffer
-    boolean lastBlockFound = false;
+    // Try if tif fnd of tif dbtb blodks ibs bffn found,
+    // bnd wf brf simply drbining tif 32-bit bufffr
+    boolfbn lbstBlodkFound = fblsf;
 
-    // The image to be written.
-    BufferedImage theImage = null;
+    // Tif imbgf to bf writtfn.
+    BufffrfdImbgf tifImbgf = null;
 
-    // The image's tile.
-    WritableRaster theTile = null;
+    // Tif imbgf's tilf.
+    WritbblfRbstfr tifTilf = null;
 
-    // The image dimensions (from the stream).
-    int width = -1, height = -1;
+    // Tif imbgf dimfnsions (from tif strfbm).
+    int widti = -1, ifigit = -1;
 
-    // The pixel currently being decoded (in the stream's coordinates).
-    int streamX = -1, streamY = -1;
+    // Tif pixfl durrfntly bfing dfdodfd (in tif strfbm's doordinbtfs).
+    int strfbmX = -1, strfbmY = -1;
 
-    // The number of rows decoded
-    int rowsDone = 0;
+    // Tif numbfr of rows dfdodfd
+    int rowsDonf = 0;
 
-    // The current interlace pass, starting with 0.
-    int interlacePass = 0;
+    // Tif durrfnt intfrlbdf pbss, stbrting witi 0.
+    int intfrlbdfPbss = 0;
 
-    private byte[] fallbackColorTable = null;
+    privbtf bytf[] fbllbbdkColorTbblf = null;
 
-    // End per-stream settings
+    // End pfr-strfbm sfttings
 
-    // Constants used to control interlacing.
-    static final int[] interlaceIncrement = { 8, 8, 4, 2, -1 };
-    static final int[] interlaceOffset = { 0, 4, 2, 1, -1 };
+    // Constbnts usfd to dontrol intfrlbding.
+    stbtid finbl int[] intfrlbdfIndrfmfnt = { 8, 8, 4, 2, -1 };
+    stbtid finbl int[] intfrlbdfOffsft = { 0, 4, 2, 1, -1 };
 
-    public GIFImageReader(ImageReaderSpi originatingProvider) {
-        super(originatingProvider);
+    publid GIFImbgfRfbdfr(ImbgfRfbdfrSpi originbtingProvidfr) {
+        supfr(originbtingProvidfr);
     }
 
-    // Take input from an ImageInputStream
-    public void setInput(Object input,
-                         boolean seekForwardOnly,
-                         boolean ignoreMetadata) {
-        super.setInput(input, seekForwardOnly, ignoreMetadata);
+    // Tbkf input from bn ImbgfInputStrfbm
+    publid void sftInput(Objfdt input,
+                         boolfbn sffkForwbrdOnly,
+                         boolfbn ignorfMftbdbtb) {
+        supfr.sftInput(input, sffkForwbrdOnly, ignorfMftbdbtb);
         if (input != null) {
-            if (!(input instanceof ImageInputStream)) {
-                throw new IllegalArgumentException
-                    ("input not an ImageInputStream!");
+            if (!(input instbndfof ImbgfInputStrfbm)) {
+                tirow nfw IllfgblArgumfntExdfption
+                    ("input not bn ImbgfInputStrfbm!");
             }
-            this.stream = (ImageInputStream)input;
-        } else {
-            this.stream = null;
+            tiis.strfbm = (ImbgfInputStrfbm)input;
+        } flsf {
+            tiis.strfbm = null;
         }
 
-        // Clear all values based on the previous stream contents
-        resetStreamSettings();
+        // Clfbr bll vblufs bbsfd on tif prfvious strfbm dontfnts
+        rfsftStrfbmSfttings();
     }
 
-    public int getNumImages(boolean allowSearch) throws IIOException {
-        if (stream == null) {
-            throw new IllegalStateException("Input not set!");
+    publid int gftNumImbgfs(boolfbn bllowSfbrdi) tirows IIOExdfption {
+        if (strfbm == null) {
+            tirow nfw IllfgblStbtfExdfption("Input not sft!");
         }
-        if (seekForwardOnly && allowSearch) {
-            throw new IllegalStateException
-                ("seekForwardOnly and allowSearch can't both be true!");
+        if (sffkForwbrdOnly && bllowSfbrdi) {
+            tirow nfw IllfgblStbtfExdfption
+                ("sffkForwbrdOnly bnd bllowSfbrdi dbn't boti bf truf!");
         }
 
-        if (numImages > 0) {
-            return numImages;
+        if (numImbgfs > 0) {
+            rfturn numImbgfs;
         }
-        if (allowSearch) {
-            this.numImages = locateImage(Integer.MAX_VALUE) + 1;
+        if (bllowSfbrdi) {
+            tiis.numImbgfs = lodbtfImbgf(Intfgfr.MAX_VALUE) + 1;
         }
-        return numImages;
+        rfturn numImbgfs;
     }
 
-    // Throw an IndexOutOfBoundsException if index < minIndex,
-    // and bump minIndex if required.
-    private void checkIndex(int imageIndex) {
-        if (imageIndex < minIndex) {
-            throw new IndexOutOfBoundsException("imageIndex < minIndex!");
+    // Tirow bn IndfxOutOfBoundsExdfption if indfx < minIndfx,
+    // bnd bump minIndfx if rfquirfd.
+    privbtf void difdkIndfx(int imbgfIndfx) {
+        if (imbgfIndfx < minIndfx) {
+            tirow nfw IndfxOutOfBoundsExdfption("imbgfIndfx < minIndfx!");
         }
-        if (seekForwardOnly) {
-            minIndex = imageIndex;
+        if (sffkForwbrdOnly) {
+            minIndfx = imbgfIndfx;
         }
     }
 
-    public int getWidth(int imageIndex) throws IIOException {
-        checkIndex(imageIndex);
+    publid int gftWidti(int imbgfIndfx) tirows IIOExdfption {
+        difdkIndfx(imbgfIndfx);
 
-        int index = locateImage(imageIndex);
-        if (index != imageIndex) {
-            throw new IndexOutOfBoundsException();
+        int indfx = lodbtfImbgf(imbgfIndfx);
+        if (indfx != imbgfIndfx) {
+            tirow nfw IndfxOutOfBoundsExdfption();
         }
-        readMetadata();
-        return imageMetadata.imageWidth;
+        rfbdMftbdbtb();
+        rfturn imbgfMftbdbtb.imbgfWidti;
     }
 
-    public int getHeight(int imageIndex) throws IIOException {
-        checkIndex(imageIndex);
+    publid int gftHfigit(int imbgfIndfx) tirows IIOExdfption {
+        difdkIndfx(imbgfIndfx);
 
-        int index = locateImage(imageIndex);
-        if (index != imageIndex) {
-            throw new IndexOutOfBoundsException();
+        int indfx = lodbtfImbgf(imbgfIndfx);
+        if (indfx != imbgfIndfx) {
+            tirow nfw IndfxOutOfBoundsExdfption();
         }
-        readMetadata();
-        return imageMetadata.imageHeight;
+        rfbdMftbdbtb();
+        rfturn imbgfMftbdbtb.imbgfHfigit;
     }
 
-    // We don't check all parameters as ImageTypeSpecifier.createIndexed do
-    // since this method is private and we pass consistent data here
-    private ImageTypeSpecifier createIndexed(byte[] r, byte[] g, byte[] b,
+    // Wf don't difdk bll pbrbmftfrs bs ImbgfTypfSpfdififr.drfbtfIndfxfd do
+    // sindf tiis mftiod is privbtf bnd wf pbss donsistfnt dbtb ifrf
+    privbtf ImbgfTypfSpfdififr drfbtfIndfxfd(bytf[] r, bytf[] g, bytf[] b,
                                              int bits) {
-        ColorModel colorModel;
-        if (imageMetadata.transparentColorFlag) {
-            // Some files erroneously have a transparent color index
-            // of 255 even though there are fewer than 256 colors.
-            int idx = Math.min(imageMetadata.transparentColorIndex,
-                    r.length - 1);
-            colorModel = new IndexColorModel(bits, r.length, r, g, b, idx);
-        } else {
-            colorModel = new IndexColorModel(bits, r.length, r, g, b);
+        ColorModfl dolorModfl;
+        if (imbgfMftbdbtb.trbnspbrfntColorFlbg) {
+            // Somf filfs frronfously ibvf b trbnspbrfnt dolor indfx
+            // of 255 fvfn tiougi tifrf brf ffwfr tibn 256 dolors.
+            int idx = Mbti.min(imbgfMftbdbtb.trbnspbrfntColorIndfx,
+                    r.lfngti - 1);
+            dolorModfl = nfw IndfxColorModfl(bits, r.lfngti, r, g, b, idx);
+        } flsf {
+            dolorModfl = nfw IndfxColorModfl(bits, r.lfngti, r, g, b);
         }
 
-        SampleModel sampleModel;
+        SbmplfModfl sbmplfModfl;
         if (bits == 8) {
-            int[] bandOffsets = {0};
-            sampleModel =
-                    new PixelInterleavedSampleModel(DataBuffer.TYPE_BYTE,
+            int[] bbndOffsfts = {0};
+            sbmplfModfl =
+                    nfw PixflIntfrlfbvfdSbmplfModfl(DbtbBufffr.TYPE_BYTE,
                     1, 1, 1, 1,
-                    bandOffsets);
-        } else {
-            sampleModel =
-                    new MultiPixelPackedSampleModel(DataBuffer.TYPE_BYTE,
+                    bbndOffsfts);
+        } flsf {
+            sbmplfModfl =
+                    nfw MultiPixflPbdkfdSbmplfModfl(DbtbBufffr.TYPE_BYTE,
                     1, 1, bits);
         }
-        return new ImageTypeSpecifier(colorModel, sampleModel);
+        rfturn nfw ImbgfTypfSpfdififr(dolorModfl, sbmplfModfl);
     }
 
-    public Iterator<ImageTypeSpecifier> getImageTypes(int imageIndex)
-            throws IIOException {
-        checkIndex(imageIndex);
+    publid Itfrbtor<ImbgfTypfSpfdififr> gftImbgfTypfs(int imbgfIndfx)
+            tirows IIOExdfption {
+        difdkIndfx(imbgfIndfx);
 
-        int index = locateImage(imageIndex);
-        if (index != imageIndex) {
-            throw new IndexOutOfBoundsException();
+        int indfx = lodbtfImbgf(imbgfIndfx);
+        if (indfx != imbgfIndfx) {
+            tirow nfw IndfxOutOfBoundsExdfption();
         }
-        readMetadata();
+        rfbdMftbdbtb();
 
-        List<ImageTypeSpecifier> l = new ArrayList<>(1);
+        List<ImbgfTypfSpfdififr> l = nfw ArrbyList<>(1);
 
-        byte[] colorTable;
-        if (imageMetadata.localColorTable != null) {
-            colorTable = imageMetadata.localColorTable;
-            fallbackColorTable = imageMetadata.localColorTable;
-        } else {
-            colorTable = streamMetadata.globalColorTable;
+        bytf[] dolorTbblf;
+        if (imbgfMftbdbtb.lodblColorTbblf != null) {
+            dolorTbblf = imbgfMftbdbtb.lodblColorTbblf;
+            fbllbbdkColorTbblf = imbgfMftbdbtb.lodblColorTbblf;
+        } flsf {
+            dolorTbblf = strfbmMftbdbtb.globblColorTbblf;
         }
 
-        if (colorTable == null) {
-            if (fallbackColorTable == null) {
-                this.processWarningOccurred("Use default color table.");
+        if (dolorTbblf == null) {
+            if (fbllbbdkColorTbblf == null) {
+                tiis.prodfssWbrningOddurrfd("Usf dffbult dolor tbblf.");
 
-                // no color table, the spec allows to use any palette.
-                fallbackColorTable = getDefaultPalette();
+                // no dolor tbblf, tif spfd bllows to usf bny pblfttf.
+                fbllbbdkColorTbblf = gftDffbultPblfttf();
             }
 
-            colorTable = fallbackColorTable;
+            dolorTbblf = fbllbbdkColorTbblf;
         }
 
-        // Normalize color table length to 2^1, 2^2, 2^4, or 2^8
-        int length = colorTable.length/3;
+        // Normblizf dolor tbblf lfngti to 2^1, 2^2, 2^4, or 2^8
+        int lfngti = dolorTbblf.lfngti/3;
         int bits;
-        if (length == 2) {
+        if (lfngti == 2) {
             bits = 1;
-        } else if (length == 4) {
+        } flsf if (lfngti == 4) {
             bits = 2;
-        } else if (length == 8 || length == 16) {
+        } flsf if (lfngti == 8 || lfngti == 16) {
             // Bump from 3 to 4 bits
             bits = 4;
-        } else {
+        } flsf {
             // Bump to 8 bits
             bits = 8;
         }
-        int lutLength = 1 << bits;
-        byte[] r = new byte[lutLength];
-        byte[] g = new byte[lutLength];
-        byte[] b = new byte[lutLength];
+        int lutLfngti = 1 << bits;
+        bytf[] r = nfw bytf[lutLfngti];
+        bytf[] g = nfw bytf[lutLfngti];
+        bytf[] b = nfw bytf[lutLfngti];
 
-        // Entries from length + 1 to lutLength - 1 will be 0
-        int rgbIndex = 0;
-        for (int i = 0; i < length; i++) {
-            r[i] = colorTable[rgbIndex++];
-            g[i] = colorTable[rgbIndex++];
-            b[i] = colorTable[rgbIndex++];
+        // Entrifs from lfngti + 1 to lutLfngti - 1 will bf 0
+        int rgbIndfx = 0;
+        for (int i = 0; i < lfngti; i++) {
+            r[i] = dolorTbblf[rgbIndfx++];
+            g[i] = dolorTbblf[rgbIndfx++];
+            b[i] = dolorTbblf[rgbIndfx++];
         }
 
-        l.add(createIndexed(r, g, b, bits));
-        return l.iterator();
+        l.bdd(drfbtfIndfxfd(r, g, b, bits));
+        rfturn l.itfrbtor();
     }
 
-    public ImageReadParam getDefaultReadParam() {
-        return new ImageReadParam();
+    publid ImbgfRfbdPbrbm gftDffbultRfbdPbrbm() {
+        rfturn nfw ImbgfRfbdPbrbm();
     }
 
-    public IIOMetadata getStreamMetadata() throws IIOException {
-        readHeader();
-        return streamMetadata;
+    publid IIOMftbdbtb gftStrfbmMftbdbtb() tirows IIOExdfption {
+        rfbdHfbdfr();
+        rfturn strfbmMftbdbtb;
     }
 
-    public IIOMetadata getImageMetadata(int imageIndex) throws IIOException {
-        checkIndex(imageIndex);
+    publid IIOMftbdbtb gftImbgfMftbdbtb(int imbgfIndfx) tirows IIOExdfption {
+        difdkIndfx(imbgfIndfx);
 
-        int index = locateImage(imageIndex);
-        if (index != imageIndex) {
-            throw new IndexOutOfBoundsException("Bad image index!");
+        int indfx = lodbtfImbgf(imbgfIndfx);
+        if (indfx != imbgfIndfx) {
+            tirow nfw IndfxOutOfBoundsExdfption("Bbd imbgf indfx!");
         }
-        readMetadata();
-        return imageMetadata;
+        rfbdMftbdbtb();
+        rfturn imbgfMftbdbtb;
     }
 
     // BEGIN LZW STUFF
 
-    private void initNext32Bits() {
-        next32Bits = block[0] & 0xff;
-        next32Bits |= (block[1] & 0xff) << 8;
-        next32Bits |= (block[2] & 0xff) << 16;
-        next32Bits |= block[3] << 24;
-        nextByte = 4;
+    privbtf void initNfxt32Bits() {
+        nfxt32Bits = blodk[0] & 0xff;
+        nfxt32Bits |= (blodk[1] & 0xff) << 8;
+        nfxt32Bits |= (blodk[2] & 0xff) << 16;
+        nfxt32Bits |= blodk[3] << 24;
+        nfxtBytf = 4;
     }
 
-    // Load a block (1-255 bytes) at a time, and maintain
-    // a 32-bit lookahead buffer that is filled from the left
-    // and extracted from the right.
+    // Lobd b blodk (1-255 bytfs) bt b timf, bnd mbintbin
+    // b 32-bit lookbifbd bufffr tibt is fillfd from tif lfft
+    // bnd fxtrbdtfd from tif rigit.
     //
-    // When the last block is found, we continue to
+    // Wifn tif lbst blodk is found, wf dontinuf to
     //
-    private int getCode(int codeSize, int codeMask) throws IOException {
-        if (bitPos + codeSize > 32) {
-            return eofCode; // No more data available
+    privbtf int gftCodf(int dodfSizf, int dodfMbsk) tirows IOExdfption {
+        if (bitPos + dodfSizf > 32) {
+            rfturn fofCodf; // No morf dbtb bvbilbblf
         }
 
-        int code = (next32Bits >> bitPos) & codeMask;
-        bitPos += codeSize;
+        int dodf = (nfxt32Bits >> bitPos) & dodfMbsk;
+        bitPos += dodfSizf;
 
-        // Shift in a byte of new data at a time
-        while (bitPos >= 8 && !lastBlockFound) {
-            next32Bits >>>= 8;
+        // Siift in b bytf of nfw dbtb bt b timf
+        wiilf (bitPos >= 8 && !lbstBlodkFound) {
+            nfxt32Bits >>>= 8;
             bitPos -= 8;
 
-            // Check if current block is out of bytes
-            if (nextByte >= blockLength) {
-                // Get next block size
-                blockLength = stream.readUnsignedByte();
-                if (blockLength == 0) {
-                    lastBlockFound = true;
-                    return code;
-                } else {
-                    int left = blockLength;
+            // Cifdk if durrfnt blodk is out of bytfs
+            if (nfxtBytf >= blodkLfngti) {
+                // Gft nfxt blodk sizf
+                blodkLfngti = strfbm.rfbdUnsignfdBytf();
+                if (blodkLfngti == 0) {
+                    lbstBlodkFound = truf;
+                    rfturn dodf;
+                } flsf {
+                    int lfft = blodkLfngti;
                     int off = 0;
-                    while (left > 0) {
-                        int nbytes = stream.read(block, off, left);
-                        off += nbytes;
-                        left -= nbytes;
+                    wiilf (lfft > 0) {
+                        int nbytfs = strfbm.rfbd(blodk, off, lfft);
+                        off += nbytfs;
+                        lfft -= nbytfs;
                     }
-                    nextByte = 0;
+                    nfxtBytf = 0;
                 }
             }
 
-            next32Bits |= block[nextByte++] << 24;
+            nfxt32Bits |= blodk[nfxtBytf++] << 24;
         }
 
-        return code;
+        rfturn dodf;
     }
 
-    public void initializeStringTable(int[] prefix,
-                                      byte[] suffix,
-                                      byte[] initial,
-                                      int[] length) {
-        int numEntries = 1 << initCodeSize;
-        for (int i = 0; i < numEntries; i++) {
-            prefix[i] = -1;
-            suffix[i] = (byte)i;
-            initial[i] = (byte)i;
-            length[i] = 1;
+    publid void initiblizfStringTbblf(int[] prffix,
+                                      bytf[] suffix,
+                                      bytf[] initibl,
+                                      int[] lfngti) {
+        int numEntrifs = 1 << initCodfSizf;
+        for (int i = 0; i < numEntrifs; i++) {
+            prffix[i] = -1;
+            suffix[i] = (bytf)i;
+            initibl[i] = (bytf)i;
+            lfngti[i] = 1;
         }
 
-        // Fill in the entire table for robustness against
-        // out-of-sequence codes.
-        for (int i = numEntries; i < 4096; i++) {
-            prefix[i] = -1;
-            length[i] = 1;
+        // Fill in tif fntirf tbblf for robustnfss bgbinst
+        // out-of-sfqufndf dodfs.
+        for (int i = numEntrifs; i < 4096; i++) {
+            prffix[i] = -1;
+            lfngti[i] = 1;
         }
 
-        // tableIndex = numEntries + 2;
-        // codeSize = initCodeSize + 1;
-        // codeMask = (1 << codeSize) - 1;
+        // tbblfIndfx = numEntrifs + 2;
+        // dodfSizf = initCodfSizf + 1;
+        // dodfMbsk = (1 << dodfSizf) - 1;
     }
 
-    Rectangle sourceRegion;
-    int sourceXSubsampling;
-    int sourceYSubsampling;
-    int sourceMinProgressivePass;
-    int sourceMaxProgressivePass;
+    Rfdtbnglf sourdfRfgion;
+    int sourdfXSubsbmpling;
+    int sourdfYSubsbmpling;
+    int sourdfMinProgrfssivfPbss;
+    int sourdfMbxProgrfssivfPbss;
 
-    Point destinationOffset;
-    Rectangle destinationRegion;
+    Point dfstinbtionOffsft;
+    Rfdtbnglf dfstinbtionRfgion;
 
-    // Used only if IIOReadUpdateListeners are present
-    int updateMinY;
-    int updateYStep;
+    // Usfd only if IIORfbdUpdbtfListfnfrs brf prfsfnt
+    int updbtfMinY;
+    int updbtfYStfp;
 
-    boolean decodeThisRow = true;
-    int destY = 0;
+    boolfbn dfdodfTiisRow = truf;
+    int dfstY = 0;
 
-    byte[] rowBuf;
+    bytf[] rowBuf;
 
-    private void outputRow() {
-        // Clip against ImageReadParam
-        int width = Math.min(sourceRegion.width,
-                             destinationRegion.width*sourceXSubsampling);
-        int destX = destinationRegion.x;
+    privbtf void outputRow() {
+        // Clip bgbinst ImbgfRfbdPbrbm
+        int widti = Mbti.min(sourdfRfgion.widti,
+                             dfstinbtionRfgion.widti*sourdfXSubsbmpling);
+        int dfstX = dfstinbtionRfgion.x;
 
-        if (sourceXSubsampling == 1) {
-            theTile.setDataElements(destX, destY, width, 1, rowBuf);
-        } else {
-            for (int x = 0; x < width; x += sourceXSubsampling, destX++) {
-                theTile.setSample(destX, destY, 0, rowBuf[x] & 0xff);
+        if (sourdfXSubsbmpling == 1) {
+            tifTilf.sftDbtbElfmfnts(dfstX, dfstY, widti, 1, rowBuf);
+        } flsf {
+            for (int x = 0; x < widti; x += sourdfXSubsbmpling, dfstX++) {
+                tifTilf.sftSbmplf(dfstX, dfstY, 0, rowBuf[x] & 0xff);
             }
         }
 
-        // Update IIOReadUpdateListeners, if any
-        if (updateListeners != null) {
-            int[] bands = { 0 };
-            // updateYStep will have been initialized if
-            // updateListeners is non-null
-            processImageUpdate(theImage,
-                               destX, destY,
-                               width, 1, 1, updateYStep,
-                               bands);
+        // Updbtf IIORfbdUpdbtfListfnfrs, if bny
+        if (updbtfListfnfrs != null) {
+            int[] bbnds = { 0 };
+            // updbtfYStfp will ibvf bffn initiblizfd if
+            // updbtfListfnfrs is non-null
+            prodfssImbgfUpdbtf(tifImbgf,
+                               dfstX, dfstY,
+                               widti, 1, 1, updbtfYStfp,
+                               bbnds);
         }
     }
 
-    private void computeDecodeThisRow() {
-        this.decodeThisRow =
-            (destY < destinationRegion.y + destinationRegion.height) &&
-            (streamY >= sourceRegion.y) &&
-            (streamY < sourceRegion.y + sourceRegion.height) &&
-            (((streamY - sourceRegion.y) % sourceYSubsampling) == 0);
+    privbtf void domputfDfdodfTiisRow() {
+        tiis.dfdodfTiisRow =
+            (dfstY < dfstinbtionRfgion.y + dfstinbtionRfgion.ifigit) &&
+            (strfbmY >= sourdfRfgion.y) &&
+            (strfbmY < sourdfRfgion.y + sourdfRfgion.ifigit) &&
+            (((strfbmY - sourdfRfgion.y) % sourdfYSubsbmpling) == 0);
     }
 
-    private void outputPixels(byte[] string, int len) {
-        if (interlacePass < sourceMinProgressivePass ||
-            interlacePass > sourceMaxProgressivePass) {
-            return;
+    privbtf void outputPixfls(bytf[] string, int lfn) {
+        if (intfrlbdfPbss < sourdfMinProgrfssivfPbss ||
+            intfrlbdfPbss > sourdfMbxProgrfssivfPbss) {
+            rfturn;
         }
 
-        for (int i = 0; i < len; i++) {
-            if (streamX >= sourceRegion.x) {
-                rowBuf[streamX - sourceRegion.x] = string[i];
+        for (int i = 0; i < lfn; i++) {
+            if (strfbmX >= sourdfRfgion.x) {
+                rowBuf[strfbmX - sourdfRfgion.x] = string[i];
             }
 
-            // Process end-of-row
-            ++streamX;
-            if (streamX == width) {
-                // Update IIOReadProgressListeners
-                ++rowsDone;
-                processImageProgress(100.0F*rowsDone/height);
+            // Prodfss fnd-of-row
+            ++strfbmX;
+            if (strfbmX == widti) {
+                // Updbtf IIORfbdProgrfssListfnfrs
+                ++rowsDonf;
+                prodfssImbgfProgrfss(100.0F*rowsDonf/ifigit);
 
-                if (decodeThisRow) {
+                if (dfdodfTiisRow) {
                     outputRow();
                 }
 
-                streamX = 0;
-                if (imageMetadata.interlaceFlag) {
-                    streamY += interlaceIncrement[interlacePass];
-                    if (streamY >= height) {
-                        // Inform IIOReadUpdateListeners of end of pass
-                        if (updateListeners != null) {
-                            processPassComplete(theImage);
+                strfbmX = 0;
+                if (imbgfMftbdbtb.intfrlbdfFlbg) {
+                    strfbmY += intfrlbdfIndrfmfnt[intfrlbdfPbss];
+                    if (strfbmY >= ifigit) {
+                        // Inform IIORfbdUpdbtfListfnfrs of fnd of pbss
+                        if (updbtfListfnfrs != null) {
+                            prodfssPbssComplftf(tifImbgf);
                         }
 
-                        ++interlacePass;
-                        if (interlacePass > sourceMaxProgressivePass) {
-                            return;
+                        ++intfrlbdfPbss;
+                        if (intfrlbdfPbss > sourdfMbxProgrfssivfPbss) {
+                            rfturn;
                         }
-                        streamY = interlaceOffset[interlacePass];
-                        startPass(interlacePass);
+                        strfbmY = intfrlbdfOffsft[intfrlbdfPbss];
+                        stbrtPbss(intfrlbdfPbss);
                     }
-                } else {
-                    ++streamY;
+                } flsf {
+                    ++strfbmY;
                 }
 
-                // Determine whether pixels from this row will
-                // be written to the destination
-                this.destY = destinationRegion.y +
-                    (streamY - sourceRegion.y)/sourceYSubsampling;
-                computeDecodeThisRow();
+                // Dftfrminf wiftifr pixfls from tiis row will
+                // bf writtfn to tif dfstinbtion
+                tiis.dfstY = dfstinbtionRfgion.y +
+                    (strfbmY - sourdfRfgion.y)/sourdfYSubsbmpling;
+                domputfDfdodfTiisRow();
             }
         }
     }
 
     // END LZW STUFF
 
-    private void readHeader() throws IIOException {
-        if (gotHeader) {
-            return;
+    privbtf void rfbdHfbdfr() tirows IIOExdfption {
+        if (gotHfbdfr) {
+            rfturn;
         }
-        if (stream == null) {
-            throw new IllegalStateException("Input not set!");
+        if (strfbm == null) {
+            tirow nfw IllfgblStbtfExdfption("Input not sft!");
         }
 
-        // Create an object to store the stream metadata
-        this.streamMetadata = new GIFStreamMetadata();
+        // Crfbtf bn objfdt to storf tif strfbm mftbdbtb
+        tiis.strfbmMftbdbtb = nfw GIFStrfbmMftbdbtb();
 
         try {
-            stream.setByteOrder(ByteOrder.LITTLE_ENDIAN);
+            strfbm.sftBytfOrdfr(BytfOrdfr.LITTLE_ENDIAN);
 
-            byte[] signature = new byte[6];
-            stream.readFully(signature);
+            bytf[] signbturf = nfw bytf[6];
+            strfbm.rfbdFully(signbturf);
 
-            StringBuilder version = new StringBuilder(3);
-            version.append((char)signature[3]);
-            version.append((char)signature[4]);
-            version.append((char)signature[5]);
-            streamMetadata.version = version.toString();
+            StringBuildfr vfrsion = nfw StringBuildfr(3);
+            vfrsion.bppfnd((dibr)signbturf[3]);
+            vfrsion.bppfnd((dibr)signbturf[4]);
+            vfrsion.bppfnd((dibr)signbturf[5]);
+            strfbmMftbdbtb.vfrsion = vfrsion.toString();
 
-            streamMetadata.logicalScreenWidth = stream.readUnsignedShort();
-            streamMetadata.logicalScreenHeight = stream.readUnsignedShort();
+            strfbmMftbdbtb.logidblSdrffnWidti = strfbm.rfbdUnsignfdSiort();
+            strfbmMftbdbtb.logidblSdrffnHfigit = strfbm.rfbdUnsignfdSiort();
 
-            int packedFields = stream.readUnsignedByte();
-            boolean globalColorTableFlag = (packedFields & 0x80) != 0;
-            streamMetadata.colorResolution = ((packedFields >> 4) & 0x7) + 1;
-            streamMetadata.sortFlag = (packedFields & 0x8) != 0;
-            int numGCTEntries = 1 << ((packedFields & 0x7) + 1);
+            int pbdkfdFiflds = strfbm.rfbdUnsignfdBytf();
+            boolfbn globblColorTbblfFlbg = (pbdkfdFiflds & 0x80) != 0;
+            strfbmMftbdbtb.dolorRfsolution = ((pbdkfdFiflds >> 4) & 0x7) + 1;
+            strfbmMftbdbtb.sortFlbg = (pbdkfdFiflds & 0x8) != 0;
+            int numGCTEntrifs = 1 << ((pbdkfdFiflds & 0x7) + 1);
 
-            streamMetadata.backgroundColorIndex = stream.readUnsignedByte();
-            streamMetadata.pixelAspectRatio = stream.readUnsignedByte();
+            strfbmMftbdbtb.bbdkgroundColorIndfx = strfbm.rfbdUnsignfdBytf();
+            strfbmMftbdbtb.pixflAspfdtRbtio = strfbm.rfbdUnsignfdBytf();
 
-            if (globalColorTableFlag) {
-                streamMetadata.globalColorTable = new byte[3*numGCTEntries];
-                stream.readFully(streamMetadata.globalColorTable);
-            } else {
-                streamMetadata.globalColorTable = null;
+            if (globblColorTbblfFlbg) {
+                strfbmMftbdbtb.globblColorTbblf = nfw bytf[3*numGCTEntrifs];
+                strfbm.rfbdFully(strfbmMftbdbtb.globblColorTbblf);
+            } flsf {
+                strfbmMftbdbtb.globblColorTbblf = null;
             }
 
-            // Found position of metadata for image 0
-            imageStartPosition.add(Long.valueOf(stream.getStreamPosition()));
-        } catch (IOException e) {
-            throw new IIOException("I/O error reading header!", e);
+            // Found position of mftbdbtb for imbgf 0
+            imbgfStbrtPosition.bdd(Long.vblufOf(strfbm.gftStrfbmPosition()));
+        } dbtdi (IOExdfption f) {
+            tirow nfw IIOExdfption("I/O frror rfbding ifbdfr!", f);
         }
 
-        gotHeader = true;
+        gotHfbdfr = truf;
     }
 
-    private boolean skipImage() throws IIOException {
-        // Stream must be at the beginning of an image descriptor
-        // upon exit
+    privbtf boolfbn skipImbgf() tirows IIOExdfption {
+        // Strfbm must bf bt tif bfginning of bn imbgf dfsdriptor
+        // upon fxit
 
         try {
-            while (true) {
-                int blockType = stream.readUnsignedByte();
+            wiilf (truf) {
+                int blodkTypf = strfbm.rfbdUnsignfdBytf();
 
-                if (blockType == 0x2c) {
-                    stream.skipBytes(8);
+                if (blodkTypf == 0x2d) {
+                    strfbm.skipBytfs(8);
 
-                    int packedFields = stream.readUnsignedByte();
-                    if ((packedFields & 0x80) != 0) {
-                        // Skip color table if any
-                        int bits = (packedFields & 0x7) + 1;
-                        stream.skipBytes(3*(1 << bits));
+                    int pbdkfdFiflds = strfbm.rfbdUnsignfdBytf();
+                    if ((pbdkfdFiflds & 0x80) != 0) {
+                        // Skip dolor tbblf if bny
+                        int bits = (pbdkfdFiflds & 0x7) + 1;
+                        strfbm.skipBytfs(3*(1 << bits));
                     }
 
-                    stream.skipBytes(1);
+                    strfbm.skipBytfs(1);
 
-                    int length = 0;
+                    int lfngti = 0;
                     do {
-                        length = stream.readUnsignedByte();
-                        stream.skipBytes(length);
-                    } while (length > 0);
+                        lfngti = strfbm.rfbdUnsignfdBytf();
+                        strfbm.skipBytfs(lfngti);
+                    } wiilf (lfngti > 0);
 
-                    return true;
-                } else if (blockType == 0x3b) {
-                    return false;
-                } else if (blockType == 0x21) {
-                    int label = stream.readUnsignedByte();
+                    rfturn truf;
+                } flsf if (blodkTypf == 0x3b) {
+                    rfturn fblsf;
+                } flsf if (blodkTypf == 0x21) {
+                    int lbbfl = strfbm.rfbdUnsignfdBytf();
 
-                    int length = 0;
+                    int lfngti = 0;
                     do {
-                        length = stream.readUnsignedByte();
-                        stream.skipBytes(length);
-                    } while (length > 0);
-                } else if (blockType == 0x0) {
+                        lfngti = strfbm.rfbdUnsignfdBytf();
+                        strfbm.skipBytfs(lfngti);
+                    } wiilf (lfngti > 0);
+                } flsf if (blodkTypf == 0x0) {
                     // EOF
-                    return false;
-                } else {
-                    int length = 0;
+                    rfturn fblsf;
+                } flsf {
+                    int lfngti = 0;
                     do {
-                        length = stream.readUnsignedByte();
-                        stream.skipBytes(length);
-                    } while (length > 0);
+                        lfngti = strfbm.rfbdUnsignfdBytf();
+                        strfbm.skipBytfs(lfngti);
+                    } wiilf (lfngti > 0);
                 }
             }
-        } catch (EOFException e) {
-            return false;
-        } catch (IOException e) {
-            throw new IIOException("I/O error locating image!", e);
+        } dbtdi (EOFExdfption f) {
+            rfturn fblsf;
+        } dbtdi (IOExdfption f) {
+            tirow nfw IIOExdfption("I/O frror lodbting imbgf!", f);
         }
     }
 
-    private int locateImage(int imageIndex) throws IIOException {
-        readHeader();
+    privbtf int lodbtfImbgf(int imbgfIndfx) tirows IIOExdfption {
+        rfbdHfbdfr();
 
         try {
-            // Find closest known index
-            int index = Math.min(imageIndex, imageStartPosition.size() - 1);
+            // Find dlosfst known indfx
+            int indfx = Mbti.min(imbgfIndfx, imbgfStbrtPosition.sizf() - 1);
 
-            // Seek to that position
-            Long l = imageStartPosition.get(index);
-            stream.seek(l.longValue());
+            // Sffk to tibt position
+            Long l = imbgfStbrtPosition.gft(indfx);
+            strfbm.sffk(l.longVbluf());
 
-            // Skip images until at desired index or last image found
-            while (index < imageIndex) {
-                if (!skipImage()) {
-                    --index;
-                    return index;
+            // Skip imbgfs until bt dfsirfd indfx or lbst imbgf found
+            wiilf (indfx < imbgfIndfx) {
+                if (!skipImbgf()) {
+                    --indfx;
+                    rfturn indfx;
                 }
 
-                Long l1 = stream.getStreamPosition();
-                imageStartPosition.add(l1);
-                ++index;
+                Long l1 = strfbm.gftStrfbmPosition();
+                imbgfStbrtPosition.bdd(l1);
+                ++indfx;
             }
-        } catch (IOException e) {
-            throw new IIOException("Couldn't seek!", e);
+        } dbtdi (IOExdfption f) {
+            tirow nfw IIOExdfption("Couldn't sffk!", f);
         }
 
-        if (currIndex != imageIndex) {
-            imageMetadata = null;
+        if (durrIndfx != imbgfIndfx) {
+            imbgfMftbdbtb = null;
         }
-        currIndex = imageIndex;
-        return imageIndex;
+        durrIndfx = imbgfIndfx;
+        rfturn imbgfIndfx;
     }
 
-    // Read blocks of 1-255 bytes, stop at a 0-length block
-    private byte[] concatenateBlocks() throws IOException {
-        byte[] data = new byte[0];
-        while (true) {
-            int length = stream.readUnsignedByte();
-            if (length == 0) {
-                break;
+    // Rfbd blodks of 1-255 bytfs, stop bt b 0-lfngti blodk
+    privbtf bytf[] dondbtfnbtfBlodks() tirows IOExdfption {
+        bytf[] dbtb = nfw bytf[0];
+        wiilf (truf) {
+            int lfngti = strfbm.rfbdUnsignfdBytf();
+            if (lfngti == 0) {
+                brfbk;
             }
-            byte[] newData = new byte[data.length + length];
-            System.arraycopy(data, 0, newData, 0, data.length);
-            stream.readFully(newData, data.length, length);
-            data = newData;
+            bytf[] nfwDbtb = nfw bytf[dbtb.lfngti + lfngti];
+            Systfm.brrbydopy(dbtb, 0, nfwDbtb, 0, dbtb.lfngti);
+            strfbm.rfbdFully(nfwDbtb, dbtb.lfngti, lfngti);
+            dbtb = nfwDbtb;
         }
 
-        return data;
+        rfturn dbtb;
     }
 
-    // Stream must be positioned at start of metadata for 'currIndex'
-    private void readMetadata() throws IIOException {
-        if (stream == null) {
-            throw new IllegalStateException("Input not set!");
+    // Strfbm must bf positionfd bt stbrt of mftbdbtb for 'durrIndfx'
+    privbtf void rfbdMftbdbtb() tirows IIOExdfption {
+        if (strfbm == null) {
+            tirow nfw IllfgblStbtfExdfption("Input not sft!");
         }
 
         try {
-            // Create an object to store the image metadata
-            this.imageMetadata = new GIFImageMetadata();
+            // Crfbtf bn objfdt to storf tif imbgf mftbdbtb
+            tiis.imbgfMftbdbtb = nfw GIFImbgfMftbdbtb();
 
-            long startPosition = stream.getStreamPosition();
-            while (true) {
-                int blockType = stream.readUnsignedByte();
-                if (blockType == 0x2c) { // Image Descriptor
-                    imageMetadata.imageLeftPosition =
-                        stream.readUnsignedShort();
-                    imageMetadata.imageTopPosition =
-                        stream.readUnsignedShort();
-                    imageMetadata.imageWidth = stream.readUnsignedShort();
-                    imageMetadata.imageHeight = stream.readUnsignedShort();
+            long stbrtPosition = strfbm.gftStrfbmPosition();
+            wiilf (truf) {
+                int blodkTypf = strfbm.rfbdUnsignfdBytf();
+                if (blodkTypf == 0x2d) { // Imbgf Dfsdriptor
+                    imbgfMftbdbtb.imbgfLfftPosition =
+                        strfbm.rfbdUnsignfdSiort();
+                    imbgfMftbdbtb.imbgfTopPosition =
+                        strfbm.rfbdUnsignfdSiort();
+                    imbgfMftbdbtb.imbgfWidti = strfbm.rfbdUnsignfdSiort();
+                    imbgfMftbdbtb.imbgfHfigit = strfbm.rfbdUnsignfdSiort();
 
-                    int idPackedFields = stream.readUnsignedByte();
-                    boolean localColorTableFlag =
-                        (idPackedFields & 0x80) != 0;
-                    imageMetadata.interlaceFlag = (idPackedFields & 0x40) != 0;
-                    imageMetadata.sortFlag = (idPackedFields & 0x20) != 0;
-                    int numLCTEntries = 1 << ((idPackedFields & 0x7) + 1);
+                    int idPbdkfdFiflds = strfbm.rfbdUnsignfdBytf();
+                    boolfbn lodblColorTbblfFlbg =
+                        (idPbdkfdFiflds & 0x80) != 0;
+                    imbgfMftbdbtb.intfrlbdfFlbg = (idPbdkfdFiflds & 0x40) != 0;
+                    imbgfMftbdbtb.sortFlbg = (idPbdkfdFiflds & 0x20) != 0;
+                    int numLCTEntrifs = 1 << ((idPbdkfdFiflds & 0x7) + 1);
 
-                    if (localColorTableFlag) {
-                        // Read color table if any
-                        imageMetadata.localColorTable =
-                            new byte[3*numLCTEntries];
-                        stream.readFully(imageMetadata.localColorTable);
-                    } else {
-                        imageMetadata.localColorTable = null;
+                    if (lodblColorTbblfFlbg) {
+                        // Rfbd dolor tbblf if bny
+                        imbgfMftbdbtb.lodblColorTbblf =
+                            nfw bytf[3*numLCTEntrifs];
+                        strfbm.rfbdFully(imbgfMftbdbtb.lodblColorTbblf);
+                    } flsf {
+                        imbgfMftbdbtb.lodblColorTbblf = null;
                     }
 
-                    // Record length of this metadata block
-                    this.imageMetadataLength =
-                        (int)(stream.getStreamPosition() - startPosition);
+                    // Rfdord lfngti of tiis mftbdbtb blodk
+                    tiis.imbgfMftbdbtbLfngti =
+                        (int)(strfbm.gftStrfbmPosition() - stbrtPosition);
 
-                    // Now positioned at start of LZW-compressed pixels
-                    return;
-                } else if (blockType == 0x21) { // Extension block
-                    int label = stream.readUnsignedByte();
+                    // Now positionfd bt stbrt of LZW-domprfssfd pixfls
+                    rfturn;
+                } flsf if (blodkTypf == 0x21) { // Extfnsion blodk
+                    int lbbfl = strfbm.rfbdUnsignfdBytf();
 
-                    if (label == 0xf9) { // Graphics Control Extension
-                        int gceLength = stream.readUnsignedByte(); // 4
-                        int gcePackedFields = stream.readUnsignedByte();
-                        imageMetadata.disposalMethod =
-                            (gcePackedFields >> 2) & 0x3;
-                        imageMetadata.userInputFlag =
-                            (gcePackedFields & 0x2) != 0;
-                        imageMetadata.transparentColorFlag =
-                            (gcePackedFields & 0x1) != 0;
+                    if (lbbfl == 0xf9) { // Grbpiids Control Extfnsion
+                        int gdfLfngti = strfbm.rfbdUnsignfdBytf(); // 4
+                        int gdfPbdkfdFiflds = strfbm.rfbdUnsignfdBytf();
+                        imbgfMftbdbtb.disposblMftiod =
+                            (gdfPbdkfdFiflds >> 2) & 0x3;
+                        imbgfMftbdbtb.usfrInputFlbg =
+                            (gdfPbdkfdFiflds & 0x2) != 0;
+                        imbgfMftbdbtb.trbnspbrfntColorFlbg =
+                            (gdfPbdkfdFiflds & 0x1) != 0;
 
-                        imageMetadata.delayTime = stream.readUnsignedShort();
-                        imageMetadata.transparentColorIndex
-                            = stream.readUnsignedByte();
+                        imbgfMftbdbtb.dflbyTimf = strfbm.rfbdUnsignfdSiort();
+                        imbgfMftbdbtb.trbnspbrfntColorIndfx
+                            = strfbm.rfbdUnsignfdBytf();
 
-                        int terminator = stream.readUnsignedByte();
-                    } else if (label == 0x1) { // Plain text extension
-                        int length = stream.readUnsignedByte();
-                        imageMetadata.hasPlainTextExtension = true;
-                        imageMetadata.textGridLeft =
-                            stream.readUnsignedShort();
-                        imageMetadata.textGridTop =
-                            stream.readUnsignedShort();
-                        imageMetadata.textGridWidth =
-                            stream.readUnsignedShort();
-                        imageMetadata.textGridHeight =
-                            stream.readUnsignedShort();
-                        imageMetadata.characterCellWidth =
-                            stream.readUnsignedByte();
-                        imageMetadata.characterCellHeight =
-                            stream.readUnsignedByte();
-                        imageMetadata.textForegroundColor =
-                            stream.readUnsignedByte();
-                        imageMetadata.textBackgroundColor =
-                            stream.readUnsignedByte();
-                        imageMetadata.text = concatenateBlocks();
-                    } else if (label == 0xfe) { // Comment extension
-                        byte[] comment = concatenateBlocks();
-                        if (imageMetadata.comments == null) {
-                            imageMetadata.comments = new ArrayList<>();
+                        int tfrminbtor = strfbm.rfbdUnsignfdBytf();
+                    } flsf if (lbbfl == 0x1) { // Plbin tfxt fxtfnsion
+                        int lfngti = strfbm.rfbdUnsignfdBytf();
+                        imbgfMftbdbtb.ibsPlbinTfxtExtfnsion = truf;
+                        imbgfMftbdbtb.tfxtGridLfft =
+                            strfbm.rfbdUnsignfdSiort();
+                        imbgfMftbdbtb.tfxtGridTop =
+                            strfbm.rfbdUnsignfdSiort();
+                        imbgfMftbdbtb.tfxtGridWidti =
+                            strfbm.rfbdUnsignfdSiort();
+                        imbgfMftbdbtb.tfxtGridHfigit =
+                            strfbm.rfbdUnsignfdSiort();
+                        imbgfMftbdbtb.dibrbdtfrCfllWidti =
+                            strfbm.rfbdUnsignfdBytf();
+                        imbgfMftbdbtb.dibrbdtfrCfllHfigit =
+                            strfbm.rfbdUnsignfdBytf();
+                        imbgfMftbdbtb.tfxtForfgroundColor =
+                            strfbm.rfbdUnsignfdBytf();
+                        imbgfMftbdbtb.tfxtBbdkgroundColor =
+                            strfbm.rfbdUnsignfdBytf();
+                        imbgfMftbdbtb.tfxt = dondbtfnbtfBlodks();
+                    } flsf if (lbbfl == 0xff) { // Commfnt fxtfnsion
+                        bytf[] dommfnt = dondbtfnbtfBlodks();
+                        if (imbgfMftbdbtb.dommfnts == null) {
+                            imbgfMftbdbtb.dommfnts = nfw ArrbyList<>();
                         }
-                        imageMetadata.comments.add(comment);
-                    } else if (label == 0xff) { // Application extension
-                        int blockSize = stream.readUnsignedByte();
-                        byte[] applicationID = new byte[8];
-                        byte[] authCode = new byte[3];
+                        imbgfMftbdbtb.dommfnts.bdd(dommfnt);
+                    } flsf if (lbbfl == 0xff) { // Applidbtion fxtfnsion
+                        int blodkSizf = strfbm.rfbdUnsignfdBytf();
+                        bytf[] bpplidbtionID = nfw bytf[8];
+                        bytf[] butiCodf = nfw bytf[3];
 
-                        // read available data
-                        byte[] blockData = new byte[blockSize];
-                        stream.readFully(blockData);
+                        // rfbd bvbilbblf dbtb
+                        bytf[] blodkDbtb = nfw bytf[blodkSizf];
+                        strfbm.rfbdFully(blodkDbtb);
 
-                        int offset = copyData(blockData, 0, applicationID);
-                        offset = copyData(blockData, offset, authCode);
+                        int offsft = dopyDbtb(blodkDbtb, 0, bpplidbtionID);
+                        offsft = dopyDbtb(blodkDbtb, offsft, butiCodf);
 
-                        byte[] applicationData = concatenateBlocks();
+                        bytf[] bpplidbtionDbtb = dondbtfnbtfBlodks();
 
-                        if (offset < blockSize) {
-                            int len = blockSize - offset;
-                            byte[] data =
-                                new byte[len + applicationData.length];
+                        if (offsft < blodkSizf) {
+                            int lfn = blodkSizf - offsft;
+                            bytf[] dbtb =
+                                nfw bytf[lfn + bpplidbtionDbtb.lfngti];
 
-                            System.arraycopy(blockData, offset, data, 0, len);
-                            System.arraycopy(applicationData, 0, data, len,
-                                             applicationData.length);
+                            Systfm.brrbydopy(blodkDbtb, offsft, dbtb, 0, lfn);
+                            Systfm.brrbydopy(bpplidbtionDbtb, 0, dbtb, lfn,
+                                             bpplidbtionDbtb.lfngti);
 
-                            applicationData = data;
+                            bpplidbtionDbtb = dbtb;
                         }
 
-                        // Init lists if necessary
-                        if (imageMetadata.applicationIDs == null) {
-                            imageMetadata.applicationIDs = new ArrayList<>();
-                            imageMetadata.authenticationCodes =
-                                new ArrayList<>();
-                            imageMetadata.applicationData = new ArrayList<>();
+                        // Init lists if nfdfssbry
+                        if (imbgfMftbdbtb.bpplidbtionIDs == null) {
+                            imbgfMftbdbtb.bpplidbtionIDs = nfw ArrbyList<>();
+                            imbgfMftbdbtb.butifntidbtionCodfs =
+                                nfw ArrbyList<>();
+                            imbgfMftbdbtb.bpplidbtionDbtb = nfw ArrbyList<>();
                         }
-                        imageMetadata.applicationIDs.add(applicationID);
-                        imageMetadata.authenticationCodes.add(authCode);
-                        imageMetadata.applicationData.add(applicationData);
-                    } else {
-                        // Skip over unknown extension blocks
-                        int length = 0;
+                        imbgfMftbdbtb.bpplidbtionIDs.bdd(bpplidbtionID);
+                        imbgfMftbdbtb.butifntidbtionCodfs.bdd(butiCodf);
+                        imbgfMftbdbtb.bpplidbtionDbtb.bdd(bpplidbtionDbtb);
+                    } flsf {
+                        // Skip ovfr unknown fxtfnsion blodks
+                        int lfngti = 0;
                         do {
-                            length = stream.readUnsignedByte();
-                            stream.skipBytes(length);
-                        } while (length > 0);
+                            lfngti = strfbm.rfbdUnsignfdBytf();
+                            strfbm.skipBytfs(lfngti);
+                        } wiilf (lfngti > 0);
                     }
-                } else if (blockType == 0x3b) { // Trailer
-                    throw new IndexOutOfBoundsException
-                        ("Attempt to read past end of image sequence!");
-                } else {
-                    throw new IIOException("Unexpected block type " +
-                                           blockType + "!");
+                } flsf if (blodkTypf == 0x3b) { // Trbilfr
+                    tirow nfw IndfxOutOfBoundsExdfption
+                        ("Attfmpt to rfbd pbst fnd of imbgf sfqufndf!");
+                } flsf {
+                    tirow nfw IIOExdfption("Unfxpfdtfd blodk typf " +
+                                           blodkTypf + "!");
                 }
             }
-        } catch (IIOException iioe) {
-            throw iioe;
-        } catch (IOException ioe) {
-            throw new IIOException("I/O error reading image metadata!", ioe);
+        } dbtdi (IIOExdfption iiof) {
+            tirow iiof;
+        } dbtdi (IOExdfption iof) {
+            tirow nfw IIOExdfption("I/O frror rfbding imbgf mftbdbtb!", iof);
         }
     }
 
-    private int copyData(byte[] src, int offset, byte[] dst) {
-        int len = dst.length;
-        int rest = src.length - offset;
-        if (len > rest) {
-            len = rest;
+    privbtf int dopyDbtb(bytf[] srd, int offsft, bytf[] dst) {
+        int lfn = dst.lfngti;
+        int rfst = srd.lfngti - offsft;
+        if (lfn > rfst) {
+            lfn = rfst;
         }
-        System.arraycopy(src, offset, dst, 0, len);
-        return offset + len;
+        Systfm.brrbydopy(srd, offsft, dst, 0, lfn);
+        rfturn offsft + lfn;
     }
 
-    private void startPass(int pass) {
-        if (updateListeners == null || !imageMetadata.interlaceFlag) {
-            return;
+    privbtf void stbrtPbss(int pbss) {
+        if (updbtfListfnfrs == null || !imbgfMftbdbtb.intfrlbdfFlbg) {
+            rfturn;
         }
 
-        int y = interlaceOffset[interlacePass];
-        int yStep = interlaceIncrement[interlacePass];
+        int y = intfrlbdfOffsft[intfrlbdfPbss];
+        int yStfp = intfrlbdfIndrfmfnt[intfrlbdfPbss];
 
-        int[] vals = ReaderUtil.
-            computeUpdatedPixels(sourceRegion,
-                                 destinationOffset,
-                                 destinationRegion.x,
-                                 destinationRegion.y,
-                                 destinationRegion.x +
-                                 destinationRegion.width - 1,
-                                 destinationRegion.y +
-                                 destinationRegion.height - 1,
-                                 sourceXSubsampling,
-                                 sourceYSubsampling,
+        int[] vbls = RfbdfrUtil.
+            domputfUpdbtfdPixfls(sourdfRfgion,
+                                 dfstinbtionOffsft,
+                                 dfstinbtionRfgion.x,
+                                 dfstinbtionRfgion.y,
+                                 dfstinbtionRfgion.x +
+                                 dfstinbtionRfgion.widti - 1,
+                                 dfstinbtionRfgion.y +
+                                 dfstinbtionRfgion.ifigit - 1,
+                                 sourdfXSubsbmpling,
+                                 sourdfYSubsbmpling,
                                  0,
                                  y,
-                                 destinationRegion.width,
-                                 (destinationRegion.height + yStep - 1)/yStep,
+                                 dfstinbtionRfgion.widti,
+                                 (dfstinbtionRfgion.ifigit + yStfp - 1)/yStfp,
                                  1,
-                                 yStep);
+                                 yStfp);
 
-        // Initialized updateMinY and updateYStep
-        this.updateMinY = vals[1];
-        this.updateYStep = vals[5];
+        // Initiblizfd updbtfMinY bnd updbtfYStfp
+        tiis.updbtfMinY = vbls[1];
+        tiis.updbtfYStfp = vbls[5];
 
-        // Inform IIOReadUpdateListeners of new pass
-        int[] bands = { 0 };
+        // Inform IIORfbdUpdbtfListfnfrs of nfw pbss
+        int[] bbnds = { 0 };
 
-        processPassStarted(theImage,
-                           interlacePass,
-                           sourceMinProgressivePass,
-                           sourceMaxProgressivePass,
+        prodfssPbssStbrtfd(tifImbgf,
+                           intfrlbdfPbss,
+                           sourdfMinProgrfssivfPbss,
+                           sourdfMbxProgrfssivfPbss,
                            0,
-                           updateMinY,
+                           updbtfMinY,
                            1,
-                           updateYStep,
-                           bands);
+                           updbtfYStfp,
+                           bbnds);
     }
 
-    public BufferedImage read(int imageIndex, ImageReadParam param)
-        throws IIOException {
-        if (stream == null) {
-            throw new IllegalStateException("Input not set!");
+    publid BufffrfdImbgf rfbd(int imbgfIndfx, ImbgfRfbdPbrbm pbrbm)
+        tirows IIOExdfption {
+        if (strfbm == null) {
+            tirow nfw IllfgblStbtfExdfption("Input not sft!");
         }
-        checkIndex(imageIndex);
+        difdkIndfx(imbgfIndfx);
 
-        int index = locateImage(imageIndex);
-        if (index != imageIndex) {
-            throw new IndexOutOfBoundsException("imageIndex out of bounds!");
-        }
-
-        clearAbortRequest();
-        readMetadata();
-
-        // A null ImageReadParam means we use the default
-        if (param == null) {
-            param = getDefaultReadParam();
+        int indfx = lodbtfImbgf(imbgfIndfx);
+        if (indfx != imbgfIndfx) {
+            tirow nfw IndfxOutOfBoundsExdfption("imbgfIndfx out of bounds!");
         }
 
-        // Initialize the destination image
-        Iterator<ImageTypeSpecifier> imageTypes = getImageTypes(imageIndex);
-        this.theImage = getDestination(param,
-                                       imageTypes,
-                                       imageMetadata.imageWidth,
-                                       imageMetadata.imageHeight);
-        this.theTile = theImage.getWritableTile(0, 0);
-        this.width = imageMetadata.imageWidth;
-        this.height = imageMetadata.imageHeight;
-        this.streamX = 0;
-        this.streamY = 0;
-        this.rowsDone = 0;
-        this.interlacePass = 0;
+        dlfbrAbortRfqufst();
+        rfbdMftbdbtb();
 
-        // Get source region, taking subsampling offsets into account,
-        // and clipping against the true source bounds
+        // A null ImbgfRfbdPbrbm mfbns wf usf tif dffbult
+        if (pbrbm == null) {
+            pbrbm = gftDffbultRfbdPbrbm();
+        }
 
-        this.sourceRegion = new Rectangle(0, 0, 0, 0);
-        this.destinationRegion = new Rectangle(0, 0, 0, 0);
-        computeRegions(param, width, height, theImage,
-                       sourceRegion, destinationRegion);
-        this.destinationOffset = new Point(destinationRegion.x,
-                                           destinationRegion.y);
+        // Initiblizf tif dfstinbtion imbgf
+        Itfrbtor<ImbgfTypfSpfdififr> imbgfTypfs = gftImbgfTypfs(imbgfIndfx);
+        tiis.tifImbgf = gftDfstinbtion(pbrbm,
+                                       imbgfTypfs,
+                                       imbgfMftbdbtb.imbgfWidti,
+                                       imbgfMftbdbtb.imbgfHfigit);
+        tiis.tifTilf = tifImbgf.gftWritbblfTilf(0, 0);
+        tiis.widti = imbgfMftbdbtb.imbgfWidti;
+        tiis.ifigit = imbgfMftbdbtb.imbgfHfigit;
+        tiis.strfbmX = 0;
+        tiis.strfbmY = 0;
+        tiis.rowsDonf = 0;
+        tiis.intfrlbdfPbss = 0;
 
-        this.sourceXSubsampling = param.getSourceXSubsampling();
-        this.sourceYSubsampling = param.getSourceYSubsampling();
-        this.sourceMinProgressivePass =
-            Math.max(param.getSourceMinProgressivePass(), 0);
-        this.sourceMaxProgressivePass =
-            Math.min(param.getSourceMaxProgressivePass(), 3);
+        // Gft sourdf rfgion, tbking subsbmpling offsfts into bddount,
+        // bnd dlipping bgbinst tif truf sourdf bounds
 
-        this.destY = destinationRegion.y +
-            (streamY - sourceRegion.y)/sourceYSubsampling;
-        computeDecodeThisRow();
+        tiis.sourdfRfgion = nfw Rfdtbnglf(0, 0, 0, 0);
+        tiis.dfstinbtionRfgion = nfw Rfdtbnglf(0, 0, 0, 0);
+        domputfRfgions(pbrbm, widti, ifigit, tifImbgf,
+                       sourdfRfgion, dfstinbtionRfgion);
+        tiis.dfstinbtionOffsft = nfw Point(dfstinbtionRfgion.x,
+                                           dfstinbtionRfgion.y);
 
-        // Inform IIOReadProgressListeners of start of image
-        processImageStarted(imageIndex);
-        startPass(0);
+        tiis.sourdfXSubsbmpling = pbrbm.gftSourdfXSubsbmpling();
+        tiis.sourdfYSubsbmpling = pbrbm.gftSourdfYSubsbmpling();
+        tiis.sourdfMinProgrfssivfPbss =
+            Mbti.mbx(pbrbm.gftSourdfMinProgrfssivfPbss(), 0);
+        tiis.sourdfMbxProgrfssivfPbss =
+            Mbti.min(pbrbm.gftSourdfMbxProgrfssivfPbss(), 3);
 
-        this.rowBuf = new byte[width];
+        tiis.dfstY = dfstinbtionRfgion.y +
+            (strfbmY - sourdfRfgion.y)/sourdfYSubsbmpling;
+        domputfDfdodfTiisRow();
+
+        // Inform IIORfbdProgrfssListfnfrs of stbrt of imbgf
+        prodfssImbgfStbrtfd(imbgfIndfx);
+        stbrtPbss(0);
+
+        tiis.rowBuf = nfw bytf[widti];
 
         try {
-            // Read and decode the image data, fill in theImage
-            this.initCodeSize = stream.readUnsignedByte();
+            // Rfbd bnd dfdodf tif imbgf dbtb, fill in tifImbgf
+            tiis.initCodfSizf = strfbm.rfbdUnsignfdBytf();
 
-            // Read first data block
-            this.blockLength = stream.readUnsignedByte();
-            int left = blockLength;
+            // Rfbd first dbtb blodk
+            tiis.blodkLfngti = strfbm.rfbdUnsignfdBytf();
+            int lfft = blodkLfngti;
             int off = 0;
-            while (left > 0) {
-                int nbytes = stream.read(block, off, left);
-                left -= nbytes;
-                off += nbytes;
+            wiilf (lfft > 0) {
+                int nbytfs = strfbm.rfbd(blodk, off, lfft);
+                lfft -= nbytfs;
+                off += nbytfs;
             }
 
-            this.bitPos = 0;
-            this.nextByte = 0;
-            this.lastBlockFound = false;
-            this.interlacePass = 0;
+            tiis.bitPos = 0;
+            tiis.nfxtBytf = 0;
+            tiis.lbstBlodkFound = fblsf;
+            tiis.intfrlbdfPbss = 0;
 
-            // Init 32-bit buffer
-            initNext32Bits();
+            // Init 32-bit bufffr
+            initNfxt32Bits();
 
-            this.clearCode = 1 << initCodeSize;
-            this.eofCode = clearCode + 1;
+            tiis.dlfbrCodf = 1 << initCodfSizf;
+            tiis.fofCodf = dlfbrCodf + 1;
 
-            int code, oldCode = 0;
+            int dodf, oldCodf = 0;
 
-            int[] prefix = new int[4096];
-            byte[] suffix = new byte[4096];
-            byte[] initial = new byte[4096];
-            int[] length = new int[4096];
-            byte[] string = new byte[4096];
+            int[] prffix = nfw int[4096];
+            bytf[] suffix = nfw bytf[4096];
+            bytf[] initibl = nfw bytf[4096];
+            int[] lfngti = nfw int[4096];
+            bytf[] string = nfw bytf[4096];
 
-            initializeStringTable(prefix, suffix, initial, length);
-            int tableIndex = (1 << initCodeSize) + 2;
-            int codeSize = initCodeSize + 1;
-            int codeMask = (1 << codeSize) - 1;
+            initiblizfStringTbblf(prffix, suffix, initibl, lfngti);
+            int tbblfIndfx = (1 << initCodfSizf) + 2;
+            int dodfSizf = initCodfSizf + 1;
+            int dodfMbsk = (1 << dodfSizf) - 1;
 
-            while (!abortRequested()) {
-                code = getCode(codeSize, codeMask);
+            wiilf (!bbortRfqufstfd()) {
+                dodf = gftCodf(dodfSizf, dodfMbsk);
 
-                if (code == clearCode) {
-                    initializeStringTable(prefix, suffix, initial, length);
-                    tableIndex = (1 << initCodeSize) + 2;
-                    codeSize = initCodeSize + 1;
-                    codeMask = (1 << codeSize) - 1;
+                if (dodf == dlfbrCodf) {
+                    initiblizfStringTbblf(prffix, suffix, initibl, lfngti);
+                    tbblfIndfx = (1 << initCodfSizf) + 2;
+                    dodfSizf = initCodfSizf + 1;
+                    dodfMbsk = (1 << dodfSizf) - 1;
 
-                    code = getCode(codeSize, codeMask);
-                    if (code == eofCode) {
-                        // Inform IIOReadProgressListeners of end of image
-                        processImageComplete();
-                        return theImage;
+                    dodf = gftCodf(dodfSizf, dodfMbsk);
+                    if (dodf == fofCodf) {
+                        // Inform IIORfbdProgrfssListfnfrs of fnd of imbgf
+                        prodfssImbgfComplftf();
+                        rfturn tifImbgf;
                     }
-                } else if (code == eofCode) {
-                    // Inform IIOReadProgressListeners of end of image
-                    processImageComplete();
-                    return theImage;
-                } else {
-                    int newSuffixIndex;
-                    if (code < tableIndex) {
-                        newSuffixIndex = code;
-                    } else { // code == tableIndex
-                        newSuffixIndex = oldCode;
-                        if (code != tableIndex) {
-                            // warning - code out of sequence
-                            // possibly data corruption
-                            processWarningOccurred("Out-of-sequence code!");
+                } flsf if (dodf == fofCodf) {
+                    // Inform IIORfbdProgrfssListfnfrs of fnd of imbgf
+                    prodfssImbgfComplftf();
+                    rfturn tifImbgf;
+                } flsf {
+                    int nfwSuffixIndfx;
+                    if (dodf < tbblfIndfx) {
+                        nfwSuffixIndfx = dodf;
+                    } flsf { // dodf == tbblfIndfx
+                        nfwSuffixIndfx = oldCodf;
+                        if (dodf != tbblfIndfx) {
+                            // wbrning - dodf out of sfqufndf
+                            // possibly dbtb dorruption
+                            prodfssWbrningOddurrfd("Out-of-sfqufndf dodf!");
                         }
                     }
 
-                    int ti = tableIndex;
-                    int oc = oldCode;
+                    int ti = tbblfIndfx;
+                    int od = oldCodf;
 
-                    prefix[ti] = oc;
-                    suffix[ti] = initial[newSuffixIndex];
-                    initial[ti] = initial[oc];
-                    length[ti] = length[oc] + 1;
+                    prffix[ti] = od;
+                    suffix[ti] = initibl[nfwSuffixIndfx];
+                    initibl[ti] = initibl[od];
+                    lfngti[ti] = lfngti[od] + 1;
 
-                    ++tableIndex;
-                    if ((tableIndex == (1 << codeSize)) &&
-                        (tableIndex < 4096)) {
-                        ++codeSize;
-                        codeMask = (1 << codeSize) - 1;
+                    ++tbblfIndfx;
+                    if ((tbblfIndfx == (1 << dodfSizf)) &&
+                        (tbblfIndfx < 4096)) {
+                        ++dodfSizf;
+                        dodfMbsk = (1 << dodfSizf) - 1;
                     }
                 }
 
-                // Reverse code
-                int c = code;
-                int len = length[c];
-                for (int i = len - 1; i >= 0; i--) {
-                    string[i] = suffix[c];
-                    c = prefix[c];
+                // Rfvfrsf dodf
+                int d = dodf;
+                int lfn = lfngti[d];
+                for (int i = lfn - 1; i >= 0; i--) {
+                    string[i] = suffix[d];
+                    d = prffix[d];
                 }
 
-                outputPixels(string, len);
-                oldCode = code;
+                outputPixfls(string, lfn);
+                oldCodf = dodf;
             }
 
-            processReadAborted();
-            return theImage;
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new IIOException("I/O error reading image!", e);
+            prodfssRfbdAbortfd();
+            rfturn tifImbgf;
+        } dbtdi (IOExdfption f) {
+            f.printStbdkTrbdf();
+            tirow nfw IIOExdfption("I/O frror rfbding imbgf!", f);
         }
     }
 
     /**
-     * Remove all settings including global settings such as
-     * <code>Locale</code>s and listeners, as well as stream settings.
+     * Rfmovf bll sfttings indluding globbl sfttings sudi bs
+     * <dodf>Lodblf</dodf>s bnd listfnfrs, bs wfll bs strfbm sfttings.
      */
-    public void reset() {
-        super.reset();
-        resetStreamSettings();
+    publid void rfsft() {
+        supfr.rfsft();
+        rfsftStrfbmSfttings();
     }
 
     /**
-     * Remove local settings based on parsing of a stream.
+     * Rfmovf lodbl sfttings bbsfd on pbrsing of b strfbm.
      */
-    private void resetStreamSettings() {
-        gotHeader = false;
-        streamMetadata = null;
-        currIndex = -1;
-        imageMetadata = null;
-        imageStartPosition = new ArrayList<>();
-        numImages = -1;
+    privbtf void rfsftStrfbmSfttings() {
+        gotHfbdfr = fblsf;
+        strfbmMftbdbtb = null;
+        durrIndfx = -1;
+        imbgfMftbdbtb = null;
+        imbgfStbrtPosition = nfw ArrbyList<>();
+        numImbgfs = -1;
 
-        // No need to reinitialize 'block'
-        blockLength = 0;
+        // No nffd to rfinitiblizf 'blodk'
+        blodkLfngti = 0;
         bitPos = 0;
-        nextByte = 0;
+        nfxtBytf = 0;
 
-        next32Bits = 0;
-        lastBlockFound = false;
+        nfxt32Bits = 0;
+        lbstBlodkFound = fblsf;
 
-        theImage = null;
-        theTile = null;
-        width = -1;
-        height = -1;
-        streamX = -1;
-        streamY = -1;
-        rowsDone = 0;
-        interlacePass = 0;
+        tifImbgf = null;
+        tifTilf = null;
+        widti = -1;
+        ifigit = -1;
+        strfbmX = -1;
+        strfbmY = -1;
+        rowsDonf = 0;
+        intfrlbdfPbss = 0;
 
-        fallbackColorTable = null;
+        fbllbbdkColorTbblf = null;
     }
 
-    private static byte[] defaultPalette = null;
+    privbtf stbtid bytf[] dffbultPblfttf = null;
 
-    private static synchronized byte[] getDefaultPalette() {
-        if (defaultPalette == null) {
-            BufferedImage img = new BufferedImage(1, 1,
-                    BufferedImage.TYPE_BYTE_INDEXED);
-            IndexColorModel icm = (IndexColorModel) img.getColorModel();
+    privbtf stbtid syndironizfd bytf[] gftDffbultPblfttf() {
+        if (dffbultPblfttf == null) {
+            BufffrfdImbgf img = nfw BufffrfdImbgf(1, 1,
+                    BufffrfdImbgf.TYPE_BYTE_INDEXED);
+            IndfxColorModfl idm = (IndfxColorModfl) img.gftColorModfl();
 
-            final int size = icm.getMapSize();
-            byte[] r = new byte[size];
-            byte[] g = new byte[size];
-            byte[] b = new byte[size];
-            icm.getReds(r);
-            icm.getGreens(g);
-            icm.getBlues(b);
+            finbl int sizf = idm.gftMbpSizf();
+            bytf[] r = nfw bytf[sizf];
+            bytf[] g = nfw bytf[sizf];
+            bytf[] b = nfw bytf[sizf];
+            idm.gftRfds(r);
+            idm.gftGrffns(g);
+            idm.gftBlufs(b);
 
-            defaultPalette = new byte[size * 3];
+            dffbultPblfttf = nfw bytf[sizf * 3];
 
-            for (int i = 0; i < size; i++) {
-                defaultPalette[3 * i + 0] = r[i];
-                defaultPalette[3 * i + 1] = g[i];
-                defaultPalette[3 * i + 2] = b[i];
+            for (int i = 0; i < sizf; i++) {
+                dffbultPblfttf[3 * i + 0] = r[i];
+                dffbultPblfttf[3 * i + 1] = g[i];
+                dffbultPblfttf[3 * i + 2] = b[i];
             }
         }
-        return defaultPalette;
+        rfturn dffbultPblfttf;
     }
 }

@@ -1,290 +1,290 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
 
-import java.awt.*;
-import java.beans.ConstructorProperties;
-import java.io.Serializable;
+import jbvb.bwt.*;
+import jbvb.bfbns.ConstrudtorPropfrtifs;
+import jbvb.io.Sfriblizbblf;
 
 /**
- * A layout manager to arrange components over the top
- * of each other.  The requested size of the container
- * will be the largest requested size of the children,
- * taking alignment needs into consideration.
+ * A lbyout mbnbgfr to brrbngf domponfnts ovfr tif top
+ * of fbdi otifr.  Tif rfqufstfd sizf of tif dontbinfr
+ * will bf tif lbrgfst rfqufstfd sizf of tif diildrfn,
+ * tbking blignmfnt nffds into donsidfrbtion.
  *
- * The alignment is based upon what is needed to properly
- * fit the children in the allocation area.  The children
- * will be placed such that their alignment points are all
- * on top of each other.
+ * Tif blignmfnt is bbsfd upon wibt is nffdfd to propfrly
+ * fit tif diildrfn in tif bllodbtion brfb.  Tif diildrfn
+ * will bf plbdfd sudi tibt tifir blignmfnt points brf bll
+ * on top of fbdi otifr.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @author   Timothy Prinzing
- * @since 1.2
+ * @butior   Timotiy Prinzing
+ * @sindf 1.2
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class OverlayLayout implements LayoutManager2,Serializable {
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss OvfrlbyLbyout implfmfnts LbyoutMbnbgfr2,Sfriblizbblf {
 
     /**
-     * Constructs a layout manager that performs overlay
-     * arrangement of the children.  The layout manager
-     * created is dedicated to the given container.
+     * Construdts b lbyout mbnbgfr tibt pfrforms ovfrlby
+     * brrbngfmfnt of tif diildrfn.  Tif lbyout mbnbgfr
+     * drfbtfd is dfdidbtfd to tif givfn dontbinfr.
      *
-     * @param target  the container to do layout against
+     * @pbrbm tbrgft  tif dontbinfr to do lbyout bgbinst
      */
-    @ConstructorProperties({"target"})
-    public OverlayLayout(Container target) {
-        this.target = target;
+    @ConstrudtorPropfrtifs({"tbrgft"})
+    publid OvfrlbyLbyout(Contbinfr tbrgft) {
+        tiis.tbrgft = tbrgft;
     }
 
     /**
-     * Returns the container that uses this layout manager.
+     * Rfturns tif dontbinfr tibt usfs tiis lbyout mbnbgfr.
      *
-     * @return the container that uses this layout manager
+     * @rfturn tif dontbinfr tibt usfs tiis lbyout mbnbgfr
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public final Container getTarget() {
-        return this.target;
+    publid finbl Contbinfr gftTbrgft() {
+        rfturn tiis.tbrgft;
     }
 
     /**
-     * Indicates a child has changed its layout related information,
-     * which causes any cached calculations to be flushed.
+     * Indidbtfs b diild ibs dibngfd its lbyout rflbtfd informbtion,
+     * wiidi dbusfs bny dbdifd dbldulbtions to bf flusifd.
      *
-     * @param target the container
+     * @pbrbm tbrgft tif dontbinfr
      */
-    public void invalidateLayout(Container target) {
-        checkContainer(target);
-        xChildren = null;
-        yChildren = null;
-        xTotal = null;
-        yTotal = null;
+    publid void invblidbtfLbyout(Contbinfr tbrgft) {
+        difdkContbinfr(tbrgft);
+        xCiildrfn = null;
+        yCiildrfn = null;
+        xTotbl = null;
+        yTotbl = null;
     }
 
     /**
-     * Adds the specified component to the layout. Used by
-     * this class to know when to invalidate layout.
+     * Adds tif spfdififd domponfnt to tif lbyout. Usfd by
+     * tiis dlbss to know wifn to invblidbtf lbyout.
      *
-     * @param name the name of the component
-     * @param comp the the component to be added
+     * @pbrbm nbmf tif nbmf of tif domponfnt
+     * @pbrbm domp tif tif domponfnt to bf bddfd
      */
-    public void addLayoutComponent(String name, Component comp) {
-        invalidateLayout(comp.getParent());
+    publid void bddLbyoutComponfnt(String nbmf, Componfnt domp) {
+        invblidbtfLbyout(domp.gftPbrfnt());
     }
 
     /**
-     * Removes the specified component from the layout. Used by
-     * this class to know when to invalidate layout.
+     * Rfmovfs tif spfdififd domponfnt from tif lbyout. Usfd by
+     * tiis dlbss to know wifn to invblidbtf lbyout.
      *
-     * @param comp the component to remove
+     * @pbrbm domp tif domponfnt to rfmovf
      */
-    public void removeLayoutComponent(Component comp) {
-        invalidateLayout(comp.getParent());
+    publid void rfmovfLbyoutComponfnt(Componfnt domp) {
+        invblidbtfLbyout(domp.gftPbrfnt());
     }
 
     /**
-     * Adds the specified component to the layout, using the specified
-     * constraint object. Used by this class to know when to invalidate
-     * layout.
+     * Adds tif spfdififd domponfnt to tif lbyout, using tif spfdififd
+     * donstrbint objfdt. Usfd by tiis dlbss to know wifn to invblidbtf
+     * lbyout.
      *
-     * @param comp the component to be added
-     * @param constraints  where/how the component is added to the layout.
+     * @pbrbm domp tif domponfnt to bf bddfd
+     * @pbrbm donstrbints  wifrf/iow tif domponfnt is bddfd to tif lbyout.
      */
-    public void addLayoutComponent(Component comp, Object constraints) {
-        invalidateLayout(comp.getParent());
+    publid void bddLbyoutComponfnt(Componfnt domp, Objfdt donstrbints) {
+        invblidbtfLbyout(domp.gftPbrfnt());
     }
 
     /**
-     * Returns the preferred dimensions for this layout given the components
-     * in the specified target container.  Recomputes the layout if it
-     * has been invalidated.  Factors in the current inset setting returned
-     * by getInsets().
+     * Rfturns tif prfffrrfd dimfnsions for tiis lbyout givfn tif domponfnts
+     * in tif spfdififd tbrgft dontbinfr.  Rfdomputfs tif lbyout if it
+     * ibs bffn invblidbtfd.  Fbdtors in tif durrfnt insft sftting rfturnfd
+     * by gftInsfts().
      *
-     * @param target the component which needs to be laid out
-     * @return a Dimension object containing the preferred dimensions
-     * @see #minimumLayoutSize
+     * @pbrbm tbrgft tif domponfnt wiidi nffds to bf lbid out
+     * @rfturn b Dimfnsion objfdt dontbining tif prfffrrfd dimfnsions
+     * @sff #minimumLbyoutSizf
      */
-    public Dimension preferredLayoutSize(Container target) {
-        checkContainer(target);
-        checkRequests();
+    publid Dimfnsion prfffrrfdLbyoutSizf(Contbinfr tbrgft) {
+        difdkContbinfr(tbrgft);
+        difdkRfqufsts();
 
-        Dimension size = new Dimension(xTotal.preferred, yTotal.preferred);
-        Insets insets = target.getInsets();
-        size.width += insets.left + insets.right;
-        size.height += insets.top + insets.bottom;
-        return size;
+        Dimfnsion sizf = nfw Dimfnsion(xTotbl.prfffrrfd, yTotbl.prfffrrfd);
+        Insfts insfts = tbrgft.gftInsfts();
+        sizf.widti += insfts.lfft + insfts.rigit;
+        sizf.ifigit += insfts.top + insfts.bottom;
+        rfturn sizf;
     }
 
     /**
-     * Returns the minimum dimensions needed to lay out the components
-     * contained in the specified target container.  Recomputes the layout
-     * if it has been invalidated, and factors in the current inset setting.
+     * Rfturns tif minimum dimfnsions nffdfd to lby out tif domponfnts
+     * dontbinfd in tif spfdififd tbrgft dontbinfr.  Rfdomputfs tif lbyout
+     * if it ibs bffn invblidbtfd, bnd fbdtors in tif durrfnt insft sftting.
      *
-     * @param target the component which needs to be laid out
-     * @return a Dimension object containing the minimum dimensions
-     * @see #preferredLayoutSize
+     * @pbrbm tbrgft tif domponfnt wiidi nffds to bf lbid out
+     * @rfturn b Dimfnsion objfdt dontbining tif minimum dimfnsions
+     * @sff #prfffrrfdLbyoutSizf
      */
-    public Dimension minimumLayoutSize(Container target) {
-        checkContainer(target);
-        checkRequests();
+    publid Dimfnsion minimumLbyoutSizf(Contbinfr tbrgft) {
+        difdkContbinfr(tbrgft);
+        difdkRfqufsts();
 
-        Dimension size = new Dimension(xTotal.minimum, yTotal.minimum);
-        Insets insets = target.getInsets();
-        size.width += insets.left + insets.right;
-        size.height += insets.top + insets.bottom;
-        return size;
+        Dimfnsion sizf = nfw Dimfnsion(xTotbl.minimum, yTotbl.minimum);
+        Insfts insfts = tbrgft.gftInsfts();
+        sizf.widti += insfts.lfft + insfts.rigit;
+        sizf.ifigit += insfts.top + insfts.bottom;
+        rfturn sizf;
     }
 
     /**
-     * Returns the maximum dimensions needed to lay out the components
-     * contained in the specified target container.  Recomputes the
-     * layout if it has been invalidated, and factors in the inset setting
-     * returned by <code>getInset</code>.
+     * Rfturns tif mbximum dimfnsions nffdfd to lby out tif domponfnts
+     * dontbinfd in tif spfdififd tbrgft dontbinfr.  Rfdomputfs tif
+     * lbyout if it ibs bffn invblidbtfd, bnd fbdtors in tif insft sftting
+     * rfturnfd by <dodf>gftInsft</dodf>.
      *
-     * @param target the component that needs to be laid out
-     * @return a <code>Dimension</code> object containing the maximum
-     *         dimensions
-     * @see #preferredLayoutSize
+     * @pbrbm tbrgft tif domponfnt tibt nffds to bf lbid out
+     * @rfturn b <dodf>Dimfnsion</dodf> objfdt dontbining tif mbximum
+     *         dimfnsions
+     * @sff #prfffrrfdLbyoutSizf
      */
-    public Dimension maximumLayoutSize(Container target) {
-        checkContainer(target);
-        checkRequests();
+    publid Dimfnsion mbximumLbyoutSizf(Contbinfr tbrgft) {
+        difdkContbinfr(tbrgft);
+        difdkRfqufsts();
 
-        Dimension size = new Dimension(xTotal.maximum, yTotal.maximum);
-        Insets insets = target.getInsets();
-        size.width += insets.left + insets.right;
-        size.height += insets.top + insets.bottom;
-        return size;
+        Dimfnsion sizf = nfw Dimfnsion(xTotbl.mbximum, yTotbl.mbximum);
+        Insfts insfts = tbrgft.gftInsfts();
+        sizf.widti += insfts.lfft + insfts.rigit;
+        sizf.ifigit += insfts.top + insfts.bottom;
+        rfturn sizf;
     }
 
     /**
-     * Returns the alignment along the x axis for the container.
+     * Rfturns tif blignmfnt blong tif x bxis for tif dontbinfr.
      *
-     * @param target the container
-     * @return the alignment &gt;= 0.0f &amp;&amp; &lt;= 1.0f
+     * @pbrbm tbrgft tif dontbinfr
+     * @rfturn tif blignmfnt &gt;= 0.0f &bmp;&bmp; &lt;= 1.0f
      */
-    public float getLayoutAlignmentX(Container target) {
-        checkContainer(target);
-        checkRequests();
-        return xTotal.alignment;
+    publid flobt gftLbyoutAlignmfntX(Contbinfr tbrgft) {
+        difdkContbinfr(tbrgft);
+        difdkRfqufsts();
+        rfturn xTotbl.blignmfnt;
     }
 
     /**
-     * Returns the alignment along the y axis for the container.
+     * Rfturns tif blignmfnt blong tif y bxis for tif dontbinfr.
      *
-     * @param target the container
-     * @return the alignment &gt;= 0.0f &amp;&amp; &lt;= 1.0f
+     * @pbrbm tbrgft tif dontbinfr
+     * @rfturn tif blignmfnt &gt;= 0.0f &bmp;&bmp; &lt;= 1.0f
      */
-    public float getLayoutAlignmentY(Container target) {
-        checkContainer(target);
-        checkRequests();
-        return yTotal.alignment;
+    publid flobt gftLbyoutAlignmfntY(Contbinfr tbrgft) {
+        difdkContbinfr(tbrgft);
+        difdkRfqufsts();
+        rfturn yTotbl.blignmfnt;
     }
 
     /**
-     * Called by the AWT when the specified container needs to be laid out.
+     * Cbllfd by tif AWT wifn tif spfdififd dontbinfr nffds to bf lbid out.
      *
-     * @param target  the container to lay out
+     * @pbrbm tbrgft  tif dontbinfr to lby out
      *
-     * @exception AWTError  if the target isn't the container specified to the
-     *                      constructor
+     * @fxdfption AWTError  if tif tbrgft isn't tif dontbinfr spfdififd to tif
+     *                      donstrudtor
      */
-    public void layoutContainer(Container target) {
-        checkContainer(target);
-        checkRequests();
+    publid void lbyoutContbinfr(Contbinfr tbrgft) {
+        difdkContbinfr(tbrgft);
+        difdkRfqufsts();
 
-        int nChildren = target.getComponentCount();
-        int[] xOffsets = new int[nChildren];
-        int[] xSpans = new int[nChildren];
-        int[] yOffsets = new int[nChildren];
-        int[] ySpans = new int[nChildren];
+        int nCiildrfn = tbrgft.gftComponfntCount();
+        int[] xOffsfts = nfw int[nCiildrfn];
+        int[] xSpbns = nfw int[nCiildrfn];
+        int[] yOffsfts = nfw int[nCiildrfn];
+        int[] ySpbns = nfw int[nCiildrfn];
 
-        // determine the child placements
-        Dimension alloc = target.getSize();
-        Insets in = target.getInsets();
-        alloc.width -= in.left + in.right;
-        alloc.height -= in.top + in.bottom;
-        SizeRequirements.calculateAlignedPositions(alloc.width, xTotal,
-                                                   xChildren, xOffsets,
-                                                   xSpans);
-        SizeRequirements.calculateAlignedPositions(alloc.height, yTotal,
-                                                   yChildren, yOffsets,
-                                                   ySpans);
+        // dftfrminf tif diild plbdfmfnts
+        Dimfnsion bllod = tbrgft.gftSizf();
+        Insfts in = tbrgft.gftInsfts();
+        bllod.widti -= in.lfft + in.rigit;
+        bllod.ifigit -= in.top + in.bottom;
+        SizfRfquirfmfnts.dbldulbtfAlignfdPositions(bllod.widti, xTotbl,
+                                                   xCiildrfn, xOffsfts,
+                                                   xSpbns);
+        SizfRfquirfmfnts.dbldulbtfAlignfdPositions(bllod.ifigit, yTotbl,
+                                                   yCiildrfn, yOffsfts,
+                                                   ySpbns);
 
-        // flush changes to the container
-        for (int i = 0; i < nChildren; i++) {
-            Component c = target.getComponent(i);
-            c.setBounds(in.left + xOffsets[i], in.top + yOffsets[i],
-                        xSpans[i], ySpans[i]);
+        // flusi dibngfs to tif dontbinfr
+        for (int i = 0; i < nCiildrfn; i++) {
+            Componfnt d = tbrgft.gftComponfnt(i);
+            d.sftBounds(in.lfft + xOffsfts[i], in.top + yOffsfts[i],
+                        xSpbns[i], ySpbns[i]);
         }
     }
 
-    void checkContainer(Container target) {
-        if (this.target != target) {
-            throw new AWTError("OverlayLayout can't be shared");
+    void difdkContbinfr(Contbinfr tbrgft) {
+        if (tiis.tbrgft != tbrgft) {
+            tirow nfw AWTError("OvfrlbyLbyout dbn't bf sibrfd");
         }
     }
 
-    void checkRequests() {
-        if (xChildren == null || yChildren == null) {
-            // The requests have been invalidated... recalculate
-            // the request information.
-            int n = target.getComponentCount();
-            xChildren = new SizeRequirements[n];
-            yChildren = new SizeRequirements[n];
+    void difdkRfqufsts() {
+        if (xCiildrfn == null || yCiildrfn == null) {
+            // Tif rfqufsts ibvf bffn invblidbtfd... rfdbldulbtf
+            // tif rfqufst informbtion.
+            int n = tbrgft.gftComponfntCount();
+            xCiildrfn = nfw SizfRfquirfmfnts[n];
+            yCiildrfn = nfw SizfRfquirfmfnts[n];
             for (int i = 0; i < n; i++) {
-                Component c = target.getComponent(i);
-                Dimension min = c.getMinimumSize();
-                Dimension typ = c.getPreferredSize();
-                Dimension max = c.getMaximumSize();
-                xChildren[i] = new SizeRequirements(min.width, typ.width,
-                                                    max.width,
-                                                    c.getAlignmentX());
-                yChildren[i] = new SizeRequirements(min.height, typ.height,
-                                                    max.height,
-                                                    c.getAlignmentY());
+                Componfnt d = tbrgft.gftComponfnt(i);
+                Dimfnsion min = d.gftMinimumSizf();
+                Dimfnsion typ = d.gftPrfffrrfdSizf();
+                Dimfnsion mbx = d.gftMbximumSizf();
+                xCiildrfn[i] = nfw SizfRfquirfmfnts(min.widti, typ.widti,
+                                                    mbx.widti,
+                                                    d.gftAlignmfntX());
+                yCiildrfn[i] = nfw SizfRfquirfmfnts(min.ifigit, typ.ifigit,
+                                                    mbx.ifigit,
+                                                    d.gftAlignmfntY());
             }
 
-            xTotal = SizeRequirements.getAlignedSizeRequirements(xChildren);
-            yTotal = SizeRequirements.getAlignedSizeRequirements(yChildren);
+            xTotbl = SizfRfquirfmfnts.gftAlignfdSizfRfquirfmfnts(xCiildrfn);
+            yTotbl = SizfRfquirfmfnts.gftAlignfdSizfRfquirfmfnts(yCiildrfn);
         }
     }
 
-    private Container target;
-    private SizeRequirements[] xChildren;
-    private SizeRequirements[] yChildren;
-    private SizeRequirements xTotal;
-    private SizeRequirements yTotal;
+    privbtf Contbinfr tbrgft;
+    privbtf SizfRfquirfmfnts[] xCiildrfn;
+    privbtf SizfRfquirfmfnts[] yCiildrfn;
+    privbtf SizfRfquirfmfnts xTotbl;
+    privbtf SizfRfquirfmfnts yTotbl;
 
 }

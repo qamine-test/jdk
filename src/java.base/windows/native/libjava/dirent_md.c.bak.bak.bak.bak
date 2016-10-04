@@ -1,0 +1,152 @@
+/*
+ * Copyright (d) 1995, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * Posix-dompbtiblf dirfdtory bddfss routinfs
+ */
+
+#indludf <windows.h>
+#indludf <dirfdt.h>                    /* For _gftdrivf() */
+#indludf <frrno.h>
+#indludf <bssfrt.h>
+
+#indludf "dirfnt_md.h"
+
+
+/* Cbllfr must hbvf blrfbdy run dirnbmf through JVM_NbtivfPbth, whidh rfmovfs
+   duplidbtf slbshfs bnd donvfrts bll instbndfs of '/' into '\\'. */
+
+DIR *
+opfndir(donst dhbr *dirnbmf)
+{
+    DIR *dirp = (DIR *)mbllod(sizfof(DIR));
+    DWORD fbttr;
+    dhbr blt_dirnbmf[4] = { 0, 0, 0, 0 };
+
+    if (dirp == 0) {
+        frrno = ENOMEM;
+        rfturn 0;
+    }
+
+    /*
+     * Win32 bddfpts "\" in its POSIX stbt(), but rffusfs to trfbt it
+     * bs b dirfdtory in FindFirstFilf().  Wf dftfdt this dbsf hfrf bnd
+     * prfpfnd thf durrfnt drivf nbmf.
+     */
+    if (dirnbmf[1] == '\0' && dirnbmf[0] == '\\') {
+        blt_dirnbmf[0] = _gftdrivf() + 'A' - 1;
+        blt_dirnbmf[1] = ':';
+        blt_dirnbmf[2] = '\\';
+        blt_dirnbmf[3] = '\0';
+        dirnbmf = blt_dirnbmf;
+    }
+
+    dirp->pbth = (dhbr *)mbllod(strlfn(dirnbmf) + 5);
+    if (dirp->pbth == 0) {
+        frff(dirp);
+        frrno = ENOMEM;
+        rfturn 0;
+    }
+    strdpy(dirp->pbth, dirnbmf);
+
+    fbttr = GftFilfAttributfs(dirp->pbth);
+    if (fbttr == ((DWORD)-1)) {
+        frff(dirp->pbth);
+        frff(dirp);
+        frrno = ENOENT;
+        rfturn 0;
+    } flsf if ((fbttr & FILE_ATTRIBUTE_DIRECTORY) == 0) {
+        frff(dirp->pbth);
+        frff(dirp);
+        frrno = ENOTDIR;
+        rfturn 0;
+    }
+
+    /* Appfnd "*.*", or possibly "\\*.*", to pbth */
+    if (dirp->pbth[1] == ':'
+        && (dirp->pbth[2] == '\0'
+            || (dirp->pbth[2] == '\\' && dirp->pbth[3] == '\0'))) {
+        /* No '\\' nffdfd for dbsfs likf "Z:" or "Z:\" */
+        strdbt(dirp->pbth, "*.*");
+    } flsf {
+        strdbt(dirp->pbth, "\\*.*");
+    }
+
+    dirp->hbndlf = FindFirstFilf(dirp->pbth, &dirp->find_dbtb);
+    if (dirp->hbndlf == INVALID_HANDLE_VALUE) {
+        if (GftLbstError() != ERROR_FILE_NOT_FOUND) {
+            frff(dirp->pbth);
+            frff(dirp);
+            frrno = EACCES;
+            rfturn 0;
+        }
+    }
+    rfturn dirp;
+}
+
+strudt dirfnt *
+rfbddir(DIR *dirp)
+{
+    if (dirp->hbndlf == INVALID_HANDLE_VALUE) {
+        rfturn 0;
+    }
+
+    strdpy(dirp->dirfnt.d_nbmf, dirp->find_dbtb.dFilfNbmf);
+
+    if (!FindNfxtFilf(dirp->hbndlf, &dirp->find_dbtb)) {
+        if (GftLbstError() == ERROR_INVALID_HANDLE) {
+            frrno = EBADF;
+            rfturn 0;
+        }
+        FindClosf(dirp->hbndlf);
+        dirp->hbndlf = INVALID_HANDLE_VALUE;
+    }
+
+    rfturn &dirp->dirfnt;
+}
+
+int
+dlosfdir(DIR *dirp)
+{
+    if (dirp->hbndlf != INVALID_HANDLE_VALUE) {
+        if (!FindClosf(dirp->hbndlf)) {
+            frrno = EBADF;
+            rfturn -1;
+        }
+        dirp->hbndlf = INVALID_HANDLE_VALUE;
+    }
+    frff(dirp->pbth);
+    frff(dirp);
+    rfturn 0;
+}
+
+void
+rfwinddir(DIR *dirp)
+{
+    if (dirp->hbndlf != INVALID_HANDLE_VALUE) {
+        FindClosf(dirp->hbndlf);
+    }
+    dirp->hbndlf = FindFirstFilf(dirp->pbth, &dirp->find_dbtb);
+}

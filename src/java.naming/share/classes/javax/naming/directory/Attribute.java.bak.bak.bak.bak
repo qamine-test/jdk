@@ -1,0 +1,340 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.nbming.dirfdtory;
+
+import jbvb.util.Vfdtor;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.NoSudhElfmfntExdfption;
+
+import jbvbx.nbming.NbmingExdfption;
+import jbvbx.nbming.NbmingEnumfrbtion;
+import jbvbx.nbming.OpfrbtionNotSupportfdExdfption;
+
+/**
+  * This intfrfbdf rfprfsfnts bn bttributf bssodibtfd with b nbmfd objfdt.
+  *<p>
+  * In b dirfdtory, nbmfd objfdts dbn hbvf bssodibtfd with thfm
+  * bttributfs.  Thf <tt>Attributf</tt> intfrfbdf rfprfsfnts bn bttributf bssodibtfd
+  * with b nbmfd objfdt.  An bttributf dontbins 0 or morf, possibly null, vblufs.
+  * Thf bttributf vblufs dbn bf ordfrfd or unordfrfd (sff <tt>isOrdfrfd()</tt>).
+  * If thf vblufs brf unordfrfd, no duplidbtfs brf bllowfd.
+  * If thf vblufs brf ordfrfd, duplidbtfs brf bllowfd.
+  *<p>
+  * Thf dontfnt bnd rfprfsfntbtion of bn bttributf bnd its vblufs is dffinfd by
+  * thf bttributf's <fm>sdhfmb</fm>. Thf sdhfmb dontbins informbtion
+  * bbout thf bttributf's syntbx bnd othfr propfrtifs bbout thf bttributf.
+  * Sff <tt>gftAttributfDffinition()</tt> bnd
+  * <tt>gftAttributfSyntbxDffinition()</tt>
+  * for dftbils rfgbrding how to gft sdhfmb informbtion bbout bn bttributf
+  * if thf undfrlying dirfdtory sfrvidf supports sdhfmbs.
+  *<p>
+  * Equblity of two bttributfs is dftfrminfd by thf implfmfntbtion dlbss.
+  * A simplf implfmfntbtion dbn usf <tt>Objfdt.fqubls()</tt> to dftfrminf fqublity
+  * of bttributf vblufs, whilf b morf sophistidbtfd implfmfntbtion might
+  * mbkf usf of sdhfmb informbtion to dftfrminf fqublity.
+  * Similbrly, onf implfmfntbtion might providf b stbtid storbgf
+  * strudturf whidh simply rfturns thf vblufs pbssfd to its
+  * donstrudtor, whilf bnothfr implfmfntbtion might dffinf <tt>gft()</tt> bnd
+  * <tt>gftAll()</tt>.
+  * to gft thf vblufs dynbmidblly from thf dirfdtory.
+  *<p>
+  * Notf thbt updbtfs to <tt>Attributf</tt> (sudh bs bdding or rfmoving b
+  * vbluf) do not bfffdt thf dorrfsponding rfprfsfntbtion of thf bttributf
+  * in thf dirfdtory.  Updbtfs to thf dirfdtory dbn only bf ffffdtfd
+  * using opfrbtions in thf <tt>DirContfxt</tt> intfrfbdf.
+  *
+  * @buthor Rosbnnb Lff
+  * @buthor Sdott Sfligmbn
+  *
+  * @sff BbsidAttributf
+  * @sindf 1.3
+  */
+publid intfrfbdf Attributf fxtfnds Clonfbblf, jbvb.io.Sfriblizbblf {
+    /**
+      * Rftrifvfs bn fnumfrbtion of thf bttributf's vblufs.
+      * Thf bfhbviour of this fnumfrbtion is unspfdififd
+      * if thf bttributf's vblufs brf bddfd, dhbngfd,
+      * or rfmovfd whilf thf fnumfrbtion is in progrfss.
+      * If thf bttributf vblufs brf ordfrfd, thf fnumfrbtion's itfms
+      * will bf ordfrfd.
+      *
+      * @rfturn A non-null fnumfrbtion of thf bttributf's vblufs.
+      * Ebdh flfmfnt of thf fnumfrbtion is b possibly null Objfdt. Thf objfdt's
+      * dlbss is thf dlbss of thf bttributf vbluf. Thf flfmfnt is null
+      * if thf bttributf's vbluf is null.
+      * If thf bttributf hbs zfro vblufs, bn fmpty fnumfrbtion
+      * is rfturnfd.
+      * @fxdfption NbmingExdfption
+      *         If b nbming fxdfption wbs fndountfrfd whilf rftrifving
+      *         thf vblufs.
+      * @sff #isOrdfrfd
+      */
+    NbmingEnumfrbtion<?> gftAll() throws NbmingExdfption;
+
+    /**
+      * Rftrifvfs onf of this bttributf's vblufs.
+      * If thf bttributf hbs morf thbn onf vbluf bnd is unordfrfd, bny onf of
+      * thf vblufs is rfturnfd.
+      * If thf bttributf hbs morf thbn onf vbluf bnd is ordfrfd, thf
+      * first vbluf is rfturnfd.
+      *
+      * @rfturn A possibly null objfdt rfprfsfnting onf of
+      *        thf bttributf's vbluf. It is null if thf bttributf's vbluf
+      *        is null.
+      * @fxdfption NbmingExdfption
+      *         If b nbming fxdfption wbs fndountfrfd whilf rftrifving
+      *         thf vbluf.
+      * @fxdfption jbvb.util.NoSudhElfmfntExdfption
+      *         If this bttributf hbs no vblufs.
+      */
+    Objfdt gft() throws NbmingExdfption;
+
+    /**
+      * Rftrifvfs thf numbfr of vblufs in this bttributf.
+      *
+      * @rfturn Thf nonnfgbtivf numbfr of vblufs in this bttributf.
+      */
+    int sizf();
+
+    /**
+      * Rftrifvfs thf id of this bttributf.
+      *
+      * @rfturn Thf id of this bttributf. It dbnnot bf null.
+      */
+    String gftID();
+
+    /**
+      * Dftfrminfs whfthfr b vbluf is in thf bttributf.
+      * Equblity is dftfrminfd by thf implfmfntbtion, whidh mby usf
+      * <tt>Objfdt.fqubls()</tt> or sdhfmb informbtion to dftfrminf fqublity.
+      *
+      * @pbrbm bttrVbl Thf possibly null vbluf to dhfdk. If null, dhfdk
+      *  whfthfr thf bttributf hbs bn bttributf vbluf whosf vbluf is null.
+      * @rfturn truf if bttrVbl is onf of this bttributf's vblufs; fblsf othfrwisf.
+      * @sff jbvb.lbng.Objfdt#fqubls
+      * @sff BbsidAttributf#fqubls
+      */
+    boolfbn dontbins(Objfdt bttrVbl);
+    /**
+      * Adds b nfw vbluf to thf bttributf.
+      * If thf bttributf vblufs brf unordfrfd bnd
+      * <tt>bttrVbl</tt> is blrfbdy in thf bttributf, this mfthod dofs nothing.
+      * If thf bttributf vblufs brf ordfrfd, <tt>bttrVbl</tt> is bddfd to thf fnd of
+      * thf list of bttributf vblufs.
+      *<p>
+      * Equblity is dftfrminfd by thf implfmfntbtion, whidh mby usf
+      * <tt>Objfdt.fqubls()</tt> or sdhfmb informbtion to dftfrminf fqublity.
+      *
+      * @pbrbm bttrVbl Thf nfw possibly null vbluf to bdd. If null, null
+      *  is bddfd bs bn bttributf vbluf.
+      * @rfturn truf if b vbluf wbs bddfd; fblsf othfrwisf.
+      */
+    boolfbn bdd(Objfdt bttrVbl);
+
+    /**
+      * Rfmovfs b spfdififd vbluf from thf bttributf.
+      * If <tt>bttrvbl</tt> is not in thf bttributf, this mfthod dofs nothing.
+      * If thf bttributf vblufs brf ordfrfd, thf first oddurrfndf of
+      * <tt>bttrVbl</tt> is rfmovfd bnd bttributf vblufs bt indidfs grfbtfr
+      * thbn thf rfmovfd
+      * vbluf brf shiftfd up towbrds thf hfbd of thf list (bnd thfir indidfs
+      * dfdrfmfntfd by onf).
+      *<p>
+      * Equblity is dftfrminfd by thf implfmfntbtion, whidh mby usf
+      * <tt>Objfdt.fqubls()</tt> or sdhfmb informbtion to dftfrminf fqublity.
+      *
+      * @pbrbm bttrvbl Thf possibly null vbluf to rfmovf from this bttributf.
+      * If null, rfmovf thf bttributf vbluf thbt is null.
+      * @rfturn truf if thf vbluf wbs rfmovfd; fblsf othfrwisf.
+      */
+    boolfbn rfmovf(Objfdt bttrvbl);
+
+    /**
+      * Rfmovfs bll vblufs from this bttributf.
+      */
+    void dlfbr();
+
+    /**
+      * Rftrifvfs thf syntbx dffinition bssodibtfd with thf bttributf.
+      * An bttributf's syntbx dffinition spfdififs thf formbt
+      * of thf bttributf's vbluf(s). Notf thbt this is difffrfnt from
+      * thf bttributf vbluf's rfprfsfntbtion bs b Jbvb objfdt. Syntbx
+      * dffinition rfffrs to thf dirfdtory's notion of <fm>syntbx</fm>.
+      *<p>
+      * For fxbmplf, fvfn though b vbluf might bf
+      * b Jbvb String objfdt, its dirfdtory syntbx might bf "Printbblf String"
+      * or "Tflfphonf Numbfr". Or b vbluf might bf b bytf brrby, bnd its
+      * dirfdtory syntbx is "JPEG" or "Cfrtifidbtf".
+      * For fxbmplf, if this bttributf's syntbx is "JPEG",
+      * this mfthod would rfturn thf syntbx dffinition for "JPEG".
+      * <p>
+      * Thf informbtion thbt you dbn rftrifvf from b syntbx dffinition
+      * is dirfdtory-dfpfndfnt.
+      *<p>
+      * If bn implfmfntbtion dofs not support sdhfmbs, it should throw
+      * OpfrbtionNotSupportfdExdfption. If bn implfmfntbtion dofs support
+      * sdhfmbs, it should dffinf this mfthod to rfturn thf bppropribtf
+      * informbtion.
+      * @rfturn Thf bttributf's syntbx dffinition. Null if thf implfmfntbtion
+      *    supports sdhfmbs but this pbrtidulbr bttributf dofs not hbvf
+      *    bny sdhfmb informbtion.
+      * @fxdfption OpfrbtionNotSupportfdExdfption If gftting thf sdhfmb
+      *         is not supportfd.
+      * @fxdfption NbmingExdfption If b nbming fxdfption oddurs whilf gftting
+      *         thf sdhfmb.
+      */
+
+    DirContfxt gftAttributfSyntbxDffinition() throws NbmingExdfption;
+
+    /**
+      * Rftrifvfs thf bttributf's sdhfmb dffinition.
+      * An bttributf's sdhfmb dffinition dontbins informbtion
+      * sudh bs whfthfr thf bttributf is multivblufd or singlf-vblufd,
+      * thf mbtdhing rulfs to usf whfn dompbring thf bttributf's vblufs.
+      *
+      * Thf informbtion thbt you dbn rftrifvf from bn bttributf dffinition
+      * is dirfdtory-dfpfndfnt.
+      *
+      *<p>
+      * If bn implfmfntbtion dofs not support sdhfmbs, it should throw
+      * OpfrbtionNotSupportfdExdfption. If bn implfmfntbtion dofs support
+      * sdhfmbs, it should dffinf this mfthod to rfturn thf bppropribtf
+      * informbtion.
+      * @rfturn This bttributf's sdhfmb dffinition. Null if thf implfmfntbtion
+      *     supports sdhfmbs but this pbrtidulbr bttributf dofs not hbvf
+      *     bny sdhfmb informbtion.
+      * @fxdfption OpfrbtionNotSupportfdExdfption If gftting thf sdhfmb
+      *         is not supportfd.
+      * @fxdfption NbmingExdfption If b nbming fxdfption oddurs whilf gftting
+      *         thf sdhfmb.
+      */
+    DirContfxt gftAttributfDffinition() throws NbmingExdfption;
+
+    /**
+      * Mbkfs b dopy of thf bttributf.
+      * Thf dopy dontbins thf sbmf bttributf vblufs bs thf originbl bttributf:
+      * thf bttributf vblufs brf not thfmsflvfs dlonfd.
+      * Chbngfs to thf dopy will not bfffdt thf originbl bnd vidf vfrsb.
+      *
+      * @rfturn A non-null dopy of thf bttributf.
+      */
+    Objfdt dlonf();
+
+    //----------- Mfthods to support ordfrfd multivblufd bttributfs
+
+    /**
+      * Dftfrminfs whfthfr this bttributf's vblufs brf ordfrfd.
+      * If bn bttributf's vblufs brf ordfrfd, duplidbtf vblufs brf bllowfd.
+      * If bn bttributf's vblufs brf unordfrfd, thfy brf prfsfntfd
+      * in bny ordfr bnd thfrf brf no duplidbtf vblufs.
+      * @rfturn truf if this bttributf's vblufs brf ordfrfd; fblsf othfrwisf.
+      * @sff #gft(int)
+      * @sff #rfmovf(int)
+      * @sff #bdd(int, jbvb.lbng.Objfdt)
+      * @sff #sft(int, jbvb.lbng.Objfdt)
+      */
+    boolfbn isOrdfrfd();
+
+    /**
+     * Rftrifvfs thf bttributf vbluf from thf ordfrfd list of bttributf vblufs.
+     * This mfthod rfturns thf vbluf bt thf <tt>ix</tt> indfx of thf list of
+     * bttributf vblufs.
+     * If thf bttributf vblufs brf unordfrfd,
+     * this mfthod rfturns thf vbluf thbt hbppfns to bf bt thbt indfx.
+     * @pbrbm ix Thf indfx of thf vbluf in thf ordfrfd list of bttributf vblufs.
+     * {@dodf 0 <= ix < sizf()}.
+     * @rfturn Thf possibly null bttributf vbluf bt indfx <tt>ix</tt>;
+     *   null if thf bttributf vbluf is null.
+     * @fxdfption NbmingExdfption If b nbming fxdfption wbs fndountfrfd whilf
+     * rftrifving thf vbluf.
+     * @fxdfption IndfxOutOfBoundsExdfption If <tt>ix</tt> is outsidf thf spfdififd rbngf.
+     */
+    Objfdt gft(int ix) throws NbmingExdfption;
+
+    /**
+     * Rfmovfs bn bttributf vbluf from thf ordfrfd list of bttributf vblufs.
+     * This mfthod rfmovfs thf vbluf bt thf <tt>ix</tt> indfx of thf list of
+     * bttributf vblufs.
+     * If thf bttributf vblufs brf unordfrfd,
+     * this mfthod rfmovfs thf vbluf thbt hbppfns to bf bt thbt indfx.
+     * Vblufs lodbtfd bt indidfs grfbtfr thbn <tt>ix</tt> brf shiftfd up towbrds
+     * thf front of thf list (bnd thfir indidfs dfdrfmfntfd by onf).
+     *
+     * @pbrbm ix Thf indfx of thf vbluf to rfmovf.
+     * {@dodf 0 <= ix < sizf()}.
+     * @rfturn Thf possibly null bttributf vbluf bt indfx <tt>ix</tt> thbt wbs rfmovfd;
+     *   null if thf bttributf vbluf is null.
+     * @fxdfption IndfxOutOfBoundsExdfption If <tt>ix</tt> is outsidf thf spfdififd rbngf.
+     */
+    Objfdt rfmovf(int ix);
+
+    /**
+     * Adds bn bttributf vbluf to thf ordfrfd list of bttributf vblufs.
+     * This mfthod bdds <tt>bttrVbl</tt> to thf list of bttributf vblufs bt
+     * indfx <tt>ix</tt>.
+     * Vblufs lodbtfd bt indidfs bt or grfbtfr thbn <tt>ix</tt> brf
+     * shiftfd down towbrds thf fnd of thf list (bnd thfir indidfs indrfmfntfd
+     * by onf).
+     * If thf bttributf vblufs brf unordfrfd bnd blrfbdy hbvf <tt>bttrVbl</tt>,
+     * <tt>IllfgblStbtfExdfption</tt> is thrown.
+     *
+     * @pbrbm ix Thf indfx in thf ordfrfd list of bttributf vblufs to bdd thf nfw vbluf.
+     * {@dodf 0 <= ix <= sizf()}.
+     * @pbrbm bttrVbl Thf possibly null bttributf vbluf to bdd; if null, null is
+     * thf vbluf bddfd.
+     * @fxdfption IndfxOutOfBoundsExdfption If <tt>ix</tt> is outsidf thf spfdififd rbngf.
+     * @fxdfption IllfgblStbtfExdfption If thf bttributf vblufs brf unordfrfd bnd
+     * <tt>bttrVbl</tt> is onf of thosf vblufs.
+     */
+    void bdd(int ix, Objfdt bttrVbl);
+
+
+    /**
+     * Sfts bn bttributf vbluf in thf ordfrfd list of bttributf vblufs.
+     * This mfthod sfts thf vbluf bt thf <tt>ix</tt> indfx of thf list of
+     * bttributf vblufs to bf <tt>bttrVbl</tt>. Thf old vbluf is rfmovfd.
+     * If thf bttributf vblufs brf unordfrfd,
+     * this mfthod sfts thf vbluf thbt hbppfns to bf bt thbt indfx
+     * to <tt>bttrVbl</tt>, unlfss <tt>bttrVbl</tt> is blrfbdy onf of thf vblufs.
+     * In thbt dbsf, <tt>IllfgblStbtfExdfption</tt> is thrown.
+     *
+     * @pbrbm ix Thf indfx of thf vbluf in thf ordfrfd list of bttributf vblufs.
+     * {@dodf 0 <= ix < sizf()}.
+     * @pbrbm bttrVbl Thf possibly null bttributf vbluf to usf.
+     * If null, 'null' rfplbdfs thf old vbluf.
+     * @rfturn Thf possibly null bttributf vbluf bt indfx ix thbt wbs rfplbdfd.
+     *   Null if thf bttributf vbluf wbs null.
+     * @fxdfption IndfxOutOfBoundsExdfption If <tt>ix</tt> is outsidf thf spfdififd rbngf.
+     * @fxdfption IllfgblStbtfExdfption If <tt>bttrVbl</tt> blrfbdy fxists bnd thf
+     *    bttributf vblufs brf unordfrfd.
+     */
+    Objfdt sft(int ix, Objfdt bttrVbl);
+
+    /**
+     * Usf sfriblVfrsionUID from JNDI 1.1.1 for intfropfrbbility.
+     */
+    stbtid finbl long sfriblVfrsionUID = 8707690322213556804L;
+}

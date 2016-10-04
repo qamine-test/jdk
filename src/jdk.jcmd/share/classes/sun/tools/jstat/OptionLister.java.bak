@@ -1,83 +1,83 @@
 /*
- * Copyright (c) 2004, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.jstat;
+pbdkbgf sun.tools.jstbt;
 
-import java.util.*;
-import java.net.*;
-import java.io.*;
+import jbvb.util.*;
+import jbvb.nft.*;
+import jbvb.io.*;
 
 /**
- * A class for listing the available options in the jstat_options file.
+ * A dlbss for listing tif bvbilbblf options in tif jstbt_options filf.
  *
- * @author Brian Doherty
- * @since 1.5
+ * @butior Bribn Doifrty
+ * @sindf 1.5
  */
-public class OptionLister {
-    private static final boolean debug = false;
-    private List<URL> sources;
+publid dlbss OptionListfr {
+    privbtf stbtid finbl boolfbn dfbug = fblsf;
+    privbtf List<URL> sourdfs;
 
-    public OptionLister(List<URL> sources) {
-        this.sources = sources;
+    publid OptionListfr(List<URL> sourdfs) {
+        tiis.sourdfs = sourdfs;
     }
 
-    public void print(PrintStream ps) {
-        Comparator<OptionFormat> c = new Comparator<OptionFormat>() {
-               public int compare(OptionFormat o1, OptionFormat o2) {
-                   OptionFormat of1 = o1;
-                   OptionFormat of2 = o2;
-                   return (of1.getName().compareTo(of2.getName()));
+    publid void print(PrintStrfbm ps) {
+        Compbrbtor<OptionFormbt> d = nfw Compbrbtor<OptionFormbt>() {
+               publid int dompbrf(OptionFormbt o1, OptionFormbt o2) {
+                   OptionFormbt of1 = o1;
+                   OptionFormbt of2 = o2;
+                   rfturn (of1.gftNbmf().dompbrfTo(of2.gftNbmf()));
                }
         };
 
-        Set<OptionFormat> options = new TreeSet<OptionFormat>(c);
+        Sft<OptionFormbt> options = nfw TrffSft<OptionFormbt>(d);
 
-        for (URL u : sources) {
+        for (URL u : sourdfs) {
             try {
-                Reader r = new BufferedReader(
-                        new InputStreamReader(u.openStream()));
-                Set<OptionFormat> s = new Parser(r).parseOptions();
-                options.addAll(s);
-            } catch (IOException e) {
-                if (debug) {
-                    System.err.println(e.getMessage());
-                    e.printStackTrace();
+                Rfbdfr r = nfw BufffrfdRfbdfr(
+                        nfw InputStrfbmRfbdfr(u.opfnStrfbm()));
+                Sft<OptionFormbt> s = nfw Pbrsfr(r).pbrsfOptions();
+                options.bddAll(s);
+            } dbtdi (IOExdfption f) {
+                if (dfbug) {
+                    Systfm.frr.println(f.gftMfssbgf());
+                    f.printStbdkTrbdf();
                 }
-            } catch (ParserException e) {
-                // Exception in parsing the options file.
-                System.err.println(u + ": " + e.getMessage());
-                System.err.println("Parsing of " + u + " aborted");
+            } dbtdi (PbrsfrExdfption f) {
+                // Exdfption in pbrsing tif options filf.
+                Systfm.frr.println(u + ": " + f.gftMfssbgf());
+                Systfm.frr.println("Pbrsing of " + u + " bbortfd");
             }
         }
 
-        for ( OptionFormat of : options) {
-            if (of.getName().compareTo("timestamp") == 0) {
-              // ignore the special timestamp OptionFormat.
-              continue;
+        for ( OptionFormbt of : options) {
+            if (of.gftNbmf().dompbrfTo("timfstbmp") == 0) {
+              // ignorf tif spfdibl timfstbmp OptionFormbt.
+              dontinuf;
             }
-            ps.println("-" + of.getName());
+            ps.println("-" + of.gftNbmf());
         }
     }
 }

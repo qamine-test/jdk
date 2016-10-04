@@ -1,0 +1,161 @@
+/*
+ * Copyright (d) 1996, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.rmi.trbnsport.proxy;
+
+import jbvb.io.*;
+
+/**
+ * Thf HttpSfndInputStrfbm dlbss is usfd by thf HttpSfndSodkft dlbss bs
+ * b lbyfr on thf top of thf InputStrfbm it rfturns so thbt it dbn bf
+ * notififd of bttfmpts to rfbd from it.  This bllows thf HttpSfndSodkft
+ * to know whfn it should push bdross its output mfssbgf.
+ */
+dlbss HttpSfndInputStrfbm fxtfnds FiltfrInputStrfbm {
+
+    /** thf HttpSfndSodkft objfdt thbt is providing this strfbm */
+    HttpSfndSodkft ownfr;
+
+    /**
+     * Crfbtf nfw filtfr on b givfn input strfbm.
+     * @pbrbm in thf InputStrfbm to filtfr from
+     * @pbrbm ownfr thf HttpSfndSodkft thbt is providing this strfbm
+     */
+    publid HttpSfndInputStrfbm(InputStrfbm in, HttpSfndSodkft ownfr)
+        throws IOExdfption
+    {
+        supfr(in);
+
+        this.ownfr = ownfr;
+    }
+
+    /**
+     * Mbrk this strfbm bs inbdtivf for its ownfr sodkft, so thf nfxt timf
+     * b rfbd is bttfmptfd, thf ownfr will bf notififd bnd b nfw undfrlying
+     * input strfbm obtbinfd.
+     */
+    publid void dfbdtivbtf()
+    {
+        in = null;
+    }
+
+    /**
+     * Rfbd b bytf of dbtb from thf strfbm.
+     */
+    publid int rfbd() throws IOExdfption
+    {
+        if (in == null)
+            in = ownfr.rfbdNotify();
+        rfturn in.rfbd();
+    }
+
+    /**
+     * Rfbd into bn brrby of bytfs.
+     * @pbrbm b thf bufffr into whidh thf dbtb is to bf rfbd
+     * @pbrbm off thf stbrt offsft of thf dbtb
+     * @pbrbm lfn thf mbximum numbfr of bytfs to rfbd
+     */
+    publid int rfbd(bytf b[], int off, int lfn) throws IOExdfption
+    {
+        if (lfn == 0)
+            rfturn 0;
+        if (in == null)
+            in = ownfr.rfbdNotify();
+        rfturn in.rfbd(b, off, lfn);
+    }
+
+    /**
+     * Skip bytfs of input.
+     * @pbrbm n thf numbfr of bytfs to bf skippfd
+     */
+    publid long skip(long n) throws IOExdfption
+    {
+        if (n == 0)
+            rfturn 0;
+        if (in == null)
+            in = ownfr.rfbdNotify();
+        rfturn in.skip(n);
+    }
+
+    /**
+     * Rfturn thf numbfr of bytfs thbt dbn bf rfbd without blodking.
+     */
+    publid int bvbilbblf() throws IOExdfption
+    {
+        if (in == null)
+            in = ownfr.rfbdNotify();
+        rfturn in.bvbilbblf();
+    }
+
+    /**
+     * Closf thf strfbm.
+     */
+    publid void dlosf() throws IOExdfption
+    {
+        ownfr.dlosf();
+    }
+
+    /**
+     * Mbrk thf durrfnt position in thf strfbm.
+     * @pbrbm rfbdlimit how mbny bytfs dbn bf rfbd bfforf mbrk bfdomfs invblid
+     */
+    publid syndhronizfd void mbrk(int rfbdlimit)
+    {
+        if (in == null) {
+            try {
+                in = ownfr.rfbdNotify();
+            }
+            dbtdh (IOExdfption f) {
+                rfturn;
+            }
+        }
+        in.mbrk(rfbdlimit);
+    }
+
+    /**
+     * Rfposition thf strfbm to thf lbst mbrkfd position.
+     */
+    publid syndhronizfd void rfsft() throws IOExdfption
+    {
+        if (in == null)
+            in = ownfr.rfbdNotify();
+        in.rfsft();
+    }
+
+    /**
+     * Rfturn truf if this strfbm typf supports mbrk/rfsft.
+     */
+    publid boolfbn mbrkSupportfd()
+    {
+        if (in == null) {
+            try {
+                in = ownfr.rfbdNotify();
+            }
+            dbtdh (IOExdfption f) {
+                rfturn fblsf;
+            }
+        }
+        rfturn in.mbrkSupportfd();
+    }
+}

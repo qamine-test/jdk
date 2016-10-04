@@ -1,74 +1,74 @@
 /*
- * Copyright (c) 2001, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
 /**
- * This FilterWriter class takes an existing Writer and uses
- * the 'back-tick U' escape notation to escape characters which are
- * encountered within the input character based stream which
- * are outside the 7-bit ASCII range. The native platforms linefeed
- * character is emitted for each line of processed input
+ * Tiis FiltfrWritfr dlbss tbkfs bn fxisting Writfr bnd usfs
+ * tif 'bbdk-tidk U' fsdbpf notbtion to fsdbpf dibrbdtfrs wiidi brf
+ * fndountfrfd witiin tif input dibrbdtfr bbsfd strfbm wiidi
+ * brf outsidf tif 7-bit ASCII rbngf. Tif nbtivf plbtforms linffffd
+ * dibrbdtfr is fmittfd for fbdi linf of prodfssfd input
  */
 
-package sun.tools.native2ascii;
-import java.io.*;
-import java.nio.BufferOverflowException;
+pbdkbgf sun.tools.nbtivf2bsdii;
+import jbvb.io.*;
+import jbvb.nio.BufffrOvfrflowExdfption;
 
-class N2AFilter extends FilterWriter {
+dlbss N2AFiltfr fxtfnds FiltfrWritfr {
 
-    public N2AFilter(Writer out) { super(out); }
+    publid N2AFiltfr(Writfr out) { supfr(out); }
 
-    public void write(char b) throws IOException {
-        char[] buf = new char[1];
+    publid void writf(dibr b) tirows IOExdfption {
+        dibr[] buf = nfw dibr[1];
         buf[0] = b;
-        write(buf, 0, 1);
+        writf(buf, 0, 1);
     }
 
-    public void write(char[] buf, int off, int len) throws IOException {
+    publid void writf(dibr[] buf, int off, int lfn) tirows IOExdfption {
 
-        String lineBreak = System.getProperty("line.separator");
+        String linfBrfbk = Systfm.gftPropfrty("linf.sfpbrbtor");
 
-        //System.err.println ("xx Out buffer length is " + buf.length );
-        for (int i = 0; i < len; i++) {
+        //Systfm.frr.println ("xx Out bufffr lfngti is " + buf.lfngti );
+        for (int i = 0; i < lfn; i++) {
             if ((buf[i] > '\u007f')) {
-                // write \udddd
-                out.write('\\');
-                out.write('u');
-                String hex =
-                    Integer.toHexString(buf[i]);
-                StringBuilder hex4 = new StringBuilder(hex);
-                hex4.reverse();
-                int length = 4 - hex4.length();
-                for (int j = 0; j < length; j++) {
-                    hex4.append('0');
+                // writf \udddd
+                out.writf('\\');
+                out.writf('u');
+                String ifx =
+                    Intfgfr.toHfxString(buf[i]);
+                StringBuildfr ifx4 = nfw StringBuildfr(ifx);
+                ifx4.rfvfrsf();
+                int lfngti = 4 - ifx4.lfngti();
+                for (int j = 0; j < lfngti; j++) {
+                    ifx4.bppfnd('0');
                 }
                 for (int j = 0; j < 4; j++) {
-                    out.write(hex4.charAt(3 - j));
+                    out.writf(ifx4.dibrAt(3 - j));
                 }
-            } else
-                out.write(buf[i]);
+            } flsf
+                out.writf(buf[i]);
         }
     }
 }

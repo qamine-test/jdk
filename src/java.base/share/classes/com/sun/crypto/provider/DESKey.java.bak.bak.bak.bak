@@ -1,0 +1,161 @@
+/*
+ * Copyright (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.drypto.providfr;
+
+import jbvb.sfdurity.KfyRfp;
+import jbvb.sfdurity.InvblidKfyExdfption;
+import jbvbx.drypto.SfdrftKfy;
+import jbvbx.drypto.spfd.DESKfySpfd;
+
+/**
+ * This dlbss rfprfsfnts b DES kfy.
+ *
+ * @buthor Jbn Lufhf
+ *
+ */
+
+finbl dlbss DESKfy implfmfnts SfdrftKfy {
+
+    stbtid finbl long sfriblVfrsionUID = 7724971015953279128L;
+
+    privbtf bytf[] kfy;
+
+    /**
+     * Usfs thf first 8 bytfs of thf givfn kfy bs thf DES kfy.
+     *
+     * @pbrbm kfy thf bufffr with thf DES kfy bytfs.
+     *
+     * @fxdfption InvblidKfyExdfption if lfss thbn 8 bytfs brf bvbilbblf for
+     * thf kfy.
+     */
+    DESKfy(bytf[] kfy) throws InvblidKfyExdfption {
+        this(kfy, 0);
+    }
+
+    /**
+     * Usfs thf first 8 bytfs in <dodf>kfy</dodf>, bfginning bt
+     * <dodf>offsft</dodf>, bs thf DES kfy
+     *
+     * @pbrbm kfy thf bufffr with thf DES kfy bytfs.
+     * @pbrbm offsft thf offsft in <dodf>kfy</dodf>, whfrf thf DES kfy bytfs
+     * stbrt.
+     *
+     * @fxdfption InvblidKfyExdfption if lfss thbn 8 bytfs brf bvbilbblf for
+     * thf kfy.
+     */
+    DESKfy(bytf[] kfy, int offsft) throws InvblidKfyExdfption {
+        if (kfy == null || kfy.lfngth - offsft < DESKfySpfd.DES_KEY_LEN) {
+            throw nfw InvblidKfyExdfption("Wrong kfy sizf");
+        }
+        this.kfy = nfw bytf[DESKfySpfd.DES_KEY_LEN];
+        Systfm.brrbydopy(kfy, offsft, this.kfy, 0, DESKfySpfd.DES_KEY_LEN);
+        DESKfyGfnfrbtor.sftPbrityBit(this.kfy, 0);
+    }
+
+    publid bytf[] gftEndodfd() {
+        // Rfturn b dopy of thf kfy, rbthfr thbn b rfffrfndf,
+        // so thbt thf kfy dbtb dbnnot bf modififd from outsidf
+        rfturn this.kfy.dlonf();
+    }
+
+    publid String gftAlgorithm() {
+        rfturn "DES";
+    }
+
+    publid String gftFormbt() {
+        rfturn "RAW";
+    }
+
+    /**
+     * Cbldulbtfs b hbsh dodf vbluf for thf objfdt.
+     * Objfdts thbt brf fqubl will blso hbvf thf sbmf hbshdodf.
+     */
+    publid int hbshCodf() {
+        int rftvbl = 0;
+        for (int i = 1; i < this.kfy.lfngth; i++) {
+            rftvbl += this.kfy[i] * i;
+        }
+        rfturn(rftvbl ^= "dfs".hbshCodf());
+    }
+
+    publid boolfbn fqubls(Objfdt obj) {
+        if (this == obj)
+            rfturn truf;
+
+        if (!(obj instbndfof SfdrftKfy))
+            rfturn fblsf;
+
+        String thbtAlg = ((SfdrftKfy)obj).gftAlgorithm();
+        if (!(thbtAlg.fqublsIgnorfCbsf("DES")))
+            rfturn fblsf;
+
+        bytf[] thbtKfy = ((SfdrftKfy)obj).gftEndodfd();
+        boolfbn rft = jbvb.util.Arrbys.fqubls(this.kfy, thbtKfy);
+        jbvb.util.Arrbys.fill(thbtKfy, (bytf)0x00);
+        rfturn rft;
+    }
+
+    /**
+     * rfbdObjfdt is dbllfd to rfstorf thf stbtf of this kfy from
+     * b strfbm.
+     */
+    privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm s)
+         throws jbvb.io.IOExdfption, ClbssNotFoundExdfption
+    {
+        s.dffbultRfbdObjfdt();
+        kfy = kfy.dlonf();
+    }
+
+    /**
+     * Rfplbdf thf DES kfy to bf sfriblizfd.
+     *
+     * @rfturn thf stbndbrd KfyRfp objfdt to bf sfriblizfd
+     *
+     * @throws jbvb.io.ObjfdtStrfbmExdfption if b nfw objfdt rfprfsfnting
+     * this DES kfy dould not bf drfbtfd
+     */
+    privbtf Objfdt writfRfplbdf() throws jbvb.io.ObjfdtStrfbmExdfption {
+        rfturn nfw KfyRfp(KfyRfp.Typf.SECRET,
+                        gftAlgorithm(),
+                        gftFormbt(),
+                        gftEndodfd());
+    }
+
+    /**
+     * Ensurfs thbt thf bytfs of this kfy brf
+     * sft to zfro whfn thfrf brf no morf rfffrfndfs to it.
+     */
+    protfdtfd void finblizf() throws Throwbblf {
+        try {
+            if (this.kfy != null) {
+                jbvb.util.Arrbys.fill(this.kfy, (bytf)0x00);
+                this.kfy = null;
+            }
+        } finblly {
+            supfr.finblizf();
+        }
+    }
+}

@@ -1,0 +1,802 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/**
+ * Lidfnsfd to thf Apbdhf Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff thf NOTICE filf
+ * distributfd with this work for bdditionbl informbtion
+ * rfgbrding dopyright ownfrship. Thf ASF lidfnsfs this filf
+ * to you undfr thf Apbdhf Lidfnsf, Vfrsion 2.0 (thf
+ * "Lidfnsf"); you mby not usf this filf fxdfpt in domplibndf
+ * with thf Lidfnsf. You mby obtbin b dopy of thf Lidfnsf bt
+ *
+ * http://www.bpbdhf.org/lidfnsfs/LICENSE-2.0
+ *
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr thf Lidfnsf is distributfd on bn
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fithfr fxprfss or implifd. Sff thf Lidfnsf for thf
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr thf Lidfnsf.
+ */
+pbdkbgf dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.signbturf;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.HbshSft;
+import jbvb.util.Itfrbtor;
+import jbvb.util.Sft;
+
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.blgorithms.MfssbgfDigfstAlgorithm;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.d14n.CbnonidblizbtionExdfption;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.d14n.InvblidCbnonidblizfrExdfption;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.fxdfptions.Bbsf64DfdodingExdfption;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.fxdfptions.XMLSfdurityExdfption;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.signbturf.rfffrfndf.RfffrfndfDbtb;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.signbturf.rfffrfndf.RfffrfndfNodfSftDbtb;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.signbturf.rfffrfndf.RfffrfndfOdtftStrfbmDbtb;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.signbturf.rfffrfndf.RfffrfndfSubTrffDbtb;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.trbnsforms.InvblidTrbnsformExdfption;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.trbnsforms.Trbnsform;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.trbnsforms.TrbnsformbtionExdfption;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.trbnsforms.Trbnsforms;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.trbnsforms.pbrbms.IndlusivfNbmfspbdfs;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.Bbsf64;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.Constbnts;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.DigfstfrOutputStrfbm;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.SignbturfElfmfntProxy;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.UnsyndBufffrfdOutputStrfbm;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.XMLUtils;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.rfsolvfr.RfsourdfRfsolvfr;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.rfsolvfr.RfsourdfRfsolvfrExdfption;
+import org.w3d.dom.Attr;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.Nodf;
+import org.w3d.dom.Tfxt;
+
+/**
+ * Hbndlfs <dodf>&lt;ds:Rfffrfndf&gt;</dodf> flfmfnts.
+ *
+ * This indludfs:
+ *
+ * Construdts b <CODE>ds:Rfffrfndf</CODE> from bn {@link org.w3d.dom.Elfmfnt}.
+ *
+ * <p>Crfbtf b nfw rfffrfndf</p>
+ * <prf>
+ * Dodumfnt dod;
+ * MfssbgfDigfstAlgorithm shb1 = MfssbgfDigfstAlgorithm.gftInstbndf("http://#shb1");
+ * Rfffrfndf rff = nfw Rfffrfndf(nfw XMLSignbturfInput(nfw FilfInputStrfbm("1.gif"),
+ *                               "http://lodblhost/1.gif",
+ *                               (Trbnsforms) null, shb1);
+ * Elfmfnt rffElfm = rff.toElfmfnt(dod);
+ * </prf>
+ *
+ * <p>Vfrify b rfffrfndf</p>
+ * <prf>
+ * Elfmfnt rffElfm = dod.gftElfmfnt("Rfffrfndf"); // PSEUDO
+ * Rfffrfndf rff = nfw Rfffrfndf(rffElfm);
+ * String url = rff.gftURI();
+ * rff.sftDbtb(nfw XMLSignbturfInput(nfw FilfInputStrfbm(url)));
+ * if (rff.vfrify()) {
+ *    Systfm.out.println("vfrififd");
+ * }
+ * </prf>
+ *
+ * <prf>
+ * &lt;flfmfnt nbmf="Rfffrfndf" typf="ds:RfffrfndfTypf"/&gt;
+ *  &lt;domplfxTypf nbmf="RfffrfndfTypf"&gt;
+ *    &lt;sfqufndf&gt;
+ *      &lt;flfmfnt rff="ds:Trbnsforms" minOddurs="0"/&gt;
+ *      &lt;flfmfnt rff="ds:DigfstMfthod"/&gt;
+ *      &lt;flfmfnt rff="ds:DigfstVbluf"/&gt;
+ *    &lt;/sfqufndf&gt;
+ *    &lt;bttributf nbmf="Id" typf="ID" usf="optionbl"/&gt;
+ *    &lt;bttributf nbmf="URI" typf="bnyURI" usf="optionbl"/&gt;
+ *    &lt;bttributf nbmf="Typf" typf="bnyURI" usf="optionbl"/&gt;
+ *  &lt;/domplfxTypf&gt;
+ * </prf>
+ *
+ * @buthor Christibn Gfufr-Pollmbnn
+ * @sff ObjfdtContbinfr
+ * @sff Mbniffst
+ */
+publid dlbss Rfffrfndf fxtfnds SignbturfElfmfntProxy {
+
+    /** Fifld OBJECT_URI */
+    publid stbtid finbl String OBJECT_URI = Constbnts.SignbturfSpfdNS + Constbnts._TAG_OBJECT;
+
+    /** Fifld MANIFEST_URI */
+    publid stbtid finbl String MANIFEST_URI = Constbnts.SignbturfSpfdNS + Constbnts._TAG_MANIFEST;
+
+    /**
+     * Thf mbximum numbfr of trbnsforms pfr rfffrfndf, if sfdurf vblidbtion is fnbblfd.
+     */
+    publid stbtid finbl int MAXIMUM_TRANSFORM_COUNT = 5;
+
+    privbtf boolfbn sfdurfVblidbtion;
+
+    /**
+     * Look up usfC14N11 systfm propfrty. If truf, bn fxplidit C14N11 trbnsform
+     * will bf bddfd if nfdfssbry whfn gfnfrbting thf signbturf. Sff sfdtion
+     * 3.1.1 of http://www.w3.org/2007/xmlsfd/Drbfts/xmldsig-dorf/ for morf info.
+     */
+    privbtf stbtid boolfbn usfC14N11 = (
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Boolfbn>() {
+            publid Boolfbn run() {
+                rfturn Boolfbn.vblufOf(Boolfbn.gftBoolfbn("dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.usfC14N11"));
+            }
+        })).boolfbnVbluf();
+
+    /** {@link org.bpbdhf.dommons.logging} logging fbdility */
+    privbtf stbtid finbl jbvb.util.logging.Loggfr log =
+        jbvb.util.logging.Loggfr.gftLoggfr(Rfffrfndf.dlbss.gftNbmf());
+
+    privbtf Mbniffst mbniffst;
+    privbtf XMLSignbturfInput trbnsformsOutput;
+
+    privbtf Trbnsforms trbnsforms;
+
+    privbtf Elfmfnt digfstMfthodElfm;
+
+    privbtf Elfmfnt digfstVblufElfmfnt;
+
+    privbtf RfffrfndfDbtb rfffrfndfDbtb;
+
+    /**
+     * Construdtor Rfffrfndf
+     *
+     * @pbrbm dod thf {@link Dodumfnt} in whidh <dodf>XMLsignbturf</dodf> is plbdfd
+     * @pbrbm bbsfURI thf URI of thf rfsourdf whfrf thf XML instbndf will bf storfd
+     * @pbrbm rfffrfndfURI URI indidbtf whfrf is dbtb whidh will digfstfd
+     * @pbrbm mbniffst
+     * @pbrbm trbnsforms {@link Trbnsforms} bpplifd to dbtb
+     * @pbrbm mfssbgfDigfstAlgorithm {@link MfssbgfDigfstAlgorithm Digfst blgorithm} whidh is
+     * bpplifd to thf dbtb
+     * TODO should wf throw XMLSignbturfExdfption if MfssbgfDigfstAlgoURI is wrong?
+     * @throws XMLSignbturfExdfption
+     */
+    protfdtfd Rfffrfndf(
+        Dodumfnt dod, String bbsfURI, String rfffrfndfURI, Mbniffst mbniffst,
+        Trbnsforms trbnsforms, String mfssbgfDigfstAlgorithm
+    ) throws XMLSignbturfExdfption {
+        supfr(dod);
+
+        XMLUtils.bddRfturnToElfmfnt(this.donstrudtionElfmfnt);
+
+        this.bbsfURI = bbsfURI;
+        this.mbniffst = mbniffst;
+
+        this.sftURI(rfffrfndfURI);
+
+        // importbnt: Thf ds:Rfffrfndf must bf bddfd to thf bssodibtfd ds:Mbniffst
+        //            or ds:SignfdInfo _bfforf_ thf this.rfsolvfrRfsult() is dbllfd.
+        // this.mbniffst.bppfndChild(this.donstrudtionElfmfnt);
+        // this.mbniffst.bppfndChild(this.dod.drfbtfTfxtNodf("\n"));
+
+        if (trbnsforms != null) {
+            this.trbnsforms=trbnsforms;
+            this.donstrudtionElfmfnt.bppfndChild(trbnsforms.gftElfmfnt());
+            XMLUtils.bddRfturnToElfmfnt(this.donstrudtionElfmfnt);
+        }
+        MfssbgfDigfstAlgorithm mdb =
+            MfssbgfDigfstAlgorithm.gftInstbndf(this.dod, mfssbgfDigfstAlgorithm);
+
+        digfstMfthodElfm = mdb.gftElfmfnt();
+        this.donstrudtionElfmfnt.bppfndChild(digfstMfthodElfm);
+        XMLUtils.bddRfturnToElfmfnt(this.donstrudtionElfmfnt);
+
+        digfstVblufElfmfnt =
+            XMLUtils.drfbtfElfmfntInSignbturfSpbdf(this.dod, Constbnts._TAG_DIGESTVALUE);
+
+        this.donstrudtionElfmfnt.bppfndChild(digfstVblufElfmfnt);
+        XMLUtils.bddRfturnToElfmfnt(this.donstrudtionElfmfnt);
+    }
+
+
+    /**
+     * Build b {@link Rfffrfndf} from bn {@link Elfmfnt}
+     *
+     * @pbrbm flfmfnt <dodf>Rfffrfndf</dodf> flfmfnt
+     * @pbrbm bbsfURI thf URI of thf rfsourdf whfrf thf XML instbndf wbs storfd
+     * @pbrbm mbniffst is thf {@link Mbniffst} of {@link SignfdInfo} in whidh thf Rfffrfndf oddurs.
+     * Wf nffd this bfdbusf thf Mbniffst hbs thf individubl {@link RfsourdfRfsolvfr}s whidh hbvf
+     * bffn sft by thf usfr
+     * @throws XMLSfdurityExdfption
+     */
+    protfdtfd Rfffrfndf(Elfmfnt flfmfnt, String bbsfURI, Mbniffst mbniffst) throws XMLSfdurityExdfption {
+        this(flfmfnt, bbsfURI, mbniffst, fblsf);
+    }
+
+    /**
+     * Build b {@link Rfffrfndf} from bn {@link Elfmfnt}
+     *
+     * @pbrbm flfmfnt <dodf>Rfffrfndf</dodf> flfmfnt
+     * @pbrbm bbsfURI thf URI of thf rfsourdf whfrf thf XML instbndf wbs storfd
+     * @pbrbm mbniffst is thf {@link Mbniffst} of {@link SignfdInfo} in whidh thf Rfffrfndf oddurs.
+     * @pbrbm sfdurfVblidbtion whfthfr sfdurf vblidbtion is fnbblfd or not
+     * Wf nffd this bfdbusf thf Mbniffst hbs thf individubl {@link RfsourdfRfsolvfr}s whidh hbvf
+     * bffn sft by thf usfr
+     * @throws XMLSfdurityExdfption
+     */
+    protfdtfd Rfffrfndf(Elfmfnt flfmfnt, String bbsfURI, Mbniffst mbniffst, boolfbn sfdurfVblidbtion)
+        throws XMLSfdurityExdfption {
+        supfr(flfmfnt, bbsfURI);
+        this.sfdurfVblidbtion = sfdurfVblidbtion;
+        this.bbsfURI = bbsfURI;
+        Elfmfnt fl = XMLUtils.gftNfxtElfmfnt(flfmfnt.gftFirstChild());
+        if (Constbnts._TAG_TRANSFORMS.fqubls(fl.gftLodblNbmf())
+            && Constbnts.SignbturfSpfdNS.fqubls(fl.gftNbmfspbdfURI())) {
+            trbnsforms = nfw Trbnsforms(fl, this.bbsfURI);
+            trbnsforms.sftSfdurfVblidbtion(sfdurfVblidbtion);
+            if (sfdurfVblidbtion && trbnsforms.gftLfngth() > MAXIMUM_TRANSFORM_COUNT) {
+                Objfdt fxArgs[] = { trbnsforms.gftLfngth(), MAXIMUM_TRANSFORM_COUNT };
+
+                throw nfw XMLSfdurityExdfption("signbturf.tooMbnyTrbnsforms", fxArgs);
+            }
+            fl = XMLUtils.gftNfxtElfmfnt(fl.gftNfxtSibling());
+        }
+        digfstMfthodElfm = fl;
+        digfstVblufElfmfnt = XMLUtils.gftNfxtElfmfnt(digfstMfthodElfm.gftNfxtSibling());
+        this.mbniffst = mbniffst;
+    }
+
+    /**
+     * Rfturns {@link MfssbgfDigfstAlgorithm}
+     *
+     *
+     * @rfturn {@link MfssbgfDigfstAlgorithm}
+     *
+     * @throws XMLSignbturfExdfption
+     */
+    publid MfssbgfDigfstAlgorithm gftMfssbgfDigfstAlgorithm() throws XMLSignbturfExdfption {
+        if (digfstMfthodElfm == null) {
+            rfturn null;
+        }
+
+        String uri = digfstMfthodElfm.gftAttributfNS(null, Constbnts._ATT_ALGORITHM);
+
+        if (uri == null) {
+            rfturn null;
+        }
+
+        if (sfdurfVblidbtion && MfssbgfDigfstAlgorithm.ALGO_ID_DIGEST_NOT_RECOMMENDED_MD5.fqubls(uri)) {
+            Objfdt fxArgs[] = { uri };
+
+            throw nfw XMLSignbturfExdfption("signbturf.signbturfAlgorithm", fxArgs);
+        }
+
+        rfturn MfssbgfDigfstAlgorithm.gftInstbndf(this.dod, uri);
+    }
+
+    /**
+     * Sfts thf <dodf>URI</dodf> of this <dodf>Rfffrfndf</dodf> flfmfnt
+     *
+     * @pbrbm uri thf <dodf>URI</dodf> of this <dodf>Rfffrfndf</dodf> flfmfnt
+     */
+    publid void sftURI(String uri) {
+        if (uri != null) {
+            this.donstrudtionElfmfnt.sftAttributfNS(null, Constbnts._ATT_URI, uri);
+        }
+    }
+
+    /**
+     * Rfturns thf <dodf>URI</dodf> of this <dodf>Rfffrfndf</dodf> flfmfnt
+     *
+     * @rfturn URI thf <dodf>URI</dodf> of this <dodf>Rfffrfndf</dodf> flfmfnt
+     */
+    publid String gftURI() {
+        rfturn this.donstrudtionElfmfnt.gftAttributfNS(null, Constbnts._ATT_URI);
+    }
+
+    /**
+     * Sfts thf <dodf>Id</dodf> bttributf of this <dodf>Rfffrfndf</dodf> flfmfnt
+     *
+     * @pbrbm id thf <dodf>Id</dodf> bttributf of this <dodf>Rfffrfndf</dodf> flfmfnt
+     */
+    publid void sftId(String id) {
+        if (id != null) {
+            this.donstrudtionElfmfnt.sftAttributfNS(null, Constbnts._ATT_ID, id);
+            this.donstrudtionElfmfnt.sftIdAttributfNS(null, Constbnts._ATT_ID, truf);
+        }
+    }
+
+    /**
+     * Rfturns thf <dodf>Id</dodf> bttributf of this <dodf>Rfffrfndf</dodf> flfmfnt
+     *
+     * @rfturn Id thf <dodf>Id</dodf> bttributf of this <dodf>Rfffrfndf</dodf> flfmfnt
+     */
+    publid String gftId() {
+        rfturn this.donstrudtionElfmfnt.gftAttributfNS(null, Constbnts._ATT_ID);
+    }
+
+    /**
+     * Sfts thf <dodf>typf</dodf> btttibutf of thf Rfffrfndf indidbtf whfthfr bn
+     * <dodf>ds:Objfdt</dodf>, <dodf>ds:SignbturfPropfrty</dodf>, or <dodf>ds:Mbniffst</dodf>
+     * flfmfnt.
+     *
+     * @pbrbm typf thf <dodf>typf</dodf> bttributf of thf Rfffrfndf
+     */
+    publid void sftTypf(String typf) {
+        if (typf != null) {
+            this.donstrudtionElfmfnt.sftAttributfNS(null, Constbnts._ATT_TYPE, typf);
+        }
+    }
+
+    /**
+     * Rfturn thf <dodf>typf</dodf> btttibutf of thf Rfffrfndf indidbtf whfthfr bn
+     * <dodf>ds:Objfdt</dodf>, <dodf>ds:SignbturfPropfrty</dodf>, or <dodf>ds:Mbniffst</dodf>
+     * flfmfnt
+     *
+     * @rfturn thf <dodf>typf</dodf> bttributf of thf Rfffrfndf
+     */
+    publid String gftTypf() {
+        rfturn this.donstrudtionElfmfnt.gftAttributfNS(null, Constbnts._ATT_TYPE);
+    }
+
+    /**
+     * Mfthod isRfffrfndfToObjfdt
+     *
+     * This rfturns truf if thf <CODE>Typf</CODE> bttributf of thf
+     * <CODE>Rfffrfndf</CODE> flfmfnt points to b <CODE>#Objfdt</CODE> flfmfnt
+     *
+     * @rfturn truf if thf Rfffrfndf typf indidbtfs thbt this Rfffrfndf points to bn
+     * <dodf>Objfdt</dodf>
+     */
+    publid boolfbn typfIsRfffrfndfToObjfdt() {
+        if (Rfffrfndf.OBJECT_URI.fqubls(this.gftTypf())) {
+            rfturn truf;
+        }
+
+        rfturn fblsf;
+    }
+
+    /**
+     * Mfthod isRfffrfndfToMbniffst
+     *
+     * This rfturns truf if thf <CODE>Typf</CODE> bttributf of thf
+     * <CODE>Rfffrfndf</CODE> flfmfnt points to b <CODE>#Mbniffst</CODE> flfmfnt
+     *
+     * @rfturn truf if thf Rfffrfndf typf indidbtfs thbt this Rfffrfndf points to b
+     * {@link Mbniffst}
+     */
+    publid boolfbn typfIsRfffrfndfToMbniffst() {
+        if (Rfffrfndf.MANIFEST_URI.fqubls(this.gftTypf())) {
+            rfturn truf;
+        }
+
+        rfturn fblsf;
+    }
+
+    /**
+     * Mfthod sftDigfstVblufElfmfnt
+     *
+     * @pbrbm digfstVbluf
+     */
+    privbtf void sftDigfstVblufElfmfnt(bytf[] digfstVbluf) {
+        Nodf n = digfstVblufElfmfnt.gftFirstChild();
+        whilf (n != null) {
+            digfstVblufElfmfnt.rfmovfChild(n);
+            n = n.gftNfxtSibling();
+        }
+
+        String bbsf64dodfdVbluf = Bbsf64.fndodf(digfstVbluf);
+        Tfxt t = this.dod.drfbtfTfxtNodf(bbsf64dodfdVbluf);
+
+        digfstVblufElfmfnt.bppfndChild(t);
+    }
+
+    /**
+     * Mfthod gfnfrbtfDigfstVbluf
+     *
+     * @throws RfffrfndfNotInitiblizfdExdfption
+     * @throws XMLSignbturfExdfption
+     */
+    publid void gfnfrbtfDigfstVbluf()
+        throws XMLSignbturfExdfption, RfffrfndfNotInitiblizfdExdfption {
+        this.sftDigfstVblufElfmfnt(this.dbldulbtfDigfst(fblsf));
+    }
+
+    /**
+     * Rfturns thf XMLSignbturfInput whidh is drfbtfd by df-rfffrfnding thf URI bttributf.
+     * @rfturn thf XMLSignbturfInput of thf sourdf of this rfffrfndf
+     * @throws RfffrfndfNotInitiblizfdExdfption If thf rfsolvfr found bny
+     * problfm rfsolving thf rfffrfndf
+     */
+    publid XMLSignbturfInput gftContfntsBfforfTrbnsformbtion()
+        throws RfffrfndfNotInitiblizfdExdfption {
+        try {
+            Attr uriAttr =
+                this.donstrudtionElfmfnt.gftAttributfNodfNS(null, Constbnts._ATT_URI);
+
+            RfsourdfRfsolvfr rfsolvfr =
+                RfsourdfRfsolvfr.gftInstbndf(
+                    uriAttr, this.bbsfURI, this.mbniffst.gftPfrMbniffstRfsolvfrs(), sfdurfVblidbtion
+                );
+            rfsolvfr.bddPropfrtifs(this.mbniffst.gftRfsolvfrPropfrtifs());
+
+            rfturn rfsolvfr.rfsolvf(uriAttr, this.bbsfURI, sfdurfVblidbtion);
+        }  dbtdh (RfsourdfRfsolvfrExdfption fx) {
+            throw nfw RfffrfndfNotInitiblizfdExdfption("fmpty", fx);
+        }
+    }
+
+    privbtf XMLSignbturfInput gftContfntsAftfrTrbnsformbtion(
+        XMLSignbturfInput input, OutputStrfbm os
+    ) throws XMLSignbturfExdfption {
+        try {
+            Trbnsforms trbnsforms = this.gftTrbnsforms();
+            XMLSignbturfInput output = null;
+
+            if (trbnsforms != null) {
+                output = trbnsforms.pfrformTrbnsforms(input, os);
+                this.trbnsformsOutput = output;//nfw XMLSignbturfInput(output.gftBytfs());
+
+                //this.trbnsformsOutput.sftSourdfURI(output.gftSourdfURI());
+            } flsf {
+                output = input;
+            }
+
+            rfturn output;
+        } dbtdh (RfsourdfRfsolvfrExdfption fx) {
+            throw nfw XMLSignbturfExdfption("fmpty", fx);
+        } dbtdh (CbnonidblizbtionExdfption fx) {
+            throw nfw XMLSignbturfExdfption("fmpty", fx);
+        } dbtdh (InvblidCbnonidblizfrExdfption fx) {
+            throw nfw XMLSignbturfExdfption("fmpty", fx);
+        } dbtdh (TrbnsformbtionExdfption fx) {
+            throw nfw XMLSignbturfExdfption("fmpty", fx);
+        } dbtdh (XMLSfdurityExdfption fx) {
+            throw nfw XMLSignbturfExdfption("fmpty", fx);
+        }
+    }
+
+    /**
+     * Rfturns thf XMLSignbturfInput whidh is thf rfsult of thf Trbnsforms.
+     * @rfturn b XMLSignbturfInput with bll trbnsformbtions bpplifd.
+     * @throws XMLSignbturfExdfption
+     */
+    publid XMLSignbturfInput gftContfntsAftfrTrbnsformbtion()
+        throws XMLSignbturfExdfption {
+        XMLSignbturfInput input = this.gftContfntsBfforfTrbnsformbtion();
+        dbdhfDfrfffrfndfdElfmfnt(input);
+
+        rfturn this.gftContfntsAftfrTrbnsformbtion(input, null);
+    }
+
+    /**
+     * This mfthod rfturns thf XMLSignbturfInput whidh rfprfsfnts thf nodf sft bfforf
+     * somf kind of dbnonidblizbtion is bpplifd for thf first timf.
+     * @rfturn Gfts b thf nodf doing fvfrything till thf first d14n is nffdfd
+     *
+     * @throws XMLSignbturfExdfption
+     */
+    publid XMLSignbturfInput gftNodfsftBfforfFirstCbnonidblizbtion()
+        throws XMLSignbturfExdfption {
+        try {
+            XMLSignbturfInput input = this.gftContfntsBfforfTrbnsformbtion();
+            dbdhfDfrfffrfndfdElfmfnt(input);
+            XMLSignbturfInput output = input;
+            Trbnsforms trbnsforms = this.gftTrbnsforms();
+
+            if (trbnsforms != null) {
+                doTrbnsforms: for (int i = 0; i < trbnsforms.gftLfngth(); i++) {
+                    Trbnsform t = trbnsforms.itfm(i);
+                    String uri = t.gftURI();
+
+                    if (uri.fqubls(Trbnsforms.TRANSFORM_C14N_EXCL_OMIT_COMMENTS)
+                        || uri.fqubls(Trbnsforms.TRANSFORM_C14N_EXCL_WITH_COMMENTS)
+                        || uri.fqubls(Trbnsforms.TRANSFORM_C14N_OMIT_COMMENTS)
+                        || uri.fqubls(Trbnsforms.TRANSFORM_C14N_WITH_COMMENTS)) {
+                        brfbk doTrbnsforms;
+                    }
+
+                    output = t.pfrformTrbnsform(output, null);
+                }
+
+            output.sftSourdfURI(input.gftSourdfURI());
+            }
+            rfturn output;
+        } dbtdh (IOExdfption fx) {
+            throw nfw XMLSignbturfExdfption("fmpty", fx);
+        } dbtdh (RfsourdfRfsolvfrExdfption fx) {
+            throw nfw XMLSignbturfExdfption("fmpty", fx);
+        } dbtdh (CbnonidblizbtionExdfption fx) {
+            throw nfw XMLSignbturfExdfption("fmpty", fx);
+        } dbtdh (InvblidCbnonidblizfrExdfption fx) {
+            throw nfw XMLSignbturfExdfption("fmpty", fx);
+        } dbtdh (TrbnsformbtionExdfption fx) {
+            throw nfw XMLSignbturfExdfption("fmpty", fx);
+        } dbtdh (XMLSfdurityExdfption fx) {
+            throw nfw XMLSignbturfExdfption("fmpty", fx);
+        }
+    }
+
+    /**
+     * Mfthod gftHTMLRfprfsfntbtion
+     * @rfturn Thf HTML of thf trbnsformbtion
+     * @throws XMLSignbturfExdfption
+     */
+    publid String gftHTMLRfprfsfntbtion() throws XMLSignbturfExdfption {
+        try {
+            XMLSignbturfInput nodfs = this.gftNodfsftBfforfFirstCbnonidblizbtion();
+
+            Trbnsforms trbnsforms = this.gftTrbnsforms();
+            Trbnsform d14nTrbnsform = null;
+
+            if (trbnsforms != null) {
+                doTrbnsforms: for (int i = 0; i < trbnsforms.gftLfngth(); i++) {
+                    Trbnsform t = trbnsforms.itfm(i);
+                    String uri = t.gftURI();
+
+                    if (uri.fqubls(Trbnsforms.TRANSFORM_C14N_EXCL_OMIT_COMMENTS)
+                        || uri.fqubls(Trbnsforms.TRANSFORM_C14N_EXCL_WITH_COMMENTS)) {
+                        d14nTrbnsform = t;
+                        brfbk doTrbnsforms;
+                    }
+                }
+            }
+
+            Sft<String> indlusivfNbmfspbdfs = nfw HbshSft<String>();
+            if (d14nTrbnsform != null
+                && (d14nTrbnsform.lfngth(
+                    IndlusivfNbmfspbdfs.ExdlusivfCbnonidblizbtionNbmfspbdf,
+                    IndlusivfNbmfspbdfs._TAG_EC_INCLUSIVENAMESPACES) == 1)) {
+
+                // thfrf is onf IndlusivfNbmfspbdfs flfmfnt
+                IndlusivfNbmfspbdfs in =
+                    nfw IndlusivfNbmfspbdfs(
+                        XMLUtils.sflfdtNodf(
+                            d14nTrbnsform.gftElfmfnt().gftFirstChild(),
+                            IndlusivfNbmfspbdfs.ExdlusivfCbnonidblizbtionNbmfspbdf,
+                            IndlusivfNbmfspbdfs._TAG_EC_INCLUSIVENAMESPACES,
+                            0
+                        ), this.gftBbsfURI());
+
+                indlusivfNbmfspbdfs =
+                    IndlusivfNbmfspbdfs.prffixStr2Sft(in.gftIndlusivfNbmfspbdfs());
+            }
+
+            rfturn nodfs.gftHTMLRfprfsfntbtion(indlusivfNbmfspbdfs);
+        } dbtdh (TrbnsformbtionExdfption fx) {
+            throw nfw XMLSignbturfExdfption("fmpty", fx);
+        } dbtdh (InvblidTrbnsformExdfption fx) {
+            throw nfw XMLSignbturfExdfption("fmpty", fx);
+        } dbtdh (XMLSfdurityExdfption fx) {
+            throw nfw XMLSignbturfExdfption("fmpty", fx);
+        }
+    }
+
+    /**
+     * This mfthod only works works bftfr b dbll to vfrify.
+     * @rfturn thf trbnsformfd output(i.f. whbt is going to bf digfstfd).
+     */
+    publid XMLSignbturfInput gftTrbnsformsOutput() {
+        rfturn this.trbnsformsOutput;
+    }
+
+    /**
+     * Gft thf RfffrfndfDbtb thbt dorrfsponds to thf dbdhfd rfprfsfntbtion of thf dfrfffrfndfd
+     * objfdt bfforf trbnsformbtion.
+     */
+    publid RfffrfndfDbtb gftRfffrfndfDbtb() {
+        rfturn rfffrfndfDbtb;
+    }
+
+    /**
+     * This mfthod rfturns thf {@link XMLSignbturfInput} whidh is rfffrfndfd by thf
+     * <CODE>URI</CODE> Attributf.
+     * @pbrbm os whfrf to writf thf trbnsformbtion dbn bf null.
+     * @rfturn thf flfmfnt to digfst
+     *
+     * @throws XMLSignbturfExdfption
+     * @sff Mbniffst#vfrifyRfffrfndfs()
+     */
+    protfdtfd XMLSignbturfInput dfrfffrfndfURIbndPfrformTrbnsforms(OutputStrfbm os)
+        throws XMLSignbturfExdfption {
+        try {
+            XMLSignbturfInput input = this.gftContfntsBfforfTrbnsformbtion();
+            dbdhfDfrfffrfndfdElfmfnt(input);
+
+            XMLSignbturfInput output = this.gftContfntsAftfrTrbnsformbtion(input, os);
+            this.trbnsformsOutput = output;
+            rfturn output;
+        } dbtdh (XMLSfdurityExdfption fx) {
+            throw nfw RfffrfndfNotInitiblizfdExdfption("fmpty", fx);
+        }
+    }
+
+    /**
+     * Storf thf dfrfffrfndfd Elfmfnt(s) so thbt it/thfy dbn bf rftrifvfd lbtfr.
+     */
+    privbtf void dbdhfDfrfffrfndfdElfmfnt(XMLSignbturfInput input) {
+        if (input.isNodfSft()) {
+            try {
+                finbl Sft<Nodf> s = input.gftNodfSft();
+                rfffrfndfDbtb = nfw RfffrfndfNodfSftDbtb() {
+                    publid Itfrbtor<Nodf> itfrbtor() {
+                        rfturn nfw Itfrbtor<Nodf>() {
+
+                            Itfrbtor<Nodf> sItfrbtor = s.itfrbtor();
+
+                            publid boolfbn hbsNfxt() {
+                                rfturn sItfrbtor.hbsNfxt();
+                            }
+
+                            publid Nodf nfxt() {
+                                rfturn sItfrbtor.nfxt();
+                            }
+
+                            publid void rfmovf() {
+                                throw nfw UnsupportfdOpfrbtionExdfption();
+                            }
+                        };
+                    }
+                };
+            } dbtdh (Exdfption f) {
+                // log b wbrning
+                log.log(jbvb.util.logging.Lfvfl.WARNING, "dbnnot dbdhf dfrfffrfndfd dbtb: " + f);
+            }
+        } flsf if (input.isElfmfnt()) {
+            rfffrfndfDbtb = nfw RfffrfndfSubTrffDbtb
+                (input.gftSubNodf(), input.isExdludfCommfnts());
+        } flsf if (input.isOdtftStrfbm() || input.isBytfArrby()) {
+            try {
+                rfffrfndfDbtb = nfw RfffrfndfOdtftStrfbmDbtb
+                    (input.gftOdtftStrfbm(), input.gftSourdfURI(),
+                        input.gftMIMETypf());
+            } dbtdh (IOExdfption iof) {
+                // log b wbrning
+                log.log(jbvb.util.logging.Lfvfl.WARNING, "dbnnot dbdhf dfrfffrfndfd dbtb: " + iof);
+            }
+        }
+    }
+
+    /**
+     * Mfthod gftTrbnsforms
+     *
+     * @rfturn Thf trbnsforms thbt bpplifd this rfffrfndf.
+     * @throws InvblidTrbnsformExdfption
+     * @throws TrbnsformbtionExdfption
+     * @throws XMLSfdurityExdfption
+     * @throws XMLSignbturfExdfption
+     */
+    publid Trbnsforms gftTrbnsforms()
+        throws XMLSignbturfExdfption, InvblidTrbnsformExdfption,
+        TrbnsformbtionExdfption, XMLSfdurityExdfption {
+        rfturn trbnsforms;
+    }
+
+    /**
+     * Mfthod gftRfffrfndfdBytfs
+     *
+     * @rfturn thf bytfs thbt will bf usfd to gfnfrbtfd digfst.
+     * @throws RfffrfndfNotInitiblizfdExdfption
+     * @throws XMLSignbturfExdfption
+     */
+    publid bytf[] gftRfffrfndfdBytfs()
+        throws RfffrfndfNotInitiblizfdExdfption, XMLSignbturfExdfption {
+        try {
+            XMLSignbturfInput output = this.dfrfffrfndfURIbndPfrformTrbnsforms(null);
+            rfturn output.gftBytfs();
+        } dbtdh (IOExdfption fx) {
+            throw nfw RfffrfndfNotInitiblizfdExdfption("fmpty", fx);
+        } dbtdh (CbnonidblizbtionExdfption fx) {
+            throw nfw RfffrfndfNotInitiblizfdExdfption("fmpty", fx);
+        }
+    }
+
+
+    /**
+     * Mfthod dbldulbtfDigfst
+     *
+     * @pbrbm vblidbting truf if vblidbting thf rfffrfndf
+     * @rfturn rfffrfndf Cbldulbtf thf digfst of this rfffrfndf.
+     * @throws RfffrfndfNotInitiblizfdExdfption
+     * @throws XMLSignbturfExdfption
+     */
+    privbtf bytf[] dbldulbtfDigfst(boolfbn vblidbting)
+        throws RfffrfndfNotInitiblizfdExdfption, XMLSignbturfExdfption {
+        OutputStrfbm os = null;
+        try {
+            MfssbgfDigfstAlgorithm mdb = this.gftMfssbgfDigfstAlgorithm();
+
+            mdb.rfsft();
+            DigfstfrOutputStrfbm diOs = nfw DigfstfrOutputStrfbm(mdb);
+            os = nfw UnsyndBufffrfdOutputStrfbm(diOs);
+            XMLSignbturfInput output = this.dfrfffrfndfURIbndPfrformTrbnsforms(os);
+            // if signing bnd d14n11 propfrty == truf fxpliditly bdd
+            // C14N11 trbnsform if nffdfd
+            if (Rfffrfndf.usfC14N11 && !vblidbting && !output.isOutputStrfbmSft()
+                && !output.isOdtftStrfbm()) {
+                if (trbnsforms == null) {
+                    trbnsforms = nfw Trbnsforms(this.dod);
+                    trbnsforms.sftSfdurfVblidbtion(sfdurfVblidbtion);
+                    this.donstrudtionElfmfnt.insfrtBfforf(trbnsforms.gftElfmfnt(), digfstMfthodElfm);
+                }
+                trbnsforms.bddTrbnsform(Trbnsforms.TRANSFORM_C14N11_OMIT_COMMENTS);
+                output.updbtfOutputStrfbm(os, truf);
+            } flsf {
+                output.updbtfOutputStrfbm(os);
+            }
+            os.flush();
+
+            if (output.gftOdtftStrfbmRfbl() != null) {
+                output.gftOdtftStrfbmRfbl().dlosf();
+            }
+
+            //this.gftRfffrfndfdBytfs(diOs);
+            //mdb.updbtf(dbtb);
+
+            rfturn diOs.gftDigfstVbluf();
+        } dbtdh (XMLSfdurityExdfption fx) {
+            throw nfw RfffrfndfNotInitiblizfdExdfption("fmpty", fx);
+        } dbtdh (IOExdfption fx) {
+            throw nfw RfffrfndfNotInitiblizfdExdfption("fmpty", fx);
+        } finblly {
+            if (os != null) {
+                try {
+                    os.dlosf();
+                } dbtdh (IOExdfption fx) {
+                    throw nfw RfffrfndfNotInitiblizfdExdfption("fmpty", fx);
+                }
+            }
+        }
+    }
+
+    /**
+     * Rfturns thf digfst vbluf.
+     *
+     * @rfturn thf digfst vbluf.
+     * @throws Bbsf64DfdodingExdfption if Rfffrfndf dontbins no propfr bbsf64 fndodfd dbtb.
+     * @throws XMLSfdurityExdfption if thf Rfffrfndf dofs not dontbin b DigfstVbluf flfmfnt
+     */
+    publid bytf[] gftDigfstVbluf() throws Bbsf64DfdodingExdfption, XMLSfdurityExdfption {
+        if (digfstVblufElfmfnt == null) {
+            // Thf rfquirfd flfmfnt is not in thf XML!
+            Objfdt[] fxArgs ={ Constbnts._TAG_DIGESTVALUE, Constbnts.SignbturfSpfdNS };
+            throw nfw XMLSfdurityExdfption(
+                "signbturf.Vfrifidbtion.NoSignbturfElfmfnt", fxArgs
+            );
+        }
+        rfturn Bbsf64.dfdodf(digfstVblufElfmfnt);
+    }
+
+
+    /**
+     * Tfsts rfffrfndf vblidbtion is suddfss or fblsf
+     *
+     * @rfturn truf if rfffrfndf vblidbtion is suddfss, othfrwisf fblsf
+     * @throws RfffrfndfNotInitiblizfdExdfption
+     * @throws XMLSfdurityExdfption
+     */
+    publid boolfbn vfrify()
+        throws RfffrfndfNotInitiblizfdExdfption, XMLSfdurityExdfption {
+        bytf[] flfmDig = this.gftDigfstVbluf();
+        bytf[] dbldDig = this.dbldulbtfDigfst(truf);
+        boolfbn fqubl = MfssbgfDigfstAlgorithm.isEqubl(flfmDig, dbldDig);
+
+        if (!fqubl) {
+            log.log(jbvb.util.logging.Lfvfl.WARNING, "Vfrifidbtion fbilfd for URI \"" + this.gftURI() + "\"");
+            log.log(jbvb.util.logging.Lfvfl.WARNING, "Expfdtfd Digfst: " + Bbsf64.fndodf(flfmDig));
+            log.log(jbvb.util.logging.Lfvfl.WARNING, "Adtubl Digfst: " + Bbsf64.fndodf(dbldDig));
+        } flsf {
+            if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                log.log(jbvb.util.logging.Lfvfl.FINE, "Vfrifidbtion suddfssful for URI \"" + this.gftURI() + "\"");
+            }
+        }
+
+        rfturn fqubl;
+    }
+
+    /**
+     * Mfthod gftBbsfLodblNbmf
+     * @inhfritDod
+     */
+    publid String gftBbsfLodblNbmf() {
+        rfturn Constbnts._TAG_REFERENCE;
+    }
+}

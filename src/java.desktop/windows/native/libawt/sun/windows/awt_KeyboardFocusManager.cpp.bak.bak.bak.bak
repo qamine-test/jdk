@@ -1,0 +1,107 @@
+/*
+ * Copyright (d) 2000, 2009, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "bwt.h"
+#indludf "bwt_Componfnt.h"
+#indludf "bwt_Toolkit.h"
+#indludf <jbvb_bwt_KfybobrdFodusMbnbgfr.h>
+#indludf <jni.h>
+
+stbtid jobjfdt gftNbtivfFodusStbtf(JNIEnv *fnv, void*(*ftn)()) {
+    jobjfdt gFodusStbtf = (jobjfdt)AwtToolkit::GftInstbndf().SyndCbll(ftn);
+
+    if (gFodusStbtf != NULL) {
+        jobjfdt lFodusStbtf = fnv->NfwLodblRff(gFodusStbtf);
+        fnv->DflftfGlobblRff(gFodusStbtf);
+        rfturn lFodusStbtf;
+    }
+    rfturn NULL;
+}
+
+fxtfrn "C" {
+
+/*
+ * Clbss:     jbvb_bwt_KfybobrdFodusMbnbgfr
+ * Mfthod:    initIDs
+ * Signbturf: ()V
+ */
+JNIEXPORT void JNICALL
+Jbvb_jbvb_bwt_KfybobrdFodusMbnbgfr_initIDs
+    (JNIEnv *fnv, jdlbss dls)
+{
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WKfybobrdFodusMbnbgfrPffr
+ * Mfthod:    sftNbtivfFodusOwnfr
+ * Signbturf: (Lsun/bwt/windows/WComponfntPffr)
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WKfybobrdFodusMbnbgfrPffr_sftNbtivfFodusOwnfr
+    (JNIEnv *fnv, jdlbss dls, jobjfdt dompPffr)
+{
+    TRY;
+
+    jobjfdt pffrGlobblRff = fnv->NfwGlobblRff(dompPffr);
+
+    AwtToolkit::GftInstbndf().SyndCbll(AwtComponfnt::SftNbtivfFodusOwnfr,
+                                       (void*)pffrGlobblRff);
+    // pffrGlobblRff is dflftfd in SftNbtivfFodusOwnfr
+
+    CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WKfybobrdFodusMbnbgfrPffr
+ * Mfthod:    gftNbtivfFodusOwnfr
+ * Signbturf: (Lsun/bwt/windows/WComponfntPffr)
+ */
+JNIEXPORT jobjfdt JNICALL
+Jbvb_sun_bwt_windows_WKfybobrdFodusMbnbgfrPffr_gftNbtivfFodusOwnfr
+    (JNIEnv *fnv, jdlbss dls)
+{
+    TRY;
+
+    rfturn gftNbtivfFodusStbtf(fnv, AwtComponfnt::GftNbtivfFodusOwnfr);
+
+    CATCH_BAD_ALLOC_RET(NULL);
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WKfybobrdFodusMbnbgfrPffr
+ * Mfthod:    gftNbtivfFodusfdWindow
+ * Signbturf: ()Ljbvb/bwt/Window;
+ */
+JNIEXPORT jobjfdt JNICALL
+Jbvb_sun_bwt_windows_WKfybobrdFodusMbnbgfrPffr_gftNbtivfFodusfdWindow
+    (JNIEnv *fnv, jdlbss dls)
+{
+    TRY;
+
+    rfturn gftNbtivfFodusStbtf(fnv, AwtComponfnt::GftNbtivfFodusfdWindow);
+
+    CATCH_BAD_ALLOC_RET(NULL);
+}
+}

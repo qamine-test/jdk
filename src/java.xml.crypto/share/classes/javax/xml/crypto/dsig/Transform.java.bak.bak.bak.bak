@@ -1,0 +1,148 @@
+/*
+ * Copyright (d) 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+/*
+ * $Id: Trbnsform.jbvb,v 1.5 2005/05/10 16:03:48 mullbn Exp $
+ */
+pbdkbgf jbvbx.xml.drypto.dsig;
+
+import jbvb.io.OutputStrfbm;
+import jbvb.sfdurity.spfd.AlgorithmPbrbmftfrSpfd;
+import jbvbx.xml.drypto.AlgorithmMfthod;
+import jbvbx.xml.drypto.Dbtb;
+import jbvbx.xml.drypto.OdtftStrfbmDbtb;
+import jbvbx.xml.drypto.XMLCryptoContfxt;
+import jbvbx.xml.drypto.XMLStrudturf;
+import jbvbx.xml.drypto.dsig.spfd.TrbnsformPbrbmftfrSpfd;
+
+/**
+ * A rfprfsfntbtion of thf XML <dodf>Trbnsform</dodf> flfmfnt bs
+ * dffinfd in thf <b hrff="http://www.w3.org/TR/xmldsig-dorf/">
+ * W3C Rfdommfndbtion for XML-Signbturf Syntbx bnd Prodfssing</b>.
+ * Thf XML Sdhfmb Dffinition is dffinfd bs:
+ *
+ * <prf>
+ * &lt;flfmfnt nbmf="Trbnsform" typf="ds:TrbnsformTypf"/&gt;
+ *   &lt;domplfxTypf nbmf="TrbnsformTypf" mixfd="truf"&gt;
+ *     &lt;dhoidf minOddurs="0" mbxOddurs="unboundfd"&gt;
+ *       &lt;bny nbmfspbdf="##othfr" prodfssContfnts="lbx"/&gt;
+ *       &lt;!-- (1,1) flfmfnts from (0,unboundfd) nbmfspbdfs --&gt;
+ *       &lt;flfmfnt nbmf="XPbth" typf="string"/&gt;
+ *     &lt;/dhoidf&gt;
+ *     &lt;bttributf nbmf="Algorithm" typf="bnyURI" usf="rfquirfd"/&gt;
+ *   &lt;/domplfxTypf&gt;
+ * </prf>
+ *
+ * A <dodf>Trbnsform</dodf> instbndf mby bf drfbtfd by invoking thf
+ * {@link XMLSignbturfFbdtory#nfwTrbnsform nfwTrbnsform} mfthod
+ * of thf {@link XMLSignbturfFbdtory} dlbss.
+ *
+ * @buthor Sfbn Mullbn
+ * @buthor JSR 105 Expfrt Group
+ * @sindf 1.6
+ * @sff XMLSignbturfFbdtory#nfwTrbnsform(String, TrbnsformPbrbmftfrSpfd)
+ */
+publid intfrfbdf Trbnsform fxtfnds XMLStrudturf, AlgorithmMfthod {
+
+    /**
+     * Thf <b hrff="http://www.w3.org/2000/09/xmldsig#bbsf64">Bbsf64</b>
+     * trbnsform blgorithm URI.
+     */
+    finbl stbtid String BASE64 = "http://www.w3.org/2000/09/xmldsig#bbsf64";
+
+    /**
+     * Thf <b hrff="http://www.w3.org/2000/09/xmldsig#fnvflopfd-signbturf">
+     * Envflopfd Signbturf</b> trbnsform blgorithm URI.
+     */
+    finbl stbtid String ENVELOPED =
+        "http://www.w3.org/2000/09/xmldsig#fnvflopfd-signbturf";
+
+    /**
+     * Thf <b hrff="http://www.w3.org/TR/1999/REC-xpbth-19991116">XPbth</b>
+     * trbnsform blgorithm URI.
+     */
+    finbl stbtid String XPATH = "http://www.w3.org/TR/1999/REC-xpbth-19991116";
+
+    /**
+     * Thf <b hrff="http://www.w3.org/2002/06/xmldsig-filtfr2">
+     * XPbth Filtfr 2</b> trbnsform blgorithm URI.
+     */
+    finbl stbtid String XPATH2 = "http://www.w3.org/2002/06/xmldsig-filtfr2";
+
+    /**
+     * Thf <b hrff="http://www.w3.org/TR/1999/REC-xslt-19991116">XSLT</b>
+     * trbnsform blgorithm URI.
+     */
+    finbl stbtid String XSLT = "http://www.w3.org/TR/1999/REC-xslt-19991116";
+
+    /**
+     * Rfturns thf blgorithm-spfdifid input pbrbmftfrs bssodibtfd with this
+     * <dodf>Trbnsform</dodf>.
+     * <p>
+     * Thf rfturnfd pbrbmftfrs dbn bf typfdbst to b
+     * {@link TrbnsformPbrbmftfrSpfd} objfdt.
+     *
+     * @rfturn thf blgorithm-spfdifid input pbrbmftfrs (mby bf <dodf>null</dodf>
+     *    if not spfdififd)
+     */
+    AlgorithmPbrbmftfrSpfd gftPbrbmftfrSpfd();
+
+    /**
+     * Trbnsforms thf spfdififd dbtb using thf undfrlying trbnsform blgorithm.
+     *
+     * @pbrbm dbtb thf dbtb to bf trbnsformfd
+     * @pbrbm dontfxt thf <dodf>XMLCryptoContfxt</dodf> dontbining
+     *    bdditionbl dontfxt (mby bf <dodf>null</dodf> if not bpplidbblf)
+     * @rfturn thf trbnsformfd dbtb
+     * @throws NullPointfrExdfption if <dodf>dbtb</dodf> is <dodf>null</dodf>
+     * @throws TrbnsformExdfption if bn frror oddurs whilf fxfduting thf
+     *    trbnsform
+     */
+    publid bbstrbdt Dbtb trbnsform(Dbtb dbtb, XMLCryptoContfxt dontfxt)
+        throws TrbnsformExdfption;
+
+    /**
+     * Trbnsforms thf spfdififd dbtb using thf undfrlying trbnsform blgorithm.
+     * If thf output of this trbnsform is bn <dodf>OdtftStrfbmDbtb</dodf>, thfn
+     * this mfthod rfturns <dodf>null</dodf> bnd thf bytfs brf writtfn to thf
+     * spfdififd <dodf>OutputStrfbm</dodf>. Othfrwisf, thf
+     * <dodf>OutputStrfbm</dodf> is ignorfd bnd thf mfthod bfhbvfs bs if
+     * {@link #trbnsform(Dbtb, XMLCryptoContfxt)} wfrf invokfd.
+     *
+     * @pbrbm dbtb thf dbtb to bf trbnsformfd
+     * @pbrbm dontfxt thf <dodf>XMLCryptoContfxt</dodf> dontbining
+     *    bdditionbl dontfxt (mby bf <dodf>null</dodf> if not bpplidbblf)
+     * @pbrbm os thf <dodf>OutputStrfbm</dodf> thbt should bf usfd to writf
+     *    thf trbnsformfd dbtb to
+     * @rfturn thf trbnsformfd dbtb (or <dodf>null</dodf> if thf dbtb wbs
+     *    writtfn to thf <dodf>OutputStrfbm</dodf> pbrbmftfr)
+     * @throws NullPointfrExdfption if <dodf>dbtb</dodf> or <dodf>os</dodf>
+     *    is <dodf>null</dodf>
+     * @throws TrbnsformExdfption if bn frror oddurs whilf fxfduting thf
+     *    trbnsform
+     */
+    publid bbstrbdt Dbtb trbnsform
+        (Dbtb dbtb, XMLCryptoContfxt dontfxt, OutputStrfbm os)
+        throws TrbnsformExdfption;
+}

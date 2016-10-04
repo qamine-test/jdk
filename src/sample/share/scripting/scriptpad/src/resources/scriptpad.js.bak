@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,633 +30,633 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 /*
- * This script creates a simple Notepad-like interface, which
- * serves as a simple script editor, runner.
+ * Tiis sdript drfbtfs b simplf Notfpbd-likf intfrfbdf, wiidi
+ * sfrvfs bs b simplf sdript fditor, runnfr.
  *
- * File dependency:
+ * Filf dfpfndfndy:
  *
- *    gui.js -> for basic GUI functions
+ *    gui.js -> for bbsid GUI fundtions
  */
 
 /*
- * globalThis is used for actionHelpGlobals() and showFrame().
+ * globblTiis is usfd for bdtionHflpGlobbls() bnd siowFrbmf().
  */
-var globalThis = this;
+vbr globblTiis = tiis;
 
 /*
- * JavaImporter helps in avoiding pollution of JavaScript
- * global namespace. We can import multiple Java packages
- * with this and use the JavaImporter object with "with"
- * statement.
+ * JbvbImportfr iflps in bvoiding pollution of JbvbSdript
+ * globbl nbmfspbdf. Wf dbn import multiplf Jbvb pbdkbgfs
+ * witi tiis bnd usf tif JbvbImportfr objfdt witi "witi"
+ * stbtfmfnt.
  */
-var guiPkgs = new JavaImporter(java.awt, java.awt.event,
-                               javax.swing, javax.swing.undo,
-                               javax.swing.event, javax.swing.text);
+vbr guiPkgs = nfw JbvbImportfr(jbvb.bwt, jbvb.bwt.fvfnt,
+                               jbvbx.swing, jbvbx.swing.undo,
+                               jbvbx.swing.fvfnt, jbvbx.swing.tfxt);
 
-// main entry point of the scriptpad application
-var main = function() {
-    function createEditor() {
-        var c = new guiPkgs.JTextArea();
-        c.setDragEnabled(true);
-        c.setFont(new guiPkgs.Font("monospaced", guiPkgs.Font.PLAIN, 12));
-        return c;
+// mbin fntry point of tif sdriptpbd bpplidbtion
+vbr mbin = fundtion() {
+    fundtion drfbtfEditor() {
+        vbr d = nfw guiPkgs.JTfxtArfb();
+        d.sftDrbgEnbblfd(truf);
+        d.sftFont(nfw guiPkgs.Font("monospbdfd", guiPkgs.Font.PLAIN, 12));
+        rfturn d;
     }
 
-    /*const*/ var titleSuffix = "- Scriptpad";
-    /*const*/ var defaultTitle = "Untitled" + titleSuffix;
+    /*donst*/ vbr titlfSuffix = "- Sdriptpbd";
+    /*donst*/ vbr dffbultTitlf = "Untitlfd" + titlfSuffix;
 
-    // Scriptpad's main frame
-    var frame;
-    // Scriptpad's main editor
-    var editor;
+    // Sdriptpbd's mbin frbmf
+    vbr frbmf;
+    // Sdriptpbd's mbin fditor
+    vbr fditor;
 
-    // To track the current file name
-    var curFileName = null;
+    // To trbdk tif durrfnt filf nbmf
+    vbr durFilfNbmf = null;
 
-    // To track whether the current document
-    // has been modified or not
-    var docChanged = false;
+    // To trbdk wiftifr tif durrfnt dodumfnt
+    // ibs bffn modififd or not
+    vbr dodCibngfd = fblsf;
 
-    // check and alert user for unsaved
-    // but modified document
-    function checkDocChanged() {
-        if (docChanged) {
-            // ignore zero-content untitled document
-            if (curFileName == null &&
-                editor.document.length == 0) {
-                return;
+    // difdk bnd blfrt usfr for unsbvfd
+    // but modififd dodumfnt
+    fundtion difdkDodCibngfd() {
+        if (dodCibngfd) {
+            // ignorf zfro-dontfnt untitlfd dodumfnt
+            if (durFilfNbmf == null &&
+                fditor.dodumfnt.lfngti == 0) {
+                rfturn;
             }
 
-            if (confirm("Do you want to save the changes?",
-                        "The document has changed")) {
-                actionSave();
+            if (donfirm("Do you wbnt to sbvf tif dibngfs?",
+                        "Tif dodumfnt ibs dibngfd")) {
+                bdtionSbvf();
             }
         }
     }
 
-    // set a document listener to track
-    // whether that is modified or not
-    function setDocListener() {
-        var doc = editor.getDocument();
-        docChanged = false;
-        doc.addDocumentListener( new guiPkgs.DocumentListener() {
-                                     equals: function(o) {
-                                         return this === o; },
-                                     toString: function() {
-                                         return "doc listener"; },
-                                     changeUpdate: function() {
-                                         docChanged = true; },
-                                     insertUpdate: function() {
-                                         docChanged = true; },
-                                     removeUpdate: function() {
-                                         docChanged = true; }
+    // sft b dodumfnt listfnfr to trbdk
+    // wiftifr tibt is modififd or not
+    fundtion sftDodListfnfr() {
+        vbr dod = fditor.gftDodumfnt();
+        dodCibngfd = fblsf;
+        dod.bddDodumfntListfnfr( nfw guiPkgs.DodumfntListfnfr() {
+                                     fqubls: fundtion(o) {
+                                         rfturn tiis === o; },
+                                     toString: fundtion() {
+                                         rfturn "dod listfnfr"; },
+                                     dibngfUpdbtf: fundtion() {
+                                         dodCibngfd = truf; },
+                                     insfrtUpdbtf: fundtion() {
+                                         dodCibngfd = truf; },
+                                     rfmovfUpdbtf: fundtion() {
+                                         dodCibngfd = truf; }
                                  });
     }
 
-    // menu action functions
+    // mfnu bdtion fundtions
 
-    // "File" menu
+    // "Filf" mfnu
 
-    // create a "new" document
-    function actionNew() {
-        checkDocChanged();
-        curFileName = null;
-        editor.setDocument(new guiPkgs.PlainDocument());
-        setDocListener();
-        frame.setTitle(defaultTitle);
-        editor.revalidate();
+    // drfbtf b "nfw" dodumfnt
+    fundtion bdtionNfw() {
+        difdkDodCibngfd();
+        durFilfNbmf = null;
+        fditor.sftDodumfnt(nfw guiPkgs.PlbinDodumfnt());
+        sftDodListfnfr();
+        frbmf.sftTitlf(dffbultTitlf);
+        fditor.rfvblidbtf();
     }
 
-    // open an existing file
-    function actionOpen() {
-        checkDocChanged();
-        var f = fileDialog();
+    // opfn bn fxisting filf
+    fundtion bdtionOpfn() {
+        difdkDodCibngfd();
+        vbr f = filfDiblog();
         if (f == null) {
-            return;
+            rfturn;
         }
 
-        if (f.isFile() && f.canRead()) {
-            frame.setTitle(f.getName() + titleSuffix);
-            editor.setDocument(new guiPkgs.PlainDocument());
-            var progress = new guiPkgs.JProgressBar();
-            progress.setMinimum(0);
-            progress.setMaximum(f.length());
-            var doc = editor.getDocument();
-            var inp = new java.io.FileReader(f);
-            var buff = java.lang.reflect.Array.newInstance(
-                java.lang.Character.TYPE, 4096);
-            var nch;
-            while ((nch = inp.read(buff, 0, buff.length)) != -1) {
-                doc.insertString(doc.getLength(),
-                                 new java.lang.String(buff, 0, nch), null);
-                progress.setValue(progress.getValue() + nch);
+        if (f.isFilf() && f.dbnRfbd()) {
+            frbmf.sftTitlf(f.gftNbmf() + titlfSuffix);
+            fditor.sftDodumfnt(nfw guiPkgs.PlbinDodumfnt());
+            vbr progrfss = nfw guiPkgs.JProgrfssBbr();
+            progrfss.sftMinimum(0);
+            progrfss.sftMbximum(f.lfngti());
+            vbr dod = fditor.gftDodumfnt();
+            vbr inp = nfw jbvb.io.FilfRfbdfr(f);
+            vbr buff = jbvb.lbng.rfflfdt.Arrby.nfwInstbndf(
+                jbvb.lbng.Cibrbdtfr.TYPE, 4096);
+            vbr ndi;
+            wiilf ((ndi = inp.rfbd(buff, 0, buff.lfngti)) != -1) {
+                dod.insfrtString(dod.gftLfngti(),
+                                 nfw jbvb.lbng.String(buff, 0, ndi), null);
+                progrfss.sftVbluf(progrfss.gftVbluf() + ndi);
             }
-            inp.close();
-            curFileName = f.getAbsolutePath();
-            setDocListener();
-        } else {
-            error("Can not open file: " + f,
-                  "Error opening file: " + f);
+            inp.dlosf();
+            durFilfNbmf = f.gftAbsolutfPbti();
+            sftDodListfnfr();
+        } flsf {
+            frror("Cbn not opfn filf: " + f,
+                  "Error opfning filf: " + f);
         }
     }
 
-    // open script from a URL
-    function actionOpenURL() {
-        checkDocChanged();
-        var url = prompt("Address:");
+    // opfn sdript from b URL
+    fundtion bdtionOpfnURL() {
+        difdkDodCibngfd();
+        vbr url = prompt("Addrfss:");
         if (url == null) {
-            return;
+            rfturn;
         }
 
         try {
-            var u = new java.net.URL(url);
-            editor.setDocument(new guiPkgs.PlainDocument());
-            frame.setTitle(url + titleSuffix);
-            var progress = new guiPkgs.JProgressBar();
-            progress.setMinimum(0);
-            progress.setIndeterminate(true);
-            var doc = editor.getDocument();
-            var inp = new java.io.InputStreamReader(u.openStream());
-            var buff = java.lang.reflect.Array.newInstance(
-                java.lang.Character.TYPE, 4096);
-            var nch;
-            while ((nch = inp.read(buff, 0, buff.length)) != -1) {
-                doc.insertString(doc.getLength(),
-                                 new java.lang.String(buff, 0, nch), null);
-                progress.setValue(progress.getValue() + nch);
+            vbr u = nfw jbvb.nft.URL(url);
+            fditor.sftDodumfnt(nfw guiPkgs.PlbinDodumfnt());
+            frbmf.sftTitlf(url + titlfSuffix);
+            vbr progrfss = nfw guiPkgs.JProgrfssBbr();
+            progrfss.sftMinimum(0);
+            progrfss.sftIndftfrminbtf(truf);
+            vbr dod = fditor.gftDodumfnt();
+            vbr inp = nfw jbvb.io.InputStrfbmRfbdfr(u.opfnStrfbm());
+            vbr buff = jbvb.lbng.rfflfdt.Arrby.nfwInstbndf(
+                jbvb.lbng.Cibrbdtfr.TYPE, 4096);
+            vbr ndi;
+            wiilf ((ndi = inp.rfbd(buff, 0, buff.lfngti)) != -1) {
+                dod.insfrtString(dod.gftLfngti(),
+                                 nfw jbvb.lbng.String(buff, 0, ndi), null);
+                progrfss.sftVbluf(progrfss.gftVbluf() + ndi);
             }
-            curFileName = null;
-            setDocListener();
-        } catch (e) {
-            error("Error opening URL: " + e,
-                  "Can not open URL: " + url);
+            durFilfNbmf = null;
+            sftDodListfnfr();
+        } dbtdi (f) {
+            frror("Error opfning URL: " + f,
+                  "Cbn not opfn URL: " + url);
         }
     }
 
-    // factored out "save" function used by
-    // save, save as menu actions
-    function save(file) {
-        var doc = editor.getDocument();
-        frame.setTitle(file.getName() + titleSuffix);
-        curFileName = file;
-        var progress = new guiPkgs.JProgressBar();
-        progress.setMinimum(0);
-        progress.setMaximum(file.length());
-        var out = new java.io.FileWriter(file);
-        var text = new guiPkgs.Segment();
-        text.setPartialReturn(true);
-        var charsLeft = doc.getLength();
-        var offset = 0;
-        var min;
+    // fbdtorfd out "sbvf" fundtion usfd by
+    // sbvf, sbvf bs mfnu bdtions
+    fundtion sbvf(filf) {
+        vbr dod = fditor.gftDodumfnt();
+        frbmf.sftTitlf(filf.gftNbmf() + titlfSuffix);
+        durFilfNbmf = filf;
+        vbr progrfss = nfw guiPkgs.JProgrfssBbr();
+        progrfss.sftMinimum(0);
+        progrfss.sftMbximum(filf.lfngti());
+        vbr out = nfw jbvb.io.FilfWritfr(filf);
+        vbr tfxt = nfw guiPkgs.Sfgmfnt();
+        tfxt.sftPbrtiblRfturn(truf);
+        vbr dibrsLfft = dod.gftLfngti();
+        vbr offsft = 0;
+        vbr min;
 
-        while (charsLeft > 0) {
-            doc.getText(offset, Math.min(4096, charsLeft), text);
-            out.write(text.array, text.offset, text.count);
-            charsLeft -= text.count;
-            offset += text.count;
-            progress.setValue(offset);
-            java.lang.Thread.sleep(10);
+        wiilf (dibrsLfft > 0) {
+            dod.gftTfxt(offsft, Mbti.min(4096, dibrsLfft), tfxt);
+            out.writf(tfxt.brrby, tfxt.offsft, tfxt.dount);
+            dibrsLfft -= tfxt.dount;
+            offsft += tfxt.dount;
+            progrfss.sftVbluf(offsft);
+            jbvb.lbng.Tirfbd.slffp(10);
         }
 
-        out.flush();
-        out.close();
-        docChanged = false;
+        out.flusi();
+        out.dlosf();
+        dodCibngfd = fblsf;
     }
 
-    // file-save as menu
-    function actionSaveAs() {
-        var ret = fileDialog(null, true);
-        if (ret == null) {
-            return;
+    // filf-sbvf bs mfnu
+    fundtion bdtionSbvfAs() {
+        vbr rft = filfDiblog(null, truf);
+        if (rft == null) {
+            rfturn;
         }
-        save(ret);
+        sbvf(rft);
     }
 
-    // file-save menu
-    function actionSave() {
-        if (curFileName) {
-            save(new java.io.File(curFileName));
-        } else {
-            actionSaveAs();
+    // filf-sbvf mfnu
+    fundtion bdtionSbvf() {
+        if (durFilfNbmf) {
+            sbvf(nfw jbvb.io.Filf(durFilfNbmf));
+        } flsf {
+            bdtionSbvfAs();
         }
     }
 
-    // exit from scriptpad
-    function actionExit() {
-        checkDocChanged();
-        java.lang.System.exit(0);
+    // fxit from sdriptpbd
+    fundtion bdtionExit() {
+        difdkDodCibngfd();
+        jbvb.lbng.Systfm.fxit(0);
     }
 
-    // "Edit" menu
+    // "Edit" mfnu
 
-    // cut the currently selected text
-    function actionCut() {
-        editor.cut();
+    // dut tif durrfntly sflfdtfd tfxt
+    fundtion bdtionCut() {
+        fditor.dut();
     }
 
-    // copy the currently selected text to clipboard
-    function actionCopy() {
-        editor.copy();
+    // dopy tif durrfntly sflfdtfd tfxt to dlipbobrd
+    fundtion bdtionCopy() {
+        fditor.dopy();
     }
 
-    // paste clipboard content to document
-    function actionPaste() {
-        editor.paste();
+    // pbstf dlipbobrd dontfnt to dodumfnt
+    fundtion bdtionPbstf() {
+        fditor.pbstf();
     }
 
-    // select all the text in editor
-    function actionSelectAll() {
-        editor.selectAll();
+    // sflfdt bll tif tfxt in fditor
+    fundtion bdtionSflfdtAll() {
+        fditor.sflfdtAll();
     }
 
-    // "Tools" menu
+    // "Tools" mfnu
 
-    // run the current document as JavaScript
-    function actionRun() {
-        var doc = editor.getDocument();
-        var script = doc.getText(0, doc.getLength());
-        var oldFile = engine.get(javax.script.ScriptEngine.FILENAME);
+    // run tif durrfnt dodumfnt bs JbvbSdript
+    fundtion bdtionRun() {
+        vbr dod = fditor.gftDodumfnt();
+        vbr sdript = dod.gftTfxt(0, dod.gftLfngti());
+        vbr oldFilf = fnginf.gft(jbvbx.sdript.SdriptEnginf.FILENAME);
         try {
-            if (engine == undefined) {
-                var m = new javax.script.ScriptEngineManager();
-                engine = m.getEngineByName("nashorn");
+            if (fnginf == undffinfd) {
+                vbr m = nfw jbvbx.sdript.SdriptEnginfMbnbgfr();
+                fnginf = m.gftEnginfByNbmf("nbsiorn");
             }
-            engine.put(javax.script.ScriptEngine.FILENAME, frame.title);
-            engine.eval(script, context);
-        } catch (e) {
-            error(e, "Script Error");
-            e.printStackTrace();
-        } finally {
-            engine.put(javax.script.ScriptEngine.FILENAME, oldFile);
+            fnginf.put(jbvbx.sdript.SdriptEnginf.FILENAME, frbmf.titlf);
+            fnginf.fvbl(sdript, dontfxt);
+        } dbtdi (f) {
+            frror(f, "Sdript Error");
+            f.printStbdkTrbdf();
+        } finblly {
+            fnginf.put(jbvbx.sdript.SdriptEnginf.FILENAME, oldFilf);
         }
     }
 
-    // "Examples" menu
+    // "Exbmplfs" mfnu
 
-    // show given script as new document
-    function showScript(title, str) {
-        actionNew();
-        frame.setTitle("Example - " + title + titleSuffix);
-        var doc = editor.document;
-        doc.insertString(0, str, null);
+    // siow givfn sdript bs nfw dodumfnt
+    fundtion siowSdript(titlf, str) {
+        bdtionNfw();
+        frbmf.sftTitlf("Exbmplf - " + titlf + titlfSuffix);
+        vbr dod = fditor.dodumfnt;
+        dod.insfrtString(0, str, null);
     }
 
-    // "hello world"
-    function actionHello() {
-        showScript(actionEval.title,
-                   "alert('Hello, world');");
+    // "ifllo world"
+    fundtion bdtionHfllo() {
+        siowSdript(bdtionEvbl.titlf,
+                   "blfrt('Hfllo, world');");
     }
-    actionHello.title = "Hello, World";
+    bdtionHfllo.titlf = "Hfllo, World";
 
-    // eval the "hello world"!
-    function actionEval() {
-        showScript(actionEval.title,
-                   "eval(\"alert('Hello, world')\");");
+    // fvbl tif "ifllo world"!
+    fundtion bdtionEvbl() {
+        siowSdript(bdtionEvbl.titlf,
+                   "fvbl(\"blfrt('Hfllo, world')\");");
     }
-    actionEval.title = "Eval";
+    bdtionEvbl.titlf = "Evbl";
 
-    // show how to access Java static methods
-    function actionJavaStatic() {
-        showScript(arguments.callee.title,
-                   "// Just use Java syntax\n" +
-                   "var props = java.lang.System.getProperties();\n" +
-                   "alert(props.get('os.name'));");
+    // siow iow to bddfss Jbvb stbtid mftiods
+    fundtion bdtionJbvbStbtid() {
+        siowSdript(brgumfnts.dbllff.titlf,
+                   "// Just usf Jbvb syntbx\n" +
+                   "vbr props = jbvb.lbng.Systfm.gftPropfrtifs();\n" +
+                   "blfrt(props.gft('os.nbmf'));");
     }
-    actionJavaStatic.title = "Java Static Calls";
+    bdtionJbvbStbtid.titlf = "Jbvb Stbtid Cblls";
 
-    // show how to access Java classes, methods
-    function actionJavaAccess() {
-        showScript(arguments.callee.title,
-                   "// just use new JavaClass();\n" +
-                   "var fr = new javax.swing.JFrame();\n" +
-                   "// call all public methods as in Java\n" +
-                   "fr.setTitle('hello');\n" +
-                   "fr.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);\n" +
-                   "fr.setSize(200, 200);\n" +
-                   "fr.setVisible(true);");
+    // siow iow to bddfss Jbvb dlbssfs, mftiods
+    fundtion bdtionJbvbAddfss() {
+        siowSdript(brgumfnts.dbllff.titlf,
+                   "// just usf nfw JbvbClbss();\n" +
+                   "vbr fr = nfw jbvbx.swing.JFrbmf();\n" +
+                   "// dbll bll publid mftiods bs in Jbvb\n" +
+                   "fr.sftTitlf('ifllo');\n" +
+                   "fr.sftDffbultClosfOpfrbtion(jbvbx.swing.WindowConstbnts.DISPOSE_ON_CLOSE);\n" +
+                   "fr.sftSizf(200, 200);\n" +
+                   "fr.sftVisiblf(truf);");
     }
-    actionJavaAccess.title = "Java Object Access";
+    bdtionJbvbAddfss.titlf = "Jbvb Objfdt Addfss";
 
-    // show how to use Java bean conventions
-    function actionJavaBean() {
-        showScript(arguments.callee.title,
-                   "var fr = new javax.swing.JFrame();\n" +
-                   "fr.setSize(200, 200);\n" +
-                   "// access public get/set methods as fields\n" +
-                   "fr.defaultCloseOperation = javax.swing.WindowConstants.DISPOSE_ON_CLOSE;\n" +
-                   "fr.title = 'hello';\n" +
-                   "fr.visible = true;");
+    // siow iow to usf Jbvb bfbn donvfntions
+    fundtion bdtionJbvbBfbn() {
+        siowSdript(brgumfnts.dbllff.titlf,
+                   "vbr fr = nfw jbvbx.swing.JFrbmf();\n" +
+                   "fr.sftSizf(200, 200);\n" +
+                   "// bddfss publid gft/sft mftiods bs fiflds\n" +
+                   "fr.dffbultClosfOpfrbtion = jbvbx.swing.WindowConstbnts.DISPOSE_ON_CLOSE;\n" +
+                   "fr.titlf = 'ifllo';\n" +
+                   "fr.visiblf = truf;");
     }
-    actionJavaBean.title = "Java Beans";
+    bdtionJbvbBfbn.titlf = "Jbvb Bfbns";
 
-    // show how to implement Java interface
-    function actionJavaInterface() {
-        showScript(arguments.callee.title,
-                   "// use Java anonymizer class-like syntax!\n" +
-                   "var r = new java.lang.Runnable() {\n" +
-                   "            run: function() {\n" +
-                   "                    alert('hello');\n" +
+    // siow iow to implfmfnt Jbvb intfrfbdf
+    fundtion bdtionJbvbIntfrfbdf() {
+        siowSdript(brgumfnts.dbllff.titlf,
+                   "// usf Jbvb bnonymizfr dlbss-likf syntbx!\n" +
+                   "vbr r = nfw jbvb.lbng.Runnbblf() {\n" +
+                   "            run: fundtion() {\n" +
+                   "                    blfrt('ifllo');\n" +
                    "            }\n" +
                    "    };\n" +
-                   "// use the above Runnable to create a Thread\n" +
-                   "new java.lang.Thread(r).start();\n" +
-                   "// For simple one method interfaces, just pass script function\n" +
-                   "new java.lang.Thread(function() { alert('world'); }).start();");
+                   "// usf tif bbovf Runnbblf to drfbtf b Tirfbd\n" +
+                   "nfw jbvb.lbng.Tirfbd(r).stbrt();\n" +
+                   "// For simplf onf mftiod intfrfbdfs, just pbss sdript fundtion\n" +
+                   "nfw jbvb.lbng.Tirfbd(fundtion() { blfrt('world'); }).stbrt();");
     }
-    actionJavaInterface.title = "Java Interfaces";
+    bdtionJbvbIntfrfbdf.titlf = "Jbvb Intfrfbdfs";
 
-    // show how to import Java classes, packages
-    function actionJavaImport() {
-        showScript(arguments.callee.title,
-                   "// use Java-like import *...\n" +
-                   "//    importPackage(java.io);\n" +
-                   "// or import a specific class\n" +
-                   "//    importClass(java.io.File);\n" +
-                   "// or better - import just within a scope!\n" +
-                   "var ioPkgs = JavaImporter(java.io);\n" +
-                   "with (ioPkgs) { alert(new File('.').absolutePath); }");
+    // siow iow to import Jbvb dlbssfs, pbdkbgfs
+    fundtion bdtionJbvbImport() {
+        siowSdript(brgumfnts.dbllff.titlf,
+                   "// usf Jbvb-likf import *...\n" +
+                   "//    importPbdkbgf(jbvb.io);\n" +
+                   "// or import b spfdifid dlbss\n" +
+                   "//    importClbss(jbvb.io.Filf);\n" +
+                   "// or bfttfr - import just witiin b sdopf!\n" +
+                   "vbr ioPkgs = JbvbImportfr(jbvb.io);\n" +
+                   "witi (ioPkgs) { blfrt(nfw Filf('.').bbsolutfPbti); }");
     }
-    actionJavaImport.title = "Java Import";
+    bdtionJbvbImport.titlf = "Jbvb Import";
 
-    // "Help" menu
+    // "Hflp" mfnu
 
     /*
-     * Shows a one liner help message for each
-     * global function. Note that this function
-     * depends on docString meta-data for each
-     * function.
+     * Siows b onf linfr iflp mfssbgf for fbdi
+     * globbl fundtion. Notf tibt tiis fundtion
+     * dfpfnds on dodString mftb-dbtb for fbdi
+     * fundtion.
      */
-    function actionHelpGlobals() {
-        var names = new java.util.ArrayList();
-        for (var i in globalThis) {
-            var func = globalThis[i];
-            if (typeof(func) == "function" &&
-                ("docString" in func)) {
-                names.add(i);
+    fundtion bdtionHflpGlobbls() {
+        vbr nbmfs = nfw jbvb.util.ArrbyList();
+        for (vbr i in globblTiis) {
+            vbr fund = globblTiis[i];
+            if (typfof(fund) == "fundtion" &&
+                ("dodString" in fund)) {
+                nbmfs.bdd(i);
             }
         }
-        java.util.Collections.sort(names);
-        var helpDoc = new java.lang.StringBuffer();
-        helpDoc.append("<table border='1'>");
-        var itr = names.iterator();
-        while (itr.hasNext()) {
-            var name = itr.next();
-            helpDoc.append("<tr><td>");
-            helpDoc.append(name);
-            helpDoc.append("</td><td>");
-            helpDoc.append(globalThis[name].docString);
-            helpDoc.append("</td></tr>");
+        jbvb.util.Collfdtions.sort(nbmfs);
+        vbr iflpDod = nfw jbvb.lbng.StringBufffr();
+        iflpDod.bppfnd("<tbblf bordfr='1'>");
+        vbr itr = nbmfs.itfrbtor();
+        wiilf (itr.ibsNfxt()) {
+            vbr nbmf = itr.nfxt();
+            iflpDod.bppfnd("<tr><td>");
+            iflpDod.bppfnd(nbmf);
+            iflpDod.bppfnd("</td><td>");
+            iflpDod.bppfnd(globblTiis[nbmf].dodString);
+            iflpDod.bppfnd("</td></tr>");
         }
-        helpDoc.append("</table>");
+        iflpDod.bppfnd("</tbblf>");
 
-        var helpEditor = new guiPkgs.JEditorPane();
-        helpEditor.setContentType("text/html");
-        helpEditor.setEditable(false);
-        helpEditor.setText(helpDoc.toString());
+        vbr iflpEditor = nfw guiPkgs.JEditorPbnf();
+        iflpEditor.sftContfntTypf("tfxt/itml");
+        iflpEditor.sftEditbblf(fblsf);
+        iflpEditor.sftTfxt(iflpDod.toString());
 
-        var scroller = new guiPkgs.JScrollPane();
-        var port = scroller.getViewport();
-        port.add(helpEditor);
+        vbr sdrollfr = nfw guiPkgs.JSdrollPbnf();
+        vbr port = sdrollfr.gftVifwport();
+        port.bdd(iflpEditor);
 
-        var helpFrame = new guiPkgs.JFrame("Help - Global Functions");
-        helpFrame.getContentPane().add("Center", scroller);
-        helpFrame.setDefaultCloseOperation(guiPkgs.WindowConstants.DISPOSE_ON_CLOSE);
-        helpFrame.pack();
-        helpFrame.setSize(500, 600);
-        helpFrame.setVisible(true);
+        vbr iflpFrbmf = nfw guiPkgs.JFrbmf("Hflp - Globbl Fundtions");
+        iflpFrbmf.gftContfntPbnf().bdd("Cfntfr", sdrollfr);
+        iflpFrbmf.sftDffbultClosfOpfrbtion(guiPkgs.WindowConstbnts.DISPOSE_ON_CLOSE);
+        iflpFrbmf.pbdk();
+        iflpFrbmf.sftSizf(500, 600);
+        iflpFrbmf.sftVisiblf(truf);
     }
 
-    // show a simple about message for scriptpad
-    function actionAbout() {
-        alert("Scriptpad\nVersion 1.1", "Scriptpad");
+    // siow b simplf bbout mfssbgf for sdriptpbd
+    fundtion bdtionAbout() {
+        blfrt("Sdriptpbd\nVfrsion 1.1", "Sdriptpbd");
     }
 
     /*
-     * This data is used to construct menu bar.
-     * This way adding a menu is easier. Just add
-     * top level menu or add an item to an existing
-     * menu. "action" should be a function that is
-     * called back on clicking the correponding menu.
+     * Tiis dbtb is usfd to donstrudt mfnu bbr.
+     * Tiis wby bdding b mfnu is fbsifr. Just bdd
+     * top lfvfl mfnu or bdd bn itfm to bn fxisting
+     * mfnu. "bdtion" siould bf b fundtion tibt is
+     * dbllfd bbdk on dlidking tif dorrfponding mfnu.
      */
-    var menuData = [
+    vbr mfnuDbtb = [
         {
-            menu: "File",
-            items: [
-                { name: "New",  action: actionNew , accel: guiPkgs.KeyEvent.VK_N },
-                { name: "Open...", action: actionOpen, accel: guiPkgs.KeyEvent.VK_O },
-                { name: "Open URL...", action: actionOpenURL, accel: guiPkgs.KeyEvent.VK_U },
-                { name: "Save", action: actionSave, accel: guiPkgs.KeyEvent.VK_S },
-                { name: "Save As...", action: actionSaveAs },
-                { name: "-" },
-                { name: "Exit", action: actionExit, accel: guiPkgs.KeyEvent.VK_Q }
+            mfnu: "Filf",
+            itfms: [
+                { nbmf: "Nfw",  bdtion: bdtionNfw , bddfl: guiPkgs.KfyEvfnt.VK_N },
+                { nbmf: "Opfn...", bdtion: bdtionOpfn, bddfl: guiPkgs.KfyEvfnt.VK_O },
+                { nbmf: "Opfn URL...", bdtion: bdtionOpfnURL, bddfl: guiPkgs.KfyEvfnt.VK_U },
+                { nbmf: "Sbvf", bdtion: bdtionSbvf, bddfl: guiPkgs.KfyEvfnt.VK_S },
+                { nbmf: "Sbvf As...", bdtion: bdtionSbvfAs },
+                { nbmf: "-" },
+                { nbmf: "Exit", bdtion: bdtionExit, bddfl: guiPkgs.KfyEvfnt.VK_Q }
             ]
         },
 
         {
-            menu: "Edit",
-            items: [
-                { name: "Cut", action: actionCut, accel: guiPkgs.KeyEvent.VK_X },
-                { name: "Copy", action: actionCopy, accel: guiPkgs.KeyEvent.VK_C },
-                { name: "Paste", action: actionPaste, accel: guiPkgs.KeyEvent.VK_V },
-                { name: "-" },
-                { name: "Select All", action: actionSelectAll, accel: guiPkgs.KeyEvent.VK_A }
+            mfnu: "Edit",
+            itfms: [
+                { nbmf: "Cut", bdtion: bdtionCut, bddfl: guiPkgs.KfyEvfnt.VK_X },
+                { nbmf: "Copy", bdtion: bdtionCopy, bddfl: guiPkgs.KfyEvfnt.VK_C },
+                { nbmf: "Pbstf", bdtion: bdtionPbstf, bddfl: guiPkgs.KfyEvfnt.VK_V },
+                { nbmf: "-" },
+                { nbmf: "Sflfdt All", bdtion: bdtionSflfdtAll, bddfl: guiPkgs.KfyEvfnt.VK_A }
             ]
         },
 
         {
-            menu: "Tools",
-            items: [
-                { name: "Run", action: actionRun, accel: guiPkgs.KeyEvent.VK_R }
+            mfnu: "Tools",
+            itfms: [
+                { nbmf: "Run", bdtion: bdtionRun, bddfl: guiPkgs.KfyEvfnt.VK_R }
             ]
         },
 
         {
-            menu: "Examples",
-            items: [
-                { name: actionHello.title, action: actionHello },
-                { name: actionEval.title, action: actionEval },
-                { name: actionJavaStatic.title, action: actionJavaStatic },
-                { name: actionJavaAccess.title, action: actionJavaAccess },
-                { name: actionJavaBean.title, action: actionJavaBean },
-                { name: actionJavaInterface.title, action: actionJavaInterface },
-                { name: actionJavaImport.title, action: actionJavaImport }
+            mfnu: "Exbmplfs",
+            itfms: [
+                { nbmf: bdtionHfllo.titlf, bdtion: bdtionHfllo },
+                { nbmf: bdtionEvbl.titlf, bdtion: bdtionEvbl },
+                { nbmf: bdtionJbvbStbtid.titlf, bdtion: bdtionJbvbStbtid },
+                { nbmf: bdtionJbvbAddfss.titlf, bdtion: bdtionJbvbAddfss },
+                { nbmf: bdtionJbvbBfbn.titlf, bdtion: bdtionJbvbBfbn },
+                { nbmf: bdtionJbvbIntfrfbdf.titlf, bdtion: bdtionJbvbIntfrfbdf },
+                { nbmf: bdtionJbvbImport.titlf, bdtion: bdtionJbvbImport }
             ]
         },
 
         {
-            menu: "Help",
-            items: [
-                { name: "Global Functions", action: actionHelpGlobals },
-                { name: "-" },
-                { name: "About Scriptpad", action: actionAbout }
+            mfnu: "Hflp",
+            itfms: [
+                { nbmf: "Globbl Fundtions", bdtion: bdtionHflpGlobbls },
+                { nbmf: "-" },
+                { nbmf: "About Sdriptpbd", bdtion: bdtionAbout }
             ]
         }
     ];
 
-    function setMenuAccelerator(mi, accel) {
-        var keyStroke = guiPkgs.KeyStroke.getKeyStroke(accel,
-                                                       guiPkgs.Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), false);
-        mi.setAccelerator(keyStroke);
+    fundtion sftMfnuAddflfrbtor(mi, bddfl) {
+        vbr kfyStrokf = guiPkgs.KfyStrokf.gftKfyStrokf(bddfl,
+                                                       guiPkgs.Toolkit.gftDffbultToolkit().gftMfnuSiortdutKfyMbsk(), fblsf);
+        mi.sftAddflfrbtor(kfyStrokf);
     }
 
-    // create a menubar using the above menu data
-    function createMenubar() {
-        var mb = new guiPkgs.JMenuBar();
-        for (var m in menuData) {
-            var items = menuData[m].items;
-            var menu = new guiPkgs.JMenu(menuData[m].menu);
+    // drfbtf b mfnubbr using tif bbovf mfnu dbtb
+    fundtion drfbtfMfnubbr() {
+        vbr mb = nfw guiPkgs.JMfnuBbr();
+        for (vbr m in mfnuDbtb) {
+            vbr itfms = mfnuDbtb[m].itfms;
+            vbr mfnu = nfw guiPkgs.JMfnu(mfnuDbtb[m].mfnu);
 
-            for (var i in items) {
-                if (items[i].name.equals("-")) {
-                    menu.addSeparator();
-                } else {
-                    var mi = new guiPkgs.JMenuItem(items[i].name);
-                    var action = items[i].action;
-                    mi.addActionListener(action);
-                    var accel = items[i].accel;
-                    if (accel) {
-                        setMenuAccelerator(mi, accel);
+            for (vbr i in itfms) {
+                if (itfms[i].nbmf.fqubls("-")) {
+                    mfnu.bddSfpbrbtor();
+                } flsf {
+                    vbr mi = nfw guiPkgs.JMfnuItfm(itfms[i].nbmf);
+                    vbr bdtion = itfms[i].bdtion;
+                    mi.bddAdtionListfnfr(bdtion);
+                    vbr bddfl = itfms[i].bddfl;
+                    if (bddfl) {
+                        sftMfnuAddflfrbtor(mi, bddfl);
                     }
-                    menu.add(mi);
+                    mfnu.bdd(mi);
                 }
 	        }
 
-	        mb.add(menu);
+	        mb.bdd(mfnu);
         }
 
-        return mb;
+        rfturn mb;
     }
 
-    // function to add a new menu item under "Tools" menu
-    function addTool(menuItem, action, accel) {
-        if (typeof(action) != "function") {
-            return;
+    // fundtion to bdd b nfw mfnu itfm undfr "Tools" mfnu
+    fundtion bddTool(mfnuItfm, bdtion, bddfl) {
+        if (typfof(bdtion) != "fundtion") {
+            rfturn;
         }
 
-        var toolsIndex = -1;
-        // find the index of the "Tools" menu
-        for (var i in menuData) {
-            if (menuData[i].menu.equals("Tools")) {
-                toolsIndex = i;
-                break;
+        vbr toolsIndfx = -1;
+        // find tif indfx of tif "Tools" mfnu
+        for (vbr i in mfnuDbtb) {
+            if (mfnuDbtb[i].mfnu.fqubls("Tools")) {
+                toolsIndfx = i;
+                brfbk;
             }
         }
-        if (toolsIndex == -1) {
-            return;
+        if (toolsIndfx == -1) {
+            rfturn;
         }
-        var toolsMenu = frame.getJMenuBar().getMenu(toolsIndex);
-        var mi = new guiPkgs.JMenuItem(menuItem);
-        mi.addActionListener(action);
-        if (accel) {
-            setMenuAccelerator(mi, accel);
+        vbr toolsMfnu = frbmf.gftJMfnuBbr().gftMfnu(toolsIndfx);
+        vbr mi = nfw guiPkgs.JMfnuItfm(mfnuItfm);
+        mi.bddAdtionListfnfr(bdtion);
+        if (bddfl) {
+            sftMfnuAddflfrbtor(mi, bddfl);
         }
-        toolsMenu.add(mi);
+        toolsMfnu.bdd(mi);
     }
 
-    // create Scriptpad frame
-    function createFrame() {
-        frame = new guiPkgs.JFrame();
-        frame.setTitle(defaultTitle);
-        frame.setBackground(guiPkgs.Color.lightGray);
-        frame.getContentPane().setLayout(new guiPkgs.BorderLayout());
+    // drfbtf Sdriptpbd frbmf
+    fundtion drfbtfFrbmf() {
+        frbmf = nfw guiPkgs.JFrbmf();
+        frbmf.sftTitlf(dffbultTitlf);
+        frbmf.sftBbdkground(guiPkgs.Color.ligitGrby);
+        frbmf.gftContfntPbnf().sftLbyout(nfw guiPkgs.BordfrLbyout());
 
-        // create notepad panel
-        var notepad = new guiPkgs.JPanel();
-        notepad.setBorder(guiPkgs.BorderFactory.createEtchedBorder());
-        notepad.setLayout(new guiPkgs.BorderLayout());
+        // drfbtf notfpbd pbnfl
+        vbr notfpbd = nfw guiPkgs.JPbnfl();
+        notfpbd.sftBordfr(guiPkgs.BordfrFbdtory.drfbtfEtdifdBordfr());
+        notfpbd.sftLbyout(nfw guiPkgs.BordfrLbyout());
 
-        // create editor
-        editor = createEditor();
-        var scroller = new guiPkgs.JScrollPane();
-        var port = scroller.getViewport();
-        port.add(editor);
+        // drfbtf fditor
+        fditor = drfbtfEditor();
+        vbr sdrollfr = nfw guiPkgs.JSdrollPbnf();
+        vbr port = sdrollfr.gftVifwport();
+        port.bdd(fditor);
 
-        // add editor to notepad panel
-        var panel = new guiPkgs.JPanel();
-        panel.setLayout(new guiPkgs.BorderLayout());
-        panel.add("Center", scroller);
-        notepad.add("Center", panel);
+        // bdd fditor to notfpbd pbnfl
+        vbr pbnfl = nfw guiPkgs.JPbnfl();
+        pbnfl.sftLbyout(nfw guiPkgs.BordfrLbyout());
+        pbnfl.bdd("Cfntfr", sdrollfr);
+        notfpbd.bdd("Cfntfr", pbnfl);
 
-        // add notepad panel to frame
-        frame.getContentPane().add("Center", notepad);
+        // bdd notfpbd pbnfl to frbmf
+        frbmf.gftContfntPbnf().bdd("Cfntfr", notfpbd);
 
-        // set menu bar to frame and show the frame
-        frame.setJMenuBar(createMenubar());
-        frame.setDefaultCloseOperation(guiPkgs.JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setSize(500, 600);
+        // sft mfnu bbr to frbmf bnd siow tif frbmf
+        frbmf.sftJMfnuBbr(drfbtfMfnubbr());
+        frbmf.sftDffbultClosfOpfrbtion(guiPkgs.JFrbmf.EXIT_ON_CLOSE);
+        frbmf.pbdk();
+        frbmf.sftSizf(500, 600);
     }
 
-    // show Scriptpad frame
-    function showFrame() {
-        // set global variable by the name "window"
-        globalThis.window = frame;
+    // siow Sdriptpbd frbmf
+    fundtion siowFrbmf() {
+        // sft globbl vbribblf by tif nbmf "window"
+        globblTiis.window = frbmf;
 
-        // open new document
-        actionNew();
+        // opfn nfw dodumfnt
+        bdtionNfw();
 
-        frame.setVisible(true);
+        frbmf.sftVisiblf(truf);
     }
 
-    // create and show Scriptpad frame
-    createFrame();
-    showFrame();
+    // drfbtf bnd siow Sdriptpbd frbmf
+    drfbtfFrbmf();
+    siowFrbmf();
 
     /*
-     * Application object has two fields "frame", "editor"
-     * which are current JFrame and editor and a method
-     * called "addTool" to add new menu item to "Tools" menu.
+     * Applidbtion objfdt ibs two fiflds "frbmf", "fditor"
+     * wiidi brf durrfnt JFrbmf bnd fditor bnd b mftiod
+     * dbllfd "bddTool" to bdd nfw mfnu itfm to "Tools" mfnu.
      */
-    return {
-        frame: frame,
-        editor: editor,
-        addTool: addTool
+    rfturn {
+        frbmf: frbmf,
+        fditor: fditor,
+        bddTool: bddTool
     };
 };
 
 /*
- * Call the main and store Application object
- * in a global variable named "application".
+ * Cbll tif mbin bnd storf Applidbtion objfdt
+ * in b globbl vbribblf nbmfd "bpplidbtion".
  */
-var application = main();
+vbr bpplidbtion = mbin();
 
-if (this.load == undefined) {
-    function load(file) {
-        var ioPkgs = new JavaImporter(java.io);
-        with (ioPkgs) {
-            var stream = new FileInputStream(file);
-            var bstream = new BufferedInputStream(stream);
-            var reader = new BufferedReader(new InputStreamReader(bstream));
-            var oldFilename = engine.get(engine.FILENAME);
-            engine.put(engine.FILENAME, file);
+if (tiis.lobd == undffinfd) {
+    fundtion lobd(filf) {
+        vbr ioPkgs = nfw JbvbImportfr(jbvb.io);
+        witi (ioPkgs) {
+            vbr strfbm = nfw FilfInputStrfbm(filf);
+            vbr bstrfbm = nfw BufffrfdInputStrfbm(strfbm);
+            vbr rfbdfr = nfw BufffrfdRfbdfr(nfw InputStrfbmRfbdfr(bstrfbm));
+            vbr oldFilfnbmf = fnginf.gft(fnginf.FILENAME);
+            fnginf.put(fnginf.FILENAME, filf);
             try {
-                engine.eval(reader, context);
-            } finally {
-                engine.put(engine.FILENAME, oldFilename);
+                fnginf.fvbl(rfbdfr, dontfxt);
+            } finblly {
+                fnginf.put(fnginf.FILENAME, oldFilfnbmf);
             }
-            stream.close();
+            strfbm.dlosf();
         }
     }
-    load.docString = "loads the given script file";
+    lobd.dodString = "lobds tif givfn sdript filf";
 }
 
 /*
- * Load user specific init file under home dir, if found.
+ * Lobd usfr spfdifid init filf undfr iomf dir, if found.
  */
-function loadUserInit() {
-    var home = java.lang.System.getProperty("user.home");
-    var f = new java.io.File(home, "scriptpad.js");
-    if (f.exists()) {
-        engine.eval(new java.io.FileReader(f));
+fundtion lobdUsfrInit() {
+    vbr iomf = jbvb.lbng.Systfm.gftPropfrty("usfr.iomf");
+    vbr f = nfw jbvb.io.Filf(iomf, "sdriptpbd.js");
+    if (f.fxists()) {
+        fnginf.fvbl(nfw jbvb.io.FilfRfbdfr(f));
     }
 }
 
-loadUserInit();
+lobdUsfrInit();

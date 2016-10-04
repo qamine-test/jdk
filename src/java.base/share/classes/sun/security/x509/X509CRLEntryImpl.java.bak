@@ -1,537 +1,537 @@
 /*
- * Copyright (c) 1997, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.x509;
+pbdkbgf sun.sfdurity.x509;
 
-import java.io.IOException;
-import java.security.cert.CRLException;
-import java.security.cert.CRLReason;
-import java.security.cert.X509CRLEntry;
-import java.math.BigInteger;
-import java.util.*;
+import jbvb.io.IOExdfption;
+import jbvb.sfdurity.dfrt.CRLExdfption;
+import jbvb.sfdurity.dfrt.CRLRfbson;
+import jbvb.sfdurity.dfrt.X509CRLEntry;
+import jbvb.mbti.BigIntfgfr;
+import jbvb.util.*;
 
-import javax.security.auth.x500.X500Principal;
+import jbvbx.sfdurity.buti.x500.X500Prindipbl;
 
-import sun.security.util.*;
-import sun.misc.HexDumpEncoder;
+import sun.sfdurity.util.*;
+import sun.misd.HfxDumpEndodfr;
 
 /**
- * <p>Abstract class for a revoked certificate in a CRL.
- * This class is for each entry in the <code>revokedCertificates</code>,
- * so it deals with the inner <em>SEQUENCE</em>.
- * The ASN.1 definition for this is:
- * <pre>
- * revokedCertificates    SEQUENCE OF SEQUENCE  {
- *     userCertificate    CertificateSerialNumber,
- *     revocationDate     ChoiceOfTime,
- *     crlEntryExtensions Extensions OPTIONAL
- *                        -- if present, must be v2
+ * <p>Abstrbdt dlbss for b rfvokfd dfrtifidbtf in b CRL.
+ * Tiis dlbss is for fbdi fntry in tif <dodf>rfvokfdCfrtifidbtfs</dodf>,
+ * so it dfbls witi tif innfr <fm>SEQUENCE</fm>.
+ * Tif ASN.1 dffinition for tiis is:
+ * <prf>
+ * rfvokfdCfrtifidbtfs    SEQUENCE OF SEQUENCE  {
+ *     usfrCfrtifidbtf    CfrtifidbtfSfriblNumbfr,
+ *     rfvodbtionDbtf     CioidfOfTimf,
+ *     drlEntryExtfnsions Extfnsions OPTIONAL
+ *                        -- if prfsfnt, must bf v2
  * }  OPTIONAL
  *
- * CertificateSerialNumber  ::=  INTEGER
+ * CfrtifidbtfSfriblNumbfr  ::=  INTEGER
  *
- * Extensions  ::=  SEQUENCE SIZE (1..MAX) OF Extension
+ * Extfnsions  ::=  SEQUENCE SIZE (1..MAX) OF Extfnsion
  *
- * Extension  ::=  SEQUENCE  {
- *     extnId        OBJECT IDENTIFIER,
- *     critical      BOOLEAN DEFAULT FALSE,
- *     extnValue     OCTET STRING
- *                   -- contains a DER encoding of a value
- *                   -- of the type registered for use with
- *                   -- the extnId object identifier value
+ * Extfnsion  ::=  SEQUENCE  {
+ *     fxtnId        OBJECT IDENTIFIER,
+ *     dritidbl      BOOLEAN DEFAULT FALSE,
+ *     fxtnVbluf     OCTET STRING
+ *                   -- dontbins b DER fndoding of b vbluf
+ *                   -- of tif typf rfgistfrfd for usf witi
+ *                   -- tif fxtnId objfdt idfntififr vbluf
  * }
- * </pre>
+ * </prf>
  *
- * @author Hemma Prafullchandra
+ * @butior Hfmmb Prbfulldibndrb
  */
 
-public class X509CRLEntryImpl extends X509CRLEntry
-        implements Comparable<X509CRLEntryImpl> {
+publid dlbss X509CRLEntryImpl fxtfnds X509CRLEntry
+        implfmfnts Compbrbblf<X509CRLEntryImpl> {
 
-    private SerialNumber serialNumber = null;
-    private Date revocationDate = null;
-    private CRLExtensions extensions = null;
-    private byte[] revokedCert = null;
-    private X500Principal certIssuer;
+    privbtf SfriblNumbfr sfriblNumbfr = null;
+    privbtf Dbtf rfvodbtionDbtf = null;
+    privbtf CRLExtfnsions fxtfnsions = null;
+    privbtf bytf[] rfvokfdCfrt = null;
+    privbtf X500Prindipbl dfrtIssufr;
 
-    private final static boolean isExplicit = false;
-    private static final long YR_2050 = 2524636800000L;
+    privbtf finbl stbtid boolfbn isExplidit = fblsf;
+    privbtf stbtid finbl long YR_2050 = 2524636800000L;
 
     /**
-     * Constructs a revoked certificate entry using the given
-     * serial number and revocation date.
+     * Construdts b rfvokfd dfrtifidbtf fntry using tif givfn
+     * sfribl numbfr bnd rfvodbtion dbtf.
      *
-     * @param num the serial number of the revoked certificate.
-     * @param date the Date on which revocation took place.
+     * @pbrbm num tif sfribl numbfr of tif rfvokfd dfrtifidbtf.
+     * @pbrbm dbtf tif Dbtf on wiidi rfvodbtion took plbdf.
      */
-    public X509CRLEntryImpl(BigInteger num, Date date) {
-        this.serialNumber = new SerialNumber(num);
-        this.revocationDate = date;
+    publid X509CRLEntryImpl(BigIntfgfr num, Dbtf dbtf) {
+        tiis.sfriblNumbfr = nfw SfriblNumbfr(num);
+        tiis.rfvodbtionDbtf = dbtf;
     }
 
     /**
-     * Constructs a revoked certificate entry using the given
-     * serial number, revocation date and the entry
-     * extensions.
+     * Construdts b rfvokfd dfrtifidbtf fntry using tif givfn
+     * sfribl numbfr, rfvodbtion dbtf bnd tif fntry
+     * fxtfnsions.
      *
-     * @param num the serial number of the revoked certificate.
-     * @param date the Date on which revocation took place.
-     * @param crlEntryExts the extensions for this entry.
+     * @pbrbm num tif sfribl numbfr of tif rfvokfd dfrtifidbtf.
+     * @pbrbm dbtf tif Dbtf on wiidi rfvodbtion took plbdf.
+     * @pbrbm drlEntryExts tif fxtfnsions for tiis fntry.
      */
-    public X509CRLEntryImpl(BigInteger num, Date date,
-                           CRLExtensions crlEntryExts) {
-        this.serialNumber = new SerialNumber(num);
-        this.revocationDate = date;
-        this.extensions = crlEntryExts;
+    publid X509CRLEntryImpl(BigIntfgfr num, Dbtf dbtf,
+                           CRLExtfnsions drlEntryExts) {
+        tiis.sfriblNumbfr = nfw SfriblNumbfr(num);
+        tiis.rfvodbtionDbtf = dbtf;
+        tiis.fxtfnsions = drlEntryExts;
     }
 
     /**
-     * Unmarshals a revoked certificate from its encoded form.
+     * Unmbrsibls b rfvokfd dfrtifidbtf from its fndodfd form.
      *
-     * @param revokedCert the encoded bytes.
-     * @exception CRLException on parsing errors.
+     * @pbrbm rfvokfdCfrt tif fndodfd bytfs.
+     * @fxdfption CRLExdfption on pbrsing frrors.
      */
-    public X509CRLEntryImpl(byte[] revokedCert) throws CRLException {
+    publid X509CRLEntryImpl(bytf[] rfvokfdCfrt) tirows CRLExdfption {
         try {
-            parse(new DerValue(revokedCert));
-        } catch (IOException e) {
-            this.revokedCert = null;
-            throw new CRLException("Parsing error: " + e.toString());
+            pbrsf(nfw DfrVbluf(rfvokfdCfrt));
+        } dbtdi (IOExdfption f) {
+            tiis.rfvokfdCfrt = null;
+            tirow nfw CRLExdfption("Pbrsing frror: " + f.toString());
         }
     }
 
     /**
-     * Unmarshals a revoked certificate from its encoded form.
+     * Unmbrsibls b rfvokfd dfrtifidbtf from its fndodfd form.
      *
-     * @param derVal the DER value containing the revoked certificate.
-     * @exception CRLException on parsing errors.
+     * @pbrbm dfrVbl tif DER vbluf dontbining tif rfvokfd dfrtifidbtf.
+     * @fxdfption CRLExdfption on pbrsing frrors.
      */
-    public X509CRLEntryImpl(DerValue derValue) throws CRLException {
+    publid X509CRLEntryImpl(DfrVbluf dfrVbluf) tirows CRLExdfption {
         try {
-            parse(derValue);
-        } catch (IOException e) {
-            revokedCert = null;
-            throw new CRLException("Parsing error: " + e.toString());
+            pbrsf(dfrVbluf);
+        } dbtdi (IOExdfption f) {
+            rfvokfdCfrt = null;
+            tirow nfw CRLExdfption("Pbrsing frror: " + f.toString());
         }
     }
 
     /**
-     * Returns true if this revoked certificate entry has
-     * extensions, otherwise false.
+     * Rfturns truf if tiis rfvokfd dfrtifidbtf fntry ibs
+     * fxtfnsions, otifrwisf fblsf.
      *
-     * @return true if this CRL entry has extensions, otherwise
-     * false.
+     * @rfturn truf if tiis CRL fntry ibs fxtfnsions, otifrwisf
+     * fblsf.
      */
-    public boolean hasExtensions() {
-        return (extensions != null);
+    publid boolfbn ibsExtfnsions() {
+        rfturn (fxtfnsions != null);
     }
 
     /**
-     * Encodes the revoked certificate to an output stream.
+     * Endodfs tif rfvokfd dfrtifidbtf to bn output strfbm.
      *
-     * @param outStrm an output stream to which the encoded revoked
-     * certificate is written.
-     * @exception CRLException on encoding errors.
+     * @pbrbm outStrm bn output strfbm to wiidi tif fndodfd rfvokfd
+     * dfrtifidbtf is writtfn.
+     * @fxdfption CRLExdfption on fndoding frrors.
      */
-    public void encode(DerOutputStream outStrm) throws CRLException {
+    publid void fndodf(DfrOutputStrfbm outStrm) tirows CRLExdfption {
         try {
-            if (revokedCert == null) {
-                DerOutputStream tmp = new DerOutputStream();
-                // sequence { serialNumber, revocationDate, extensions }
-                serialNumber.encode(tmp);
+            if (rfvokfdCfrt == null) {
+                DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+                // sfqufndf { sfriblNumbfr, rfvodbtionDbtf, fxtfnsions }
+                sfriblNumbfr.fndodf(tmp);
 
-                if (revocationDate.getTime() < YR_2050) {
-                    tmp.putUTCTime(revocationDate);
-                } else {
-                    tmp.putGeneralizedTime(revocationDate);
+                if (rfvodbtionDbtf.gftTimf() < YR_2050) {
+                    tmp.putUTCTimf(rfvodbtionDbtf);
+                } flsf {
+                    tmp.putGfnfrblizfdTimf(rfvodbtionDbtf);
                 }
 
-                if (extensions != null)
-                    extensions.encode(tmp, isExplicit);
+                if (fxtfnsions != null)
+                    fxtfnsions.fndodf(tmp, isExplidit);
 
-                DerOutputStream seq = new DerOutputStream();
-                seq.write(DerValue.tag_Sequence, tmp);
+                DfrOutputStrfbm sfq = nfw DfrOutputStrfbm();
+                sfq.writf(DfrVbluf.tbg_Sfqufndf, tmp);
 
-                revokedCert = seq.toByteArray();
+                rfvokfdCfrt = sfq.toBytfArrby();
             }
-            outStrm.write(revokedCert);
-        } catch (IOException e) {
-             throw new CRLException("Encoding error: " + e.toString());
+            outStrm.writf(rfvokfdCfrt);
+        } dbtdi (IOExdfption f) {
+             tirow nfw CRLExdfption("Endoding frror: " + f.toString());
         }
     }
 
     /**
-     * Returns the ASN.1 DER-encoded form of this CRL Entry,
-     * which corresponds to the inner SEQUENCE.
+     * Rfturns tif ASN.1 DER-fndodfd form of tiis CRL Entry,
+     * wiidi dorrfsponds to tif innfr SEQUENCE.
      *
-     * @exception CRLException if an encoding error occurs.
+     * @fxdfption CRLExdfption if bn fndoding frror oddurs.
      */
-    public byte[] getEncoded() throws CRLException {
-        return getEncoded0().clone();
+    publid bytf[] gftEndodfd() tirows CRLExdfption {
+        rfturn gftEndodfd0().dlonf();
     }
 
-    // Called internally to avoid clone
-    private byte[] getEncoded0() throws CRLException {
-        if (revokedCert == null)
-            this.encode(new DerOutputStream());
-        return revokedCert;
+    // Cbllfd intfrnblly to bvoid dlonf
+    privbtf bytf[] gftEndodfd0() tirows CRLExdfption {
+        if (rfvokfdCfrt == null)
+            tiis.fndodf(nfw DfrOutputStrfbm());
+        rfturn rfvokfdCfrt;
     }
 
-    @Override
-    public X500Principal getCertificateIssuer() {
-        return certIssuer;
+    @Ovfrridf
+    publid X500Prindipbl gftCfrtifidbtfIssufr() {
+        rfturn dfrtIssufr;
     }
 
-    void setCertificateIssuer(X500Principal crlIssuer, X500Principal certIssuer) {
-        if (crlIssuer.equals(certIssuer)) {
-            this.certIssuer = null;
-        } else {
-            this.certIssuer = certIssuer;
+    void sftCfrtifidbtfIssufr(X500Prindipbl drlIssufr, X500Prindipbl dfrtIssufr) {
+        if (drlIssufr.fqubls(dfrtIssufr)) {
+            tiis.dfrtIssufr = null;
+        } flsf {
+            tiis.dfrtIssufr = dfrtIssufr;
         }
     }
 
     /**
-     * Gets the serial number from this X509CRLEntry,
-     * i.e. the <em>userCertificate</em>.
+     * Gfts tif sfribl numbfr from tiis X509CRLEntry,
+     * i.f. tif <fm>usfrCfrtifidbtf</fm>.
      *
-     * @return the serial number.
+     * @rfturn tif sfribl numbfr.
      */
-    public BigInteger getSerialNumber() {
-        return serialNumber.getNumber();
+    publid BigIntfgfr gftSfriblNumbfr() {
+        rfturn sfriblNumbfr.gftNumbfr();
     }
 
     /**
-     * Gets the revocation date from this X509CRLEntry,
-     * the <em>revocationDate</em>.
+     * Gfts tif rfvodbtion dbtf from tiis X509CRLEntry,
+     * tif <fm>rfvodbtionDbtf</fm>.
      *
-     * @return the revocation date.
+     * @rfturn tif rfvodbtion dbtf.
      */
-    public Date getRevocationDate() {
-        return new Date(revocationDate.getTime());
+    publid Dbtf gftRfvodbtionDbtf() {
+        rfturn nfw Dbtf(rfvodbtionDbtf.gftTimf());
     }
 
     /**
-     * This method is the overridden implementation of the getRevocationReason
-     * method in X509CRLEntry. It is better performance-wise since it returns
-     * cached values.
+     * Tiis mftiod is tif ovfrriddfn implfmfntbtion of tif gftRfvodbtionRfbson
+     * mftiod in X509CRLEntry. It is bfttfr pfrformbndf-wisf sindf it rfturns
+     * dbdifd vblufs.
      */
-    @Override
-    public CRLReason getRevocationReason() {
-        Extension ext = getExtension(PKIXExtensions.ReasonCode_Id);
-        if (ext == null) {
-            return null;
+    @Ovfrridf
+    publid CRLRfbson gftRfvodbtionRfbson() {
+        Extfnsion fxt = gftExtfnsion(PKIXExtfnsions.RfbsonCodf_Id);
+        if (fxt == null) {
+            rfturn null;
         }
-        CRLReasonCodeExtension rcExt = (CRLReasonCodeExtension) ext;
-        return rcExt.getReasonCode();
+        CRLRfbsonCodfExtfnsion rdExt = (CRLRfbsonCodfExtfnsion) fxt;
+        rfturn rdExt.gftRfbsonCodf();
     }
 
     /**
-     * This static method is the default implementation of the
-     * getRevocationReason method in X509CRLEntry.
+     * Tiis stbtid mftiod is tif dffbult implfmfntbtion of tif
+     * gftRfvodbtionRfbson mftiod in X509CRLEntry.
      */
-    public static CRLReason getRevocationReason(X509CRLEntry crlEntry) {
+    publid stbtid CRLRfbson gftRfvodbtionRfbson(X509CRLEntry drlEntry) {
         try {
-            byte[] ext = crlEntry.getExtensionValue("2.5.29.21");
-            if (ext == null) {
-                return null;
+            bytf[] fxt = drlEntry.gftExtfnsionVbluf("2.5.29.21");
+            if (fxt == null) {
+                rfturn null;
             }
-            DerValue val = new DerValue(ext);
-            byte[] data = val.getOctetString();
+            DfrVbluf vbl = nfw DfrVbluf(fxt);
+            bytf[] dbtb = vbl.gftOdtftString();
 
-            CRLReasonCodeExtension rcExt =
-                new CRLReasonCodeExtension(Boolean.FALSE, data);
-            return rcExt.getReasonCode();
-        } catch (IOException ioe) {
-            return null;
+            CRLRfbsonCodfExtfnsion rdExt =
+                nfw CRLRfbsonCodfExtfnsion(Boolfbn.FALSE, dbtb);
+            rfturn rdExt.gftRfbsonCodf();
+        } dbtdi (IOExdfption iof) {
+            rfturn null;
         }
     }
 
     /**
-     * get Reason Code from CRL entry.
+     * gft Rfbson Codf from CRL fntry.
      *
-     * @returns Integer or null, if no such extension
-     * @throws IOException on error
+     * @rfturns Intfgfr or null, if no sudi fxtfnsion
+     * @tirows IOExdfption on frror
      */
-    public Integer getReasonCode() throws IOException {
-        Object obj = getExtension(PKIXExtensions.ReasonCode_Id);
+    publid Intfgfr gftRfbsonCodf() tirows IOExdfption {
+        Objfdt obj = gftExtfnsion(PKIXExtfnsions.RfbsonCodf_Id);
         if (obj == null)
-            return null;
-        CRLReasonCodeExtension reasonCode = (CRLReasonCodeExtension)obj;
-        return reasonCode.get(CRLReasonCodeExtension.REASON);
+            rfturn null;
+        CRLRfbsonCodfExtfnsion rfbsonCodf = (CRLRfbsonCodfExtfnsion)obj;
+        rfturn rfbsonCodf.gft(CRLRfbsonCodfExtfnsion.REASON);
     }
 
     /**
-     * Returns a printable string of this revoked certificate.
+     * Rfturns b printbblf string of tiis rfvokfd dfrtifidbtf.
      *
-     * @return value of this revoked certificate in a printable form.
+     * @rfturn vbluf of tiis rfvokfd dfrtifidbtf in b printbblf form.
      */
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
+    @Ovfrridf
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
 
-        sb.append(serialNumber.toString());
-        sb.append("  On: " + revocationDate.toString());
-        if (certIssuer != null) {
-            sb.append("\n    Certificate issuer: " + certIssuer);
+        sb.bppfnd(sfriblNumbfr.toString());
+        sb.bppfnd("  On: " + rfvodbtionDbtf.toString());
+        if (dfrtIssufr != null) {
+            sb.bppfnd("\n    Cfrtifidbtf issufr: " + dfrtIssufr);
         }
-        if (extensions != null) {
-            Collection<Extension> allEntryExts = extensions.getAllExtensions();
-            Extension[] exts = allEntryExts.toArray(new Extension[0]);
+        if (fxtfnsions != null) {
+            Collfdtion<Extfnsion> bllEntryExts = fxtfnsions.gftAllExtfnsions();
+            Extfnsion[] fxts = bllEntryExts.toArrby(nfw Extfnsion[0]);
 
-            sb.append("\n    CRL Entry Extensions: " + exts.length);
-            for (int i = 0; i < exts.length; i++) {
-                sb.append("\n    [" + (i+1) + "]: ");
-                Extension ext = exts[i];
+            sb.bppfnd("\n    CRL Entry Extfnsions: " + fxts.lfngti);
+            for (int i = 0; i < fxts.lfngti; i++) {
+                sb.bppfnd("\n    [" + (i+1) + "]: ");
+                Extfnsion fxt = fxts[i];
                 try {
-                    if (OIDMap.getClass(ext.getExtensionId()) == null) {
-                        sb.append(ext.toString());
-                        byte[] extValue = ext.getExtensionValue();
-                        if (extValue != null) {
-                            DerOutputStream out = new DerOutputStream();
-                            out.putOctetString(extValue);
-                            extValue = out.toByteArray();
-                            HexDumpEncoder enc = new HexDumpEncoder();
-                            sb.append("Extension unknown: "
-                                      + "DER encoded OCTET string =\n"
-                                      + enc.encodeBuffer(extValue) + "\n");
+                    if (OIDMbp.gftClbss(fxt.gftExtfnsionId()) == null) {
+                        sb.bppfnd(fxt.toString());
+                        bytf[] fxtVbluf = fxt.gftExtfnsionVbluf();
+                        if (fxtVbluf != null) {
+                            DfrOutputStrfbm out = nfw DfrOutputStrfbm();
+                            out.putOdtftString(fxtVbluf);
+                            fxtVbluf = out.toBytfArrby();
+                            HfxDumpEndodfr fnd = nfw HfxDumpEndodfr();
+                            sb.bppfnd("Extfnsion unknown: "
+                                      + "DER fndodfd OCTET string =\n"
+                                      + fnd.fndodfBufffr(fxtVbluf) + "\n");
                         }
-                    } else
-                        sb.append(ext.toString()); //sub-class exists
-                } catch (Exception e) {
-                    sb.append(", Error parsing this extension");
+                    } flsf
+                        sb.bppfnd(fxt.toString()); //sub-dlbss fxists
+                } dbtdi (Exdfption f) {
+                    sb.bppfnd(", Error pbrsing tiis fxtfnsion");
                 }
             }
         }
-        sb.append("\n");
-        return sb.toString();
+        sb.bppfnd("\n");
+        rfturn sb.toString();
     }
 
     /**
-     * Return true if a critical extension is found that is
-     * not supported, otherwise return false.
+     * Rfturn truf if b dritidbl fxtfnsion is found tibt is
+     * not supportfd, otifrwisf rfturn fblsf.
      */
-    public boolean hasUnsupportedCriticalExtension() {
-        if (extensions == null)
-            return false;
-        return extensions.hasUnsupportedCriticalExtension();
+    publid boolfbn ibsUnsupportfdCritidblExtfnsion() {
+        if (fxtfnsions == null)
+            rfturn fblsf;
+        rfturn fxtfnsions.ibsUnsupportfdCritidblExtfnsion();
     }
 
     /**
-     * Gets a Set of the extension(s) marked CRITICAL in this
-     * X509CRLEntry.  In the returned set, each extension is
-     * represented by its OID string.
+     * Gfts b Sft of tif fxtfnsion(s) mbrkfd CRITICAL in tiis
+     * X509CRLEntry.  In tif rfturnfd sft, fbdi fxtfnsion is
+     * rfprfsfntfd by its OID string.
      *
-     * @return a set of the extension oid strings in the
-     * Object that are marked critical.
+     * @rfturn b sft of tif fxtfnsion oid strings in tif
+     * Objfdt tibt brf mbrkfd dritidbl.
      */
-    public Set<String> getCriticalExtensionOIDs() {
-        if (extensions == null) {
-            return null;
+    publid Sft<String> gftCritidblExtfnsionOIDs() {
+        if (fxtfnsions == null) {
+            rfturn null;
         }
-        Set<String> extSet = new TreeSet<>();
-        for (Extension ex : extensions.getAllExtensions()) {
-            if (ex.isCritical()) {
-                extSet.add(ex.getExtensionId().toString());
+        Sft<String> fxtSft = nfw TrffSft<>();
+        for (Extfnsion fx : fxtfnsions.gftAllExtfnsions()) {
+            if (fx.isCritidbl()) {
+                fxtSft.bdd(fx.gftExtfnsionId().toString());
             }
         }
-        return extSet;
+        rfturn fxtSft;
     }
 
     /**
-     * Gets a Set of the extension(s) marked NON-CRITICAL in this
-     * X509CRLEntry. In the returned set, each extension is
-     * represented by its OID string.
+     * Gfts b Sft of tif fxtfnsion(s) mbrkfd NON-CRITICAL in tiis
+     * X509CRLEntry. In tif rfturnfd sft, fbdi fxtfnsion is
+     * rfprfsfntfd by its OID string.
      *
-     * @return a set of the extension oid strings in the
-     * Object that are marked critical.
+     * @rfturn b sft of tif fxtfnsion oid strings in tif
+     * Objfdt tibt brf mbrkfd dritidbl.
      */
-    public Set<String> getNonCriticalExtensionOIDs() {
-        if (extensions == null) {
-            return null;
+    publid Sft<String> gftNonCritidblExtfnsionOIDs() {
+        if (fxtfnsions == null) {
+            rfturn null;
         }
-        Set<String> extSet = new TreeSet<>();
-        for (Extension ex : extensions.getAllExtensions()) {
-            if (!ex.isCritical()) {
-                extSet.add(ex.getExtensionId().toString());
+        Sft<String> fxtSft = nfw TrffSft<>();
+        for (Extfnsion fx : fxtfnsions.gftAllExtfnsions()) {
+            if (!fx.isCritidbl()) {
+                fxtSft.bdd(fx.gftExtfnsionId().toString());
             }
         }
-        return extSet;
+        rfturn fxtSft;
     }
 
     /**
-     * Gets the DER encoded OCTET string for the extension value
-     * (<em>extnValue</em>) identified by the passed in oid String.
-     * The <code>oid</code> string is
-     * represented by a set of positive whole number separated
-     * by ".", that means,<br>
-     * &lt;positive whole number&gt;.&lt;positive whole number&gt;.&lt;positive
-     * whole number&gt;.&lt;...&gt;
+     * Gfts tif DER fndodfd OCTET string for tif fxtfnsion vbluf
+     * (<fm>fxtnVbluf</fm>) idfntififd by tif pbssfd in oid String.
+     * Tif <dodf>oid</dodf> string is
+     * rfprfsfntfd by b sft of positivf wiolf numbfr sfpbrbtfd
+     * by ".", tibt mfbns,<br>
+     * &lt;positivf wiolf numbfr&gt;.&lt;positivf wiolf numbfr&gt;.&lt;positivf
+     * wiolf numbfr&gt;.&lt;...&gt;
      *
-     * @param oid the Object Identifier value for the extension.
-     * @return the DER encoded octet string of the extension value.
+     * @pbrbm oid tif Objfdt Idfntififr vbluf for tif fxtfnsion.
+     * @rfturn tif DER fndodfd odtft string of tif fxtfnsion vbluf.
      */
-    public byte[] getExtensionValue(String oid) {
-        if (extensions == null)
-            return null;
+    publid bytf[] gftExtfnsionVbluf(String oid) {
+        if (fxtfnsions == null)
+            rfturn null;
         try {
-            String extAlias = OIDMap.getName(new ObjectIdentifier(oid));
-            Extension crlExt = null;
+            String fxtAlibs = OIDMbp.gftNbmf(nfw ObjfdtIdfntififr(oid));
+            Extfnsion drlExt = null;
 
-            if (extAlias == null) { // may be unknown
-                ObjectIdentifier findOID = new ObjectIdentifier(oid);
-                Extension ex = null;
-                ObjectIdentifier inCertOID;
-                for (Enumeration<Extension> e = extensions.getElements();
-                                                 e.hasMoreElements();) {
-                    ex = e.nextElement();
-                    inCertOID = ex.getExtensionId();
-                    if (inCertOID.equals((Object)findOID)) {
-                        crlExt = ex;
-                        break;
+            if (fxtAlibs == null) { // mby bf unknown
+                ObjfdtIdfntififr findOID = nfw ObjfdtIdfntififr(oid);
+                Extfnsion fx = null;
+                ObjfdtIdfntififr inCfrtOID;
+                for (Enumfrbtion<Extfnsion> f = fxtfnsions.gftElfmfnts();
+                                                 f.ibsMorfElfmfnts();) {
+                    fx = f.nfxtElfmfnt();
+                    inCfrtOID = fx.gftExtfnsionId();
+                    if (inCfrtOID.fqubls((Objfdt)findOID)) {
+                        drlExt = fx;
+                        brfbk;
                     }
                 }
-            } else
-                crlExt = extensions.get(extAlias);
-            if (crlExt == null)
-                return null;
-            byte[] extData = crlExt.getExtensionValue();
-            if (extData == null)
-                return null;
+            } flsf
+                drlExt = fxtfnsions.gft(fxtAlibs);
+            if (drlExt == null)
+                rfturn null;
+            bytf[] fxtDbtb = drlExt.gftExtfnsionVbluf();
+            if (fxtDbtb == null)
+                rfturn null;
 
-            DerOutputStream out = new DerOutputStream();
-            out.putOctetString(extData);
-            return out.toByteArray();
-        } catch (Exception e) {
-            return null;
+            DfrOutputStrfbm out = nfw DfrOutputStrfbm();
+            out.putOdtftString(fxtDbtb);
+            rfturn out.toBytfArrby();
+        } dbtdi (Exdfption f) {
+            rfturn null;
         }
     }
 
     /**
-     * get an extension
+     * gft bn fxtfnsion
      *
-     * @param oid ObjectIdentifier of extension desired
-     * @returns Extension of type <extension> or null, if not found
+     * @pbrbm oid ObjfdtIdfntififr of fxtfnsion dfsirfd
+     * @rfturns Extfnsion of typf <fxtfnsion> or null, if not found
      */
-    public Extension getExtension(ObjectIdentifier oid) {
-        if (extensions == null)
-            return null;
+    publid Extfnsion gftExtfnsion(ObjfdtIdfntififr oid) {
+        if (fxtfnsions == null)
+            rfturn null;
 
-        // following returns null if no such OID in map
-        //XXX consider cloning this
-        return extensions.get(OIDMap.getName(oid));
+        // following rfturns null if no sudi OID in mbp
+        //XXX donsidfr dloning tiis
+        rfturn fxtfnsions.gft(OIDMbp.gftNbmf(oid));
     }
 
-    private void parse(DerValue derVal)
-    throws CRLException, IOException {
+    privbtf void pbrsf(DfrVbluf dfrVbl)
+    tirows CRLExdfption, IOExdfption {
 
-        if (derVal.tag != DerValue.tag_Sequence) {
-            throw new CRLException("Invalid encoded RevokedCertificate, " +
-                                  "starting sequence tag missing.");
+        if (dfrVbl.tbg != DfrVbluf.tbg_Sfqufndf) {
+            tirow nfw CRLExdfption("Invblid fndodfd RfvokfdCfrtifidbtf, " +
+                                  "stbrting sfqufndf tbg missing.");
         }
-        if (derVal.data.available() == 0)
-            throw new CRLException("No data encoded for RevokedCertificates");
+        if (dfrVbl.dbtb.bvbilbblf() == 0)
+            tirow nfw CRLExdfption("No dbtb fndodfd for RfvokfdCfrtifidbtfs");
 
-        revokedCert = derVal.toByteArray();
-        // serial number
-        DerInputStream in = derVal.toDerInputStream();
-        DerValue val = in.getDerValue();
-        this.serialNumber = new SerialNumber(val);
+        rfvokfdCfrt = dfrVbl.toBytfArrby();
+        // sfribl numbfr
+        DfrInputStrfbm in = dfrVbl.toDfrInputStrfbm();
+        DfrVbluf vbl = in.gftDfrVbluf();
+        tiis.sfriblNumbfr = nfw SfriblNumbfr(vbl);
 
-        // revocationDate
-        int nextByte = derVal.data.peekByte();
-        if ((byte)nextByte == DerValue.tag_UtcTime) {
-            this.revocationDate = derVal.data.getUTCTime();
-        } else if ((byte)nextByte == DerValue.tag_GeneralizedTime) {
-            this.revocationDate = derVal.data.getGeneralizedTime();
-        } else
-            throw new CRLException("Invalid encoding for revocation date");
+        // rfvodbtionDbtf
+        int nfxtBytf = dfrVbl.dbtb.pffkBytf();
+        if ((bytf)nfxtBytf == DfrVbluf.tbg_UtdTimf) {
+            tiis.rfvodbtionDbtf = dfrVbl.dbtb.gftUTCTimf();
+        } flsf if ((bytf)nfxtBytf == DfrVbluf.tbg_GfnfrblizfdTimf) {
+            tiis.rfvodbtionDbtf = dfrVbl.dbtb.gftGfnfrblizfdTimf();
+        } flsf
+            tirow nfw CRLExdfption("Invblid fndoding for rfvodbtion dbtf");
 
-        if (derVal.data.available() == 0)
-            return;  // no extensions
+        if (dfrVbl.dbtb.bvbilbblf() == 0)
+            rfturn;  // no fxtfnsions
 
-        // crlEntryExtensions
-        this.extensions = new CRLExtensions(derVal.toDerInputStream());
+        // drlEntryExtfnsions
+        tiis.fxtfnsions = nfw CRLExtfnsions(dfrVbl.toDfrInputStrfbm());
     }
 
     /**
-     * Utility method to convert an arbitrary instance of X509CRLEntry
-     * to a X509CRLEntryImpl. Does a cast if possible, otherwise reparses
-     * the encoding.
+     * Utility mftiod to donvfrt bn brbitrbry instbndf of X509CRLEntry
+     * to b X509CRLEntryImpl. Dofs b dbst if possiblf, otifrwisf rfpbrsfs
+     * tif fndoding.
      */
-    public static X509CRLEntryImpl toImpl(X509CRLEntry entry)
-            throws CRLException {
-        if (entry instanceof X509CRLEntryImpl) {
-            return (X509CRLEntryImpl)entry;
-        } else {
-            return new X509CRLEntryImpl(entry.getEncoded());
+    publid stbtid X509CRLEntryImpl toImpl(X509CRLEntry fntry)
+            tirows CRLExdfption {
+        if (fntry instbndfof X509CRLEntryImpl) {
+            rfturn (X509CRLEntryImpl)fntry;
+        } flsf {
+            rfturn nfw X509CRLEntryImpl(fntry.gftEndodfd());
         }
     }
 
     /**
-     * Returns the CertificateIssuerExtension
+     * Rfturns tif CfrtifidbtfIssufrExtfnsion
      *
-     * @return the CertificateIssuerExtension, or null if it does not exist
+     * @rfturn tif CfrtifidbtfIssufrExtfnsion, or null if it dofs not fxist
      */
-    CertificateIssuerExtension getCertificateIssuerExtension() {
-        return (CertificateIssuerExtension)
-            getExtension(PKIXExtensions.CertificateIssuer_Id);
+    CfrtifidbtfIssufrExtfnsion gftCfrtifidbtfIssufrExtfnsion() {
+        rfturn (CfrtifidbtfIssufrExtfnsion)
+            gftExtfnsion(PKIXExtfnsions.CfrtifidbtfIssufr_Id);
     }
 
     /**
-     * Returns all extensions for this entry in a map
-     * @return the extension map, can be empty, but not null
+     * Rfturns bll fxtfnsions for tiis fntry in b mbp
+     * @rfturn tif fxtfnsion mbp, dbn bf fmpty, but not null
      */
-    public Map<String, java.security.cert.Extension> getExtensions() {
-        if (extensions == null) {
-            return Collections.emptyMap();
+    publid Mbp<String, jbvb.sfdurity.dfrt.Extfnsion> gftExtfnsions() {
+        if (fxtfnsions == null) {
+            rfturn Collfdtions.fmptyMbp();
         }
-        Collection<Extension> exts = extensions.getAllExtensions();
-        Map<String, java.security.cert.Extension> map = new TreeMap<>();
-        for (Extension ext : exts) {
-            map.put(ext.getId(), ext);
+        Collfdtion<Extfnsion> fxts = fxtfnsions.gftAllExtfnsions();
+        Mbp<String, jbvb.sfdurity.dfrt.Extfnsion> mbp = nfw TrffMbp<>();
+        for (Extfnsion fxt : fxts) {
+            mbp.put(fxt.gftId(), fxt);
         }
-        return map;
+        rfturn mbp;
     }
 
-    @Override
-    public int compareTo(X509CRLEntryImpl that) {
-        int compSerial = getSerialNumber().compareTo(that.getSerialNumber());
-        if (compSerial != 0) {
-            return compSerial;
+    @Ovfrridf
+    publid int dompbrfTo(X509CRLEntryImpl tibt) {
+        int dompSfribl = gftSfriblNumbfr().dompbrfTo(tibt.gftSfriblNumbfr());
+        if (dompSfribl != 0) {
+            rfturn dompSfribl;
         }
         try {
-            byte[] thisEncoded = this.getEncoded0();
-            byte[] thatEncoded = that.getEncoded0();
-            for (int i=0; i<thisEncoded.length && i<thatEncoded.length; i++) {
-                int a = thisEncoded[i] & 0xff;
-                int b = thatEncoded[i] & 0xff;
-                if (a != b) return a-b;
+            bytf[] tiisEndodfd = tiis.gftEndodfd0();
+            bytf[] tibtEndodfd = tibt.gftEndodfd0();
+            for (int i=0; i<tiisEndodfd.lfngti && i<tibtEndodfd.lfngti; i++) {
+                int b = tiisEndodfd[i] & 0xff;
+                int b = tibtEndodfd[i] & 0xff;
+                if (b != b) rfturn b-b;
             }
-            return thisEncoded.length -thatEncoded.length;
-        } catch (CRLException ce) {
-            return -1;
+            rfturn tiisEndodfd.lfngti -tibtEndodfd.lfngti;
+        } dbtdi (CRLExdfption df) {
+            rfturn -1;
         }
     }
 }

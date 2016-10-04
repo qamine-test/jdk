@@ -1,383 +1,383 @@
 /*
- * Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt;
+pbdkbgf jbvb.bwt;
 
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.ColorModel;
-import java.beans.ConstructorProperties;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.Point2D;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bfbns.ConstrudtorPropfrtifs;
 
 /**
- * The {@code LinearGradientPaint} class provides a way to fill
- * a {@link java.awt.Shape} with a linear color gradient pattern.  The user
- * may specify two or more gradient colors, and this paint will provide an
- * interpolation between each color.  The user also specifies start and end
- * points which define where in user space the color gradient should begin
- * and end.
+ * Tif {@dodf LinfbrGrbdifntPbint} dlbss providfs b wby to fill
+ * b {@link jbvb.bwt.Sibpf} witi b linfbr dolor grbdifnt pbttfrn.  Tif usfr
+ * mby spfdify two or morf grbdifnt dolors, bnd tiis pbint will providf bn
+ * intfrpolbtion bftwffn fbdi dolor.  Tif usfr blso spfdififs stbrt bnd fnd
+ * points wiidi dffinf wifrf in usfr spbdf tif dolor grbdifnt siould bfgin
+ * bnd fnd.
  * <p>
- * The user must provide an array of floats specifying how to distribute the
- * colors along the gradient.  These values should range from 0.0 to 1.0 and
- * act like keyframes along the gradient (they mark where the gradient should
- * be exactly a particular color).
+ * Tif usfr must providf bn brrby of flobts spfdifying iow to distributf tif
+ * dolors blong tif grbdifnt.  Tifsf vblufs siould rbngf from 0.0 to 1.0 bnd
+ * bdt likf kfyfrbmfs blong tif grbdifnt (tify mbrk wifrf tif grbdifnt siould
+ * bf fxbdtly b pbrtidulbr dolor).
  * <p>
- * In the event that the user does not set the first keyframe value equal
- * to 0 and/or the last keyframe value equal to 1, keyframes will be created
- * at these positions and the first and last colors will be replicated there.
- * So, if a user specifies the following arrays to construct a gradient:<br>
- * <pre>
+ * In tif fvfnt tibt tif usfr dofs not sft tif first kfyfrbmf vbluf fqubl
+ * to 0 bnd/or tif lbst kfyfrbmf vbluf fqubl to 1, kfyfrbmfs will bf drfbtfd
+ * bt tifsf positions bnd tif first bnd lbst dolors will bf rfplidbtfd tifrf.
+ * So, if b usfr spfdififs tif following brrbys to donstrudt b grbdifnt:<br>
+ * <prf>
  *     {Color.BLUE, Color.RED}, {.3f, .7f}
- * </pre>
- * this will be converted to a gradient with the following keyframes:<br>
- * <pre>
+ * </prf>
+ * tiis will bf donvfrtfd to b grbdifnt witi tif following kfyfrbmfs:<br>
+ * <prf>
  *     {Color.BLUE, Color.BLUE, Color.RED, Color.RED}, {0f, .3f, .7f, 1f}
- * </pre>
+ * </prf>
  *
  * <p>
- * The user may also select what action the {@code LinearGradientPaint} object
- * takes when it is filling the space outside the start and end points by
- * setting {@code CycleMethod} to either {@code REFLECTION} or {@code REPEAT}.
- * The distances between any two colors in any of the reflected or repeated
- * copies of the gradient are the same as the distance between those same two
- * colors between the start and end points.
- * Note that some minor variations in distances may occur due to sampling at
- * the granularity of a pixel.
- * If no cycle method is specified, {@code NO_CYCLE} will be chosen by
- * default, which means the endpoint colors will be used to fill the
- * remaining area.
+ * Tif usfr mby blso sflfdt wibt bdtion tif {@dodf LinfbrGrbdifntPbint} objfdt
+ * tbkfs wifn it is filling tif spbdf outsidf tif stbrt bnd fnd points by
+ * sftting {@dodf CydlfMftiod} to fitifr {@dodf REFLECTION} or {@dodf REPEAT}.
+ * Tif distbndfs bftwffn bny two dolors in bny of tif rfflfdtfd or rfpfbtfd
+ * dopifs of tif grbdifnt brf tif sbmf bs tif distbndf bftwffn tiosf sbmf two
+ * dolors bftwffn tif stbrt bnd fnd points.
+ * Notf tibt somf minor vbribtions in distbndfs mby oddur duf to sbmpling bt
+ * tif grbnulbrity of b pixfl.
+ * If no dydlf mftiod is spfdififd, {@dodf NO_CYCLE} will bf diosfn by
+ * dffbult, wiidi mfbns tif fndpoint dolors will bf usfd to fill tif
+ * rfmbining brfb.
  * <p>
- * The colorSpace parameter allows the user to specify in which colorspace
- * the interpolation should be performed, default sRGB or linearized RGB.
+ * Tif dolorSpbdf pbrbmftfr bllows tif usfr to spfdify in wiidi dolorspbdf
+ * tif intfrpolbtion siould bf pfrformfd, dffbult sRGB or linfbrizfd RGB.
  *
  * <p>
- * The following code demonstrates typical usage of
- * {@code LinearGradientPaint}:
- * <pre>
- *     Point2D start = new Point2D.Float(0, 0);
- *     Point2D end = new Point2D.Float(50, 50);
- *     float[] dist = {0.0f, 0.2f, 1.0f};
- *     Color[] colors = {Color.RED, Color.WHITE, Color.BLUE};
- *     LinearGradientPaint p =
- *         new LinearGradientPaint(start, end, dist, colors);
- * </pre>
+ * Tif following dodf dfmonstrbtfs typidbl usbgf of
+ * {@dodf LinfbrGrbdifntPbint}:
+ * <prf>
+ *     Point2D stbrt = nfw Point2D.Flobt(0, 0);
+ *     Point2D fnd = nfw Point2D.Flobt(50, 50);
+ *     flobt[] dist = {0.0f, 0.2f, 1.0f};
+ *     Color[] dolors = {Color.RED, Color.WHITE, Color.BLUE};
+ *     LinfbrGrbdifntPbint p =
+ *         nfw LinfbrGrbdifntPbint(stbrt, fnd, dist, dolors);
+ * </prf>
  * <p>
- * This code will create a {@code LinearGradientPaint} which interpolates
- * between red and white for the first 20% of the gradient and between white
- * and blue for the remaining 80%.
+ * Tiis dodf will drfbtf b {@dodf LinfbrGrbdifntPbint} wiidi intfrpolbtfs
+ * bftwffn rfd bnd wiitf for tif first 20% of tif grbdifnt bnd bftwffn wiitf
+ * bnd bluf for tif rfmbining 80%.
  *
  * <p>
- * This image demonstrates the example code above for each
- * of the three cycle methods:
- * <center>
- * <img src = "doc-files/LinearGradientPaint.png"
- * alt="image showing the output of the example code">
- * </center>
+ * Tiis imbgf dfmonstrbtfs tif fxbmplf dodf bbovf for fbdi
+ * of tif tirff dydlf mftiods:
+ * <dfntfr>
+ * <img srd = "dod-filfs/LinfbrGrbdifntPbint.png"
+ * blt="imbgf siowing tif output of tif fxbmplf dodf">
+ * </dfntfr>
  *
- * @see java.awt.Paint
- * @see java.awt.Graphics2D#setPaint
- * @author Nicholas Talian, Vincent Hardy, Jim Graham, Jerry Evans
- * @since 1.6
+ * @sff jbvb.bwt.Pbint
+ * @sff jbvb.bwt.Grbpiids2D#sftPbint
+ * @butior Nidiolbs Tblibn, Vindfnt Hbrdy, Jim Grbibm, Jfrry Evbns
+ * @sindf 1.6
  */
-public final class LinearGradientPaint extends MultipleGradientPaint {
+publid finbl dlbss LinfbrGrbdifntPbint fxtfnds MultiplfGrbdifntPbint {
 
-    /** Gradient start and end points. */
-    private final Point2D start, end;
+    /** Grbdifnt stbrt bnd fnd points. */
+    privbtf finbl Point2D stbrt, fnd;
 
     /**
-     * Constructs a {@code LinearGradientPaint} with a default
-     * {@code NO_CYCLE} repeating method and {@code SRGB} color space.
+     * Construdts b {@dodf LinfbrGrbdifntPbint} witi b dffbult
+     * {@dodf NO_CYCLE} rfpfbting mftiod bnd {@dodf SRGB} dolor spbdf.
      *
-     * @param startX the X coordinate of the gradient axis start point
-     *               in user space
-     * @param startY the Y coordinate of the gradient axis start point
-     *               in user space
-     * @param endX   the X coordinate of the gradient axis end point
-     *               in user space
-     * @param endY   the Y coordinate of the gradient axis end point
-     *               in user space
-     * @param fractions numbers ranging from 0.0 to 1.0 specifying the
-     *                  distribution of colors along the gradient
-     * @param colors array of colors corresponding to each fractional value
+     * @pbrbm stbrtX tif X doordinbtf of tif grbdifnt bxis stbrt point
+     *               in usfr spbdf
+     * @pbrbm stbrtY tif Y doordinbtf of tif grbdifnt bxis stbrt point
+     *               in usfr spbdf
+     * @pbrbm fndX   tif X doordinbtf of tif grbdifnt bxis fnd point
+     *               in usfr spbdf
+     * @pbrbm fndY   tif Y doordinbtf of tif grbdifnt bxis fnd point
+     *               in usfr spbdf
+     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying tif
+     *                  distribution of dolors blong tif grbdifnt
+     * @pbrbm dolors brrby of dolors dorrfsponding to fbdi frbdtionbl vbluf
      *
-     * @throws NullPointerException
-     * if {@code fractions} array is null,
-     * or {@code colors} array is null,
-     * @throws IllegalArgumentException
-     * if start and end points are the same points,
-     * or {@code fractions.length != colors.length},
-     * or {@code colors} is less than 2 in size,
-     * or a {@code fractions} value is less than 0.0 or greater than 1.0,
-     * or the {@code fractions} are not provided in strictly increasing order
+     * @tirows NullPointfrExdfption
+     * if {@dodf frbdtions} brrby is null,
+     * or {@dodf dolors} brrby is null,
+     * @tirows IllfgblArgumfntExdfption
+     * if stbrt bnd fnd points brf tif sbmf points,
+     * or {@dodf frbdtions.lfngti != dolors.lfngti},
+     * or {@dodf dolors} is lfss tibn 2 in sizf,
+     * or b {@dodf frbdtions} vbluf is lfss tibn 0.0 or grfbtfr tibn 1.0,
+     * or tif {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
      */
-    public LinearGradientPaint(float startX, float startY,
-                               float endX, float endY,
-                               float[] fractions, Color[] colors)
+    publid LinfbrGrbdifntPbint(flobt stbrtX, flobt stbrtY,
+                               flobt fndX, flobt fndY,
+                               flobt[] frbdtions, Color[] dolors)
     {
-        this(new Point2D.Float(startX, startY),
-             new Point2D.Float(endX, endY),
-             fractions,
-             colors,
-             CycleMethod.NO_CYCLE);
+        tiis(nfw Point2D.Flobt(stbrtX, stbrtY),
+             nfw Point2D.Flobt(fndX, fndY),
+             frbdtions,
+             dolors,
+             CydlfMftiod.NO_CYCLE);
     }
 
     /**
-     * Constructs a {@code LinearGradientPaint} with a default {@code SRGB}
-     * color space.
+     * Construdts b {@dodf LinfbrGrbdifntPbint} witi b dffbult {@dodf SRGB}
+     * dolor spbdf.
      *
-     * @param startX the X coordinate of the gradient axis start point
-     *               in user space
-     * @param startY the Y coordinate of the gradient axis start point
-     *               in user space
-     * @param endX   the X coordinate of the gradient axis end point
-     *               in user space
-     * @param endY   the Y coordinate of the gradient axis end point
-     *               in user space
-     * @param fractions numbers ranging from 0.0 to 1.0 specifying the
-     *                  distribution of colors along the gradient
-     * @param colors array of colors corresponding to each fractional value
-     * @param cycleMethod either {@code NO_CYCLE}, {@code REFLECT},
-     *                    or {@code REPEAT}
+     * @pbrbm stbrtX tif X doordinbtf of tif grbdifnt bxis stbrt point
+     *               in usfr spbdf
+     * @pbrbm stbrtY tif Y doordinbtf of tif grbdifnt bxis stbrt point
+     *               in usfr spbdf
+     * @pbrbm fndX   tif X doordinbtf of tif grbdifnt bxis fnd point
+     *               in usfr spbdf
+     * @pbrbm fndY   tif Y doordinbtf of tif grbdifnt bxis fnd point
+     *               in usfr spbdf
+     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying tif
+     *                  distribution of dolors blong tif grbdifnt
+     * @pbrbm dolors brrby of dolors dorrfsponding to fbdi frbdtionbl vbluf
+     * @pbrbm dydlfMftiod fitifr {@dodf NO_CYCLE}, {@dodf REFLECT},
+     *                    or {@dodf REPEAT}
      *
-     * @throws NullPointerException
-     * if {@code fractions} array is null,
-     * or {@code colors} array is null,
-     * or {@code cycleMethod} is null
-     * @throws IllegalArgumentException
-     * if start and end points are the same points,
-     * or {@code fractions.length != colors.length},
-     * or {@code colors} is less than 2 in size,
-     * or a {@code fractions} value is less than 0.0 or greater than 1.0,
-     * or the {@code fractions} are not provided in strictly increasing order
+     * @tirows NullPointfrExdfption
+     * if {@dodf frbdtions} brrby is null,
+     * or {@dodf dolors} brrby is null,
+     * or {@dodf dydlfMftiod} is null
+     * @tirows IllfgblArgumfntExdfption
+     * if stbrt bnd fnd points brf tif sbmf points,
+     * or {@dodf frbdtions.lfngti != dolors.lfngti},
+     * or {@dodf dolors} is lfss tibn 2 in sizf,
+     * or b {@dodf frbdtions} vbluf is lfss tibn 0.0 or grfbtfr tibn 1.0,
+     * or tif {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
      */
-    public LinearGradientPaint(float startX, float startY,
-                               float endX, float endY,
-                               float[] fractions, Color[] colors,
-                               CycleMethod cycleMethod)
+    publid LinfbrGrbdifntPbint(flobt stbrtX, flobt stbrtY,
+                               flobt fndX, flobt fndY,
+                               flobt[] frbdtions, Color[] dolors,
+                               CydlfMftiod dydlfMftiod)
     {
-        this(new Point2D.Float(startX, startY),
-             new Point2D.Float(endX, endY),
-             fractions,
-             colors,
-             cycleMethod);
+        tiis(nfw Point2D.Flobt(stbrtX, stbrtY),
+             nfw Point2D.Flobt(fndX, fndY),
+             frbdtions,
+             dolors,
+             dydlfMftiod);
     }
 
     /**
-     * Constructs a {@code LinearGradientPaint} with a default
-     * {@code NO_CYCLE} repeating method and {@code SRGB} color space.
+     * Construdts b {@dodf LinfbrGrbdifntPbint} witi b dffbult
+     * {@dodf NO_CYCLE} rfpfbting mftiod bnd {@dodf SRGB} dolor spbdf.
      *
-     * @param start the gradient axis start {@code Point2D} in user space
-     * @param end the gradient axis end {@code Point2D} in user space
-     * @param fractions numbers ranging from 0.0 to 1.0 specifying the
-     *                  distribution of colors along the gradient
-     * @param colors array of colors corresponding to each fractional value
+     * @pbrbm stbrt tif grbdifnt bxis stbrt {@dodf Point2D} in usfr spbdf
+     * @pbrbm fnd tif grbdifnt bxis fnd {@dodf Point2D} in usfr spbdf
+     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying tif
+     *                  distribution of dolors blong tif grbdifnt
+     * @pbrbm dolors brrby of dolors dorrfsponding to fbdi frbdtionbl vbluf
      *
-     * @throws NullPointerException
-     * if one of the points is null,
-     * or {@code fractions} array is null,
-     * or {@code colors} array is null
-     * @throws IllegalArgumentException
-     * if start and end points are the same points,
-     * or {@code fractions.length != colors.length},
-     * or {@code colors} is less than 2 in size,
-     * or a {@code fractions} value is less than 0.0 or greater than 1.0,
-     * or the {@code fractions} are not provided in strictly increasing order
+     * @tirows NullPointfrExdfption
+     * if onf of tif points is null,
+     * or {@dodf frbdtions} brrby is null,
+     * or {@dodf dolors} brrby is null
+     * @tirows IllfgblArgumfntExdfption
+     * if stbrt bnd fnd points brf tif sbmf points,
+     * or {@dodf frbdtions.lfngti != dolors.lfngti},
+     * or {@dodf dolors} is lfss tibn 2 in sizf,
+     * or b {@dodf frbdtions} vbluf is lfss tibn 0.0 or grfbtfr tibn 1.0,
+     * or tif {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
      */
-    public LinearGradientPaint(Point2D start, Point2D end,
-                               float[] fractions, Color[] colors)
+    publid LinfbrGrbdifntPbint(Point2D stbrt, Point2D fnd,
+                               flobt[] frbdtions, Color[] dolors)
     {
-        this(start, end,
-             fractions, colors,
-             CycleMethod.NO_CYCLE);
+        tiis(stbrt, fnd,
+             frbdtions, dolors,
+             CydlfMftiod.NO_CYCLE);
     }
 
     /**
-     * Constructs a {@code LinearGradientPaint} with a default {@code SRGB}
-     * color space.
+     * Construdts b {@dodf LinfbrGrbdifntPbint} witi b dffbult {@dodf SRGB}
+     * dolor spbdf.
      *
-     * @param start the gradient axis start {@code Point2D} in user space
-     * @param end the gradient axis end {@code Point2D} in user space
-     * @param fractions numbers ranging from 0.0 to 1.0 specifying the
-     *                  distribution of colors along the gradient
-     * @param colors array of colors corresponding to each fractional value
-     * @param cycleMethod either {@code NO_CYCLE}, {@code REFLECT},
-     *                    or {@code REPEAT}
+     * @pbrbm stbrt tif grbdifnt bxis stbrt {@dodf Point2D} in usfr spbdf
+     * @pbrbm fnd tif grbdifnt bxis fnd {@dodf Point2D} in usfr spbdf
+     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying tif
+     *                  distribution of dolors blong tif grbdifnt
+     * @pbrbm dolors brrby of dolors dorrfsponding to fbdi frbdtionbl vbluf
+     * @pbrbm dydlfMftiod fitifr {@dodf NO_CYCLE}, {@dodf REFLECT},
+     *                    or {@dodf REPEAT}
      *
-     * @throws NullPointerException
-     * if one of the points is null,
-     * or {@code fractions} array is null,
-     * or {@code colors} array is null,
-     * or {@code cycleMethod} is null
-     * @throws IllegalArgumentException
-     * if start and end points are the same points,
-     * or {@code fractions.length != colors.length},
-     * or {@code colors} is less than 2 in size,
-     * or a {@code fractions} value is less than 0.0 or greater than 1.0,
-     * or the {@code fractions} are not provided in strictly increasing order
+     * @tirows NullPointfrExdfption
+     * if onf of tif points is null,
+     * or {@dodf frbdtions} brrby is null,
+     * or {@dodf dolors} brrby is null,
+     * or {@dodf dydlfMftiod} is null
+     * @tirows IllfgblArgumfntExdfption
+     * if stbrt bnd fnd points brf tif sbmf points,
+     * or {@dodf frbdtions.lfngti != dolors.lfngti},
+     * or {@dodf dolors} is lfss tibn 2 in sizf,
+     * or b {@dodf frbdtions} vbluf is lfss tibn 0.0 or grfbtfr tibn 1.0,
+     * or tif {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
      */
-    public LinearGradientPaint(Point2D start, Point2D end,
-                               float[] fractions, Color[] colors,
-                               CycleMethod cycleMethod)
+    publid LinfbrGrbdifntPbint(Point2D stbrt, Point2D fnd,
+                               flobt[] frbdtions, Color[] dolors,
+                               CydlfMftiod dydlfMftiod)
     {
-        this(start, end,
-             fractions, colors,
-             cycleMethod,
-             ColorSpaceType.SRGB,
-             new AffineTransform());
+        tiis(stbrt, fnd,
+             frbdtions, dolors,
+             dydlfMftiod,
+             ColorSpbdfTypf.SRGB,
+             nfw AffinfTrbnsform());
     }
 
     /**
-     * Constructs a {@code LinearGradientPaint}.
+     * Construdts b {@dodf LinfbrGrbdifntPbint}.
      *
-     * @param start the gradient axis start {@code Point2D} in user space
-     * @param end the gradient axis end {@code Point2D} in user space
-     * @param fractions numbers ranging from 0.0 to 1.0 specifying the
-     *                  distribution of colors along the gradient
-     * @param colors array of colors corresponding to each fractional value
-     * @param cycleMethod either {@code NO_CYCLE}, {@code REFLECT},
-     *                    or {@code REPEAT}
-     * @param colorSpace which color space to use for interpolation,
-     *                   either {@code SRGB} or {@code LINEAR_RGB}
-     * @param gradientTransform transform to apply to the gradient
+     * @pbrbm stbrt tif grbdifnt bxis stbrt {@dodf Point2D} in usfr spbdf
+     * @pbrbm fnd tif grbdifnt bxis fnd {@dodf Point2D} in usfr spbdf
+     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying tif
+     *                  distribution of dolors blong tif grbdifnt
+     * @pbrbm dolors brrby of dolors dorrfsponding to fbdi frbdtionbl vbluf
+     * @pbrbm dydlfMftiod fitifr {@dodf NO_CYCLE}, {@dodf REFLECT},
+     *                    or {@dodf REPEAT}
+     * @pbrbm dolorSpbdf wiidi dolor spbdf to usf for intfrpolbtion,
+     *                   fitifr {@dodf SRGB} or {@dodf LINEAR_RGB}
+     * @pbrbm grbdifntTrbnsform trbnsform to bpply to tif grbdifnt
      *
-     * @throws NullPointerException
-     * if one of the points is null,
-     * or {@code fractions} array is null,
-     * or {@code colors} array is null,
-     * or {@code cycleMethod} is null,
-     * or {@code colorSpace} is null,
-     * or {@code gradientTransform} is null
-     * @throws IllegalArgumentException
-     * if start and end points are the same points,
-     * or {@code fractions.length != colors.length},
-     * or {@code colors} is less than 2 in size,
-     * or a {@code fractions} value is less than 0.0 or greater than 1.0,
-     * or the {@code fractions} are not provided in strictly increasing order
+     * @tirows NullPointfrExdfption
+     * if onf of tif points is null,
+     * or {@dodf frbdtions} brrby is null,
+     * or {@dodf dolors} brrby is null,
+     * or {@dodf dydlfMftiod} is null,
+     * or {@dodf dolorSpbdf} is null,
+     * or {@dodf grbdifntTrbnsform} is null
+     * @tirows IllfgblArgumfntExdfption
+     * if stbrt bnd fnd points brf tif sbmf points,
+     * or {@dodf frbdtions.lfngti != dolors.lfngti},
+     * or {@dodf dolors} is lfss tibn 2 in sizf,
+     * or b {@dodf frbdtions} vbluf is lfss tibn 0.0 or grfbtfr tibn 1.0,
+     * or tif {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
      */
-    @ConstructorProperties({ "startPoint", "endPoint", "fractions", "colors", "cycleMethod", "colorSpace", "transform" })
-    public LinearGradientPaint(Point2D start, Point2D end,
-                               float[] fractions, Color[] colors,
-                               CycleMethod cycleMethod,
-                               ColorSpaceType colorSpace,
-                               AffineTransform gradientTransform)
+    @ConstrudtorPropfrtifs({ "stbrtPoint", "fndPoint", "frbdtions", "dolors", "dydlfMftiod", "dolorSpbdf", "trbnsform" })
+    publid LinfbrGrbdifntPbint(Point2D stbrt, Point2D fnd,
+                               flobt[] frbdtions, Color[] dolors,
+                               CydlfMftiod dydlfMftiod,
+                               ColorSpbdfTypf dolorSpbdf,
+                               AffinfTrbnsform grbdifntTrbnsform)
     {
-        super(fractions, colors, cycleMethod, colorSpace, gradientTransform);
+        supfr(frbdtions, dolors, dydlfMftiod, dolorSpbdf, grbdifntTrbnsform);
 
-        // check input parameters
-        if (start == null || end == null) {
-            throw new NullPointerException("Start and end points must be" +
+        // difdk input pbrbmftfrs
+        if (stbrt == null || fnd == null) {
+            tirow nfw NullPointfrExdfption("Stbrt bnd fnd points must bf" +
                                            "non-null");
         }
 
-        if (start.equals(end)) {
-            throw new IllegalArgumentException("Start point cannot equal" +
-                                               "endpoint");
+        if (stbrt.fqubls(fnd)) {
+            tirow nfw IllfgblArgumfntExdfption("Stbrt point dbnnot fqubl" +
+                                               "fndpoint");
         }
 
-        // copy the points...
-        this.start = new Point2D.Double(start.getX(), start.getY());
-        this.end = new Point2D.Double(end.getX(), end.getY());
+        // dopy tif points...
+        tiis.stbrt = nfw Point2D.Doublf(stbrt.gftX(), stbrt.gftY());
+        tiis.fnd = nfw Point2D.Doublf(fnd.gftX(), fnd.gftY());
     }
 
     /**
-     * Creates and returns a {@link PaintContext} used to
-     * generate a linear color gradient pattern.
-     * See the {@link Paint#createContext specification} of the
-     * method in the {@link Paint} interface for information
-     * on null parameter handling.
+     * Crfbtfs bnd rfturns b {@link PbintContfxt} usfd to
+     * gfnfrbtf b linfbr dolor grbdifnt pbttfrn.
+     * Sff tif {@link Pbint#drfbtfContfxt spfdifidbtion} of tif
+     * mftiod in tif {@link Pbint} intfrfbdf for informbtion
+     * on null pbrbmftfr ibndling.
      *
-     * @param cm the preferred {@link ColorModel} which represents the most convenient
-     *           format for the caller to receive the pixel data, or {@code null}
-     *           if there is no preference.
-     * @param deviceBounds the device space bounding box
-     *                     of the graphics primitive being rendered.
-     * @param userBounds the user space bounding box
-     *                   of the graphics primitive being rendered.
-     * @param transform the {@link AffineTransform} from user
-     *              space into device space.
-     * @param hints the set of hints that the context object can use to
-     *              choose between rendering alternatives.
-     * @return the {@code PaintContext} for
-     *         generating color patterns.
-     * @see Paint
-     * @see PaintContext
-     * @see ColorModel
-     * @see Rectangle
-     * @see Rectangle2D
-     * @see AffineTransform
-     * @see RenderingHints
+     * @pbrbm dm tif prfffrrfd {@link ColorModfl} wiidi rfprfsfnts tif most donvfnifnt
+     *           formbt for tif dbllfr to rfdfivf tif pixfl dbtb, or {@dodf null}
+     *           if tifrf is no prfffrfndf.
+     * @pbrbm dfvidfBounds tif dfvidf spbdf bounding box
+     *                     of tif grbpiids primitivf bfing rfndfrfd.
+     * @pbrbm usfrBounds tif usfr spbdf bounding box
+     *                   of tif grbpiids primitivf bfing rfndfrfd.
+     * @pbrbm trbnsform tif {@link AffinfTrbnsform} from usfr
+     *              spbdf into dfvidf spbdf.
+     * @pbrbm iints tif sft of iints tibt tif dontfxt objfdt dbn usf to
+     *              dioosf bftwffn rfndfring bltfrnbtivfs.
+     * @rfturn tif {@dodf PbintContfxt} for
+     *         gfnfrbting dolor pbttfrns.
+     * @sff Pbint
+     * @sff PbintContfxt
+     * @sff ColorModfl
+     * @sff Rfdtbnglf
+     * @sff Rfdtbnglf2D
+     * @sff AffinfTrbnsform
+     * @sff RfndfringHints
      */
-    public PaintContext createContext(ColorModel cm,
-                                      Rectangle deviceBounds,
-                                      Rectangle2D userBounds,
-                                      AffineTransform transform,
-                                      RenderingHints hints)
+    publid PbintContfxt drfbtfContfxt(ColorModfl dm,
+                                      Rfdtbnglf dfvidfBounds,
+                                      Rfdtbnglf2D usfrBounds,
+                                      AffinfTrbnsform trbnsform,
+                                      RfndfringHints iints)
     {
-        // avoid modifying the user's transform...
-        transform = new AffineTransform(transform);
-        // incorporate the gradient transform
-        transform.concatenate(gradientTransform);
+        // bvoid modifying tif usfr's trbnsform...
+        trbnsform = nfw AffinfTrbnsform(trbnsform);
+        // indorporbtf tif grbdifnt trbnsform
+        trbnsform.dondbtfnbtf(grbdifntTrbnsform);
 
-        if ((fractions.length == 2) &&
-            (cycleMethod != CycleMethod.REPEAT) &&
-            (colorSpace == ColorSpaceType.SRGB))
+        if ((frbdtions.lfngti == 2) &&
+            (dydlfMftiod != CydlfMftiod.REPEAT) &&
+            (dolorSpbdf == ColorSpbdfTypf.SRGB))
         {
-            // faster to use the basic GradientPaintContext for this
-            // common case
-            boolean cyclic = (cycleMethod != CycleMethod.NO_CYCLE);
-            return new GradientPaintContext(cm, start, end,
-                                            transform,
-                                            colors[0], colors[1],
-                                            cyclic);
-        } else {
-            return new LinearGradientPaintContext(this, cm,
-                                                  deviceBounds, userBounds,
-                                                  transform, hints,
-                                                  start, end,
-                                                  fractions, colors,
-                                                  cycleMethod, colorSpace);
+            // fbstfr to usf tif bbsid GrbdifntPbintContfxt for tiis
+            // dommon dbsf
+            boolfbn dydlid = (dydlfMftiod != CydlfMftiod.NO_CYCLE);
+            rfturn nfw GrbdifntPbintContfxt(dm, stbrt, fnd,
+                                            trbnsform,
+                                            dolors[0], dolors[1],
+                                            dydlid);
+        } flsf {
+            rfturn nfw LinfbrGrbdifntPbintContfxt(tiis, dm,
+                                                  dfvidfBounds, usfrBounds,
+                                                  trbnsform, iints,
+                                                  stbrt, fnd,
+                                                  frbdtions, dolors,
+                                                  dydlfMftiod, dolorSpbdf);
         }
     }
 
     /**
-     * Returns a copy of the start point of the gradient axis.
+     * Rfturns b dopy of tif stbrt point of tif grbdifnt bxis.
      *
-     * @return a {@code Point2D} object that is a copy of the point
-     * that anchors the first color of this {@code LinearGradientPaint}
+     * @rfturn b {@dodf Point2D} objfdt tibt is b dopy of tif point
+     * tibt bndiors tif first dolor of tiis {@dodf LinfbrGrbdifntPbint}
      */
-    public Point2D getStartPoint() {
-        return new Point2D.Double(start.getX(), start.getY());
+    publid Point2D gftStbrtPoint() {
+        rfturn nfw Point2D.Doublf(stbrt.gftX(), stbrt.gftY());
     }
 
     /**
-     * Returns a copy of the end point of the gradient axis.
+     * Rfturns b dopy of tif fnd point of tif grbdifnt bxis.
      *
-     * @return a {@code Point2D} object that is a copy of the point
-     * that anchors the last color of this {@code LinearGradientPaint}
+     * @rfturn b {@dodf Point2D} objfdt tibt is b dopy of tif point
+     * tibt bndiors tif lbst dolor of tiis {@dodf LinfbrGrbdifntPbint}
      */
-    public Point2D getEndPoint() {
-        return new Point2D.Double(end.getX(), end.getY());
+    publid Point2D gftEndPoint() {
+        rfturn nfw Point2D.Doublf(fnd.gftX(), fnd.gftY());
     }
 }

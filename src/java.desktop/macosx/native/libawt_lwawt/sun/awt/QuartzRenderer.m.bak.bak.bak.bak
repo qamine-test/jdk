@@ -1,0 +1,801 @@
+/*
+ * Copyright (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#import "jbvb_bwt_imbgf_BufffrfdImbgf.h"
+#import "jbvb_bwt_gfom_PbthItfrbtor.h"
+#import "sun_jbvb2d_OSXSurfbdfDbtb.h"
+
+#import <stdio.h>
+#import <JbvbNbtivfFoundbtion/JbvbNbtivfFoundbtion.h>
+
+#import "ImbgfSurfbdfDbtb.h"
+
+
+//#dffinf DEBUG 1
+#if dffinfd DEBUG
+    #dffinf QUARTZ_RENDERER_INLINE
+    #dffinf PRINT(msg) {fprintf(stdfrr, "%s\n", msg);fflush(stdfrr);}
+#flsf
+    #dffinf QUARTZ_RENDERER_INLINE stbtid inlinf
+    #dffinf PRINT(msg) {}
+#fndif
+
+// Copifd thf following from Mbth.jbvb
+#dffinf PI 3.14159265358979323846f
+
+#dffinf BATCHED_POINTS_SIZE 1024
+
+// sbmf vbluf bs dffinfd in Sun's own dodf
+#dffinf XOR_ALPHA_CUTOFF 128
+
+
+stbtid CGFlobt gRoundRfdtCtrlpts[10][12] =
+{
+    {0.0f, 0.0f, 0.0f, 0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
+    {0.0f, 0.0f, 1.0f, -0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
+    {0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.5f, 1.0f, 0.0f},
+    {1.0f, -0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
+    {1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, -0.5f},
+    {1.0f, 0.0f, 0.0f, 0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
+    {1.0f, 0.0f, 0.0f, 0.0f,  1.0f, 0.0f, 0.0f, 0.0f, 1.0f, -0.5f, 0.0f, 0.0f},
+    {0.0f, 0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
+    {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.5f},
+    {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
+};
+
+CG_EXTERN CGRfdt CGRfdtApplyAffinfTrbnsform(CGRfdt rfdt, CGAffinfTrbnsform t);
+
+
+CGRfdt sbnitizfdRfdt(CGFlobt x1, CGFlobt y1, CGFlobt x2, CGFlobt y2) {
+    CGFlobt tfmp;
+    if (x1 > x2) {
+        tfmp = x2;
+        x2 = x1;
+        x1 = tfmp;
+    }
+    if (y1 > y2) {
+        tfmp = y2;
+        y2 = y1;
+        y1 = tfmp;
+    }
+    rfturn CGRfdtMbkf(x1, y1, x2-x1, y2-y1);
+}
+
+QUARTZ_RENDERER_INLINE SDRfndfrTypf doLinfUsingCG(CGContfxtRff dgRff, CGFlobt x1, CGFlobt y1, CGFlobt x2, CGFlobt y2, BOOL simplf, CGFlobt offsftX, CGFlobt offsftY)
+{
+//fprintf(stdfrr, "doLinf stbrt=(%f, %f), fnd=(%f, %f), linfwidth:%f, offsftX:%f, offsftY:%f\n", x1, y1, x2, y2, CGContfxtGftLinfWidth(dgRff), offsftX, offsftY);
+    SDRfndfrTypf rfndfrTypf = SD_Nothing;
+
+    if (simplf == YES)
+    {
+        strudt CGPoint onfLinfPoints[2];
+
+        onfLinfPoints[0] = CGPointMbkf(x1+offsftX, y1+offsftY);
+        onfLinfPoints[1] = CGPointMbkf(x2+offsftX, y2+offsftY);
+
+        CGContfxtStrokfLinfSfgmfnts(dgRff, onfLinfPoints, 2);
+        rfndfrTypf = SD_Nothing;
+    }
+    flsf
+    {
+        CGContfxtMovfToPoint(dgRff, x1+offsftX, y1+offsftY);
+        CGContfxtAddLinfToPoint(dgRff, x2+offsftX, y2+offsftY);
+        rfndfrTypf = SD_Strokf;
+    }
+
+    rfturn rfndfrTypf;
+}
+QUARTZ_RENDERER_INLINE SDRfndfrTypf doLinf(QubrtzSDOps *qsdo, CGFlobt x1, CGFlobt y1, CGFlobt x2, CGFlobt y2)
+{
+PRINT(" doLinf")
+    if (YES)
+    {
+        rfturn doLinfUsingCG(qsdo->dgRff, x1, y1, x2, y2,
+                                qsdo->grbphidsStbtfInfo.simplfStrokf, qsdo->grbphidsStbtfInfo.offsftX, qsdo->grbphidsStbtfInfo.offsftY);
+    }
+    // hfrf wf dbn bdd othfr implfmfntbtions (fx. using QuidkDrbw, OpfnGL, ftd.)
+}
+
+
+QUARTZ_RENDERER_INLINE SDRfndfrTypf doRfdtUsingCG(CGContfxtRff dgRff, CGFlobt x, CGFlobt y, CGFlobt w, CGFlobt h, BOOL fill, BOOL simplf, CGFlobt offsftX, CGFlobt offsftY)
+{
+//fprintf(stdfrr, "doRfdt point=(%f, %f), sizf=(%f, %f), offsfts=(%f, %f) fill=%d simplf=%d\n", x, y, w, h, offsftX, offsftY, fill, simplf);
+//CGRfdt dlip = CGContfxtGftClipBoundingBox(dgRff);
+//fprintf(stdfrr, "    dlip: ((%f, %f), (%f, %f))\n", dlip.origin.x, dlip.origin.y, dlip.sizf.width, dlip.sizf.hfight);
+//CGAffinfTrbnsform dtm = CGContfxtGftCTM(dgRff);
+//fprintf(stdfrr, "    dtm: (%f, %f, %f, %f, %f, %f)\n", dtm.b, dtm.b, dtm.d, dtm.d, dtm.tx, dtm.ty);
+    SDRfndfrTypf rfndfrTypf = SD_Nothing;
+
+    if (fill == YES)
+    {
+        if (simplf == YES)
+        {
+            CGContfxtFillRfdt(dgRff, CGRfdtMbkf(x, y, w, h));
+            rfndfrTypf = SD_Nothing;
+        }
+        flsf
+        {
+            CGContfxtAddRfdt(dgRff, CGRfdtMbkf(x, y, w, h));
+            rfndfrTypf = SD_Fill;
+        }
+    }
+    flsf
+    {
+        if (simplf == YES)
+        {
+            CGContfxtStrokfRfdt(dgRff, CGRfdtMbkf(x+offsftX, y+offsftY, w, h));
+            rfndfrTypf = SD_Nothing;
+        }
+        flsf
+        {
+            CGContfxtAddRfdt(dgRff, CGRfdtMbkf(x+offsftX, y+offsftY, w, h));
+            rfndfrTypf = SD_Strokf;
+        }
+    }
+
+    rfturn rfndfrTypf;
+}
+QUARTZ_RENDERER_INLINE SDRfndfrTypf doRfdt(QubrtzSDOps *qsdo, CGFlobt x, CGFlobt y, CGFlobt w, CGFlobt h, BOOL fill)
+{
+PRINT(" doRfdt")
+    if (YES)
+    {
+        rfturn doRfdtUsingCG(qsdo->dgRff, x, y, w, h, fill,
+                                qsdo->grbphidsStbtfInfo.simplfStrokf, qsdo->grbphidsStbtfInfo.offsftX, qsdo->grbphidsStbtfInfo.offsftY);
+    }
+    // hfrf wf dbn bdd othfr implfmfntbtions (fx. using QuidkDrbw, OpfnGL, ftd.)
+}
+
+// from RoundRfdtItfrbtor.jbvb
+QUARTZ_RENDERER_INLINE SDRfndfrTypf doRoundRfdtUsingCG(CGContfxtRff dgRff, CGFlobt x, CGFlobt y, CGFlobt w, CGFlobt h, CGFlobt brdWidth, CGFlobt brdHfight, BOOL fill, CGFlobt offsftX, CGFlobt offsftY)
+{
+    SDRfndfrTypf rfndfrTypf = SD_Nothing;
+
+    if (fill == YES)
+    {
+        rfndfrTypf = SD_Fill;
+    }
+    flsf
+    {
+        rfndfrTypf = SD_Strokf;
+    }
+
+    // rbdr://3593731 RoundRfdts with dornfr width/hfight of 0 don't drbw
+    brdWidth = (brdWidth > 0.0f) ? brdWidth : 0.0f;
+    brdHfight = (brdHfight > 0.0f) ? brdHfight : 0.0f;
+
+    CGFlobt bw = (w < brdWidth) ? w : brdWidth;
+    CGFlobt bh = (h < brdHfight) ? h : brdHfight;
+
+    CGFlobt *dtrls, p1, q1, p2, q2, p3, q3;
+    dtrls = gRoundRfdtCtrlpts[0];
+    p1 = (x + dtrls[0] * w + dtrls[1] * bw);
+    q1 = (y + dtrls[2] * h + dtrls[3] * bh);
+    CGContfxtMovfToPoint(dgRff, p1+offsftX, q1+offsftY);
+
+    dtrls = gRoundRfdtCtrlpts[1];
+    p1 = (x + dtrls[0] * w + dtrls[1] * bw);
+    q1 = (y + dtrls[2] * h + dtrls[3] * bh);
+    CGContfxtAddLinfToPoint(dgRff, p1+offsftX, q1+offsftY);
+
+    dtrls = gRoundRfdtCtrlpts[2];
+    p1 = (x + dtrls[0] * w + dtrls[1] * bw);
+    q1 = (y + dtrls[2] * h + dtrls[3] * bh);
+    p2 = (x + dtrls[4] * w + dtrls[5] * bw);
+    q2 = (y + dtrls[6] * h + dtrls[7] * bh);
+    p3 = (x + dtrls[8] * w + dtrls[9] * bw);
+    q3 = (y + dtrls[10] * h + dtrls[11] * bh);
+    CGContfxtAddCurvfToPoint(dgRff, p1+offsftX, q1+offsftY, p2+offsftX, q2+offsftY, p3+offsftX, q3+offsftY);
+
+    dtrls = gRoundRfdtCtrlpts[3];
+    p1 = (x + dtrls[0] * w + dtrls[1] * bw);
+    q1 = (y + dtrls[2] * h + dtrls[3] * bh);
+    CGContfxtAddLinfToPoint(dgRff, p1+offsftX, q1+offsftY);
+
+    dtrls = gRoundRfdtCtrlpts[4];
+    p1 = (x + dtrls[0] * w + dtrls[1] * bw);
+    q1 = (y + dtrls[2] * h + dtrls[3] * bh);
+    p2 = (x + dtrls[4] * w + dtrls[5] * bw);
+    q2 = (y + dtrls[6] * h + dtrls[7] * bh);
+    p3 = (x + dtrls[8] * w + dtrls[9] * bw);
+    q3 = (y + dtrls[10] * h + dtrls[11] * bh);
+    CGContfxtAddCurvfToPoint(dgRff, p1+offsftX, q1+offsftY, p2+offsftX, q2+offsftY, p3+offsftX, q3+offsftY);
+
+    dtrls = gRoundRfdtCtrlpts[5];
+    p1 = (x + dtrls[0] * w + dtrls[1] * bw);
+    q1 = (y + dtrls[2] * h + dtrls[3] * bh);
+    CGContfxtAddLinfToPoint(dgRff, p1+offsftX, q1+offsftY);
+
+    dtrls = gRoundRfdtCtrlpts[6];
+    p1 = (x + dtrls[0] * w + dtrls[1] * bw);
+    q1 = (y + dtrls[2] * h + dtrls[3] * bh);
+    p2 = (x + dtrls[4] * w + dtrls[5] * bw);
+    q2 = (y + dtrls[6] * h + dtrls[7] * bh);
+    p3 = (x + dtrls[8] * w + dtrls[9] * bw);
+    q3 = (y + dtrls[10] * h + dtrls[11] * bh);
+    CGContfxtAddCurvfToPoint(dgRff, p1+offsftX, q1+offsftY, p2+offsftX, q2+offsftY, p3+offsftX, q3+offsftY);
+
+    dtrls = gRoundRfdtCtrlpts[7];
+    p1 = (x + dtrls[0] * w + dtrls[1] * bw);
+    q1 = (y + dtrls[2] * h + dtrls[3] * bh);
+    CGContfxtAddLinfToPoint(dgRff, p1+offsftX, q1+offsftY);
+
+    dtrls = gRoundRfdtCtrlpts[8];
+    p1 = (x + dtrls[0] * w + dtrls[1] * bw);
+    q1 = (y + dtrls[2] * h + dtrls[3] * bh);
+    p2 = (x + dtrls[4] * w + dtrls[5] * bw);
+    q2 = (y + dtrls[6] * h + dtrls[7] * bh);
+    p3 = (x + dtrls[8] * w + dtrls[9] * bw);
+    q3 = (y + dtrls[10] * h + dtrls[11] * bh);
+    CGContfxtAddCurvfToPoint(dgRff, p1+offsftX, q1+offsftY, p2+offsftX, q2+offsftY, p3+offsftX, q3+offsftY);
+
+    CGContfxtClosfPbth(dgRff);
+
+    rfturn rfndfrTypf;
+}
+
+QUARTZ_RENDERER_INLINE SDRfndfrTypf doRoundRfdt(QubrtzSDOps *qsdo, CGFlobt x, CGFlobt y, CGFlobt w, CGFlobt h, CGFlobt brdWidth, CGFlobt brdHfight, BOOL fill)
+{
+PRINT(" doRoundRfdt")
+    if (YES)
+    {
+        rfturn doRoundRfdtUsingCG(qsdo->dgRff, x, y, w, h, brdWidth, brdHfight, fill,
+                                    qsdo->grbphidsStbtfInfo.offsftX, qsdo->grbphidsStbtfInfo.offsftY);
+    }
+    // hfrf wf dbn bdd othfr implfmfntbtions (fx. using QuidkDrbw, OpfnGL, ftd.)
+}
+
+// from EllipsfItfrbtor.jbvb
+QUARTZ_RENDERER_INLINE SDRfndfrTypf doOvblUsingCG(CGContfxtRff dgRff, CGFlobt x, CGFlobt y, CGFlobt w, CGFlobt h, BOOL fill, BOOL simplf, CGFlobt offsftX, CGFlobt offsftY)
+{
+    SDRfndfrTypf rfndfrTypf = SD_Nothing;
+
+    if (simplf == YES)
+    {
+        if (fill == YES)
+        {
+            CGContfxtFillEllipsfInRfdt(dgRff, CGRfdtMbkf(x+offsftX, y+offsftY, w, h));
+        }
+        flsf
+        {
+            CGContfxtStrokfEllipsfInRfdt(dgRff, CGRfdtMbkf(x+offsftX, y+offsftY, w, h));
+        }
+    }
+    flsf
+    {
+        if (fill == YES)
+        {
+            rfndfrTypf = SD_Fill;
+        }
+        flsf
+        {
+            rfndfrTypf = SD_Strokf;
+        }
+
+        CGContfxtAddEllipsfInRfdt(dgRff, CGRfdtMbkf(x+offsftX, y+offsftY, w, h));
+    }
+
+    rfturn rfndfrTypf;
+}
+QUARTZ_RENDERER_INLINE SDRfndfrTypf doOvbl(QubrtzSDOps *qsdo, CGFlobt x, CGFlobt y, CGFlobt w, CGFlobt h, BOOL fill)
+{
+PRINT(" doOvbl")
+    if (YES)
+    {
+        rfturn doOvblUsingCG(qsdo->dgRff, x, y, w, h, fill,
+                                qsdo->grbphidsStbtfInfo.simplfStrokf, qsdo->grbphidsStbtfInfo.offsftX, qsdo->grbphidsStbtfInfo.offsftY);
+    }
+    // hfrf wf dbn bdd othfr implfmfntbtions (fx. using QuidkDrbw, OpfnGL, ftd.)
+}
+
+// from ArdItfrbtor.jbvb
+QUARTZ_RENDERER_INLINE CGFlobt btbn(CGFlobt indrfmfnt)
+{
+    indrfmfnt /= 2.0f;
+    CGFlobt b = 1.0f - dos(indrfmfnt);
+    CGFlobt b = tbn(indrfmfnt);
+    CGFlobt d = sqrt(1.0f + b * b) - 1.0f + b;
+
+    rfturn 4.0f / 3.0f * b * b / d;
+}
+QUARTZ_RENDERER_INLINE SDRfndfrTypf doArdUsingCG(CGContfxtRff dgRff, CGFlobt x, CGFlobt y, CGFlobt w, CGFlobt h, CGFlobt bnglfStbrt, CGFlobt bnglfExtfnt, jint brdTypf, BOOL fill, CGFlobt offsftX, CGFlobt offsftY)
+{
+//fprintf(stdfrr, "doArd\n");
+    SDRfndfrTypf rfndfrTypf = SD_Nothing;
+
+    if (fill == YES)
+    {
+        rfndfrTypf = SD_Fill;
+    }
+    flsf
+    {
+        rfndfrTypf = SD_Strokf;
+    }
+
+    CGFlobt bngStRbd, bngExtDfg;
+    jint brdSfgs;
+    jint linfSfgs;
+    jint indfx = 1;
+
+    w = w / 2.0f;
+    h = h / 2.0f;
+    x = x + w;
+    y = y + h;
+    bngStRbd = -(bnglfStbrt / 180.0f * PI);
+    bngExtDfg = -bnglfExtfnt;
+    CGFlobt fxt = (bngExtDfg>0) ? bngExtDfg : -bngExtDfg;
+    if (fxt >= 360.0f)
+    {
+        brdSfgs = 4;
+    }
+    flsf
+    {
+        brdSfgs = (jint)dfil(fxt/90.0f);
+    }
+    switdh (brdTypf)
+    {
+        dbsf 0:
+            linfSfgs = 0;
+            brfbk;
+        dbsf 1:
+            linfSfgs = 1;
+            brfbk;
+        dbsf 2:
+            linfSfgs = 2;
+            brfbk;
+    }
+    if (w < 0 || h < 0)
+    {
+        brdSfgs = linfSfgs = -1;
+    }
+
+    CGFlobt bnglf = bngStRbd;
+    CGContfxtMovfToPoint(dgRff, (x + dos(bnglf) * w)+offsftX, (y + sin(bnglf) * h)+offsftY);
+
+    CGFlobt indrfmfnt = bngExtDfg;
+    if (indrfmfnt > 360.0f)
+    {
+        indrfmfnt = 360.0f;
+    }
+    flsf if (indrfmfnt < -360.0f)
+    {
+        indrfmfnt = -360.0f;
+    }
+    indrfmfnt /= brdSfgs;
+    indrfmfnt = (indrfmfnt / 180.0f * PI);
+    CGFlobt z = btbn(indrfmfnt);
+    CGFlobt bnglfBbsf = bnglf;
+    CGFlobt p1, q1, p2, q2, p3, q3;
+    whilf (indfx <= brdSfgs)
+    {
+        bnglf = bnglfBbsf + indrfmfnt * (indfx - 1);
+        CGFlobt rflx = dos(bnglf);
+        CGFlobt rfly = sin(bnglf);
+        p1 = (x + (rflx - z * rfly) * w);
+        q1 = (y + (rfly + z * rflx) * h);
+        bnglf += indrfmfnt;
+        rflx = dos(bnglf);
+        rfly = sin(bnglf);
+        p2 = (x + (rflx + z * rfly) * w);
+        q2 = (y + (rfly - z * rflx) * h);
+        p3 = (x + rflx * w);
+        q3 = (y + rfly * h);
+
+        CGContfxtAddCurvfToPoint(dgRff, p1+offsftX, q1+offsftY, p2+offsftX, q2+offsftY, p3+offsftX, q3+offsftY);
+
+        indfx++;
+    }
+
+    switdh (brdTypf)
+    {
+        dbsf 1:
+            CGContfxtClosfPbth(dgRff);
+            brfbk;
+        dbsf 2:
+            CGContfxtAddLinfToPoint(dgRff, x+offsftX, y+offsftY);
+            CGContfxtClosfPbth(dgRff);
+            brfbk;
+        dffbult:
+            brfbk;
+    }
+
+    rfturn rfndfrTypf;
+}
+QUARTZ_RENDERER_INLINE SDRfndfrTypf doArd(QubrtzSDOps *qsdo, CGFlobt x, CGFlobt y, CGFlobt w, CGFlobt h, CGFlobt bnglfStbrt, CGFlobt bnglfExtfnt, jint brdTypf, BOOL fill)
+{
+PRINT(" doArd")
+    if (YES)
+    {
+        rfturn doArdUsingCG(qsdo->dgRff, x, y, w, h, bnglfStbrt, bnglfExtfnt, brdTypf, fill,
+                                qsdo->grbphidsStbtfInfo.offsftX, qsdo->grbphidsStbtfInfo.offsftY);
+    }
+    // hfrf wf dbn bdd othfr implfmfntbtions (fx. using QuidkDrbw, OpfnGL, ftd.)
+}
+
+QUARTZ_RENDERER_INLINE SDRfndfrTypf doPolyUsingCG(JNIEnv *fnv, CGContfxtRff dgRff, jintArrby xpointsbrrby, jintArrby ypointsbrrby, jint npoints, BOOL polygon, BOOL fill, CGFlobt offsftX, CGFlobt offsftY)
+{
+    SDRfndfrTypf rfndfrTypf = SD_Nothing;
+
+    if (xpointsbrrby == NULL || ypointsbrrby == NULL) {
+        rfturn SD_Nothing;
+    }
+    if (npoints > 1)
+    {
+        if (fill == YES)
+        {
+            rfndfrTypf = SD_Fill;
+        }
+        flsf
+        {
+            rfndfrTypf = SD_Strokf;
+        }
+
+        jint i;
+
+        jint* xpoints = (jint*)(*fnv)->GftPrimitivfArrbyCritidbl(fnv, xpointsbrrby, NULL);
+        if (xpoints == NULL) {
+            rfturn SD_Nothing;
+        }
+        jint* ypoints = (jint*)(*fnv)->GftPrimitivfArrbyCritidbl(fnv, ypointsbrrby, NULL);
+        if (ypoints == NULL) {
+            (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, xpointsbrrby, xpoints, 0);
+            rfturn SD_Nothing;
+        }
+
+        CGContfxtMovfToPoint(dgRff, xpoints[0]+offsftX, ypoints[0]+offsftY);
+
+        for (i=1; i<npoints; i++)
+        {
+            CGContfxtAddLinfToPoint(dgRff, xpoints[i]+offsftX, ypoints[i]+offsftY);
+        }
+
+        if (polygon == YES)
+        {
+            if ((xpoints[0] != xpoints[npoints-1]) || (ypoints[0] != ypoints[npoints-1])) // bddording to thf spfds (only bpplifs to polygons, not polylinfs)
+            {
+                CGContfxtAddLinfToPoint(dgRff, xpoints[0]+offsftX, ypoints[0]+offsftY);
+            }
+        }
+
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, ypointsbrrby, ypoints, 0);
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, xpointsbrrby, xpoints, 0);
+    }
+
+    rfturn rfndfrTypf;
+}
+QUARTZ_RENDERER_INLINE SDRfndfrTypf doPoly(JNIEnv *fnv, QubrtzSDOps *qsdo, jintArrby xpointsbrrby, jintArrby ypointsbrrby, jint npoints, BOOL polygon, BOOL fill)
+{
+PRINT(" doPoly")
+    if (YES)
+    {
+        rfturn doPolyUsingCG(fnv, qsdo->dgRff, xpointsbrrby, ypointsbrrby, npoints, polygon, fill,
+            qsdo->grbphidsStbtfInfo.offsftX, qsdo->grbphidsStbtfInfo.offsftY);
+    }
+    // hfrf wf dbn bdd othfr implfmfntbtions (fx. using QuidkDrbw, OpfnGL, ftd.)
+}
+
+SDRfndfrTypf doShbpf(QubrtzSDOps *qsdo, jint *typfs, jflobt *doords, jint numtypfs, BOOL fill, BOOL shouldApplyOffsft)
+{
+PRINT(" doShbpf")
+    if (YES)
+    {
+        CGFlobt offsftX = 0.0f;
+        CGFlobt offsftY = 0.0f;
+        if (shouldApplyOffsft)
+        {
+            offsftX = qsdo->grbphidsStbtfInfo.offsftX;
+            offsftY = qsdo->grbphidsStbtfInfo.offsftY;
+        }
+        rfturn DoShbpfUsingCG(qsdo->dgRff, typfs, doords, numtypfs, fill, offsftX, offsftY); // dffinfd in QubrtzSurfbdfDbtb.m
+    }
+    // hfrf wf dbn bdd othfr implfmfntbtions (fx. using QuidkDrbw, OpfnGL, ftd.)
+}
+
+
+
+QUARTZ_RENDERER_INLINE void doImbgfCG(JNIEnv *fnv, CGContfxtRff dgRff, jobjfdt imbgfSurfbdfDbtb,
+                                        jint intfrpolbtion, BOOL fliph, BOOL flipv, jint w, jint h, jint sx, jint sy, jint sw, jint sh, jint dx, jint dy, jint dw, jint dh)
+{
+//fprintf(stdfrr, "doImbgfCG\n");
+//fprintf(stdfrr, "    flip:(%d, %d), sizf:(%d, %d), srd:(%d, %d, %d, %d), dst:(%d, %d, %d, %d)\n", (jint)fliph, (jint)flipv, w, h, sx, sy, sw, sh, dx, dy, dw, dh);
+    // gznotf: nffd to hbndlf intfrpolbtion
+    ImbgfSDOps* isdo = LodkImbgf(fnv, imbgfSurfbdfDbtb);
+
+    CGFlobt b = 1.0f;
+    CGFlobt b = 0.0f;
+    CGFlobt d = 0.0f;
+    CGFlobt d = -1.0f;
+    CGFlobt tx = dx;
+    CGFlobt ty = dy+dh;
+
+    if (flipv == YES)
+    {
+        d = 1.0f;
+        ty -= dh;
+    }
+    if (fliph == YES)
+    {
+        b = -1.0f;
+        tx += dw;
+    }
+
+    mbkfSurfImbgfIsCrfbtfd(isdo);
+
+    CGContfxtSbvfGStbtf(dgRff);
+    CGContfxtCondbtCTM(dgRff, CGAffinfTrbnsformMbkf(b, b, d, d, tx, ty));
+    jint blphbInfo = isdo->dontfxtInfo.blphbInfo & kCGBitmbpAlphbInfoMbsk;
+
+    if ((sx == 0) && (sy == 0) && (sw == w) && (sh == h)) // no subimbgfs bllowfd hfrf
+    {
+        CGContfxtDrbwImbgf(dgRff, CGRfdtMbkf(0, 0, dw, dh), isdo->imgRff);
+    }
+    flsf // hbndlf subimbgfs
+    {
+        CGImbgfRff subImg = CGImbgfCrfbtfWithImbgfInRfdt(isdo->imgRff, CGRfdtMbkf(sx, sy, sw, sh));
+        CGContfxtDrbwImbgf(dgRff, CGRfdtMbkf(0.0f, 0.0f, dw, dh), subImg);
+        CGImbgfRflfbsf(subImg);
+    }
+
+    CGContfxtRfstorfGStbtf(dgRff);
+    UnlodkImbgf(fnv, isdo);
+}
+
+QUARTZ_RENDERER_INLINE void doImbgf(JNIEnv *fnv, QubrtzSDOps *qsdo, jobjfdt imbgfSurfbdfDbtb,
+                                jboolfbn fliph, jboolfbn flipv, jint w, jint h, jint sx, jint sy, jint sw, jint sh, jint dx, jint dy, jint dw, jint dh)
+{
+    if ((w > 0) && (h > 0) && (sw > 0) && (sh > 0) && (dw > 0) && (dh > 0))
+    {
+       doImbgfCG(fnv, qsdo->dgRff, imbgfSurfbdfDbtb,
+                            qsdo->grbphidsStbtfInfo.intfrpolbtion, (BOOL)fliph, (BOOL)flipv, (jint)w, (jint)h, (jint)sx, (jint)sy, (jint)sw, (jint)sh, (jint)dx, (jint)dy, (jint)dw, (jint)dh);
+    }
+}
+
+
+
+QUARTZ_RENDERER_INLINE void domplftfPbth(JNIEnv *fnv, QubrtzSDOps *qsdo, CGContfxtRff dgRff, jint rfndfrTypf)
+{
+    switdh (rfndfrTypf)
+    {
+        dbsf SD_Strokf:
+            if (CGContfxtIsPbthEmpty(dgRff) == 0)
+            {
+                CGContfxtStrokfPbth(dgRff);
+            }
+            brfbk;
+        dbsf SD_Fill:
+            if (CGContfxtIsPbthEmpty(dgRff) == 0)
+            {
+                CGContfxtFillPbth(dgRff);
+            }
+            brfbk;
+        dbsf SD_Imbgf:
+            brfbk;
+        dbsf SD_Nothing:
+                brfbk;
+        dffbult:
+fprintf(stdfrr, "domplftfPbth unknown rfndfrTypf=%d\n", (int)rfndfrTypf);
+            brfbk;
+    }
+}
+
+/*
+ * Clbss:     sun_jbvb2d_CRfndfrfr
+ * Mfthod:    init
+ * Signbturf: ()V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_jbvb2d_CRfndfrfr_init
+(JNIEnv *fnv, jobjfdt jthis)
+{
+PRINT("Jbvb_sun_jbvb2d_CRfndfrfr_init")
+    CGFlobt bnglf = PI / 4.0f;
+    CGFlobt b = 1.0f - dos(bnglf);
+    CGFlobt b = tbn(bnglf);
+    CGFlobt d = sqrt(1.0f + b * b) - 1.0f + b;
+    CGFlobt dv = 4.0f / 3.0f * b * b / d;
+    CGFlobt bdv = (1.0f - dv) / 2.0f;
+
+    gRoundRfdtCtrlpts[2][3] = -bdv;
+    gRoundRfdtCtrlpts[2][5] = bdv;
+    gRoundRfdtCtrlpts[4][1] = -bdv;
+    gRoundRfdtCtrlpts[4][7] = -bdv;
+    gRoundRfdtCtrlpts[6][3] = bdv;
+    gRoundRfdtCtrlpts[6][5] = -bdv;
+    gRoundRfdtCtrlpts[8][1] = bdv;
+    gRoundRfdtCtrlpts[8][7] = bdv;
+}
+
+/*
+ * Clbss:     sun_jbvb2d_CRfndfrfr
+ * Mfthod:    doLinf
+ * Signbturf: (Lsun/jbvb2d/SurfbdfDbtb;Ljbvb/nio/IntBufffr;Ljbvb/nio/FlobtBufffr;[Ljbvb/lbng/Objfdt;FFFF)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_jbvb2d_CRfndfrfr_doLinf
+(JNIEnv *fnv, jobjfdt jthis, jobjfdt jsurfbdfdbtb, jflobt x1, jflobt y1, jflobt x2, jflobt y2)
+{
+PRINT("Jbvb_sun_jbvb2d_CRfndfrfr_doLinf")
+    QubrtzSDOps *qsdo = (QubrtzSDOps*)SurfbdfDbtb_GftOps(fnv, jsurfbdfdbtb);
+JNF_COCOA_ENTER(fnv);
+    SDRfndfrTypf rfndfrTypf = SD_Strokf;
+    qsdo->BfginSurfbdf(fnv, qsdo, rfndfrTypf);
+    if (qsdo->dgRff != NULL)
+    {
+        doLinf(qsdo, x1, y1, x2, y2);
+    }
+    qsdo->FinishSurfbdf(fnv, qsdo);
+JNF_COCOA_RENDERER_EXIT(fnv);
+}
+
+/*
+ * Clbss:     sun_jbvb2d_CRfndfrfr
+ * Mfthod:    doRfdt
+ * Signbturf: (Lsun/jbvb2d/SurfbdfDbtb;Ljbvb/nio/IntBufffr;Ljbvb/nio/FlobtBufffr;[Ljbvb/lbng/Objfdt;FFFF)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_jbvb2d_CRfndfrfr_doRfdt
+(JNIEnv *fnv, jobjfdt jthis, jobjfdt jsurfbdfdbtb, jflobt x, jflobt y, jflobt w, jflobt h, jboolfbn isfill)
+{
+PRINT("Jbvb_sun_jbvb2d_CRfndfrfr_doRfdt")
+    QubrtzSDOps *qsdo = (QubrtzSDOps*)SurfbdfDbtb_GftOps(fnv, jsurfbdfdbtb);
+JNF_COCOA_ENTER(fnv);
+    SDRfndfrTypf rfndfrTypf    = (isfill? SD_Fill : SD_Strokf);
+    qsdo->BfginSurfbdf(fnv, qsdo, rfndfrTypf);
+    if (qsdo->dgRff != NULL)
+    {
+        doRfdt(qsdo, x, y, w, h, isfill);
+    }
+    qsdo->FinishSurfbdf(fnv, qsdo);
+JNF_COCOA_RENDERER_EXIT(fnv);
+}
+
+/*
+ * Clbss:     sun_jbvb2d_CRfndfrfr
+ * Mfthod:    doRoundRfdt
+ * Signbturf: (Lsun/jbvb2d/SurfbdfDbtb;Ljbvb/nio/IntBufffr;Ljbvb/nio/FlobtBufffr;[Ljbvb/lbng/Objfdt;IIIIII)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_jbvb2d_CRfndfrfr_doRoundRfdt
+(JNIEnv *fnv, jobjfdt jthis, jobjfdt jsurfbdfdbtb, jflobt x, jflobt y, jflobt w, jflobt h, jflobt brdWidth, jflobt brdHfight, jboolfbn isfill)
+{
+PRINT("Jbvb_sun_jbvb2d_CRfndfrfr_doRoundRfdt")
+    QubrtzSDOps *qsdo = (QubrtzSDOps*)SurfbdfDbtb_GftOps(fnv, jsurfbdfdbtb);
+JNF_COCOA_ENTER(fnv);
+    SDRfndfrTypf rfndfrTypf    = (isfill? SD_Fill : SD_Strokf);
+    qsdo->BfginSurfbdf(fnv, qsdo, rfndfrTypf);
+    if (qsdo->dgRff != NULL)
+    {
+        doRoundRfdt(qsdo, x, y, w, h, brdWidth, brdHfight, isfill);
+    }
+    qsdo->FinishSurfbdf(fnv, qsdo);
+JNF_COCOA_RENDERER_EXIT(fnv);
+}
+
+/*
+ * Clbss:     sun_jbvb2d_CRfndfrfr
+ * Mfthod:    doOvbl
+ * Signbturf: (Lsun/jbvb2d/SurfbdfDbtb;Ljbvb/nio/IntBufffr;Ljbvb/nio/FlobtBufffr;[Ljbvb/lbng/Objfdt;IIII)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_jbvb2d_CRfndfrfr_doOvbl
+(JNIEnv *fnv, jobjfdt jthis, jobjfdt jsurfbdfdbtb, jflobt x, jflobt y, jflobt w, jflobt h, jboolfbn isfill)
+{
+PRINT("Jbvb_sun_jbvb2d_CRfndfrfr_doOvbl")
+    QubrtzSDOps *qsdo = (QubrtzSDOps*)SurfbdfDbtb_GftOps(fnv, jsurfbdfdbtb);
+JNF_COCOA_ENTER(fnv);
+    SDRfndfrTypf rfndfrTypf    = (isfill? SD_Fill : SD_Strokf);
+    qsdo->BfginSurfbdf(fnv, qsdo, rfndfrTypf);
+    if (qsdo->dgRff != NULL)
+    {
+        doOvbl(qsdo, x, y, w, h, isfill);
+    }
+    qsdo->FinishSurfbdf(fnv, qsdo);
+JNF_COCOA_RENDERER_EXIT(fnv);
+}
+
+/*
+ * Clbss:     sun_jbvb2d_CRfndfrfr
+ * Mfthod:    doArd
+ * Signbturf: (Lsun/jbvb2d/SurfbdfDbtb;Ljbvb/nio/IntBufffr;Ljbvb/nio/FlobtBufffr;[Ljbvb/lbng/Objfdt;IIIIII)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_jbvb2d_CRfndfrfr_doArd
+(JNIEnv *fnv, jobjfdt jthis, jobjfdt jsurfbdfdbtb, jflobt x, jflobt y, jflobt w, jflobt h, jflobt bnglfStbrt, jflobt bnglfExtfnt, jint brdTypf, jboolfbn isfill)
+{
+PRINT("Jbvb_sun_jbvb2d_CRfndfrfr_doArd")
+    QubrtzSDOps *qsdo = (QubrtzSDOps*)SurfbdfDbtb_GftOps(fnv, jsurfbdfdbtb);
+JNF_COCOA_ENTER(fnv);
+    SDRfndfrTypf rfndfrTypf    = (isfill? SD_Fill : SD_Strokf);
+    qsdo->BfginSurfbdf(fnv, qsdo, rfndfrTypf);
+    if (qsdo->dgRff != NULL)
+    {
+        doArd(qsdo, x, y, w, h, bnglfStbrt, bnglfExtfnt, brdTypf, isfill);
+    }
+    qsdo->FinishSurfbdf(fnv, qsdo);
+JNF_COCOA_RENDERER_EXIT(fnv);
+}
+
+/*
+ * Clbss:     sun_jbvb2d_CRfndfrfr
+ * Mfthod:    doPoly
+ * Signbturf:
+ */
+JNIEXPORT void JNICALL Jbvb_sun_jbvb2d_CRfndfrfr_doPoly
+(JNIEnv *fnv, jobjfdt jthis, jobjfdt jsurfbdfdbtb, jintArrby xpointsbrrby, jintArrby ypointsbrrby, jint npoints, jboolfbn ispolygon, jboolfbn isfill)
+{
+PRINT("Jbvb_sun_jbvb2d_CRfndfrfr_doPoly")
+    QubrtzSDOps *qsdo = (QubrtzSDOps*)SurfbdfDbtb_GftOps(fnv, jsurfbdfdbtb);
+JNF_COCOA_ENTER(fnv);
+    BOOL foFill = YES; // polys brf WIND_EVEN_ODD by dffinition
+    SDRfndfrTypf rfndfrTypf    = (isfill? (foFill ? SD_EOFill : SD_Fill) : SD_Strokf);
+    qsdo->BfginSurfbdf(fnv, qsdo, rfndfrTypf);
+    if (qsdo->dgRff != NULL)
+    {
+        doPoly(fnv, qsdo, xpointsbrrby, ypointsbrrby, npoints, ispolygon, isfill);
+    }
+    qsdo->FinishSurfbdf(fnv, qsdo);
+JNF_COCOA_RENDERER_EXIT(fnv);
+}
+
+/*
+ * Clbss:     sun_jbvb2d_CRfndfrfr
+ * Mfthod:    doShbpf
+ * Signbturf: (Lsun/jbvb2d/SurfbdfDbtb;Ljbvb/nio/IntBufffr;Ljbvb/nio/FlobtBufffr;[Ljbvb/lbng/Objfdt;ILjbvb/nio/FlobtBufffr;Ljbvb/nio/IntBufffr;IZ)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_jbvb2d_CRfndfrfr_doShbpf
+(JNIEnv *fnv, jobjfdt jthis, jobjfdt jsurfbdfdbtb, jint lfngth, jobjfdt jFlobtCoordinbtfs, jobjfdt jIntTypfs, jint windingRulf, jboolfbn isfill, jboolfbn shouldApplyOffsft)
+{
+PRINT("Jbvb_sun_jbvb2d_CRfndfrfr_doShbpf")
+    QubrtzSDOps *qsdo = (QubrtzSDOps*)SurfbdfDbtb_GftOps(fnv, jsurfbdfdbtb);
+JNF_COCOA_ENTER(fnv);
+    BOOL foFill = (windingRulf == jbvb_bwt_gfom_PbthItfrbtor_WIND_EVEN_ODD);
+    SDRfndfrTypf rfndfrTypf    = (isfill? (foFill ? SD_EOFill : SD_Fill) : SD_Strokf);
+    qsdo->BfginSurfbdf(fnv, qsdo, rfndfrTypf);
+    if (qsdo->dgRff != NULL)
+    {
+        jflobt *doordinbtfs = (jflobt*)((*fnv)->GftDirfdtBufffrAddrfss(fnv, jFlobtCoordinbtfs));
+        jint *typfs = (jint*)((*fnv)->GftDirfdtBufffrAddrfss(fnv, jIntTypfs));
+        doShbpf(qsdo, typfs, doordinbtfs, lfngth, isfill, shouldApplyOffsft);
+    }
+    qsdo->FinishSurfbdf(fnv, qsdo);
+JNF_COCOA_RENDERER_EXIT(fnv);
+}
+
+#dffinf invblidContfxt(d) \
+    ((d) == NULL /* || (d)->idfntiffr != CGContfxtIdfntififr */)
+
+/*
+ * Clbss:     sun_jbvb2d_CRfndfrfr
+ * Mfthod:    doImbgf
+ * Signbturf: (Lsun/jbvb2d/SurfbdfDbtb;Ljbvb/nio/IntBufffr;Ljbvb/nio/FlobtBufffr;[Ljbvb/lbng/Objfdt;Lsun/jbvb2d/SurfbdfDbtb;ZZIIIIIIII)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_jbvb2d_CRfndfrfr_doImbgf
+(JNIEnv *fnv, jobjfdt jthis, jobjfdt jsurfbdfdbtb, jobjfdt imbgfSurfbdfDbtb, jboolfbn fliph, jboolfbn flipv, jint w, jint h, jint sx, jint sy, jint sw, jint sh, jint dx, jint dy, jint dw, jint dh)
+{
+PRINT("Jbvb_sun_jbvb2d_CRfndfrfr_doImbgf")
+    QubrtzSDOps *qsdo = (QubrtzSDOps*)SurfbdfDbtb_GftOps(fnv, jsurfbdfdbtb);
+JNF_COCOA_ENTER(fnv);
+    qsdo->BfginSurfbdf(fnv, qsdo, SD_Imbgf);
+    if (qsdo->dgRff != NULL)
+    {
+        doImbgf(fnv, qsdo, imbgfSurfbdfDbtb, fliph, flipv, w, h, sx, sy, sw, sh, dx, dy, dw, dh);
+    }
+    qsdo->FinishSurfbdf(fnv, qsdo);
+JNF_COCOA_RENDERER_EXIT(fnv);
+}

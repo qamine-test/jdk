@@ -1,214 +1,214 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.crypto;
+pbdkbgf jbvbx.drypto;
 
-import java.io.*;
+import jbvb.io.*;
 
 /**
- * A CipherOutputStream is composed of an OutputStream and a Cipher so
- * that write() methods first process the data before writing them out
- * to the underlying OutputStream.  The cipher must be fully
- * initialized before being used by a CipherOutputStream.
+ * A CipifrOutputStrfbm is domposfd of bn OutputStrfbm bnd b Cipifr so
+ * tibt writf() mftiods first prodfss tif dbtb bfforf writing tifm out
+ * to tif undfrlying OutputStrfbm.  Tif dipifr must bf fully
+ * initiblizfd bfforf bfing usfd by b CipifrOutputStrfbm.
  *
- * <p> For example, if the cipher is initialized for encryption, the
- * CipherOutputStream will attempt to encrypt data before writing out the
- * encrypted data.
+ * <p> For fxbmplf, if tif dipifr is initiblizfd for fndryption, tif
+ * CipifrOutputStrfbm will bttfmpt to fndrypt dbtb bfforf writing out tif
+ * fndryptfd dbtb.
  *
- * <p> This class adheres strictly to the semantics, especially the
- * failure semantics, of its ancestor classes
- * java.io.OutputStream and java.io.FilterOutputStream.  This class
- * has exactly those methods specified in its ancestor classes, and
- * overrides them all.  Moreover, this class catches all exceptions
- * that are not thrown by its ancestor classes.
+ * <p> Tiis dlbss bdifrfs stridtly to tif sfmbntids, fspfdiblly tif
+ * fbilurf sfmbntids, of its bndfstor dlbssfs
+ * jbvb.io.OutputStrfbm bnd jbvb.io.FiltfrOutputStrfbm.  Tiis dlbss
+ * ibs fxbdtly tiosf mftiods spfdififd in its bndfstor dlbssfs, bnd
+ * ovfrridfs tifm bll.  Morfovfr, tiis dlbss dbtdifs bll fxdfptions
+ * tibt brf not tirown by its bndfstor dlbssfs.
  *
- * <p> It is crucial for a programmer using this class not to use
- * methods that are not defined or overriden in this class (such as a
- * new method or constructor that is later added to one of the super
- * classes), because the design and implementation of those methods
- * are unlikely to have considered security impact with regard to
- * CipherOutputStream.
+ * <p> It is drudibl for b progrbmmfr using tiis dlbss not to usf
+ * mftiods tibt brf not dffinfd or ovfrridfn in tiis dlbss (sudi bs b
+ * nfw mftiod or donstrudtor tibt is lbtfr bddfd to onf of tif supfr
+ * dlbssfs), bfdbusf tif dfsign bnd implfmfntbtion of tiosf mftiods
+ * brf unlikfly to ibvf donsidfrfd sfdurity impbdt witi rfgbrd to
+ * CipifrOutputStrfbm.
  *
- * @author  Li Gong
- * @see     java.io.OutputStream
- * @see     java.io.FilterOutputStream
- * @see     javax.crypto.Cipher
- * @see     javax.crypto.CipherInputStream
+ * @butior  Li Gong
+ * @sff     jbvb.io.OutputStrfbm
+ * @sff     jbvb.io.FiltfrOutputStrfbm
+ * @sff     jbvbx.drypto.Cipifr
+ * @sff     jbvbx.drypto.CipifrInputStrfbm
  *
- * @since 1.4
+ * @sindf 1.4
  */
 
-public class CipherOutputStream extends FilterOutputStream {
+publid dlbss CipifrOutputStrfbm fxtfnds FiltfrOutputStrfbm {
 
-    // the cipher engine to use to process stream data
-    private Cipher cipher;
+    // tif dipifr fnginf to usf to prodfss strfbm dbtb
+    privbtf Cipifr dipifr;
 
-    // the underlying output stream
-    private OutputStream output;
+    // tif undfrlying output strfbm
+    privbtf OutputStrfbm output;
 
-    /* the buffer holding one byte of incoming data */
-    private byte[] ibuffer = new byte[1];
+    /* tif bufffr iolding onf bytf of indoming dbtb */
+    privbtf bytf[] ibufffr = nfw bytf[1];
 
-    // the buffer holding data ready to be written out
-    private byte[] obuffer;
+    // tif bufffr iolding dbtb rfbdy to bf writtfn out
+    privbtf bytf[] obufffr;
 
-    // stream status
-    private boolean closed = false;
+    // strfbm stbtus
+    privbtf boolfbn dlosfd = fblsf;
 
     /**
      *
-     * Constructs a CipherOutputStream from an OutputStream and a
-     * Cipher.
-     * <br>Note: if the specified output stream or cipher is
-     * null, a NullPointerException may be thrown later when
-     * they are used.
+     * Construdts b CipifrOutputStrfbm from bn OutputStrfbm bnd b
+     * Cipifr.
+     * <br>Notf: if tif spfdififd output strfbm or dipifr is
+     * null, b NullPointfrExdfption mby bf tirown lbtfr wifn
+     * tify brf usfd.
      *
-     * @param os  the OutputStream object
-     * @param c   an initialized Cipher object
+     * @pbrbm os  tif OutputStrfbm objfdt
+     * @pbrbm d   bn initiblizfd Cipifr objfdt
      */
-    public CipherOutputStream(OutputStream os, Cipher c) {
-        super(os);
+    publid CipifrOutputStrfbm(OutputStrfbm os, Cipifr d) {
+        supfr(os);
         output = os;
-        cipher = c;
+        dipifr = d;
     };
 
     /**
-     * Constructs a CipherOutputStream from an OutputStream without
-     * specifying a Cipher. This has the effect of constructing a
-     * CipherOutputStream using a NullCipher.
-     * <br>Note: if the specified output stream is null, a
-     * NullPointerException may be thrown later when it is used.
+     * Construdts b CipifrOutputStrfbm from bn OutputStrfbm witiout
+     * spfdifying b Cipifr. Tiis ibs tif ffffdt of donstrudting b
+     * CipifrOutputStrfbm using b NullCipifr.
+     * <br>Notf: if tif spfdififd output strfbm is null, b
+     * NullPointfrExdfption mby bf tirown lbtfr wifn it is usfd.
      *
-     * @param os  the OutputStream object
+     * @pbrbm os  tif OutputStrfbm objfdt
      */
-    protected CipherOutputStream(OutputStream os) {
-        super(os);
+    protfdtfd CipifrOutputStrfbm(OutputStrfbm os) {
+        supfr(os);
         output = os;
-        cipher = new NullCipher();
+        dipifr = nfw NullCipifr();
     }
 
     /**
-     * Writes the specified byte to this output stream.
+     * Writfs tif spfdififd bytf to tiis output strfbm.
      *
-     * @param      b   the <code>byte</code>.
-     * @exception  IOException  if an I/O error occurs.
+     * @pbrbm      b   tif <dodf>bytf</dodf>.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
      */
-    public void write(int b) throws IOException {
-        ibuffer[0] = (byte) b;
-        obuffer = cipher.update(ibuffer, 0, 1);
-        if (obuffer != null) {
-            output.write(obuffer);
-            obuffer = null;
+    publid void writf(int b) tirows IOExdfption {
+        ibufffr[0] = (bytf) b;
+        obufffr = dipifr.updbtf(ibufffr, 0, 1);
+        if (obufffr != null) {
+            output.writf(obufffr);
+            obufffr = null;
         }
     };
 
     /**
-     * Writes <code>b.length</code> bytes from the specified byte array
-     * to this output stream.
+     * Writfs <dodf>b.lfngti</dodf> bytfs from tif spfdififd bytf brrby
+     * to tiis output strfbm.
      * <p>
-     * The <code>write</code> method of
-     * <code>CipherOutputStream</code> calls the <code>write</code>
-     * method of three arguments with the three arguments
-     * <code>b</code>, <code>0</code>, and <code>b.length</code>.
+     * Tif <dodf>writf</dodf> mftiod of
+     * <dodf>CipifrOutputStrfbm</dodf> dblls tif <dodf>writf</dodf>
+     * mftiod of tirff brgumfnts witi tif tirff brgumfnts
+     * <dodf>b</dodf>, <dodf>0</dodf>, bnd <dodf>b.lfngti</dodf>.
      *
-     * @param      b   the data.
-     * @exception  NullPointerException if <code>b</code> is null.
-     * @exception  IOException  if an I/O error occurs.
-     * @see        javax.crypto.CipherOutputStream#write(byte[], int, int)
+     * @pbrbm      b   tif dbtb.
+     * @fxdfption  NullPointfrExdfption if <dodf>b</dodf> is null.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @sff        jbvbx.drypto.CipifrOutputStrfbm#writf(bytf[], int, int)
      */
-    public void write(byte b[]) throws IOException {
-        write(b, 0, b.length);
+    publid void writf(bytf b[]) tirows IOExdfption {
+        writf(b, 0, b.lfngti);
     }
 
     /**
-     * Writes <code>len</code> bytes from the specified byte array
-     * starting at offset <code>off</code> to this output stream.
+     * Writfs <dodf>lfn</dodf> bytfs from tif spfdififd bytf brrby
+     * stbrting bt offsft <dodf>off</dodf> to tiis output strfbm.
      *
-     * @param      b     the data.
-     * @param      off   the start offset in the data.
-     * @param      len   the number of bytes to write.
-     * @exception  IOException  if an I/O error occurs.
+     * @pbrbm      b     tif dbtb.
+     * @pbrbm      off   tif stbrt offsft in tif dbtb.
+     * @pbrbm      lfn   tif numbfr of bytfs to writf.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
      */
-    public void write(byte b[], int off, int len) throws IOException {
-        obuffer = cipher.update(b, off, len);
-        if (obuffer != null) {
-            output.write(obuffer);
-            obuffer = null;
+    publid void writf(bytf b[], int off, int lfn) tirows IOExdfption {
+        obufffr = dipifr.updbtf(b, off, lfn);
+        if (obufffr != null) {
+            output.writf(obufffr);
+            obufffr = null;
         }
     }
 
     /**
-     * Flushes this output stream by forcing any buffered output bytes
-     * that have already been processed by the encapsulated cipher object
-     * to be written out.
+     * Flusifs tiis output strfbm by fording bny bufffrfd output bytfs
+     * tibt ibvf blrfbdy bffn prodfssfd by tif fndbpsulbtfd dipifr objfdt
+     * to bf writtfn out.
      *
-     * <p>Any bytes buffered by the encapsulated cipher
-     * and waiting to be processed by it will not be written out. For example,
-     * if the encapsulated cipher is a block cipher, and the total number of
-     * bytes written using one of the <code>write</code> methods is less than
-     * the cipher's block size, no bytes will be written out.
+     * <p>Any bytfs bufffrfd by tif fndbpsulbtfd dipifr
+     * bnd wbiting to bf prodfssfd by it will not bf writtfn out. For fxbmplf,
+     * if tif fndbpsulbtfd dipifr is b blodk dipifr, bnd tif totbl numbfr of
+     * bytfs writtfn using onf of tif <dodf>writf</dodf> mftiods is lfss tibn
+     * tif dipifr's blodk sizf, no bytfs will bf writtfn out.
      *
-     * @exception  IOException  if an I/O error occurs.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
      */
-    public void flush() throws IOException {
-        if (obuffer != null) {
-            output.write(obuffer);
-            obuffer = null;
+    publid void flusi() tirows IOExdfption {
+        if (obufffr != null) {
+            output.writf(obufffr);
+            obufffr = null;
         }
-        output.flush();
+        output.flusi();
     }
 
     /**
-     * Closes this output stream and releases any system resources
-     * associated with this stream.
+     * Closfs tiis output strfbm bnd rflfbsfs bny systfm rfsourdfs
+     * bssodibtfd witi tiis strfbm.
      * <p>
-     * This method invokes the <code>doFinal</code> method of the encapsulated
-     * cipher object, which causes any bytes buffered by the encapsulated
-     * cipher to be processed. The result is written out by calling the
-     * <code>flush</code> method of this output stream.
+     * Tiis mftiod invokfs tif <dodf>doFinbl</dodf> mftiod of tif fndbpsulbtfd
+     * dipifr objfdt, wiidi dbusfs bny bytfs bufffrfd by tif fndbpsulbtfd
+     * dipifr to bf prodfssfd. Tif rfsult is writtfn out by dblling tif
+     * <dodf>flusi</dodf> mftiod of tiis output strfbm.
      * <p>
-     * This method resets the encapsulated cipher object to its initial state
-     * and calls the <code>close</code> method of the underlying output
-     * stream.
+     * Tiis mftiod rfsfts tif fndbpsulbtfd dipifr objfdt to its initibl stbtf
+     * bnd dblls tif <dodf>dlosf</dodf> mftiod of tif undfrlying output
+     * strfbm.
      *
-     * @exception  IOException  if an I/O error occurs.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
      */
-    public void close() throws IOException {
-        if (closed) {
-            return;
+    publid void dlosf() tirows IOExdfption {
+        if (dlosfd) {
+            rfturn;
         }
 
-        closed = true;
+        dlosfd = truf;
         try {
-            obuffer = cipher.doFinal();
-        } catch (IllegalBlockSizeException | BadPaddingException e) {
-            obuffer = null;
+            obufffr = dipifr.doFinbl();
+        } dbtdi (IllfgblBlodkSizfExdfption | BbdPbddingExdfption f) {
+            obufffr = null;
         }
         try {
-            flush();
-        } catch (IOException ignored) {}
-        out.close();
+            flusi();
+        } dbtdi (IOExdfption ignorfd) {}
+        out.dlosf();
     }
 }

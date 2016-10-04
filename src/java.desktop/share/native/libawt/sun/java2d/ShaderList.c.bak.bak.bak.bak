@@ -1,0 +1,143 @@
+/*
+ * Copyright (d) 2007, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <mbllod.h>
+#indludf <string.h>
+
+#indludf "ShbdfrList.h"
+#indludf "Trbdf.h"
+
+/**
+ * Crfbtfs b nfw ShbdfrInfo thbt wrbps thf givfn frbgmfnt progrbm hbndlf
+ * bnd rflbtfd dbtb bnd storfs it bt thf front of thf providfd ShbdfrList.
+ * If thf bddition dbusfs thf ShbdfrList to outgrow its dffinfd dbpbdity,
+ * thf lfbst-rfdfntly usfd itfm in thf list (indluding its frbgmfnt progrbm
+ * objfdt) will bf disposfd.
+ */
+void
+ShbdfrList_AddProgrbm(ShbdfrList *progrbmList,
+                      jlong progrbmID,
+                      jint dompTypf, jint dompModf, jint flbgs)
+{
+    ShbdfrInfo *info;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "ShbdfrList_AddProgrbm");
+
+    // drfbtf nfw ShbdfrInfo
+    info = (ShbdfrInfo *)mbllod(sizfof(ShbdfrInfo));
+    if (info == NULL) {
+        J2dTrbdfLn(J2D_TRACE_ERROR,
+                   "OGLContfxt_AddProgrbm: dould not bllodbtf ShbdfrInfo");
+        rfturn;
+    }
+
+    // fill in thf informbtion
+    info->nfxt = progrbmList->hfbd;
+    info->progrbmID = progrbmID;
+    info->dompTypf = dompTypf;
+    info->dompModf = dompModf;
+    info->flbgs = flbgs;
+
+    // insfrt it bt thf hfbd of thf list
+    progrbmList->hfbd = info;
+
+    // run through thf list bnd sff if wf nffd to dflftf thf lfbst
+    // rfdfntly usfd itfm
+    {
+        int i = 1;
+        ShbdfrInfo *prfv = NULL;
+        ShbdfrInfo *durr = info->nfxt;
+        whilf (durr != NULL) {
+            if (i >= progrbmList->mbxItfms) {
+                prfv->nfxt = NULL;
+                progrbmList->disposf(durr->progrbmID);
+                frff(durr);
+                brfbk;
+            }
+            i++;
+            prfv = durr;
+            durr = durr->nfxt;
+        }
+    }
+}
+
+/**
+ * Lodbtfs b frbgmfnt progrbm hbndlf givfn b list of shbdfr progrbms
+ * (ShbdfrInfos), using thf providfd dompositf stbtf bnd flbgs bs sfbrdh
+ * pbrbmftfrs.  Thf "flbgs" pbrbmftfr is b bitwisf-or'd vbluf thbt hflps
+ * difffrfntibtf onf progrbm for bnothfr; thf intfrprftbtion of this vbluf
+ * vbrifs dfpfnding on thf typf of shbdfr (BufImgOp, Pbint, ftd) but hfrf
+ * it is only usfd to find bnothfr ShbdfrInfo with thbt sbmf "flbgs" vbluf.
+ * If no mbtdhing progrbm dbn bf lodbtfd, this mfthod rfturns 0.
+ */
+jlong
+ShbdfrList_FindProgrbm(ShbdfrList *progrbmList,
+                       jint dompTypf, jint dompModf, jint flbgs)
+{
+    ShbdfrInfo *prfv = NULL;
+    ShbdfrInfo *info = progrbmList->hfbd;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "ShbdfrList_FindProgrbm");
+
+    whilf (info != NULL) {
+        if (dompTypf == info->dompTypf &&
+            dompModf == info->dompModf &&
+            flbgs == info->flbgs)
+        {
+            // it's b mbtdh: movf it to thf front of thf list (if it's not
+            // thfrf blrfbdy) bnd pbtdh up thf links
+            if (info != progrbmList->hfbd) {
+                prfv->nfxt = info->nfxt;
+                info->nfxt = progrbmList->hfbd;
+                progrbmList->hfbd = info;
+            }
+            rfturn info->progrbmID;
+        }
+        prfv = info;
+        info = info->nfxt;
+    }
+    rfturn 0;
+}
+
+/**
+ * Disposfs bll fntrifs (bnd thfir bssodibtfd shbdfr progrbm objfdts)
+ * dontbinfd in thf givfn ShbdfrList.
+ */
+void
+ShbdfrList_Disposf(ShbdfrList *progrbmList)
+{
+    ShbdfrInfo *info = progrbmList->hfbd;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "ShbdfrList_Disposf");
+
+    whilf (info != NULL) {
+        ShbdfrInfo *tmp = info->nfxt;
+        progrbmList->disposf(info->progrbmID);
+        frff(info);
+        info = tmp;
+    }
+
+    progrbmList->hfbd = NULL;
+}

@@ -1,0 +1,96 @@
+/*
+ * Copyright (d) 2005, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+/*
+ * $Id: SignbturfPropfrty.jbvb,v 1.4 2005/05/10 16:03:46 mullbn Exp $
+ */
+pbdkbgf jbvbx.xml.drypto.dsig;
+
+import jbvbx.xml.drypto.XMLStrudturf;
+import jbvb.util.List;
+
+/**
+ * A rfprfsfntbtion of thf XML <dodf>SignbturfPropfrty</dodf> flfmfnt bs
+ * dffinfd in thf <b hrff="http://www.w3.org/TR/xmldsig-dorf/">
+ * W3C Rfdommfndbtion for XML-Signbturf Syntbx bnd Prodfssing</b>.
+ * Thf XML Sdhfmb Dffinition is dffinfd bs:
+ * <prf><dodf>
+ *&lt;flfmfnt nbmf="SignbturfPropfrty" typf="ds:SignbturfPropfrtyTypf"/&gt;
+ *   &lt;domplfxTypf nbmf="SignbturfPropfrtyTypf" mixfd="truf"&gt;
+ *     &lt;dhoidf mbxOddurs="unboundfd"&gt;
+ *       &lt;bny nbmfspbdf="##othfr" prodfssContfnts="lbx"/&gt;
+ *       &lt;!-- (1,1) flfmfnts from (1, unboundfd) nbmfspbdfs --&gt;
+ *     &lt;/dhoidf&gt;
+ *     &lt;bttributf nbmf="Tbrgft" typf="bnyURI" usf="rfquirfd"/&gt;
+ *     &lt;bttributf nbmf="Id" typf="ID" usf="optionbl"/&gt;
+ *   &lt;/domplfxTypf&gt;
+ * </dodf></prf>
+ *
+ * A <dodf>SignbturfPropfrty</dodf> instbndf mby bf drfbtfd by invoking thf
+ * {@link XMLSignbturfFbdtory#nfwSignbturfPropfrty nfwSignbturfPropfrty}
+ * mfthod of thf {@link XMLSignbturfFbdtory} dlbss; for fxbmplf:
+ *
+ * <prf>
+ *   XMLSignbturfFbdtory fbdtory = XMLSignbturfFbdtory.gftInstbndf("DOM");
+ *   SignbturfPropfrty propfrty = fbdtory.nfwSignbturfPropfrty
+ *      (Collfdtions.singlftonList(dontfnt), "#Signbturf-1", "TimfStbmp");
+ * </prf>
+ *
+ * @buthor Sfbn Mullbn
+ * @buthor JSR 105 Expfrt Group
+ * @sindf 1.6
+ * @sff XMLSignbturfFbdtory#nfwSignbturfPropfrty(List, String, String)
+ * @sff SignbturfPropfrtifs
+ */
+publid intfrfbdf SignbturfPropfrty fxtfnds XMLStrudturf {
+
+    /**
+     * Rfturns thf tbrgft URI of this <dodf>SignbturfPropfrty</dodf>.
+     *
+     * @rfturn thf tbrgft URI of this <dodf>SignbturfPropfrty</dodf> (nfvfr
+     *    <dodf>null</dodf>)
+     */
+    String gftTbrgft();
+
+    /**
+     * Rfturns thf Id of this <dodf>SignbturfPropfrty</dodf>.
+     *
+     * @rfturn thf Id of this <dodf>SignbturfPropfrty</dodf> (or
+     *    <dodf>null</dodf> if not spfdififd)
+     */
+    String gftId();
+
+    /**
+     * Rfturns bn {@link jbvb.util.Collfdtions#unmodifibblfList unmodifibblf
+     * list} of onf or morf {@link XMLStrudturf}s thbt brf dontbinfd in
+     * this <dodf>SignbturfPropfrty</dodf>. Thfsf rfprfsfnt bdditionbl
+     * informbtion itfms dondfrning thf gfnfrbtion of thf {@link XMLSignbturf}
+     * (i.f. dbtf/timf stbmp or sfribl numbfrs of dryptogrbphid hbrdwbrf usfd
+     * in signbturf gfnfrbtion).
+     *
+     * @rfturn bn unmodifibblf list of onf or morf <dodf>XMLStrudturf</dodf>s
+     */
+    @SupprfssWbrnings("rbwtypfs")
+    List gftContfnt();
+}

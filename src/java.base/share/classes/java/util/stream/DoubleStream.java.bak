@@ -1,923 +1,923 @@
 /*
- * Copyright (c) 2012, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.util.stream;
+pbdkbgf jbvb.util.strfbm;
 
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.DoubleSummaryStatistics;
-import java.util.Objects;
-import java.util.OptionalDouble;
-import java.util.PrimitiveIterator;
-import java.util.Spliterator;
-import java.util.Spliterators;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.BiConsumer;
-import java.util.function.DoubleBinaryOperator;
-import java.util.function.DoubleConsumer;
-import java.util.function.DoubleFunction;
-import java.util.function.DoublePredicate;
-import java.util.function.DoubleSupplier;
-import java.util.function.DoubleToIntFunction;
-import java.util.function.DoubleToLongFunction;
-import java.util.function.DoubleUnaryOperator;
-import java.util.function.Function;
-import java.util.function.ObjDoubleConsumer;
-import java.util.function.Supplier;
+import jbvb.nio.dibrsft.Cibrsft;
+import jbvb.nio.filf.Filfs;
+import jbvb.nio.filf.Pbti;
+import jbvb.util.Arrbys;
+import jbvb.util.Collfdtion;
+import jbvb.util.DoublfSummbryStbtistids;
+import jbvb.util.Objfdts;
+import jbvb.util.OptionblDoublf;
+import jbvb.util.PrimitivfItfrbtor;
+import jbvb.util.Splitfrbtor;
+import jbvb.util.Splitfrbtors;
+import jbvb.util.dondurrfnt.CondurrfntHbsiMbp;
+import jbvb.util.fundtion.BiConsumfr;
+import jbvb.util.fundtion.DoublfBinbryOpfrbtor;
+import jbvb.util.fundtion.DoublfConsumfr;
+import jbvb.util.fundtion.DoublfFundtion;
+import jbvb.util.fundtion.DoublfPrfdidbtf;
+import jbvb.util.fundtion.DoublfSupplifr;
+import jbvb.util.fundtion.DoublfToIntFundtion;
+import jbvb.util.fundtion.DoublfToLongFundtion;
+import jbvb.util.fundtion.DoublfUnbryOpfrbtor;
+import jbvb.util.fundtion.Fundtion;
+import jbvb.util.fundtion.ObjDoublfConsumfr;
+import jbvb.util.fundtion.Supplifr;
 
 /**
- * A sequence of primitive double-valued elements supporting sequential and parallel
- * aggregate operations.  This is the {@code double} primitive specialization of
- * {@link Stream}.
+ * A sfqufndf of primitivf doublf-vblufd flfmfnts supporting sfqufntibl bnd pbrbllfl
+ * bggrfgbtf opfrbtions.  Tiis is tif {@dodf doublf} primitivf spfdiblizbtion of
+ * {@link Strfbm}.
  *
- * <p>The following example illustrates an aggregate operation using
- * {@link Stream} and {@link DoubleStream}, computing the sum of the weights of the
- * red widgets:
+ * <p>Tif following fxbmplf illustrbtfs bn bggrfgbtf opfrbtion using
+ * {@link Strfbm} bnd {@link DoublfStrfbm}, domputing tif sum of tif wfigits of tif
+ * rfd widgfts:
  *
- * <pre>{@code
- *     double sum = widgets.stream()
- *                         .filter(w -> w.getColor() == RED)
- *                         .mapToDouble(w -> w.getWeight())
+ * <prf>{@dodf
+ *     doublf sum = widgfts.strfbm()
+ *                         .filtfr(w -> w.gftColor() == RED)
+ *                         .mbpToDoublf(w -> w.gftWfigit())
  *                         .sum();
- * }</pre>
+ * }</prf>
  *
- * See the class documentation for {@link Stream} and the package documentation
- * for <a href="package-summary.html">java.util.stream</a> for additional
- * specification of streams, stream operations, stream pipelines, and
- * parallelism.
+ * Sff tif dlbss dodumfntbtion for {@link Strfbm} bnd tif pbdkbgf dodumfntbtion
+ * for <b irff="pbdkbgf-summbry.itml">jbvb.util.strfbm</b> for bdditionbl
+ * spfdifidbtion of strfbms, strfbm opfrbtions, strfbm pipflinfs, bnd
+ * pbrbllflism.
  *
- * @since 1.8
- * @see Stream
- * @see <a href="package-summary.html">java.util.stream</a>
+ * @sindf 1.8
+ * @sff Strfbm
+ * @sff <b irff="pbdkbgf-summbry.itml">jbvb.util.strfbm</b>
  */
-public interface DoubleStream extends BaseStream<Double, DoubleStream> {
+publid intfrfbdf DoublfStrfbm fxtfnds BbsfStrfbm<Doublf, DoublfStrfbm> {
 
     /**
-     * Returns a stream consisting of the elements of this stream that match
-     * the given predicate.
+     * Rfturns b strfbm donsisting of tif flfmfnts of tiis strfbm tibt mbtdi
+     * tif givfn prfdidbtf.
      *
-     * <p>This is an <a href="package-summary.html#StreamOps">intermediate
-     * operation</a>.
+     * <p>Tiis is bn <b irff="pbdkbgf-summbry.itml#StrfbmOps">intfrmfdibtf
+     * opfrbtion</b>.
      *
-     * @param predicate a <a href="package-summary.html#NonInterference">non-interfering</a>,
-     *                  <a href="package-summary.html#Statelessness">stateless</a>
-     *                  predicate to apply to each element to determine if it
-     *                  should be included
-     * @return the new stream
+     * @pbrbm prfdidbtf b <b irff="pbdkbgf-summbry.itml#NonIntfrffrfndf">non-intfrffring</b>,
+     *                  <b irff="pbdkbgf-summbry.itml#Stbtflfssnfss">stbtflfss</b>
+     *                  prfdidbtf to bpply to fbdi flfmfnt to dftfrminf if it
+     *                  siould bf indludfd
+     * @rfturn tif nfw strfbm
      */
-    DoubleStream filter(DoublePredicate predicate);
+    DoublfStrfbm filtfr(DoublfPrfdidbtf prfdidbtf);
 
     /**
-     * Returns a stream consisting of the results of applying the given
-     * function to the elements of this stream.
+     * Rfturns b strfbm donsisting of tif rfsults of bpplying tif givfn
+     * fundtion to tif flfmfnts of tiis strfbm.
      *
-     * <p>This is an <a href="package-summary.html#StreamOps">intermediate
-     * operation</a>.
+     * <p>Tiis is bn <b irff="pbdkbgf-summbry.itml#StrfbmOps">intfrmfdibtf
+     * opfrbtion</b>.
      *
-     * @param mapper a <a href="package-summary.html#NonInterference">non-interfering</a>,
-     *               <a href="package-summary.html#Statelessness">stateless</a>
-     *               function to apply to each element
-     * @return the new stream
+     * @pbrbm mbppfr b <b irff="pbdkbgf-summbry.itml#NonIntfrffrfndf">non-intfrffring</b>,
+     *               <b irff="pbdkbgf-summbry.itml#Stbtflfssnfss">stbtflfss</b>
+     *               fundtion to bpply to fbdi flfmfnt
+     * @rfturn tif nfw strfbm
      */
-    DoubleStream map(DoubleUnaryOperator mapper);
+    DoublfStrfbm mbp(DoublfUnbryOpfrbtor mbppfr);
 
     /**
-     * Returns an object-valued {@code Stream} consisting of the results of
-     * applying the given function to the elements of this stream.
+     * Rfturns bn objfdt-vblufd {@dodf Strfbm} donsisting of tif rfsults of
+     * bpplying tif givfn fundtion to tif flfmfnts of tiis strfbm.
      *
-     * <p>This is an <a href="package-summary.html#StreamOps">
-     *     intermediate operation</a>.
+     * <p>Tiis is bn <b irff="pbdkbgf-summbry.itml#StrfbmOps">
+     *     intfrmfdibtf opfrbtion</b>.
      *
-     * @param <U> the element type of the new stream
-     * @param mapper a <a href="package-summary.html#NonInterference">non-interfering</a>,
-     *               <a href="package-summary.html#Statelessness">stateless</a>
-     *               function to apply to each element
-     * @return the new stream
+     * @pbrbm <U> tif flfmfnt typf of tif nfw strfbm
+     * @pbrbm mbppfr b <b irff="pbdkbgf-summbry.itml#NonIntfrffrfndf">non-intfrffring</b>,
+     *               <b irff="pbdkbgf-summbry.itml#Stbtflfssnfss">stbtflfss</b>
+     *               fundtion to bpply to fbdi flfmfnt
+     * @rfturn tif nfw strfbm
      */
-    <U> Stream<U> mapToObj(DoubleFunction<? extends U> mapper);
+    <U> Strfbm<U> mbpToObj(DoublfFundtion<? fxtfnds U> mbppfr);
 
     /**
-     * Returns an {@code IntStream} consisting of the results of applying the
-     * given function to the elements of this stream.
+     * Rfturns bn {@dodf IntStrfbm} donsisting of tif rfsults of bpplying tif
+     * givfn fundtion to tif flfmfnts of tiis strfbm.
      *
-     * <p>This is an <a href="package-summary.html#StreamOps">intermediate
-     * operation</a>.
+     * <p>Tiis is bn <b irff="pbdkbgf-summbry.itml#StrfbmOps">intfrmfdibtf
+     * opfrbtion</b>.
      *
-     * @param mapper a <a href="package-summary.html#NonInterference">non-interfering</a>,
-     *               <a href="package-summary.html#Statelessness">stateless</a>
-     *               function to apply to each element
-     * @return the new stream
+     * @pbrbm mbppfr b <b irff="pbdkbgf-summbry.itml#NonIntfrffrfndf">non-intfrffring</b>,
+     *               <b irff="pbdkbgf-summbry.itml#Stbtflfssnfss">stbtflfss</b>
+     *               fundtion to bpply to fbdi flfmfnt
+     * @rfturn tif nfw strfbm
      */
-    IntStream mapToInt(DoubleToIntFunction mapper);
+    IntStrfbm mbpToInt(DoublfToIntFundtion mbppfr);
 
     /**
-     * Returns a {@code LongStream} consisting of the results of applying the
-     * given function to the elements of this stream.
+     * Rfturns b {@dodf LongStrfbm} donsisting of tif rfsults of bpplying tif
+     * givfn fundtion to tif flfmfnts of tiis strfbm.
      *
-     * <p>This is an <a href="package-summary.html#StreamOps">intermediate
-     * operation</a>.
+     * <p>Tiis is bn <b irff="pbdkbgf-summbry.itml#StrfbmOps">intfrmfdibtf
+     * opfrbtion</b>.
      *
-     * @param mapper a <a href="package-summary.html#NonInterference">non-interfering</a>,
-     *               <a href="package-summary.html#Statelessness">stateless</a>
-     *               function to apply to each element
-     * @return the new stream
+     * @pbrbm mbppfr b <b irff="pbdkbgf-summbry.itml#NonIntfrffrfndf">non-intfrffring</b>,
+     *               <b irff="pbdkbgf-summbry.itml#Stbtflfssnfss">stbtflfss</b>
+     *               fundtion to bpply to fbdi flfmfnt
+     * @rfturn tif nfw strfbm
      */
-    LongStream mapToLong(DoubleToLongFunction mapper);
+    LongStrfbm mbpToLong(DoublfToLongFundtion mbppfr);
 
     /**
-     * Returns a stream consisting of the results of replacing each element of
-     * this stream with the contents of a mapped stream produced by applying
-     * the provided mapping function to each element.  Each mapped stream is
-     * {@link java.util.stream.BaseStream#close() closed} after its contents
-     * have been placed into this stream.  (If a mapped stream is {@code null}
-     * an empty stream is used, instead.)
+     * Rfturns b strfbm donsisting of tif rfsults of rfplbding fbdi flfmfnt of
+     * tiis strfbm witi tif dontfnts of b mbppfd strfbm produdfd by bpplying
+     * tif providfd mbpping fundtion to fbdi flfmfnt.  Ebdi mbppfd strfbm is
+     * {@link jbvb.util.strfbm.BbsfStrfbm#dlosf() dlosfd} bftfr its dontfnts
+     * ibvf bffn plbdfd into tiis strfbm.  (If b mbppfd strfbm is {@dodf null}
+     * bn fmpty strfbm is usfd, instfbd.)
      *
-     * <p>This is an <a href="package-summary.html#StreamOps">intermediate
-     * operation</a>.
+     * <p>Tiis is bn <b irff="pbdkbgf-summbry.itml#StrfbmOps">intfrmfdibtf
+     * opfrbtion</b>.
      *
-     * @param mapper a <a href="package-summary.html#NonInterference">non-interfering</a>,
-     *               <a href="package-summary.html#Statelessness">stateless</a>
-     *               function to apply to each element which produces a
-     *               {@code DoubleStream} of new values
-     * @return the new stream
-     * @see Stream#flatMap(Function)
+     * @pbrbm mbppfr b <b irff="pbdkbgf-summbry.itml#NonIntfrffrfndf">non-intfrffring</b>,
+     *               <b irff="pbdkbgf-summbry.itml#Stbtflfssnfss">stbtflfss</b>
+     *               fundtion to bpply to fbdi flfmfnt wiidi produdfs b
+     *               {@dodf DoublfStrfbm} of nfw vblufs
+     * @rfturn tif nfw strfbm
+     * @sff Strfbm#flbtMbp(Fundtion)
      */
-    DoubleStream flatMap(DoubleFunction<? extends DoubleStream> mapper);
+    DoublfStrfbm flbtMbp(DoublfFundtion<? fxtfnds DoublfStrfbm> mbppfr);
 
     /**
-     * Returns a stream consisting of the distinct elements of this stream. The
-     * elements are compared for equality according to
-     * {@link java.lang.Double#compare(double, double)}.
+     * Rfturns b strfbm donsisting of tif distindt flfmfnts of tiis strfbm. Tif
+     * flfmfnts brf dompbrfd for fqublity bddording to
+     * {@link jbvb.lbng.Doublf#dompbrf(doublf, doublf)}.
      *
-     * <p>This is a <a href="package-summary.html#StreamOps">stateful
-     * intermediate operation</a>.
+     * <p>Tiis is b <b irff="pbdkbgf-summbry.itml#StrfbmOps">stbtfful
+     * intfrmfdibtf opfrbtion</b>.
      *
-     * @return the result stream
+     * @rfturn tif rfsult strfbm
      */
-    DoubleStream distinct();
+    DoublfStrfbm distindt();
 
     /**
-     * Returns a stream consisting of the elements of this stream in sorted
-     * order. The elements are compared for equality according to
-     * {@link java.lang.Double#compare(double, double)}.
+     * Rfturns b strfbm donsisting of tif flfmfnts of tiis strfbm in sortfd
+     * ordfr. Tif flfmfnts brf dompbrfd for fqublity bddording to
+     * {@link jbvb.lbng.Doublf#dompbrf(doublf, doublf)}.
      *
-     * <p>This is a <a href="package-summary.html#StreamOps">stateful
-     * intermediate operation</a>.
+     * <p>Tiis is b <b irff="pbdkbgf-summbry.itml#StrfbmOps">stbtfful
+     * intfrmfdibtf opfrbtion</b>.
      *
-     * @return the result stream
+     * @rfturn tif rfsult strfbm
      */
-    DoubleStream sorted();
+    DoublfStrfbm sortfd();
 
     /**
-     * Returns a stream consisting of the elements of this stream, additionally
-     * performing the provided action on each element as elements are consumed
-     * from the resulting stream.
+     * Rfturns b strfbm donsisting of tif flfmfnts of tiis strfbm, bdditionblly
+     * pfrforming tif providfd bdtion on fbdi flfmfnt bs flfmfnts brf donsumfd
+     * from tif rfsulting strfbm.
      *
-     * <p>This is an <a href="package-summary.html#StreamOps">intermediate
-     * operation</a>.
+     * <p>Tiis is bn <b irff="pbdkbgf-summbry.itml#StrfbmOps">intfrmfdibtf
+     * opfrbtion</b>.
      *
-     * <p>For parallel stream pipelines, the action may be called at
-     * whatever time and in whatever thread the element is made available by the
-     * upstream operation.  If the action modifies shared state,
-     * it is responsible for providing the required synchronization.
+     * <p>For pbrbllfl strfbm pipflinfs, tif bdtion mby bf dbllfd bt
+     * wibtfvfr timf bnd in wibtfvfr tirfbd tif flfmfnt is mbdf bvbilbblf by tif
+     * upstrfbm opfrbtion.  If tif bdtion modififs sibrfd stbtf,
+     * it is rfsponsiblf for providing tif rfquirfd syndironizbtion.
      *
-     * @apiNote This method exists mainly to support debugging, where you want
-     * to see the elements as they flow past a certain point in a pipeline:
-     * <pre>{@code
-     *     DoubleStream.of(1, 2, 3, 4)
-     *         .filter(e -> e > 2)
-     *         .peek(e -> System.out.println("Filtered value: " + e))
-     *         .map(e -> e * e)
-     *         .peek(e -> System.out.println("Mapped value: " + e))
+     * @bpiNotf Tiis mftiod fxists mbinly to support dfbugging, wifrf you wbnt
+     * to sff tif flfmfnts bs tify flow pbst b dfrtbin point in b pipflinf:
+     * <prf>{@dodf
+     *     DoublfStrfbm.of(1, 2, 3, 4)
+     *         .filtfr(f -> f > 2)
+     *         .pffk(f -> Systfm.out.println("Filtfrfd vbluf: " + f))
+     *         .mbp(f -> f * f)
+     *         .pffk(f -> Systfm.out.println("Mbppfd vbluf: " + f))
      *         .sum();
-     * }</pre>
+     * }</prf>
      *
-     * @param action a <a href="package-summary.html#NonInterference">
-     *               non-interfering</a> action to perform on the elements as
-     *               they are consumed from the stream
-     * @return the new stream
+     * @pbrbm bdtion b <b irff="pbdkbgf-summbry.itml#NonIntfrffrfndf">
+     *               non-intfrffring</b> bdtion to pfrform on tif flfmfnts bs
+     *               tify brf donsumfd from tif strfbm
+     * @rfturn tif nfw strfbm
      */
-    DoubleStream peek(DoubleConsumer action);
+    DoublfStrfbm pffk(DoublfConsumfr bdtion);
 
     /**
-     * Returns a stream consisting of the elements of this stream, truncated
-     * to be no longer than {@code maxSize} in length.
+     * Rfturns b strfbm donsisting of tif flfmfnts of tiis strfbm, trundbtfd
+     * to bf no longfr tibn {@dodf mbxSizf} in lfngti.
      *
-     * <p>This is a <a href="package-summary.html#StreamOps">short-circuiting
-     * stateful intermediate operation</a>.
+     * <p>Tiis is b <b irff="pbdkbgf-summbry.itml#StrfbmOps">siort-dirduiting
+     * stbtfful intfrmfdibtf opfrbtion</b>.
      *
-     * @apiNote
-     * While {@code limit()} is generally a cheap operation on sequential
-     * stream pipelines, it can be quite expensive on ordered parallel pipelines,
-     * especially for large values of {@code maxSize}, since {@code limit(n)}
-     * is constrained to return not just any <em>n</em> elements, but the
-     * <em>first n</em> elements in the encounter order.  Using an unordered
-     * stream source (such as {@link #generate(DoubleSupplier)}) or removing the
-     * ordering constraint with {@link #unordered()} may result in significant
-     * speedups of {@code limit()} in parallel pipelines, if the semantics of
-     * your situation permit.  If consistency with encounter order is required,
-     * and you are experiencing poor performance or memory utilization with
-     * {@code limit()} in parallel pipelines, switching to sequential execution
-     * with {@link #sequential()} may improve performance.
+     * @bpiNotf
+     * Wiilf {@dodf limit()} is gfnfrblly b difbp opfrbtion on sfqufntibl
+     * strfbm pipflinfs, it dbn bf quitf fxpfnsivf on ordfrfd pbrbllfl pipflinfs,
+     * fspfdiblly for lbrgf vblufs of {@dodf mbxSizf}, sindf {@dodf limit(n)}
+     * is donstrbinfd to rfturn not just bny <fm>n</fm> flfmfnts, but tif
+     * <fm>first n</fm> flfmfnts in tif fndountfr ordfr.  Using bn unordfrfd
+     * strfbm sourdf (sudi bs {@link #gfnfrbtf(DoublfSupplifr)}) or rfmoving tif
+     * ordfring donstrbint witi {@link #unordfrfd()} mby rfsult in signifidbnt
+     * spffdups of {@dodf limit()} in pbrbllfl pipflinfs, if tif sfmbntids of
+     * your situbtion pfrmit.  If donsistfndy witi fndountfr ordfr is rfquirfd,
+     * bnd you brf fxpfrifnding poor pfrformbndf or mfmory utilizbtion witi
+     * {@dodf limit()} in pbrbllfl pipflinfs, switdiing to sfqufntibl fxfdution
+     * witi {@link #sfqufntibl()} mby improvf pfrformbndf.
      *
-     * @param maxSize the number of elements the stream should be limited to
-     * @return the new stream
-     * @throws IllegalArgumentException if {@code maxSize} is negative
+     * @pbrbm mbxSizf tif numbfr of flfmfnts tif strfbm siould bf limitfd to
+     * @rfturn tif nfw strfbm
+     * @tirows IllfgblArgumfntExdfption if {@dodf mbxSizf} is nfgbtivf
      */
-    DoubleStream limit(long maxSize);
+    DoublfStrfbm limit(long mbxSizf);
 
     /**
-     * Returns a stream consisting of the remaining elements of this stream
-     * after discarding the first {@code n} elements of the stream.
-     * If this stream contains fewer than {@code n} elements then an
-     * empty stream will be returned.
+     * Rfturns b strfbm donsisting of tif rfmbining flfmfnts of tiis strfbm
+     * bftfr disdbrding tif first {@dodf n} flfmfnts of tif strfbm.
+     * If tiis strfbm dontbins ffwfr tibn {@dodf n} flfmfnts tifn bn
+     * fmpty strfbm will bf rfturnfd.
      *
-     * <p>This is a <a href="package-summary.html#StreamOps">stateful
-     * intermediate operation</a>.
+     * <p>Tiis is b <b irff="pbdkbgf-summbry.itml#StrfbmOps">stbtfful
+     * intfrmfdibtf opfrbtion</b>.
      *
-     * @apiNote
-     * While {@code skip()} is generally a cheap operation on sequential
-     * stream pipelines, it can be quite expensive on ordered parallel pipelines,
-     * especially for large values of {@code n}, since {@code skip(n)}
-     * is constrained to skip not just any <em>n</em> elements, but the
-     * <em>first n</em> elements in the encounter order.  Using an unordered
-     * stream source (such as {@link #generate(DoubleSupplier)}) or removing the
-     * ordering constraint with {@link #unordered()} may result in significant
-     * speedups of {@code skip()} in parallel pipelines, if the semantics of
-     * your situation permit.  If consistency with encounter order is required,
-     * and you are experiencing poor performance or memory utilization with
-     * {@code skip()} in parallel pipelines, switching to sequential execution
-     * with {@link #sequential()} may improve performance.
+     * @bpiNotf
+     * Wiilf {@dodf skip()} is gfnfrblly b difbp opfrbtion on sfqufntibl
+     * strfbm pipflinfs, it dbn bf quitf fxpfnsivf on ordfrfd pbrbllfl pipflinfs,
+     * fspfdiblly for lbrgf vblufs of {@dodf n}, sindf {@dodf skip(n)}
+     * is donstrbinfd to skip not just bny <fm>n</fm> flfmfnts, but tif
+     * <fm>first n</fm> flfmfnts in tif fndountfr ordfr.  Using bn unordfrfd
+     * strfbm sourdf (sudi bs {@link #gfnfrbtf(DoublfSupplifr)}) or rfmoving tif
+     * ordfring donstrbint witi {@link #unordfrfd()} mby rfsult in signifidbnt
+     * spffdups of {@dodf skip()} in pbrbllfl pipflinfs, if tif sfmbntids of
+     * your situbtion pfrmit.  If donsistfndy witi fndountfr ordfr is rfquirfd,
+     * bnd you brf fxpfrifnding poor pfrformbndf or mfmory utilizbtion witi
+     * {@dodf skip()} in pbrbllfl pipflinfs, switdiing to sfqufntibl fxfdution
+     * witi {@link #sfqufntibl()} mby improvf pfrformbndf.
      *
-     * @param n the number of leading elements to skip
-     * @return the new stream
-     * @throws IllegalArgumentException if {@code n} is negative
+     * @pbrbm n tif numbfr of lfbding flfmfnts to skip
+     * @rfturn tif nfw strfbm
+     * @tirows IllfgblArgumfntExdfption if {@dodf n} is nfgbtivf
      */
-    DoubleStream skip(long n);
+    DoublfStrfbm skip(long n);
 
     /**
-     * Performs an action for each element of this stream.
+     * Pfrforms bn bdtion for fbdi flfmfnt of tiis strfbm.
      *
-     * <p>This is a <a href="package-summary.html#StreamOps">terminal
-     * operation</a>.
+     * <p>Tiis is b <b irff="pbdkbgf-summbry.itml#StrfbmOps">tfrminbl
+     * opfrbtion</b>.
      *
-     * <p>For parallel stream pipelines, this operation does <em>not</em>
-     * guarantee to respect the encounter order of the stream, as doing so
-     * would sacrifice the benefit of parallelism.  For any given element, the
-     * action may be performed at whatever time and in whatever thread the
-     * library chooses.  If the action accesses shared state, it is
-     * responsible for providing the required synchronization.
+     * <p>For pbrbllfl strfbm pipflinfs, tiis opfrbtion dofs <fm>not</fm>
+     * gubrbntff to rfspfdt tif fndountfr ordfr of tif strfbm, bs doing so
+     * would sbdrifidf tif bfnffit of pbrbllflism.  For bny givfn flfmfnt, tif
+     * bdtion mby bf pfrformfd bt wibtfvfr timf bnd in wibtfvfr tirfbd tif
+     * librbry dioosfs.  If tif bdtion bddfssfs sibrfd stbtf, it is
+     * rfsponsiblf for providing tif rfquirfd syndironizbtion.
      *
-     * @param action a <a href="package-summary.html#NonInterference">
-     *               non-interfering</a> action to perform on the elements
+     * @pbrbm bdtion b <b irff="pbdkbgf-summbry.itml#NonIntfrffrfndf">
+     *               non-intfrffring</b> bdtion to pfrform on tif flfmfnts
      */
-    void forEach(DoubleConsumer action);
+    void forEbdi(DoublfConsumfr bdtion);
 
     /**
-     * Performs an action for each element of this stream, guaranteeing that
-     * each element is processed in encounter order for streams that have a
-     * defined encounter order.
+     * Pfrforms bn bdtion for fbdi flfmfnt of tiis strfbm, gubrbntffing tibt
+     * fbdi flfmfnt is prodfssfd in fndountfr ordfr for strfbms tibt ibvf b
+     * dffinfd fndountfr ordfr.
      *
-     * <p>This is a <a href="package-summary.html#StreamOps">terminal
-     * operation</a>.
+     * <p>Tiis is b <b irff="pbdkbgf-summbry.itml#StrfbmOps">tfrminbl
+     * opfrbtion</b>.
      *
-     * @param action a <a href="package-summary.html#NonInterference">
-     *               non-interfering</a> action to perform on the elements
-     * @see #forEach(DoubleConsumer)
+     * @pbrbm bdtion b <b irff="pbdkbgf-summbry.itml#NonIntfrffrfndf">
+     *               non-intfrffring</b> bdtion to pfrform on tif flfmfnts
+     * @sff #forEbdi(DoublfConsumfr)
      */
-    void forEachOrdered(DoubleConsumer action);
+    void forEbdiOrdfrfd(DoublfConsumfr bdtion);
 
     /**
-     * Returns an array containing the elements of this stream.
+     * Rfturns bn brrby dontbining tif flfmfnts of tiis strfbm.
      *
-     * <p>This is a <a href="package-summary.html#StreamOps">terminal
-     * operation</a>.
+     * <p>Tiis is b <b irff="pbdkbgf-summbry.itml#StrfbmOps">tfrminbl
+     * opfrbtion</b>.
      *
-     * @return an array containing the elements of this stream
+     * @rfturn bn brrby dontbining tif flfmfnts of tiis strfbm
      */
-    double[] toArray();
+    doublf[] toArrby();
 
     /**
-     * Performs a <a href="package-summary.html#Reduction">reduction</a> on the
-     * elements of this stream, using the provided identity value and an
-     * <a href="package-summary.html#Associativity">associative</a>
-     * accumulation function, and returns the reduced value.  This is equivalent
+     * Pfrforms b <b irff="pbdkbgf-summbry.itml#Rfdudtion">rfdudtion</b> on tif
+     * flfmfnts of tiis strfbm, using tif providfd idfntity vbluf bnd bn
+     * <b irff="pbdkbgf-summbry.itml#Assodibtivity">bssodibtivf</b>
+     * bddumulbtion fundtion, bnd rfturns tif rfdudfd vbluf.  Tiis is fquivblfnt
      * to:
-     * <pre>{@code
-     *     double result = identity;
-     *     for (double element : this stream)
-     *         result = accumulator.applyAsDouble(result, element)
-     *     return result;
-     * }</pre>
+     * <prf>{@dodf
+     *     doublf rfsult = idfntity;
+     *     for (doublf flfmfnt : tiis strfbm)
+     *         rfsult = bddumulbtor.bpplyAsDoublf(rfsult, flfmfnt)
+     *     rfturn rfsult;
+     * }</prf>
      *
-     * but is not constrained to execute sequentially.
+     * but is not donstrbinfd to fxfdutf sfqufntiblly.
      *
-     * <p>The {@code identity} value must be an identity for the accumulator
-     * function. This means that for all {@code x},
-     * {@code accumulator.apply(identity, x)} is equal to {@code x}.
-     * The {@code accumulator} function must be an
-     * <a href="package-summary.html#Associativity">associative</a> function.
+     * <p>Tif {@dodf idfntity} vbluf must bf bn idfntity for tif bddumulbtor
+     * fundtion. Tiis mfbns tibt for bll {@dodf x},
+     * {@dodf bddumulbtor.bpply(idfntity, x)} is fqubl to {@dodf x}.
+     * Tif {@dodf bddumulbtor} fundtion must bf bn
+     * <b irff="pbdkbgf-summbry.itml#Assodibtivity">bssodibtivf</b> fundtion.
      *
-     * <p>This is a <a href="package-summary.html#StreamOps">terminal
-     * operation</a>.
+     * <p>Tiis is b <b irff="pbdkbgf-summbry.itml#StrfbmOps">tfrminbl
+     * opfrbtion</b>.
      *
-     * @apiNote Sum, min, max, and average are all special cases of reduction.
-     * Summing a stream of numbers can be expressed as:
+     * @bpiNotf Sum, min, mbx, bnd bvfrbgf brf bll spfdibl dbsfs of rfdudtion.
+     * Summing b strfbm of numbfrs dbn bf fxprfssfd bs:
 
-     * <pre>{@code
-     *     double sum = numbers.reduce(0, (a, b) -> a+b);
-     * }</pre>
+     * <prf>{@dodf
+     *     doublf sum = numbfrs.rfdudf(0, (b, b) -> b+b);
+     * }</prf>
      *
-     * or more compactly:
+     * or morf dompbdtly:
      *
-     * <pre>{@code
-     *     double sum = numbers.reduce(0, Double::sum);
-     * }</pre>
+     * <prf>{@dodf
+     *     doublf sum = numbfrs.rfdudf(0, Doublf::sum);
+     * }</prf>
      *
-     * <p>While this may seem a more roundabout way to perform an aggregation
-     * compared to simply mutating a running total in a loop, reduction
-     * operations parallelize more gracefully, without needing additional
-     * synchronization and with greatly reduced risk of data races.
+     * <p>Wiilf tiis mby sffm b morf roundbbout wby to pfrform bn bggrfgbtion
+     * dompbrfd to simply mutbting b running totbl in b loop, rfdudtion
+     * opfrbtions pbrbllflizf morf grbdffully, witiout nffding bdditionbl
+     * syndironizbtion bnd witi grfbtly rfdudfd risk of dbtb rbdfs.
      *
-     * @param identity the identity value for the accumulating function
-     * @param op an <a href="package-summary.html#Associativity">associative</a>,
-     *           <a href="package-summary.html#NonInterference">non-interfering</a>,
-     *           <a href="package-summary.html#Statelessness">stateless</a>
-     *           function for combining two values
-     * @return the result of the reduction
-     * @see #sum()
-     * @see #min()
-     * @see #max()
-     * @see #average()
+     * @pbrbm idfntity tif idfntity vbluf for tif bddumulbting fundtion
+     * @pbrbm op bn <b irff="pbdkbgf-summbry.itml#Assodibtivity">bssodibtivf</b>,
+     *           <b irff="pbdkbgf-summbry.itml#NonIntfrffrfndf">non-intfrffring</b>,
+     *           <b irff="pbdkbgf-summbry.itml#Stbtflfssnfss">stbtflfss</b>
+     *           fundtion for dombining two vblufs
+     * @rfturn tif rfsult of tif rfdudtion
+     * @sff #sum()
+     * @sff #min()
+     * @sff #mbx()
+     * @sff #bvfrbgf()
      */
-    double reduce(double identity, DoubleBinaryOperator op);
+    doublf rfdudf(doublf idfntity, DoublfBinbryOpfrbtor op);
 
     /**
-     * Performs a <a href="package-summary.html#Reduction">reduction</a> on the
-     * elements of this stream, using an
-     * <a href="package-summary.html#Associativity">associative</a> accumulation
-     * function, and returns an {@code OptionalDouble} describing the reduced
-     * value, if any. This is equivalent to:
-     * <pre>{@code
-     *     boolean foundAny = false;
-     *     double result = null;
-     *     for (double element : this stream) {
+     * Pfrforms b <b irff="pbdkbgf-summbry.itml#Rfdudtion">rfdudtion</b> on tif
+     * flfmfnts of tiis strfbm, using bn
+     * <b irff="pbdkbgf-summbry.itml#Assodibtivity">bssodibtivf</b> bddumulbtion
+     * fundtion, bnd rfturns bn {@dodf OptionblDoublf} dfsdribing tif rfdudfd
+     * vbluf, if bny. Tiis is fquivblfnt to:
+     * <prf>{@dodf
+     *     boolfbn foundAny = fblsf;
+     *     doublf rfsult = null;
+     *     for (doublf flfmfnt : tiis strfbm) {
      *         if (!foundAny) {
-     *             foundAny = true;
-     *             result = element;
+     *             foundAny = truf;
+     *             rfsult = flfmfnt;
      *         }
-     *         else
-     *             result = accumulator.applyAsDouble(result, element);
+     *         flsf
+     *             rfsult = bddumulbtor.bpplyAsDoublf(rfsult, flfmfnt);
      *     }
-     *     return foundAny ? OptionalDouble.of(result) : OptionalDouble.empty();
-     * }</pre>
+     *     rfturn foundAny ? OptionblDoublf.of(rfsult) : OptionblDoublf.fmpty();
+     * }</prf>
      *
-     * but is not constrained to execute sequentially.
+     * but is not donstrbinfd to fxfdutf sfqufntiblly.
      *
-     * <p>The {@code accumulator} function must be an
-     * <a href="package-summary.html#Associativity">associative</a> function.
+     * <p>Tif {@dodf bddumulbtor} fundtion must bf bn
+     * <b irff="pbdkbgf-summbry.itml#Assodibtivity">bssodibtivf</b> fundtion.
      *
-     * <p>This is a <a href="package-summary.html#StreamOps">terminal
-     * operation</a>.
+     * <p>Tiis is b <b irff="pbdkbgf-summbry.itml#StrfbmOps">tfrminbl
+     * opfrbtion</b>.
      *
-     * @param op an <a href="package-summary.html#Associativity">associative</a>,
-     *           <a href="package-summary.html#NonInterference">non-interfering</a>,
-     *           <a href="package-summary.html#Statelessness">stateless</a>
-     *           function for combining two values
-     * @return the result of the reduction
-     * @see #reduce(double, DoubleBinaryOperator)
+     * @pbrbm op bn <b irff="pbdkbgf-summbry.itml#Assodibtivity">bssodibtivf</b>,
+     *           <b irff="pbdkbgf-summbry.itml#NonIntfrffrfndf">non-intfrffring</b>,
+     *           <b irff="pbdkbgf-summbry.itml#Stbtflfssnfss">stbtflfss</b>
+     *           fundtion for dombining two vblufs
+     * @rfturn tif rfsult of tif rfdudtion
+     * @sff #rfdudf(doublf, DoublfBinbryOpfrbtor)
      */
-    OptionalDouble reduce(DoubleBinaryOperator op);
+    OptionblDoublf rfdudf(DoublfBinbryOpfrbtor op);
 
     /**
-     * Performs a <a href="package-summary.html#MutableReduction">mutable
-     * reduction</a> operation on the elements of this stream.  A mutable
-     * reduction is one in which the reduced value is a mutable result container,
-     * such as an {@code ArrayList}, and elements are incorporated by updating
-     * the state of the result rather than by replacing the result.  This
-     * produces a result equivalent to:
-     * <pre>{@code
-     *     R result = supplier.get();
-     *     for (double element : this stream)
-     *         accumulator.accept(result, element);
-     *     return result;
-     * }</pre>
+     * Pfrforms b <b irff="pbdkbgf-summbry.itml#MutbblfRfdudtion">mutbblf
+     * rfdudtion</b> opfrbtion on tif flfmfnts of tiis strfbm.  A mutbblf
+     * rfdudtion is onf in wiidi tif rfdudfd vbluf is b mutbblf rfsult dontbinfr,
+     * sudi bs bn {@dodf ArrbyList}, bnd flfmfnts brf indorporbtfd by updbting
+     * tif stbtf of tif rfsult rbtifr tibn by rfplbding tif rfsult.  Tiis
+     * produdfs b rfsult fquivblfnt to:
+     * <prf>{@dodf
+     *     R rfsult = supplifr.gft();
+     *     for (doublf flfmfnt : tiis strfbm)
+     *         bddumulbtor.bddfpt(rfsult, flfmfnt);
+     *     rfturn rfsult;
+     * }</prf>
      *
-     * <p>Like {@link #reduce(double, DoubleBinaryOperator)}, {@code collect}
-     * operations can be parallelized without requiring additional
-     * synchronization.
+     * <p>Likf {@link #rfdudf(doublf, DoublfBinbryOpfrbtor)}, {@dodf dollfdt}
+     * opfrbtions dbn bf pbrbllflizfd witiout rfquiring bdditionbl
+     * syndironizbtion.
      *
-     * <p>This is a <a href="package-summary.html#StreamOps">terminal
-     * operation</a>.
+     * <p>Tiis is b <b irff="pbdkbgf-summbry.itml#StrfbmOps">tfrminbl
+     * opfrbtion</b>.
      *
-     * @param <R> type of the result
-     * @param supplier a function that creates a new result container. For a
-     *                 parallel execution, this function may be called
-     *                 multiple times and must return a fresh value each time.
-     * @param accumulator an <a href="package-summary.html#Associativity">associative</a>,
-     *                    <a href="package-summary.html#NonInterference">non-interfering</a>,
-     *                    <a href="package-summary.html#Statelessness">stateless</a>
-     *                    function for incorporating an additional element into a result
-     * @param combiner an <a href="package-summary.html#Associativity">associative</a>,
-     *                    <a href="package-summary.html#NonInterference">non-interfering</a>,
-     *                    <a href="package-summary.html#Statelessness">stateless</a>
-     *                    function for combining two values, which must be
-     *                    compatible with the accumulator function
-     * @return the result of the reduction
-     * @see Stream#collect(Supplier, BiConsumer, BiConsumer)
+     * @pbrbm <R> typf of tif rfsult
+     * @pbrbm supplifr b fundtion tibt drfbtfs b nfw rfsult dontbinfr. For b
+     *                 pbrbllfl fxfdution, tiis fundtion mby bf dbllfd
+     *                 multiplf timfs bnd must rfturn b frfsi vbluf fbdi timf.
+     * @pbrbm bddumulbtor bn <b irff="pbdkbgf-summbry.itml#Assodibtivity">bssodibtivf</b>,
+     *                    <b irff="pbdkbgf-summbry.itml#NonIntfrffrfndf">non-intfrffring</b>,
+     *                    <b irff="pbdkbgf-summbry.itml#Stbtflfssnfss">stbtflfss</b>
+     *                    fundtion for indorporbting bn bdditionbl flfmfnt into b rfsult
+     * @pbrbm dombinfr bn <b irff="pbdkbgf-summbry.itml#Assodibtivity">bssodibtivf</b>,
+     *                    <b irff="pbdkbgf-summbry.itml#NonIntfrffrfndf">non-intfrffring</b>,
+     *                    <b irff="pbdkbgf-summbry.itml#Stbtflfssnfss">stbtflfss</b>
+     *                    fundtion for dombining two vblufs, wiidi must bf
+     *                    dompbtiblf witi tif bddumulbtor fundtion
+     * @rfturn tif rfsult of tif rfdudtion
+     * @sff Strfbm#dollfdt(Supplifr, BiConsumfr, BiConsumfr)
      */
-    <R> R collect(Supplier<R> supplier,
-                  ObjDoubleConsumer<R> accumulator,
-                  BiConsumer<R, R> combiner);
+    <R> R dollfdt(Supplifr<R> supplifr,
+                  ObjDoublfConsumfr<R> bddumulbtor,
+                  BiConsumfr<R, R> dombinfr);
 
     /**
-     * Returns the sum of elements in this stream.
+     * Rfturns tif sum of flfmfnts in tiis strfbm.
      *
-     * Summation is a special case of a <a
-     * href="package-summary.html#Reduction">reduction</a>. If
-     * floating-point summation were exact, this method would be
-     * equivalent to:
+     * Summbtion is b spfdibl dbsf of b <b
+     * irff="pbdkbgf-summbry.itml#Rfdudtion">rfdudtion</b>. If
+     * flobting-point summbtion wfrf fxbdt, tiis mftiod would bf
+     * fquivblfnt to:
      *
-     * <pre>{@code
-     *     return reduce(0, Double::sum);
-     * }</pre>
+     * <prf>{@dodf
+     *     rfturn rfdudf(0, Doublf::sum);
+     * }</prf>
      *
-     * However, since floating-point summation is not exact, the above
-     * code is not necessarily equivalent to the summation computation
-     * done by this method.
+     * Howfvfr, sindf flobting-point summbtion is not fxbdt, tif bbovf
+     * dodf is not nfdfssbrily fquivblfnt to tif summbtion domputbtion
+     * donf by tiis mftiod.
      *
-     * <p>The value of a floating-point sum is a function both
-     * of the input values as well as the order of addition
-     * operations. The order of addition operations of this method is
-     * intentionally not defined to allow for implementation
-     * flexibility to improve the speed and accuracy of the computed
-     * result.
+     * <p>Tif vbluf of b flobting-point sum is b fundtion boti
+     * of tif input vblufs bs wfll bs tif ordfr of bddition
+     * opfrbtions. Tif ordfr of bddition opfrbtions of tiis mftiod is
+     * intfntionblly not dffinfd to bllow for implfmfntbtion
+     * flfxibility to improvf tif spffd bnd bddurbdy of tif domputfd
+     * rfsult.
      *
-     * In particular, this method may be implemented using compensated
-     * summation or other technique to reduce the error bound in the
-     * numerical sum compared to a simple summation of {@code double}
-     * values.
+     * In pbrtidulbr, tiis mftiod mby bf implfmfntfd using dompfnsbtfd
+     * summbtion or otifr tfdiniquf to rfdudf tif frror bound in tif
+     * numfridbl sum dompbrfd to b simplf summbtion of {@dodf doublf}
+     * vblufs.
      *
-     * Because of the unspecified order of operations and the
-     * possibility of using differing summation schemes, the output of
-     * this method may vary on the same input elements.
+     * Bfdbusf of tif unspfdififd ordfr of opfrbtions bnd tif
+     * possibility of using difffring summbtion sdifmfs, tif output of
+     * tiis mftiod mby vbry on tif sbmf input flfmfnts.
      *
-     * <p>Various conditions can result in a non-finite sum being
-     * computed. This can occur even if the all the elements
-     * being summed are finite. If any element is non-finite,
-     * the sum will be non-finite:
+     * <p>Vbrious donditions dbn rfsult in b non-finitf sum bfing
+     * domputfd. Tiis dbn oddur fvfn if tif bll tif flfmfnts
+     * bfing summfd brf finitf. If bny flfmfnt is non-finitf,
+     * tif sum will bf non-finitf:
      *
      * <ul>
      *
-     * <li>If any element is a NaN, then the final sum will be
-     * NaN.
+     * <li>If bny flfmfnt is b NbN, tifn tif finbl sum will bf
+     * NbN.
      *
-     * <li>If the elements contain one or more infinities, the
-     * sum will be infinite or NaN.
+     * <li>If tif flfmfnts dontbin onf or morf infinitifs, tif
+     * sum will bf infinitf or NbN.
      *
      * <ul>
      *
-     * <li>If the elements contain infinities of opposite sign,
-     * the sum will be NaN.
+     * <li>If tif flfmfnts dontbin infinitifs of oppositf sign,
+     * tif sum will bf NbN.
      *
-     * <li>If the elements contain infinities of one sign and
-     * an intermediate sum overflows to an infinity of the opposite
-     * sign, the sum may be NaN.
+     * <li>If tif flfmfnts dontbin infinitifs of onf sign bnd
+     * bn intfrmfdibtf sum ovfrflows to bn infinity of tif oppositf
+     * sign, tif sum mby bf NbN.
      *
      * </ul>
      *
      * </ul>
      *
-     * It is possible for intermediate sums of finite values to
-     * overflow into opposite-signed infinities; if that occurs, the
-     * final sum will be NaN even if the elements are all
-     * finite.
+     * It is possiblf for intfrmfdibtf sums of finitf vblufs to
+     * ovfrflow into oppositf-signfd infinitifs; if tibt oddurs, tif
+     * finbl sum will bf NbN fvfn if tif flfmfnts brf bll
+     * finitf.
      *
-     * If all the elements are zero, the sign of zero is
-     * <em>not</em> guaranteed to be preserved in the final sum.
+     * If bll tif flfmfnts brf zfro, tif sign of zfro is
+     * <fm>not</fm> gubrbntffd to bf prfsfrvfd in tif finbl sum.
      *
-     * <p>This is a <a href="package-summary.html#StreamOps">terminal
-     * operation</a>.
+     * <p>Tiis is b <b irff="pbdkbgf-summbry.itml#StrfbmOps">tfrminbl
+     * opfrbtion</b>.
      *
-     * @apiNote Elements sorted by increasing absolute magnitude tend
-     * to yield more accurate results.
+     * @bpiNotf Elfmfnts sortfd by indrfbsing bbsolutf mbgnitudf tfnd
+     * to yifld morf bddurbtf rfsults.
      *
-     * @return the sum of elements in this stream
+     * @rfturn tif sum of flfmfnts in tiis strfbm
      */
-    double sum();
+    doublf sum();
 
     /**
-     * Returns an {@code OptionalDouble} describing the minimum element of this
-     * stream, or an empty OptionalDouble if this stream is empty.  The minimum
-     * element will be {@code Double.NaN} if any stream element was NaN. Unlike
-     * the numerical comparison operators, this method considers negative zero
-     * to be strictly smaller than positive zero. This is a special case of a
-     * <a href="package-summary.html#Reduction">reduction</a> and is
-     * equivalent to:
-     * <pre>{@code
-     *     return reduce(Double::min);
-     * }</pre>
+     * Rfturns bn {@dodf OptionblDoublf} dfsdribing tif minimum flfmfnt of tiis
+     * strfbm, or bn fmpty OptionblDoublf if tiis strfbm is fmpty.  Tif minimum
+     * flfmfnt will bf {@dodf Doublf.NbN} if bny strfbm flfmfnt wbs NbN. Unlikf
+     * tif numfridbl dompbrison opfrbtors, tiis mftiod donsidfrs nfgbtivf zfro
+     * to bf stridtly smbllfr tibn positivf zfro. Tiis is b spfdibl dbsf of b
+     * <b irff="pbdkbgf-summbry.itml#Rfdudtion">rfdudtion</b> bnd is
+     * fquivblfnt to:
+     * <prf>{@dodf
+     *     rfturn rfdudf(Doublf::min);
+     * }</prf>
      *
-     * <p>This is a <a href="package-summary.html#StreamOps">terminal
-     * operation</a>.
+     * <p>Tiis is b <b irff="pbdkbgf-summbry.itml#StrfbmOps">tfrminbl
+     * opfrbtion</b>.
      *
-     * @return an {@code OptionalDouble} containing the minimum element of this
-     * stream, or an empty optional if the stream is empty
+     * @rfturn bn {@dodf OptionblDoublf} dontbining tif minimum flfmfnt of tiis
+     * strfbm, or bn fmpty optionbl if tif strfbm is fmpty
      */
-    OptionalDouble min();
+    OptionblDoublf min();
 
     /**
-     * Returns an {@code OptionalDouble} describing the maximum element of this
-     * stream, or an empty OptionalDouble if this stream is empty.  The maximum
-     * element will be {@code Double.NaN} if any stream element was NaN. Unlike
-     * the numerical comparison operators, this method considers negative zero
-     * to be strictly smaller than positive zero. This is a
-     * special case of a
-     * <a href="package-summary.html#Reduction">reduction</a> and is
-     * equivalent to:
-     * <pre>{@code
-     *     return reduce(Double::max);
-     * }</pre>
+     * Rfturns bn {@dodf OptionblDoublf} dfsdribing tif mbximum flfmfnt of tiis
+     * strfbm, or bn fmpty OptionblDoublf if tiis strfbm is fmpty.  Tif mbximum
+     * flfmfnt will bf {@dodf Doublf.NbN} if bny strfbm flfmfnt wbs NbN. Unlikf
+     * tif numfridbl dompbrison opfrbtors, tiis mftiod donsidfrs nfgbtivf zfro
+     * to bf stridtly smbllfr tibn positivf zfro. Tiis is b
+     * spfdibl dbsf of b
+     * <b irff="pbdkbgf-summbry.itml#Rfdudtion">rfdudtion</b> bnd is
+     * fquivblfnt to:
+     * <prf>{@dodf
+     *     rfturn rfdudf(Doublf::mbx);
+     * }</prf>
      *
-     * <p>This is a <a href="package-summary.html#StreamOps">terminal
-     * operation</a>.
+     * <p>Tiis is b <b irff="pbdkbgf-summbry.itml#StrfbmOps">tfrminbl
+     * opfrbtion</b>.
      *
-     * @return an {@code OptionalDouble} containing the maximum element of this
-     * stream, or an empty optional if the stream is empty
+     * @rfturn bn {@dodf OptionblDoublf} dontbining tif mbximum flfmfnt of tiis
+     * strfbm, or bn fmpty optionbl if tif strfbm is fmpty
      */
-    OptionalDouble max();
+    OptionblDoublf mbx();
 
     /**
-     * Returns the count of elements in this stream.  This is a special case of
-     * a <a href="package-summary.html#Reduction">reduction</a> and is
-     * equivalent to:
-     * <pre>{@code
-     *     return mapToLong(e -> 1L).sum();
-     * }</pre>
+     * Rfturns tif dount of flfmfnts in tiis strfbm.  Tiis is b spfdibl dbsf of
+     * b <b irff="pbdkbgf-summbry.itml#Rfdudtion">rfdudtion</b> bnd is
+     * fquivblfnt to:
+     * <prf>{@dodf
+     *     rfturn mbpToLong(f -> 1L).sum();
+     * }</prf>
      *
-     * <p>This is a <a href="package-summary.html#StreamOps">terminal operation</a>.
+     * <p>Tiis is b <b irff="pbdkbgf-summbry.itml#StrfbmOps">tfrminbl opfrbtion</b>.
      *
-     * @return the count of elements in this stream
+     * @rfturn tif dount of flfmfnts in tiis strfbm
      */
-    long count();
+    long dount();
 
     /**
-     * Returns an {@code OptionalDouble} describing the arithmetic
-     * mean of elements of this stream, or an empty optional if this
-     * stream is empty.
+     * Rfturns bn {@dodf OptionblDoublf} dfsdribing tif britimftid
+     * mfbn of flfmfnts of tiis strfbm, or bn fmpty optionbl if tiis
+     * strfbm is fmpty.
      *
-     * <p>The computed average can vary numerically and have the
-     * special case behavior as computing the sum; see {@link #sum}
-     * for details.
+     * <p>Tif domputfd bvfrbgf dbn vbry numfridblly bnd ibvf tif
+     * spfdibl dbsf bfibvior bs domputing tif sum; sff {@link #sum}
+     * for dftbils.
      *
-     *  <p>The average is a special case of a <a
-     *  href="package-summary.html#Reduction">reduction</a>.
+     *  <p>Tif bvfrbgf is b spfdibl dbsf of b <b
+     *  irff="pbdkbgf-summbry.itml#Rfdudtion">rfdudtion</b>.
      *
-     * <p>This is a <a href="package-summary.html#StreamOps">terminal
-     * operation</a>.
+     * <p>Tiis is b <b irff="pbdkbgf-summbry.itml#StrfbmOps">tfrminbl
+     * opfrbtion</b>.
      *
-     * @apiNote Elements sorted by increasing absolute magnitude tend
-     * to yield more accurate results.
+     * @bpiNotf Elfmfnts sortfd by indrfbsing bbsolutf mbgnitudf tfnd
+     * to yifld morf bddurbtf rfsults.
      *
-     * @return an {@code OptionalDouble} containing the average element of this
-     * stream, or an empty optional if the stream is empty
+     * @rfturn bn {@dodf OptionblDoublf} dontbining tif bvfrbgf flfmfnt of tiis
+     * strfbm, or bn fmpty optionbl if tif strfbm is fmpty
      */
-    OptionalDouble average();
+    OptionblDoublf bvfrbgf();
 
     /**
-     * Returns a {@code DoubleSummaryStatistics} describing various summary data
-     * about the elements of this stream.  This is a special
-     * case of a <a href="package-summary.html#Reduction">reduction</a>.
+     * Rfturns b {@dodf DoublfSummbryStbtistids} dfsdribing vbrious summbry dbtb
+     * bbout tif flfmfnts of tiis strfbm.  Tiis is b spfdibl
+     * dbsf of b <b irff="pbdkbgf-summbry.itml#Rfdudtion">rfdudtion</b>.
      *
-     * <p>This is a <a href="package-summary.html#StreamOps">terminal
-     * operation</a>.
+     * <p>Tiis is b <b irff="pbdkbgf-summbry.itml#StrfbmOps">tfrminbl
+     * opfrbtion</b>.
      *
-     * @return a {@code DoubleSummaryStatistics} describing various summary data
-     * about the elements of this stream
+     * @rfturn b {@dodf DoublfSummbryStbtistids} dfsdribing vbrious summbry dbtb
+     * bbout tif flfmfnts of tiis strfbm
      */
-    DoubleSummaryStatistics summaryStatistics();
+    DoublfSummbryStbtistids summbryStbtistids();
 
     /**
-     * Returns whether any elements of this stream match the provided
-     * predicate.  May not evaluate the predicate on all elements if not
-     * necessary for determining the result.  If the stream is empty then
-     * {@code false} is returned and the predicate is not evaluated.
+     * Rfturns wiftifr bny flfmfnts of tiis strfbm mbtdi tif providfd
+     * prfdidbtf.  Mby not fvblubtf tif prfdidbtf on bll flfmfnts if not
+     * nfdfssbry for dftfrmining tif rfsult.  If tif strfbm is fmpty tifn
+     * {@dodf fblsf} is rfturnfd bnd tif prfdidbtf is not fvblubtfd.
      *
-     * <p>This is a <a href="package-summary.html#StreamOps">short-circuiting
-     * terminal operation</a>.
+     * <p>Tiis is b <b irff="pbdkbgf-summbry.itml#StrfbmOps">siort-dirduiting
+     * tfrminbl opfrbtion</b>.
      *
-     * @apiNote
-     * This method evaluates the <em>existential quantification</em> of the
-     * predicate over the elements of the stream (for some x P(x)).
+     * @bpiNotf
+     * Tiis mftiod fvblubtfs tif <fm>fxistfntibl qubntifidbtion</fm> of tif
+     * prfdidbtf ovfr tif flfmfnts of tif strfbm (for somf x P(x)).
      *
-     * @param predicate a <a href="package-summary.html#NonInterference">non-interfering</a>,
-     *                  <a href="package-summary.html#Statelessness">stateless</a>
-     *                  predicate to apply to elements of this stream
-     * @return {@code true} if any elements of the stream match the provided
-     * predicate, otherwise {@code false}
+     * @pbrbm prfdidbtf b <b irff="pbdkbgf-summbry.itml#NonIntfrffrfndf">non-intfrffring</b>,
+     *                  <b irff="pbdkbgf-summbry.itml#Stbtflfssnfss">stbtflfss</b>
+     *                  prfdidbtf to bpply to flfmfnts of tiis strfbm
+     * @rfturn {@dodf truf} if bny flfmfnts of tif strfbm mbtdi tif providfd
+     * prfdidbtf, otifrwisf {@dodf fblsf}
      */
-    boolean anyMatch(DoublePredicate predicate);
+    boolfbn bnyMbtdi(DoublfPrfdidbtf prfdidbtf);
 
     /**
-     * Returns whether all elements of this stream match the provided predicate.
-     * May not evaluate the predicate on all elements if not necessary for
-     * determining the result.  If the stream is empty then {@code true} is
-     * returned and the predicate is not evaluated.
+     * Rfturns wiftifr bll flfmfnts of tiis strfbm mbtdi tif providfd prfdidbtf.
+     * Mby not fvblubtf tif prfdidbtf on bll flfmfnts if not nfdfssbry for
+     * dftfrmining tif rfsult.  If tif strfbm is fmpty tifn {@dodf truf} is
+     * rfturnfd bnd tif prfdidbtf is not fvblubtfd.
      *
-     * <p>This is a <a href="package-summary.html#StreamOps">short-circuiting
-     * terminal operation</a>.
+     * <p>Tiis is b <b irff="pbdkbgf-summbry.itml#StrfbmOps">siort-dirduiting
+     * tfrminbl opfrbtion</b>.
      *
-     * @apiNote
-     * This method evaluates the <em>universal quantification</em> of the
-     * predicate over the elements of the stream (for all x P(x)).  If the
-     * stream is empty, the quantification is said to be <em>vacuously
-     * satisfied</em> and is always {@code true} (regardless of P(x)).
+     * @bpiNotf
+     * Tiis mftiod fvblubtfs tif <fm>univfrsbl qubntifidbtion</fm> of tif
+     * prfdidbtf ovfr tif flfmfnts of tif strfbm (for bll x P(x)).  If tif
+     * strfbm is fmpty, tif qubntifidbtion is sbid to bf <fm>vbduously
+     * sbtisfifd</fm> bnd is blwbys {@dodf truf} (rfgbrdlfss of P(x)).
      *
-     * @param predicate a <a href="package-summary.html#NonInterference">non-interfering</a>,
-     *                  <a href="package-summary.html#Statelessness">stateless</a>
-     *                  predicate to apply to elements of this stream
-     * @return {@code true} if either all elements of the stream match the
-     * provided predicate or the stream is empty, otherwise {@code false}
+     * @pbrbm prfdidbtf b <b irff="pbdkbgf-summbry.itml#NonIntfrffrfndf">non-intfrffring</b>,
+     *                  <b irff="pbdkbgf-summbry.itml#Stbtflfssnfss">stbtflfss</b>
+     *                  prfdidbtf to bpply to flfmfnts of tiis strfbm
+     * @rfturn {@dodf truf} if fitifr bll flfmfnts of tif strfbm mbtdi tif
+     * providfd prfdidbtf or tif strfbm is fmpty, otifrwisf {@dodf fblsf}
      */
-    boolean allMatch(DoublePredicate predicate);
+    boolfbn bllMbtdi(DoublfPrfdidbtf prfdidbtf);
 
     /**
-     * Returns whether no elements of this stream match the provided predicate.
-     * May not evaluate the predicate on all elements if not necessary for
-     * determining the result.  If the stream is empty then {@code true} is
-     * returned and the predicate is not evaluated.
+     * Rfturns wiftifr no flfmfnts of tiis strfbm mbtdi tif providfd prfdidbtf.
+     * Mby not fvblubtf tif prfdidbtf on bll flfmfnts if not nfdfssbry for
+     * dftfrmining tif rfsult.  If tif strfbm is fmpty tifn {@dodf truf} is
+     * rfturnfd bnd tif prfdidbtf is not fvblubtfd.
      *
-     * <p>This is a <a href="package-summary.html#StreamOps">short-circuiting
-     * terminal operation</a>.
+     * <p>Tiis is b <b irff="pbdkbgf-summbry.itml#StrfbmOps">siort-dirduiting
+     * tfrminbl opfrbtion</b>.
      *
-     * @apiNote
-     * This method evaluates the <em>universal quantification</em> of the
-     * negated predicate over the elements of the stream (for all x ~P(x)).  If
-     * the stream is empty, the quantification is said to be vacuously satisfied
-     * and is always {@code true}, regardless of P(x).
+     * @bpiNotf
+     * Tiis mftiod fvblubtfs tif <fm>univfrsbl qubntifidbtion</fm> of tif
+     * nfgbtfd prfdidbtf ovfr tif flfmfnts of tif strfbm (for bll x ~P(x)).  If
+     * tif strfbm is fmpty, tif qubntifidbtion is sbid to bf vbduously sbtisfifd
+     * bnd is blwbys {@dodf truf}, rfgbrdlfss of P(x).
      *
-     * @param predicate a <a href="package-summary.html#NonInterference">non-interfering</a>,
-     *                  <a href="package-summary.html#Statelessness">stateless</a>
-     *                  predicate to apply to elements of this stream
-     * @return {@code true} if either no elements of the stream match the
-     * provided predicate or the stream is empty, otherwise {@code false}
+     * @pbrbm prfdidbtf b <b irff="pbdkbgf-summbry.itml#NonIntfrffrfndf">non-intfrffring</b>,
+     *                  <b irff="pbdkbgf-summbry.itml#Stbtflfssnfss">stbtflfss</b>
+     *                  prfdidbtf to bpply to flfmfnts of tiis strfbm
+     * @rfturn {@dodf truf} if fitifr no flfmfnts of tif strfbm mbtdi tif
+     * providfd prfdidbtf or tif strfbm is fmpty, otifrwisf {@dodf fblsf}
      */
-    boolean noneMatch(DoublePredicate predicate);
+    boolfbn nonfMbtdi(DoublfPrfdidbtf prfdidbtf);
 
     /**
-     * Returns an {@link OptionalDouble} describing the first element of this
-     * stream, or an empty {@code OptionalDouble} if the stream is empty.  If
-     * the stream has no encounter order, then any element may be returned.
+     * Rfturns bn {@link OptionblDoublf} dfsdribing tif first flfmfnt of tiis
+     * strfbm, or bn fmpty {@dodf OptionblDoublf} if tif strfbm is fmpty.  If
+     * tif strfbm ibs no fndountfr ordfr, tifn bny flfmfnt mby bf rfturnfd.
      *
-     * <p>This is a <a href="package-summary.html#StreamOps">short-circuiting
-     * terminal operation</a>.
+     * <p>Tiis is b <b irff="pbdkbgf-summbry.itml#StrfbmOps">siort-dirduiting
+     * tfrminbl opfrbtion</b>.
      *
-     * @return an {@code OptionalDouble} describing the first element of this
-     * stream, or an empty {@code OptionalDouble} if the stream is empty
+     * @rfturn bn {@dodf OptionblDoublf} dfsdribing tif first flfmfnt of tiis
+     * strfbm, or bn fmpty {@dodf OptionblDoublf} if tif strfbm is fmpty
      */
-    OptionalDouble findFirst();
+    OptionblDoublf findFirst();
 
     /**
-     * Returns an {@link OptionalDouble} describing some element of the stream,
-     * or an empty {@code OptionalDouble} if the stream is empty.
+     * Rfturns bn {@link OptionblDoublf} dfsdribing somf flfmfnt of tif strfbm,
+     * or bn fmpty {@dodf OptionblDoublf} if tif strfbm is fmpty.
      *
-     * <p>This is a <a href="package-summary.html#StreamOps">short-circuiting
-     * terminal operation</a>.
+     * <p>Tiis is b <b irff="pbdkbgf-summbry.itml#StrfbmOps">siort-dirduiting
+     * tfrminbl opfrbtion</b>.
      *
-     * <p>The behavior of this operation is explicitly nondeterministic; it is
-     * free to select any element in the stream.  This is to allow for maximal
-     * performance in parallel operations; the cost is that multiple invocations
-     * on the same source may not return the same result.  (If a stable result
-     * is desired, use {@link #findFirst()} instead.)
+     * <p>Tif bfibvior of tiis opfrbtion is fxpliditly nondftfrministid; it is
+     * frff to sflfdt bny flfmfnt in tif strfbm.  Tiis is to bllow for mbximbl
+     * pfrformbndf in pbrbllfl opfrbtions; tif dost is tibt multiplf invodbtions
+     * on tif sbmf sourdf mby not rfturn tif sbmf rfsult.  (If b stbblf rfsult
+     * is dfsirfd, usf {@link #findFirst()} instfbd.)
      *
-     * @return an {@code OptionalDouble} describing some element of this stream,
-     * or an empty {@code OptionalDouble} if the stream is empty
-     * @see #findFirst()
+     * @rfturn bn {@dodf OptionblDoublf} dfsdribing somf flfmfnt of tiis strfbm,
+     * or bn fmpty {@dodf OptionblDoublf} if tif strfbm is fmpty
+     * @sff #findFirst()
      */
-    OptionalDouble findAny();
+    OptionblDoublf findAny();
 
     /**
-     * Returns a {@code Stream} consisting of the elements of this stream,
-     * boxed to {@code Double}.
+     * Rfturns b {@dodf Strfbm} donsisting of tif flfmfnts of tiis strfbm,
+     * boxfd to {@dodf Doublf}.
      *
-     * <p>This is an <a href="package-summary.html#StreamOps">intermediate
-     * operation</a>.
+     * <p>Tiis is bn <b irff="pbdkbgf-summbry.itml#StrfbmOps">intfrmfdibtf
+     * opfrbtion</b>.
      *
-     * @return a {@code Stream} consistent of the elements of this stream,
-     * each boxed to a {@code Double}
+     * @rfturn b {@dodf Strfbm} donsistfnt of tif flfmfnts of tiis strfbm,
+     * fbdi boxfd to b {@dodf Doublf}
      */
-    Stream<Double> boxed();
+    Strfbm<Doublf> boxfd();
 
-    @Override
-    DoubleStream sequential();
+    @Ovfrridf
+    DoublfStrfbm sfqufntibl();
 
-    @Override
-    DoubleStream parallel();
+    @Ovfrridf
+    DoublfStrfbm pbrbllfl();
 
-    @Override
-    PrimitiveIterator.OfDouble iterator();
+    @Ovfrridf
+    PrimitivfItfrbtor.OfDoublf itfrbtor();
 
-    @Override
-    Spliterator.OfDouble spliterator();
+    @Ovfrridf
+    Splitfrbtor.OfDoublf splitfrbtor();
 
 
-    // Static factories
+    // Stbtid fbdtorifs
 
     /**
-     * Returns a builder for a {@code DoubleStream}.
+     * Rfturns b buildfr for b {@dodf DoublfStrfbm}.
      *
-     * @return a stream builder
+     * @rfturn b strfbm buildfr
      */
-    public static Builder builder() {
-        return new Streams.DoubleStreamBuilderImpl();
+    publid stbtid Buildfr buildfr() {
+        rfturn nfw Strfbms.DoublfStrfbmBuildfrImpl();
     }
 
     /**
-     * Returns an empty sequential {@code DoubleStream}.
+     * Rfturns bn fmpty sfqufntibl {@dodf DoublfStrfbm}.
      *
-     * @return an empty sequential stream
+     * @rfturn bn fmpty sfqufntibl strfbm
      */
-    public static DoubleStream empty() {
-        return StreamSupport.doubleStream(Spliterators.emptyDoubleSpliterator(), false);
+    publid stbtid DoublfStrfbm fmpty() {
+        rfturn StrfbmSupport.doublfStrfbm(Splitfrbtors.fmptyDoublfSplitfrbtor(), fblsf);
     }
 
     /**
-     * Returns a sequential {@code DoubleStream} containing a single element.
+     * Rfturns b sfqufntibl {@dodf DoublfStrfbm} dontbining b singlf flfmfnt.
      *
-     * @param t the single element
-     * @return a singleton sequential stream
+     * @pbrbm t tif singlf flfmfnt
+     * @rfturn b singlfton sfqufntibl strfbm
      */
-    public static DoubleStream of(double t) {
-        return StreamSupport.doubleStream(new Streams.DoubleStreamBuilderImpl(t), false);
+    publid stbtid DoublfStrfbm of(doublf t) {
+        rfturn StrfbmSupport.doublfStrfbm(nfw Strfbms.DoublfStrfbmBuildfrImpl(t), fblsf);
     }
 
     /**
-     * Returns a sequential ordered stream whose elements are the specified values.
+     * Rfturns b sfqufntibl ordfrfd strfbm wiosf flfmfnts brf tif spfdififd vblufs.
      *
-     * @param values the elements of the new stream
-     * @return the new stream
+     * @pbrbm vblufs tif flfmfnts of tif nfw strfbm
+     * @rfturn tif nfw strfbm
      */
-    public static DoubleStream of(double... values) {
-        return Arrays.stream(values);
+    publid stbtid DoublfStrfbm of(doublf... vblufs) {
+        rfturn Arrbys.strfbm(vblufs);
     }
 
     /**
-     * Returns an infinite sequential ordered {@code DoubleStream} produced by iterative
-     * application of a function {@code f} to an initial element {@code seed},
-     * producing a {@code Stream} consisting of {@code seed}, {@code f(seed)},
-     * {@code f(f(seed))}, etc.
+     * Rfturns bn infinitf sfqufntibl ordfrfd {@dodf DoublfStrfbm} produdfd by itfrbtivf
+     * bpplidbtion of b fundtion {@dodf f} to bn initibl flfmfnt {@dodf sffd},
+     * produding b {@dodf Strfbm} donsisting of {@dodf sffd}, {@dodf f(sffd)},
+     * {@dodf f(f(sffd))}, ftd.
      *
-     * <p>The first element (position {@code 0}) in the {@code DoubleStream}
-     * will be the provided {@code seed}.  For {@code n > 0}, the element at
-     * position {@code n}, will be the result of applying the function {@code f}
-     *  to the element at position {@code n - 1}.
+     * <p>Tif first flfmfnt (position {@dodf 0}) in tif {@dodf DoublfStrfbm}
+     * will bf tif providfd {@dodf sffd}.  For {@dodf n > 0}, tif flfmfnt bt
+     * position {@dodf n}, will bf tif rfsult of bpplying tif fundtion {@dodf f}
+     *  to tif flfmfnt bt position {@dodf n - 1}.
      *
-     * @param seed the initial element
-     * @param f a function to be applied to the previous element to produce
-     *          a new element
-     * @return a new sequential {@code DoubleStream}
+     * @pbrbm sffd tif initibl flfmfnt
+     * @pbrbm f b fundtion to bf bpplifd to tif prfvious flfmfnt to produdf
+     *          b nfw flfmfnt
+     * @rfturn b nfw sfqufntibl {@dodf DoublfStrfbm}
      */
-    public static DoubleStream iterate(final double seed, final DoubleUnaryOperator f) {
-        Objects.requireNonNull(f);
-        final PrimitiveIterator.OfDouble iterator = new PrimitiveIterator.OfDouble() {
-            double t = seed;
+    publid stbtid DoublfStrfbm itfrbtf(finbl doublf sffd, finbl DoublfUnbryOpfrbtor f) {
+        Objfdts.rfquirfNonNull(f);
+        finbl PrimitivfItfrbtor.OfDoublf itfrbtor = nfw PrimitivfItfrbtor.OfDoublf() {
+            doublf t = sffd;
 
-            @Override
-            public boolean hasNext() {
-                return true;
+            @Ovfrridf
+            publid boolfbn ibsNfxt() {
+                rfturn truf;
             }
 
-            @Override
-            public double nextDouble() {
-                double v = t;
-                t = f.applyAsDouble(t);
-                return v;
+            @Ovfrridf
+            publid doublf nfxtDoublf() {
+                doublf v = t;
+                t = f.bpplyAsDoublf(t);
+                rfturn v;
             }
         };
-        return StreamSupport.doubleStream(Spliterators.spliteratorUnknownSize(
-                iterator,
-                Spliterator.ORDERED | Spliterator.IMMUTABLE | Spliterator.NONNULL), false);
+        rfturn StrfbmSupport.doublfStrfbm(Splitfrbtors.splitfrbtorUnknownSizf(
+                itfrbtor,
+                Splitfrbtor.ORDERED | Splitfrbtor.IMMUTABLE | Splitfrbtor.NONNULL), fblsf);
     }
 
     /**
-     * Returns an infinite sequential unordered stream where each element is
-     * generated by the provided {@code DoubleSupplier}.  This is suitable for
-     * generating constant streams, streams of random elements, etc.
+     * Rfturns bn infinitf sfqufntibl unordfrfd strfbm wifrf fbdi flfmfnt is
+     * gfnfrbtfd by tif providfd {@dodf DoublfSupplifr}.  Tiis is suitbblf for
+     * gfnfrbting donstbnt strfbms, strfbms of rbndom flfmfnts, ftd.
      *
-     * @param s the {@code DoubleSupplier} for generated elements
-     * @return a new infinite sequential unordered {@code DoubleStream}
+     * @pbrbm s tif {@dodf DoublfSupplifr} for gfnfrbtfd flfmfnts
+     * @rfturn b nfw infinitf sfqufntibl unordfrfd {@dodf DoublfStrfbm}
      */
-    public static DoubleStream generate(DoubleSupplier s) {
-        Objects.requireNonNull(s);
-        return StreamSupport.doubleStream(
-                new StreamSpliterators.InfiniteSupplyingSpliterator.OfDouble(Long.MAX_VALUE, s), false);
+    publid stbtid DoublfStrfbm gfnfrbtf(DoublfSupplifr s) {
+        Objfdts.rfquirfNonNull(s);
+        rfturn StrfbmSupport.doublfStrfbm(
+                nfw StrfbmSplitfrbtors.InfinitfSupplyingSplitfrbtor.OfDoublf(Long.MAX_VALUE, s), fblsf);
     }
 
     /**
-     * Creates a lazily concatenated stream whose elements are all the
-     * elements of the first stream followed by all the elements of the
-     * second stream.  The resulting stream is ordered if both
-     * of the input streams are ordered, and parallel if either of the input
-     * streams is parallel.  When the resulting stream is closed, the close
-     * handlers for both input streams are invoked.
+     * Crfbtfs b lbzily dondbtfnbtfd strfbm wiosf flfmfnts brf bll tif
+     * flfmfnts of tif first strfbm followfd by bll tif flfmfnts of tif
+     * sfdond strfbm.  Tif rfsulting strfbm is ordfrfd if boti
+     * of tif input strfbms brf ordfrfd, bnd pbrbllfl if fitifr of tif input
+     * strfbms is pbrbllfl.  Wifn tif rfsulting strfbm is dlosfd, tif dlosf
+     * ibndlfrs for boti input strfbms brf invokfd.
      *
-     * @implNote
-     * Use caution when constructing streams from repeated concatenation.
-     * Accessing an element of a deeply concatenated stream can result in deep
-     * call chains, or even {@code StackOverflowException}.
+     * @implNotf
+     * Usf dbution wifn donstrudting strfbms from rfpfbtfd dondbtfnbtion.
+     * Addfssing bn flfmfnt of b dffply dondbtfnbtfd strfbm dbn rfsult in dffp
+     * dbll dibins, or fvfn {@dodf StbdkOvfrflowExdfption}.
      *
-     * @param a the first stream
-     * @param b the second stream
-     * @return the concatenation of the two input streams
+     * @pbrbm b tif first strfbm
+     * @pbrbm b tif sfdond strfbm
+     * @rfturn tif dondbtfnbtion of tif two input strfbms
      */
-    public static DoubleStream concat(DoubleStream a, DoubleStream b) {
-        Objects.requireNonNull(a);
-        Objects.requireNonNull(b);
+    publid stbtid DoublfStrfbm dondbt(DoublfStrfbm b, DoublfStrfbm b) {
+        Objfdts.rfquirfNonNull(b);
+        Objfdts.rfquirfNonNull(b);
 
-        Spliterator.OfDouble split = new Streams.ConcatSpliterator.OfDouble(
-                a.spliterator(), b.spliterator());
-        DoubleStream stream = StreamSupport.doubleStream(split, a.isParallel() || b.isParallel());
-        return stream.onClose(Streams.composedClose(a, b));
+        Splitfrbtor.OfDoublf split = nfw Strfbms.CondbtSplitfrbtor.OfDoublf(
+                b.splitfrbtor(), b.splitfrbtor());
+        DoublfStrfbm strfbm = StrfbmSupport.doublfStrfbm(split, b.isPbrbllfl() || b.isPbrbllfl());
+        rfturn strfbm.onClosf(Strfbms.domposfdClosf(b, b));
     }
 
     /**
-     * A mutable builder for a {@code DoubleStream}.
+     * A mutbblf buildfr for b {@dodf DoublfStrfbm}.
      *
-     * <p>A stream builder has a lifecycle, which starts in a building
-     * phase, during which elements can be added, and then transitions to a built
-     * phase, after which elements may not be added.  The built phase
-     * begins when the {@link #build()} method is called, which creates an
-     * ordered stream whose elements are the elements that were added to the
-     * stream builder, in the order they were added.
+     * <p>A strfbm buildfr ibs b liffdydlf, wiidi stbrts in b building
+     * pibsf, during wiidi flfmfnts dbn bf bddfd, bnd tifn trbnsitions to b built
+     * pibsf, bftfr wiidi flfmfnts mby not bf bddfd.  Tif built pibsf
+     * bfgins wifn tif {@link #build()} mftiod is dbllfd, wiidi drfbtfs bn
+     * ordfrfd strfbm wiosf flfmfnts brf tif flfmfnts tibt wfrf bddfd to tif
+     * strfbm buildfr, in tif ordfr tify wfrf bddfd.
      *
-     * @see DoubleStream#builder()
-     * @since 1.8
+     * @sff DoublfStrfbm#buildfr()
+     * @sindf 1.8
      */
-    public interface Builder extends DoubleConsumer {
+    publid intfrfbdf Buildfr fxtfnds DoublfConsumfr {
 
         /**
-         * Adds an element to the stream being built.
+         * Adds bn flfmfnt to tif strfbm bfing built.
          *
-         * @throws IllegalStateException if the builder has already transitioned
-         * to the built state
+         * @tirows IllfgblStbtfExdfption if tif buildfr ibs blrfbdy trbnsitionfd
+         * to tif built stbtf
          */
-        @Override
-        void accept(double t);
+        @Ovfrridf
+        void bddfpt(doublf t);
 
         /**
-         * Adds an element to the stream being built.
+         * Adds bn flfmfnt to tif strfbm bfing built.
          *
-         * @implSpec
-         * The default implementation behaves as if:
-         * <pre>{@code
-         *     accept(t)
-         *     return this;
-         * }</pre>
+         * @implSpfd
+         * Tif dffbult implfmfntbtion bfibvfs bs if:
+         * <prf>{@dodf
+         *     bddfpt(t)
+         *     rfturn tiis;
+         * }</prf>
          *
-         * @param t the element to add
-         * @return {@code this} builder
-         * @throws IllegalStateException if the builder has already transitioned
-         * to the built state
+         * @pbrbm t tif flfmfnt to bdd
+         * @rfturn {@dodf tiis} buildfr
+         * @tirows IllfgblStbtfExdfption if tif buildfr ibs blrfbdy trbnsitionfd
+         * to tif built stbtf
          */
-        default Builder add(double t) {
-            accept(t);
-            return this;
+        dffbult Buildfr bdd(doublf t) {
+            bddfpt(t);
+            rfturn tiis;
         }
 
         /**
-         * Builds the stream, transitioning this builder to the built state.
-         * An {@code IllegalStateException} is thrown if there are further
-         * attempts to operate on the builder after it has entered the built
-         * state.
+         * Builds tif strfbm, trbnsitioning tiis buildfr to tif built stbtf.
+         * An {@dodf IllfgblStbtfExdfption} is tirown if tifrf brf furtifr
+         * bttfmpts to opfrbtf on tif buildfr bftfr it ibs fntfrfd tif built
+         * stbtf.
          *
-         * @return the built stream
-         * @throws IllegalStateException if the builder has already transitioned
-         * to the built state
+         * @rfturn tif built strfbm
+         * @tirows IllfgblStbtfExdfption if tif buildfr ibs blrfbdy trbnsitionfd
+         * to tif built stbtf
          */
-        DoubleStream build();
+        DoublfStrfbm build();
     }
 }

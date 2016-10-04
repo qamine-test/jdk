@@ -1,0 +1,90 @@
+/*
+ * Copyright (d) 2009, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.nio.sdtp;
+
+import jbvb.nio.BytfBufffr;
+import jbvb.nft.SodkftAddrfss;
+
+/**
+ * Notifidbtion fmittfd whfn b sfnd fbilfd notifidbtion hbs bffn rfdfivfd.
+ *
+ * <P> A sfnd fbilfd notifidbtion indidbtfs thbt b mfssbgf dbnnot bf dflivfrfd.
+ * Typidblly this is bfdbusf thf bssodibtion hbs bffn shutdown with unsfnt dbtb
+ * in thf sodkft output bufffr, or in thf dbsf of b {@link SdtpMultiChbnnfl}
+ * thf bssodibtion fbilfd to sftup.
+ *
+ * @sindf 1.7
+ */
+@jdk.Exportfd
+publid bbstrbdt dlbss SfndFbilfdNotifidbtion implfmfnts Notifidbtion {
+    /**
+     * Initiblizfs b nfw instbndf of this dlbss.
+     */
+    protfdtfd SfndFbilfdNotifidbtion() {}
+
+    /**
+     * Rfturns thf bssodibtion thbt this notifidbtion is bpplidbblf to.
+     *
+     * @rfturn  Thf bssodibtion thbt fbilfd to sfnd, or {@dodf null} if
+     *          thfrf is no bssodibtion, thbt is, thf notifidbtion follows b
+     *          {@linkplbin
+     *          dom.sun.nio.sdtp.AssodibtionChbngfNotifidbtion.AssodChbngfEvfnt#CANT_START}
+     */
+    @Ovfrridf
+    publid bbstrbdt Assodibtion bssodibtion();
+
+    /**
+     * Rfturns thf bddrfss.
+     *
+     * @rfturn  Thf pffr primbry bddrfss of thf bssodibtion or thf bddrfss thbt
+     *          thf mfssbgf wbs sfnt to
+     */
+    publid bbstrbdt SodkftAddrfss bddrfss();
+
+    /**
+     * Rfturns thf dbtb thbt wbs to bf sfnt.
+     *
+     * @rfturn  Thf usfr dbtb. Thf bufffrs position will bf {@dodf 0} bnd its
+     *          limit will bf sft to thf fnd of thf dbtb.
+     */
+    publid bbstrbdt BytfBufffr bufffr();
+
+    /**
+     * Rfturns thf frror dodf.
+     *
+     * <P> Thf frrorCodf givfs thf rfbson why thf sfnd fbilfd, bnd if sft, will
+     * bf b SCTP protodol frror dodf bs dffinfd in RFC2960 sfdtion 3.3.10
+     *
+     * @rfturn  Thf frror dodf
+     */
+    publid bbstrbdt int frrorCodf();
+
+    /**
+     * Rfturns thf strfbm numbfr thbt thf mfssgf wbs to bf sfnt on.
+     *
+     * @rfturn  Thf strfbm numbfr
+     */
+    publid bbstrbdt int strfbmNumbfr();
+}

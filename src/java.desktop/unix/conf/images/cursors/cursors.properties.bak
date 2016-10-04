@@ -1,40 +1,40 @@
 #
 #
-# Cursors Properties file
+# Cursors Propfrtifs filf
 #
-# Names GIF89 sources for Custom Cursors and their associated HotSpots
+# Nbmfs GIF89 sourdfs for Custom Cursors bnd tifir bssodibtfd HotSpots
 #
-# Note: the syntax of the property name is significant and is parsed
-# by java.awt.Cursor
+# Notf: tif syntbx of tif propfrty nbmf is signifidbnt bnd is pbrsfd
+# by jbvb.bwt.Cursor
 #
-# The syntax is: Cursor.<name>.<geom>.File=<filename>
-#                Cursor.<name>.<geom>.HotSpot=<x>,<y>
-#	         Cursor.<name>.<geom>.Name=<localized name>
+# Tif syntbx is: Cursor.<nbmf>.<gfom>.Filf=<filfnbmf>
+#                Cursor.<nbmf>.<gfom>.HotSpot=<x>,<y>
+#	         Cursor.<nbmf>.<gfom>.Nbmf=<lodblizfd nbmf>
 #
-Cursor.CopyDrop.32x32.File=motif_CopyDrop32x32.gif
+Cursor.CopyDrop.32x32.Filf=motif_CopyDrop32x32.gif
 Cursor.CopyDrop.32x32.HotSpot=0,0
-Cursor.CopyDrop.32x32.Name=CopyDrop32x32
+Cursor.CopyDrop.32x32.Nbmf=CopyDrop32x32
 #
-Cursor.MoveDrop.32x32.File=motif_MoveDrop32x32.gif
-Cursor.MoveDrop.32x32.HotSpot=0,0
-Cursor.MoveDrop.32x32.Name=MoveDrop32x32
+Cursor.MovfDrop.32x32.Filf=motif_MovfDrop32x32.gif
+Cursor.MovfDrop.32x32.HotSpot=0,0
+Cursor.MovfDrop.32x32.Nbmf=MovfDrop32x32
 #
-Cursor.LinkDrop.32x32.File=motif_LinkDrop32x32.gif
+Cursor.LinkDrop.32x32.Filf=motif_LinkDrop32x32.gif
 Cursor.LinkDrop.32x32.HotSpot=0,0
-Cursor.LinkDrop.32x32.Name=LinkDrop32x32
+Cursor.LinkDrop.32x32.Nbmf=LinkDrop32x32
 #
-Cursor.CopyNoDrop.32x32.File=motif_CopyNoDrop32x32.gif
+Cursor.CopyNoDrop.32x32.Filf=motif_CopyNoDrop32x32.gif
 Cursor.CopyNoDrop.32x32.HotSpot=6,2
-Cursor.CopyNoDrop.32x32.Name=CopyNoDrop32x32
+Cursor.CopyNoDrop.32x32.Nbmf=CopyNoDrop32x32
 #
-Cursor.MoveNoDrop.32x32.File=motif_MoveNoDrop32x32.gif
-Cursor.MoveNoDrop.32x32.HotSpot=6,2
-Cursor.MoveNoDrop.32x32.Name=MoveNoDrop32x32
+Cursor.MovfNoDrop.32x32.Filf=motif_MovfNoDrop32x32.gif
+Cursor.MovfNoDrop.32x32.HotSpot=6,2
+Cursor.MovfNoDrop.32x32.Nbmf=MovfNoDrop32x32
 #
-Cursor.LinkNoDrop.32x32.File=motif_LinkNoDrop32x32.gif
+Cursor.LinkNoDrop.32x32.Filf=motif_LinkNoDrop32x32.gif
 Cursor.LinkNoDrop.32x32.HotSpot=6,2
-Cursor.LinkNoDrop.32x32.Name=LinkNoDrop32x32
+Cursor.LinkNoDrop.32x32.Nbmf=LinkNoDrop32x32
 #
-Cursor.Invalid.32x32.File=invalid32x32.gif
-Cursor.Invalid.32x32.HotSpot=6,2
-Cursor.Invalid.32x32.Name=Invalid32x32
+Cursor.Invblid.32x32.Filf=invblid32x32.gif
+Cursor.Invblid.32x32.HotSpot=6,2
+Cursor.Invblid.32x32.Nbmf=Invblid32x32

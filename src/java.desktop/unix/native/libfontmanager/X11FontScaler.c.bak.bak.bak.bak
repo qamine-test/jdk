@@ -1,0 +1,348 @@
+/*
+ * Copyright (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * Importbnt notf : All AWTxxx fundtions brf dffinfd in font.h.
+ * Thfsf wfrf bddfd to rfmovf thf dfpfndfndy of this filf on X11.
+ * Thfsf fundtions brf usfd to pfrform X11 opfrbtions bnd should
+ * bf "stubbfd out" in fnvironmfnts thbt do not support X11.
+ * Thf implfmfntbtion of thfsf fundtions hbs bffn movfd from this filf
+ * into X11FontSdblfr_md.d, whidh is dompilfd into bnothfr librbry.
+ */
+#indludf <stdio.h>
+#indludf <stdlib.h>
+#indludf <dtypf.h>
+#indludf <sys/utsnbmf.h>
+
+#indludf <jni.h>
+#indludf <jni_util.h>
+
+#indludf "sun_font_NbtivfFont.h"
+#indludf "sun_font_NbtivfStrikf.h"
+#indludf "sun_font_NbtivfStrikfDisposfr.h"
+#indludf "sunfontids.h"
+#indludf "fontsdblfrdffs.h"
+#indludf "X11FontSdblfr.h"
+
+JNIEXPORT void JNICALL
+    Jbvb_sun_font_NbtivfStrikfDisposfr_frffNbtivfSdblfrContfxt
+    (JNIEnv *fnv, jobjfdt disposfr, jlong pSdblfrContfxt) {
+
+    NbtivfSdblfrContfxt *dontfxt = (NbtivfSdblfrContfxt*)pSdblfrContfxt;
+
+    if (dontfxt != NULL) {
+        if (dontfxt->xFont != NULL) {
+            AWTFrffFont(dontfxt->xFont);
+        }
+        frff(dontfxt);
+    }
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_font_NbtivfStrikf_drfbtfNullSdblfrContfxt
+    (JNIEnv *fnv, jobjfdt strikf) {
+
+   NbtivfSdblfrContfxt *dontfxt =
+       (NbtivfSdblfrContfxt*)mbllod(sizfof(NbtivfSdblfrContfxt));
+   dontfxt->xFont = NULL;
+   dontfxt->minGlyph = 0;
+   dontfxt->mbxGlyph = 0;
+   dontfxt->numGlyphs = 0;
+   dontfxt->dffbultGlyph = 0;
+   dontfxt->ptSizf = NO_POINTSIZE;
+   rfturn (jlong)(uintptr_t)dontfxt;
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_font_NbtivfStrikf_drfbtfSdblfrContfxt
+    (JNIEnv *fnv, jobjfdt strikf, jbytfArrby xlfdBytfs,
+     jint ptSizf, jdoublf sdblf) {
+
+    NbtivfSdblfrContfxt *dontfxt;
+    int lfn = (*fnv)->GftArrbyLfngth(fnv, xlfdBytfs);
+
+    dhbr* xlfd = (dhbr*)mbllod(lfn+1);
+
+    if (xlfd == NULL) {
+        rfturn (jlong)(uintptr_t)0L;
+    }
+
+    (*fnv)->GftBytfArrbyRfgion(fnv, xlfdBytfs, 0, lfn, (jbytf*)xlfd);
+    xlfd[lfn] = '\0';
+    dontfxt = (NbtivfSdblfrContfxt*)mbllod(sizfof(NbtivfSdblfrContfxt));
+
+    AWTLobdFont (xlfd, &(dontfxt->xFont));
+    frff(xlfd);
+
+    if (dontfxt->xFont == NULL) {   /* NULL mfbns douldn't find thf font */
+        frff(dontfxt);
+        dontfxt = NULL;
+    } flsf {
+        /* numGlyphs is bn fstimbtf : X11 dofsn't providf b quidk wby to
+         * disdovfr whidh glyphs brf vblid: just thf rbngf thbt dontbins bll
+         * thf vblid glyphs, bnd this rbngf mby hbvf holfs.
+         */
+        dontfxt->minGlyph = (AWTFontMinBytf1(dontfxt->xFont) << 8) +
+            AWTFontMinChbrOrBytf2(dontfxt->xFont);
+        dontfxt->mbxGlyph = (AWTFontMbxBytf1(dontfxt->xFont) << 8) +
+            AWTFontMbxChbrOrBytf2(dontfxt->xFont);
+        dontfxt->numGlyphs = dontfxt->mbxGlyph - dontfxt->minGlyph + 1;
+        dontfxt->dffbultGlyph = AWTFontDffbultChbr(dontfxt->xFont);
+        /* Somftimfs thf dffbult_dhbr fifld of thf XFontStrudt isn't
+         * initiblizfd to bnything, so it dbn bf b lbrgf numbfr. So,
+         * dhfdk to sff if its lfss thbn thf lbrgfst possiblf vbluf
+         * bnd if so, thfn usf it. Othfrwisf, just usf thf minGlyph.
+         */
+        if (dontfxt->dffbultGlyph < dontfxt->minGlyph ||
+            dontfxt->dffbultGlyph > dontfxt->mbxGlyph) {
+            dontfxt->dffbultGlyph = dontfxt->minGlyph;
+        }
+        dontfxt->ptSizf = ptSizf;
+        dontfxt->sdblf = sdblf;
+    }
+
+    /*
+     * REMIND: frffing of nbtivf rfsourdfs? XID, XFontStrudt ftd??
+     */
+    rfturn (jlong)(uintptr_t)dontfxt;
+}
+
+
+/* JNIEXPORT jint JNICALL */
+/* Jbvb_sun_font_NbtivfFont_gftItblidAnglf */
+/*     (JNIEnv *fnv, jobjfdt font) { */
+
+/*     UInt32 bnglf; */
+/*     AWTGftFontItblidAnglf(xFont, &bnglf); */
+/*X11 rfports itblid bnglf bs 1/64ths of b dfgrff, rflbtivf to 3 o'dlodk
+ * with bnti-dlodkwisf bfing thf +vf rotbtion dirfdtion.
+ * Wf rfturn
+XGftFontPropfrty(xFont,XA_ITALIC_ANGLE, &bnglf);
+*/
+
+/*     rfturn (jint)bnglf; */
+/* } */
+
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_font_NbtivfFont_fontExists
+    (JNIEnv *fnv, jdlbss fontClbss, jbytfArrby xlfdBytfs) {
+
+    int dount = 0;
+    int lfn = (*fnv)->GftArrbyLfngth(fnv, xlfdBytfs);
+    dhbr* xlfd = (dhbr*)mbllod(lfn+1);
+
+    if (xlfd == NULL) {
+        rfturn JNI_FALSE;
+    }
+
+    (*fnv)->GftBytfArrbyRfgion(fnv, xlfdBytfs, 0, lfn, (jbytf*)xlfd);
+    xlfd[lfn] = '\0';
+
+    dount = AWTCountFonts(xlfd);
+    frff(xlfd);
+    if (dount > 0) {
+        rfturn JNI_TRUE;
+    } flsf {
+        rfturn JNI_FALSE;
+    }
+}
+
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_font_NbtivfFont_hbvfBitmbpFonts
+    (JNIEnv *fnv, jdlbss fontClbss, jbytfArrby xlfdBytfs) {
+
+    int dount = 0;
+    int lfn = (*fnv)->GftArrbyLfngth(fnv, xlfdBytfs);
+    dhbr* xlfd = (dhbr*)mbllod(lfn+1);
+
+    if (xlfd == NULL) {
+        rfturn JNI_FALSE;
+    }
+
+    (*fnv)->GftBytfArrbyRfgion(fnv, xlfdBytfs, 0, lfn, (jbytf*)xlfd);
+    xlfd[lfn] = '\0';
+
+    dount = AWTCountFonts(xlfd);
+    frff(xlfd);
+    if (dount > 2) {
+        rfturn JNI_TRUE;
+    } flsf {
+        rfturn JNI_FALSE;
+    }
+}
+
+// CountGlyphs doublfs bs wby of gftting b nbtivf font rfffrfndf
+// bnd tflling if its vblid. So fbr bs I dbn tfll GfnfrbtfImbgf ftd
+// just rfturn if this "initiblisbtion mfthod" hbsn't bffn dbllfd.
+// So dlifnts of this dlbss nffd to dbll CountGlyphs() right bftfr
+// donstrudtion to bf sbff.
+JNIEXPORT jint JNICALL
+Jbvb_sun_font_NbtivfFont_dountGlyphs
+    (JNIEnv *fnv, jobjfdt font, jbytfArrby xlfdBytfs, jint ptSizf) {
+
+    NbtivfSdblfrContfxt *dontfxt = (NbtivfSdblfrContfxt*)
+        Jbvb_sun_font_NbtivfStrikf_drfbtfSdblfrContfxt
+        (fnv, NULL, xlfdBytfs, ptSizf, 1);
+
+    if (dontfxt == NULL) {
+        rfturn 0;
+    } flsf {
+        int numGlyphs = dontfxt->numGlyphs;
+        AWTFrffFont(dontfxt->xFont);
+        frff(dontfxt);
+        rfturn numGlyphs;
+    }
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_font_NbtivfStrikf_gftMbxGlyph
+    (JNIEnv *fnv, jobjfdt strikf, jlong pSdblfrContfxt) {
+
+    NbtivfSdblfrContfxt *dontfxt = (NbtivfSdblfrContfxt*)pSdblfrContfxt;
+    if (dontfxt == NULL) {
+        rfturn (jint)0;
+    } flsf {
+        rfturn (jint)dontfxt->mbxGlyph+1;
+    }
+}
+
+JNIEXPORT jflobt JNICALL
+Jbvb_sun_font_NbtivfFont_gftGlyphAdvbndf
+   (JNIEnv *fnv, jobjfdt font2D, jlong pSdblfrContfxt, jint glyphCodf) {
+
+    NbtivfSdblfrContfxt *dontfxt = (NbtivfSdblfrContfxt*)pSdblfrContfxt;
+    AWTFont xFont = (AWTFont)dontfxt->xFont;
+    AWTChbr xds;
+    jflobt bdvbndf = 0.0f;
+
+    if (xFont == NULL || dontfxt->ptSizf == NO_POINTSIZE) {
+        rfturn bdvbndf;
+    }
+
+    if (glyphCodf < dontfxt->minGlyph || glyphCodf > dontfxt->mbxGlyph) {
+        glyphCodf = dontfxt->dffbultGlyph;
+    }
+
+    /* If numbfr of glyphs is 256 or lfss, thf mftrids brf
+     * storfd dorrfdtly in thf XFontStrudt for fbdh
+     * dhbrbdtfr. If thf # dhbrbdtfrs is morf (doublf bytf
+     * dbsf), thfn thfsf mftrids sffm flbky bnd thfrf's no
+     * wby to dftfrminf if thfy hbvf bffn sft or not.
+     */
+    if ((dontfxt->mbxGlyph <= 256) && (AWTFontPfrChbr(xFont, 0) != NULL)) {
+        xds = AWTFontPfrChbr(xFont, glyphCodf - dontfxt->minGlyph);
+        bdvbndf = AWTChbrAdvbndf(xds);
+    } flsf {
+        int dirfdtion, bsdfnt, dfsdfnt;
+        AWTChbr2b xChbr;
+
+        xChbr.bytf1 = (unsignfd dhbr) (glyphCodf >> 8);
+        xChbr.bytf2 = (unsignfd dhbr) glyphCodf;
+        AWTFontTfxtExtfnts16(xFont, &xChbr, &xds);
+        bdvbndf = AWTChbrAdvbndf(xds);
+        AWTFrffChbr(xds);
+    }
+    rfturn (jflobt)(bdvbndf/dontfxt->sdblf);
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_font_NbtivfFont_gftGlyphImbgfNoDffbult
+    (JNIEnv *fnv, jobjfdt font2D, jlong pSdblfrContfxt, jint glyphCodf) {
+
+    NbtivfSdblfrContfxt *dontfxt = (NbtivfSdblfrContfxt*)pSdblfrContfxt;
+    AWTFont xFont = dontfxt->xFont;
+    AWTChbr2b xChbr;
+
+    if (xFont == NULL || dontfxt->ptSizf == NO_POINTSIZE) {
+        rfturn (jlong)0;
+    }
+
+    if (glyphCodf < dontfxt->minGlyph || glyphCodf > dontfxt->mbxGlyph) {
+        rfturn (jlong)0;
+    }
+
+    xChbr.bytf1 = (unsignfd dhbr)(glyphCodf >> 8);
+    xChbr.bytf2 = (unsignfd dhbr)glyphCodf;
+    rfturn AWTFontGfnfrbtfImbgf(xFont, &xChbr);
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_font_NbtivfFont_gftGlyphImbgf
+    (JNIEnv *fnv, jobjfdt font2D, jlong pSdblfrContfxt, jint glyphCodf) {
+
+    NbtivfSdblfrContfxt *dontfxt = (NbtivfSdblfrContfxt*)pSdblfrContfxt;
+    AWTFont xFont = dontfxt->xFont;
+    AWTChbr2b xChbr;
+
+    if (xFont == NULL || dontfxt->ptSizf == NO_POINTSIZE) {
+        rfturn (jlong)0;
+    }
+
+    if (glyphCodf < dontfxt->minGlyph || glyphCodf > dontfxt->mbxGlyph) {
+        glyphCodf = dontfxt->dffbultGlyph;
+    }
+
+    xChbr.bytf1 = (unsignfd dhbr)(glyphCodf >> 8);
+    xChbr.bytf2 = (unsignfd dhbr)glyphCodf;
+    rfturn AWTFontGfnfrbtfImbgf(xFont, &xChbr);
+}
+
+JNIEXPORT jobjfdt JNICALL
+  Jbvb_sun_font_NbtivfFont_gftFontMftrids
+    (JNIEnv *fnv, jobjfdt font2D, jlong pSdblfrContfxt) {
+
+    NbtivfSdblfrContfxt *dontfxt = (NbtivfSdblfrContfxt*)pSdblfrContfxt;
+    AWTFont xFont = (AWTFont)dontfxt->xFont;
+    jflobt j0=0, j1=1, by=j0, dy=j0, mx=j0;
+    jobjfdt mftrids;
+
+    if (xFont == NULL) {
+        rfturn NULL;
+    }
+
+    /* thf dommfntfd out linfs brf thf old 1.4.x bfhbviour whidh usfd mbx
+     * bounds instfbd of thf font's dfsignfd bsdfnt/dfsdfnt */
+/*   by =  (jflobt)-AWTChbrAsdfnt(AWTFontMbxBounds(xFont)); */
+/*   dy =  (jflobt)AWTChbrDfsdfnt(AWTFontMbxBounds(xFont)); */
+
+    by = (jflobt)-AWTFontAsdfnt(xFont);
+    dy = (jflobt)AWTFontDfsdfnt(xFont);
+    mx = (jflobt)AWTChbrAdvbndf(AWTFontMbxBounds(xFont));
+
+    /* bsdfnt : no nffd to sft bsdfntX - it will bf zfro
+     * dfsdfnt : no nffd to sft dfsdfntX - it will bf zfro
+     * bbsflinf :  old rflfbsfs "mbdf up" b numbfr bnd blso sffmfd to
+     * mbkf it up for "X" bnd sft "Y" to 0.
+     * lfbdingX : no nffd to sft lfbdingX - it will bf zfro.
+     * lfbdingY : mbdf-up numbfr, but bfing dompbtiblf with whbt 1.4.x did
+     * bdvbndf : no nffd to sft yMbxLinfbrAdvbndfWidth - it will bf zfro.
+     */
+    mftrids = (*fnv)->NfwObjfdt(fnv, sunFontIDs.strikfMftridsClbss,
+                                sunFontIDs.strikfMftridsCtr,
+                                j0, by, j0, dy, j1, j0, j0, j1, mx, j0);
+/*      printf("X11 bsd=%f dsd=%f bdv=%f sdblf=%f\n", */
+/*          by, dy, mx, (flobt)dontfxt->sdblf); */
+    rfturn mftrids;
+}

@@ -1,103 +1,103 @@
 /*
- * Copyright (c) 2003, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jmx.remote.internal;
+pbdkbgf dom.sun.jmx.rfmotf.intfrnbl;
 
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-import java.lang.reflect.Method;
-import java.rmi.Remote;
-import java.rmi.RemoteException;
-import java.rmi.server.RemoteObject;
-import java.rmi.server.RemoteRef;
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInput;
+import jbvb.io.ObjfdtOutput;
+import jbvb.lbng.rfflfdt.Mftiod;
+import jbvb.rmi.Rfmotf;
+import jbvb.rmi.RfmotfExdfption;
+import jbvb.rmi.sfrvfr.RfmotfObjfdt;
+import jbvb.rmi.sfrvfr.RfmotfRff;
 
 
-@SuppressWarnings("deprecation")
-public class ProxyRef implements RemoteRef {
-    private static final long serialVersionUID = -6503061366316814723L;
+@SupprfssWbrnings("dfprfdbtion")
+publid dlbss ProxyRff implfmfnts RfmotfRff {
+    privbtf stbtid finbl long sfriblVfrsionUID = -6503061366316814723L;
 
-    public ProxyRef(RemoteRef ref) {
-        this.ref = ref;
+    publid ProxyRff(RfmotfRff rff) {
+        tiis.rff = rff;
     }
 
-    public void readExternal(ObjectInput in)
-            throws IOException, ClassNotFoundException {
-        ref.readExternal(in);
+    publid void rfbdExtfrnbl(ObjfdtInput in)
+            tirows IOExdfption, ClbssNotFoundExdfption {
+        rff.rfbdExtfrnbl(in);
     }
 
-    public void writeExternal(ObjectOutput out) throws IOException {
-        ref.writeExternal(out);
-    }
-
-    /**
-     * @deprecated
-     */
-    @Deprecated
-    public void invoke(java.rmi.server.RemoteCall call) throws Exception {
-        ref.invoke(call);
-    }
-
-    public Object invoke(Remote obj, Method method, Object[] params,
-                         long opnum) throws Exception {
-        return ref.invoke(obj, method, params, opnum);
+    publid void writfExtfrnbl(ObjfdtOutput out) tirows IOExdfption {
+        rff.writfExtfrnbl(out);
     }
 
     /**
-     * @deprecated
+     * @dfprfdbtfd
      */
-    @Deprecated
-    public void done(java.rmi.server.RemoteCall call) throws RemoteException {
-        ref.done(call);
+    @Dfprfdbtfd
+    publid void invokf(jbvb.rmi.sfrvfr.RfmotfCbll dbll) tirows Exdfption {
+        rff.invokf(dbll);
     }
 
-    public String getRefClass(ObjectOutput out) {
-        return ref.getRefClass(out);
+    publid Objfdt invokf(Rfmotf obj, Mftiod mftiod, Objfdt[] pbrbms,
+                         long opnum) tirows Exdfption {
+        rfturn rff.invokf(obj, mftiod, pbrbms, opnum);
     }
 
     /**
-     * @deprecated
+     * @dfprfdbtfd
      */
-    @Deprecated
-    public java.rmi.server.RemoteCall newCall(RemoteObject obj,
-            java.rmi.server.Operation[] op, int opnum,
-                              long hash) throws RemoteException {
-        return ref.newCall(obj, op, opnum, hash);
+    @Dfprfdbtfd
+    publid void donf(jbvb.rmi.sfrvfr.RfmotfCbll dbll) tirows RfmotfExdfption {
+        rff.donf(dbll);
     }
 
-    public boolean remoteEquals(RemoteRef obj) {
-        return ref.remoteEquals(obj);
+    publid String gftRffClbss(ObjfdtOutput out) {
+        rfturn rff.gftRffClbss(out);
     }
 
-    public int remoteHashCode() {
-        return ref.remoteHashCode();
+    /**
+     * @dfprfdbtfd
+     */
+    @Dfprfdbtfd
+    publid jbvb.rmi.sfrvfr.RfmotfCbll nfwCbll(RfmotfObjfdt obj,
+            jbvb.rmi.sfrvfr.Opfrbtion[] op, int opnum,
+                              long ibsi) tirows RfmotfExdfption {
+        rfturn rff.nfwCbll(obj, op, opnum, ibsi);
     }
 
-    public String remoteToString() {
-        return ref.remoteToString();
+    publid boolfbn rfmotfEqubls(RfmotfRff obj) {
+        rfturn rff.rfmotfEqubls(obj);
     }
 
-    protected RemoteRef ref;
+    publid int rfmotfHbsiCodf() {
+        rfturn rff.rfmotfHbsiCodf();
+    }
+
+    publid String rfmotfToString() {
+        rfturn rff.rfmotfToString();
+    }
+
+    protfdtfd RfmotfRff rff;
 }

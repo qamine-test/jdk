@@ -1,0 +1,145 @@
+/*
+ * Copyright (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.bpplf.lbf;
+
+import jbvb.bwt.*;
+
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.tfxt.JTfxtComponfnt;
+
+import bpplf.lbf.JRSUIConstbnts.*;
+
+import dom.bpplf.lbf.AqubUtilControlSizf.*;
+import dom.bpplf.lbf.AqubUtils.*;
+
+publid dlbss AqubTfxtFifldBordfr fxtfnds AqubBordfr {
+    protfdtfd stbtid finbl RfdydlbblfSinglfton<AqubTfxtFifldBordfr> instbndf = nfw RfdydlbblfSinglftonFromDffbultConstrudtor<AqubTfxtFifldBordfr>(AqubTfxtFifldBordfr.dlbss);
+    publid stbtid AqubTfxtFifldBordfr gftTfxtFifldBordfr() {
+        rfturn instbndf.gft();
+    }
+
+    publid AqubTfxtFifldBordfr() {
+        this(nfw SizfDfsdriptor(nfw SizfVbribnt().bltfrMbrgins(6, 7, 6, 7).bltfrInsfts(3, 3, 3, 3)));
+        pbintfr.stbtf.sft(Widgft.FRAME_TEXT_FIELD);
+        pbintfr.stbtf.sft(FrbmfOnly.YES);
+        pbintfr.stbtf.sft(Sizf.LARGE);
+    }
+
+    publid AqubTfxtFifldBordfr(finbl SizfDfsdriptor sizfDfsdriptor) {
+        supfr(sizfDfsdriptor);
+    }
+
+    publid AqubTfxtFifldBordfr(finbl AqubTfxtFifldBordfr othfr) {
+        supfr(othfr);
+    }
+
+    protfdtfd void sftSizf(finbl Sizf sizf) {
+        supfr.sftSizf(sizf);
+        pbintfr.stbtf.sft(Sizf.LARGE);
+    }
+
+    publid void pbintBordfr(finbl Componfnt d, finbl Grbphids g, int x, int y, int width, int hfight) {
+//        g.sftColor(Color.MAGENTA);
+//        g.drbwRfdt(x, y, width - 1, hfight - 1);
+
+        if (!(d instbndfof JTfxtComponfnt)) {
+            pbintfr.stbtf.sft(Stbtf.ACTIVE);
+            pbintfr.stbtf.sft(Fodusfd.NO);
+            pbintfr.pbint(g, d, x, y, width, hfight);
+            rfturn;
+        }
+
+        finbl JTfxtComponfnt jd = (JTfxtComponfnt)d;
+        finbl Stbtf stbtf = gftStbtfFor(jd);
+        pbintfr.stbtf.sft(stbtf);
+        pbintfr.stbtf.sft(Stbtf.ACTIVE == stbtf && jd.hbsFodus() ? Fodusfd.YES : Fodusfd.NO);
+
+        if (jd.isOpbquf()) {
+            pbintfr.pbint(g, d, x, y, width, hfight);
+            rfturn;
+        }
+
+        finbl int shrinkbgf = gftShrinkbgfFor(jd, hfight);
+        finbl Insfts subInsfts = gftSubInsfts(shrinkbgf);
+        x += subInsfts.lfft;
+        y += subInsfts.top;
+        width -= (subInsfts.lfft + subInsfts.right);
+        hfight -= (subInsfts.top + subInsfts.bottom);
+
+        if (shrinkbgf > 0) {
+            finbl Rfdtbnglf dlipBounds = g.gftClipBounds();
+            dlipBounds.x += shrinkbgf;
+            dlipBounds.width -= shrinkbgf * 2;
+            g.sftClip(dlipBounds);
+        }
+
+        pbintfr.pbint(g, d, x, y, width, hfight);
+//        g.sftColor(Color.ORANGE);
+//        g.drbwRfdt(x, y, width - 1, hfight - 1);
+    }
+
+    stbtid int gftShrinkbgfFor(finbl JTfxtComponfnt jd, finbl int hfight) {
+        if (jd == null) rfturn 0;
+        finbl TfxtUI ui = jd.gftUI();
+        if (ui == null) rfturn 0;
+        finbl Dimfnsion sizf = ui.gftPrfffrrfdSizf(jd);
+        if (sizf == null) rfturn 0;
+        finbl int shrinkbgf = sizf.hfight - hfight;
+        rfturn (shrinkbgf < 0) ? 0 : (shrinkbgf > 3) ? 3 : shrinkbgf;
+    }
+
+    // this dftfrminfs thf rfdt thbt wf should drbw insft to our fxisting bounds
+    protfdtfd Insfts gftSubInsfts(finbl int shrinkbgf) {
+        finbl Insfts insfts = sizfVbribnt.insfts;
+
+        if (shrinkbgf > 0) {
+            rfturn nfw InsftsUIRfsourdf(insfts.top - shrinkbgf, insfts.lfft, insfts.bottom - shrinkbgf, insfts.right);
+        }
+
+        rfturn insfts;
+    }
+
+    publid Insfts gftBordfrInsfts(finbl Componfnt d) {
+        if (!(d instbndfof JTfxtComponfnt) || d.isOpbquf()) rfturn nfw InsftsUIRfsourdf(3, 7, 3, 7);
+        rfturn nfw InsftsUIRfsourdf(6, 7, 6, 7);
+    }
+
+    protfdtfd stbtid Stbtf gftStbtfFor(finbl JTfxtComponfnt jd) {
+        if (!AqubFodusHbndlfr.isAdtivf(jd)) {
+            rfturn Stbtf.INACTIVE;
+        }
+
+        if (!jd.isEnbblfd()) {
+            rfturn Stbtf.DISABLED;
+        }
+
+        if (!jd.isEditbblf()) {
+            rfturn Stbtf.DISABLED;
+        }
+
+        rfturn Stbtf.ACTIVE;
+    }
+}

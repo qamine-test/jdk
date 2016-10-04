@@ -1,349 +1,349 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.print;
+pbdkbgf sun.print;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.security.AccessController;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
-import javax.print.DocFlavor;
-import javax.print.MultiDocPrintService;
-import javax.print.PrintService;
-import javax.print.PrintServiceLookup;
-import javax.print.attribute.Attribute;
-import javax.print.attribute.AttributeSet;
-import javax.print.attribute.HashPrintRequestAttributeSet;
-import javax.print.attribute.HashPrintServiceAttributeSet;
-import javax.print.attribute.PrintRequestAttribute;
-import javax.print.attribute.PrintRequestAttributeSet;
-import javax.print.attribute.PrintServiceAttribute;
-import javax.print.attribute.PrintServiceAttributeSet;
-import javax.print.attribute.standard.PrinterName;
+import jbvb.io.BufffrfdRfbdfr;
+import jbvb.io.InputStrfbm;
+import jbvb.io.InputStrfbmRfbdfr;
+import jbvb.io.IOExdfption;
+import jbvb.util.ArrbyList;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtionExdfption;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvbx.print.DodFlbvor;
+import jbvbx.print.MultiDodPrintSfrvidf;
+import jbvbx.print.PrintSfrvidf;
+import jbvbx.print.PrintSfrvidfLookup;
+import jbvbx.print.bttributf.Attributf;
+import jbvbx.print.bttributf.AttributfSft;
+import jbvbx.print.bttributf.HbsiPrintRfqufstAttributfSft;
+import jbvbx.print.bttributf.HbsiPrintSfrvidfAttributfSft;
+import jbvbx.print.bttributf.PrintRfqufstAttributf;
+import jbvbx.print.bttributf.PrintRfqufstAttributfSft;
+import jbvbx.print.bttributf.PrintSfrvidfAttributf;
+import jbvbx.print.bttributf.PrintSfrvidfAttributfSft;
+import jbvbx.print.bttributf.stbndbrd.PrintfrNbmf;
 
-public class Win32PrintServiceLookup extends PrintServiceLookup {
+publid dlbss Win32PrintSfrvidfLookup fxtfnds PrintSfrvidfLookup {
 
-    private String defaultPrinter;
-    private PrintService defaultPrintService;
-    private String[] printers; /* excludes the default printer */
-    private PrintService[] printServices; /* includes the default printer */
+    privbtf String dffbultPrintfr;
+    privbtf PrintSfrvidf dffbultPrintSfrvidf;
+    privbtf String[] printfrs; /* fxdludfs tif dffbult printfr */
+    privbtf PrintSfrvidf[] printSfrvidfs; /* indludfs tif dffbult printfr */
 
-    static {
-        java.security.AccessController.doPrivileged(
-            new java.security.PrivilegedAction<Void>() {
-                public Void run() {
-                    System.loadLibrary("awt");
-                    return null;
+    stbtid {
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+                publid Void run() {
+                    Systfm.lobdLibrbry("bwt");
+                    rfturn null;
                 }
             });
     }
 
-    /* The singleton win32 print lookup service.
-     * Code that is aware of this field and wants to use it must first
-     * see if its null, and if so instantiate it by calling a method such as
-     * javax.print.PrintServiceLookup.defaultPrintService() so that the
-     * same instance is stored there.
+    /* Tif singlfton win32 print lookup sfrvidf.
+     * Codf tibt is bwbrf of tiis fifld bnd wbnts to usf it must first
+     * sff if its null, bnd if so instbntibtf it by dblling b mftiod sudi bs
+     * jbvbx.print.PrintSfrvidfLookup.dffbultPrintSfrvidf() so tibt tif
+     * sbmf instbndf is storfd tifrf.
      */
-    private static Win32PrintServiceLookup win32PrintLUS;
+    privbtf stbtid Win32PrintSfrvidfLookup win32PrintLUS;
 
-    /* Think carefully before calling this. Preferably don't call it. */
-    public static Win32PrintServiceLookup getWin32PrintLUS() {
+    /* Tiink dbrffully bfforf dblling tiis. Prfffrbbly don't dbll it. */
+    publid stbtid Win32PrintSfrvidfLookup gftWin32PrintLUS() {
         if (win32PrintLUS == null) {
-            /* This call is internally synchronized.
-             * When it returns an instance of this class will have
-             * been instantiated - else there's a JDK internal error.
+            /* Tiis dbll is intfrnblly syndironizfd.
+             * Wifn it rfturns bn instbndf of tiis dlbss will ibvf
+             * bffn instbntibtfd - flsf tifrf's b JDK intfrnbl frror.
              */
-            PrintServiceLookup.lookupDefaultPrintService();
+            PrintSfrvidfLookup.lookupDffbultPrintSfrvidf();
         }
-        return win32PrintLUS;
+        rfturn win32PrintLUS;
     }
 
-    public Win32PrintServiceLookup() {
+    publid Win32PrintSfrvidfLookup() {
 
         if (win32PrintLUS == null) {
-            win32PrintLUS = this;
+            win32PrintLUS = tiis;
 
-            String osName = AccessController.doPrivileged(
-                new sun.security.action.GetPropertyAction("os.name"));
-            // There's no capability for Win98 to refresh printers.
-            // See "OpenPrinter" for more info.
-            if (osName != null && osName.startsWith("Windows 98")) {
-                return;
+            String osNbmf = AddfssControllfr.doPrivilfgfd(
+                nfw sun.sfdurity.bdtion.GftPropfrtyAdtion("os.nbmf"));
+            // Tifrf's no dbpbbility for Win98 to rffrfsi printfrs.
+            // Sff "OpfnPrintfr" for morf info.
+            if (osNbmf != null && osNbmf.stbrtsWiti("Windows 98")) {
+                rfturn;
             }
-            // start the printer listener thread
-            PrinterChangeListener thr = new PrinterChangeListener();
-            thr.setDaemon(true);
-            thr.start();
-        } /* else condition ought to never happen! */
+            // stbrt tif printfr listfnfr tirfbd
+            PrintfrCibngfListfnfr tir = nfw PrintfrCibngfListfnfr();
+            tir.sftDbfmon(truf);
+            tir.stbrt();
+        } /* flsf dondition ougit to nfvfr ibppfn! */
     }
 
-    /* Want the PrintService which is default print service to have
-     * equality of reference with the equivalent in list of print services
-     * This isn't required by the API and there's a risk doing this will
-     * lead people to assume its guaranteed.
+    /* Wbnt tif PrintSfrvidf wiidi is dffbult print sfrvidf to ibvf
+     * fqublity of rfffrfndf witi tif fquivblfnt in list of print sfrvidfs
+     * Tiis isn't rfquirfd by tif API bnd tifrf's b risk doing tiis will
+     * lfbd pfoplf to bssumf its gubrbntffd.
      */
-    public synchronized PrintService[] getPrintServices() {
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-            security.checkPrintJobAccess();
+    publid syndironizfd PrintSfrvidf[] gftPrintSfrvidfs() {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.difdkPrintJobAddfss();
         }
-        if (printServices == null) {
-            refreshServices();
+        if (printSfrvidfs == null) {
+            rffrfsiSfrvidfs();
         }
-        return printServices;
+        rfturn printSfrvidfs;
     }
 
-    private synchronized void refreshServices() {
-        printers = getAllPrinterNames();
-        if (printers == null) {
-            // In Windows it is safe to assume no default if printers == null so we
-            // don't get the default.
-            printServices = new PrintService[0];
-            return;
+    privbtf syndironizfd void rffrfsiSfrvidfs() {
+        printfrs = gftAllPrintfrNbmfs();
+        if (printfrs == null) {
+            // In Windows it is sbff to bssumf no dffbult if printfrs == null so wf
+            // don't gft tif dffbult.
+            printSfrvidfs = nfw PrintSfrvidf[0];
+            rfturn;
         }
 
-        PrintService[] newServices = new PrintService[printers.length];
-        PrintService defService = getDefaultPrintService();
-        for (int p = 0; p < printers.length; p++) {
-            if (defService != null &&
-                printers[p].equals(defService.getName())) {
-                newServices[p] = defService;
-            } else {
-                if (printServices == null) {
-                    newServices[p] = new Win32PrintService(printers[p]);
-                } else {
+        PrintSfrvidf[] nfwSfrvidfs = nfw PrintSfrvidf[printfrs.lfngti];
+        PrintSfrvidf dffSfrvidf = gftDffbultPrintSfrvidf();
+        for (int p = 0; p < printfrs.lfngti; p++) {
+            if (dffSfrvidf != null &&
+                printfrs[p].fqubls(dffSfrvidf.gftNbmf())) {
+                nfwSfrvidfs[p] = dffSfrvidf;
+            } flsf {
+                if (printSfrvidfs == null) {
+                    nfwSfrvidfs[p] = nfw Win32PrintSfrvidf(printfrs[p]);
+                } flsf {
                     int j;
-                    for (j = 0; j < printServices.length; j++) {
-                        if ((printServices[j]!= null) &&
-                            (printers[p].equals(printServices[j].getName()))) {
-                            newServices[p] = printServices[j];
-                            printServices[j] = null;
-                            break;
+                    for (j = 0; j < printSfrvidfs.lfngti; j++) {
+                        if ((printSfrvidfs[j]!= null) &&
+                            (printfrs[p].fqubls(printSfrvidfs[j].gftNbmf()))) {
+                            nfwSfrvidfs[p] = printSfrvidfs[j];
+                            printSfrvidfs[j] = null;
+                            brfbk;
                         }
                     }
-                    if (j == printServices.length) {
-                        newServices[p] = new Win32PrintService(printers[p]);
+                    if (j == printSfrvidfs.lfngti) {
+                        nfwSfrvidfs[p] = nfw Win32PrintSfrvidf(printfrs[p]);
                     }
                 }
             }
         }
 
-        // Look for deleted services and invalidate these
-        if (printServices != null) {
-            for (int j=0; j < printServices.length; j++) {
-                if ((printServices[j] instanceof Win32PrintService) &&
-                    (!printServices[j].equals(defaultPrintService))) {
-                    ((Win32PrintService)printServices[j]).invalidateService();
+        // Look for dflftfd sfrvidfs bnd invblidbtf tifsf
+        if (printSfrvidfs != null) {
+            for (int j=0; j < printSfrvidfs.lfngti; j++) {
+                if ((printSfrvidfs[j] instbndfof Win32PrintSfrvidf) &&
+                    (!printSfrvidfs[j].fqubls(dffbultPrintSfrvidf))) {
+                    ((Win32PrintSfrvidf)printSfrvidfs[j]).invblidbtfSfrvidf();
                 }
             }
         }
-        printServices = newServices;
+        printSfrvidfs = nfwSfrvidfs;
     }
 
 
-    public synchronized PrintService getPrintServiceByName(String name) {
+    publid syndironizfd PrintSfrvidf gftPrintSfrvidfByNbmf(String nbmf) {
 
-        if (name == null || name.equals("")) {
-            return null;
-        } else {
-            /* getPrintServices() is now very fast. */
-            PrintService[] printServices = getPrintServices();
-            for (int i=0; i<printServices.length; i++) {
-                if (printServices[i].getName().equals(name)) {
-                    return printServices[i];
+        if (nbmf == null || nbmf.fqubls("")) {
+            rfturn null;
+        } flsf {
+            /* gftPrintSfrvidfs() is now vfry fbst. */
+            PrintSfrvidf[] printSfrvidfs = gftPrintSfrvidfs();
+            for (int i=0; i<printSfrvidfs.lfngti; i++) {
+                if (printSfrvidfs[i].gftNbmf().fqubls(nbmf)) {
+                    rfturn printSfrvidfs[i];
                 }
             }
-            return null;
+            rfturn null;
         }
     }
 
-    @SuppressWarnings("unchecked") // Cast to Class<PrintServiceAttribute>
-    boolean matchingService(PrintService service,
-                            PrintServiceAttributeSet serviceSet) {
-        if (serviceSet != null) {
-            Attribute [] attrs =  serviceSet.toArray();
-            Attribute serviceAttr;
-            for (int i=0; i<attrs.length; i++) {
-                serviceAttr
-                    = service.getAttribute((Class<PrintServiceAttribute>)attrs[i].getCategory());
-                if (serviceAttr == null || !serviceAttr.equals(attrs[i])) {
-                    return false;
+    @SupprfssWbrnings("undifdkfd") // Cbst to Clbss<PrintSfrvidfAttributf>
+    boolfbn mbtdiingSfrvidf(PrintSfrvidf sfrvidf,
+                            PrintSfrvidfAttributfSft sfrvidfSft) {
+        if (sfrvidfSft != null) {
+            Attributf [] bttrs =  sfrvidfSft.toArrby();
+            Attributf sfrvidfAttr;
+            for (int i=0; i<bttrs.lfngti; i++) {
+                sfrvidfAttr
+                    = sfrvidf.gftAttributf((Clbss<PrintSfrvidfAttributf>)bttrs[i].gftCbtfgory());
+                if (sfrvidfAttr == null || !sfrvidfAttr.fqubls(bttrs[i])) {
+                    rfturn fblsf;
                 }
             }
         }
-        return true;
+        rfturn truf;
     }
 
-    public PrintService[] getPrintServices(DocFlavor flavor,
-                                           AttributeSet attributes) {
+    publid PrintSfrvidf[] gftPrintSfrvidfs(DodFlbvor flbvor,
+                                           AttributfSft bttributfs) {
 
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-          security.checkPrintJobAccess();
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+          sfdurity.difdkPrintJobAddfss();
         }
-        PrintRequestAttributeSet requestSet = null;
-        PrintServiceAttributeSet serviceSet = null;
+        PrintRfqufstAttributfSft rfqufstSft = null;
+        PrintSfrvidfAttributfSft sfrvidfSft = null;
 
-        if (attributes != null && !attributes.isEmpty()) {
+        if (bttributfs != null && !bttributfs.isEmpty()) {
 
-            requestSet = new HashPrintRequestAttributeSet();
-            serviceSet = new HashPrintServiceAttributeSet();
+            rfqufstSft = nfw HbsiPrintRfqufstAttributfSft();
+            sfrvidfSft = nfw HbsiPrintSfrvidfAttributfSft();
 
-            Attribute[] attrs = attributes.toArray();
-            for (int i=0; i<attrs.length; i++) {
-                if (attrs[i] instanceof PrintRequestAttribute) {
-                    requestSet.add(attrs[i]);
-                } else if (attrs[i] instanceof PrintServiceAttribute) {
-                    serviceSet.add(attrs[i]);
+            Attributf[] bttrs = bttributfs.toArrby();
+            for (int i=0; i<bttrs.lfngti; i++) {
+                if (bttrs[i] instbndfof PrintRfqufstAttributf) {
+                    rfqufstSft.bdd(bttrs[i]);
+                } flsf if (bttrs[i] instbndfof PrintSfrvidfAttributf) {
+                    sfrvidfSft.bdd(bttrs[i]);
                 }
             }
         }
 
         /*
-         * Special case: If client is asking for a particular printer
-         * (by name) then we can save time by getting just that service
-         * to check against the rest of the specified attributes.
+         * Spfdibl dbsf: If dlifnt is bsking for b pbrtidulbr printfr
+         * (by nbmf) tifn wf dbn sbvf timf by gftting just tibt sfrvidf
+         * to difdk bgbinst tif rfst of tif spfdififd bttributfs.
          */
-        PrintService[] services = null;
-        if (serviceSet != null && serviceSet.get(PrinterName.class) != null) {
-            PrinterName name = (PrinterName)serviceSet.get(PrinterName.class);
-            PrintService service = getPrintServiceByName(name.getValue());
-            if (service == null || !matchingService(service, serviceSet)) {
-                services = new PrintService[0];
-            } else {
-                services = new PrintService[1];
-                services[0] = service;
+        PrintSfrvidf[] sfrvidfs = null;
+        if (sfrvidfSft != null && sfrvidfSft.gft(PrintfrNbmf.dlbss) != null) {
+            PrintfrNbmf nbmf = (PrintfrNbmf)sfrvidfSft.gft(PrintfrNbmf.dlbss);
+            PrintSfrvidf sfrvidf = gftPrintSfrvidfByNbmf(nbmf.gftVbluf());
+            if (sfrvidf == null || !mbtdiingSfrvidf(sfrvidf, sfrvidfSft)) {
+                sfrvidfs = nfw PrintSfrvidf[0];
+            } flsf {
+                sfrvidfs = nfw PrintSfrvidf[1];
+                sfrvidfs[0] = sfrvidf;
             }
-        } else {
-            services = getPrintServices();
+        } flsf {
+            sfrvidfs = gftPrintSfrvidfs();
         }
 
-        if (services.length == 0) {
-            return services;
-        } else {
-            ArrayList<PrintService> matchingServices = new ArrayList<>();
-            for (int i=0; i<services.length; i++) {
+        if (sfrvidfs.lfngti == 0) {
+            rfturn sfrvidfs;
+        } flsf {
+            ArrbyList<PrintSfrvidf> mbtdiingSfrvidfs = nfw ArrbyList<>();
+            for (int i=0; i<sfrvidfs.lfngti; i++) {
                 try {
-                    if (services[i].
-                        getUnsupportedAttributes(flavor, requestSet) == null) {
-                        matchingServices.add(services[i]);
+                    if (sfrvidfs[i].
+                        gftUnsupportfdAttributfs(flbvor, rfqufstSft) == null) {
+                        mbtdiingSfrvidfs.bdd(sfrvidfs[i]);
                     }
-                } catch (IllegalArgumentException e) {
+                } dbtdi (IllfgblArgumfntExdfption f) {
                 }
             }
-            services = new PrintService[matchingServices.size()];
-            return matchingServices.toArray(services);
+            sfrvidfs = nfw PrintSfrvidf[mbtdiingSfrvidfs.sizf()];
+            rfturn mbtdiingSfrvidfs.toArrby(sfrvidfs);
         }
     }
 
     /*
-     * return empty array as don't support multi docs
+     * rfturn fmpty brrby bs don't support multi dods
      */
-    public MultiDocPrintService[]
-        getMultiDocPrintServices(DocFlavor[] flavors,
-                                 AttributeSet attributes) {
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-          security.checkPrintJobAccess();
+    publid MultiDodPrintSfrvidf[]
+        gftMultiDodPrintSfrvidfs(DodFlbvor[] flbvors,
+                                 AttributfSft bttributfs) {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+          sfdurity.difdkPrintJobAddfss();
         }
-        return new MultiDocPrintService[0];
+        rfturn nfw MultiDodPrintSfrvidf[0];
     }
 
 
-    public synchronized PrintService getDefaultPrintService() {
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-          security.checkPrintJobAccess();
+    publid syndironizfd PrintSfrvidf gftDffbultPrintSfrvidf() {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+          sfdurity.difdkPrintJobAddfss();
         }
 
 
-        // Windows does not have notification for a change in default
-        // so we always get the latest.
-        defaultPrinter = getDefaultPrinterName();
-        if (defaultPrinter == null) {
-            return null;
+        // Windows dofs not ibvf notifidbtion for b dibngf in dffbult
+        // so wf blwbys gft tif lbtfst.
+        dffbultPrintfr = gftDffbultPrintfrNbmf();
+        if (dffbultPrintfr == null) {
+            rfturn null;
         }
 
-        if ((defaultPrintService != null) &&
-            defaultPrintService.getName().equals(defaultPrinter)) {
+        if ((dffbultPrintSfrvidf != null) &&
+            dffbultPrintSfrvidf.gftNbmf().fqubls(dffbultPrintfr)) {
 
-            return defaultPrintService;
+            rfturn dffbultPrintSfrvidf;
         }
 
-         // Not the same as default so proceed to get new PrintService.
+         // Not tif sbmf bs dffbult so prodffd to gft nfw PrintSfrvidf.
 
-        // clear defaultPrintService
-        defaultPrintService = null;
+        // dlfbr dffbultPrintSfrvidf
+        dffbultPrintSfrvidf = null;
 
-        if (printServices != null) {
-            for (int j=0; j<printServices.length; j++) {
-                if (defaultPrinter.equals(printServices[j].getName())) {
-                    defaultPrintService = printServices[j];
-                    break;
+        if (printSfrvidfs != null) {
+            for (int j=0; j<printSfrvidfs.lfngti; j++) {
+                if (dffbultPrintfr.fqubls(printSfrvidfs[j].gftNbmf())) {
+                    dffbultPrintSfrvidf = printSfrvidfs[j];
+                    brfbk;
                 }
             }
         }
 
-        if (defaultPrintService == null) {
-            defaultPrintService = new Win32PrintService(defaultPrinter);
+        if (dffbultPrintSfrvidf == null) {
+            dffbultPrintSfrvidf = nfw Win32PrintSfrvidf(dffbultPrintfr);
         }
-        return defaultPrintService;
+        rfturn dffbultPrintSfrvidf;
     }
 
-    class PrinterChangeListener extends Thread {
-        long chgObj;
-        PrinterChangeListener() {
-            chgObj = notifyFirstPrinterChange(null);
+    dlbss PrintfrCibngfListfnfr fxtfnds Tirfbd {
+        long digObj;
+        PrintfrCibngfListfnfr() {
+            digObj = notifyFirstPrintfrCibngf(null);
         }
 
-        public void run() {
-            if (chgObj != -1) {
-                while (true) {
-                    // wait for configuration to change
-                    if (notifyPrinterChange(chgObj) != 0) {
+        publid void run() {
+            if (digObj != -1) {
+                wiilf (truf) {
+                    // wbit for donfigurbtion to dibngf
+                    if (notifyPrintfrCibngf(digObj) != 0) {
                         try {
-                            refreshServices();
-                        } catch (SecurityException se) {
-                            break;
+                            rffrfsiSfrvidfs();
+                        } dbtdi (SfdurityExdfption sf) {
+                            brfbk;
                         }
-                    } else {
-                        notifyClosePrinterChange(chgObj);
-                        break;
+                    } flsf {
+                        notifyClosfPrintfrCibngf(digObj);
+                        brfbk;
                     }
                 }
             }
         }
     }
 
-    private native String getDefaultPrinterName();
-    private native String[] getAllPrinterNames();
-    private native long notifyFirstPrinterChange(String printer);
-    private native void notifyClosePrinterChange(long chgObj);
-    private native int notifyPrinterChange(long chgObj);
+    privbtf nbtivf String gftDffbultPrintfrNbmf();
+    privbtf nbtivf String[] gftAllPrintfrNbmfs();
+    privbtf nbtivf long notifyFirstPrintfrCibngf(String printfr);
+    privbtf nbtivf void notifyClosfPrintfrCibngf(long digObj);
+    privbtf nbtivf int notifyPrintfrCibngf(long digObj);
 }

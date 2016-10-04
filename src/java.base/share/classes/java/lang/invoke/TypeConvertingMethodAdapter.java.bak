@@ -1,302 +1,302 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang.invoke;
+pbdkbgf jbvb.lbng.invokf;
 
-import jdk.internal.org.objectweb.asm.MethodVisitor;
-import jdk.internal.org.objectweb.asm.Opcodes;
-import jdk.internal.org.objectweb.asm.Type;
-import sun.invoke.util.BytecodeDescriptor;
-import sun.invoke.util.Wrapper;
-import static sun.invoke.util.Wrapper.*;
+import jdk.intfrnbl.org.objfdtwfb.bsm.MftiodVisitor;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Opdodfs;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Typf;
+import sun.invokf.util.BytfdodfDfsdriptor;
+import sun.invokf.util.Wrbppfr;
+import stbtid sun.invokf.util.Wrbppfr.*;
 
-class TypeConvertingMethodAdapter extends MethodVisitor {
+dlbss TypfConvfrtingMftiodAdbptfr fxtfnds MftiodVisitor {
 
-    TypeConvertingMethodAdapter(MethodVisitor mv) {
-        super(Opcodes.ASM5, mv);
+    TypfConvfrtingMftiodAdbptfr(MftiodVisitor mv) {
+        supfr(Opdodfs.ASM5, mv);
     }
 
-    private static final int NUM_WRAPPERS = Wrapper.values().length;
+    privbtf stbtid finbl int NUM_WRAPPERS = Wrbppfr.vblufs().lfngti;
 
-    private static final String NAME_OBJECT = "java/lang/Object";
-    private static final String WRAPPER_PREFIX = "Ljava/lang/";
+    privbtf stbtid finbl String NAME_OBJECT = "jbvb/lbng/Objfdt";
+    privbtf stbtid finbl String WRAPPER_PREFIX = "Ljbvb/lbng/";
 
-    // Same for all primitives; name of the boxing method
-    private static final String NAME_BOX_METHOD = "valueOf";
+    // Sbmf for bll primitivfs; nbmf of tif boxing mftiod
+    privbtf stbtid finbl String NAME_BOX_METHOD = "vblufOf";
 
-    // Table of opcodes for widening primitive conversions; NOP = no conversion
-    private static final int[][] wideningOpcodes = new int[NUM_WRAPPERS][NUM_WRAPPERS];
+    // Tbblf of opdodfs for widfning primitivf donvfrsions; NOP = no donvfrsion
+    privbtf stbtid finbl int[][] widfningOpdodfs = nfw int[NUM_WRAPPERS][NUM_WRAPPERS];
 
-    private static final Wrapper[] FROM_WRAPPER_NAME = new Wrapper[16];
+    privbtf stbtid finbl Wrbppfr[] FROM_WRAPPER_NAME = nfw Wrbppfr[16];
 
-    // Table of wrappers for primitives, indexed by ASM type sorts
-    private static final Wrapper[] FROM_TYPE_SORT = new Wrapper[16];
+    // Tbblf of wrbppfrs for primitivfs, indfxfd by ASM typf sorts
+    privbtf stbtid finbl Wrbppfr[] FROM_TYPE_SORT = nfw Wrbppfr[16];
 
-    static {
-        for (Wrapper w : Wrapper.values()) {
-            if (w.basicTypeChar() != 'L') {
-                int wi = hashWrapperName(w.wrapperSimpleName());
-                assert (FROM_WRAPPER_NAME[wi] == null);
+    stbtid {
+        for (Wrbppfr w : Wrbppfr.vblufs()) {
+            if (w.bbsidTypfCibr() != 'L') {
+                int wi = ibsiWrbppfrNbmf(w.wrbppfrSimplfNbmf());
+                bssfrt (FROM_WRAPPER_NAME[wi] == null);
                 FROM_WRAPPER_NAME[wi] = w;
             }
         }
 
         for (int i = 0; i < NUM_WRAPPERS; i++) {
             for (int j = 0; j < NUM_WRAPPERS; j++) {
-                wideningOpcodes[i][j] = Opcodes.NOP;
+                widfningOpdodfs[i][j] = Opdodfs.NOP;
             }
         }
 
-        initWidening(LONG,   Opcodes.I2L, BYTE, SHORT, INT, CHAR);
-        initWidening(LONG,   Opcodes.F2L, FLOAT);
-        initWidening(FLOAT,  Opcodes.I2F, BYTE, SHORT, INT, CHAR);
-        initWidening(FLOAT,  Opcodes.L2F, LONG);
-        initWidening(DOUBLE, Opcodes.I2D, BYTE, SHORT, INT, CHAR);
-        initWidening(DOUBLE, Opcodes.F2D, FLOAT);
-        initWidening(DOUBLE, Opcodes.L2D, LONG);
+        initWidfning(LONG,   Opdodfs.I2L, BYTE, SHORT, INT, CHAR);
+        initWidfning(LONG,   Opdodfs.F2L, FLOAT);
+        initWidfning(FLOAT,  Opdodfs.I2F, BYTE, SHORT, INT, CHAR);
+        initWidfning(FLOAT,  Opdodfs.L2F, LONG);
+        initWidfning(DOUBLE, Opdodfs.I2D, BYTE, SHORT, INT, CHAR);
+        initWidfning(DOUBLE, Opdodfs.F2D, FLOAT);
+        initWidfning(DOUBLE, Opdodfs.L2D, LONG);
 
-        FROM_TYPE_SORT[Type.BYTE] = Wrapper.BYTE;
-        FROM_TYPE_SORT[Type.SHORT] = Wrapper.SHORT;
-        FROM_TYPE_SORT[Type.INT] = Wrapper.INT;
-        FROM_TYPE_SORT[Type.LONG] = Wrapper.LONG;
-        FROM_TYPE_SORT[Type.CHAR] = Wrapper.CHAR;
-        FROM_TYPE_SORT[Type.FLOAT] = Wrapper.FLOAT;
-        FROM_TYPE_SORT[Type.DOUBLE] = Wrapper.DOUBLE;
-        FROM_TYPE_SORT[Type.BOOLEAN] = Wrapper.BOOLEAN;
+        FROM_TYPE_SORT[Typf.BYTE] = Wrbppfr.BYTE;
+        FROM_TYPE_SORT[Typf.SHORT] = Wrbppfr.SHORT;
+        FROM_TYPE_SORT[Typf.INT] = Wrbppfr.INT;
+        FROM_TYPE_SORT[Typf.LONG] = Wrbppfr.LONG;
+        FROM_TYPE_SORT[Typf.CHAR] = Wrbppfr.CHAR;
+        FROM_TYPE_SORT[Typf.FLOAT] = Wrbppfr.FLOAT;
+        FROM_TYPE_SORT[Typf.DOUBLE] = Wrbppfr.DOUBLE;
+        FROM_TYPE_SORT[Typf.BOOLEAN] = Wrbppfr.BOOLEAN;
     }
 
-    private static void initWidening(Wrapper to, int opcode, Wrapper... from) {
-        for (Wrapper f : from) {
-            wideningOpcodes[f.ordinal()][to.ordinal()] = opcode;
+    privbtf stbtid void initWidfning(Wrbppfr to, int opdodf, Wrbppfr... from) {
+        for (Wrbppfr f : from) {
+            widfningOpdodfs[f.ordinbl()][to.ordinbl()] = opdodf;
         }
     }
 
     /**
-     * Class name to Wrapper hash, derived from Wrapper.hashWrap()
-     * @param xn
-     * @return The hash code 0-15
+     * Clbss nbmf to Wrbppfr ibsi, dfrivfd from Wrbppfr.ibsiWrbp()
+     * @pbrbm xn
+     * @rfturn Tif ibsi dodf 0-15
      */
-    private static int hashWrapperName(String xn) {
-        if (xn.length() < 3) {
-            return 0;
+    privbtf stbtid int ibsiWrbppfrNbmf(String xn) {
+        if (xn.lfngti() < 3) {
+            rfturn 0;
         }
-        return (3 * xn.charAt(1) + xn.charAt(2)) % 16;
+        rfturn (3 * xn.dibrAt(1) + xn.dibrAt(2)) % 16;
     }
 
-    private Wrapper wrapperOrNullFromDescriptor(String desc) {
-        if (!desc.startsWith(WRAPPER_PREFIX)) {
-            // Not a class type (array or method), so not a boxed type
-            // or not in the right package
-            return null;
+    privbtf Wrbppfr wrbppfrOrNullFromDfsdriptor(String dfsd) {
+        if (!dfsd.stbrtsWiti(WRAPPER_PREFIX)) {
+            // Not b dlbss typf (brrby or mftiod), so not b boxfd typf
+            // or not in tif rigit pbdkbgf
+            rfturn null;
         }
-        // Pare it down to the simple class name
-        String cname = desc.substring(WRAPPER_PREFIX.length(), desc.length() - 1);
-        // Hash to a Wrapper
-        Wrapper w = FROM_WRAPPER_NAME[hashWrapperName(cname)];
-        if (w == null || w.wrapperSimpleName().equals(cname)) {
-            return w;
-        } else {
-            return null;
+        // Pbrf it down to tif simplf dlbss nbmf
+        String dnbmf = dfsd.substring(WRAPPER_PREFIX.lfngti(), dfsd.lfngti() - 1);
+        // Hbsi to b Wrbppfr
+        Wrbppfr w = FROM_WRAPPER_NAME[ibsiWrbppfrNbmf(dnbmf)];
+        if (w == null || w.wrbppfrSimplfNbmf().fqubls(dnbmf)) {
+            rfturn w;
+        } flsf {
+            rfturn null;
         }
     }
 
-    private static String wrapperName(Wrapper w) {
-        return "java/lang/" + w.wrapperSimpleName();
+    privbtf stbtid String wrbppfrNbmf(Wrbppfr w) {
+        rfturn "jbvb/lbng/" + w.wrbppfrSimplfNbmf();
     }
 
-    private static String unboxMethod(Wrapper w) {
-        return w.primitiveSimpleName() + "Value";
+    privbtf stbtid String unboxMftiod(Wrbppfr w) {
+        rfturn w.primitivfSimplfNbmf() + "Vbluf";
     }
 
-    private static String boxingDescriptor(Wrapper w) {
-        return String.format("(%s)L%s;", w.basicTypeChar(), wrapperName(w));
+    privbtf stbtid String boxingDfsdriptor(Wrbppfr w) {
+        rfturn String.formbt("(%s)L%s;", w.bbsidTypfCibr(), wrbppfrNbmf(w));
     }
 
-    private static String unboxingDescriptor(Wrapper w) {
-        return "()" + w.basicTypeChar();
+    privbtf stbtid String unboxingDfsdriptor(Wrbppfr w) {
+        rfturn "()" + w.bbsidTypfCibr();
     }
 
-    void boxIfTypePrimitive(Type t) {
-        Wrapper w = FROM_TYPE_SORT[t.getSort()];
+    void boxIfTypfPrimitivf(Typf t) {
+        Wrbppfr w = FROM_TYPE_SORT[t.gftSort()];
         if (w != null) {
             box(w);
         }
     }
 
-    void widen(Wrapper ws, Wrapper wt) {
+    void widfn(Wrbppfr ws, Wrbppfr wt) {
         if (ws != wt) {
-            int opcode = wideningOpcodes[ws.ordinal()][wt.ordinal()];
-            if (opcode != Opcodes.NOP) {
-                visitInsn(opcode);
+            int opdodf = widfningOpdodfs[ws.ordinbl()][wt.ordinbl()];
+            if (opdodf != Opdodfs.NOP) {
+                visitInsn(opdodf);
             }
         }
     }
 
-    void box(Wrapper w) {
-        visitMethodInsn(Opcodes.INVOKESTATIC,
-                wrapperName(w),
+    void box(Wrbppfr w) {
+        visitMftiodInsn(Opdodfs.INVOKESTATIC,
+                wrbppfrNbmf(w),
                 NAME_BOX_METHOD,
-                boxingDescriptor(w), false);
+                boxingDfsdriptor(w), fblsf);
     }
 
     /**
-     * Convert types by unboxing. The source type is known to be a primitive wrapper.
-     * @param sname A primitive wrapper corresponding to wrapped reference source type
-     * @param wt A primitive wrapper being converted to
+     * Convfrt typfs by unboxing. Tif sourdf typf is known to bf b primitivf wrbppfr.
+     * @pbrbm snbmf A primitivf wrbppfr dorrfsponding to wrbppfd rfffrfndf sourdf typf
+     * @pbrbm wt A primitivf wrbppfr bfing donvfrtfd to
      */
-    void unbox(String sname, Wrapper wt) {
-        visitMethodInsn(Opcodes.INVOKEVIRTUAL,
-                sname,
-                unboxMethod(wt),
-                unboxingDescriptor(wt), false);
+    void unbox(String snbmf, Wrbppfr wt) {
+        visitMftiodInsn(Opdodfs.INVOKEVIRTUAL,
+                snbmf,
+                unboxMftiod(wt),
+                unboxingDfsdriptor(wt), fblsf);
     }
 
-    private String descriptorToName(String desc) {
-        int last = desc.length() - 1;
-        if (desc.charAt(0) == 'L' && desc.charAt(last) == ';') {
-            // In descriptor form
-            return desc.substring(1, last);
-        } else {
-            // Already in internal name form
-            return desc;
+    privbtf String dfsdriptorToNbmf(String dfsd) {
+        int lbst = dfsd.lfngti() - 1;
+        if (dfsd.dibrAt(0) == 'L' && dfsd.dibrAt(lbst) == ';') {
+            // In dfsdriptor form
+            rfturn dfsd.substring(1, lbst);
+        } flsf {
+            // Alrfbdy in intfrnbl nbmf form
+            rfturn dfsd;
         }
     }
 
-    void cast(String ds, String dt) {
-        String ns = descriptorToName(ds);
-        String nt = descriptorToName(dt);
-        if (!nt.equals(ns) && !nt.equals(NAME_OBJECT)) {
-            visitTypeInsn(Opcodes.CHECKCAST, nt);
+    void dbst(String ds, String dt) {
+        String ns = dfsdriptorToNbmf(ds);
+        String nt = dfsdriptorToNbmf(dt);
+        if (!nt.fqubls(ns) && !nt.fqubls(NAME_OBJECT)) {
+            visitTypfInsn(Opdodfs.CHECKCAST, nt);
         }
     }
 
-    private boolean isPrimitive(Wrapper w) {
-        return w != OBJECT;
+    privbtf boolfbn isPrimitivf(Wrbppfr w) {
+        rfturn w != OBJECT;
     }
 
-    private Wrapper toWrapper(String desc) {
-        char first = desc.charAt(0);
+    privbtf Wrbppfr toWrbppfr(String dfsd) {
+        dibr first = dfsd.dibrAt(0);
         if (first == '[' || first == '(') {
             first = 'L';
         }
-        return Wrapper.forBasicType(first);
+        rfturn Wrbppfr.forBbsidTypf(first);
     }
 
     /**
-     * Convert an argument of type 'arg' to be passed to 'target' assuring that it is 'functional'.
-     * Insert the needed conversion instructions in the method code.
-     * @param arg
-     * @param target
-     * @param functional
+     * Convfrt bn brgumfnt of typf 'brg' to bf pbssfd to 'tbrgft' bssuring tibt it is 'fundtionbl'.
+     * Insfrt tif nffdfd donvfrsion instrudtions in tif mftiod dodf.
+     * @pbrbm brg
+     * @pbrbm tbrgft
+     * @pbrbm fundtionbl
      */
-    void convertType(Class<?> arg, Class<?> target, Class<?> functional) {
-        if (arg.equals(target) && arg.equals(functional)) {
-            return;
+    void donvfrtTypf(Clbss<?> brg, Clbss<?> tbrgft, Clbss<?> fundtionbl) {
+        if (brg.fqubls(tbrgft) && brg.fqubls(fundtionbl)) {
+            rfturn;
         }
-        if (arg == Void.TYPE || target == Void.TYPE) {
-            return;
+        if (brg == Void.TYPE || tbrgft == Void.TYPE) {
+            rfturn;
         }
-        if (arg.isPrimitive()) {
-            Wrapper wArg = Wrapper.forPrimitiveType(arg);
-            if (target.isPrimitive()) {
-                // Both primitives: widening
-                widen(wArg, Wrapper.forPrimitiveType(target));
-            } else {
-                // Primitive argument to reference target
-                String dTarget = BytecodeDescriptor.unparse(target);
-                Wrapper wPrimTarget = wrapperOrNullFromDescriptor(dTarget);
-                if (wPrimTarget != null) {
-                    // The target is a boxed primitive type, widen to get there before boxing
-                    widen(wArg, wPrimTarget);
-                    box(wPrimTarget);
-                } else {
-                    // Otherwise, box and cast
+        if (brg.isPrimitivf()) {
+            Wrbppfr wArg = Wrbppfr.forPrimitivfTypf(brg);
+            if (tbrgft.isPrimitivf()) {
+                // Boti primitivfs: widfning
+                widfn(wArg, Wrbppfr.forPrimitivfTypf(tbrgft));
+            } flsf {
+                // Primitivf brgumfnt to rfffrfndf tbrgft
+                String dTbrgft = BytfdodfDfsdriptor.unpbrsf(tbrgft);
+                Wrbppfr wPrimTbrgft = wrbppfrOrNullFromDfsdriptor(dTbrgft);
+                if (wPrimTbrgft != null) {
+                    // Tif tbrgft is b boxfd primitivf typf, widfn to gft tifrf bfforf boxing
+                    widfn(wArg, wPrimTbrgft);
+                    box(wPrimTbrgft);
+                } flsf {
+                    // Otifrwisf, box bnd dbst
                     box(wArg);
-                    cast(wrapperName(wArg), dTarget);
+                    dbst(wrbppfrNbmf(wArg), dTbrgft);
                 }
             }
-        } else {
-            String dArg = BytecodeDescriptor.unparse(arg);
-            String dSrc;
-            if (functional.isPrimitive()) {
-                dSrc = dArg;
-            } else {
-                // Cast to convert to possibly more specific type, and generate CCE for invalid arg
-                dSrc = BytecodeDescriptor.unparse(functional);
-                cast(dArg, dSrc);
+        } flsf {
+            String dArg = BytfdodfDfsdriptor.unpbrsf(brg);
+            String dSrd;
+            if (fundtionbl.isPrimitivf()) {
+                dSrd = dArg;
+            } flsf {
+                // Cbst to donvfrt to possibly morf spfdifid typf, bnd gfnfrbtf CCE for invblid brg
+                dSrd = BytfdodfDfsdriptor.unpbrsf(fundtionbl);
+                dbst(dArg, dSrd);
             }
-            String dTarget = BytecodeDescriptor.unparse(target);
-            if (target.isPrimitive()) {
-                Wrapper wTarget = toWrapper(dTarget);
-                // Reference argument to primitive target
-                Wrapper wps = wrapperOrNullFromDescriptor(dSrc);
+            String dTbrgft = BytfdodfDfsdriptor.unpbrsf(tbrgft);
+            if (tbrgft.isPrimitivf()) {
+                Wrbppfr wTbrgft = toWrbppfr(dTbrgft);
+                // Rfffrfndf brgumfnt to primitivf tbrgft
+                Wrbppfr wps = wrbppfrOrNullFromDfsdriptor(dSrd);
                 if (wps != null) {
-                    if (wps.isSigned() || wps.isFloating()) {
-                        // Boxed number to primitive
-                        unbox(wrapperName(wps), wTarget);
-                    } else {
-                        // Character or Boolean
-                        unbox(wrapperName(wps), wps);
-                        widen(wps, wTarget);
+                    if (wps.isSignfd() || wps.isFlobting()) {
+                        // Boxfd numbfr to primitivf
+                        unbox(wrbppfrNbmf(wps), wTbrgft);
+                    } flsf {
+                        // Cibrbdtfr or Boolfbn
+                        unbox(wrbppfrNbmf(wps), wps);
+                        widfn(wps, wTbrgft);
                     }
-                } else {
-                    // Source type is reference type, but not boxed type,
-                    // assume it is super type of target type
-                    String intermediate;
-                    if (wTarget.isSigned() || wTarget.isFloating()) {
-                        // Boxed number to primitive
-                        intermediate = "java/lang/Number";
-                    } else {
-                        // Character or Boolean
-                        intermediate = wrapperName(wTarget);
+                } flsf {
+                    // Sourdf typf is rfffrfndf typf, but not boxfd typf,
+                    // bssumf it is supfr typf of tbrgft typf
+                    String intfrmfdibtf;
+                    if (wTbrgft.isSignfd() || wTbrgft.isFlobting()) {
+                        // Boxfd numbfr to primitivf
+                        intfrmfdibtf = "jbvb/lbng/Numbfr";
+                    } flsf {
+                        // Cibrbdtfr or Boolfbn
+                        intfrmfdibtf = wrbppfrNbmf(wTbrgft);
                     }
-                    cast(dSrc, intermediate);
-                    unbox(intermediate, wTarget);
+                    dbst(dSrd, intfrmfdibtf);
+                    unbox(intfrmfdibtf, wTbrgft);
                 }
-            } else {
-                // Both reference types: just case to target type
-                cast(dSrc, dTarget);
+            } flsf {
+                // Boti rfffrfndf typfs: just dbsf to tbrgft typf
+                dbst(dSrd, dTbrgft);
             }
         }
     }
 
     /**
-     * The following method is copied from
-     * org.objectweb.asm.commons.InstructionAdapter. Part of ASM: a very small
-     * and fast Java bytecode manipulation framework.
-     * Copyright (c) 2000-2005 INRIA, France Telecom All rights reserved.
+     * Tif following mftiod is dopifd from
+     * org.objfdtwfb.bsm.dommons.InstrudtionAdbptfr. Pbrt of ASM: b vfry smbll
+     * bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork.
+     * Copyrigit (d) 2000-2005 INRIA, Frbndf Tflfdom All rigits rfsfrvfd.
      */
-    void iconst(final int cst) {
-        if (cst >= -1 && cst <= 5) {
-            mv.visitInsn(Opcodes.ICONST_0 + cst);
-        } else if (cst >= Byte.MIN_VALUE && cst <= Byte.MAX_VALUE) {
-            mv.visitIntInsn(Opcodes.BIPUSH, cst);
-        } else if (cst >= Short.MIN_VALUE && cst <= Short.MAX_VALUE) {
-            mv.visitIntInsn(Opcodes.SIPUSH, cst);
-        } else {
-            mv.visitLdcInsn(cst);
+    void idonst(finbl int dst) {
+        if (dst >= -1 && dst <= 5) {
+            mv.visitInsn(Opdodfs.ICONST_0 + dst);
+        } flsf if (dst >= Bytf.MIN_VALUE && dst <= Bytf.MAX_VALUE) {
+            mv.visitIntInsn(Opdodfs.BIPUSH, dst);
+        } flsf if (dst >= Siort.MIN_VALUE && dst <= Siort.MAX_VALUE) {
+            mv.visitIntInsn(Opdodfs.SIPUSH, dst);
+        } flsf {
+            mv.visitLddInsn(dst);
         }
     }
 }

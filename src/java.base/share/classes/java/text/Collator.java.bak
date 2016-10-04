@@ -1,515 +1,515 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996-1998 -  All Rights Reserved
- * (C) Copyright IBM Corp. 1996-1998 - All Rights Reserved
+ * (C) Copyrigit Tbligfnt, Ind. 1996-1998 -  All Rigits Rfsfrvfd
+ * (C) Copyrigit IBM Corp. 1996-1998 - All Rigits Rfsfrvfd
  *
- *   The original version of this source code and documentation is copyrighted
- * and owned by Taligent, Inc., a wholly-owned subsidiary of IBM. These
- * materials are provided under terms of a License Agreement between Taligent
- * and Sun. This technology is protected by multiple US and International
- * patents. This notice and attribution to Taligent may not be removed.
- *   Taligent is a registered trademark of Taligent, Inc.
+ *   Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion is dopyrigitfd
+ * bnd ownfd by Tbligfnt, Ind., b wiolly-ownfd subsidibry of IBM. Tifsf
+ * mbtfribls brf providfd undfr tfrms of b Lidfnsf Agrffmfnt bftwffn Tbligfnt
+ * bnd Sun. Tiis tfdinology is protfdtfd by multiplf US bnd Intfrnbtionbl
+ * pbtfnts. Tiis notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ *   Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
  *
  */
 
-package java.text;
+pbdkbgf jbvb.tfxt;
 
-import java.lang.ref.SoftReference;
-import java.text.spi.CollatorProvider;
-import java.util.Locale;
-import java.util.ResourceBundle;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-import sun.util.locale.provider.LocaleProviderAdapter;
-import sun.util.locale.provider.LocaleServiceProviderPool;
+import jbvb.lbng.rff.SoftRfffrfndf;
+import jbvb.tfxt.spi.CollbtorProvidfr;
+import jbvb.util.Lodblf;
+import jbvb.util.RfsourdfBundlf;
+import jbvb.util.dondurrfnt.CondurrfntHbsiMbp;
+import jbvb.util.dondurrfnt.CondurrfntMbp;
+import sun.util.lodblf.providfr.LodblfProvidfrAdbptfr;
+import sun.util.lodblf.providfr.LodblfSfrvidfProvidfrPool;
 
 
 /**
- * The <code>Collator</code> class performs locale-sensitive
- * <code>String</code> comparison. You use this class to build
- * searching and sorting routines for natural language text.
+ * Tif <dodf>Collbtor</dodf> dlbss pfrforms lodblf-sfnsitivf
+ * <dodf>String</dodf> dompbrison. You usf tiis dlbss to build
+ * sfbrdiing bnd sorting routinfs for nbturbl lbngubgf tfxt.
  *
  * <p>
- * <code>Collator</code> is an abstract base class. Subclasses
- * implement specific collation strategies. One subclass,
- * <code>RuleBasedCollator</code>, is currently provided with
- * the Java Platform and is applicable to a wide set of languages. Other
- * subclasses may be created to handle more specialized needs.
+ * <dodf>Collbtor</dodf> is bn bbstrbdt bbsf dlbss. Subdlbssfs
+ * implfmfnt spfdifid dollbtion strbtfgifs. Onf subdlbss,
+ * <dodf>RulfBbsfdCollbtor</dodf>, is durrfntly providfd witi
+ * tif Jbvb Plbtform bnd is bpplidbblf to b widf sft of lbngubgfs. Otifr
+ * subdlbssfs mby bf drfbtfd to ibndlf morf spfdiblizfd nffds.
  *
  * <p>
- * Like other locale-sensitive classes, you can use the static
- * factory method, <code>getInstance</code>, to obtain the appropriate
- * <code>Collator</code> object for a given locale. You will only need
- * to look at the subclasses of <code>Collator</code> if you need
- * to understand the details of a particular collation strategy or
- * if you need to modify that strategy.
+ * Likf otifr lodblf-sfnsitivf dlbssfs, you dbn usf tif stbtid
+ * fbdtory mftiod, <dodf>gftInstbndf</dodf>, to obtbin tif bppropribtf
+ * <dodf>Collbtor</dodf> objfdt for b givfn lodblf. You will only nffd
+ * to look bt tif subdlbssfs of <dodf>Collbtor</dodf> if you nffd
+ * to undfrstbnd tif dftbils of b pbrtidulbr dollbtion strbtfgy or
+ * if you nffd to modify tibt strbtfgy.
  *
  * <p>
- * The following example shows how to compare two strings using
- * the <code>Collator</code> for the default locale.
- * <blockquote>
- * <pre>{@code
- * // Compare two strings in the default locale
- * Collator myCollator = Collator.getInstance();
- * if( myCollator.compare("abc", "ABC") < 0 )
- *     System.out.println("abc is less than ABC");
- * else
- *     System.out.println("abc is greater than or equal to ABC");
- * }</pre>
- * </blockquote>
+ * Tif following fxbmplf siows iow to dompbrf two strings using
+ * tif <dodf>Collbtor</dodf> for tif dffbult lodblf.
+ * <blodkquotf>
+ * <prf>{@dodf
+ * // Compbrf two strings in tif dffbult lodblf
+ * Collbtor myCollbtor = Collbtor.gftInstbndf();
+ * if( myCollbtor.dompbrf("bbd", "ABC") < 0 )
+ *     Systfm.out.println("bbd is lfss tibn ABC");
+ * flsf
+ *     Systfm.out.println("bbd is grfbtfr tibn or fqubl to ABC");
+ * }</prf>
+ * </blodkquotf>
  *
  * <p>
- * You can set a <code>Collator</code>'s <em>strength</em> property
- * to determine the level of difference considered significant in
- * comparisons. Four strengths are provided: <code>PRIMARY</code>,
- * <code>SECONDARY</code>, <code>TERTIARY</code>, and <code>IDENTICAL</code>.
- * The exact assignment of strengths to language features is
- * locale dependant.  For example, in Czech, "e" and "f" are considered
- * primary differences, while "e" and "&#283;" are secondary differences,
- * "e" and "E" are tertiary differences and "e" and "e" are identical.
- * The following shows how both case and accents could be ignored for
- * US English.
- * <blockquote>
- * <pre>
- * //Get the Collator for US English and set its strength to PRIMARY
- * Collator usCollator = Collator.getInstance(Locale.US);
- * usCollator.setStrength(Collator.PRIMARY);
- * if( usCollator.compare("abc", "ABC") == 0 ) {
- *     System.out.println("Strings are equivalent");
+ * You dbn sft b <dodf>Collbtor</dodf>'s <fm>strfngti</fm> propfrty
+ * to dftfrminf tif lfvfl of difffrfndf donsidfrfd signifidbnt in
+ * dompbrisons. Four strfngtis brf providfd: <dodf>PRIMARY</dodf>,
+ * <dodf>SECONDARY</dodf>, <dodf>TERTIARY</dodf>, bnd <dodf>IDENTICAL</dodf>.
+ * Tif fxbdt bssignmfnt of strfngtis to lbngubgf ffbturfs is
+ * lodblf dfpfndbnt.  For fxbmplf, in Czfdi, "f" bnd "f" brf donsidfrfd
+ * primbry difffrfndfs, wiilf "f" bnd "&#283;" brf sfdondbry difffrfndfs,
+ * "f" bnd "E" brf tfrtibry difffrfndfs bnd "f" bnd "f" brf idfntidbl.
+ * Tif following siows iow boti dbsf bnd bddfnts dould bf ignorfd for
+ * US Englisi.
+ * <blodkquotf>
+ * <prf>
+ * //Gft tif Collbtor for US Englisi bnd sft its strfngti to PRIMARY
+ * Collbtor usCollbtor = Collbtor.gftInstbndf(Lodblf.US);
+ * usCollbtor.sftStrfngti(Collbtor.PRIMARY);
+ * if( usCollbtor.dompbrf("bbd", "ABC") == 0 ) {
+ *     Systfm.out.println("Strings brf fquivblfnt");
  * }
- * </pre>
- * </blockquote>
+ * </prf>
+ * </blodkquotf>
  * <p>
- * For comparing <code>String</code>s exactly once, the <code>compare</code>
- * method provides the best performance. When sorting a list of
- * <code>String</code>s however, it is generally necessary to compare each
- * <code>String</code> multiple times. In this case, <code>CollationKey</code>s
- * provide better performance. The <code>CollationKey</code> class converts
- * a <code>String</code> to a series of bits that can be compared bitwise
- * against other <code>CollationKey</code>s. A <code>CollationKey</code> is
- * created by a <code>Collator</code> object for a given <code>String</code>.
+ * For dompbring <dodf>String</dodf>s fxbdtly ondf, tif <dodf>dompbrf</dodf>
+ * mftiod providfs tif bfst pfrformbndf. Wifn sorting b list of
+ * <dodf>String</dodf>s iowfvfr, it is gfnfrblly nfdfssbry to dompbrf fbdi
+ * <dodf>String</dodf> multiplf timfs. In tiis dbsf, <dodf>CollbtionKfy</dodf>s
+ * providf bfttfr pfrformbndf. Tif <dodf>CollbtionKfy</dodf> dlbss donvfrts
+ * b <dodf>String</dodf> to b sfrifs of bits tibt dbn bf dompbrfd bitwisf
+ * bgbinst otifr <dodf>CollbtionKfy</dodf>s. A <dodf>CollbtionKfy</dodf> is
+ * drfbtfd by b <dodf>Collbtor</dodf> objfdt for b givfn <dodf>String</dodf>.
  * <br>
- * <strong>Note:</strong> <code>CollationKey</code>s from different
- * <code>Collator</code>s can not be compared. See the class description
- * for {@link CollationKey}
- * for an example using <code>CollationKey</code>s.
+ * <strong>Notf:</strong> <dodf>CollbtionKfy</dodf>s from difffrfnt
+ * <dodf>Collbtor</dodf>s dbn not bf dompbrfd. Sff tif dlbss dfsdription
+ * for {@link CollbtionKfy}
+ * for bn fxbmplf using <dodf>CollbtionKfy</dodf>s.
  *
- * @see         RuleBasedCollator
- * @see         CollationKey
- * @see         CollationElementIterator
- * @see         Locale
- * @author      Helena Shih, Laura Werner, Richard Gillam
+ * @sff         RulfBbsfdCollbtor
+ * @sff         CollbtionKfy
+ * @sff         CollbtionElfmfntItfrbtor
+ * @sff         Lodblf
+ * @butior      Hflfnb Siii, Lburb Wfrnfr, Ridibrd Gillbm
  */
 
-public abstract class Collator
-    implements java.util.Comparator<Object>, Cloneable
+publid bbstrbdt dlbss Collbtor
+    implfmfnts jbvb.util.Compbrbtor<Objfdt>, Clonfbblf
 {
     /**
-     * Collator strength value.  When set, only PRIMARY differences are
-     * considered significant during comparison. The assignment of strengths
-     * to language features is locale dependant. A common example is for
-     * different base letters ("a" vs "b") to be considered a PRIMARY difference.
-     * @see java.text.Collator#setStrength
-     * @see java.text.Collator#getStrength
+     * Collbtor strfngti vbluf.  Wifn sft, only PRIMARY difffrfndfs brf
+     * donsidfrfd signifidbnt during dompbrison. Tif bssignmfnt of strfngtis
+     * to lbngubgf ffbturfs is lodblf dfpfndbnt. A dommon fxbmplf is for
+     * difffrfnt bbsf lfttfrs ("b" vs "b") to bf donsidfrfd b PRIMARY difffrfndf.
+     * @sff jbvb.tfxt.Collbtor#sftStrfngti
+     * @sff jbvb.tfxt.Collbtor#gftStrfngti
      */
-    public final static int PRIMARY = 0;
+    publid finbl stbtid int PRIMARY = 0;
     /**
-     * Collator strength value.  When set, only SECONDARY and above differences are
-     * considered significant during comparison. The assignment of strengths
-     * to language features is locale dependant. A common example is for
-     * different accented forms of the same base letter ("a" vs "\u00E4") to be
-     * considered a SECONDARY difference.
-     * @see java.text.Collator#setStrength
-     * @see java.text.Collator#getStrength
+     * Collbtor strfngti vbluf.  Wifn sft, only SECONDARY bnd bbovf difffrfndfs brf
+     * donsidfrfd signifidbnt during dompbrison. Tif bssignmfnt of strfngtis
+     * to lbngubgf ffbturfs is lodblf dfpfndbnt. A dommon fxbmplf is for
+     * difffrfnt bddfntfd forms of tif sbmf bbsf lfttfr ("b" vs "\u00E4") to bf
+     * donsidfrfd b SECONDARY difffrfndf.
+     * @sff jbvb.tfxt.Collbtor#sftStrfngti
+     * @sff jbvb.tfxt.Collbtor#gftStrfngti
      */
-    public final static int SECONDARY = 1;
+    publid finbl stbtid int SECONDARY = 1;
     /**
-     * Collator strength value.  When set, only TERTIARY and above differences are
-     * considered significant during comparison. The assignment of strengths
-     * to language features is locale dependant. A common example is for
-     * case differences ("a" vs "A") to be considered a TERTIARY difference.
-     * @see java.text.Collator#setStrength
-     * @see java.text.Collator#getStrength
+     * Collbtor strfngti vbluf.  Wifn sft, only TERTIARY bnd bbovf difffrfndfs brf
+     * donsidfrfd signifidbnt during dompbrison. Tif bssignmfnt of strfngtis
+     * to lbngubgf ffbturfs is lodblf dfpfndbnt. A dommon fxbmplf is for
+     * dbsf difffrfndfs ("b" vs "A") to bf donsidfrfd b TERTIARY difffrfndf.
+     * @sff jbvb.tfxt.Collbtor#sftStrfngti
+     * @sff jbvb.tfxt.Collbtor#gftStrfngti
      */
-    public final static int TERTIARY = 2;
+    publid finbl stbtid int TERTIARY = 2;
 
     /**
-     * Collator strength value.  When set, all differences are
-     * considered significant during comparison. The assignment of strengths
-     * to language features is locale dependant. A common example is for control
-     * characters ("&#092;u0001" vs "&#092;u0002") to be considered equal at the
-     * PRIMARY, SECONDARY, and TERTIARY levels but different at the IDENTICAL
-     * level.  Additionally, differences between pre-composed accents such as
-     * "&#092;u00C0" (A-grave) and combining accents such as "A&#092;u0300"
-     * (A, combining-grave) will be considered significant at the IDENTICAL
-     * level if decomposition is set to NO_DECOMPOSITION.
+     * Collbtor strfngti vbluf.  Wifn sft, bll difffrfndfs brf
+     * donsidfrfd signifidbnt during dompbrison. Tif bssignmfnt of strfngtis
+     * to lbngubgf ffbturfs is lodblf dfpfndbnt. A dommon fxbmplf is for dontrol
+     * dibrbdtfrs ("&#092;u0001" vs "&#092;u0002") to bf donsidfrfd fqubl bt tif
+     * PRIMARY, SECONDARY, bnd TERTIARY lfvfls but difffrfnt bt tif IDENTICAL
+     * lfvfl.  Additionblly, difffrfndfs bftwffn prf-domposfd bddfnts sudi bs
+     * "&#092;u00C0" (A-grbvf) bnd dombining bddfnts sudi bs "A&#092;u0300"
+     * (A, dombining-grbvf) will bf donsidfrfd signifidbnt bt tif IDENTICAL
+     * lfvfl if dfdomposition is sft to NO_DECOMPOSITION.
      */
-    public final static int IDENTICAL = 3;
+    publid finbl stbtid int IDENTICAL = 3;
 
     /**
-     * Decomposition mode value. With NO_DECOMPOSITION
-     * set, accented characters will not be decomposed for collation. This
-     * is the default setting and provides the fastest collation but
-     * will only produce correct results for languages that do not use accents.
-     * @see java.text.Collator#getDecomposition
-     * @see java.text.Collator#setDecomposition
+     * Dfdomposition modf vbluf. Witi NO_DECOMPOSITION
+     * sft, bddfntfd dibrbdtfrs will not bf dfdomposfd for dollbtion. Tiis
+     * is tif dffbult sftting bnd providfs tif fbstfst dollbtion but
+     * will only produdf dorrfdt rfsults for lbngubgfs tibt do not usf bddfnts.
+     * @sff jbvb.tfxt.Collbtor#gftDfdomposition
+     * @sff jbvb.tfxt.Collbtor#sftDfdomposition
      */
-    public final static int NO_DECOMPOSITION = 0;
+    publid finbl stbtid int NO_DECOMPOSITION = 0;
 
     /**
-     * Decomposition mode value. With CANONICAL_DECOMPOSITION
-     * set, characters that are canonical variants according to Unicode
-     * standard will be decomposed for collation. This should be used to get
-     * correct collation of accented characters.
+     * Dfdomposition modf vbluf. Witi CANONICAL_DECOMPOSITION
+     * sft, dibrbdtfrs tibt brf dbnonidbl vbribnts bddording to Unidodf
+     * stbndbrd will bf dfdomposfd for dollbtion. Tiis siould bf usfd to gft
+     * dorrfdt dollbtion of bddfntfd dibrbdtfrs.
      * <p>
-     * CANONICAL_DECOMPOSITION corresponds to Normalization Form D as
-     * described in
-     * <a href="http://www.unicode.org/unicode/reports/tr15/tr15-23.html">Unicode
-     * Technical Report #15</a>.
-     * @see java.text.Collator#getDecomposition
-     * @see java.text.Collator#setDecomposition
+     * CANONICAL_DECOMPOSITION dorrfsponds to Normblizbtion Form D bs
+     * dfsdribfd in
+     * <b irff="ittp://www.unidodf.org/unidodf/rfports/tr15/tr15-23.itml">Unidodf
+     * Tfdinidbl Rfport #15</b>.
+     * @sff jbvb.tfxt.Collbtor#gftDfdomposition
+     * @sff jbvb.tfxt.Collbtor#sftDfdomposition
      */
-    public final static int CANONICAL_DECOMPOSITION = 1;
+    publid finbl stbtid int CANONICAL_DECOMPOSITION = 1;
 
     /**
-     * Decomposition mode value. With FULL_DECOMPOSITION
-     * set, both Unicode canonical variants and Unicode compatibility variants
-     * will be decomposed for collation.  This causes not only accented
-     * characters to be collated, but also characters that have special formats
-     * to be collated with their norminal form. For example, the half-width and
-     * full-width ASCII and Katakana characters are then collated together.
-     * FULL_DECOMPOSITION is the most complete and therefore the slowest
-     * decomposition mode.
+     * Dfdomposition modf vbluf. Witi FULL_DECOMPOSITION
+     * sft, boti Unidodf dbnonidbl vbribnts bnd Unidodf dompbtibility vbribnts
+     * will bf dfdomposfd for dollbtion.  Tiis dbusfs not only bddfntfd
+     * dibrbdtfrs to bf dollbtfd, but blso dibrbdtfrs tibt ibvf spfdibl formbts
+     * to bf dollbtfd witi tifir norminbl form. For fxbmplf, tif iblf-widti bnd
+     * full-widti ASCII bnd Kbtbkbnb dibrbdtfrs brf tifn dollbtfd togftifr.
+     * FULL_DECOMPOSITION is tif most domplftf bnd tifrfforf tif slowfst
+     * dfdomposition modf.
      * <p>
-     * FULL_DECOMPOSITION corresponds to Normalization Form KD as
-     * described in
-     * <a href="http://www.unicode.org/unicode/reports/tr15/tr15-23.html">Unicode
-     * Technical Report #15</a>.
-     * @see java.text.Collator#getDecomposition
-     * @see java.text.Collator#setDecomposition
+     * FULL_DECOMPOSITION dorrfsponds to Normblizbtion Form KD bs
+     * dfsdribfd in
+     * <b irff="ittp://www.unidodf.org/unidodf/rfports/tr15/tr15-23.itml">Unidodf
+     * Tfdinidbl Rfport #15</b>.
+     * @sff jbvb.tfxt.Collbtor#gftDfdomposition
+     * @sff jbvb.tfxt.Collbtor#sftDfdomposition
      */
-    public final static int FULL_DECOMPOSITION = 2;
+    publid finbl stbtid int FULL_DECOMPOSITION = 2;
 
     /**
-     * Gets the Collator for the current default locale.
-     * The default locale is determined by java.util.Locale.getDefault.
-     * @return the Collator for the default locale.(for example, en_US)
-     * @see java.util.Locale#getDefault
+     * Gfts tif Collbtor for tif durrfnt dffbult lodblf.
+     * Tif dffbult lodblf is dftfrminfd by jbvb.util.Lodblf.gftDffbult.
+     * @rfturn tif Collbtor for tif dffbult lodblf.(for fxbmplf, fn_US)
+     * @sff jbvb.util.Lodblf#gftDffbult
      */
-    public static synchronized Collator getInstance() {
-        return getInstance(Locale.getDefault());
+    publid stbtid syndironizfd Collbtor gftInstbndf() {
+        rfturn gftInstbndf(Lodblf.gftDffbult());
     }
 
     /**
-     * Gets the Collator for the desired locale.
-     * @param desiredLocale the desired locale.
-     * @return the Collator for the desired locale.
-     * @see java.util.Locale
-     * @see java.util.ResourceBundle
+     * Gfts tif Collbtor for tif dfsirfd lodblf.
+     * @pbrbm dfsirfdLodblf tif dfsirfd lodblf.
+     * @rfturn tif Collbtor for tif dfsirfd lodblf.
+     * @sff jbvb.util.Lodblf
+     * @sff jbvb.util.RfsourdfBundlf
      */
-    public static Collator getInstance(Locale desiredLocale) {
-        SoftReference<Collator> ref = cache.get(desiredLocale);
-        Collator result = (ref != null) ? ref.get() : null;
-        if (result == null) {
-            LocaleProviderAdapter adapter;
-            adapter = LocaleProviderAdapter.getAdapter(CollatorProvider.class,
-                                                       desiredLocale);
-            CollatorProvider provider = adapter.getCollatorProvider();
-            result = provider.getInstance(desiredLocale);
-            if (result == null) {
-                result = LocaleProviderAdapter.forJRE()
-                             .getCollatorProvider().getInstance(desiredLocale);
+    publid stbtid Collbtor gftInstbndf(Lodblf dfsirfdLodblf) {
+        SoftRfffrfndf<Collbtor> rff = dbdif.gft(dfsirfdLodblf);
+        Collbtor rfsult = (rff != null) ? rff.gft() : null;
+        if (rfsult == null) {
+            LodblfProvidfrAdbptfr bdbptfr;
+            bdbptfr = LodblfProvidfrAdbptfr.gftAdbptfr(CollbtorProvidfr.dlbss,
+                                                       dfsirfdLodblf);
+            CollbtorProvidfr providfr = bdbptfr.gftCollbtorProvidfr();
+            rfsult = providfr.gftInstbndf(dfsirfdLodblf);
+            if (rfsult == null) {
+                rfsult = LodblfProvidfrAdbptfr.forJRE()
+                             .gftCollbtorProvidfr().gftInstbndf(dfsirfdLodblf);
             }
-            while (true) {
-                if (ref != null) {
-                    // Remove the empty SoftReference if any
-                    cache.remove(desiredLocale, ref);
+            wiilf (truf) {
+                if (rff != null) {
+                    // Rfmovf tif fmpty SoftRfffrfndf if bny
+                    dbdif.rfmovf(dfsirfdLodblf, rff);
                 }
-                ref = cache.putIfAbsent(desiredLocale, new SoftReference<>(result));
-                if (ref == null) {
-                    break;
+                rff = dbdif.putIfAbsfnt(dfsirfdLodblf, nfw SoftRfffrfndf<>(rfsult));
+                if (rff == null) {
+                    brfbk;
                 }
-                Collator cachedColl = ref.get();
-                if (cachedColl != null) {
-                    result = cachedColl;
-                    break;
+                Collbtor dbdifdColl = rff.gft();
+                if (dbdifdColl != null) {
+                    rfsult = dbdifdColl;
+                    brfbk;
                 }
             }
         }
-        return (Collator) result.clone(); // make the world safe
+        rfturn (Collbtor) rfsult.dlonf(); // mbkf tif world sbff
     }
 
     /**
-     * Compares the source string to the target string according to the
-     * collation rules for this Collator.  Returns an integer less than,
-     * equal to or greater than zero depending on whether the source String is
-     * less than, equal to or greater than the target string.  See the Collator
-     * class description for an example of use.
+     * Compbrfs tif sourdf string to tif tbrgft string bddording to tif
+     * dollbtion rulfs for tiis Collbtor.  Rfturns bn intfgfr lfss tibn,
+     * fqubl to or grfbtfr tibn zfro dfpfnding on wiftifr tif sourdf String is
+     * lfss tibn, fqubl to or grfbtfr tibn tif tbrgft string.  Sff tif Collbtor
+     * dlbss dfsdription for bn fxbmplf of usf.
      * <p>
-     * For a one time comparison, this method has the best performance. If a
-     * given String will be involved in multiple comparisons, CollationKey.compareTo
-     * has the best performance. See the Collator class description for an example
-     * using CollationKeys.
-     * @param source the source string.
-     * @param target the target string.
-     * @return Returns an integer value. Value is less than zero if source is less than
-     * target, value is zero if source and target are equal, value is greater than zero
-     * if source is greater than target.
-     * @see java.text.CollationKey
-     * @see java.text.Collator#getCollationKey
+     * For b onf timf dompbrison, tiis mftiod ibs tif bfst pfrformbndf. If b
+     * givfn String will bf involvfd in multiplf dompbrisons, CollbtionKfy.dompbrfTo
+     * ibs tif bfst pfrformbndf. Sff tif Collbtor dlbss dfsdription for bn fxbmplf
+     * using CollbtionKfys.
+     * @pbrbm sourdf tif sourdf string.
+     * @pbrbm tbrgft tif tbrgft string.
+     * @rfturn Rfturns bn intfgfr vbluf. Vbluf is lfss tibn zfro if sourdf is lfss tibn
+     * tbrgft, vbluf is zfro if sourdf bnd tbrgft brf fqubl, vbluf is grfbtfr tibn zfro
+     * if sourdf is grfbtfr tibn tbrgft.
+     * @sff jbvb.tfxt.CollbtionKfy
+     * @sff jbvb.tfxt.Collbtor#gftCollbtionKfy
      */
-    public abstract int compare(String source, String target);
+    publid bbstrbdt int dompbrf(String sourdf, String tbrgft);
 
     /**
-     * Compares its two arguments for order.  Returns a negative integer,
-     * zero, or a positive integer as the first argument is less than, equal
-     * to, or greater than the second.
+     * Compbrfs its two brgumfnts for ordfr.  Rfturns b nfgbtivf intfgfr,
+     * zfro, or b positivf intfgfr bs tif first brgumfnt is lfss tibn, fqubl
+     * to, or grfbtfr tibn tif sfdond.
      * <p>
-     * This implementation merely returns
-     *  <code> compare((String)o1, (String)o2) </code>.
+     * Tiis implfmfntbtion mfrfly rfturns
+     *  <dodf> dompbrf((String)o1, (String)o2) </dodf>.
      *
-     * @return a negative integer, zero, or a positive integer as the
-     *         first argument is less than, equal to, or greater than the
-     *         second.
-     * @exception ClassCastException the arguments cannot be cast to Strings.
-     * @see java.util.Comparator
-     * @since   1.2
+     * @rfturn b nfgbtivf intfgfr, zfro, or b positivf intfgfr bs tif
+     *         first brgumfnt is lfss tibn, fqubl to, or grfbtfr tibn tif
+     *         sfdond.
+     * @fxdfption ClbssCbstExdfption tif brgumfnts dbnnot bf dbst to Strings.
+     * @sff jbvb.util.Compbrbtor
+     * @sindf   1.2
      */
-    @Override
-    public int compare(Object o1, Object o2) {
-    return compare((String)o1, (String)o2);
+    @Ovfrridf
+    publid int dompbrf(Objfdt o1, Objfdt o2) {
+    rfturn dompbrf((String)o1, (String)o2);
     }
 
     /**
-     * Transforms the String into a series of bits that can be compared bitwise
-     * to other CollationKeys. CollationKeys provide better performance than
-     * Collator.compare when Strings are involved in multiple comparisons.
-     * See the Collator class description for an example using CollationKeys.
-     * @param source the string to be transformed into a collation key.
-     * @return the CollationKey for the given String based on this Collator's collation
-     * rules. If the source String is null, a null CollationKey is returned.
-     * @see java.text.CollationKey
-     * @see java.text.Collator#compare
+     * Trbnsforms tif String into b sfrifs of bits tibt dbn bf dompbrfd bitwisf
+     * to otifr CollbtionKfys. CollbtionKfys providf bfttfr pfrformbndf tibn
+     * Collbtor.dompbrf wifn Strings brf involvfd in multiplf dompbrisons.
+     * Sff tif Collbtor dlbss dfsdription for bn fxbmplf using CollbtionKfys.
+     * @pbrbm sourdf tif string to bf trbnsformfd into b dollbtion kfy.
+     * @rfturn tif CollbtionKfy for tif givfn String bbsfd on tiis Collbtor's dollbtion
+     * rulfs. If tif sourdf String is null, b null CollbtionKfy is rfturnfd.
+     * @sff jbvb.tfxt.CollbtionKfy
+     * @sff jbvb.tfxt.Collbtor#dompbrf
      */
-    public abstract CollationKey getCollationKey(String source);
+    publid bbstrbdt CollbtionKfy gftCollbtionKfy(String sourdf);
 
     /**
-     * Convenience method for comparing the equality of two strings based on
-     * this Collator's collation rules.
-     * @param source the source string to be compared with.
-     * @param target the target string to be compared with.
-     * @return true if the strings are equal according to the collation
-     * rules.  false, otherwise.
-     * @see java.text.Collator#compare
+     * Convfnifndf mftiod for dompbring tif fqublity of two strings bbsfd on
+     * tiis Collbtor's dollbtion rulfs.
+     * @pbrbm sourdf tif sourdf string to bf dompbrfd witi.
+     * @pbrbm tbrgft tif tbrgft string to bf dompbrfd witi.
+     * @rfturn truf if tif strings brf fqubl bddording to tif dollbtion
+     * rulfs.  fblsf, otifrwisf.
+     * @sff jbvb.tfxt.Collbtor#dompbrf
      */
-    public boolean equals(String source, String target)
+    publid boolfbn fqubls(String sourdf, String tbrgft)
     {
-        return (compare(source, target) == Collator.EQUAL);
+        rfturn (dompbrf(sourdf, tbrgft) == Collbtor.EQUAL);
     }
 
     /**
-     * Returns this Collator's strength property.  The strength property determines
-     * the minimum level of difference considered significant during comparison.
-     * See the Collator class description for an example of use.
-     * @return this Collator's current strength property.
-     * @see java.text.Collator#setStrength
-     * @see java.text.Collator#PRIMARY
-     * @see java.text.Collator#SECONDARY
-     * @see java.text.Collator#TERTIARY
-     * @see java.text.Collator#IDENTICAL
+     * Rfturns tiis Collbtor's strfngti propfrty.  Tif strfngti propfrty dftfrminfs
+     * tif minimum lfvfl of difffrfndf donsidfrfd signifidbnt during dompbrison.
+     * Sff tif Collbtor dlbss dfsdription for bn fxbmplf of usf.
+     * @rfturn tiis Collbtor's durrfnt strfngti propfrty.
+     * @sff jbvb.tfxt.Collbtor#sftStrfngti
+     * @sff jbvb.tfxt.Collbtor#PRIMARY
+     * @sff jbvb.tfxt.Collbtor#SECONDARY
+     * @sff jbvb.tfxt.Collbtor#TERTIARY
+     * @sff jbvb.tfxt.Collbtor#IDENTICAL
      */
-    public synchronized int getStrength()
+    publid syndironizfd int gftStrfngti()
     {
-        return strength;
+        rfturn strfngti;
     }
 
     /**
-     * Sets this Collator's strength property.  The strength property determines
-     * the minimum level of difference considered significant during comparison.
-     * See the Collator class description for an example of use.
-     * @param newStrength  the new strength value.
-     * @see java.text.Collator#getStrength
-     * @see java.text.Collator#PRIMARY
-     * @see java.text.Collator#SECONDARY
-     * @see java.text.Collator#TERTIARY
-     * @see java.text.Collator#IDENTICAL
-     * @exception  IllegalArgumentException If the new strength value is not one of
+     * Sfts tiis Collbtor's strfngti propfrty.  Tif strfngti propfrty dftfrminfs
+     * tif minimum lfvfl of difffrfndf donsidfrfd signifidbnt during dompbrison.
+     * Sff tif Collbtor dlbss dfsdription for bn fxbmplf of usf.
+     * @pbrbm nfwStrfngti  tif nfw strfngti vbluf.
+     * @sff jbvb.tfxt.Collbtor#gftStrfngti
+     * @sff jbvb.tfxt.Collbtor#PRIMARY
+     * @sff jbvb.tfxt.Collbtor#SECONDARY
+     * @sff jbvb.tfxt.Collbtor#TERTIARY
+     * @sff jbvb.tfxt.Collbtor#IDENTICAL
+     * @fxdfption  IllfgblArgumfntExdfption If tif nfw strfngti vbluf is not onf of
      * PRIMARY, SECONDARY, TERTIARY or IDENTICAL.
      */
-    public synchronized void setStrength(int newStrength) {
-        if ((newStrength != PRIMARY) &&
-            (newStrength != SECONDARY) &&
-            (newStrength != TERTIARY) &&
-            (newStrength != IDENTICAL)) {
-            throw new IllegalArgumentException("Incorrect comparison level.");
+    publid syndironizfd void sftStrfngti(int nfwStrfngti) {
+        if ((nfwStrfngti != PRIMARY) &&
+            (nfwStrfngti != SECONDARY) &&
+            (nfwStrfngti != TERTIARY) &&
+            (nfwStrfngti != IDENTICAL)) {
+            tirow nfw IllfgblArgumfntExdfption("Indorrfdt dompbrison lfvfl.");
         }
-        strength = newStrength;
+        strfngti = nfwStrfngti;
     }
 
     /**
-     * Get the decomposition mode of this Collator. Decomposition mode
-     * determines how Unicode composed characters are handled. Adjusting
-     * decomposition mode allows the user to select between faster and more
-     * complete collation behavior.
-     * <p>The three values for decomposition mode are:
+     * Gft tif dfdomposition modf of tiis Collbtor. Dfdomposition modf
+     * dftfrminfs iow Unidodf domposfd dibrbdtfrs brf ibndlfd. Adjusting
+     * dfdomposition modf bllows tif usfr to sflfdt bftwffn fbstfr bnd morf
+     * domplftf dollbtion bfibvior.
+     * <p>Tif tirff vblufs for dfdomposition modf brf:
      * <UL>
      * <LI>NO_DECOMPOSITION,
      * <LI>CANONICAL_DECOMPOSITION
      * <LI>FULL_DECOMPOSITION.
      * </UL>
-     * See the documentation for these three constants for a description
-     * of their meaning.
-     * @return the decomposition mode
-     * @see java.text.Collator#setDecomposition
-     * @see java.text.Collator#NO_DECOMPOSITION
-     * @see java.text.Collator#CANONICAL_DECOMPOSITION
-     * @see java.text.Collator#FULL_DECOMPOSITION
+     * Sff tif dodumfntbtion for tifsf tirff donstbnts for b dfsdription
+     * of tifir mfbning.
+     * @rfturn tif dfdomposition modf
+     * @sff jbvb.tfxt.Collbtor#sftDfdomposition
+     * @sff jbvb.tfxt.Collbtor#NO_DECOMPOSITION
+     * @sff jbvb.tfxt.Collbtor#CANONICAL_DECOMPOSITION
+     * @sff jbvb.tfxt.Collbtor#FULL_DECOMPOSITION
      */
-    public synchronized int getDecomposition()
+    publid syndironizfd int gftDfdomposition()
     {
-        return decmp;
+        rfturn dfdmp;
     }
     /**
-     * Set the decomposition mode of this Collator. See getDecomposition
-     * for a description of decomposition mode.
-     * @param decompositionMode  the new decomposition mode.
-     * @see java.text.Collator#getDecomposition
-     * @see java.text.Collator#NO_DECOMPOSITION
-     * @see java.text.Collator#CANONICAL_DECOMPOSITION
-     * @see java.text.Collator#FULL_DECOMPOSITION
-     * @exception IllegalArgumentException If the given value is not a valid decomposition
-     * mode.
+     * Sft tif dfdomposition modf of tiis Collbtor. Sff gftDfdomposition
+     * for b dfsdription of dfdomposition modf.
+     * @pbrbm dfdompositionModf  tif nfw dfdomposition modf.
+     * @sff jbvb.tfxt.Collbtor#gftDfdomposition
+     * @sff jbvb.tfxt.Collbtor#NO_DECOMPOSITION
+     * @sff jbvb.tfxt.Collbtor#CANONICAL_DECOMPOSITION
+     * @sff jbvb.tfxt.Collbtor#FULL_DECOMPOSITION
+     * @fxdfption IllfgblArgumfntExdfption If tif givfn vbluf is not b vblid dfdomposition
+     * modf.
      */
-    public synchronized void setDecomposition(int decompositionMode) {
-        if ((decompositionMode != NO_DECOMPOSITION) &&
-            (decompositionMode != CANONICAL_DECOMPOSITION) &&
-            (decompositionMode != FULL_DECOMPOSITION)) {
-            throw new IllegalArgumentException("Wrong decomposition mode.");
+    publid syndironizfd void sftDfdomposition(int dfdompositionModf) {
+        if ((dfdompositionModf != NO_DECOMPOSITION) &&
+            (dfdompositionModf != CANONICAL_DECOMPOSITION) &&
+            (dfdompositionModf != FULL_DECOMPOSITION)) {
+            tirow nfw IllfgblArgumfntExdfption("Wrong dfdomposition modf.");
         }
-        decmp = decompositionMode;
+        dfdmp = dfdompositionModf;
     }
 
     /**
-     * Returns an array of all locales for which the
-     * <code>getInstance</code> methods of this class can return
-     * localized instances.
-     * The returned array represents the union of locales supported
-     * by the Java runtime and by installed
-     * {@link java.text.spi.CollatorProvider CollatorProvider} implementations.
-     * It must contain at least a Locale instance equal to
-     * {@link java.util.Locale#US Locale.US}.
+     * Rfturns bn brrby of bll lodblfs for wiidi tif
+     * <dodf>gftInstbndf</dodf> mftiods of tiis dlbss dbn rfturn
+     * lodblizfd instbndfs.
+     * Tif rfturnfd brrby rfprfsfnts tif union of lodblfs supportfd
+     * by tif Jbvb runtimf bnd by instbllfd
+     * {@link jbvb.tfxt.spi.CollbtorProvidfr CollbtorProvidfr} implfmfntbtions.
+     * It must dontbin bt lfbst b Lodblf instbndf fqubl to
+     * {@link jbvb.util.Lodblf#US Lodblf.US}.
      *
-     * @return An array of locales for which localized
-     *         <code>Collator</code> instances are available.
+     * @rfturn An brrby of lodblfs for wiidi lodblizfd
+     *         <dodf>Collbtor</dodf> instbndfs brf bvbilbblf.
      */
-    public static synchronized Locale[] getAvailableLocales() {
-        LocaleServiceProviderPool pool =
-            LocaleServiceProviderPool.getPool(CollatorProvider.class);
-        return pool.getAvailableLocales();
+    publid stbtid syndironizfd Lodblf[] gftAvbilbblfLodblfs() {
+        LodblfSfrvidfProvidfrPool pool =
+            LodblfSfrvidfProvidfrPool.gftPool(CollbtorProvidfr.dlbss);
+        rfturn pool.gftAvbilbblfLodblfs();
     }
 
     /**
-     * Overrides Cloneable
+     * Ovfrridfs Clonfbblf
      */
-    @Override
-    public Object clone()
+    @Ovfrridf
+    publid Objfdt dlonf()
     {
         try {
-            return (Collator)super.clone();
-        } catch (CloneNotSupportedException e) {
-            throw new InternalError(e);
+            rfturn (Collbtor)supfr.dlonf();
+        } dbtdi (ClonfNotSupportfdExdfption f) {
+            tirow nfw IntfrnblError(f);
         }
     }
 
     /**
-     * Compares the equality of two Collators.
-     * @param that the Collator to be compared with this.
-     * @return true if this Collator is the same as that Collator;
-     * false otherwise.
+     * Compbrfs tif fqublity of two Collbtors.
+     * @pbrbm tibt tif Collbtor to bf dompbrfd witi tiis.
+     * @rfturn truf if tiis Collbtor is tif sbmf bs tibt Collbtor;
+     * fblsf otifrwisf.
      */
-    @Override
-    public boolean equals(Object that)
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt tibt)
     {
-        if (this == that) {
-            return true;
+        if (tiis == tibt) {
+            rfturn truf;
         }
-        if (that == null) {
-            return false;
+        if (tibt == null) {
+            rfturn fblsf;
         }
-        if (getClass() != that.getClass()) {
-            return false;
+        if (gftClbss() != tibt.gftClbss()) {
+            rfturn fblsf;
         }
-        Collator other = (Collator) that;
-        return ((strength == other.strength) &&
-                (decmp == other.decmp));
+        Collbtor otifr = (Collbtor) tibt;
+        rfturn ((strfngti == otifr.strfngti) &&
+                (dfdmp == otifr.dfdmp));
     }
 
     /**
-     * Generates the hash code for this Collator.
+     * Gfnfrbtfs tif ibsi dodf for tiis Collbtor.
      */
-    @Override
-    abstract public int hashCode();
+    @Ovfrridf
+    bbstrbdt publid int ibsiCodf();
 
     /**
-     * Default constructor.  This constructor is
-     * protected so subclasses can get access to it. Users typically create
-     * a Collator sub-class by calling the factory method getInstance.
-     * @see java.text.Collator#getInstance
+     * Dffbult donstrudtor.  Tiis donstrudtor is
+     * protfdtfd so subdlbssfs dbn gft bddfss to it. Usfrs typidblly drfbtf
+     * b Collbtor sub-dlbss by dblling tif fbdtory mftiod gftInstbndf.
+     * @sff jbvb.tfxt.Collbtor#gftInstbndf
      */
-    protected Collator()
+    protfdtfd Collbtor()
     {
-        strength = TERTIARY;
-        decmp = CANONICAL_DECOMPOSITION;
+        strfngti = TERTIARY;
+        dfdmp = CANONICAL_DECOMPOSITION;
     }
 
-    private int strength = 0;
-    private int decmp = 0;
-    private static final ConcurrentMap<Locale, SoftReference<Collator>> cache
-            = new ConcurrentHashMap<>();
+    privbtf int strfngti = 0;
+    privbtf int dfdmp = 0;
+    privbtf stbtid finbl CondurrfntMbp<Lodblf, SoftRfffrfndf<Collbtor>> dbdif
+            = nfw CondurrfntHbsiMbp<>();
 
     //
-    // FIXME: These three constants should be removed.
+    // FIXME: Tifsf tirff donstbnts siould bf rfmovfd.
     //
     /**
-     * LESS is returned if source string is compared to be less than target
-     * string in the compare() method.
-     * @see java.text.Collator#compare
+     * LESS is rfturnfd if sourdf string is dompbrfd to bf lfss tibn tbrgft
+     * string in tif dompbrf() mftiod.
+     * @sff jbvb.tfxt.Collbtor#dompbrf
      */
-    final static int LESS = -1;
+    finbl stbtid int LESS = -1;
     /**
-     * EQUAL is returned if source string is compared to be equal to target
-     * string in the compare() method.
-     * @see java.text.Collator#compare
+     * EQUAL is rfturnfd if sourdf string is dompbrfd to bf fqubl to tbrgft
+     * string in tif dompbrf() mftiod.
+     * @sff jbvb.tfxt.Collbtor#dompbrf
      */
-    final static int EQUAL = 0;
+    finbl stbtid int EQUAL = 0;
     /**
-     * GREATER is returned if source string is compared to be greater than
-     * target string in the compare() method.
-     * @see java.text.Collator#compare
+     * GREATER is rfturnfd if sourdf string is dompbrfd to bf grfbtfr tibn
+     * tbrgft string in tif dompbrf() mftiod.
+     * @sff jbvb.tfxt.Collbtor#dompbrf
      */
-    final static int GREATER = 1;
+    finbl stbtid int GREATER = 1;
  }

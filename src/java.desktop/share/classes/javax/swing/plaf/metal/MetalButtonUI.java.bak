@@ -1,243 +1,243 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.plaf.metal;
+pbdkbgf jbvbx.swing.plbf.mftbl;
 
-import sun.swing.SwingUtilities2;
-import sun.awt.AppContext;
+import sun.swing.SwingUtilitifs2;
+import sun.bwt.AppContfxt;
 
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.plaf.basic.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.*;
-import javax.swing.plaf.*;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.plbf.bbsid.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bfbns.*;
+import jbvbx.swing.plbf.*;
 
 /**
- * MetalButtonUI implementation
+ * MftblButtonUI implfmfntbtion
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @author Tom Santos
+ * @butior Tom Sbntos
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class MetalButtonUI extends BasicButtonUI {
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss MftblButtonUI fxtfnds BbsidButtonUI {
 
-    // NOTE: These are not really needed, but at this point we can't pull
-    // them. Their values are updated purely for historical reasons.
+    // NOTE: Tifsf brf not rfblly nffdfd, but bt tiis point wf dbn't pull
+    // tifm. Tifir vblufs brf updbtfd purfly for iistoridbl rfbsons.
     /**
-     * The color of the focused button.
+     * Tif dolor of tif fodusfd button.
      */
-    protected Color focusColor;
-
-    /**
-     * The color of the selected button.
-     */
-    protected Color selectColor;
+    protfdtfd Color fodusColor;
 
     /**
-     * The color of the disabled color.
+     * Tif dolor of tif sflfdtfd button.
      */
-    protected Color disabledTextColor;
+    protfdtfd Color sflfdtColor;
 
-    private static final Object METAL_BUTTON_UI_KEY = new Object();
+    /**
+     * Tif dolor of tif disbblfd dolor.
+     */
+    protfdtfd Color disbblfdTfxtColor;
+
+    privbtf stbtid finbl Objfdt METAL_BUTTON_UI_KEY = nfw Objfdt();
 
     // ********************************
-    //          Create PLAF
+    //          Crfbtf PLAF
     // ********************************
 
     /**
-     * Returns an instance of {@code MetalButtonUI}.
+     * Rfturns bn instbndf of {@dodf MftblButtonUI}.
      *
-     * @param c a component
-     * @return an instance of {@code MetalButtonUI}
+     * @pbrbm d b domponfnt
+     * @rfturn bn instbndf of {@dodf MftblButtonUI}
      */
-    public static ComponentUI createUI(JComponent c) {
-        AppContext appContext = AppContext.getAppContext();
-        MetalButtonUI metalButtonUI =
-                (MetalButtonUI) appContext.get(METAL_BUTTON_UI_KEY);
-        if (metalButtonUI == null) {
-            metalButtonUI = new MetalButtonUI();
-            appContext.put(METAL_BUTTON_UI_KEY, metalButtonUI);
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt d) {
+        AppContfxt bppContfxt = AppContfxt.gftAppContfxt();
+        MftblButtonUI mftblButtonUI =
+                (MftblButtonUI) bppContfxt.gft(METAL_BUTTON_UI_KEY);
+        if (mftblButtonUI == null) {
+            mftblButtonUI = nfw MftblButtonUI();
+            bppContfxt.put(METAL_BUTTON_UI_KEY, mftblButtonUI);
         }
-        return metalButtonUI;
+        rfturn mftblButtonUI;
     }
 
     // ********************************
-    //          Install
+    //          Instbll
     // ********************************
-    public void installDefaults(AbstractButton b) {
-        super.installDefaults(b);
+    publid void instbllDffbults(AbstrbdtButton b) {
+        supfr.instbllDffbults(b);
     }
 
-    public void uninstallDefaults(AbstractButton b) {
-        super.uninstallDefaults(b);
+    publid void uninstbllDffbults(AbstrbdtButton b) {
+        supfr.uninstbllDffbults(b);
     }
 
     // ********************************
-    //         Create Listeners
+    //         Crfbtf Listfnfrs
     // ********************************
-    protected BasicButtonListener createButtonListener(AbstractButton b) {
-        return super.createButtonListener(b);
+    protfdtfd BbsidButtonListfnfr drfbtfButtonListfnfr(AbstrbdtButton b) {
+        rfturn supfr.drfbtfButtonListfnfr(b);
     }
 
 
     // ********************************
-    //         Default Accessors
+    //         Dffbult Addfssors
     // ********************************
 
     /**
-     * Returns the color of the selected button.
+     * Rfturns tif dolor of tif sflfdtfd button.
      *
-     * @return the color of the selected button
+     * @rfturn tif dolor of tif sflfdtfd button
      */
-    protected Color getSelectColor() {
-        selectColor = UIManager.getColor(getPropertyPrefix() + "select");
-        return selectColor;
+    protfdtfd Color gftSflfdtColor() {
+        sflfdtColor = UIMbnbgfr.gftColor(gftPropfrtyPrffix() + "sflfdt");
+        rfturn sflfdtColor;
     }
 
     /**
-     * Returns the color of a disabled text.
+     * Rfturns tif dolor of b disbblfd tfxt.
      *
-     * @return the color of a disabled text
+     * @rfturn tif dolor of b disbblfd tfxt
      */
-    protected Color getDisabledTextColor() {
-        disabledTextColor = UIManager.getColor(getPropertyPrefix() +
-                                               "disabledText");
-        return disabledTextColor;
+    protfdtfd Color gftDisbblfdTfxtColor() {
+        disbblfdTfxtColor = UIMbnbgfr.gftColor(gftPropfrtyPrffix() +
+                                               "disbblfdTfxt");
+        rfturn disbblfdTfxtColor;
     }
 
     /**
-     * Returns the color of the focused button.
+     * Rfturns tif dolor of tif fodusfd button.
      *
-     * @return the color of the focused button
+     * @rfturn tif dolor of tif fodusfd button
      */
-    protected Color getFocusColor() {
-        focusColor = UIManager.getColor(getPropertyPrefix() + "focus");
-        return focusColor;
+    protfdtfd Color gftFodusColor() {
+        fodusColor = UIMbnbgfr.gftColor(gftPropfrtyPrffix() + "fodus");
+        rfturn fodusColor;
     }
 
     // ********************************
-    //          Paint
+    //          Pbint
     // ********************************
     /**
-     * If necessary paints the background of the component, then
-     * invokes <code>paint</code>.
+     * If nfdfssbry pbints tif bbdkground of tif domponfnt, tifn
+     * invokfs <dodf>pbint</dodf>.
      *
-     * @param g Graphics to paint to
-     * @param c JComponent painting on
-     * @throws NullPointerException if <code>g</code> or <code>c</code> is
+     * @pbrbm g Grbpiids to pbint to
+     * @pbrbm d JComponfnt pbinting on
+     * @tirows NullPointfrExdfption if <dodf>g</dodf> or <dodf>d</dodf> is
      *         null
-     * @see javax.swing.plaf.ComponentUI#update
-     * @see javax.swing.plaf.ComponentUI#paint
-     * @since 1.5
+     * @sff jbvbx.swing.plbf.ComponfntUI#updbtf
+     * @sff jbvbx.swing.plbf.ComponfntUI#pbint
+     * @sindf 1.5
      */
-    public void update(Graphics g, JComponent c) {
-        AbstractButton button = (AbstractButton)c;
-        if ((c.getBackground() instanceof UIResource) &&
-                  button.isContentAreaFilled() && c.isEnabled()) {
-            ButtonModel model = button.getModel();
-            if (!MetalUtils.isToolBarButton(c)) {
-                if (!model.isArmed() && !model.isPressed() &&
-                        MetalUtils.drawGradient(
-                        c, g, "Button.gradient", 0, 0, c.getWidth(),
-                        c.getHeight(), true)) {
-                    paint(g, c);
-                    return;
+    publid void updbtf(Grbpiids g, JComponfnt d) {
+        AbstrbdtButton button = (AbstrbdtButton)d;
+        if ((d.gftBbdkground() instbndfof UIRfsourdf) &&
+                  button.isContfntArfbFillfd() && d.isEnbblfd()) {
+            ButtonModfl modfl = button.gftModfl();
+            if (!MftblUtils.isToolBbrButton(d)) {
+                if (!modfl.isArmfd() && !modfl.isPrfssfd() &&
+                        MftblUtils.drbwGrbdifnt(
+                        d, g, "Button.grbdifnt", 0, 0, d.gftWidti(),
+                        d.gftHfigit(), truf)) {
+                    pbint(g, d);
+                    rfturn;
                 }
             }
-            else if (model.isRollover() && MetalUtils.drawGradient(
-                        c, g, "Button.gradient", 0, 0, c.getWidth(),
-                        c.getHeight(), true)) {
-                paint(g, c);
-                return;
+            flsf if (modfl.isRollovfr() && MftblUtils.drbwGrbdifnt(
+                        d, g, "Button.grbdifnt", 0, 0, d.gftWidti(),
+                        d.gftHfigit(), truf)) {
+                pbint(g, d);
+                rfturn;
             }
         }
-        super.update(g, c);
+        supfr.updbtf(g, d);
     }
 
-    protected void paintButtonPressed(Graphics g, AbstractButton b) {
-        if ( b.isContentAreaFilled() ) {
-            Dimension size = b.getSize();
-            g.setColor(getSelectColor());
-            g.fillRect(0, 0, size.width, size.height);
+    protfdtfd void pbintButtonPrfssfd(Grbpiids g, AbstrbdtButton b) {
+        if ( b.isContfntArfbFillfd() ) {
+            Dimfnsion sizf = b.gftSizf();
+            g.sftColor(gftSflfdtColor());
+            g.fillRfdt(0, 0, sizf.widti, sizf.ifigit);
         }
     }
 
-    protected void paintFocus(Graphics g, AbstractButton b,
-                              Rectangle viewRect, Rectangle textRect, Rectangle iconRect){
+    protfdtfd void pbintFodus(Grbpiids g, AbstrbdtButton b,
+                              Rfdtbnglf vifwRfdt, Rfdtbnglf tfxtRfdt, Rfdtbnglf idonRfdt){
 
-        Rectangle focusRect = new Rectangle();
-        String text = b.getText();
-        boolean isIcon = b.getIcon() != null;
+        Rfdtbnglf fodusRfdt = nfw Rfdtbnglf();
+        String tfxt = b.gftTfxt();
+        boolfbn isIdon = b.gftIdon() != null;
 
-        // If there is text
-        if ( text != null && !text.equals( "" ) ) {
-            if ( !isIcon ) {
-                focusRect.setBounds( textRect );
+        // If tifrf is tfxt
+        if ( tfxt != null && !tfxt.fqubls( "" ) ) {
+            if ( !isIdon ) {
+                fodusRfdt.sftBounds( tfxtRfdt );
             }
-            else {
-                focusRect.setBounds( iconRect.union( textRect ) );
+            flsf {
+                fodusRfdt.sftBounds( idonRfdt.union( tfxtRfdt ) );
             }
         }
-        // If there is an icon and no text
-        else if ( isIcon ) {
-            focusRect.setBounds( iconRect );
+        // If tifrf is bn idon bnd no tfxt
+        flsf if ( isIdon ) {
+            fodusRfdt.sftBounds( idonRfdt );
         }
 
-        g.setColor(getFocusColor());
-        g.drawRect((focusRect.x-1), (focusRect.y-1),
-                  focusRect.width+1, focusRect.height+1);
+        g.sftColor(gftFodusColor());
+        g.drbwRfdt((fodusRfdt.x-1), (fodusRfdt.y-1),
+                  fodusRfdt.widti+1, fodusRfdt.ifigit+1);
 
     }
 
 
-    protected void paintText(Graphics g, JComponent c, Rectangle textRect, String text) {
-        AbstractButton b = (AbstractButton) c;
-        ButtonModel model = b.getModel();
-        FontMetrics fm = SwingUtilities2.getFontMetrics(c, g);
-        int mnemIndex = b.getDisplayedMnemonicIndex();
+    protfdtfd void pbintTfxt(Grbpiids g, JComponfnt d, Rfdtbnglf tfxtRfdt, String tfxt) {
+        AbstrbdtButton b = (AbstrbdtButton) d;
+        ButtonModfl modfl = b.gftModfl();
+        FontMftrids fm = SwingUtilitifs2.gftFontMftrids(d, g);
+        int mnfmIndfx = b.gftDisplbyfdMnfmonidIndfx();
 
-        /* Draw the Text */
-        if(model.isEnabled()) {
-            /*** paint the text normally */
-            g.setColor(b.getForeground());
+        /* Drbw tif Tfxt */
+        if(modfl.isEnbblfd()) {
+            /*** pbint tif tfxt normblly */
+            g.sftColor(b.gftForfground());
         }
-        else {
-            /*** paint the text disabled ***/
-            g.setColor(getDisabledTextColor());
+        flsf {
+            /*** pbint tif tfxt disbblfd ***/
+            g.sftColor(gftDisbblfdTfxtColor());
         }
-        SwingUtilities2.drawStringUnderlineCharAt(c, g,text,mnemIndex,
-                                  textRect.x, textRect.y + fm.getAscent());
+        SwingUtilitifs2.drbwStringUndfrlinfCibrAt(d, g,tfxt,mnfmIndfx,
+                                  tfxtRfdt.x, tfxtRfdt.y + fm.gftAsdfnt());
     }
 }

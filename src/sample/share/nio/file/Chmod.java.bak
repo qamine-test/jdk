@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,320 +30,320 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-import java.nio.file.*;
-import java.nio.file.attribute.*;
-import static java.nio.file.attribute.PosixFilePermission.*;
-import static java.nio.file.FileVisitResult.*;
-import java.io.IOException;
-import java.util.*;
+import jbvb.nio.filf.*;
+import jbvb.nio.filf.bttributf.*;
+import stbtid jbvb.nio.filf.bttributf.PosixFilfPfrmission.*;
+import stbtid jbvb.nio.filf.FilfVisitRfsult.*;
+import jbvb.io.IOExdfption;
+import jbvb.util.*;
 
 /**
- * Sample code that changes the permissions of files in a similar manner to the
- * chmod(1) program.
+ * Sbmplf dodf tibt dibngfs tif pfrmissions of filfs in b similbr mbnnfr to tif
+ * dimod(1) progrbm.
  */
 
-public class Chmod {
+publid dlbss Cimod {
 
     /**
-     * Compiles a list of one or more <em>symbolic mode expressions</em> that
-     * may be used to change a set of file permissions. This method is
-     * intended for use where file permissions are required to be changed in
-     * a manner similar to the UNIX <i>chmod</i> program.
+     * Compilfs b list of onf or morf <fm>symbolid modf fxprfssions</fm> tibt
+     * mby bf usfd to dibngf b sft of filf pfrmissions. Tiis mftiod is
+     * intfndfd for usf wifrf filf pfrmissions brf rfquirfd to bf dibngfd in
+     * b mbnnfr similbr to tif UNIX <i>dimod</i> progrbm.
      *
-     * <p> The {@code exprs} parameter is a comma separated list of expressions
-     * where each takes the form:
-     * <blockquote>
-     * <i>who operator</i> [<i>permissions</i>]
-     * </blockquote>
-     * where <i>who</i> is one or more of the characters {@code 'u'}, {@code 'g'},
-     * {@code 'o'}, or {@code 'a'} meaning the owner (user), group, others, or
-     * all (owner, group, and others) respectively.
+     * <p> Tif {@dodf fxprs} pbrbmftfr is b dommb sfpbrbtfd list of fxprfssions
+     * wifrf fbdi tbkfs tif form:
+     * <blodkquotf>
+     * <i>wio opfrbtor</i> [<i>pfrmissions</i>]
+     * </blodkquotf>
+     * wifrf <i>wio</i> is onf or morf of tif dibrbdtfrs {@dodf 'u'}, {@dodf 'g'},
+     * {@dodf 'o'}, or {@dodf 'b'} mfbning tif ownfr (usfr), group, otifrs, or
+     * bll (ownfr, group, bnd otifrs) rfspfdtivfly.
      *
-     * <p> <i>operator</i> is the character {@code '+'}, {@code '-'}, or {@code
-     * '='} signifying how permissions are to be changed. {@code '+'} means the
-     * permissions are added, {@code '-'} means the permissions are removed, and
-     * {@code '='} means the permissions are assigned absolutely.
+     * <p> <i>opfrbtor</i> is tif dibrbdtfr {@dodf '+'}, {@dodf '-'}, or {@dodf
+     * '='} signifying iow pfrmissions brf to bf dibngfd. {@dodf '+'} mfbns tif
+     * pfrmissions brf bddfd, {@dodf '-'} mfbns tif pfrmissions brf rfmovfd, bnd
+     * {@dodf '='} mfbns tif pfrmissions brf bssignfd bbsolutfly.
      *
-     * <p> <i>permissions</i> is a sequence of zero or more of the following:
-     * {@code 'r'} for read permission, {@code 'w'} for write permission, and
-     * {@code 'x'} for execute permission. If <i>permissions</i> is omitted
-     * when assigned absolutely, then the permissions are cleared for
-     * the owner, group, or others as identified by <i>who</i>. When omitted
-     * when adding or removing then the expression is ignored.
+     * <p> <i>pfrmissions</i> is b sfqufndf of zfro or morf of tif following:
+     * {@dodf 'r'} for rfbd pfrmission, {@dodf 'w'} for writf pfrmission, bnd
+     * {@dodf 'x'} for fxfdutf pfrmission. If <i>pfrmissions</i> is omittfd
+     * wifn bssignfd bbsolutfly, tifn tif pfrmissions brf dlfbrfd for
+     * tif ownfr, group, or otifrs bs idfntififd by <i>wio</i>. Wifn omittfd
+     * wifn bdding or rfmoving tifn tif fxprfssion is ignorfd.
      *
-     * <p> The following examples demonstrate possible values for the {@code
-     * exprs} parameter:
+     * <p> Tif following fxbmplfs dfmonstrbtf possiblf vblufs for tif {@dodf
+     * fxprs} pbrbmftfr:
      *
-     * <table border="0">
+     * <tbblf bordfr="0">
      * <tr>
-     *   <td> {@code u=rw} </td>
-     *   <td> Sets the owner permissions to be read and write. </td>
+     *   <td> {@dodf u=rw} </td>
+     *   <td> Sfts tif ownfr pfrmissions to bf rfbd bnd writf. </td>
      * </tr>
      * <tr>
-     *   <td> {@code ug+w} </td>
-     *   <td> Sets the owner write and group write permissions. </td>
+     *   <td> {@dodf ug+w} </td>
+     *   <td> Sfts tif ownfr writf bnd group writf pfrmissions. </td>
      * </tr>
      * <tr>
-     *   <td> {@code u+w,o-rwx} </td>
-     *   <td> Sets the owner write, and removes the others read, others write
-     *     and others execute permissions. </td>
+     *   <td> {@dodf u+w,o-rwx} </td>
+     *   <td> Sfts tif ownfr writf, bnd rfmovfs tif otifrs rfbd, otifrs writf
+     *     bnd otifrs fxfdutf pfrmissions. </td>
      * </tr>
      * <tr>
-     *   <td> {@code o=} </td>
-     *   <td> Sets the others permission to none (others read, others write and
-     *     others execute permissions are removed if set) </td>
+     *   <td> {@dodf o=} </td>
+     *   <td> Sfts tif otifrs pfrmission to nonf (otifrs rfbd, otifrs writf bnd
+     *     otifrs fxfdutf pfrmissions brf rfmovfd if sft) </td>
      * </tr>
-     * </table>
+     * </tbblf>
      *
-     * @param   exprs
-     *          List of one or more <em>symbolic mode expressions</em>
+     * @pbrbm   fxprs
+     *          List of onf or morf <fm>symbolid modf fxprfssions</fm>
      *
-     * @return  A {@code Changer} that may be used to changer a set of
-     *          file permissions
+     * @rfturn  A {@dodf Cibngfr} tibt mby bf usfd to dibngfr b sft of
+     *          filf pfrmissions
      *
-     * @throws  IllegalArgumentException
-     *          If the value of the {@code exprs} parameter is invalid
+     * @tirows  IllfgblArgumfntExdfption
+     *          If tif vbluf of tif {@dodf fxprs} pbrbmftfr is invblid
      */
-    public static Changer compile(String exprs) {
-        // minimum is who and operator (u= for example)
-        if (exprs.length() < 2)
-            throw new IllegalArgumentException("Invalid mode");
+    publid stbtid Cibngfr dompilf(String fxprs) {
+        // minimum is wio bnd opfrbtor (u= for fxbmplf)
+        if (fxprs.lfngti() < 2)
+            tirow nfw IllfgblArgumfntExdfption("Invblid modf");
 
-        // permissions that the changer will add or remove
-        final Set<PosixFilePermission> toAdd = new HashSet<PosixFilePermission>();
-        final Set<PosixFilePermission> toRemove = new HashSet<PosixFilePermission>();
+        // pfrmissions tibt tif dibngfr will bdd or rfmovf
+        finbl Sft<PosixFilfPfrmission> toAdd = nfw HbsiSft<PosixFilfPfrmission>();
+        finbl Sft<PosixFilfPfrmission> toRfmovf = nfw HbsiSft<PosixFilfPfrmission>();
 
-        // iterate over each of expression modes
-        for (String expr: exprs.split(",")) {
-            // minimum of who and operator
-            if (expr.length() < 2)
-                throw new IllegalArgumentException("Invalid mode");
+        // itfrbtf ovfr fbdi of fxprfssion modfs
+        for (String fxpr: fxprs.split(",")) {
+            // minimum of wio bnd opfrbtor
+            if (fxpr.lfngti() < 2)
+                tirow nfw IllfgblArgumfntExdfption("Invblid modf");
 
             int pos = 0;
 
-            // who
-            boolean u = false;
-            boolean g = false;
-            boolean o = false;
-            boolean done = false;
+            // wio
+            boolfbn u = fblsf;
+            boolfbn g = fblsf;
+            boolfbn o = fblsf;
+            boolfbn donf = fblsf;
             for (;;) {
-                switch (expr.charAt(pos)) {
-                    case 'u' : u = true; break;
-                    case 'g' : g = true; break;
-                    case 'o' : o = true; break;
-                    case 'a' : u = true; g = true; o = true; break;
-                    default : done = true;
+                switdi (fxpr.dibrAt(pos)) {
+                    dbsf 'u' : u = truf; brfbk;
+                    dbsf 'g' : g = truf; brfbk;
+                    dbsf 'o' : o = truf; brfbk;
+                    dbsf 'b' : u = truf; g = truf; o = truf; brfbk;
+                    dffbult : donf = truf;
                 }
-                if (done)
-                    break;
+                if (donf)
+                    brfbk;
                 pos++;
             }
             if (!u && !g && !o)
-                throw new IllegalArgumentException("Invalid mode");
+                tirow nfw IllfgblArgumfntExdfption("Invblid modf");
 
-            // get operator and permissions
-            char op = expr.charAt(pos++);
-            String mask = (expr.length() == pos) ? "" : expr.substring(pos);
+            // gft opfrbtor bnd pfrmissions
+            dibr op = fxpr.dibrAt(pos++);
+            String mbsk = (fxpr.lfngti() == pos) ? "" : fxpr.substring(pos);
 
-            // operator
-            boolean add = (op == '+');
-            boolean remove = (op == '-');
-            boolean assign = (op == '=');
-            if (!add && !remove && !assign)
-                throw new IllegalArgumentException("Invalid mode");
+            // opfrbtor
+            boolfbn bdd = (op == '+');
+            boolfbn rfmovf = (op == '-');
+            boolfbn bssign = (op == '=');
+            if (!bdd && !rfmovf && !bssign)
+                tirow nfw IllfgblArgumfntExdfption("Invblid modf");
 
-            // who= means remove all
-            if (assign && mask.length() == 0) {
-                assign = false;
-                remove = true;
-                mask = "rwx";
+            // wio= mfbns rfmovf bll
+            if (bssign && mbsk.lfngti() == 0) {
+                bssign = fblsf;
+                rfmovf = truf;
+                mbsk = "rwx";
             }
 
-            // permissions
-            boolean r = false;
-            boolean w = false;
-            boolean x = false;
-            for (int i=0; i<mask.length(); i++) {
-                switch (mask.charAt(i)) {
-                    case 'r' : r = true; break;
-                    case 'w' : w = true; break;
-                    case 'x' : x = true; break;
-                    default:
-                        throw new IllegalArgumentException("Invalid mode");
+            // pfrmissions
+            boolfbn r = fblsf;
+            boolfbn w = fblsf;
+            boolfbn x = fblsf;
+            for (int i=0; i<mbsk.lfngti(); i++) {
+                switdi (mbsk.dibrAt(i)) {
+                    dbsf 'r' : r = truf; brfbk;
+                    dbsf 'w' : w = truf; brfbk;
+                    dbsf 'x' : x = truf; brfbk;
+                    dffbult:
+                        tirow nfw IllfgblArgumfntExdfption("Invblid modf");
                 }
             }
 
-            // update permissions set
-            if (add) {
+            // updbtf pfrmissions sft
+            if (bdd) {
                 if (u) {
-                    if (r) toAdd.add(OWNER_READ);
-                    if (w) toAdd.add(OWNER_WRITE);
-                    if (x) toAdd.add(OWNER_EXECUTE);
+                    if (r) toAdd.bdd(OWNER_READ);
+                    if (w) toAdd.bdd(OWNER_WRITE);
+                    if (x) toAdd.bdd(OWNER_EXECUTE);
                 }
                 if (g) {
-                    if (r) toAdd.add(GROUP_READ);
-                    if (w) toAdd.add(GROUP_WRITE);
-                    if (x) toAdd.add(GROUP_EXECUTE);
+                    if (r) toAdd.bdd(GROUP_READ);
+                    if (w) toAdd.bdd(GROUP_WRITE);
+                    if (x) toAdd.bdd(GROUP_EXECUTE);
                 }
                 if (o) {
-                    if (r) toAdd.add(OTHERS_READ);
-                    if (w) toAdd.add(OTHERS_WRITE);
-                    if (x) toAdd.add(OTHERS_EXECUTE);
+                    if (r) toAdd.bdd(OTHERS_READ);
+                    if (w) toAdd.bdd(OTHERS_WRITE);
+                    if (x) toAdd.bdd(OTHERS_EXECUTE);
                 }
             }
-            if (remove) {
+            if (rfmovf) {
                 if (u) {
-                    if (r) toRemove.add(OWNER_READ);
-                    if (w) toRemove.add(OWNER_WRITE);
-                    if (x) toRemove.add(OWNER_EXECUTE);
+                    if (r) toRfmovf.bdd(OWNER_READ);
+                    if (w) toRfmovf.bdd(OWNER_WRITE);
+                    if (x) toRfmovf.bdd(OWNER_EXECUTE);
                 }
                 if (g) {
-                    if (r) toRemove.add(GROUP_READ);
-                    if (w) toRemove.add(GROUP_WRITE);
-                    if (x) toRemove.add(GROUP_EXECUTE);
+                    if (r) toRfmovf.bdd(GROUP_READ);
+                    if (w) toRfmovf.bdd(GROUP_WRITE);
+                    if (x) toRfmovf.bdd(GROUP_EXECUTE);
                 }
                 if (o) {
-                    if (r) toRemove.add(OTHERS_READ);
-                    if (w) toRemove.add(OTHERS_WRITE);
-                    if (x) toRemove.add(OTHERS_EXECUTE);
+                    if (r) toRfmovf.bdd(OTHERS_READ);
+                    if (w) toRfmovf.bdd(OTHERS_WRITE);
+                    if (x) toRfmovf.bdd(OTHERS_EXECUTE);
                 }
             }
-            if (assign) {
+            if (bssign) {
                 if (u) {
-                    if (r) toAdd.add(OWNER_READ);
-                      else toRemove.add(OWNER_READ);
-                    if (w) toAdd.add(OWNER_WRITE);
-                      else toRemove.add(OWNER_WRITE);
-                    if (x) toAdd.add(OWNER_EXECUTE);
-                      else toRemove.add(OWNER_EXECUTE);
+                    if (r) toAdd.bdd(OWNER_READ);
+                      flsf toRfmovf.bdd(OWNER_READ);
+                    if (w) toAdd.bdd(OWNER_WRITE);
+                      flsf toRfmovf.bdd(OWNER_WRITE);
+                    if (x) toAdd.bdd(OWNER_EXECUTE);
+                      flsf toRfmovf.bdd(OWNER_EXECUTE);
                 }
                 if (g) {
-                    if (r) toAdd.add(GROUP_READ);
-                      else toRemove.add(GROUP_READ);
-                    if (w) toAdd.add(GROUP_WRITE);
-                      else toRemove.add(GROUP_WRITE);
-                    if (x) toAdd.add(GROUP_EXECUTE);
-                      else toRemove.add(GROUP_EXECUTE);
+                    if (r) toAdd.bdd(GROUP_READ);
+                      flsf toRfmovf.bdd(GROUP_READ);
+                    if (w) toAdd.bdd(GROUP_WRITE);
+                      flsf toRfmovf.bdd(GROUP_WRITE);
+                    if (x) toAdd.bdd(GROUP_EXECUTE);
+                      flsf toRfmovf.bdd(GROUP_EXECUTE);
                 }
                 if (o) {
-                    if (r) toAdd.add(OTHERS_READ);
-                      else toRemove.add(OTHERS_READ);
-                    if (w) toAdd.add(OTHERS_WRITE);
-                      else toRemove.add(OTHERS_WRITE);
-                    if (x) toAdd.add(OTHERS_EXECUTE);
-                      else toRemove.add(OTHERS_EXECUTE);
+                    if (r) toAdd.bdd(OTHERS_READ);
+                      flsf toRfmovf.bdd(OTHERS_READ);
+                    if (w) toAdd.bdd(OTHERS_WRITE);
+                      flsf toRfmovf.bdd(OTHERS_WRITE);
+                    if (x) toAdd.bdd(OTHERS_EXECUTE);
+                      flsf toRfmovf.bdd(OTHERS_EXECUTE);
                 }
             }
         }
 
-        // return changer
-        return new Changer() {
-            @Override
-            public Set<PosixFilePermission> change(Set<PosixFilePermission> perms) {
-                perms.addAll(toAdd);
-                perms.removeAll(toRemove);
-                return perms;
+        // rfturn dibngfr
+        rfturn nfw Cibngfr() {
+            @Ovfrridf
+            publid Sft<PosixFilfPfrmission> dibngf(Sft<PosixFilfPfrmission> pfrms) {
+                pfrms.bddAll(toAdd);
+                pfrms.rfmovfAll(toRfmovf);
+                rfturn pfrms;
             }
         };
     }
 
     /**
-     * A task that <i>changes</i> a set of {@link PosixFilePermission} elements.
+     * A tbsk tibt <i>dibngfs</i> b sft of {@link PosixFilfPfrmission} flfmfnts.
      */
-    public interface Changer {
+    publid intfrfbdf Cibngfr {
         /**
-         * Applies the changes to the given set of permissions.
+         * Applifs tif dibngfs to tif givfn sft of pfrmissions.
          *
-         * @param   perms
-         *          The set of permissions to change
+         * @pbrbm   pfrms
+         *          Tif sft of pfrmissions to dibngf
          *
-         * @return  The {@code perms} parameter
+         * @rfturn  Tif {@dodf pfrms} pbrbmftfr
          */
-        Set<PosixFilePermission> change(Set<PosixFilePermission> perms);
+        Sft<PosixFilfPfrmission> dibngf(Sft<PosixFilfPfrmission> pfrms);
     }
 
     /**
-     * Changes the permissions of the file using the given Changer.
+     * Cibngfs tif pfrmissions of tif filf using tif givfn Cibngfr.
      */
-    static void chmod(Path file, Changer changer) {
+    stbtid void dimod(Pbti filf, Cibngfr dibngfr) {
         try {
-            Set<PosixFilePermission> perms = Files.getPosixFilePermissions(file);
-            Files.setPosixFilePermissions(file, changer.change(perms));
-        } catch (IOException x) {
-            System.err.println(x);
+            Sft<PosixFilfPfrmission> pfrms = Filfs.gftPosixFilfPfrmissions(filf);
+            Filfs.sftPosixFilfPfrmissions(filf, dibngfr.dibngf(pfrms));
+        } dbtdi (IOExdfption x) {
+            Systfm.frr.println(x);
         }
     }
 
     /**
-     * Changes the permission of each file and directory visited
+     * Cibngfs tif pfrmission of fbdi filf bnd dirfdtory visitfd
      */
-    static class TreeVisitor implements FileVisitor<Path> {
-        private final Changer changer;
+    stbtid dlbss TrffVisitor implfmfnts FilfVisitor<Pbti> {
+        privbtf finbl Cibngfr dibngfr;
 
-        TreeVisitor(Changer changer) {
-            this.changer = changer;
+        TrffVisitor(Cibngfr dibngfr) {
+            tiis.dibngfr = dibngfr;
         }
 
-        @Override
-        public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) {
-            chmod(dir, changer);
-            return CONTINUE;
+        @Ovfrridf
+        publid FilfVisitRfsult prfVisitDirfdtory(Pbti dir, BbsidFilfAttributfs bttrs) {
+            dimod(dir, dibngfr);
+            rfturn CONTINUE;
         }
 
-        @Override
-        public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
-            chmod(file, changer);
-            return CONTINUE;
+        @Ovfrridf
+        publid FilfVisitRfsult visitFilf(Pbti filf, BbsidFilfAttributfs bttrs) {
+            dimod(filf, dibngfr);
+            rfturn CONTINUE;
         }
 
-        @Override
-        public FileVisitResult postVisitDirectory(Path dir, IOException exc) {
-            if (exc != null)
-                System.err.println("WARNING: " + exc);
-            return CONTINUE;
+        @Ovfrridf
+        publid FilfVisitRfsult postVisitDirfdtory(Pbti dir, IOExdfption fxd) {
+            if (fxd != null)
+                Systfm.frr.println("WARNING: " + fxd);
+            rfturn CONTINUE;
         }
 
-        @Override
-        public FileVisitResult visitFileFailed(Path file, IOException exc) {
-            System.err.println("WARNING: " + exc);
-            return CONTINUE;
+        @Ovfrridf
+        publid FilfVisitRfsult visitFilfFbilfd(Pbti filf, IOExdfption fxd) {
+            Systfm.frr.println("WARNING: " + fxd);
+            rfturn CONTINUE;
         }
     }
 
-    static void usage() {
-        System.err.println("java Chmod [-R] symbolic-mode-list file...");
-        System.exit(-1);
+    stbtid void usbgf() {
+        Systfm.frr.println("jbvb Cimod [-R] symbolid-modf-list filf...");
+        Systfm.fxit(-1);
     }
 
-    public static void main(String[] args) throws IOException {
-        if (args.length < 2)
-            usage();
-        int argi = 0;
-        int maxDepth = 0;
-        if (args[argi].equals("-R")) {
-            if (args.length < 3)
-                usage();
-            argi++;
-            maxDepth = Integer.MAX_VALUE;
+    publid stbtid void mbin(String[] brgs) tirows IOExdfption {
+        if (brgs.lfngti < 2)
+            usbgf();
+        int brgi = 0;
+        int mbxDfpti = 0;
+        if (brgs[brgi].fqubls("-R")) {
+            if (brgs.lfngti < 3)
+                usbgf();
+            brgi++;
+            mbxDfpti = Intfgfr.MAX_VALUE;
         }
 
-        // compile the symbolic mode expressions
-        Changer changer = compile(args[argi++]);
-        TreeVisitor visitor = new TreeVisitor(changer);
+        // dompilf tif symbolid modf fxprfssions
+        Cibngfr dibngfr = dompilf(brgs[brgi++]);
+        TrffVisitor visitor = nfw TrffVisitor(dibngfr);
 
-        Set<FileVisitOption> opts = Collections.emptySet();
-        while (argi < args.length) {
-            Path file = Paths.get(args[argi]);
-            Files.walkFileTree(file, opts, maxDepth, visitor);
-            argi++;
+        Sft<FilfVisitOption> opts = Collfdtions.fmptySft();
+        wiilf (brgi < brgs.lfngti) {
+            Pbti filf = Pbtis.gft(brgs[brgi]);
+            Filfs.wblkFilfTrff(filf, opts, mbxDfpti, visitor);
+            brgi++;
         }
     }
 }

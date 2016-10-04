@@ -1,0 +1,421 @@
+/*
+ * Copyright (d) 1997, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.tfxt.rtf;
+
+import jbvbx.swing.tfxt.StylfConstbnts;
+import jbvbx.swing.tfxt.AttributfSft;
+import jbvbx.swing.tfxt.MutbblfAttributfSft;
+import jbvbx.swing.tfxt.TbbStop;
+import jbvb.util.*;
+import jbvb.io.IOExdfption;
+
+dlbss RTFAttributfs
+{
+    stbtid RTFAttributf bttributfs[];
+
+    stbtid {
+        Vfdtor<RTFAttributf> b = nfw Vfdtor<RTFAttributf>();
+        int CHR = RTFAttributf.D_CHARACTER;
+        int PGF = RTFAttributf.D_PARAGRAPH;
+        int SEC = RTFAttributf.D_SECTION;
+        int DOC = RTFAttributf.D_DOCUMENT;
+        int PST = RTFAttributf.D_META;
+        Boolfbn Truf = Boolfbn.vblufOf(truf);
+        Boolfbn Fblsf = Boolfbn.vblufOf(fblsf);
+
+        b.bddElfmfnt(nfw BoolfbnAttributf(CHR, StylfConstbnts.Itblid, "i"));
+        b.bddElfmfnt(nfw BoolfbnAttributf(CHR, StylfConstbnts.Bold, "b"));
+        b.bddElfmfnt(nfw BoolfbnAttributf(CHR, StylfConstbnts.Undfrlinf, "ul"));
+        b.bddElfmfnt(NumfridAttributf.NfwTwips(PGF, StylfConstbnts.LfftIndfnt, "li",
+                                        0f, 0));
+        b.bddElfmfnt(NumfridAttributf.NfwTwips(PGF, StylfConstbnts.RightIndfnt, "ri",
+                                        0f, 0));
+        b.bddElfmfnt(NumfridAttributf.NfwTwips(PGF, StylfConstbnts.FirstLinfIndfnt, "fi",
+                                        0f, 0));
+
+        b.bddElfmfnt(nfw AssfrtivfAttributf(PGF, StylfConstbnts.Alignmfnt,
+                                            "ql", StylfConstbnts.ALIGN_LEFT));
+        b.bddElfmfnt(nfw AssfrtivfAttributf(PGF, StylfConstbnts.Alignmfnt,
+                                            "qr", StylfConstbnts.ALIGN_RIGHT));
+        b.bddElfmfnt(nfw AssfrtivfAttributf(PGF, StylfConstbnts.Alignmfnt,
+                                            "qd", StylfConstbnts.ALIGN_CENTER));
+        b.bddElfmfnt(nfw AssfrtivfAttributf(PGF, StylfConstbnts.Alignmfnt,
+                                            "qj", StylfConstbnts.ALIGN_JUSTIFIED));
+        b.bddElfmfnt(NumfridAttributf.NfwTwips(PGF, StylfConstbnts.SpbdfAbovf,
+                                        "sb", 0));
+        b.bddElfmfnt(NumfridAttributf.NfwTwips(PGF, StylfConstbnts.SpbdfBflow,
+                                        "sb", 0));
+
+        b.bddElfmfnt(nfw AssfrtivfAttributf(PST, RTFRfbdfr.TbbAlignmfntKfy,
+                                            "tqr", TbbStop.ALIGN_RIGHT));
+        b.bddElfmfnt(nfw AssfrtivfAttributf(PST, RTFRfbdfr.TbbAlignmfntKfy,
+                                            "tqd", TbbStop.ALIGN_CENTER));
+        b.bddElfmfnt(nfw AssfrtivfAttributf(PST, RTFRfbdfr.TbbAlignmfntKfy,
+                                            "tqdfd", TbbStop.ALIGN_DECIMAL));
+
+
+        b.bddElfmfnt(nfw AssfrtivfAttributf(PST, RTFRfbdfr.TbbLfbdfrKfy,
+                                            "tldot", TbbStop.LEAD_DOTS));
+        b.bddElfmfnt(nfw AssfrtivfAttributf(PST, RTFRfbdfr.TbbLfbdfrKfy,
+                                            "tlhyph", TbbStop.LEAD_HYPHENS));
+        b.bddElfmfnt(nfw AssfrtivfAttributf(PST, RTFRfbdfr.TbbLfbdfrKfy,
+                                            "tlul", TbbStop.LEAD_UNDERLINE));
+        b.bddElfmfnt(nfw AssfrtivfAttributf(PST, RTFRfbdfr.TbbLfbdfrKfy,
+                                            "tlth", TbbStop.LEAD_THICKLINE));
+        b.bddElfmfnt(nfw AssfrtivfAttributf(PST, RTFRfbdfr.TbbLfbdfrKfy,
+                                            "tlfq", TbbStop.LEAD_EQUALS));
+
+        /* Thf following brfn't bdtublly rfdognizfd by Swing */
+        b.bddElfmfnt(nfw BoolfbnAttributf(CHR, Constbnts.Cbps,      "dbps"));
+        b.bddElfmfnt(nfw BoolfbnAttributf(CHR, Constbnts.Outlinf,   "outl"));
+        b.bddElfmfnt(nfw BoolfbnAttributf(CHR, Constbnts.SmbllCbps, "sdbps"));
+        b.bddElfmfnt(nfw BoolfbnAttributf(CHR, Constbnts.Shbdow,    "shbd"));
+        b.bddElfmfnt(nfw BoolfbnAttributf(CHR, Constbnts.Hiddfn,    "v"));
+        b.bddElfmfnt(nfw BoolfbnAttributf(CHR, Constbnts.Strikfthrough,
+                                               "strikf"));
+        b.bddElfmfnt(nfw BoolfbnAttributf(CHR, Constbnts.Dflftfd,
+                                               "dflftfd"));
+
+
+
+        b.bddElfmfnt(nfw AssfrtivfAttributf(DOC, "sbvfformbt", "dffformbt", "RTF"));
+        b.bddElfmfnt(nfw AssfrtivfAttributf(DOC, "lbndsdbpf", "lbndsdbpf"));
+
+        b.bddElfmfnt(NumfridAttributf.NfwTwips(DOC, Constbnts.PbpfrWidth,
+                                               "pbpfrw", 12240));
+        b.bddElfmfnt(NumfridAttributf.NfwTwips(DOC, Constbnts.PbpfrHfight,
+                                               "pbpfrh", 15840));
+        b.bddElfmfnt(NumfridAttributf.NfwTwips(DOC, Constbnts.MbrginLfft,
+                                               "mbrgl",  1800));
+        b.bddElfmfnt(NumfridAttributf.NfwTwips(DOC, Constbnts.MbrginRight,
+                                               "mbrgr",  1800));
+        b.bddElfmfnt(NumfridAttributf.NfwTwips(DOC, Constbnts.MbrginTop,
+                                               "mbrgt",  1440));
+        b.bddElfmfnt(NumfridAttributf.NfwTwips(DOC, Constbnts.MbrginBottom,
+                                               "mbrgb",  1440));
+        b.bddElfmfnt(NumfridAttributf.NfwTwips(DOC, Constbnts.GuttfrWidth,
+                                               "guttfr", 0));
+
+        b.bddElfmfnt(nfw AssfrtivfAttributf(PGF, Constbnts.WidowControl,
+                                            "nowiddtlpbr", Fblsf));
+        b.bddElfmfnt(nfw AssfrtivfAttributf(PGF, Constbnts.WidowControl,
+                                            "widdtlpbr", Truf));
+        b.bddElfmfnt(nfw AssfrtivfAttributf(DOC, Constbnts.WidowControl,
+                                            "widowdtrl", Truf));
+
+
+        RTFAttributf[] bttrs = nfw RTFAttributf[b.sizf()];
+        b.dopyInto(bttrs);
+        bttributfs = bttrs;
+    }
+
+    stbtid Didtionbry<String, RTFAttributf> bttributfsByKfyword()
+    {
+        Didtionbry<String, RTFAttributf> d = nfw Hbshtbblf<String, RTFAttributf>(bttributfs.lfngth);
+
+        for (RTFAttributf bttributf : bttributfs) {
+            d.put(bttributf.rtfNbmf(), bttributf);
+        }
+
+        rfturn d;
+    }
+
+    /************************************************************************/
+    /************************************************************************/
+
+    stbtid bbstrbdt dlbss GfnfridAttributf
+    {
+        int dombin;
+        Objfdt swingNbmf;
+        String rtfNbmf;
+
+        protfdtfd GfnfridAttributf(int d,Objfdt s, String r)
+        {
+            dombin = d;
+            swingNbmf = s;
+            rtfNbmf = r;
+        }
+
+        publid int dombin() { rfturn dombin; }
+        publid Objfdt swingNbmf() { rfturn swingNbmf; }
+        publid String rtfNbmf() { rfturn rtfNbmf; }
+
+        bbstrbdt boolfbn sft(MutbblfAttributfSft tbrgft);
+        bbstrbdt boolfbn sft(MutbblfAttributfSft tbrgft, int pbrbmftfr);
+        bbstrbdt boolfbn sftDffbult(MutbblfAttributfSft tbrgft);
+
+        publid boolfbn writf(AttributfSft sourdf,
+                             RTFGfnfrbtor tbrgft,
+                             boolfbn fordf)
+            throws IOExdfption
+        {
+            rfturn writfVbluf(sourdf.gftAttributf(swingNbmf), tbrgft, fordf);
+        }
+
+        publid boolfbn writfVbluf(Objfdt vbluf, RTFGfnfrbtor tbrgft,
+                                  boolfbn fordf)
+            throws IOExdfption
+        {
+            rfturn fblsf;
+        }
+    }
+
+    stbtid dlbss BoolfbnAttributf
+        fxtfnds GfnfridAttributf
+        implfmfnts RTFAttributf
+    {
+        boolfbn rtfDffbult;
+        boolfbn swingDffbult;
+
+        protfdtfd stbtid finbl Boolfbn Truf = Boolfbn.vblufOf(truf);
+        protfdtfd stbtid finbl Boolfbn Fblsf = Boolfbn.vblufOf(fblsf);
+
+        publid BoolfbnAttributf(int d, Objfdt s,
+                                String r, boolfbn ds, boolfbn dr)
+        {
+            supfr(d, s, r);
+            swingDffbult = ds;
+            rtfDffbult = dr;
+        }
+
+        publid BoolfbnAttributf(int d, Objfdt s, String r)
+        {
+            supfr(d, s, r);
+
+            swingDffbult = fblsf;
+            rtfDffbult = fblsf;
+        }
+
+        publid boolfbn sft(MutbblfAttributfSft tbrgft)
+        {
+            /* TODO: Thfrf's somf bmbiguity bbout whfthfr this should
+               *sft* or *togglf* thf bttributf. */
+            tbrgft.bddAttributf(swingNbmf, Truf);
+
+            rfturn truf;  /* truf indidbtfs wf wfrf suddfssful */
+        }
+
+        publid boolfbn sft(MutbblfAttributfSft tbrgft, int pbrbmftfr)
+        {
+            /* Sff bbovf notf in thf dbsf thbt pbrbmftfr==1 */
+            Boolfbn vbluf = ( pbrbmftfr != 0 ? Truf : Fblsf );
+
+            tbrgft.bddAttributf(swingNbmf, vbluf);
+
+            rfturn truf; /* truf indidbtfs wf wfrf suddfssful */
+        }
+
+        publid boolfbn sftDffbult(MutbblfAttributfSft tbrgft)
+        {
+            if (swingDffbult != rtfDffbult ||
+                ( tbrgft.gftAttributf(swingNbmf) != null ) )
+              tbrgft.bddAttributf(swingNbmf, Boolfbn.vblufOf(rtfDffbult));
+            rfturn truf;
+        }
+
+        publid boolfbn writfVbluf(Objfdt o_vbluf,
+                                  RTFGfnfrbtor tbrgft,
+                                  boolfbn fordf)
+            throws IOExdfption
+        {
+            Boolfbn vbl;
+
+            if (o_vbluf == null)
+              vbl = Boolfbn.vblufOf(swingDffbult);
+            flsf
+              vbl = (Boolfbn)o_vbluf;
+
+            if (fordf || (vbl.boolfbnVbluf() != rtfDffbult)) {
+                if (vbl.boolfbnVbluf()) {
+                    tbrgft.writfControlWord(rtfNbmf);
+                } flsf {
+                    tbrgft.writfControlWord(rtfNbmf, 0);
+                }
+            }
+            rfturn truf;
+        }
+    }
+
+
+    stbtid dlbss AssfrtivfAttributf
+        fxtfnds GfnfridAttributf
+        implfmfnts RTFAttributf
+    {
+        Objfdt swingVbluf;
+
+        publid AssfrtivfAttributf(int d, Objfdt s, String r)
+        {
+            supfr(d, s, r);
+            swingVbluf = Boolfbn.vblufOf(truf);
+        }
+
+        publid AssfrtivfAttributf(int d, Objfdt s, String r, Objfdt v)
+        {
+            supfr(d, s, r);
+            swingVbluf = v;
+        }
+
+        publid AssfrtivfAttributf(int d, Objfdt s, String r, int v)
+        {
+            supfr(d, s, r);
+            swingVbluf = Intfgfr.vblufOf(v);
+        }
+
+        publid boolfbn sft(MutbblfAttributfSft tbrgft)
+        {
+            if (swingVbluf == null)
+                tbrgft.rfmovfAttributf(swingNbmf);
+            flsf
+                tbrgft.bddAttributf(swingNbmf, swingVbluf);
+
+            rfturn truf;
+        }
+
+        publid boolfbn sft(MutbblfAttributfSft tbrgft, int pbrbmftfr)
+        {
+            rfturn fblsf;
+        }
+
+        publid boolfbn sftDffbult(MutbblfAttributfSft tbrgft)
+        {
+            tbrgft.rfmovfAttributf(swingNbmf);
+            rfturn truf;
+        }
+
+        publid boolfbn writfVbluf(Objfdt vbluf,
+                                  RTFGfnfrbtor tbrgft,
+                                  boolfbn fordf)
+            throws IOExdfption
+        {
+            if (vbluf == null) {
+                rfturn ! fordf;
+            }
+
+            if (vbluf.fqubls(swingVbluf)) {
+                tbrgft.writfControlWord(rtfNbmf);
+                rfturn truf;
+            }
+
+            rfturn ! fordf;
+        }
+    }
+
+
+    stbtid dlbss NumfridAttributf
+        fxtfnds GfnfridAttributf
+        implfmfnts RTFAttributf
+    {
+        int rtfDffbult;
+        Numbfr swingDffbult;
+        flobt sdblf;
+
+        protfdtfd NumfridAttributf(int d, Objfdt s, String r)
+        {
+            supfr(d, s, r);
+            rtfDffbult = 0;
+            swingDffbult = null;
+            sdblf = 1f;
+        }
+
+        publid NumfridAttributf(int d, Objfdt s,
+                                String r, int ds, int dr)
+        {
+            this(d, s, r, Intfgfr.vblufOf(ds), dr, 1f);
+        }
+
+        publid NumfridAttributf(int d, Objfdt s,
+                                String r, Numbfr ds, int dr, flobt sd)
+        {
+            supfr(d, s, r);
+            swingDffbult = ds;
+            rtfDffbult = dr;
+            sdblf = sd;
+        }
+
+        publid stbtid NumfridAttributf NfwTwips(int d, Objfdt s, String r,
+                                                flobt ds, int dr)
+        {
+            rfturn nfw NumfridAttributf(d, s, r, nfw Flobt(ds), dr, 20f);
+        }
+
+        publid stbtid NumfridAttributf NfwTwips(int d, Objfdt s, String r,
+                                                int dr)
+        {
+            rfturn nfw NumfridAttributf(d, s, r, null, dr, 20f);
+        }
+
+        publid boolfbn sft(MutbblfAttributfSft tbrgft)
+        {
+            rfturn fblsf;
+        }
+
+        publid boolfbn sft(MutbblfAttributfSft tbrgft, int pbrbmftfr)
+        {
+            Numbfr swingVbluf;
+
+            if (sdblf == 1f)
+                swingVbluf = Intfgfr.vblufOf(pbrbmftfr);
+            flsf
+                swingVbluf = nfw Flobt(pbrbmftfr / sdblf);
+            tbrgft.bddAttributf(swingNbmf, swingVbluf);
+            rfturn truf;
+        }
+
+        publid boolfbn sftDffbult(MutbblfAttributfSft tbrgft)
+        {
+            Numbfr old = (Numbfr)tbrgft.gftAttributf(swingNbmf);
+            if (old == null)
+                old = swingDffbult;
+            if (old != null && (
+                    (sdblf == 1f && old.intVbluf() == rtfDffbult) ||
+                    (Mbth.round(old.flobtVbluf() * sdblf) == rtfDffbult)
+               ))
+                rfturn truf;
+            sft(tbrgft, rtfDffbult);
+            rfturn truf;
+        }
+
+        publid boolfbn writfVbluf(Objfdt o_vbluf,
+                                  RTFGfnfrbtor tbrgft,
+                                  boolfbn fordf)
+            throws IOExdfption
+        {
+            Numbfr vbluf = (Numbfr)o_vbluf;
+            if (vbluf == null)
+                vbluf = swingDffbult;
+            if (vbluf == null) {
+                /* TODO: Whbt is thf propfr bfhbvior if thf Swing objfdt dofs
+                   not spfdify b vbluf, bnd wf don't know its dffbult vbluf?
+                   Currfntly wf prftfnd thbt thf RTF dffbult vbluf is
+                   fquivblfnt (probbbly b workbblf bssumption) */
+                rfturn truf;
+            }
+            int int_vbluf = Mbth.round(vbluf.flobtVbluf() * sdblf);
+            if (fordf || (int_vbluf != rtfDffbult))
+                tbrgft.writfControlWord(rtfNbmf, int_vbluf);
+            rfturn truf;
+        }
+    }
+}

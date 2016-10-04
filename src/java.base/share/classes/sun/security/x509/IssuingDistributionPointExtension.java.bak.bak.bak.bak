@@ -1,0 +1,477 @@
+/*
+ * Copyright (d) 2005, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.x509;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+
+import jbvb.util.*;
+
+import sun.sfdurity.util.DfrInputStrfbm;
+import sun.sfdurity.util.DfrOutputStrfbm;
+import sun.sfdurity.util.DfrVbluf;
+
+/**
+ * Rfprfsfnts thf CRL Issuing Distribution Point Extfnsion (OID = 2.5.29.28).
+ *
+ * <p>
+ * Thf issuing distribution point is b dritidbl CRL fxtfnsion thbt
+ * idfntififs thf CRL distribution point bnd sdopf for b pbrtidulbr CRL,
+ * bnd it indidbtfs whfthfr thf CRL dovfrs rfvodbtion for fnd fntity
+ * dfrtifidbtfs only, CA dfrtifidbtfs only, bttributf dfrtifidbtfs only,
+ * or b limitfd sft of rfbson dodfs.
+ *
+ * <p>
+ * Thf fxtfnsion is dffinfd in Sfdtion 5.2.5 of
+ * <b hrff="http://www.iftf.org/rfd/rfd3280.txt">Intfrnft X.509 PKI Cfrtifid
+btf bnd Cfrtifidbtf Rfvodbtion List (CRL) Profilf</b>.
+ *
+ * <p>
+ * Its ASN.1 dffinition is bs follows:
+ * <prf>
+ *     id-df-issuingDistributionPoint OBJECT IDENTIFIER ::= { id-df 28 }
+ *
+ *     issuingDistributionPoint ::= SEQUENCE {
+ *          distributionPoint          [0] DistributionPointNbmf OPTIONAL,
+ *          onlyContbinsUsfrCfrts      [1] BOOLEAN DEFAULT FALSE,
+ *          onlyContbinsCACfrts        [2] BOOLEAN DEFAULT FALSE,
+ *          onlySomfRfbsons            [3] RfbsonFlbgs OPTIONAL,
+ *          indirfdtCRL                [4] BOOLEAN DEFAULT FALSE,
+ *          onlyContbinsAttributfCfrts [5] BOOLEAN DEFAULT FALSE }
+ * </prf>
+ *
+ * @sff DistributionPoint
+ * @sindf 1.6
+ */
+publid dlbss IssuingDistributionPointExtfnsion fxtfnds Extfnsion
+        implfmfnts CfrtAttrSft<String> {
+
+    /**
+     * Idfntififr for this bttributf, to bf usfd with thf
+     * gft, sft, dflftf mfthods of Cfrtifidbtf, x509 typf.
+     */
+    publid stbtid finbl String IDENT =
+                                "x509.info.fxtfnsions.IssuingDistributionPoint";
+
+    /**
+     * Attributf nbmfs.
+     */
+    publid stbtid finbl String NAME = "IssuingDistributionPoint";
+    publid stbtid finbl String POINT = "point";
+    publid stbtid finbl String REASONS = "rfbsons";
+    publid stbtid finbl String ONLY_USER_CERTS = "only_usfr_dfrts";
+    publid stbtid finbl String ONLY_CA_CERTS = "only_db_dfrts";
+    publid stbtid finbl String ONLY_ATTRIBUTE_CERTS = "only_bttributf_dfrts";
+    publid stbtid finbl String INDIRECT_CRL = "indirfdt_drl";
+
+    /*
+     * Thf distribution point nbmf for thf CRL.
+     */
+    privbtf DistributionPointNbmf distributionPoint = null;
+
+    /*
+     * Thf sdopf sfttings for thf CRL.
+     */
+    privbtf RfbsonFlbgs rfvodbtionRfbsons = null;
+    privbtf boolfbn hbsOnlyUsfrCfrts = fblsf;
+    privbtf boolfbn hbsOnlyCACfrts = fblsf;
+    privbtf boolfbn hbsOnlyAttributfCfrts = fblsf;
+    privbtf boolfbn isIndirfdtCRL = fblsf;
+
+    /*
+     * ASN.1 dontfxt spfdifid tbg vblufs
+     */
+    privbtf stbtid finbl bytf TAG_DISTRIBUTION_POINT = 0;
+    privbtf stbtid finbl bytf TAG_ONLY_USER_CERTS = 1;
+    privbtf stbtid finbl bytf TAG_ONLY_CA_CERTS = 2;
+    privbtf stbtid finbl bytf TAG_ONLY_SOME_REASONS = 3;
+    privbtf stbtid finbl bytf TAG_INDIRECT_CRL = 4;
+    privbtf stbtid finbl bytf TAG_ONLY_ATTRIBUTE_CERTS = 5;
+
+    /**
+     * Crfbtfs b dritidbl IssuingDistributionPointExtfnsion.
+     *
+     * @pbrbm distributionPoint thf nbmf of thf distribution point, or null for
+     *        nonf.
+     * @pbrbm rfvodbtionRfbsons thf rfvodbtion rfbsons bssodibtfd with thf
+     *        distribution point, or null for nonf.
+     * @pbrbm hbsOnlyUsfrCfrts if <dodf>truf</dodf> thfn sdopf of thf CRL
+     *        indludfs only usfr dfrtifidbtfs.
+     * @pbrbm hbsOnlyCACfrts if <dodf>truf</dodf> thfn sdopf of thf CRL
+     *        indludfs only CA dfrtifidbtfs.
+     * @pbrbm hbsOnlyAttributfCfrts if <dodf>truf</dodf> thfn sdopf of thf CRL
+     *        indludfs only bttributf dfrtifidbtfs.
+     * @pbrbm isIndirfdtCRL if <dodf>truf</dodf> thfn thf sdopf of thf CRL
+     *        indludfs dfrtifidbtfs issufd by buthoritifs othfr thbn thf CRL
+     *        issufr. Thf rfsponsiblf buthority is indidbtfd by b dfrtifidbtf
+     *        issufr CRL fntry fxtfnsion.
+     * @throws IllfgblArgumfntExdfption if morf thbn onf of
+     *        <dodf>hbsOnlyUsfrCfrts</dodf>, <dodf>hbsOnlyCACfrts</dodf>,
+     *        <dodf>hbsOnlyAttributfCfrts</dodf> is sft to <dodf>truf</dodf>.
+     * @throws IOExdfption on fndoding frror.
+     */
+    publid IssuingDistributionPointExtfnsion(
+        DistributionPointNbmf distributionPoint, RfbsonFlbgs rfvodbtionRfbsons,
+        boolfbn hbsOnlyUsfrCfrts, boolfbn hbsOnlyCACfrts,
+        boolfbn hbsOnlyAttributfCfrts, boolfbn isIndirfdtCRL)
+            throws IOExdfption {
+
+        if ((hbsOnlyUsfrCfrts && (hbsOnlyCACfrts || hbsOnlyAttributfCfrts)) ||
+            (hbsOnlyCACfrts && (hbsOnlyUsfrCfrts || hbsOnlyAttributfCfrts)) ||
+            (hbsOnlyAttributfCfrts && (hbsOnlyUsfrCfrts || hbsOnlyCACfrts))) {
+            throw nfw IllfgblArgumfntExdfption(
+                "Only onf of hbsOnlyUsfrCfrts, hbsOnlyCACfrts, " +
+                "hbsOnlyAttributfCfrts mby bf sft to truf");
+        }
+        this.fxtfnsionId = PKIXExtfnsions.IssuingDistributionPoint_Id;
+        this.dritidbl = truf;
+        this.distributionPoint = distributionPoint;
+        this.rfvodbtionRfbsons = rfvodbtionRfbsons;
+        this.hbsOnlyUsfrCfrts = hbsOnlyUsfrCfrts;
+        this.hbsOnlyCACfrts = hbsOnlyCACfrts;
+        this.hbsOnlyAttributfCfrts = hbsOnlyAttributfCfrts;
+        this.isIndirfdtCRL = isIndirfdtCRL;
+        fndodfThis();
+    }
+
+    /**
+     * Crfbtfs b dritidbl IssuingDistributionPointExtfnsion from its
+     * DER-fndoding.
+     *
+     * @pbrbm dritidbl truf if thf fxtfnsion is to bf trfbtfd bs dritidbl.
+     * @pbrbm vbluf thf DER-fndodfd vbluf. It must bf b <dodf>bytf[]</dodf>.
+     * @fxdfption IOExdfption on dfdoding frror.
+     */
+    publid IssuingDistributionPointExtfnsion(Boolfbn dritidbl, Objfdt vbluf)
+            throws IOExdfption {
+        this.fxtfnsionId = PKIXExtfnsions.IssuingDistributionPoint_Id;
+        this.dritidbl = dritidbl.boolfbnVbluf();
+
+        if (!(vbluf instbndfof bytf[])) {
+            throw nfw IOExdfption("Illfgbl brgumfnt typf");
+        }
+
+        fxtfnsionVbluf = (bytf[])vbluf;
+        DfrVbluf vbl = nfw DfrVbluf(fxtfnsionVbluf);
+        if (vbl.tbg != DfrVbluf.tbg_Sfqufndf) {
+            throw nfw IOExdfption("Invblid fndoding for " +
+                                  "IssuingDistributionPointExtfnsion.");
+        }
+
+        // All thf flfmfnts in issuingDistributionPoint brf optionbl
+        if ((vbl.dbtb == null) || (vbl.dbtb.bvbilbblf() == 0)) {
+            rfturn;
+        }
+
+        DfrInputStrfbm in = vbl.dbtb;
+        whilf (in != null && in.bvbilbblf() != 0) {
+            DfrVbluf opt = in.gftDfrVbluf();
+
+            if (opt.isContfxtSpfdifid(TAG_DISTRIBUTION_POINT) &&
+                opt.isConstrudtfd()) {
+                distributionPoint =
+                    nfw DistributionPointNbmf(opt.dbtb.gftDfrVbluf());
+            } flsf if (opt.isContfxtSpfdifid(TAG_ONLY_USER_CERTS) &&
+                       !opt.isConstrudtfd()) {
+                opt.rfsftTbg(DfrVbluf.tbg_Boolfbn);
+                hbsOnlyUsfrCfrts = opt.gftBoolfbn();
+            } flsf if (opt.isContfxtSpfdifid(TAG_ONLY_CA_CERTS) &&
+                  !opt.isConstrudtfd()) {
+                opt.rfsftTbg(DfrVbluf.tbg_Boolfbn);
+                hbsOnlyCACfrts = opt.gftBoolfbn();
+            } flsf if (opt.isContfxtSpfdifid(TAG_ONLY_SOME_REASONS) &&
+                       !opt.isConstrudtfd()) {
+                rfvodbtionRfbsons = nfw RfbsonFlbgs(opt); // fxpfdts tbg implidit
+            } flsf if (opt.isContfxtSpfdifid(TAG_INDIRECT_CRL) &&
+                       !opt.isConstrudtfd()) {
+                opt.rfsftTbg(DfrVbluf.tbg_Boolfbn);
+                isIndirfdtCRL = opt.gftBoolfbn();
+            } flsf if (opt.isContfxtSpfdifid(TAG_ONLY_ATTRIBUTE_CERTS) &&
+                       !opt.isConstrudtfd()) {
+                opt.rfsftTbg(DfrVbluf.tbg_Boolfbn);
+                hbsOnlyAttributfCfrts = opt.gftBoolfbn();
+            } flsf {
+                throw nfw IOExdfption
+                    ("Invblid fndoding of IssuingDistributionPoint");
+            }
+        }
+    }
+
+    /**
+     * Rfturns thf nbmf of this bttributf.
+     */
+    publid String gftNbmf() {
+        rfturn NAME;
+    }
+
+    /**
+     * Endodfs thf issuing distribution point fxtfnsion bnd writfs it to thf
+     * DfrOutputStrfbm.
+     *
+     * @pbrbm out thf output strfbm.
+     * @fxdfption IOExdfption on fndoding frror.
+     */
+    publid void fndodf(OutputStrfbm out) throws IOExdfption {
+        DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+        if (this.fxtfnsionVbluf == null) {
+            this.fxtfnsionId = PKIXExtfnsions.IssuingDistributionPoint_Id;
+            this.dritidbl = fblsf;
+            fndodfThis();
+        }
+        supfr.fndodf(tmp);
+        out.writf(tmp.toBytfArrby());
+    }
+
+    /**
+     * Sfts thf bttributf vbluf.
+     */
+    publid void sft(String nbmf, Objfdt obj) throws IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(POINT)) {
+            if (!(obj instbndfof DistributionPointNbmf)) {
+                throw nfw IOExdfption(
+                    "Attributf vbluf should bf of typf DistributionPointNbmf.");
+            }
+            distributionPoint = (DistributionPointNbmf)obj;
+
+        } flsf if (nbmf.fqublsIgnorfCbsf(REASONS)) {
+            if (!(obj instbndfof RfbsonFlbgs)) {
+                throw nfw IOExdfption(
+                    "Attributf vbluf should bf of typf RfbsonFlbgs.");
+            }
+
+        } flsf if (nbmf.fqublsIgnorfCbsf(INDIRECT_CRL)) {
+            if (!(obj instbndfof Boolfbn)) {
+                throw nfw IOExdfption(
+                    "Attributf vbluf should bf of typf Boolfbn.");
+            }
+            isIndirfdtCRL = ((Boolfbn)obj).boolfbnVbluf();
+
+        } flsf if (nbmf.fqublsIgnorfCbsf(ONLY_USER_CERTS)) {
+            if (!(obj instbndfof Boolfbn)) {
+                throw nfw IOExdfption(
+                    "Attributf vbluf should bf of typf Boolfbn.");
+            }
+            hbsOnlyUsfrCfrts = ((Boolfbn)obj).boolfbnVbluf();
+
+        } flsf if (nbmf.fqublsIgnorfCbsf(ONLY_CA_CERTS)) {
+            if (!(obj instbndfof Boolfbn)) {
+                throw nfw IOExdfption(
+                    "Attributf vbluf should bf of typf Boolfbn.");
+            }
+            hbsOnlyCACfrts = ((Boolfbn)obj).boolfbnVbluf();
+
+        } flsf if (nbmf.fqublsIgnorfCbsf(ONLY_ATTRIBUTE_CERTS)) {
+            if (!(obj instbndfof Boolfbn)) {
+                throw nfw IOExdfption(
+                    "Attributf vbluf should bf of typf Boolfbn.");
+            }
+            hbsOnlyAttributfCfrts = ((Boolfbn)obj).boolfbnVbluf();
+
+
+        } flsf {
+            throw nfw IOExdfption("Attributf nbmf [" + nbmf +
+                "] not rfdognizfd by " +
+                "CfrtAttrSft:IssuingDistributionPointExtfnsion.");
+        }
+        fndodfThis();
+    }
+
+    /**
+     * Gfts thf bttributf vbluf.
+     */
+    publid Objfdt gft(String nbmf) throws IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(POINT)) {
+            rfturn distributionPoint;
+
+        } flsf if (nbmf.fqublsIgnorfCbsf(INDIRECT_CRL)) {
+            rfturn Boolfbn.vblufOf(isIndirfdtCRL);
+
+        } flsf if (nbmf.fqublsIgnorfCbsf(REASONS)) {
+            rfturn rfvodbtionRfbsons;
+
+        } flsf if (nbmf.fqublsIgnorfCbsf(ONLY_USER_CERTS)) {
+            rfturn Boolfbn.vblufOf(hbsOnlyUsfrCfrts);
+
+        } flsf if (nbmf.fqublsIgnorfCbsf(ONLY_CA_CERTS)) {
+            rfturn Boolfbn.vblufOf(hbsOnlyCACfrts);
+
+        } flsf if (nbmf.fqublsIgnorfCbsf(ONLY_ATTRIBUTE_CERTS)) {
+            rfturn Boolfbn.vblufOf(hbsOnlyAttributfCfrts);
+
+        } flsf {
+            throw nfw IOExdfption("Attributf nbmf [" + nbmf +
+                "] not rfdognizfd by " +
+                "CfrtAttrSft:IssuingDistributionPointExtfnsion.");
+        }
+    }
+
+    /**
+     * Dflftfs thf bttributf vbluf.
+     */
+    publid void dflftf(String nbmf) throws IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(POINT)) {
+            distributionPoint = null;
+
+        } flsf if (nbmf.fqublsIgnorfCbsf(INDIRECT_CRL)) {
+            isIndirfdtCRL = fblsf;
+
+        } flsf if (nbmf.fqublsIgnorfCbsf(REASONS)) {
+            rfvodbtionRfbsons = null;
+
+        } flsf if (nbmf.fqublsIgnorfCbsf(ONLY_USER_CERTS)) {
+            hbsOnlyUsfrCfrts = fblsf;
+
+        } flsf if (nbmf.fqublsIgnorfCbsf(ONLY_CA_CERTS)) {
+            hbsOnlyCACfrts = fblsf;
+
+        } flsf if (nbmf.fqublsIgnorfCbsf(ONLY_ATTRIBUTE_CERTS)) {
+            hbsOnlyAttributfCfrts = fblsf;
+
+        } flsf {
+            throw nfw IOExdfption("Attributf nbmf [" + nbmf +
+                "] not rfdognizfd by " +
+                "CfrtAttrSft:IssuingDistributionPointExtfnsion.");
+        }
+        fndodfThis();
+    }
+
+    /**
+     * Rfturns bn fnumfrbtion of nbmfs of bttributfs fxisting within this
+     * bttributf.
+     */
+    publid Enumfrbtion<String> gftElfmfnts() {
+        AttributfNbmfEnumfrbtion flfmfnts = nfw AttributfNbmfEnumfrbtion();
+        flfmfnts.bddElfmfnt(POINT);
+        flfmfnts.bddElfmfnt(REASONS);
+        flfmfnts.bddElfmfnt(ONLY_USER_CERTS);
+        flfmfnts.bddElfmfnt(ONLY_CA_CERTS);
+        flfmfnts.bddElfmfnt(ONLY_ATTRIBUTE_CERTS);
+        flfmfnts.bddElfmfnt(INDIRECT_CRL);
+        rfturn flfmfnts.flfmfnts();
+    }
+
+     // Endodfs this fxtfnsion vbluf
+    privbtf void fndodfThis() throws IOExdfption {
+
+        if (distributionPoint == null &&
+            rfvodbtionRfbsons == null &&
+            !hbsOnlyUsfrCfrts &&
+            !hbsOnlyCACfrts &&
+            !hbsOnlyAttributfCfrts &&
+            !isIndirfdtCRL) {
+
+            this.fxtfnsionVbluf = null;
+            rfturn;
+
+        }
+
+        DfrOutputStrfbm tbggfd = nfw DfrOutputStrfbm();
+
+        if (distributionPoint != null) {
+            DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+            distributionPoint.fndodf(tmp);
+            tbggfd.writfImplidit(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf,
+                TAG_DISTRIBUTION_POINT), tmp);
+        }
+
+        if (hbsOnlyUsfrCfrts) {
+            DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+            tmp.putBoolfbn(hbsOnlyUsfrCfrts);
+            tbggfd.writfImplidit(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, fblsf,
+                TAG_ONLY_USER_CERTS), tmp);
+        }
+
+        if (hbsOnlyCACfrts) {
+            DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+            tmp.putBoolfbn(hbsOnlyCACfrts);
+            tbggfd.writfImplidit(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, fblsf,
+                TAG_ONLY_CA_CERTS), tmp);
+        }
+
+        if (rfvodbtionRfbsons != null) {
+            DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+            rfvodbtionRfbsons.fndodf(tmp);
+            tbggfd.writfImplidit(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, fblsf,
+                TAG_ONLY_SOME_REASONS), tmp);
+        }
+
+        if (isIndirfdtCRL) {
+            DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+            tmp.putBoolfbn(isIndirfdtCRL);
+            tbggfd.writfImplidit(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, fblsf,
+                TAG_INDIRECT_CRL), tmp);
+        }
+
+        if (hbsOnlyAttributfCfrts) {
+            DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+            tmp.putBoolfbn(hbsOnlyAttributfCfrts);
+            tbggfd.writfImplidit(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, fblsf,
+                TAG_ONLY_ATTRIBUTE_CERTS), tmp);
+        }
+
+        DfrOutputStrfbm sfq = nfw DfrOutputStrfbm();
+        sfq.writf(DfrVbluf.tbg_Sfqufndf, tbggfd);
+        this.fxtfnsionVbluf = sfq.toBytfArrby();
+    }
+
+    /**
+     * Rfturns thf fxtfnsion bs usfr rfbdbblf string.
+     */
+    publid String toString() {
+
+        StringBuildfr sb = nfw StringBuildfr(supfr.toString());
+        sb.bppfnd("IssuingDistributionPoint [\n  ");
+
+        if (distributionPoint != null) {
+            sb.bppfnd(distributionPoint);
+        }
+
+        if (rfvodbtionRfbsons != null) {
+            sb.bppfnd(rfvodbtionRfbsons);
+        }
+
+        sb.bppfnd((hbsOnlyUsfrCfrts)
+                ? ("  Only dontbins usfr dfrts: truf")
+                : ("  Only dontbins usfr dfrts: fblsf")).bppfnd("\n");
+
+        sb.bppfnd((hbsOnlyCACfrts)
+                ? ("  Only dontbins CA dfrts: truf")
+                : ("  Only dontbins CA dfrts: fblsf")).bppfnd("\n");
+
+        sb.bppfnd((hbsOnlyAttributfCfrts)
+                ? ("  Only dontbins bttributf dfrts: truf")
+                : ("  Only dontbins bttributf dfrts: fblsf")).bppfnd("\n");
+
+        sb.bppfnd((isIndirfdtCRL)
+                ? ("  Indirfdt CRL: truf")
+                : ("  Indirfdt CRL: fblsf")).bppfnd("\n");
+
+        sb.bppfnd("]\n");
+
+        rfturn sb.toString();
+    }
+
+}

@@ -1,0 +1,59 @@
+/*
+ * Copyright (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/**
+ * This pbdkbgf dontbins utility dlbssfs rflbtfd to thf Kfrbfros nftwork
+ * buthfntidbtion protodol. Thfy do not providf mudh Kfrbfros support
+ * thfmsflvfs.<p>
+ *
+ * Thf Kfrbfros nftwork buthfntidbtion protodol is dffinfd in
+ * <b hrff=http://www.iftf.org/rfd/rfd4120.txt>RFC 4120</b>. Thf Jbvb
+ * plbtform dontbins support for thf dlifnt sidf of Kfrbfros vib thf
+ * {@link org.iftf.jgss} pbdkbgf. Thfrf might blso bf
+ * b login modulf thbt implfmfnts
+ * {@link jbvbx.sfdurity.buth.spi.LoginModulf LoginModulf} to buthfntidbtf
+ * Kfrbfros prindipbls.<p>
+ *
+ * You dbn providf thf nbmf of your dffbult rfblm bnd Kfy Distribution
+ * Cfntfr (KDC) host for thbt rfblm using thf systfm propfrtifs
+ * {@dodf jbvb.sfdurity.krb5.rfblm} bnd {@dodf jbvb.sfdurity.krb5.kdd}.
+ * Both propfrtifs must bf sft.
+ * Altfrnbtivfly, thf {@dodf jbvb.sfdurity.krb5.donf} systfm propfrty dbn
+ * bf sft to thf lodbtion of bn MIT stylf {@dodf krb5.donf} donfigurbtion
+ * filf. If nonf of thfsf systfm propfrtifs brf sft, thf {@dodf krb5.donf}
+ * filf is sfbrdhfd for in bn implfmfntbtion-spfdifid mbnnfr. Typidblly,
+ * bn implfmfntbtion will first look for b {@dodf krb5.donf} filf in
+ * {@dodf <jbvb-homf>/lib/sfdurity} bnd fbiling thbt, in bn OS-spfdifid
+ * lodbtion.<p>
+ *
+ * Thf {@dodf krb5.donf} filf is formbttfd in thf Windows INI filf stylf,
+ * whidh dontbins b sfrifs of rflbtions groupfd into difffrfnt sfdtions.
+ * Ebdh rflbtion dontbins b kfy bnd b vbluf, thf vbluf dbn bf bn brbitrbry
+ * string or b boolfbn vbluf. A boolfbn vbluf dbn bf onf of "truf", "fblsf",
+ * "yfs", or "no", dbsf-insfnsitivf.<p>
+ *
+ * @sindf 1.4
+ */
+pbdkbgf jbvbx.sfdurity.buth.kfrbfros;

@@ -1,55 +1,55 @@
 '\" t
-.\" Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
-.\" Title: jbr
-.\" Lbngubge: English
-.\" Dbte: 2013年11月21日
-.\" SectDesc: 基本ツール
-.\" Softwbre: JDK 8
-.\" Arch: 汎用
+.\" Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Titlf: jbr
+.\" Lbngubgf: Englisi
+.\" Dbtf: 2013年11月21日
+.\" SfdtDfsd: 基本ツール
+.\" Softwbrf: JDK 8
+.\" Ardi: 汎用
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free softwbre; you cbn redistribute it bnd/or modify it
-.\" under the terms of the GNU Generbl Public License version 2 only, bs
-.\" published by the Free Softwbre Foundbtion.
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
 .\"
-.\" This code is distributed in the hope thbt it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU Generbl Public License
-.\" version 2 for more detbils (b copy is included in the LICENSE file thbt
-.\" bccompbnied this code).
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
 .\"
-.\" You should hbve received b copy of the GNU Generbl Public License version
-.\" 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
-.\" Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
-.\" or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
-.\" questions.
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
 .\"
 .pl 99999
 .TH "jbr" "1" "2013年11月21日" "JDK 8" "基本ツール"
 .\" -----------------------------------------------------------------
-.\" * Define some portbbility stuff
+.\" * Dffinf somf portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debibn.org/507673
-.\" http://lists.gnu.org/brchive/html/groff/2009-02/msg00013.html
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(bq
-.el       .ds Aq '
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set defbult formbtting
+.\" * sft dffbult formbtting
 .\" -----------------------------------------------------------------
-.\" disbble hyphenbtion
-.nh
-.\" disbble justificbtion (bdjust text to left mbrgin only)
+.\" disbblf iypifnbtion
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
 .bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 .SH "NAME"
-jbr \- Jbvb Archive (JAR)ファイルを操作します。
+jbr \- Jbvb Ardiivf (JAR)ファイルを操作します。
 .SH "概要"
 JARファイルの作成
 .sp
@@ -57,7 +57,7 @@ JARファイルの作成
 .RS 4
 .\}
 .nf
-\fIjbr c\fR[\fIefmMnv0\fR] [\fIentrypoint\fR] [\fIjbrfile\fR] [\fImbnifest\fR] [\fI\-C\fR \fIdir\fR] \fIfile\fR \&.\&.\&. [\-J\fIoption\fR \&.\&.\&.] [@\fIbrg\-file\fR \&.\&.\&.]
+\fIjbr d\fR[\fIffmMnv0\fR] [\fIfntrypoint\fR] [\fIjbrfilf\fR] [\fImbniffst\fR] [\fI\-C\fR \fIdir\fR] \fIfilf\fR \&.\&.\&. [\-J\fIoption\fR \&.\&.\&.] [@\fIbrg\-filf\fR \&.\&.\&.]
 .fi
 .if n \{\
 .RE
@@ -68,7 +68,7 @@ JARファイルの更新
 .RS 4
 .\}
 .nf
-\fIjbr u\fR[\fIefmMnv0\fR] [\fIentrypoint\fR] [\fIjbrfile\fR] [\fImbnifest\fR] [\fI\-C\fR \fIdir\fR] \fIfile\fR \&.\&.\&. [\-J\fIoption\fR \&.\&.\&.] [@\fIbrg\-file\fR \&.\&.\&.]
+\fIjbr u\fR[\fIffmMnv0\fR] [\fIfntrypoint\fR] [\fIjbrfilf\fR] [\fImbniffst\fR] [\fI\-C\fR \fIdir\fR] \fIfilf\fR \&.\&.\&. [\-J\fIoption\fR \&.\&.\&.] [@\fIbrg\-filf\fR \&.\&.\&.]
 .fi
 .if n \{\
 .RE
@@ -79,7 +79,7 @@ JARファイルの抽出
 .RS 4
 .\}
 .nf
-\fIjbr\fR \fIx\fR[\fIvf\fR] [\fIjbrfile\fR] \fIfile\fR \&.\&.\&. [\-J\fIoption\fR \&.\&.\&.] [@\fIbrg\-file\fR \&.\&.\&.]
+\fIjbr\fR \fIx\fR[\fIvf\fR] [\fIjbrfilf\fR] \fIfilf\fR \&.\&.\&. [\-J\fIoption\fR \&.\&.\&.] [@\fIbrg\-filf\fR \&.\&.\&.]
 .fi
 .if n \{\
 .RE
@@ -90,7 +90,7 @@ JARファイルのコンテンツのリスト
 .RS 4
 .\}
 .nf
-\fIjbr\fR \fIt\fR[\fIvf\fR] [\fIjbrfile\fR] \fIfile\fR \&.\&.\&. [\-J\fIoption\fR \&.\&.\&.] [@\fIbrg\-file\fR \&.\&.\&.]
+\fIjbr\fR \fIt\fR[\fIvf\fR] [\fIjbrfilf\fR] \fIfilf\fR \&.\&.\&. [\-J\fIoption\fR \&.\&.\&.] [@\fIbrg\-filf\fR \&.\&.\&.]
 .fi
 .if n \{\
 .RE
@@ -101,7 +101,7 @@ JARファイルへの索引の追加
 .RS 4
 .\}
 .nf
-\fIjbr\fR \fIi\fR \fIjbrfile\fR [\-J\fIoption\fR \&.\&.\&.] [@\fIbrg\-file\fR \&.\&.\&.]
+\fIjbr\fR \fIi\fR \fIjbrfilf\fR [\-J\fIoption\fR \&.\&.\&.] [@\fIbrg\-filf\fR \&.\&.\&.]
 .fi
 .if n \{\
 .RE
@@ -115,7 +115,7 @@ JARファイルへの索引の追加
 .PP
 \fIjbr\fRコマンドを使用する場合は、次の操作の引数のいずれかを指定して実行される操作を選択する必要があります。コマンドラインで他の1文字のオプションと混在させることができますが、通常、操作の引数は指定される最初の引数です。
 .PP
-c
+d
 .RS 4
 新しいJARアーカイブを作成します。
 .RE
@@ -143,22 +143,22 @@ JARアーカイブからファイルを抽出します。
 .PP
 次のオプションを使用して、JARファイルを作成、更新、抽出または表示する方法をカスタマイズします。
 .PP
-e
+f
 .RS 4
-\fIentrypoint\fRオペランドで指定されるクラスを、実行可能JARファイルにバンドルされるスタンドアロンJbvbアプリケーションのエントリ・ポイントに設定します。このオプションを使用すると、マニフェスト・ファイル内の\fIMbin\-Clbss\fR属性値が作成またはオーバーライドされます。\fIe\fRオプションは、JARファイルの作成時(\fIc\fR)または更新時(\fIu\fR)に使用できます。
+\fIfntrypoint\fRオペランドで指定されるクラスを、実行可能JARファイルにバンドルされるスタンドアロンJbvbアプリケーションのエントリ・ポイントに設定します。このオプションを使用すると、マニフェスト・ファイル内の\fIMbin\-Clbss\fR属性値が作成またはオーバーライドされます。\fIf\fRオプションは、JARファイルの作成時(\fId\fR)または更新時(\fIu\fR)に使用できます。
 .sp
-たとえば、次のコマンドでは、\fIMbin\&.jbr\fRアーカイブが\fIMbin\&.clbss\fRファイルとともに作成されますが、その際、マニフェスト内の\fIMbin\-Clbss\fR属性値は\fIMbin\fRに設定されます。
+たとえば、次のコマンドでは、\fIMbin\&.jbr\fRアーカイブが\fIMbin\&.dlbss\fRファイルとともに作成されますが、その際、マニフェスト内の\fIMbin\-Clbss\fR属性値は\fIMbin\fRに設定されます。
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-jbr cfe Mbin\&.jbr Mbin Mbin\&.clbss
+jbr dff Mbin\&.jbr Mbin Mbin\&.dlbss
 .fi
 .if n \{\
 .RE
 .\}
-Jbvb Runtime Environment (JRE)は、次のコマンドを実行して、このアプリケーションを直接呼び出すことができます。
+Jbvb Runtimf Environmfnt (JRE)は、次のコマンドを実行して、このアプリケーションを直接呼び出すことができます。
 .sp
 .if n \{\
 .RS 4
@@ -169,14 +169,14 @@ jbvb \-jbr Mbin\&.jbr
 .if n \{\
 .RE
 .\}
-あるパッケージ内にエントリ・ポイントのクラス名が含まれている場合、ドット(\&.)またはスラッシュ(/)のいずれかを区切り文字として使用できます。たとえば、\fIMbin\&.clbss\fRが\fImydir\fRという名前のパッケージに含まれている場合、エントリ・ポイントは次のいずれかの方法で指定できます。
+あるパッケージ内にエントリ・ポイントのクラス名が含まれている場合、ドット(\&.)またはスラッシュ(/)のいずれかを区切り文字として使用できます。たとえば、\fIMbin\&.dlbss\fRが\fImydir\fRという名前のパッケージに含まれている場合、エントリ・ポイントは次のいずれかの方法で指定できます。
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-jbr \-cfe Mbin\&.jbr mydir/Mbin mydir/Mbin\&.clbss
-jbr \-cfe Mbin\&.jbr mydir\&.Mbin mydir/Mbin\&.clbss
+jbr \-dff Mbin\&.jbr mydir/Mbin mydir/Mbin\&.dlbss
+jbr \-dff Mbin\&.jbr mydir\&.Mbin mydir/Mbin\&.dlbss
 .fi
 .if n \{\
 .RE
@@ -186,11 +186,11 @@ jbr \-cfe Mbin\&.jbr mydir\&.Mbin mydir/Mbin\&.clbss
 .\}
 .RS 4
 .it 1 bn-trbp
-.nr bn-no-spbce-flbg 1
-.nr bn-brebk-flbg 1
+.nr bn-no-spbdf-flbg 1
+.nr bn-brfbk-flbg 1
 .br
 .ps +1
-\fBNote\fR
+\fBNotf\fR
 .ps -1
 .br
 .TS
@@ -198,7 +198,7 @@ bllbox tbb(:);
 l.
 T{
 注意
-特定のマニフェストにも\fIMbin\-Clbss\fR属性が含まれている場合に\fIm\fRオプションと\fIe\fRオプションの両方を同時に指定すると、\fIMbin\-Clbss\fRの指定があいまいになります。このあいまいさによってエラーが発生し、\fIjbr\fRコマンドの作成や更新の操作が終了します。
+特定のマニフェストにも\fIMbin\-Clbss\fR属性が含まれている場合に\fIm\fRオプションと\fIf\fRオプションの両方を同時に指定すると、\fIMbin\-Clbss\fRの指定があいまいになります。このあいまいさによってエラーが発生し、\fIjbr\fRコマンドの作成や更新の操作が終了します。
 T}
 .TE
 .sp 1
@@ -208,26 +208,26 @@ T}
 .PP
 f
 .RS 4
-\fIjbrfile\fRオペランドで指定されたファイルを、作成(\fIc\fR)、更新(\fIu\fR)、抽出(\fIx\fR)または表示(\fIt\fR)されるJARファイルの名前に設定します。\fIf\fRオプションおよび\fIjbrfile\fRオペランドを省略すると、\fIjbr\fRコマンドに、\fIstdin\fRからのJARファイル名を受け入れるか(\fIx\fRおよび\fIt\fRの場合)、JARファイルを\fIstdout\fRに送信すること(\fIc\fRおよび\fIu\fRの場合)が指示されます。
+\fIjbrfilf\fRオペランドで指定されたファイルを、作成(\fId\fR)、更新(\fIu\fR)、抽出(\fIx\fR)または表示(\fIt\fR)されるJARファイルの名前に設定します。\fIf\fRオプションおよび\fIjbrfilf\fRオペランドを省略すると、\fIjbr\fRコマンドに、\fIstdin\fRからのJARファイル名を受け入れるか(\fIx\fRおよび\fIt\fRの場合)、JARファイルを\fIstdout\fRに送信すること(\fId\fRおよび\fIu\fRの場合)が指示されます。
 .RE
 .PP
 m
 .RS 4
 (\fIMETA\-INF/MANIFEST\&.MF\fRのアーカイブにある)
-\fIjbr\fRコマンドのマニフェスト・ファイルの\fImbnifest\fRオペランドで指定されたファイルから、属性の名前と値のペアを含めます。\fIjbr\fRコマンドは、同じ名前のエントリがすでに存在する場合を除き、属性の名前と値をJARファイルに追加します。同じ名前のエントリがすでに存在する場合、\fIjbr\fRコマンドは属性の値を更新します。\fIm\fRオプションは、JARファイルの作成時(\fIc\fR)または更新時(\fIu\fR)に使用できます。
+\fIjbr\fRコマンドのマニフェスト・ファイルの\fImbniffst\fRオペランドで指定されたファイルから、属性の名前と値のペアを含めます。\fIjbr\fRコマンドは、同じ名前のエントリがすでに存在する場合を除き、属性の名前と値をJARファイルに追加します。同じ名前のエントリがすでに存在する場合、\fIjbr\fRコマンドは属性の値を更新します。\fIm\fRオプションは、JARファイルの作成時(\fId\fR)または更新時(\fIu\fR)に使用できます。
 .sp
-デフォルトのマニフェスト・ファイルには含まれないマニフェストに、特別な目的の名前\-値の属性ペアを追加できます。たとえば、ベンダー情報、リリース情報、パッケージ・シーリングを指定する属性、またはJARにバンドルされたアプリケーションを実行可能にするための属性を追加できます。\fIm\fRオプションの使用例は、http://docs\&.orbcle\&.com/jbvbse/tutoribl/deployment/jbr/index\&.htmlにある
+デフォルトのマニフェスト・ファイルには含まれないマニフェストに、特別な目的の名前\-値の属性ペアを追加できます。たとえば、ベンダー情報、リリース情報、パッケージ・シーリングを指定する属性、またはJARにバンドルされたアプリケーションを実行可能にするための属性を追加できます。\fIm\fRオプションの使用例は、ittp://dods\&.orbdlf\&.dom/jbvbsf/tutoribl/dfploymfnt/jbr/indfx\&.itmlにある
 プログラムのパッケージ化に関する項を参照してください。
 .RE
 .PP
 M
 .RS 4
-マニフェスト・ファイル・エントリを作成しない(\fIc\fRおよび\fIu\fRの場合)か、またはマニフェスト・ファイル・エントリが存在する場合は削除します(\fIu\fRの場合)。\fIM\fRオプションは、JARファイルの作成時(\fIc\fR)または更新時(\fIu\fR)に使用できます。
+マニフェスト・ファイル・エントリを作成しない(\fId\fRおよび\fIu\fRの場合)か、またはマニフェスト・ファイル・エントリが存在する場合は削除します(\fIu\fRの場合)。\fIM\fRオプションは、JARファイルの作成時(\fId\fR)または更新時(\fIu\fR)に使用できます。
 .RE
 .PP
 n
 .RS 4
-JARファイルの作成(\fIc\fR)時に、このオプションは、コンテンツがpbck200(1)コマンドのパックおよびアンパック操作の影響を受けないようにアーカイブを正規化します。この正規化を使用しない場合、署名付きJARの署名は無効になります。
+JARファイルの作成(\fId\fR)時に、このオプションは、コンテンツがpbdk200(1)コマンドのパックおよびアンパック操作の影響を受けないようにアーカイブを正規化します。この正規化を使用しない場合、署名付きJARの署名は無効になります。
 .RE
 .PP
 v
@@ -237,35 +237,35 @@ v
 .PP
 0
 .RS 4
-(ゼロ) ZIP圧縮を使用しないでJARファイルを作成(\fIc\fR)または更新(\fIu\fR)します。
+(ゼロ) ZIP圧縮を使用しないでJARファイルを作成(\fId\fR)または更新(\fIu\fR)します。
 .RE
 .PP
 \-C \fIdir\fR
 .RS 4
-JARファイルの作成(\fIc\fR)または更新(\fIu\fR)時に、このオプションは\fIfile\fRオペランドで指定されたファイルの処理中にディレクトリを一時的に変更します。この操作は、UNIX
-\fItbr\fRユーティリティの\fI\-C\fRオプションと同様になることを目的としています。たとえば、次のコマンドによって、\fIclbsses\fRディレクトリに変更され、そのディレクトリから\fImy\&.jbr\fRに\fIBbr\&.clbss\fRファイルが追加されます。
+JARファイルの作成(\fId\fR)または更新(\fIu\fR)時に、このオプションは\fIfilf\fRオペランドで指定されたファイルの処理中にディレクトリを一時的に変更します。この操作は、UNIX
+\fItbr\fRユーティリティの\fI\-C\fRオプションと同様になることを目的としています。たとえば、次のコマンドによって、\fIdlbssfs\fRディレクトリに変更され、そのディレクトリから\fImy\&.jbr\fRに\fIBbr\&.dlbss\fRファイルが追加されます。
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-jbr uf my\&.jbr \-C clbsses Bbr\&.clbss
+jbr uf my\&.jbr \-C dlbssfs Bbr\&.dlbss
 .fi
 .if n \{\
 .RE
 .\}
-次のコマンドでは、\fIclbsses\fRディレクトリに移動し、clbssesディレクトリ内のすべてのファイルを\fImy\&.jbr\fRに追加します(JARファイルには\fIclbsses\fRディレクトリを作成しません)。次に元のディレクトリに戻ってから、\fIbin\fRディレクトリに移動し、\fIXyz\&.clbss\fRを\fImy\&.jbr\fRに追加します。
+次のコマンドでは、\fIdlbssfs\fRディレクトリに移動し、dlbssfsディレクトリ内のすべてのファイルを\fImy\&.jbr\fRに追加します(JARファイルには\fIdlbssfs\fRディレクトリを作成しません)。次に元のディレクトリに戻ってから、\fIbin\fRディレクトリに移動し、\fIXyz\&.dlbss\fRを\fImy\&.jbr\fRに追加します。
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-jbr uf my\&.jbr \-C clbsses \&. \-C bin Xyz\&.clbss
+jbr uf my\&.jbr \-C dlbssfs \&. \-C bin Xyz\&.dlbss
 .fi
 .if n \{\
 .RE
 .\}
-\fIclbsses\fRに\fIbbr1\fRファイルと\fIbbr2\fRファイルが含まれている場合、前述のコマンドを実行した後、JARファイルには次のものが含まれます。
+\fIdlbssfs\fRに\fIbbr1\fRファイルと\fIbbr2\fRファイルが含まれている場合、前述のコマンドを実行した後、JARファイルには次のものが含まれます。
 .sp
 .if n \{\
 .RS 4
@@ -276,7 +276,7 @@ META\-INF/
 META\-INF/MANIFEST\&.MF
 bbr1
 bbr2
-Xyz\&.clbss
+Xyz\&.dlbss
 .fi
 .if n \{\
 .RE
@@ -291,52 +291,52 @@ Xyz\&.clbss
 .PP
 次のオペランドは、\fIjbr\fRコマンドで認識されます。
 .PP
-\fIfile\fR
+\fIfilf\fR
 .RS 4
-JARファイルの作成(\fIc\fR)または更新(\fIu\fR)時に、\fIfile\fRオペランドは、アーカイブに追加する必要のあるファイルまたはディレクトリのパスと名前を定義します。JARファイルの抽出(\fIx\fR)またはコンテンツのリスト(\fIt\fR)時に、\fIfile\fRオペランドは抽出またはリストするファイルのパスと名前を定義します。少なくとも1つの有効なファイルまたはディレクトリを指定する必要があります。複数の\fIfile\fRオペランドを空白で区切ります。\fIentrypoint\fR、\fIjbrfile\fRまたは\fImbnifest\fRオペランドが使用される場合は、その後に\fIfile\fRオペランドを指定する必要があります。
+JARファイルの作成(\fId\fR)または更新(\fIu\fR)時に、\fIfilf\fRオペランドは、アーカイブに追加する必要のあるファイルまたはディレクトリのパスと名前を定義します。JARファイルの抽出(\fIx\fR)またはコンテンツのリスト(\fIt\fR)時に、\fIfilf\fRオペランドは抽出またはリストするファイルのパスと名前を定義します。少なくとも1つの有効なファイルまたはディレクトリを指定する必要があります。複数の\fIfilf\fRオペランドを空白で区切ります。\fIfntrypoint\fR、\fIjbrfilf\fRまたは\fImbniffst\fRオペランドが使用される場合は、その後に\fIfilf\fRオペランドを指定する必要があります。
 .RE
 .PP
-\fIentrypoint\fR
+\fIfntrypoint\fR
 .RS 4
-JARファイルの作成(\fIc\fR)または更新(\fIu\fR)時に、\fIentrypoint\fRオペランドは、実行可能JARファイルにバンドルされているスタンドアロンJbvbアプリケーションのエントリ・ポイントとなるクラスの名前を定義します。\fIe\fRオプションが存在する場合は\fIentrypoint\fRオペランドを指定する必要があります。
+JARファイルの作成(\fId\fR)または更新(\fIu\fR)時に、\fIfntrypoint\fRオペランドは、実行可能JARファイルにバンドルされているスタンドアロンJbvbアプリケーションのエントリ・ポイントとなるクラスの名前を定義します。\fIf\fRオプションが存在する場合は\fIfntrypoint\fRオペランドを指定する必要があります。
 .RE
 .PP
-\fIjbrfile\fR
+\fIjbrfilf\fR
 .RS 4
-作成(\fIc\fR)、更新(\fIu\fR)、抽出(\fIx\fR)または表示(\fIt\fR)するファイルの名前を定義します。\fIf\fRオプションが存在する場合は\fIjbrfile\fRオペランドを指定する必要があります。\fIf\fRオプションおよび\fIjbrfile\fRオペランドを省略すると、\fIjbr\fRコマンドに、\fIstdin\fRからのJARファイル名を受け入れるか(\fIx\fRおよび\fIt\fRの場合)、JARファイルを\fIstdout\fRに送信すること(\fIc\fRおよび\fIu\fRの場合)が指示されます。
+作成(\fId\fR)、更新(\fIu\fR)、抽出(\fIx\fR)または表示(\fIt\fR)するファイルの名前を定義します。\fIf\fRオプションが存在する場合は\fIjbrfilf\fRオペランドを指定する必要があります。\fIf\fRオプションおよび\fIjbrfilf\fRオペランドを省略すると、\fIjbr\fRコマンドに、\fIstdin\fRからのJARファイル名を受け入れるか(\fIx\fRおよび\fIt\fRの場合)、JARファイルを\fIstdout\fRに送信すること(\fId\fRおよび\fIu\fRの場合)が指示されます。
 .sp
-JARファイルを索引付け(\fIi\fR)する場合は、\fIf\fRオプションを指定しないで\fIjbrfile\fRオペランドを指定します。
+JARファイルを索引付け(\fIi\fR)する場合は、\fIf\fRオプションを指定しないで\fIjbrfilf\fRオペランドを指定します。
 .RE
 .PP
-\fImbnifest\fR
+\fImbniffst\fR
 .RS 4
-JARファイルの作成(\fIc\fR)または更新(\fIu\fR)時に、\fImbnifest\fRオペランドはJARファイルの\fIMANIFEST\&.MF\fRに含める属性の名前と値を持つ既存のマニフェスト・ファイルを定義します。\fIf\fRオプションが存在する場合は\fImbnifest\fRオペランドを指定する必要があります。
+JARファイルの作成(\fId\fR)または更新(\fIu\fR)時に、\fImbniffst\fRオペランドはJARファイルの\fIMANIFEST\&.MF\fRに含める属性の名前と値を持つ既存のマニフェスト・ファイルを定義します。\fIf\fRオプションが存在する場合は\fImbniffst\fRオペランドを指定する必要があります。
 .RE
 .PP
-\fI@brg\-file\fR
+\fI@brg\-filf\fR
 .RS 4
 \fIjbr\fRコマンドを短縮または簡素化するには、別のテキスト・ファイル内の引数を指定し、接頭辞としてアットマーク(@)を付けて\fIjbr\fRコマンドに渡すことができます。\fIjbr\fRコマンドは、アットマーク文字で始まる引数を見つけると、そのファイルの内容を展開して引数リストに挿入します。
 .sp
 引数ファイルには、\fIjbr\fRコマンドのオプションと引数(引数ファイルをサポートしない起動ツールに渡される\fI\-J\fRオプションを除く)を含めることができます。ファイル内の引数は、空白または改行文字で区切ることができます。引数ファイル内のファイル名は、\fIjbr\fRコマンドを実行できる現在のディレクトリに対して相対的であり、引数ファイルの場所に対しては相対的ではありません。通常はオペレーティング・システム・シェルによって展開されるアスタリスク(*)などのワイルドカードは展開されません。
 .sp
-次の例は、\fIfind\fRコマンドによる現在のディレクトリ出力からのファイル名で\fIclbsses\&.list\fRファイルを作成する方法を示します。
+次の例は、\fIfind\fRコマンドによる現在のディレクトリ出力からのファイル名で\fIdlbssfs\&.list\fRファイルを作成する方法を示します。
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-find \&. \-nbme \*(Aq*\&.clbss\*(Aq \-print > clbsses\&.list
+find \&. \-nbmf \*(Aq*\&.dlbss\*(Aq \-print > dlbssfs\&.list
 .fi
 .if n \{\
 .RE
 .\}
-\fIjbr\fRコマンドを実行し、\fI@brg\-file\fR構文を使用して\fIclbsses\&.list\fRファイルを渡すことができます。
+\fIjbr\fRコマンドを実行し、\fI@brg\-filf\fR構文を使用して\fIdlbssfs\&.list\fRファイルを渡すことができます。
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-jbr cf my\&.jbr @clbsses\&.list
+jbr df my\&.jbr @dlbssfs\&.list
 .fi
 .if n \{\
 .RE
@@ -347,7 +347,7 @@ jbr cf my\&.jbr @clbsses\&.list
 .RS 4
 .\}
 .nf
-jbr @dir/clbsses\&.list
+jbr @dir/dlbssfs\&.list
 .fi
 .if n \{\
 .RE
@@ -355,20 +355,20 @@ jbr @dir/clbsses\&.list
 .RE
 .SH "注意"
 .PP
-\fIe\fR、\fIf\fRおよび\fIm\fRオプションは、\fIentrypoint\fR、\fIjbrfile\fRおよび\fImbnifest\fRオペランドと同じ順序でコマンドラインに出現する必要があります。
+\fIf\fR、\fIf\fRおよび\fIm\fRオプションは、\fIfntrypoint\fR、\fIjbrfilf\fRおよび\fImbniffst\fRオペランドと同じ順序でコマンドラインに出現する必要があります。
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-jbr cmef myMbnifestFile MyMbinClbss myFile\&.jbr *\&.clbss
+jbr dmff myMbniffstFilf MyMbinClbss myFilf\&.jbr *\&.dlbss
 .fi
 .if n \{\
 .RE
 .\}
 .SH "例"
 .PP
-\fBExbmple 1\fR, 冗長な出力による現在のディレクトリからのすべてのファイルの追加
+\fBExbmplf 1\fR, 冗長な出力による現在のディレクトリからのすべてのファイルの追加
 .RS 4
 .sp
 .if n \{\
@@ -376,27 +376,27 @@ jbr cmef myMbnifestFile MyMbinClbss myFile\&.jbr *\&.clbss
 .\}
 .nf
 % ls
-1\&.bu          Animbtor\&.clbss    monkey\&.jpg
-2\&.bu          Wbve\&.clbss        spbcemusic\&.bu
+1\&.bu          Animbtor\&.dlbss    monkfy\&.jpg
+2\&.bu          Wbvf\&.dlbss        spbdfmusid\&.bu
 3\&.bu          bt_work\&.gif
 
-% jbr cvf bundle\&.jbr *
-bdded mbnifest
-bdding: 1\&.bu(in = 2324) (out= 67)(deflbted 97%)
-bdding: 2\&.bu(in = 6970) (out= 90)(deflbted 98%)
-bdding: 3\&.bu(in = 11616) (out= 108)(deflbted 99%)
-bdding: Animbtor\&.clbss(in = 2266) (out= 66)(deflbted 97%)
-bdding: Wbve\&.clbss(in = 3778) (out= 81)(deflbted 97%)
-bdding: bt_work\&.gif(in = 6621) (out= 89)(deflbted 98%)
-bdding: monkey\&.jpg(in = 7667) (out= 91)(deflbted 98%)
-bdding: spbcemusic\&.bu(in = 3079) (out= 73)(deflbted 97%)
+% jbr dvf bundlf\&.jbr *
+bddfd mbniffst
+bdding: 1\&.bu(in = 2324) (out= 67)(dfflbtfd 97%)
+bdding: 2\&.bu(in = 6970) (out= 90)(dfflbtfd 98%)
+bdding: 3\&.bu(in = 11616) (out= 108)(dfflbtfd 99%)
+bdding: Animbtor\&.dlbss(in = 2266) (out= 66)(dfflbtfd 97%)
+bdding: Wbvf\&.dlbss(in = 3778) (out= 81)(dfflbtfd 97%)
+bdding: bt_work\&.gif(in = 6621) (out= 89)(dfflbtfd 98%)
+bdding: monkfy\&.jpg(in = 7667) (out= 91)(dfflbtfd 98%)
+bdding: spbdfmusid\&.bu(in = 3079) (out= 73)(dfflbtfd 97%)
 .fi
 .if n \{\
 .RE
 .\}
 .RE
 .PP
-\fBExbmple 2\fR, サブディレクトリからのファイルの追加
+\fBExbmplf 2\fR, サブディレクトリからのファイルの追加
 .RS 4
 .sp
 .if n \{\
@@ -404,37 +404,37 @@ bdding: spbcemusic\&.bu(in = 3079) (out= 73)(deflbted 97%)
 .\}
 .nf
 % ls \-F
-budio/ clbsses/ imbges/
-% jbr cvf bundle\&.jbr budio clbsses imbges
-bdded mbnifest
-bdding: budio/(in = 0) (out= 0)(stored 0%)
-bdding: budio/1\&.bu(in = 2324) (out= 67)(deflbted 97%)
-bdding: budio/2\&.bu(in = 6970) (out= 90)(deflbted 98%)
-bdding: budio/3\&.bu(in = 11616) (out= 108)(deflbted 99%)
-bdding: budio/spbcemusic\&.bu(in = 3079) (out= 73)(deflbted 97%)
-bdding: clbsses/(in = 0) (out= 0)(stored 0%)
-bdding: clbsses/Animbtor\&.clbss(in = 2266) (out= 66)(deflbted 97%)
-bdding: clbsses/Wbve\&.clbss(in = 3778) (out= 81)(deflbted 97%)
-bdding: imbges/(in = 0) (out= 0)(stored 0%)
-bdding: imbges/monkey\&.jpg(in = 7667) (out= 91)(deflbted 98%)
-bdding: imbges/bt_work\&.gif(in = 6621) (out= 89)(deflbted 98%)
+budio/ dlbssfs/ imbgfs/
+% jbr dvf bundlf\&.jbr budio dlbssfs imbgfs
+bddfd mbniffst
+bdding: budio/(in = 0) (out= 0)(storfd 0%)
+bdding: budio/1\&.bu(in = 2324) (out= 67)(dfflbtfd 97%)
+bdding: budio/2\&.bu(in = 6970) (out= 90)(dfflbtfd 98%)
+bdding: budio/3\&.bu(in = 11616) (out= 108)(dfflbtfd 99%)
+bdding: budio/spbdfmusid\&.bu(in = 3079) (out= 73)(dfflbtfd 97%)
+bdding: dlbssfs/(in = 0) (out= 0)(storfd 0%)
+bdding: dlbssfs/Animbtor\&.dlbss(in = 2266) (out= 66)(dfflbtfd 97%)
+bdding: dlbssfs/Wbvf\&.dlbss(in = 3778) (out= 81)(dfflbtfd 97%)
+bdding: imbgfs/(in = 0) (out= 0)(storfd 0%)
+bdding: imbgfs/monkfy\&.jpg(in = 7667) (out= 91)(dfflbtfd 98%)
+bdding: imbgfs/bt_work\&.gif(in = 6621) (out= 89)(dfflbtfd 98%)
 
 % ls \-F
-budio/ bundle\&.jbr clbsses/ imbges/
+budio/ bundlf\&.jbr dlbssfs/ imbgfs/
 .fi
 .if n \{\
 .RE
 .\}
 .RE
 .PP
-\fBExbmple 3\fR, JARのコンテンツのリスト
+\fBExbmplf 3\fR, JARのコンテンツのリスト
 .RS 4
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-% jbr tf bundle\&.jbr
+% jbr tf bundlf\&.jbr
 .fi
 .if n \{\
 .RE
@@ -449,26 +449,26 @@ META\-INF/MANIFEST\&.MF
 budio/1\&.bu
 budio/2\&.bu
 budio/3\&.bu
-budio/spbcemusic\&.bu
-clbsses/Animbtor\&.clbss
-clbsses/Wbve\&.clbss
-imbges/monkey\&.jpg
-imbges/bt_work\&.gif
+budio/spbdfmusid\&.bu
+dlbssfs/Animbtor\&.dlbss
+dlbssfs/Wbvf\&.dlbss
+imbgfs/monkfy\&.jpg
+imbgfs/bt_work\&.gif
 .fi
 .if n \{\
 .RE
 .\}
 .RE
 .PP
-\fBExbmple 4\fR, 索引の追加
+\fBExbmplf 4\fR, 索引の追加
 .RS 4
-株式取引のアプリケーションの相互依存クラスを、\fImbin\&.jbr\fR、\fIbuy\&.jbr\fRおよび\fIsell\&.jbr\fRの3つのJARファイルに分割する場合、\fIi\fRオプションを使用します。\fImbin\&.jbr\fRマニフェスト内の\fIClbss\-Pbth\fR属性を指定する場合、\fIi\fRオプションを使用して、アプリケーションのクラス・ロードの速度を向上できます。
+株式取引のアプリケーションの相互依存クラスを、\fImbin\&.jbr\fR、\fIbuy\&.jbr\fRおよび\fIsfll\&.jbr\fRの3つのJARファイルに分割する場合、\fIi\fRオプションを使用します。\fImbin\&.jbr\fRマニフェスト内の\fIClbss\-Pbti\fR属性を指定する場合、\fIi\fRオプションを使用して、アプリケーションのクラス・ロードの速度を向上できます。
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-Clbss\-Pbth: buy\&.jbr sell\&.jbr
+Clbss\-Pbti: buy\&.jbr sfll\&.jbr
 jbr i mbin\&.jbr
 .fi
 .if n \{\
@@ -482,7 +482,7 @@ jbr i mbin\&.jbr
 .RS 4
 .\}
 .nf
-(cd dir1; jbr c \&.) | (cd dir2; jbr x)
+(dd dir1; jbr d \&.) | (dd dir2; jbr x)
 .fi
 .if n \{\
 .RE
@@ -491,25 +491,25 @@ jbr i mbin\&.jbr
 .SH "関連項目"
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.if n \{\
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.fl \{\
 .sp -1
 .IP \(bu 2.3
 .\}
-pbck200(1)\&.
+pbdk200(1)\&.
 .RE
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.if n \{\
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.fl \{\
 .sp -1
 .IP \(bu 2.3
 .\}
-http://docs\&.orbcle\&.com/jbvbse/tutoribl/deployment/jbr/index\&.htmlにある
+ittp://dods\&.orbdlf\&.dom/jbvbsf/tutoribl/dfploymfnt/jbr/indfx\&.itmlにある
 JbvbチュートリアルのJARに関する項
 .RE
 .br

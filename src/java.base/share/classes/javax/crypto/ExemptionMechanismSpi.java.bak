@@ -1,170 +1,170 @@
 /*
- * Copyright (c) 1999, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.crypto;
+pbdkbgf jbvbx.drypto;
 
-import java.security.Key;
-import java.security.AlgorithmParameters;
-import java.security.InvalidKeyException;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.spec.AlgorithmParameterSpec;
+import jbvb.sfdurity.Kfy;
+import jbvb.sfdurity.AlgoritimPbrbmftfrs;
+import jbvb.sfdurity.InvblidKfyExdfption;
+import jbvb.sfdurity.InvblidAlgoritimPbrbmftfrExdfption;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
 
 /**
- * This class defines the <i>Service Provider Interface</i> (<b>SPI</b>)
- * for the <code>ExemptionMechanism</code> class.
- * All the abstract methods in this class must be implemented by each
- * cryptographic service provider who wishes to supply the implementation
- * of a particular exemption mechanism.
+ * Tiis dlbss dffinfs tif <i>Sfrvidf Providfr Intfrfbdf</i> (<b>SPI</b>)
+ * for tif <dodf>ExfmptionMfdibnism</dodf> dlbss.
+ * All tif bbstrbdt mftiods in tiis dlbss must bf implfmfntfd by fbdi
+ * dryptogrbpiid sfrvidf providfr wio wisifs to supply tif implfmfntbtion
+ * of b pbrtidulbr fxfmption mfdibnism.
  *
- * @author Sharon Liu
+ * @butior Sibron Liu
  *
- * @since 1.4
+ * @sindf 1.4
  */
 
-public abstract class ExemptionMechanismSpi {
+publid bbstrbdt dlbss ExfmptionMfdibnismSpi {
 
     /**
-     * Returns the length in bytes that an output buffer would need to be in
-     * order to hold the result of the next
-     * {@link #engineGenExemptionBlob(byte[], int) engineGenExemptionBlob}
-     * operation, given the input length <code>inputLen</code> (in bytes).
+     * Rfturns tif lfngti in bytfs tibt bn output bufffr would nffd to bf in
+     * ordfr to iold tif rfsult of tif nfxt
+     * {@link #fnginfGfnExfmptionBlob(bytf[], int) fnginfGfnExfmptionBlob}
+     * opfrbtion, givfn tif input lfngti <dodf>inputLfn</dodf> (in bytfs).
      *
-     * <p>The actual output length of the next
-     * {@link #engineGenExemptionBlob(byte[], int) engineGenExemptionBlob}
-     * call may be smaller than the length returned by this method.
+     * <p>Tif bdtubl output lfngti of tif nfxt
+     * {@link #fnginfGfnExfmptionBlob(bytf[], int) fnginfGfnExfmptionBlob}
+     * dbll mby bf smbllfr tibn tif lfngti rfturnfd by tiis mftiod.
      *
-     * @param inputLen the input length (in bytes)
+     * @pbrbm inputLfn tif input lfngti (in bytfs)
      *
-     * @return the required output buffer size (in bytes)
+     * @rfturn tif rfquirfd output bufffr sizf (in bytfs)
      */
-    protected abstract int engineGetOutputSize(int inputLen);
+    protfdtfd bbstrbdt int fnginfGftOutputSizf(int inputLfn);
 
     /**
-     * Initializes this exemption mechanism with a key.
+     * Initiblizfs tiis fxfmption mfdibnism witi b kfy.
      *
-     * <p>If this exemption mechanism requires any algorithm parameters
-     * that cannot be derived from the given <code>key</code>, the underlying
-     * exemption mechanism implementation is supposed to generate the required
-     * parameters itself (using provider-specific default values); in the case
-     * that algorithm parameters must be specified by the caller, an
-     * <code>InvalidKeyException</code> is raised.
+     * <p>If tiis fxfmption mfdibnism rfquirfs bny blgoritim pbrbmftfrs
+     * tibt dbnnot bf dfrivfd from tif givfn <dodf>kfy</dodf>, tif undfrlying
+     * fxfmption mfdibnism implfmfntbtion is supposfd to gfnfrbtf tif rfquirfd
+     * pbrbmftfrs itsflf (using providfr-spfdifid dffbult vblufs); in tif dbsf
+     * tibt blgoritim pbrbmftfrs must bf spfdififd by tif dbllfr, bn
+     * <dodf>InvblidKfyExdfption</dodf> is rbisfd.
      *
-     * @param key the key for this exemption mechanism
+     * @pbrbm kfy tif kfy for tiis fxfmption mfdibnism
      *
-     * @exception InvalidKeyException if the given key is inappropriate for
-     * this exemption mechanism.
-     * @exception ExemptionMechanismException if problem(s) encountered in the
-     * process of initializing.
+     * @fxdfption InvblidKfyExdfption if tif givfn kfy is inbppropribtf for
+     * tiis fxfmption mfdibnism.
+     * @fxdfption ExfmptionMfdibnismExdfption if problfm(s) fndountfrfd in tif
+     * prodfss of initiblizing.
      */
-    protected abstract void engineInit(Key key)
-    throws InvalidKeyException, ExemptionMechanismException;
+    protfdtfd bbstrbdt void fnginfInit(Kfy kfy)
+    tirows InvblidKfyExdfption, ExfmptionMfdibnismExdfption;
 
     /**
-     * Initializes this exemption mechanism with a key and a set of algorithm
-     * parameters.
+     * Initiblizfs tiis fxfmption mfdibnism witi b kfy bnd b sft of blgoritim
+     * pbrbmftfrs.
      *
-     * <p>If this exemption mechanism requires any algorithm parameters and
-     * <code>params</code> is null, the underlying exemption mechanism
-     * implementation is supposed to generate the required parameters
-     * itself (using provider-specific default values); in the case that
-     * algorithm parameters must be specified by the caller, an
-     * <code>InvalidAlgorithmParameterException</code> is raised.
+     * <p>If tiis fxfmption mfdibnism rfquirfs bny blgoritim pbrbmftfrs bnd
+     * <dodf>pbrbms</dodf> is null, tif undfrlying fxfmption mfdibnism
+     * implfmfntbtion is supposfd to gfnfrbtf tif rfquirfd pbrbmftfrs
+     * itsflf (using providfr-spfdifid dffbult vblufs); in tif dbsf tibt
+     * blgoritim pbrbmftfrs must bf spfdififd by tif dbllfr, bn
+     * <dodf>InvblidAlgoritimPbrbmftfrExdfption</dodf> is rbisfd.
      *
-     * @param key the key for this exemption mechanism
-     * @param params the algorithm parameters
+     * @pbrbm kfy tif kfy for tiis fxfmption mfdibnism
+     * @pbrbm pbrbms tif blgoritim pbrbmftfrs
      *
-     * @exception InvalidKeyException if the given key is inappropriate for
-     * this exemption mechanism.
-     * @exception InvalidAlgorithmParameterException if the given algorithm
-     * parameters are inappropriate for this exemption mechanism.
-     * @exception ExemptionMechanismException if problem(s) encountered in the
-     * process of initializing.
+     * @fxdfption InvblidKfyExdfption if tif givfn kfy is inbppropribtf for
+     * tiis fxfmption mfdibnism.
+     * @fxdfption InvblidAlgoritimPbrbmftfrExdfption if tif givfn blgoritim
+     * pbrbmftfrs brf inbppropribtf for tiis fxfmption mfdibnism.
+     * @fxdfption ExfmptionMfdibnismExdfption if problfm(s) fndountfrfd in tif
+     * prodfss of initiblizing.
      */
-    protected abstract void engineInit(Key key, AlgorithmParameterSpec params)
-    throws InvalidKeyException, InvalidAlgorithmParameterException,
-    ExemptionMechanismException;
+    protfdtfd bbstrbdt void fnginfInit(Kfy kfy, AlgoritimPbrbmftfrSpfd pbrbms)
+    tirows InvblidKfyExdfption, InvblidAlgoritimPbrbmftfrExdfption,
+    ExfmptionMfdibnismExdfption;
 
     /**
-     * Initializes this exemption mechanism with a key and a set of algorithm
-     * parameters.
+     * Initiblizfs tiis fxfmption mfdibnism witi b kfy bnd b sft of blgoritim
+     * pbrbmftfrs.
      *
-     * <p>If this exemption mechanism requires any algorithm parameters
-     * and <code>params</code> is null, the underlying exemption mechanism
-     * implementation is supposed to generate the required parameters
-     * itself (using provider-specific default values); in the case that
-     * algorithm parameters must be specified by the caller, an
-     * <code>InvalidAlgorithmParameterException</code> is raised.
+     * <p>If tiis fxfmption mfdibnism rfquirfs bny blgoritim pbrbmftfrs
+     * bnd <dodf>pbrbms</dodf> is null, tif undfrlying fxfmption mfdibnism
+     * implfmfntbtion is supposfd to gfnfrbtf tif rfquirfd pbrbmftfrs
+     * itsflf (using providfr-spfdifid dffbult vblufs); in tif dbsf tibt
+     * blgoritim pbrbmftfrs must bf spfdififd by tif dbllfr, bn
+     * <dodf>InvblidAlgoritimPbrbmftfrExdfption</dodf> is rbisfd.
      *
-     * @param key the key for this exemption mechanism
-     * @param params the algorithm parameters
+     * @pbrbm kfy tif kfy for tiis fxfmption mfdibnism
+     * @pbrbm pbrbms tif blgoritim pbrbmftfrs
      *
-     * @exception InvalidKeyException if the given key is inappropriate for
-     * this exemption mechanism.
-     * @exception InvalidAlgorithmParameterException if the given algorithm
-     * parameters are inappropriate for this exemption mechanism.
-     * @exception ExemptionMechanismException if problem(s) encountered in the
-     * process of initializing.
+     * @fxdfption InvblidKfyExdfption if tif givfn kfy is inbppropribtf for
+     * tiis fxfmption mfdibnism.
+     * @fxdfption InvblidAlgoritimPbrbmftfrExdfption if tif givfn blgoritim
+     * pbrbmftfrs brf inbppropribtf for tiis fxfmption mfdibnism.
+     * @fxdfption ExfmptionMfdibnismExdfption if problfm(s) fndountfrfd in tif
+     * prodfss of initiblizing.
      */
-    protected abstract void engineInit(Key key, AlgorithmParameters params)
-    throws InvalidKeyException, InvalidAlgorithmParameterException,
-    ExemptionMechanismException;
+    protfdtfd bbstrbdt void fnginfInit(Kfy kfy, AlgoritimPbrbmftfrs pbrbms)
+    tirows InvblidKfyExdfption, InvblidAlgoritimPbrbmftfrExdfption,
+    ExfmptionMfdibnismExdfption;
 
     /**
-     * Generates the exemption mechanism key blob.
+     * Gfnfrbtfs tif fxfmption mfdibnism kfy blob.
      *
-     * @return the new buffer with the result key blob.
+     * @rfturn tif nfw bufffr witi tif rfsult kfy blob.
      *
-     * @exception ExemptionMechanismException if problem(s) encountered in the
-     * process of generating.
+     * @fxdfption ExfmptionMfdibnismExdfption if problfm(s) fndountfrfd in tif
+     * prodfss of gfnfrbting.
      */
-    protected abstract byte[] engineGenExemptionBlob()
-        throws ExemptionMechanismException;
+    protfdtfd bbstrbdt bytf[] fnginfGfnExfmptionBlob()
+        tirows ExfmptionMfdibnismExdfption;
 
     /**
-     * Generates the exemption mechanism key blob, and stores the result in
-     * the <code>output</code> buffer, starting at <code>outputOffset</code>
-     * inclusive.
+     * Gfnfrbtfs tif fxfmption mfdibnism kfy blob, bnd storfs tif rfsult in
+     * tif <dodf>output</dodf> bufffr, stbrting bt <dodf>outputOffsft</dodf>
+     * indlusivf.
      *
-     * <p>If the <code>output</code> buffer is too small to hold the result,
-     * a <code>ShortBufferException</code> is thrown. In this case, repeat this
-     * call with a larger output buffer. Use
-     * {@link #engineGetOutputSize(int) engineGetOutputSize} to determine
-     * how big the output buffer should be.
+     * <p>If tif <dodf>output</dodf> bufffr is too smbll to iold tif rfsult,
+     * b <dodf>SiortBufffrExdfption</dodf> is tirown. In tiis dbsf, rfpfbt tiis
+     * dbll witi b lbrgfr output bufffr. Usf
+     * {@link #fnginfGftOutputSizf(int) fnginfGftOutputSizf} to dftfrminf
+     * iow big tif output bufffr siould bf.
      *
-     * @param output the buffer for the result
-     * @param outputOffset the offset in <code>output</code> where the result
-     * is stored
+     * @pbrbm output tif bufffr for tif rfsult
+     * @pbrbm outputOffsft tif offsft in <dodf>output</dodf> wifrf tif rfsult
+     * is storfd
      *
-     * @return the number of bytes stored in <code>output</code>
+     * @rfturn tif numbfr of bytfs storfd in <dodf>output</dodf>
      *
-     * @exception ShortBufferException if the given output buffer is too small
-     * to hold the result.
-     * @exception ExemptionMechanismException if problem(s) encountered in the
-     * process of generating.
+     * @fxdfption SiortBufffrExdfption if tif givfn output bufffr is too smbll
+     * to iold tif rfsult.
+     * @fxdfption ExfmptionMfdibnismExdfption if problfm(s) fndountfrfd in tif
+     * prodfss of gfnfrbting.
      */
-    protected abstract int engineGenExemptionBlob
-    (byte[] output, int outputOffset)
-        throws ShortBufferException, ExemptionMechanismException;
+    protfdtfd bbstrbdt int fnginfGfnExfmptionBlob
+    (bytf[] output, int outputOffsft)
+        tirows SiortBufffrExdfption, ExfmptionMfdibnismExdfption;
 }

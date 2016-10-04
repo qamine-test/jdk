@@ -1,262 +1,262 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.plaf.metal;
+pbdkbgf jbvbx.swing.plbf.mftbl;
 
-import javax.swing.*;
-import javax.swing.event.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.*;
-import java.io.*;
-import java.util.*;
-import javax.swing.plaf.*;
-import javax.swing.tree.*;
+import jbvbx.swing.*;
+import jbvbx.swing.fvfnt.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bfbns.*;
+import jbvb.io.*;
+import jbvb.util.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.trff.*;
 
-import javax.swing.plaf.basic.*;
+import jbvbx.swing.plbf.bbsid.*;
 
 /**
- * The metal look and feel implementation of <code>TreeUI</code>.
+ * Tif mftbl look bnd fffl implfmfntbtion of <dodf>TrffUI</dodf>.
  * <p>
- * <code>MetalTreeUI</code> allows for configuring how to
- * visually render the spacing and delineation between nodes. The following
- * hints are supported:
+ * <dodf>MftblTrffUI</dodf> bllows for donfiguring iow to
+ * visublly rfndfr tif spbding bnd dflinfbtion bftwffn nodfs. Tif following
+ * iints brf supportfd:
  *
- * <table summary="Descriptions of supported hints: Angled, Horizontal, and None">
+ * <tbblf summbry="Dfsdriptions of supportfd iints: Anglfd, Horizontbl, bnd Nonf">
  *  <tr>
- *    <th><p style="text-align:left">Angled</p></th>
- *    <td>A line is drawn connecting the child to the parent. For handling
- *          of the root node refer to
- *          {@link javax.swing.JTree#setRootVisible} and
- *          {@link javax.swing.JTree#setShowsRootHandles}.
+ *    <ti><p stylf="tfxt-blign:lfft">Anglfd</p></ti>
+ *    <td>A linf is drbwn donnfdting tif diild to tif pbrfnt. For ibndling
+ *          of tif root nodf rfffr to
+ *          {@link jbvbx.swing.JTrff#sftRootVisiblf} bnd
+ *          {@link jbvbx.swing.JTrff#sftSiowsRootHbndlfs}.
  *    </td>
  *  </tr>
  *  <tr>
- *     <th><p style="text-align:left">Horizontal</p></th>
- *     <td>A horizontal line is drawn dividing the children of the root node.</td>
+ *     <ti><p stylf="tfxt-blign:lfft">Horizontbl</p></ti>
+ *     <td>A iorizontbl linf is drbwn dividing tif diildrfn of tif root nodf.</td>
  *  </tr>
  *  <tr>
- *      <th><p style="text-align:left">None</p></th>
- *      <td>Do not draw any visual indication between nodes.</td>
+ *      <ti><p stylf="tfxt-blign:lfft">Nonf</p></ti>
+ *      <td>Do not drbw bny visubl indidbtion bftwffn nodfs.</td>
  *  </tr>
- * </table>
+ * </tbblf>
  *
  * <p>
- * As it is typically impractical to obtain the <code>TreeUI</code> from
- * the <code>JTree</code> and cast to an instance of <code>MetalTreeUI</code>
- * you enable this property via the client property
- * <code>JTree.lineStyle</code>. For example, to switch to
- * <code>Horizontal</code> style you would do:
- * <code>tree.putClientProperty("JTree.lineStyle", "Horizontal");</code>
+ * As it is typidblly imprbdtidbl to obtbin tif <dodf>TrffUI</dodf> from
+ * tif <dodf>JTrff</dodf> bnd dbst to bn instbndf of <dodf>MftblTrffUI</dodf>
+ * you fnbblf tiis propfrty vib tif dlifnt propfrty
+ * <dodf>JTrff.linfStylf</dodf>. For fxbmplf, to switdi to
+ * <dodf>Horizontbl</dodf> stylf you would do:
+ * <dodf>trff.putClifntPropfrty("JTrff.linfStylf", "Horizontbl");</dodf>
  * <p>
- * The default is <code>Angled</code>.
+ * Tif dffbult is <dodf>Anglfd</dodf>.
  *
- * @author Tom Santos
- * @author Steve Wilson (value add stuff)
+ * @butior Tom Sbntos
+ * @butior Stfvf Wilson (vbluf bdd stuff)
  */
-public class MetalTreeUI extends BasicTreeUI {
+publid dlbss MftblTrffUI fxtfnds BbsidTrffUI {
 
-    private static Color lineColor;
+    privbtf stbtid Color linfColor;
 
-    private static final String LINE_STYLE = "JTree.lineStyle";
+    privbtf stbtid finbl String LINE_STYLE = "JTrff.linfStylf";
 
-    private static final String LEG_LINE_STYLE_STRING = "Angled";
-    private static final String HORIZ_STYLE_STRING = "Horizontal";
-    private static final String NO_STYLE_STRING = "None";
+    privbtf stbtid finbl String LEG_LINE_STYLE_STRING = "Anglfd";
+    privbtf stbtid finbl String HORIZ_STYLE_STRING = "Horizontbl";
+    privbtf stbtid finbl String NO_STYLE_STRING = "Nonf";
 
-    private static final int LEG_LINE_STYLE = 2;
-    private static final int HORIZ_LINE_STYLE = 1;
-    private static final int NO_LINE_STYLE = 0;
+    privbtf stbtid finbl int LEG_LINE_STYLE = 2;
+    privbtf stbtid finbl int HORIZ_LINE_STYLE = 1;
+    privbtf stbtid finbl int NO_LINE_STYLE = 0;
 
-    private int lineStyle = LEG_LINE_STYLE;
-    private PropertyChangeListener lineStyleListener = new LineListener();
+    privbtf int linfStylf = LEG_LINE_STYLE;
+    privbtf PropfrtyCibngfListfnfr linfStylfListfnfr = nfw LinfListfnfr();
 
     /**
-     * Constructs the {@code MetalTreeUI}.
+     * Construdts tif {@dodf MftblTrffUI}.
      *
-     * @param x a component
-     * @return the instance of the {@code MetalTreeUI}
+     * @pbrbm x b domponfnt
+     * @rfturn tif instbndf of tif {@dodf MftblTrffUI}
      */
-    public static ComponentUI createUI(JComponent x) {
-        return new MetalTreeUI();
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt x) {
+        rfturn nfw MftblTrffUI();
     }
 
     /**
-     * Constructs the {@code MetalTreeUI}.
+     * Construdts tif {@dodf MftblTrffUI}.
      */
-    public MetalTreeUI() {
-        super();
+    publid MftblTrffUI() {
+        supfr();
     }
 
-    protected int getHorizontalLegBuffer() {
-        return 3;
+    protfdtfd int gftHorizontblLfgBufffr() {
+        rfturn 3;
     }
 
-    public void installUI( JComponent c ) {
-        super.installUI( c );
-        lineColor = UIManager.getColor( "Tree.line" );
+    publid void instbllUI( JComponfnt d ) {
+        supfr.instbllUI( d );
+        linfColor = UIMbnbgfr.gftColor( "Trff.linf" );
 
-        Object lineStyleFlag = c.getClientProperty( LINE_STYLE );
-        decodeLineStyle(lineStyleFlag);
-        c.addPropertyChangeListener(lineStyleListener);
+        Objfdt linfStylfFlbg = d.gftClifntPropfrty( LINE_STYLE );
+        dfdodfLinfStylf(linfStylfFlbg);
+        d.bddPropfrtyCibngfListfnfr(linfStylfListfnfr);
 
     }
 
-    public void uninstallUI( JComponent c) {
-         c.removePropertyChangeListener(lineStyleListener);
-         super.uninstallUI(c);
+    publid void uninstbllUI( JComponfnt d) {
+         d.rfmovfPropfrtyCibngfListfnfr(linfStylfListfnfr);
+         supfr.uninstbllUI(d);
     }
 
     /**
-     * Converts between the string passed into the client property
-     * and the internal representation (currently and int)
+     * Convfrts bftwffn tif string pbssfd into tif dlifnt propfrty
+     * bnd tif intfrnbl rfprfsfntbtion (durrfntly bnd int)
      *
-     * @param lineStyleFlag a flag
+     * @pbrbm linfStylfFlbg b flbg
      */
-    protected void decodeLineStyle(Object lineStyleFlag) {
-        if ( lineStyleFlag == null ||
-                    lineStyleFlag.equals(LEG_LINE_STYLE_STRING)) {
-            lineStyle = LEG_LINE_STYLE; // default case
-        } else {
-            if ( lineStyleFlag.equals(NO_STYLE_STRING) ) {
-                lineStyle = NO_LINE_STYLE;
-            } else if ( lineStyleFlag.equals(HORIZ_STYLE_STRING) ) {
-                lineStyle = HORIZ_LINE_STYLE;
+    protfdtfd void dfdodfLinfStylf(Objfdt linfStylfFlbg) {
+        if ( linfStylfFlbg == null ||
+                    linfStylfFlbg.fqubls(LEG_LINE_STYLE_STRING)) {
+            linfStylf = LEG_LINE_STYLE; // dffbult dbsf
+        } flsf {
+            if ( linfStylfFlbg.fqubls(NO_STYLE_STRING) ) {
+                linfStylf = NO_LINE_STYLE;
+            } flsf if ( linfStylfFlbg.fqubls(HORIZ_STYLE_STRING) ) {
+                linfStylf = HORIZ_LINE_STYLE;
             }
         }
     }
 
     /**
-     * Returns {@code true} if a point with X coordinate {@code mouseX}
-     * and Y coordinate {@code mouseY} is in expanded control.
+     * Rfturns {@dodf truf} if b point witi X doordinbtf {@dodf mousfX}
+     * bnd Y doordinbtf {@dodf mousfY} is in fxpbndfd dontrol.
      *
-     * @param row a row
-     * @param rowLevel a row level
-     * @param mouseX X coordinate
-     * @param mouseY Y coordinate
-     * @return {@code true} if a point with X coordinate {@code mouseX}
-     *         and Y coordinate {@code mouseY} is in expanded control.
+     * @pbrbm row b row
+     * @pbrbm rowLfvfl b row lfvfl
+     * @pbrbm mousfX X doordinbtf
+     * @pbrbm mousfY Y doordinbtf
+     * @rfturn {@dodf truf} if b point witi X doordinbtf {@dodf mousfX}
+     *         bnd Y doordinbtf {@dodf mousfY} is in fxpbndfd dontrol.
      */
-    protected boolean isLocationInExpandControl(int row, int rowLevel,
-                                                int mouseX, int mouseY) {
-        if(tree != null && !isLeaf(row)) {
-            int                     boxWidth;
+    protfdtfd boolfbn isLodbtionInExpbndControl(int row, int rowLfvfl,
+                                                int mousfX, int mousfY) {
+        if(trff != null && !isLfbf(row)) {
+            int                     boxWidti;
 
-            if(getExpandedIcon() != null)
-                boxWidth = getExpandedIcon().getIconWidth() + 6;
-            else
-                boxWidth = 8;
+            if(gftExpbndfdIdon() != null)
+                boxWidti = gftExpbndfdIdon().gftIdonWidti() + 6;
+            flsf
+                boxWidti = 8;
 
-            Insets i = tree.getInsets();
-            int    boxLeftX = (i != null) ? i.left : 0;
+            Insfts i = trff.gftInsfts();
+            int    boxLfftX = (i != null) ? i.lfft : 0;
 
 
-            boxLeftX += (((rowLevel + depthOffset - 1) * totalChildIndent) +
-                        getLeftChildIndent()) - boxWidth/2;
+            boxLfftX += (((rowLfvfl + dfptiOffsft - 1) * totblCiildIndfnt) +
+                        gftLfftCiildIndfnt()) - boxWidti/2;
 
-            int boxRightX = boxLeftX + boxWidth;
+            int boxRigitX = boxLfftX + boxWidti;
 
-            return mouseX >= boxLeftX && mouseX <= boxRightX;
+            rfturn mousfX >= boxLfftX && mousfX <= boxRigitX;
         }
-        return false;
+        rfturn fblsf;
     }
 
-    public void paint(Graphics g, JComponent c) {
-        super.paint( g, c );
+    publid void pbint(Grbpiids g, JComponfnt d) {
+        supfr.pbint( g, d );
 
 
-        // Paint the lines
-        if (lineStyle == HORIZ_LINE_STYLE && !largeModel) {
-            paintHorizontalSeparators(g,c);
+        // Pbint tif linfs
+        if (linfStylf == HORIZ_LINE_STYLE && !lbrgfModfl) {
+            pbintHorizontblSfpbrbtors(g,d);
         }
     }
 
     /**
-     * Paints the horizontal separators.
+     * Pbints tif iorizontbl sfpbrbtors.
      *
-     * @param g an instance of {@code Graphics}
-     * @param c a component
+     * @pbrbm g bn instbndf of {@dodf Grbpiids}
+     * @pbrbm d b domponfnt
      */
-    protected void paintHorizontalSeparators(Graphics g, JComponent c) {
-        g.setColor( lineColor );
+    protfdtfd void pbintHorizontblSfpbrbtors(Grbpiids g, JComponfnt d) {
+        g.sftColor( linfColor );
 
-        Rectangle clipBounds = g.getClipBounds();
+        Rfdtbnglf dlipBounds = g.gftClipBounds();
 
-        int beginRow = getRowForPath(tree, getClosestPathForLocation
-                                     (tree, 0, clipBounds.y));
-        int endRow = getRowForPath(tree, getClosestPathForLocation
-                             (tree, 0, clipBounds.y + clipBounds.height - 1));
+        int bfginRow = gftRowForPbti(trff, gftClosfstPbtiForLodbtion
+                                     (trff, 0, dlipBounds.y));
+        int fndRow = gftRowForPbti(trff, gftClosfstPbtiForLodbtion
+                             (trff, 0, dlipBounds.y + dlipBounds.ifigit - 1));
 
-        if ( beginRow <= -1 || endRow <= -1 ) {
-            return;
+        if ( bfginRow <= -1 || fndRow <= -1 ) {
+            rfturn;
         }
 
-        for ( int i = beginRow; i <= endRow; ++i ) {
-            TreePath        path = getPathForRow(tree, i);
+        for ( int i = bfginRow; i <= fndRow; ++i ) {
+            TrffPbti        pbti = gftPbtiForRow(trff, i);
 
-            if(path != null && path.getPathCount() == 2) {
-                Rectangle       rowBounds = getPathBounds(tree,getPathForRow
-                                                          (tree, i));
+            if(pbti != null && pbti.gftPbtiCount() == 2) {
+                Rfdtbnglf       rowBounds = gftPbtiBounds(trff,gftPbtiForRow
+                                                          (trff, i));
 
-                // Draw a line at the top
+                // Drbw b linf bt tif top
                 if(rowBounds != null)
-                    g.drawLine(clipBounds.x, rowBounds.y,
-                               clipBounds.x + clipBounds.width, rowBounds.y);
+                    g.drbwLinf(dlipBounds.x, rowBounds.y,
+                               dlipBounds.x + dlipBounds.widti, rowBounds.y);
             }
         }
 
     }
 
-    protected void paintVerticalPartOfLeg(Graphics g, Rectangle clipBounds,
-                                          Insets insets, TreePath path) {
-        if (lineStyle == LEG_LINE_STYLE) {
-            super.paintVerticalPartOfLeg(g, clipBounds, insets, path);
+    protfdtfd void pbintVfrtidblPbrtOfLfg(Grbpiids g, Rfdtbnglf dlipBounds,
+                                          Insfts insfts, TrffPbti pbti) {
+        if (linfStylf == LEG_LINE_STYLE) {
+            supfr.pbintVfrtidblPbrtOfLfg(g, dlipBounds, insfts, pbti);
         }
     }
 
-    protected void paintHorizontalPartOfLeg(Graphics g, Rectangle clipBounds,
-                                            Insets insets, Rectangle bounds,
-                                            TreePath path, int row,
-                                            boolean isExpanded,
-                                            boolean hasBeenExpanded, boolean
-                                            isLeaf) {
-        if (lineStyle == LEG_LINE_STYLE) {
-            super.paintHorizontalPartOfLeg(g, clipBounds, insets, bounds,
-                                           path, row, isExpanded,
-                                           hasBeenExpanded, isLeaf);
+    protfdtfd void pbintHorizontblPbrtOfLfg(Grbpiids g, Rfdtbnglf dlipBounds,
+                                            Insfts insfts, Rfdtbnglf bounds,
+                                            TrffPbti pbti, int row,
+                                            boolfbn isExpbndfd,
+                                            boolfbn ibsBffnExpbndfd, boolfbn
+                                            isLfbf) {
+        if (linfStylf == LEG_LINE_STYLE) {
+            supfr.pbintHorizontblPbrtOfLfg(g, dlipBounds, insfts, bounds,
+                                           pbti, row, isExpbndfd,
+                                           ibsBffnExpbndfd, isLfbf);
         }
     }
 
-    /** This class listens for changes in line style */
-    class LineListener implements PropertyChangeListener {
-        public void propertyChange(PropertyChangeEvent e) {
-            String name = e.getPropertyName();
-            if ( name.equals( LINE_STYLE ) ) {
-                decodeLineStyle(e.getNewValue());
+    /** Tiis dlbss listfns for dibngfs in linf stylf */
+    dlbss LinfListfnfr implfmfnts PropfrtyCibngfListfnfr {
+        publid void propfrtyCibngf(PropfrtyCibngfEvfnt f) {
+            String nbmf = f.gftPropfrtyNbmf();
+            if ( nbmf.fqubls( LINE_STYLE ) ) {
+                dfdodfLinfStylf(f.gftNfwVbluf());
             }
         }
-    } // end class PaletteListener
+    } // fnd dlbss PblfttfListfnfr
 
 }

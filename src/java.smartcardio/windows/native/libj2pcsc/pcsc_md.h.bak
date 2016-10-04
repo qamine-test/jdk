@@ -1,58 +1,58 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#define CALL_SCardEstablishContext(dwScope, pvReserved1, pvReserved2, phContext) \
-    (SCardEstablishContext(dwScope, pvReserved1, pvReserved2, phContext))
+#dffinf CALL_SCbrdEstbblisiContfxt(dwSdopf, pvRfsfrvfd1, pvRfsfrvfd2, piContfxt) \
+    (SCbrdEstbblisiContfxt(dwSdopf, pvRfsfrvfd1, pvRfsfrvfd2, piContfxt))
 
-#define CALL_SCardConnect(hContext, szReader, dwSharedMode, dwPreferredProtocols, phCard, pdwActiveProtocols) \
-    (SCardConnect(hContext, szReader, dwSharedMode, dwPreferredProtocols, phCard, pdwActiveProtocols))
+#dffinf CALL_SCbrdConnfdt(iContfxt, szRfbdfr, dwSibrfdModf, dwPrfffrrfdProtodols, piCbrd, pdwAdtivfProtodols) \
+    (SCbrdConnfdt(iContfxt, szRfbdfr, dwSibrfdModf, dwPrfffrrfdProtodols, piCbrd, pdwAdtivfProtodols))
 
-#define CALL_SCardDisconnect(hCard, dwDisposition) \
-    (SCardDisconnect(hCard, dwDisposition))
+#dffinf CALL_SCbrdDisdonnfdt(iCbrd, dwDisposition) \
+    (SCbrdDisdonnfdt(iCbrd, dwDisposition))
 
-#define CALL_SCardStatus(hCard, mszReaderNames, pcchReaderLen, pdwState, pdwProtocol, pbAtr, pcbAtrLen) \
-    (SCardStatus(hCard, mszReaderNames, pcchReaderLen, pdwState, pdwProtocol, pbAtr, pcbAtrLen))
+#dffinf CALL_SCbrdStbtus(iCbrd, mszRfbdfrNbmfs, pddiRfbdfrLfn, pdwStbtf, pdwProtodol, pbAtr, pdbAtrLfn) \
+    (SCbrdStbtus(iCbrd, mszRfbdfrNbmfs, pddiRfbdfrLfn, pdwStbtf, pdwProtodol, pbAtr, pdbAtrLfn))
 
-#define CALL_SCardGetStatusChange(hContext, dwTimeout, rgReaderStates, cReaders) \
-    (SCardGetStatusChange(hContext, dwTimeout, rgReaderStates, cReaders))
+#dffinf CALL_SCbrdGftStbtusCibngf(iContfxt, dwTimfout, rgRfbdfrStbtfs, dRfbdfrs) \
+    (SCbrdGftStbtusCibngf(iContfxt, dwTimfout, rgRfbdfrStbtfs, dRfbdfrs))
 
-#define CALL_SCardTransmit(hCard, pioSendPci, pbSendBuffer, cbSendLength, \
-                            pioRecvPci, pbRecvBuffer, pcbRecvLength) \
-    (SCardTransmit(hCard, pioSendPci, pbSendBuffer, cbSendLength, \
-                            pioRecvPci, pbRecvBuffer, pcbRecvLength))
+#dffinf CALL_SCbrdTrbnsmit(iCbrd, pioSfndPdi, pbSfndBufffr, dbSfndLfngti, \
+                            pioRfdvPdi, pbRfdvBufffr, pdbRfdvLfngti) \
+    (SCbrdTrbnsmit(iCbrd, pioSfndPdi, pbSfndBufffr, dbSfndLfngti, \
+                            pioRfdvPdi, pbRfdvBufffr, pdbRfdvLfngti))
 
-#define CALL_SCardListReaders(hContext, mszGroups, mszReaders, pcchReaders) \
-    (SCardListReaders(hContext, mszGroups, mszReaders, pcchReaders))
+#dffinf CALL_SCbrdListRfbdfrs(iContfxt, mszGroups, mszRfbdfrs, pddiRfbdfrs) \
+    (SCbrdListRfbdfrs(iContfxt, mszGroups, mszRfbdfrs, pddiRfbdfrs))
 
-#define CALL_SCardBeginTransaction(hCard) \
-    (SCardBeginTransaction(hCard))
+#dffinf CALL_SCbrdBfginTrbnsbdtion(iCbrd) \
+    (SCbrdBfginTrbnsbdtion(iCbrd))
 
-#define CALL_SCardEndTransaction(hCard, dwDisposition) \
-    (SCardEndTransaction(hCard, dwDisposition))
+#dffinf CALL_SCbrdEndTrbnsbdtion(iCbrd, dwDisposition) \
+    (SCbrdEndTrbnsbdtion(iCbrd, dwDisposition))
 
-#define CALL_SCardControl(hCard, dwControlCode, lpInBuffer, nInBufferSize, \
-        lpOutBuffer, nOutBufferSize, lpBytesReturns) \
-    (SCardControl(hCard, dwControlCode, lpInBuffer, nInBufferSize, \
-        lpOutBuffer, nOutBufferSize, lpBytesReturns))
+#dffinf CALL_SCbrdControl(iCbrd, dwControlCodf, lpInBufffr, nInBufffrSizf, \
+        lpOutBufffr, nOutBufffrSizf, lpBytfsRfturns) \
+    (SCbrdControl(iCbrd, dwControlCodf, lpInBufffr, nInBufffrSizf, \
+        lpOutBufffr, nOutBufffrSizf, lpBytfsRfturns))

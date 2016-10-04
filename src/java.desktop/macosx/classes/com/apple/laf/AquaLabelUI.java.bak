@@ -1,104 +1,104 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.apple.laf;
+pbdkbgf dom.bpplf.lbf;
 
-import java.awt.*;
+import jbvb.bwt.*;
 
-import javax.swing.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsid.*;
 
-import sun.swing.SwingUtilities2;
+import sun.swing.SwingUtilitifs2;
 
-import com.apple.laf.AquaUtils.RecyclableSingleton;
-import com.apple.laf.AquaUtils.RecyclableSingletonFromDefaultConstructor;
+import dom.bpplf.lbf.AqubUtils.RfdydlbblfSinglfton;
+import dom.bpplf.lbf.AqubUtils.RfdydlbblfSinglftonFromDffbultConstrudtor;
 
-public class AquaLabelUI extends BasicLabelUI {
-    protected static final  RecyclableSingleton<AquaLabelUI> aquaLabelUI = new RecyclableSingletonFromDefaultConstructor<AquaLabelUI>(AquaLabelUI.class);
+publid dlbss AqubLbbflUI fxtfnds BbsidLbbflUI {
+    protfdtfd stbtid finbl  RfdydlbblfSinglfton<AqubLbbflUI> bqubLbbflUI = nfw RfdydlbblfSinglftonFromDffbultConstrudtor<AqubLbbflUI>(AqubLbbflUI.dlbss);
 
-    public static ComponentUI createUI(final JComponent c) {
-        return aquaLabelUI.get();
+    publid stbtid ComponfntUI drfbtfUI(finbl JComponfnt d) {
+        rfturn bqubLbbflUI.gft();
     }
 
-    protected void installListeners(final JLabel c) {
-        super.installListeners(c);
-        AquaUtilControlSize.addSizePropertyListener(c);
+    protfdtfd void instbllListfnfrs(finbl JLbbfl d) {
+        supfr.instbllListfnfrs(d);
+        AqubUtilControlSizf.bddSizfPropfrtyListfnfr(d);
     }
 
-    protected void uninstallListeners(final JLabel c) {
-        AquaUtilControlSize.removeSizePropertyListener(c);
-        super.uninstallListeners(c);
+    protfdtfd void uninstbllListfnfrs(finbl JLbbfl d) {
+        AqubUtilControlSizf.rfmovfSizfPropfrtyListfnfr(d);
+        supfr.uninstbllListfnfrs(d);
     }
 
-    protected void paintEnabledText(final JLabel l, final Graphics g, final String s, final int textX, final int textY) {
-        int mnemIndex = l.getDisplayedMnemonicIndex();
-        if (AquaMnemonicHandler.isMnemonicHidden()) {
-            mnemIndex = -1;
+    protfdtfd void pbintEnbblfdTfxt(finbl JLbbfl l, finbl Grbpiids g, finbl String s, finbl int tfxtX, finbl int tfxtY) {
+        int mnfmIndfx = l.gftDisplbyfdMnfmonidIndfx();
+        if (AqubMnfmonidHbndlfr.isMnfmonidHiddfn()) {
+            mnfmIndfx = -1;
         }
 
-        g.setColor(l.getForeground());
-        SwingUtilities2.drawStringUnderlineCharAt(l, g, s, mnemIndex, textX, textY);
+        g.sftColor(l.gftForfground());
+        SwingUtilitifs2.drbwStringUndfrlinfCibrAt(l, g, s, mnfmIndfx, tfxtX, tfxtY);
     }
 
     /**
-     * Paint clippedText at textX, textY with background.lighter() and then
-     * shifted down and to the right by one pixel with background.darker().
+     * Pbint dlippfdTfxt bt tfxtX, tfxtY witi bbdkground.ligitfr() bnd tifn
+     * siiftfd down bnd to tif rigit by onf pixfl witi bbdkground.dbrkfr().
      *
-     * @see #paint
-     * @see #paintEnabledText
+     * @sff #pbint
+     * @sff #pbintEnbblfdTfxt
      */
-    protected void paintDisabledText(final JLabel l, final Graphics g, final String s, final int textX, final int textY) {
-        int accChar = l.getDisplayedMnemonicIndex();
-        if (AquaMnemonicHandler.isMnemonicHidden()) {
-            accChar = -1;
+    protfdtfd void pbintDisbblfdTfxt(finbl JLbbfl l, finbl Grbpiids g, finbl String s, finbl int tfxtX, finbl int tfxtY) {
+        int bddCibr = l.gftDisplbyfdMnfmonidIndfx();
+        if (AqubMnfmonidHbndlfr.isMnfmonidHiddfn()) {
+            bddCibr = -1;
         }
 
-        final Color background = l.getBackground();
+        finbl Color bbdkground = l.gftBbdkground();
 
-        // if our background is still something we set then we can use our happy background color.
-        if (background instanceof UIResource) {
-            g.setColor(getDisabledLabelColor(l));
-            SwingUtilities2.drawStringUnderlineCharAt(l, g, s, accChar, textX, textY);
-        } else {
-            super.paintDisabledText(l, g, s, textX, textY);
+        // if our bbdkground is still somftiing wf sft tifn wf dbn usf our ibppy bbdkground dolor.
+        if (bbdkground instbndfof UIRfsourdf) {
+            g.sftColor(gftDisbblfdLbbflColor(l));
+            SwingUtilitifs2.drbwStringUndfrlinfCibrAt(l, g, s, bddCibr, tfxtX, tfxtY);
+        } flsf {
+            supfr.pbintDisbblfdTfxt(l, g, s, tfxtX, tfxtY);
         }
     }
 
-    static final String DISABLED_COLOR_KEY = "Label.disabledForegroundColor";
-    protected Color getDisabledLabelColor(final JLabel label) {
-        final Color fg = label.getForeground();
+    stbtid finbl String DISABLED_COLOR_KEY = "Lbbfl.disbblfdForfgroundColor";
+    protfdtfd Color gftDisbblfdLbbflColor(finbl JLbbfl lbbfl) {
+        finbl Color fg = lbbfl.gftForfground();
 
-        final Object colorProperty = label.getClientProperty(DISABLED_COLOR_KEY);
-        if (colorProperty instanceof Color) {
-            final Color disabledColor = (Color)colorProperty;
-            if ((fg.getRGB() << 8) == (disabledColor.getRGB() << 8)) return disabledColor;
+        finbl Objfdt dolorPropfrty = lbbfl.gftClifntPropfrty(DISABLED_COLOR_KEY);
+        if (dolorPropfrty instbndfof Color) {
+            finbl Color disbblfdColor = (Color)dolorPropfrty;
+            if ((fg.gftRGB() << 8) == (disbblfdColor.gftRGB() << 8)) rfturn disbblfdColor;
         }
 
-        final Color newDisabledColor = new Color(fg.getRed(), fg.getGreen(), fg.getBlue(), fg.getAlpha() / 2);
-        label.putClientProperty(DISABLED_COLOR_KEY, newDisabledColor);
-        return newDisabledColor;
+        finbl Color nfwDisbblfdColor = nfw Color(fg.gftRfd(), fg.gftGrffn(), fg.gftBluf(), fg.gftAlpib() / 2);
+        lbbfl.putClifntPropfrty(DISABLED_COLOR_KEY, nfwDisbblfdColor);
+        rfturn nfwDisbblfdColor;
     }
 }

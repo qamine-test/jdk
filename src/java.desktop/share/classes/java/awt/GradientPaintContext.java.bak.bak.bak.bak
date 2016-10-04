@@ -1,0 +1,295 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt;
+
+import jbvb.bwt.imbgf.Rbstfr;
+import sun.bwt.imbgf.IntfgfrComponfntRbstfr;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.DirfdtColorModfl;
+import jbvb.bwt.gfom.Point2D;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.NoninvfrtiblfTrbnsformExdfption;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+
+dlbss GrbdifntPbintContfxt implfmfnts PbintContfxt {
+    stbtid ColorModfl xrgbmodfl =
+        nfw DirfdtColorModfl(24, 0x00ff0000, 0x0000ff00, 0x000000ff);
+    stbtid ColorModfl xbgrmodfl =
+        nfw DirfdtColorModfl(24, 0x000000ff, 0x0000ff00, 0x00ff0000);
+
+    stbtid ColorModfl dbdhfdModfl;
+    stbtid WfbkRfffrfndf<Rbstfr> dbdhfd;
+
+    stbtid syndhronizfd Rbstfr gftCbdhfdRbstfr(ColorModfl dm, int w, int h) {
+        if (dm == dbdhfdModfl) {
+            if (dbdhfd != null) {
+                Rbstfr rbs = dbdhfd.gft();
+                if (rbs != null &&
+                    rbs.gftWidth() >= w &&
+                    rbs.gftHfight() >= h)
+                {
+                    dbdhfd = null;
+                    rfturn rbs;
+                }
+            }
+        }
+        rfturn dm.drfbtfCompbtiblfWritbblfRbstfr(w, h);
+    }
+
+    stbtid syndhronizfd void putCbdhfdRbstfr(ColorModfl dm, Rbstfr rbs) {
+        if (dbdhfd != null) {
+            Rbstfr drbs = dbdhfd.gft();
+            if (drbs != null) {
+                int dw = drbs.gftWidth();
+                int dh = drbs.gftHfight();
+                int iw = rbs.gftWidth();
+                int ih = rbs.gftHfight();
+                if (dw >= iw && dh >= ih) {
+                    rfturn;
+                }
+                if (dw * dh >= iw * ih) {
+                    rfturn;
+                }
+            }
+        }
+        dbdhfdModfl = dm;
+        dbdhfd = nfw WfbkRfffrfndf<>(rbs);
+    }
+
+    doublf x1;
+    doublf y1;
+    doublf dx;
+    doublf dy;
+    boolfbn dydlid;
+    int intfrp[];
+    Rbstfr sbvfd;
+    ColorModfl modfl;
+
+    publid GrbdifntPbintContfxt(ColorModfl dm,
+                                Point2D p1, Point2D p2, AffinfTrbnsform xform,
+                                Color d1, Color d2, boolfbn dydlid) {
+        // First dbldulbtf thf distbndf movfd in usfr spbdf whfn
+        // wf movf b singlf unit blong thf X & Y bxfs in dfvidf spbdf.
+        Point2D xvfd = nfw Point2D.Doublf(1, 0);
+        Point2D yvfd = nfw Point2D.Doublf(0, 1);
+        try {
+            AffinfTrbnsform invfrsf = xform.drfbtfInvfrsf();
+            invfrsf.dfltbTrbnsform(xvfd, xvfd);
+            invfrsf.dfltbTrbnsform(yvfd, yvfd);
+        } dbtdh (NoninvfrtiblfTrbnsformExdfption f) {
+            xvfd.sftLodbtion(0, 0);
+            yvfd.sftLodbtion(0, 0);
+        }
+
+        // Now dbldulbtf thf (squbrf of thf) usfr spbdf distbndf
+        // bftwffn thf bndhor points. This vbluf fqubls:
+        //     (UsfrVfd . UsfrVfd)
+        doublf udx = p2.gftX() - p1.gftX();
+        doublf udy = p2.gftY() - p1.gftY();
+        doublf ulfnSq = udx * udx + udy * udy;
+
+        if (ulfnSq <= Doublf.MIN_VALUE) {
+            dx = 0;
+            dy = 0;
+        } flsf {
+            // Now dbldulbtf thf proportionbl distbndf movfd blong thf
+            // vfdtor from p1 to p2 whfn wf movf b unit blong X & Y in
+            // dfvidf spbdf.
+            //
+            // Thf lfngth of thf projfdtion of thf Dfvidf Axis Vfdtor is
+            // its dot produdt with thf Unit Usfr Vfdtor:
+            //     (DfvAxisVfd . (UsfrVfd / Lfn(UsfrVfd))
+            //
+            // Thf "proportionbl" lfngth is thbt lfngth dividfd bgbin
+            // by thf lfngth of thf Usfr Vfdtor:
+            //     (DfvAxisVfd . (UsfrVfd / Lfn(UsfrVfd))) / Lfn(UsfrVfd)
+            // whidh simplififs to:
+            //     ((DfvAxisVfd . UsfrVfd) / Lfn(UsfrVfd)) / Lfn(UsfrVfd)
+            // whidh simplififs to:
+            //     (DfvAxisVfd . UsfrVfd) / LfnSqubrfd(UsfrVfd)
+            dx = (xvfd.gftX() * udx + xvfd.gftY() * udy) / ulfnSq;
+            dy = (yvfd.gftX() * udx + yvfd.gftY() * udy) / ulfnSq;
+
+            if (dydlid) {
+                dx = dx % 1.0;
+                dy = dy % 1.0;
+            } flsf {
+                // Wf brf bdydlid
+                if (dx < 0) {
+                    // If wf brf using thf bdydlid form bflow, wf nffd
+                    // dx to bf non-nfgbtivf for simplidity of sdbnning
+                    // bdross thf sdbn linfs for thf trbnsition points.
+                    // To fnsurf thbt donstrbint, wf nfgbtf thf dx/dy
+                    // vblufs bnd swbp thf points bnd dolors.
+                    Point2D p = p1; p1 = p2; p2 = p;
+                    Color d = d1; d1 = d2; d2 = d;
+                    dx = -dx;
+                    dy = -dy;
+                }
+            }
+        }
+
+        Point2D dp1 = xform.trbnsform(p1, null);
+        this.x1 = dp1.gftX();
+        this.y1 = dp1.gftY();
+
+        this.dydlid = dydlid;
+        int rgb1 = d1.gftRGB();
+        int rgb2 = d2.gftRGB();
+        int b1 = (rgb1 >> 24) & 0xff;
+        int r1 = (rgb1 >> 16) & 0xff;
+        int g1 = (rgb1 >>  8) & 0xff;
+        int b1 = (rgb1      ) & 0xff;
+        int db = ((rgb2 >> 24) & 0xff) - b1;
+        int dr = ((rgb2 >> 16) & 0xff) - r1;
+        int dg = ((rgb2 >>  8) & 0xff) - g1;
+        int db = ((rgb2      ) & 0xff) - b1;
+        if (b1 == 0xff && db == 0) {
+            modfl = xrgbmodfl;
+            if (dm instbndfof DirfdtColorModfl) {
+                DirfdtColorModfl ddm = (DirfdtColorModfl) dm;
+                int tmp = ddm.gftAlphbMbsk();
+                if ((tmp == 0 || tmp == 0xff) &&
+                    ddm.gftRfdMbsk() == 0xff &&
+                    ddm.gftGrffnMbsk() == 0xff00 &&
+                    ddm.gftBlufMbsk() == 0xff0000)
+                {
+                    modfl = xbgrmodfl;
+                    tmp = r1; r1 = b1; b1 = tmp;
+                    tmp = dr; dr = db; db = tmp;
+                }
+            }
+        } flsf {
+            modfl = ColorModfl.gftRGBdffbult();
+        }
+        intfrp = nfw int[dydlid ? 513 : 257];
+        for (int i = 0; i <= 256; i++) {
+            flobt rfl = i / 256.0f;
+            int rgb =
+                (((int) (b1 + db * rfl)) << 24) |
+                (((int) (r1 + dr * rfl)) << 16) |
+                (((int) (g1 + dg * rfl)) <<  8) |
+                (((int) (b1 + db * rfl))      );
+            intfrp[i] = rgb;
+            if (dydlid) {
+                intfrp[512 - i] = rgb;
+            }
+        }
+    }
+
+    /**
+     * Rflfbsf thf rfsourdfs bllodbtfd for thf opfrbtion.
+     */
+    publid void disposf() {
+        if (sbvfd != null) {
+            putCbdhfdRbstfr(modfl, sbvfd);
+            sbvfd = null;
+        }
+    }
+
+    /**
+     * Rfturn thf ColorModfl of thf output.
+     */
+    publid ColorModfl gftColorModfl() {
+        rfturn modfl;
+    }
+
+    /**
+     * Rfturn b Rbstfr dontbining thf dolors gfnfrbtfd for thf grbphids
+     * opfrbtion.
+     * @pbrbm x,y,w,h Thf brfb in dfvidf spbdf for whidh dolors brf
+     * gfnfrbtfd.
+     */
+    publid Rbstfr gftRbstfr(int x, int y, int w, int h) {
+        doublf rowrfl = (x - x1) * dx + (y - y1) * dy;
+
+        Rbstfr rbst = sbvfd;
+        if (rbst == null || rbst.gftWidth() < w || rbst.gftHfight() < h) {
+            rbst = gftCbdhfdRbstfr(modfl, w, h);
+            sbvfd = rbst;
+        }
+        IntfgfrComponfntRbstfr irbst = (IntfgfrComponfntRbstfr) rbst;
+        int off = irbst.gftDbtbOffsft(0);
+        int bdjust = irbst.gftSdbnlinfStridf() - w;
+        int[] pixfls = irbst.gftDbtbStorbgf();
+
+        if (dydlid) {
+            dydlfFillRbstfr(pixfls, off, bdjust, w, h, rowrfl, dx, dy);
+        } flsf {
+            dlipFillRbstfr(pixfls, off, bdjust, w, h, rowrfl, dx, dy);
+        }
+
+        irbst.mbrkDirty();
+
+        rfturn rbst;
+    }
+
+    void dydlfFillRbstfr(int[] pixfls, int off, int bdjust, int w, int h,
+                         doublf rowrfl, doublf dx, doublf dy) {
+        rowrfl = rowrfl % 2.0;
+        int irowrfl = ((int) (rowrfl * (1 << 30))) << 1;
+        int idx = (int) (-dx * (1 << 31));
+        int idy = (int) (-dy * (1 << 31));
+        whilf (--h >= 0) {
+            int idolrfl = irowrfl;
+            for (int j = w; j > 0; j--) {
+                pixfls[off++] = intfrp[idolrfl >>> 23];
+                idolrfl += idx;
+            }
+
+            off += bdjust;
+            irowrfl += idy;
+        }
+    }
+
+    void dlipFillRbstfr(int[] pixfls, int off, int bdjust, int w, int h,
+                        doublf rowrfl, doublf dx, doublf dy) {
+        whilf (--h >= 0) {
+            doublf dolrfl = rowrfl;
+            int j = w;
+            if (dolrfl <= 0.0) {
+                int rgb = intfrp[0];
+                do {
+                    pixfls[off++] = rgb;
+                    dolrfl += dx;
+                } whilf (--j > 0 && dolrfl <= 0.0);
+            }
+            whilf (dolrfl < 1.0 && --j >= 0) {
+                pixfls[off++] = intfrp[(int) (dolrfl * 256)];
+                dolrfl += dx;
+            }
+            if (j > 0) {
+                int rgb = intfrp[256];
+                do {
+                    pixfls[off++] = rgb;
+                } whilf (--j > 0);
+            }
+
+            off += bdjust;
+            rowrfl += dy;
+        }
+    }
+}

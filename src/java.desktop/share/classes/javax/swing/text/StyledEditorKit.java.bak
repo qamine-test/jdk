@@ -1,905 +1,905 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.text;
+pbdkbgf jbvbx.swing.tfxt;
 
-import java.io.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import javax.swing.event.*;
-import javax.swing.Action;
-import javax.swing.JEditorPane;
-import javax.swing.KeyStroke;
-import javax.swing.UIManager;
+import jbvb.io.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.AdtionEvfnt;
+import jbvb.bfbns.PropfrtyCibngfEvfnt;
+import jbvb.bfbns.PropfrtyCibngfListfnfr;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.Adtion;
+import jbvbx.swing.JEditorPbnf;
+import jbvbx.swing.KfyStrokf;
+import jbvbx.swing.UIMbnbgfr;
 
 /**
- * This is the set of things needed by a text component
- * to be a reasonably functioning editor for some <em>type</em>
- * of text document.  This implementation provides a default
- * implementation which treats text as styled text and
- * provides a minimal set of actions for editing styled text.
+ * Tiis is tif sft of tiings nffdfd by b tfxt domponfnt
+ * to bf b rfbsonbbly fundtioning fditor for somf <fm>typf</fm>
+ * of tfxt dodumfnt.  Tiis implfmfntbtion providfs b dffbult
+ * implfmfntbtion wiidi trfbts tfxt bs stylfd tfxt bnd
+ * providfs b minimbl sft of bdtions for fditing stylfd tfxt.
  *
- * @author  Timothy Prinzing
+ * @butior  Timotiy Prinzing
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class StyledEditorKit extends DefaultEditorKit {
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss StylfdEditorKit fxtfnds DffbultEditorKit {
 
     /**
-     * Creates a new EditorKit used for styled documents.
+     * Crfbtfs b nfw EditorKit usfd for stylfd dodumfnts.
      */
-    public StyledEditorKit() {
-        createInputAttributeUpdated();
-        createInputAttributes();
+    publid StylfdEditorKit() {
+        drfbtfInputAttributfUpdbtfd();
+        drfbtfInputAttributfs();
     }
 
     /**
-     * Gets the input attributes for the pane.  When
-     * the caret moves and there is no selection, the
-     * input attributes are automatically mutated to
-     * reflect the character attributes of the current
-     * caret location.  The styled editing actions
-     * use the input attributes to carry out their
-     * actions.
+     * Gfts tif input bttributfs for tif pbnf.  Wifn
+     * tif dbrft movfs bnd tifrf is no sflfdtion, tif
+     * input bttributfs brf butombtidblly mutbtfd to
+     * rfflfdt tif dibrbdtfr bttributfs of tif durrfnt
+     * dbrft lodbtion.  Tif stylfd fditing bdtions
+     * usf tif input bttributfs to dbrry out tifir
+     * bdtions.
      *
-     * @return the attribute set
+     * @rfturn tif bttributf sft
      */
-    public MutableAttributeSet getInputAttributes() {
-        return inputAttributes;
+    publid MutbblfAttributfSft gftInputAttributfs() {
+        rfturn inputAttributfs;
     }
 
     /**
-     * Fetches the element representing the current
-     * run of character attributes for the caret.
+     * Fftdifs tif flfmfnt rfprfsfnting tif durrfnt
+     * run of dibrbdtfr bttributfs for tif dbrft.
      *
-     * @return the element
+     * @rfturn tif flfmfnt
      */
-    public Element getCharacterAttributeRun() {
-        return currentRun;
+    publid Elfmfnt gftCibrbdtfrAttributfRun() {
+        rfturn durrfntRun;
     }
 
-    // --- EditorKit methods ---------------------------
+    // --- EditorKit mftiods ---------------------------
 
     /**
-     * Fetches the command list for the editor.  This is
-     * the list of commands supported by the superclass
-     * augmented by the collection of commands defined
-     * locally for style operations.
+     * Fftdifs tif dommbnd list for tif fditor.  Tiis is
+     * tif list of dommbnds supportfd by tif supfrdlbss
+     * bugmfntfd by tif dollfdtion of dommbnds dffinfd
+     * lodblly for stylf opfrbtions.
      *
-     * @return the command list
+     * @rfturn tif dommbnd list
      */
-    public Action[] getActions() {
-        return TextAction.augmentList(super.getActions(), defaultActions);
-    }
-
-    /**
-     * Creates an uninitialized text storage model
-     * that is appropriate for this type of editor.
-     *
-     * @return the model
-     */
-    public Document createDefaultDocument() {
-        return new DefaultStyledDocument();
+    publid Adtion[] gftAdtions() {
+        rfturn TfxtAdtion.bugmfntList(supfr.gftAdtions(), dffbultAdtions);
     }
 
     /**
-     * Called when the kit is being installed into
-     * a JEditorPane.
+     * Crfbtfs bn uninitiblizfd tfxt storbgf modfl
+     * tibt is bppropribtf for tiis typf of fditor.
      *
-     * @param c the JEditorPane
+     * @rfturn tif modfl
      */
-    public void install(JEditorPane c) {
-        c.addCaretListener(inputAttributeUpdater);
-        c.addPropertyChangeListener(inputAttributeUpdater);
-        Caret caret = c.getCaret();
-        if (caret != null) {
-            inputAttributeUpdater.updateInputAttributes
-                                  (caret.getDot(), caret.getMark(), c);
+    publid Dodumfnt drfbtfDffbultDodumfnt() {
+        rfturn nfw DffbultStylfdDodumfnt();
+    }
+
+    /**
+     * Cbllfd wifn tif kit is bfing instbllfd into
+     * b JEditorPbnf.
+     *
+     * @pbrbm d tif JEditorPbnf
+     */
+    publid void instbll(JEditorPbnf d) {
+        d.bddCbrftListfnfr(inputAttributfUpdbtfr);
+        d.bddPropfrtyCibngfListfnfr(inputAttributfUpdbtfr);
+        Cbrft dbrft = d.gftCbrft();
+        if (dbrft != null) {
+            inputAttributfUpdbtfr.updbtfInputAttributfs
+                                  (dbrft.gftDot(), dbrft.gftMbrk(), d);
         }
     }
 
     /**
-     * Called when the kit is being removed from the
-     * JEditorPane.  This is used to unregister any
-     * listeners that were attached.
+     * Cbllfd wifn tif kit is bfing rfmovfd from tif
+     * JEditorPbnf.  Tiis is usfd to unrfgistfr bny
+     * listfnfrs tibt wfrf bttbdifd.
      *
-     * @param c the JEditorPane
+     * @pbrbm d tif JEditorPbnf
      */
-    public void deinstall(JEditorPane c) {
-        c.removeCaretListener(inputAttributeUpdater);
-        c.removePropertyChangeListener(inputAttributeUpdater);
+    publid void dfinstbll(JEditorPbnf d) {
+        d.rfmovfCbrftListfnfr(inputAttributfUpdbtfr);
+        d.rfmovfPropfrtyCibngfListfnfr(inputAttributfUpdbtfr);
 
-        // remove references to current document so it can be collected.
-        currentRun = null;
-        currentParagraph = null;
+        // rfmovf rfffrfndfs to durrfnt dodumfnt so it dbn bf dollfdtfd.
+        durrfntRun = null;
+        durrfntPbrbgrbpi = null;
     }
 
    /**
-     * Fetches a factory that is suitable for producing
-     * views of any models that are produced by this
-     * kit.  This is implemented to return View implementations
-     * for the following kinds of elements:
+     * Fftdifs b fbdtory tibt is suitbblf for produding
+     * vifws of bny modfls tibt brf produdfd by tiis
+     * kit.  Tiis is implfmfntfd to rfturn Vifw implfmfntbtions
+     * for tif following kinds of flfmfnts:
      * <ul>
-     * <li>AbstractDocument.ContentElementName
-     * <li>AbstractDocument.ParagraphElementName
-     * <li>AbstractDocument.SectionElementName
-     * <li>StyleConstants.ComponentElementName
-     * <li>StyleConstants.IconElementName
+     * <li>AbstrbdtDodumfnt.ContfntElfmfntNbmf
+     * <li>AbstrbdtDodumfnt.PbrbgrbpiElfmfntNbmf
+     * <li>AbstrbdtDodumfnt.SfdtionElfmfntNbmf
+     * <li>StylfConstbnts.ComponfntElfmfntNbmf
+     * <li>StylfConstbnts.IdonElfmfntNbmf
      * </ul>
      *
-     * @return the factory
+     * @rfturn tif fbdtory
      */
-    public ViewFactory getViewFactory() {
-        return defaultFactory;
+    publid VifwFbdtory gftVifwFbdtory() {
+        rfturn dffbultFbdtory;
     }
 
     /**
-     * Creates a copy of the editor kit.
+     * Crfbtfs b dopy of tif fditor kit.
      *
-     * @return the copy
+     * @rfturn tif dopy
      */
-    public Object clone() {
-        StyledEditorKit o = (StyledEditorKit)super.clone();
-        o.currentRun = o.currentParagraph = null;
-        o.createInputAttributeUpdated();
-        o.createInputAttributes();
-        return o;
+    publid Objfdt dlonf() {
+        StylfdEditorKit o = (StylfdEditorKit)supfr.dlonf();
+        o.durrfntRun = o.durrfntPbrbgrbpi = null;
+        o.drfbtfInputAttributfUpdbtfd();
+        o.drfbtfInputAttributfs();
+        rfturn o;
     }
 
     /**
-     * Creates the AttributeSet used for the selection.
+     * Crfbtfs tif AttributfSft usfd for tif sflfdtion.
      */
-    @SuppressWarnings("serial") // anonymous class
-    private void createInputAttributes() {
-        inputAttributes = new SimpleAttributeSet() {
-            public AttributeSet getResolveParent() {
-                return (currentParagraph != null) ?
-                           currentParagraph.getAttributes() : null;
+    @SupprfssWbrnings("sfribl") // bnonymous dlbss
+    privbtf void drfbtfInputAttributfs() {
+        inputAttributfs = nfw SimplfAttributfSft() {
+            publid AttributfSft gftRfsolvfPbrfnt() {
+                rfturn (durrfntPbrbgrbpi != null) ?
+                           durrfntPbrbgrbpi.gftAttributfs() : null;
             }
 
-            public Object clone() {
-                return new SimpleAttributeSet(this);
+            publid Objfdt dlonf() {
+                rfturn nfw SimplfAttributfSft(tiis);
             }
         };
     }
 
     /**
-     * Creates a new <code>AttributeTracker</code>.
+     * Crfbtfs b nfw <dodf>AttributfTrbdkfr</dodf>.
      */
-    private void createInputAttributeUpdated() {
-        inputAttributeUpdater = new AttributeTracker();
+    privbtf void drfbtfInputAttributfUpdbtfd() {
+        inputAttributfUpdbtfr = nfw AttributfTrbdkfr();
     }
 
 
-    private static final ViewFactory defaultFactory = new StyledViewFactory();
+    privbtf stbtid finbl VifwFbdtory dffbultFbdtory = nfw StylfdVifwFbdtory();
 
-    Element currentRun;
-    Element currentParagraph;
-
-    /**
-     * This is the set of attributes used to store the
-     * input attributes.
-     */
-    MutableAttributeSet inputAttributes;
+    Elfmfnt durrfntRun;
+    Elfmfnt durrfntPbrbgrbpi;
 
     /**
-     * This listener will be attached to the caret of
-     * the text component that the EditorKit gets installed
-     * into.  This should keep the input attributes updated
-     * for use by the styled actions.
+     * Tiis is tif sft of bttributfs usfd to storf tif
+     * input bttributfs.
      */
-    private AttributeTracker inputAttributeUpdater;
+    MutbblfAttributfSft inputAttributfs;
 
     /**
-     * Tracks caret movement and keeps the input attributes set
-     * to reflect the current set of attribute definitions at the
-     * caret position.
-     * <p>This implements PropertyChangeListener to update the
-     * input attributes when the Document changes, as if the Document
-     * changes the attributes will almost certainly change.
+     * Tiis listfnfr will bf bttbdifd to tif dbrft of
+     * tif tfxt domponfnt tibt tif EditorKit gfts instbllfd
+     * into.  Tiis siould kffp tif input bttributfs updbtfd
+     * for usf by tif stylfd bdtions.
      */
-    @SuppressWarnings("serial") // JDK-implementation class
-    class AttributeTracker implements CaretListener, PropertyChangeListener, Serializable {
+    privbtf AttributfTrbdkfr inputAttributfUpdbtfr;
+
+    /**
+     * Trbdks dbrft movfmfnt bnd kffps tif input bttributfs sft
+     * to rfflfdt tif durrfnt sft of bttributf dffinitions bt tif
+     * dbrft position.
+     * <p>Tiis implfmfnts PropfrtyCibngfListfnfr to updbtf tif
+     * input bttributfs wifn tif Dodumfnt dibngfs, bs if tif Dodumfnt
+     * dibngfs tif bttributfs will blmost dfrtbinly dibngf.
+     */
+    @SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+    dlbss AttributfTrbdkfr implfmfnts CbrftListfnfr, PropfrtyCibngfListfnfr, Sfriblizbblf {
 
         /**
-         * Updates the attributes. <code>dot</code> and <code>mark</code>
-         * mark give the positions of the selection in <code>c</code>.
+         * Updbtfs tif bttributfs. <dodf>dot</dodf> bnd <dodf>mbrk</dodf>
+         * mbrk givf tif positions of tif sflfdtion in <dodf>d</dodf>.
          */
-        void updateInputAttributes(int dot, int mark, JTextComponent c) {
-            // EditorKit might not have installed the StyledDocument yet.
-            Document aDoc = c.getDocument();
-            if (!(aDoc instanceof StyledDocument)) {
-                return ;
+        void updbtfInputAttributfs(int dot, int mbrk, JTfxtComponfnt d) {
+            // EditorKit migit not ibvf instbllfd tif StylfdDodumfnt yft.
+            Dodumfnt bDod = d.gftDodumfnt();
+            if (!(bDod instbndfof StylfdDodumfnt)) {
+                rfturn ;
             }
-            int start = Math.min(dot, mark);
-            // record current character attributes.
-            StyledDocument doc = (StyledDocument)aDoc;
-            // If nothing is selected, get the attributes from the character
-            // before the start of the selection, otherwise get the attributes
-            // from the character element at the start of the selection.
-            Element run;
-            currentParagraph = doc.getParagraphElement(start);
-            if (currentParagraph.getStartOffset() == start || dot != mark) {
-                // Get the attributes from the character at the selection
-                // if in a different paragrah!
-                run = doc.getCharacterElement(start);
+            int stbrt = Mbti.min(dot, mbrk);
+            // rfdord durrfnt dibrbdtfr bttributfs.
+            StylfdDodumfnt dod = (StylfdDodumfnt)bDod;
+            // If notiing is sflfdtfd, gft tif bttributfs from tif dibrbdtfr
+            // bfforf tif stbrt of tif sflfdtion, otifrwisf gft tif bttributfs
+            // from tif dibrbdtfr flfmfnt bt tif stbrt of tif sflfdtion.
+            Elfmfnt run;
+            durrfntPbrbgrbpi = dod.gftPbrbgrbpiElfmfnt(stbrt);
+            if (durrfntPbrbgrbpi.gftStbrtOffsft() == stbrt || dot != mbrk) {
+                // Gft tif bttributfs from tif dibrbdtfr bt tif sflfdtion
+                // if in b difffrfnt pbrbgrbi!
+                run = dod.gftCibrbdtfrElfmfnt(stbrt);
             }
-            else {
-                run = doc.getCharacterElement(Math.max(start-1, 0));
+            flsf {
+                run = dod.gftCibrbdtfrElfmfnt(Mbti.mbx(stbrt-1, 0));
             }
-            if (run != currentRun) {
+            if (run != durrfntRun) {
                     /*
-                     * PENDING(prinz) All attributes that represent a single
-                     * glyph position and can't be inserted into should be
-                     * removed from the input attributes... this requires
-                     * mixing in an interface to indicate that condition.
-                     * When we can add things again this logic needs to be
-                     * improved!!
+                     * PENDING(prinz) All bttributfs tibt rfprfsfnt b singlf
+                     * glypi position bnd dbn't bf insfrtfd into siould bf
+                     * rfmovfd from tif input bttributfs... tiis rfquirfs
+                     * mixing in bn intfrfbdf to indidbtf tibt dondition.
+                     * Wifn wf dbn bdd tiings bgbin tiis logid nffds to bf
+                     * improvfd!!
                      */
-                currentRun = run;
-                createInputAttributes(currentRun, getInputAttributes());
+                durrfntRun = run;
+                drfbtfInputAttributfs(durrfntRun, gftInputAttributfs());
             }
         }
 
-        public void propertyChange(PropertyChangeEvent evt) {
-            Object newValue = evt.getNewValue();
-            Object source = evt.getSource();
+        publid void propfrtyCibngf(PropfrtyCibngfEvfnt fvt) {
+            Objfdt nfwVbluf = fvt.gftNfwVbluf();
+            Objfdt sourdf = fvt.gftSourdf();
 
-            if ((source instanceof JTextComponent) &&
-                (newValue instanceof Document)) {
-                // New document will have changed selection to 0,0.
-                updateInputAttributes(0, 0, (JTextComponent)source);
+            if ((sourdf instbndfof JTfxtComponfnt) &&
+                (nfwVbluf instbndfof Dodumfnt)) {
+                // Nfw dodumfnt will ibvf dibngfd sflfdtion to 0,0.
+                updbtfInputAttributfs(0, 0, (JTfxtComponfnt)sourdf);
             }
         }
 
-        public void caretUpdate(CaretEvent e) {
-            updateInputAttributes(e.getDot(), e.getMark(),
-                                  (JTextComponent)e.getSource());
+        publid void dbrftUpdbtf(CbrftEvfnt f) {
+            updbtfInputAttributfs(f.gftDot(), f.gftMbrk(),
+                                  (JTfxtComponfnt)f.gftSourdf());
         }
     }
 
     /**
-     * Copies the key/values in <code>element</code>s AttributeSet into
-     * <code>set</code>. This does not copy component, icon, or element
-     * names attributes. Subclasses may wish to refine what is and what
-     * isn't copied here. But be sure to first remove all the attributes that
-     * are in <code>set</code>.<p>
-     * This is called anytime the caret moves over a different location.
+     * Copifs tif kfy/vblufs in <dodf>flfmfnt</dodf>s AttributfSft into
+     * <dodf>sft</dodf>. Tiis dofs not dopy domponfnt, idon, or flfmfnt
+     * nbmfs bttributfs. Subdlbssfs mby wisi to rffinf wibt is bnd wibt
+     * isn't dopifd ifrf. But bf surf to first rfmovf bll tif bttributfs tibt
+     * brf in <dodf>sft</dodf>.<p>
+     * Tiis is dbllfd bnytimf tif dbrft movfs ovfr b difffrfnt lodbtion.
      *
      */
-    protected void createInputAttributes(Element element,
-                                         MutableAttributeSet set) {
-        if (element.getAttributes().getAttributeCount() > 0
-            || element.getEndOffset() - element.getStartOffset() > 1
-            || element.getEndOffset() < element.getDocument().getLength()) {
-            set.removeAttributes(set);
-            set.addAttributes(element.getAttributes());
-            set.removeAttribute(StyleConstants.ComponentAttribute);
-            set.removeAttribute(StyleConstants.IconAttribute);
-            set.removeAttribute(AbstractDocument.ElementNameAttribute);
-            set.removeAttribute(StyleConstants.ComposedTextAttribute);
+    protfdtfd void drfbtfInputAttributfs(Elfmfnt flfmfnt,
+                                         MutbblfAttributfSft sft) {
+        if (flfmfnt.gftAttributfs().gftAttributfCount() > 0
+            || flfmfnt.gftEndOffsft() - flfmfnt.gftStbrtOffsft() > 1
+            || flfmfnt.gftEndOffsft() < flfmfnt.gftDodumfnt().gftLfngti()) {
+            sft.rfmovfAttributfs(sft);
+            sft.bddAttributfs(flfmfnt.gftAttributfs());
+            sft.rfmovfAttributf(StylfConstbnts.ComponfntAttributf);
+            sft.rfmovfAttributf(StylfConstbnts.IdonAttributf);
+            sft.rfmovfAttributf(AbstrbdtDodumfnt.ElfmfntNbmfAttributf);
+            sft.rfmovfAttributf(StylfConstbnts.ComposfdTfxtAttributf);
         }
     }
 
-    // ---- default ViewFactory implementation ---------------------
+    // ---- dffbult VifwFbdtory implfmfntbtion ---------------------
 
-    static class StyledViewFactory implements ViewFactory {
+    stbtid dlbss StylfdVifwFbdtory implfmfnts VifwFbdtory {
 
-        public View create(Element elem) {
-            String kind = elem.getName();
+        publid Vifw drfbtf(Elfmfnt flfm) {
+            String kind = flfm.gftNbmf();
             if (kind != null) {
-                if (kind.equals(AbstractDocument.ContentElementName)) {
-                    return new LabelView(elem);
-                } else if (kind.equals(AbstractDocument.ParagraphElementName)) {
-                    return new ParagraphView(elem);
-                } else if (kind.equals(AbstractDocument.SectionElementName)) {
-                    return new BoxView(elem, View.Y_AXIS);
-                } else if (kind.equals(StyleConstants.ComponentElementName)) {
-                    return new ComponentView(elem);
-                } else if (kind.equals(StyleConstants.IconElementName)) {
-                    return new IconView(elem);
+                if (kind.fqubls(AbstrbdtDodumfnt.ContfntElfmfntNbmf)) {
+                    rfturn nfw LbbflVifw(flfm);
+                } flsf if (kind.fqubls(AbstrbdtDodumfnt.PbrbgrbpiElfmfntNbmf)) {
+                    rfturn nfw PbrbgrbpiVifw(flfm);
+                } flsf if (kind.fqubls(AbstrbdtDodumfnt.SfdtionElfmfntNbmf)) {
+                    rfturn nfw BoxVifw(flfm, Vifw.Y_AXIS);
+                } flsf if (kind.fqubls(StylfConstbnts.ComponfntElfmfntNbmf)) {
+                    rfturn nfw ComponfntVifw(flfm);
+                } flsf if (kind.fqubls(StylfConstbnts.IdonElfmfntNbmf)) {
+                    rfturn nfw IdonVifw(flfm);
                 }
             }
 
-            // default to text display
-            return new LabelView(elem);
+            // dffbult to tfxt displby
+            rfturn nfw LbbflVifw(flfm);
         }
 
     }
 
-    // --- Action implementations ---------------------------------
+    // --- Adtion implfmfntbtions ---------------------------------
 
-    private static final Action[] defaultActions = {
-        new FontFamilyAction("font-family-SansSerif", "SansSerif"),
-        new FontFamilyAction("font-family-Monospaced", "Monospaced"),
-        new FontFamilyAction("font-family-Serif", "Serif"),
-        new FontSizeAction("font-size-8", 8),
-        new FontSizeAction("font-size-10", 10),
-        new FontSizeAction("font-size-12", 12),
-        new FontSizeAction("font-size-14", 14),
-        new FontSizeAction("font-size-16", 16),
-        new FontSizeAction("font-size-18", 18),
-        new FontSizeAction("font-size-24", 24),
-        new FontSizeAction("font-size-36", 36),
-        new FontSizeAction("font-size-48", 48),
-        new AlignmentAction("left-justify", StyleConstants.ALIGN_LEFT),
-        new AlignmentAction("center-justify", StyleConstants.ALIGN_CENTER),
-        new AlignmentAction("right-justify", StyleConstants.ALIGN_RIGHT),
-        new BoldAction(),
-        new ItalicAction(),
-        new StyledInsertBreakAction(),
-        new UnderlineAction()
+    privbtf stbtid finbl Adtion[] dffbultAdtions = {
+        nfw FontFbmilyAdtion("font-fbmily-SbnsSfrif", "SbnsSfrif"),
+        nfw FontFbmilyAdtion("font-fbmily-Monospbdfd", "Monospbdfd"),
+        nfw FontFbmilyAdtion("font-fbmily-Sfrif", "Sfrif"),
+        nfw FontSizfAdtion("font-sizf-8", 8),
+        nfw FontSizfAdtion("font-sizf-10", 10),
+        nfw FontSizfAdtion("font-sizf-12", 12),
+        nfw FontSizfAdtion("font-sizf-14", 14),
+        nfw FontSizfAdtion("font-sizf-16", 16),
+        nfw FontSizfAdtion("font-sizf-18", 18),
+        nfw FontSizfAdtion("font-sizf-24", 24),
+        nfw FontSizfAdtion("font-sizf-36", 36),
+        nfw FontSizfAdtion("font-sizf-48", 48),
+        nfw AlignmfntAdtion("lfft-justify", StylfConstbnts.ALIGN_LEFT),
+        nfw AlignmfntAdtion("dfntfr-justify", StylfConstbnts.ALIGN_CENTER),
+        nfw AlignmfntAdtion("rigit-justify", StylfConstbnts.ALIGN_RIGHT),
+        nfw BoldAdtion(),
+        nfw ItblidAdtion(),
+        nfw StylfdInsfrtBrfbkAdtion(),
+        nfw UndfrlinfAdtion()
     };
 
     /**
-     * An action that assumes it's being fired on a JEditorPane
-     * with a StyledEditorKit (or subclass) installed.  This has
-     * some convenience methods for causing character or paragraph
-     * level attribute changes.  The convenience methods will
-     * throw an IllegalArgumentException if the assumption of
-     * a StyledDocument, a JEditorPane, or a StyledEditorKit
-     * fail to be true.
+     * An bdtion tibt bssumfs it's bfing firfd on b JEditorPbnf
+     * witi b StylfdEditorKit (or subdlbss) instbllfd.  Tiis ibs
+     * somf donvfnifndf mftiods for dbusing dibrbdtfr or pbrbgrbpi
+     * lfvfl bttributf dibngfs.  Tif donvfnifndf mftiods will
+     * tirow bn IllfgblArgumfntExdfption if tif bssumption of
+     * b StylfdDodumfnt, b JEditorPbnf, or b StylfdEditorKit
+     * fbil to bf truf.
      * <p>
-     * The component that gets acted upon by the action
-     * will be the source of the ActionEvent if the source
-     * can be narrowed to a JEditorPane type.  If the source
-     * can't be narrowed, the most recently focused text
-     * component is changed.  If neither of these are the
-     * case, the action cannot be performed.
+     * Tif domponfnt tibt gfts bdtfd upon by tif bdtion
+     * will bf tif sourdf of tif AdtionEvfnt if tif sourdf
+     * dbn bf nbrrowfd to b JEditorPbnf typf.  If tif sourdf
+     * dbn't bf nbrrowfd, tif most rfdfntly fodusfd tfxt
+     * domponfnt is dibngfd.  If nfitifr of tifsf brf tif
+     * dbsf, tif bdtion dbnnot bf pfrformfd.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+     * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+     * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+     * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    public abstract static class StyledTextAction extends TextAction {
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    publid bbstrbdt stbtid dlbss StylfdTfxtAdtion fxtfnds TfxtAdtion {
 
         /**
-         * Creates a new StyledTextAction from a string action name.
+         * Crfbtfs b nfw StylfdTfxtAdtion from b string bdtion nbmf.
          *
-         * @param nm the name of the action
+         * @pbrbm nm tif nbmf of tif bdtion
          */
-        public StyledTextAction(String nm) {
-            super(nm);
+        publid StylfdTfxtAdtion(String nm) {
+            supfr(nm);
         }
 
         /**
-         * Gets the target editor for an action.
+         * Gfts tif tbrgft fditor for bn bdtion.
          *
-         * @param e the action event
-         * @return the editor
+         * @pbrbm f tif bdtion fvfnt
+         * @rfturn tif fditor
          */
-        protected final JEditorPane getEditor(ActionEvent e) {
-            JTextComponent tcomp = getTextComponent(e);
-            if (tcomp instanceof JEditorPane) {
-                return (JEditorPane) tcomp;
+        protfdtfd finbl JEditorPbnf gftEditor(AdtionEvfnt f) {
+            JTfxtComponfnt tdomp = gftTfxtComponfnt(f);
+            if (tdomp instbndfof JEditorPbnf) {
+                rfturn (JEditorPbnf) tdomp;
             }
-            return null;
+            rfturn null;
         }
 
         /**
-         * Gets the document associated with an editor pane.
+         * Gfts tif dodumfnt bssodibtfd witi bn fditor pbnf.
          *
-         * @param e the editor
-         * @return the document
-         * @exception IllegalArgumentException for the wrong document type
+         * @pbrbm f tif fditor
+         * @rfturn tif dodumfnt
+         * @fxdfption IllfgblArgumfntExdfption for tif wrong dodumfnt typf
          */
-        protected final StyledDocument getStyledDocument(JEditorPane e) {
-            Document d = e.getDocument();
-            if (d instanceof StyledDocument) {
-                return (StyledDocument) d;
+        protfdtfd finbl StylfdDodumfnt gftStylfdDodumfnt(JEditorPbnf f) {
+            Dodumfnt d = f.gftDodumfnt();
+            if (d instbndfof StylfdDodumfnt) {
+                rfturn (StylfdDodumfnt) d;
             }
-            throw new IllegalArgumentException("document must be StyledDocument");
+            tirow nfw IllfgblArgumfntExdfption("dodumfnt must bf StylfdDodumfnt");
         }
 
         /**
-         * Gets the editor kit associated with an editor pane.
+         * Gfts tif fditor kit bssodibtfd witi bn fditor pbnf.
          *
-         * @param e the editor pane
-         * @return the kit
-         * @exception IllegalArgumentException for the wrong document type
+         * @pbrbm f tif fditor pbnf
+         * @rfturn tif kit
+         * @fxdfption IllfgblArgumfntExdfption for tif wrong dodumfnt typf
          */
-        protected final StyledEditorKit getStyledEditorKit(JEditorPane e) {
-            EditorKit k = e.getEditorKit();
-            if (k instanceof StyledEditorKit) {
-                return (StyledEditorKit) k;
+        protfdtfd finbl StylfdEditorKit gftStylfdEditorKit(JEditorPbnf f) {
+            EditorKit k = f.gftEditorKit();
+            if (k instbndfof StylfdEditorKit) {
+                rfturn (StylfdEditorKit) k;
             }
-            throw new IllegalArgumentException("EditorKit must be StyledEditorKit");
+            tirow nfw IllfgblArgumfntExdfption("EditorKit must bf StylfdEditorKit");
         }
 
         /**
-         * Applies the given attributes to character
-         * content.  If there is a selection, the attributes
-         * are applied to the selection range.  If there
-         * is no selection, the attributes are applied to
-         * the input attribute set which defines the attributes
-         * for any new text that gets inserted.
+         * Applifs tif givfn bttributfs to dibrbdtfr
+         * dontfnt.  If tifrf is b sflfdtion, tif bttributfs
+         * brf bpplifd to tif sflfdtion rbngf.  If tifrf
+         * is no sflfdtion, tif bttributfs brf bpplifd to
+         * tif input bttributf sft wiidi dffinfs tif bttributfs
+         * for bny nfw tfxt tibt gfts insfrtfd.
          *
-         * @param editor the editor
-         * @param attr the attributes
-         * @param replace   if true, then replace the existing attributes first
+         * @pbrbm fditor tif fditor
+         * @pbrbm bttr tif bttributfs
+         * @pbrbm rfplbdf   if truf, tifn rfplbdf tif fxisting bttributfs first
          */
-        protected final void setCharacterAttributes(JEditorPane editor,
-                                              AttributeSet attr, boolean replace) {
-            int p0 = editor.getSelectionStart();
-            int p1 = editor.getSelectionEnd();
+        protfdtfd finbl void sftCibrbdtfrAttributfs(JEditorPbnf fditor,
+                                              AttributfSft bttr, boolfbn rfplbdf) {
+            int p0 = fditor.gftSflfdtionStbrt();
+            int p1 = fditor.gftSflfdtionEnd();
             if (p0 != p1) {
-                StyledDocument doc = getStyledDocument(editor);
-                doc.setCharacterAttributes(p0, p1 - p0, attr, replace);
+                StylfdDodumfnt dod = gftStylfdDodumfnt(fditor);
+                dod.sftCibrbdtfrAttributfs(p0, p1 - p0, bttr, rfplbdf);
             }
-            StyledEditorKit k = getStyledEditorKit(editor);
-            MutableAttributeSet inputAttributes = k.getInputAttributes();
-            if (replace) {
-                inputAttributes.removeAttributes(inputAttributes);
+            StylfdEditorKit k = gftStylfdEditorKit(fditor);
+            MutbblfAttributfSft inputAttributfs = k.gftInputAttributfs();
+            if (rfplbdf) {
+                inputAttributfs.rfmovfAttributfs(inputAttributfs);
             }
-            inputAttributes.addAttributes(attr);
+            inputAttributfs.bddAttributfs(bttr);
         }
 
         /**
-         * Applies the given attributes to paragraphs.  If
-         * there is a selection, the attributes are applied
-         * to the paragraphs that intersect the selection.
-         * if there is no selection, the attributes are applied
-         * to the paragraph at the current caret position.
+         * Applifs tif givfn bttributfs to pbrbgrbpis.  If
+         * tifrf is b sflfdtion, tif bttributfs brf bpplifd
+         * to tif pbrbgrbpis tibt intfrsfdt tif sflfdtion.
+         * if tifrf is no sflfdtion, tif bttributfs brf bpplifd
+         * to tif pbrbgrbpi bt tif durrfnt dbrft position.
          *
-         * @param editor the editor
-         * @param attr the attributes
-         * @param replace   if true, replace the existing attributes first
+         * @pbrbm fditor tif fditor
+         * @pbrbm bttr tif bttributfs
+         * @pbrbm rfplbdf   if truf, rfplbdf tif fxisting bttributfs first
          */
-        protected final void setParagraphAttributes(JEditorPane editor,
-                                           AttributeSet attr, boolean replace) {
-            int p0 = editor.getSelectionStart();
-            int p1 = editor.getSelectionEnd();
-            StyledDocument doc = getStyledDocument(editor);
-            doc.setParagraphAttributes(p0, p1 - p0, attr, replace);
+        protfdtfd finbl void sftPbrbgrbpiAttributfs(JEditorPbnf fditor,
+                                           AttributfSft bttr, boolfbn rfplbdf) {
+            int p0 = fditor.gftSflfdtionStbrt();
+            int p1 = fditor.gftSflfdtionEnd();
+            StylfdDodumfnt dod = gftStylfdDodumfnt(fditor);
+            dod.sftPbrbgrbpiAttributfs(p0, p1 - p0, bttr, rfplbdf);
         }
 
     }
 
     /**
-     * An action to set the font family in the associated
-     * JEditorPane.  This will use the family specified as
-     * the command string on the ActionEvent if there is one,
-     * otherwise the family that was initialized with will be used.
+     * An bdtion to sft tif font fbmily in tif bssodibtfd
+     * JEditorPbnf.  Tiis will usf tif fbmily spfdififd bs
+     * tif dommbnd string on tif AdtionEvfnt if tifrf is onf,
+     * otifrwisf tif fbmily tibt wbs initiblizfd witi will bf usfd.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+     * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+     * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+     * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    public static class FontFamilyAction extends StyledTextAction {
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    publid stbtid dlbss FontFbmilyAdtion fxtfnds StylfdTfxtAdtion {
 
         /**
-         * Creates a new FontFamilyAction.
+         * Crfbtfs b nfw FontFbmilyAdtion.
          *
-         * @param nm the action name
-         * @param family the font family
+         * @pbrbm nm tif bdtion nbmf
+         * @pbrbm fbmily tif font fbmily
          */
-        public FontFamilyAction(String nm, String family) {
-            super(nm);
-            this.family = family;
+        publid FontFbmilyAdtion(String nm, String fbmily) {
+            supfr(nm);
+            tiis.fbmily = fbmily;
         }
 
         /**
-         * Sets the font family.
+         * Sfts tif font fbmily.
          *
-         * @param e the event
+         * @pbrbm f tif fvfnt
          */
-        public void actionPerformed(ActionEvent e) {
-            JEditorPane editor = getEditor(e);
-            if (editor != null) {
-                String family = this.family;
-                if ((e != null) && (e.getSource() == editor)) {
-                    String s = e.getActionCommand();
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            JEditorPbnf fditor = gftEditor(f);
+            if (fditor != null) {
+                String fbmily = tiis.fbmily;
+                if ((f != null) && (f.gftSourdf() == fditor)) {
+                    String s = f.gftAdtionCommbnd();
                     if (s != null) {
-                        family = s;
+                        fbmily = s;
                     }
                 }
-                if (family != null) {
-                    MutableAttributeSet attr = new SimpleAttributeSet();
-                    StyleConstants.setFontFamily(attr, family);
-                    setCharacterAttributes(editor, attr, false);
-                } else {
-                    UIManager.getLookAndFeel().provideErrorFeedback(editor);
+                if (fbmily != null) {
+                    MutbblfAttributfSft bttr = nfw SimplfAttributfSft();
+                    StylfConstbnts.sftFontFbmily(bttr, fbmily);
+                    sftCibrbdtfrAttributfs(fditor, bttr, fblsf);
+                } flsf {
+                    UIMbnbgfr.gftLookAndFffl().providfErrorFffdbbdk(fditor);
                 }
             }
         }
 
-        private String family;
+        privbtf String fbmily;
     }
 
     /**
-     * An action to set the font size in the associated
-     * JEditorPane.  This will use the size specified as
-     * the command string on the ActionEvent if there is one,
-     * otherwise the size that was initialized with will be used.
+     * An bdtion to sft tif font sizf in tif bssodibtfd
+     * JEditorPbnf.  Tiis will usf tif sizf spfdififd bs
+     * tif dommbnd string on tif AdtionEvfnt if tifrf is onf,
+     * otifrwisf tif sizf tibt wbs initiblizfd witi will bf usfd.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+     * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+     * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+     * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    public static class FontSizeAction extends StyledTextAction {
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    publid stbtid dlbss FontSizfAdtion fxtfnds StylfdTfxtAdtion {
 
         /**
-         * Creates a new FontSizeAction.
+         * Crfbtfs b nfw FontSizfAdtion.
          *
-         * @param nm the action name
-         * @param size the font size
+         * @pbrbm nm tif bdtion nbmf
+         * @pbrbm sizf tif font sizf
          */
-        public FontSizeAction(String nm, int size) {
-            super(nm);
-            this.size = size;
+        publid FontSizfAdtion(String nm, int sizf) {
+            supfr(nm);
+            tiis.sizf = sizf;
         }
 
         /**
-         * Sets the font size.
+         * Sfts tif font sizf.
          *
-         * @param e the action event
+         * @pbrbm f tif bdtion fvfnt
          */
-        public void actionPerformed(ActionEvent e) {
-            JEditorPane editor = getEditor(e);
-            if (editor != null) {
-                int size = this.size;
-                if ((e != null) && (e.getSource() == editor)) {
-                    String s = e.getActionCommand();
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            JEditorPbnf fditor = gftEditor(f);
+            if (fditor != null) {
+                int sizf = tiis.sizf;
+                if ((f != null) && (f.gftSourdf() == fditor)) {
+                    String s = f.gftAdtionCommbnd();
                     try {
-                        size = Integer.parseInt(s, 10);
-                    } catch (NumberFormatException nfe) {
+                        sizf = Intfgfr.pbrsfInt(s, 10);
+                    } dbtdi (NumbfrFormbtExdfption nff) {
                     }
                 }
-                if (size != 0) {
-                    MutableAttributeSet attr = new SimpleAttributeSet();
-                    StyleConstants.setFontSize(attr, size);
-                    setCharacterAttributes(editor, attr, false);
-                } else {
-                    UIManager.getLookAndFeel().provideErrorFeedback(editor);
+                if (sizf != 0) {
+                    MutbblfAttributfSft bttr = nfw SimplfAttributfSft();
+                    StylfConstbnts.sftFontSizf(bttr, sizf);
+                    sftCibrbdtfrAttributfs(fditor, bttr, fblsf);
+                } flsf {
+                    UIMbnbgfr.gftLookAndFffl().providfErrorFffdbbdk(fditor);
                 }
             }
         }
 
-        private int size;
+        privbtf int sizf;
     }
 
     /**
-     * An action to set foreground color.  This sets the
-     * <code>StyleConstants.Foreground</code> attribute for the
-     * currently selected range of the target JEditorPane.
-     * This is done by calling
-     * <code>StyledDocument.setCharacterAttributes</code>
-     * on the styled document associated with the target
-     * JEditorPane.
+     * An bdtion to sft forfground dolor.  Tiis sfts tif
+     * <dodf>StylfConstbnts.Forfground</dodf> bttributf for tif
+     * durrfntly sflfdtfd rbngf of tif tbrgft JEditorPbnf.
+     * Tiis is donf by dblling
+     * <dodf>StylfdDodumfnt.sftCibrbdtfrAttributfs</dodf>
+     * on tif stylfd dodumfnt bssodibtfd witi tif tbrgft
+     * JEditorPbnf.
      * <p>
-     * If the target text component is specified as the
-     * source of the ActionEvent and there is a command string,
-     * the command string will be interpreted as the foreground
-     * color.  It will be interpreted by called
-     * <code>Color.decode</code>, and should therefore be
-     * legal input for that method.
+     * If tif tbrgft tfxt domponfnt is spfdififd bs tif
+     * sourdf of tif AdtionEvfnt bnd tifrf is b dommbnd string,
+     * tif dommbnd string will bf intfrprftfd bs tif forfground
+     * dolor.  It will bf intfrprftfd by dbllfd
+     * <dodf>Color.dfdodf</dodf>, bnd siould tifrfforf bf
+     * lfgbl input for tibt mftiod.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+     * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+     * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+     * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    public static class ForegroundAction extends StyledTextAction {
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    publid stbtid dlbss ForfgroundAdtion fxtfnds StylfdTfxtAdtion {
 
         /**
-         * Creates a new ForegroundAction.
+         * Crfbtfs b nfw ForfgroundAdtion.
          *
-         * @param nm the action name
-         * @param fg the foreground color
+         * @pbrbm nm tif bdtion nbmf
+         * @pbrbm fg tif forfground dolor
          */
-        public ForegroundAction(String nm, Color fg) {
-            super(nm);
-            this.fg = fg;
+        publid ForfgroundAdtion(String nm, Color fg) {
+            supfr(nm);
+            tiis.fg = fg;
         }
 
         /**
-         * Sets the foreground color.
+         * Sfts tif forfground dolor.
          *
-         * @param e the action event
+         * @pbrbm f tif bdtion fvfnt
          */
-        public void actionPerformed(ActionEvent e) {
-            JEditorPane editor = getEditor(e);
-            if (editor != null) {
-                Color fg = this.fg;
-                if ((e != null) && (e.getSource() == editor)) {
-                    String s = e.getActionCommand();
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            JEditorPbnf fditor = gftEditor(f);
+            if (fditor != null) {
+                Color fg = tiis.fg;
+                if ((f != null) && (f.gftSourdf() == fditor)) {
+                    String s = f.gftAdtionCommbnd();
                     try {
-                        fg = Color.decode(s);
-                    } catch (NumberFormatException nfe) {
+                        fg = Color.dfdodf(s);
+                    } dbtdi (NumbfrFormbtExdfption nff) {
                     }
                 }
                 if (fg != null) {
-                    MutableAttributeSet attr = new SimpleAttributeSet();
-                    StyleConstants.setForeground(attr, fg);
-                    setCharacterAttributes(editor, attr, false);
-                } else {
-                    UIManager.getLookAndFeel().provideErrorFeedback(editor);
+                    MutbblfAttributfSft bttr = nfw SimplfAttributfSft();
+                    StylfConstbnts.sftForfground(bttr, fg);
+                    sftCibrbdtfrAttributfs(fditor, bttr, fblsf);
+                } flsf {
+                    UIMbnbgfr.gftLookAndFffl().providfErrorFffdbbdk(fditor);
                 }
             }
         }
 
-        private Color fg;
+        privbtf Color fg;
     }
 
     /**
-     * An action to set paragraph alignment.  This sets the
-     * <code>StyleConstants.Alignment</code> attribute for the
-     * currently selected range of the target JEditorPane.
-     * This is done by calling
-     * <code>StyledDocument.setParagraphAttributes</code>
-     * on the styled document associated with the target
-     * JEditorPane.
+     * An bdtion to sft pbrbgrbpi blignmfnt.  Tiis sfts tif
+     * <dodf>StylfConstbnts.Alignmfnt</dodf> bttributf for tif
+     * durrfntly sflfdtfd rbngf of tif tbrgft JEditorPbnf.
+     * Tiis is donf by dblling
+     * <dodf>StylfdDodumfnt.sftPbrbgrbpiAttributfs</dodf>
+     * on tif stylfd dodumfnt bssodibtfd witi tif tbrgft
+     * JEditorPbnf.
      * <p>
-     * If the target text component is specified as the
-     * source of the ActionEvent and there is a command string,
-     * the command string will be interpreted as an integer
-     * that should be one of the legal values for the
-     * <code>StyleConstants.Alignment</code> attribute.
+     * If tif tbrgft tfxt domponfnt is spfdififd bs tif
+     * sourdf of tif AdtionEvfnt bnd tifrf is b dommbnd string,
+     * tif dommbnd string will bf intfrprftfd bs bn intfgfr
+     * tibt siould bf onf of tif lfgbl vblufs for tif
+     * <dodf>StylfConstbnts.Alignmfnt</dodf> bttributf.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+     * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+     * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+     * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    public static class AlignmentAction extends StyledTextAction {
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    publid stbtid dlbss AlignmfntAdtion fxtfnds StylfdTfxtAdtion {
 
         /**
-         * Creates a new AlignmentAction.
+         * Crfbtfs b nfw AlignmfntAdtion.
          *
-         * @param nm the action name
-         * @param a the alignment &gt;= 0
+         * @pbrbm nm tif bdtion nbmf
+         * @pbrbm b tif blignmfnt &gt;= 0
          */
-        public AlignmentAction(String nm, int a) {
-            super(nm);
-            this.a = a;
+        publid AlignmfntAdtion(String nm, int b) {
+            supfr(nm);
+            tiis.b = b;
         }
 
         /**
-         * Sets the alignment.
+         * Sfts tif blignmfnt.
          *
-         * @param e the action event
+         * @pbrbm f tif bdtion fvfnt
          */
-        public void actionPerformed(ActionEvent e) {
-            JEditorPane editor = getEditor(e);
-            if (editor != null) {
-                int a = this.a;
-                if ((e != null) && (e.getSource() == editor)) {
-                    String s = e.getActionCommand();
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            JEditorPbnf fditor = gftEditor(f);
+            if (fditor != null) {
+                int b = tiis.b;
+                if ((f != null) && (f.gftSourdf() == fditor)) {
+                    String s = f.gftAdtionCommbnd();
                     try {
-                        a = Integer.parseInt(s, 10);
-                    } catch (NumberFormatException nfe) {
+                        b = Intfgfr.pbrsfInt(s, 10);
+                    } dbtdi (NumbfrFormbtExdfption nff) {
                     }
                 }
-                MutableAttributeSet attr = new SimpleAttributeSet();
-                StyleConstants.setAlignment(attr, a);
-                setParagraphAttributes(editor, attr, false);
+                MutbblfAttributfSft bttr = nfw SimplfAttributfSft();
+                StylfConstbnts.sftAlignmfnt(bttr, b);
+                sftPbrbgrbpiAttributfs(fditor, bttr, fblsf);
             }
         }
 
-        private int a;
+        privbtf int b;
     }
 
     /**
-     * An action to toggle the bold attribute.
+     * An bdtion to togglf tif bold bttributf.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+     * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+     * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+     * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    public static class BoldAction extends StyledTextAction {
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    publid stbtid dlbss BoldAdtion fxtfnds StylfdTfxtAdtion {
 
         /**
-         * Constructs a new BoldAction.
+         * Construdts b nfw BoldAdtion.
          */
-        public BoldAction() {
-            super("font-bold");
+        publid BoldAdtion() {
+            supfr("font-bold");
         }
 
         /**
-         * Toggles the bold attribute.
+         * Togglfs tif bold bttributf.
          *
-         * @param e the action event
+         * @pbrbm f tif bdtion fvfnt
          */
-        public void actionPerformed(ActionEvent e) {
-            JEditorPane editor = getEditor(e);
-            if (editor != null) {
-                StyledEditorKit kit = getStyledEditorKit(editor);
-                MutableAttributeSet attr = kit.getInputAttributes();
-                boolean bold = (StyleConstants.isBold(attr)) ? false : true;
-                SimpleAttributeSet sas = new SimpleAttributeSet();
-                StyleConstants.setBold(sas, bold);
-                setCharacterAttributes(editor, sas, false);
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            JEditorPbnf fditor = gftEditor(f);
+            if (fditor != null) {
+                StylfdEditorKit kit = gftStylfdEditorKit(fditor);
+                MutbblfAttributfSft bttr = kit.gftInputAttributfs();
+                boolfbn bold = (StylfConstbnts.isBold(bttr)) ? fblsf : truf;
+                SimplfAttributfSft sbs = nfw SimplfAttributfSft();
+                StylfConstbnts.sftBold(sbs, bold);
+                sftCibrbdtfrAttributfs(fditor, sbs, fblsf);
             }
         }
     }
 
     /**
-     * An action to toggle the italic attribute.
+     * An bdtion to togglf tif itblid bttributf.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+     * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+     * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+     * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    public static class ItalicAction extends StyledTextAction {
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    publid stbtid dlbss ItblidAdtion fxtfnds StylfdTfxtAdtion {
 
         /**
-         * Constructs a new ItalicAction.
+         * Construdts b nfw ItblidAdtion.
          */
-        public ItalicAction() {
-            super("font-italic");
+        publid ItblidAdtion() {
+            supfr("font-itblid");
         }
 
         /**
-         * Toggles the italic attribute.
+         * Togglfs tif itblid bttributf.
          *
-         * @param e the action event
+         * @pbrbm f tif bdtion fvfnt
          */
-        public void actionPerformed(ActionEvent e) {
-            JEditorPane editor = getEditor(e);
-            if (editor != null) {
-                StyledEditorKit kit = getStyledEditorKit(editor);
-                MutableAttributeSet attr = kit.getInputAttributes();
-                boolean italic = (StyleConstants.isItalic(attr)) ? false : true;
-                SimpleAttributeSet sas = new SimpleAttributeSet();
-                StyleConstants.setItalic(sas, italic);
-                setCharacterAttributes(editor, sas, false);
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            JEditorPbnf fditor = gftEditor(f);
+            if (fditor != null) {
+                StylfdEditorKit kit = gftStylfdEditorKit(fditor);
+                MutbblfAttributfSft bttr = kit.gftInputAttributfs();
+                boolfbn itblid = (StylfConstbnts.isItblid(bttr)) ? fblsf : truf;
+                SimplfAttributfSft sbs = nfw SimplfAttributfSft();
+                StylfConstbnts.sftItblid(sbs, itblid);
+                sftCibrbdtfrAttributfs(fditor, sbs, fblsf);
             }
         }
     }
 
     /**
-     * An action to toggle the underline attribute.
+     * An bdtion to togglf tif undfrlinf bttributf.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+     * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+     * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+     * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    public static class UnderlineAction extends StyledTextAction {
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    publid stbtid dlbss UndfrlinfAdtion fxtfnds StylfdTfxtAdtion {
 
         /**
-         * Constructs a new UnderlineAction.
+         * Construdts b nfw UndfrlinfAdtion.
          */
-        public UnderlineAction() {
-            super("font-underline");
+        publid UndfrlinfAdtion() {
+            supfr("font-undfrlinf");
         }
 
         /**
-         * Toggles the Underline attribute.
+         * Togglfs tif Undfrlinf bttributf.
          *
-         * @param e the action event
+         * @pbrbm f tif bdtion fvfnt
          */
-        public void actionPerformed(ActionEvent e) {
-            JEditorPane editor = getEditor(e);
-            if (editor != null) {
-                StyledEditorKit kit = getStyledEditorKit(editor);
-                MutableAttributeSet attr = kit.getInputAttributes();
-                boolean underline = (StyleConstants.isUnderline(attr)) ? false : true;
-                SimpleAttributeSet sas = new SimpleAttributeSet();
-                StyleConstants.setUnderline(sas, underline);
-                setCharacterAttributes(editor, sas, false);
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            JEditorPbnf fditor = gftEditor(f);
+            if (fditor != null) {
+                StylfdEditorKit kit = gftStylfdEditorKit(fditor);
+                MutbblfAttributfSft bttr = kit.gftInputAttributfs();
+                boolfbn undfrlinf = (StylfConstbnts.isUndfrlinf(bttr)) ? fblsf : truf;
+                SimplfAttributfSft sbs = nfw SimplfAttributfSft();
+                StylfConstbnts.sftUndfrlinf(sbs, undfrlinf);
+                sftCibrbdtfrAttributfs(fditor, sbs, fblsf);
             }
         }
     }
 
 
     /**
-     * StyledInsertBreakAction has similar behavior to that of
-     * <code>DefaultEditorKit.InsertBreakAction</code>. That is when
-     * its <code>actionPerformed</code> method is invoked, a newline
-     * is inserted. Beyond that, this will reset the input attributes to
-     * what they were before the newline was inserted.
+     * StylfdInsfrtBrfbkAdtion ibs similbr bfibvior to tibt of
+     * <dodf>DffbultEditorKit.InsfrtBrfbkAdtion</dodf>. Tibt is wifn
+     * its <dodf>bdtionPfrformfd</dodf> mftiod is invokfd, b nfwlinf
+     * is insfrtfd. Bfyond tibt, tiis will rfsft tif input bttributfs to
+     * wibt tify wfrf bfforf tif nfwlinf wbs insfrtfd.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    static class StyledInsertBreakAction extends StyledTextAction {
-        private SimpleAttributeSet tempSet;
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    stbtid dlbss StylfdInsfrtBrfbkAdtion fxtfnds StylfdTfxtAdtion {
+        privbtf SimplfAttributfSft tfmpSft;
 
-        StyledInsertBreakAction() {
-            super(insertBreakAction);
+        StylfdInsfrtBrfbkAdtion() {
+            supfr(insfrtBrfbkAdtion);
         }
 
-        public void actionPerformed(ActionEvent e) {
-            JEditorPane target = getEditor(e);
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            JEditorPbnf tbrgft = gftEditor(f);
 
-            if (target != null) {
-                if ((!target.isEditable()) || (!target.isEnabled())) {
-                    UIManager.getLookAndFeel().provideErrorFeedback(target);
-                    return;
+            if (tbrgft != null) {
+                if ((!tbrgft.isEditbblf()) || (!tbrgft.isEnbblfd())) {
+                    UIMbnbgfr.gftLookAndFffl().providfErrorFffdbbdk(tbrgft);
+                    rfturn;
                 }
-                StyledEditorKit sek = getStyledEditorKit(target);
+                StylfdEditorKit sfk = gftStylfdEditorKit(tbrgft);
 
-                if (tempSet != null) {
-                    tempSet.removeAttributes(tempSet);
+                if (tfmpSft != null) {
+                    tfmpSft.rfmovfAttributfs(tfmpSft);
                 }
-                else {
-                    tempSet = new SimpleAttributeSet();
+                flsf {
+                    tfmpSft = nfw SimplfAttributfSft();
                 }
-                tempSet.addAttributes(sek.getInputAttributes());
-                target.replaceSelection("\n");
+                tfmpSft.bddAttributfs(sfk.gftInputAttributfs());
+                tbrgft.rfplbdfSflfdtion("\n");
 
-                MutableAttributeSet ia = sek.getInputAttributes();
+                MutbblfAttributfSft ib = sfk.gftInputAttributfs();
 
-                ia.removeAttributes(ia);
-                ia.addAttributes(tempSet);
-                tempSet.removeAttributes(tempSet);
+                ib.rfmovfAttributfs(ib);
+                ib.bddAttributfs(tfmpSft);
+                tfmpSft.rfmovfAttributfs(tfmpSft);
             }
-            else {
-                // See if we are in a JTextComponent.
-                JTextComponent text = getTextComponent(e);
+            flsf {
+                // Sff if wf brf in b JTfxtComponfnt.
+                JTfxtComponfnt tfxt = gftTfxtComponfnt(f);
 
-                if (text != null) {
-                    if ((!text.isEditable()) || (!text.isEnabled())) {
-                        UIManager.getLookAndFeel().provideErrorFeedback(target);
-                        return;
+                if (tfxt != null) {
+                    if ((!tfxt.isEditbblf()) || (!tfxt.isEnbblfd())) {
+                        UIMbnbgfr.gftLookAndFffl().providfErrorFffdbbdk(tbrgft);
+                        rfturn;
                     }
-                    text.replaceSelection("\n");
+                    tfxt.rfplbdfSflfdtion("\n");
                 }
             }
         }

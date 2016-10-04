@@ -1,180 +1,180 @@
 /*
- * Copyright (c) 1994, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.tree;
+pbdkbgf sun.tools.trff;
 
-import sun.tools.java.*;
-import sun.tools.asm.Assembler;
-import sun.tools.asm.Label;
-import java.io.PrintStream;
-import java.util.Hashtable;
+import sun.tools.jbvb.*;
+import sun.tools.bsm.Assfmblfr;
+import sun.tools.bsm.Lbbfl;
+import jbvb.io.PrintStrfbm;
+import jbvb.util.Hbsitbblf;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: Tif dontfnts of tiis sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf tibt dfpfnds on tifm dofs so bt its own risk:
+ * tify brf subjfdt to dibngf or rfmovbl witiout notidf.
  */
-public
-class ReturnStatement extends Statement {
-    Expression expr;
+publid
+dlbss RfturnStbtfmfnt fxtfnds Stbtfmfnt {
+    Exprfssion fxpr;
 
     /**
-     * Constructor
+     * Construdtor
      */
-    public ReturnStatement(long where, Expression expr) {
-        super(RETURN, where);
-        this.expr = expr;
+    publid RfturnStbtfmfnt(long wifrf, Exprfssion fxpr) {
+        supfr(RETURN, wifrf);
+        tiis.fxpr = fxpr;
     }
 
     /**
-     * Check statement
+     * Cifdk stbtfmfnt
      */
-    Vset check(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
-        checkLabel(env, ctx);
-        vset = reach(env, vset);
-        if (expr != null) {
-            vset = expr.checkValue(env, ctx, vset, exp);
+    Vsft difdk(Environmfnt fnv, Contfxt dtx, Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp) {
+        difdkLbbfl(fnv, dtx);
+        vsft = rfbdi(fnv, vsft);
+        if (fxpr != null) {
+            vsft = fxpr.difdkVbluf(fnv, dtx, vsft, fxp);
         }
 
-        // Make sure the return isn't inside a static initializer
-        if (ctx.field.isInitializer()) {
-            env.error(where, "return.inside.static.initializer");
-            return DEAD_END;
+        // Mbkf surf tif rfturn isn't insidf b stbtid initiblizfr
+        if (dtx.fifld.isInitiblizfr()) {
+            fnv.frror(wifrf, "rfturn.insidf.stbtid.initiblizfr");
+            rfturn DEAD_END;
         }
-        // Check return type
-        if (ctx.field.getType().getReturnType().isType(TC_VOID)) {
-            if (expr != null) {
-                if (ctx.field.isConstructor()) {
-                    env.error(where, "return.with.value.constr", ctx.field);
-                } else {
-                    env.error(where, "return.with.value", ctx.field);
+        // Cifdk rfturn typf
+        if (dtx.fifld.gftTypf().gftRfturnTypf().isTypf(TC_VOID)) {
+            if (fxpr != null) {
+                if (dtx.fifld.isConstrudtor()) {
+                    fnv.frror(wifrf, "rfturn.witi.vbluf.donstr", dtx.fifld);
+                } flsf {
+                    fnv.frror(wifrf, "rfturn.witi.vbluf", dtx.fifld);
                 }
-                expr = null;
+                fxpr = null;
             }
-        } else {
-            if (expr == null) {
-                env.error(where, "return.without.value", ctx.field);
-            } else {
-                expr = convert(env, ctx, ctx.field.getType().getReturnType(), expr);
-            }
-        }
-        CheckContext mctx = ctx.getReturnContext();
-        if (mctx != null) {
-            mctx.vsBreak = mctx.vsBreak.join(vset);
-        }
-        CheckContext exitctx = ctx.getTryExitContext();
-        if (exitctx != null) {
-            exitctx.vsTryExit = exitctx.vsTryExit.join(vset);
-        }
-        if (expr != null) {
-            // see if we are returning a value out of a try or synchronized
-            // statement.  If so, find the outermost one. . . .
-            Node outerFinallyNode = null;
-            for (Context c = ctx; c != null; c = c.prev) {
-                if (c.node == null) {
-                    continue;
-                }
-                if (c.node.op == METHOD) {
-                    // Don't search outside current method. Fixes 4084230.
-                    break;
-                }
-                if (c.node.op == SYNCHRONIZED) {
-                    outerFinallyNode = c.node;
-                    break;
-                } else if (c.node.op == FINALLY
-                           && ((CheckContext)c).vsContinue != null) {
-                    outerFinallyNode = c.node;
-                }
-            }
-            if (outerFinallyNode != null) {
-                if (outerFinallyNode.op == FINALLY) {
-                    ((FinallyStatement)outerFinallyNode).needReturnSlot = true;
-                } else {
-                    ((SynchronizedStatement)outerFinallyNode).needReturnSlot = true;
-                }
+        } flsf {
+            if (fxpr == null) {
+                fnv.frror(wifrf, "rfturn.witiout.vbluf", dtx.fifld);
+            } flsf {
+                fxpr = donvfrt(fnv, dtx, dtx.fifld.gftTypf().gftRfturnTypf(), fxpr);
             }
         }
-        return DEAD_END;
+        CifdkContfxt mdtx = dtx.gftRfturnContfxt();
+        if (mdtx != null) {
+            mdtx.vsBrfbk = mdtx.vsBrfbk.join(vsft);
+        }
+        CifdkContfxt fxitdtx = dtx.gftTryExitContfxt();
+        if (fxitdtx != null) {
+            fxitdtx.vsTryExit = fxitdtx.vsTryExit.join(vsft);
+        }
+        if (fxpr != null) {
+            // sff if wf brf rfturning b vbluf out of b try or syndironizfd
+            // stbtfmfnt.  If so, find tif outfrmost onf. . . .
+            Nodf outfrFinbllyNodf = null;
+            for (Contfxt d = dtx; d != null; d = d.prfv) {
+                if (d.nodf == null) {
+                    dontinuf;
+                }
+                if (d.nodf.op == METHOD) {
+                    // Don't sfbrdi outsidf durrfnt mftiod. Fixfs 4084230.
+                    brfbk;
+                }
+                if (d.nodf.op == SYNCHRONIZED) {
+                    outfrFinbllyNodf = d.nodf;
+                    brfbk;
+                } flsf if (d.nodf.op == FINALLY
+                           && ((CifdkContfxt)d).vsContinuf != null) {
+                    outfrFinbllyNodf = d.nodf;
+                }
+            }
+            if (outfrFinbllyNodf != null) {
+                if (outfrFinbllyNodf.op == FINALLY) {
+                    ((FinbllyStbtfmfnt)outfrFinbllyNodf).nffdRfturnSlot = truf;
+                } flsf {
+                    ((SyndironizfdStbtfmfnt)outfrFinbllyNodf).nffdRfturnSlot = truf;
+                }
+            }
+        }
+        rfturn DEAD_END;
     }
 
 
     /**
-     * Inline
+     * Inlinf
      */
-    public Statement inline(Environment env, Context ctx) {
-        if (expr != null) {
-            expr = expr.inlineValue(env, ctx);
+    publid Stbtfmfnt inlinf(Environmfnt fnv, Contfxt dtx) {
+        if (fxpr != null) {
+            fxpr = fxpr.inlinfVbluf(fnv, dtx);
         }
-        return this;
+        rfturn tiis;
     }
 
     /**
-     * The cost of inlining this statement
+     * Tif dost of inlining tiis stbtfmfnt
      */
-    public int costInline(int thresh, Environment env, Context ctx) {
-        return 1 + ((expr != null) ? expr.costInline(thresh, env, ctx) : 0);
+    publid int dostInlinf(int tirfsi, Environmfnt fnv, Contfxt dtx) {
+        rfturn 1 + ((fxpr != null) ? fxpr.dostInlinf(tirfsi, fnv, dtx) : 0);
     }
 
     /**
-     * Create a copy of the statement for method inlining
+     * Crfbtf b dopy of tif stbtfmfnt for mftiod inlining
      */
-    public Statement copyInline(Context ctx, boolean valNeeded) {
-        Expression e = (expr != null) ? expr.copyInline(ctx) : null;
-        if ((!valNeeded) && (e != null)) {
-            Statement body[] = {
-                new ExpressionStatement(where, e),
-                new InlineReturnStatement(where, null)
+    publid Stbtfmfnt dopyInlinf(Contfxt dtx, boolfbn vblNffdfd) {
+        Exprfssion f = (fxpr != null) ? fxpr.dopyInlinf(dtx) : null;
+        if ((!vblNffdfd) && (f != null)) {
+            Stbtfmfnt body[] = {
+                nfw ExprfssionStbtfmfnt(wifrf, f),
+                nfw InlinfRfturnStbtfmfnt(wifrf, null)
             };
-            return new CompoundStatement(where, body);
+            rfturn nfw CompoundStbtfmfnt(wifrf, body);
         }
-        return new InlineReturnStatement(where, e);
+        rfturn nfw InlinfRfturnStbtfmfnt(wifrf, f);
     }
 
     /**
-     * Code
+     * Codf
      */
-    public void code(Environment env, Context ctx, Assembler asm) {
-        if (expr == null) {
-            codeFinally(env, ctx, asm, null, null);
-            asm.add(where, opc_return);
-        } else {
-            expr.codeValue(env, ctx, asm);
-            codeFinally(env, ctx, asm, null, expr.type);
-            asm.add(where, opc_ireturn + expr.type.getTypeCodeOffset());
+    publid void dodf(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+        if (fxpr == null) {
+            dodfFinblly(fnv, dtx, bsm, null, null);
+            bsm.bdd(wifrf, opd_rfturn);
+        } flsf {
+            fxpr.dodfVbluf(fnv, dtx, bsm);
+            dodfFinblly(fnv, dtx, bsm, null, fxpr.typf);
+            bsm.bdd(wifrf, opd_irfturn + fxpr.typf.gftTypfCodfOffsft());
         }
     }
 
     /**
      * Print
      */
-    public void print(PrintStream out, int indent) {
-        super.print(out, indent);
-        out.print("return");
-        if (expr != null) {
+    publid void print(PrintStrfbm out, int indfnt) {
+        supfr.print(out, indfnt);
+        out.print("rfturn");
+        if (fxpr != null) {
             out.print(" ");
-            expr.print(out);
+            fxpr.print(out);
         }
         out.print(";");
     }

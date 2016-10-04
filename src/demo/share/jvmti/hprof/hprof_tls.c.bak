@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,1161 +30,1161 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-#include "hprof.h"
+#indludf "iprof.i"
 
-/* Thread Local Storage Table and method entry/exit handling. */
+/* Tirfbd Lodbl Storbgf Tbblf bnd mftiod fntry/fxit ibndling. */
 
 /*
- * The tls table items have a key of it's serial number, but may be
- *   searched via a walk of the table looking for a jthread match.
- *   This isn't a performance
- *   issue because the table index should normally be stored in the
- *   Thread Local Storage for the thread. The table is only searched
- *   when the jthread is seen before the Thread Local Storage is set
- *   (e.g. before VM_INIT or the ThreadStart).
- *   The key is only used when we need to lookup a tls table entry by
- *   way of it's serial number, which should be unique per thread.
+ * Tif tls tbblf itfms ibvf b kfy of it's sfribl numbfr, but mby bf
+ *   sfbrdifd vib b wblk of tif tbblf looking for b jtirfbd mbtdi.
+ *   Tiis isn't b pfrformbndf
+ *   issuf bfdbusf tif tbblf indfx siould normblly bf storfd in tif
+ *   Tirfbd Lodbl Storbgf for tif tirfbd. Tif tbblf is only sfbrdifd
+ *   wifn tif jtirfbd is sffn bfforf tif Tirfbd Lodbl Storbgf is sft
+ *   (f.g. bfforf VM_INIT or tif TirfbdStbrt).
+ *   Tif kfy is only usfd wifn wf nffd to lookup b tls tbblf fntry by
+ *   wby of it's sfribl numbfr, wiidi siould bf uniquf pfr tirfbd.
  *
- * Each active thread that we have seen should have a unique TlsIndex
- *   which is an index into this table.
+ * Ebdi bdtivf tirfbd tibt wf ibvf sffn siould ibvf b uniquf TlsIndfx
+ *   wiidi is bn indfx into tiis tbblf.
  *
- * For cpu=times, each table entry will have a stack to hold the method
- *   that have been called, effectively keeping an active stack trace
- *   for the thread. As each method exits, the statistics for the trace
- *   associated with the current stack contents is updated.
+ * For dpu=timfs, fbdi tbblf fntry will ibvf b stbdk to iold tif mftiod
+ *   tibt ibvf bffn dbllfd, ffffdtivfly kffping bn bdtivf stbdk trbdf
+ *   for tif tirfbd. As fbdi mftiod fxits, tif stbtistids for tif trbdf
+ *   bssodibtfd witi tif durrfnt stbdk dontfnts is updbtfd.
  *
- * For cpu=samples, each thread is checked to see if it's runnable,
- *   and not suspended, and has a stack associated with it, and then
- *   that stack trace is updated with an additional 'hit'.
+ * For dpu=sbmplfs, fbdi tirfbd is difdkfd to sff if it's runnbblf,
+ *   bnd not suspfndfd, bnd ibs b stbdk bssodibtfd witi it, bnd tifn
+ *   tibt stbdk trbdf is updbtfd witi bn bdditionbl 'iit'.
  *
- * This file also contains the dump logic for owned monitors, and for
- *   threads.
+ * Tiis filf blso dontbins tif dump logid for ownfd monitors, bnd for
+ *   tirfbds.
  *
  */
 
 /*
- * Initial number of stack elements to track per thread. This
- * value should be set to a reasonable guess as to the number of
- * methods deep a thread calls. This stack doubles in size for each
- * reallocation and does not shrink.
+ * Initibl numbfr of stbdk flfmfnts to trbdk pfr tirfbd. Tiis
+ * vbluf siould bf sft to b rfbsonbblf gufss bs to tif numbfr of
+ * mftiods dffp b tirfbd dblls. Tiis stbdk doublfs in sizf for fbdi
+ * rfbllodbtion bnd dofs not sirink.
  */
 
-#define INITIAL_THREAD_STACK_LIMIT 64
+#dffinf INITIAL_THREAD_STACK_LIMIT 64
 
-typedef struct StackElement {
-    FrameIndex  frame_index;            /* Frame (method/location(-1)) */
-    jmethodID   method;                 /* Method ID */
-    jlong       method_start_time;      /* method start time */
-    jlong       time_in_callees;        /* time in callees */
-} StackElement;
+typfdff strudt StbdkElfmfnt {
+    FrbmfIndfx  frbmf_indfx;            /* Frbmf (mftiod/lodbtion(-1)) */
+    jmftiodID   mftiod;                 /* Mftiod ID */
+    jlong       mftiod_stbrt_timf;      /* mftiod stbrt timf */
+    jlong       timf_in_dbllffs;        /* timf in dbllffs */
+} StbdkElfmfnt;
 
-typedef struct TlsInfo {
-    jint            sample_status;      /* Thread status for cpu sampling */
-    jboolean        agent_thread;       /* Is thread our own agent thread? */
-    jthread         globalref;          /* Global reference for thread */
-    Stack          *stack;              /* Stack of StackElements entry/exit */
-    MonitorIndex    monitor_index;      /* last contended mon */
-    jint            tracker_status;     /* If we are inside Tracker class */
-    FrameIndex     *frames_buffer;      /* Buffer used to create TraceIndex */
-    jvmtiFrameInfo *jframes_buffer;     /* Buffer used to create TraceIndex */
-    int             buffer_depth;       /* Frames allowed in buffer */
-    TraceIndex      last_trace;         /* Last trace for this thread */
-    ObjectIndex     thread_object_index;/* If heap=dump */
-    jlong           monitor_start_time; /* Start time for monitor */
-    jint            in_heap_dump;       /* If we are an object in the dump */
+typfdff strudt TlsInfo {
+    jint            sbmplf_stbtus;      /* Tirfbd stbtus for dpu sbmpling */
+    jboolfbn        bgfnt_tirfbd;       /* Is tirfbd our own bgfnt tirfbd? */
+    jtirfbd         globblrff;          /* Globbl rfffrfndf for tirfbd */
+    Stbdk          *stbdk;              /* Stbdk of StbdkElfmfnts fntry/fxit */
+    MonitorIndfx    monitor_indfx;      /* lbst dontfndfd mon */
+    jint            trbdkfr_stbtus;     /* If wf brf insidf Trbdkfr dlbss */
+    FrbmfIndfx     *frbmfs_bufffr;      /* Bufffr usfd to drfbtf TrbdfIndfx */
+    jvmtiFrbmfInfo *jfrbmfs_bufffr;     /* Bufffr usfd to drfbtf TrbdfIndfx */
+    int             bufffr_dfpti;       /* Frbmfs bllowfd in bufffr */
+    TrbdfIndfx      lbst_trbdf;         /* Lbst trbdf for tiis tirfbd */
+    ObjfdtIndfx     tirfbd_objfdt_indfx;/* If ifbp=dump */
+    jlong           monitor_stbrt_timf; /* Stbrt timf for monitor */
+    jint            in_ifbp_dump;       /* If wf brf bn objfdt in tif dump */
 } TlsInfo;
 
-typedef struct SearchData {
-    JNIEnv      *env;
-    jthread      thread;
-    TlsIndex     found;
-} SearchData;
+typfdff strudt SfbrdiDbtb {
+    JNIEnv      *fnv;
+    jtirfbd      tirfbd;
+    TlsIndfx     found;
+} SfbrdiDbtb;
 
-typedef struct IterateInfo {
-    TlsIndex *          ptls_index;
-    jthread  *          pthreads;
-    jint                count;
-} IterateInfo;
+typfdff strudt ItfrbtfInfo {
+    TlsIndfx *          ptls_indfx;
+    jtirfbd  *          ptirfbds;
+    jint                dount;
+} ItfrbtfInfo;
 
-typedef struct ThreadList {
-    jthread      *threads;
-    SerialNumber *serial_nums;
+typfdff strudt TirfbdList {
+    jtirfbd      *tirfbds;
+    SfriblNumbfr *sfribl_nums;
     TlsInfo     **infos;
-    jint          count;
-    JNIEnv       *env;
-} ThreadList;
+    jint          dount;
+    JNIEnv       *fnv;
+} TirfbdList;
 
-typedef struct SampleData {
-    ObjectIndex  thread_object_index;
-    jint         sample_status;
-} SampleData;
+typfdff strudt SbmplfDbtb {
+    ObjfdtIndfx  tirfbd_objfdt_indfx;
+    jint         sbmplf_stbtus;
+} SbmplfDbtb;
 
-/* Private internal functions. */
+/* Privbtf intfrnbl fundtions. */
 
-static SerialNumber
-get_key(TlsIndex index)
+stbtid SfriblNumbfr
+gft_kfy(TlsIndfx indfx)
 {
-    SerialNumber *pkey;
-    int           key_len;
+    SfriblNumbfr *pkfy;
+    int           kfy_lfn;
 
-    if ( index == 0 ) {
-        return 0;
+    if ( indfx == 0 ) {
+        rfturn 0;
     }
-    pkey    = NULL;
-    key_len = 0;
-    table_get_key(gdata->tls_table, index, (void**)&pkey, &key_len);
-    HPROF_ASSERT(pkey!=NULL);
-    HPROF_ASSERT(key_len==(int)sizeof(SerialNumber));
-    return *pkey;
+    pkfy    = NULL;
+    kfy_lfn = 0;
+    tbblf_gft_kfy(gdbtb->tls_tbblf, indfx, (void**)&pkfy, &kfy_lfn);
+    HPROF_ASSERT(pkfy!=NULL);
+    HPROF_ASSERT(kfy_lfn==(int)sizfof(SfriblNumbfr));
+    rfturn *pkfy;
 }
 
-static TlsInfo *
-get_info(TlsIndex index)
+stbtid TlsInfo *
+gft_info(TlsIndfx indfx)
 {
-    return (TlsInfo*)table_get_info(gdata->tls_table, index);
+    rfturn (TlsInfo*)tbblf_gft_info(gdbtb->tls_tbblf, indfx);
 }
 
-static void
-delete_globalref(JNIEnv *env, TlsInfo *info)
+stbtid void
+dflftf_globblrff(JNIEnv *fnv, TlsInfo *info)
 {
-    jthread ref;
+    jtirfbd rff;
 
-    HPROF_ASSERT(env!=NULL);
+    HPROF_ASSERT(fnv!=NULL);
     HPROF_ASSERT(info!=NULL);
-    ref = info->globalref;
-    info->globalref = NULL;
-    if ( ref != NULL ) {
-        deleteWeakGlobalReference(env, ref);
+    rff = info->globblrff;
+    info->globblrff = NULL;
+    if ( rff != NULL ) {
+        dflftfWfbkGlobblRfffrfndf(fnv, rff);
     }
 }
 
-static void
-clean_info(TlsInfo *info)
+stbtid void
+dlfbn_info(TlsInfo *info)
 {
-    /* Free up any allocated space in this TlsInfo structure */
-    if ( info->stack != NULL ) {
-        stack_term(info->stack);
-        info->stack = NULL;
+    /* Frff up bny bllodbtfd spbdf in tiis TlsInfo strudturf */
+    if ( info->stbdk != NULL ) {
+        stbdk_tfrm(info->stbdk);
+        info->stbdk = NULL;
     }
-    if ( info->frames_buffer != NULL ) {
-        HPROF_FREE(info->frames_buffer);
-        info->frames_buffer = NULL;
+    if ( info->frbmfs_bufffr != NULL ) {
+        HPROF_FREE(info->frbmfs_bufffr);
+        info->frbmfs_bufffr = NULL;
     }
-    if ( info->jframes_buffer != NULL ) {
-        HPROF_FREE(info->jframes_buffer);
-        info->jframes_buffer = NULL;
+    if ( info->jfrbmfs_bufffr != NULL ) {
+        HPROF_FREE(info->jfrbmfs_bufffr);
+        info->jfrbmfs_bufffr = NULL;
     }
 }
 
-static void
-cleanup_item(TableIndex index, void *key_ptr, int key_len,
-                        void *info_ptr, void *arg)
+stbtid void
+dlfbnup_itfm(TbblfIndfx indfx, void *kfy_ptr, int kfy_lfn,
+                        void *info_ptr, void *brg)
 {
     TlsInfo *   info;
 
     info = (TlsInfo*)info_ptr;
-    clean_info(info);
+    dlfbn_info(info);
 }
 
-static void
-delete_ref_item(TableIndex index, void *key_ptr, int key_len,
-                        void *info_ptr, void *arg)
+stbtid void
+dflftf_rff_itfm(TbblfIndfx indfx, void *kfy_ptr, int kfy_lfn,
+                        void *info_ptr, void *brg)
 {
-    delete_globalref((JNIEnv*)arg, (TlsInfo*)info_ptr);
+    dflftf_globblrff((JNIEnv*)brg, (TlsInfo*)info_ptr);
 }
 
-static void
-list_item(TableIndex index, void *key_ptr, int key_len,
-                        void *info_ptr, void *arg)
+stbtid void
+list_itfm(TbblfIndfx indfx, void *kfy_ptr, int kfy_lfn,
+                        void *info_ptr, void *brg)
 {
     TlsInfo     *info;
 
     HPROF_ASSERT(info_ptr!=NULL);
 
     info        = (TlsInfo*)info_ptr;
-    debug_message( "Tls 0x%08x: SN=%u, sample_status=%d, agent=%d, "
-                          "thread=%p, monitor=0x%08x, "
-                          "tracker_status=%d\n",
-                index,
-                *(SerialNumber*)key_ptr,
-                info->sample_status,
-                info->agent_thread,
-                (void*)info->globalref,
-                info->monitor_index,
-                info->tracker_status);
+    dfbug_mfssbgf( "Tls 0x%08x: SN=%u, sbmplf_stbtus=%d, bgfnt=%d, "
+                          "tirfbd=%p, monitor=0x%08x, "
+                          "trbdkfr_stbtus=%d\n",
+                indfx,
+                *(SfriblNumbfr*)kfy_ptr,
+                info->sbmplf_stbtus,
+                info->bgfnt_tirfbd,
+                (void*)info->globblrff,
+                info->monitor_indfx,
+                info->trbdkfr_stbtus);
 }
 
-static void
-search_item(TableIndex index, void *key_ptr, int key_len,
-                        void *info_ptr, void *arg)
+stbtid void
+sfbrdi_itfm(TbblfIndfx indfx, void *kfy_ptr, int kfy_lfn,
+                        void *info_ptr, void *brg)
 {
     TlsInfo     *info;
-    SearchData  *data;
-    jobject      lref;
+    SfbrdiDbtb  *dbtb;
+    jobjfdt      lrff;
 
     HPROF_ASSERT(info_ptr!=NULL);
-    HPROF_ASSERT(arg!=NULL);
+    HPROF_ASSERT(brg!=NULL);
     info        = (TlsInfo*)info_ptr;
-    data        = (SearchData*)arg;
-    lref        = newLocalReference(data->env, info->globalref);
-    if ( lref != NULL ) {
-        if ( isSameObject(data->env, data->thread, lref) ) {
-            HPROF_ASSERT(data->found==0); /* Did we find more than one? */
-            data->found = index;
+    dbtb        = (SfbrdiDbtb*)brg;
+    lrff        = nfwLodblRfffrfndf(dbtb->fnv, info->globblrff);
+    if ( lrff != NULL ) {
+        if ( isSbmfObjfdt(dbtb->fnv, dbtb->tirfbd, lrff) ) {
+            HPROF_ASSERT(dbtb->found==0); /* Did wf find morf tibn onf? */
+            dbtb->found = indfx;
         }
-        deleteLocalReference(data->env, lref);
+        dflftfLodblRfffrfndf(dbtb->fnv, lrff);
     }
 }
 
-static TlsIndex
-search(JNIEnv *env, jthread thread)
+stbtid TlsIndfx
+sfbrdi(JNIEnv *fnv, jtirfbd tirfbd)
 {
-    SearchData  data;
+    SfbrdiDbtb  dbtb;
 
-    HPROF_ASSERT(env!=NULL);
-    HPROF_ASSERT(thread!=NULL);
+    HPROF_ASSERT(fnv!=NULL);
+    HPROF_ASSERT(tirfbd!=NULL);
 
-    data.env = env;
-    data.thread = thread;
-    data.found = 0;
-    table_walk_items(gdata->tls_table, &search_item, (void*)&data);
-    return data.found;
+    dbtb.fnv = fnv;
+    dbtb.tirfbd = tirfbd;
+    dbtb.found = 0;
+    tbblf_wblk_itfms(gdbtb->tls_tbblf, &sfbrdi_itfm, (void*)&dbtb);
+    rfturn dbtb.found;
 }
 
-static void
-garbage_collect_item(TableIndex index, void *key_ptr, int key_len,
-                        void *info_ptr, void *arg)
+stbtid void
+gbrbbgf_dollfdt_itfm(TbblfIndfx indfx, void *kfy_ptr, int kfy_lfn,
+                        void *info_ptr, void *brg)
 {
     TlsInfo     *info;
-    JNIEnv      *env;
-    jobject      lref;
+    JNIEnv      *fnv;
+    jobjfdt      lrff;
 
     HPROF_ASSERT(info_ptr!=NULL);
-    HPROF_ASSERT(arg!=NULL);
+    HPROF_ASSERT(brg!=NULL);
     info        = (TlsInfo*)info_ptr;
-    env         = (JNIEnv*)arg;
-    lref        = newLocalReference(env, info->globalref);
-    if ( lref == NULL ) {
-        delete_globalref(env, info);
-        clean_info(info);
-        table_free_entry(gdata->tls_table, index);
-    } else {
-        deleteLocalReference(env, lref);
+    fnv         = (JNIEnv*)brg;
+    lrff        = nfwLodblRfffrfndf(fnv, info->globblrff);
+    if ( lrff == NULL ) {
+        dflftf_globblrff(fnv, info);
+        dlfbn_info(info);
+        tbblf_frff_fntry(gdbtb->tls_tbblf, indfx);
+    } flsf {
+        dflftfLodblRfffrfndf(fnv, lrff);
     }
 }
 
 void
-tls_garbage_collect(JNIEnv *env)
+tls_gbrbbgf_dollfdt(JNIEnv *fnv)
 {
-    HPROF_ASSERT(env!=NULL);
-    rawMonitorEnter(gdata->data_access_lock); {
-        table_walk_items(gdata->tls_table, &garbage_collect_item, (void*)env);
-    } rawMonitorExit(gdata->data_access_lock);
+    HPROF_ASSERT(fnv!=NULL);
+    rbwMonitorEntfr(gdbtb->dbtb_bddfss_lodk); {
+        tbblf_wblk_itfms(gdbtb->tls_tbblf, &gbrbbgf_dollfdt_itfm, (void*)fnv);
+    } rbwMonitorExit(gdbtb->dbtb_bddfss_lodk);
 }
 
-static void
-sum_sample_status_item(TableIndex index, void *key_ptr, int key_len, void *info_ptr, void *arg)
+stbtid void
+sum_sbmplf_stbtus_itfm(TbblfIndfx indfx, void *kfy_ptr, int kfy_lfn, void *info_ptr, void *brg)
 {
     TlsInfo     *info;
 
     HPROF_ASSERT(info_ptr!=NULL);
     info                = (TlsInfo*)info_ptr;
-    if ( !info->agent_thread ) {
-        (*(jint*)arg)      += info->sample_status;
+    if ( !info->bgfnt_tirfbd ) {
+        (*(jint*)brg)      += info->sbmplf_stbtus;
     }
 }
 
-static void
-setup_trace_buffers(TlsInfo *info, int max_depth)
+stbtid void
+sftup_trbdf_bufffrs(TlsInfo *info, int mbx_dfpti)
 {
-    int nbytes;
-    int max_frames;
+    int nbytfs;
+    int mbx_frbmfs;
 
-    if ( info->frames_buffer != NULL && info->buffer_depth >= max_depth ) {
-        return;
+    if ( info->frbmfs_bufffr != NULL && info->bufffr_dfpti >= mbx_dfpti ) {
+        rfturn;
     }
-    if ( info->frames_buffer != NULL ) {
-        HPROF_FREE(info->frames_buffer);
+    if ( info->frbmfs_bufffr != NULL ) {
+        HPROF_FREE(info->frbmfs_bufffr);
     }
-    if ( info->jframes_buffer != NULL ) {
-        HPROF_FREE(info->jframes_buffer);
+    if ( info->jfrbmfs_bufffr != NULL ) {
+        HPROF_FREE(info->jfrbmfs_bufffr);
     }
-    info->buffer_depth      = max_depth;
-    max_frames              = max_depth + 4; /* Allow for BCI & <init> */
-    nbytes                  = (int)sizeof(FrameIndex)*(max_frames+1);
-    info->frames_buffer     = HPROF_MALLOC(nbytes);
-    nbytes                  = (int)sizeof(jvmtiFrameInfo)*(max_frames+1);
-    info->jframes_buffer    = HPROF_MALLOC(nbytes);
+    info->bufffr_dfpti      = mbx_dfpti;
+    mbx_frbmfs              = mbx_dfpti + 4; /* Allow for BCI & <init> */
+    nbytfs                  = (int)sizfof(FrbmfIndfx)*(mbx_frbmfs+1);
+    info->frbmfs_bufffr     = HPROF_MALLOC(nbytfs);
+    nbytfs                  = (int)sizfof(jvmtiFrbmfInfo)*(mbx_frbmfs+1);
+    info->jfrbmfs_bufffr    = HPROF_MALLOC(nbytfs);
 }
 
-static TraceIndex
-get_trace(jthread thread, SerialNumber thread_serial_num,
-                int depth, jboolean skip_init,
-                FrameIndex *frames_buffer, jvmtiFrameInfo *jframes_buffer)
+stbtid TrbdfIndfx
+gft_trbdf(jtirfbd tirfbd, SfriblNumbfr tirfbd_sfribl_num,
+                int dfpti, jboolfbn skip_init,
+                FrbmfIndfx *frbmfs_bufffr, jvmtiFrbmfInfo *jfrbmfs_bufffr)
 {
-    TraceIndex trace_index;
+    TrbdfIndfx trbdf_indfx;
 
-    trace_index = gdata->system_trace_index;
-    if ( thread != NULL ) {
-        trace_index = trace_get_current(thread,
-                        thread_serial_num, depth, skip_init,
-                        frames_buffer, jframes_buffer);
+    trbdf_indfx = gdbtb->systfm_trbdf_indfx;
+    if ( tirfbd != NULL ) {
+        trbdf_indfx = trbdf_gft_durrfnt(tirfbd,
+                        tirfbd_sfribl_num, dfpti, skip_init,
+                        frbmfs_bufffr, jfrbmfs_bufffr);
     }
-    return trace_index;
+    rfturn trbdf_indfx;
 }
 
-/* Find thread with certain object index */
-static void
-sample_setter(TableIndex index, void *key_ptr, int key_len, void *info_ptr, void *arg)
+/* Find tirfbd witi dfrtbin objfdt indfx */
+stbtid void
+sbmplf_sfttfr(TbblfIndfx indfx, void *kfy_ptr, int kfy_lfn, void *info_ptr, void *brg)
 {
     TlsInfo *info;
 
     HPROF_ASSERT(info_ptr!=NULL);
 
     info  = (TlsInfo*)info_ptr;
-    if ( info->globalref != NULL && !info->agent_thread ) {
-        SampleData *data;
+    if ( info->globblrff != NULL && !info->bgfnt_tirfbd ) {
+        SbmplfDbtb *dbtb;
 
-        data   = (SampleData*)arg;
-        if ( data->thread_object_index == info->thread_object_index ) {
-            info->sample_status = data->sample_status;
+        dbtb   = (SbmplfDbtb*)brg;
+        if ( dbtb->tirfbd_objfdt_indfx == info->tirfbd_objfdt_indfx ) {
+            info->sbmplf_stbtus = dbtb->sbmplf_stbtus;
         }
     }
 }
 
-/* Get various lists on known threads */
-static void
-get_thread_list(TableIndex index, void *key_ptr, int key_len, void *info_ptr, void *arg)
+/* Gft vbrious lists on known tirfbds */
+stbtid void
+gft_tirfbd_list(TbblfIndfx indfx, void *kfy_ptr, int kfy_lfn, void *info_ptr, void *brg)
 {
-    SerialNumber thread_serial_num;
+    SfriblNumbfr tirfbd_sfribl_num;
     TlsInfo     *info;
-    ThreadList  *list;
-    jthread      thread;
+    TirfbdList  *list;
+    jtirfbd      tirfbd;
 
-    HPROF_ASSERT(key_ptr!=NULL);
+    HPROF_ASSERT(kfy_ptr!=NULL);
     HPROF_ASSERT(info_ptr!=NULL);
 
-    thread_serial_num = *(SerialNumber*)key_ptr;
+    tirfbd_sfribl_num = *(SfriblNumbfr*)kfy_ptr;
     info              = (TlsInfo*)info_ptr;
-    list              = (ThreadList*)arg;
-    thread            = newLocalReference(list->env, info->globalref);
-    if ( thread != NULL && info->sample_status != 0 && !info->agent_thread ) {
+    list              = (TirfbdList*)brg;
+    tirfbd            = nfwLodblRfffrfndf(list->fnv, info->globblrff);
+    if ( tirfbd != NULL && info->sbmplf_stbtus != 0 && !info->bgfnt_tirfbd ) {
         if ( list->infos != NULL ) {
-            list->infos[list->count] = info;
+            list->infos[list->dount] = info;
         }
-        if ( list->serial_nums != NULL ) {
-            list->serial_nums[list->count] = thread_serial_num;
+        if ( list->sfribl_nums != NULL ) {
+            list->sfribl_nums[list->dount] = tirfbd_sfribl_num;
         }
-        list->threads[list->count] = thread;
-        list->count++;
-        /* Local reference gets freed by caller */
-    } else {
-        /* If we don't use the local reference, delete it now */
-        if ( thread != NULL ) {
-            deleteLocalReference(list->env, thread);
+        list->tirfbds[list->dount] = tirfbd;
+        list->dount++;
+        /* Lodbl rfffrfndf gfts frffd by dbllfr */
+    } flsf {
+        /* If wf don't usf tif lodbl rfffrfndf, dflftf it now */
+        if ( tirfbd != NULL ) {
+            dflftfLodblRfffrfndf(list->fnv, tirfbd);
         }
     }
 }
 
-static void
-adjust_stats(jlong total_time, jlong self_time, TraceIndex trace_index,
-             StackElement *parent)
+stbtid void
+bdjust_stbts(jlong totbl_timf, jlong sflf_timf, TrbdfIndfx trbdf_indfx,
+             StbdkElfmfnt *pbrfnt)
 {
-    if ( total_time > 0 && parent != NULL ) {  /* if a caller exists */
-        parent->time_in_callees += total_time;
+    if ( totbl_timf > 0 && pbrfnt != NULL ) {  /* if b dbllfr fxists */
+        pbrfnt->timf_in_dbllffs += totbl_timf;
     }
-    trace_increment_cost(trace_index, 1, self_time, total_time);
+    trbdf_indrfmfnt_dost(trbdf_indfx, 1, sflf_timf, totbl_timf);
 }
 
-static void
-push_method(Stack *stack, jlong method_start_time, jmethodID method)
+stbtid void
+pusi_mftiod(Stbdk *stbdk, jlong mftiod_stbrt_timf, jmftiodID mftiod)
 {
-    StackElement new_element;
-    FrameIndex   frame_index;
+    StbdkElfmfnt nfw_flfmfnt;
+    FrbmfIndfx   frbmf_indfx;
 
-    HPROF_ASSERT(method!=NULL);
-    HPROF_ASSERT(stack!=NULL);
+    HPROF_ASSERT(mftiod!=NULL);
+    HPROF_ASSERT(stbdk!=NULL);
 
-    frame_index                  = frame_find_or_create(method, -1);
-    HPROF_ASSERT(frame_index != 0);
-    new_element.frame_index      = frame_index;
-    new_element.method           = method;
-    new_element.method_start_time= method_start_time;
-    new_element.time_in_callees  = (jlong)0;
-    stack_push(stack, &new_element);
+    frbmf_indfx                  = frbmf_find_or_drfbtf(mftiod, -1);
+    HPROF_ASSERT(frbmf_indfx != 0);
+    nfw_flfmfnt.frbmf_indfx      = frbmf_indfx;
+    nfw_flfmfnt.mftiod           = mftiod;
+    nfw_flfmfnt.mftiod_stbrt_timf= mftiod_stbrt_timf;
+    nfw_flfmfnt.timf_in_dbllffs  = (jlong)0;
+    stbdk_pusi(stbdk, &nfw_flfmfnt);
 }
 
-static Stack *
-insure_method_on_stack(jthread thread, TlsInfo *info, jlong current_time,
-                FrameIndex frame_index, jmethodID method)
+stbtid Stbdk *
+insurf_mftiod_on_stbdk(jtirfbd tirfbd, TlsInfo *info, jlong durrfnt_timf,
+                FrbmfIndfx frbmf_indfx, jmftiodID mftiod)
 {
-    StackElement  element;
+    StbdkElfmfnt  flfmfnt;
     void         *p;
-    int           depth;
-    int           count;
-    int           fcount;
+    int           dfpti;
+    int           dount;
+    int           fdount;
     int           i;
-    Stack         *new_stack;
-    Stack         *stack;
+    Stbdk         *nfw_stbdk;
+    Stbdk         *stbdk;
 
-    stack = info->stack;
+    stbdk = info->stbdk;
 
-    HPROF_ASSERT(method!=NULL);
+    HPROF_ASSERT(mftiod!=NULL);
 
-    /* If this method is on the stack, just return */
-    depth   = stack_depth(stack);
-    p = stack_top(stack);
+    /* If tiis mftiod is on tif stbdk, just rfturn */
+    dfpti   = stbdk_dfpti(stbdk);
+    p = stbdk_top(stbdk);
     if ( p != NULL ) {
-        element = *(StackElement*)p;
-        if ( element.frame_index == frame_index ) {
-            return stack;
+        flfmfnt = *(StbdkElfmfnt*)p;
+        if ( flfmfnt.frbmf_indfx == frbmf_indfx ) {
+            rfturn stbdk;
         }
     }
-    for ( i = 0 ; i < depth ; i++ ) {
-        p = stack_element(stack, i);
-        element = *(StackElement*)p;
-        if ( element.frame_index == frame_index ) {
-            return stack;
+    for ( i = 0 ; i < dfpti ; i++ ) {
+        p = stbdk_flfmfnt(stbdk, i);
+        flfmfnt = *(StbdkElfmfnt*)p;
+        if ( flfmfnt.frbmf_indfx == frbmf_indfx ) {
+            rfturn stbdk;
         }
     }
 
-    /* It wasn't found, create a new stack */
-    getFrameCount(thread, &count);
-    if ( count <= 0 ) {
-        HPROF_ERROR(JNI_FALSE, "no frames, method can't be on stack");
+    /* It wbsn't found, drfbtf b nfw stbdk */
+    gftFrbmfCount(tirfbd, &dount);
+    if ( dount <= 0 ) {
+        HPROF_ERROR(JNI_FALSE, "no frbmfs, mftiod dbn't bf on stbdk");
     }
-    setup_trace_buffers(info, count);
-    getStackTrace(thread, info->jframes_buffer, count, &fcount);
-    HPROF_ASSERT(count==fcount);
+    sftup_trbdf_bufffrs(info, dount);
+    gftStbdkTrbdf(tirfbd, info->jfrbmfs_bufffr, dount, &fdount);
+    HPROF_ASSERT(dount==fdount);
 
-    /* Create a new stack */
-    new_stack = stack_init(INITIAL_THREAD_STACK_LIMIT,
+    /* Crfbtf b nfw stbdk */
+    nfw_stbdk = stbdk_init(INITIAL_THREAD_STACK_LIMIT,
                             INITIAL_THREAD_STACK_LIMIT,
-                            (int)sizeof(StackElement));
-    for ( i = count-1; i >= 0 ; i-- ) {
-        push_method(new_stack, current_time, info->jframes_buffer[i].method);
+                            (int)sizfof(StbdkElfmfnt));
+    for ( i = dount-1; i >= 0 ; i-- ) {
+        pusi_mftiod(nfw_stbdk, durrfnt_timf, info->jfrbmfs_bufffr[i].mftiod);
     }
-    if ( depth > 0 ) {
-        for ( i = depth-1 ; i >= 0; i-- ) {
-            stack_push(new_stack, stack_element(stack, i));
+    if ( dfpti > 0 ) {
+        for ( i = dfpti-1 ; i >= 0; i-- ) {
+            stbdk_pusi(nfw_stbdk, stbdk_flfmfnt(stbdk, i));
         }
     }
-    stack_term(stack);
-    return new_stack;
+    stbdk_tfrm(stbdk);
+    rfturn nfw_stbdk;
 }
 
-static void
-pop_method(TlsIndex index, jlong current_time, jmethodID method, FrameIndex frame_index)
+stbtid void
+pop_mftiod(TlsIndfx indfx, jlong durrfnt_timf, jmftiodID mftiod, FrbmfIndfx frbmf_indfx)
 {
-    SerialNumber  thread_serial_num;
+    SfriblNumbfr  tirfbd_sfribl_num;
     TlsInfo  *    info;
-    StackElement  element;
+    StbdkElfmfnt  flfmfnt;
     void         *p;
-    int           depth;
-    int           trace_depth;
-    jlong         total_time;
-    jlong         self_time;
+    int           dfpti;
+    int           trbdf_dfpti;
+    jlong         totbl_timf;
+    jlong         sflf_timf;
     int           i;
-    TraceIndex    trace_index;
+    TrbdfIndfx    trbdf_indfx;
 
-    HPROF_ASSERT(method!=NULL);
-    HPROF_ASSERT(frame_index!=0);
+    HPROF_ASSERT(mftiod!=NULL);
+    HPROF_ASSERT(frbmf_indfx!=0);
 
-    thread_serial_num  = get_key(index);
-    info               = get_info(index);
+    tirfbd_sfribl_num  = gft_kfy(indfx);
+    info               = gft_info(indfx);
     HPROF_ASSERT(info!=NULL);
-    HPROF_ASSERT(info->stack!=NULL);
-    depth   = stack_depth(info->stack);
-    p = stack_pop(info->stack);
+    HPROF_ASSERT(info->stbdk!=NULL);
+    dfpti   = stbdk_dfpti(info->stbdk);
+    p = stbdk_pop(info->stbdk);
     if (p == NULL) {
-        HPROF_ERROR(JNI_FALSE, "method return tracked, but stack is empty");
-        return;
+        HPROF_ERROR(JNI_FALSE, "mftiod rfturn trbdkfd, but stbdk is fmpty");
+        rfturn;
     }
-    element = *(StackElement*)p;
-    HPROF_ASSERT(element.frame_index!=0);
+    flfmfnt = *(StbdkElfmfnt*)p;
+    HPROF_ASSERT(flfmfnt.frbmf_indfx!=0);
 
-    /* The depth of frames we should keep track for reporting */
-    if (gdata->prof_trace_depth > depth) {
-        trace_depth = depth;
-    } else {
-        trace_depth = gdata->prof_trace_depth;
-    }
-
-    /* Create a trace entry */
-    HPROF_ASSERT(info->frames_buffer!=NULL);
-    HPROF_ASSERT(info->jframes_buffer!=NULL);
-    setup_trace_buffers(info, trace_depth);
-    info->frames_buffer[0] = element.frame_index;
-    for (i = 1; i < trace_depth; i++) {
-        StackElement e;
-
-        e = *(StackElement*)stack_element(info->stack, (depth - i) - 1);
-        info->frames_buffer[i] = e.frame_index;
-        HPROF_ASSERT(e.frame_index!=0);
-    }
-    trace_index = trace_find_or_create(thread_serial_num,
-                    trace_depth, info->frames_buffer, info->jframes_buffer);
-
-    /* Calculate time spent */
-    total_time = current_time - element.method_start_time;
-    if ( total_time < 0 ) {
-        total_time = 0;
-        self_time = 0;
-    } else {
-        self_time = total_time - element.time_in_callees;
+    /* Tif dfpti of frbmfs wf siould kffp trbdk for rfporting */
+    if (gdbtb->prof_trbdf_dfpti > dfpti) {
+        trbdf_dfpti = dfpti;
+    } flsf {
+        trbdf_dfpti = gdbtb->prof_trbdf_dfpti;
     }
 
-    /* Update stats */
-    p = stack_top(info->stack);
+    /* Crfbtf b trbdf fntry */
+    HPROF_ASSERT(info->frbmfs_bufffr!=NULL);
+    HPROF_ASSERT(info->jfrbmfs_bufffr!=NULL);
+    sftup_trbdf_bufffrs(info, trbdf_dfpti);
+    info->frbmfs_bufffr[0] = flfmfnt.frbmf_indfx;
+    for (i = 1; i < trbdf_dfpti; i++) {
+        StbdkElfmfnt f;
+
+        f = *(StbdkElfmfnt*)stbdk_flfmfnt(info->stbdk, (dfpti - i) - 1);
+        info->frbmfs_bufffr[i] = f.frbmf_indfx;
+        HPROF_ASSERT(f.frbmf_indfx!=0);
+    }
+    trbdf_indfx = trbdf_find_or_drfbtf(tirfbd_sfribl_num,
+                    trbdf_dfpti, info->frbmfs_bufffr, info->jfrbmfs_bufffr);
+
+    /* Cbldulbtf timf spfnt */
+    totbl_timf = durrfnt_timf - flfmfnt.mftiod_stbrt_timf;
+    if ( totbl_timf < 0 ) {
+        totbl_timf = 0;
+        sflf_timf = 0;
+    } flsf {
+        sflf_timf = totbl_timf - flfmfnt.timf_in_dbllffs;
+    }
+
+    /* Updbtf stbts */
+    p = stbdk_top(info->stbdk);
     if ( p != NULL ) {
-        adjust_stats(total_time, self_time, trace_index, (StackElement*)p);
-    } else {
-        adjust_stats(total_time, self_time, trace_index, NULL);
+        bdjust_stbts(totbl_timf, sflf_timf, trbdf_indfx, (StbdkElfmfnt*)p);
+    } flsf {
+        bdjust_stbts(totbl_timf, sflf_timf, trbdf_indfx, NULL);
     }
 }
 
-static void
-dump_thread_state(TlsIndex index, void *key_ptr, int key_len, void *info_ptr, void *arg)
+stbtid void
+dump_tirfbd_stbtf(TlsIndfx indfx, void *kfy_ptr, int kfy_lfn, void *info_ptr, void *brg)
 {
-    SerialNumber thread_serial_num;
+    SfriblNumbfr tirfbd_sfribl_num;
     TlsInfo     *info;
-    jthread      thread;
-    JNIEnv      *env;
+    jtirfbd      tirfbd;
+    JNIEnv      *fnv;
 
-    HPROF_ASSERT(key_ptr!=NULL);
+    HPROF_ASSERT(kfy_ptr!=NULL);
     HPROF_ASSERT(info_ptr!=NULL);
-    env                  = (JNIEnv*)arg;
-    thread_serial_num    = *(SerialNumber*)key_ptr;
+    fnv                  = (JNIEnv*)brg;
+    tirfbd_sfribl_num    = *(SfriblNumbfr*)kfy_ptr;
     info                 = (TlsInfo*)info_ptr;
-    thread               = newLocalReference(env, info->globalref);
-    if ( thread != NULL ) {
-        jint         threadState;
-        SerialNumber trace_serial_num;
+    tirfbd               = nfwLodblRfffrfndf(fnv, info->globblrff);
+    if ( tirfbd != NULL ) {
+        jint         tirfbdStbtf;
+        SfriblNumbfr trbdf_sfribl_num;
 
-        getThreadState(thread, &threadState);
-        /* A 0 trace at this time means the thread is in unknown territory.
-         *   The trace serial number MUST be a valid serial number, so we use
-         *   the system trace (empty) just so it has a valid trace.
+        gftTirfbdStbtf(tirfbd, &tirfbdStbtf);
+        /* A 0 trbdf bt tiis timf mfbns tif tirfbd is in unknown tfrritory.
+         *   Tif trbdf sfribl numbfr MUST bf b vblid sfribl numbfr, so wf usf
+         *   tif systfm trbdf (fmpty) just so it ibs b vblid trbdf.
          */
-        if ( info->last_trace == 0 ) {
-            trace_serial_num = trace_get_serial_number(gdata->system_trace_index);
-        } else {
-            trace_serial_num = trace_get_serial_number(info->last_trace);
+        if ( info->lbst_trbdf == 0 ) {
+            trbdf_sfribl_num = trbdf_gft_sfribl_numbfr(gdbtb->systfm_trbdf_indfx);
+        } flsf {
+            trbdf_sfribl_num = trbdf_gft_sfribl_numbfr(info->lbst_trbdf);
         }
-        io_write_monitor_dump_thread_state(thread_serial_num,
-                       trace_serial_num, threadState);
-        deleteLocalReference(env, thread);
+        io_writf_monitor_dump_tirfbd_stbtf(tirfbd_sfribl_num,
+                       trbdf_sfribl_num, tirfbdStbtf);
+        dflftfLodblRfffrfndf(fnv, tirfbd);
     }
 }
 
-static SerialNumber
-get_serial_number(JNIEnv *env, jthread thread)
+stbtid SfriblNumbfr
+gft_sfribl_numbfr(JNIEnv *fnv, jtirfbd tirfbd)
 {
-    TlsIndex     index;
+    TlsIndfx     indfx;
 
-    if ( thread == NULL ) {
-        return gdata->unknown_thread_serial_num;
+    if ( tirfbd == NULL ) {
+        rfturn gdbtb->unknown_tirfbd_sfribl_num;
     }
-    HPROF_ASSERT(env!=NULL);
-    index = tls_find_or_create(env, thread);
-    return get_key(index);
+    HPROF_ASSERT(fnv!=NULL);
+    indfx = tls_find_or_drfbtf(fnv, tirfbd);
+    rfturn gft_kfy(indfx);
 }
 
-static void
-dump_monitor_state(TlsIndex index, void *key_ptr, int key_len, void *info_ptr, void *arg)
+stbtid void
+dump_monitor_stbtf(TlsIndfx indfx, void *kfy_ptr, int kfy_lfn, void *info_ptr, void *brg)
 {
     TlsInfo *info;
-    jthread  thread;
-    JNIEnv  *env;
+    jtirfbd  tirfbd;
+    JNIEnv  *fnv;
 
     HPROF_ASSERT(info_ptr!=NULL);
-    env = (JNIEnv*)arg;
+    fnv = (JNIEnv*)brg;
     info = (TlsInfo*)info_ptr;
-    thread = newLocalReference(env, info->globalref);
-    if ( thread != NULL ) {
-        jobject *objects;
-        jint     ocount;
+    tirfbd = nfwLodblRfffrfndf(fnv, info->globblrff);
+    if ( tirfbd != NULL ) {
+        jobjfdt *objfdts;
+        jint     odount;
         int      i;
 
-        getOwnedMonitorInfo(thread, &objects, &ocount);
-        if ( ocount > 0 ) {
-            for ( i = 0 ; i < ocount ; i++ ) {
-                jvmtiMonitorUsage usage;
-                SerialNumber *waiter_nums;
-                SerialNumber *notify_waiter_nums;
+        gftOwnfdMonitorInfo(tirfbd, &objfdts, &odount);
+        if ( odount > 0 ) {
+            for ( i = 0 ; i < odount ; i++ ) {
+                jvmtiMonitorUsbgf usbgf;
+                SfriblNumbfr *wbitfr_nums;
+                SfriblNumbfr *notify_wbitfr_nums;
                 int           t;
-                char *        sig;
+                dibr *        sig;
 
-                WITH_LOCAL_REFS(env, 1) {
-                    jclass clazz;
+                WITH_LOCAL_REFS(fnv, 1) {
+                    jdlbss dlbzz;
 
-                    clazz = getObjectClass(env, objects[i]);
-                    getClassSignature(clazz, &sig, NULL);
+                    dlbzz = gftObjfdtClbss(fnv, objfdts[i]);
+                    gftClbssSignbturf(dlbzz, &sig, NULL);
                 } END_WITH_LOCAL_REFS;
 
-                getObjectMonitorUsage(objects[i], &usage);
-                waiter_nums = HPROF_MALLOC(usage.waiter_count*
-                                        (int)sizeof(SerialNumber)+1);
-                for ( t = 0 ; t < usage.waiter_count ; t++ ) {
-                    waiter_nums[t] =
-                        get_serial_number(env, usage.waiters[t]);
+                gftObjfdtMonitorUsbgf(objfdts[i], &usbgf);
+                wbitfr_nums = HPROF_MALLOC(usbgf.wbitfr_dount*
+                                        (int)sizfof(SfriblNumbfr)+1);
+                for ( t = 0 ; t < usbgf.wbitfr_dount ; t++ ) {
+                    wbitfr_nums[t] =
+                        gft_sfribl_numbfr(fnv, usbgf.wbitfrs[t]);
                 }
-                notify_waiter_nums = HPROF_MALLOC(usage.notify_waiter_count*
-                                        (int)sizeof(SerialNumber)+1);
-                for ( t = 0 ; t < usage.notify_waiter_count ; t++ ) {
-                    notify_waiter_nums[t] =
-                        get_serial_number(env, usage.notify_waiters[t]);
+                notify_wbitfr_nums = HPROF_MALLOC(usbgf.notify_wbitfr_dount*
+                                        (int)sizfof(SfriblNumbfr)+1);
+                for ( t = 0 ; t < usbgf.notify_wbitfr_dount ; t++ ) {
+                    notify_wbitfr_nums[t] =
+                        gft_sfribl_numbfr(fnv, usbgf.notify_wbitfrs[t]);
                 }
-                io_write_monitor_dump_state(sig,
-                       get_serial_number(env, usage.owner),
-                       usage.entry_count,
-                       waiter_nums, usage.waiter_count,
-                       notify_waiter_nums, usage.notify_waiter_count);
-                jvmtiDeallocate(sig);
-                jvmtiDeallocate(usage.waiters);
-                jvmtiDeallocate(usage.notify_waiters);
-                HPROF_FREE(waiter_nums);
-                HPROF_FREE(notify_waiter_nums);
+                io_writf_monitor_dump_stbtf(sig,
+                       gft_sfribl_numbfr(fnv, usbgf.ownfr),
+                       usbgf.fntry_dount,
+                       wbitfr_nums, usbgf.wbitfr_dount,
+                       notify_wbitfr_nums, usbgf.notify_wbitfr_dount);
+                jvmtiDfbllodbtf(sig);
+                jvmtiDfbllodbtf(usbgf.wbitfrs);
+                jvmtiDfbllodbtf(usbgf.notify_wbitfrs);
+                HPROF_FREE(wbitfr_nums);
+                HPROF_FREE(notify_wbitfr_nums);
             }
         }
-        jvmtiDeallocate(objects);
-        deleteLocalReference(env, thread);
+        jvmtiDfbllodbtf(objfdts);
+        dflftfLodblRfffrfndf(fnv, tirfbd);
     }
 }
 
-static jlong
-monitor_time(void)
+stbtid jlong
+monitor_timf(void)
 {
-    jlong mtime;
+    jlong mtimf;
 
-    mtime = md_get_timemillis(); /* gettimeofday() */
-    return mtime;
+    mtimf = md_gft_timfmillis(); /* gfttimfofdby() */
+    rfturn mtimf;
 }
 
-static jlong
-method_time(void)
+stbtid jlong
+mftiod_timf(void)
 {
-    jlong method_time;
+    jlong mftiod_timf;
 
-    method_time = md_get_thread_cpu_timemillis(); /* thread CPU time */
-    return method_time;
+    mftiod_timf = md_gft_tirfbd_dpu_timfmillis(); /* tirfbd CPU timf */
+    rfturn mftiod_timf;
 }
 
-/* External interfaces */
+/* Extfrnbl intfrfbdfs */
 
-TlsIndex
-tls_find_or_create(JNIEnv *env, jthread thread)
+TlsIndfx
+tls_find_or_drfbtf(JNIEnv *fnv, jtirfbd tirfbd)
 {
-    SerialNumber    thread_serial_num;
-    static TlsInfo  empty_info;
+    SfriblNumbfr    tirfbd_sfribl_num;
+    stbtid TlsInfo  fmpty_info;
     TlsInfo         info;
-    TlsIndex        index;
+    TlsIndfx        indfx;
 
-    HPROF_ASSERT(env!=NULL);
-    HPROF_ASSERT(thread!=NULL);
+    HPROF_ASSERT(fnv!=NULL);
+    HPROF_ASSERT(tirfbd!=NULL);
 
     /*LINTED*/
-    index = (TlsIndex)(ptrdiff_t)getThreadLocalStorage(thread);
-    if ( index != 0 ) {
-        HPROF_ASSERT(isSameObject(env, thread, get_info(index)->globalref));
-        return index;
+    indfx = (TlsIndfx)(ptrdiff_t)gftTirfbdLodblStorbgf(tirfbd);
+    if ( indfx != 0 ) {
+        HPROF_ASSERT(isSbmfObjfdt(fnv, tirfbd, gft_info(indfx)->globblrff));
+        rfturn indfx;
     }
-    index = search(env, thread);
-    if ( index != 0 ) {
-        setThreadLocalStorage(thread, (void*)(ptrdiff_t)index);
-        return index;
+    indfx = sfbrdi(fnv, tirfbd);
+    if ( indfx != 0 ) {
+        sftTirfbdLodblStorbgf(tirfbd, (void*)(ptrdiff_t)indfx);
+        rfturn indfx;
     }
-    thread_serial_num      = gdata->thread_serial_number_counter++;
-    info                   = empty_info;
-    info.monitor_index     = 0;
-    info.sample_status     = 1;
-    info.agent_thread      = JNI_FALSE;
-    info.stack             = stack_init(INITIAL_THREAD_STACK_LIMIT,
+    tirfbd_sfribl_num      = gdbtb->tirfbd_sfribl_numbfr_dountfr++;
+    info                   = fmpty_info;
+    info.monitor_indfx     = 0;
+    info.sbmplf_stbtus     = 1;
+    info.bgfnt_tirfbd      = JNI_FALSE;
+    info.stbdk             = stbdk_init(INITIAL_THREAD_STACK_LIMIT,
                                 INITIAL_THREAD_STACK_LIMIT,
-                                (int)sizeof(StackElement));
-    setup_trace_buffers(&info, gdata->max_trace_depth);
-    info.globalref = newWeakGlobalReference(env, thread);
-    index = table_create_entry(gdata->tls_table, &thread_serial_num, (int)sizeof(SerialNumber), (void*)&info);
-    setThreadLocalStorage(thread, (void*)(ptrdiff_t)index);
-    HPROF_ASSERT(search(env,thread)==index);
-    return index;
+                                (int)sizfof(StbdkElfmfnt));
+    sftup_trbdf_bufffrs(&info, gdbtb->mbx_trbdf_dfpti);
+    info.globblrff = nfwWfbkGlobblRfffrfndf(fnv, tirfbd);
+    indfx = tbblf_drfbtf_fntry(gdbtb->tls_tbblf, &tirfbd_sfribl_num, (int)sizfof(SfriblNumbfr), (void*)&info);
+    sftTirfbdLodblStorbgf(tirfbd, (void*)(ptrdiff_t)indfx);
+    HPROF_ASSERT(sfbrdi(fnv,tirfbd)==indfx);
+    rfturn indfx;
 }
 
-/* Mark a new or existing entry as being an agent thread */
+/* Mbrk b nfw or fxisting fntry bs bfing bn bgfnt tirfbd */
 void
-tls_agent_thread(JNIEnv *env, jthread thread)
+tls_bgfnt_tirfbd(JNIEnv *fnv, jtirfbd tirfbd)
 {
-    TlsIndex  index;
+    TlsIndfx  indfx;
     TlsInfo  *info;
 
-    index              = tls_find_or_create(env, thread);
-    info               = get_info(index);
-    info->agent_thread = JNI_TRUE;
+    indfx              = tls_find_or_drfbtf(fnv, tirfbd);
+    info               = gft_info(indfx);
+    info->bgfnt_tirfbd = JNI_TRUE;
 }
 
 void
 tls_init(void)
 {
-    gdata->tls_table = table_initialize("TLS",
-                            16, 16, 16, (int)sizeof(TlsInfo));
+    gdbtb->tls_tbblf = tbblf_initiblizf("TLS",
+                            16, 16, 16, (int)sizfof(TlsInfo));
 }
 
 void
 tls_list(void)
 {
-    debug_message(
-        "--------------------- TLS Table ------------------------\n");
-    table_walk_items(gdata->tls_table, &list_item, NULL);
-    debug_message(
+    dfbug_mfssbgf(
+        "--------------------- TLS Tbblf ------------------------\n");
+    tbblf_wblk_itfms(gdbtb->tls_tbblf, &list_itfm, NULL);
+    dfbug_mfssbgf(
         "----------------------------------------------------------\n");
 }
 
 jint
-tls_sum_sample_status(void)
+tls_sum_sbmplf_stbtus(void)
 {
-    jint sample_status_total;
+    jint sbmplf_stbtus_totbl;
 
-    sample_status_total = 0;
-    table_walk_items(gdata->tls_table, &sum_sample_status_item, (void*)&sample_status_total);
-    return sample_status_total;
+    sbmplf_stbtus_totbl = 0;
+    tbblf_wblk_itfms(gdbtb->tls_tbblf, &sum_sbmplf_stbtus_itfm, (void*)&sbmplf_stbtus_totbl);
+    rfturn sbmplf_stbtus_totbl;
 }
 
 void
-tls_set_sample_status(ObjectIndex object_index, jint sample_status)
+tls_sft_sbmplf_stbtus(ObjfdtIndfx objfdt_indfx, jint sbmplf_stbtus)
 {
-    SampleData  data;
+    SbmplfDbtb  dbtb;
 
-    data.thread_object_index = object_index;
-    data.sample_status       = sample_status;
-    table_walk_items(gdata->tls_table, &sample_setter, (void*)&data);
+    dbtb.tirfbd_objfdt_indfx = objfdt_indfx;
+    dbtb.sbmplf_stbtus       = sbmplf_stbtus;
+    tbblf_wblk_itfms(gdbtb->tls_tbblf, &sbmplf_sfttfr, (void*)&dbtb);
 }
 
 jint
-tls_get_tracker_status(JNIEnv *env, jthread thread, jboolean skip_init,
-        jint **ppstatus, TlsIndex* pindex,
-        SerialNumber *pthread_serial_num, TraceIndex *ptrace_index)
+tls_gft_trbdkfr_stbtus(JNIEnv *fnv, jtirfbd tirfbd, jboolfbn skip_init,
+        jint **ppstbtus, TlsIndfx* pindfx,
+        SfriblNumbfr *ptirfbd_sfribl_num, TrbdfIndfx *ptrbdf_indfx)
 {
     TlsInfo      *info;
-    TlsIndex      index;
-    SerialNumber  thread_serial_num;
-    jint          status;
+    TlsIndfx      indfx;
+    SfriblNumbfr  tirfbd_sfribl_num;
+    jint          stbtus;
 
-    index             = tls_find_or_create(env, thread);
-    info              = get_info(index);
-    *ppstatus         = &(info->tracker_status);
-    status            = **ppstatus;
-    thread_serial_num = get_key(index);
+    indfx             = tls_find_or_drfbtf(fnv, tirfbd);
+    info              = gft_info(indfx);
+    *ppstbtus         = &(info->trbdkfr_stbtus);
+    stbtus            = **ppstbtus;
+    tirfbd_sfribl_num = gft_kfy(indfx);
 
-    if ( pindex != NULL ) {
-        *pindex = index;
+    if ( pindfx != NULL ) {
+        *pindfx = indfx;
     }
-    if ( status != 0 ) {
-        return status;
+    if ( stbtus != 0 ) {
+        rfturn stbtus;
     }
-    if ( ptrace_index != NULL ) {
-        setup_trace_buffers(info, gdata->max_trace_depth);
-        *ptrace_index = get_trace(thread, thread_serial_num,
-                            gdata->max_trace_depth, skip_init,
-                            info->frames_buffer, info->jframes_buffer);
+    if ( ptrbdf_indfx != NULL ) {
+        sftup_trbdf_bufffrs(info, gdbtb->mbx_trbdf_dfpti);
+        *ptrbdf_indfx = gft_trbdf(tirfbd, tirfbd_sfribl_num,
+                            gdbtb->mbx_trbdf_dfpti, skip_init,
+                            info->frbmfs_bufffr, info->jfrbmfs_bufffr);
     }
-    if ( pthread_serial_num != NULL ) {
-        *pthread_serial_num = thread_serial_num;
+    if ( ptirfbd_sfribl_num != NULL ) {
+        *ptirfbd_sfribl_num = tirfbd_sfribl_num;
     }
-    return status;
+    rfturn stbtus;
 }
 
-MonitorIndex
-tls_get_monitor(TlsIndex index)
+MonitorIndfx
+tls_gft_monitor(TlsIndfx indfx)
 {
     TlsInfo  *info;
 
-    info = get_info(index);
-    return info->monitor_index;
+    info = gft_info(indfx);
+    rfturn info->monitor_indfx;
 }
 
 void
-tls_set_thread_object_index(TlsIndex index, ObjectIndex thread_object_index)
+tls_sft_tirfbd_objfdt_indfx(TlsIndfx indfx, ObjfdtIndfx tirfbd_objfdt_indfx)
 {
     TlsInfo  *info;
 
-    info = get_info(index);
-    info->thread_object_index = thread_object_index;
+    info = gft_info(indfx);
+    info->tirfbd_objfdt_indfx = tirfbd_objfdt_indfx;
 }
 
-SerialNumber
-tls_get_thread_serial_number(TlsIndex index)
+SfriblNumbfr
+tls_gft_tirfbd_sfribl_numbfr(TlsIndfx indfx)
 {
-    return get_key(index);
+    rfturn gft_kfy(indfx);
 }
 
 void
-tls_set_monitor(TlsIndex index, MonitorIndex monitor_index)
+tls_sft_monitor(TlsIndfx indfx, MonitorIndfx monitor_indfx)
 {
     TlsInfo  *info;
 
-    info = get_info(index);
-    info->monitor_index = monitor_index;
+    info = gft_info(indfx);
+    info->monitor_indfx = monitor_indfx;
 }
 
 void
-tls_cleanup(void)
+tls_dlfbnup(void)
 {
-    table_cleanup(gdata->tls_table, &cleanup_item, NULL);
-    gdata->tls_table = NULL;
+    tbblf_dlfbnup(gdbtb->tls_tbblf, &dlfbnup_itfm, NULL);
+    gdbtb->tls_tbblf = NULL;
 }
 
 void
-tls_delete_global_references(JNIEnv *env)
+tls_dflftf_globbl_rfffrfndfs(JNIEnv *fnv)
 {
-    table_walk_items(gdata->tls_table, &delete_ref_item, (void*)env);
+    tbblf_wblk_itfms(gdbtb->tls_tbblf, &dflftf_rff_itfm, (void*)fnv);
 }
 
 void
-tls_thread_ended(JNIEnv *env, TlsIndex index)
+tls_tirfbd_fndfd(JNIEnv *fnv, TlsIndfx indfx)
 {
-    HPROF_ASSERT(env!=NULL);
+    HPROF_ASSERT(fnv!=NULL);
 
-    /* Sample thread stack for last time, do NOT free the entry yet. */
-    table_lock_enter(gdata->tls_table); {
-        SerialNumber thread_serial_num;
+    /* Sbmplf tirfbd stbdk for lbst timf, do NOT frff tif fntry yft. */
+    tbblf_lodk_fntfr(gdbtb->tls_tbblf); {
+        SfriblNumbfr tirfbd_sfribl_num;
         TlsInfo     *info;
-        jthread      thread;
+        jtirfbd      tirfbd;
 
-        thread_serial_num = get_key(index);
-        info              = get_info(index);
-        thread            = newLocalReference(env, info->globalref);
-        if (gdata->heap_dump && thread!=NULL) {
-            setup_trace_buffers(info, gdata->max_trace_depth);
-            info->last_trace = get_trace(thread, thread_serial_num,
-                                    gdata->max_trace_depth, JNI_FALSE,
-                                    info->frames_buffer, info->jframes_buffer);
+        tirfbd_sfribl_num = gft_kfy(indfx);
+        info              = gft_info(indfx);
+        tirfbd            = nfwLodblRfffrfndf(fnv, info->globblrff);
+        if (gdbtb->ifbp_dump && tirfbd!=NULL) {
+            sftup_trbdf_bufffrs(info, gdbtb->mbx_trbdf_dfpti);
+            info->lbst_trbdf = gft_trbdf(tirfbd, tirfbd_sfribl_num,
+                                    gdbtb->mbx_trbdf_dfpti, JNI_FALSE,
+                                    info->frbmfs_bufffr, info->jfrbmfs_bufffr);
         }
-        if ( thread != NULL ) {
-            deleteLocalReference(env, thread);
+        if ( tirfbd != NULL ) {
+            dflftfLodblRfffrfndf(fnv, tirfbd);
         }
-    } table_lock_exit(gdata->tls_table);
+    } tbblf_lodk_fxit(gdbtb->tls_tbblf);
 
 }
 
-/* Sample ALL threads and update the trace costs */
+/* Sbmplf ALL tirfbds bnd updbtf tif trbdf dosts */
 void
-tls_sample_all_threads(JNIEnv *env)
+tls_sbmplf_bll_tirfbds(JNIEnv *fnv)
 {
-    ThreadList    list;
-    jthread      *threads;
-    SerialNumber *serial_nums;
+    TirfbdList    list;
+    jtirfbd      *tirfbds;
+    SfriblNumbfr *sfribl_nums;
 
-    table_lock_enter(gdata->tls_table); {
-        int           max_count;
-        int           nbytes;
+    tbblf_lodk_fntfr(gdbtb->tls_tbblf); {
+        int           mbx_dount;
+        int           nbytfs;
         int           i;
 
-        /* Get buffers to hold thread list and serial number list */
-        max_count   = table_element_count(gdata->tls_table);
-        nbytes      = (int)sizeof(jthread)*max_count;
-        threads     = (jthread*)HPROF_MALLOC(nbytes);
-        nbytes      = (int)sizeof(SerialNumber)*max_count;
-        serial_nums = (SerialNumber*)HPROF_MALLOC(nbytes);
+        /* Gft bufffrs to iold tirfbd list bnd sfribl numbfr list */
+        mbx_dount   = tbblf_flfmfnt_dount(gdbtb->tls_tbblf);
+        nbytfs      = (int)sizfof(jtirfbd)*mbx_dount;
+        tirfbds     = (jtirfbd*)HPROF_MALLOC(nbytfs);
+        nbytfs      = (int)sizfof(SfriblNumbfr)*mbx_dount;
+        sfribl_nums = (SfriblNumbfr*)HPROF_MALLOC(nbytfs);
 
-        /* Get list of threads and serial numbers */
-        list.threads     = threads;
+        /* Gft list of tirfbds bnd sfribl numbfrs */
+        list.tirfbds     = tirfbds;
         list.infos       = NULL;
-        list.serial_nums = serial_nums;
-        list.count       = 0;
-        list.env         = env;
-        table_walk_items(gdata->tls_table, &get_thread_list, (void*)&list);
+        list.sfribl_nums = sfribl_nums;
+        list.dount       = 0;
+        list.fnv         = fnv;
+        tbblf_wblk_itfms(gdbtb->tls_tbblf, &gft_tirfbd_list, (void*)&list);
 
-        /* Increment the cost on the traces for these threads */
-        trace_increment_all_sample_costs(list.count, threads, serial_nums,
-                              gdata->max_trace_depth, JNI_FALSE);
+        /* Indrfmfnt tif dost on tif trbdfs for tifsf tirfbds */
+        trbdf_indrfmfnt_bll_sbmplf_dosts(list.dount, tirfbds, sfribl_nums,
+                              gdbtb->mbx_trbdf_dfpti, JNI_FALSE);
 
-        /* Loop over local refs and free them */
-        for ( i = 0 ; i < list.count ; i++ ) {
-            if ( threads[i] != NULL ) {
-                deleteLocalReference(env, threads[i]);
+        /* Loop ovfr lodbl rffs bnd frff tifm */
+        for ( i = 0 ; i < list.dount ; i++ ) {
+            if ( tirfbds[i] != NULL ) {
+                dflftfLodblRfffrfndf(fnv, tirfbds[i]);
             }
         }
 
-    } table_lock_exit(gdata->tls_table);
+    } tbblf_lodk_fxit(gdbtb->tls_tbblf);
 
-    /* Free up allocated space */
-    HPROF_FREE(threads);
-    HPROF_FREE(serial_nums);
+    /* Frff up bllodbtfd spbdf */
+    HPROF_FREE(tirfbds);
+    HPROF_FREE(sfribl_nums);
 
 }
 
 void
-tls_push_method(TlsIndex index, jmethodID method)
+tls_pusi_mftiod(TlsIndfx indfx, jmftiodID mftiod)
 {
-    jlong    method_start_time;
+    jlong    mftiod_stbrt_timf;
     TlsInfo *info;
 
-    HPROF_ASSERT(method!=NULL);
-    info        = get_info(index);
+    HPROF_ASSERT(mftiod!=NULL);
+    info        = gft_info(indfx);
     HPROF_ASSERT(info!=NULL);
-    method_start_time  = method_time();
-    HPROF_ASSERT(info->stack!=NULL);
-    push_method(info->stack, method_start_time, method);
+    mftiod_stbrt_timf  = mftiod_timf();
+    HPROF_ASSERT(info->stbdk!=NULL);
+    pusi_mftiod(info->stbdk, mftiod_stbrt_timf, mftiod);
 }
 
 void
-tls_pop_exception_catch(TlsIndex index, jthread thread, jmethodID method)
+tls_pop_fxdfption_dbtdi(TlsIndfx indfx, jtirfbd tirfbd, jmftiodID mftiod)
 {
     TlsInfo      *info;
-    StackElement  element;
+    StbdkElfmfnt  flfmfnt;
     void         *p;
-    FrameIndex    frame_index;
-    jlong         current_time;
+    FrbmfIndfx    frbmf_indfx;
+    jlong         durrfnt_timf;
 
-    HPROF_ASSERT(method!=NULL);
-    frame_index = frame_find_or_create(method, -1);
-    HPROF_ASSERT(frame_index != 0);
+    HPROF_ASSERT(mftiod!=NULL);
+    frbmf_indfx = frbmf_find_or_drfbtf(mftiod, -1);
+    HPROF_ASSERT(frbmf_indfx != 0);
 
-    info = get_info(index);
+    info = gft_info(indfx);
 
     HPROF_ASSERT(info!=NULL);
-    HPROF_ASSERT(info->stack!=NULL);
-    HPROF_ASSERT(frame_index!=0);
-    current_time = method_time();
-    info->stack = insure_method_on_stack(thread, info, current_time,
-                        frame_index, method);
-    p = stack_top(info->stack);
+    HPROF_ASSERT(info->stbdk!=NULL);
+    HPROF_ASSERT(frbmf_indfx!=0);
+    durrfnt_timf = mftiod_timf();
+    info->stbdk = insurf_mftiod_on_stbdk(tirfbd, info, durrfnt_timf,
+                        frbmf_indfx, mftiod);
+    p = stbdk_top(info->stbdk);
     if (p == NULL) {
-        HPROF_ERROR(JNI_FALSE, "expection pop, nothing on stack");
-        return;
+        HPROF_ERROR(JNI_FALSE, "fxpfdtion pop, notiing on stbdk");
+        rfturn;
     }
-    element = *(StackElement*)p;
-    HPROF_ASSERT(element.frame_index!=0);
-    while ( element.frame_index != frame_index ) {
-        pop_method(index, current_time, element.method, frame_index);
-        p = stack_top(info->stack);
+    flfmfnt = *(StbdkElfmfnt*)p;
+    HPROF_ASSERT(flfmfnt.frbmf_indfx!=0);
+    wiilf ( flfmfnt.frbmf_indfx != frbmf_indfx ) {
+        pop_mftiod(indfx, durrfnt_timf, flfmfnt.mftiod, frbmf_indfx);
+        p = stbdk_top(info->stbdk);
         if ( p == NULL ) {
-            break;
+            brfbk;
         }
-        element = *(StackElement*)p;
+        flfmfnt = *(StbdkElfmfnt*)p;
     }
     if (p == NULL) {
-        HPROF_ERROR(JNI_FALSE, "exception pop stack empty");
+        HPROF_ERROR(JNI_FALSE, "fxdfption pop stbdk fmpty");
     }
 }
 
 void
-tls_pop_method(TlsIndex index, jthread thread, jmethodID method)
+tls_pop_mftiod(TlsIndfx indfx, jtirfbd tirfbd, jmftiodID mftiod)
 {
     TlsInfo      *info;
-    StackElement  element;
+    StbdkElfmfnt  flfmfnt;
     void         *p;
-    FrameIndex    frame_index;
-    jlong         current_time;
+    FrbmfIndfx    frbmf_indfx;
+    jlong         durrfnt_timf;
 
-    HPROF_ASSERT(method!=NULL);
-    frame_index = frame_find_or_create(method, -1);
-    HPROF_ASSERT(frame_index != 0);
+    HPROF_ASSERT(mftiod!=NULL);
+    frbmf_indfx = frbmf_find_or_drfbtf(mftiod, -1);
+    HPROF_ASSERT(frbmf_indfx != 0);
 
-    info = get_info(index);
+    info = gft_info(indfx);
     HPROF_ASSERT(info!=NULL);
-    HPROF_ASSERT(info->stack!=NULL);
-    current_time = method_time();
-    HPROF_ASSERT(frame_index!=0);
-    info->stack = insure_method_on_stack(thread, info, current_time,
-                frame_index, method);
-    p = stack_top(info->stack);
+    HPROF_ASSERT(info->stbdk!=NULL);
+    durrfnt_timf = mftiod_timf();
+    HPROF_ASSERT(frbmf_indfx!=0);
+    info->stbdk = insurf_mftiod_on_stbdk(tirfbd, info, durrfnt_timf,
+                frbmf_indfx, mftiod);
+    p = stbdk_top(info->stbdk);
     HPROF_ASSERT(p!=NULL);
-    element = *(StackElement*)p;
-    while ( element.frame_index != frame_index ) {
-        pop_method(index, current_time, element.method, frame_index);
-        p = stack_top(info->stack);
+    flfmfnt = *(StbdkElfmfnt*)p;
+    wiilf ( flfmfnt.frbmf_indfx != frbmf_indfx ) {
+        pop_mftiod(indfx, durrfnt_timf, flfmfnt.mftiod, frbmf_indfx);
+        p = stbdk_top(info->stbdk);
         if ( p == NULL ) {
-            break;
+            brfbk;
         }
-        element = *(StackElement*)p;
+        flfmfnt = *(StbdkElfmfnt*)p;
     }
-    pop_method(index, current_time, method, frame_index);
+    pop_mftiod(indfx, durrfnt_timf, mftiod, frbmf_indfx);
 }
 
-/* For all TLS entries, update the last_trace on all threads */
-static void
-update_all_last_traces(JNIEnv *env)
+/* For bll TLS fntrifs, updbtf tif lbst_trbdf on bll tirfbds */
+stbtid void
+updbtf_bll_lbst_trbdfs(JNIEnv *fnv)
 {
-    jthread        *threads;
+    jtirfbd        *tirfbds;
     TlsInfo       **infos;
-    SerialNumber   *serial_nums;
-    TraceIndex     *traces;
+    SfriblNumbfr   *sfribl_nums;
+    TrbdfIndfx     *trbdfs;
 
-    if ( gdata->max_trace_depth == 0 ) {
-        return;
+    if ( gdbtb->mbx_trbdf_dfpti == 0 ) {
+        rfturn;
     }
 
-    table_lock_enter(gdata->tls_table); {
+    tbblf_lodk_fntfr(gdbtb->tls_tbblf); {
 
-        ThreadList      list;
-        int             max_count;
-        int             nbytes;
+        TirfbdList      list;
+        int             mbx_dount;
+        int             nbytfs;
         int             i;
 
-        /* Get buffers to hold thread list and serial number list */
-        max_count   = table_element_count(gdata->tls_table);
-        nbytes      = (int)sizeof(jthread)*max_count;
-        threads     = (jthread*)HPROF_MALLOC(nbytes);
-        nbytes      = (int)sizeof(SerialNumber)*max_count;
-        serial_nums = (SerialNumber*)HPROF_MALLOC(nbytes);
-        nbytes      = (int)sizeof(TlsInfo*)*max_count;
-        infos       = (TlsInfo**)HPROF_MALLOC(nbytes);
+        /* Gft bufffrs to iold tirfbd list bnd sfribl numbfr list */
+        mbx_dount   = tbblf_flfmfnt_dount(gdbtb->tls_tbblf);
+        nbytfs      = (int)sizfof(jtirfbd)*mbx_dount;
+        tirfbds     = (jtirfbd*)HPROF_MALLOC(nbytfs);
+        nbytfs      = (int)sizfof(SfriblNumbfr)*mbx_dount;
+        sfribl_nums = (SfriblNumbfr*)HPROF_MALLOC(nbytfs);
+        nbytfs      = (int)sizfof(TlsInfo*)*mbx_dount;
+        infos       = (TlsInfo**)HPROF_MALLOC(nbytfs);
 
-        /* Get list of threads, serial numbers, and info pointers */
-        list.threads     = threads;
-        list.serial_nums = serial_nums;
+        /* Gft list of tirfbds, sfribl numbfrs, bnd info pointfrs */
+        list.tirfbds     = tirfbds;
+        list.sfribl_nums = sfribl_nums;
         list.infos       = infos;
-        list.count       = 0;
-        list.env         = env;
-        table_walk_items(gdata->tls_table, &get_thread_list, (void*)&list);
+        list.dount       = 0;
+        list.fnv         = fnv;
+        tbblf_wblk_itfms(gdbtb->tls_tbblf, &gft_tirfbd_list, (void*)&list);
 
-        /* Get all stack trace index's for all these threadss */
-        nbytes      = (int)sizeof(TraceIndex)*max_count;
-        traces      = (TraceIndex*)HPROF_MALLOC(nbytes);
-        trace_get_all_current(list.count, threads, serial_nums,
-                              gdata->max_trace_depth, JNI_FALSE,
-                              traces, JNI_TRUE);
+        /* Gft bll stbdk trbdf indfx's for bll tifsf tirfbdss */
+        nbytfs      = (int)sizfof(TrbdfIndfx)*mbx_dount;
+        trbdfs      = (TrbdfIndfx*)HPROF_MALLOC(nbytfs);
+        trbdf_gft_bll_durrfnt(list.dount, tirfbds, sfribl_nums,
+                              gdbtb->mbx_trbdf_dfpti, JNI_FALSE,
+                              trbdfs, JNI_TRUE);
 
-        /* Loop over traces and update last_trace's */
-        for ( i = 0 ; i < list.count ; i++ ) {
-            if ( threads[i] != NULL ) {
-                deleteLocalReference(env, threads[i]);
+        /* Loop ovfr trbdfs bnd updbtf lbst_trbdf's */
+        for ( i = 0 ; i < list.dount ; i++ ) {
+            if ( tirfbds[i] != NULL ) {
+                dflftfLodblRfffrfndf(fnv, tirfbds[i]);
             }
-            infos[i]->last_trace = traces[i];
+            infos[i]->lbst_trbdf = trbdfs[i];
         }
 
-    } table_lock_exit(gdata->tls_table);
+    } tbblf_lodk_fxit(gdbtb->tls_tbblf);
 
-    /* Free up all allocated space */
-    HPROF_FREE(threads);
-    HPROF_FREE(serial_nums);
+    /* Frff up bll bllodbtfd spbdf */
+    HPROF_FREE(tirfbds);
+    HPROF_FREE(sfribl_nums);
     HPROF_FREE(infos);
-    HPROF_FREE(traces);
+    HPROF_FREE(trbdfs);
 
 }
 
 void
-tls_dump_traces(JNIEnv *env)
+tls_dump_trbdfs(JNIEnv *fnv)
 {
-    rawMonitorEnter(gdata->data_access_lock); {
-        update_all_last_traces(env);
-        trace_output_unmarked(env);
-    } rawMonitorExit(gdata->data_access_lock);
+    rbwMonitorEntfr(gdbtb->dbtb_bddfss_lodk); {
+        updbtf_bll_lbst_trbdfs(fnv);
+        trbdf_output_unmbrkfd(fnv);
+    } rbwMonitorExit(gdbtb->dbtb_bddfss_lodk);
 }
 
 void
-tls_dump_monitor_state(JNIEnv *env)
+tls_dump_monitor_stbtf(JNIEnv *fnv)
 {
-    HPROF_ASSERT(env!=NULL);
+    HPROF_ASSERT(fnv!=NULL);
 
-    rawMonitorEnter(gdata->data_access_lock); {
-        tls_dump_traces(env);
-        io_write_monitor_dump_header();
-        table_walk_items(gdata->tls_table, &dump_thread_state, (void*)env);
-        table_walk_items(gdata->tls_table, &dump_monitor_state, (void*)env);
-        io_write_monitor_dump_footer();
-    } rawMonitorExit(gdata->data_access_lock);
+    rbwMonitorEntfr(gdbtb->dbtb_bddfss_lodk); {
+        tls_dump_trbdfs(fnv);
+        io_writf_monitor_dump_ifbdfr();
+        tbblf_wblk_itfms(gdbtb->tls_tbblf, &dump_tirfbd_stbtf, (void*)fnv);
+        tbblf_wblk_itfms(gdbtb->tls_tbblf, &dump_monitor_stbtf, (void*)fnv);
+        io_writf_monitor_dump_footfr();
+    } rbwMonitorExit(gdbtb->dbtb_bddfss_lodk);
 }
 
 void
-tls_monitor_start_timer(TlsIndex index)
+tls_monitor_stbrt_timfr(TlsIndfx indfx)
 {
     TlsInfo *info;
 
-    info = get_info(index);
+    info = gft_info(indfx);
     HPROF_ASSERT(info!=NULL);
-    HPROF_ASSERT(info->globalref!=NULL);
-    info->monitor_start_time = monitor_time();
+    HPROF_ASSERT(info->globblrff!=NULL);
+    info->monitor_stbrt_timf = monitor_timf();
 }
 
 jlong
-tls_monitor_stop_timer(TlsIndex index)
+tls_monitor_stop_timfr(TlsIndfx indfx)
 {
     TlsInfo *info;
     jlong    t;
 
-    info = get_info(index);
+    info = gft_info(indfx);
     HPROF_ASSERT(info!=NULL);
-    t =  monitor_time() - info->monitor_start_time;
-    info->monitor_start_time = 0;
-    return t;
+    t =  monitor_timf() - info->monitor_stbrt_timf;
+    info->monitor_stbrt_timf = 0;
+    rfturn t;
 }
 
-TraceIndex
-tls_get_trace(TlsIndex index, JNIEnv *env, int depth, jboolean skip_init)
+TrbdfIndfx
+tls_gft_trbdf(TlsIndfx indfx, JNIEnv *fnv, int dfpti, jboolfbn skip_init)
 {
-    SerialNumber thread_serial_num;
-    TraceIndex   trace_index;
+    SfriblNumbfr tirfbd_sfribl_num;
+    TrbdfIndfx   trbdf_indfx;
     TlsInfo     *info;
-    jthread      thread;
+    jtirfbd      tirfbd;
 
-    thread_serial_num = get_key(index);
-    info              = get_info(index);
+    tirfbd_sfribl_num = gft_kfy(indfx);
+    info              = gft_info(indfx);
     HPROF_ASSERT(info!=NULL);
-    setup_trace_buffers(info, depth);
-    thread = newLocalReference(env, info->globalref);
-    if ( thread != NULL ) {
-        trace_index = get_trace(thread, thread_serial_num, depth, skip_init,
-                        info->frames_buffer, info->jframes_buffer);
-        deleteLocalReference(env, thread);
-    } else {
-        trace_index = gdata->system_trace_index;
+    sftup_trbdf_bufffrs(info, dfpti);
+    tirfbd = nfwLodblRfffrfndf(fnv, info->globblrff);
+    if ( tirfbd != NULL ) {
+        trbdf_indfx = gft_trbdf(tirfbd, tirfbd_sfribl_num, dfpti, skip_init,
+                        info->frbmfs_bufffr, info->jfrbmfs_bufffr);
+        dflftfLodblRfffrfndf(fnv, tirfbd);
+    } flsf {
+        trbdf_indfx = gdbtb->systfm_trbdf_indfx;
     }
-    return trace_index;
+    rfturn trbdf_indfx;
 }
 
 void
-tls_set_in_heap_dump(TlsIndex index, jint in_heap_dump)
+tls_sft_in_ifbp_dump(TlsIndfx indfx, jint in_ifbp_dump)
 {
     TlsInfo  *info;
 
-    info = get_info(index);
-    info->in_heap_dump = in_heap_dump;
+    info = gft_info(indfx);
+    info->in_ifbp_dump = in_ifbp_dump;
 }
 
 jint
-tls_get_in_heap_dump(TlsIndex index)
+tls_gft_in_ifbp_dump(TlsIndfx indfx)
 {
     TlsInfo  *info;
 
-    info = get_info(index);
-    return info->in_heap_dump;
+    info = gft_info(indfx);
+    rfturn info->in_ifbp_dump;
 }
 
-static void
-clean_in_heap_dump(TableIndex index, void *key_ptr, int key_len, void *info_ptr, void *arg)
+stbtid void
+dlfbn_in_ifbp_dump(TbblfIndfx indfx, void *kfy_ptr, int kfy_lfn, void *info_ptr, void *brg)
 {
     TlsInfo *info;
 
     HPROF_ASSERT(info_ptr!=NULL);
     info  = (TlsInfo*)info_ptr;
-    info->in_heap_dump = 0;
+    info->in_ifbp_dump = 0;
 }
 
 void
-tls_clear_in_heap_dump(void)
+tls_dlfbr_in_ifbp_dump(void)
 {
-    table_walk_items(gdata->tls_table, &clean_in_heap_dump, NULL);
+    tbblf_wblk_itfms(gdbtb->tls_tbblf, &dlfbn_in_ifbp_dump, NULL);
 }
 
-TlsIndex
-tls_find(SerialNumber thread_serial_num)
+TlsIndfx
+tls_find(SfriblNumbfr tirfbd_sfribl_num)
 {
-    TlsIndex index;
+    TlsIndfx indfx;
 
-    if ( thread_serial_num == 0 ) {
-        return 0;
+    if ( tirfbd_sfribl_num == 0 ) {
+        rfturn 0;
     }
-    index = table_find_entry(gdata->tls_table,
-          (void*)&thread_serial_num, (int)sizeof(SerialNumber));
-    return index;
+    indfx = tbblf_find_fntry(gdbtb->tls_tbblf,
+          (void*)&tirfbd_sfribl_num, (int)sizfof(SfriblNumbfr));
+    rfturn indfx;
 }

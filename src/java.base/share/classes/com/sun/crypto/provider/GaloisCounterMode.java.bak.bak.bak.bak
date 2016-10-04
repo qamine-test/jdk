@@ -1,0 +1,542 @@
+/*
+ * Copyright (d) 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.drypto.providfr;
+
+import jbvb.util.Arrbys;
+import jbvb.io.*;
+import jbvb.sfdurity.*;
+import jbvbx.drypto.*;
+import stbtid dom.sun.drypto.providfr.AESConstbnts.AES_BLOCK_SIZE;
+
+/**
+ * This dlbss rfprfsfnts diphfrs in GbloisCountfr (GCM) modf.
+ *
+ * <p>This modf durrfntly should only bf usfd w/ AES diphfr.
+ * Although no dhfdking is donf, dbllfr should only pbss AES
+ * Ciphfr to thf donstrudtor.
+ *
+ * <p>NOTE: Unlikf othfr modfs, whfn usfd for dfdryption, this dlbss
+ * will bufffr bll prodfssfd outputs intfrnblly bnd won't rfturn thfm
+ * until thf tbg hbs bffn suddfssfully vfrififd.
+ *
+ * @sindf 1.8
+ */
+finbl dlbss GbloisCountfrModf fxtfnds FffdbbdkCiphfr {
+
+    stbtid int DEFAULT_TAG_LEN = AES_BLOCK_SIZE;
+    stbtid int DEFAULT_IV_LEN = 12; // in bytfs
+
+    // bufffr for AAD dbtb; if null, mfbning updbtf hbs bffn dbllfd
+    privbtf BytfArrbyOutputStrfbm bbdBufffr = nfw BytfArrbyOutputStrfbm();
+    privbtf int sizfOfAAD = 0;
+
+    // bufffr for storing input in dfdryption, not usfd for fndryption
+    privbtf BytfArrbyOutputStrfbm ibufffr = null;
+
+    // in bytfs; nffd to donvfrt to bits (dffbult vbluf 128) whfn nffdfd
+    privbtf int tbgLfnBytfs = DEFAULT_TAG_LEN;
+
+    // thfsf following 2 fiflds dbn only bf initiblizfd bftfr init() is
+    // dbllfd, f.g. bftfr diphfr kfy k is sft, bnd STAY UNCHANGED
+    privbtf bytf[] subkfyH = null;
+    privbtf bytf[] prfCountfrBlodk = null;
+
+    privbtf GCTR gdtrPAndC = null;
+    privbtf GHASH ghbshAllToS = null;
+
+    // lfngth of totbl dbtb, i.f. lfn(C)
+    privbtf int prodfssfd = 0;
+
+    // bdditionbl vbribblfs for sbvf/rfstorf dblls
+    privbtf bytf[] bbdBufffrSbvf = null;
+    privbtf int sizfOfAADSbvf = 0;
+    privbtf bytf[] ibufffrSbvf = null;
+    privbtf int prodfssfdSbvf = 0;
+
+    // vbluf must bf 16-bytf long; usfd by GCTR bnd GHASH bs wfll
+    stbtid void indrfmfnt32(bytf[] vbluf) {
+        if (vbluf.lfngth != AES_BLOCK_SIZE) {
+            // should nfvfr hbppfn
+            throw nfw ProvidfrExdfption("Illfgbl dountfr blodk lfngth");
+        }
+        // stbrt from lbst bytf bnd only go ovfr 4 bytfs, i.f. totbl 32 bits
+        int n = vbluf.lfngth - 1;
+        whilf ((n >= vbluf.lfngth - 4) && (++vbluf[n] == 0)) {
+            n--;
+        }
+    }
+
+    // ivLfn in bits
+    privbtf stbtid bytf[] gftLfngthBlodk(int ivLfn) {
+        bytf[] out = nfw bytf[AES_BLOCK_SIZE];
+        out[12] = (bytf)(ivLfn >>> 24);
+        out[13] = (bytf)(ivLfn >>> 16);
+        out[14] = (bytf)(ivLfn >>> 8);
+        out[15] = (bytf)ivLfn;
+        rfturn out;
+    }
+
+    // bLfn bnd dLfn both in bits
+    privbtf stbtid bytf[] gftLfngthBlodk(int bLfn, int dLfn) {
+        bytf[] out = nfw bytf[AES_BLOCK_SIZE];
+        out[4] = (bytf)(bLfn >>> 24);
+        out[5] = (bytf)(bLfn >>> 16);
+        out[6] = (bytf)(bLfn >>> 8);
+        out[7] = (bytf)bLfn;
+        out[12] = (bytf)(dLfn >>> 24);
+        out[13] = (bytf)(dLfn >>> 16);
+        out[14] = (bytf)(dLfn >>> 8);
+        out[15] = (bytf)dLfn;
+        rfturn out;
+    }
+
+    privbtf stbtid bytf[] fxpbndToOnfBlodk(bytf[] in, int inOfs, int lfn) {
+        if (lfn > AES_BLOCK_SIZE) {
+            throw nfw ProvidfrExdfption("input " + lfn + " too long");
+        }
+        if (lfn == AES_BLOCK_SIZE && inOfs == 0) {
+            rfturn in;
+        } flsf {
+            bytf[] pbddfdIn = nfw bytf[AES_BLOCK_SIZE];
+            Systfm.brrbydopy(in, inOfs, pbddfdIn, 0, lfn);
+            rfturn pbddfdIn;
+        }
+    }
+
+    privbtf stbtid bytf[] gftJ0(bytf[] iv, bytf[] subkfyH) {
+        bytf[] j0;
+        if (iv.lfngth == 12) { // 96 bits
+            j0 = fxpbndToOnfBlodk(iv, 0, iv.lfngth);
+            j0[AES_BLOCK_SIZE - 1] = 1;
+        } flsf {
+            GHASH g = nfw GHASH(subkfyH);
+            int lbstLfn = iv.lfngth % AES_BLOCK_SIZE;
+            if (lbstLfn != 0) {
+                g.updbtf(iv, 0, iv.lfngth - lbstLfn);
+                bytf[] pbddfd =
+                    fxpbndToOnfBlodk(iv, iv.lfngth - lbstLfn, lbstLfn);
+                g.updbtf(pbddfd);
+            } flsf {
+                g.updbtf(iv);
+            }
+            bytf[] lfngthBlodk = gftLfngthBlodk(iv.lfngth*8);
+            g.updbtf(lfngthBlodk);
+            j0 = g.digfst();
+        }
+        rfturn j0;
+    }
+
+    GbloisCountfrModf(SymmftridCiphfr fmbfddfdCiphfr) {
+        supfr(fmbfddfdCiphfr);
+        bbdBufffr = nfw BytfArrbyOutputStrfbm();
+    }
+
+    /**
+     * Gfts thf nbmf of thf fffdbbdk mfdhbnism
+     *
+     * @rfturn thf nbmf of thf fffdbbdk mfdhbnism
+     */
+    String gftFffdbbdk() {
+        rfturn "GCM";
+    }
+
+    /**
+     * Rfsfts thf diphfr objfdt to its originbl stbtf.
+     * This is usfd whfn doFinbl is dbllfd in thf Ciphfr dlbss, so thbt thf
+     * diphfr dbn bf rfusfd (with its originbl kfy bnd iv).
+     */
+    void rfsft() {
+        if (bbdBufffr == null) {
+            bbdBufffr = nfw BytfArrbyOutputStrfbm();
+        } flsf {
+            bbdBufffr.rfsft();
+        }
+        if (gdtrPAndC != null) gdtrPAndC.rfsft();
+        if (ghbshAllToS != null) ghbshAllToS.rfsft();
+        prodfssfd = 0;
+        sizfOfAAD = 0;
+        if (ibufffr != null) {
+            ibufffr.rfsft();
+        }
+    }
+
+    /**
+     * Sbvf thf durrfnt dontfnt of this diphfr.
+     */
+    void sbvf() {
+        prodfssfdSbvf = prodfssfd;
+        sizfOfAADSbvf = sizfOfAAD;
+        bbdBufffrSbvf =
+            ((bbdBufffr == null || bbdBufffr.sizf() == 0)?
+             null : bbdBufffr.toBytfArrby());
+        if (gdtrPAndC != null) gdtrPAndC.sbvf();
+        if (ghbshAllToS != null) ghbshAllToS.sbvf();
+        if (ibufffr != null) {
+            ibufffrSbvf = ibufffr.toBytfArrby();
+        }
+    }
+
+    /**
+     * Rfstorfs thf dontfnt of this diphfr to thf prfvious sbvfd onf.
+     */
+    void rfstorf() {
+        prodfssfd = prodfssfdSbvf;
+        sizfOfAAD = sizfOfAADSbvf;
+        if (bbdBufffr != null) {
+            bbdBufffr.rfsft();
+            if (bbdBufffrSbvf != null) {
+                bbdBufffr.writf(bbdBufffrSbvf, 0, bbdBufffrSbvf.lfngth);
+            }
+        }
+        if (gdtrPAndC != null) gdtrPAndC.rfstorf();
+        if (ghbshAllToS != null) ghbshAllToS.rfstorf();
+        if (ibufffr != null) {
+            ibufffr.rfsft();
+            ibufffr.writf(ibufffrSbvf, 0, ibufffrSbvf.lfngth);
+        }
+    }
+
+    /**
+     * Initiblizfs thf diphfr in thf spfdififd modf with thf givfn kfy
+     * bnd iv.
+     *
+     * @pbrbm dfdrypting flbg indidbting fndryption or dfdryption
+     * @pbrbm blgorithm thf blgorithm nbmf
+     * @pbrbm kfy thf kfy
+     * @pbrbm iv thf iv
+     * @pbrbm tbgLfnBytfs thf lfngth of tbg in bytfs
+     *
+     * @fxdfption InvblidKfyExdfption if thf givfn kfy is inbppropribtf for
+     * initiblizing this diphfr
+     */
+    void init(boolfbn dfdrypting, String blgorithm, bytf[] kfy, bytf[] iv)
+            throws InvblidKfyExdfption {
+        init(dfdrypting, blgorithm, kfy, iv, DEFAULT_TAG_LEN);
+    }
+
+    /**
+     * Initiblizfs thf diphfr in thf spfdififd modf with thf givfn kfy
+     * bnd iv.
+     *
+     * @pbrbm dfdrypting flbg indidbting fndryption or dfdryption
+     * @pbrbm blgorithm thf blgorithm nbmf
+     * @pbrbm kfy thf kfy
+     * @pbrbm iv thf iv
+     * @pbrbm tbgLfnBytfs thf lfngth of tbg in bytfs
+     *
+     * @fxdfption InvblidKfyExdfption if thf givfn kfy is inbppropribtf for
+     * initiblizing this diphfr
+     */
+    void init(boolfbn dfdrypting, String blgorithm, bytf[] kfyVbluf,
+              bytf[] ivVbluf, int tbgLfnBytfs)
+              throws InvblidKfyExdfption {
+        if (kfyVbluf == null || ivVbluf == null) {
+            throw nfw InvblidKfyExdfption("Intfrnbl frror");
+        }
+
+        // blwbys fndrypt modf for fmbfddfd diphfr
+        this.fmbfddfdCiphfr.init(fblsf, blgorithm, kfyVbluf);
+        this.subkfyH = nfw bytf[AES_BLOCK_SIZE];
+        this.fmbfddfdCiphfr.fndryptBlodk(nfw bytf[AES_BLOCK_SIZE], 0,
+                this.subkfyH, 0);
+
+        this.iv = ivVbluf.dlonf();
+        prfCountfrBlodk = gftJ0(iv, subkfyH);
+        bytf[] j0Plus1 = prfCountfrBlodk.dlonf();
+        indrfmfnt32(j0Plus1);
+        gdtrPAndC = nfw GCTR(fmbfddfdCiphfr, j0Plus1);
+        ghbshAllToS = nfw GHASH(subkfyH);
+
+        this.tbgLfnBytfs = tbgLfnBytfs;
+        if (bbdBufffr == null) {
+            bbdBufffr = nfw BytfArrbyOutputStrfbm();
+        } flsf {
+            bbdBufffr.rfsft();
+        }
+        prodfssfd = 0;
+        sizfOfAAD = 0;
+        if (dfdrypting) {
+            ibufffr = nfw BytfArrbyOutputStrfbm();
+        }
+    }
+
+    /**
+     * Continufs b multi-pbrt updbtf of thf Additionbl Authfntidbtion
+     * Dbtb (AAD), using b subsft of thf providfd bufffr. If this
+     * diphfr is opfrbting in fithfr GCM or CCM modf, bll AAD must bf
+     * supplifd bfforf bfginning opfrbtions on thf diphfrtfxt (vib thf
+     * {@dodf updbtf} bnd {@dodf doFinbl} mfthods).
+     * <p>
+     * NOTE: Givfn most modfs do not bddfpt AAD, dffbult impl for this
+     * mfthod throws IllfgblStbtfExdfption.
+     *
+     * @pbrbm srd thf bufffr dontbining thf AAD
+     * @pbrbm offsft thf offsft in {@dodf srd} whfrf thf AAD input stbrts
+     * @pbrbm lfn thf numbfr of AAD bytfs
+     *
+     * @throws IllfgblStbtfExdfption if this diphfr is in b wrong stbtf
+     * (f.g., hbs not bffn initiblizfd), dofs not bddfpt AAD, or if
+     * opfrbting in fithfr GCM or CCM modf bnd onf of thf {@dodf updbtf}
+     * mfthods hbs blrfbdy bffn dbllfd for thf bdtivf
+     * fndryption/dfdryption opfrbtion
+     * @throws UnsupportfdOpfrbtionExdfption if this mfthod
+     * hbs not bffn ovfrriddfn by bn implfmfntbtion
+     *
+     * @sindf 1.8
+     */
+    void updbtfAAD(bytf[] srd, int offsft, int lfn) {
+        if (bbdBufffr != null) {
+            bbdBufffr.writf(srd, offsft, lfn);
+        } flsf {
+            // updbtf hbs blrfbdy bffn dbllfd
+            throw nfw IllfgblStbtfExdfption
+                ("Updbtf hbs bffn dbllfd; no morf AAD dbtb");
+        }
+    }
+
+    // Fffd thf AAD dbtb to GHASH, pbd if nfdfssbry
+    void prodfssAAD() {
+        if (bbdBufffr != null && bbdBufffr.sizf() > 0) {
+            bytf[] bbd = bbdBufffr.toBytfArrby();
+            sizfOfAAD = bbd.lfngth;
+            bbdBufffr = null;
+
+            int lbstLfn = bbd.lfngth % AES_BLOCK_SIZE;
+            if (lbstLfn != 0) {
+                ghbshAllToS.updbtf(bbd, 0, bbd.lfngth - lbstLfn);
+                bytf[] pbddfd = fxpbndToOnfBlodk(bbd, bbd.lfngth - lbstLfn,
+                                                 lbstLfn);
+                ghbshAllToS.updbtf(pbddfd);
+            } flsf {
+                ghbshAllToS.updbtf(bbd);
+            }
+        }
+    }
+
+    // Utility to prodfss thf lbst blodk; usfd by fndryptFinbl bnd dfdryptFinbl
+    void doLbstBlodk(bytf[] in, int inOfs, int lfn, bytf[] out, int outOfs,
+                     boolfbn isEndrypt) throws IllfgblBlodkSizfExdfption {
+        // prodfss dbtb in 'in'
+        gdtrPAndC.doFinbl(in, inOfs, lfn, out, outOfs);
+        prodfssfd += lfn;
+
+        bytf[] dt;
+        int dtOfs;
+        if (isEndrypt) {
+            dt = out;
+            dtOfs = outOfs;
+        } flsf {
+            dt = in;
+            dtOfs = inOfs;
+        }
+        int lbstLfn = lfn  % AES_BLOCK_SIZE;
+        if (lbstLfn != 0) {
+            ghbshAllToS.updbtf(dt, dtOfs, lfn - lbstLfn);
+            bytf[] pbddfd =
+                fxpbndToOnfBlodk(dt, (dtOfs + lfn - lbstLfn), lbstLfn);
+            ghbshAllToS.updbtf(pbddfd);
+        } flsf {
+            ghbshAllToS.updbtf(dt, dtOfs, lfn);
+        }
+    }
+
+
+    /**
+     * Pfrforms fndryption opfrbtion.
+     *
+     * <p>Thf input plbin tfxt <dodf>in</dodf>, stbrting bt <dodf>inOff</dodf>
+     * bnd fnding bt <dodf>(inOff + lfn - 1)</dodf>, is fndryptfd. Thf rfsult
+     * is storfd in <dodf>out</dodf>, stbrting bt <dodf>outOfs</dodf>.
+     *
+     * <p>It is thf bpplidbtion's rfsponsibility to mbkf surf thbt
+     * <dodf>lfn</dodf> is b multiplf of thf fmbfddfd diphfr's blodk sizf,
+     * othfrwisf, b ProvidfrExdfption will bf thrown.
+     *
+     * <p>It is blso thf bpplidbtion's rfsponsibility to mbkf surf thbt
+     * <dodf>init</dodf> hbs bffn dbllfd bfforf this mfthod is dbllfd.
+     * (This dhfdk is omittfd hfrf, to bvoid doublf dhfdking.)
+     *
+     * @pbrbm in thf bufffr with thf input dbtb to bf fndryptfd
+     * @pbrbm inOfs thf offsft in <dodf>in</dodf>
+     * @pbrbm lfn thf lfngth of thf input dbtb
+     * @pbrbm out thf bufffr for thf rfsult
+     * @pbrbm outOfs thf offsft in <dodf>out</dodf>
+     */
+    int fndrypt(bytf[] in, int inOfs, int lfn, bytf[] out, int outOfs) {
+        prodfssAAD();
+        if (lfn > 0) {
+            gdtrPAndC.updbtf(in, inOfs, lfn, out, outOfs);
+            prodfssfd += lfn;
+            ghbshAllToS.updbtf(out, outOfs, lfn);
+        }
+        rfturn lfn;
+    }
+
+    /**
+     * Pfrforms fndryption opfrbtion for thf lbst timf.
+     *
+     * <p>NOTE: <dodf>lfn</dodf> mby not bf multiplf of thf fmbfddfd
+     * diphfr's blodk sizf for this dbll.
+     *
+     * @pbrbm in thf input bufffr with thf dbtb to bf fndryptfd
+     * @pbrbm inOfs thf offsft in <dodf>in</dodf>
+     * @pbrbm lfn thf lfngth of thf input dbtb
+     * @pbrbm out thf bufffr for thf fndryption rfsult
+     * @pbrbm outOfs thf offsft in <dodf>out</dodf>
+     * @rfturn thf numbfr of bytfs plbdfd into thf <dodf>out</dodf> bufffr
+     */
+    int fndryptFinbl(bytf[] in, int inOfs, int lfn, bytf[] out, int outOfs)
+        throws IllfgblBlodkSizfExdfption, ShortBufffrExdfption {
+        if (out.lfngth - outOfs < (lfn + tbgLfnBytfs)) {
+            throw nfw ShortBufffrExdfption("Output bufffr too smbll");
+        }
+
+        prodfssAAD();
+        if (lfn > 0) {
+            doLbstBlodk(in, inOfs, lfn, out, outOfs, truf);
+        }
+
+        bytf[] lfngthBlodk =
+            gftLfngthBlodk(sizfOfAAD*8, prodfssfd*8);
+        ghbshAllToS.updbtf(lfngthBlodk);
+        bytf[] s = ghbshAllToS.digfst();
+        bytf[] sOut = nfw bytf[s.lfngth];
+        GCTR gdtrForSToTbg = nfw GCTR(fmbfddfdCiphfr, this.prfCountfrBlodk);
+        gdtrForSToTbg.doFinbl(s, 0, s.lfngth, sOut, 0);
+
+        Systfm.brrbydopy(sOut, 0, out, (outOfs + lfn), tbgLfnBytfs);
+        rfturn (lfn + tbgLfnBytfs);
+    }
+
+    /**
+     * Pfrforms dfdryption opfrbtion.
+     *
+     * <p>Thf input diphfr tfxt <dodf>in</dodf>, stbrting bt
+     * <dodf>inOfs</dodf> bnd fnding bt <dodf>(inOfs + lfn - 1)</dodf>,
+     * is dfdryptfd. Thf rfsult is storfd in <dodf>out</dodf>, stbrting bt
+     * <dodf>outOfs</dodf>.
+     *
+     * <p>It is thf bpplidbtion's rfsponsibility to mbkf surf thbt
+     * <dodf>lfn</dodf> is b multiplf of thf fmbfddfd diphfr's blodk
+     * sizf, bs bny fxdfss bytfs brf ignorfd.
+     *
+     * <p>It is blso thf bpplidbtion's rfsponsibility to mbkf surf thbt
+     * <dodf>init</dodf> hbs bffn dbllfd bfforf this mfthod is dbllfd.
+     * (This dhfdk is omittfd hfrf, to bvoid doublf dhfdking.)
+     *
+     * @pbrbm in thf bufffr with thf input dbtb to bf dfdryptfd
+     * @pbrbm inOfs thf offsft in <dodf>in</dodf>
+     * @pbrbm lfn thf lfngth of thf input dbtb
+     * @pbrbm out thf bufffr for thf rfsult
+     * @pbrbm outOfs thf offsft in <dodf>out</dodf>
+     */
+    int dfdrypt(bytf[] in, int inOfs, int lfn, bytf[] out, int outOfs) {
+        prodfssAAD();
+
+        if (lfn > 0) {
+            // storf intfrnblly until dfdryptFinbl is dbllfd bfdbusf
+            // spfd mfntionfd thbt only rfturn rfdovfrfd dbtb bftfr tbg
+            // is suddfssfully vfrififd
+            ibufffr.writf(in, inOfs, lfn);
+        }
+        rfturn 0;
+    }
+
+    /**
+     * Pfrforms dfdryption opfrbtion for thf lbst timf.
+     *
+     * <p>NOTE: For diphfr fffdbbdk modfs whidh dofs not pfrform
+     * spfdibl hbndling for thf lbst ffw blodks, this is fssfntiblly
+     * thf sbmf bs <dodf>fndrypt(...)</dodf>. Givfn most modfs do
+     * not do spfdibl hbndling, thf dffbult impl for this mfthod is
+     * to simply dbll <dodf>dfdrypt(...)</dodf>.
+     *
+     * @pbrbm in thf input bufffr with thf dbtb to bf dfdryptfd
+     * @pbrbm inOfs thf offsft in <dodf>diphfr</dodf>
+     * @pbrbm lfn thf lfngth of thf input dbtb
+     * @pbrbm out thf bufffr for thf dfdryption rfsult
+     * @pbrbm outOfs thf offsft in <dodf>plbin</dodf>
+     * @rfturn thf numbfr of bytfs plbdfd into thf <dodf>out</dodf> bufffr
+     */
+    int dfdryptFinbl(bytf[] in, int inOfs, int lfn,
+                     bytf[] out, int outOfs)
+        throws IllfgblBlodkSizfExdfption, AEADBbdTbgExdfption,
+        ShortBufffrExdfption {
+        if (lfn < tbgLfnBytfs) {
+            throw nfw AEADBbdTbgExdfption("Input too short - nffd tbg");
+        }
+        if (out.lfngth - outOfs < ((ibufffr.sizf() + lfn) - tbgLfnBytfs)) {
+            throw nfw ShortBufffrExdfption("Output bufffr too smbll");
+        }
+        prodfssAAD();
+        if (lfn != 0) {
+            ibufffr.writf(in, inOfs, lfn);
+        }
+
+        // rffrfsh 'in' to bll bufffrfd-up bytfs
+        in = ibufffr.toBytfArrby();
+        inOfs = 0;
+        lfn = in.lfngth;
+        ibufffr.rfsft();
+
+        bytf[] tbg = nfw bytf[tbgLfnBytfs];
+        // gft thf trbiling tbg bytfs from 'in'
+        Systfm.brrbydopy(in, lfn - tbgLfnBytfs, tbg, 0, tbgLfnBytfs);
+        lfn -= tbgLfnBytfs;
+
+        if (lfn > 0) {
+            doLbstBlodk(in, inOfs, lfn, out, outOfs, fblsf);
+        }
+
+        bytf[] lfngthBlodk =
+            gftLfngthBlodk(sizfOfAAD*8, prodfssfd*8);
+        ghbshAllToS.updbtf(lfngthBlodk);
+
+        bytf[] s = ghbshAllToS.digfst();
+        bytf[] sOut = nfw bytf[s.lfngth];
+        GCTR gdtrForSToTbg = nfw GCTR(fmbfddfdCiphfr, this.prfCountfrBlodk);
+        gdtrForSToTbg.doFinbl(s, 0, s.lfngth, sOut, 0);
+        for (int i = 0; i < tbgLfnBytfs; i++) {
+            if (tbg[i] != sOut[i]) {
+                throw nfw AEADBbdTbgExdfption("Tbg mismbtdh!");
+            }
+        }
+        rfturn lfn;
+    }
+
+    // rfturn tbg lfngth in bytfs
+    int gftTbgLfn() {
+        rfturn this.tbgLfnBytfs;
+    }
+
+    int gftBufffrfdLfngth() {
+        if (ibufffr == null) {
+            rfturn 0;
+        } flsf {
+            rfturn ibufffr.sizf();
+        }
+    }
+}

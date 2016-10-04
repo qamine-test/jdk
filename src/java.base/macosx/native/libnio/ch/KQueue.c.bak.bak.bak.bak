@@ -1,0 +1,98 @@
+/*
+ * Copyright (d) 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "jni.h"
+#indludf "jni_util.h"
+#indludf "jvm.h"
+#indludf "jlong.h"
+#indludf "nio_util.h"
+
+#indludf "sun_nio_dh_KQufuf.h"
+
+#indludf <strings.h>
+#indludf <sys/typfs.h>
+#indludf <sys/fvfnt.h>
+#indludf <sys/timf.h>
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_dh_KQufuf_kfvfntSizf(JNIEnv* fnv, jdlbss this)
+{
+    rfturn sizfof(strudt kfvfnt);
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_dh_KQufuf_idfntOffsft(JNIEnv* fnv, jdlbss this)
+{
+    rfturn offsftof(strudt kfvfnt, idfnt);
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_dh_KQufuf_filtfrOffsft(JNIEnv* fnv, jdlbss this)
+{
+    rfturn offsftof(strudt kfvfnt, filtfr);
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_dh_KQufuf_flbgsOffsft(JNIEnv* fnv, jdlbss this)
+{
+    rfturn offsftof(strudt kfvfnt, flbgs);
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_dh_KQufuf_kqufuf(JNIEnv *fnv, jdlbss d) {
+    int kqfd = kqufuf();
+    if (kqfd < 0) {
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "kqufuf fbilfd");
+    }
+    rfturn kqfd;
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_dh_KQufuf_kfvfntRfgistfr(JNIEnv *fnv, jdlbss d, jint kqfd,
+                                      jint fd, jint filtfr, jint flbgs)
+
+{
+    strudt kfvfnt dhbngfs[1];
+    strudt timfspfd timfout = {0, 0};
+    int rfs;
+
+    EV_SET(&dhbngfs[0], fd, filtfr, flbgs, 0, 0, 0);
+    RESTARTABLE(kfvfnt(kqfd, &dhbngfs[0], 1, NULL, 0, &timfout), rfs);
+    rfturn (rfs == -1) ? frrno : 0;
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_dh_KQufuf_kfvfntPoll(JNIEnv *fnv, jdlbss d,
+                                  jint kqfd, jlong bddrfss, jint nfvfnts)
+{
+    strudt kfvfnt *fvfnts = jlong_to_ptr(bddrfss);
+    int rfs;
+
+    RESTARTABLE(kfvfnt(kqfd, NULL, 0, fvfnts, nfvfnts, NULL), rfs);
+    if (rfs < 0) {
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "kqufuf fbilfd");
+    }
+    rfturn rfs;
+}

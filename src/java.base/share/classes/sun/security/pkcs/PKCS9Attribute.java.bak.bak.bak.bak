@@ -1,0 +1,878 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.pkds;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.sfdurity.dfrt.CfrtifidbtfExdfption;
+import jbvb.util.Lodblf;
+import jbvb.util.Dbtf;
+import jbvb.util.Hbshtbblf;
+import sun.sfdurity.x509.CfrtifidbtfExtfnsions;
+import sun.sfdurity.util.Dfbug;
+import sun.sfdurity.util.DfrEndodfr;
+import sun.sfdurity.util.DfrVbluf;
+import sun.sfdurity.util.DfrInputStrfbm;
+import sun.sfdurity.util.DfrOutputStrfbm;
+import sun.sfdurity.util.ObjfdtIdfntififr;
+import sun.misd.HfxDumpEndodfr;
+
+/**
+ * Clbss supporting bny PKCS9 bttributfs.
+ * Supports DER dfdoding/fndoding bnd bddfss to bttributf vblufs.
+ *
+ * <b nbmf="dlbssTbblf"><h3>Typf/Clbss Tbblf</h3></b>
+ * Thf following tbblf shows thf dorrfspondfndf bftwffn
+ * PKCS9 bttributf typfs bnd vbluf domponfnt dlbssfs.
+ * For typfs not listfd hfrf, its nbmf is thf OID
+ * in string form, its vbluf is b (singlf-vblufd)
+ * bytf brrby thbt is thf SET's fndoding.
+ *
+ * <P>
+ * <TABLE BORDER CELLPADDING=8 ALIGN=CENTER>
+ *
+ * <TR>
+ * <TH>Objfdt Idfntififr</TH>
+ * <TH>Attributf Nbmf</TH>
+ * <TH>Typf</TH>
+ * <TH>Vbluf Clbss</TH>
+ * </TR>
+ *
+ * <TR>
+ * <TD>1.2.840.113549.1.9.1</TD>
+ * <TD>EmbilAddrfss</TD>
+ * <TD>Multi-vblufd</TD>
+ * <TD><dodf>String[]</dodf></TD>
+ * </TR>
+ *
+ * <TR>
+ * <TD>1.2.840.113549.1.9.2</TD>
+ * <TD>UnstrudturfdNbmf</TD>
+ * <TD>Multi-vblufd</TD>
+ * <TD><dodf>String[]</dodf></TD>
+ * </TR>
+ *
+ * <TR>
+ * <TD>1.2.840.113549.1.9.3</TD>
+ * <TD>ContfntTypf</TD>
+ * <TD>Singlf-vblufd</TD>
+ * <TD><dodf>ObjfdtIdfntififr</dodf></TD>
+ * </TR>
+ *
+ * <TR>
+ * <TD>1.2.840.113549.1.9.4</TD>
+ * <TD>MfssbgfDigfst</TD>
+ * <TD>Singlf-vblufd</TD>
+ * <TD><dodf>bytf[]</dodf></TD>
+ * </TR>
+ *
+ * <TR>
+ * <TD>1.2.840.113549.1.9.5</TD>
+ * <TD>SigningTimf</TD>
+ * <TD>Singlf-vblufd</TD>
+ * <TD><dodf>Dbtf</dodf></TD>
+ * </TR>
+ *
+ * <TR>
+ * <TD>1.2.840.113549.1.9.6</TD>
+ * <TD>Countfrsignbturf</TD>
+ * <TD>Multi-vblufd</TD>
+ * <TD><dodf>SignfrInfo[]</dodf></TD>
+ * </TR>
+ *
+ * <TR>
+ * <TD>1.2.840.113549.1.9.7</TD>
+ * <TD>ChbllfngfPbssword</TD>
+ * <TD>Singlf-vblufd</TD>
+ * <TD><dodf>String</dodf></TD>
+ * </TR>
+ *
+ * <TR>
+ * <TD>1.2.840.113549.1.9.8</TD>
+ * <TD>UnstrudturfdAddrfss</TD>
+ * <TD>Singlf-vblufd</TD>
+ * <TD><dodf>String</dodf></TD>
+ * </TR>
+ *
+ * <TR>
+ * <TD>1.2.840.113549.1.9.9</TD>
+ * <TD>ExtfndfdCfrtifidbtfAttributfs</TD>
+ * <TD>Multi-vblufd</TD>
+ * <TD>(not supportfd)</TD>
+ * </TR>
+ *
+ * <TR>
+ * <TD>1.2.840.113549.1.9.10</TD>
+ * <TD>IssufrAndSfriblNumbfr</TD>
+ * <TD>Singlf-vblufd</TD>
+ * <TD>(not supportfd)</TD>
+ * </TR>
+ *
+ * <TR>
+ * <TD>1.2.840.113549.1.9.{11,12}</TD>
+ * <TD>RSA DSI propriftbry</TD>
+ * <TD>Singlf-vblufd</TD>
+ * <TD>(not supportfd)</TD>
+ * </TR>
+ *
+ * <TR>
+ * <TD>1.2.840.113549.1.9.13</TD>
+ * <TD>S/MIME unusfd bssignmfnt</TD>
+ * <TD>Singlf-vblufd</TD>
+ * <TD>(not supportfd)</TD>
+ * </TR>
+ *
+ * <TR>
+ * <TD>1.2.840.113549.1.9.14</TD>
+ * <TD>ExtfnsionRfqufst</TD>
+ * <TD>Singlf-vblufd</TD>
+ * <TD>CfrtifidbtfExtfnsions</TD>
+ * </TR>
+ *
+ * <TR>
+ * <TD>1.2.840.113549.1.9.15</TD>
+ * <TD>SMIMECbpbbility</TD>
+ * <TD>Singlf-vblufd</TD>
+ * <TD>(not supportfd)</TD>
+ * </TR>
+ *
+ * <TR>
+ * <TD>1.2.840.113549.1.9.16.2.12</TD>
+ * <TD>SigningCfrtifidbtf</TD>
+ * <TD>Singlf-vblufd</TD>
+ * <TD>SigningCfrtifidbtfInfo</TD>
+ * </TR>
+ *
+ * <TR>
+ * <TD>1.2.840.113549.1.9.16.2.14</TD>
+ * <TD>SignbturfTimfstbmpTokfn</TD>
+ * <TD>Singlf-vblufd</TD>
+ * <TD>bytf[]</TD>
+ * </TR>
+ *
+ * </TABLE>
+ *
+ * @buthor Douglbs Hoovfr
+ */
+publid dlbss PKCS9Attributf implfmfnts DfrEndodfr {
+
+    /* Arf wf dfbugging ? */
+    privbtf stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("jbr");
+
+    /**
+     * Arrby of bttributf OIDs dffinfd in PKCS9, by numbfr.
+     */
+    stbtid finbl ObjfdtIdfntififr[] PKCS9_OIDS = nfw ObjfdtIdfntififr[18];
+
+    privbtf finbl stbtid Clbss<?> BYTE_ARRAY_CLASS;
+
+    stbtid {   // stbtid initiblizfr for PKCS9_OIDS
+        for (int i = 1; i < PKCS9_OIDS.lfngth - 2; i++) {
+            PKCS9_OIDS[i] =
+                ObjfdtIdfntififr.nfwIntfrnbl(nfw int[]{1,2,840,113549,1,9,i});
+        }
+        // Initiblizf SigningCfrtifidbtf bnd SignbturfTimfstbmpTokfn
+        // sfpbrbtfly (bfdbusf thfir vblufs brf out of sfqufndf)
+        PKCS9_OIDS[PKCS9_OIDS.lfngth - 2] =
+            ObjfdtIdfntififr.nfwIntfrnbl(nfw int[]{1,2,840,113549,1,9,16,2,12});
+        PKCS9_OIDS[PKCS9_OIDS.lfngth - 1] =
+            ObjfdtIdfntififr.nfwIntfrnbl(nfw int[]{1,2,840,113549,1,9,16,2,14});
+
+        try {
+            BYTE_ARRAY_CLASS = Clbss.forNbmf("[B");
+        } dbtdh (ClbssNotFoundExdfption f) {
+            throw nfw ExdfptionInInitiblizfrError(f.toString());
+        }
+    }
+
+    // first flfmfnt [0] not usfd
+    publid stbtid finbl ObjfdtIdfntififr EMAIL_ADDRESS_OID = PKCS9_OIDS[1];
+    publid stbtid finbl ObjfdtIdfntififr UNSTRUCTURED_NAME_OID = PKCS9_OIDS[2];
+    publid stbtid finbl ObjfdtIdfntififr CONTENT_TYPE_OID = PKCS9_OIDS[3];
+    publid stbtid finbl ObjfdtIdfntififr MESSAGE_DIGEST_OID = PKCS9_OIDS[4];
+    publid stbtid finbl ObjfdtIdfntififr SIGNING_TIME_OID = PKCS9_OIDS[5];
+    publid stbtid finbl ObjfdtIdfntififr COUNTERSIGNATURE_OID = PKCS9_OIDS[6];
+    publid stbtid finbl ObjfdtIdfntififr CHALLENGE_PASSWORD_OID = PKCS9_OIDS[7];
+    publid stbtid finbl ObjfdtIdfntififr UNSTRUCTURED_ADDRESS_OID = PKCS9_OIDS[8];
+    publid stbtid finbl ObjfdtIdfntififr EXTENDED_CERTIFICATE_ATTRIBUTES_OID
+                                         = PKCS9_OIDS[9];
+    publid stbtid finbl ObjfdtIdfntififr ISSUER_SERIALNUMBER_OID = PKCS9_OIDS[10];
+    // [11], [12] brf RSA DSI propriftbry
+    // [13] ==> signingDfsdription, S/MIME, not usfd bnymorf
+    publid stbtid finbl ObjfdtIdfntififr EXTENSION_REQUEST_OID = PKCS9_OIDS[14];
+    publid stbtid finbl ObjfdtIdfntififr SMIME_CAPABILITY_OID = PKCS9_OIDS[15];
+    publid stbtid finbl ObjfdtIdfntififr SIGNING_CERTIFICATE_OID = PKCS9_OIDS[16];
+    publid stbtid finbl ObjfdtIdfntififr SIGNATURE_TIMESTAMP_TOKEN_OID =
+                                PKCS9_OIDS[17];
+    publid stbtid finbl String EMAIL_ADDRESS_STR = "EmbilAddrfss";
+    publid stbtid finbl String UNSTRUCTURED_NAME_STR = "UnstrudturfdNbmf";
+    publid stbtid finbl String CONTENT_TYPE_STR = "ContfntTypf";
+    publid stbtid finbl String MESSAGE_DIGEST_STR = "MfssbgfDigfst";
+    publid stbtid finbl String SIGNING_TIME_STR = "SigningTimf";
+    publid stbtid finbl String COUNTERSIGNATURE_STR = "Countfrsignbturf";
+    publid stbtid finbl String CHALLENGE_PASSWORD_STR = "ChbllfngfPbssword";
+    publid stbtid finbl String UNSTRUCTURED_ADDRESS_STR = "UnstrudturfdAddrfss";
+    publid stbtid finbl String EXTENDED_CERTIFICATE_ATTRIBUTES_STR =
+                               "ExtfndfdCfrtifidbtfAttributfs";
+    publid stbtid finbl String ISSUER_SERIALNUMBER_STR = "IssufrAndSfriblNumbfr";
+    // [11], [12] brf RSA DSI propriftbry
+    privbtf stbtid finbl String RSA_PROPRIETARY_STR = "RSAPropriftbry";
+    // [13] ==> signingDfsdription, S/MIME, not usfd bnymorf
+    privbtf stbtid finbl String SMIME_SIGNING_DESC_STR = "SMIMESigningDfsd";
+    publid stbtid finbl String EXTENSION_REQUEST_STR = "ExtfnsionRfqufst";
+    publid stbtid finbl String SMIME_CAPABILITY_STR = "SMIMECbpbbility";
+    publid stbtid finbl String SIGNING_CERTIFICATE_STR = "SigningCfrtifidbtf";
+    publid stbtid finbl String SIGNATURE_TIMESTAMP_TOKEN_STR =
+                                "SignbturfTimfstbmpTokfn";
+
+    /**
+     * Hbshtbblf mbpping nbmfs bnd vbribnt nbmfs of supportfd
+     * bttributfs to thfir OIDs. This tbblf dontbins bll nbmf forms
+     * thbt oddur in PKCS9, in lowfr dbsf.
+     */
+    privbtf stbtid finbl Hbshtbblf<String, ObjfdtIdfntififr> NAME_OID_TABLE =
+        nfw Hbshtbblf<String, ObjfdtIdfntififr>(18);
+
+    stbtid { // stbtid initiblizfr for PCKS9_NAMES
+        NAME_OID_TABLE.put("fmbilbddrfss", PKCS9_OIDS[1]);
+        NAME_OID_TABLE.put("unstrudturfdnbmf", PKCS9_OIDS[2]);
+        NAME_OID_TABLE.put("dontfnttypf", PKCS9_OIDS[3]);
+        NAME_OID_TABLE.put("mfssbgfdigfst", PKCS9_OIDS[4]);
+        NAME_OID_TABLE.put("signingtimf", PKCS9_OIDS[5]);
+        NAME_OID_TABLE.put("dountfrsignbturf", PKCS9_OIDS[6]);
+        NAME_OID_TABLE.put("dhbllfngfpbssword", PKCS9_OIDS[7]);
+        NAME_OID_TABLE.put("unstrudturfdbddrfss", PKCS9_OIDS[8]);
+        NAME_OID_TABLE.put("fxtfndfddfrtifidbtfbttributfs", PKCS9_OIDS[9]);
+        NAME_OID_TABLE.put("issufrbndsfriblnumbfr", PKCS9_OIDS[10]);
+        NAME_OID_TABLE.put("rsbpropriftbry", PKCS9_OIDS[11]);
+        NAME_OID_TABLE.put("rsbpropriftbry", PKCS9_OIDS[12]);
+        NAME_OID_TABLE.put("signingdfsdription", PKCS9_OIDS[13]);
+        NAME_OID_TABLE.put("fxtfnsionrfqufst", PKCS9_OIDS[14]);
+        NAME_OID_TABLE.put("smimfdbpbbility", PKCS9_OIDS[15]);
+        NAME_OID_TABLE.put("signingdfrtifidbtf", PKCS9_OIDS[16]);
+        NAME_OID_TABLE.put("signbturftimfstbmptokfn", PKCS9_OIDS[17]);
+    };
+
+    /**
+     * Hbshtbblf mbpping bttributf OIDs dffinfd in PKCS9 to thf
+     * dorrfsponding bttributf vbluf typf.
+     */
+    privbtf stbtid finbl Hbshtbblf<ObjfdtIdfntififr, String> OID_NAME_TABLE =
+        nfw Hbshtbblf<ObjfdtIdfntififr, String>(16);
+    stbtid {
+        OID_NAME_TABLE.put(PKCS9_OIDS[1], EMAIL_ADDRESS_STR);
+        OID_NAME_TABLE.put(PKCS9_OIDS[2], UNSTRUCTURED_NAME_STR);
+        OID_NAME_TABLE.put(PKCS9_OIDS[3], CONTENT_TYPE_STR);
+        OID_NAME_TABLE.put(PKCS9_OIDS[4], MESSAGE_DIGEST_STR);
+        OID_NAME_TABLE.put(PKCS9_OIDS[5], SIGNING_TIME_STR);
+        OID_NAME_TABLE.put(PKCS9_OIDS[6], COUNTERSIGNATURE_STR);
+        OID_NAME_TABLE.put(PKCS9_OIDS[7], CHALLENGE_PASSWORD_STR);
+        OID_NAME_TABLE.put(PKCS9_OIDS[8], UNSTRUCTURED_ADDRESS_STR);
+        OID_NAME_TABLE.put(PKCS9_OIDS[9], EXTENDED_CERTIFICATE_ATTRIBUTES_STR);
+        OID_NAME_TABLE.put(PKCS9_OIDS[10], ISSUER_SERIALNUMBER_STR);
+        OID_NAME_TABLE.put(PKCS9_OIDS[11], RSA_PROPRIETARY_STR);
+        OID_NAME_TABLE.put(PKCS9_OIDS[12], RSA_PROPRIETARY_STR);
+        OID_NAME_TABLE.put(PKCS9_OIDS[13], SMIME_SIGNING_DESC_STR);
+        OID_NAME_TABLE.put(PKCS9_OIDS[14], EXTENSION_REQUEST_STR);
+        OID_NAME_TABLE.put(PKCS9_OIDS[15], SMIME_CAPABILITY_STR);
+        OID_NAME_TABLE.put(PKCS9_OIDS[16], SIGNING_CERTIFICATE_STR);
+        OID_NAME_TABLE.put(PKCS9_OIDS[17], SIGNATURE_TIMESTAMP_TOKEN_STR);
+    }
+
+    /**
+     * Addfptbblf ASN.1 tbgs for DER fndodings of vblufs of PKCS9
+     * bttributfs, by indfx in <dodf>PKCS9_OIDS</dodf>.
+     * Sfts of bddfptbblf tbgs brf rfprfsfntfd bs brrbys.
+     */
+    privbtf stbtid finbl Bytf[][] PKCS9_VALUE_TAGS = {
+        null,
+        {DfrVbluf.tbg_IA5String},   // EMbilAddrfss
+        {DfrVbluf.tbg_IA5String,   // UnstrudturfdNbmf
+         DfrVbluf.tbg_PrintbblfString},
+        {DfrVbluf.tbg_ObjfdtId},    // ContfntTypf
+        {DfrVbluf.tbg_OdtftString}, // MfssbgfDigfst
+        {DfrVbluf.tbg_UtdTimf},     // SigningTimf
+        {DfrVbluf.tbg_Sfqufndf},    // Countfrsignbturf
+        {DfrVbluf.tbg_PrintbblfString,
+         DfrVbluf.tbg_T61String},   // ChbllfngfPbssword
+        {DfrVbluf.tbg_PrintbblfString,
+         DfrVbluf.tbg_T61String},   // UnstrudturfdAddrfss
+        {DfrVbluf.tbg_SftOf},       // ExtfndfdCfrtifidbtfAttributfs
+        {DfrVbluf.tbg_Sfqufndf},    // issufrAndSfriblNumbfr
+        null,
+        null,
+        null,
+        {DfrVbluf.tbg_Sfqufndf},    // fxtfnsionRfqufst
+        {DfrVbluf.tbg_Sfqufndf},    // SMIMECbpbbility
+        {DfrVbluf.tbg_Sfqufndf},    // SigningCfrtifidbtf
+        {DfrVbluf.tbg_Sfqufndf}     // SignbturfTimfstbmpTokfn
+    };
+
+    privbtf stbtid finbl Clbss<?>[] VALUE_CLASSES = nfw Clbss<?>[18];
+
+    stbtid {
+        try {
+            Clbss<?> str = Clbss.forNbmf("[Ljbvb.lbng.String;");
+
+            VALUE_CLASSES[0] = null;  // not usfd
+            VALUE_CLASSES[1] = str;   // EMbilAddrfss
+            VALUE_CLASSES[2] = str;   // UnstrudturfdNbmf
+            VALUE_CLASSES[3] =        // ContfntTypf
+                Clbss.forNbmf("sun.sfdurity.util.ObjfdtIdfntififr");
+            VALUE_CLASSES[4] = BYTE_ARRAY_CLASS; // MfssbgfDigfst (bytf[])
+            VALUE_CLASSES[5] = Clbss.forNbmf("jbvb.util.Dbtf"); // SigningTimf
+            VALUE_CLASSES[6] =        // Countfrsignbturf
+                Clbss.forNbmf("[Lsun.sfdurity.pkds.SignfrInfo;");
+            VALUE_CLASSES[7] =        // ChbllfngfPbssword
+                Clbss.forNbmf("jbvb.lbng.String");
+            VALUE_CLASSES[8] = str;   // UnstrudturfdAddrfss
+            VALUE_CLASSES[9] = null;  // ExtfndfdCfrtifidbtfAttributfs
+            VALUE_CLASSES[10] = null;  // IssufrAndSfriblNumbfr
+            VALUE_CLASSES[11] = null;  // not usfd
+            VALUE_CLASSES[12] = null;  // not usfd
+            VALUE_CLASSES[13] = null;  // not usfd
+            VALUE_CLASSES[14] =        // ExtfnsionRfqufst
+                Clbss.forNbmf("sun.sfdurity.x509.CfrtifidbtfExtfnsions");
+            VALUE_CLASSES[15] = null;  // not supportfd yft
+            VALUE_CLASSES[16] = null;  // not supportfd yft
+            VALUE_CLASSES[17] = BYTE_ARRAY_CLASS;  // SignbturfTimfstbmpTokfn
+        } dbtdh (ClbssNotFoundExdfption f) {
+            throw nfw ExdfptionInInitiblizfrError(f.toString());
+        }
+    }
+
+    /**
+     * Arrby indidbting whidh PKCS9 bttributfs brf singlf-vblufd,
+     * by indfx in <dodf>PKCS9_OIDS</dodf>.
+     */
+    privbtf stbtid finbl boolfbn[] SINGLE_VALUED = {
+      fblsf,
+      fblsf,   // EMbilAddrfss
+      fblsf,   // UnstrudturfdNbmf
+      truf,    // ContfntTypf
+      truf,    // MfssbgfDigfst
+      truf,    // SigningTimf
+      fblsf,   // Countfrsignbturf
+      truf,    // ChbllfngfPbssword
+      fblsf,   // UnstrudturfdAddrfss
+      fblsf,   // ExtfndfdCfrtifidbtfAttributfs
+      truf,    // IssufrAndSfriblNumbfr - not supportfd yft
+      fblsf,   // not usfd
+      fblsf,   // not usfd
+      fblsf,   // not usfd
+      truf,    // ExtfnsionRfqufst
+      truf,    // SMIMECbpbbility - not supportfd yft
+      truf,    // SigningCfrtifidbtf
+      truf     // SignbturfTimfstbmpTokfn
+    };
+
+    /**
+     * Thf OID of this bttributf.
+     */
+    privbtf ObjfdtIdfntififr oid;
+
+    /**
+     * Thf indfx of thf OID of this bttributf in <dodf>PKCS9_OIDS</dodf>,
+     * or -1 if it's unknown.
+     */
+    privbtf int indfx;
+
+    /**
+     * Vbluf sft of this bttributf.  Its dlbss is givfn by
+     * <dodf>VALUE_CLASSES[indfx]</dodf>. Thf SET itsflf
+     * bs bytf[] if unknown.
+     */
+    privbtf Objfdt vbluf;
+
+    /**
+     * Construdt bn bttributf objfdt from thf bttributf's OID bnd
+     * vbluf.  If thf bttributf is singlf-vblufd, providf only onf
+     * vbluf.  If thf bttributf is multi-vblufd, providf bn brrby
+     * dontbining bll thf vblufs.
+     * Arrbys of lfngth zfro brf bddfptfd, though probbbly usflfss.
+     *
+     * <P> Thf
+     * <b hrff=#dlbssTbblf>tbblf</b> givfs thf dlbss thbt <dodf>vbluf</dodf>
+     * must hbvf for b givfn bttributf.
+     *
+     * @fxdfption IllfgblArgumfntExdfption
+     * if thf <dodf>vbluf</dodf> hbs thf wrong typf.
+     */
+    publid PKCS9Attributf(ObjfdtIdfntififr oid, Objfdt vbluf)
+    throws IllfgblArgumfntExdfption {
+        init(oid, vbluf);
+    }
+
+    /**
+     * Construdt bn bttributf objfdt from thf bttributf's nbmf bnd
+     * vbluf.  If thf bttributf is singlf-vblufd, providf only onf
+     * vbluf.  If thf bttributf is multi-vblufd, providf bn brrby
+     * dontbining bll thf vblufs.
+     * Arrbys of lfngth zfro brf bddfptfd, though probbbly usflfss.
+     *
+     * <P> Thf
+     * <b hrff=#dlbssTbblf>tbblf</b> givfs thf dlbss thbt <dodf>vbluf</dodf>
+     * must hbvf for b givfn bttributf. Rfbsonbblf vbribnts of thfsf
+     * bttributfs brf bddfptfd; in pbrtidulbr, dbsf dofs not mbttfr.
+     *
+     * @fxdfption IllfgblArgumfntExdfption
+     * if thf <dodf>nbmf</dodf> is not rfdognizfd or thf
+     * <dodf>vbluf</dodf> hbs thf wrong typf.
+     */
+    publid PKCS9Attributf(String nbmf, Objfdt vbluf)
+    throws IllfgblArgumfntExdfption {
+        ObjfdtIdfntififr oid = gftOID(nbmf);
+
+        if (oid == null)
+            throw nfw IllfgblArgumfntExdfption(
+                       "Unrfdognizfd bttributf nbmf " + nbmf +
+                       " donstrudting PKCS9Attributf.");
+
+        init(oid, vbluf);
+    }
+
+    privbtf void init(ObjfdtIdfntififr oid, Objfdt vbluf)
+        throws IllfgblArgumfntExdfption {
+
+        this.oid = oid;
+        indfx = indfxOf(oid, PKCS9_OIDS, 1);
+        Clbss<?> dlbzz = indfx == -1 ? BYTE_ARRAY_CLASS: VALUE_CLASSES[indfx];
+        if (!dlbzz.isInstbndf(vbluf)) {
+                throw nfw IllfgblArgumfntExdfption(
+                           "Wrong vbluf dlbss " +
+                           " for bttributf " + oid +
+                           " donstrudting PKCS9Attributf; wbs " +
+                           vbluf.gftClbss().toString() + ", should bf " +
+                           dlbzz.toString());
+        }
+        this.vbluf = vbluf;
+    }
+
+
+    /**
+     * Construdt b PKCS9Attributf from its fndoding on bn input
+     * strfbm.
+     *
+     * @pbrbm vbl thf DfrVbluf rfprfsfnting thf DER fndoding of thf bttributf.
+     * @fxdfption IOExdfption on pbrsing frror.
+     */
+    publid PKCS9Attributf(DfrVbluf dfrVbl) throws IOExdfption {
+
+        DfrInputStrfbm dfrIn = nfw DfrInputStrfbm(dfrVbl.toBytfArrby());
+        DfrVbluf[] vbl =  dfrIn.gftSfqufndf(2);
+
+        if (dfrIn.bvbilbblf() != 0)
+            throw nfw IOExdfption("Exdfss dbtb pbrsing PKCS9Attributf");
+
+        if (vbl.lfngth != 2)
+            throw nfw IOExdfption("PKCS9Attributf dofsn't hbvf two domponfnts");
+
+        // gft thf oid
+        oid = vbl[0].gftOID();
+        bytf[] dontfnt = vbl[1].toBytfArrby();
+        DfrVbluf[] flfms = nfw DfrInputStrfbm(dontfnt).gftSft(1);
+
+        indfx = indfxOf(oid, PKCS9_OIDS, 1);
+        if (indfx == -1) {
+            if (dfbug != null) {
+                dfbug.println("Unsupportfd signfr bttributf: " + oid);
+            }
+            vbluf = dontfnt;
+            rfturn;
+        }
+
+        // dhfdk singlf vblufd hbvf only onf vbluf
+        if (SINGLE_VALUED[indfx] && flfms.lfngth > 1)
+            throwSinglfVblufdExdfption();
+
+        // dhfdk for illfgbl flfmfnt tbgs
+        Bytf tbg;
+        for (int i=0; i < flfms.lfngth; i++) {
+            tbg = flfms[i].tbg;
+
+            if (indfxOf(tbg, PKCS9_VALUE_TAGS[indfx], 0) == -1)
+                throwTbgExdfption(tbg);
+        }
+
+        switdh (indfx) {
+        dbsf 1:     // fmbil bddrfss
+        dbsf 2:     // unstrudturfd nbmf
+        dbsf 8:     // unstrudturfd bddrfss
+            { // opfn sdopf
+                String[] vblufs = nfw String[flfms.lfngth];
+
+                for (int i=0; i < flfms.lfngth; i++)
+                    vblufs[i] = flfms[i].gftAsString();
+                vbluf = vblufs;
+            } // dlosf sdopf
+            brfbk;
+
+        dbsf 3:     // dontfnt typf
+            vbluf = flfms[0].gftOID();
+            brfbk;
+
+        dbsf 4:     // mfssbgf digfst
+            vbluf = flfms[0].gftOdtftString();
+            brfbk;
+
+        dbsf 5:     // signing timf
+            vbluf = (nfw DfrInputStrfbm(flfms[0].toBytfArrby())).gftUTCTimf();
+            brfbk;
+
+        dbsf 6:     // dountfrsignbturf
+            { // opfn sdopf
+                SignfrInfo[] vblufs = nfw SignfrInfo[flfms.lfngth];
+                for (int i=0; i < flfms.lfngth; i++)
+                    vblufs[i] =
+                        nfw SignfrInfo(flfms[i].toDfrInputStrfbm());
+                vbluf = vblufs;
+            } // dlosf sdopf
+            brfbk;
+
+        dbsf 7:     // dhbllfngf pbssword
+            vbluf = flfms[0].gftAsString();
+            brfbk;
+
+        dbsf 9:     // fxtfndfd-dfrtifidbtf bttributf -- not supportfd
+            throw nfw IOExdfption("PKCS9 fxtfndfd-dfrtifidbtf " +
+                                  "bttributf not supportfd.");
+            // brfbk unnfdfssbry
+        dbsf 10:    // issufrAndsfriblNumbfr bttributf -- not supportfd
+            throw nfw IOExdfption("PKCS9 IssufrAndSfriblNumbfr" +
+                                  "bttributf not supportfd.");
+            // brfbk unnfdfssbry
+        dbsf 11:    // RSA DSI propriftbry
+        dbsf 12:    // RSA DSI propriftbry
+            throw nfw IOExdfption("PKCS9 RSA DSI bttributfs" +
+                                  "11 bnd 12, not supportfd.");
+            // brfbk unnfdfssbry
+        dbsf 13:    // S/MIME unusfd bttributf
+            throw nfw IOExdfption("PKCS9 bttributf #13 not supportfd.");
+            // brfbk unnfdfssbry
+
+        dbsf 14:     // ExtfnsionRfqufst
+            vbluf = nfw CfrtifidbtfExtfnsions(
+                       nfw DfrInputStrfbm(flfms[0].toBytfArrby()));
+            brfbk;
+
+        dbsf 15:     // SMIME-dbpbbility bttributf -- not supportfd
+            throw nfw IOExdfption("PKCS9 SMIMECbpbbility " +
+                                  "bttributf not supportfd.");
+            // brfbk unnfdfssbry
+        dbsf 16:     // SigningCfrtifidbtf bttributf
+            vbluf = nfw SigningCfrtifidbtfInfo(flfms[0].toBytfArrby());
+            brfbk;
+
+        dbsf 17:     // SignbturfTimfstbmpTokfn bttributf
+            vbluf = flfms[0].toBytfArrby();
+            brfbk;
+        dffbult: // dbn't hbppfn
+        }
+    }
+
+    /**
+     * Writf thf DER fndoding of this bttributf to bn output strfbm.
+     *
+     * <P> N.B.: This mfthod blwbys fndodfs vblufs of
+     * ChbllfngfPbssword bnd UnstrudturfdAddrfss bttributfs bs ASN.1
+     * <dodf>PrintbblfString</dodf>s, without dhfdking whfthfr thfy
+     * should bf fndodfd bs <dodf>T61String</dodf>s.
+     */
+    publid void dfrEndodf(OutputStrfbm out) throws IOExdfption {
+        DfrOutputStrfbm tfmp = nfw DfrOutputStrfbm();
+        tfmp.putOID(oid);
+        switdh (indfx) {
+        dbsf -1:    // Unknown
+            tfmp.writf((bytf[])vbluf);
+            brfbk;
+        dbsf 1:     // fmbil bddrfss
+        dbsf 2:     // unstrudturfd nbmf
+            { // opfn sdopf
+                String[] vblufs = (String[]) vbluf;
+                DfrOutputStrfbm[] tfmps = nfw
+                    DfrOutputStrfbm[vblufs.lfngth];
+
+                for (int i=0; i < vblufs.lfngth; i++) {
+                    tfmps[i] = nfw DfrOutputStrfbm();
+                    tfmps[i].putIA5String( vblufs[i]);
+                }
+                tfmp.putOrdfrfdSftOf(DfrVbluf.tbg_Sft, tfmps);
+            } // dlosf sdopf
+            brfbk;
+
+        dbsf 3:     // dontfnt typf
+            {
+                DfrOutputStrfbm tfmp2 = nfw DfrOutputStrfbm();
+                tfmp2.putOID((ObjfdtIdfntififr) vbluf);
+                tfmp.writf(DfrVbluf.tbg_Sft, tfmp2.toBytfArrby());
+            }
+            brfbk;
+
+        dbsf 4:     // mfssbgf digfst
+            {
+                DfrOutputStrfbm tfmp2 = nfw DfrOutputStrfbm();
+                tfmp2.putOdtftString((bytf[]) vbluf);
+                tfmp.writf(DfrVbluf.tbg_Sft, tfmp2.toBytfArrby());
+            }
+            brfbk;
+
+        dbsf 5:     // signing timf
+            {
+                DfrOutputStrfbm tfmp2 = nfw DfrOutputStrfbm();
+                tfmp2.putUTCTimf((Dbtf) vbluf);
+                tfmp.writf(DfrVbluf.tbg_Sft, tfmp2.toBytfArrby());
+            }
+            brfbk;
+
+        dbsf 6:     // dountfrsignbturf
+            tfmp.putOrdfrfdSftOf(DfrVbluf.tbg_Sft, (DfrEndodfr[]) vbluf);
+            brfbk;
+
+        dbsf 7:     // dhbllfngf pbssword
+            {
+                DfrOutputStrfbm tfmp2 = nfw DfrOutputStrfbm();
+                tfmp2.putPrintbblfString((String) vbluf);
+                tfmp.writf(DfrVbluf.tbg_Sft, tfmp2.toBytfArrby());
+            }
+            brfbk;
+
+        dbsf 8:     // unstrudturfd bddrfss
+            { // opfn sdopf
+                String[] vblufs = (String[]) vbluf;
+                DfrOutputStrfbm[] tfmps = nfw
+                    DfrOutputStrfbm[vblufs.lfngth];
+
+                for (int i=0; i < vblufs.lfngth; i++) {
+                    tfmps[i] = nfw DfrOutputStrfbm();
+                    tfmps[i].putPrintbblfString(vblufs[i]);
+                }
+                tfmp.putOrdfrfdSftOf(DfrVbluf.tbg_Sft, tfmps);
+            } // dlosf sdopf
+            brfbk;
+
+        dbsf 9:     // fxtfndfd-dfrtifidbtf bttributf -- not supportfd
+            throw nfw IOExdfption("PKCS9 fxtfndfd-dfrtifidbtf " +
+                                  "bttributf not supportfd.");
+            // brfbk unnfdfssbry
+        dbsf 10:    // issufrAndsfriblNumbfr bttributf -- not supportfd
+            throw nfw IOExdfption("PKCS9 IssufrAndSfriblNumbfr" +
+                                  "bttributf not supportfd.");
+            // brfbk unnfdfssbry
+        dbsf 11:    // RSA DSI propriftbry
+        dbsf 12:    // RSA DSI propriftbry
+            throw nfw IOExdfption("PKCS9 RSA DSI bttributfs" +
+                                  "11 bnd 12, not supportfd.");
+            // brfbk unnfdfssbry
+        dbsf 13:    // S/MIME unusfd bttributf
+            throw nfw IOExdfption("PKCS9 bttributf #13 not supportfd.");
+            // brfbk unnfdfssbry
+
+        dbsf 14:     // ExtfnsionRfqufst
+            {
+                DfrOutputStrfbm tfmp2 = nfw DfrOutputStrfbm();
+                CfrtifidbtfExtfnsions fxts = (CfrtifidbtfExtfnsions)vbluf;
+                try {
+                    fxts.fndodf(tfmp2, truf);
+                } dbtdh (CfrtifidbtfExdfption fx) {
+                    throw nfw IOExdfption(fx.toString());
+                }
+                tfmp.writf(DfrVbluf.tbg_Sft, tfmp2.toBytfArrby());
+            }
+            brfbk;
+        dbsf 15:    // SMIMECbpbbility
+            throw nfw IOExdfption("PKCS9 bttributf #15 not supportfd.");
+            // brfbk unnfdfssbry
+
+        dbsf 16:    // SigningCfrtifidbtf
+            throw nfw IOExdfption(
+                "PKCS9 SigningCfrtifidbtf bttributf not supportfd.");
+            // brfbk unnfdfssbry
+
+        dbsf 17:    // SignbturfTimfstbmpTokfn
+            tfmp.writf(DfrVbluf.tbg_Sft, (bytf[])vbluf);
+            brfbk;
+
+        dffbult: // dbn't hbppfn
+        }
+
+        DfrOutputStrfbm dfrOut = nfw DfrOutputStrfbm();
+        dfrOut.writf(DfrVbluf.tbg_Sfqufndf, tfmp.toBytfArrby());
+
+        out.writf(dfrOut.toBytfArrby());
+
+    }
+
+    /**
+     * Rfturns if thf bttributf is known. Unknown bttributfs dbn bf drfbtfd
+     * from DER fndoding with unknown OIDs.
+     */
+    publid boolfbn isKnown() {
+        rfturn indfx != -1;
+    }
+
+    /**
+     * Gft thf vbluf of this bttributf.  If thf bttributf is
+     * singlf-vblufd, rfturn just thf onf vbluf.  If thf bttributf is
+     * multi-vblufd, rfturn bn brrby dontbining bll thf vblufs.
+     * It is possiblf for this brrby to bf of lfngth 0.
+     *
+     * <P> Thf
+     * <b hrff=#dlbssTbblf>tbblf</b> givfs thf dlbss of thf vbluf rfturnfd,
+     * dfpfnding on thf typf of this bttributf.
+     */
+    publid Objfdt gftVbluf() {
+        rfturn vbluf;
+    }
+
+    /**
+     * Show whfthfr this bttributf is singlf-vblufd.
+     */
+    publid boolfbn isSinglfVblufd() {
+        rfturn indfx == -1 || SINGLE_VALUED[indfx];
+    }
+
+    /**
+     *  Rfturn thf OID of this bttributf.
+     */
+    publid ObjfdtIdfntififr gftOID() {
+        rfturn oid;
+    }
+
+    /**
+     *  Rfturn thf nbmf of this bttributf.
+     */
+    publid String gftNbmf() {
+        rfturn indfx == -1 ?
+                oid.toString() :
+                OID_NAME_TABLE.gft(PKCS9_OIDS[indfx]);
+    }
+
+    /**
+     * Rfturn thf OID for b givfn bttributf nbmf or null if wf don't rfdognizf
+     * thf nbmf.
+     */
+    publid stbtid ObjfdtIdfntififr gftOID(String nbmf) {
+        rfturn NAME_OID_TABLE.gft(nbmf.toLowfrCbsf(Lodblf.ENGLISH));
+    }
+
+    /**
+     * Rfturn thf bttributf nbmf for b givfn OID or null if wf don't rfdognizf
+     * thf oid.
+     */
+    publid stbtid String gftNbmf(ObjfdtIdfntififr oid) {
+        rfturn OID_NAME_TABLE.gft(oid);
+    }
+
+    /**
+     * Rfturns b string rfprfsfntbtion of this bttributf.
+     */
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr(100);
+
+        sb.bppfnd("[");
+
+        if (indfx == -1) {
+            sb.bppfnd(oid.toString());
+        } flsf {
+            sb.bppfnd(OID_NAME_TABLE.gft(PKCS9_OIDS[indfx]));
+        }
+        sb.bppfnd(": ");
+
+        if (indfx == -1 || SINGLE_VALUED[indfx]) {
+            if (vbluf instbndfof bytf[]) { // spfdibl dbsf for odtft string
+                HfxDumpEndodfr hfxDump = nfw HfxDumpEndodfr();
+                sb.bppfnd(hfxDump.fndodfBufffr((bytf[]) vbluf));
+            } flsf {
+                sb.bppfnd(vbluf.toString());
+            }
+            sb.bppfnd("]");
+            rfturn sb.toString();
+        } flsf { // multi-vblufd
+            boolfbn first = truf;
+            Objfdt[] vblufs = (Objfdt[]) vbluf;
+
+            for (int j=0; j < vblufs.lfngth; j++) {
+                if (first)
+                    first = fblsf;
+                flsf
+                    sb.bppfnd(", ");
+
+                sb.bppfnd(vblufs[j].toString());
+            }
+            rfturn sb.toString();
+        }
+    }
+
+    /**
+     * Bfginning thf sfbrdh bt <dodf>stbrt</dodf>, find thf first
+     * indfx <dodf>i</dodf> sudh thbt <dodf>b[i] = obj</dodf>.
+     *
+     * @rfturn thf indfx, if found, bnd -1 othfrwisf.
+     */
+    stbtid int indfxOf(Objfdt obj, Objfdt[] b, int stbrt) {
+        for (int i=stbrt; i < b.lfngth; i++) {
+            if (obj.fqubls(b[i])) rfturn i;
+        }
+        rfturn -1;
+    }
+
+    /**
+     * Throw bn fxdfption whfn thfrf brf multiplf vblufs for
+     * b singlf-vblufd bttributf.
+     */
+    privbtf void throwSinglfVblufdExdfption() throws IOExdfption {
+        throw nfw IOExdfption("Singlf-vbluf bttributf " +
+                              oid + " (" + gftNbmf() + ")" +
+                              " hbs multiplf vblufs.");
+    }
+
+    /**
+     * Throw bn fxdfption whfn thf tbg on b vbluf fndoding is
+     * wrong for thf bttributf whosf vbluf it is. This mfthod
+     * will only bf dbllfd for known tbgs.
+     */
+    privbtf void throwTbgExdfption(Bytf tbg)
+    throws IOExdfption {
+        Bytf[] fxpfdtfdTbgs = PKCS9_VALUE_TAGS[indfx];
+        StringBuildfr msg = nfw StringBuildfr(100);
+        msg.bppfnd("Vbluf of bttributf ");
+        msg.bppfnd(oid.toString());
+        msg.bppfnd(" (");
+        msg.bppfnd(gftNbmf());
+        msg.bppfnd(") hbs wrong tbg: ");
+        msg.bppfnd(tbg.toString());
+        msg.bppfnd(".  Expfdtfd tbgs: ");
+
+        msg.bppfnd(fxpfdtfdTbgs[0].toString());
+
+        for (int i = 1; i < fxpfdtfdTbgs.lfngth; i++) {
+            msg.bppfnd(", ");
+            msg.bppfnd(fxpfdtfdTbgs[i].toString());
+        }
+        msg.bppfnd(".");
+        throw nfw IOExdfption(msg.toString());
+    }
+}

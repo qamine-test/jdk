@@ -1,95 +1,95 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.naming;
+pbdkbgf jbvbx.nbming;
 
-import java.util.Enumeration;
-import java.util.Properties;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Propfrtifs;
 
 /**
- * This class represents a composite name -- a sequence of
- * component names spanning multiple namespaces.
- * Each component is a string name from the namespace of a
- * naming system. If the component comes from a hierarchical
- * namespace, that component can be further parsed into
- * its atomic parts by using the CompoundName class.
+ * Tiis dlbss rfprfsfnts b dompositf nbmf -- b sfqufndf of
+ * domponfnt nbmfs spbnning multiplf nbmfspbdfs.
+ * Ebdi domponfnt is b string nbmf from tif nbmfspbdf of b
+ * nbming systfm. If tif domponfnt domfs from b iifrbrdiidbl
+ * nbmfspbdf, tibt domponfnt dbn bf furtifr pbrsfd into
+ * its btomid pbrts by using tif CompoundNbmf dlbss.
  *<p>
- * The components of a composite name are numbered.  The indexes of a
- * composite name with N components range from 0 up to, but not including, N.
- * This range may be written as [0,N).
- * The most significant component is at index 0.
- * An empty composite name has no components.
+ * Tif domponfnts of b dompositf nbmf brf numbfrfd.  Tif indfxfs of b
+ * dompositf nbmf witi N domponfnts rbngf from 0 up to, but not indluding, N.
+ * Tiis rbngf mby bf writtfn bs [0,N).
+ * Tif most signifidbnt domponfnt is bt indfx 0.
+ * An fmpty dompositf nbmf ibs no domponfnts.
  *
- * <h1>JNDI Composite Name Syntax</h1>
- * JNDI defines a standard string representation for composite names. This
- * representation is the concatenation of the components of a composite name
- * from left to right using the component separator (a forward
- * slash character (/)) to separate each component.
- * The JNDI syntax defines the following meta characters:
+ * <i1>JNDI Compositf Nbmf Syntbx</i1>
+ * JNDI dffinfs b stbndbrd string rfprfsfntbtion for dompositf nbmfs. Tiis
+ * rfprfsfntbtion is tif dondbtfnbtion of tif domponfnts of b dompositf nbmf
+ * from lfft to rigit using tif domponfnt sfpbrbtor (b forwbrd
+ * slbsi dibrbdtfr (/)) to sfpbrbtf fbdi domponfnt.
+ * Tif JNDI syntbx dffinfs tif following mftb dibrbdtfrs:
  * <ul>
- * <li>escape (backward slash \),
- * <li>quote characters  (single (') and double quotes (")), and
- * <li>component separator (forward slash character (/)).
+ * <li>fsdbpf (bbdkwbrd slbsi \),
+ * <li>quotf dibrbdtfrs  (singlf (') bnd doublf quotfs (")), bnd
+ * <li>domponfnt sfpbrbtor (forwbrd slbsi dibrbdtfr (/)).
  * </ul>
- * Any occurrence of a leading quote, an escape preceding any meta character,
- * an escape at the end of a component, or a component separator character
- * in an unquoted component must be preceded by an escape character when
- * that component is being composed into a composite name string.
- * Alternatively, to avoid adding escape characters as described,
- * the entire component can be quoted using matching single quotes
- * or matching double quotes. A single quote occurring within a double-quoted
- * component is not considered a meta character (and need not be escaped),
- * and vice versa.
+ * Any oddurrfndf of b lfbding quotf, bn fsdbpf prfdfding bny mftb dibrbdtfr,
+ * bn fsdbpf bt tif fnd of b domponfnt, or b domponfnt sfpbrbtor dibrbdtfr
+ * in bn unquotfd domponfnt must bf prfdfdfd by bn fsdbpf dibrbdtfr wifn
+ * tibt domponfnt is bfing domposfd into b dompositf nbmf string.
+ * Altfrnbtivfly, to bvoid bdding fsdbpf dibrbdtfrs bs dfsdribfd,
+ * tif fntirf domponfnt dbn bf quotfd using mbtdiing singlf quotfs
+ * or mbtdiing doublf quotfs. A singlf quotf oddurring witiin b doublf-quotfd
+ * domponfnt is not donsidfrfd b mftb dibrbdtfr (bnd nffd not bf fsdbpfd),
+ * bnd vidf vfrsb.
  *<p>
- * When two composite names are compared, the case of the characters
- * is significant.
+ * Wifn two dompositf nbmfs brf dompbrfd, tif dbsf of tif dibrbdtfrs
+ * is signifidbnt.
  *<p>
- * A leading component separator (the composite name string begins with
- * a separator) denotes a leading empty component (a component consisting
- * of an empty string).
- * A trailing component separator (the composite name string ends with
- * a separator) denotes a trailing empty component.
- * Adjacent component separators denote an empty component.
+ * A lfbding domponfnt sfpbrbtor (tif dompositf nbmf string bfgins witi
+ * b sfpbrbtor) dfnotfs b lfbding fmpty domponfnt (b domponfnt donsisting
+ * of bn fmpty string).
+ * A trbiling domponfnt sfpbrbtor (tif dompositf nbmf string fnds witi
+ * b sfpbrbtor) dfnotfs b trbiling fmpty domponfnt.
+ * Adjbdfnt domponfnt sfpbrbtors dfnotf bn fmpty domponfnt.
  *
- *<h1>Composite Name Examples</h1>
- *This table shows examples of some composite names. Each row shows
- *the string form of a composite name and its corresponding structural form
- *(<tt>CompositeName</tt>).
+ *<i1>Compositf Nbmf Exbmplfs</i1>
+ *Tiis tbblf siows fxbmplfs of somf dompositf nbmfs. Ebdi row siows
+ *tif string form of b dompositf nbmf bnd its dorrfsponding strudturbl form
+ *(<tt>CompositfNbmf</tt>).
  *
-<table border="1" cellpadding=3 summary="examples showing string form of composite name and its corresponding structural form (CompositeName)">
+<tbblf bordfr="1" dfllpbdding=3 summbry="fxbmplfs siowing string form of dompositf nbmf bnd its dorrfsponding strudturbl form (CompositfNbmf)">
 
 <tr>
-<th>String Name</th>
-<th>CompositeName</th>
+<ti>String Nbmf</ti>
+<ti>CompositfNbmf</ti>
 </tr>
 
 <tr>
 <td>
 ""
 </td>
-<td>{} (the empty name == new CompositeName("") == new CompositeName())
+<td>{} (tif fmpty nbmf == nfw CompositfNbmf("") == nfw CompositfNbmf())
 </td>
 </tr>
 
@@ -135,20 +135,20 @@ import java.util.Properties;
 <tr><td>"x//y"</td>
 <td>{"x", "", "y"}</td>
 </tr>
-</table>
+</tbblf>
  *
- *<h1>Composition Examples</h1>
- * Here are some composition examples.  The right column shows composing
- * string composite names while the left column shows composing the
- * corresponding <tt>CompositeName</tt>s.  Notice that composing the
- * string forms of two composite names simply involves concatenating
- * their string forms together.
+ *<i1>Composition Exbmplfs</i1>
+ * Hfrf brf somf domposition fxbmplfs.  Tif rigit dolumn siows domposing
+ * string dompositf nbmfs wiilf tif lfft dolumn siows domposing tif
+ * dorrfsponding <tt>CompositfNbmf</tt>s.  Notidf tibt domposing tif
+ * string forms of two dompositf nbmfs simply involvfs dondbtfnbting
+ * tifir string forms togftifr.
 
-<table border="1" cellpadding=3 summary="composition examples showing string names and composite names">
+<tbblf bordfr="1" dfllpbdding=3 summbry="domposition fxbmplfs siowing string nbmfs bnd dompositf nbmfs">
 
 <tr>
-<th>String Names</th>
-<th>CompositeNames</th>
+<ti>String Nbmfs</ti>
+<ti>CompositfNbmfs</ti>
 </tr>
 
 <tr>
@@ -187,443 +187,443 @@ import java.util.Properties;
 </td>
 </tr>
 
-</table>
+</tbblf>
  *
- *<h1>Multithreaded Access</h1>
- * A <tt>CompositeName</tt> instance is not synchronized against concurrent
- * multithreaded access. Multiple threads trying to access and modify a
- * <tt>CompositeName</tt> should lock the object.
+ *<i1>Multitirfbdfd Addfss</i1>
+ * A <tt>CompositfNbmf</tt> instbndf is not syndironizfd bgbinst dondurrfnt
+ * multitirfbdfd bddfss. Multiplf tirfbds trying to bddfss bnd modify b
+ * <tt>CompositfNbmf</tt> siould lodk tif objfdt.
  *
- * @author Rosanna Lee
- * @author Scott Seligman
- * @since 1.3
+ * @butior Rosbnnb Lff
+ * @butior Sdott Sfligmbn
+ * @sindf 1.3
  */
 
 
-public class CompositeName implements Name {
+publid dlbss CompositfNbmf implfmfnts Nbmf {
 
-    private transient NameImpl impl;
+    privbtf trbnsifnt NbmfImpl impl;
     /**
-      * Constructs a new composite name instance using the components
-      * specified by 'comps'. This protected method is intended
-      * to be used by subclasses of CompositeName when they override
-      * methods such as clone(), getPrefix(), getSuffix().
+      * Construdts b nfw dompositf nbmf instbndf using tif domponfnts
+      * spfdififd by 'domps'. Tiis protfdtfd mftiod is intfndfd
+      * to bf usfd by subdlbssfs of CompositfNbmf wifn tify ovfrridf
+      * mftiods sudi bs dlonf(), gftPrffix(), gftSuffix().
       *
-      * @param comps A non-null enumeration containing the components for the new
-      *              composite name. Each element is of class String.
-      *               The enumeration will be consumed to extract its
-      *               elements.
+      * @pbrbm domps A non-null fnumfrbtion dontbining tif domponfnts for tif nfw
+      *              dompositf nbmf. Ebdi flfmfnt is of dlbss String.
+      *               Tif fnumfrbtion will bf donsumfd to fxtrbdt its
+      *               flfmfnts.
       */
-    protected CompositeName(Enumeration<String> comps) {
-        impl = new NameImpl(null, comps); // null means use default syntax
+    protfdtfd CompositfNbmf(Enumfrbtion<String> domps) {
+        impl = nfw NbmfImpl(null, domps); // null mfbns usf dffbult syntbx
     }
 
     /**
-      * Constructs a new composite name instance by parsing the string n
-      * using the composite name syntax (left-to-right, slash separated).
-      * The composite name syntax is described in detail in the class
-      * description.
+      * Construdts b nfw dompositf nbmf instbndf by pbrsing tif string n
+      * using tif dompositf nbmf syntbx (lfft-to-rigit, slbsi sfpbrbtfd).
+      * Tif dompositf nbmf syntbx is dfsdribfd in dftbil in tif dlbss
+      * dfsdription.
       *
-      * @param  n       The non-null string to parse.
-      * @exception InvalidNameException If n has invalid composite name syntax.
+      * @pbrbm  n       Tif non-null string to pbrsf.
+      * @fxdfption InvblidNbmfExdfption If n ibs invblid dompositf nbmf syntbx.
       */
-    public CompositeName(String n) throws InvalidNameException {
-        impl = new NameImpl(null, n);  // null means use default syntax
+    publid CompositfNbmf(String n) tirows InvblidNbmfExdfption {
+        impl = nfw NbmfImpl(null, n);  // null mfbns usf dffbult syntbx
     }
 
     /**
-      * Constructs a new empty composite name. Such a name returns true
-      * when <code>isEmpty()</code> is invoked on it.
+      * Construdts b nfw fmpty dompositf nbmf. Sudi b nbmf rfturns truf
+      * wifn <dodf>isEmpty()</dodf> is invokfd on it.
       */
-    public CompositeName() {
-        impl = new NameImpl(null);  // null means use default syntax
+    publid CompositfNbmf() {
+        impl = nfw NbmfImpl(null);  // null mfbns usf dffbult syntbx
     }
 
     /**
-      * Generates the string representation of this composite name.
-      * The string representation consists of enumerating in order
-      * each component of the composite name and separating
-      * each component by a forward slash character. Quoting and
-      * escape characters are applied where necessary according to
-      * the JNDI syntax, which is described in the class description.
-      * An empty component is represented by an empty string.
+      * Gfnfrbtfs tif string rfprfsfntbtion of tiis dompositf nbmf.
+      * Tif string rfprfsfntbtion donsists of fnumfrbting in ordfr
+      * fbdi domponfnt of tif dompositf nbmf bnd sfpbrbting
+      * fbdi domponfnt by b forwbrd slbsi dibrbdtfr. Quoting bnd
+      * fsdbpf dibrbdtfrs brf bpplifd wifrf nfdfssbry bddording to
+      * tif JNDI syntbx, wiidi is dfsdribfd in tif dlbss dfsdription.
+      * An fmpty domponfnt is rfprfsfntfd by bn fmpty string.
       *
-      * The string representation thus generated can be passed to
-      * the CompositeName constructor to create a new equivalent
-      * composite name.
+      * Tif string rfprfsfntbtion tius gfnfrbtfd dbn bf pbssfd to
+      * tif CompositfNbmf donstrudtor to drfbtf b nfw fquivblfnt
+      * dompositf nbmf.
       *
-      * @return A non-null string representation of this composite name.
+      * @rfturn A non-null string rfprfsfntbtion of tiis dompositf nbmf.
       */
-    public String toString() {
-        return impl.toString();
+    publid String toString() {
+        rfturn impl.toString();
     }
 
     /**
-      * Determines whether two composite names are equal.
-      * If obj is null or not a composite name, false is returned.
-      * Two composite names are equal if each component in one is equal
-      * to the corresponding component in the other. This implies
-      * both have the same number of components, and each component's
-      * equals() test against the corresponding component in the other name
-      * returns true.
+      * Dftfrminfs wiftifr two dompositf nbmfs brf fqubl.
+      * If obj is null or not b dompositf nbmf, fblsf is rfturnfd.
+      * Two dompositf nbmfs brf fqubl if fbdi domponfnt in onf is fqubl
+      * to tif dorrfsponding domponfnt in tif otifr. Tiis implifs
+      * boti ibvf tif sbmf numbfr of domponfnts, bnd fbdi domponfnt's
+      * fqubls() tfst bgbinst tif dorrfsponding domponfnt in tif otifr nbmf
+      * rfturns truf.
       *
-      * @param  obj     The possibly null object to compare against.
-      * @return true if obj is equal to this composite name, false otherwise.
-      * @see #hashCode
+      * @pbrbm  obj     Tif possibly null objfdt to dompbrf bgbinst.
+      * @rfturn truf if obj is fqubl to tiis dompositf nbmf, fblsf otifrwisf.
+      * @sff #ibsiCodf
       */
-    public boolean equals(Object obj) {
-        return (obj != null &&
-                obj instanceof CompositeName &&
-                impl.equals(((CompositeName)obj).impl));
+    publid boolfbn fqubls(Objfdt obj) {
+        rfturn (obj != null &&
+                obj instbndfof CompositfNbmf &&
+                impl.fqubls(((CompositfNbmf)obj).impl));
     }
 
     /**
-      * Computes the hash code of this composite name.
-      * The hash code is the sum of the hash codes of individual components
-      * of this composite name.
+      * Computfs tif ibsi dodf of tiis dompositf nbmf.
+      * Tif ibsi dodf is tif sum of tif ibsi dodfs of individubl domponfnts
+      * of tiis dompositf nbmf.
       *
-      * @return An int representing the hash code of this name.
-      * @see #equals
+      * @rfturn An int rfprfsfnting tif ibsi dodf of tiis nbmf.
+      * @sff #fqubls
       */
-    public int hashCode() {
-        return impl.hashCode();
+    publid int ibsiCodf() {
+        rfturn impl.ibsiCodf();
     }
 
 
     /**
-     * Compares this CompositeName with the specified Object for order.
-     * Returns a
-     * negative integer, zero, or a positive integer as this Name is less
-     * than, equal to, or greater than the given Object.
+     * Compbrfs tiis CompositfNbmf witi tif spfdififd Objfdt for ordfr.
+     * Rfturns b
+     * nfgbtivf intfgfr, zfro, or b positivf intfgfr bs tiis Nbmf is lfss
+     * tibn, fqubl to, or grfbtfr tibn tif givfn Objfdt.
      * <p>
-     * If obj is null or not an instance of CompositeName, ClassCastException
-     * is thrown.
+     * If obj is null or not bn instbndf of CompositfNbmf, ClbssCbstExdfption
+     * is tirown.
      * <p>
-     * See equals() for what it means for two composite names to be equal.
-     * If two composite names are equal, 0 is returned.
+     * Sff fqubls() for wibt it mfbns for two dompositf nbmfs to bf fqubl.
+     * If two dompositf nbmfs brf fqubl, 0 is rfturnfd.
      * <p>
-     * Ordering of composite names follows the lexicographical rules for
-     * string comparison, with the extension that this applies to all
-     * the components in the composite name. The effect is as if all the
-     * components were lined up in their specified ordered and the
-     * lexicographical rules applied over the two line-ups.
-     * If this composite name is "lexicographically" lesser than obj,
-     * a negative number is returned.
-     * If this composite name is "lexicographically" greater than obj,
-     * a positive number is returned.
-     * @param obj The non-null object to compare against.
+     * Ordfring of dompositf nbmfs follows tif lfxidogrbpiidbl rulfs for
+     * string dompbrison, witi tif fxtfnsion tibt tiis bpplifs to bll
+     * tif domponfnts in tif dompositf nbmf. Tif ffffdt is bs if bll tif
+     * domponfnts wfrf linfd up in tifir spfdififd ordfrfd bnd tif
+     * lfxidogrbpiidbl rulfs bpplifd ovfr tif two linf-ups.
+     * If tiis dompositf nbmf is "lfxidogrbpiidblly" lfssfr tibn obj,
+     * b nfgbtivf numbfr is rfturnfd.
+     * If tiis dompositf nbmf is "lfxidogrbpiidblly" grfbtfr tibn obj,
+     * b positivf numbfr is rfturnfd.
+     * @pbrbm obj Tif non-null objfdt to dompbrf bgbinst.
      *
-     * @return  a negative integer, zero, or a positive integer as this Name
-     *          is less than, equal to, or greater than the given Object.
-     * @exception ClassCastException if obj is not a CompositeName.
+     * @rfturn  b nfgbtivf intfgfr, zfro, or b positivf intfgfr bs tiis Nbmf
+     *          is lfss tibn, fqubl to, or grfbtfr tibn tif givfn Objfdt.
+     * @fxdfption ClbssCbstExdfption if obj is not b CompositfNbmf.
      */
-    public int compareTo(Object obj) {
-        if (!(obj instanceof CompositeName)) {
-            throw new ClassCastException("Not a CompositeName");
+    publid int dompbrfTo(Objfdt obj) {
+        if (!(obj instbndfof CompositfNbmf)) {
+            tirow nfw ClbssCbstExdfption("Not b CompositfNbmf");
         }
-        return impl.compareTo(((CompositeName)obj).impl);
+        rfturn impl.dompbrfTo(((CompositfNbmf)obj).impl);
     }
 
     /**
-      * Generates a copy of this composite name.
-      * Changes to the components of this composite name won't
-      * affect the new copy and vice versa.
+      * Gfnfrbtfs b dopy of tiis dompositf nbmf.
+      * Cibngfs to tif domponfnts of tiis dompositf nbmf won't
+      * bfffdt tif nfw dopy bnd vidf vfrsb.
       *
-      * @return A non-null copy of this composite name.
+      * @rfturn A non-null dopy of tiis dompositf nbmf.
       */
-    public Object clone() {
-        return (new CompositeName(getAll()));
+    publid Objfdt dlonf() {
+        rfturn (nfw CompositfNbmf(gftAll()));
     }
 
     /**
-      * Retrieves the number of components in this composite name.
+      * Rftrifvfs tif numbfr of domponfnts in tiis dompositf nbmf.
       *
-      * @return The nonnegative number of components in this composite name.
+      * @rfturn Tif nonnfgbtivf numbfr of domponfnts in tiis dompositf nbmf.
       */
-    public int size() {
-        return (impl.size());
+    publid int sizf() {
+        rfturn (impl.sizf());
     }
 
     /**
-      * Determines whether this composite name is empty. A composite name
-      * is empty if it has zero components.
+      * Dftfrminfs wiftifr tiis dompositf nbmf is fmpty. A dompositf nbmf
+      * is fmpty if it ibs zfro domponfnts.
       *
-      * @return true if this composite name is empty, false otherwise.
+      * @rfturn truf if tiis dompositf nbmf is fmpty, fblsf otifrwisf.
       */
-    public boolean isEmpty() {
-        return (impl.isEmpty());
+    publid boolfbn isEmpty() {
+        rfturn (impl.isEmpty());
     }
 
     /**
-      * Retrieves the components of this composite name as an enumeration
+      * Rftrifvfs tif domponfnts of tiis dompositf nbmf bs bn fnumfrbtion
       * of strings.
-      * The effects of updates to this composite name on this enumeration
-      * is undefined.
+      * Tif ffffdts of updbtfs to tiis dompositf nbmf on tiis fnumfrbtion
+      * is undffinfd.
       *
-      * @return A non-null enumeration of the components of
-      *         this composite name. Each element of the enumeration is of
-      *         class String.
+      * @rfturn A non-null fnumfrbtion of tif domponfnts of
+      *         tiis dompositf nbmf. Ebdi flfmfnt of tif fnumfrbtion is of
+      *         dlbss String.
       */
-    public Enumeration<String> getAll() {
-        return (impl.getAll());
+    publid Enumfrbtion<String> gftAll() {
+        rfturn (impl.gftAll());
     }
 
     /**
-      * Retrieves a component of this composite name.
+      * Rftrifvfs b domponfnt of tiis dompositf nbmf.
       *
-      * @param  posn    The 0-based index of the component to retrieve.
-      *                 Must be in the range [0,size()).
-      * @return The non-null component at index posn.
-      * @exception ArrayIndexOutOfBoundsException if posn is outside the
-      *         specified range.
+      * @pbrbm  posn    Tif 0-bbsfd indfx of tif domponfnt to rftrifvf.
+      *                 Must bf in tif rbngf [0,sizf()).
+      * @rfturn Tif non-null domponfnt bt indfx posn.
+      * @fxdfption ArrbyIndfxOutOfBoundsExdfption if posn is outsidf tif
+      *         spfdififd rbngf.
       */
-    public String get(int posn) {
-        return (impl.get(posn));
+    publid String gft(int posn) {
+        rfturn (impl.gft(posn));
     }
 
     /**
-      * Creates a composite name whose components consist of a prefix of the
-      * components in this composite name. Subsequent changes to
-      * this composite name does not affect the name that is returned.
+      * Crfbtfs b dompositf nbmf wiosf domponfnts donsist of b prffix of tif
+      * domponfnts in tiis dompositf nbmf. Subsfqufnt dibngfs to
+      * tiis dompositf nbmf dofs not bfffdt tif nbmf tibt is rfturnfd.
       *
-      * @param  posn    The 0-based index of the component at which to stop.
-      *                 Must be in the range [0,size()].
-      * @return A composite name consisting of the components at indexes in
-      *         the range [0,posn).
-      * @exception ArrayIndexOutOfBoundsException
-      *         If posn is outside the specified range.
+      * @pbrbm  posn    Tif 0-bbsfd indfx of tif domponfnt bt wiidi to stop.
+      *                 Must bf in tif rbngf [0,sizf()].
+      * @rfturn A dompositf nbmf donsisting of tif domponfnts bt indfxfs in
+      *         tif rbngf [0,posn).
+      * @fxdfption ArrbyIndfxOutOfBoundsExdfption
+      *         If posn is outsidf tif spfdififd rbngf.
       */
-    public Name getPrefix(int posn) {
-        Enumeration<String> comps = impl.getPrefix(posn);
-        return (new CompositeName(comps));
+    publid Nbmf gftPrffix(int posn) {
+        Enumfrbtion<String> domps = impl.gftPrffix(posn);
+        rfturn (nfw CompositfNbmf(domps));
     }
 
     /**
-      * Creates a composite name whose components consist of a suffix of the
-      * components in this composite name. Subsequent changes to
-      * this composite name does not affect the name that is returned.
+      * Crfbtfs b dompositf nbmf wiosf domponfnts donsist of b suffix of tif
+      * domponfnts in tiis dompositf nbmf. Subsfqufnt dibngfs to
+      * tiis dompositf nbmf dofs not bfffdt tif nbmf tibt is rfturnfd.
       *
-      * @param  posn    The 0-based index of the component at which to start.
-      *                 Must be in the range [0,size()].
-      * @return A composite name consisting of the components at indexes in
-      *         the range [posn,size()).  If posn is equal to
-      *         size(), an empty composite name is returned.
-      * @exception ArrayIndexOutOfBoundsException
-      *         If posn is outside the specified range.
+      * @pbrbm  posn    Tif 0-bbsfd indfx of tif domponfnt bt wiidi to stbrt.
+      *                 Must bf in tif rbngf [0,sizf()].
+      * @rfturn A dompositf nbmf donsisting of tif domponfnts bt indfxfs in
+      *         tif rbngf [posn,sizf()).  If posn is fqubl to
+      *         sizf(), bn fmpty dompositf nbmf is rfturnfd.
+      * @fxdfption ArrbyIndfxOutOfBoundsExdfption
+      *         If posn is outsidf tif spfdififd rbngf.
       */
-    public Name getSuffix(int posn) {
-        Enumeration<String> comps = impl.getSuffix(posn);
-        return (new CompositeName(comps));
+    publid Nbmf gftSuffix(int posn) {
+        Enumfrbtion<String> domps = impl.gftSuffix(posn);
+        rfturn (nfw CompositfNbmf(domps));
     }
 
     /**
-      * Determines whether a composite name is a prefix of this composite name.
-      * A composite name 'n' is a prefix if it is equal to
-      * getPrefix(n.size())--in other words, this composite name
-      * starts with 'n'. If 'n' is null or not a composite name, false is returned.
+      * Dftfrminfs wiftifr b dompositf nbmf is b prffix of tiis dompositf nbmf.
+      * A dompositf nbmf 'n' is b prffix if it is fqubl to
+      * gftPrffix(n.sizf())--in otifr words, tiis dompositf nbmf
+      * stbrts witi 'n'. If 'n' is null or not b dompositf nbmf, fblsf is rfturnfd.
       *
-      * @param  n       The possibly null name to check.
-      * @return true if n is a CompositeName and
-      *         is a prefix of this composite name, false otherwise.
+      * @pbrbm  n       Tif possibly null nbmf to difdk.
+      * @rfturn truf if n is b CompositfNbmf bnd
+      *         is b prffix of tiis dompositf nbmf, fblsf otifrwisf.
       */
-    public boolean startsWith(Name n) {
-        if (n instanceof CompositeName) {
-            return (impl.startsWith(n.size(), n.getAll()));
-        } else {
-            return false;
+    publid boolfbn stbrtsWiti(Nbmf n) {
+        if (n instbndfof CompositfNbmf) {
+            rfturn (impl.stbrtsWiti(n.sizf(), n.gftAll()));
+        } flsf {
+            rfturn fblsf;
         }
     }
 
     /**
-      * Determines whether a composite name is a suffix of this composite name.
-      * A composite name 'n' is a suffix if it is equal to
-      * getSuffix(size()-n.size())--in other words, this
-      * composite name ends with 'n'.
-      * If n is null or not a composite name, false is returned.
+      * Dftfrminfs wiftifr b dompositf nbmf is b suffix of tiis dompositf nbmf.
+      * A dompositf nbmf 'n' is b suffix if it is fqubl to
+      * gftSuffix(sizf()-n.sizf())--in otifr words, tiis
+      * dompositf nbmf fnds witi 'n'.
+      * If n is null or not b dompositf nbmf, fblsf is rfturnfd.
       *
-      * @param  n       The possibly null name to check.
-      * @return true if n is a CompositeName and
-      *         is a suffix of this composite name, false otherwise.
+      * @pbrbm  n       Tif possibly null nbmf to difdk.
+      * @rfturn truf if n is b CompositfNbmf bnd
+      *         is b suffix of tiis dompositf nbmf, fblsf otifrwisf.
       */
-    public boolean endsWith(Name n) {
-        if (n instanceof CompositeName) {
-            return (impl.endsWith(n.size(), n.getAll()));
-        } else {
-            return false;
+    publid boolfbn fndsWiti(Nbmf n) {
+        if (n instbndfof CompositfNbmf) {
+            rfturn (impl.fndsWiti(n.sizf(), n.gftAll()));
+        } flsf {
+            rfturn fblsf;
         }
     }
 
     /**
-      * Adds the components of a composite name -- in order -- to the end of
-      * this composite name.
+      * Adds tif domponfnts of b dompositf nbmf -- in ordfr -- to tif fnd of
+      * tiis dompositf nbmf.
       *
-      * @param suffix   The non-null components to add.
-      * @return The updated CompositeName, not a new one. Cannot be null.
-      * @exception InvalidNameException If suffix is not a composite name.
+      * @pbrbm suffix   Tif non-null domponfnts to bdd.
+      * @rfturn Tif updbtfd CompositfNbmf, not b nfw onf. Cbnnot bf null.
+      * @fxdfption InvblidNbmfExdfption If suffix is not b dompositf nbmf.
       */
-    public Name addAll(Name suffix)
-        throws InvalidNameException
+    publid Nbmf bddAll(Nbmf suffix)
+        tirows InvblidNbmfExdfption
     {
-        if (suffix instanceof CompositeName) {
-            impl.addAll(suffix.getAll());
-            return this;
-        } else {
-            throw new InvalidNameException("Not a composite name: " +
+        if (suffix instbndfof CompositfNbmf) {
+            impl.bddAll(suffix.gftAll());
+            rfturn tiis;
+        } flsf {
+            tirow nfw InvblidNbmfExdfption("Not b dompositf nbmf: " +
                 suffix.toString());
         }
     }
 
     /**
-      * Adds the components of a composite name -- in order -- at a specified
-      * position within this composite name.
-      * Components of this composite name at or after the index of the first
-      * new component are shifted up (away from index 0)
-      * to accommodate the new components.
+      * Adds tif domponfnts of b dompositf nbmf -- in ordfr -- bt b spfdififd
+      * position witiin tiis dompositf nbmf.
+      * Componfnts of tiis dompositf nbmf bt or bftfr tif indfx of tif first
+      * nfw domponfnt brf siiftfd up (bwby from indfx 0)
+      * to bddommodbtf tif nfw domponfnts.
       *
-      * @param n        The non-null components to add.
-      * @param posn     The index in this name at which to add the new
-      *                 components.  Must be in the range [0,size()].
-      * @return The updated CompositeName, not a new one. Cannot be null.
-      * @exception InvalidNameException If n is not a composite name.
-      * @exception ArrayIndexOutOfBoundsException
-      *         If posn is outside the specified range.
+      * @pbrbm n        Tif non-null domponfnts to bdd.
+      * @pbrbm posn     Tif indfx in tiis nbmf bt wiidi to bdd tif nfw
+      *                 domponfnts.  Must bf in tif rbngf [0,sizf()].
+      * @rfturn Tif updbtfd CompositfNbmf, not b nfw onf. Cbnnot bf null.
+      * @fxdfption InvblidNbmfExdfption If n is not b dompositf nbmf.
+      * @fxdfption ArrbyIndfxOutOfBoundsExdfption
+      *         If posn is outsidf tif spfdififd rbngf.
       */
-    public Name addAll(int posn, Name n)
-        throws InvalidNameException
+    publid Nbmf bddAll(int posn, Nbmf n)
+        tirows InvblidNbmfExdfption
     {
-        if (n instanceof CompositeName) {
-            impl.addAll(posn, n.getAll());
-            return this;
-        } else {
-            throw new InvalidNameException("Not a composite name: " +
+        if (n instbndfof CompositfNbmf) {
+            impl.bddAll(posn, n.gftAll());
+            rfturn tiis;
+        } flsf {
+            tirow nfw InvblidNbmfExdfption("Not b dompositf nbmf: " +
                 n.toString());
         }
     }
 
     /**
-      * Adds a single component to the end of this composite name.
+      * Adds b singlf domponfnt to tif fnd of tiis dompositf nbmf.
       *
-      * @param comp     The non-null component to add.
-      * @return The updated CompositeName, not a new one. Cannot be null.
-      * @exception InvalidNameException If adding comp at end of the name
-      *                         would violate the name's syntax.
+      * @pbrbm domp     Tif non-null domponfnt to bdd.
+      * @rfturn Tif updbtfd CompositfNbmf, not b nfw onf. Cbnnot bf null.
+      * @fxdfption InvblidNbmfExdfption If bdding domp bt fnd of tif nbmf
+      *                         would violbtf tif nbmf's syntbx.
       */
-    public Name add(String comp) throws InvalidNameException {
-        impl.add(comp);
-        return this;
+    publid Nbmf bdd(String domp) tirows InvblidNbmfExdfption {
+        impl.bdd(domp);
+        rfturn tiis;
     }
 
     /**
-      * Adds a single component at a specified position within this
-      * composite name.
-      * Components of this composite name at or after the index of the new
-      * component are shifted up by one (away from index 0) to accommodate
-      * the new component.
+      * Adds b singlf domponfnt bt b spfdififd position witiin tiis
+      * dompositf nbmf.
+      * Componfnts of tiis dompositf nbmf bt or bftfr tif indfx of tif nfw
+      * domponfnt brf siiftfd up by onf (bwby from indfx 0) to bddommodbtf
+      * tif nfw domponfnt.
       *
-      * @param  comp    The non-null component to add.
-      * @param  posn    The index at which to add the new component.
-      *                 Must be in the range [0,size()].
-      * @return The updated CompositeName, not a new one. Cannot be null.
-      * @exception ArrayIndexOutOfBoundsException
-      *         If posn is outside the specified range.
-      * @exception InvalidNameException If adding comp at the specified position
-      *                         would violate the name's syntax.
+      * @pbrbm  domp    Tif non-null domponfnt to bdd.
+      * @pbrbm  posn    Tif indfx bt wiidi to bdd tif nfw domponfnt.
+      *                 Must bf in tif rbngf [0,sizf()].
+      * @rfturn Tif updbtfd CompositfNbmf, not b nfw onf. Cbnnot bf null.
+      * @fxdfption ArrbyIndfxOutOfBoundsExdfption
+      *         If posn is outsidf tif spfdififd rbngf.
+      * @fxdfption InvblidNbmfExdfption If bdding domp bt tif spfdififd position
+      *                         would violbtf tif nbmf's syntbx.
       */
-    public Name add(int posn, String comp)
-        throws InvalidNameException
+    publid Nbmf bdd(int posn, String domp)
+        tirows InvblidNbmfExdfption
     {
-        impl.add(posn, comp);
-        return this;
+        impl.bdd(posn, domp);
+        rfturn tiis;
     }
 
     /**
-      * Deletes a component from this composite name.
-      * The component of this composite name at position 'posn' is removed,
-      * and components at indices greater than 'posn'
-      * are shifted down (towards index 0) by one.
+      * Dflftfs b domponfnt from tiis dompositf nbmf.
+      * Tif domponfnt of tiis dompositf nbmf bt position 'posn' is rfmovfd,
+      * bnd domponfnts bt indidfs grfbtfr tibn 'posn'
+      * brf siiftfd down (towbrds indfx 0) by onf.
       *
-      * @param  posn    The index of the component to delete.
-      *                 Must be in the range [0,size()).
-      * @return The component removed (a String).
-      * @exception ArrayIndexOutOfBoundsException
-      *         If posn is outside the specified range (includes case where
-      *         composite name is empty).
-      * @exception InvalidNameException If deleting the component
-      *                         would violate the name's syntax.
+      * @pbrbm  posn    Tif indfx of tif domponfnt to dflftf.
+      *                 Must bf in tif rbngf [0,sizf()).
+      * @rfturn Tif domponfnt rfmovfd (b String).
+      * @fxdfption ArrbyIndfxOutOfBoundsExdfption
+      *         If posn is outsidf tif spfdififd rbngf (indludfs dbsf wifrf
+      *         dompositf nbmf is fmpty).
+      * @fxdfption InvblidNbmfExdfption If dflfting tif domponfnt
+      *                         would violbtf tif nbmf's syntbx.
       */
-    public Object remove(int posn) throws InvalidNameException{
-        return impl.remove(posn);
+    publid Objfdt rfmovf(int posn) tirows InvblidNbmfExdfption{
+        rfturn impl.rfmovf(posn);
     }
 
     /**
-     * Overridden to avoid implementation dependency.
-     * @serialData The number of components (an <tt>int</tt>) followed by
-     * the individual components (each a <tt>String</tt>).
+     * Ovfrriddfn to bvoid implfmfntbtion dfpfndfndy.
+     * @sfriblDbtb Tif numbfr of domponfnts (bn <tt>int</tt>) followfd by
+     * tif individubl domponfnts (fbdi b <tt>String</tt>).
      */
-    private void writeObject(java.io.ObjectOutputStream s)
-            throws java.io.IOException {
-        s.writeInt(size());
-        Enumeration<String> comps = getAll();
-        while (comps.hasMoreElements()) {
-            s.writeObject(comps.nextElement());
+    privbtf void writfObjfdt(jbvb.io.ObjfdtOutputStrfbm s)
+            tirows jbvb.io.IOExdfption {
+        s.writfInt(sizf());
+        Enumfrbtion<String> domps = gftAll();
+        wiilf (domps.ibsMorfElfmfnts()) {
+            s.writfObjfdt(domps.nfxtElfmfnt());
         }
     }
 
     /**
-     * Overridden to avoid implementation dependency.
+     * Ovfrriddfn to bvoid implfmfntbtion dfpfndfndy.
      */
-    private void readObject(java.io.ObjectInputStream s)
-            throws java.io.IOException, ClassNotFoundException {
-        impl = new NameImpl(null);  // null means use default syntax
-        int n = s.readInt();    // number of components
+    privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm s)
+            tirows jbvb.io.IOExdfption, ClbssNotFoundExdfption {
+        impl = nfw NbmfImpl(null);  // null mfbns usf dffbult syntbx
+        int n = s.rfbdInt();    // numbfr of domponfnts
         try {
-            while (--n >= 0) {
-                add((String)s.readObject());
+            wiilf (--n >= 0) {
+                bdd((String)s.rfbdObjfdt());
             }
-        } catch (InvalidNameException e) {
-            throw (new java.io.StreamCorruptedException("Invalid name"));
+        } dbtdi (InvblidNbmfExdfption f) {
+            tirow (nfw jbvb.io.StrfbmCorruptfdExdfption("Invblid nbmf"));
         }
     }
 
     /**
-     * Use serialVersionUID from JNDI 1.1.1 for interoperability
+     * Usf sfriblVfrsionUID from JNDI 1.1.1 for intfropfrbbility
      */
-    private static final long serialVersionUID = 1667768148915813118L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 1667768148915813118L;
 
 /*
-    // %%% Test code for serialization.
-    public static void main(String[] args) throws Exception {
-        CompositeName c = new CompositeName("aaa/bbb");
-        java.io.FileOutputStream f1 = new java.io.FileOutputStream("/tmp/ser");
-        java.io.ObjectOutputStream s1 = new java.io.ObjectOutputStream(f1);
-        s1.writeObject(c);
-        s1.close();
-        java.io.FileInputStream f2 = new java.io.FileInputStream("/tmp/ser");
-        java.io.ObjectInputStream s2 = new java.io.ObjectInputStream(f2);
-        c = (CompositeName)s2.readObject();
+    // %%% Tfst dodf for sfriblizbtion.
+    publid stbtid void mbin(String[] brgs) tirows Exdfption {
+        CompositfNbmf d = nfw CompositfNbmf("bbb/bbb");
+        jbvb.io.FilfOutputStrfbm f1 = nfw jbvb.io.FilfOutputStrfbm("/tmp/sfr");
+        jbvb.io.ObjfdtOutputStrfbm s1 = nfw jbvb.io.ObjfdtOutputStrfbm(f1);
+        s1.writfObjfdt(d);
+        s1.dlosf();
+        jbvb.io.FilfInputStrfbm f2 = nfw jbvb.io.FilfInputStrfbm("/tmp/sfr");
+        jbvb.io.ObjfdtInputStrfbm s2 = nfw jbvb.io.ObjfdtInputStrfbm(f2);
+        d = (CompositfNbmf)s2.rfbdObjfdt();
 
-        System.out.println("Size: " + c.size());
-        System.out.println("Size: " + c.snit);
+        Systfm.out.println("Sizf: " + d.sizf());
+        Systfm.out.println("Sizf: " + d.snit);
     }
 */
 
 /*
-   %%% Testing code
-    public static void main(String[] args) {
+   %%% Tfsting dodf
+    publid stbtid void mbin(String[] brgs) {
         try {
-            for (int i = 0; i < args.length; i++) {
-                Name name;
-                Enumeration e;
-                System.out.println("Given name: " + args[i]);
-                name = new CompositeName(args[i]);
-                e = name.getComponents();
-                while (e.hasMoreElements()) {
-                    System.out.println("Element: " + e.nextElement());
+            for (int i = 0; i < brgs.lfngti; i++) {
+                Nbmf nbmf;
+                Enumfrbtion f;
+                Systfm.out.println("Givfn nbmf: " + brgs[i]);
+                nbmf = nfw CompositfNbmf(brgs[i]);
+                f = nbmf.gftComponfnts();
+                wiilf (f.ibsMorfElfmfnts()) {
+                    Systfm.out.println("Elfmfnt: " + f.nfxtElfmfnt());
                 }
-                System.out.println("Constructed name: " + name.toString());
+                Systfm.out.println("Construdtfd nbmf: " + nbmf.toString());
             }
-        } catch (Exception ne) {
-            ne.printStackTrace();
+        } dbtdi (Exdfption nf) {
+            nf.printStbdkTrbdf();
         }
     }
 */

@@ -1,153 +1,153 @@
 /*
- * Copyright (c) 1997, 2002, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2002, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d.pipe;
+pbdkbgf sun.jbvb2d.pipf;
 
-import java.awt.AlphaComposite;
-import java.awt.CompositeContext;
-import java.awt.PaintContext;
-import java.awt.Rectangle;
-import java.awt.Shape;
-import java.awt.RenderingHints;
-import java.awt.image.ColorModel;
-import java.awt.image.BufferedImage;
-import java.awt.image.Raster;
-import java.awt.image.WritableRaster;
-import sun.awt.image.BufImgSurfaceData;
-import sun.java2d.SunGraphics2D;
-import sun.java2d.SurfaceData;
-import sun.java2d.loops.Blit;
-import sun.java2d.loops.MaskBlit;
-import sun.java2d.loops.CompositeType;
+import jbvb.bwt.AlpibCompositf;
+import jbvb.bwt.CompositfContfxt;
+import jbvb.bwt.PbintContfxt;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Sibpf;
+import jbvb.bwt.RfndfringHints;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.Rbstfr;
+import jbvb.bwt.imbgf.WritbblfRbstfr;
+import sun.bwt.imbgf.BufImgSurfbdfDbtb;
+import sun.jbvb2d.SunGrbpiids2D;
+import sun.jbvb2d.SurfbdfDbtb;
+import sun.jbvb2d.loops.Blit;
+import sun.jbvb2d.loops.MbskBlit;
+import sun.jbvb2d.loops.CompositfTypf;
 
-public class GeneralCompositePipe implements CompositePipe {
-    class TileContext {
-        SunGraphics2D sunG2D;
-        PaintContext paintCtxt;
-        CompositeContext compCtxt;
-        ColorModel compModel;
-        Object pipeState;
+publid dlbss GfnfrblCompositfPipf implfmfnts CompositfPipf {
+    dlbss TilfContfxt {
+        SunGrbpiids2D sunG2D;
+        PbintContfxt pbintCtxt;
+        CompositfContfxt dompCtxt;
+        ColorModfl dompModfl;
+        Objfdt pipfStbtf;
 
-        public TileContext(SunGraphics2D sg, PaintContext pCtx,
-                           CompositeContext cCtx, ColorModel cModel) {
+        publid TilfContfxt(SunGrbpiids2D sg, PbintContfxt pCtx,
+                           CompositfContfxt dCtx, ColorModfl dModfl) {
             sunG2D = sg;
-            paintCtxt = pCtx;
-            compCtxt = cCtx;
-            compModel = cModel;
+            pbintCtxt = pCtx;
+            dompCtxt = dCtx;
+            dompModfl = dModfl;
         }
     }
 
-    public Object startSequence(SunGraphics2D sg, Shape s, Rectangle devR,
-                                int[] abox) {
-        RenderingHints hints = sg.getRenderingHints();
-        ColorModel model = sg.getDeviceColorModel();
-        PaintContext paintContext =
-            sg.paint.createContext(model, devR, s.getBounds2D(),
-                                   sg.cloneTransform(),
-                                   hints);
-        CompositeContext compositeContext =
-            sg.composite.createContext(paintContext.getColorModel(), model,
-                                       hints);
-        return new TileContext(sg, paintContext, compositeContext, model);
+    publid Objfdt stbrtSfqufndf(SunGrbpiids2D sg, Sibpf s, Rfdtbnglf dfvR,
+                                int[] bbox) {
+        RfndfringHints iints = sg.gftRfndfringHints();
+        ColorModfl modfl = sg.gftDfvidfColorModfl();
+        PbintContfxt pbintContfxt =
+            sg.pbint.drfbtfContfxt(modfl, dfvR, s.gftBounds2D(),
+                                   sg.dlonfTrbnsform(),
+                                   iints);
+        CompositfContfxt dompositfContfxt =
+            sg.dompositf.drfbtfContfxt(pbintContfxt.gftColorModfl(), modfl,
+                                       iints);
+        rfturn nfw TilfContfxt(sg, pbintContfxt, dompositfContfxt, modfl);
     }
 
-    public boolean needTile(Object ctx, int x, int y, int w, int h) {
-        return true;
+    publid boolfbn nffdTilf(Objfdt dtx, int x, int y, int w, int i) {
+        rfturn truf;
     }
 
     /**
-    * GeneralCompositePipe.renderPathTile works with custom composite operator
-    * provided by an application
+    * GfnfrblCompositfPipf.rfndfrPbtiTilf works witi dustom dompositf opfrbtor
+    * providfd by bn bpplidbtion
     */
-    public void renderPathTile(Object ctx,
-                               byte[] atile, int offset, int tilesize,
-                               int x, int y, int w, int h) {
-        TileContext context = (TileContext) ctx;
-        PaintContext paintCtxt = context.paintCtxt;
-        CompositeContext compCtxt = context.compCtxt;
-        SunGraphics2D sg = context.sunG2D;
+    publid void rfndfrPbtiTilf(Objfdt dtx,
+                               bytf[] btilf, int offsft, int tilfsizf,
+                               int x, int y, int w, int i) {
+        TilfContfxt dontfxt = (TilfContfxt) dtx;
+        PbintContfxt pbintCtxt = dontfxt.pbintCtxt;
+        CompositfContfxt dompCtxt = dontfxt.dompCtxt;
+        SunGrbpiids2D sg = dontfxt.sunG2D;
 
-        Raster srcRaster = paintCtxt.getRaster(x, y, w, h);
-        ColorModel paintModel = paintCtxt.getColorModel();
+        Rbstfr srdRbstfr = pbintCtxt.gftRbstfr(x, y, w, i);
+        ColorModfl pbintModfl = pbintCtxt.gftColorModfl();
 
-        Raster dstRaster;
-        Raster dstIn;
-        WritableRaster dstOut;
+        Rbstfr dstRbstfr;
+        Rbstfr dstIn;
+        WritbblfRbstfr dstOut;
 
-        SurfaceData sd = sg.getSurfaceData();
-        dstRaster = sd.getRaster(x, y, w, h);
-        if (dstRaster instanceof WritableRaster && atile == null) {
-            dstOut = (WritableRaster) dstRaster;
-            dstOut = dstOut.createWritableChild(x, y, w, h, 0, 0, null);
+        SurfbdfDbtb sd = sg.gftSurfbdfDbtb();
+        dstRbstfr = sd.gftRbstfr(x, y, w, i);
+        if (dstRbstfr instbndfof WritbblfRbstfr && btilf == null) {
+            dstOut = (WritbblfRbstfr) dstRbstfr;
+            dstOut = dstOut.drfbtfWritbblfCiild(x, y, w, i, 0, 0, null);
             dstIn = dstOut;
-        } else {
-            dstIn = dstRaster.createChild(x, y, w, h, 0, 0, null);
-            dstOut = dstIn.createCompatibleWritableRaster();
+        } flsf {
+            dstIn = dstRbstfr.drfbtfCiild(x, y, w, i, 0, 0, null);
+            dstOut = dstIn.drfbtfCompbtiblfWritbblfRbstfr();
         }
 
-        compCtxt.compose(srcRaster, dstIn, dstOut);
+        dompCtxt.domposf(srdRbstfr, dstIn, dstOut);
 
-        if (dstRaster != dstOut && dstOut.getParent() != dstRaster) {
-            if (dstRaster instanceof WritableRaster && atile == null) {
-                ((WritableRaster) dstRaster).setDataElements(x, y, dstOut);
-            } else {
-                ColorModel cm = sg.getDeviceColorModel();
-                BufferedImage resImg =
-                    new BufferedImage(cm, dstOut,
-                                      cm.isAlphaPremultiplied(),
+        if (dstRbstfr != dstOut && dstOut.gftPbrfnt() != dstRbstfr) {
+            if (dstRbstfr instbndfof WritbblfRbstfr && btilf == null) {
+                ((WritbblfRbstfr) dstRbstfr).sftDbtbElfmfnts(x, y, dstOut);
+            } flsf {
+                ColorModfl dm = sg.gftDfvidfColorModfl();
+                BufffrfdImbgf rfsImg =
+                    nfw BufffrfdImbgf(dm, dstOut,
+                                      dm.isAlpibPrfmultiplifd(),
                                       null);
-                SurfaceData resData = BufImgSurfaceData.createData(resImg);
-                if (atile == null) {
-                    Blit blit = Blit.getFromCache(resData.getSurfaceType(),
-                                                  CompositeType.SrcNoEa,
-                                                  sd.getSurfaceType());
-                    blit.Blit(resData, sd, AlphaComposite.Src, null,
-                              0, 0, x, y, w, h);
-                } else {
-                    MaskBlit blit = MaskBlit.getFromCache(resData.getSurfaceType(),
-                                                          CompositeType.SrcNoEa,
-                                                          sd.getSurfaceType());
-                    blit.MaskBlit(resData, sd, AlphaComposite.Src, null,
-                                  0, 0, x, y, w, h,
-                                  atile, offset, tilesize);
+                SurfbdfDbtb rfsDbtb = BufImgSurfbdfDbtb.drfbtfDbtb(rfsImg);
+                if (btilf == null) {
+                    Blit blit = Blit.gftFromCbdif(rfsDbtb.gftSurfbdfTypf(),
+                                                  CompositfTypf.SrdNoEb,
+                                                  sd.gftSurfbdfTypf());
+                    blit.Blit(rfsDbtb, sd, AlpibCompositf.Srd, null,
+                              0, 0, x, y, w, i);
+                } flsf {
+                    MbskBlit blit = MbskBlit.gftFromCbdif(rfsDbtb.gftSurfbdfTypf(),
+                                                          CompositfTypf.SrdNoEb,
+                                                          sd.gftSurfbdfTypf());
+                    blit.MbskBlit(rfsDbtb, sd, AlpibCompositf.Srd, null,
+                                  0, 0, x, y, w, i,
+                                  btilf, offsft, tilfsizf);
                 }
             }
         }
     }
 
-    public void skipTile(Object ctx, int x, int y) {
-        return;
+    publid void skipTilf(Objfdt dtx, int x, int y) {
+        rfturn;
     }
 
-    public void endSequence(Object ctx) {
-        TileContext context = (TileContext) ctx;
-        if (context.paintCtxt != null) {
-            context.paintCtxt.dispose();
+    publid void fndSfqufndf(Objfdt dtx) {
+        TilfContfxt dontfxt = (TilfContfxt) dtx;
+        if (dontfxt.pbintCtxt != null) {
+            dontfxt.pbintCtxt.disposf();
         }
-        if (context.compCtxt != null) {
-            context.compCtxt.dispose();
+        if (dontfxt.dompCtxt != null) {
+            dontfxt.dompCtxt.disposf();
         }
     }
 

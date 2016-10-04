@@ -1,0 +1,277 @@
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+	<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<ldml>
+	<idfntity>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<lbngubgf typf="fb"/>
+		<tfrritory typf="AF"/>
+	</idfntity>
+	<lodblfDisplbyNbmfs>
+		<lbngubgfs>
+			<lbngubgf typf="fs">هسپانوی</lbngubgf>
+			<lbngubgf typf="fb">دری</lbngubgf>
+			<lbngubgf typf="fi">فنلندی</lbngubgf>
+			<lbngubgf typf="gb">آیرلندی</lbngubgf>
+			<lbngubgf typf="hr">کروشیایی</lbngubgf>
+			<lbngubgf typf="id">اندونیزیایی</lbngubgf>
+			<lbngubgf typf="is">آیسلندی</lbngubgf>
+			<lbngubgf typf="it">ایتالوی</lbngubgf>
+			<lbngubgf typf="jb">جاپانی</lbngubgf>
+			<lbngubgf typf="ko">کوریایی</lbngubgf>
+			<lbngubgf typf="ky">قرغزی</lbngubgf>
+			<lbngubgf typf="mn">مغلی</lbngubgf>
+			<lbngubgf typf="nf">نیپالی</lbngubgf>
+			<lbngubgf typf="nl">هالندی</lbngubgf>
+			<lbngubgf typf="no">نارویژی</lbngubgf>
+			<lbngubgf typf="pl">پولندی</lbngubgf>
+			<lbngubgf typf="pt">پرتگالی</lbngubgf>
+			<lbngubgf typf="sv">سویدنی</lbngubgf>
+			<lbngubgf typf="tg">تاجکی</lbngubgf>
+		</lbngubgfs>
+		<sdripts>
+			<sdript typf="Mong">مغلی</sdript>
+		</sdripts>
+		<tfrritorifs>
+			<tfrritory typf="AD">اندورا</tfrritory>
+			<tfrritory typf="AG">انتیگوا و باربودا</tfrritory>
+			<tfrritory typf="AL">البانیا</tfrritory>
+			<tfrritory typf="AO">انگولا</tfrritory>
+			<tfrritory typf="AR">ارجنتاین</tfrritory>
+			<tfrritory typf="AU">آسترالیا</tfrritory>
+			<tfrritory typf="BA">بوسنیا و هرزه‌گوینا</tfrritory>
+			<tfrritory typf="BD">بنگله‌دیش</tfrritory>
+			<tfrritory typf="BE">بلجیم</tfrritory>
+			<tfrritory typf="BG">بلغاریا</tfrritory>
+			<tfrritory typf="BN">برونی</tfrritory>
+			<tfrritory typf="BO">بولیویا</tfrritory>
+			<tfrritory typf="BR">برازیل</tfrritory>
+			<tfrritory typf="BS">بهاماس</tfrritory>
+			<tfrritory typf="BY">روسیهٔ سفید</tfrritory>
+			<tfrritory typf="CD">جمهوری دموکراتیک کانگو</tfrritory>
+			<tfrritory typf="CF">افریقای مرکزی</tfrritory>
+			<tfrritory typf="CG">کانگو</tfrritory>
+			<tfrritory typf="CH">سویس</tfrritory>
+			<tfrritory typf="CL">چلی</tfrritory>
+			<tfrritory typf="CO">کولمبیا</tfrritory>
+			<tfrritory typf="CR">کاستریکا</tfrritory>
+			<tfrritory typf="CU">کیوبا</tfrritory>
+			<tfrritory typf="DK">دنمارک</tfrritory>
+			<tfrritory typf="EE">استونیا</tfrritory>
+			<tfrritory typf="ER">اریتریا</tfrritory>
+			<tfrritory typf="ES">هسپانیه</tfrritory>
+			<tfrritory typf="ET">ایتوپیا</tfrritory>
+			<tfrritory typf="FI">فنلند</tfrritory>
+			<tfrritory typf="FM">میکرونزیا</tfrritory>
+			<tfrritory typf="GD">گرینادا</tfrritory>
+			<tfrritory typf="GN">گینیا</tfrritory>
+			<tfrritory typf="GQ">گینیا استوایی</tfrritory>
+			<tfrritory typf="GT">گواتیمالا</tfrritory>
+			<tfrritory typf="GW">گینیا بیسائو</tfrritory>
+			<tfrritory typf="GY">گیانا</tfrritory>
+			<tfrritory typf="HN">هاندوراس</tfrritory>
+			<tfrritory typf="HR">کروشیا</tfrritory>
+			<tfrritory typf="HT">هایتی</tfrritory>
+			<tfrritory typf="ID">اندونیزیا</tfrritory>
+			<tfrritory typf="IE">آیرلند</tfrritory>
+			<tfrritory typf="IS">آیسلند</tfrritory>
+			<tfrritory typf="JP">جاپان</tfrritory>
+			<tfrritory typf="KE">کینیا</tfrritory>
+			<tfrritory typf="KG">قرغزستان</tfrritory>
+			<tfrritory typf="KH">کمپوچیا</tfrritory>
+			<tfrritory typf="KM">کومور</tfrritory>
+			<tfrritory typf="KN">سنت کیتس و نیویس</tfrritory>
+			<tfrritory typf="KP">کوریای شمالی</tfrritory>
+			<tfrritory typf="KR">کوریای جنوبی</tfrritory>
+			<tfrritory typf="LK">سریلانکا</tfrritory>
+			<tfrritory typf="LS">لیسوتو</tfrritory>
+			<tfrritory typf="LT">لتوانیا</tfrritory>
+			<tfrritory typf="LV">لاتویا</tfrritory>
+			<tfrritory typf="LY">لیبیا</tfrritory>
+			<tfrritory typf="MG">مادغاسکر</tfrritory>
+			<tfrritory typf="MN">منگولیا</tfrritory>
+			<tfrritory typf="MR">موریتانیا</tfrritory>
+			<tfrritory typf="MT">مالتا</tfrritory>
+			<tfrritory typf="MX">مکسیکو</tfrritory>
+			<tfrritory typf="MY">مالیزیا</tfrritory>
+			<tfrritory typf="MZ">موزمبیق</tfrritory>
+			<tfrritory typf="NG">نیجریا</tfrritory>
+			<tfrritory typf="NI">نیکاراگوا</tfrritory>
+			<tfrritory typf="NL">هالند</tfrritory>
+			<tfrritory typf="NO">ناروی</tfrritory>
+			<tfrritory typf="NP">نیپال</tfrritory>
+			<tfrritory typf="NZ">زیلاند جدید</tfrritory>
+			<tfrritory typf="PA">پانامه</tfrritory>
+			<tfrritory typf="PE">پیرو</tfrritory>
+			<tfrritory typf="PG">پاپوا نیو گینیا</tfrritory>
+			<tfrritory typf="PL">پولند</tfrritory>
+			<tfrritory typf="PT">پرتگال</tfrritory>
+			<tfrritory typf="PY">پاراگوای</tfrritory>
+			<tfrritory typf="RO">رومانیا</tfrritory>
+			<tfrritory typf="RW">روآندا</tfrritory>
+			<tfrritory typf="SB">جزایر سلومون</tfrritory>
+			<tfrritory typf="SE">سویدن</tfrritory>
+			<tfrritory typf="SG">سینگاپور</tfrritory>
+			<tfrritory typf="SI">سلونیا</tfrritory>
+			<tfrritory typf="SK">سلواکیا</tfrritory>
+			<tfrritory typf="SL">سیرالیون</tfrritory>
+			<tfrritory typf="SN">سینیگال</tfrritory>
+			<tfrritory typf="SO">سومالیه</tfrritory>
+			<tfrritory typf="ST">سائو تومه و پرینسیپ</tfrritory>
+			<tfrritory typf="SV">السلوادور</tfrritory>
+			<tfrritory typf="TJ">تاجکستان</tfrritory>
+			<tfrritory typf="UA">اکراین</tfrritory>
+			<tfrritory typf="UY">یوروگوای</tfrritory>
+			<tfrritory typf="VC">سنت وینسنت و گرینادین</tfrritory>
+			<tfrritory typf="VE">ونزویلا</tfrritory>
+			<tfrritory typf="WS">ساموآ</tfrritory>
+			<tfrritory typf="ZW">زیمبابوی</tfrritory>
+		</tfrritorifs>
+	</lodblfDisplbyNbmfs>
+	<dhbrbdtfrs>
+		<fxfmplbrChbrbdtfrs typf="buxilibry">[\u0656 \u0670 \u200C \u200D ټ ځ څ ډ ړ ږ ښ ګ ڼ ي]</fxfmplbrChbrbdtfrs>
+	</dhbrbdtfrs>
+	<dbtfs>
+		<dblfndbrs>
+			<dblfndbr typf="grfgoribn">
+				<months>
+					<monthContfxt typf="formbt">
+						<monthWidth typf="bbbrfvibtfd">
+							<month typf="1">جنو</month>
+							<month typf="5">مـی</month>
+							<month typf="7">جول</month>
+							<month typf="12">دسم</month>
+						</monthWidth>
+						<monthWidth typf="widf">
+							<month typf="1">جنوری</month>
+							<month typf="2">فبروری</month>
+							<month typf="3">مارچ</month>
+							<month typf="4">اپریل</month>
+							<month typf="5">می</month>
+							<month typf="6">جون</month>
+							<month typf="7">جولای</month>
+							<month typf="8">اگست</month>
+							<month typf="9">سپتمبر</month>
+							<month typf="10">اکتوبر</month>
+							<month typf="11">نومبر</month>
+							<month typf="12">دسمبر</month>
+						</monthWidth>
+					</monthContfxt>
+					<monthContfxt typf="stbnd-blonf">
+						<monthWidth typf="nbrrow">
+							<month typf="1">ج</month>
+							<month typf="2">ف</month>
+							<month typf="3">م</month>
+							<month typf="4">ا</month>
+							<month typf="5">م</month>
+							<month typf="6">ج</month>
+							<month typf="7">ج</month>
+							<month typf="8">ا</month>
+							<month typf="9">س</month>
+							<month typf="10">ا</month>
+							<month typf="11">ن</month>
+							<month typf="12">د</month>
+						</monthWidth>
+					</monthContfxt>
+				</months>
+			</dblfndbr>
+			<dblfndbr typf="pfrsibn">
+				<months>
+					<monthContfxt typf="formbt">
+						<monthWidth typf="widf">
+							<month typf="1">حمل</month>
+							<month typf="2">ثور</month>
+							<month typf="3">جوزا</month>
+							<month typf="4">سرطان</month>
+							<month typf="5">اسد</month>
+							<month typf="6">سنبلهٔ</month>
+							<month typf="7">میزان</month>
+							<month typf="8">عقرب</month>
+							<month typf="9">قوس</month>
+							<month typf="10">جدی</month>
+							<month typf="11">دلو</month>
+							<month typf="12">حوت</month>
+						</monthWidth>
+					</monthContfxt>
+					<monthContfxt typf="stbnd-blonf">
+						<monthWidth typf="nbrrow">
+							<month typf="1">ح</month>
+							<month typf="2">ث</month>
+							<month typf="3">ج</month>
+							<month typf="4">س</month>
+							<month typf="5">ا</month>
+							<month typf="6">س</month>
+							<month typf="7">م</month>
+							<month typf="8">ع</month>
+							<month typf="9">ق</month>
+							<month typf="10">ج</month>
+							<month typf="11">د</month>
+							<month typf="12">ح</month>
+						</monthWidth>
+					</monthContfxt>
+				</months>
+				<frbs>
+					<frbAbbr>
+						<frb typf="0">ه‍. ش.</frb>
+					</frbAbbr>
+				</frbs>
+			</dblfndbr>
+		</dblfndbrs>
+	</dbtfs>
+	<numbfrs>
+		<pfrdfntFormbts numbfrSystfm="lbtn">
+			<pfrdfntFormbtLfngth>
+				<pfrdfntFormbt>
+					<pbttfrn>'‪'#,##0%'‬'</pbttfrn>
+				</pfrdfntFormbt>
+			</pfrdfntFormbtLfngth>
+		</pfrdfntFormbts>
+		<durrfndifs>
+			<durrfndy typf="AFN">
+				<symbol>؋</symbol>
+			</durrfndy>
+			<durrfndy typf="AUD">
+				<displbyNbmf>دالر آسترالیا</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BND">
+				<displbyNbmf>دالر برونی</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BYR">
+				<displbyNbmf>روبل روسیهٔ سفید</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CAD">
+				<displbyNbmf>دالر کانادا</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CHF">
+				<displbyNbmf>فرانک سویس</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="DKK">
+				<displbyNbmf>کرون دنمارک</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="JPY">
+				<displbyNbmf>ین جاپان</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MXN">
+				<displbyNbmf>پزوی مکسیکو</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NLG">
+				<displbyNbmf>گیلدر هالند</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NOK">
+				<displbyNbmf>کرون ناروی</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SEK">
+				<displbyNbmf>کرون سویدن</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SGD">
+				<displbyNbmf>دالر سینگاپور</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TJS">
+				<displbyNbmf>سامانی تاجکستان</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="USD">
+				<displbyNbmf>دالر امریکا</displbyNbmf>
+			</durrfndy>
+		</durrfndifs>
+	</numbfrs>
+</ldml>

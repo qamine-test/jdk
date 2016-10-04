@@ -1,861 +1,861 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
-import java.awt.event.*;
-import java.awt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bwt.*;
 
 /**
- * Manages all the <code>ToolTips</code> in the system.
+ * Mbnbgfs bll tif <dodf>ToolTips</dodf> in tif systfm.
  * <p>
- * ToolTipManager contains numerous properties for configuring how long it
- * will take for the tooltips to become visible, and how long till they
- * hide. Consider a component that has a different tooltip based on where
- * the mouse is, such as JTree. When the mouse moves into the JTree and
- * over a region that has a valid tooltip, the tooltip will become
- * visible after <code>initialDelay</code> milliseconds. After
- * <code>dismissDelay</code> milliseconds the tooltip will be hidden. If
- * the mouse is over a region that has a valid tooltip, and the tooltip
- * is currently visible, when the mouse moves to a region that doesn't have
- * a valid tooltip the tooltip will be hidden. If the mouse then moves back
- * into a region that has a valid tooltip within <code>reshowDelay</code>
- * milliseconds, the tooltip will immediately be shown, otherwise the
- * tooltip will be shown again after <code>initialDelay</code> milliseconds.
+ * ToolTipMbnbgfr dontbins numfrous propfrtifs for donfiguring iow long it
+ * will tbkf for tif tooltips to bfdomf visiblf, bnd iow long till tify
+ * iidf. Considfr b domponfnt tibt ibs b difffrfnt tooltip bbsfd on wifrf
+ * tif mousf is, sudi bs JTrff. Wifn tif mousf movfs into tif JTrff bnd
+ * ovfr b rfgion tibt ibs b vblid tooltip, tif tooltip will bfdomf
+ * visiblf bftfr <dodf>initiblDflby</dodf> millisfdonds. Aftfr
+ * <dodf>dismissDflby</dodf> millisfdonds tif tooltip will bf iiddfn. If
+ * tif mousf is ovfr b rfgion tibt ibs b vblid tooltip, bnd tif tooltip
+ * is durrfntly visiblf, wifn tif mousf movfs to b rfgion tibt dofsn't ibvf
+ * b vblid tooltip tif tooltip will bf iiddfn. If tif mousf tifn movfs bbdk
+ * into b rfgion tibt ibs b vblid tooltip witiin <dodf>rfsiowDflby</dodf>
+ * millisfdonds, tif tooltip will immfdibtfly bf siown, otifrwisf tif
+ * tooltip will bf siown bgbin bftfr <dodf>initiblDflby</dodf> millisfdonds.
  *
- * @see JComponent#createToolTip
- * @author Dave Moore
- * @author Rich Schiavi
- * @since 1.2
+ * @sff JComponfnt#drfbtfToolTip
+ * @butior Dbvf Moorf
+ * @butior Ridi Sdiibvi
+ * @sindf 1.2
  */
-public class ToolTipManager extends MouseAdapter implements MouseMotionListener  {
-    Timer enterTimer, exitTimer, insideTimer;
-    String toolTipText;
-    Point  preferredLocation;
-    JComponent insideComponent;
-    MouseEvent mouseEvent;
-    boolean showImmediately;
-    private static final Object TOOL_TIP_MANAGER_KEY = new Object();
-    transient Popup tipWindow;
-    /** The Window tip is being displayed in. This will be non-null if
-     * the Window tip is in differs from that of insideComponent's Window.
+publid dlbss ToolTipMbnbgfr fxtfnds MousfAdbptfr implfmfnts MousfMotionListfnfr  {
+    Timfr fntfrTimfr, fxitTimfr, insidfTimfr;
+    String toolTipTfxt;
+    Point  prfffrrfdLodbtion;
+    JComponfnt insidfComponfnt;
+    MousfEvfnt mousfEvfnt;
+    boolfbn siowImmfdibtfly;
+    privbtf stbtid finbl Objfdt TOOL_TIP_MANAGER_KEY = nfw Objfdt();
+    trbnsifnt Popup tipWindow;
+    /** Tif Window tip is bfing displbyfd in. Tiis will bf non-null if
+     * tif Window tip is in difffrs from tibt of insidfComponfnt's Window.
      */
-    private Window window;
+    privbtf Window window;
     JToolTip tip;
 
-    private Rectangle popupRect = null;
-    private Rectangle popupFrameRect = null;
+    privbtf Rfdtbnglf popupRfdt = null;
+    privbtf Rfdtbnglf popupFrbmfRfdt = null;
 
-    boolean enabled = true;
-    private boolean tipShowing = false;
+    boolfbn fnbblfd = truf;
+    privbtf boolfbn tipSiowing = fblsf;
 
-    private FocusListener focusChangeListener = null;
-    private MouseMotionListener moveBeforeEnterListener = null;
-    private KeyListener accessibilityKeyListener = null;
+    privbtf FodusListfnfr fodusCibngfListfnfr = null;
+    privbtf MousfMotionListfnfr movfBfforfEntfrListfnfr = null;
+    privbtf KfyListfnfr bddfssibilityKfyListfnfr = null;
 
-    private KeyStroke postTip;
-    private KeyStroke hideTip;
+    privbtf KfyStrokf postTip;
+    privbtf KfyStrokf iidfTip;
 
-    // PENDING(ges)
-    protected boolean lightWeightPopupEnabled = true;
-    protected boolean heavyWeightPopupEnabled = false;
+    // PENDING(gfs)
+    protfdtfd boolfbn ligitWfigitPopupEnbblfd = truf;
+    protfdtfd boolfbn ifbvyWfigitPopupEnbblfd = fblsf;
 
-    ToolTipManager() {
-        enterTimer = new Timer(750, new insideTimerAction());
-        enterTimer.setRepeats(false);
-        exitTimer = new Timer(500, new outsideTimerAction());
-        exitTimer.setRepeats(false);
-        insideTimer = new Timer(4000, new stillInsideTimerAction());
-        insideTimer.setRepeats(false);
+    ToolTipMbnbgfr() {
+        fntfrTimfr = nfw Timfr(750, nfw insidfTimfrAdtion());
+        fntfrTimfr.sftRfpfbts(fblsf);
+        fxitTimfr = nfw Timfr(500, nfw outsidfTimfrAdtion());
+        fxitTimfr.sftRfpfbts(fblsf);
+        insidfTimfr = nfw Timfr(4000, nfw stillInsidfTimfrAdtion());
+        insidfTimfr.sftRfpfbts(fblsf);
 
-        moveBeforeEnterListener = new MoveBeforeEnterListener();
-        accessibilityKeyListener = new AccessibilityKeyListener();
+        movfBfforfEntfrListfnfr = nfw MovfBfforfEntfrListfnfr();
+        bddfssibilityKfyListfnfr = nfw AddfssibilityKfyListfnfr();
 
-        postTip = KeyStroke.getKeyStroke(KeyEvent.VK_F1, InputEvent.CTRL_MASK);
-        hideTip =  KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0);
+        postTip = KfyStrokf.gftKfyStrokf(KfyEvfnt.VK_F1, InputEvfnt.CTRL_MASK);
+        iidfTip =  KfyStrokf.gftKfyStrokf(KfyEvfnt.VK_ESCAPE, 0);
     }
 
     /**
-     * Enables or disables the tooltip.
+     * Enbblfs or disbblfs tif tooltip.
      *
-     * @param flag  true to enable the tip, false otherwise
+     * @pbrbm flbg  truf to fnbblf tif tip, fblsf otifrwisf
      */
-    public void setEnabled(boolean flag) {
-        enabled = flag;
-        if (!flag) {
-            hideTipWindow();
+    publid void sftEnbblfd(boolfbn flbg) {
+        fnbblfd = flbg;
+        if (!flbg) {
+            iidfTipWindow();
         }
     }
 
     /**
-     * Returns true if this object is enabled.
+     * Rfturns truf if tiis objfdt is fnbblfd.
      *
-     * @return true if this object is enabled, false otherwise
+     * @rfturn truf if tiis objfdt is fnbblfd, fblsf otifrwisf
      */
-    public boolean isEnabled() {
-        return enabled;
+    publid boolfbn isEnbblfd() {
+        rfturn fnbblfd;
     }
 
     /**
-     * When displaying the <code>JToolTip</code>, the
-     * <code>ToolTipManager</code> chooses to use a lightweight
-     * <code>JPanel</code> if it fits. This method allows you to
-     * disable this feature. You have to do disable it if your
-     * application mixes light weight and heavy weights components.
+     * Wifn displbying tif <dodf>JToolTip</dodf>, tif
+     * <dodf>ToolTipMbnbgfr</dodf> dioosfs to usf b ligitwfigit
+     * <dodf>JPbnfl</dodf> if it fits. Tiis mftiod bllows you to
+     * disbblf tiis ffbturf. You ibvf to do disbblf it if your
+     * bpplidbtion mixfs ligit wfigit bnd ifbvy wfigits domponfnts.
      *
-     * @param aFlag true if a lightweight panel is desired, false otherwise
+     * @pbrbm bFlbg truf if b ligitwfigit pbnfl is dfsirfd, fblsf otifrwisf
      *
      */
-    public void setLightWeightPopupEnabled(boolean aFlag){
-        lightWeightPopupEnabled = aFlag;
+    publid void sftLigitWfigitPopupEnbblfd(boolfbn bFlbg){
+        ligitWfigitPopupEnbblfd = bFlbg;
     }
 
     /**
-     * Returns true if lightweight (all-Java) <code>Tooltips</code>
-     * are in use, or false if heavyweight (native peer)
-     * <code>Tooltips</code> are being used.
+     * Rfturns truf if ligitwfigit (bll-Jbvb) <dodf>Tooltips</dodf>
+     * brf in usf, or fblsf if ifbvywfigit (nbtivf pffr)
+     * <dodf>Tooltips</dodf> brf bfing usfd.
      *
-     * @return true if lightweight <code>ToolTips</code> are in use
+     * @rfturn truf if ligitwfigit <dodf>ToolTips</dodf> brf in usf
      */
-    public boolean isLightWeightPopupEnabled() {
-        return lightWeightPopupEnabled;
+    publid boolfbn isLigitWfigitPopupEnbblfd() {
+        rfturn ligitWfigitPopupEnbblfd;
     }
 
 
     /**
-     * Specifies the initial delay value.
+     * Spfdififs tif initibl dflby vbluf.
      *
-     * @param milliseconds  the number of milliseconds to delay
-     *        (after the cursor has paused) before displaying the
+     * @pbrbm millisfdonds  tif numbfr of millisfdonds to dflby
+     *        (bftfr tif dursor ibs pbusfd) bfforf displbying tif
      *        tooltip
-     * @see #getInitialDelay
+     * @sff #gftInitiblDflby
      */
-    public void setInitialDelay(int milliseconds) {
-        enterTimer.setInitialDelay(milliseconds);
+    publid void sftInitiblDflby(int millisfdonds) {
+        fntfrTimfr.sftInitiblDflby(millisfdonds);
     }
 
     /**
-     * Returns the initial delay value.
+     * Rfturns tif initibl dflby vbluf.
      *
-     * @return an integer representing the initial delay value,
-     *          in milliseconds
-     * @see #setInitialDelay
+     * @rfturn bn intfgfr rfprfsfnting tif initibl dflby vbluf,
+     *          in millisfdonds
+     * @sff #sftInitiblDflby
      */
-    public int getInitialDelay() {
-        return enterTimer.getInitialDelay();
+    publid int gftInitiblDflby() {
+        rfturn fntfrTimfr.gftInitiblDflby();
     }
 
     /**
-     * Specifies the dismissal delay value.
+     * Spfdififs tif dismissbl dflby vbluf.
      *
-     * @param milliseconds  the number of milliseconds to delay
-     *        before taking away the tooltip
-     * @see #getDismissDelay
+     * @pbrbm millisfdonds  tif numbfr of millisfdonds to dflby
+     *        bfforf tbking bwby tif tooltip
+     * @sff #gftDismissDflby
      */
-    public void setDismissDelay(int milliseconds) {
-        insideTimer.setInitialDelay(milliseconds);
+    publid void sftDismissDflby(int millisfdonds) {
+        insidfTimfr.sftInitiblDflby(millisfdonds);
     }
 
     /**
-     * Returns the dismissal delay value.
+     * Rfturns tif dismissbl dflby vbluf.
      *
-     * @return an integer representing the dismissal delay value,
-     *          in milliseconds
-     * @see #setDismissDelay
+     * @rfturn bn intfgfr rfprfsfnting tif dismissbl dflby vbluf,
+     *          in millisfdonds
+     * @sff #sftDismissDflby
      */
-    public int getDismissDelay() {
-        return insideTimer.getInitialDelay();
+    publid int gftDismissDflby() {
+        rfturn insidfTimfr.gftInitiblDflby();
     }
 
     /**
-     * Used to specify the amount of time before the user has to wait
-     * <code>initialDelay</code> milliseconds before a tooltip will be
-     * shown. That is, if the tooltip is hidden, and the user moves into
-     * a region of the same Component that has a valid tooltip within
-     * <code>milliseconds</code> milliseconds the tooltip will immediately
-     * be shown. Otherwise, if the user moves into a region with a valid
-     * tooltip after <code>milliseconds</code> milliseconds, the user
-     * will have to wait an additional <code>initialDelay</code>
-     * milliseconds before the tooltip is shown again.
+     * Usfd to spfdify tif bmount of timf bfforf tif usfr ibs to wbit
+     * <dodf>initiblDflby</dodf> millisfdonds bfforf b tooltip will bf
+     * siown. Tibt is, if tif tooltip is iiddfn, bnd tif usfr movfs into
+     * b rfgion of tif sbmf Componfnt tibt ibs b vblid tooltip witiin
+     * <dodf>millisfdonds</dodf> millisfdonds tif tooltip will immfdibtfly
+     * bf siown. Otifrwisf, if tif usfr movfs into b rfgion witi b vblid
+     * tooltip bftfr <dodf>millisfdonds</dodf> millisfdonds, tif usfr
+     * will ibvf to wbit bn bdditionbl <dodf>initiblDflby</dodf>
+     * millisfdonds bfforf tif tooltip is siown bgbin.
      *
-     * @param milliseconds time in milliseconds
-     * @see #getReshowDelay
+     * @pbrbm millisfdonds timf in millisfdonds
+     * @sff #gftRfsiowDflby
      */
-    public void setReshowDelay(int milliseconds) {
-        exitTimer.setInitialDelay(milliseconds);
+    publid void sftRfsiowDflby(int millisfdonds) {
+        fxitTimfr.sftInitiblDflby(millisfdonds);
     }
 
     /**
-     * Returns the reshow delay property.
+     * Rfturns tif rfsiow dflby propfrty.
      *
-     * @return reshown delay property
-     * @see #setReshowDelay
+     * @rfturn rfsiown dflby propfrty
+     * @sff #sftRfsiowDflby
      */
-    public int getReshowDelay() {
-        return exitTimer.getInitialDelay();
+    publid int gftRfsiowDflby() {
+        rfturn fxitTimfr.gftInitiblDflby();
     }
 
-    // Returns GraphicsConfiguration instance that toFind belongs to or null
-    // if drawing point is set to a point beyond visible screen area (e.g.
+    // Rfturns GrbpiidsConfigurbtion instbndf tibt toFind bflongs to or null
+    // if drbwing point is sft to b point bfyond visiblf sdrffn brfb (f.g.
     // Point(20000, 20000))
-    private GraphicsConfiguration getDrawingGC(Point toFind) {
-        GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        GraphicsDevice devices[] = env.getScreenDevices();
-        for (GraphicsDevice device : devices) {
-            GraphicsConfiguration configs[] = device.getConfigurations();
-            for (GraphicsConfiguration config : configs) {
-                Rectangle rect = config.getBounds();
-                if (rect.contains(toFind)) {
-                    return config;
+    privbtf GrbpiidsConfigurbtion gftDrbwingGC(Point toFind) {
+        GrbpiidsEnvironmfnt fnv = GrbpiidsEnvironmfnt.gftLodblGrbpiidsEnvironmfnt();
+        GrbpiidsDfvidf dfvidfs[] = fnv.gftSdrffnDfvidfs();
+        for (GrbpiidsDfvidf dfvidf : dfvidfs) {
+            GrbpiidsConfigurbtion donfigs[] = dfvidf.gftConfigurbtions();
+            for (GrbpiidsConfigurbtion donfig : donfigs) {
+                Rfdtbnglf rfdt = donfig.gftBounds();
+                if (rfdt.dontbins(toFind)) {
+                    rfturn donfig;
                 }
             }
         }
 
-        return null;
+        rfturn null;
     }
 
-    void showTipWindow() {
-        if(insideComponent == null || !insideComponent.isShowing())
-            return;
-        String mode = UIManager.getString("ToolTipManager.enableToolTipMode");
-        if ("activeApplication".equals(mode)) {
-            KeyboardFocusManager kfm =
-                    KeyboardFocusManager.getCurrentKeyboardFocusManager();
-            if (kfm.getFocusedWindow() == null) {
-                return;
+    void siowTipWindow() {
+        if(insidfComponfnt == null || !insidfComponfnt.isSiowing())
+            rfturn;
+        String modf = UIMbnbgfr.gftString("ToolTipMbnbgfr.fnbblfToolTipModf");
+        if ("bdtivfApplidbtion".fqubls(modf)) {
+            KfybobrdFodusMbnbgfr kfm =
+                    KfybobrdFodusMbnbgfr.gftCurrfntKfybobrdFodusMbnbgfr();
+            if (kfm.gftFodusfdWindow() == null) {
+                rfturn;
             }
         }
-        if (enabled) {
-            Dimension size;
-            Point screenLocation = insideComponent.getLocationOnScreen();
-            Point location;
+        if (fnbblfd) {
+            Dimfnsion sizf;
+            Point sdrffnLodbtion = insidfComponfnt.gftLodbtionOnSdrffn();
+            Point lodbtion;
 
             Point toFind;
-            if (preferredLocation != null) {
-                toFind = new Point(screenLocation.x + preferredLocation.x,
-                        screenLocation.y + preferredLocation.y);
-            } else {
-                toFind = mouseEvent.getLocationOnScreen();
+            if (prfffrrfdLodbtion != null) {
+                toFind = nfw Point(sdrffnLodbtion.x + prfffrrfdLodbtion.x,
+                        sdrffnLodbtion.y + prfffrrfdLodbtion.y);
+            } flsf {
+                toFind = mousfEvfnt.gftLodbtionOnSdrffn();
             }
 
-            GraphicsConfiguration gc = getDrawingGC(toFind);
-            if (gc == null) {
-                toFind = mouseEvent.getLocationOnScreen();
-                gc = getDrawingGC(toFind);
-                if (gc == null) {
-                    gc = insideComponent.getGraphicsConfiguration();
+            GrbpiidsConfigurbtion gd = gftDrbwingGC(toFind);
+            if (gd == null) {
+                toFind = mousfEvfnt.gftLodbtionOnSdrffn();
+                gd = gftDrbwingGC(toFind);
+                if (gd == null) {
+                    gd = insidfComponfnt.gftGrbpiidsConfigurbtion();
                 }
             }
 
-            Rectangle sBounds = gc.getBounds();
-            Insets screenInsets = Toolkit.getDefaultToolkit()
-                                             .getScreenInsets(gc);
-            // Take into account screen insets, decrease viewport
-            sBounds.x += screenInsets.left;
-            sBounds.y += screenInsets.top;
-            sBounds.width -= (screenInsets.left + screenInsets.right);
-            sBounds.height -= (screenInsets.top + screenInsets.bottom);
-        boolean leftToRight
-                = SwingUtilities.isLeftToRight(insideComponent);
+            Rfdtbnglf sBounds = gd.gftBounds();
+            Insfts sdrffnInsfts = Toolkit.gftDffbultToolkit()
+                                             .gftSdrffnInsfts(gd);
+            // Tbkf into bddount sdrffn insfts, dfdrfbsf vifwport
+            sBounds.x += sdrffnInsfts.lfft;
+            sBounds.y += sdrffnInsfts.top;
+            sBounds.widti -= (sdrffnInsfts.lfft + sdrffnInsfts.rigit);
+            sBounds.ifigit -= (sdrffnInsfts.top + sdrffnInsfts.bottom);
+        boolfbn lfftToRigit
+                = SwingUtilitifs.isLfftToRigit(insidfComponfnt);
 
-            // Just to be paranoid
-            hideTipWindow();
+            // Just to bf pbrbnoid
+            iidfTipWindow();
 
-            tip = insideComponent.createToolTip();
-            tip.setTipText(toolTipText);
-            size = tip.getPreferredSize();
+            tip = insidfComponfnt.drfbtfToolTip();
+            tip.sftTipTfxt(toolTipTfxt);
+            sizf = tip.gftPrfffrrfdSizf();
 
-            if(preferredLocation != null) {
-                location = toFind;
-        if (!leftToRight) {
-            location.x -= size.width;
+            if(prfffrrfdLodbtion != null) {
+                lodbtion = toFind;
+        if (!lfftToRigit) {
+            lodbtion.x -= sizf.widti;
         }
-            } else {
-                location = new Point(screenLocation.x + mouseEvent.getX(),
-                        screenLocation.y + mouseEvent.getY() + 20);
-        if (!leftToRight) {
-            if(location.x - size.width>=0) {
-                location.x -= size.width;
+            } flsf {
+                lodbtion = nfw Point(sdrffnLodbtion.x + mousfEvfnt.gftX(),
+                        sdrffnLodbtion.y + mousfEvfnt.gftY() + 20);
+        if (!lfftToRigit) {
+            if(lodbtion.x - sizf.widti>=0) {
+                lodbtion.x -= sizf.widti;
             }
         }
 
             }
 
-        // we do not adjust x/y when using awt.Window tips
-        if (popupRect == null){
-        popupRect = new Rectangle();
+        // wf do not bdjust x/y wifn using bwt.Window tips
+        if (popupRfdt == null){
+        popupRfdt = nfw Rfdtbnglf();
         }
-        popupRect.setBounds(location.x,location.y,
-                size.width,size.height);
+        popupRfdt.sftBounds(lodbtion.x,lodbtion.y,
+                sizf.widti,sizf.ifigit);
 
-        // Fit as much of the tooltip on screen as possible
-            if (location.x < sBounds.x) {
-                location.x = sBounds.x;
+        // Fit bs mudi of tif tooltip on sdrffn bs possiblf
+            if (lodbtion.x < sBounds.x) {
+                lodbtion.x = sBounds.x;
             }
-            else if (location.x - sBounds.x + size.width > sBounds.width) {
-                location.x = sBounds.x + Math.max(0, sBounds.width - size.width)
+            flsf if (lodbtion.x - sBounds.x + sizf.widti > sBounds.widti) {
+                lodbtion.x = sBounds.x + Mbti.mbx(0, sBounds.widti - sizf.widti)
 ;
             }
-            if (location.y < sBounds.y) {
-                location.y = sBounds.y;
+            if (lodbtion.y < sBounds.y) {
+                lodbtion.y = sBounds.y;
             }
-            else if (location.y - sBounds.y + size.height > sBounds.height) {
-                location.y = sBounds.y + Math.max(0, sBounds.height - size.height);
+            flsf if (lodbtion.y - sBounds.y + sizf.ifigit > sBounds.ifigit) {
+                lodbtion.y = sBounds.y + Mbti.mbx(0, sBounds.ifigit - sizf.ifigit);
             }
 
-            PopupFactory popupFactory = PopupFactory.getSharedInstance();
+            PopupFbdtory popupFbdtory = PopupFbdtory.gftSibrfdInstbndf();
 
-            if (lightWeightPopupEnabled) {
-        int y = getPopupFitHeight(popupRect, insideComponent);
-        int x = getPopupFitWidth(popupRect,insideComponent);
+            if (ligitWfigitPopupEnbblfd) {
+        int y = gftPopupFitHfigit(popupRfdt, insidfComponfnt);
+        int x = gftPopupFitWidti(popupRfdt,insidfComponfnt);
         if (x>0 || y>0) {
-            popupFactory.setPopupType(PopupFactory.MEDIUM_WEIGHT_POPUP);
-        } else {
-            popupFactory.setPopupType(PopupFactory.LIGHT_WEIGHT_POPUP);
+            popupFbdtory.sftPopupTypf(PopupFbdtory.MEDIUM_WEIGHT_POPUP);
+        } flsf {
+            popupFbdtory.sftPopupTypf(PopupFbdtory.LIGHT_WEIGHT_POPUP);
         }
             }
-            else {
-                popupFactory.setPopupType(PopupFactory.MEDIUM_WEIGHT_POPUP);
+            flsf {
+                popupFbdtory.sftPopupTypf(PopupFbdtory.MEDIUM_WEIGHT_POPUP);
             }
-        tipWindow = popupFactory.getPopup(insideComponent, tip,
-                          location.x,
-                          location.y);
-            popupFactory.setPopupType(PopupFactory.LIGHT_WEIGHT_POPUP);
+        tipWindow = popupFbdtory.gftPopup(insidfComponfnt, tip,
+                          lodbtion.x,
+                          lodbtion.y);
+            popupFbdtory.sftPopupTypf(PopupFbdtory.LIGHT_WEIGHT_POPUP);
 
-        tipWindow.show();
+        tipWindow.siow();
 
-            Window componentWindow = SwingUtilities.windowForComponent(
-                                                    insideComponent);
+            Window domponfntWindow = SwingUtilitifs.windowForComponfnt(
+                                                    insidfComponfnt);
 
-            window = SwingUtilities.windowForComponent(tip);
-            if (window != null && window != componentWindow) {
-                window.addMouseListener(this);
+            window = SwingUtilitifs.windowForComponfnt(tip);
+            if (window != null && window != domponfntWindow) {
+                window.bddMousfListfnfr(tiis);
             }
-            else {
+            flsf {
                 window = null;
             }
 
-            insideTimer.start();
-        tipShowing = true;
+            insidfTimfr.stbrt();
+        tipSiowing = truf;
         }
     }
 
-    void hideTipWindow() {
+    void iidfTipWindow() {
         if (tipWindow != null) {
             if (window != null) {
-                window.removeMouseListener(this);
+                window.rfmovfMousfListfnfr(tiis);
                 window = null;
             }
-            tipWindow.hide();
+            tipWindow.iidf();
             tipWindow = null;
-            tipShowing = false;
+            tipSiowing = fblsf;
             tip = null;
-            insideTimer.stop();
+            insidfTimfr.stop();
         }
     }
 
     /**
-     * Returns a shared <code>ToolTipManager</code> instance.
+     * Rfturns b sibrfd <dodf>ToolTipMbnbgfr</dodf> instbndf.
      *
-     * @return a shared <code>ToolTipManager</code> object
+     * @rfturn b sibrfd <dodf>ToolTipMbnbgfr</dodf> objfdt
      */
-    public static ToolTipManager sharedInstance() {
-        Object value = SwingUtilities.appContextGet(TOOL_TIP_MANAGER_KEY);
-        if (value instanceof ToolTipManager) {
-            return (ToolTipManager) value;
+    publid stbtid ToolTipMbnbgfr sibrfdInstbndf() {
+        Objfdt vbluf = SwingUtilitifs.bppContfxtGft(TOOL_TIP_MANAGER_KEY);
+        if (vbluf instbndfof ToolTipMbnbgfr) {
+            rfturn (ToolTipMbnbgfr) vbluf;
         }
-        ToolTipManager manager = new ToolTipManager();
-        SwingUtilities.appContextPut(TOOL_TIP_MANAGER_KEY, manager);
-        return manager;
+        ToolTipMbnbgfr mbnbgfr = nfw ToolTipMbnbgfr();
+        SwingUtilitifs.bppContfxtPut(TOOL_TIP_MANAGER_KEY, mbnbgfr);
+        rfturn mbnbgfr;
     }
 
-    // add keylistener here to trigger tip for access
+    // bdd kfylistfnfr ifrf to triggfr tip for bddfss
     /**
-     * Registers a component for tooltip management.
+     * Rfgistfrs b domponfnt for tooltip mbnbgfmfnt.
      * <p>
-     * This will register key bindings to show and hide the tooltip text
-     * only if <code>component</code> has focus bindings. This is done
-     * so that components that are not normally focus traversable, such
-     * as <code>JLabel</code>, are not made focus traversable as a result
-     * of invoking this method.
+     * Tiis will rfgistfr kfy bindings to siow bnd iidf tif tooltip tfxt
+     * only if <dodf>domponfnt</dodf> ibs fodus bindings. Tiis is donf
+     * so tibt domponfnts tibt brf not normblly fodus trbvfrsbblf, sudi
+     * bs <dodf>JLbbfl</dodf>, brf not mbdf fodus trbvfrsbblf bs b rfsult
+     * of invoking tiis mftiod.
      *
-     * @param component  a <code>JComponent</code> object to add
-     * @see JComponent#isFocusTraversable
+     * @pbrbm domponfnt  b <dodf>JComponfnt</dodf> objfdt to bdd
+     * @sff JComponfnt#isFodusTrbvfrsbblf
      */
-    public void registerComponent(JComponent component) {
-        component.removeMouseListener(this);
-        component.addMouseListener(this);
-        component.removeMouseMotionListener(moveBeforeEnterListener);
-        component.addMouseMotionListener(moveBeforeEnterListener);
-        component.removeKeyListener(accessibilityKeyListener);
-        component.addKeyListener(accessibilityKeyListener);
+    publid void rfgistfrComponfnt(JComponfnt domponfnt) {
+        domponfnt.rfmovfMousfListfnfr(tiis);
+        domponfnt.bddMousfListfnfr(tiis);
+        domponfnt.rfmovfMousfMotionListfnfr(movfBfforfEntfrListfnfr);
+        domponfnt.bddMousfMotionListfnfr(movfBfforfEntfrListfnfr);
+        domponfnt.rfmovfKfyListfnfr(bddfssibilityKfyListfnfr);
+        domponfnt.bddKfyListfnfr(bddfssibilityKfyListfnfr);
     }
 
     /**
-     * Removes a component from tooltip control.
+     * Rfmovfs b domponfnt from tooltip dontrol.
      *
-     * @param component  a <code>JComponent</code> object to remove
+     * @pbrbm domponfnt  b <dodf>JComponfnt</dodf> objfdt to rfmovf
      */
-    public void unregisterComponent(JComponent component) {
-        component.removeMouseListener(this);
-        component.removeMouseMotionListener(moveBeforeEnterListener);
-        component.removeKeyListener(accessibilityKeyListener);
+    publid void unrfgistfrComponfnt(JComponfnt domponfnt) {
+        domponfnt.rfmovfMousfListfnfr(tiis);
+        domponfnt.rfmovfMousfMotionListfnfr(movfBfforfEntfrListfnfr);
+        domponfnt.rfmovfKfyListfnfr(bddfssibilityKfyListfnfr);
     }
 
-    // implements java.awt.event.MouseListener
+    // implfmfnts jbvb.bwt.fvfnt.MousfListfnfr
     /**
-     *  Called when the mouse enters the region of a component.
-     *  This determines whether the tool tip should be shown.
+     *  Cbllfd wifn tif mousf fntfrs tif rfgion of b domponfnt.
+     *  Tiis dftfrminfs wiftifr tif tool tip siould bf siown.
      *
-     *  @param event  the event in question
+     *  @pbrbm fvfnt  tif fvfnt in qufstion
      */
-    public void mouseEntered(MouseEvent event) {
-        initiateToolTip(event);
+    publid void mousfEntfrfd(MousfEvfnt fvfnt) {
+        initibtfToolTip(fvfnt);
     }
 
-    private void initiateToolTip(MouseEvent event) {
-        if (event.getSource() == window) {
-            return;
+    privbtf void initibtfToolTip(MousfEvfnt fvfnt) {
+        if (fvfnt.gftSourdf() == window) {
+            rfturn;
         }
-        JComponent component = (JComponent)event.getSource();
-        component.removeMouseMotionListener(moveBeforeEnterListener);
+        JComponfnt domponfnt = (JComponfnt)fvfnt.gftSourdf();
+        domponfnt.rfmovfMousfMotionListfnfr(movfBfforfEntfrListfnfr);
 
-        exitTimer.stop();
+        fxitTimfr.stop();
 
-        Point location = event.getPoint();
-        // ensure tooltip shows only in proper place
-        if (location.x < 0 ||
-            location.x >=component.getWidth() ||
-            location.y < 0 ||
-            location.y >= component.getHeight()) {
-            return;
+        Point lodbtion = fvfnt.gftPoint();
+        // fnsurf tooltip siows only in propfr plbdf
+        if (lodbtion.x < 0 ||
+            lodbtion.x >=domponfnt.gftWidti() ||
+            lodbtion.y < 0 ||
+            lodbtion.y >= domponfnt.gftHfigit()) {
+            rfturn;
         }
 
-        if (insideComponent != null) {
-            enterTimer.stop();
+        if (insidfComponfnt != null) {
+            fntfrTimfr.stop();
         }
-        // A component in an unactive internal frame is sent two
-        // mouseEntered events, make sure we don't end up adding
-        // ourselves an extra time.
-        component.removeMouseMotionListener(this);
-        component.addMouseMotionListener(this);
+        // A domponfnt in bn unbdtivf intfrnbl frbmf is sfnt two
+        // mousfEntfrfd fvfnts, mbkf surf wf don't fnd up bdding
+        // oursflvfs bn fxtrb timf.
+        domponfnt.rfmovfMousfMotionListfnfr(tiis);
+        domponfnt.bddMousfMotionListfnfr(tiis);
 
-        boolean sameComponent = (insideComponent == component);
+        boolfbn sbmfComponfnt = (insidfComponfnt == domponfnt);
 
-        insideComponent = component;
+        insidfComponfnt = domponfnt;
     if (tipWindow != null){
-            mouseEvent = event;
-            if (showImmediately) {
-                String newToolTipText = component.getToolTipText(event);
-                Point newPreferredLocation = component.getToolTipLocation(
-                                                         event);
-                boolean sameLoc = (preferredLocation != null) ?
-                            preferredLocation.equals(newPreferredLocation) :
-                            (newPreferredLocation == null);
+            mousfEvfnt = fvfnt;
+            if (siowImmfdibtfly) {
+                String nfwToolTipTfxt = domponfnt.gftToolTipTfxt(fvfnt);
+                Point nfwPrfffrrfdLodbtion = domponfnt.gftToolTipLodbtion(
+                                                         fvfnt);
+                boolfbn sbmfLod = (prfffrrfdLodbtion != null) ?
+                            prfffrrfdLodbtion.fqubls(nfwPrfffrrfdLodbtion) :
+                            (nfwPrfffrrfdLodbtion == null);
 
-                if (!sameComponent || !toolTipText.equals(newToolTipText) ||
-                         !sameLoc) {
-                    toolTipText = newToolTipText;
-                    preferredLocation = newPreferredLocation;
-                    showTipWindow();
+                if (!sbmfComponfnt || !toolTipTfxt.fqubls(nfwToolTipTfxt) ||
+                         !sbmfLod) {
+                    toolTipTfxt = nfwToolTipTfxt;
+                    prfffrrfdLodbtion = nfwPrfffrrfdLodbtion;
+                    siowTipWindow();
                 }
-            } else {
-                enterTimer.start();
+            } flsf {
+                fntfrTimfr.stbrt();
             }
         }
     }
 
-    // implements java.awt.event.MouseListener
+    // implfmfnts jbvb.bwt.fvfnt.MousfListfnfr
     /**
-     *  Called when the mouse exits the region of a component.
-     *  Any tool tip showing should be hidden.
+     *  Cbllfd wifn tif mousf fxits tif rfgion of b domponfnt.
+     *  Any tool tip siowing siould bf iiddfn.
      *
-     *  @param event  the event in question
+     *  @pbrbm fvfnt  tif fvfnt in qufstion
      */
-    public void mouseExited(MouseEvent event) {
-        boolean shouldHide = true;
-        if (insideComponent == null) {
-            // Drag exit
+    publid void mousfExitfd(MousfEvfnt fvfnt) {
+        boolfbn siouldHidf = truf;
+        if (insidfComponfnt == null) {
+            // Drbg fxit
         }
-        if (window != null && event.getSource() == window && insideComponent != null) {
-          // if we get an exit and have a heavy window
-          // we need to check if it if overlapping the inside component
-            Container insideComponentWindow = insideComponent.getTopLevelAncestor();
-            // insideComponent may be removed after tooltip is made visible
-            if (insideComponentWindow != null) {
-                Point location = event.getPoint();
-                SwingUtilities.convertPointToScreen(location, window);
+        if (window != null && fvfnt.gftSourdf() == window && insidfComponfnt != null) {
+          // if wf gft bn fxit bnd ibvf b ifbvy window
+          // wf nffd to difdk if it if ovfrlbpping tif insidf domponfnt
+            Contbinfr insidfComponfntWindow = insidfComponfnt.gftTopLfvflAndfstor();
+            // insidfComponfnt mby bf rfmovfd bftfr tooltip is mbdf visiblf
+            if (insidfComponfntWindow != null) {
+                Point lodbtion = fvfnt.gftPoint();
+                SwingUtilitifs.donvfrtPointToSdrffn(lodbtion, window);
 
-                location.x -= insideComponentWindow.getX();
-                location.y -= insideComponentWindow.getY();
+                lodbtion.x -= insidfComponfntWindow.gftX();
+                lodbtion.y -= insidfComponfntWindow.gftY();
 
-                location = SwingUtilities.convertPoint(null, location, insideComponent);
-                if (location.x >= 0 && location.x < insideComponent.getWidth() &&
-                        location.y >= 0 && location.y < insideComponent.getHeight()) {
-                    shouldHide = false;
-                } else {
-                    shouldHide = true;
+                lodbtion = SwingUtilitifs.donvfrtPoint(null, lodbtion, insidfComponfnt);
+                if (lodbtion.x >= 0 && lodbtion.x < insidfComponfnt.gftWidti() &&
+                        lodbtion.y >= 0 && lodbtion.y < insidfComponfnt.gftHfigit()) {
+                    siouldHidf = fblsf;
+                } flsf {
+                    siouldHidf = truf;
                 }
             }
-        } else if(event.getSource() == insideComponent && tipWindow != null) {
-            Window win = SwingUtilities.getWindowAncestor(insideComponent);
-            if (win != null) {  // insideComponent may have been hidden (e.g. in a menu)
-                Point location = SwingUtilities.convertPoint(insideComponent,
-                                                             event.getPoint(),
+        } flsf if(fvfnt.gftSourdf() == insidfComponfnt && tipWindow != null) {
+            Window win = SwingUtilitifs.gftWindowAndfstor(insidfComponfnt);
+            if (win != null) {  // insidfComponfnt mby ibvf bffn iiddfn (f.g. in b mfnu)
+                Point lodbtion = SwingUtilitifs.donvfrtPoint(insidfComponfnt,
+                                                             fvfnt.gftPoint(),
                                                              win);
-                Rectangle bounds = insideComponent.getTopLevelAncestor().getBounds();
-                location.x += bounds.x;
-                location.y += bounds.y;
+                Rfdtbnglf bounds = insidfComponfnt.gftTopLfvflAndfstor().gftBounds();
+                lodbtion.x += bounds.x;
+                lodbtion.y += bounds.y;
 
-                Point loc = new Point(0, 0);
-                SwingUtilities.convertPointToScreen(loc, tip);
-                bounds.x = loc.x;
-                bounds.y = loc.y;
-                bounds.width = tip.getWidth();
-                bounds.height = tip.getHeight();
+                Point lod = nfw Point(0, 0);
+                SwingUtilitifs.donvfrtPointToSdrffn(lod, tip);
+                bounds.x = lod.x;
+                bounds.y = lod.y;
+                bounds.widti = tip.gftWidti();
+                bounds.ifigit = tip.gftHfigit();
 
-                if (location.x >= bounds.x && location.x < (bounds.x + bounds.width) &&
-                    location.y >= bounds.y && location.y < (bounds.y + bounds.height)) {
-                    shouldHide = false;
-                } else {
-                    shouldHide = true;
+                if (lodbtion.x >= bounds.x && lodbtion.x < (bounds.x + bounds.widti) &&
+                    lodbtion.y >= bounds.y && lodbtion.y < (bounds.y + bounds.ifigit)) {
+                    siouldHidf = fblsf;
+                } flsf {
+                    siouldHidf = truf;
                 }
             }
         }
 
-        if (shouldHide) {
-            enterTimer.stop();
-        if (insideComponent != null) {
-                insideComponent.removeMouseMotionListener(this);
+        if (siouldHidf) {
+            fntfrTimfr.stop();
+        if (insidfComponfnt != null) {
+                insidfComponfnt.rfmovfMousfMotionListfnfr(tiis);
             }
-            insideComponent = null;
-            toolTipText = null;
-            mouseEvent = null;
-            hideTipWindow();
-            exitTimer.restart();
+            insidfComponfnt = null;
+            toolTipTfxt = null;
+            mousfEvfnt = null;
+            iidfTipWindow();
+            fxitTimfr.rfstbrt();
         }
     }
 
-    // implements java.awt.event.MouseListener
+    // implfmfnts jbvb.bwt.fvfnt.MousfListfnfr
     /**
-     *  Called when the mouse is pressed.
-     *  Any tool tip showing should be hidden.
+     *  Cbllfd wifn tif mousf is prfssfd.
+     *  Any tool tip siowing siould bf iiddfn.
      *
-     *  @param event  the event in question
+     *  @pbrbm fvfnt  tif fvfnt in qufstion
      */
-    public void mousePressed(MouseEvent event) {
-        hideTipWindow();
-        enterTimer.stop();
-        showImmediately = false;
-        insideComponent = null;
-        mouseEvent = null;
+    publid void mousfPrfssfd(MousfEvfnt fvfnt) {
+        iidfTipWindow();
+        fntfrTimfr.stop();
+        siowImmfdibtfly = fblsf;
+        insidfComponfnt = null;
+        mousfEvfnt = null;
     }
 
-    // implements java.awt.event.MouseMotionListener
+    // implfmfnts jbvb.bwt.fvfnt.MousfMotionListfnfr
     /**
-     *  Called when the mouse is pressed and dragged.
-     *  Does nothing.
+     *  Cbllfd wifn tif mousf is prfssfd bnd drbggfd.
+     *  Dofs notiing.
      *
-     *  @param event  the event in question
+     *  @pbrbm fvfnt  tif fvfnt in qufstion
      */
-    public void mouseDragged(MouseEvent event) {
+    publid void mousfDrbggfd(MousfEvfnt fvfnt) {
     }
 
-    // implements java.awt.event.MouseMotionListener
+    // implfmfnts jbvb.bwt.fvfnt.MousfMotionListfnfr
     /**
-     *  Called when the mouse is moved.
-     *  Determines whether the tool tip should be displayed.
+     *  Cbllfd wifn tif mousf is movfd.
+     *  Dftfrminfs wiftifr tif tool tip siould bf displbyfd.
      *
-     *  @param event  the event in question
+     *  @pbrbm fvfnt  tif fvfnt in qufstion
      */
-    public void mouseMoved(MouseEvent event) {
-        if (tipShowing) {
-            checkForTipChange(event);
+    publid void mousfMovfd(MousfEvfnt fvfnt) {
+        if (tipSiowing) {
+            difdkForTipCibngf(fvfnt);
         }
-        else if (showImmediately) {
-            JComponent component = (JComponent)event.getSource();
-            toolTipText = component.getToolTipText(event);
-            if (toolTipText != null) {
-                preferredLocation = component.getToolTipLocation(event);
-                mouseEvent = event;
-                insideComponent = component;
-                exitTimer.stop();
-                showTipWindow();
+        flsf if (siowImmfdibtfly) {
+            JComponfnt domponfnt = (JComponfnt)fvfnt.gftSourdf();
+            toolTipTfxt = domponfnt.gftToolTipTfxt(fvfnt);
+            if (toolTipTfxt != null) {
+                prfffrrfdLodbtion = domponfnt.gftToolTipLodbtion(fvfnt);
+                mousfEvfnt = fvfnt;
+                insidfComponfnt = domponfnt;
+                fxitTimfr.stop();
+                siowTipWindow();
             }
         }
-        else {
-            // Lazily lookup the values from within insideTimerAction
-            insideComponent = (JComponent)event.getSource();
-            mouseEvent = event;
-            toolTipText = null;
-            enterTimer.restart();
+        flsf {
+            // Lbzily lookup tif vblufs from witiin insidfTimfrAdtion
+            insidfComponfnt = (JComponfnt)fvfnt.gftSourdf();
+            mousfEvfnt = fvfnt;
+            toolTipTfxt = null;
+            fntfrTimfr.rfstbrt();
         }
     }
 
     /**
-     * Checks to see if the tooltip needs to be changed in response to
-     * the MouseMoved event <code>event</code>.
+     * Cifdks to sff if tif tooltip nffds to bf dibngfd in rfsponsf to
+     * tif MousfMovfd fvfnt <dodf>fvfnt</dodf>.
      */
-    private void checkForTipChange(MouseEvent event) {
-        JComponent component = (JComponent)event.getSource();
-        String newText = component.getToolTipText(event);
-        Point  newPreferredLocation = component.getToolTipLocation(event);
+    privbtf void difdkForTipCibngf(MousfEvfnt fvfnt) {
+        JComponfnt domponfnt = (JComponfnt)fvfnt.gftSourdf();
+        String nfwTfxt = domponfnt.gftToolTipTfxt(fvfnt);
+        Point  nfwPrfffrrfdLodbtion = domponfnt.gftToolTipLodbtion(fvfnt);
 
-        if (newText != null || newPreferredLocation != null) {
-            mouseEvent = event;
-            if (((newText != null && newText.equals(toolTipText)) || newText == null) &&
-                ((newPreferredLocation != null && newPreferredLocation.equals(preferredLocation))
-                 || newPreferredLocation == null)) {
+        if (nfwTfxt != null || nfwPrfffrrfdLodbtion != null) {
+            mousfEvfnt = fvfnt;
+            if (((nfwTfxt != null && nfwTfxt.fqubls(toolTipTfxt)) || nfwTfxt == null) &&
+                ((nfwPrfffrrfdLodbtion != null && nfwPrfffrrfdLodbtion.fqubls(prfffrrfdLodbtion))
+                 || nfwPrfffrrfdLodbtion == null)) {
                 if (tipWindow != null) {
-                    insideTimer.restart();
-                } else {
-                    enterTimer.restart();
+                    insidfTimfr.rfstbrt();
+                } flsf {
+                    fntfrTimfr.rfstbrt();
                 }
-            } else {
-                toolTipText = newText;
-                preferredLocation = newPreferredLocation;
-                if (showImmediately) {
-                    hideTipWindow();
-                    showTipWindow();
-                    exitTimer.stop();
-                } else {
-                    enterTimer.restart();
-                }
-            }
-        } else {
-            toolTipText = null;
-            preferredLocation = null;
-            mouseEvent = null;
-            insideComponent = null;
-            hideTipWindow();
-            enterTimer.stop();
-            exitTimer.restart();
-        }
-    }
-
-    protected class insideTimerAction implements ActionListener {
-        public void actionPerformed(ActionEvent e) {
-            if(insideComponent != null && insideComponent.isShowing()) {
-                // Lazy lookup
-                if (toolTipText == null && mouseEvent != null) {
-                    toolTipText = insideComponent.getToolTipText(mouseEvent);
-                    preferredLocation = insideComponent.getToolTipLocation(
-                                              mouseEvent);
-                }
-                if(toolTipText != null) {
-                    showImmediately = true;
-                    showTipWindow();
-                }
-                else {
-                    insideComponent = null;
-                    toolTipText = null;
-                    preferredLocation = null;
-                    mouseEvent = null;
-                    hideTipWindow();
+            } flsf {
+                toolTipTfxt = nfwTfxt;
+                prfffrrfdLodbtion = nfwPrfffrrfdLodbtion;
+                if (siowImmfdibtfly) {
+                    iidfTipWindow();
+                    siowTipWindow();
+                    fxitTimfr.stop();
+                } flsf {
+                    fntfrTimfr.rfstbrt();
                 }
             }
+        } flsf {
+            toolTipTfxt = null;
+            prfffrrfdLodbtion = null;
+            mousfEvfnt = null;
+            insidfComponfnt = null;
+            iidfTipWindow();
+            fntfrTimfr.stop();
+            fxitTimfr.rfstbrt();
         }
     }
 
-    protected class outsideTimerAction implements ActionListener {
-        public void actionPerformed(ActionEvent e) {
-            showImmediately = false;
+    protfdtfd dlbss insidfTimfrAdtion implfmfnts AdtionListfnfr {
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            if(insidfComponfnt != null && insidfComponfnt.isSiowing()) {
+                // Lbzy lookup
+                if (toolTipTfxt == null && mousfEvfnt != null) {
+                    toolTipTfxt = insidfComponfnt.gftToolTipTfxt(mousfEvfnt);
+                    prfffrrfdLodbtion = insidfComponfnt.gftToolTipLodbtion(
+                                              mousfEvfnt);
+                }
+                if(toolTipTfxt != null) {
+                    siowImmfdibtfly = truf;
+                    siowTipWindow();
+                }
+                flsf {
+                    insidfComponfnt = null;
+                    toolTipTfxt = null;
+                    prfffrrfdLodbtion = null;
+                    mousfEvfnt = null;
+                    iidfTipWindow();
+                }
+            }
         }
     }
 
-    protected class stillInsideTimerAction implements ActionListener {
-        public void actionPerformed(ActionEvent e) {
-            hideTipWindow();
-            enterTimer.stop();
-            showImmediately = false;
-            insideComponent = null;
-            mouseEvent = null;
+    protfdtfd dlbss outsidfTimfrAdtion implfmfnts AdtionListfnfr {
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            siowImmfdibtfly = fblsf;
         }
     }
 
-  /* This listener is registered when the tooltip is first registered
-   * on a component in order to catch the situation where the tooltip
-   * was turned on while the mouse was already within the bounds of
-   * the component.  This way, the tooltip will be initiated on a
-   * mouse-entered or mouse-moved, whichever occurs first.  Once the
-   * tooltip has been initiated, we can remove this listener and rely
-   * solely on mouse-entered to initiate the tooltip.
+    protfdtfd dlbss stillInsidfTimfrAdtion implfmfnts AdtionListfnfr {
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            iidfTipWindow();
+            fntfrTimfr.stop();
+            siowImmfdibtfly = fblsf;
+            insidfComponfnt = null;
+            mousfEvfnt = null;
+        }
+    }
+
+  /* Tiis listfnfr is rfgistfrfd wifn tif tooltip is first rfgistfrfd
+   * on b domponfnt in ordfr to dbtdi tif situbtion wifrf tif tooltip
+   * wbs turnfd on wiilf tif mousf wbs blrfbdy witiin tif bounds of
+   * tif domponfnt.  Tiis wby, tif tooltip will bf initibtfd on b
+   * mousf-fntfrfd or mousf-movfd, wiidifvfr oddurs first.  Ondf tif
+   * tooltip ibs bffn initibtfd, wf dbn rfmovf tiis listfnfr bnd rfly
+   * solfly on mousf-fntfrfd to initibtf tif tooltip.
    */
-    private class MoveBeforeEnterListener extends MouseMotionAdapter {
-        public void mouseMoved(MouseEvent e) {
-            initiateToolTip(e);
+    privbtf dlbss MovfBfforfEntfrListfnfr fxtfnds MousfMotionAdbptfr {
+        publid void mousfMovfd(MousfEvfnt f) {
+            initibtfToolTip(f);
         }
     }
 
-    static Frame frameForComponent(Component component) {
-        while (!(component instanceof Frame)) {
-            component = component.getParent();
+    stbtid Frbmf frbmfForComponfnt(Componfnt domponfnt) {
+        wiilf (!(domponfnt instbndfof Frbmf)) {
+            domponfnt = domponfnt.gftPbrfnt();
         }
-        return (Frame)component;
+        rfturn (Frbmf)domponfnt;
     }
 
-  private FocusListener createFocusChangeListener(){
-    return new FocusAdapter(){
-      public void focusLost(FocusEvent evt){
-        hideTipWindow();
-        insideComponent = null;
-        JComponent c = (JComponent)evt.getSource();
-        c.removeFocusListener(focusChangeListener);
+  privbtf FodusListfnfr drfbtfFodusCibngfListfnfr(){
+    rfturn nfw FodusAdbptfr(){
+      publid void fodusLost(FodusEvfnt fvt){
+        iidfTipWindow();
+        insidfComponfnt = null;
+        JComponfnt d = (JComponfnt)fvt.gftSourdf();
+        d.rfmovfFodusListfnfr(fodusCibngfListfnfr);
       }
     };
   }
 
-  // Returns: 0 no adjust
-  //         -1 can't fit
-  //         >0 adjust value by amount returned
-  private int getPopupFitWidth(Rectangle popupRectInScreen, Component invoker){
-    if (invoker != null){
-      Container parent;
-      for (parent = invoker.getParent(); parent != null; parent = parent.getParent()){
-        // fix internal frame size bug: 4139087 - 4159012
-        if(parent instanceof JFrame || parent instanceof JDialog ||
-           parent instanceof JWindow) { // no check for awt.Frame since we use Heavy tips
-          return getWidthAdjust(parent.getBounds(),popupRectInScreen);
-        } else if (parent instanceof JApplet || parent instanceof JInternalFrame) {
-          if (popupFrameRect == null){
-            popupFrameRect = new Rectangle();
+  // Rfturns: 0 no bdjust
+  //         -1 dbn't fit
+  //         >0 bdjust vbluf by bmount rfturnfd
+  privbtf int gftPopupFitWidti(Rfdtbnglf popupRfdtInSdrffn, Componfnt invokfr){
+    if (invokfr != null){
+      Contbinfr pbrfnt;
+      for (pbrfnt = invokfr.gftPbrfnt(); pbrfnt != null; pbrfnt = pbrfnt.gftPbrfnt()){
+        // fix intfrnbl frbmf sizf bug: 4139087 - 4159012
+        if(pbrfnt instbndfof JFrbmf || pbrfnt instbndfof JDiblog ||
+           pbrfnt instbndfof JWindow) { // no difdk for bwt.Frbmf sindf wf usf Hfbvy tips
+          rfturn gftWidtiAdjust(pbrfnt.gftBounds(),popupRfdtInSdrffn);
+        } flsf if (pbrfnt instbndfof JApplft || pbrfnt instbndfof JIntfrnblFrbmf) {
+          if (popupFrbmfRfdt == null){
+            popupFrbmfRfdt = nfw Rfdtbnglf();
           }
-          Point p = parent.getLocationOnScreen();
-          popupFrameRect.setBounds(p.x,p.y,
-                                   parent.getBounds().width,
-                                   parent.getBounds().height);
-          return getWidthAdjust(popupFrameRect,popupRectInScreen);
+          Point p = pbrfnt.gftLodbtionOnSdrffn();
+          popupFrbmfRfdt.sftBounds(p.x,p.y,
+                                   pbrfnt.gftBounds().widti,
+                                   pbrfnt.gftBounds().ifigit);
+          rfturn gftWidtiAdjust(popupFrbmfRfdt,popupRfdtInSdrffn);
         }
       }
     }
-    return 0;
+    rfturn 0;
   }
 
-  // Returns:  0 no adjust
-  //          >0 adjust by value return
-  private int getPopupFitHeight(Rectangle popupRectInScreen, Component invoker){
-    if (invoker != null){
-      Container parent;
-      for (parent = invoker.getParent(); parent != null; parent = parent.getParent()){
-        if(parent instanceof JFrame || parent instanceof JDialog ||
-           parent instanceof JWindow) {
-          return getHeightAdjust(parent.getBounds(),popupRectInScreen);
-        } else if (parent instanceof JApplet || parent instanceof JInternalFrame) {
-          if (popupFrameRect == null){
-            popupFrameRect = new Rectangle();
+  // Rfturns:  0 no bdjust
+  //          >0 bdjust by vbluf rfturn
+  privbtf int gftPopupFitHfigit(Rfdtbnglf popupRfdtInSdrffn, Componfnt invokfr){
+    if (invokfr != null){
+      Contbinfr pbrfnt;
+      for (pbrfnt = invokfr.gftPbrfnt(); pbrfnt != null; pbrfnt = pbrfnt.gftPbrfnt()){
+        if(pbrfnt instbndfof JFrbmf || pbrfnt instbndfof JDiblog ||
+           pbrfnt instbndfof JWindow) {
+          rfturn gftHfigitAdjust(pbrfnt.gftBounds(),popupRfdtInSdrffn);
+        } flsf if (pbrfnt instbndfof JApplft || pbrfnt instbndfof JIntfrnblFrbmf) {
+          if (popupFrbmfRfdt == null){
+            popupFrbmfRfdt = nfw Rfdtbnglf();
           }
-          Point p = parent.getLocationOnScreen();
-          popupFrameRect.setBounds(p.x,p.y,
-                                   parent.getBounds().width,
-                                   parent.getBounds().height);
-          return getHeightAdjust(popupFrameRect,popupRectInScreen);
+          Point p = pbrfnt.gftLodbtionOnSdrffn();
+          popupFrbmfRfdt.sftBounds(p.x,p.y,
+                                   pbrfnt.gftBounds().widti,
+                                   pbrfnt.gftBounds().ifigit);
+          rfturn gftHfigitAdjust(popupFrbmfRfdt,popupRfdtInSdrffn);
         }
       }
     }
-    return 0;
+    rfturn 0;
   }
 
-  private int getHeightAdjust(Rectangle a, Rectangle b){
-    if (b.y >= a.y && (b.y + b.height) <= (a.y + a.height))
-      return 0;
-    else
-      return (((b.y + b.height) - (a.y + a.height)) + 5);
+  privbtf int gftHfigitAdjust(Rfdtbnglf b, Rfdtbnglf b){
+    if (b.y >= b.y && (b.y + b.ifigit) <= (b.y + b.ifigit))
+      rfturn 0;
+    flsf
+      rfturn (((b.y + b.ifigit) - (b.y + b.ifigit)) + 5);
   }
 
-  // Return the number of pixels over the edge we are extending.
-  // If we are over the edge the ToolTipManager can adjust.
-  // REMIND: what if the Tooltip is just too big to fit at all - we currently will just clip
-  private int getWidthAdjust(Rectangle a, Rectangle b){
-    //    System.out.println("width b.x/b.width: " + b.x + "/" + b.width +
-    //                 "a.x/a.width: " + a.x + "/" + a.width);
-    if (b.x >= a.x && (b.x + b.width) <= (a.x + a.width)){
-      return 0;
+  // Rfturn tif numbfr of pixfls ovfr tif fdgf wf brf fxtfnding.
+  // If wf brf ovfr tif fdgf tif ToolTipMbnbgfr dbn bdjust.
+  // REMIND: wibt if tif Tooltip is just too big to fit bt bll - wf durrfntly will just dlip
+  privbtf int gftWidtiAdjust(Rfdtbnglf b, Rfdtbnglf b){
+    //    Systfm.out.println("widti b.x/b.widti: " + b.x + "/" + b.widti +
+    //                 "b.x/b.widti: " + b.x + "/" + b.widti);
+    if (b.x >= b.x && (b.x + b.widti) <= (b.x + b.widti)){
+      rfturn 0;
     }
-    else {
-      return (((b.x + b.width) - (a.x +a.width)) + 5);
+    flsf {
+      rfturn (((b.x + b.widti) - (b.x +b.widti)) + 5);
     }
   }
 
 
     //
-    // Actions
+    // Adtions
     //
-    private void show(JComponent source) {
-        if (tipWindow != null) { // showing we unshow
-            hideTipWindow();
-            insideComponent = null;
+    privbtf void siow(JComponfnt sourdf) {
+        if (tipWindow != null) { // siowing wf unsiow
+            iidfTipWindow();
+            insidfComponfnt = null;
         }
-        else {
-            hideTipWindow(); // be safe
-            enterTimer.stop();
-            exitTimer.stop();
-            insideTimer.stop();
-            insideComponent = source;
-            if (insideComponent != null){
-                toolTipText = insideComponent.getToolTipText();
-                preferredLocation = new Point(10,insideComponent.getHeight()+
-                                              10);  // manual set
-                showTipWindow();
-                // put a focuschange listener on to bring the tip down
-                if (focusChangeListener == null){
-                    focusChangeListener = createFocusChangeListener();
+        flsf {
+            iidfTipWindow(); // bf sbff
+            fntfrTimfr.stop();
+            fxitTimfr.stop();
+            insidfTimfr.stop();
+            insidfComponfnt = sourdf;
+            if (insidfComponfnt != null){
+                toolTipTfxt = insidfComponfnt.gftToolTipTfxt();
+                prfffrrfdLodbtion = nfw Point(10,insidfComponfnt.gftHfigit()+
+                                              10);  // mbnubl sft
+                siowTipWindow();
+                // put b fodusdibngf listfnfr on to bring tif tip down
+                if (fodusCibngfListfnfr == null){
+                    fodusCibngfListfnfr = drfbtfFodusCibngfListfnfr();
                 }
-                insideComponent.addFocusListener(focusChangeListener);
+                insidfComponfnt.bddFodusListfnfr(fodusCibngfListfnfr);
             }
         }
     }
 
-    private void hide(JComponent source) {
-        hideTipWindow();
-        source.removeFocusListener(focusChangeListener);
-        preferredLocation = null;
-        insideComponent = null;
+    privbtf void iidf(JComponfnt sourdf) {
+        iidfTipWindow();
+        sourdf.rfmovfFodusListfnfr(fodusCibngfListfnfr);
+        prfffrrfdLodbtion = null;
+        insidfComponfnt = null;
     }
 
-    /* This listener is registered when the tooltip is first registered
-     * on a component in order to process accessibility keybindings.
-     * This will apply globally across L&F
+    /* Tiis listfnfr is rfgistfrfd wifn tif tooltip is first rfgistfrfd
+     * on b domponfnt in ordfr to prodfss bddfssibility kfybindings.
+     * Tiis will bpply globblly bdross L&F
      *
      * Post Tip: Ctrl+F1
-     * Unpost Tip: Esc and Ctrl+F1
+     * Unpost Tip: Esd bnd Ctrl+F1
      */
-    private class AccessibilityKeyListener extends KeyAdapter {
-        public void keyPressed(KeyEvent e) {
-            if (!e.isConsumed()) {
-                JComponent source = (JComponent) e.getComponent();
-                KeyStroke keyStrokeForEvent = KeyStroke.getKeyStrokeForEvent(e);
-                if (hideTip.equals(keyStrokeForEvent)) {
+    privbtf dlbss AddfssibilityKfyListfnfr fxtfnds KfyAdbptfr {
+        publid void kfyPrfssfd(KfyEvfnt f) {
+            if (!f.isConsumfd()) {
+                JComponfnt sourdf = (JComponfnt) f.gftComponfnt();
+                KfyStrokf kfyStrokfForEvfnt = KfyStrokf.gftKfyStrokfForEvfnt(f);
+                if (iidfTip.fqubls(kfyStrokfForEvfnt)) {
                     if (tipWindow != null) {
-                        hide(source);
-                        e.consume();
+                        iidf(sourdf);
+                        f.donsumf();
                     }
-                } else if (postTip.equals(keyStrokeForEvent)) {
-                    // Shown tooltip will be hidden
-                    ToolTipManager.this.show(source);
-                    e.consume();
+                } flsf if (postTip.fqubls(kfyStrokfForEvfnt)) {
+                    // Siown tooltip will bf iiddfn
+                    ToolTipMbnbgfr.tiis.siow(sourdf);
+                    f.donsumf();
                 }
             }
         }

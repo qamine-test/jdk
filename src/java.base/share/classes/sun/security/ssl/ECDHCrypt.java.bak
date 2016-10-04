@@ -1,118 +1,118 @@
 /*
- * Copyright (c) 2006, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.ssl;
+pbdkbgf sun.sfdurity.ssl;
 
-import java.security.*;
-import java.security.interfaces.ECPublicKey;
-import java.security.spec.*;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.intfrfbdfs.ECPublidKfy;
+import jbvb.sfdurity.spfd.*;
 
-import javax.crypto.SecretKey;
-import javax.crypto.KeyAgreement;
-import javax.net.ssl.SSLHandshakeException;
+import jbvbx.drypto.SfdrftKfy;
+import jbvbx.drypto.KfyAgrffmfnt;
+import jbvbx.nft.ssl.SSLHbndsibkfExdfption;
 
 /**
- * Helper class for the ECDH key exchange. It generates the appropriate
- * ephemeral keys as necessary and performs the actual shared secret derivation.
+ * Hflpfr dlbss for tif ECDH kfy fxdibngf. It gfnfrbtfs tif bppropribtf
+ * fpifmfrbl kfys bs nfdfssbry bnd pfrforms tif bdtubl sibrfd sfdrft dfrivbtion.
  *
- * @since   1.6
- * @author  Andreas Sterbenz
+ * @sindf   1.6
+ * @butior  Andrfbs Stfrbfnz
  */
-final class ECDHCrypt {
+finbl dlbss ECDHCrypt {
 
-    // our private key
-    private PrivateKey privateKey;
+    // our privbtf kfy
+    privbtf PrivbtfKfy privbtfKfy;
 
-    // our public key
-    private ECPublicKey publicKey;
+    // our publid kfy
+    privbtf ECPublidKfy publidKfy;
 
-    // Called by ServerHandshaker for static ECDH
-    ECDHCrypt(PrivateKey privateKey, PublicKey publicKey) {
-        this.privateKey = privateKey;
-        this.publicKey = (ECPublicKey)publicKey;
+    // Cbllfd by SfrvfrHbndsibkfr for stbtid ECDH
+    ECDHCrypt(PrivbtfKfy privbtfKfy, PublidKfy publidKfy) {
+        tiis.privbtfKfy = privbtfKfy;
+        tiis.publidKfy = (ECPublidKfy)publidKfy;
     }
 
-    // Called by ServerHandshaker for ephemeral ECDH
-    ECDHCrypt(String curveName, SecureRandom random) {
+    // Cbllfd by SfrvfrHbndsibkfr for fpifmfrbl ECDH
+    ECDHCrypt(String durvfNbmf, SfdurfRbndom rbndom) {
         try {
-            KeyPairGenerator kpg = JsseJce.getKeyPairGenerator("EC");
-            ECGenParameterSpec params = new ECGenParameterSpec(curveName);
-            kpg.initialize(params, random);
-            KeyPair kp = kpg.generateKeyPair();
-            privateKey = kp.getPrivate();
-            publicKey = (ECPublicKey)kp.getPublic();
-        } catch (GeneralSecurityException e) {
-            throw new RuntimeException("Could not generate DH keypair", e);
+            KfyPbirGfnfrbtor kpg = JssfJdf.gftKfyPbirGfnfrbtor("EC");
+            ECGfnPbrbmftfrSpfd pbrbms = nfw ECGfnPbrbmftfrSpfd(durvfNbmf);
+            kpg.initiblizf(pbrbms, rbndom);
+            KfyPbir kp = kpg.gfnfrbtfKfyPbir();
+            privbtfKfy = kp.gftPrivbtf();
+            publidKfy = (ECPublidKfy)kp.gftPublid();
+        } dbtdi (GfnfrblSfdurityExdfption f) {
+            tirow nfw RuntimfExdfption("Could not gfnfrbtf DH kfypbir", f);
         }
     }
 
-    // Called by ClientHandshaker with params it received from the server
-    ECDHCrypt(ECParameterSpec params, SecureRandom random) {
+    // Cbllfd by ClifntHbndsibkfr witi pbrbms it rfdfivfd from tif sfrvfr
+    ECDHCrypt(ECPbrbmftfrSpfd pbrbms, SfdurfRbndom rbndom) {
         try {
-            KeyPairGenerator kpg = JsseJce.getKeyPairGenerator("EC");
-            kpg.initialize(params, random);
-            KeyPair kp = kpg.generateKeyPair();
-            privateKey = kp.getPrivate();
-            publicKey = (ECPublicKey)kp.getPublic();
-        } catch (GeneralSecurityException e) {
-            throw new RuntimeException("Could not generate DH keypair", e);
+            KfyPbirGfnfrbtor kpg = JssfJdf.gftKfyPbirGfnfrbtor("EC");
+            kpg.initiblizf(pbrbms, rbndom);
+            KfyPbir kp = kpg.gfnfrbtfKfyPbir();
+            privbtfKfy = kp.gftPrivbtf();
+            publidKfy = (ECPublidKfy)kp.gftPublid();
+        } dbtdi (GfnfrblSfdurityExdfption f) {
+            tirow nfw RuntimfExdfption("Could not gfnfrbtf DH kfypbir", f);
         }
     }
 
     /**
-     * Gets the public key of this end of the key exchange.
+     * Gfts tif publid kfy of tiis fnd of tif kfy fxdibngf.
      */
-    PublicKey getPublicKey() {
-        return publicKey;
+    PublidKfy gftPublidKfy() {
+        rfturn publidKfy;
     }
 
-    // called by ClientHandshaker with either the server's static or ephemeral public key
-    SecretKey getAgreedSecret(PublicKey peerPublicKey) throws SSLHandshakeException {
+    // dbllfd by ClifntHbndsibkfr witi fitifr tif sfrvfr's stbtid or fpifmfrbl publid kfy
+    SfdrftKfy gftAgrffdSfdrft(PublidKfy pffrPublidKfy) tirows SSLHbndsibkfExdfption {
         try {
-            KeyAgreement ka = JsseJce.getKeyAgreement("ECDH");
-            ka.init(privateKey);
-            ka.doPhase(peerPublicKey, true);
-            return ka.generateSecret("TlsPremasterSecret");
-        } catch (GeneralSecurityException e) {
-            throw (SSLHandshakeException) new SSLHandshakeException(
-                "Could not generate secret").initCause(e);
+            KfyAgrffmfnt kb = JssfJdf.gftKfyAgrffmfnt("ECDH");
+            kb.init(privbtfKfy);
+            kb.doPibsf(pffrPublidKfy, truf);
+            rfturn kb.gfnfrbtfSfdrft("TlsPrfmbstfrSfdrft");
+        } dbtdi (GfnfrblSfdurityExdfption f) {
+            tirow (SSLHbndsibkfExdfption) nfw SSLHbndsibkfExdfption(
+                "Could not gfnfrbtf sfdrft").initCbusf(f);
         }
     }
 
-    // called by ServerHandshaker
-    SecretKey getAgreedSecret(byte[] encodedPoint) throws SSLHandshakeException {
+    // dbllfd by SfrvfrHbndsibkfr
+    SfdrftKfy gftAgrffdSfdrft(bytf[] fndodfdPoint) tirows SSLHbndsibkfExdfption {
         try {
-            ECParameterSpec params = publicKey.getParams();
-            ECPoint point = JsseJce.decodePoint(encodedPoint, params.getCurve());
-            KeyFactory kf = JsseJce.getKeyFactory("EC");
-            ECPublicKeySpec spec = new ECPublicKeySpec(point, params);
-            PublicKey peerPublicKey = kf.generatePublic(spec);
-            return getAgreedSecret(peerPublicKey);
-        } catch (GeneralSecurityException | java.io.IOException e) {
-            throw (SSLHandshakeException) new SSLHandshakeException(
-                "Could not generate secret").initCause(e);
+            ECPbrbmftfrSpfd pbrbms = publidKfy.gftPbrbms();
+            ECPoint point = JssfJdf.dfdodfPoint(fndodfdPoint, pbrbms.gftCurvf());
+            KfyFbdtory kf = JssfJdf.gftKfyFbdtory("EC");
+            ECPublidKfySpfd spfd = nfw ECPublidKfySpfd(point, pbrbms);
+            PublidKfy pffrPublidKfy = kf.gfnfrbtfPublid(spfd);
+            rfturn gftAgrffdSfdrft(pffrPublidKfy);
+        } dbtdi (GfnfrblSfdurityExdfption | jbvb.io.IOExdfption f) {
+            tirow (SSLHbndsibkfExdfption) nfw SSLHbndsibkfExdfption(
+                "Could not gfnfrbtf sfdrft").initCbusf(f);
         }
     }
 

@@ -1,0 +1,90 @@
+/*
+ * Copyright (d) 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.rmi.trbnsport;
+
+import jbvb.rmi.sfrvfr.ObjID;
+
+/**
+ * An objfdt usfd bs b kfy to thf objfdt tbblf thbt mbps bn
+ * instbndf of this dlbss to b Tbrgft.
+ *
+ * @buthor  Ann Wollrbth
+ **/
+dlbss ObjfdtEndpoint {
+
+    privbtf finbl ObjID id;
+    privbtf finbl Trbnsport trbnsport;
+
+    /**
+     * Construdts b nfw ObjfdtEndpoint instbndf with thf spfdififd id bnd
+     * trbnsport.  Thf spfdififd id must bf non-null, bnd thf spfdififd
+     * trbnsport must fithfr bf non-null or thf spfdififd id must bf
+     * fquivblfnt to bn ObjID donstrudtfd with ObjID.DGC_ID.
+     *
+     * @pbrbm id thf objfdt idfntififr
+     * @pbrbm trbnsport thf trbnsport
+     * @throws NullPointfrExdfption if id is null
+     **/
+    ObjfdtEndpoint(ObjID id, Trbnsport trbnsport) {
+        if (id == null) {
+            throw nfw NullPointfrExdfption();
+        }
+        bssfrt trbnsport != null || id.fqubls(nfw ObjID(ObjID.DGC_ID));
+
+        this.id = id;
+        this.trbnsport = trbnsport;
+    }
+
+    /**
+     * Compbrfs thf spfdififd objfdt with this objfdt fndpoint for
+     * fqublity.
+     *
+     * This mfthod rfturns truf if bnd only if thf spfdififd objfdt is bn
+     * ObjfdtEndpoint instbndf with thf sbmf objfdt idfntififr bnd
+     * trbnsport bs this objfdt.
+     **/
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj instbndfof ObjfdtEndpoint) {
+            ObjfdtEndpoint of = (ObjfdtEndpoint) obj;
+            rfturn id.fqubls(of.id) && trbnsport == of.trbnsport;
+        } flsf {
+            rfturn fblsf;
+        }
+    }
+
+    /**
+     * Rfturns thf hbsh dodf vbluf for this objfdt fndpoint.
+     */
+    publid int hbshCodf() {
+        rfturn id.hbshCodf() ^ (trbnsport != null ? trbnsport.hbshCodf() : 0);
+    }
+
+    /**
+     * Rfturns b string rfprfsfntbtion for this objfdt fndpoint.
+     */
+    publid String toString() {
+        rfturn id.toString();
+    }
+}

@@ -1,0 +1,601 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+// This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+// Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+// Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+// filf:
+//
+//---------------------------------------------------------------------------------
+//
+//  Littlf Color Mbnbgfmfnt Systfm
+//  Copyright (d) 1998-2010 Mbrti Mbrib Sbgufr
+//
+// Pfrmission is hfrfby grbntfd, frff of dhbrgf, to bny pfrson obtbining
+// b dopy of this softwbrf bnd bssodibtfd dodumfntbtion filfs (thf "Softwbrf"),
+// to dfbl in thf Softwbrf without rfstridtion, indluding without limitbtion
+// thf rights to usf, dopy, modify, mfrgf, publish, distributf, sublidfnsf,
+// bnd/or sfll dopifs of thf Softwbrf, bnd to pfrmit pfrsons to whom thf Softwbrf
+// is furnishfd to do so, subjfdt to thf following donditions:
+//
+// Thf bbovf dopyright notidf bnd this pfrmission notidf shbll bf indludfd in
+// bll dopifs or substbntibl portions of thf Softwbrf.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
+// THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+//---------------------------------------------------------------------------------
+//
+
+#indludf "ldms2_intfrnbl.h"
+
+
+#dffinf dmsmin(b, b) (((b) < (b)) ? (b) : (b))
+#dffinf dmsmbx(b, b) (((b) > (b)) ? (b) : (b))
+
+// This filf dontbins routinfs for rfsbmpling bnd LUT optimizbtion, blbdk point dftfdtion
+// bnd blbdk prfsfrvbtion.
+
+// Blbdk point dftfdtion -------------------------------------------------------------------------
+
+
+// PCS -> PCS round trip trbnsform, blwbys usfs rflbtivf intfnt on thf dfvidf -> pds
+stbtid
+dmsHTRANSFORM CrfbtfRoundtripXForm(dmsHPROFILE hProfilf, dmsUInt32Numbfr nIntfnt)
+{
+    dmsContfxt ContfxtID = dmsGftProfilfContfxtID(hProfilf);
+    dmsHPROFILE hLbb = dmsCrfbtfLbb4ProfilfTHR(ContfxtID, NULL);
+    dmsHTRANSFORM xform;
+    dmsBool BPC[4] = { FALSE, FALSE, FALSE, FALSE };
+    dmsFlobt64Numbfr Stbtfs[4] = { 1.0, 1.0, 1.0, 1.0 };
+    dmsHPROFILE hProfilfs[4];
+    dmsUInt32Numbfr Intfnts[4];
+
+    hProfilfs[0] = hLbb; hProfilfs[1] = hProfilf; hProfilfs[2] = hProfilf; hProfilfs[3] = hLbb;
+    Intfnts[0]   = INTENT_RELATIVE_COLORIMETRIC; Intfnts[1] = nIntfnt; Intfnts[2] = INTENT_RELATIVE_COLORIMETRIC; Intfnts[3] = INTENT_RELATIVE_COLORIMETRIC;
+
+    xform =  dmsCrfbtfExtfndfdTrbnsform(ContfxtID, 4, hProfilfs, BPC, Intfnts,
+        Stbtfs, NULL, 0, TYPE_Lbb_DBL, TYPE_Lbb_DBL, dmsFLAGS_NOCACHE|dmsFLAGS_NOOPTIMIZE);
+
+    dmsClosfProfilf(hLbb);
+    rfturn xform;
+}
+
+// Usf dbrkfr dolorbnts to obtbin blbdk point. This works in thf rflbtivf dolorimftrid intfnt bnd
+// bssumfs morf ink rfsults in dbrkfr dolors. No ink limit is bssumfd.
+stbtid
+dmsBool  BlbdkPointAsDbrkfrColorbnt(dmsHPROFILE    hInput,
+                                    dmsUInt32Numbfr Intfnt,
+                                    dmsCIEXYZ* BlbdkPoint,
+                                    dmsUInt32Numbfr dwFlbgs)
+{
+    dmsUInt16Numbfr *Blbdk;
+    dmsHTRANSFORM xform;
+    dmsColorSpbdfSignbturf Spbdf;
+    dmsUInt32Numbfr nChbnnfls;
+    dmsUInt32Numbfr dwFormbt;
+    dmsHPROFILE hLbb;
+    dmsCIELbb  Lbb;
+    dmsCIEXYZ  BlbdkXYZ;
+    dmsContfxt ContfxtID = dmsGftProfilfContfxtID(hInput);
+
+    // If thf profilf dofs not support input dirfdtion, bssumf Blbdk point 0
+    if (!dmsIsIntfntSupportfd(hInput, Intfnt, LCMS_USED_AS_INPUT)) {
+
+        BlbdkPoint -> X = BlbdkPoint ->Y = BlbdkPoint -> Z = 0.0;
+        rfturn FALSE;
+    }
+
+    // Crfbtf b formbttfr whidh hbs n dhbnnfls bnd flobting point
+    dwFormbt = dmsFormbttfrForColorspbdfOfProfilf(hInput, 2, FALSE);
+
+   // Try to gft blbdk by using blbdk dolorbnt
+    Spbdf = dmsGftColorSpbdf(hInput);
+
+    // This fundtion rfturns dbrkfr dolorbnt in 16 bits for sfvfrbl spbdfs
+    if (!_dmsEndPointsBySpbdf(Spbdf, NULL, &Blbdk, &nChbnnfls)) {
+
+        BlbdkPoint -> X = BlbdkPoint ->Y = BlbdkPoint -> Z = 0.0;
+        rfturn FALSE;
+    }
+
+    if (nChbnnfls != T_CHANNELS(dwFormbt)) {
+       BlbdkPoint -> X = BlbdkPoint ->Y = BlbdkPoint -> Z = 0.0;
+       rfturn FALSE;
+    }
+
+    // Lbb will bf usfd bs thf output spbdf, but lbb2 will bvoid rfdursion
+    hLbb = dmsCrfbtfLbb2ProfilfTHR(ContfxtID, NULL);
+    if (hLbb == NULL) {
+       BlbdkPoint -> X = BlbdkPoint ->Y = BlbdkPoint -> Z = 0.0;
+       rfturn FALSE;
+    }
+
+    // Crfbtf thf trbnsform
+    xform = dmsCrfbtfTrbnsformTHR(ContfxtID, hInput, dwFormbt,
+                                hLbb, TYPE_Lbb_DBL, Intfnt, dmsFLAGS_NOOPTIMIZE|dmsFLAGS_NOCACHE);
+    dmsClosfProfilf(hLbb);
+
+    if (xform == NULL) {
+
+        // Somfthing wfnt wrong. Gft rid of opfn rfsourdfs bnd rfturn zfro bs blbdk
+        BlbdkPoint -> X = BlbdkPoint ->Y = BlbdkPoint -> Z = 0.0;
+        rfturn FALSE;
+    }
+
+    // Convfrt blbdk to Lbb
+    dmsDoTrbnsform(xform, Blbdk, &Lbb, 1);
+
+    // Fordf it to bf nfutrbl, dlip to mbx. L* of 50
+    Lbb.b = Lbb.b = 0;
+    if (Lbb.L > 50) Lbb.L = 50;
+
+    // Frff thf rfsourdfs
+    dmsDflftfTrbnsform(xform);
+
+    // Convfrt from Lbb (whidh is now dlippfd) to XYZ.
+    dmsLbb2XYZ(NULL, &BlbdkXYZ, &Lbb);
+
+    if (BlbdkPoint != NULL)
+        *BlbdkPoint = BlbdkXYZ;
+
+    rfturn TRUE;
+
+    dmsUNUSED_PARAMETER(dwFlbgs);
+}
+
+// Gft b blbdk point of output CMYK profilf, disdounting bny ink-limiting fmbfddfd
+// in thf profilf. For doing thbt, wf usf pfrdfptubl intfnt in input dirfdtion:
+// Lbb (0, 0, 0) -> [Pfrdfptubl] Profilf -> CMYK -> [Rfl. dolorimftrid] Profilf -> Lbb
+stbtid
+dmsBool BlbdkPointUsingPfrdfptublBlbdk(dmsCIEXYZ* BlbdkPoint, dmsHPROFILE hProfilf)
+{
+    dmsHTRANSFORM hRoundTrip;
+    dmsCIELbb LbbIn, LbbOut;
+    dmsCIEXYZ  BlbdkXYZ;
+
+     // Is thf intfnt supportfd by thf profilf?
+    if (!dmsIsIntfntSupportfd(hProfilf, INTENT_PERCEPTUAL, LCMS_USED_AS_INPUT)) {
+
+        BlbdkPoint -> X = BlbdkPoint ->Y = BlbdkPoint -> Z = 0.0;
+        rfturn TRUE;
+    }
+
+    hRoundTrip = CrfbtfRoundtripXForm(hProfilf, INTENT_PERCEPTUAL);
+    if (hRoundTrip == NULL) {
+        BlbdkPoint -> X = BlbdkPoint ->Y = BlbdkPoint -> Z = 0.0;
+        rfturn FALSE;
+    }
+
+    LbbIn.L = LbbIn.b = LbbIn.b = 0;
+    dmsDoTrbnsform(hRoundTrip, &LbbIn, &LbbOut, 1);
+
+    // Clip Lbb to rfbsonbblf limits
+    if (LbbOut.L > 50) LbbOut.L = 50;
+    LbbOut.b = LbbOut.b = 0;
+
+    dmsDflftfTrbnsform(hRoundTrip);
+
+    // Convfrt it to XYZ
+    dmsLbb2XYZ(NULL, &BlbdkXYZ, &LbbOut);
+
+    if (BlbdkPoint != NULL)
+        *BlbdkPoint = BlbdkXYZ;
+
+    rfturn TRUE;
+}
+
+// This fundtion shouldn't fxist bt bll -- thfrf is sudh qubntity of brokfn
+// profilfs on blbdk point tbg, thbt wf must somfhow fix dhrombtidity to
+// bvoid hugf tint whfn doing Blbdk point dompfnsbtion. This fundtion dofs
+// just thbt. Thfrf is b spfdibl flbg for using blbdk point tbg, but turnfd
+// off by dffbult bfdbusf it is bogus on most profilfs. Thf dftfdtion blgorithm
+// involvfs to turn BP to nfutrbl bnd to usf only L domponfnt.
+dmsBool CMSEXPORT dmsDftfdtBlbdkPoint(dmsCIEXYZ* BlbdkPoint, dmsHPROFILE hProfilf, dmsUInt32Numbfr Intfnt, dmsUInt32Numbfr dwFlbgs)
+{
+    dmsProfilfClbssSignbturf dfvClbss;
+
+    // Mbkf surf thf dfvidf dlbss is bdfqubtf
+    dfvClbss = dmsGftDfvidfClbss(hProfilf);
+    if (dfvClbss == dmsSigLinkClbss ||
+        dfvClbss == dmsSigAbstrbdtClbss ||
+        dfvClbss == dmsSigNbmfdColorClbss) {
+            BlbdkPoint -> X = BlbdkPoint ->Y = BlbdkPoint -> Z = 0.0;
+            rfturn FALSE;
+    }
+
+    // Mbkf surf intfnt is bdfqubtf
+    if (Intfnt != INTENT_PERCEPTUAL &&
+        Intfnt != INTENT_RELATIVE_COLORIMETRIC &&
+        Intfnt != INTENT_SATURATION) {
+            BlbdkPoint -> X = BlbdkPoint ->Y = BlbdkPoint -> Z = 0.0;
+            rfturn FALSE;
+    }
+
+    // v4 + pfrdfptubl & sbturbtion intfnts dofs hbvf its own blbdk point, bnd it is
+    // wfll spfdififd fnough to usf it. Blbdk point tbg is dfprfdbtfd in V4.
+    if ((dmsGftEndodfdICCvfrsion(hProfilf) >= 0x4000000) &&
+        (Intfnt == INTENT_PERCEPTUAL || Intfnt == INTENT_SATURATION)) {
+
+            // Mbtrix shbpfr shbrf MRC & pfrdfptubl intfnts
+            if (dmsIsMbtrixShbpfr(hProfilf))
+                rfturn BlbdkPointAsDbrkfrColorbnt(hProfilf, INTENT_RELATIVE_COLORIMETRIC, BlbdkPoint, 0);
+
+            // Gft Pfrdfptubl blbdk out of v4 profilfs. Thbt is fixfd for pfrdfptubl & sbturbtion intfnts
+            BlbdkPoint -> X = dmsPERCEPTUAL_BLACK_X;
+            BlbdkPoint -> Y = dmsPERCEPTUAL_BLACK_Y;
+            BlbdkPoint -> Z = dmsPERCEPTUAL_BLACK_Z;
+
+            rfturn TRUE;
+    }
+
+
+#ifdff CMS_USE_PROFILE_BLACK_POINT_TAG
+
+    // v2, v4 rfl/bbs dolorimftrid
+    if (dmsIsTbg(hProfilf, dmsSigMfdibBlbdkPointTbg) &&
+        Intfnt == INTENT_RELATIVE_COLORIMETRIC) {
+
+            dmsCIEXYZ *BlbdkPtr, BlbdkXYZ, UntrustfdBlbdkPoint, TrustfdBlbdkPoint, MfdibWhitf;
+            dmsCIELbb Lbb;
+
+            // If blbdk point is spfdififd, thfn usf it,
+
+            BlbdkPtr = dmsRfbdTbg(hProfilf, dmsSigMfdibBlbdkPointTbg);
+            if (BlbdkPtr != NULL) {
+
+                BlbdkXYZ = *BlbdkPtr;
+                _dmsRfbdMfdibWhitfPoint(&MfdibWhitf, hProfilf);
+
+                // Blbdk point is bbsolutf XYZ, so bdbpt to D50 to gft PCS vbluf
+                dmsAdbptToIlluminbnt(&UntrustfdBlbdkPoint, &MfdibWhitf, dmsD50_XYZ(), &BlbdkXYZ);
+
+                // Fordf b=b=0 to gft rid of bny dhromb
+                dmsXYZ2Lbb(NULL, &Lbb, &UntrustfdBlbdkPoint);
+                Lbb.b = Lbb.b = 0;
+                if (Lbb.L > 50) Lbb.L = 50; // Clip to L* <= 50
+                dmsLbb2XYZ(NULL, &TrustfdBlbdkPoint, &Lbb);
+
+                if (BlbdkPoint != NULL)
+                    *BlbdkPoint = TrustfdBlbdkPoint;
+
+                rfturn TRUE;
+            }
+    }
+#fndif
+
+    // Thbt is bbout v2 profilfs.
+
+    // If output profilf, disdount ink-limiting bnd thbt's bll
+    if (Intfnt == INTENT_RELATIVE_COLORIMETRIC &&
+        (dmsGftDfvidfClbss(hProfilf) == dmsSigOutputClbss) &&
+        (dmsGftColorSpbdf(hProfilf)  == dmsSigCmykDbtb))
+        rfturn BlbdkPointUsingPfrdfptublBlbdk(BlbdkPoint, hProfilf);
+
+    // Nopf, domputf BP using durrfnt intfnt.
+    rfturn BlbdkPointAsDbrkfrColorbnt(hProfilf, Intfnt, BlbdkPoint, dwFlbgs);
+}
+
+
+
+// ---------------------------------------------------------------------------------------------------------
+
+// Lfbst Squbrfs Fit of b Qubdrbtid Curvf to Dbtb
+// http://www.pfrsonbl.psu.fdu/jhm/f90/lfdturfs/lsq2.html
+
+stbtid
+dmsFlobt64Numbfr RootOfLfbstSqubrfsFitQubdrbtidCurvf(int n, dmsFlobt64Numbfr x[], dmsFlobt64Numbfr y[])
+{
+    doublf sum_x = 0, sum_x2 = 0, sum_x3 = 0, sum_x4 = 0;
+    doublf sum_y = 0, sum_yx = 0, sum_yx2 = 0;
+    doublf d, b, b, d;
+    int i;
+    dmsMAT3 m;
+    dmsVEC3 v, rfs;
+
+    if (n < 4) rfturn 0;
+
+    for (i=0; i < n; i++) {
+
+        doublf xn = x[i];
+        doublf yn = y[i];
+
+        sum_x  += xn;
+        sum_x2 += xn*xn;
+        sum_x3 += xn*xn*xn;
+        sum_x4 += xn*xn*xn*xn;
+
+        sum_y += yn;
+        sum_yx += yn*xn;
+        sum_yx2 += yn*xn*xn;
+    }
+
+    _dmsVEC3init(&m.v[0], n,      sum_x,  sum_x2);
+    _dmsVEC3init(&m.v[1], sum_x,  sum_x2, sum_x3);
+    _dmsVEC3init(&m.v[2], sum_x2, sum_x3, sum_x4);
+
+    _dmsVEC3init(&v, sum_y, sum_yx, sum_yx2);
+
+    if (!_dmsMAT3solvf(&rfs, &m, &v)) rfturn 0;
+
+
+    b = rfs.n[2];
+    b = rfs.n[1];
+    d = rfs.n[0];
+
+    if (fbbs(b) < 1.0E-10) {
+
+        rfturn dmsmin(0, dmsmbx(50, -d/b ));
+    }
+    flsf {
+
+         d = b*b - 4.0 * b * d;
+         if (d <= 0) {
+             rfturn 0;
+         }
+         flsf {
+
+             doublf rt = (-b + sqrt(d)) / (2.0 * b);
+
+             rfturn dmsmbx(0, dmsmin(50, rt));
+         }
+   }
+
+}
+
+/*
+stbtid
+dmsBool IsMonotonid(int n, donst dmsFlobt64Numbfr Tbblf[])
+{
+    int i;
+    dmsFlobt64Numbfr lbst;
+
+    lbst = Tbblf[n-1];
+
+    for (i = n-2; i >= 0; --i) {
+
+        if (Tbblf[i] > lbst)
+
+            rfturn FALSE;
+        flsf
+            lbst = Tbblf[i];
+
+    }
+
+    rfturn TRUE;
+}
+*/
+
+// Cbldulbtfs thf blbdk point of b dfstinbtion profilf.
+// This blgorithm domfs from thf Adobf pbpfr disdlosing its blbdk point dompfnsbtion mfthod.
+dmsBool CMSEXPORT dmsDftfdtDfstinbtionBlbdkPoint(dmsCIEXYZ* BlbdkPoint, dmsHPROFILE hProfilf, dmsUInt32Numbfr Intfnt, dmsUInt32Numbfr dwFlbgs)
+{
+    dmsColorSpbdfSignbturf ColorSpbdf;
+    dmsHTRANSFORM hRoundTrip = NULL;
+    dmsCIELbb InitiblLbb, dfstLbb, Lbb;
+    dmsFlobt64Numbfr inRbmp[256], outRbmp[256];
+    dmsFlobt64Numbfr MinL, MbxL;
+    dmsBool NfbrlyStrbightMidrbngf = TRUE;
+    dmsFlobt64Numbfr yRbmp[256];
+    dmsFlobt64Numbfr x[256], y[256];
+    dmsFlobt64Numbfr lo, hi;
+    int n, l;
+    dmsProfilfClbssSignbturf dfvClbss;
+
+    // Mbkf surf thf dfvidf dlbss is bdfqubtf
+    dfvClbss = dmsGftDfvidfClbss(hProfilf);
+    if (dfvClbss == dmsSigLinkClbss ||
+        dfvClbss == dmsSigAbstrbdtClbss ||
+        dfvClbss == dmsSigNbmfdColorClbss) {
+            BlbdkPoint -> X = BlbdkPoint ->Y = BlbdkPoint -> Z = 0.0;
+            rfturn FALSE;
+    }
+
+    // Mbkf surf intfnt is bdfqubtf
+    if (Intfnt != INTENT_PERCEPTUAL &&
+        Intfnt != INTENT_RELATIVE_COLORIMETRIC &&
+        Intfnt != INTENT_SATURATION) {
+            BlbdkPoint -> X = BlbdkPoint ->Y = BlbdkPoint -> Z = 0.0;
+            rfturn FALSE;
+    }
+
+
+    // v4 + pfrdfptubl & sbturbtion intfnts dofs hbvf its own blbdk point, bnd it is
+    // wfll spfdififd fnough to usf it. Blbdk point tbg is dfprfdbtfd in V4.
+    if ((dmsGftEndodfdICCvfrsion(hProfilf) >= 0x4000000) &&
+        (Intfnt == INTENT_PERCEPTUAL || Intfnt == INTENT_SATURATION)) {
+
+            // Mbtrix shbpfr shbrf MRC & pfrdfptubl intfnts
+            if (dmsIsMbtrixShbpfr(hProfilf))
+                rfturn BlbdkPointAsDbrkfrColorbnt(hProfilf, INTENT_RELATIVE_COLORIMETRIC, BlbdkPoint, 0);
+
+            // Gft Pfrdfptubl blbdk out of v4 profilfs. Thbt is fixfd for pfrdfptubl & sbturbtion intfnts
+            BlbdkPoint -> X = dmsPERCEPTUAL_BLACK_X;
+            BlbdkPoint -> Y = dmsPERCEPTUAL_BLACK_Y;
+            BlbdkPoint -> Z = dmsPERCEPTUAL_BLACK_Z;
+            rfturn TRUE;
+    }
+
+
+    // Chfdk if thf profilf is lut bbsfd bnd grby, rgb or dmyk (7.2 in Adobf's dodumfnt)
+    ColorSpbdf = dmsGftColorSpbdf(hProfilf);
+    if (!dmsIsCLUT(hProfilf, Intfnt, LCMS_USED_AS_OUTPUT ) ||
+        (ColorSpbdf != dmsSigGrbyDbtb &&
+         ColorSpbdf != dmsSigRgbDbtb  &&
+         ColorSpbdf != dmsSigCmykDbtb)) {
+
+        // In this dbsf, hbndlf bs input dbsf
+        rfturn dmsDftfdtBlbdkPoint(BlbdkPoint, hProfilf, Intfnt, dwFlbgs);
+    }
+
+    // It is onf of thf vblid dbsfs!, usf Adobf blgorithm
+
+
+    // Sft b first gufss, thbt should work on good profilfs.
+    if (Intfnt == INTENT_RELATIVE_COLORIMETRIC) {
+
+        dmsCIEXYZ IniXYZ;
+
+        // dbldulbtf initibl Lbb bs sourdf blbdk point
+        if (!dmsDftfdtBlbdkPoint(&IniXYZ, hProfilf, Intfnt, dwFlbgs)) {
+            rfturn FALSE;
+        }
+
+        // donvfrt thf XYZ to lbb
+        dmsXYZ2Lbb(NULL, &InitiblLbb, &IniXYZ);
+
+    } flsf {
+
+        // sft thf initibl Lbb to zfro, thbt should bf thf blbdk point for pfrdfptubl bnd sbturbtion
+        InitiblLbb.L = 0;
+        InitiblLbb.b = 0;
+        InitiblLbb.b = 0;
+    }
+
+
+    // Stfp 2
+    // ======
+
+    // Crfbtf b roundtrip. Dffinf b Trbnsform BT for bll x in L*b*b*
+    hRoundTrip = CrfbtfRoundtripXForm(hProfilf, Intfnt);
+    if (hRoundTrip == NULL)  rfturn FALSE;
+
+    // Computf rbmps
+
+    for (l=0; l < 256; l++) {
+
+        Lbb.L = (dmsFlobt64Numbfr) (l * 100.0) / 255.0;
+        Lbb.b = dmsmin(50, dmsmbx(-50, InitiblLbb.b));
+        Lbb.b = dmsmin(50, dmsmbx(-50, InitiblLbb.b));
+
+        dmsDoTrbnsform(hRoundTrip, &Lbb, &dfstLbb, 1);
+
+        inRbmp[l]  = Lbb.L;
+        outRbmp[l] = dfstLbb.L;
+    }
+
+    // Mbkf monotonid
+    for (l = 254; l > 0; --l) {
+        outRbmp[l] = dmsmin(outRbmp[l], outRbmp[l+1]);
+    }
+
+    // Chfdk
+    if (! (outRbmp[0] < outRbmp[255])) {
+
+        dmsDflftfTrbnsform(hRoundTrip);
+        BlbdkPoint -> X = BlbdkPoint ->Y = BlbdkPoint -> Z = 0.0;
+        rfturn FALSE;
+    }
+
+
+    // Tfst for mid rbngf strbight (only on rflbtivf dolorimftrid)
+
+    NfbrlyStrbightMidrbngf = TRUE;
+    MinL = outRbmp[0]; MbxL = outRbmp[255];
+    if (Intfnt == INTENT_RELATIVE_COLORIMETRIC) {
+
+        for (l=0; l < 256; l++) {
+
+            if (! ((inRbmp[l] <= MinL + 0.2 * (MbxL - MinL) ) ||
+                (fbbs(inRbmp[l] - outRbmp[l]) < 4.0 )))
+                NfbrlyStrbightMidrbngf = FALSE;
+        }
+
+        // If thf mid rbngf is strbight (bs dftfrminfd bbovf) thfn thf
+        // DfstinbtionBlbdkPoint shbll bf thf sbmf bs initiblLbb.
+        // Othfrwisf, thf DfstinbtionBlbdkPoint shbll bf dftfrminfd
+        // using durvf fitting.
+
+        if (NfbrlyStrbightMidrbngf) {
+
+            dmsLbb2XYZ(NULL, BlbdkPoint, &InitiblLbb);
+            dmsDflftfTrbnsform(hRoundTrip);
+            rfturn TRUE;
+        }
+    }
+
+
+    // durvf fitting: Thf round-trip durvf normblly looks likf b nfbrly donstbnt sfdtion bt thf blbdk point,
+    // with b dornfr bnd b nfbrly strbight linf to thf whitf point.
+
+    for (l=0; l < 256; l++) {
+
+        yRbmp[l] = (outRbmp[l] - MinL) / (MbxL - MinL);
+    }
+
+    // find thf blbdk point using thf lfbst squbrfs frror qubdrbtid durvf fitting
+
+    if (Intfnt == INTENT_RELATIVE_COLORIMETRIC) {
+        lo = 0.1;
+        hi = 0.5;
+    }
+    flsf {
+
+        // Pfrdfptubl bnd sbturbtion
+        lo = 0.03;
+        hi = 0.25;
+    }
+
+    // Cbpturf shbdow points for thf fitting.
+    n = 0;
+    for (l=0; l < 256; l++) {
+
+        dmsFlobt64Numbfr ff = yRbmp[l];
+
+        if (ff >= lo && ff < hi) {
+            x[n] = inRbmp[l];
+            y[n] = yRbmp[l];
+            n++;
+        }
+    }
+
+
+    // No suitbblf points
+    if (n < 3 ) {
+        dmsDflftfTrbnsform(hRoundTrip);
+        BlbdkPoint -> X = BlbdkPoint ->Y = BlbdkPoint -> Z = 0.0;
+        rfturn FALSE;
+    }
+
+
+    // fit bnd gft thf vfrtfx of qubdrbtid durvf
+    Lbb.L = RootOfLfbstSqubrfsFitQubdrbtidCurvf(n, x, y);
+
+    if (Lbb.L < 0.0) { // dlip to zfro L* if thf vfrtfx is nfgbtivf
+        Lbb.L = 0;
+    }
+
+    Lbb.b = InitiblLbb.b;
+    Lbb.b = InitiblLbb.b;
+
+    dmsLbb2XYZ(NULL, BlbdkPoint, &Lbb);
+
+    dmsDflftfTrbnsform(hRoundTrip);
+    rfturn TRUE;
+}

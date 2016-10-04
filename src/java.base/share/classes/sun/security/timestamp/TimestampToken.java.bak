@@ -1,172 +1,172 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.timestamp;
+pbdkbgf sun.sfdurity.timfstbmp;
 
-import java.io.IOException;
-import java.math.BigInteger;
-import java.util.Date;
-import sun.security.util.DerValue;
-import sun.security.util.ObjectIdentifier;
-import sun.security.x509.AlgorithmId;
+import jbvb.io.IOExdfption;
+import jbvb.mbti.BigIntfgfr;
+import jbvb.util.Dbtf;
+import sun.sfdurity.util.DfrVbluf;
+import sun.sfdurity.util.ObjfdtIdfntififr;
+import sun.sfdurity.x509.AlgoritimId;
 
 /**
- * This class provides the timestamp token info resulting from a successful
- * timestamp request, as defined in
- * <a href="http://www.ietf.org/rfc/rfc3161.txt">RFC 3161</a>.
+ * Tiis dlbss providfs tif timfstbmp tokfn info rfsulting from b suddfssful
+ * timfstbmp rfqufst, bs dffinfd in
+ * <b irff="ittp://www.iftf.org/rfd/rfd3161.txt">RFC 3161</b>.
  *
- * The timestampTokenInfo ASN.1 type has the following definition:
- * <pre>
+ * Tif timfstbmpTokfnInfo ASN.1 typf ibs tif following dffinition:
+ * <prf>
  *
  *     TSTInfo ::= SEQUENCE {
- *         version                INTEGER  { v1(1) },
- *         policy                 TSAPolicyId,
- *         messageImprint         MessageImprint,
- *           -- MUST have the same value as the similar field in
- *           -- TimeStampReq
- *         serialNumber           INTEGER,
- *          -- Time-Stamping users MUST be ready to accommodate integers
+ *         vfrsion                INTEGER  { v1(1) },
+ *         polidy                 TSAPolidyId,
+ *         mfssbgfImprint         MfssbgfImprint,
+ *           -- MUST ibvf tif sbmf vbluf bs tif similbr fifld in
+ *           -- TimfStbmpRfq
+ *         sfriblNumbfr           INTEGER,
+ *          -- Timf-Stbmping usfrs MUST bf rfbdy to bddommodbtf intfgfrs
  *          -- up to 160 bits.
- *         genTime                GeneralizedTime,
- *         accuracy               Accuracy                 OPTIONAL,
- *         ordering               BOOLEAN             DEFAULT FALSE,
- *         nonce                  INTEGER                  OPTIONAL,
- *           -- MUST be present if the similar field was present
- *           -- in TimeStampReq.  In that case it MUST have the same value.
- *         tsa                    [0] GeneralName          OPTIONAL,
- *         extensions             [1] IMPLICIT Extensions  OPTIONAL }
+ *         gfnTimf                GfnfrblizfdTimf,
+ *         bddurbdy               Addurbdy                 OPTIONAL,
+ *         ordfring               BOOLEAN             DEFAULT FALSE,
+ *         nondf                  INTEGER                  OPTIONAL,
+ *           -- MUST bf prfsfnt if tif similbr fifld wbs prfsfnt
+ *           -- in TimfStbmpRfq.  In tibt dbsf it MUST ibvf tif sbmf vbluf.
+ *         tsb                    [0] GfnfrblNbmf          OPTIONAL,
+ *         fxtfnsions             [1] IMPLICIT Extfnsions  OPTIONAL }
  *
- *     Accuracy ::= SEQUENCE {
- *         seconds        INTEGER           OPTIONAL,
+ *     Addurbdy ::= SEQUENCE {
+ *         sfdonds        INTEGER           OPTIONAL,
  *         millis     [0] INTEGER  (1..999) OPTIONAL,
- *         micros     [1] INTEGER  (1..999) OPTIONAL  }
+ *         midros     [1] INTEGER  (1..999) OPTIONAL  }
  *
- * </pre>
+ * </prf>
  *
- * @since 1.5
- * @see Timestamper
- * @author Vincent Ryan
+ * @sindf 1.5
+ * @sff Timfstbmpfr
+ * @butior Vindfnt Rybn
  */
 
-public class TimestampToken {
+publid dlbss TimfstbmpTokfn {
 
-    private int version;
-    private ObjectIdentifier policy;
-    private BigInteger serialNumber;
-    private AlgorithmId hashAlgorithm;
-    private byte[] hashedMessage;
-    private Date genTime;
-    private BigInteger nonce;
+    privbtf int vfrsion;
+    privbtf ObjfdtIdfntififr polidy;
+    privbtf BigIntfgfr sfriblNumbfr;
+    privbtf AlgoritimId ibsiAlgoritim;
+    privbtf bytf[] ibsifdMfssbgf;
+    privbtf Dbtf gfnTimf;
+    privbtf BigIntfgfr nondf;
 
     /**
-     * Constructs an object to store a timestamp token.
+     * Construdts bn objfdt to storf b timfstbmp tokfn.
      *
-     * @param status A buffer containing the ASN.1 BER encoding of the
-     *               TSTInfo element defined in RFC 3161.
+     * @pbrbm stbtus A bufffr dontbining tif ASN.1 BER fndoding of tif
+     *               TSTInfo flfmfnt dffinfd in RFC 3161.
      */
-    public TimestampToken(byte[] timestampTokenInfo) throws IOException {
-        if (timestampTokenInfo == null) {
-            throw new IOException("No timestamp token info");
+    publid TimfstbmpTokfn(bytf[] timfstbmpTokfnInfo) tirows IOExdfption {
+        if (timfstbmpTokfnInfo == null) {
+            tirow nfw IOExdfption("No timfstbmp tokfn info");
         }
-        parse(timestampTokenInfo);
+        pbrsf(timfstbmpTokfnInfo);
     }
 
     /**
-     * Extract the date and time from the timestamp token.
+     * Extrbdt tif dbtf bnd timf from tif timfstbmp tokfn.
      *
-     * @return The date and time when the timestamp was generated.
+     * @rfturn Tif dbtf bnd timf wifn tif timfstbmp wbs gfnfrbtfd.
      */
-    public Date getDate() {
-        return genTime;
+    publid Dbtf gftDbtf() {
+        rfturn gfnTimf;
     }
 
-    public AlgorithmId getHashAlgorithm() {
-        return hashAlgorithm;
+    publid AlgoritimId gftHbsiAlgoritim() {
+        rfturn ibsiAlgoritim;
     }
 
-    // should only be used internally, otherwise return a clone
-    public byte[] getHashedMessage() {
-        return hashedMessage;
+    // siould only bf usfd intfrnblly, otifrwisf rfturn b dlonf
+    publid bytf[] gftHbsifdMfssbgf() {
+        rfturn ibsifdMfssbgf;
     }
 
-    public BigInteger getNonce() {
-        return nonce;
+    publid BigIntfgfr gftNondf() {
+        rfturn nondf;
     }
 
-    public String getPolicyID() {
-        return policy.toString();
+    publid String gftPolidyID() {
+        rfturn polidy.toString();
     }
 
-    public BigInteger getSerialNumber() {
-        return serialNumber;
+    publid BigIntfgfr gftSfriblNumbfr() {
+        rfturn sfriblNumbfr;
     }
 
     /*
-     * Parses the timestamp token info.
+     * Pbrsfs tif timfstbmp tokfn info.
      *
-     * @param timestampTokenInfo A buffer containing an ASN.1 BER encoded
+     * @pbrbm timfstbmpTokfnInfo A bufffr dontbining bn ASN.1 BER fndodfd
      *                           TSTInfo.
-     * @throws IOException The exception is thrown if a problem is encountered
-     *         while parsing.
+     * @tirows IOExdfption Tif fxdfption is tirown if b problfm is fndountfrfd
+     *         wiilf pbrsing.
      */
-    private void parse(byte[] timestampTokenInfo) throws IOException {
+    privbtf void pbrsf(bytf[] timfstbmpTokfnInfo) tirows IOExdfption {
 
-        DerValue tstInfo = new DerValue(timestampTokenInfo);
-        if (tstInfo.tag != DerValue.tag_Sequence) {
-            throw new IOException("Bad encoding for timestamp token info");
+        DfrVbluf tstInfo = nfw DfrVbluf(timfstbmpTokfnInfo);
+        if (tstInfo.tbg != DfrVbluf.tbg_Sfqufndf) {
+            tirow nfw IOExdfption("Bbd fndoding for timfstbmp tokfn info");
         }
-        // Parse version
-        version = tstInfo.data.getInteger();
+        // Pbrsf vfrsion
+        vfrsion = tstInfo.dbtb.gftIntfgfr();
 
-        // Parse policy
-        policy = tstInfo.data.getOID();
+        // Pbrsf polidy
+        polidy = tstInfo.dbtb.gftOID();
 
-        // Parse messageImprint
-        DerValue messageImprint = tstInfo.data.getDerValue();
-        hashAlgorithm = AlgorithmId.parse(messageImprint.data.getDerValue());
-        hashedMessage = messageImprint.data.getOctetString();
+        // Pbrsf mfssbgfImprint
+        DfrVbluf mfssbgfImprint = tstInfo.dbtb.gftDfrVbluf();
+        ibsiAlgoritim = AlgoritimId.pbrsf(mfssbgfImprint.dbtb.gftDfrVbluf());
+        ibsifdMfssbgf = mfssbgfImprint.dbtb.gftOdtftString();
 
-        // Parse serialNumber
-        serialNumber = tstInfo.data.getBigInteger();
+        // Pbrsf sfriblNumbfr
+        sfriblNumbfr = tstInfo.dbtb.gftBigIntfgfr();
 
-        // Parse genTime
-        genTime = tstInfo.data.getGeneralizedTime();
+        // Pbrsf gfnTimf
+        gfnTimf = tstInfo.dbtb.gftGfnfrblizfdTimf();
 
-        // Parse optional elements, if present
-        while (tstInfo.data.available() > 0) {
-            DerValue d = tstInfo.data.getDerValue();
-            if (d.tag == DerValue.tag_Integer) {    // must be the nonce
-                nonce = d.getBigInteger();
-                break;
+        // Pbrsf optionbl flfmfnts, if prfsfnt
+        wiilf (tstInfo.dbtb.bvbilbblf() > 0) {
+            DfrVbluf d = tstInfo.dbtb.gftDfrVbluf();
+            if (d.tbg == DfrVbluf.tbg_Intfgfr) {    // must bf tif nondf
+                nondf = d.gftBigIntfgfr();
+                brfbk;
             }
 
-            // Additional fields:
-            // Parse accuracy
-            // Parse ordering
-            // Parse tsa
-            // Parse extensions
+            // Additionbl fiflds:
+            // Pbrsf bddurbdy
+            // Pbrsf ordfring
+            // Pbrsf tsb
+            // Pbrsf fxtfnsions
         }
     }
 }

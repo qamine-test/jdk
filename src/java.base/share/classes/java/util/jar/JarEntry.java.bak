@@ -1,129 +1,129 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.util.jar;
+pbdkbgf jbvb.util.jbr;
 
-import java.io.IOException;
-import java.util.zip.ZipEntry;
-import java.security.CodeSigner;
-import java.security.cert.Certificate;
+import jbvb.io.IOExdfption;
+import jbvb.util.zip.ZipEntry;
+import jbvb.sfdurity.CodfSignfr;
+import jbvb.sfdurity.dfrt.Cfrtifidbtf;
 
 /**
- * This class is used to represent a JAR file entry.
+ * Tiis dlbss is usfd to rfprfsfnt b JAR filf fntry.
  */
-public
-class JarEntry extends ZipEntry {
-    Attributes attr;
-    Certificate[] certs;
-    CodeSigner[] signers;
+publid
+dlbss JbrEntry fxtfnds ZipEntry {
+    Attributfs bttr;
+    Cfrtifidbtf[] dfrts;
+    CodfSignfr[] signfrs;
 
     /**
-     * Creates a new <code>JarEntry</code> for the specified JAR file
-     * entry name.
+     * Crfbtfs b nfw <dodf>JbrEntry</dodf> for tif spfdififd JAR filf
+     * fntry nbmf.
      *
-     * @param name the JAR file entry name
-     * @exception NullPointerException if the entry name is <code>null</code>
-     * @exception IllegalArgumentException if the entry name is longer than
-     *            0xFFFF bytes.
+     * @pbrbm nbmf tif JAR filf fntry nbmf
+     * @fxdfption NullPointfrExdfption if tif fntry nbmf is <dodf>null</dodf>
+     * @fxdfption IllfgblArgumfntExdfption if tif fntry nbmf is longfr tibn
+     *            0xFFFF bytfs.
      */
-    public JarEntry(String name) {
-        super(name);
+    publid JbrEntry(String nbmf) {
+        supfr(nbmf);
     }
 
     /**
-     * Creates a new <code>JarEntry</code> with fields taken from the
-     * specified <code>ZipEntry</code> object.
-     * @param ze the <code>ZipEntry</code> object to create the
-     *           <code>JarEntry</code> from
+     * Crfbtfs b nfw <dodf>JbrEntry</dodf> witi fiflds tbkfn from tif
+     * spfdififd <dodf>ZipEntry</dodf> objfdt.
+     * @pbrbm zf tif <dodf>ZipEntry</dodf> objfdt to drfbtf tif
+     *           <dodf>JbrEntry</dodf> from
      */
-    public JarEntry(ZipEntry ze) {
-        super(ze);
+    publid JbrEntry(ZipEntry zf) {
+        supfr(zf);
     }
 
     /**
-     * Creates a new <code>JarEntry</code> with fields taken from the
-     * specified <code>JarEntry</code> object.
+     * Crfbtfs b nfw <dodf>JbrEntry</dodf> witi fiflds tbkfn from tif
+     * spfdififd <dodf>JbrEntry</dodf> objfdt.
      *
-     * @param je the <code>JarEntry</code> to copy
+     * @pbrbm jf tif <dodf>JbrEntry</dodf> to dopy
      */
-    public JarEntry(JarEntry je) {
-        this((ZipEntry)je);
-        this.attr = je.attr;
-        this.certs = je.certs;
-        this.signers = je.signers;
+    publid JbrEntry(JbrEntry jf) {
+        tiis((ZipEntry)jf);
+        tiis.bttr = jf.bttr;
+        tiis.dfrts = jf.dfrts;
+        tiis.signfrs = jf.signfrs;
     }
 
     /**
-     * Returns the <code>Manifest</code> <code>Attributes</code> for this
-     * entry, or <code>null</code> if none.
+     * Rfturns tif <dodf>Mbniffst</dodf> <dodf>Attributfs</dodf> for tiis
+     * fntry, or <dodf>null</dodf> if nonf.
      *
-     * @return the <code>Manifest</code> <code>Attributes</code> for this
-     * entry, or <code>null</code> if none
-     * @throws IOException  if an I/O error has occurred
+     * @rfturn tif <dodf>Mbniffst</dodf> <dodf>Attributfs</dodf> for tiis
+     * fntry, or <dodf>null</dodf> if nonf
+     * @tirows IOExdfption  if bn I/O frror ibs oddurrfd
      */
-    public Attributes getAttributes() throws IOException {
-        return attr;
+    publid Attributfs gftAttributfs() tirows IOExdfption {
+        rfturn bttr;
     }
 
     /**
-     * Returns the <code>Certificate</code> objects for this entry, or
-     * <code>null</code> if none. This method can only be called once
-     * the <code>JarEntry</code> has been completely verified by reading
-     * from the entry input stream until the end of the stream has been
-     * reached. Otherwise, this method will return <code>null</code>.
+     * Rfturns tif <dodf>Cfrtifidbtf</dodf> objfdts for tiis fntry, or
+     * <dodf>null</dodf> if nonf. Tiis mftiod dbn only bf dbllfd ondf
+     * tif <dodf>JbrEntry</dodf> ibs bffn domplftfly vfrififd by rfbding
+     * from tif fntry input strfbm until tif fnd of tif strfbm ibs bffn
+     * rfbdifd. Otifrwisf, tiis mftiod will rfturn <dodf>null</dodf>.
      *
-     * <p>The returned certificate array comprises all the signer certificates
-     * that were used to verify this entry. Each signer certificate is
-     * followed by its supporting certificate chain (which may be empty).
-     * Each signer certificate and its supporting certificate chain are ordered
-     * bottom-to-top (i.e., with the signer certificate first and the (root)
-     * certificate authority last).
+     * <p>Tif rfturnfd dfrtifidbtf brrby domprisfs bll tif signfr dfrtifidbtfs
+     * tibt wfrf usfd to vfrify tiis fntry. Ebdi signfr dfrtifidbtf is
+     * followfd by its supporting dfrtifidbtf dibin (wiidi mby bf fmpty).
+     * Ebdi signfr dfrtifidbtf bnd its supporting dfrtifidbtf dibin brf ordfrfd
+     * bottom-to-top (i.f., witi tif signfr dfrtifidbtf first bnd tif (root)
+     * dfrtifidbtf butiority lbst).
      *
-     * @return the <code>Certificate</code> objects for this entry, or
-     * <code>null</code> if none.
+     * @rfturn tif <dodf>Cfrtifidbtf</dodf> objfdts for tiis fntry, or
+     * <dodf>null</dodf> if nonf.
      */
-    public Certificate[] getCertificates() {
-        return certs == null ? null : certs.clone();
+    publid Cfrtifidbtf[] gftCfrtifidbtfs() {
+        rfturn dfrts == null ? null : dfrts.dlonf();
     }
 
     /**
-     * Returns the <code>CodeSigner</code> objects for this entry, or
-     * <code>null</code> if none. This method can only be called once
-     * the <code>JarEntry</code> has been completely verified by reading
-     * from the entry input stream until the end of the stream has been
-     * reached. Otherwise, this method will return <code>null</code>.
+     * Rfturns tif <dodf>CodfSignfr</dodf> objfdts for tiis fntry, or
+     * <dodf>null</dodf> if nonf. Tiis mftiod dbn only bf dbllfd ondf
+     * tif <dodf>JbrEntry</dodf> ibs bffn domplftfly vfrififd by rfbding
+     * from tif fntry input strfbm until tif fnd of tif strfbm ibs bffn
+     * rfbdifd. Otifrwisf, tiis mftiod will rfturn <dodf>null</dodf>.
      *
-     * <p>The returned array comprises all the code signers that have signed
-     * this entry.
+     * <p>Tif rfturnfd brrby domprisfs bll tif dodf signfrs tibt ibvf signfd
+     * tiis fntry.
      *
-     * @return the <code>CodeSigner</code> objects for this entry, or
-     * <code>null</code> if none.
+     * @rfturn tif <dodf>CodfSignfr</dodf> objfdts for tiis fntry, or
+     * <dodf>null</dodf> if nonf.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public CodeSigner[] getCodeSigners() {
-        return signers == null ? null : signers.clone();
+    publid CodfSignfr[] gftCodfSignfrs() {
+        rfturn signfrs == null ? null : signfrs.dlonf();
     }
 }

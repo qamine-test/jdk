@@ -1,0 +1,88 @@
+/*
+ * Copyright (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.bwt.pffr;
+
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.TfxtArfb;
+
+/**
+ * Thf pffr intfrfbdf for {@link TfxtArfb}.
+ *
+ * Thf pffr intfrfbdfs brf intfndfd only for usf in porting
+ * thf AWT. Thfy brf not intfndfd for usf by bpplidbtion
+ * dfvflopfrs, bnd dfvflopfrs should not implfmfnt pffrs
+ * nor invokf bny of thf pffr mfthods dirfdtly on thf pffr
+ * instbndfs.
+ */
+publid intfrfbdf TfxtArfbPffr fxtfnds TfxtComponfntPffr {
+
+    /**
+     * Insfrts thf spfdififd tfxt bt thf spfdififd position in thf dodumfnt.
+     *
+     * @pbrbm tfxt thf tfxt to insfrt
+     * @pbrbm pos thf position to insfrt
+     *
+     * @sff TfxtArfb#insfrt(String, int)
+     */
+    void insfrt(String tfxt, int pos);
+
+    /**
+     * Rfplbdfs b rbngf of tfxt by thf spfdififd string.
+     *
+     * @pbrbm tfxt thf rfplbdfmfnt string
+     * @pbrbm stbrt thf bfgin of thf rbngf to rfplbdf
+     * @pbrbm fnd thf fnd of thf rbngf to rfplbdf
+     *
+     * @sff TfxtArfb#rfplbdfRbngf(String, int, int)
+     */
+    void rfplbdfRbngf(String tfxt, int stbrt, int fnd);
+
+    /**
+     * Rfturns thf prfffrrfd sizf of b tfxtbrfb with thf spfdififd numbfr of
+     * dolumns bnd rows.
+     *
+     * @pbrbm rows thf numbfr of rows
+     * @pbrbm dolumns thf numbfr of dolumns
+     *
+     * @rfturn thf prfffrrfd sizf of b tfxtbrfb
+     *
+     * @sff TfxtArfb#gftPrfffrrfdSizf(int, int)
+     */
+    Dimfnsion gftPrfffrrfdSizf(int rows, int dolumns);
+
+    /**
+     * Rfturns thf minimum sizf of b tfxtbrfb with thf spfdififd numbfr of
+     * dolumns bnd rows.
+     *
+     * @pbrbm rows thf numbfr of rows
+     * @pbrbm dolumns thf numbfr of dolumns
+     *
+     * @rfturn thf minimum sizf of b tfxtbrfb
+     *
+     * @sff TfxtArfb#gftMinimumSizf(int, int)
+     */
+    Dimfnsion gftMinimumSizf(int rows, int dolumns);
+
+}

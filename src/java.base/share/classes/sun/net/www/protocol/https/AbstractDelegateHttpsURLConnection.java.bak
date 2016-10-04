@@ -1,312 +1,312 @@
 /*
- * Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.net.www.protocol.https;
+pbdkbgf sun.nft.www.protodol.ittps;
 
-import java.net.URL;
-import java.net.Proxy;
-import java.net.SecureCacheResponse;
-import java.security.Principal;
-import java.io.IOException;
-import java.util.List;
-import javax.net.ssl.SSLPeerUnverifiedException;
-import sun.net.www.http.*;
-import sun.net.www.protocol.http.HttpURLConnection;
+import jbvb.nft.URL;
+import jbvb.nft.Proxy;
+import jbvb.nft.SfdurfCbdifRfsponsf;
+import jbvb.sfdurity.Prindipbl;
+import jbvb.io.IOExdfption;
+import jbvb.util.List;
+import jbvbx.nft.ssl.SSLPffrUnvfrififdExdfption;
+import sun.nft.www.ittp.*;
+import sun.nft.www.protodol.ittp.HttpURLConnfdtion;
 
 /**
- * HTTPS URL connection support.
- * We need this delegate because HttpsURLConnection is a subclass of
- * java.net.HttpURLConnection. We will avoid copying over the code from
- * sun.net.www.protocol.http.HttpURLConnection by having this class
+ * HTTPS URL donnfdtion support.
+ * Wf nffd tiis dflfgbtf bfdbusf HttpsURLConnfdtion is b subdlbss of
+ * jbvb.nft.HttpURLConnfdtion. Wf will bvoid dopying ovfr tif dodf from
+ * sun.nft.www.protodol.ittp.HttpURLConnfdtion by ibving tiis dlbss
  *
  */
-public abstract class AbstractDelegateHttpsURLConnection extends
-        HttpURLConnection {
+publid bbstrbdt dlbss AbstrbdtDflfgbtfHttpsURLConnfdtion fxtfnds
+        HttpURLConnfdtion {
 
-    protected AbstractDelegateHttpsURLConnection(URL url,
-            sun.net.www.protocol.http.Handler handler) throws IOException {
-        this(url, null, handler);
+    protfdtfd AbstrbdtDflfgbtfHttpsURLConnfdtion(URL url,
+            sun.nft.www.protodol.ittp.Hbndlfr ibndlfr) tirows IOExdfption {
+        tiis(url, null, ibndlfr);
     }
 
-    protected AbstractDelegateHttpsURLConnection(URL url, Proxy p,
-            sun.net.www.protocol.http.Handler handler) throws IOException {
-        super(url, p, handler);
+    protfdtfd AbstrbdtDflfgbtfHttpsURLConnfdtion(URL url, Proxy p,
+            sun.nft.www.protodol.ittp.Hbndlfr ibndlfr) tirows IOExdfption {
+        supfr(url, p, ibndlfr);
     }
 
-    protected abstract javax.net.ssl.SSLSocketFactory getSSLSocketFactory();
+    protfdtfd bbstrbdt jbvbx.nft.ssl.SSLSodkftFbdtory gftSSLSodkftFbdtory();
 
-    protected abstract javax.net.ssl.HostnameVerifier getHostnameVerifier();
+    protfdtfd bbstrbdt jbvbx.nft.ssl.HostnbmfVfrififr gftHostnbmfVfrififr();
 
     /**
-     * No user application is able to call these routines, as no one
-     * should ever get access to an instance of
-     * DelegateHttpsURLConnection (sun.* or com.*)
+     * No usfr bpplidbtion is bblf to dbll tifsf routinfs, bs no onf
+     * siould fvfr gft bddfss to bn instbndf of
+     * DflfgbtfHttpsURLConnfdtion (sun.* or dom.*)
      */
 
     /**
-     * Create a new HttpClient object, bypassing the cache of
-     * HTTP client objects/connections.
+     * Crfbtf b nfw HttpClifnt objfdt, bypbssing tif dbdif of
+     * HTTP dlifnt objfdts/donnfdtions.
      *
-     * Note: this method is changed from protected to public because
-     * the com.sun.ssl.internal.www.protocol.https handler reuses this
-     * class for its actual implemantation
+     * Notf: tiis mftiod is dibngfd from protfdtfd to publid bfdbusf
+     * tif dom.sun.ssl.intfrnbl.www.protodol.ittps ibndlfr rfusfs tiis
+     * dlbss for its bdtubl implfmbntbtion
      *
-     * @param url the URL being accessed
+     * @pbrbm url tif URL bfing bddfssfd
      */
-    public void setNewClient (URL url)
-        throws IOException {
-        setNewClient (url, false);
+    publid void sftNfwClifnt (URL url)
+        tirows IOExdfption {
+        sftNfwClifnt (url, fblsf);
     }
 
     /**
-     * Obtain a HttpClient object. Use the cached copy if specified.
+     * Obtbin b HttpClifnt objfdt. Usf tif dbdifd dopy if spfdififd.
      *
-     * Note: this method is changed from protected to public because
-     * the com.sun.ssl.internal.www.protocol.https handler reuses this
-     * class for its actual implemantation
+     * Notf: tiis mftiod is dibngfd from protfdtfd to publid bfdbusf
+     * tif dom.sun.ssl.intfrnbl.www.protodol.ittps ibndlfr rfusfs tiis
+     * dlbss for its bdtubl implfmbntbtion
      *
-     * @param url       the URL being accessed
-     * @param useCache  whether the cached connection should be used
-     *        if present
+     * @pbrbm url       tif URL bfing bddfssfd
+     * @pbrbm usfCbdif  wiftifr tif dbdifd donnfdtion siould bf usfd
+     *        if prfsfnt
      */
-    public void setNewClient (URL url, boolean useCache)
-        throws IOException {
-        http = HttpsClient.New (getSSLSocketFactory(),
+    publid void sftNfwClifnt (URL url, boolfbn usfCbdif)
+        tirows IOExdfption {
+        ittp = HttpsClifnt.Nfw (gftSSLSodkftFbdtory(),
                                 url,
-                                getHostnameVerifier(),
-                                useCache, this);
-        ((HttpsClient)http).afterConnect();
+                                gftHostnbmfVfrififr(),
+                                usfCbdif, tiis);
+        ((HttpsClifnt)ittp).bftfrConnfdt();
     }
 
     /**
-     * Create a new HttpClient object, set up so that it uses
-     * per-instance proxying to the given HTTP proxy.  This
-     * bypasses the cache of HTTP client objects/connections.
+     * Crfbtf b nfw HttpClifnt objfdt, sft up so tibt it usfs
+     * pfr-instbndf proxying to tif givfn HTTP proxy.  Tiis
+     * bypbssfs tif dbdif of HTTP dlifnt objfdts/donnfdtions.
      *
-     * Note: this method is changed from protected to public because
-     * the com.sun.ssl.internal.www.protocol.https handler reuses this
-     * class for its actual implemantation
+     * Notf: tiis mftiod is dibngfd from protfdtfd to publid bfdbusf
+     * tif dom.sun.ssl.intfrnbl.www.protodol.ittps ibndlfr rfusfs tiis
+     * dlbss for its bdtubl implfmbntbtion
      *
-     * @param url       the URL being accessed
-     * @param proxyHost the proxy host to use
-     * @param proxyPort the proxy port to use
+     * @pbrbm url       tif URL bfing bddfssfd
+     * @pbrbm proxyHost tif proxy iost to usf
+     * @pbrbm proxyPort tif proxy port to usf
      */
-    public void setProxiedClient (URL url, String proxyHost, int proxyPort)
-            throws IOException {
-        setProxiedClient(url, proxyHost, proxyPort, false);
+    publid void sftProxifdClifnt (URL url, String proxyHost, int proxyPort)
+            tirows IOExdfption {
+        sftProxifdClifnt(url, proxyHost, proxyPort, fblsf);
     }
 
     /**
-     * Obtain a HttpClient object, set up so that it uses per-instance
-     * proxying to the given HTTP proxy. Use the cached copy of HTTP
-     * client objects/connections if specified.
+     * Obtbin b HttpClifnt objfdt, sft up so tibt it usfs pfr-instbndf
+     * proxying to tif givfn HTTP proxy. Usf tif dbdifd dopy of HTTP
+     * dlifnt objfdts/donnfdtions if spfdififd.
      *
-     * Note: this method is changed from protected to public because
-     * the com.sun.ssl.internal.www.protocol.https handler reuses this
-     * class for its actual implemantation
+     * Notf: tiis mftiod is dibngfd from protfdtfd to publid bfdbusf
+     * tif dom.sun.ssl.intfrnbl.www.protodol.ittps ibndlfr rfusfs tiis
+     * dlbss for its bdtubl implfmbntbtion
      *
-     * @param url       the URL being accessed
-     * @param proxyHost the proxy host to use
-     * @param proxyPort the proxy port to use
-     * @param useCache  whether the cached connection should be used
-     *        if present
+     * @pbrbm url       tif URL bfing bddfssfd
+     * @pbrbm proxyHost tif proxy iost to usf
+     * @pbrbm proxyPort tif proxy port to usf
+     * @pbrbm usfCbdif  wiftifr tif dbdifd donnfdtion siould bf usfd
+     *        if prfsfnt
      */
-    public void setProxiedClient (URL url, String proxyHost, int proxyPort,
-            boolean useCache) throws IOException {
-        proxiedConnect(url, proxyHost, proxyPort, useCache);
-        if (!http.isCachedConnection()) {
-            doTunneling();
+    publid void sftProxifdClifnt (URL url, String proxyHost, int proxyPort,
+            boolfbn usfCbdif) tirows IOExdfption {
+        proxifdConnfdt(url, proxyHost, proxyPort, usfCbdif);
+        if (!ittp.isCbdifdConnfdtion()) {
+            doTunnfling();
         }
-        ((HttpsClient)http).afterConnect();
+        ((HttpsClifnt)ittp).bftfrConnfdt();
     }
 
-    protected void proxiedConnect(URL url, String proxyHost, int proxyPort,
-            boolean useCache) throws IOException {
-        if (connected)
-            return;
-        http = HttpsClient.New (getSSLSocketFactory(),
+    protfdtfd void proxifdConnfdt(URL url, String proxyHost, int proxyPort,
+            boolfbn usfCbdif) tirows IOExdfption {
+        if (donnfdtfd)
+            rfturn;
+        ittp = HttpsClifnt.Nfw (gftSSLSodkftFbdtory(),
                                 url,
-                                getHostnameVerifier(),
-                                proxyHost, proxyPort, useCache, this);
-        connected = true;
+                                gftHostnbmfVfrififr(),
+                                proxyHost, proxyPort, usfCbdif, tiis);
+        donnfdtfd = truf;
     }
 
     /**
-     * Used by subclass to access "connected" variable.
+     * Usfd by subdlbss to bddfss "donnfdtfd" vbribblf.
      */
-    public boolean isConnected() {
-        return connected;
+    publid boolfbn isConnfdtfd() {
+        rfturn donnfdtfd;
     }
 
     /**
-     * Used by subclass to access "connected" variable.
+     * Usfd by subdlbss to bddfss "donnfdtfd" vbribblf.
      */
-    public void setConnected(boolean conn) {
-        connected = conn;
+    publid void sftConnfdtfd(boolfbn donn) {
+        donnfdtfd = donn;
     }
 
     /**
-     * Implements the HTTP protocol handler's "connect" method,
-     * establishing an SSL connection to the server as necessary.
+     * Implfmfnts tif HTTP protodol ibndlfr's "donnfdt" mftiod,
+     * fstbblisiing bn SSL donnfdtion to tif sfrvfr bs nfdfssbry.
      */
-    public void connect() throws IOException {
-        if (connected)
-            return;
-        plainConnect();
-        if (cachedResponse != null) {
-            // using cached response
-            return;
+    publid void donnfdt() tirows IOExdfption {
+        if (donnfdtfd)
+            rfturn;
+        plbinConnfdt();
+        if (dbdifdRfsponsf != null) {
+            // using dbdifd rfsponsf
+            rfturn;
         }
-        if (!http.isCachedConnection() && http.needsTunneling()) {
-            doTunneling();
+        if (!ittp.isCbdifdConnfdtion() && ittp.nffdsTunnfling()) {
+            doTunnfling();
         }
-        ((HttpsClient)http).afterConnect();
+        ((HttpsClifnt)ittp).bftfrConnfdt();
     }
 
-    // will try to use cached HttpsClient
-    protected HttpClient getNewHttpClient(URL url, Proxy p, int connectTimeout)
-        throws IOException {
-        return HttpsClient.New(getSSLSocketFactory(), url,
-                               getHostnameVerifier(), p, true, connectTimeout,
-                               this);
+    // will try to usf dbdifd HttpsClifnt
+    protfdtfd HttpClifnt gftNfwHttpClifnt(URL url, Proxy p, int donnfdtTimfout)
+        tirows IOExdfption {
+        rfturn HttpsClifnt.Nfw(gftSSLSodkftFbdtory(), url,
+                               gftHostnbmfVfrififr(), p, truf, donnfdtTimfout,
+                               tiis);
     }
 
-    // will open new connection
-    protected HttpClient getNewHttpClient(URL url, Proxy p, int connectTimeout,
-                                          boolean useCache)
-        throws IOException {
-        return HttpsClient.New(getSSLSocketFactory(), url,
-                               getHostnameVerifier(), p,
-                               useCache, connectTimeout, this);
+    // will opfn nfw donnfdtion
+    protfdtfd HttpClifnt gftNfwHttpClifnt(URL url, Proxy p, int donnfdtTimfout,
+                                          boolfbn usfCbdif)
+        tirows IOExdfption {
+        rfturn HttpsClifnt.Nfw(gftSSLSodkftFbdtory(), url,
+                               gftHostnbmfVfrififr(), p,
+                               usfCbdif, donnfdtTimfout, tiis);
     }
 
     /**
-     * Returns the cipher suite in use on this connection.
+     * Rfturns tif dipifr suitf in usf on tiis donnfdtion.
      */
-    public String getCipherSuite () {
-        if (cachedResponse != null) {
-            return ((SecureCacheResponse)cachedResponse).getCipherSuite();
+    publid String gftCipifrSuitf () {
+        if (dbdifdRfsponsf != null) {
+            rfturn ((SfdurfCbdifRfsponsf)dbdifdRfsponsf).gftCipifrSuitf();
         }
-        if (http == null) {
-            throw new IllegalStateException("connection not yet open");
-        } else {
-           return ((HttpsClient)http).getCipherSuite ();
+        if (ittp == null) {
+            tirow nfw IllfgblStbtfExdfption("donnfdtion not yft opfn");
+        } flsf {
+           rfturn ((HttpsClifnt)ittp).gftCipifrSuitf ();
         }
     }
 
     /**
-     * Returns the certificate chain the client sent to the
-     * server, or null if the client did not authenticate.
+     * Rfturns tif dfrtifidbtf dibin tif dlifnt sfnt to tif
+     * sfrvfr, or null if tif dlifnt did not butifntidbtf.
      */
-    public java.security.cert.Certificate[] getLocalCertificates() {
-        if (cachedResponse != null) {
-            List<java.security.cert.Certificate> l = ((SecureCacheResponse)cachedResponse).getLocalCertificateChain();
+    publid jbvb.sfdurity.dfrt.Cfrtifidbtf[] gftLodblCfrtifidbtfs() {
+        if (dbdifdRfsponsf != null) {
+            List<jbvb.sfdurity.dfrt.Cfrtifidbtf> l = ((SfdurfCbdifRfsponsf)dbdifdRfsponsf).gftLodblCfrtifidbtfCibin();
             if (l == null) {
-                return null;
-            } else {
-                return l.toArray(new java.security.cert.Certificate[0]);
+                rfturn null;
+            } flsf {
+                rfturn l.toArrby(nfw jbvb.sfdurity.dfrt.Cfrtifidbtf[0]);
             }
         }
-        if (http == null) {
-            throw new IllegalStateException("connection not yet open");
-        } else {
-            return (((HttpsClient)http).getLocalCertificates ());
+        if (ittp == null) {
+            tirow nfw IllfgblStbtfExdfption("donnfdtion not yft opfn");
+        } flsf {
+            rfturn (((HttpsClifnt)ittp).gftLodblCfrtifidbtfs ());
         }
     }
 
     /**
-     * Returns the server's certificate chain, or throws
-     * SSLPeerUnverified Exception if
-     * the server did not authenticate.
+     * Rfturns tif sfrvfr's dfrtifidbtf dibin, or tirows
+     * SSLPffrUnvfrififd Exdfption if
+     * tif sfrvfr did not butifntidbtf.
      */
-    public java.security.cert.Certificate[] getServerCertificates()
-            throws SSLPeerUnverifiedException {
-        if (cachedResponse != null) {
-            List<java.security.cert.Certificate> l = ((SecureCacheResponse)cachedResponse).getServerCertificateChain();
+    publid jbvb.sfdurity.dfrt.Cfrtifidbtf[] gftSfrvfrCfrtifidbtfs()
+            tirows SSLPffrUnvfrififdExdfption {
+        if (dbdifdRfsponsf != null) {
+            List<jbvb.sfdurity.dfrt.Cfrtifidbtf> l = ((SfdurfCbdifRfsponsf)dbdifdRfsponsf).gftSfrvfrCfrtifidbtfCibin();
             if (l == null) {
-                return null;
-            } else {
-                return l.toArray(new java.security.cert.Certificate[0]);
+                rfturn null;
+            } flsf {
+                rfturn l.toArrby(nfw jbvb.sfdurity.dfrt.Cfrtifidbtf[0]);
             }
         }
 
-        if (http == null) {
-            throw new IllegalStateException("connection not yet open");
-        } else {
-            return (((HttpsClient)http).getServerCertificates ());
+        if (ittp == null) {
+            tirow nfw IllfgblStbtfExdfption("donnfdtion not yft opfn");
+        } flsf {
+            rfturn (((HttpsClifnt)ittp).gftSfrvfrCfrtifidbtfs ());
         }
     }
 
     /**
-     * Returns the server's X.509 certificate chain, or null if
-     * the server did not authenticate.
+     * Rfturns tif sfrvfr's X.509 dfrtifidbtf dibin, or null if
+     * tif sfrvfr did not butifntidbtf.
      */
-    public javax.security.cert.X509Certificate[] getServerCertificateChain()
-            throws SSLPeerUnverifiedException {
-        if (cachedResponse != null) {
-            throw new UnsupportedOperationException("this method is not supported when using cache");
+    publid jbvbx.sfdurity.dfrt.X509Cfrtifidbtf[] gftSfrvfrCfrtifidbtfCibin()
+            tirows SSLPffrUnvfrififdExdfption {
+        if (dbdifdRfsponsf != null) {
+            tirow nfw UnsupportfdOpfrbtionExdfption("tiis mftiod is not supportfd wifn using dbdif");
         }
-        if (http == null) {
-            throw new IllegalStateException("connection not yet open");
-        } else {
-            return ((HttpsClient)http).getServerCertificateChain ();
+        if (ittp == null) {
+            tirow nfw IllfgblStbtfExdfption("donnfdtion not yft opfn");
+        } flsf {
+            rfturn ((HttpsClifnt)ittp).gftSfrvfrCfrtifidbtfCibin ();
         }
     }
 
     /**
-     * Returns the server's principal, or throws SSLPeerUnverifiedException
-     * if the server did not authenticate.
+     * Rfturns tif sfrvfr's prindipbl, or tirows SSLPffrUnvfrififdExdfption
+     * if tif sfrvfr did not butifntidbtf.
      */
-    Principal getPeerPrincipal()
-            throws SSLPeerUnverifiedException
+    Prindipbl gftPffrPrindipbl()
+            tirows SSLPffrUnvfrififdExdfption
     {
-        if (cachedResponse != null) {
-            return ((SecureCacheResponse)cachedResponse).getPeerPrincipal();
+        if (dbdifdRfsponsf != null) {
+            rfturn ((SfdurfCbdifRfsponsf)dbdifdRfsponsf).gftPffrPrindipbl();
         }
 
-        if (http == null) {
-            throw new IllegalStateException("connection not yet open");
-        } else {
-            return (((HttpsClient)http).getPeerPrincipal());
+        if (ittp == null) {
+            tirow nfw IllfgblStbtfExdfption("donnfdtion not yft opfn");
+        } flsf {
+            rfturn (((HttpsClifnt)ittp).gftPffrPrindipbl());
         }
     }
 
     /**
-     * Returns the principal the client sent to the
-     * server, or null if the client did not authenticate.
+     * Rfturns tif prindipbl tif dlifnt sfnt to tif
+     * sfrvfr, or null if tif dlifnt did not butifntidbtf.
      */
-    Principal getLocalPrincipal()
+    Prindipbl gftLodblPrindipbl()
     {
-        if (cachedResponse != null) {
-            return ((SecureCacheResponse)cachedResponse).getLocalPrincipal();
+        if (dbdifdRfsponsf != null) {
+            rfturn ((SfdurfCbdifRfsponsf)dbdifdRfsponsf).gftLodblPrindipbl();
         }
 
-        if (http == null) {
-            throw new IllegalStateException("connection not yet open");
-        } else {
-            return (((HttpsClient)http).getLocalPrincipal());
+        if (ittp == null) {
+            tirow nfw IllfgblStbtfExdfption("donnfdtion not yft opfn");
+        } flsf {
+            rfturn (((HttpsClifnt)ittp).gftLodblPrindipbl());
         }
     }
 

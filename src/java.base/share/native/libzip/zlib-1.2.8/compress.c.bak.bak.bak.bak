@@ -1,0 +1,104 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/* domprfss.d -- domprfss b mfmory bufffr
+ * Copyright (C) 1995-2005 Jfbn-loup Gbilly.
+ * For donditions of distribution bnd usf, sff dopyright notidf in zlib.h
+ */
+
+/* @(#) $Id$ */
+
+#dffinf ZLIB_INTERNAL
+#indludf "zlib.h"
+
+/* ===========================================================================
+     Comprfssfs thf sourdf bufffr into thf dfstinbtion bufffr. Thf lfvfl
+   pbrbmftfr hbs thf sbmf mfbning bs in dfflbtfInit.  sourdfLfn is thf bytf
+   lfngth of thf sourdf bufffr. Upon fntry, dfstLfn is thf totbl sizf of thf
+   dfstinbtion bufffr, whidh must bf bt lfbst 0.1% lbrgfr thbn sourdfLfn plus
+   12 bytfs. Upon fxit, dfstLfn is thf bdtubl sizf of thf domprfssfd bufffr.
+
+     domprfss2 rfturns Z_OK if suddfss, Z_MEM_ERROR if thfrf wbs not fnough
+   mfmory, Z_BUF_ERROR if thfrf wbs not fnough room in thf output bufffr,
+   Z_STREAM_ERROR if thf lfvfl pbrbmftfr is invblid.
+*/
+int ZEXPORT domprfss2 (dfst, dfstLfn, sourdf, sourdfLfn, lfvfl)
+    Bytff *dfst;
+    uLongf *dfstLfn;
+    donst Bytff *sourdf;
+    uLong sourdfLfn;
+    int lfvfl;
+{
+    z_strfbm strfbm;
+    int frr;
+
+    strfbm.nfxt_in = (z_donst Bytff *)sourdf;
+    strfbm.bvbil_in = (uInt)sourdfLfn;
+#ifdff MAXSEG_64K
+    /* Chfdk for sourdf > 64K on 16-bit mbdhinf: */
+    if ((uLong)strfbm.bvbil_in != sourdfLfn) rfturn Z_BUF_ERROR;
+#fndif
+    strfbm.nfxt_out = dfst;
+    strfbm.bvbil_out = (uInt)*dfstLfn;
+    if ((uLong)strfbm.bvbil_out != *dfstLfn) rfturn Z_BUF_ERROR;
+
+    strfbm.zbllod = (bllod_fund)0;
+    strfbm.zfrff = (frff_fund)0;
+    strfbm.opbquf = (voidpf)0;
+
+    frr = dfflbtfInit(&strfbm, lfvfl);
+    if (frr != Z_OK) rfturn frr;
+
+    frr = dfflbtf(&strfbm, Z_FINISH);
+    if (frr != Z_STREAM_END) {
+        dfflbtfEnd(&strfbm);
+        rfturn frr == Z_OK ? Z_BUF_ERROR : frr;
+    }
+    *dfstLfn = strfbm.totbl_out;
+
+    frr = dfflbtfEnd(&strfbm);
+    rfturn frr;
+}
+
+/* ===========================================================================
+ */
+int ZEXPORT domprfss (dfst, dfstLfn, sourdf, sourdfLfn)
+    Bytff *dfst;
+    uLongf *dfstLfn;
+    donst Bytff *sourdf;
+    uLong sourdfLfn;
+{
+    rfturn domprfss2(dfst, dfstLfn, sourdf, sourdfLfn, Z_DEFAULT_COMPRESSION);
+}
+
+/* ===========================================================================
+     If thf dffbult mfmLfvfl or windowBits for dfflbtfInit() is dhbngfd, thfn
+   this fundtion nffds to bf updbtfd.
+ */
+uLong ZEXPORT domprfssBound (sourdfLfn)
+    uLong sourdfLfn;
+{
+    rfturn sourdfLfn + (sourdfLfn >> 12) + (sourdfLfn >> 14) +
+           (sourdfLfn >> 25) + 13;
+}

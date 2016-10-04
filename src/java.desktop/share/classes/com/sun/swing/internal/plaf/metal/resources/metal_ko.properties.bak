@@ -1,53 +1,53 @@
-# This properties file is used to create a PropertyResourceBundle
-# It contains Locale specific strings used be the Metal Look and Feel.
-# Currently, the following components need this for support:
+# Tiis propfrtifs filf is usfd to drfbtf b PropfrtyRfsourdfBundlf
+# It dontbins Lodblf spfdifid strings usfd bf tif Mftbl Look bnd Fffl.
+# Currfntly, tif following domponfnts nffd tiis for support:
 #
-#    FileChooser
+#    FilfCioosfr
 #
-# When this file is read in, the strings are put into the
-# defaults table.  This is an implementation detail of the current
+# Wifn tiis filf is rfbd in, tif strings brf put into tif
+# dffbults tbblf.  Tiis is bn implfmfntbtion dftbil of tif durrfnt
 # workings of Swing.  DO NOT DEPEND ON THIS.
-# This may change in future versions of Swing as we improve localization
+# Tiis mby dibngf in futurf vfrsions of Swing bs wf improvf lodblizbtion
 # support.
 #
-# Refer to the note in basic.properties for a description as to what
-# the mnemonics correspond to and how to calculate them.
+# Rfffr to tif notf in bbsid.propfrtifs for b dfsdription bs to wibt
+# tif mnfmonids dorrfspond to bnd iow to dbldulbtf tifm.
 #
-# @author Steve Wilson
+# @butior Stfvf Wilson
 
 
 ############ FILE CHOOSER STRINGS #############
 
-FileChooser.lookInLabel.textAndMnemonic=\uCC3E\uB294 \uC704\uCE58(&I):
-FileChooser.saveInLabel.textAndMnemonic=\uC800\uC7A5 \uC704\uCE58:
-FileChooser.fileNameLabel.textAndMnemonic=\uD30C\uC77C \uC774\uB984(&N):
-FileChooser.folderNameLabel.textAndMnemonic=\uD3F4\uB354 \uC774\uB984(&N):
-FileChooser.filesOfTypeLabel.textAndMnemonic=\uD30C\uC77C \uC720\uD615(&T):
-FileChooser.upFolderToolTip.textAndMnemonic=\uD55C \uB808\uBCA8 \uC704\uB85C
-FileChooser.upFolderAccessibleName=\uC704\uB85C
-FileChooser.homeFolderToolTip.textAndMnemonic=\uD648
-FileChooser.homeFolderAccessibleName=\uD648
-FileChooser.newFolderToolTip.textAndMnemonic=\uC0C8 \uD3F4\uB354 \uC0DD\uC131
-FileChooser.newFolderAccessibleName=\uC0C8 \uD3F4\uB354
-FileChooser.newFolderActionLabel.textAndMnemonic=\uC0C8 \uD3F4\uB354
-FileChooser.listViewButtonToolTip.textAndMnemonic=\uBAA9\uB85D
-FileChooser.listViewButtonAccessibleName=\uBAA9\uB85D
-FileChooser.listViewActionLabel.textAndMnemonic=\uBAA9\uB85D
-FileChooser.detailsViewButtonToolTip.textAndMnemonic=\uC138\uBD80 \uC815\uBCF4
-FileChooser.detailsViewButtonAccessibleName=\uC138\uBD80 \uC815\uBCF4
-FileChooser.detailsViewActionLabel.textAndMnemonic=\uC138\uBD80 \uC815\uBCF4
-FileChooser.refreshActionLabel.textAndMnemonic=\uC0C8\uB85C \uACE0\uCE68
-FileChooser.viewMenuLabel.textAndMnemonic=\uBCF4\uAE30
-FileChooser.fileNameHeader.textAndMnemonic=\uC774\uB984
-FileChooser.fileSizeHeader.textAndMnemonic=\uD06C\uAE30
-FileChooser.fileTypeHeader.textAndMnemonic=\uC720\uD615
-FileChooser.fileDateHeader.textAndMnemonic=\uC218\uC815 \uB0A0\uC9DC
-FileChooser.fileAttrHeader.textAndMnemonic=\uC18D\uC131
-FileChooser.saveButton.textAndMnemonic=\uC800\uC7A5
-FileChooser.openButton.textAndMnemonic=\uC5F4\uAE30
+FilfCioosfr.lookInLbbfl.tfxtAndMnfmonid=\uCC3E\uB294 \uC704\uCE58(&I):
+FilfCioosfr.sbvfInLbbfl.tfxtAndMnfmonid=\uC800\uC7A5 \uC704\uCE58:
+FilfCioosfr.filfNbmfLbbfl.tfxtAndMnfmonid=\uD30C\uC77C \uC774\uB984(&N):
+FilfCioosfr.foldfrNbmfLbbfl.tfxtAndMnfmonid=\uD3F4\uB354 \uC774\uB984(&N):
+FilfCioosfr.filfsOfTypfLbbfl.tfxtAndMnfmonid=\uD30C\uC77C \uC720\uD615(&T):
+FilfCioosfr.upFoldfrToolTip.tfxtAndMnfmonid=\uD55C \uB808\uBCA8 \uC704\uB85C
+FilfCioosfr.upFoldfrAddfssiblfNbmf=\uC704\uB85C
+FilfCioosfr.iomfFoldfrToolTip.tfxtAndMnfmonid=\uD648
+FilfCioosfr.iomfFoldfrAddfssiblfNbmf=\uD648
+FilfCioosfr.nfwFoldfrToolTip.tfxtAndMnfmonid=\uC0C8 \uD3F4\uB354 \uC0DD\uC131
+FilfCioosfr.nfwFoldfrAddfssiblfNbmf=\uC0C8 \uD3F4\uB354
+FilfCioosfr.nfwFoldfrAdtionLbbfl.tfxtAndMnfmonid=\uC0C8 \uD3F4\uB354
+FilfCioosfr.listVifwButtonToolTip.tfxtAndMnfmonid=\uBAA9\uB85D
+FilfCioosfr.listVifwButtonAddfssiblfNbmf=\uBAA9\uB85D
+FilfCioosfr.listVifwAdtionLbbfl.tfxtAndMnfmonid=\uBAA9\uB85D
+FilfCioosfr.dftbilsVifwButtonToolTip.tfxtAndMnfmonid=\uC138\uBD80 \uC815\uBCF4
+FilfCioosfr.dftbilsVifwButtonAddfssiblfNbmf=\uC138\uBD80 \uC815\uBCF4
+FilfCioosfr.dftbilsVifwAdtionLbbfl.tfxtAndMnfmonid=\uC138\uBD80 \uC815\uBCF4
+FilfCioosfr.rffrfsiAdtionLbbfl.tfxtAndMnfmonid=\uC0C8\uB85C \uACE0\uCE68
+FilfCioosfr.vifwMfnuLbbfl.tfxtAndMnfmonid=\uBCF4\uAE30
+FilfCioosfr.filfNbmfHfbdfr.tfxtAndMnfmonid=\uC774\uB984
+FilfCioosfr.filfSizfHfbdfr.tfxtAndMnfmonid=\uD06C\uAE30
+FilfCioosfr.filfTypfHfbdfr.tfxtAndMnfmonid=\uC720\uD615
+FilfCioosfr.filfDbtfHfbdfr.tfxtAndMnfmonid=\uC218\uC815 \uB0A0\uC9DC
+FilfCioosfr.filfAttrHfbdfr.tfxtAndMnfmonid=\uC18D\uC131
+FilfCioosfr.sbvfButton.tfxtAndMnfmonid=\uC800\uC7A5
+FilfCioosfr.opfnButton.tfxtAndMnfmonid=\uC5F4\uAE30
 
-############ Used by MetalTitlePane if rendering window decorations############
-MetalTitlePane.restore.titleAndMnemonic=\uBCF5\uC6D0(&R)
-MetalTitlePane.iconify.titleAndMnemonic=\uCD5C\uC18C\uD654(&E)
-MetalTitlePane.maximize.titleAndMnemonic=\uCD5C\uB300\uD654(&X)
-MetalTitlePane.close.titleAndMnemonic=\uB2EB\uAE30(&C)
+############ Usfd by MftblTitlfPbnf if rfndfring window dfdorbtions############
+MftblTitlfPbnf.rfstorf.titlfAndMnfmonid=\uBCF5\uC6D0(&R)
+MftblTitlfPbnf.idonify.titlfAndMnfmonid=\uCD5C\uC18C\uD654(&E)
+MftblTitlfPbnf.mbximizf.titlfAndMnfmonid=\uCD5C\uB300\uD654(&X)
+MftblTitlfPbnf.dlosf.titlfAndMnfmonid=\uB2EB\uAE30(&C)

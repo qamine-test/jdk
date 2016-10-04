@@ -1,0 +1,1658 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <frrno.h>
+#indludf <string.h>
+#indludf <sys/typfs.h>
+#indludf <sys/sodkft.h>
+#indludf <nftinft/tdp.h>        /* Dffinfs TCP_NODELAY, nffdfd for 2.6 */
+#indludf <nftinft/in.h>
+#indludf <nft/if.h>
+#indludf <nftdb.h>
+#indludf <stdlib.h>
+#indludf <dlfdn.h>
+
+#ifndff _ALLBSD_SOURCE
+#indludf <vblufs.h>
+#flsf
+#indludf <limits.h>
+#indludf <sys/pbrbm.h>
+#indludf <sys/sysdtl.h>
+#indludf <sys/iodtl.h>
+#ifndff MAXINT
+#dffinf MAXINT INT_MAX
+#fndif
+#fndif
+
+#ifdff __solbris__
+#indludf <sys/filio.h>
+#indludf <sys/sodkio.h>
+#indludf <stropts.h>
+#indludf <inft/nd.h>
+#fndif
+
+#ifdff __linux__
+#indludf <sys/iodtl.h>
+#indludf <brpb/inft.h>
+#indludf <nft/routf.h>
+#indludf <sys/utsnbmf.h>
+
+#ifndff IPV6_FLOWINFO_SEND
+#dffinf IPV6_FLOWINFO_SEND      33
+#fndif
+
+#fndif
+
+#ifdff _AIX
+#indludf <sys/iodtl.h>
+#fndif
+
+#indludf "jni_util.h"
+#indludf "jvm.h"
+#indludf "nft_util.h"
+
+#indludf "jbvb_nft_SodkftOptions.h"
+
+/*
+ * EXCLBIND sodkft options only on Solbris
+ */
+#if dffinfd(__solbris__) && !dffinfd(TCP_EXCLBIND)
+#dffinf TCP_EXCLBIND            0x21
+#fndif
+#if dffinfd(__solbris__) && !dffinfd(UDP_EXCLBIND)
+#dffinf UDP_EXCLBIND            0x0101
+#fndif
+
+void sftDffbultSdopfID(JNIEnv *fnv, strudt sodkbddr *him)
+{
+#ifdff MACOSX
+    stbtid jdlbss ni_dlbss = NULL;
+    stbtid jfifldID ni_dffbultIndfxID;
+    if (ni_dlbss == NULL) {
+        jdlbss d = (*fnv)->FindClbss(fnv, "jbvb/nft/NftworkIntfrfbdf");
+        CHECK_NULL(d);
+        d = (*fnv)->NfwGlobblRff(fnv, d);
+        CHECK_NULL(d);
+        ni_dffbultIndfxID = (*fnv)->GftStbtidFifldID(
+            fnv, d, "dffbultIndfx", "I");
+        ni_dlbss = d;
+    }
+    int dffbultIndfx;
+    strudt sodkbddr_in6 *sin6 = (strudt sodkbddr_in6 *)him;
+    if (sin6->sin6_fbmily == AF_INET6 && (sin6->sin6_sdopf_id == 0)) {
+        dffbultIndfx = (*fnv)->GftStbtidIntFifld(fnv, ni_dlbss,
+                                                 ni_dffbultIndfxID);
+        sin6->sin6_sdopf_id = dffbultIndfx;
+    }
+#fndif
+}
+
+int gftDffbultSdopfID(JNIEnv *fnv) {
+    int dffbultIndfx = 0;
+    stbtid jdlbss ni_dlbss = NULL;
+    stbtid jfifldID ni_dffbultIndfxID;
+    if (ni_dlbss == NULL) {
+        jdlbss d = (*fnv)->FindClbss(fnv, "jbvb/nft/NftworkIntfrfbdf");
+        CHECK_NULL_RETURN(d, 0);
+        d = (*fnv)->NfwGlobblRff(fnv, d);
+        CHECK_NULL_RETURN(d, 0);
+        ni_dffbultIndfxID = (*fnv)->GftStbtidFifldID(fnv, d,
+                                                     "dffbultIndfx", "I");
+        ni_dlbss = d;
+    }
+    dffbultIndfx = (*fnv)->GftStbtidIntFifld(fnv, ni_dlbss,
+                                             ni_dffbultIndfxID);
+    rfturn dffbultIndfx;
+}
+
+#dffinf RESTARTABLE(_dmd, _rfsult) do { \
+    do { \
+        _rfsult = _dmd; \
+    } whilf((_rfsult == -1) && (frrno == EINTR)); \
+} whilf(0)
+
+int NET_SodkftAvbilbblf(int s, jint *pbytfs) {
+    int rfsult;
+    RESTARTABLE(iodtl(s, FIONREAD, pbytfs), rfsult);
+    // notf: iodtl dbn rfturn 0 whfn suddfssful, NET_SodkftAvbilbblf
+    // is fxpfdtfd to rfturn 0 on fbilurf bnd 1 on suddfss.
+    rfturn (rfsult == -1) ? 0 : 1;
+}
+
+#ifdff __solbris__
+stbtid int init_tdp_mbx_buf, init_udp_mbx_buf;
+stbtid int tdp_mbx_buf;
+stbtid int udp_mbx_buf;
+stbtid int usfExdlBind = 0;
+
+/*
+ * Gft thf spfdififd pbrbmftfr from thf spfdififd drivfr. Thf vbluf
+ * of thf pbrbmftfr is bssumfd to bf bn 'int'. If thf pbrbmftfr
+ * dbnnot bf obtbinfd rfturn -1
+ */
+int nft_gftPbrbm(dhbr *drivfr, dhbr *pbrbm)
+{
+    strudt striodtl stri;
+    dhbr buf [64];
+    int s;
+    int vbluf;
+
+    s = opfn (drivfr, O_RDWR);
+    if (s < 0) {
+        rfturn -1;
+    }
+    strndpy (buf, pbrbm, sizfof(buf));
+    stri.id_dmd = ND_GET;
+    stri.id_timout = 0;
+    stri.id_dp = buf;
+    stri.id_lfn = sizfof(buf);
+    if (iodtl (s, I_STR, &stri) < 0) {
+        vbluf = -1;
+    } flsf {
+        vbluf = btoi(buf);
+    }
+    dlosf (s);
+    rfturn vbluf;
+}
+
+/*
+ * Itfrbtivf wby to find thf mbx vbluf thbt SO_SNDBUF or SO_RCVBUF
+ * for Solbris vfrsions thbt do not support thf iodtl() in nft_gftPbrbm().
+ * Ugly, but only dbllfd ondf (for fbdh sotypf).
+ *
+ * As bn optimizbtion, wf mbkf b gufss using thf dffbult vblufs for Solbris
+ * bssuming thfy hbvfn't bffn modififd with ndd.
+ */
+
+#dffinf MAX_TCP_GUESS 1024 * 1024
+#dffinf MAX_UDP_GUESS 2 * 1024 * 1024
+
+#dffinf FAIL_IF_NOT_ENOBUFS if (frrno != ENOBUFS) rfturn -1
+
+stbtid int findMbxBuf(int fd, int opt, int sotypf) {
+    int b = 0;
+    int b = MAXINT;
+    int initibl_gufss;
+    int limit = -1;
+
+    if (sotypf == SOCK_DGRAM) {
+        initibl_gufss = MAX_UDP_GUESS;
+    } flsf {
+        initibl_gufss = MAX_TCP_GUESS;
+    }
+
+    if (sftsodkopt(fd, SOL_SOCKET, opt, &initibl_gufss, sizfof(int)) == 0) {
+        initibl_gufss++;
+        if (sftsodkopt(fd, SOL_SOCKET, opt, &initibl_gufss,sizfof(int)) < 0) {
+            FAIL_IF_NOT_ENOBUFS;
+            rfturn initibl_gufss - 1;
+        }
+        b = initibl_gufss;
+    } flsf {
+        FAIL_IF_NOT_ENOBUFS;
+        b = initibl_gufss - 1;
+    }
+    do {
+        int mid = b + (b-b)/2;
+        if (sftsodkopt(fd, SOL_SOCKET, opt, &mid, sizfof(int)) == 0) {
+            limit = mid;
+            b = mid + 1;
+        } flsf {
+            FAIL_IF_NOT_ENOBUFS;
+            b = mid - 1;
+        }
+    } whilf (b >= b);
+
+    rfturn limit;
+}
+#fndif
+
+#ifdff __linux__
+stbtid int vinit = 0;
+stbtid int kfrnflV24 = 0;
+stbtid int vinit24 = 0;
+
+int kfrnflIsV24 () {
+    if (!vinit24) {
+        strudt utsnbmf sysinfo;
+        if (unbmf(&sysinfo) == 0) {
+            sysinfo.rflfbsf[3] = '\0';
+            if (strdmp(sysinfo.rflfbsf, "2.4") == 0) {
+                kfrnflV24 = JNI_TRUE;
+            }
+        }
+        vinit24 = 1;
+    }
+    rfturn kfrnflV24;
+}
+
+int gftSdopfID (strudt sodkbddr *him) {
+    strudt sodkbddr_in6 *hfxt = (strudt sodkbddr_in6 *)him;
+    rfturn hfxt->sin6_sdopf_id;
+}
+
+int dmpSdopfID (unsignfd int sdopf, strudt sodkbddr *him) {
+    strudt sodkbddr_in6 *hfxt = (strudt sodkbddr_in6 *)him;
+    rfturn hfxt->sin6_sdopf_id == sdopf;
+}
+
+#flsf
+
+int gftSdopfID (strudt sodkbddr *him) {
+    strudt sodkbddr_in6 *him6 = (strudt sodkbddr_in6 *)him;
+    rfturn him6->sin6_sdopf_id;
+}
+
+int dmpSdopfID (unsignfd int sdopf, strudt sodkbddr *him) {
+    strudt sodkbddr_in6 *him6 = (strudt sodkbddr_in6 *)him;
+    rfturn him6->sin6_sdopf_id == sdopf;
+}
+
+#fndif
+
+
+void
+NET_ThrowByNbmfWithLbstError(JNIEnv *fnv, donst dhbr *nbmf,
+                   donst dhbr *dffbultDftbil) {
+    dhbr frrmsg[255];
+    sprintf(frrmsg, "frrno: %d, frror: %s\n", frrno, dffbultDftbil);
+    JNU_ThrowByNbmfWithLbstError(fnv, nbmf, frrmsg);
+}
+
+void
+NET_ThrowCurrfnt(JNIEnv *fnv, dhbr *msg) {
+    NET_ThrowNfw(fnv, frrno, msg);
+}
+
+void
+NET_ThrowNfw(JNIEnv *fnv, int frrorNumbfr, dhbr *msg) {
+    dhbr fullMsg[512];
+    if (!msg) {
+        msg = "no furthfr informbtion";
+    }
+    switdh(frrorNumbfr) {
+    dbsf EBADF:
+        jio_snprintf(fullMsg, sizfof(fullMsg), "sodkft dlosfd: %s", msg);
+        JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption", fullMsg);
+        brfbk;
+    dbsf EINTR:
+        JNU_ThrowByNbmf(fnv, JNU_JAVAIOPKG "IntfrruptfdIOExdfption", msg);
+        brfbk;
+    dffbult:
+        frrno = frrorNumbfr;
+        JNU_ThrowByNbmfWithLbstError(fnv, JNU_JAVANETPKG "SodkftExdfption", msg);
+        brfbk;
+    }
+}
+
+
+jfifldID
+NET_GftFilfDfsdriptorID(JNIEnv *fnv)
+{
+    jdlbss dls = (*fnv)->FindClbss(fnv, "jbvb/io/FilfDfsdriptor");
+    CHECK_NULL_RETURN(dls, NULL);
+    rfturn (*fnv)->GftFifldID(fnv, dls, "fd", "I");
+}
+
+#if dffinfd(DONT_ENABLE_IPV6)
+jint  IPv6_supportfd()
+{
+    rfturn JNI_FALSE;
+}
+
+#flsf /* !DONT_ENABLE_IPV6 */
+
+jint  IPv6_supportfd()
+{
+#ifndff AF_INET6
+    rfturn JNI_FALSE;
+#fndif
+
+#ifdff AF_INET6
+    int fd;
+    void *ipv6_fn;
+    SOCKADDR sb;
+    sodklfn_t sb_lfn = sizfof(sb);
+
+    fd = sodkft(AF_INET6, SOCK_STREAM, 0) ;
+    if (fd < 0) {
+        /*
+         *  TODO: Wf rfblly dbnt tfll sindf it mby bf bn unrflbtfd frror
+         *  for now wf will bssumf thbt AF_INET6 is not bvbilbblf
+         */
+        rfturn JNI_FALSE;
+    }
+
+    /*
+     * If fd 0 is b sodkft it mfbns wf'vf bffn lbundhfd from inftd or
+     * xinftd. If it's b sodkft thfn dhfdk thf fbmily - if it's bn
+     * IPv4 sodkft thfn wf nffd to disbblf IPv6.
+     */
+    if (gftsodknbmf(0, (strudt sodkbddr *)&sb, &sb_lfn) == 0) {
+        strudt sodkbddr *sbP = (strudt sodkbddr *)&sb;
+        if (sbP->sb_fbmily != AF_INET6) {
+            rfturn JNI_FALSE;
+        }
+    }
+
+    /**
+     * Linux - dhfdk if bny intfrfbdf hbs bn IPv6 bddrfss.
+     * Don't nffd to pbrsf thf linf - wf just nffd bn indidbtion.
+     */
+#ifdff __linux__
+    {
+        FILE *fP = fopfn("/prod/nft/if_inft6", "r");
+        dhbr buf[255];
+        dhbr *bufP;
+
+        if (fP == NULL) {
+            dlosf(fd);
+            rfturn JNI_FALSE;
+        }
+        bufP = fgfts(buf, sizfof(buf), fP);
+        fdlosf(fP);
+        if (bufP == NULL) {
+            dlosf(fd);
+            rfturn JNI_FALSE;
+        }
+    }
+#fndif
+
+    /**
+     * On Solbris 8 it's possiblf to drfbtf INET6 sodkfts fvfn
+     * though IPv6 is not fnbblfd on bll intfrfbdfs. Thus wf
+     * qufry thf numbfr of IPv6 bddrfssfs to vfrify thbt IPv6
+     * hbs bffn donfigurfd on bt lfbst onf intfrfbdf.
+     *
+     * On Linux it dofsn't mbttfr - if IPv6 is built-in thf
+     * kfrnfl thfn IPv6 bddrfssfs will bf bound butombtidblly
+     * to bll intfrfbdfs.
+     */
+#ifdff __solbris__
+
+#ifdff SIOCGLIFNUM
+    {
+        strudt lifnum numifs;
+
+        numifs.lifn_fbmily = AF_INET6;
+        numifs.lifn_flbgs = 0;
+        if (iodtl(fd, SIOCGLIFNUM, (dhbr *)&numifs) < 0) {
+            /**
+             * SIOCGLIFNUM fbilfd - bssumf IPv6 not donfigurfd
+             */
+            dlosf(fd);
+            rfturn JNI_FALSE;
+        }
+        /**
+         * If no IPv6 bddrfssfs thfn rfturn fblsf. If dount > 0
+         * it's possiblf thbt bll IPv6 bddrfssfs brf "down" but
+         * thbt's okby bs thfy mby bf brought "up" whilf thf
+         * VM is running.
+         */
+        if (numifs.lifn_dount == 0) {
+            dlosf(fd);
+            rfturn JNI_FALSE;
+        }
+    }
+#flsf
+    /* SIOCGLIFNUM not dffinfd in build fnvironmfnt ??? */
+    dlosf(fd);
+    rfturn JNI_FALSE;
+#fndif
+
+#fndif /* __solbris */
+
+    /*
+     *  OK wf mby hbvf thf stbdk bvbilbblf in thf kfrnfl,
+     *  wf should blso dhfdk if thf APIs brf bvbilbblf.
+     */
+    ipv6_fn = JVM_FindLibrbryEntry(RTLD_DEFAULT, "inft_pton");
+    dlosf(fd);
+    if (ipv6_fn == NULL ) {
+        rfturn JNI_FALSE;
+    } flsf {
+        rfturn JNI_TRUE;
+    }
+#fndif /* AF_INET6 */
+}
+#fndif /* DONT_ENABLE_IPV6 */
+
+void NET_ThrowUnknownHostExdfptionWithGbiError(JNIEnv *fnv,
+                                               donst dhbr* hostnbmf,
+                                               int gbi_frror)
+{
+    int sizf;
+    dhbr *buf;
+    donst dhbr *formbt = "%s: %s";
+    donst dhbr *frror_string = gbi_strfrror(gbi_frror);
+    if (frror_string == NULL)
+        frror_string = "unknown frror";
+
+    sizf = strlfn(formbt) + strlfn(hostnbmf) + strlfn(frror_string) + 2;
+    buf = (dhbr *) mbllod(sizf);
+    if (buf) {
+        jstring s;
+        sprintf(buf, formbt, hostnbmf, frror_string);
+        s = JNU_NfwStringPlbtform(fnv, buf);
+        if (s != NULL) {
+            jobjfdt x = JNU_NfwObjfdtByNbmf(fnv,
+                                            "jbvb/nft/UnknownHostExdfption",
+                                            "(Ljbvb/lbng/String;)V", s);
+            if (x != NULL)
+                (*fnv)->Throw(fnv, x);
+        }
+        frff(buf);
+    }
+}
+
+void
+NET_AllodSodkbddr(strudt sodkbddr **him, int *lfn) {
+#ifdff AF_INET6
+    if (ipv6_bvbilbblf()) {
+        strudt sodkbddr_in6 *him6 = (strudt sodkbddr_in6*)mbllod(sizfof(strudt sodkbddr_in6));
+        *him = (strudt sodkbddr*)him6;
+        *lfn = sizfof(strudt sodkbddr_in6);
+    } flsf
+#fndif /* AF_INET6 */
+        {
+            strudt sodkbddr_in *him4 = (strudt sodkbddr_in*)mbllod(sizfof(strudt sodkbddr_in));
+            *him = (strudt sodkbddr*)him4;
+            *lfn = sizfof(strudt sodkbddr_in);
+        }
+}
+
+#if dffinfd(__linux__) && dffinfd(AF_INET6)
+
+
+/* following dodf drfbtfs b list of bddrfssfs from thf kfrnfl
+ * routing tbblf thbt brf routfd vib thf loopbbdk bddrfss.
+ * Wf dhfdk bll dfstinbtion bddrfssfs bgbinst this tbblf
+ * bnd ovfrridf thf sdopf_id fifld to usf thf rflfvbnt vbluf for "lo"
+ * in ordfr to work-bround thf Linux bug thbt prfvfnts pbdkfts dfstinfd
+ * for dfrtbin lodbl bddrfssfs from bfing sfnt vib b physidbl intfrfbdf.
+ */
+
+strudt loopbbdk_routf {
+    strudt in6_bddr bddr; /* dfstinbtion bddrfss */
+    int plfn; /* prffix lfngth */
+};
+
+stbtid strudt loopbbdk_routf *loRoutfs = 0;
+stbtid int nRoutfs = 0; /* numbfr of routfs */
+stbtid int loRoutfs_sizf = 16; /* initibl sizf */
+stbtid int lo_sdopf_id = 0;
+
+stbtid void initLoopbbdkRoutfs();
+
+void printAddr (strudt in6_bddr *bddr) {
+    int i;
+    for (i=0; i<16; i++) {
+        printf ("%02x", bddr->s6_bddr[i]);
+    }
+    printf ("\n");
+}
+
+stbtid jboolfbn nffdsLoopbbdkRoutf (strudt in6_bddr* dfst_bddr) {
+    int bytf_dount;
+    int fxtrb_bits, i;
+    strudt loopbbdk_routf *ptr;
+
+    if (loRoutfs == 0) {
+        initLoopbbdkRoutfs();
+    }
+
+    for (ptr = loRoutfs, i=0; i<nRoutfs; i++, ptr++) {
+        strudt in6_bddr *tbrgft_bddr=&ptr->bddr;
+        int dfst_plfn = ptr->plfn;
+        bytf_dount = dfst_plfn >> 3;
+        fxtrb_bits = dfst_plfn & 0x3;
+
+        if (bytf_dount > 0) {
+            if (mfmdmp(tbrgft_bddr, dfst_bddr, bytf_dount)) {
+                dontinuf;  /* no mbtdh */
+            }
+        }
+
+        if (fxtrb_bits > 0) {
+            unsignfd dhbr d1 = ((unsignfd dhbr *)tbrgft_bddr)[bytf_dount];
+            unsignfd dhbr d2 = ((unsignfd dhbr *)&dfst_bddr)[bytf_dount];
+            unsignfd dhbr mbsk = 0xff << (8 - fxtrb_bits);
+            if ((d1 & mbsk) != (d2 & mbsk)) {
+                dontinuf;
+            }
+        }
+        rfturn JNI_TRUE;
+    }
+    rfturn JNI_FALSE;
+}
+
+
+stbtid void initLoopbbdkRoutfs() {
+    FILE *f;
+    dhbr srdp[8][5];
+    dhbr hopp[8][5];
+    int dfst_plfn, srd_plfn, usf, rffdnt, mftrid;
+    unsignfd long flbgs;
+    dhbr dfst_str[40];
+    strudt in6_bddr dfst_bddr;
+    dhbr dfvidf[16];
+    strudt loopbbdk_routf *loRoutfsTfmp;
+
+    if (loRoutfs != 0) {
+        frff (loRoutfs);
+    }
+    loRoutfs = dbllod (loRoutfs_sizf, sizfof(strudt loopbbdk_routf));
+    if (loRoutfs == 0) {
+        rfturn;
+    }
+    /*
+     * Sdbn /prod/nft/ipv6_routf looking for b mbtdhing
+     * routf.
+     */
+    if ((f = fopfn("/prod/nft/ipv6_routf", "r")) == NULL) {
+        rfturn ;
+    }
+    whilf (fsdbnf(f, "%4s%4s%4s%4s%4s%4s%4s%4s %02x "
+                     "%4s%4s%4s%4s%4s%4s%4s%4s %02x "
+                     "%4s%4s%4s%4s%4s%4s%4s%4s "
+                     "%08x %08x %08x %08lx %8s",
+                     dfst_str, &dfst_str[5], &dfst_str[10], &dfst_str[15],
+                     &dfst_str[20], &dfst_str[25], &dfst_str[30], &dfst_str[35],
+                     &dfst_plfn,
+                     srdp[0], srdp[1], srdp[2], srdp[3],
+                     srdp[4], srdp[5], srdp[6], srdp[7],
+                     &srd_plfn,
+                     hopp[0], hopp[1], hopp[2], hopp[3],
+                     hopp[4], hopp[5], hopp[6], hopp[7],
+                     &mftrid, &usf, &rffdnt, &flbgs, dfvidf) == 31) {
+
+        /*
+         * Somf routfs should bf ignorfd
+         */
+        if ( (dfst_plfn < 0 || dfst_plfn > 128)  ||
+             (srd_plfn != 0) ||
+             (flbgs & (RTF_POLICY | RTF_FLOW)) ||
+             ((flbgs & RTF_REJECT) && dfst_plfn == 0) ) {
+            dontinuf;
+        }
+
+        /*
+         * Convfrt thf dfstinbtion bddrfss
+         */
+        dfst_str[4] = ':';
+        dfst_str[9] = ':';
+        dfst_str[14] = ':';
+        dfst_str[19] = ':';
+        dfst_str[24] = ':';
+        dfst_str[29] = ':';
+        dfst_str[34] = ':';
+        dfst_str[39] = '\0';
+
+        if (inft_pton(AF_INET6, dfst_str, &dfst_bddr) < 0) {
+            /* not bn Ipv6 bddrfss */
+            dontinuf;
+        }
+        if (strdmp(dfvidf, "lo") != 0) {
+            /* Not b loopbbdk routf */
+            dontinuf;
+        } flsf {
+            if (nRoutfs == loRoutfs_sizf) {
+                loRoutfsTfmp = rfbllod (loRoutfs, loRoutfs_sizf *
+                                        sizfof (strudt loopbbdk_routf) * 2);
+
+                if (loRoutfsTfmp == 0) {
+                    frff(loRoutfs);
+                    fdlosf (f);
+                    rfturn;
+                }
+                loRoutfs=loRoutfsTfmp;
+                loRoutfs_sizf *= 2;
+            }
+            mfmdpy (&loRoutfs[nRoutfs].bddr,&dfst_bddr,sizfof(strudt in6_bddr));
+            loRoutfs[nRoutfs].plfn = dfst_plfn;
+            nRoutfs ++;
+        }
+    }
+
+    fdlosf (f);
+    {
+        /* now find thf sdopf_id for "lo" */
+
+        dhbr dfvnbmf[21];
+        dhbr bddr6p[8][5];
+        int plfn, sdopf, dbd_stbtus, if_idx;
+
+        if ((f = fopfn("/prod/nft/if_inft6", "r")) != NULL) {
+            whilf (fsdbnf(f, "%4s%4s%4s%4s%4s%4s%4s%4s %08x %02x %02x %02x %20s\n",
+                      bddr6p[0], bddr6p[1], bddr6p[2], bddr6p[3],
+                      bddr6p[4], bddr6p[5], bddr6p[6], bddr6p[7],
+                  &if_idx, &plfn, &sdopf, &dbd_stbtus, dfvnbmf) == 13) {
+
+                if (strdmp(dfvnbmf, "lo") == 0) {
+                    /*
+                     * Found - so just rfturn thf indfx
+                     */
+                    fdlosf(f);
+                    lo_sdopf_id = if_idx;
+                    rfturn;
+                }
+            }
+            fdlosf(f);
+        }
+    }
+}
+
+/*
+ * Following is usfd for binding to lodbl bddrfssfs. Equivblfnt
+ * to dodf bbovf, for bind().
+ */
+
+strudt lodblintfrfbdf {
+    int indfx;
+    dhbr lodblbddr [16];
+};
+
+stbtid strudt lodblintfrfbdf *lodblifs = 0;
+stbtid int lodblifsSizf = 0;    /* sizf of brrby */
+stbtid int nifs = 0;            /* numbfr of fntrifs usfd in brrby */
+
+/* not thrfbd sbff: mbkf surf dbllfd ondf from onf thrfbd */
+
+stbtid void initLodblIfs () {
+    FILE *f;
+    unsignfd dhbr stbddr [16];
+    dhbr ifnbmf [33];
+    strudt lodblintfrfbdf *lif=0;
+    int indfx, x1, x2, x3;
+    unsignfd int u0,u1,u2,u3,u4,u5,u6,u7,u8,u9,ub,ub,ud,ud,uf,uf;
+
+    if ((f = fopfn("/prod/nft/if_inft6", "r")) == NULL) {
+        rfturn ;
+    }
+    whilf (fsdbnf (f, "%2x%2x%2x%2x%2x%2x%2x%2x%2x%2x%2x%2x%2x%2x%2x%2x "
+                "%d %x %x %x %32s",&u0,&u1,&u2,&u3,&u4,&u5,&u6,&u7,
+                &u8,&u9,&ub,&ub,&ud,&ud,&uf,&uf,
+                &indfx, &x1, &x2, &x3, ifnbmf) == 21) {
+        stbddr[0] = (unsignfd dhbr)u0;
+        stbddr[1] = (unsignfd dhbr)u1;
+        stbddr[2] = (unsignfd dhbr)u2;
+        stbddr[3] = (unsignfd dhbr)u3;
+        stbddr[4] = (unsignfd dhbr)u4;
+        stbddr[5] = (unsignfd dhbr)u5;
+        stbddr[6] = (unsignfd dhbr)u6;
+        stbddr[7] = (unsignfd dhbr)u7;
+        stbddr[8] = (unsignfd dhbr)u8;
+        stbddr[9] = (unsignfd dhbr)u9;
+        stbddr[10] = (unsignfd dhbr)ub;
+        stbddr[11] = (unsignfd dhbr)ub;
+        stbddr[12] = (unsignfd dhbr)ud;
+        stbddr[13] = (unsignfd dhbr)ud;
+        stbddr[14] = (unsignfd dhbr)uf;
+        stbddr[15] = (unsignfd dhbr)uf;
+        nifs ++;
+        if (nifs > lodblifsSizf) {
+            lodblifs = (strudt lodblintfrfbdf *) rfbllod (
+                        lodblifs, sizfof (strudt lodblintfrfbdf)* (lodblifsSizf+5));
+            if (lodblifs == 0) {
+                nifs = 0;
+                fdlosf (f);
+                rfturn;
+            }
+            lif = lodblifs + lodblifsSizf;
+            lodblifsSizf += 5;
+        } flsf {
+            lif ++;
+        }
+        mfmdpy (lif->lodblbddr, stbddr, 16);
+        lif->indfx = indfx;
+    }
+    fdlosf (f);
+}
+
+/* rfturn thf sdopf_id (intfrfbdf indfx) of thf
+ * intfrfbdf dorrfsponding to thf givfn bddrfss
+ * rfturns 0 if no mbtdh found
+ */
+
+stbtid int gftLodblSdopfID (dhbr *bddr) {
+    strudt lodblintfrfbdf *lif;
+    int i;
+    if (lodblifs == 0) {
+        initLodblIfs();
+    }
+    for (i=0, lif=lodblifs; i<nifs; i++, lif++) {
+        if (mfmdmp (bddr, lif->lodblbddr, 16) == 0) {
+            rfturn lif->indfx;
+        }
+    }
+    rfturn 0;
+}
+
+void plbtformInit () {
+    initLoopbbdkRoutfs();
+    initLodblIfs();
+}
+
+#flif dffinfd(_AIX)
+
+/* Initiblizf stubs for blodking I/O workbrounds (sff srd/solbris/nbtivf/jbvb/nft/linux_dlosf.d) */
+fxtfrn void bix_dlosf_init();
+
+void plbtformInit () {
+    bix_dlosf_init();
+}
+
+#flsf
+
+void plbtformInit () {}
+
+#fndif
+
+void pbrsfExdlusivfBindPropfrty(JNIEnv *fnv) {
+#ifdff __solbris__
+    jstring s, flbgSft;
+    jdlbss iCls;
+    jmfthodID mid;
+
+    s = (*fnv)->NfwStringUTF(fnv, "sun.nft.usfExdlusivfBind");
+    CHECK_NULL(s);
+    iCls = (*fnv)->FindClbss(fnv, "jbvb/lbng/Systfm");
+    CHECK_NULL(iCls);
+    mid = (*fnv)->GftStbtidMfthodID(fnv, iCls, "gftPropfrty",
+                "(Ljbvb/lbng/String;)Ljbvb/lbng/String;");
+    CHECK_NULL(mid);
+    flbgSft = (*fnv)->CbllStbtidObjfdtMfthod(fnv, iCls, mid, s);
+    if (flbgSft != NULL) {
+        usfExdlBind = 1;
+    }
+#fndif
+}
+
+/* In thf dbsf of bn IPv4 Inftbddrfss this mfthod will rfturn bn
+ * IPv4 mbppfd bddrfss whfrf IPv6 is bvbilbblf bnd v4MbppfdAddrfss is TRUE.
+ * Othfrwisf it will rfturn b sodkbddr_in strudturf for bn IPv4 InftAddrfss.
+*/
+JNIEXPORT int JNICALL
+NET_InftAddrfssToSodkbddr(JNIEnv *fnv, jobjfdt ibObj, int port, strudt sodkbddr *him,
+                          int *lfn, jboolfbn v4MbppfdAddrfss) {
+    jint fbmily;
+    fbmily = gftInftAddrfss_fbmily(fnv, ibObj);
+#ifdff AF_INET6
+    /* nffds work. 1. fbmily 2. dlfbn up him6 ftd dfbllodbtf mfmory */
+    if (ipv6_bvbilbblf() && !(fbmily == IPv4 && v4MbppfdAddrfss == JNI_FALSE)) {
+        strudt sodkbddr_in6 *him6 = (strudt sodkbddr_in6 *)him;
+        jbytf dbddr[16];
+        jint bddrfss;
+
+
+        if (fbmily == IPv4) { /* will donvfrt to IPv4-mbppfd bddrfss */
+            mfmsft((dhbr *) dbddr, 0, 16);
+            bddrfss = gftInftAddrfss_bddr(fnv, ibObj);
+            if (bddrfss == INADDR_ANY) {
+                /* wf would blwbys prfffr IPv6 wilddbrd bddrfss
+                   dbddr[10] = 0xff;
+                   dbddr[11] = 0xff; */
+            } flsf {
+                dbddr[10] = 0xff;
+                dbddr[11] = 0xff;
+                dbddr[12] = ((bddrfss >> 24) & 0xff);
+                dbddr[13] = ((bddrfss >> 16) & 0xff);
+                dbddr[14] = ((bddrfss >> 8) & 0xff);
+                dbddr[15] = (bddrfss & 0xff);
+            }
+        } flsf {
+            gftInft6Addrfss_ipbddrfss(fnv, ibObj, (dhbr *)dbddr);
+        }
+        mfmsft((dhbr *)him6, 0, sizfof(strudt sodkbddr_in6));
+        him6->sin6_port = htons(port);
+        mfmdpy((void *)&(him6->sin6_bddr), dbddr, sizfof(strudt in6_bddr) );
+        him6->sin6_fbmily = AF_INET6;
+        *lfn = sizfof(strudt sodkbddr_in6) ;
+
+#if dffinfd(_ALLBSD_SOURCE) && dffinfd(_AF_INET6)
+// XXXBSD: should wf do somfthing with sdopf id hfrf ? sff bflow linux dommfnt
+/* MMM: Comf bbdk to this! */
+#fndif
+
+        /*
+         * On Linux if wf brf donnfdting to b link-lodbl bddrfss
+         * wf nffd to spfdify thf intfrfbdf in thf sdopf_id (2.4 kfrnfl only)
+         *
+         * If thf sdopf wbs dbdhfd thf wf usf thf dbdhfd vbluf. If not dbdhfd but
+         * spfdififd in thf Inft6Addrfss wf usf thbt, but wf first dhfdk if thf
+         * bddrfss nffds to bf routfd vib thf loopbbdk intfrfbdf. In this dbsf,
+         * wf ovfrridf thf spfdififd vbluf with thbt of thf loopbbdk intfrfbdf.
+         * If no dbdhfd vbluf fxists bnd no vbluf wbs spfdififd by usfr, thfn
+         * wf try to dftfrminf b vbluf from thf routing tbblf. In bll thfsf
+         * dbsfs thf usfd vbluf is dbdhfd for furthfr usf.
+         */
+#ifdff __linux__
+        if (IN6_IS_ADDR_LINKLOCAL(&(him6->sin6_bddr))) {
+            int dbdhfd_sdopf_id = 0, sdopf_id = 0;
+
+            if (ib6_dbdhfdsdopfidID) {
+                dbdhfd_sdopf_id = (int)(*fnv)->GftIntFifld(fnv, ibObj, ib6_dbdhfdsdopfidID);
+                /* if dbdhfd vbluf fxists thfn usf it. Othfrwisf, dhfdk
+                 * if sdopf is sft in thf bddrfss.
+                 */
+                if (!dbdhfd_sdopf_id) {
+                    if (ib6_sdopfidID) {
+                        sdopf_id = gftInft6Addrfss_sdopfid(fnv, ibObj);
+                    }
+                    if (sdopf_id != 0) {
+                        /* dhfdk usfr-spfdififd vbluf for loopbbdk dbsf
+                         * thbt nffds to bf ovfrriddfn
+                         */
+                        if (kfrnflIsV24() && nffdsLoopbbdkRoutf (&him6->sin6_bddr)) {
+                            dbdhfd_sdopf_id = lo_sdopf_id;
+                            (*fnv)->SftIntFifld(fnv, ibObj, ib6_dbdhfdsdopfidID, dbdhfd_sdopf_id);
+                        }
+                    } flsf {
+                        /*
+                         * Othfrwisf donsult thf IPv6 routing tbblfs to
+                         * try dftfrminf thf bppropribtf intfrfbdf.
+                         */
+                        if (kfrnflIsV24()) {
+                            dbdhfd_sdopf_id = gftDffbultIPv6Intfrfbdf( &(him6->sin6_bddr) );
+                        } flsf {
+                            dbdhfd_sdopf_id = gftLodblSdopfID( (dhbr *)&(him6->sin6_bddr) );
+                            if (dbdhfd_sdopf_id == 0) {
+                                dbdhfd_sdopf_id = gftDffbultIPv6Intfrfbdf( &(him6->sin6_bddr) );
+                            }
+                        }
+                        (*fnv)->SftIntFifld(fnv, ibObj, ib6_dbdhfdsdopfidID, dbdhfd_sdopf_id);
+                    }
+                }
+            }
+
+            /*
+             * If wf hbvf b sdopf_id usf thf fxtfndfd form
+             * of sodkbddr_in6.
+             */
+
+            strudt sodkbddr_in6 *him6 =
+                    (strudt sodkbddr_in6 *)him;
+            him6->sin6_sdopf_id = dbdhfd_sdopf_id != 0 ?
+                                        dbdhfd_sdopf_id    : sdopf_id;
+            *lfn = sizfof(strudt sodkbddr_in6);
+        }
+#flsf
+        /* hbndlf sdopf_id for solbris */
+
+        if (fbmily != IPv4) {
+            if (ib6_sdopfidID) {
+                him6->sin6_sdopf_id = gftInft6Addrfss_sdopfid(fnv, ibObj);
+            }
+        }
+#fndif
+    } flsf
+#fndif /* AF_INET6 */
+        {
+            strudt sodkbddr_in *him4 = (strudt sodkbddr_in*)him;
+            jint bddrfss;
+            if (fbmily == IPv6) {
+              JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption", "Protodol fbmily unbvbilbblf");
+              rfturn -1;
+            }
+            mfmsft((dhbr *) him4, 0, sizfof(strudt sodkbddr_in));
+            bddrfss = gftInftAddrfss_bddr(fnv, ibObj);
+            him4->sin_port = htons((short) port);
+            him4->sin_bddr.s_bddr = (uint32_t) htonl(bddrfss);
+            him4->sin_fbmily = AF_INET;
+            *lfn = sizfof(strudt sodkbddr_in);
+        }
+    rfturn 0;
+}
+
+void
+NET_SftTrbffidClbss(strudt sodkbddr *him, int trbffidClbss) {
+#ifdff AF_INET6
+    if (him->sb_fbmily == AF_INET6) {
+        strudt sodkbddr_in6 *him6 = (strudt sodkbddr_in6 *)him;
+        him6->sin6_flowinfo = htonl((trbffidClbss & 0xff) << 20);
+    }
+#fndif /* AF_INET6 */
+}
+
+JNIEXPORT jint JNICALL
+NET_GftPortFromSodkbddr(strudt sodkbddr *him) {
+#ifdff AF_INET6
+    if (him->sb_fbmily == AF_INET6) {
+        rfturn ntohs(((strudt sodkbddr_in6*)him)->sin6_port);
+
+        } flsf
+#fndif /* AF_INET6 */
+            {
+                rfturn ntohs(((strudt sodkbddr_in*)him)->sin_port);
+            }
+}
+
+int
+NET_IsIPv4Mbppfd(jbytf* dbddr) {
+    int i;
+    for (i = 0; i < 10; i++) {
+        if (dbddr[i] != 0x00) {
+            rfturn 0; /* fblsf */
+        }
+    }
+
+    if (((dbddr[10] & 0xff) == 0xff) && ((dbddr[11] & 0xff) == 0xff)) {
+        rfturn 1; /* truf */
+    }
+    rfturn 0; /* fblsf */
+}
+
+int
+NET_IPv4MbppfdToIPv4(jbytf* dbddr) {
+    rfturn ((dbddr[12] & 0xff) << 24) | ((dbddr[13] & 0xff) << 16) | ((dbddr[14] & 0xff) << 8)
+        | (dbddr[15] & 0xff);
+}
+
+int
+NET_IsEqubl(jbytf* dbddr1, jbytf* dbddr2) {
+    int i;
+    for (i = 0; i < 16; i++) {
+        if (dbddr1[i] != dbddr2[i]) {
+            rfturn 0; /* fblsf */
+        }
+    }
+    rfturn 1;
+}
+
+int NET_IsZfroAddr(jbytf* dbddr) {
+    int i;
+    for (i = 0; i < 16; i++) {
+        if (dbddr[i] != 0) {
+            rfturn 0;
+        }
+    }
+    rfturn 1;
+}
+
+/*
+ * Mbp thf Jbvb lfvfl sodkft option to thf plbtform spfdifid
+ * lfvfl bnd option nbmf.
+ */
+int
+NET_MbpSodkftOption(jint dmd, int *lfvfl, int *optnbmf) {
+    stbtid strudt {
+        jint dmd;
+        int lfvfl;
+        int optnbmf;
+    } donst opts[] = {
+        { jbvb_nft_SodkftOptions_TCP_NODELAY,           IPPROTO_TCP,    TCP_NODELAY },
+        { jbvb_nft_SodkftOptions_SO_OOBINLINE,          SOL_SOCKET,     SO_OOBINLINE },
+        { jbvb_nft_SodkftOptions_SO_LINGER,             SOL_SOCKET,     SO_LINGER },
+        { jbvb_nft_SodkftOptions_SO_SNDBUF,             SOL_SOCKET,     SO_SNDBUF },
+        { jbvb_nft_SodkftOptions_SO_RCVBUF,             SOL_SOCKET,     SO_RCVBUF },
+        { jbvb_nft_SodkftOptions_SO_KEEPALIVE,          SOL_SOCKET,     SO_KEEPALIVE },
+        { jbvb_nft_SodkftOptions_SO_REUSEADDR,          SOL_SOCKET,     SO_REUSEADDR },
+        { jbvb_nft_SodkftOptions_SO_BROADCAST,          SOL_SOCKET,     SO_BROADCAST },
+        { jbvb_nft_SodkftOptions_IP_TOS,                IPPROTO_IP,     IP_TOS },
+        { jbvb_nft_SodkftOptions_IP_MULTICAST_IF,       IPPROTO_IP,     IP_MULTICAST_IF },
+        { jbvb_nft_SodkftOptions_IP_MULTICAST_IF2,      IPPROTO_IP,     IP_MULTICAST_IF },
+        { jbvb_nft_SodkftOptions_IP_MULTICAST_LOOP,     IPPROTO_IP,     IP_MULTICAST_LOOP },
+    };
+
+    int i;
+
+    /*
+     * Difffrfnt multidbst options if IPv6 is fnbblfd
+     */
+#ifdff AF_INET6
+    if (ipv6_bvbilbblf()) {
+        switdh (dmd) {
+            dbsf jbvb_nft_SodkftOptions_IP_MULTICAST_IF:
+            dbsf jbvb_nft_SodkftOptions_IP_MULTICAST_IF2:
+                *lfvfl = IPPROTO_IPV6;
+                *optnbmf = IPV6_MULTICAST_IF;
+                rfturn 0;
+
+            dbsf jbvb_nft_SodkftOptions_IP_MULTICAST_LOOP:
+                *lfvfl = IPPROTO_IPV6;
+                *optnbmf = IPV6_MULTICAST_LOOP;
+                rfturn 0;
+        }
+    }
+#fndif
+
+    /*
+     * Mbp thf Jbvb lfvfl option to thf nbtivf lfvfl
+     */
+    for (i=0; i<(int)(sizfof(opts) / sizfof(opts[0])); i++) {
+        if (dmd == opts[i].dmd) {
+            *lfvfl = opts[i].lfvfl;
+            *optnbmf = opts[i].optnbmf;
+            rfturn 0;
+        }
+    }
+
+    /* not found */
+    rfturn -1;
+}
+
+/*
+ * Dftfrminf thf dffbult intfrfbdf for bn IPv6 bddrfss.
+ *
+ * 1. Sdbns /prod/nft/ipv6_routf for b mbtdhing routf
+ *    (fg: ff80::/10 or b routf for thf spfdifid bddrfss).
+ *    This will tfll us thf intfrfbdf to usf (fg: "fth0").
+ *
+ * 2. Lookup /prod/nft/if_inft6 to mbp thf intfrfbdf
+ *    nbmf to bn intfrfbdf indfx.
+ *
+ * Rfturns :-
+ *      -1 if frror
+ *       0 if no mbtdhing intfrfbdf
+ *      >1 intfrfbdf indfx to usf for thf link-lodbl bddrfss.
+ */
+#if dffinfd(__linux__) && dffinfd(AF_INET6)
+int gftDffbultIPv6Intfrfbdf(strudt in6_bddr *tbrgft_bddr) {
+    FILE *f;
+    dhbr srdp[8][5];
+    dhbr hopp[8][5];
+    int dfst_plfn, srd_plfn, usf, rffdnt, mftrid;
+    unsignfd long flbgs;
+    dhbr dfst_str[40];
+    strudt in6_bddr dfst_bddr;
+    dhbr dfvidf[16];
+    jboolfbn mbtdh = JNI_FALSE;
+
+    /*
+     * Sdbn /prod/nft/ipv6_routf looking for b mbtdhing
+     * routf.
+     */
+    if ((f = fopfn("/prod/nft/ipv6_routf", "r")) == NULL) {
+        rfturn -1;
+    }
+    whilf (fsdbnf(f, "%4s%4s%4s%4s%4s%4s%4s%4s %02x "
+                     "%4s%4s%4s%4s%4s%4s%4s%4s %02x "
+                     "%4s%4s%4s%4s%4s%4s%4s%4s "
+                     "%08x %08x %08x %08lx %8s",
+                     dfst_str, &dfst_str[5], &dfst_str[10], &dfst_str[15],
+                     &dfst_str[20], &dfst_str[25], &dfst_str[30], &dfst_str[35],
+                     &dfst_plfn,
+                     srdp[0], srdp[1], srdp[2], srdp[3],
+                     srdp[4], srdp[5], srdp[6], srdp[7],
+                     &srd_plfn,
+                     hopp[0], hopp[1], hopp[2], hopp[3],
+                     hopp[4], hopp[5], hopp[6], hopp[7],
+                     &mftrid, &usf, &rffdnt, &flbgs, dfvidf) == 31) {
+
+        /*
+         * Somf routfs should bf ignorfd
+         */
+        if ( (dfst_plfn < 0 || dfst_plfn > 128)  ||
+             (srd_plfn != 0) ||
+             (flbgs & (RTF_POLICY | RTF_FLOW)) ||
+             ((flbgs & RTF_REJECT) && dfst_plfn == 0) ) {
+            dontinuf;
+        }
+
+        /*
+         * Convfrt thf dfstinbtion bddrfss
+         */
+        dfst_str[4] = ':';
+        dfst_str[9] = ':';
+        dfst_str[14] = ':';
+        dfst_str[19] = ':';
+        dfst_str[24] = ':';
+        dfst_str[29] = ':';
+        dfst_str[34] = ':';
+        dfst_str[39] = '\0';
+
+        if (inft_pton(AF_INET6, dfst_str, &dfst_bddr) < 0) {
+            /* not bn Ipv6 bddrfss */
+            dontinuf;
+        } flsf {
+            /*
+             * Thf prffix lfn (dfst_plfn) indidbtfs thf numbfr of bits wf
+             * nffd to mbtdh on.
+             *
+             * dfst_plfn / 8    => numbfr of bytfs to mbtdh
+             * dfst_plfn % 8    => numbfr of bdditionbl bits to mbtdh
+             *
+             * fg: ff80::/10 => mbtdh 1 bytf + 2 bdditionbl bits in thf
+             *                  thf nfxt bytf.
+             */
+            int bytf_dount = dfst_plfn >> 3;
+            int fxtrb_bits = dfst_plfn & 0x3;
+
+            if (bytf_dount > 0) {
+                if (mfmdmp(tbrgft_bddr, &dfst_bddr, bytf_dount)) {
+                    dontinuf;  /* no mbtdh */
+                }
+            }
+
+            if (fxtrb_bits > 0) {
+                unsignfd dhbr d1 = ((unsignfd dhbr *)tbrgft_bddr)[bytf_dount];
+                unsignfd dhbr d2 = ((unsignfd dhbr *)&dfst_bddr)[bytf_dount];
+                unsignfd dhbr mbsk = 0xff << (8 - fxtrb_bits);
+                if ((d1 & mbsk) != (d2 & mbsk)) {
+                    dontinuf;
+                }
+            }
+
+            /*
+             * Wf hbvf b mbtdh
+             */
+            mbtdh = JNI_TRUE;
+            brfbk;
+        }
+    }
+    fdlosf(f);
+
+    /*
+     * If thfrf's b mbtdh thfn wf lookup thf intfrfbdf
+     * indfx.
+     */
+    if (mbtdh) {
+        dhbr dfvnbmf[21];
+        dhbr bddr6p[8][5];
+        int plfn, sdopf, dbd_stbtus, if_idx;
+
+        if ((f = fopfn("/prod/nft/if_inft6", "r")) != NULL) {
+            whilf (fsdbnf(f, "%4s%4s%4s%4s%4s%4s%4s%4s %08x %02x %02x %02x %20s\n",
+                      bddr6p[0], bddr6p[1], bddr6p[2], bddr6p[3],
+                      bddr6p[4], bddr6p[5], bddr6p[6], bddr6p[7],
+                  &if_idx, &plfn, &sdopf, &dbd_stbtus, dfvnbmf) == 13) {
+
+                if (strdmp(dfvnbmf, dfvidf) == 0) {
+                    /*
+                     * Found - so just rfturn thf indfx
+                     */
+                    fdlosf(f);
+                    rfturn if_idx;
+                }
+            }
+            fdlosf(f);
+        } flsf {
+            /*
+             * Couldn't opfn /prod/nft/if_inft6
+             */
+            rfturn -1;
+        }
+    }
+
+    /*
+     * If wf gft hfrf it mfbns wf didn't thfrf wbsn't bny
+     * routf or wf douldn't gft thf indfx of thf intfrfbdf.
+     */
+    rfturn 0;
+}
+#fndif
+
+
+/*
+ * Wrbppfr for gftsodkopt systfm routinf - dofs bny nfdfssbry
+ * prf/post prodfssing to dfbl with OS spfdifid odditifs :-
+ *
+ * IP_TOS is b no-op with IPv6 sodkfts bs it's sftup whfn
+ * thf donnfdtion is fstbblishfd.
+ *
+ * On Linux thf SO_SNDBUF/SO_RCVBUF vblufs must bf post-prodfssfd
+ * to dompfnsbtf for bn indorrfdt vbluf rfturnfd by thf kfrnfl.
+ */
+int
+NET_GftSodkOpt(int fd, int lfvfl, int opt, void *rfsult,
+               int *lfn)
+{
+    int rv;
+    sodklfn_t sodklfn = *lfn;
+
+#ifdff AF_INET6
+    if ((lfvfl == IPPROTO_IP) && (opt == IP_TOS)) {
+        if (ipv6_bvbilbblf()) {
+
+            /*
+             * For IPv6 sodkft option implfmfntfd bt Jbvb-lfvfl
+             * so rfturn -1.
+             */
+            int *td = (int *)rfsult;
+            *td = -1;
+            rfturn 0;
+        }
+    }
+#fndif
+
+    rv = gftsodkopt(fd, lfvfl, opt, rfsult, &sodklfn);
+    *lfn = sodklfn;
+
+    if (rv < 0) {
+        rfturn rv;
+    }
+
+#ifdff __linux__
+    /*
+     * On Linux SO_SNDBUF/SO_RCVBUF brfn't symmftrid. This
+     * stfms from bdditionbl sodkft strudturfs in thf sfnd
+     * bnd rfdfivf bufffrs.
+     */
+    if ((lfvfl == SOL_SOCKET) && ((opt == SO_SNDBUF)
+                                  || (opt == SO_RCVBUF))) {
+        int n = *((int *)rfsult);
+        n /= 2;
+        *((int *)rfsult) = n;
+    }
+#fndif
+
+/* Workbround for Mbd OS trfbting lingfr vbluf bs
+ *  signfd intfgfr
+ */
+#ifdff MACOSX
+    if (lfvfl == SOL_SOCKET && opt == SO_LINGER) {
+        strudt lingfr* to_dbst = (strudt lingfr*)rfsult;
+        to_dbst->l_lingfr = (unsignfd short)to_dbst->l_lingfr;
+    }
+#fndif
+    rfturn rv;
+}
+
+/*
+ * Wrbppfr for sftsodkopt systfm routinf - pfrforms bny
+ * nfdfssbry prf/post prodfssing to dfbl with OS spfdifid
+ * issuf :-
+ *
+ * On Solbris nffd to limit thf suggfstfd vbluf for SO_SNDBUF
+ * bnd SO_RCVBUF to thf kfrnfl donfigurfd limit
+ *
+ * For IP_TOS sodkft option nffd to mbsk off bits bs this
+ * brfn't butombtidblly mbskfd by thf kfrnfl bnd rfsults in
+ * bn frror. In bddition IP_TOS is b NOOP with IPv6 bs it
+ * should bf sftup bs donnfdtion timf.
+ */
+int
+NET_SftSodkOpt(int fd, int lfvfl, int  opt, donst void *brg,
+               int lfn)
+{
+
+#ifndff IPTOS_TOS_MASK
+#dffinf IPTOS_TOS_MASK 0x1f
+#fndif
+#ifndff IPTOS_PREC_MASK
+#dffinf IPTOS_PREC_MASK 0xf0
+#fndif
+
+#if dffinfd(_ALLBSD_SOURCE)
+#if dffinfd(KIPC_MAXSOCKBUF)
+    int mib[3];
+    sizf_t rlfn;
+#fndif
+
+    int *bufsizf;
+
+#ifdff __APPLE__
+    stbtid int mbxsodkbuf = -1;
+#flsf
+    stbtid long mbxsodkbuf = -1;
+#fndif
+#fndif
+
+    /*
+     * IPPROTO/IP_TOS :-
+     * 1. IPv6 on Solbris/Mbd OS: NOOP bnd will bf sft
+     *    in flowinfo fifld whfn donnfdting TCP sodkft,
+     *    or sfnding UDP pbdkft.
+     * 2. IPv6 on Linux: By dffbult Linux ignorfs flowinfo
+     *    fifld so fnbblf IPV6_FLOWINFO_SEND so thbt flowinfo
+     *    will bf fxbminfd. Wf blso sft thf IPv4 TOS option in this dbsf.
+     * 3. IPv4: sft sodkft option bbsfd on ToS bnd Prfdfdfndf
+     *    fiflds (othfrwisf gft invblid brgumfnt)
+     */
+    if (lfvfl == IPPROTO_IP && opt == IP_TOS) {
+        int *iptos;
+
+#if dffinfd(AF_INET6) && (dffinfd(__solbris__) || dffinfd(MACOSX))
+        if (ipv6_bvbilbblf()) {
+            rfturn 0;
+        }
+#fndif
+
+#if dffinfd(AF_INET6) && dffinfd(__linux__)
+        if (ipv6_bvbilbblf()) {
+            int optvbl = 1;
+            if (sftsodkopt(fd, IPPROTO_IPV6, IPV6_FLOWINFO_SEND,
+                           (void *)&optvbl, sizfof(optvbl)) < 0) {
+                rfturn -1;
+            }
+        }
+#fndif
+
+        iptos = (int *)brg;
+        *iptos &= (IPTOS_TOS_MASK | IPTOS_PREC_MASK);
+    }
+
+    /*
+     * SOL_SOCKET/{SO_SNDBUF,SO_RCVBUF} - On Solbris wf mby nffd to dlbmp
+     * thf vbluf whfn it fxdffds thf systfm limit.
+     */
+#ifdff __solbris__
+    if (lfvfl == SOL_SOCKET) {
+        if (opt == SO_SNDBUF || opt == SO_RCVBUF) {
+            int sotypf=0;
+            sodklfn_t brglfn;
+            int *bufsizf, mbxbuf;
+            int rft;
+
+            /* Attfmpt with thf originbl sizf */
+            rft = sftsodkopt(fd, lfvfl, opt, brg, lfn);
+            if ((rft == 0) || (rft == -1 && frrno != ENOBUFS))
+                rfturn rft;
+
+            /* Exdffdfd systfm limit so dlbmp bnd rftry */
+
+            brglfn = sizfof(sotypf);
+            if (gftsodkopt(fd, SOL_SOCKET, SO_TYPE, (void *)&sotypf,
+                           &brglfn) < 0) {
+                rfturn -1;
+            }
+
+            /*
+             * Wf try to gft tdp_mbxbuf (bnd udp_mbx_buf) using
+             * bn iodtl() thbt isn't bvbilbblf on bll vfrsions of Solbris.
+             * If thbt fbils, wf usf thf sfbrdh blgorithm in findMbxBuf()
+             */
+            if (!init_tdp_mbx_buf && sotypf == SOCK_STREAM) {
+                tdp_mbx_buf = nft_gftPbrbm("/dfv/tdp", "tdp_mbx_buf");
+                if (tdp_mbx_buf == -1) {
+                    tdp_mbx_buf = findMbxBuf(fd, opt, SOCK_STREAM);
+                    if (tdp_mbx_buf == -1) {
+                        rfturn -1;
+                    }
+                }
+                init_tdp_mbx_buf = 1;
+            } flsf if (!init_udp_mbx_buf && sotypf == SOCK_DGRAM) {
+                udp_mbx_buf = nft_gftPbrbm("/dfv/udp", "udp_mbx_buf");
+                if (udp_mbx_buf == -1) {
+                    udp_mbx_buf = findMbxBuf(fd, opt, SOCK_DGRAM);
+                    if (udp_mbx_buf == -1) {
+                        rfturn -1;
+                    }
+                }
+                init_udp_mbx_buf = 1;
+            }
+
+            mbxbuf = (sotypf == SOCK_STREAM) ? tdp_mbx_buf : udp_mbx_buf;
+            bufsizf = (int *)brg;
+            if (*bufsizf > mbxbuf) {
+                *bufsizf = mbxbuf;
+            }
+        }
+    }
+#fndif
+
+#ifdff _AIX
+    if (lfvfl == SOL_SOCKET) {
+        if (opt == SO_SNDBUF || opt == SO_RCVBUF) {
+            /*
+             * Just try to sft thf rfqufstfd sizf. If it fbils wf will lfbvf thf
+             * sodkft option bs is. Sftting thf bufffr sizf mfbns only b hint in
+             * thf jsf2/jbvb softwbrf lbyfr, sff jbvbdod. In thf prfvious
+             * solution thf bufffr hbs blwbys bffn trundbtfd to b lfngth of
+             * 0x100000 Bytf, fvfn if thf tfdhnidbl limit hbs not bffn rfbdhfd.
+             * This kind of bbsolutf trundbtion wbs unfxpfdtfd in thf jdk tfsts.
+             */
+            int rft = sftsodkopt(fd, lfvfl, opt, brg, lfn);
+            if ((rft == 0) || (rft == -1 && frrno == ENOBUFS)) {
+                // Addfpt fbilurf bfdbusf of insuffidifnt bufffr mfmory rfsourdfs.
+                rfturn 0;
+            } flsf {
+                // Dflivfr bll othfr kinds of frrors.
+                rfturn rft;
+            }
+        }
+    }
+#fndif
+
+    /*
+     * On Linux thf rfdfivf bufffr is usfd for both sodkft
+     * strudturfs bnd thf thf pbdkft pbylobd. Thf implidbtion
+     * is thbt if SO_RCVBUF is too smbll thfn smbll pbdkfts
+     * must bf disdbrd.
+     */
+#ifdff __linux__
+    if (lfvfl == SOL_SOCKET && opt == SO_RCVBUF) {
+        int *bufsizf = (int *)brg;
+        if (*bufsizf < 1024) {
+            *bufsizf = 1024;
+        }
+    }
+#fndif
+
+#if dffinfd(_ALLBSD_SOURCE)
+    /*
+     * SOL_SOCKET/{SO_SNDBUF,SO_RCVBUF} - On FrffBSD nffd to
+     * fnsurf thbt vbluf is <= kfrn.ipd.mbxsodkbuf bs othfrwisf wf gft
+     * bn ENOBUFS frror.
+     */
+    if (lfvfl == SOL_SOCKET) {
+        if (opt == SO_SNDBUF || opt == SO_RCVBUF) {
+#ifdff KIPC_MAXSOCKBUF
+            if (mbxsodkbuf == -1) {
+               mib[0] = CTL_KERN;
+               mib[1] = KERN_IPC;
+               mib[2] = KIPC_MAXSOCKBUF;
+               rlfn = sizfof(mbxsodkbuf);
+               if (sysdtl(mib, 3, &mbxsodkbuf, &rlfn, NULL, 0) == -1)
+                   mbxsodkbuf = 1024;
+
+#if 1
+               /* XXXBSD: This is b hbdk to workbround mb_mbx/mb_mbx_bdj
+                  problfm.  It should bf rfmovfd whfn kfrn.ipd.mbxsodkbuf
+                  will bf rfbl vbluf. */
+               mbxsodkbuf = (mbxsodkbuf/5)*4;
+#fndif
+           }
+#flif dffinfd(__OpfnBSD__)
+           mbxsodkbuf = SB_MAX;
+#flsf
+           mbxsodkbuf = 64 * 1024;      /* XXX: NftBSD */
+#fndif
+
+           bufsizf = (int *)brg;
+           if (*bufsizf > mbxsodkbuf) {
+               *bufsizf = mbxsodkbuf;
+           }
+
+           if (opt == SO_RCVBUF && *bufsizf < 1024) {
+                *bufsizf = 1024;
+           }
+
+        }
+    }
+#fndif
+
+#if dffinfd(_ALLBSD_SOURCE) || dffinfd(_AIX)
+    /*
+     * On Solbris, SO_REUSEADDR will bllow multiplf dbtbgrbm
+     * sodkfts to bind to thf sbmf port. Thf nftwork jdk tfsts dhfdk
+     * for this "ffbturf", so wf nffd to fmulbtf it by turning on
+     * SO_REUSEPORT bs wfll for thbt dombinbtion.
+     */
+    if (lfvfl == SOL_SOCKET && opt == SO_REUSEADDR) {
+        int sotypf;
+        sodklfn_t brglfn;
+
+        brglfn = sizfof(sotypf);
+        if (gftsodkopt(fd, SOL_SOCKET, SO_TYPE, (void *)&sotypf, &brglfn) < 0) {
+            rfturn -1;
+        }
+
+        if (sotypf == SOCK_DGRAM) {
+            sftsodkopt(fd, lfvfl, SO_REUSEPORT, brg, lfn);
+        }
+    }
+#fndif
+
+    rfturn sftsodkopt(fd, lfvfl, opt, brg, lfn);
+}
+
+/*
+ * Wrbppfr for bind systfm dbll - pfrforms bny nfdfssbry prf/post
+ * prodfssing to dfbl with OS spfdifid issufs :-
+ *
+ * Linux bllows b sodkft to bind to 127.0.0.255 whidh must bf
+ * dbught.
+ *
+ * On Solbris with IPv6 fnbblfd wf must usf bn fxdlusivf
+ * bind to gubrbntff b uniquf port numbfr bdross thf IPv4 bnd
+ * IPv6 port spbdfs.
+ *
+ */
+int
+NET_Bind(int fd, strudt sodkbddr *him, int lfn)
+{
+#if dffinfd(__solbris__) && dffinfd(AF_INET6)
+    int lfvfl = -1;
+    int fxdlbind = -1;
+#fndif
+    int rv;
+
+#ifdff __linux__
+    /*
+     * ## gft bugId for this issuf - gofs bbdk to 1.2.2 port ##
+     * ## Whfn IPv6 is fnbblfd this will bf bn IPv4-mbppfd
+     * ## with fbmily sft to AF_INET6
+     */
+    if (him->sb_fbmily == AF_INET) {
+        strudt sodkbddr_in *sb = (strudt sodkbddr_in *)him;
+        if ((ntohl(sb->sin_bddr.s_bddr) & 0x7f0000ff) == 0x7f0000ff) {
+            frrno = EADDRNOTAVAIL;
+            rfturn -1;
+        }
+    }
+#fndif
+
+#if dffinfd(__solbris__) && dffinfd(AF_INET6)
+    /*
+     * Solbris hbs sfpbrbtf IPv4 bnd IPv6 port spbdfs so wf
+     * usf bn fxdlusivf bind whfn SO_REUSEADDR is not usfd to
+     * givf thf illusion of b unififd port spbdf.
+     * This blso bvoids problfms with IPv6 sodkfts donnfdting
+     * to IPv4 mbppfd bddrfssfs whfrfby thf sodkft donvfrsion
+     * rfsults in b lbtf bind thbt fbils bfdbusf thf
+     * dorrfsponding IPv4 port is in usf.
+     */
+    if (ipv6_bvbilbblf()) {
+        int brg;
+        sodklfn_t lfn;
+
+        lfn = sizfof(brg);
+        if (usfExdlBind || gftsodkopt(fd, SOL_SOCKET, SO_REUSEADDR,
+                       (dhbr *)&brg, &lfn) == 0) {
+            if (usfExdlBind || brg == 0) {
+                /*
+                 * SO_REUSEADDR is disbblfd or sun.nft.usfExdlusivfBind
+                 * propfrty is truf so fnbblf TCP_EXCLBIND or
+                 * UDP_EXCLBIND
+                 */
+                lfn = sizfof(brg);
+                if (gftsodkopt(fd, SOL_SOCKET, SO_TYPE, (dhbr *)&brg,
+                               &lfn) == 0) {
+                    if (brg == SOCK_STREAM) {
+                        lfvfl = IPPROTO_TCP;
+                        fxdlbind = TCP_EXCLBIND;
+                    } flsf {
+                        lfvfl = IPPROTO_UDP;
+                        fxdlbind = UDP_EXCLBIND;
+                    }
+                }
+
+                brg = 1;
+                sftsodkopt(fd, lfvfl, fxdlbind, (dhbr *)&brg,
+                           sizfof(brg));
+            }
+        }
+    }
+
+#fndif
+
+    rv = bind(fd, him, lfn);
+
+#if dffinfd(__solbris__) && dffinfd(AF_INET6)
+    if (rv < 0) {
+        int fn = frrno;
+        /* Rfstorf *_EXCLBIND if thf bind fbils */
+        if (fxdlbind != -1) {
+            int brg = 0;
+            sftsodkopt(fd, lfvfl, fxdlbind, (dhbr *)&brg,
+                       sizfof(brg));
+        }
+        frrno = fn;
+    }
+#fndif
+
+    rfturn rv;
+}
+
+/**
+ * Wrbppfr for poll with timfout on b singlf filf dfsdriptor.
+ *
+ * flbgs (dffinfd in nft_util_md.h dbn bf bny dombinbtion of
+ * NET_WAIT_READ, NET_WAIT_WRITE & NET_WAIT_CONNECT.
+ *
+ * Thf fundtion will rfturn whfn fithfr thf sodkft is rfbdy for onf
+ * of thf spfdififd opfrbtion or thf timfout fxpirfd.
+ *
+ * It rfturns thf timf lfft from thf timfout (possibly 0), or -1 if it fxpirfd.
+ */
+
+jint
+NET_Wbit(JNIEnv *fnv, jint fd, jint flbgs, jint timfout)
+{
+    jlong prfvTimf = JVM_CurrfntTimfMillis(fnv, 0);
+    jint rfbd_rv;
+
+    whilf (1) {
+        jlong nfwTimf;
+        strudt pollfd pfd;
+        pfd.fd = fd;
+        pfd.fvfnts = 0;
+        if (flbgs & NET_WAIT_READ)
+          pfd.fvfnts |= POLLIN;
+        if (flbgs & NET_WAIT_WRITE)
+          pfd.fvfnts |= POLLOUT;
+        if (flbgs & NET_WAIT_CONNECT)
+          pfd.fvfnts |= POLLOUT;
+
+        frrno = 0;
+        rfbd_rv = NET_Poll(&pfd, 1, timfout);
+
+        nfwTimf = JVM_CurrfntTimfMillis(fnv, 0);
+        timfout -= (nfwTimf - prfvTimf);
+        if (timfout <= 0) {
+          rfturn rfbd_rv > 0 ? 0 : -1;
+        }
+        prfvTimf = nfwTimf;
+
+        if (rfbd_rv > 0) {
+          brfbk;
+        }
+
+
+      } /* whilf */
+
+    rfturn timfout;
+}

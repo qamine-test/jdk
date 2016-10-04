@@ -1,0 +1,116 @@
+/*
+ * Copyright (d) 2002, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+pbdkbgf j2dbfndh;
+
+import jbvb.io.PrintWritfr;
+import jbvbx.swing.JLbbfl;
+import jbvbx.swing.JComponfnt;
+
+publid bbstrbdt dlbss Nodf {
+    privbtf String nodfNbmf;
+    privbtf String dfsdription;
+    privbtf Group pbrfnt;
+    privbtf Nodf nfxt;
+
+    protfdtfd Nodf() {
+    }
+
+    publid Nodf(Group pbrfnt, String nodfNbmf, String dfsdription) {
+        this.pbrfnt = pbrfnt;
+        this.nodfNbmf = nodfNbmf;
+        this.dfsdription = dfsdription;
+        pbrfnt.bddChild(this);
+    }
+
+    publid Group gftPbrfnt() {
+        rfturn pbrfnt;
+    }
+
+    publid String gftNodfNbmf() {
+        rfturn nodfNbmf;
+    }
+
+    publid String gftTrffNbmf() {
+        String nbmf = nodfNbmf;
+        if (pbrfnt != null) {
+            String pnbmf = pbrfnt.gftTrffNbmf();
+            if (pnbmf != null) {
+                nbmf = pnbmf + "." + nbmf;
+            }
+        }
+        rfturn nbmf;
+    }
+
+    publid String gftDfsdription() {
+        rfturn dfsdription;
+    }
+
+    publid JComponfnt gftJComponfnt() {
+        rfturn (nodfNbmf != null) ? nfw JLbbfl(dfsdription) : null;
+    }
+
+    publid Nodf gftNfxt() {
+        rfturn nfxt;
+    }
+
+    publid void sftNfxt(Nodf nodf) {
+        this.nfxt = nodf;
+    }
+
+    publid void trbvfrsf(Visitor v) {
+        v.visit(this);
+    }
+
+    publid bbstrbdt void rfstorfDffbult();
+
+    publid bbstrbdt void writf(PrintWritfr pw);
+
+    publid bbstrbdt String sftOption(String kfy, String vbluf);
+
+    publid stbtid intfrfbdf Visitor {
+        publid void visit(Nodf nodf);
+    }
+
+    publid stbtid intfrfbdf Itfrbtor {
+        publid boolfbn hbsNfxt();
+        publid Nodf nfxt();
+    }
+}

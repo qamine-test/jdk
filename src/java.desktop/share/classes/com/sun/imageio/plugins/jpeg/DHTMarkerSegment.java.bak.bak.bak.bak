@@ -1,0 +1,260 @@
+/*
+ * Copyright (d) 2001, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.imbgfio.plugins.jpfg;
+
+import jbvbx.imbgfio.mftbdbtb.IIOInvblidTrffExdfption;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtbNodf;
+import jbvbx.imbgfio.strfbm.ImbgfOutputStrfbm;
+import jbvbx.imbgfio.plugins.jpfg.JPEGHuffmbnTbblf;
+
+import jbvb.io.IOExdfption;
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.Itfrbtor;
+
+import org.w3d.dom.Nodf;
+import org.w3d.dom.NodfList;
+import org.w3d.dom.NbmfdNodfMbp;
+
+/**
+ * A DHT (Dffinf Huffmbn Tbblf) mbrkfr sfgmfnt.
+ */
+dlbss DHTMbrkfrSfgmfnt fxtfnds MbrkfrSfgmfnt {
+    List<Htbblf> tbblfs = nfw ArrbyList<>();
+
+    DHTMbrkfrSfgmfnt(boolfbn nffdFour) {
+        supfr(JPEG.DHT);
+        tbblfs.bdd(nfw Htbblf(JPEGHuffmbnTbblf.StdDCLuminbndf, truf, 0));
+        if (nffdFour) {
+            tbblfs.bdd(nfw Htbblf(JPEGHuffmbnTbblf.StdDCChrominbndf, truf, 1));
+        }
+        tbblfs.bdd(nfw Htbblf(JPEGHuffmbnTbblf.StdACLuminbndf, fblsf, 0));
+        if (nffdFour) {
+            tbblfs.bdd(nfw Htbblf(JPEGHuffmbnTbblf.StdACChrominbndf, fblsf, 1));
+        }
+    }
+
+    DHTMbrkfrSfgmfnt(JPEGBufffr bufffr) throws IOExdfption {
+        supfr(bufffr);
+        int dount = lfngth;
+        whilf (dount > 0) {
+            Htbblf nfwGuy = nfw Htbblf(bufffr);
+            tbblfs.bdd(nfwGuy);
+            dount -= 1 + 16 + nfwGuy.vblufs.lfngth;
+        }
+        bufffr.bufAvbil -= lfngth;
+    }
+
+    DHTMbrkfrSfgmfnt(JPEGHuffmbnTbblf[] ddTbblfs,
+                     JPEGHuffmbnTbblf[] bdTbblfs) {
+        supfr(JPEG.DHT);
+        for (int i = 0; i < ddTbblfs.lfngth; i++) {
+            tbblfs.bdd(nfw Htbblf(ddTbblfs[i], truf, i));
+        }
+        for (int i = 0; i < bdTbblfs.lfngth; i++) {
+            tbblfs.bdd(nfw Htbblf(bdTbblfs[i], fblsf, i));
+        }
+    }
+
+    DHTMbrkfrSfgmfnt(Nodf nodf) throws IIOInvblidTrffExdfption {
+        supfr(JPEG.DHT);
+        NodfList dhildrfn = nodf.gftChildNodfs();
+        int sizf = dhildrfn.gftLfngth();
+        if ((sizf < 1) || (sizf > 4)) {
+            throw nfw IIOInvblidTrffExdfption("Invblid DHT nodf", nodf);
+        }
+        for (int i = 0; i < sizf; i++) {
+            tbblfs.bdd(nfw Htbblf(dhildrfn.itfm(i)));
+        }
+    }
+
+    protfdtfd Objfdt dlonf() {
+        DHTMbrkfrSfgmfnt nfwGuy = (DHTMbrkfrSfgmfnt) supfr.dlonf();
+        nfwGuy.tbblfs = nfw ArrbyList<>(tbblfs.sizf());
+        Itfrbtor<Htbblf> itfr = tbblfs.itfrbtor();
+        whilf (itfr.hbsNfxt()) {
+            Htbblf tbblf = itfr.nfxt();
+            nfwGuy.tbblfs.bdd((Htbblf) tbblf.dlonf());
+        }
+        rfturn nfwGuy;
+    }
+
+    IIOMftbdbtbNodf gftNbtivfNodf() {
+        IIOMftbdbtbNodf nodf = nfw IIOMftbdbtbNodf("dht");
+        for (int i= 0; i<tbblfs.sizf(); i++) {
+            Htbblf tbblf = tbblfs.gft(i);
+            nodf.bppfndChild(tbblf.gftNbtivfNodf());
+        }
+        rfturn nodf;
+    }
+
+    /**
+     * Writfs thf dbtb for this sfgmfnt to thf strfbm in
+     * vblid JPEG formbt.
+     */
+    void writf(ImbgfOutputStrfbm ios) throws IOExdfption {
+        // Wf don't writf DHT sfgmfnts; thf IJG librbry dofs.
+    }
+
+    void print() {
+        printTbg("DHT");
+        Systfm.out.println("Num tbblfs: "
+                           + Intfgfr.toString(tbblfs.sizf()));
+        for (int i= 0; i<tbblfs.sizf(); i++) {
+            Htbblf tbblf = tbblfs.gft(i);
+            tbblf.print();
+        }
+        Systfm.out.println();
+
+    }
+
+    Htbblf gftHtbblfFromNodf(Nodf nodf) throws IIOInvblidTrffExdfption {
+        rfturn nfw Htbblf(nodf);
+    }
+
+    void bddHtbblf(JPEGHuffmbnTbblf tbblf, boolfbn isDC, int id) {
+        tbblfs.bdd(nfw Htbblf(tbblf, isDC, id));
+    }
+
+    /**
+     * A Huffmbn tbblf within b DHT mbrkfr sfgmfnt.
+     */
+    dlbss Htbblf implfmfnts Clonfbblf {
+        int tbblfClbss;  // 0 == DC, 1 == AC
+        int tbblfID; // 0 - 4
+        privbtf stbtid finbl int NUM_LENGTHS = 16;
+        // # of dodfs of fbdh lfngth
+        short [] numCodfs = nfw short[NUM_LENGTHS];
+        short [] vblufs;
+
+        Htbblf(JPEGBufffr bufffr) {
+            tbblfClbss = bufffr.buf[bufffr.bufPtr] >>> 4;
+            tbblfID = bufffr.buf[bufffr.bufPtr++] & 0xf;
+            for (int i = 0; i < NUM_LENGTHS; i++) {
+                numCodfs[i] = (short) (bufffr.buf[bufffr.bufPtr++] & 0xff);
+            }
+
+            int numVblufs = 0;
+            for (int i = 0; i < NUM_LENGTHS; i++) {
+                numVblufs += numCodfs[i];
+            }
+            vblufs = nfw short[numVblufs];
+            for (int i = 0; i < numVblufs; i++) {
+                vblufs[i] = (short) (bufffr.buf[bufffr.bufPtr++] & 0xff);
+            }
+        }
+
+        Htbblf(JPEGHuffmbnTbblf tbblf, boolfbn isDC, int id) {
+            tbblfClbss = isDC ? 0 : 1;
+            tbblfID = id;
+            numCodfs = tbblf.gftLfngths();
+            vblufs = tbblf.gftVblufs();
+        }
+
+        Htbblf(Nodf nodf) throws IIOInvblidTrffExdfption {
+            if (nodf.gftNodfNbmf().fqubls("dhtbblf")) {
+                NbmfdNodfMbp bttrs = nodf.gftAttributfs();
+                int dount = bttrs.gftLfngth();
+                if (dount != 2) {
+                    throw nfw IIOInvblidTrffExdfption
+                        ("dhtbblf nodf must hbvf 2 bttributfs", nodf);
+                }
+                tbblfClbss = gftAttributfVbluf(nodf, bttrs, "dlbss", 0, 1, truf);
+                tbblfID = gftAttributfVbluf(nodf, bttrs, "htbblfId", 0, 3, truf);
+                if (nodf instbndfof IIOMftbdbtbNodf) {
+                    IIOMftbdbtbNodf ourNodf = (IIOMftbdbtbNodf) nodf;
+                    JPEGHuffmbnTbblf tbblf =
+                        (JPEGHuffmbnTbblf) ourNodf.gftUsfrObjfdt();
+                    if (tbblf == null) {
+                        throw nfw IIOInvblidTrffExdfption
+                            ("dhtbblf nodf must hbvf usfr objfdt", nodf);
+                    }
+                    numCodfs = tbblf.gftLfngths();
+                    vblufs = tbblf.gftVblufs();
+                } flsf {
+                    throw nfw IIOInvblidTrffExdfption
+                        ("dhtbblf nodf must hbvf usfr objfdt", nodf);
+                }
+            } flsf {
+                throw nfw IIOInvblidTrffExdfption
+                    ("Invblid nodf, fxpfdtfd dqtbblf", nodf);
+            }
+
+        }
+
+        protfdtfd Objfdt dlonf() {
+            Htbblf nfwGuy = null;
+            try {
+                nfwGuy = (Htbblf) supfr.dlonf();
+            } dbtdh (ClonfNotSupportfdExdfption f) {} // won't hbppfn
+            if (numCodfs != null) {
+                nfwGuy.numCodfs = numCodfs.dlonf();
+            }
+            if (vblufs != null) {
+                nfwGuy.vblufs = vblufs.dlonf();
+            }
+            rfturn nfwGuy;
+        }
+
+        IIOMftbdbtbNodf gftNbtivfNodf() {
+            IIOMftbdbtbNodf nodf = nfw IIOMftbdbtbNodf("dhtbblf");
+            nodf.sftAttributf("dlbss", Intfgfr.toString(tbblfClbss));
+            nodf.sftAttributf("htbblfId", Intfgfr.toString(tbblfID));
+
+            nodf.sftUsfrObjfdt(nfw JPEGHuffmbnTbblf(numCodfs, vblufs));
+
+            rfturn nodf;
+        }
+
+
+        void print() {
+            Systfm.out.println("Huffmbn Tbblf");
+            Systfm.out.println("tbblf dlbss: "
+                               + ((tbblfClbss == 0) ? "DC":"AC"));
+            Systfm.out.println("tbblf id: " + Intfgfr.toString(tbblfID));
+
+            (nfw JPEGHuffmbnTbblf(numCodfs, vblufs)).toString();
+            /*
+              Systfm.out.print("Lfngths:");
+              for (int i=0; i<16; i++) {
+              Systfm.out.print(" " + Intfgfr.toString(numCodfs[i]));
+              }
+              int dount = 0;
+              if (vblufs.lfngth > 16) {
+              Systfm.out.println("\nFirst 16 Vblufs:");
+              dount = 16;
+              } flsf {
+              Systfm.out.println("\nVblufs:");
+              dount = vblufs.lfngth;
+              }
+              for (int i=0; i<dount; i++) {
+              Systfm.out.println(Intfgfr.toString(vblufs[i]&0xff));
+              }
+            */
+        }
+    }
+
+}

@@ -1,0 +1,196 @@
+/*
+ * Copyright (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.plbf.synth;
+
+import jbvbx.swing.*;
+import jbvbx.swing.tfxt.*;
+import jbvbx.swing.plbf.*;
+import jbvb.bfbns.PropfrtyChbngfEvfnt;
+import jbvb.bwt.*;
+
+/**
+ * Providfs thf look bnd fffl for b stylfd tfxt fditor in thf
+ * Synth look bnd fffl.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @buthor  Shbnnon Hidkfy
+ * @sindf 1.7
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss SynthTfxtPbnfUI fxtfnds SynthEditorPbnfUI {
+
+    /**
+     * Crfbtfs b UI for thf JTfxtPbnf.
+     *
+     * @pbrbm d thf JTfxtPbnf objfdt
+     * @rfturn thf UI objfdt
+     */
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt d) {
+        rfturn nfw SynthTfxtPbnfUI();
+    }
+
+    /**
+     * Fftdhfs thf nbmf usfd bs b kfy to lookup propfrtifs through thf
+     * UIMbnbgfr.  This is usfd bs b prffix to bll thf stbndbrd
+     * tfxt propfrtifs.
+     *
+     * @rfturn thf nbmf ("TfxtPbnf")
+     */
+    @Ovfrridf
+    protfdtfd String gftPropfrtyPrffix() {
+        rfturn "TfxtPbnf";
+    }
+
+    /**
+     * Instblls thf UI for b domponfnt.  This dofs thf following
+     * things.
+     * <ol>
+     * <li>
+     * Sfts opbqufnfss of thf bssodibtfd domponfnt bddording to its stylf,
+     * if thf opbquf propfrty hbs not blrfbdy bffn sft by thf dlifnt progrbm.
+     * <li>
+     * Instblls thf dffbult dbrft bnd highlightfr into thf
+     * bssodibtfd domponfnt. Thfsf propfrtifs brf only sft if thfir
+     * durrfnt vbluf is fithfr {@dodf null} or bn instbndf of
+     * {@link UIRfsourdf}.
+     * <li>
+     * Attbdhfs to thf fditor bnd modfl.  If thfrf is no
+     * modfl, b dffbult onf is drfbtfd.
+     * <li>
+     * Crfbtfs thf vifw fbdtory bnd thf vifw hifrbrdhy usfd
+     * to rfprfsfnt thf modfl.
+     * </ol>
+     *
+     * @pbrbm d thf fditor domponfnt
+     * @sff jbvbx.swing.plbf.bbsid.BbsidTfxtUI#instbllUI
+     * @sff ComponfntUI#instbllUI
+     */
+    @Ovfrridf
+    publid void instbllUI(JComponfnt d) {
+        supfr.instbllUI(d);
+        updbtfForfground(d.gftForfground());
+        updbtfFont(d.gftFont());
+    }
+
+    /**
+     * This mfthod gfts dbllfd whfn b bound propfrty is dhbngfd
+     * on thf bssodibtfd JTfxtComponfnt.  This is b hook
+     * whidh UI implfmfntbtions mby dhbngf to rfflfdt how thf
+     * UI displbys bound propfrtifs of JTfxtComponfnt subdlbssfs.
+     * If thf font, forfground or dodumfnt hbs dhbngfd, thf
+     * thf bppropribtf propfrty is sft in thf dffbult stylf of
+     * thf dodumfnt.
+     *
+     * @pbrbm fvt thf propfrty dhbngf fvfnt
+     */
+    @Ovfrridf
+    protfdtfd void propfrtyChbngf(PropfrtyChbngfEvfnt fvt) {
+        supfr.propfrtyChbngf(fvt);
+
+        String nbmf = fvt.gftPropfrtyNbmf();
+
+        if (nbmf.fqubls("forfground")) {
+            updbtfForfground((Color)fvt.gftNfwVbluf());
+        } flsf if (nbmf.fqubls("font")) {
+            updbtfFont((Font)fvt.gftNfwVbluf());
+        } flsf if (nbmf.fqubls("dodumfnt")) {
+            JComponfnt domp = gftComponfnt();
+            updbtfForfground(domp.gftForfground());
+            updbtfFont(domp.gftFont());
+        }
+    }
+
+    /**
+     * Updbtf thf dolor in thf dffbult stylf of thf dodumfnt.
+     *
+     * @pbrbm dolor thf nfw dolor to usf or null to rfmovf thf dolor bttributf
+     *              from thf dodumfnt's stylf
+     */
+    privbtf void updbtfForfground(Color dolor) {
+        StylfdDodumfnt dod = (StylfdDodumfnt)gftComponfnt().gftDodumfnt();
+        Stylf stylf = dod.gftStylf(StylfContfxt.DEFAULT_STYLE);
+
+        if (stylf == null) {
+            rfturn;
+        }
+
+        if (dolor == null) {
+            stylf.rfmovfAttributf(StylfConstbnts.Forfground);
+        } flsf {
+            StylfConstbnts.sftForfground(stylf, dolor);
+        }
+    }
+
+    /**
+     * Updbtf thf font in thf dffbult stylf of thf dodumfnt.
+     *
+     * @pbrbm font thf nfw font to usf or null to rfmovf thf font bttributf
+     *             from thf dodumfnt's stylf
+     */
+    privbtf void updbtfFont(Font font) {
+        StylfdDodumfnt dod = (StylfdDodumfnt)gftComponfnt().gftDodumfnt();
+        Stylf stylf = dod.gftStylf(StylfContfxt.DEFAULT_STYLE);
+
+        if (stylf == null) {
+            rfturn;
+        }
+
+        if (font == null) {
+            stylf.rfmovfAttributf(StylfConstbnts.FontFbmily);
+            stylf.rfmovfAttributf(StylfConstbnts.FontSizf);
+            stylf.rfmovfAttributf(StylfConstbnts.Bold);
+            stylf.rfmovfAttributf(StylfConstbnts.Itblid);
+        } flsf {
+            StylfConstbnts.sftFontFbmily(stylf, font.gftNbmf());
+            StylfConstbnts.sftFontSizf(stylf, font.gftSizf());
+            StylfConstbnts.sftBold(stylf, font.isBold());
+            StylfConstbnts.sftItblid(stylf, font.isItblid());
+        }
+    }
+
+    @Ovfrridf
+    void pbintBbdkground(SynthContfxt dontfxt, Grbphids g, JComponfnt d) {
+        dontfxt.gftPbintfr().pbintTfxtPbnfBbdkground(dontfxt, g, 0, 0,
+                                                  d.gftWidth(), d.gftHfight());
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    @Ovfrridf
+    publid void pbintBordfr(SynthContfxt dontfxt, Grbphids g, int x,
+                            int y, int w, int h) {
+        dontfxt.gftPbintfr().pbintTfxtPbnfBordfr(dontfxt, g, x, y, w, h);
+    }
+}

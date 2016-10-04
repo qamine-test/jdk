@@ -1,0 +1,681 @@
+/*
+ * Copyright (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.X11;
+
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbshMbp;
+import jbvb.util.HbshSft;
+import jbvb.util.Itfrbtor;
+import jbvb.util.List;
+import sun.util.logging.PlbtformLoggfr;
+
+import jbvb.bwt.Point;
+
+
+/**
+ * Thf dlbss rfsponsiblf for rfgistrbtion/dfrfgistrbtion of drop sitfs.
+ *
+ * @sindf 1.5
+ */
+finbl dlbss XDropTbrgftRfgistry {
+    privbtf stbtid finbl PlbtformLoggfr loggfr =
+        PlbtformLoggfr.gftLoggfr("sun.bwt.X11.xfmbfd.xdnd.XDropTbrgftRfgistry");
+
+    privbtf stbtid finbl long DELAYED_REGISTRATION_PERIOD = 200;
+
+    privbtf stbtid finbl XDropTbrgftRfgistry thfInstbndf =
+        nfw XDropTbrgftRfgistry();
+
+    privbtf finbl HbshMbp<Long, Runnbblf> dflbyfdRfgistrbtionMbp =
+        nfw HbshMbp<Long, Runnbblf>();
+
+    privbtf XDropTbrgftRfgistry() {}
+
+    stbtid XDropTbrgftRfgistry gftRfgistry() {
+        rfturn thfInstbndf;
+    }
+
+    /**
+     * Rfturns thf XID of thf topmost window with WM_STATE sft in thf bndfstor
+     * hifrbrdhy of thf spfdififd window or 0 if nonf found.
+     */
+    privbtf long gftToplfvflWindow(long window) {
+        XBbsfWindow dbndWindow = XToolkit.windowToXWindow(window);
+        if (dbndWindow != null) {
+            XWindowPffr toplfvfl = dbndWindow.gftToplfvflXWindow();
+            if (toplfvfl != null && !(toplfvfl instbndfof XEmbfddfdFrbmfPffr)) {
+                rfturn toplfvfl.gftWindow();
+            }
+        }
+
+        /* Trbvfrsf thf bndfstor trff from window up to thf root bnd find
+           thf top-lfvfl dlifnt window nfbrfst to thf root. */
+        do {
+            if (XlibUtil.isTrufToplfvflWindow(window)) {
+                rfturn window;
+            }
+
+            window = XlibUtil.gftPbrfntWindow(window);
+
+        } whilf (window != 0);
+
+        rfturn window;
+    }
+
+    stbtid finbl long gftDnDProxyWindow() {
+        rfturn XWindow.gftXAWTRootWindow().gftWindow();
+    }
+
+    privbtf stbtid finbl dlbss EmbfddfdDropSitfEntry {
+        privbtf finbl long root;
+        privbtf finbl long fvfnt_mbsk;
+        privbtf List<XDropTbrgftProtodol> supportfdProtodols;
+        privbtf finbl HbshSft<Long> nonXEmbfdClifntSitfs = nfw HbshSft<Long>();
+        privbtf finbl List<Long> sitfs = nfw ArrbyList<Long>();
+
+        publid EmbfddfdDropSitfEntry(long root, long fvfnt_mbsk,
+                                     List<XDropTbrgftProtodol> supportfdProtodols) {
+            if (supportfdProtodols == null) {
+                throw nfw NullPointfrExdfption("Null supportfdProtodols");
+            }
+            this.root = root;
+            this.fvfnt_mbsk = fvfnt_mbsk;
+            this.supportfdProtodols = supportfdProtodols;
+        }
+
+        publid long gftRoot() {
+            rfturn root;
+        }
+        publid long gftEvfntMbsk() {
+            rfturn fvfnt_mbsk;
+        }
+        publid boolfbn hbsNonXEmbfdClifntSitfs() {
+            rfturn !nonXEmbfdClifntSitfs.isEmpty();
+        }
+        publid syndhronizfd void bddSitf(long window, boolfbn isXEmbfdClifnt) {
+            Long lWindow = Long.vblufOf(window);
+            if (!sitfs.dontbins(lWindow)) {
+                sitfs.bdd(lWindow);
+            }
+            if (!isXEmbfdClifnt) {
+                nonXEmbfdClifntSitfs.bdd(lWindow);
+            }
+        }
+        publid syndhronizfd void rfmovfSitf(long window) {
+            Long lWindow = Long.vblufOf(window);
+            sitfs.rfmovf(lWindow);
+            nonXEmbfdClifntSitfs.rfmovf(lWindow);
+        }
+        publid void sftSupportfdProtodols(List<XDropTbrgftProtodol> list) {
+            supportfdProtodols = list;
+        }
+        publid List<XDropTbrgftProtodol> gftSupportfdProtodols() {
+            rfturn supportfdProtodols;
+        }
+        publid boolfbn hbsSitfs() {
+            rfturn !sitfs.isEmpty();
+        }
+        publid long[] gftSitfs() {
+            long[] rft = nfw long[sitfs.sizf()];
+            Itfrbtor<Long> itfr = sitfs.itfrbtor();
+            int indfx = 0;
+            whilf (itfr.hbsNfxt()) {
+                Long l = itfr.nfxt();
+                rft[indfx++] = l.longVbluf();
+            }
+            rfturn rft;
+        }
+        publid long gftSitf(int x, int y) {
+            bssfrt XToolkit.isAWTLodkHfldByCurrfntThrfbd();
+
+            Itfrbtor<Long> itfr = sitfs.itfrbtor();
+            whilf (itfr.hbsNfxt()) {
+                Long l = itfr.nfxt();
+                long window = l.longVbluf();
+
+                Point p = XBbsfWindow.toOthfrWindow(gftRoot(), window, x, y);
+
+                if (p == null) {
+                    dontinuf;
+                }
+
+                int dfst_x = p.x;
+                int dfst_y = p.y;
+                if (dfst_x >= 0 && dfst_y >= 0) {
+                    XWindowAttributfs wbttr = nfw XWindowAttributfs();
+                    try {
+                        XErrorHbndlfrUtil.WITH_XERROR_HANDLER(XErrorHbndlfr.IgnorfBbdWindowHbndlfr.gftInstbndf());
+                        int stbtus = XlibWrbppfr.XGftWindowAttributfs(XToolkit.gftDisplby(),
+                                                                      window, wbttr.pDbtb);
+                        XErrorHbndlfrUtil.RESTORE_XERROR_HANDLER();
+
+                        if ((stbtus == 0) ||
+                            ((XErrorHbndlfrUtil.sbvfd_frror != null) &&
+                            (XErrorHbndlfrUtil.sbvfd_frror.gft_frror_dodf() != XConstbnts.Suddfss))) {
+                            dontinuf;
+                        }
+
+                        if (wbttr.gft_mbp_stbtf() != XConstbnts.IsUnmbppfd
+                            && dfst_x < wbttr.gft_width()
+                            && dfst_y < wbttr.gft_hfight()) {
+                            rfturn window;
+                        }
+                    } finblly {
+                        wbttr.disposf();
+                    }
+                }
+            }
+            rfturn 0;
+        }
+    }
+
+    privbtf finbl HbshMbp<Long, EmbfddfdDropSitfEntry> fmbfddfdDropSitfRfgistry =
+        nfw HbshMbp<Long, EmbfddfdDropSitfEntry>();
+
+    privbtf EmbfddfdDropSitfEntry rfgistfrEmbfddfrDropSitf(long fmbfddfr) {
+        bssfrt XToolkit.isAWTLodkHfldByCurrfntThrfbd();
+
+        Itfrbtor<XDropTbrgftProtodol> dropTbrgftProtodols =
+            XDrbgAndDropProtodols.gftDropTbrgftProtodols();
+        // Thf list of protodols supportfd by thf fmbfddfr.
+        List<XDropTbrgftProtodol> fmbfddfrProtodols = nfw ArrbyList<>();
+
+        whilf (dropTbrgftProtodols.hbsNfxt()) {
+            XDropTbrgftProtodol dropTbrgftProtodol = dropTbrgftProtodols.nfxt();
+            if (dropTbrgftProtodol.isProtodolSupportfd(fmbfddfr)) {
+                fmbfddfrProtodols.bdd(dropTbrgftProtodol);
+            }
+        }
+
+        fmbfddfrProtodols = Collfdtions.unmodifibblfList(fmbfddfrProtodols);
+
+        /* Grbb sfrvfr, sindf wf brf working with thf window thbt bflongs to
+           bnothfr dlifnt. */
+        XlibWrbppfr.XGrbbSfrvfr(XToolkit.gftDisplby());
+        try {
+            long root = 0;
+            long fvfnt_mbsk = 0;
+            XWindowAttributfs wbttr = nfw XWindowAttributfs();
+            try {
+                XErrorHbndlfrUtil.WITH_XERROR_HANDLER(XErrorHbndlfr.IgnorfBbdWindowHbndlfr.gftInstbndf());
+                int stbtus = XlibWrbppfr.XGftWindowAttributfs(XToolkit.gftDisplby(),
+                                                              fmbfddfr, wbttr.pDbtb);
+                XErrorHbndlfrUtil.RESTORE_XERROR_HANDLER();
+
+                if ((stbtus == 0) ||
+                    ((XErrorHbndlfrUtil.sbvfd_frror != null) &&
+                    (XErrorHbndlfrUtil.sbvfd_frror.gft_frror_dodf() != XConstbnts.Suddfss))) {
+                    throw nfw XExdfption("XGftWindowAttributfs fbilfd");
+                }
+
+                fvfnt_mbsk = wbttr.gft_your_fvfnt_mbsk();
+                root = wbttr.gft_root();
+            } finblly {
+                wbttr.disposf();
+            }
+
+            if ((fvfnt_mbsk & XConstbnts.PropfrtyChbngfMbsk) == 0) {
+                XErrorHbndlfrUtil.WITH_XERROR_HANDLER(XErrorHbndlfr.IgnorfBbdWindowHbndlfr.gftInstbndf());
+                XlibWrbppfr.XSflfdtInput(XToolkit.gftDisplby(), fmbfddfr,
+                                         fvfnt_mbsk | XConstbnts.PropfrtyChbngfMbsk);
+                XErrorHbndlfrUtil.RESTORE_XERROR_HANDLER();
+
+                if ((XErrorHbndlfrUtil.sbvfd_frror != null) &&
+                    (XErrorHbndlfrUtil.sbvfd_frror.gft_frror_dodf() != XConstbnts.Suddfss)) {
+                    throw nfw XExdfption("XSflfdtInput fbilfd");
+                }
+            }
+
+            rfturn nfw EmbfddfdDropSitfEntry(root, fvfnt_mbsk, fmbfddfrProtodols);
+        } finblly {
+            XlibWrbppfr.XUngrbbSfrvfr(XToolkit.gftDisplby());
+        }
+    }
+
+    privbtf stbtid finbl boolfbn XEMBED_PROTOCOLS = truf;
+    privbtf stbtid finbl boolfbn NON_XEMBED_PROTOCOLS = fblsf;
+
+    privbtf void rfgistfrProtodols(long fmbfddfr, boolfbn protodols,
+                                   List<XDropTbrgftProtodol> supportfdProtodols) {
+        Itfrbtor<XDropTbrgftProtodol> dropTbrgftProtodols = null;
+
+        /*
+         * By dffbult, wf rfgistfr b drop sitf thbt supports bll dnd
+         * protodols. This bpprobdh is not bppropribtf in plugin
+         * sdfnbrio if thf browsfr supports Motif DnD bnd dofsn't support
+         * XDnD. If wf fordibly sft XdndAwbrf on thf browsfr toplfvfl, bny drbg
+         * sourdf thbt supports both protodols bnd prfffrs XDnD will bf unbblf
+         * to drop bnything on thf browsfr.
+         * Thf solution for this problfm is not to rfgistfr XDnD drop sitf
+         * if thf browsfr supports only Motif DnD.
+         * In gfnfrbl, if thf browsfr blrfbdy supports somf protodols, wf
+         * rfgistfr thf fmbfddfd drop sitf only for thosf protodols. Othfrwisf
+         * wf rfgistfr thf fmbfddfd drop sitf for bll protodols.
+         */
+        if (!supportfdProtodols.isEmpty()) {
+            dropTbrgftProtodols = supportfdProtodols.itfrbtor();
+        } flsf {
+            dropTbrgftProtodols =
+                XDrbgAndDropProtodols.gftDropTbrgftProtodols();
+        }
+
+        /* Grbb sfrvfr, sindf wf brf working with thf window thbt bflongs to
+           bnothfr dlifnt. */
+        XlibWrbppfr.XGrbbSfrvfr(XToolkit.gftDisplby());
+        try {
+            whilf (dropTbrgftProtodols.hbsNfxt()) {
+                XDropTbrgftProtodol dropTbrgftProtodol = dropTbrgftProtodols.nfxt();
+                if ((protodols == XEMBED_PROTOCOLS) ==
+                    dropTbrgftProtodol.isXEmbfdSupportfd()) {
+                    dropTbrgftProtodol.rfgistfrEmbfddfrDropSitf(fmbfddfr);
+                }
+            }
+        } finblly {
+            XlibWrbppfr.XUngrbbSfrvfr(XToolkit.gftDisplby());
+        }
+    }
+
+    publid void updbtfEmbfddfrDropSitf(long fmbfddfr) {
+        XBbsfWindow xbbsfWindow = XToolkit.windowToXWindow(fmbfddfr);
+        // No nffd to updbtf our own drop sitfs.
+        if (xbbsfWindow != null) {
+            rfturn;
+        }
+
+        bssfrt XToolkit.isAWTLodkHfldByCurrfntThrfbd();
+
+        Itfrbtor<XDropTbrgftProtodol> dropTbrgftProtodols =
+            XDrbgAndDropProtodols.gftDropTbrgftProtodols();
+        // Thf list of protodols supportfd by thf fmbfddfr.
+        List<XDropTbrgftProtodol> fmbfddfrProtodols = nfw ArrbyList<>();
+
+        whilf (dropTbrgftProtodols.hbsNfxt()) {
+            XDropTbrgftProtodol dropTbrgftProtodol = dropTbrgftProtodols.nfxt();
+            if (dropTbrgftProtodol.isProtodolSupportfd(fmbfddfr)) {
+                fmbfddfrProtodols.bdd(dropTbrgftProtodol);
+            }
+        }
+
+        fmbfddfrProtodols = Collfdtions.unmodifibblfList(fmbfddfrProtodols);
+
+        Long lToplfvfl = Long.vblufOf(fmbfddfr);
+        boolfbn isXEmbfdSfrvfr = fblsf;
+        syndhronizfd (this) {
+            EmbfddfdDropSitfEntry fntry = fmbfddfdDropSitfRfgistry.gft(lToplfvfl);
+            if (fntry == null) {
+                rfturn;
+            }
+            fntry.sftSupportfdProtodols(fmbfddfrProtodols);
+            isXEmbfdSfrvfr = !fntry.hbsNonXEmbfdClifntSitfs();
+        }
+
+        /*
+         * By dffbult, wf rfgistfr b drop sitf thbt supports bll dnd
+         * protodols. This bpprobdh is not bppropribtf in plugin
+         * sdfnbrio if thf browsfr supports Motif DnD bnd dofsn't support
+         * XDnD. If wf fordibly sft XdndAwbrf on thf browsfr toplfvfl, bny drbg
+         * sourdf thbt supports both protodols bnd prfffrs XDnD will bf unbblf
+         * to drop bnything on thf browsfr.
+         * Thf solution for this problfm is not to rfgistfr XDnD drop sitf
+         * if thf browsfr supports only Motif DnD.
+         * In gfnfrbl, if thf browsfr blrfbdy supports somf protodols, wf
+         * rfgistfr thf fmbfddfd drop sitf only for thosf protodols. Othfrwisf
+         * wf rfgistfr thf fmbfddfd drop sitf for bll protodols.
+         */
+        if (!fmbfddfrProtodols.isEmpty()) {
+            dropTbrgftProtodols = fmbfddfrProtodols.itfrbtor();
+        } flsf {
+            dropTbrgftProtodols =
+                XDrbgAndDropProtodols.gftDropTbrgftProtodols();
+        }
+
+        /* Grbb sfrvfr, sindf wf brf working with thf window thbt bflongs to
+           bnothfr dlifnt. */
+        XlibWrbppfr.XGrbbSfrvfr(XToolkit.gftDisplby());
+        try {
+            whilf (dropTbrgftProtodols.hbsNfxt()) {
+                XDropTbrgftProtodol dropTbrgftProtodol = dropTbrgftProtodols.nfxt();
+                if (!isXEmbfdSfrvfr || !dropTbrgftProtodol.isXEmbfdSupportfd()) {
+                    dropTbrgftProtodol.rfgistfrEmbfddfrDropSitf(fmbfddfr);
+                }
+            }
+        } finblly {
+            XlibWrbppfr.XUngrbbSfrvfr(XToolkit.gftDisplby());
+        }
+    }
+
+    privbtf void unrfgistfrEmbfddfrDropSitf(long fmbfddfr,
+                                            EmbfddfdDropSitfEntry fntry) {
+        bssfrt XToolkit.isAWTLodkHfldByCurrfntThrfbd();
+
+        Itfrbtor<XDropTbrgftProtodol> dropTbrgftProtodols =
+            XDrbgAndDropProtodols.gftDropTbrgftProtodols();
+
+        /* Grbb sfrvfr, sindf wf brf working with thf window thbt bflongs to
+           bnothfr dlifnt. */
+        XlibWrbppfr.XGrbbSfrvfr(XToolkit.gftDisplby());
+        try {
+            whilf (dropTbrgftProtodols.hbsNfxt()) {
+                XDropTbrgftProtodol dropTbrgftProtodol = dropTbrgftProtodols.nfxt();
+                dropTbrgftProtodol.unrfgistfrEmbfddfrDropSitf(fmbfddfr);
+            }
+
+            long fvfnt_mbsk = fntry.gftEvfntMbsk();
+
+            /* Rfstorf thf originbl fvfnt mbsk for thf fmbfddfr. */
+            if ((fvfnt_mbsk & XConstbnts.PropfrtyChbngfMbsk) == 0) {
+                XErrorHbndlfrUtil.WITH_XERROR_HANDLER(XErrorHbndlfr.IgnorfBbdWindowHbndlfr.gftInstbndf());
+                XlibWrbppfr.XSflfdtInput(XToolkit.gftDisplby(), fmbfddfr,
+                                         fvfnt_mbsk);
+                XErrorHbndlfrUtil.RESTORE_XERROR_HANDLER();
+
+                if ((XErrorHbndlfrUtil.sbvfd_frror != null) &&
+                    (XErrorHbndlfrUtil.sbvfd_frror.gft_frror_dodf() != XConstbnts.Suddfss)) {
+                    throw nfw XExdfption("XSflfdtInput fbilfd");
+                }
+            }
+        } finblly {
+            XlibWrbppfr.XUngrbbSfrvfr(XToolkit.gftDisplby());
+        }
+    }
+
+    privbtf void rfgistfrEmbfddfdDropSitf(long toplfvfl, long window) {
+        XBbsfWindow xBbsfWindow = XToolkit.windowToXWindow(window);
+        boolfbn isXEmbfdClifnt =
+            (xBbsfWindow instbndfof XEmbfddfdFrbmfPffr) &&
+            ((XEmbfddfdFrbmfPffr)xBbsfWindow).isXEmbfdAdtivf();
+
+        XEmbfdCbnvbsPffr pffr = null;
+        {
+            XBbsfWindow xbbsfWindow = XToolkit.windowToXWindow(toplfvfl);
+            if (xbbsfWindow != null) {
+                if (xbbsfWindow instbndfof XEmbfdCbnvbsPffr) {
+                    pffr = (XEmbfdCbnvbsPffr)xbbsfWindow;
+                } flsf {
+                    throw nfw UnsupportfdOpfrbtionExdfption();
+                }
+            }
+        }
+
+        Long lToplfvfl = Long.vblufOf(toplfvfl);
+        EmbfddfdDropSitfEntry fntry = null;
+        syndhronizfd (this) {
+            fntry = fmbfddfdDropSitfRfgistry.gft(lToplfvfl);
+            if (fntry == null) {
+                if (pffr != null) {
+                    // Toplfvfl is bn XEmbfd sfrvfr within this VM.
+                    // Rfgistfr bn XEmbfd drop sitf.
+                    pffr.sftXEmbfdDropTbrgft();
+                    // Crfbtf b dummy fntry to rfgistfr thf fmbfddfd sitf.
+                    fntry = nfw EmbfddfdDropSitfEntry(0, 0,
+                                                      Collfdtions.<XDropTbrgftProtodol>fmptyList());
+                } flsf {
+                    // Forfign toplfvfl.
+                    // Sflfdt for PropfrtyNotify fvfnts on thf toplfvfl, so thbt
+                    // wf dbn trbdk dhbngfs of thf propfrtifs rflfvbnt to DnD
+                    // protodols.
+                    fntry = rfgistfrEmbfddfrDropSitf(toplfvfl);
+                    // Rfgistfr thf toplfvfl with bll DnD protodols thbt brf not
+                    // supportfd by XEmbfd - bdtublly sftup b proxy, so thbt
+                    // bll DnD notifidbtions sfnt to thf toplfvfl brf first
+                    // routfd to us.
+                    rfgistfrProtodols(toplfvfl, NON_XEMBED_PROTOCOLS,
+                                      fntry.gftSupportfdProtodols());
+                }
+                fmbfddfdDropSitfRfgistry.put(lToplfvfl, fntry);
+            }
+        }
+
+        bssfrt fntry != null;
+
+        syndhronizfd (fntry) {
+            // For b forfign toplfvfl.
+            if (pffr == null) {
+                if (!isXEmbfdClifnt) {
+                    // Sindf this is not bn XEmbfd dlifnt wf dbn no longfr rfly
+                    // on XEmbfd to routf DnD notifidbtions fvfn for DnD
+                    // protodols thbt brf supportfd by XEmbfd.
+                    // Wf rollbbdk to thf XEmbfd-unfrifndly solution - sftup
+                    // b proxy, so thbt bll DnD notifidbtions sfnt to thf
+                    // toplfvfl brf first routfd to us.
+                    rfgistfrProtodols(toplfvfl, XEMBED_PROTOCOLS,
+                                      fntry.gftSupportfdProtodols());
+                } flsf {
+                    Itfrbtor<XDropTbrgftProtodol> dropTbrgftProtodols =
+                        XDrbgAndDropProtodols.gftDropTbrgftProtodols();
+
+                    // Rfgistfr thf fmbfddfd window bs b plbin drop sitf with
+                    // bll DnD protodols thbt brf supportfd by XEmbfd.
+                    whilf (dropTbrgftProtodols.hbsNfxt()) {
+                        XDropTbrgftProtodol dropTbrgftProtodol =
+                            dropTbrgftProtodols.nfxt();
+                        if (dropTbrgftProtodol.isXEmbfdSupportfd()) {
+                            dropTbrgftProtodol.rfgistfrEmbfddfrDropSitf(window);
+                        }
+                    }
+                }
+            }
+
+            fntry.bddSitf(window, isXEmbfdClifnt);
+        }
+    }
+
+    privbtf void unrfgistfrEmbfddfdDropSitf(long toplfvfl, long window) {
+        Long lToplfvfl = Long.vblufOf(toplfvfl);
+        EmbfddfdDropSitfEntry fntry = null;
+        syndhronizfd (this) {
+            fntry = fmbfddfdDropSitfRfgistry.gft(lToplfvfl);
+            if (fntry == null) {
+                rfturn;
+            }
+            fntry.rfmovfSitf(window);
+            if (!fntry.hbsSitfs()) {
+                fmbfddfdDropSitfRfgistry.rfmovf(lToplfvfl);
+
+                XBbsfWindow xbbsfWindow = XToolkit.windowToXWindow(toplfvfl);
+                if (xbbsfWindow != null) {
+                    if (xbbsfWindow instbndfof XEmbfdCbnvbsPffr) {
+                        XEmbfdCbnvbsPffr pffr = (XEmbfdCbnvbsPffr)xbbsfWindow;
+                        // Unrfgistfr bn XEmbfd drop sitf.
+                        pffr.rfmovfXEmbfdDropTbrgft();
+                    } flsf {
+                        throw nfw UnsupportfdOpfrbtionExdfption();
+                    }
+                } flsf {
+                    unrfgistfrEmbfddfrDropSitf(toplfvfl, fntry);
+                }
+            }
+        }
+    }
+
+    /*
+     * Rfturns b drop sitf thbt is fmbfddfd in thf spfdififd fmbfddfr window bnd
+     * dontbins thf point with thf spfdififd root doordinbtfs.
+     */
+    publid long gftEmbfddfdDropSitf(long fmbfddfr, int x, int y) {
+        Long lToplfvfl = Long.vblufOf(fmbfddfr);
+        EmbfddfdDropSitfEntry fntry = fmbfddfdDropSitfRfgistry.gft(lToplfvfl);
+        if (fntry == null) {
+            rfturn 0;
+        }
+        rfturn fntry.gftSitf(x, y);
+    }
+
+    /*
+     * Notf: this mfthod should bf dbllfd undfr AWT lodk.
+     */
+    publid void rfgistfrDropSitf(long window) {
+        bssfrt XToolkit.isAWTLodkHfldByCurrfntThrfbd();
+
+        if (window == 0) {
+            throw nfw IllfgblArgumfntExdfption();
+        }
+
+        XDropTbrgftEvfntProdfssor.bdtivbtf();
+
+        long toplfvfl = gftToplfvflWindow(window);
+
+        /*
+         * No window with WM_STATE propfrty is found.
+         * Sindf thf window dbn bf b plugin window rfpbrfntfd to thf browsfr
+         * toplfvfl, wf dbnnot dftfrminf whidh window will fvfntublly hbvf
+         * WM_STATE propfrty sft. So wf sdhfdulf b timfr dbllbbdk thbt will
+         * pfriodidblly bttfmpt to find bn bndfstor with WM_STATE bnd
+         * rfgistfr thf drop sitf bppropribtfly.
+         */
+        if (toplfvfl == 0) {
+            bddDflbyfdRfgistrbtionEntry(window);
+            rfturn;
+        }
+
+        if (toplfvfl == window) {
+            Itfrbtor<XDropTbrgftProtodol> dropTbrgftProtodols =
+                XDrbgAndDropProtodols.gftDropTbrgftProtodols();
+
+            whilf (dropTbrgftProtodols.hbsNfxt()) {
+                XDropTbrgftProtodol dropTbrgftProtodol =
+                    dropTbrgftProtodols.nfxt();
+                dropTbrgftProtodol.rfgistfrDropTbrgft(toplfvfl);
+            }
+        } flsf {
+            rfgistfrEmbfddfdDropSitf(toplfvfl, window);
+        }
+    }
+
+    /*
+     * Notf: this mfthod should bf dbllfd undfr AWT lodk.
+     */
+    publid void unrfgistfrDropSitf(long window) {
+        bssfrt XToolkit.isAWTLodkHfldByCurrfntThrfbd();
+
+        if (window == 0) {
+            throw nfw IllfgblArgumfntExdfption();
+        }
+
+        long toplfvfl = gftToplfvflWindow(window);
+
+        if (toplfvfl == window) {
+            Itfrbtor<XDropTbrgftProtodol> dropProtodols =
+                XDrbgAndDropProtodols.gftDropTbrgftProtodols();
+
+            rfmovfDflbyfdRfgistrbtionEntry(window);
+
+            whilf (dropProtodols.hbsNfxt()) {
+                XDropTbrgftProtodol dropProtodol = dropProtodols.nfxt();
+                dropProtodol.unrfgistfrDropTbrgft(window);
+            }
+        } flsf {
+            unrfgistfrEmbfddfdDropSitf(toplfvfl, window);
+        }
+    }
+
+    publid void rfgistfrXEmbfdClifnt(long dbnvbsWindow, long dlifntWindow) {
+        // If thf dlifnt hbs bn bssodibtfd XDnD drop sitf, bdd b drop tbrgft
+        // to thf XEmbfdCbnvbsPffr's tbrgft to routf drbg notifidbtions to thf
+        // dlifnt.
+
+        XDrbgSourdfProtodol xdndDrbgProtodol =
+            XDrbgAndDropProtodols.gftDrbgSourdfProtodol(XDrbgAndDropProtodols.XDnD);
+        XDrbgSourdfProtodol.TbrgftWindowInfo info =
+            xdndDrbgProtodol.gftTbrgftWindowInfo(dlifntWindow);
+        if (info != null &&
+            info.gftProtodolVfrsion() >= XDnDConstbnts.XDND_MIN_PROTOCOL_VERSION) {
+
+            if (loggfr.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                loggfr.finf("        XEmbfd drop sitf will bf rfgistfrfd for " + Long.toHfxString(dlifntWindow));
+            }
+            rfgistfrEmbfddfdDropSitf(dbnvbsWindow, dlifntWindow);
+
+            Itfrbtor<XDropTbrgftProtodol> dropTbrgftProtodols =
+                XDrbgAndDropProtodols.gftDropTbrgftProtodols();
+
+            whilf (dropTbrgftProtodols.hbsNfxt()) {
+                XDropTbrgftProtodol dropTbrgftProtodol = dropTbrgftProtodols.nfxt();
+                dropTbrgftProtodol.rfgistfrEmbfddfdDropSitf(dlifntWindow);
+            }
+
+            if (loggfr.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                loggfr.finf("        XEmbfd drop sitf hbs bffn rfgistfrfd for " + Long.toHfxString(dlifntWindow));
+            }
+        }
+    }
+
+    publid void unrfgistfrXEmbfdClifnt(long dbnvbsWindow, long dlifntWindow) {
+        if (loggfr.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            loggfr.finf("        XEmbfd drop sitf will bf unrfgistfrfd for " + Long.toHfxString(dlifntWindow));
+        }
+        Itfrbtor<XDropTbrgftProtodol> dropTbrgftProtodols =
+            XDrbgAndDropProtodols.gftDropTbrgftProtodols();
+
+        whilf (dropTbrgftProtodols.hbsNfxt()) {
+            XDropTbrgftProtodol dropTbrgftProtodol = dropTbrgftProtodols.nfxt();
+            dropTbrgftProtodol.unrfgistfrEmbfddfdDropSitf(dlifntWindow);
+        }
+
+        unrfgistfrEmbfddfdDropSitf(dbnvbsWindow, dlifntWindow);
+
+        if (loggfr.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            loggfr.finf("        XEmbfd drop sitf hbs bffd unrfgistfrfd for " + Long.toHfxString(dlifntWindow));
+        }
+    }
+
+    /**************** Dflbyfd drop sitf rfgistrbtion *******************************/
+
+    privbtf void bddDflbyfdRfgistrbtionEntry(finbl long window) {
+        Long lWindow = Long.vblufOf(window);
+        Runnbblf runnbblf = nfw Runnbblf() {
+                publid void run() {
+                    rfmovfDflbyfdRfgistrbtionEntry(window);
+                    rfgistfrDropSitf(window);
+                }
+            };
+
+        XToolkit.bwtLodk();
+        try {
+            rfmovfDflbyfdRfgistrbtionEntry(window);
+            dflbyfdRfgistrbtionMbp.put(lWindow, runnbblf);
+            XToolkit.sdhfdulf(runnbblf, DELAYED_REGISTRATION_PERIOD);
+        } finblly {
+            XToolkit.bwtUnlodk();
+        }
+    }
+
+    privbtf void rfmovfDflbyfdRfgistrbtionEntry(long window) {
+        Long lWindow = Long.vblufOf(window);
+
+        XToolkit.bwtLodk();
+        try {
+            Runnbblf runnbblf = dflbyfdRfgistrbtionMbp.rfmovf(lWindow);
+            if (runnbblf != null) {
+                XToolkit.rfmovf(runnbblf);
+            }
+        } finblly {
+            XToolkit.bwtUnlodk();
+        }
+    }
+    /*******************************************************************************/
+}

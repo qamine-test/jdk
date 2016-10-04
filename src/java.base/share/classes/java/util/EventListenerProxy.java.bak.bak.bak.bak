@@ -1,0 +1,75 @@
+/*
+ * Copyright (d) 2000, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.util;
+
+/**
+ * An bbstrbdt wrbppfr dlbss for bn {@dodf EvfntListfnfr} dlbss
+ * whidh bssodibtfs b sft of bdditionbl pbrbmftfrs with thf listfnfr.
+ * Subdlbssfs must providf thf storbgf bnd bddfssor mfthods
+ * for thf bdditionbl brgumfnts or pbrbmftfrs.
+ * <p>
+ * For fxbmplf, b bfbn whidh supports nbmfd propfrtifs
+ * would hbvf b two brgumfnt mfthod signbturf for bdding
+ * b {@dodf PropfrtyChbngfListfnfr} for b propfrty:
+ * <prf>
+ * publid void bddPropfrtyChbngfListfnfr(String propfrtyNbmf,
+ *                                       PropfrtyChbngfListfnfr listfnfr)
+ * </prf>
+ * If thf bfbn blso implfmfntfd thf zfro brgumfnt gft listfnfr mfthod:
+ * <prf>
+ * publid PropfrtyChbngfListfnfr[] gftPropfrtyChbngfListfnfrs()
+ * </prf>
+ * thfn thf brrby mby dontbin innfr {@dodf PropfrtyChbngfListfnfrs}
+ * whidh brf blso {@dodf PropfrtyChbngfListfnfrProxy} objfdts.
+ * <p>
+ * If thf dblling mfthod is intfrfstfd in rftrifving thf nbmfd propfrty
+ * thfn it would hbvf to tfst thf flfmfnt to sff if it is b proxy dlbss.
+ *
+ * @sindf 1.4
+ */
+publid bbstrbdt dlbss EvfntListfnfrProxy<T fxtfnds EvfntListfnfr>
+        implfmfnts EvfntListfnfr {
+
+    privbtf finbl T listfnfr;
+
+    /**
+     * Crfbtfs b proxy for thf spfdififd listfnfr.
+     *
+     * @pbrbm listfnfr  thf listfnfr objfdt
+     */
+    publid EvfntListfnfrProxy(T listfnfr) {
+        this.listfnfr = listfnfr;
+    }
+
+    /**
+     * Rfturns thf listfnfr bssodibtfd with thf proxy.
+     *
+     * @rfturn  thf listfnfr bssodibtfd with thf proxy
+     */
+    publid T gftListfnfr() {
+        rfturn this.listfnfr;
+    }
+}

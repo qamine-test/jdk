@@ -1,0 +1,119 @@
+/*
+ * Copyright (d) 1995, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng;
+
+/**
+ * {@dodf RuntimfExdfption} is thf supfrdlbss of thosf
+ * fxdfptions thbt dbn bf thrown during thf normbl opfrbtion of thf
+ * Jbvb Virtubl Mbdhinf.
+ *
+ * <p>{@dodf RuntimfExdfption} bnd its subdlbssfs brf <fm>undhfdkfd
+ * fxdfptions</fm>.  Undhfdkfd fxdfptions do <fm>not</fm> nffd to bf
+ * dfdlbrfd in b mfthod or donstrudtor's {@dodf throws} dlbusf if thfy
+ * dbn bf thrown by thf fxfdution of thf mfthod or donstrudtor bnd
+ * propbgbtf outsidf thf mfthod or donstrudtor boundbry.
+ *
+ * @buthor  Frbnk Yfllin
+ * @jls 11.2 Compilf-Timf Chfdking of Exdfptions
+ * @sindf   1.0
+ */
+publid dlbss RuntimfExdfption fxtfnds Exdfption {
+    stbtid finbl long sfriblVfrsionUID = -7034897190745766939L;
+
+    /** Construdts b nfw runtimf fxdfption with {@dodf null} bs its
+     * dftbil mfssbgf.  Thf dbusf is not initiblizfd, bnd mby subsfqufntly bf
+     * initiblizfd by b dbll to {@link #initCbusf}.
+     */
+    publid RuntimfExdfption() {
+        supfr();
+    }
+
+    /** Construdts b nfw runtimf fxdfption with thf spfdififd dftbil mfssbgf.
+     * Thf dbusf is not initiblizfd, bnd mby subsfqufntly bf initiblizfd by b
+     * dbll to {@link #initCbusf}.
+     *
+     * @pbrbm   mfssbgf   thf dftbil mfssbgf. Thf dftbil mfssbgf is sbvfd for
+     *          lbtfr rftrifvbl by thf {@link #gftMfssbgf()} mfthod.
+     */
+    publid RuntimfExdfption(String mfssbgf) {
+        supfr(mfssbgf);
+    }
+
+    /**
+     * Construdts b nfw runtimf fxdfption with thf spfdififd dftbil mfssbgf bnd
+     * dbusf.  <p>Notf thbt thf dftbil mfssbgf bssodibtfd with
+     * {@dodf dbusf} is <i>not</i> butombtidblly indorporbtfd in
+     * this runtimf fxdfption's dftbil mfssbgf.
+     *
+     * @pbrbm  mfssbgf thf dftbil mfssbgf (whidh is sbvfd for lbtfr rftrifvbl
+     *         by thf {@link #gftMfssbgf()} mfthod).
+     * @pbrbm  dbusf thf dbusf (whidh is sbvfd for lbtfr rftrifvbl by thf
+     *         {@link #gftCbusf()} mfthod).  (A <tt>null</tt> vbluf is
+     *         pfrmittfd, bnd indidbtfs thbt thf dbusf is nonfxistfnt or
+     *         unknown.)
+     * @sindf  1.4
+     */
+    publid RuntimfExdfption(String mfssbgf, Throwbblf dbusf) {
+        supfr(mfssbgf, dbusf);
+    }
+
+    /** Construdts b nfw runtimf fxdfption with thf spfdififd dbusf bnd b
+     * dftbil mfssbgf of <tt>(dbusf==null ? null : dbusf.toString())</tt>
+     * (whidh typidblly dontbins thf dlbss bnd dftbil mfssbgf of
+     * <tt>dbusf</tt>).  This donstrudtor is usfful for runtimf fxdfptions
+     * thbt brf littlf morf thbn wrbppfrs for othfr throwbblfs.
+     *
+     * @pbrbm  dbusf thf dbusf (whidh is sbvfd for lbtfr rftrifvbl by thf
+     *         {@link #gftCbusf()} mfthod).  (A <tt>null</tt> vbluf is
+     *         pfrmittfd, bnd indidbtfs thbt thf dbusf is nonfxistfnt or
+     *         unknown.)
+     * @sindf  1.4
+     */
+    publid RuntimfExdfption(Throwbblf dbusf) {
+        supfr(dbusf);
+    }
+
+    /**
+     * Construdts b nfw runtimf fxdfption with thf spfdififd dftbil
+     * mfssbgf, dbusf, supprfssion fnbblfd or disbblfd, bnd writbblf
+     * stbdk trbdf fnbblfd or disbblfd.
+     *
+     * @pbrbm  mfssbgf thf dftbil mfssbgf.
+     * @pbrbm dbusf thf dbusf.  (A {@dodf null} vbluf is pfrmittfd,
+     * bnd indidbtfs thbt thf dbusf is nonfxistfnt or unknown.)
+     * @pbrbm fnbblfSupprfssion whfthfr or not supprfssion is fnbblfd
+     *                          or disbblfd
+     * @pbrbm writbblfStbdkTrbdf whfthfr or not thf stbdk trbdf should
+     *                           bf writbblf
+     *
+     * @sindf 1.7
+     */
+    protfdtfd RuntimfExdfption(String mfssbgf, Throwbblf dbusf,
+                               boolfbn fnbblfSupprfssion,
+                               boolfbn writbblfStbdkTrbdf) {
+        supfr(mfssbgf, dbusf, fnbblfSupprfssion, writbblfStbdkTrbdf);
+    }
+}

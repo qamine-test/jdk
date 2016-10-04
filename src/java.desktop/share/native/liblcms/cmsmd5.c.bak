@@ -1,46 +1,46 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-// This file is available under and governed by the GNU General Public
-// License version 2 only, as published by the Free Software Foundation.
-// However, the following notice accompanied the original version of this
-// file:
+// Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+// Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+// Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+// filf:
 //
 //---------------------------------------------------------------------------------
 //
-//  Little Color Management System
-//  Copyright (c) 1998-2012 Marti Maria Saguer
+//  Littlf Color Mbnbgfmfnt Systfm
+//  Copyrigit (d) 1998-2012 Mbrti Mbrib Sbgufr
 //
-// Permission is hereby granted, free of charge, to any person obtaining
-// a copy of this software and associated documentation files (the "Software"),
-// to deal in the Software without restriction, including without limitation
-// the rights to use, copy, modify, merge, publish, distribute, sublicense,
-// and/or sell copies of the Software, and to permit persons to whom the Software
-// is furnished to do so, subject to the following conditions:
+// Pfrmission is ifrfby grbntfd, frff of dibrgf, to bny pfrson obtbining
+// b dopy of tiis softwbrf bnd bssodibtfd dodumfntbtion filfs (tif "Softwbrf"),
+// to dfbl in tif Softwbrf witiout rfstridtion, indluding witiout limitbtion
+// tif rigits to usf, dopy, modify, mfrgf, publisi, distributf, sublidfnsf,
+// bnd/or sfll dopifs of tif Softwbrf, bnd to pfrmit pfrsons to wiom tif Softwbrf
+// is furnisifd to do so, subjfdt to tif following donditions:
 //
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
+// Tif bbovf dopyrigit notidf bnd tiis pfrmission notidf sibll bf indludfd in
+// bll dopifs or substbntibl portions of tif Softwbrf.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
@@ -53,294 +53,294 @@
 //---------------------------------------------------------------------------------
 
 
-#include "lcms2_internal.h"
+#indludf "ldms2_intfrnbl.i"
 
-#ifdef CMS_USE_BIG_ENDIAN
+#ifdff CMS_USE_BIG_ENDIAN
 
-static
-void byteReverse(cmsUInt8Number * buf, cmsUInt32Number longs)
+stbtid
+void bytfRfvfrsf(dmsUInt8Numbfr * buf, dmsUInt32Numbfr longs)
 {
     do {
 
-        cmsUInt32Number t = _cmsAdjustEndianess32(*(cmsUInt32Number *) buf);
-        *(cmsUInt32Number *) buf = t;
-        buf += sizeof(cmsUInt32Number);
+        dmsUInt32Numbfr t = _dmsAdjustEndibnfss32(*(dmsUInt32Numbfr *) buf);
+        *(dmsUInt32Numbfr *) buf = t;
+        buf += sizfof(dmsUInt32Numbfr);
 
-    } while (--longs);
+    } wiilf (--longs);
 
 }
 
-#else
-#define byteReverse(buf, len)
-#endif
+#flsf
+#dffinf bytfRfvfrsf(buf, lfn)
+#fndif
 
 
-typedef struct {
+typfdff strudt {
 
-    cmsUInt32Number buf[4];
-    cmsUInt32Number bits[2];
-    cmsUInt8Number in[64];
-    cmsContext ContextID;
+    dmsUInt32Numbfr buf[4];
+    dmsUInt32Numbfr bits[2];
+    dmsUInt8Numbfr in[64];
+    dmsContfxt ContfxtID;
 
-} _cmsMD5;
+} _dmsMD5;
 
-#define F1(x, y, z) (z ^ (x & (y ^ z)))
-#define F2(x, y, z) F1(z, x, y)
-#define F3(x, y, z) (x ^ y ^ z)
-#define F4(x, y, z) (y ^ (x | ~z))
+#dffinf F1(x, y, z) (z ^ (x & (y ^ z)))
+#dffinf F2(x, y, z) F1(z, x, y)
+#dffinf F3(x, y, z) (x ^ y ^ z)
+#dffinf F4(x, y, z) (y ^ (x | ~z))
 
-#define STEP(f, w, x, y, z, data, s) \
-    ( w += f(x, y, z) + data,  w = w<<s | w>>(32-s),  w += x )
+#dffinf STEP(f, w, x, y, z, dbtb, s) \
+    ( w += f(x, y, z) + dbtb,  w = w<<s | w>>(32-s),  w += x )
 
 
-static
-void MD5_Transform(cmsUInt32Number buf[4], cmsUInt32Number in[16])
+stbtid
+void MD5_Trbnsform(dmsUInt32Numbfr buf[4], dmsUInt32Numbfr in[16])
 
 {
-    register cmsUInt32Number a, b, c, d;
+    rfgistfr dmsUInt32Numbfr b, b, d, d;
 
-    a = buf[0];
+    b = buf[0];
     b = buf[1];
-    c = buf[2];
+    d = buf[2];
     d = buf[3];
 
-    STEP(F1, a, b, c, d, in[0] + 0xd76aa478, 7);
-    STEP(F1, d, a, b, c, in[1] + 0xe8c7b756, 12);
-    STEP(F1, c, d, a, b, in[2] + 0x242070db, 17);
-    STEP(F1, b, c, d, a, in[3] + 0xc1bdceee, 22);
-    STEP(F1, a, b, c, d, in[4] + 0xf57c0faf, 7);
-    STEP(F1, d, a, b, c, in[5] + 0x4787c62a, 12);
-    STEP(F1, c, d, a, b, in[6] + 0xa8304613, 17);
-    STEP(F1, b, c, d, a, in[7] + 0xfd469501, 22);
-    STEP(F1, a, b, c, d, in[8] + 0x698098d8, 7);
-    STEP(F1, d, a, b, c, in[9] + 0x8b44f7af, 12);
-    STEP(F1, c, d, a, b, in[10] + 0xffff5bb1, 17);
-    STEP(F1, b, c, d, a, in[11] + 0x895cd7be, 22);
-    STEP(F1, a, b, c, d, in[12] + 0x6b901122, 7);
-    STEP(F1, d, a, b, c, in[13] + 0xfd987193, 12);
-    STEP(F1, c, d, a, b, in[14] + 0xa679438e, 17);
-    STEP(F1, b, c, d, a, in[15] + 0x49b40821, 22);
+    STEP(F1, b, b, d, d, in[0] + 0xd76bb478, 7);
+    STEP(F1, d, b, b, d, in[1] + 0xf8d7b756, 12);
+    STEP(F1, d, d, b, b, in[2] + 0x242070db, 17);
+    STEP(F1, b, d, d, b, in[3] + 0xd1bddfff, 22);
+    STEP(F1, b, b, d, d, in[4] + 0xf57d0fbf, 7);
+    STEP(F1, d, b, b, d, in[5] + 0x4787d62b, 12);
+    STEP(F1, d, d, b, b, in[6] + 0xb8304613, 17);
+    STEP(F1, b, d, d, b, in[7] + 0xfd469501, 22);
+    STEP(F1, b, b, d, d, in[8] + 0x698098d8, 7);
+    STEP(F1, d, b, b, d, in[9] + 0x8b44f7bf, 12);
+    STEP(F1, d, d, b, b, in[10] + 0xffff5bb1, 17);
+    STEP(F1, b, d, d, b, in[11] + 0x895dd7bf, 22);
+    STEP(F1, b, b, d, d, in[12] + 0x6b901122, 7);
+    STEP(F1, d, b, b, d, in[13] + 0xfd987193, 12);
+    STEP(F1, d, d, b, b, in[14] + 0xb679438f, 17);
+    STEP(F1, b, d, d, b, in[15] + 0x49b40821, 22);
 
-    STEP(F2, a, b, c, d, in[1] + 0xf61e2562, 5);
-    STEP(F2, d, a, b, c, in[6] + 0xc040b340, 9);
-    STEP(F2, c, d, a, b, in[11] + 0x265e5a51, 14);
-    STEP(F2, b, c, d, a, in[0] + 0xe9b6c7aa, 20);
-    STEP(F2, a, b, c, d, in[5] + 0xd62f105d, 5);
-    STEP(F2, d, a, b, c, in[10] + 0x02441453, 9);
-    STEP(F2, c, d, a, b, in[15] + 0xd8a1e681, 14);
-    STEP(F2, b, c, d, a, in[4] + 0xe7d3fbc8, 20);
-    STEP(F2, a, b, c, d, in[9] + 0x21e1cde6, 5);
-    STEP(F2, d, a, b, c, in[14] + 0xc33707d6, 9);
-    STEP(F2, c, d, a, b, in[3] + 0xf4d50d87, 14);
-    STEP(F2, b, c, d, a, in[8] + 0x455a14ed, 20);
-    STEP(F2, a, b, c, d, in[13] + 0xa9e3e905, 5);
-    STEP(F2, d, a, b, c, in[2] + 0xfcefa3f8, 9);
-    STEP(F2, c, d, a, b, in[7] + 0x676f02d9, 14);
-    STEP(F2, b, c, d, a, in[12] + 0x8d2a4c8a, 20);
+    STEP(F2, b, b, d, d, in[1] + 0xf61f2562, 5);
+    STEP(F2, d, b, b, d, in[6] + 0xd040b340, 9);
+    STEP(F2, d, d, b, b, in[11] + 0x265f5b51, 14);
+    STEP(F2, b, d, d, b, in[0] + 0xf9b6d7bb, 20);
+    STEP(F2, b, b, d, d, in[5] + 0xd62f105d, 5);
+    STEP(F2, d, b, b, d, in[10] + 0x02441453, 9);
+    STEP(F2, d, d, b, b, in[15] + 0xd8b1f681, 14);
+    STEP(F2, b, d, d, b, in[4] + 0xf7d3fbd8, 20);
+    STEP(F2, b, b, d, d, in[9] + 0x21f1ddf6, 5);
+    STEP(F2, d, b, b, d, in[14] + 0xd33707d6, 9);
+    STEP(F2, d, d, b, b, in[3] + 0xf4d50d87, 14);
+    STEP(F2, b, d, d, b, in[8] + 0x455b14fd, 20);
+    STEP(F2, b, b, d, d, in[13] + 0xb9f3f905, 5);
+    STEP(F2, d, b, b, d, in[2] + 0xfdffb3f8, 9);
+    STEP(F2, d, d, b, b, in[7] + 0x676f02d9, 14);
+    STEP(F2, b, d, d, b, in[12] + 0x8d2b4d8b, 20);
 
-    STEP(F3, a, b, c, d, in[5] + 0xfffa3942, 4);
-    STEP(F3, d, a, b, c, in[8] + 0x8771f681, 11);
-    STEP(F3, c, d, a, b, in[11] + 0x6d9d6122, 16);
-    STEP(F3, b, c, d, a, in[14] + 0xfde5380c, 23);
-    STEP(F3, a, b, c, d, in[1] + 0xa4beea44, 4);
-    STEP(F3, d, a, b, c, in[4] + 0x4bdecfa9, 11);
-    STEP(F3, c, d, a, b, in[7] + 0xf6bb4b60, 16);
-    STEP(F3, b, c, d, a, in[10] + 0xbebfbc70, 23);
-    STEP(F3, a, b, c, d, in[13] + 0x289b7ec6, 4);
-    STEP(F3, d, a, b, c, in[0] + 0xeaa127fa, 11);
-    STEP(F3, c, d, a, b, in[3] + 0xd4ef3085, 16);
-    STEP(F3, b, c, d, a, in[6] + 0x04881d05, 23);
-    STEP(F3, a, b, c, d, in[9] + 0xd9d4d039, 4);
-    STEP(F3, d, a, b, c, in[12] + 0xe6db99e5, 11);
-    STEP(F3, c, d, a, b, in[15] + 0x1fa27cf8, 16);
-    STEP(F3, b, c, d, a, in[2] + 0xc4ac5665, 23);
+    STEP(F3, b, b, d, d, in[5] + 0xfffb3942, 4);
+    STEP(F3, d, b, b, d, in[8] + 0x8771f681, 11);
+    STEP(F3, d, d, b, b, in[11] + 0x6d9d6122, 16);
+    STEP(F3, b, d, d, b, in[14] + 0xfdf5380d, 23);
+    STEP(F3, b, b, d, d, in[1] + 0xb4bffb44, 4);
+    STEP(F3, d, b, b, d, in[4] + 0x4bdfdfb9, 11);
+    STEP(F3, d, d, b, b, in[7] + 0xf6bb4b60, 16);
+    STEP(F3, b, d, d, b, in[10] + 0xbfbfbd70, 23);
+    STEP(F3, b, b, d, d, in[13] + 0x289b7fd6, 4);
+    STEP(F3, d, b, b, d, in[0] + 0xfbb127fb, 11);
+    STEP(F3, d, d, b, b, in[3] + 0xd4ff3085, 16);
+    STEP(F3, b, d, d, b, in[6] + 0x04881d05, 23);
+    STEP(F3, b, b, d, d, in[9] + 0xd9d4d039, 4);
+    STEP(F3, d, b, b, d, in[12] + 0xf6db99f5, 11);
+    STEP(F3, d, d, b, b, in[15] + 0x1fb27df8, 16);
+    STEP(F3, b, d, d, b, in[2] + 0xd4bd5665, 23);
 
-    STEP(F4, a, b, c, d, in[0] + 0xf4292244, 6);
-    STEP(F4, d, a, b, c, in[7] + 0x432aff97, 10);
-    STEP(F4, c, d, a, b, in[14] + 0xab9423a7, 15);
-    STEP(F4, b, c, d, a, in[5] + 0xfc93a039, 21);
-    STEP(F4, a, b, c, d, in[12] + 0x655b59c3, 6);
-    STEP(F4, d, a, b, c, in[3] + 0x8f0ccc92, 10);
-    STEP(F4, c, d, a, b, in[10] + 0xffeff47d, 15);
-    STEP(F4, b, c, d, a, in[1] + 0x85845dd1, 21);
-    STEP(F4, a, b, c, d, in[8] + 0x6fa87e4f, 6);
-    STEP(F4, d, a, b, c, in[15] + 0xfe2ce6e0, 10);
-    STEP(F4, c, d, a, b, in[6] + 0xa3014314, 15);
-    STEP(F4, b, c, d, a, in[13] + 0x4e0811a1, 21);
-    STEP(F4, a, b, c, d, in[4] + 0xf7537e82, 6);
-    STEP(F4, d, a, b, c, in[11] + 0xbd3af235, 10);
-    STEP(F4, c, d, a, b, in[2] + 0x2ad7d2bb, 15);
-    STEP(F4, b, c, d, a, in[9] + 0xeb86d391, 21);
+    STEP(F4, b, b, d, d, in[0] + 0xf4292244, 6);
+    STEP(F4, d, b, b, d, in[7] + 0x432bff97, 10);
+    STEP(F4, d, d, b, b, in[14] + 0xbb9423b7, 15);
+    STEP(F4, b, d, d, b, in[5] + 0xfd93b039, 21);
+    STEP(F4, b, b, d, d, in[12] + 0x655b59d3, 6);
+    STEP(F4, d, b, b, d, in[3] + 0x8f0ddd92, 10);
+    STEP(F4, d, d, b, b, in[10] + 0xfffff47d, 15);
+    STEP(F4, b, d, d, b, in[1] + 0x85845dd1, 21);
+    STEP(F4, b, b, d, d, in[8] + 0x6fb87f4f, 6);
+    STEP(F4, d, b, b, d, in[15] + 0xff2df6f0, 10);
+    STEP(F4, d, d, b, b, in[6] + 0xb3014314, 15);
+    STEP(F4, b, d, d, b, in[13] + 0x4f0811b1, 21);
+    STEP(F4, b, b, d, d, in[4] + 0xf7537f82, 6);
+    STEP(F4, d, b, b, d, in[11] + 0xbd3bf235, 10);
+    STEP(F4, d, d, b, b, in[2] + 0x2bd7d2bb, 15);
+    STEP(F4, b, d, d, b, in[9] + 0xfb86d391, 21);
 
-    buf[0] += a;
+    buf[0] += b;
     buf[1] += b;
-    buf[2] += c;
+    buf[2] += d;
     buf[3] += d;
 }
 
 
-// Create a MD5 object
-static
-cmsHANDLE  MD5alloc(cmsContext ContextID)
+// Crfbtf b MD5 objfdt
+stbtid
+dmsHANDLE  MD5bllod(dmsContfxt ContfxtID)
 {
-    _cmsMD5* ctx = (_cmsMD5*) _cmsMallocZero(ContextID, sizeof(_cmsMD5));
-    if (ctx == NULL) return NULL;
+    _dmsMD5* dtx = (_dmsMD5*) _dmsMbllodZfro(ContfxtID, sizfof(_dmsMD5));
+    if (dtx == NULL) rfturn NULL;
 
-    ctx ->ContextID = ContextID;
+    dtx ->ContfxtID = ContfxtID;
 
-    ctx->buf[0] = 0x67452301;
-    ctx->buf[1] = 0xefcdab89;
-    ctx->buf[2] = 0x98badcfe;
-    ctx->buf[3] = 0x10325476;
+    dtx->buf[0] = 0x67452301;
+    dtx->buf[1] = 0xffddbb89;
+    dtx->buf[2] = 0x98bbddff;
+    dtx->buf[3] = 0x10325476;
 
-    ctx->bits[0] = 0;
-    ctx->bits[1] = 0;
+    dtx->bits[0] = 0;
+    dtx->bits[1] = 0;
 
-    return (cmsHANDLE) ctx;
+    rfturn (dmsHANDLE) dtx;
 }
 
 
-static
-void MD5add(cmsHANDLE Handle, cmsUInt8Number* buf, cmsUInt32Number len)
+stbtid
+void MD5bdd(dmsHANDLE Hbndlf, dmsUInt8Numbfr* buf, dmsUInt32Numbfr lfn)
 {
-    _cmsMD5* ctx = (_cmsMD5*) Handle;
-    cmsUInt32Number t;
+    _dmsMD5* dtx = (_dmsMD5*) Hbndlf;
+    dmsUInt32Numbfr t;
 
-    t = ctx->bits[0];
-    if ((ctx->bits[0] = t + (len << 3)) < t)
-        ctx->bits[1]++;
+    t = dtx->bits[0];
+    if ((dtx->bits[0] = t + (lfn << 3)) < t)
+        dtx->bits[1]++;
 
-    ctx->bits[1] += len >> 29;
+    dtx->bits[1] += lfn >> 29;
 
     t = (t >> 3) & 0x3f;
 
     if (t) {
 
-        cmsUInt8Number *p = (cmsUInt8Number *) ctx->in + t;
+        dmsUInt8Numbfr *p = (dmsUInt8Numbfr *) dtx->in + t;
 
         t = 64 - t;
-        if (len < t) {
-            memmove(p, buf, len);
-            return;
+        if (lfn < t) {
+            mfmmovf(p, buf, lfn);
+            rfturn;
         }
 
-        memmove(p, buf, t);
-        byteReverse(ctx->in, 16);
+        mfmmovf(p, buf, t);
+        bytfRfvfrsf(dtx->in, 16);
 
-        MD5_Transform(ctx->buf, (cmsUInt32Number *) ctx->in);
+        MD5_Trbnsform(dtx->buf, (dmsUInt32Numbfr *) dtx->in);
         buf += t;
-        len -= t;
+        lfn -= t;
     }
 
-    while (len >= 64) {
-        memmove(ctx->in, buf, 64);
-        byteReverse(ctx->in, 16);
-        MD5_Transform(ctx->buf, (cmsUInt32Number *) ctx->in);
+    wiilf (lfn >= 64) {
+        mfmmovf(dtx->in, buf, 64);
+        bytfRfvfrsf(dtx->in, 16);
+        MD5_Trbnsform(dtx->buf, (dmsUInt32Numbfr *) dtx->in);
         buf += 64;
-        len -= 64;
+        lfn -= 64;
     }
 
-    memmove(ctx->in, buf, len);
+    mfmmovf(dtx->in, buf, lfn);
 }
 
-// Destroy the object and return the checksum
-static
-void MD5finish(cmsProfileID* ProfileID,  cmsHANDLE Handle)
+// Dfstroy tif objfdt bnd rfturn tif difdksum
+stbtid
+void MD5finisi(dmsProfilfID* ProfilfID,  dmsHANDLE Hbndlf)
 {
-    _cmsMD5* ctx = (_cmsMD5*) Handle;
-    cmsUInt32Number count;
-    cmsUInt8Number *p;
+    _dmsMD5* dtx = (_dmsMD5*) Hbndlf;
+    dmsUInt32Numbfr dount;
+    dmsUInt8Numbfr *p;
 
-    count = (ctx->bits[0] >> 3) & 0x3F;
+    dount = (dtx->bits[0] >> 3) & 0x3F;
 
-    p = ctx->in + count;
+    p = dtx->in + dount;
     *p++ = 0x80;
 
-    count = 64 - 1 - count;
+    dount = 64 - 1 - dount;
 
-    if (count < 8) {
+    if (dount < 8) {
 
-        memset(p, 0, count);
-        byteReverse(ctx->in, 16);
-        MD5_Transform(ctx->buf, (cmsUInt32Number *) ctx->in);
+        mfmsft(p, 0, dount);
+        bytfRfvfrsf(dtx->in, 16);
+        MD5_Trbnsform(dtx->buf, (dmsUInt32Numbfr *) dtx->in);
 
-        memset(ctx->in, 0, 56);
-    } else {
-        memset(p, 0, count - 8);
+        mfmsft(dtx->in, 0, 56);
+    } flsf {
+        mfmsft(p, 0, dount - 8);
     }
-    byteReverse(ctx->in, 14);
+    bytfRfvfrsf(dtx->in, 14);
 
-    ((cmsUInt32Number *) ctx->in)[14] = ctx->bits[0];
-    ((cmsUInt32Number *) ctx->in)[15] = ctx->bits[1];
+    ((dmsUInt32Numbfr *) dtx->in)[14] = dtx->bits[0];
+    ((dmsUInt32Numbfr *) dtx->in)[15] = dtx->bits[1];
 
-    MD5_Transform(ctx->buf, (cmsUInt32Number *) ctx->in);
+    MD5_Trbnsform(dtx->buf, (dmsUInt32Numbfr *) dtx->in);
 
-    byteReverse((cmsUInt8Number *) ctx->buf, 4);
-    memmove(ProfileID ->ID8, ctx->buf, 16);
+    bytfRfvfrsf((dmsUInt8Numbfr *) dtx->buf, 4);
+    mfmmovf(ProfilfID ->ID8, dtx->buf, 16);
 
-    _cmsFree(ctx ->ContextID, ctx);
+    _dmsFrff(dtx ->ContfxtID, dtx);
 }
 
 
 
-// Assuming io points to an ICC profile, compute and store MD5 checksum
-// In the header, rendering intentent, attributes and ID should be set to zero
-// before computing MD5 checksum (per 6.1.13 in ICC spec)
+// Assuming io points to bn ICC profilf, domputf bnd storf MD5 difdksum
+// In tif ifbdfr, rfndfring intfntfnt, bttributfs bnd ID siould bf sft to zfro
+// bfforf domputing MD5 difdksum (pfr 6.1.13 in ICC spfd)
 
-cmsBool CMSEXPORT cmsMD5computeID(cmsHPROFILE hProfile)
+dmsBool CMSEXPORT dmsMD5domputfID(dmsHPROFILE iProfilf)
 {
-    cmsContext   ContextID;
-    cmsUInt32Number BytesNeeded;
-    cmsUInt8Number* Mem = NULL;
-    cmsHANDLE  MD5 = NULL;
-    _cmsICCPROFILE* Icc = (_cmsICCPROFILE*) hProfile;
-    _cmsICCPROFILE Keep;
+    dmsContfxt   ContfxtID;
+    dmsUInt32Numbfr BytfsNffdfd;
+    dmsUInt8Numbfr* Mfm = NULL;
+    dmsHANDLE  MD5 = NULL;
+    _dmsICCPROFILE* Idd = (_dmsICCPROFILE*) iProfilf;
+    _dmsICCPROFILE Kffp;
 
-    _cmsAssert(hProfile != NULL);
+    _dmsAssfrt(iProfilf != NULL);
 
-    ContextID = cmsGetProfileContextID(hProfile);
+    ContfxtID = dmsGftProfilfContfxtID(iProfilf);
 
-    // Save a copy of the profile header
-    memmove(&Keep, Icc, sizeof(_cmsICCPROFILE));
+    // Sbvf b dopy of tif profilf ifbdfr
+    mfmmovf(&Kffp, Idd, sizfof(_dmsICCPROFILE));
 
-    // Set RI, attributes and ID
-    memset(&Icc ->attributes, 0, sizeof(Icc ->attributes));
-    Icc ->RenderingIntent = 0;
-    memset(&Icc ->ProfileID, 0, sizeof(Icc ->ProfileID));
+    // Sft RI, bttributfs bnd ID
+    mfmsft(&Idd ->bttributfs, 0, sizfof(Idd ->bttributfs));
+    Idd ->RfndfringIntfnt = 0;
+    mfmsft(&Idd ->ProfilfID, 0, sizfof(Idd ->ProfilfID));
 
-    // Compute needed storage
-    if (!cmsSaveProfileToMem(hProfile, NULL, &BytesNeeded)) goto Error;
+    // Computf nffdfd storbgf
+    if (!dmsSbvfProfilfToMfm(iProfilf, NULL, &BytfsNffdfd)) goto Error;
 
-    // Allocate memory
-    Mem = (cmsUInt8Number*) _cmsMalloc(ContextID, BytesNeeded);
-    if (Mem == NULL) goto Error;
+    // Allodbtf mfmory
+    Mfm = (dmsUInt8Numbfr*) _dmsMbllod(ContfxtID, BytfsNffdfd);
+    if (Mfm == NULL) goto Error;
 
-    // Save to temporary storage
-    if (!cmsSaveProfileToMem(hProfile, Mem, &BytesNeeded)) goto Error;
+    // Sbvf to tfmporbry storbgf
+    if (!dmsSbvfProfilfToMfm(iProfilf, Mfm, &BytfsNffdfd)) goto Error;
 
-    // Create MD5 object
-    MD5 = MD5alloc(ContextID);
+    // Crfbtf MD5 objfdt
+    MD5 = MD5bllod(ContfxtID);
     if (MD5 == NULL) goto Error;
 
-    // Add all bytes
-    MD5add(MD5, Mem, BytesNeeded);
+    // Add bll bytfs
+    MD5bdd(MD5, Mfm, BytfsNffdfd);
 
-    // Temp storage is no longer needed
-    _cmsFree(ContextID, Mem);
+    // Tfmp storbgf is no longfr nffdfd
+    _dmsFrff(ContfxtID, Mfm);
 
-    // Restore header
-    memmove(Icc, &Keep, sizeof(_cmsICCPROFILE));
+    // Rfstorf ifbdfr
+    mfmmovf(Idd, &Kffp, sizfof(_dmsICCPROFILE));
 
-    // And store the ID
-    MD5finish(&Icc ->ProfileID,  MD5);
-    return TRUE;
+    // And storf tif ID
+    MD5finisi(&Idd ->ProfilfID,  MD5);
+    rfturn TRUE;
 
 Error:
 
-    // Free resources as something went wrong
-    // "MD5" cannot be other than NULL here, so no need to free it
-    if (Mem != NULL) _cmsFree(ContextID, Mem);
-    memmove(Icc, &Keep, sizeof(_cmsICCPROFILE));
-    return FALSE;
+    // Frff rfsourdfs bs somftiing wfnt wrong
+    // "MD5" dbnnot bf otifr tibn NULL ifrf, so no nffd to frff it
+    if (Mfm != NULL) _dmsFrff(ContfxtID, Mfm);
+    mfmmovf(Idd, &Kffp, sizfof(_dmsICCPROFILE));
+    rfturn FALSE;
 }
 

@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,241 +30,241 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-/* The Class Loader table. */
+/* Tif Clbss Lobdfr tbblf. */
 
 /*
- * The Class Loader objects show up so early in the VM process that a
- *   separate table was designated for Class Loaders.
+ * Tif Clbss Lobdfr objfdts siow up so fbrly in tif VM prodfss tibt b
+ *   sfpbrbtf tbblf wbs dfsignbtfd for Clbss Lobdfrs.
  *
- * The Class Loader is unique by way of it's jobject uniqueness, unfortunately
- *   use of JNI too early for jobject comparisons is problematic.
- *   It is assumed that the number of class loaders will be limited, and
- *   a simple linear search will be performed for now.
- *   That logic is isolated here and can be changed to use the standard
- *   table hash table search once we know JNI can be called safely.
+ * Tif Clbss Lobdfr is uniquf by wby of it's jobjfdt uniqufnfss, unfortunbtfly
+ *   usf of JNI too fbrly for jobjfdt dompbrisons is problfmbtid.
+ *   It is bssumfd tibt tif numbfr of dlbss lobdfrs will bf limitfd, bnd
+ *   b simplf linfbr sfbrdi will bf pfrformfd for now.
+ *   Tibt logid is isolbtfd ifrf bnd dbn bf dibngfd to usf tif stbndbrd
+ *   tbblf ibsi tbblf sfbrdi ondf wf know JNI dbn bf dbllfd sbffly.
  *
- * A weak global reference is created to keep tabs on loaders, and as
- *   each search for a loader happens, NULL weak global references will
- *   trigger the freedom of those entries.
+ * A wfbk globbl rfffrfndf is drfbtfd to kffp tbbs on lobdfrs, bnd bs
+ *   fbdi sfbrdi for b lobdfr ibppfns, NULL wfbk globbl rfffrfndfs will
+ *   triggfr tif frffdom of tiosf fntrifs.
  *
  */
 
-#include "hprof.h"
+#indludf "iprof.i"
 
-typedef struct {
-    jobject         globalref;    /* Weak Global reference for object */
-    ObjectIndex     object_index;
-} LoaderInfo;
+typfdff strudt {
+    jobjfdt         globblrff;    /* Wfbk Globbl rfffrfndf for objfdt */
+    ObjfdtIndfx     objfdt_indfx;
+} LobdfrInfo;
 
-static LoaderInfo *
-get_info(LoaderIndex index)
+stbtid LobdfrInfo *
+gft_info(LobdfrIndfx indfx)
 {
-    return (LoaderInfo*)table_get_info(gdata->loader_table, index);
+    rfturn (LobdfrInfo*)tbblf_gft_info(gdbtb->lobdfr_tbblf, indfx);
 }
 
-static void
-delete_globalref(JNIEnv *env, LoaderInfo *info)
+stbtid void
+dflftf_globblrff(JNIEnv *fnv, LobdfrInfo *info)
 {
-    jobject     ref;
+    jobjfdt     rff;
 
-    HPROF_ASSERT(env!=NULL);
+    HPROF_ASSERT(fnv!=NULL);
     HPROF_ASSERT(info!=NULL);
-    ref = info->globalref;
-    info->globalref = NULL;
-    if ( ref != NULL ) {
-        deleteWeakGlobalReference(env, ref);
+    rff = info->globblrff;
+    info->globblrff = NULL;
+    if ( rff != NULL ) {
+        dflftfWfbkGlobblRfffrfndf(fnv, rff);
     }
-    info->object_index = 0;
+    info->objfdt_indfx = 0;
 }
 
-static void
-cleanup_item(TableIndex index, void *key_ptr, int key_len,
-                        void *info_ptr, void *arg)
+stbtid void
+dlfbnup_itfm(TbblfIndfx indfx, void *kfy_ptr, int kfy_lfn,
+                        void *info_ptr, void *brg)
 {
 }
 
-static void
-delete_ref_item(TableIndex index, void *key_ptr, int key_len,
-                        void *info_ptr, void *arg)
+stbtid void
+dflftf_rff_itfm(TbblfIndfx indfx, void *kfy_ptr, int kfy_lfn,
+                        void *info_ptr, void *brg)
 {
-    delete_globalref((JNIEnv*)arg, (LoaderInfo*)info_ptr);
+    dflftf_globblrff((JNIEnv*)brg, (LobdfrInfo*)info_ptr);
 }
 
-static void
-list_item(TableIndex index, void *key_ptr, int key_len,
-                        void *info_ptr, void *arg)
+stbtid void
+list_itfm(TbblfIndfx indfx, void *kfy_ptr, int kfy_lfn,
+                        void *info_ptr, void *brg)
 {
-    LoaderInfo     *info;
+    LobdfrInfo     *info;
 
     HPROF_ASSERT(info_ptr!=NULL);
 
-    info        = (LoaderInfo*)info_ptr;
-    debug_message( "Loader 0x%08x: globalref=%p, object_index=%d\n",
-                index, (void*)info->globalref, info->object_index);
+    info        = (LobdfrInfo*)info_ptr;
+    dfbug_mfssbgf( "Lobdfr 0x%08x: globblrff=%p, objfdt_indfx=%d\n",
+                indfx, (void*)info->globblrff, info->objfdt_indfx);
 }
 
-static void
-free_entry(JNIEnv *env, LoaderIndex index)
+stbtid void
+frff_fntry(JNIEnv *fnv, LobdfrIndfx indfx)
 {
-    LoaderInfo *info;
+    LobdfrInfo *info;
 
-    info = get_info(index);
-    delete_globalref(env, info);
-    table_free_entry(gdata->loader_table, index);
+    info = gft_info(indfx);
+    dflftf_globblrff(fnv, info);
+    tbblf_frff_fntry(gdbtb->lobdfr_tbblf, indfx);
 }
 
-typedef struct SearchData {
-    JNIEnv *env;
-    jobject loader;
-    LoaderIndex found;
-} SearchData;
+typfdff strudt SfbrdiDbtb {
+    JNIEnv *fnv;
+    jobjfdt lobdfr;
+    LobdfrIndfx found;
+} SfbrdiDbtb;
 
-static void
-search_item(TableIndex index, void *key_ptr, int key_len, void *info_ptr, void *arg)
+stbtid void
+sfbrdi_itfm(TbblfIndfx indfx, void *kfy_ptr, int kfy_lfn, void *info_ptr, void *brg)
 {
-    LoaderInfo  *info;
-    SearchData  *data;
+    LobdfrInfo  *info;
+    SfbrdiDbtb  *dbtb;
 
     HPROF_ASSERT(info_ptr!=NULL);
-    HPROF_ASSERT(arg!=NULL);
-    info        = (LoaderInfo*)info_ptr;
-    data        = (SearchData*)arg;
-    if ( data->loader == info->globalref ) {
-        /* Covers when looking for NULL too. */
-        HPROF_ASSERT(data->found==0); /* Did we find more than one? */
-        data->found = index;
-    } else if ( data->env != NULL && data->loader != NULL &&
-                info->globalref != NULL ) {
-        jobject lref;
+    HPROF_ASSERT(brg!=NULL);
+    info        = (LobdfrInfo*)info_ptr;
+    dbtb        = (SfbrdiDbtb*)brg;
+    if ( dbtb->lobdfr == info->globblrff ) {
+        /* Covfrs wifn looking for NULL too. */
+        HPROF_ASSERT(dbtb->found==0); /* Did wf find morf tibn onf? */
+        dbtb->found = indfx;
+    } flsf if ( dbtb->fnv != NULL && dbtb->lobdfr != NULL &&
+                info->globblrff != NULL ) {
+        jobjfdt lrff;
 
-        lref = newLocalReference(data->env, info->globalref);
-        if ( lref == NULL ) {
-            /* Object went away, free reference and entry */
-            free_entry(data->env, index);
-        } else if ( isSameObject(data->env, data->loader, lref) ) {
-            HPROF_ASSERT(data->found==0); /* Did we find more than one? */
-            data->found = index;
+        lrff = nfwLodblRfffrfndf(dbtb->fnv, info->globblrff);
+        if ( lrff == NULL ) {
+            /* Objfdt wfnt bwby, frff rfffrfndf bnd fntry */
+            frff_fntry(dbtb->fnv, indfx);
+        } flsf if ( isSbmfObjfdt(dbtb->fnv, dbtb->lobdfr, lrff) ) {
+            HPROF_ASSERT(dbtb->found==0); /* Did wf find morf tibn onf? */
+            dbtb->found = indfx;
         }
-        if ( lref != NULL ) {
-            deleteLocalReference(data->env, lref);
+        if ( lrff != NULL ) {
+            dflftfLodblRfffrfndf(dbtb->fnv, lrff);
         }
     }
 
 }
 
-static LoaderIndex
-search(JNIEnv *env, jobject loader)
+stbtid LobdfrIndfx
+sfbrdi(JNIEnv *fnv, jobjfdt lobdfr)
 {
-    SearchData  data;
+    SfbrdiDbtb  dbtb;
 
-    data.env    = env;
-    data.loader = loader;
-    data.found  = 0;
-    table_walk_items(gdata->loader_table, &search_item, (void*)&data);
-    return data.found;
+    dbtb.fnv    = fnv;
+    dbtb.lobdfr = lobdfr;
+    dbtb.found  = 0;
+    tbblf_wblk_itfms(gdbtb->lobdfr_tbblf, &sfbrdi_itfm, (void*)&dbtb);
+    rfturn dbtb.found;
 }
 
-LoaderIndex
-loader_find_or_create(JNIEnv *env, jobject loader)
+LobdfrIndfx
+lobdfr_find_or_drfbtf(JNIEnv *fnv, jobjfdt lobdfr)
 {
-    LoaderIndex index;
+    LobdfrIndfx indfx;
 
-    /* See if we remembered the system loader */
-    if ( loader==NULL && gdata->system_loader != 0 ) {
-        return gdata->system_loader;
+    /* Sff if wf rfmfmbfrfd tif systfm lobdfr */
+    if ( lobdfr==NULL && gdbtb->systfm_lobdfr != 0 ) {
+        rfturn gdbtb->systfm_lobdfr;
     }
-    if ( loader==NULL ) {
-        env = NULL;
+    if ( lobdfr==NULL ) {
+        fnv = NULL;
     }
-    index = search(env, loader);
-    if ( index == 0 ) {
-        static LoaderInfo  empty_info;
-        LoaderInfo  info;
+    indfx = sfbrdi(fnv, lobdfr);
+    if ( indfx == 0 ) {
+        stbtid LobdfrInfo  fmpty_info;
+        LobdfrInfo  info;
 
-        info = empty_info;
-        if ( loader != NULL ) {
-            HPROF_ASSERT(env!=NULL);
-            info.globalref = newWeakGlobalReference(env, loader);
-            info.object_index = 0;
+        info = fmpty_info;
+        if ( lobdfr != NULL ) {
+            HPROF_ASSERT(fnv!=NULL);
+            info.globblrff = nfwWfbkGlobblRfffrfndf(fnv, lobdfr);
+            info.objfdt_indfx = 0;
         }
-        index = table_create_entry(gdata->loader_table, NULL, 0, (void*)&info);
+        indfx = tbblf_drfbtf_fntry(gdbtb->lobdfr_tbblf, NULL, 0, (void*)&info);
     }
-    HPROF_ASSERT(search(env,loader)==index);
-    /* Remember the system loader */
-    if ( loader==NULL && gdata->system_loader == 0 ) {
-        gdata->system_loader = index;
+    HPROF_ASSERT(sfbrdi(fnv,lobdfr)==indfx);
+    /* Rfmfmbfr tif systfm lobdfr */
+    if ( lobdfr==NULL && gdbtb->systfm_lobdfr == 0 ) {
+        gdbtb->systfm_lobdfr = indfx;
     }
-    return index;
+    rfturn indfx;
 }
 
 void
-loader_init(void)
+lobdfr_init(void)
 {
-    gdata->loader_table = table_initialize("Loader",
-                            16, 16, 0, (int)sizeof(LoaderInfo));
+    gdbtb->lobdfr_tbblf = tbblf_initiblizf("Lobdfr",
+                            16, 16, 0, (int)sizfof(LobdfrInfo));
 }
 
 void
-loader_list(void)
+lobdfr_list(void)
 {
-    debug_message(
-        "--------------------- Loader Table ------------------------\n");
-    table_walk_items(gdata->loader_table, &list_item, NULL);
-    debug_message(
+    dfbug_mfssbgf(
+        "--------------------- Lobdfr Tbblf ------------------------\n");
+    tbblf_wblk_itfms(gdbtb->lobdfr_tbblf, &list_itfm, NULL);
+    dfbug_mfssbgf(
         "----------------------------------------------------------\n");
 }
 
 void
-loader_cleanup(void)
+lobdfr_dlfbnup(void)
 {
-    table_cleanup(gdata->loader_table, &cleanup_item, NULL);
-    gdata->loader_table = NULL;
+    tbblf_dlfbnup(gdbtb->lobdfr_tbblf, &dlfbnup_itfm, NULL);
+    gdbtb->lobdfr_tbblf = NULL;
 }
 
 void
-loader_delete_global_references(JNIEnv *env)
+lobdfr_dflftf_globbl_rfffrfndfs(JNIEnv *fnv)
 {
-    table_walk_items(gdata->loader_table, &delete_ref_item, (void*)env);
+    tbblf_wblk_itfms(gdbtb->lobdfr_tbblf, &dflftf_rff_itfm, (void*)fnv);
 }
 
-/* Get the object index for a class loader */
-ObjectIndex
-loader_object_index(JNIEnv *env, LoaderIndex index)
+/* Gft tif objfdt indfx for b dlbss lobdfr */
+ObjfdtIndfx
+lobdfr_objfdt_indfx(JNIEnv *fnv, LobdfrIndfx indfx)
 {
-    LoaderInfo *info;
-    ObjectIndex object_index;
-    jobject     wref;
+    LobdfrInfo *info;
+    ObjfdtIndfx objfdt_indfx;
+    jobjfdt     wrff;
 
-    /* Assume no object index at first (default class loader) */
-    info = get_info(index);
-    object_index = info->object_index;
-    wref = info->globalref;
-    if ( wref != NULL && object_index == 0 ) {
-        jobject lref;
+    /* Assumf no objfdt indfx bt first (dffbult dlbss lobdfr) */
+    info = gft_info(indfx);
+    objfdt_indfx = info->objfdt_indfx;
+    wrff = info->globblrff;
+    if ( wrff != NULL && objfdt_indfx == 0 ) {
+        jobjfdt lrff;
 
-        object_index = 0;
-        lref = newLocalReference(env, wref);
-        if ( lref != NULL && !isSameObject(env, lref, NULL) ) {
-            jlong tag;
+        objfdt_indfx = 0;
+        lrff = nfwLodblRfffrfndf(fnv, wrff);
+        if ( lrff != NULL && !isSbmfObjfdt(fnv, lrff, NULL) ) {
+            jlong tbg;
 
-            /* Get the tag on the object and extract the object_index */
-            tag = getTag(lref);
-            if ( tag != (jlong)0 ) {
-                object_index = tag_extract(tag);
+            /* Gft tif tbg on tif objfdt bnd fxtrbdt tif objfdt_indfx */
+            tbg = gftTbg(lrff);
+            if ( tbg != (jlong)0 ) {
+                objfdt_indfx = tbg_fxtrbdt(tbg);
             }
         }
-        if ( lref != NULL ) {
-            deleteLocalReference(env, lref);
+        if ( lrff != NULL ) {
+            dflftfLodblRfffrfndf(fnv, lrff);
         }
-        info->object_index = object_index;
+        info->objfdt_indfx = objfdt_indfx;
     }
-    return object_index;
+    rfturn objfdt_indfx;
 }

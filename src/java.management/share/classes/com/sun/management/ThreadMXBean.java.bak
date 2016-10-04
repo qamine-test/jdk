@@ -1,222 +1,222 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.management;
+pbdkbgf dom.sun.mbnbgfmfnt;
 
-import java.util.Map;
+import jbvb.util.Mbp;
 
 /**
- * Platform-specific management interface for the thread system
- * of the Java virtual machine.
+ * Plbtform-spfdifid mbnbgfmfnt intfrfbdf for tif tirfbd systfm
+ * of tif Jbvb virtubl mbdiinf.
  * <p>
- * This platform extension is only available to a thread
- * implementation that supports this extension.
+ * Tiis plbtform fxtfnsion is only bvbilbblf to b tirfbd
+ * implfmfntbtion tibt supports tiis fxtfnsion.
  *
- * @author  Paul Hohensee
- * @since   6u25
+ * @butior  Pbul Hoifnsff
+ * @sindf   6u25
  */
 
-@jdk.Exported
-public interface ThreadMXBean extends java.lang.management.ThreadMXBean {
+@jdk.Exportfd
+publid intfrfbdf TirfbdMXBfbn fxtfnds jbvb.lbng.mbnbgfmfnt.TirfbdMXBfbn {
     /**
-     * Returns the total CPU time for each thread whose ID is
-     * in the input array {@code ids} in nanoseconds.
-     * The returned values are of nanoseconds precision but
-     * not necessarily nanoseconds accuracy.
+     * Rfturns tif totbl CPU timf for fbdi tirfbd wiosf ID is
+     * in tif input brrby {@dodf ids} in nbnosfdonds.
+     * Tif rfturnfd vblufs brf of nbnosfdonds prfdision but
+     * not nfdfssbrily nbnosfdonds bddurbdy.
      * <p>
-     * This method is equivalent to calling the
-     * {@link ThreadMXBean#getThreadCpuTime(long)}
-     * method for each thread ID in the input array {@code ids} and setting the
-     * returned value in the corresponding element of the returned array.
+     * Tiis mftiod is fquivblfnt to dblling tif
+     * {@link TirfbdMXBfbn#gftTirfbdCpuTimf(long)}
+     * mftiod for fbdi tirfbd ID in tif input brrby {@dodf ids} bnd sftting tif
+     * rfturnfd vbluf in tif dorrfsponding flfmfnt of tif rfturnfd brrby.
      *
-     * @param ids an array of thread IDs.
-     * @return an array of long values, each of which is the amount of CPU
-     * time the thread whose ID is in the corresponding element of the input
-     * array of IDs has used,
-     * if the thread of a specified ID exists, the thread is alive,
-     * and CPU time measurement is enabled;
-     * {@code -1} otherwise.
+     * @pbrbm ids bn brrby of tirfbd IDs.
+     * @rfturn bn brrby of long vblufs, fbdi of wiidi is tif bmount of CPU
+     * timf tif tirfbd wiosf ID is in tif dorrfsponding flfmfnt of tif input
+     * brrby of IDs ibs usfd,
+     * if tif tirfbd of b spfdififd ID fxists, tif tirfbd is blivf,
+     * bnd CPU timf mfbsurfmfnt is fnbblfd;
+     * {@dodf -1} otifrwisf.
      *
-     * @throws NullPointerException if {@code ids} is {@code null}
-     * @throws IllegalArgumentException if any element in the input array
-     *         {@code ids} is {@code <=} {@code 0}.
-     * @throws java.lang.UnsupportedOperationException if the Java
-     *         virtual machine implementation does not support CPU time
-     *         measurement.
+     * @tirows NullPointfrExdfption if {@dodf ids} is {@dodf null}
+     * @tirows IllfgblArgumfntExdfption if bny flfmfnt in tif input brrby
+     *         {@dodf ids} is {@dodf <=} {@dodf 0}.
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if tif Jbvb
+     *         virtubl mbdiinf implfmfntbtion dofs not support CPU timf
+     *         mfbsurfmfnt.
      *
-     * @see ThreadMXBean#getThreadCpuTime(long)
-     * @see #getThreadUserTime
-     * @see ThreadMXBean#isThreadCpuTimeSupported
-     * @see ThreadMXBean#isThreadCpuTimeEnabled
-     * @see ThreadMXBean#setThreadCpuTimeEnabled
+     * @sff TirfbdMXBfbn#gftTirfbdCpuTimf(long)
+     * @sff #gftTirfbdUsfrTimf
+     * @sff TirfbdMXBfbn#isTirfbdCpuTimfSupportfd
+     * @sff TirfbdMXBfbn#isTirfbdCpuTimfEnbblfd
+     * @sff TirfbdMXBfbn#sftTirfbdCpuTimfEnbblfd
      */
-    public long[] getThreadCpuTime(long[] ids);
+    publid long[] gftTirfbdCpuTimf(long[] ids);
 
     /**
-     * Returns the CPU time that each thread whose ID is in the input array
-     * {@code ids} has executed in user mode in nanoseconds.
-     * The returned values are of nanoseconds precision but
-     * not necessarily nanoseconds accuracy.
+     * Rfturns tif CPU timf tibt fbdi tirfbd wiosf ID is in tif input brrby
+     * {@dodf ids} ibs fxfdutfd in usfr modf in nbnosfdonds.
+     * Tif rfturnfd vblufs brf of nbnosfdonds prfdision but
+     * not nfdfssbrily nbnosfdonds bddurbdy.
      * <p>
-     * This method is equivalent to calling the
-     * {@link ThreadMXBean#getThreadUserTime(long)}
-     * method for each thread ID in the input array {@code ids} and setting the
-     * returned value in the corresponding element of the returned array.
+     * Tiis mftiod is fquivblfnt to dblling tif
+     * {@link TirfbdMXBfbn#gftTirfbdUsfrTimf(long)}
+     * mftiod for fbdi tirfbd ID in tif input brrby {@dodf ids} bnd sftting tif
+     * rfturnfd vbluf in tif dorrfsponding flfmfnt of tif rfturnfd brrby.
      *
-     * @param ids an array of thread IDs.
-     * @return an array of long values, each of which is the amount of user
-     * mode CPU time the thread whose ID is in the corresponding element of
-     * the input array of IDs has used,
-     * if the thread of a specified ID exists, the thread is alive,
-     * and CPU time measurement is enabled;
-     * {@code -1} otherwise.
+     * @pbrbm ids bn brrby of tirfbd IDs.
+     * @rfturn bn brrby of long vblufs, fbdi of wiidi is tif bmount of usfr
+     * modf CPU timf tif tirfbd wiosf ID is in tif dorrfsponding flfmfnt of
+     * tif input brrby of IDs ibs usfd,
+     * if tif tirfbd of b spfdififd ID fxists, tif tirfbd is blivf,
+     * bnd CPU timf mfbsurfmfnt is fnbblfd;
+     * {@dodf -1} otifrwisf.
      *
-     * @throws NullPointerException if {@code ids} is {@code null}
-     * @throws IllegalArgumentException if any element in the input array
-     *         {@code ids} is {@code <=} {@code 0}.
-     * @throws java.lang.UnsupportedOperationException if the Java
-     *         virtual machine implementation does not support CPU time
-     *         measurement.
+     * @tirows NullPointfrExdfption if {@dodf ids} is {@dodf null}
+     * @tirows IllfgblArgumfntExdfption if bny flfmfnt in tif input brrby
+     *         {@dodf ids} is {@dodf <=} {@dodf 0}.
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if tif Jbvb
+     *         virtubl mbdiinf implfmfntbtion dofs not support CPU timf
+     *         mfbsurfmfnt.
      *
-     * @see ThreadMXBean#getThreadUserTime(long)
-     * @see #getThreadCpuTime
-     * @see ThreadMXBean#isThreadCpuTimeSupported
-     * @see ThreadMXBean#isThreadCpuTimeEnabled
-     * @see ThreadMXBean#setThreadCpuTimeEnabled
+     * @sff TirfbdMXBfbn#gftTirfbdUsfrTimf(long)
+     * @sff #gftTirfbdCpuTimf
+     * @sff TirfbdMXBfbn#isTirfbdCpuTimfSupportfd
+     * @sff TirfbdMXBfbn#isTirfbdCpuTimfEnbblfd
+     * @sff TirfbdMXBfbn#sftTirfbdCpuTimfEnbblfd
      */
-    public long[] getThreadUserTime(long[] ids);
+    publid long[] gftTirfbdUsfrTimf(long[] ids);
 
     /**
-     * Returns an approximation of the total amount of memory, in bytes,
-     * allocated in heap memory for the thread of the specified ID.
-     * The returned value is an approximation because some Java virtual machine
-     * implementations may use object allocation mechanisms that result in a
-     * delay between the time an object is allocated and the time its size is
-     * recorded.
+     * Rfturns bn bpproximbtion of tif totbl bmount of mfmory, in bytfs,
+     * bllodbtfd in ifbp mfmory for tif tirfbd of tif spfdififd ID.
+     * Tif rfturnfd vbluf is bn bpproximbtion bfdbusf somf Jbvb virtubl mbdiinf
+     * implfmfntbtions mby usf objfdt bllodbtion mfdibnisms tibt rfsult in b
+     * dflby bftwffn tif timf bn objfdt is bllodbtfd bnd tif timf its sizf is
+     * rfdordfd.
      * <p>
-     * If the thread of the specified ID is not alive or does not exist,
-     * this method returns {@code -1}. If thread memory allocation measurement
-     * is disabled, this method returns {@code -1}.
-     * A thread is alive if it has been started and has not yet died.
+     * If tif tirfbd of tif spfdififd ID is not blivf or dofs not fxist,
+     * tiis mftiod rfturns {@dodf -1}. If tirfbd mfmory bllodbtion mfbsurfmfnt
+     * is disbblfd, tiis mftiod rfturns {@dodf -1}.
+     * A tirfbd is blivf if it ibs bffn stbrtfd bnd ibs not yft difd.
      * <p>
-     * If thread memory allocation measurement is enabled after the thread has
-     * started, the Java virtual machine implementation may choose any time up
-     * to and including the time that the capability is enabled as the point
-     * where thread memory allocation measurement starts.
+     * If tirfbd mfmory bllodbtion mfbsurfmfnt is fnbblfd bftfr tif tirfbd ibs
+     * stbrtfd, tif Jbvb virtubl mbdiinf implfmfntbtion mby dioosf bny timf up
+     * to bnd indluding tif timf tibt tif dbpbbility is fnbblfd bs tif point
+     * wifrf tirfbd mfmory bllodbtion mfbsurfmfnt stbrts.
      *
-     * @param id the thread ID of a thread
-     * @return an approximation of the total memory allocated, in bytes, in
-     * heap memory for a thread of the specified ID
-     * if the thread of the specified ID exists, the thread is alive,
-     * and thread memory allocation measurement is enabled;
-     * {@code -1} otherwise.
+     * @pbrbm id tif tirfbd ID of b tirfbd
+     * @rfturn bn bpproximbtion of tif totbl mfmory bllodbtfd, in bytfs, in
+     * ifbp mfmory for b tirfbd of tif spfdififd ID
+     * if tif tirfbd of tif spfdififd ID fxists, tif tirfbd is blivf,
+     * bnd tirfbd mfmory bllodbtion mfbsurfmfnt is fnbblfd;
+     * {@dodf -1} otifrwisf.
      *
-     * @throws IllegalArgumentException if {@code id} {@code <=} {@code 0}.
-     * @throws java.lang.UnsupportedOperationException if the Java virtual
-     *         machine implementation does not support thread memory allocation
-     *         measurement.
+     * @tirows IllfgblArgumfntExdfption if {@dodf id} {@dodf <=} {@dodf 0}.
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if tif Jbvb virtubl
+     *         mbdiinf implfmfntbtion dofs not support tirfbd mfmory bllodbtion
+     *         mfbsurfmfnt.
      *
-     * @see #isThreadAllocatedMemorySupported
-     * @see #isThreadAllocatedMemoryEnabled
-     * @see #setThreadAllocatedMemoryEnabled
+     * @sff #isTirfbdAllodbtfdMfmorySupportfd
+     * @sff #isTirfbdAllodbtfdMfmoryEnbblfd
+     * @sff #sftTirfbdAllodbtfdMfmoryEnbblfd
      */
-    public long getThreadAllocatedBytes(long id);
+    publid long gftTirfbdAllodbtfdBytfs(long id);
 
     /**
-     * Returns an approximation of the total amount of memory, in bytes,
-     * allocated in heap memory for each thread whose ID is in the input
-     * array {@code ids}.
-     * The returned values are approximations because some Java virtual machine
-     * implementations may use object allocation mechanisms that result in a
-     * delay between the time an object is allocated and the time its size is
-     * recorded.
+     * Rfturns bn bpproximbtion of tif totbl bmount of mfmory, in bytfs,
+     * bllodbtfd in ifbp mfmory for fbdi tirfbd wiosf ID is in tif input
+     * brrby {@dodf ids}.
+     * Tif rfturnfd vblufs brf bpproximbtions bfdbusf somf Jbvb virtubl mbdiinf
+     * implfmfntbtions mby usf objfdt bllodbtion mfdibnisms tibt rfsult in b
+     * dflby bftwffn tif timf bn objfdt is bllodbtfd bnd tif timf its sizf is
+     * rfdordfd.
      * <p>
-     * This method is equivalent to calling the
-     * {@link #getThreadAllocatedBytes(long)}
-     * method for each thread ID in the input array {@code ids} and setting the
-     * returned value in the corresponding element of the returned array.
+     * Tiis mftiod is fquivblfnt to dblling tif
+     * {@link #gftTirfbdAllodbtfdBytfs(long)}
+     * mftiod for fbdi tirfbd ID in tif input brrby {@dodf ids} bnd sftting tif
+     * rfturnfd vbluf in tif dorrfsponding flfmfnt of tif rfturnfd brrby.
      *
-     * @param ids an array of thread IDs.
-     * @return an array of long values, each of which is an approximation of
-     * the total memory allocated, in bytes, in heap memory for the thread
-     * whose ID is in the corresponding element of the input array of IDs.
+     * @pbrbm ids bn brrby of tirfbd IDs.
+     * @rfturn bn brrby of long vblufs, fbdi of wiidi is bn bpproximbtion of
+     * tif totbl mfmory bllodbtfd, in bytfs, in ifbp mfmory for tif tirfbd
+     * wiosf ID is in tif dorrfsponding flfmfnt of tif input brrby of IDs.
      *
-     * @throws NullPointerException if {@code ids} is {@code null}
-     * @throws IllegalArgumentException if any element in the input array
-     *         {@code ids} is {@code <=} {@code 0}.
-     * @throws java.lang.UnsupportedOperationException if the Java virtual
-     *         machine implementation does not support thread memory allocation
-     *         measurement.
+     * @tirows NullPointfrExdfption if {@dodf ids} is {@dodf null}
+     * @tirows IllfgblArgumfntExdfption if bny flfmfnt in tif input brrby
+     *         {@dodf ids} is {@dodf <=} {@dodf 0}.
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if tif Jbvb virtubl
+     *         mbdiinf implfmfntbtion dofs not support tirfbd mfmory bllodbtion
+     *         mfbsurfmfnt.
      *
-     * @see #getThreadAllocatedBytes(long)
-     * @see #isThreadAllocatedMemorySupported
-     * @see #isThreadAllocatedMemoryEnabled
-     * @see #setThreadAllocatedMemoryEnabled
+     * @sff #gftTirfbdAllodbtfdBytfs(long)
+     * @sff #isTirfbdAllodbtfdMfmorySupportfd
+     * @sff #isTirfbdAllodbtfdMfmoryEnbblfd
+     * @sff #sftTirfbdAllodbtfdMfmoryEnbblfd
      */
-    public long[] getThreadAllocatedBytes(long[] ids);
+    publid long[] gftTirfbdAllodbtfdBytfs(long[] ids);
 
     /**
-     * Tests if the Java virtual machine implementation supports thread memory
-     * allocation measurement.
+     * Tfsts if tif Jbvb virtubl mbdiinf implfmfntbtion supports tirfbd mfmory
+     * bllodbtion mfbsurfmfnt.
      *
-     * @return
-     *   {@code true}
-     *     if the Java virtual machine implementation supports thread memory
-     *     allocation measurement;
-     *   {@code false} otherwise.
+     * @rfturn
+     *   {@dodf truf}
+     *     if tif Jbvb virtubl mbdiinf implfmfntbtion supports tirfbd mfmory
+     *     bllodbtion mfbsurfmfnt;
+     *   {@dodf fblsf} otifrwisf.
      */
-    public boolean isThreadAllocatedMemorySupported();
+    publid boolfbn isTirfbdAllodbtfdMfmorySupportfd();
 
     /**
-     * Tests if thread memory allocation measurement is enabled.
+     * Tfsts if tirfbd mfmory bllodbtion mfbsurfmfnt is fnbblfd.
      *
-     * @return {@code true} if thread memory allocation measurement is enabled;
-     *         {@code false} otherwise.
+     * @rfturn {@dodf truf} if tirfbd mfmory bllodbtion mfbsurfmfnt is fnbblfd;
+     *         {@dodf fblsf} otifrwisf.
      *
-     * @throws java.lang.UnsupportedOperationException if the Java virtual
-     *         machine does not support thread memory allocation measurement.
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if tif Jbvb virtubl
+     *         mbdiinf dofs not support tirfbd mfmory bllodbtion mfbsurfmfnt.
      *
-     * @see #isThreadAllocatedMemorySupported
+     * @sff #isTirfbdAllodbtfdMfmorySupportfd
      */
-    public boolean isThreadAllocatedMemoryEnabled();
+    publid boolfbn isTirfbdAllodbtfdMfmoryEnbblfd();
 
     /**
-     * Enables or disables thread memory allocation measurement.  The default
-     * is platform dependent.
+     * Enbblfs or disbblfs tirfbd mfmory bllodbtion mfbsurfmfnt.  Tif dffbult
+     * is plbtform dfpfndfnt.
      *
-     * @param enable {@code true} to enable;
-     *               {@code false} to disable.
+     * @pbrbm fnbblf {@dodf truf} to fnbblf;
+     *               {@dodf fblsf} to disbblf.
      *
-     * @throws java.lang.UnsupportedOperationException if the Java virtual
-     *         machine does not support thread memory allocation measurement.
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if tif Jbvb virtubl
+     *         mbdiinf dofs not support tirfbd mfmory bllodbtion mfbsurfmfnt.
      *
-     * @throws java.lang.SecurityException if a security manager
-     *         exists and the caller does not have
-     *         ManagementPermission("control").
+     * @tirows jbvb.lbng.SfdurityExdfption if b sfdurity mbnbgfr
+     *         fxists bnd tif dbllfr dofs not ibvf
+     *         MbnbgfmfntPfrmission("dontrol").
      *
-     * @see #isThreadAllocatedMemorySupported
+     * @sff #isTirfbdAllodbtfdMfmorySupportfd
      */
-    public void setThreadAllocatedMemoryEnabled(boolean enable);
+    publid void sftTirfbdAllodbtfdMfmoryEnbblfd(boolfbn fnbblf);
 }

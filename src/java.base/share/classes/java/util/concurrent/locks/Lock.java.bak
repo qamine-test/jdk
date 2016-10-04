@@ -1,357 +1,357 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Writtfn by Doug Lfb witi bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to tif publid dombin, bs fxplbinfd bt
+ * ittp://drfbtivfdommons.org/publiddombin/zfro/1.0/
  */
 
-package java.util.concurrent.locks;
-import java.util.concurrent.TimeUnit;
+pbdkbgf jbvb.util.dondurrfnt.lodks;
+import jbvb.util.dondurrfnt.TimfUnit;
 
 /**
- * {@code Lock} implementations provide more extensive locking
- * operations than can be obtained using {@code synchronized} methods
- * and statements.  They allow more flexible structuring, may have
- * quite different properties, and may support multiple associated
- * {@link Condition} objects.
+ * {@dodf Lodk} implfmfntbtions providf morf fxtfnsivf lodking
+ * opfrbtions tibn dbn bf obtbinfd using {@dodf syndironizfd} mftiods
+ * bnd stbtfmfnts.  Tify bllow morf flfxiblf strudturing, mby ibvf
+ * quitf difffrfnt propfrtifs, bnd mby support multiplf bssodibtfd
+ * {@link Condition} objfdts.
  *
- * <p>A lock is a tool for controlling access to a shared resource by
- * multiple threads. Commonly, a lock provides exclusive access to a
- * shared resource: only one thread at a time can acquire the lock and
- * all access to the shared resource requires that the lock be
- * acquired first. However, some locks may allow concurrent access to
- * a shared resource, such as the read lock of a {@link ReadWriteLock}.
+ * <p>A lodk is b tool for dontrolling bddfss to b sibrfd rfsourdf by
+ * multiplf tirfbds. Commonly, b lodk providfs fxdlusivf bddfss to b
+ * sibrfd rfsourdf: only onf tirfbd bt b timf dbn bdquirf tif lodk bnd
+ * bll bddfss to tif sibrfd rfsourdf rfquirfs tibt tif lodk bf
+ * bdquirfd first. Howfvfr, somf lodks mby bllow dondurrfnt bddfss to
+ * b sibrfd rfsourdf, sudi bs tif rfbd lodk of b {@link RfbdWritfLodk}.
  *
- * <p>The use of {@code synchronized} methods or statements provides
- * access to the implicit monitor lock associated with every object, but
- * forces all lock acquisition and release to occur in a block-structured way:
- * when multiple locks are acquired they must be released in the opposite
- * order, and all locks must be released in the same lexical scope in which
- * they were acquired.
+ * <p>Tif usf of {@dodf syndironizfd} mftiods or stbtfmfnts providfs
+ * bddfss to tif implidit monitor lodk bssodibtfd witi fvfry objfdt, but
+ * fordfs bll lodk bdquisition bnd rflfbsf to oddur in b blodk-strudturfd wby:
+ * wifn multiplf lodks brf bdquirfd tify must bf rflfbsfd in tif oppositf
+ * ordfr, bnd bll lodks must bf rflfbsfd in tif sbmf lfxidbl sdopf in wiidi
+ * tify wfrf bdquirfd.
  *
- * <p>While the scoping mechanism for {@code synchronized} methods
- * and statements makes it much easier to program with monitor locks,
- * and helps avoid many common programming errors involving locks,
- * there are occasions where you need to work with locks in a more
- * flexible way. For example, some algorithms for traversing
- * concurrently accessed data structures require the use of
- * &quot;hand-over-hand&quot; or &quot;chain locking&quot;: you
- * acquire the lock of node A, then node B, then release A and acquire
- * C, then release B and acquire D and so on.  Implementations of the
- * {@code Lock} interface enable the use of such techniques by
- * allowing a lock to be acquired and released in different scopes,
- * and allowing multiple locks to be acquired and released in any
- * order.
+ * <p>Wiilf tif sdoping mfdibnism for {@dodf syndironizfd} mftiods
+ * bnd stbtfmfnts mbkfs it mudi fbsifr to progrbm witi monitor lodks,
+ * bnd iflps bvoid mbny dommon progrbmming frrors involving lodks,
+ * tifrf brf oddbsions wifrf you nffd to work witi lodks in b morf
+ * flfxiblf wby. For fxbmplf, somf blgoritims for trbvfrsing
+ * dondurrfntly bddfssfd dbtb strudturfs rfquirf tif usf of
+ * &quot;ibnd-ovfr-ibnd&quot; or &quot;dibin lodking&quot;: you
+ * bdquirf tif lodk of nodf A, tifn nodf B, tifn rflfbsf A bnd bdquirf
+ * C, tifn rflfbsf B bnd bdquirf D bnd so on.  Implfmfntbtions of tif
+ * {@dodf Lodk} intfrfbdf fnbblf tif usf of sudi tfdiniqufs by
+ * bllowing b lodk to bf bdquirfd bnd rflfbsfd in difffrfnt sdopfs,
+ * bnd bllowing multiplf lodks to bf bdquirfd bnd rflfbsfd in bny
+ * ordfr.
  *
- * <p>With this increased flexibility comes additional
- * responsibility. The absence of block-structured locking removes the
- * automatic release of locks that occurs with {@code synchronized}
- * methods and statements. In most cases, the following idiom
- * should be used:
+ * <p>Witi tiis indrfbsfd flfxibility domfs bdditionbl
+ * rfsponsibility. Tif bbsfndf of blodk-strudturfd lodking rfmovfs tif
+ * butombtid rflfbsf of lodks tibt oddurs witi {@dodf syndironizfd}
+ * mftiods bnd stbtfmfnts. In most dbsfs, tif following idiom
+ * siould bf usfd:
  *
- *  <pre> {@code
- * Lock l = ...;
- * l.lock();
+ *  <prf> {@dodf
+ * Lodk l = ...;
+ * l.lodk();
  * try {
- *   // access the resource protected by this lock
- * } finally {
- *   l.unlock();
- * }}</pre>
+ *   // bddfss tif rfsourdf protfdtfd by tiis lodk
+ * } finblly {
+ *   l.unlodk();
+ * }}</prf>
  *
- * When locking and unlocking occur in different scopes, care must be
- * taken to ensure that all code that is executed while the lock is
- * held is protected by try-finally or try-catch to ensure that the
- * lock is released when necessary.
+ * Wifn lodking bnd unlodking oddur in difffrfnt sdopfs, dbrf must bf
+ * tbkfn to fnsurf tibt bll dodf tibt is fxfdutfd wiilf tif lodk is
+ * ifld is protfdtfd by try-finblly or try-dbtdi to fnsurf tibt tif
+ * lodk is rflfbsfd wifn nfdfssbry.
  *
- * <p>{@code Lock} implementations provide additional functionality
- * over the use of {@code synchronized} methods and statements by
- * providing a non-blocking attempt to acquire a lock ({@link
- * #tryLock()}), an attempt to acquire the lock that can be
- * interrupted ({@link #lockInterruptibly}, and an attempt to acquire
- * the lock that can timeout ({@link #tryLock(long, TimeUnit)}).
+ * <p>{@dodf Lodk} implfmfntbtions providf bdditionbl fundtionblity
+ * ovfr tif usf of {@dodf syndironizfd} mftiods bnd stbtfmfnts by
+ * providing b non-blodking bttfmpt to bdquirf b lodk ({@link
+ * #tryLodk()}), bn bttfmpt to bdquirf tif lodk tibt dbn bf
+ * intfrruptfd ({@link #lodkIntfrruptibly}, bnd bn bttfmpt to bdquirf
+ * tif lodk tibt dbn timfout ({@link #tryLodk(long, TimfUnit)}).
  *
- * <p>A {@code Lock} class can also provide behavior and semantics
- * that is quite different from that of the implicit monitor lock,
- * such as guaranteed ordering, non-reentrant usage, or deadlock
- * detection. If an implementation provides such specialized semantics
- * then the implementation must document those semantics.
+ * <p>A {@dodf Lodk} dlbss dbn blso providf bfibvior bnd sfmbntids
+ * tibt is quitf difffrfnt from tibt of tif implidit monitor lodk,
+ * sudi bs gubrbntffd ordfring, non-rffntrbnt usbgf, or dfbdlodk
+ * dftfdtion. If bn implfmfntbtion providfs sudi spfdiblizfd sfmbntids
+ * tifn tif implfmfntbtion must dodumfnt tiosf sfmbntids.
  *
- * <p>Note that {@code Lock} instances are just normal objects and can
- * themselves be used as the target in a {@code synchronized} statement.
- * Acquiring the
- * monitor lock of a {@code Lock} instance has no specified relationship
- * with invoking any of the {@link #lock} methods of that instance.
- * It is recommended that to avoid confusion you never use {@code Lock}
- * instances in this way, except within their own implementation.
+ * <p>Notf tibt {@dodf Lodk} instbndfs brf just normbl objfdts bnd dbn
+ * tifmsflvfs bf usfd bs tif tbrgft in b {@dodf syndironizfd} stbtfmfnt.
+ * Adquiring tif
+ * monitor lodk of b {@dodf Lodk} instbndf ibs no spfdififd rflbtionsiip
+ * witi invoking bny of tif {@link #lodk} mftiods of tibt instbndf.
+ * It is rfdommfndfd tibt to bvoid donfusion you nfvfr usf {@dodf Lodk}
+ * instbndfs in tiis wby, fxdfpt witiin tifir own implfmfntbtion.
  *
- * <p>Except where noted, passing a {@code null} value for any
- * parameter will result in a {@link NullPointerException} being
- * thrown.
+ * <p>Exdfpt wifrf notfd, pbssing b {@dodf null} vbluf for bny
+ * pbrbmftfr will rfsult in b {@link NullPointfrExdfption} bfing
+ * tirown.
  *
- * <h3>Memory Synchronization</h3>
+ * <i3>Mfmory Syndironizbtion</i3>
  *
- * <p>All {@code Lock} implementations <em>must</em> enforce the same
- * memory synchronization semantics as provided by the built-in monitor
- * lock, as described in
- * <a href="http://docs.oracle.com/javase/specs/jls/se7/html/jls-17.html#jls-17.4">
- * The Java Language Specification (17.4 Memory Model)</a>:
+ * <p>All {@dodf Lodk} implfmfntbtions <fm>must</fm> fnfordf tif sbmf
+ * mfmory syndironizbtion sfmbntids bs providfd by tif built-in monitor
+ * lodk, bs dfsdribfd in
+ * <b irff="ittp://dods.orbdlf.dom/jbvbsf/spfds/jls/sf7/itml/jls-17.itml#jls-17.4">
+ * Tif Jbvb Lbngubgf Spfdifidbtion (17.4 Mfmory Modfl)</b>:
  * <ul>
- * <li>A successful {@code lock} operation has the same memory
- * synchronization effects as a successful <em>Lock</em> action.
- * <li>A successful {@code unlock} operation has the same
- * memory synchronization effects as a successful <em>Unlock</em> action.
+ * <li>A suddfssful {@dodf lodk} opfrbtion ibs tif sbmf mfmory
+ * syndironizbtion ffffdts bs b suddfssful <fm>Lodk</fm> bdtion.
+ * <li>A suddfssful {@dodf unlodk} opfrbtion ibs tif sbmf
+ * mfmory syndironizbtion ffffdts bs b suddfssful <fm>Unlodk</fm> bdtion.
  * </ul>
  *
- * Unsuccessful locking and unlocking operations, and reentrant
- * locking/unlocking operations, do not require any memory
- * synchronization effects.
+ * Unsuddfssful lodking bnd unlodking opfrbtions, bnd rffntrbnt
+ * lodking/unlodking opfrbtions, do not rfquirf bny mfmory
+ * syndironizbtion ffffdts.
  *
- * <h3>Implementation Considerations</h3>
+ * <i3>Implfmfntbtion Considfrbtions</i3>
  *
- * <p>The three forms of lock acquisition (interruptible,
- * non-interruptible, and timed) may differ in their performance
- * characteristics, ordering guarantees, or other implementation
- * qualities.  Further, the ability to interrupt the <em>ongoing</em>
- * acquisition of a lock may not be available in a given {@code Lock}
- * class.  Consequently, an implementation is not required to define
- * exactly the same guarantees or semantics for all three forms of
- * lock acquisition, nor is it required to support interruption of an
- * ongoing lock acquisition.  An implementation is required to clearly
- * document the semantics and guarantees provided by each of the
- * locking methods. It must also obey the interruption semantics as
- * defined in this interface, to the extent that interruption of lock
- * acquisition is supported: which is either totally, or only on
- * method entry.
+ * <p>Tif tirff forms of lodk bdquisition (intfrruptiblf,
+ * non-intfrruptiblf, bnd timfd) mby difffr in tifir pfrformbndf
+ * dibrbdtfristids, ordfring gubrbntffs, or otifr implfmfntbtion
+ * qublitifs.  Furtifr, tif bbility to intfrrupt tif <fm>ongoing</fm>
+ * bdquisition of b lodk mby not bf bvbilbblf in b givfn {@dodf Lodk}
+ * dlbss.  Consfqufntly, bn implfmfntbtion is not rfquirfd to dffinf
+ * fxbdtly tif sbmf gubrbntffs or sfmbntids for bll tirff forms of
+ * lodk bdquisition, nor is it rfquirfd to support intfrruption of bn
+ * ongoing lodk bdquisition.  An implfmfntbtion is rfquirfd to dlfbrly
+ * dodumfnt tif sfmbntids bnd gubrbntffs providfd by fbdi of tif
+ * lodking mftiods. It must blso obfy tif intfrruption sfmbntids bs
+ * dffinfd in tiis intfrfbdf, to tif fxtfnt tibt intfrruption of lodk
+ * bdquisition is supportfd: wiidi is fitifr totblly, or only on
+ * mftiod fntry.
  *
- * <p>As interruption generally implies cancellation, and checks for
- * interruption are often infrequent, an implementation can favor responding
- * to an interrupt over normal method return. This is true even if it can be
- * shown that the interrupt occurred after another action may have unblocked
- * the thread. An implementation should document this behavior.
+ * <p>As intfrruption gfnfrblly implifs dbndfllbtion, bnd difdks for
+ * intfrruption brf oftfn infrfqufnt, bn implfmfntbtion dbn fbvor rfsponding
+ * to bn intfrrupt ovfr normbl mftiod rfturn. Tiis is truf fvfn if it dbn bf
+ * siown tibt tif intfrrupt oddurrfd bftfr bnotifr bdtion mby ibvf unblodkfd
+ * tif tirfbd. An implfmfntbtion siould dodumfnt tiis bfibvior.
  *
- * @see ReentrantLock
- * @see Condition
- * @see ReadWriteLock
+ * @sff RffntrbntLodk
+ * @sff Condition
+ * @sff RfbdWritfLodk
  *
- * @since 1.5
- * @author Doug Lea
+ * @sindf 1.5
+ * @butior Doug Lfb
  */
-public interface Lock {
+publid intfrfbdf Lodk {
 
     /**
-     * Acquires the lock.
+     * Adquirfs tif lodk.
      *
-     * <p>If the lock is not available then the current thread becomes
-     * disabled for thread scheduling purposes and lies dormant until the
-     * lock has been acquired.
+     * <p>If tif lodk is not bvbilbblf tifn tif durrfnt tirfbd bfdomfs
+     * disbblfd for tirfbd sdifduling purposfs bnd lifs dormbnt until tif
+     * lodk ibs bffn bdquirfd.
      *
-     * <p><b>Implementation Considerations</b>
+     * <p><b>Implfmfntbtion Considfrbtions</b>
      *
-     * <p>A {@code Lock} implementation may be able to detect erroneous use
-     * of the lock, such as an invocation that would cause deadlock, and
-     * may throw an (unchecked) exception in such circumstances.  The
-     * circumstances and the exception type must be documented by that
-     * {@code Lock} implementation.
+     * <p>A {@dodf Lodk} implfmfntbtion mby bf bblf to dftfdt frronfous usf
+     * of tif lodk, sudi bs bn invodbtion tibt would dbusf dfbdlodk, bnd
+     * mby tirow bn (undifdkfd) fxdfption in sudi dirdumstbndfs.  Tif
+     * dirdumstbndfs bnd tif fxdfption typf must bf dodumfntfd by tibt
+     * {@dodf Lodk} implfmfntbtion.
      */
-    void lock();
+    void lodk();
 
     /**
-     * Acquires the lock unless the current thread is
-     * {@linkplain Thread#interrupt interrupted}.
+     * Adquirfs tif lodk unlfss tif durrfnt tirfbd is
+     * {@linkplbin Tirfbd#intfrrupt intfrruptfd}.
      *
-     * <p>Acquires the lock if it is available and returns immediately.
+     * <p>Adquirfs tif lodk if it is bvbilbblf bnd rfturns immfdibtfly.
      *
-     * <p>If the lock is not available then the current thread becomes
-     * disabled for thread scheduling purposes and lies dormant until
-     * one of two things happens:
+     * <p>If tif lodk is not bvbilbblf tifn tif durrfnt tirfbd bfdomfs
+     * disbblfd for tirfbd sdifduling purposfs bnd lifs dormbnt until
+     * onf of two tiings ibppfns:
      *
      * <ul>
-     * <li>The lock is acquired by the current thread; or
-     * <li>Some other thread {@linkplain Thread#interrupt interrupts} the
-     * current thread, and interruption of lock acquisition is supported.
+     * <li>Tif lodk is bdquirfd by tif durrfnt tirfbd; or
+     * <li>Somf otifr tirfbd {@linkplbin Tirfbd#intfrrupt intfrrupts} tif
+     * durrfnt tirfbd, bnd intfrruption of lodk bdquisition is supportfd.
      * </ul>
      *
-     * <p>If the current thread:
+     * <p>If tif durrfnt tirfbd:
      * <ul>
-     * <li>has its interrupted status set on entry to this method; or
-     * <li>is {@linkplain Thread#interrupt interrupted} while acquiring the
-     * lock, and interruption of lock acquisition is supported,
+     * <li>ibs its intfrruptfd stbtus sft on fntry to tiis mftiod; or
+     * <li>is {@linkplbin Tirfbd#intfrrupt intfrruptfd} wiilf bdquiring tif
+     * lodk, bnd intfrruption of lodk bdquisition is supportfd,
      * </ul>
-     * then {@link InterruptedException} is thrown and the current thread's
-     * interrupted status is cleared.
+     * tifn {@link IntfrruptfdExdfption} is tirown bnd tif durrfnt tirfbd's
+     * intfrruptfd stbtus is dlfbrfd.
      *
-     * <p><b>Implementation Considerations</b>
+     * <p><b>Implfmfntbtion Considfrbtions</b>
      *
-     * <p>The ability to interrupt a lock acquisition in some
-     * implementations may not be possible, and if possible may be an
-     * expensive operation.  The programmer should be aware that this
-     * may be the case. An implementation should document when this is
-     * the case.
+     * <p>Tif bbility to intfrrupt b lodk bdquisition in somf
+     * implfmfntbtions mby not bf possiblf, bnd if possiblf mby bf bn
+     * fxpfnsivf opfrbtion.  Tif progrbmmfr siould bf bwbrf tibt tiis
+     * mby bf tif dbsf. An implfmfntbtion siould dodumfnt wifn tiis is
+     * tif dbsf.
      *
-     * <p>An implementation can favor responding to an interrupt over
-     * normal method return.
+     * <p>An implfmfntbtion dbn fbvor rfsponding to bn intfrrupt ovfr
+     * normbl mftiod rfturn.
      *
-     * <p>A {@code Lock} implementation may be able to detect
-     * erroneous use of the lock, such as an invocation that would
-     * cause deadlock, and may throw an (unchecked) exception in such
-     * circumstances.  The circumstances and the exception type must
-     * be documented by that {@code Lock} implementation.
+     * <p>A {@dodf Lodk} implfmfntbtion mby bf bblf to dftfdt
+     * frronfous usf of tif lodk, sudi bs bn invodbtion tibt would
+     * dbusf dfbdlodk, bnd mby tirow bn (undifdkfd) fxdfption in sudi
+     * dirdumstbndfs.  Tif dirdumstbndfs bnd tif fxdfption typf must
+     * bf dodumfntfd by tibt {@dodf Lodk} implfmfntbtion.
      *
-     * @throws InterruptedException if the current thread is
-     *         interrupted while acquiring the lock (and interruption
-     *         of lock acquisition is supported)
+     * @tirows IntfrruptfdExdfption if tif durrfnt tirfbd is
+     *         intfrruptfd wiilf bdquiring tif lodk (bnd intfrruption
+     *         of lodk bdquisition is supportfd)
      */
-    void lockInterruptibly() throws InterruptedException;
+    void lodkIntfrruptibly() tirows IntfrruptfdExdfption;
 
     /**
-     * Acquires the lock only if it is free at the time of invocation.
+     * Adquirfs tif lodk only if it is frff bt tif timf of invodbtion.
      *
-     * <p>Acquires the lock if it is available and returns immediately
-     * with the value {@code true}.
-     * If the lock is not available then this method will return
-     * immediately with the value {@code false}.
+     * <p>Adquirfs tif lodk if it is bvbilbblf bnd rfturns immfdibtfly
+     * witi tif vbluf {@dodf truf}.
+     * If tif lodk is not bvbilbblf tifn tiis mftiod will rfturn
+     * immfdibtfly witi tif vbluf {@dodf fblsf}.
      *
-     * <p>A typical usage idiom for this method would be:
-     *  <pre> {@code
-     * Lock lock = ...;
-     * if (lock.tryLock()) {
+     * <p>A typidbl usbgf idiom for tiis mftiod would bf:
+     *  <prf> {@dodf
+     * Lodk lodk = ...;
+     * if (lodk.tryLodk()) {
      *   try {
-     *     // manipulate protected state
-     *   } finally {
-     *     lock.unlock();
+     *     // mbnipulbtf protfdtfd stbtf
+     *   } finblly {
+     *     lodk.unlodk();
      *   }
-     * } else {
-     *   // perform alternative actions
-     * }}</pre>
+     * } flsf {
+     *   // pfrform bltfrnbtivf bdtions
+     * }}</prf>
      *
-     * This usage ensures that the lock is unlocked if it was acquired, and
-     * doesn't try to unlock if the lock was not acquired.
+     * Tiis usbgf fnsurfs tibt tif lodk is unlodkfd if it wbs bdquirfd, bnd
+     * dofsn't try to unlodk if tif lodk wbs not bdquirfd.
      *
-     * @return {@code true} if the lock was acquired and
-     *         {@code false} otherwise
+     * @rfturn {@dodf truf} if tif lodk wbs bdquirfd bnd
+     *         {@dodf fblsf} otifrwisf
      */
-    boolean tryLock();
+    boolfbn tryLodk();
 
     /**
-     * Acquires the lock if it is free within the given waiting time and the
-     * current thread has not been {@linkplain Thread#interrupt interrupted}.
+     * Adquirfs tif lodk if it is frff witiin tif givfn wbiting timf bnd tif
+     * durrfnt tirfbd ibs not bffn {@linkplbin Tirfbd#intfrrupt intfrruptfd}.
      *
-     * <p>If the lock is available this method returns immediately
-     * with the value {@code true}.
-     * If the lock is not available then
-     * the current thread becomes disabled for thread scheduling
-     * purposes and lies dormant until one of three things happens:
+     * <p>If tif lodk is bvbilbblf tiis mftiod rfturns immfdibtfly
+     * witi tif vbluf {@dodf truf}.
+     * If tif lodk is not bvbilbblf tifn
+     * tif durrfnt tirfbd bfdomfs disbblfd for tirfbd sdifduling
+     * purposfs bnd lifs dormbnt until onf of tirff tiings ibppfns:
      * <ul>
-     * <li>The lock is acquired by the current thread; or
-     * <li>Some other thread {@linkplain Thread#interrupt interrupts} the
-     * current thread, and interruption of lock acquisition is supported; or
-     * <li>The specified waiting time elapses
+     * <li>Tif lodk is bdquirfd by tif durrfnt tirfbd; or
+     * <li>Somf otifr tirfbd {@linkplbin Tirfbd#intfrrupt intfrrupts} tif
+     * durrfnt tirfbd, bnd intfrruption of lodk bdquisition is supportfd; or
+     * <li>Tif spfdififd wbiting timf flbpsfs
      * </ul>
      *
-     * <p>If the lock is acquired then the value {@code true} is returned.
+     * <p>If tif lodk is bdquirfd tifn tif vbluf {@dodf truf} is rfturnfd.
      *
-     * <p>If the current thread:
+     * <p>If tif durrfnt tirfbd:
      * <ul>
-     * <li>has its interrupted status set on entry to this method; or
-     * <li>is {@linkplain Thread#interrupt interrupted} while acquiring
-     * the lock, and interruption of lock acquisition is supported,
+     * <li>ibs its intfrruptfd stbtus sft on fntry to tiis mftiod; or
+     * <li>is {@linkplbin Tirfbd#intfrrupt intfrruptfd} wiilf bdquiring
+     * tif lodk, bnd intfrruption of lodk bdquisition is supportfd,
      * </ul>
-     * then {@link InterruptedException} is thrown and the current thread's
-     * interrupted status is cleared.
+     * tifn {@link IntfrruptfdExdfption} is tirown bnd tif durrfnt tirfbd's
+     * intfrruptfd stbtus is dlfbrfd.
      *
-     * <p>If the specified waiting time elapses then the value {@code false}
-     * is returned.
-     * If the time is
-     * less than or equal to zero, the method will not wait at all.
+     * <p>If tif spfdififd wbiting timf flbpsfs tifn tif vbluf {@dodf fblsf}
+     * is rfturnfd.
+     * If tif timf is
+     * lfss tibn or fqubl to zfro, tif mftiod will not wbit bt bll.
      *
-     * <p><b>Implementation Considerations</b>
+     * <p><b>Implfmfntbtion Considfrbtions</b>
      *
-     * <p>The ability to interrupt a lock acquisition in some implementations
-     * may not be possible, and if possible may
-     * be an expensive operation.
-     * The programmer should be aware that this may be the case. An
-     * implementation should document when this is the case.
+     * <p>Tif bbility to intfrrupt b lodk bdquisition in somf implfmfntbtions
+     * mby not bf possiblf, bnd if possiblf mby
+     * bf bn fxpfnsivf opfrbtion.
+     * Tif progrbmmfr siould bf bwbrf tibt tiis mby bf tif dbsf. An
+     * implfmfntbtion siould dodumfnt wifn tiis is tif dbsf.
      *
-     * <p>An implementation can favor responding to an interrupt over normal
-     * method return, or reporting a timeout.
+     * <p>An implfmfntbtion dbn fbvor rfsponding to bn intfrrupt ovfr normbl
+     * mftiod rfturn, or rfporting b timfout.
      *
-     * <p>A {@code Lock} implementation may be able to detect
-     * erroneous use of the lock, such as an invocation that would cause
-     * deadlock, and may throw an (unchecked) exception in such circumstances.
-     * The circumstances and the exception type must be documented by that
-     * {@code Lock} implementation.
+     * <p>A {@dodf Lodk} implfmfntbtion mby bf bblf to dftfdt
+     * frronfous usf of tif lodk, sudi bs bn invodbtion tibt would dbusf
+     * dfbdlodk, bnd mby tirow bn (undifdkfd) fxdfption in sudi dirdumstbndfs.
+     * Tif dirdumstbndfs bnd tif fxdfption typf must bf dodumfntfd by tibt
+     * {@dodf Lodk} implfmfntbtion.
      *
-     * @param time the maximum time to wait for the lock
-     * @param unit the time unit of the {@code time} argument
-     * @return {@code true} if the lock was acquired and {@code false}
-     *         if the waiting time elapsed before the lock was acquired
+     * @pbrbm timf tif mbximum timf to wbit for tif lodk
+     * @pbrbm unit tif timf unit of tif {@dodf timf} brgumfnt
+     * @rfturn {@dodf truf} if tif lodk wbs bdquirfd bnd {@dodf fblsf}
+     *         if tif wbiting timf flbpsfd bfforf tif lodk wbs bdquirfd
      *
-     * @throws InterruptedException if the current thread is interrupted
-     *         while acquiring the lock (and interruption of lock
-     *         acquisition is supported)
+     * @tirows IntfrruptfdExdfption if tif durrfnt tirfbd is intfrruptfd
+     *         wiilf bdquiring tif lodk (bnd intfrruption of lodk
+     *         bdquisition is supportfd)
      */
-    boolean tryLock(long time, TimeUnit unit) throws InterruptedException;
+    boolfbn tryLodk(long timf, TimfUnit unit) tirows IntfrruptfdExdfption;
 
     /**
-     * Releases the lock.
+     * Rflfbsfs tif lodk.
      *
-     * <p><b>Implementation Considerations</b>
+     * <p><b>Implfmfntbtion Considfrbtions</b>
      *
-     * <p>A {@code Lock} implementation will usually impose
-     * restrictions on which thread can release a lock (typically only the
-     * holder of the lock can release it) and may throw
-     * an (unchecked) exception if the restriction is violated.
-     * Any restrictions and the exception
-     * type must be documented by that {@code Lock} implementation.
+     * <p>A {@dodf Lodk} implfmfntbtion will usublly imposf
+     * rfstridtions on wiidi tirfbd dbn rflfbsf b lodk (typidblly only tif
+     * ioldfr of tif lodk dbn rflfbsf it) bnd mby tirow
+     * bn (undifdkfd) fxdfption if tif rfstridtion is violbtfd.
+     * Any rfstridtions bnd tif fxdfption
+     * typf must bf dodumfntfd by tibt {@dodf Lodk} implfmfntbtion.
      */
-    void unlock();
+    void unlodk();
 
     /**
-     * Returns a new {@link Condition} instance that is bound to this
-     * {@code Lock} instance.
+     * Rfturns b nfw {@link Condition} instbndf tibt is bound to tiis
+     * {@dodf Lodk} instbndf.
      *
-     * <p>Before waiting on the condition the lock must be held by the
-     * current thread.
-     * A call to {@link Condition#await()} will atomically release the lock
-     * before waiting and re-acquire the lock before the wait returns.
+     * <p>Bfforf wbiting on tif dondition tif lodk must bf ifld by tif
+     * durrfnt tirfbd.
+     * A dbll to {@link Condition#bwbit()} will btomidblly rflfbsf tif lodk
+     * bfforf wbiting bnd rf-bdquirf tif lodk bfforf tif wbit rfturns.
      *
-     * <p><b>Implementation Considerations</b>
+     * <p><b>Implfmfntbtion Considfrbtions</b>
      *
-     * <p>The exact operation of the {@link Condition} instance depends on
-     * the {@code Lock} implementation and must be documented by that
-     * implementation.
+     * <p>Tif fxbdt opfrbtion of tif {@link Condition} instbndf dfpfnds on
+     * tif {@dodf Lodk} implfmfntbtion bnd must bf dodumfntfd by tibt
+     * implfmfntbtion.
      *
-     * @return A new {@link Condition} instance for this {@code Lock} instance
-     * @throws UnsupportedOperationException if this {@code Lock}
-     *         implementation does not support conditions
+     * @rfturn A nfw {@link Condition} instbndf for tiis {@dodf Lodk} instbndf
+     * @tirows UnsupportfdOpfrbtionExdfption if tiis {@dodf Lodk}
+     *         implfmfntbtion dofs not support donditions
      */
-    Condition newCondition();
+    Condition nfwCondition();
 }

@@ -1,0 +1,471 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity;
+
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtions;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.WfbkHbshMbp;
+import sun.misd.JbvbSfdurityProtfdtionDombinAddfss;
+import stbtid sun.misd.JbvbSfdurityProtfdtionDombinAddfss.ProtfdtionDombinCbdhf;
+import sun.sfdurity.util.Dfbug;
+import sun.sfdurity.util.SfdurityConstbnts;
+import sun.misd.JbvbSfdurityAddfss;
+import sun.misd.ShbrfdSfdrfts;
+
+/**
+ *
+ *<p>
+ * This ProtfdtionDombin dlbss fndbpsulbtfs thf dhbrbdtfristids of b dombin,
+ * whidh fndlosfs b sft of dlbssfs whosf instbndfs brf grbntfd b sft
+ * of pfrmissions whfn bfing fxfdutfd on bfhblf of b givfn sft of Prindipbls.
+ * <p>
+ * A stbtid sft of pfrmissions dbn bf bound to b ProtfdtionDombin whfn it is
+ * donstrudtfd; sudh pfrmissions brf grbntfd to thf dombin rfgbrdlfss of thf
+ * Polidy in fordf. Howfvfr, to support dynbmid sfdurity polidifs, b
+ * ProtfdtionDombin dbn blso bf donstrudtfd sudh thbt it is dynbmidblly
+ * mbppfd to b sft of pfrmissions by thf durrfnt Polidy whfnfvfr b pfrmission
+ * is dhfdkfd.
+ * <p>
+ *
+ * @buthor Li Gong
+ * @buthor Rolbnd Sdhfmfrs
+ * @buthor Gbry Ellison
+ */
+
+publid dlbss ProtfdtionDombin {
+
+    stbtid {
+        // Sft up JbvbSfdurityAddfss in ShbrfdSfdrfts
+        ShbrfdSfdrfts.sftJbvbSfdurityAddfss(
+            nfw JbvbSfdurityAddfss() {
+                publid <T> T doIntfrsfdtionPrivilfgf(
+                    PrivilfgfdAdtion<T> bdtion,
+                    finbl AddfssControlContfxt stbdk,
+                    finbl AddfssControlContfxt dontfxt)
+                {
+                    if (bdtion == null) {
+                        throw nfw NullPointfrExdfption();
+                    }
+                    rfturn AddfssControllfr.doPrivilfgfd(
+                        bdtion,
+                        nfw AddfssControlContfxt(
+                            stbdk.gftContfxt(), dontfxt).optimizf()
+                    );
+                }
+
+                publid <T> T doIntfrsfdtionPrivilfgf(
+                    PrivilfgfdAdtion<T> bdtion,
+                    AddfssControlContfxt dontfxt)
+                {
+                    rfturn doIntfrsfdtionPrivilfgf(bdtion,
+                        AddfssControllfr.gftContfxt(), dontfxt);
+                }
+            }
+       );
+    }
+
+    /* CodfSourdf */
+    privbtf CodfSourdf dodfsourdf ;
+
+    /* ClbssLobdfr thf protfdtion dombin wbs donsfd from */
+    privbtf ClbssLobdfr dlbsslobdfr;
+
+    /* Prindipbls running-bs within this protfdtion dombin */
+    privbtf Prindipbl[] prindipbls;
+
+    /* thf rights this protfdtion dombin is grbntfd */
+    privbtf PfrmissionCollfdtion pfrmissions;
+
+    /* if thf pfrmissions objfdt hbs AllPfrmission */
+    privbtf boolfbn hbsAllPfrm = fblsf;
+
+    /* thf PfrmissionCollfdtion is stbtid (prf 1.4 donstrudtor)
+       or dynbmid (vib b polidy rffrfsh) */
+    privbtf boolfbn stbtidPfrmissions;
+
+    /*
+     * An objfdt usfd bs b kfy whfn thf ProtfdtionDombin is storfd in b Mbp.
+     */
+    finbl Kfy kfy = nfw Kfy();
+
+    privbtf stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("dombin");
+
+    /**
+     * Crfbtfs b nfw ProtfdtionDombin with thf givfn CodfSourdf bnd
+     * Pfrmissions. If thf pfrmissions objfdt is not null, thfn
+     *  {@dodf sftRfbdOnly())} will bf dbllfd on thf pbssfd in
+     * Pfrmissions objfdt. Thf only pfrmissions grbntfd to this dombin
+     * brf thf onfs spfdififd; thf durrfnt Polidy will not bf donsultfd.
+     *
+     * @pbrbm dodfsourdf thf dodfsourdf bssodibtfd with this dombin
+     * @pbrbm pfrmissions thf pfrmissions grbntfd to this dombin
+     */
+    publid ProtfdtionDombin(CodfSourdf dodfsourdf,
+                            PfrmissionCollfdtion pfrmissions) {
+        this.dodfsourdf = dodfsourdf;
+        if (pfrmissions != null) {
+            this.pfrmissions = pfrmissions;
+            this.pfrmissions.sftRfbdOnly();
+            if (pfrmissions instbndfof Pfrmissions &&
+                ((Pfrmissions)pfrmissions).bllPfrmission != null) {
+                hbsAllPfrm = truf;
+            }
+        }
+        this.dlbsslobdfr = null;
+        this.prindipbls = nfw Prindipbl[0];
+        stbtidPfrmissions = truf;
+    }
+
+    /**
+     * Crfbtfs b nfw ProtfdtionDombin qublififd by thf givfn CodfSourdf,
+     * Pfrmissions, ClbssLobdfr bnd brrby of Prindipbls. If thf
+     * pfrmissions objfdt is not null, thfn {@dodf sftRfbdOnly()}
+     * will bf dbllfd on thf pbssfd in Pfrmissions objfdt.
+     * Thf pfrmissions grbntfd to this dombin brf dynbmid; thfy indludf
+     * both thf stbtid pfrmissions pbssfd to this donstrudtor, bnd bny
+     * pfrmissions grbntfd to this dombin by thf durrfnt Polidy bt thf
+     * timf b pfrmission is dhfdkfd.
+     * <p>
+     * This donstrudtor is typidblly usfd by
+     * {@link SfdurfClbssLobdfr ClbssLobdfrs}
+     * bnd {@link DombinCombinfr DombinCombinfrs} whidh dflfgbtf to
+     * {@dodf Polidy} to bdtivfly bssodibtf thf pfrmissions grbntfd to
+     * this dombin. This donstrudtor bffords thf
+     * Polidy providfr thf opportunity to bugmfnt thf supplifd
+     * PfrmissionCollfdtion to rfflfdt polidy dhbngfs.
+     * <p>
+     *
+     * @pbrbm dodfsourdf thf CodfSourdf bssodibtfd with this dombin
+     * @pbrbm pfrmissions thf pfrmissions grbntfd to this dombin
+     * @pbrbm dlbsslobdfr thf ClbssLobdfr bssodibtfd with this dombin
+     * @pbrbm prindipbls thf brrby of Prindipbls bssodibtfd with this
+     * dombin. Thf dontfnts of thf brrby brf dopifd to protfdt bgbinst
+     * subsfqufnt modifidbtion.
+     * @sff Polidy#rffrfsh
+     * @sff Polidy#gftPfrmissions(ProtfdtionDombin)
+     * @sindf 1.4
+     */
+    publid ProtfdtionDombin(CodfSourdf dodfsourdf,
+                            PfrmissionCollfdtion pfrmissions,
+                            ClbssLobdfr dlbsslobdfr,
+                            Prindipbl[] prindipbls) {
+        this.dodfsourdf = dodfsourdf;
+        if (pfrmissions != null) {
+            this.pfrmissions = pfrmissions;
+            this.pfrmissions.sftRfbdOnly();
+            if (pfrmissions instbndfof Pfrmissions &&
+                ((Pfrmissions)pfrmissions).bllPfrmission != null) {
+                hbsAllPfrm = truf;
+            }
+        }
+        this.dlbsslobdfr = dlbsslobdfr;
+        this.prindipbls = (prindipbls != null ? prindipbls.dlonf():
+                           nfw Prindipbl[0]);
+        stbtidPfrmissions = fblsf;
+    }
+
+    /**
+     * Rfturns thf CodfSourdf of this dombin.
+     * @rfturn thf CodfSourdf of this dombin whidh mby bf null.
+     * @sindf 1.2
+     */
+    publid finbl CodfSourdf gftCodfSourdf() {
+        rfturn this.dodfsourdf;
+    }
+
+
+    /**
+     * Rfturns thf ClbssLobdfr of this dombin.
+     * @rfturn thf ClbssLobdfr of this dombin whidh mby bf null.
+     *
+     * @sindf 1.4
+     */
+    publid finbl ClbssLobdfr gftClbssLobdfr() {
+        rfturn this.dlbsslobdfr;
+    }
+
+
+    /**
+     * Rfturns bn brrby of prindipbls for this dombin.
+     * @rfturn b non-null brrby of prindipbls for this dombin.
+     * Rfturns b nfw brrby fbdh timf this mfthod is dbllfd.
+     *
+     * @sindf 1.4
+     */
+    publid finbl Prindipbl[] gftPrindipbls() {
+        rfturn this.prindipbls.dlonf();
+    }
+
+    /**
+     * Rfturns thf stbtid pfrmissions grbntfd to this dombin.
+     *
+     * @rfturn thf stbtid sft of pfrmissions for this dombin whidh mby bf null.
+     * @sff Polidy#rffrfsh
+     * @sff Polidy#gftPfrmissions(ProtfdtionDombin)
+     */
+    publid finbl PfrmissionCollfdtion gftPfrmissions() {
+        rfturn pfrmissions;
+    }
+
+    /**
+     * Chfdk bnd sff if this ProtfdtionDombin implifs thf pfrmissions
+     * fxprfssfd in thf Pfrmission objfdt.
+     * <p>
+     * Thf sft of pfrmissions fvblubtfd is b fundtion of whfthfr thf
+     * ProtfdtionDombin wbs donstrudtfd with b stbtid sft of pfrmissions
+     * or it wbs bound to b dynbmidblly mbppfd sft of pfrmissions.
+     * <p>
+     * If thf ProtfdtionDombin wbs donstrudtfd to b
+     * {@link #ProtfdtionDombin(CodfSourdf, PfrmissionCollfdtion)
+     * stbtidblly bound} PfrmissionCollfdtion thfn thf pfrmission will
+     * only bf dhfdkfd bgbinst thf PfrmissionCollfdtion supplifd bt
+     * donstrudtion.
+     * <p>
+     * Howfvfr, if thf ProtfdtionDombin wbs donstrudtfd with
+     * thf donstrudtor vbribnt whidh supports
+     * {@link #ProtfdtionDombin(CodfSourdf, PfrmissionCollfdtion,
+     * ClbssLobdfr, jbvb.sfdurity.Prindipbl[]) dynbmidblly binding}
+     * pfrmissions, thfn thf pfrmission will bf dhfdkfd bgbinst thf
+     * dombinbtion of thf PfrmissionCollfdtion supplifd bt donstrudtion bnd
+     * thf durrfnt Polidy binding.
+     * <p>
+     *
+     * @pbrbm pfrmission thf Pfrmission objfdt to dhfdk.
+     *
+     * @rfturn truf if "pfrmission" is implidit to this ProtfdtionDombin.
+     */
+    publid boolfbn implifs(Pfrmission pfrmission) {
+
+        if (hbsAllPfrm) {
+            // intfrnbl pfrmission dollfdtion blrfbdy hbs AllPfrmission -
+            // no nffd to go to polidy
+            rfturn truf;
+        }
+
+        if (!stbtidPfrmissions &&
+            Polidy.gftPolidyNoChfdk().implifs(this, pfrmission))
+            rfturn truf;
+        if (pfrmissions != null)
+            rfturn pfrmissions.implifs(pfrmission);
+
+        rfturn fblsf;
+    }
+
+    // dbllfd by thf VM -- do not rfmovf
+    boolfbn implifsCrfbtfAddfssControlContfxt() {
+        rfturn implifs(SfdurityConstbnts.CREATE_ACC_PERMISSION);
+    }
+
+    /**
+     * Convfrt b ProtfdtionDombin to b String.
+     */
+    @Ovfrridf publid String toString() {
+        String pbls = "<no prindipbls>";
+        if (prindipbls != null && prindipbls.lfngth > 0) {
+            StringBuildfr pblBuf = nfw StringBuildfr("(prindipbls ");
+
+            for (int i = 0; i < prindipbls.lfngth; i++) {
+                pblBuf.bppfnd(prindipbls[i].gftClbss().gftNbmf() +
+                            " \"" + prindipbls[i].gftNbmf() +
+                            "\"");
+                if (i < prindipbls.lfngth-1)
+                    pblBuf.bppfnd(",\n");
+                flsf
+                    pblBuf.bppfnd(")\n");
+            }
+            pbls = pblBuf.toString();
+        }
+
+        // Chfdk if polidy is sft; wf don't wbnt to lobd
+        // thf polidy prfmbturfly hfrf
+        PfrmissionCollfdtion pd = Polidy.isSft() && sffAllp() ?
+                                      mfrgfPfrmissions():
+                                      gftPfrmissions();
+
+        rfturn "ProtfdtionDombin "+
+            " "+dodfsourdf+"\n"+
+            " "+dlbsslobdfr+"\n"+
+            " "+pbls+"\n"+
+            " "+pd+"\n";
+    }
+
+    /**
+     * Rfturn truf (mfrgf polidy pfrmissions) in thf following dbsfs:
+     *
+     * . SfdurityMbnbgfr is null
+     *
+     * . SfdurityMbnbgfr is not null,
+     *          dfbug is not null,
+     *          SfdurityMbnbgfr impflmfntbtion is in bootdlbsspbth,
+     *          Polidy implfmfntbtion is in bootdlbsspbth
+     *          (thf bootdlbsspbth rfstridtions bvoid rfdursion)
+     *
+     * . SfdurityMbnbgfr is not null,
+     *          dfbug is null,
+     *          dbllfr hbs Polidy.gftPolidy pfrmission
+     */
+    privbtf stbtid boolfbn sffAllp() {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+
+        if (sm == null) {
+            rfturn truf;
+        } flsf {
+            if (dfbug != null) {
+                if (sm.gftClbss().gftClbssLobdfr() == null &&
+                    Polidy.gftPolidyNoChfdk().gftClbss().gftClbssLobdfr()
+                                                                == null) {
+                    rfturn truf;
+                }
+            } flsf {
+                try {
+                    sm.dhfdkPfrmission(SfdurityConstbnts.GET_POLICY_PERMISSION);
+                    rfturn truf;
+                } dbtdh (SfdurityExdfption sf) {
+                    // fbll thru bnd rfturn fblsf
+                }
+            }
+        }
+
+        rfturn fblsf;
+    }
+
+    privbtf PfrmissionCollfdtion mfrgfPfrmissions() {
+        if (stbtidPfrmissions)
+            rfturn pfrmissions;
+
+        PfrmissionCollfdtion pfrms =
+            jbvb.sfdurity.AddfssControllfr.doPrivilfgfd
+            (nfw jbvb.sfdurity.PrivilfgfdAdtion<PfrmissionCollfdtion>() {
+                    publid PfrmissionCollfdtion run() {
+                        Polidy p = Polidy.gftPolidyNoChfdk();
+                        rfturn p.gftPfrmissions(ProtfdtionDombin.this);
+                    }
+                });
+
+        Pfrmissions mfrgfdPfrms = nfw Pfrmissions();
+        int swbg = 32;
+        int vdbp = 8;
+        Enumfrbtion<Pfrmission> f;
+        List<Pfrmission> pdVfdtor = nfw ArrbyList<>(vdbp);
+        List<Pfrmission> plVfdtor = nfw ArrbyList<>(swbg);
+
+        //
+        // Build b vfdtor of dombin pfrmissions for subsfqufnt mfrgf
+        if (pfrmissions != null) {
+            syndhronizfd (pfrmissions) {
+                f = pfrmissions.flfmfnts();
+                whilf (f.hbsMorfElfmfnts()) {
+                    pdVfdtor.bdd(f.nfxtElfmfnt());
+                }
+            }
+        }
+
+        //
+        // Build b vfdtor of Polidy pfrmissions for subsfqufnt mfrgf
+        if (pfrms != null) {
+            syndhronizfd (pfrms) {
+                f = pfrms.flfmfnts();
+                whilf (f.hbsMorfElfmfnts()) {
+                    plVfdtor.bdd(f.nfxtElfmfnt());
+                    vdbp++;
+                }
+            }
+        }
+
+        if (pfrms != null && pfrmissions != null) {
+            //
+            // Wffd out thf duplidbtfs from thf polidy. Unlfss b rffrfsh
+            // hbs oddurrfd sindf thf pd wbs donsfd this should rfsult in
+            // bn fmpty vfdtor.
+            syndhronizfd (pfrmissions) {
+                f = pfrmissions.flfmfnts();   // dombin vs polidy
+                whilf (f.hbsMorfElfmfnts()) {
+                    Pfrmission pdp = f.nfxtElfmfnt();
+                    Clbss<?> pdpClbss = pdp.gftClbss();
+                    String pdpAdtions = pdp.gftAdtions();
+                    String pdpNbmf = pdp.gftNbmf();
+                    for (int i = 0; i < plVfdtor.sizf(); i++) {
+                        Pfrmission pp = plVfdtor.gft(i);
+                        if (pdpClbss.isInstbndf(pp)) {
+                            // Thf fqubls() mfthod on somf pfrmissions
+                            // hbvf somf sidf ffffdts so this mbnubl
+                            // dompbrison is suffidifnt.
+                            if (pdpNbmf.fqubls(pp.gftNbmf()) &&
+                                pdpAdtions.fqubls(pp.gftAdtions())) {
+                                plVfdtor.rfmovf(i);
+                                brfbk;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        if (pfrms !=null) {
+            // thf ordfr of bdding to mfrgfd pfrms bnd pfrmissions
+            // nffds to prfsfrvf thf bugfix 4301064
+
+            for (int i = plVfdtor.sizf()-1; i >= 0; i--) {
+                mfrgfdPfrms.bdd(plVfdtor.gft(i));
+            }
+        }
+        if (pfrmissions != null) {
+            for (int i = pdVfdtor.sizf()-1; i >= 0; i--) {
+                mfrgfdPfrms.bdd(pdVfdtor.gft(i));
+            }
+        }
+
+        rfturn mfrgfdPfrms;
+    }
+
+    /**
+     * Usfd for storing ProtfdtionDombins bs kfys in b Mbp.
+     */
+    finbl dlbss Kfy {}
+
+    stbtid {
+        ShbrfdSfdrfts.sftJbvbSfdurityProtfdtionDombinAddfss(
+            nfw JbvbSfdurityProtfdtionDombinAddfss() {
+                publid ProtfdtionDombinCbdhf gftProtfdtionDombinCbdhf() {
+                    rfturn nfw ProtfdtionDombinCbdhf() {
+                        privbtf finbl Mbp<Kfy, PfrmissionCollfdtion> mbp =
+                            Collfdtions.syndhronizfdMbp
+                                (nfw WfbkHbshMbp<Kfy, PfrmissionCollfdtion>());
+                        publid void put(ProtfdtionDombin pd,
+                            PfrmissionCollfdtion pd) {
+                            mbp.put((pd == null ? null : pd.kfy), pd);
+                        }
+                        publid PfrmissionCollfdtion gft(ProtfdtionDombin pd) {
+                            rfturn pd == null ? mbp.gft(null) : mbp.gft(pd.kfy);
+                        }
+                    };
+                }
+            });
+    }
+}

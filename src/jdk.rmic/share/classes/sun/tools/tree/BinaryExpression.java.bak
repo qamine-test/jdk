@@ -1,243 +1,243 @@
 /*
- * Copyright (c) 1994, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.tree;
+pbdkbgf sun.tools.trff;
 
-import sun.tools.java.*;
-import sun.tools.asm.Label;
-import sun.tools.asm.Assembler;
-import java.io.PrintStream;
-import java.util.Hashtable;
+import sun.tools.jbvb.*;
+import sun.tools.bsm.Lbbfl;
+import sun.tools.bsm.Assfmblfr;
+import jbvb.io.PrintStrfbm;
+import jbvb.util.Hbsitbblf;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: Tif dontfnts of tiis sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf tibt dfpfnds on tifm dofs so bt its own risk:
+ * tify brf subjfdt to dibngf or rfmovbl witiout notidf.
  */
-public
-class BinaryExpression extends UnaryExpression {
-    Expression left;
+publid
+dlbss BinbryExprfssion fxtfnds UnbryExprfssion {
+    Exprfssion lfft;
 
     /**
-     * Constructor
+     * Construdtor
      */
-    BinaryExpression(int op, long where, Type type, Expression left, Expression right) {
-        super(op, where, type, right);
-        this.left = left;
+    BinbryExprfssion(int op, long wifrf, Typf typf, Exprfssion lfft, Exprfssion rigit) {
+        supfr(op, wifrf, typf, rigit);
+        tiis.lfft = lfft;
     }
 
     /**
-     * Order the expression based on precedence
+     * Ordfr tif fxprfssion bbsfd on prfdfdfndf
      */
-    public Expression order() {
-        if (precedence() > left.precedence()) {
-            UnaryExpression e = (UnaryExpression)left;
-            left = e.right;
-            e.right = order();
-            return e;
+    publid Exprfssion ordfr() {
+        if (prfdfdfndf() > lfft.prfdfdfndf()) {
+            UnbryExprfssion f = (UnbryExprfssion)lfft;
+            lfft = f.rigit;
+            f.rigit = ordfr();
+            rfturn f;
         }
-        return this;
+        rfturn tiis;
     }
 
     /**
-     * Check a binary expression
+     * Cifdk b binbry fxprfssion
      */
-    public Vset checkValue(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
-        vset = left.checkValue(env, ctx, vset, exp);
-        vset = right.checkValue(env, ctx, vset, exp);
+    publid Vsft difdkVbluf(Environmfnt fnv, Contfxt dtx, Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp) {
+        vsft = lfft.difdkVbluf(fnv, dtx, vsft, fxp);
+        vsft = rigit.difdkVbluf(fnv, dtx, vsft, fxp);
 
-        int tm = left.type.getTypeMask() | right.type.getTypeMask();
+        int tm = lfft.typf.gftTypfMbsk() | rigit.typf.gftTypfMbsk();
         if ((tm & TM_ERROR) != 0) {
-            return vset;
+            rfturn vsft;
         }
-        selectType(env, ctx, tm);
+        sflfdtTypf(fnv, dtx, tm);
 
-        if (type.isType(TC_ERROR)) {
-            env.error(where, "invalid.args", opNames[op]);
+        if (typf.isTypf(TC_ERROR)) {
+            fnv.frror(wifrf, "invblid.brgs", opNbmfs[op]);
         }
-        return vset;
+        rfturn vsft;
     }
 
     /**
-     * Check if constant
+     * Cifdk if donstbnt
      */
-    public boolean isConstant() {
-        switch (op) {
-        case MUL:
-        case DIV:
-        case REM:
-        case ADD:
-        case SUB:
-        case LSHIFT:
-        case RSHIFT:
-        case URSHIFT:
-        case LT:
-        case LE:
-        case GT:
-        case GE:
-        case EQ:
-        case NE:
-        case BITAND:
-        case BITXOR:
-        case BITOR:
-        case AND:
-        case OR:
-            return left.isConstant() && right.isConstant();
+    publid boolfbn isConstbnt() {
+        switdi (op) {
+        dbsf MUL:
+        dbsf DIV:
+        dbsf REM:
+        dbsf ADD:
+        dbsf SUB:
+        dbsf LSHIFT:
+        dbsf RSHIFT:
+        dbsf URSHIFT:
+        dbsf LT:
+        dbsf LE:
+        dbsf GT:
+        dbsf GE:
+        dbsf EQ:
+        dbsf NE:
+        dbsf BITAND:
+        dbsf BITXOR:
+        dbsf BITOR:
+        dbsf AND:
+        dbsf OR:
+            rfturn lfft.isConstbnt() && rigit.isConstbnt();
         }
-        return false;
+        rfturn fblsf;
     }
     /**
-     * Evaluate
+     * Evblubtf
      */
-    Expression eval(int a, int b) {
-        return this;
+    Exprfssion fvbl(int b, int b) {
+        rfturn tiis;
     }
-    Expression eval(long a, long b) {
-        return this;
+    Exprfssion fvbl(long b, long b) {
+        rfturn tiis;
     }
-    Expression eval(float a, float b) {
-        return this;
+    Exprfssion fvbl(flobt b, flobt b) {
+        rfturn tiis;
     }
-    Expression eval(double a, double b) {
-        return this;
+    Exprfssion fvbl(doublf b, doublf b) {
+        rfturn tiis;
     }
-    Expression eval(boolean a, boolean b) {
-        return this;
+    Exprfssion fvbl(boolfbn b, boolfbn b) {
+        rfturn tiis;
     }
-    Expression eval(String a, String b) {
-        return this;
+    Exprfssion fvbl(String b, String b) {
+        rfturn tiis;
     }
-    Expression eval() {
-        // See also the eval() code in BinaryShiftExpression.java.
-        if (left.op == right.op) {
-            switch (left.op) {
-              case BYTEVAL:
-              case CHARVAL:
-              case SHORTVAL:
-              case INTVAL:
-                return eval(((IntegerExpression)left).value, ((IntegerExpression)right).value);
-              case LONGVAL:
-                return eval(((LongExpression)left).value, ((LongExpression)right).value);
-              case FLOATVAL:
-                return eval(((FloatExpression)left).value, ((FloatExpression)right).value);
-              case DOUBLEVAL:
-                return eval(((DoubleExpression)left).value, ((DoubleExpression)right).value);
-              case BOOLEANVAL:
-                return eval(((BooleanExpression)left).value, ((BooleanExpression)right).value);
-              case STRINGVAL:
-                return eval(((StringExpression)left).value, ((StringExpression)right).value);
+    Exprfssion fvbl() {
+        // Sff blso tif fvbl() dodf in BinbrySiiftExprfssion.jbvb.
+        if (lfft.op == rigit.op) {
+            switdi (lfft.op) {
+              dbsf BYTEVAL:
+              dbsf CHARVAL:
+              dbsf SHORTVAL:
+              dbsf INTVAL:
+                rfturn fvbl(((IntfgfrExprfssion)lfft).vbluf, ((IntfgfrExprfssion)rigit).vbluf);
+              dbsf LONGVAL:
+                rfturn fvbl(((LongExprfssion)lfft).vbluf, ((LongExprfssion)rigit).vbluf);
+              dbsf FLOATVAL:
+                rfturn fvbl(((FlobtExprfssion)lfft).vbluf, ((FlobtExprfssion)rigit).vbluf);
+              dbsf DOUBLEVAL:
+                rfturn fvbl(((DoublfExprfssion)lfft).vbluf, ((DoublfExprfssion)rigit).vbluf);
+              dbsf BOOLEANVAL:
+                rfturn fvbl(((BoolfbnExprfssion)lfft).vbluf, ((BoolfbnExprfssion)rigit).vbluf);
+              dbsf STRINGVAL:
+                rfturn fvbl(((StringExprfssion)lfft).vbluf, ((StringExprfssion)rigit).vbluf);
             }
         }
-        return this;
+        rfturn tiis;
     }
 
     /**
-     * Inline
+     * Inlinf
      */
-    public Expression inline(Environment env, Context ctx) {
-        left = left.inline(env, ctx);
-        right = right.inline(env, ctx);
-        return (left == null) ? right : new CommaExpression(where, left, right);
+    publid Exprfssion inlinf(Environmfnt fnv, Contfxt dtx) {
+        lfft = lfft.inlinf(fnv, dtx);
+        rigit = rigit.inlinf(fnv, dtx);
+        rfturn (lfft == null) ? rigit : nfw CommbExprfssion(wifrf, lfft, rigit);
     }
-    public Expression inlineValue(Environment env, Context ctx) {
-        left = left.inlineValue(env, ctx);
-        right = right.inlineValue(env, ctx);
+    publid Exprfssion inlinfVbluf(Environmfnt fnv, Contfxt dtx) {
+        lfft = lfft.inlinfVbluf(fnv, dtx);
+        rigit = rigit.inlinfVbluf(fnv, dtx);
         try {
-            return eval().simplify();
-        } catch (ArithmeticException e) {
-            // Got rid of this error message.  It isn't illegal to
-            // have a program which does a constant division by
-            // zero.  We return `this' to make the compiler to
-            // generate code here.
+            rfturn fvbl().simplify();
+        } dbtdi (AritimftidExdfption f) {
+            // Got rid of tiis frror mfssbgf.  It isn't illfgbl to
+            // ibvf b progrbm wiidi dofs b donstbnt division by
+            // zfro.  Wf rfturn `tiis' to mbkf tif dompilfr to
+            // gfnfrbtf dodf ifrf.
             // (bugs 4019304, 4089107).
             //
-            // env.error(where, "arithmetic.exception");
-            return this;
+            // fnv.frror(wifrf, "britimftid.fxdfption");
+            rfturn tiis;
         }
     }
 
     /**
-     * Create a copy of the expression for method inlining
+     * Crfbtf b dopy of tif fxprfssion for mftiod inlining
      */
-    public Expression copyInline(Context ctx) {
-        BinaryExpression e = (BinaryExpression)clone();
-        if (left != null) {
-            e.left = left.copyInline(ctx);
+    publid Exprfssion dopyInlinf(Contfxt dtx) {
+        BinbryExprfssion f = (BinbryExprfssion)dlonf();
+        if (lfft != null) {
+            f.lfft = lfft.dopyInlinf(dtx);
         }
-        if (right != null) {
-            e.right = right.copyInline(ctx);
+        if (rigit != null) {
+            f.rigit = rigit.dopyInlinf(dtx);
         }
-        return e;
+        rfturn f;
     }
 
     /**
-     * The cost of inlining this expression
+     * Tif dost of inlining tiis fxprfssion
      */
-    public int costInline(int thresh, Environment env, Context ctx) {
-        return 1 + ((left != null) ? left.costInline(thresh, env, ctx) : 0) +
-                   ((right != null) ? right.costInline(thresh, env, ctx) : 0);
+    publid int dostInlinf(int tirfsi, Environmfnt fnv, Contfxt dtx) {
+        rfturn 1 + ((lfft != null) ? lfft.dostInlinf(tirfsi, fnv, dtx) : 0) +
+                   ((rigit != null) ? rigit.dostInlinf(tirfsi, fnv, dtx) : 0);
     }
 
     /**
-     * Code
+     * Codf
      */
-    void codeOperation(Environment env, Context ctx, Assembler asm) {
-        throw new CompilerError("codeOperation: " + opNames[op]);
+    void dodfOpfrbtion(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+        tirow nfw CompilfrError("dodfOpfrbtion: " + opNbmfs[op]);
     }
-    public void codeValue(Environment env, Context ctx, Assembler asm) {
-        if (type.isType(TC_BOOLEAN)) {
-            Label l1 = new Label();
-            Label l2 = new Label();
+    publid void dodfVbluf(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+        if (typf.isTypf(TC_BOOLEAN)) {
+            Lbbfl l1 = nfw Lbbfl();
+            Lbbfl l2 = nfw Lbbfl();
 
-            codeBranch(env, ctx, asm, l1, true);
-            asm.add(true, where, opc_ldc, 0);
-            asm.add(true, where, opc_goto, l2);
-            asm.add(l1);
-            asm.add(true, where, opc_ldc, 1);
-            asm.add(l2);
-        } else {
-            left.codeValue(env, ctx, asm);
-            right.codeValue(env, ctx, asm);
-            codeOperation(env, ctx, asm);
+            dodfBrbndi(fnv, dtx, bsm, l1, truf);
+            bsm.bdd(truf, wifrf, opd_ldd, 0);
+            bsm.bdd(truf, wifrf, opd_goto, l2);
+            bsm.bdd(l1);
+            bsm.bdd(truf, wifrf, opd_ldd, 1);
+            bsm.bdd(l2);
+        } flsf {
+            lfft.dodfVbluf(fnv, dtx, bsm);
+            rigit.dodfVbluf(fnv, dtx, bsm);
+            dodfOpfrbtion(fnv, dtx, bsm);
         }
     }
 
     /**
      * Print
      */
-    public void print(PrintStream out) {
-        out.print("(" + opNames[op] + " ");
-        if (left != null) {
-            left.print(out);
-        } else {
+    publid void print(PrintStrfbm out) {
+        out.print("(" + opNbmfs[op] + " ");
+        if (lfft != null) {
+            lfft.print(out);
+        } flsf {
             out.print("<null>");
         }
         out.print(" ");
-        if (right != null) {
-            right.print(out);
-        } else {
+        if (rigit != null) {
+            rigit.print(out);
+        } flsf {
             out.print("<null>");
         }
         out.print(")");

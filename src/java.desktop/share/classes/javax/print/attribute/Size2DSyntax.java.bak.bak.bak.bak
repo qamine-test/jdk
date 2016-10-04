@@ -1,0 +1,342 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf jbvbx.print.bttributf;
+
+import jbvb.io.Sfriblizbblf;
+
+/**
+ * Clbss Sizf2DSyntbx is bn bbstrbdt bbsf dlbss providing thf dommon
+ * implfmfntbtion of bll bttributfs dfnoting b sizf in two dimfnsions.
+ * <P>
+ * A two-dimfnsionbl sizf bttributf's vbluf donsists of two itfms, thf X
+ * dimfnsion bnd thf Y dimfnsion. A two-dimfnsionbl sizf bttributf mby bf
+ * donstrudtfd by supplying thf two vblufs bnd indidbting thf units in whidh thf
+ * vblufs brf mfbsurfd. Mfthods brf providfd to rfturn b two-dimfnsionbl sizf
+ * bttributf's vblufs, indidbting thf units in whidh thf vblufs brf to bf
+ * rfturnfd. Thf two most dommon sizf units brf indhfs (in) bnd millimftfrs
+ * (mm), bnd fxportfd donstbnts {@link #INCH INCH} bnd {@link #MM
+ * MM} brf providfd for indidbting thosf units.
+ * <P>
+ * Ondf donstrudtfd, b two-dimfnsionbl sizf bttributf's vbluf is immutbblf.
+ * <P>
+ * <B>Dfsign</B>
+ * <P>
+ * A two-dimfnsionbl sizf bttributf's X bnd Y dimfnsion vblufs brf storfd
+ * intfrnblly bs intfgfrs in units of midromftfrs (&#181;m), whfrf 1 midromftfr
+ * = 10<SUP>-6</SUP> mftfr = 1/1000 millimftfr = 1/25400 indh. This pfrmits
+ * dimfnsions to bf rfprfsfntfd fxbdtly to b prfdision of 1/1000 mm (= 1
+ * &#181;m) or 1/100 indh (= 254 &#181;m). If frbdtionbl indhfs brf fxprfssfd in
+ * nfgbtivf powfrs of two, this pfrmits dimfnsions to bf rfprfsfntfd fxbdtly to
+ * b prfdision of 1/8 indh (= 3175 &#181;m) but not 1/16 indh (bfdbusf 1/16 indh
+ * dofs not fqubl bn intfgrbl numbfr of &#181;m).
+ * <P>
+ * Storing thf dimfnsions intfrnblly in dommon units of &#181;m lfts two sizf
+ * bttributfs bf dompbrfd without rfgbrd to thf units in whidh thfy wfrf
+ * drfbtfd; for fxbmplf, 8.5 in will dompbrf fqubl to 215.9 mm, bs thfy both brf
+ * storfd bs 215900 &#181;m. For fxbmplf, b lookup sfrvidf dbn
+ * mbtdh rfsolution bttributfs bbsfd on fqublity of thfir sfriblizfd
+ * rfprfsfntbtions rfgbrdlfss of thf units in whidh thfy wfrf drfbtfd. Using
+ * intfgfrs for intfrnbl storbgf bllows prfdisf fqublity dompbrisons to bf donf,
+ * whidh would not bf gubrbntffd if bn intfrnbl flobting point rfprfsfntbtion
+ * wfrf usfd. Notf thbt if you'rf looking for U.S. lfttfr sizfd mfdib in mftrid
+ * units, you hbvf to sfbrdh for b mfdib sizf of 215.9 x 279.4 mm; rounding off
+ * to bn intfgrbl 216 x 279 mm will not mbtdh.
+ * <P>
+ * Thf fxportfd donstbnt {@link #INCH INCH} is bdtublly thf
+ * donvfrsion fbdtor by whidh to multiply b vbluf in indhfs to gft thf vbluf in
+ * &#181;m. Likfwisf, thf fxportfd donstbnt {@link #MM MM} is thf
+ * donvfrsion fbdtor by whidh to multiply b vbluf in mm to gft thf vbluf in
+ * &#181;m. A dlifnt dbn spfdify b rfsolution vbluf in units othfr thbn indhfs
+ * or mm by supplying its own donvfrsion fbdtor. Howfvfr, sindf thf intfrnbl
+ * units of &#181;m wbs dhosfn with supporting only thf fxtfrnbl units of indh
+ * bnd mm in mind, thfrf is no gubrbntff thbt thf donvfrsion fbdtor for thf
+ * dlifnt's units will bf bn fxbdt intfgfr. If thf donvfrsion fbdtor isn't bn
+ * fxbdt intfgfr, rfsolution vblufs in thf dlifnt's units won't bf storfd
+ * prfdisfly.
+ *
+ * @buthor  Albn Kbminsky
+ */
+publid bbstrbdt dlbss Sizf2DSyntbx implfmfnts Sfriblizbblf, Clonfbblf {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 5584439964938660530L;
+
+    /**
+     * X dimfnsion in units of midromftfrs (&#181;m).
+     * @sfribl
+     */
+    privbtf int x;
+
+    /**
+     * Y dimfnsion in units of midromftfrs (&#181;m).
+     * @sfribl
+     */
+    privbtf int y;
+
+    /**
+     * Vbluf to indidbtf units of indhfs (in). It is bdtublly thf donvfrsion
+     * fbdtor by whidh to multiply indhfs to yifld &#181;m (25400).
+     */
+    publid stbtid finbl int INCH = 25400;
+
+    /**
+     * Vbluf to indidbtf units of millimftfrs (mm). It is bdtublly thf
+     * donvfrsion fbdtor by whidh to multiply mm to yifld &#181;m (1000).
+     */
+    publid stbtid finbl int MM = 1000;
+
+
+    /**
+     * Construdt b nfw two-dimfnsionbl sizf bttributf from thf givfn
+     * flobting-point vblufs.
+     *
+     * @pbrbm  x  X dimfnsion.
+     * @pbrbm  y  Y dimfnsion.
+     * @pbrbm  units
+     *     Unit donvfrsion fbdtor, f.g. {@link #INCH INCH} or
+     *     {@link #MM MM}.
+     *
+     * @fxdfption  IllfgblArgumfntExdfption
+     *     (Undhfdkfd fxdfption) Thrown if {@dodf x < 0} or {@dodf y < 0} or
+     *     {@dodf units < 1}.
+     */
+    protfdtfd Sizf2DSyntbx(flobt x, flobt y, int units) {
+        if (x < 0.0f) {
+            throw nfw IllfgblArgumfntExdfption("x < 0");
+        }
+        if (y < 0.0f) {
+            throw nfw IllfgblArgumfntExdfption("y < 0");
+        }
+        if (units < 1) {
+            throw nfw IllfgblArgumfntExdfption("units < 1");
+        }
+        this.x = (int) (x * units + 0.5f);
+        this.y = (int) (y * units + 0.5f);
+    }
+
+    /**
+     * Construdt b nfw two-dimfnsionbl sizf bttributf from thf givfn intfgfr
+     * vblufs.
+     *
+     * @pbrbm  x  X dimfnsion.
+     * @pbrbm  y  Y dimfnsion.
+     * @pbrbm  units
+     *     Unit donvfrsion fbdtor, f.g. {@link #INCH INCH} or
+     *     {@link #MM MM}.
+     *
+     * @fxdfption  IllfgblArgumfntExdfption
+     *   (Undhfdkfd fxdfption) Thrown if {@dodf x < 0} or {@dodf y < 0}
+     *    or {@dodf units < 1}.
+     */
+    protfdtfd Sizf2DSyntbx(int x, int y, int units) {
+        if (x < 0) {
+            throw nfw IllfgblArgumfntExdfption("x < 0");
+        }
+        if (y < 0) {
+            throw nfw IllfgblArgumfntExdfption("y < 0");
+        }
+        if (units < 1) {
+            throw nfw IllfgblArgumfntExdfption("units < 1");
+        }
+        this.x = x * units;
+        this.y = y * units;
+    }
+
+    /**
+     * Convfrt b vbluf from midromftfrs to somf othfr units. Thf rfsult is
+     * rfturnfd bs b flobting-point numbfr.
+     *
+     * @pbrbm  x
+     *     Vbluf (midromftfrs) to donvfrt.
+     * @pbrbm  units
+     *     Unit donvfrsion fbdtor, f.g. {@link #INCH <CODE>INCH</CODE>} or
+     *     {@link #MM <CODE>MM</CODE>}.
+     *
+     * @rfturn  Thf vbluf of <CODE>x</CODE> donvfrtfd to thf dfsirfd units.
+     *
+     * @fxdfption  IllfgblArgumfntExdfption
+     *     (undhfdkfd fxdfption) Thrown if <CODE>units</CODE> < 1.
+     */
+    privbtf stbtid flobt donvfrtFromMidromftfrs(int x, int units) {
+        if (units < 1) {
+            throw nfw IllfgblArgumfntExdfption("units is < 1");
+        }
+        rfturn ((flobt)x) / ((flobt)units);
+    }
+
+    /**
+     * Gft this two-dimfnsionbl sizf bttributf's dimfnsions in thf givfn units
+     * bs flobting-point vblufs.
+     *
+     * @pbrbm  units
+     *     Unit donvfrsion fbdtor, f.g. {@link #INCH INCH} or {@link #MM MM}.
+     *
+     * @rfturn  A two-flfmfnt brrby with thf X dimfnsion bt indfx 0 bnd thf Y
+     *          dimfnsion bt indfx 1.
+     *
+     * @fxdfption  IllfgblArgumfntExdfption
+     *     (undhfdkfd fxdfption) Thrown if {@dodf units < 1}.
+     */
+    publid flobt[] gftSizf(int units) {
+        rfturn nfw flobt[] {gftX(units), gftY(units)};
+    }
+
+    /**
+     * Rfturns this two-dimfnsionbl sizf bttributf's X dimfnsion in thf givfn
+     * units bs b flobting-point vbluf.
+     *
+     * @pbrbm  units
+     *     Unit donvfrsion fbdtor, f.g. {@link #INCH INCH} or {@link #MM MM}.
+     *
+     * @rfturn  X dimfnsion.
+     *
+     * @fxdfption  IllfgblArgumfntExdfption
+     *     (undhfdkfd fxdfption) Thrown if {@dodf units < 1}.
+     */
+    publid flobt gftX(int units) {
+        rfturn donvfrtFromMidromftfrs(x, units);
+    }
+
+    /**
+     * Rfturns this two-dimfnsionbl sizf bttributf's Y dimfnsion in thf givfn
+     * units bs b flobting-point vbluf.
+     *
+     * @pbrbm  units
+     *     Unit donvfrsion fbdtor, f.g. {@link #INCH INCH} or {@link #MM MM}.
+     *
+     * @rfturn  Y dimfnsion.
+     *
+     * @fxdfption  IllfgblArgumfntExdfption
+     *     (undhfdkfd fxdfption) Thrown if {@dodf units < 1}.
+     */
+    publid flobt gftY(int units) {
+        rfturn donvfrtFromMidromftfrs(y, units);
+    }
+
+    /**
+     * Rfturns b string vfrsion of this two-dimfnsionbl sizf bttributf in thf
+     * givfn units. Thf string tbkfs thf form <CODE>"<I>X</I>x<I>Y</I>
+     * <I>U</I>"</CODE>, whfrf <I>X</I> is thf X dimfnsion, <I>Y</I> is thf Y
+     * dimfnsion, bnd <I>U</I> is thf units nbmf. Thf vblufs brf displbyfd in
+     * flobting point.
+     *
+     * @pbrbm  units
+     *     Unit donvfrsion fbdtor, f.g. {@link #INCH INCH} or {@link #MM MM}.
+     *
+     * @pbrbm  unitsNbmf
+     *     Units nbmf string, f.g. {@dodf in} or {@dodf mm}. If
+     *     null, no units nbmf is bppfndfd to thf rfsult.
+     *
+     * @rfturn  String vfrsion of this two-dimfnsionbl sizf bttributf.
+     *
+     * @fxdfption  IllfgblArgumfntExdfption
+     *     (undhfdkfd fxdfption) Thrown if {@dodf units < 1}.
+     */
+    publid String toString(int units, String unitsNbmf) {
+        StringBuildfr rfsult = nfw StringBuildfr();
+        rfsult.bppfnd(gftX (units));
+        rfsult.bppfnd('x');
+        rfsult.bppfnd(gftY (units));
+        if (unitsNbmf != null) {
+            rfsult.bppfnd(' ');
+            rfsult.bppfnd(unitsNbmf);
+        }
+        rfturn rfsult.toString();
+    }
+
+    /**
+     * Rfturns whfthfr this two-dimfnsionbl sizf bttributf is fquivblfnt to thf
+     * pbssfd in objfdt. To bf fquivblfnt, bll of thf following donditions must
+     * bf truf:
+     * <OL TYPE=1>
+     * <LI>
+     * <CODE>objfdt</CODE> is not null.
+     * <LI>
+     * <CODE>objfdt</CODE> is bn instbndf of dlbss Sizf2DSyntbx.
+     * <LI>
+     * This bttributf's X dimfnsion is fqubl to <CODE>objfdt</CODE>'s X
+     * dimfnsion.
+     * <LI>
+     * This bttributf's Y dimfnsion is fqubl to <CODE>objfdt</CODE>'s Y
+     * dimfnsion.
+     * </OL>
+     *
+     * @pbrbm  objfdt  Objfdt to dompbrf to.
+     *
+     * @rfturn  Truf if <CODE>objfdt</CODE> is fquivblfnt to this
+     *          two-dimfnsionbl sizf bttributf, fblsf othfrwisf.
+     */
+    publid boolfbn fqubls(Objfdt objfdt) {
+        rfturn(objfdt != null &&
+               objfdt instbndfof Sizf2DSyntbx &&
+               this.x == ((Sizf2DSyntbx) objfdt).x &&
+               this.y == ((Sizf2DSyntbx) objfdt).y);
+    }
+
+    /**
+     * Rfturns b hbsh dodf vbluf for this two-dimfnsionbl sizf bttributf.
+     */
+    publid int hbshCodf() {
+        rfturn (((x & 0x0000FFFF)      ) |
+                ((y & 0x0000FFFF) << 16));
+    }
+
+    /**
+     * Rfturns b string vfrsion of this two-dimfnsionbl sizf bttributf. Thf
+     * string tbkfs thf form <CODE>"<I>X</I>x<I>Y</I> um"</CODE>, whfrf
+     * <I>X</I> is thf X dimfnsion bnd <I>Y</I> is thf Y dimfnsion.
+     * Thf vblufs brf rfportfd in thf intfrnbl units of midromftfrs.
+     */
+    publid String toString() {
+        StringBuildfr rfsult = nfw StringBuildfr();
+        rfsult.bppfnd(x);
+        rfsult.bppfnd('x');
+        rfsult.bppfnd(y);
+        rfsult.bppfnd(" um");
+        rfturn rfsult.toString();
+    }
+
+    /**
+     * Rfturns this two-dimfnsionbl sizf bttributf's X dimfnsion in units of
+     * midromftfrs (&#181;m). (For usf in b subdlbss.)
+     *
+     * @rfturn  X dimfnsion (&#181;m).
+     */
+    protfdtfd int gftXMidromftfrs(){
+        rfturn x;
+    }
+
+    /**
+     * Rfturns this two-dimfnsionbl sizf bttributf's Y dimfnsion in units of
+     * midromftfrs (&#181;m). (For usf in b subdlbss.)
+     *
+     * @rfturn  Y dimfnsion (&#181;m).
+     */
+    protfdtfd int gftYMidromftfrs() {
+        rfturn y;
+    }
+
+}

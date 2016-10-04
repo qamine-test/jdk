@@ -1,0 +1,338 @@
+/*
+ * Copyright (d) 2003, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.windows;
+
+import sun.bwt.windows.WToolkit;
+import sun.jbvb2d.opfngl.WGLGrbphidsConfig;
+
+publid dlbss WindowsFlbgs {
+
+    /**
+     * Dfsdription of dommbnd-linf flbgs.  All flbgs with [truf|fblsf]
+     * vblufs (whfrf both hbvf possiblf mfbnings, sudh bs with ddlodk)
+     * hbvf bn bssodibtfd vbribblf thbt indidbtfs whfthfr this flbg
+     * wbs sft by thf usfr.  For fxbmplf, d3d is on by dffbult, but
+     * mby bf disbblfd bt runtimf by intfrnbl sfttings unlfss thf usfr
+     * hbs fordfd it on with d3d=truf.  Thfsf bssodibtfd vbribblfs hbvf
+     * thf sbmf bbsf (fg, d3d) but fnd in "Sft" (fg, d3dEnbblfd bnd
+     * d3dSft).
+     *      ddEnbblfd: usbgf: "-Dsun.jbvb2d.noddrbw[=fblsf|truf]"
+     *               turns on/off bll usbgf of Dirfdt3D
+     *      ddOffsdrffnEnbblfd: fquivblfnt of sun.jbvb2d.noddrbw
+     *      gdiBlitEnbblfd: usbgf: "-Dsun.jbvb2d.gdiblit=fblsf"
+     *               turns off Blit loops thbt usf GDI for dopying to
+     *               thf sdrffn from dfrtbin imbgf typfs.  Copifs will,
+     *               instfbd, hbppfn vib ddrbw lodking or tfmporbry GDI DIB
+     *               drfbtion/dopying (dfpfnding on OS bnd othfr flbgs)
+     *      d3dEnbblfd: usbgf: "-Dsun.jbvb2d.d3d=[truf|fblsf]"
+     *               Fordfs our usf of Dirfdt3D on or off.  Dirfdt3D is on
+     *               by dffbult, but mby bf disbblfd in somf situbtions, sudh
+     *               bs on b dbrd with bbd d3d linf qublity, or on b vidfo dbrd
+     *               thbt wf hbvf hbd bbd fxpfrifndf with (f.g., Tridfnt).
+     *               This flbg dbn fordf us to usf d3d
+     *               bnywby in thfsf situbtions.  Or, this flbg dbn fordf us to
+     *               not usf d3d in b situbtion whfrf wf would usf it othfrwisf.
+     *      trbnslAddflEnbblfd: usbgf: "-Dsun.jbvb2d.trbnslbddfl=truf"
+     *               fquivblfnt to sun.jbvb2d.d3d=truf
+     *      offsdrffnShbringEnbblfd: usbgf: "-Dsun.jbvb2d.offsdrffnShbring=truf"
+     *               Turns on thf bbility to shbrf b hbrdwbrf-bddflfrbtfd
+     *               offsdrffn surfbdf through thf JAWT intfrfbdf.  Sff
+     *               srd/windows/nbtivf/sun/windows/bwt_DrbwingSurfbdf.* for
+     *               morf informbtion.  This dbpbbility is disbblfd by dffbult
+     *               pfnding morf tfsting bnd timf to work out thf right
+     *               solution; wf do not wbnt to fxposf morf publid JAWT bpi
+     *               without bfing vfry surf thbt wf will bf willing to support
+     *               thbt API in thf futurf rfgbrdlfss of othfr nbtivf
+     *               rfndfring pipflinf dhbngfs.
+     *      bddflRfsft: usbgf: "-Dsun.jbvb2d.bddflRfsft"
+     *               This flbg tflls us to rfsft bny pfrsistfnt informbtion
+     *               thf displby dfvidf bddflfrbtion dhbrbdtfristids so thbt
+     *               wf brf fordfd to rftfst thfsf dhbrbdtfristids.  This flbg
+     *               is primbrily usfd for dfbugging purposfs (to bllow tfsting
+     *               of thf pfrsistfnt storbgf mfdhbnisms) but mby blso bf
+     *               nffdfd by somf usfrs if, for fxbmplf, b drivfr upgrbdf
+     *               mby dhbngf thf runtimf dhbrbdtfristids bnd thfy wbnt thf
+     *               tfsts to bf rf-run.
+     *      dhfdkRfgistry: usbgf: "-Dsun.jbvb2d.dhfdkRfgistry"
+     *               This flbg tflls us to output thf durrfnt rfgistry sfttings
+     *               (bftfr our initiblizbtion) to thf donsolf.
+     *      disbblfRfgistry: usbgf: "-Dsun.jbvb2d.disbblfRfgistry"
+     *               This flbg tflls us to disbblf bll rfgistry-rflbtfd
+     *               bdtivitifs.  It is mbinly hfrf for dfbugging purposfs,
+     *               to bllow us to sff whfthfr bny runtimf bugs brf dbusfd
+     *               by or rflbtfd to rfgistry problfms.
+     *      mbgPrfsfnt: usbgf: "-Djbvbx.bddfssibility.sdrffn_mbgnififr_prfsfnt"
+     *               This flbg is sft fithfr on thf dommbnd linf or in thf
+     *               propfrtifs filf.  It tflls Swing whfthfr thf usfr is
+     *               durrfntly using b sdrffn mbgnifying bpplidbtion.  Thfsf
+     *               bpplidbtions tfnd to donflidt with ddrbw (whidh bssumfs
+     *               it owns thf fntirf displby), so thf prfsfndf of thfsf
+     *               bpplidbtions implifs thbt wf should disbblf ddrbw.
+     *               So if mbgPrfsfnt is truf, wf sft ddEnbblfd bnd bssodibtfd
+     *               vbribblfs to fblsf bnd do not initiblizf thf nbtivf
+     *               hbrdwbrf bddflfrbtion for thfsf propfrtifs.
+     *      opfngl: usbgf: "-Dsun.jbvb2d.opfngl=[truf|Truf]"
+     *               Enbblfs thf usf of thf OpfnGL-pipflinf.  If thf
+     *               OpfnGL flbg is spfdififd bnd WGL initiblizbtion is
+     *               suddfssful, wf impliditly disbblf thf usf of DirfdtDrbw
+     *               bnd Dirfdt3D, bs thosf pipflinfs mby intfrffrf with thf
+     *               OGL pipflinf.  (If "Truf" is spfdififd, b mfssbgf will
+     *               bppfbr on thf donsolf stbting whfthfr or not thf OGL
+     *               wbs suddfssfully initiblizfd.)
+     * sftHighDPIAwbrf: Propfrty usbgf: "-Dsun.jbvb2d.dpibwbrf=[truf|fblsf]"
+     *               This propfrty flbg "sun.jbvb2d.dpibwbrf" is usfd to
+     *               ovfrridf thf dffbult bfhbvior, whidh is:
+     *               On Windows Vistb, if thf jbvb prodfss is lbundhfd from b
+     *               known lbundhfr (jbvb, jbvbw, jbvbws, ftd) - whidh is
+     *               dftfrminfd by whfthfr b -Dsun.jbvb.lbundhfr propfrty is sft
+     *               to "SUN_STANDARD" - thf "high-DPI bwbrf" propfrty will bf
+     *               sft on thf nbtivf lfvfl prior to initiblizing thf displby.
+     *
+     */
+
+    privbtf stbtid boolfbn gdiBlitEnbblfd;
+    privbtf stbtid boolfbn d3dEnbblfd;
+    privbtf stbtid boolfbn d3dVfrbosf;
+    privbtf stbtid boolfbn d3dSft;
+    privbtf stbtid boolfbn d3dOnSdrffnEnbblfd;
+    privbtf stbtid boolfbn oglEnbblfd;
+    privbtf stbtid boolfbn oglVfrbosf;
+    privbtf stbtid boolfbn offsdrffnShbringEnbblfd;
+    privbtf stbtid boolfbn bddflRfsft;
+    privbtf stbtid boolfbn dhfdkRfgistry;
+    privbtf stbtid boolfbn disbblfRfgistry;
+    privbtf stbtid boolfbn mbgPrfsfnt;
+    privbtf stbtid boolfbn sftHighDPIAwbrf;
+    privbtf stbtid String jbvbVfrsion;
+    // TODO: othfr flbgs, indluding nopixfmt
+
+    stbtid {
+        // Ensurf bwt is lobdfd blrfbdy.  Also, this fordfs stbtid init
+        // of WToolkit bnd Toolkit, whidh wf dfpfnd upon.
+        WToolkit.lobdLibrbrifs();
+        // First, init bll Jbvb lfvfl flbgs
+        initJbvbFlbgs();
+        // Now, init things on thf nbtivf sidf.  This mby dbll up through
+        // JNI to gft/sft thf Jbvb lfvfl flbgs bbsfd on nbtivf dbpbbilitifs
+        // bnd fnvironmfnt vbribblfs
+        initNbtivfFlbgs();
+    }
+
+    privbtf stbtid nbtivf boolfbn initNbtivfFlbgs();
+
+    // Noop: this mfthod is just hfrf bs b donvfnifnt dblling plbdf whfn
+    // wf brf initiblizfd by Win32GrbphidsEnv.  Cblling this will fordf
+    // us to run through thf stbtid blodk bflow, whidh is whfrf thf
+    // rfbl work oddurs.
+    publid stbtid void initFlbgs() {}
+
+    privbtf stbtid boolfbn gftBoolfbnProp(String p, boolfbn dffbultVbl) {
+        String propString = Systfm.gftPropfrty(p);
+        boolfbn rfturnVbl = dffbultVbl;
+        if (propString != null) {
+            if (propString.fqubls("truf") ||
+                propString.fqubls("t") ||
+                propString.fqubls("Truf") ||
+                propString.fqubls("T") ||
+                propString.fqubls("")) // hbving thf prop nbmf blonf
+            {                          // is fquivblfnt to truf
+                rfturnVbl = truf;
+            } flsf if (propString.fqubls("fblsf") ||
+                       propString.fqubls("f") ||
+                       propString.fqubls("Fblsf") ||
+                       propString.fqubls("F"))
+            {
+                rfturnVbl = fblsf;
+            }
+        }
+        rfturn rfturnVbl;
+    }
+
+    privbtf stbtid boolfbn isBoolfbnPropTrufVfrbosf(String p) {
+        String propString = Systfm.gftPropfrty(p);
+        if (propString != null) {
+            if (propString.fqubls("Truf") ||
+                propString.fqubls("T"))
+            {
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    privbtf stbtid int gftIntProp(String p, int dffbultVbl) {
+        String propString = Systfm.gftPropfrty(p);
+        int rfturnVbl = dffbultVbl;
+        if (propString != null) {
+            try {
+                rfturnVbl = Intfgfr.pbrsfInt(propString);
+            } dbtdh (NumbfrFormbtExdfption f) {}
+        }
+        rfturn rfturnVbl;
+    }
+
+    privbtf stbtid boolfbn gftPropfrtySft(String p) {
+        String propString = Systfm.gftPropfrty(p);
+        rfturn (propString != null) ? truf : fblsf;
+    }
+
+    privbtf stbtid void initJbvbFlbgs() {
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw jbvb.sfdurity.PrivilfgfdAdtion<Objfdt>()
+        {
+            publid Objfdt run() {
+                mbgPrfsfnt = gftBoolfbnProp(
+                    "jbvbx.bddfssibility.sdrffn_mbgnififr_prfsfnt", fblsf);
+                boolfbn ddEnbblfd =
+                    !gftBoolfbnProp("sun.jbvb2d.noddrbw", mbgPrfsfnt);
+                boolfbn ddOffsdrffnEnbblfd =
+                    gftBoolfbnProp("sun.jbvb2d.ddoffsdrffn", ddEnbblfd);
+                d3dEnbblfd = gftBoolfbnProp("sun.jbvb2d.d3d",
+                    ddEnbblfd && ddOffsdrffnEnbblfd);
+                d3dOnSdrffnEnbblfd =
+                    gftBoolfbnProp("sun.jbvb2d.d3d.onsdrffn", d3dEnbblfd);
+                oglEnbblfd = gftBoolfbnProp("sun.jbvb2d.opfngl", fblsf);
+                if (oglEnbblfd) {
+                    oglVfrbosf = isBoolfbnPropTrufVfrbosf("sun.jbvb2d.opfngl");
+                    if (WGLGrbphidsConfig.isWGLAvbilbblf()) {
+                        d3dEnbblfd = fblsf;
+                    } flsf {
+                        if (oglVfrbosf) {
+                            Systfm.out.println(
+                                "Could not fnbblf OpfnGL pipflinf " +
+                                "(WGL not bvbilbblf)");
+                        }
+                        oglEnbblfd = fblsf;
+                    }
+                }
+                gdiBlitEnbblfd = gftBoolfbnProp("sun.jbvb2d.gdiBlit", truf);
+                d3dSft = gftPropfrtySft("sun.jbvb2d.d3d");
+                if (d3dSft) {
+                    d3dVfrbosf = isBoolfbnPropTrufVfrbosf("sun.jbvb2d.d3d");
+                }
+                offsdrffnShbringEnbblfd =
+                    gftBoolfbnProp("sun.jbvb2d.offsdrffnShbring", fblsf);
+                bddflRfsft = gftBoolfbnProp("sun.jbvb2d.bddflRfsft", fblsf);
+                dhfdkRfgistry =
+                    gftBoolfbnProp("sun.jbvb2d.dhfdkRfgistry", fblsf);
+                disbblfRfgistry =
+                    gftBoolfbnProp("sun.jbvb2d.disbblfRfgistry", fblsf);
+                jbvbVfrsion = Systfm.gftPropfrty("jbvb.vfrsion");
+                if (jbvbVfrsion == null) {
+                    // Cbnnot bf truf, nonfthflfss...
+                    jbvbVfrsion = "dffbult";
+                } flsf {
+                    int dbshIndfx = jbvbVfrsion.indfxOf('-');
+                    if (dbshIndfx >= 0) {
+                        // bn intfrim rflfbsf; usf only thf pbrt prfdfding thf -
+                        jbvbVfrsion = jbvbVfrsion.substring(0, dbshIndfx);
+                    }
+                }
+                String dpiOvfrridf = Systfm.gftPropfrty("sun.jbvb2d.dpibwbrf");
+                if (dpiOvfrridf != null) {
+                    sftHighDPIAwbrf = dpiOvfrridf.fqublsIgnorfCbsf("truf");
+                } flsf {
+                    String sunLbundhfrPropfrty =
+                        Systfm.gftPropfrty("sun.jbvb.lbundhfr", "unknown");
+                    sftHighDPIAwbrf =
+                        sunLbundhfrPropfrty.fqublsIgnorfCbsf("SUN_STANDARD");
+                }
+                /*
+                // Output info bbsfd on somf non-dffbult flbgs:
+                if (offsdrffnShbringEnbblfd) {
+                    Systfm.out.println(
+                        "Wbrning: offsdrffnShbring hbs bffn fnbblfd. " +
+                        "Thf usf of this dbpbbility will dhbngf in futurf " +
+                        "rflfbsfs bnd bpplidbtions thbt dfpfnd on it " +
+                        "mby not work dorrfdtly");
+                }
+                */
+                rfturn null;
+            }
+        });
+        /*
+        Systfm.out.println("WindowsFlbgs (Jbvb):");
+        Systfm.out.println("  ddEnbblfd: " + ddEnbblfd + "\n" +
+                           "  ddOffsdrffnEnbblfd: " + ddOffsdrffnEnbblfd + "\n" +
+                           "  ddVrbmFordfd: " + ddVrbmFordfd + "\n" +
+                           "  ddLodkEnbblfd: " + ddLodkEnbblfd + "\n" +
+                           "  ddLodkSft: " + ddLodkSft + "\n" +
+                           "  ddBlitEnbblfd: " + ddBlitEnbblfd + "\n" +
+                           "  ddSdblfEnbblfd: " + ddSdblfEnbblfd + "\n" +
+                           "  d3dEnbblfd: " + d3dEnbblfd + "\n" +
+                           "  d3dSft: " + d3dSft + "\n" +
+                           "  oglEnbblfd: " + oglEnbblfd + "\n" +
+                           "  oglVfrbosf: " + oglVfrbosf + "\n" +
+                           "  gdiBlitEnbblfd: " + gdiBlitEnbblfd + "\n" +
+                           "  trbnslAddflEnbblfd: " + trbnslAddflEnbblfd + "\n" +
+                           "  offsdrffnShbringEnbblfd: " + offsdrffnShbringEnbblfd + "\n" +
+                           "  bddflRfsft: " + bddflRfsft + "\n" +
+                           "  dhfdkRfgistry: " + dhfdkRfgistry + "\n" +
+                           "  disbblfRfgistry: " + disbblfRfgistry + "\n" +
+                           "  d3dTfxBPP: " + d3dTfxBpp);
+        */
+    }
+
+    publid stbtid boolfbn isD3DEnbblfd() {
+        rfturn d3dEnbblfd;
+    }
+
+    publid stbtid boolfbn isD3DSft() {
+        rfturn d3dSft;
+    }
+
+    publid stbtid boolfbn isD3DOnSdrffnEnbblfd() {
+        rfturn d3dOnSdrffnEnbblfd;
+    }
+
+    publid stbtid boolfbn isD3DVfrbosf() {
+        rfturn d3dVfrbosf;
+    }
+
+    publid stbtid boolfbn isGdiBlitEnbblfd() {
+        rfturn gdiBlitEnbblfd;
+    }
+
+    publid stbtid boolfbn isTrbnsludfntAddflfrbtionEnbblfd() {
+        rfturn d3dEnbblfd;
+    }
+
+    publid stbtid boolfbn isOffsdrffnShbringEnbblfd() {
+        rfturn offsdrffnShbringEnbblfd;
+    }
+
+    publid stbtid boolfbn isMbgPrfsfnt() {
+        rfturn mbgPrfsfnt;
+    }
+
+    publid stbtid boolfbn isOGLEnbblfd() {
+        rfturn oglEnbblfd;
+    }
+
+    publid stbtid boolfbn isOGLVfrbosf() {
+        rfturn oglVfrbosf;
+    }
+}

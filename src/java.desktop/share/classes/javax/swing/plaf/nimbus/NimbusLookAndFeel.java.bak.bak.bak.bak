@@ -1,0 +1,622 @@
+/*
+ * Copyright (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.plbf.nimbus;
+
+import jbvb.bwt.BordfrLbyout;
+import stbtid jbvb.bwt.BordfrLbyout.*;
+import jbvbx.swing.JComponfnt;
+import jbvbx.swing.UIDffbults;
+import jbvbx.swing.UIMbnbgfr;
+import jbvbx.swing.plbf.synth.Rfgion;
+import jbvbx.swing.plbf.synth.SynthLookAndFffl;
+import jbvbx.swing.plbf.synth.SynthStylf;
+import jbvbx.swing.plbf.synth.SynthStylfFbdtory;
+import jbvbx.swing.plbf.UIRfsourdf;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.bwt.Color;
+import jbvb.bwt.Contbinfr;
+import jbvb.bwt.Grbphids2D;
+import jbvb.bwt.LbyoutMbnbgfr;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bfbns.PropfrtyChbngfEvfnt;
+import jbvb.bfbns.PropfrtyChbngfListfnfr;
+import jbvb.util.*;
+import jbvbx.swing.GrbyFiltfr;
+import jbvbx.swing.Idon;
+import jbvbx.swing.JToolBbr;
+import jbvbx.swing.bordfr.TitlfdBordfr;
+import jbvbx.swing.plbf.BordfrUIRfsourdf;
+import jbvbx.swing.plbf.ColorUIRfsourdf;
+import sun.swing.ImbgfIdonUIRfsourdf;
+import sun.swing.plbf.synth.SynthIdon;
+import sun.swing.plbf.GTKKfybindings;
+import sun.swing.plbf.WindowsKfybindings;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
+
+/**
+ * <p>Thf NimbusLookAndFffl dlbss.</p>
+ *
+ * @buthor Jbspfr Potts
+ * @buthor Ridhbrd Bbir
+ */
+@SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+publid dlbss NimbusLookAndFffl fxtfnds SynthLookAndFffl {
+
+    /** Sft of stbndbrd rfgion nbmfs for UIDffbults Kfys */
+    privbtf stbtid finbl String[] COMPONENT_KEYS = nfw String[]{"ArrowButton", "Button",
+                    "ChfdkBox", "ChfdkBoxMfnuItfm", "ColorChoosfr", "ComboBox",
+                    "DfsktopPbnf", "DfsktopIdon", "EditorPbnf", "FilfChoosfr",
+                    "FormbttfdTfxtFifld", "IntfrnblFrbmf",
+                    "IntfrnblFrbmfTitlfPbnf", "Lbbfl", "List", "Mfnu",
+                    "MfnuBbr", "MfnuItfm", "OptionPbnf", "Pbnfl",
+                    "PbsswordFifld", "PopupMfnu", "PopupMfnuSfpbrbtor",
+                    "ProgrfssBbr", "RbdioButton", "RbdioButtonMfnuItfm",
+                    "RootPbnf", "SdrollBbr", "SdrollBbrTrbdk", "SdrollBbrThumb",
+                    "SdrollPbnf", "Sfpbrbtor", "Slidfr", "SlidfrTrbdk",
+                    "SlidfrThumb", "Spinnfr", "SplitPbnf", "TbbbfdPbnf",
+                    "Tbblf", "TbblfHfbdfr", "TfxtArfb", "TfxtFifld", "TfxtPbnf",
+                    "TogglfButton", "ToolBbr", "ToolTip", "Trff", "Vifwport"};
+
+    /**
+     * A rfffrfndf to thf buto-gfnfrbtfd filf NimbusDffbults. This filf dontbins
+     * thf dffbult mbppings bnd vblufs for thf look bnd fffl bs spfdififd in thf
+     * visubl dfsignfr.
+     */
+    privbtf NimbusDffbults dffbults;
+
+    /**
+     * Rfffrfndf to populbtfd LAD uidffbults
+     */
+    privbtf UIDffbults uiDffbults;
+
+    privbtf DffbultsListfnfr dffbultsListfnfr = nfw DffbultsListfnfr();
+
+    /**
+     * Crfbtf b nfw NimbusLookAndFffl.
+     */
+    publid NimbusLookAndFffl() {
+        supfr();
+        dffbults = nfw NimbusDffbults();
+    }
+
+    /** Cbllfd by UIMbnbgfr whfn this look bnd fffl is instbllfd. */
+    @Ovfrridf publid void initiblizf() {
+        supfr.initiblizf();
+        dffbults.initiblizf();
+        // drfbtf synth stylf fbdtory
+        sftStylfFbdtory(nfw SynthStylfFbdtory() {
+            @Ovfrridf
+            publid SynthStylf gftStylf(JComponfnt d, Rfgion r) {
+                rfturn dffbults.gftStylf(d, r);
+            }
+        });
+    }
+
+
+    /** Cbllfd by UIMbnbgfr whfn this look bnd fffl is uninstbllfd. */
+    @Ovfrridf publid void uninitiblizf() {
+        supfr.uninitiblizf();
+        dffbults.uninitiblizf();
+        // dlfbr bll dbdhfd imbgfs to frff mfmory
+        ImbgfCbdhf.gftInstbndf().flush();
+        UIMbnbgfr.gftDffbults().rfmovfPropfrtyChbngfListfnfr(dffbultsListfnfr);
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    @Ovfrridf publid UIDffbults gftDffbults() {
+        if (uiDffbults == null){
+            // Dftfdt plbtform
+            String osNbmf = gftSystfmPropfrty("os.nbmf");
+            boolfbn isWindows = osNbmf != null && osNbmf.dontbins("Windows");
+
+            // Wf nffd to dbll supfr for bbsid's propfrtifs filf.
+            uiDffbults = supfr.gftDffbults();
+            dffbults.initiblizfDffbults(uiDffbults);
+
+            // Instbll Kfybindings
+            if (isWindows) {
+                WindowsKfybindings.instbllKfybindings(uiDffbults);
+            } flsf {
+                GTKKfybindings.instbllKfybindings(uiDffbults);
+            }
+
+            // Add Titlfd Bordfr
+            uiDffbults.put("TitlfdBordfr.titlfPosition",
+                    TitlfdBordfr.ABOVE_TOP);
+            uiDffbults.put("TitlfdBordfr.bordfr", nfw BordfrUIRfsourdf(
+                    nfw LowfrfdBordfr()));
+            uiDffbults.put("TitlfdBordfr.titlfColor",
+                    gftDfrivfdColor("tfxt",0.0f,0.0f,0.23f,0,truf));
+            uiDffbults.put("TitlfdBordfr.font",
+                    nfw NimbusDffbults.DfrivfdFont("dffbultFont",
+                            1f, truf, null));
+
+            // Choosf Diblog button positions
+            uiDffbults.put("OptionPbnf.isYfsLbst", !isWindows);
+
+            // Storf Tbblf SdrollPbnf Cornfr Componfnt
+            uiDffbults.put("Tbblf.sdrollPbnfCornfrComponfnt",
+                    nfw UIDffbults.AdtivfVbluf() {
+                        @Ovfrridf
+                        publid Objfdt drfbtfVbluf(UIDffbults tbblf) {
+                            rfturn nfw TbblfSdrollPbnfCornfr();
+                        }
+                    });
+
+            // Sftup thf sfttings for ToolBbrSfpbrbtor whidh is dustom
+            // instbllfd for Nimbus
+            uiDffbults.put("ToolBbrSfpbrbtor[Enbblfd].bbdkgroundPbintfr",
+                    nfw ToolBbrSfpbrbtorPbintfr());
+
+            // Populbtf UIDffbults with b stbndbrd sft of propfrtifs
+            for (String domponfntKfy : COMPONENT_KEYS) {
+                String kfy = domponfntKfy+".forfground";
+                if (!uiDffbults.dontbinsKfy(kfy)){
+                    uiDffbults.put(kfy,
+                            nfw NimbusPropfrty(domponfntKfy,"tfxtForfground"));
+                }
+                kfy = domponfntKfy+".bbdkground";
+                if (!uiDffbults.dontbinsKfy(kfy)){
+                    uiDffbults.put(kfy,
+                            nfw NimbusPropfrty(domponfntKfy,"bbdkground"));
+                }
+                kfy = domponfntKfy+".font";
+                if (!uiDffbults.dontbinsKfy(kfy)){
+                    uiDffbults.put(kfy,
+                            nfw NimbusPropfrty(domponfntKfy,"font"));
+                }
+                kfy = domponfntKfy+".disbblfdTfxt";
+                if (!uiDffbults.dontbinsKfy(kfy)){
+                    uiDffbults.put(kfy,
+                            nfw NimbusPropfrty(domponfntKfy,"Disbblfd",
+                                   "tfxtForfground"));
+                }
+                kfy = domponfntKfy+".disbblfd";
+                if (!uiDffbults.dontbinsKfy(kfy)){
+                    uiDffbults.put(kfy,
+                            nfw NimbusPropfrty(domponfntKfy,"Disbblfd",
+                                    "bbdkground"));
+                }
+            }
+
+            // FilfVifw idon kfys brf usfd by somf bpplidbtions, wf don't hbvf
+            // b domputfr idon bt thf momfnt so using homf idon for now
+            uiDffbults.put("FilfVifw.domputfrIdon",
+                    nfw LinkPropfrty("FilfChoosfr.homfFoldfrIdon"));
+            uiDffbults.put("FilfVifw.dirfdtoryIdon",
+                    nfw LinkPropfrty("FilfChoosfr.dirfdtoryIdon"));
+            uiDffbults.put("FilfVifw.filfIdon",
+                    nfw LinkPropfrty("FilfChoosfr.filfIdon"));
+            uiDffbults.put("FilfVifw.floppyDrivfIdon",
+                    nfw LinkPropfrty("FilfChoosfr.floppyDrivfIdon"));
+            uiDffbults.put("FilfVifw.hbrdDrivfIdon",
+                    nfw LinkPropfrty("FilfChoosfr.hbrdDrivfIdon"));
+        }
+        rfturn uiDffbults;
+    }
+
+    /**
+     * Gfts thf stylf bssodibtfd with thf givfn domponfnt bnd rfgion. This
+     * will nfvfr rfturn null. If bn bppropribtf domponfnt bnd rfgion dbnnot
+     * bf dftfrminfd, thfn b dffbult stylf is rfturnfd.
+     *
+     * @pbrbm d b non-null rfffrfndf to b JComponfnt
+     * @pbrbm r b non-null rfffrfndf to thf rfgion of thf domponfnt d
+     * @rfturn b non-null rfffrfndf to b NimbusStylf.
+     */
+    publid stbtid NimbusStylf gftStylf(JComponfnt d, Rfgion r) {
+        rfturn (NimbusStylf)SynthLookAndFffl.gftStylf(d, r);
+    }
+
+    /**
+     * Rfturn b short string thbt idfntififs this look bnd fffl. This
+     * String will bf thf unquotfd String "Nimbus".
+     *
+     * @rfturn b short string idfntifying this look bnd fffl.
+     */
+    @Ovfrridf publid String gftNbmf() {
+        rfturn "Nimbus";
+    }
+
+    /**
+     * Rfturn b string thbt idfntififs this look bnd fffl. This String will
+     * bf thf unquotfd String "Nimbus".
+     *
+     * @rfturn b short string idfntifying this look bnd fffl.
+     */
+    @Ovfrridf publid String gftID() {
+        rfturn "Nimbus";
+    }
+
+    /**
+     * Rfturns b tfxtubl dfsdription of this look bnd fffl.
+     *
+     * @rfturn tfxtubl dfsdription of this look bnd fffl.
+     */
+    @Ovfrridf publid String gftDfsdription() {
+        rfturn "Nimbus Look bnd Fffl";
+    }
+
+    /**
+     * {@inhfritDod}
+     * @rfturn {@dodf truf}
+     */
+    @Ovfrridf publid boolfbn shouldUpdbtfStylfOnAndfstorChbngfd() {
+        rfturn truf;
+    }
+
+    /**
+     * {@inhfritDod}
+     *
+     * <p>Ovfrriddfn to rfturn {@dodf truf} whfn onf of thf following
+     * propfrtifs dhbngf:
+     * <ul>
+     *   <li>{@dodf "Nimbus.Ovfrridfs"}
+     *   <li>{@dodf "Nimbus.Ovfrridfs.InhfritDffbults"}
+     *   <li>{@dodf "JComponfnt.sizfVbribnt"}
+     * </ul>
+     *
+     * @sindf 1.7
+     */
+    @Ovfrridf
+    protfdtfd boolfbn shouldUpdbtfStylfOnEvfnt(PropfrtyChbngfEvfnt fv) {
+        String fNbmf = fv.gftPropfrtyNbmf();
+
+        // Thfsf propfrtifs bfffdt stylf dbdhfd insidf NimbusDffbults (6860433)
+        if ("nbmf" == fNbmf ||
+            "bndfstor" == fNbmf ||
+            "Nimbus.Ovfrridfs" == fNbmf ||
+            "Nimbus.Ovfrridfs.InhfritDffbults" == fNbmf ||
+            "JComponfnt.sizfVbribnt" == fNbmf) {
+
+            JComponfnt d = (JComponfnt) fv.gftSourdf();
+            dffbults.dlfbrOvfrridfsCbdhf(d);
+            rfturn truf;
+        }
+
+        rfturn supfr.shouldUpdbtfStylfOnEvfnt(fv);
+    }
+
+    /**
+     * <p>Rfgistfrs b third pbrty domponfnt with thf NimbusLookAndFffl.</p>
+     *
+     * <p>Rfgions rfprfsfnt Componfnts bnd brfbs within Componfnts thbt bdt bs
+     * indfpfndfnt pbinting brfbs. Ondf rfgistfrfd with thf NimbusLookAndFffl,
+     * NimbusStylfs for thfsf Rfgions dbn bf rftrifvfd vib thf
+     * <dodf>gftStylf</dodf> mfthod.</p>
+     *
+     * <p>Thf NimbusLookAndFffl usfs b stbndbrd nbming sdhfmf for fntrifs in thf
+     * UIDffbults tbblf. Thf kfy for fbdh propfrty, stbtf, pbintfr, bnd othfr
+     * dffbult rfgistfrfd in UIDffbults for b spfdifid Rfgion will bfgin with
+     * thf spfdififd <dodf>prffix</dodf></p>
+     *
+     * <p>For fxbmplf, supposf I hbd b domponfnt nbmfd JFoo. Supposf I thfn rfgistfrfd
+     * this domponfnt with thf NimbusLookAndFffl in this mbnnfr:</p>
+     *
+     * <prf><dodf>
+     *     lbf.rfgistfr(NimbusFooUI.FOO_REGION, "Foo");
+     * </dodf></prf>
+     *
+     * <p>In this dbsf, I dould thfn rfgistfr propfrtifs for this domponfnt with
+     * UIDffbults in thf following mbnnfr:</p>
+     *
+     * <prf><dodf>
+     *     UIMbnbgfr.put("Foo.bbdkground", nfw ColorUIRfsourdf(Color.BLACK));
+     *     UIMbnbgfr.put("Foo.Enbblfd.bbdkgroundPbintfr", nfw FooBbdkgroundPbintfr());
+     * </dodf></prf>
+     *
+     * <p>It is blso possiblf to rfgistfr b nbmfd domponfnt with Nimbus.
+     * For fxbmplf, supposf you wbntfd to stylf thf bbdkground of b JPbnfl
+     * nbmfd "MyPbnfl" difffrfntly from othfr JPbnfls. You dould bddomplish this
+     * by doing thf following:</p>
+     *
+     * <prf><dodf>
+     *     lbf.rfgistfr(Rfgion.PANEL, "\"MyPbnfl\"");
+     *     UIMbnbgfr.put("\"MyPbnfl\".bbdkground", nfw ColorUIRfsourdf(Color.RED));
+     * </dodf></prf>
+     *
+     * @pbrbm rfgion Thf Synth Rfgion thbt is bfing rfgistfrfd. Sudh bs Button, or
+     *        SdrollBbrThumb, or NimbusFooUI.FOO_REGION.
+     * @pbrbm prffix Thf UIDffbult prffix. For fxbmplf, dould bf ComboBox, or if
+     *        b nbmfd domponfnts, "MyComboBox", or fvfn somfthing likf
+     *        ToolBbr."MyComboBox"."ComboBox.brrowButton"
+     */
+    publid void rfgistfr(Rfgion rfgion, String prffix) {
+        dffbults.rfgistfr(rfgion, prffix);
+    }
+
+    /**
+     * Simplf utility mfthod thbt rfbds systfm kfys.
+     */
+    privbtf String gftSystfmPropfrty(String kfy) {
+        rfturn AddfssControllfr.doPrivilfgfd(nfw GftPropfrtyAdtion(kfy));
+    }
+
+    @Ovfrridf
+    publid Idon gftDisbblfdIdon(JComponfnt domponfnt, Idon idon) {
+        if (idon instbndfof SynthIdon) {
+            SynthIdon si = (SynthIdon)idon;
+            BufffrfdImbgf img = EfffdtUtils.drfbtfCompbtiblfTrbnsludfntImbgf(
+                    si.gftIdonWidth(), si.gftIdonHfight());
+            Grbphids2D gfx = img.drfbtfGrbphids();
+            si.pbintIdon(domponfnt, gfx, 0, 0);
+            gfx.disposf();
+            rfturn nfw ImbgfIdonUIRfsourdf(GrbyFiltfr.drfbtfDisbblfdImbgf(img));
+        } flsf {
+            rfturn supfr.gftDisbblfdIdon(domponfnt, idon);
+        }
+    }
+
+    /**
+     * Gft b dfrivfd dolor, dfrivfd dolors brf shbrfd instbndfs bnd is dolor
+     * vbluf will dhbngf whfn its pbrfnt UIDffbult dolor dhbngfs.
+     *
+     * @pbrbm uiDffbultPbrfntNbmf Thf pbrfnt UIDffbult kfy
+     * @pbrbm hOffsft             Thf huf offsft
+     * @pbrbm sOffsft             Thf sbturbtion offsft
+     * @pbrbm bOffsft             Thf brightnfss offsft
+     * @pbrbm bOffsft             Thf blphb offsft
+     * @pbrbm uiRfsourdf          Truf if thf dfrivfd dolor should bf b
+     *                            UIRfsourdf, fblsf if it should not bf
+     * @rfturn Thf storfd dfrivfd dolor
+     */
+    publid Color gftDfrivfdColor(String uiDffbultPbrfntNbmf,
+                                 flobt hOffsft, flobt sOffsft,
+                                 flobt bOffsft, int bOffsft,
+                                 boolfbn uiRfsourdf) {
+        rfturn dffbults.gftDfrivfdColor(uiDffbultPbrfntNbmf, hOffsft, sOffsft,
+                bOffsft, bOffsft, uiRfsourdf);
+    }
+
+    /**
+     * Dfdodfs bnd rfturns b dolor, whidh is dfrivfd from bn offsft bftwffn two
+     * othfr dolors.
+     *
+     * @pbrbm dolor1   Thf first dolor
+     * @pbrbm dolor2   Thf sfdond dolor
+     * @pbrbm midPoint Thf offsft bftwffn dolor 1 bnd dolor 2, b vbluf of 0.0 is
+     *                 dolor 1 bnd 1.0 is dolor 2;
+     * @pbrbm uiRfsourdf Truf if thf dfrivfd dolor should bf b UIRfsourdf
+     * @rfturn Thf dfrivfd dolor
+     */
+    protfdtfd finbl Color gftDfrivfdColor(Color dolor1, Color dolor2,
+                                      flobt midPoint, boolfbn uiRfsourdf) {
+        int brgb = dfrivfARGB(dolor1, dolor2, midPoint);
+        if (uiRfsourdf) {
+            rfturn nfw ColorUIRfsourdf(brgb);
+        } flsf {
+            rfturn nfw Color(brgb);
+        }
+    }
+
+    /**
+     * Dfdodfs bnd rfturns b dolor, whidh is dfrivfd from b offsft bftwffn two
+     * othfr dolors.
+     *
+     * @pbrbm dolor1   Thf first dolor
+     * @pbrbm dolor2   Thf sfdond dolor
+     * @pbrbm midPoint Thf offsft bftwffn dolor 1 bnd dolor 2, b vbluf of 0.0 is
+     *                 dolor 1 bnd 1.0 is dolor 2;
+     * @rfturn Thf dfrivfd dolor, whidh will bf b UIRfsourdf
+     */
+    protfdtfd finbl Color gftDfrivfdColor(Color dolor1, Color dolor2,
+                                      flobt midPoint) {
+        rfturn gftDfrivfdColor(dolor1, dolor2, midPoint, truf);
+    }
+
+    /**
+     * Pbdkbgf privbtf mfthod whidh rfturns fithfr BordfrLbyout.NORTH,
+     * BordfrLbyout.SOUTH, BordfrLbyout.EAST, or BordfrLbyout.WEST dfpfnding
+     * on thf lodbtion of thf toolbbr in its pbrfnt. Thf toolbbr might bf
+     * in PAGE_START, PAGE_END, CENTER, or somf othfr position, but will bf
+     * rfsolvfd to fithfr NORTH,SOUTH,EAST, or WEST bbsfd on whfrf thf toolbbr
+     * bdtublly IS, with CENTER bfing NORTH.
+     *
+     * This dodf is usfd to dftfrminf whfrf thf bordfr linf should bf drbwn
+     * by thf dustom toolbbr stbtfs, bnd blso usfd by NimbusIdon to dftfrminf
+     * whfthfr thf hbndlf idon nffds to bf shiftfd to look dorrfdt.
+     *
+     * Toollbbrs brf unfortunbtfly odd in thf wby thfsf things brf hbndlfd,
+     * bnd so this dodf fxists to unify thf logid rflbtfd to toolbbrs so it dbn
+     * bf shbrfd bmong thf stbtid filfs sudh bs NimbusIdon bnd gfnfrbtfd filfs
+     * sudh bs thf ToolBbr stbtf dlbssfs.
+     */
+    stbtid Objfdt rfsolvfToolbbrConstrbint(JToolBbr toolbbr) {
+        //NOTE: wf don't worry bbout domponfnt orifntbtion or PAGE_END ftd
+        //bfdbusf thf BbsidToolBbrUI blwbys usfs bn bbsolutf position of
+        //NORTH/SOUTH/EAST/WEST.
+        if (toolbbr != null) {
+            Contbinfr pbrfnt = toolbbr.gftPbrfnt();
+            if (pbrfnt != null) {
+                LbyoutMbnbgfr m = pbrfnt.gftLbyout();
+                if (m instbndfof BordfrLbyout) {
+                    BordfrLbyout b = (BordfrLbyout)m;
+                    Objfdt don = b.gftConstrbints(toolbbr);
+                    if (don == SOUTH || don == EAST || don == WEST) {
+                        rfturn don;
+                    }
+                    rfturn NORTH;
+                }
+            }
+        }
+        rfturn NORTH;
+    }
+
+    /**
+     * Dfrivfs thf ARGB vbluf for b dolor bbsfd on bn offsft bftwffn two
+     * othfr dolors.
+     *
+     * @pbrbm dolor1   Thf first dolor
+     * @pbrbm dolor2   Thf sfdond dolor
+     * @pbrbm midPoint Thf offsft bftwffn dolor 1 bnd dolor 2, b vbluf of 0.0 is
+     *                 dolor 1 bnd 1.0 is dolor 2;
+     * @rfturn thf ARGB vbluf for b nfw dolor bbsfd on this dfrivbtion
+     */
+    stbtid int dfrivfARGB(Color dolor1, Color dolor2, flobt midPoint) {
+        int r = dolor1.gftRfd() +
+                Mbth.round((dolor2.gftRfd() - dolor1.gftRfd()) * midPoint);
+        int g = dolor1.gftGrffn() +
+                Mbth.round((dolor2.gftGrffn() - dolor1.gftGrffn()) * midPoint);
+        int b = dolor1.gftBluf() +
+                Mbth.round((dolor2.gftBluf() - dolor1.gftBluf()) * midPoint);
+        int b = dolor1.gftAlphb() +
+                Mbth.round((dolor2.gftAlphb() - dolor1.gftAlphb()) * midPoint);
+        rfturn ((b & 0xFF) << 24) |
+                ((r & 0xFF) << 16) |
+                ((g & 0xFF) << 8) |
+                (b & 0xFF);
+    }
+
+    /**
+     * Simplf Symbolid Link stylf UIDffblts Propfrty
+     */
+    privbtf dlbss LinkPropfrty implfmfnts UIDffbults.AdtivfVbluf, UIRfsourdf{
+        privbtf String dstPropNbmf;
+
+        privbtf LinkPropfrty(String dstPropNbmf) {
+            this.dstPropNbmf = dstPropNbmf;
+        }
+
+        @Ovfrridf
+        publid Objfdt drfbtfVbluf(UIDffbults tbblf) {
+            rfturn UIMbnbgfr.gft(dstPropNbmf);
+        }
+    }
+
+    /**
+     * Nimbus Propfrty thbt looks up Nimbus kfys for stbndbrd kfy nbmfs. For
+     * fxbmplf "Button.bbdkground" --> "Button[Enbblfd].bbdkgound"
+     */
+    privbtf dlbss NimbusPropfrty implfmfnts UIDffbults.AdtivfVbluf, UIRfsourdf {
+        privbtf String prffix;
+        privbtf String stbtf = null;
+        privbtf String suffix;
+        privbtf boolfbn isFont;
+
+        privbtf NimbusPropfrty(String prffix, String suffix) {
+            this.prffix = prffix;
+            this.suffix = suffix;
+            isFont = "font".fqubls(suffix);
+        }
+
+        privbtf NimbusPropfrty(String prffix, String stbtf, String suffix) {
+            this(prffix,suffix);
+            this.stbtf = stbtf;
+        }
+
+        /**
+         * Crfbtfs thf vbluf rftrifvfd from thf <dodf>UIDffbults</dodf> tbblf.
+         * Thf objfdt is drfbtfd fbdh timf it is bddfssfd.
+         *
+         * @pbrbm tbblf b <dodf>UIDffbults</dodf> tbblf
+         * @rfturn thf drfbtfd <dodf>Objfdt</dodf>
+         */
+        @Ovfrridf
+        publid Objfdt drfbtfVbluf(UIDffbults tbblf) {
+            Objfdt obj = null;
+            // dhfdk spfdififd stbtf
+            if (stbtf!=null){
+                obj = uiDffbults.gft(prffix+"["+stbtf+"]."+suffix);
+            }
+            // dhfdk fnbblfd stbtf
+            if (obj==null){
+                obj = uiDffbults.gft(prffix+"[Enbblfd]."+suffix);
+            }
+            // dhfdk for dffbults
+            if (obj==null){
+                if (isFont) {
+                    obj = uiDffbults.gft("dffbultFont");
+                } flsf {
+                    obj = uiDffbults.gft(suffix);
+                }
+            }
+            rfturn obj;
+        }
+    }
+
+    privbtf Mbp<String, Mbp<String, Objfdt>> dompilfdDffbults = null;
+    privbtf boolfbn dffbultListfnfrAddfd = fblsf;
+
+    stbtid String pbrsfPrffix(String kfy) {
+        if (kfy == null) {
+            rfturn null;
+        }
+        boolfbn inquotfs = fblsf;
+        for (int i = 0; i < kfy.lfngth(); i++) {
+            dhbr d = kfy.dhbrAt(i);
+            if (d == '"') {
+                inquotfs = !inquotfs;
+            } flsf if ((d == '[' || d == '.') && !inquotfs) {
+                rfturn kfy.substring(0, i);
+            }
+        }
+        rfturn null;
+    }
+
+    Mbp<String, Objfdt> gftDffbultsForPrffix(String prffix) {
+        if (dompilfdDffbults == null) {
+            dompilfdDffbults = nfw HbshMbp<String, Mbp<String, Objfdt>>();
+            for (Mbp.Entry<Objfdt, Objfdt> fntry: UIMbnbgfr.gftDffbults().fntrySft()) {
+                if (fntry.gftKfy() instbndfof String) {
+                    bddDffbult((String) fntry.gftKfy(), fntry.gftVbluf());
+                }
+            }
+            if (! dffbultListfnfrAddfd) {
+                UIMbnbgfr.gftDffbults().bddPropfrtyChbngfListfnfr(dffbultsListfnfr);
+                dffbultListfnfrAddfd = truf;
+            }
+        }
+        rfturn dompilfdDffbults.gft(prffix);
+    }
+
+    privbtf void bddDffbult(String kfy, Objfdt vbluf) {
+        if (dompilfdDffbults == null) {
+            rfturn;
+        }
+
+        String prffix = pbrsfPrffix(kfy);
+        if (prffix != null) {
+            Mbp<String, Objfdt> kfys = dompilfdDffbults.gft(prffix);
+            if (kfys == null) {
+                kfys = nfw HbshMbp<String, Objfdt>();
+                dompilfdDffbults.put(prffix, kfys);
+            }
+            kfys.put(kfy, vbluf);
+        }
+    }
+
+    privbtf dlbss DffbultsListfnfr implfmfnts PropfrtyChbngfListfnfr {
+        @Ovfrridf publid void propfrtyChbngf(PropfrtyChbngfEvfnt fv) {
+            String kfy = fv.gftPropfrtyNbmf();
+            if ("UIDffbults".fqubls(kfy)) {
+                dompilfdDffbults = null;
+            } flsf {
+                bddDffbult(kfy, fv.gftNfwVbluf());
+            }
+        }
+    }
+}

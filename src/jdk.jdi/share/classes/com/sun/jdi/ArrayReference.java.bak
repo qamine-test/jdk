@@ -1,210 +1,210 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jdi;
+pbdkbgf dom.sun.jdi;
 
-import java.util.List;
+import jbvb.util.List;
 
 /**
- * Provides access to an array object and its components in the target VM.
- * Each array component is mirrored by a {@link Value} object.
- * The array components, in aggregate, are placed in {@link java.util.List}
- * objects instead of arrays for consistency with the rest of the API and
- * for interoperability with other APIs.
+ * Providfs bddfss to bn brrby objfdt bnd its domponfnts in tif tbrgft VM.
+ * Ebdi brrby domponfnt is mirrorfd by b {@link Vbluf} objfdt.
+ * Tif brrby domponfnts, in bggrfgbtf, brf plbdfd in {@link jbvb.util.List}
+ * objfdts instfbd of brrbys for donsistfndy witi tif rfst of tif API bnd
+ * for intfropfrbbility witi otifr APIs.
  *
- * @author Robert Field
- * @author Gordon Hirsch
- * @author James McIlree
- * @since  1.3
+ * @butior Robfrt Fifld
+ * @butior Gordon Hirsdi
+ * @butior Jbmfs MdIlrff
+ * @sindf  1.3
  */
-@jdk.Exported
-public interface ArrayReference extends ObjectReference {
+@jdk.Exportfd
+publid intfrfbdf ArrbyRfffrfndf fxtfnds ObjfdtRfffrfndf {
 
     /**
-     * Returns the number of components in this array.
+     * Rfturns tif numbfr of domponfnts in tiis brrby.
      *
-     * @return the integer count of components in this array.
+     * @rfturn tif intfgfr dount of domponfnts in tiis brrby.
      */
-    int length();
+    int lfngti();
 
     /**
-     * Returns an array component value.
+     * Rfturns bn brrby domponfnt vbluf.
      *
-     * @param index the index of the component to retrieve
-     * @return the {@link Value} at the given index.
-     * @throws java.lang.IndexOutOfBoundsException if
-     * <CODE><I>index</I></CODE> is outside the range of this array,
-     * that is, if either of the following are true:
+     * @pbrbm indfx tif indfx of tif domponfnt to rftrifvf
+     * @rfturn tif {@link Vbluf} bt tif givfn indfx.
+     * @tirows jbvb.lbng.IndfxOutOfBoundsExdfption if
+     * <CODE><I>indfx</I></CODE> is outsidf tif rbngf of tiis brrby,
+     * tibt is, if fitifr of tif following brf truf:
      * <PRE>
-     *    <I>index</I> &lt; 0
-     *    <I>index</I> &gt;= {@link #length() length()} </PRE>
+     *    <I>indfx</I> &lt; 0
+     *    <I>indfx</I> &gt;= {@link #lfngti() lfngti()} </PRE>
      */
-    Value getValue(int index);
+    Vbluf gftVbluf(int indfx);
 
     /**
-     * Returns all of the components in this array.
+     * Rfturns bll of tif domponfnts in tiis brrby.
      *
-     * @return a list of {@link Value} objects, one for each array
-     * component ordered by array index.  For zero length arrays,
-     * an empty list is returned.
+     * @rfturn b list of {@link Vbluf} objfdts, onf for fbdi brrby
+     * domponfnt ordfrfd by brrby indfx.  For zfro lfngti brrbys,
+     * bn fmpty list is rfturnfd.
      */
-    List<Value> getValues();
+    List<Vbluf> gftVblufs();
 
     /**
-     * Returns a range of array components.
+     * Rfturns b rbngf of brrby domponfnts.
      *
-     * @param index the index of the first component to retrieve
-     * @param length the number of components to retrieve, or -1 to
-     * retrieve all components to the end of this array.
-     * @return a list of {@link Value} objects, one for each requested
-     * array component ordered by array index.  When there are
-     * no elements in the specified range (e.g.
-     * <CODE><I>length</I></CODE> is zero) an empty list is returned
+     * @pbrbm indfx tif indfx of tif first domponfnt to rftrifvf
+     * @pbrbm lfngti tif numbfr of domponfnts to rftrifvf, or -1 to
+     * rftrifvf bll domponfnts to tif fnd of tiis brrby.
+     * @rfturn b list of {@link Vbluf} objfdts, onf for fbdi rfqufstfd
+     * brrby domponfnt ordfrfd by brrby indfx.  Wifn tifrf brf
+     * no flfmfnts in tif spfdififd rbngf (f.g.
+     * <CODE><I>lfngti</I></CODE> is zfro) bn fmpty list is rfturnfd
      *
-     * @throws java.lang.IndexOutOfBoundsException if the range
-     * specified with <CODE><I>index</I></CODE> and
-     * <CODE><I>length</I></CODE> is not within the range of the array,
-     * that is, if either of the following are true:
+     * @tirows jbvb.lbng.IndfxOutOfBoundsExdfption if tif rbngf
+     * spfdififd witi <CODE><I>indfx</I></CODE> bnd
+     * <CODE><I>lfngti</I></CODE> is not witiin tif rbngf of tif brrby,
+     * tibt is, if fitifr of tif following brf truf:
      * <PRE>
-     *    <I>index</I> &lt; 0
-     *    <I>index</I> &gt; {@link #length() length()} </PRE>
-     * or if <CODE><I>length</I> != -1</CODE> and
-     * either of the following are true:
+     *    <I>indfx</I> &lt; 0
+     *    <I>indfx</I> &gt; {@link #lfngti() lfngti()} </PRE>
+     * or if <CODE><I>lfngti</I> != -1</CODE> bnd
+     * fitifr of tif following brf truf:
      * <PRE>
-     *    <I>length</I> &lt; 0
-     *    <I>index</I> + <I>length</I> &gt;  {@link #length() length()}</PRE>
+     *    <I>lfngti</I> &lt; 0
+     *    <I>indfx</I> + <I>lfngti</I> &gt;  {@link #lfngti() lfngti()}</PRE>
      */
-    List<Value> getValues(int index, int length);
+    List<Vbluf> gftVblufs(int indfx, int lfngti);
 
     /**
-     * Replaces an array component with another value.
+     * Rfplbdfs bn brrby domponfnt witi bnotifr vbluf.
      * <p>
-     * Object values must be assignment compatible with the component type
-     * (This implies that the component type must be loaded through the
-     * declaring class's class loader). Primitive values must be
-     * either assignment compatible with the component type or must be
-     * convertible to the component type without loss of information.
-     * See JLS section 5.2 for more information on assignment
-     * compatibility.
+     * Objfdt vblufs must bf bssignmfnt dompbtiblf witi tif domponfnt typf
+     * (Tiis implifs tibt tif domponfnt typf must bf lobdfd tirougi tif
+     * dfdlbring dlbss's dlbss lobdfr). Primitivf vblufs must bf
+     * fitifr bssignmfnt dompbtiblf witi tif domponfnt typf or must bf
+     * donvfrtiblf to tif domponfnt typf witiout loss of informbtion.
+     * Sff JLS sfdtion 5.2 for morf informbtion on bssignmfnt
+     * dompbtibility.
      *
-     * @param value the new value
-     * @param index the index of the component to set
-     * @throws java.lang.IndexOutOfBoundsException if
-     * <CODE><I>index</I></CODE> is outside the range of this array,
-     * that is, if either of the following are true:
+     * @pbrbm vbluf tif nfw vbluf
+     * @pbrbm indfx tif indfx of tif domponfnt to sft
+     * @tirows jbvb.lbng.IndfxOutOfBoundsExdfption if
+     * <CODE><I>indfx</I></CODE> is outsidf tif rbngf of tiis brrby,
+     * tibt is, if fitifr of tif following brf truf:
      * <PRE>
-     *    <I>index</I> &lt; 0
-     *    <I>index</I> &gt;= {@link #length() length()} </PRE>
-     * @throws InvalidTypeException if the type of <CODE><I>value</I></CODE>
-     * is not compatible with the declared type of array components.
-     * @throws ClassNotLoadedException if the array component type
-     * has not yet been loaded
-     * through the appropriate class loader.
-     * @throws VMCannotBeModifiedException if the VirtualMachine is read-only - see {@link VirtualMachine#canBeModified()}.
+     *    <I>indfx</I> &lt; 0
+     *    <I>indfx</I> &gt;= {@link #lfngti() lfngti()} </PRE>
+     * @tirows InvblidTypfExdfption if tif typf of <CODE><I>vbluf</I></CODE>
+     * is not dompbtiblf witi tif dfdlbrfd typf of brrby domponfnts.
+     * @tirows ClbssNotLobdfdExdfption if tif brrby domponfnt typf
+     * ibs not yft bffn lobdfd
+     * tirougi tif bppropribtf dlbss lobdfr.
+     * @tirows VMCbnnotBfModififdExdfption if tif VirtublMbdiinf is rfbd-only - sff {@link VirtublMbdiinf#dbnBfModififd()}.
      *
-     * @see ArrayType#componentType()
+     * @sff ArrbyTypf#domponfntTypf()
      */
-    void setValue(int index, Value value)
-            throws InvalidTypeException,
-                   ClassNotLoadedException;
+    void sftVbluf(int indfx, Vbluf vbluf)
+            tirows InvblidTypfExdfption,
+                   ClbssNotLobdfdExdfption;
 
     /**
-     * Replaces all array components with other values. If the given
-     * list is larger in size than the array, the values at the
-     * end of the list are ignored.
+     * Rfplbdfs bll brrby domponfnts witi otifr vblufs. If tif givfn
+     * list is lbrgfr in sizf tibn tif brrby, tif vblufs bt tif
+     * fnd of tif list brf ignorfd.
      * <p>
-     * Object values must be assignment compatible with the element type
-     * (This implies that the component type must be loaded through the
-     * enclosing class's class loader). Primitive values must be
-     * either assignment compatible with the component type or must be
-     * convertible to the component type without loss of information.
-     * See JLS section 5.2 for more information on assignment
-     * compatibility.
+     * Objfdt vblufs must bf bssignmfnt dompbtiblf witi tif flfmfnt typf
+     * (Tiis implifs tibt tif domponfnt typf must bf lobdfd tirougi tif
+     * fndlosing dlbss's dlbss lobdfr). Primitivf vblufs must bf
+     * fitifr bssignmfnt dompbtiblf witi tif domponfnt typf or must bf
+     * donvfrtiblf to tif domponfnt typf witiout loss of informbtion.
+     * Sff JLS sfdtion 5.2 for morf informbtion on bssignmfnt
+     * dompbtibility.
      *
-     * @param values a list of {@link Value} objects to be placed
-     * in this array.  If <CODE><I>values</I>.size()</CODE> is
-     * less that the length of the array, the first
-     * <CODE><I>values</I>.size()</CODE> elements are set.
-     * @throws InvalidTypeException if any of the
-     * new <CODE><I>values</I></CODE>
-     * is not compatible with the declared type of array components.
-     * @throws ClassNotLoadedException if the array component
-     * type has not yet been loaded
-     * through the appropriate class loader.
-     * @throws VMCannotBeModifiedException if the VirtualMachine is read-only - see {@link VirtualMachine#canBeModified()}.
+     * @pbrbm vblufs b list of {@link Vbluf} objfdts to bf plbdfd
+     * in tiis brrby.  If <CODE><I>vblufs</I>.sizf()</CODE> is
+     * lfss tibt tif lfngti of tif brrby, tif first
+     * <CODE><I>vblufs</I>.sizf()</CODE> flfmfnts brf sft.
+     * @tirows InvblidTypfExdfption if bny of tif
+     * nfw <CODE><I>vblufs</I></CODE>
+     * is not dompbtiblf witi tif dfdlbrfd typf of brrby domponfnts.
+     * @tirows ClbssNotLobdfdExdfption if tif brrby domponfnt
+     * typf ibs not yft bffn lobdfd
+     * tirougi tif bppropribtf dlbss lobdfr.
+     * @tirows VMCbnnotBfModififdExdfption if tif VirtublMbdiinf is rfbd-only - sff {@link VirtublMbdiinf#dbnBfModififd()}.
      *
-     * @see ArrayType#componentType()
+     * @sff ArrbyTypf#domponfntTypf()
      */
-    void setValues(List<? extends Value> values)
-            throws InvalidTypeException,
-                   ClassNotLoadedException;
+    void sftVblufs(List<? fxtfnds Vbluf> vblufs)
+            tirows InvblidTypfExdfption,
+                   ClbssNotLobdfdExdfption;
 
     /**
-     * Replaces a range of array components with other values.
+     * Rfplbdfs b rbngf of brrby domponfnts witi otifr vblufs.
      * <p>
-     * Object values must be assignment compatible with the component type
-     * (This implies that the component type must be loaded through the
-     * enclosing class's class loader). Primitive values must be
-     * either assignment compatible with the component type or must be
-     * convertible to the component type without loss of information.
-     * See JLS section 5.2 for more information on assignment
-     * compatibility.
+     * Objfdt vblufs must bf bssignmfnt dompbtiblf witi tif domponfnt typf
+     * (Tiis implifs tibt tif domponfnt typf must bf lobdfd tirougi tif
+     * fndlosing dlbss's dlbss lobdfr). Primitivf vblufs must bf
+     * fitifr bssignmfnt dompbtiblf witi tif domponfnt typf or must bf
+     * donvfrtiblf to tif domponfnt typf witiout loss of informbtion.
+     * Sff JLS sfdtion 5.2 for morf informbtion on bssignmfnt
+     * dompbtibility.
      *
-     * @param index the index of the first component to set.
-     * @param values a list of {@link Value} objects to be placed
-     * in this array.
-     * @param srcIndex the index of the first source value to use.
-     * @param length the number of components to set, or -1 to set
-     * all components to the end of this array or the end of
-     * <CODE><I>values</I></CODE> (whichever comes first).
-     * @throws InvalidTypeException if any element of
-     * <CODE><I>values</I></CODE>
-     * is not compatible with the declared type of array components.
-     * @throws java.lang.IndexOutOfBoundsException if the
-     * array range specified with
-     * <CODE><I>index</I></CODE> and  <CODE><I>length</I></CODE>
-     * is not within the range of the array,
-     * or if the source range specified with
-     * <CODE><I>srcIndex</I></CODE> and <CODE><I>length</I></CODE>
-     * is not within <CODE><I>values</I></CODE>,
-     * that is, if any of the following are true:
+     * @pbrbm indfx tif indfx of tif first domponfnt to sft.
+     * @pbrbm vblufs b list of {@link Vbluf} objfdts to bf plbdfd
+     * in tiis brrby.
+     * @pbrbm srdIndfx tif indfx of tif first sourdf vbluf to usf.
+     * @pbrbm lfngti tif numbfr of domponfnts to sft, or -1 to sft
+     * bll domponfnts to tif fnd of tiis brrby or tif fnd of
+     * <CODE><I>vblufs</I></CODE> (wiidifvfr domfs first).
+     * @tirows InvblidTypfExdfption if bny flfmfnt of
+     * <CODE><I>vblufs</I></CODE>
+     * is not dompbtiblf witi tif dfdlbrfd typf of brrby domponfnts.
+     * @tirows jbvb.lbng.IndfxOutOfBoundsExdfption if tif
+     * brrby rbngf spfdififd witi
+     * <CODE><I>indfx</I></CODE> bnd  <CODE><I>lfngti</I></CODE>
+     * is not witiin tif rbngf of tif brrby,
+     * or if tif sourdf rbngf spfdififd witi
+     * <CODE><I>srdIndfx</I></CODE> bnd <CODE><I>lfngti</I></CODE>
+     * is not witiin <CODE><I>vblufs</I></CODE>,
+     * tibt is, if bny of tif following brf truf:
      * <PRE>
-     *    <I>index</I> &lt; 0
-     *    <I>index</I> &gt; {@link #length() length()}
-     *    <I>srcIndex</I> &lt; 0
-     *    <I>srcIndex</I> &gt; <I>values</I>.size() </PRE>
-     * or if <CODE><I>length</I> != -1</CODE> and any of the
-     * following are true:
+     *    <I>indfx</I> &lt; 0
+     *    <I>indfx</I> &gt; {@link #lfngti() lfngti()}
+     *    <I>srdIndfx</I> &lt; 0
+     *    <I>srdIndfx</I> &gt; <I>vblufs</I>.sizf() </PRE>
+     * or if <CODE><I>lfngti</I> != -1</CODE> bnd bny of tif
+     * following brf truf:
      * <PRE>
-     *    <I>length</I> &lt; 0
-     *    <I>index</I> + <I>length</I> &gt; {@link #length() length()}
-     *    <I>srcIndex</I> + <I>length</I> &gt; <I>values</I>.size() </PRE>
-     * @throws VMCannotBeModifiedException if the VirtualMachine is read-only - see {@link VirtualMachine#canBeModified()}.
-     * @see ArrayType#componentType()
+     *    <I>lfngti</I> &lt; 0
+     *    <I>indfx</I> + <I>lfngti</I> &gt; {@link #lfngti() lfngti()}
+     *    <I>srdIndfx</I> + <I>lfngti</I> &gt; <I>vblufs</I>.sizf() </PRE>
+     * @tirows VMCbnnotBfModififdExdfption if tif VirtublMbdiinf is rfbd-only - sff {@link VirtublMbdiinf#dbnBfModififd()}.
+     * @sff ArrbyTypf#domponfntTypf()
      */
-    void setValues(int index, List<? extends Value> values, int srcIndex, int length)
-            throws InvalidTypeException,
-                   ClassNotLoadedException;
+    void sftVblufs(int indfx, List<? fxtfnds Vbluf> vblufs, int srdIndfx, int lfngti)
+            tirows InvblidTypfExdfption,
+                   ClbssNotLobdfdExdfption;
 }

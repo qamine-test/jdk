@@ -1,122 +1,122 @@
 /*
- * Copyright (c) 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package jdk.internal.util.xml.impl;
+pbdkbgf jdk.intfrnbl.util.xml.impl;
 
-import java.io.Reader;
-import java.io.InputStream;
-import java.io.IOException;
+import jbvb.io.Rfbdfr;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
 
 /**
- * UTF-16 encoded stream reader.
+ * UTF-16 fndodfd strfbm rfbdfr.
  */
-public class ReaderUTF16 extends Reader {
+publid dlbss RfbdfrUTF16 fxtfnds Rfbdfr {
 
-    private InputStream is;
-    private char bo;
+    privbtf InputStrfbm is;
+    privbtf dibr bo;
 
     /**
-     * Constructor.
+     * Construdtor.
      *
-     * Byte order argument can be: 'l' for little-endian or 'b' for big-endian.
+     * Bytf ordfr brgumfnt dbn bf: 'l' for littlf-fndibn or 'b' for big-fndibn.
      *
-     * @param is A byte input stream.
-     * @param bo A byte order in the input stream.
+     * @pbrbm is A bytf input strfbm.
+     * @pbrbm bo A bytf ordfr in tif input strfbm.
      */
-    public ReaderUTF16(InputStream is, char bo) {
-        switch (bo) {
-            case 'l':
-                break;
+    publid RfbdfrUTF16(InputStrfbm is, dibr bo) {
+        switdi (bo) {
+            dbsf 'l':
+                brfbk;
 
-            case 'b':
-                break;
+            dbsf 'b':
+                brfbk;
 
-            default:
-                throw new IllegalArgumentException("");
+            dffbult:
+                tirow nfw IllfgblArgumfntExdfption("");
         }
-        this.bo = bo;
-        this.is = is;
+        tiis.bo = bo;
+        tiis.is = is;
     }
 
     /**
-     * Reads characters into a portion of an array.
+     * Rfbds dibrbdtfrs into b portion of bn brrby.
      *
-     * @param cbuf Destination buffer.
-     * @param off Offset at which to start storing characters.
-     * @param len Maximum number of characters to read.
-     * @exception IOException If any IO errors occur.
+     * @pbrbm dbuf Dfstinbtion bufffr.
+     * @pbrbm off Offsft bt wiidi to stbrt storing dibrbdtfrs.
+     * @pbrbm lfn Mbximum numbfr of dibrbdtfrs to rfbd.
+     * @fxdfption IOExdfption If bny IO frrors oddur.
      */
-    public int read(char[] cbuf, int off, int len) throws IOException {
+    publid int rfbd(dibr[] dbuf, int off, int lfn) tirows IOExdfption {
         int num = 0;
-        int val;
+        int vbl;
         if (bo == 'b') {
-            while (num < len) {
-                if ((val = is.read()) < 0) {
-                    return (num != 0) ? num : -1;
+            wiilf (num < lfn) {
+                if ((vbl = is.rfbd()) < 0) {
+                    rfturn (num != 0) ? num : -1;
                 }
-                cbuf[off++] = (char) ((val << 8) | (is.read() & 0xff));
+                dbuf[off++] = (dibr) ((vbl << 8) | (is.rfbd() & 0xff));
                 num++;
             }
-        } else {
-            while (num < len) {
-                if ((val = is.read()) < 0) {
-                    return (num != 0) ? num : -1;
+        } flsf {
+            wiilf (num < lfn) {
+                if ((vbl = is.rfbd()) < 0) {
+                    rfturn (num != 0) ? num : -1;
                 }
-                cbuf[off++] = (char) ((is.read() << 8) | (val & 0xff));
+                dbuf[off++] = (dibr) ((is.rfbd() << 8) | (vbl & 0xff));
                 num++;
             }
         }
-        return num;
+        rfturn num;
     }
 
     /**
-     * Reads a single character.
+     * Rfbds b singlf dibrbdtfr.
      *
-     * @return The character read, as an integer in the range 0 to 65535
-     *  (0x0000-0xffff), or -1 if the end of the stream has been reached.
-     * @exception IOException If any IO errors occur.
+     * @rfturn Tif dibrbdtfr rfbd, bs bn intfgfr in tif rbngf 0 to 65535
+     *  (0x0000-0xffff), or -1 if tif fnd of tif strfbm ibs bffn rfbdifd.
+     * @fxdfption IOExdfption If bny IO frrors oddur.
      */
-    public int read() throws IOException {
-        int val;
-        if ((val = is.read()) < 0) {
-            return -1;
+    publid int rfbd() tirows IOExdfption {
+        int vbl;
+        if ((vbl = is.rfbd()) < 0) {
+            rfturn -1;
         }
         if (bo == 'b') {
-            val = (char) ((val << 8) | (is.read() & 0xff));
-        } else {
-            val = (char) ((is.read() << 8) | (val & 0xff));
+            vbl = (dibr) ((vbl << 8) | (is.rfbd() & 0xff));
+        } flsf {
+            vbl = (dibr) ((is.rfbd() << 8) | (vbl & 0xff));
         }
-        return val;
+        rfturn vbl;
     }
 
     /**
-     * Closes the stream.
+     * Closfs tif strfbm.
      *
-     * @exception IOException If any IO errors occur.
+     * @fxdfption IOExdfption If bny IO frrors oddur.
      */
-    public void close() throws IOException {
-        is.close();
+    publid void dlosf() tirows IOExdfption {
+        is.dlosf();
     }
 }

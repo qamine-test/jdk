@@ -1,78 +1,78 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 /*
- * $Id: XSLTTransformParameterSpec.java,v 1.4 2005/05/10 16:40:18 mullan Exp $
+ * $Id: XSLTTrbnsformPbrbmftfrSpfd.jbvb,v 1.4 2005/05/10 16:40:18 mullbn Exp $
  */
-package javax.xml.crypto.dsig.spec;
+pbdkbgf jbvbx.xml.drypto.dsig.spfd;
 
-import javax.xml.crypto.dsig.Transform;
-import javax.xml.crypto.XMLStructure;
+import jbvbx.xml.drypto.dsig.Trbnsform;
+import jbvbx.xml.drypto.XMLStrudturf;
 
 /**
- * Parameters for the <a href="http://www.w3.org/TR/1999/REC-xslt-19991116">
- * XSLT Transform Algorithm</a>.
- * The parameters include a namespace-qualified stylesheet element.
+ * Pbrbmftfrs for tif <b irff="ittp://www.w3.org/TR/1999/REC-xslt-19991116">
+ * XSLT Trbnsform Algoritim</b>.
+ * Tif pbrbmftfrs indludf b nbmfspbdf-qublififd stylfsifft flfmfnt.
  *
- * <p>An <code>XSLTTransformParameterSpec</code> is instantiated with a
- * mechanism-dependent (ex: DOM) stylesheet element. For example:
- * <pre>
- *   DOMStructure stylesheet = new DOMStructure(element)
- *   XSLTTransformParameterSpec spec = new XSLTransformParameterSpec(stylesheet);
- * </pre>
- * where <code>element</code> is an {@link org.w3c.dom.Element} containing
- * the namespace-qualified stylesheet element.
+ * <p>An <dodf>XSLTTrbnsformPbrbmftfrSpfd</dodf> is instbntibtfd witi b
+ * mfdibnism-dfpfndfnt (fx: DOM) stylfsifft flfmfnt. For fxbmplf:
+ * <prf>
+ *   DOMStrudturf stylfsifft = nfw DOMStrudturf(flfmfnt)
+ *   XSLTTrbnsformPbrbmftfrSpfd spfd = nfw XSLTrbnsformPbrbmftfrSpfd(stylfsifft);
+ * </prf>
+ * wifrf <dodf>flfmfnt</dodf> is bn {@link org.w3d.dom.Elfmfnt} dontbining
+ * tif nbmfspbdf-qublififd stylfsifft flfmfnt.
  *
- * @author Sean Mullan
- * @author JSR 105 Expert Group
- * @since 1.6
- * @see Transform
+ * @butior Sfbn Mullbn
+ * @butior JSR 105 Expfrt Group
+ * @sindf 1.6
+ * @sff Trbnsform
  */
-public final class XSLTTransformParameterSpec implements TransformParameterSpec{
-    private XMLStructure stylesheet;
+publid finbl dlbss XSLTTrbnsformPbrbmftfrSpfd implfmfnts TrbnsformPbrbmftfrSpfd{
+    privbtf XMLStrudturf stylfsifft;
 
     /**
-     * Creates an <code>XSLTTransformParameterSpec</code> with the specified
-     * stylesheet.
+     * Crfbtfs bn <dodf>XSLTTrbnsformPbrbmftfrSpfd</dodf> witi tif spfdififd
+     * stylfsifft.
      *
-     * @param stylesheet the XSLT stylesheet to be used
-     * @throws NullPointerException if <code>stylesheet</code> is
-     *    <code>null</code>
+     * @pbrbm stylfsifft tif XSLT stylfsifft to bf usfd
+     * @tirows NullPointfrExdfption if <dodf>stylfsifft</dodf> is
+     *    <dodf>null</dodf>
      */
-    public XSLTTransformParameterSpec(XMLStructure stylesheet) {
-        if (stylesheet == null) {
-            throw new NullPointerException();
+    publid XSLTTrbnsformPbrbmftfrSpfd(XMLStrudturf stylfsifft) {
+        if (stylfsifft == null) {
+            tirow nfw NullPointfrExdfption();
         }
-        this.stylesheet = stylesheet;
+        tiis.stylfsifft = stylfsifft;
     }
 
     /**
-     * Returns the stylesheet.
+     * Rfturns tif stylfsifft.
      *
-     * @return the stylesheet
+     * @rfturn tif stylfsifft
      */
-    public XMLStructure getStylesheet() {
-        return stylesheet;
+    publid XMLStrudturf gftStylfsifft() {
+        rfturn stylfsifft;
     }
 }

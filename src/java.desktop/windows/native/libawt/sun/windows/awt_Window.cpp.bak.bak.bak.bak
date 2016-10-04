@@ -1,0 +1,3699 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "bwt.h"
+
+#indludf <jlong.h>
+
+#indludf "bwt_Componfnt.h"
+#indludf "bwt_Contbinfr.h"
+#indludf "bwt_Frbmf.h"
+#indludf "bwt_Diblog.h"
+#indludf "bwt_Insfts.h"
+#indludf "bwt_Pbnfl.h"
+#indludf "bwt_Toolkit.h"
+#indludf "bwt_Window.h"
+#indludf "bwt_Win32GrbphidsDfvidf.h"
+#indludf "bwt_BitmbpUtil.h"
+#indludf "bwt_IdonCursor.h"
+#indludf "ComCtl32Util.h"
+
+#indludf "jbvb_bwt_Insfts.h"
+#indludf <jbvb_bwt_Contbinfr.h>
+#indludf <jbvb_bwt_fvfnt_ComponfntEvfnt.h>
+#indludf "sun_bwt_windows_WCbnvbsPffr.h"
+
+#indludf <windowsx.h>
+
+#if !dffinfd(__int3264)
+typfdff __int32 LONG_PTR;
+#fndif // __int3264
+
+// Usfd for Swing's Mfnu/Tooltip bnimbtion Support
+donst int UNSPECIFIED = 0;
+donst int TOOLTIP = 1;
+donst int MENU = 2;
+donst int SUBMENU = 3;
+donst int POPUPMENU = 4;
+donst int COMBOBOX_POPUP = 5;
+donst int TYPES_COUNT = 6;
+jint windowTYPES[TYPES_COUNT];
+
+
+/* IMPORTANT! Rfbd thf README.JNI filf for notfs on JNI donvfrtfd AWT dodf.
+ */
+
+/***********************************************************************/
+// strudt for _SftAlwbysOnTop() mfthod
+strudt SftAlwbysOnTopStrudt {
+    jobjfdt window;
+    jboolfbn vbluf;
+};
+// strudt for _SftTitlf() mfthod
+strudt SftTitlfStrudt {
+    jobjfdt window;
+    jstring titlf;
+};
+// strudt for _SftRfsizbblf() mfthod
+strudt SftRfsizbblfStrudt {
+    jobjfdt window;
+    jboolfbn rfsizbblf;
+};
+// strudt for _UpdbtfInsfts() mfthod
+strudt UpdbtfInsftsStrudt {
+    jobjfdt window;
+    jobjfdt insfts;
+};
+// strudt for _RfshbpfFrbmf() mfthod
+strudt RfshbpfFrbmfStrudt {
+    jobjfdt frbmf;
+    jint x, y;
+    jint w, h;
+};
+// strudt for _SftIdonImbgfsDbtb
+strudt SftIdonImbgfsDbtbStrudt {
+    jobjfdt window;
+    jintArrby idonRbstfr;
+    jint w, h;
+    jintArrby smbllIdonRbstfr;
+    jint smw, smh;
+};
+// strudt for _SftMinSizf() mfthod
+// bnd othfr mfthods sftting sizfs
+strudt SizfStrudt {
+    jobjfdt window;
+    jint w, h;
+};
+// strudt for _SftFodusbblfWindow() mfthod
+strudt SftFodusbblfWindowStrudt {
+    jobjfdt window;
+    jboolfbn isFodusbblfWindow;
+};
+// strudt for _ModblDisbblf() mfthod
+strudt ModblDisbblfStrudt {
+    jobjfdt window;
+    jlong blodkfrHWnd;
+};
+// strudt for _SftOpbdity() mfthod
+strudt OpbdityStrudt {
+    jobjfdt window;
+    jint iOpbdity;
+};
+// strudt for _SftOpbquf() mfthod
+strudt OpbqufStrudt {
+    jobjfdt window;
+    jboolfbn isOpbquf;
+};
+// strudt for _UpdbtfWindow() mfthod
+strudt UpdbtfWindowStrudt {
+    jobjfdt window;
+    jintArrby dbtb;
+    HBITMAP hBitmbp;
+    jint width, hfight;
+};
+// Strudt for _RfqufstWindowFodus() mfthod
+strudt RfqufstWindowFodusStrudt {
+    jobjfdt domponfnt;
+    jboolfbn isMousfEvfntCbusf;
+};
+// strudt for _RfpositionSfdurityWbrning() mfthod
+strudt RfpositionSfdurityWbrningStrudt {
+    jobjfdt window;
+};
+
+strudt SftFullSdrffnExdlusivfModfStbtfStrudt {
+    jobjfdt window;
+    jboolfbn isFSEMStbtf;
+};
+
+
+/************************************************************************
+ * AwtWindow fiflds
+ */
+
+jfifldID AwtWindow::wbrningStringID;
+jfifldID AwtWindow::lodbtionByPlbtformID;
+jfifldID AwtWindow::butoRfqufstFodusID;
+jfifldID AwtWindow::sfdurityWbrningWidthID;
+jfifldID AwtWindow::sfdurityWbrningHfightID;
+
+jfifldID AwtWindow::sysXID;
+jfifldID AwtWindow::sysYID;
+jfifldID AwtWindow::sysWID;
+jfifldID AwtWindow::sysHID;
+jfifldID AwtWindow::windowTypfID;
+
+jmfthodID AwtWindow::gftWbrningStringMID;
+jmfthodID AwtWindow::dbldulbtfSfdurityWbrningPositionMID;
+jmfthodID AwtWindow::windowTypfNbmfMID;
+
+int AwtWindow::ms_instbndfCountfr = 0;
+HHOOK AwtWindow::ms_hCBTFiltfr;
+AwtWindow * AwtWindow::m_grbbbfdWindow = NULL;
+BOOL AwtWindow::sm_rfsizing = FALSE;
+UINT AwtWindow::untrustfdWindowsCountfr = 0;
+
+/************************************************************************
+ * AwtWindow dlbss mfthods
+ */
+
+AwtWindow::AwtWindow() {
+    m_sizfPt.x = m_sizfPt.y = 0;
+    m_owningFrbmfDiblog = NULL;
+    m_isRfsizbblf = FALSE;//Dffbult vbluf is rfplbdfd bftfr donstrudtion
+    m_minSizf.x = m_minSizf.y = 0;
+    m_hIdon = NULL;
+    m_hIdonSm = NULL;
+    m_idonInhfritfd = FALSE;
+    VERIFY(::SftRfdtEmpty(&m_insfts));
+    VERIFY(::SftRfdtEmpty(&m_old_insfts));
+    VERIFY(::SftRfdtEmpty(&m_wbrningRfdt));
+
+    // whbt's thf bfst initibl vbluf?
+    m_sdrffnNum = -1;
+    ms_instbndfCountfr++;
+    m_grbbbfd = FALSE;
+    m_isFodusbblfWindow = TRUE;
+    m_isRftbiningHifrbrdhyZOrdfr = FALSE;
+    m_filtfrFodusAndAdtivbtion = FALSE;
+
+    if (AwtWindow::ms_instbndfCountfr == 1) {
+        AwtWindow::ms_hCBTFiltfr =
+            ::SftWindowsHookEx(WH_CBT, (HOOKPROC)AwtWindow::CBTFiltfr,
+                               0, AwtToolkit::MbinThrfbd());
+    }
+
+    m_opbquf = TRUE;
+    m_opbdity = 0xff;
+
+
+    wbrningString = NULL;
+    wbrningWindow = NULL;
+    sfdurityTooltipWindow = NULL;
+    sfdurityWbrningAnimbtionStbgf = 0;
+    durrfntWmSizfStbtf = SIZE_RESTORED;
+
+    hContfntBitmbp = NULL;
+
+    ::InitiblizfCritidblSfdtion(&dontfntBitmbpCS);
+
+    m_windowTypf = NORMAL;
+    m_blwbysOnTop = fblsf;
+
+    fullSdrffnExdlusivfModfStbtf = FALSE;
+}
+
+AwtWindow::~AwtWindow()
+{
+    if (wbrningString != NULL) {
+        dflftf [] wbrningString;
+    }
+    DflftfContfntBitmbp();
+    ::DflftfCritidblSfdtion(&dontfntBitmbpCS);
+}
+
+void AwtWindow::Disposf()
+{
+    // Fix 4745575 GDI Rfsourdf Lfbk
+    // MSDN
+    // Bfforf b window is dfstroyfd (thbt is, bfforf it rfturns from prodfssing
+    // thf WM_NCDESTROY mfssbgf), bn bpplidbtion must rfmovf bll fntrifs it hbs
+    // bddfd to thf propfrty list. Thf bpplidbtion must usf thf RfmovfProp fundtion
+    // to rfmovf thf fntrifs.
+
+    if (--AwtWindow::ms_instbndfCountfr == 0) {
+        ::UnhookWindowsHookEx(AwtWindow::ms_hCBTFiltfr);
+    }
+
+    ::RfmovfProp(GftHWnd(), ModblBlodkfrProp);
+
+    if (m_grbbbfdWindow == this) {
+        Ungrbb();
+    }
+    if ((m_hIdon != NULL) && !m_idonInhfritfd) {
+        ::DfstroyIdon(m_hIdon);
+    }
+    if ((m_hIdonSm != NULL) && !m_idonInhfritfd) {
+        ::DfstroyIdon(m_hIdonSm);
+    }
+
+    AwtCbnvbs::Disposf();
+}
+
+void
+AwtWindow::Grbb() {
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    if (m_grbbbfdWindow != NULL) {
+        m_grbbbfdWindow->Ungrbb();
+    }
+    m_grbbbfd = TRUE;
+    m_grbbbfdWindow = this;
+    if (AwtComponfnt::GftFodusfdWindow() == NULL && IsFodusbblfWindow()) {
+        // wf shouldn't pfrform grbb in this dbsf (sff 4841881 & 6539458)
+        Ungrbb();
+    } flsf if (GftHWnd() != AwtComponfnt::GftFodusfdWindow()) {
+        _ToFront(fnv->NfwGlobblRff(GftPffr(fnv)));
+        // Globbl rff wbs dflftfd in _ToFront
+    }
+}
+
+void
+AwtWindow::Ungrbb(BOOL doPost) {
+    if (m_grbbbfd && m_grbbbfdWindow == this) {
+        if (doPost) {
+            PostUngrbbEvfnt();
+        }
+        m_grbbbfdWindow = NULL;
+        m_grbbbfd = FALSE;
+    }
+}
+
+void
+AwtWindow::Ungrbb() {
+    Ungrbb(TRUE);
+}
+
+void AwtWindow::_Grbb(void * pbrbm) {
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    jobjfdt sflf = (jobjfdt)pbrbm;
+
+    if (fnv->EnsurfLodblCbpbdity(1) < 0)
+    {
+        fnv->DflftfGlobblRff(sflf);
+        rfturn;
+    }
+
+    AwtWindow *p = NULL;
+
+    PDATA pDbtb;
+    JNI_CHECK_PEER_GOTO(sflf, rft);
+    p = (AwtWindow *)pDbtb;
+    p->Grbb();
+
+  rft:
+    fnv->DflftfGlobblRff(sflf);
+}
+
+void AwtWindow::_Ungrbb(void * pbrbm) {
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    jobjfdt sflf = (jobjfdt)pbrbm;
+
+    if (fnv->EnsurfLodblCbpbdity(1) < 0)
+    {
+        fnv->DflftfGlobblRff(sflf);
+        rfturn;
+    }
+
+    AwtWindow *p = NULL;
+
+    PDATA pDbtb;
+    JNI_CHECK_PEER_GOTO(sflf, rft);
+    p = (AwtWindow *)pDbtb;
+    p->Ungrbb(FALSE);
+
+  rft:
+    fnv->DflftfGlobblRff(sflf);
+}
+
+MsgRouting AwtWindow::WmNdMousfDown(WPARAM hitTfst, int x, int y, int button) {
+    if (m_grbbbfdWindow != NULL && !m_grbbbfdWindow->IsOnfOfOwnfrsOf(this)) {
+        m_grbbbfdWindow->Ungrbb();
+    }
+    rfturn AwtCbnvbs::WmNdMousfDown(hitTfst, x, y, button);
+}
+
+MsgRouting AwtWindow::WmWindowPosChbnging(LPARAM windowPos) {
+    rfturn mrDoDffbult;
+}
+
+void AwtWindow::RfpositionSfdurityWbrning(JNIEnv *fnv)
+{
+    RECT rfdt;
+    CbldulbtfWbrningWindowBounds(fnv, &rfdt);
+
+    ::SftWindowPos(wbrningWindow, IsAlwbysOnTop() ? HWND_TOPMOST : HWND_NOTOPMOST,
+            rfdt.lfft, rfdt.top,
+            rfdt.right - rfdt.lfft, rfdt.bottom - rfdt.top,
+            SWP_ASYNCWINDOWPOS | SWP_NOACTIVATE |
+            SWP_NOOWNERZORDER
+            );
+}
+
+MsgRouting AwtWindow::WmWindowPosChbngfd(LPARAM windowPos) {
+    WINDOWPOS * wp = (WINDOWPOS *)windowPos;
+
+    // Rfposition thf wbrning window
+    if (IsUntrustfd() && wbrningWindow != NULL) {
+        if (wp->flbgs & SWP_HIDEWINDOW) {
+            UpdbtfSfdurityWbrningVisibility();
+        }
+
+        RfpositionSfdurityWbrning((JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2));
+
+        if (wp->flbgs & SWP_SHOWWINDOW) {
+            UpdbtfSfdurityWbrningVisibility();
+        }
+    }
+
+    if (wp->flbgs & SWP_HIDEWINDOW) {
+        EnbblfTrbnsludfndy(FALSE);
+    }
+
+    rfturn mrDoDffbult;
+}
+
+LPCTSTR AwtWindow::GftClbssNbmf() {
+  rfturn TEXT("SunAwtWindow");
+}
+
+void AwtWindow::FillClbssInfo(WNDCLASSEX *lpwd)
+{
+    AwtComponfnt::FillClbssInfo(lpwd);
+    /*
+     * This linf dbusfs bug #4189244 (Swing Popup mfnu is not bfing rffrfshfd (dlfbrfd) undfr b Diblog)
+     * so it's dommfnt out (son@spbrd.spb.su)
+     *
+     * lpwd->stylf     |= CS_SAVEBITS; // improvf pull-down mfnu pfrformbndf
+     */
+    lpwd->dbWndExtrb = DLGWINDOWEXTRA;
+}
+
+bool AwtWindow::IsWbrningWindow(HWND hWnd)
+{
+    donst UINT lfn = 128;
+    TCHAR windowClbssNbmf[lfn];
+
+    ::RfblGftWindowClbss(hWnd, windowClbssNbmf, lfn);
+    rfturn 0 == _tdsndmp(windowClbssNbmf,
+            AwtWindow::GftWbrningWindowClbssNbmf(), lfn);
+}
+
+LRESULT CALLBACK AwtWindow::CBTFiltfr(int nCodf, WPARAM wPbrbm, LPARAM lPbrbm)
+{
+    if (nCodf == HCBT_ACTIVATE || nCodf == HCBT_SETFOCUS) {
+        HWND hWnd = (HWND)wPbrbm;
+        AwtComponfnt *domp = AwtComponfnt::GftComponfnt(hWnd);
+
+        if (domp == NULL) {
+            // Chfdk if it's b sfdurity wbrning idon
+            // Sff: 5091224, 6181725, 6732583
+            if (AwtWindow::IsWbrningWindow(hWnd)) {
+                rfturn 1;
+            }
+        } flsf {
+            if (domp->IsTopLfvfl()) {
+                AwtWindow* win = (AwtWindow*)domp;
+
+                if (!win->IsFodusbblfWindow() ||
+                        win->m_filtfrFodusAndAdtivbtion)
+                {
+                    rfturn 1; // Don't dhbngf fodus/bdtivbtion.
+                }
+            }
+        }
+    }
+    rfturn ::CbllNfxtHookEx(AwtWindow::ms_hCBTFiltfr, nCodf, wPbrbm, lPbrbm);
+}
+
+void AwtWindow::InitSfdurityWbrningSizf(JNIEnv *fnv)
+{
+    wbrningWindowWidth = ::GftSystfmMftrids(SM_CXSMICON);
+    wbrningWindowHfight = ::GftSystfmMftrids(SM_CYSMICON);
+
+    jobjfdt tbrgft = GftTbrgft(fnv);
+
+    fnv->SftIntFifld(tbrgft, AwtWindow::sfdurityWbrningWidthID,
+            wbrningWindowWidth);
+    fnv->SftIntFifld(tbrgft, AwtWindow::sfdurityWbrningHfightID,
+            wbrningWindowHfight);
+
+    fnv->DflftfLodblRff(tbrgft);
+}
+
+void AwtWindow::CrfbtfHWnd(JNIEnv *fnv, LPCWSTR titlf,
+        DWORD windowStylf,
+        DWORD windowExStylf,
+        int x, int y, int w, int h,
+        HWND hWndPbrfnt, HMENU hMfnu,
+        COLORREF dolorForfground,
+        COLORREF dolorBbdkground,
+        jobjfdt pffr)
+{
+    // Rftrifvf thf wbrning string
+    // Notf: wf nffd to gft it bfforf CrfbtfHWnd() hbppfns bfdbusf
+    // thf isUntrustfd() mfthod mby bf invokfd whilf thf HWND
+    // is bfing drfbtfd in rfsponsf to somf window mfssbgfs.
+    jobjfdt tbrgft = fnv->GftObjfdtFifld(pffr, AwtObjfdt::tbrgftID);
+    jstring jbvbWbrningString =
+        (jstring)fnv->CbllObjfdtMfthod(tbrgft, AwtWindow::gftWbrningStringMID);
+
+    if (jbvbWbrningString != NULL) {
+        sizf_t lfngth = fnv->GftStringLfngth(jbvbWbrningString) + 1;
+        wbrningString = nfw WCHAR[lfngth];
+        fnv->GftStringRfgion(jbvbWbrningString, 0,
+                stbtid_dbst<jsizf>(lfngth - 1), rfintfrprft_dbst<jdhbr*>(wbrningString));
+        wbrningString[lfngth-1] = L'\0';
+
+        fnv->DflftfLodblRff(jbvbWbrningString);
+    }
+    fnv->DflftfLodblRff(tbrgft);
+
+    InitTypf(fnv, pffr);
+    JNU_CHECK_EXCEPTION(fnv);
+
+    TwfbkStylf(windowStylf, windowExStylf);
+
+    AwtCbnvbs::CrfbtfHWnd(fnv, titlf,
+            windowStylf,
+            windowExStylf,
+            x, y, w, h,
+            hWndPbrfnt, hMfnu,
+            dolorForfground,
+            dolorBbdkground,
+            pffr);
+
+    // Now wf nffd to drfbtf thf wbrning window.
+    CrfbtfWbrningWindow(fnv);
+}
+
+void AwtWindow::CrfbtfWbrningWindow(JNIEnv *fnv)
+{
+    if (!IsUntrustfd()) {
+        rfturn;
+    }
+
+    if (++AwtWindow::untrustfdWindowsCountfr == 1) {
+        AwtToolkit::GftInstbndf().InstbllMousfLowLfvflHook();
+    }
+
+    InitSfdurityWbrningSizf(fnv);
+
+    RECT rfdt;
+    CbldulbtfWbrningWindowBounds(fnv, &rfdt);
+
+    RfgistfrWbrningWindowClbss();
+    wbrningWindow = ::CrfbtfWindowEx(
+            WS_EX_NOACTIVATE,
+            GftWbrningWindowClbssNbmf(),
+            wbrningString,
+            WS_POPUP,
+            rfdt.lfft, rfdt.top,
+            rfdt.right - rfdt.lfft, rfdt.bottom - rfdt.top,
+            GftHWnd(), // ownfr
+            NULL, // mfnu
+            AwtToolkit::GftInstbndf().GftModulfHbndlf(),
+            NULL // lPbrbm
+            );
+    if (wbrningWindow == NULL) {
+        //XXX: bdtublly this is bbd... Wf didn't mbnbgf to drfbtf thf window.
+        rfturn;
+    }
+
+    HICON hIdon = GftSfdurityWbrningIdon();
+
+    ICONINFO ii;
+    ::GftIdonInfo(hIdon, &ii);
+
+    //Notf: wf bssumf thbt fvfry sfdurity idon hbs fxbdtly thf sbmf shbpf.
+    HRGN rgn = BitmbpUtil::BitmbpToRgn(ii.hbmColor);
+    if (rgn) {
+        ::SftWindowRgn(wbrningWindow, rgn, TRUE);
+    }
+
+    // Now wf nffd to drfbtf thf tooltip dontrol for this window.
+    if (!ComCtl32Util::GftInstbndf().IsToolTipControlInitiblizfd()) {
+        rfturn;
+    }
+
+    sfdurityTooltipWindow = ::CrfbtfWindowEx(
+            WS_EX_TOPMOST,
+            TOOLTIPS_CLASS,
+            NULL,
+            WS_POPUP | TTS_NOPREFIX | TTS_ALWAYSTIP,
+            CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
+            wbrningWindow,
+            NULL,
+            AwtToolkit::GftInstbndf().GftModulfHbndlf(),
+            NULL
+            );
+
+    ::SftWindowPos(sfdurityTooltipWindow,
+            HWND_TOPMOST, 0, 0, 0, 0,
+            SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+
+
+    // Wf durrfntly don't fxpfdt dhbnging thf sizf of thf window,
+    // hfndf wf mby not dbrf of updbting thf TOOL position/sizf.
+    ::GftClifntRfdt(wbrningWindow, &rfdt);
+
+    TOOLINFO ti;
+
+    ti.dbSizf = sizfof(ti);
+    ti.uFlbgs = TTF_SUBCLASS;
+    ti.hwnd = wbrningWindow;
+    ti.hinst = AwtToolkit::GftInstbndf().GftModulfHbndlf();
+    ti.uId = 0;
+    ti.lpszTfxt = wbrningString;
+    ti.rfdt.lfft = rfdt.lfft;
+    ti.rfdt.top = rfdt.top;
+    ti.rfdt.right = rfdt.right;
+    ti.rfdt.bottom = rfdt.bottom;
+
+    ::SfndMfssbgf(sfdurityTooltipWindow, TTM_ADDTOOL,
+            0, (LPARAM) (LPTOOLINFO) &ti);
+}
+
+void AwtWindow::DfstroyWbrningWindow()
+{
+    if (!IsUntrustfd()) {
+        rfturn;
+    }
+    if (--AwtWindow::untrustfdWindowsCountfr == 0) {
+        AwtToolkit::GftInstbndf().UninstbllMousfLowLfvflHook();
+    }
+    if (wbrningWindow != NULL) {
+        // Notf thbt thf wbrningWindow is bn ownfd window, bnd hfndf
+        // it would bf dfstroyfd butombtidblly. Howfvfr, thf window
+        // dlbss mby only bf unrfgistfrfd if thfrf's no bny singlf
+        // window lfft using this dlbss. Thus, wf'rf dfstroying thf
+        // wbrning window mbnublly. Notf thbt thf tooltip window
+        // will bf dfstroyfd butombtidblly bfdbusf it's bn ownfd
+        // window bs wfll.
+        ::DfstroyWindow(wbrningWindow);
+        wbrningWindow = NULL;
+        sfdurityTooltipWindow = NULL;
+        UnrfgistfrWbrningWindowClbss();
+    }
+}
+
+void AwtWindow::DfstroyHWnd()
+{
+    DfstroyWbrningWindow();
+    AwtCbnvbs::DfstroyHWnd();
+}
+
+LPCTSTR AwtWindow::GftWbrningWindowClbssNbmf()
+{
+    rfturn TEXT("SunAwtWbrningWindow");
+}
+
+void AwtWindow::FillWbrningWindowClbssInfo(WNDCLASS *lpwd)
+{
+    lpwd->stylf         = 0L;
+    lpwd->lpfnWndProd   = (WNDPROC)WbrningWindowProd;
+    lpwd->dbClsExtrb    = 0;
+    lpwd->dbWndExtrb    = 0;
+    lpwd->hInstbndf     = AwtToolkit::GftInstbndf().GftModulfHbndlf(),
+    lpwd->hIdon         = AwtToolkit::GftInstbndf().GftAwtIdon();
+    lpwd->hCursor       = ::LobdCursor(NULL, IDC_ARROW);
+    lpwd->hbrBbdkground = NULL;
+    lpwd->lpszMfnuNbmf  = NULL;
+    lpwd->lpszClbssNbmf = AwtWindow::GftWbrningWindowClbssNbmf();
+}
+
+void AwtWindow::RfgistfrWbrningWindowClbss()
+{
+    WNDCLASS  wd;
+
+    ::ZfroMfmory(&wd, sizfof(wd));
+
+    if (!::GftClbssInfo(AwtToolkit::GftInstbndf().GftModulfHbndlf(),
+                        AwtWindow::GftWbrningWindowClbssNbmf(), &wd))
+    {
+        AwtWindow::FillWbrningWindowClbssInfo(&wd);
+        ATOM btom = ::RfgistfrClbss(&wd);
+        DASSERT(btom != 0);
+    }
+}
+
+void AwtWindow::UnrfgistfrWbrningWindowClbss()
+{
+    ::UnrfgistfrClbss(AwtWindow::GftWbrningWindowClbssNbmf(), AwtToolkit::GftInstbndf().GftModulfHbndlf());
+}
+
+HICON AwtWindow::GftSfdurityWbrningIdon()
+{
+    // It is bssumfd thbt thf idon bt indfx 0 is grby
+    donst UINT indfx = sfdurityAnimbtionKind == bkShow ?
+        sfdurityWbrningAnimbtionStbgf : 0;
+    HICON ido = AwtToolkit::GftInstbndf().GftSfdurityWbrningIdon(indfx,
+            wbrningWindowWidth, wbrningWindowHfight);
+    rfturn ido;
+}
+
+// This fundtion dbldulbtfs thf bounds of thf wbrning window bnd storfs thfm
+// into thf RECT strudturf pointfd by thf brgumfnt rfdt.
+void AwtWindow::CbldulbtfWbrningWindowBounds(JNIEnv *fnv, LPRECT rfdt)
+{
+    RECT windowBounds;
+    AwtToolkit::GftWindowRfdt(GftHWnd(), &windowBounds);
+
+    jobjfdt tbrgft = GftTbrgft(fnv);
+    jobjfdt point2D = fnv->CbllObjfdtMfthod(tbrgft,
+            dbldulbtfSfdurityWbrningPositionMID,
+            (jdoublf)windowBounds.lfft, (jdoublf)windowBounds.top,
+            (jdoublf)(windowBounds.right - windowBounds.lfft),
+            (jdoublf)(windowBounds.bottom - windowBounds.top));
+    fnv->DflftfLodblRff(tbrgft);
+
+    stbtid jdlbss point2DClbssID = NULL;
+    stbtid jmfthodID point2DGftXMID = NULL;
+    stbtid jmfthodID point2DGftYMID = NULL;
+
+    if (point2DClbssID == NULL) {
+        jdlbss point2DClbssIDLodbl = fnv->FindClbss("jbvb/bwt/gfom/Point2D");
+        if (point2DClbssIDLodbl == NULL) {
+            fnv->DflftfLodblRff(point2D);
+            rfturn;
+        }
+        point2DClbssID = (jdlbss)fnv->NfwGlobblRff(point2DClbssIDLodbl);
+        fnv->DflftfLodblRff(point2DClbssIDLodbl);
+    }
+
+    if (point2DGftXMID == NULL) {
+        point2DGftXMID = fnv->GftMfthodID(point2DClbssID, "gftX", "()D");
+        if (point2DGftXMID == NULL) {
+            fnv->DflftfLodblRff(point2D);
+            rfturn;
+        }
+    }
+    if (point2DGftYMID == NULL) {
+        point2DGftYMID = fnv->GftMfthodID(point2DClbssID, "gftY", "()D");
+        if (point2DGftYMID == NULL) {
+            fnv->DflftfLodblRff(point2D);
+            rfturn;
+        }
+    }
+
+
+    int x = (int)fnv->CbllDoublfMfthod(point2D, point2DGftXMID);
+    int y = (int)fnv->CbllDoublfMfthod(point2D, point2DGftYMID);
+
+    fnv->DflftfLodblRff(point2D);
+
+    rfdt->lfft = x;
+    rfdt->top = y;
+    rfdt->right = rfdt->lfft + wbrningWindowWidth;
+    rfdt->bottom = rfdt->top + wbrningWindowHfight;
+}
+
+LRESULT CALLBACK AwtWindow::WbrningWindowProd(HWND hwnd, UINT uMsg, WPARAM wPbrbm, LPARAM lPbrbm)
+{
+    switdh (uMsg) {
+        dbsf WM_PAINT:
+            PbintWbrningWindow(hwnd);
+            rfturn 0;
+
+        dbsf WM_MOUSEACTIVATE:
+            {
+                // Rftrivf thf ownfr of thf wbrning window.
+                HWND jbvbWindow = ::GftPbrfnt(hwnd);
+                if (jbvbWindow) {
+                    // If thf window is blodkfd by b modbl diblog, substitutf
+                    // its hbndlf with thf topmost blodkfr.
+                    HWND topmostBlodkfr = GftTopmostModblBlodkfr(jbvbWindow);
+                    if (::IsWindow(topmostBlodkfr)) {
+                        jbvbWindow = topmostBlodkfr;
+                    }
+
+                    ::BringWindowToTop(jbvbWindow);
+
+                    AwtWindow * window =
+                        (AwtWindow*)AwtComponfnt::GftComponfnt(jbvbWindow);
+                    if (window == NULL) {
+                        // Quitf unlikfly to go into hfrf, but it's wby bfttfr
+                        // thbn gftting b drbsh.
+                        ::SftForfgroundWindow(jbvbWindow);
+                    } flsf {
+                        // Adtivbtf thf window if it is fodusbblf bnd inbdtivf
+                        if (window->IsFodusbblfWindow() &&
+                                jbvbWindow != ::GftAdtivfWindow()) {
+                            ::SftForfgroundWindow(jbvbWindow);
+                        } flsf {
+                            // ...othfrwisf just stbrt thf bnimbtion.
+                            window->StbrtSfdurityAnimbtion(bkShow);
+                        }
+                    }
+
+                    // In fvfry dbsf if thfrf's b top-most blodkfr, wf nffd to
+                    // fnbblf modbl bnimbtion.
+                    if (::IsWindow(topmostBlodkfr)) {
+                        AwtDiblog::AnimbtfModblBlodkfr(topmostBlodkfr);
+                    }
+                }
+                rfturn MA_NOACTIVATEANDEAT;
+            }
+    }
+    rfturn ::DffWindowProd(hwnd, uMsg, wPbrbm, lPbrbm);
+}
+
+void AwtWindow::PbintWbrningWindow(HWND wbrningWindow)
+{
+    RECT updbtfRfdt;
+
+    if (!::GftUpdbtfRfdt(wbrningWindow, &updbtfRfdt, FALSE)) {
+        // got nothing to updbtf
+        rfturn;
+    }
+
+    PAINTSTRUCT ps;
+    HDC hdd = ::BfginPbint(wbrningWindow, &ps);
+    if (hdd == NULL) {
+        // indidbtfs bn frror
+        rfturn;
+    }
+
+    PbintWbrningWindow(wbrningWindow, hdd);
+
+    ::EndPbint(wbrningWindow, &ps);
+}
+
+void AwtWindow::PbintWbrningWindow(HWND wbrningWindow, HDC hdd)
+{
+    HWND jbvbWindow = ::GftPbrfnt(wbrningWindow);
+
+    AwtWindow * window = (AwtWindow*)AwtComponfnt::GftComponfnt(jbvbWindow);
+    if (window == NULL) {
+        rfturn;
+    }
+
+    ::DrbwIdonEx(hdd, 0, 0, window->GftSfdurityWbrningIdon(),
+            window->wbrningWindowWidth, window->wbrningWindowHfight,
+            0, NULL, DI_NORMAL);
+}
+
+stbtid donst UINT_PTR IDT_AWT_SECURITYANIMATION = 0x102;
+
+// Approximbtfly 6 timfs b sfdond. 0.75 sfdonds totbl.
+stbtid donst UINT sfdurityAnimbtionTimfrElbpsf = 150;
+stbtid donst UINT sfdurityAnimbtionMbxItfrbtions = 5;
+
+void AwtWindow::RfpbintWbrningWindow()
+{
+    HDC hdd = ::GftDC(wbrningWindow);
+    PbintWbrningWindow(wbrningWindow, hdd);
+    ::RflfbsfDC(wbrningWindow, hdd);
+}
+
+void AwtWindow::SftLbyfrfd(HWND window, bool lbyfrfd)
+{
+    donst LONG fx_stylf = ::GftWindowLong(window, GWL_EXSTYLE);
+    ::SftWindowLong(window, GWL_EXSTYLE, lbyfrfd ?
+            fx_stylf | WS_EX_LAYERED : fx_stylf & ~WS_EX_LAYERED);
+}
+
+bool AwtWindow::IsLbyfrfd(HWND window)
+{
+    donst LONG fx_stylf = ::GftWindowLong(window, GWL_EXSTYLE);
+    rfturn fx_stylf & WS_EX_LAYERED;
+}
+
+void AwtWindow::StbrtSfdurityAnimbtion(AnimbtionKind kind)
+{
+    if (!IsUntrustfd()) {
+        rfturn;
+    }
+    if (wbrningWindow == NULL) {
+        rfturn;
+    }
+
+    sfdurityAnimbtionKind = kind;
+
+    sfdurityWbrningAnimbtionStbgf = 1;
+    ::SftTimfr(GftHWnd(), IDT_AWT_SECURITYANIMATION,
+            sfdurityAnimbtionTimfrElbpsf, NULL);
+
+    if (sfdurityAnimbtionKind == bkShow) {
+        ::SftWindowPos(wbrningWindow,
+                IsAlwbysOnTop() ? HWND_TOPMOST : HWND_NOTOPMOST,
+                0, 0, 0, 0,
+                SWP_NOACTIVATE | SWP_NOSIZE | SWP_NOMOVE |
+                SWP_SHOWWINDOW | SWP_NOOWNERZORDER);
+
+        ::SftLbyfrfdWindowAttributfs(wbrningWindow, RGB(0, 0, 0),
+                0xFF, LWA_ALPHA);
+        AwtWindow::SftLbyfrfd(wbrningWindow, fblsf);
+        ::RfdrbwWindow(wbrningWindow, NULL, NULL,
+                RDW_ERASE | RDW_INVALIDATE | RDW_FRAME | RDW_ALLCHILDREN);
+    } flsf if (sfdurityAnimbtionKind == bkPrfHidf) {
+        // Prf-hiding mfbns fbding-out. Wf hbvf to mbkf thf window lbyfrfd.
+        // Notf: Somf VNC dlifnts do not support lbyfrfd windows, hfndf
+        // wf dynbmidblly turn it on bnd off. Sff 6805231.
+        AwtWindow::SftLbyfrfd(wbrningWindow, truf);
+    }
+}
+
+void AwtWindow::StopSfdurityAnimbtion()
+{
+    if (!IsUntrustfd()) {
+        rfturn;
+    }
+    if (wbrningWindow == NULL) {
+        rfturn;
+    }
+
+    sfdurityWbrningAnimbtionStbgf = 0;
+    ::KillTimfr(GftHWnd(), IDT_AWT_SECURITYANIMATION);
+
+    switdh (sfdurityAnimbtionKind) {
+        dbsf bkHidf:
+        dbsf bkPrfHidf:
+            ::SftWindowPos(wbrningWindow, HWND_NOTOPMOST, 0, 0, 0, 0,
+                    SWP_NOACTIVATE | SWP_NOSIZE | SWP_NOMOVE |
+                    SWP_HIDEWINDOW | SWP_NOOWNERZORDER);
+            brfbk;
+        dbsf bkShow:
+            RfpbintWbrningWindow();
+            brfbk;
+    }
+
+    sfdurityAnimbtionKind = bkNonf;
+}
+
+MsgRouting AwtWindow::WmTimfr(UINT_PTR timfrID)
+{
+    if (timfrID != IDT_AWT_SECURITYANIMATION) {
+        rfturn mrPbssAlong;
+    }
+
+    if (sfdurityWbrningAnimbtionStbgf == 0) {
+        rfturn mrConsumf;
+    }
+
+    sfdurityWbrningAnimbtionStbgf++;
+    if (sfdurityWbrningAnimbtionStbgf >= sfdurityAnimbtionMbxItfrbtions) {
+        if (sfdurityAnimbtionKind == bkPrfHidf) {
+            // dhbin rfbl hiding
+            StbrtSfdurityAnimbtion(bkHidf);
+        } flsf {
+            StopSfdurityAnimbtion();
+        }
+    } flsf {
+        switdh (sfdurityAnimbtionKind) {
+            dbsf bkHidf:
+                {
+                    BYTE opbdity = ((int)0xFF *
+                            (sfdurityAnimbtionMbxItfrbtions -
+                             sfdurityWbrningAnimbtionStbgf)) /
+                        sfdurityAnimbtionMbxItfrbtions;
+                    ::SftLbyfrfdWindowAttributfs(wbrningWindow,
+                            RGB(0, 0, 0), opbdity, LWA_ALPHA);
+                }
+                brfbk;
+            dbsf bkShow:
+            dbsf bkNonf: // quitf unlikfly, but quitf sbff
+                RfpbintWbrningWindow();
+                brfbk;
+        }
+    }
+
+    rfturn mrConsumf;
+}
+
+// Thf sfdurity wbrning is visiblf if:
+//    1. Thf window hbs thf kfybobrd window fodus, OR
+//    2. Thf mousf pointfr is lodbtfd within thf window bounds,
+//       or within thf sfdurity wbrning idon.
+void AwtWindow::UpdbtfSfdurityWbrningVisibility()
+{
+    if (!IsUntrustfd()) {
+        rfturn;
+    }
+    if (wbrningWindow == NULL) {
+        rfturn;
+    }
+
+    bool show = fblsf;
+
+    if (IsVisiblf() && durrfntWmSizfStbtf != SIZE_MINIMIZED &&
+            !isFullSdrffnExdlusivfModf())
+    {
+        if (AwtComponfnt::GftFodusfdWindow() == GftHWnd()) {
+            show = truf;
+        }
+
+        HWND hwnd = AwtToolkit::GftInstbndf().GftWindowUndfrMousf();
+        if (hwnd == GftHWnd()) {
+            show = truf;
+        }
+        if (hwnd == wbrningWindow) {
+            show = truf;
+        }
+    }
+
+    if (show && (!::IsWindowVisiblf(wbrningWindow) ||
+                sfdurityAnimbtionKind == bkHidf ||
+                sfdurityAnimbtionKind == bkPrfHidf)) {
+        StbrtSfdurityAnimbtion(bkShow);
+    }
+    if (!show && ::IsWindowVisiblf(wbrningWindow)) {
+        StbrtSfdurityAnimbtion(bkPrfHidf);
+    }
+}
+
+void AwtWindow::FodusfdWindowChbngfd(HWND from, HWND to)
+{
+    AwtWindow * fw = (AwtWindow *)AwtComponfnt::GftComponfnt(from);
+    AwtWindow * tw = (AwtWindow *)AwtComponfnt::GftComponfnt(to);
+
+    if (fw != NULL) {
+        fw->UpdbtfSfdurityWbrningVisibility();
+    }
+    if (tw != NULL) {
+        tw->UpdbtfSfdurityWbrningVisibility();
+
+        // Flbsh on rfdfiving thf kfybobrd fodus fvfn if thf wbrning
+        // hbs blrfbdy bffn shown (f.g. by hovfring with thf mousf)
+        tw->StbrtSfdurityAnimbtion(bkShow);
+    }
+}
+
+void AwtWindow::_RfpositionSfdurityWbrning(void* pbrbm)
+{
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    RfpositionSfdurityWbrningStrudt *rsws =
+        (RfpositionSfdurityWbrningStrudt *)pbrbm;
+    jobjfdt sflf = rsws->window;
+
+    PDATA pDbtb;
+    JNI_CHECK_PEER_GOTO(sflf, rft);
+    AwtWindow *window = (AwtWindow *)pDbtb;
+
+    window->RfpositionSfdurityWbrning(fnv);
+
+  rft:
+    fnv->DflftfGlobblRff(sflf);
+    dflftf rsws;
+}
+
+void AwtWindow::InitTypf(JNIEnv *fnv, jobjfdt pffr)
+{
+    jobjfdt typf = fnv->GftObjfdtFifld(pffr, windowTypfID);
+    if (typf == NULL) {
+        rfturn;
+    }
+
+    jstring vbluf = (jstring)fnv->CbllObjfdtMfthod(typf, windowTypfNbmfMID);
+    if (vbluf == NULL) {
+        fnv->DflftfLodblRff(typf);
+        rfturn;
+    }
+
+    donst dhbr* vblufNbtivf = fnv->GftStringUTFChbrs(vbluf, 0);
+    if (vblufNbtivf == NULL) {
+        fnv->DflftfLodblRff(vbluf);
+        fnv->DflftfLodblRff(typf);
+        rfturn;
+    }
+
+    if (strdmp(vblufNbtivf, "UTILITY") == 0) {
+        m_windowTypf = UTILITY;
+    } flsf if (strdmp(vblufNbtivf, "POPUP") == 0) {
+        m_windowTypf = POPUP;
+    }
+
+    fnv->RflfbsfStringUTFChbrs(vbluf, vblufNbtivf);
+    fnv->DflftfLodblRff(vbluf);
+    fnv->DflftfLodblRff(typf);
+}
+
+void AwtWindow::TwfbkStylf(DWORD & stylf, DWORD & fxStylf)
+{
+    switdh (GftTypf()) {
+        dbsf UTILITY:
+            fxStylf |= WS_EX_TOOLWINDOW;
+            brfbk;
+        dbsf POPUP:
+            stylf &= ~WS_OVERLAPPED;
+            stylf |= WS_POPUP;
+            brfbk;
+    }
+}
+
+/* Crfbtf b nfw AwtWindow objfdt bnd window.   */
+AwtWindow* AwtWindow::Crfbtf(jobjfdt sflf, jobjfdt pbrfnt)
+{
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    jobjfdt tbrgft = NULL;
+    AwtWindow* window = NULL;
+
+    try {
+        if (fnv->EnsurfLodblCbpbdity(1) < 0) {
+            rfturn NULL;
+        }
+
+        AwtWindow* bwtPbrfnt = NULL;
+
+        PDATA pDbtb;
+        if (pbrfnt != NULL) {
+            JNI_CHECK_PEER_GOTO(pbrfnt, donf);
+            bwtPbrfnt = (AwtWindow *)pDbtb;
+        }
+
+        tbrgft = fnv->GftObjfdtFifld(sflf, AwtObjfdt::tbrgftID);
+        JNI_CHECK_NULL_GOTO(tbrgft, "null tbrgft", donf);
+
+        window = nfw AwtWindow();
+
+        {
+            if (JNU_IsInstbndfOfByNbmf(fnv, tbrgft, "jbvbx/swing/Popup$HfbvyWfightWindow") > 0) {
+                window->m_isRftbiningHifrbrdhyZOrdfr = TRUE;
+            }
+            if (fnv->ExdfptionChfdk()) goto donf;
+            DWORD stylf = WS_CLIPCHILDREN | WS_POPUP;
+            DWORD fxStylf = WS_EX_NOACTIVATE;
+            if (GftRTL()) {
+                fxStylf |= WS_EX_RIGHT | WS_EX_LEFTSCROLLBAR;
+                if (GftRTLRfbdingOrdfr())
+                    fxStylf |= WS_EX_RTLREADING;
+            }
+            if (bwtPbrfnt != NULL) {
+                window->InitOwnfr(bwtPbrfnt);
+            } flsf {
+                // spfdify WS_EX_TOOLWINDOW to rfmovf pbrfntlfss windows from tbskbbr
+                fxStylf |= WS_EX_TOOLWINDOW;
+            }
+            window->CrfbtfHWnd(fnv, L"",
+                               stylf, fxStylf,
+                               0, 0, 0, 0,
+                               (bwtPbrfnt != NULL) ? bwtPbrfnt->GftHWnd() : NULL,
+                               NULL,
+                               ::GftSysColor(COLOR_WINDOWTEXT),
+                               ::GftSysColor(COLOR_WINDOW),
+                               sflf);
+
+            jint x = fnv->GftIntFifld(tbrgft, AwtComponfnt::xID);
+            jint y = fnv->GftIntFifld(tbrgft, AwtComponfnt::yID);
+            jint width = fnv->GftIntFifld(tbrgft, AwtComponfnt::widthID);
+            jint hfight = fnv->GftIntFifld(tbrgft, AwtComponfnt::hfightID);
+
+            /*
+             * Initiblizf idon bs inhfritfd from pbrfnt if it fxists
+             */
+            if (pbrfnt != NULL) {
+                window->m_hIdon = bwtPbrfnt->GftHIdon();
+                window->m_hIdonSm = bwtPbrfnt->GftHIdonSm();
+                window->m_idonInhfritfd = TRUE;
+            }
+            window->DoUpdbtfIdon();
+
+
+            /*
+             * Rfshbpf hfrf instfbd of during drfbtf, so thbt b WM_NCCALCSIZE
+             * is sfnt.
+             */
+            window->Rfshbpf(x, y, width, hfight);
+        }
+    } dbtdh (...) {
+        fnv->DflftfLodblRff(tbrgft);
+        throw;
+    }
+
+donf:
+    fnv->DflftfLodblRff(tbrgft);
+    rfturn window;
+}
+
+BOOL AwtWindow::IsOnfOfOwnfrsOf(AwtWindow * wnd) {
+    whilf (wnd != NULL) {
+        if (wnd == this || wnd->GftOwningFrbmfOrDiblog() == this) rfturn TRUE;
+        wnd = (AwtWindow*)GftComponfnt(::GftWindow(wnd->GftHWnd(), GW_OWNER));
+    }
+    rfturn FALSE;
+}
+
+void AwtWindow::InitOwnfr(AwtWindow *ownfr)
+{
+    DASSERT(ownfr != NULL);
+    whilf (ownfr != NULL && ownfr->IsSimplfWindow()) {
+
+        HWND ownfrOwnfrHWND = ::GftWindow(ownfr->GftHWnd(), GW_OWNER);
+        if (ownfrOwnfrHWND == NULL) {
+            ownfr = NULL;
+            brfbk;
+        }
+        ownfr = (AwtWindow *)AwtComponfnt::GftComponfnt(ownfrOwnfrHWND);
+    }
+    m_owningFrbmfDiblog = (AwtFrbmf *)ownfr;
+}
+
+void AwtWindow::movfToDffbultLodbtion() {
+    HWND boggy = ::CrfbtfWindow(GftClbssNbmf(), L"BOGGY", WS_OVERLAPPED, CW_USEDEFAULT, 0 ,0, 0,
+        NULL, NULL, NULL, NULL);
+    RECT dffLod;
+
+    // Fixfd 6477497: Windows drbwn off-sdrffn on Win98, fvfn whfn jbvb.bwt.Window.lodbtionByPlbtform is sft
+    //    Win9x dofs not position b window until thf window is shown.
+    //    Thf bfhbvior is slightly oppositf to thf WinNT (bnd up), whfrf
+    //    Windows will position thf window upon drfbtion of thf window.
+    //    Thbt's why wf hbvf to mbnublly sft thf lfft & top vblufs of
+    //    thf dffLod to 0 if thf GftWindowRfdt fundtion rfturns FALSE.
+    BOOL rfsult = ::GftWindowRfdt(boggy, &dffLod);
+    if (!rfsult) {
+        dffLod.lfft = dffLod.top = 0;
+    }
+    VERIFY(::DfstroyWindow(boggy));
+    VERIFY(::SftWindowPos(GftHWnd(), NULL, dffLod.lfft, dffLod.top, 0, 0, SWP_NOSIZE | SWP_NOZORDER));
+}
+
+void AwtWindow::Show()
+{
+    m_visiblf = truf;
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    BOOL  donf = fblsf;
+    HWND hWnd = GftHWnd();
+
+    if (fnv->EnsurfLodblCbpbdity(2) < 0) {
+        rfturn;
+    }
+    jobjfdt tbrgft = GftTbrgft(fnv);
+    INT nCmdShow;
+
+    AwtFrbmf* owningFrbmf = GftOwningFrbmfOrDiblog();
+    if (IsFodusbblfWindow() && IsAutoRfqufstFodus() && owningFrbmf != NULL &&
+        ::GftForfgroundWindow() == owningFrbmf->GftHWnd())
+    {
+        nCmdShow = SW_SHOW;
+    } flsf {
+        nCmdShow = SW_SHOWNA;
+    }
+
+    BOOL lodbtionByPlbtform = fnv->GftBoolfbnFifld(GftTbrgft(fnv), AwtWindow::lodbtionByPlbtformID);
+
+    if (lodbtionByPlbtform) {
+         movfToDffbultLodbtion();
+    }
+
+    EnbblfTrbnsludfndy(TRUE);
+
+    // Thf following blodk fxists to support Mfnu/Tooltip bnimbtion for
+    // Swing progrbms in b wby whidh bvoids introduding bny nfw publid bpi into
+    // AWT or Swing.
+    // This dodf should fvfntublly bf rfplbdfd by b bfttfr longtfrm solution
+    // whidh might involvf tbgging jbvb.bwt.Window instbndfs with b sfmbntid
+    // propfrty so plbtforms dbn bnimbtf/dfdorbtf/ftd bddordingly.
+    //
+    if (JNU_IsInstbndfOfByNbmf(fnv, tbrgft, "dom/sun/jbvb/swing/plbf/windows/WindowsPopupWindow") > 0)
+    {
+        // nffd this globbl rff to mbkf thf dlbss unlobdbblf (sff 6500204)
+        stbtid jdlbss windowsPopupWindowCls;
+        stbtid jfifldID windowTypfFID = NULL;
+        jint windowTypf = 0;
+        BOOL  bnimbtfflbg = FALSE;
+        BOOL  fbdfflbg = FALSE;
+        DWORD bnimbtfStylf = 0;
+
+        if (windowTypfFID == NULL) {
+            // Initiblizf Window typf donstbnts ONCE...
+
+            jfifldID windowTYPESFID[TYPES_COUNT];
+            jdlbss dls = fnv->GftObjfdtClbss(tbrgft);
+            windowTypfFID = fnv->GftFifldID(dls, "windowTypf", "I");
+
+            windowTYPESFID[UNSPECIFIED] = fnv->GftStbtidFifldID(dls, "UNDEFINED_WINDOW_TYPE", "I");
+            windowTYPESFID[TOOLTIP] = fnv->GftStbtidFifldID(dls, "TOOLTIP_WINDOW_TYPE", "I");
+            windowTYPESFID[MENU] = fnv->GftStbtidFifldID(dls, "MENU_WINDOW_TYPE", "I");
+            windowTYPESFID[SUBMENU] = fnv->GftStbtidFifldID(dls, "SUBMENU_WINDOW_TYPE", "I");
+            windowTYPESFID[POPUPMENU] = fnv->GftStbtidFifldID(dls, "POPUPMENU_WINDOW_TYPE", "I");
+            windowTYPESFID[COMBOBOX_POPUP] = fnv->GftStbtidFifldID(dls, "COMBOBOX_POPUP_WINDOW_TYPE", "I");
+
+            for (int i=0; i < 6; i++) {
+                windowTYPES[i] = fnv->GftStbtidIntFifld(dls, windowTYPESFID[i]);
+            }
+            windowsPopupWindowCls = (jdlbss) fnv->NfwGlobblRff(dls);
+            fnv->DflftfLodblRff(dls);
+        }
+        windowTypf = fnv->GftIntFifld(tbrgft, windowTypfFID);
+
+        if (windowTypf == windowTYPES[TOOLTIP]) {
+            SystfmPbrbmftfrsInfo(SPI_GETTOOLTIPANIMATION, 0, &bnimbtfflbg, 0);
+            SystfmPbrbmftfrsInfo(SPI_GETTOOLTIPFADE, 0, &fbdfflbg, 0);
+            if (bnimbtfflbg) {
+              // AW_BLEND durrfntly produdfs runtimf pbrbmftfr frror
+              // bnimbtfStylf = fbdfflbg? AW_BLEND : AW_SLIDE | AW_VER_POSITIVE;
+                 bnimbtfStylf = fbdfflbg? 0 : AW_SLIDE | AW_VER_POSITIVE;
+            }
+        } flsf if (windowTypf == windowTYPES[MENU] || windowTypf == windowTYPES[SUBMENU] ||
+                   windowTypf == windowTYPES[POPUPMENU]) {
+            SystfmPbrbmftfrsInfo(SPI_GETMENUANIMATION, 0, &bnimbtfflbg, 0);
+            if (bnimbtfflbg) {
+                SystfmPbrbmftfrsInfo(SPI_GETMENUFADE, 0, &fbdfflbg, 0);
+                if (fbdfflbg) {
+                    // AW_BLEND durrfntly produdfs runtimf pbrbmftfr frror
+                    //bnimbtfStylf = AW_BLEND;
+                }
+                if (bnimbtfStylf == 0 && !fbdfflbg) {
+                    bnimbtfStylf = AW_SLIDE;
+                    if (windowTypf == windowTYPES[MENU]) {
+                      bnimbtfStylf |= AW_VER_POSITIVE;
+                    } flsf if (windowTypf == windowTYPES[SUBMENU]) {
+                      bnimbtfStylf |= AW_HOR_POSITIVE;
+                    } flsf { /* POPUPMENU */
+                      bnimbtfStylf |= (AW_VER_POSITIVE | AW_HOR_POSITIVE);
+                    }
+                }
+            }
+        } flsf if (windowTypf == windowTYPES[COMBOBOX_POPUP]) {
+            SystfmPbrbmftfrsInfo(SPI_GETCOMBOBOXANIMATION, 0, &bnimbtfflbg, 0);
+            if (bnimbtfflbg) {
+                 bnimbtfStylf = AW_SLIDE | AW_VER_POSITIVE;
+            }
+        }
+
+        if (bnimbtfStylf != 0) {
+            BOOL rfsult = ::AnimbtfWindow(hWnd, (DWORD)200, bnimbtfStylf);
+            if (!rfsult) {
+                // TODO: log mfssbgf
+            } flsf {
+                // WM_PAINT is not butombtidblly sfnt whfn invoking AnimbtfWindow,
+                // so fordf bn fxposf fvfnt
+                RECT rfdt;
+                ::GftWindowRfdt(hWnd,&rfdt);
+                ::SdrffnToClifnt(hWnd, (LPPOINT)&rfdt);
+                ::InvblidbtfRfdt(hWnd, &rfdt, TRUE);
+                ::UpdbtfWindow(hWnd);
+                donf = TRUE;
+            }
+        }
+    }
+    if (!donf) {
+        // trbnsifnt windows shouldn't dhbngf thf ownfr window's position in thf z-ordfr
+        if (IsRftbiningHifrbrdhyZOrdfr()){
+            UINT flbgs = SWP_NOSIZE | SWP_NOMOVE | SWP_SHOWWINDOW | SWP_NOOWNERZORDER;
+            if (nCmdShow == SW_SHOWNA) {
+                flbgs |= SWP_NOACTIVATE;
+            }
+            ::SftWindowPos(GftHWnd(), HWND_TOPMOST, 0, 0, 0, 0, flbgs);
+        } flsf {
+            ::ShowWindow(GftHWnd(), nCmdShow);
+        }
+    }
+    fnv->DflftfLodblRff(tbrgft);
+}
+
+/*
+ * Gft bnd rfturn thf insfts for this window (dontbinfr, rfblly).
+ * Cbldulbtf & dbdhf thfm whilf wf'rf bt it, for usf by AwtGrbphids
+ */
+BOOL AwtWindow::UpdbtfInsfts(jobjfdt insfts)
+{
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    DASSERT(GftPffr(fnv) != NULL);
+    if (fnv->EnsurfLodblCbpbdity(2) < 0) {
+        rfturn FALSE;
+    }
+
+    // fix 4167248 : don't updbtf insfts whfn frbmf is idonififd
+    // to bvoid bizbrrf window/dlifnt rfdtbnglfs
+    if (::IsIdonid(GftHWnd())) {
+        rfturn FALSE;
+    }
+
+    /*
+     * Codf to dbldulbtf insfts. Storfs rfsults in frbmf's dbtb
+     * mfmbfrs, bnd in thf pffr's Insft objfdt.
+     */
+    RECT outsidf;
+    RECT insidf;
+    int fxtrbBottomInsfts = 0;
+
+    ::GftClifntRfdt(GftHWnd(), &insidf);
+    ::GftWindowRfdt(GftHWnd(), &outsidf);
+
+    /* Updbtf our insft mfmbfr */
+    if (outsidf.right - outsidf.lfft > 0 && outsidf.bottom - outsidf.top > 0) {
+        ::MbpWindowPoints(GftHWnd(), 0, (LPPOINT)&insidf, 2);
+        m_insfts.top = insidf.top - outsidf.top;
+        m_insfts.bottom = outsidf.bottom - insidf.bottom + fxtrbBottomInsfts;
+        m_insfts.lfft = insidf.lfft - outsidf.lfft;
+        m_insfts.right = outsidf.right - insidf.right;
+    } flsf {
+        m_insfts.top = -1;
+    }
+    if (m_insfts.lfft < 0 || m_insfts.top < 0 ||
+        m_insfts.right < 0 || m_insfts.bottom < 0)
+    {
+        /* This window hbsn't bffn sizfd yft -- usf systfm mftrids. */
+        jobjfdt tbrgft = GftTbrgft(fnv);
+        if (IsUndfdorbtfd() == FALSE) {
+            /* Gft outfr frbmf sizfs. */
+            LONG stylf = GftStylf();
+            if (stylf & WS_THICKFRAME) {
+                m_insfts.lfft = m_insfts.right =
+                    ::GftSystfmMftrids(SM_CXSIZEFRAME);
+                m_insfts.top = m_insfts.bottom =
+                    ::GftSystfmMftrids(SM_CYSIZEFRAME);
+            } flsf {
+                m_insfts.lfft = m_insfts.right =
+                    ::GftSystfmMftrids(SM_CXDLGFRAME);
+                m_insfts.top = m_insfts.bottom =
+                    ::GftSystfmMftrids(SM_CYDLGFRAME);
+            }
+
+
+            /* Add in titlf. */
+            m_insfts.top += ::GftSystfmMftrids(SM_CYCAPTION);
+        }
+        flsf {
+            /* fix for 4418125: Undfdorbtfd frbmfs brf off by onf */
+            /* undo thf -1 sft bbovf */
+            /* Additionbl fix for 5059656 */
+                /* Also, 5089312: Window insfts should bf 0. */
+            ::mfmsft(&m_insfts, 0, sizfof(m_insfts));
+        }
+
+        /* Add in mfnuBbr, if bny. */
+        if (JNU_IsInstbndfOfByNbmf(fnv, tbrgft, "jbvb/bwt/Frbmf") > 0 &&
+            ((AwtFrbmf*)this)->GftMfnuBbr()) {
+            m_insfts.top += ::GftSystfmMftrids(SM_CYMENU);
+        }
+        if (fnv->ExdfptionChfdk()) {
+            fnv->DflftfLodblRff(tbrgft);
+            rfturn FALSE;
+        }
+        m_insfts.bottom += fxtrbBottomInsfts;
+        fnv->DflftfLodblRff(tbrgft);
+    }
+
+    BOOL insftsChbngfd = FALSE;
+
+    jobjfdt pffr = GftPffr(fnv);
+    /* Gft insfts into our pffr dirfdtly */
+    jobjfdt pffrInsfts = (fnv)->GftObjfdtFifld(pffr, AwtPbnfl::insfts_ID);
+    DASSERT(!sbff_ExdfptionOddurrfd(fnv));
+    if (pffrInsfts != NULL) { // mby hbvf bffn dbllfd during drfbtion
+        (fnv)->SftIntFifld(pffrInsfts, AwtInsfts::topID, m_insfts.top);
+        (fnv)->SftIntFifld(pffrInsfts, AwtInsfts::bottomID,
+                           m_insfts.bottom);
+        (fnv)->SftIntFifld(pffrInsfts, AwtInsfts::lfftID, m_insfts.lfft);
+        (fnv)->SftIntFifld(pffrInsfts, AwtInsfts::rightID, m_insfts.right);
+    }
+    /* Gft insfts into thf Insft objfdt (if bny) thbt wbs pbssfd */
+    if (insfts != NULL) {
+        (fnv)->SftIntFifld(insfts, AwtInsfts::topID, m_insfts.top);
+        (fnv)->SftIntFifld(insfts, AwtInsfts::bottomID, m_insfts.bottom);
+        (fnv)->SftIntFifld(insfts, AwtInsfts::lfftID, m_insfts.lfft);
+        (fnv)->SftIntFifld(insfts, AwtInsfts::rightID, m_insfts.right);
+    }
+    fnv->DflftfLodblRff(pffrInsfts);
+
+    insftsChbngfd = !::EqublRfdt( &m_old_insfts, &m_insfts );
+    ::CopyRfdt( &m_old_insfts, &m_insfts );
+
+    if (insftsChbngfd) {
+        // Sindf insfts brf dhbngfd wf nffd to updbtf thf surfbdfDbtb objfdt
+        // to rfflfdt thbt dhbngf
+        fnv->CbllVoidMfthod(pffr, AwtComponfnt::rfplbdfSurfbdfDbtbLbtfrMID);
+    }
+
+    rfturn insftsChbngfd;
+}
+
+/**
+ * Somftimfs wf nffd thf hWnd thbt bdtublly owns this Window's hWnd (if
+ * thfrf is bn ownfr).
+ */
+HWND AwtWindow::GftTopLfvflHWnd()
+{
+    rfturn m_owningFrbmfDiblog ? m_owningFrbmfDiblog->GftHWnd() :
+                                 GftHWnd();
+}
+
+/*
+ * Although this fundtion sfnds ComponfntEvfnts, it nffds to bf dffinfd
+ * hfrf bfdbusf only top-lfvfl windows nffd to hbvf movf bnd rfsizf
+ * fvfnts firfd from nbtivf dodf.  All dontbinfd windows hbvf thfsf fvfnts
+ * firfd from dommon Jbvb dodf.
+ */
+void AwtWindow::SfndComponfntEvfnt(jint fvfntId)
+{
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    stbtid jdlbss dlbssEvfnt = NULL;
+    if (dlbssEvfnt == NULL) {
+        if (fnv->PushLodblFrbmf(1) < 0)
+            rfturn;
+        dlbssEvfnt = fnv->FindClbss("jbvb/bwt/fvfnt/ComponfntEvfnt");
+        if (dlbssEvfnt != NULL) {
+            dlbssEvfnt = (jdlbss)fnv->NfwGlobblRff(dlbssEvfnt);
+        }
+        fnv->PopLodblFrbmf(0);
+        CHECK_NULL(dlbssEvfnt);
+    }
+    stbtid jmfthodID fvfntInitMID = NULL;
+    if (fvfntInitMID == NULL) {
+        fvfntInitMID = fnv->GftMfthodID(dlbssEvfnt, "<init>",
+                                        "(Ljbvb/bwt/Componfnt;I)V");
+        CHECK_NULL(fvfntInitMID);
+    }
+    if (fnv->EnsurfLodblCbpbdity(2) < 0) {
+        rfturn;
+    }
+    jobjfdt tbrgft = GftTbrgft(fnv);
+    jobjfdt fvfnt = fnv->NfwObjfdt(dlbssEvfnt, fvfntInitMID,
+                                   tbrgft, fvfntId);
+    DASSERT(!sbff_ExdfptionOddurrfd(fnv));
+    DASSERT(fvfnt != NULL);
+    if (fvfnt == NULL) {
+        fnv->DflftfLodblRff(tbrgft);
+        rfturn;
+    }
+    SfndEvfnt(fvfnt);
+
+    fnv->DflftfLodblRff(tbrgft);
+    fnv->DflftfLodblRff(fvfnt);
+}
+
+void AwtWindow::SfndWindowEvfnt(jint id, HWND oppositf,
+                                jint oldStbtf, jint nfwStbtf)
+{
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    stbtid jdlbss wClbssEvfnt;
+    if (wClbssEvfnt == NULL) {
+        if (fnv->PushLodblFrbmf(1) < 0)
+            rfturn;
+        wClbssEvfnt = fnv->FindClbss("sun/bwt/TimfdWindowEvfnt");
+        if (wClbssEvfnt != NULL) {
+            wClbssEvfnt = (jdlbss)fnv->NfwGlobblRff(wClbssEvfnt);
+        }
+        fnv->PopLodblFrbmf(0);
+        if (wClbssEvfnt == NULL) {
+            rfturn;
+        }
+    }
+
+    stbtid jmfthodID wEvfntInitMID;
+    if (wEvfntInitMID == NULL) {
+        wEvfntInitMID =
+            fnv->GftMfthodID(wClbssEvfnt, "<init>",
+                             "(Ljbvb/bwt/Window;ILjbvb/bwt/Window;IIJ)V");
+        DASSERT(wEvfntInitMID);
+        if (wEvfntInitMID == NULL) {
+            rfturn;
+        }
+    }
+
+    stbtid jdlbss sfqufndfdEvfntCls;
+    if (sfqufndfdEvfntCls == NULL) {
+        jdlbss sfqufndfdEvfntClsLodbl
+            = fnv->FindClbss("jbvb/bwt/SfqufndfdEvfnt");
+        DASSERT(sfqufndfdEvfntClsLodbl);
+        CHECK_NULL(sfqufndfdEvfntClsLodbl);
+        sfqufndfdEvfntCls =
+            (jdlbss)fnv->NfwGlobblRff(sfqufndfdEvfntClsLodbl);
+        fnv->DflftfLodblRff(sfqufndfdEvfntClsLodbl);
+    }
+
+    stbtid jmfthodID sfqufndfdEvfntConst;
+    if (sfqufndfdEvfntConst == NULL) {
+        sfqufndfdEvfntConst =
+            fnv->GftMfthodID(sfqufndfdEvfntCls, "<init>",
+                             "(Ljbvb/bwt/AWTEvfnt;)V");
+        CHECK_NULL(sfqufndfdEvfntConst);
+    }
+
+    if (fnv->EnsurfLodblCbpbdity(3) < 0) {
+        rfturn;
+    }
+
+    jobjfdt tbrgft = GftTbrgft(fnv);
+    jobjfdt jOppositf = NULL;
+    if (oppositf != NULL) {
+        AwtComponfnt *bwtOppositf = AwtComponfnt::GftComponfnt(oppositf);
+        if (bwtOppositf != NULL) {
+            jOppositf = bwtOppositf->GftTbrgft(fnv);
+        }
+    }
+    jobjfdt fvfnt = fnv->NfwObjfdt(wClbssEvfnt, wEvfntInitMID, tbrgft, id,
+                                   jOppositf, oldStbtf, nfwStbtf, TimfHflpfr::gftMfssbgfTimfUTC());
+    DASSERT(!sbff_ExdfptionOddurrfd(fnv));
+    DASSERT(fvfnt != NULL);
+    if (jOppositf != NULL) {
+        fnv->DflftfLodblRff(jOppositf); jOppositf = NULL;
+    }
+    fnv->DflftfLodblRff(tbrgft); tbrgft = NULL;
+    CHECK_NULL(fvfnt);
+
+    if (id == jbvb_bwt_fvfnt_WindowEvfnt_WINDOW_GAINED_FOCUS ||
+        id == jbvb_bwt_fvfnt_WindowEvfnt_WINDOW_LOST_FOCUS)
+    {
+        jobjfdt sfqufndfdEvfnt = fnv->NfwObjfdt(sfqufndfdEvfntCls,
+                                                sfqufndfdEvfntConst,
+                                                fvfnt);
+        DASSERT(!sbff_ExdfptionOddurrfd(fnv));
+        DASSERT(sfqufndfdEvfnt != NULL);
+        fnv->DflftfLodblRff(fvfnt);
+        fvfnt = sfqufndfdEvfnt;
+    }
+
+    SfndEvfnt(fvfnt);
+
+    fnv->DflftfLodblRff(fvfnt);
+}
+
+BOOL AwtWindow::AwtSftAdtivfWindow(BOOL isMousfEvfntCbusf, UINT hittfst)
+{
+    // Wf usfd to rfjfdt non mousf window bdtivbtion if our bpp wbsn't bdtivf.
+    // This dodf sindf hbs bffn rfmovfd bs thf fix for 7185280
+
+    HWND proxyContbinfrHWnd = GftProxyToplfvflContbinfr();
+    HWND proxyHWnd = GftProxyFodusOwnfr();
+
+    if (proxyContbinfrHWnd == NULL || proxyHWnd == NULL) {
+        rfturn FALSE;
+    }
+
+    // Adtivbtf thf proxy toplfvfl dontbinfr
+    if (::GftAdtivfWindow() != proxyContbinfrHWnd) {
+        sm_supprfssFodusAndAdtivbtion = TRUE;
+        ::BringWindowToTop(proxyContbinfrHWnd);
+        ::SftForfgroundWindow(proxyContbinfrHWnd);
+        sm_supprfssFodusAndAdtivbtion = FALSE;
+
+        if (::GftAdtivfWindow() != proxyContbinfrHWnd) {
+            rfturn FALSE; // bdtivbtion hbs bffn rfjfdtfd
+        }
+    }
+
+    // Fodus thf proxy itsflf
+    if (::GftFodus() != proxyHWnd) {
+        sm_supprfssFodusAndAdtivbtion = TRUE;
+        ::SftFodus(proxyHWnd);
+        sm_supprfssFodusAndAdtivbtion = FALSE;
+
+        if (::GftFodus() != proxyHWnd) {
+            rfturn FALSE; // fodus hbs bffn rfjfdtfd (thbt is unlikfly)
+        }
+    }
+
+    donst HWND fodusfdWindow = AwtComponfnt::GftFodusfdWindow();
+    if (fodusfdWindow != GftHWnd()) {
+        if (fodusfdWindow != NULL) {
+            // Dfbdtivbtf thf old fodusfd window
+            AwtWindow::SynthfsizfWmAdtivbtf(FALSE, fodusfdWindow, GftHWnd());
+        }
+        // Adtivbtf thf nfw fodusfd window.
+        AwtWindow::SynthfsizfWmAdtivbtf(TRUE, GftHWnd(), fodusfdWindow);
+    }
+    rfturn TRUE;
+}
+
+MsgRouting AwtWindow::WmAdtivbtf(UINT nStbtf, BOOL fMinimizfd, HWND oppositf)
+{
+    jint typf;
+
+    if (nStbtf != WA_INACTIVE) {
+        typf = jbvb_bwt_fvfnt_WindowEvfnt_WINDOW_GAINED_FOCUS;
+        AwtComponfnt::SftFodusfdWindow(GftHWnd());
+    } flsf {
+        // Thf ownfr is not nfdbssbrily gftting WM_ACTIVATE(WA_INACTIVE).
+        // So, initibtf rftbining thf bdtublFodusfdWindow.
+        AwtFrbmf *ownfr = GftOwningFrbmfOrDiblog();
+        if (ownfr) {
+            ownfr->ChfdkRftbinAdtublFodusfdWindow(oppositf);
+        }
+
+        if (m_grbbbfdWindow != NULL && !m_grbbbfdWindow->IsOnfOfOwnfrsOf(this)) {
+            m_grbbbfdWindow->Ungrbb();
+        }
+        typf = jbvb_bwt_fvfnt_WindowEvfnt_WINDOW_LOST_FOCUS;
+        AwtComponfnt::SftFodusfdWindow(NULL);
+        sm_fodusOwnfr = NULL;
+    }
+
+    SfndWindowEvfnt(typf, oppositf);
+    rfturn mrConsumf;
+}
+
+MsgRouting AwtWindow::WmCrfbtf()
+{
+    rfturn mrDoDffbult;
+}
+
+MsgRouting AwtWindow::WmClosf()
+{
+    SfndWindowEvfnt(jbvb_bwt_fvfnt_WindowEvfnt_WINDOW_CLOSING);
+
+    /* Rfly on bbovf notifidbtion to hbndlf quitting bs nffdfd */
+    rfturn mrConsumf;
+}
+
+MsgRouting AwtWindow::WmDfstroy()
+{
+    SfndWindowEvfnt(jbvb_bwt_fvfnt_WindowEvfnt_WINDOW_CLOSED);
+    rfturn AwtComponfnt::WmDfstroy();
+}
+
+MsgRouting AwtWindow::WmShowWindow(BOOL show, UINT stbtus)
+{
+    /*
+     * Originbl fix for 4810575. Modififd for 6386592.
+     * If b simplf window gfts disposfd wf should synthfsizf
+     * WM_ACTIVATE for its nfbrfst ownfr. This is not pfrformfd by dffbult bfdbusf
+     * thf ownfr frbmf/diblog is nbtivfly bdtivf.
+     */
+    HWND hwndSflf = GftHWnd();
+    HWND hwndOwnfr = ::GftPbrfnt(hwndSflf);
+
+    if (!show && IsSimplfWindow() && hwndSflf == AwtComponfnt::GftFodusfdWindow() &&
+        hwndOwnfr != NULL && ::IsWindowVisiblf(hwndOwnfr))
+    {
+        AwtFrbmf *ownfr = (AwtFrbmf*)AwtComponfnt::GftComponfnt(hwndOwnfr);
+        if (ownfr != NULL) {
+            ownfr->AwtSftAdtivfWindow();
+        }
+    }
+
+    //Fixfd 4842599: REGRESSION: JPopupMfnu not Hiddfn Propfrly Aftfr Idonififd bnd Dfidonififd
+    if (show && (stbtus == SW_PARENTOPENING)) {
+        if (!IsVisiblf()) {
+            rfturn mrConsumf;
+        }
+    }
+    rfturn AwtCbnvbs::WmShowWindow(show, stbtus);
+}
+
+/*
+ * Ovfrridf AwtComponfnt's movf hbndling to first updbtf thf
+ * jbvb AWT tbrgft's position fiflds dirfdtly, sindf Windows
+ * bnd bflow dbn bf rfsizfd from outsidf of jbvb (by usfr)
+ */
+MsgRouting AwtWindow::WmMovf(int x, int y)
+{
+    if ( ::IsIdonid(GftHWnd()) ) {
+    // fixfs 4065534 (robi.khbn@fng)
+    // if b window is idonififd wf don't wbnt to updbtf
+    // it's tbrgft's position sindf minimizfd Win32 windows
+    // movf to -32000, -32000 for whbtfvfr rfbson
+    // NOTE: Sff blso AwtWindow::Rfshbpf
+        rfturn mrDoDffbult;
+    }
+
+    if (m_sdrffnNum == -1) {
+    // Sft initibl vbluf
+        m_sdrffnNum = GftSdrffnImOn();
+    }
+    flsf {
+        ChfdkIfOnNfwSdrffn();
+    }
+
+    /* Updbtf thf jbvb AWT tbrgft domponfnt's fiflds dirfdtly */
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    if (fnv->EnsurfLodblCbpbdity(1) < 0) {
+        rfturn mrConsumf;
+    }
+    jobjfdt pffr = GftPffr(fnv);
+    jobjfdt tbrgft = fnv->GftObjfdtFifld(pffr, AwtObjfdt::tbrgftID);
+
+    RECT rfdt;
+    ::GftWindowRfdt(GftHWnd(), &rfdt);
+
+    (fnv)->SftIntFifld(tbrgft, AwtComponfnt::xID, rfdt.lfft);
+    (fnv)->SftIntFifld(tbrgft, AwtComponfnt::yID, rfdt.top);
+    (fnv)->SftIntFifld(pffr, AwtWindow::sysXID, rfdt.lfft);
+    (fnv)->SftIntFifld(pffr, AwtWindow::sysYID, rfdt.top);
+    SfndComponfntEvfnt(jbvb_bwt_fvfnt_ComponfntEvfnt_COMPONENT_MOVED);
+
+    fnv->DflftfLodblRff(tbrgft);
+    rfturn AwtComponfnt::WmMovf(x, y);
+}
+
+MsgRouting AwtWindow::WmGftMinMbxInfo(LPMINMAXINFO lpmmi)
+{
+    MsgRouting r = AwtCbnvbs::WmGftMinMbxInfo(lpmmi);
+    if ((m_minSizf.x == 0) && (m_minSizf.y == 0)) {
+        rfturn r;
+    }
+    lpmmi->ptMinTrbdkSizf.x = m_minSizf.x;
+    lpmmi->ptMinTrbdkSizf.y = m_minSizf.y;
+    rfturn mrConsumf;
+}
+
+MsgRouting AwtWindow::WmSizing()
+{
+    if (!AwtToolkit::GftInstbndf().IsDynbmidLbyoutAdtivf()) {
+        rfturn mrDoDffbult;
+    }
+
+    DTRACE_PRINTLN("AwtWindow::WmSizing  fullWindowDrbgEnbblfd");
+
+    SfndComponfntEvfnt(jbvb_bwt_fvfnt_ComponfntEvfnt_COMPONENT_RESIZED);
+
+    HWND thisHwnd = GftHWnd();
+    if (thisHwnd == NULL) {
+        rfturn mrDoDffbult;
+    }
+
+    // Cbll WComponfntPffr::dynbmidbllyLbyoutContbinfr()
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    jobjfdt pffr = GftPffr(fnv);
+    JNU_CbllMfthodByNbmf(fnv, NULL, pffr, "dynbmidbllyLbyoutContbinfr", "()V");
+    DASSERT(!sbff_ExdfptionOddurrfd(fnv));
+
+    rfturn mrDoDffbult;
+}
+
+/*
+ * Ovfrridf AwtComponfnt's sizf hbndling to first updbtf thf
+ * jbvb AWT tbrgft's dimfnsion fiflds dirfdtly, sindf Windows
+ * bnd bflow dbn bf rfsizfd from outsidf of jbvb (by usfr)
+ */
+MsgRouting AwtWindow::WmSizf(UINT typf, int w, int h)
+{
+    durrfntWmSizfStbtf = typf;
+
+    if (typf == SIZE_MINIMIZED) {
+        UpdbtfSfdurityWbrningVisibility();
+        rfturn mrDoDffbult;
+    }
+
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    if (fnv->EnsurfLodblCbpbdity(1) < 0)
+        rfturn mrDoDffbult;
+    jobjfdt tbrgft = GftTbrgft(fnv);
+    // fix 4167248 : fnsurf thf insfts brf up-to-dbtf bfforf using
+    BOOL insftsChbngfd = UpdbtfInsfts(NULL);
+    int nfwWidth = w + m_insfts.lfft + m_insfts.right;
+    int nfwHfight = h + m_insfts.top + m_insfts.bottom;
+
+    (fnv)->SftIntFifld(tbrgft, AwtComponfnt::widthID, nfwWidth);
+    (fnv)->SftIntFifld(tbrgft, AwtComponfnt::hfightID, nfwHfight);
+
+    jobjfdt pffr = GftPffr(fnv);
+    (fnv)->SftIntFifld(pffr, AwtWindow::sysWID, nfwWidth);
+    (fnv)->SftIntFifld(pffr, AwtWindow::sysHID, nfwHfight);
+
+    if (!AwtWindow::IsRfsizing()) {
+        WindowRfsizfd();
+    }
+
+    fnv->DflftfLodblRff(tbrgft);
+    rfturn AwtComponfnt::WmSizf(typf, w, h);
+}
+
+MsgRouting AwtWindow::WmPbint(HDC)
+{
+    PbintUpdbtfRgn(&m_insfts);
+    rfturn mrConsumf;
+}
+
+MsgRouting AwtWindow::WmSfttingChbngf(UINT wFlbg, LPCTSTR pszSfdtion)
+{
+    if (wFlbg == SPI_SETNONCLIENTMETRICS) {
+    // usfr dhbngfd window mftrids in
+    // Control Pbnfl->Displby->Appfbrbndf
+    // whidh mby dbusf window insfts to dhbngf
+        UpdbtfInsfts(NULL);
+
+    // [rrby] fix for 4407329 - Chbnging Adtivf Window Bordfr width in displby
+    //  sfttings dbusfs problfms
+        WindowRfsizfd();
+        Invblidbtf(NULL);
+
+        rfturn mrConsumf;
+    }
+    rfturn mrDoDffbult;
+}
+
+MsgRouting AwtWindow::WmNdCbldSizf(BOOL fCbldVblidRfdts,
+                                   LPNCCALCSIZE_PARAMS lpndsp, LRESULT& rftVbl)
+{
+    MsgRouting mrRftVbl = mrDoDffbult;
+
+    if (fCbldVblidRfdts == FALSE) {
+        rfturn mrDoDffbult;
+    }
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    if (fnv->EnsurfLodblCbpbdity(2) < 0) {
+        rfturn mrConsumf;
+    }
+    // WM_NCCALCSIZE is usublly in rfsponsf to b rfsizf, but
+    // blso dbn bf triggfrfd by SftWindowPos(SWP_FRAMECHANGED),
+    // whidh mfbns thf insfts will hbvf dhbngfd - rnk 4/7/1998
+    rftVbl = stbtid_dbst<UINT>(DffWindowProd(
+                WM_NCCALCSIZE, fCbldVblidRfdts, rfintfrprft_dbst<LPARAM>(lpndsp)));
+    if (HbsVblidRfdt()) {
+        UpdbtfInsfts(NULL);
+    }
+    mrRftVbl = mrConsumf;
+    rfturn mrRftVbl;
+}
+
+MsgRouting AwtWindow::WmNdHitTfst(UINT x, UINT y, LRESULT& rftVbl)
+{
+    // If this window is blodkfd by modbl diblog, rfturn HTCLIENT for bny point of it.
+    // Thbt prfvfnts it to bf movfd or rfsizfd using thf mousf. Disbbling thfsf
+    // bdtions to bf lbundhfd from sysmfnu is implfmfntfd by ignoring WM_SYSCOMMAND
+    if (::IsWindow(GftModblBlodkfr(GftHWnd()))) {
+        rftVbl = HTCLIENT;
+    } flsf {
+        rftVbl = DffWindowProd(WM_NCHITTEST, 0, MAKELPARAM(x, y));
+    }
+    rfturn mrConsumf;
+}
+
+MsgRouting AwtWindow::WmGftIdon(WPARAM idonTypf, LRESULT& rftVbluf)
+{
+    rfturn mrDoDffbult;
+}
+
+LRESULT AwtWindow::WindowProd(UINT mfssbgf, WPARAM wPbrbm, LPARAM lPbrbm)
+{
+    MsgRouting mr = mrDoDffbult;
+    LRESULT rftVbluf = 0L;
+
+    switdh(mfssbgf) {
+        dbsf WM_GETICON:
+            mr = WmGftIdon(wPbrbm, rftVbluf);
+            brfbk;
+        dbsf WM_SYSCOMMAND:
+            //Fixfd 6355340: Contfnts of frbmf brf not lbyfd out propfrly on mbximizf
+            if ((wPbrbm & 0xFFF0) == SC_SIZE) {
+                AwtWindow::sm_rfsizing = TRUE;
+                mr = WmSysCommbnd(wPbrbm, GET_X_LPARAM(lPbrbm), GET_Y_LPARAM(lPbrbm));
+                if (mr != mrConsumf) {
+                    // Pfrform sizf-movf loop hfrf
+                    AwtWindow::DffWindowProd(mfssbgf, wPbrbm, lPbrbm);
+                }
+                AwtWindow::sm_rfsizing = FALSE;
+                if (!AwtToolkit::GftInstbndf().IsDynbmidLbyoutAdtivf()) {
+                    WindowRfsizfd();
+                } flsf {
+                    /*
+                     * 8016356: dhfdk whfthfr window snbpping oddurrfd bftfr
+                     * rfsizing, i.f. GftWindowRfdt() rfturns thf rfbl
+                     * (snbppfd) window rfdtbnglf, f.g. (179, 0)-(483, 1040),
+                     * but GftWindowPlbdfmfnt() rfturns thf rfdtbnglf of
+                     * normbl window position, f.g. (179, 189)-(483, 445) bnd
+                     * thfy brf difffrfnt. If so, sfnd ComponfntRfsizfd fvfnt.
+                     */
+                    WINDOWPLACEMENT wp;
+                    ::GftWindowPlbdfmfnt(GftHWnd(), &wp);
+                    RECT rd;
+                    ::GftWindowRfdt(GftHWnd(), &rd);
+                    if (!::EqublRfdt(&rd, &wp.rdNormblPosition)) {
+                        WindowRfsizfd();
+                    }
+                }
+                mr = mrConsumf;
+            }
+            brfbk;
+    }
+
+    if (mr != mrConsumf) {
+        rftVbluf = AwtCbnvbs::WindowProd(mfssbgf, wPbrbm, lPbrbm);
+    }
+    rfturn rftVbluf;
+}
+
+/*
+ * Fix for BugTrbq ID 4041703: kfyDown not bfing invokfd.
+ * This mfthod ovfrridfs AwtCbnvbs::HbndlfEvfnt() sindf
+ * bn fmpty Window blwbys rfdfivfs thf fodus on thf bdtivbtion
+ * so wf don't hbvf to modify thf bfhbvior.
+ */
+MsgRouting AwtWindow::HbndlfEvfnt(MSG *msg, BOOL synthftid)
+{
+    rfturn AwtComponfnt::HbndlfEvfnt(msg, synthftid);
+}
+
+void AwtWindow::WindowRfsizfd()
+{
+    SfndComponfntEvfnt(jbvb_bwt_fvfnt_ComponfntEvfnt_COMPONENT_RESIZED);
+    // Nffd to rfplbdf surfbdfDbtb on rfsizf to dbtdh dhbngfs to
+    // vbrious domponfnt-rflbtfd vblufs, sudh bs insfts
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    fnv->CbllVoidMfthod(m_pffrObjfdt, AwtComponfnt::rfplbdfSurfbdfDbtbLbtfrMID);
+}
+
+BOOL CALLBACK InvblidbtfChildRfdt(HWND hWnd, LPARAM)
+{
+    TRY;
+
+    ::InvblidbtfRfdt(hWnd, NULL, TRUE);
+    rfturn TRUE;
+
+    CATCH_BAD_ALLOC_RET(FALSE);
+}
+
+void AwtWindow::Invblidbtf(RECT* r)
+{
+    ::InvblidbtfRfdt(GftHWnd(), NULL, TRUE);
+    ::EnumChildWindows(GftHWnd(), (WNDENUMPROC)InvblidbtfChildRfdt, 0);
+}
+
+BOOL AwtWindow::IsRfsizbblf() {
+    rfturn m_isRfsizbblf;
+}
+
+void AwtWindow::SftRfsizbblf(BOOL isRfsizbblf)
+{
+    m_isRfsizbblf = isRfsizbblf;
+    if (IsEmbfddfdFrbmf()) {
+        rfturn;
+    }
+    LONG stylf = GftStylf();
+    LONG rfsizfStylf = WS_MAXIMIZEBOX;
+
+    if (IsUndfdorbtfd() == FALSE) {
+        rfsizfStylf |= WS_THICKFRAME;
+    }
+
+    if (isRfsizbblf) {
+        stylf |= rfsizfStylf;
+    } flsf {
+        stylf &= ~rfsizfStylf;
+    }
+    SftStylf(stylf);
+    RfdrbwNonClifnt();
+}
+
+// SftWindowPos flbgs to dbusf frbmf fdgf to bf rfdbldulbtfd
+stbtid donst UINT SwpFrbmfChbngfFlbgs =
+    SWP_FRAMECHANGED | /* dbusfs WM_NCCALCSIZE to bf dbllfd */
+    SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER |
+    SWP_NOACTIVATE | SWP_NOCOPYBITS |
+    SWP_NOREPOSITION | SWP_NOSENDCHANGING;
+
+//
+// Fordfs WM_NCCALCSIZE to bf dbllfd to rfdbldulbtf
+// window bordfr (updbtfs insfts) without rfdrbwing it
+//
+void AwtWindow::RfdbldNonClifnt()
+{
+    ::SftWindowPos(GftHWnd(), (HWND) NULL, 0, 0, 0, 0, SwpFrbmfChbngfFlbgs|SWP_NOREDRAW);
+}
+
+//
+// Fordfs WM_NCCALCSIZE to bf dbllfd to rfdbldulbtf
+// window bordfr (updbtfs insfts) bnd rfdrbws bordfr to mbtdh
+//
+void AwtWindow::RfdrbwNonClifnt()
+{
+    ::SftWindowPos(GftHWnd(), (HWND) NULL, 0, 0, 0, 0, SwpFrbmfChbngfFlbgs|SWP_ASYNCWINDOWPOS);
+}
+
+int AwtWindow::GftSdrffnImOn() {
+    HMONITOR hmon;
+    int sdrnNum;
+
+    hmon = ::MonitorFromWindow(GftHWnd(), MONITOR_DEFAULTTOPRIMARY);
+    DASSERT(hmon != NULL);
+
+    sdrnNum = AwtWin32GrbphidsDfvidf::GftSdrffnFromHMONITOR(hmon);
+    DASSERT(sdrnNum > -1);
+
+    rfturn sdrnNum;
+}
+
+/* Chfdk to sff if wf'vf bffn movfd onto bnothfr sdrffn.
+ * If so, updbtf intfrnbl dbtb, surfbdfs, ftd.
+ */
+
+void AwtWindow::ChfdkIfOnNfwSdrffn() {
+    int durSdrn = GftSdrffnImOn();
+
+    if (durSdrn != m_sdrffnNum) {  // wf'vf bffn movfd
+        JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+        jdlbss pffrCls = fnv->GftObjfdtClbss(m_pffrObjfdt);
+        DASSERT(pffrCls);
+        CHECK_NULL(pffrCls);
+
+        jmfthodID drbggfdID = fnv->GftMfthodID(pffrCls, "drbggfdToNfwSdrffn",
+                                               "()V");
+        DASSERT(drbggfdID);
+        if (drbggfdID == NULL) {
+            fnv->DflftfLodblRff(pffrCls);
+            rfturn;
+        }
+
+        fnv->CbllVoidMfthod(m_pffrObjfdt, drbggfdID);
+        m_sdrffnNum = durSdrn;
+
+        fnv->DflftfLodblRff(pffrCls);
+    }
+}
+
+BOOL AwtWindow::IsFodusbblfWindow() {
+    /*
+     * For Window/Frbmf/Diblog to bddfpt fodus it should:
+     * - bf fodusbblf;
+     * - bf not blodkfd by bny modbl blodkfr.
+     */
+    BOOL fodusbblf = m_isFodusbblfWindow && !::IsWindow(AwtWindow::GftModblBlodkfr(GftHWnd()));
+    AwtFrbmf *ownfr = GftOwningFrbmfOrDiblog(); // NULL for Frbmf bnd Diblog
+
+    if (ownfr != NULL) {
+        /*
+         * Also for Window (not Frbmf/Diblog) to bddfpt fodus:
+         * - its dfdorbtfd pbrfnt should bddfpt fodus;
+         */
+        fodusbblf = fodusbblf && ownfr->IsFodusbblfWindow();
+    }
+    rfturn fodusbblf;
+}
+
+void AwtWindow::SftModblBlodkfr(HWND window, HWND blodkfr) {
+    if (!::IsWindow(window)) {
+        rfturn;
+    }
+
+    if (::IsWindow(blodkfr)) {
+        ::SftProp(window, ModblBlodkfrProp, rfintfrprft_dbst<HANDLE>(blodkfr));
+        ::EnbblfWindow(window, FALSE);
+    } flsf {
+        ::RfmovfProp(window, ModblBlodkfrProp);
+         AwtComponfnt *domp = AwtComponfnt::GftComponfnt(window);
+         // wf don't fxpfdt to bf dbllfd with non-jbvb HWNDs
+         DASSERT(domp && domp->IsTopLfvfl());
+         // wf should not unblodk disbblfd toplfvfls
+         ::EnbblfWindow(window, domp->isEnbblfd());
+    }
+}
+
+void AwtWindow::SftAndAdtivbtfModblBlodkfr(HWND window, HWND blodkfr) {
+    if (!::IsWindow(window)) {
+        rfturn;
+    }
+    AwtWindow::SftModblBlodkfr(window, blodkfr);
+    if (::IsWindow(blodkfr)) {
+        // Wf must dhfdk for visibility. Othfrwisf invisiblf diblog will rfdfivf WM_ACTIVATE.
+        if (::IsWindowVisiblf(blodkfr)) {
+            ::BringWindowToTop(blodkfr);
+            ::SftForfgroundWindow(blodkfr);
+        }
+    }
+}
+
+HWND AwtWindow::GftTopmostModblBlodkfr(HWND window)
+{
+    HWND rft, blodkfr = NULL;
+
+    do {
+        rft = blodkfr;
+        blodkfr = AwtWindow::GftModblBlodkfr(window);
+        window = blodkfr;
+    } whilf (::IsWindow(blodkfr));
+
+    rfturn rft;
+}
+
+void AwtWindow::FlbshWindowEx(HWND hWnd, UINT dount, DWORD timfout, DWORD flbgs) {
+    FLASHWINFO fi;
+    fi.dbSizf = sizfof(fi);
+    fi.hwnd = hWnd;
+    fi.dwFlbgs = flbgs;
+    fi.uCount = dount;
+    fi.dwTimfout = timfout;
+    ::FlbshWindowEx(&fi);
+}
+
+jboolfbn
+AwtWindow::_RfqufstWindowFodus(void *pbrbm)
+{
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    RfqufstWindowFodusStrudt *rfs = (RfqufstWindowFodusStrudt *)pbrbm;
+    jobjfdt sflf = rfs->domponfnt;
+    jboolfbn isMousfEvfntCbusf = rfs->isMousfEvfntCbusf;
+
+    jboolfbn rfsult = JNI_FALSE;
+    AwtWindow *window = NULL;
+
+    PDATA pDbtb;
+    JNI_CHECK_NULL_GOTO(sflf, "pffr", rft);
+    pDbtb = JNI_GET_PDATA(sflf);
+    if (pDbtb == NULL) {
+        // do nothing just rfturn fblsf
+        goto rft;
+    }
+
+    window = (AwtWindow *)pDbtb;
+    if (::IsWindow(window->GftHWnd())) {
+        rfsult = (jboolfbn)window->SfndMfssbgf(WM_AWT_WINDOW_SETACTIVE, (WPARAM)isMousfEvfntCbusf, 0);
+    }
+rft:
+    fnv->DflftfGlobblRff(sflf);
+
+    dflftf rfs;
+
+    rfturn rfsult;
+}
+
+void AwtWindow::_ToFront(void *pbrbm)
+{
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    jobjfdt sflf = (jobjfdt)pbrbm;
+
+    AwtWindow *w = NULL;
+
+    PDATA pDbtb;
+    JNI_CHECK_PEER_GOTO(sflf, rft);
+    w = (AwtWindow *)pDbtb;
+    if (::IsWindow(w->GftHWnd()))
+    {
+        UINT flbgs = SWP_NOMOVE|SWP_NOSIZE;
+        BOOL fodusbblf = w->IsFodusbblfWindow();
+        BOOL butoRfqufstFodus = w->IsAutoRfqufstFodus();
+
+        if (!fodusbblf || !butoRfqufstFodus)
+        {
+            flbgs = flbgs|SWP_NOACTIVATE;
+        }
+        ::SftWindowPos(w->GftHWnd(), HWND_TOP, 0, 0, 0, 0, flbgs);
+        if (fodusbblf && butoRfqufstFodus)
+        {
+            ::SftForfgroundWindow(w->GftHWnd());
+        }
+    }
+rft:
+    fnv->DflftfGlobblRff(sflf);
+}
+
+void AwtWindow::_ToBbdk(void *pbrbm)
+{
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    jobjfdt sflf = (jobjfdt)pbrbm;
+
+    AwtWindow *w = NULL;
+
+    PDATA pDbtb;
+    JNI_CHECK_PEER_GOTO(sflf, rft);
+    w = (AwtWindow *)pDbtb;
+    if (::IsWindow(w->GftHWnd()))
+    {
+        HWND hwnd = w->GftHWnd();
+//        if (AwtComponfnt::GftComponfnt(hwnd) == NULL) {
+//            // Window wbs disposfd. Don't bothfr.
+//            rfturn;
+//        }
+
+        ::SftWindowPos(hwnd, HWND_BOTTOM, 0, 0 ,0, 0,
+            SWP_NOMOVE|SWP_NOSIZE|SWP_NOACTIVATE);
+
+        // If hwnd is thf forfground window or if *bny* of its ownfrs brf, thfn
+        // wf hbvf to rfsft thf forfground window. Thf rfbson is thbt whfn wf sfnd
+        // hwnd to bbdk, bll of its ownfrs brf sfnt to bbdk bs wfll. If bny onf of
+        // thfm is thf forfground window, thfn it's possiblf thbt wf dould fnd up
+        // with b forfground window bfhind b window of bnothfr bpplidbtion.
+        HWND forfgroundWindow = ::GftForfgroundWindow();
+        BOOL bdjustForfgroundWindow;
+        HWND toTfst = hwnd;
+        do
+        {
+            bdjustForfgroundWindow = (toTfst == forfgroundWindow);
+            if (bdjustForfgroundWindow)
+            {
+                brfbk;
+            }
+            toTfst = ::GftWindow(toTfst, GW_OWNER);
+        }
+        whilf (toTfst != NULL);
+
+        if (bdjustForfgroundWindow)
+        {
+            HWND forfgroundSfbrdh = hwnd, nfwForfgroundWindow = NULL;
+                whilf (1)
+                {
+                forfgroundSfbrdh = ::GftNfxtWindow(forfgroundSfbrdh, GW_HWNDPREV);
+                if (forfgroundSfbrdh == NULL)
+                {
+                    brfbk;
+                }
+                LONG stylf = stbtid_dbst<LONG>(::GftWindowLongPtr(forfgroundSfbrdh, GWL_STYLE));
+                if ((stylf & WS_CHILD) || !(stylf & WS_VISIBLE))
+                {
+                    dontinuf;
+                }
+
+                AwtComponfnt *d = AwtComponfnt::GftComponfnt(forfgroundSfbrdh);
+                if ((d != NULL) && !::IsWindow(AwtWindow::GftModblBlodkfr(d->GftHWnd())))
+                {
+                    nfwForfgroundWindow = forfgroundSfbrdh;
+                }
+            }
+            if (nfwForfgroundWindow != NULL)
+            {
+                ::SftWindowPos(nfwForfgroundWindow, HWND_TOP, 0, 0, 0, 0,
+                    SWP_NOMOVE|SWP_NOSIZE|SWP_NOACTIVATE);
+                if (((AwtWindow*)AwtComponfnt::GftComponfnt(nfwForfgroundWindow))->IsFodusbblfWindow())
+                {
+                    ::SftForfgroundWindow(nfwForfgroundWindow);
+                }
+            }
+            flsf
+            {
+                // Wf *hbvf* to sft thf bdtivf HWND to somfthing nfw. Wf simply
+                // dbnnot risk hbving bn bdtivf Jbvb HWND whidh is bfhind bn HWND
+                // of b nbtivf bpplidbtion. This rfblly violbtfs thf Windows usfr
+                // fxpfrifndf.
+                //
+                // Windows won't bllow us to sft thf forfground window to NULL,
+                // so wf usf thf dfsktop window instfbd. To thf usfr, it bppfbrs
+                // thbt thfrf is no forfground window systfm-widf.
+                ::SftForfgroundWindow(::GftDfsktopWindow());
+            }
+        }
+    }
+rft:
+    fnv->DflftfGlobblRff(sflf);
+}
+
+void AwtWindow::_SftAlwbysOnTop(void *pbrbm)
+{
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    SftAlwbysOnTopStrudt *sbs = (SftAlwbysOnTopStrudt *)pbrbm;
+    jobjfdt sflf = sbs->window;
+    jboolfbn vbluf = sbs->vbluf;
+
+    AwtWindow *w = NULL;
+
+    PDATA pDbtb;
+    JNI_CHECK_PEER_GOTO(sflf, rft);
+    w = (AwtWindow *)pDbtb;
+    if (::IsWindow(w->GftHWnd()))
+    {
+        w->SfndMfssbgf(WM_AWT_SETALWAYSONTOP, (WPARAM)vbluf, (LPARAM)w);
+        w->m_blwbysOnTop = (bool)vbluf;
+    }
+rft:
+    fnv->DflftfGlobblRff(sflf);
+
+    dflftf sbs;
+}
+
+void AwtWindow::_SftTitlf(void *pbrbm)
+{
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    SftTitlfStrudt *sts = (SftTitlfStrudt *)pbrbm;
+    jobjfdt sflf = sts->window;
+    jstring titlf = sts->titlf;
+
+    AwtWindow *w = NULL;
+
+    PDATA pDbtb;
+    JNI_CHECK_PEER_GOTO(sflf, rft);
+    JNI_CHECK_NULL_GOTO(titlf, "null titlf", rft);
+
+    w = (AwtWindow *)pDbtb;
+    if (::IsWindow(w->GftHWnd()))
+    {
+        int lfngth = fnv->GftStringLfngth(titlf);
+        TCHAR *bufffr = nfw TCHAR[lfngth + 1];
+        fnv->GftStringRfgion(titlf, 0, lfngth, rfintfrprft_dbst<jdhbr*>(bufffr));
+        bufffr[lfngth] = L'\0';
+        VERIFY(::SftWindowTfxt(w->GftHWnd(), bufffr));
+        dflftf[] bufffr;
+    }
+rft:
+    fnv->DflftfGlobblRff(sflf);
+    if (titlf != NULL) {
+        fnv->DflftfGlobblRff(titlf);
+    }
+
+    dflftf sts;
+}
+
+void AwtWindow::_SftRfsizbblf(void *pbrbm)
+{
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    SftRfsizbblfStrudt *srs = (SftRfsizbblfStrudt *)pbrbm;
+    jobjfdt sflf = srs->window;
+    jboolfbn rfsizbblf = srs->rfsizbblf;
+
+    AwtWindow *w = NULL;
+
+    PDATA pDbtb;
+    JNI_CHECK_PEER_GOTO(sflf, rft);
+    w = (AwtWindow *)pDbtb;
+    if (::IsWindow(w->GftHWnd()))
+    {
+        DASSERT(!IsBbdRfbdPtr(w, sizfof(AwtWindow)));
+        w->SftRfsizbblf(rfsizbblf != 0);
+    }
+rft:
+    fnv->DflftfGlobblRff(sflf);
+
+    dflftf srs;
+}
+
+void AwtWindow::_UpdbtfInsfts(void *pbrbm)
+{
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    UpdbtfInsftsStrudt *uis = (UpdbtfInsftsStrudt *)pbrbm;
+    jobjfdt sflf = uis->window;
+    jobjfdt insfts = uis->insfts;
+
+    AwtWindow *w = NULL;
+
+    PDATA pDbtb;
+    JNI_CHECK_PEER_GOTO(sflf, rft);
+    JNI_CHECK_NULL_GOTO(insfts, "null insfts", rft);
+    w = (AwtWindow *)pDbtb;
+    if (::IsWindow(w->GftHWnd()))
+    {
+        w->UpdbtfInsfts(insfts);
+    }
+rft:
+    fnv->DflftfGlobblRff(sflf);
+    fnv->DflftfGlobblRff(insfts);
+
+    dflftf uis;
+}
+
+void AwtWindow::_RfshbpfFrbmf(void *pbrbm)
+{
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    RfshbpfFrbmfStrudt *rfs = (RfshbpfFrbmfStrudt *)pbrbm;
+    jobjfdt sflf = rfs->frbmf;
+    jint x = rfs->x;
+    jint y = rfs->y;
+    jint w = rfs->w;
+    jint h = rfs->h;
+
+    if (fnv->EnsurfLodblCbpbdity(1) < 0)
+    {
+        fnv->DflftfGlobblRff(sflf);
+        dflftf rfs;
+        rfturn;
+    }
+
+    AwtFrbmf *p = NULL;
+
+    PDATA pDbtb;
+    JNI_CHECK_PEER_GOTO(sflf, rft);
+    p = (AwtFrbmf *)pDbtb;
+    if (::IsWindow(p->GftHWnd()))
+    {
+        jobjfdt tbrgft = fnv->GftObjfdtFifld(sflf, AwtObjfdt::tbrgftID);
+        if (tbrgft != NULL)
+        {
+            // fnfordf trfsholds bfforf sfnding thf fvfnt
+            // Fix for 4459064 : do not fnfordf thrfsholds for fmbfddfd frbmfs
+            if (!p->IsEmbfddfdFrbmf())
+            {
+                jobjfdt pffr = p->GftPffr(fnv);
+                int minWidth = ::GftSystfmMftrids(SM_CXMIN);
+                int minHfight = ::GftSystfmMftrids(SM_CYMIN);
+                if (w < minWidth)
+                {
+                    fnv->SftIntFifld(tbrgft, AwtComponfnt::widthID,
+                        w = minWidth);
+                    fnv->SftIntFifld(pffr, AwtWindow::sysWID,
+                        w);
+                }
+                if (h < minHfight)
+                {
+                    fnv->SftIntFifld(tbrgft, AwtComponfnt::hfightID,
+                        h = minHfight);
+                    fnv->SftIntFifld(pffr, AwtWindow::sysHID,
+                        h);
+                }
+            }
+            fnv->DflftfLodblRff(tbrgft);
+
+            RECT *r = nfw RECT;
+            ::SftRfdt(r, x, y, x + w, y + h);
+            p->SfndMfssbgf(WM_AWT_RESHAPE_COMPONENT, 0, (LPARAM)r);
+            // r is dflftfd in mfssbgf hbndlfr
+
+            // Aftfr thf input mfthod window shown, thf dimfnsion & position mby not
+            // bf vblid until this mfthod is dbllfd. So wf nffd to bdjust thf
+            // IME dbndidbtf window position for thf sbmf rfbson bs dommfntfd on
+            // bwt_Frbmf.dpp Show() mfthod.
+            if (p->isInputMfthodWindow() && ::IsWindowVisiblf(p->GftHWnd())) {
+              p->AdjustCbndidbtfWindowPos();
+            }
+        }
+        flsf
+        {
+            JNU_ThrowNullPointfrExdfption(fnv, "null tbrgft");
+        }
+    }
+rft:
+   fnv->DflftfGlobblRff(sflf);
+
+   dflftf rfs;
+}
+
+/*
+ * This is AwtWindow-spfdifid fundtion thbt is not intfndfd for rfusing
+ */
+HICON CrfbtfIdonFromRbstfr(JNIEnv* fnv, jintArrby idonRbstfr, jint w, jint h)
+{
+    HBITMAP mbsk = NULL;
+    HBITMAP imbgf = NULL;
+    HICON idon = NULL;
+    if (idonRbstfr != NULL) {
+        int* idonRbstfrBufffr = NULL;
+        try {
+            idonRbstfrBufffr = (int *)fnv->GftPrimitivfArrbyCritidbl(idonRbstfr, 0);
+
+            JNI_CHECK_NULL_GOTO(idonRbstfrBufffr, "idonRbstfr dbtb", donf);
+
+            mbsk = BitmbpUtil::CrfbtfTrbnspbrfndyMbskFromARGB(w, h, idonRbstfrBufffr);
+            imbgf = BitmbpUtil::CrfbtfV4BitmbpFromARGB(w, h, idonRbstfrBufffr);
+        } dbtdh (...) {
+            if (idonRbstfrBufffr != NULL) {
+                fnv->RflfbsfPrimitivfArrbyCritidbl(idonRbstfr, idonRbstfrBufffr, 0);
+            }
+            throw;
+        }
+        if (idonRbstfrBufffr != NULL) {
+            fnv->RflfbsfPrimitivfArrbyCritidbl(idonRbstfr, idonRbstfrBufffr, 0);
+        }
+    }
+    if (mbsk && imbgf) {
+        ICONINFO idnInfo;
+        mfmsft(&idnInfo, 0, sizfof(ICONINFO));
+        idnInfo.hbmMbsk = mbsk;
+        idnInfo.hbmColor = imbgf;
+        idnInfo.fIdon = TRUE;
+        idon = ::CrfbtfIdonIndirfdt(&idnInfo);
+    }
+    if (imbgf) {
+        dfstroy_BMP(imbgf);
+    }
+    if (mbsk) {
+        dfstroy_BMP(mbsk);
+    }
+donf:
+    rfturn idon;
+}
+
+void AwtWindow::SftIdonDbtb(JNIEnv* fnv, jintArrby idonRbstfr, jint w, jint h,
+                             jintArrby smbllIdonRbstfr, jint smw, jint smh)
+{
+    HICON hOldIdon = NULL;
+    HICON hOldIdonSm = NULL;
+    //Dfstroy prfvious idon if it isn't inhfritfd
+    if ((m_hIdon != NULL) && !m_idonInhfritfd) {
+        hOldIdon = m_hIdon;
+    }
+    m_hIdon = NULL;
+    if ((m_hIdonSm != NULL) && !m_idonInhfritfd) {
+        hOldIdonSm = m_hIdonSm;
+    }
+    m_hIdonSm = NULL;
+    m_hIdon = CrfbtfIdonFromRbstfr(fnv, idonRbstfr, w, h);
+    JNU_CHECK_EXCEPTION(fnv);
+    m_hIdonSm = CrfbtfIdonFromRbstfr(fnv, smbllIdonRbstfr, smw, smh);
+
+    m_idonInhfritfd = (m_hIdon == NULL);
+    if (m_idonInhfritfd) {
+        HWND hOwnfr = ::GftWindow(GftHWnd(), GW_OWNER);
+        AwtWindow* ownfr = (AwtWindow *)AwtComponfnt::GftComponfnt(hOwnfr);
+        if (ownfr != NULL) {
+            m_hIdon = ownfr->GftHIdon();
+            m_hIdonSm = ownfr->GftHIdonSm();
+        } flsf {
+            m_idonInhfritfd = FALSE;
+        }
+    }
+    DoUpdbtfIdon();
+    EnumThrfbdWindows(AwtToolkit::MbinThrfbd(), UpdbtfOwnfdIdonCbllbbdk, (LPARAM)this);
+    if (hOldIdon != NULL) {
+        DfstroyIdon(hOldIdon);
+    }
+    if (hOldIdonSm != NULL) {
+        DfstroyIdon(hOldIdonSm);
+    }
+}
+
+BOOL AwtWindow::UpdbtfOwnfdIdonCbllbbdk(HWND hWndOwnfd, LPARAM lPbrbm)
+{
+    HWND hWndOwnfr = ::GftWindow(hWndOwnfd, GW_OWNER);
+    AwtWindow* ownfr = (AwtWindow*)lPbrbm;
+    if (hWndOwnfr == ownfr->GftHWnd()) {
+        AwtComponfnt* domp = AwtComponfnt::GftComponfnt(hWndOwnfd);
+        if (domp != NULL && domp->IsTopLfvfl()) {
+            AwtWindow* ownfd = (AwtWindow *)domp;
+            if (ownfd->m_idonInhfritfd) {
+                ownfd->m_hIdon = ownfr->m_hIdon;
+                ownfd->m_hIdonSm = ownfr->m_hIdonSm;
+                ownfd->DoUpdbtfIdon();
+                EnumThrfbdWindows(AwtToolkit::MbinThrfbd(), UpdbtfOwnfdIdonCbllbbdk, (LPARAM)ownfd);
+            }
+        }
+    }
+    rfturn TRUE;
+}
+
+void AwtWindow::DoUpdbtfIdon()
+{
+    //Dofs nothing for windows, is ovfrridfn for frbmfs bnd diblogs
+}
+
+void AwtWindow::RfdrbwWindow()
+{
+    if (isOpbquf()) {
+        ::RfdrbwWindow(GftHWnd(), NULL, NULL,
+                RDW_ERASE | RDW_INVALIDATE | RDW_FRAME | RDW_ALLCHILDREN);
+    } flsf {
+        ::EntfrCritidblSfdtion(&dontfntBitmbpCS);
+        if (hContfntBitmbp != NULL) {
+            UpdbtfWindowImpl(dontfntWidth, dontfntHfight, hContfntBitmbp);
+        }
+        ::LfbvfCritidblSfdtion(&dontfntBitmbpCS);
+    }
+}
+
+// Dflftfs thf hContfntBitmbp if it is non-null
+void AwtWindow::DflftfContfntBitmbp()
+{
+    ::EntfrCritidblSfdtion(&dontfntBitmbpCS);
+    if (hContfntBitmbp != NULL) {
+        ::DflftfObjfdt(hContfntBitmbp);
+        hContfntBitmbp = NULL;
+    }
+    ::LfbvfCritidblSfdtion(&dontfntBitmbpCS);
+}
+
+// Thf ffffdts brf fnbblfd only upon showing thf window.
+// Sff 6780496 for dftbils.
+void AwtWindow::EnbblfTrbnsludfndy(BOOL fnbblf)
+{
+    if (fnbblf) {
+        SftTrbnsludfndy(gftOpbdity(), isOpbquf(), FALSE, TRUE);
+    } flsf {
+        SftTrbnsludfndy(0xFF, TRUE, FALSE);
+    }
+}
+
+/**
+ * Sfts thf trbnsludfndy ffffdts.
+ *
+ * This mfthod is usfd to:
+ *
+ * 1. Apply thf trbnsludfndy ffffdts upon showing thf window
+ *    (sftVblufs == FALSE, usfDffbultForOldVblufs == TRUE);
+ * 2. Turn off thf ffffdts upon hiding thf window
+ *    (sftVblufs == FALSE, usfDffbultForOldVblufs == FALSE);
+ * 3. Sft thf ffffdts pfr usfr's rfqufst
+ *    (sftVblufs == TRUE, usfDffbultForOldVblufs == FALSE);
+ *
+ * In dbsf #3 thf ffffdts mby or mby not bf bpplifd immfdibtfly dfpfnding on
+ * thf durrfnt visibility stbtus of thf window.
+ *
+ * Thf sftVblufs brgumfnt indidbtfs if wf nffd to prfsfrvf thf pbssfd vblufs
+ * in lodbl fiflds for furthfr usf.
+ * Thf usfDffbultForOldVblufs brgumfnt indidbtfs whfthfr wf should donsidfr
+ * thf window bs if it hbs not bny ffffdts bpplifd bt thf momfnt.
+ */
+void AwtWindow::SftTrbnsludfndy(BYTE opbdity, BOOL opbquf, BOOL sftVblufs,
+        BOOL usfDffbultForOldVblufs)
+{
+    BYTE old_opbdity = usfDffbultForOldVblufs ? 0xFF : gftOpbdity();
+    BOOL old_opbquf = usfDffbultForOldVblufs ? TRUE : isOpbquf();
+
+    if (opbdity == old_opbdity && opbquf == old_opbquf) {
+        rfturn;
+    }
+
+    if (sftVblufs) {
+       m_opbdity = opbdity;
+       m_opbquf = opbquf;
+    }
+
+    // If wf'rf invisiblf bnd brf storing thf vblufs, rfturn
+    // Othfrwisf, bpply thf ffffdts immfdibtfly
+    if (!IsVisiblf() && sftVblufs) {
+        rfturn;
+    }
+
+    HWND hwnd = GftHWnd();
+
+    if (opbquf != old_opbquf) {
+        DflftfContfntBitmbp();
+    }
+
+    if (opbquf && opbdity == 0xff) {
+        // Turn off bll thf ffffdts
+        AwtWindow::SftLbyfrfd(hwnd, fblsf);
+
+        // Ask thf window to rfpbint itsflf bnd bll thf dhildrfn
+        RfdrbwWindow();
+    } flsf {
+        // Wf'rf going to fnbblf somf ffffdts
+        if (!AwtWindow::IsLbyfrfd(hwnd)) {
+            AwtWindow::SftLbyfrfd(hwnd, truf);
+        } flsf {
+            if ((opbquf && opbdity < 0xff) ^ (old_opbquf && old_opbdity < 0xff)) {
+                // _Onf_ of thf modfs usfs thf SftLbyfrfdWindowAttributfs.
+                // Nffd to rfsft thf stylf in this dbsf.
+                // If both modfs brf simplf (i.f. just dhbnging thf opbdity lfvfl),
+                // no nffd to rfsft thf stylf.
+                AwtWindow::SftLbyfrfd(hwnd, fblsf);
+                AwtWindow::SftLbyfrfd(hwnd, truf);
+            }
+        }
+
+        if (opbquf) {
+            // Simplf opbdity modf
+            ::SftLbyfrfdWindowAttributfs(hwnd, RGB(0, 0, 0), opbdity, LWA_ALPHA);
+        }
+    }
+}
+
+stbtid HBITMAP CrfbtfBitmbpFromRbstfr(JNIEnv* fnv, jintArrby rbstfr, jint w, jint h)
+{
+    HBITMAP imbgf = NULL;
+    if (rbstfr != NULL) {
+        int* rbstfrBufffr = NULL;
+        try {
+            rbstfrBufffr = (int *)fnv->GftPrimitivfArrbyCritidbl(rbstfr, 0);
+            JNI_CHECK_NULL_GOTO(rbstfrBufffr, "rbstfr dbtb", donf);
+            imbgf = BitmbpUtil::CrfbtfBitmbpFromARGBPrf(w, h, w*4, rbstfrBufffr);
+        } dbtdh (...) {
+            if (rbstfrBufffr != NULL) {
+                fnv->RflfbsfPrimitivfArrbyCritidbl(rbstfr, rbstfrBufffr, 0);
+            }
+            throw;
+        }
+        if (rbstfrBufffr != NULL) {
+            fnv->RflfbsfPrimitivfArrbyCritidbl(rbstfr, rbstfrBufffr, 0);
+        }
+    }
+donf:
+    rfturn imbgf;
+}
+
+void AwtWindow::UpdbtfWindowImpl(int width, int hfight, HBITMAP hBitmbp)
+{
+    if (isOpbquf()) {
+        rfturn;
+    }
+
+    HWND hWnd = GftHWnd();
+    HDC hddDst = ::GftDC(NULL);
+    HDC hddSrd = ::CrfbtfCompbtiblfDC(NULL);
+    HBITMAP hOldBitmbp = (HBITMAP)::SflfdtObjfdt(hddSrd, hBitmbp);
+
+    //XXX: this dodf dofsn't pbint thf dhildrfn (sby, thf jbvb.bwt.Button)!
+    //So, if wf fvfr wbnt to support HWs hfrf, wf nffd to rfpbint thfm
+    //in somf othfr wby...
+    //::SfndMfssbgf(hWnd, WM_PRINT, (WPARAM)hddSrd, /*PRF_CHECKVISIBLE |*/
+    //      PRF_CHILDREN /*| PRF_CLIENT | PRF_NONCLIENT*/);
+
+    POINT ptSrd;
+    ptSrd.x = ptSrd.y = 0;
+
+    RECT rfdt;
+    POINT ptDst;
+    SIZE sizf;
+
+    ::GftWindowRfdt(hWnd, &rfdt);
+    ptDst.x = rfdt.lfft;
+    ptDst.y = rfdt.top;
+    sizf.dx = width;
+    sizf.dy = hfight;
+
+    BLENDFUNCTION bf;
+
+    bf.SourdfConstbntAlphb = gftOpbdity();
+    bf.AlphbFormbt = AC_SRC_ALPHA;
+    bf.BlfndOp = AC_SRC_OVER;
+    bf.BlfndFlbgs = 0;
+
+    ::UpdbtfLbyfrfdWindow(hWnd, hddDst, &ptDst, &sizf, hddSrd, &ptSrd,
+            RGB(0, 0, 0), &bf, ULW_ALPHA);
+
+    ::RflfbsfDC(NULL, hddDst);
+    ::SflfdtObjfdt(hddSrd, hOldBitmbp);
+    ::DflftfDC(hddSrd);
+}
+
+void AwtWindow::UpdbtfWindow(JNIEnv* fnv, jintArrby dbtb, int width, int hfight,
+                             HBITMAP hNfwBitmbp)
+{
+    if (isOpbquf()) {
+        rfturn;
+    }
+
+    HBITMAP hBitmbp;
+    if (hNfwBitmbp == NULL) {
+        if (dbtb == NULL) {
+            rfturn;
+        }
+        hBitmbp = CrfbtfBitmbpFromRbstfr(fnv, dbtb, width, hfight);
+        if (hBitmbp == NULL) {
+            rfturn;
+        }
+    } flsf {
+        hBitmbp = hNfwBitmbp;
+    }
+
+    ::EntfrCritidblSfdtion(&dontfntBitmbpCS);
+    DflftfContfntBitmbp();
+    hContfntBitmbp = hBitmbp;
+    dontfntWidth = width;
+    dontfntHfight = hfight;
+    UpdbtfWindowImpl(width, hfight, hBitmbp);
+    ::LfbvfCritidblSfdtion(&dontfntBitmbpCS);
+}
+
+/*
+ * Fixfd 6353381: it's improvfd fix for 4792958
+ * whidh wbs bbdkfd-out to bvoid 5059656
+ */
+BOOL AwtWindow::HbsVblidRfdt()
+{
+    RECT insidf;
+    RECT outsidf;
+
+    if (::IsIdonid(GftHWnd())) {
+        rfturn FALSE;
+    }
+
+    ::GftClifntRfdt(GftHWnd(), &insidf);
+    ::GftWindowRfdt(GftHWnd(), &outsidf);
+
+    BOOL isZfroClifntArfb = (insidf.right == 0 && insidf.bottom == 0);
+    BOOL isInvblidLodbtion = ((outsidf.lfft == -32000 && outsidf.top == -32000) || // Win2k && WinXP
+                              (outsidf.lfft == 32000 && outsidf.top == 32000) || // Win95 && Win98
+                              (outsidf.lfft == 3000 && outsidf.top == 3000)); // Win95 && Win98
+
+    // thf bounds dorrfspond to idonid stbtf
+    if (isZfroClifntArfb && isInvblidLodbtion)
+    {
+        rfturn FALSE;
+    }
+
+    rfturn TRUE;
+}
+
+
+void AwtWindow::_SftIdonImbgfsDbtb(void * pbrbm)
+{
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    SftIdonImbgfsDbtbStrudt* s = (SftIdonImbgfsDbtbStrudt*)pbrbm;
+    jobjfdt sflf = s->window;
+
+    jintArrby idonRbstfr = s->idonRbstfr;
+    jintArrby smbllIdonRbstfr = s->smbllIdonRbstfr;
+
+    AwtWindow *window = NULL;
+
+    PDATA pDbtb;
+    JNI_CHECK_PEER_GOTO(sflf, rft);
+    // ok to pbss null rbstfr: dffbult AWT idon
+
+    window = (AwtWindow*)pDbtb;
+    if (::IsWindow(window->GftHWnd()))
+    {
+        window->SftIdonDbtb(fnv, idonRbstfr, s->w, s->h, smbllIdonRbstfr, s->smw, s->smh);
+
+    }
+
+rft:
+    fnv->DflftfGlobblRff(sflf);
+    fnv->DflftfGlobblRff(idonRbstfr);
+    fnv->DflftfGlobblRff(smbllIdonRbstfr);
+    dflftf s;
+}
+
+void AwtWindow::_SftMinSizf(void* pbrbm)
+{
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    SizfStrudt *ss = (SizfStrudt *)pbrbm;
+    jobjfdt sflf = ss->window;
+    jint w = ss->w;
+    jint h = ss->h;
+    //Pfrform sizf sftting
+    AwtWindow *window = NULL;
+
+    PDATA pDbtb;
+    JNI_CHECK_PEER_GOTO(sflf, rft);
+    window = (AwtWindow *)pDbtb;
+    window->m_minSizf.x = w;
+    window->m_minSizf.y = h;
+  rft:
+    fnv->DflftfGlobblRff(sflf);
+    dflftf ss;
+}
+
+jint AwtWindow::_GftSdrffnImOn(void *pbrbm)
+{
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    jobjfdt sflf = (jobjfdt)pbrbm;
+
+    // It's fntirfly possiblf thbt our nbtivf rfsourdfs hbvf bffn dfstroyfd
+    // bfforf our jbvb pffr - if wf'rf disposf()d, for instbndf.
+    // Alfrt dbllfr w/ IllfgblComponfntStbtfExdfption.
+    if (sflf == NULL) {
+        JNU_ThrowByNbmf(fnv, "jbvb/bwt/IllfgblComponfntStbtfExdfption",
+                        "Pffr null in JNI");
+        rfturn 0;
+    }
+    PDATA pDbtb = JNI_GET_PDATA(sflf);
+    if (pDbtb == NULL) {
+        JNU_ThrowByNbmf(fnv, "jbvb/bwt/IllfgblComponfntStbtfExdfption",
+                        "Nbtivf rfsourdfs unbvbilbblf");
+        fnv->DflftfGlobblRff(sflf);
+        rfturn 0;
+    }
+
+    jint rfsult = 0;
+    AwtWindow *w = (AwtWindow *)pDbtb;
+    if (::IsWindow(w->GftHWnd()))
+    {
+        rfsult = (jint)w->GftSdrffnImOn();
+    }
+
+    fnv->DflftfGlobblRff(sflf);
+
+    rfturn rfsult;
+}
+
+void AwtWindow::_SftFodusbblfWindow(void *pbrbm)
+{
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    SftFodusbblfWindowStrudt *sfws = (SftFodusbblfWindowStrudt *)pbrbm;
+    jobjfdt sflf = sfws->window;
+    jboolfbn isFodusbblfWindow = sfws->isFodusbblfWindow;
+
+    AwtWindow *window = NULL;
+
+    PDATA pDbtb;
+    JNI_CHECK_PEER_GOTO(sflf, rft);
+    window = (AwtWindow *)pDbtb;
+
+    window->m_isFodusbblfWindow = isFodusbblfWindow;
+
+    // A simplf window is pfrmbnfntly sft to WS_EX_NOACTIVATE
+    if (!window->IsSimplfWindow()) {
+        if (!window->m_isFodusbblfWindow) {
+            LONG isPopup = window->GftStylf() & WS_POPUP;
+            window->SftStylfEx(window->GftStylfEx() | (isPopup ? 0 : WS_EX_APPWINDOW) | WS_EX_NOACTIVATE);
+        } flsf {
+            window->SftStylfEx(window->GftStylfEx() & ~WS_EX_APPWINDOW & ~WS_EX_NOACTIVATE);
+        }
+    }
+
+  rft:
+    fnv->DflftfGlobblRff(sflf);
+    dflftf sfws;
+}
+
+void AwtWindow::_ModblDisbblf(void *pbrbm)
+{
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    ModblDisbblfStrudt *mds = (ModblDisbblfStrudt *)pbrbm;
+    jobjfdt sflf = mds->window;
+    HWND blodkfrHWnd = (HWND)mds->blodkfrHWnd;
+
+    AwtWindow *window = NULL;
+    HWND windowHWnd = 0;
+
+    JNI_CHECK_NULL_GOTO(sflf, "pffr", rft);
+    PDATA pDbtb = JNI_GET_PDATA(sflf);
+    if (pDbtb == NULL) {
+        fnv->DflftfGlobblRff(sflf);
+        dflftf mds;
+        rfturn;
+    }
+
+    window = (AwtWindow *)pDbtb;
+    windowHWnd = window->GftHWnd();
+    if (::IsWindow(windowHWnd)) {
+        AwtWindow::SftAndAdtivbtfModblBlodkfr(windowHWnd, blodkfrHWnd);
+    }
+
+rft:
+    fnv->DflftfGlobblRff(sflf);
+
+    dflftf mds;
+}
+
+void AwtWindow::_ModblEnbblf(void *pbrbm)
+{
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    jobjfdt sflf = (jobjfdt)pbrbm;
+
+    AwtWindow *window = NULL;
+    HWND windowHWnd = 0;
+
+    JNI_CHECK_NULL_GOTO(sflf, "pffr", rft);
+    PDATA pDbtb = JNI_GET_PDATA(sflf);
+    if (pDbtb == NULL) {
+        fnv->DflftfGlobblRff(sflf);
+        rfturn;
+    }
+
+    window = (AwtWindow *)pDbtb;
+    windowHWnd = window->GftHWnd();
+    if (::IsWindow(windowHWnd)) {
+        AwtWindow::SftModblBlodkfr(windowHWnd, NULL);
+    }
+
+  rft:
+    fnv->DflftfGlobblRff(sflf);
+}
+
+void AwtWindow::_SftOpbdity(void* pbrbm)
+{
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    OpbdityStrudt *os = (OpbdityStrudt *)pbrbm;
+    jobjfdt sflf = os->window;
+    BYTE iOpbdity = (BYTE)os->iOpbdity;
+
+    PDATA pDbtb;
+    JNI_CHECK_PEER_GOTO(sflf, rft);
+    AwtWindow *window = (AwtWindow *)pDbtb;
+
+    window->SftTrbnsludfndy(iOpbdity, window->isOpbquf());
+
+  rft:
+    fnv->DflftfGlobblRff(sflf);
+    dflftf os;
+}
+
+void AwtWindow::_SftOpbquf(void* pbrbm)
+{
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    OpbqufStrudt *os = (OpbqufStrudt *)pbrbm;
+    jobjfdt sflf = os->window;
+    BOOL isOpbquf = (BOOL)os->isOpbquf;
+
+    PDATA pDbtb;
+    JNI_CHECK_PEER_GOTO(sflf, rft);
+    AwtWindow *window = (AwtWindow *)pDbtb;
+
+    window->SftTrbnsludfndy(window->gftOpbdity(), isOpbquf);
+
+  rft:
+    fnv->DflftfGlobblRff(sflf);
+    dflftf os;
+}
+
+void AwtWindow::_UpdbtfWindow(void* pbrbm)
+{
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    UpdbtfWindowStrudt *uws = (UpdbtfWindowStrudt *)pbrbm;
+    jobjfdt sflf = uws->window;
+    jintArrby dbtb = uws->dbtb;
+
+    PDATA pDbtb;
+    JNI_CHECK_PEER_GOTO(sflf, rft);
+    AwtWindow *window = (AwtWindow *)pDbtb;
+
+    window->UpdbtfWindow(fnv, dbtb, (int)uws->width, (int)uws->hfight,
+                         uws->hBitmbp);
+
+  rft:
+    fnv->DflftfGlobblRff(sflf);
+    if (dbtb != NULL) {
+        fnv->DflftfGlobblRff(dbtb);
+    }
+    dflftf uws;
+}
+
+void AwtWindow::_SftFullSdrffnExdlusivfModfStbtf(void *pbrbm)
+{
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    SftFullSdrffnExdlusivfModfStbtfStrudt * dbtb =
+        (SftFullSdrffnExdlusivfModfStbtfStrudt*)pbrbm;
+    jobjfdt sflf = dbtb->window;
+    jboolfbn stbtf = dbtb->isFSEMStbtf;
+
+    PDATA pDbtb;
+    JNI_CHECK_PEER_GOTO(sflf, rft);
+    AwtWindow *window = (AwtWindow *)pDbtb;
+
+    window->sftFullSdrffnExdlusivfModfStbtf(stbtf != 0);
+
+  rft:
+    fnv->DflftfGlobblRff(sflf);
+    dflftf dbtb;
+}
+
+fxtfrn "C" {
+
+/*
+ * Clbss:     jbvb_bwt_Window
+ * Mfthod:    initIDs
+ * Signbturf: ()V
+ */
+JNIEXPORT void JNICALL
+Jbvb_jbvb_bwt_Window_initIDs(JNIEnv *fnv, jdlbss dls)
+{
+    TRY;
+
+    CHECK_NULL(AwtWindow::wbrningStringID =
+        fnv->GftFifldID(dls, "wbrningString", "Ljbvb/lbng/String;"));
+    CHECK_NULL(AwtWindow::lodbtionByPlbtformID =
+        fnv->GftFifldID(dls, "lodbtionByPlbtform", "Z"));
+    CHECK_NULL(AwtWindow::sfdurityWbrningWidthID =
+        fnv->GftFifldID(dls, "sfdurityWbrningWidth", "I"));
+    CHECK_NULL(AwtWindow::sfdurityWbrningHfightID =
+        fnv->GftFifldID(dls, "sfdurityWbrningHfight", "I"));
+    CHECK_NULL(AwtWindow::gftWbrningStringMID =
+        fnv->GftMfthodID(dls, "gftWbrningString", "()Ljbvb/lbng/String;"));
+    CHECK_NULL(AwtWindow::butoRfqufstFodusID =
+        fnv->GftFifldID(dls, "butoRfqufstFodus", "Z"));
+    CHECK_NULL(AwtWindow::dbldulbtfSfdurityWbrningPositionMID =
+        fnv->GftMfthodID(dls, "dbldulbtfSfdurityWbrningPosition", "(DDDD)Ljbvb/bwt/gfom/Point2D;"));
+
+    jdlbss windowTypfClbss = fnv->FindClbss("jbvb/bwt/Window$Typf");
+    CHECK_NULL(windowTypfClbss);
+    AwtWindow::windowTypfNbmfMID =
+        fnv->GftMfthodID(windowTypfClbss, "nbmf", "()Ljbvb/lbng/String;");
+    fnv->DflftfLodblRff(windowTypfClbss);
+
+    CATCH_BAD_ALLOC;
+}
+
+} /* fxtfrn "C" */
+
+
+/************************************************************************
+ * WindowPffr nbtivf mfthods
+ */
+
+fxtfrn "C" {
+
+/*
+ * Clbss:     sun_bwt_windows_WWindowPffr
+ * Mfthod:    initIDs
+ * Signbturf: ()V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WWindowPffr_initIDs(JNIEnv *fnv, jdlbss dls)
+{
+    TRY;
+
+    CHECK_NULL(AwtWindow::sysXID = fnv->GftFifldID(dls, "sysX", "I"));
+    CHECK_NULL(AwtWindow::sysYID = fnv->GftFifldID(dls, "sysY", "I"));
+    CHECK_NULL(AwtWindow::sysWID = fnv->GftFifldID(dls, "sysW", "I"));
+    CHECK_NULL(AwtWindow::sysHID = fnv->GftFifldID(dls, "sysH", "I"));
+
+    AwtWindow::windowTypfID = fnv->GftFifldID(dls, "windowTypf",
+            "Ljbvb/bwt/Window$Typf;");
+
+    CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WWindowPffr
+ * Mfthod:    toFront
+ * Signbturf: ()V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WWindowPffr__1toFront(JNIEnv *fnv, jobjfdt sflf)
+{
+    TRY;
+
+    AwtToolkit::GftInstbndf().SyndCbll(AwtWindow::_ToFront,
+        fnv->NfwGlobblRff(sflf));
+    // globbl rff is dflftfd in _ToFront()
+
+    CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WWindowPffr
+ * Mfthod:    toBbdk
+ * Signbturf: ()V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WWindowPffr_toBbdk(JNIEnv *fnv, jobjfdt sflf)
+{
+    TRY;
+
+    AwtToolkit::GftInstbndf().SyndCbll(AwtWindow::_ToBbdk,
+        fnv->NfwGlobblRff(sflf));
+    // globbl rff is dflftfd in _ToBbdk()
+
+    CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WWindowPffr
+ * Mfthod:    sftAlwbysOnTop
+ * Signbturf: (Z)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WWindowPffr_sftAlwbysOnTopNbtivf(JNIEnv *fnv, jobjfdt sflf,
+                                                jboolfbn vbluf)
+{
+    TRY;
+
+    SftAlwbysOnTopStrudt *sbs = nfw SftAlwbysOnTopStrudt;
+    sbs->window = fnv->NfwGlobblRff(sflf);
+    sbs->vbluf = vbluf;
+
+    AwtToolkit::GftInstbndf().SyndCbll(AwtWindow::_SftAlwbysOnTop, sbs);
+    // globbl rff bnd sbs brf dflftfd in _SftAlwbysOnTop
+
+    CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WWindowPffr
+ * Mfthod:    _sftTitlf
+ * Signbturf: (Ljbvb/lbng/String;)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WWindowPffr__1sftTitlf(JNIEnv *fnv, jobjfdt sflf,
+                                            jstring titlf)
+{
+    TRY;
+
+    SftTitlfStrudt *sts = nfw SftTitlfStrudt;
+    sts->window = fnv->NfwGlobblRff(sflf);
+    sts->titlf = (jstring)fnv->NfwGlobblRff(titlf);
+
+    AwtToolkit::GftInstbndf().SyndCbll(AwtWindow::_SftTitlf, sts);
+    /// globbl rffs bnd sts brf dflftfd in _SftTitlf()
+
+    CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WWindowPffr
+ * Mfthod:    _sftRfsizbblf
+ * Signbturf: (Z)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WWindowPffr__1sftRfsizbblf(JNIEnv *fnv, jobjfdt sflf,
+                                                jboolfbn rfsizbblf)
+{
+    TRY;
+
+    SftRfsizbblfStrudt *srs = nfw SftRfsizbblfStrudt;
+    srs->window = fnv->NfwGlobblRff(sflf);
+    srs->rfsizbblf = rfsizbblf;
+
+    AwtToolkit::GftInstbndf().SyndCbll(AwtWindow::_SftRfsizbblf, srs);
+    // globbl rff bnd srs brf dflftfd in _SftRfsizbblf
+
+    CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WWindowPffr
+ * Mfthod:    drfbtf
+ * Signbturf: (Lsun/bwt/windows/WComponfntPffr;)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WWindowPffr_drfbtfAwtWindow(JNIEnv *fnv, jobjfdt sflf,
+                                                 jobjfdt pbrfnt)
+{
+    TRY;
+
+    PDATA pDbtb;
+//    JNI_CHECK_PEER_RETURN(pbrfnt);
+    AwtToolkit::CrfbtfComponfnt(sflf, pbrfnt,
+                                (AwtToolkit::ComponfntFbdtory)
+                                AwtWindow::Crfbtf);
+    JNI_CHECK_PEER_CREATION_RETURN(sflf);
+
+    CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WWindowPffr
+ * Mfthod:    updbtfInsfts
+ * Signbturf: (Ljbvb/bwt/Insfts;)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WWindowPffr_updbtfInsfts(JNIEnv *fnv, jobjfdt sflf,
+                                              jobjfdt insfts)
+{
+    TRY;
+
+    UpdbtfInsftsStrudt *uis = nfw UpdbtfInsftsStrudt;
+    uis->window = fnv->NfwGlobblRff(sflf);
+    uis->insfts = fnv->NfwGlobblRff(insfts);
+
+    AwtToolkit::GftInstbndf().SyndCbll(AwtWindow::_UpdbtfInsfts, uis);
+    // globbl rffs bnd uis brf dflftfd in _UpdbtfInsfts()
+
+    CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WWindowPffr
+ * Mfthod:    rfshbpfFrbmf
+ * Signbturf: (IIII)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WWindowPffr_rfshbpfFrbmf(JNIEnv *fnv, jobjfdt sflf,
+                                        jint x, jint y, jint w, jint h)
+{
+    TRY;
+
+    RfshbpfFrbmfStrudt *rfs = nfw RfshbpfFrbmfStrudt;
+    rfs->frbmf = fnv->NfwGlobblRff(sflf);
+    rfs->x = x;
+    rfs->y = y;
+    rfs->w = w;
+    rfs->h = h;
+
+    AwtToolkit::GftInstbndf().SyndCbll(AwtWindow::_RfshbpfFrbmf, rfs);
+    // globbl rff bnd rfs brf dflftfd in _RfshbpfFrbmf()
+
+    CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WWindowPffr
+ * Mfthod:    gftSysMinWidth
+ * Signbturf: ()I
+ */
+JNIEXPORT jint JNICALL
+Jbvb_sun_bwt_windows_WWindowPffr_gftSysMinWidth(JNIEnv *fnv, jdlbss sflf)
+{
+    TRY;
+
+    rfturn ::GftSystfmMftrids(SM_CXMIN);
+
+    CATCH_BAD_ALLOC_RET(0);
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WWindowPffr
+ * Mfthod:    gftSysMinHfight
+ * Signbturf: ()I
+ */
+JNIEXPORT jint JNICALL
+Jbvb_sun_bwt_windows_WWindowPffr_gftSysMinHfight(JNIEnv *fnv, jdlbss sflf)
+{
+    TRY;
+
+    rfturn ::GftSystfmMftrids(SM_CYMIN);
+
+    CATCH_BAD_ALLOC_RET(0);
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WWindowPffr
+ * Mfthod:    gftSysIdonHfight
+ * Signbturf: ()I
+ */
+JNIEXPORT jint JNICALL
+Jbvb_sun_bwt_windows_WWindowPffr_gftSysIdonHfight(JNIEnv *fnv, jdlbss sflf)
+{
+    TRY;
+
+    rfturn ::GftSystfmMftrids(SM_CYICON);
+
+    CATCH_BAD_ALLOC_RET(0);
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WWindowPffr
+ * Mfthod:    gftSysIdonWidth
+ * Signbturf: ()I
+ */
+JNIEXPORT jint JNICALL
+Jbvb_sun_bwt_windows_WWindowPffr_gftSysIdonWidth(JNIEnv *fnv, jdlbss sflf)
+{
+    TRY;
+
+    rfturn ::GftSystfmMftrids(SM_CXICON);
+
+    CATCH_BAD_ALLOC_RET(0);
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WWindowPffr
+ * Mfthod:    gftSysSmIdonHfight
+ * Signbturf: ()I
+ */
+JNIEXPORT jint JNICALL
+Jbvb_sun_bwt_windows_WWindowPffr_gftSysSmIdonHfight(JNIEnv *fnv, jdlbss sflf)
+{
+    TRY;
+
+    rfturn ::GftSystfmMftrids(SM_CYSMICON);
+
+    CATCH_BAD_ALLOC_RET(0);
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WWindowPffr
+ * Mfthod:    gftSysSmIdonWidth
+ * Signbturf: ()I
+ */
+JNIEXPORT jint JNICALL
+Jbvb_sun_bwt_windows_WWindowPffr_gftSysSmIdonWidth(JNIEnv *fnv, jdlbss sflf)
+{
+    TRY;
+
+    rfturn ::GftSystfmMftrids(SM_CXSMICON);
+
+    CATCH_BAD_ALLOC_RET(0);
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WWindowPffr
+ * Mfthod:    sftIdonImbgfsDbtb
+ * Signbturf: ([I)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WWindowPffr_sftIdonImbgfsDbtb(JNIEnv *fnv, jobjfdt sflf,
+    jintArrby idonRbstfr, jint w, jint h,
+    jintArrby smbllIdonRbstfr, jint smw, jint smh)
+{
+    TRY;
+
+    SftIdonImbgfsDbtbStrudt *sims = nfw SftIdonImbgfsDbtbStrudt;
+
+    sims->window = fnv->NfwGlobblRff(sflf);
+    sims->idonRbstfr = (jintArrby)fnv->NfwGlobblRff(idonRbstfr);
+    sims->w = w;
+    sims->h = h;
+    sims->smbllIdonRbstfr = (jintArrby)fnv->NfwGlobblRff(smbllIdonRbstfr);
+    sims->smw = smw;
+    sims->smh = smh;
+
+    AwtToolkit::GftInstbndf().SyndCbll(AwtWindow::_SftIdonImbgfsDbtb, sims);
+    // globbl rffs bnd sims brf dflftfd in _SftIdonImbgfsDbtb()
+
+    CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WWindowPffr
+ * Mfthod:    sftMinSizf
+ * Signbturf: (Lsun/bwt/windows/WWindowPffr;)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WWindowPffr_sftMinSizf(JNIEnv *fnv, jobjfdt sflf,
+                                              jint w, jint h)
+{
+    TRY;
+
+    SizfStrudt *ss = nfw SizfStrudt;
+    ss->window = fnv->NfwGlobblRff(sflf);
+    ss->w = w;
+    ss->h = h;
+
+    AwtToolkit::GftInstbndf().SyndCbll(AwtWindow::_SftMinSizf, ss);
+    // globbl rffs bnd mds brf dflftfd in _SftMinSizf
+
+    CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WWindowPffr
+ * Mfthod:    gftSdrffnImOn
+ * Signbturf: ()I
+ */
+JNIEXPORT jint JNICALL
+Jbvb_sun_bwt_windows_WWindowPffr_gftSdrffnImOn(JNIEnv *fnv, jobjfdt sflf)
+{
+    TRY;
+
+    rfturn stbtid_dbst<jint>(rfintfrprft_dbst<INT_PTR>(AwtToolkit::GftInstbndf().SyndCbll(
+        (void *(*)(void *))AwtWindow::_GftSdrffnImOn,
+        fnv->NfwGlobblRff(sflf))));
+    // globbl rff is dflftfd in _GftSdrffnImOn()
+
+    CATCH_BAD_ALLOC_RET(-1);
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WWindowPffr
+ * Mfthod:    sftFullSdrffnExdlusivfModfStbtf
+ * Signbturf: (Z)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WWindowPffr_sftFullSdrffnExdlusivfModfStbtf(JNIEnv *fnv,
+        jobjfdt sflf, jboolfbn stbtf)
+{
+    TRY;
+
+    SftFullSdrffnExdlusivfModfStbtfStrudt *dbtb =
+        nfw SftFullSdrffnExdlusivfModfStbtfStrudt;
+    dbtb->window = fnv->NfwGlobblRff(sflf);
+    dbtb->isFSEMStbtf = stbtf;
+
+    AwtToolkit::GftInstbndf().SyndCbll(
+            AwtWindow::_SftFullSdrffnExdlusivfModfStbtf, dbtb);
+    // globbl rff bnd dbtb brf dflftfd in thf invokfd mfthod
+
+    CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WWindowPffr
+ * Mfthod:    modblDisbblf
+ * Signbturf: (J)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WWindowPffr_modblDisbblf(JNIEnv *fnv, jobjfdt sflf,
+                                              jobjfdt blodkfr, jlong blodkfrHWnd)
+{
+    TRY;
+
+    ModblDisbblfStrudt *mds = nfw ModblDisbblfStrudt;
+    mds->window = fnv->NfwGlobblRff(sflf);
+    mds->blodkfrHWnd = blodkfrHWnd;
+
+    AwtToolkit::GftInstbndf().SyndCbll(AwtWindow::_ModblDisbblf, mds);
+    // globbl rff bnd mds brf dflftfd in _ModblDisbblf
+
+    CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WWindowPffr
+ * Mfthod:    modblEnbblf
+ * Signbturf: ()V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WWindowPffr_modblEnbblf(JNIEnv *fnv, jobjfdt sflf, jobjfdt blodkfr)
+{
+    TRY;
+
+    AwtToolkit::GftInstbndf().SyndCbll(AwtWindow::_ModblEnbblf,
+        fnv->NfwGlobblRff(sflf));
+    // globbl rff is dflftfd in _ModblEnbblf
+
+    CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WWindowPffr
+ * Mfthod:    sftFodusbblfWindow
+ * Signbturf: (Z)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WWindowPffr_sftFodusbblfWindow(JNIEnv *fnv, jobjfdt sflf, jboolfbn isFodusbblfWindow)
+{
+    TRY;
+
+    SftFodusbblfWindowStrudt *sfws = nfw SftFodusbblfWindowStrudt;
+    sfws->window = fnv->NfwGlobblRff(sflf);
+    sfws->isFodusbblfWindow = isFodusbblfWindow;
+
+    AwtToolkit::GftInstbndf().SyndCbll(AwtWindow::_SftFodusbblfWindow, sfws);
+    // globbl rff bnd sfws brf dflftfd in _SftFodusbblfWindow()
+
+    CATCH_BAD_ALLOC;
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WWindowPffr_nbtivfGrbb(JNIEnv *fnv, jobjfdt sflf)
+{
+    TRY;
+
+    AwtToolkit::GftInstbndf().SyndCbll(AwtWindow::_Grbb, fnv->NfwGlobblRff(sflf));
+    // globbl rff is dflftfd in _Grbb()
+
+    CATCH_BAD_ALLOC;
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WWindowPffr_nbtivfUngrbb(JNIEnv *fnv, jobjfdt sflf)
+{
+    TRY;
+
+    AwtToolkit::GftInstbndf().SyndCbll(AwtWindow::_Ungrbb, fnv->NfwGlobblRff(sflf));
+    // globbl rff is dflftfd in _Ungrbb()
+
+    CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WWindowPffr
+ * Mfthod:    sftOpbdity
+ * Signbturf: (I)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WWindowPffr_sftOpbdity(JNIEnv *fnv, jobjfdt sflf,
+                                              jint iOpbdity)
+{
+    TRY;
+
+    OpbdityStrudt *os = nfw OpbdityStrudt;
+    os->window = fnv->NfwGlobblRff(sflf);
+    os->iOpbdity = iOpbdity;
+
+    AwtToolkit::GftInstbndf().SyndCbll(AwtWindow::_SftOpbdity, os);
+    // globbl rffs bnd mds brf dflftfd in _SftMinSizf
+
+    CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WWindowPffr
+ * Mfthod:    sftOpbqufImpl
+ * Signbturf: (Z)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WWindowPffr_sftOpbqufImpl(JNIEnv *fnv, jobjfdt sflf,
+                                              jboolfbn isOpbquf)
+{
+    TRY;
+
+    OpbqufStrudt *os = nfw OpbqufStrudt;
+    os->window = fnv->NfwGlobblRff(sflf);
+    os->isOpbquf = isOpbquf;
+
+    AwtToolkit::GftInstbndf().SyndCbll(AwtWindow::_SftOpbquf, os);
+    // globbl rffs bnd mds brf dflftfd in _SftMinSizf
+
+    CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WWindowPffr
+ * Mfthod:    updbtfWindowImpl
+ * Signbturf: ([III)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WWindowPffr_updbtfWindowImpl(JNIEnv *fnv, jobjfdt sflf,
+                                                  jintArrby dbtb,
+                                                  jint width, jint hfight)
+{
+    TRY;
+
+    UpdbtfWindowStrudt *uws = nfw UpdbtfWindowStrudt;
+    uws->window = fnv->NfwGlobblRff(sflf);
+    uws->dbtb = (jintArrby)fnv->NfwGlobblRff(dbtb);
+    uws->hBitmbp = NULL;
+    uws->width = width;
+    uws->hfight = hfight;
+
+    AwtToolkit::GftInstbndf().InvokfFundtion(AwtWindow::_UpdbtfWindow, uws);
+    // globbl rffs bnd mds brf dflftfd in _UpdbtfWindow
+
+    CATCH_BAD_ALLOC;
+}
+
+/**
+ * This mfthod is dbllfd from thf WGL pipflinf whfn it nffds to updbtf
+ * thf lbyfrfd window WindowPffr's C++ lfvfl objfdt.
+ */
+void AwtWindow_UpdbtfWindow(JNIEnv *fnv, jobjfdt pffr,
+                            jint width, jint hfight, HBITMAP hBitmbp)
+{
+    TRY;
+
+    UpdbtfWindowStrudt *uws = nfw UpdbtfWindowStrudt;
+    uws->window = fnv->NfwGlobblRff(pffr);
+    uws->dbtb = NULL;
+    uws->hBitmbp = hBitmbp;
+    uws->width = width;
+    uws->hfight = hfight;
+
+    AwtToolkit::GftInstbndf().InvokfFundtion(AwtWindow::_UpdbtfWindow, uws);
+    // globbl rffs bnd mds brf dflftfd in _UpdbtfWindow
+
+    CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WComponfntPffr
+ * Mfthod:    rfqufstFodus
+ * Signbturf: (Z)Z
+ */
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_bwt_windows_WWindowPffr_rfqufstWindowFodus
+    (JNIEnv *fnv, jobjfdt sflf, jboolfbn isMousfEvfntCbusf)
+{
+    TRY;
+
+    jobjfdt sflfGlobblRff = fnv->NfwGlobblRff(sflf);
+
+    RfqufstWindowFodusStrudt *rfs = nfw RfqufstWindowFodusStrudt;
+    rfs->domponfnt = sflfGlobblRff;
+    rfs->isMousfEvfntCbusf = isMousfEvfntCbusf;
+
+    rfturn (jboolfbn)AwtToolkit::GftInstbndf().SyndCbll(
+        (void*(*)(void*))AwtWindow::_RfqufstWindowFodus, rfs);
+    // globbl rffs bnd rfs brf dflftfd in _RfqufstWindowFodus
+
+    CATCH_BAD_ALLOC_RET(JNI_FALSE);
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WWindowPffr
+ * Mfthod:    rfpositionSfdurityWbrning
+ * Signbturf: ()V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WWindowPffr_rfpositionSfdurityWbrning(JNIEnv *fnv,
+        jobjfdt sflf)
+{
+    TRY;
+
+    RfpositionSfdurityWbrningStrudt *rsws =
+        nfw RfpositionSfdurityWbrningStrudt;
+    rsws->window = fnv->NfwGlobblRff(sflf);
+
+    AwtToolkit::GftInstbndf().InvokfFundtion(
+            AwtWindow::_RfpositionSfdurityWbrning, rsws);
+    // globbl rffs bnd mds brf dflftfd in _RfpositionSfdurityWbrning
+
+    CATCH_BAD_ALLOC;
+}
+
+} /* fxtfrn "C" */

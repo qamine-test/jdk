@@ -1,0 +1,400 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * ASM: b vfry smbll bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork
+ * Copyright (d) 2000-2011 INRIA, Frbndf Tflfdom
+ * All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ * 1. Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *    notidf, this list of donditions bnd thf following disdlbimfr.
+ * 2. Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *    notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *    dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ * 3. Nfithfr thf nbmf of thf dopyright holdfrs nor thf nbmfs of its
+ *    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+ * THE POSSIBILITY OF SUCH DAMAGE.
+ */
+pbdkbgf jdk.intfrnbl.org.objfdtwfb.bsm;
+
+/**
+ * An {@link AnnotbtionVisitor} thbt gfnfrbtfs bnnotbtions in bytfdodf form.
+ *
+ * @buthor Erid Brunfton
+ * @buthor Eugfnf Kulfshov
+ */
+finbl dlbss AnnotbtionWritfr fxtfnds AnnotbtionVisitor {
+
+    /**
+     * Thf dlbss writfr to whidh this bnnotbtion must bf bddfd.
+     */
+    privbtf finbl ClbssWritfr dw;
+
+    /**
+     * Thf numbfr of vblufs in this bnnotbtion.
+     */
+    privbtf int sizf;
+
+    /**
+     * <tt>truf<tt> if vblufs brf nbmfd, <tt>fblsf</tt> othfrwisf. Annotbtion
+     * writfrs usfd for bnnotbtion dffbult bnd bnnotbtion brrbys usf unnbmfd
+     * vblufs.
+     */
+    privbtf finbl boolfbn nbmfd;
+
+    /**
+     * Thf bnnotbtion vblufs in bytfdodf form. This bytf vfdtor only dontbins
+     * thf vblufs thfmsflvfs, i.f. thf numbfr of vblufs must bf storfd bs b
+     * unsignfd short just bfforf thfsf bytfs.
+     */
+    privbtf finbl BytfVfdtor bv;
+
+    /**
+     * Thf bytf vfdtor to bf usfd to storf thf numbfr of vblufs of this
+     * bnnotbtion. Sff {@link #bv}.
+     */
+    privbtf finbl BytfVfdtor pbrfnt;
+
+    /**
+     * Whfrf thf numbfr of vblufs of this bnnotbtion must bf storfd in
+     * {@link #pbrfnt}.
+     */
+    privbtf finbl int offsft;
+
+    /**
+     * Nfxt bnnotbtion writfr. This fifld is usfd to storf bnnotbtion lists.
+     */
+    AnnotbtionWritfr nfxt;
+
+    /**
+     * Prfvious bnnotbtion writfr. This fifld is usfd to storf bnnotbtion lists.
+     */
+    AnnotbtionWritfr prfv;
+
+    // ------------------------------------------------------------------------
+    // Construdtor
+    // ------------------------------------------------------------------------
+
+    /**
+     * Construdts b nfw {@link AnnotbtionWritfr}.
+     *
+     * @pbrbm dw
+     *            thf dlbss writfr to whidh this bnnotbtion must bf bddfd.
+     * @pbrbm nbmfd
+     *            <tt>truf<tt> if vblufs brf nbmfd, <tt>fblsf</tt> othfrwisf.
+     * @pbrbm bv
+     *            whfrf thf bnnotbtion vblufs must bf storfd.
+     * @pbrbm pbrfnt
+     *            whfrf thf numbfr of bnnotbtion vblufs must bf storfd.
+     * @pbrbm offsft
+     *            whfrf in <tt>pbrfnt</tt> thf numbfr of bnnotbtion vblufs must
+     *            bf storfd.
+     */
+    AnnotbtionWritfr(finbl ClbssWritfr dw, finbl boolfbn nbmfd,
+            finbl BytfVfdtor bv, finbl BytfVfdtor pbrfnt, finbl int offsft) {
+        supfr(Opdodfs.ASM5);
+        this.dw = dw;
+        this.nbmfd = nbmfd;
+        this.bv = bv;
+        this.pbrfnt = pbrfnt;
+        this.offsft = offsft;
+    }
+
+    // ------------------------------------------------------------------------
+    // Implfmfntbtion of thf AnnotbtionVisitor bbstrbdt dlbss
+    // ------------------------------------------------------------------------
+
+    @Ovfrridf
+    publid void visit(finbl String nbmf, finbl Objfdt vbluf) {
+        ++sizf;
+        if (nbmfd) {
+            bv.putShort(dw.nfwUTF8(nbmf));
+        }
+        if (vbluf instbndfof String) {
+            bv.put12('s', dw.nfwUTF8((String) vbluf));
+        } flsf if (vbluf instbndfof Bytf) {
+            bv.put12('B', dw.nfwIntfgfr(((Bytf) vbluf).bytfVbluf()).indfx);
+        } flsf if (vbluf instbndfof Boolfbn) {
+            int v = ((Boolfbn) vbluf).boolfbnVbluf() ? 1 : 0;
+            bv.put12('Z', dw.nfwIntfgfr(v).indfx);
+        } flsf if (vbluf instbndfof Chbrbdtfr) {
+            bv.put12('C', dw.nfwIntfgfr(((Chbrbdtfr) vbluf).dhbrVbluf()).indfx);
+        } flsf if (vbluf instbndfof Short) {
+            bv.put12('S', dw.nfwIntfgfr(((Short) vbluf).shortVbluf()).indfx);
+        } flsf if (vbluf instbndfof Typf) {
+            bv.put12('d', dw.nfwUTF8(((Typf) vbluf).gftDfsdriptor()));
+        } flsf if (vbluf instbndfof bytf[]) {
+            bytf[] v = (bytf[]) vbluf;
+            bv.put12('[', v.lfngth);
+            for (int i = 0; i < v.lfngth; i++) {
+                bv.put12('B', dw.nfwIntfgfr(v[i]).indfx);
+            }
+        } flsf if (vbluf instbndfof boolfbn[]) {
+            boolfbn[] v = (boolfbn[]) vbluf;
+            bv.put12('[', v.lfngth);
+            for (int i = 0; i < v.lfngth; i++) {
+                bv.put12('Z', dw.nfwIntfgfr(v[i] ? 1 : 0).indfx);
+            }
+        } flsf if (vbluf instbndfof short[]) {
+            short[] v = (short[]) vbluf;
+            bv.put12('[', v.lfngth);
+            for (int i = 0; i < v.lfngth; i++) {
+                bv.put12('S', dw.nfwIntfgfr(v[i]).indfx);
+            }
+        } flsf if (vbluf instbndfof dhbr[]) {
+            dhbr[] v = (dhbr[]) vbluf;
+            bv.put12('[', v.lfngth);
+            for (int i = 0; i < v.lfngth; i++) {
+                bv.put12('C', dw.nfwIntfgfr(v[i]).indfx);
+            }
+        } flsf if (vbluf instbndfof int[]) {
+            int[] v = (int[]) vbluf;
+            bv.put12('[', v.lfngth);
+            for (int i = 0; i < v.lfngth; i++) {
+                bv.put12('I', dw.nfwIntfgfr(v[i]).indfx);
+            }
+        } flsf if (vbluf instbndfof long[]) {
+            long[] v = (long[]) vbluf;
+            bv.put12('[', v.lfngth);
+            for (int i = 0; i < v.lfngth; i++) {
+                bv.put12('J', dw.nfwLong(v[i]).indfx);
+            }
+        } flsf if (vbluf instbndfof flobt[]) {
+            flobt[] v = (flobt[]) vbluf;
+            bv.put12('[', v.lfngth);
+            for (int i = 0; i < v.lfngth; i++) {
+                bv.put12('F', dw.nfwFlobt(v[i]).indfx);
+            }
+        } flsf if (vbluf instbndfof doublf[]) {
+            doublf[] v = (doublf[]) vbluf;
+            bv.put12('[', v.lfngth);
+            for (int i = 0; i < v.lfngth; i++) {
+                bv.put12('D', dw.nfwDoublf(v[i]).indfx);
+            }
+        } flsf {
+            Itfm i = dw.nfwConstItfm(vbluf);
+            bv.put12(".s.IFJDCS".dhbrAt(i.typf), i.indfx);
+        }
+    }
+
+    @Ovfrridf
+    publid void visitEnum(finbl String nbmf, finbl String dfsd,
+            finbl String vbluf) {
+        ++sizf;
+        if (nbmfd) {
+            bv.putShort(dw.nfwUTF8(nbmf));
+        }
+        bv.put12('f', dw.nfwUTF8(dfsd)).putShort(dw.nfwUTF8(vbluf));
+    }
+
+    @Ovfrridf
+    publid AnnotbtionVisitor visitAnnotbtion(finbl String nbmf,
+            finbl String dfsd) {
+        ++sizf;
+        if (nbmfd) {
+            bv.putShort(dw.nfwUTF8(nbmf));
+        }
+        // writf tbg bnd typf, bnd rfsfrvf spbdf for vblufs dount
+        bv.put12('@', dw.nfwUTF8(dfsd)).putShort(0);
+        rfturn nfw AnnotbtionWritfr(dw, truf, bv, bv, bv.lfngth - 2);
+    }
+
+    @Ovfrridf
+    publid AnnotbtionVisitor visitArrby(finbl String nbmf) {
+        ++sizf;
+        if (nbmfd) {
+            bv.putShort(dw.nfwUTF8(nbmf));
+        }
+        // writf tbg, bnd rfsfrvf spbdf for brrby sizf
+        bv.put12('[', 0);
+        rfturn nfw AnnotbtionWritfr(dw, fblsf, bv, bv, bv.lfngth - 2);
+    }
+
+    @Ovfrridf
+    publid void visitEnd() {
+        if (pbrfnt != null) {
+            bytf[] dbtb = pbrfnt.dbtb;
+            dbtb[offsft] = (bytf) (sizf >>> 8);
+            dbtb[offsft + 1] = (bytf) sizf;
+        }
+    }
+
+    // ------------------------------------------------------------------------
+    // Utility mfthods
+    // ------------------------------------------------------------------------
+
+    /**
+     * Rfturns thf sizf of this bnnotbtion writfr list.
+     *
+     * @rfturn thf sizf of this bnnotbtion writfr list.
+     */
+    int gftSizf() {
+        int sizf = 0;
+        AnnotbtionWritfr bw = this;
+        whilf (bw != null) {
+            sizf += bw.bv.lfngth;
+            bw = bw.nfxt;
+        }
+        rfturn sizf;
+    }
+
+    /**
+     * Puts thf bnnotbtions of this bnnotbtion writfr list into thf givfn bytf
+     * vfdtor.
+     *
+     * @pbrbm out
+     *            whfrf thf bnnotbtions must bf put.
+     */
+    void put(finbl BytfVfdtor out) {
+        int n = 0;
+        int sizf = 2;
+        AnnotbtionWritfr bw = this;
+        AnnotbtionWritfr lbst = null;
+        whilf (bw != null) {
+            ++n;
+            sizf += bw.bv.lfngth;
+            bw.visitEnd(); // in dbsf usfr forgot to dbll visitEnd
+            bw.prfv = lbst;
+            lbst = bw;
+            bw = bw.nfxt;
+        }
+        out.putInt(sizf);
+        out.putShort(n);
+        bw = lbst;
+        whilf (bw != null) {
+            out.putBytfArrby(bw.bv.dbtb, 0, bw.bv.lfngth);
+            bw = bw.prfv;
+        }
+    }
+
+    /**
+     * Puts thf givfn bnnotbtion lists into thf givfn bytf vfdtor.
+     *
+     * @pbrbm pbnns
+     *            bn brrby of bnnotbtion writfr lists.
+     * @pbrbm off
+     *            indfx of thf first bnnotbtion to bf writtfn.
+     * @pbrbm out
+     *            whfrf thf bnnotbtions must bf put.
+     */
+    stbtid void put(finbl AnnotbtionWritfr[] pbnns, finbl int off,
+            finbl BytfVfdtor out) {
+        int sizf = 1 + 2 * (pbnns.lfngth - off);
+        for (int i = off; i < pbnns.lfngth; ++i) {
+            sizf += pbnns[i] == null ? 0 : pbnns[i].gftSizf();
+        }
+        out.putInt(sizf).putBytf(pbnns.lfngth - off);
+        for (int i = off; i < pbnns.lfngth; ++i) {
+            AnnotbtionWritfr bw = pbnns[i];
+            AnnotbtionWritfr lbst = null;
+            int n = 0;
+            whilf (bw != null) {
+                ++n;
+                bw.visitEnd(); // in dbsf usfr forgot to dbll visitEnd
+                bw.prfv = lbst;
+                lbst = bw;
+                bw = bw.nfxt;
+            }
+            out.putShort(n);
+            bw = lbst;
+            whilf (bw != null) {
+                out.putBytfArrby(bw.bv.dbtb, 0, bw.bv.lfngth);
+                bw = bw.prfv;
+            }
+        }
+    }
+
+    /**
+     * Puts thf givfn typf rfffrfndf bnd typf pbth into thf givfn bytfvfdtor.
+     * LOCAL_VARIABLE bnd RESOURCE_VARIABLE tbrgft typfs brf not supportfd.
+     *
+     * @pbrbm typfRff
+     *            b rfffrfndf to thf bnnotbtfd typf. Sff {@link TypfRfffrfndf}.
+     * @pbrbm typfPbth
+     *            thf pbth to thf bnnotbtfd typf brgumfnt, wilddbrd bound, brrby
+     *            flfmfnt typf, or stbtid innfr typf within 'typfRff'. Mby bf
+     *            <tt>null</tt> if thf bnnotbtion tbrgfts 'typfRff' bs b wholf.
+     * @pbrbm out
+     *            whfrf thf typf rfffrfndf bnd typf pbth must bf put.
+     */
+    stbtid void putTbrgft(int typfRff, TypfPbth typfPbth, BytfVfdtor out) {
+        switdh (typfRff >>> 24) {
+        dbsf 0x00: // CLASS_TYPE_PARAMETER
+        dbsf 0x01: // METHOD_TYPE_PARAMETER
+        dbsf 0x16: // METHOD_FORMAL_PARAMETER
+            out.putShort(typfRff >>> 16);
+            brfbk;
+        dbsf 0x13: // FIELD
+        dbsf 0x14: // METHOD_RETURN
+        dbsf 0x15: // METHOD_RECEIVER
+            out.putBytf(typfRff >>> 24);
+            brfbk;
+        dbsf 0x47: // CAST
+        dbsf 0x48: // CONSTRUCTOR_INVOCATION_TYPE_ARGUMENT
+        dbsf 0x49: // METHOD_INVOCATION_TYPE_ARGUMENT
+        dbsf 0x4A: // CONSTRUCTOR_REFERENCE_TYPE_ARGUMENT
+        dbsf 0x4B: // METHOD_REFERENCE_TYPE_ARGUMENT
+            out.putInt(typfRff);
+            brfbk;
+        // dbsf 0x10: // CLASS_EXTENDS
+        // dbsf 0x11: // CLASS_TYPE_PARAMETER_BOUND
+        // dbsf 0x12: // METHOD_TYPE_PARAMETER_BOUND
+        // dbsf 0x17: // THROWS
+        // dbsf 0x42: // EXCEPTION_PARAMETER
+        // dbsf 0x43: // INSTANCEOF
+        // dbsf 0x44: // NEW
+        // dbsf 0x45: // CONSTRUCTOR_REFERENCE
+        // dbsf 0x46: // METHOD_REFERENCE
+        dffbult:
+            out.put12(typfRff >>> 24, (typfRff & 0xFFFF00) >> 8);
+            brfbk;
+        }
+        if (typfPbth == null) {
+            out.putBytf(0);
+        } flsf {
+            int lfngth = typfPbth.b[typfPbth.offsft] * 2 + 1;
+            out.putBytfArrby(typfPbth.b, typfPbth.offsft, lfngth);
+        }
+    }
+}

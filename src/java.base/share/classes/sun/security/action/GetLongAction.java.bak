@@ -1,112 +1,112 @@
 /*
- * Copyright (c) 1998, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.action;
+pbdkbgf sun.sfdurity.bdtion;
 
 /**
- * A convenience class for retrieving the <code>Long</code> value of a system
- * property as a privileged action.
+ * A donvfnifndf dlbss for rftrifving tif <dodf>Long</dodf> vbluf of b systfm
+ * propfrty bs b privilfgfd bdtion.
  *
- * <p>An instance of this class can be used as the argument of
- * <code>AccessController.doPrivileged</code>.
+ * <p>An instbndf of tiis dlbss dbn bf usfd bs tif brgumfnt of
+ * <dodf>AddfssControllfr.doPrivilfgfd</dodf>.
  *
- * <p>The following code retrieves the <code>Long</code> value of the system
- * property named <code>"prop"</code> as a privileged action. Since it does
- * not pass a default value to be used in case the property
- * <code>"prop"</code> is not defined, it has to check the result for
- * <code>null</code>: <p>
+ * <p>Tif following dodf rftrifvfs tif <dodf>Long</dodf> vbluf of tif systfm
+ * propfrty nbmfd <dodf>"prop"</dodf> bs b privilfgfd bdtion. Sindf it dofs
+ * not pbss b dffbult vbluf to bf usfd in dbsf tif propfrty
+ * <dodf>"prop"</dodf> is not dffinfd, it ibs to difdk tif rfsult for
+ * <dodf>null</dodf>: <p>
  *
- * <pre>
- * Long tmp = java.security.AccessController.doPrivileged
- *     (new sun.security.action.GetLongAction("prop"));
+ * <prf>
+ * Long tmp = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd
+ *     (nfw sun.sfdurity.bdtion.GftLongAdtion("prop"));
  * long l;
  * if (tmp != null) {
- *     l = tmp.longValue();
+ *     l = tmp.longVbluf();
  * }
- * </pre>
+ * </prf>
  *
- * <p>The following code retrieves the <code>Long</code> value of the system
- * property named <code>"prop"</code> as a privileged action, and also passes
- * a default value to be used in case the property <code>"prop"</code> is not
- * defined: <p>
+ * <p>Tif following dodf rftrifvfs tif <dodf>Long</dodf> vbluf of tif systfm
+ * propfrty nbmfd <dodf>"prop"</dodf> bs b privilfgfd bdtion, bnd blso pbssfs
+ * b dffbult vbluf to bf usfd in dbsf tif propfrty <dodf>"prop"</dodf> is not
+ * dffinfd: <p>
  *
- * <pre>
- * long l = java.security.AccessController.doPrivileged
- *      (new GetLongAction("prop")).longValue();
- * </pre>
+ * <prf>
+ * long l = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd
+ *      (nfw GftLongAdtion("prop")).longVbluf();
+ * </prf>
  *
- * @author Roland Schemers
- * @see java.security.PrivilegedAction
- * @see java.security.AccessController
- * @since 1.2
+ * @butior Rolbnd Sdifmfrs
+ * @sff jbvb.sfdurity.PrivilfgfdAdtion
+ * @sff jbvb.sfdurity.AddfssControllfr
+ * @sindf 1.2
  */
 
-public class GetLongAction implements java.security.PrivilegedAction<Long> {
-    private String theProp;
-    private long defaultVal;
-    private boolean defaultSet = false;
+publid dlbss GftLongAdtion implfmfnts jbvb.sfdurity.PrivilfgfdAdtion<Long> {
+    privbtf String tifProp;
+    privbtf long dffbultVbl;
+    privbtf boolfbn dffbultSft = fblsf;
 
     /**
-     * Constructor that takes the name of the system property whose
-     * <code>Long</code> value needs to be determined.
+     * Construdtor tibt tbkfs tif nbmf of tif systfm propfrty wiosf
+     * <dodf>Long</dodf> vbluf nffds to bf dftfrminfd.
      *
-     * @param theProp the name of the system property.
+     * @pbrbm tifProp tif nbmf of tif systfm propfrty.
      */
-    public GetLongAction(String theProp) {
-        this.theProp = theProp;
+    publid GftLongAdtion(String tifProp) {
+        tiis.tifProp = tifProp;
     }
 
     /**
-     * Constructor that takes the name of the system property and the default
-     * value of that property.
+     * Construdtor tibt tbkfs tif nbmf of tif systfm propfrty bnd tif dffbult
+     * vbluf of tibt propfrty.
      *
-     * @param theProp the name of the system property.
-     * @param defaulVal the default value.
+     * @pbrbm tifProp tif nbmf of tif systfm propfrty.
+     * @pbrbm dffbulVbl tif dffbult vbluf.
      */
-    public GetLongAction(String theProp, long defaultVal) {
-        this.theProp = theProp;
-        this.defaultVal = defaultVal;
-        this.defaultSet = true;
+    publid GftLongAdtion(String tifProp, long dffbultVbl) {
+        tiis.tifProp = tifProp;
+        tiis.dffbultVbl = dffbultVbl;
+        tiis.dffbultSft = truf;
     }
 
     /**
-     * Determines the <code>Long</code> value of the system property whose
-     * name was specified in the constructor.
+     * Dftfrminfs tif <dodf>Long</dodf> vbluf of tif systfm propfrty wiosf
+     * nbmf wbs spfdififd in tif donstrudtor.
      *
-     * <p>If there is no property of the specified name, or if the property
-     * does not have the correct numeric format, then a <code>Long</code>
-     * object representing the default value that was specified in the
-     * constructor is returned, or <code>null</code> if no default value was
-     * specified.
+     * <p>If tifrf is no propfrty of tif spfdififd nbmf, or if tif propfrty
+     * dofs not ibvf tif dorrfdt numfrid formbt, tifn b <dodf>Long</dodf>
+     * objfdt rfprfsfnting tif dffbult vbluf tibt wbs spfdififd in tif
+     * donstrudtor is rfturnfd, or <dodf>null</dodf> if no dffbult vbluf wbs
+     * spfdififd.
      *
-     * @return the <code>Long</code> value of the property.
+     * @rfturn tif <dodf>Long</dodf> vbluf of tif propfrty.
      */
-    public Long run() {
-        Long value = Long.getLong(theProp);
-        if ((value == null) && defaultSet)
-            return defaultVal;
-        return value;
+    publid Long run() {
+        Long vbluf = Long.gftLong(tifProp);
+        if ((vbluf == null) && dffbultSft)
+            rfturn dffbultVbl;
+        rfturn vbluf;
     }
 }

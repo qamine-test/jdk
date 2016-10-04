@@ -1,0 +1,358 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * ASM: b vfry smbll bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork
+ * Copyright (d) 2000-2011 INRIA, Frbndf Tflfdom
+ * All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ * 1. Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *    notidf, this list of donditions bnd thf following disdlbimfr.
+ * 2. Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *    notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *    dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ * 3. Nfithfr thf nbmf of thf dopyright holdfrs nor thf nbmfs of its
+ *    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+ * THE POSSIBILITY OF SUCH DAMAGE.
+ */
+pbdkbgf jdk.intfrnbl.org.objfdtwfb.bsm;
+
+/**
+ * An {@link FifldVisitor} thbt gfnfrbtfs Jbvb fiflds in bytfdodf form.
+ *
+ * @buthor Erid Brunfton
+ */
+finbl dlbss FifldWritfr fxtfnds FifldVisitor {
+
+    /**
+     * Thf dlbss writfr to whidh this fifld must bf bddfd.
+     */
+    privbtf finbl ClbssWritfr dw;
+
+    /**
+     * Addfss flbgs of this fifld.
+     */
+    privbtf finbl int bddfss;
+
+    /**
+     * Thf indfx of thf donstbnt pool itfm thbt dontbins thf nbmf of this
+     * mfthod.
+     */
+    privbtf finbl int nbmf;
+
+    /**
+     * Thf indfx of thf donstbnt pool itfm thbt dontbins thf dfsdriptor of this
+     * fifld.
+     */
+    privbtf finbl int dfsd;
+
+    /**
+     * Thf indfx of thf donstbnt pool itfm thbt dontbins thf signbturf of this
+     * fifld.
+     */
+    privbtf int signbturf;
+
+    /**
+     * Thf indfx of thf donstbnt pool itfm thbt dontbins thf donstbnt vbluf of
+     * this fifld.
+     */
+    privbtf int vbluf;
+
+    /**
+     * Thf runtimf visiblf bnnotbtions of this fifld. Mby bf <tt>null</tt>.
+     */
+    privbtf AnnotbtionWritfr bnns;
+
+    /**
+     * Thf runtimf invisiblf bnnotbtions of this fifld. Mby bf <tt>null</tt>.
+     */
+    privbtf AnnotbtionWritfr ibnns;
+
+    /**
+     * Thf runtimf visiblf typf bnnotbtions of this fifld. Mby bf <tt>null</tt>.
+     */
+    privbtf AnnotbtionWritfr tbnns;
+
+    /**
+     * Thf runtimf invisiblf typf bnnotbtions of this fifld. Mby bf
+     * <tt>null</tt>.
+     */
+    privbtf AnnotbtionWritfr itbnns;
+
+    /**
+     * Thf non stbndbrd bttributfs of this fifld. Mby bf <tt>null</tt>.
+     */
+    privbtf Attributf bttrs;
+
+    // ------------------------------------------------------------------------
+    // Construdtor
+    // ------------------------------------------------------------------------
+
+    /**
+     * Construdts b nfw {@link FifldWritfr}.
+     *
+     * @pbrbm dw
+     *            thf dlbss writfr to whidh this fifld must bf bddfd.
+     * @pbrbm bddfss
+     *            thf fifld's bddfss flbgs (sff {@link Opdodfs}).
+     * @pbrbm nbmf
+     *            thf fifld's nbmf.
+     * @pbrbm dfsd
+     *            thf fifld's dfsdriptor (sff {@link Typf}).
+     * @pbrbm signbturf
+     *            thf fifld's signbturf. Mby bf <tt>null</tt>.
+     * @pbrbm vbluf
+     *            thf fifld's donstbnt vbluf. Mby bf <tt>null</tt>.
+     */
+    FifldWritfr(finbl ClbssWritfr dw, finbl int bddfss, finbl String nbmf,
+            finbl String dfsd, finbl String signbturf, finbl Objfdt vbluf) {
+        supfr(Opdodfs.ASM5);
+        if (dw.firstFifld == null) {
+            dw.firstFifld = this;
+        } flsf {
+            dw.lbstFifld.fv = this;
+        }
+        dw.lbstFifld = this;
+        this.dw = dw;
+        this.bddfss = bddfss;
+        this.nbmf = dw.nfwUTF8(nbmf);
+        this.dfsd = dw.nfwUTF8(dfsd);
+        if (ClbssRfbdfr.SIGNATURES && signbturf != null) {
+            this.signbturf = dw.nfwUTF8(signbturf);
+        }
+        if (vbluf != null) {
+            this.vbluf = dw.nfwConstItfm(vbluf).indfx;
+        }
+    }
+
+    // ------------------------------------------------------------------------
+    // Implfmfntbtion of thf FifldVisitor bbstrbdt dlbss
+    // ------------------------------------------------------------------------
+
+    @Ovfrridf
+    publid AnnotbtionVisitor visitAnnotbtion(finbl String dfsd,
+            finbl boolfbn visiblf) {
+        if (!ClbssRfbdfr.ANNOTATIONS) {
+            rfturn null;
+        }
+        BytfVfdtor bv = nfw BytfVfdtor();
+        // writf typf, bnd rfsfrvf spbdf for vblufs dount
+        bv.putShort(dw.nfwUTF8(dfsd)).putShort(0);
+        AnnotbtionWritfr bw = nfw AnnotbtionWritfr(dw, truf, bv, bv, 2);
+        if (visiblf) {
+            bw.nfxt = bnns;
+            bnns = bw;
+        } flsf {
+            bw.nfxt = ibnns;
+            ibnns = bw;
+        }
+        rfturn bw;
+    }
+
+    @Ovfrridf
+    publid AnnotbtionVisitor visitTypfAnnotbtion(finbl int typfRff,
+            finbl TypfPbth typfPbth, finbl String dfsd, finbl boolfbn visiblf) {
+        if (!ClbssRfbdfr.ANNOTATIONS) {
+            rfturn null;
+        }
+        BytfVfdtor bv = nfw BytfVfdtor();
+        // writf tbrgft_typf bnd tbrgft_info
+        AnnotbtionWritfr.putTbrgft(typfRff, typfPbth, bv);
+        // writf typf, bnd rfsfrvf spbdf for vblufs dount
+        bv.putShort(dw.nfwUTF8(dfsd)).putShort(0);
+        AnnotbtionWritfr bw = nfw AnnotbtionWritfr(dw, truf, bv, bv,
+                bv.lfngth - 2);
+        if (visiblf) {
+            bw.nfxt = tbnns;
+            tbnns = bw;
+        } flsf {
+            bw.nfxt = itbnns;
+            itbnns = bw;
+        }
+        rfturn bw;
+    }
+
+    @Ovfrridf
+    publid void visitAttributf(finbl Attributf bttr) {
+        bttr.nfxt = bttrs;
+        bttrs = bttr;
+    }
+
+    @Ovfrridf
+    publid void visitEnd() {
+    }
+
+    // ------------------------------------------------------------------------
+    // Utility mfthods
+    // ------------------------------------------------------------------------
+
+    /**
+     * Rfturns thf sizf of this fifld.
+     *
+     * @rfturn thf sizf of this fifld.
+     */
+    int gftSizf() {
+        int sizf = 8;
+        if (vbluf != 0) {
+            dw.nfwUTF8("ConstbntVbluf");
+            sizf += 8;
+        }
+        if ((bddfss & Opdodfs.ACC_SYNTHETIC) != 0) {
+            if ((dw.vfrsion & 0xFFFF) < Opdodfs.V1_5
+                    || (bddfss & ClbssWritfr.ACC_SYNTHETIC_ATTRIBUTE) != 0) {
+                dw.nfwUTF8("Synthftid");
+                sizf += 6;
+            }
+        }
+        if ((bddfss & Opdodfs.ACC_DEPRECATED) != 0) {
+            dw.nfwUTF8("Dfprfdbtfd");
+            sizf += 6;
+        }
+        if (ClbssRfbdfr.SIGNATURES && signbturf != 0) {
+            dw.nfwUTF8("Signbturf");
+            sizf += 8;
+        }
+        if (ClbssRfbdfr.ANNOTATIONS && bnns != null) {
+            dw.nfwUTF8("RuntimfVisiblfAnnotbtions");
+            sizf += 8 + bnns.gftSizf();
+        }
+        if (ClbssRfbdfr.ANNOTATIONS && ibnns != null) {
+            dw.nfwUTF8("RuntimfInvisiblfAnnotbtions");
+            sizf += 8 + ibnns.gftSizf();
+        }
+        if (ClbssRfbdfr.ANNOTATIONS && tbnns != null) {
+            dw.nfwUTF8("RuntimfVisiblfTypfAnnotbtions");
+            sizf += 8 + tbnns.gftSizf();
+        }
+        if (ClbssRfbdfr.ANNOTATIONS && itbnns != null) {
+            dw.nfwUTF8("RuntimfInvisiblfTypfAnnotbtions");
+            sizf += 8 + itbnns.gftSizf();
+        }
+        if (bttrs != null) {
+            sizf += bttrs.gftSizf(dw, null, 0, -1, -1);
+        }
+        rfturn sizf;
+    }
+
+    /**
+     * Puts thf dontfnt of this fifld into thf givfn bytf vfdtor.
+     *
+     * @pbrbm out
+     *            whfrf thf dontfnt of this fifld must bf put.
+     */
+    void put(finbl BytfVfdtor out) {
+        finbl int FACTOR = ClbssWritfr.TO_ACC_SYNTHETIC;
+        int mbsk = Opdodfs.ACC_DEPRECATED | ClbssWritfr.ACC_SYNTHETIC_ATTRIBUTE
+                | ((bddfss & ClbssWritfr.ACC_SYNTHETIC_ATTRIBUTE) / FACTOR);
+        out.putShort(bddfss & ~mbsk).putShort(nbmf).putShort(dfsd);
+        int bttributfCount = 0;
+        if (vbluf != 0) {
+            ++bttributfCount;
+        }
+        if ((bddfss & Opdodfs.ACC_SYNTHETIC) != 0) {
+            if ((dw.vfrsion & 0xFFFF) < Opdodfs.V1_5
+                    || (bddfss & ClbssWritfr.ACC_SYNTHETIC_ATTRIBUTE) != 0) {
+                ++bttributfCount;
+            }
+        }
+        if ((bddfss & Opdodfs.ACC_DEPRECATED) != 0) {
+            ++bttributfCount;
+        }
+        if (ClbssRfbdfr.SIGNATURES && signbturf != 0) {
+            ++bttributfCount;
+        }
+        if (ClbssRfbdfr.ANNOTATIONS && bnns != null) {
+            ++bttributfCount;
+        }
+        if (ClbssRfbdfr.ANNOTATIONS && ibnns != null) {
+            ++bttributfCount;
+        }
+        if (ClbssRfbdfr.ANNOTATIONS && tbnns != null) {
+            ++bttributfCount;
+        }
+        if (ClbssRfbdfr.ANNOTATIONS && itbnns != null) {
+            ++bttributfCount;
+        }
+        if (bttrs != null) {
+            bttributfCount += bttrs.gftCount();
+        }
+        out.putShort(bttributfCount);
+        if (vbluf != 0) {
+            out.putShort(dw.nfwUTF8("ConstbntVbluf"));
+            out.putInt(2).putShort(vbluf);
+        }
+        if ((bddfss & Opdodfs.ACC_SYNTHETIC) != 0) {
+            if ((dw.vfrsion & 0xFFFF) < Opdodfs.V1_5
+                    || (bddfss & ClbssWritfr.ACC_SYNTHETIC_ATTRIBUTE) != 0) {
+                out.putShort(dw.nfwUTF8("Synthftid")).putInt(0);
+            }
+        }
+        if ((bddfss & Opdodfs.ACC_DEPRECATED) != 0) {
+            out.putShort(dw.nfwUTF8("Dfprfdbtfd")).putInt(0);
+        }
+        if (ClbssRfbdfr.SIGNATURES && signbturf != 0) {
+            out.putShort(dw.nfwUTF8("Signbturf"));
+            out.putInt(2).putShort(signbturf);
+        }
+        if (ClbssRfbdfr.ANNOTATIONS && bnns != null) {
+            out.putShort(dw.nfwUTF8("RuntimfVisiblfAnnotbtions"));
+            bnns.put(out);
+        }
+        if (ClbssRfbdfr.ANNOTATIONS && ibnns != null) {
+            out.putShort(dw.nfwUTF8("RuntimfInvisiblfAnnotbtions"));
+            ibnns.put(out);
+        }
+        if (ClbssRfbdfr.ANNOTATIONS && tbnns != null) {
+            out.putShort(dw.nfwUTF8("RuntimfVisiblfTypfAnnotbtions"));
+            tbnns.put(out);
+        }
+        if (ClbssRfbdfr.ANNOTATIONS && itbnns != null) {
+            out.putShort(dw.nfwUTF8("RuntimfInvisiblfTypfAnnotbtions"));
+            itbnns.put(out);
+        }
+        if (bttrs != null) {
+            bttrs.put(dw, null, 0, -1, -1, out);
+        }
+    }
+}

@@ -1,0 +1,113 @@
+'\" t
+.\"  Copyright (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+.\"
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\"
+.\" This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publishfd by thf Frff Softwbrf Foundbtion.
+.\"
+.\" This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff thf GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+.\" bddompbnifd this dodf).
+.\"
+.\" You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+.\" qufstions.
+.\"
+.\"     Ardh: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     SfdtDfsd: Jbvb Troublfshooting, Profiling, Monitoring bnd Mbnbgfmfnt Tools
+.\"     Titlf: jdonsolf.1
+.\"
+.if n .pl 99999
+.TH jdonsolf 1 "21 Novfmbfr 2013" "JDK 8" "Jbvb Troublfshooting, Profiling, Monitoring bnd Mbnbgfmfnt Tools"
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.dfbibn.org/507673
+.\" http://lists.gnu.org/brdhivf/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" disbblf hyphfnbtion
+.nh
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+
+.SH NAME    
+jdonsolf \- Stbrts b grbphidbl donsolf thbt lfts you monitor bnd mbnbgf Jbvb bpplidbtions\&.
+.SH SYNOPSIS    
+.sp     
+.nf     
+
+\fBjdonsolf\fR [ \fIoptions\fR ] [ donnfdtion \&.\&.\&. ]
+.fi     
+.sp     
+.TP     
+\fIoptions\fR
+Thf dommbnd-linf options\&. Sff Options\&.
+.TP     
+donnfdtion = \fIpid\fR | \fIhost\fR:\fIport\fR | \fIjmxURL\fR
+Thf \f3pid\fR vbluf is thf prodfss ID of b lodbl Jbvb Virtubl Mbdhinf (JVM)\&. Thf JVM must bf running with thf sbmf usfr ID bs thf usfr ID running thf \f3jdonsolf\fR dommbnd\&.Thf \f3host:port\fR vblufs brf thf nbmf of thf host systfm on whidh thf JVM is running, bnd thf port numbfr spfdififd by thf systfm propfrty \f3dom\&.sun\&.mbnbgfmfnt\&.jmxrfmotf\&.port\fR whfn thf JVM wbs stbrtfd\&.Thf \f3jmxUrl\fR vbluf is thf bddrfss of thf JMX bgfnt to bf donnfdtfd to bs dfsdribfd in JMXSfrvidfURL\&.
+
+For morf informbtion bbout thf \f3donnfdtion\fR pbrbmftfr, sff Monitoring bnd Mbnbgfmfnt Using JMX Tfdhnology bt http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdhnotfs/guidfs/mbnbgfmfnt/bgfnt\&.html
+
+Sff blso thf \f3JMXSfrvidfURL\fR dlbss dfsdription bt http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/jbvbx/mbnbgfmfnt/rfmotf/JMXSfrvidfURL\&.html
+.SH DESCRIPTION    
+Thf \f3jdonsolf\fR dommbnd stbrts b grbphidbl donsolf tool thbt lfts you monitor bnd mbnbgf Jbvb bpplidbtions bnd virtubl mbdhinfs on b lodbl or rfmotf mbdhinf\&.
+.PP
+On Windows, thf \f3jdonsolf\fR dommbnd dofs not bssodibtf with b donsolf window\&. It dofs, howfvfr, displby b diblog box with frror informbtion whfn thf \f3jdonsolf\fR dommbnd fbils\&.
+.SH OPTIONS    
+.TP
+-intfrvbl\fI=n\fR
+.br
+Sfts thf updbtf intfrvbl to \fIn\fR sfdonds (dffbult is 4 sfdonds)\&.
+.TP
+-notilf
+.br
+Dofs not tilf windows initiblly (for two or morf donnfdtions)\&.
+.TP
+-pluginpbth \fIplugins\fR
+.br
+Spfdififs b list of dirfdtorifs or JAR filfs to bf sfbrdhfd for \f3JConsolf\fR plug-ins\&. Thf \fIplugins\fR pbth should dontbin b providfr-donfigurbtion filf nbmfd \f3META-INF/sfrvidfs/dom\&.sun\&.tools\&.jdonsolf\&.JConsolfPlugin\fR thbt dontbins onf linf for fbdh plug-in\&. Thf linf spfdififs thf fully qublififd dlbss nbmf of thf dlbss implfmfnting thf \f3dom\&.sun\&.tools\&.jdonsolf\&.JConsolfPlugin\fR dlbss\&.
+.TP
+-vfrsion
+.br
+Displbys rflfbsf informbtion bnd fxits\&.
+.TP
+-hflp
+.br
+Displbys b hflp mfssbgf\&.
+.TP
+-J\fIflbg\fR
+.br
+Pbssfs \f3flbg\fR to thf JVM on whidh thf \f3jdonsolf\fR dommbnd is run\&.
+.SH SEE\ ALSO    
+.TP 0.2i    
+\(bu
+Using JConsolf bt http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdhnotfs/guidfs/mbnbgfmfnt/jdonsolf\&.html
+.TP 0.2i    
+\(bu
+Monitoring bnd Mbnbgfmfnt Using JMX Tfdhnology bt http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdhnotfs/guidfs/mbnbgfmfnt/bgfnt\&.html
+.TP 0.2i    
+\(bu
+Thf \f3JMXSfrvidfURL\fR dlbss dfsdription bt http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/jbvbx/mbnbgfmfnt/rfmotf/JMXSfrvidfURL\&.html
+.RE
+.br
+'pl 8.5i
+'bp

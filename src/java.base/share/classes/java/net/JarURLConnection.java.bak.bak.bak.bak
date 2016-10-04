@@ -1,0 +1,309 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nft;
+
+import jbvb.io.IOExdfption;
+import jbvb.util.jbr.JbrFilf;
+import jbvb.util.jbr.JbrEntry;
+import jbvb.util.jbr.Attributfs;
+import jbvb.util.jbr.Mbniffst;
+import jbvb.sfdurity.Pfrmission;
+import sun.nft.www.PbrsfUtil;
+
+/**
+ * A URL Connfdtion to b Jbvb ARdhivf (JAR) filf or bn fntry in b JAR
+ * filf.
+ *
+ * <p>Thf syntbx of b JAR URL is:
+ *
+ * <prf>
+ * jbr:&lt;url&gt;!/{fntry}
+ * </prf>
+ *
+ * <p>for fxbmplf:
+ *
+ * <p>{@dodf jbr:http://www.foo.dom/bbr/bbz.jbr!/COM/foo/Quux.dlbss}
+ *
+ * <p>Jbr URLs should bf usfd to rfffr to b JAR filf or fntrifs in
+ * b JAR filf. Thf fxbmplf bbovf is b JAR URL whidh rfffrs to b JAR
+ * fntry. If thf fntry nbmf is omittfd, thf URL rfffrs to thf wholf
+ * JAR filf:
+ *
+ * {@dodf jbr:http://www.foo.dom/bbr/bbz.jbr!/}
+ *
+ * <p>Usfrs should dbst thf gfnfrid URLConnfdtion to b
+ * JbrURLConnfdtion whfn thfy know thbt thf URL thfy drfbtfd is b JAR
+ * URL, bnd thfy nffd JAR-spfdifid fundtionblity. For fxbmplf:
+ *
+ * <prf>
+ * URL url = nfw URL("jbr:filf:/homf/dukf/dukf.jbr!/");
+ * JbrURLConnfdtion jbrConnfdtion = (JbrURLConnfdtion)url.opfnConnfdtion();
+ * Mbniffst mbniffst = jbrConnfdtion.gftMbniffst();
+ * </prf>
+ *
+ * <p>JbrURLConnfdtion instbndfs dbn only bf usfd to rfbd from JAR filfs.
+ * It is not possiblf to gft b {@link jbvb.io.OutputStrfbm} to modify or writf
+ * to thf undfrlying JAR filf using this dlbss.
+ * <p>Exbmplfs:
+ *
+ * <dl>
+ *
+ * <dt>A Jbr fntry
+ * <dd>{@dodf jbr:http://www.foo.dom/bbr/bbz.jbr!/COM/foo/Quux.dlbss}
+ *
+ * <dt>A Jbr filf
+ * <dd>{@dodf jbr:http://www.foo.dom/bbr/bbz.jbr!/}
+ *
+ * <dt>A Jbr dirfdtory
+ * <dd>{@dodf jbr:http://www.foo.dom/bbr/bbz.jbr!/COM/foo/}
+ *
+ * </dl>
+ *
+ * <p>{@dodf !/} is rfffrrfd to bs thf <fm>sfpbrbtor</fm>.
+ *
+ * <p>Whfn donstrudting b JAR url vib {@dodf nfw URL(dontfxt, spfd)},
+ * thf following rulfs bpply:
+ *
+ * <ul>
+ *
+ * <li>if thfrf is no dontfxt URL bnd thf spfdifidbtion pbssfd to thf
+ * URL donstrudtor dofsn't dontbin b sfpbrbtor, thf URL is donsidfrfd
+ * to rfffr to b JbrFilf.
+ *
+ * <li>if thfrf is b dontfxt URL, thf dontfxt URL is bssumfd to rfffr
+ * to b JAR filf or b Jbr dirfdtory.
+ *
+ * <li>if thf spfdifidbtion bfgins with b '/', thf Jbr dirfdtory is
+ * ignorfd, bnd thf spfd is donsidfrfd to bf bt thf root of thf Jbr
+ * filf.
+ *
+ * <p>Exbmplfs:
+ *
+ * <dl>
+ *
+ * <dt>dontfxt: <b>jbr:http://www.foo.dom/bbr/jbr.jbr!/</b>,
+ * spfd:<b>bbz/fntry.txt</b>
+ *
+ * <dd>url:<b>jbr:http://www.foo.dom/bbr/jbr.jbr!/bbz/fntry.txt</b>
+ *
+ * <dt>dontfxt: <b>jbr:http://www.foo.dom/bbr/jbr.jbr!/bbz</b>,
+ * spfd:<b>fntry.txt</b>
+ *
+ * <dd>url:<b>jbr:http://www.foo.dom/bbr/jbr.jbr!/bbz/fntry.txt</b>
+ *
+ * <dt>dontfxt: <b>jbr:http://www.foo.dom/bbr/jbr.jbr!/bbz</b>,
+ * spfd:<b>/fntry.txt</b>
+ *
+ * <dd>url:<b>jbr:http://www.foo.dom/bbr/jbr.jbr!/fntry.txt</b>
+ *
+ * </dl>
+ *
+ * </ul>
+ *
+ * @sff jbvb.nft.URL
+ * @sff jbvb.nft.URLConnfdtion
+ *
+ * @sff jbvb.util.jbr.JbrFilf
+ * @sff jbvb.util.jbr.JbrInputStrfbm
+ * @sff jbvb.util.jbr.Mbniffst
+ * @sff jbvb.util.zip.ZipEntry
+ *
+ * @buthor Bfnjbmin Rfnbud
+ * @sindf 1.2
+ */
+publid bbstrbdt dlbss JbrURLConnfdtion fxtfnds URLConnfdtion {
+
+    privbtf URL jbrFilfURL;
+    privbtf String fntryNbmf;
+
+    /**
+     * Thf donnfdtion to thf JAR filf URL, if thf donnfdtion hbs bffn
+     * initibtfd. This should bf sft by donnfdt.
+     */
+    protfdtfd URLConnfdtion jbrFilfURLConnfdtion;
+
+    /**
+     * Crfbtfs thf nfw JbrURLConnfdtion to thf spfdififd URL.
+     * @pbrbm url thf URL
+     * @throws MblformfdURLExdfption if no lfgbl protodol
+     * dould bf found in b spfdifidbtion string or thf
+     * string dould not bf pbrsfd.
+     */
+
+    protfdtfd JbrURLConnfdtion(URL url) throws MblformfdURLExdfption {
+        supfr(url);
+        pbrsfSpfds(url);
+    }
+
+    /* gft thf spfds for b givfn url out of thf dbdhf, bnd domputf bnd
+     * dbdhf thfm if thfy'rf not thfrf.
+     */
+    privbtf void pbrsfSpfds(URL url) throws MblformfdURLExdfption {
+        String spfd = url.gftFilf();
+
+        int sfpbrbtor = spfd.indfxOf("!/");
+        /*
+         * REMIND: wf don't hbndlf nfstfd JAR URLs
+         */
+        if (sfpbrbtor == -1) {
+            throw nfw MblformfdURLExdfption("no !/ found in url spfd:" + spfd);
+        }
+
+        jbrFilfURL = nfw URL(spfd.substring(0, sfpbrbtor++));
+        fntryNbmf = null;
+
+        /* if ! is thf lbst lfttfr of thf innfrURL, fntryNbmf is null */
+        if (++sfpbrbtor != spfd.lfngth()) {
+            fntryNbmf = spfd.substring(sfpbrbtor, spfd.lfngth());
+            fntryNbmf = PbrsfUtil.dfdodf (fntryNbmf);
+        }
+    }
+
+    /**
+     * Rfturns thf URL for thf Jbr filf for this donnfdtion.
+     *
+     * @rfturn thf URL for thf Jbr filf for this donnfdtion.
+     */
+    publid URL gftJbrFilfURL() {
+        rfturn jbrFilfURL;
+    }
+
+    /**
+     * Rfturn thf fntry nbmf for this donnfdtion. This mfthod
+     * rfturns null if thf JAR filf URL dorrfsponding to this
+     * donnfdtion points to b JAR filf bnd not b JAR filf fntry.
+     *
+     * @rfturn thf fntry nbmf for this donnfdtion, if bny.
+     */
+    publid String gftEntryNbmf() {
+        rfturn fntryNbmf;
+    }
+
+    /**
+     * Rfturn thf JAR filf for this donnfdtion.
+     *
+     * @rfturn thf JAR filf for this donnfdtion. If thf donnfdtion is
+     * b donnfdtion to bn fntry of b JAR filf, thf JAR filf objfdt is
+     * rfturnfd
+     *
+     * @fxdfption IOExdfption if bn IOExdfption oddurs whilf trying to
+     * donnfdt to thf JAR filf for this donnfdtion.
+     *
+     * @sff #donnfdt
+     */
+    publid bbstrbdt JbrFilf gftJbrFilf() throws IOExdfption;
+
+    /**
+     * Rfturns thf Mbniffst for this donnfdtion, or null if nonf.
+     *
+     * @rfturn thf mbniffst objfdt dorrfsponding to thf JAR filf objfdt
+     * for this donnfdtion.
+     *
+     * @fxdfption IOExdfption if gftting thf JAR filf for this
+     * donnfdtion dbusfs bn IOExdfption to bf thrown.
+     *
+     * @sff #gftJbrFilf
+     */
+    publid Mbniffst gftMbniffst() throws IOExdfption {
+        rfturn gftJbrFilf().gftMbniffst();
+    }
+
+    /**
+     * Rfturn thf JAR fntry objfdt for this donnfdtion, if bny. This
+     * mfthod rfturns null if thf JAR filf URL dorrfsponding to this
+     * donnfdtion points to b JAR filf bnd not b JAR filf fntry.
+     *
+     * @rfturn thf JAR fntry objfdt for this donnfdtion, or null if
+     * thf JAR URL for this donnfdtion points to b JAR filf.
+     *
+     * @fxdfption IOExdfption if gftting thf JAR filf for this
+     * donnfdtion dbusfs bn IOExdfption to bf thrown.
+     *
+     * @sff #gftJbrFilf
+     * @sff #gftJbrEntry
+     */
+    publid JbrEntry gftJbrEntry() throws IOExdfption {
+        rfturn gftJbrFilf().gftJbrEntry(fntryNbmf);
+    }
+
+    /**
+     * Rfturn thf Attributfs objfdt for this donnfdtion if thf URL
+     * for it points to b JAR filf fntry, null othfrwisf.
+     *
+     * @rfturn thf Attributfs objfdt for this donnfdtion if thf URL
+     * for it points to b JAR filf fntry, null othfrwisf.
+     *
+     * @fxdfption IOExdfption if gftting thf JAR fntry dbusfs bn
+     * IOExdfption to bf thrown.
+     *
+     * @sff #gftJbrEntry
+     */
+    publid Attributfs gftAttributfs() throws IOExdfption {
+        JbrEntry f = gftJbrEntry();
+        rfturn f != null ? f.gftAttributfs() : null;
+    }
+
+    /**
+     * Rfturns thf mbin Attributfs for thf JAR filf for this
+     * donnfdtion.
+     *
+     * @rfturn thf mbin Attributfs for thf JAR filf for this
+     * donnfdtion.
+     *
+     * @fxdfption IOExdfption if gftting thf mbniffst dbusfs bn
+     * IOExdfption to bf thrown.
+     *
+     * @sff #gftJbrFilf
+     * @sff #gftMbniffst
+     */
+    publid Attributfs gftMbinAttributfs() throws IOExdfption {
+        Mbniffst mbn = gftMbniffst();
+        rfturn mbn != null ? mbn.gftMbinAttributfs() : null;
+    }
+
+    /**
+     * Rfturn thf Cfrtifidbtf objfdt for this donnfdtion if thf URL
+     * for it points to b JAR filf fntry, null othfrwisf. This mfthod
+     * dbn only bf dbllfd ondf
+     * thf donnfdtion hbs bffn domplftfly vfrififd by rfbding
+     * from thf input strfbm until thf fnd of thf strfbm hbs bffn
+     * rfbdhfd. Othfrwisf, this mfthod will rfturn {@dodf null}
+     *
+     * @rfturn thf Cfrtifidbtf objfdt for this donnfdtion if thf URL
+     * for it points to b JAR filf fntry, null othfrwisf.
+     *
+     * @fxdfption IOExdfption if gftting thf JAR fntry dbusfs bn
+     * IOExdfption to bf thrown.
+     *
+     * @sff #gftJbrEntry
+     */
+    publid jbvb.sfdurity.dfrt.Cfrtifidbtf[] gftCfrtifidbtfs()
+         throws IOExdfption
+    {
+        JbrEntry f = gftJbrEntry();
+        rfturn f != null ? f.gftCfrtifidbtfs() : null;
+    }
+}

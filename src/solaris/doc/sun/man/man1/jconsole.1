@@ -1,112 +1,112 @@
 '\" t
-.\"  Copyright (c) 2004, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
+.\"  Copyrigit (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free softwbre; you cbn redistribute it bnd/or modify it
-.\" under the terms of the GNU Generbl Public License version 2 only, bs
-.\" published by the Free Softwbre Foundbtion.
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
 .\"
-.\" This code is distributed in the hope thbt it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU Generbl Public License
-.\" version 2 for more detbils (b copy is included in the LICENSE file thbt
-.\" bccompbnied this code).
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
 .\"
-.\" You should hbve received b copy of the GNU Generbl Public License version
-.\" 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
-.\" Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
-.\" or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
-.\" questions.
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
 .\"
-.\"     Arch: generic
-.\"     Softwbre: JDK 8
-.\"     Dbte: 21 November 2013
-.\"     SectDesc: Jbvb Troubleshooting, Profiling, Monitoring bnd Mbnbgement Tools
-.\"     Title: jconsole.1
+.\"     Ardi: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     SfdtDfsd: Jbvb Troublfsiooting, Profiling, Monitoring bnd Mbnbgfmfnt Tools
+.\"     Titlf: jdonsolf.1
 .\"
 .if n .pl 99999
-.TH jconsole 1 "21 November 2013" "JDK 8" "Jbvb Troubleshooting, Profiling, Monitoring bnd Mbnbgement Tools"
+.TH jdonsolf 1 "21 Novfmbfr 2013" "JDK 8" "Jbvb Troublfsiooting, Profiling, Monitoring bnd Mbnbgfmfnt Tools"
 .\" -----------------------------------------------------------------
-.\" * Define some portbbility stuff
+.\" * Dffinf somf portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debibn.org/507673
-.\" http://lists.gnu.org/brchive/html/groff/2009-02/msg00013.html
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(bq
-.el       .ds Aq '
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set defbult formbtting
+.\" * sft dffbult formbtting
 .\" -----------------------------------------------------------------
-.\" disbble hyphenbtion
-.nh
-.\" disbble justificbtion (bdjust text to left mbrgin only)
+.\" disbblf iypifnbtion
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
 .bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 
 .SH NAME    
-jconsole \- Stbrts b grbphicbl console thbt lets you monitor bnd mbnbge Jbvb bpplicbtions\&.
+jdonsolf \- Stbrts b grbpiidbl donsolf tibt lfts you monitor bnd mbnbgf Jbvb bpplidbtions\&.
 .SH SYNOPSIS    
 .sp     
 .nf     
 
-\fBjconsole\fR [ \fIoptions\fR ] [ connection \&.\&.\&. ]
+\fBjdonsolf\fR [ \fIoptions\fR ] [ donnfdtion \&.\&.\&. ]
 .fi     
 .sp     
 .TP     
 \fIoptions\fR
-The commbnd-line options\&. See Options\&.
+Tif dommbnd-linf options\&. Sff Options\&.
 .TP     
-connection = \fIpid\fR | \fIhost\fR:\fIport\fR | \fIjmxURL\fR
-The \f3pid\fR vblue is the process ID of b locbl Jbvb Virtubl Mbchine (JVM)\&. The JVM must be running with the sbme user ID bs the user ID running the \f3jconsole\fR commbnd\&.The \f3host:port\fR vblues bre the nbme of the host system on which the JVM is running, bnd the port number specified by the system property \f3com\&.sun\&.mbnbgement\&.jmxremote\&.port\fR when the JVM wbs stbrted\&.The \f3jmxUrl\fR vblue is the bddress of the JMX bgent to be connected to bs described in JMXServiceURL\&.
+donnfdtion = \fIpid\fR | \fIiost\fR:\fIport\fR | \fIjmxURL\fR
+Tif \f3pid\fR vbluf is tif prodfss ID of b lodbl Jbvb Virtubl Mbdiinf (JVM)\&. Tif JVM must bf running witi tif sbmf usfr ID bs tif usfr ID running tif \f3jdonsolf\fR dommbnd\&.Tif \f3iost:port\fR vblufs brf tif nbmf of tif iost systfm on wiidi tif JVM is running, bnd tif port numbfr spfdififd by tif systfm propfrty \f3dom\&.sun\&.mbnbgfmfnt\&.jmxrfmotf\&.port\fR wifn tif JVM wbs stbrtfd\&.Tif \f3jmxUrl\fR vbluf is tif bddrfss of tif JMX bgfnt to bf donnfdtfd to bs dfsdribfd in JMXSfrvidfURL\&.
 
-For more informbtion bbout the \f3connection\fR pbrbmeter, see Monitoring bnd Mbnbgement Using JMX Technology bt http://docs\&.orbcle\&.com/jbvbse/8/docs/technotes/guides/mbnbgement/bgent\&.html
+For morf informbtion bbout tif \f3donnfdtion\fR pbrbmftfr, sff Monitoring bnd Mbnbgfmfnt Using JMX Tfdinology bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/mbnbgfmfnt/bgfnt\&.itml
 
-See blso the \f3JMXServiceURL\fR clbss description bt http://docs\&.orbcle\&.com/jbvbse/8/docs/bpi/jbvbx/mbnbgement/remote/JMXServiceURL\&.html
+Sff blso tif \f3JMXSfrvidfURL\fR dlbss dfsdription bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/jbvbx/mbnbgfmfnt/rfmotf/JMXSfrvidfURL\&.itml
 .SH DESCRIPTION    
-The \f3jconsole\fR commbnd stbrts b grbphicbl console tool thbt lets you monitor bnd mbnbge Jbvb bpplicbtions bnd virtubl mbchines on b locbl or remote mbchine\&.
+Tif \f3jdonsolf\fR dommbnd stbrts b grbpiidbl donsolf tool tibt lfts you monitor bnd mbnbgf Jbvb bpplidbtions bnd virtubl mbdiinfs on b lodbl or rfmotf mbdiinf\&.
 .PP
-On Windows, the \f3jconsole\fR commbnd does not bssocibte with b console window\&. It does, however, displby b diblog box with error informbtion when the \f3jconsole\fR commbnd fbils\&.
+On Windows, tif \f3jdonsolf\fR dommbnd dofs not bssodibtf witi b donsolf window\&. It dofs, iowfvfr, displby b diblog box witi frror informbtion wifn tif \f3jdonsolf\fR dommbnd fbils\&.
 .SH OPTIONS    
 .TP
--intervbl\fI=n\fR
+-intfrvbl\fI=n\fR
 .br
-Sets the updbte intervbl to \fIn\fR seconds (defbult is 4 seconds)\&.
+Sfts tif updbtf intfrvbl to \fIn\fR sfdonds (dffbult is 4 sfdonds)\&.
 .TP
--notile
+-notilf
 .br
-Does not tile windows initiblly (for two or more connections)\&.
+Dofs not tilf windows initiblly (for two or morf donnfdtions)\&.
 .TP
--pluginpbth \fIplugins\fR
+-pluginpbti \fIplugins\fR
 .br
-Specifies b list of directories or JAR files to be sebrched for \f3JConsole\fR plug-ins\&. The \fIplugins\fR pbth should contbin b provider-configurbtion file nbmed \f3META-INF/services/com\&.sun\&.tools\&.jconsole\&.JConsolePlugin\fR thbt contbins one line for ebch plug-in\&. The line specifies the fully qublified clbss nbme of the clbss implementing the \f3com\&.sun\&.tools\&.jconsole\&.JConsolePlugin\fR clbss\&.
+Spfdififs b list of dirfdtorifs or JAR filfs to bf sfbrdifd for \f3JConsolf\fR plug-ins\&. Tif \fIplugins\fR pbti siould dontbin b providfr-donfigurbtion filf nbmfd \f3META-INF/sfrvidfs/dom\&.sun\&.tools\&.jdonsolf\&.JConsolfPlugin\fR tibt dontbins onf linf for fbdi plug-in\&. Tif linf spfdififs tif fully qublififd dlbss nbmf of tif dlbss implfmfnting tif \f3dom\&.sun\&.tools\&.jdonsolf\&.JConsolfPlugin\fR dlbss\&.
 .TP
--version
+-vfrsion
 .br
-Displbys relebse informbtion bnd exits\&.
+Displbys rflfbsf informbtion bnd fxits\&.
 .TP
--help
+-iflp
 .br
-Displbys b help messbge\&.
+Displbys b iflp mfssbgf\&.
 .TP
 -J\fIflbg\fR
 .br
-Pbsses \f3flbg\fR to the JVM on which the \f3jconsole\fR commbnd is run\&.
+Pbssfs \f3flbg\fR to tif JVM on wiidi tif \f3jdonsolf\fR dommbnd is run\&.
 .SH SEE\ ALSO    
 .TP 0.2i    
 \(bu
-Using JConsole bt http://docs\&.orbcle\&.com/jbvbse/8/docs/technotes/guides/mbnbgement/jconsole\&.html
+Using JConsolf bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/mbnbgfmfnt/jdonsolf\&.itml
 .TP 0.2i    
 \(bu
-Monitoring bnd Mbnbgement Using JMX Technology bt http://docs\&.orbcle\&.com/jbvbse/8/docs/technotes/guides/mbnbgement/bgent\&.html
+Monitoring bnd Mbnbgfmfnt Using JMX Tfdinology bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/mbnbgfmfnt/bgfnt\&.itml
 .TP 0.2i    
 \(bu
-The \f3JMXServiceURL\fR clbss description bt http://docs\&.orbcle\&.com/jbvbse/8/docs/bpi/jbvbx/mbnbgement/remote/JMXServiceURL\&.html
+Tif \f3JMXSfrvidfURL\fR dlbss dfsdription bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/jbvbx/mbnbgfmfnt/rfmotf/JMXSfrvidfURL\&.itml
 .RE
 .br
 'pl 8.5i

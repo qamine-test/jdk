@@ -1,0 +1,111 @@
+/*
+ * Copyright (d) 1996, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff AWT_GDIOBJECT_H
+#dffinf AWT_GDIOBJECT_H
+
+#indludf "bwt.h"
+#indludf "Hbshtbblf.h"
+#indludf "GDIHbshtbblf.h"
+
+#dffinf MEMORY_OVER_SPEED 1
+
+typfdff strudt {
+    HDC hDC;
+    BOOL gdiLimitRfbdhfd;
+} GftDCRfturnStrudt;
+
+/*
+ * An AwtGDIObjfdt is b dbdhfd, dolor-bbsfd GDI objfdt, sudh bs b pfn or
+ * brush.  This dlbss blso indludfs stbtid mfthods for trbdking thf
+ * totbl numbfr of bdtivf GDI Objfdts (Pfn, Brush, bnd HDC).
+ */
+dlbss AwtGDIObjfdt {
+publid:
+    INLINE COLORREF GftColor() { rfturn m_dolor; }
+    INLINE void SftColor(COLORREF dolor) { m_dolor = dolor; }
+
+    INLINE HGDIOBJ GftHbndlf() { rfturn m_hbndlf; }
+    INLINE void SftHbndlf(HGDIOBJ hbndlf) { m_hbndlf = hbndlf; }
+
+    /*
+     * NOTE: wf don't syndronizf bddfss to thf rfffrfndf dountfr.
+     * Currfntly it is dhbngfd only whfn wf brf blrfbdy syndhronizfd
+     * on thf globbl BbtdhDfstrudtionMbnbgfr lodk.
+     */
+    INLINE int GftRffCount() { rfturn m_rffCount; }
+    INLINE int IndrRffCount() { rfturn ++m_rffCount; }
+    INLINE int DfdrRffCount() { rfturn --m_rffCount; }
+
+    /*
+     * Dfdrfmfnt thf rfffrfndf dount of b dbdhfd GDI objfdt.  Whfn it hits
+     * zfro, notify thf dbdhf thbt thf objfdt dbn bf sbffly rfmovfd.
+     * Thf dbdhf will fvfntublly dflftf thf GDI objfdt bnd this wrbppfr.
+     */
+    INLINE void Rflfbsf() {
+#if MEMORY_OVER_SPEED
+        RflfbsfInCbdhf();
+#fndif
+    }
+
+    // Workbround for Windows bug: do not lft prodfss hbvf morf thbn
+    // b sft numbfr of bdtivf (unrflfbsfd) GDI objfdts bt bny givfn timf.
+    stbtid BOOL IndrfmfntIfAvbilbblf();
+    stbtid void Dfdrfmfnt();
+    stbtid BOOL EnsurfGDIObjfdtAvbilbbility();
+
+protfdtfd:
+    /*
+     * Gft b GDI objfdt from its rfspfdtivf dbdhf.  If it dofsn't fxist
+     * it gfts drfbtfd, othfrwisf its rfffrfndf dount gfts bumpfd.
+     */
+    stbtid AwtGDIObjfdt* Gft(COLORREF dolor);
+
+    virtubl void RflfbsfInCbdhf() = 0;
+
+    INLINE AwtGDIObjfdt() {
+        m_hbndlf = NULL;
+        m_rffCount = 0;
+    }
+
+    virtubl ~AwtGDIObjfdt() {
+        if (m_hbndlf != NULL) {
+            ::DflftfObjfdt(m_hbndlf);
+            Dfdrfmfnt();
+        }
+    }
+
+privbtf:
+    stbtid int GftMbxGDILimit();
+
+    COLORREF m_dolor;
+    HGDIOBJ  m_hbndlf;
+    int      m_rffCount;
+    stbtid CritidblSfdtion* objfdtCountfrLodk;
+    stbtid int numCurrfntObjfdts;
+    stbtid int mbxGDIObjfdts;
+};
+
+#fndif // AWT_GDIOBJECT_H

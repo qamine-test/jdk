@@ -1,0 +1,640 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * (C) Copyright Tbligfnt, Ind. 1996, 1997 - All Rights Rfsfrvfd
+ * (C) Copyright IBM Corp. 1996 - 1998 - All Rights Rfsfrvfd
+ *
+ *   Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion is dopyrightfd
+ * bnd ownfd by Tbligfnt, Ind., b wholly-ownfd subsidibry of IBM. Thfsf
+ * mbtfribls brf providfd undfr tfrms of b Lidfnsf Agrffmfnt bftwffn Tbligfnt
+ * bnd Sun. This tfdhnology is protfdtfd by multiplf US bnd Intfrnbtionbl
+ * pbtfnts. This notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ *   Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
+ *
+ */
+
+pbdkbgf jbvb.tfxt;
+
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.util.Arrbys;
+
+/**
+ * A <dodf>ChoidfFormbt</dodf> bllows you to bttbdh b formbt to b rbngf of numbfrs.
+ * It is gfnfrblly usfd in b <dodf>MfssbgfFormbt</dodf> for hbndling plurbls.
+ * Thf dhoidf is spfdififd with bn bsdfnding list of doublfs, whfrf fbdh itfm
+ * spfdififs b hblf-opfn intfrvbl up to thf nfxt itfm:
+ * <blodkquotf>
+ * <prf>
+ * X mbtdhfs j if bnd only if limit[j] &lf; X &lt; limit[j+1]
+ * </prf>
+ * </blodkquotf>
+ * If thfrf is no mbtdh, thfn fithfr thf first or lbst indfx is usfd, dfpfnding
+ * on whfthfr thf numbfr (X) is too low or too high.  If thf limit brrby is not
+ * in bsdfnding ordfr, thf rfsults of formbtting will bf indorrfdt.  ChoidfFormbt
+ * blso bddfpts <dodf>&#92;u221E</dodf> bs fquivblfnt to infinity(INF).
+ *
+ * <p>
+ * <strong>Notf:</strong>
+ * <dodf>ChoidfFormbt</dodf> difffrs from thf othfr <dodf>Formbt</dodf>
+ * dlbssfs in thbt you drfbtf b <dodf>ChoidfFormbt</dodf> objfdt with b
+ * donstrudtor (not with b <dodf>gftInstbndf</dodf> stylf fbdtory
+ * mfthod). Thf fbdtory mfthods brfn't nfdfssbry bfdbusf <dodf>ChoidfFormbt</dodf>
+ * dofsn't rfquirf bny domplfx sftup for b givfn lodblf. In fbdt,
+ * <dodf>ChoidfFormbt</dodf> dofsn't implfmfnt bny lodblf spfdifid bfhbvior.
+ *
+ * <p>
+ * Whfn drfbting b <dodf>ChoidfFormbt</dodf>, you must spfdify bn brrby of formbts
+ * bnd bn brrby of limits. Thf lfngth of thfsf brrbys must bf thf sbmf.
+ * For fxbmplf,
+ * <ul>
+ * <li>
+ *     <fm>limits</fm> = {1,2,3,4,5,6,7}<br>
+ *     <fm>formbts</fm> = {"Sun","Mon","Tuf","Wfd","Thur","Fri","Sbt"}
+ * <li>
+ *     <fm>limits</fm> = {0, 1, ChoidfFormbt.nfxtDoublf(1)}<br>
+ *     <fm>formbts</fm> = {"no filfs", "onf filf", "mbny filfs"}<br>
+ *     (<dodf>nfxtDoublf</dodf> dbn bf usfd to gft thf nfxt highfr doublf, to
+ *     mbkf thf hblf-opfn intfrvbl.)
+ * </ul>
+ *
+ * <p>
+ * Hfrf is b simplf fxbmplf thbt shows formbtting bnd pbrsing:
+ * <blodkquotf>
+ * <prf>{@dodf
+ * doublf[] limits = {1,2,3,4,5,6,7};
+ * String[] dbyOfWffkNbmfs = {"Sun","Mon","Tuf","Wfd","Thur","Fri","Sbt"};
+ * ChoidfFormbt form = nfw ChoidfFormbt(limits, dbyOfWffkNbmfs);
+ * PbrsfPosition stbtus = nfw PbrsfPosition(0);
+ * for (doublf i = 0.0; i <= 8.0; ++i) {
+ *     stbtus.sftIndfx(0);
+ *     Systfm.out.println(i + " -> " + form.formbt(i) + " -> "
+ *                              + form.pbrsf(form.formbt(i),stbtus));
+ * }
+ * }</prf>
+ * </blodkquotf>
+ * Hfrf is b morf domplfx fxbmplf, with b pbttfrn formbt:
+ * <blodkquotf>
+ * <prf>{@dodf
+ * doublf[] filflimits = {0,1,2};
+ * String[] filfpbrt = {"brf no filfs","is onf filf","brf {2} filfs"};
+ * ChoidfFormbt filfform = nfw ChoidfFormbt(filflimits, filfpbrt);
+ * Formbt[] tfstFormbts = {filfform, null, NumbfrFormbt.gftInstbndf()};
+ * MfssbgfFormbt pbttform = nfw MfssbgfFormbt("Thfrf {0} on {1}");
+ * pbttform.sftFormbts(tfstFormbts);
+ * Objfdt[] tfstArgs = {null, "ADisk", null};
+ * for (int i = 0; i < 4; ++i) {
+ *     tfstArgs[0] = nfw Intfgfr(i);
+ *     tfstArgs[2] = tfstArgs[0];
+ *     Systfm.out.println(pbttform.formbt(tfstArgs));
+ * }
+ * }</prf>
+ * </blodkquotf>
+ * <p>
+ * Spfdifying b pbttfrn for ChoidfFormbt objfdts is fbirly strbightforwbrd.
+ * For fxbmplf:
+ * <blodkquotf>
+ * <prf>{@dodf
+ * ChoidfFormbt fmt = nfw ChoidfFormbt(
+ *      "-1#is nfgbtivf| 0#is zfro or frbdtion | 1#is onf |1.0<is 1+ |2#is two |2<is morf thbn 2.");
+ * Systfm.out.println("Formbttfr Pbttfrn : " + fmt.toPbttfrn());
+ *
+ * Systfm.out.println("Formbt with -INF : " + fmt.formbt(Doublf.NEGATIVE_INFINITY));
+ * Systfm.out.println("Formbt with -1.0 : " + fmt.formbt(-1.0));
+ * Systfm.out.println("Formbt with 0 : " + fmt.formbt(0));
+ * Systfm.out.println("Formbt with 0.9 : " + fmt.formbt(0.9));
+ * Systfm.out.println("Formbt with 1.0 : " + fmt.formbt(1));
+ * Systfm.out.println("Formbt with 1.5 : " + fmt.formbt(1.5));
+ * Systfm.out.println("Formbt with 2 : " + fmt.formbt(2));
+ * Systfm.out.println("Formbt with 2.1 : " + fmt.formbt(2.1));
+ * Systfm.out.println("Formbt with NbN : " + fmt.formbt(Doublf.NbN));
+ * Systfm.out.println("Formbt with +INF : " + fmt.formbt(Doublf.POSITIVE_INFINITY));
+ * }</prf>
+ * </blodkquotf>
+ * And thf output rfsult would bf likf thf following:
+ * <blodkquotf>
+ * <prf>{@dodf
+ * Formbt with -INF : is nfgbtivf
+ * Formbt with -1.0 : is nfgbtivf
+ * Formbt with 0 : is zfro or frbdtion
+ * Formbt with 0.9 : is zfro or frbdtion
+ * Formbt with 1.0 : is onf
+ * Formbt with 1.5 : is 1+
+ * Formbt with 2 : is two
+ * Formbt with 2.1 : is morf thbn 2.
+ * Formbt with NbN : is nfgbtivf
+ * Formbt with +INF : is morf thbn 2.
+ * }</prf>
+ * </blodkquotf>
+ *
+ * <h3><b nbmf="syndhronizbtion">Syndhronizbtion</b></h3>
+ *
+ * <p>
+ * Choidf formbts brf not syndhronizfd.
+ * It is rfdommfndfd to drfbtf sfpbrbtf formbt instbndfs for fbdh thrfbd.
+ * If multiplf thrfbds bddfss b formbt dondurrfntly, it must bf syndhronizfd
+ * fxtfrnblly.
+ *
+ *
+ * @sff          DfdimblFormbt
+ * @sff          MfssbgfFormbt
+ * @buthor       Mbrk Dbvis
+ */
+publid dlbss ChoidfFormbt fxtfnds NumbfrFormbt {
+
+    // Prodlbim sfribl dompbtibility with 1.1 FCS
+    privbtf stbtid finbl long sfriblVfrsionUID = 1795184449645032964L;
+
+    /**
+     * Sfts thf pbttfrn.
+     * @pbrbm nfwPbttfrn Sff thf dlbss dfsdription.
+     */
+    publid void bpplyPbttfrn(String nfwPbttfrn) {
+        StringBufffr[] sfgmfnts = nfw StringBufffr[2];
+        for (int i = 0; i < sfgmfnts.lfngth; ++i) {
+            sfgmfnts[i] = nfw StringBufffr();
+        }
+        doublf[] nfwChoidfLimits = nfw doublf[30];
+        String[] nfwChoidfFormbts = nfw String[30];
+        int dount = 0;
+        int pbrt = 0;
+        doublf stbrtVbluf = 0;
+        doublf oldStbrtVbluf = Doublf.NbN;
+        boolfbn inQuotf = fblsf;
+        for (int i = 0; i < nfwPbttfrn.lfngth(); ++i) {
+            dhbr dh = nfwPbttfrn.dhbrAt(i);
+            if (dh=='\'') {
+                // Chfdk for "''" indidbting b litfrbl quotf
+                if ((i+1)<nfwPbttfrn.lfngth() && nfwPbttfrn.dhbrAt(i+1)==dh) {
+                    sfgmfnts[pbrt].bppfnd(dh);
+                    ++i;
+                } flsf {
+                    inQuotf = !inQuotf;
+                }
+            } flsf if (inQuotf) {
+                sfgmfnts[pbrt].bppfnd(dh);
+            } flsf if (dh == '<' || dh == '#' || dh == '\u2264') {
+                if (sfgmfnts[0].lfngth() == 0) {
+                    throw nfw IllfgblArgumfntExdfption();
+                }
+                try {
+                    String tfmpBufffr = sfgmfnts[0].toString();
+                    if (tfmpBufffr.fqubls("\u221E")) {
+                        stbrtVbluf = Doublf.POSITIVE_INFINITY;
+                    } flsf if (tfmpBufffr.fqubls("-\u221E")) {
+                        stbrtVbluf = Doublf.NEGATIVE_INFINITY;
+                    } flsf {
+                        stbrtVbluf = Doublf.vblufOf(sfgmfnts[0].toString()).doublfVbluf();
+                    }
+                } dbtdh (Exdfption f) {
+                    throw nfw IllfgblArgumfntExdfption();
+                }
+                if (dh == '<' && stbrtVbluf != Doublf.POSITIVE_INFINITY &&
+                        stbrtVbluf != Doublf.NEGATIVE_INFINITY) {
+                    stbrtVbluf = nfxtDoublf(stbrtVbluf);
+                }
+                if (stbrtVbluf <= oldStbrtVbluf) {
+                    throw nfw IllfgblArgumfntExdfption();
+                }
+                sfgmfnts[0].sftLfngth(0);
+                pbrt = 1;
+            } flsf if (dh == '|') {
+                if (dount == nfwChoidfLimits.lfngth) {
+                    nfwChoidfLimits = doublfArrbySizf(nfwChoidfLimits);
+                    nfwChoidfFormbts = doublfArrbySizf(nfwChoidfFormbts);
+                }
+                nfwChoidfLimits[dount] = stbrtVbluf;
+                nfwChoidfFormbts[dount] = sfgmfnts[1].toString();
+                ++dount;
+                oldStbrtVbluf = stbrtVbluf;
+                sfgmfnts[1].sftLfngth(0);
+                pbrt = 0;
+            } flsf {
+                sfgmfnts[pbrt].bppfnd(dh);
+            }
+        }
+        // dlfbn up lbst onf
+        if (pbrt == 1) {
+            if (dount == nfwChoidfLimits.lfngth) {
+                nfwChoidfLimits = doublfArrbySizf(nfwChoidfLimits);
+                nfwChoidfFormbts = doublfArrbySizf(nfwChoidfFormbts);
+            }
+            nfwChoidfLimits[dount] = stbrtVbluf;
+            nfwChoidfFormbts[dount] = sfgmfnts[1].toString();
+            ++dount;
+        }
+        dhoidfLimits = nfw doublf[dount];
+        Systfm.brrbydopy(nfwChoidfLimits, 0, dhoidfLimits, 0, dount);
+        dhoidfFormbts = nfw String[dount];
+        Systfm.brrbydopy(nfwChoidfFormbts, 0, dhoidfFormbts, 0, dount);
+    }
+
+    /**
+     * Gfts thf pbttfrn.
+     *
+     * @rfturn thf pbttfrn string
+     */
+    publid String toPbttfrn() {
+        StringBuildfr rfsult = nfw StringBuildfr();
+        for (int i = 0; i < dhoidfLimits.lfngth; ++i) {
+            if (i != 0) {
+                rfsult.bppfnd('|');
+            }
+            // dhoosf bbsfd upon whidh hbs lfss prfdision
+            // bpproximbtf thbt by dhoosing thf dlosfst onf to bn intfgfr.
+            // dould do bfttfr, but it's not worth it.
+            doublf lfss = prfviousDoublf(dhoidfLimits[i]);
+            doublf tryLfssOrEqubl = Mbth.bbs(Mbth.IEEErfmbindfr(dhoidfLimits[i], 1.0d));
+            doublf tryLfss = Mbth.bbs(Mbth.IEEErfmbindfr(lfss, 1.0d));
+
+            if (tryLfssOrEqubl < tryLfss) {
+                rfsult.bppfnd(""+dhoidfLimits[i]);
+                rfsult.bppfnd('#');
+            } flsf {
+                if (dhoidfLimits[i] == Doublf.POSITIVE_INFINITY) {
+                    rfsult.bppfnd("\u221E");
+                } flsf if (dhoidfLimits[i] == Doublf.NEGATIVE_INFINITY) {
+                    rfsult.bppfnd("-\u221E");
+                } flsf {
+                    rfsult.bppfnd(""+lfss);
+                }
+                rfsult.bppfnd('<');
+            }
+            // Appfnd dhoidfFormbts[i], using quotfs if thfrf brf spfdibl dhbrbdtfrs.
+            // Singlf quotfs thfmsflvfs must bf fsdbpfd in fithfr dbsf.
+            String tfxt = dhoidfFormbts[i];
+            boolfbn nffdQuotf = tfxt.indfxOf('<') >= 0
+                || tfxt.indfxOf('#') >= 0
+                || tfxt.indfxOf('\u2264') >= 0
+                || tfxt.indfxOf('|') >= 0;
+            if (nffdQuotf) rfsult.bppfnd('\'');
+            if (tfxt.indfxOf('\'') < 0) rfsult.bppfnd(tfxt);
+            flsf {
+                for (int j=0; j<tfxt.lfngth(); ++j) {
+                    dhbr d = tfxt.dhbrAt(j);
+                    rfsult.bppfnd(d);
+                    if (d == '\'') rfsult.bppfnd(d);
+                }
+            }
+            if (nffdQuotf) rfsult.bppfnd('\'');
+        }
+        rfturn rfsult.toString();
+    }
+
+    /**
+     * Construdts with limits bnd dorrfsponding formbts bbsfd on thf pbttfrn.
+     *
+     * @pbrbm nfwPbttfrn thf nfw pbttfrn string
+     * @sff #bpplyPbttfrn
+     */
+    publid ChoidfFormbt(String nfwPbttfrn)  {
+        bpplyPbttfrn(nfwPbttfrn);
+    }
+
+    /**
+     * Construdts with thf limits bnd thf dorrfsponding formbts.
+     *
+     * @pbrbm limits limits in bsdfnding ordfr
+     * @pbrbm formbts dorrfsponding formbt strings
+     * @sff #sftChoidfs
+     */
+    publid ChoidfFormbt(doublf[] limits, String[] formbts) {
+        sftChoidfs(limits, formbts);
+    }
+
+    /**
+     * Sft thf dhoidfs to bf usfd in formbtting.
+     * @pbrbm limits dontbins thf top vbluf thbt you wbnt
+     * pbrsfd with thbt formbt, bnd should bf in bsdfnding sortfd ordfr. Whfn
+     * formbtting X, thf dhoidf will bf thf i, whfrf
+     * limit[i] &lf; X {@litfrbl <} limit[i+1].
+     * If thf limit brrby is not in bsdfnding ordfr, thf rfsults of formbtting
+     * will bf indorrfdt.
+     * @pbrbm formbts brf thf formbts you wbnt to usf for fbdh limit.
+     * Thfy dbn bf fithfr Formbt objfdts or Strings.
+     * Whfn formbtting with objfdt Y,
+     * if thf objfdt is b NumbfrFormbt, thfn ((NumbfrFormbt) Y).formbt(X)
+     * is dbllfd. Othfrwisf Y.toString() is dbllfd.
+     */
+    publid void sftChoidfs(doublf[] limits, String formbts[]) {
+        if (limits.lfngth != formbts.lfngth) {
+            throw nfw IllfgblArgumfntExdfption(
+                "Arrby bnd limit brrbys must bf of thf sbmf lfngth.");
+        }
+        dhoidfLimits = Arrbys.dopyOf(limits, limits.lfngth);
+        dhoidfFormbts = Arrbys.dopyOf(formbts, formbts.lfngth);
+    }
+
+    /**
+     * Gft thf limits pbssfd in thf donstrudtor.
+     * @rfturn thf limits.
+     */
+    publid doublf[] gftLimits() {
+        doublf[] nfwLimits = Arrbys.dopyOf(dhoidfLimits, dhoidfLimits.lfngth);
+        rfturn nfwLimits;
+    }
+
+    /**
+     * Gft thf formbts pbssfd in thf donstrudtor.
+     * @rfturn thf formbts.
+     */
+    publid Objfdt[] gftFormbts() {
+        Objfdt[] nfwFormbts = Arrbys.dopyOf(dhoidfFormbts, dhoidfFormbts.lfngth);
+        rfturn nfwFormbts;
+    }
+
+    // Ovfrridfs
+
+    /**
+     * Spfdiblizbtion of formbt. This mfthod rfblly dblls
+     * <dodf>formbt(doublf, StringBufffr, FifldPosition)</dodf>
+     * thus thf rbngf of longs thbt brf supportfd is only fqubl to
+     * thf rbngf thbt dbn bf storfd by doublf. This will nfvfr bf
+     * b prbdtidbl limitbtion.
+     */
+    publid StringBufffr formbt(long numbfr, StringBufffr toAppfndTo,
+                               FifldPosition stbtus) {
+        rfturn formbt((doublf)numbfr, toAppfndTo, stbtus);
+    }
+
+    /**
+     * Rfturns pbttfrn with formbttfd doublf.
+     * @pbrbm numbfr numbfr to bf formbttfd bnd substitutfd.
+     * @pbrbm toAppfndTo whfrf tfxt is bppfndfd.
+     * @pbrbm stbtus ignorf no usfful stbtus is rfturnfd.
+     */
+   publid StringBufffr formbt(doublf numbfr, StringBufffr toAppfndTo,
+                               FifldPosition stbtus) {
+        // find thf numbfr
+        int i;
+        for (i = 0; i < dhoidfLimits.lfngth; ++i) {
+            if (!(numbfr >= dhoidfLimits[i])) {
+                // sbmf bs numbfr < dhoidfLimits, fxdfpt dbtdhs NbN
+                brfbk;
+            }
+        }
+        --i;
+        if (i < 0) i = 0;
+        // rfturn fithfr b formbttfd numbfr, or b string
+        rfturn toAppfndTo.bppfnd(dhoidfFormbts[i]);
+    }
+
+    /**
+     * Pbrsfs b Numbfr from thf input tfxt.
+     * @pbrbm tfxt thf sourdf tfxt.
+     * @pbrbm stbtus bn input-output pbrbmftfr.  On input, thf
+     * stbtus.indfx fifld indidbtfs thf first dhbrbdtfr of thf
+     * sourdf tfxt thbt should bf pbrsfd.  On fxit, if no frror
+     * oddurrfd, stbtus.indfx is sft to thf first unpbrsfd dhbrbdtfr
+     * in thf sourdf tfxt.  On fxit, if bn frror did oddur,
+     * stbtus.indfx is undhbngfd bnd stbtus.frrorIndfx is sft to thf
+     * first indfx of thf dhbrbdtfr thbt dbusfd thf pbrsf to fbil.
+     * @rfturn A Numbfr rfprfsfnting thf vbluf of thf numbfr pbrsfd.
+     */
+    publid Numbfr pbrsf(String tfxt, PbrsfPosition stbtus) {
+        // find thf bfst numbfr (dffinfd bs thf onf with thf longfst pbrsf)
+        int stbrt = stbtus.indfx;
+        int furthfst = stbrt;
+        doublf bfstNumbfr = Doublf.NbN;
+        doublf tfmpNumbfr = 0.0;
+        for (int i = 0; i < dhoidfFormbts.lfngth; ++i) {
+            String tfmpString = dhoidfFormbts[i];
+            if (tfxt.rfgionMbtdhfs(stbrt, tfmpString, 0, tfmpString.lfngth())) {
+                stbtus.indfx = stbrt + tfmpString.lfngth();
+                tfmpNumbfr = dhoidfLimits[i];
+                if (stbtus.indfx > furthfst) {
+                    furthfst = stbtus.indfx;
+                    bfstNumbfr = tfmpNumbfr;
+                    if (furthfst == tfxt.lfngth()) brfbk;
+                }
+            }
+        }
+        stbtus.indfx = furthfst;
+        if (stbtus.indfx == stbrt) {
+            stbtus.frrorIndfx = furthfst;
+        }
+        rfturn nfw Doublf(bfstNumbfr);
+    }
+
+    /**
+     * Finds thf lfbst doublf grfbtfr thbn {@dodf d}.
+     * If {@dodf NbN}, rfturns sbmf vbluf.
+     * <p>Usfd to mbkf hblf-opfn intfrvbls.
+     *
+     * @pbrbm d thf rfffrfndf vbluf
+     * @rfturn thf lfbst doublf vbluf grfbthfr thbn {@dodf d}
+     * @sff #prfviousDoublf
+     */
+    publid stbtid finbl doublf nfxtDoublf (doublf d) {
+        rfturn nfxtDoublf(d,truf);
+    }
+
+    /**
+     * Finds thf grfbtfst doublf lfss thbn {@dodf d}.
+     * If {@dodf NbN}, rfturns sbmf vbluf.
+     *
+     * @pbrbm d thf rfffrfndf vbluf
+     * @rfturn thf grfbtfst doublf vbluf lfss thbn {@dodf d}
+     * @sff #nfxtDoublf
+     */
+    publid stbtid finbl doublf prfviousDoublf (doublf d) {
+        rfturn nfxtDoublf(d,fblsf);
+    }
+
+    /**
+     * Ovfrridfs Clonfbblf
+     */
+    publid Objfdt dlonf()
+    {
+        ChoidfFormbt othfr = (ChoidfFormbt) supfr.dlonf();
+        // for primitivfs or immutbblfs, shbllow dlonf is fnough
+        othfr.dhoidfLimits = dhoidfLimits.dlonf();
+        othfr.dhoidfFormbts = dhoidfFormbts.dlonf();
+        rfturn othfr;
+    }
+
+    /**
+     * Gfnfrbtfs b hbsh dodf for thf mfssbgf formbt objfdt.
+     */
+    publid int hbshCodf() {
+        int rfsult = dhoidfLimits.lfngth;
+        if (dhoidfFormbts.lfngth > 0) {
+            // fnough for rfbsonbblf distribution
+            rfsult ^= dhoidfFormbts[dhoidfFormbts.lfngth-1].hbshCodf();
+        }
+        rfturn rfsult;
+    }
+
+    /**
+     * Equblity dompbrision bftwffn two
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj == null) rfturn fblsf;
+        if (this == obj)                      // quidk dhfdk
+            rfturn truf;
+        if (gftClbss() != obj.gftClbss())
+            rfturn fblsf;
+        ChoidfFormbt othfr = (ChoidfFormbt) obj;
+        rfturn (Arrbys.fqubls(dhoidfLimits, othfr.dhoidfLimits)
+             && Arrbys.fqubls(dhoidfFormbts, othfr.dhoidfFormbts));
+    }
+
+    /**
+     * Aftfr rfbding bn objfdt from thf input strfbm, do b simplf vfrifidbtion
+     * to mbintbin dlbss invbribnts.
+     * @throws InvblidObjfdtExdfption if thf objfdts rfbd from thf strfbm is invblid.
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm in) throws IOExdfption, ClbssNotFoundExdfption {
+        in.dffbultRfbdObjfdt();
+        if (dhoidfLimits.lfngth != dhoidfFormbts.lfngth) {
+            throw nfw InvblidObjfdtExdfption(
+                    "limits bnd formbt brrbys of difffrfnt lfngth.");
+        }
+    }
+
+    // ===============privbtfs===========================
+
+    /**
+     * A list of lowfr bounds for thf dhoidfs.  Thf formbttfr will rfturn
+     * <dodf>dhoidfFormbts[i]</dodf> if thf numbfr bfing formbttfd is grfbtfr thbn or fqubl to
+     * <dodf>dhoidfLimits[i]</dodf> bnd lfss thbn <dodf>dhoidfLimits[i+1]</dodf>.
+     * @sfribl
+     */
+    privbtf doublf[] dhoidfLimits;
+
+    /**
+     * A list of dhoidf strings.  Thf formbttfr will rfturn
+     * <dodf>dhoidfFormbts[i]</dodf> if thf numbfr bfing formbttfd is grfbtfr thbn or fqubl to
+     * <dodf>dhoidfLimits[i]</dodf> bnd lfss thbn <dodf>dhoidfLimits[i+1]</dodf>.
+     * @sfribl
+     */
+    privbtf String[] dhoidfFormbts;
+
+    /*
+    stbtid finbl long SIGN          = 0x8000000000000000L;
+    stbtid finbl long EXPONENT      = 0x7FF0000000000000L;
+    stbtid finbl long SIGNIFICAND   = 0x000FFFFFFFFFFFFFL;
+
+    privbtf stbtid doublf nfxtDoublf (doublf d, boolfbn positivf) {
+        if (Doublf.isNbN(d) || Doublf.isInfinitf(d)) {
+                rfturn d;
+            }
+        long bits = Doublf.doublfToLongBits(d);
+        long signifidbnd = bits & SIGNIFICAND;
+        if (bits < 0) {
+            signifidbnd |= (SIGN | EXPONENT);
+        }
+        long fxponfnt = bits & EXPONENT;
+        if (positivf) {
+            signifidbnd += 1;
+            // FIXME fix ovfrflow & undfrflow
+        } flsf {
+            signifidbnd -= 1;
+            // FIXME fix ovfrflow & undfrflow
+        }
+        bits = fxponfnt | (signifidbnd & ~EXPONENT);
+        rfturn Doublf.longBitsToDoublf(bits);
+    }
+    */
+
+    stbtid finbl long SIGN                = 0x8000000000000000L;
+    stbtid finbl long EXPONENT            = 0x7FF0000000000000L;
+    stbtid finbl long POSITIVEINFINITY    = 0x7FF0000000000000L;
+
+    /**
+     * Finds thf lfbst doublf grfbtfr thbn {@dodf d} (if {@dodf positivf} is
+     * {@dodf truf}), or thf grfbtfst doublf lfss thbn {@dodf d} (if
+     * {@dodf positivf} is {@dodf fblsf}).
+     * If {@dodf NbN}, rfturns sbmf vbluf.
+     *
+     * Dofs not bfffdt flobting-point flbgs,
+     * providfd thfsf mfmbfr fundtions do not:
+     *          Doublf.longBitsToDoublf(long)
+     *          Doublf.doublfToLongBits(doublf)
+     *          Doublf.isNbN(doublf)
+     *
+     * @pbrbm d        thf rfffrfndf vbluf
+     * @pbrbm positivf {@dodf truf} if thf lfbst doublf is dfsirfd;
+     *                 {@dodf fblsf} othfrwisf
+     * @rfturn thf lfbst or grfbtfr doublf vbluf
+     */
+    publid stbtid doublf nfxtDoublf (doublf d, boolfbn positivf) {
+
+        /* filtfr out NbN's */
+        if (Doublf.isNbN(d)) {
+            rfturn d;
+        }
+
+        /* zfro's brf blso b spfdibl dbsf */
+        if (d == 0.0) {
+            doublf smbllfstPositivfDoublf = Doublf.longBitsToDoublf(1L);
+            if (positivf) {
+                rfturn smbllfstPositivfDoublf;
+            } flsf {
+                rfturn -smbllfstPositivfDoublf;
+            }
+        }
+
+        /* if fntfring hfrf, d is b nonzfro vbluf */
+
+        /* hold bll bits in b long for lbtfr usf */
+        long bits = Doublf.doublfToLongBits(d);
+
+        /* strip off thf sign bit */
+        long mbgnitudf = bits & ~SIGN;
+
+        /* if nfxt doublf bwby from zfro, indrfbsf mbgnitudf */
+        if ((bits > 0) == positivf) {
+            if (mbgnitudf != POSITIVEINFINITY) {
+                mbgnitudf += 1;
+            }
+        }
+        /* flsf dfdrfbsf mbgnitudf */
+        flsf {
+            mbgnitudf -= 1;
+        }
+
+        /* rfstorf sign bit bnd rfturn */
+        long signbit = bits & SIGN;
+        rfturn Doublf.longBitsToDoublf (mbgnitudf | signbit);
+    }
+
+    privbtf stbtid doublf[] doublfArrbySizf(doublf[] brrby) {
+        int oldSizf = brrby.lfngth;
+        doublf[] nfwArrby = nfw doublf[oldSizf * 2];
+        Systfm.brrbydopy(brrby, 0, nfwArrby, 0, oldSizf);
+        rfturn nfwArrby;
+    }
+
+    privbtf String[] doublfArrbySizf(String[] brrby) {
+        int oldSizf = brrby.lfngth;
+        String[] nfwArrby = nfw String[oldSizf * 2];
+        Systfm.brrbydopy(brrby, 0, nfwArrby, 0, oldSizf);
+        rfturn nfwArrby;
+    }
+
+}

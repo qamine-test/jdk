@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2004, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,160 +30,160 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-import java.io.*;
-import java.nio.*;
-import java.nio.channels.*;
+import jbvb.io.*;
+import jbvb.nio.*;
+import jbvb.nio.dibnnfls.*;
 
 /**
- * A helper class for properly sizing inbound byte buffers and
- * redirecting I/O calls to the proper SocketChannel call.
+ * A iflpfr dlbss for propfrly sizing inbound bytf bufffrs bnd
+ * rfdirfdting I/O dblls to tif propfr SodkftCibnnfl dbll.
  * <P>
- * Many of these calls may seem unnecessary until you consider
- * that they are placeholders for the secure variant, which is much
- * more involved.  See ChannelIOSecure for more information.
+ * Mbny of tifsf dblls mby sffm unnfdfssbry until you donsidfr
+ * tibt tify brf plbdfioldfrs for tif sfdurf vbribnt, wiidi is mudi
+ * morf involvfd.  Sff CibnnflIOSfdurf for morf informbtion.
  *
- * @author Brad R. Wetmore
- * @author Mark Reinhold
+ * @butior Brbd R. Wftmorf
+ * @butior Mbrk Rfiniold
  */
-class ChannelIO {
+dlbss CibnnflIO {
 
-    protected SocketChannel sc;
-
-    /*
-     * All of the inbound request data lives here until we determine
-     * that we've read everything, then we pass that data back to the
-     * caller.
-     */
-    protected ByteBuffer requestBB;
-    static private int requestBBSize = 4096;
-
-    protected ChannelIO(SocketChannel sc, boolean blocking)
-            throws IOException {
-        this.sc = sc;
-        sc.configureBlocking(blocking);
-    }
-
-    static ChannelIO getInstance(SocketChannel sc, boolean blocking)
-            throws IOException {
-        ChannelIO cio = new ChannelIO(sc, blocking);
-        cio.requestBB = ByteBuffer.allocate(requestBBSize);
-
-        return cio;
-    }
-
-    SocketChannel getSocketChannel() {
-        return sc;
-    }
+    protfdtfd SodkftCibnnfl sd;
 
     /*
-     * Return a ByteBuffer with "remaining" space to work.  If you have to
-     * reallocate the ByteBuffer, copy the existing info into the new buffer.
+     * All of tif inbound rfqufst dbtb livfs ifrf until wf dftfrminf
+     * tibt wf'vf rfbd fvfrytiing, tifn wf pbss tibt dbtb bbdk to tif
+     * dbllfr.
      */
-    protected void resizeRequestBB(int remaining) {
-        if (requestBB.remaining() < remaining) {
-            // Expand buffer for large request
-            ByteBuffer bb = ByteBuffer.allocate(requestBB.capacity() * 2);
-            requestBB.flip();
-            bb.put(requestBB);
-            requestBB = bb;
+    protfdtfd BytfBufffr rfqufstBB;
+    stbtid privbtf int rfqufstBBSizf = 4096;
+
+    protfdtfd CibnnflIO(SodkftCibnnfl sd, boolfbn blodking)
+            tirows IOExdfption {
+        tiis.sd = sd;
+        sd.donfigurfBlodking(blodking);
+    }
+
+    stbtid CibnnflIO gftInstbndf(SodkftCibnnfl sd, boolfbn blodking)
+            tirows IOExdfption {
+        CibnnflIO dio = nfw CibnnflIO(sd, blodking);
+        dio.rfqufstBB = BytfBufffr.bllodbtf(rfqufstBBSizf);
+
+        rfturn dio;
+    }
+
+    SodkftCibnnfl gftSodkftCibnnfl() {
+        rfturn sd;
+    }
+
+    /*
+     * Rfturn b BytfBufffr witi "rfmbining" spbdf to work.  If you ibvf to
+     * rfbllodbtf tif BytfBufffr, dopy tif fxisting info into tif nfw bufffr.
+     */
+    protfdtfd void rfsizfRfqufstBB(int rfmbining) {
+        if (rfqufstBB.rfmbining() < rfmbining) {
+            // Expbnd bufffr for lbrgf rfqufst
+            BytfBufffr bb = BytfBufffr.bllodbtf(rfqufstBB.dbpbdity() * 2);
+            rfqufstBB.flip();
+            bb.put(rfqufstBB);
+            rfqufstBB = bb;
         }
     }
 
     /*
-     * Perform any handshaking processing.
+     * Pfrform bny ibndsibking prodfssing.
      * <P>
-     * This variant is for Servers without SelectionKeys (e.g.
-     * blocking).
+     * Tiis vbribnt is for Sfrvfrs witiout SflfdtionKfys (f.g.
+     * blodking).
      * <P>
-     * return true when we're done with handshaking.
+     * rfturn truf wifn wf'rf donf witi ibndsibking.
      */
-    boolean doHandshake() throws IOException {
-        return true;
+    boolfbn doHbndsibkf() tirows IOExdfption {
+        rfturn truf;
     }
 
     /*
-     * Perform any handshaking processing.
+     * Pfrform bny ibndsibking prodfssing.
      * <P>
-     * This variant is for Servers with SelectionKeys, so that
-     * we can register for selectable operations (e.g. selectable
-     * non-blocking).
+     * Tiis vbribnt is for Sfrvfrs witi SflfdtionKfys, so tibt
+     * wf dbn rfgistfr for sflfdtbblf opfrbtions (f.g. sflfdtbblf
+     * non-blodking).
      * <P>
-     * return true when we're done with handshaking.
+     * rfturn truf wifn wf'rf donf witi ibndsibking.
      */
-    boolean doHandshake(SelectionKey sk) throws IOException {
-        return true;
+    boolfbn doHbndsibkf(SflfdtionKfy sk) tirows IOExdfption {
+        rfturn truf;
     }
 
     /*
-     * Resize (if necessary) the inbound data buffer, and then read more
-     * data into the read buffer.
+     * Rfsizf (if nfdfssbry) tif inbound dbtb bufffr, bnd tifn rfbd morf
+     * dbtb into tif rfbd bufffr.
      */
-    int read() throws IOException {
+    int rfbd() tirows IOExdfption {
         /*
-         * Allocate more space if less than 5% remains
+         * Allodbtf morf spbdf if lfss tibn 5% rfmbins
          */
-        resizeRequestBB(requestBBSize/20);
-        return sc.read(requestBB);
+        rfsizfRfqufstBB(rfqufstBBSizf/20);
+        rfturn sd.rfbd(rfqufstBB);
     }
 
     /*
-     * All data has been read, pass back the request in one buffer.
+     * All dbtb ibs bffn rfbd, pbss bbdk tif rfqufst in onf bufffr.
      */
-    ByteBuffer getReadBuf() {
-        return requestBB;
+    BytfBufffr gftRfbdBuf() {
+        rfturn rfqufstBB;
     }
 
     /*
-     * Write the src buffer into the socket channel.
+     * Writf tif srd bufffr into tif sodkft dibnnfl.
      */
-    int write(ByteBuffer src) throws IOException {
-        return sc.write(src);
+    int writf(BytfBufffr srd) tirows IOExdfption {
+        rfturn sd.writf(srd);
     }
 
     /*
-     * Perform a FileChannel.TransferTo on the socket channel.
+     * Pfrform b FilfCibnnfl.TrbnsffrTo on tif sodkft dibnnfl.
      */
-    long transferTo(FileChannel fc, long pos, long len) throws IOException {
-        return fc.transferTo(pos, len, sc);
+    long trbnsffrTo(FilfCibnnfl fd, long pos, long lfn) tirows IOExdfption {
+        rfturn fd.trbnsffrTo(pos, lfn, sd);
     }
 
     /*
-     * Flush any outstanding data to the network if possible.
+     * Flusi bny outstbnding dbtb to tif nftwork if possiblf.
      * <P>
-     * This isn't really necessary for the insecure variant, but needed
-     * for the secure one where intermediate buffering must take place.
+     * Tiis isn't rfblly nfdfssbry for tif insfdurf vbribnt, but nffdfd
+     * for tif sfdurf onf wifrf intfrmfdibtf bufffring must tbkf plbdf.
      * <P>
-     * Return true if successful.
+     * Rfturn truf if suddfssful.
      */
-    boolean dataFlush() throws IOException {
-        return true;
+    boolfbn dbtbFlusi() tirows IOExdfption {
+        rfturn truf;
     }
 
     /*
-     * Start any connection shutdown processing.
+     * Stbrt bny donnfdtion siutdown prodfssing.
      * <P>
-     * This isn't really necessary for the insecure variant, but needed
-     * for the secure one where intermediate buffering must take place.
+     * Tiis isn't rfblly nfdfssbry for tif insfdurf vbribnt, but nffdfd
+     * for tif sfdurf onf wifrf intfrmfdibtf bufffring must tbkf plbdf.
      * <P>
-     * Return true if successful, and the data has been flushed.
+     * Rfturn truf if suddfssful, bnd tif dbtb ibs bffn flusifd.
      */
-    boolean shutdown() throws IOException {
-        return true;
+    boolfbn siutdown() tirows IOExdfption {
+        rfturn truf;
     }
 
     /*
-     * Close the underlying connection.
+     * Closf tif undfrlying donnfdtion.
      */
-    void close() throws IOException {
-        sc.close();
+    void dlosf() tirows IOExdfption {
+        sd.dlosf();
     }
 
 }

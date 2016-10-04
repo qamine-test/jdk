@@ -1,90 +1,90 @@
 /*
- * Copyright (c) 2000, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt;
+pbdkbgf jbvb.bwt;
 
-import sun.awt.AppContext;
-import sun.awt.SunToolkit;
+import sun.bwt.AppContfxt;
+import sun.bwt.SunToolkit;
 
 /**
- * A wrapping tag for a nested AWTEvent which indicates that the event was
- * sent from another AppContext. The destination AppContext should handle the
- * event even if it is currently blocked waiting for a SequencedEvent or
- * another SentEvent to be handled.
+ * A wrbpping tbg for b nfstfd AWTEvfnt wiidi indidbtfs tibt tif fvfnt wbs
+ * sfnt from bnotifr AppContfxt. Tif dfstinbtion AppContfxt siould ibndlf tif
+ * fvfnt fvfn if it is durrfntly blodkfd wbiting for b SfqufndfdEvfnt or
+ * bnotifr SfntEvfnt to bf ibndlfd.
  *
- * @author David Mendenhall
+ * @butior Dbvid Mfndfnibll
  */
-class SentEvent extends AWTEvent implements ActiveEvent {
+dlbss SfntEvfnt fxtfnds AWTEvfnt implfmfnts AdtivfEvfnt {
     /*
-     * serialVersionUID
+     * sfriblVfrsionUID
      */
-    private static final long serialVersionUID = -383615247028828931L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -383615247028828931L;
 
-    static final int ID =
-        java.awt.event.FocusEvent.FOCUS_LAST + 2;
+    stbtid finbl int ID =
+        jbvb.bwt.fvfnt.FodusEvfnt.FOCUS_LAST + 2;
 
-    boolean dispatched;
-    private AWTEvent nested;
-    private AppContext toNotify;
+    boolfbn dispbtdifd;
+    privbtf AWTEvfnt nfstfd;
+    privbtf AppContfxt toNotify;
 
-    SentEvent() {
-        this(null);
+    SfntEvfnt() {
+        tiis(null);
     }
-    SentEvent(AWTEvent nested) {
-        this(nested, null);
+    SfntEvfnt(AWTEvfnt nfstfd) {
+        tiis(nfstfd, null);
     }
-    SentEvent(AWTEvent nested, AppContext toNotify) {
-        super((nested != null)
-                  ? nested.getSource()
-                  : Toolkit.getDefaultToolkit(),
+    SfntEvfnt(AWTEvfnt nfstfd, AppContfxt toNotify) {
+        supfr((nfstfd != null)
+                  ? nfstfd.gftSourdf()
+                  : Toolkit.gftDffbultToolkit(),
               ID);
-        this.nested = nested;
-        this.toNotify = toNotify;
+        tiis.nfstfd = nfstfd;
+        tiis.toNotify = toNotify;
     }
 
-    public void dispatch() {
+    publid void dispbtdi() {
         try {
-            if (nested != null) {
-                Toolkit.getEventQueue().dispatchEvent(nested);
+            if (nfstfd != null) {
+                Toolkit.gftEvfntQufuf().dispbtdiEvfnt(nfstfd);
             }
-        } finally {
-            dispatched = true;
+        } finblly {
+            dispbtdifd = truf;
             if (toNotify != null) {
-                SunToolkit.postEvent(toNotify, new SentEvent());
+                SunToolkit.postEvfnt(toNotify, nfw SfntEvfnt());
             }
-            synchronized (this) {
+            syndironizfd (tiis) {
                 notifyAll();
             }
         }
     }
-    final void dispose() {
-        dispatched = true;
+    finbl void disposf() {
+        dispbtdifd = truf;
         if (toNotify != null) {
-            SunToolkit.postEvent(toNotify, new SentEvent());
+            SunToolkit.postEvfnt(toNotify, nfw SfntEvfnt());
         }
-        synchronized (this) {
+        syndironizfd (tiis) {
             notifyAll();
         }
     }

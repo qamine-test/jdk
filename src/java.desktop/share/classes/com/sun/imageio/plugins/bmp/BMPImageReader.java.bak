@@ -1,1841 +1,1841 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.imageio.plugins.bmp;
+pbdkbgf dom.sun.imbgfio.plugins.bmp;
 
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.Transparency;
-import java.awt.color.ColorSpace;
-import java.awt.color.ICC_ColorSpace;
-import java.awt.color.ICC_Profile;
-import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
-import java.awt.image.ComponentColorModel;
-import java.awt.image.ComponentSampleModel;
-import java.awt.image.DataBuffer;
-import java.awt.image.DataBufferByte;
-import java.awt.image.DataBufferInt;
-import java.awt.image.DataBufferUShort;
-import java.awt.image.DirectColorModel;
-import java.awt.image.IndexColorModel;
-import java.awt.image.MultiPixelPackedSampleModel;
-import java.awt.image.PixelInterleavedSampleModel;
-import java.awt.image.Raster;
-import java.awt.image.SampleModel;
-import java.awt.image.SinglePixelPackedSampleModel;
-import java.awt.image.WritableRaster;
+import jbvb.bwt.Point;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Trbnspbrfndy;
+import jbvb.bwt.dolor.ColorSpbdf;
+import jbvb.bwt.dolor.ICC_ColorSpbdf;
+import jbvb.bwt.dolor.ICC_Profilf;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.ComponfntColorModfl;
+import jbvb.bwt.imbgf.ComponfntSbmplfModfl;
+import jbvb.bwt.imbgf.DbtbBufffr;
+import jbvb.bwt.imbgf.DbtbBufffrBytf;
+import jbvb.bwt.imbgf.DbtbBufffrInt;
+import jbvb.bwt.imbgf.DbtbBufffrUSiort;
+import jbvb.bwt.imbgf.DirfdtColorModfl;
+import jbvb.bwt.imbgf.IndfxColorModfl;
+import jbvb.bwt.imbgf.MultiPixflPbdkfdSbmplfModfl;
+import jbvb.bwt.imbgf.PixflIntfrlfbvfdSbmplfModfl;
+import jbvb.bwt.imbgf.Rbstfr;
+import jbvb.bwt.imbgf.SbmplfModfl;
+import jbvb.bwt.imbgf.SinglfPixflPbdkfdSbmplfModfl;
+import jbvb.bwt.imbgf.WritbblfRbstfr;
 
-import javax.imageio.IIOException;
-import javax.imageio.ImageIO;
-import javax.imageio.ImageReader;
-import javax.imageio.ImageReadParam;
-import javax.imageio.ImageTypeSpecifier;
-import javax.imageio.metadata.IIOMetadata;
-import javax.imageio.spi.ImageReaderSpi;
-import javax.imageio.stream.ImageInputStream;
-import javax.imageio.event.IIOReadProgressListener;
-import javax.imageio.event.IIOReadUpdateListener;
-import javax.imageio.event.IIOReadWarningListener;
+import jbvbx.imbgfio.IIOExdfption;
+import jbvbx.imbgfio.ImbgfIO;
+import jbvbx.imbgfio.ImbgfRfbdfr;
+import jbvbx.imbgfio.ImbgfRfbdPbrbm;
+import jbvbx.imbgfio.ImbgfTypfSpfdififr;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtb;
+import jbvbx.imbgfio.spi.ImbgfRfbdfrSpi;
+import jbvbx.imbgfio.strfbm.ImbgfInputStrfbm;
+import jbvbx.imbgfio.fvfnt.IIORfbdProgrfssListfnfr;
+import jbvbx.imbgfio.fvfnt.IIORfbdUpdbtfListfnfr;
+import jbvbx.imbgfio.fvfnt.IIORfbdWbrningListfnfr;
 
-import java.io.*;
-import java.nio.*;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.StringTokenizer;
+import jbvb.io.*;
+import jbvb.nio.*;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.ArrbyList;
+import jbvb.util.Itfrbtor;
+import jbvb.util.StringTokfnizfr;
 
-import com.sun.imageio.plugins.common.ImageUtil;
-import com.sun.imageio.plugins.common.I18N;
+import dom.sun.imbgfio.plugins.dommon.ImbgfUtil;
+import dom.sun.imbgfio.plugins.dommon.I18N;
 
-/** This class is the Java Image IO plugin reader for BMP images.
- *  It may subsample the image, clip the image, select sub-bands,
- *  and shift the decoded image origin if the proper decoding parameter
- *  are set in the provided <code>ImageReadParam</code>.
+/** Tiis dlbss is tif Jbvb Imbgf IO plugin rfbdfr for BMP imbgfs.
+ *  It mby subsbmplf tif imbgf, dlip tif imbgf, sflfdt sub-bbnds,
+ *  bnd siift tif dfdodfd imbgf origin if tif propfr dfdoding pbrbmftfr
+ *  brf sft in tif providfd <dodf>ImbgfRfbdPbrbm</dodf>.
  *
- *  This class supports Microsoft Windows Bitmap Version 3-5,
- *  as well as OS/2 Bitmap Version 2.x (for single-image BMP file).
+ *  Tiis dlbss supports Midrosoft Windows Bitmbp Vfrsion 3-5,
+ *  bs wfll bs OS/2 Bitmbp Vfrsion 2.x (for singlf-imbgf BMP filf).
  */
-public class BMPImageReader extends ImageReader implements BMPConstants {
-    // BMP Image types
-    private static final int VERSION_2_1_BIT = 0;
-    private static final int VERSION_2_4_BIT = 1;
-    private static final int VERSION_2_8_BIT = 2;
-    private static final int VERSION_2_24_BIT = 3;
+publid dlbss BMPImbgfRfbdfr fxtfnds ImbgfRfbdfr implfmfnts BMPConstbnts {
+    // BMP Imbgf typfs
+    privbtf stbtid finbl int VERSION_2_1_BIT = 0;
+    privbtf stbtid finbl int VERSION_2_4_BIT = 1;
+    privbtf stbtid finbl int VERSION_2_8_BIT = 2;
+    privbtf stbtid finbl int VERSION_2_24_BIT = 3;
 
-    private static final int VERSION_3_1_BIT = 4;
-    private static final int VERSION_3_4_BIT = 5;
-    private static final int VERSION_3_8_BIT = 6;
-    private static final int VERSION_3_24_BIT = 7;
+    privbtf stbtid finbl int VERSION_3_1_BIT = 4;
+    privbtf stbtid finbl int VERSION_3_4_BIT = 5;
+    privbtf stbtid finbl int VERSION_3_8_BIT = 6;
+    privbtf stbtid finbl int VERSION_3_24_BIT = 7;
 
-    private static final int VERSION_3_NT_16_BIT = 8;
-    private static final int VERSION_3_NT_32_BIT = 9;
+    privbtf stbtid finbl int VERSION_3_NT_16_BIT = 8;
+    privbtf stbtid finbl int VERSION_3_NT_32_BIT = 9;
 
-    private static final int VERSION_4_1_BIT = 10;
-    private static final int VERSION_4_4_BIT = 11;
-    private static final int VERSION_4_8_BIT = 12;
-    private static final int VERSION_4_16_BIT = 13;
-    private static final int VERSION_4_24_BIT = 14;
-    private static final int VERSION_4_32_BIT = 15;
+    privbtf stbtid finbl int VERSION_4_1_BIT = 10;
+    privbtf stbtid finbl int VERSION_4_4_BIT = 11;
+    privbtf stbtid finbl int VERSION_4_8_BIT = 12;
+    privbtf stbtid finbl int VERSION_4_16_BIT = 13;
+    privbtf stbtid finbl int VERSION_4_24_BIT = 14;
+    privbtf stbtid finbl int VERSION_4_32_BIT = 15;
 
-    private static final int VERSION_3_XP_EMBEDDED = 16;
-    private static final int VERSION_4_XP_EMBEDDED = 17;
-    private static final int VERSION_5_XP_EMBEDDED = 18;
+    privbtf stbtid finbl int VERSION_3_XP_EMBEDDED = 16;
+    privbtf stbtid finbl int VERSION_4_XP_EMBEDDED = 17;
+    privbtf stbtid finbl int VERSION_5_XP_EMBEDDED = 18;
 
-    // BMP variables
-    private long bitmapFileSize;
-    private long bitmapOffset;
-    private long compression;
-    private long imageSize;
-    private byte palette[];
-    private int imageType;
-    private int numBands;
-    private boolean isBottomUp;
-    private int bitsPerPixel;
-    private int redMask, greenMask, blueMask, alphaMask;
+    // BMP vbribblfs
+    privbtf long bitmbpFilfSizf;
+    privbtf long bitmbpOffsft;
+    privbtf long domprfssion;
+    privbtf long imbgfSizf;
+    privbtf bytf pblfttf[];
+    privbtf int imbgfTypf;
+    privbtf int numBbnds;
+    privbtf boolfbn isBottomUp;
+    privbtf int bitsPfrPixfl;
+    privbtf int rfdMbsk, grffnMbsk, blufMbsk, blpibMbsk;
 
-    private SampleModel sampleModel, originalSampleModel;
-    private ColorModel colorModel, originalColorModel;
+    privbtf SbmplfModfl sbmplfModfl, originblSbmplfModfl;
+    privbtf ColorModfl dolorModfl, originblColorModfl;
 
-    /** The input stream where reads from */
-    private ImageInputStream iis = null;
+    /** Tif input strfbm wifrf rfbds from */
+    privbtf ImbgfInputStrfbm iis = null;
 
-    /** Indicates whether the header is read. */
-    private boolean gotHeader = false;
+    /** Indidbtfs wiftifr tif ifbdfr is rfbd. */
+    privbtf boolfbn gotHfbdfr = fblsf;
 
-    /** The original image width. */
-    private int width;
+    /** Tif originbl imbgf widti. */
+    privbtf int widti;
 
-    /** The original image height. */
-    private int height;
+    /** Tif originbl imbgf ifigit. */
+    privbtf int ifigit;
 
-    /** The destination region. */
-    private Rectangle destinationRegion;
+    /** Tif dfstinbtion rfgion. */
+    privbtf Rfdtbnglf dfstinbtionRfgion;
 
-    /** The source region. */
-    private Rectangle sourceRegion;
+    /** Tif sourdf rfgion. */
+    privbtf Rfdtbnglf sourdfRfgion;
 
-    /** The metadata from the stream. */
-    private BMPMetadata metadata;
+    /** Tif mftbdbtb from tif strfbm. */
+    privbtf BMPMftbdbtb mftbdbtb;
 
-    /** The destination image. */
-    private BufferedImage bi;
+    /** Tif dfstinbtion imbgf. */
+    privbtf BufffrfdImbgf bi;
 
-    /** Indicates whether subsampled, subregion is required, and offset is
-     *  defined
+    /** Indidbtfs wiftifr subsbmplfd, subrfgion is rfquirfd, bnd offsft is
+     *  dffinfd
      */
-    private boolean noTransform = true;
+    privbtf boolfbn noTrbnsform = truf;
 
-    /** Indicates whether subband is selected. */
-    private boolean seleBand = false;
+    /** Indidbtfs wiftifr subbbnd is sflfdtfd. */
+    privbtf boolfbn sflfBbnd = fblsf;
 
-    /** The scaling factors. */
-    private int scaleX, scaleY;
+    /** Tif sdbling fbdtors. */
+    privbtf int sdblfX, sdblfY;
 
-    /** source and destination bands. */
-    private int[] sourceBands, destBands;
+    /** sourdf bnd dfstinbtion bbnds. */
+    privbtf int[] sourdfBbnds, dfstBbnds;
 
-    /** Constructs <code>BMPImageReader</code> from the provided
-     *  <code>ImageReaderSpi</code>.
+    /** Construdts <dodf>BMPImbgfRfbdfr</dodf> from tif providfd
+     *  <dodf>ImbgfRfbdfrSpi</dodf>.
      */
-    public BMPImageReader(ImageReaderSpi originator) {
-        super(originator);
+    publid BMPImbgfRfbdfr(ImbgfRfbdfrSpi originbtor) {
+        supfr(originbtor);
     }
 
-    /** Overrides the method defined in the superclass. */
-    public void setInput(Object input,
-                         boolean seekForwardOnly,
-                         boolean ignoreMetadata) {
-        super.setInput(input, seekForwardOnly, ignoreMetadata);
-        iis = (ImageInputStream) input; // Always works
+    /** Ovfrridfs tif mftiod dffinfd in tif supfrdlbss. */
+    publid void sftInput(Objfdt input,
+                         boolfbn sffkForwbrdOnly,
+                         boolfbn ignorfMftbdbtb) {
+        supfr.sftInput(input, sffkForwbrdOnly, ignorfMftbdbtb);
+        iis = (ImbgfInputStrfbm) input; // Alwbys works
         if(iis != null)
-            iis.setByteOrder(ByteOrder.LITTLE_ENDIAN);
-        resetHeaderInfo();
+            iis.sftBytfOrdfr(BytfOrdfr.LITTLE_ENDIAN);
+        rfsftHfbdfrInfo();
     }
 
-    /** Overrides the method defined in the superclass. */
-    public int getNumImages(boolean allowSearch) throws IOException {
+    /** Ovfrridfs tif mftiod dffinfd in tif supfrdlbss. */
+    publid int gftNumImbgfs(boolfbn bllowSfbrdi) tirows IOExdfption {
         if (iis == null) {
-            throw new IllegalStateException(I18N.getString("GetNumImages0"));
+            tirow nfw IllfgblStbtfExdfption(I18N.gftString("GftNumImbgfs0"));
         }
-        if (seekForwardOnly && allowSearch) {
-            throw new IllegalStateException(I18N.getString("GetNumImages1"));
+        if (sffkForwbrdOnly && bllowSfbrdi) {
+            tirow nfw IllfgblStbtfExdfption(I18N.gftString("GftNumImbgfs1"));
         }
-        return 1;
+        rfturn 1;
     }
 
-    @Override
-    public int getWidth(int imageIndex) throws IOException {
-        checkIndex(imageIndex);
+    @Ovfrridf
+    publid int gftWidti(int imbgfIndfx) tirows IOExdfption {
+        difdkIndfx(imbgfIndfx);
         try {
-            readHeader();
-        } catch (IllegalArgumentException e) {
-            throw new IIOException(I18N.getString("BMPImageReader6"), e);
+            rfbdHfbdfr();
+        } dbtdi (IllfgblArgumfntExdfption f) {
+            tirow nfw IIOExdfption(I18N.gftString("BMPImbgfRfbdfr6"), f);
         }
-        return width;
+        rfturn widti;
     }
 
-    public int getHeight(int imageIndex) throws IOException {
-        checkIndex(imageIndex);
+    publid int gftHfigit(int imbgfIndfx) tirows IOExdfption {
+        difdkIndfx(imbgfIndfx);
         try {
-            readHeader();
-        } catch (IllegalArgumentException e) {
-            throw new IIOException(I18N.getString("BMPImageReader6"), e);
+            rfbdHfbdfr();
+        } dbtdi (IllfgblArgumfntExdfption f) {
+            tirow nfw IIOExdfption(I18N.gftString("BMPImbgfRfbdfr6"), f);
         }
-        return height;
+        rfturn ifigit;
     }
 
-    private void checkIndex(int imageIndex) {
-        if (imageIndex != 0) {
-            throw new IndexOutOfBoundsException(I18N.getString("BMPImageReader0"));
+    privbtf void difdkIndfx(int imbgfIndfx) {
+        if (imbgfIndfx != 0) {
+            tirow nfw IndfxOutOfBoundsExdfption(I18N.gftString("BMPImbgfRfbdfr0"));
         }
     }
 
     /**
-     * Process the image header.
+     * Prodfss tif imbgf ifbdfr.
      *
-     * @exception IllegalStateException if source stream is not set.
+     * @fxdfption IllfgblStbtfExdfption if sourdf strfbm is not sft.
      *
-     * @exception IOException if image stream is corrupted.
+     * @fxdfption IOExdfption if imbgf strfbm is dorruptfd.
      *
-     * @exception IllegalArgumentException if the image stream does not contain
-     *             a BMP image, or if a sample model instance to describe the
-     *             image can not be created.
+     * @fxdfption IllfgblArgumfntExdfption if tif imbgf strfbm dofs not dontbin
+     *             b BMP imbgf, or if b sbmplf modfl instbndf to dfsdribf tif
+     *             imbgf dbn not bf drfbtfd.
      */
-    protected void readHeader() throws IOException, IllegalArgumentException {
-        if (gotHeader)
-            return;
+    protfdtfd void rfbdHfbdfr() tirows IOExdfption, IllfgblArgumfntExdfption {
+        if (gotHfbdfr)
+            rfturn;
 
         if (iis == null) {
-            throw new IllegalStateException("Input source not set!");
+            tirow nfw IllfgblStbtfExdfption("Input sourdf not sft!");
         }
-        int profileData = 0, profileSize = 0;
+        int profilfDbtb = 0, profilfSizf = 0;
 
-        this.metadata = new BMPMetadata();
-        iis.mark();
+        tiis.mftbdbtb = nfw BMPMftbdbtb();
+        iis.mbrk();
 
-        // read and check the magic marker
-        byte[] marker = new byte[2];
-        iis.read(marker);
-        if (marker[0] != 0x42 || marker[1] != 0x4d)
-            throw new IllegalArgumentException(I18N.getString("BMPImageReader1"));
+        // rfbd bnd difdk tif mbgid mbrkfr
+        bytf[] mbrkfr = nfw bytf[2];
+        iis.rfbd(mbrkfr);
+        if (mbrkfr[0] != 0x42 || mbrkfr[1] != 0x4d)
+            tirow nfw IllfgblArgumfntExdfption(I18N.gftString("BMPImbgfRfbdfr1"));
 
-        // Read file size
-        bitmapFileSize = iis.readUnsignedInt();
-        // skip the two reserved fields
-        iis.skipBytes(4);
+        // Rfbd filf sizf
+        bitmbpFilfSizf = iis.rfbdUnsignfdInt();
+        // skip tif two rfsfrvfd fiflds
+        iis.skipBytfs(4);
 
-        // Offset to the bitmap from the beginning
-        bitmapOffset = iis.readUnsignedInt();
-        // End File Header
+        // Offsft to tif bitmbp from tif bfginning
+        bitmbpOffsft = iis.rfbdUnsignfdInt();
+        // End Filf Hfbdfr
 
-        // Start BitmapCoreHeader
-        long size = iis.readUnsignedInt();
+        // Stbrt BitmbpCorfHfbdfr
+        long sizf = iis.rfbdUnsignfdInt();
 
-        if (size == 12) {
-            width = iis.readShort();
-            height = iis.readShort();
-        } else {
-            width = iis.readInt();
-            height = iis.readInt();
+        if (sizf == 12) {
+            widti = iis.rfbdSiort();
+            ifigit = iis.rfbdSiort();
+        } flsf {
+            widti = iis.rfbdInt();
+            ifigit = iis.rfbdInt();
         }
 
-        metadata.width = width;
-        metadata.height = height;
+        mftbdbtb.widti = widti;
+        mftbdbtb.ifigit = ifigit;
 
-        int planes = iis.readUnsignedShort();
-        bitsPerPixel = iis.readUnsignedShort();
+        int plbnfs = iis.rfbdUnsignfdSiort();
+        bitsPfrPixfl = iis.rfbdUnsignfdSiort();
 
-        //metadata.colorPlane = planes;
-        metadata.bitsPerPixel = (short)bitsPerPixel;
+        //mftbdbtb.dolorPlbnf = plbnfs;
+        mftbdbtb.bitsPfrPixfl = (siort)bitsPfrPixfl;
 
-        // As BMP always has 3 rgb bands, except for Version 5,
-        // which is bgra
-        numBands = 3;
+        // As BMP blwbys ibs 3 rgb bbnds, fxdfpt for Vfrsion 5,
+        // wiidi is bgrb
+        numBbnds = 3;
 
-        if (size == 12) {
-            // Windows 2.x and OS/2 1.x
-            metadata.bmpVersion = VERSION_2;
+        if (sizf == 12) {
+            // Windows 2.x bnd OS/2 1.x
+            mftbdbtb.bmpVfrsion = VERSION_2;
 
-            // Classify the image type
-            if (bitsPerPixel == 1) {
-                imageType = VERSION_2_1_BIT;
-            } else if (bitsPerPixel == 4) {
-                imageType = VERSION_2_4_BIT;
-            } else if (bitsPerPixel == 8) {
-                imageType = VERSION_2_8_BIT;
-            } else if (bitsPerPixel == 24) {
-                imageType = VERSION_2_24_BIT;
+            // Clbssify tif imbgf typf
+            if (bitsPfrPixfl == 1) {
+                imbgfTypf = VERSION_2_1_BIT;
+            } flsf if (bitsPfrPixfl == 4) {
+                imbgfTypf = VERSION_2_4_BIT;
+            } flsf if (bitsPfrPixfl == 8) {
+                imbgfTypf = VERSION_2_8_BIT;
+            } flsf if (bitsPfrPixfl == 24) {
+                imbgfTypf = VERSION_2_24_BIT;
             }
 
-            // Read in the palette
-            int numberOfEntries = (int)((bitmapOffset - 14 - size) / 3);
-            int sizeOfPalette = numberOfEntries*3;
-            palette = new byte[sizeOfPalette];
-            iis.readFully(palette, 0, sizeOfPalette);
-            metadata.palette = palette;
-            metadata.paletteSize = numberOfEntries;
-        } else {
-            compression = iis.readUnsignedInt();
-            imageSize = iis.readUnsignedInt();
-            long xPelsPerMeter = iis.readInt();
-            long yPelsPerMeter = iis.readInt();
-            long colorsUsed = iis.readUnsignedInt();
-            long colorsImportant = iis.readUnsignedInt();
+            // Rfbd in tif pblfttf
+            int numbfrOfEntrifs = (int)((bitmbpOffsft - 14 - sizf) / 3);
+            int sizfOfPblfttf = numbfrOfEntrifs*3;
+            pblfttf = nfw bytf[sizfOfPblfttf];
+            iis.rfbdFully(pblfttf, 0, sizfOfPblfttf);
+            mftbdbtb.pblfttf = pblfttf;
+            mftbdbtb.pblfttfSizf = numbfrOfEntrifs;
+        } flsf {
+            domprfssion = iis.rfbdUnsignfdInt();
+            imbgfSizf = iis.rfbdUnsignfdInt();
+            long xPflsPfrMftfr = iis.rfbdInt();
+            long yPflsPfrMftfr = iis.rfbdInt();
+            long dolorsUsfd = iis.rfbdUnsignfdInt();
+            long dolorsImportbnt = iis.rfbdUnsignfdInt();
 
-            metadata.compression = (int)compression;
-            metadata.xPixelsPerMeter = (int)xPelsPerMeter;
-            metadata.yPixelsPerMeter = (int)yPelsPerMeter;
-            metadata.colorsUsed = (int)colorsUsed;
-            metadata.colorsImportant = (int)colorsImportant;
+            mftbdbtb.domprfssion = (int)domprfssion;
+            mftbdbtb.xPixflsPfrMftfr = (int)xPflsPfrMftfr;
+            mftbdbtb.yPixflsPfrMftfr = (int)yPflsPfrMftfr;
+            mftbdbtb.dolorsUsfd = (int)dolorsUsfd;
+            mftbdbtb.dolorsImportbnt = (int)dolorsImportbnt;
 
-            if (size == 40) {
-                // Windows 3.x and Windows NT
-                switch((int)compression) {
+            if (sizf == 40) {
+                // Windows 3.x bnd Windows NT
+                switdi((int)domprfssion) {
 
-                case BI_JPEG:
-                case BI_PNG:
-                    metadata.bmpVersion = VERSION_3;
-                    imageType = VERSION_3_XP_EMBEDDED;
-                    break;
+                dbsf BI_JPEG:
+                dbsf BI_PNG:
+                    mftbdbtb.bmpVfrsion = VERSION_3;
+                    imbgfTypf = VERSION_3_XP_EMBEDDED;
+                    brfbk;
 
-                case BI_RGB:  // No compression
-                case BI_RLE8:  // 8-bit RLE compression
-                case BI_RLE4:  // 4-bit RLE compression
+                dbsf BI_RGB:  // No domprfssion
+                dbsf BI_RLE8:  // 8-bit RLE domprfssion
+                dbsf BI_RLE4:  // 4-bit RLE domprfssion
 
-                    // Read in the palette
-                    if (bitmapOffset < (size + 14)) {
-                        throw new IIOException(I18N.getString("BMPImageReader7"));
+                    // Rfbd in tif pblfttf
+                    if (bitmbpOffsft < (sizf + 14)) {
+                        tirow nfw IIOExdfption(I18N.gftString("BMPImbgfRfbdfr7"));
                     }
-                    int numberOfEntries = (int)((bitmapOffset-14-size) / 4);
-                    int sizeOfPalette = numberOfEntries * 4;
-                    palette = new byte[sizeOfPalette];
-                    iis.readFully(palette, 0, sizeOfPalette);
+                    int numbfrOfEntrifs = (int)((bitmbpOffsft-14-sizf) / 4);
+                    int sizfOfPblfttf = numbfrOfEntrifs * 4;
+                    pblfttf = nfw bytf[sizfOfPblfttf];
+                    iis.rfbdFully(pblfttf, 0, sizfOfPblfttf);
 
-                    metadata.palette = palette;
-                    metadata.paletteSize = numberOfEntries;
+                    mftbdbtb.pblfttf = pblfttf;
+                    mftbdbtb.pblfttfSizf = numbfrOfEntrifs;
 
-                    if (bitsPerPixel == 1) {
-                        imageType = VERSION_3_1_BIT;
-                    } else if (bitsPerPixel == 4) {
-                        imageType = VERSION_3_4_BIT;
-                    } else if (bitsPerPixel == 8) {
-                        imageType = VERSION_3_8_BIT;
-                    } else if (bitsPerPixel == 24) {
-                        imageType = VERSION_3_24_BIT;
-                    } else if (bitsPerPixel == 16) {
-                        imageType = VERSION_3_NT_16_BIT;
+                    if (bitsPfrPixfl == 1) {
+                        imbgfTypf = VERSION_3_1_BIT;
+                    } flsf if (bitsPfrPixfl == 4) {
+                        imbgfTypf = VERSION_3_4_BIT;
+                    } flsf if (bitsPfrPixfl == 8) {
+                        imbgfTypf = VERSION_3_8_BIT;
+                    } flsf if (bitsPfrPixfl == 24) {
+                        imbgfTypf = VERSION_3_24_BIT;
+                    } flsf if (bitsPfrPixfl == 16) {
+                        imbgfTypf = VERSION_3_NT_16_BIT;
 
-                        redMask = 0x7C00;
-                        greenMask = 0x3E0;
-                        blueMask =  (1 << 5) - 1;// 0x1F;
-                        metadata.redMask = redMask;
-                        metadata.greenMask = greenMask;
-                        metadata.blueMask = blueMask;
-                    } else if (bitsPerPixel == 32) {
-                        imageType = VERSION_3_NT_32_BIT;
-                        redMask   = 0x00FF0000;
-                        greenMask = 0x0000FF00;
-                        blueMask  = 0x000000FF;
-                        metadata.redMask = redMask;
-                        metadata.greenMask = greenMask;
-                        metadata.blueMask = blueMask;
-                    }
-
-                    metadata.bmpVersion = VERSION_3;
-                    break;
-
-                case BI_BITFIELDS:
-
-                    if (bitsPerPixel == 16) {
-                        imageType = VERSION_3_NT_16_BIT;
-                    } else if (bitsPerPixel == 32) {
-                        imageType = VERSION_3_NT_32_BIT;
+                        rfdMbsk = 0x7C00;
+                        grffnMbsk = 0x3E0;
+                        blufMbsk =  (1 << 5) - 1;// 0x1F;
+                        mftbdbtb.rfdMbsk = rfdMbsk;
+                        mftbdbtb.grffnMbsk = grffnMbsk;
+                        mftbdbtb.blufMbsk = blufMbsk;
+                    } flsf if (bitsPfrPixfl == 32) {
+                        imbgfTypf = VERSION_3_NT_32_BIT;
+                        rfdMbsk   = 0x00FF0000;
+                        grffnMbsk = 0x0000FF00;
+                        blufMbsk  = 0x000000FF;
+                        mftbdbtb.rfdMbsk = rfdMbsk;
+                        mftbdbtb.grffnMbsk = grffnMbsk;
+                        mftbdbtb.blufMbsk = blufMbsk;
                     }
 
-                    // BitsField encoding
-                    redMask = (int)iis.readUnsignedInt();
-                    greenMask = (int)iis.readUnsignedInt();
-                    blueMask = (int)iis.readUnsignedInt();
-                    metadata.redMask = redMask;
-                    metadata.greenMask = greenMask;
-                    metadata.blueMask = blueMask;
+                    mftbdbtb.bmpVfrsion = VERSION_3;
+                    brfbk;
 
-                    if (colorsUsed != 0) {
-                        // there is a palette
-                        sizeOfPalette = (int)colorsUsed*4;
-                        palette = new byte[sizeOfPalette];
-                        iis.readFully(palette, 0, sizeOfPalette);
+                dbsf BI_BITFIELDS:
 
-                        metadata.palette = palette;
-                        metadata.paletteSize = (int)colorsUsed;
+                    if (bitsPfrPixfl == 16) {
+                        imbgfTypf = VERSION_3_NT_16_BIT;
+                    } flsf if (bitsPfrPixfl == 32) {
+                        imbgfTypf = VERSION_3_NT_32_BIT;
                     }
-                    metadata.bmpVersion = VERSION_3_NT;
 
-                    break;
-                default:
-                    throw new
-                        IIOException(I18N.getString("BMPImageReader2"));
+                    // BitsFifld fndoding
+                    rfdMbsk = (int)iis.rfbdUnsignfdInt();
+                    grffnMbsk = (int)iis.rfbdUnsignfdInt();
+                    blufMbsk = (int)iis.rfbdUnsignfdInt();
+                    mftbdbtb.rfdMbsk = rfdMbsk;
+                    mftbdbtb.grffnMbsk = grffnMbsk;
+                    mftbdbtb.blufMbsk = blufMbsk;
+
+                    if (dolorsUsfd != 0) {
+                        // tifrf is b pblfttf
+                        sizfOfPblfttf = (int)dolorsUsfd*4;
+                        pblfttf = nfw bytf[sizfOfPblfttf];
+                        iis.rfbdFully(pblfttf, 0, sizfOfPblfttf);
+
+                        mftbdbtb.pblfttf = pblfttf;
+                        mftbdbtb.pblfttfSizf = (int)dolorsUsfd;
+                    }
+                    mftbdbtb.bmpVfrsion = VERSION_3_NT;
+
+                    brfbk;
+                dffbult:
+                    tirow nfw
+                        IIOExdfption(I18N.gftString("BMPImbgfRfbdfr2"));
                 }
-            } else if (size == 108 || size == 124) {
+            } flsf if (sizf == 108 || sizf == 124) {
                 // Windows 4.x BMP
-                if (size == 108)
-                    metadata.bmpVersion = VERSION_4;
-                else if (size == 124)
-                    metadata.bmpVersion = VERSION_5;
+                if (sizf == 108)
+                    mftbdbtb.bmpVfrsion = VERSION_4;
+                flsf if (sizf == 124)
+                    mftbdbtb.bmpVfrsion = VERSION_5;
 
-                // rgb masks, valid only if comp is BI_BITFIELDS
-                redMask = (int)iis.readUnsignedInt();
-                greenMask = (int)iis.readUnsignedInt();
-                blueMask = (int)iis.readUnsignedInt();
-                // Only supported for 32bpp BI_RGB argb
-                alphaMask = (int)iis.readUnsignedInt();
-                long csType = iis.readUnsignedInt();
-                int redX = iis.readInt();
-                int redY = iis.readInt();
-                int redZ = iis.readInt();
-                int greenX = iis.readInt();
-                int greenY = iis.readInt();
-                int greenZ = iis.readInt();
-                int blueX = iis.readInt();
-                int blueY = iis.readInt();
-                int blueZ = iis.readInt();
-                long gammaRed = iis.readUnsignedInt();
-                long gammaGreen = iis.readUnsignedInt();
-                long gammaBlue = iis.readUnsignedInt();
+                // rgb mbsks, vblid only if domp is BI_BITFIELDS
+                rfdMbsk = (int)iis.rfbdUnsignfdInt();
+                grffnMbsk = (int)iis.rfbdUnsignfdInt();
+                blufMbsk = (int)iis.rfbdUnsignfdInt();
+                // Only supportfd for 32bpp BI_RGB brgb
+                blpibMbsk = (int)iis.rfbdUnsignfdInt();
+                long dsTypf = iis.rfbdUnsignfdInt();
+                int rfdX = iis.rfbdInt();
+                int rfdY = iis.rfbdInt();
+                int rfdZ = iis.rfbdInt();
+                int grffnX = iis.rfbdInt();
+                int grffnY = iis.rfbdInt();
+                int grffnZ = iis.rfbdInt();
+                int blufX = iis.rfbdInt();
+                int blufY = iis.rfbdInt();
+                int blufZ = iis.rfbdInt();
+                long gbmmbRfd = iis.rfbdUnsignfdInt();
+                long gbmmbGrffn = iis.rfbdUnsignfdInt();
+                long gbmmbBluf = iis.rfbdUnsignfdInt();
 
-                if (size == 124) {
-                    metadata.intent = iis.readInt();
-                    profileData = iis.readInt();
-                    profileSize = iis.readInt();
-                    iis.skipBytes(4);
+                if (sizf == 124) {
+                    mftbdbtb.intfnt = iis.rfbdInt();
+                    profilfDbtb = iis.rfbdInt();
+                    profilfSizf = iis.rfbdInt();
+                    iis.skipBytfs(4);
                 }
 
-                metadata.colorSpace = (int)csType;
+                mftbdbtb.dolorSpbdf = (int)dsTypf;
 
-                if (csType == LCS_CALIBRATED_RGB) {
-                    // All the new fields are valid only for this case
-                    metadata.redX = redX;
-                    metadata.redY = redY;
-                    metadata.redZ = redZ;
-                    metadata.greenX = greenX;
-                    metadata.greenY = greenY;
-                    metadata.greenZ = greenZ;
-                    metadata.blueX = blueX;
-                    metadata.blueY = blueY;
-                    metadata.blueZ = blueZ;
-                    metadata.gammaRed = (int)gammaRed;
-                    metadata.gammaGreen = (int)gammaGreen;
-                    metadata.gammaBlue = (int)gammaBlue;
+                if (dsTypf == LCS_CALIBRATED_RGB) {
+                    // All tif nfw fiflds brf vblid only for tiis dbsf
+                    mftbdbtb.rfdX = rfdX;
+                    mftbdbtb.rfdY = rfdY;
+                    mftbdbtb.rfdZ = rfdZ;
+                    mftbdbtb.grffnX = grffnX;
+                    mftbdbtb.grffnY = grffnY;
+                    mftbdbtb.grffnZ = grffnZ;
+                    mftbdbtb.blufX = blufX;
+                    mftbdbtb.blufY = blufY;
+                    mftbdbtb.blufZ = blufZ;
+                    mftbdbtb.gbmmbRfd = (int)gbmmbRfd;
+                    mftbdbtb.gbmmbGrffn = (int)gbmmbGrffn;
+                    mftbdbtb.gbmmbBluf = (int)gbmmbBluf;
                 }
 
-                // Read in the palette
-                int numberOfEntries = (int)((bitmapOffset-14-size) / 4);
-                int sizeOfPalette = numberOfEntries*4;
-                palette = new byte[sizeOfPalette];
-                iis.readFully(palette, 0, sizeOfPalette);
-                metadata.palette = palette;
-                metadata.paletteSize = numberOfEntries;
+                // Rfbd in tif pblfttf
+                int numbfrOfEntrifs = (int)((bitmbpOffsft-14-sizf) / 4);
+                int sizfOfPblfttf = numbfrOfEntrifs*4;
+                pblfttf = nfw bytf[sizfOfPblfttf];
+                iis.rfbdFully(pblfttf, 0, sizfOfPblfttf);
+                mftbdbtb.pblfttf = pblfttf;
+                mftbdbtb.pblfttfSizf = numbfrOfEntrifs;
 
-                switch ((int)compression) {
-                case BI_JPEG:
-                case BI_PNG:
-                    if (size == 108) {
-                        imageType = VERSION_4_XP_EMBEDDED;
-                    } else if (size == 124) {
-                        imageType = VERSION_5_XP_EMBEDDED;
+                switdi ((int)domprfssion) {
+                dbsf BI_JPEG:
+                dbsf BI_PNG:
+                    if (sizf == 108) {
+                        imbgfTypf = VERSION_4_XP_EMBEDDED;
+                    } flsf if (sizf == 124) {
+                        imbgfTypf = VERSION_5_XP_EMBEDDED;
                     }
-                    break;
-                default:
-                    if (bitsPerPixel == 1) {
-                        imageType = VERSION_4_1_BIT;
-                    } else if (bitsPerPixel == 4) {
-                        imageType = VERSION_4_4_BIT;
-                    } else if (bitsPerPixel == 8) {
-                        imageType = VERSION_4_8_BIT;
-                    } else if (bitsPerPixel == 16) {
-                        imageType = VERSION_4_16_BIT;
-                        if ((int)compression == BI_RGB) {
-                            redMask = 0x7C00;
-                            greenMask = 0x3E0;
-                            blueMask = 0x1F;
+                    brfbk;
+                dffbult:
+                    if (bitsPfrPixfl == 1) {
+                        imbgfTypf = VERSION_4_1_BIT;
+                    } flsf if (bitsPfrPixfl == 4) {
+                        imbgfTypf = VERSION_4_4_BIT;
+                    } flsf if (bitsPfrPixfl == 8) {
+                        imbgfTypf = VERSION_4_8_BIT;
+                    } flsf if (bitsPfrPixfl == 16) {
+                        imbgfTypf = VERSION_4_16_BIT;
+                        if ((int)domprfssion == BI_RGB) {
+                            rfdMbsk = 0x7C00;
+                            grffnMbsk = 0x3E0;
+                            blufMbsk = 0x1F;
                         }
-                    } else if (bitsPerPixel == 24) {
-                        imageType = VERSION_4_24_BIT;
-                    } else if (bitsPerPixel == 32) {
-                        imageType = VERSION_4_32_BIT;
-                        if ((int)compression == BI_RGB) {
-                            redMask   = 0x00FF0000;
-                            greenMask = 0x0000FF00;
-                            blueMask  = 0x000000FF;
+                    } flsf if (bitsPfrPixfl == 24) {
+                        imbgfTypf = VERSION_4_24_BIT;
+                    } flsf if (bitsPfrPixfl == 32) {
+                        imbgfTypf = VERSION_4_32_BIT;
+                        if ((int)domprfssion == BI_RGB) {
+                            rfdMbsk   = 0x00FF0000;
+                            grffnMbsk = 0x0000FF00;
+                            blufMbsk  = 0x000000FF;
                         }
                     }
 
-                    metadata.redMask = redMask;
-                    metadata.greenMask = greenMask;
-                    metadata.blueMask = blueMask;
-                    metadata.alphaMask = alphaMask;
+                    mftbdbtb.rfdMbsk = rfdMbsk;
+                    mftbdbtb.grffnMbsk = grffnMbsk;
+                    mftbdbtb.blufMbsk = blufMbsk;
+                    mftbdbtb.blpibMbsk = blpibMbsk;
                 }
-            } else {
-                throw new
-                    IIOException(I18N.getString("BMPImageReader3"));
+            } flsf {
+                tirow nfw
+                    IIOExdfption(I18N.gftString("BMPImbgfRfbdfr3"));
             }
         }
 
-        if (height > 0) {
-            // bottom up image
-            isBottomUp = true;
-        } else {
-            // top down image
-            isBottomUp = false;
-            height = Math.abs(height);
+        if (ifigit > 0) {
+            // bottom up imbgf
+            isBottomUp = truf;
+        } flsf {
+            // top down imbgf
+            isBottomUp = fblsf;
+            ifigit = Mbti.bbs(ifigit);
         }
 
-        // Reset Image Layout so there's only one tile.
-        //Define the color space
-        ColorSpace colorSpace = ColorSpace.getInstance(ColorSpace.CS_sRGB);
-        if (metadata.colorSpace == PROFILE_LINKED ||
-            metadata.colorSpace == PROFILE_EMBEDDED) {
+        // Rfsft Imbgf Lbyout so tifrf's only onf tilf.
+        //Dffinf tif dolor spbdf
+        ColorSpbdf dolorSpbdf = ColorSpbdf.gftInstbndf(ColorSpbdf.CS_sRGB);
+        if (mftbdbtb.dolorSpbdf == PROFILE_LINKED ||
+            mftbdbtb.dolorSpbdf == PROFILE_EMBEDDED) {
 
-            iis.mark();
-            iis.skipBytes(profileData - size);
-            byte[] profile = new byte[profileSize];
-            iis.readFully(profile, 0, profileSize);
-            iis.reset();
+            iis.mbrk();
+            iis.skipBytfs(profilfDbtb - sizf);
+            bytf[] profilf = nfw bytf[profilfSizf];
+            iis.rfbdFully(profilf, 0, profilfSizf);
+            iis.rfsft();
 
             try {
-                if (metadata.colorSpace == PROFILE_LINKED &&
-                    isLinkedProfileAllowed() &&
-                    !isUncOrDevicePath(profile))
+                if (mftbdbtb.dolorSpbdf == PROFILE_LINKED &&
+                    isLinkfdProfilfAllowfd() &&
+                    !isUndOrDfvidfPbti(profilf))
                 {
-                    String path = new String(profile, "windows-1252");
+                    String pbti = nfw String(profilf, "windows-1252");
 
-                    colorSpace =
-                        new ICC_ColorSpace(ICC_Profile.getInstance(path));
-                } else {
-                    colorSpace =
-                        new ICC_ColorSpace(ICC_Profile.getInstance(profile));
+                    dolorSpbdf =
+                        nfw ICC_ColorSpbdf(ICC_Profilf.gftInstbndf(pbti));
+                } flsf {
+                    dolorSpbdf =
+                        nfw ICC_ColorSpbdf(ICC_Profilf.gftInstbndf(profilf));
                 }
-            } catch (Exception e) {
-                colorSpace = ColorSpace.getInstance(ColorSpace.CS_sRGB);
+            } dbtdi (Exdfption f) {
+                dolorSpbdf = ColorSpbdf.gftInstbndf(ColorSpbdf.CS_sRGB);
             }
         }
 
-        if (bitsPerPixel == 0 ||
-            compression == BI_JPEG || compression == BI_PNG )
+        if (bitsPfrPixfl == 0 ||
+            domprfssion == BI_JPEG || domprfssion == BI_PNG )
         {
-            // the colorModel and sampleModel will be initialzed
-            // by the  reader of embedded image
-            colorModel = null;
-            sampleModel = null;
-        } else if (bitsPerPixel == 1 || bitsPerPixel == 4 || bitsPerPixel == 8) {
-            // When number of bitsPerPixel is <= 8, we use IndexColorModel.
-            numBands = 1;
+            // tif dolorModfl bnd sbmplfModfl will bf initiblzfd
+            // by tif  rfbdfr of fmbfddfd imbgf
+            dolorModfl = null;
+            sbmplfModfl = null;
+        } flsf if (bitsPfrPixfl == 1 || bitsPfrPixfl == 4 || bitsPfrPixfl == 8) {
+            // Wifn numbfr of bitsPfrPixfl is <= 8, wf usf IndfxColorModfl.
+            numBbnds = 1;
 
-            if (bitsPerPixel == 8) {
-                int[] bandOffsets = new int[numBands];
-                for (int i = 0; i < numBands; i++) {
-                    bandOffsets[i] = numBands -1 -i;
+            if (bitsPfrPixfl == 8) {
+                int[] bbndOffsfts = nfw int[numBbnds];
+                for (int i = 0; i < numBbnds; i++) {
+                    bbndOffsfts[i] = numBbnds -1 -i;
                 }
-                sampleModel =
-                    new PixelInterleavedSampleModel(DataBuffer.TYPE_BYTE,
-                                                    width, height,
-                                                    numBands,
-                                                    numBands * width,
-                                                    bandOffsets);
-            } else {
-                // 1 and 4 bit pixels can be stored in a packed format.
-                sampleModel =
-                    new MultiPixelPackedSampleModel(DataBuffer.TYPE_BYTE,
-                                                    width, height,
-                                                    bitsPerPixel);
+                sbmplfModfl =
+                    nfw PixflIntfrlfbvfdSbmplfModfl(DbtbBufffr.TYPE_BYTE,
+                                                    widti, ifigit,
+                                                    numBbnds,
+                                                    numBbnds * widti,
+                                                    bbndOffsfts);
+            } flsf {
+                // 1 bnd 4 bit pixfls dbn bf storfd in b pbdkfd formbt.
+                sbmplfModfl =
+                    nfw MultiPixflPbdkfdSbmplfModfl(DbtbBufffr.TYPE_BYTE,
+                                                    widti, ifigit,
+                                                    bitsPfrPixfl);
             }
 
-            // Create IndexColorModel from the palette.
-            byte r[], g[], b[];
-            if (imageType == VERSION_2_1_BIT ||
-                imageType == VERSION_2_4_BIT ||
-                imageType == VERSION_2_8_BIT) {
+            // Crfbtf IndfxColorModfl from tif pblfttf.
+            bytf r[], g[], b[];
+            if (imbgfTypf == VERSION_2_1_BIT ||
+                imbgfTypf == VERSION_2_4_BIT ||
+                imbgfTypf == VERSION_2_8_BIT) {
 
 
-                size = palette.length/3;
+                sizf = pblfttf.lfngti/3;
 
-                if (size > 256) {
-                    size = 256;
+                if (sizf > 256) {
+                    sizf = 256;
                 }
 
                 int off;
-                r = new byte[(int)size];
-                g = new byte[(int)size];
-                b = new byte[(int)size];
-                for (int i=0; i<(int)size; i++) {
+                r = nfw bytf[(int)sizf];
+                g = nfw bytf[(int)sizf];
+                b = nfw bytf[(int)sizf];
+                for (int i=0; i<(int)sizf; i++) {
                     off = 3 * i;
-                    b[i] = palette[off];
-                    g[i] = palette[off+1];
-                    r[i] = palette[off+2];
+                    b[i] = pblfttf[off];
+                    g[i] = pblfttf[off+1];
+                    r[i] = pblfttf[off+2];
                 }
-            } else {
-                size = palette.length/4;
+            } flsf {
+                sizf = pblfttf.lfngti/4;
 
-                if (size > 256) {
-                    size = 256;
+                if (sizf > 256) {
+                    sizf = 256;
                 }
 
                 int off;
-                r = new byte[(int)size];
-                g = new byte[(int)size];
-                b = new byte[(int)size];
-                for (int i=0; i<size; i++) {
+                r = nfw bytf[(int)sizf];
+                g = nfw bytf[(int)sizf];
+                b = nfw bytf[(int)sizf];
+                for (int i=0; i<sizf; i++) {
                     off = 4 * i;
-                    b[i] = palette[off];
-                    g[i] = palette[off+1];
-                    r[i] = palette[off+2];
+                    b[i] = pblfttf[off];
+                    g[i] = pblfttf[off+1];
+                    r[i] = pblfttf[off+2];
                 }
             }
 
-            if (ImageUtil.isIndicesForGrayscale(r, g, b))
-                colorModel =
-                    ImageUtil.createColorModel(null, sampleModel);
-            else
-                colorModel = new IndexColorModel(bitsPerPixel, (int)size, r, g, b);
-        } else if (bitsPerPixel == 16) {
-            numBands = 3;
-            sampleModel =
-                new SinglePixelPackedSampleModel(DataBuffer.TYPE_USHORT,
-                                                 width, height,
-                                                 new int[] {redMask, greenMask, blueMask});
+            if (ImbgfUtil.isIndidfsForGrbysdblf(r, g, b))
+                dolorModfl =
+                    ImbgfUtil.drfbtfColorModfl(null, sbmplfModfl);
+            flsf
+                dolorModfl = nfw IndfxColorModfl(bitsPfrPixfl, (int)sizf, r, g, b);
+        } flsf if (bitsPfrPixfl == 16) {
+            numBbnds = 3;
+            sbmplfModfl =
+                nfw SinglfPixflPbdkfdSbmplfModfl(DbtbBufffr.TYPE_USHORT,
+                                                 widti, ifigit,
+                                                 nfw int[] {rfdMbsk, grffnMbsk, blufMbsk});
 
-            colorModel =
-                new DirectColorModel(colorSpace,
-                                     16, redMask, greenMask, blueMask, 0,
-                                     false, DataBuffer.TYPE_USHORT);
+            dolorModfl =
+                nfw DirfdtColorModfl(dolorSpbdf,
+                                     16, rfdMbsk, grffnMbsk, blufMbsk, 0,
+                                     fblsf, DbtbBufffr.TYPE_USHORT);
 
-        } else if (bitsPerPixel == 32) {
-            numBands = alphaMask == 0 ? 3 : 4;
+        } flsf if (bitsPfrPixfl == 32) {
+            numBbnds = blpibMbsk == 0 ? 3 : 4;
 
-            // The number of bands in the SampleModel is determined by
-            // the length of the mask array passed in.
-            int[] bitMasks = numBands == 3 ?
-                new int[] {redMask, greenMask, blueMask} :
-                new int[] {redMask, greenMask, blueMask, alphaMask};
+            // Tif numbfr of bbnds in tif SbmplfModfl is dftfrminfd by
+            // tif lfngti of tif mbsk brrby pbssfd in.
+            int[] bitMbsks = numBbnds == 3 ?
+                nfw int[] {rfdMbsk, grffnMbsk, blufMbsk} :
+                nfw int[] {rfdMbsk, grffnMbsk, blufMbsk, blpibMbsk};
 
-                sampleModel =
-                    new SinglePixelPackedSampleModel(DataBuffer.TYPE_INT,
-                                                     width, height,
-                                                     bitMasks);
+                sbmplfModfl =
+                    nfw SinglfPixflPbdkfdSbmplfModfl(DbtbBufffr.TYPE_INT,
+                                                     widti, ifigit,
+                                                     bitMbsks);
 
-                colorModel =
-                    new DirectColorModel(colorSpace,
-                                         32, redMask, greenMask, blueMask, alphaMask,
-                                         false, DataBuffer.TYPE_INT);
-        } else {
-            numBands = 3;
-            // Create SampleModel
-            int[] bandOffsets = new int[numBands];
-            for (int i = 0; i < numBands; i++) {
-                bandOffsets[i] = numBands -1 -i;
+                dolorModfl =
+                    nfw DirfdtColorModfl(dolorSpbdf,
+                                         32, rfdMbsk, grffnMbsk, blufMbsk, blpibMbsk,
+                                         fblsf, DbtbBufffr.TYPE_INT);
+        } flsf {
+            numBbnds = 3;
+            // Crfbtf SbmplfModfl
+            int[] bbndOffsfts = nfw int[numBbnds];
+            for (int i = 0; i < numBbnds; i++) {
+                bbndOffsfts[i] = numBbnds -1 -i;
             }
 
-            sampleModel =
-                new PixelInterleavedSampleModel(DataBuffer.TYPE_BYTE,
-                                                width, height,
-                                                numBands,
-                                                numBands * width,
-                                                bandOffsets);
+            sbmplfModfl =
+                nfw PixflIntfrlfbvfdSbmplfModfl(DbtbBufffr.TYPE_BYTE,
+                                                widti, ifigit,
+                                                numBbnds,
+                                                numBbnds * widti,
+                                                bbndOffsfts);
 
-            colorModel =
-                ImageUtil.createColorModel(colorSpace, sampleModel);
+            dolorModfl =
+                ImbgfUtil.drfbtfColorModfl(dolorSpbdf, sbmplfModfl);
         }
 
-        originalSampleModel = sampleModel;
-        originalColorModel = colorModel;
+        originblSbmplfModfl = sbmplfModfl;
+        originblColorModfl = dolorModfl;
 
-        // Reset to the start of bitmap; then jump to the
-        //start of image data
-        iis.reset();
-        iis.skipBytes(bitmapOffset);
-        gotHeader = true;
+        // Rfsft to tif stbrt of bitmbp; tifn jump to tif
+        //stbrt of imbgf dbtb
+        iis.rfsft();
+        iis.skipBytfs(bitmbpOffsft);
+        gotHfbdfr = truf;
     }
 
-    public Iterator<ImageTypeSpecifier> getImageTypes(int imageIndex)
-      throws IOException {
-        checkIndex(imageIndex);
+    publid Itfrbtor<ImbgfTypfSpfdififr> gftImbgfTypfs(int imbgfIndfx)
+      tirows IOExdfption {
+        difdkIndfx(imbgfIndfx);
         try {
-            readHeader();
-        } catch (IllegalArgumentException e) {
-            throw new IIOException(I18N.getString("BMPImageReader6"), e);
+            rfbdHfbdfr();
+        } dbtdi (IllfgblArgumfntExdfption f) {
+            tirow nfw IIOExdfption(I18N.gftString("BMPImbgfRfbdfr6"), f);
         }
-        ArrayList<ImageTypeSpecifier> list = new ArrayList<>(1);
-        list.add(new ImageTypeSpecifier(originalColorModel,
-                                        originalSampleModel));
-        return list.iterator();
+        ArrbyList<ImbgfTypfSpfdififr> list = nfw ArrbyList<>(1);
+        list.bdd(nfw ImbgfTypfSpfdififr(originblColorModfl,
+                                        originblSbmplfModfl));
+        rfturn list.itfrbtor();
     }
 
-    public ImageReadParam getDefaultReadParam() {
-        return new ImageReadParam();
+    publid ImbgfRfbdPbrbm gftDffbultRfbdPbrbm() {
+        rfturn nfw ImbgfRfbdPbrbm();
     }
 
-    public IIOMetadata getImageMetadata(int imageIndex)
-      throws IOException {
-        checkIndex(imageIndex);
-        if (metadata == null) {
+    publid IIOMftbdbtb gftImbgfMftbdbtb(int imbgfIndfx)
+      tirows IOExdfption {
+        difdkIndfx(imbgfIndfx);
+        if (mftbdbtb == null) {
             try {
-                readHeader();
-            } catch (IllegalArgumentException e) {
-                throw new IIOException(I18N.getString("BMPImageReader6"), e);
+                rfbdHfbdfr();
+            } dbtdi (IllfgblArgumfntExdfption f) {
+                tirow nfw IIOExdfption(I18N.gftString("BMPImbgfRfbdfr6"), f);
             }
         }
-        return metadata;
+        rfturn mftbdbtb;
     }
 
-    public IIOMetadata getStreamMetadata() throws IOException {
-        return null;
+    publid IIOMftbdbtb gftStrfbmMftbdbtb() tirows IOExdfption {
+        rfturn null;
     }
 
-    public boolean isRandomAccessEasy(int imageIndex) throws IOException {
-        checkIndex(imageIndex);
+    publid boolfbn isRbndomAddfssEbsy(int imbgfIndfx) tirows IOExdfption {
+        difdkIndfx(imbgfIndfx);
         try {
-            readHeader();
-        } catch (IllegalArgumentException e) {
-            throw new IIOException(I18N.getString("BMPImageReader6"), e);
+            rfbdHfbdfr();
+        } dbtdi (IllfgblArgumfntExdfption f) {
+            tirow nfw IIOExdfption(I18N.gftString("BMPImbgfRfbdfr6"), f);
         }
-        return metadata.compression == BI_RGB;
+        rfturn mftbdbtb.domprfssion == BI_RGB;
     }
 
-    public BufferedImage read(int imageIndex, ImageReadParam param)
-        throws IOException {
+    publid BufffrfdImbgf rfbd(int imbgfIndfx, ImbgfRfbdPbrbm pbrbm)
+        tirows IOExdfption {
 
         if (iis == null) {
-            throw new IllegalStateException(I18N.getString("BMPImageReader5"));
+            tirow nfw IllfgblStbtfExdfption(I18N.gftString("BMPImbgfRfbdfr5"));
         }
 
-        checkIndex(imageIndex);
-        clearAbortRequest();
-        processImageStarted(imageIndex);
+        difdkIndfx(imbgfIndfx);
+        dlfbrAbortRfqufst();
+        prodfssImbgfStbrtfd(imbgfIndfx);
 
-        if (param == null)
-            param = getDefaultReadParam();
+        if (pbrbm == null)
+            pbrbm = gftDffbultRfbdPbrbm();
 
-        //read header
+        //rfbd ifbdfr
         try {
-            readHeader();
-        } catch (IllegalArgumentException e) {
-            throw new IIOException(I18N.getString("BMPImageReader6"), e);
+            rfbdHfbdfr();
+        } dbtdi (IllfgblArgumfntExdfption f) {
+            tirow nfw IIOExdfption(I18N.gftString("BMPImbgfRfbdfr6"), f);
         }
 
-        sourceRegion = new Rectangle(0, 0, 0, 0);
-        destinationRegion = new Rectangle(0, 0, 0, 0);
+        sourdfRfgion = nfw Rfdtbnglf(0, 0, 0, 0);
+        dfstinbtionRfgion = nfw Rfdtbnglf(0, 0, 0, 0);
 
-        computeRegions(param, this.width, this.height,
-                       param.getDestination(),
-                       sourceRegion,
-                       destinationRegion);
+        domputfRfgions(pbrbm, tiis.widti, tiis.ifigit,
+                       pbrbm.gftDfstinbtion(),
+                       sourdfRfgion,
+                       dfstinbtionRfgion);
 
-        scaleX = param.getSourceXSubsampling();
-        scaleY = param.getSourceYSubsampling();
+        sdblfX = pbrbm.gftSourdfXSubsbmpling();
+        sdblfY = pbrbm.gftSourdfYSubsbmpling();
 
-        // If the destination band is set used it
-        sourceBands = param.getSourceBands();
-        destBands = param.getDestinationBands();
+        // If tif dfstinbtion bbnd is sft usfd it
+        sourdfBbnds = pbrbm.gftSourdfBbnds();
+        dfstBbnds = pbrbm.gftDfstinbtionBbnds();
 
-        seleBand = (sourceBands != null) && (destBands != null);
-        noTransform =
-            destinationRegion.equals(new Rectangle(0, 0, width, height)) ||
-            seleBand;
+        sflfBbnd = (sourdfBbnds != null) && (dfstBbnds != null);
+        noTrbnsform =
+            dfstinbtionRfgion.fqubls(nfw Rfdtbnglf(0, 0, widti, ifigit)) ||
+            sflfBbnd;
 
-        if (!seleBand) {
-            sourceBands = new int[numBands];
-            destBands = new int[numBands];
-            for (int i = 0; i < numBands; i++)
-                destBands[i] = sourceBands[i] = i;
+        if (!sflfBbnd) {
+            sourdfBbnds = nfw int[numBbnds];
+            dfstBbnds = nfw int[numBbnds];
+            for (int i = 0; i < numBbnds; i++)
+                dfstBbnds[i] = sourdfBbnds[i] = i;
         }
 
-        // If the destination is provided, then use it.  Otherwise, create new one
-        bi = param.getDestination();
+        // If tif dfstinbtion is providfd, tifn usf it.  Otifrwisf, drfbtf nfw onf
+        bi = pbrbm.gftDfstinbtion();
 
-        // Get the image data.
-        WritableRaster raster = null;
+        // Gft tif imbgf dbtb.
+        WritbblfRbstfr rbstfr = null;
 
         if (bi == null) {
-            if (sampleModel != null && colorModel != null) {
-                sampleModel =
-                    sampleModel.createCompatibleSampleModel(destinationRegion.x +
-                                                            destinationRegion.width,
-                                                            destinationRegion.y +
-                                                            destinationRegion.height);
-                if (seleBand)
-                    sampleModel = sampleModel.createSubsetSampleModel(sourceBands);
-                raster = Raster.createWritableRaster(sampleModel, new Point());
-                bi = new BufferedImage(colorModel, raster, false, null);
+            if (sbmplfModfl != null && dolorModfl != null) {
+                sbmplfModfl =
+                    sbmplfModfl.drfbtfCompbtiblfSbmplfModfl(dfstinbtionRfgion.x +
+                                                            dfstinbtionRfgion.widti,
+                                                            dfstinbtionRfgion.y +
+                                                            dfstinbtionRfgion.ifigit);
+                if (sflfBbnd)
+                    sbmplfModfl = sbmplfModfl.drfbtfSubsftSbmplfModfl(sourdfBbnds);
+                rbstfr = Rbstfr.drfbtfWritbblfRbstfr(sbmplfModfl, nfw Point());
+                bi = nfw BufffrfdImbgf(dolorModfl, rbstfr, fblsf, null);
             }
-        } else {
-            raster = bi.getWritableTile(0, 0);
-            sampleModel = bi.getSampleModel();
-            colorModel = bi.getColorModel();
+        } flsf {
+            rbstfr = bi.gftWritbblfTilf(0, 0);
+            sbmplfModfl = bi.gftSbmplfModfl();
+            dolorModfl = bi.gftColorModfl();
 
-            noTransform &=  destinationRegion.equals(raster.getBounds());
+            noTrbnsform &=  dfstinbtionRfgion.fqubls(rbstfr.gftBounds());
         }
 
-        byte bdata[] = null; // buffer for byte data
-        short sdata[] = null; // buffer for short data
-        int idata[] = null; // buffer for int data
+        bytf bdbtb[] = null; // bufffr for bytf dbtb
+        siort sdbtb[] = null; // bufffr for siort dbtb
+        int idbtb[] = null; // bufffr for int dbtb
 
-        // the sampleModel can be null in case of embedded image
-        if (sampleModel != null) {
-            if (sampleModel.getDataType() == DataBuffer.TYPE_BYTE)
-                bdata = ((DataBufferByte)raster.getDataBuffer()).getData();
-            else if (sampleModel.getDataType() == DataBuffer.TYPE_USHORT)
-                sdata = ((DataBufferUShort)raster.getDataBuffer()).getData();
-            else if (sampleModel.getDataType() == DataBuffer.TYPE_INT)
-                idata = ((DataBufferInt)raster.getDataBuffer()).getData();
+        // tif sbmplfModfl dbn bf null in dbsf of fmbfddfd imbgf
+        if (sbmplfModfl != null) {
+            if (sbmplfModfl.gftDbtbTypf() == DbtbBufffr.TYPE_BYTE)
+                bdbtb = ((DbtbBufffrBytf)rbstfr.gftDbtbBufffr()).gftDbtb();
+            flsf if (sbmplfModfl.gftDbtbTypf() == DbtbBufffr.TYPE_USHORT)
+                sdbtb = ((DbtbBufffrUSiort)rbstfr.gftDbtbBufffr()).gftDbtb();
+            flsf if (sbmplfModfl.gftDbtbTypf() == DbtbBufffr.TYPE_INT)
+                idbtb = ((DbtbBufffrInt)rbstfr.gftDbtbBufffr()).gftDbtb();
         }
 
-        // There should only be one tile.
-        switch(imageType) {
+        // Tifrf siould only bf onf tilf.
+        switdi(imbgfTypf) {
 
-        case VERSION_2_1_BIT:
-            // no compression
-            read1Bit(bdata);
-            break;
+        dbsf VERSION_2_1_BIT:
+            // no domprfssion
+            rfbd1Bit(bdbtb);
+            brfbk;
 
-        case VERSION_2_4_BIT:
-            // no compression
-            read4Bit(bdata);
-            break;
+        dbsf VERSION_2_4_BIT:
+            // no domprfssion
+            rfbd4Bit(bdbtb);
+            brfbk;
 
-        case VERSION_2_8_BIT:
-            // no compression
-            read8Bit(bdata);
-            break;
+        dbsf VERSION_2_8_BIT:
+            // no domprfssion
+            rfbd8Bit(bdbtb);
+            brfbk;
 
-        case VERSION_2_24_BIT:
-            // no compression
-            read24Bit(bdata);
-            break;
+        dbsf VERSION_2_24_BIT:
+            // no domprfssion
+            rfbd24Bit(bdbtb);
+            brfbk;
 
-        case VERSION_3_1_BIT:
-            // 1-bit images cannot be compressed.
-            read1Bit(bdata);
-            break;
+        dbsf VERSION_3_1_BIT:
+            // 1-bit imbgfs dbnnot bf domprfssfd.
+            rfbd1Bit(bdbtb);
+            brfbk;
 
-        case VERSION_3_4_BIT:
-            switch((int)compression) {
-            case BI_RGB:
-                read4Bit(bdata);
-                break;
+        dbsf VERSION_3_4_BIT:
+            switdi((int)domprfssion) {
+            dbsf BI_RGB:
+                rfbd4Bit(bdbtb);
+                brfbk;
 
-            case BI_RLE4:
-                readRLE4(bdata);
-                break;
+            dbsf BI_RLE4:
+                rfbdRLE4(bdbtb);
+                brfbk;
 
-            default:
-                throw new
-                    IIOException(I18N.getString("BMPImageReader1"));
+            dffbult:
+                tirow nfw
+                    IIOExdfption(I18N.gftString("BMPImbgfRfbdfr1"));
             }
-            break;
+            brfbk;
 
-        case VERSION_3_8_BIT:
-            switch((int)compression) {
-            case BI_RGB:
-                read8Bit(bdata);
-                break;
+        dbsf VERSION_3_8_BIT:
+            switdi((int)domprfssion) {
+            dbsf BI_RGB:
+                rfbd8Bit(bdbtb);
+                brfbk;
 
-            case BI_RLE8:
-                readRLE8(bdata);
-                break;
+            dbsf BI_RLE8:
+                rfbdRLE8(bdbtb);
+                brfbk;
 
-            default:
-                throw new
-                    IIOException(I18N.getString("BMPImageReader1"));
+            dffbult:
+                tirow nfw
+                    IIOExdfption(I18N.gftString("BMPImbgfRfbdfr1"));
             }
 
-            break;
+            brfbk;
 
-        case VERSION_3_24_BIT:
-            // 24-bit images are not compressed
-            read24Bit(bdata);
-            break;
+        dbsf VERSION_3_24_BIT:
+            // 24-bit imbgfs brf not domprfssfd
+            rfbd24Bit(bdbtb);
+            brfbk;
 
-        case VERSION_3_NT_16_BIT:
-            read16Bit(sdata);
-            break;
+        dbsf VERSION_3_NT_16_BIT:
+            rfbd16Bit(sdbtb);
+            brfbk;
 
-        case VERSION_3_NT_32_BIT:
-            read32Bit(idata);
-            break;
+        dbsf VERSION_3_NT_32_BIT:
+            rfbd32Bit(idbtb);
+            brfbk;
 
-        case VERSION_3_XP_EMBEDDED:
-        case VERSION_4_XP_EMBEDDED:
-        case VERSION_5_XP_EMBEDDED:
-            bi = readEmbedded((int)compression, bi, param);
-            break;
+        dbsf VERSION_3_XP_EMBEDDED:
+        dbsf VERSION_4_XP_EMBEDDED:
+        dbsf VERSION_5_XP_EMBEDDED:
+            bi = rfbdEmbfddfd((int)domprfssion, bi, pbrbm);
+            brfbk;
 
-        case VERSION_4_1_BIT:
-            read1Bit(bdata);
-            break;
+        dbsf VERSION_4_1_BIT:
+            rfbd1Bit(bdbtb);
+            brfbk;
 
-        case VERSION_4_4_BIT:
-            switch((int)compression) {
+        dbsf VERSION_4_4_BIT:
+            switdi((int)domprfssion) {
 
-            case BI_RGB:
-                read4Bit(bdata);
-                break;
+            dbsf BI_RGB:
+                rfbd4Bit(bdbtb);
+                brfbk;
 
-            case BI_RLE4:
-                readRLE4(bdata);
-                break;
+            dbsf BI_RLE4:
+                rfbdRLE4(bdbtb);
+                brfbk;
 
-            default:
-                throw new
-                    IIOException(I18N.getString("BMPImageReader1"));
+            dffbult:
+                tirow nfw
+                    IIOExdfption(I18N.gftString("BMPImbgfRfbdfr1"));
             }
-            break;
+            brfbk;
 
-        case VERSION_4_8_BIT:
-            switch((int)compression) {
+        dbsf VERSION_4_8_BIT:
+            switdi((int)domprfssion) {
 
-            case BI_RGB:
-                read8Bit(bdata);
-                break;
+            dbsf BI_RGB:
+                rfbd8Bit(bdbtb);
+                brfbk;
 
-            case BI_RLE8:
-                readRLE8(bdata);
-                break;
+            dbsf BI_RLE8:
+                rfbdRLE8(bdbtb);
+                brfbk;
 
-            default:
-                throw new
-                    IIOException(I18N.getString("BMPImageReader1"));
+            dffbult:
+                tirow nfw
+                    IIOExdfption(I18N.gftString("BMPImbgfRfbdfr1"));
             }
-            break;
+            brfbk;
 
-        case VERSION_4_16_BIT:
-            read16Bit(sdata);
-            break;
+        dbsf VERSION_4_16_BIT:
+            rfbd16Bit(sdbtb);
+            brfbk;
 
-        case VERSION_4_24_BIT:
-            read24Bit(bdata);
-            break;
+        dbsf VERSION_4_24_BIT:
+            rfbd24Bit(bdbtb);
+            brfbk;
 
-        case VERSION_4_32_BIT:
-            read32Bit(idata);
-            break;
+        dbsf VERSION_4_32_BIT:
+            rfbd32Bit(idbtb);
+            brfbk;
         }
 
-        if (abortRequested())
-            processReadAborted();
-        else
-            processImageComplete();
+        if (bbortRfqufstfd())
+            prodfssRfbdAbortfd();
+        flsf
+            prodfssImbgfComplftf();
 
-        return bi;
+        rfturn bi;
     }
 
-    public boolean canReadRaster() {
-        return true;
+    publid boolfbn dbnRfbdRbstfr() {
+        rfturn truf;
     }
 
-    public Raster readRaster(int imageIndex,
-                             ImageReadParam param) throws IOException {
-        BufferedImage bi = read(imageIndex, param);
-        return bi.getData();
+    publid Rbstfr rfbdRbstfr(int imbgfIndfx,
+                             ImbgfRfbdPbrbm pbrbm) tirows IOExdfption {
+        BufffrfdImbgf bi = rfbd(imbgfIndfx, pbrbm);
+        rfturn bi.gftDbtb();
     }
 
-    private void resetHeaderInfo() {
-        gotHeader = false;
+    privbtf void rfsftHfbdfrInfo() {
+        gotHfbdfr = fblsf;
         bi = null;
-        sampleModel = originalSampleModel = null;
-        colorModel = originalColorModel = null;
+        sbmplfModfl = originblSbmplfModfl = null;
+        dolorModfl = originblColorModfl = null;
     }
 
-    public void reset() {
-        super.reset();
+    publid void rfsft() {
+        supfr.rfsft();
         iis = null;
-        resetHeaderInfo();
+        rfsftHfbdfrInfo();
     }
 
-    // Deal with 1 Bit images using IndexColorModels
-    private void read1Bit(byte[] bdata) throws IOException {
-        int bytesPerScanline = (width + 7) / 8;
-        int padding = bytesPerScanline % 4;
-        if (padding != 0) {
-            padding = 4 - padding;
+    // Dfbl witi 1 Bit imbgfs using IndfxColorModfls
+    privbtf void rfbd1Bit(bytf[] bdbtb) tirows IOExdfption {
+        int bytfsPfrSdbnlinf = (widti + 7) / 8;
+        int pbdding = bytfsPfrSdbnlinf % 4;
+        if (pbdding != 0) {
+            pbdding = 4 - pbdding;
         }
 
-        int lineLength = bytesPerScanline + padding;
+        int linfLfngti = bytfsPfrSdbnlinf + pbdding;
 
-        if (noTransform) {
-            int j = isBottomUp ? (height -1)*bytesPerScanline : 0;
+        if (noTrbnsform) {
+            int j = isBottomUp ? (ifigit -1)*bytfsPfrSdbnlinf : 0;
 
-            for (int i=0; i<height; i++) {
-                if (abortRequested()) {
-                    break;
+            for (int i=0; i<ifigit; i++) {
+                if (bbortRfqufstfd()) {
+                    brfbk;
                 }
-                iis.readFully(bdata, j, bytesPerScanline);
-                iis.skipBytes(padding);
-                j += isBottomUp ? -bytesPerScanline : bytesPerScanline;
-                processImageUpdate(bi, 0, i,
-                                   destinationRegion.width, 1, 1, 1,
-                                   new int[]{0});
-                processImageProgress(100.0F * i/destinationRegion.height);
+                iis.rfbdFully(bdbtb, j, bytfsPfrSdbnlinf);
+                iis.skipBytfs(pbdding);
+                j += isBottomUp ? -bytfsPfrSdbnlinf : bytfsPfrSdbnlinf;
+                prodfssImbgfUpdbtf(bi, 0, i,
+                                   dfstinbtionRfgion.widti, 1, 1, 1,
+                                   nfw int[]{0});
+                prodfssImbgfProgrfss(100.0F * i/dfstinbtionRfgion.ifigit);
             }
-        } else {
-            byte[] buf = new byte[lineLength];
-            int lineStride =
-                ((MultiPixelPackedSampleModel)sampleModel).getScanlineStride();
+        } flsf {
+            bytf[] buf = nfw bytf[linfLfngti];
+            int linfStridf =
+                ((MultiPixflPbdkfdSbmplfModfl)sbmplfModfl).gftSdbnlinfStridf();
 
             if (isBottomUp) {
-                int lastLine =
-                    sourceRegion.y + (destinationRegion.height - 1) * scaleY;
-                iis.skipBytes(lineLength * (height - 1 - lastLine));
-            } else
-                iis.skipBytes(lineLength * sourceRegion.y);
+                int lbstLinf =
+                    sourdfRfgion.y + (dfstinbtionRfgion.ifigit - 1) * sdblfY;
+                iis.skipBytfs(linfLfngti * (ifigit - 1 - lbstLinf));
+            } flsf
+                iis.skipBytfs(linfLfngti * sourdfRfgion.y);
 
-            int skipLength = lineLength * (scaleY - 1);
+            int skipLfngti = linfLfngti * (sdblfY - 1);
 
-            // cache the values to avoid duplicated computation
-            int[] srcOff = new int[destinationRegion.width];
-            int[] destOff = new int[destinationRegion.width];
-            int[] srcPos = new int[destinationRegion.width];
-            int[] destPos = new int[destinationRegion.width];
+            // dbdif tif vblufs to bvoid duplidbtfd domputbtion
+            int[] srdOff = nfw int[dfstinbtionRfgion.widti];
+            int[] dfstOff = nfw int[dfstinbtionRfgion.widti];
+            int[] srdPos = nfw int[dfstinbtionRfgion.widti];
+            int[] dfstPos = nfw int[dfstinbtionRfgion.widti];
 
-            for (int i = destinationRegion.x, x = sourceRegion.x, j = 0;
-                 i < destinationRegion.x + destinationRegion.width;
-                 i++, j++, x += scaleX) {
-                srcPos[j] = x >> 3;
-                srcOff[j] = 7 - (x & 7);
-                destPos[j] = i >> 3;
-                destOff[j] = 7 - (i & 7);
+            for (int i = dfstinbtionRfgion.x, x = sourdfRfgion.x, j = 0;
+                 i < dfstinbtionRfgion.x + dfstinbtionRfgion.widti;
+                 i++, j++, x += sdblfX) {
+                srdPos[j] = x >> 3;
+                srdOff[j] = 7 - (x & 7);
+                dfstPos[j] = i >> 3;
+                dfstOff[j] = 7 - (i & 7);
             }
 
-            int k = destinationRegion.y * lineStride;
+            int k = dfstinbtionRfgion.y * linfStridf;
             if (isBottomUp)
-                k += (destinationRegion.height - 1) * lineStride;
+                k += (dfstinbtionRfgion.ifigit - 1) * linfStridf;
 
-            for (int j = 0, y = sourceRegion.y;
-                 j < destinationRegion.height; j++, y+=scaleY) {
+            for (int j = 0, y = sourdfRfgion.y;
+                 j < dfstinbtionRfgion.ifigit; j++, y+=sdblfY) {
 
-                if (abortRequested())
-                    break;
-                iis.read(buf, 0, lineLength);
-                for (int i = 0; i < destinationRegion.width; i++) {
-                    //get the bit and assign to the data buffer of the raster
-                    int v = (buf[srcPos[i]] >> srcOff[i]) & 1;
-                    bdata[k + destPos[i]] |= v << destOff[i];
+                if (bbortRfqufstfd())
+                    brfbk;
+                iis.rfbd(buf, 0, linfLfngti);
+                for (int i = 0; i < dfstinbtionRfgion.widti; i++) {
+                    //gft tif bit bnd bssign to tif dbtb bufffr of tif rbstfr
+                    int v = (buf[srdPos[i]] >> srdOff[i]) & 1;
+                    bdbtb[k + dfstPos[i]] |= v << dfstOff[i];
                 }
 
-                k += isBottomUp ? -lineStride : lineStride;
-                iis.skipBytes(skipLength);
-                processImageUpdate(bi, 0, j,
-                                   destinationRegion.width, 1, 1, 1,
-                                   new int[]{0});
-                processImageProgress(100.0F*j/destinationRegion.height);
-            }
-        }
-    }
-
-    // Method to read a 4 bit BMP image data
-    private void read4Bit(byte[] bdata) throws IOException {
-
-        int bytesPerScanline = (width + 1) / 2;
-
-        // Padding bytes at the end of each scanline
-        int padding = bytesPerScanline % 4;
-        if (padding != 0)
-            padding = 4 - padding;
-
-        int lineLength = bytesPerScanline + padding;
-
-        if (noTransform) {
-            int j = isBottomUp ? (height -1) * bytesPerScanline : 0;
-
-            for (int i=0; i<height; i++) {
-                if (abortRequested()) {
-                    break;
-                }
-                iis.readFully(bdata, j, bytesPerScanline);
-                iis.skipBytes(padding);
-                j += isBottomUp ? -bytesPerScanline : bytesPerScanline;
-                processImageUpdate(bi, 0, i,
-                                   destinationRegion.width, 1, 1, 1,
-                                   new int[]{0});
-                processImageProgress(100.0F * i/destinationRegion.height);
-            }
-        } else {
-            byte[] buf = new byte[lineLength];
-            int lineStride =
-                ((MultiPixelPackedSampleModel)sampleModel).getScanlineStride();
-
-            if (isBottomUp) {
-                int lastLine =
-                    sourceRegion.y + (destinationRegion.height - 1) * scaleY;
-                iis.skipBytes(lineLength * (height - 1 - lastLine));
-            } else
-                iis.skipBytes(lineLength * sourceRegion.y);
-
-            int skipLength = lineLength * (scaleY - 1);
-
-            // cache the values to avoid duplicated computation
-            int[] srcOff = new int[destinationRegion.width];
-            int[] destOff = new int[destinationRegion.width];
-            int[] srcPos = new int[destinationRegion.width];
-            int[] destPos = new int[destinationRegion.width];
-
-            for (int i = destinationRegion.x, x = sourceRegion.x, j = 0;
-                 i < destinationRegion.x + destinationRegion.width;
-                 i++, j++, x += scaleX) {
-                srcPos[j] = x >> 1;
-                srcOff[j] = (1 - (x & 1)) << 2;
-                destPos[j] = i >> 1;
-                destOff[j] = (1 - (i & 1)) << 2;
-            }
-
-            int k = destinationRegion.y * lineStride;
-            if (isBottomUp)
-                k += (destinationRegion.height - 1) * lineStride;
-
-            for (int j = 0, y = sourceRegion.y;
-                 j < destinationRegion.height; j++, y+=scaleY) {
-
-                if (abortRequested())
-                    break;
-                iis.read(buf, 0, lineLength);
-                for (int i = 0; i < destinationRegion.width; i++) {
-                    //get the bit and assign to the data buffer of the raster
-                    int v = (buf[srcPos[i]] >> srcOff[i]) & 0x0F;
-                    bdata[k + destPos[i]] |= v << destOff[i];
-                }
-
-                k += isBottomUp ? -lineStride : lineStride;
-                iis.skipBytes(skipLength);
-                processImageUpdate(bi, 0, j,
-                                   destinationRegion.width, 1, 1, 1,
-                                   new int[]{0});
-                processImageProgress(100.0F*j/destinationRegion.height);
+                k += isBottomUp ? -linfStridf : linfStridf;
+                iis.skipBytfs(skipLfngti);
+                prodfssImbgfUpdbtf(bi, 0, j,
+                                   dfstinbtionRfgion.widti, 1, 1, 1,
+                                   nfw int[]{0});
+                prodfssImbgfProgrfss(100.0F*j/dfstinbtionRfgion.ifigit);
             }
         }
     }
 
-    // Method to read 8 bit BMP image data
-    private void read8Bit(byte[] bdata) throws IOException {
+    // Mftiod to rfbd b 4 bit BMP imbgf dbtb
+    privbtf void rfbd4Bit(bytf[] bdbtb) tirows IOExdfption {
 
-        // Padding bytes at the end of each scanline
-        int padding = width % 4;
-        if (padding != 0) {
-            padding = 4 - padding;
-        }
+        int bytfsPfrSdbnlinf = (widti + 1) / 2;
 
-        int lineLength = width + padding;
+        // Pbdding bytfs bt tif fnd of fbdi sdbnlinf
+        int pbdding = bytfsPfrSdbnlinf % 4;
+        if (pbdding != 0)
+            pbdding = 4 - pbdding;
 
-        if (noTransform) {
-            int j = isBottomUp ? (height -1) * width : 0;
+        int linfLfngti = bytfsPfrSdbnlinf + pbdding;
 
-            for (int i=0; i<height; i++) {
-                if (abortRequested()) {
-                    break;
+        if (noTrbnsform) {
+            int j = isBottomUp ? (ifigit -1) * bytfsPfrSdbnlinf : 0;
+
+            for (int i=0; i<ifigit; i++) {
+                if (bbortRfqufstfd()) {
+                    brfbk;
                 }
-                iis.readFully(bdata, j, width);
-                iis.skipBytes(padding);
-                j += isBottomUp ? -width : width;
-                processImageUpdate(bi, 0, i,
-                                   destinationRegion.width, 1, 1, 1,
-                                   new int[]{0});
-                processImageProgress(100.0F * i/destinationRegion.height);
+                iis.rfbdFully(bdbtb, j, bytfsPfrSdbnlinf);
+                iis.skipBytfs(pbdding);
+                j += isBottomUp ? -bytfsPfrSdbnlinf : bytfsPfrSdbnlinf;
+                prodfssImbgfUpdbtf(bi, 0, i,
+                                   dfstinbtionRfgion.widti, 1, 1, 1,
+                                   nfw int[]{0});
+                prodfssImbgfProgrfss(100.0F * i/dfstinbtionRfgion.ifigit);
             }
-        } else {
-            byte[] buf = new byte[lineLength];
-            int lineStride =
-                ((ComponentSampleModel)sampleModel).getScanlineStride();
+        } flsf {
+            bytf[] buf = nfw bytf[linfLfngti];
+            int linfStridf =
+                ((MultiPixflPbdkfdSbmplfModfl)sbmplfModfl).gftSdbnlinfStridf();
 
             if (isBottomUp) {
-                int lastLine =
-                    sourceRegion.y + (destinationRegion.height - 1) * scaleY;
-                iis.skipBytes(lineLength * (height - 1 - lastLine));
-            } else
-                iis.skipBytes(lineLength * sourceRegion.y);
+                int lbstLinf =
+                    sourdfRfgion.y + (dfstinbtionRfgion.ifigit - 1) * sdblfY;
+                iis.skipBytfs(linfLfngti * (ifigit - 1 - lbstLinf));
+            } flsf
+                iis.skipBytfs(linfLfngti * sourdfRfgion.y);
 
-            int skipLength = lineLength * (scaleY - 1);
+            int skipLfngti = linfLfngti * (sdblfY - 1);
 
-            int k = destinationRegion.y * lineStride;
+            // dbdif tif vblufs to bvoid duplidbtfd domputbtion
+            int[] srdOff = nfw int[dfstinbtionRfgion.widti];
+            int[] dfstOff = nfw int[dfstinbtionRfgion.widti];
+            int[] srdPos = nfw int[dfstinbtionRfgion.widti];
+            int[] dfstPos = nfw int[dfstinbtionRfgion.widti];
+
+            for (int i = dfstinbtionRfgion.x, x = sourdfRfgion.x, j = 0;
+                 i < dfstinbtionRfgion.x + dfstinbtionRfgion.widti;
+                 i++, j++, x += sdblfX) {
+                srdPos[j] = x >> 1;
+                srdOff[j] = (1 - (x & 1)) << 2;
+                dfstPos[j] = i >> 1;
+                dfstOff[j] = (1 - (i & 1)) << 2;
+            }
+
+            int k = dfstinbtionRfgion.y * linfStridf;
             if (isBottomUp)
-                k += (destinationRegion.height - 1) * lineStride;
-            k += destinationRegion.x;
+                k += (dfstinbtionRfgion.ifigit - 1) * linfStridf;
 
-            for (int j = 0, y = sourceRegion.y;
-                 j < destinationRegion.height; j++, y+=scaleY) {
+            for (int j = 0, y = sourdfRfgion.y;
+                 j < dfstinbtionRfgion.ifigit; j++, y+=sdblfY) {
 
-                if (abortRequested())
-                    break;
-                iis.read(buf, 0, lineLength);
-                for (int i = 0, m = sourceRegion.x;
-                     i < destinationRegion.width; i++, m += scaleX) {
-                    //get the bit and assign to the data buffer of the raster
-                    bdata[k + i] = buf[m];
+                if (bbortRfqufstfd())
+                    brfbk;
+                iis.rfbd(buf, 0, linfLfngti);
+                for (int i = 0; i < dfstinbtionRfgion.widti; i++) {
+                    //gft tif bit bnd bssign to tif dbtb bufffr of tif rbstfr
+                    int v = (buf[srdPos[i]] >> srdOff[i]) & 0x0F;
+                    bdbtb[k + dfstPos[i]] |= v << dfstOff[i];
                 }
 
-                k += isBottomUp ? -lineStride : lineStride;
-                iis.skipBytes(skipLength);
-                processImageUpdate(bi, 0, j,
-                                   destinationRegion.width, 1, 1, 1,
-                                   new int[]{0});
-                processImageProgress(100.0F*j/destinationRegion.height);
+                k += isBottomUp ? -linfStridf : linfStridf;
+                iis.skipBytfs(skipLfngti);
+                prodfssImbgfUpdbtf(bi, 0, j,
+                                   dfstinbtionRfgion.widti, 1, 1, 1,
+                                   nfw int[]{0});
+                prodfssImbgfProgrfss(100.0F*j/dfstinbtionRfgion.ifigit);
             }
         }
     }
 
-    // Method to read 24 bit BMP image data
-    private void read24Bit(byte[] bdata) throws IOException {
-        // Padding bytes at the end of each scanline
-        // width * bitsPerPixel should be divisible by 32
-        int padding = width * 3 % 4;
-        if ( padding != 0)
-            padding = 4 - padding;
+    // Mftiod to rfbd 8 bit BMP imbgf dbtb
+    privbtf void rfbd8Bit(bytf[] bdbtb) tirows IOExdfption {
 
-        int lineStride = width * 3;
-        int lineLength = lineStride + padding;
+        // Pbdding bytfs bt tif fnd of fbdi sdbnlinf
+        int pbdding = widti % 4;
+        if (pbdding != 0) {
+            pbdding = 4 - pbdding;
+        }
 
-        if (noTransform) {
-            int j = isBottomUp ? (height -1) * width * 3 : 0;
+        int linfLfngti = widti + pbdding;
 
-            for (int i=0; i<height; i++) {
-                if (abortRequested()) {
-                    break;
+        if (noTrbnsform) {
+            int j = isBottomUp ? (ifigit -1) * widti : 0;
+
+            for (int i=0; i<ifigit; i++) {
+                if (bbortRfqufstfd()) {
+                    brfbk;
                 }
-                iis.readFully(bdata, j, lineStride);
-                iis.skipBytes(padding);
-                j += isBottomUp ? -lineStride : lineStride;
-                processImageUpdate(bi, 0, i,
-                                   destinationRegion.width, 1, 1, 1,
-                                   new int[]{0});
-                processImageProgress(100.0F * i/destinationRegion.height);
+                iis.rfbdFully(bdbtb, j, widti);
+                iis.skipBytfs(pbdding);
+                j += isBottomUp ? -widti : widti;
+                prodfssImbgfUpdbtf(bi, 0, i,
+                                   dfstinbtionRfgion.widti, 1, 1, 1,
+                                   nfw int[]{0});
+                prodfssImbgfProgrfss(100.0F * i/dfstinbtionRfgion.ifigit);
             }
-        } else {
-            byte[] buf = new byte[lineLength];
-            lineStride =
-                ((ComponentSampleModel)sampleModel).getScanlineStride();
+        } flsf {
+            bytf[] buf = nfw bytf[linfLfngti];
+            int linfStridf =
+                ((ComponfntSbmplfModfl)sbmplfModfl).gftSdbnlinfStridf();
 
             if (isBottomUp) {
-                int lastLine =
-                    sourceRegion.y + (destinationRegion.height - 1) * scaleY;
-                iis.skipBytes(lineLength * (height - 1 - lastLine));
-            } else
-                iis.skipBytes(lineLength * sourceRegion.y);
+                int lbstLinf =
+                    sourdfRfgion.y + (dfstinbtionRfgion.ifigit - 1) * sdblfY;
+                iis.skipBytfs(linfLfngti * (ifigit - 1 - lbstLinf));
+            } flsf
+                iis.skipBytfs(linfLfngti * sourdfRfgion.y);
 
-            int skipLength = lineLength * (scaleY - 1);
+            int skipLfngti = linfLfngti * (sdblfY - 1);
 
-            int k = destinationRegion.y * lineStride;
+            int k = dfstinbtionRfgion.y * linfStridf;
             if (isBottomUp)
-                k += (destinationRegion.height - 1) * lineStride;
-            k += destinationRegion.x * 3;
+                k += (dfstinbtionRfgion.ifigit - 1) * linfStridf;
+            k += dfstinbtionRfgion.x;
 
-            for (int j = 0, y = sourceRegion.y;
-                 j < destinationRegion.height; j++, y+=scaleY) {
+            for (int j = 0, y = sourdfRfgion.y;
+                 j < dfstinbtionRfgion.ifigit; j++, y+=sdblfY) {
 
-                if (abortRequested())
-                    break;
-                iis.read(buf, 0, lineLength);
-                for (int i = 0, m = 3 * sourceRegion.x;
-                     i < destinationRegion.width; i++, m += 3 * scaleX) {
-                    //get the bit and assign to the data buffer of the raster
+                if (bbortRfqufstfd())
+                    brfbk;
+                iis.rfbd(buf, 0, linfLfngti);
+                for (int i = 0, m = sourdfRfgion.x;
+                     i < dfstinbtionRfgion.widti; i++, m += sdblfX) {
+                    //gft tif bit bnd bssign to tif dbtb bufffr of tif rbstfr
+                    bdbtb[k + i] = buf[m];
+                }
+
+                k += isBottomUp ? -linfStridf : linfStridf;
+                iis.skipBytfs(skipLfngti);
+                prodfssImbgfUpdbtf(bi, 0, j,
+                                   dfstinbtionRfgion.widti, 1, 1, 1,
+                                   nfw int[]{0});
+                prodfssImbgfProgrfss(100.0F*j/dfstinbtionRfgion.ifigit);
+            }
+        }
+    }
+
+    // Mftiod to rfbd 24 bit BMP imbgf dbtb
+    privbtf void rfbd24Bit(bytf[] bdbtb) tirows IOExdfption {
+        // Pbdding bytfs bt tif fnd of fbdi sdbnlinf
+        // widti * bitsPfrPixfl siould bf divisiblf by 32
+        int pbdding = widti * 3 % 4;
+        if ( pbdding != 0)
+            pbdding = 4 - pbdding;
+
+        int linfStridf = widti * 3;
+        int linfLfngti = linfStridf + pbdding;
+
+        if (noTrbnsform) {
+            int j = isBottomUp ? (ifigit -1) * widti * 3 : 0;
+
+            for (int i=0; i<ifigit; i++) {
+                if (bbortRfqufstfd()) {
+                    brfbk;
+                }
+                iis.rfbdFully(bdbtb, j, linfStridf);
+                iis.skipBytfs(pbdding);
+                j += isBottomUp ? -linfStridf : linfStridf;
+                prodfssImbgfUpdbtf(bi, 0, i,
+                                   dfstinbtionRfgion.widti, 1, 1, 1,
+                                   nfw int[]{0});
+                prodfssImbgfProgrfss(100.0F * i/dfstinbtionRfgion.ifigit);
+            }
+        } flsf {
+            bytf[] buf = nfw bytf[linfLfngti];
+            linfStridf =
+                ((ComponfntSbmplfModfl)sbmplfModfl).gftSdbnlinfStridf();
+
+            if (isBottomUp) {
+                int lbstLinf =
+                    sourdfRfgion.y + (dfstinbtionRfgion.ifigit - 1) * sdblfY;
+                iis.skipBytfs(linfLfngti * (ifigit - 1 - lbstLinf));
+            } flsf
+                iis.skipBytfs(linfLfngti * sourdfRfgion.y);
+
+            int skipLfngti = linfLfngti * (sdblfY - 1);
+
+            int k = dfstinbtionRfgion.y * linfStridf;
+            if (isBottomUp)
+                k += (dfstinbtionRfgion.ifigit - 1) * linfStridf;
+            k += dfstinbtionRfgion.x * 3;
+
+            for (int j = 0, y = sourdfRfgion.y;
+                 j < dfstinbtionRfgion.ifigit; j++, y+=sdblfY) {
+
+                if (bbortRfqufstfd())
+                    brfbk;
+                iis.rfbd(buf, 0, linfLfngti);
+                for (int i = 0, m = 3 * sourdfRfgion.x;
+                     i < dfstinbtionRfgion.widti; i++, m += 3 * sdblfX) {
+                    //gft tif bit bnd bssign to tif dbtb bufffr of tif rbstfr
                     int n = 3 * i + k;
-                    for (int b = 0; b < destBands.length; b++)
-                        bdata[n + destBands[b]] = buf[m + sourceBands[b]];
+                    for (int b = 0; b < dfstBbnds.lfngti; b++)
+                        bdbtb[n + dfstBbnds[b]] = buf[m + sourdfBbnds[b]];
                 }
 
-                k += isBottomUp ? -lineStride : lineStride;
-                iis.skipBytes(skipLength);
-                processImageUpdate(bi, 0, j,
-                                   destinationRegion.width, 1, 1, 1,
-                                   new int[]{0});
-                processImageProgress(100.0F*j/destinationRegion.height);
+                k += isBottomUp ? -linfStridf : linfStridf;
+                iis.skipBytfs(skipLfngti);
+                prodfssImbgfUpdbtf(bi, 0, j,
+                                   dfstinbtionRfgion.widti, 1, 1, 1,
+                                   nfw int[]{0});
+                prodfssImbgfProgrfss(100.0F*j/dfstinbtionRfgion.ifigit);
             }
         }
     }
 
-    private void read16Bit(short sdata[]) throws IOException {
-        // Padding bytes at the end of each scanline
-        // width * bitsPerPixel should be divisible by 32
-        int padding = width * 2 % 4;
+    privbtf void rfbd16Bit(siort sdbtb[]) tirows IOExdfption {
+        // Pbdding bytfs bt tif fnd of fbdi sdbnlinf
+        // widti * bitsPfrPixfl siould bf divisiblf by 32
+        int pbdding = widti * 2 % 4;
 
-        if ( padding != 0)
-            padding = 4 - padding;
+        if ( pbdding != 0)
+            pbdding = 4 - pbdding;
 
-        int lineLength = width + padding / 2;
+        int linfLfngti = widti + pbdding / 2;
 
-        if (noTransform) {
-            int j = isBottomUp ? (height -1) * width : 0;
-            for (int i=0; i<height; i++) {
-                if (abortRequested()) {
-                    break;
+        if (noTrbnsform) {
+            int j = isBottomUp ? (ifigit -1) * widti : 0;
+            for (int i=0; i<ifigit; i++) {
+                if (bbortRfqufstfd()) {
+                    brfbk;
                 }
 
-                iis.readFully(sdata, j, width);
-                iis.skipBytes(padding);
+                iis.rfbdFully(sdbtb, j, widti);
+                iis.skipBytfs(pbdding);
 
-                j += isBottomUp ? -width : width;
-                processImageUpdate(bi, 0, i,
-                                   destinationRegion.width, 1, 1, 1,
-                                   new int[]{0});
-                processImageProgress(100.0F * i/destinationRegion.height);
+                j += isBottomUp ? -widti : widti;
+                prodfssImbgfUpdbtf(bi, 0, i,
+                                   dfstinbtionRfgion.widti, 1, 1, 1,
+                                   nfw int[]{0});
+                prodfssImbgfProgrfss(100.0F * i/dfstinbtionRfgion.ifigit);
             }
-        } else {
-            short[] buf = new short[lineLength];
-            int lineStride =
-                ((SinglePixelPackedSampleModel)sampleModel).getScanlineStride();
+        } flsf {
+            siort[] buf = nfw siort[linfLfngti];
+            int linfStridf =
+                ((SinglfPixflPbdkfdSbmplfModfl)sbmplfModfl).gftSdbnlinfStridf();
 
             if (isBottomUp) {
-                int lastLine =
-                    sourceRegion.y + (destinationRegion.height - 1) * scaleY;
-                iis.skipBytes(lineLength * (height - 1 - lastLine) << 1);
-            } else
-                iis.skipBytes(lineLength * sourceRegion.y << 1);
+                int lbstLinf =
+                    sourdfRfgion.y + (dfstinbtionRfgion.ifigit - 1) * sdblfY;
+                iis.skipBytfs(linfLfngti * (ifigit - 1 - lbstLinf) << 1);
+            } flsf
+                iis.skipBytfs(linfLfngti * sourdfRfgion.y << 1);
 
-            int skipLength = lineLength * (scaleY - 1) << 1;
+            int skipLfngti = linfLfngti * (sdblfY - 1) << 1;
 
-            int k = destinationRegion.y * lineStride;
+            int k = dfstinbtionRfgion.y * linfStridf;
             if (isBottomUp)
-                k += (destinationRegion.height - 1) * lineStride;
-            k += destinationRegion.x;
+                k += (dfstinbtionRfgion.ifigit - 1) * linfStridf;
+            k += dfstinbtionRfgion.x;
 
-            for (int j = 0, y = sourceRegion.y;
-                 j < destinationRegion.height; j++, y+=scaleY) {
+            for (int j = 0, y = sourdfRfgion.y;
+                 j < dfstinbtionRfgion.ifigit; j++, y+=sdblfY) {
 
-                if (abortRequested())
-                    break;
-                iis.readFully(buf, 0, lineLength);
-                for (int i = 0, m = sourceRegion.x;
-                     i < destinationRegion.width; i++, m += scaleX) {
-                    //get the bit and assign to the data buffer of the raster
-                    sdata[k + i] = buf[m];
+                if (bbortRfqufstfd())
+                    brfbk;
+                iis.rfbdFully(buf, 0, linfLfngti);
+                for (int i = 0, m = sourdfRfgion.x;
+                     i < dfstinbtionRfgion.widti; i++, m += sdblfX) {
+                    //gft tif bit bnd bssign to tif dbtb bufffr of tif rbstfr
+                    sdbtb[k + i] = buf[m];
                 }
 
-                k += isBottomUp ? -lineStride : lineStride;
-                iis.skipBytes(skipLength);
-                processImageUpdate(bi, 0, j,
-                                   destinationRegion.width, 1, 1, 1,
-                                   new int[]{0});
-                processImageProgress(100.0F*j/destinationRegion.height);
+                k += isBottomUp ? -linfStridf : linfStridf;
+                iis.skipBytfs(skipLfngti);
+                prodfssImbgfUpdbtf(bi, 0, j,
+                                   dfstinbtionRfgion.widti, 1, 1, 1,
+                                   nfw int[]{0});
+                prodfssImbgfProgrfss(100.0F*j/dfstinbtionRfgion.ifigit);
             }
         }
     }
 
-    private void read32Bit(int idata[]) throws IOException {
-        if (noTransform) {
-            int j = isBottomUp ? (height -1) * width : 0;
+    privbtf void rfbd32Bit(int idbtb[]) tirows IOExdfption {
+        if (noTrbnsform) {
+            int j = isBottomUp ? (ifigit -1) * widti : 0;
 
-            for (int i=0; i<height; i++) {
-                if (abortRequested()) {
-                    break;
+            for (int i=0; i<ifigit; i++) {
+                if (bbortRfqufstfd()) {
+                    brfbk;
                 }
-                iis.readFully(idata, j, width);
-                j += isBottomUp ? -width : width;
-                processImageUpdate(bi, 0, i,
-                                   destinationRegion.width, 1, 1, 1,
-                                   new int[]{0});
-                processImageProgress(100.0F * i/destinationRegion.height);
+                iis.rfbdFully(idbtb, j, widti);
+                j += isBottomUp ? -widti : widti;
+                prodfssImbgfUpdbtf(bi, 0, i,
+                                   dfstinbtionRfgion.widti, 1, 1, 1,
+                                   nfw int[]{0});
+                prodfssImbgfProgrfss(100.0F * i/dfstinbtionRfgion.ifigit);
             }
-        } else {
-            int[] buf = new int[width];
-            int lineStride =
-                ((SinglePixelPackedSampleModel)sampleModel).getScanlineStride();
+        } flsf {
+            int[] buf = nfw int[widti];
+            int linfStridf =
+                ((SinglfPixflPbdkfdSbmplfModfl)sbmplfModfl).gftSdbnlinfStridf();
 
             if (isBottomUp) {
-                int lastLine =
-                    sourceRegion.y + (destinationRegion.height - 1) * scaleY;
-                iis.skipBytes(width * (height - 1 - lastLine) << 2);
-            } else
-                iis.skipBytes(width * sourceRegion.y << 2);
+                int lbstLinf =
+                    sourdfRfgion.y + (dfstinbtionRfgion.ifigit - 1) * sdblfY;
+                iis.skipBytfs(widti * (ifigit - 1 - lbstLinf) << 2);
+            } flsf
+                iis.skipBytfs(widti * sourdfRfgion.y << 2);
 
-            int skipLength = width * (scaleY - 1) << 2;
+            int skipLfngti = widti * (sdblfY - 1) << 2;
 
-            int k = destinationRegion.y * lineStride;
+            int k = dfstinbtionRfgion.y * linfStridf;
             if (isBottomUp)
-                k += (destinationRegion.height - 1) * lineStride;
-            k += destinationRegion.x;
+                k += (dfstinbtionRfgion.ifigit - 1) * linfStridf;
+            k += dfstinbtionRfgion.x;
 
-            for (int j = 0, y = sourceRegion.y;
-                 j < destinationRegion.height; j++, y+=scaleY) {
+            for (int j = 0, y = sourdfRfgion.y;
+                 j < dfstinbtionRfgion.ifigit; j++, y+=sdblfY) {
 
-                if (abortRequested())
-                    break;
-                iis.readFully(buf, 0, width);
-                for (int i = 0, m = sourceRegion.x;
-                     i < destinationRegion.width; i++, m += scaleX) {
-                    //get the bit and assign to the data buffer of the raster
-                    idata[k + i] = buf[m];
+                if (bbortRfqufstfd())
+                    brfbk;
+                iis.rfbdFully(buf, 0, widti);
+                for (int i = 0, m = sourdfRfgion.x;
+                     i < dfstinbtionRfgion.widti; i++, m += sdblfX) {
+                    //gft tif bit bnd bssign to tif dbtb bufffr of tif rbstfr
+                    idbtb[k + i] = buf[m];
                 }
 
-                k += isBottomUp ? -lineStride : lineStride;
-                iis.skipBytes(skipLength);
-                processImageUpdate(bi, 0, j,
-                                   destinationRegion.width, 1, 1, 1,
-                                   new int[]{0});
-                processImageProgress(100.0F*j/destinationRegion.height);
+                k += isBottomUp ? -linfStridf : linfStridf;
+                iis.skipBytfs(skipLfngti);
+                prodfssImbgfUpdbtf(bi, 0, j,
+                                   dfstinbtionRfgion.widti, 1, 1, 1,
+                                   nfw int[]{0});
+                prodfssImbgfProgrfss(100.0F*j/dfstinbtionRfgion.ifigit);
             }
         }
     }
 
-    private void readRLE8(byte bdata[]) throws IOException {
-        // If imageSize field is not provided, calculate it.
-        int imSize = (int)imageSize;
-        if (imSize == 0) {
-            imSize = (int)(bitmapFileSize - bitmapOffset);
+    privbtf void rfbdRLE8(bytf bdbtb[]) tirows IOExdfption {
+        // If imbgfSizf fifld is not providfd, dbldulbtf it.
+        int imSizf = (int)imbgfSizf;
+        if (imSizf == 0) {
+            imSizf = (int)(bitmbpFilfSizf - bitmbpOffsft);
         }
 
-        int padding = 0;
-        // If width is not 32 bit aligned, then while uncompressing each
-        // scanline will have padding bytes, calculate the amount of padding
-        int remainder = width % 4;
-        if (remainder != 0) {
-            padding = 4 - remainder;
+        int pbdding = 0;
+        // If widti is not 32 bit blignfd, tifn wiilf undomprfssing fbdi
+        // sdbnlinf will ibvf pbdding bytfs, dbldulbtf tif bmount of pbdding
+        int rfmbindfr = widti % 4;
+        if (rfmbindfr != 0) {
+            pbdding = 4 - rfmbindfr;
         }
 
-        // Read till we have the whole image
-        byte values[] = new byte[imSize];
-        int bytesRead = 0;
-        iis.readFully(values, 0, imSize);
+        // Rfbd till wf ibvf tif wiolf imbgf
+        bytf vblufs[] = nfw bytf[imSizf];
+        int bytfsRfbd = 0;
+        iis.rfbdFully(vblufs, 0, imSizf);
 
-        // Since data is compressed, decompress it
-        decodeRLE8(imSize, padding, values, bdata);
+        // Sindf dbtb is domprfssfd, dfdomprfss it
+        dfdodfRLE8(imSizf, pbdding, vblufs, bdbtb);
     }
 
-    private void decodeRLE8(int imSize,
-                            int padding,
-                            byte[] values,
-                            byte[] bdata) throws IOException {
+    privbtf void dfdodfRLE8(int imSizf,
+                            int pbdding,
+                            bytf[] vblufs,
+                            bytf[] bdbtb) tirows IOExdfption {
 
-        byte val[] = new byte[width * height];
-        int count = 0, l = 0;
-        int value;
-        boolean flag = false;
-        int lineNo = isBottomUp ? height - 1 : 0;
-        int lineStride =
-            ((ComponentSampleModel)sampleModel).getScanlineStride();
-        int finished = 0;
+        bytf vbl[] = nfw bytf[widti * ifigit];
+        int dount = 0, l = 0;
+        int vbluf;
+        boolfbn flbg = fblsf;
+        int linfNo = isBottomUp ? ifigit - 1 : 0;
+        int linfStridf =
+            ((ComponfntSbmplfModfl)sbmplfModfl).gftSdbnlinfStridf();
+        int finisifd = 0;
 
-        while (count != imSize) {
-            value = values[count++] & 0xff;
-            if (value == 0) {
-                switch(values[count++] & 0xff) {
+        wiilf (dount != imSizf) {
+            vbluf = vblufs[dount++] & 0xff;
+            if (vbluf == 0) {
+                switdi(vblufs[dount++] & 0xff) {
 
-                case 0:
-                    // End-of-scanline marker
-                    if (lineNo >= sourceRegion.y &&
-                        lineNo < sourceRegion.y + sourceRegion.height) {
-                        if (noTransform) {
-                            int pos = lineNo * width;
-                            for(int i = 0; i < width; i++)
-                                bdata[pos++] = val[i];
-                            processImageUpdate(bi, 0, lineNo,
-                                               destinationRegion.width, 1, 1, 1,
-                                               new int[]{0});
-                            finished++;
-                        } else if ((lineNo - sourceRegion.y) % scaleY == 0) {
-                            int currentLine = (lineNo - sourceRegion.y) / scaleY +
-                                destinationRegion.y;
-                            int pos = currentLine * lineStride;
-                            pos += destinationRegion.x;
-                            for (int i = sourceRegion.x;
-                                 i < sourceRegion.x + sourceRegion.width;
-                                 i += scaleX)
-                                bdata[pos++] = val[i];
-                            processImageUpdate(bi, 0, currentLine,
-                                               destinationRegion.width, 1, 1, 1,
-                                               new int[]{0});
-                            finished++;
+                dbsf 0:
+                    // End-of-sdbnlinf mbrkfr
+                    if (linfNo >= sourdfRfgion.y &&
+                        linfNo < sourdfRfgion.y + sourdfRfgion.ifigit) {
+                        if (noTrbnsform) {
+                            int pos = linfNo * widti;
+                            for(int i = 0; i < widti; i++)
+                                bdbtb[pos++] = vbl[i];
+                            prodfssImbgfUpdbtf(bi, 0, linfNo,
+                                               dfstinbtionRfgion.widti, 1, 1, 1,
+                                               nfw int[]{0});
+                            finisifd++;
+                        } flsf if ((linfNo - sourdfRfgion.y) % sdblfY == 0) {
+                            int durrfntLinf = (linfNo - sourdfRfgion.y) / sdblfY +
+                                dfstinbtionRfgion.y;
+                            int pos = durrfntLinf * linfStridf;
+                            pos += dfstinbtionRfgion.x;
+                            for (int i = sourdfRfgion.x;
+                                 i < sourdfRfgion.x + sourdfRfgion.widti;
+                                 i += sdblfX)
+                                bdbtb[pos++] = vbl[i];
+                            prodfssImbgfUpdbtf(bi, 0, durrfntLinf,
+                                               dfstinbtionRfgion.widti, 1, 1, 1,
+                                               nfw int[]{0});
+                            finisifd++;
                         }
                     }
-                    processImageProgress(100.0F * finished / destinationRegion.height);
-                    lineNo += isBottomUp ? -1 : 1;
+                    prodfssImbgfProgrfss(100.0F * finisifd / dfstinbtionRfgion.ifigit);
+                    linfNo += isBottomUp ? -1 : 1;
                     l = 0;
 
-                    if (abortRequested()) {
-                        flag = true;
+                    if (bbortRfqufstfd()) {
+                        flbg = truf;
                     }
 
-                    break;
+                    brfbk;
 
-                case 1:
-                    // End-of-RLE marker
-                    flag = true;
-                    break;
+                dbsf 1:
+                    // End-of-RLE mbrkfr
+                    flbg = truf;
+                    brfbk;
 
-                case 2:
-                    // delta or vector marker
-                    int xoff = values[count++] & 0xff;
-                    int yoff = values[count] & 0xff;
-                    // Move to the position xoff, yoff down
-                    l += xoff + yoff*width;
-                    break;
+                dbsf 2:
+                    // dfltb or vfdtor mbrkfr
+                    int xoff = vblufs[dount++] & 0xff;
+                    int yoff = vblufs[dount] & 0xff;
+                    // Movf to tif position xoff, yoff down
+                    l += xoff + yoff*widti;
+                    brfbk;
 
-                default:
-                    int end = values[count-1] & 0xff;
-                    for (int i=0; i<end; i++) {
-                        val[l++] = (byte)(values[count++] & 0xff);
+                dffbult:
+                    int fnd = vblufs[dount-1] & 0xff;
+                    for (int i=0; i<fnd; i++) {
+                        vbl[l++] = (bytf)(vblufs[dount++] & 0xff);
                     }
 
-                    // Whenever end pixels can fit into odd number of bytes,
-                    // an extra padding byte will be present, so skip that.
-                    if ((end & 1) == 1) {
-                        count++;
+                    // Wifnfvfr fnd pixfls dbn fit into odd numbfr of bytfs,
+                    // bn fxtrb pbdding bytf will bf prfsfnt, so skip tibt.
+                    if ((fnd & 1) == 1) {
+                        dount++;
                     }
                 }
-            } else {
-                for (int i=0; i<value; i++) {
-                    val[l++] = (byte)(values[count] & 0xff);
+            } flsf {
+                for (int i=0; i<vbluf; i++) {
+                    vbl[l++] = (bytf)(vblufs[dount] & 0xff);
                 }
 
-                count++;
+                dount++;
             }
 
-            // If End-of-RLE data, then exit the while loop
-            if (flag) {
-                break;
+            // If End-of-RLE dbtb, tifn fxit tif wiilf loop
+            if (flbg) {
+                brfbk;
             }
         }
     }
 
-    private void readRLE4(byte[] bdata) throws IOException {
+    privbtf void rfbdRLE4(bytf[] bdbtb) tirows IOExdfption {
 
-        // If imageSize field is not specified, calculate it.
-        int imSize = (int)imageSize;
-        if (imSize == 0) {
-            imSize = (int)(bitmapFileSize - bitmapOffset);
+        // If imbgfSizf fifld is not spfdififd, dbldulbtf it.
+        int imSizf = (int)imbgfSizf;
+        if (imSizf == 0) {
+            imSizf = (int)(bitmbpFilfSizf - bitmbpOffsft);
         }
 
-        int padding = 0;
-        // If width is not 32 byte aligned, then while uncompressing each
-        // scanline will have padding bytes, calculate the amount of padding
-        int remainder = width % 4;
-        if (remainder != 0) {
-            padding = 4 - remainder;
+        int pbdding = 0;
+        // If widti is not 32 bytf blignfd, tifn wiilf undomprfssing fbdi
+        // sdbnlinf will ibvf pbdding bytfs, dbldulbtf tif bmount of pbdding
+        int rfmbindfr = widti % 4;
+        if (rfmbindfr != 0) {
+            pbdding = 4 - rfmbindfr;
         }
 
-        // Read till we have the whole image
-        byte[] values = new byte[imSize];
-        iis.readFully(values, 0, imSize);
+        // Rfbd till wf ibvf tif wiolf imbgf
+        bytf[] vblufs = nfw bytf[imSizf];
+        iis.rfbdFully(vblufs, 0, imSizf);
 
-        // Decompress the RLE4 compressed data.
-        decodeRLE4(imSize, padding, values, bdata);
+        // Dfdomprfss tif RLE4 domprfssfd dbtb.
+        dfdodfRLE4(imSizf, pbdding, vblufs, bdbtb);
     }
 
-    private void decodeRLE4(int imSize,
-                            int padding,
-                            byte[] values,
-                            byte[] bdata) throws IOException {
-        byte[] val = new byte[width];
-        int count = 0, l = 0;
-        int value;
-        boolean flag = false;
-        int lineNo = isBottomUp ? height - 1 : 0;
-        int lineStride =
-            ((MultiPixelPackedSampleModel)sampleModel).getScanlineStride();
-        int finished = 0;
+    privbtf void dfdodfRLE4(int imSizf,
+                            int pbdding,
+                            bytf[] vblufs,
+                            bytf[] bdbtb) tirows IOExdfption {
+        bytf[] vbl = nfw bytf[widti];
+        int dount = 0, l = 0;
+        int vbluf;
+        boolfbn flbg = fblsf;
+        int linfNo = isBottomUp ? ifigit - 1 : 0;
+        int linfStridf =
+            ((MultiPixflPbdkfdSbmplfModfl)sbmplfModfl).gftSdbnlinfStridf();
+        int finisifd = 0;
 
-        while (count != imSize) {
+        wiilf (dount != imSizf) {
 
-            value = values[count++] & 0xFF;
-            if (value == 0) {
+            vbluf = vblufs[dount++] & 0xFF;
+            if (vbluf == 0) {
 
 
-                // Absolute mode
-                switch(values[count++] & 0xFF) {
+                // Absolutf modf
+                switdi(vblufs[dount++] & 0xFF) {
 
-                case 0:
-                    // End-of-scanline marker
-                    // End-of-scanline marker
-                    if (lineNo >= sourceRegion.y &&
-                        lineNo < sourceRegion.y + sourceRegion.height) {
-                        if (noTransform) {
-                            int pos = lineNo * (width + 1 >> 1);
-                            for(int i = 0, j = 0; i < width >> 1; i++)
-                                bdata[pos++] =
-                                    (byte)((val[j++] << 4) | val[j++]);
-                            if ((width & 1) == 1)
-                                bdata[pos] |= val[width - 1] << 4;
+                dbsf 0:
+                    // End-of-sdbnlinf mbrkfr
+                    // End-of-sdbnlinf mbrkfr
+                    if (linfNo >= sourdfRfgion.y &&
+                        linfNo < sourdfRfgion.y + sourdfRfgion.ifigit) {
+                        if (noTrbnsform) {
+                            int pos = linfNo * (widti + 1 >> 1);
+                            for(int i = 0, j = 0; i < widti >> 1; i++)
+                                bdbtb[pos++] =
+                                    (bytf)((vbl[j++] << 4) | vbl[j++]);
+                            if ((widti & 1) == 1)
+                                bdbtb[pos] |= vbl[widti - 1] << 4;
 
-                            processImageUpdate(bi, 0, lineNo,
-                                               destinationRegion.width, 1, 1, 1,
-                                               new int[]{0});
-                            finished++;
-                        } else if ((lineNo - sourceRegion.y) % scaleY == 0) {
-                            int currentLine = (lineNo - sourceRegion.y) / scaleY +
-                                destinationRegion.y;
-                            int pos = currentLine * lineStride;
-                            pos += destinationRegion.x >> 1;
-                            int shift = (1 - (destinationRegion.x & 1)) << 2;
-                            for (int i = sourceRegion.x;
-                                 i < sourceRegion.x + sourceRegion.width;
-                                 i += scaleX) {
-                                bdata[pos] |= val[i] << shift;
-                                shift += 4;
-                                if (shift == 4) {
+                            prodfssImbgfUpdbtf(bi, 0, linfNo,
+                                               dfstinbtionRfgion.widti, 1, 1, 1,
+                                               nfw int[]{0});
+                            finisifd++;
+                        } flsf if ((linfNo - sourdfRfgion.y) % sdblfY == 0) {
+                            int durrfntLinf = (linfNo - sourdfRfgion.y) / sdblfY +
+                                dfstinbtionRfgion.y;
+                            int pos = durrfntLinf * linfStridf;
+                            pos += dfstinbtionRfgion.x >> 1;
+                            int siift = (1 - (dfstinbtionRfgion.x & 1)) << 2;
+                            for (int i = sourdfRfgion.x;
+                                 i < sourdfRfgion.x + sourdfRfgion.widti;
+                                 i += sdblfX) {
+                                bdbtb[pos] |= vbl[i] << siift;
+                                siift += 4;
+                                if (siift == 4) {
                                     pos++;
                                 }
-                                shift &= 7;
+                                siift &= 7;
                             }
-                            processImageUpdate(bi, 0, currentLine,
-                                               destinationRegion.width, 1, 1, 1,
-                                               new int[]{0});
-                            finished++;
+                            prodfssImbgfUpdbtf(bi, 0, durrfntLinf,
+                                               dfstinbtionRfgion.widti, 1, 1, 1,
+                                               nfw int[]{0});
+                            finisifd++;
                         }
                     }
-                    processImageProgress(100.0F * finished / destinationRegion.height);
-                    lineNo += isBottomUp ? -1 : 1;
+                    prodfssImbgfProgrfss(100.0F * finisifd / dfstinbtionRfgion.ifigit);
+                    linfNo += isBottomUp ? -1 : 1;
                     l = 0;
 
-                    if (abortRequested()) {
-                        flag = true;
+                    if (bbortRfqufstfd()) {
+                        flbg = truf;
                     }
 
-                    break;
+                    brfbk;
 
-                case 1:
-                    // End-of-RLE marker
-                    flag = true;
-                    break;
+                dbsf 1:
+                    // End-of-RLE mbrkfr
+                    flbg = truf;
+                    brfbk;
 
-                case 2:
-                    // delta or vector marker
-                    int xoff = values[count++] & 0xFF;
-                    int yoff = values[count] & 0xFF;
-                    // Move to the position xoff, yoff down
-                    l += xoff + yoff*width;
-                    break;
+                dbsf 2:
+                    // dfltb or vfdtor mbrkfr
+                    int xoff = vblufs[dount++] & 0xFF;
+                    int yoff = vblufs[dount] & 0xFF;
+                    // Movf to tif position xoff, yoff down
+                    l += xoff + yoff*widti;
+                    brfbk;
 
-                default:
-                    int end = values[count-1] & 0xFF;
-                    for (int i=0; i<end; i++) {
-                        val[l++] = (byte)(((i & 1) == 0) ? (values[count] & 0xf0) >> 4
-                                          : (values[count++] & 0x0f));
+                dffbult:
+                    int fnd = vblufs[dount-1] & 0xFF;
+                    for (int i=0; i<fnd; i++) {
+                        vbl[l++] = (bytf)(((i & 1) == 0) ? (vblufs[dount] & 0xf0) >> 4
+                                          : (vblufs[dount++] & 0x0f));
                     }
 
-                    // When end is odd, the above for loop does not
-                    // increment count, so do it now.
-                    if ((end & 1) == 1) {
-                        count++;
+                    // Wifn fnd is odd, tif bbovf for loop dofs not
+                    // indrfmfnt dount, so do it now.
+                    if ((fnd & 1) == 1) {
+                        dount++;
                     }
 
-                    // Whenever end pixels can fit into odd number of bytes,
-                    // an extra padding byte will be present, so skip that.
-                    if ((((int)Math.ceil(end/2)) & 1) ==1 ) {
-                        count++;
+                    // Wifnfvfr fnd pixfls dbn fit into odd numbfr of bytfs,
+                    // bn fxtrb pbdding bytf will bf prfsfnt, so skip tibt.
+                    if ((((int)Mbti.dfil(fnd/2)) & 1) ==1 ) {
+                        dount++;
                     }
-                    break;
+                    brfbk;
                 }
-            } else {
-                // Encoded mode
-                int alternate[] = { (values[count] & 0xf0) >> 4,
-                                    values[count] & 0x0f };
-                for (int i=0; (i < value) && (l < width); i++) {
-                    val[l++] = (byte)alternate[i & 1];
+            } flsf {
+                // Endodfd modf
+                int bltfrnbtf[] = { (vblufs[dount] & 0xf0) >> 4,
+                                    vblufs[dount] & 0x0f };
+                for (int i=0; (i < vbluf) && (l < widti); i++) {
+                    vbl[l++] = (bytf)bltfrnbtf[i & 1];
                 }
 
-                count++;
+                dount++;
             }
 
-            // If End-of-RLE data, then exit the while loop
-            if (flag) {
-                break;
+            // If End-of-RLE dbtb, tifn fxit tif wiilf loop
+            if (flbg) {
+                brfbk;
             }
         }
     }
 
-    /** Decodes the jpeg/png image embedded in the bitmap using any jpeg
-     *  ImageIO-style plugin.
+    /** Dfdodfs tif jpfg/png imbgf fmbfddfd in tif bitmbp using bny jpfg
+     *  ImbgfIO-stylf plugin.
      *
-     * @param bi The destination <code>BufferedImage</code>.
-     * @param bmpParam The <code>ImageReadParam</code> for decoding this
-     *          BMP image.  The parameters for subregion, band selection and
-     *          subsampling are used in decoding the jpeg image.
+     * @pbrbm bi Tif dfstinbtion <dodf>BufffrfdImbgf</dodf>.
+     * @pbrbm bmpPbrbm Tif <dodf>ImbgfRfbdPbrbm</dodf> for dfdoding tiis
+     *          BMP imbgf.  Tif pbrbmftfrs for subrfgion, bbnd sflfdtion bnd
+     *          subsbmpling brf usfd in dfdoding tif jpfg imbgf.
      */
 
-    private BufferedImage readEmbedded(int type,
-                              BufferedImage bi, ImageReadParam bmpParam)
-      throws IOException {
-        String format;
-        switch(type) {
-          case BI_JPEG:
-              format = "JPEG";
-              break;
-          case BI_PNG:
-              format = "PNG";
-              break;
-          default:
-              throw new
-                  IOException("Unexpected compression type: " + type);
+    privbtf BufffrfdImbgf rfbdEmbfddfd(int typf,
+                              BufffrfdImbgf bi, ImbgfRfbdPbrbm bmpPbrbm)
+      tirows IOExdfption {
+        String formbt;
+        switdi(typf) {
+          dbsf BI_JPEG:
+              formbt = "JPEG";
+              brfbk;
+          dbsf BI_PNG:
+              formbt = "PNG";
+              brfbk;
+          dffbult:
+              tirow nfw
+                  IOExdfption("Unfxpfdtfd domprfssion typf: " + typf);
         }
-        ImageReader reader =
-            ImageIO.getImageReadersByFormatName(format).next();
-        if (reader == null) {
-            throw new RuntimeException(I18N.getString("BMPImageReader4") +
-                                       " " + format);
+        ImbgfRfbdfr rfbdfr =
+            ImbgfIO.gftImbgfRfbdfrsByFormbtNbmf(formbt).nfxt();
+        if (rfbdfr == null) {
+            tirow nfw RuntimfExdfption(I18N.gftString("BMPImbgfRfbdfr4") +
+                                       " " + formbt);
         }
-        // prepare input
-        byte[] buff = new byte[(int)imageSize];
-        iis.read(buff);
-        reader.setInput(ImageIO.createImageInputStream(new ByteArrayInputStream(buff)));
+        // prfpbrf input
+        bytf[] buff = nfw bytf[(int)imbgfSizf];
+        iis.rfbd(buff);
+        rfbdfr.sftInput(ImbgfIO.drfbtfImbgfInputStrfbm(nfw BytfArrbyInputStrfbm(buff)));
         if (bi == null) {
-            ImageTypeSpecifier embType = reader.getImageTypes(0).next();
-            bi = embType.createBufferedImage(destinationRegion.x +
-                                             destinationRegion.width,
-                                             destinationRegion.y +
-                                             destinationRegion.height);
+            ImbgfTypfSpfdififr fmbTypf = rfbdfr.gftImbgfTypfs(0).nfxt();
+            bi = fmbTypf.drfbtfBufffrfdImbgf(dfstinbtionRfgion.x +
+                                             dfstinbtionRfgion.widti,
+                                             dfstinbtionRfgion.y +
+                                             dfstinbtionRfgion.ifigit);
         }
 
-        reader.addIIOReadProgressListener(new EmbeddedProgressAdapter() {
-                public void imageProgress(ImageReader source,
-                                          float percentageDone)
+        rfbdfr.bddIIORfbdProgrfssListfnfr(nfw EmbfddfdProgrfssAdbptfr() {
+                publid void imbgfProgrfss(ImbgfRfbdfr sourdf,
+                                          flobt pfrdfntbgfDonf)
                 {
-                    processImageProgress(percentageDone);
+                    prodfssImbgfProgrfss(pfrdfntbgfDonf);
                 }
             });
 
-        reader.addIIOReadUpdateListener(new IIOReadUpdateListener() {
-                public void imageUpdate(ImageReader source,
-                                        BufferedImage theImage,
+        rfbdfr.bddIIORfbdUpdbtfListfnfr(nfw IIORfbdUpdbtfListfnfr() {
+                publid void imbgfUpdbtf(ImbgfRfbdfr sourdf,
+                                        BufffrfdImbgf tifImbgf,
                                         int minX, int minY,
-                                        int width, int height,
-                                        int periodX, int periodY,
-                                        int[] bands)
+                                        int widti, int ifigit,
+                                        int pfriodX, int pfriodY,
+                                        int[] bbnds)
                 {
-                    processImageUpdate(theImage, minX, minY,
-                                       width, height,
-                                       periodX, periodY, bands);
+                    prodfssImbgfUpdbtf(tifImbgf, minX, minY,
+                                       widti, ifigit,
+                                       pfriodX, pfriodY, bbnds);
                 }
-                public void passComplete(ImageReader source,
-                                         BufferedImage theImage)
+                publid void pbssComplftf(ImbgfRfbdfr sourdf,
+                                         BufffrfdImbgf tifImbgf)
                 {
-                    processPassComplete(theImage);
+                    prodfssPbssComplftf(tifImbgf);
                 }
-                public void passStarted(ImageReader source,
-                                        BufferedImage theImage,
-                                        int pass,
-                                        int minPass, int maxPass,
+                publid void pbssStbrtfd(ImbgfRfbdfr sourdf,
+                                        BufffrfdImbgf tifImbgf,
+                                        int pbss,
+                                        int minPbss, int mbxPbss,
                                         int minX, int minY,
-                                        int periodX, int periodY,
-                                        int[] bands)
+                                        int pfriodX, int pfriodY,
+                                        int[] bbnds)
                 {
-                    processPassStarted(theImage, pass, minPass, maxPass,
-                                       minX, minY, periodX, periodY,
-                                       bands);
+                    prodfssPbssStbrtfd(tifImbgf, pbss, minPbss, mbxPbss,
+                                       minX, minY, pfriodX, pfriodY,
+                                       bbnds);
                 }
-                public void thumbnailPassComplete(ImageReader source,
-                                                  BufferedImage thumb) {}
-                public void thumbnailPassStarted(ImageReader source,
-                                                 BufferedImage thumb,
-                                                 int pass,
-                                                 int minPass, int maxPass,
+                publid void tiumbnbilPbssComplftf(ImbgfRfbdfr sourdf,
+                                                  BufffrfdImbgf tiumb) {}
+                publid void tiumbnbilPbssStbrtfd(ImbgfRfbdfr sourdf,
+                                                 BufffrfdImbgf tiumb,
+                                                 int pbss,
+                                                 int minPbss, int mbxPbss,
                                                  int minX, int minY,
-                                                 int periodX, int periodY,
-                                                 int[] bands) {}
-                public void thumbnailUpdate(ImageReader source,
-                                            BufferedImage theThumbnail,
+                                                 int pfriodX, int pfriodY,
+                                                 int[] bbnds) {}
+                publid void tiumbnbilUpdbtf(ImbgfRfbdfr sourdf,
+                                            BufffrfdImbgf tifTiumbnbil,
                                             int minX, int minY,
-                                            int width, int height,
-                                            int periodX, int periodY,
-                                            int[] bands) {}
+                                            int widti, int ifigit,
+                                            int pfriodX, int pfriodY,
+                                            int[] bbnds) {}
             });
 
-        reader.addIIOReadWarningListener(new IIOReadWarningListener() {
-                public void warningOccurred(ImageReader source, String warning)
+        rfbdfr.bddIIORfbdWbrningListfnfr(nfw IIORfbdWbrningListfnfr() {
+                publid void wbrningOddurrfd(ImbgfRfbdfr sourdf, String wbrning)
                 {
-                    processWarningOccurred(warning);
+                    prodfssWbrningOddurrfd(wbrning);
                 }
             });
 
-        ImageReadParam param = reader.getDefaultReadParam();
-        param.setDestination(bi);
-        param.setDestinationBands(bmpParam.getDestinationBands());
-        param.setDestinationOffset(bmpParam.getDestinationOffset());
-        param.setSourceBands(bmpParam.getSourceBands());
-        param.setSourceRegion(bmpParam.getSourceRegion());
-        param.setSourceSubsampling(bmpParam.getSourceXSubsampling(),
-                                   bmpParam.getSourceYSubsampling(),
-                                   bmpParam.getSubsamplingXOffset(),
-                                   bmpParam.getSubsamplingYOffset());
-        reader.read(0, param);
-        return bi;
+        ImbgfRfbdPbrbm pbrbm = rfbdfr.gftDffbultRfbdPbrbm();
+        pbrbm.sftDfstinbtion(bi);
+        pbrbm.sftDfstinbtionBbnds(bmpPbrbm.gftDfstinbtionBbnds());
+        pbrbm.sftDfstinbtionOffsft(bmpPbrbm.gftDfstinbtionOffsft());
+        pbrbm.sftSourdfBbnds(bmpPbrbm.gftSourdfBbnds());
+        pbrbm.sftSourdfRfgion(bmpPbrbm.gftSourdfRfgion());
+        pbrbm.sftSourdfSubsbmpling(bmpPbrbm.gftSourdfXSubsbmpling(),
+                                   bmpPbrbm.gftSourdfYSubsbmpling(),
+                                   bmpPbrbm.gftSubsbmplingXOffsft(),
+                                   bmpPbrbm.gftSubsbmplingYOffsft());
+        rfbdfr.rfbd(0, pbrbm);
+        rfturn bi;
     }
 
-    private class EmbeddedProgressAdapter implements IIOReadProgressListener {
-        public void imageComplete(ImageReader src) {}
-        public void imageProgress(ImageReader src, float percentageDone) {}
-        public void imageStarted(ImageReader src, int imageIndex) {}
-        public void thumbnailComplete(ImageReader src) {}
-        public void thumbnailProgress(ImageReader src, float percentageDone) {}
-        public void thumbnailStarted(ImageReader src, int iIdx, int tIdx) {}
-        public void sequenceComplete(ImageReader src) {}
-        public void sequenceStarted(ImageReader src, int minIndex) {}
-        public void readAborted(ImageReader src) {}
+    privbtf dlbss EmbfddfdProgrfssAdbptfr implfmfnts IIORfbdProgrfssListfnfr {
+        publid void imbgfComplftf(ImbgfRfbdfr srd) {}
+        publid void imbgfProgrfss(ImbgfRfbdfr srd, flobt pfrdfntbgfDonf) {}
+        publid void imbgfStbrtfd(ImbgfRfbdfr srd, int imbgfIndfx) {}
+        publid void tiumbnbilComplftf(ImbgfRfbdfr srd) {}
+        publid void tiumbnbilProgrfss(ImbgfRfbdfr srd, flobt pfrdfntbgfDonf) {}
+        publid void tiumbnbilStbrtfd(ImbgfRfbdfr srd, int iIdx, int tIdx) {}
+        publid void sfqufndfComplftf(ImbgfRfbdfr srd) {}
+        publid void sfqufndfStbrtfd(ImbgfRfbdfr srd, int minIndfx) {}
+        publid void rfbdAbortfd(ImbgfRfbdfr srd) {}
     }
 
-    private static Boolean isLinkedProfileDisabled = null;
+    privbtf stbtid Boolfbn isLinkfdProfilfDisbblfd = null;
 
-    private static boolean isLinkedProfileAllowed() {
-        if (isLinkedProfileDisabled == null) {
-            PrivilegedAction<Boolean> a = new PrivilegedAction<Boolean>() {
-                public Boolean run() {
-                    return Boolean.getBoolean("sun.imageio.plugins.bmp.disableLinkedProfiles");
+    privbtf stbtid boolfbn isLinkfdProfilfAllowfd() {
+        if (isLinkfdProfilfDisbblfd == null) {
+            PrivilfgfdAdtion<Boolfbn> b = nfw PrivilfgfdAdtion<Boolfbn>() {
+                publid Boolfbn run() {
+                    rfturn Boolfbn.gftBoolfbn("sun.imbgfio.plugins.bmp.disbblfLinkfdProfilfs");
                 }
             };
-            isLinkedProfileDisabled = AccessController.doPrivileged(a);
+            isLinkfdProfilfDisbblfd = AddfssControllfr.doPrivilfgfd(b);
         }
-        return !isLinkedProfileDisabled;
+        rfturn !isLinkfdProfilfDisbblfd;
     }
 
-    private static Boolean isWindowsPlatform = null;
+    privbtf stbtid Boolfbn isWindowsPlbtform = null;
 
     /**
-     * Verifies whether the byte array contans a unc path.
-     * Non-UNC path examples:
-     *  c:\path\to\file  - simple notation
-     *  \\?\c:\path\to\file - long notation
+     * Vfrififs wiftifr tif bytf brrby dontbns b und pbti.
+     * Non-UNC pbti fxbmplfs:
+     *  d:\pbti\to\filf  - simplf notbtion
+     *  \\?\d:\pbti\to\filf - long notbtion
      *
-     * UNC path examples:
-     *  \\server\share - a UNC path in simple notation
-     *  \\?\UNC\server\share - a UNC path in long notation
-     *  \\.\some\device - a path to device.
+     * UNC pbti fxbmplfs:
+     *  \\sfrvfr\sibrf - b UNC pbti in simplf notbtion
+     *  \\?\UNC\sfrvfr\sibrf - b UNC pbti in long notbtion
+     *  \\.\somf\dfvidf - b pbti to dfvidf.
      */
-    private static boolean isUncOrDevicePath(byte[] p) {
-        if (isWindowsPlatform == null) {
-            PrivilegedAction<Boolean> a = new PrivilegedAction<Boolean>() {
-                public Boolean run() {
-                    String osname = System.getProperty("os.name");
-                    return (osname != null &&
-                            osname.toLowerCase().startsWith("win"));
+    privbtf stbtid boolfbn isUndOrDfvidfPbti(bytf[] p) {
+        if (isWindowsPlbtform == null) {
+            PrivilfgfdAdtion<Boolfbn> b = nfw PrivilfgfdAdtion<Boolfbn>() {
+                publid Boolfbn run() {
+                    String osnbmf = Systfm.gftPropfrty("os.nbmf");
+                    rfturn (osnbmf != null &&
+                            osnbmf.toLowfrCbsf().stbrtsWiti("win"));
                 }
             };
-            isWindowsPlatform = AccessController.doPrivileged(a);
+            isWindowsPlbtform = AddfssControllfr.doPrivilfgfd(b);
         }
 
-        if (!isWindowsPlatform) {
-            /* no need for the check on platforms except windows */
-            return false;
+        if (!isWindowsPlbtform) {
+            /* no nffd for tif difdk on plbtforms fxdfpt windows */
+            rfturn fblsf;
         }
 
-        /* normalize prefix of the path */
+        /* normblizf prffix of tif pbti */
         if (p[0] == '/') p[0] = '\\';
         if (p[1] == '/') p[1] = '\\';
         if (p[3] == '/') p[3] = '\\';
@@ -1843,16 +1843,16 @@ public class BMPImageReader extends ImageReader implements BMPConstants {
 
         if ((p[0] == '\\') && (p[1] == '\\')) {
             if ((p[2] == '?') && (p[3] == '\\')) {
-                // long path: whether unc or local
-                return ((p[4] == 'U' || p[4] == 'u') &&
+                // long pbti: wiftifr und or lodbl
+                rfturn ((p[4] == 'U' || p[4] == 'u') &&
                         (p[5] == 'N' || p[5] == 'n') &&
-                        (p[6] == 'C' || p[6] == 'c'));
-            } else {
-                // device path or short unc notation
-                return true;
+                        (p[6] == 'C' || p[6] == 'd'));
+            } flsf {
+                // dfvidf pbti or siort und notbtion
+                rfturn truf;
             }
-        } else {
-            return false;
+        } flsf {
+            rfturn fblsf;
         }
     }
 }

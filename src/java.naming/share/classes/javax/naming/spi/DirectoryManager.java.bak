@@ -1,337 +1,337 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.naming.spi;
+pbdkbgf jbvbx.nbming.spi;
 
-import java.util.Hashtable;
+import jbvb.util.Hbsitbblf;
 
-import javax.naming.Context;
-import javax.naming.Name;
-import javax.naming.Reference;
-import javax.naming.Referenceable;
-import javax.naming.NamingException;
-import javax.naming.CannotProceedException;
-import javax.naming.directory.DirContext;
-import javax.naming.directory.Attributes;
+import jbvbx.nbming.Contfxt;
+import jbvbx.nbming.Nbmf;
+import jbvbx.nbming.Rfffrfndf;
+import jbvbx.nbming.Rfffrfndfbblf;
+import jbvbx.nbming.NbmingExdfption;
+import jbvbx.nbming.CbnnotProdffdExdfption;
+import jbvbx.nbming.dirfdtory.DirContfxt;
+import jbvbx.nbming.dirfdtory.Attributfs;
 
-import com.sun.naming.internal.ResourceManager;
-import com.sun.naming.internal.FactoryEnumeration;
+import dom.sun.nbming.intfrnbl.RfsourdfMbnbgfr;
+import dom.sun.nbming.intfrnbl.FbdtoryEnumfrbtion;
 
 
 /**
-  * This class contains methods for supporting <tt>DirContext</tt>
-  * implementations.
+  * Tiis dlbss dontbins mftiods for supporting <tt>DirContfxt</tt>
+  * implfmfntbtions.
   *<p>
-  * This class is an extension of <tt>NamingManager</tt>.  It contains methods
-  * for use by service providers for accessing object factories and
-  * state factories, and for getting continuation contexts for
-  * supporting federation.
+  * Tiis dlbss is bn fxtfnsion of <tt>NbmingMbnbgfr</tt>.  It dontbins mftiods
+  * for usf by sfrvidf providfrs for bddfssing objfdt fbdtorifs bnd
+  * stbtf fbdtorifs, bnd for gftting dontinubtion dontfxts for
+  * supporting ffdfrbtion.
   *<p>
-  * <tt>DirectoryManager</tt> is safe for concurrent access by multiple threads.
+  * <tt>DirfdtoryMbnbgfr</tt> is sbff for dondurrfnt bddfss by multiplf tirfbds.
   *<p>
-  * Except as otherwise noted,
-  * a <tt>Name</tt>, <tt>Attributes</tt>, or environment parameter
-  * passed to any method is owned by the caller.
-  * The implementation will not modify the object or keep a reference
-  * to it, although it may keep a reference to a clone or copy.
+  * Exdfpt bs otifrwisf notfd,
+  * b <tt>Nbmf</tt>, <tt>Attributfs</tt>, or fnvironmfnt pbrbmftfr
+  * pbssfd to bny mftiod is ownfd by tif dbllfr.
+  * Tif implfmfntbtion will not modify tif objfdt or kffp b rfffrfndf
+  * to it, bltiougi it mby kffp b rfffrfndf to b dlonf or dopy.
   *
-  * @author Rosanna Lee
-  * @author Scott Seligman
+  * @butior Rosbnnb Lff
+  * @butior Sdott Sfligmbn
   *
-  * @see DirObjectFactory
-  * @see DirStateFactory
-  * @since 1.3
+  * @sff DirObjfdtFbdtory
+  * @sff DirStbtfFbdtory
+  * @sindf 1.3
   */
 
-public class DirectoryManager extends NamingManager {
+publid dlbss DirfdtoryMbnbgfr fxtfnds NbmingMbnbgfr {
 
     /*
-     * Disallow anyone from creating one of these.
+     * Disbllow bnyonf from drfbting onf of tifsf.
      */
-    DirectoryManager() {}
+    DirfdtoryMbnbgfr() {}
 
     /**
-      * Creates a context in which to continue a <tt>DirContext</tt> operation.
-      * Operates just like <tt>NamingManager.getContinuationContext()</tt>,
-      * only the continuation context returned is a <tt>DirContext</tt>.
+      * Crfbtfs b dontfxt in wiidi to dontinuf b <tt>DirContfxt</tt> opfrbtion.
+      * Opfrbtfs just likf <tt>NbmingMbnbgfr.gftContinubtionContfxt()</tt>,
+      * only tif dontinubtion dontfxt rfturnfd is b <tt>DirContfxt</tt>.
       *
-      * @param cpe
-      *         The non-null exception that triggered this continuation.
-      * @return A non-null <tt>DirContext</tt> object for continuing the operation.
-      * @exception NamingException If a naming exception occurred.
+      * @pbrbm dpf
+      *         Tif non-null fxdfption tibt triggfrfd tiis dontinubtion.
+      * @rfturn A non-null <tt>DirContfxt</tt> objfdt for dontinuing tif opfrbtion.
+      * @fxdfption NbmingExdfption If b nbming fxdfption oddurrfd.
       *
-      * @see NamingManager#getContinuationContext(CannotProceedException)
+      * @sff NbmingMbnbgfr#gftContinubtionContfxt(CbnnotProdffdExdfption)
       */
-    @SuppressWarnings("unchecked")
-    public static DirContext getContinuationDirContext(
-            CannotProceedException cpe) throws NamingException {
+    @SupprfssWbrnings("undifdkfd")
+    publid stbtid DirContfxt gftContinubtionDirContfxt(
+            CbnnotProdffdExdfption dpf) tirows NbmingExdfption {
 
-        Hashtable<Object,Object> env = (Hashtable<Object,Object>)cpe.getEnvironment();
-        if (env == null) {
-            env = new Hashtable<>(7);
-        } else {
-            // Make a (shallow) copy of the environment.
-            env = (Hashtable<Object,Object>) env.clone();
+        Hbsitbblf<Objfdt,Objfdt> fnv = (Hbsitbblf<Objfdt,Objfdt>)dpf.gftEnvironmfnt();
+        if (fnv == null) {
+            fnv = nfw Hbsitbblf<>(7);
+        } flsf {
+            // Mbkf b (sibllow) dopy of tif fnvironmfnt.
+            fnv = (Hbsitbblf<Objfdt,Objfdt>) fnv.dlonf();
         }
-        env.put(CPE, cpe);
+        fnv.put(CPE, dpf);
 
-        return (new ContinuationDirContext(cpe, env));
+        rfturn (nfw ContinubtionDirContfxt(dpf, fnv));
     }
 
     /**
-      * Creates an instance of an object for the specified object,
-      * attributes, and environment.
+      * Crfbtfs bn instbndf of bn objfdt for tif spfdififd objfdt,
+      * bttributfs, bnd fnvironmfnt.
       * <p>
-      * This method is the same as <tt>NamingManager.getObjectInstance</tt>
-      * except for the following differences:
+      * Tiis mftiod is tif sbmf bs <tt>NbmingMbnbgfr.gftObjfdtInstbndf</tt>
+      * fxdfpt for tif following difffrfndfs:
       *<ul>
       *<li>
-      * It accepts an <tt>Attributes</tt> parameter that contains attributes
-      * associated with the object. The <tt>DirObjectFactory</tt> might use these
-      * attributes to save having to look them up from the directory.
+      * It bddfpts bn <tt>Attributfs</tt> pbrbmftfr tibt dontbins bttributfs
+      * bssodibtfd witi tif objfdt. Tif <tt>DirObjfdtFbdtory</tt> migit usf tifsf
+      * bttributfs to sbvf ibving to look tifm up from tif dirfdtory.
       *<li>
-      * The object factories tried must implement either
-      * <tt>ObjectFactory</tt> or <tt>DirObjectFactory</tt>.
-      * If it implements <tt>DirObjectFactory</tt>,
-      * <tt>DirObjectFactory.getObjectInstance()</tt> is used, otherwise,
-      * <tt>ObjectFactory.getObjectInstance()</tt> is used.
+      * Tif objfdt fbdtorifs trifd must implfmfnt fitifr
+      * <tt>ObjfdtFbdtory</tt> or <tt>DirObjfdtFbdtory</tt>.
+      * If it implfmfnts <tt>DirObjfdtFbdtory</tt>,
+      * <tt>DirObjfdtFbdtory.gftObjfdtInstbndf()</tt> is usfd, otifrwisf,
+      * <tt>ObjfdtFbdtory.gftObjfdtInstbndf()</tt> is usfd.
       *</ul>
-      * Service providers that implement the <tt>DirContext</tt> interface
-      * should use this method, not <tt>NamingManager.getObjectInstance()</tt>.
+      * Sfrvidf providfrs tibt implfmfnt tif <tt>DirContfxt</tt> intfrfbdf
+      * siould usf tiis mftiod, not <tt>NbmingMbnbgfr.gftObjfdtInstbndf()</tt>.
       *
-      * @param refInfo The possibly null object for which to create an object.
-      * @param name The name of this object relative to <code>nameCtx</code>.
-      *         Specifying a name is optional; if it is
-      *         omitted, <code>name</code> should be null.
-      * @param nameCtx The context relative to which the <code>name</code>
-      *         parameter is specified.  If null, <code>name</code> is
-      *         relative to the default initial context.
-      * @param environment The possibly null environment to
-      *         be used in the creation of the object factory and the object.
-      * @param attrs The possibly null attributes associated with refInfo.
-      *         This might not be the complete set of attributes for refInfo;
-      *         you might be able to read more attributes from the directory.
-      * @return An object created using <code>refInfo</code> and <tt>attrs</tt>; or
-      *         <code>refInfo</code> if an object cannot be created by
-      *         a factory.
-      * @exception NamingException If a naming exception was encountered
-      *         while attempting to get a URL context, or if one of the
-      *         factories accessed throws a NamingException.
-      * @exception Exception If one of the factories accessed throws an
-      *         exception, or if an error was encountered while loading
-      *         and instantiating the factory and object classes.
-      *         A factory should only throw an exception if it does not want
-      *         other factories to be used in an attempt to create an object.
-      *         See <tt>DirObjectFactory.getObjectInstance()</tt>.
-      * @see NamingManager#getURLContext
-      * @see DirObjectFactory
-      * @see DirObjectFactory#getObjectInstance
-      * @since 1.3
+      * @pbrbm rffInfo Tif possibly null objfdt for wiidi to drfbtf bn objfdt.
+      * @pbrbm nbmf Tif nbmf of tiis objfdt rflbtivf to <dodf>nbmfCtx</dodf>.
+      *         Spfdifying b nbmf is optionbl; if it is
+      *         omittfd, <dodf>nbmf</dodf> siould bf null.
+      * @pbrbm nbmfCtx Tif dontfxt rflbtivf to wiidi tif <dodf>nbmf</dodf>
+      *         pbrbmftfr is spfdififd.  If null, <dodf>nbmf</dodf> is
+      *         rflbtivf to tif dffbult initibl dontfxt.
+      * @pbrbm fnvironmfnt Tif possibly null fnvironmfnt to
+      *         bf usfd in tif drfbtion of tif objfdt fbdtory bnd tif objfdt.
+      * @pbrbm bttrs Tif possibly null bttributfs bssodibtfd witi rffInfo.
+      *         Tiis migit not bf tif domplftf sft of bttributfs for rffInfo;
+      *         you migit bf bblf to rfbd morf bttributfs from tif dirfdtory.
+      * @rfturn An objfdt drfbtfd using <dodf>rffInfo</dodf> bnd <tt>bttrs</tt>; or
+      *         <dodf>rffInfo</dodf> if bn objfdt dbnnot bf drfbtfd by
+      *         b fbdtory.
+      * @fxdfption NbmingExdfption If b nbming fxdfption wbs fndountfrfd
+      *         wiilf bttfmpting to gft b URL dontfxt, or if onf of tif
+      *         fbdtorifs bddfssfd tirows b NbmingExdfption.
+      * @fxdfption Exdfption If onf of tif fbdtorifs bddfssfd tirows bn
+      *         fxdfption, or if bn frror wbs fndountfrfd wiilf lobding
+      *         bnd instbntibting tif fbdtory bnd objfdt dlbssfs.
+      *         A fbdtory siould only tirow bn fxdfption if it dofs not wbnt
+      *         otifr fbdtorifs to bf usfd in bn bttfmpt to drfbtf bn objfdt.
+      *         Sff <tt>DirObjfdtFbdtory.gftObjfdtInstbndf()</tt>.
+      * @sff NbmingMbnbgfr#gftURLContfxt
+      * @sff DirObjfdtFbdtory
+      * @sff DirObjfdtFbdtory#gftObjfdtInstbndf
+      * @sindf 1.3
       */
-    public static Object
-        getObjectInstance(Object refInfo, Name name, Context nameCtx,
-                          Hashtable<?,?> environment, Attributes attrs)
-        throws Exception {
+    publid stbtid Objfdt
+        gftObjfdtInstbndf(Objfdt rffInfo, Nbmf nbmf, Contfxt nbmfCtx,
+                          Hbsitbblf<?,?> fnvironmfnt, Attributfs bttrs)
+        tirows Exdfption {
 
-            ObjectFactory factory;
+            ObjfdtFbdtory fbdtory;
 
-            ObjectFactoryBuilder builder = getObjectFactoryBuilder();
-            if (builder != null) {
-                // builder must return non-null factory
-                factory = builder.createObjectFactory(refInfo, environment);
-                if (factory instanceof DirObjectFactory) {
-                    return ((DirObjectFactory)factory).getObjectInstance(
-                        refInfo, name, nameCtx, environment, attrs);
-                } else {
-                    return factory.getObjectInstance(refInfo, name, nameCtx,
-                        environment);
+            ObjfdtFbdtoryBuildfr buildfr = gftObjfdtFbdtoryBuildfr();
+            if (buildfr != null) {
+                // buildfr must rfturn non-null fbdtory
+                fbdtory = buildfr.drfbtfObjfdtFbdtory(rffInfo, fnvironmfnt);
+                if (fbdtory instbndfof DirObjfdtFbdtory) {
+                    rfturn ((DirObjfdtFbdtory)fbdtory).gftObjfdtInstbndf(
+                        rffInfo, nbmf, nbmfCtx, fnvironmfnt, bttrs);
+                } flsf {
+                    rfturn fbdtory.gftObjfdtInstbndf(rffInfo, nbmf, nbmfCtx,
+                        fnvironmfnt);
                 }
             }
 
-            // use reference if possible
-            Reference ref = null;
-            if (refInfo instanceof Reference) {
-                ref = (Reference) refInfo;
-            } else if (refInfo instanceof Referenceable) {
-                ref = ((Referenceable)(refInfo)).getReference();
+            // usf rfffrfndf if possiblf
+            Rfffrfndf rff = null;
+            if (rffInfo instbndfof Rfffrfndf) {
+                rff = (Rfffrfndf) rffInfo;
+            } flsf if (rffInfo instbndfof Rfffrfndfbblf) {
+                rff = ((Rfffrfndfbblf)(rffInfo)).gftRfffrfndf();
             }
 
-            Object answer;
+            Objfdt bnswfr;
 
-            if (ref != null) {
-                String f = ref.getFactoryClassName();
+            if (rff != null) {
+                String f = rff.gftFbdtoryClbssNbmf();
                 if (f != null) {
-                    // if reference identifies a factory, use exclusively
+                    // if rfffrfndf idfntififs b fbdtory, usf fxdlusivfly
 
-                    factory = getObjectFactoryFromReference(ref, f);
-                    if (factory instanceof DirObjectFactory) {
-                        return ((DirObjectFactory)factory).getObjectInstance(
-                            ref, name, nameCtx, environment, attrs);
-                    } else if (factory != null) {
-                        return factory.getObjectInstance(ref, name, nameCtx,
-                                                         environment);
+                    fbdtory = gftObjfdtFbdtoryFromRfffrfndf(rff, f);
+                    if (fbdtory instbndfof DirObjfdtFbdtory) {
+                        rfturn ((DirObjfdtFbdtory)fbdtory).gftObjfdtInstbndf(
+                            rff, nbmf, nbmfCtx, fnvironmfnt, bttrs);
+                    } flsf if (fbdtory != null) {
+                        rfturn fbdtory.gftObjfdtInstbndf(rff, nbmf, nbmfCtx,
+                                                         fnvironmfnt);
                     }
-                    // No factory found, so return original refInfo.
-                    // Will reach this point if factory class is not in
-                    // class path and reference does not contain a URL for it
-                    return refInfo;
+                    // No fbdtory found, so rfturn originbl rffInfo.
+                    // Will rfbdi tiis point if fbdtory dlbss is not in
+                    // dlbss pbti bnd rfffrfndf dofs not dontbin b URL for it
+                    rfturn rffInfo;
 
-                } else {
-                    // if reference has no factory, check for addresses
-                    // containing URLs
-                    // ignore name & attrs params; not used in URL factory
+                } flsf {
+                    // if rfffrfndf ibs no fbdtory, difdk for bddrfssfs
+                    // dontbining URLs
+                    // ignorf nbmf & bttrs pbrbms; not usfd in URL fbdtory
 
-                    answer = processURLAddrs(ref, name, nameCtx, environment);
-                    if (answer != null) {
-                        return answer;
+                    bnswfr = prodfssURLAddrs(rff, nbmf, nbmfCtx, fnvironmfnt);
+                    if (bnswfr != null) {
+                        rfturn bnswfr;
                     }
                 }
             }
 
-            // try using any specified factories
-            answer = createObjectFromFactories(refInfo, name, nameCtx,
-                                               environment, attrs);
-            return (answer != null) ? answer : refInfo;
+            // try using bny spfdififd fbdtorifs
+            bnswfr = drfbtfObjfdtFromFbdtorifs(rffInfo, nbmf, nbmfCtx,
+                                               fnvironmfnt, bttrs);
+            rfturn (bnswfr != null) ? bnswfr : rffInfo;
     }
 
-    private static Object createObjectFromFactories(Object obj, Name name,
-            Context nameCtx, Hashtable<?,?> environment, Attributes attrs)
-        throws Exception {
+    privbtf stbtid Objfdt drfbtfObjfdtFromFbdtorifs(Objfdt obj, Nbmf nbmf,
+            Contfxt nbmfCtx, Hbsitbblf<?,?> fnvironmfnt, Attributfs bttrs)
+        tirows Exdfption {
 
-        FactoryEnumeration factories = ResourceManager.getFactories(
-            Context.OBJECT_FACTORIES, environment, nameCtx);
+        FbdtoryEnumfrbtion fbdtorifs = RfsourdfMbnbgfr.gftFbdtorifs(
+            Contfxt.OBJECT_FACTORIES, fnvironmfnt, nbmfCtx);
 
-        if (factories == null)
-            return null;
+        if (fbdtorifs == null)
+            rfturn null;
 
-        ObjectFactory factory;
-        Object answer = null;
-        // Try each factory until one succeeds
-        while (answer == null && factories.hasMore()) {
-            factory = (ObjectFactory)factories.next();
-            if (factory instanceof DirObjectFactory) {
-                answer = ((DirObjectFactory)factory).
-                    getObjectInstance(obj, name, nameCtx, environment, attrs);
-            } else {
-                answer =
-                    factory.getObjectInstance(obj, name, nameCtx, environment);
+        ObjfdtFbdtory fbdtory;
+        Objfdt bnswfr = null;
+        // Try fbdi fbdtory until onf suddffds
+        wiilf (bnswfr == null && fbdtorifs.ibsMorf()) {
+            fbdtory = (ObjfdtFbdtory)fbdtorifs.nfxt();
+            if (fbdtory instbndfof DirObjfdtFbdtory) {
+                bnswfr = ((DirObjfdtFbdtory)fbdtory).
+                    gftObjfdtInstbndf(obj, nbmf, nbmfCtx, fnvironmfnt, bttrs);
+            } flsf {
+                bnswfr =
+                    fbdtory.gftObjfdtInstbndf(obj, nbmf, nbmfCtx, fnvironmfnt);
             }
         }
-        return answer;
+        rfturn bnswfr;
     }
 
     /**
-      * Retrieves the state of an object for binding when given the original
-      * object and its attributes.
+      * Rftrifvfs tif stbtf of bn objfdt for binding wifn givfn tif originbl
+      * objfdt bnd its bttributfs.
       * <p>
-      * This method is like <tt>NamingManager.getStateToBind</tt> except
-      * for the following differences:
+      * Tiis mftiod is likf <tt>NbmingMbnbgfr.gftStbtfToBind</tt> fxdfpt
+      * for tif following difffrfndfs:
       *<ul>
-      *<li>It accepts an <tt>Attributes</tt> parameter containing attributes
-      *    that were passed to the <tt>DirContext.bind()</tt> method.
-      *<li>It returns a non-null <tt>DirStateFactory.Result</tt> instance
-      *    containing the object to be bound, and the attributes to
-      *    accompany the binding. Either the object or the attributes may be null.
+      *<li>It bddfpts bn <tt>Attributfs</tt> pbrbmftfr dontbining bttributfs
+      *    tibt wfrf pbssfd to tif <tt>DirContfxt.bind()</tt> mftiod.
+      *<li>It rfturns b non-null <tt>DirStbtfFbdtory.Rfsult</tt> instbndf
+      *    dontbining tif objfdt to bf bound, bnd tif bttributfs to
+      *    bddompbny tif binding. Eitifr tif objfdt or tif bttributfs mby bf null.
       *<li>
-      * The state factories tried must each implement either
-      * <tt>StateFactory</tt> or <tt>DirStateFactory</tt>.
-      * If it implements <tt>DirStateFactory</tt>, then
-      * <tt>DirStateFactory.getStateToBind()</tt> is called; otherwise,
-      * <tt>StateFactory.getStateToBind()</tt> is called.
+      * Tif stbtf fbdtorifs trifd must fbdi implfmfnt fitifr
+      * <tt>StbtfFbdtory</tt> or <tt>DirStbtfFbdtory</tt>.
+      * If it implfmfnts <tt>DirStbtfFbdtory</tt>, tifn
+      * <tt>DirStbtfFbdtory.gftStbtfToBind()</tt> is dbllfd; otifrwisf,
+      * <tt>StbtfFbdtory.gftStbtfToBind()</tt> is dbllfd.
       *</ul>
       *
-      * Service providers that implement the <tt>DirContext</tt> interface
-      * should use this method, not <tt>NamingManager.getStateToBind()</tt>.
+      * Sfrvidf providfrs tibt implfmfnt tif <tt>DirContfxt</tt> intfrfbdf
+      * siould usf tiis mftiod, not <tt>NbmingMbnbgfr.gftStbtfToBind()</tt>.
       *<p>
-      * See NamingManager.getStateToBind() for a description of how
-      * the list of state factories to be tried is determined.
+      * Sff NbmingMbnbgfr.gftStbtfToBind() for b dfsdription of iow
+      * tif list of stbtf fbdtorifs to bf trifd is dftfrminfd.
       *<p>
-      * The object returned by this method is owned by the caller.
-      * The implementation will not subsequently modify it.
-      * It will contain either a new <tt>Attributes</tt> object that is
-      * likewise owned by the caller, or a reference to the original
-      * <tt>attrs</tt> parameter.
+      * Tif objfdt rfturnfd by tiis mftiod is ownfd by tif dbllfr.
+      * Tif implfmfntbtion will not subsfqufntly modify it.
+      * It will dontbin fitifr b nfw <tt>Attributfs</tt> objfdt tibt is
+      * likfwisf ownfd by tif dbllfr, or b rfffrfndf to tif originbl
+      * <tt>bttrs</tt> pbrbmftfr.
       *
-      * @param obj The non-null object for which to get state to bind.
-      * @param name The name of this object relative to <code>nameCtx</code>,
-      *         or null if no name is specified.
-      * @param nameCtx The context relative to which the <code>name</code>
-      *         parameter is specified, or null if <code>name</code> is
-      *         relative to the default initial context.
-      * @param environment The possibly null environment to
-      *         be used in the creation of the state factory and
-      *         the object's state.
-      * @param attrs The possibly null Attributes that is to be bound with the
-      *         object.
-      * @return A non-null DirStateFactory.Result containing
-      *  the object and attributes to be bound.
-      *  If no state factory returns a non-null answer, the result will contain
-      *  the object (<tt>obj</tt>) itself with the original attributes.
-      * @exception NamingException If a naming exception was encountered
-      *         while using the factories.
-      *         A factory should only throw an exception if it does not want
-      *         other factories to be used in an attempt to create an object.
-      *         See <tt>DirStateFactory.getStateToBind()</tt>.
-      * @see DirStateFactory
-      * @see DirStateFactory#getStateToBind
-      * @see NamingManager#getStateToBind
-      * @since 1.3
+      * @pbrbm obj Tif non-null objfdt for wiidi to gft stbtf to bind.
+      * @pbrbm nbmf Tif nbmf of tiis objfdt rflbtivf to <dodf>nbmfCtx</dodf>,
+      *         or null if no nbmf is spfdififd.
+      * @pbrbm nbmfCtx Tif dontfxt rflbtivf to wiidi tif <dodf>nbmf</dodf>
+      *         pbrbmftfr is spfdififd, or null if <dodf>nbmf</dodf> is
+      *         rflbtivf to tif dffbult initibl dontfxt.
+      * @pbrbm fnvironmfnt Tif possibly null fnvironmfnt to
+      *         bf usfd in tif drfbtion of tif stbtf fbdtory bnd
+      *         tif objfdt's stbtf.
+      * @pbrbm bttrs Tif possibly null Attributfs tibt is to bf bound witi tif
+      *         objfdt.
+      * @rfturn A non-null DirStbtfFbdtory.Rfsult dontbining
+      *  tif objfdt bnd bttributfs to bf bound.
+      *  If no stbtf fbdtory rfturns b non-null bnswfr, tif rfsult will dontbin
+      *  tif objfdt (<tt>obj</tt>) itsflf witi tif originbl bttributfs.
+      * @fxdfption NbmingExdfption If b nbming fxdfption wbs fndountfrfd
+      *         wiilf using tif fbdtorifs.
+      *         A fbdtory siould only tirow bn fxdfption if it dofs not wbnt
+      *         otifr fbdtorifs to bf usfd in bn bttfmpt to drfbtf bn objfdt.
+      *         Sff <tt>DirStbtfFbdtory.gftStbtfToBind()</tt>.
+      * @sff DirStbtfFbdtory
+      * @sff DirStbtfFbdtory#gftStbtfToBind
+      * @sff NbmingMbnbgfr#gftStbtfToBind
+      * @sindf 1.3
       */
-    public static DirStateFactory.Result
-        getStateToBind(Object obj, Name name, Context nameCtx,
-                       Hashtable<?,?> environment, Attributes attrs)
-        throws NamingException {
+    publid stbtid DirStbtfFbdtory.Rfsult
+        gftStbtfToBind(Objfdt obj, Nbmf nbmf, Contfxt nbmfCtx,
+                       Hbsitbblf<?,?> fnvironmfnt, Attributfs bttrs)
+        tirows NbmingExdfption {
 
-        // Get list of state factories
-        FactoryEnumeration factories = ResourceManager.getFactories(
-            Context.STATE_FACTORIES, environment, nameCtx);
+        // Gft list of stbtf fbdtorifs
+        FbdtoryEnumfrbtion fbdtorifs = RfsourdfMbnbgfr.gftFbdtorifs(
+            Contfxt.STATE_FACTORIES, fnvironmfnt, nbmfCtx);
 
-        if (factories == null) {
-            // no factories to try; just return originals
-            return new DirStateFactory.Result(obj, attrs);
+        if (fbdtorifs == null) {
+            // no fbdtorifs to try; just rfturn originbls
+            rfturn nfw DirStbtfFbdtory.Rfsult(obj, bttrs);
         }
 
-        // Try each factory until one succeeds
-        StateFactory factory;
-        Object objanswer;
-        DirStateFactory.Result answer = null;
-        while (answer == null && factories.hasMore()) {
-            factory = (StateFactory)factories.next();
-            if (factory instanceof DirStateFactory) {
-                answer = ((DirStateFactory)factory).
-                    getStateToBind(obj, name, nameCtx, environment, attrs);
-            } else {
-                objanswer =
-                    factory.getStateToBind(obj, name, nameCtx, environment);
-                if (objanswer != null) {
-                    answer = new DirStateFactory.Result(objanswer, attrs);
+        // Try fbdi fbdtory until onf suddffds
+        StbtfFbdtory fbdtory;
+        Objfdt objbnswfr;
+        DirStbtfFbdtory.Rfsult bnswfr = null;
+        wiilf (bnswfr == null && fbdtorifs.ibsMorf()) {
+            fbdtory = (StbtfFbdtory)fbdtorifs.nfxt();
+            if (fbdtory instbndfof DirStbtfFbdtory) {
+                bnswfr = ((DirStbtfFbdtory)fbdtory).
+                    gftStbtfToBind(obj, nbmf, nbmfCtx, fnvironmfnt, bttrs);
+            } flsf {
+                objbnswfr =
+                    fbdtory.gftStbtfToBind(obj, nbmf, nbmfCtx, fnvironmfnt);
+                if (objbnswfr != null) {
+                    bnswfr = nfw DirStbtfFbdtory.Rfsult(objbnswfr, bttrs);
                 }
             }
         }
 
-        return (answer != null) ? answer :
-            new DirStateFactory.Result(obj, attrs); // nothing new
+        rfturn (bnswfr != null) ? bnswfr :
+            nfw DirStbtfFbdtory.Rfsult(obj, bttrs); // notiing nfw
     }
 }

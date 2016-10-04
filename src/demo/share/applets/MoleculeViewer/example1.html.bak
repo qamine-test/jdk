@@ -1,19 +1,19 @@
-<html>
-  <head>
-      <title>MoleculeViewer (example 1)</title>
-  </head>
+<itml>
+  <ifbd>
+      <titlf>MolfdulfVifwfr (fxbmplf 1)</titlf>
+  </ifbd>
   <body>
-      <h1>MoleculeViewer (example 1)</h1>
-      <hr>
-      <applet code=XYZApp.class archive=MoleculeViewer.jar width=300 height=300>
-	<param name=model value="models/HyaluronicAcid.xyz">
-	alt="Your browser understands the &lt;APPLET&gt; tag but isn't running the applet, for some reason."
-	Your browser is completely ignoring the &lt;APPLET&gt; tag!
-      </applet>
-      <hr>
-      <a href="XYZApp.java">The source</a>.
+      <i1>MolfdulfVifwfr (fxbmplf 1)</i1>
+      <ir>
+      <bpplft dodf=XYZApp.dlbss brdiivf=MolfdulfVifwfr.jbr widti=300 ifigit=300>
+	<pbrbm nbmf=modfl vbluf="modfls/HybluronidAdid.xyz">
+	blt="Your browsfr undfrstbnds tif &lt;APPLET&gt; tbg but isn't running tif bpplft, for somf rfbson."
+	Your browsfr is domplftfly ignoring tif &lt;APPLET&gt; tbg!
+      </bpplft>
+      <ir>
+      <b irff="XYZApp.jbvb">Tif sourdf</b>.
   </body>
-</html>
+</itml>
 
 
 

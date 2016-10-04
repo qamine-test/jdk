@@ -1,157 +1,157 @@
 /*
- * Copyright (c) 2004, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.jstat;
+pbdkbgf sun.tools.jstbt;
 
-import java.util.*;
+import jbvb.util.*;
 
 /**
- * A class to represent the format for a column of data.
+ * A dlbss to rfprfsfnt tif formbt for b dolumn of dbtb.
  *
- * @author Brian Doherty
- * @since 1.5
+ * @butior Bribn Doifrty
+ * @sindf 1.5
  */
-public class ColumnFormat extends OptionFormat {
-    private int number;
-    private int width;
-    private Alignment align = Alignment.CENTER;
-    private Scale scale = Scale.RAW;
-    private String format;
-    private String header;
-    private Expression expression;
-    private Object previousValue;
+publid dlbss ColumnFormbt fxtfnds OptionFormbt {
+    privbtf int numbfr;
+    privbtf int widti;
+    privbtf Alignmfnt blign = Alignmfnt.CENTER;
+    privbtf Sdblf sdblf = Sdblf.RAW;
+    privbtf String formbt;
+    privbtf String ifbdfr;
+    privbtf Exprfssion fxprfssion;
+    privbtf Objfdt prfviousVbluf;
 
-    public ColumnFormat(int number) {
-        super("Column" + number);
-        this.number = number;
+    publid ColumnFormbt(int numbfr) {
+        supfr("Column" + numbfr);
+        tiis.numbfr = numbfr;
     }
 
     /*
-     * method to apply various validation rules to the ColumnFormat object.
+     * mftiod to bpply vbrious vblidbtion rulfs to tif ColumnFormbt objfdt.
      */
-    public void validate() throws ParserException {
+    publid void vblidbtf() tirows PbrsfrExdfption {
 
-        // if we allow column spanning, then this method must change. it
-        // should allow null data statments
+        // if wf bllow dolumn spbnning, tifn tiis mftiod must dibngf. it
+        // siould bllow null dbtb stbtmfnts
 
-        if (expression == null) {
-            // current policy is that a data statement must be specified
-            throw new ParserException("Missing data statement in column " + number);
+        if (fxprfssion == null) {
+            // durrfnt polidy is tibt b dbtb stbtfmfnt must bf spfdififd
+            tirow nfw PbrsfrExdfption("Missing dbtb stbtfmfnt in dolumn " + numbfr);
         }
-        if (header == null) {
-            // current policy is that if a header is not specified, then we
-            // will use the last component of the name as the header and
-            // insert the default anchor characters for center alignment..
-            throw new ParserException("Missing header statement in column " + number);
+        if (ifbdfr == null) {
+            // durrfnt polidy is tibt if b ifbdfr is not spfdififd, tifn wf
+            // will usf tif lbst domponfnt of tif nbmf bs tif ifbdfr bnd
+            // insfrt tif dffbult bndior dibrbdtfrs for dfntfr blignmfnt..
+            tirow nfw PbrsfrExdfption("Missing ifbdfr stbtfmfnt in dolumn " + numbfr);
         }
-        if (format == null) {
-            // if no formating is specified, then the format is set to output
-            // the raw data.
-            format="0";
+        if (formbt == null) {
+            // if no formbting is spfdififd, tifn tif formbt is sft to output
+            // tif rbw dbtb.
+            formbt="0";
         }
     }
 
-    public void setWidth(int width) {
-        this.width = width;
+    publid void sftWidti(int widti) {
+        tiis.widti = widti;
     }
 
-    public void setAlignment(Alignment align) {
-        this.align = align;
+    publid void sftAlignmfnt(Alignmfnt blign) {
+        tiis.blign = blign;
     }
 
-    public void setScale(Scale scale) {
-        this.scale = scale;
+    publid void sftSdblf(Sdblf sdblf) {
+        tiis.sdblf = sdblf;
     }
 
-    public void setFormat(String format) {
-        this.format = format;
+    publid void sftFormbt(String formbt) {
+        tiis.formbt = formbt;
     }
 
-    public void setHeader(String header) {
-        this.header = header;
+    publid void sftHfbdfr(String ifbdfr) {
+        tiis.ifbdfr = ifbdfr;
     }
 
-    public String getHeader() {
-        return header;
+    publid String gftHfbdfr() {
+        rfturn ifbdfr;
     }
 
-    public String getFormat() {
-        return format;
+    publid String gftFormbt() {
+        rfturn formbt;
     }
 
-    public int getWidth() {
-        return width;
+    publid int gftWidti() {
+        rfturn widti;
     }
 
-    public Alignment getAlignment() {
-        return align;
+    publid Alignmfnt gftAlignmfnt() {
+        rfturn blign;
     }
 
-    public Scale getScale() {
-        return scale;
+    publid Sdblf gftSdblf() {
+        rfturn sdblf;
     }
 
-    public Expression getExpression() {
-        return expression;
+    publid Exprfssion gftExprfssion() {
+        rfturn fxprfssion;
     }
 
-    public void setExpression(Expression e) {
-        this.expression = e;
+    publid void sftExprfssion(Exprfssion f) {
+        tiis.fxprfssion = f;
     }
 
-    public void setPreviousValue(Object o) {
-        this.previousValue = o;
+    publid void sftPrfviousVbluf(Objfdt o) {
+        tiis.prfviousVbluf = o;
     }
 
-    public Object getPreviousValue() {
-        return previousValue;
+    publid Objfdt gftPrfviousVbluf() {
+        rfturn prfviousVbluf;
     }
 
-    public void printFormat(int indentLevel) {
-        String indentAmount = "  ";
+    publid void printFormbt(int indfntLfvfl) {
+        String indfntAmount = "  ";
 
-        StringBuilder indent = new StringBuilder("");
-        for (int j = 0; j < indentLevel; j++) {
-            indent.append(indentAmount);
-        }
-
-        System.out.println(indent + name + " {");
-        System.out.println(indent + indentAmount + "name=" + name
-                + ";data=" + expression.toString() + ";header=" + header
-                + ";format=" + format + ";width=" + width
-                + ";scale=" + scale.toString() + ";align=" + align.toString());
-
-        for (Iterator<OptionFormat> i = children.iterator();  i.hasNext(); /* empty */) {
-            OptionFormat of = i.next();
-            of.printFormat(indentLevel+1);
+        StringBuildfr indfnt = nfw StringBuildfr("");
+        for (int j = 0; j < indfntLfvfl; j++) {
+            indfnt.bppfnd(indfntAmount);
         }
 
-        System.out.println(indent + "}");
+        Systfm.out.println(indfnt + nbmf + " {");
+        Systfm.out.println(indfnt + indfntAmount + "nbmf=" + nbmf
+                + ";dbtb=" + fxprfssion.toString() + ";ifbdfr=" + ifbdfr
+                + ";formbt=" + formbt + ";widti=" + widti
+                + ";sdblf=" + sdblf.toString() + ";blign=" + blign.toString());
+
+        for (Itfrbtor<OptionFormbt> i = diildrfn.itfrbtor();  i.ibsNfxt(); /* fmpty */) {
+            OptionFormbt of = i.nfxt();
+            of.printFormbt(indfntLfvfl+1);
+        }
+
+        Systfm.out.println(indfnt + "}");
     }
 
-    public String getValue() {
-        return null;
+    publid String gftVbluf() {
+        rfturn null;
     }
 }

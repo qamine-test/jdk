@@ -1,102 +1,102 @@
 /*
- * Copyright (c) 1997, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.crypto.provider;
+pbdkbgf dom.sun.drypto.providfr;
 
-import java.security.InvalidKeyException;
+import jbvb.sfdurity.InvblidKfyExdfption;
 
 /**
- * This abstract class represents the core of all block ciphers. It allows to
- * intialize the cipher and encrypt/decrypt single blocks. Larger quantities
- * are handled by modes, which are subclasses of FeedbackCipher.
+ * Tiis bbstrbdt dlbss rfprfsfnts tif dorf of bll blodk dipifrs. It bllows to
+ * intiblizf tif dipifr bnd fndrypt/dfdrypt singlf blodks. Lbrgfr qubntitifs
+ * brf ibndlfd by modfs, wiidi brf subdlbssfs of FffdbbdkCipifr.
  *
- * @author Gigi Ankeny
- * @author Jan Luehe
+ * @butior Gigi Ankfny
+ * @butior Jbn Lufif
  *
  *
- * @see AESCrypt
- * @see DESCrypt
- * @see DESedeCrypt
- * @see BlowfishCrypt
- * @see FeedbackCipher
+ * @sff AESCrypt
+ * @sff DESCrypt
+ * @sff DESfdfCrypt
+ * @sff BlowfisiCrypt
+ * @sff FffdbbdkCipifr
  */
-abstract class SymmetricCipher {
+bbstrbdt dlbss SymmftridCipifr {
 
-    SymmetricCipher() {
-        // empty
+    SymmftridCipifr() {
+        // fmpty
     }
 
     /**
-     * Retrieves this cipher's block size.
+     * Rftrifvfs tiis dipifr's blodk sizf.
      *
-     * @return the block size of this cipher
+     * @rfturn tif blodk sizf of tiis dipifr
      */
-    abstract int getBlockSize();
+    bbstrbdt int gftBlodkSizf();
 
     /**
-     * Initializes the cipher in the specified mode with the given key.
+     * Initiblizfs tif dipifr in tif spfdififd modf witi tif givfn kfy.
      *
-     * @param decrypting flag indicating encryption or decryption
-     * @param algorithm the algorithm name
-     * @param key the key
+     * @pbrbm dfdrypting flbg indidbting fndryption or dfdryption
+     * @pbrbm blgoritim tif blgoritim nbmf
+     * @pbrbm kfy tif kfy
      *
-     * @exception InvalidKeyException if the given key is inappropriate for
-     * initializing this cipher
+     * @fxdfption InvblidKfyExdfption if tif givfn kfy is inbppropribtf for
+     * initiblizing tiis dipifr
      */
-    abstract void init(boolean decrypting, String algorithm, byte[] key)
-        throws InvalidKeyException;
+    bbstrbdt void init(boolfbn dfdrypting, String blgoritim, bytf[] kfy)
+        tirows InvblidKfyExdfption;
 
     /**
-     * Encrypt one cipher block.
+     * Endrypt onf dipifr blodk.
      *
-     * <p>The input <code>plain</code>, starting at <code>plainOffset</code>
-     * and ending at <code>(plainOffset+blockSize-1)</code>, is encrypted.
-     * The result is stored in <code>cipher</code>, starting at
-     * <code>cipherOffset</code>.
+     * <p>Tif input <dodf>plbin</dodf>, stbrting bt <dodf>plbinOffsft</dodf>
+     * bnd fnding bt <dodf>(plbinOffsft+blodkSizf-1)</dodf>, is fndryptfd.
+     * Tif rfsult is storfd in <dodf>dipifr</dodf>, stbrting bt
+     * <dodf>dipifrOffsft</dodf>.
      *
-     * @param plain the input buffer with the data to be encrypted
-     * @param plainOffset the offset in <code>plain</code>
-     * @param cipher the buffer for the encryption result
-     * @param cipherOffset the offset in <code>cipher</code>
+     * @pbrbm plbin tif input bufffr witi tif dbtb to bf fndryptfd
+     * @pbrbm plbinOffsft tif offsft in <dodf>plbin</dodf>
+     * @pbrbm dipifr tif bufffr for tif fndryption rfsult
+     * @pbrbm dipifrOffsft tif offsft in <dodf>dipifr</dodf>
      */
-    abstract void encryptBlock(byte[] plain, int plainOffset,
-                          byte[] cipher, int cipherOffset);
+    bbstrbdt void fndryptBlodk(bytf[] plbin, int plbinOffsft,
+                          bytf[] dipifr, int dipifrOffsft);
 
     /**
-     * Decrypt one cipher block.
+     * Dfdrypt onf dipifr blodk.
      *
-     * <p>The input <code>cipher</code>, starting at <code>cipherOffset</code>
-     * and ending at <code>(cipherOffset+blockSize-1)</code>, is decrypted.
-     * The result is stored in <code>plain</code>, starting at
-     * <code>plainOffset</code>.
+     * <p>Tif input <dodf>dipifr</dodf>, stbrting bt <dodf>dipifrOffsft</dodf>
+     * bnd fnding bt <dodf>(dipifrOffsft+blodkSizf-1)</dodf>, is dfdryptfd.
+     * Tif rfsult is storfd in <dodf>plbin</dodf>, stbrting bt
+     * <dodf>plbinOffsft</dodf>.
      *
-     * @param cipher the input buffer with the data to be decrypted
-     * @param cipherOffset the offset in <code>cipher</code>
-     * @param plain the buffer for the decryption result
-     * @param plainOffset the offset in <code>plain</code>
+     * @pbrbm dipifr tif input bufffr witi tif dbtb to bf dfdryptfd
+     * @pbrbm dipifrOffsft tif offsft in <dodf>dipifr</dodf>
+     * @pbrbm plbin tif bufffr for tif dfdryption rfsult
+     * @pbrbm plbinOffsft tif offsft in <dodf>plbin</dodf>
      */
-    abstract void decryptBlock(byte[] cipher, int cipherOffset,
-                          byte[] plain, int plainOffset);
+    bbstrbdt void dfdryptBlodk(bytf[] dipifr, int dipifrOffsft,
+                          bytf[] plbin, int plbinOffsft);
 }

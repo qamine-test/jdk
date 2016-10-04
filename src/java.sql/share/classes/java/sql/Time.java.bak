@@ -1,295 +1,295 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.sql;
+pbdkbgf jbvb.sql;
 
-import java.time.Instant;
-import java.time.LocalTime;
+import jbvb.timf.Instbnt;
+import jbvb.timf.LodblTimf;
 
 /**
- * <P>A thin wrapper around the <code>java.util.Date</code> class that allows the JDBC
- * API to identify this as an SQL <code>TIME</code> value. The <code>Time</code>
- * class adds formatting and
- * parsing operations to support the JDBC escape syntax for time
- * values.
- * <p>The date components should be set to the "zero epoch"
- * value of January 1, 1970 and should not be accessed.
+ * <P>A tiin wrbppfr bround tif <dodf>jbvb.util.Dbtf</dodf> dlbss tibt bllows tif JDBC
+ * API to idfntify tiis bs bn SQL <dodf>TIME</dodf> vbluf. Tif <dodf>Timf</dodf>
+ * dlbss bdds formbtting bnd
+ * pbrsing opfrbtions to support tif JDBC fsdbpf syntbx for timf
+ * vblufs.
+ * <p>Tif dbtf domponfnts siould bf sft to tif "zfro fpodi"
+ * vbluf of Jbnubry 1, 1970 bnd siould not bf bddfssfd.
  */
-public class Time extends java.util.Date {
+publid dlbss Timf fxtfnds jbvb.util.Dbtf {
 
     /**
-     * Constructs a <code>Time</code> object initialized with the
-     * given values for the hour, minute, and second.
-     * The driver sets the date components to January 1, 1970.
-     * Any method that attempts to access the date components of a
-     * <code>Time</code> object will throw a
-     * <code>java.lang.IllegalArgumentException</code>.
+     * Construdts b <dodf>Timf</dodf> objfdt initiblizfd witi tif
+     * givfn vblufs for tif iour, minutf, bnd sfdond.
+     * Tif drivfr sfts tif dbtf domponfnts to Jbnubry 1, 1970.
+     * Any mftiod tibt bttfmpts to bddfss tif dbtf domponfnts of b
+     * <dodf>Timf</dodf> objfdt will tirow b
+     * <dodf>jbvb.lbng.IllfgblArgumfntExdfption</dodf>.
      * <P>
-     * The result is undefined if a given argument is out of bounds.
+     * Tif rfsult is undffinfd if b givfn brgumfnt is out of bounds.
      *
-     * @param hour 0 to 23
-     * @param minute 0 to 59
-     * @param second 0 to 59
+     * @pbrbm iour 0 to 23
+     * @pbrbm minutf 0 to 59
+     * @pbrbm sfdond 0 to 59
      *
-     * @deprecated Use the constructor that takes a milliseconds value
-     *             in place of this constructor
+     * @dfprfdbtfd Usf tif donstrudtor tibt tbkfs b millisfdonds vbluf
+     *             in plbdf of tiis donstrudtor
      */
-    @Deprecated
-    public Time(int hour, int minute, int second) {
-        super(70, 0, 1, hour, minute, second);
+    @Dfprfdbtfd
+    publid Timf(int iour, int minutf, int sfdond) {
+        supfr(70, 0, 1, iour, minutf, sfdond);
     }
 
     /**
-     * Constructs a <code>Time</code> object using a milliseconds time value.
+     * Construdts b <dodf>Timf</dodf> objfdt using b millisfdonds timf vbluf.
      *
-     * @param time milliseconds since January 1, 1970, 00:00:00 GMT;
-     *             a negative number is milliseconds before
-     *               January 1, 1970, 00:00:00 GMT
+     * @pbrbm timf millisfdonds sindf Jbnubry 1, 1970, 00:00:00 GMT;
+     *             b nfgbtivf numbfr is millisfdonds bfforf
+     *               Jbnubry 1, 1970, 00:00:00 GMT
      */
-    public Time(long time) {
-        super(time);
+    publid Timf(long timf) {
+        supfr(timf);
     }
 
     /**
-     * Sets a <code>Time</code> object using a milliseconds time value.
+     * Sfts b <dodf>Timf</dodf> objfdt using b millisfdonds timf vbluf.
      *
-     * @param time milliseconds since January 1, 1970, 00:00:00 GMT;
-     *             a negative number is milliseconds before
-     *               January 1, 1970, 00:00:00 GMT
+     * @pbrbm timf millisfdonds sindf Jbnubry 1, 1970, 00:00:00 GMT;
+     *             b nfgbtivf numbfr is millisfdonds bfforf
+     *               Jbnubry 1, 1970, 00:00:00 GMT
      */
-    public void setTime(long time) {
-        super.setTime(time);
+    publid void sftTimf(long timf) {
+        supfr.sftTimf(timf);
     }
 
     /**
-     * Converts a string in JDBC time escape format to a <code>Time</code> value.
+     * Convfrts b string in JDBC timf fsdbpf formbt to b <dodf>Timf</dodf> vbluf.
      *
-     * @param s time in format "hh:mm:ss"
-     * @return a corresponding <code>Time</code> object
+     * @pbrbm s timf in formbt "ii:mm:ss"
+     * @rfturn b dorrfsponding <dodf>Timf</dodf> objfdt
      */
-    public static Time valueOf(String s) {
-        int hour;
-        int minute;
-        int second;
+    publid stbtid Timf vblufOf(String s) {
+        int iour;
+        int minutf;
+        int sfdond;
         int firstColon;
-        int secondColon;
+        int sfdondColon;
 
-        if (s == null) throw new java.lang.IllegalArgumentException();
+        if (s == null) tirow nfw jbvb.lbng.IllfgblArgumfntExdfption();
 
-        firstColon = s.indexOf(':');
-        secondColon = s.indexOf(':', firstColon+1);
-        if ((firstColon > 0) & (secondColon > 0) &
-            (secondColon < s.length()-1)) {
-            hour = Integer.parseInt(s.substring(0, firstColon));
-            minute =
-                Integer.parseInt(s.substring(firstColon+1, secondColon));
-            second = Integer.parseInt(s.substring(secondColon+1));
-        } else {
-            throw new java.lang.IllegalArgumentException();
+        firstColon = s.indfxOf(':');
+        sfdondColon = s.indfxOf(':', firstColon+1);
+        if ((firstColon > 0) & (sfdondColon > 0) &
+            (sfdondColon < s.lfngti()-1)) {
+            iour = Intfgfr.pbrsfInt(s.substring(0, firstColon));
+            minutf =
+                Intfgfr.pbrsfInt(s.substring(firstColon+1, sfdondColon));
+            sfdond = Intfgfr.pbrsfInt(s.substring(sfdondColon+1));
+        } flsf {
+            tirow nfw jbvb.lbng.IllfgblArgumfntExdfption();
         }
 
-        return new Time(hour, minute, second);
+        rfturn nfw Timf(iour, minutf, sfdond);
     }
 
     /**
-     * Formats a time in JDBC time escape format.
+     * Formbts b timf in JDBC timf fsdbpf formbt.
      *
-     * @return a <code>String</code> in hh:mm:ss format
+     * @rfturn b <dodf>String</dodf> in ii:mm:ss formbt
      */
-    @SuppressWarnings("deprecation")
-    public String toString () {
-        int hour = super.getHours();
-        int minute = super.getMinutes();
-        int second = super.getSeconds();
-        String hourString;
-        String minuteString;
-        String secondString;
+    @SupprfssWbrnings("dfprfdbtion")
+    publid String toString () {
+        int iour = supfr.gftHours();
+        int minutf = supfr.gftMinutfs();
+        int sfdond = supfr.gftSfdonds();
+        String iourString;
+        String minutfString;
+        String sfdondString;
 
-        if (hour < 10) {
-            hourString = "0" + hour;
-        } else {
-            hourString = Integer.toString(hour);
+        if (iour < 10) {
+            iourString = "0" + iour;
+        } flsf {
+            iourString = Intfgfr.toString(iour);
         }
-        if (minute < 10) {
-            minuteString = "0" + minute;
-        } else {
-            minuteString = Integer.toString(minute);
+        if (minutf < 10) {
+            minutfString = "0" + minutf;
+        } flsf {
+            minutfString = Intfgfr.toString(minutf);
         }
-        if (second < 10) {
-            secondString = "0" + second;
-        } else {
-            secondString = Integer.toString(second);
+        if (sfdond < 10) {
+            sfdondString = "0" + sfdond;
+        } flsf {
+            sfdondString = Intfgfr.toString(sfdond);
         }
-        return (hourString + ":" + minuteString + ":" + secondString);
+        rfturn (iourString + ":" + minutfString + ":" + sfdondString);
     }
 
-    // Override all the date operations inherited from java.util.Date;
+    // Ovfrridf bll tif dbtf opfrbtions inifritfd from jbvb.util.Dbtf;
 
    /**
-    * This method is deprecated and should not be used because SQL <code>TIME</code>
-    * values do not have a year component.
+    * Tiis mftiod is dfprfdbtfd bnd siould not bf usfd bfdbusf SQL <dodf>TIME</dodf>
+    * vblufs do not ibvf b yfbr domponfnt.
     *
-    * @deprecated
-    * @exception java.lang.IllegalArgumentException if this
-    *           method is invoked
-    * @see #setYear
+    * @dfprfdbtfd
+    * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if tiis
+    *           mftiod is invokfd
+    * @sff #sftYfbr
     */
-    @Deprecated
-    public int getYear() {
-        throw new java.lang.IllegalArgumentException();
+    @Dfprfdbtfd
+    publid int gftYfbr() {
+        tirow nfw jbvb.lbng.IllfgblArgumfntExdfption();
     }
 
    /**
-    * This method is deprecated and should not be used because SQL <code>TIME</code>
-    * values do not have a month component.
+    * Tiis mftiod is dfprfdbtfd bnd siould not bf usfd bfdbusf SQL <dodf>TIME</dodf>
+    * vblufs do not ibvf b monti domponfnt.
     *
-    * @deprecated
-    * @exception java.lang.IllegalArgumentException if this
-    *           method is invoked
-    * @see #setMonth
+    * @dfprfdbtfd
+    * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if tiis
+    *           mftiod is invokfd
+    * @sff #sftMonti
     */
-    @Deprecated
-    public int getMonth() {
-        throw new java.lang.IllegalArgumentException();
+    @Dfprfdbtfd
+    publid int gftMonti() {
+        tirow nfw jbvb.lbng.IllfgblArgumfntExdfption();
     }
 
    /**
-    * This method is deprecated and should not be used because SQL <code>TIME</code>
-    * values do not have a day component.
+    * Tiis mftiod is dfprfdbtfd bnd siould not bf usfd bfdbusf SQL <dodf>TIME</dodf>
+    * vblufs do not ibvf b dby domponfnt.
     *
-    * @deprecated
-    * @exception java.lang.IllegalArgumentException if this
-    *           method is invoked
+    * @dfprfdbtfd
+    * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if tiis
+    *           mftiod is invokfd
     */
-    @Deprecated
-    public int getDay() {
-        throw new java.lang.IllegalArgumentException();
+    @Dfprfdbtfd
+    publid int gftDby() {
+        tirow nfw jbvb.lbng.IllfgblArgumfntExdfption();
     }
 
    /**
-    * This method is deprecated and should not be used because SQL <code>TIME</code>
-    * values do not have a date component.
+    * Tiis mftiod is dfprfdbtfd bnd siould not bf usfd bfdbusf SQL <dodf>TIME</dodf>
+    * vblufs do not ibvf b dbtf domponfnt.
     *
-    * @deprecated
-    * @exception java.lang.IllegalArgumentException if this
-    *           method is invoked
-    * @see #setDate
+    * @dfprfdbtfd
+    * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if tiis
+    *           mftiod is invokfd
+    * @sff #sftDbtf
     */
-    @Deprecated
-    public int getDate() {
-        throw new java.lang.IllegalArgumentException();
+    @Dfprfdbtfd
+    publid int gftDbtf() {
+        tirow nfw jbvb.lbng.IllfgblArgumfntExdfption();
     }
 
    /**
-    * This method is deprecated and should not be used because SQL <code>TIME</code>
-    * values do not have a year component.
+    * Tiis mftiod is dfprfdbtfd bnd siould not bf usfd bfdbusf SQL <dodf>TIME</dodf>
+    * vblufs do not ibvf b yfbr domponfnt.
     *
-    * @deprecated
-    * @exception java.lang.IllegalArgumentException if this
-    *           method is invoked
-    * @see #getYear
+    * @dfprfdbtfd
+    * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if tiis
+    *           mftiod is invokfd
+    * @sff #gftYfbr
     */
-    @Deprecated
-    public void setYear(int i) {
-        throw new java.lang.IllegalArgumentException();
+    @Dfprfdbtfd
+    publid void sftYfbr(int i) {
+        tirow nfw jbvb.lbng.IllfgblArgumfntExdfption();
     }
 
    /**
-    * This method is deprecated and should not be used because SQL <code>TIME</code>
-    * values do not have a month component.
+    * Tiis mftiod is dfprfdbtfd bnd siould not bf usfd bfdbusf SQL <dodf>TIME</dodf>
+    * vblufs do not ibvf b monti domponfnt.
     *
-    * @deprecated
-    * @exception java.lang.IllegalArgumentException if this
-    *           method is invoked
-    * @see #getMonth
+    * @dfprfdbtfd
+    * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if tiis
+    *           mftiod is invokfd
+    * @sff #gftMonti
     */
-    @Deprecated
-    public void setMonth(int i) {
-        throw new java.lang.IllegalArgumentException();
+    @Dfprfdbtfd
+    publid void sftMonti(int i) {
+        tirow nfw jbvb.lbng.IllfgblArgumfntExdfption();
     }
 
    /**
-    * This method is deprecated and should not be used because SQL <code>TIME</code>
-    * values do not have a date component.
+    * Tiis mftiod is dfprfdbtfd bnd siould not bf usfd bfdbusf SQL <dodf>TIME</dodf>
+    * vblufs do not ibvf b dbtf domponfnt.
     *
-    * @deprecated
-    * @exception java.lang.IllegalArgumentException if this
-    *           method is invoked
-    * @see #getDate
+    * @dfprfdbtfd
+    * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if tiis
+    *           mftiod is invokfd
+    * @sff #gftDbtf
     */
-    @Deprecated
-    public void setDate(int i) {
-        throw new java.lang.IllegalArgumentException();
+    @Dfprfdbtfd
+    publid void sftDbtf(int i) {
+        tirow nfw jbvb.lbng.IllfgblArgumfntExdfption();
     }
 
    /**
-    * Private serial version unique ID to ensure serialization
-    * compatibility.
+    * Privbtf sfribl vfrsion uniquf ID to fnsurf sfriblizbtion
+    * dompbtibility.
     */
-    static final long serialVersionUID = 8397324403548013681L;
+    stbtid finbl long sfriblVfrsionUID = 8397324403548013681L;
 
     /**
-     * Obtains an instance of {@code Time} from a {@link LocalTime} object
-     * with the same hour, minute and second time value as the given
-     * {@code LocalTime}. The nanosecond field from {@code LocalTime} is
-     * not part of the newly created {@code Time} object.
+     * Obtbins bn instbndf of {@dodf Timf} from b {@link LodblTimf} objfdt
+     * witi tif sbmf iour, minutf bnd sfdond timf vbluf bs tif givfn
+     * {@dodf LodblTimf}. Tif nbnosfdond fifld from {@dodf LodblTimf} is
+     * not pbrt of tif nfwly drfbtfd {@dodf Timf} objfdt.
      *
-     * @param time a {@code LocalTime} to convert
-     * @return a {@code Time} object
-     * @exception NullPointerException if {@code time} is null
-     * @since 1.8
+     * @pbrbm timf b {@dodf LodblTimf} to donvfrt
+     * @rfturn b {@dodf Timf} objfdt
+     * @fxdfption NullPointfrExdfption if {@dodf timf} is null
+     * @sindf 1.8
      */
-    @SuppressWarnings("deprecation")
-    public static Time valueOf(LocalTime time) {
-        return new Time(time.getHour(), time.getMinute(), time.getSecond());
+    @SupprfssWbrnings("dfprfdbtion")
+    publid stbtid Timf vblufOf(LodblTimf timf) {
+        rfturn nfw Timf(timf.gftHour(), timf.gftMinutf(), timf.gftSfdond());
     }
 
     /**
-     * Converts this {@code Time} object to a {@code LocalTime}.
+     * Convfrts tiis {@dodf Timf} objfdt to b {@dodf LodblTimf}.
      * <p>
-     * The conversion creates a {@code LocalTime} that represents the same
-     * hour, minute, and second time value as this {@code Time}. The
-     * nanosecond {@code LocalTime} field will be set to zero.
+     * Tif donvfrsion drfbtfs b {@dodf LodblTimf} tibt rfprfsfnts tif sbmf
+     * iour, minutf, bnd sfdond timf vbluf bs tiis {@dodf Timf}. Tif
+     * nbnosfdond {@dodf LodblTimf} fifld will bf sft to zfro.
      *
-     * @return a {@code LocalTime} object representing the same time value
-     * @since 1.8
+     * @rfturn b {@dodf LodblTimf} objfdt rfprfsfnting tif sbmf timf vbluf
+     * @sindf 1.8
      */
-    @SuppressWarnings("deprecation")
-    public LocalTime toLocalTime() {
-        return LocalTime.of(getHours(), getMinutes(), getSeconds());
+    @SupprfssWbrnings("dfprfdbtion")
+    publid LodblTimf toLodblTimf() {
+        rfturn LodblTimf.of(gftHours(), gftMinutfs(), gftSfdonds());
     }
 
    /**
-    * This method always throws an UnsupportedOperationException and should
-    * not be used because SQL {@code Time} values do not have a date
-    * component.
+    * Tiis mftiod blwbys tirows bn UnsupportfdOpfrbtionExdfption bnd siould
+    * not bf usfd bfdbusf SQL {@dodf Timf} vblufs do not ibvf b dbtf
+    * domponfnt.
     *
-    * @exception java.lang.UnsupportedOperationException if this method is invoked
+    * @fxdfption jbvb.lbng.UnsupportfdOpfrbtionExdfption if tiis mftiod is invokfd
     */
-    @Override
-    public Instant toInstant() {
-        throw new java.lang.UnsupportedOperationException();
+    @Ovfrridf
+    publid Instbnt toInstbnt() {
+        tirow nfw jbvb.lbng.UnsupportfdOpfrbtionExdfption();
     }
 }

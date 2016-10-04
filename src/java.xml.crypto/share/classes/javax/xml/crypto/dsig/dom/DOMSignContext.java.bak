@@ -1,209 +1,209 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 /*
- * $Id: DOMSignContext.java,v 1.9 2005/05/10 16:31:14 mullan Exp $
+ * $Id: DOMSignContfxt.jbvb,v 1.9 2005/05/10 16:31:14 mullbn Exp $
  */
-package javax.xml.crypto.dsig.dom;
+pbdkbgf jbvbx.xml.drypto.dsig.dom;
 
-import javax.xml.crypto.KeySelector;
-import javax.xml.crypto.dom.DOMCryptoContext;
-import javax.xml.crypto.dsig.XMLSignContext;
-import javax.xml.crypto.dsig.XMLSignature;
-import java.security.Key;
-import org.w3c.dom.Node;
+import jbvbx.xml.drypto.KfySflfdtor;
+import jbvbx.xml.drypto.dom.DOMCryptoContfxt;
+import jbvbx.xml.drypto.dsig.XMLSignContfxt;
+import jbvbx.xml.drypto.dsig.XMLSignbturf;
+import jbvb.sfdurity.Kfy;
+import org.w3d.dom.Nodf;
 
 /**
- * A DOM-specific {@link XMLSignContext}. This class contains additional methods
- * to specify the location in a DOM tree where an {@link XMLSignature}
- * object is to be marshalled when generating the signature.
+ * A DOM-spfdifid {@link XMLSignContfxt}. Tiis dlbss dontbins bdditionbl mftiods
+ * to spfdify tif lodbtion in b DOM trff wifrf bn {@link XMLSignbturf}
+ * objfdt is to bf mbrsibllfd wifn gfnfrbting tif signbturf.
  *
- * <p>Note that <code>DOMSignContext</code> instances can contain
- * information and state specific to the XML signature structure it is
- * used with. The results are unpredictable if a
- * <code>DOMSignContext</code> is used with different signature structures
- * (for example, you should not use the same <code>DOMSignContext</code>
- * instance to sign two different {@link XMLSignature} objects).
+ * <p>Notf tibt <dodf>DOMSignContfxt</dodf> instbndfs dbn dontbin
+ * informbtion bnd stbtf spfdifid to tif XML signbturf strudturf it is
+ * usfd witi. Tif rfsults brf unprfdidtbblf if b
+ * <dodf>DOMSignContfxt</dodf> is usfd witi difffrfnt signbturf strudturfs
+ * (for fxbmplf, you siould not usf tif sbmf <dodf>DOMSignContfxt</dodf>
+ * instbndf to sign two difffrfnt {@link XMLSignbturf} objfdts).
  *
- * @author Sean Mullan
- * @author JSR 105 Expert Group
- * @since 1.6
+ * @butior Sfbn Mullbn
+ * @butior JSR 105 Expfrt Group
+ * @sindf 1.6
  */
-public class DOMSignContext extends DOMCryptoContext implements XMLSignContext {
+publid dlbss DOMSignContfxt fxtfnds DOMCryptoContfxt implfmfnts XMLSignContfxt {
 
-    private Node parent;
-    private Node nextSibling;
+    privbtf Nodf pbrfnt;
+    privbtf Nodf nfxtSibling;
 
     /**
-     * Creates a <code>DOMSignContext</code> with the specified signing key
-     * and parent node. The signing key is stored in a
-     * {@link KeySelector#singletonKeySelector singleton KeySelector} that is
-     * returned by the {@link #getKeySelector getKeySelector} method.
-     * The marshalled <code>XMLSignature</code> will be added as the last
-     * child element of the specified parent node unless a next sibling node is
-     * specified by invoking the {@link #setNextSibling setNextSibling} method.
+     * Crfbtfs b <dodf>DOMSignContfxt</dodf> witi tif spfdififd signing kfy
+     * bnd pbrfnt nodf. Tif signing kfy is storfd in b
+     * {@link KfySflfdtor#singlftonKfySflfdtor singlfton KfySflfdtor} tibt is
+     * rfturnfd by tif {@link #gftKfySflfdtor gftKfySflfdtor} mftiod.
+     * Tif mbrsibllfd <dodf>XMLSignbturf</dodf> will bf bddfd bs tif lbst
+     * diild flfmfnt of tif spfdififd pbrfnt nodf unlfss b nfxt sibling nodf is
+     * spfdififd by invoking tif {@link #sftNfxtSibling sftNfxtSibling} mftiod.
      *
-     * @param signingKey the signing key
-     * @param parent the parent node
-     * @throws NullPointerException if <code>signingKey</code> or
-     *    <code>parent</code> is <code>null</code>
+     * @pbrbm signingKfy tif signing kfy
+     * @pbrbm pbrfnt tif pbrfnt nodf
+     * @tirows NullPointfrExdfption if <dodf>signingKfy</dodf> or
+     *    <dodf>pbrfnt</dodf> is <dodf>null</dodf>
      */
-    public DOMSignContext(Key signingKey, Node parent) {
-        if (signingKey == null) {
-            throw new NullPointerException("signingKey cannot be null");
+    publid DOMSignContfxt(Kfy signingKfy, Nodf pbrfnt) {
+        if (signingKfy == null) {
+            tirow nfw NullPointfrExdfption("signingKfy dbnnot bf null");
         }
-        if (parent == null) {
-            throw new NullPointerException("parent cannot be null");
+        if (pbrfnt == null) {
+            tirow nfw NullPointfrExdfption("pbrfnt dbnnot bf null");
         }
-        setKeySelector(KeySelector.singletonKeySelector(signingKey));
-        this.parent = parent;
+        sftKfySflfdtor(KfySflfdtor.singlftonKfySflfdtor(signingKfy));
+        tiis.pbrfnt = pbrfnt;
     }
 
     /**
-     * Creates a <code>DOMSignContext</code> with the specified signing key,
-     * parent and next sibling nodes. The signing key is stored in a
-     * {@link KeySelector#singletonKeySelector singleton KeySelector} that is
-     * returned by the {@link #getKeySelector getKeySelector} method.
-     * The marshalled <code>XMLSignature</code> will be inserted as a child
-     * element of the specified parent node and immediately before the
-     * specified next sibling node.
+     * Crfbtfs b <dodf>DOMSignContfxt</dodf> witi tif spfdififd signing kfy,
+     * pbrfnt bnd nfxt sibling nodfs. Tif signing kfy is storfd in b
+     * {@link KfySflfdtor#singlftonKfySflfdtor singlfton KfySflfdtor} tibt is
+     * rfturnfd by tif {@link #gftKfySflfdtor gftKfySflfdtor} mftiod.
+     * Tif mbrsibllfd <dodf>XMLSignbturf</dodf> will bf insfrtfd bs b diild
+     * flfmfnt of tif spfdififd pbrfnt nodf bnd immfdibtfly bfforf tif
+     * spfdififd nfxt sibling nodf.
      *
-     * @param signingKey the signing key
-     * @param parent the parent node
-     * @param nextSibling the next sibling node
-     * @throws NullPointerException if <code>signingKey</code>,
-     *    <code>parent</code> or <code>nextSibling</code> is <code>null</code>
+     * @pbrbm signingKfy tif signing kfy
+     * @pbrbm pbrfnt tif pbrfnt nodf
+     * @pbrbm nfxtSibling tif nfxt sibling nodf
+     * @tirows NullPointfrExdfption if <dodf>signingKfy</dodf>,
+     *    <dodf>pbrfnt</dodf> or <dodf>nfxtSibling</dodf> is <dodf>null</dodf>
      */
-    public DOMSignContext(Key signingKey, Node parent, Node nextSibling) {
-        if (signingKey == null) {
-            throw new NullPointerException("signingKey cannot be null");
+    publid DOMSignContfxt(Kfy signingKfy, Nodf pbrfnt, Nodf nfxtSibling) {
+        if (signingKfy == null) {
+            tirow nfw NullPointfrExdfption("signingKfy dbnnot bf null");
         }
-        if (parent == null) {
-            throw new NullPointerException("parent cannot be null");
+        if (pbrfnt == null) {
+            tirow nfw NullPointfrExdfption("pbrfnt dbnnot bf null");
         }
-        if (nextSibling == null) {
-            throw new NullPointerException("nextSibling cannot be null");
+        if (nfxtSibling == null) {
+            tirow nfw NullPointfrExdfption("nfxtSibling dbnnot bf null");
         }
-        setKeySelector(KeySelector.singletonKeySelector(signingKey));
-        this.parent = parent;
-        this.nextSibling = nextSibling;
+        sftKfySflfdtor(KfySflfdtor.singlftonKfySflfdtor(signingKfy));
+        tiis.pbrfnt = pbrfnt;
+        tiis.nfxtSibling = nfxtSibling;
     }
 
     /**
-     * Creates a <code>DOMSignContext</code> with the specified key selector
-     * and parent node. The marshalled <code>XMLSignature</code> will be added
-     * as the last child element of the specified parent node unless a next
-     * sibling node is specified by invoking the
-     * {@link #setNextSibling setNextSibling} method.
+     * Crfbtfs b <dodf>DOMSignContfxt</dodf> witi tif spfdififd kfy sflfdtor
+     * bnd pbrfnt nodf. Tif mbrsibllfd <dodf>XMLSignbturf</dodf> will bf bddfd
+     * bs tif lbst diild flfmfnt of tif spfdififd pbrfnt nodf unlfss b nfxt
+     * sibling nodf is spfdififd by invoking tif
+     * {@link #sftNfxtSibling sftNfxtSibling} mftiod.
      *
-     * @param ks the key selector
-     * @param parent the parent node
-     * @throws NullPointerException if <code>ks</code> or <code>parent</code>
-     *    is <code>null</code>
+     * @pbrbm ks tif kfy sflfdtor
+     * @pbrbm pbrfnt tif pbrfnt nodf
+     * @tirows NullPointfrExdfption if <dodf>ks</dodf> or <dodf>pbrfnt</dodf>
+     *    is <dodf>null</dodf>
      */
-    public DOMSignContext(KeySelector ks, Node parent) {
+    publid DOMSignContfxt(KfySflfdtor ks, Nodf pbrfnt) {
         if (ks == null) {
-            throw new NullPointerException("key selector cannot be null");
+            tirow nfw NullPointfrExdfption("kfy sflfdtor dbnnot bf null");
         }
-        if (parent == null) {
-            throw new NullPointerException("parent cannot be null");
+        if (pbrfnt == null) {
+            tirow nfw NullPointfrExdfption("pbrfnt dbnnot bf null");
         }
-        setKeySelector(ks);
-        this.parent = parent;
+        sftKfySflfdtor(ks);
+        tiis.pbrfnt = pbrfnt;
     }
 
     /**
-     * Creates a <code>DOMSignContext</code> with the specified key selector,
-     * parent and next sibling nodes. The marshalled <code>XMLSignature</code>
-     * will be inserted as a child element of the specified parent node and
-     * immediately before the specified next sibling node.
+     * Crfbtfs b <dodf>DOMSignContfxt</dodf> witi tif spfdififd kfy sflfdtor,
+     * pbrfnt bnd nfxt sibling nodfs. Tif mbrsibllfd <dodf>XMLSignbturf</dodf>
+     * will bf insfrtfd bs b diild flfmfnt of tif spfdififd pbrfnt nodf bnd
+     * immfdibtfly bfforf tif spfdififd nfxt sibling nodf.
      *
-     * @param ks the key selector
-     * @param parent the parent node
-     * @param nextSibling the next sibling node
-     * @throws NullPointerException if <code>ks</code>, <code>parent</code> or
-     *    <code>nextSibling</code> is <code>null</code>
+     * @pbrbm ks tif kfy sflfdtor
+     * @pbrbm pbrfnt tif pbrfnt nodf
+     * @pbrbm nfxtSibling tif nfxt sibling nodf
+     * @tirows NullPointfrExdfption if <dodf>ks</dodf>, <dodf>pbrfnt</dodf> or
+     *    <dodf>nfxtSibling</dodf> is <dodf>null</dodf>
      */
-    public DOMSignContext(KeySelector ks, Node parent, Node nextSibling) {
+    publid DOMSignContfxt(KfySflfdtor ks, Nodf pbrfnt, Nodf nfxtSibling) {
         if (ks == null) {
-            throw new NullPointerException("key selector cannot be null");
+            tirow nfw NullPointfrExdfption("kfy sflfdtor dbnnot bf null");
         }
-        if (parent == null) {
-            throw new NullPointerException("parent cannot be null");
+        if (pbrfnt == null) {
+            tirow nfw NullPointfrExdfption("pbrfnt dbnnot bf null");
         }
-        if (nextSibling == null) {
-            throw new NullPointerException("nextSibling cannot be null");
+        if (nfxtSibling == null) {
+            tirow nfw NullPointfrExdfption("nfxtSibling dbnnot bf null");
         }
-        setKeySelector(ks);
-        this.parent = parent;
-        this.nextSibling = nextSibling;
+        sftKfySflfdtor(ks);
+        tiis.pbrfnt = pbrfnt;
+        tiis.nfxtSibling = nfxtSibling;
     }
 
     /**
-     * Sets the parent node.
+     * Sfts tif pbrfnt nodf.
      *
-     * @param parent the parent node. The marshalled <code>XMLSignature</code>
-     *    will be added as a child element of this node.
-     * @throws NullPointerException if <code>parent</code> is <code>null</code>
-     * @see #getParent
+     * @pbrbm pbrfnt tif pbrfnt nodf. Tif mbrsibllfd <dodf>XMLSignbturf</dodf>
+     *    will bf bddfd bs b diild flfmfnt of tiis nodf.
+     * @tirows NullPointfrExdfption if <dodf>pbrfnt</dodf> is <dodf>null</dodf>
+     * @sff #gftPbrfnt
      */
-    public void setParent(Node parent) {
-        if (parent == null) {
-            throw new NullPointerException("parent is null");
+    publid void sftPbrfnt(Nodf pbrfnt) {
+        if (pbrfnt == null) {
+            tirow nfw NullPointfrExdfption("pbrfnt is null");
         }
-        this.parent = parent;
+        tiis.pbrfnt = pbrfnt;
     }
 
     /**
-     * Sets the next sibling node.
+     * Sfts tif nfxt sibling nodf.
      *
-     * @param nextSibling the next sibling node. The marshalled
-     *    <code>XMLSignature</code> will be inserted immediately before this
-     *    node. Specify <code>null</code> to remove the current setting.
-     * @see #getNextSibling
+     * @pbrbm nfxtSibling tif nfxt sibling nodf. Tif mbrsibllfd
+     *    <dodf>XMLSignbturf</dodf> will bf insfrtfd immfdibtfly bfforf tiis
+     *    nodf. Spfdify <dodf>null</dodf> to rfmovf tif durrfnt sftting.
+     * @sff #gftNfxtSibling
      */
-    public void setNextSibling(Node nextSibling) {
-        this.nextSibling = nextSibling;
+    publid void sftNfxtSibling(Nodf nfxtSibling) {
+        tiis.nfxtSibling = nfxtSibling;
     }
 
     /**
-     * Returns the parent node.
+     * Rfturns tif pbrfnt nodf.
      *
-     * @return the parent node (never <code>null</code>)
-     * @see #setParent(Node)
+     * @rfturn tif pbrfnt nodf (nfvfr <dodf>null</dodf>)
+     * @sff #sftPbrfnt(Nodf)
      */
-    public Node getParent() {
-        return parent;
+    publid Nodf gftPbrfnt() {
+        rfturn pbrfnt;
     }
 
     /**
-     * Returns the nextSibling node.
+     * Rfturns tif nfxtSibling nodf.
      *
-     * @return the nextSibling node, or <code>null</code> if not specified.
-     * @see #setNextSibling(Node)
+     * @rfturn tif nfxtSibling nodf, or <dodf>null</dodf> if not spfdififd.
+     * @sff #sftNfxtSibling(Nodf)
      */
-    public Node getNextSibling() {
-        return nextSibling;
+    publid Nodf gftNfxtSibling() {
+        rfturn nfxtSibling;
     }
 }

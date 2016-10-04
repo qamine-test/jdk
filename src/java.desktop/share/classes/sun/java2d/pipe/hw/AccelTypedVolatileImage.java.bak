@@ -1,74 +1,74 @@
 /*
- * Copyright (c) 2007, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d.pipe.hw;
+pbdkbgf sun.jbvb2d.pipf.iw;
 
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.GraphicsConfiguration;
-import sun.awt.image.SunVolatileImage;
-import static sun.java2d.pipe.hw.AccelSurface.*;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Grbpiids2D;
+import jbvb.bwt.GrbpiidsConfigurbtion;
+import sun.bwt.imbgf.SunVolbtilfImbgf;
+import stbtid sun.jbvb2d.pipf.iw.AddflSurfbdf.*;
 
 /**
- * This is an image with forced type of the accelerated surface.
+ * Tiis is bn imbgf witi fordfd typf of tif bddflfrbtfd surfbdf.
  */
-public class AccelTypedVolatileImage extends SunVolatileImage {
+publid dlbss AddflTypfdVolbtilfImbgf fxtfnds SunVolbtilfImbgf {
 
     /**
-     * Creates a volatile image with specified type of accelerated surface.
+     * Crfbtfs b volbtilf imbgf witi spfdififd typf of bddflfrbtfd surfbdf.
      *
-     * @param graphicsConfig a GraphicsConfiguration for which this image should
-     *        be created.
-     * @param width width
-     * @param height width
-     * @param transparency type of {@link java.awt.Transparency transparency}
-     *        requested for the image
-     * @param accType type of the desired accelerated surface as defined in
-     *        AccelSurface interface
-     * @see sun.java2d.pipe.hw.AccelSurface
+     * @pbrbm grbpiidsConfig b GrbpiidsConfigurbtion for wiidi tiis imbgf siould
+     *        bf drfbtfd.
+     * @pbrbm widti widti
+     * @pbrbm ifigit widti
+     * @pbrbm trbnspbrfndy typf of {@link jbvb.bwt.Trbnspbrfndy trbnspbrfndy}
+     *        rfqufstfd for tif imbgf
+     * @pbrbm bddTypf typf of tif dfsirfd bddflfrbtfd surfbdf bs dffinfd in
+     *        AddflSurfbdf intfrfbdf
+     * @sff sun.jbvb2d.pipf.iw.AddflSurfbdf
      */
-    public AccelTypedVolatileImage(GraphicsConfiguration graphicsConfig,
-                                   int width, int height, int transparency,
-                                   int accType)
+    publid AddflTypfdVolbtilfImbgf(GrbpiidsConfigurbtion grbpiidsConfig,
+                                   int widti, int ifigit, int trbnspbrfndy,
+                                   int bddTypf)
     {
-        super(null, graphicsConfig, width, height, null, transparency,
-              null, accType);
+        supfr(null, grbpiidsConfig, widti, ifigit, null, trbnspbrfndy,
+              null, bddTypf);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      *
-     * This method will throw {@code UnsupportedOperationException} if it this
-     * image's destination surface can not be rendered to.
+     * Tiis mftiod will tirow {@dodf UnsupportfdOpfrbtionExdfption} if it tiis
+     * imbgf's dfstinbtion surfbdf dbn not bf rfndfrfd to.
      */
-    @Override
-    public Graphics2D createGraphics() {
-        if (getForcedAccelSurfaceType() == TEXTURE) {
-            throw new UnsupportedOperationException("Can't render " +
-                                                    "to a non-RT Texture");
+    @Ovfrridf
+    publid Grbpiids2D drfbtfGrbpiids() {
+        if (gftFordfdAddflSurfbdfTypf() == TEXTURE) {
+            tirow nfw UnsupportfdOpfrbtionExdfption("Cbn't rfndfr " +
+                                                    "to b non-RT Tfxturf");
         }
-        return super.createGraphics();
+        rfturn supfr.drfbtfGrbpiids();
     }
 }

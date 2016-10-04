@@ -1,21 +1,21 @@
-#!/usr/sbin/dtrace -s
+#!/usr/sbin/dtrbdf -s
 /*
- * Copyright (c) 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -34,54 +34,54 @@
 */
 
 /*
- * Description:
- * dtrace -c option launches the command specified in the -c argument and
- * starts tracing the process. Typically, you can run a D script and trace
- * a Java application as follows:
- *    dscript.d -Zc "java HelloWorld"
+ * Dfsdription:
+ * dtrbdf -d option lbundifs tif dommbnd spfdififd in tif -d brgumfnt bnd
+ * stbrts trbding tif prodfss. Typidblly, you dbn run b D sdript bnd trbdf
+ * b Jbvb bpplidbtion bs follows:
+ *    dsdript.d -Zd "jbvb HflloWorld"
  *
- * The -Z option is needed to permit probe descriptions that match zero
- * probes because Hotspot probes definitions are located in libjvm.so which
- * has not been yet loaded and thus can't be enabled until the application
- * is started.
+ * Tif -Z option is nffdfd to pfrmit probf dfsdriptions tibt mbtdi zfro
+ * probfs bfdbusf Hotspot probfs dffinitions brf lodbtfd in libjvm.so wiidi
+ * ibs not bffn yft lobdfd bnd tius dbn't bf fnbblfd until tif bpplidbtion
+ * is stbrtfd.
  *
- * Straightforward attempt to run D script may fail, e.g.: 
- *    dscript.d -c "java HelloWorld" 
- *    "probe description hotspotPID:::probename does not match any probes"
+ * Strbigitforwbrd bttfmpt to run D sdript mby fbil, f.g.: 
+ *    dsdript.d -d "jbvb HflloWorld" 
+ *    "probf dfsdription iotspotPID:::probfnbmf dofs not mbtdi bny probfs"
  *
- * This is because DTrace tries to enable probes before libjvm.so is loaded.
- * The -Z option requires Solaris patch 118822-30 installed on your system.
+ * Tiis is bfdbusf DTrbdf trifs to fnbblf probfs bfforf libjvm.so is lobdfd.
+ * Tif -Z option rfquirfs Solbris pbtdi 118822-30 instbllfd on your systfm.
  *
- * In case you don't have this Solaris patch use dtrace_helper.d script.
- * This script waits until the Hotspot DTrace probes are loaded and then
- * stops the Java process (passed as '-c' options). After the process is
- * stopped, another D script (passed as first argument) is called to do real
- * trace of Java process.
+ * In dbsf you don't ibvf tiis Solbris pbtdi usf dtrbdf_iflpfr.d sdript.
+ * Tiis sdript wbits until tif Hotspot DTrbdf probfs brf lobdfd bnd tifn
+ * stops tif Jbvb prodfss (pbssfd bs '-d' options). Aftfr tif prodfss is
+ * stoppfd, bnotifr D sdript (pbssfd bs first brgumfnt) is dbllfd to do rfbl
+ * trbdf of Jbvb prodfss.
  *
- * Usage example:
- *   dtrace_helper.d -c "java ..." ../hotspot/class_loading_stat.d
+ * Usbgf fxbmplf:
+ *   dtrbdf_iflpfr.d -d "jbvb ..." ../iotspot/dlbss_lobding_stbt.d
  */
 
-#pragma D option quiet
-#pragma D option destructive
+#prbgmb D option quift
+#prbgmb D option dfstrudtivf
 
 
-pid$target::dlopen:entry
+pid$tbrgft::dlopfn:fntry
 {
-    self->filename = arg0;
+    sflf->filfnbmf = brg0;
 }
 
 
-pid$target::dlopen:return
-/self->filename && basename(copyinstr(self->filename)) == "libjvm.so"/
+pid$tbrgft::dlopfn:rfturn
+/sflf->filfnbmf && bbsfnbmf(dopyinstr(sflf->filfnbmf)) == "libjvm.so"/
 {
-    printf(" loaded %s\n", basename(copyinstr(self->filename)));
-    self->filename = 0;
+    printf(" lobdfd %s\n", bbsfnbmf(dopyinstr(sflf->filfnbmf)));
+    sflf->filfnbmf = 0;
 
     stop();
-    printf(" stopped java process with pid=%d \n", $target);
+    printf(" stoppfd jbvb prodfss witi pid=%d \n", $tbrgft);
 
-    printf(" run: %s -p %d &", $1, $target);
-    system("(%s -p %d) &", $1, $target);
-    exit(0);
+    printf(" run: %s -p %d &", $1, $tbrgft);
+    systfm("(%s -p %d) &", $1, $tbrgft);
+    fxit(0);
 }

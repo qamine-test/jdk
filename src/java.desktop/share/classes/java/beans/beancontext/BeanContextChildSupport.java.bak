@@ -1,377 +1,377 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.beans.beancontext;
+pbdkbgf jbvb.bfbns.bfbndontfxt;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
+import jbvb.bfbns.PropfrtyCibngfEvfnt;
+import jbvb.bfbns.PropfrtyCibngfListfnfr;
+import jbvb.bfbns.PropfrtyCibngfSupport;
 
-import java.beans.VetoableChangeListener;
-import java.beans.VetoableChangeSupport;
+import jbvb.bfbns.VftobblfCibngfListfnfr;
+import jbvb.bfbns.VftobblfCibngfSupport;
 
-import java.beans.PropertyVetoException;
+import jbvb.bfbns.PropfrtyVftoExdfption;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.Sfriblizbblf;
 
 /**
  * <p>
- * This is a general support class to provide support for implementing the
- * BeanContextChild protocol.
+ * Tiis is b gfnfrbl support dlbss to providf support for implfmfnting tif
+ * BfbnContfxtCiild protodol.
  *
- * This class may either be directly subclassed, or encapsulated and delegated
- * to in order to implement this interface for a given component.
+ * Tiis dlbss mby fitifr bf dirfdtly subdlbssfd, or fndbpsulbtfd bnd dflfgbtfd
+ * to in ordfr to implfmfnt tiis intfrfbdf for b givfn domponfnt.
  * </p>
  *
- * @author      Laurence P. G. Cable
- * @since       1.2
+ * @butior      Lburfndf P. G. Cbblf
+ * @sindf       1.2
  *
- * @see java.beans.beancontext.BeanContext
- * @see java.beans.beancontext.BeanContextServices
- * @see java.beans.beancontext.BeanContextChild
+ * @sff jbvb.bfbns.bfbndontfxt.BfbnContfxt
+ * @sff jbvb.bfbns.bfbndontfxt.BfbnContfxtSfrvidfs
+ * @sff jbvb.bfbns.bfbndontfxt.BfbnContfxtCiild
  */
 
-public class BeanContextChildSupport implements BeanContextChild, BeanContextServicesListener, Serializable {
+publid dlbss BfbnContfxtCiildSupport implfmfnts BfbnContfxtCiild, BfbnContfxtSfrvidfsListfnfr, Sfriblizbblf {
 
-    static final long serialVersionUID = 6328947014421475877L;
+    stbtid finbl long sfriblVfrsionUID = 6328947014421475877L;
 
     /**
-     * construct a BeanContextChildSupport where this class has been
-     * subclassed in order to implement the JavaBean component itself.
+     * donstrudt b BfbnContfxtCiildSupport wifrf tiis dlbss ibs bffn
+     * subdlbssfd in ordfr to implfmfnt tif JbvbBfbn domponfnt itsflf.
      */
 
-    public BeanContextChildSupport() {
-        super();
+    publid BfbnContfxtCiildSupport() {
+        supfr();
 
-        beanContextChildPeer = this;
+        bfbnContfxtCiildPffr = tiis;
 
-        pcSupport = new PropertyChangeSupport(beanContextChildPeer);
-        vcSupport = new VetoableChangeSupport(beanContextChildPeer);
+        pdSupport = nfw PropfrtyCibngfSupport(bfbnContfxtCiildPffr);
+        vdSupport = nfw VftobblfCibngfSupport(bfbnContfxtCiildPffr);
     }
 
     /**
-     * construct a BeanContextChildSupport where the JavaBean component
-     * itself implements BeanContextChild, and encapsulates this, delegating
-     * that interface to this implementation
-     * @param bcc the underlying bean context child
+     * donstrudt b BfbnContfxtCiildSupport wifrf tif JbvbBfbn domponfnt
+     * itsflf implfmfnts BfbnContfxtCiild, bnd fndbpsulbtfs tiis, dflfgbting
+     * tibt intfrfbdf to tiis implfmfntbtion
+     * @pbrbm bdd tif undfrlying bfbn dontfxt diild
      */
 
-    public BeanContextChildSupport(BeanContextChild bcc) {
-        super();
+    publid BfbnContfxtCiildSupport(BfbnContfxtCiild bdd) {
+        supfr();
 
-        beanContextChildPeer = (bcc != null) ? bcc : this;
+        bfbnContfxtCiildPffr = (bdd != null) ? bdd : tiis;
 
-        pcSupport = new PropertyChangeSupport(beanContextChildPeer);
-        vcSupport = new VetoableChangeSupport(beanContextChildPeer);
+        pdSupport = nfw PropfrtyCibngfSupport(bfbnContfxtCiildPffr);
+        vdSupport = nfw VftobblfCibngfSupport(bfbnContfxtCiildPffr);
     }
 
     /**
-     * Sets the <code>BeanContext</code> for
-     * this <code>BeanContextChildSupport</code>.
-     * @param bc the new value to be assigned to the <code>BeanContext</code>
-     * property
-     * @throws PropertyVetoException if the change is rejected
+     * Sfts tif <dodf>BfbnContfxt</dodf> for
+     * tiis <dodf>BfbnContfxtCiildSupport</dodf>.
+     * @pbrbm bd tif nfw vbluf to bf bssignfd to tif <dodf>BfbnContfxt</dodf>
+     * propfrty
+     * @tirows PropfrtyVftoExdfption if tif dibngf is rfjfdtfd
      */
-    public synchronized void setBeanContext(BeanContext bc) throws PropertyVetoException {
-        if (bc == beanContext) return;
+    publid syndironizfd void sftBfbnContfxt(BfbnContfxt bd) tirows PropfrtyVftoExdfption {
+        if (bd == bfbnContfxt) rfturn;
 
-        BeanContext oldValue = beanContext;
-        BeanContext newValue = bc;
+        BfbnContfxt oldVbluf = bfbnContfxt;
+        BfbnContfxt nfwVbluf = bd;
 
-        if (!rejectedSetBCOnce) {
-            if (rejectedSetBCOnce = !validatePendingSetBeanContext(bc)) {
-                throw new PropertyVetoException(
-                    "setBeanContext() change rejected:",
-                    new PropertyChangeEvent(beanContextChildPeer, "beanContext", oldValue, newValue)
+        if (!rfjfdtfdSftBCOndf) {
+            if (rfjfdtfdSftBCOndf = !vblidbtfPfndingSftBfbnContfxt(bd)) {
+                tirow nfw PropfrtyVftoExdfption(
+                    "sftBfbnContfxt() dibngf rfjfdtfd:",
+                    nfw PropfrtyCibngfEvfnt(bfbnContfxtCiildPffr, "bfbnContfxt", oldVbluf, nfwVbluf)
                 );
             }
 
             try {
-                fireVetoableChange("beanContext",
-                                   oldValue,
-                                   newValue
+                firfVftobblfCibngf("bfbnContfxt",
+                                   oldVbluf,
+                                   nfwVbluf
                 );
-            } catch (PropertyVetoException pve) {
-                rejectedSetBCOnce = true;
+            } dbtdi (PropfrtyVftoExdfption pvf) {
+                rfjfdtfdSftBCOndf = truf;
 
-                throw pve; // re-throw
+                tirow pvf; // rf-tirow
             }
         }
 
-        if (beanContext != null) releaseBeanContextResources();
+        if (bfbnContfxt != null) rflfbsfBfbnContfxtRfsourdfs();
 
-        beanContext       = newValue;
-        rejectedSetBCOnce = false;
+        bfbnContfxt       = nfwVbluf;
+        rfjfdtfdSftBCOndf = fblsf;
 
-        firePropertyChange("beanContext",
-                           oldValue,
-                           newValue
+        firfPropfrtyCibngf("bfbnContfxt",
+                           oldVbluf,
+                           nfwVbluf
         );
 
-        if (beanContext != null) initializeBeanContextResources();
+        if (bfbnContfxt != null) initiblizfBfbnContfxtRfsourdfs();
     }
 
     /**
-     * Gets the nesting <code>BeanContext</code>
-     * for this <code>BeanContextChildSupport</code>.
-     * @return the nesting <code>BeanContext</code> for
-     * this <code>BeanContextChildSupport</code>.
+     * Gfts tif nfsting <dodf>BfbnContfxt</dodf>
+     * for tiis <dodf>BfbnContfxtCiildSupport</dodf>.
+     * @rfturn tif nfsting <dodf>BfbnContfxt</dodf> for
+     * tiis <dodf>BfbnContfxtCiildSupport</dodf>.
      */
-    public synchronized BeanContext getBeanContext() { return beanContext; }
+    publid syndironizfd BfbnContfxt gftBfbnContfxt() { rfturn bfbnContfxt; }
 
     /**
-     * Add a PropertyChangeListener for a specific property.
-     * The same listener object may be added more than once.  For each
-     * property,  the listener will be invoked the number of times it was added
-     * for that property.
-     * If <code>name</code> or <code>pcl</code> is null, no exception is thrown
-     * and no action is taken.
+     * Add b PropfrtyCibngfListfnfr for b spfdifid propfrty.
+     * Tif sbmf listfnfr objfdt mby bf bddfd morf tibn ondf.  For fbdi
+     * propfrty,  tif listfnfr will bf invokfd tif numbfr of timfs it wbs bddfd
+     * for tibt propfrty.
+     * If <dodf>nbmf</dodf> or <dodf>pdl</dodf> is null, no fxdfption is tirown
+     * bnd no bdtion is tbkfn.
      *
-     * @param name The name of the property to listen on
-     * @param pcl The <code>PropertyChangeListener</code> to be added
+     * @pbrbm nbmf Tif nbmf of tif propfrty to listfn on
+     * @pbrbm pdl Tif <dodf>PropfrtyCibngfListfnfr</dodf> to bf bddfd
      */
-    public void addPropertyChangeListener(String name, PropertyChangeListener pcl) {
-        pcSupport.addPropertyChangeListener(name, pcl);
+    publid void bddPropfrtyCibngfListfnfr(String nbmf, PropfrtyCibngfListfnfr pdl) {
+        pdSupport.bddPropfrtyCibngfListfnfr(nbmf, pdl);
     }
 
     /**
-     * Remove a PropertyChangeListener for a specific property.
-     * If <code>pcl</code> was added more than once to the same event
-     * source for the specified property, it will be notified one less time
-     * after being removed.
-     * If <code>name</code> is null, no exception is thrown
-     * and no action is taken.
-     * If <code>pcl</code> is null, or was never added for the specified
-     * property, no exception is thrown and no action is taken.
+     * Rfmovf b PropfrtyCibngfListfnfr for b spfdifid propfrty.
+     * If <dodf>pdl</dodf> wbs bddfd morf tibn ondf to tif sbmf fvfnt
+     * sourdf for tif spfdififd propfrty, it will bf notififd onf lfss timf
+     * bftfr bfing rfmovfd.
+     * If <dodf>nbmf</dodf> is null, no fxdfption is tirown
+     * bnd no bdtion is tbkfn.
+     * If <dodf>pdl</dodf> is null, or wbs nfvfr bddfd for tif spfdififd
+     * propfrty, no fxdfption is tirown bnd no bdtion is tbkfn.
      *
-     * @param name The name of the property that was listened on
-     * @param pcl The PropertyChangeListener to be removed
+     * @pbrbm nbmf Tif nbmf of tif propfrty tibt wbs listfnfd on
+     * @pbrbm pdl Tif PropfrtyCibngfListfnfr to bf rfmovfd
      */
-    public void removePropertyChangeListener(String name, PropertyChangeListener pcl) {
-        pcSupport.removePropertyChangeListener(name, pcl);
+    publid void rfmovfPropfrtyCibngfListfnfr(String nbmf, PropfrtyCibngfListfnfr pdl) {
+        pdSupport.rfmovfPropfrtyCibngfListfnfr(nbmf, pdl);
     }
 
     /**
-     * Add a VetoableChangeListener for a specific property.
-     * The same listener object may be added more than once.  For each
-     * property,  the listener will be invoked the number of times it was added
-     * for that property.
-     * If <code>name</code> or <code>vcl</code> is null, no exception is thrown
-     * and no action is taken.
+     * Add b VftobblfCibngfListfnfr for b spfdifid propfrty.
+     * Tif sbmf listfnfr objfdt mby bf bddfd morf tibn ondf.  For fbdi
+     * propfrty,  tif listfnfr will bf invokfd tif numbfr of timfs it wbs bddfd
+     * for tibt propfrty.
+     * If <dodf>nbmf</dodf> or <dodf>vdl</dodf> is null, no fxdfption is tirown
+     * bnd no bdtion is tbkfn.
      *
-     * @param name The name of the property to listen on
-     * @param vcl The <code>VetoableChangeListener</code> to be added
+     * @pbrbm nbmf Tif nbmf of tif propfrty to listfn on
+     * @pbrbm vdl Tif <dodf>VftobblfCibngfListfnfr</dodf> to bf bddfd
      */
-    public void addVetoableChangeListener(String name, VetoableChangeListener vcl) {
-        vcSupport.addVetoableChangeListener(name, vcl);
+    publid void bddVftobblfCibngfListfnfr(String nbmf, VftobblfCibngfListfnfr vdl) {
+        vdSupport.bddVftobblfCibngfListfnfr(nbmf, vdl);
     }
 
     /**
-     * Removes a <code>VetoableChangeListener</code>.
-     * If <code>pcl</code> was added more than once to the same event
-     * source for the specified property, it will be notified one less time
-     * after being removed.
-     * If <code>name</code> is null, no exception is thrown
-     * and no action is taken.
-     * If <code>vcl</code> is null, or was never added for the specified
-     * property, no exception is thrown and no action is taken.
+     * Rfmovfs b <dodf>VftobblfCibngfListfnfr</dodf>.
+     * If <dodf>pdl</dodf> wbs bddfd morf tibn ondf to tif sbmf fvfnt
+     * sourdf for tif spfdififd propfrty, it will bf notififd onf lfss timf
+     * bftfr bfing rfmovfd.
+     * If <dodf>nbmf</dodf> is null, no fxdfption is tirown
+     * bnd no bdtion is tbkfn.
+     * If <dodf>vdl</dodf> is null, or wbs nfvfr bddfd for tif spfdififd
+     * propfrty, no fxdfption is tirown bnd no bdtion is tbkfn.
      *
-     * @param name The name of the property that was listened on
-     * @param vcl The <code>VetoableChangeListener</code> to be removed
+     * @pbrbm nbmf Tif nbmf of tif propfrty tibt wbs listfnfd on
+     * @pbrbm vdl Tif <dodf>VftobblfCibngfListfnfr</dodf> to bf rfmovfd
      */
-    public void removeVetoableChangeListener(String name, VetoableChangeListener vcl) {
-        vcSupport.removeVetoableChangeListener(name, vcl);
+    publid void rfmovfVftobblfCibngfListfnfr(String nbmf, VftobblfCibngfListfnfr vdl) {
+        vdSupport.rfmovfVftobblfCibngfListfnfr(nbmf, vdl);
     }
 
     /**
-     * A service provided by the nesting BeanContext has been revoked.
+     * A sfrvidf providfd by tif nfsting BfbnContfxt ibs bffn rfvokfd.
      *
-     * Subclasses may override this method in order to implement their own
-     * behaviors.
-     * @param bcsre The <code>BeanContextServiceRevokedEvent</code> fired as a
-     * result of a service being revoked
+     * Subdlbssfs mby ovfrridf tiis mftiod in ordfr to implfmfnt tifir own
+     * bfibviors.
+     * @pbrbm bdsrf Tif <dodf>BfbnContfxtSfrvidfRfvokfdEvfnt</dodf> firfd bs b
+     * rfsult of b sfrvidf bfing rfvokfd
      */
-    public void serviceRevoked(BeanContextServiceRevokedEvent bcsre) { }
+    publid void sfrvidfRfvokfd(BfbnContfxtSfrvidfRfvokfdEvfnt bdsrf) { }
 
     /**
-     * A new service is available from the nesting BeanContext.
+     * A nfw sfrvidf is bvbilbblf from tif nfsting BfbnContfxt.
      *
-     * Subclasses may override this method in order to implement their own
-     * behaviors
-     * @param bcsae The BeanContextServiceAvailableEvent fired as a
-     * result of a service becoming available
+     * Subdlbssfs mby ovfrridf tiis mftiod in ordfr to implfmfnt tifir own
+     * bfibviors
+     * @pbrbm bdsbf Tif BfbnContfxtSfrvidfAvbilbblfEvfnt firfd bs b
+     * rfsult of b sfrvidf bfdoming bvbilbblf
      *
      */
-    public void serviceAvailable(BeanContextServiceAvailableEvent bcsae) { }
+    publid void sfrvidfAvbilbblf(BfbnContfxtSfrvidfAvbilbblfEvfnt bdsbf) { }
 
     /**
-     * Gets the <tt>BeanContextChild</tt> associated with this
-     * <tt>BeanContextChildSupport</tt>.
+     * Gfts tif <tt>BfbnContfxtCiild</tt> bssodibtfd witi tiis
+     * <tt>BfbnContfxtCiildSupport</tt>.
      *
-     * @return the <tt>BeanContextChild</tt> peer of this class
+     * @rfturn tif <tt>BfbnContfxtCiild</tt> pffr of tiis dlbss
      */
-    public BeanContextChild getBeanContextChildPeer() { return beanContextChildPeer; }
+    publid BfbnContfxtCiild gftBfbnContfxtCiildPffr() { rfturn bfbnContfxtCiildPffr; }
 
     /**
-     * Reports whether or not this class is a delegate of another.
+     * Rfports wiftifr or not tiis dlbss is b dflfgbtf of bnotifr.
      *
-     * @return true if this class is a delegate of another
+     * @rfturn truf if tiis dlbss is b dflfgbtf of bnotifr
      */
-    public boolean isDelegated() { return !this.equals(beanContextChildPeer); }
+    publid boolfbn isDflfgbtfd() { rfturn !tiis.fqubls(bfbnContfxtCiildPffr); }
 
     /**
-     * Report a bound property update to any registered listeners. No event is
-     * fired if old and new are equal and non-null.
-     * @param name The programmatic name of the property that was changed
-     * @param oldValue  The old value of the property
-     * @param newValue  The new value of the property
+     * Rfport b bound propfrty updbtf to bny rfgistfrfd listfnfrs. No fvfnt is
+     * firfd if old bnd nfw brf fqubl bnd non-null.
+     * @pbrbm nbmf Tif progrbmmbtid nbmf of tif propfrty tibt wbs dibngfd
+     * @pbrbm oldVbluf  Tif old vbluf of tif propfrty
+     * @pbrbm nfwVbluf  Tif nfw vbluf of tif propfrty
      */
-    public void firePropertyChange(String name, Object oldValue, Object newValue) {
-        pcSupport.firePropertyChange(name, oldValue, newValue);
+    publid void firfPropfrtyCibngf(String nbmf, Objfdt oldVbluf, Objfdt nfwVbluf) {
+        pdSupport.firfPropfrtyCibngf(nbmf, oldVbluf, nfwVbluf);
     }
 
     /**
-     * Report a vetoable property update to any registered listeners.
-     * If anyone vetos the change, then fire a new event
-     * reverting everyone to the old value and then rethrow
-     * the PropertyVetoException. <P>
+     * Rfport b vftobblf propfrty updbtf to bny rfgistfrfd listfnfrs.
+     * If bnyonf vftos tif dibngf, tifn firf b nfw fvfnt
+     * rfvfrting fvfryonf to tif old vbluf bnd tifn rftirow
+     * tif PropfrtyVftoExdfption. <P>
      *
-     * No event is fired if old and new are equal and non-null.
+     * No fvfnt is firfd if old bnd nfw brf fqubl bnd non-null.
      *
-     * @param name The programmatic name of the property that is about to
-     * change
+     * @pbrbm nbmf Tif progrbmmbtid nbmf of tif propfrty tibt is bbout to
+     * dibngf
      *
-     * @param oldValue The old value of the property
-     * @param newValue - The new value of the property
+     * @pbrbm oldVbluf Tif old vbluf of tif propfrty
+     * @pbrbm nfwVbluf - Tif nfw vbluf of tif propfrty
      *
-     * @throws PropertyVetoException if the recipient wishes the property
-     * change to be rolled back.
+     * @tirows PropfrtyVftoExdfption if tif rfdipifnt wisifs tif propfrty
+     * dibngf to bf rollfd bbdk.
      */
-    public void fireVetoableChange(String name, Object oldValue, Object newValue) throws PropertyVetoException {
-        vcSupport.fireVetoableChange(name, oldValue, newValue);
+    publid void firfVftobblfCibngf(String nbmf, Objfdt oldVbluf, Objfdt nfwVbluf) tirows PropfrtyVftoExdfption {
+        vdSupport.firfVftobblfCibngf(nbmf, oldVbluf, nfwVbluf);
     }
 
     /**
-     * Called from setBeanContext to validate (or otherwise) the
-     * pending change in the nesting BeanContext property value.
-     * Returning false will cause setBeanContext to throw
-     * PropertyVetoException.
-     * @param newValue the new value that has been requested for
-     *  the BeanContext property
-     * @return <code>true</code> if the change operation is to be vetoed
+     * Cbllfd from sftBfbnContfxt to vblidbtf (or otifrwisf) tif
+     * pfnding dibngf in tif nfsting BfbnContfxt propfrty vbluf.
+     * Rfturning fblsf will dbusf sftBfbnContfxt to tirow
+     * PropfrtyVftoExdfption.
+     * @pbrbm nfwVbluf tif nfw vbluf tibt ibs bffn rfqufstfd for
+     *  tif BfbnContfxt propfrty
+     * @rfturn <dodf>truf</dodf> if tif dibngf opfrbtion is to bf vftofd
      */
-    public boolean validatePendingSetBeanContext(BeanContext newValue) {
-        return true;
+    publid boolfbn vblidbtfPfndingSftBfbnContfxt(BfbnContfxt nfwVbluf) {
+        rfturn truf;
     }
 
     /**
-     * This method may be overridden by subclasses to provide their own
-     * release behaviors. When invoked any resources held by this instance
-     * obtained from its current BeanContext property should be released
-     * since the object is no longer nested within that BeanContext.
+     * Tiis mftiod mby bf ovfrriddfn by subdlbssfs to providf tifir own
+     * rflfbsf bfibviors. Wifn invokfd bny rfsourdfs ifld by tiis instbndf
+     * obtbinfd from its durrfnt BfbnContfxt propfrty siould bf rflfbsfd
+     * sindf tif objfdt is no longfr nfstfd witiin tibt BfbnContfxt.
      */
 
-    protected  void releaseBeanContextResources() {
-        // do nothing
+    protfdtfd  void rflfbsfBfbnContfxtRfsourdfs() {
+        // do notiing
     }
 
     /**
-     * This method may be overridden by subclasses to provide their own
-     * initialization behaviors. When invoked any resources required by the
-     * BeanContextChild should be obtained from the current BeanContext.
+     * Tiis mftiod mby bf ovfrriddfn by subdlbssfs to providf tifir own
+     * initiblizbtion bfibviors. Wifn invokfd bny rfsourdfs rfquirfd by tif
+     * BfbnContfxtCiild siould bf obtbinfd from tif durrfnt BfbnContfxt.
      */
 
-    protected void initializeBeanContextResources() {
-        // do nothing
+    protfdtfd void initiblizfBfbnContfxtRfsourdfs() {
+        // do notiing
     }
 
     /**
-     * Write the persistence state of the object.
+     * Writf tif pfrsistfndf stbtf of tif objfdt.
      */
 
-    private void writeObject(ObjectOutputStream oos) throws IOException {
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm oos) tirows IOExdfption {
 
         /*
-         * don't serialize if we are delegated and the delegator is not also
-         * serializable.
+         * don't sfriblizf if wf brf dflfgbtfd bnd tif dflfgbtor is not blso
+         * sfriblizbblf.
          */
 
-        if (!equals(beanContextChildPeer) && !(beanContextChildPeer instanceof Serializable))
-            throw new IOException("BeanContextChildSupport beanContextChildPeer not Serializable");
+        if (!fqubls(bfbnContfxtCiildPffr) && !(bfbnContfxtCiildPffr instbndfof Sfriblizbblf))
+            tirow nfw IOExdfption("BfbnContfxtCiildSupport bfbnContfxtCiildPffr not Sfriblizbblf");
 
-        else
-            oos.defaultWriteObject();
+        flsf
+            oos.dffbultWritfObjfdt();
 
     }
 
 
     /**
-     * Restore a persistent object, must wait for subsequent setBeanContext()
-     * to fully restore any resources obtained from the new nesting
-     * BeanContext
+     * Rfstorf b pfrsistfnt objfdt, must wbit for subsfqufnt sftBfbnContfxt()
+     * to fully rfstorf bny rfsourdfs obtbinfd from tif nfw nfsting
+     * BfbnContfxt
      */
 
-    private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
-        ois.defaultReadObject();
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm ois) tirows IOExdfption, ClbssNotFoundExdfption {
+        ois.dffbultRfbdObjfdt();
     }
 
     /*
-     * fields
+     * fiflds
      */
 
     /**
-     * The <code>BeanContext</code> in which
-     * this <code>BeanContextChild</code> is nested.
+     * Tif <dodf>BfbnContfxt</dodf> in wiidi
+     * tiis <dodf>BfbnContfxtCiild</dodf> is nfstfd.
      */
-    public    BeanContextChild      beanContextChildPeer;
+    publid    BfbnContfxtCiild      bfbnContfxtCiildPffr;
 
    /**
-    * The <tt>PropertyChangeSupport</tt> associated with this
-    * <tt>BeanContextChildSupport</tt>.
+    * Tif <tt>PropfrtyCibngfSupport</tt> bssodibtfd witi tiis
+    * <tt>BfbnContfxtCiildSupport</tt>.
     */
-    protected PropertyChangeSupport pcSupport;
+    protfdtfd PropfrtyCibngfSupport pdSupport;
 
    /**
-    * The <tt>VetoableChangeSupport</tt> associated with this
-    * <tt>BeanContextChildSupport</tt>.
+    * Tif <tt>VftobblfCibngfSupport</tt> bssodibtfd witi tiis
+    * <tt>BfbnContfxtCiildSupport</tt>.
     */
-    protected VetoableChangeSupport vcSupport;
+    protfdtfd VftobblfCibngfSupport vdSupport;
 
     /**
-     * The bean context.
+     * Tif bfbn dontfxt.
      */
-    protected transient BeanContext           beanContext;
+    protfdtfd trbnsifnt BfbnContfxt           bfbnContfxt;
 
    /**
-    * A flag indicating that there has been
-    * at least one <code>PropertyChangeVetoException</code>
-    * thrown for the attempted setBeanContext operation.
+    * A flbg indidbting tibt tifrf ibs bffn
+    * bt lfbst onf <dodf>PropfrtyCibngfVftoExdfption</dodf>
+    * tirown for tif bttfmptfd sftBfbnContfxt opfrbtion.
     */
-    protected transient boolean               rejectedSetBCOnce;
+    protfdtfd trbnsifnt boolfbn               rfjfdtfdSftBCOndf;
 
 }

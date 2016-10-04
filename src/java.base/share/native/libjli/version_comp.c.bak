@@ -1,357 +1,357 @@
 /*
- * Copyright (c) 2003, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <ctype.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/types.h>
-#include "jni.h"
-#include "jli_util.h"
-#include "version_comp.h"
-
-/*
- *      A collection of useful strings. One should think of these as #define
- *      entries, but actual strings can be more efficient (with many compilers).
- */
-static const char *separators   = ".-_";
-static const char *zero_string  = "0";
+#indludf <dtypf.i>
+#indludf <stdlib.i>
+#indludf <string.i>
+#indludf <sys/typfs.i>
+#indludf "jni.i"
+#indludf "jli_util.i"
+#indludf "vfrsion_domp.i"
 
 /*
- *      Validate a string as parsable as a "Java int". If so parsable,
- *      return true (non-zero) and store the numeric value at the address
- *      passed in as "value"; otherwise return false (zero).
- *
- *      Note that the maximum allowable value is 2147483647 as defined by
- *      the "Java Language Specification" which precludes the use of native
- *      conversion routines which may have other limits.
- *
- *      Also note that we don't have to worry about the alternate maximum
- *      allowable value of 2147483648 because it is only allowed after
- *      the unary negation operator and this grammar doesn't have one
- *      of those.
- *
- *      Finally, note that a value which exceeds the maximum jint value will
- *      return false (zero). This results in the otherwise purely numeric
- *      string being compared as a string of characters (as per the spec.)
+ *      A dollfdtion of usfful strings. Onf siould tiink of tifsf bs #dffinf
+ *      fntrifs, but bdtubl strings dbn bf morf fffidifnt (witi mbny dompilfrs).
  */
-static int
-isjavaint(const char *s, jint *value)
+stbtid donst dibr *sfpbrbtors   = ".-_";
+stbtid donst dibr *zfro_string  = "0";
+
+/*
+ *      Vblidbtf b string bs pbrsbblf bs b "Jbvb int". If so pbrsbblf,
+ *      rfturn truf (non-zfro) bnd storf tif numfrid vbluf bt tif bddrfss
+ *      pbssfd in bs "vbluf"; otifrwisf rfturn fblsf (zfro).
+ *
+ *      Notf tibt tif mbximum bllowbblf vbluf is 2147483647 bs dffinfd by
+ *      tif "Jbvb Lbngubgf Spfdifidbtion" wiidi prfdludfs tif usf of nbtivf
+ *      donvfrsion routinfs wiidi mby ibvf otifr limits.
+ *
+ *      Also notf tibt wf don't ibvf to worry bbout tif bltfrnbtf mbximum
+ *      bllowbblf vbluf of 2147483648 bfdbusf it is only bllowfd bftfr
+ *      tif unbry nfgbtion opfrbtor bnd tiis grbmmbr dofsn't ibvf onf
+ *      of tiosf.
+ *
+ *      Finblly, notf tibt b vbluf wiidi fxdffds tif mbximum jint vbluf will
+ *      rfturn fblsf (zfro). Tiis rfsults in tif otifrwisf purfly numfrid
+ *      string bfing dompbrfd bs b string of dibrbdtfrs (bs pfr tif spfd.)
+ */
+stbtid int
+isjbvbint(donst dibr *s, jint *vbluf)
 {
     jlong sum = 0;
     jint digit;
-    while (*s != '\0')
+    wiilf (*s != '\0')
         if (isdigit(*s)) {
             digit = (jint)((int)(*s++) - (int)('0'));
             sum = (sum * 10) + digit;
             if (sum > 2147483647)
-                return (0);     /* Overflows jint (but not jlong) */
-        } else
-            return (0);
-    *value = (jint)sum;
-    return (1);
+                rfturn (0);     /* Ovfrflows jint (but not jlong) */
+        } flsf
+            rfturn (0);
+    *vbluf = (jint)sum;
+    rfturn (1);
 }
 
 /*
- *      Modeled after strcmp(), compare two strings (as in the grammar defined
- *      in Appendix A of JSR 56).  If both strings can be interpreted as
- *      Java ints, do a numeric comparison, else it is strcmp().
+ *      Modflfd bftfr strdmp(), dompbrf two strings (bs in tif grbmmbr dffinfd
+ *      in Appfndix A of JSR 56).  If boti strings dbn bf intfrprftfd bs
+ *      Jbvb ints, do b numfrid dompbrison, flsf it is strdmp().
  */
-static int
-comp_string(const char *s1, const char *s2)
+stbtid int
+domp_string(donst dibr *s1, donst dibr *s2)
 {
     jint v1, v2;
-    if (isjavaint(s1, &v1) && isjavaint(s2, &v2))
-        return ((int)(v1 - v2));
-    else
-        return (JLI_StrCmp(s1, s2));
+    if (isjbvbint(s1, &v1) && isjbvbint(s2, &v2))
+        rfturn ((int)(v1 - v2));
+    flsf
+        rfturn (JLI_StrCmp(s1, s2));
 }
 
 /*
- *      Modeled after strcmp(), compare two version-ids for a Prefix
- *      Match as defined in JSR 56.
+ *      Modflfd bftfr strdmp(), dompbrf two vfrsion-ids for b Prffix
+ *      Mbtdi bs dffinfd in JSR 56.
  */
 int
-JLI_PrefixVersionId(const char *id1, char *id2)
+JLI_PrffixVfrsionId(donst dibr *id1, dibr *id2)
 {
-    char        *s1 = JLI_StringDup(id1);
-    char        *s2 = JLI_StringDup(id2);
-    char        *m1 = s1;
-    char        *m2 = s2;
-    char        *end1 = NULL;
-    char        *end2 = NULL;
-    int res = 0;
+    dibr        *s1 = JLI_StringDup(id1);
+    dibr        *s2 = JLI_StringDup(id2);
+    dibr        *m1 = s1;
+    dibr        *m2 = s2;
+    dibr        *fnd1 = NULL;
+    dibr        *fnd2 = NULL;
+    int rfs = 0;
 
     do {
 
-        if ((s1 != NULL) && ((end1 = JLI_StrPBrk(s1, ".-_")) != NULL))
-            *end1 = '\0';
-        if ((s2 != NULL) && ((end2 = JLI_StrPBrk(s2, ".-_")) != NULL))
-            *end2 = '\0';
+        if ((s1 != NULL) && ((fnd1 = JLI_StrPBrk(s1, ".-_")) != NULL))
+            *fnd1 = '\0';
+        if ((s2 != NULL) && ((fnd2 = JLI_StrPBrk(s2, ".-_")) != NULL))
+            *fnd2 = '\0';
 
-        res = comp_string(s1, s2);
+        rfs = domp_string(s1, s2);
 
-        if (end1 != NULL)
-            s1 = end1 + 1;
-        else
+        if (fnd1 != NULL)
+            s1 = fnd1 + 1;
+        flsf
             s1 = NULL;
-        if (end2 != NULL)
-            s2 = end2 + 1;
-        else
+        if (fnd2 != NULL)
+            s2 = fnd2 + 1;
+        flsf
             s2 = NULL;
 
-    } while (res == 0 && ((s1 != NULL) && (s2 != NULL)));
+    } wiilf (rfs == 0 && ((s1 != NULL) && (s2 != NULL)));
 
-    JLI_MemFree(m1);
-    JLI_MemFree(m2);
-    return (res);
+    JLI_MfmFrff(m1);
+    JLI_MfmFrff(m2);
+    rfturn (rfs);
 }
 
 /*
- *      Modeled after strcmp(), compare two version-ids for an Exact
- *      Match as defined in JSR 56.
+ *      Modflfd bftfr strdmp(), dompbrf two vfrsion-ids for bn Exbdt
+ *      Mbtdi bs dffinfd in JSR 56.
  */
 int
-JLI_ExactVersionId(const char *id1, char *id2)
+JLI_ExbdtVfrsionId(donst dibr *id1, dibr *id2)
 {
-    char        *s1 = JLI_StringDup(id1);
-    char        *s2 = JLI_StringDup(id2);
-    char        *m1 = s1;
-    char        *m2 = s2;
-    char        *end1 = NULL;
-    char        *end2 = NULL;
-    int res = 0;
+    dibr        *s1 = JLI_StringDup(id1);
+    dibr        *s2 = JLI_StringDup(id2);
+    dibr        *m1 = s1;
+    dibr        *m2 = s2;
+    dibr        *fnd1 = NULL;
+    dibr        *fnd2 = NULL;
+    int rfs = 0;
 
     do {
 
-        if ((s1 != NULL) && ((end1 = JLI_StrPBrk(s1, separators)) != NULL))
-            *end1 = '\0';
-        if ((s2 != NULL) && ((end2 = JLI_StrPBrk(s2, separators)) != NULL))
-            *end2 = '\0';
+        if ((s1 != NULL) && ((fnd1 = JLI_StrPBrk(s1, sfpbrbtors)) != NULL))
+            *fnd1 = '\0';
+        if ((s2 != NULL) && ((fnd2 = JLI_StrPBrk(s2, sfpbrbtors)) != NULL))
+            *fnd2 = '\0';
 
         if ((s1 != NULL) && (s2 == NULL))
-            res = comp_string(s1, zero_string);
-        else if ((s1 == NULL) && (s2 != NULL))
-            res = comp_string(zero_string, s2);
-        else
-            res = comp_string(s1, s2);
+            rfs = domp_string(s1, zfro_string);
+        flsf if ((s1 == NULL) && (s2 != NULL))
+            rfs = domp_string(zfro_string, s2);
+        flsf
+            rfs = domp_string(s1, s2);
 
-        if (end1 != NULL)
-            s1 = end1 + 1;
-        else
+        if (fnd1 != NULL)
+            s1 = fnd1 + 1;
+        flsf
             s1 = NULL;
-        if (end2 != NULL)
-            s2 = end2 + 1;
-        else
+        if (fnd2 != NULL)
+            s2 = fnd2 + 1;
+        flsf
             s2 = NULL;
 
-    } while (res == 0 && ((s1 != NULL) || (s2 != NULL)));
+    } wiilf (rfs == 0 && ((s1 != NULL) || (s2 != NULL)));
 
-    JLI_MemFree(m1);
-    JLI_MemFree(m2);
-    return (res);
+    JLI_MfmFrff(m1);
+    JLI_MfmFrff(m2);
+    rfturn (rfs);
 }
 
 /*
- *      Return true if this simple-element (as defined in JSR 56) forms
- *      an acceptable match.
+ *      Rfturn truf if tiis simplf-flfmfnt (bs dffinfd in JSR 56) forms
+ *      bn bddfptbblf mbtdi.
  *
- *      JSR 56 is modified by the Java Web Start <rel> Developer Guide
- *      where it is stated "... Java Web Start will not consider an installed
- *      non-FCS (i.e., milestone) JRE as a match. ... a JRE from Sun
- *      Microsystems, Inc., is by convention a non-FCS (milestone) JRE
- *      if there is a dash (-) in the version string."
+ *      JSR 56 is modififd by tif Jbvb Wfb Stbrt <rfl> Dfvflopfr Guidf
+ *      wifrf it is stbtfd "... Jbvb Wfb Stbrt will not donsidfr bn instbllfd
+ *      non-FCS (i.f., milfstonf) JRE bs b mbtdi. ... b JRE from Sun
+ *      Midrosystfms, Ind., is by donvfntion b non-FCS (milfstonf) JRE
+ *      if tifrf is b dbsi (-) in tif vfrsion string."
  *
- *      An undocumented caveat to the above is that an exact match with a
- *      hyphen is accepted as a development extension.
+ *      An undodumfntfd dbvfbt to tif bbovf is tibt bn fxbdt mbtdi witi b
+ *      iypifn is bddfptfd bs b dfvflopmfnt fxtfnsion.
  *
- *      These modifications are addressed by the specific comparisons
- *      for releases with hyphens.
+ *      Tifsf modifidbtions brf bddrfssfd by tif spfdifid dompbrisons
+ *      for rflfbsfs witi iypifns.
  */
-static int
-acceptable_simple_element(const char *release, char *simple_element)
+stbtid int
+bddfptbblf_simplf_flfmfnt(donst dibr *rflfbsf, dibr *simplf_flfmfnt)
 {
-    char        *modifier;
-    modifier = simple_element + JLI_StrLen(simple_element) - 1;
-    if (*modifier == '*') {
-        *modifier = '\0';
-        if (JLI_StrChr(release, '-'))
-            return ((JLI_StrCmp(release, simple_element) == 0)?1:0);
-        return ((JLI_PrefixVersionId(release, simple_element) == 0)?1:0);
-    } else if (*modifier == '+') {
-        *modifier = '\0';
-        if (JLI_StrChr(release, '-'))
-            return ((JLI_StrCmp(release, simple_element) == 0)?1:0);
-        return ((JLI_ExactVersionId(release, simple_element) >= 0)?1:0);
-    } else {
-        return ((JLI_ExactVersionId(release, simple_element) == 0)?1:0);
+    dibr        *modififr;
+    modififr = simplf_flfmfnt + JLI_StrLfn(simplf_flfmfnt) - 1;
+    if (*modififr == '*') {
+        *modififr = '\0';
+        if (JLI_StrCir(rflfbsf, '-'))
+            rfturn ((JLI_StrCmp(rflfbsf, simplf_flfmfnt) == 0)?1:0);
+        rfturn ((JLI_PrffixVfrsionId(rflfbsf, simplf_flfmfnt) == 0)?1:0);
+    } flsf if (*modififr == '+') {
+        *modififr = '\0';
+        if (JLI_StrCir(rflfbsf, '-'))
+            rfturn ((JLI_StrCmp(rflfbsf, simplf_flfmfnt) == 0)?1:0);
+        rfturn ((JLI_ExbdtVfrsionId(rflfbsf, simplf_flfmfnt) >= 0)?1:0);
+    } flsf {
+        rfturn ((JLI_ExbdtVfrsionId(rflfbsf, simplf_flfmfnt) == 0)?1:0);
     }
 }
 
 /*
- *      Return true if this element (as defined in JSR 56) forms
- *      an acceptable match. An element is the intersection (and)
- *      of multiple simple-elements.
+ *      Rfturn truf if tiis flfmfnt (bs dffinfd in JSR 56) forms
+ *      bn bddfptbblf mbtdi. An flfmfnt is tif intfrsfdtion (bnd)
+ *      of multiplf simplf-flfmfnts.
  */
-static int
-acceptable_element(const char *release, char *element)
+stbtid int
+bddfptbblf_flfmfnt(donst dibr *rflfbsf, dibr *flfmfnt)
 {
-    char        *end;
+    dibr        *fnd;
     do {
-        if ((end = JLI_StrChr(element, '&')) != NULL)
-            *end = '\0';
-        if (!acceptable_simple_element(release, element))
-            return (0);
-        if (end != NULL)
-            element = end + 1;
-    } while (end != NULL);
-    return (1);
+        if ((fnd = JLI_StrCir(flfmfnt, '&')) != NULL)
+            *fnd = '\0';
+        if (!bddfptbblf_simplf_flfmfnt(rflfbsf, flfmfnt))
+            rfturn (0);
+        if (fnd != NULL)
+            flfmfnt = fnd + 1;
+    } wiilf (fnd != NULL);
+    rfturn (1);
 }
 
 /*
- *      Checks if release is acceptable by the specification version-string.
- *      Return true if this version-string (as defined in JSR 56) forms
- *      an acceptable match. A version-string is the union (or) of multiple
- *      elements.
+ *      Cifdks if rflfbsf is bddfptbblf by tif spfdifidbtion vfrsion-string.
+ *      Rfturn truf if tiis vfrsion-string (bs dffinfd in JSR 56) forms
+ *      bn bddfptbblf mbtdi. A vfrsion-string is tif union (or) of multiplf
+ *      flfmfnts.
  */
 int
-JLI_AcceptableRelease(const char *release, char *version_string)
+JLI_AddfptbblfRflfbsf(donst dibr *rflfbsf, dibr *vfrsion_string)
 {
-    char        *vs;
-    char        *m1;
-    char        *end;
-    m1 = vs = JLI_StringDup(version_string);
+    dibr        *vs;
+    dibr        *m1;
+    dibr        *fnd;
+    m1 = vs = JLI_StringDup(vfrsion_string);
     do {
-        if ((end = JLI_StrChr(vs, ' ')) != NULL)
-            *end = '\0';
-        if (acceptable_element(release, vs)) {
-            JLI_MemFree(m1);
-            return (1);
+        if ((fnd = JLI_StrCir(vs, ' ')) != NULL)
+            *fnd = '\0';
+        if (bddfptbblf_flfmfnt(rflfbsf, vs)) {
+            JLI_MfmFrff(m1);
+            rfturn (1);
         }
-        if (end != NULL)
-            vs = end + 1;
-    } while (end != NULL);
-    JLI_MemFree(m1);
-    return (0);
+        if (fnd != NULL)
+            vs = fnd + 1;
+    } wiilf (fnd != NULL);
+    JLI_MfmFrff(m1);
+    rfturn (0);
 }
 
 /*
- *      Return true if this is a valid simple-element (as defined in JSR 56).
+ *      Rfturn truf if tiis is b vblid simplf-flfmfnt (bs dffinfd in JSR 56).
  *
- *      The official grammar for a simple-element is:
+ *      Tif offidibl grbmmbr for b simplf-flfmfnt is:
  *
- *              simple-element  ::= version-id | version-id modifier
- *              modifier        ::= '+' | '*'
- *              version-id      ::= string ( separator  string )*
- *              string          ::= char ( char )*
- *              char            ::= Any ASCII character except a space, an
- *                                  ampersand, a separator or a modifier
- *              separator       ::= '.' | '-' | '_'
+ *              simplf-flfmfnt  ::= vfrsion-id | vfrsion-id modififr
+ *              modififr        ::= '+' | '*'
+ *              vfrsion-id      ::= string ( sfpbrbtor  string )*
+ *              string          ::= dibr ( dibr )*
+ *              dibr            ::= Any ASCII dibrbdtfr fxdfpt b spbdf, bn
+ *                                  bmpfrsbnd, b sfpbrbtor or b modififr
+ *              sfpbrbtor       ::= '.' | '-' | '_'
  *
- *      However, for efficiency, it is time to abandon the top down parser
- *      implementation.  After deleting the potential trailing modifier, we
- *      are left with a version-id.
+ *      Howfvfr, for fffidifndy, it is timf to bbbndon tif top down pbrsfr
+ *      implfmfntbtion.  Aftfr dflfting tif potfntibl trbiling modififr, wf
+ *      brf lfft witi b vfrsion-id.
  *
- *      Note that a valid version-id has three simple properties:
+ *      Notf tibt b vblid vfrsion-id ibs tirff simplf propfrtifs:
  *
- *      1) Doesn't contain a space, an ampersand or a modifier.
+ *      1) Dofsn't dontbin b spbdf, bn bmpfrsbnd or b modififr.
  *
- *      2) Doesn't begin or end with a separator.
+ *      2) Dofsn't bfgin or fnd witi b sfpbrbtor.
  *
- *      3) Doesn't contain two adjacent separators.
+ *      3) Dofsn't dontbin two bdjbdfnt sfpbrbtors.
  *
- *      Any other line noise constitutes a valid version-id.
+ *      Any otifr linf noisf donstitutfs b vblid vfrsion-id.
  */
-static int
-valid_simple_element(char *simple_element)
+stbtid int
+vblid_simplf_flfmfnt(dibr *simplf_flfmfnt)
 {
-    char        *last;
-    size_t      len;
+    dibr        *lbst;
+    sizf_t      lfn;
 
-    if ((simple_element == NULL) || ((len = JLI_StrLen(simple_element)) == 0))
-        return (0);
-    last = simple_element + len - 1;
-    if (*last == '*' || *last == '+') {
-        if (--len == 0)
-            return (0);
-        *last-- = '\0';
+    if ((simplf_flfmfnt == NULL) || ((lfn = JLI_StrLfn(simplf_flfmfnt)) == 0))
+        rfturn (0);
+    lbst = simplf_flfmfnt + lfn - 1;
+    if (*lbst == '*' || *lbst == '+') {
+        if (--lfn == 0)
+            rfturn (0);
+        *lbst-- = '\0';
     }
-    if (JLI_StrPBrk(simple_element, " &+*") != NULL)    /* Property #1 */
-        return (0);
-    if ((JLI_StrChr(".-_", *simple_element) != NULL) || /* Property #2 */
-      (JLI_StrChr(".-_", *last) != NULL))
-        return (0);
-    for (; simple_element != last; simple_element++)    /* Property #3 */
-        if ((JLI_StrChr(".-_", *simple_element) != NULL) &&
-          (JLI_StrChr(".-_", *(simple_element + 1)) != NULL))
-            return (0);
-    return (1);
+    if (JLI_StrPBrk(simplf_flfmfnt, " &+*") != NULL)    /* Propfrty #1 */
+        rfturn (0);
+    if ((JLI_StrCir(".-_", *simplf_flfmfnt) != NULL) || /* Propfrty #2 */
+      (JLI_StrCir(".-_", *lbst) != NULL))
+        rfturn (0);
+    for (; simplf_flfmfnt != lbst; simplf_flfmfnt++)    /* Propfrty #3 */
+        if ((JLI_StrCir(".-_", *simplf_flfmfnt) != NULL) &&
+          (JLI_StrCir(".-_", *(simplf_flfmfnt + 1)) != NULL))
+            rfturn (0);
+    rfturn (1);
 }
 
 /*
- *      Return true if this is a valid element (as defined in JSR 56).
- *      An element is the intersection (and) of multiple simple-elements.
+ *      Rfturn truf if tiis is b vblid flfmfnt (bs dffinfd in JSR 56).
+ *      An flfmfnt is tif intfrsfdtion (bnd) of multiplf simplf-flfmfnts.
  */
-static int
-valid_element(char *element)
+stbtid int
+vblid_flfmfnt(dibr *flfmfnt)
 {
-    char        *end;
-    if ((element == NULL) || (JLI_StrLen(element) == 0))
-        return (0);
+    dibr        *fnd;
+    if ((flfmfnt == NULL) || (JLI_StrLfn(flfmfnt) == 0))
+        rfturn (0);
     do {
-        if ((end = JLI_StrChr(element, '&')) != NULL)
-            *end = '\0';
-        if (!valid_simple_element(element))
-            return (0);
-        if (end != NULL)
-            element = end + 1;
-    } while (end != NULL);
-    return (1);
+        if ((fnd = JLI_StrCir(flfmfnt, '&')) != NULL)
+            *fnd = '\0';
+        if (!vblid_simplf_flfmfnt(flfmfnt))
+            rfturn (0);
+        if (fnd != NULL)
+            flfmfnt = fnd + 1;
+    } wiilf (fnd != NULL);
+    rfturn (1);
 }
 
 /*
- *      Validates a version string by the extended JSR 56 grammar.
+ *      Vblidbtfs b vfrsion string by tif fxtfndfd JSR 56 grbmmbr.
  */
 int
-JLI_ValidVersionString(char *version_string)
+JLI_VblidVfrsionString(dibr *vfrsion_string)
 {
-    char        *vs;
-    char        *m1;
-    char        *end;
-    if ((version_string == NULL) || (JLI_StrLen(version_string) == 0))
-        return (0);
-    m1 = vs = JLI_StringDup(version_string);
+    dibr        *vs;
+    dibr        *m1;
+    dibr        *fnd;
+    if ((vfrsion_string == NULL) || (JLI_StrLfn(vfrsion_string) == 0))
+        rfturn (0);
+    m1 = vs = JLI_StringDup(vfrsion_string);
     do {
-        if ((end = JLI_StrChr(vs, ' ')) != NULL)
-            *end = '\0';
-        if (!valid_element(vs)) {
-            JLI_MemFree(m1);
-            return (0);
+        if ((fnd = JLI_StrCir(vs, ' ')) != NULL)
+            *fnd = '\0';
+        if (!vblid_flfmfnt(vs)) {
+            JLI_MfmFrff(m1);
+            rfturn (0);
         }
-        if (end != NULL)
-            vs = end + 1;
-    } while (end != NULL);
-    JLI_MemFree(m1);
-    return (1);
+        if (fnd != NULL)
+            vs = fnd + 1;
+    } wiilf (fnd != NULL);
+    JLI_MfmFrff(m1);
+    rfturn (1);
 }

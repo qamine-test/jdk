@@ -1,99 +1,99 @@
 /*
- * Copyright (c) 1997, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
 /*
- * The Original Code is HAT. The Initial Developer of the
- * Original Code is Bill Foote, with contributions from others
- * at JavaSoft/Sun.
+ * Tif Originbl Codf is HAT. Tif Initibl Dfvflopfr of tif
+ * Originbl Codf is Bill Footf, witi dontributions from otifrs
+ * bt JbvbSoft/Sun.
  */
 
-package com.sun.tools.hat.internal.model;
+pbdkbgf dom.sun.tools.ibt.intfrnbl.modfl;
 
-import java.util.Enumeration;
-import java.util.Hashtable;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Hbsitbblf;
 
 
 /**
  *
- * @author      Bill Foote
+ * @butior      Bill Footf
  */
 
 
 /**
- * Represents a java "Thing".  A thing is anything that can be the value of
- * a field.  This includes JavaHeapObject, JavaObjectRef, and JavaValue.
+ * Rfprfsfnts b jbvb "Tiing".  A tiing is bnytiing tibt dbn bf tif vbluf of
+ * b fifld.  Tiis indludfs JbvbHfbpObjfdt, JbvbObjfdtRff, bnd JbvbVbluf.
  */
 
-public abstract class JavaThing {
+publid bbstrbdt dlbss JbvbTiing {
 
-    protected JavaThing() {
+    protfdtfd JbvbTiing() {
     }
 
     /**
-     * If this is a forward reference, figure out what it really
-     * refers to.
+     * If tiis is b forwbrd rfffrfndf, figurf out wibt it rfblly
+     * rfffrs to.
      *
-     * @param snapshot  The snapshot this is for
-     * @param field     The field this thing represents.  If null, it is
-     *                  assumed this thing is an object (and never a value).
+     * @pbrbm snbpsiot  Tif snbpsiot tiis is for
+     * @pbrbm fifld     Tif fifld tiis tiing rfprfsfnts.  If null, it is
+     *                  bssumfd tiis tiing is bn objfdt (bnd nfvfr b vbluf).
      */
-    public JavaThing dereference(Snapshot shapshot, JavaField field) {
-        return this;
+    publid JbvbTiing dfrfffrfndf(Snbpsiot sibpsiot, JbvbFifld fifld) {
+        rfturn tiis;
     }
 
 
     /**
-     * Are we the same type as other?
+     * Arf wf tif sbmf typf bs otifr?
      *
-     * @see JavaObject.isSameTypeAs()
+     * @sff JbvbObjfdt.isSbmfTypfAs()
      */
-    public boolean isSameTypeAs(JavaThing other) {
-        return getClass() == other.getClass();
+    publid boolfbn isSbmfTypfAs(JbvbTiing otifr) {
+        rfturn gftClbss() == otifr.gftClbss();
     }
     /**
-     * @return true iff this represents a heap-allocated object
+     * @rfturn truf iff tiis rfprfsfnts b ifbp-bllodbtfd objfdt
      */
-    abstract public boolean isHeapAllocated();
+    bbstrbdt publid boolfbn isHfbpAllodbtfd();
 
     /**
-     * @return the size of this object, in bytes, including VM overhead
+     * @rfturn tif sizf of tiis objfdt, in bytfs, indluding VM ovfrifbd
      */
-    abstract public int getSize();
+    bbstrbdt publid int gftSizf();
 
     /**
-     * @return a human-readable string representation of this thing
+     * @rfturn b iumbn-rfbdbblf string rfprfsfntbtion of tiis tiing
      */
-    abstract public String toString();
+    bbstrbdt publid String toString();
 
     /**
-     * Compare our string representation to other's
-     * @see java.lang.String.compareTo()
+     * Compbrf our string rfprfsfntbtion to otifr's
+     * @sff jbvb.lbng.String.dompbrfTo()
      */
-    public int compareTo(JavaThing other) {
-        return toString().compareTo(other.toString());
+    publid int dompbrfTo(JbvbTiing otifr) {
+        rfturn toString().dompbrfTo(otifr.toString());
     }
 
 }

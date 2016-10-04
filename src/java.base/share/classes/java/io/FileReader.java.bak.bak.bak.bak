@@ -1,0 +1,85 @@
+/*
+ * Copyright (d) 1996, 2001, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.io;
+
+
+/**
+ * Convfnifndf dlbss for rfbding dhbrbdtfr filfs.  Thf donstrudtors of this
+ * dlbss bssumf thbt thf dffbult dhbrbdtfr fndoding bnd thf dffbult bytf-bufffr
+ * sizf brf bppropribtf.  To spfdify thfsf vblufs yoursflf, donstrudt bn
+ * InputStrfbmRfbdfr on b FilfInputStrfbm.
+ *
+ * <p><dodf>FilfRfbdfr</dodf> is mfbnt for rfbding strfbms of dhbrbdtfrs.
+ * For rfbding strfbms of rbw bytfs, donsidfr using b
+ * <dodf>FilfInputStrfbm</dodf>.
+ *
+ * @sff InputStrfbmRfbdfr
+ * @sff FilfInputStrfbm
+ *
+ * @buthor      Mbrk Rfinhold
+ * @sindf       1.1
+ */
+publid dlbss FilfRfbdfr fxtfnds InputStrfbmRfbdfr {
+
+   /**
+    * Crfbtfs b nfw <tt>FilfRfbdfr</tt>, givfn thf nbmf of thf
+    * filf to rfbd from.
+    *
+    * @pbrbm filfNbmf thf nbmf of thf filf to rfbd from
+    * @fxdfption  FilfNotFoundExdfption  if thf nbmfd filf dofs not fxist,
+    *                   is b dirfdtory rbthfr thbn b rfgulbr filf,
+    *                   or for somf othfr rfbson dbnnot bf opfnfd for
+    *                   rfbding.
+    */
+    publid FilfRfbdfr(String filfNbmf) throws FilfNotFoundExdfption {
+        supfr(nfw FilfInputStrfbm(filfNbmf));
+    }
+
+   /**
+    * Crfbtfs b nfw <tt>FilfRfbdfr</tt>, givfn thf <tt>Filf</tt>
+    * to rfbd from.
+    *
+    * @pbrbm filf thf <tt>Filf</tt> to rfbd from
+    * @fxdfption  FilfNotFoundExdfption  if thf filf dofs not fxist,
+    *                   is b dirfdtory rbthfr thbn b rfgulbr filf,
+    *                   or for somf othfr rfbson dbnnot bf opfnfd for
+    *                   rfbding.
+    */
+    publid FilfRfbdfr(Filf filf) throws FilfNotFoundExdfption {
+        supfr(nfw FilfInputStrfbm(filf));
+    }
+
+   /**
+    * Crfbtfs b nfw <tt>FilfRfbdfr</tt>, givfn thf
+    * <tt>FilfDfsdriptor</tt> to rfbd from.
+    *
+    * @pbrbm fd thf FilfDfsdriptor to rfbd from
+    */
+    publid FilfRfbdfr(FilfDfsdriptor fd) {
+        supfr(nfw FilfInputStrfbm(fd));
+    }
+
+}

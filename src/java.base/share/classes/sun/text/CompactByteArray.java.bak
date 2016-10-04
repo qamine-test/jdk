@@ -1,352 +1,352 @@
 /*
- * Copyright (c) 1996, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996 - All Rights Reserved
- * (C) Copyright IBM Corp. 1996 - All Rights Reserved
+ * (C) Copyrigit Tbligfnt, Ind. 1996 - All Rigits Rfsfrvfd
+ * (C) Copyrigit IBM Corp. 1996 - All Rigits Rfsfrvfd
  *
- *   The original version of this source code and documentation is copyrighted
- * and owned by Taligent, Inc., a wholly-owned subsidiary of IBM. These
- * materials are provided under terms of a License Agreement between Taligent
- * and Sun. This technology is protected by multiple US and International
- * patents. This notice and attribution to Taligent may not be removed.
- *   Taligent is a registered trademark of Taligent, Inc.
+ *   Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion is dopyrigitfd
+ * bnd ownfd by Tbligfnt, Ind., b wiolly-ownfd subsidibry of IBM. Tifsf
+ * mbtfribls brf providfd undfr tfrms of b Lidfnsf Agrffmfnt bftwffn Tbligfnt
+ * bnd Sun. Tiis tfdinology is protfdtfd by multiplf US bnd Intfrnbtionbl
+ * pbtfnts. Tiis notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ *   Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
  *
  */
 
-package sun.text;
+pbdkbgf sun.tfxt;
 
 
 /**
- * class CompactATypeArray : use only on primitive data types
- * Provides a compact way to store information that is indexed by Unicode
- * values, such as character properties, types, keyboard values, etc.This
- * is very useful when you have a block of Unicode data that contains
- * significant values while the rest of the Unicode data is unused in the
- * application or when you have a lot of redundance, such as where all 21,000
- * Han ideographs have the same value.  However, lookup is much faster than a
- * hash table.
- * A compact array of any primitive data type serves two purposes:
- * <UL type = round>
- *     <LI>Fast access of the indexed values.
- *     <LI>Smaller memory footprint.
+ * dlbss CompbdtATypfArrby : usf only on primitivf dbtb typfs
+ * Providfs b dompbdt wby to storf informbtion tibt is indfxfd by Unidodf
+ * vblufs, sudi bs dibrbdtfr propfrtifs, typfs, kfybobrd vblufs, ftd.Tiis
+ * is vfry usfful wifn you ibvf b blodk of Unidodf dbtb tibt dontbins
+ * signifidbnt vblufs wiilf tif rfst of tif Unidodf dbtb is unusfd in tif
+ * bpplidbtion or wifn you ibvf b lot of rfdundbndf, sudi bs wifrf bll 21,000
+ * Hbn idfogrbpis ibvf tif sbmf vbluf.  Howfvfr, lookup is mudi fbstfr tibn b
+ * ibsi tbblf.
+ * A dompbdt brrby of bny primitivf dbtb typf sfrvfs two purposfs:
+ * <UL typf = round>
+ *     <LI>Fbst bddfss of tif indfxfd vblufs.
+ *     <LI>Smbllfr mfmory footprint.
  * </UL>
- * A compact array is composed of a index array and value array.  The index
- * array contains the indicies of Unicode characters to the value array.
+ * A dompbdt brrby is domposfd of b indfx brrby bnd vbluf brrby.  Tif indfx
+ * brrby dontbins tif indidifs of Unidodf dibrbdtfrs to tif vbluf brrby.
  *
- * @see                CompactIntArray
- * @see                CompactShortArray
- * @author             Helena Shih
+ * @sff                CompbdtIntArrby
+ * @sff                CompbdtSiortArrby
+ * @butior             Hflfnb Siii
  */
-public final class CompactByteArray implements Cloneable {
+publid finbl dlbss CompbdtBytfArrby implfmfnts Clonfbblf {
 
     /**
-     * The total number of Unicode characters.
+     * Tif totbl numbfr of Unidodf dibrbdtfrs.
      */
-    public static  final int UNICODECOUNT =65536;
+    publid stbtid  finbl int UNICODECOUNT =65536;
 
     /**
-     * Constructor for CompactByteArray.
-     * @param defaultValue the default value of the compact array.
+     * Construdtor for CompbdtBytfArrby.
+     * @pbrbm dffbultVbluf tif dffbult vbluf of tif dompbdt brrby.
      */
-    public CompactByteArray(byte defaultValue)
+    publid CompbdtBytfArrby(bytf dffbultVbluf)
     {
         int i;
-        values = new byte[UNICODECOUNT];
-        indices = new short[INDEXCOUNT];
-        hashes = new int[INDEXCOUNT];
+        vblufs = nfw bytf[UNICODECOUNT];
+        indidfs = nfw siort[INDEXCOUNT];
+        ibsifs = nfw int[INDEXCOUNT];
         for (i = 0; i < UNICODECOUNT; ++i) {
-            values[i] = defaultValue;
+            vblufs[i] = dffbultVbluf;
         }
         for (i = 0; i < INDEXCOUNT; ++i) {
-            indices[i] = (short)(i<<BLOCKSHIFT);
-            hashes[i] = 0;
+            indidfs[i] = (siort)(i<<BLOCKSHIFT);
+            ibsifs[i] = 0;
         }
-        isCompact = false;
+        isCompbdt = fblsf;
     }
 
     /**
-     * Constructor for CompactByteArray.
-     * @param indexArray the indicies of the compact array.
-     * @param newValues the values of the compact array.
-     * @exception IllegalArgumentException If index is out of range.
+     * Construdtor for CompbdtBytfArrby.
+     * @pbrbm indfxArrby tif indidifs of tif dompbdt brrby.
+     * @pbrbm nfwVblufs tif vblufs of tif dompbdt brrby.
+     * @fxdfption IllfgblArgumfntExdfption If indfx is out of rbngf.
      */
-     public CompactByteArray(short indexArray[],
-                            byte newValues[])
+     publid CompbdtBytfArrby(siort indfxArrby[],
+                            bytf nfwVblufs[])
     {
         int i;
-        if (indexArray.length != INDEXCOUNT)
-            throw new IllegalArgumentException("Index out of bounds!");
+        if (indfxArrby.lfngti != INDEXCOUNT)
+            tirow nfw IllfgblArgumfntExdfption("Indfx out of bounds!");
         for (i = 0; i < INDEXCOUNT; ++i) {
-            short index = indexArray[i];
-            if ((index < 0) || (index >= newValues.length+BLOCKCOUNT))
-                throw new IllegalArgumentException("Index out of bounds!");
+            siort indfx = indfxArrby[i];
+            if ((indfx < 0) || (indfx >= nfwVblufs.lfngti+BLOCKCOUNT))
+                tirow nfw IllfgblArgumfntExdfption("Indfx out of bounds!");
         }
-        indices = indexArray;
-        values = newValues;
-        isCompact = true;
+        indidfs = indfxArrby;
+        vblufs = nfwVblufs;
+        isCompbdt = truf;
     }
 
     /**
-     * Get the mapped value of a Unicode character.
-     * @param index the character to get the mapped value with
-     * @return the mapped value of the given character
+     * Gft tif mbppfd vbluf of b Unidodf dibrbdtfr.
+     * @pbrbm indfx tif dibrbdtfr to gft tif mbppfd vbluf witi
+     * @rfturn tif mbppfd vbluf of tif givfn dibrbdtfr
      */
-    public byte elementAt(char index)
+    publid bytf flfmfntAt(dibr indfx)
     {
-        return (values[(indices[index >> BLOCKSHIFT] & 0xFFFF)
-                       + (index & BLOCKMASK)]);
+        rfturn (vblufs[(indidfs[indfx >> BLOCKSHIFT] & 0xFFFF)
+                       + (indfx & BLOCKMASK)]);
     }
     /**
-     * Set a new value for a Unicode character.
-     * Set automatically expands the array if it is compacted.
-     * @param index the character to set the mapped value with
-     * @param value the new mapped value
+     * Sft b nfw vbluf for b Unidodf dibrbdtfr.
+     * Sft butombtidblly fxpbnds tif brrby if it is dompbdtfd.
+     * @pbrbm indfx tif dibrbdtfr to sft tif mbppfd vbluf witi
+     * @pbrbm vbluf tif nfw mbppfd vbluf
      */
-    public void setElementAt(char index, byte value)
+    publid void sftElfmfntAt(dibr indfx, bytf vbluf)
     {
-        if (isCompact)
-            expand();
-        values[(int)index] = value;
-        touchBlock(index >> BLOCKSHIFT, value);
+        if (isCompbdt)
+            fxpbnd();
+        vblufs[(int)indfx] = vbluf;
+        toudiBlodk(indfx >> BLOCKSHIFT, vbluf);
     }
 
     /**
-     * Set new values for a range of Unicode character.
-     * @param start the starting offset o of the range
-     * @param end the ending offset of the range
-     * @param value the new mapped value
+     * Sft nfw vblufs for b rbngf of Unidodf dibrbdtfr.
+     * @pbrbm stbrt tif stbrting offsft o of tif rbngf
+     * @pbrbm fnd tif fnding offsft of tif rbngf
+     * @pbrbm vbluf tif nfw mbppfd vbluf
      */
-    public void setElementAt(char start, char end, byte value)
+    publid void sftElfmfntAt(dibr stbrt, dibr fnd, bytf vbluf)
     {
         int i;
-        if (isCompact) {
-            expand();
+        if (isCompbdt) {
+            fxpbnd();
         }
-        for (i = start; i <= end; ++i) {
-            values[i] = value;
-            touchBlock(i >> BLOCKSHIFT, value);
+        for (i = stbrt; i <= fnd; ++i) {
+            vblufs[i] = vbluf;
+            toudiBlodk(i >> BLOCKSHIFT, vbluf);
         }
     }
 
     /**
-      *Compact the array.
+      *Compbdt tif brrby.
       */
-    public void compact()
+    publid void dompbdt()
     {
-        if (!isCompact) {
-            int limitCompacted = 0;
-            int iBlockStart = 0;
-            short iUntouched = -1;
+        if (!isCompbdt) {
+            int limitCompbdtfd = 0;
+            int iBlodkStbrt = 0;
+            siort iUntoudifd = -1;
 
-            for (int i = 0; i < indices.length; ++i, iBlockStart += BLOCKCOUNT) {
-                indices[i] = -1;
-                boolean touched = blockTouched(i);
-                if (!touched && iUntouched != -1) {
-                    // If no values in this block were set, we can just set its
-                    // index to be the same as some other block with no values
-                    // set, assuming we've seen one yet.
-                    indices[i] = iUntouched;
-                } else {
-                    int jBlockStart = 0;
+            for (int i = 0; i < indidfs.lfngti; ++i, iBlodkStbrt += BLOCKCOUNT) {
+                indidfs[i] = -1;
+                boolfbn toudifd = blodkToudifd(i);
+                if (!toudifd && iUntoudifd != -1) {
+                    // If no vblufs in tiis blodk wfrf sft, wf dbn just sft its
+                    // indfx to bf tif sbmf bs somf otifr blodk witi no vblufs
+                    // sft, bssuming wf'vf sffn onf yft.
+                    indidfs[i] = iUntoudifd;
+                } flsf {
+                    int jBlodkStbrt = 0;
                     int j = 0;
-                    for (j = 0; j < limitCompacted;
-                            ++j, jBlockStart += BLOCKCOUNT) {
-                        if (hashes[i] == hashes[j] &&
-                                arrayRegionMatches(values, iBlockStart,
-                                values, jBlockStart, BLOCKCOUNT)) {
-                            indices[i] = (short)jBlockStart;
-                            break;
+                    for (j = 0; j < limitCompbdtfd;
+                            ++j, jBlodkStbrt += BLOCKCOUNT) {
+                        if (ibsifs[i] == ibsifs[j] &&
+                                brrbyRfgionMbtdifs(vblufs, iBlodkStbrt,
+                                vblufs, jBlodkStbrt, BLOCKCOUNT)) {
+                            indidfs[i] = (siort)jBlodkStbrt;
+                            brfbk;
                         }
                     }
-                    if (indices[i] == -1) {
-                        // we didn't match, so copy & update
-                        System.arraycopy(values, iBlockStart,
-                            values, jBlockStart, BLOCKCOUNT);
-                        indices[i] = (short)jBlockStart;
-                        hashes[j] = hashes[i];
-                        ++limitCompacted;
+                    if (indidfs[i] == -1) {
+                        // wf didn't mbtdi, so dopy & updbtf
+                        Systfm.brrbydopy(vblufs, iBlodkStbrt,
+                            vblufs, jBlodkStbrt, BLOCKCOUNT);
+                        indidfs[i] = (siort)jBlodkStbrt;
+                        ibsifs[j] = ibsifs[i];
+                        ++limitCompbdtfd;
 
-                        if (!touched) {
-                            // If this is the first untouched block we've seen,
-                            // remember its index.
-                            iUntouched = (short)jBlockStart;
+                        if (!toudifd) {
+                            // If tiis is tif first untoudifd blodk wf'vf sffn,
+                            // rfmfmbfr its indfx.
+                            iUntoudifd = (siort)jBlodkStbrt;
                         }
                     }
                 }
             }
-            // we are done compacting, so now make the array shorter
-            int newSize = limitCompacted*BLOCKCOUNT;
-            byte[] result = new byte[newSize];
-            System.arraycopy(values, 0, result, 0, newSize);
-            values = result;
-            isCompact = true;
-            hashes = null;
+            // wf brf donf dompbdting, so now mbkf tif brrby siortfr
+            int nfwSizf = limitCompbdtfd*BLOCKCOUNT;
+            bytf[] rfsult = nfw bytf[nfwSizf];
+            Systfm.brrbydopy(vblufs, 0, rfsult, 0, nfwSizf);
+            vblufs = rfsult;
+            isCompbdt = truf;
+            ibsifs = null;
         }
     }
 
     /**
-     * Convenience utility to compare two arrays of doubles.
-     * @param len the length to compare.
-     * The start indices and start+len must be valid.
+     * Convfnifndf utility to dompbrf two brrbys of doublfs.
+     * @pbrbm lfn tif lfngti to dompbrf.
+     * Tif stbrt indidfs bnd stbrt+lfn must bf vblid.
      */
-    final static boolean arrayRegionMatches(byte[] source, int sourceStart,
-                                            byte[] target, int targetStart,
-                                            int len)
+    finbl stbtid boolfbn brrbyRfgionMbtdifs(bytf[] sourdf, int sourdfStbrt,
+                                            bytf[] tbrgft, int tbrgftStbrt,
+                                            int lfn)
     {
-        int sourceEnd = sourceStart + len;
-        int delta = targetStart - sourceStart;
-        for (int i = sourceStart; i < sourceEnd; i++) {
-            if (source[i] != target[i + delta])
-            return false;
+        int sourdfEnd = sourdfStbrt + lfn;
+        int dfltb = tbrgftStbrt - sourdfStbrt;
+        for (int i = sourdfStbrt; i < sourdfEnd; i++) {
+            if (sourdf[i] != tbrgft[i + dfltb])
+            rfturn fblsf;
         }
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Remember that a specified block was "touched", i.e. had a value set.
-     * Untouched blocks can be skipped when compacting the array
+     * Rfmfmbfr tibt b spfdififd blodk wbs "toudifd", i.f. ibd b vbluf sft.
+     * Untoudifd blodks dbn bf skippfd wifn dompbdting tif brrby
      */
-    private final void touchBlock(int i, int value) {
-        hashes[i] = (hashes[i] + (value<<1)) | 1;
+    privbtf finbl void toudiBlodk(int i, int vbluf) {
+        ibsifs[i] = (ibsifs[i] + (vbluf<<1)) | 1;
     }
 
     /**
-     * Query whether a specified block was "touched", i.e. had a value set.
-     * Untouched blocks can be skipped when compacting the array
+     * Qufry wiftifr b spfdififd blodk wbs "toudifd", i.f. ibd b vbluf sft.
+     * Untoudifd blodks dbn bf skippfd wifn dompbdting tif brrby
      */
-    private final boolean blockTouched(int i) {
-        return hashes[i] != 0;
+    privbtf finbl boolfbn blodkToudifd(int i) {
+        rfturn ibsifs[i] != 0;
     }
 
-    /** For internal use only.  Do not modify the result, the behavior of
-      * modified results are undefined.
+    /** For intfrnbl usf only.  Do not modify tif rfsult, tif bfibvior of
+      * modififd rfsults brf undffinfd.
       */
-    public short getIndexArray()[]
+    publid siort gftIndfxArrby()[]
     {
-        return indices;
+        rfturn indidfs;
     }
 
-    /** For internal use only.  Do not modify the result, the behavior of
-      * modified results are undefined.
+    /** For intfrnbl usf only.  Do not modify tif rfsult, tif bfibvior of
+      * modififd rfsults brf undffinfd.
       */
-    public byte getStringArray()[]
+    publid bytf gftStringArrby()[]
     {
-        return values;
+        rfturn vblufs;
     }
 
     /**
-     * Overrides Cloneable
+     * Ovfrridfs Clonfbblf
      */
-    public Object clone()
+    publid Objfdt dlonf()
     {
         try {
-            CompactByteArray other = (CompactByteArray) super.clone();
-            other.values = values.clone();
-            other.indices = indices.clone();
-            if (hashes != null) other.hashes = hashes.clone();
-            return other;
-        } catch (CloneNotSupportedException e) {
-            throw new InternalError(e);
+            CompbdtBytfArrby otifr = (CompbdtBytfArrby) supfr.dlonf();
+            otifr.vblufs = vblufs.dlonf();
+            otifr.indidfs = indidfs.dlonf();
+            if (ibsifs != null) otifr.ibsifs = ibsifs.dlonf();
+            rfturn otifr;
+        } dbtdi (ClonfNotSupportfdExdfption f) {
+            tirow nfw IntfrnblError(f);
         }
     }
 
     /**
-     * Compares the equality of two compact array objects.
-     * @param obj the compact array object to be compared with this.
-     * @return true if the current compact array object is the same
-     * as the compact array object obj; false otherwise.
+     * Compbrfs tif fqublity of two dompbdt brrby objfdts.
+     * @pbrbm obj tif dompbdt brrby objfdt to bf dompbrfd witi tiis.
+     * @rfturn truf if tif durrfnt dompbdt brrby objfdt is tif sbmf
+     * bs tif dompbdt brrby objfdt obj; fblsf otifrwisf.
      */
-    public boolean equals(Object obj) {
-        if (obj == null) return false;
-        if (this == obj)                      // quick check
-            return true;
-        if (getClass() != obj.getClass())         // same class?
-            return false;
-        CompactByteArray other = (CompactByteArray) obj;
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj == null) rfturn fblsf;
+        if (tiis == obj)                      // quidk difdk
+            rfturn truf;
+        if (gftClbss() != obj.gftClbss())         // sbmf dlbss?
+            rfturn fblsf;
+        CompbdtBytfArrby otifr = (CompbdtBytfArrby) obj;
         for (int i = 0; i < UNICODECOUNT; i++) {
-            // could be sped up later
-            if (elementAt((char)i) != other.elementAt((char)i))
-                return false;
+            // dould bf spfd up lbtfr
+            if (flfmfntAt((dibr)i) != otifr.flfmfntAt((dibr)i))
+                rfturn fblsf;
         }
-        return true; // we made it through the guantlet.
+        rfturn truf; // wf mbdf it tirougi tif gubntlft.
     }
 
     /**
-     * Generates the hash code for the compact array object
+     * Gfnfrbtfs tif ibsi dodf for tif dompbdt brrby objfdt
      */
 
-    public int hashCode() {
-        int result = 0;
-        int increment = Math.min(3, values.length/16);
-        for (int i = 0; i < values.length; i+= increment) {
-            result = result * 37 + values[i];
+    publid int ibsiCodf() {
+        int rfsult = 0;
+        int indrfmfnt = Mbti.min(3, vblufs.lfngti/16);
+        for (int i = 0; i < vblufs.lfngti; i+= indrfmfnt) {
+            rfsult = rfsult * 37 + vblufs[i];
         }
-        return result;
+        rfturn rfsult;
     }
 
     // --------------------------------------------------------------
-    // package private
+    // pbdkbgf privbtf
     // --------------------------------------------------------------
     /**
-      * Expanding takes the array back to a 65536 element array.
+      * Expbnding tbkfs tif brrby bbdk to b 65536 flfmfnt brrby.
       */
-    private void expand()
+    privbtf void fxpbnd()
     {
         int i;
-        if (isCompact) {
-            byte[]  tempArray;
-            hashes = new int[INDEXCOUNT];
-            tempArray = new byte[UNICODECOUNT];
+        if (isCompbdt) {
+            bytf[]  tfmpArrby;
+            ibsifs = nfw int[INDEXCOUNT];
+            tfmpArrby = nfw bytf[UNICODECOUNT];
             for (i = 0; i < UNICODECOUNT; ++i) {
-                byte value = elementAt((char)i);
-                tempArray[i] = value;
-                touchBlock(i >> BLOCKSHIFT, value);
+                bytf vbluf = flfmfntAt((dibr)i);
+                tfmpArrby[i] = vbluf;
+                toudiBlodk(i >> BLOCKSHIFT, vbluf);
             }
             for (i = 0; i < INDEXCOUNT; ++i) {
-                indices[i] = (short)(i<<BLOCKSHIFT);
+                indidfs[i] = (siort)(i<<BLOCKSHIFT);
             }
-            values = null;
-            values = tempArray;
-            isCompact = false;
+            vblufs = null;
+            vblufs = tfmpArrby;
+            isCompbdt = fblsf;
         }
     }
 
-    private byte[] getArray()
+    privbtf bytf[] gftArrby()
     {
-        return values;
+        rfturn vblufs;
     }
 
-    private static  final int BLOCKSHIFT =7;
-    private static  final int BLOCKCOUNT =(1<<BLOCKSHIFT);
-    private static  final int INDEXSHIFT =(16-BLOCKSHIFT);
-    private static  final int INDEXCOUNT =(1<<INDEXSHIFT);
-    private static  final int BLOCKMASK = BLOCKCOUNT - 1;
+    privbtf stbtid  finbl int BLOCKSHIFT =7;
+    privbtf stbtid  finbl int BLOCKCOUNT =(1<<BLOCKSHIFT);
+    privbtf stbtid  finbl int INDEXSHIFT =(16-BLOCKSHIFT);
+    privbtf stbtid  finbl int INDEXCOUNT =(1<<INDEXSHIFT);
+    privbtf stbtid  finbl int BLOCKMASK = BLOCKCOUNT - 1;
 
-    private byte[] values;  // char -> short (char parameterized short)
-    private short indices[];
-    private boolean isCompact;
-    private int[] hashes;
+    privbtf bytf[] vblufs;  // dibr -> siort (dibr pbrbmftfrizfd siort)
+    privbtf siort indidfs[];
+    privbtf boolfbn isCompbdt;
+    privbtf int[] ibsifs;
 };

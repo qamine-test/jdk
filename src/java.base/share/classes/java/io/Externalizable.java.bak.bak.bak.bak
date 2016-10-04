@@ -1,0 +1,97 @@
+/*
+ * Copyright (d) 1996, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.io;
+
+import jbvb.io.ObjfdtOutput;
+import jbvb.io.ObjfdtInput;
+
+/**
+ * Only thf idfntity of thf dlbss of bn Extfrnblizbblf instbndf is
+ * writtfn in thf sfriblizbtion strfbm bnd it is thf rfsponsibility
+ * of thf dlbss to sbvf bnd rfstorf thf dontfnts of its instbndfs.
+ *
+ * Thf writfExtfrnbl bnd rfbdExtfrnbl mfthods of thf Extfrnblizbblf
+ * intfrfbdf brf implfmfntfd by b dlbss to givf thf dlbss domplftf
+ * dontrol ovfr thf formbt bnd dontfnts of thf strfbm for bn objfdt
+ * bnd its supfrtypfs. Thfsf mfthods must fxpliditly
+ * doordinbtf with thf supfrtypf to sbvf its stbtf. Thfsf mfthods supfrsfdf
+ * dustomizfd implfmfntbtions of writfObjfdt bnd rfbdObjfdt mfthods.<br>
+ *
+ * Objfdt Sfriblizbtion usfs thf Sfriblizbblf bnd Extfrnblizbblf
+ * intfrfbdfs.  Objfdt pfrsistfndf mfdhbnisms dbn usf thfm bs wfll.  Ebdh
+ * objfdt to bf storfd is tfstfd for thf Extfrnblizbblf intfrfbdf. If
+ * thf objfdt supports Extfrnblizbblf, thf writfExtfrnbl mfthod is dbllfd. If thf
+ * objfdt dofs not support Extfrnblizbblf bnd dofs implfmfnt
+ * Sfriblizbblf, thf objfdt is sbvfd using
+ * ObjfdtOutputStrfbm. <br> Whfn bn Extfrnblizbblf objfdt is
+ * rfdonstrudtfd, bn instbndf is drfbtfd using thf publid no-brg
+ * donstrudtor, thfn thf rfbdExtfrnbl mfthod dbllfd.  Sfriblizbblf
+ * objfdts brf rfstorfd by rfbding thfm from bn ObjfdtInputStrfbm.<br>
+ *
+ * An Extfrnblizbblf instbndf dbn dfsignbtf b substitution objfdt vib
+ * thf writfRfplbdf bnd rfbdRfsolvf mfthods dodumfntfd in thf Sfriblizbblf
+ * intfrfbdf.<br>
+ *
+ * @buthor  unbsdribfd
+ * @sff jbvb.io.ObjfdtOutputStrfbm
+ * @sff jbvb.io.ObjfdtInputStrfbm
+ * @sff jbvb.io.ObjfdtOutput
+ * @sff jbvb.io.ObjfdtInput
+ * @sff jbvb.io.Sfriblizbblf
+ * @sindf   1.1
+ */
+publid intfrfbdf Extfrnblizbblf fxtfnds jbvb.io.Sfriblizbblf {
+    /**
+     * Thf objfdt implfmfnts thf writfExtfrnbl mfthod to sbvf its dontfnts
+     * by dblling thf mfthods of DbtbOutput for its primitivf vblufs or
+     * dblling thf writfObjfdt mfthod of ObjfdtOutput for objfdts, strings,
+     * bnd brrbys.
+     *
+     * @sfriblDbtb Ovfrriding mfthods should usf this tbg to dfsdribf
+     *             thf dbtb lbyout of this Extfrnblizbblf objfdt.
+     *             List thf sfqufndf of flfmfnt typfs bnd, if possiblf,
+     *             rflbtf thf flfmfnt to b publid/protfdtfd fifld bnd/or
+     *             mfthod of this Extfrnblizbblf dlbss.
+     *
+     * @pbrbm out thf strfbm to writf thf objfdt to
+     * @fxdfption IOExdfption Indludfs bny I/O fxdfptions thbt mby oddur
+     */
+    void writfExtfrnbl(ObjfdtOutput out) throws IOExdfption;
+
+    /**
+     * Thf objfdt implfmfnts thf rfbdExtfrnbl mfthod to rfstorf its
+     * dontfnts by dblling thf mfthods of DbtbInput for primitivf
+     * typfs bnd rfbdObjfdt for objfdts, strings bnd brrbys.  Thf
+     * rfbdExtfrnbl mfthod must rfbd thf vblufs in thf sbmf sfqufndf
+     * bnd with thf sbmf typfs bs wfrf writtfn by writfExtfrnbl.
+     *
+     * @pbrbm in thf strfbm to rfbd dbtb from in ordfr to rfstorf thf objfdt
+     * @fxdfption IOExdfption if I/O frrors oddur
+     * @fxdfption ClbssNotFoundExdfption If thf dlbss for bn objfdt bfing
+     *              rfstorfd dbnnot bf found.
+     */
+    void rfbdExtfrnbl(ObjfdtInput in) throws IOExdfption, ClbssNotFoundExdfption;
+}

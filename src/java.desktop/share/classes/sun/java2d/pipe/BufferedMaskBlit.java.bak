@@ -1,163 +1,163 @@
 /*
- * Copyright (c) 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d.pipe;
+pbdkbgf sun.jbvb2d.pipf;
 
-import java.awt.AlphaComposite;
-import java.awt.Composite;
-import sun.java2d.SurfaceData;
-import sun.java2d.loops.Blit;
-import sun.java2d.loops.CompositeType;
-import sun.java2d.loops.MaskBlit;
-import sun.java2d.loops.SurfaceType;
-import static sun.java2d.pipe.BufferedOpCodes.*;
+import jbvb.bwt.AlpibCompositf;
+import jbvb.bwt.Compositf;
+import sun.jbvb2d.SurfbdfDbtb;
+import sun.jbvb2d.loops.Blit;
+import sun.jbvb2d.loops.CompositfTypf;
+import sun.jbvb2d.loops.MbskBlit;
+import sun.jbvb2d.loops.SurfbdfTypf;
+import stbtid sun.jbvb2d.pipf.BufffrfdOpCodfs.*;
 
 /**
- * The MaskBlit operation is expressed as:
- *   dst = ((src <MODE> dst) * pathA) + (dst * (1 - pathA))
+ * Tif MbskBlit opfrbtion is fxprfssfd bs:
+ *   dst = ((srd <MODE> dst) * pbtiA) + (dst * (1 - pbtiA))
  *
- * The OGL/D3D implementation of the MaskBlit operation differs from the above
- * equation because it is not possible to perform such a complex operation in
- * OpenGL/Direct3D (without the use of advanced techniques like fragment
- * shaders and multitexturing).  Therefore, the BufferedMaskBlit operation
- * is expressed as:
- *   dst = (src * pathA) <SrcOver> dst
+ * Tif OGL/D3D implfmfntbtion of tif MbskBlit opfrbtion difffrs from tif bbovf
+ * fqubtion bfdbusf it is not possiblf to pfrform sudi b domplfx opfrbtion in
+ * OpfnGL/Dirfdt3D (witiout tif usf of bdvbndfd tfdiniqufs likf frbgmfnt
+ * sibdfrs bnd multitfxturing).  Tifrfforf, tif BufffrfdMbskBlit opfrbtion
+ * is fxprfssfd bs:
+ *   dst = (srd * pbtiA) <SrdOvfr> dst
  *
- * This simplified formula is only equivalent to the "true" MaskBlit equation
- * in the following situations:
- *   - <MODE> is SrcOver
- *   - <MODE> is Src, extra alpha == 1.0, and the source surface is opaque
+ * Tiis simplififd formulb is only fquivblfnt to tif "truf" MbskBlit fqubtion
+ * in tif following situbtions:
+ *   - <MODE> is SrdOvfr
+ *   - <MODE> is Srd, fxtrb blpib == 1.0, bnd tif sourdf surfbdf is opbquf
  *
- * Therefore, we register BufferedMaskBlit primitives for only the SurfaceType
- * and CompositeType restrictions mentioned above.  In addition for the Src
- * case, we must override the composite with a SrcOver (no extra alpha)
- * instance, so that we set up the OpenGL/Direct3D blending mode to match the
- * BufferedMaskBlit equation.
+ * Tifrfforf, wf rfgistfr BufffrfdMbskBlit primitivfs for only tif SurfbdfTypf
+ * bnd CompositfTypf rfstridtions mfntionfd bbovf.  In bddition for tif Srd
+ * dbsf, wf must ovfrridf tif dompositf witi b SrdOvfr (no fxtrb blpib)
+ * instbndf, so tibt wf sft up tif OpfnGL/Dirfdt3D blfnding modf to mbtdi tif
+ * BufffrfdMbskBlit fqubtion.
  */
-public abstract class BufferedMaskBlit extends MaskBlit {
+publid bbstrbdt dlbss BufffrfdMbskBlit fxtfnds MbskBlit {
 
-    private static final int ST_INT_ARGB     = 0;
-    private static final int ST_INT_ARGB_PRE = 1;
-    private static final int ST_INT_RGB      = 2;
-    private static final int ST_INT_BGR      = 3;
+    privbtf stbtid finbl int ST_INT_ARGB     = 0;
+    privbtf stbtid finbl int ST_INT_ARGB_PRE = 1;
+    privbtf stbtid finbl int ST_INT_RGB      = 2;
+    privbtf stbtid finbl int ST_INT_BGR      = 3;
 
-    private final RenderQueue rq;
-    private final int srcTypeVal;
-    private Blit blitop;
+    privbtf finbl RfndfrQufuf rq;
+    privbtf finbl int srdTypfVbl;
+    privbtf Blit blitop;
 
-    protected BufferedMaskBlit(RenderQueue rq,
-                               SurfaceType srcType,
-                               CompositeType compType,
-                               SurfaceType dstType)
+    protfdtfd BufffrfdMbskBlit(RfndfrQufuf rq,
+                               SurfbdfTypf srdTypf,
+                               CompositfTypf dompTypf,
+                               SurfbdfTypf dstTypf)
     {
-        super(srcType, compType, dstType);
-        this.rq = rq;
-        if (srcType == SurfaceType.IntArgb) {
-            this.srcTypeVal = ST_INT_ARGB;
-        } else if (srcType == SurfaceType.IntArgbPre) {
-            this.srcTypeVal = ST_INT_ARGB_PRE;
-        } else if (srcType == SurfaceType.IntRgb) {
-            this.srcTypeVal = ST_INT_RGB;
-        } else if (srcType == SurfaceType.IntBgr) {
-            this.srcTypeVal = ST_INT_BGR;
-        } else {
-            throw new InternalError("unrecognized source surface type");
+        supfr(srdTypf, dompTypf, dstTypf);
+        tiis.rq = rq;
+        if (srdTypf == SurfbdfTypf.IntArgb) {
+            tiis.srdTypfVbl = ST_INT_ARGB;
+        } flsf if (srdTypf == SurfbdfTypf.IntArgbPrf) {
+            tiis.srdTypfVbl = ST_INT_ARGB_PRE;
+        } flsf if (srdTypf == SurfbdfTypf.IntRgb) {
+            tiis.srdTypfVbl = ST_INT_RGB;
+        } flsf if (srdTypf == SurfbdfTypf.IntBgr) {
+            tiis.srdTypfVbl = ST_INT_BGR;
+        } flsf {
+            tirow nfw IntfrnblError("unrfdognizfd sourdf surfbdf typf");
         }
     }
 
-    @Override
-    public void MaskBlit(SurfaceData src, SurfaceData dst,
-                         Composite comp, Region clip,
-                         int srcx, int srcy,
+    @Ovfrridf
+    publid void MbskBlit(SurfbdfDbtb srd, SurfbdfDbtb dst,
+                         Compositf domp, Rfgion dlip,
+                         int srdx, int srdy,
                          int dstx, int dsty,
-                         int width, int height,
-                         byte[] mask, int maskoff, int maskscan)
+                         int widti, int ifigit,
+                         bytf[] mbsk, int mbskoff, int mbsksdbn)
     {
-        if (width <= 0 || height <= 0) {
-            return;
+        if (widti <= 0 || ifigit <= 0) {
+            rfturn;
         }
 
-        if (mask == null) {
-            // no mask involved; delegate to regular blit loop
+        if (mbsk == null) {
+            // no mbsk involvfd; dflfgbtf to rfgulbr blit loop
             if (blitop == null) {
-                blitop = Blit.getFromCache(src.getSurfaceType(),
-                                           CompositeType.AnyAlpha,
-                                           this.getDestType());
+                blitop = Blit.gftFromCbdif(srd.gftSurfbdfTypf(),
+                                           CompositfTypf.AnyAlpib,
+                                           tiis.gftDfstTypf());
             }
-            blitop.Blit(src, dst,
-                        comp, clip,
-                        srcx, srcy, dstx, dsty,
-                        width, height);
-            return;
+            blitop.Blit(srd, dst,
+                        domp, dlip,
+                        srdx, srdy, dstx, dsty,
+                        widti, ifigit);
+            rfturn;
         }
 
-        AlphaComposite acomp = (AlphaComposite)comp;
-        if (acomp.getRule() != AlphaComposite.SRC_OVER) {
-            comp = AlphaComposite.SrcOver;
+        AlpibCompositf bdomp = (AlpibCompositf)domp;
+        if (bdomp.gftRulf() != AlpibCompositf.SRC_OVER) {
+            domp = AlpibCompositf.SrdOvfr;
         }
 
-        rq.lock();
+        rq.lodk();
         try {
-            validateContext(dst, comp, clip);
+            vblidbtfContfxt(dst, domp, dlip);
 
-            RenderBuffer buf = rq.getBuffer();
-            int totalBytesRequired = 20 + (width * height * 4);
+            RfndfrBufffr buf = rq.gftBufffr();
+            int totblBytfsRfquirfd = 20 + (widti * ifigit * 4);
 
             /*
-             * REMIND: we should fix this so that it works with tiles that
-             *         are larger than the entire buffer, but the native
-             *         OGL/D3DMaskBlit isn't even prepared for tiles larger
-             *         than 32x32 pixels, so there's no urgency here...
+             * REMIND: wf siould fix tiis so tibt it works witi tilfs tibt
+             *         brf lbrgfr tibn tif fntirf bufffr, but tif nbtivf
+             *         OGL/D3DMbskBlit isn't fvfn prfpbrfd for tilfs lbrgfr
+             *         tibn 32x32 pixfls, so tifrf's no urgfndy ifrf...
              */
-            rq.ensureCapacity(totalBytesRequired);
+            rq.fnsurfCbpbdity(totblBytfsRfquirfd);
 
-            // enqueue parameters and tile pixels
-            int newpos = enqueueTile(buf.getAddress(), buf.position(),
-                                     src, src.getNativeOps(), srcTypeVal,
-                                     mask, mask.length, maskoff, maskscan,
-                                     srcx, srcy, dstx, dsty,
-                                     width, height);
+            // fnqufuf pbrbmftfrs bnd tilf pixfls
+            int nfwpos = fnqufufTilf(buf.gftAddrfss(), buf.position(),
+                                     srd, srd.gftNbtivfOps(), srdTypfVbl,
+                                     mbsk, mbsk.lfngti, mbskoff, mbsksdbn,
+                                     srdx, srdy, dstx, dsty,
+                                     widti, ifigit);
 
-            buf.position(newpos);
-        } finally {
-            rq.unlock();
+            buf.position(nfwpos);
+        } finblly {
+            rq.unlodk();
         }
     }
 
-    private native int enqueueTile(long buf, int bpos,
-                                   SurfaceData srcData,
-                                   long pSrcOps, int srcType,
-                                   byte[] mask, int masklen,
-                                   int maskoff, int maskscan,
-                                   int srcx, int srcy, int dstx, int dsty,
-                                   int width, int height);
+    privbtf nbtivf int fnqufufTilf(long buf, int bpos,
+                                   SurfbdfDbtb srdDbtb,
+                                   long pSrdOps, int srdTypf,
+                                   bytf[] mbsk, int mbsklfn,
+                                   int mbskoff, int mbsksdbn,
+                                   int srdx, int srdy, int dstx, int dsty,
+                                   int widti, int ifigit);
 
     /**
-     * Validates the context state using the given destination surface
-     * and composite/clip values.
+     * Vblidbtfs tif dontfxt stbtf using tif givfn dfstinbtion surfbdf
+     * bnd dompositf/dlip vblufs.
      */
-    protected abstract void validateContext(SurfaceData dstData,
-                                            Composite comp, Region clip);
+    protfdtfd bbstrbdt void vblidbtfContfxt(SurfbdfDbtb dstDbtb,
+                                            Compositf domp, Rfgion dlip);
 }

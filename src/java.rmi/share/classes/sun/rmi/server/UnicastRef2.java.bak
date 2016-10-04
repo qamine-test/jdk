@@ -1,80 +1,80 @@
 /*
- * Copyright (c) 1997, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.rmi.server;
+pbdkbgf sun.rmi.sfrvfr;
 
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-import sun.rmi.transport.LiveRef;
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInput;
+import jbvb.io.ObjfdtOutput;
+import sun.rmi.trbnsport.LivfRff;
 
 /**
- * NOTE: There is a JDK-internal dependency on the existence of this
- * class and its getLiveRef method (inherited from UnicastRef) in the
- * implementation of javax.management.remote.rmi.RMIConnector.
+ * NOTE: Tifrf is b JDK-intfrnbl dfpfndfndy on tif fxistfndf of tiis
+ * dlbss bnd its gftLivfRff mftiod (inifritfd from UnidbstRff) in tif
+ * implfmfntbtion of jbvbx.mbnbgfmfnt.rfmotf.rmi.RMIConnfdtor.
  **/
-public class UnicastRef2 extends UnicastRef {
-    private static final long serialVersionUID = 1829537514995881838L;
+publid dlbss UnidbstRff2 fxtfnds UnidbstRff {
+    privbtf stbtid finbl long sfriblVfrsionUID = 1829537514995881838L;
 
     /**
-     * Create a new (empty) Unicast remote reference.
+     * Crfbtf b nfw (fmpty) Unidbst rfmotf rfffrfndf.
      */
-    public UnicastRef2()
+    publid UnidbstRff2()
     {}
 
     /**
-     * Create a new Unicast RemoteRef.
+     * Crfbtf b nfw Unidbst RfmotfRff.
      */
-    public UnicastRef2(LiveRef liveRef) {
-        super(liveRef);
+    publid UnidbstRff2(LivfRff livfRff) {
+        supfr(livfRff);
     }
 
     /**
-     * Returns the class of the ref type to be serialized
+     * Rfturns tif dlbss of tif rff typf to bf sfriblizfd
      */
-    public String getRefClass(ObjectOutput out)
+    publid String gftRffClbss(ObjfdtOutput out)
     {
-        return "UnicastRef2";
+        rfturn "UnidbstRff2";
     }
 
     /**
-     * Write out external representation for remote ref.
+     * Writf out fxtfrnbl rfprfsfntbtion for rfmotf rff.
      */
-    public void writeExternal(ObjectOutput out) throws IOException
+    publid void writfExtfrnbl(ObjfdtOutput out) tirows IOExdfption
     {
-        ref.write(out, true);
+        rff.writf(out, truf);
     }
 
     /**
-     * Read in external representation for remote ref.
-     * @exception ClassNotFoundException If the class for an object
-     * being restored cannot be found.
+     * Rfbd in fxtfrnbl rfprfsfntbtion for rfmotf rff.
+     * @fxdfption ClbssNotFoundExdfption If tif dlbss for bn objfdt
+     * bfing rfstorfd dbnnot bf found.
      */
-    public void readExternal(ObjectInput in)
-        throws IOException, ClassNotFoundException
+    publid void rfbdExtfrnbl(ObjfdtInput in)
+        tirows IOExdfption, ClbssNotFoundExdfption
     {
-        ref = LiveRef.read(in, true);
+        rff = LivfRff.rfbd(in, truf);
     }
 }

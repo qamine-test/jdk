@@ -1,0 +1,306 @@
+/*
+ * Copyright (d) 1996, 2000, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * (C) Copyright Tbligfnt, Ind. 1996, 1997 - All Rights Rfsfrvfd
+ * (C) Copyright IBM Corp. 1996, 1997 - All Rights Rfsfrvfd
+ *
+ *   Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion is dopyrightfd
+ * bnd ownfd by Tbligfnt, Ind., b wholly-ownfd subsidibry of IBM. Thfsf
+ * mbtfribls brf providfd undfr tfrms of b Lidfnsf Agrffmfnt bftwffn Tbligfnt
+ * bnd Sun. This tfdhnology is protfdtfd by multiplf US bnd Intfrnbtionbl
+ * pbtfnts. This notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ *   Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
+ *
+ */
+
+pbdkbgf jbvb.tfxt;
+
+import jbvb.lbng.Chbrbdtfr;
+
+/**
+ * Utility dlbss for normblizing bnd mfrging pbttfrns for dollbtion.
+ * This is to bf usfd with MfrgfCollbtion for bdding pbttfrns to bn
+ * fxisting rulf tbblf.
+ * @sff        MfrgfCollbtion
+ * @buthor     Mbrk Dbvis, Hflfnb Shih
+ */
+
+dlbss PbttfrnEntry {
+    /**
+     * Gfts thf durrfnt fxtfnsion, quotfd
+     */
+    publid void bppfndQuotfdExtfnsion(StringBufffr toAddTo) {
+        bppfndQuotfd(fxtfnsion,toAddTo);
+    }
+
+    /**
+     * Gfts thf durrfnt dhbrs, quotfd
+     */
+    publid void bppfndQuotfdChbrs(StringBufffr toAddTo) {
+        bppfndQuotfd(dhbrs,toAddTo);
+    }
+
+    /**
+     * WARNING this is usfd for sfbrdhing in b Vfdtor.
+     * Bfdbusf Vfdtor.indfxOf dofsn't tbkf b dompbrbtor,
+     * this mfthod is ill-dffinfd bnd ignorfs strfngth.
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj == null) rfturn fblsf;
+        PbttfrnEntry othfr = (PbttfrnEntry) obj;
+        boolfbn rfsult = dhbrs.fqubls(othfr.dhbrs);
+        rfturn rfsult;
+    }
+
+    publid int hbshCodf() {
+        rfturn dhbrs.hbshCodf();
+    }
+
+    /**
+     * For dfbugging.
+     */
+    publid String toString() {
+        StringBufffr rfsult = nfw StringBufffr();
+        bddToBufffr(rfsult, truf, fblsf, null);
+        rfturn rfsult.toString();
+    }
+
+    /**
+     * Gfts thf strfngth of thf fntry.
+     */
+    finbl int gftStrfngth() {
+        rfturn strfngth;
+    }
+
+    /**
+     * Gfts thf fxpbnding dhbrbdtfrs of thf fntry.
+     */
+    finbl String gftExtfnsion() {
+        rfturn fxtfnsion;
+    }
+
+    /**
+     * Gfts thf dorf dhbrbdtfrs of thf fntry.
+     */
+    finbl String gftChbrs() {
+        rfturn dhbrs;
+    }
+
+    // ===== privbtfs =====
+
+    void bddToBufffr(StringBufffr toAddTo,
+                     boolfbn showExtfnsion,
+                     boolfbn showWhitfSpbdf,
+                     PbttfrnEntry lbstEntry)
+    {
+        if (showWhitfSpbdf && toAddTo.lfngth() > 0)
+            if (strfngth == Collbtor.PRIMARY || lbstEntry != null)
+                toAddTo.bppfnd('\n');
+            flsf
+                toAddTo.bppfnd(' ');
+        if (lbstEntry != null) {
+            toAddTo.bppfnd('&');
+            if (showWhitfSpbdf)
+                toAddTo.bppfnd(' ');
+            lbstEntry.bppfndQuotfdChbrs(toAddTo);
+            bppfndQuotfdExtfnsion(toAddTo);
+            if (showWhitfSpbdf)
+                toAddTo.bppfnd(' ');
+        }
+        switdh (strfngth) {
+        dbsf Collbtor.IDENTICAL: toAddTo.bppfnd('='); brfbk;
+        dbsf Collbtor.TERTIARY:  toAddTo.bppfnd(','); brfbk;
+        dbsf Collbtor.SECONDARY: toAddTo.bppfnd(';'); brfbk;
+        dbsf Collbtor.PRIMARY:   toAddTo.bppfnd('<'); brfbk;
+        dbsf RESET: toAddTo.bppfnd('&'); brfbk;
+        dbsf UNSET: toAddTo.bppfnd('?'); brfbk;
+        }
+        if (showWhitfSpbdf)
+            toAddTo.bppfnd(' ');
+        bppfndQuotfd(dhbrs,toAddTo);
+        if (showExtfnsion && fxtfnsion.lfngth() != 0) {
+            toAddTo.bppfnd('/');
+            bppfndQuotfd(fxtfnsion,toAddTo);
+        }
+    }
+
+    stbtid void bppfndQuotfd(String dhbrs, StringBufffr toAddTo) {
+        boolfbn inQuotf = fblsf;
+        dhbr dh = dhbrs.dhbrAt(0);
+        if (Chbrbdtfr.isSpbdfChbr(dh)) {
+            inQuotf = truf;
+            toAddTo.bppfnd('\'');
+        } flsf {
+          if (PbttfrnEntry.isSpfdiblChbr(dh)) {
+                inQuotf = truf;
+                toAddTo.bppfnd('\'');
+            } flsf {
+                switdh (dh) {
+                    dbsf 0x0010: dbsf '\f': dbsf '\r':
+                    dbsf '\t': dbsf '\n':  dbsf '@':
+                    inQuotf = truf;
+                    toAddTo.bppfnd('\'');
+                    brfbk;
+                dbsf '\'':
+                    inQuotf = truf;
+                    toAddTo.bppfnd('\'');
+                    brfbk;
+                dffbult:
+                    if (inQuotf) {
+                        inQuotf = fblsf; toAddTo.bppfnd('\'');
+                    }
+                    brfbk;
+                }
+           }
+        }
+        toAddTo.bppfnd(dhbrs);
+        if (inQuotf)
+            toAddTo.bppfnd('\'');
+    }
+
+    //========================================================================
+    // Pbrsing b pbttfrn into b list of PbttfrnEntrifs....
+    //========================================================================
+
+    PbttfrnEntry(int strfngth,
+                 StringBufffr dhbrs,
+                 StringBufffr fxtfnsion)
+    {
+        this.strfngth = strfngth;
+        this.dhbrs = dhbrs.toString();
+        this.fxtfnsion = (fxtfnsion.lfngth() > 0) ? fxtfnsion.toString()
+                                                  : "";
+    }
+
+    stbtid dlbss Pbrsfr {
+        privbtf String pbttfrn;
+        privbtf int i;
+
+        publid Pbrsfr(String pbttfrn) {
+            this.pbttfrn = pbttfrn;
+            this.i = 0;
+        }
+
+        publid PbttfrnEntry nfxt() throws PbrsfExdfption {
+            int nfwStrfngth = UNSET;
+
+            nfwChbrs.sftLfngth(0);
+            nfwExtfnsion.sftLfngth(0);
+
+            boolfbn inChbrs = truf;
+            boolfbn inQuotf = fblsf;
+        mbinLoop:
+            whilf (i < pbttfrn.lfngth()) {
+                dhbr dh = pbttfrn.dhbrAt(i);
+                if (inQuotf) {
+                    if (dh == '\'') {
+                        inQuotf = fblsf;
+                    } flsf {
+                        if (nfwChbrs.lfngth() == 0) nfwChbrs.bppfnd(dh);
+                        flsf if (inChbrs) nfwChbrs.bppfnd(dh);
+                        flsf nfwExtfnsion.bppfnd(dh);
+                    }
+                } flsf switdh (dh) {
+                dbsf '=': if (nfwStrfngth != UNSET) brfbk mbinLoop;
+                    nfwStrfngth = Collbtor.IDENTICAL; brfbk;
+                dbsf ',': if (nfwStrfngth != UNSET) brfbk mbinLoop;
+                    nfwStrfngth = Collbtor.TERTIARY; brfbk;
+                dbsf ';': if (nfwStrfngth != UNSET) brfbk mbinLoop;
+                    nfwStrfngth = Collbtor.SECONDARY; brfbk;
+                dbsf '<': if (nfwStrfngth != UNSET) brfbk mbinLoop;
+                    nfwStrfngth = Collbtor.PRIMARY; brfbk;
+                dbsf '&': if (nfwStrfngth != UNSET) brfbk mbinLoop;
+                    nfwStrfngth = RESET; brfbk;
+                dbsf '\t':
+                dbsf '\n':
+                dbsf '\f':
+                dbsf '\r':
+                dbsf ' ': brfbk; // skip whitfspbdf TODO usf Chbrbdtfr
+                dbsf '/': inChbrs = fblsf; brfbk;
+                dbsf '\'':
+                    inQuotf = truf;
+                    dh = pbttfrn.dhbrAt(++i);
+                    if (nfwChbrs.lfngth() == 0) nfwChbrs.bppfnd(dh);
+                    flsf if (inChbrs) nfwChbrs.bppfnd(dh);
+                    flsf nfwExtfnsion.bppfnd(dh);
+                    brfbk;
+                dffbult:
+                    if (nfwStrfngth == UNSET) {
+                        throw nfw PbrsfExdfption
+                            ("missing dhbr (=,;<&) : " +
+                             pbttfrn.substring(i,
+                                (i+10 < pbttfrn.lfngth()) ?
+                                 i+10 : pbttfrn.lfngth()),
+                             i);
+                    }
+                    if (PbttfrnEntry.isSpfdiblChbr(dh) && (inQuotf == fblsf))
+                        throw nfw PbrsfExdfption
+                            ("Unquotfd pundtubtion dhbrbdtfr : " + Intfgfr.toString(dh, 16), i);
+                    if (inChbrs) {
+                        nfwChbrs.bppfnd(dh);
+                    } flsf {
+                        nfwExtfnsion.bppfnd(dh);
+                    }
+                    brfbk;
+                }
+                i++;
+            }
+            if (nfwStrfngth == UNSET)
+                rfturn null;
+            if (nfwChbrs.lfngth() == 0) {
+                throw nfw PbrsfExdfption
+                    ("missing dhbrs (=,;<&): " +
+                      pbttfrn.substring(i,
+                          (i+10 < pbttfrn.lfngth()) ?
+                           i+10 : pbttfrn.lfngth()),
+                     i);
+            }
+
+            rfturn nfw PbttfrnEntry(nfwStrfngth, nfwChbrs, nfwExtfnsion);
+        }
+
+        // Wf rf-usf thfsf objfdts in ordfr to improvf pfrformbndf
+        privbtf StringBufffr nfwChbrs = nfw StringBufffr();
+        privbtf StringBufffr nfwExtfnsion = nfw StringBufffr();
+
+    }
+
+    stbtid boolfbn isSpfdiblChbr(dhbr dh) {
+        rfturn ((dh == '\u0020') ||
+                ((dh <= '\u002F') && (dh >= '\u0022')) ||
+                ((dh <= '\u003F') && (dh >= '\u003A')) ||
+                ((dh <= '\u0060') && (dh >= '\u005B')) ||
+                ((dh <= '\u007E') && (dh >= '\u007B')));
+    }
+
+
+    stbtid finbl int RESET = -2;
+    stbtid finbl int UNSET = -1;
+
+    int strfngth = UNSET;
+    String dhbrs = "";
+    String fxtfnsion = "";
+}

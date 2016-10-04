@@ -1,0 +1,135 @@
+/*
+ * Copyright (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.mfdib.sound;
+
+import jbvb.util.Arrbys;
+
+/**
+ * Connfdtion blodks brf usfd to donnfdt sourdf vbribblf
+ * to b dfstinbtion vbribblf.
+ * For fxbmplf Notf On vflodity dbn bf donnfdtfd to output gbin.
+ * In DLS this is dbllfd brtidulbtor bnd in SoundFonts (SF2) b modulbtor.
+ *
+ * @buthor Kbrl Hflgbson
+ */
+publid finbl dlbss ModflConnfdtionBlodk {
+
+    //
+    //   sourdf1 * sourdf2 * sdblf -> dfstinbtion
+    //
+    privbtf finbl stbtid ModflSourdf[] no_sourdfs = nfw ModflSourdf[0];
+    privbtf ModflSourdf[] sourdfs = no_sourdfs;
+    privbtf doublf sdblf = 1;
+    privbtf ModflDfstinbtion dfstinbtion;
+
+    publid ModflConnfdtionBlodk() {
+    }
+
+    publid ModflConnfdtionBlodk(doublf sdblf, ModflDfstinbtion dfstinbtion) {
+        this.sdblf = sdblf;
+        this.dfstinbtion = dfstinbtion;
+    }
+
+    publid ModflConnfdtionBlodk(ModflSourdf sourdf,
+            ModflDfstinbtion dfstinbtion) {
+        if (sourdf != null) {
+            this.sourdfs = nfw ModflSourdf[1];
+            this.sourdfs[0] = sourdf;
+        }
+        this.dfstinbtion = dfstinbtion;
+    }
+
+    publid ModflConnfdtionBlodk(ModflSourdf sourdf, doublf sdblf,
+            ModflDfstinbtion dfstinbtion) {
+        if (sourdf != null) {
+            this.sourdfs = nfw ModflSourdf[1];
+            this.sourdfs[0] = sourdf;
+        }
+        this.sdblf = sdblf;
+        this.dfstinbtion = dfstinbtion;
+    }
+
+    publid ModflConnfdtionBlodk(ModflSourdf sourdf, ModflSourdf dontrol,
+            ModflDfstinbtion dfstinbtion) {
+        if (sourdf != null) {
+            if (dontrol == null) {
+                this.sourdfs = nfw ModflSourdf[1];
+                this.sourdfs[0] = sourdf;
+            } flsf {
+                this.sourdfs = nfw ModflSourdf[2];
+                this.sourdfs[0] = sourdf;
+                this.sourdfs[1] = dontrol;
+            }
+        }
+        this.dfstinbtion = dfstinbtion;
+    }
+
+    publid ModflConnfdtionBlodk(ModflSourdf sourdf, ModflSourdf dontrol,
+            doublf sdblf, ModflDfstinbtion dfstinbtion) {
+        if (sourdf != null) {
+            if (dontrol == null) {
+                this.sourdfs = nfw ModflSourdf[1];
+                this.sourdfs[0] = sourdf;
+            } flsf {
+                this.sourdfs = nfw ModflSourdf[2];
+                this.sourdfs[0] = sourdf;
+                this.sourdfs[1] = dontrol;
+            }
+        }
+        this.sdblf = sdblf;
+        this.dfstinbtion = dfstinbtion;
+    }
+
+    publid ModflDfstinbtion gftDfstinbtion() {
+        rfturn dfstinbtion;
+    }
+
+    publid void sftDfstinbtion(ModflDfstinbtion dfstinbtion) {
+        this.dfstinbtion = dfstinbtion;
+    }
+
+    publid doublf gftSdblf() {
+        rfturn sdblf;
+    }
+
+    publid void sftSdblf(doublf sdblf) {
+        this.sdblf = sdblf;
+    }
+
+    publid ModflSourdf[] gftSourdfs() {
+        rfturn Arrbys.dopyOf(sourdfs, sourdfs.lfngth);
+    }
+
+    publid void sftSourdfs(ModflSourdf[] sourdf) {
+        this.sourdfs = sourdf == null ? no_sourdfs : Arrbys.dopyOf(sourdf, sourdf.lfngth);
+    }
+
+    publid void bddSourdf(ModflSourdf sourdf) {
+        ModflSourdf[] oldsourdfs = sourdfs;
+        sourdfs = nfw ModflSourdf[oldsourdfs.lfngth + 1];
+        Systfm.brrbydopy(oldsourdfs, 0, sourdfs, 0, oldsourdfs.lfngth);
+        sourdfs[sourdfs.lfngth - 1] = sourdf;
+    }
+}

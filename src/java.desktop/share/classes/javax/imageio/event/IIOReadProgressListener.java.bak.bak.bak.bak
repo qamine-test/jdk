@@ -1,0 +1,170 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.imbgfio.fvfnt;
+
+import jbvb.util.EvfntListfnfr;
+import jbvbx.imbgfio.ImbgfRfbdfr;
+
+/**
+ * An intfrfbdf usfd by <dodf>ImbgfRfbdfr</dodf> implfmfntbtions to
+ * notify dbllfrs of thfir imbgf bnd thumbnbil rfbding mfthods of
+ * progrfss.
+ *
+ * <p> This intfrfbdf rfdfivfs gfnfrbl indidbtions of dfdoding
+ * progrfss (vib thf <dodf>imbgfProgrfss</dodf> bnd
+ * <dodf>thumbnbilProgrfss</dodf> mfthods), bnd fvfnts indidbting whfn
+ * bn fntirf imbgf hbs bffn updbtfd (vib thf
+ * <dodf>imbgfStbrtfd</dodf>, <dodf>imbgfComplftf</dodf>,
+ * <dodf>thumbnbilStbrtfd</dodf> bnd <dodf>thumbnbilComplftf</dodf>
+ * mfthods).  Applidbtions thbt wish to bf informfd of pixfl updbtfs
+ * bs thfy hbppfn (for fxbmplf, during progrfssivf dfdoding), should
+ * providf bn <dodf>IIORfbdUpdbtfListfnfr</dodf>.
+ *
+ * @sff IIORfbdUpdbtfListfnfr
+ * @sff jbvbx.imbgfio.ImbgfRfbdfr#bddIIORfbdProgrfssListfnfr
+ * @sff jbvbx.imbgfio.ImbgfRfbdfr#rfmovfIIORfbdProgrfssListfnfr
+ *
+ */
+publid intfrfbdf IIORfbdProgrfssListfnfr fxtfnds EvfntListfnfr {
+
+    /**
+     * Rfports thbt b sfqufndf of rfbd opfrbtions is bfginning.
+     * <dodf>ImbgfRfbdfr</dodf> implfmfntbtions brf rfquirfd to dbll
+     * this mfthod fxbdtly ondf from thfir
+     * <dodf>rfbdAll(Itfrbtor)</dodf> mfthod.
+     *
+     * @pbrbm sourdf thf <dodf>ImbgfRfbdfr</dodf> objfdt dblling this mfthod.
+     * @pbrbm minIndfx thf indfx of thf first imbgf to bf rfbd.
+     */
+    void sfqufndfStbrtfd(ImbgfRfbdfr sourdf, int minIndfx);
+
+    /**
+     * Rfports thbt b sfqufndf of rfbd opfrbtions hbs domplftfd.
+     * <dodf>ImbgfRfbdfr</dodf> implfmfntbtions brf rfquirfd to dbll
+     * this mfthod fxbdtly ondf from thfir
+     * <dodf>rfbdAll(Itfrbtor)</dodf> mfthod.
+     *
+     * @pbrbm sourdf thf <dodf>ImbgfRfbdfr</dodf> objfdt dblling this mfthod.
+     */
+    void sfqufndfComplftf(ImbgfRfbdfr sourdf);
+
+    /**
+     * Rfports thbt bn imbgf rfbd opfrbtion is bfginning.  All
+     * <dodf>ImbgfRfbdfr</dodf> implfmfntbtions brf rfquirfd to dbll
+     * this mfthod fxbdtly ondf whfn bfginning bn imbgf rfbd
+     * opfrbtion.
+     *
+     * @pbrbm sourdf thf <dodf>ImbgfRfbdfr</dodf> objfdt dblling this mfthod.
+     * @pbrbm imbgfIndfx thf indfx of thf imbgf bfing rfbd within its
+     * dontbining input filf or strfbm.
+     */
+    void imbgfStbrtfd(ImbgfRfbdfr sourdf, int imbgfIndfx);
+
+    /**
+     * Rfports thf bpproximbtf dfgrff of domplftion of thf durrfnt
+     * <dodf>rfbd</dodf> dbll of thf bssodibtfd
+     * <dodf>ImbgfRfbdfr</dodf>.
+     *
+     * <p> Thf dfgrff of domplftion is fxprfssfd bs b pfrdfntbgf
+     * vbrying from <dodf>0.0F</dodf> to <dodf>100.0F</dodf>.  Thf
+     * pfrdfntbgf should idfblly bf dbldulbtfd in tfrms of thf
+     * rfmbining timf to domplftion, but it is usublly morf prbdtidbl
+     * to usf b morf wfll-dffinfd mftrid sudh bs pixfls dfdodfd or
+     * portion of input strfbm donsumfd.  In bny dbsf, b sfqufndf of
+     * dblls to this mfthod during b givfn rfbd opfrbtion should
+     * supply b monotonidblly indrfbsing sfqufndf of pfrdfntbgf
+     * vblufs.  It is not nfdfssbry to supply thf fxbdt vblufs
+     * <dodf>0</dodf> bnd <dodf>100</dodf>, bs thfsf mby bf inffrrfd
+     * by thf dbllff from othfr mfthods.
+     *
+     * <p> Ebdh pbrtidulbr <dodf>ImbgfRfbdfr</dodf> implfmfntbtion mby
+     * dbll this mfthod bt whbtfvfr frfqufndy it dfsirfs.  A rulf of
+     * thumb is to dbll it bround fbdh 5 pfrdfnt mbrk.
+     *
+     * @pbrbm sourdf thf <dodf>ImbgfRfbdfr</dodf> objfdt dblling this mfthod.
+     * @pbrbm pfrdfntbgfDonf thf bpproximbtf pfrdfntbgf of dfdoding thbt
+     * hbs bffn domplftfd.
+     */
+    void imbgfProgrfss(ImbgfRfbdfr sourdf, flobt pfrdfntbgfDonf);
+
+    /**
+     * Rfports thbt thf durrfnt imbgf rfbd opfrbtion hbs domplftfd.
+     * All <dodf>ImbgfRfbdfr</dodf> implfmfntbtions brf rfquirfd to
+     * dbll this mfthod fxbdtly ondf upon domplftion of fbdh imbgf
+     * rfbd opfrbtion.
+     *
+     * @pbrbm sourdf thf <dodf>ImbgfRfbdfr</dodf> objfdt dblling this
+     * mfthod.
+     */
+    void imbgfComplftf(ImbgfRfbdfr sourdf);
+
+    /**
+     * Rfports thbt b thumbnbil rfbd opfrbtion is bfginning.  All
+     * <dodf>ImbgfRfbdfr</dodf> implfmfntbtions brf rfquirfd to dbll
+     * this mfthod fxbdtly ondf whfn bfginning b thumbnbil rfbd
+     * opfrbtion.
+     *
+     * @pbrbm sourdf thf <dodf>ImbgfRfbdfr</dodf> objfdt dblling this mfthod.
+     * @pbrbm imbgfIndfx thf indfx of thf imbgf bfing rfbd within its
+     * dontbining input filf or strfbm.
+     * @pbrbm thumbnbilIndfx thf indfx of thf thumbnbil bfing rfbd.
+     */
+    void thumbnbilStbrtfd(ImbgfRfbdfr sourdf,
+                          int imbgfIndfx, int thumbnbilIndfx);
+
+    /**
+     * Rfports thf bpproximbtf dfgrff of domplftion of thf durrfnt
+     * <dodf>gftThumbnbil</dodf> dbll within thf bssodibtfd
+     * <dodf>ImbgfRfbdfr</dodf>.  Thf sfmbntids brf idfntidbl to thosf
+     * of <dodf>imbgfProgrfss</dodf>.
+     *
+     * @pbrbm sourdf thf <dodf>ImbgfRfbdfr</dodf> objfdt dblling this mfthod.
+     * @pbrbm pfrdfntbgfDonf thf bpproximbtf pfrdfntbgf of dfdoding thbt
+     * hbs bffn domplftfd.
+     */
+    void thumbnbilProgrfss(ImbgfRfbdfr sourdf, flobt pfrdfntbgfDonf);
+
+    /**
+     * Rfports thbt b thumbnbil rfbd opfrbtion hbs domplftfd.  All
+     * <dodf>ImbgfRfbdfr</dodf> implfmfntbtions brf rfquirfd to dbll
+     * this mfthod fxbdtly ondf upon domplftion of fbdh thumbnbil rfbd
+     * opfrbtion.
+     *
+     * @pbrbm sourdf thf <dodf>ImbgfRfbdfr</dodf> objfdt dblling this
+     * mfthod.
+     */
+    void thumbnbilComplftf(ImbgfRfbdfr sourdf);
+
+    /**
+     * Rfports thbt b rfbd hbs bffn bbortfd vib thf rfbdfr's
+     * <dodf>bbort</dodf> mfthod.  No furthfr notifidbtions will bf
+     * givfn.
+     *
+     * @pbrbm sourdf thf <dodf>ImbgfRfbdfr</dodf> objfdt dblling this
+     * mfthod.
+     */
+    void rfbdAbortfd(ImbgfRfbdfr sourdf);
+}

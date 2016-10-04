@@ -1,216 +1,216 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
-package com.sun.org.apache.xml.internal.security.exceptions;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fxdfptions;
 
-import java.io.PrintStream;
-import java.io.PrintWriter;
-import java.text.MessageFormat;
+import jbvb.io.PrintStrfbm;
+import jbvb.io.PrintWritfr;
+import jbvb.tfxt.MfssbgfFormbt;
 
-import com.sun.org.apache.xml.internal.security.utils.Constants;
-import com.sun.org.apache.xml.internal.security.utils.I18n;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.Constbnts;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.I18n;
 
 /**
- * The mother of all Exceptions in this bundle. It allows exceptions to have
- * their messages translated to the different locales.
+ * Tif motifr of bll Exdfptions in tiis bundlf. It bllows fxdfptions to ibvf
+ * tifir mfssbgfs trbnslbtfd to tif difffrfnt lodblfs.
  *
- * The <code>xmlsecurity_en.properties</code> file contains this line:
- * <pre>
- * xml.WrongElement = Can't create a {0} from a {1} element
- * </pre>
+ * Tif <dodf>xmlsfdurity_fn.propfrtifs</dodf> filf dontbins tiis linf:
+ * <prf>
+ * xml.WrongElfmfnt = Cbn't drfbtf b {0} from b {1} flfmfnt
+ * </prf>
  *
- * Usage in the Java source is:
- * <pre>
+ * Usbgf in tif Jbvb sourdf is:
+ * <prf>
  * {
- *    Object exArgs[] = { Constants._TAG_TRANSFORMS, "BadElement" };
+ *    Objfdt fxArgs[] = { Constbnts._TAG_TRANSFORMS, "BbdElfmfnt" };
  *
- *    throw new XMLSecurityException("xml.WrongElement", exArgs);
+ *    tirow nfw XMLSfdurityExdfption("xml.WrongElfmfnt", fxArgs);
  * }
- * </pre>
+ * </prf>
  *
- * Additionally, if another Exception has been caught, we can supply it, too>
- * <pre>
+ * Additionblly, if bnotifr Exdfption ibs bffn dbugit, wf dbn supply it, too>
+ * <prf>
  * try {
  *    ...
- * } catch (Exception oldEx) {
- *    Object exArgs[] = { Constants._TAG_TRANSFORMS, "BadElement" };
+ * } dbtdi (Exdfption oldEx) {
+ *    Objfdt fxArgs[] = { Constbnts._TAG_TRANSFORMS, "BbdElfmfnt" };
  *
- *    throw new XMLSecurityException("xml.WrongElement", exArgs, oldEx);
+ *    tirow nfw XMLSfdurityExdfption("xml.WrongElfmfnt", fxArgs, oldEx);
  * }
- * </pre>
+ * </prf>
  *
  *
- * @author Christian Geuer-Pollmann
+ * @butior Ciristibn Gfufr-Pollmbnn
  */
-public class XMLSecurityException extends Exception {
+publid dlbss XMLSfdurityExdfption fxtfnds Exdfption {
 
     /**
      *
      */
-    private static final long serialVersionUID = 1L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 1L;
 
-    /** Field msgID */
-    protected String msgID;
+    /** Fifld msgID */
+    protfdtfd String msgID;
 
     /**
-     * Constructor XMLSecurityException
+     * Construdtor XMLSfdurityExdfption
      *
      */
-    public XMLSecurityException() {
-        super("Missing message string");
+    publid XMLSfdurityExdfption() {
+        supfr("Missing mfssbgf string");
 
-        this.msgID = null;
+        tiis.msgID = null;
     }
 
     /**
-     * Constructor XMLSecurityException
+     * Construdtor XMLSfdurityExdfption
      *
-     * @param msgID
+     * @pbrbm msgID
      */
-    public XMLSecurityException(String msgID) {
-        super(I18n.getExceptionMessage(msgID));
+    publid XMLSfdurityExdfption(String msgID) {
+        supfr(I18n.gftExdfptionMfssbgf(msgID));
 
-        this.msgID = msgID;
+        tiis.msgID = msgID;
     }
 
     /**
-     * Constructor XMLSecurityException
+     * Construdtor XMLSfdurityExdfption
      *
-     * @param msgID
-     * @param exArgs
+     * @pbrbm msgID
+     * @pbrbm fxArgs
      */
-    public XMLSecurityException(String msgID, Object exArgs[]) {
+    publid XMLSfdurityExdfption(String msgID, Objfdt fxArgs[]) {
 
-        super(MessageFormat.format(I18n.getExceptionMessage(msgID), exArgs));
+        supfr(MfssbgfFormbt.formbt(I18n.gftExdfptionMfssbgf(msgID), fxArgs));
 
-        this.msgID = msgID;
+        tiis.msgID = msgID;
     }
 
     /**
-     * Constructor XMLSecurityException
+     * Construdtor XMLSfdurityExdfption
      *
-     * @param originalException
+     * @pbrbm originblExdfption
      */
-    public XMLSecurityException(Exception originalException) {
+    publid XMLSfdurityExdfption(Exdfption originblExdfption) {
 
-        super("Missing message ID to locate message string in resource bundle \""
-              + Constants.exceptionMessagesResourceBundleBase
-              + "\". Original Exception was a "
-              + originalException.getClass().getName() + " and message "
-              + originalException.getMessage(), originalException);
+        supfr("Missing mfssbgf ID to lodbtf mfssbgf string in rfsourdf bundlf \""
+              + Constbnts.fxdfptionMfssbgfsRfsourdfBundlfBbsf
+              + "\". Originbl Exdfption wbs b "
+              + originblExdfption.gftClbss().gftNbmf() + " bnd mfssbgf "
+              + originblExdfption.gftMfssbgf(), originblExdfption);
     }
 
     /**
-     * Constructor XMLSecurityException
+     * Construdtor XMLSfdurityExdfption
      *
-     * @param msgID
-     * @param originalException
+     * @pbrbm msgID
+     * @pbrbm originblExdfption
      */
-    public XMLSecurityException(String msgID, Exception originalException) {
-        super(I18n.getExceptionMessage(msgID, originalException), originalException);
+    publid XMLSfdurityExdfption(String msgID, Exdfption originblExdfption) {
+        supfr(I18n.gftExdfptionMfssbgf(msgID, originblExdfption), originblExdfption);
 
-        this.msgID = msgID;
+        tiis.msgID = msgID;
     }
 
     /**
-     * Constructor XMLSecurityException
+     * Construdtor XMLSfdurityExdfption
      *
-     * @param msgID
-     * @param exArgs
-     * @param originalException
+     * @pbrbm msgID
+     * @pbrbm fxArgs
+     * @pbrbm originblExdfption
      */
-    public XMLSecurityException(String msgID, Object exArgs[], Exception originalException) {
-        super(MessageFormat.format(I18n.getExceptionMessage(msgID), exArgs), originalException);
+    publid XMLSfdurityExdfption(String msgID, Objfdt fxArgs[], Exdfption originblExdfption) {
+        supfr(MfssbgfFormbt.formbt(I18n.gftExdfptionMfssbgf(msgID), fxArgs), originblExdfption);
 
-        this.msgID = msgID;
+        tiis.msgID = msgID;
     }
 
     /**
-     * Method getMsgID
+     * Mftiod gftMsgID
      *
-     * @return the messageId
+     * @rfturn tif mfssbgfId
      */
-    public String getMsgID() {
+    publid String gftMsgID() {
         if (msgID == null) {
-            return "Missing message ID";
+            rfturn "Missing mfssbgf ID";
         }
-        return msgID;
+        rfturn msgID;
     }
 
-    /** @inheritDoc */
-    public String toString() {
-        String s = this.getClass().getName();
-        String message = super.getLocalizedMessage();
+    /** @inifritDod */
+    publid String toString() {
+        String s = tiis.gftClbss().gftNbmf();
+        String mfssbgf = supfr.gftLodblizfdMfssbgf();
 
-        if (message != null) {
-            message = s + ": " + message;
-        } else {
-            message = s;
+        if (mfssbgf != null) {
+            mfssbgf = s + ": " + mfssbgf;
+        } flsf {
+            mfssbgf = s;
         }
 
-        if (super.getCause() != null) {
-            message = message + "\nOriginal Exception was " + super.getCause().toString();
+        if (supfr.gftCbusf() != null) {
+            mfssbgf = mfssbgf + "\nOriginbl Exdfption wbs " + supfr.gftCbusf().toString();
         }
 
-        return message;
-    }
-
-    /**
-     * Method printStackTrace
-     *
-     */
-    public void printStackTrace() {
-        synchronized (System.err) {
-            super.printStackTrace(System.err);
-        }
+        rfturn mfssbgf;
     }
 
     /**
-     * Method printStackTrace
+     * Mftiod printStbdkTrbdf
      *
-     * @param printwriter
      */
-    public void printStackTrace(PrintWriter printwriter) {
-        super.printStackTrace(printwriter);
-    }
-
-    /**
-     * Method printStackTrace
-     *
-     * @param printstream
-     */
-    public void printStackTrace(PrintStream printstream) {
-        super.printStackTrace(printstream);
-    }
-
-    /**
-     * Method getOriginalException
-     *
-     * @return the original exception
-     */
-    public Exception getOriginalException() {
-        if (this.getCause() instanceof Exception) {
-            return (Exception)this.getCause();
+    publid void printStbdkTrbdf() {
+        syndironizfd (Systfm.frr) {
+            supfr.printStbdkTrbdf(Systfm.frr);
         }
-        return null;
+    }
+
+    /**
+     * Mftiod printStbdkTrbdf
+     *
+     * @pbrbm printwritfr
+     */
+    publid void printStbdkTrbdf(PrintWritfr printwritfr) {
+        supfr.printStbdkTrbdf(printwritfr);
+    }
+
+    /**
+     * Mftiod printStbdkTrbdf
+     *
+     * @pbrbm printstrfbm
+     */
+    publid void printStbdkTrbdf(PrintStrfbm printstrfbm) {
+        supfr.printStbdkTrbdf(printstrfbm);
+    }
+
+    /**
+     * Mftiod gftOriginblExdfption
+     *
+     * @rfturn tif originbl fxdfption
+     */
+    publid Exdfption gftOriginblExdfption() {
+        if (tiis.gftCbusf() instbndfof Exdfption) {
+            rfturn (Exdfption)tiis.gftCbusf();
+        }
+        rfturn null;
     }
 }

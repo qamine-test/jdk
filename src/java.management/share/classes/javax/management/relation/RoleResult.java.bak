@@ -1,261 +1,261 @@
 /*
- * Copyright (c) 2000, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management.relation;
+pbdkbgf jbvbx.mbnbgfmfnt.rflbtion;
 
 
-import com.sun.jmx.mbeanserver.GetPropertyAction;
+import dom.sun.jmx.mbfbnsfrvfr.GftPropfrtyAdtion;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.ObjectStreamField;
-import java.io.Serializable;
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtStrfbmFifld;
+import jbvb.io.Sfriblizbblf;
 
-import java.security.AccessController;
-import java.util.Iterator;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.util.Itfrbtor;
 
 /**
- * Represents the result of a multiple access to several roles of a relation
- * (either for reading or writing).
+ * Rfprfsfnts tif rfsult of b multiplf bddfss to sfvfrbl rolfs of b rflbtion
+ * (fitifr for rfbding or writing).
  *
- * <p>The <b>serialVersionUID</b> of this class is <code>-6304063118040985512L</code>.
+ * <p>Tif <b>sfriblVfrsionUID</b> of tiis dlbss is <dodf>-6304063118040985512L</dodf>.
  *
- * @since 1.5
+ * @sindf 1.5
  */
-@SuppressWarnings("serial")
-public class RoleResult implements Serializable {
+@SupprfssWbrnings("sfribl")
+publid dlbss RolfRfsult implfmfnts Sfriblizbblf {
 
-    // Serialization compatibility stuff:
-    // Two serial forms are supported in this class. The selected form depends
-    // on system property "jmx.serial.form":
+    // Sfriblizbtion dompbtibility stuff:
+    // Two sfribl forms brf supportfd in tiis dlbss. Tif sflfdtfd form dfpfnds
+    // on systfm propfrty "jmx.sfribl.form":
     //  - "1.0" for JMX 1.0
-    //  - any other value for JMX 1.1 and higher
+    //  - bny otifr vbluf for JMX 1.1 bnd iigifr
     //
-    // Serial version for old serial form
-    private static final long oldSerialVersionUID = 3786616013762091099L;
+    // Sfribl vfrsion for old sfribl form
+    privbtf stbtid finbl long oldSfriblVfrsionUID = 3786616013762091099L;
     //
-    // Serial version for new serial form
-    private static final long newSerialVersionUID = -6304063118040985512L;
+    // Sfribl vfrsion for nfw sfribl form
+    privbtf stbtid finbl long nfwSfriblVfrsionUID = -6304063118040985512L;
     //
-    // Serializable fields in old serial form
-    private static final ObjectStreamField[] oldSerialPersistentFields =
+    // Sfriblizbblf fiflds in old sfribl form
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] oldSfriblPfrsistfntFiflds =
     {
-      new ObjectStreamField("myRoleList", RoleList.class),
-      new ObjectStreamField("myRoleUnresList", RoleUnresolvedList.class)
+      nfw ObjfdtStrfbmFifld("myRolfList", RolfList.dlbss),
+      nfw ObjfdtStrfbmFifld("myRolfUnrfsList", RolfUnrfsolvfdList.dlbss)
     };
     //
-    // Serializable fields in new serial form
-    private static final ObjectStreamField[] newSerialPersistentFields =
+    // Sfriblizbblf fiflds in nfw sfribl form
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] nfwSfriblPfrsistfntFiflds =
     {
-      new ObjectStreamField("roleList", RoleList.class),
-      new ObjectStreamField("unresolvedRoleList", RoleUnresolvedList.class)
+      nfw ObjfdtStrfbmFifld("rolfList", RolfList.dlbss),
+      nfw ObjfdtStrfbmFifld("unrfsolvfdRolfList", RolfUnrfsolvfdList.dlbss)
     };
     //
-    // Actual serial version and serial form
-    private static final long serialVersionUID;
+    // Adtubl sfribl vfrsion bnd sfribl form
+    privbtf stbtid finbl long sfriblVfrsionUID;
     /**
-     * @serialField roleList RoleList List of roles successfully accessed
-     * @serialField unresolvedRoleList RoleUnresolvedList List of roles unsuccessfully accessed
+     * @sfriblFifld rolfList RolfList List of rolfs suddfssfully bddfssfd
+     * @sfriblFifld unrfsolvfdRolfList RolfUnrfsolvfdList List of rolfs unsuddfssfully bddfssfd
      */
-    private static final ObjectStreamField[] serialPersistentFields;
-    private static boolean compat = false;
-    static {
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] sfriblPfrsistfntFiflds;
+    privbtf stbtid boolfbn dompbt = fblsf;
+    stbtid {
         try {
-            GetPropertyAction act = new GetPropertyAction("jmx.serial.form");
-            String form = AccessController.doPrivileged(act);
-            compat = (form != null && form.equals("1.0"));
-        } catch (Exception e) {
-            // OK : Too bad, no compat with 1.0
+            GftPropfrtyAdtion bdt = nfw GftPropfrtyAdtion("jmx.sfribl.form");
+            String form = AddfssControllfr.doPrivilfgfd(bdt);
+            dompbt = (form != null && form.fqubls("1.0"));
+        } dbtdi (Exdfption f) {
+            // OK : Too bbd, no dompbt witi 1.0
         }
-        if (compat) {
-            serialPersistentFields = oldSerialPersistentFields;
-            serialVersionUID = oldSerialVersionUID;
-        } else {
-            serialPersistentFields = newSerialPersistentFields;
-            serialVersionUID = newSerialVersionUID;
+        if (dompbt) {
+            sfriblPfrsistfntFiflds = oldSfriblPfrsistfntFiflds;
+            sfriblVfrsionUID = oldSfriblVfrsionUID;
+        } flsf {
+            sfriblPfrsistfntFiflds = nfwSfriblPfrsistfntFiflds;
+            sfriblVfrsionUID = nfwSfriblVfrsionUID;
         }
     }
     //
-    // END Serialization compatibility stuff
+    // END Sfriblizbtion dompbtibility stuff
 
     //
-    // Private members
+    // Privbtf mfmbfrs
     //
 
     /**
-     * @serial List of roles successfully accessed
+     * @sfribl List of rolfs suddfssfully bddfssfd
      */
-    private RoleList roleList = null;
+    privbtf RolfList rolfList = null;
 
     /**
-     * @serial List of roles unsuccessfully accessed
+     * @sfribl List of rolfs unsuddfssfully bddfssfd
      */
-    private RoleUnresolvedList unresolvedRoleList = null;
+    privbtf RolfUnrfsolvfdList unrfsolvfdRolfList = null;
 
     //
-    // Constructor
+    // Construdtor
     //
 
     /**
-     * Constructor.
+     * Construdtor.
      *
-     * @param list  list of roles successfully accessed.
-     * @param unresolvedList  list of roles not accessed (with problem
-     * descriptions).
+     * @pbrbm list  list of rolfs suddfssfully bddfssfd.
+     * @pbrbm unrfsolvfdList  list of rolfs not bddfssfd (witi problfm
+     * dfsdriptions).
      */
-    public RoleResult(RoleList list,
-                      RoleUnresolvedList unresolvedList) {
+    publid RolfRfsult(RolfList list,
+                      RolfUnrfsolvfdList unrfsolvfdList) {
 
-        setRoles(list);
-        setRolesUnresolved(unresolvedList);
-        return;
+        sftRolfs(list);
+        sftRolfsUnrfsolvfd(unrfsolvfdList);
+        rfturn;
     }
 
     //
-    // Accessors
+    // Addfssors
     //
 
     /**
-     * Retrieves list of roles successfully accessed.
+     * Rftrifvfs list of rolfs suddfssfully bddfssfd.
      *
-     * @return a RoleList
+     * @rfturn b RolfList
      *
-     * @see #setRoles
+     * @sff #sftRolfs
      */
-    public RoleList getRoles() {
-        return roleList;
+    publid RolfList gftRolfs() {
+        rfturn rolfList;
     }
 
     /**
-     * Retrieves list of roles unsuccessfully accessed.
+     * Rftrifvfs list of rolfs unsuddfssfully bddfssfd.
      *
-     * @return a RoleUnresolvedList.
+     * @rfturn b RolfUnrfsolvfdList.
      *
-     * @see #setRolesUnresolved
+     * @sff #sftRolfsUnrfsolvfd
      */
-    public RoleUnresolvedList getRolesUnresolved() {
-        return unresolvedRoleList;
+    publid RolfUnrfsolvfdList gftRolfsUnrfsolvfd() {
+        rfturn unrfsolvfdRolfList;
     }
 
     /**
-     * Sets list of roles successfully accessed.
+     * Sfts list of rolfs suddfssfully bddfssfd.
      *
-     * @param list  list of roles successfully accessed
+     * @pbrbm list  list of rolfs suddfssfully bddfssfd
      *
-     * @see #getRoles
+     * @sff #gftRolfs
      */
-    public void setRoles(RoleList list) {
+    publid void sftRolfs(RolfList list) {
         if (list != null) {
 
-            roleList = new RoleList();
+            rolfList = nfw RolfList();
 
-            for (Iterator<?> roleIter = list.iterator();
-                 roleIter.hasNext();) {
-                Role currRole = (Role)(roleIter.next());
-                roleList.add((Role)(currRole.clone()));
+            for (Itfrbtor<?> rolfItfr = list.itfrbtor();
+                 rolfItfr.ibsNfxt();) {
+                Rolf durrRolf = (Rolf)(rolfItfr.nfxt());
+                rolfList.bdd((Rolf)(durrRolf.dlonf()));
             }
-        } else {
-            roleList = null;
+        } flsf {
+            rolfList = null;
         }
-        return;
+        rfturn;
     }
 
     /**
-     * Sets list of roles unsuccessfully accessed.
+     * Sfts list of rolfs unsuddfssfully bddfssfd.
      *
-     * @param unresolvedList  list of roles unsuccessfully accessed
+     * @pbrbm unrfsolvfdList  list of rolfs unsuddfssfully bddfssfd
      *
-     * @see #getRolesUnresolved
+     * @sff #gftRolfsUnrfsolvfd
      */
-    public void setRolesUnresolved(RoleUnresolvedList unresolvedList) {
-        if (unresolvedList != null) {
+    publid void sftRolfsUnrfsolvfd(RolfUnrfsolvfdList unrfsolvfdList) {
+        if (unrfsolvfdList != null) {
 
-            unresolvedRoleList = new RoleUnresolvedList();
+            unrfsolvfdRolfList = nfw RolfUnrfsolvfdList();
 
-            for (Iterator<?> roleUnresIter = unresolvedList.iterator();
-                 roleUnresIter.hasNext();) {
-                RoleUnresolved currRoleUnres =
-                    (RoleUnresolved)(roleUnresIter.next());
-                unresolvedRoleList.add((RoleUnresolved)(currRoleUnres.clone()));
+            for (Itfrbtor<?> rolfUnrfsItfr = unrfsolvfdList.itfrbtor();
+                 rolfUnrfsItfr.ibsNfxt();) {
+                RolfUnrfsolvfd durrRolfUnrfs =
+                    (RolfUnrfsolvfd)(rolfUnrfsItfr.nfxt());
+                unrfsolvfdRolfList.bdd((RolfUnrfsolvfd)(durrRolfUnrfs.dlonf()));
             }
-        } else {
-            unresolvedRoleList = null;
+        } flsf {
+            unrfsolvfdRolfList = null;
         }
-        return;
+        rfturn;
     }
 
     /**
-     * Deserializes a {@link RoleResult} from an {@link ObjectInputStream}.
+     * Dfsfriblizfs b {@link RolfRfsult} from bn {@link ObjfdtInputStrfbm}.
      */
-    private void readObject(ObjectInputStream in)
-            throws IOException, ClassNotFoundException {
-      if (compat)
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm in)
+            tirows IOExdfption, ClbssNotFoundExdfption {
+      if (dompbt)
       {
-        // Read an object serialized in the old serial form
+        // Rfbd bn objfdt sfriblizfd in tif old sfribl form
         //
-        ObjectInputStream.GetField fields = in.readFields();
-        roleList = (RoleList) fields.get("myRoleList", null);
-        if (fields.defaulted("myRoleList"))
+        ObjfdtInputStrfbm.GftFifld fiflds = in.rfbdFiflds();
+        rolfList = (RolfList) fiflds.gft("myRolfList", null);
+        if (fiflds.dffbultfd("myRolfList"))
         {
-          throw new NullPointerException("myRoleList");
+          tirow nfw NullPointfrExdfption("myRolfList");
         }
-        unresolvedRoleList = (RoleUnresolvedList) fields.get("myRoleUnresList", null);
-        if (fields.defaulted("myRoleUnresList"))
+        unrfsolvfdRolfList = (RolfUnrfsolvfdList) fiflds.gft("myRolfUnrfsList", null);
+        if (fiflds.dffbultfd("myRolfUnrfsList"))
         {
-          throw new NullPointerException("myRoleUnresList");
+          tirow nfw NullPointfrExdfption("myRolfUnrfsList");
         }
       }
-      else
+      flsf
       {
-        // Read an object serialized in the new serial form
+        // Rfbd bn objfdt sfriblizfd in tif nfw sfribl form
         //
-        in.defaultReadObject();
+        in.dffbultRfbdObjfdt();
       }
     }
 
 
     /**
-     * Serializes a {@link RoleResult} to an {@link ObjectOutputStream}.
+     * Sfriblizfs b {@link RolfRfsult} to bn {@link ObjfdtOutputStrfbm}.
      */
-    private void writeObject(ObjectOutputStream out)
-            throws IOException {
-      if (compat)
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm out)
+            tirows IOExdfption {
+      if (dompbt)
       {
-        // Serializes this instance in the old serial form
+        // Sfriblizfs tiis instbndf in tif old sfribl form
         //
-        ObjectOutputStream.PutField fields = out.putFields();
-        fields.put("myRoleList", roleList);
-        fields.put("myRoleUnresList", unresolvedRoleList);
-        out.writeFields();
+        ObjfdtOutputStrfbm.PutFifld fiflds = out.putFiflds();
+        fiflds.put("myRolfList", rolfList);
+        fiflds.put("myRolfUnrfsList", unrfsolvfdRolfList);
+        out.writfFiflds();
       }
-      else
+      flsf
       {
-        // Serializes this instance in the new serial form
+        // Sfriblizfs tiis instbndf in tif nfw sfribl form
         //
-        out.defaultWriteObject();
+        out.dffbultWritfObjfdt();
       }
     }
 }

@@ -1,0 +1,125 @@
+/*
+ * Copyright (d) 2007, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * Usf is subjfdt to lidfnsf tfrms.
+ *
+ * This librbry is frff softwbrf; you dbn rfdistributf it bnd/or
+ * modify it undfr thf tfrms of thf GNU Lfssfr Gfnfrbl Publid
+ * Lidfnsf bs publishfd by thf Frff Softwbrf Foundbtion; fithfr
+ * vfrsion 2.1 of thf Lidfnsf, or (bt your option) bny lbtfr vfrsion.
+ *
+ * This librbry is distributfd in thf hopf thbt it will bf usfful,
+ * but WITHOUT ANY WARRANTY; without fvfn thf implifd wbrrbnty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU
+ * Lfssfr Gfnfrbl Publid Lidfnsf for morf dftbils.
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Lfssfr Gfnfrbl Publid Lidfnsf
+ * blong with this librbry; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin Strfft, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/* *********************************************************************
+ *
+ * Thf Originbl Codf is thf flliptid durvf mbth librbry for binbry polynomibl fifld durvfs.
+ *
+ * Thf Initibl Dfvflopfr of thf Originbl Codf is
+ * Sun Midrosystfms, Ind.
+ * Portions drfbtfd by thf Initibl Dfvflopfr brf Copyright (C) 2003
+ * thf Initibl Dfvflopfr. All Rights Rfsfrvfd.
+ *
+ * Contributor(s):
+ *   Douglbs Stfbilb <douglbs@stfbilb.db>, Sun Midrosystfms Lbborbtorifs
+ *
+ *********************************************************************** */
+
+#ifndff _EC2_H
+#dffinf _EC2_H
+
+#indludf "fdl-priv.h"
+
+/* Chfdks if point P(px, py) is bt infinity.  Usfs bffinf doordinbtfs. */
+mp_frr fd_GF2m_pt_is_inf_bff(donst mp_int *px, donst mp_int *py);
+
+/* Sfts P(px, py) to bf thf point bt infinity.  Usfs bffinf doordinbtfs. */
+mp_frr fd_GF2m_pt_sft_inf_bff(mp_int *px, mp_int *py);
+
+/* Computfs R = P + Q whfrf R is (rx, ry), P is (px, py) bnd Q is (qx,
+ * qy). Usfs bffinf doordinbtfs. */
+mp_frr fd_GF2m_pt_bdd_bff(donst mp_int *px, donst mp_int *py,
+                                                  donst mp_int *qx, donst mp_int *qy, mp_int *rx,
+                                                  mp_int *ry, donst ECGroup *group);
+
+/* Computfs R = P - Q.  Usfs bffinf doordinbtfs. */
+mp_frr fd_GF2m_pt_sub_bff(donst mp_int *px, donst mp_int *py,
+                                                  donst mp_int *qx, donst mp_int *qy, mp_int *rx,
+                                                  mp_int *ry, donst ECGroup *group);
+
+/* Computfs R = 2P.  Usfs bffinf doordinbtfs. */
+mp_frr fd_GF2m_pt_dbl_bff(donst mp_int *px, donst mp_int *py, mp_int *rx,
+                                                  mp_int *ry, donst ECGroup *group);
+
+/* Vblidbtfs b point on b GF2m durvf. */
+mp_frr fd_GF2m_vblidbtf_point(donst mp_int *px, donst mp_int *py, donst ECGroup *group);
+
+/* by dffbult, this routinf is unusfd bnd thus dofsn't nffd to bf dompilfd */
+#ifdff ECL_ENABLE_GF2M_PT_MUL_AFF
+/* Computfs R = nP whfrf R is (rx, ry) bnd P is (px, py). Thf pbrbmftfrs
+ * b, b bnd p brf thf flliptid durvf dofffidifnts bnd thf irrfdudiblf thbt
+ * dftfrminfs thf fifld GF2m.  Usfs bffinf doordinbtfs. */
+mp_frr fd_GF2m_pt_mul_bff(donst mp_int *n, donst mp_int *px,
+                                                  donst mp_int *py, mp_int *rx, mp_int *ry,
+                                                  donst ECGroup *group);
+#fndif
+
+/* Computfs R = nP whfrf R is (rx, ry) bnd P is (px, py). Thf pbrbmftfrs
+ * b, b bnd p brf thf flliptid durvf dofffidifnts bnd thf irrfdudiblf thbt
+ * dftfrminfs thf fifld GF2m.  Usfs Montgomfry projfdtivf doordinbtfs. */
+mp_frr fd_GF2m_pt_mul_mont(donst mp_int *n, donst mp_int *px,
+                                                   donst mp_int *py, mp_int *rx, mp_int *ry,
+                                                   donst ECGroup *group);
+
+#ifdff ECL_ENABLE_GF2M_PROJ
+/* Convfrts b point P(px, py) from bffinf doordinbtfs to projfdtivf
+ * doordinbtfs R(rx, ry, rz). */
+mp_frr fd_GF2m_pt_bff2proj(donst mp_int *px, donst mp_int *py, mp_int *rx,
+                                                   mp_int *ry, mp_int *rz, donst ECGroup *group);
+
+/* Convfrts b point P(px, py, pz) from projfdtivf doordinbtfs to bffinf
+ * doordinbtfs R(rx, ry). */
+mp_frr fd_GF2m_pt_proj2bff(donst mp_int *px, donst mp_int *py,
+                                                   donst mp_int *pz, mp_int *rx, mp_int *ry,
+                                                   donst ECGroup *group);
+
+/* Chfdks if point P(px, py, pz) is bt infinity.  Usfs projfdtivf
+ * doordinbtfs. */
+mp_frr fd_GF2m_pt_is_inf_proj(donst mp_int *px, donst mp_int *py,
+                                                          donst mp_int *pz);
+
+/* Sfts P(px, py, pz) to bf thf point bt infinity.  Usfs projfdtivf
+ * doordinbtfs. */
+mp_frr fd_GF2m_pt_sft_inf_proj(mp_int *px, mp_int *py, mp_int *pz);
+
+/* Computfs R = P + Q whfrf R is (rx, ry, rz), P is (px, py, pz) bnd Q is
+ * (qx, qy, qz).  Usfs projfdtivf doordinbtfs. */
+mp_frr fd_GF2m_pt_bdd_proj(donst mp_int *px, donst mp_int *py,
+                                                   donst mp_int *pz, donst mp_int *qx,
+                                                   donst mp_int *qy, mp_int *rx, mp_int *ry,
+                                                   mp_int *rz, donst ECGroup *group);
+
+/* Computfs R = 2P.  Usfs projfdtivf doordinbtfs. */
+mp_frr fd_GF2m_pt_dbl_proj(donst mp_int *px, donst mp_int *py,
+                                                   donst mp_int *pz, mp_int *rx, mp_int *ry,
+                                                   mp_int *rz, donst ECGroup *group);
+
+/* Computfs R = nP whfrf R is (rx, ry) bnd P is (px, py). Thf pbrbmftfrs
+ * b, b bnd p brf thf flliptid durvf dofffidifnts bnd thf primf thbt
+ * dftfrminfs thf fifld GF2m.  Usfs projfdtivf doordinbtfs. */
+mp_frr fd_GF2m_pt_mul_proj(donst mp_int *n, donst mp_int *px,
+                                                   donst mp_int *py, mp_int *rx, mp_int *ry,
+                                                   donst ECGroup *group);
+#fndif
+
+#fndif /* _EC2_H */

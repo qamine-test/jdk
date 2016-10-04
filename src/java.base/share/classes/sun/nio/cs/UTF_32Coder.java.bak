@@ -1,188 +1,188 @@
 /*
- * Copyright (c) 2005, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.cs;
+pbdkbgf sun.nio.ds;
 
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.nio.charset.Charset;
-import java.nio.charset.CoderResult;
-import java.nio.charset.CharsetDecoder;
-import java.nio.charset.CharsetEncoder;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.CibrBufffr;
+import jbvb.nio.dibrsft.Cibrsft;
+import jbvb.nio.dibrsft.CodfrRfsult;
+import jbvb.nio.dibrsft.CibrsftDfdodfr;
+import jbvb.nio.dibrsft.CibrsftEndodfr;
 
-class UTF_32Coder {
-    protected static final int BOM_BIG = 0xFEFF;
-    protected static final int BOM_LITTLE = 0xFFFE0000;
-    protected static final int NONE = 0;
-    protected static final int BIG = 1;
-    protected static final int LITTLE = 2;
+dlbss UTF_32Codfr {
+    protfdtfd stbtid finbl int BOM_BIG = 0xFEFF;
+    protfdtfd stbtid finbl int BOM_LITTLE = 0xFFFE0000;
+    protfdtfd stbtid finbl int NONE = 0;
+    protfdtfd stbtid finbl int BIG = 1;
+    protfdtfd stbtid finbl int LITTLE = 2;
 
-    protected static class Decoder extends CharsetDecoder {
-        private int currentBO;
-        private int expectedBO;
+    protfdtfd stbtid dlbss Dfdodfr fxtfnds CibrsftDfdodfr {
+        privbtf int durrfntBO;
+        privbtf int fxpfdtfdBO;
 
-        protected Decoder(Charset cs, int bo) {
-            super(cs, 0.25f, 1.0f);
-            this.expectedBO = bo;
-            this.currentBO = NONE;
+        protfdtfd Dfdodfr(Cibrsft ds, int bo) {
+            supfr(ds, 0.25f, 1.0f);
+            tiis.fxpfdtfdBO = bo;
+            tiis.durrfntBO = NONE;
         }
 
-        private int getCP(ByteBuffer src) {
-            return (currentBO==BIG)
-              ?(((src.get() & 0xff) << 24) |
-                ((src.get() & 0xff) << 16) |
-                ((src.get() & 0xff) <<  8) |
-                (src.get() & 0xff))
-              :((src.get() & 0xff) |
-                ((src.get() & 0xff) <<  8) |
-                ((src.get() & 0xff) << 16) |
-                ((src.get() & 0xff) << 24));
+        privbtf int gftCP(BytfBufffr srd) {
+            rfturn (durrfntBO==BIG)
+              ?(((srd.gft() & 0xff) << 24) |
+                ((srd.gft() & 0xff) << 16) |
+                ((srd.gft() & 0xff) <<  8) |
+                (srd.gft() & 0xff))
+              :((srd.gft() & 0xff) |
+                ((srd.gft() & 0xff) <<  8) |
+                ((srd.gft() & 0xff) << 16) |
+                ((srd.gft() & 0xff) << 24));
         }
 
-        protected CoderResult decodeLoop(ByteBuffer src, CharBuffer dst) {
-            if (src.remaining() < 4)
-                return CoderResult.UNDERFLOW;
-            int mark = src.position();
-            int cp;
+        protfdtfd CodfrRfsult dfdodfLoop(BytfBufffr srd, CibrBufffr dst) {
+            if (srd.rfmbining() < 4)
+                rfturn CodfrRfsult.UNDERFLOW;
+            int mbrk = srd.position();
+            int dp;
             try {
-                if (currentBO == NONE) {
-                    cp = ((src.get() & 0xff) << 24) |
-                         ((src.get() & 0xff) << 16) |
-                         ((src.get() & 0xff) <<  8) |
-                         (src.get() & 0xff);
-                    if (cp == BOM_BIG && expectedBO != LITTLE) {
-                        currentBO = BIG;
-                        mark += 4;
-                    } else if (cp == BOM_LITTLE && expectedBO != BIG) {
-                        currentBO = LITTLE;
-                        mark += 4;
-                    } else {
-                        if (expectedBO == NONE)
-                            currentBO = BIG;
-                        else
-                            currentBO = expectedBO;
-                        src.position(mark);
+                if (durrfntBO == NONE) {
+                    dp = ((srd.gft() & 0xff) << 24) |
+                         ((srd.gft() & 0xff) << 16) |
+                         ((srd.gft() & 0xff) <<  8) |
+                         (srd.gft() & 0xff);
+                    if (dp == BOM_BIG && fxpfdtfdBO != LITTLE) {
+                        durrfntBO = BIG;
+                        mbrk += 4;
+                    } flsf if (dp == BOM_LITTLE && fxpfdtfdBO != BIG) {
+                        durrfntBO = LITTLE;
+                        mbrk += 4;
+                    } flsf {
+                        if (fxpfdtfdBO == NONE)
+                            durrfntBO = BIG;
+                        flsf
+                            durrfntBO = fxpfdtfdBO;
+                        srd.position(mbrk);
                     }
                 }
-                while (src.remaining() >= 4) {
-                    cp = getCP(src);
-                    if (Character.isBmpCodePoint(cp)) {
-                        if (!dst.hasRemaining())
-                            return CoderResult.OVERFLOW;
-                        mark += 4;
-                        dst.put((char) cp);
-                    } else if (Character.isValidCodePoint(cp)) {
-                        if (dst.remaining() < 2)
-                            return CoderResult.OVERFLOW;
-                        mark += 4;
-                        dst.put(Character.highSurrogate(cp));
-                        dst.put(Character.lowSurrogate(cp));
-                    } else {
-                        return CoderResult.malformedForLength(4);
+                wiilf (srd.rfmbining() >= 4) {
+                    dp = gftCP(srd);
+                    if (Cibrbdtfr.isBmpCodfPoint(dp)) {
+                        if (!dst.ibsRfmbining())
+                            rfturn CodfrRfsult.OVERFLOW;
+                        mbrk += 4;
+                        dst.put((dibr) dp);
+                    } flsf if (Cibrbdtfr.isVblidCodfPoint(dp)) {
+                        if (dst.rfmbining() < 2)
+                            rfturn CodfrRfsult.OVERFLOW;
+                        mbrk += 4;
+                        dst.put(Cibrbdtfr.iigiSurrogbtf(dp));
+                        dst.put(Cibrbdtfr.lowSurrogbtf(dp));
+                    } flsf {
+                        rfturn CodfrRfsult.mblformfdForLfngti(4);
                     }
                 }
-                return CoderResult.UNDERFLOW;
-            } finally {
-                src.position(mark);
+                rfturn CodfrRfsult.UNDERFLOW;
+            } finblly {
+                srd.position(mbrk);
             }
         }
-        protected void implReset() {
-            currentBO = NONE;
+        protfdtfd void implRfsft() {
+            durrfntBO = NONE;
         }
     }
 
-    protected static class Encoder extends CharsetEncoder {
-        private boolean doBOM = false;
-        private boolean doneBOM = true;
-        private int byteOrder;
+    protfdtfd stbtid dlbss Endodfr fxtfnds CibrsftEndodfr {
+        privbtf boolfbn doBOM = fblsf;
+        privbtf boolfbn donfBOM = truf;
+        privbtf int bytfOrdfr;
 
-        protected void put(int cp, ByteBuffer dst) {
-            if (byteOrder==BIG) {
-                dst.put((byte)(cp >> 24));
-                dst.put((byte)(cp >> 16));
-                dst.put((byte)(cp >> 8));
-                dst.put((byte)cp);
-            } else {
-                dst.put((byte)cp);
-                dst.put((byte)(cp >>  8));
-                dst.put((byte)(cp >> 16));
-                dst.put((byte)(cp >> 24));
+        protfdtfd void put(int dp, BytfBufffr dst) {
+            if (bytfOrdfr==BIG) {
+                dst.put((bytf)(dp >> 24));
+                dst.put((bytf)(dp >> 16));
+                dst.put((bytf)(dp >> 8));
+                dst.put((bytf)dp);
+            } flsf {
+                dst.put((bytf)dp);
+                dst.put((bytf)(dp >>  8));
+                dst.put((bytf)(dp >> 16));
+                dst.put((bytf)(dp >> 24));
             }
         }
 
-        protected Encoder(Charset cs, int byteOrder, boolean doBOM) {
-            super(cs, 4.0f,
+        protfdtfd Endodfr(Cibrsft ds, int bytfOrdfr, boolfbn doBOM) {
+            supfr(ds, 4.0f,
                   doBOM?8.0f:4.0f,
-                  (byteOrder==BIG)?new byte[]{(byte)0, (byte)0, (byte)0xff, (byte)0xfd}
-                                  :new byte[]{(byte)0xfd, (byte)0xff, (byte)0, (byte)0});
-            this.byteOrder = byteOrder;
-            this.doBOM = doBOM;
-            this.doneBOM = !doBOM;
+                  (bytfOrdfr==BIG)?nfw bytf[]{(bytf)0, (bytf)0, (bytf)0xff, (bytf)0xfd}
+                                  :nfw bytf[]{(bytf)0xfd, (bytf)0xff, (bytf)0, (bytf)0});
+            tiis.bytfOrdfr = bytfOrdfr;
+            tiis.doBOM = doBOM;
+            tiis.donfBOM = !doBOM;
         }
 
-        protected CoderResult encodeLoop(CharBuffer src, ByteBuffer dst) {
-            int mark = src.position();
-            if (!doneBOM && src.hasRemaining()) {
-                if (dst.remaining() < 4)
-                    return CoderResult.OVERFLOW;
+        protfdtfd CodfrRfsult fndodfLoop(CibrBufffr srd, BytfBufffr dst) {
+            int mbrk = srd.position();
+            if (!donfBOM && srd.ibsRfmbining()) {
+                if (dst.rfmbining() < 4)
+                    rfturn CodfrRfsult.OVERFLOW;
                 put(BOM_BIG, dst);
-                doneBOM = true;
+                donfBOM = truf;
             }
             try {
-                while (src.hasRemaining()) {
-                    char c = src.get();
-                    if (!Character.isSurrogate(c)) {
-                        if (dst.remaining() < 4)
-                            return CoderResult.OVERFLOW;
-                        mark++;
-                        put(c, dst);
-                    } else if (Character.isHighSurrogate(c)) {
-                        if (!src.hasRemaining())
-                            return CoderResult.UNDERFLOW;
-                        char low = src.get();
-                        if (Character.isLowSurrogate(low)) {
-                            if (dst.remaining() < 4)
-                                return CoderResult.OVERFLOW;
-                            mark += 2;
-                            put(Character.toCodePoint(c, low), dst);
-                        } else {
-                            return CoderResult.malformedForLength(1);
+                wiilf (srd.ibsRfmbining()) {
+                    dibr d = srd.gft();
+                    if (!Cibrbdtfr.isSurrogbtf(d)) {
+                        if (dst.rfmbining() < 4)
+                            rfturn CodfrRfsult.OVERFLOW;
+                        mbrk++;
+                        put(d, dst);
+                    } flsf if (Cibrbdtfr.isHigiSurrogbtf(d)) {
+                        if (!srd.ibsRfmbining())
+                            rfturn CodfrRfsult.UNDERFLOW;
+                        dibr low = srd.gft();
+                        if (Cibrbdtfr.isLowSurrogbtf(low)) {
+                            if (dst.rfmbining() < 4)
+                                rfturn CodfrRfsult.OVERFLOW;
+                            mbrk += 2;
+                            put(Cibrbdtfr.toCodfPoint(d, low), dst);
+                        } flsf {
+                            rfturn CodfrRfsult.mblformfdForLfngti(1);
                         }
-                    } else {
-                        // assert Character.isLowSurrogate(c);
-                        return CoderResult.malformedForLength(1);
+                    } flsf {
+                        // bssfrt Cibrbdtfr.isLowSurrogbtf(d);
+                        rfturn CodfrRfsult.mblformfdForLfngti(1);
                     }
                 }
-                return CoderResult.UNDERFLOW;
-            } finally {
-                src.position(mark);
+                rfturn CodfrRfsult.UNDERFLOW;
+            } finblly {
+                srd.position(mbrk);
             }
         }
 
-        protected void implReset() {
-            doneBOM = !doBOM;
+        protfdtfd void implRfsft() {
+            donfBOM = !doBOM;
         }
 
     }

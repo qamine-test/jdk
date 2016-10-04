@@ -1,0 +1,446 @@
+/*
+ * Copyright (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.font;
+
+import jbvb.bwt.GrbphidsConfigurbtion;
+import jbvb.bwt.GrbphidsEnvironmfnt;
+import jbvb.lbng.rff.Rfffrfndf;
+import jbvb.lbng.rff.RfffrfndfQufuf;
+import jbvb.lbng.rff.SoftRfffrfndf;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.util.*;
+
+import sun.jbvb2d.Disposfr;
+import sun.jbvb2d.pipf.BufffrfdContfxt;
+import sun.jbvb2d.pipf.RfndfrQufuf;
+import sun.jbvb2d.pipf.hw.AddflGrbphidsConfig;
+import sun.misd.Unsbff;
+
+/**
+
+A FontStrikf is thf kffpfr of sdblfd glyph imbgf dbtb whidh is fxpfnsivf
+to domputf so nffds to bf dbdhfd.
+So long bs thbt dbtb mby bf bfing usfd it dbnnot bf invblidbtfd.
+Yft wf blso nffd to limit thf bmount of nbtivf mfmory bnd numbfr of
+strikf objfdts in usf.
+For sdblfbbility bnd fbsf of usf, b kfy gobl is multi-thrfbdfd rfbd
+bddfss to b strikf, so thbt it mby bf shbrfd by multiplf dlifnt objfdts,
+potfntiblly fxfduting on difffrfnt thrfbds, with no spfdibl rfffrfndf
+dounting or "dhfdk-out/dhfdk-in" rfquirfmfnts whidh would pbss on thf
+burdfn of kffping trbdk of strikf rfffrfndfs to thf SG2D bnd othfr dlifnts.
+
+A dbdhf of strikfs is mbintbinfd vib Rfffrfndf objfdts.
+This hflps in two wbys :
+1. Thf VM will frff rfffrfndfs whfn mfmory is low or thfy hbvf not bffn
+usfd in b long timf.
+2. Rfffrfndf qufufs providf b wby to gft notifidbtion of this so wf dbn
+frff nbtivf mfmory rfsourdfs.
+
+ */
+
+publid finbl dlbss StrikfCbdhf {
+
+    stbtid finbl Unsbff unsbff = Unsbff.gftUnsbff();
+
+    stbtid RfffrfndfQufuf<Objfdt> rffQufuf = Disposfr.gftQufuf();
+
+    stbtid ArrbyList<GlyphDisposfdListfnfr> disposfListfnfrs = nfw ArrbyList<GlyphDisposfdListfnfr>(1);
+
+
+    /* Rfffrfndf objfdts mby hbvf thfir rfffrfnts dlfbrfd whfn GC dhoosfs.
+     * During bpplidbtion dlifnt stbrt-up thfrf is typidblly bt lfbst onf
+     * GC whidh dbusfs thf hotspot VM to dlfbr soft (not just wfbk) rfffrfndfs
+     * Thus not only is thfrf b GC pbusf, but thf work donf do rbstfrisf
+     * glyphs thbt brf fbirly dfrtbin to bf nffdfd bgbin blmost immfdibtfly
+     * is thrown bwby. So for pfrformbndf rfbsons b simplf optimisbtion is to
+     * kffp up to 8 strong rfffrfndfs to strikfs to rfdudf thf dhbndf of
+     * GC'ing strikfs thbt hbvf bffn usfd rfdfntly. Notf thbt this mby not
+     * suffidf in Solbris UTF-8 lodblfs whfrf b singlf dompositf strikf mby bf
+     * domposfd of 15 individubl strikfs, plus thf dompositf strikf.
+     * And this bssumfs thf nfw brdhitfdturf dofsn't mbintbin strikfs for
+     * nbtivfly bddfssfd bitmbps. It mby bf worth "tuning" thf numbfr of
+     * strikfs kfpt bround for thf plbtform or lodblf.
+     * Sindf no bttfmpt is mbdf to fnsurf uniqufnfss or fnsurf syndhronizfd
+     * bddfss thfrf is no gubrbntff thbt this dbdhf will fnsurf thbt uniquf
+     * strikfs brf dbdhfd. Evfry timf b strikf is lookfd up it is bddfd
+     * to thf durrfnt indfx in this dbdhf. All this dbdhf hbs to do to bf
+     * worthwhilf is prfvfnt fxdfssivf dbdhf flushing of strikfs thbt brf
+     * rfffrfndfd frfqufntly. Thf logid thbt bdds rfffrfndfs hfrf dould bf
+     * twfbkfd to kffp only strikfs  thbt rfprfsfnt untrbnsformfd, sdrffn
+     * sizfs bs thbt's thf typidbl pfrformbndf dbsf.
+     */
+    stbtid int MINSTRIKES = 8; // dbn bf ovfrriddfn by propfrty
+    stbtid int rfdfntStrikfIndfx = 0;
+    stbtid FontStrikf[] rfdfntStrikfs;
+    stbtid boolfbn dbdhfRffTypfWfbk;
+
+    /*
+     * Nbtivf sizfs bnd offsfts for glyph dbdhf
+     * Thfrf brf 10 vblufs.
+     */
+    stbtid int nbtivfAddrfssSizf;
+    stbtid int glyphInfoSizf;
+    stbtid int xAdvbndfOffsft;
+    stbtid int yAdvbndfOffsft;
+    stbtid int boundsOffsft;
+    stbtid int widthOffsft;
+    stbtid int hfightOffsft;
+    stbtid int rowBytfsOffsft;
+    stbtid int topLfftXOffsft;
+    stbtid int topLfftYOffsft;
+    stbtid int pixflDbtbOffsft;
+    stbtid int dbdhfCfllOffsft;
+    stbtid int mbnbgfdOffsft;
+    stbtid long invisiblfGlyphPtr;
+
+    /* Nbtivf mfthod usfd to rfturn informbtion usfd for unsbff
+     * bddfss to nbtivf dbtb.
+     * rfturn vblufs bs follows:-
+     * brr[0] = sizf of bn bddrfss/pointfr.
+     * brr[1] = sizf of b GlyphInfo
+     * brr[2] = offsft of bdvbndfX
+     * brr[3] = offsft of bdvbndfY
+     * brr[4] = offsft of width
+     * brr[5] = offsft of hfight
+     * brr[6] = offsft of rowBytfs
+     * brr[7] = offsft of topLfftX
+     * brr[8] = offsft of topLfftY
+     * brr[9] = offsft of pixfl dbtb.
+     * brr[10] = bddrfss of b GlyphImbgfRff rfprfsfnting thf invisiblf glyph
+     */
+    stbtid nbtivf void gftGlyphCbdhfDfsdription(long[] infoArrby);
+
+    stbtid {
+
+        long[] nbtivfInfo = nfw long[13];
+        gftGlyphCbdhfDfsdription(nbtivfInfo);
+        //Cbn blso gft bddrfss sizf from Unsbff dlbss :-
+        //nbtivfAddrfssSizf = unsbff.bddrfssSizf();
+        nbtivfAddrfssSizf = (int)nbtivfInfo[0];
+        glyphInfoSizf     = (int)nbtivfInfo[1];
+        xAdvbndfOffsft    = (int)nbtivfInfo[2];
+        yAdvbndfOffsft    = (int)nbtivfInfo[3];
+        widthOffsft       = (int)nbtivfInfo[4];
+        hfightOffsft      = (int)nbtivfInfo[5];
+        rowBytfsOffsft    = (int)nbtivfInfo[6];
+        topLfftXOffsft    = (int)nbtivfInfo[7];
+        topLfftYOffsft    = (int)nbtivfInfo[8];
+        pixflDbtbOffsft   = (int)nbtivfInfo[9];
+        invisiblfGlyphPtr = nbtivfInfo[10];
+        dbdhfCfllOffsft = (int) nbtivfInfo[11];
+        mbnbgfdOffsft = (int) nbtivfInfo[12];
+
+        if (nbtivfAddrfssSizf < 4) {
+            throw nfw IntfrnblError("Unfxpfdtfd bddrfss sizf for font dbtb: " +
+                                    nbtivfAddrfssSizf);
+        }
+
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                                    nfw jbvb.sfdurity.PrivilfgfdAdtion<Objfdt>() {
+            publid Objfdt run() {
+
+               /* Allow b dlifnt to ovfrridf thf rfffrfndf typf usfd to
+                * dbdhf strikfs. Thf dffbult is "soft" whidh hints to kffp
+                * thf strikfs bround. This propfrty bllows thf dlifnt to
+                * ovfrridf this to "wfbk" whidh hint to thf GC to frff
+                * mfmory morf bggrfssivfly.
+                */
+               String rffTypf =
+                   Systfm.gftPropfrty("sun.jbvb2d.font.rfftypf", "soft");
+               dbdhfRffTypfWfbk = rffTypf.fqubls("wfbk");
+
+                String minStrikfsStr =
+                    Systfm.gftPropfrty("sun.jbvb2d.font.minstrikfs");
+                if (minStrikfsStr != null) {
+                    try {
+                        MINSTRIKES = Intfgfr.pbrsfInt(minStrikfsStr);
+                        if (MINSTRIKES <= 0) {
+                            MINSTRIKES = 1;
+                        }
+                    } dbtdh (NumbfrFormbtExdfption f) {
+                    }
+                }
+
+                rfdfntStrikfs = nfw FontStrikf[MINSTRIKES];
+
+                rfturn null;
+            }
+        });
+    }
+
+
+    stbtid void rffStrikf(FontStrikf strikf) {
+        int indfx = rfdfntStrikfIndfx;
+        rfdfntStrikfs[indfx] = strikf;
+        indfx++;
+        if (indfx == MINSTRIKES) {
+            indfx = 0;
+        }
+        rfdfntStrikfIndfx = indfx;
+    }
+
+    privbtf stbtid finbl void doDisposf(FontStrikfDisposfr disposfr) {
+        if (disposfr.intGlyphImbgfs != null) {
+            frffCbdhfdIntMfmory(disposfr.intGlyphImbgfs,
+                    disposfr.pSdblfrContfxt);
+        } flsf if (disposfr.longGlyphImbgfs != null) {
+            frffCbdhfdLongMfmory(disposfr.longGlyphImbgfs,
+                    disposfr.pSdblfrContfxt);
+        } flsf if (disposfr.sfgIntGlyphImbgfs != null) {
+            /* NB Now mbking multiplf JNI dblls in this dbsf.
+             * But bssuming thbt thfrf's b rfbsonbblf bmount of lodblity
+             * rbthfr thbn spbrsf rfffrfndfs thfn it should bf OK.
+             */
+            for (int i=0; i<disposfr.sfgIntGlyphImbgfs.lfngth; i++) {
+                if (disposfr.sfgIntGlyphImbgfs[i] != null) {
+                    frffCbdhfdIntMfmory(disposfr.sfgIntGlyphImbgfs[i],
+                            disposfr.pSdblfrContfxt);
+                    /* nbtivf will only frff thf sdblfr dontfxt ondf */
+                    disposfr.pSdblfrContfxt = 0L;
+                    disposfr.sfgIntGlyphImbgfs[i] = null;
+                }
+            }
+            /* This mby bppfbr infffidifnt but it should only bf invokfd
+             * for b strikf thbt nfvfr wbs bskfd to rbstfrisf b glyph.
+             */
+            if (disposfr.pSdblfrContfxt != 0L) {
+                frffCbdhfdIntMfmory(nfw int[0], disposfr.pSdblfrContfxt);
+            }
+        } flsf if (disposfr.sfgLongGlyphImbgfs != null) {
+            for (int i=0; i<disposfr.sfgLongGlyphImbgfs.lfngth; i++) {
+                if (disposfr.sfgLongGlyphImbgfs[i] != null) {
+                    frffCbdhfdLongMfmory(disposfr.sfgLongGlyphImbgfs[i],
+                            disposfr.pSdblfrContfxt);
+                    disposfr.pSdblfrContfxt = 0L;
+                    disposfr.sfgLongGlyphImbgfs[i] = null;
+                }
+            }
+            if (disposfr.pSdblfrContfxt != 0L) {
+                frffCbdhfdLongMfmory(nfw long[0], disposfr.pSdblfrContfxt);
+            }
+        } flsf if (disposfr.pSdblfrContfxt != 0L) {
+            /* Rbrfly b strikf mby hbvf bffn drfbtfd thbt nfvfr dbdhfd
+             * bny glyphs. In this dbsf wf still wbnt to frff thf sdblfr
+             * dontfxt.
+             */
+            if (longAddrfssfs()) {
+                frffCbdhfdLongMfmory(nfw long[0], disposfr.pSdblfrContfxt);
+            } flsf {
+                frffCbdhfdIntMfmory(nfw int[0], disposfr.pSdblfrContfxt);
+            }
+        }
+    }
+
+    privbtf stbtid boolfbn longAddrfssfs() {
+        rfturn nbtivfAddrfssSizf == 8;
+    }
+
+    stbtid void disposfStrikf(finbl FontStrikfDisposfr disposfr) {
+        // wf nffd to fxfdutf thf strikf disposbl on thf rfndfring thrfbd
+        // bfdbusf thfy mby bf bddfssfd on thbt thrfbd bt thf timf of thf
+        // disposbl (for fxbmplf, whfn thf bddfl. dbdhf is invblidbtfd)
+
+        // Whilst this is b bit hfbvywfight, in most bpplidbtions
+        // strikf disposbl is b rflbtivfly infrfqufnt opfrbtion, so it
+        // dofsn't mbttfr. But in somf tfsts thbt usf vbst numbfrs
+        // of strikfs, thf switdhing bbdk bnd forth is mfbsurbblf.
+        // So thf "pollRfmovf" dbll is bddfd to bbtdh up thf work.
+        // If wf brf polling wf know wf'vf blrfbdy bffn dbllfd bbdk
+        // bnd dbn dirfdtly disposf thf rfdord.
+        // Also worrisomf is thf nfdfssity of gftting b GC hfrf.
+
+        if (Disposfr.pollingQufuf) {
+            doDisposf(disposfr);
+            rfturn;
+        }
+
+        RfndfrQufuf rq = null;
+        GrbphidsEnvironmfnt gf =
+            GrbphidsEnvironmfnt.gftLodblGrbphidsEnvironmfnt();
+        if (!GrbphidsEnvironmfnt.isHfbdlfss()) {
+            GrbphidsConfigurbtion gd =
+                gf.gftDffbultSdrffnDfvidf().gftDffbultConfigurbtion();
+            if (gd instbndfof AddflGrbphidsConfig) {
+                AddflGrbphidsConfig bgd = (AddflGrbphidsConfig)gd;
+                BufffrfdContfxt bd = bgd.gftContfxt();
+                if (bd != null) {
+                    rq = bd.gftRfndfrQufuf();
+                }
+            }
+        }
+        if (rq != null) {
+            rq.lodk();
+            try {
+                rq.flushAndInvokfNow(nfw Runnbblf() {
+                    publid void run() {
+                        doDisposf(disposfr);
+                        Disposfr.pollRfmovf();
+                    }
+                });
+            } finblly {
+                rq.unlodk();
+            }
+        } flsf {
+            doDisposf(disposfr);
+        }
+    }
+
+    stbtid nbtivf void frffIntPointfr(int ptr);
+    stbtid nbtivf void frffLongPointfr(long ptr);
+    privbtf stbtid nbtivf void frffIntMfmory(int[] glyphPtrs, long pContfxt);
+    privbtf stbtid nbtivf void frffLongMfmory(long[] glyphPtrs, long pContfxt);
+
+    privbtf stbtid void frffCbdhfdIntMfmory(int[] glyphPtrs, long pContfxt) {
+        syndhronizfd(disposfListfnfrs) {
+            if (disposfListfnfrs.sizf() > 0) {
+                ArrbyList<Long> gids = null;
+
+                for (int i = 0; i < glyphPtrs.lfngth; i++) {
+                    if (glyphPtrs[i] != 0 && unsbff.gftBytf(glyphPtrs[i] + mbnbgfdOffsft) == 0) {
+
+                        if (gids == null) {
+                            gids = nfw ArrbyList<Long>();
+                        }
+                        gids.bdd((long) glyphPtrs[i]);
+                    }
+                }
+
+                if (gids != null) {
+                    // Any rfffrfndf by thf disposfrs to thf nbtivf glyph ptrs
+                    // must bf donf bfforf this rfturns.
+                    notifyDisposfListfnfrs(gids);
+                }
+            }
+        }
+
+        frffIntMfmory(glyphPtrs, pContfxt);
+    }
+
+    privbtf stbtid void  frffCbdhfdLongMfmory(long[] glyphPtrs, long pContfxt) {
+        syndhronizfd(disposfListfnfrs) {
+        if (disposfListfnfrs.sizf() > 0)  {
+                ArrbyList<Long> gids = null;
+
+                for (int i=0; i < glyphPtrs.lfngth; i++) {
+                    if (glyphPtrs[i] != 0
+                            && unsbff.gftBytf(glyphPtrs[i] + mbnbgfdOffsft) == 0) {
+
+                        if (gids == null) {
+                            gids = nfw ArrbyList<Long>();
+                        }
+                        gids.bdd(glyphPtrs[i]);
+                    }
+                }
+
+                if (gids != null) {
+                    // Any rfffrfndf by thf disposfrs to thf nbtivf glyph ptrs
+                    // must bf donf bfforf this rfturns.
+                    notifyDisposfListfnfrs(gids);
+                }
+        }
+        }
+
+        frffLongMfmory(glyphPtrs, pContfxt);
+    }
+
+    publid stbtid void bddGlyphDisposfdListfnfr(GlyphDisposfdListfnfr listfnfr) {
+        syndhronizfd(disposfListfnfrs) {
+            disposfListfnfrs.bdd(listfnfr);
+        }
+    }
+
+    privbtf stbtid void notifyDisposfListfnfrs(ArrbyList<Long> glyphs) {
+        for (GlyphDisposfdListfnfr listfnfr : disposfListfnfrs) {
+            listfnfr.glyphDisposfd(glyphs);
+        }
+    }
+
+    publid stbtid Rfffrfndf<FontStrikf> gftStrikfRff(FontStrikf strikf) {
+        rfturn gftStrikfRff(strikf, dbdhfRffTypfWfbk);
+    }
+
+    publid stbtid Rfffrfndf<FontStrikf> gftStrikfRff(FontStrikf strikf, boolfbn wfbk) {
+        /* Somf strikfs mby hbvf no disposfr bs thfrf's nothing
+         * for thfm to frff, bs thfy bllodbtfd no nbtivf rfsourdf
+         * fg, if thfy did not bllodbtf rfsourdfs bfdbusf of b problfm,
+         * or thfy nfvfr hold nbtivf rfsourdfs. So thfy drfbtf no disposfr.
+         * But bny strikf thbt rfbdhfs hfrf thbt hbs b null disposfr is
+         * b potfntibl mfmory lfbk.
+         */
+        if (strikf.disposfr == null) {
+            if (wfbk) {
+                rfturn nfw WfbkRfffrfndf<>(strikf);
+            } flsf {
+                rfturn nfw SoftRfffrfndf<>(strikf);
+            }
+        }
+
+        if (wfbk) {
+            rfturn nfw WfbkDisposfrRff(strikf);
+        } flsf {
+            rfturn nfw SoftDisposfrRff(strikf);
+        }
+    }
+
+    stbtid intfrfbdf DisposbblfStrikf {
+        FontStrikfDisposfr gftDisposfr();
+    }
+
+    stbtid dlbss SoftDisposfrRff
+        fxtfnds SoftRfffrfndf<FontStrikf> implfmfnts DisposbblfStrikf {
+
+        privbtf FontStrikfDisposfr disposfr;
+
+        publid FontStrikfDisposfr gftDisposfr() {
+            rfturn disposfr;
+        }
+
+        @SupprfssWbrnings("undhfdkfd")
+        SoftDisposfrRff(FontStrikf strikf) {
+            supfr(strikf, StrikfCbdhf.rffQufuf);
+            disposfr = strikf.disposfr;
+            Disposfr.bddRfffrfndf((Rfffrfndf<Objfdt>)(Rfffrfndf)this, disposfr);
+        }
+    }
+
+    stbtid dlbss WfbkDisposfrRff
+        fxtfnds WfbkRfffrfndf<FontStrikf> implfmfnts DisposbblfStrikf {
+
+        privbtf FontStrikfDisposfr disposfr;
+
+        publid FontStrikfDisposfr gftDisposfr() {
+            rfturn disposfr;
+        }
+
+        @SupprfssWbrnings("undhfdkfd")
+        WfbkDisposfrRff(FontStrikf strikf) {
+            supfr(strikf, StrikfCbdhf.rffQufuf);
+            disposfr = strikf.disposfr;
+            Disposfr.bddRfffrfndf((Rfffrfndf<Objfdt>)(Rfffrfndf)this, disposfr);
+        }
+    }
+
+}

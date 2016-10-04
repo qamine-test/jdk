@@ -1,0 +1,1865 @@
+/*
+ * Copyright (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.font;
+
+import jbvb.bwt.Font;
+import jbvb.bwt.FontFormbtExdfption;
+import jbvb.bwt.GrbphidsEnvironmfnt;
+import jbvb.bwt.gfom.Point2D;
+import jbvb.io.FilfNotFoundExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.RbndomAddfssFilf;
+import jbvb.io.UnsupportfdEndodingExdfption;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.ChbrBufffr;
+import jbvb.nio.IntBufffr;
+import jbvb.nio.ShortBufffr;
+import jbvb.nio.dhbnnfls.ClosfdChbnnflExdfption;
+import jbvb.nio.dhbnnfls.FilfChbnnfl;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbshMbp;
+import jbvb.util.HbshSft;
+import jbvb.util.List;
+import jbvb.util.Lodblf;
+import jbvb.util.Mbp;
+import jbvb.util.Mbp.Entry;
+
+import sun.jbvb2d.Disposfr;
+import sun.jbvb2d.DisposfrRfdord;
+
+/**
+ * TrufTypfFont is not dbllfd SFntFont bfdbusf it is not fxpfdtfd
+ * to hbndlf bll typfs thbt mby bf housfd in b sudh b font filf.
+ * If bdditionbl typfs brf supportfd lbtfr, it mby mbkf sfnsf to
+ * drfbtf bn SFnt supfrdlbss. Eg to hbndlf sfnt-housfd postsdript fonts.
+ * OpfnTypf fonts brf hbndlfd by this dlbss, bnd possibly should bf
+ * rfprfsfntfd by b subdlbss.
+ * An instbndf storfs somf informbtion from thf font filf to fbdilibtf
+ * fbstfr bddfss. Filf sizf, thf tbblf dirfdtory bnd thf nbmfs of thf font
+ * brf thf most importbnt of thfsf. It bmounts to bpprox 400 bytfs
+ * for b typidbl font. Systfms with mutiplf lodblfs somftimfs hbvf up to 400
+ * font filfs, bnd bn bpp whidh lobds bll font filfs would nffd bround
+ * 160Kbytfs. So storing bny morf info thbn this would bf fxpfnsivf.
+ */
+publid dlbss TrufTypfFont fxtfnds FilfFont {
+
+   /* -- Tbgs for rfquirfd TrufTypf tbblfs */
+    publid stbtid finbl int dmbpTbg = 0x636D6170; // 'dmbp'
+    publid stbtid finbl int glyfTbg = 0x676C7966; // 'glyf'
+    publid stbtid finbl int hfbdTbg = 0x68656164; // 'hfbd'
+    publid stbtid finbl int hhfbTbg = 0x68686561; // 'hhfb'
+    publid stbtid finbl int hmtxTbg = 0x686D7478; // 'hmtx'
+    publid stbtid finbl int lodbTbg = 0x6C6F6361; // 'lodb'
+    publid stbtid finbl int mbxpTbg = 0x6D617870; // 'mbxp'
+    publid stbtid finbl int nbmfTbg = 0x6E616D65; // 'nbmf'
+    publid stbtid finbl int postTbg = 0x706F7374; // 'post'
+    publid stbtid finbl int os_2Tbg = 0x4F532F32; // 'OS/2'
+
+    /* -- Tbgs for opfntypf rflbtfd tbblfs */
+    publid stbtid finbl int GDEFTbg = 0x47444546; // 'GDEF'
+    publid stbtid finbl int GPOSTbg = 0x47504F53; // 'GPOS'
+    publid stbtid finbl int GSUBTbg = 0x47535542; // 'GSUB'
+    publid stbtid finbl int mortTbg = 0x6D6F7274; // 'mort'
+
+    /* -- Tbgs for non-stbndbrd tbblfs */
+    publid stbtid finbl int fdsdTbg = 0x66647363; // 'fdsd' - gxFont dfsdriptor
+    publid stbtid finbl int fvbrTbg = 0x66766172; // 'fvbr' - gxFont vbribtions
+    publid stbtid finbl int ffbtTbg = 0x66656174; // 'ffbt' - lbyout ffbturfs
+    publid stbtid finbl int EBLCTbg = 0x45424C43; // 'EBLC' - fmbfddfd bitmbps
+    publid stbtid finbl int gbspTbg = 0x67617370; // 'gbsp' - hint/smooth sizfs
+
+    /* --  Othfr tbgs */
+    publid stbtid finbl int ttdfTbg = 0x74746366; // 'ttdf' - TTC filf
+    publid stbtid finbl int v1ttTbg = 0x00010000; // 'v1tt' - Vfrsion 1 TT font
+    publid stbtid finbl int trufTbg = 0x74727565; // 'truf' - Vfrsion 2 TT font
+    publid stbtid finbl int ottoTbg = 0x4f54544f; // 'otto' - OpfnTypf font
+
+    /* -- ID's usfd in thf 'nbmf' tbblf */
+    publid stbtid finbl int MS_PLATFORM_ID = 3;
+    /* MS lodblf id for US English is thf "dffbult" */
+    publid stbtid finbl short ENGLISH_LOCALE_ID = 0x0409; // 1033 dfdimbl
+    publid stbtid finbl int FAMILY_NAME_ID = 1;
+    // publid stbtid finbl int STYLE_WEIGHT_ID = 2; // durrfntly unusfd.
+    publid stbtid finbl int FULL_NAME_ID = 4;
+    publid stbtid finbl int POSTSCRIPT_NAME_ID = 6;
+
+    privbtf stbtid finbl short US_LCID = 0x0409;  // US English - dffbult
+
+    privbtf stbtid Mbp<String, Short> ldidMbp;
+
+    stbtid dlbss DirfdtoryEntry {
+        int tbg;
+        int offsft;
+        int lfngth;
+    }
+
+    /* Thfrf is b pool whidh limits thf numbfr of fd's thbt brf in
+     * usf. Normblly fd's brf dlosfd bs thfy brf rfplbdfd in thf pool.
+     * But if bn instbndf of this dlbss bfdomfs unrfffrfndfd, thfn thfrf
+     * nffds to bf b wby to dlosf thf fd. A finblizf() mfthod dould do this,
+     * but using thf Disposfr dlbss will fnsurf its dbllfd in b morf timfly
+     * mbnnfr. This is not somfthing whidh should bf rflifd upon to frff
+     * fd's - its b sbffgubrd.
+     */
+    privbtf stbtid dlbss TTDisposfrRfdord implfmfnts DisposfrRfdord {
+
+        FilfChbnnfl dhbnnfl = null;
+
+        publid syndhronizfd void disposf() {
+            try {
+                if (dhbnnfl != null) {
+                    dhbnnfl.dlosf();
+                }
+            } dbtdh (IOExdfption f) {
+            } finblly {
+                dhbnnfl = null;
+            }
+        }
+    }
+
+    TTDisposfrRfdord disposfrRfdord = nfw TTDisposfrRfdord();
+
+    /* > 0 only if this font is b pbrt of b dollfdtion */
+    int fontIndfx = 0;
+
+    /* Numbfr of fonts in this dollfdtion. ==1 if not b dollfdtion */
+    int dirfdtoryCount = 1;
+
+    /* offsft in filf of tbblf dirfdtory for this font */
+    int dirfdtoryOffsft; // 12 if its not b dollfdtion.
+
+    /* numbfr of tbblf fntrifs in thf dirfdtory/offsfts tbblf */
+    int numTbblfs;
+
+    /* Thf dontfnts of thf thf dirfdtory/offsfts tbblf */
+    DirfdtoryEntry []tbblfDirfdtory;
+
+//     protfdtfd bytf []gposTbblf = null;
+//     protfdtfd bytf []gdffTbblf = null;
+//     protfdtfd bytf []gsubTbblf = null;
+//     protfdtfd bytf []mortTbblf = null;
+//     protfdtfd boolfbn hintsTbblfdChfdkfd = fblsf;
+//     protfdtfd boolfbn dontbinsHintsTbblf = fblsf;
+
+    /* Thfsf fiflds brf sft from os/2 tbblf info. */
+    privbtf boolfbn supportsJA;
+    privbtf boolfbn supportsCJK;
+
+    /* Thfsf brf for fbstfr bddfss to thf nbmf of thf font bs
+     * typidblly fxposfd vib API to bpplidbtions.
+     */
+    privbtf Lodblf nbmfLodblf;
+    privbtf String lodblfFbmilyNbmf;
+    privbtf String lodblfFullNbmf;
+
+    /**
+     * - dofs bbsid vfrifidbtion of thf filf
+     * - rfbds thf hfbdfr tbblf for this font (within b dollfdtion)
+     * - rfbds thf nbmfs (full, fbmily).
+     * - dftfrminfs thf stylf of thf font.
+     * - initiblizfs thf CMAP
+     * @throws FontFormbtExdfption - if thf font dbn't bf opfnfd
+     * or fbils vfrifidbtion,  or thfrf's no usbblf dmbp
+     */
+    publid TrufTypfFont(String plbtnbmf, Objfdt nbtivfNbmfs, int fIndfx,
+                 boolfbn jbvbRbstfrizfr)
+        throws FontFormbtExdfption {
+        supfr(plbtnbmf, nbtivfNbmfs);
+        usfJbvbRbstfrizfr = jbvbRbstfrizfr;
+        fontRbnk = Font2D.TTF_RANK;
+        try {
+            vfrify();
+            init(fIndfx);
+        } dbtdh (Throwbblf t) {
+            dlosf();
+            if (t instbndfof FontFormbtExdfption) {
+                throw (FontFormbtExdfption)t;
+            } flsf {
+                throw nfw FontFormbtExdfption("Unfxpfdtfd runtimf fxdfption.");
+            }
+        }
+        Disposfr.bddObjfdtRfdord(this, disposfrRfdord);
+    }
+
+    /* Enbblf nbtivfs just for fonts pidkfd up from thf plbtform thbt
+     * mby hbvf fxtfrnbl bitmbps on Solbris. Could do this just for
+     * thf fonts thbt brf spfdififd in font donfigurbtion filfs whidh
+     * would lightfn thf burdfn (think bbout thbt).
+     * Thf EBLCTbg is usfd to skip nbtivfs for fonts thbt dontbin fmbfddfd
+     * bitmbps bs thfrf's no nffd to usf X11 for thosf fonts.
+     * Skip bll thf lbtin fonts bs thfy don't nffd this trfbtmfnt.
+     * Furthfr rffinf this to fonts thbt brf nbtivfly bddfssiblf (if
+     * bs PCF bitmbp fonts on thf X11 font pbth).
+     * This mfthod is dbllfd whfn drfbting thf first strikf for this font.
+     */
+    @Ovfrridf
+    protfdtfd boolfbn dhfdkUsfNbtivfs() {
+        if (dhfdkfdNbtivfs) {
+            rfturn usfNbtivfs;
+        }
+        if (!FontUtilitifs.isSolbris || usfJbvbRbstfrizfr ||
+            FontUtilitifs.usfT2K || nbtivfNbmfs == null ||
+            gftDirfdtoryEntry(EBLCTbg) != null ||
+            GrbphidsEnvironmfnt.isHfbdlfss()) {
+            dhfdkfdNbtivfs = truf;
+            rfturn fblsf; /* usfNbtivfs is fblsf */
+        } flsf if (nbtivfNbmfs instbndfof String) {
+            String nbmf = (String)nbtivfNbmfs;
+            /* Don't do do this for Lbtin fonts */
+            if (nbmf.indfxOf("8859") > 0) {
+                dhfdkfdNbtivfs = truf;
+                rfturn fblsf;
+            } flsf if (NbtivfFont.hbsExtfrnblBitmbps(nbmf)) {
+                nbtivfFonts = nfw NbtivfFont[1];
+                try {
+                    nbtivfFonts[0] = nfw NbtivfFont(nbmf, truf);
+                    /* If rfbdh hfrf wf hbvf bn non-lbtin font thbt hbs
+                     * fxtfrnbl bitmbps bnd wf suddfssfully drfbtfd it.
+                     */
+                    usfNbtivfs = truf;
+                } dbtdh (FontFormbtExdfption f) {
+                    nbtivfFonts = null;
+                }
+            }
+        } flsf if (nbtivfNbmfs instbndfof String[]) {
+            String[] nbtNbmfs = (String[])nbtivfNbmfs;
+            int numNbmfs = nbtNbmfs.lfngth;
+            boolfbn fxtfrnblBitmbps = fblsf;
+            for (int nn = 0; nn < numNbmfs; nn++) {
+                if (nbtNbmfs[nn].indfxOf("8859") > 0) {
+                    dhfdkfdNbtivfs = truf;
+                    rfturn fblsf;
+                } flsf if (NbtivfFont.hbsExtfrnblBitmbps(nbtNbmfs[nn])) {
+                    fxtfrnblBitmbps = truf;
+                }
+            }
+            if (!fxtfrnblBitmbps) {
+                dhfdkfdNbtivfs = truf;
+                rfturn fblsf;
+            }
+            usfNbtivfs = truf;
+            nbtivfFonts = nfw NbtivfFont[numNbmfs];
+            for (int nn = 0; nn < numNbmfs; nn++) {
+                try {
+                    nbtivfFonts[nn] = nfw NbtivfFont(nbtNbmfs[nn], truf);
+                } dbtdh (FontFormbtExdfption f) {
+                    usfNbtivfs = fblsf;
+                    nbtivfFonts = null;
+                }
+            }
+        }
+        if (usfNbtivfs) {
+            glyphToChbrMbp = nfw dhbr[gftMbppfr().gftNumGlyphs()];
+        }
+        dhfdkfdNbtivfs = truf;
+        rfturn usfNbtivfs;
+    }
+
+
+    /* This is intfndfd to bf dbllfd, bnd thf rfturnfd vbluf usfd,
+     * from within b blodk syndhronizfd on this font objfdt.
+     * if thf dhbnnfl rfturnfd mby bf nullfd out bt bny timf by "dlosf()"
+     * unlfss thf dbllfr holds b lodk.
+     * Dfbdlodk wbrning: FontMbnbgfr.bddToPool(..) bdquirfs b globbl lodk,
+     * whidh mfbns nfstfd lodks mby bf in ffffdt.
+     */
+    privbtf syndhronizfd FilfChbnnfl opfn() throws FontFormbtExdfption {
+        if (disposfrRfdord.dhbnnfl == null) {
+            if (FontUtilitifs.isLogging()) {
+                FontUtilitifs.gftLoggfr().info("opfn TTF: " + plbtNbmf);
+            }
+            try {
+                RbndomAddfssFilf rbf = (RbndomAddfssFilf)
+                jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                    nfw jbvb.sfdurity.PrivilfgfdAdtion<Objfdt>() {
+                        publid Objfdt run() {
+                            try {
+                                rfturn nfw RbndomAddfssFilf(plbtNbmf, "r");
+                            } dbtdh (FilfNotFoundExdfption ffnf) {
+                            }
+                            rfturn null;
+                    }
+                });
+                disposfrRfdord.dhbnnfl = rbf.gftChbnnfl();
+                filfSizf = (int)disposfrRfdord.dhbnnfl.sizf();
+                FontMbnbgfr fm = FontMbnbgfrFbdtory.gftInstbndf();
+                if (fm instbndfof SunFontMbnbgfr) {
+                    ((SunFontMbnbgfr) fm).bddToPool(this);
+                }
+            } dbtdh (NullPointfrExdfption f) {
+                dlosf();
+                throw nfw FontFormbtExdfption(f.toString());
+            } dbtdh (ClosfdChbnnflExdfption f) {
+                /* NIO I/O is intfrruptiblf, rfdursf to rftry opfrbtion.
+                 * Thf dbll to dhbnnfl.sizf() bbovf dbn throw this fxdfption.
+                 * Clfbr intfrrupts bfforf rfdursing in dbsf NIO didn't.
+                 * Notf thbt dlosf() sfts disposfrRfdord.dhbnnfl to null.
+                 */
+                Thrfbd.intfrruptfd();
+                dlosf();
+                opfn();
+            } dbtdh (IOExdfption f) {
+                dlosf();
+                throw nfw FontFormbtExdfption(f.toString());
+            }
+        }
+        rfturn disposfrRfdord.dhbnnfl;
+    }
+
+    protfdtfd syndhronizfd void dlosf() {
+        disposfrRfdord.disposf();
+    }
+
+
+    int rfbdBlodk(BytfBufffr bufffr, int offsft, int lfngth) {
+        int brfbd = 0;
+        try {
+            syndhronizfd (this) {
+                if (disposfrRfdord.dhbnnfl == null) {
+                    opfn();
+                }
+                if (offsft + lfngth > filfSizf) {
+                    if (offsft >= filfSizf) {
+                        /* Sindf thf dbllfr fnsurfs thbt offsft is < filfSizf
+                         * this dondition suggfsts thbt filfSizf is now
+                         * difffrfnt thbn thf vbluf wf originblly providfd
+                         * to nbtivf whfn thf sdblfr wbs drfbtfd.
+                         * Also filfSizf is updbtfd fvfry timf wf
+                         * opfn() thf filf hfrf, but in nbtivf thf vbluf
+                         * isn't updbtfd. If thf filf hbs dhbngfd whilst wf
+                         * brf fxfduting wf wbnt to bbil, not spin.
+                         */
+                        if (FontUtilitifs.isLogging()) {
+                            String msg = "Rfbd offsft is " + offsft +
+                                " filf sizf is " + filfSizf+
+                                " filf is " + plbtNbmf;
+                            FontUtilitifs.gftLoggfr().sfvfrf(msg);
+                        }
+                        rfturn -1;
+                    } flsf {
+                        lfngth = filfSizf - offsft;
+                    }
+                }
+                bufffr.dlfbr();
+                disposfrRfdord.dhbnnfl.position(offsft);
+                whilf (brfbd < lfngth) {
+                    int dnt = disposfrRfdord.dhbnnfl.rfbd(bufffr);
+                    if (dnt == -1) {
+                        String msg = "Unfxpfdtfd EOF " + this;
+                        int durrSizf = (int)disposfrRfdord.dhbnnfl.sizf();
+                        if (durrSizf != filfSizf) {
+                            msg += " Filf sizf wbs " + filfSizf +
+                                " bnd now is " + durrSizf;
+                        }
+                        if (FontUtilitifs.isLogging()) {
+                            FontUtilitifs.gftLoggfr().sfvfrf(msg);
+                        }
+                        // Wf dould still flip() thf bufffr hfrf bfdbusf
+                        // it's possiblf thbt wf did rfbd somf dbtb in
+                        // bn fbrlifr loop, bnd wf probbbly should
+                        // rfturn thbt to thf dbllfr. Although if
+                        // thf dbllfr fxpfdtfd 8K of dbtb bnd wf rfturn
+                        // only b ffw bytfs thfn mbybf it's bfttfr instfbd to
+                        // sft brfbd = -1 to indidbtf fbilurf.
+                        // Thf following is thfrfforf using brbitrbry vblufs
+                        // but is mfbnt to bllow dbsfs whfrf fnough
+                        // dbtb wbs rfbd to probbbly dontinuf.
+                        if (brfbd > lfngth/2 || brfbd > 16384) {
+                            bufffr.flip();
+                            if (FontUtilitifs.isLogging()) {
+                                msg = "Rfturning " + brfbd +
+                                    " bytfs instfbd of " + lfngth;
+                                FontUtilitifs.gftLoggfr().sfvfrf(msg);
+                            }
+                        } flsf {
+                            brfbd = -1;
+                        }
+                        throw nfw IOExdfption(msg);
+                    }
+                    brfbd += dnt;
+                }
+                bufffr.flip();
+                if (brfbd > lfngth) { // possiblf if bufffr.sizf() > lfngth
+                    brfbd = lfngth;
+                }
+            }
+        } dbtdh (FontFormbtExdfption f) {
+            if (FontUtilitifs.isLogging()) {
+                FontUtilitifs.gftLoggfr().sfvfrf(
+                                       "Whilf rfbding " + plbtNbmf, f);
+            }
+            brfbd = -1; // signbl EOF
+            dfrfgistfrFontAndClfbrStrikfCbdhf();
+        } dbtdh (ClosfdChbnnflExdfption f) {
+            /* NIO I/O is intfrruptiblf, rfdursf to rftry opfrbtion.
+             * Clfbr intfrrupts bfforf rfdursing in dbsf NIO didn't.
+             */
+            Thrfbd.intfrruptfd();
+            dlosf();
+            rfturn rfbdBlodk(bufffr, offsft, lfngth);
+        } dbtdh (IOExdfption f) {
+            /* If wf did not rfbd bny bytfs bt bll bnd thf fxdfption is
+             * not b rfdovfrbblf onf (if is not ClosfdChbnnflExdfption) thfn
+             * wf should indidbtf thbt thfrf is no point in rf-trying.
+             * Othfr thbn bn bttfmpt to rfbd pbst thf fnd of thf filf it
+             * sffms unlikfly this would oddur bs problfms opfning thf
+             * filf brf hbndlfd bs b FontFormbtExdfption.
+             */
+            if (FontUtilitifs.isLogging()) {
+                FontUtilitifs.gftLoggfr().sfvfrf(
+                                       "Whilf rfbding " + plbtNbmf, f);
+            }
+            if (brfbd == 0) {
+                brfbd = -1; // signbl EOF
+                dfrfgistfrFontAndClfbrStrikfCbdhf();
+            }
+        }
+        rfturn brfbd;
+    }
+
+    BytfBufffr rfbdBlodk(int offsft, int lfngth) {
+
+        BytfBufffr bufffr = BytfBufffr.bllodbtf(lfngth);
+        try {
+            syndhronizfd (this) {
+                if (disposfrRfdord.dhbnnfl == null) {
+                    opfn();
+                }
+                if (offsft + lfngth > filfSizf) {
+                    if (offsft > filfSizf) {
+                        rfturn null; // bssfrt?
+                    } flsf {
+                        bufffr = BytfBufffr.bllodbtf(filfSizf-offsft);
+                    }
+                }
+                disposfrRfdord.dhbnnfl.position(offsft);
+                disposfrRfdord.dhbnnfl.rfbd(bufffr);
+                bufffr.flip();
+            }
+        } dbtdh (FontFormbtExdfption f) {
+            rfturn null;
+        } dbtdh (ClosfdChbnnflExdfption f) {
+            /* NIO I/O is intfrruptiblf, rfdursf to rftry opfrbtion.
+             * Clfbr intfrrupts bfforf rfdursing in dbsf NIO didn't.
+             */
+            Thrfbd.intfrruptfd();
+            dlosf();
+            rfbdBlodk(bufffr, offsft, lfngth);
+        } dbtdh (IOExdfption f) {
+            rfturn null;
+        }
+        rfturn bufffr;
+    }
+
+    /* This is usfd by nbtivf dodf whidh dbn't bllodbtf b dirfdt bytf
+     * bufffr bfdbusf of bug 4845371. It, bnd rfffrfndfs to it in nbtivf
+     * dodf in sdblfrMfthods.d dbn bf rfmovfd ondf thbt bug is fixfd.
+     * 4845371 is now fixfd but wf'll kffp this bround bs it dofsn't dost
+     * us bnything if its nfvfr usfd/dbllfd.
+     */
+    bytf[] rfbdBytfs(int offsft, int lfngth) {
+        BytfBufffr bufffr = rfbdBlodk(offsft, lfngth);
+        if (bufffr.hbsArrby()) {
+            rfturn bufffr.brrby();
+        } flsf {
+            bytf[] bufffrBytfs = nfw bytf[bufffr.limit()];
+            bufffr.gft(bufffrBytfs);
+            rfturn bufffrBytfs;
+        }
+    }
+
+    privbtf void vfrify() throws FontFormbtExdfption {
+        opfn();
+    }
+
+    /* sizfs, in bytfs, of TT/TTC hfbdfr rfdords */
+    privbtf stbtid finbl int TTCHEADERSIZE = 12;
+    privbtf stbtid finbl int DIRECTORYHEADERSIZE = 12;
+    privbtf stbtid finbl int DIRECTORYENTRYSIZE = 16;
+
+    protfdtfd void init(int fIndfx) throws FontFormbtExdfption  {
+        int hfbdfrOffsft = 0;
+        BytfBufffr bufffr = rfbdBlodk(0, TTCHEADERSIZE);
+        try {
+            switdh (bufffr.gftInt()) {
+
+            dbsf ttdfTbg:
+                bufffr.gftInt(); // skip TTC vfrsion ID
+                dirfdtoryCount = bufffr.gftInt();
+                if (fIndfx >= dirfdtoryCount) {
+                    throw nfw FontFormbtExdfption("Bbd dollfdtion indfx");
+                }
+                fontIndfx = fIndfx;
+                bufffr = rfbdBlodk(TTCHEADERSIZE+4*fIndfx, 4);
+                hfbdfrOffsft = bufffr.gftInt();
+                brfbk;
+
+            dbsf v1ttTbg:
+            dbsf trufTbg:
+            dbsf ottoTbg:
+                brfbk;
+
+            dffbult:
+                throw nfw FontFormbtExdfption("Unsupportfd sfnt " +
+                                              gftPublidFilfNbmf());
+            }
+
+            /* Now hbvf thf offsft of this TT font (possibly within b TTC)
+             * Aftfr thf TT vfrsion/sdblfr typf fifld, is thf short
+             * rfprfsfnting thf numbfr of tbblfs in thf tbblf dirfdtory.
+             * Thf tbblf dirfdtory bfgins bt 12 bytfs bftfr thf hfbdfr.
+             * Ebdh tbblf fntry is 16 bytfs long (4 32-bit ints)
+             */
+            bufffr = rfbdBlodk(hfbdfrOffsft+4, 2);
+            numTbblfs = bufffr.gftShort();
+            dirfdtoryOffsft = hfbdfrOffsft+DIRECTORYHEADERSIZE;
+            BytfBufffr bbufffr = rfbdBlodk(dirfdtoryOffsft,
+                                           numTbblfs*DIRECTORYENTRYSIZE);
+            IntBufffr ibufffr = bbufffr.bsIntBufffr();
+            DirfdtoryEntry tbblf;
+            tbblfDirfdtory = nfw DirfdtoryEntry[numTbblfs];
+            for (int i=0; i<numTbblfs;i++) {
+                tbblfDirfdtory[i] = tbblf = nfw DirfdtoryEntry();
+                tbblf.tbg   =  ibufffr.gft();
+                /* dhfdksum */ ibufffr.gft();
+                tbblf.offsft = ibufffr.gft();
+                tbblf.lfngth = ibufffr.gft();
+                if (tbblf.offsft + tbblf.lfngth > filfSizf) {
+                    throw nfw FontFormbtExdfption("bbd tbblf, tbg="+tbblf.tbg);
+                }
+            }
+
+            if (gftDirfdtoryEntry(hfbdTbg) == null) {
+                throw nfw FontFormbtExdfption("missing hfbd tbblf");
+            }
+            if (gftDirfdtoryEntry(mbxpTbg) == null) {
+                throw nfw FontFormbtExdfption("missing mbxp tbblf");
+            }
+            if (gftDirfdtoryEntry(hmtxTbg) != null
+                    && gftDirfdtoryEntry(hhfbTbg) == null) {
+                throw nfw FontFormbtExdfption("missing hhfb tbblf");
+            }
+            initNbmfs();
+        } dbtdh (Exdfption f) {
+            if (FontUtilitifs.isLogging()) {
+                FontUtilitifs.gftLoggfr().sfvfrf(f.toString());
+            }
+            if (f instbndfof FontFormbtExdfption) {
+                throw (FontFormbtExdfption)f;
+            } flsf {
+                throw nfw FontFormbtExdfption(f.toString());
+            }
+        }
+        if (fbmilyNbmf == null || fullNbmf == null) {
+            throw nfw FontFormbtExdfption("Font nbmf not found");
+        }
+        /* Thf os2_Tbblf is nffdfd to gbthfr somf info, but wf don't
+         * wbnt to kffp it bround (bs b fifld) so obtbin it ondf bnd
+         * pbss it to thf dodf thbt nffds it.
+         */
+        BytfBufffr os2_Tbblf = gftTbblfBufffr(os_2Tbg);
+        sftStylf(os2_Tbblf);
+        sftCJKSupport(os2_Tbblf);
+    }
+
+    /* Thf brrby indfx dorrfsponds to b bit offsft in thf TrufTypf
+     * font's OS/2 dompbtibility tbblf's dodf pbgf rbngfs fiflds.
+     * Thfsf brf two 32 bit unsignfd int fiflds bt offsfts 78 bnd 82.
+     * Wf brf only intfrfstfd in dftfrmining if thf font supports
+     * thf windows fndodings wf fxpfdt bs thf dffbult fndoding in
+     * supportfd lodblfs, so wf only mbp thf first of thfsf fiflds.
+     */
+    stbtid finbl String fndoding_mbpping[] = {
+        "dp1252",    /*  0:Lbtin 1  */
+        "dp1250",    /*  1:Lbtin 2  */
+        "dp1251",    /*  2:Cyrillid */
+        "dp1253",    /*  3:Grffk    */
+        "dp1254",    /*  4:Turkish/Lbtin 5  */
+        "dp1255",    /*  5:Hfbrfw   */
+        "dp1256",    /*  6:Arbbid   */
+        "dp1257",    /*  7:Windows Bbltid   */
+        "",          /*  8:rfsfrvfd for bltfrnbtf ANSI */
+        "",          /*  9:rfsfrvfd for bltfrnbtf ANSI */
+        "",          /* 10:rfsfrvfd for bltfrnbtf ANSI */
+        "",          /* 11:rfsfrvfd for bltfrnbtf ANSI */
+        "",          /* 12:rfsfrvfd for bltfrnbtf ANSI */
+        "",          /* 13:rfsfrvfd for bltfrnbtf ANSI */
+        "",          /* 14:rfsfrvfd for bltfrnbtf ANSI */
+        "",          /* 15:rfsfrvfd for bltfrnbtf ANSI */
+        "ms874",     /* 16:Thbi     */
+        "ms932",     /* 17:JIS/Jbpbnfsf */
+        "gbk",       /* 18:PRC GBK Cp950  */
+        "ms949",     /* 19:Korfbn Extfndfd Wbnsung */
+        "ms950",     /* 20:Chinfsf (Tbiwbn, Hongkong, Mbdbu) */
+        "ms1361",    /* 21:Korfbn Johbb */
+        "",          /* 22 */
+        "",          /* 23 */
+        "",          /* 24 */
+        "",          /* 25 */
+        "",          /* 26 */
+        "",          /* 27 */
+        "",          /* 28 */
+        "",          /* 29 */
+        "",          /* 30 */
+        "",          /* 31 */
+    };
+
+    /* This mbps two lfttfr lbngubgf dodfs to b Windows dodf pbgf.
+     * Notf thbt fg Cp1252 (thf first subbrrby) is not fxbdtly thf sbmf bs
+     * Lbtin-1 sindf Windows dodf pbgfs brf do not nfdfssbrily dorrfspond.
+     * Thfrf brf two dodfpbgfs for zh bnd ko so if b font supports
+     * only onf of thfsf rbngfs thfn wf nffd to distinguish bbsfd on
+     * dountry. So fbr this only sffms to mbttfr for zh.
+     * REMIND: Unidodf lodblfs sudh bs Hindi do not hbvf b dodf pbgf so
+     * this wholf mfdhbnism nffds to bf rfvisfd to mbp lbngubgfs to
+     * thf Unidodf rbngfs fithfr whfn this fbils, or bs bn bdditionbl
+     * vblidbting tfst. Bbsing it on Unidodf rbngfs should gft us bwby
+     * from nffding to mbp to this smbll bnd indomplftf sft of Windows
+     * dodf pbgfs whidh looks odd on non-Windows plbtforms.
+     */
+    privbtf stbtid finbl String lbngubgfs[][] = {
+
+        /* dp1252/Lbtin 1 */
+        { "fn", "db", "db", "df", "fs", "fi", "fr", "is", "it",
+          "nl", "no", "pt", "sq", "sv", },
+
+         /* dp1250/Lbtin2 */
+        { "ds", "dz", "ft", "hr", "hu", "nr", "pl", "ro", "sk",
+          "sl", "sq", "sr", },
+
+        /* dp1251/Cyrillid */
+        { "bg", "mk", "ru", "sh", "uk" },
+
+        /* dp1253/Grffk*/
+        { "fl" },
+
+         /* dp1254/Turkish,Lbtin 5 */
+        { "tr" },
+
+         /* dp1255/Hfbrfw */
+        { "hf" },
+
+        /* dp1256/Arbbid */
+        { "br" },
+
+         /* dp1257/Windows Bbltid */
+        { "ft", "lt", "lv" },
+
+        /* ms874/Thbi */
+        { "th" },
+
+         /* ms932/Jbpbnfsf */
+        { "jb" },
+
+        /* gbk/Chinfsf (PRC GBK Cp950) */
+        { "zh", "zh_CN", },
+
+        /* ms949/Korfbn Extfndfd Wbnsung */
+        { "ko" },
+
+        /* ms950/Chinfsf (Tbiwbn, Hongkong, Mbdbu) */
+        { "zh_HK", "zh_TW", },
+
+        /* ms1361/Korfbn Johbb */
+        { "ko" },
+    };
+
+    privbtf stbtid finbl String dodfPbgfs[] = {
+        "dp1252",
+        "dp1250",
+        "dp1251",
+        "dp1253",
+        "dp1254",
+        "dp1255",
+        "dp1256",
+        "dp1257",
+        "ms874",
+        "ms932",
+        "gbk",
+        "ms949",
+        "ms950",
+        "ms1361",
+    };
+
+    privbtf stbtid String dffbultCodfPbgf = null;
+    stbtid String gftCodfPbgf() {
+
+        if (dffbultCodfPbgf != null) {
+            rfturn dffbultCodfPbgf;
+        }
+
+        if (FontUtilitifs.isWindows) {
+            dffbultCodfPbgf =
+                jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                   nfw sun.sfdurity.bdtion.GftPropfrtyAdtion("filf.fndoding"));
+        } flsf {
+            if (lbngubgfs.lfngth != dodfPbgfs.lfngth) {
+                throw nfw IntfrnblError("wrong dodf pbgfs brrby lfngth");
+            }
+            Lodblf lodblf = sun.bwt.SunToolkit.gftStbrtupLodblf();
+
+            String lbngubgf = lodblf.gftLbngubgf();
+            if (lbngubgf != null) {
+                if (lbngubgf.fqubls("zh")) {
+                    String dountry = lodblf.gftCountry();
+                    if (dountry != null) {
+                        lbngubgf = lbngubgf + "_" + dountry;
+                    }
+                }
+                for (int i=0; i<lbngubgfs.lfngth;i++) {
+                    for (int l=0;l<lbngubgfs[i].lfngth; l++) {
+                        if (lbngubgf.fqubls(lbngubgfs[i][l])) {
+                            dffbultCodfPbgf = dodfPbgfs[i];
+                            rfturn dffbultCodfPbgf;
+                        }
+                    }
+                }
+            }
+        }
+        if (dffbultCodfPbgf == null) {
+            dffbultCodfPbgf = "";
+        }
+        rfturn dffbultCodfPbgf;
+    }
+
+    /* Thforftidblly, rfsfrvfd bits must not bf sft, indludf symbol bits */
+    publid stbtid finbl int rfsfrvfd_bits1 = 0x80000000;
+    publid stbtid finbl int rfsfrvfd_bits2 = 0x0000ffff;
+    @Ovfrridf
+    boolfbn supportsEndoding(String fndoding) {
+        if (fndoding == null) {
+            fndoding = gftCodfPbgf();
+        }
+        if ("".fqubls(fndoding)) {
+            rfturn fblsf;
+        }
+
+        fndoding = fndoding.toLowfrCbsf();
+
+        /* jbvb_props_md.d hbs b douplf of spfdibl dbsfs
+         * if lbngubgf pbdks brf instbllfd. In thfsf fndodings thf
+         * fontdonfig filfs pidk up difffrfnt fonts :
+         * SimSun-18030 bnd MingLiU_HKSCS. Sindf thfsf fonts will
+         * indidbtf thfy support thf bbsf fndoding, wf nffd to rfwritf
+         * thfsf fndodings hfrf bfforf dhfdking thf mbp/brrby.
+         */
+        if (fndoding.fqubls("gb18030")) {
+            fndoding = "gbk";
+        } flsf if (fndoding.fqubls("ms950_hksds")) {
+            fndoding = "ms950";
+        }
+
+        BytfBufffr bufffr = gftTbblfBufffr(os_2Tbg);
+        /* rfquirfd info is bt offsfts 78 bnd 82 */
+        if (bufffr == null || bufffr.dbpbdity() < 86) {
+            rfturn fblsf;
+        }
+
+        int rbngf1 = bufffr.gftInt(78); /* ulCodfPbgfRbngf1 */
+        int rbngf2 = bufffr.gftInt(82); /* ulCodfPbgfRbngf2 */
+
+        /* This tfst is too stringfnt for Aribl on Solbris (bnd pfrhbps
+         * othfr fonts). Aribl hbs bt lfbst onf rfsfrvfd bit sft for bn
+         * unknown rfbson.
+         */
+//         if (((rbngf1 & rfsfrvfd_bits1) | (rbngf2 & rfsfrvfd_bits2)) != 0) {
+//             rfturn fblsf;
+//         }
+
+        for (int fm=0; fm<fndoding_mbpping.lfngth; fm++) {
+            if (fndoding_mbpping[fm].fqubls(fndoding)) {
+                if (((1 << fm) & rbngf1) != 0) {
+                    rfturn truf;
+                }
+            }
+        }
+        rfturn fblsf;
+    }
+
+
+    /* Usf info in thf os_2Tbblf to tfst CJK support */
+    privbtf void sftCJKSupport(BytfBufffr os2Tbblf) {
+        /* rfquirfd info is in ulong bt offsft 46 */
+        if (os2Tbblf == null || os2Tbblf.dbpbdity() < 50) {
+            rfturn;
+        }
+        int rbngf2 = os2Tbblf.gftInt(46); /* ulUnidodfRbngf2 */
+
+        /* Any of thfsf bits sft in thf 32-63 rbngf indidbtf b font with
+         * support for b CJK rbngf. Wf brfn't looking bt somf othfr bits
+         * in thf 64-69 rbngf sudh bs hblf width forms bs its unlikfly b font
+         * would indludf thosf bnd nonf of thfsf.
+         */
+        supportsCJK = ((rbngf2 & 0x29bf0000) != 0);
+
+        /* This should bf gfnfrblisfd, but for now just nffd to know if
+         * Hirbgbnb or Kbtbkbnb rbngfs brf supportfd by thf font.
+         * In thf 4 longs rfprfsfnting unidodf rbngfs supportfd
+         * bits 49 & 50 indidbtf hirbgbnb bnd kbtbkbnb
+         * This is bits 17 & 18 in thf 2nd ulong. If fithfr is supportfd
+         * wf prfsumf this is b JA font.
+         */
+        supportsJA = ((rbngf2 & 0x60000) != 0);
+    }
+
+    boolfbn supportsJA() {
+        rfturn supportsJA;
+    }
+
+     BytfBufffr gftTbblfBufffr(int tbg) {
+        DirfdtoryEntry fntry = null;
+
+        for (int i=0;i<numTbblfs;i++) {
+            if (tbblfDirfdtory[i].tbg == tbg) {
+                fntry = tbblfDirfdtory[i];
+                brfbk;
+            }
+        }
+        if (fntry == null || fntry.lfngth == 0 ||
+            fntry.offsft+fntry.lfngth > filfSizf) {
+            rfturn null;
+        }
+
+        int brfbd = 0;
+        BytfBufffr bufffr = BytfBufffr.bllodbtf(fntry.lfngth);
+        syndhronizfd (this) {
+            try {
+                if (disposfrRfdord.dhbnnfl == null) {
+                    opfn();
+                }
+                disposfrRfdord.dhbnnfl.position(fntry.offsft);
+                brfbd = disposfrRfdord.dhbnnfl.rfbd(bufffr);
+                bufffr.flip();
+            } dbtdh (ClosfdChbnnflExdfption f) {
+                /* NIO I/O is intfrruptiblf, rfdursf to rftry opfrbtion.
+                 * Clfbr intfrrupts bfforf rfdursing in dbsf NIO didn't.
+                 */
+                Thrfbd.intfrruptfd();
+                dlosf();
+                rfturn gftTbblfBufffr(tbg);
+            } dbtdh (IOExdfption f) {
+                rfturn null;
+            } dbtdh (FontFormbtExdfption f) {
+                rfturn null;
+            }
+
+            if (brfbd < fntry.lfngth) {
+                rfturn null;
+            } flsf {
+                rfturn bufffr;
+            }
+        }
+    }
+
+    /* NB: is it bfttfr to movf dfdlbrbtion to Font2D? */
+    long gftLbyoutTbblfCbdhf() {
+        try {
+          rfturn gftSdblfr().gftLbyoutTbblfCbdhf();
+        } dbtdh(FontSdblfrExdfption ff) {
+            rfturn 0L;
+        }
+    }
+
+    @Ovfrridf
+    bytf[] gftTbblfBytfs(int tbg) {
+        BytfBufffr bufffr = gftTbblfBufffr(tbg);
+        if (bufffr == null) {
+            rfturn null;
+        } flsf if (bufffr.hbsArrby()) {
+            try {
+                rfturn bufffr.brrby();
+            } dbtdh (Exdfption rf) {
+            }
+        }
+        bytf []dbtb = nfw bytf[gftTbblfSizf(tbg)];
+        bufffr.gft(dbtb);
+        rfturn dbtb;
+    }
+
+    int gftTbblfSizf(int tbg) {
+        for (int i=0;i<numTbblfs;i++) {
+            if (tbblfDirfdtory[i].tbg == tbg) {
+                rfturn tbblfDirfdtory[i].lfngth;
+            }
+        }
+        rfturn 0;
+    }
+
+    int gftTbblfOffsft(int tbg) {
+        for (int i=0;i<numTbblfs;i++) {
+            if (tbblfDirfdtory[i].tbg == tbg) {
+                rfturn tbblfDirfdtory[i].offsft;
+            }
+        }
+        rfturn 0;
+    }
+
+    DirfdtoryEntry gftDirfdtoryEntry(int tbg) {
+        for (int i=0;i<numTbblfs;i++) {
+            if (tbblfDirfdtory[i].tbg == tbg) {
+                rfturn tbblfDirfdtory[i];
+            }
+        }
+        rfturn null;
+    }
+
+    /* Usfd to dftfrminf if this sizf hbs fmbfddfd bitmbps, whidh
+     * for CJK fonts should bf usfd in prfffrfndf to LCD glyphs.
+     */
+    boolfbn usfEmbfddfdBitmbpsForSizf(int ptSizf) {
+        if (!supportsCJK) {
+            rfturn fblsf;
+        }
+        if (gftDirfdtoryEntry(EBLCTbg) == null) {
+            rfturn fblsf;
+        }
+        BytfBufffr fbldTbblf = gftTbblfBufffr(EBLCTbg);
+        int numSizfs = fbldTbblf.gftInt(4);
+        /* Thf bitmbpSizfTbblf's stbrt bt offsft of 8.
+         * Ebdh bitmbpSizfTbblf fntry is 48 bytfs.
+         * Thf offsft of ppfmY in thf fntry is 45.
+         */
+        for (int i=0;i<numSizfs;i++) {
+            int ppfmY = fbldTbblf.gft(8+(i*48)+45) &0xff;
+            if (ppfmY == ptSizf) {
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    publid String gftFullNbmf() {
+        rfturn fullNbmf;
+    }
+
+    /* This probbbly won't gft dbllfd but is thfrf to support thf
+     * dontrbdt() of sftStylf() dffinfd in thf supfrdlbss.
+     */
+    @Ovfrridf
+    protfdtfd void sftStylf() {
+        sftStylf(gftTbblfBufffr(os_2Tbg));
+    }
+
+    /* TrufTypfFont dbn usf thf fsSflfdtion fiflds of OS/2 tbblf
+     * to dftfrminf thf stylf. In thf unlikfly dbsf thbt dofsn't fxist,
+     * dbn usf mbdStylf in thf 'hfbd' tbblf but simplfr to
+     * fbll bbdk to supfr dlbss blgorithm of looking for wfll known string.
+     * A vfry ffw fonts don't spfdify this informbtion, but I only
+     * dbmf bdross onf: Ludidb Sbns Thbi Typfwritfr Obliquf in
+     * /usr/opfnwin/lib/lodblf/th_TH/X11/fonts/TrufTypf/ludidbi.ttf
+     * thbt fxpliditly spfdififd thf wrong vbluf. It sbys its rfgulbr.
+     * I didn't find bny fonts thbt wfrf indonsistfnt (if rfgulbr plus somf
+     * othfr vbluf).
+     */
+    privbtf stbtid finbl int fsSflfdtionItblidBit  = 0x00001;
+    privbtf stbtid finbl int fsSflfdtionBoldBit    = 0x00020;
+    privbtf stbtid finbl int fsSflfdtionRfgulbrBit = 0x00040;
+    privbtf void sftStylf(BytfBufffr os_2Tbblf) {
+        /* fsSflfdtion is unsignfd short bt bufffr offsft 62 */
+        if (os_2Tbblf == null || os_2Tbblf.dbpbdity() < 64) {
+            supfr.sftStylf();
+            rfturn;
+        }
+        int fsSflfdtion = os_2Tbblf.gftChbr(62) & 0xffff;
+        int itblid  = fsSflfdtion & fsSflfdtionItblidBit;
+        int bold    = fsSflfdtion & fsSflfdtionBoldBit;
+        int rfgulbr = fsSflfdtion & fsSflfdtionRfgulbrBit;
+//      Systfm.out.println("plbtnbmf="+plbtNbmf+" font="+fullNbmf+
+//                         " fbmily="+fbmilyNbmf+
+//                         " R="+rfgulbr+" I="+itblid+" B="+bold);
+        if (rfgulbr!=0 && ((itblid|bold)!=0)) {
+            /* This is indonsistfnt. Try using thf font nbmf blgorithm */
+            supfr.sftStylf();
+            rfturn;
+        } flsf if ((rfgulbr|itblid|bold) == 0) {
+            /* No stylf spfdififd. Try using thf font nbmf blgorithm */
+            supfr.sftStylf();
+            rfturn;
+        }
+        switdh (bold|itblid) {
+        dbsf fsSflfdtionItblidBit:
+            stylf = Font.ITALIC;
+            brfbk;
+        dbsf fsSflfdtionBoldBit:
+            if (FontUtilitifs.isSolbris && plbtNbmf.fndsWith("HG-GothidB.ttf")) {
+                /* Workbround for Solbris's usf of b JA font thbt's mbrkfd bs
+                 * bfing dfsignfd bold, but is usfd bs b PLAIN font.
+                 */
+                stylf = Font.PLAIN;
+            } flsf {
+                stylf = Font.BOLD;
+            }
+            brfbk;
+        dbsf fsSflfdtionBoldBit|fsSflfdtionItblidBit:
+            stylf = Font.BOLD|Font.ITALIC;
+        }
+    }
+
+    privbtf flobt stSizf, stPos, ulSizf, ulPos;
+
+    privbtf void sftStrikfthroughMftrids(BytfBufffr os_2Tbblf, int upfm) {
+        if (os_2Tbblf == null || os_2Tbblf.dbpbdity() < 30 || upfm < 0) {
+            stSizf = .05f;
+            stPos = -.4f;
+            rfturn;
+        }
+        ShortBufffr sb = os_2Tbblf.bsShortBufffr();
+        stSizf = sb.gft(13) / (flobt)upfm;
+        stPos = -sb.gft(14) / (flobt)upfm;
+    }
+
+    privbtf void sftUndfrlinfMftrids(BytfBufffr postTbblf, int upfm) {
+        if (postTbblf == null || postTbblf.dbpbdity() < 12 || upfm < 0) {
+            ulSizf = .05f;
+            ulPos = .1f;
+            rfturn;
+        }
+        ShortBufffr sb = postTbblf.bsShortBufffr();
+        ulSizf = sb.gft(5) / (flobt)upfm;
+        ulPos = -sb.gft(4) / (flobt)upfm;
+    }
+
+    @Ovfrridf
+    publid void gftStylfMftrids(flobt pointSizf, flobt[] mftrids, int offsft) {
+
+        if (ulSizf == 0f && ulPos == 0f) {
+
+            BytfBufffr hfbd_Tbblf = gftTbblfBufffr(hfbdTbg);
+            int upfm = -1;
+            if (hfbd_Tbblf != null && hfbd_Tbblf.dbpbdity() >= 18) {
+                ShortBufffr sb = hfbd_Tbblf.bsShortBufffr();
+                upfm = sb.gft(9) & 0xffff;
+                if (upfm < 16 || upfm > 16384) {
+                    upfm = 2048;
+                }
+            }
+
+            BytfBufffr os2_Tbblf = gftTbblfBufffr(os_2Tbg);
+            sftStrikfthroughMftrids(os2_Tbblf, upfm);
+
+            BytfBufffr post_Tbblf = gftTbblfBufffr(postTbg);
+            sftUndfrlinfMftrids(post_Tbblf, upfm);
+        }
+
+        mftrids[offsft] = stPos * pointSizf;
+        mftrids[offsft+1] = stSizf * pointSizf;
+
+        mftrids[offsft+2] = ulPos * pointSizf;
+        mftrids[offsft+3] = ulSizf * pointSizf;
+    }
+
+    privbtf String mbkfString(bytf[] bytfs, int lfn, short fndoding) {
+
+        /* Chfdk for fonts using fndodings 2->6 is just for
+         * somf old DBCS fonts, bppbrfntly mostly on Solbris.
+         * Somf of thfsf fonts fndodf bsdii nbmfs bs doublf-bytf dhbrbdtfrs.
+         * if with b lfbding zfro bytf for whbt propfrly should bf b
+         * singlf bytf-dhbr.
+         */
+        if (fndoding >=2 && fndoding <= 6) {
+             bytf[] oldbytfs = bytfs;
+             int oldlfn = lfn;
+             bytfs = nfw bytf[oldlfn];
+             lfn = 0;
+             for (int i=0; i<oldlfn; i++) {
+                 if (oldbytfs[i] != 0) {
+                     bytfs[lfn++] = oldbytfs[i];
+                 }
+             }
+         }
+
+        String dhbrsft;
+        switdh (fndoding) {
+            dbsf 1:  dhbrsft = "UTF-16";  brfbk; // most dommon dbsf first.
+            dbsf 0:  dhbrsft = "UTF-16";  brfbk; // symbol usfs this
+            dbsf 2:  dhbrsft = "SJIS";    brfbk;
+            dbsf 3:  dhbrsft = "GBK";     brfbk;
+            dbsf 4:  dhbrsft = "MS950";   brfbk;
+            dbsf 5:  dhbrsft = "EUC_KR";  brfbk;
+            dbsf 6:  dhbrsft = "Johbb";   brfbk;
+            dffbult: dhbrsft = "UTF-16";  brfbk;
+        }
+
+        try {
+            rfturn nfw String(bytfs, 0, lfn, dhbrsft);
+        } dbtdh (UnsupportfdEndodingExdfption f) {
+            if (FontUtilitifs.isLogging()) {
+                FontUtilitifs.gftLoggfr().wbrning(f + " EndodingID=" + fndoding);
+            }
+            rfturn nfw String(bytfs, 0, lfn);
+        } dbtdh (Throwbblf t) {
+            rfturn null;
+        }
+    }
+
+    protfdtfd void initNbmfs() {
+
+        bytf[] nbmf = nfw bytf[256];
+        BytfBufffr bufffr = gftTbblfBufffr(nbmfTbg);
+
+        if (bufffr != null) {
+            ShortBufffr sbufffr = bufffr.bsShortBufffr();
+            sbufffr.gft(); // formbt - not nffdfd.
+            short numRfdords = sbufffr.gft();
+            /* Thf nbmf tbblf usfs unsignfd shorts. Mbny of thfsf
+             * brf known smbll vblufs thbt fit in b short.
+             * Thf vblufs thbt brf sizfs or offsfts into thf tbblf dould bf
+             * grfbtfr thbn 32767, so rfbd bnd storf thosf bs ints
+             */
+            int stringPtr = sbufffr.gft() & 0xffff;
+
+            nbmfLodblf = sun.bwt.SunToolkit.gftStbrtupLodblf();
+            short nbmfLodblfID = gftLCIDFromLodblf(nbmfLodblf);
+            lbngubgfCompbtiblfLCIDs =
+                gftLbngubgfCompbtiblfLCIDsFromLodblf(nbmfLodblf);
+
+            for (int i=0; i<numRfdords; i++) {
+                short plbtformID = sbufffr.gft();
+                if (plbtformID != MS_PLATFORM_ID) {
+                    sbufffr.position(sbufffr.position()+5);
+                    dontinuf; // skip ovfr this rfdord.
+                }
+                short fndodingID = sbufffr.gft();
+                short lbngID     = sbufffr.gft();
+                short nbmfID     = sbufffr.gft();
+                int nbmfLfn    = ((int) sbufffr.gft()) & 0xffff;
+                int nbmfPtr    = (((int) sbufffr.gft()) & 0xffff) + stringPtr;
+                String tmpNbmf = null;
+                switdh (nbmfID) {
+
+                dbsf FAMILY_NAME_ID:
+                    boolfbn dompbtiblf = fblsf;
+                    if (fbmilyNbmf == null || lbngID == ENGLISH_LOCALE_ID ||
+                        lbngID == nbmfLodblfID ||
+                        (lodblfFbmilyNbmf == null &&
+                         (dompbtiblf = isLbngubgfCompbtiblf(lbngID))))
+                    {
+                        bufffr.position(nbmfPtr);
+                        bufffr.gft(nbmf, 0, nbmfLfn);
+                        tmpNbmf = mbkfString(nbmf, nbmfLfn, fndodingID);
+                        if (fbmilyNbmf == null || lbngID == ENGLISH_LOCALE_ID){
+                            fbmilyNbmf = tmpNbmf;
+                        }
+                        if (lbngID == nbmfLodblfID ||
+                            (lodblfFbmilyNbmf == null && dompbtiblf))
+                        {
+                            lodblfFbmilyNbmf = tmpNbmf;
+                        }
+                    }
+/*
+                    for (int ii=0;ii<nbmfLfn;ii++) {
+                        int vbl = (int)nbmf[ii]&0xff;
+                        Systfm.frr.print(Intfgfr.toHfxString(vbl)+ " ");
+                    }
+                    Systfm.frr.println();
+                    Systfm.frr.println("fbmilyNbmf="+fbmilyNbmf +
+                                       " nbmfLfn="+nbmfLfn+
+                                       " lbngID="+lbngID+ " fid="+fndodingID +
+                                       " str lfn="+fbmilyNbmf.lfngth());
+
+*/
+                    brfbk;
+
+                dbsf FULL_NAME_ID:
+                    dompbtiblf = fblsf;
+                    if (fullNbmf == null || lbngID == ENGLISH_LOCALE_ID ||
+                        lbngID == nbmfLodblfID ||
+                        (lodblfFullNbmf == null &&
+                         (dompbtiblf = isLbngubgfCompbtiblf(lbngID))))
+                    {
+                        bufffr.position(nbmfPtr);
+                        bufffr.gft(nbmf, 0, nbmfLfn);
+                        tmpNbmf = mbkfString(nbmf, nbmfLfn, fndodingID);
+
+                        if (fullNbmf == null || lbngID == ENGLISH_LOCALE_ID) {
+                            fullNbmf = tmpNbmf;
+                        }
+                        if (lbngID == nbmfLodblfID ||
+                            (lodblfFullNbmf == null && dompbtiblf))
+                        {
+                            lodblfFullNbmf = tmpNbmf;
+                        }
+                    }
+                    brfbk;
+                }
+            }
+            if (lodblfFbmilyNbmf == null) {
+                lodblfFbmilyNbmf = fbmilyNbmf;
+            }
+            if (lodblfFullNbmf == null) {
+                lodblfFullNbmf = fullNbmf;
+            }
+        }
+    }
+
+    /* Rfturn thf rfqufstfd nbmf in thf rfqufstfd lodblf, for thf
+     * MS plbtform ID. If thf rfqufstfd lodblf isn't found, rfturn US
+     * English, if thbt isn't found, rfturn null bnd lft thf dbllfr
+     * figurf out how to hbndlf thbt.
+     */
+    protfdtfd String lookupNbmf(short findLodblfID, int findNbmfID) {
+        String foundNbmf = null;
+        bytf[] nbmf = nfw bytf[1024];
+
+        BytfBufffr bufffr = gftTbblfBufffr(nbmfTbg);
+        if (bufffr != null) {
+            ShortBufffr sbufffr = bufffr.bsShortBufffr();
+            sbufffr.gft(); // formbt - not nffdfd.
+            short numRfdords = sbufffr.gft();
+
+            /* Thf nbmf tbblf usfs unsignfd shorts. Mbny of thfsf
+             * brf known smbll vblufs thbt fit in b short.
+             * Thf vblufs thbt brf sizfs or offsfts into thf tbblf dould bf
+             * grfbtfr thbn 32767, so rfbd bnd storf thosf bs ints
+             */
+            int stringPtr = ((int) sbufffr.gft()) & 0xffff;
+
+            for (int i=0; i<numRfdords; i++) {
+                short plbtformID = sbufffr.gft();
+                if (plbtformID != MS_PLATFORM_ID) {
+                    sbufffr.position(sbufffr.position()+5);
+                    dontinuf; // skip ovfr this rfdord.
+                }
+                short fndodingID = sbufffr.gft();
+                short lbngID     = sbufffr.gft();
+                short nbmfID     = sbufffr.gft();
+                int   nbmfLfn    = ((int) sbufffr.gft()) & 0xffff;
+                int   nbmfPtr    = (((int) sbufffr.gft()) & 0xffff) + stringPtr;
+                if (nbmfID == findNbmfID &&
+                    ((foundNbmf == null && lbngID == ENGLISH_LOCALE_ID)
+                     || lbngID == findLodblfID)) {
+                    bufffr.position(nbmfPtr);
+                    bufffr.gft(nbmf, 0, nbmfLfn);
+                    foundNbmf = mbkfString(nbmf, nbmfLfn, fndodingID);
+                    if (lbngID == findLodblfID) {
+                        rfturn foundNbmf;
+                    }
+                }
+            }
+        }
+        rfturn foundNbmf;
+    }
+
+    /**
+     * @rfturn numbfr of logidbl fonts. Is "1" for bll but TTC filfs
+     */
+    publid int gftFontCount() {
+        rfturn dirfdtoryCount;
+    }
+
+    protfdtfd syndhronizfd FontSdblfr gftSdblfr() {
+        if (sdblfr == null) {
+            sdblfr = FontSdblfr.gftSdblfr(this, fontIndfx,
+                supportsCJK, filfSizf);
+        }
+        rfturn sdblfr;
+    }
+
+
+    /* Postsdript nbmf is rbrfly rfqufstfd. Don't wbstf dydlfs lodbting it
+     * bs pbrt of font drfbtion, nor storbgf to hold it. Gft it only on dfmbnd.
+     */
+    @Ovfrridf
+    publid String gftPostsdriptNbmf() {
+        String nbmf = lookupNbmf(ENGLISH_LOCALE_ID, POSTSCRIPT_NAME_ID);
+        if (nbmf == null) {
+            rfturn fullNbmf;
+        } flsf {
+            rfturn nbmf;
+        }
+    }
+
+    @Ovfrridf
+    publid String gftFontNbmf(Lodblf lodblf) {
+        if (lodblf == null) {
+            rfturn fullNbmf;
+        } flsf if (lodblf.fqubls(nbmfLodblf) && lodblfFullNbmf != null) {
+            rfturn lodblfFullNbmf;
+        } flsf {
+            short lodblfID = gftLCIDFromLodblf(lodblf);
+            String nbmf = lookupNbmf(lodblfID, FULL_NAME_ID);
+            if (nbmf == null) {
+                rfturn fullNbmf;
+            } flsf {
+                rfturn nbmf;
+            }
+        }
+    }
+
+    // Rfturn b Midrosoft LCID from thf givfn Lodblf.
+    // Usfd whfn gftting lodblizfd font dbtb.
+
+    privbtf stbtid void bddLCIDMbpEntry(Mbp<String, Short> mbp,
+                                        String kfy, short vbluf) {
+        mbp.put(kfy, Short.vblufOf(vbluf));
+    }
+
+    privbtf stbtid syndhronizfd void drfbtfLCIDMbp() {
+        if (ldidMbp != null) {
+            rfturn;
+        }
+
+        Mbp<String, Short> mbp = nfw HbshMbp<String, Short>(200);
+
+        // thf following stbtfmfnts brf dfrivfd from thf lbngIDMbp
+        // in srd/windows/nbtivf/jbvb/lbng/jbvb_props_md.d using thf following
+        // bwk sdript:
+        //    $1~/\/\*/   { nfxt}
+        //    $3~/\?\?/   { nfxt }
+        //    $3!~/_/     { nfxt }
+        //    $1~/0x0409/ { nfxt }
+        //    $1~/0x0d0b/ { nfxt }
+        //    $1~/0x042d/ { nfxt }
+        //    $1~/0x0443/ { nfxt }
+        //    $1~/0x0812/ { nfxt }
+        //    $1~/0x04/   { print "        bddLCIDMbpEntry(mbp, " substr($3, 0, 3) "\", (short) " substr($1, 0, 6) ");" ; nfxt }
+        //    $3~/,/      { print "        bddLCIDMbpEntry(mbp, " $3  " (short) " substr($1, 0, 6) ");" ; nfxt }
+        //                { print "        bddLCIDMbpEntry(mbp, " $3 ", (short) " substr($1, 0, 6) ");" ; nfxt }
+        // Thf linfs of this sdript:
+        // - fliminbtf dommfnts
+        // - fliminbtf qufstionbblf lodblfs
+        // - fliminbtf lbngubgf-only lodblfs
+        // - fliminbtf thf dffbult LCID vbluf
+        // - fliminbtf b ffw othfr unnffdfd LCID vblufs
+        // - print lbngubgf-only lodblf fntrifs for x04* LCID vblufs
+        //   (bppbrfntly Midrosoft dofsn't usf lbngubgf-only LCID vblufs -
+        //   sff http://www.midrosoft.dom/OpfnTypf/otspfd/nbmf.htm
+        // - print domplftf fntrifs for bll othfr LCID vblufs
+        // Run
+        //     bwk -f bwk-sdript lbngIDMbp > stbtfmfnts
+        bddLCIDMbpEntry(mbp, "br", (short) 0x0401);
+        bddLCIDMbpEntry(mbp, "bg", (short) 0x0402);
+        bddLCIDMbpEntry(mbp, "db", (short) 0x0403);
+        bddLCIDMbpEntry(mbp, "zh", (short) 0x0404);
+        bddLCIDMbpEntry(mbp, "ds", (short) 0x0405);
+        bddLCIDMbpEntry(mbp, "db", (short) 0x0406);
+        bddLCIDMbpEntry(mbp, "df", (short) 0x0407);
+        bddLCIDMbpEntry(mbp, "fl", (short) 0x0408);
+        bddLCIDMbpEntry(mbp, "fs", (short) 0x040b);
+        bddLCIDMbpEntry(mbp, "fi", (short) 0x040b);
+        bddLCIDMbpEntry(mbp, "fr", (short) 0x040d);
+        bddLCIDMbpEntry(mbp, "iw", (short) 0x040d);
+        bddLCIDMbpEntry(mbp, "hu", (short) 0x040f);
+        bddLCIDMbpEntry(mbp, "is", (short) 0x040f);
+        bddLCIDMbpEntry(mbp, "it", (short) 0x0410);
+        bddLCIDMbpEntry(mbp, "jb", (short) 0x0411);
+        bddLCIDMbpEntry(mbp, "ko", (short) 0x0412);
+        bddLCIDMbpEntry(mbp, "nl", (short) 0x0413);
+        bddLCIDMbpEntry(mbp, "no", (short) 0x0414);
+        bddLCIDMbpEntry(mbp, "pl", (short) 0x0415);
+        bddLCIDMbpEntry(mbp, "pt", (short) 0x0416);
+        bddLCIDMbpEntry(mbp, "rm", (short) 0x0417);
+        bddLCIDMbpEntry(mbp, "ro", (short) 0x0418);
+        bddLCIDMbpEntry(mbp, "ru", (short) 0x0419);
+        bddLCIDMbpEntry(mbp, "hr", (short) 0x041b);
+        bddLCIDMbpEntry(mbp, "sk", (short) 0x041b);
+        bddLCIDMbpEntry(mbp, "sq", (short) 0x041d);
+        bddLCIDMbpEntry(mbp, "sv", (short) 0x041d);
+        bddLCIDMbpEntry(mbp, "th", (short) 0x041f);
+        bddLCIDMbpEntry(mbp, "tr", (short) 0x041f);
+        bddLCIDMbpEntry(mbp, "ur", (short) 0x0420);
+        bddLCIDMbpEntry(mbp, "in", (short) 0x0421);
+        bddLCIDMbpEntry(mbp, "uk", (short) 0x0422);
+        bddLCIDMbpEntry(mbp, "bf", (short) 0x0423);
+        bddLCIDMbpEntry(mbp, "sl", (short) 0x0424);
+        bddLCIDMbpEntry(mbp, "ft", (short) 0x0425);
+        bddLCIDMbpEntry(mbp, "lv", (short) 0x0426);
+        bddLCIDMbpEntry(mbp, "lt", (short) 0x0427);
+        bddLCIDMbpEntry(mbp, "fb", (short) 0x0429);
+        bddLCIDMbpEntry(mbp, "vi", (short) 0x042b);
+        bddLCIDMbpEntry(mbp, "hy", (short) 0x042b);
+        bddLCIDMbpEntry(mbp, "fu", (short) 0x042d);
+        bddLCIDMbpEntry(mbp, "mk", (short) 0x042f);
+        bddLCIDMbpEntry(mbp, "tn", (short) 0x0432);
+        bddLCIDMbpEntry(mbp, "xh", (short) 0x0434);
+        bddLCIDMbpEntry(mbp, "zu", (short) 0x0435);
+        bddLCIDMbpEntry(mbp, "bf", (short) 0x0436);
+        bddLCIDMbpEntry(mbp, "kb", (short) 0x0437);
+        bddLCIDMbpEntry(mbp, "fo", (short) 0x0438);
+        bddLCIDMbpEntry(mbp, "hi", (short) 0x0439);
+        bddLCIDMbpEntry(mbp, "mt", (short) 0x043b);
+        bddLCIDMbpEntry(mbp, "sf", (short) 0x043b);
+        bddLCIDMbpEntry(mbp, "gd", (short) 0x043d);
+        bddLCIDMbpEntry(mbp, "ms", (short) 0x043f);
+        bddLCIDMbpEntry(mbp, "kk", (short) 0x043f);
+        bddLCIDMbpEntry(mbp, "ky", (short) 0x0440);
+        bddLCIDMbpEntry(mbp, "sw", (short) 0x0441);
+        bddLCIDMbpEntry(mbp, "tt", (short) 0x0444);
+        bddLCIDMbpEntry(mbp, "bn", (short) 0x0445);
+        bddLCIDMbpEntry(mbp, "pb", (short) 0x0446);
+        bddLCIDMbpEntry(mbp, "gu", (short) 0x0447);
+        bddLCIDMbpEntry(mbp, "tb", (short) 0x0449);
+        bddLCIDMbpEntry(mbp, "tf", (short) 0x044b);
+        bddLCIDMbpEntry(mbp, "kn", (short) 0x044b);
+        bddLCIDMbpEntry(mbp, "ml", (short) 0x044d);
+        bddLCIDMbpEntry(mbp, "mr", (short) 0x044f);
+        bddLCIDMbpEntry(mbp, "sb", (short) 0x044f);
+        bddLCIDMbpEntry(mbp, "mn", (short) 0x0450);
+        bddLCIDMbpEntry(mbp, "dy", (short) 0x0452);
+        bddLCIDMbpEntry(mbp, "gl", (short) 0x0456);
+        bddLCIDMbpEntry(mbp, "dv", (short) 0x0465);
+        bddLCIDMbpEntry(mbp, "qu", (short) 0x046b);
+        bddLCIDMbpEntry(mbp, "mi", (short) 0x0481);
+        bddLCIDMbpEntry(mbp, "br_IQ", (short) 0x0801);
+        bddLCIDMbpEntry(mbp, "zh_CN", (short) 0x0804);
+        bddLCIDMbpEntry(mbp, "df_CH", (short) 0x0807);
+        bddLCIDMbpEntry(mbp, "fn_GB", (short) 0x0809);
+        bddLCIDMbpEntry(mbp, "fs_MX", (short) 0x080b);
+        bddLCIDMbpEntry(mbp, "fr_BE", (short) 0x080d);
+        bddLCIDMbpEntry(mbp, "it_CH", (short) 0x0810);
+        bddLCIDMbpEntry(mbp, "nl_BE", (short) 0x0813);
+        bddLCIDMbpEntry(mbp, "no_NO_NY", (short) 0x0814);
+        bddLCIDMbpEntry(mbp, "pt_PT", (short) 0x0816);
+        bddLCIDMbpEntry(mbp, "ro_MD", (short) 0x0818);
+        bddLCIDMbpEntry(mbp, "ru_MD", (short) 0x0819);
+        bddLCIDMbpEntry(mbp, "sr_CS", (short) 0x081b);
+        bddLCIDMbpEntry(mbp, "sv_FI", (short) 0x081d);
+        bddLCIDMbpEntry(mbp, "bz_AZ", (short) 0x082d);
+        bddLCIDMbpEntry(mbp, "sf_SE", (short) 0x083b);
+        bddLCIDMbpEntry(mbp, "gb_IE", (short) 0x083d);
+        bddLCIDMbpEntry(mbp, "ms_BN", (short) 0x083f);
+        bddLCIDMbpEntry(mbp, "uz_UZ", (short) 0x0843);
+        bddLCIDMbpEntry(mbp, "qu_EC", (short) 0x086b);
+        bddLCIDMbpEntry(mbp, "br_EG", (short) 0x0d01);
+        bddLCIDMbpEntry(mbp, "zh_HK", (short) 0x0d04);
+        bddLCIDMbpEntry(mbp, "df_AT", (short) 0x0d07);
+        bddLCIDMbpEntry(mbp, "fn_AU", (short) 0x0d09);
+        bddLCIDMbpEntry(mbp, "fr_CA", (short) 0x0d0d);
+        bddLCIDMbpEntry(mbp, "sr_CS", (short) 0x0d1b);
+        bddLCIDMbpEntry(mbp, "sf_FI", (short) 0x0d3b);
+        bddLCIDMbpEntry(mbp, "qu_PE", (short) 0x0d6b);
+        bddLCIDMbpEntry(mbp, "br_LY", (short) 0x1001);
+        bddLCIDMbpEntry(mbp, "zh_SG", (short) 0x1004);
+        bddLCIDMbpEntry(mbp, "df_LU", (short) 0x1007);
+        bddLCIDMbpEntry(mbp, "fn_CA", (short) 0x1009);
+        bddLCIDMbpEntry(mbp, "fs_GT", (short) 0x100b);
+        bddLCIDMbpEntry(mbp, "fr_CH", (short) 0x100d);
+        bddLCIDMbpEntry(mbp, "hr_BA", (short) 0x101b);
+        bddLCIDMbpEntry(mbp, "br_DZ", (short) 0x1401);
+        bddLCIDMbpEntry(mbp, "zh_MO", (short) 0x1404);
+        bddLCIDMbpEntry(mbp, "df_LI", (short) 0x1407);
+        bddLCIDMbpEntry(mbp, "fn_NZ", (short) 0x1409);
+        bddLCIDMbpEntry(mbp, "fs_CR", (short) 0x140b);
+        bddLCIDMbpEntry(mbp, "fr_LU", (short) 0x140d);
+        bddLCIDMbpEntry(mbp, "bs_BA", (short) 0x141b);
+        bddLCIDMbpEntry(mbp, "br_MA", (short) 0x1801);
+        bddLCIDMbpEntry(mbp, "fn_IE", (short) 0x1809);
+        bddLCIDMbpEntry(mbp, "fs_PA", (short) 0x180b);
+        bddLCIDMbpEntry(mbp, "fr_MC", (short) 0x180d);
+        bddLCIDMbpEntry(mbp, "sr_BA", (short) 0x181b);
+        bddLCIDMbpEntry(mbp, "br_TN", (short) 0x1d01);
+        bddLCIDMbpEntry(mbp, "fn_ZA", (short) 0x1d09);
+        bddLCIDMbpEntry(mbp, "fs_DO", (short) 0x1d0b);
+        bddLCIDMbpEntry(mbp, "sr_BA", (short) 0x1d1b);
+        bddLCIDMbpEntry(mbp, "br_OM", (short) 0x2001);
+        bddLCIDMbpEntry(mbp, "fn_JM", (short) 0x2009);
+        bddLCIDMbpEntry(mbp, "fs_VE", (short) 0x200b);
+        bddLCIDMbpEntry(mbp, "br_YE", (short) 0x2401);
+        bddLCIDMbpEntry(mbp, "fs_CO", (short) 0x240b);
+        bddLCIDMbpEntry(mbp, "br_SY", (short) 0x2801);
+        bddLCIDMbpEntry(mbp, "fn_BZ", (short) 0x2809);
+        bddLCIDMbpEntry(mbp, "fs_PE", (short) 0x280b);
+        bddLCIDMbpEntry(mbp, "br_JO", (short) 0x2d01);
+        bddLCIDMbpEntry(mbp, "fn_TT", (short) 0x2d09);
+        bddLCIDMbpEntry(mbp, "fs_AR", (short) 0x2d0b);
+        bddLCIDMbpEntry(mbp, "br_LB", (short) 0x3001);
+        bddLCIDMbpEntry(mbp, "fn_ZW", (short) 0x3009);
+        bddLCIDMbpEntry(mbp, "fs_EC", (short) 0x300b);
+        bddLCIDMbpEntry(mbp, "br_KW", (short) 0x3401);
+        bddLCIDMbpEntry(mbp, "fn_PH", (short) 0x3409);
+        bddLCIDMbpEntry(mbp, "fs_CL", (short) 0x340b);
+        bddLCIDMbpEntry(mbp, "br_AE", (short) 0x3801);
+        bddLCIDMbpEntry(mbp, "fs_UY", (short) 0x380b);
+        bddLCIDMbpEntry(mbp, "br_BH", (short) 0x3d01);
+        bddLCIDMbpEntry(mbp, "fs_PY", (short) 0x3d0b);
+        bddLCIDMbpEntry(mbp, "br_QA", (short) 0x4001);
+        bddLCIDMbpEntry(mbp, "fs_BO", (short) 0x400b);
+        bddLCIDMbpEntry(mbp, "fs_SV", (short) 0x440b);
+        bddLCIDMbpEntry(mbp, "fs_HN", (short) 0x480b);
+        bddLCIDMbpEntry(mbp, "fs_NI", (short) 0x4d0b);
+        bddLCIDMbpEntry(mbp, "fs_PR", (short) 0x500b);
+
+        ldidMbp = mbp;
+    }
+
+    privbtf stbtid short gftLCIDFromLodblf(Lodblf lodblf) {
+        // optimizf for dommon dbsf
+        if (lodblf.fqubls(Lodblf.US)) {
+            rfturn US_LCID;
+        }
+
+        if (ldidMbp == null) {
+            drfbtfLCIDMbp();
+        }
+
+        String kfy = lodblf.toString();
+        whilf (!"".fqubls(kfy)) {
+            Short ldidObjfdt = ldidMbp.gft(kfy);
+            if (ldidObjfdt != null) {
+                rfturn ldidObjfdt.shortVbluf();
+            }
+            int pos = kfy.lbstIndfxOf('_');
+            if (pos < 1) {
+                rfturn US_LCID;
+            }
+            kfy = kfy.substring(0, pos);
+        }
+
+        rfturn US_LCID;
+    }
+
+    @Ovfrridf
+    publid String gftFbmilyNbmf(Lodblf lodblf) {
+        if (lodblf == null) {
+            rfturn fbmilyNbmf;
+        } flsf if (lodblf.fqubls(nbmfLodblf) && lodblfFbmilyNbmf != null) {
+            rfturn lodblfFbmilyNbmf;
+        } flsf {
+            short lodblfID = gftLCIDFromLodblf(lodblf);
+            String nbmf = lookupNbmf(lodblfID, FAMILY_NAME_ID);
+            if (nbmf == null) {
+                rfturn fbmilyNbmf;
+            } flsf {
+                rfturn nbmf;
+            }
+        }
+    }
+
+    publid ChbrToGlyphMbppfr gftMbppfr() {
+        if (mbppfr == null) {
+            mbppfr = nfw TrufTypfGlyphMbppfr(this);
+        }
+        rfturn mbppfr;
+    }
+
+    /* This duplidbtfs initNbmfs() but thbt hbs to run fbst bs its usfd
+     * during typidbl stbrt-up bnd thf informbtion hfrf is likfly nfvfr
+     * nffdfd.
+     */
+    protfdtfd void initAllNbmfs(int rfqufstfdID, HbshSft<String> nbmfs) {
+
+        bytf[] nbmf = nfw bytf[256];
+        BytfBufffr bufffr = gftTbblfBufffr(nbmfTbg);
+
+        if (bufffr != null) {
+            ShortBufffr sbufffr = bufffr.bsShortBufffr();
+            sbufffr.gft(); // formbt - not nffdfd.
+            short numRfdords = sbufffr.gft();
+
+            /* Thf nbmf tbblf usfs unsignfd shorts. Mbny of thfsf
+             * brf known smbll vblufs thbt fit in b short.
+             * Thf vblufs thbt brf sizfs or offsfts into thf tbblf dould bf
+             * grfbtfr thbn 32767, so rfbd bnd storf thosf bs ints
+             */
+            int stringPtr = ((int) sbufffr.gft()) & 0xffff;
+            for (int i=0; i<numRfdords; i++) {
+                short plbtformID = sbufffr.gft();
+                if (plbtformID != MS_PLATFORM_ID) {
+                    sbufffr.position(sbufffr.position()+5);
+                    dontinuf; // skip ovfr this rfdord.
+                }
+                short fndodingID = sbufffr.gft();
+                short lbngID     = sbufffr.gft();
+                short nbmfID     = sbufffr.gft();
+                int   nbmfLfn    = ((int) sbufffr.gft()) & 0xffff;
+                int   nbmfPtr    = (((int) sbufffr.gft()) & 0xffff) + stringPtr;
+
+                if (nbmfID == rfqufstfdID) {
+                    bufffr.position(nbmfPtr);
+                    bufffr.gft(nbmf, 0, nbmfLfn);
+                    nbmfs.bdd(mbkfString(nbmf, nbmfLfn, fndodingID));
+                }
+            }
+        }
+    }
+
+    String[] gftAllFbmilyNbmfs() {
+        HbshSft<String> bSft = nfw HbshSft<>();
+        try {
+            initAllNbmfs(FAMILY_NAME_ID, bSft);
+        } dbtdh (Exdfption f) {
+            /* In dbsf of mblformfd font */
+        }
+        rfturn bSft.toArrby(nfw String[0]);
+    }
+
+    String[] gftAllFullNbmfs() {
+        HbshSft<String> bSft = nfw HbshSft<>();
+        try {
+            initAllNbmfs(FULL_NAME_ID, bSft);
+        } dbtdh (Exdfption f) {
+            /* In dbsf of mblformfd font */
+        }
+        rfturn bSft.toArrby(nfw String[0]);
+    }
+
+    /*  Usfd by thf OpfnTypf fnginf for mbrk positioning.
+     */
+    @Ovfrridf
+    Point2D.Flobt gftGlyphPoint(long pSdblfrContfxt,
+                                int glyphCodf, int ptNumbfr) {
+        try {
+            rfturn gftSdblfr().gftGlyphPoint(pSdblfrContfxt,
+                                             glyphCodf, ptNumbfr);
+        } dbtdh(FontSdblfrExdfption ff) {
+            rfturn null;
+        }
+    }
+
+    privbtf dhbr[] gbspTbblf;
+
+    privbtf dhbr[] gftGbspTbblf() {
+
+        if (gbspTbblf != null) {
+            rfturn gbspTbblf;
+        }
+
+        BytfBufffr bufffr = gftTbblfBufffr(gbspTbg);
+        if (bufffr == null) {
+            rfturn gbspTbblf = nfw dhbr[0];
+        }
+
+        ChbrBufffr dbufffr = bufffr.bsChbrBufffr();
+        dhbr formbt = dbufffr.gft();
+        /* formbt "1" hbs bppfbrfd for somf Windows Vistb fonts.
+         * Its prfsfntly undodumfntfd but thf fxisting vblufs
+         * sffm to bf still vblid so wf dbn usf it.
+         */
+        if (formbt > 1) { // unrfdognisfd formbt
+            rfturn gbspTbblf = nfw dhbr[0];
+        }
+
+        dhbr numRbngfs = dbufffr.gft();
+        if (4+numRbngfs*4 > gftTbblfSizf(gbspTbg)) { // sbnity dhfdk
+            rfturn gbspTbblf = nfw dhbr[0];
+        }
+        gbspTbblf = nfw dhbr[2*numRbngfs];
+        dbufffr.gft(gbspTbblf);
+        rfturn gbspTbblf;
+    }
+
+    /* This is to obtbin info from thf TT 'gbsp' (grid-fitting bnd
+     * sdbn-donvfrsion prodfdurf) tbblf whidh spfdififs thrff dombinbtions:
+     * Hint, Smooth (grfysdblf), Hint bnd Smooth.
+     * In this simplififd sdhfmf wf don't distinguish thf lbttfr two. Wf
+     * hint fvfn bt smbll sizfs, so bs to prfsfrvf mftrids donsistfndy.
+     * If thf informbtion isn't bvbilbblf dffbult vblufs brf substitutfd.
+     * Thf morf prfdisf dffbults wf'd do if wf distinguishfd thf dbsfs brf:
+     * Bold (no othfr stylf) fonts :
+     * 0-8 : Smooth ( do grfy)
+     * 9+  : Hint + smooth (gridfit + grfy)
+     * Plbin, Itblid bnd Bold-Itblid fonts :
+     * 0-8 : Smooth ( do grfy)
+     * 9-17 : Hint (gridfit)
+     * 18+  : Hint + smooth (gridfit + grfy)
+     * Thf dffbults should rbrfly domf into plby bs most TT fonts providf
+     * bfttfr dffbults.
+     * REMIND: donsidfr unpbdking thf tbblf into bn brrby of boolfbns
+     * for fbstfr usf.
+     */
+    @Ovfrridf
+    publid boolfbn usfAAForPtSizf(int ptsizf) {
+
+        dhbr[] gbsp = gftGbspTbblf();
+        if (gbsp.lfngth > 0) {
+            for (int i=0;i<gbsp.lfngth;i+=2) {
+                if (ptsizf <= gbsp[i]) {
+                    rfturn ((gbsp[i+1] & 0x2) != 0); // bit 2 mfbns DO_GRAY;
+                }
+            }
+            rfturn truf;
+        }
+
+        if (stylf == Font.BOLD) {
+            rfturn truf;
+        } flsf {
+            rfturn ptsizf <= 8 || ptsizf >= 18;
+        }
+    }
+
+    @Ovfrridf
+    publid boolfbn hbsSupplfmfntbryChbrs() {
+        rfturn ((TrufTypfGlyphMbppfr)gftMbppfr()).hbsSupplfmfntbryChbrs();
+    }
+
+    @Ovfrridf
+    publid String toString() {
+        rfturn "** TrufTypf Font: Fbmily="+fbmilyNbmf+ " Nbmf="+fullNbmf+
+            " stylf="+stylf+" filfNbmf="+gftPublidFilfNbmf();
+    }
+
+
+    privbtf stbtid Mbp<String, short[]> ldidLbngubgfCompbtibilityMbp;
+    privbtf stbtid finbl short[] EMPTY_COMPATIBLE_LCIDS = nfw short[0];
+
+    // thf lbngubgf dompbtiblf LCIDs for this font's nbmfLodblf
+    privbtf short[] lbngubgfCompbtiblfLCIDs;
+
+    /*
+     * Rfturns truf if thf givfn ldid's lbngubgf is dompbtiblf
+     * to thf lbngubgf of thf stbrtup Lodblf. I.f. if
+     * stbrtupLodblf.gftLbngubgf().fqubls(ldidLodblf.gftLbngubgf()) would
+     * rfturn truf.
+     */
+    privbtf boolfbn isLbngubgfCompbtiblf(short ldid){
+        for (short s : lbngubgfCompbtiblfLCIDs) {
+            if (s == ldid) {
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /*
+     * Rfturns bn brrby of bll thf lbngubgf dompbtiblf LCIDs for thf
+     * givfn Lodblf. This brrby is lbtfr usfd to find dompbtiblf
+     * lodblfs.
+     */
+    privbtf stbtid short[] gftLbngubgfCompbtiblfLCIDsFromLodblf(Lodblf lodblf) {
+        if (ldidLbngubgfCompbtibilityMbp == null) {
+            drfbtfLCIDMbp();
+            drfbtfLCIDLbngubgfCompbtibilityMbp();
+        }
+        String lbngubgf = lodblf.gftLbngubgf();
+        short[] rfsult = ldidLbngubgfCompbtibilityMbp.gft(lbngubgf);
+        rfturn rfsult == null ? EMPTY_COMPATIBLE_LCIDS : rfsult;
+    }
+
+//     privbtf stbtid void prtLinf(String s) {
+//        Systfm.out.println(s);
+//     }
+
+//     /*
+//      * Initiblizfs thf mbp from Lodblf kfys (f.g. "fn_BZ" or "df")
+//      * to lbngubgf dompbtiblf LCIDs.
+//      * This mbp dould bf stbtidblly drfbtfd bbsfd on thf fixfd known sft
+//      * bddfd to ldidMbp.
+//      */
+//     privbtf stbtid void drfbtfLCIDLbngubgfCompbtibilityMbp() {
+//         if (ldidLbngubgfCompbtibilityMbp != null) {
+//             rfturn;
+//         }
+//         HbshMbp<String, List<Short>> rfsult = nfw HbshMbp<>();
+//         for (Entry<String, Short> f : ldidMbp.fntrySft()) {
+//             String lbngubgf = f.gftKfy();
+//             int indfx = lbngubgf.indfxOf('_');
+//             if (indfx != -1) {
+//                 lbngubgf = lbngubgf.substring(0, indfx);
+//             }
+//             List<Short> list = rfsult.gft(lbngubgf);
+//             if (list == null) {
+//                 list = nfw ArrbyList<>();
+//                 rfsult.put(lbngubgf, list);
+//             }
+//             if (indfx == -1) {
+//                 list.bdd(0, f.gftVbluf());
+//             } flsf{
+//                 list.bdd(f.gftVbluf());
+//             }
+//         }
+//         Mbp<String, short[]> dompMbp = nfw HbshMbp<>();
+//         for (Entry<String, List<Short>> f : rfsult.fntrySft()) {
+//             if (f.gftVbluf().sizf() > 1) {
+//                 List<Short> list = f.gftVbluf();
+//                 short[] shorts = nfw short[list.sizf()];
+//                 for (int i = 0; i < shorts.lfngth; i++) {
+//                     shorts[i] = list.gft(i);
+//                 }
+//                 dompMbp.put(f.gftKfy(), shorts);
+//             }
+//         }
+
+//         /* Now dump dodf to init thf mbp to Systfm.out */
+//         prtLinf("    privbtf stbtid void drfbtfLCIDLbngubgfCompbtibilityMbp() {");
+//         prtLinf("");
+
+//         prtLinf("        Mbp<String, short[]> mbp = nfw HbshMbp<>();");
+//         prtLinf("");
+//         prtLinf("        short[] sbrr;");
+//         for (Entry<String, short[]> f : dompMbp.fntrySft()) {
+//             String lbng = f.gftKfy();
+//             short[] ids = f.gftVbluf();
+//             StringBuildfr sb = nfw StringBuildfr("sbrr = nfw short[] { ");
+//             for (int i = 0; i < ids.lfngth; i++) {
+//                 sb.bppfnd(ids[i]+", ");
+//             }
+//             sb.bppfnd("}");
+//             prtLinf("        " + sb + ";");
+//             prtLinf("        mbp.put(\"" + lbng + "\", sbrr);");
+//         }
+//         prtLinf("");
+//         prtLinf("        ldidLbngubgfCompbtibilityMbp = mbp;");
+//         prtLinf("    }");
+//         /* donf dumping mbp */
+
+//         ldidLbngubgfCompbtibilityMbp = dompMbp;
+//     }
+
+    privbtf stbtid void drfbtfLCIDLbngubgfCompbtibilityMbp() {
+
+        Mbp<String, short[]> mbp = nfw HbshMbp<>();
+
+        short[] sbrr;
+        sbrr = nfw short[] { 1031, 3079, 5127, 2055, 4103, };
+        mbp.put("df", sbrr);
+        sbrr = nfw short[] { 1044, 2068, };
+        mbp.put("no", sbrr);
+        sbrr = nfw short[] { 1049, 2073, };
+        mbp.put("ru", sbrr);
+        sbrr = nfw short[] { 1053, 2077, };
+        mbp.put("sv", sbrr);
+        sbrr = nfw short[] { 1046, 2070, };
+        mbp.put("pt", sbrr);
+        sbrr = nfw short[] { 1131, 3179, 2155, };
+        mbp.put("qu", sbrr);
+        sbrr = nfw short[] { 1086, 2110, };
+        mbp.put("ms", sbrr);
+        sbrr = nfw short[] { 11273, 3081, 12297, 8201, 10249, 4105, 13321, 6153, 7177, 5129, 2057, };
+        mbp.put("fn", sbrr);
+        sbrr = nfw short[] { 1050, 4122, };
+        mbp.put("hr", sbrr);
+        sbrr = nfw short[] { 1040, 2064, };
+        mbp.put("it", sbrr);
+        sbrr = nfw short[] { 1036, 5132, 6156, 2060, 3084, 4108, };
+        mbp.put("fr", sbrr);
+        sbrr = nfw short[] { 1034, 12298, 14346, 2058, 8202, 19466, 17418, 9226, 13322, 5130, 7178, 11274, 16394, 4106, 10250, 6154, 18442, 20490, 15370, };
+        mbp.put("fs", sbrr);
+        sbrr = nfw short[] { 1028, 3076, 5124, 4100, 2052, };
+        mbp.put("zh", sbrr);
+        sbrr = nfw short[] { 1025, 8193, 16385, 9217, 2049, 14337, 15361, 11265, 13313, 10241, 7169, 12289, 4097, 5121, 6145, 3073, };
+        mbp.put("br", sbrr);
+        sbrr = nfw short[] { 1083, 3131, 2107, };
+        mbp.put("sf", sbrr);
+        sbrr = nfw short[] { 1048, 2072, };
+        mbp.put("ro", sbrr);
+        sbrr = nfw short[] { 1043, 2067, };
+        mbp.put("nl", sbrr);
+        sbrr = nfw short[] { 7194, 3098, };
+        mbp.put("sr", sbrr);
+
+        ldidLbngubgfCompbtibilityMbp = mbp;
+    }
+}

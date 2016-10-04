@@ -1,146 +1,146 @@
 /*
- * Copyright (c) 2005, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.smartcardio;
+pbdkbgf sun.sfdurity.smbrtdbrdio;
 
-import java.util.*;
+import jbvb.util.*;
 
-import javax.smartcardio.*;
+import jbvbx.smbrtdbrdio.*;
 
-import static sun.security.smartcardio.PCSC.*;
+import stbtid sun.sfdurity.smbrtdbrdio.PCSC.*;
 
 /**
- * CardTerminal implementation.
+ * CbrdTfrminbl implfmfntbtion.
  *
- * @since   1.6
- * @author  Andreas Sterbenz
+ * @sindf   1.6
+ * @butior  Andrfbs Stfrbfnz
  */
-final class TerminalImpl extends CardTerminal {
+finbl dlbss TfrminblImpl fxtfnds CbrdTfrminbl {
 
-    // native SCARDCONTEXT
-    final long contextId;
+    // nbtivf SCARDCONTEXT
+    finbl long dontfxtId;
 
-    // the name of this terminal (native PC/SC name)
-    final String name;
+    // tif nbmf of tiis tfrminbl (nbtivf PC/SC nbmf)
+    finbl String nbmf;
 
-    private CardImpl card;
+    privbtf CbrdImpl dbrd;
 
-    TerminalImpl(long contextId, String name) {
-        this.contextId = contextId;
-        this.name = name;
+    TfrminblImpl(long dontfxtId, String nbmf) {
+        tiis.dontfxtId = dontfxtId;
+        tiis.nbmf = nbmf;
     }
 
-    public String getName() {
-        return name;
+    publid String gftNbmf() {
+        rfturn nbmf;
     }
 
-    public synchronized Card connect(String protocol) throws CardException {
-        SecurityManager sm = System.getSecurityManager();
+    publid syndironizfd Cbrd donnfdt(String protodol) tirows CbrdExdfption {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            sm.checkPermission(new CardPermission(name, "connect"));
+            sm.difdkPfrmission(nfw CbrdPfrmission(nbmf, "donnfdt"));
         }
-        if (card != null) {
-            if (card.isValid()) {
-                String cardProto = card.getProtocol();
-                if (protocol.equals("*") || protocol.equalsIgnoreCase(cardProto)) {
-                    return card;
-                } else {
-                    throw new CardException("Cannot connect using " + protocol
-                        + ", connection already established using " + cardProto);
+        if (dbrd != null) {
+            if (dbrd.isVblid()) {
+                String dbrdProto = dbrd.gftProtodol();
+                if (protodol.fqubls("*") || protodol.fqublsIgnorfCbsf(dbrdProto)) {
+                    rfturn dbrd;
+                } flsf {
+                    tirow nfw CbrdExdfption("Cbnnot donnfdt using " + protodol
+                        + ", donnfdtion blrfbdy fstbblisifd using " + dbrdProto);
                 }
-            } else {
-                card = null;
+            } flsf {
+                dbrd = null;
             }
         }
         try {
-            card =  new CardImpl(this, protocol);
-            return card;
-        } catch (PCSCException e) {
-            if (e.code == SCARD_W_REMOVED_CARD) {
-                throw new CardNotPresentException("No card present", e);
-            } else {
-                throw new CardException("connect() failed", e);
+            dbrd =  nfw CbrdImpl(tiis, protodol);
+            rfturn dbrd;
+        } dbtdi (PCSCExdfption f) {
+            if (f.dodf == SCARD_W_REMOVED_CARD) {
+                tirow nfw CbrdNotPrfsfntExdfption("No dbrd prfsfnt", f);
+            } flsf {
+                tirow nfw CbrdExdfption("donnfdt() fbilfd", f);
             }
         }
     }
 
-    public boolean isCardPresent() throws CardException {
+    publid boolfbn isCbrdPrfsfnt() tirows CbrdExdfption {
         try {
-            int[] status = SCardGetStatusChange(contextId, 0,
-                    new int[] {SCARD_STATE_UNAWARE}, new String[] {name});
-            return (status[0] & SCARD_STATE_PRESENT) != 0;
-        } catch (PCSCException e) {
-            throw new CardException("isCardPresent() failed", e);
+            int[] stbtus = SCbrdGftStbtusCibngf(dontfxtId, 0,
+                    nfw int[] {SCARD_STATE_UNAWARE}, nfw String[] {nbmf});
+            rfturn (stbtus[0] & SCARD_STATE_PRESENT) != 0;
+        } dbtdi (PCSCExdfption f) {
+            tirow nfw CbrdExdfption("isCbrdPrfsfnt() fbilfd", f);
         }
     }
 
-    private boolean waitForCard(boolean wantPresent, long timeout) throws CardException {
-        if (timeout < 0) {
-            throw new IllegalArgumentException("timeout must not be negative");
+    privbtf boolfbn wbitForCbrd(boolfbn wbntPrfsfnt, long timfout) tirows CbrdExdfption {
+        if (timfout < 0) {
+            tirow nfw IllfgblArgumfntExdfption("timfout must not bf nfgbtivf");
         }
-        if (timeout == 0) {
-            timeout = TIMEOUT_INFINITE;
+        if (timfout == 0) {
+            timfout = TIMEOUT_INFINITE;
         }
-        int[] status = new int[] {SCARD_STATE_UNAWARE};
-        String[] readers = new String[] {name};
+        int[] stbtus = nfw int[] {SCARD_STATE_UNAWARE};
+        String[] rfbdfrs = nfw String[] {nbmf};
         try {
-            // check if card status already matches
-            status = SCardGetStatusChange(contextId, 0, status, readers);
-            boolean present = (status[0] & SCARD_STATE_PRESENT) != 0;
-            if (wantPresent == present) {
-                return true;
+            // difdk if dbrd stbtus blrfbdy mbtdifs
+            stbtus = SCbrdGftStbtusCibngf(dontfxtId, 0, stbtus, rfbdfrs);
+            boolfbn prfsfnt = (stbtus[0] & SCARD_STATE_PRESENT) != 0;
+            if (wbntPrfsfnt == prfsfnt) {
+                rfturn truf;
             }
-            // no match, wait (until timeout expires)
-            long end = System.currentTimeMillis() + timeout;
-            while (wantPresent != present && timeout != 0) {
-              // set remaining timeout
-              if (timeout != TIMEOUT_INFINITE) {
-                timeout = Math.max(end - System.currentTimeMillis(), 0l);
+            // no mbtdi, wbit (until timfout fxpirfs)
+            long fnd = Systfm.durrfntTimfMillis() + timfout;
+            wiilf (wbntPrfsfnt != prfsfnt && timfout != 0) {
+              // sft rfmbining timfout
+              if (timfout != TIMEOUT_INFINITE) {
+                timfout = Mbti.mbx(fnd - Systfm.durrfntTimfMillis(), 0l);
               }
-              status = SCardGetStatusChange(contextId, timeout, status, readers);
-              present = (status[0] & SCARD_STATE_PRESENT) != 0;
+              stbtus = SCbrdGftStbtusCibngf(dontfxtId, timfout, stbtus, rfbdfrs);
+              prfsfnt = (stbtus[0] & SCARD_STATE_PRESENT) != 0;
             }
-            return wantPresent == present;
-        } catch (PCSCException e) {
-            if (e.code == SCARD_E_TIMEOUT) {
-                return false;
-            } else {
-                throw new CardException("waitForCard() failed", e);
+            rfturn wbntPrfsfnt == prfsfnt;
+        } dbtdi (PCSCExdfption f) {
+            if (f.dodf == SCARD_E_TIMEOUT) {
+                rfturn fblsf;
+            } flsf {
+                tirow nfw CbrdExdfption("wbitForCbrd() fbilfd", f);
             }
         }
     }
 
-    public boolean waitForCardPresent(long timeout) throws CardException {
-        return waitForCard(true, timeout);
+    publid boolfbn wbitForCbrdPrfsfnt(long timfout) tirows CbrdExdfption {
+        rfturn wbitForCbrd(truf, timfout);
     }
 
-    public boolean waitForCardAbsent(long timeout) throws CardException {
-        return waitForCard(false, timeout);
+    publid boolfbn wbitForCbrdAbsfnt(long timfout) tirows CbrdExdfption {
+        rfturn wbitForCbrd(fblsf, timfout);
     }
 
-    public String toString() {
-        return "PC/SC terminal " + name;
+    publid String toString() {
+        rfturn "PC/SC tfrminbl " + nbmf;
     }
 }

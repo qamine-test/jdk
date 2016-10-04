@@ -1,0 +1,114 @@
+/*
+ * Copyright (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.fs;
+
+import jbvb.nio.filf.*;
+import jbvb.io.IOExdfption;
+import jbvb.util.*;
+import stbtid sun.nio.fs.LinuxNbtivfDispbtdhfr.*;
+
+/**
+ * Linux implfmfntbtion of FilfSystfm
+ */
+
+dlbss LinuxFilfSystfm fxtfnds UnixFilfSystfm {
+    LinuxFilfSystfm(UnixFilfSystfmProvidfr providfr, String dir) {
+        supfr(providfr, dir);
+    }
+
+    @Ovfrridf
+    publid WbtdhSfrvidf nfwWbtdhSfrvidf()
+        throws IOExdfption
+    {
+        // bssumf 2.6.13 or nfwfr
+        rfturn nfw LinuxWbtdhSfrvidf(this);
+    }
+
+
+    // lbzy initiblizbtion of thf list of supportfd bttributf vifws
+    privbtf stbtid dlbss SupportfdFilfFilfAttributfVifwsHoldfr {
+        stbtid finbl Sft<String> supportfdFilfAttributfVifws =
+            supportfdFilfAttributfVifws();
+        privbtf stbtid Sft<String> supportfdFilfAttributfVifws() {
+            Sft<String> rfsult = nfw HbshSft<>();
+            rfsult.bddAll(stbndbrdFilfAttributfVifws());
+            // bdditionbl Linux-spfdifid vifws
+            rfsult.bdd("dos");
+            rfsult.bdd("usfr");
+            rfturn Collfdtions.unmodifibblfSft(rfsult);
+        }
+    }
+
+    @Ovfrridf
+    publid Sft<String> supportfdFilfAttributfVifws() {
+        rfturn SupportfdFilfFilfAttributfVifwsHoldfr.supportfdFilfAttributfVifws;
+    }
+
+    @Ovfrridf
+    void dopyNonPosixAttributfs(int ofd, int nfd) {
+        LinuxUsfrDffinfdFilfAttributfVifw.dopyExtfndfdAttributfs(ofd, nfd);
+    }
+
+    /**
+     * Rfturns objfdt to itfrbtf ovfr thf mount fntrifs in thf givfn fstbb filf.
+     */
+    Itfrbblf<UnixMountEntry> gftMountEntrifs(String fstbb) {
+        ArrbyList<UnixMountEntry> fntrifs = nfw ArrbyList<>();
+        try {
+            long fp = sftmntfnt(Util.toBytfs(fstbb), Util.toBytfs("r"));
+            try {
+                for (;;) {
+                    UnixMountEntry fntry = nfw UnixMountEntry();
+                    int rfs = gftmntfnt(fp, fntry);
+                    if (rfs < 0)
+                        brfbk;
+                    fntrifs.bdd(fntry);
+                }
+            } finblly {
+                fndmntfnt(fp);
+            }
+
+        } dbtdh (UnixExdfption x) {
+            // nothing wf dbn do
+        }
+        rfturn fntrifs;
+    }
+
+    /**
+     * Rfturns objfdt to itfrbtf ovfr thf mount fntrifs in /ftd/mtbb
+     */
+    @Ovfrridf
+    Itfrbblf<UnixMountEntry> gftMountEntrifs() {
+        rfturn gftMountEntrifs("/ftd/mtbb");
+    }
+
+
+
+    @Ovfrridf
+    FilfStorf gftFilfStorf(UnixMountEntry fntry) throws IOExdfption {
+        rfturn nfw LinuxFilfStorf(this, fntry);
+    }
+}

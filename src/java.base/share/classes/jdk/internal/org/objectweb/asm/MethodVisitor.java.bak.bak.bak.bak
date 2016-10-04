@@ -1,0 +1,909 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * ASM: b vfry smbll bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork
+ * Copyright (d) 2000-2011 INRIA, Frbndf Tflfdom
+ * All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ * 1. Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *    notidf, this list of donditions bnd thf following disdlbimfr.
+ * 2. Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *    notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *    dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ * 3. Nfithfr thf nbmf of thf dopyright holdfrs nor thf nbmfs of its
+ *    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+ * THE POSSIBILITY OF SUCH DAMAGE.
+ */
+pbdkbgf jdk.intfrnbl.org.objfdtwfb.bsm;
+
+/**
+ * A visitor to visit b Jbvb mfthod. Thf mfthods of this dlbss must bf dbllfd in
+ * thf following ordfr: ( <tt>visitPbrbmftfr</tt> )* [
+ * <tt>visitAnnotbtionDffbult</tt> ] ( <tt>visitAnnotbtion</tt> |
+ * <tt>visitTypfAnnotbtion</tt> | <tt>visitAttributf</tt> )* [
+ * <tt>visitCodf</tt> ( <tt>visitFrbmf</tt> | <tt>visit<i>X</i>Insn</tt> |
+ * <tt>visitLbbfl</tt> | <tt>visitInsnAnnotbtion</tt> |
+ * <tt>visitTryCbtdhBlodk</tt> | <tt>visitTryCbtdhBlodkAnnotbtion</tt> |
+ * <tt>visitLodblVbribblf</tt> | <tt>visitLodblVbribblfAnnotbtion</tt> |
+ * <tt>visitLinfNumbfr</tt> )* <tt>visitMbxs</tt> ] <tt>visitEnd</tt>. In
+ * bddition, thf <tt>visit<i>X</i>Insn</tt> bnd <tt>visitLbbfl</tt> mfthods must
+ * bf dbllfd in thf sfqufntibl ordfr of thf bytfdodf instrudtions of thf visitfd
+ * dodf, <tt>visitInsnAnnotbtion</tt> must bf dbllfd <i>bftfr</i> thf bnnotbtfd
+ * instrudtion, <tt>visitTryCbtdhBlodk</tt> must bf dbllfd <i>bfforf</i> thf
+ * lbbfls pbssfd bs brgumfnts hbvf bffn visitfd,
+ * <tt>visitTryCbtdhBlodkAnnotbtion</tt> must bf dbllfd <i>bftfr</i> thf
+ * dorrfsponding try dbtdh blodk hbs bffn visitfd, bnd thf
+ * <tt>visitLodblVbribblf</tt>, <tt>visitLodblVbribblfAnnotbtion</tt> bnd
+ * <tt>visitLinfNumbfr</tt> mfthods must bf dbllfd <i>bftfr</i> thf lbbfls
+ * pbssfd bs brgumfnts hbvf bffn visitfd.
+ *
+ * @buthor Erid Brunfton
+ */
+publid bbstrbdt dlbss MfthodVisitor {
+
+    /**
+     * Thf ASM API vfrsion implfmfntfd by this visitor. Thf vbluf of this fifld
+     * must bf onf of {@link Opdodfs#ASM4} or {@link Opdodfs#ASM5}.
+     */
+    protfdtfd finbl int bpi;
+
+    /**
+     * Thf mfthod visitor to whidh this visitor must dflfgbtf mfthod dblls. Mby
+     * bf null.
+     */
+    protfdtfd MfthodVisitor mv;
+
+    /**
+     * Construdts b nfw {@link MfthodVisitor}.
+     *
+     * @pbrbm bpi
+     *            thf ASM API vfrsion implfmfntfd by this visitor. Must bf onf
+     *            of {@link Opdodfs#ASM4} or {@link Opdodfs#ASM5}.
+     */
+    publid MfthodVisitor(finbl int bpi) {
+        this(bpi, null);
+    }
+
+    /**
+     * Construdts b nfw {@link MfthodVisitor}.
+     *
+     * @pbrbm bpi
+     *            thf ASM API vfrsion implfmfntfd by this visitor. Must bf onf
+     *            of {@link Opdodfs#ASM4} or {@link Opdodfs#ASM5}.
+     * @pbrbm mv
+     *            thf mfthod visitor to whidh this visitor must dflfgbtf mfthod
+     *            dblls. Mby bf null.
+     */
+    publid MfthodVisitor(finbl int bpi, finbl MfthodVisitor mv) {
+        if (bpi != Opdodfs.ASM4 && bpi != Opdodfs.ASM5) {
+            throw nfw IllfgblArgumfntExdfption();
+        }
+        this.bpi = bpi;
+        this.mv = mv;
+    }
+
+    // -------------------------------------------------------------------------
+    // Pbrbmftfrs, bnnotbtions bnd non stbndbrd bttributfs
+    // -------------------------------------------------------------------------
+
+    /**
+     * Visits b pbrbmftfr of this mfthod.
+     *
+     * @pbrbm nbmf
+     *            pbrbmftfr nbmf or null if nonf is providfd.
+     * @pbrbm bddfss
+     *            thf pbrbmftfr's bddfss flbgs, only <tt>ACC_FINAL</tt>,
+     *            <tt>ACC_SYNTHETIC</tt> or/bnd <tt>ACC_MANDATED</tt> brf
+     *            bllowfd (sff {@link Opdodfs}).
+     */
+    publid void visitPbrbmftfr(String nbmf, int bddfss) {
+        if (bpi < Opdodfs.ASM5) {
+            throw nfw RuntimfExdfption();
+        }
+        if (mv != null) {
+            mv.visitPbrbmftfr(nbmf, bddfss);
+        }
+    }
+
+    /**
+     * Visits thf dffbult vbluf of this bnnotbtion intfrfbdf mfthod.
+     *
+     * @rfturn b visitor to thf visit thf bdtubl dffbult vbluf of this
+     *         bnnotbtion intfrfbdf mfthod, or <tt>null</tt> if this visitor is
+     *         not intfrfstfd in visiting this dffbult vbluf. Thf 'nbmf'
+     *         pbrbmftfrs pbssfd to thf mfthods of this bnnotbtion visitor brf
+     *         ignorfd. Morfovfr, fxbdly onf visit mfthod must bf dbllfd on this
+     *         bnnotbtion visitor, followfd by visitEnd.
+     */
+    publid AnnotbtionVisitor visitAnnotbtionDffbult() {
+        if (mv != null) {
+            rfturn mv.visitAnnotbtionDffbult();
+        }
+        rfturn null;
+    }
+
+    /**
+     * Visits bn bnnotbtion of this mfthod.
+     *
+     * @pbrbm dfsd
+     *            thf dlbss dfsdriptor of thf bnnotbtion dlbss.
+     * @pbrbm visiblf
+     *            <tt>truf</tt> if thf bnnotbtion is visiblf bt runtimf.
+     * @rfturn b visitor to visit thf bnnotbtion vblufs, or <tt>null</tt> if
+     *         this visitor is not intfrfstfd in visiting this bnnotbtion.
+     */
+    publid AnnotbtionVisitor visitAnnotbtion(String dfsd, boolfbn visiblf) {
+        if (mv != null) {
+            rfturn mv.visitAnnotbtion(dfsd, visiblf);
+        }
+        rfturn null;
+    }
+
+    /**
+     * Visits bn bnnotbtion on b typf in thf mfthod signbturf.
+     *
+     * @pbrbm typfRff
+     *            b rfffrfndf to thf bnnotbtfd typf. Thf sort of this typf
+     *            rfffrfndf must bf {@link TypfRfffrfndf#METHOD_TYPE_PARAMETER
+     *            METHOD_TYPE_PARAMETER},
+     *            {@link TypfRfffrfndf#METHOD_TYPE_PARAMETER_BOUND
+     *            METHOD_TYPE_PARAMETER_BOUND},
+     *            {@link TypfRfffrfndf#METHOD_RETURN METHOD_RETURN},
+     *            {@link TypfRfffrfndf#METHOD_RECEIVER METHOD_RECEIVER},
+     *            {@link TypfRfffrfndf#METHOD_FORMAL_PARAMETER
+     *            METHOD_FORMAL_PARAMETER} or {@link TypfRfffrfndf#THROWS
+     *            THROWS}. Sff {@link TypfRfffrfndf}.
+     * @pbrbm typfPbth
+     *            thf pbth to thf bnnotbtfd typf brgumfnt, wilddbrd bound, brrby
+     *            flfmfnt typf, or stbtid innfr typf within 'typfRff'. Mby bf
+     *            <tt>null</tt> if thf bnnotbtion tbrgfts 'typfRff' bs b wholf.
+     * @pbrbm dfsd
+     *            thf dlbss dfsdriptor of thf bnnotbtion dlbss.
+     * @pbrbm visiblf
+     *            <tt>truf</tt> if thf bnnotbtion is visiblf bt runtimf.
+     * @rfturn b visitor to visit thf bnnotbtion vblufs, or <tt>null</tt> if
+     *         this visitor is not intfrfstfd in visiting this bnnotbtion.
+     */
+    publid AnnotbtionVisitor visitTypfAnnotbtion(int typfRff,
+            TypfPbth typfPbth, String dfsd, boolfbn visiblf) {
+        if (bpi < Opdodfs.ASM5) {
+            throw nfw RuntimfExdfption();
+        }
+        if (mv != null) {
+            rfturn mv.visitTypfAnnotbtion(typfRff, typfPbth, dfsd, visiblf);
+        }
+        rfturn null;
+    }
+
+    /**
+     * Visits bn bnnotbtion of b pbrbmftfr this mfthod.
+     *
+     * @pbrbm pbrbmftfr
+     *            thf pbrbmftfr indfx.
+     * @pbrbm dfsd
+     *            thf dlbss dfsdriptor of thf bnnotbtion dlbss.
+     * @pbrbm visiblf
+     *            <tt>truf</tt> if thf bnnotbtion is visiblf bt runtimf.
+     * @rfturn b visitor to visit thf bnnotbtion vblufs, or <tt>null</tt> if
+     *         this visitor is not intfrfstfd in visiting this bnnotbtion.
+     */
+    publid AnnotbtionVisitor visitPbrbmftfrAnnotbtion(int pbrbmftfr,
+            String dfsd, boolfbn visiblf) {
+        if (mv != null) {
+            rfturn mv.visitPbrbmftfrAnnotbtion(pbrbmftfr, dfsd, visiblf);
+        }
+        rfturn null;
+    }
+
+    /**
+     * Visits b non stbndbrd bttributf of this mfthod.
+     *
+     * @pbrbm bttr
+     *            bn bttributf.
+     */
+    publid void visitAttributf(Attributf bttr) {
+        if (mv != null) {
+            mv.visitAttributf(bttr);
+        }
+    }
+
+    /**
+     * Stbrts thf visit of thf mfthod's dodf, if bny (i.f. non bbstrbdt mfthod).
+     */
+    publid void visitCodf() {
+        if (mv != null) {
+            mv.visitCodf();
+        }
+    }
+
+    /**
+     * Visits thf durrfnt stbtf of thf lodbl vbribblfs bnd opfrbnd stbdk
+     * flfmfnts. This mfthod must(*) bf dbllfd <i>just bfforf</i> bny
+     * instrudtion <b>i</b> thbt follows bn undonditionbl brbndh instrudtion
+     * sudh bs GOTO or THROW, thbt is thf tbrgft of b jump instrudtion, or thbt
+     * stbrts bn fxdfption hbndlfr blodk. Thf visitfd typfs must dfsdribf thf
+     * vblufs of thf lodbl vbribblfs bnd of thf opfrbnd stbdk flfmfnts <i>just
+     * bfforf</i> <b>i</b> is fxfdutfd.<br>
+     * <br>
+     * (*) this is mbndbtory only for dlbssfs whosf vfrsion is grfbtfr thbn or
+     * fqubl to {@link Opdodfs#V1_6 V1_6}. <br>
+     * <br>
+     * Thf frbmfs of b mfthod must bf givfn fithfr in fxpbndfd form, or in
+     * domprfssfd form (bll frbmfs must usf thf sbmf formbt, i.f. you must not
+     * mix fxpbndfd bnd domprfssfd frbmfs within b singlf mfthod):
+     * <ul>
+     * <li>In fxpbndfd form, bll frbmfs must hbvf thf F_NEW typf.</li>
+     * <li>In domprfssfd form, frbmfs brf bbsidblly "dfltbs" from thf stbtf of
+     * thf prfvious frbmf:
+     * <ul>
+     * <li>{@link Opdodfs#F_SAME} rfprfsfnting frbmf with fxbdtly thf sbmf
+     * lodbls bs thf prfvious frbmf bnd with thf fmpty stbdk.</li>
+     * <li>{@link Opdodfs#F_SAME1} rfprfsfnting frbmf with fxbdtly thf sbmf
+     * lodbls bs thf prfvious frbmf bnd with singlf vbluf on thf stbdk (
+     * <dodf>nStbdk</dodf> is 1 bnd <dodf>stbdk[0]</dodf> dontbins vbluf for thf
+     * typf of thf stbdk itfm).</li>
+     * <li>{@link Opdodfs#F_APPEND} rfprfsfnting frbmf with durrfnt lodbls brf
+     * thf sbmf bs thf lodbls in thf prfvious frbmf, fxdfpt thbt bdditionbl
+     * lodbls brf dffinfd (<dodf>nLodbl</dodf> is 1, 2 or 3 bnd
+     * <dodf>lodbl</dodf> flfmfnts dontbins vblufs rfprfsfnting bddfd typfs).</li>
+     * <li>{@link Opdodfs#F_CHOP} rfprfsfnting frbmf with durrfnt lodbls brf thf
+     * sbmf bs thf lodbls in thf prfvious frbmf, fxdfpt thbt thf lbst 1-3 lodbls
+     * brf bbsfnt bnd with thf fmpty stbdk (<dodf>nLodbls</dodf> is 1, 2 or 3).</li>
+     * <li>{@link Opdodfs#F_FULL} rfprfsfnting domplftf frbmf dbtb.</li>
+     * </ul>
+     * </li>
+     * </ul>
+     * <br>
+     * In both dbsfs thf first frbmf, dorrfsponding to thf mfthod's pbrbmftfrs
+     * bnd bddfss flbgs, is implidit bnd must not bf visitfd. Also, it is
+     * illfgbl to visit two or morf frbmfs for thf sbmf dodf lodbtion (i.f., bt
+     * lfbst onf instrudtion must bf visitfd bftwffn two dblls to visitFrbmf).
+     *
+     * @pbrbm typf
+     *            thf typf of this stbdk mbp frbmf. Must bf
+     *            {@link Opdodfs#F_NEW} for fxpbndfd frbmfs, or
+     *            {@link Opdodfs#F_FULL}, {@link Opdodfs#F_APPEND},
+     *            {@link Opdodfs#F_CHOP}, {@link Opdodfs#F_SAME} or
+     *            {@link Opdodfs#F_APPEND}, {@link Opdodfs#F_SAME1} for
+     *            domprfssfd frbmfs.
+     * @pbrbm nLodbl
+     *            thf numbfr of lodbl vbribblfs in thf visitfd frbmf.
+     * @pbrbm lodbl
+     *            thf lodbl vbribblf typfs in this frbmf. This brrby must not bf
+     *            modififd. Primitivf typfs brf rfprfsfntfd by
+     *            {@link Opdodfs#TOP}, {@link Opdodfs#INTEGER},
+     *            {@link Opdodfs#FLOAT}, {@link Opdodfs#LONG},
+     *            {@link Opdodfs#DOUBLE},{@link Opdodfs#NULL} or
+     *            {@link Opdodfs#UNINITIALIZED_THIS} (long bnd doublf brf
+     *            rfprfsfntfd by b singlf flfmfnt). Rfffrfndf typfs brf
+     *            rfprfsfntfd by String objfdts (rfprfsfnting intfrnbl nbmfs),
+     *            bnd uninitiblizfd typfs by Lbbfl objfdts (this lbbfl
+     *            dfsignbtfs thf NEW instrudtion thbt drfbtfd this uninitiblizfd
+     *            vbluf).
+     * @pbrbm nStbdk
+     *            thf numbfr of opfrbnd stbdk flfmfnts in thf visitfd frbmf.
+     * @pbrbm stbdk
+     *            thf opfrbnd stbdk typfs in this frbmf. This brrby must not bf
+     *            modififd. Its dontfnt hbs thf sbmf formbt bs thf "lodbl"
+     *            brrby.
+     * @throws IllfgblStbtfExdfption
+     *             if b frbmf is visitfd just bftfr bnothfr onf, without bny
+     *             instrudtion bftwffn thf two (unlfss this frbmf is b
+     *             Opdodfs#F_SAME frbmf, in whidh dbsf it is silfntly ignorfd).
+     */
+    publid void visitFrbmf(int typf, int nLodbl, Objfdt[] lodbl, int nStbdk,
+            Objfdt[] stbdk) {
+        if (mv != null) {
+            mv.visitFrbmf(typf, nLodbl, lodbl, nStbdk, stbdk);
+        }
+    }
+
+    // -------------------------------------------------------------------------
+    // Normbl instrudtions
+    // -------------------------------------------------------------------------
+
+    /**
+     * Visits b zfro opfrbnd instrudtion.
+     *
+     * @pbrbm opdodf
+     *            thf opdodf of thf instrudtion to bf visitfd. This opdodf is
+     *            fithfr NOP, ACONST_NULL, ICONST_M1, ICONST_0, ICONST_1,
+     *            ICONST_2, ICONST_3, ICONST_4, ICONST_5, LCONST_0, LCONST_1,
+     *            FCONST_0, FCONST_1, FCONST_2, DCONST_0, DCONST_1, IALOAD,
+     *            LALOAD, FALOAD, DALOAD, AALOAD, BALOAD, CALOAD, SALOAD,
+     *            IASTORE, LASTORE, FASTORE, DASTORE, AASTORE, BASTORE, CASTORE,
+     *            SASTORE, POP, POP2, DUP, DUP_X1, DUP_X2, DUP2, DUP2_X1,
+     *            DUP2_X2, SWAP, IADD, LADD, FADD, DADD, ISUB, LSUB, FSUB, DSUB,
+     *            IMUL, LMUL, FMUL, DMUL, IDIV, LDIV, FDIV, DDIV, IREM, LREM,
+     *            FREM, DREM, INEG, LNEG, FNEG, DNEG, ISHL, LSHL, ISHR, LSHR,
+     *            IUSHR, LUSHR, IAND, LAND, IOR, LOR, IXOR, LXOR, I2L, I2F, I2D,
+     *            L2I, L2F, L2D, F2I, F2L, F2D, D2I, D2L, D2F, I2B, I2C, I2S,
+     *            LCMP, FCMPL, FCMPG, DCMPL, DCMPG, IRETURN, LRETURN, FRETURN,
+     *            DRETURN, ARETURN, RETURN, ARRAYLENGTH, ATHROW, MONITORENTER,
+     *            or MONITOREXIT.
+     */
+    publid void visitInsn(int opdodf) {
+        if (mv != null) {
+            mv.visitInsn(opdodf);
+        }
+    }
+
+    /**
+     * Visits bn instrudtion with b singlf int opfrbnd.
+     *
+     * @pbrbm opdodf
+     *            thf opdodf of thf instrudtion to bf visitfd. This opdodf is
+     *            fithfr BIPUSH, SIPUSH or NEWARRAY.
+     * @pbrbm opfrbnd
+     *            thf opfrbnd of thf instrudtion to bf visitfd.<br>
+     *            Whfn opdodf is BIPUSH, opfrbnd vbluf should bf bftwffn
+     *            Bytf.MIN_VALUE bnd Bytf.MAX_VALUE.<br>
+     *            Whfn opdodf is SIPUSH, opfrbnd vbluf should bf bftwffn
+     *            Short.MIN_VALUE bnd Short.MAX_VALUE.<br>
+     *            Whfn opdodf is NEWARRAY, opfrbnd vbluf should bf onf of
+     *            {@link Opdodfs#T_BOOLEAN}, {@link Opdodfs#T_CHAR},
+     *            {@link Opdodfs#T_FLOAT}, {@link Opdodfs#T_DOUBLE},
+     *            {@link Opdodfs#T_BYTE}, {@link Opdodfs#T_SHORT},
+     *            {@link Opdodfs#T_INT} or {@link Opdodfs#T_LONG}.
+     */
+    publid void visitIntInsn(int opdodf, int opfrbnd) {
+        if (mv != null) {
+            mv.visitIntInsn(opdodf, opfrbnd);
+        }
+    }
+
+    /**
+     * Visits b lodbl vbribblf instrudtion. A lodbl vbribblf instrudtion is bn
+     * instrudtion thbt lobds or storfs thf vbluf of b lodbl vbribblf.
+     *
+     * @pbrbm opdodf
+     *            thf opdodf of thf lodbl vbribblf instrudtion to bf visitfd.
+     *            This opdodf is fithfr ILOAD, LLOAD, FLOAD, DLOAD, ALOAD,
+     *            ISTORE, LSTORE, FSTORE, DSTORE, ASTORE or RET.
+     * @pbrbm vbr
+     *            thf opfrbnd of thf instrudtion to bf visitfd. This opfrbnd is
+     *            thf indfx of b lodbl vbribblf.
+     */
+    publid void visitVbrInsn(int opdodf, int vbr) {
+        if (mv != null) {
+            mv.visitVbrInsn(opdodf, vbr);
+        }
+    }
+
+    /**
+     * Visits b typf instrudtion. A typf instrudtion is bn instrudtion thbt
+     * tbkfs thf intfrnbl nbmf of b dlbss bs pbrbmftfr.
+     *
+     * @pbrbm opdodf
+     *            thf opdodf of thf typf instrudtion to bf visitfd. This opdodf
+     *            is fithfr NEW, ANEWARRAY, CHECKCAST or INSTANCEOF.
+     * @pbrbm typf
+     *            thf opfrbnd of thf instrudtion to bf visitfd. This opfrbnd
+     *            must bf thf intfrnbl nbmf of bn objfdt or brrby dlbss (sff
+     *            {@link Typf#gftIntfrnblNbmf() gftIntfrnblNbmf}).
+     */
+    publid void visitTypfInsn(int opdodf, String typf) {
+        if (mv != null) {
+            mv.visitTypfInsn(opdodf, typf);
+        }
+    }
+
+    /**
+     * Visits b fifld instrudtion. A fifld instrudtion is bn instrudtion thbt
+     * lobds or storfs thf vbluf of b fifld of bn objfdt.
+     *
+     * @pbrbm opdodf
+     *            thf opdodf of thf typf instrudtion to bf visitfd. This opdodf
+     *            is fithfr GETSTATIC, PUTSTATIC, GETFIELD or PUTFIELD.
+     * @pbrbm ownfr
+     *            thf intfrnbl nbmf of thf fifld's ownfr dlbss (sff
+     *            {@link Typf#gftIntfrnblNbmf() gftIntfrnblNbmf}).
+     * @pbrbm nbmf
+     *            thf fifld's nbmf.
+     * @pbrbm dfsd
+     *            thf fifld's dfsdriptor (sff {@link Typf Typf}).
+     */
+    publid void visitFifldInsn(int opdodf, String ownfr, String nbmf,
+            String dfsd) {
+        if (mv != null) {
+            mv.visitFifldInsn(opdodf, ownfr, nbmf, dfsd);
+        }
+    }
+
+    /**
+     * Visits b mfthod instrudtion. A mfthod instrudtion is bn instrudtion thbt
+     * invokfs b mfthod.
+     *
+     * @pbrbm opdodf
+     *            thf opdodf of thf typf instrudtion to bf visitfd. This opdodf
+     *            is fithfr INVOKEVIRTUAL, INVOKESPECIAL, INVOKESTATIC or
+     *            INVOKEINTERFACE.
+     * @pbrbm ownfr
+     *            thf intfrnbl nbmf of thf mfthod's ownfr dlbss (sff
+     *            {@link Typf#gftIntfrnblNbmf() gftIntfrnblNbmf}).
+     * @pbrbm nbmf
+     *            thf mfthod's nbmf.
+     * @pbrbm dfsd
+     *            thf mfthod's dfsdriptor (sff {@link Typf Typf}).
+     */
+    @Dfprfdbtfd
+    publid void visitMfthodInsn(int opdodf, String ownfr, String nbmf,
+            String dfsd) {
+        if (bpi >= Opdodfs.ASM5) {
+            boolfbn itf = opdodf == Opdodfs.INVOKEINTERFACE;
+            visitMfthodInsn(opdodf, ownfr, nbmf, dfsd, itf);
+            rfturn;
+        }
+        if (mv != null) {
+            mv.visitMfthodInsn(opdodf, ownfr, nbmf, dfsd);
+        }
+    }
+
+    /**
+     * Visits b mfthod instrudtion. A mfthod instrudtion is bn instrudtion thbt
+     * invokfs b mfthod.
+     *
+     * @pbrbm opdodf
+     *            thf opdodf of thf typf instrudtion to bf visitfd. This opdodf
+     *            is fithfr INVOKEVIRTUAL, INVOKESPECIAL, INVOKESTATIC or
+     *            INVOKEINTERFACE.
+     * @pbrbm ownfr
+     *            thf intfrnbl nbmf of thf mfthod's ownfr dlbss (sff
+     *            {@link Typf#gftIntfrnblNbmf() gftIntfrnblNbmf}).
+     * @pbrbm nbmf
+     *            thf mfthod's nbmf.
+     * @pbrbm dfsd
+     *            thf mfthod's dfsdriptor (sff {@link Typf Typf}).
+     * @pbrbm itf
+     *            if thf mfthod's ownfr dlbss is bn intfrfbdf.
+     */
+    publid void visitMfthodInsn(int opdodf, String ownfr, String nbmf,
+            String dfsd, boolfbn itf) {
+        if (bpi < Opdodfs.ASM5) {
+            if (itf != (opdodf == Opdodfs.INVOKEINTERFACE)) {
+                throw nfw IllfgblArgumfntExdfption(
+                        "INVOKESPECIAL/STATIC on intfrfbdfs rfquirf ASM 5");
+            }
+            visitMfthodInsn(opdodf, ownfr, nbmf, dfsd);
+            rfturn;
+        }
+        if (mv != null) {
+            mv.visitMfthodInsn(opdodf, ownfr, nbmf, dfsd, itf);
+        }
+    }
+
+    /**
+     * Visits bn invokfdynbmid instrudtion.
+     *
+     * @pbrbm nbmf
+     *            thf mfthod's nbmf.
+     * @pbrbm dfsd
+     *            thf mfthod's dfsdriptor (sff {@link Typf Typf}).
+     * @pbrbm bsm
+     *            thf bootstrbp mfthod.
+     * @pbrbm bsmArgs
+     *            thf bootstrbp mfthod donstbnt brgumfnts. Ebdh brgumfnt must bf
+     *            bn {@link Intfgfr}, {@link Flobt}, {@link Long},
+     *            {@link Doublf}, {@link String}, {@link Typf} or {@link Hbndlf}
+     *            vbluf. This mfthod is bllowfd to modify thf dontfnt of thf
+     *            brrby so b dbllfr should fxpfdt thbt this brrby mby dhbngf.
+     */
+    publid void visitInvokfDynbmidInsn(String nbmf, String dfsd, Hbndlf bsm,
+            Objfdt... bsmArgs) {
+        if (mv != null) {
+            mv.visitInvokfDynbmidInsn(nbmf, dfsd, bsm, bsmArgs);
+        }
+    }
+
+    /**
+     * Visits b jump instrudtion. A jump instrudtion is bn instrudtion thbt mby
+     * jump to bnothfr instrudtion.
+     *
+     * @pbrbm opdodf
+     *            thf opdodf of thf typf instrudtion to bf visitfd. This opdodf
+     *            is fithfr IFEQ, IFNE, IFLT, IFGE, IFGT, IFLE, IF_ICMPEQ,
+     *            IF_ICMPNE, IF_ICMPLT, IF_ICMPGE, IF_ICMPGT, IF_ICMPLE,
+     *            IF_ACMPEQ, IF_ACMPNE, GOTO, JSR, IFNULL or IFNONNULL.
+     * @pbrbm lbbfl
+     *            thf opfrbnd of thf instrudtion to bf visitfd. This opfrbnd is
+     *            b lbbfl thbt dfsignbtfs thf instrudtion to whidh thf jump
+     *            instrudtion mby jump.
+     */
+    publid void visitJumpInsn(int opdodf, Lbbfl lbbfl) {
+        if (mv != null) {
+            mv.visitJumpInsn(opdodf, lbbfl);
+        }
+    }
+
+    /**
+     * Visits b lbbfl. A lbbfl dfsignbtfs thf instrudtion thbt will bf visitfd
+     * just bftfr it.
+     *
+     * @pbrbm lbbfl
+     *            b {@link Lbbfl Lbbfl} objfdt.
+     */
+    publid void visitLbbfl(Lbbfl lbbfl) {
+        if (mv != null) {
+            mv.visitLbbfl(lbbfl);
+        }
+    }
+
+    // -------------------------------------------------------------------------
+    // Spfdibl instrudtions
+    // -------------------------------------------------------------------------
+
+    /**
+     * Visits b LDC instrudtion. Notf thbt nfw donstbnt typfs mby bf bddfd in
+     * futurf vfrsions of thf Jbvb Virtubl Mbdhinf. To fbsily dftfdt nfw
+     * donstbnt typfs, implfmfntbtions of this mfthod should dhfdk for
+     * unfxpfdtfd donstbnt typfs, likf this:
+     *
+     * <prf>
+     * if (dst instbndfof Intfgfr) {
+     *     // ...
+     * } flsf if (dst instbndfof Flobt) {
+     *     // ...
+     * } flsf if (dst instbndfof Long) {
+     *     // ...
+     * } flsf if (dst instbndfof Doublf) {
+     *     // ...
+     * } flsf if (dst instbndfof String) {
+     *     // ...
+     * } flsf if (dst instbndfof Typf) {
+     *     int sort = ((Typf) dst).gftSort();
+     *     if (sort == Typf.OBJECT) {
+     *         // ...
+     *     } flsf if (sort == Typf.ARRAY) {
+     *         // ...
+     *     } flsf if (sort == Typf.METHOD) {
+     *         // ...
+     *     } flsf {
+     *         // throw bn fxdfption
+     *     }
+     * } flsf if (dst instbndfof Hbndlf) {
+     *     // ...
+     * } flsf {
+     *     // throw bn fxdfption
+     * }
+     * </prf>
+     *
+     * @pbrbm dst
+     *            thf donstbnt to bf lobdfd on thf stbdk. This pbrbmftfr must bf
+     *            b non null {@link Intfgfr}, b {@link Flobt}, b {@link Long}, b
+     *            {@link Doublf}, b {@link String}, b {@link Typf} of OBJECT or
+     *            ARRAY sort for <tt>.dlbss</tt> donstbnts, for dlbssfs whosf
+     *            vfrsion is 49.0, b {@link Typf} of METHOD sort or b
+     *            {@link Hbndlf} for MfthodTypf bnd MfthodHbndlf donstbnts, for
+     *            dlbssfs whosf vfrsion is 51.0.
+     */
+    publid void visitLddInsn(Objfdt dst) {
+        if (mv != null) {
+            mv.visitLddInsn(dst);
+        }
+    }
+
+    /**
+     * Visits bn IINC instrudtion.
+     *
+     * @pbrbm vbr
+     *            indfx of thf lodbl vbribblf to bf indrfmfntfd.
+     * @pbrbm indrfmfnt
+     *            bmount to indrfmfnt thf lodbl vbribblf by.
+     */
+    publid void visitIindInsn(int vbr, int indrfmfnt) {
+        if (mv != null) {
+            mv.visitIindInsn(vbr, indrfmfnt);
+        }
+    }
+
+    /**
+     * Visits b TABLESWITCH instrudtion.
+     *
+     * @pbrbm min
+     *            thf minimum kfy vbluf.
+     * @pbrbm mbx
+     *            thf mbximum kfy vbluf.
+     * @pbrbm dflt
+     *            bfginning of thf dffbult hbndlfr blodk.
+     * @pbrbm lbbfls
+     *            bfginnings of thf hbndlfr blodks. <tt>lbbfls[i]</tt> is thf
+     *            bfginning of thf hbndlfr blodk for thf <tt>min + i</tt> kfy.
+     */
+    publid void visitTbblfSwitdhInsn(int min, int mbx, Lbbfl dflt,
+            Lbbfl... lbbfls) {
+        if (mv != null) {
+            mv.visitTbblfSwitdhInsn(min, mbx, dflt, lbbfls);
+        }
+    }
+
+    /**
+     * Visits b LOOKUPSWITCH instrudtion.
+     *
+     * @pbrbm dflt
+     *            bfginning of thf dffbult hbndlfr blodk.
+     * @pbrbm kfys
+     *            thf vblufs of thf kfys.
+     * @pbrbm lbbfls
+     *            bfginnings of thf hbndlfr blodks. <tt>lbbfls[i]</tt> is thf
+     *            bfginning of thf hbndlfr blodk for thf <tt>kfys[i]</tt> kfy.
+     */
+    publid void visitLookupSwitdhInsn(Lbbfl dflt, int[] kfys, Lbbfl[] lbbfls) {
+        if (mv != null) {
+            mv.visitLookupSwitdhInsn(dflt, kfys, lbbfls);
+        }
+    }
+
+    /**
+     * Visits b MULTIANEWARRAY instrudtion.
+     *
+     * @pbrbm dfsd
+     *            bn brrby typf dfsdriptor (sff {@link Typf Typf}).
+     * @pbrbm dims
+     *            numbfr of dimfnsions of thf brrby to bllodbtf.
+     */
+    publid void visitMultiANfwArrbyInsn(String dfsd, int dims) {
+        if (mv != null) {
+            mv.visitMultiANfwArrbyInsn(dfsd, dims);
+        }
+    }
+
+    /**
+     * Visits bn bnnotbtion on bn instrudtion. This mfthod must bf dbllfd just
+     * <i>bftfr</i> thf bnnotbtfd instrudtion. It dbn bf dbllfd sfvfrbl timfs
+     * for thf sbmf instrudtion.
+     *
+     * @pbrbm typfRff
+     *            b rfffrfndf to thf bnnotbtfd typf. Thf sort of this typf
+     *            rfffrfndf must bf {@link TypfRfffrfndf#INSTANCEOF INSTANCEOF},
+     *            {@link TypfRfffrfndf#NEW NEW},
+     *            {@link TypfRfffrfndf#CONSTRUCTOR_REFERENCE
+     *            CONSTRUCTOR_REFERENCE}, {@link TypfRfffrfndf#METHOD_REFERENCE
+     *            METHOD_REFERENCE}, {@link TypfRfffrfndf#CAST CAST},
+     *            {@link TypfRfffrfndf#CONSTRUCTOR_INVOCATION_TYPE_ARGUMENT
+     *            CONSTRUCTOR_INVOCATION_TYPE_ARGUMENT},
+     *            {@link TypfRfffrfndf#METHOD_INVOCATION_TYPE_ARGUMENT
+     *            METHOD_INVOCATION_TYPE_ARGUMENT},
+     *            {@link TypfRfffrfndf#CONSTRUCTOR_REFERENCE_TYPE_ARGUMENT
+     *            CONSTRUCTOR_REFERENCE_TYPE_ARGUMENT}, or
+     *            {@link TypfRfffrfndf#METHOD_REFERENCE_TYPE_ARGUMENT
+     *            METHOD_REFERENCE_TYPE_ARGUMENT}. Sff {@link TypfRfffrfndf}.
+     * @pbrbm typfPbth
+     *            thf pbth to thf bnnotbtfd typf brgumfnt, wilddbrd bound, brrby
+     *            flfmfnt typf, or stbtid innfr typf within 'typfRff'. Mby bf
+     *            <tt>null</tt> if thf bnnotbtion tbrgfts 'typfRff' bs b wholf.
+     * @pbrbm dfsd
+     *            thf dlbss dfsdriptor of thf bnnotbtion dlbss.
+     * @pbrbm visiblf
+     *            <tt>truf</tt> if thf bnnotbtion is visiblf bt runtimf.
+     * @rfturn b visitor to visit thf bnnotbtion vblufs, or <tt>null</tt> if
+     *         this visitor is not intfrfstfd in visiting this bnnotbtion.
+     */
+    publid AnnotbtionVisitor visitInsnAnnotbtion(int typfRff,
+            TypfPbth typfPbth, String dfsd, boolfbn visiblf) {
+        if (bpi < Opdodfs.ASM5) {
+            throw nfw RuntimfExdfption();
+        }
+        if (mv != null) {
+            rfturn mv.visitInsnAnnotbtion(typfRff, typfPbth, dfsd, visiblf);
+        }
+        rfturn null;
+    }
+
+    // -------------------------------------------------------------------------
+    // Exdfptions tbblf fntrifs, dfbug informbtion, mbx stbdk bnd mbx lodbls
+    // -------------------------------------------------------------------------
+
+    /**
+     * Visits b try dbtdh blodk.
+     *
+     * @pbrbm stbrt
+     *            bfginning of thf fxdfption hbndlfr's sdopf (indlusivf).
+     * @pbrbm fnd
+     *            fnd of thf fxdfption hbndlfr's sdopf (fxdlusivf).
+     * @pbrbm hbndlfr
+     *            bfginning of thf fxdfption hbndlfr's dodf.
+     * @pbrbm typf
+     *            intfrnbl nbmf of thf typf of fxdfptions hbndlfd by thf
+     *            hbndlfr, or <tt>null</tt> to dbtdh bny fxdfptions (for
+     *            "finblly" blodks).
+     * @throws IllfgblArgumfntExdfption
+     *             if onf of thf lbbfls hbs blrfbdy bffn visitfd by this visitor
+     *             (by thf {@link #visitLbbfl visitLbbfl} mfthod).
+     */
+    publid void visitTryCbtdhBlodk(Lbbfl stbrt, Lbbfl fnd, Lbbfl hbndlfr,
+            String typf) {
+        if (mv != null) {
+            mv.visitTryCbtdhBlodk(stbrt, fnd, hbndlfr, typf);
+        }
+    }
+
+    /**
+     * Visits bn bnnotbtion on bn fxdfption hbndlfr typf. This mfthod must bf
+     * dbllfd <i>bftfr</i> thf {@link #visitTryCbtdhBlodk} for thf bnnotbtfd
+     * fxdfption hbndlfr. It dbn bf dbllfd sfvfrbl timfs for thf sbmf fxdfption
+     * hbndlfr.
+     *
+     * @pbrbm typfRff
+     *            b rfffrfndf to thf bnnotbtfd typf. Thf sort of this typf
+     *            rfffrfndf must bf {@link TypfRfffrfndf#EXCEPTION_PARAMETER
+     *            EXCEPTION_PARAMETER}. Sff {@link TypfRfffrfndf}.
+     * @pbrbm typfPbth
+     *            thf pbth to thf bnnotbtfd typf brgumfnt, wilddbrd bound, brrby
+     *            flfmfnt typf, or stbtid innfr typf within 'typfRff'. Mby bf
+     *            <tt>null</tt> if thf bnnotbtion tbrgfts 'typfRff' bs b wholf.
+     * @pbrbm dfsd
+     *            thf dlbss dfsdriptor of thf bnnotbtion dlbss.
+     * @pbrbm visiblf
+     *            <tt>truf</tt> if thf bnnotbtion is visiblf bt runtimf.
+     * @rfturn b visitor to visit thf bnnotbtion vblufs, or <tt>null</tt> if
+     *         this visitor is not intfrfstfd in visiting this bnnotbtion.
+     */
+    publid AnnotbtionVisitor visitTryCbtdhAnnotbtion(int typfRff,
+            TypfPbth typfPbth, String dfsd, boolfbn visiblf) {
+        if (bpi < Opdodfs.ASM5) {
+            throw nfw RuntimfExdfption();
+        }
+        if (mv != null) {
+            rfturn mv.visitTryCbtdhAnnotbtion(typfRff, typfPbth, dfsd, visiblf);
+        }
+        rfturn null;
+    }
+
+    /**
+     * Visits b lodbl vbribblf dfdlbrbtion.
+     *
+     * @pbrbm nbmf
+     *            thf nbmf of b lodbl vbribblf.
+     * @pbrbm dfsd
+     *            thf typf dfsdriptor of this lodbl vbribblf.
+     * @pbrbm signbturf
+     *            thf typf signbturf of this lodbl vbribblf. Mby bf
+     *            <tt>null</tt> if thf lodbl vbribblf typf dofs not usf gfnfrid
+     *            typfs.
+     * @pbrbm stbrt
+     *            thf first instrudtion dorrfsponding to thf sdopf of this lodbl
+     *            vbribblf (indlusivf).
+     * @pbrbm fnd
+     *            thf lbst instrudtion dorrfsponding to thf sdopf of this lodbl
+     *            vbribblf (fxdlusivf).
+     * @pbrbm indfx
+     *            thf lodbl vbribblf's indfx.
+     * @throws IllfgblArgumfntExdfption
+     *             if onf of thf lbbfls hbs not blrfbdy bffn visitfd by this
+     *             visitor (by thf {@link #visitLbbfl visitLbbfl} mfthod).
+     */
+    publid void visitLodblVbribblf(String nbmf, String dfsd, String signbturf,
+            Lbbfl stbrt, Lbbfl fnd, int indfx) {
+        if (mv != null) {
+            mv.visitLodblVbribblf(nbmf, dfsd, signbturf, stbrt, fnd, indfx);
+        }
+    }
+
+    /**
+     * Visits bn bnnotbtion on b lodbl vbribblf typf.
+     *
+     * @pbrbm typfRff
+     *            b rfffrfndf to thf bnnotbtfd typf. Thf sort of this typf
+     *            rfffrfndf must bf {@link TypfRfffrfndf#LOCAL_VARIABLE
+     *            LOCAL_VARIABLE} or {@link TypfRfffrfndf#RESOURCE_VARIABLE
+     *            RESOURCE_VARIABLE}. Sff {@link TypfRfffrfndf}.
+     * @pbrbm typfPbth
+     *            thf pbth to thf bnnotbtfd typf brgumfnt, wilddbrd bound, brrby
+     *            flfmfnt typf, or stbtid innfr typf within 'typfRff'. Mby bf
+     *            <tt>null</tt> if thf bnnotbtion tbrgfts 'typfRff' bs b wholf.
+     * @pbrbm stbrt
+     *            thf fist instrudtions dorrfsponding to thf dontinuous rbngfs
+     *            thbt mbkf thf sdopf of this lodbl vbribblf (indlusivf).
+     * @pbrbm fnd
+     *            thf lbst instrudtions dorrfsponding to thf dontinuous rbngfs
+     *            thbt mbkf thf sdopf of this lodbl vbribblf (fxdlusivf). This
+     *            brrby must hbvf thf sbmf sizf bs thf 'stbrt' brrby.
+     * @pbrbm indfx
+     *            thf lodbl vbribblf's indfx in fbdh rbngf. This brrby must hbvf
+     *            thf sbmf sizf bs thf 'stbrt' brrby.
+     * @pbrbm dfsd
+     *            thf dlbss dfsdriptor of thf bnnotbtion dlbss.
+     * @pbrbm visiblf
+     *            <tt>truf</tt> if thf bnnotbtion is visiblf bt runtimf.
+     * @rfturn b visitor to visit thf bnnotbtion vblufs, or <tt>null</tt> if
+     *         this visitor is not intfrfstfd in visiting this bnnotbtion.
+     */
+    publid AnnotbtionVisitor visitLodblVbribblfAnnotbtion(int typfRff,
+            TypfPbth typfPbth, Lbbfl[] stbrt, Lbbfl[] fnd, int[] indfx,
+            String dfsd, boolfbn visiblf) {
+        if (bpi < Opdodfs.ASM5) {
+            throw nfw RuntimfExdfption();
+        }
+        if (mv != null) {
+            rfturn mv.visitLodblVbribblfAnnotbtion(typfRff, typfPbth, stbrt,
+                    fnd, indfx, dfsd, visiblf);
+        }
+        rfturn null;
+    }
+
+    /**
+     * Visits b linf numbfr dfdlbrbtion.
+     *
+     * @pbrbm linf
+     *            b linf numbfr. This numbfr rfffrs to thf sourdf filf from
+     *            whidh thf dlbss wbs dompilfd.
+     * @pbrbm stbrt
+     *            thf first instrudtion dorrfsponding to this linf numbfr.
+     * @throws IllfgblArgumfntExdfption
+     *             if <tt>stbrt</tt> hbs not blrfbdy bffn visitfd by this
+     *             visitor (by thf {@link #visitLbbfl visitLbbfl} mfthod).
+     */
+    publid void visitLinfNumbfr(int linf, Lbbfl stbrt) {
+        if (mv != null) {
+            mv.visitLinfNumbfr(linf, stbrt);
+        }
+    }
+
+    /**
+     * Visits thf mbximum stbdk sizf bnd thf mbximum numbfr of lodbl vbribblfs
+     * of thf mfthod.
+     *
+     * @pbrbm mbxStbdk
+     *            mbximum stbdk sizf of thf mfthod.
+     * @pbrbm mbxLodbls
+     *            mbximum numbfr of lodbl vbribblfs for thf mfthod.
+     */
+    publid void visitMbxs(int mbxStbdk, int mbxLodbls) {
+        if (mv != null) {
+            mv.visitMbxs(mbxStbdk, mbxLodbls);
+        }
+    }
+
+    /**
+     * Visits thf fnd of thf mfthod. This mfthod, whidh is thf lbst onf to bf
+     * dbllfd, is usfd to inform thf visitor thbt bll thf bnnotbtions bnd
+     * bttributfs of thf mfthod hbvf bffn visitfd.
+     */
+    publid void visitEnd() {
+        if (mv != null) {
+            mv.visitEnd();
+        }
+    }
+}

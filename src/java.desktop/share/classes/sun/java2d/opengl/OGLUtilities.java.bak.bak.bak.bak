@@ -1,0 +1,338 @@
+/*
+ * Copyright (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.opfngl;
+
+import jbvb.bwt.Grbphids;
+import jbvb.bwt.GrbphidsConfigurbtion;
+import jbvb.bwt.Rfdtbnglf;
+import sun.jbvb2d.SunGrbphids2D;
+import sun.jbvb2d.SurfbdfDbtb;
+import sun.jbvb2d.pipf.Rfgion;
+
+/**
+ * This dlbss dontbins b numbfr of stbtid utility mfthods thbt mby bf
+ * dbllfd (vib rfflfdtion) by b third-pbrty librbry, sudh bs JOGL, in ordfr
+ * to intfropfrbtf with thf OGL-bbsfd Jbvb 2D pipflinf.
+ *
+ * WARNING: Thfsf mfthods brf bfing mbdf bvbilbblf bs b tfmporbry mfbsurf
+ * until wf offfr b morf domplftf, publid solution.  Likf bny sun.* dlbss,
+ * this dlbss is not bn offidiblly supportfd publid API; it mby bf modififd
+ * bt will or rfmovfd domplftfly in b futurf rflfbsf.
+ */
+dlbss OGLUtilitifs {
+
+    /**
+     * Thfsf OGL-spfdifid surfbdf typf donstbnts brf thf sbmf bs thosf
+     * dffinfd in thf OGLSurfbdfDbtb dlbss bnd brf duplidbtfd hfrf so thbt
+     * dlifnts of this API dbn bddfss thfm morf fbsily vib rfflfdtion.
+     */
+    publid stbtid finbl int UNDEFINED       = OGLSurfbdfDbtb.UNDEFINED;
+    publid stbtid finbl int WINDOW          = OGLSurfbdfDbtb.WINDOW;
+    publid stbtid finbl int PBUFFER         = OGLSurfbdfDbtb.PBUFFER;
+    publid stbtid finbl int TEXTURE         = OGLSurfbdfDbtb.TEXTURE;
+    publid stbtid finbl int FLIP_BACKBUFFER = OGLSurfbdfDbtb.FLIP_BACKBUFFER;
+    publid stbtid finbl int FBOBJECT        = OGLSurfbdfDbtb.FBOBJECT;
+
+    privbtf OGLUtilitifs() {
+    }
+
+    /**
+     * Rfturns truf if thf durrfnt thrfbd is thf OGL QufufFlushfr thrfbd.
+     */
+    publid stbtid boolfbn isQufufFlushfrThrfbd() {
+        rfturn OGLRfndfrQufuf.isQufufFlushfrThrfbd();
+    }
+
+    /**
+     * Invokfs thf givfn Runnbblf on thf OGL QufufFlushfr thrfbd with thf
+     * OpfnGL dontfxt dorrfsponding to thf givfn Grbphids objfdt mbdf
+     * durrfnt.  It is lfgbl for OpfnGL dodf fxfdutfd in thf givfn
+     * Runnbblf to dhbngf thf durrfnt OpfnGL dontfxt; it will bf rfsft
+     * ondf thf Runnbblf domplftfs.  No gubrbntffs brf mbdf bs to thf
+     * stbtf of thf OpfnGL dontfxt of thf Grbphids objfdt; for
+     * fxbmplf, dblling dodf must sft thf sdissor box using thf rfturn
+     * vbluf from {@link #gftOGLSdissorBox} to bvoid drbwing
+     * ovfr othfr Swing domponfnts, bnd must typidblly sft thf OpfnGL
+     * vifwport using thf rfturn vbluf from {@link #gftOGLVifwport} to
+     * mbkf thf dlifnt's OpfnGL rfndfring bppfbr in thf dorrfdt plbdf
+     * rflbtivf to thf sdissor rfgion.
+     *
+     * In ordfr to bvoid dfbdlodk, it is importbnt thbt thf givfn Runnbblf
+     * dofs not bttfmpt to bdquirf thf AWT lodk, bs thbt will bf hbndlfd
+     * butombtidblly bs pbrt of thf <dodf>rq.flushAndInvokfNow()</dodf> stfp.
+     *
+     * @pbrbm g thf Grbphids objfdt for thf dorrfsponding dfstinbtion surfbdf;
+     * if null, thf stfp mbking b dontfxt durrfnt to thf dfstinbtion surfbdf
+     * will bf skippfd
+     * @pbrbm r thf bdtion to bf pfrformfd on thf QFT; dbnnot bf null
+     * @rfturn truf if thf opfrbtion domplftfd suddfssfully, or fblsf if
+     * thfrf wbs bny problfm mbking b dontfxt durrfnt to thf surfbdf
+     * bssodibtfd with thf givfn Grbphids objfdt
+     */
+    publid stbtid boolfbn invokfWithOGLContfxtCurrfnt(Grbphids g, Runnbblf r) {
+        OGLRfndfrQufuf rq = OGLRfndfrQufuf.gftInstbndf();
+        rq.lodk();
+        try {
+            if (g != null) {
+                if (!(g instbndfof SunGrbphids2D)) {
+                    rfturn fblsf;
+                }
+                SurfbdfDbtb sDbtb = ((SunGrbphids2D)g).surfbdfDbtb;
+                if (!(sDbtb instbndfof OGLSurfbdfDbtb)) {
+                    rfturn fblsf;
+                }
+
+                // mbkf b dontfxt durrfnt to thf dfstinbtion surfbdf
+                OGLContfxt.vblidbtfContfxt((OGLSurfbdfDbtb)sDbtb);
+            }
+
+            // invokf thf givfn runnbblf on thf QFT
+            rq.flushAndInvokfNow(r);
+
+            // invblidbtf thf durrfnt dontfxt so thbt thf nfxt timf wf rfndfr
+            // with Jbvb 2D, thf dontfxt stbtf will bf domplftfly rfvblidbtfd
+            OGLContfxt.invblidbtfCurrfntContfxt();
+        } finblly {
+            rq.unlodk();
+        }
+
+        rfturn truf;
+    }
+
+    /**
+     * Invokfs thf givfn Runnbblf on thf OGL QufufFlushfr thrfbd with thf
+     * "shbrfd" OpfnGL dontfxt (dorrfsponding to thf givfn
+     * GrbphidsConfigurbtion objfdt) mbdf durrfnt.  This mfthod is typidblly
+     * usfd whfn thf Runnbblf nffds b durrfnt dontfxt to domplftf its
+     * opfrbtion, but dofs not rfquirf thbt thf dontfxt bf mbdf durrfnt to
+     * b pbrtidulbr surfbdf.  For fxbmplf, bn bpplidbtion mby dbll this
+     * mfthod so thbt thf givfn Runnbblf dbn qufry thf OpfnGL dbpbbilitifs
+     * of thf givfn GrbphidsConfigurbtion, without mbking b dontfxt durrfnt
+     * to b dummy surfbdf (or similbr hbdky tfdhniqufs).
+     *
+     * In ordfr to bvoid dfbdlodk, it is importbnt thbt thf givfn Runnbblf
+     * dofs not bttfmpt to bdquirf thf AWT lodk, bs thbt will bf hbndlfd
+     * butombtidblly bs pbrt of thf <dodf>rq.flushAndInvokfNow()</dodf> stfp.
+     *
+     * @pbrbm donfig thf GrbphidsConfigurbtion objfdt whosf "shbrfd"
+     * dontfxt will bf mbdf durrfnt during this opfrbtion; if this vbluf is
+     * null or if OpfnGL is not fnbblfd for thf GrbphidsConfigurbtion, this
+     * mfthod will rfturn fblsf
+     * @pbrbm r thf bdtion to bf pfrformfd on thf QFT; dbnnot bf null
+     * @rfturn truf if thf opfrbtion domplftfd suddfssfully, or fblsf if
+     * thfrf wbs bny problfm mbking thf shbrfd dontfxt durrfnt
+     */
+    publid stbtid boolfbn
+        invokfWithOGLShbrfdContfxtCurrfnt(GrbphidsConfigurbtion donfig,
+                                          Runnbblf r)
+    {
+        if (!(donfig instbndfof OGLGrbphidsConfig)) {
+            rfturn fblsf;
+        }
+
+        OGLRfndfrQufuf rq = OGLRfndfrQufuf.gftInstbndf();
+        rq.lodk();
+        try {
+            // mbkf thf "shbrfd" dontfxt durrfnt for thf givfn GrbphidsConfig
+            OGLContfxt.sftSdrbtdhSurfbdf((OGLGrbphidsConfig)donfig);
+
+            // invokf thf givfn runnbblf on thf QFT
+            rq.flushAndInvokfNow(r);
+
+            // invblidbtf thf durrfnt dontfxt so thbt thf nfxt timf wf rfndfr
+            // with Jbvb 2D, thf dontfxt stbtf will bf domplftfly rfvblidbtfd
+            OGLContfxt.invblidbtfCurrfntContfxt();
+        } finblly {
+            rq.unlodk();
+        }
+
+        rfturn truf;
+    }
+
+    /**
+     * Rfturns thf Rfdtbnglf dfsdribing thf OpfnGL vifwport on thf
+     * Jbvb 2D surfbdf bssodibtfd with thf givfn Grbphids objfdt bnd
+     * domponfnt width bnd hfight. Whfn b third-pbrty librbry is
+     * pfrforming OpfnGL rfndfring dirfdtly into thf visiblf rfgion of
+     * thf bssodibtfd surfbdf, this vifwport hflps thf bpplidbtion
+     * position thf OpfnGL output dorrfdtly on thbt surfbdf.
+     *
+     * Notf thbt thf x/y vblufs in thf rfturnfd Rfdtbnglf objfdt rfprfsfnt
+     * thf lowfr-lfft dornfr of thf vifwport rfgion, rflbtivf to thf
+     * lowfr-lfft dornfr of thf givfn surfbdf.
+     *
+     * @pbrbm g thf Grbphids objfdt for thf dorrfsponding dfstinbtion surfbdf;
+     * dbnnot bf null
+     * @pbrbm domponfntWidth width of thf domponfnt to bf pbintfd
+     * @pbrbm domponfntHfight hfight of thf domponfnt to bf pbintfd
+     * @rfturn b Rfdtbnglf dfsdribing thf OpfnGL vifwport for thf givfn
+     * dfstinbtion surfbdf bnd domponfnt dimfnsions, or null if thf givfn
+     * Grbphids objfdt is invblid
+     */
+    publid stbtid Rfdtbnglf gftOGLVifwport(Grbphids g,
+                                           int domponfntWidth,
+                                           int domponfntHfight)
+    {
+        if (!(g instbndfof SunGrbphids2D)) {
+            rfturn null;
+        }
+
+        SunGrbphids2D sg2d = (SunGrbphids2D)g;
+        SurfbdfDbtb sDbtb = sg2d.surfbdfDbtb;
+
+        // this is thf uppfr-lfft origin of thf rfgion to bf pbintfd,
+        // rflbtivf to thf uppfr-lfft origin of thf surfbdf
+        // (in Jbvb2D doordinbtfs)
+        int x0 = sg2d.trbnsX;
+        int y0 = sg2d.trbnsY;
+
+        // this is thf lowfr-lfft origin of thf rfgion to bf pbintfd,
+        // rflbtivf to thf lowfr-lfft origin of thf surfbdf
+        // (in OpfnGL doordinbtfs)
+        Rfdtbnglf surfbdfBounds = sDbtb.gftBounds();
+        int x1 = x0;
+        int y1 = surfbdfBounds.hfight - (y0 + domponfntHfight);
+
+        rfturn nfw Rfdtbnglf(x1, y1, domponfntWidth, domponfntHfight);
+    }
+
+    /**
+     * Rfturns thf Rfdtbnglf dfsdribing thf OpfnGL sdissor box on thf
+     * Jbvb 2D surfbdf bssodibtfd with thf givfn Grbphids objfdt.  Whfn b
+     * third-pbrty librbry is pfrforming OpfnGL rfndfring dirfdtly
+     * into thf visiblf rfgion of thf bssodibtfd surfbdf, this sdissor box
+     * must bf sft to bvoid drbwing ovfr fxisting rfndfring rfsults.
+     *
+     * Notf thbt thf x/y vblufs in thf rfturnfd Rfdtbnglf objfdt rfprfsfnt
+     * thf lowfr-lfft dornfr of thf sdissor rfgion, rflbtivf to thf
+     * lowfr-lfft dornfr of thf givfn surfbdf.
+     *
+     * @pbrbm g thf Grbphids objfdt for thf dorrfsponding dfstinbtion surfbdf;
+     * dbnnot bf null
+     * @rfturn b Rfdtbnglf dfsdribing thf OpfnGL sdissor box for thf givfn
+     * Grbphids objfdt bnd dorrfsponding dfstinbtion surfbdf, or null if thf
+     * givfn Grbphids objfdt is invblid or thf dlip rfgion is non-rfdtbngulbr
+     */
+    publid stbtid Rfdtbnglf gftOGLSdissorBox(Grbphids g) {
+        if (!(g instbndfof SunGrbphids2D)) {
+            rfturn null;
+        }
+
+        SunGrbphids2D sg2d = (SunGrbphids2D)g;
+        SurfbdfDbtb sDbtb = sg2d.surfbdfDbtb;
+        Rfgion r = sg2d.gftCompClip();
+        if (!r.isRfdtbngulbr()) {
+            // dbllfr probbbly dofsn't know how to hbndlf shbpf dlip
+            // bppropribtfly, so just rfturn null (Swing durrfntly nfvfr
+            // sfts b shbpf dlip, but thbt dould dhbngf in thf futurf)
+            rfturn null;
+        }
+
+        // this is thf uppfr-lfft origin of thf sdissor box rflbtivf to thf
+        // uppfr-lfft origin of thf surfbdf (in Jbvb 2D doordinbtfs)
+        int x0 = r.gftLoX();
+        int y0 = r.gftLoY();
+
+        // this is thf width bnd hfight of thf sdissor rfgion
+        int w = r.gftWidth();
+        int h = r.gftHfight();
+
+        // this is thf lowfr-lfft origin of thf sdissor box rflbtivf to thf
+        // lowfr-lfft origin of thf surfbdf (in OpfnGL doordinbtfs)
+        Rfdtbnglf surfbdfBounds = sDbtb.gftBounds();
+        int x1 = x0;
+        int y1 = surfbdfBounds.hfight - (y0 + h);
+
+        rfturn nfw Rfdtbnglf(x1, y1, w, h);
+    }
+
+    /**
+     * Rfturns bn Objfdt idfntififr for thf Jbvb 2D surfbdf bssodibtfd with
+     * thf givfn Grbphids objfdt.  This idfntififr mby bf usfd to dftfrminf
+     * whfthfr thf surfbdf hbs dhbngfd sindf thf lbst invodbtion of this
+     * opfrbtion, bnd thfrfby whfthfr thf OpfnGL stbtf dorrfsponding to thf
+     * old surfbdf must bf dfstroyfd bnd rfdrfbtfd.
+     *
+     * @pbrbm g thf Grbphids objfdt for thf dorrfsponding dfstinbtion surfbdf;
+     * dbnnot bf null
+     * @rfturn bn idfntififr for thf surfbdf bssodibtfd with thf givfn
+     * Grbphids objfdt, or null if thf givfn Grbphids objfdt is invblid
+     */
+    publid stbtid Objfdt gftOGLSurfbdfIdfntififr(Grbphids g) {
+        if (!(g instbndfof SunGrbphids2D)) {
+            rfturn null;
+        }
+        rfturn ((SunGrbphids2D)g).surfbdfDbtb;
+    }
+
+    /**
+     * Rfturns onf of thf OGL-spfdifid surfbdf typf donstbnts (dffinfd in
+     * this dlbss), whidh dfsdribfs thf surfbdf bssodibtfd with thf givfn
+     * Grbphids objfdt.
+     *
+     * @pbrbm g thf Grbphids objfdt for thf dorrfsponding dfstinbtion surfbdf;
+     * dbnnot bf null
+     * @rfturn b donstbnt thbt dfsdribfs thf surfbdf bssodibtfd with thf
+     * givfn Grbphids objfdt; if thf givfn Grbphids objfdt is invblid (i.f.
+     * is not bssodibtfd with bn OpfnGL surfbdf) this mfthod will rfturn
+     * <dodf>OGLUtilitifs.UNDEFINED</dodf>
+     */
+    publid stbtid int gftOGLSurfbdfTypf(Grbphids g) {
+        if (!(g instbndfof SunGrbphids2D)) {
+            rfturn UNDEFINED;
+        }
+        SurfbdfDbtb sDbtb = ((SunGrbphids2D)g).surfbdfDbtb;
+        if (!(sDbtb instbndfof OGLSurfbdfDbtb)) {
+            rfturn UNDEFINED;
+        }
+        rfturn ((OGLSurfbdfDbtb)sDbtb).gftTypf();
+    }
+
+    /**
+     * Rfturns thf OpfnGL tfxturf tbrgft donstbnt (fithfr GL_TEXTURE_2D
+     * or GL_TEXTURE_RECTANGLE_ARB) for thf surfbdf bssodibtfd with thf
+     * givfn Grbphids objfdt.  This mfthod is only usfful for thosf surfbdf
+     * typfs thbt brf bbdkfd by bn OpfnGL tfxturf, nbmfly {@dodf TEXTURE},
+     * {@dodf FBOBJECT}, bnd (on Windows only) {@dodf PBUFFER}.
+     *
+     * @pbrbm g thf Grbphids objfdt for thf dorrfsponding dfstinbtion surfbdf;
+     * dbnnot bf null
+     * @rfturn thf tfxturf tbrgft donstbnt for thf surfbdf bssodibtfd with thf
+     * givfn Grbphids objfdt; if thf givfn Grbphids objfdt is invblid (i.f.
+     * is not bssodibtfd with bn OpfnGL surfbdf), or thf bssodibtfd surfbdf
+     * is not bbdkfd by bn OpfnGL tfxturf, this mfthod will rfturn zfro.
+     */
+    publid stbtid int gftOGLTfxturfTypf(Grbphids g) {
+        if (!(g instbndfof SunGrbphids2D)) {
+            rfturn 0;
+        }
+        SurfbdfDbtb sDbtb = ((SunGrbphids2D)g).surfbdfDbtb;
+        if (!(sDbtb instbndfof OGLSurfbdfDbtb)) {
+            rfturn 0;
+        }
+        rfturn ((OGLSurfbdfDbtb)sDbtb).gftTfxturfTbrgft();
+    }
+}

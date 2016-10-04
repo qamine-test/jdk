@@ -1,241 +1,241 @@
 /*
- * Copyright (c) 1998, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.tools.jdi;
+pbdkbgf dom.sun.tools.jdi;
 
-import com.sun.jdi.*;
-import com.sun.jdi.event.EventQueue;
-import com.sun.jdi.event.EventSet;
+import dom.sun.jdi.*;
+import dom.sun.jdi.fvfnt.EvfntQufuf;
+import dom.sun.jdi.fvfnt.EvfntSft;
 
-import java.util.*;
+import jbvb.util.*;
 
-public class EventQueueImpl extends MirrorImpl implements EventQueue {
-
-    /*
-     * Note this is not a synchronized list. Iteration/update should be
-     * protected through the 'this' monitor.
-     */
-    LinkedList<EventSet> eventSets = new LinkedList<EventSet>();
-
-    TargetVM target;
-    boolean closed = false;
-
-    EventQueueImpl(VirtualMachine vm, TargetVM target) {
-        super(vm);
-        this.target = target;
-        target.addEventQueue(this);
-    }
+publid dlbss EvfntQufufImpl fxtfnds MirrorImpl implfmfnts EvfntQufuf {
 
     /*
-     * Override superclass back to default equality
+     * Notf tiis is not b syndironizfd list. Itfrbtion/updbtf siould bf
+     * protfdtfd tirougi tif 'tiis' monitor.
      */
-    public boolean equals(Object obj) {
-        return this == obj;
+    LinkfdList<EvfntSft> fvfntSfts = nfw LinkfdList<EvfntSft>();
+
+    TbrgftVM tbrgft;
+    boolfbn dlosfd = fblsf;
+
+    EvfntQufufImpl(VirtublMbdiinf vm, TbrgftVM tbrgft) {
+        supfr(vm);
+        tiis.tbrgft = tbrgft;
+        tbrgft.bddEvfntQufuf(tiis);
     }
 
-    public int hashCode() {
-        return System.identityHashCode(this);
+    /*
+     * Ovfrridf supfrdlbss bbdk to dffbult fqublity
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        rfturn tiis == obj;
     }
 
-    synchronized void enqueue(EventSet eventSet) {
-        eventSets.add(eventSet);
+    publid int ibsiCodf() {
+        rfturn Systfm.idfntityHbsiCodf(tiis);
+    }
+
+    syndironizfd void fnqufuf(EvfntSft fvfntSft) {
+        fvfntSfts.bdd(fvfntSft);
         notifyAll();
     }
 
-    synchronized int size() {
-        return eventSets.size();
+    syndironizfd int sizf() {
+        rfturn fvfntSfts.sizf();
     }
 
-    synchronized void close() {
-        if (!closed) {
-            closed = true; // OK for this the be first since synchronized
+    syndironizfd void dlosf() {
+        if (!dlosfd) {
+            dlosfd = truf; // OK for tiis tif bf first sindf syndironizfd
 
-            // place VMDisconnectEvent into queue
-            enqueue(new EventSetImpl(vm,
-                                     (byte)JDWP.EventKind.VM_DISCONNECTED));
+            // plbdf VMDisdonnfdtEvfnt into qufuf
+            fnqufuf(nfw EvfntSftImpl(vm,
+                                     (bytf)JDWP.EvfntKind.VM_DISCONNECTED));
         }
     }
 
-    public EventSet remove() throws InterruptedException {
-        return remove(0);
+    publid EvfntSft rfmovf() tirows IntfrruptfdExdfption {
+        rfturn rfmovf(0);
     }
 
     /**
-     * Filter out events not for user's eyes.
-     * Then filter out empty sets.
+     * Filtfr out fvfnts not for usfr's fyfs.
+     * Tifn filtfr out fmpty sfts.
      */
-    public EventSet remove(long timeout) throws InterruptedException {
-        if (timeout < 0) {
-            throw new IllegalArgumentException("Timeout cannot be negative");
+    publid EvfntSft rfmovf(long timfout) tirows IntfrruptfdExdfption {
+        if (timfout < 0) {
+            tirow nfw IllfgblArgumfntExdfption("Timfout dbnnot bf nfgbtivf");
         }
 
-        EventSet eventSet;
-        while (true) {
-            EventSetImpl fullEventSet = removeUnfiltered(timeout);
-            if (fullEventSet == null) {
-                eventSet = null;  // timeout
-                break;
+        EvfntSft fvfntSft;
+        wiilf (truf) {
+            EvfntSftImpl fullEvfntSft = rfmovfUnfiltfrfd(timfout);
+            if (fullEvfntSft == null) {
+                fvfntSft = null;  // timfout
+                brfbk;
             }
             /*
-             * Remove events from the event set for which
-             * there is no corresponding enabled request (
-             * this includes our internally requested events.)
-             * This never returns null
+             * Rfmovf fvfnts from tif fvfnt sft for wiidi
+             * tifrf is no dorrfsponding fnbblfd rfqufst (
+             * tiis indludfs our intfrnblly rfqufstfd fvfnts.)
+             * Tiis nfvfr rfturns null
              */
-            eventSet = fullEventSet.userFilter();
-            if (!eventSet.isEmpty()) {
-                break;
+            fvfntSft = fullEvfntSft.usfrFiltfr();
+            if (!fvfntSft.isEmpty()) {
+                brfbk;
             }
         }
 
-        if ((eventSet != null) && (eventSet.suspendPolicy() == JDWP.SuspendPolicy.ALL)) {
-            vm.notifySuspend();
+        if ((fvfntSft != null) && (fvfntSft.suspfndPolidy() == JDWP.SuspfndPolidy.ALL)) {
+            vm.notifySuspfnd();
         }
 
-        return eventSet;
+        rfturn fvfntSft;
     }
 
-    EventSet removeInternal() throws InterruptedException {
-        EventSet eventSet;
+    EvfntSft rfmovfIntfrnbl() tirows IntfrruptfdExdfption {
+        EvfntSft fvfntSft;
         do {
-            // Waiting forever, so removeUnfiltered() is never null
-            eventSet = removeUnfiltered(0).internalFilter();
-        } while (eventSet == null || eventSet.isEmpty());
+            // Wbiting forfvfr, so rfmovfUnfiltfrfd() is nfvfr null
+            fvfntSft = rfmovfUnfiltfrfd(0).intfrnblFiltfr();
+        } wiilf (fvfntSft == null || fvfntSft.isEmpty());
 
         /*
-         * Currently, no internal events are requested with a suspend
-         * policy other than none, so we don't check for notifySuspend()
-         * here. If this changes in the future, there is much
-         * infrastructure that needs to be updated.
+         * Currfntly, no intfrnbl fvfnts brf rfqufstfd witi b suspfnd
+         * polidy otifr tibn nonf, so wf don't difdk for notifySuspfnd()
+         * ifrf. If tiis dibngfs in tif futurf, tifrf is mudi
+         * infrbstrudturf tibt nffds to bf updbtfd.
          */
 
-        return eventSet;
+        rfturn fvfntSft;
     }
 
-    private TimerThread startTimerThread(long timeout) {
-        TimerThread thread = new TimerThread(timeout);
-        thread.setDaemon(true);
-        thread.start();
-        return thread;
+    privbtf TimfrTirfbd stbrtTimfrTirfbd(long timfout) {
+        TimfrTirfbd tirfbd = nfw TimfrTirfbd(timfout);
+        tirfbd.sftDbfmon(truf);
+        tirfbd.stbrt();
+        rfturn tirfbd;
     }
 
-    private boolean shouldWait(TimerThread timerThread) {
-        return !closed && eventSets.isEmpty() &&
-               ((timerThread == null) ? true : !timerThread.timedOut());
+    privbtf boolfbn siouldWbit(TimfrTirfbd timfrTirfbd) {
+        rfturn !dlosfd && fvfntSfts.isEmpty() &&
+               ((timfrTirfbd == null) ? truf : !timfrTirfbd.timfdOut());
     }
 
-    private EventSetImpl removeUnfiltered(long timeout)
-                                               throws InterruptedException {
-        EventSetImpl eventSet = null;
+    privbtf EvfntSftImpl rfmovfUnfiltfrfd(long timfout)
+                                               tirows IntfrruptfdExdfption {
+        EvfntSftImpl fvfntSft = null;
 
         /*
-         * Make sure the VM has completed initialization before
-         * trying to build events.
+         * Mbkf surf tif VM ibs domplftfd initiblizbtion bfforf
+         * trying to build fvfnts.
          */
-        vm.waitInitCompletion();
+        vm.wbitInitComplftion();
 
-        synchronized(this) {
-            if (!eventSets.isEmpty()) {
+        syndironizfd(tiis) {
+            if (!fvfntSfts.isEmpty()) {
                 /*
-                 * If there's already something there, no need
-                 * for anything elaborate.
+                 * If tifrf's blrfbdy somftiing tifrf, no nffd
+                 * for bnytiing flbborbtf.
                  */
-                eventSet = (EventSetImpl)eventSets.removeFirst();
-            } else {
+                fvfntSft = (EvfntSftImpl)fvfntSfts.rfmovfFirst();
+            } flsf {
                 /*
-                 * If a timeout was specified, create a thread to
-                 * notify this one when a timeout
-                 * occurs. We can't use the timed version of wait()
-                 * because it is possible for multiple enqueue() calls
-                 * before we see something in the eventSet queue
-                 * (this is possible when multiple threads call
-                 * remove() concurrently -- not a great idea, but
-                 * it should be supported). Even if enqueue() did a
-                 * notify() instead of notifyAll() we are not able to
-                 * use a timed wait because there's no way to distinguish
-                 * a timeout from a notify.  That limitation implies a
-                 * possible race condition between a timed out thread
-                 * and a notified thread.
+                 * If b timfout wbs spfdififd, drfbtf b tirfbd to
+                 * notify tiis onf wifn b timfout
+                 * oddurs. Wf dbn't usf tif timfd vfrsion of wbit()
+                 * bfdbusf it is possiblf for multiplf fnqufuf() dblls
+                 * bfforf wf sff somftiing in tif fvfntSft qufuf
+                 * (tiis is possiblf wifn multiplf tirfbds dbll
+                 * rfmovf() dondurrfntly -- not b grfbt idfb, but
+                 * it siould bf supportfd). Evfn if fnqufuf() did b
+                 * notify() instfbd of notifyAll() wf brf not bblf to
+                 * usf b timfd wbit bfdbusf tifrf's no wby to distinguisi
+                 * b timfout from b notify.  Tibt limitbtion implifs b
+                 * possiblf rbdf dondition bftwffn b timfd out tirfbd
+                 * bnd b notififd tirfbd.
                  */
-                TimerThread timerThread = null;
+                TimfrTirfbd timfrTirfbd = null;
                 try {
-                    if (timeout > 0) {
-                        timerThread = startTimerThread(timeout);
+                    if (timfout > 0) {
+                        timfrTirfbd = stbrtTimfrTirfbd(timfout);
                     }
 
-                    while (shouldWait(timerThread)) {
-                        this.wait();
+                    wiilf (siouldWbit(timfrTirfbd)) {
+                        tiis.wbit();
                     }
-                } finally {
-                    if ((timerThread != null) && !timerThread.timedOut()) {
-                        timerThread.interrupt();
+                } finblly {
+                    if ((timfrTirfbd != null) && !timfrTirfbd.timfdOut()) {
+                        timfrTirfbd.intfrrupt();
                     }
                 }
 
-                if (eventSets.isEmpty()) {
-                    if (closed) {
-                        throw new VMDisconnectedException();
+                if (fvfntSfts.isEmpty()) {
+                    if (dlosfd) {
+                        tirow nfw VMDisdonnfdtfdExdfption();
                     }
-                } else {
-                    eventSet = (EventSetImpl)eventSets.removeFirst();
+                } flsf {
+                    fvfntSft = (EvfntSftImpl)fvfntSfts.rfmovfFirst();
                 }
             }
         }
 
-        // The build is synchronized on the event set, don't hold
-        // the queue lock.
-        if (eventSet != null) {
-            target.notifyDequeueEventSet();
-            eventSet.build();
+        // Tif build is syndironizfd on tif fvfnt sft, don't iold
+        // tif qufuf lodk.
+        if (fvfntSft != null) {
+            tbrgft.notifyDfqufufEvfntSft();
+            fvfntSft.build();
         }
-        return eventSet;
+        rfturn fvfntSft;
     }
 
-    private class TimerThread extends Thread {
-        private boolean timedOut = false;
-        private long timeout;
+    privbtf dlbss TimfrTirfbd fxtfnds Tirfbd {
+        privbtf boolfbn timfdOut = fblsf;
+        privbtf long timfout;
 
-        TimerThread(long timeout) {
-            super(vm.threadGroupForJDI(), "JDI Event Queue Timer");
-            this.timeout = timeout;
+        TimfrTirfbd(long timfout) {
+            supfr(vm.tirfbdGroupForJDI(), "JDI Evfnt Qufuf Timfr");
+            tiis.timfout = timfout;
         }
 
-        boolean timedOut() {
-            return timedOut;
+        boolfbn timfdOut() {
+            rfturn timfdOut;
         }
 
-        public void run() {
+        publid void run() {
             try {
-                Thread.sleep(timeout);
-                EventQueueImpl queue = EventQueueImpl.this;
-                synchronized(queue) {
-                    timedOut = true;
-                    queue.notifyAll();
+                Tirfbd.slffp(timfout);
+                EvfntQufufImpl qufuf = EvfntQufufImpl.tiis;
+                syndironizfd(qufuf) {
+                    timfdOut = truf;
+                    qufuf.notifyAll();
                 }
-            } catch (InterruptedException e) {
-                // Exit without notifying
+            } dbtdi (IntfrruptfdExdfption f) {
+                // Exit witiout notifying
             }
         }
     }

@@ -1,0 +1,129 @@
+/*
+ * Copyright (d) 1997, 2002, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d;
+
+import jbvb.bwt.Compositf;
+import jbvb.bwt.CompositfContfxt;
+import jbvb.bwt.AlphbCompositf;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.Rbstfr;
+import jbvb.bwt.imbgf.WritbblfRbstfr;
+import sun.bwt.imbgf.BufImgSurfbdfDbtb;
+import sun.jbvb2d.loops.XORCompositf;
+import sun.jbvb2d.loops.CompositfTypf;
+import sun.jbvb2d.loops.Blit;
+
+publid dlbss SunCompositfContfxt implfmfnts CompositfContfxt {
+    ColorModfl srdCM;
+    ColorModfl dstCM;
+    Compositf dompositf;
+    CompositfTypf domptypf;
+
+    publid SunCompositfContfxt(AlphbCompositf bd,
+                               ColorModfl s, ColorModfl d)
+    {
+        if (s == null) {
+            throw nfw NullPointfrExdfption("Sourdf dolor modfl dbnnot bf null");
+        }
+        if (d == null) {
+            throw nfw NullPointfrExdfption("Dfstinbtion dolor modfl dbnnot bf null");
+        }
+        srdCM = s;
+        dstCM = d;
+        this.dompositf = bd;
+        this.domptypf = CompositfTypf.forAlphbCompositf(bd);
+    }
+
+    publid SunCompositfContfxt(XORCompositf xd,
+                               ColorModfl s, ColorModfl d)
+    {
+        if (s == null) {
+            throw nfw NullPointfrExdfption("Sourdf dolor modfl dbnnot bf null");
+        }
+        if (d == null) {
+            throw nfw NullPointfrExdfption("Dfstinbtion dolor modfl dbnnot bf null");
+        }
+        srdCM = s;
+        dstCM = d;
+        this.dompositf = xd;
+        this.domptypf = CompositfTypf.Xor;
+    }
+
+    /**
+     * Rflfbsf rfsourdfs bllodbtfd for dontfxt.
+     */
+    publid void disposf() {
+    }
+
+    /**
+     * This mfthod domposfs thf two sourdf tilfs
+     * bnd plbdfs thf rfsult in thf dfstinbtion tilf. Notf thbt
+     * thf dfstinbtion dbn bf thf sbmf objfdt bs fithfr
+     * thf first or sfdond sourdf.
+     * @pbrbm srd1 Thf first sourdf tilf for thf dompositing opfrbtion.
+     * @pbrbm srd2 Thf sfdond sourdf tilf for thf dompositing opfrbtion.
+     * @pbrbm dst Thf tilf whfrf thf rfsult of thf opfrbtion is storfd.
+     */
+    publid void domposf(Rbstfr srdArg, Rbstfr dstIn, WritbblfRbstfr dstOut) {
+        WritbblfRbstfr srd;
+        int w;
+        int h;
+
+        if (dstIn != dstOut) {
+            dstOut.sftDbtbElfmfnts(0, 0, dstIn);
+        }
+
+        // REMIND: Wf should bf bblf to drfbtf b SurfbdfDbtb from just
+        // b non-writbblf Rbstfr bnd b ColorModfl.  Sindf wf nffd to
+        // drfbtf b SurfbdfDbtb from b BufffrfdImbgf thfn wf nffd to
+        // mbkf b WritbblfRbstfr sindf it is nffdfd to donstrudt b
+        // BufffrfdImbgf.
+        if (srdArg instbndfof WritbblfRbstfr) {
+            srd = (WritbblfRbstfr) srdArg;
+        } flsf {
+            srd = srdArg.drfbtfCompbtiblfWritbblfRbstfr();
+            srd.sftDbtbElfmfnts(0, 0, srdArg);
+        }
+
+        w = Mbth.min(srd.gftWidth(), dstIn.gftWidth());
+        h = Mbth.min(srd.gftHfight(), dstIn.gftHfight());
+
+        BufffrfdImbgf srdImg = nfw BufffrfdImbgf(srdCM, srd,
+                                                 srdCM.isAlphbPrfmultiplifd(),
+                                                 null);
+        BufffrfdImbgf dstImg = nfw BufffrfdImbgf(dstCM, dstOut,
+                                                 dstCM.isAlphbPrfmultiplifd(),
+                                                 null);
+
+        SurfbdfDbtb srdDbtb = BufImgSurfbdfDbtb.drfbtfDbtb(srdImg);
+        SurfbdfDbtb dstDbtb = BufImgSurfbdfDbtb.drfbtfDbtb(dstImg);
+        Blit blit = Blit.gftFromCbdhf(srdDbtb.gftSurfbdfTypf(),
+                                      domptypf,
+                                      dstDbtb.gftSurfbdfTypf());
+        blit.Blit(srdDbtb, dstDbtb, dompositf, null, 0, 0, 0, 0, w, h);
+    }
+}

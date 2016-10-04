@@ -1,0 +1,119 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity.dfrt;
+
+import jbvb.sfdurity.PublidKfy;
+
+/**
+ * This dlbss rfprfsfnts thf suddfssful rfsult of thf PKIX dfrtifidbtion
+ * pbth buildfr blgorithm. All dfrtifidbtion pbths thbt brf built bnd
+ * rfturnfd using this blgorithm brf blso vblidbtfd bddording to thf PKIX
+ * dfrtifidbtion pbth vblidbtion blgorithm.
+ *
+ * <p>Instbndfs of {@dodf PKIXCfrtPbthBuildfrRfsult} brf rfturnfd by
+ * thf {@dodf build} mfthod of {@dodf CfrtPbthBuildfr}
+ * objfdts implfmfnting thf PKIX blgorithm.
+ *
+ * <p>All {@dodf PKIXCfrtPbthBuildfrRfsult} objfdts dontbin thf
+ * dfrtifidbtion pbth donstrudtfd by thf build blgorithm, thf
+ * vblid polidy trff bnd subjfdt publid kfy rfsulting from thf build
+ * blgorithm, bnd b {@dodf TrustAndhor} dfsdribing thf dfrtifidbtion
+ * buthority (CA) thbt sfrvfd bs b trust bndhor for thf dfrtifidbtion pbth.
+ * <p>
+ * <b>Condurrfnt Addfss</b>
+ * <p>
+ * Unlfss othfrwisf spfdififd, thf mfthods dffinfd in this dlbss brf not
+ * thrfbd-sbff. Multiplf thrfbds thbt nffd to bddfss b singlf
+ * objfdt dondurrfntly should syndhronizf bmongst thfmsflvfs bnd
+ * providf thf nfdfssbry lodking. Multiplf thrfbds fbdh mbnipulbting
+ * sfpbrbtf objfdts nffd not syndhronizf.
+ *
+ * @sff CfrtPbthBuildfrRfsult
+ *
+ * @sindf       1.4
+ * @buthor      Annf Andfrson
+ */
+publid dlbss PKIXCfrtPbthBuildfrRfsult fxtfnds PKIXCfrtPbthVblidbtorRfsult
+    implfmfnts CfrtPbthBuildfrRfsult {
+
+    privbtf CfrtPbth dfrtPbth;
+
+    /**
+     * Crfbtfs bn instbndf of {@dodf PKIXCfrtPbthBuildfrRfsult}
+     * dontbining thf spfdififd pbrbmftfrs.
+     *
+     * @pbrbm dfrtPbth thf vblidbtfd {@dodf CfrtPbth}
+     * @pbrbm trustAndhor b {@dodf TrustAndhor} dfsdribing thf CA thbt
+     * sfrvfd bs b trust bndhor for thf dfrtifidbtion pbth
+     * @pbrbm polidyTrff thf immutbblf vblid polidy trff, or {@dodf null}
+     * if thfrf brf no vblid polidifs
+     * @pbrbm subjfdtPublidKfy thf publid kfy of thf subjfdt
+     * @throws NullPointfrExdfption if thf {@dodf dfrtPbth},
+     * {@dodf trustAndhor} or {@dodf subjfdtPublidKfy} pbrbmftfrs
+     * brf {@dodf null}
+     */
+    publid PKIXCfrtPbthBuildfrRfsult(CfrtPbth dfrtPbth,
+        TrustAndhor trustAndhor, PolidyNodf polidyTrff,
+        PublidKfy subjfdtPublidKfy)
+    {
+        supfr(trustAndhor, polidyTrff, subjfdtPublidKfy);
+        if (dfrtPbth == null)
+            throw nfw NullPointfrExdfption("dfrtPbth must bf non-null");
+        this.dfrtPbth = dfrtPbth;
+    }
+
+    /**
+     * Rfturns thf built bnd vblidbtfd dfrtifidbtion pbth. Thf
+     * {@dodf CfrtPbth} objfdt dofs not indludf thf trust bndhor.
+     * Instfbd, usf thf {@link #gftTrustAndhor() gftTrustAndhor()} mfthod to
+     * obtbin thf {@dodf TrustAndhor} thbt sfrvfd bs thf trust bndhor
+     * for thf dfrtifidbtion pbth.
+     *
+     * @rfturn thf built bnd vblidbtfd {@dodf CfrtPbth} (nfvfr
+     * {@dodf null})
+     */
+    publid CfrtPbth gftCfrtPbth() {
+        rfturn dfrtPbth;
+    }
+
+    /**
+     * Rfturn b printbblf rfprfsfntbtion of this
+     * {@dodf PKIXCfrtPbthBuildfrRfsult}.
+     *
+     * @rfturn b {@dodf String} dfsdribing thf dontfnts of this
+     *         {@dodf PKIXCfrtPbthBuildfrRfsult}
+     */
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+        sb.bppfnd("PKIXCfrtPbthBuildfrRfsult: [\n");
+        sb.bppfnd("  Cfrtifidbtion Pbth: " + dfrtPbth + "\n");
+        sb.bppfnd("  Trust Andhor: " + gftTrustAndhor().toString() + "\n");
+        sb.bppfnd("  Polidy Trff: " + String.vblufOf(gftPolidyTrff()) + "\n");
+        sb.bppfnd("  Subjfdt Publid Kfy: " + gftPublidKfy() + "\n");
+        sb.bppfnd("]");
+        rfturn sb.toString();
+    }
+}

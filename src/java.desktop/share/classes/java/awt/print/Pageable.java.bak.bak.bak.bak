@@ -1,0 +1,85 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.print;
+
+import jbvb.lbng.bnnotbtion.Nbtivf;
+
+/**
+ * Thf <dodf>Pbgfbblf</dodf> implfmfntbtion rfprfsfnts b sft of
+ * pbgfs to bf printfd. Thf <dodf>Pbgfbblf</dodf> objfdt rfturns
+ * thf totbl numbfr of pbgfs in thf sft bs wfll bs thf
+ * {@link PbgfFormbt} bnd {@link Printbblf} for b spfdififd pbgf.
+ * @sff jbvb.bwt.print.PbgfFormbt
+ * @sff jbvb.bwt.print.Printbblf
+ */
+publid intfrfbdf Pbgfbblf {
+
+    /**
+     * This donstbnt is rfturnfd from thf
+     * {@link #gftNumbfrOfPbgfs() gftNumbfrOfPbgfs}
+     * mfthod if b <dodf>Pbgfbblf</dodf> implfmfntbtion dofs not know
+     * thf numbfr of pbgfs in its sft.
+     */
+    @Nbtivf int UNKNOWN_NUMBER_OF_PAGES = -1;
+
+    /**
+     * Rfturns thf numbfr of pbgfs in thf sft.
+     * To fnbblf bdvbndfd printing ffbturfs,
+     * it is rfdommfndfd thbt <dodf>Pbgfbblf</dodf>
+     * implfmfntbtions rfturn thf truf numbfr of pbgfs
+     * rbthfr thbn thf
+     * UNKNOWN_NUMBER_OF_PAGES donstbnt.
+     * @rfturn thf numbfr of pbgfs in this <dodf>Pbgfbblf</dodf>.
+     */
+    int gftNumbfrOfPbgfs();
+
+    /**
+     * Rfturns thf <dodf>PbgfFormbt</dodf> of thf pbgf spfdififd by
+     * <dodf>pbgfIndfx</dodf>.
+     * @pbrbm pbgfIndfx thf zfro bbsfd indfx of thf pbgf whosf
+     *            <dodf>PbgfFormbt</dodf> is bfing rfqufstfd
+     * @rfturn thf <dodf>PbgfFormbt</dodf> dfsdribing thf sizf bnd
+     *          orifntbtion.
+     * @throws IndfxOutOfBoundsExdfption if
+     *          thf <dodf>Pbgfbblf</dodf> dofs not dontbin thf rfqufstfd
+     *          pbgf.
+     */
+    PbgfFormbt gftPbgfFormbt(int pbgfIndfx)
+        throws IndfxOutOfBoundsExdfption;
+
+    /**
+     * Rfturns thf <dodf>Printbblf</dodf> instbndf rfsponsiblf for
+     * rfndfring thf pbgf spfdififd by <dodf>pbgfIndfx</dodf>.
+     * @pbrbm pbgfIndfx thf zfro bbsfd indfx of thf pbgf whosf
+     *            <dodf>Printbblf</dodf> is bfing rfqufstfd
+     * @rfturn thf <dodf>Printbblf</dodf> thbt rfndfrs thf pbgf.
+     * @throws IndfxOutOfBoundsExdfption if
+     *            thf <dodf>Pbgfbblf</dodf> dofs not dontbin thf rfqufstfd
+     *            pbgf.
+     */
+    Printbblf gftPrintbblf(int pbgfIndfx)
+        throws IndfxOutOfBoundsExdfption;
+}

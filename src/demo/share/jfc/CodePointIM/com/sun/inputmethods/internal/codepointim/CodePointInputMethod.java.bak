@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,470 +30,470 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
-package com.sun.inputmethods.internal.codepointim;
+pbdkbgf dom.sun.inputmftiods.intfrnbl.dodfpointim;
 
 
-import java.awt.AWTEvent;
-import java.awt.Toolkit;
-import java.awt.Rectangle;
-import java.awt.event.InputMethodEvent;
-import java.awt.event.KeyEvent;
-import java.awt.font.TextAttribute;
-import java.awt.font.TextHitInfo;
-import java.awt.im.InputMethodHighlight;
-import java.awt.im.spi.InputMethod;
-import java.awt.im.spi.InputMethodContext;
-import java.io.IOException;
-import java.text.AttributedString;
-import java.util.Locale;
+import jbvb.bwt.AWTEvfnt;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.fvfnt.InputMftiodEvfnt;
+import jbvb.bwt.fvfnt.KfyEvfnt;
+import jbvb.bwt.font.TfxtAttributf;
+import jbvb.bwt.font.TfxtHitInfo;
+import jbvb.bwt.im.InputMftiodHigiligit;
+import jbvb.bwt.im.spi.InputMftiod;
+import jbvb.bwt.im.spi.InputMftiodContfxt;
+import jbvb.io.IOExdfption;
+import jbvb.tfxt.AttributfdString;
+import jbvb.util.Lodblf;
 
 
 /**
- * The Code Point Input Method is a simple input method that allows Unicode
- * characters to be entered using their code point or code unit values. See the
- * accompanying file README.txt for more information.
+ * Tif Codf Point Input Mftiod is b simplf input mftiod tibt bllows Unidodf
+ * dibrbdtfrs to bf fntfrfd using tifir dodf point or dodf unit vblufs. Sff tif
+ * bddompbnying filf README.txt for morf informbtion.
  *
- * @author Brian Beck
+ * @butior Bribn Bfdk
  */
-public class CodePointInputMethod implements InputMethod {
+publid dlbss CodfPointInputMftiod implfmfnts InputMftiod {
 
-    private static final int UNSET = 0;
-    private static final int ESCAPE = 1; // \u0000       - \uFFFF
-    private static final int SPECIAL_ESCAPE = 2; // \U000000     - \U10FFFF
-    private static final int SURROGATE_PAIR = 3; // \uD800\uDC00 - \uDBFF\uDFFF
-    private InputMethodContext context;
-    private Locale locale;
-    private StringBuffer buffer;
-    private int insertionPoint;
-    private int format = UNSET;
+    privbtf stbtid finbl int UNSET = 0;
+    privbtf stbtid finbl int ESCAPE = 1; // \u0000       - \uFFFF
+    privbtf stbtid finbl int SPECIAL_ESCAPE = 2; // \U000000     - \U10FFFF
+    privbtf stbtid finbl int SURROGATE_PAIR = 3; // \uD800\uDC00 - \uDBFF\uDFFF
+    privbtf InputMftiodContfxt dontfxt;
+    privbtf Lodblf lodblf;
+    privbtf StringBufffr bufffr;
+    privbtf int insfrtionPoint;
+    privbtf int formbt = UNSET;
 
-    public CodePointInputMethod() throws IOException {
+    publid CodfPointInputMftiod() tirows IOExdfption {
     }
 
     /**
-     * This is the input method's main routine.  The composed text is stored
-     * in buffer.
+     * Tiis is tif input mftiod's mbin routinf.  Tif domposfd tfxt is storfd
+     * in bufffr.
      */
-    public void dispatchEvent(AWTEvent event) {
-        // This input method handles KeyEvent only.
-        if (!(event instanceof KeyEvent)) {
-            return;
+    publid void dispbtdiEvfnt(AWTEvfnt fvfnt) {
+        // Tiis input mftiod ibndlfs KfyEvfnt only.
+        if (!(fvfnt instbndfof KfyEvfnt)) {
+            rfturn;
         }
 
-        KeyEvent e = (KeyEvent) event;
-        int eventID = event.getID();
-        boolean notInCompositionMode = buffer.length() == 0;
+        KfyEvfnt f = (KfyEvfnt) fvfnt;
+        int fvfntID = fvfnt.gftID();
+        boolfbn notInCompositionModf = bufffr.lfngti() == 0;
 
-        if (eventID == KeyEvent.KEY_PRESSED) {
-            // If we are not in composition mode, pass through
-            if (notInCompositionMode) {
-                return;
+        if (fvfntID == KfyEvfnt.KEY_PRESSED) {
+            // If wf brf not in domposition modf, pbss tirougi
+            if (notInCompositionModf) {
+                rfturn;
             }
 
-            switch (e.getKeyCode()) {
-                case KeyEvent.VK_LEFT:
-                    moveCaretLeft();
-                    break;
-                case KeyEvent.VK_RIGHT:
-                    moveCaretRight();
-                    break;
+            switdi (f.gftKfyCodf()) {
+                dbsf KfyEvfnt.VK_LEFT:
+                    movfCbrftLfft();
+                    brfbk;
+                dbsf KfyEvfnt.VK_RIGHT:
+                    movfCbrftRigit();
+                    brfbk;
             }
-        } else if (eventID == KeyEvent.KEY_TYPED) {
-            char c = e.getKeyChar();
+        } flsf if (fvfntID == KfyEvfnt.KEY_TYPED) {
+            dibr d = f.gftKfyCibr();
 
-            // If we are not in composition mode, wait a back slash
-            if (notInCompositionMode) {
-                // If the type character is not a back slash, pass through
-                if (c != '\\') {
-                    return;
+            // If wf brf not in domposition modf, wbit b bbdk slbsi
+            if (notInCompositionModf) {
+                // If tif typf dibrbdtfr is not b bbdk slbsi, pbss tirougi
+                if (d != '\\') {
+                    rfturn;
                 }
 
-                startComposition();     // Enter to composition mode
-            } else {
-                switch (c) {
-                    case ' ':       // Exit from composition mode
-                        finishComposition();
-                        break;
-                    case '\u007f':  // Delete
-                        deleteCharacter();
-                        break;
-                    case '\b':      // BackSpace
-                        deletePreviousCharacter();
-                        break;
-                    case '\u001b':  // Escape
-                        cancelComposition();
-                        break;
-                    case '\n':      // Return
-                    case '\t':      // Tab
-                        sendCommittedText();
-                        break;
-                    default:
-                        composeUnicodeEscape(c);
-                        break;
+                stbrtComposition();     // Entfr to domposition modf
+            } flsf {
+                switdi (d) {
+                    dbsf ' ':       // Exit from domposition modf
+                        finisiComposition();
+                        brfbk;
+                    dbsf '\u007f':  // Dflftf
+                        dflftfCibrbdtfr();
+                        brfbk;
+                    dbsf '\b':      // BbdkSpbdf
+                        dflftfPrfviousCibrbdtfr();
+                        brfbk;
+                    dbsf '\u001b':  // Esdbpf
+                        dbndflComposition();
+                        brfbk;
+                    dbsf '\n':      // Rfturn
+                    dbsf '\t':      // Tbb
+                        sfndCommittfdTfxt();
+                        brfbk;
+                    dffbult:
+                        domposfUnidodfEsdbpf(d);
+                        brfbk;
                 }
             }
-        } else {  // KeyEvent.KEY_RELEASED
-            // If we are not in composition mode, pass through
-            if (notInCompositionMode) {
-                return;
+        } flsf {  // KfyEvfnt.KEY_RELEASED
+            // If wf brf not in domposition modf, pbss tirougi
+            if (notInCompositionModf) {
+                rfturn;
             }
         }
 
-        e.consume();
+        f.donsumf();
     }
 
-    private void composeUnicodeEscape(char c) {
-        switch (buffer.length()) {
-            case 1:  // \\
-                waitEscapeCharacter(c);
-                break;
-            case 2:  // \\u or \\U
-            case 3:  // \\ux or \\Ux
-            case 4:  // \\uxx or \\Uxx
-                waitDigit(c);
-                break;
-            case 5:  // \\uxxx or \\Uxxx
-                if (format == SPECIAL_ESCAPE) {
-                    waitDigit(c);
-                } else {
-                    waitDigit2(c);
+    privbtf void domposfUnidodfEsdbpf(dibr d) {
+        switdi (bufffr.lfngti()) {
+            dbsf 1:  // \\
+                wbitEsdbpfCibrbdtfr(d);
+                brfbk;
+            dbsf 2:  // \\u or \\U
+            dbsf 3:  // \\ux or \\Ux
+            dbsf 4:  // \\uxx or \\Uxx
+                wbitDigit(d);
+                brfbk;
+            dbsf 5:  // \\uxxx or \\Uxxx
+                if (formbt == SPECIAL_ESCAPE) {
+                    wbitDigit(d);
+                } flsf {
+                    wbitDigit2(d);
                 }
-                break;
-            case 6:  // \\uxxxx or \\Uxxxx
-                if (format == SPECIAL_ESCAPE) {
-                    waitDigit(c);
-                } else if (format == SURROGATE_PAIR) {
-                    waitBackSlashOrLowSurrogate(c);
-                } else {
-                    beep();
+                brfbk;
+            dbsf 6:  // \\uxxxx or \\Uxxxx
+                if (formbt == SPECIAL_ESCAPE) {
+                    wbitDigit(d);
+                } flsf if (formbt == SURROGATE_PAIR) {
+                    wbitBbdkSlbsiOrLowSurrogbtf(d);
+                } flsf {
+                    bffp();
                 }
-                break;
-            case 7:  // \\Uxxxxx
-                // Only SPECIAL_ESCAPE format uses this state.
-                // Since the second "\\u" of SURROGATE_PAIR format is inserted
-                // automatically, users don't have to type these keys.
-                waitDigit(c);
-                break;
-            case 8:  // \\uxxxx\\u
-            case 9:  // \\uxxxx\\ux
-            case 10: // \\uxxxx\\uxx
-            case 11: // \\uxxxx\\uxxx
-                if (format == SURROGATE_PAIR) {
-                    waitDigit(c);
-                } else {
-                    beep();
+                brfbk;
+            dbsf 7:  // \\Uxxxxx
+                // Only SPECIAL_ESCAPE formbt usfs tiis stbtf.
+                // Sindf tif sfdond "\\u" of SURROGATE_PAIR formbt is insfrtfd
+                // butombtidblly, usfrs don't ibvf to typf tifsf kfys.
+                wbitDigit(d);
+                brfbk;
+            dbsf 8:  // \\uxxxx\\u
+            dbsf 9:  // \\uxxxx\\ux
+            dbsf 10: // \\uxxxx\\uxx
+            dbsf 11: // \\uxxxx\\uxxx
+                if (formbt == SURROGATE_PAIR) {
+                    wbitDigit(d);
+                } flsf {
+                    bffp();
                 }
-                break;
-            default:
-                beep();
-                break;
-        }
-    }
-
-    private void waitEscapeCharacter(char c) {
-        if (c == 'u' || c == 'U') {
-            buffer.append(c);
-            insertionPoint++;
-            sendComposedText();
-            format = (c == 'u') ? ESCAPE : SPECIAL_ESCAPE;
-        } else {
-            if (c != '\\') {
-                buffer.append(c);
-                insertionPoint++;
-            }
-            sendCommittedText();
+                brfbk;
+            dffbult:
+                bffp();
+                brfbk;
         }
     }
 
-    private void waitDigit(char c) {
-        if (Character.digit(c, 16) != -1) {
-            buffer.insert(insertionPoint++, c);
-            sendComposedText();
-        } else {
-            beep();
+    privbtf void wbitEsdbpfCibrbdtfr(dibr d) {
+        if (d == 'u' || d == 'U') {
+            bufffr.bppfnd(d);
+            insfrtionPoint++;
+            sfndComposfdTfxt();
+            formbt = (d == 'u') ? ESCAPE : SPECIAL_ESCAPE;
+        } flsf {
+            if (d != '\\') {
+                bufffr.bppfnd(d);
+                insfrtionPoint++;
+            }
+            sfndCommittfdTfxt();
         }
     }
 
-    private void waitDigit2(char c) {
-        if (Character.digit(c, 16) != -1) {
-            buffer.insert(insertionPoint++, c);
-            char codePoint = (char) getCodePoint(buffer, 2, 5);
-            if (Character.isHighSurrogate(codePoint)) {
-                format = SURROGATE_PAIR;
-                buffer.append("\\u");
-                insertionPoint = 8;
-            } else {
-                format = ESCAPE;
-            }
-            sendComposedText();
-        } else {
-            beep();
+    privbtf void wbitDigit(dibr d) {
+        if (Cibrbdtfr.digit(d, 16) != -1) {
+            bufffr.insfrt(insfrtionPoint++, d);
+            sfndComposfdTfxt();
+        } flsf {
+            bffp();
         }
     }
 
-    private void waitBackSlashOrLowSurrogate(char c) {
-        if (insertionPoint == 6) {
-            if (c == '\\') {
-                buffer.append(c);
-                buffer.append('u');
-                insertionPoint = 8;
-                sendComposedText();
-            } else if (Character.digit(c, 16) != -1) {
-                buffer.append("\\u");
-                buffer.append(c);
-                insertionPoint = 9;
-                sendComposedText();
-            } else {
-                beep();
+    privbtf void wbitDigit2(dibr d) {
+        if (Cibrbdtfr.digit(d, 16) != -1) {
+            bufffr.insfrt(insfrtionPoint++, d);
+            dibr dodfPoint = (dibr) gftCodfPoint(bufffr, 2, 5);
+            if (Cibrbdtfr.isHigiSurrogbtf(dodfPoint)) {
+                formbt = SURROGATE_PAIR;
+                bufffr.bppfnd("\\u");
+                insfrtionPoint = 8;
+            } flsf {
+                formbt = ESCAPE;
             }
-        } else {
-            beep();
+            sfndComposfdTfxt();
+        } flsf {
+            bffp();
+        }
+    }
+
+    privbtf void wbitBbdkSlbsiOrLowSurrogbtf(dibr d) {
+        if (insfrtionPoint == 6) {
+            if (d == '\\') {
+                bufffr.bppfnd(d);
+                bufffr.bppfnd('u');
+                insfrtionPoint = 8;
+                sfndComposfdTfxt();
+            } flsf if (Cibrbdtfr.digit(d, 16) != -1) {
+                bufffr.bppfnd("\\u");
+                bufffr.bppfnd(d);
+                insfrtionPoint = 9;
+                sfndComposfdTfxt();
+            } flsf {
+                bffp();
+            }
+        } flsf {
+            bffp();
         }
     }
 
     /**
-     * Send the composed text to the client.
+     * Sfnd tif domposfd tfxt to tif dlifnt.
      */
-    private void sendComposedText() {
-        AttributedString as = new AttributedString(buffer.toString());
-        as.addAttribute(TextAttribute.INPUT_METHOD_HIGHLIGHT,
-                InputMethodHighlight.SELECTED_RAW_TEXT_HIGHLIGHT);
-        context.dispatchInputMethodEvent(
-                InputMethodEvent.INPUT_METHOD_TEXT_CHANGED,
-                as.getIterator(), 0,
-                TextHitInfo.leading(insertionPoint), null);
+    privbtf void sfndComposfdTfxt() {
+        AttributfdString bs = nfw AttributfdString(bufffr.toString());
+        bs.bddAttributf(TfxtAttributf.INPUT_METHOD_HIGHLIGHT,
+                InputMftiodHigiligit.SELECTED_RAW_TEXT_HIGHLIGHT);
+        dontfxt.dispbtdiInputMftiodEvfnt(
+                InputMftiodEvfnt.INPUT_METHOD_TEXT_CHANGED,
+                bs.gftItfrbtor(), 0,
+                TfxtHitInfo.lfbding(insfrtionPoint), null);
     }
 
     /**
-     * Send the committed text to the client.
+     * Sfnd tif dommittfd tfxt to tif dlifnt.
      */
-    private void sendCommittedText() {
-        AttributedString as = new AttributedString(buffer.toString());
-        context.dispatchInputMethodEvent(
-                InputMethodEvent.INPUT_METHOD_TEXT_CHANGED,
-                as.getIterator(), buffer.length(),
-                TextHitInfo.leading(insertionPoint), null);
+    privbtf void sfndCommittfdTfxt() {
+        AttributfdString bs = nfw AttributfdString(bufffr.toString());
+        dontfxt.dispbtdiInputMftiodEvfnt(
+                InputMftiodEvfnt.INPUT_METHOD_TEXT_CHANGED,
+                bs.gftItfrbtor(), bufffr.lfngti(),
+                TfxtHitInfo.lfbding(insfrtionPoint), null);
 
-        buffer.setLength(0);
-        insertionPoint = 0;
-        format = UNSET;
+        bufffr.sftLfngti(0);
+        insfrtionPoint = 0;
+        formbt = UNSET;
     }
 
     /**
-     * Move the insertion point one position to the left in the composed text.
-     * Do not let the caret move to the left of the "\\u" or "\\U".
+     * Movf tif insfrtion point onf position to tif lfft in tif domposfd tfxt.
+     * Do not lft tif dbrft movf to tif lfft of tif "\\u" or "\\U".
      */
-    private void moveCaretLeft() {
-        int len = buffer.length();
-        if (--insertionPoint < 2) {
-            insertionPoint++;
-            beep();
-        } else if (format == SURROGATE_PAIR && insertionPoint == 7) {
-            insertionPoint = 8;
-            beep();
+    privbtf void movfCbrftLfft() {
+        int lfn = bufffr.lfngti();
+        if (--insfrtionPoint < 2) {
+            insfrtionPoint++;
+            bffp();
+        } flsf if (formbt == SURROGATE_PAIR && insfrtionPoint == 7) {
+            insfrtionPoint = 8;
+            bffp();
         }
 
-        context.dispatchInputMethodEvent(
-                InputMethodEvent.CARET_POSITION_CHANGED,
+        dontfxt.dispbtdiInputMftiodEvfnt(
+                InputMftiodEvfnt.CARET_POSITION_CHANGED,
                 null, 0,
-                TextHitInfo.leading(insertionPoint), null);
+                TfxtHitInfo.lfbding(insfrtionPoint), null);
     }
 
     /**
-     * Move the insertion point one position to the right in the composed text.
+     * Movf tif insfrtion point onf position to tif rigit in tif domposfd tfxt.
      */
-    private void moveCaretRight() {
-        int len = buffer.length();
-        if (++insertionPoint > len) {
-            insertionPoint = len;
-            beep();
+    privbtf void movfCbrftRigit() {
+        int lfn = bufffr.lfngti();
+        if (++insfrtionPoint > lfn) {
+            insfrtionPoint = lfn;
+            bffp();
         }
 
-        context.dispatchInputMethodEvent(
-                InputMethodEvent.CARET_POSITION_CHANGED,
+        dontfxt.dispbtdiInputMftiodEvfnt(
+                InputMftiodEvfnt.CARET_POSITION_CHANGED,
                 null, 0,
-                TextHitInfo.leading(insertionPoint), null);
+                TfxtHitInfo.lfbding(insfrtionPoint), null);
     }
 
     /**
-     * Delete the character preceding the insertion point in the composed text.
-     * If the insertion point is not at the end of the composed text and the
-     * preceding text is "\\u" or "\\U", ring the bell.
+     * Dflftf tif dibrbdtfr prfdfding tif insfrtion point in tif domposfd tfxt.
+     * If tif insfrtion point is not bt tif fnd of tif domposfd tfxt bnd tif
+     * prfdfding tfxt is "\\u" or "\\U", ring tif bfll.
      */
-    private void deletePreviousCharacter() {
-        if (insertionPoint == 2) {
-            if (buffer.length() == 2) {
-                cancelComposition();
-            } else {
-                // Do not allow deletion of the leading "\\u" or "\\U" if there
-                // are other digits in the composed text.
-                beep();
+    privbtf void dflftfPrfviousCibrbdtfr() {
+        if (insfrtionPoint == 2) {
+            if (bufffr.lfngti() == 2) {
+                dbndflComposition();
+            } flsf {
+                // Do not bllow dflftion of tif lfbding "\\u" or "\\U" if tifrf
+                // brf otifr digits in tif domposfd tfxt.
+                bffp();
             }
-        } else if (insertionPoint == 8) {
-            if (buffer.length() == 8) {
-                if (format == SURROGATE_PAIR) {
-                    buffer.deleteCharAt(--insertionPoint);
+        } flsf if (insfrtionPoint == 8) {
+            if (bufffr.lfngti() == 8) {
+                if (formbt == SURROGATE_PAIR) {
+                    bufffr.dflftfCibrAt(--insfrtionPoint);
                 }
-                buffer.deleteCharAt(--insertionPoint);
-                sendComposedText();
-            } else {
-                // Do not allow deletion of the second "\\u" if there are other
-                // digits in the composed text.
-                beep();
+                bufffr.dflftfCibrAt(--insfrtionPoint);
+                sfndComposfdTfxt();
+            } flsf {
+                // Do not bllow dflftion of tif sfdond "\\u" if tifrf brf otifr
+                // digits in tif domposfd tfxt.
+                bffp();
             }
-        } else {
-            buffer.deleteCharAt(--insertionPoint);
-            if (buffer.length() == 0) {
-                sendCommittedText();
-            } else {
-                sendComposedText();
+        } flsf {
+            bufffr.dflftfCibrAt(--insfrtionPoint);
+            if (bufffr.lfngti() == 0) {
+                sfndCommittfdTfxt();
+            } flsf {
+                sfndComposfdTfxt();
             }
         }
     }
 
     /**
-     * Delete the character following the insertion point in the composed text.
-     * If the insertion point is at the end of the composed text, ring the bell.
+     * Dflftf tif dibrbdtfr following tif insfrtion point in tif domposfd tfxt.
+     * If tif insfrtion point is bt tif fnd of tif domposfd tfxt, ring tif bfll.
      */
-    private void deleteCharacter() {
-        if (insertionPoint < buffer.length()) {
-            buffer.deleteCharAt(insertionPoint);
-            sendComposedText();
-        } else {
-            beep();
+    privbtf void dflftfCibrbdtfr() {
+        if (insfrtionPoint < bufffr.lfngti()) {
+            bufffr.dflftfCibrAt(insfrtionPoint);
+            sfndComposfdTfxt();
+        } flsf {
+            bffp();
         }
     }
 
-    private void startComposition() {
-        buffer.append('\\');
-        insertionPoint = 1;
-        sendComposedText();
+    privbtf void stbrtComposition() {
+        bufffr.bppfnd('\\');
+        insfrtionPoint = 1;
+        sfndComposfdTfxt();
     }
 
-    private void cancelComposition() {
-        buffer.setLength(0);
-        insertionPoint = 0;
-        sendCommittedText();
+    privbtf void dbndflComposition() {
+        bufffr.sftLfngti(0);
+        insfrtionPoint = 0;
+        sfndCommittfdTfxt();
     }
 
-    private void finishComposition() {
-        int len = buffer.length();
-        if (len == 6 && format != SPECIAL_ESCAPE) {
-            char codePoint = (char) getCodePoint(buffer, 2, 5);
-            if (Character.isValidCodePoint(codePoint) && codePoint != 0xFFFF) {
-                buffer.setLength(0);
-                buffer.append(codePoint);
-                sendCommittedText();
-                return;
+    privbtf void finisiComposition() {
+        int lfn = bufffr.lfngti();
+        if (lfn == 6 && formbt != SPECIAL_ESCAPE) {
+            dibr dodfPoint = (dibr) gftCodfPoint(bufffr, 2, 5);
+            if (Cibrbdtfr.isVblidCodfPoint(dodfPoint) && dodfPoint != 0xFFFF) {
+                bufffr.sftLfngti(0);
+                bufffr.bppfnd(dodfPoint);
+                sfndCommittfdTfxt();
+                rfturn;
             }
-        } else if (len == 8 && format == SPECIAL_ESCAPE) {
-            int codePoint = getCodePoint(buffer, 2, 7);
-            if (Character.isValidCodePoint(codePoint) && codePoint != 0xFFFF) {
-                buffer.setLength(0);
-                buffer.appendCodePoint(codePoint);
-                sendCommittedText();
-                return;
+        } flsf if (lfn == 8 && formbt == SPECIAL_ESCAPE) {
+            int dodfPoint = gftCodfPoint(bufffr, 2, 7);
+            if (Cibrbdtfr.isVblidCodfPoint(dodfPoint) && dodfPoint != 0xFFFF) {
+                bufffr.sftLfngti(0);
+                bufffr.bppfndCodfPoint(dodfPoint);
+                sfndCommittfdTfxt();
+                rfturn;
             }
-        } else if (len == 12 && format == SURROGATE_PAIR) {
-            char[] codePoint = {
-                (char) getCodePoint(buffer, 2, 5),
-                (char) getCodePoint(buffer, 8, 11)
+        } flsf if (lfn == 12 && formbt == SURROGATE_PAIR) {
+            dibr[] dodfPoint = {
+                (dibr) gftCodfPoint(bufffr, 2, 5),
+                (dibr) gftCodfPoint(bufffr, 8, 11)
             };
-            if (Character.isHighSurrogate(codePoint[0]) && Character.
-                    isLowSurrogate(codePoint[1])) {
-                buffer.setLength(0);
-                buffer.append(codePoint);
-                sendCommittedText();
-                return;
+            if (Cibrbdtfr.isHigiSurrogbtf(dodfPoint[0]) && Cibrbdtfr.
+                    isLowSurrogbtf(dodfPoint[1])) {
+                bufffr.sftLfngti(0);
+                bufffr.bppfnd(dodfPoint);
+                sfndCommittfdTfxt();
+                rfturn;
             }
         }
 
-        beep();
+        bffp();
     }
 
-    private int getCodePoint(StringBuffer sb, int from, int to) {
-        int value = 0;
+    privbtf int gftCodfPoint(StringBufffr sb, int from, int to) {
+        int vbluf = 0;
         for (int i = from; i <= to; i++) {
-            value = (value << 4) + Character.digit(sb.charAt(i), 16);
+            vbluf = (vbluf << 4) + Cibrbdtfr.digit(sb.dibrAt(i), 16);
         }
-        return value;
+        rfturn vbluf;
     }
 
-    private static void beep() {
-        Toolkit.getDefaultToolkit().beep();
+    privbtf stbtid void bffp() {
+        Toolkit.gftDffbultToolkit().bffp();
     }
 
-    public void activate() {
-        if (buffer == null) {
-            buffer = new StringBuffer(12);
-            insertionPoint = 0;
-        }
-    }
-
-    public void deactivate(boolean isTemporary) {
-        if (!isTemporary) {
-            buffer = null;
+    publid void bdtivbtf() {
+        if (bufffr == null) {
+            bufffr = nfw StringBufffr(12);
+            insfrtionPoint = 0;
         }
     }
 
-    public void dispose() {
+    publid void dfbdtivbtf(boolfbn isTfmporbry) {
+        if (!isTfmporbry) {
+            bufffr = null;
+        }
     }
 
-    public Object getControlObject() {
-        return null;
+    publid void disposf() {
     }
 
-    public void endComposition() {
-        sendCommittedText();
+    publid Objfdt gftControlObjfdt() {
+        rfturn null;
     }
 
-    public Locale getLocale() {
-        return locale;
+    publid void fndComposition() {
+        sfndCommittfdTfxt();
     }
 
-    public void hideWindows() {
+    publid Lodblf gftLodblf() {
+        rfturn lodblf;
     }
 
-    public boolean isCompositionEnabled() {
-        // always enabled
-        return true;
+    publid void iidfWindows() {
     }
 
-    public void notifyClientWindowChange(Rectangle location) {
+    publid boolfbn isCompositionEnbblfd() {
+        // blwbys fnbblfd
+        rfturn truf;
     }
 
-    public void reconvert() {
-        // not supported yet
-        throw new UnsupportedOperationException();
+    publid void notifyClifntWindowCibngf(Rfdtbnglf lodbtion) {
     }
 
-    public void removeNotify() {
+    publid void rfdonvfrt() {
+        // not supportfd yft
+        tirow nfw UnsupportfdOpfrbtionExdfption();
     }
 
-    public void setCharacterSubsets(Character.Subset[] subsets) {
+    publid void rfmovfNotify() {
     }
 
-    public void setCompositionEnabled(boolean enable) {
-        // not supported yet
-        throw new UnsupportedOperationException();
+    publid void sftCibrbdtfrSubsfts(Cibrbdtfr.Subsft[] subsfts) {
     }
 
-    public void setInputMethodContext(InputMethodContext context) {
-        this.context = context;
+    publid void sftCompositionEnbblfd(boolfbn fnbblf) {
+        // not supportfd yft
+        tirow nfw UnsupportfdOpfrbtionExdfption();
+    }
+
+    publid void sftInputMftiodContfxt(InputMftiodContfxt dontfxt) {
+        tiis.dontfxt = dontfxt;
     }
 
     /*
-     * The Code Point Input Method supports all locales.
+     * Tif Codf Point Input Mftiod supports bll lodblfs.
      */
-    public boolean setLocale(Locale locale) {
-        this.locale = locale;
-        return true;
+    publid boolfbn sftLodblf(Lodblf lodblf) {
+        tiis.lodblf = lodblf;
+        rfturn truf;
     }
 }

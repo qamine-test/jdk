@@ -1,46 +1,46 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-// This file is available under and governed by the GNU General Public
-// License version 2 only, as published by the Free Software Foundation.
-// However, the following notice accompanied the original version of this
-// file:
+// Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+// Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+// Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+// filf:
 //
 //---------------------------------------------------------------------------------
 //
-//  Little Color Management System
-//  Copyright (c) 1998-2012 Marti Maria Saguer
+//  Littlf Color Mbnbgfmfnt Systfm
+//  Copyrigit (d) 1998-2012 Mbrti Mbrib Sbgufr
 //
-// Permission is hereby granted, free of charge, to any person obtaining
-// a copy of this software and associated documentation files (the "Software"),
-// to deal in the Software without restriction, including without limitation
-// the rights to use, copy, modify, merge, publish, distribute, sublicense,
-// and/or sell copies of the Software, and to permit persons to whom the Software
-// is furnished to do so, subject to the following conditions:
+// Pfrmission is ifrfby grbntfd, frff of dibrgf, to bny pfrson obtbining
+// b dopy of tiis softwbrf bnd bssodibtfd dodumfntbtion filfs (tif "Softwbrf"),
+// to dfbl in tif Softwbrf witiout rfstridtion, indluding witiout limitbtion
+// tif rigits to usf, dopy, modify, mfrgf, publisi, distributf, sublidfnsf,
+// bnd/or sfll dopifs of tif Softwbrf, bnd to pfrmit pfrsons to wiom tif Softwbrf
+// is furnisifd to do so, subjfdt to tif following donditions:
 //
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
+// Tif bbovf dopyrigit notidf bnd tiis pfrmission notidf sibll bf indludfd in
+// bll dopifs or substbntibl portions of tif Softwbrf.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
@@ -53,1795 +53,1795 @@
 //---------------------------------------------------------------------------------
 //
 
-#include "lcms2_internal.h"
+#indludf "ldms2_intfrnbl.i"
 
-// Generic I/O, tag dictionary management, profile struct
+// Gfnfrid I/O, tbg didtionbry mbnbgfmfnt, profilf strudt
 
-// IOhandlers are abstractions used by littleCMS to read from whatever file, stream,
-// memory block or any storage. Each IOhandler provides implementations for read,
-// write, seek and tell functions. LittleCMS code deals with IO across those objects.
-// In this way, is easier to add support for new storage media.
+// IOibndlfrs brf bbstrbdtions usfd by littlfCMS to rfbd from wibtfvfr filf, strfbm,
+// mfmory blodk or bny storbgf. Ebdi IOibndlfr providfs implfmfntbtions for rfbd,
+// writf, sffk bnd tfll fundtions. LittlfCMS dodf dfbls witi IO bdross tiosf objfdts.
+// In tiis wby, is fbsifr to bdd support for nfw storbgf mfdib.
 
-// NULL stream, for taking care of used space -------------------------------------
+// NULL strfbm, for tbking dbrf of usfd spbdf -------------------------------------
 
-// NULL IOhandler basically does nothing but keep track on how many bytes have been
-// written. This is handy when creating profiles, where the file size is needed in the
-// header. Then, whole profile is serialized across NULL IOhandler and a second pass
-// writes the bytes to the pertinent IOhandler.
+// NULL IOibndlfr bbsidblly dofs notiing but kffp trbdk on iow mbny bytfs ibvf bffn
+// writtfn. Tiis is ibndy wifn drfbting profilfs, wifrf tif filf sizf is nffdfd in tif
+// ifbdfr. Tifn, wiolf profilf is sfriblizfd bdross NULL IOibndlfr bnd b sfdond pbss
+// writfs tif bytfs to tif pfrtinfnt IOibndlfr.
 
-typedef struct {
-    cmsUInt32Number Pointer;         // Points to current location
+typfdff strudt {
+    dmsUInt32Numbfr Pointfr;         // Points to durrfnt lodbtion
 } FILENULL;
 
-static
-cmsUInt32Number NULLRead(cmsIOHANDLER* iohandler, void *Buffer, cmsUInt32Number size, cmsUInt32Number count)
+stbtid
+dmsUInt32Numbfr NULLRfbd(dmsIOHANDLER* ioibndlfr, void *Bufffr, dmsUInt32Numbfr sizf, dmsUInt32Numbfr dount)
 {
-    FILENULL* ResData = (FILENULL*) iohandler ->stream;
+    FILENULL* RfsDbtb = (FILENULL*) ioibndlfr ->strfbm;
 
-    cmsUInt32Number len = size * count;
-    ResData -> Pointer += len;
-    return count;
+    dmsUInt32Numbfr lfn = sizf * dount;
+    RfsDbtb -> Pointfr += lfn;
+    rfturn dount;
 
-    cmsUNUSED_PARAMETER(Buffer);
+    dmsUNUSED_PARAMETER(Bufffr);
 }
 
-static
-cmsBool  NULLSeek(cmsIOHANDLER* iohandler, cmsUInt32Number offset)
+stbtid
+dmsBool  NULLSffk(dmsIOHANDLER* ioibndlfr, dmsUInt32Numbfr offsft)
 {
-    FILENULL* ResData = (FILENULL*) iohandler ->stream;
+    FILENULL* RfsDbtb = (FILENULL*) ioibndlfr ->strfbm;
 
-    ResData ->Pointer = offset;
-    return TRUE;
+    RfsDbtb ->Pointfr = offsft;
+    rfturn TRUE;
 }
 
-static
-cmsUInt32Number NULLTell(cmsIOHANDLER* iohandler)
+stbtid
+dmsUInt32Numbfr NULLTfll(dmsIOHANDLER* ioibndlfr)
 {
-    FILENULL* ResData = (FILENULL*) iohandler ->stream;
-    return ResData -> Pointer;
+    FILENULL* RfsDbtb = (FILENULL*) ioibndlfr ->strfbm;
+    rfturn RfsDbtb -> Pointfr;
 }
 
-static
-cmsBool  NULLWrite(cmsIOHANDLER* iohandler, cmsUInt32Number size, const void *Ptr)
+stbtid
+dmsBool  NULLWritf(dmsIOHANDLER* ioibndlfr, dmsUInt32Numbfr sizf, donst void *Ptr)
 {
-    FILENULL* ResData = (FILENULL*) iohandler ->stream;
+    FILENULL* RfsDbtb = (FILENULL*) ioibndlfr ->strfbm;
 
-    ResData ->Pointer += size;
-    if (ResData ->Pointer > iohandler->UsedSpace)
-        iohandler->UsedSpace = ResData ->Pointer;
+    RfsDbtb ->Pointfr += sizf;
+    if (RfsDbtb ->Pointfr > ioibndlfr->UsfdSpbdf)
+        ioibndlfr->UsfdSpbdf = RfsDbtb ->Pointfr;
 
-    return TRUE;
+    rfturn TRUE;
 
-    cmsUNUSED_PARAMETER(Ptr);
+    dmsUNUSED_PARAMETER(Ptr);
 }
 
-static
-cmsBool  NULLClose(cmsIOHANDLER* iohandler)
+stbtid
+dmsBool  NULLClosf(dmsIOHANDLER* ioibndlfr)
 {
-    FILENULL* ResData = (FILENULL*) iohandler ->stream;
+    FILENULL* RfsDbtb = (FILENULL*) ioibndlfr ->strfbm;
 
-    _cmsFree(iohandler ->ContextID, ResData);
-    _cmsFree(iohandler ->ContextID, iohandler);
-    return TRUE;
+    _dmsFrff(ioibndlfr ->ContfxtID, RfsDbtb);
+    _dmsFrff(ioibndlfr ->ContfxtID, ioibndlfr);
+    rfturn TRUE;
 }
 
-// The NULL IOhandler creator
-cmsIOHANDLER*  CMSEXPORT cmsOpenIOhandlerFromNULL(cmsContext ContextID)
+// Tif NULL IOibndlfr drfbtor
+dmsIOHANDLER*  CMSEXPORT dmsOpfnIOibndlfrFromNULL(dmsContfxt ContfxtID)
 {
-    struct _cms_io_handler* iohandler = NULL;
+    strudt _dms_io_ibndlfr* ioibndlfr = NULL;
     FILENULL* fm = NULL;
 
-    iohandler = (struct _cms_io_handler*) _cmsMallocZero(ContextID, sizeof(struct _cms_io_handler));
-    if (iohandler == NULL) return NULL;
+    ioibndlfr = (strudt _dms_io_ibndlfr*) _dmsMbllodZfro(ContfxtID, sizfof(strudt _dms_io_ibndlfr));
+    if (ioibndlfr == NULL) rfturn NULL;
 
-    fm = (FILENULL*) _cmsMallocZero(ContextID, sizeof(FILENULL));
+    fm = (FILENULL*) _dmsMbllodZfro(ContfxtID, sizfof(FILENULL));
     if (fm == NULL) goto Error;
 
-    fm ->Pointer = 0;
+    fm ->Pointfr = 0;
 
-    iohandler ->ContextID = ContextID;
-    iohandler ->stream  = (void*) fm;
-    iohandler ->UsedSpace = 0;
-    iohandler ->ReportedSize = 0;
-    iohandler ->PhysicalFile[0] = 0;
+    ioibndlfr ->ContfxtID = ContfxtID;
+    ioibndlfr ->strfbm  = (void*) fm;
+    ioibndlfr ->UsfdSpbdf = 0;
+    ioibndlfr ->RfportfdSizf = 0;
+    ioibndlfr ->PiysidblFilf[0] = 0;
 
-    iohandler ->Read    = NULLRead;
-    iohandler ->Seek    = NULLSeek;
-    iohandler ->Close   = NULLClose;
-    iohandler ->Tell    = NULLTell;
-    iohandler ->Write   = NULLWrite;
+    ioibndlfr ->Rfbd    = NULLRfbd;
+    ioibndlfr ->Sffk    = NULLSffk;
+    ioibndlfr ->Closf   = NULLClosf;
+    ioibndlfr ->Tfll    = NULLTfll;
+    ioibndlfr ->Writf   = NULLWritf;
 
-    return iohandler;
+    rfturn ioibndlfr;
 
 Error:
-    if (iohandler) _cmsFree(ContextID, iohandler);
-    return NULL;
+    if (ioibndlfr) _dmsFrff(ContfxtID, ioibndlfr);
+    rfturn NULL;
 
 }
 
 
-// Memory-based stream --------------------------------------------------------------
+// Mfmory-bbsfd strfbm --------------------------------------------------------------
 
-// Those functions implements an iohandler which takes a block of memory as storage medium.
+// Tiosf fundtions implfmfnts bn ioibndlfr wiidi tbkfs b blodk of mfmory bs storbgf mfdium.
 
-typedef struct {
-    cmsUInt8Number* Block;    // Points to allocated memory
-    cmsUInt32Number Size;     // Size of allocated memory
-    cmsUInt32Number Pointer;  // Points to current location
-    int FreeBlockOnClose;     // As title
+typfdff strudt {
+    dmsUInt8Numbfr* Blodk;    // Points to bllodbtfd mfmory
+    dmsUInt32Numbfr Sizf;     // Sizf of bllodbtfd mfmory
+    dmsUInt32Numbfr Pointfr;  // Points to durrfnt lodbtion
+    int FrffBlodkOnClosf;     // As titlf
 
 } FILEMEM;
 
-static
-cmsUInt32Number MemoryRead(struct _cms_io_handler* iohandler, void *Buffer, cmsUInt32Number size, cmsUInt32Number count)
+stbtid
+dmsUInt32Numbfr MfmoryRfbd(strudt _dms_io_ibndlfr* ioibndlfr, void *Bufffr, dmsUInt32Numbfr sizf, dmsUInt32Numbfr dount)
 {
-    FILEMEM* ResData = (FILEMEM*) iohandler ->stream;
-    cmsUInt8Number* Ptr;
-    cmsUInt32Number len = size * count;
+    FILEMEM* RfsDbtb = (FILEMEM*) ioibndlfr ->strfbm;
+    dmsUInt8Numbfr* Ptr;
+    dmsUInt32Numbfr lfn = sizf * dount;
 
-    if (ResData -> Pointer + len > ResData -> Size){
+    if (RfsDbtb -> Pointfr + lfn > RfsDbtb -> Sizf){
 
-        len = (ResData -> Size - ResData -> Pointer);
-        cmsSignalError(iohandler ->ContextID, cmsERROR_READ, "Read from memory error. Got %d bytes, block should be of %d bytes", len, count * size);
-        return 0;
+        lfn = (RfsDbtb -> Sizf - RfsDbtb -> Pointfr);
+        dmsSignblError(ioibndlfr ->ContfxtID, dmsERROR_READ, "Rfbd from mfmory frror. Got %d bytfs, blodk siould bf of %d bytfs", lfn, dount * sizf);
+        rfturn 0;
     }
 
-    Ptr  = ResData -> Block;
-    Ptr += ResData -> Pointer;
-    memmove(Buffer, Ptr, len);
-    ResData -> Pointer += len;
+    Ptr  = RfsDbtb -> Blodk;
+    Ptr += RfsDbtb -> Pointfr;
+    mfmmovf(Bufffr, Ptr, lfn);
+    RfsDbtb -> Pointfr += lfn;
 
-    return count;
+    rfturn dount;
 }
 
-// SEEK_CUR is assumed
-static
-cmsBool  MemorySeek(struct _cms_io_handler* iohandler, cmsUInt32Number offset)
+// SEEK_CUR is bssumfd
+stbtid
+dmsBool  MfmorySffk(strudt _dms_io_ibndlfr* ioibndlfr, dmsUInt32Numbfr offsft)
 {
-    FILEMEM* ResData = (FILEMEM*) iohandler ->stream;
+    FILEMEM* RfsDbtb = (FILEMEM*) ioibndlfr ->strfbm;
 
-    if (offset > ResData ->Size) {
-        cmsSignalError(iohandler ->ContextID, cmsERROR_SEEK,  "Too few data; probably corrupted profile");
-        return FALSE;
+    if (offsft > RfsDbtb ->Sizf) {
+        dmsSignblError(ioibndlfr ->ContfxtID, dmsERROR_SEEK,  "Too ffw dbtb; probbbly dorruptfd profilf");
+        rfturn FALSE;
     }
 
-    ResData ->Pointer = offset;
-    return TRUE;
+    RfsDbtb ->Pointfr = offsft;
+    rfturn TRUE;
 }
 
-// Tell for memory
-static
-cmsUInt32Number MemoryTell(struct _cms_io_handler* iohandler)
+// Tfll for mfmory
+stbtid
+dmsUInt32Numbfr MfmoryTfll(strudt _dms_io_ibndlfr* ioibndlfr)
 {
-    FILEMEM* ResData = (FILEMEM*) iohandler ->stream;
+    FILEMEM* RfsDbtb = (FILEMEM*) ioibndlfr ->strfbm;
 
-    if (ResData == NULL) return 0;
-    return ResData -> Pointer;
+    if (RfsDbtb == NULL) rfturn 0;
+    rfturn RfsDbtb -> Pointfr;
 }
 
 
-// Writes data to memory, also keeps used space for further reference.
-static
-cmsBool MemoryWrite(struct _cms_io_handler* iohandler, cmsUInt32Number size, const void *Ptr)
+// Writfs dbtb to mfmory, blso kffps usfd spbdf for furtifr rfffrfndf.
+stbtid
+dmsBool MfmoryWritf(strudt _dms_io_ibndlfr* ioibndlfr, dmsUInt32Numbfr sizf, donst void *Ptr)
 {
-    FILEMEM* ResData = (FILEMEM*) iohandler ->stream;
+    FILEMEM* RfsDbtb = (FILEMEM*) ioibndlfr ->strfbm;
 
-    if (ResData == NULL) return FALSE; // Housekeeping
+    if (RfsDbtb == NULL) rfturn FALSE; // Housfkffping
 
-    // Check for available space. Clip.
-    if (iohandler ->UsedSpace + size > ResData->Size) {
-        size = ResData ->Size - iohandler ->UsedSpace;
+    // Cifdk for bvbilbblf spbdf. Clip.
+    if (ioibndlfr ->UsfdSpbdf + sizf > RfsDbtb->Sizf) {
+        sizf = RfsDbtb ->Sizf - ioibndlfr ->UsfdSpbdf;
     }
 
-    if (size == 0) return TRUE;     // Write zero bytes is ok, but does nothing
+    if (sizf == 0) rfturn TRUE;     // Writf zfro bytfs is ok, but dofs notiing
 
-    memmove(ResData ->Block + ResData ->Pointer, Ptr, size);
-    ResData ->Pointer += size;
-    iohandler->UsedSpace += size;
+    mfmmovf(RfsDbtb ->Blodk + RfsDbtb ->Pointfr, Ptr, sizf);
+    RfsDbtb ->Pointfr += sizf;
+    ioibndlfr->UsfdSpbdf += sizf;
 
-    if (ResData ->Pointer > iohandler->UsedSpace)
-        iohandler->UsedSpace = ResData ->Pointer;
+    if (RfsDbtb ->Pointfr > ioibndlfr->UsfdSpbdf)
+        ioibndlfr->UsfdSpbdf = RfsDbtb ->Pointfr;
 
-    return TRUE;
+    rfturn TRUE;
 }
 
 
-static
-cmsBool  MemoryClose(struct _cms_io_handler* iohandler)
+stbtid
+dmsBool  MfmoryClosf(strudt _dms_io_ibndlfr* ioibndlfr)
 {
-    FILEMEM* ResData = (FILEMEM*) iohandler ->stream;
+    FILEMEM* RfsDbtb = (FILEMEM*) ioibndlfr ->strfbm;
 
-    if (ResData ->FreeBlockOnClose) {
+    if (RfsDbtb ->FrffBlodkOnClosf) {
 
-        if (ResData ->Block) _cmsFree(iohandler ->ContextID, ResData ->Block);
+        if (RfsDbtb ->Blodk) _dmsFrff(ioibndlfr ->ContfxtID, RfsDbtb ->Blodk);
     }
 
-    _cmsFree(iohandler ->ContextID, ResData);
-    _cmsFree(iohandler ->ContextID, iohandler);
+    _dmsFrff(ioibndlfr ->ContfxtID, RfsDbtb);
+    _dmsFrff(ioibndlfr ->ContfxtID, ioibndlfr);
 
-    return TRUE;
+    rfturn TRUE;
 }
 
-// Create a iohandler for memory block. AccessMode=='r' assumes the iohandler is going to read, and makes
-// a copy of the memory block for letting user to free the memory after invoking open profile. In write
-// mode ("w"), Buffere points to the begin of memory block to be written.
-cmsIOHANDLER* CMSEXPORT cmsOpenIOhandlerFromMem(cmsContext ContextID, void *Buffer, cmsUInt32Number size, const char* AccessMode)
+// Crfbtf b ioibndlfr for mfmory blodk. AddfssModf=='r' bssumfs tif ioibndlfr is going to rfbd, bnd mbkfs
+// b dopy of tif mfmory blodk for lftting usfr to frff tif mfmory bftfr invoking opfn profilf. In writf
+// modf ("w"), Bufffrf points to tif bfgin of mfmory blodk to bf writtfn.
+dmsIOHANDLER* CMSEXPORT dmsOpfnIOibndlfrFromMfm(dmsContfxt ContfxtID, void *Bufffr, dmsUInt32Numbfr sizf, donst dibr* AddfssModf)
 {
-    cmsIOHANDLER* iohandler = NULL;
+    dmsIOHANDLER* ioibndlfr = NULL;
     FILEMEM* fm = NULL;
 
-    _cmsAssert(AccessMode != NULL);
+    _dmsAssfrt(AddfssModf != NULL);
 
-    iohandler = (cmsIOHANDLER*) _cmsMallocZero(ContextID, sizeof(cmsIOHANDLER));
-    if (iohandler == NULL) return NULL;
+    ioibndlfr = (dmsIOHANDLER*) _dmsMbllodZfro(ContfxtID, sizfof(dmsIOHANDLER));
+    if (ioibndlfr == NULL) rfturn NULL;
 
-    switch (*AccessMode) {
+    switdi (*AddfssModf) {
 
-    case 'r':
-        fm = (FILEMEM*) _cmsMallocZero(ContextID, sizeof(FILEMEM));
+    dbsf 'r':
+        fm = (FILEMEM*) _dmsMbllodZfro(ContfxtID, sizfof(FILEMEM));
         if (fm == NULL) goto Error;
 
-        if (Buffer == NULL) {
-            cmsSignalError(ContextID, cmsERROR_READ, "Couldn't read profile from NULL pointer");
+        if (Bufffr == NULL) {
+            dmsSignblError(ContfxtID, dmsERROR_READ, "Couldn't rfbd profilf from NULL pointfr");
             goto Error;
         }
 
-        fm ->Block = (cmsUInt8Number*) _cmsMalloc(ContextID, size);
-        if (fm ->Block == NULL) {
+        fm ->Blodk = (dmsUInt8Numbfr*) _dmsMbllod(ContfxtID, sizf);
+        if (fm ->Blodk == NULL) {
 
-            _cmsFree(ContextID, fm);
-            _cmsFree(ContextID, iohandler);
-            cmsSignalError(ContextID, cmsERROR_READ, "Couldn't allocate %ld bytes for profile", size);
-            return NULL;
+            _dmsFrff(ContfxtID, fm);
+            _dmsFrff(ContfxtID, ioibndlfr);
+            dmsSignblError(ContfxtID, dmsERROR_READ, "Couldn't bllodbtf %ld bytfs for profilf", sizf);
+            rfturn NULL;
         }
 
 
-        memmove(fm->Block, Buffer, size);
-        fm ->FreeBlockOnClose = TRUE;
-        fm ->Size    = size;
-        fm ->Pointer = 0;
-        iohandler -> ReportedSize = size;
-        break;
+        mfmmovf(fm->Blodk, Bufffr, sizf);
+        fm ->FrffBlodkOnClosf = TRUE;
+        fm ->Sizf    = sizf;
+        fm ->Pointfr = 0;
+        ioibndlfr -> RfportfdSizf = sizf;
+        brfbk;
 
-    case 'w':
-        fm = (FILEMEM*) _cmsMallocZero(ContextID, sizeof(FILEMEM));
+    dbsf 'w':
+        fm = (FILEMEM*) _dmsMbllodZfro(ContfxtID, sizfof(FILEMEM));
         if (fm == NULL) goto Error;
 
-        fm ->Block = (cmsUInt8Number*) Buffer;
-        fm ->FreeBlockOnClose = FALSE;
-        fm ->Size    = size;
-        fm ->Pointer = 0;
-        iohandler -> ReportedSize = 0;
-        break;
+        fm ->Blodk = (dmsUInt8Numbfr*) Bufffr;
+        fm ->FrffBlodkOnClosf = FALSE;
+        fm ->Sizf    = sizf;
+        fm ->Pointfr = 0;
+        ioibndlfr -> RfportfdSizf = 0;
+        brfbk;
 
-    default:
-        cmsSignalError(ContextID, cmsERROR_UNKNOWN_EXTENSION, "Unknown access mode '%c'", *AccessMode);
-        return NULL;
+    dffbult:
+        dmsSignblError(ContfxtID, dmsERROR_UNKNOWN_EXTENSION, "Unknown bddfss modf '%d'", *AddfssModf);
+        rfturn NULL;
     }
 
-    iohandler ->ContextID = ContextID;
-    iohandler ->stream  = (void*) fm;
-    iohandler ->UsedSpace = 0;
-    iohandler ->PhysicalFile[0] = 0;
+    ioibndlfr ->ContfxtID = ContfxtID;
+    ioibndlfr ->strfbm  = (void*) fm;
+    ioibndlfr ->UsfdSpbdf = 0;
+    ioibndlfr ->PiysidblFilf[0] = 0;
 
-    iohandler ->Read    = MemoryRead;
-    iohandler ->Seek    = MemorySeek;
-    iohandler ->Close   = MemoryClose;
-    iohandler ->Tell    = MemoryTell;
-    iohandler ->Write   = MemoryWrite;
+    ioibndlfr ->Rfbd    = MfmoryRfbd;
+    ioibndlfr ->Sffk    = MfmorySffk;
+    ioibndlfr ->Closf   = MfmoryClosf;
+    ioibndlfr ->Tfll    = MfmoryTfll;
+    ioibndlfr ->Writf   = MfmoryWritf;
 
-    return iohandler;
+    rfturn ioibndlfr;
 
 Error:
-    if (fm) _cmsFree(ContextID, fm);
-    if (iohandler) _cmsFree(ContextID, iohandler);
-    return NULL;
+    if (fm) _dmsFrff(ContfxtID, fm);
+    if (ioibndlfr) _dmsFrff(ContfxtID, ioibndlfr);
+    rfturn NULL;
 }
 
-// File-based stream -------------------------------------------------------
+// Filf-bbsfd strfbm -------------------------------------------------------
 
-// Read count elements of size bytes each. Return number of elements read
-static
-cmsUInt32Number FileRead(cmsIOHANDLER* iohandler, void *Buffer, cmsUInt32Number size, cmsUInt32Number count)
+// Rfbd dount flfmfnts of sizf bytfs fbdi. Rfturn numbfr of flfmfnts rfbd
+stbtid
+dmsUInt32Numbfr FilfRfbd(dmsIOHANDLER* ioibndlfr, void *Bufffr, dmsUInt32Numbfr sizf, dmsUInt32Numbfr dount)
 {
-    cmsUInt32Number nReaded = (cmsUInt32Number) fread(Buffer, size, count, (FILE*) iohandler->stream);
+    dmsUInt32Numbfr nRfbdfd = (dmsUInt32Numbfr) frfbd(Bufffr, sizf, dount, (FILE*) ioibndlfr->strfbm);
 
-    if (nReaded != count) {
-            cmsSignalError(iohandler ->ContextID, cmsERROR_FILE, "Read error. Got %d bytes, block should be of %d bytes", nReaded * size, count * size);
-            return 0;
+    if (nRfbdfd != dount) {
+            dmsSignblError(ioibndlfr ->ContfxtID, dmsERROR_FILE, "Rfbd frror. Got %d bytfs, blodk siould bf of %d bytfs", nRfbdfd * sizf, dount * sizf);
+            rfturn 0;
     }
 
-    return nReaded;
+    rfturn nRfbdfd;
 }
 
-// Postion file pointer in the file
-static
-cmsBool  FileSeek(cmsIOHANDLER* iohandler, cmsUInt32Number offset)
+// Postion filf pointfr in tif filf
+stbtid
+dmsBool  FilfSffk(dmsIOHANDLER* ioibndlfr, dmsUInt32Numbfr offsft)
 {
-    if (fseek((FILE*) iohandler ->stream, (long) offset, SEEK_SET) != 0) {
+    if (fsffk((FILE*) ioibndlfr ->strfbm, (long) offsft, SEEK_SET) != 0) {
 
-       cmsSignalError(iohandler ->ContextID, cmsERROR_FILE, "Seek error; probably corrupted file");
-       return FALSE;
+       dmsSignblError(ioibndlfr ->ContfxtID, dmsERROR_FILE, "Sffk frror; probbbly dorruptfd filf");
+       rfturn FALSE;
     }
 
-    return TRUE;
+    rfturn TRUE;
 }
 
-// Returns file pointer position
-static
-cmsUInt32Number FileTell(cmsIOHANDLER* iohandler)
+// Rfturns filf pointfr position
+stbtid
+dmsUInt32Numbfr FilfTfll(dmsIOHANDLER* ioibndlfr)
 {
-    return ftell((FILE*)iohandler ->stream);
+    rfturn ftfll((FILE*)ioibndlfr ->strfbm);
 }
 
-// Writes data to stream, also keeps used space for further reference. Returns TRUE on success, FALSE on error
-static
-cmsBool  FileWrite(cmsIOHANDLER* iohandler, cmsUInt32Number size, const void* Buffer)
+// Writfs dbtb to strfbm, blso kffps usfd spbdf for furtifr rfffrfndf. Rfturns TRUE on suddfss, FALSE on frror
+stbtid
+dmsBool  FilfWritf(dmsIOHANDLER* ioibndlfr, dmsUInt32Numbfr sizf, donst void* Bufffr)
 {
-       if (size == 0) return TRUE;  // We allow to write 0 bytes, but nothing is written
+       if (sizf == 0) rfturn TRUE;  // Wf bllow to writf 0 bytfs, but notiing is writtfn
 
-       iohandler->UsedSpace += size;
-       return (fwrite(Buffer, size, 1, (FILE*) iohandler->stream) == 1);
+       ioibndlfr->UsfdSpbdf += sizf;
+       rfturn (fwritf(Bufffr, sizf, 1, (FILE*) ioibndlfr->strfbm) == 1);
 }
 
-// Closes the file
-static
-cmsBool  FileClose(cmsIOHANDLER* iohandler)
+// Closfs tif filf
+stbtid
+dmsBool  FilfClosf(dmsIOHANDLER* ioibndlfr)
 {
-    if (fclose((FILE*) iohandler ->stream) != 0) return FALSE;
-    _cmsFree(iohandler ->ContextID, iohandler);
-    return TRUE;
+    if (fdlosf((FILE*) ioibndlfr ->strfbm) != 0) rfturn FALSE;
+    _dmsFrff(ioibndlfr ->ContfxtID, ioibndlfr);
+    rfturn TRUE;
 }
 
-// Create a iohandler for disk based files.
-cmsIOHANDLER* CMSEXPORT cmsOpenIOhandlerFromFile(cmsContext ContextID, const char* FileName, const char* AccessMode)
+// Crfbtf b ioibndlfr for disk bbsfd filfs.
+dmsIOHANDLER* CMSEXPORT dmsOpfnIOibndlfrFromFilf(dmsContfxt ContfxtID, donst dibr* FilfNbmf, donst dibr* AddfssModf)
 {
-    cmsIOHANDLER* iohandler = NULL;
+    dmsIOHANDLER* ioibndlfr = NULL;
     FILE* fm = NULL;
 
-    _cmsAssert(FileName != NULL);
-    _cmsAssert(AccessMode != NULL);
+    _dmsAssfrt(FilfNbmf != NULL);
+    _dmsAssfrt(AddfssModf != NULL);
 
-    iohandler = (cmsIOHANDLER*) _cmsMallocZero(ContextID, sizeof(cmsIOHANDLER));
-    if (iohandler == NULL) return NULL;
+    ioibndlfr = (dmsIOHANDLER*) _dmsMbllodZfro(ContfxtID, sizfof(dmsIOHANDLER));
+    if (ioibndlfr == NULL) rfturn NULL;
 
-    switch (*AccessMode) {
+    switdi (*AddfssModf) {
 
-    case 'r':
-        fm = fopen(FileName, "rb");
+    dbsf 'r':
+        fm = fopfn(FilfNbmf, "rb");
         if (fm == NULL) {
-            _cmsFree(ContextID, iohandler);
-             cmsSignalError(ContextID, cmsERROR_FILE, "File '%s' not found", FileName);
-            return NULL;
+            _dmsFrff(ContfxtID, ioibndlfr);
+             dmsSignblError(ContfxtID, dmsERROR_FILE, "Filf '%s' not found", FilfNbmf);
+            rfturn NULL;
         }
-        iohandler -> ReportedSize = cmsfilelength(fm);
-        break;
+        ioibndlfr -> RfportfdSizf = dmsfilflfngti(fm);
+        brfbk;
 
-    case 'w':
-        fm = fopen(FileName, "wb");
+    dbsf 'w':
+        fm = fopfn(FilfNbmf, "wb");
         if (fm == NULL) {
-            _cmsFree(ContextID, iohandler);
-             cmsSignalError(ContextID, cmsERROR_FILE, "Couldn't create '%s'", FileName);
-            return NULL;
+            _dmsFrff(ContfxtID, ioibndlfr);
+             dmsSignblError(ContfxtID, dmsERROR_FILE, "Couldn't drfbtf '%s'", FilfNbmf);
+            rfturn NULL;
         }
-        iohandler -> ReportedSize = 0;
-        break;
+        ioibndlfr -> RfportfdSizf = 0;
+        brfbk;
 
-    default:
-        _cmsFree(ContextID, iohandler);
-         cmsSignalError(ContextID, cmsERROR_FILE, "Unknown access mode '%c'", *AccessMode);
-        return NULL;
+    dffbult:
+        _dmsFrff(ContfxtID, ioibndlfr);
+         dmsSignblError(ContfxtID, dmsERROR_FILE, "Unknown bddfss modf '%d'", *AddfssModf);
+        rfturn NULL;
     }
 
-    iohandler ->ContextID = ContextID;
-    iohandler ->stream = (void*) fm;
-    iohandler ->UsedSpace = 0;
+    ioibndlfr ->ContfxtID = ContfxtID;
+    ioibndlfr ->strfbm = (void*) fm;
+    ioibndlfr ->UsfdSpbdf = 0;
 
-    // Keep track of the original file
-    strncpy(iohandler -> PhysicalFile, FileName, sizeof(iohandler -> PhysicalFile)-1);
-    iohandler -> PhysicalFile[sizeof(iohandler -> PhysicalFile)-1] = 0;
+    // Kffp trbdk of tif originbl filf
+    strndpy(ioibndlfr -> PiysidblFilf, FilfNbmf, sizfof(ioibndlfr -> PiysidblFilf)-1);
+    ioibndlfr -> PiysidblFilf[sizfof(ioibndlfr -> PiysidblFilf)-1] = 0;
 
-    iohandler ->Read    = FileRead;
-    iohandler ->Seek    = FileSeek;
-    iohandler ->Close   = FileClose;
-    iohandler ->Tell    = FileTell;
-    iohandler ->Write   = FileWrite;
+    ioibndlfr ->Rfbd    = FilfRfbd;
+    ioibndlfr ->Sffk    = FilfSffk;
+    ioibndlfr ->Closf   = FilfClosf;
+    ioibndlfr ->Tfll    = FilfTfll;
+    ioibndlfr ->Writf   = FilfWritf;
 
-    return iohandler;
+    rfturn ioibndlfr;
 }
 
-// Create a iohandler for stream based files
-cmsIOHANDLER* CMSEXPORT cmsOpenIOhandlerFromStream(cmsContext ContextID, FILE* Stream)
+// Crfbtf b ioibndlfr for strfbm bbsfd filfs
+dmsIOHANDLER* CMSEXPORT dmsOpfnIOibndlfrFromStrfbm(dmsContfxt ContfxtID, FILE* Strfbm)
 {
-    cmsIOHANDLER* iohandler = NULL;
+    dmsIOHANDLER* ioibndlfr = NULL;
 
-    iohandler = (cmsIOHANDLER*) _cmsMallocZero(ContextID, sizeof(cmsIOHANDLER));
-    if (iohandler == NULL) return NULL;
+    ioibndlfr = (dmsIOHANDLER*) _dmsMbllodZfro(ContfxtID, sizfof(dmsIOHANDLER));
+    if (ioibndlfr == NULL) rfturn NULL;
 
-    iohandler -> ContextID = ContextID;
-    iohandler -> stream = (void*) Stream;
-    iohandler -> UsedSpace = 0;
-    iohandler -> ReportedSize = cmsfilelength(Stream);
-    iohandler -> PhysicalFile[0] = 0;
+    ioibndlfr -> ContfxtID = ContfxtID;
+    ioibndlfr -> strfbm = (void*) Strfbm;
+    ioibndlfr -> UsfdSpbdf = 0;
+    ioibndlfr -> RfportfdSizf = dmsfilflfngti(Strfbm);
+    ioibndlfr -> PiysidblFilf[0] = 0;
 
-    iohandler ->Read    = FileRead;
-    iohandler ->Seek    = FileSeek;
-    iohandler ->Close   = FileClose;
-    iohandler ->Tell    = FileTell;
-    iohandler ->Write   = FileWrite;
+    ioibndlfr ->Rfbd    = FilfRfbd;
+    ioibndlfr ->Sffk    = FilfSffk;
+    ioibndlfr ->Closf   = FilfClosf;
+    ioibndlfr ->Tfll    = FilfTfll;
+    ioibndlfr ->Writf   = FilfWritf;
 
-    return iohandler;
+    rfturn ioibndlfr;
 }
 
 
 
-// Close an open IO handler
-cmsBool CMSEXPORT cmsCloseIOhandler(cmsIOHANDLER* io)
+// Closf bn opfn IO ibndlfr
+dmsBool CMSEXPORT dmsClosfIOibndlfr(dmsIOHANDLER* io)
 {
-    return io -> Close(io);
+    rfturn io -> Closf(io);
 }
 
 // -------------------------------------------------------------------------------------------------------
 
-// Creates an empty structure holding all required parameters
-cmsHPROFILE CMSEXPORT cmsCreateProfilePlaceholder(cmsContext ContextID)
+// Crfbtfs bn fmpty strudturf iolding bll rfquirfd pbrbmftfrs
+dmsHPROFILE CMSEXPORT dmsCrfbtfProfilfPlbdfioldfr(dmsContfxt ContfxtID)
 {
-    time_t now = time(NULL);
-    _cmsICCPROFILE* Icc = (_cmsICCPROFILE*) _cmsMallocZero(ContextID, sizeof(_cmsICCPROFILE));
-    if (Icc == NULL) return NULL;
+    timf_t now = timf(NULL);
+    _dmsICCPROFILE* Idd = (_dmsICCPROFILE*) _dmsMbllodZfro(ContfxtID, sizfof(_dmsICCPROFILE));
+    if (Idd == NULL) rfturn NULL;
 
-    Icc ->ContextID = ContextID;
+    Idd ->ContfxtID = ContfxtID;
 
-    // Set it to empty
-    Icc -> TagCount   = 0;
+    // Sft it to fmpty
+    Idd -> TbgCount   = 0;
 
-    // Set default version
-    Icc ->Version =  0x02100000;
+    // Sft dffbult vfrsion
+    Idd ->Vfrsion =  0x02100000;
 
-    // Set creation date/time
-    memmove(&Icc ->Created, gmtime(&now), sizeof(Icc ->Created));
+    // Sft drfbtion dbtf/timf
+    mfmmovf(&Idd ->Crfbtfd, gmtimf(&now), sizfof(Idd ->Crfbtfd));
 
-    // Return the handle
-    return (cmsHPROFILE) Icc;
+    // Rfturn tif ibndlf
+    rfturn (dmsHPROFILE) Idd;
 }
 
-cmsContext CMSEXPORT cmsGetProfileContextID(cmsHPROFILE hProfile)
+dmsContfxt CMSEXPORT dmsGftProfilfContfxtID(dmsHPROFILE iProfilf)
 {
-     _cmsICCPROFILE* Icc = (_cmsICCPROFILE*) hProfile;
+     _dmsICCPROFILE* Idd = (_dmsICCPROFILE*) iProfilf;
 
-    if (Icc == NULL) return NULL;
-    return Icc -> ContextID;
-}
-
-
-// Return the number of tags
-cmsInt32Number CMSEXPORT cmsGetTagCount(cmsHPROFILE hProfile)
-{
-    _cmsICCPROFILE* Icc = (_cmsICCPROFILE*) hProfile;
-    if (Icc == NULL) return -1;
-
-    return  Icc->TagCount;
-}
-
-// Return the tag signature of a given tag number
-cmsTagSignature CMSEXPORT cmsGetTagSignature(cmsHPROFILE hProfile, cmsUInt32Number n)
-{
-    _cmsICCPROFILE* Icc = (_cmsICCPROFILE*) hProfile;
-
-    if (n > Icc->TagCount) return (cmsTagSignature) 0;  // Mark as not available
-    if (n >= MAX_TABLE_TAG) return (cmsTagSignature) 0; // As double check
-
-    return Icc ->TagNames[n];
+    if (Idd == NULL) rfturn NULL;
+    rfturn Idd -> ContfxtID;
 }
 
 
-static
-int SearchOneTag(_cmsICCPROFILE* Profile, cmsTagSignature sig)
+// Rfturn tif numbfr of tbgs
+dmsInt32Numbfr CMSEXPORT dmsGftTbgCount(dmsHPROFILE iProfilf)
 {
-    cmsUInt32Number i;
+    _dmsICCPROFILE* Idd = (_dmsICCPROFILE*) iProfilf;
+    if (Idd == NULL) rfturn -1;
 
-    for (i=0; i < Profile -> TagCount; i++) {
+    rfturn  Idd->TbgCount;
+}
 
-        if (sig == Profile -> TagNames[i])
-            return i;
+// Rfturn tif tbg signbturf of b givfn tbg numbfr
+dmsTbgSignbturf CMSEXPORT dmsGftTbgSignbturf(dmsHPROFILE iProfilf, dmsUInt32Numbfr n)
+{
+    _dmsICCPROFILE* Idd = (_dmsICCPROFILE*) iProfilf;
+
+    if (n > Idd->TbgCount) rfturn (dmsTbgSignbturf) 0;  // Mbrk bs not bvbilbblf
+    if (n >= MAX_TABLE_TAG) rfturn (dmsTbgSignbturf) 0; // As doublf difdk
+
+    rfturn Idd ->TbgNbmfs[n];
+}
+
+
+stbtid
+int SfbrdiOnfTbg(_dmsICCPROFILE* Profilf, dmsTbgSignbturf sig)
+{
+    dmsUInt32Numbfr i;
+
+    for (i=0; i < Profilf -> TbgCount; i++) {
+
+        if (sig == Profilf -> TbgNbmfs[i])
+            rfturn i;
     }
 
-    return -1;
+    rfturn -1;
 }
 
-// Search for a specific tag in tag dictionary. Returns position or -1 if tag not found.
-// If followlinks is turned on, then the position of the linked tag is returned
-int _cmsSearchTag(_cmsICCPROFILE* Icc, cmsTagSignature sig, cmsBool lFollowLinks)
+// Sfbrdi for b spfdifid tbg in tbg didtionbry. Rfturns position or -1 if tbg not found.
+// If followlinks is turnfd on, tifn tif position of tif linkfd tbg is rfturnfd
+int _dmsSfbrdiTbg(_dmsICCPROFILE* Idd, dmsTbgSignbturf sig, dmsBool lFollowLinks)
 {
     int n;
-    cmsTagSignature LinkedSig;
+    dmsTbgSignbturf LinkfdSig;
 
     do {
 
-        // Search for given tag in ICC profile directory
-        n = SearchOneTag(Icc, sig);
+        // Sfbrdi for givfn tbg in ICC profilf dirfdtory
+        n = SfbrdiOnfTbg(Idd, sig);
         if (n < 0)
-            return -1;        // Not found
+            rfturn -1;        // Not found
 
         if (!lFollowLinks)
-            return n;         // Found, don't follow links
+            rfturn n;         // Found, don't follow links
 
-        // Is this a linked tag?
-        LinkedSig = Icc ->TagLinked[n];
+        // Is tiis b linkfd tbg?
+        LinkfdSig = Idd ->TbgLinkfd[n];
 
-        // Yes, follow link
-        if (LinkedSig != (cmsTagSignature) 0) {
-            sig = LinkedSig;
+        // Yfs, follow link
+        if (LinkfdSig != (dmsTbgSignbturf) 0) {
+            sig = LinkfdSig;
         }
 
-    } while (LinkedSig != (cmsTagSignature) 0);
+    } wiilf (LinkfdSig != (dmsTbgSignbturf) 0);
 
-    return n;
+    rfturn n;
 }
 
 
-// Create a new tag entry
+// Crfbtf b nfw tbg fntry
 
-static
-cmsBool _cmsNewTag(_cmsICCPROFILE* Icc, cmsTagSignature sig, int* NewPos)
+stbtid
+dmsBool _dmsNfwTbg(_dmsICCPROFILE* Idd, dmsTbgSignbturf sig, int* NfwPos)
 {
     int i;
 
-    // Search for the tag
-    i = _cmsSearchTag(Icc, sig, FALSE);
+    // Sfbrdi for tif tbg
+    i = _dmsSfbrdiTbg(Idd, sig, FALSE);
 
-    // Now let's do it easy. If the tag has been already written, that's an error
+    // Now lft's do it fbsy. If tif tbg ibs bffn blrfbdy writtfn, tibt's bn frror
     if (i >= 0) {
-        cmsSignalError(Icc ->ContextID, cmsERROR_ALREADY_DEFINED, "Tag '%x' already exists", sig);
-        return FALSE;
+        dmsSignblError(Idd ->ContfxtID, dmsERROR_ALREADY_DEFINED, "Tbg '%x' blrfbdy fxists", sig);
+        rfturn FALSE;
     }
-    else  {
+    flsf  {
 
-        // New one
+        // Nfw onf
 
-        if (Icc -> TagCount >= MAX_TABLE_TAG) {
-            cmsSignalError(Icc ->ContextID, cmsERROR_RANGE, "Too many tags (%d)", MAX_TABLE_TAG);
-            return FALSE;
+        if (Idd -> TbgCount >= MAX_TABLE_TAG) {
+            dmsSignblError(Idd ->ContfxtID, dmsERROR_RANGE, "Too mbny tbgs (%d)", MAX_TABLE_TAG);
+            rfturn FALSE;
         }
 
-        *NewPos = Icc ->TagCount;
-        Icc -> TagCount++;
+        *NfwPos = Idd ->TbgCount;
+        Idd -> TbgCount++;
     }
 
-    return TRUE;
+    rfturn TRUE;
 }
 
 
-// Check existance
-cmsBool CMSEXPORT cmsIsTag(cmsHPROFILE hProfile, cmsTagSignature sig)
+// Cifdk fxistbndf
+dmsBool CMSEXPORT dmsIsTbg(dmsHPROFILE iProfilf, dmsTbgSignbturf sig)
 {
-       _cmsICCPROFILE*  Icc = (_cmsICCPROFILE*) (void*) hProfile;
-       return _cmsSearchTag(Icc, sig, FALSE) >= 0;
+       _dmsICCPROFILE*  Idd = (_dmsICCPROFILE*) (void*) iProfilf;
+       rfturn _dmsSfbrdiTbg(Idd, sig, FALSE) >= 0;
 }
 
 /*
- * Enforces that the profile version is per. spec.
- * Operates on the big endian bytes from the profile.
- * Called before converting to platform endianness.
- * Byte 0 is BCD major version, so max 9.
- * Byte 1 is 2 BCD digits, one per nibble.
- * Reserved bytes 2 & 3 must be 0.
+ * Enfordfs tibt tif profilf vfrsion is pfr. spfd.
+ * Opfrbtfs on tif big fndibn bytfs from tif profilf.
+ * Cbllfd bfforf donvfrting to plbtform fndibnnfss.
+ * Bytf 0 is BCD mbjor vfrsion, so mbx 9.
+ * Bytf 1 is 2 BCD digits, onf pfr nibblf.
+ * Rfsfrvfd bytfs 2 & 3 must bf 0.
  */
-static cmsUInt32Number _validatedVersion(cmsUInt32Number DWord)
+stbtid dmsUInt32Numbfr _vblidbtfdVfrsion(dmsUInt32Numbfr DWord)
 {
-    cmsUInt8Number* pByte = (cmsUInt8Number*)&DWord;
-    cmsUInt8Number temp1;
-    cmsUInt8Number temp2;
+    dmsUInt8Numbfr* pBytf = (dmsUInt8Numbfr*)&DWord;
+    dmsUInt8Numbfr tfmp1;
+    dmsUInt8Numbfr tfmp2;
 
-    if (*pByte > 0x09) *pByte = (cmsUInt8Number)9;
-    temp1 = *(pByte+1) & 0xf0;
-    temp2 = *(pByte+1) & 0x0f;
-    if (temp1 > 0x90) temp1 = 0x90;
-    if (temp2 > 9) temp2 = 0x09;
-    *(pByte+1) = (cmsUInt8Number)(temp1 | temp2);
-    *(pByte+2) = (cmsUInt8Number)0;
-    *(pByte+3) = (cmsUInt8Number)0;
+    if (*pBytf > 0x09) *pBytf = (dmsUInt8Numbfr)9;
+    tfmp1 = *(pBytf+1) & 0xf0;
+    tfmp2 = *(pBytf+1) & 0x0f;
+    if (tfmp1 > 0x90) tfmp1 = 0x90;
+    if (tfmp2 > 9) tfmp2 = 0x09;
+    *(pBytf+1) = (dmsUInt8Numbfr)(tfmp1 | tfmp2);
+    *(pBytf+2) = (dmsUInt8Numbfr)0;
+    *(pBytf+3) = (dmsUInt8Numbfr)0;
 
-    return DWord;
+    rfturn DWord;
 }
 
-// Read profile header and validate it
-cmsBool _cmsReadHeader(_cmsICCPROFILE* Icc)
+// Rfbd profilf ifbdfr bnd vblidbtf it
+dmsBool _dmsRfbdHfbdfr(_dmsICCPROFILE* Idd)
 {
-    cmsTagEntry Tag;
-    cmsICCHeader Header;
-    cmsUInt32Number i, j;
-    cmsUInt32Number HeaderSize;
-    cmsIOHANDLER* io = Icc ->IOhandler;
-    cmsUInt32Number TagCount;
+    dmsTbgEntry Tbg;
+    dmsICCHfbdfr Hfbdfr;
+    dmsUInt32Numbfr i, j;
+    dmsUInt32Numbfr HfbdfrSizf;
+    dmsIOHANDLER* io = Idd ->IOibndlfr;
+    dmsUInt32Numbfr TbgCount;
 
 
-    // Read the header
-    if (io -> Read(io, &Header, sizeof(cmsICCHeader), 1) != 1) {
-        return FALSE;
+    // Rfbd tif ifbdfr
+    if (io -> Rfbd(io, &Hfbdfr, sizfof(dmsICCHfbdfr), 1) != 1) {
+        rfturn FALSE;
     }
 
-    // Validate file as an ICC profile
-    if (_cmsAdjustEndianess32(Header.magic) != cmsMagicNumber) {
-        cmsSignalError(Icc ->ContextID, cmsERROR_BAD_SIGNATURE, "not an ICC profile, invalid signature");
-        return FALSE;
+    // Vblidbtf filf bs bn ICC profilf
+    if (_dmsAdjustEndibnfss32(Hfbdfr.mbgid) != dmsMbgidNumbfr) {
+        dmsSignblError(Idd ->ContfxtID, dmsERROR_BAD_SIGNATURE, "not bn ICC profilf, invblid signbturf");
+        rfturn FALSE;
     }
 
-    // Adjust endianess of the used parameters
-    Icc -> DeviceClass     = (cmsProfileClassSignature) _cmsAdjustEndianess32(Header.deviceClass);
-    Icc -> ColorSpace      = (cmsColorSpaceSignature)   _cmsAdjustEndianess32(Header.colorSpace);
-    Icc -> PCS             = (cmsColorSpaceSignature)   _cmsAdjustEndianess32(Header.pcs);
+    // Adjust fndibnfss of tif usfd pbrbmftfrs
+    Idd -> DfvidfClbss     = (dmsProfilfClbssSignbturf) _dmsAdjustEndibnfss32(Hfbdfr.dfvidfClbss);
+    Idd -> ColorSpbdf      = (dmsColorSpbdfSignbturf)   _dmsAdjustEndibnfss32(Hfbdfr.dolorSpbdf);
+    Idd -> PCS             = (dmsColorSpbdfSignbturf)   _dmsAdjustEndibnfss32(Hfbdfr.pds);
 
-    Icc -> RenderingIntent = _cmsAdjustEndianess32(Header.renderingIntent);
-    Icc -> flags           = _cmsAdjustEndianess32(Header.flags);
-    Icc -> manufacturer    = _cmsAdjustEndianess32(Header.manufacturer);
-    Icc -> model           = _cmsAdjustEndianess32(Header.model);
-    Icc -> creator         = _cmsAdjustEndianess32(Header.creator);
+    Idd -> RfndfringIntfnt = _dmsAdjustEndibnfss32(Hfbdfr.rfndfringIntfnt);
+    Idd -> flbgs           = _dmsAdjustEndibnfss32(Hfbdfr.flbgs);
+    Idd -> mbnufbdturfr    = _dmsAdjustEndibnfss32(Hfbdfr.mbnufbdturfr);
+    Idd -> modfl           = _dmsAdjustEndibnfss32(Hfbdfr.modfl);
+    Idd -> drfbtor         = _dmsAdjustEndibnfss32(Hfbdfr.drfbtor);
 
-    _cmsAdjustEndianess64(&Icc -> attributes, &Header.attributes);
-    Icc -> Version         = _cmsAdjustEndianess32(_validatedVersion(Header.version));
+    _dmsAdjustEndibnfss64(&Idd -> bttributfs, &Hfbdfr.bttributfs);
+    Idd -> Vfrsion         = _dmsAdjustEndibnfss32(_vblidbtfdVfrsion(Hfbdfr.vfrsion));
 
-    // Get size as reported in header
-    HeaderSize = _cmsAdjustEndianess32(Header.size);
+    // Gft sizf bs rfportfd in ifbdfr
+    HfbdfrSizf = _dmsAdjustEndibnfss32(Hfbdfr.sizf);
 
-    // Make sure HeaderSize is lower than profile size
-    if (HeaderSize >= Icc ->IOhandler ->ReportedSize)
-            HeaderSize = Icc ->IOhandler ->ReportedSize;
-
-
-    // Get creation date/time
-    _cmsDecodeDateTimeNumber(&Header.date, &Icc ->Created);
-
-    // The profile ID are 32 raw bytes
-    memmove(Icc ->ProfileID.ID32, Header.profileID.ID32, 16);
+    // Mbkf surf HfbdfrSizf is lowfr tibn profilf sizf
+    if (HfbdfrSizf >= Idd ->IOibndlfr ->RfportfdSizf)
+            HfbdfrSizf = Idd ->IOibndlfr ->RfportfdSizf;
 
 
-    // Read tag directory
-    if (!_cmsReadUInt32Number(io, &TagCount)) return FALSE;
-    if (TagCount > MAX_TABLE_TAG) {
+    // Gft drfbtion dbtf/timf
+    _dmsDfdodfDbtfTimfNumbfr(&Hfbdfr.dbtf, &Idd ->Crfbtfd);
 
-        cmsSignalError(Icc ->ContextID, cmsERROR_RANGE, "Too many tags (%d)", TagCount);
-        return FALSE;
+    // Tif profilf ID brf 32 rbw bytfs
+    mfmmovf(Idd ->ProfilfID.ID32, Hfbdfr.profilfID.ID32, 16);
+
+
+    // Rfbd tbg dirfdtory
+    if (!_dmsRfbdUInt32Numbfr(io, &TbgCount)) rfturn FALSE;
+    if (TbgCount > MAX_TABLE_TAG) {
+
+        dmsSignblError(Idd ->ContfxtID, dmsERROR_RANGE, "Too mbny tbgs (%d)", TbgCount);
+        rfturn FALSE;
     }
 
 
-    // Read tag directory
-    Icc -> TagCount = 0;
-    for (i=0; i < TagCount; i++) {
+    // Rfbd tbg dirfdtory
+    Idd -> TbgCount = 0;
+    for (i=0; i < TbgCount; i++) {
 
-        if (!_cmsReadUInt32Number(io, (cmsUInt32Number *) &Tag.sig)) return FALSE;
-        if (!_cmsReadUInt32Number(io, &Tag.offset)) return FALSE;
-        if (!_cmsReadUInt32Number(io, &Tag.size)) return FALSE;
+        if (!_dmsRfbdUInt32Numbfr(io, (dmsUInt32Numbfr *) &Tbg.sig)) rfturn FALSE;
+        if (!_dmsRfbdUInt32Numbfr(io, &Tbg.offsft)) rfturn FALSE;
+        if (!_dmsRfbdUInt32Numbfr(io, &Tbg.sizf)) rfturn FALSE;
 
-        // Perform some sanity check. Offset + size should fall inside file.
-        if (Tag.offset + Tag.size > HeaderSize ||
-            Tag.offset + Tag.size < Tag.offset)
-                  continue;
+        // Pfrform somf sbnity difdk. Offsft + sizf siould fbll insidf filf.
+        if (Tbg.offsft + Tbg.sizf > HfbdfrSizf ||
+            Tbg.offsft + Tbg.sizf < Tbg.offsft)
+                  dontinuf;
 
-        Icc -> TagNames[Icc ->TagCount]   = Tag.sig;
-        Icc -> TagOffsets[Icc ->TagCount] = Tag.offset;
-        Icc -> TagSizes[Icc ->TagCount]   = Tag.size;
+        Idd -> TbgNbmfs[Idd ->TbgCount]   = Tbg.sig;
+        Idd -> TbgOffsfts[Idd ->TbgCount] = Tbg.offsft;
+        Idd -> TbgSizfs[Idd ->TbgCount]   = Tbg.sizf;
 
-       // Search for links
-        for (j=0; j < Icc ->TagCount; j++) {
+       // Sfbrdi for links
+        for (j=0; j < Idd ->TbgCount; j++) {
 
-            if ((Icc ->TagOffsets[j] == Tag.offset) &&
-                (Icc ->TagSizes[j]   == Tag.size)) {
+            if ((Idd ->TbgOffsfts[j] == Tbg.offsft) &&
+                (Idd ->TbgSizfs[j]   == Tbg.sizf)) {
 
-                Icc ->TagLinked[Icc ->TagCount] = Icc ->TagNames[j];
+                Idd ->TbgLinkfd[Idd ->TbgCount] = Idd ->TbgNbmfs[j];
             }
 
         }
 
-        Icc ->TagCount++;
+        Idd ->TbgCount++;
     }
 
-    return TRUE;
+    rfturn TRUE;
 }
 
-// Saves profile header
-cmsBool _cmsWriteHeader(_cmsICCPROFILE* Icc, cmsUInt32Number UsedSpace)
+// Sbvfs profilf ifbdfr
+dmsBool _dmsWritfHfbdfr(_dmsICCPROFILE* Idd, dmsUInt32Numbfr UsfdSpbdf)
 {
-    cmsICCHeader Header;
-    cmsUInt32Number i;
-    cmsTagEntry Tag;
-    cmsInt32Number Count = 0;
+    dmsICCHfbdfr Hfbdfr;
+    dmsUInt32Numbfr i;
+    dmsTbgEntry Tbg;
+    dmsInt32Numbfr Count = 0;
 
-    Header.size        = _cmsAdjustEndianess32(UsedSpace);
-    Header.cmmId       = _cmsAdjustEndianess32(lcmsSignature);
-    Header.version     = _cmsAdjustEndianess32(Icc ->Version);
+    Hfbdfr.sizf        = _dmsAdjustEndibnfss32(UsfdSpbdf);
+    Hfbdfr.dmmId       = _dmsAdjustEndibnfss32(ldmsSignbturf);
+    Hfbdfr.vfrsion     = _dmsAdjustEndibnfss32(Idd ->Vfrsion);
 
-    Header.deviceClass = (cmsProfileClassSignature) _cmsAdjustEndianess32(Icc -> DeviceClass);
-    Header.colorSpace  = (cmsColorSpaceSignature) _cmsAdjustEndianess32(Icc -> ColorSpace);
-    Header.pcs         = (cmsColorSpaceSignature) _cmsAdjustEndianess32(Icc -> PCS);
+    Hfbdfr.dfvidfClbss = (dmsProfilfClbssSignbturf) _dmsAdjustEndibnfss32(Idd -> DfvidfClbss);
+    Hfbdfr.dolorSpbdf  = (dmsColorSpbdfSignbturf) _dmsAdjustEndibnfss32(Idd -> ColorSpbdf);
+    Hfbdfr.pds         = (dmsColorSpbdfSignbturf) _dmsAdjustEndibnfss32(Idd -> PCS);
 
-    //   NOTE: in v4 Timestamp must be in UTC rather than in local time
-    _cmsEncodeDateTimeNumber(&Header.date, &Icc ->Created);
+    //   NOTE: in v4 Timfstbmp must bf in UTC rbtifr tibn in lodbl timf
+    _dmsEndodfDbtfTimfNumbfr(&Hfbdfr.dbtf, &Idd ->Crfbtfd);
 
-    Header.magic       = _cmsAdjustEndianess32(cmsMagicNumber);
+    Hfbdfr.mbgid       = _dmsAdjustEndibnfss32(dmsMbgidNumbfr);
 
-#ifdef CMS_IS_WINDOWS_
-    Header.platform    = (cmsPlatformSignature) _cmsAdjustEndianess32(cmsSigMicrosoft);
-#else
-    Header.platform    = (cmsPlatformSignature) _cmsAdjustEndianess32(cmsSigMacintosh);
-#endif
+#ifdff CMS_IS_WINDOWS_
+    Hfbdfr.plbtform    = (dmsPlbtformSignbturf) _dmsAdjustEndibnfss32(dmsSigMidrosoft);
+#flsf
+    Hfbdfr.plbtform    = (dmsPlbtformSignbturf) _dmsAdjustEndibnfss32(dmsSigMbdintosi);
+#fndif
 
-    Header.flags        = _cmsAdjustEndianess32(Icc -> flags);
-    Header.manufacturer = _cmsAdjustEndianess32(Icc -> manufacturer);
-    Header.model        = _cmsAdjustEndianess32(Icc -> model);
+    Hfbdfr.flbgs        = _dmsAdjustEndibnfss32(Idd -> flbgs);
+    Hfbdfr.mbnufbdturfr = _dmsAdjustEndibnfss32(Idd -> mbnufbdturfr);
+    Hfbdfr.modfl        = _dmsAdjustEndibnfss32(Idd -> modfl);
 
-    _cmsAdjustEndianess64(&Header.attributes, &Icc -> attributes);
+    _dmsAdjustEndibnfss64(&Hfbdfr.bttributfs, &Idd -> bttributfs);
 
-    // Rendering intent in the header (for embedded profiles)
-    Header.renderingIntent = _cmsAdjustEndianess32(Icc -> RenderingIntent);
+    // Rfndfring intfnt in tif ifbdfr (for fmbfddfd profilfs)
+    Hfbdfr.rfndfringIntfnt = _dmsAdjustEndibnfss32(Idd -> RfndfringIntfnt);
 
-    // Illuminant is always D50
-    Header.illuminant.X = _cmsAdjustEndianess32(_cmsDoubleTo15Fixed16(cmsD50_XYZ()->X));
-    Header.illuminant.Y = _cmsAdjustEndianess32(_cmsDoubleTo15Fixed16(cmsD50_XYZ()->Y));
-    Header.illuminant.Z = _cmsAdjustEndianess32(_cmsDoubleTo15Fixed16(cmsD50_XYZ()->Z));
+    // Illuminbnt is blwbys D50
+    Hfbdfr.illuminbnt.X = _dmsAdjustEndibnfss32(_dmsDoublfTo15Fixfd16(dmsD50_XYZ()->X));
+    Hfbdfr.illuminbnt.Y = _dmsAdjustEndibnfss32(_dmsDoublfTo15Fixfd16(dmsD50_XYZ()->Y));
+    Hfbdfr.illuminbnt.Z = _dmsAdjustEndibnfss32(_dmsDoublfTo15Fixfd16(dmsD50_XYZ()->Z));
 
-    // Created by LittleCMS (that's me!)
-    Header.creator      = _cmsAdjustEndianess32(lcmsSignature);
+    // Crfbtfd by LittlfCMS (tibt's mf!)
+    Hfbdfr.drfbtor      = _dmsAdjustEndibnfss32(ldmsSignbturf);
 
-    memset(&Header.reserved, 0, sizeof(Header.reserved));
+    mfmsft(&Hfbdfr.rfsfrvfd, 0, sizfof(Hfbdfr.rfsfrvfd));
 
-    // Set profile ID. Endianess is always big endian
-    memmove(&Header.profileID, &Icc ->ProfileID, 16);
+    // Sft profilf ID. Endibnfss is blwbys big fndibn
+    mfmmovf(&Hfbdfr.profilfID, &Idd ->ProfilfID, 16);
 
-    // Dump the header
-    if (!Icc -> IOhandler->Write(Icc->IOhandler, sizeof(cmsICCHeader), &Header)) return FALSE;
+    // Dump tif ifbdfr
+    if (!Idd -> IOibndlfr->Writf(Idd->IOibndlfr, sizfof(dmsICCHfbdfr), &Hfbdfr)) rfturn FALSE;
 
-    // Saves Tag directory
+    // Sbvfs Tbg dirfdtory
 
-    // Get true count
-    for (i=0;  i < Icc -> TagCount; i++) {
-        if (Icc ->TagNames[i] != 0)
+    // Gft truf dount
+    for (i=0;  i < Idd -> TbgCount; i++) {
+        if (Idd ->TbgNbmfs[i] != 0)
             Count++;
     }
 
-    // Store number of tags
-    if (!_cmsWriteUInt32Number(Icc ->IOhandler, Count)) return FALSE;
+    // Storf numbfr of tbgs
+    if (!_dmsWritfUInt32Numbfr(Idd ->IOibndlfr, Count)) rfturn FALSE;
 
-    for (i=0; i < Icc -> TagCount; i++) {
+    for (i=0; i < Idd -> TbgCount; i++) {
 
-        if (Icc ->TagNames[i] == 0) continue;   // It is just a placeholder
+        if (Idd ->TbgNbmfs[i] == 0) dontinuf;   // It is just b plbdfioldfr
 
-        Tag.sig    = (cmsTagSignature) _cmsAdjustEndianess32((cmsInt32Number) Icc -> TagNames[i]);
-        Tag.offset = _cmsAdjustEndianess32((cmsInt32Number) Icc -> TagOffsets[i]);
-        Tag.size   = _cmsAdjustEndianess32((cmsInt32Number) Icc -> TagSizes[i]);
+        Tbg.sig    = (dmsTbgSignbturf) _dmsAdjustEndibnfss32((dmsInt32Numbfr) Idd -> TbgNbmfs[i]);
+        Tbg.offsft = _dmsAdjustEndibnfss32((dmsInt32Numbfr) Idd -> TbgOffsfts[i]);
+        Tbg.sizf   = _dmsAdjustEndibnfss32((dmsInt32Numbfr) Idd -> TbgSizfs[i]);
 
-        if (!Icc ->IOhandler -> Write(Icc-> IOhandler, sizeof(cmsTagEntry), &Tag)) return FALSE;
+        if (!Idd ->IOibndlfr -> Writf(Idd-> IOibndlfr, sizfof(dmsTbgEntry), &Tbg)) rfturn FALSE;
     }
 
-    return TRUE;
+    rfturn TRUE;
 }
 
-// ----------------------------------------------------------------------- Set/Get several struct members
+// ----------------------------------------------------------------------- Sft/Gft sfvfrbl strudt mfmbfrs
 
 
-cmsUInt32Number CMSEXPORT cmsGetHeaderRenderingIntent(cmsHPROFILE hProfile)
+dmsUInt32Numbfr CMSEXPORT dmsGftHfbdfrRfndfringIntfnt(dmsHPROFILE iProfilf)
 {
-    _cmsICCPROFILE*  Icc = (_cmsICCPROFILE*) hProfile;
-    return Icc -> RenderingIntent;
+    _dmsICCPROFILE*  Idd = (_dmsICCPROFILE*) iProfilf;
+    rfturn Idd -> RfndfringIntfnt;
 }
 
-void CMSEXPORT cmsSetHeaderRenderingIntent(cmsHPROFILE hProfile, cmsUInt32Number RenderingIntent)
+void CMSEXPORT dmsSftHfbdfrRfndfringIntfnt(dmsHPROFILE iProfilf, dmsUInt32Numbfr RfndfringIntfnt)
 {
-    _cmsICCPROFILE*  Icc = (_cmsICCPROFILE*) hProfile;
-    Icc -> RenderingIntent = RenderingIntent;
+    _dmsICCPROFILE*  Idd = (_dmsICCPROFILE*) iProfilf;
+    Idd -> RfndfringIntfnt = RfndfringIntfnt;
 }
 
-cmsUInt32Number CMSEXPORT cmsGetHeaderFlags(cmsHPROFILE hProfile)
+dmsUInt32Numbfr CMSEXPORT dmsGftHfbdfrFlbgs(dmsHPROFILE iProfilf)
 {
-    _cmsICCPROFILE*  Icc = (_cmsICCPROFILE*) hProfile;
-    return (cmsUInt32Number) Icc -> flags;
+    _dmsICCPROFILE*  Idd = (_dmsICCPROFILE*) iProfilf;
+    rfturn (dmsUInt32Numbfr) Idd -> flbgs;
 }
 
-void CMSEXPORT cmsSetHeaderFlags(cmsHPROFILE hProfile, cmsUInt32Number Flags)
+void CMSEXPORT dmsSftHfbdfrFlbgs(dmsHPROFILE iProfilf, dmsUInt32Numbfr Flbgs)
 {
-    _cmsICCPROFILE*  Icc = (_cmsICCPROFILE*) hProfile;
-    Icc -> flags = (cmsUInt32Number) Flags;
+    _dmsICCPROFILE*  Idd = (_dmsICCPROFILE*) iProfilf;
+    Idd -> flbgs = (dmsUInt32Numbfr) Flbgs;
 }
 
-cmsUInt32Number CMSEXPORT cmsGetHeaderManufacturer(cmsHPROFILE hProfile)
+dmsUInt32Numbfr CMSEXPORT dmsGftHfbdfrMbnufbdturfr(dmsHPROFILE iProfilf)
 {
-    _cmsICCPROFILE*  Icc = (_cmsICCPROFILE*) hProfile;
-    return Icc ->manufacturer;
+    _dmsICCPROFILE*  Idd = (_dmsICCPROFILE*) iProfilf;
+    rfturn Idd ->mbnufbdturfr;
 }
 
-void CMSEXPORT cmsSetHeaderManufacturer(cmsHPROFILE hProfile, cmsUInt32Number manufacturer)
+void CMSEXPORT dmsSftHfbdfrMbnufbdturfr(dmsHPROFILE iProfilf, dmsUInt32Numbfr mbnufbdturfr)
 {
-    _cmsICCPROFILE*  Icc = (_cmsICCPROFILE*) hProfile;
-    Icc -> manufacturer = manufacturer;
+    _dmsICCPROFILE*  Idd = (_dmsICCPROFILE*) iProfilf;
+    Idd -> mbnufbdturfr = mbnufbdturfr;
 }
 
-cmsUInt32Number CMSEXPORT cmsGetHeaderCreator(cmsHPROFILE hProfile)
+dmsUInt32Numbfr CMSEXPORT dmsGftHfbdfrCrfbtor(dmsHPROFILE iProfilf)
 {
-    _cmsICCPROFILE*  Icc = (_cmsICCPROFILE*) hProfile;
-    return Icc ->creator;
+    _dmsICCPROFILE*  Idd = (_dmsICCPROFILE*) iProfilf;
+    rfturn Idd ->drfbtor;
 }
 
-cmsUInt32Number CMSEXPORT cmsGetHeaderModel(cmsHPROFILE hProfile)
+dmsUInt32Numbfr CMSEXPORT dmsGftHfbdfrModfl(dmsHPROFILE iProfilf)
 {
-    _cmsICCPROFILE*  Icc = (_cmsICCPROFILE*) hProfile;
-    return Icc ->model;
+    _dmsICCPROFILE*  Idd = (_dmsICCPROFILE*) iProfilf;
+    rfturn Idd ->modfl;
 }
 
-void CMSEXPORT cmsSetHeaderModel(cmsHPROFILE hProfile, cmsUInt32Number model)
+void CMSEXPORT dmsSftHfbdfrModfl(dmsHPROFILE iProfilf, dmsUInt32Numbfr modfl)
 {
-    _cmsICCPROFILE*  Icc = (_cmsICCPROFILE*) hProfile;
-    Icc -> model = model;
+    _dmsICCPROFILE*  Idd = (_dmsICCPROFILE*) iProfilf;
+    Idd -> modfl = modfl;
 }
 
-void CMSEXPORT cmsGetHeaderAttributes(cmsHPROFILE hProfile, cmsUInt64Number* Flags)
+void CMSEXPORT dmsGftHfbdfrAttributfs(dmsHPROFILE iProfilf, dmsUInt64Numbfr* Flbgs)
 {
-    _cmsICCPROFILE*  Icc = (_cmsICCPROFILE*) hProfile;
-    memmove(Flags, &Icc -> attributes, sizeof(cmsUInt64Number));
+    _dmsICCPROFILE*  Idd = (_dmsICCPROFILE*) iProfilf;
+    mfmmovf(Flbgs, &Idd -> bttributfs, sizfof(dmsUInt64Numbfr));
 }
 
-void CMSEXPORT cmsSetHeaderAttributes(cmsHPROFILE hProfile, cmsUInt64Number Flags)
+void CMSEXPORT dmsSftHfbdfrAttributfs(dmsHPROFILE iProfilf, dmsUInt64Numbfr Flbgs)
 {
-    _cmsICCPROFILE*  Icc = (_cmsICCPROFILE*) hProfile;
-    memmove(&Icc -> attributes, &Flags, sizeof(cmsUInt64Number));
+    _dmsICCPROFILE*  Idd = (_dmsICCPROFILE*) iProfilf;
+    mfmmovf(&Idd -> bttributfs, &Flbgs, sizfof(dmsUInt64Numbfr));
 }
 
-void CMSEXPORT cmsGetHeaderProfileID(cmsHPROFILE hProfile, cmsUInt8Number* ProfileID)
+void CMSEXPORT dmsGftHfbdfrProfilfID(dmsHPROFILE iProfilf, dmsUInt8Numbfr* ProfilfID)
 {
-    _cmsICCPROFILE*  Icc = (_cmsICCPROFILE*) hProfile;
-    memmove(ProfileID, Icc ->ProfileID.ID8, 16);
+    _dmsICCPROFILE*  Idd = (_dmsICCPROFILE*) iProfilf;
+    mfmmovf(ProfilfID, Idd ->ProfilfID.ID8, 16);
 }
 
-void CMSEXPORT cmsSetHeaderProfileID(cmsHPROFILE hProfile, cmsUInt8Number* ProfileID)
+void CMSEXPORT dmsSftHfbdfrProfilfID(dmsHPROFILE iProfilf, dmsUInt8Numbfr* ProfilfID)
 {
-    _cmsICCPROFILE*  Icc = (_cmsICCPROFILE*) hProfile;
-    memmove(&Icc -> ProfileID, ProfileID, 16);
+    _dmsICCPROFILE*  Idd = (_dmsICCPROFILE*) iProfilf;
+    mfmmovf(&Idd -> ProfilfID, ProfilfID, 16);
 }
 
-cmsBool  CMSEXPORT cmsGetHeaderCreationDateTime(cmsHPROFILE hProfile, struct tm *Dest)
+dmsBool  CMSEXPORT dmsGftHfbdfrCrfbtionDbtfTimf(dmsHPROFILE iProfilf, strudt tm *Dfst)
 {
-    _cmsICCPROFILE*  Icc = (_cmsICCPROFILE*) hProfile;
-    memmove(Dest, &Icc ->Created, sizeof(struct tm));
-    return TRUE;
+    _dmsICCPROFILE*  Idd = (_dmsICCPROFILE*) iProfilf;
+    mfmmovf(Dfst, &Idd ->Crfbtfd, sizfof(strudt tm));
+    rfturn TRUE;
 }
 
-cmsColorSpaceSignature CMSEXPORT cmsGetPCS(cmsHPROFILE hProfile)
+dmsColorSpbdfSignbturf CMSEXPORT dmsGftPCS(dmsHPROFILE iProfilf)
 {
-    _cmsICCPROFILE*  Icc = (_cmsICCPROFILE*) hProfile;
-    return Icc -> PCS;
+    _dmsICCPROFILE*  Idd = (_dmsICCPROFILE*) iProfilf;
+    rfturn Idd -> PCS;
 }
 
-void CMSEXPORT cmsSetPCS(cmsHPROFILE hProfile, cmsColorSpaceSignature pcs)
+void CMSEXPORT dmsSftPCS(dmsHPROFILE iProfilf, dmsColorSpbdfSignbturf pds)
 {
-    _cmsICCPROFILE*  Icc = (_cmsICCPROFILE*) hProfile;
-    Icc -> PCS = pcs;
+    _dmsICCPROFILE*  Idd = (_dmsICCPROFILE*) iProfilf;
+    Idd -> PCS = pds;
 }
 
-cmsColorSpaceSignature CMSEXPORT cmsGetColorSpace(cmsHPROFILE hProfile)
+dmsColorSpbdfSignbturf CMSEXPORT dmsGftColorSpbdf(dmsHPROFILE iProfilf)
 {
-    _cmsICCPROFILE*  Icc = (_cmsICCPROFILE*) hProfile;
-    return Icc -> ColorSpace;
+    _dmsICCPROFILE*  Idd = (_dmsICCPROFILE*) iProfilf;
+    rfturn Idd -> ColorSpbdf;
 }
 
-void CMSEXPORT cmsSetColorSpace(cmsHPROFILE hProfile, cmsColorSpaceSignature sig)
+void CMSEXPORT dmsSftColorSpbdf(dmsHPROFILE iProfilf, dmsColorSpbdfSignbturf sig)
 {
-    _cmsICCPROFILE*  Icc = (_cmsICCPROFILE*) hProfile;
-    Icc -> ColorSpace = sig;
+    _dmsICCPROFILE*  Idd = (_dmsICCPROFILE*) iProfilf;
+    Idd -> ColorSpbdf = sig;
 }
 
-cmsProfileClassSignature CMSEXPORT cmsGetDeviceClass(cmsHPROFILE hProfile)
+dmsProfilfClbssSignbturf CMSEXPORT dmsGftDfvidfClbss(dmsHPROFILE iProfilf)
 {
-    _cmsICCPROFILE*  Icc = (_cmsICCPROFILE*) hProfile;
-    return Icc -> DeviceClass;
+    _dmsICCPROFILE*  Idd = (_dmsICCPROFILE*) iProfilf;
+    rfturn Idd -> DfvidfClbss;
 }
 
-void CMSEXPORT cmsSetDeviceClass(cmsHPROFILE hProfile, cmsProfileClassSignature sig)
+void CMSEXPORT dmsSftDfvidfClbss(dmsHPROFILE iProfilf, dmsProfilfClbssSignbturf sig)
 {
-    _cmsICCPROFILE*  Icc = (_cmsICCPROFILE*) hProfile;
-    Icc -> DeviceClass = sig;
+    _dmsICCPROFILE*  Idd = (_dmsICCPROFILE*) iProfilf;
+    Idd -> DfvidfClbss = sig;
 }
 
-cmsUInt32Number CMSEXPORT cmsGetEncodedICCversion(cmsHPROFILE hProfile)
+dmsUInt32Numbfr CMSEXPORT dmsGftEndodfdICCvfrsion(dmsHPROFILE iProfilf)
 {
-    _cmsICCPROFILE*  Icc = (_cmsICCPROFILE*) hProfile;
-    return Icc -> Version;
+    _dmsICCPROFILE*  Idd = (_dmsICCPROFILE*) iProfilf;
+    rfturn Idd -> Vfrsion;
 }
 
-void CMSEXPORT cmsSetEncodedICCversion(cmsHPROFILE hProfile, cmsUInt32Number Version)
+void CMSEXPORT dmsSftEndodfdICCvfrsion(dmsHPROFILE iProfilf, dmsUInt32Numbfr Vfrsion)
 {
-    _cmsICCPROFILE*  Icc = (_cmsICCPROFILE*) hProfile;
-    Icc -> Version = Version;
+    _dmsICCPROFILE*  Idd = (_dmsICCPROFILE*) iProfilf;
+    Idd -> Vfrsion = Vfrsion;
 }
 
-// Get an hexadecimal number with same digits as v
-static
-cmsUInt32Number BaseToBase(cmsUInt32Number in, int BaseIn, int BaseOut)
+// Gft bn ifxbdfdimbl numbfr witi sbmf digits bs v
+stbtid
+dmsUInt32Numbfr BbsfToBbsf(dmsUInt32Numbfr in, int BbsfIn, int BbsfOut)
 {
-    char Buff[100];
-    int i, len;
-    cmsUInt32Number out;
+    dibr Buff[100];
+    int i, lfn;
+    dmsUInt32Numbfr out;
 
-    for (len=0; in > 0 && len < 100; len++) {
+    for (lfn=0; in > 0 && lfn < 100; lfn++) {
 
-        Buff[len] = (char) (in % BaseIn);
-        in /= BaseIn;
+        Buff[lfn] = (dibr) (in % BbsfIn);
+        in /= BbsfIn;
     }
 
-    for (i=len-1, out=0; i >= 0; --i) {
-        out = out * BaseOut + Buff[i];
+    for (i=lfn-1, out=0; i >= 0; --i) {
+        out = out * BbsfOut + Buff[i];
     }
 
-    return out;
+    rfturn out;
 }
 
-void  CMSEXPORT cmsSetProfileVersion(cmsHPROFILE hProfile, cmsFloat64Number Version)
+void  CMSEXPORT dmsSftProfilfVfrsion(dmsHPROFILE iProfilf, dmsFlobt64Numbfr Vfrsion)
 {
-    _cmsICCPROFILE*  Icc = (_cmsICCPROFILE*) hProfile;
+    _dmsICCPROFILE*  Idd = (_dmsICCPROFILE*) iProfilf;
 
     // 4.2 -> 0x4200000
 
-    Icc -> Version = BaseToBase((cmsUInt32Number) floor(Version * 100.0), 10, 16) << 16;
+    Idd -> Vfrsion = BbsfToBbsf((dmsUInt32Numbfr) floor(Vfrsion * 100.0), 10, 16) << 16;
 }
 
-cmsFloat64Number CMSEXPORT cmsGetProfileVersion(cmsHPROFILE hProfile)
+dmsFlobt64Numbfr CMSEXPORT dmsGftProfilfVfrsion(dmsHPROFILE iProfilf)
 {
-    _cmsICCPROFILE*  Icc = (_cmsICCPROFILE*) hProfile;
-    cmsUInt32Number n = Icc -> Version >> 16;
+    _dmsICCPROFILE*  Idd = (_dmsICCPROFILE*) iProfilf;
+    dmsUInt32Numbfr n = Idd -> Vfrsion >> 16;
 
-    return BaseToBase(n, 16, 10) / 100.0;
+    rfturn BbsfToBbsf(n, 16, 10) / 100.0;
 }
 // --------------------------------------------------------------------------------------------------------------
 
 
-// Create profile from IOhandler
-cmsHPROFILE CMSEXPORT cmsOpenProfileFromIOhandlerTHR(cmsContext ContextID, cmsIOHANDLER* io)
+// Crfbtf profilf from IOibndlfr
+dmsHPROFILE CMSEXPORT dmsOpfnProfilfFromIOibndlfrTHR(dmsContfxt ContfxtID, dmsIOHANDLER* io)
 {
-    _cmsICCPROFILE* NewIcc;
-    cmsHPROFILE hEmpty = cmsCreateProfilePlaceholder(ContextID);
+    _dmsICCPROFILE* NfwIdd;
+    dmsHPROFILE iEmpty = dmsCrfbtfProfilfPlbdfioldfr(ContfxtID);
 
-    if (hEmpty == NULL) return NULL;
+    if (iEmpty == NULL) rfturn NULL;
 
-    NewIcc = (_cmsICCPROFILE*) hEmpty;
+    NfwIdd = (_dmsICCPROFILE*) iEmpty;
 
-    NewIcc ->IOhandler = io;
-    if (!_cmsReadHeader(NewIcc)) goto Error;
-    return hEmpty;
+    NfwIdd ->IOibndlfr = io;
+    if (!_dmsRfbdHfbdfr(NfwIdd)) goto Error;
+    rfturn iEmpty;
 
 Error:
-    cmsCloseProfile(hEmpty);
-    return NULL;
+    dmsClosfProfilf(iEmpty);
+    rfturn NULL;
 }
 
-// Create profile from disk file
-cmsHPROFILE CMSEXPORT cmsOpenProfileFromFileTHR(cmsContext ContextID, const char *lpFileName, const char *sAccess)
+// Crfbtf profilf from disk filf
+dmsHPROFILE CMSEXPORT dmsOpfnProfilfFromFilfTHR(dmsContfxt ContfxtID, donst dibr *lpFilfNbmf, donst dibr *sAddfss)
 {
-    _cmsICCPROFILE* NewIcc;
-    cmsHPROFILE hEmpty = cmsCreateProfilePlaceholder(ContextID);
+    _dmsICCPROFILE* NfwIdd;
+    dmsHPROFILE iEmpty = dmsCrfbtfProfilfPlbdfioldfr(ContfxtID);
 
-    if (hEmpty == NULL) return NULL;
+    if (iEmpty == NULL) rfturn NULL;
 
-    NewIcc = (_cmsICCPROFILE*) hEmpty;
+    NfwIdd = (_dmsICCPROFILE*) iEmpty;
 
-    NewIcc ->IOhandler = cmsOpenIOhandlerFromFile(ContextID, lpFileName, sAccess);
-    if (NewIcc ->IOhandler == NULL) goto Error;
+    NfwIdd ->IOibndlfr = dmsOpfnIOibndlfrFromFilf(ContfxtID, lpFilfNbmf, sAddfss);
+    if (NfwIdd ->IOibndlfr == NULL) goto Error;
 
-    if (*sAccess == 'W' || *sAccess == 'w') {
+    if (*sAddfss == 'W' || *sAddfss == 'w') {
 
-        NewIcc -> IsWrite = TRUE;
+        NfwIdd -> IsWritf = TRUE;
 
-        return hEmpty;
+        rfturn iEmpty;
     }
 
-    if (!_cmsReadHeader(NewIcc)) goto Error;
-    return hEmpty;
+    if (!_dmsRfbdHfbdfr(NfwIdd)) goto Error;
+    rfturn iEmpty;
 
 Error:
-    cmsCloseProfile(hEmpty);
-    return NULL;
+    dmsClosfProfilf(iEmpty);
+    rfturn NULL;
 }
 
 
-cmsHPROFILE CMSEXPORT cmsOpenProfileFromFile(const char *ICCProfile, const char *sAccess)
+dmsHPROFILE CMSEXPORT dmsOpfnProfilfFromFilf(donst dibr *ICCProfilf, donst dibr *sAddfss)
 {
-    return cmsOpenProfileFromFileTHR(NULL, ICCProfile, sAccess);
+    rfturn dmsOpfnProfilfFromFilfTHR(NULL, ICCProfilf, sAddfss);
 }
 
 
-cmsHPROFILE  CMSEXPORT cmsOpenProfileFromStreamTHR(cmsContext ContextID, FILE* ICCProfile, const char *sAccess)
+dmsHPROFILE  CMSEXPORT dmsOpfnProfilfFromStrfbmTHR(dmsContfxt ContfxtID, FILE* ICCProfilf, donst dibr *sAddfss)
 {
-    _cmsICCPROFILE* NewIcc;
-    cmsHPROFILE hEmpty = cmsCreateProfilePlaceholder(ContextID);
+    _dmsICCPROFILE* NfwIdd;
+    dmsHPROFILE iEmpty = dmsCrfbtfProfilfPlbdfioldfr(ContfxtID);
 
-    if (hEmpty == NULL) return NULL;
+    if (iEmpty == NULL) rfturn NULL;
 
-    NewIcc = (_cmsICCPROFILE*) hEmpty;
+    NfwIdd = (_dmsICCPROFILE*) iEmpty;
 
-    NewIcc ->IOhandler = cmsOpenIOhandlerFromStream(ContextID, ICCProfile);
-    if (NewIcc ->IOhandler == NULL) goto Error;
+    NfwIdd ->IOibndlfr = dmsOpfnIOibndlfrFromStrfbm(ContfxtID, ICCProfilf);
+    if (NfwIdd ->IOibndlfr == NULL) goto Error;
 
-    if (*sAccess == 'w') {
+    if (*sAddfss == 'w') {
 
-        NewIcc -> IsWrite = TRUE;
-        return hEmpty;
+        NfwIdd -> IsWritf = TRUE;
+        rfturn iEmpty;
     }
 
-    if (!_cmsReadHeader(NewIcc)) goto Error;
-    return hEmpty;
+    if (!_dmsRfbdHfbdfr(NfwIdd)) goto Error;
+    rfturn iEmpty;
 
 Error:
-    cmsCloseProfile(hEmpty);
-    return NULL;
+    dmsClosfProfilf(iEmpty);
+    rfturn NULL;
 
 }
 
-cmsHPROFILE  CMSEXPORT cmsOpenProfileFromStream(FILE* ICCProfile, const char *sAccess)
+dmsHPROFILE  CMSEXPORT dmsOpfnProfilfFromStrfbm(FILE* ICCProfilf, donst dibr *sAddfss)
 {
-    return cmsOpenProfileFromStreamTHR(NULL, ICCProfile, sAccess);
+    rfturn dmsOpfnProfilfFromStrfbmTHR(NULL, ICCProfilf, sAddfss);
 }
 
 
-// Open from memory block
-cmsHPROFILE CMSEXPORT cmsOpenProfileFromMemTHR(cmsContext ContextID, const void* MemPtr, cmsUInt32Number dwSize)
+// Opfn from mfmory blodk
+dmsHPROFILE CMSEXPORT dmsOpfnProfilfFromMfmTHR(dmsContfxt ContfxtID, donst void* MfmPtr, dmsUInt32Numbfr dwSizf)
 {
-    _cmsICCPROFILE* NewIcc;
-    cmsHPROFILE hEmpty;
+    _dmsICCPROFILE* NfwIdd;
+    dmsHPROFILE iEmpty;
 
-    hEmpty = cmsCreateProfilePlaceholder(ContextID);
-    if (hEmpty == NULL) return NULL;
+    iEmpty = dmsCrfbtfProfilfPlbdfioldfr(ContfxtID);
+    if (iEmpty == NULL) rfturn NULL;
 
-    NewIcc = (_cmsICCPROFILE*) hEmpty;
+    NfwIdd = (_dmsICCPROFILE*) iEmpty;
 
-    // Ok, in this case const void* is casted to void* just because open IO handler
-    // shares read and writting modes. Don't abuse this feature!
-    NewIcc ->IOhandler = cmsOpenIOhandlerFromMem(ContextID, (void*) MemPtr, dwSize, "r");
-    if (NewIcc ->IOhandler == NULL) goto Error;
+    // Ok, in tiis dbsf donst void* is dbstfd to void* just bfdbusf opfn IO ibndlfr
+    // sibrfs rfbd bnd writting modfs. Don't bbusf tiis ffbturf!
+    NfwIdd ->IOibndlfr = dmsOpfnIOibndlfrFromMfm(ContfxtID, (void*) MfmPtr, dwSizf, "r");
+    if (NfwIdd ->IOibndlfr == NULL) goto Error;
 
-    if (!_cmsReadHeader(NewIcc)) goto Error;
+    if (!_dmsRfbdHfbdfr(NfwIdd)) goto Error;
 
-    return hEmpty;
+    rfturn iEmpty;
 
 Error:
-    cmsCloseProfile(hEmpty);
-    return NULL;
+    dmsClosfProfilf(iEmpty);
+    rfturn NULL;
 }
 
-cmsHPROFILE CMSEXPORT cmsOpenProfileFromMem(const void* MemPtr, cmsUInt32Number dwSize)
+dmsHPROFILE CMSEXPORT dmsOpfnProfilfFromMfm(donst void* MfmPtr, dmsUInt32Numbfr dwSizf)
 {
-    return cmsOpenProfileFromMemTHR(NULL, MemPtr, dwSize);
+    rfturn dmsOpfnProfilfFromMfmTHR(NULL, MfmPtr, dwSizf);
 }
 
-static
-cmsBool SanityCheck(_cmsICCPROFILE* profile)
+stbtid
+dmsBool SbnityCifdk(_dmsICCPROFILE* profilf)
 {
-    cmsIOHANDLER* io;
+    dmsIOHANDLER* io;
 
-    if (!profile) {
-        return FALSE;
+    if (!profilf) {
+        rfturn FALSE;
     }
 
-    io = profile->IOhandler;
+    io = profilf->IOibndlfr;
     if (!io) {
-        return FALSE;
+        rfturn FALSE;
     }
 
-    if (!io->Seek ||
-        !(io->Seek==NULLSeek || io->Seek==MemorySeek || io->Seek==FileSeek))
+    if (!io->Sffk ||
+        !(io->Sffk==NULLSffk || io->Sffk==MfmorySffk || io->Sffk==FilfSffk))
     {
-        return FALSE;
+        rfturn FALSE;
     }
-    if (!io->Read ||
-        !(io->Read==NULLRead || io->Read==MemoryRead || io->Read==FileRead))
+    if (!io->Rfbd ||
+        !(io->Rfbd==NULLRfbd || io->Rfbd==MfmoryRfbd || io->Rfbd==FilfRfbd))
     {
-        return FALSE;
+        rfturn FALSE;
     }
 
-    return TRUE;
+    rfturn TRUE;
 }
 
-// Dump tag contents. If the profile is being modified, untouched tags are copied from FileOrig
-static
-cmsBool SaveTags(_cmsICCPROFILE* Icc, _cmsICCPROFILE* FileOrig)
+// Dump tbg dontfnts. If tif profilf is bfing modififd, untoudifd tbgs brf dopifd from FilfOrig
+stbtid
+dmsBool SbvfTbgs(_dmsICCPROFILE* Idd, _dmsICCPROFILE* FilfOrig)
 {
-    cmsUInt8Number* Data;
-    cmsUInt32Number i;
-    cmsUInt32Number Begin;
-    cmsIOHANDLER* io = Icc ->IOhandler;
-    cmsTagDescriptor* TagDescriptor;
-    cmsTagTypeSignature TypeBase;
-    cmsTagTypeSignature Type;
-    cmsTagTypeHandler* TypeHandler;
-    cmsFloat64Number   Version = cmsGetProfileVersion((cmsHPROFILE) Icc);
-    cmsTagTypeHandler LocalTypeHandler;
+    dmsUInt8Numbfr* Dbtb;
+    dmsUInt32Numbfr i;
+    dmsUInt32Numbfr Bfgin;
+    dmsIOHANDLER* io = Idd ->IOibndlfr;
+    dmsTbgDfsdriptor* TbgDfsdriptor;
+    dmsTbgTypfSignbturf TypfBbsf;
+    dmsTbgTypfSignbturf Typf;
+    dmsTbgTypfHbndlfr* TypfHbndlfr;
+    dmsFlobt64Numbfr   Vfrsion = dmsGftProfilfVfrsion((dmsHPROFILE) Idd);
+    dmsTbgTypfHbndlfr LodblTypfHbndlfr;
 
-    for (i=0; i < Icc -> TagCount; i++) {
+    for (i=0; i < Idd -> TbgCount; i++) {
 
-        if (Icc ->TagNames[i] == 0) continue;
+        if (Idd ->TbgNbmfs[i] == 0) dontinuf;
 
-        // Linked tags are not written
-        if (Icc ->TagLinked[i] != (cmsTagSignature) 0) continue;
+        // Linkfd tbgs brf not writtfn
+        if (Idd ->TbgLinkfd[i] != (dmsTbgSignbturf) 0) dontinuf;
 
-        Icc -> TagOffsets[i] = Begin = io ->UsedSpace;
+        Idd -> TbgOffsfts[i] = Bfgin = io ->UsfdSpbdf;
 
-        Data = (cmsUInt8Number*)  Icc -> TagPtrs[i];
+        Dbtb = (dmsUInt8Numbfr*)  Idd -> TbgPtrs[i];
 
-        if (!Data) {
+        if (!Dbtb) {
 
-            // Reach here if we are copying a tag from a disk-based ICC profile which has not been modified by user.
-            // In this case a blind copy of the block data is performed
-            if (SanityCheck(FileOrig) && Icc -> TagOffsets[i]) {
+            // Rfbdi ifrf if wf brf dopying b tbg from b disk-bbsfd ICC profilf wiidi ibs not bffn modififd by usfr.
+            // In tiis dbsf b blind dopy of tif blodk dbtb is pfrformfd
+            if (SbnityCifdk(FilfOrig) && Idd -> TbgOffsfts[i]) {
 
-                cmsUInt32Number TagSize   = FileOrig -> TagSizes[i];
-                cmsUInt32Number TagOffset = FileOrig -> TagOffsets[i];
-                void* Mem;
+                dmsUInt32Numbfr TbgSizf   = FilfOrig -> TbgSizfs[i];
+                dmsUInt32Numbfr TbgOffsft = FilfOrig -> TbgOffsfts[i];
+                void* Mfm;
 
-                if (!FileOrig ->IOhandler->Seek(FileOrig ->IOhandler, TagOffset)) return FALSE;
+                if (!FilfOrig ->IOibndlfr->Sffk(FilfOrig ->IOibndlfr, TbgOffsft)) rfturn FALSE;
 
-                Mem = _cmsMalloc(Icc ->ContextID, TagSize);
-                if (Mem == NULL) return FALSE;
+                Mfm = _dmsMbllod(Idd ->ContfxtID, TbgSizf);
+                if (Mfm == NULL) rfturn FALSE;
 
-                if (FileOrig ->IOhandler->Read(FileOrig->IOhandler, Mem, TagSize, 1) != 1) return FALSE;
-                if (!io ->Write(io, TagSize, Mem)) return FALSE;
-                _cmsFree(Icc ->ContextID, Mem);
+                if (FilfOrig ->IOibndlfr->Rfbd(FilfOrig->IOibndlfr, Mfm, TbgSizf, 1) != 1) rfturn FALSE;
+                if (!io ->Writf(io, TbgSizf, Mfm)) rfturn FALSE;
+                _dmsFrff(Idd ->ContfxtID, Mfm);
 
-                Icc -> TagSizes[i] = (io ->UsedSpace - Begin);
+                Idd -> TbgSizfs[i] = (io ->UsfdSpbdf - Bfgin);
 
 
-                // Align to 32 bit boundary.
-                if (! _cmsWriteAlignment(io))
-                    return FALSE;
+                // Align to 32 bit boundbry.
+                if (! _dmsWritfAlignmfnt(io))
+                    rfturn FALSE;
             }
 
-            continue;
+            dontinuf;
         }
 
 
-        // Should this tag be saved as RAW? If so, tagsizes should be specified in advance (no further cooking is done)
-        if (Icc ->TagSaveAsRaw[i]) {
+        // Siould tiis tbg bf sbvfd bs RAW? If so, tbgsizfs siould bf spfdififd in bdvbndf (no furtifr dooking is donf)
+        if (Idd ->TbgSbvfAsRbw[i]) {
 
-            if (io -> Write(io, Icc ->TagSizes[i], Data) != 1) return FALSE;
+            if (io -> Writf(io, Idd ->TbgSizfs[i], Dbtb) != 1) rfturn FALSE;
         }
-        else {
+        flsf {
 
-            // Search for support on this tag
-            TagDescriptor = _cmsGetTagDescriptor(Icc -> TagNames[i]);
-            if (TagDescriptor == NULL) continue;                        // Unsupported, ignore it
+            // Sfbrdi for support on tiis tbg
+            TbgDfsdriptor = _dmsGftTbgDfsdriptor(Idd -> TbgNbmfs[i]);
+            if (TbgDfsdriptor == NULL) dontinuf;                        // Unsupportfd, ignorf it
 
-            if (TagDescriptor ->DecideType != NULL) {
+            if (TbgDfsdriptor ->DfdidfTypf != NULL) {
 
-                Type = TagDescriptor ->DecideType(Version, Data);
+                Typf = TbgDfsdriptor ->DfdidfTypf(Vfrsion, Dbtb);
             }
-            else {
+            flsf {
 
-                Type = TagDescriptor ->SupportedTypes[0];
-            }
-
-            TypeHandler =  _cmsGetTagTypeHandler(Type);
-
-            if (TypeHandler == NULL) {
-                cmsSignalError(Icc ->ContextID, cmsERROR_INTERNAL, "(Internal) no handler for tag %x", Icc -> TagNames[i]);
-                continue;
+                Typf = TbgDfsdriptor ->SupportfdTypfs[0];
             }
 
-            TypeBase = TypeHandler ->Signature;
-            if (!_cmsWriteTypeBase(io, TypeBase))
-                return FALSE;
+            TypfHbndlfr =  _dmsGftTbgTypfHbndlfr(Typf);
 
-            LocalTypeHandler = *TypeHandler;
-            LocalTypeHandler.ContextID  = Icc ->ContextID;
-            LocalTypeHandler.ICCVersion = Icc ->Version;
-            if (!LocalTypeHandler.WritePtr(&LocalTypeHandler, io, Data, TagDescriptor ->ElemCount)) {
+            if (TypfHbndlfr == NULL) {
+                dmsSignblError(Idd ->ContfxtID, dmsERROR_INTERNAL, "(Intfrnbl) no ibndlfr for tbg %x", Idd -> TbgNbmfs[i]);
+                dontinuf;
+            }
 
-                char String[5];
+            TypfBbsf = TypfHbndlfr ->Signbturf;
+            if (!_dmsWritfTypfBbsf(io, TypfBbsf))
+                rfturn FALSE;
 
-                _cmsTagSignature2String(String, (cmsTagSignature) TypeBase);
-                cmsSignalError(Icc ->ContextID, cmsERROR_WRITE, "Couldn't write type '%s'", String);
-                return FALSE;
+            LodblTypfHbndlfr = *TypfHbndlfr;
+            LodblTypfHbndlfr.ContfxtID  = Idd ->ContfxtID;
+            LodblTypfHbndlfr.ICCVfrsion = Idd ->Vfrsion;
+            if (!LodblTypfHbndlfr.WritfPtr(&LodblTypfHbndlfr, io, Dbtb, TbgDfsdriptor ->ElfmCount)) {
+
+                dibr String[5];
+
+                _dmsTbgSignbturf2String(String, (dmsTbgSignbturf) TypfBbsf);
+                dmsSignblError(Idd ->ContfxtID, dmsERROR_WRITE, "Couldn't writf typf '%s'", String);
+                rfturn FALSE;
             }
         }
 
 
-        Icc -> TagSizes[i] = (io ->UsedSpace - Begin);
+        Idd -> TbgSizfs[i] = (io ->UsfdSpbdf - Bfgin);
 
-        // Align to 32 bit boundary.
-        if (! _cmsWriteAlignment(io))
-            return FALSE;
+        // Align to 32 bit boundbry.
+        if (! _dmsWritfAlignmfnt(io))
+            rfturn FALSE;
     }
 
 
-    return TRUE;
+    rfturn TRUE;
 }
 
 
-// Fill the offset and size fields for all linked tags
-static
-cmsBool SetLinks( _cmsICCPROFILE* Icc)
+// Fill tif offsft bnd sizf fiflds for bll linkfd tbgs
+stbtid
+dmsBool SftLinks( _dmsICCPROFILE* Idd)
 {
-    cmsUInt32Number i;
+    dmsUInt32Numbfr i;
 
-    for (i=0; i < Icc -> TagCount; i++) {
+    for (i=0; i < Idd -> TbgCount; i++) {
 
-        cmsTagSignature lnk = Icc ->TagLinked[i];
-        if (lnk != (cmsTagSignature) 0) {
+        dmsTbgSignbturf lnk = Idd ->TbgLinkfd[i];
+        if (lnk != (dmsTbgSignbturf) 0) {
 
-            int j = _cmsSearchTag(Icc, lnk, FALSE);
+            int j = _dmsSfbrdiTbg(Idd, lnk, FALSE);
             if (j >= 0) {
 
-                Icc ->TagOffsets[i] = Icc ->TagOffsets[j];
-                Icc ->TagSizes[i]   = Icc ->TagSizes[j];
+                Idd ->TbgOffsfts[i] = Idd ->TbgOffsfts[j];
+                Idd ->TbgSizfs[i]   = Idd ->TbgSizfs[j];
             }
 
         }
     }
 
-    return TRUE;
+    rfturn TRUE;
 }
 
-// Low-level save to IOHANDLER. It returns the number of bytes used to
-// store the profile, or zero on error. io may be NULL and in this case
-// no data is written--only sizes are calculated
-cmsUInt32Number CMSEXPORT cmsSaveProfileToIOhandler(cmsHPROFILE hProfile, cmsIOHANDLER* io)
+// Low-lfvfl sbvf to IOHANDLER. It rfturns tif numbfr of bytfs usfd to
+// storf tif profilf, or zfro on frror. io mby bf NULL bnd in tiis dbsf
+// no dbtb is writtfn--only sizfs brf dbldulbtfd
+dmsUInt32Numbfr CMSEXPORT dmsSbvfProfilfToIOibndlfr(dmsHPROFILE iProfilf, dmsIOHANDLER* io)
 {
-    _cmsICCPROFILE* Icc = (_cmsICCPROFILE*) hProfile;
-    _cmsICCPROFILE Keep;
-    cmsIOHANDLER* PrevIO;
-    cmsUInt32Number UsedSpace;
-    cmsContext ContextID;
+    _dmsICCPROFILE* Idd = (_dmsICCPROFILE*) iProfilf;
+    _dmsICCPROFILE Kffp;
+    dmsIOHANDLER* PrfvIO;
+    dmsUInt32Numbfr UsfdSpbdf;
+    dmsContfxt ContfxtID;
 
-    memmove(&Keep, Icc, sizeof(_cmsICCPROFILE));
+    mfmmovf(&Kffp, Idd, sizfof(_dmsICCPROFILE));
 
-    ContextID = cmsGetProfileContextID(hProfile);
-    PrevIO = Icc ->IOhandler = cmsOpenIOhandlerFromNULL(ContextID);
-    if (PrevIO == NULL) return 0;
+    ContfxtID = dmsGftProfilfContfxtID(iProfilf);
+    PrfvIO = Idd ->IOibndlfr = dmsOpfnIOibndlfrFromNULL(ContfxtID);
+    if (PrfvIO == NULL) rfturn 0;
 
-    // Pass #1 does compute offsets
+    // Pbss #1 dofs domputf offsfts
 
-    if (!_cmsWriteHeader(Icc, 0)) return 0;
-    if (!SaveTags(Icc, &Keep)) return 0;
+    if (!_dmsWritfHfbdfr(Idd, 0)) rfturn 0;
+    if (!SbvfTbgs(Idd, &Kffp)) rfturn 0;
 
-    UsedSpace = PrevIO ->UsedSpace;
+    UsfdSpbdf = PrfvIO ->UsfdSpbdf;
 
-    // Pass #2 does save to iohandler
+    // Pbss #2 dofs sbvf to ioibndlfr
 
     if (io != NULL) {
-        Icc ->IOhandler = io;
-        if (!SetLinks(Icc)) goto CleanUp;
-        if (!_cmsWriteHeader(Icc, UsedSpace)) goto CleanUp;
-        if (!SaveTags(Icc, &Keep)) goto CleanUp;
+        Idd ->IOibndlfr = io;
+        if (!SftLinks(Idd)) goto ClfbnUp;
+        if (!_dmsWritfHfbdfr(Idd, UsfdSpbdf)) goto ClfbnUp;
+        if (!SbvfTbgs(Idd, &Kffp)) goto ClfbnUp;
     }
 
-    memmove(Icc, &Keep, sizeof(_cmsICCPROFILE));
-    if (!cmsCloseIOhandler(PrevIO)) return 0;
+    mfmmovf(Idd, &Kffp, sizfof(_dmsICCPROFILE));
+    if (!dmsClosfIOibndlfr(PrfvIO)) rfturn 0;
 
-    return UsedSpace;
+    rfturn UsfdSpbdf;
 
 
-CleanUp:
-    cmsCloseIOhandler(PrevIO);
-    memmove(Icc, &Keep, sizeof(_cmsICCPROFILE));
-    return 0;
+ClfbnUp:
+    dmsClosfIOibndlfr(PrfvIO);
+    mfmmovf(Idd, &Kffp, sizfof(_dmsICCPROFILE));
+    rfturn 0;
 }
 
 
-// Low-level save to disk.
-cmsBool  CMSEXPORT cmsSaveProfileToFile(cmsHPROFILE hProfile, const char* FileName)
+// Low-lfvfl sbvf to disk.
+dmsBool  CMSEXPORT dmsSbvfProfilfToFilf(dmsHPROFILE iProfilf, donst dibr* FilfNbmf)
 {
-    cmsContext ContextID = cmsGetProfileContextID(hProfile);
-    cmsIOHANDLER* io = cmsOpenIOhandlerFromFile(ContextID, FileName, "w");
-    cmsBool rc;
+    dmsContfxt ContfxtID = dmsGftProfilfContfxtID(iProfilf);
+    dmsIOHANDLER* io = dmsOpfnIOibndlfrFromFilf(ContfxtID, FilfNbmf, "w");
+    dmsBool rd;
 
-    if (io == NULL) return FALSE;
+    if (io == NULL) rfturn FALSE;
 
-    rc = (cmsSaveProfileToIOhandler(hProfile, io) != 0);
-    rc &= cmsCloseIOhandler(io);
+    rd = (dmsSbvfProfilfToIOibndlfr(iProfilf, io) != 0);
+    rd &= dmsClosfIOibndlfr(io);
 
-    if (rc == FALSE) {          // remove() is C99 per 7.19.4.1
-            remove(FileName);   // We have to IGNORE return value in this case
+    if (rd == FALSE) {          // rfmovf() is C99 pfr 7.19.4.1
+            rfmovf(FilfNbmf);   // Wf ibvf to IGNORE rfturn vbluf in tiis dbsf
     }
-    return rc;
+    rfturn rd;
 }
 
-// Same as anterior, but for streams
-cmsBool CMSEXPORT cmsSaveProfileToStream(cmsHPROFILE hProfile, FILE* Stream)
+// Sbmf bs bntfrior, but for strfbms
+dmsBool CMSEXPORT dmsSbvfProfilfToStrfbm(dmsHPROFILE iProfilf, FILE* Strfbm)
 {
-    cmsBool rc;
-    cmsContext ContextID = cmsGetProfileContextID(hProfile);
-    cmsIOHANDLER* io = cmsOpenIOhandlerFromStream(ContextID, Stream);
+    dmsBool rd;
+    dmsContfxt ContfxtID = dmsGftProfilfContfxtID(iProfilf);
+    dmsIOHANDLER* io = dmsOpfnIOibndlfrFromStrfbm(ContfxtID, Strfbm);
 
-    if (io == NULL) return FALSE;
+    if (io == NULL) rfturn FALSE;
 
-    rc = (cmsSaveProfileToIOhandler(hProfile, io) != 0);
-    rc &= cmsCloseIOhandler(io);
+    rd = (dmsSbvfProfilfToIOibndlfr(iProfilf, io) != 0);
+    rd &= dmsClosfIOibndlfr(io);
 
-    return rc;
-}
-
-
-// Same as anterior, but for memory blocks. In this case, a NULL as MemPtr means calculate needed space only
-cmsBool CMSEXPORT cmsSaveProfileToMem(cmsHPROFILE hProfile, void *MemPtr, cmsUInt32Number* BytesNeeded)
-{
-    cmsBool rc;
-    cmsIOHANDLER* io;
-    cmsContext ContextID = cmsGetProfileContextID(hProfile);
-
-    // Should we just calculate the needed space?
-    if (MemPtr == NULL) {
-
-           *BytesNeeded =  cmsSaveProfileToIOhandler(hProfile, NULL);
-            return (*BytesNeeded == 0 ? FALSE : TRUE);
-    }
-
-    // That is a real write operation
-    io =  cmsOpenIOhandlerFromMem(ContextID, MemPtr, *BytesNeeded, "w");
-    if (io == NULL) return FALSE;
-
-    rc = (cmsSaveProfileToIOhandler(hProfile, io) != 0);
-    rc &= cmsCloseIOhandler(io);
-
-    return rc;
+    rfturn rd;
 }
 
 
-
-// Closes a profile freeing any involved resources
-cmsBool  CMSEXPORT cmsCloseProfile(cmsHPROFILE hProfile)
+// Sbmf bs bntfrior, but for mfmory blodks. In tiis dbsf, b NULL bs MfmPtr mfbns dbldulbtf nffdfd spbdf only
+dmsBool CMSEXPORT dmsSbvfProfilfToMfm(dmsHPROFILE iProfilf, void *MfmPtr, dmsUInt32Numbfr* BytfsNffdfd)
 {
-    _cmsICCPROFILE* Icc = (_cmsICCPROFILE*) hProfile;
-    cmsBool  rc = TRUE;
-    cmsUInt32Number i;
+    dmsBool rd;
+    dmsIOHANDLER* io;
+    dmsContfxt ContfxtID = dmsGftProfilfContfxtID(iProfilf);
 
-    if (!Icc) return FALSE;
+    // Siould wf just dbldulbtf tif nffdfd spbdf?
+    if (MfmPtr == NULL) {
 
-    // Was open in write mode?
-    if (Icc ->IsWrite) {
-
-        Icc ->IsWrite = FALSE;      // Assure no further writting
-        rc &= cmsSaveProfileToFile(hProfile, Icc ->IOhandler->PhysicalFile);
+           *BytfsNffdfd =  dmsSbvfProfilfToIOibndlfr(iProfilf, NULL);
+            rfturn (*BytfsNffdfd == 0 ? FALSE : TRUE);
     }
 
-    for (i=0; i < Icc -> TagCount; i++) {
+    // Tibt is b rfbl writf opfrbtion
+    io =  dmsOpfnIOibndlfrFromMfm(ContfxtID, MfmPtr, *BytfsNffdfd, "w");
+    if (io == NULL) rfturn FALSE;
 
-        if (Icc -> TagPtrs[i]) {
+    rd = (dmsSbvfProfilfToIOibndlfr(iProfilf, io) != 0);
+    rd &= dmsClosfIOibndlfr(io);
 
-            cmsTagTypeHandler* TypeHandler = Icc ->TagTypeHandlers[i];
+    rfturn rd;
+}
 
-            if (TypeHandler != NULL) {
-                cmsTagTypeHandler LocalTypeHandler = *TypeHandler;
 
-                LocalTypeHandler.ContextID = Icc ->ContextID;              // As an additional parameters
-                LocalTypeHandler.ICCVersion = Icc ->Version;
-                LocalTypeHandler.FreePtr(&LocalTypeHandler, Icc -> TagPtrs[i]);
+
+// Closfs b profilf frffing bny involvfd rfsourdfs
+dmsBool  CMSEXPORT dmsClosfProfilf(dmsHPROFILE iProfilf)
+{
+    _dmsICCPROFILE* Idd = (_dmsICCPROFILE*) iProfilf;
+    dmsBool  rd = TRUE;
+    dmsUInt32Numbfr i;
+
+    if (!Idd) rfturn FALSE;
+
+    // Wbs opfn in writf modf?
+    if (Idd ->IsWritf) {
+
+        Idd ->IsWritf = FALSE;      // Assurf no furtifr writting
+        rd &= dmsSbvfProfilfToFilf(iProfilf, Idd ->IOibndlfr->PiysidblFilf);
+    }
+
+    for (i=0; i < Idd -> TbgCount; i++) {
+
+        if (Idd -> TbgPtrs[i]) {
+
+            dmsTbgTypfHbndlfr* TypfHbndlfr = Idd ->TbgTypfHbndlfrs[i];
+
+            if (TypfHbndlfr != NULL) {
+                dmsTbgTypfHbndlfr LodblTypfHbndlfr = *TypfHbndlfr;
+
+                LodblTypfHbndlfr.ContfxtID = Idd ->ContfxtID;              // As bn bdditionbl pbrbmftfrs
+                LodblTypfHbndlfr.ICCVfrsion = Idd ->Vfrsion;
+                LodblTypfHbndlfr.FrffPtr(&LodblTypfHbndlfr, Idd -> TbgPtrs[i]);
             }
-            else
-                _cmsFree(Icc ->ContextID, Icc ->TagPtrs[i]);
+            flsf
+                _dmsFrff(Idd ->ContfxtID, Idd ->TbgPtrs[i]);
         }
     }
 
-    if (Icc ->IOhandler != NULL) {
-        rc &= cmsCloseIOhandler(Icc->IOhandler);
+    if (Idd ->IOibndlfr != NULL) {
+        rd &= dmsClosfIOibndlfr(Idd->IOibndlfr);
     }
 
-    _cmsFree(Icc ->ContextID, Icc);   // Free placeholder memory
+    _dmsFrff(Idd ->ContfxtID, Idd);   // Frff plbdfioldfr mfmory
 
-    return rc;
+    rfturn rd;
 }
 
 
 // -------------------------------------------------------------------------------------------------------------------
 
 
-// Returns TRUE if a given tag is supported by a plug-in
-static
-cmsBool IsTypeSupported(cmsTagDescriptor* TagDescriptor, cmsTagTypeSignature Type)
+// Rfturns TRUE if b givfn tbg is supportfd by b plug-in
+stbtid
+dmsBool IsTypfSupportfd(dmsTbgDfsdriptor* TbgDfsdriptor, dmsTbgTypfSignbturf Typf)
 {
-    cmsUInt32Number i, nMaxTypes;
+    dmsUInt32Numbfr i, nMbxTypfs;
 
-    nMaxTypes = TagDescriptor->nSupportedTypes;
-    if (nMaxTypes >= MAX_TYPES_IN_LCMS_PLUGIN)
-        nMaxTypes = MAX_TYPES_IN_LCMS_PLUGIN;
+    nMbxTypfs = TbgDfsdriptor->nSupportfdTypfs;
+    if (nMbxTypfs >= MAX_TYPES_IN_LCMS_PLUGIN)
+        nMbxTypfs = MAX_TYPES_IN_LCMS_PLUGIN;
 
-    for (i=0; i < nMaxTypes; i++) {
-        if (Type == TagDescriptor ->SupportedTypes[i]) return TRUE;
+    for (i=0; i < nMbxTypfs; i++) {
+        if (Typf == TbgDfsdriptor ->SupportfdTypfs[i]) rfturn TRUE;
     }
 
-    return FALSE;
+    rfturn FALSE;
 }
 
 
-// That's the main read function
-void* CMSEXPORT cmsReadTag(cmsHPROFILE hProfile, cmsTagSignature sig)
+// Tibt's tif mbin rfbd fundtion
+void* CMSEXPORT dmsRfbdTbg(dmsHPROFILE iProfilf, dmsTbgSignbturf sig)
 {
-    _cmsICCPROFILE* Icc = (_cmsICCPROFILE*) hProfile;
-    cmsIOHANDLER* io = Icc ->IOhandler;
-    cmsTagTypeHandler* TypeHandler;
-    cmsTagTypeHandler LocalTypeHandler;
-    cmsTagDescriptor*  TagDescriptor;
-    cmsTagTypeSignature BaseType;
-    cmsUInt32Number Offset, TagSize;
-    cmsUInt32Number ElemCount;
+    _dmsICCPROFILE* Idd = (_dmsICCPROFILE*) iProfilf;
+    dmsIOHANDLER* io = Idd ->IOibndlfr;
+    dmsTbgTypfHbndlfr* TypfHbndlfr;
+    dmsTbgTypfHbndlfr LodblTypfHbndlfr;
+    dmsTbgDfsdriptor*  TbgDfsdriptor;
+    dmsTbgTypfSignbturf BbsfTypf;
+    dmsUInt32Numbfr Offsft, TbgSizf;
+    dmsUInt32Numbfr ElfmCount;
     int n;
 
-    n = _cmsSearchTag(Icc, sig, TRUE);
-    if (n < 0) return NULL;                 // Not found, return NULL
+    n = _dmsSfbrdiTbg(Idd, sig, TRUE);
+    if (n < 0) rfturn NULL;                 // Not found, rfturn NULL
 
 
-    // If the element is already in memory, return the pointer
-    if (Icc -> TagPtrs[n]) {
+    // If tif flfmfnt is blrfbdy in mfmory, rfturn tif pointfr
+    if (Idd -> TbgPtrs[n]) {
 
-        if (Icc ->TagSaveAsRaw[n]) return NULL;  // We don't support read raw tags as cooked
-        return Icc -> TagPtrs[n];
+        if (Idd ->TbgSbvfAsRbw[n]) rfturn NULL;  // Wf don't support rfbd rbw tbgs bs dookfd
+        rfturn Idd -> TbgPtrs[n];
     }
 
-    // We need to read it. Get the offset and size to the file
-    Offset    = Icc -> TagOffsets[n];
-    TagSize   = Icc -> TagSizes[n];
+    // Wf nffd to rfbd it. Gft tif offsft bnd sizf to tif filf
+    Offsft    = Idd -> TbgOffsfts[n];
+    TbgSizf   = Idd -> TbgSizfs[n];
 
-    // Seek to its location
-    if (!io -> Seek(io, Offset))
-        return NULL;
+    // Sffk to its lodbtion
+    if (!io -> Sffk(io, Offsft))
+        rfturn NULL;
 
-    // Search for support on this tag
-    TagDescriptor = _cmsGetTagDescriptor(sig);
-    if (TagDescriptor == NULL) return NULL;     // Unsupported.
+    // Sfbrdi for support on tiis tbg
+    TbgDfsdriptor = _dmsGftTbgDfsdriptor(sig);
+    if (TbgDfsdriptor == NULL) rfturn NULL;     // Unsupportfd.
 
-    // if supported, get type and check if in list
-    BaseType = _cmsReadTypeBase(io);
-    if (BaseType == 0) return NULL;
+    // if supportfd, gft typf bnd difdk if in list
+    BbsfTypf = _dmsRfbdTypfBbsf(io);
+    if (BbsfTypf == 0) rfturn NULL;
 
-    if (!IsTypeSupported(TagDescriptor, BaseType)) return NULL;
+    if (!IsTypfSupportfd(TbgDfsdriptor, BbsfTypf)) rfturn NULL;
 
-    TagSize  -= 8;                      // Alredy read by the type base logic
+    TbgSizf  -= 8;                      // Alrfdy rfbd by tif typf bbsf logid
 
-    // Get type handler
-    TypeHandler = _cmsGetTagTypeHandler(BaseType);
-    if (TypeHandler == NULL) return NULL;
-    LocalTypeHandler = *TypeHandler;
+    // Gft typf ibndlfr
+    TypfHbndlfr = _dmsGftTbgTypfHbndlfr(BbsfTypf);
+    if (TypfHbndlfr == NULL) rfturn NULL;
+    LodblTypfHbndlfr = *TypfHbndlfr;
 
 
-    // Read the tag
-    Icc -> TagTypeHandlers[n] = TypeHandler;
+    // Rfbd tif tbg
+    Idd -> TbgTypfHbndlfrs[n] = TypfHbndlfr;
 
-    LocalTypeHandler.ContextID = Icc ->ContextID;
-    LocalTypeHandler.ICCVersion = Icc ->Version;
-    Icc -> TagPtrs[n] = LocalTypeHandler.ReadPtr(&LocalTypeHandler, io, &ElemCount, TagSize);
+    LodblTypfHbndlfr.ContfxtID = Idd ->ContfxtID;
+    LodblTypfHbndlfr.ICCVfrsion = Idd ->Vfrsion;
+    Idd -> TbgPtrs[n] = LodblTypfHbndlfr.RfbdPtr(&LodblTypfHbndlfr, io, &ElfmCount, TbgSizf);
 
-    // The tag type is supported, but something wrong happend and we cannot read the tag.
-    // let know the user about this (although it is just a warning)
-    if (Icc -> TagPtrs[n] == NULL) {
+    // Tif tbg typf is supportfd, but somftiing wrong ibppfnd bnd wf dbnnot rfbd tif tbg.
+    // lft know tif usfr bbout tiis (bltiougi it is just b wbrning)
+    if (Idd -> TbgPtrs[n] == NULL) {
 
-        char String[5];
+        dibr String[5];
 
-        _cmsTagSignature2String(String, sig);
-        cmsSignalError(Icc ->ContextID, cmsERROR_CORRUPTION_DETECTED, "Corrupted tag '%s'", String);
-        return NULL;
+        _dmsTbgSignbturf2String(String, sig);
+        dmsSignblError(Idd ->ContfxtID, dmsERROR_CORRUPTION_DETECTED, "Corruptfd tbg '%s'", String);
+        rfturn NULL;
     }
 
-    // This is a weird error that may be a symptom of something more serious, the number of
-    // stored item is actually less than the number of required elements.
-    if (ElemCount < TagDescriptor ->ElemCount) {
+    // Tiis is b wfird frror tibt mby bf b symptom of somftiing morf sfrious, tif numbfr of
+    // storfd itfm is bdtublly lfss tibn tif numbfr of rfquirfd flfmfnts.
+    if (ElfmCount < TbgDfsdriptor ->ElfmCount) {
 
-        char String[5];
+        dibr String[5];
 
-        _cmsTagSignature2String(String, sig);
-        cmsSignalError(Icc ->ContextID, cmsERROR_CORRUPTION_DETECTED, "'%s' Inconsistent number of items: expected %d, got %d",
-            String, TagDescriptor ->ElemCount, ElemCount);
+        _dmsTbgSignbturf2String(String, sig);
+        dmsSignblError(Idd ->ContfxtID, dmsERROR_CORRUPTION_DETECTED, "'%s' Indonsistfnt numbfr of itfms: fxpfdtfd %d, got %d",
+            String, TbgDfsdriptor ->ElfmCount, ElfmCount);
     }
 
 
-    // Return the data
-    return Icc -> TagPtrs[n];
+    // Rfturn tif dbtb
+    rfturn Idd -> TbgPtrs[n];
 }
 
 
-// Get true type of data
-cmsTagTypeSignature _cmsGetTagTrueType(cmsHPROFILE hProfile, cmsTagSignature sig)
+// Gft truf typf of dbtb
+dmsTbgTypfSignbturf _dmsGftTbgTrufTypf(dmsHPROFILE iProfilf, dmsTbgSignbturf sig)
 {
-    _cmsICCPROFILE* Icc = (_cmsICCPROFILE*) hProfile;
-    cmsTagTypeHandler* TypeHandler;
+    _dmsICCPROFILE* Idd = (_dmsICCPROFILE*) iProfilf;
+    dmsTbgTypfHbndlfr* TypfHbndlfr;
     int n;
 
-    // Search for given tag in ICC profile directory
-    n = _cmsSearchTag(Icc, sig, TRUE);
-    if (n < 0) return (cmsTagTypeSignature) 0;                // Not found, return NULL
+    // Sfbrdi for givfn tbg in ICC profilf dirfdtory
+    n = _dmsSfbrdiTbg(Idd, sig, TRUE);
+    if (n < 0) rfturn (dmsTbgTypfSignbturf) 0;                // Not found, rfturn NULL
 
-    // Get the handler. The true type is there
-    TypeHandler =  Icc -> TagTypeHandlers[n];
-    return TypeHandler ->Signature;
+    // Gft tif ibndlfr. Tif truf typf is tifrf
+    TypfHbndlfr =  Idd -> TbgTypfHbndlfrs[n];
+    rfturn TypfHbndlfr ->Signbturf;
 }
 
 
-// Write a single tag. This just keeps track of the tak into a list of "to be written". If the tag is already
-// in that list, the previous version is deleted.
-cmsBool CMSEXPORT cmsWriteTag(cmsHPROFILE hProfile, cmsTagSignature sig, const void* data)
+// Writf b singlf tbg. Tiis just kffps trbdk of tif tbk into b list of "to bf writtfn". If tif tbg is blrfbdy
+// in tibt list, tif prfvious vfrsion is dflftfd.
+dmsBool CMSEXPORT dmsWritfTbg(dmsHPROFILE iProfilf, dmsTbgSignbturf sig, donst void* dbtb)
 {
-    _cmsICCPROFILE* Icc = (_cmsICCPROFILE*) hProfile;
-    cmsTagTypeHandler* TypeHandler = NULL;
-    cmsTagTypeHandler LocalTypeHandler;
-    cmsTagDescriptor* TagDescriptor = NULL;
-    cmsTagTypeSignature Type;
+    _dmsICCPROFILE* Idd = (_dmsICCPROFILE*) iProfilf;
+    dmsTbgTypfHbndlfr* TypfHbndlfr = NULL;
+    dmsTbgTypfHbndlfr LodblTypfHbndlfr;
+    dmsTbgDfsdriptor* TbgDfsdriptor = NULL;
+    dmsTbgTypfSignbturf Typf;
     int i;
-    cmsFloat64Number Version;
-    char TypeString[5], SigString[5];
+    dmsFlobt64Numbfr Vfrsion;
+    dibr TypfString[5], SigString[5];
 
 
-    if (data == NULL) {
+    if (dbtb == NULL) {
 
-         i = _cmsSearchTag(Icc, sig, FALSE);
+         i = _dmsSfbrdiTbg(Idd, sig, FALSE);
          if (i >= 0)
-             Icc ->TagNames[i] = (cmsTagSignature) 0;
-         // Unsupported by now, reserved for future ampliations (delete)
-         return FALSE;
+             Idd ->TbgNbmfs[i] = (dmsTbgSignbturf) 0;
+         // Unsupportfd by now, rfsfrvfd for futurf bmplibtions (dflftf)
+         rfturn FALSE;
     }
 
-    i = _cmsSearchTag(Icc, sig, FALSE);
+    i = _dmsSfbrdiTbg(Idd, sig, FALSE);
     if (i >=0) {
 
-        if (Icc -> TagPtrs[i] != NULL) {
+        if (Idd -> TbgPtrs[i] != NULL) {
 
-            // Already exists. Free previous version
-            if (Icc ->TagSaveAsRaw[i]) {
-                _cmsFree(Icc ->ContextID, Icc ->TagPtrs[i]);
+            // Alrfbdy fxists. Frff prfvious vfrsion
+            if (Idd ->TbgSbvfAsRbw[i]) {
+                _dmsFrff(Idd ->ContfxtID, Idd ->TbgPtrs[i]);
             }
-            else {
-                TypeHandler = Icc ->TagTypeHandlers[i];
+            flsf {
+                TypfHbndlfr = Idd ->TbgTypfHbndlfrs[i];
 
-                if (TypeHandler != NULL) {
+                if (TypfHbndlfr != NULL) {
 
-                    LocalTypeHandler = *TypeHandler;
-                    LocalTypeHandler.ContextID = Icc ->ContextID;              // As an additional parameter
-                    LocalTypeHandler.ICCVersion = Icc ->Version;
-                    LocalTypeHandler.FreePtr(&LocalTypeHandler, Icc -> TagPtrs[i]);
+                    LodblTypfHbndlfr = *TypfHbndlfr;
+                    LodblTypfHbndlfr.ContfxtID = Idd ->ContfxtID;              // As bn bdditionbl pbrbmftfr
+                    LodblTypfHbndlfr.ICCVfrsion = Idd ->Vfrsion;
+                    LodblTypfHbndlfr.FrffPtr(&LodblTypfHbndlfr, Idd -> TbgPtrs[i]);
                 }
             }
         }
     }
-    else  {
-        // New one
-        i = Icc -> TagCount;
+    flsf  {
+        // Nfw onf
+        i = Idd -> TbgCount;
 
         if (i >= MAX_TABLE_TAG) {
-            cmsSignalError(Icc ->ContextID, cmsERROR_RANGE, "Too many tags (%d)", MAX_TABLE_TAG);
-            return FALSE;
+            dmsSignblError(Idd ->ContfxtID, dmsERROR_RANGE, "Too mbny tbgs (%d)", MAX_TABLE_TAG);
+            rfturn FALSE;
         }
 
-        Icc -> TagCount++;
+        Idd -> TbgCount++;
     }
 
-    // This is not raw
-    Icc ->TagSaveAsRaw[i] = FALSE;
+    // Tiis is not rbw
+    Idd ->TbgSbvfAsRbw[i] = FALSE;
 
-    // This is not a link
-    Icc ->TagLinked[i] = (cmsTagSignature) 0;
+    // Tiis is not b link
+    Idd ->TbgLinkfd[i] = (dmsTbgSignbturf) 0;
 
-    // Get information about the TAG.
-    TagDescriptor = _cmsGetTagDescriptor(sig);
-    if (TagDescriptor == NULL){
-         cmsSignalError(Icc ->ContextID, cmsERROR_UNKNOWN_EXTENSION, "Unsupported tag '%x'", sig);
-        return FALSE;
-    }
-
-
-    // Now we need to know which type to use. It depends on the version.
-    Version = cmsGetProfileVersion(hProfile);
-
-    if (TagDescriptor ->DecideType != NULL) {
-
-        // Let the tag descriptor to decide the type base on depending on
-        // the data. This is useful for example on parametric curves, where
-        // curves specified by a table cannot be saved as parametric and needs
-        // to be casted to single v2-curves, even on v4 profiles.
-
-        Type = TagDescriptor ->DecideType(Version, data);
-    }
-    else {
-
-
-        Type = TagDescriptor ->SupportedTypes[0];
-    }
-
-    // Does the tag support this type?
-    if (!IsTypeSupported(TagDescriptor, Type)) {
-
-        _cmsTagSignature2String(TypeString, (cmsTagSignature) Type);
-        _cmsTagSignature2String(SigString,  sig);
-
-        cmsSignalError(Icc ->ContextID, cmsERROR_UNKNOWN_EXTENSION, "Unsupported type '%s' for tag '%s'", TypeString, SigString);
-        return FALSE;
-    }
-
-    // Does we have a handler for this type?
-    TypeHandler =  _cmsGetTagTypeHandler(Type);
-    if (TypeHandler == NULL) {
-
-        _cmsTagSignature2String(TypeString, (cmsTagSignature) Type);
-        _cmsTagSignature2String(SigString,  sig);
-
-        cmsSignalError(Icc ->ContextID, cmsERROR_UNKNOWN_EXTENSION, "Unsupported type '%s' for tag '%s'", TypeString, SigString);
-        return FALSE;           // Should never happen
+    // Gft informbtion bbout tif TAG.
+    TbgDfsdriptor = _dmsGftTbgDfsdriptor(sig);
+    if (TbgDfsdriptor == NULL){
+         dmsSignblError(Idd ->ContfxtID, dmsERROR_UNKNOWN_EXTENSION, "Unsupportfd tbg '%x'", sig);
+        rfturn FALSE;
     }
 
 
-    // Fill fields on icc structure
-    Icc ->TagTypeHandlers[i]  = TypeHandler;
-    Icc ->TagNames[i]         = sig;
-    Icc ->TagSizes[i]         = 0;
-    Icc ->TagOffsets[i]       = 0;
+    // Now wf nffd to know wiidi typf to usf. It dfpfnds on tif vfrsion.
+    Vfrsion = dmsGftProfilfVfrsion(iProfilf);
 
-    LocalTypeHandler = *TypeHandler;
-    LocalTypeHandler.ContextID  = Icc ->ContextID;
-    LocalTypeHandler.ICCVersion = Icc ->Version;
-    Icc ->TagPtrs[i]         = LocalTypeHandler.DupPtr(&LocalTypeHandler, data, TagDescriptor ->ElemCount);
+    if (TbgDfsdriptor ->DfdidfTypf != NULL) {
 
-    if (Icc ->TagPtrs[i] == NULL)  {
+        // Lft tif tbg dfsdriptor to dfdidf tif typf bbsf on dfpfnding on
+        // tif dbtb. Tiis is usfful for fxbmplf on pbrbmftrid durvfs, wifrf
+        // durvfs spfdififd by b tbblf dbnnot bf sbvfd bs pbrbmftrid bnd nffds
+        // to bf dbstfd to singlf v2-durvfs, fvfn on v4 profilfs.
 
-        _cmsTagSignature2String(TypeString, (cmsTagSignature) Type);
-        _cmsTagSignature2String(SigString,  sig);
-        cmsSignalError(Icc ->ContextID, cmsERROR_CORRUPTION_DETECTED, "Malformed struct in type '%s' for tag '%s'", TypeString, SigString);
+        Typf = TbgDfsdriptor ->DfdidfTypf(Vfrsion, dbtb);
+    }
+    flsf {
 
-        return FALSE;
+
+        Typf = TbgDfsdriptor ->SupportfdTypfs[0];
     }
 
-    return TRUE;
+    // Dofs tif tbg support tiis typf?
+    if (!IsTypfSupportfd(TbgDfsdriptor, Typf)) {
+
+        _dmsTbgSignbturf2String(TypfString, (dmsTbgSignbturf) Typf);
+        _dmsTbgSignbturf2String(SigString,  sig);
+
+        dmsSignblError(Idd ->ContfxtID, dmsERROR_UNKNOWN_EXTENSION, "Unsupportfd typf '%s' for tbg '%s'", TypfString, SigString);
+        rfturn FALSE;
+    }
+
+    // Dofs wf ibvf b ibndlfr for tiis typf?
+    TypfHbndlfr =  _dmsGftTbgTypfHbndlfr(Typf);
+    if (TypfHbndlfr == NULL) {
+
+        _dmsTbgSignbturf2String(TypfString, (dmsTbgSignbturf) Typf);
+        _dmsTbgSignbturf2String(SigString,  sig);
+
+        dmsSignblError(Idd ->ContfxtID, dmsERROR_UNKNOWN_EXTENSION, "Unsupportfd typf '%s' for tbg '%s'", TypfString, SigString);
+        rfturn FALSE;           // Siould nfvfr ibppfn
+    }
+
+
+    // Fill fiflds on idd strudturf
+    Idd ->TbgTypfHbndlfrs[i]  = TypfHbndlfr;
+    Idd ->TbgNbmfs[i]         = sig;
+    Idd ->TbgSizfs[i]         = 0;
+    Idd ->TbgOffsfts[i]       = 0;
+
+    LodblTypfHbndlfr = *TypfHbndlfr;
+    LodblTypfHbndlfr.ContfxtID  = Idd ->ContfxtID;
+    LodblTypfHbndlfr.ICCVfrsion = Idd ->Vfrsion;
+    Idd ->TbgPtrs[i]         = LodblTypfHbndlfr.DupPtr(&LodblTypfHbndlfr, dbtb, TbgDfsdriptor ->ElfmCount);
+
+    if (Idd ->TbgPtrs[i] == NULL)  {
+
+        _dmsTbgSignbturf2String(TypfString, (dmsTbgSignbturf) Typf);
+        _dmsTbgSignbturf2String(SigString,  sig);
+        dmsSignblError(Idd ->ContfxtID, dmsERROR_CORRUPTION_DETECTED, "Mblformfd strudt in typf '%s' for tbg '%s'", TypfString, SigString);
+
+        rfturn FALSE;
+    }
+
+    rfturn TRUE;
 }
 
-// Read and write raw data. The only way those function would work and keep consistence with normal read and write
-// is to do an additional step of serialization. That means, readRaw would issue a normal read and then convert the obtained
-// data to raw bytes by using the "write" serialization logic. And vice-versa. I know this may end in situations where
-// raw data written does not exactly correspond with the raw data proposed to cmsWriteRaw data, but this approach allows
-// to write a tag as raw data and the read it as handled.
+// Rfbd bnd writf rbw dbtb. Tif only wby tiosf fundtion would work bnd kffp donsistfndf witi normbl rfbd bnd writf
+// is to do bn bdditionbl stfp of sfriblizbtion. Tibt mfbns, rfbdRbw would issuf b normbl rfbd bnd tifn donvfrt tif obtbinfd
+// dbtb to rbw bytfs by using tif "writf" sfriblizbtion logid. And vidf-vfrsb. I know tiis mby fnd in situbtions wifrf
+// rbw dbtb writtfn dofs not fxbdtly dorrfspond witi tif rbw dbtb proposfd to dmsWritfRbw dbtb, but tiis bpprobdi bllows
+// to writf b tbg bs rbw dbtb bnd tif rfbd it bs ibndlfd.
 
-cmsInt32Number CMSEXPORT cmsReadRawTag(cmsHPROFILE hProfile, cmsTagSignature sig, void* data, cmsUInt32Number BufferSize)
+dmsInt32Numbfr CMSEXPORT dmsRfbdRbwTbg(dmsHPROFILE iProfilf, dmsTbgSignbturf sig, void* dbtb, dmsUInt32Numbfr BufffrSizf)
 {
-    _cmsICCPROFILE* Icc = (_cmsICCPROFILE*) hProfile;
-    void *Object;
+    _dmsICCPROFILE* Idd = (_dmsICCPROFILE*) iProfilf;
+    void *Objfdt;
     int i;
-    cmsIOHANDLER* MemIO;
-    cmsTagTypeHandler* TypeHandler = NULL;
-    cmsTagTypeHandler LocalTypeHandler;
-    cmsTagDescriptor* TagDescriptor = NULL;
-    cmsUInt32Number rc;
-    cmsUInt32Number Offset, TagSize;
+    dmsIOHANDLER* MfmIO;
+    dmsTbgTypfHbndlfr* TypfHbndlfr = NULL;
+    dmsTbgTypfHbndlfr LodblTypfHbndlfr;
+    dmsTbgDfsdriptor* TbgDfsdriptor = NULL;
+    dmsUInt32Numbfr rd;
+    dmsUInt32Numbfr Offsft, TbgSizf;
 
-    // Search for given tag in ICC profile directory
-    i = _cmsSearchTag(Icc, sig, TRUE);
-    if (i < 0) return 0;                 // Not found, return 0
+    // Sfbrdi for givfn tbg in ICC profilf dirfdtory
+    i = _dmsSfbrdiTbg(Idd, sig, TRUE);
+    if (i < 0) rfturn 0;                 // Not found, rfturn 0
 
-    // It is already read?
-    if (Icc -> TagPtrs[i] == NULL) {
+    // It is blrfbdy rfbd?
+    if (Idd -> TbgPtrs[i] == NULL) {
 
-        // No yet, get original position
-        Offset   = Icc ->TagOffsets[i];
-        TagSize  = Icc ->TagSizes[i];
+        // No yft, gft originbl position
+        Offsft   = Idd ->TbgOffsfts[i];
+        TbgSizf  = Idd ->TbgSizfs[i];
 
-        // read the data directly, don't keep copy
-        if (data != NULL) {
+        // rfbd tif dbtb dirfdtly, don't kffp dopy
+        if (dbtb != NULL) {
 
-            if (BufferSize < TagSize)
-                TagSize = BufferSize;
+            if (BufffrSizf < TbgSizf)
+                TbgSizf = BufffrSizf;
 
-            if (!Icc ->IOhandler ->Seek(Icc ->IOhandler, Offset)) return 0;
-            if (!Icc ->IOhandler ->Read(Icc ->IOhandler, data, 1, TagSize)) return 0;
+            if (!Idd ->IOibndlfr ->Sffk(Idd ->IOibndlfr, Offsft)) rfturn 0;
+            if (!Idd ->IOibndlfr ->Rfbd(Idd ->IOibndlfr, dbtb, 1, TbgSizf)) rfturn 0;
 
-            return TagSize;
+            rfturn TbgSizf;
         }
 
-        return Icc ->TagSizes[i];
+        rfturn Idd ->TbgSizfs[i];
     }
 
-    // The data has been already read, or written. But wait!, maybe the user choosed to save as
-    // raw data. In this case, return the raw data directly
-    if (Icc ->TagSaveAsRaw[i]) {
+    // Tif dbtb ibs bffn blrfbdy rfbd, or writtfn. But wbit!, mbybf tif usfr dioosfd to sbvf bs
+    // rbw dbtb. In tiis dbsf, rfturn tif rbw dbtb dirfdtly
+    if (Idd ->TbgSbvfAsRbw[i]) {
 
-        if (data != NULL)  {
+        if (dbtb != NULL)  {
 
-            TagSize  = Icc ->TagSizes[i];
-            if (BufferSize < TagSize)
-                TagSize = BufferSize;
+            TbgSizf  = Idd ->TbgSizfs[i];
+            if (BufffrSizf < TbgSizf)
+                TbgSizf = BufffrSizf;
 
-            memmove(data, Icc ->TagPtrs[i], TagSize);
+            mfmmovf(dbtb, Idd ->TbgPtrs[i], TbgSizf);
 
-            return TagSize;
+            rfturn TbgSizf;
         }
 
-        return Icc ->TagSizes[i];
+        rfturn Idd ->TbgSizfs[i];
     }
 
-    // Already readed, or previously set by cmsWriteTag(). We need to serialize that
-    // data to raw in order to maintain consistency.
-    Object = cmsReadTag(hProfile, sig);
-    if (Object == NULL) return 0;
+    // Alrfbdy rfbdfd, or prfviously sft by dmsWritfTbg(). Wf nffd to sfriblizf tibt
+    // dbtb to rbw in ordfr to mbintbin donsistfndy.
+    Objfdt = dmsRfbdTbg(iProfilf, sig);
+    if (Objfdt == NULL) rfturn 0;
 
-    // Now we need to serialize to a memory block: just use a memory iohandler
+    // Now wf nffd to sfriblizf to b mfmory blodk: just usf b mfmory ioibndlfr
 
-    if (data == NULL) {
-        MemIO = cmsOpenIOhandlerFromNULL(cmsGetProfileContextID(hProfile));
-    } else{
-        MemIO = cmsOpenIOhandlerFromMem(cmsGetProfileContextID(hProfile), data, BufferSize, "w");
+    if (dbtb == NULL) {
+        MfmIO = dmsOpfnIOibndlfrFromNULL(dmsGftProfilfContfxtID(iProfilf));
+    } flsf{
+        MfmIO = dmsOpfnIOibndlfrFromMfm(dmsGftProfilfContfxtID(iProfilf), dbtb, BufffrSizf, "w");
     }
-    if (MemIO == NULL) return 0;
+    if (MfmIO == NULL) rfturn 0;
 
-    // Obtain type handling for the tag
-    TypeHandler = Icc ->TagTypeHandlers[i];
-    TagDescriptor = _cmsGetTagDescriptor(sig);
-    if (TagDescriptor == NULL) {
-        cmsCloseIOhandler(MemIO);
-        return 0;
-    }
-
-    // FIXME: No handling for TypeHandler == NULL here?
-    // Serialize
-    LocalTypeHandler = *TypeHandler;
-    LocalTypeHandler.ContextID  = Icc ->ContextID;
-    LocalTypeHandler.ICCVersion = Icc ->Version;
-
-    if (!_cmsWriteTypeBase(MemIO, TypeHandler ->Signature)) {
-        cmsCloseIOhandler(MemIO);
-        return 0;
+    // Obtbin typf ibndling for tif tbg
+    TypfHbndlfr = Idd ->TbgTypfHbndlfrs[i];
+    TbgDfsdriptor = _dmsGftTbgDfsdriptor(sig);
+    if (TbgDfsdriptor == NULL) {
+        dmsClosfIOibndlfr(MfmIO);
+        rfturn 0;
     }
 
-    if (!LocalTypeHandler.WritePtr(&LocalTypeHandler, MemIO, Object, TagDescriptor ->ElemCount)) {
-        cmsCloseIOhandler(MemIO);
-        return 0;
+    // FIXME: No ibndling for TypfHbndlfr == NULL ifrf?
+    // Sfriblizf
+    LodblTypfHbndlfr = *TypfHbndlfr;
+    LodblTypfHbndlfr.ContfxtID  = Idd ->ContfxtID;
+    LodblTypfHbndlfr.ICCVfrsion = Idd ->Vfrsion;
+
+    if (!_dmsWritfTypfBbsf(MfmIO, TypfHbndlfr ->Signbturf)) {
+        dmsClosfIOibndlfr(MfmIO);
+        rfturn 0;
     }
 
-    // Get Size and close
-    rc = MemIO ->Tell(MemIO);
-    cmsCloseIOhandler(MemIO);      // Ignore return code this time
+    if (!LodblTypfHbndlfr.WritfPtr(&LodblTypfHbndlfr, MfmIO, Objfdt, TbgDfsdriptor ->ElfmCount)) {
+        dmsClosfIOibndlfr(MfmIO);
+        rfturn 0;
+    }
 
-    return rc;
+    // Gft Sizf bnd dlosf
+    rd = MfmIO ->Tfll(MfmIO);
+    dmsClosfIOibndlfr(MfmIO);      // Ignorf rfturn dodf tiis timf
+
+    rfturn rd;
 }
 
-// Similar to the anterior. This function allows to write directly to the ICC profile any data, without
-// checking anything. As a rule, mixing Raw with cooked doesn't work, so writting a tag as raw and then reading
-// it as cooked without serializing does result into an error. If that is wha you want, you will need to dump
-// the profile to memry or disk and then reopen it.
-cmsBool CMSEXPORT cmsWriteRawTag(cmsHPROFILE hProfile, cmsTagSignature sig, const void* data, cmsUInt32Number Size)
+// Similbr to tif bntfrior. Tiis fundtion bllows to writf dirfdtly to tif ICC profilf bny dbtb, witiout
+// difdking bnytiing. As b rulf, mixing Rbw witi dookfd dofsn't work, so writting b tbg bs rbw bnd tifn rfbding
+// it bs dookfd witiout sfriblizing dofs rfsult into bn frror. If tibt is wib you wbnt, you will nffd to dump
+// tif profilf to mfmry or disk bnd tifn rfopfn it.
+dmsBool CMSEXPORT dmsWritfRbwTbg(dmsHPROFILE iProfilf, dmsTbgSignbturf sig, donst void* dbtb, dmsUInt32Numbfr Sizf)
 {
-    _cmsICCPROFILE* Icc = (_cmsICCPROFILE*) hProfile;
+    _dmsICCPROFILE* Idd = (_dmsICCPROFILE*) iProfilf;
     int i;
 
-    if (!_cmsNewTag(Icc, sig, &i)) return FALSE;
+    if (!_dmsNfwTbg(Idd, sig, &i)) rfturn FALSE;
 
-    // Mark the tag as being written as RAW
-    Icc ->TagSaveAsRaw[i] = TRUE;
-    Icc ->TagNames[i]     = sig;
-    Icc ->TagLinked[i]    = (cmsTagSignature) 0;
+    // Mbrk tif tbg bs bfing writtfn bs RAW
+    Idd ->TbgSbvfAsRbw[i] = TRUE;
+    Idd ->TbgNbmfs[i]     = sig;
+    Idd ->TbgLinkfd[i]    = (dmsTbgSignbturf) 0;
 
-    // Keep a copy of the block
-    Icc ->TagPtrs[i]  = _cmsDupMem(Icc ->ContextID, data, Size);
-    Icc ->TagSizes[i] = Size;
+    // Kffp b dopy of tif blodk
+    Idd ->TbgPtrs[i]  = _dmsDupMfm(Idd ->ContfxtID, dbtb, Sizf);
+    Idd ->TbgSizfs[i] = Sizf;
 
-    return TRUE;
+    rfturn TRUE;
 }
 
-// Using this function you can collapse several tag entries to the same block in the profile
-cmsBool CMSEXPORT cmsLinkTag(cmsHPROFILE hProfile, cmsTagSignature sig, cmsTagSignature dest)
+// Using tiis fundtion you dbn dollbpsf sfvfrbl tbg fntrifs to tif sbmf blodk in tif profilf
+dmsBool CMSEXPORT dmsLinkTbg(dmsHPROFILE iProfilf, dmsTbgSignbturf sig, dmsTbgSignbturf dfst)
 {
-    _cmsICCPROFILE* Icc = (_cmsICCPROFILE*) hProfile;
+    _dmsICCPROFILE* Idd = (_dmsICCPROFILE*) iProfilf;
     int i;
 
-    if (!_cmsNewTag(Icc, sig, &i)) return FALSE;
+    if (!_dmsNfwTbg(Idd, sig, &i)) rfturn FALSE;
 
-    // Keep necessary information
-    Icc ->TagSaveAsRaw[i] = FALSE;
-    Icc ->TagNames[i]     = sig;
-    Icc ->TagLinked[i]    = dest;
+    // Kffp nfdfssbry informbtion
+    Idd ->TbgSbvfAsRbw[i] = FALSE;
+    Idd ->TbgNbmfs[i]     = sig;
+    Idd ->TbgLinkfd[i]    = dfst;
 
-    Icc ->TagPtrs[i]    = NULL;
-    Icc ->TagSizes[i]   = 0;
-    Icc ->TagOffsets[i] = 0;
+    Idd ->TbgPtrs[i]    = NULL;
+    Idd ->TbgSizfs[i]   = 0;
+    Idd ->TbgOffsfts[i] = 0;
 
-    return TRUE;
+    rfturn TRUE;
 }
 
 
-// Returns the tag linked to sig, in the case two tags are sharing same resource
-cmsTagSignature  CMSEXPORT cmsTagLinkedTo(cmsHPROFILE hProfile, cmsTagSignature sig)
+// Rfturns tif tbg linkfd to sig, in tif dbsf two tbgs brf sibring sbmf rfsourdf
+dmsTbgSignbturf  CMSEXPORT dmsTbgLinkfdTo(dmsHPROFILE iProfilf, dmsTbgSignbturf sig)
 {
-    _cmsICCPROFILE* Icc = (_cmsICCPROFILE*) hProfile;
+    _dmsICCPROFILE* Idd = (_dmsICCPROFILE*) iProfilf;
     int i;
 
-    // Search for given tag in ICC profile directory
-    i = _cmsSearchTag(Icc, sig, FALSE);
-    if (i < 0) return (cmsTagSignature) 0;                 // Not found, return 0
+    // Sfbrdi for givfn tbg in ICC profilf dirfdtory
+    i = _dmsSfbrdiTbg(Idd, sig, FALSE);
+    if (i < 0) rfturn (dmsTbgSignbturf) 0;                 // Not found, rfturn 0
 
-    return Icc -> TagLinked[i];
+    rfturn Idd -> TbgLinkfd[i];
 }

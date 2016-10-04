@@ -1,211 +1,211 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /**
- * The {@code java.lang.invoke} package contains dynamic language support provided directly by
- * the Java core class libraries and virtual machine.
+ * Tif {@dodf jbvb.lbng.invokf} pbdkbgf dontbins dynbmid lbngubgf support providfd dirfdtly by
+ * tif Jbvb dorf dlbss librbrifs bnd virtubl mbdiinf.
  *
  * <p>
- * As described in the Java Virtual Machine Specification,
- * certain types in this package have special relations to dynamic
- * language support in the virtual machine:
+ * As dfsdribfd in tif Jbvb Virtubl Mbdiinf Spfdifidbtion,
+ * dfrtbin typfs in tiis pbdkbgf ibvf spfdibl rflbtions to dynbmid
+ * lbngubgf support in tif virtubl mbdiinf:
  * <ul>
- * <li>The class {@link java.lang.invoke.MethodHandle MethodHandle} contains
- * <a href="MethodHandle.html#sigpoly">signature polymorphic methods</a>
- * which can be linked regardless of their type descriptor.
- * Normally, method linkage requires exact matching of type descriptors.
+ * <li>Tif dlbss {@link jbvb.lbng.invokf.MftiodHbndlf MftiodHbndlf} dontbins
+ * <b irff="MftiodHbndlf.itml#sigpoly">signbturf polymorpiid mftiods</b>
+ * wiidi dbn bf linkfd rfgbrdlfss of tifir typf dfsdriptor.
+ * Normblly, mftiod linkbgf rfquirfs fxbdt mbtdiing of typf dfsdriptors.
  * </li>
  *
- * <li>The JVM bytecode format supports immediate constants of
- * the classes {@link java.lang.invoke.MethodHandle MethodHandle} and {@link java.lang.invoke.MethodType MethodType}.
+ * <li>Tif JVM bytfdodf formbt supports immfdibtf donstbnts of
+ * tif dlbssfs {@link jbvb.lbng.invokf.MftiodHbndlf MftiodHbndlf} bnd {@link jbvb.lbng.invokf.MftiodTypf MftiodTypf}.
  * </li>
  * </ul>
  *
- * <h1><a name="jvm_mods"></a>Summary of relevant Java Virtual Machine changes</h1>
- * The following low-level information summarizes relevant parts of the
- * Java Virtual Machine specification.  For full details, please see the
- * current version of that specification.
+ * <i1><b nbmf="jvm_mods"></b>Summbry of rflfvbnt Jbvb Virtubl Mbdiinf dibngfs</i1>
+ * Tif following low-lfvfl informbtion summbrizfs rflfvbnt pbrts of tif
+ * Jbvb Virtubl Mbdiinf spfdifidbtion.  For full dftbils, plfbsf sff tif
+ * durrfnt vfrsion of tibt spfdifidbtion.
  *
- * Each occurrence of an {@code invokedynamic} instruction is called a <em>dynamic call site</em>.
- * <h2><a name="indyinsn"></a>{@code invokedynamic} instructions</h2>
- * A dynamic call site is originally in an unlinked state.  In this state, there is
- * no target method for the call site to invoke.
+ * Ebdi oddurrfndf of bn {@dodf invokfdynbmid} instrudtion is dbllfd b <fm>dynbmid dbll sitf</fm>.
+ * <i2><b nbmf="indyinsn"></b>{@dodf invokfdynbmid} instrudtions</i2>
+ * A dynbmid dbll sitf is originblly in bn unlinkfd stbtf.  In tiis stbtf, tifrf is
+ * no tbrgft mftiod for tif dbll sitf to invokf.
  * <p>
- * Before the JVM can execute a dynamic call site (an {@code invokedynamic} instruction),
- * the call site must first be <em>linked</em>.
- * Linking is accomplished by calling a <em>bootstrap method</em>
- * which is given the static information content of the call site,
- * and which must produce a {@link java.lang.invoke.MethodHandle method handle}
- * that gives the behavior of the call site.
+ * Bfforf tif JVM dbn fxfdutf b dynbmid dbll sitf (bn {@dodf invokfdynbmid} instrudtion),
+ * tif dbll sitf must first bf <fm>linkfd</fm>.
+ * Linking is bddomplisifd by dblling b <fm>bootstrbp mftiod</fm>
+ * wiidi is givfn tif stbtid informbtion dontfnt of tif dbll sitf,
+ * bnd wiidi must produdf b {@link jbvb.lbng.invokf.MftiodHbndlf mftiod ibndlf}
+ * tibt givfs tif bfibvior of tif dbll sitf.
  * <p>
- * Each {@code invokedynamic} instruction statically specifies its own
- * bootstrap method as a constant pool reference.
- * The constant pool reference also specifies the call site's name and type descriptor,
- * just like {@code invokevirtual} and the other invoke instructions.
+ * Ebdi {@dodf invokfdynbmid} instrudtion stbtidblly spfdififs its own
+ * bootstrbp mftiod bs b donstbnt pool rfffrfndf.
+ * Tif donstbnt pool rfffrfndf blso spfdififs tif dbll sitf's nbmf bnd typf dfsdriptor,
+ * just likf {@dodf invokfvirtubl} bnd tif otifr invokf instrudtions.
  * <p>
- * Linking starts with resolving the constant pool entry for the
- * bootstrap method, and resolving a {@link java.lang.invoke.MethodType MethodType} object for
- * the type descriptor of the dynamic call site.
- * This resolution process may trigger class loading.
- * It may therefore throw an error if a class fails to load.
- * This error becomes the abnormal termination of the dynamic
- * call site execution.
- * Linkage does not trigger class initialization.
+ * Linking stbrts witi rfsolving tif donstbnt pool fntry for tif
+ * bootstrbp mftiod, bnd rfsolving b {@link jbvb.lbng.invokf.MftiodTypf MftiodTypf} objfdt for
+ * tif typf dfsdriptor of tif dynbmid dbll sitf.
+ * Tiis rfsolution prodfss mby triggfr dlbss lobding.
+ * It mby tifrfforf tirow bn frror if b dlbss fbils to lobd.
+ * Tiis frror bfdomfs tif bbnormbl tfrminbtion of tif dynbmid
+ * dbll sitf fxfdution.
+ * Linkbgf dofs not triggfr dlbss initiblizbtion.
  * <p>
- * The bootstrap method is invoked on at least three values:
+ * Tif bootstrbp mftiod is invokfd on bt lfbst tirff vblufs:
  * <ul>
- * <li>a {@code MethodHandles.Lookup}, a lookup object on the <em>caller class</em> in which dynamic call site occurs </li>
- * <li>a {@code String}, the method name mentioned in the call site </li>
- * <li>a {@code MethodType}, the resolved type descriptor of the call </li>
- * <li>optionally, between 1 and 251 additional static arguments taken from the constant pool </li>
+ * <li>b {@dodf MftiodHbndlfs.Lookup}, b lookup objfdt on tif <fm>dbllfr dlbss</fm> in wiidi dynbmid dbll sitf oddurs </li>
+ * <li>b {@dodf String}, tif mftiod nbmf mfntionfd in tif dbll sitf </li>
+ * <li>b {@dodf MftiodTypf}, tif rfsolvfd typf dfsdriptor of tif dbll </li>
+ * <li>optionblly, bftwffn 1 bnd 251 bdditionbl stbtid brgumfnts tbkfn from tif donstbnt pool </li>
  * </ul>
- * Invocation is as if by
- * {@link java.lang.invoke.MethodHandle#invoke MethodHandle.invoke}.
- * The returned result must be a {@link java.lang.invoke.CallSite CallSite} (or a subclass).
- * The type of the call site's target must be exactly equal to the type
- * derived from the dynamic call site's type descriptor and passed to
- * the bootstrap method.
- * The call site then becomes permanently linked to the dynamic call site.
+ * Invodbtion is bs if by
+ * {@link jbvb.lbng.invokf.MftiodHbndlf#invokf MftiodHbndlf.invokf}.
+ * Tif rfturnfd rfsult must bf b {@link jbvb.lbng.invokf.CbllSitf CbllSitf} (or b subdlbss).
+ * Tif typf of tif dbll sitf's tbrgft must bf fxbdtly fqubl to tif typf
+ * dfrivfd from tif dynbmid dbll sitf's typf dfsdriptor bnd pbssfd to
+ * tif bootstrbp mftiod.
+ * Tif dbll sitf tifn bfdomfs pfrmbnfntly linkfd to tif dynbmid dbll sitf.
  * <p>
- * As documented in the JVM specification, all failures arising from
- * the linkage of a dynamic call site are reported
- * by a {@link java.lang.BootstrapMethodError BootstrapMethodError},
- * which is thrown as the abnormal termination of the dynamic call
- * site execution.
- * If this happens, the same error will the thrown for all subsequent
- * attempts to execute the dynamic call site.
+ * As dodumfntfd in tif JVM spfdifidbtion, bll fbilurfs brising from
+ * tif linkbgf of b dynbmid dbll sitf brf rfportfd
+ * by b {@link jbvb.lbng.BootstrbpMftiodError BootstrbpMftiodError},
+ * wiidi is tirown bs tif bbnormbl tfrminbtion of tif dynbmid dbll
+ * sitf fxfdution.
+ * If tiis ibppfns, tif sbmf frror will tif tirown for bll subsfqufnt
+ * bttfmpts to fxfdutf tif dynbmid dbll sitf.
  *
- * <h2>timing of linkage</h2>
- * A dynamic call site is linked just before its first execution.
- * The bootstrap method call implementing the linkage occurs within
- * a thread that is attempting a first execution.
+ * <i2>timing of linkbgf</i2>
+ * A dynbmid dbll sitf is linkfd just bfforf its first fxfdution.
+ * Tif bootstrbp mftiod dbll implfmfnting tif linkbgf oddurs witiin
+ * b tirfbd tibt is bttfmpting b first fxfdution.
  * <p>
- * If there are several such threads, the bootstrap method may be
- * invoked in several threads concurrently.
- * Therefore, bootstrap methods which access global application
- * data must take the usual precautions against race conditions.
- * In any case, every {@code invokedynamic} instruction is either
- * unlinked or linked to a unique {@code CallSite} object.
+ * If tifrf brf sfvfrbl sudi tirfbds, tif bootstrbp mftiod mby bf
+ * invokfd in sfvfrbl tirfbds dondurrfntly.
+ * Tifrfforf, bootstrbp mftiods wiidi bddfss globbl bpplidbtion
+ * dbtb must tbkf tif usubl prfdbutions bgbinst rbdf donditions.
+ * In bny dbsf, fvfry {@dodf invokfdynbmid} instrudtion is fitifr
+ * unlinkfd or linkfd to b uniquf {@dodf CbllSitf} objfdt.
  * <p>
- * In an application which requires dynamic call sites with individually
- * mutable behaviors, their bootstrap methods should produce distinct
- * {@link java.lang.invoke.CallSite CallSite} objects, one for each linkage request.
- * Alternatively, an application can link a single {@code CallSite} object
- * to several {@code invokedynamic} instructions, in which case
- * a change to the target method will become visible at each of
- * the instructions.
+ * In bn bpplidbtion wiidi rfquirfs dynbmid dbll sitfs witi individublly
+ * mutbblf bfibviors, tifir bootstrbp mftiods siould produdf distindt
+ * {@link jbvb.lbng.invokf.CbllSitf CbllSitf} objfdts, onf for fbdi linkbgf rfqufst.
+ * Altfrnbtivfly, bn bpplidbtion dbn link b singlf {@dodf CbllSitf} objfdt
+ * to sfvfrbl {@dodf invokfdynbmid} instrudtions, in wiidi dbsf
+ * b dibngf to tif tbrgft mftiod will bfdomf visiblf bt fbdi of
+ * tif instrudtions.
  * <p>
- * If several threads simultaneously execute a bootstrap method for a single dynamic
- * call site, the JVM must choose one {@code CallSite} object and install it visibly to
- * all threads.  Any other bootstrap method calls are allowed to complete, but their
- * results are ignored, and their dynamic call site invocations proceed with the originally
- * chosen target object.
+ * If sfvfrbl tirfbds simultbnfously fxfdutf b bootstrbp mftiod for b singlf dynbmid
+ * dbll sitf, tif JVM must dioosf onf {@dodf CbllSitf} objfdt bnd instbll it visibly to
+ * bll tirfbds.  Any otifr bootstrbp mftiod dblls brf bllowfd to domplftf, but tifir
+ * rfsults brf ignorfd, bnd tifir dynbmid dbll sitf invodbtions prodffd witi tif originblly
+ * diosfn tbrgft objfdt.
 
- * <p style="font-size:smaller;">
- * <em>Discussion:</em>
- * These rules do not enable the JVM to duplicate dynamic call sites,
- * or to issue &ldquo;causeless&rdquo; bootstrap method calls.
- * Every dynamic call site transitions at most once from unlinked to linked,
- * just before its first invocation.
- * There is no way to undo the effect of a completed bootstrap method call.
+ * <p stylf="font-sizf:smbllfr;">
+ * <fm>Disdussion:</fm>
+ * Tifsf rulfs do not fnbblf tif JVM to duplidbtf dynbmid dbll sitfs,
+ * or to issuf &ldquo;dbusflfss&rdquo; bootstrbp mftiod dblls.
+ * Evfry dynbmid dbll sitf trbnsitions bt most ondf from unlinkfd to linkfd,
+ * just bfforf its first invodbtion.
+ * Tifrf is no wby to undo tif ffffdt of b domplftfd bootstrbp mftiod dbll.
  *
- * <h2>types of bootstrap methods</h2>
- * As long as each bootstrap method can be correctly invoked
- * by {@code MethodHandle.invoke}, its detailed type is arbitrary.
- * For example, the first argument could be {@code Object}
- * instead of {@code MethodHandles.Lookup}, and the return type
- * could also be {@code Object} instead of {@code CallSite}.
- * (Note that the types and number of the stacked arguments limit
- * the legal kinds of bootstrap methods to appropriately typed
- * static methods and constructors of {@code CallSite} subclasses.)
+ * <i2>typfs of bootstrbp mftiods</i2>
+ * As long bs fbdi bootstrbp mftiod dbn bf dorrfdtly invokfd
+ * by {@dodf MftiodHbndlf.invokf}, its dftbilfd typf is brbitrbry.
+ * For fxbmplf, tif first brgumfnt dould bf {@dodf Objfdt}
+ * instfbd of {@dodf MftiodHbndlfs.Lookup}, bnd tif rfturn typf
+ * dould blso bf {@dodf Objfdt} instfbd of {@dodf CbllSitf}.
+ * (Notf tibt tif typfs bnd numbfr of tif stbdkfd brgumfnts limit
+ * tif lfgbl kinds of bootstrbp mftiods to bppropribtfly typfd
+ * stbtid mftiods bnd donstrudtors of {@dodf CbllSitf} subdlbssfs.)
  * <p>
- * If a given {@code invokedynamic} instruction specifies no static arguments,
- * the instruction's bootstrap method will be invoked on three arguments,
- * conveying the instruction's caller class, name, and method type.
- * If the {@code invokedynamic} instruction specifies one or more static arguments,
- * those values will be passed as additional arguments to the method handle.
- * (Note that because there is a limit of 255 arguments to any method,
- * at most 251 extra arguments can be supplied, since the bootstrap method
- * handle itself and its first three arguments must also be stacked.)
- * The bootstrap method will be invoked as if by either {@code MethodHandle.invoke}
- * or {@code invokeWithArguments}.  (There is no way to tell the difference.)
+ * If b givfn {@dodf invokfdynbmid} instrudtion spfdififs no stbtid brgumfnts,
+ * tif instrudtion's bootstrbp mftiod will bf invokfd on tirff brgumfnts,
+ * donvfying tif instrudtion's dbllfr dlbss, nbmf, bnd mftiod typf.
+ * If tif {@dodf invokfdynbmid} instrudtion spfdififs onf or morf stbtid brgumfnts,
+ * tiosf vblufs will bf pbssfd bs bdditionbl brgumfnts to tif mftiod ibndlf.
+ * (Notf tibt bfdbusf tifrf is b limit of 255 brgumfnts to bny mftiod,
+ * bt most 251 fxtrb brgumfnts dbn bf supplifd, sindf tif bootstrbp mftiod
+ * ibndlf itsflf bnd its first tirff brgumfnts must blso bf stbdkfd.)
+ * Tif bootstrbp mftiod will bf invokfd bs if by fitifr {@dodf MftiodHbndlf.invokf}
+ * or {@dodf invokfWitiArgumfnts}.  (Tifrf is no wby to tfll tif difffrfndf.)
  * <p>
- * The normal argument conversion rules for {@code MethodHandle.invoke} apply to all stacked arguments.
- * For example, if a pushed value is a primitive type, it may be converted to a reference by boxing conversion.
- * If the bootstrap method is a variable arity method (its modifier bit {@code 0x0080} is set),
- * then some or all of the arguments specified here may be collected into a trailing array parameter.
- * (This is not a special rule, but rather a useful consequence of the interaction
- * between {@code CONSTANT_MethodHandle} constants, the modifier bit for variable arity methods,
- * and the {@link java.lang.invoke.MethodHandle#asVarargsCollector asVarargsCollector} transformation.)
+ * Tif normbl brgumfnt donvfrsion rulfs for {@dodf MftiodHbndlf.invokf} bpply to bll stbdkfd brgumfnts.
+ * For fxbmplf, if b pusifd vbluf is b primitivf typf, it mby bf donvfrtfd to b rfffrfndf by boxing donvfrsion.
+ * If tif bootstrbp mftiod is b vbribblf brity mftiod (its modififr bit {@dodf 0x0080} is sft),
+ * tifn somf or bll of tif brgumfnts spfdififd ifrf mby bf dollfdtfd into b trbiling brrby pbrbmftfr.
+ * (Tiis is not b spfdibl rulf, but rbtifr b usfful donsfqufndf of tif intfrbdtion
+ * bftwffn {@dodf CONSTANT_MftiodHbndlf} donstbnts, tif modififr bit for vbribblf brity mftiods,
+ * bnd tif {@link jbvb.lbng.invokf.MftiodHbndlf#bsVbrbrgsCollfdtor bsVbrbrgsCollfdtor} trbnsformbtion.)
  * <p>
- * Given these rules, here are examples of legal bootstrap method declarations,
- * given various numbers {@code N} of extra arguments.
- * The first rows (marked {@code *}) will work for any number of extra arguments.
- * <table border=1 cellpadding=5 summary="Static argument types">
- * <tr><th>N</th><th>sample bootstrap method</th></tr>
- * <tr><td>*</td><td><code>CallSite bootstrap(Lookup caller, String name, MethodType type, Object... args)</code></td></tr>
- * <tr><td>*</td><td><code>CallSite bootstrap(Object... args)</code></td></tr>
- * <tr><td>*</td><td><code>CallSite bootstrap(Object caller, Object... nameAndTypeWithArgs)</code></td></tr>
- * <tr><td>0</td><td><code>CallSite bootstrap(Lookup caller, String name, MethodType type)</code></td></tr>
- * <tr><td>0</td><td><code>CallSite bootstrap(Lookup caller, Object... nameAndType)</code></td></tr>
- * <tr><td>1</td><td><code>CallSite bootstrap(Lookup caller, String name, MethodType type, Object arg)</code></td></tr>
- * <tr><td>2</td><td><code>CallSite bootstrap(Lookup caller, String name, MethodType type, Object... args)</code></td></tr>
- * <tr><td>2</td><td><code>CallSite bootstrap(Lookup caller, String name, MethodType type, String... args)</code></td></tr>
- * <tr><td>2</td><td><code>CallSite bootstrap(Lookup caller, String name, MethodType type, String x, int y)</code></td></tr>
- * </table>
- * The last example assumes that the extra arguments are of type
- * {@code CONSTANT_String} and {@code CONSTANT_Integer}, respectively.
- * The second-to-last example assumes that all extra arguments are of type
- * {@code CONSTANT_String}.
- * The other examples work with all types of extra arguments.
+ * Givfn tifsf rulfs, ifrf brf fxbmplfs of lfgbl bootstrbp mftiod dfdlbrbtions,
+ * givfn vbrious numbfrs {@dodf N} of fxtrb brgumfnts.
+ * Tif first rows (mbrkfd {@dodf *}) will work for bny numbfr of fxtrb brgumfnts.
+ * <tbblf bordfr=1 dfllpbdding=5 summbry="Stbtid brgumfnt typfs">
+ * <tr><ti>N</ti><ti>sbmplf bootstrbp mftiod</ti></tr>
+ * <tr><td>*</td><td><dodf>CbllSitf bootstrbp(Lookup dbllfr, String nbmf, MftiodTypf typf, Objfdt... brgs)</dodf></td></tr>
+ * <tr><td>*</td><td><dodf>CbllSitf bootstrbp(Objfdt... brgs)</dodf></td></tr>
+ * <tr><td>*</td><td><dodf>CbllSitf bootstrbp(Objfdt dbllfr, Objfdt... nbmfAndTypfWitiArgs)</dodf></td></tr>
+ * <tr><td>0</td><td><dodf>CbllSitf bootstrbp(Lookup dbllfr, String nbmf, MftiodTypf typf)</dodf></td></tr>
+ * <tr><td>0</td><td><dodf>CbllSitf bootstrbp(Lookup dbllfr, Objfdt... nbmfAndTypf)</dodf></td></tr>
+ * <tr><td>1</td><td><dodf>CbllSitf bootstrbp(Lookup dbllfr, String nbmf, MftiodTypf typf, Objfdt brg)</dodf></td></tr>
+ * <tr><td>2</td><td><dodf>CbllSitf bootstrbp(Lookup dbllfr, String nbmf, MftiodTypf typf, Objfdt... brgs)</dodf></td></tr>
+ * <tr><td>2</td><td><dodf>CbllSitf bootstrbp(Lookup dbllfr, String nbmf, MftiodTypf typf, String... brgs)</dodf></td></tr>
+ * <tr><td>2</td><td><dodf>CbllSitf bootstrbp(Lookup dbllfr, String nbmf, MftiodTypf typf, String x, int y)</dodf></td></tr>
+ * </tbblf>
+ * Tif lbst fxbmplf bssumfs tibt tif fxtrb brgumfnts brf of typf
+ * {@dodf CONSTANT_String} bnd {@dodf CONSTANT_Intfgfr}, rfspfdtivfly.
+ * Tif sfdond-to-lbst fxbmplf bssumfs tibt bll fxtrb brgumfnts brf of typf
+ * {@dodf CONSTANT_String}.
+ * Tif otifr fxbmplfs work witi bll typfs of fxtrb brgumfnts.
  * <p>
- * As noted above, the actual method type of the bootstrap method can vary.
- * For example, the fourth argument could be {@code MethodHandle},
- * if that is the type of the corresponding constant in
- * the {@code CONSTANT_InvokeDynamic} entry.
- * In that case, the {@code MethodHandle.invoke} call will pass the extra method handle
- * constant as an {@code Object}, but the type matching machinery of {@code MethodHandle.invoke}
- * will cast the reference back to {@code MethodHandle} before invoking the bootstrap method.
- * (If a string constant were passed instead, by badly generated code, that cast would then fail,
- * resulting in a {@code BootstrapMethodError}.)
+ * As notfd bbovf, tif bdtubl mftiod typf of tif bootstrbp mftiod dbn vbry.
+ * For fxbmplf, tif fourti brgumfnt dould bf {@dodf MftiodHbndlf},
+ * if tibt is tif typf of tif dorrfsponding donstbnt in
+ * tif {@dodf CONSTANT_InvokfDynbmid} fntry.
+ * In tibt dbsf, tif {@dodf MftiodHbndlf.invokf} dbll will pbss tif fxtrb mftiod ibndlf
+ * donstbnt bs bn {@dodf Objfdt}, but tif typf mbtdiing mbdiinfry of {@dodf MftiodHbndlf.invokf}
+ * will dbst tif rfffrfndf bbdk to {@dodf MftiodHbndlf} bfforf invoking tif bootstrbp mftiod.
+ * (If b string donstbnt wfrf pbssfd instfbd, by bbdly gfnfrbtfd dodf, tibt dbst would tifn fbil,
+ * rfsulting in b {@dodf BootstrbpMftiodError}.)
  * <p>
- * Note that, as a consequence of the above rules, the bootstrap method may accept a primitive
- * argument, if it can be represented by a constant pool entry.
- * However, arguments of type {@code boolean}, {@code byte}, {@code short}, or {@code char}
- * cannot be created for bootstrap methods, since such constants cannot be directly
- * represented in the constant pool, and the invocation of the bootstrap method will
- * not perform the necessary narrowing primitive conversions.
+ * Notf tibt, bs b donsfqufndf of tif bbovf rulfs, tif bootstrbp mftiod mby bddfpt b primitivf
+ * brgumfnt, if it dbn bf rfprfsfntfd by b donstbnt pool fntry.
+ * Howfvfr, brgumfnts of typf {@dodf boolfbn}, {@dodf bytf}, {@dodf siort}, or {@dodf dibr}
+ * dbnnot bf drfbtfd for bootstrbp mftiods, sindf sudi donstbnts dbnnot bf dirfdtly
+ * rfprfsfntfd in tif donstbnt pool, bnd tif invodbtion of tif bootstrbp mftiod will
+ * not pfrform tif nfdfssbry nbrrowing primitivf donvfrsions.
  * <p>
- * Extra bootstrap method arguments are intended to allow language implementors
- * to safely and compactly encode metadata.
- * In principle, the name and extra arguments are redundant,
- * since each call site could be given its own unique bootstrap method.
- * Such a practice is likely to produce large class files and constant pools.
+ * Extrb bootstrbp mftiod brgumfnts brf intfndfd to bllow lbngubgf implfmfntors
+ * to sbffly bnd dompbdtly fndodf mftbdbtb.
+ * In prindiplf, tif nbmf bnd fxtrb brgumfnts brf rfdundbnt,
+ * sindf fbdi dbll sitf dould bf givfn its own uniquf bootstrbp mftiod.
+ * Sudi b prbdtidf is likfly to produdf lbrgf dlbss filfs bnd donstbnt pools.
  *
- * @author John Rose, JSR 292 EG
- * @since 1.7
+ * @butior Join Rosf, JSR 292 EG
+ * @sindf 1.7
  */
 
-package java.lang.invoke;
+pbdkbgf jbvb.lbng.invokf;

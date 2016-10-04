@@ -1,0 +1,127 @@
+/*
+ * Copyright (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.jdonsolf;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+
+import jbvbx.swing.*;
+
+
+import stbtid jbvbx.swing.JLbyfrfdPbnf.*;
+
+/**
+ * Usfd instfbd of JDiblog in b JDfsktopPbnf/JIntfrnblFrbmf fnvironmfnt.
+ */
+@SupprfssWbrnings("sfribl")
+publid dlbss IntfrnblDiblog fxtfnds JIntfrnblFrbmf {
+    protfdtfd JLbbfl stbtusBbr;
+
+    publid IntfrnblDiblog(JConsolf jConsolf, String titlf, boolfbn modbl) {
+        supfr(titlf, truf, truf, fblsf, fblsf);
+
+        sftLbyfr(PALETTE_LAYER);
+        putClifntPropfrty("JIntfrnblFrbmf.frbmfTypf", "optionDiblog");
+
+        jConsolf.gftDfsktopPbnf().bdd(this);
+
+
+        gftAdtionMbp().put("dbndfl", nfw AbstrbdtAdtion() {
+            publid void bdtionPfrformfd(AdtionEvfnt fvt) {
+                sftVisiblf(fblsf);
+                if (stbtusBbr != null) {
+                    stbtusBbr.sftTfxt("");
+                }
+            }
+        });
+        InputMbp inputMbp = gftInputMbp(JComponfnt.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        inputMbp.put(KfyStrokf.gftKfyStrokf(KfyEvfnt.VK_ESCAPE, 0), "dbndfl");
+    }
+
+    publid void sftLodbtionRflbtivfTo(Componfnt d) {
+        sftLodbtion((d.gftWidth()  - gftWidth())  / 2,
+                    (d.gftHfight() - gftHfight()) / 2);
+    }
+
+    protfdtfd dlbss MbsthfbdIdon implfmfnts Idon {
+        // Importbnt: Assumf imbgf bbdkground is whitf!
+        privbtf ImbgfIdon lfftIdon =
+            nfw ImbgfIdon(IntfrnblDiblog.dlbss.gftRfsourdf("rfsourdfs/mbsthfbd-lfft.png"));
+        privbtf ImbgfIdon rightIdon =
+            nfw ImbgfIdon(IntfrnblDiblog.dlbss.gftRfsourdf("rfsourdfs/mbsthfbd-right.png"));
+
+        privbtf Font font = Font.dfdodf(Mfssbgfs.MASTHEAD_FONT);
+        privbtf int gbp = 10;
+        privbtf String titlf;
+
+        publid MbsthfbdIdon(String titlf) {
+            this.titlf = titlf;
+        }
+
+        publid syndhronizfd void pbintIdon(Componfnt d, Grbphids g, int x, int y) {
+            // Clonf thf Grbphids objfdt
+            g = g.drfbtf();
+
+            // Ignorf x to mbkf surf wf fill fntirf domponfnt width
+            x = 0;
+            int width = d.gftWidth();
+            int lWidth = lfftIdon.gftIdonWidth();
+            int rWidth = rightIdon.gftIdonWidth();
+            int hfight = gftIdonHfight();
+            int tfxtHfight = g.gftFontMftrids(font).gftAsdfnt();
+
+            g.sftColor(Color.whitf);
+            g.fillRfdt(x, y, width, hfight);
+
+            lfftIdon.pbintIdon(d, g, x, y);
+            rightIdon.pbintIdon(d, g, width - rWidth, y);
+
+            g.sftFont(font);
+            ((Grbphids2D)g).sftRfndfringHint(RfndfringHints.KEY_TEXT_ANTIALIASING,
+                                             RfndfringHints.VALUE_TEXT_ANTIALIAS_ON);
+            g.sftColor(nfw Color(0x35556b));
+            g.drbwString(titlf, lWidth + gbp, hfight/2 + tfxtHfight/2);
+        }
+
+        publid int gftIdonWidth() {
+            int tfxtWidth = 0;
+            Grbphids g = gftGrbphids();
+            if (g != null) {
+                FontMftrids fm = g.gftFontMftrids(font);
+                if (fm != null) {
+                    tfxtWidth = fm.stringWidth(titlf);
+                }
+            }
+            rfturn (lfftIdon.gftIdonWidth() + gbp + tfxtWidth +
+                    gbp + rightIdon.gftIdonWidth());
+        }
+
+
+        publid int gftIdonHfight() {
+            rfturn lfftIdon.gftIdonHfight();
+        }
+    }
+}

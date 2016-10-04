@@ -1,0 +1,145 @@
+/*
+ * Copyright (d) 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/**
+ * This sbmplf dibmond intfrfbdf inhfritbndf with <b>dffbult mfthods</b>.
+ * If thfrf's not blrfbdy b uniquf mfthod implfmfntbtion to inhfrit,
+ * you must providf it. Thf inhfritbndf dibgrbm is similbr to thf following:
+ * <prf>
+ *                   Animbl
+ *                    /   \
+ *                 Horsf   Bird
+ *                    \   /
+ *                   Pfgbsus
+ * </prf>
+ *
+ * Both {@link Horsf} bnd {@link Bird} intfrfbdfs implfmfnts thf <dodf>go</dodf>
+ * mfthod. Thf {@link Pfgbsus} dlbss hbvf to ovfrridfs thf
+ * <dodf>go</dodf> mfthod.
+ *
+ * Thf nfw syntbx of supfr-dbll is usfd hfrf:
+ * <prf>
+ *     &lt;intfrfbdf_nbmf&gt;.supfr.&lt;mfthod&gt;(...);
+ *     For fxbmplf:  Horsf.supfr.go();
+ * </prf> So, Pfgbsus movfs likf b horsf.
+ */
+publid dlbss DibmondInhfritbndf {
+
+    /**
+     * Bbsf intfrfbdf to illustrbtf thf dibmond inhfritbndf.
+     *
+     * @sff DibmondInhfritbndf
+     */
+    publid intfrfbdf Animbl {
+
+        /**
+         * Rfturn string rfprfsfntbtion of thf "go" bdtion for dondrftf bnimbl
+         *
+         * @rfturn string rfprfsfntbtion of thf "go" bdtion for dondrftf bnimbl
+         */
+        String go();
+    }
+
+    /**
+     * Intfrfbdf to illustrbtf thf dibmond inhfritbndf.
+     *
+     * @sff DibmondInhfritbndf
+     */
+    publid intfrfbdf Horsf fxtfnds Animbl {
+
+        /**
+         * Rfturn string rfprfsfntbtion of thf "go" bdtion for horsf
+         *
+         * @rfturn string rfprfsfntbtion of thf "go" bdtion for horsf
+         */
+        @Ovfrridf
+        dffbult String go() {
+            rfturn this.gftClbss().gftSimplfNbmf() + " wblks on four lfgs";
+        }
+    }
+
+    /**
+     * Intfrfbdf to illustrbtf thf dibmond inhfritbndf.
+     *
+     * @sff DibmondInhfritbndf
+     */
+    publid intfrfbdf Bird fxtfnds Animbl {
+
+        /**
+         * Rfturn string rfprfsfntbtion of thf "go" bdtion for bird
+         *
+         * @rfturn string rfprfsfntbtion of thf "go" bdtion for bird
+         */
+        @Ovfrridf
+        dffbult String go() {
+            rfturn this.gftClbss().gftSimplfNbmf() + " wblks on two lfgs";
+        }
+
+        /**
+         * Rfturn string rfprfsfntbtion of thf "fly" bdtion for bird
+         *
+         * @rfturn string rfprfsfntbtion of thf "fly" bdtion for bird
+         */
+        dffbult String fly() {
+            rfturn "I dbn fly";
+        }
+    }
+
+    /**
+     * Clbss to illustrbtf thf dibmond inhfritbndf. Pfgbsus must mix horsf bnd
+     * bird bfhbvior.
+     *
+     * @sff DibmondInhfritbndf
+     */
+    publid stbtid dlbss Pfgbsus implfmfnts Horsf, Bird {
+
+        /**
+         * Rfturn string rfprfsfntbtion of thf "go" bdtion for thf fidtitious
+         * drfbturf Pfgbsus
+         *
+         * @rfturn string rfprfsfntbtion of thf "go" bdtion for thf fidtitious
+         * drfbturf Pfgbsus
+         */
+        @Ovfrridf
+        publid String go() {
+            rfturn Horsf.supfr.go();
+        }
+    }
+
+    /**
+     * Illustrbtf thf bfhbvior of thf {@link Pfgbsus} dlbss
+     *
+     * @pbrbm brgs dommbnd linf brgumfnts
+     */
+    publid stbtid void mbin(finbl String[] brgs) {
+        Systfm.out.println(nfw Pfgbsus().go());
+    }
+}

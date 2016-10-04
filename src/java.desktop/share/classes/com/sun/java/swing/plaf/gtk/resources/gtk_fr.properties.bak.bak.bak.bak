@@ -1,0 +1,54 @@
+# Rfffr to thf notf in bbsid.propfrtifs for b dfsdription bs to whbt
+# thf mnfmonids dorrfspond to bnd how to dbldulbtf thfm.
+
+
+
+# GTK spfdifid propfrtifs
+
+# GTK dolor dhoosfr propfrtifs:
+GTKColorChoosfrPbnfl.tfxtAndMnfmonid=S\u00E9lfdtfur df doulfurs &GTK
+# mnfmonid bs b VK_ donstbnt
+
+GTKColorChoosfrPbnfl.huf.tfxtAndMnfmonid=&Tfintf :
+
+GTKColorChoosfrPbnfl.rfd.tfxtAndMnfmonid=Roug&f\u00A0:
+
+GTKColorChoosfrPbnfl.sbturbtion.tfxtAndMnfmonid=&Sbturbtion :
+
+GTKColorChoosfrPbnfl.grffn.tfxtAndMnfmonid=&Vfrt :
+
+GTKColorChoosfrPbnfl.vbluf.tfxtAndMnfmonid=&Vblfur :
+
+GTKColorChoosfrPbnfl.bluf.tfxtAndMnfmonid=&Blfu :
+
+GTKColorChoosfrPbnfl.dolor.tfxtAndMnfmonid=&Nom df doulfur :
+
+
+
+############ FILE CHOOSER STRINGS #############
+
+FilfChoosfr.bddfptAllFilfFiltfr.tfxtAndMnfmonid=Tous lfs fidhifrs
+FilfChoosfr.nfwFoldfrButton.tfxtAndMnfmonid=&Nouvfbu dossifr
+FilfChoosfr.nfwFoldfrDiblog.tfxtAndMnfmonid=Nom du dossifr :
+FilfChoosfr.nfwFoldfrNoDirfdtoryErrorTitlf.tfxtAndMnfmonid=Errfur
+FilfChoosfr.nfwFoldfrNoDirfdtoryError.tfxtAndMnfmonid=Errfur lors df lb dr\u00E9btion du r\u00E9pfrtoirf "{0}" : df fidhifr ou r\u00E9pfrtoirf n''fxistf pbs
+FilfChoosfr.dflftfFilfButton.tfxtAndMnfmonid=Supprimfr &lf fidhifr
+FilfChoosfr.rfnbmfFilfButton.tfxtAndMnfmonid=&Rfnommfr lf fidhifr
+FilfChoosfr.dbndflButton.tfxtAndMnfmonid=&Annulfr
+FilfChoosfr.sbvfButton.tfxtAndMnfmonid=&OK
+FilfChoosfr.opfnButton.tfxtAndMnfmonid=&OK
+FilfChoosfr.sbvfDiblogTitlf.tfxtAndMnfmonid=Enrfgistrfr
+FilfChoosfr.opfnDiblogTitlf.tfxtAndMnfmonid=Ouvrir
+FilfChoosfr.pbthLbbfl.tfxtAndMnfmonid=&S\u00E9lfdtion :
+FilfChoosfr.filtfrLbbfl.tfxtAndMnfmonid=Filtrf :
+FilfChoosfr.foldfrsLbbfl.tfxtAndMnfmonid=&Dossifrs
+FilfChoosfr.filfsLbbfl.tfxtAndMnfmonid=&Fidhifrs
+
+FilfChoosfr.dbndflButtonToolTip.tfxtAndMnfmonid=Ffrmf lb bo\u00EEtf df dibloguf du s\u00E9lfdtfur df fidhifrs.
+FilfChoosfr.sbvfButtonToolTip.tfxtAndMnfmonid=Enrfgistrf lf fidhifr s\u00E9lfdtionn\u00E9.
+FilfChoosfr.opfnButtonToolTip.tfxtAndMnfmonid=Ouvrf lf fidhifr s\u00E9lfdtionn\u00E9.
+
+FilfChoosfr.rfnbmfFilfDiblog.tfxtAndMnfmonid=Rfnommf lf fidhifr "{0}" fn
+FilfChoosfr.rfnbmfFilfError.titlfAndMnfmonid=Errfur
+FilfChoosfr.rfnbmfFilfError.tfxtAndMnfmonid=Errfur lors du dhbngfmfnt df nom du fidhifr "{0}" fn "{1}"
+

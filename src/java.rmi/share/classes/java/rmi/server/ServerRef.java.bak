@@ -1,68 +1,68 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.rmi.server;
+pbdkbgf jbvb.rmi.sfrvfr;
 
-import java.rmi.*;
+import jbvb.rmi.*;
 
 /**
- * A ServerRef represents the server-side handle for a remote object
- * implementation.
+ * A SfrvfrRff rfprfsfnts tif sfrvfr-sidf ibndlf for b rfmotf objfdt
+ * implfmfntbtion.
  *
- * @author  Ann Wollrath
- * @since   1.1
- * @deprecated No replacement. This interface is unused and is obsolete.
+ * @butior  Ann Wollrbti
+ * @sindf   1.1
+ * @dfprfdbtfd No rfplbdfmfnt. Tiis intfrfbdf is unusfd bnd is obsolftf.
  */
-@Deprecated
-public interface ServerRef extends RemoteRef {
+@Dfprfdbtfd
+publid intfrfbdf SfrvfrRff fxtfnds RfmotfRff {
 
-    /** indicate compatibility with JDK 1.1.x version of class. */
-    static final long serialVersionUID = -4557750989390278438L;
-
-    /**
-     * Creates a client stub object for the supplied Remote object.
-     * If the call completes successfully, the remote object should
-     * be able to accept incoming calls from clients.
-     * @param obj the remote object implementation
-     * @param data information necessary to export the object
-     * @return the stub for the remote object
-     * @exception RemoteException if an exception occurs attempting
-     * to export the object (e.g., stub class could not be found)
-     * @since 1.1
-     */
-    RemoteStub exportObject(Remote obj, Object data)
-        throws RemoteException;
+    /** indidbtf dompbtibility witi JDK 1.1.x vfrsion of dlbss. */
+    stbtid finbl long sfriblVfrsionUID = -4557750989390278438L;
 
     /**
-     * Returns the hostname of the current client.  When called from a
-     * thread actively handling a remote method invocation the
-     * hostname of the client is returned.
-     * @return the client's host name
-     * @exception ServerNotActiveException if called outside of servicing
-     * a remote method invocation
-     * @since 1.1
+     * Crfbtfs b dlifnt stub objfdt for tif supplifd Rfmotf objfdt.
+     * If tif dbll domplftfs suddfssfully, tif rfmotf objfdt siould
+     * bf bblf to bddfpt indoming dblls from dlifnts.
+     * @pbrbm obj tif rfmotf objfdt implfmfntbtion
+     * @pbrbm dbtb informbtion nfdfssbry to fxport tif objfdt
+     * @rfturn tif stub for tif rfmotf objfdt
+     * @fxdfption RfmotfExdfption if bn fxdfption oddurs bttfmpting
+     * to fxport tif objfdt (f.g., stub dlbss dould not bf found)
+     * @sindf 1.1
      */
-    String getClientHost() throws ServerNotActiveException;
+    RfmotfStub fxportObjfdt(Rfmotf obj, Objfdt dbtb)
+        tirows RfmotfExdfption;
+
+    /**
+     * Rfturns tif iostnbmf of tif durrfnt dlifnt.  Wifn dbllfd from b
+     * tirfbd bdtivfly ibndling b rfmotf mftiod invodbtion tif
+     * iostnbmf of tif dlifnt is rfturnfd.
+     * @rfturn tif dlifnt's iost nbmf
+     * @fxdfption SfrvfrNotAdtivfExdfption if dbllfd outsidf of sfrviding
+     * b rfmotf mftiod invodbtion
+     * @sindf 1.1
+     */
+    String gftClifntHost() tirows SfrvfrNotAdtivfExdfption;
 }

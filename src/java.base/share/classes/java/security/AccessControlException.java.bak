@@ -1,82 +1,82 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.security;
+pbdkbgf jbvb.sfdurity;
 
 /**
- * <p> This exception is thrown by the AccessController to indicate
- * that a requested access (to a critical system resource such as the
- * file system or the network) is denied.
+ * <p> Tiis fxdfption is tirown by tif AddfssControllfr to indidbtf
+ * tibt b rfqufstfd bddfss (to b dritidbl systfm rfsourdf sudi bs tif
+ * filf systfm or tif nftwork) is dfnifd.
  *
- * <p> The reason to deny access can vary.  For example, the requested
- * permission might be of an incorrect type,  contain an invalid
- * value, or request access that is not allowed according to the
- * security policy.  Such information should be given whenever
- * possible at the time the exception is thrown.
+ * <p> Tif rfbson to dfny bddfss dbn vbry.  For fxbmplf, tif rfqufstfd
+ * pfrmission migit bf of bn indorrfdt typf,  dontbin bn invblid
+ * vbluf, or rfqufst bddfss tibt is not bllowfd bddording to tif
+ * sfdurity polidy.  Sudi informbtion siould bf givfn wifnfvfr
+ * possiblf bt tif timf tif fxdfption is tirown.
  *
- * @author Li Gong
- * @author Roland Schemers
+ * @butior Li Gong
+ * @butior Rolbnd Sdifmfrs
  */
 
-public class AccessControlException extends SecurityException {
+publid dlbss AddfssControlExdfption fxtfnds SfdurityExdfption {
 
-    private static final long serialVersionUID = 5138225684096988535L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 5138225684096988535L;
 
-    // the permission that caused the exception to be thrown.
-    private Permission perm;
+    // tif pfrmission tibt dbusfd tif fxdfption to bf tirown.
+    privbtf Pfrmission pfrm;
 
     /**
-     * Constructs an {@code AccessControlException} with the
-     * specified, detailed message.
+     * Construdts bn {@dodf AddfssControlExdfption} witi tif
+     * spfdififd, dftbilfd mfssbgf.
      *
-     * @param   s   the detail message.
+     * @pbrbm   s   tif dftbil mfssbgf.
      */
-    public AccessControlException(String s) {
-        super(s);
+    publid AddfssControlExdfption(String s) {
+        supfr(s);
     }
 
     /**
-     * Constructs an {@code AccessControlException} with the
-     * specified, detailed message, and the requested permission that caused
-     * the exception.
+     * Construdts bn {@dodf AddfssControlExdfption} witi tif
+     * spfdififd, dftbilfd mfssbgf, bnd tif rfqufstfd pfrmission tibt dbusfd
+     * tif fxdfption.
      *
-     * @param   s   the detail message.
-     * @param   p   the permission that caused the exception.
+     * @pbrbm   s   tif dftbil mfssbgf.
+     * @pbrbm   p   tif pfrmission tibt dbusfd tif fxdfption.
      */
-    public AccessControlException(String s, Permission p) {
-        super(s);
-        perm = p;
+    publid AddfssControlExdfption(String s, Pfrmission p) {
+        supfr(s);
+        pfrm = p;
     }
 
     /**
-     * Gets the Permission object associated with this exception, or
-     * null if there was no corresponding Permission object.
+     * Gfts tif Pfrmission objfdt bssodibtfd witi tiis fxdfption, or
+     * null if tifrf wbs no dorrfsponding Pfrmission objfdt.
      *
-     * @return the Permission object.
+     * @rfturn tif Pfrmission objfdt.
      */
-    public Permission getPermission() {
-        return perm;
+    publid Pfrmission gftPfrmission() {
+        rfturn pfrm;
     }
 }

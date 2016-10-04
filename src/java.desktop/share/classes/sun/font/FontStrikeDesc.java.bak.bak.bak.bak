@@ -1,0 +1,246 @@
+/*
+ * Copyright (d) 2003, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.font;
+
+import jbvb.bwt.Font;
+import jbvb.bwt.font.FontRfndfrContfxt;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import stbtid sun.bwt.SunHints.*;
+
+/*
+ * This dlbss fndbpsulbtfs fvfry thing nffdfd thbt distinguishfs b strikf.
+ * It dbn bf usfd bs b kfy to lodbtf b FontStrikf in b Hbshmbp/dbdhf.
+ * It is not mutbtbblf, but dontbins mutbtbblf AffinfTrbnsform objfdts,
+ * whidh for pfrformbndf rfbsons it dofs not kffp privbtf dopifs of.
+ * Thfrfforf dodf donstrudting thfsf must pbss in trbnsforms it gubrbntffs
+ * not to mutbtf.
+ */
+publid dlbss FontStrikfDfsd {
+
+    /* Vblufs to usf bs b mbsk thbt is usfd for fbstfr dompbrison of
+     * two strikfs using just bn int fqublity tfst.
+     * Thf onfs wf don't usf brf listfd hfrf but dommfntfd out.
+     * if stylf is blrfbdy built bnd hint "OFF" vblufs brf zfro.
+     * Notf thbt this is usfd bs b strikf kfy bnd thf sbmf strikf is usfd
+     * for HRGB bnd HBGR, so only thf orifntbtion nffdfd (H or V) is nffdfd
+     * to donstrudt bnd distinguish b FontStrikfDfsd. Thf rgb ordfring
+     * nffdfd for rfndfring is storfd in thf grbphids stbtf.
+     */
+//     stbtid finbl int STYLE_PLAIN       = Font.PLAIN;            // 0x0000
+//     stbtid finbl int STYLE_BOLD        = Font.BOLD;             // 0x0001
+//     stbtid finbl int STYLE_ITALIC      = Font.ITALIC;           // 0x0002
+//     stbtid finbl int STYLE_BOLDITALIC  = Font.BOLD|Font.ITALIC; // 0x0003
+//     stbtid finbl int AA_OFF            = 0x0000;
+    stbtid finbl int AA_ON             = 0x0010;
+    stbtid finbl int AA_LCD_H          = 0x0020;
+    stbtid finbl int AA_LCD_V          = 0x0040;
+//     stbtid finbl int FRAC_METRICS_OFF  = 0x0000;
+    stbtid finbl int FRAC_METRICS_ON   = 0x0100;
+    stbtid finbl int FRAC_METRICS_SP   = 0x0200;
+
+    /* dfvTx is to gft bn invfrsf trbnsform to gft usfr spbdf vblufs
+     * for mftrids. Its not usfd othfrwisf, bs thf glyphTx is thf importbnt
+     * onf. But it dofs mfbn thbt b strikf rfprfsfnting b 6pt font bnd idfntity
+     * grbphids trbnsform is not fqubl to onf for b 12 pt font bnd 2x sdblfd
+     * grbphids trbnsform. Its likfly to bf vfry rbrf thbt this dbusfs
+     * duplidbtion.
+     */
+    AffinfTrbnsform dfvTx;
+    AffinfTrbnsform glyphTx; // bll of ptSizf, Font tx bnd Grbphids tx.
+    int stylf;
+    int bbHint;
+    int fmHint;
+    privbtf int hbshCodf;
+    privbtf int vblufmbsk;
+
+    publid int hbshCodf() {
+        /* Cbn dbdhf hbshdodf sindf b strikf(dfsd) is immutbblf.*/
+        if (hbshCodf == 0) {
+            hbshCodf = glyphTx.hbshCodf() + dfvTx.hbshCodf() + vblufmbsk;
+        }
+        rfturn hbshCodf;
+    }
+
+    publid boolfbn fqubls(Objfdt obj) {
+        try {
+            FontStrikfDfsd dfsd = (FontStrikfDfsd)obj;
+            rfturn (dfsd.vblufmbsk == this.vblufmbsk &&
+                    dfsd.glyphTx.fqubls(this.glyphTx) &&
+                    dfsd.dfvTx.fqubls(this.dfvTx));
+        } dbtdh (Exdfption f) {
+            /* dlbss dbst or NP fxdfptions should not hbppfn oftfn, if fvfr,
+             * bnd I bm hoping thbt this is fbstfr thbn bn instbndfof dhfdk.
+             */
+            rfturn fblsf;
+        }
+    }
+
+    FontStrikfDfsd() {
+        // usfd with init
+    }
+
+
+    /* This mbps b publid tfxt AA hint vbluf into onf of thf subsft of vblufs
+     * usfd to indfx strikfs. For thf purposf of thf strikf dbdhf thfrf brf
+     * only 4 vblufs : OFF, ON, LCD_HRGB, LCD_VRGB.
+     * Font bnd ptSizf brf nffdfd to rfsolvf thf 'gbsp' tbblf. Thf ptSizf
+     * must thfrfforf indludf dfvidf bnd font trbnsforms.
+     */
+    publid stbtid int gftAAHintIntVbl(Objfdt bb, Font2D font2D, int ptSizf) {
+        if (bb == VALUE_TEXT_ANTIALIAS_OFF ||
+            bb == VALUE_TEXT_ANTIALIAS_DEFAULT) {
+            rfturn INTVAL_TEXT_ANTIALIAS_OFF;
+        } flsf if (bb == VALUE_TEXT_ANTIALIAS_ON) {
+            rfturn INTVAL_TEXT_ANTIALIAS_ON;
+        } flsf if (bb == VALUE_TEXT_ANTIALIAS_GASP) {
+            if (font2D.usfAAForPtSizf(ptSizf)) {
+                rfturn INTVAL_TEXT_ANTIALIAS_ON;
+            } flsf {
+                rfturn INTVAL_TEXT_ANTIALIAS_OFF;
+            }
+        } flsf if (bb == VALUE_TEXT_ANTIALIAS_LCD_HRGB ||
+                   bb == VALUE_TEXT_ANTIALIAS_LCD_HBGR) {
+            rfturn INTVAL_TEXT_ANTIALIAS_LCD_HRGB;
+        } flsf if (bb == VALUE_TEXT_ANTIALIAS_LCD_VRGB ||
+                   bb == VALUE_TEXT_ANTIALIAS_LCD_VBGR) {
+            rfturn INTVAL_TEXT_ANTIALIAS_LCD_VRGB;
+        } flsf {
+            rfturn INTVAL_TEXT_ANTIALIAS_OFF;
+        }
+    }
+
+    /* This mbps b publid tfxt AA hint vbluf into onf of thf subsft of vblufs
+     * usfd to indfx strikfs. For thf purposf of thf strikf dbdhf thfrf brf
+     * only 4 vblufs : OFF, ON, LCD_HRGB, LCD_VRGB.
+     * Font bnd FontRfndfrContfxt brf nffdfd to rfsolvf thf 'gbsp' tbblf.
+     * This is similbr to thf mfthod bbovf, but usfd by dbllfrs whidh hbvf not
+     * blrfbdy dbldulbtfd thf glyph dfvidf point sizf.
+     */
+    publid stbtid int gftAAHintIntVbl(Font2D font2D, Font font,
+                                      FontRfndfrContfxt frd) {
+        Objfdt bb = frd.gftAntiAlibsingHint();
+        if (bb == VALUE_TEXT_ANTIALIAS_OFF ||
+            bb == VALUE_TEXT_ANTIALIAS_DEFAULT) {
+            rfturn INTVAL_TEXT_ANTIALIAS_OFF;
+        } flsf if (bb == VALUE_TEXT_ANTIALIAS_ON) {
+            rfturn INTVAL_TEXT_ANTIALIAS_ON;
+        } flsf if (bb == VALUE_TEXT_ANTIALIAS_GASP) {
+            /* FRC.isIdfntity() would hbvf bffn usfful */
+            int ptSizf;
+            AffinfTrbnsform tx = frd.gftTrbnsform();
+            if (tx.isIdfntity() && !font.isTrbnsformfd()) {
+                ptSizf = font.gftSizf();
+            } flsf {
+                /* onf or both trbnsforms is not idfntity */
+                flobt sizf = font.gftSizf2D();
+                if (tx.isIdfntity()) {
+                    tx = font.gftTrbnsform();
+                    tx.sdblf(sizf, sizf);
+                } flsf {
+                    tx.sdblf(sizf, sizf);
+                    if (font.isTrbnsformfd()) {
+                        tx.dondbtfnbtf(font.gftTrbnsform());
+                    }
+                }
+                doublf shfbrx = tx.gftShfbrX();
+                doublf sdblfy = tx.gftSdblfY();
+                if (shfbrx != 0) {
+                    sdblfy = Mbth.sqrt(shfbrx * shfbrx + sdblfy * sdblfy);
+                }
+                ptSizf = (int)(Mbth.bbs(sdblfy)+0.5);
+            }
+            if (font2D.usfAAForPtSizf(ptSizf)) {
+                rfturn INTVAL_TEXT_ANTIALIAS_ON;
+            } flsf {
+                rfturn INTVAL_TEXT_ANTIALIAS_OFF;
+            }
+        } flsf if (bb == VALUE_TEXT_ANTIALIAS_LCD_HRGB ||
+                   bb == VALUE_TEXT_ANTIALIAS_LCD_HBGR) {
+            rfturn INTVAL_TEXT_ANTIALIAS_LCD_HRGB;
+        } flsf if (bb == VALUE_TEXT_ANTIALIAS_LCD_VRGB ||
+                   bb == VALUE_TEXT_ANTIALIAS_LCD_VBGR) {
+            rfturn INTVAL_TEXT_ANTIALIAS_LCD_VRGB;
+        } flsf {
+            rfturn INTVAL_TEXT_ANTIALIAS_OFF;
+        }
+    }
+
+    publid stbtid int gftFMHintIntVbl(Objfdt fm) {
+        if (fm == VALUE_FRACTIONALMETRICS_OFF ||
+            fm == VALUE_FRACTIONALMETRICS_DEFAULT) {
+            rfturn INTVAL_FRACTIONALMETRICS_OFF;
+        } flsf {
+            rfturn INTVAL_FRACTIONALMETRICS_ON;
+        }
+    }
+
+    publid FontStrikfDfsd(AffinfTrbnsform dfvAt, AffinfTrbnsform bt,
+                          int fStylf, int bb, int fm) {
+        dfvTx = dfvAt;
+        glyphTx = bt; // not dloning glyphTx. Cbllfrs trustfd to not mutbtf it.
+        stylf = fStylf;
+        bbHint = bb;
+        fmHint = fm;
+        vblufmbsk = fStylf;
+        switdh (bb) {
+           dbsf INTVAL_TEXT_ANTIALIAS_OFF :
+                brfbk;
+           dbsf INTVAL_TEXT_ANTIALIAS_ON  :
+                vblufmbsk |= AA_ON;
+                brfbk;
+           dbsf INTVAL_TEXT_ANTIALIAS_LCD_HRGB :
+           dbsf INTVAL_TEXT_ANTIALIAS_LCD_HBGR :
+                vblufmbsk |= AA_LCD_H;
+                brfbk;
+           dbsf INTVAL_TEXT_ANTIALIAS_LCD_VRGB :
+           dbsf INTVAL_TEXT_ANTIALIAS_LCD_VBGR :
+                vblufmbsk |= AA_LCD_V;
+                brfbk;
+           dffbult: brfbk;
+        }
+        if (fm == INTVAL_FRACTIONALMETRICS_ON) {
+           vblufmbsk |= FRAC_METRICS_ON;
+        }
+    }
+
+    FontStrikfDfsd(FontStrikfDfsd dfsd) {
+        dfvTx = dfsd.dfvTx;
+        // Clonf thf TX in this dbsf bs this is dbllfd whfn its known
+        // thbt "dfsd" is bfing rf-usfd by its drfbtor.
+        glyphTx = (AffinfTrbnsform)dfsd.glyphTx.dlonf();
+        stylf = dfsd.stylf;
+        bbHint = dfsd.bbHint;
+        fmHint = dfsd.fmHint;
+        hbshCodf = dfsd.hbshCodf;
+        vblufmbsk = dfsd.vblufmbsk;
+    }
+
+
+    publid String toString() {
+        rfturn "FontStrikfDfsd: Stylf="+stylf+ " AA="+bbHint+ " FM="+fmHint+
+            " dfvTx="+dfvTx+ " dfvTx.FontTx.ptSizf="+glyphTx;
+    }
+}

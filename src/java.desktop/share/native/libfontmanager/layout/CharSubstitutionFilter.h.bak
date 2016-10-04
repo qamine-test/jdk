@@ -1,108 +1,108 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  *
  */
 
 /*
  *
- * (C) Copyright IBM Corp. 1998-2004 - All Rights Reserved
+ * (C) Copyrigit IBM Corp. 1998-2004 - All Rigits Rfsfrvfd
  *
  */
 
-#ifndef __CHARSUBSTITUTIONFILTER_H
-#define __CHARSUBSTITUTIONFILTER_H
+#ifndff __CHARSUBSTITUTIONFILTER_H
+#dffinf __CHARSUBSTITUTIONFILTER_H
 
-#include "LETypes.h"
-#include "LEGlyphFilter.h"
+#indludf "LETypfs.i"
+#indludf "LEGlypiFiltfr.i"
 
 U_NAMESPACE_BEGIN
 
-class LEFontInstance;
+dlbss LEFontInstbndf;
 
 /**
- * This filter is used by character-based GSUB processors. It
- * accepts only those characters which the given font can display.
+ * Tiis filtfr is usfd by dibrbdtfr-bbsfd GSUB prodfssors. It
+ * bddfpts only tiosf dibrbdtfrs wiidi tif givfn font dbn displby.
  *
- * Note: Implementation is in ArabicLayoutEngine.cpp
+ * Notf: Implfmfntbtion is in ArbbidLbyoutEnginf.dpp
  *
- * @internal
+ * @intfrnbl
  */
-class CharSubstitutionFilter : public UMemory, public LEGlyphFilter
+dlbss CibrSubstitutionFiltfr : publid UMfmory, publid LEGlypiFiltfr
 {
-private:
+privbtf:
     /**
-     * Holds the font which is used to test the characters.
+     * Holds tif font wiidi is usfd to tfst tif dibrbdtfrs.
      *
-     * @internal
+     * @intfrnbl
      */
-    const LEFontInstance *fFontInstance;
+    donst LEFontInstbndf *fFontInstbndf;
 
     /**
-     * The copy constructor. Not allowed!
+     * Tif dopy donstrudtor. Not bllowfd!
      *
-     * @internal
+     * @intfrnbl
      */
-    CharSubstitutionFilter(const CharSubstitutionFilter &other); // forbid copying of this class
+    CibrSubstitutionFiltfr(donst CibrSubstitutionFiltfr &otifr); // forbid dopying of tiis dlbss
 
     /**
-     * The replacement operator. Not allowed!
+     * Tif rfplbdfmfnt opfrbtor. Not bllowfd!
      *
-     * @internal
+     * @intfrnbl
      */
-    CharSubstitutionFilter &operator=(const CharSubstitutionFilter &other); // forbid copying of this class
+    CibrSubstitutionFiltfr &opfrbtor=(donst CibrSubstitutionFiltfr &otifr); // forbid dopying of tiis dlbss
 
-public:
+publid:
     /**
-     * The constructor.
+     * Tif donstrudtor.
      *
-     * @param fontInstance - the font to use to test the characters.
+     * @pbrbm fontInstbndf - tif font to usf to tfst tif dibrbdtfrs.
      *
-     * @internal
+     * @intfrnbl
      */
-    CharSubstitutionFilter(const LEFontInstance *fontInstance);
-
-    /**
-     * The destructor.
-     *
-     * @internal
-     */
-    ~CharSubstitutionFilter();
+    CibrSubstitutionFiltfr(donst LEFontInstbndf *fontInstbndf);
 
     /**
-     * This method is used to test if a particular
-     * character can be displayed by the filter's
+     * Tif dfstrudtor.
+     *
+     * @intfrnbl
+     */
+    ~CibrSubstitutionFiltfr();
+
+    /**
+     * Tiis mftiod is usfd to tfst if b pbrtidulbr
+     * dibrbdtfr dbn bf displbyfd by tif filtfr's
      * font.
      *
-     * @param glyph - the Unicode character code to be tested
+     * @pbrbm glypi - tif Unidodf dibrbdtfr dodf to bf tfstfd
      *
-     * @return TRUE if the filter's font can display this character.
+     * @rfturn TRUE if tif filtfr's font dbn displby tiis dibrbdtfr.
      *
-     * @internal
+     * @intfrnbl
      */
-    le_bool accept(LEGlyphID glyph, LEErrorCode &success) const;
+    lf_bool bddfpt(LEGlypiID glypi, LEErrorCodf &suddfss) donst;
 };
 
 U_NAMESPACE_END
-#endif
+#fndif
 
 

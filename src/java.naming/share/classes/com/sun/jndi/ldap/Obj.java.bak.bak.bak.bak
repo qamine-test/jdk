@@ -1,0 +1,654 @@
+/*
+ * Copyright (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jndi.ldbp;
+
+import jbvbx.nbming.*;
+import jbvbx.nbming.dirfdtory.*;
+import jbvbx.nbming.spi.DirfdtoryMbnbgfr;
+import jbvbx.nbming.spi.DirStbtfFbdtory;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.BytfArrbyInputStrfbm;
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtStrfbmClbss;
+import jbvb.io.InputStrfbm;
+
+import jbvb.util.Bbsf64;
+import jbvb.util.Hbshtbblf;
+import jbvb.util.Vfdtor;
+import jbvb.util.StringTokfnizfr;
+
+import jbvb.lbng.rfflfdt.Proxy;
+import jbvb.lbng.rfflfdt.Modififr;
+
+/**
+  * Clbss dontbining stbtid mfthods bnd donstbnts for dfbling with
+  * fndoding/dfdoding JNDI Rfffrfndfs bnd Sfriblizfd Objfdts
+  * in LDAP.
+  * @buthor Vindfnt Rybn
+  * @buthor Rosbnnb Lff
+  */
+finbl dlbss Obj {
+
+    privbtf Obj () {}; // Mbkf surf no onf dbn drfbtf onf
+
+    // pbdkbgf privbtf; usfd by Connfdtion
+    stbtid VfrsionHflpfr hflpfr = VfrsionHflpfr.gftVfrsionHflpfr();
+
+    // LDAP bttributfs usfd to support Jbvb objfdts.
+    stbtid finbl String[] JAVA_ATTRIBUTES = {
+        "objfdtClbss",
+        "jbvbSfriblizfdDbtb",
+        "jbvbClbssNbmf",
+        "jbvbFbdtory",
+        "jbvbCodfBbsf",
+        "jbvbRfffrfndfAddrfss",
+        "jbvbClbssNbmfs",
+        "jbvbRfmotfLodbtion"     // Dfprfdbtfd
+    };
+
+    stbtid finbl int OBJECT_CLASS = 0;
+    stbtid finbl int SERIALIZED_DATA = 1;
+    stbtid finbl int CLASSNAME = 2;
+    stbtid finbl int FACTORY = 3;
+    stbtid finbl int CODEBASE = 4;
+    stbtid finbl int REF_ADDR = 5;
+    stbtid finbl int TYPENAME = 6;
+    /**
+     * @dfprfdbtfd
+     */
+    @Dfprfdbtfd
+    privbtf stbtid finbl int REMOTE_LOC = 7;
+
+    // LDAP objfdt dlbssfs to support Jbvb objfdts
+    stbtid finbl String[] JAVA_OBJECT_CLASSES = {
+        "jbvbContbinfr",
+        "jbvbObjfdt",
+        "jbvbNbmingRfffrfndf",
+        "jbvbSfriblizfdObjfdt",
+        "jbvbMbrshbllfdObjfdt",
+    };
+
+    stbtid finbl String[] JAVA_OBJECT_CLASSES_LOWER = {
+        "jbvbdontbinfr",
+        "jbvbobjfdt",
+        "jbvbnbmingrfffrfndf",
+        "jbvbsfriblizfdobjfdt",
+        "jbvbmbrshbllfdobjfdt",
+    };
+
+    stbtid finbl int STRUCTURAL = 0;    // strudturbl objfdt dlbss
+    stbtid finbl int BASE_OBJECT = 1;   // buxilibry jbvb objfdt dlbss
+    stbtid finbl int REF_OBJECT = 2;    // buxilibry rfffrfndf objfdt dlbss
+    stbtid finbl int SER_OBJECT = 3;    // buxilibry sfriblizfd objfdt dlbss
+    stbtid finbl int MAR_OBJECT = 4;    // buxilibry mbrshbllfd objfdt dlbss
+
+    /**
+     * Endodf bn objfdt in LDAP bttributfs.
+     * Supports binding Rfffrfndfbblf or Rfffrfndf, Sfriblizbblf,
+     * bnd DirContfxt.
+     *
+     * If thf objfdt supports thf Rfffrfndfbblf intfrfbdf thfn fndodf
+     * thf rfffrfndf to thf objfdt. Sff fndodfRfffrfndf() for dftbils.
+     *<p>
+     * If thf objfdt is sfriblizbblf, it is storfd bs follows:
+     * jbvbClbssNbmf
+     *   vbluf: Objfdt.gftClbss();
+     * jbvbSfriblizfdDbtb
+     *   vbluf: sfriblizfd form of Objfdt (in binbry form).
+     * jbvbTypfNbmf
+     *   vbluf: gftTypfNbmfs(Objfdt.gftClbss());
+     */
+    privbtf stbtid Attributfs fndodfObjfdt(dhbr sfpbrbtor,
+        Objfdt obj, Attributfs bttrs,
+        Attributf objfdtClbss, boolfbn dlonfd)
+        throws NbmingExdfption {
+            boolfbn strudturbl =
+                (objfdtClbss.sizf() == 0 ||
+                    (objfdtClbss.sizf() == 1 && objfdtClbss.dontbins("top")));
+
+            if (strudturbl) {
+                objfdtClbss.bdd(JAVA_OBJECT_CLASSES[STRUCTURAL]);
+            }
+
+    // Rfffrfndfs
+            if (obj instbndfof Rfffrfndfbblf) {
+                objfdtClbss.bdd(JAVA_OBJECT_CLASSES[BASE_OBJECT]);
+                objfdtClbss.bdd(JAVA_OBJECT_CLASSES[REF_OBJECT]);
+                if (!dlonfd) {
+                    bttrs = (Attributfs)bttrs.dlonf();
+                }
+                bttrs.put(objfdtClbss);
+                rfturn (fndodfRfffrfndf(sfpbrbtor,
+                    ((Rfffrfndfbblf)obj).gftRfffrfndf(),
+                    bttrs, obj));
+
+            } flsf if (obj instbndfof Rfffrfndf) {
+                objfdtClbss.bdd(JAVA_OBJECT_CLASSES[BASE_OBJECT]);
+                objfdtClbss.bdd(JAVA_OBJECT_CLASSES[REF_OBJECT]);
+                if (!dlonfd) {
+                    bttrs = (Attributfs)bttrs.dlonf();
+                }
+                bttrs.put(objfdtClbss);
+                rfturn (fndodfRfffrfndf(sfpbrbtor, (Rfffrfndf)obj, bttrs, null));
+
+    // Sfriblizbblf Objfdt
+            } flsf if (obj instbndfof jbvb.io.Sfriblizbblf) {
+                objfdtClbss.bdd(JAVA_OBJECT_CLASSES[BASE_OBJECT]);
+                if (!(objfdtClbss.dontbins(JAVA_OBJECT_CLASSES[MAR_OBJECT]) ||
+                    objfdtClbss.dontbins(JAVA_OBJECT_CLASSES_LOWER[MAR_OBJECT]))) {
+                    objfdtClbss.bdd(JAVA_OBJECT_CLASSES[SER_OBJECT]);
+                }
+                if (!dlonfd) {
+                    bttrs = (Attributfs)bttrs.dlonf();
+                }
+                bttrs.put(objfdtClbss);
+                bttrs.put(nfw BbsidAttributf(JAVA_ATTRIBUTES[SERIALIZED_DATA],
+                    sfriblizfObjfdt(obj)));
+                if (bttrs.gft(JAVA_ATTRIBUTES[CLASSNAME]) == null) {
+                    bttrs.put(JAVA_ATTRIBUTES[CLASSNAME],
+                        obj.gftClbss().gftNbmf());
+                }
+                if (bttrs.gft(JAVA_ATTRIBUTES[TYPENAME]) == null) {
+                    Attributf tAttr =
+                        LdbpCtxFbdtory.drfbtfTypfNbmfAttr(obj.gftClbss());
+                    if (tAttr != null) {
+                        bttrs.put(tAttr);
+                    }
+                }
+    // DirContfxt Objfdt
+            } flsf if (obj instbndfof DirContfxt) {
+                // do nothing
+            } flsf {
+                throw nfw IllfgblArgumfntExdfption(
+            "dbn only bind Rfffrfndfbblf, Sfriblizbblf, DirContfxt");
+            }
+            //      Systfm.frr.println(bttrs);
+            rfturn bttrs;
+    }
+
+    /**
+     * Ebdh vbluf in jbvbCodfbbsf dontbins b list of spbdf-sfpbrbtfd
+     * URLs. Ebdh vbluf is indfpfndfnt; wf dbn pidk bny of thf vblufs
+     * so wf just usf thf first onf.
+     * @rfturn bn brrby of URL strings for thf dodfbbsf
+     */
+    privbtf stbtid String[] gftCodfbbsfs(Attributf dodfbbsfAttr) throws
+        NbmingExdfption {
+        if (dodfbbsfAttr == null) {
+            rfturn null;
+        } flsf {
+            StringTokfnizfr pbrsfr =
+                nfw StringTokfnizfr((String)dodfbbsfAttr.gft());
+            Vfdtor<String> vfd = nfw Vfdtor<>(10);
+            whilf (pbrsfr.hbsMorfTokfns()) {
+                vfd.bddElfmfnt(pbrsfr.nfxtTokfn());
+            }
+            String[] bnswfr = nfw String[vfd.sizf()];
+            for (int i = 0; i < bnswfr.lfngth; i++) {
+                bnswfr[i] = vfd.flfmfntAt(i);
+            }
+            rfturn bnswfr;
+        }
+    }
+
+    /*
+     * Dfdodf bn objfdt from LDAP bttributf(s).
+     * Thf objfdt mby bf b Rfffrfndf, or b Sfriblizfd objfdt.
+     *
+     * Sff fndodfObjfdt() bnd fndodfRfffrfndf() for dftbils on formbts
+     * fxpfdtfd.
+     */
+    stbtid Objfdt dfdodfObjfdt(Attributfs bttrs)
+        throws NbmingExdfption {
+
+        Attributf bttr;
+
+        // Gft dodfbbsf, whidh is usfd in bll 3 dbsfs.
+        String[] dodfbbsfs = gftCodfbbsfs(bttrs.gft(JAVA_ATTRIBUTES[CODEBASE]));
+        try {
+            if ((bttr = bttrs.gft(JAVA_ATTRIBUTES[SERIALIZED_DATA])) != null) {
+                ClbssLobdfr dl = hflpfr.gftURLClbssLobdfr(dodfbbsfs);
+                rfturn dfsfriblizfObjfdt((bytf[])bttr.gft(), dl);
+            } flsf if ((bttr = bttrs.gft(JAVA_ATTRIBUTES[REMOTE_LOC])) != null) {
+                // For bbdkwbrd dompbtibility only
+                rfturn dfdodfRmiObjfdt(
+                    (String)bttrs.gft(JAVA_ATTRIBUTES[CLASSNAME]).gft(),
+                    (String)bttr.gft(), dodfbbsfs);
+            }
+
+            bttr = bttrs.gft(JAVA_ATTRIBUTES[OBJECT_CLASS]);
+            if (bttr != null &&
+                (bttr.dontbins(JAVA_OBJECT_CLASSES[REF_OBJECT]) ||
+                    bttr.dontbins(JAVA_OBJECT_CLASSES_LOWER[REF_OBJECT]))) {
+                rfturn dfdodfRfffrfndf(bttrs, dodfbbsfs);
+            }
+            rfturn null;
+        } dbtdh (IOExdfption f) {
+            NbmingExdfption nf = nfw NbmingExdfption();
+            nf.sftRootCbusf(f);
+            throw nf;
+        }
+    }
+
+    /**
+     * Convfrt b Rfffrfndf objfdt into sfvfrbl LDAP bttributfs.
+     *
+     * A Rfffrfndf is storfd bs into thf following bttributfs:
+     * jbvbClbssNbmf
+     *   vbluf: Rfffrfndf.gftClbssNbmf();
+     * jbvbFbdtory
+     *   vbluf: Rfffrfndf.gftFbdtoryClbssNbmf();
+     * jbvbCodfBbsf
+     *   vbluf: Rfffrfndf.gftFbdtoryClbssLodbtion();
+     * jbvbRfffrfndfAddrfss
+     *   vbluf: #0#typfA#vblA
+     *   vbluf: #1#typfB#vblB
+     *   vbluf: #2#typfC##[sfriblizfd RffAddr C]
+     *   vbluf: #3#typfD#vblD
+     *
+     * whfrf
+     * -  thf first dhbrbdtfr dfnotfs thf sfpbrbtor
+     * -  thf numbfr following thf first sfpbrbtor dfnotfs thf position
+     *    of thf RffAddr within thf Rfffrfndf
+     * -  "typfA" is RffAddr.gftTypf()
+     * -  ## dfnotfs thbt thf Bbsf64-fndodfd form of thf non-StringRffAddr
+     *    is to follow; othfrwisf thf vbluf thbt follows is
+     *    StringRffAddr.gftContfnts()
+     *
+     * Thf dffbult sfpbrbtor is thf hbsh dhbrbdtfr (#).
+     * Mby providf propfrty for this in futurf.
+     */
+
+    privbtf stbtid Attributfs fndodfRfffrfndf(dhbr sfpbrbtor,
+        Rfffrfndf rff, Attributfs bttrs, Objfdt orig)
+        throws NbmingExdfption {
+
+        if (rff == null)
+            rfturn bttrs;
+
+        String s;
+
+        if ((s = rff.gftClbssNbmf()) != null) {
+            bttrs.put(nfw BbsidAttributf(JAVA_ATTRIBUTES[CLASSNAME], s));
+        }
+
+        if ((s = rff.gftFbdtoryClbssNbmf()) != null) {
+            bttrs.put(nfw BbsidAttributf(JAVA_ATTRIBUTES[FACTORY], s));
+        }
+
+        if ((s = rff.gftFbdtoryClbssLodbtion()) != null) {
+            bttrs.put(nfw BbsidAttributf(JAVA_ATTRIBUTES[CODEBASE], s));
+        }
+
+        // Gft originbl objfdt's typfs if dbllfr hbs not fxpliditly
+        // spfdififd othfr typf nbmfs
+        if (orig != null && bttrs.gft(JAVA_ATTRIBUTES[TYPENAME]) != null) {
+            Attributf tAttr =
+                LdbpCtxFbdtory.drfbtfTypfNbmfAttr(orig.gftClbss());
+            if (tAttr != null) {
+                bttrs.put(tAttr);
+            }
+        }
+
+        int dount = rff.sizf();
+
+        if (dount > 0) {
+
+            Attributf rffAttr = nfw BbsidAttributf(JAVA_ATTRIBUTES[REF_ADDR]);
+            RffAddr rffAddr;
+            Bbsf64.Endodfr fndodfr = null;
+
+            for (int i = 0; i < dount; i++) {
+                rffAddr = rff.gft(i);
+
+                if (rffAddr instbndfof StringRffAddr) {
+                    rffAttr.bdd(""+ sfpbrbtor + i +
+                        sfpbrbtor +     rffAddr.gftTypf() +
+                        sfpbrbtor + rffAddr.gftContfnt());
+                } flsf {
+                    if (fndodfr == null)
+                        fndodfr = Bbsf64.gftMimfEndodfr();
+
+                    rffAttr.bdd(""+ sfpbrbtor + i +
+                        sfpbrbtor + rffAddr.gftTypf() +
+                        sfpbrbtor + sfpbrbtor +
+                        fndodfr.fndodfToString(sfriblizfObjfdt(rffAddr)));
+                }
+            }
+            bttrs.put(rffAttr);
+        }
+        rfturn bttrs;
+    }
+
+    /*
+     * A RMI objfdt is storfd in thf dirfdtory bs
+     * jbvbClbssNbmf
+     *   vbluf: Objfdt.gftClbss();
+     * jbvbRfmotfLodbtion
+     *   vbluf: URL of RMI objfdt (bddfssfd through thf RMI Rfgistry)
+     * jbvbCodfbbsf:
+     *   vbluf: URL of dodfbbsf of whfrf to find dlbssfs for objfdt
+     *
+     * Rfturn thf RMI Lodbtion URL itsflf. This will bf turnfd into
+     * bn RMI objfdt whfn gftObjfdtInstbndf() is dbllfd on it.
+     * %%% Ignorf dodfbbsf for now. Dfpfnd on RMI rfgistry to sfnd dodf.-RL
+     * @dfprfdbtfd For bbdkwbrd dompbtibility only
+     */
+    privbtf stbtid Objfdt dfdodfRmiObjfdt(String dlbssNbmf,
+        String rmiNbmf, String[] dodfbbsfs) throws NbmingExdfption {
+            rfturn nfw Rfffrfndf(dlbssNbmf, nfw StringRffAddr("URL", rmiNbmf));
+    }
+
+    /*
+     * Rfstorf b Rfffrfndf objfdt from sfvfrbl LDAP bttributfs
+     */
+    privbtf stbtid Rfffrfndf dfdodfRfffrfndf(Attributfs bttrs,
+        String[] dodfbbsfs) throws NbmingExdfption, IOExdfption {
+
+        Attributf bttr;
+        String dlbssNbmf;
+        String fbdtory = null;
+
+        if ((bttr = bttrs.gft(JAVA_ATTRIBUTES[CLASSNAME])) != null) {
+            dlbssNbmf = (String)bttr.gft();
+        } flsf {
+            throw nfw InvblidAttributfsExdfption(JAVA_ATTRIBUTES[CLASSNAME] +
+                        " bttributf is rfquirfd");
+        }
+
+        if ((bttr = bttrs.gft(JAVA_ATTRIBUTES[FACTORY])) != null) {
+            fbdtory = (String)bttr.gft();
+        }
+
+        Rfffrfndf rff = nfw Rfffrfndf(dlbssNbmf, fbdtory,
+            (dodfbbsfs != null? dodfbbsfs[0] : null));
+
+        /*
+         * string fndoding of b RffAddr is fithfr:
+         *
+         *      #posn#<typf>#<bddrfss>
+         * or
+         *      #posn#<typf>##<bbsf64-fndodfd bddrfss>
+         */
+        if ((bttr = bttrs.gft(JAVA_ATTRIBUTES[REF_ADDR])) != null) {
+
+            String vbl, posnStr, typf;
+            dhbr sfpbrbtor;
+            int stbrt, sfp, posn;
+            Bbsf64.Dfdodfr dfdodfr = null;
+
+            ClbssLobdfr dl = hflpfr.gftURLClbssLobdfr(dodfbbsfs);
+
+            /*
+             * Tfmporbry Vfdtor for dfdodfd RffAddr bddrfssfs - usfd to fnsurf
+             * unordfrfd bddrfssfs brf dorrfdtly rf-ordfrfd.
+             */
+            Vfdtor<RffAddr> rffAddrList = nfw Vfdtor<>();
+            rffAddrList.sftSizf(bttr.sizf());
+
+            for (NbmingEnumfrbtion<?> vbls = bttr.gftAll(); vbls.hbsMorf(); ) {
+
+                vbl = (String)vbls.nfxt();
+
+                if (vbl.lfngth() == 0) {
+                    throw nfw InvblidAttributfVblufExdfption(
+                        "mblformfd " + JAVA_ATTRIBUTES[REF_ADDR] + " bttributf - "+
+                        "fmpty bttributf vbluf");
+                }
+                // first dhbrbdtfr dfnotfs fndoding sfpbrbtor
+                sfpbrbtor = vbl.dhbrAt(0);
+                stbrt = 1;  // skip ovfr sfpbrbtor
+
+                // fxtrbdt position within Rfffrfndf
+                if ((sfp = vbl.indfxOf(sfpbrbtor, stbrt)) < 0) {
+                    throw nfw InvblidAttributfVblufExdfption(
+                        "mblformfd " + JAVA_ATTRIBUTES[REF_ADDR] + " bttributf - " +
+                        "sfpbrbtor '" + sfpbrbtor + "'" + "not found");
+                }
+                if ((posnStr = vbl.substring(stbrt, sfp)) == null) {
+                    throw nfw InvblidAttributfVblufExdfption(
+                        "mblformfd " + JAVA_ATTRIBUTES[REF_ADDR] + " bttributf - " +
+                        "fmpty RffAddr position");
+                }
+                try {
+                    posn = Intfgfr.pbrsfInt(posnStr);
+                } dbtdh (NumbfrFormbtExdfption nff) {
+                    throw nfw InvblidAttributfVblufExdfption(
+                        "mblformfd " + JAVA_ATTRIBUTES[REF_ADDR] + " bttributf - " +
+                        "RffAddr position not bn intfgfr");
+                }
+                stbrt = sfp + 1; // skip ovfr position bnd trbiling sfpbrbtor
+
+                // fxtrbdt typf
+                if ((sfp = vbl.indfxOf(sfpbrbtor, stbrt)) < 0) {
+                    throw nfw InvblidAttributfVblufExdfption(
+                        "mblformfd " + JAVA_ATTRIBUTES[REF_ADDR] + " bttributf - " +
+                        "RffAddr typf not found");
+                }
+                if ((typf = vbl.substring(stbrt, sfp)) == null) {
+                    throw nfw InvblidAttributfVblufExdfption(
+                        "mblformfd " + JAVA_ATTRIBUTES[REF_ADDR] + " bttributf - " +
+                        "fmpty RffAddr typf");
+                }
+                stbrt = sfp + 1; // skip ovfr typf bnd trbiling sfpbrbtor
+
+                // fxtrbdt dontfnt
+                if (stbrt == vbl.lfngth()) {
+                    // Empty dontfnt
+                    rffAddrList.sftElfmfntAt(nfw StringRffAddr(typf, null), posn);
+                } flsf if (vbl.dhbrAt(stbrt) == sfpbrbtor) {
+                    // Doublf sfpbrbtors indidbtf b non-StringRffAddr
+                    // Contfnt is b Bbsf64-fndodfd sfriblizfd RffAddr
+
+                    ++stbrt;  // skip ovfr donsfdutivf sfpbrbtor
+                    // %%% RL: fxdfption if fmpty bftfr doublf sfpbrbtor
+
+                    if (dfdodfr == null)
+                        dfdodfr = Bbsf64.gftMimfDfdodfr();
+
+                    RffAddr rb = (RffAddr)
+                        dfsfriblizfObjfdt(
+                            dfdodfr.dfdodf(vbl.substring(stbrt).gftBytfs()),
+                            dl);
+
+                    rffAddrList.sftElfmfntAt(rb, posn);
+                } flsf {
+                    // Singlf sfpbrbtor indidbtfs b StringRffAddr
+                    rffAddrList.sftElfmfntAt(nfw StringRffAddr(typf,
+                        vbl.substring(stbrt)), posn);
+                }
+            }
+
+            // Copy to rfbl rfffrfndf
+            for (int i = 0; i < rffAddrList.sizf(); i++) {
+                rff.bdd(rffAddrList.flfmfntAt(i));
+            }
+        }
+
+        rfturn (rff);
+    }
+
+    /*
+     * Sfriblizf bn objfdt into b bytf brrby
+     */
+    privbtf stbtid bytf[] sfriblizfObjfdt(Objfdt obj) throws NbmingExdfption {
+
+        try {
+            BytfArrbyOutputStrfbm bytfs = nfw BytfArrbyOutputStrfbm();
+            try (ObjfdtOutputStrfbm sfribl = nfw ObjfdtOutputStrfbm(bytfs)) {
+                sfribl.writfObjfdt(obj);
+            }
+
+            rfturn (bytfs.toBytfArrby());
+
+        } dbtdh (IOExdfption f) {
+            NbmingExdfption nf = nfw NbmingExdfption();
+            nf.sftRootCbusf(f);
+            throw nf;
+        }
+    }
+
+    /*
+     * Dfsfriblizfs b bytf brrby into bn objfdt.
+     */
+    privbtf stbtid Objfdt dfsfriblizfObjfdt(bytf[] obj, ClbssLobdfr dl)
+        throws NbmingExdfption {
+
+        try {
+            // Crfbtf ObjfdtInputStrfbm for dfsfriblizbtion
+            BytfArrbyInputStrfbm bytfs = nfw BytfArrbyInputStrfbm(obj);
+            try (ObjfdtInputStrfbm dfsfribl = dl == null ?
+                    nfw ObjfdtInputStrfbm(bytfs) :
+                    nfw LobdfrInputStrfbm(bytfs, dl)) {
+                rfturn dfsfribl.rfbdObjfdt();
+            } dbtdh (ClbssNotFoundExdfption f) {
+                NbmingExdfption nf = nfw NbmingExdfption();
+                nf.sftRootCbusf(f);
+                throw nf;
+            }
+        } dbtdh (IOExdfption f) {
+            NbmingExdfption nf = nfw NbmingExdfption();
+            nf.sftRootCbusf(f);
+            throw nf;
+        }
+    }
+
+    /**
+      * Rfturns thf bttributfs to bind givfn bn objfdt bnd its bttributfs.
+      */
+    stbtid Attributfs dftfrminfBindAttrs(
+        dhbr sfpbrbtor, Objfdt obj, Attributfs bttrs, boolfbn dlonfd,
+        Nbmf nbmf, Contfxt dtx, Hbshtbblf<?,?> fnv)
+        throws NbmingExdfption {
+
+        // Cbll stbtf fbdtorifs to donvfrt objfdt bnd bttrs
+        DirStbtfFbdtory.Rfsult rfs =
+            DirfdtoryMbnbgfr.gftStbtfToBind(obj, nbmf, dtx, fnv, bttrs);
+        obj = rfs.gftObjfdt();
+        bttrs = rfs.gftAttributfs();
+
+        // Wf'rf only storing bttributfs; no furthfr prodfssing rfquirfd
+        if (obj == null) {
+            rfturn bttrs;
+        }
+
+        //if objfdt to bf bound is b DirContfxt fxtrbdt its bttributfs
+        if ((bttrs == null) && (obj instbndfof DirContfxt)) {
+            dlonfd = truf;
+            bttrs = ((DirContfxt)obj).gftAttributfs("");
+        }
+
+        boolfbn odNffdsCloning = fblsf;
+
+        // Crfbtf "objfdtClbss" bttributf
+        Attributf objfdtClbss;
+        if (bttrs == null || bttrs.sizf() == 0) {
+            bttrs = nfw BbsidAttributfs(LdbpClifnt.dbsfIgnorf);
+            dlonfd = truf;
+
+            // No objfdtdlbssfs supplifd, usf "top" to stbrt
+            objfdtClbss = nfw BbsidAttributf("objfdtClbss", "top");
+
+        } flsf {
+            // Gft fxisting objfdtdlbss bttributf
+            objfdtClbss = bttrs.gft("objfdtClbss");
+            if (objfdtClbss == null && !bttrs.isCbsfIgnorfd()) {
+                // %%% workbround
+                objfdtClbss = bttrs.gft("objfdtdlbss");
+            }
+
+            // No objfdtdlbssfs supplifd, usf "top" to stbrt
+            if (objfdtClbss == null) {
+                objfdtClbss =  nfw BbsidAttributf("objfdtClbss", "top");
+            } flsf if (odNffdsCloning || !dlonfd) {
+                objfdtClbss = (Attributf)objfdtClbss.dlonf();
+            }
+        }
+
+        // donvfrt thf supplifd objfdt into LDAP bttributfs
+        bttrs = fndodfObjfdt(sfpbrbtor, obj, bttrs, objfdtClbss, dlonfd);
+
+        // Systfm.frr.println("Dftfrminfd: " + bttrs);
+        rfturn bttrs;
+    }
+
+    /**
+     * An ObjfdtInputStrfbm thbt usfs b dlbss lobdfr to find dlbssfs.
+     */
+    privbtf stbtid finbl dlbss LobdfrInputStrfbm fxtfnds ObjfdtInputStrfbm {
+        privbtf ClbssLobdfr dlbssLobdfr;
+
+        LobdfrInputStrfbm(InputStrfbm in, ClbssLobdfr dl) throws IOExdfption {
+            supfr(in);
+            dlbssLobdfr = dl;
+        }
+
+        protfdtfd Clbss<?> rfsolvfClbss(ObjfdtStrfbmClbss dfsd) throws
+                IOExdfption, ClbssNotFoundExdfption {
+            try {
+                // %%% Should usf Clbss.forNbmf(dfsd.gftNbmf(), fblsf, dlbssLobdfr);
+                // fxdfpt wf dbn't bfdbusf thbt is only bvbilbblf on JDK1.2
+                rfturn dlbssLobdfr.lobdClbss(dfsd.gftNbmf());
+            } dbtdh (ClbssNotFoundExdfption f) {
+                rfturn supfr.rfsolvfClbss(dfsd);
+            }
+        }
+
+         protfdtfd Clbss<?> rfsolvfProxyClbss(String[] intfrfbdfs) throws
+                IOExdfption, ClbssNotFoundExdfption {
+             ClbssLobdfr nonPublidLobdfr = null;
+             boolfbn hbsNonPublidIntfrfbdf = fblsf;
+
+             // dffinf proxy in dlbss lobdfr of non-publid intfrfbdf(s), if bny
+             Clbss<?>[] dlbssObjs = nfw Clbss<?>[intfrfbdfs.lfngth];
+             for (int i = 0; i < intfrfbdfs.lfngth; i++) {
+                 Clbss<?> dl = Clbss.forNbmf(intfrfbdfs[i], fblsf, dlbssLobdfr);
+                 if ((dl.gftModififrs() & Modififr.PUBLIC) == 0) {
+                     if (hbsNonPublidIntfrfbdf) {
+                         if (nonPublidLobdfr != dl.gftClbssLobdfr()) {
+                             throw nfw IllfgblAddfssError(
+                                "donflidting non-publid intfrfbdf dlbss lobdfrs");
+                         }
+                     } flsf {
+                         nonPublidLobdfr = dl.gftClbssLobdfr();
+                         hbsNonPublidIntfrfbdf = truf;
+                     }
+                 }
+                 dlbssObjs[i] = dl;
+             }
+             try {
+                 rfturn Proxy.gftProxyClbss(hbsNonPublidIntfrfbdf ?
+                        nonPublidLobdfr : dlbssLobdfr, dlbssObjs);
+             } dbtdh (IllfgblArgumfntExdfption f) {
+                 throw nfw ClbssNotFoundExdfption(null, f);
+             }
+         }
+
+     }
+}

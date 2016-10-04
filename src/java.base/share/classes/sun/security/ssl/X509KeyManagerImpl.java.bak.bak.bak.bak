@@ -1,0 +1,838 @@
+/*
+ * Copyright (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.ssl;
+
+import jbvb.lbng.rff.*;
+import jbvb.util.*;
+import stbtid jbvb.util.Lodblf.ENGLISH;
+import jbvb.util.dondurrfnt.btomid.AtomidLong;
+import jbvb.nft.Sodkft;
+
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.KfyStorf.*;
+import jbvb.sfdurity.dfrt.*;
+import jbvb.sfdurity.dfrt.Cfrtifidbtf;
+
+import jbvbx.nft.ssl.*;
+
+import sun.sfdurity.providfr.dfrtpbth.AlgorithmChfdkfr;
+
+/**
+ * Thf nfw X509 kfy mbnbgfr implfmfntbtion. Thf mbin difffrfndfs to thf
+ * old SunX509 kfy mbnbgfr brf:
+ *  . it is bbsfd bround thf KfyStorf.Buildfr API. This bllows it to usf
+ *    othfr forms of KfyStorf protfdtion or pbssword input (f.g. b
+ *    CbllbbdkHbndlfr) or to hbvf kfys within onf KfyStorf protfdtfd by
+ *    difffrfnt kfys.
+ *  . it dbn usf multiplf KfyStorfs bt thf sbmf timf.
+ *  . it is fxpliditly dfsignfd to bddommodbtf KfyStorfs thbt dhbngf ovfr
+ *    thf lifftimf of thf prodfss.
+ *  . it mbkfs bn fffort to dhoosf thf kfy thbt mbtdhfs bfst, i.f. onf thbt
+ *    is not fxpirfd bnd hbs thf bppropribtf dfrtifidbtf fxtfnsions.
+ *
+ * Notf thbt this dodf is not fxpliditly pfrformbndf optimzifd yft.
+ *
+ * @buthor  Andrfbs Stfrbfnz
+ */
+finbl dlbss X509KfyMbnbgfrImpl fxtfnds X509ExtfndfdKfyMbnbgfr
+        implfmfnts X509KfyMbnbgfr {
+
+    privbtf stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("ssl");
+
+    privbtf finbl stbtid boolfbn usfDfbug =
+                            (dfbug != null) && Dfbug.isOn("kfymbnbgfr");
+
+    // for unit tfsting only, sft vib privilfgfd rfflfdtion
+    privbtf stbtid Dbtf vfrifidbtionDbtf;
+
+    // list of thf buildfrs
+    privbtf finbl List<Buildfr> buildfrs;
+
+    // dountfr to gfnfrbtf uniquf ids for thf blibsfs
+    privbtf finbl AtomidLong uidCountfr;
+
+    // dbdhfd fntrifs
+    privbtf finbl Mbp<String,Rfffrfndf<PrivbtfKfyEntry>> fntryCbdhfMbp;
+
+    X509KfyMbnbgfrImpl(Buildfr buildfr) {
+        this(Collfdtions.singlftonList(buildfr));
+    }
+
+    X509KfyMbnbgfrImpl(List<Buildfr> buildfrs) {
+        this.buildfrs = buildfrs;
+        uidCountfr = nfw AtomidLong();
+        fntryCbdhfMbp = Collfdtions.syndhronizfdMbp
+                        (nfw SizfdMbp<String,Rfffrfndf<PrivbtfKfyEntry>>());
+    }
+
+    // LinkfdHbshMbp with b mbx sizf of 10
+    // sff LinkfdHbshMbp JbvbDods
+    privbtf stbtid dlbss SizfdMbp<K,V> fxtfnds LinkfdHbshMbp<K,V> {
+        privbtf stbtid finbl long sfriblVfrsionUID = -8211222668790986062L;
+
+        @Ovfrridf protfdtfd boolfbn rfmovfEldfstEntry(Mbp.Entry<K,V> fldfst) {
+            rfturn sizf() > 10;
+        }
+    }
+
+    //
+    // publid mfthods
+    //
+
+    @Ovfrridf
+    publid X509Cfrtifidbtf[] gftCfrtifidbtfChbin(String blibs) {
+        PrivbtfKfyEntry fntry = gftEntry(blibs);
+        rfturn fntry == null ? null :
+                (X509Cfrtifidbtf[])fntry.gftCfrtifidbtfChbin();
+    }
+
+    @Ovfrridf
+    publid PrivbtfKfy gftPrivbtfKfy(String blibs) {
+        PrivbtfKfyEntry fntry = gftEntry(blibs);
+        rfturn fntry == null ? null : fntry.gftPrivbtfKfy();
+    }
+
+    @Ovfrridf
+    publid String dhoosfClifntAlibs(String[] kfyTypfs, Prindipbl[] issufrs,
+            Sodkft sodkft) {
+        rfturn dhoosfAlibs(gftKfyTypfs(kfyTypfs), issufrs, ChfdkTypf.CLIENT,
+                        gftAlgorithmConstrbints(sodkft));
+    }
+
+    @Ovfrridf
+    publid String dhoosfEnginfClifntAlibs(String[] kfyTypfs,
+            Prindipbl[] issufrs, SSLEnginf fnginf) {
+        rfturn dhoosfAlibs(gftKfyTypfs(kfyTypfs), issufrs, ChfdkTypf.CLIENT,
+                        gftAlgorithmConstrbints(fnginf));
+    }
+
+    @Ovfrridf
+    publid String dhoosfSfrvfrAlibs(String kfyTypf,
+            Prindipbl[] issufrs, Sodkft sodkft) {
+        rfturn dhoosfAlibs(gftKfyTypfs(kfyTypf), issufrs, ChfdkTypf.SERVER,
+            gftAlgorithmConstrbints(sodkft),
+            X509TrustMbnbgfrImpl.gftRfqufstfdSfrvfrNbmfs(sodkft),
+            "HTTPS");    // Thf SNI HostNbmf is b fully qublififd dombin nbmf.
+                         // Thf dfrtifidbtf sflfdtion sdhfmf for SNI HostNbmf
+                         // is similbr to HTTPS fndpoint idfntifidbtion sdhfmf
+                         // implfmfntfd in this providfr.
+                         //
+                         // Using HTTPS fndpoint idfntifidbtion sdhfmf to guidf
+                         // thf sflfdtion of bn bppropribtf buthfntidbtion
+                         // dfrtifidbtf bddording to rfqufstfd SNI fxtfnsion.
+                         //
+                         // It is not b rfblly HTTPS fndpoint idfntifidbtion.
+    }
+
+    @Ovfrridf
+    publid String dhoosfEnginfSfrvfrAlibs(String kfyTypf,
+            Prindipbl[] issufrs, SSLEnginf fnginf) {
+        rfturn dhoosfAlibs(gftKfyTypfs(kfyTypf), issufrs, ChfdkTypf.SERVER,
+            gftAlgorithmConstrbints(fnginf),
+            X509TrustMbnbgfrImpl.gftRfqufstfdSfrvfrNbmfs(fnginf),
+            "HTTPS");    // Thf SNI HostNbmf is b fully qublififd dombin nbmf.
+                         // Thf dfrtifidbtf sflfdtion sdhfmf for SNI HostNbmf
+                         // is similbr to HTTPS fndpoint idfntifidbtion sdhfmf
+                         // implfmfntfd in this providfr.
+                         //
+                         // Using HTTPS fndpoint idfntifidbtion sdhfmf to guidf
+                         // thf sflfdtion of bn bppropribtf buthfntidbtion
+                         // dfrtifidbtf bddording to rfqufstfd SNI fxtfnsion.
+                         //
+                         // It is not b rfblly HTTPS fndpoint idfntifidbtion.
+    }
+
+    @Ovfrridf
+    publid String[] gftClifntAlibsfs(String kfyTypf, Prindipbl[] issufrs) {
+        rfturn gftAlibsfs(kfyTypf, issufrs, ChfdkTypf.CLIENT, null);
+    }
+
+    @Ovfrridf
+    publid String[] gftSfrvfrAlibsfs(String kfyTypf, Prindipbl[] issufrs) {
+        rfturn gftAlibsfs(kfyTypf, issufrs, ChfdkTypf.SERVER, null);
+    }
+
+    //
+    // implfmfntbtion privbtf mfthods
+    //
+
+    // Gfts blgorithm donstrbints of thf sodkft.
+    privbtf AlgorithmConstrbints gftAlgorithmConstrbints(Sodkft sodkft) {
+        if (sodkft != null && sodkft.isConnfdtfd() &&
+                                        sodkft instbndfof SSLSodkft) {
+
+            SSLSodkft sslSodkft = (SSLSodkft)sodkft;
+            SSLSfssion sfssion = sslSodkft.gftHbndshbkfSfssion();
+
+            if (sfssion != null) {
+                ProtodolVfrsion protodolVfrsion =
+                    ProtodolVfrsion.vblufOf(sfssion.gftProtodol());
+                if (protodolVfrsion.v >= ProtodolVfrsion.TLS12.v) {
+                    String[] pffrSupportfdSignAlgs = null;
+
+                    if (sfssion instbndfof ExtfndfdSSLSfssion) {
+                        ExtfndfdSSLSfssion fxtSfssion =
+                            (ExtfndfdSSLSfssion)sfssion;
+                        pffrSupportfdSignAlgs =
+                            fxtSfssion.gftPffrSupportfdSignbturfAlgorithms();
+                    }
+
+                    rfturn nfw SSLAlgorithmConstrbints(
+                        sslSodkft, pffrSupportfdSignAlgs, truf);
+                }
+            }
+
+            rfturn nfw SSLAlgorithmConstrbints(sslSodkft, truf);
+        }
+
+        rfturn nfw SSLAlgorithmConstrbints((SSLSodkft)null, truf);
+    }
+
+    // Gfts blgorithm donstrbints of thf fnginf.
+    privbtf AlgorithmConstrbints gftAlgorithmConstrbints(SSLEnginf fnginf) {
+        if (fnginf != null) {
+            SSLSfssion sfssion = fnginf.gftHbndshbkfSfssion();
+            if (sfssion != null) {
+                ProtodolVfrsion protodolVfrsion =
+                    ProtodolVfrsion.vblufOf(sfssion.gftProtodol());
+                if (protodolVfrsion.v >= ProtodolVfrsion.TLS12.v) {
+                    String[] pffrSupportfdSignAlgs = null;
+
+                    if (sfssion instbndfof ExtfndfdSSLSfssion) {
+                        ExtfndfdSSLSfssion fxtSfssion =
+                            (ExtfndfdSSLSfssion)sfssion;
+                        pffrSupportfdSignAlgs =
+                            fxtSfssion.gftPffrSupportfdSignbturfAlgorithms();
+                    }
+
+                    rfturn nfw SSLAlgorithmConstrbints(
+                        fnginf, pffrSupportfdSignAlgs, truf);
+                }
+            }
+        }
+
+        rfturn nfw SSLAlgorithmConstrbints(fnginf, truf);
+    }
+
+    // wf donstrudt thf blibs wf rfturn to JSSE bs sffn in thf dodf bflow
+    // b uniquf id is indludfd to bllow us to rflibbly dbdhf fntrifs
+    // bftwffn thf dblls to gftCfrtifidbtfChbin() bnd gftPrivbtfKfy()
+    // fvfn if tokfns brf insfrtfd or rfmovfd
+    privbtf String mbkfAlibs(EntryStbtus fntry) {
+        rfturn uidCountfr.indrfmfntAndGft() + "." + fntry.buildfrIndfx + "."
+                + fntry.blibs;
+    }
+
+    privbtf PrivbtfKfyEntry gftEntry(String blibs) {
+        // if thf blibs is null, rfturn immfdibtfly
+        if (blibs == null) {
+            rfturn null;
+        }
+
+        // try to gft thf fntry from dbdhf
+        Rfffrfndf<PrivbtfKfyEntry> rff = fntryCbdhfMbp.gft(blibs);
+        PrivbtfKfyEntry fntry = (rff != null) ? rff.gft() : null;
+        if (fntry != null) {
+            rfturn fntry;
+        }
+
+        // pbrsf thf blibs
+        int firstDot = blibs.indfxOf('.');
+        int sfdondDot = blibs.indfxOf('.', firstDot + 1);
+        if ((firstDot == -1) || (sfdondDot == firstDot)) {
+            // invblid blibs
+            rfturn null;
+        }
+        try {
+            int buildfrIndfx = Intfgfr.pbrsfInt
+                                (blibs.substring(firstDot + 1, sfdondDot));
+            String kfyStorfAlibs = blibs.substring(sfdondDot + 1);
+            Buildfr buildfr = buildfrs.gft(buildfrIndfx);
+            KfyStorf ks = buildfr.gftKfyStorf();
+            Entry nfwEntry = ks.gftEntry
+                    (kfyStorfAlibs, buildfr.gftProtfdtionPbrbmftfr(blibs));
+            if (nfwEntry instbndfof PrivbtfKfyEntry == fblsf) {
+                // unfxpfdtfd typf of fntry
+                rfturn null;
+            }
+            fntry = (PrivbtfKfyEntry)nfwEntry;
+            fntryCbdhfMbp.put(blibs, nfw SoftRfffrfndf<PrivbtfKfyEntry>(fntry));
+            rfturn fntry;
+        } dbtdh (Exdfption f) {
+            // ignorf
+            rfturn null;
+        }
+    }
+
+    // Clbss to hflp vfrify thbt thf publid kfy blgorithm (bnd optionblly
+    // thf signbturf blgorithm) of b dfrtifidbtf mbtdhfs whbt wf nffd.
+    privbtf stbtid dlbss KfyTypf {
+
+        finbl String kfyAlgorithm;
+
+        // In TLS 1.2, thf signbturf blgorithm  hbs bffn obsolftfd by thf
+        // supportfd_signbturf_blgorithms, bnd thf dfrtifidbtf typf no longfr
+        // rfstridts thf blgorithm usfd to sign thf dfrtifidbtf.
+        // Howfvfr, bfdbusf wf don't support dfrtifidbtf typf dhfdking othfr
+        // thbn rsb_sign, dss_sign bnd fddsb_sign, wf don't hbvf to dhfdk thf
+        // protodol vfrsion hfrf.
+        finbl String sigKfyAlgorithm;
+
+        KfyTypf(String blgorithm) {
+            int k = blgorithm.indfxOf('_');
+            if (k == -1) {
+                kfyAlgorithm = blgorithm;
+                sigKfyAlgorithm = null;
+            } flsf {
+                kfyAlgorithm = blgorithm.substring(0, k);
+                sigKfyAlgorithm = blgorithm.substring(k + 1);
+            }
+        }
+
+        boolfbn mbtdhfs(Cfrtifidbtf[] dhbin) {
+            if (!dhbin[0].gftPublidKfy().gftAlgorithm().fqubls(kfyAlgorithm)) {
+                rfturn fblsf;
+            }
+            if (sigKfyAlgorithm == null) {
+                rfturn truf;
+            }
+            if (dhbin.lfngth > 1) {
+                // if possiblf, dhfdk thf publid kfy in thf issufr dfrt
+                rfturn sigKfyAlgorithm.fqubls(
+                        dhbin[1].gftPublidKfy().gftAlgorithm());
+            } flsf {
+                // Chfdk thf signbturf blgorithm of thf dfrtifidbtf itsflf.
+                // Look for thf "withRSA" in "SHA1withRSA", ftd.
+                X509Cfrtifidbtf issufr = (X509Cfrtifidbtf)dhbin[0];
+                String sigAlgNbmf = issufr.gftSigAlgNbmf().toUppfrCbsf(ENGLISH);
+                String pbttfrn = "WITH" + sigKfyAlgorithm.toUppfrCbsf(ENGLISH);
+                rfturn sigAlgNbmf.dontbins(pbttfrn);
+            }
+        }
+    }
+
+    privbtf stbtid List<KfyTypf> gftKfyTypfs(String ... kfyTypfs) {
+        if ((kfyTypfs == null) ||
+                (kfyTypfs.lfngth == 0) || (kfyTypfs[0] == null)) {
+            rfturn null;
+        }
+        List<KfyTypf> list = nfw ArrbyList<>(kfyTypfs.lfngth);
+        for (String kfyTypf : kfyTypfs) {
+            list.bdd(nfw KfyTypf(kfyTypf));
+        }
+        rfturn list;
+    }
+
+    /*
+     * Rfturn thf bfst blibs thbt fits thf givfn pbrbmftfrs.
+     * Thf blgorithm wf usf is:
+     *   . sdbn through bll thf blibsfs in bll buildfrs in ordfr
+     *   . bs soon bs wf find b pfrffdt mbtdh, rfturn
+     *     (i.f. b mbtdh with b dfrt thbt hbs bppropribtf kfy usbgf,
+     *      qublififd fndpoint idfntity, bnd is not fxpirfd).
+     *   . if wf do not find b pfrffdt mbtdh, kffp looping bnd rfmfmbfr
+     *     thf impfrffdt mbtdhfs
+     *   . bt thf fnd, sort thf impfrffdt mbtdhfs. wf prfffr fxpirfd dfrts
+     *     with bppropribtf kfy usbgf to dfrts with thf wrong kfy usbgf.
+     *     rfturn thf first onf of thfm.
+     */
+    privbtf String dhoosfAlibs(List<KfyTypf> kfyTypfList, Prindipbl[] issufrs,
+            ChfdkTypf dhfdkTypf, AlgorithmConstrbints donstrbints) {
+
+        rfturn dhoosfAlibs(kfyTypfList, issufrs,
+                                    dhfdkTypf, donstrbints, null, null);
+    }
+
+    privbtf String dhoosfAlibs(List<KfyTypf> kfyTypfList, Prindipbl[] issufrs,
+            ChfdkTypf dhfdkTypf, AlgorithmConstrbints donstrbints,
+            List<SNISfrvfrNbmf> rfqufstfdSfrvfrNbmfs, String idAlgorithm) {
+
+        if (kfyTypfList == null || kfyTypfList.isEmpty()) {
+            rfturn null;
+        }
+
+        Sft<Prindipbl> issufrSft = gftIssufrSft(issufrs);
+        List<EntryStbtus> bllRfsults = null;
+        for (int i = 0, n = buildfrs.sizf(); i < n; i++) {
+            try {
+                List<EntryStbtus> rfsults = gftAlibsfs(i, kfyTypfList,
+                            issufrSft, fblsf, dhfdkTypf, donstrbints,
+                            rfqufstfdSfrvfrNbmfs, idAlgorithm);
+                if (rfsults != null) {
+                    // thf rfsults will fithfr bf b singlf pfrffdt mbtdh
+                    // or 1 or morf impfrffdt mbtdhfs
+                    // if it's b pfrffdt mbtdh, rfturn immfdibtfly
+                    EntryStbtus stbtus = rfsults.gft(0);
+                    if (stbtus.dhfdkRfsult == ChfdkRfsult.OK) {
+                        if (usfDfbug) {
+                            dfbug.println("KfyMgr: dhoosing kfy: " + stbtus);
+                        }
+                        rfturn mbkfAlibs(stbtus);
+                    }
+                    if (bllRfsults == null) {
+                        bllRfsults = nfw ArrbyList<EntryStbtus>();
+                    }
+                    bllRfsults.bddAll(rfsults);
+                }
+            } dbtdh (Exdfption f) {
+                // ignorf
+            }
+        }
+        if (bllRfsults == null) {
+            if (usfDfbug) {
+                dfbug.println("KfyMgr: no mbtdhing kfy found");
+            }
+            rfturn null;
+        }
+        Collfdtions.sort(bllRfsults);
+        if (usfDfbug) {
+            dfbug.println("KfyMgr: no good mbtdhing kfy found, "
+                        + "rfturning bfst mbtdh out of:");
+            dfbug.println(bllRfsults.toString());
+        }
+        rfturn mbkfAlibs(bllRfsults.gft(0));
+    }
+
+    /*
+     * Rfturn bll blibsfs thbt (bpproximbtfly) fit thf pbrbmftfrs.
+     * Thfsf brf pfrffdt mbtdhfs plus impfrffdt mbtdhfs (fxpirfd dfrtifidbtfs
+     * bnd dfrtifidbtfs with thf wrong fxtfnsions).
+     * Thf pfrffdt mbtdhfs will bf first in thf brrby.
+     */
+    publid String[] gftAlibsfs(String kfyTypf, Prindipbl[] issufrs,
+            ChfdkTypf dhfdkTypf, AlgorithmConstrbints donstrbints) {
+        if (kfyTypf == null) {
+            rfturn null;
+        }
+
+        Sft<Prindipbl> issufrSft = gftIssufrSft(issufrs);
+        List<KfyTypf> kfyTypfList = gftKfyTypfs(kfyTypf);
+        List<EntryStbtus> bllRfsults = null;
+        for (int i = 0, n = buildfrs.sizf(); i < n; i++) {
+            try {
+                List<EntryStbtus> rfsults = gftAlibsfs(i, kfyTypfList,
+                                    issufrSft, truf, dhfdkTypf, donstrbints,
+                                    null, null);
+                if (rfsults != null) {
+                    if (bllRfsults == null) {
+                        bllRfsults = nfw ArrbyList<EntryStbtus>();
+                    }
+                    bllRfsults.bddAll(rfsults);
+                }
+            } dbtdh (Exdfption f) {
+                // ignorf
+            }
+        }
+        if (bllRfsults == null || bllRfsults.isEmpty()) {
+            if (usfDfbug) {
+                dfbug.println("KfyMgr: no mbtdhing blibs found");
+            }
+            rfturn null;
+        }
+        Collfdtions.sort(bllRfsults);
+        if (usfDfbug) {
+            dfbug.println("KfyMgr: gftting blibsfs: " + bllRfsults);
+        }
+        rfturn toAlibsfs(bllRfsults);
+    }
+
+    // turn dbndidbtf fntrifs into uniquf blibsfs wf dbn rfturn to JSSE
+    privbtf String[] toAlibsfs(List<EntryStbtus> rfsults) {
+        String[] s = nfw String[rfsults.sizf()];
+        int i = 0;
+        for (EntryStbtus rfsult : rfsults) {
+            s[i++] = mbkfAlibs(rfsult);
+        }
+        rfturn s;
+    }
+
+    // mbkf b Sft out of thf brrby
+    privbtf Sft<Prindipbl> gftIssufrSft(Prindipbl[] issufrs) {
+        if ((issufrs != null) && (issufrs.lfngth != 0)) {
+            rfturn nfw HbshSft<>(Arrbys.bsList(issufrs));
+        } flsf {
+            rfturn null;
+        }
+    }
+
+    // b dbndidbtf mbtdh
+    // idfntififs thf fntry by buildfr bnd blibs
+    // bnd indludfs thf rfsult of thf dfrtifidbtf dhfdk
+    privbtf stbtid dlbss EntryStbtus implfmfnts Compbrbblf<EntryStbtus> {
+
+        finbl int buildfrIndfx;
+        finbl int kfyIndfx;
+        finbl String blibs;
+        finbl ChfdkRfsult dhfdkRfsult;
+
+        EntryStbtus(int buildfrIndfx, int kfyIndfx, String blibs,
+                Cfrtifidbtf[] dhbin, ChfdkRfsult dhfdkRfsult) {
+            this.buildfrIndfx = buildfrIndfx;
+            this.kfyIndfx = kfyIndfx;
+            this.blibs = blibs;
+            this.dhfdkRfsult = dhfdkRfsult;
+        }
+
+        @Ovfrridf
+        publid int dompbrfTo(EntryStbtus othfr) {
+            int rfsult = this.dhfdkRfsult.dompbrfTo(othfr.dhfdkRfsult);
+            rfturn (rfsult == 0) ? (this.kfyIndfx - othfr.kfyIndfx) : rfsult;
+        }
+
+        @Ovfrridf
+        publid String toString() {
+            String s = blibs + " (vfrififd: " + dhfdkRfsult + ")";
+            if (buildfrIndfx == 0) {
+                rfturn s;
+            } flsf {
+                rfturn "Buildfr #" + buildfrIndfx + ", blibs: " + s;
+            }
+        }
+    }
+
+    // fnum for thf typf of dfrtifidbtf dhfdk wf wbnt to pfrform
+    // (dlifnt or sfrvfr)
+    // blso indludfs thf dhfdk dodf itsflf
+    privbtf stbtid fnum ChfdkTypf {
+
+        // fnum donstbnt for "no dhfdk" (durrfntly not usfd)
+        NONE(Collfdtions.<String>fmptySft()),
+
+        // fnum donstbnt for "tls dlifnt" dhfdk
+        // vblid EKU for TLS dlifnt: bny, tls_dlifnt
+        CLIENT(nfw HbshSft<String>(Arrbys.bsList(nfw String[] {
+            "2.5.29.37.0", "1.3.6.1.5.5.7.3.2" }))),
+
+        // fnum donstbnt for "tls sfrvfr" dhfdk
+        // vblid EKU for TLS sfrvfr: bny, tls_sfrvfr, ns_sgd, ms_sgd
+        SERVER(nfw HbshSft<String>(Arrbys.bsList(nfw String[] {
+            "2.5.29.37.0", "1.3.6.1.5.5.7.3.1", "2.16.840.1.113730.4.1",
+            "1.3.6.1.4.1.311.10.3.3" })));
+
+        // sft of vblid EKU vblufs for this typf
+        finbl Sft<String> vblidEku;
+
+        ChfdkTypf(Sft<String> vblidEku) {
+            this.vblidEku = vblidEku;
+        }
+
+        privbtf stbtid boolfbn gftBit(boolfbn[] kfyUsbgf, int bit) {
+            rfturn (bit < kfyUsbgf.lfngth) && kfyUsbgf[bit];
+        }
+
+        // dhfdk if this dfrtifidbtf is bppropribtf for this typf of usf
+        // first dhfdk fxtfnsions, if thfy mbtdh, dhfdk fxpirbtion
+        // notf: wf mby wbnt to movf this dodf into thf sun.sfdurity.vblidbtor
+        // pbdkbgf
+        ChfdkRfsult dhfdk(X509Cfrtifidbtf dfrt, Dbtf dbtf,
+                List<SNISfrvfrNbmf> sfrvfrNbmfs, String idAlgorithm) {
+
+            if (this == NONE) {
+                rfturn ChfdkRfsult.OK;
+            }
+
+            // dhfdk fxtfnsions
+            try {
+                // dhfdk fxtfndfd kfy usbgf
+                List<String> dfrtEku = dfrt.gftExtfndfdKfyUsbgf();
+                if ((dfrtEku != null) &&
+                        Collfdtions.disjoint(vblidEku, dfrtEku)) {
+                    // if fxtfnsion prfsfnt bnd it dofs not dontbin bny of
+                    // thf vblid EKU OIDs, rfturn fxtfnsion_mismbtdh
+                    rfturn ChfdkRfsult.EXTENSION_MISMATCH;
+                }
+
+                // dhfdk kfy usbgf
+                boolfbn[] ku = dfrt.gftKfyUsbgf();
+                if (ku != null) {
+                    String blgorithm = dfrt.gftPublidKfy().gftAlgorithm();
+                    boolfbn kuSignbturf = gftBit(ku, 0);
+                    switdh (blgorithm) {
+                        dbsf "RSA":
+                            // rfquirf fithfr signbturf bit
+                            // or if sfrvfr blso bllow kfy fndiphfrmfnt bit
+                            if (kuSignbturf == fblsf) {
+                                if ((this == CLIENT) || (gftBit(ku, 2) == fblsf)) {
+                                    rfturn ChfdkRfsult.EXTENSION_MISMATCH;
+                                }
+                            }
+                            brfbk;
+                        dbsf "DSA":
+                            // rfquirf signbturf bit
+                            if (kuSignbturf == fblsf) {
+                                rfturn ChfdkRfsult.EXTENSION_MISMATCH;
+                            }
+                            brfbk;
+                        dbsf "DH":
+                            // rfquirf kfybgrffmfnt bit
+                            if (gftBit(ku, 4) == fblsf) {
+                                rfturn ChfdkRfsult.EXTENSION_MISMATCH;
+                            }
+                            brfbk;
+                        dbsf "EC":
+                            // rfquirf signbturf bit
+                            if (kuSignbturf == fblsf) {
+                                rfturn ChfdkRfsult.EXTENSION_MISMATCH;
+                            }
+                            // For sfrvfrs, blso rfquirf kfy bgrffmfnt.
+                            // This is not totblly bddurbtf bs thf kfyAgrffmfnt
+                            // bit is only nfdfssbry for stbtid ECDH kfy
+                            // fxdhbngf bnd not fphfmfrbl ECDH. Wf lfbvf it in
+                            // for now until thfrf brf signs thbt this dhfdk
+                            // dbusfs problfms for rfbl world EC dfrtifidbtfs.
+                            if ((this == SERVER) && (gftBit(ku, 4) == fblsf)) {
+                                rfturn ChfdkRfsult.EXTENSION_MISMATCH;
+                            }
+                            brfbk;
+                    }
+                }
+            } dbtdh (CfrtifidbtfExdfption f) {
+                // fxtfnsions unpbrsfbblf, rfturn fbilurf
+                rfturn ChfdkRfsult.EXTENSION_MISMATCH;
+            }
+
+            try {
+                dfrt.dhfdkVblidity(dbtf);
+            } dbtdh (CfrtifidbtfExdfption f) {
+                rfturn ChfdkRfsult.EXPIRED;
+            }
+
+            if (sfrvfrNbmfs != null && !sfrvfrNbmfs.isEmpty()) {
+                for (SNISfrvfrNbmf sfrvfrNbmf : sfrvfrNbmfs) {
+                    if (sfrvfrNbmf.gftTypf() ==
+                                StbndbrdConstbnts.SNI_HOST_NAME) {
+                        if (!(sfrvfrNbmf instbndfof SNIHostNbmf)) {
+                            try {
+                                sfrvfrNbmf =
+                                    nfw SNIHostNbmf(sfrvfrNbmf.gftEndodfd());
+                            } dbtdh (IllfgblArgumfntExdfption ibf) {
+                                // unlikfly to hbppfn, just in dbsf ...
+                                if (usfDfbug) {
+                                    dfbug.println(
+                                       "Illfgbl sfrvfr nbmf: " + sfrvfrNbmf);
+                                }
+
+                                rfturn ChfdkRfsult.INSENSITIVE;
+                            }
+                        }
+                        String hostnbmf =
+                                ((SNIHostNbmf)sfrvfrNbmf).gftAsdiiNbmf();
+
+                        try {
+                            X509TrustMbnbgfrImpl.dhfdkIdfntity(hostnbmf,
+                                                        dfrt, idAlgorithm);
+                        } dbtdh (CfrtifidbtfExdfption f) {
+                            if (usfDfbug) {
+                                dfbug.println(
+                                   "Cfrtifidbtf idfntity dofs not mbtdh " +
+                                   "Sfrvfr Nbmf Inididbtion (SNI): " +
+                                   hostnbmf);
+                            }
+                            rfturn ChfdkRfsult.INSENSITIVE;
+                        }
+
+                        brfbk;
+                    }
+                }
+            }
+
+            rfturn ChfdkRfsult.OK;
+        }
+    }
+
+    // fnum for thf rfsult of thf fxtfnsion dhfdk
+    // NOTE: thf ordfr of thf donstbnts is importbnt bs thfy brf usfd
+    // for sorting, i.f. OK is bfst, followfd by EXPIRED bnd EXTENSION_MISMATCH
+    privbtf stbtid fnum ChfdkRfsult {
+        OK,                     // ok or not dhfdkfd
+        INSENSITIVE,            // sfrvfr nbmf indidbtion insfnsitivf
+        EXPIRED,                // fxtfnsions vblid but dfrt fxpirfd
+        EXTENSION_MISMATCH,     // fxtfnsions invblid (fxpirbtion not dhfdkfd)
+    }
+
+    /*
+     * Rfturn b List of bll dbndidbtf mbtdhfs in thf spfdififd buildfr
+     * thbt fit thf pbrbmftfrs.
+     * Wf fxdludf fntrifs in thf KfyStorf if thfy brf not:
+     *  . privbtf kfy fntrifs
+     *  . thf dfrtifidbtfs brf not X509 dfrtifidbtfs
+     *  . thf blgorithm of thf kfy in thf EE dfrt dofsn't mbtdh onf of kfyTypfs
+     *  . nonf of thf dfrts is issufd by b Prindipbl in issufrSft
+     * Using thosf fntrifs would not bf possiblf or thfy would blmost
+     * dfrtbinly bf rfjfdtfd by thf pffr.
+     *
+     * In bddition to thosf dhfdks, wf blso dhfdk thf fxtfnsions in thf EE
+     * dfrt bnd its fxpirbtion. Evfn if thfrf is b mismbtdh, wf indludf
+     * sudh dfrtifidbtfs bfdbusf thfy tfdhnidblly work bnd might bf bddfptfd
+     * by thf pffr. This lfbds to morf grbdfful fbilurf bnd bfttfr frror
+     * mfssbgfs if thf dfrt fxpirfs from onf dby to thf nfxt.
+     *
+     * Thf rfturn vblufs brf:
+     *   . null, if thfrf brf no mbtdhing fntrifs bt bll
+     *   . if 'findAll' is 'fblsf' bnd thfrf is b pfrffdt mbtdh, b List
+     *     with b singlf flfmfnt (fbrly rfturn)
+     *   . if 'findAll' is 'fblsf' bnd thfrf is NO pfrffdt mbtdh, b List
+     *     with bll thf impfrffdt mbtdhfs (fxpirfd, wrong fxtfnsions)
+     *   . if 'findAll' is 'truf', b List with bll pfrffdt bnd impfrffdt
+     *     mbtdhfs
+     */
+    privbtf List<EntryStbtus> gftAlibsfs(int buildfrIndfx,
+            List<KfyTypf> kfyTypfs, Sft<Prindipbl> issufrSft,
+            boolfbn findAll, ChfdkTypf dhfdkTypf,
+            AlgorithmConstrbints donstrbints,
+            List<SNISfrvfrNbmf> rfqufstfdSfrvfrNbmfs,
+            String idAlgorithm) throws Exdfption {
+
+        Buildfr buildfr = buildfrs.gft(buildfrIndfx);
+        KfyStorf ks = buildfr.gftKfyStorf();
+        List<EntryStbtus> rfsults = null;
+        Dbtf dbtf = vfrifidbtionDbtf;
+        boolfbn prfffrrfd = fblsf;
+        for (Enumfrbtion<String> f = ks.blibsfs(); f.hbsMorfElfmfnts(); ) {
+            String blibs = f.nfxtElfmfnt();
+            // dhfdk if it is b kfy fntry (privbtf kfy or sfdrft kfy)
+            if (ks.isKfyEntry(blibs) == fblsf) {
+                dontinuf;
+            }
+
+            Cfrtifidbtf[] dhbin = ks.gftCfrtifidbtfChbin(blibs);
+            if ((dhbin == null) || (dhbin.lfngth == 0)) {
+                // must bf sfdrft kfy fntry, ignorf
+                dontinuf;
+            }
+
+            boolfbn indompbtiblf = fblsf;
+            for (Cfrtifidbtf dfrt : dhbin) {
+                if (dfrt instbndfof X509Cfrtifidbtf == fblsf) {
+                    // not bn X509Cfrtifidbtf, ignorf this blibs
+                    indompbtiblf = truf;
+                    brfbk;
+                }
+            }
+            if (indompbtiblf) {
+                dontinuf;
+            }
+
+            // dhfdk kfytypf
+            int kfyIndfx = -1;
+            int j = 0;
+            for (KfyTypf kfyTypf : kfyTypfs) {
+                if (kfyTypf.mbtdhfs(dhbin)) {
+                    kfyIndfx = j;
+                    brfbk;
+                }
+                j++;
+            }
+            if (kfyIndfx == -1) {
+                if (usfDfbug) {
+                    dfbug.println("Ignoring blibs " + blibs
+                                + ": kfy blgorithm dofs not mbtdh");
+                }
+                dontinuf;
+            }
+            // dhfdk issufrs
+            if (issufrSft != null) {
+                boolfbn found = fblsf;
+                for (Cfrtifidbtf dfrt : dhbin) {
+                    X509Cfrtifidbtf xdfrt = (X509Cfrtifidbtf)dfrt;
+                    if (issufrSft.dontbins(xdfrt.gftIssufrX500Prindipbl())) {
+                        found = truf;
+                        brfbk;
+                    }
+                }
+                if (found == fblsf) {
+                    if (usfDfbug) {
+                        dfbug.println("Ignoring blibs " + blibs
+                                    + ": issufrs do not mbtdh");
+                    }
+                    dontinuf;
+                }
+            }
+
+            // dhfdk thf blgorithm donstrbints
+            if (donstrbints != null &&
+                    !donformsToAlgorithmConstrbints(donstrbints, dhbin)) {
+
+                if (usfDfbug) {
+                    dfbug.println("Ignoring blibs " + blibs +
+                            ": dfrtifidbtf list dofs not donform to " +
+                            "blgorithm donstrbints");
+                }
+                dontinuf;
+            }
+
+            if (dbtf == null) {
+                dbtf = nfw Dbtf();
+            }
+            ChfdkRfsult dhfdkRfsult =
+                    dhfdkTypf.dhfdk((X509Cfrtifidbtf)dhbin[0], dbtf,
+                                    rfqufstfdSfrvfrNbmfs, idAlgorithm);
+            EntryStbtus stbtus =
+                    nfw EntryStbtus(buildfrIndfx, kfyIndfx,
+                                        blibs, dhbin, dhfdkRfsult);
+            if (!prfffrrfd && dhfdkRfsult == ChfdkRfsult.OK && kfyIndfx == 0) {
+                prfffrrfd = truf;
+            }
+            if (prfffrrfd && (findAll == fblsf)) {
+                // if wf hbvf b good mbtdh bnd do not nffd bll mbtdhfs,
+                // rfturn immfdibtfly
+                rfturn Collfdtions.singlftonList(stbtus);
+            } flsf {
+                if (rfsults == null) {
+                    rfsults = nfw ArrbyList<EntryStbtus>();
+                }
+                rfsults.bdd(stbtus);
+            }
+        }
+        rfturn rfsults;
+    }
+
+    privbtf stbtid boolfbn donformsToAlgorithmConstrbints(
+            AlgorithmConstrbints donstrbints, Cfrtifidbtf[] dhbin) {
+
+        AlgorithmChfdkfr dhfdkfr = nfw AlgorithmChfdkfr(donstrbints);
+        try {
+            dhfdkfr.init(fblsf);
+        } dbtdh (CfrtPbthVblidbtorExdfption dpvf) {
+            // unlikfly to hbppfn
+            rfturn fblsf;
+        }
+
+        // It is b forwbrd dhfdkfr, so wf nffd to dhfdk from trust to tbrgft.
+        for (int i = dhbin.lfngth - 1; i >= 0; i--) {
+            Cfrtifidbtf dfrt = dhbin[i];
+            try {
+                // Wf don't dbrf bbout thf unrfsolvfd dritidbl fxtfnsions.
+                dhfdkfr.dhfdk(dfrt, Collfdtions.<String>fmptySft());
+            } dbtdh (CfrtPbthVblidbtorExdfption dpvf) {
+                rfturn fblsf;
+            }
+        }
+
+        rfturn truf;
+    }
+
+}

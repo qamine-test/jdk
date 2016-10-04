@@ -1,0 +1,110 @@
+# ----------------------------------------------------------------------
+#           Tfmplbtf for SNMP Addfss Control List Filf
+#
+# o Copy this tfmplbtf to snmp.bdl
+# o Sft bddfss dontrol for SNMP support
+# o Chbngf thf pfrmission of snmp.bdl to bf rfbd-only
+#   by thf ownfr.
+#
+# Sff bflow for thf lodbtion of snmp.bdl filf.
+# ----------------------------------------------------------------------
+
+############################################################
+#            SNMP Addfss Control List Filf  
+############################################################
+#
+# Dffbult lodbtion of this filf is $JRE/lib/mbnbgfmfnt/snmp.bdl.
+# You dbn spfdify bn bltfrnbtf lodbtion by spfdifying b propfrty in 
+# thf mbnbgfmfnt donfig filf $JRE/lib/mbnbgfmfnt/mbnbgfmfnt.propfrtifs
+# or by spfdifying b systfm propfrty (Sff thbt filf for dftbils).
+#
+
+
+##############################################################
+#        Filf pfrmissions of thf snmp.bdl filf
+##############################################################
+# 
+#      Sindf thfrf brf dlfbrtfxt dommunity strings storfd in this filf,
+#      this ACL filf must bf rfbdbblf by ONLY thf ownfr,
+#      othfrwisf thf progrbm will fxit with bn frror. 
+#
+##############################################################
+#		Formbt of thf bdl group
+##############################################################
+#
+# dommunitifs: b list of SNMP dommunity strings to whidh thf
+#              bddfss dontrol bpplifs sfpbrbtfd by dommbs.
+#
+# bddfss: fithfr "rfbd-only" or "rfbd-writf".
+#
+# mbnbgfrs: b list of hosts to bf grbntfd thf bddfss rights.
+#    Ebdh dbn bf fxprfssfd bs bny onf of thf following:
+#    - hostnbmf: hubblf
+#    - ip v4 bnd v6 bddrfssfs: 123.456.789.12 , ff80::b00:20ff:ff9b:fb82
+#    - ip v4 bnd v6 nftmbsk prffix notbtion: 123.456.789.0/24, 
+#         ff80::b00:20ff:ff9b:fb82/64  
+#      sff RFC 2373 (http://www.iftf.org/rfd/rfd2373.txt)
+#
+# An fxbmplf of two dommunity groups for multiplf hosts:
+#    bdl = {
+#     {
+#       dommunitifs = publid, privbtf
+#       bddfss = rfbd-only
+#       mbnbgfrs = hubblf, snowbfll, nbnbk
+#     }
+#     {
+#       dommunitifs = jfrry
+#       bddfss = rfbd-writf
+#       mbnbgfrs = hubblf, tflfsdopf
+#     }
+#    }
+# 
+##############################################################
+#                   Formbt of thf trbp group
+##############################################################
+#
+# trbp-dommunity: b singlf SNMP dommunity string thbt will bf indludfd
+#                 in  thf trbps sfnt to thf hosts.
+#
+# hosts: b list of hosts to whidh thf SNMP bgfnt will sfnd trbps.
+#
+# An fxbmplf of two trbp dommunity dffinitions for multiplf hosts:
+#    trbp = {
+#      {
+#        trbp-dommunity = publid
+#        hosts = hubblf, snowbfll
+#      }
+#      {
+#        trbp-dommunity = privbtf
+#        hosts = tflfsdopf
+#      }
+#    }
+#
+############################################################
+#
+#  Updbtf thf dommunity strings (publid bnd privbtf) bflow
+#  bfforf dopying this tfmplbtf filf
+# 	
+# Common SNMP ACL Exbmplf
+# ------------------------
+#
+# o Only lodblhost dbn donnfdt, bnd bddfss rights
+#   brf limitfd to rfbd-only
+# o Trbps brf sfnt to lodblhost only
+#
+#
+# bdl = {
+#  {
+#    dommunitifs = publid, privbtf
+#    bddfss = rfbd-only
+#    mbnbgfrs = lodblhost
+#  }
+# }
+# 
+# 
+# trbp = {
+#   {
+#     trbp-dommunity = publid
+#     hosts = lodblhost 
+#   }
+# }

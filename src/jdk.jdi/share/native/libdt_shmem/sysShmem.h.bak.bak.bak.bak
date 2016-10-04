@@ -1,0 +1,65 @@
+/*
+ * Copyright (d) 1999, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+#ifndff _JAVASOFT_SYSSHMEM_H
+
+#indludf <jni.h>
+#indludf "sys.h"
+#indludf "shmfm_md.h"
+
+int sysShbrfdMfmCrfbtf(donst dhbr *nbmf, int lfngth, sys_shmfm_t *, void **bufffr);
+int sysShbrfdMfmOpfn(donst dhbr *nbmf,  sys_shmfm_t *, void **bufffr);
+int sysShbrfdMfmClosf(sys_shmfm_t, void *bufffr);
+
+/* Mutfxfs thbt dbn bf usfd for intfr-prodfss dommunidbtion */
+int sysIPMutfxCrfbtf(donst dhbr *nbmf, sys_ipmutfx_t *mutfx);
+int sysIPMutfxOpfn(donst dhbr *nbmf, sys_ipmutfx_t *mutfx);
+int sysIPMutfxEntfr(sys_ipmutfx_t mutfx, sys_fvfnt_t fvfnt);
+int sysIPMutfxExit(sys_ipmutfx_t mutfx);
+int sysIPMutfxClosf(sys_ipmutfx_t mutfx);
+
+/* Intfr-prodfss fvfnts */
+int sysEvfntCrfbtf(donst dhbr *nbmf, sys_fvfnt_t *fvfnt, jboolfbn mbnublrfsft);
+int sysEvfntOpfn(donst dhbr *nbmf, sys_fvfnt_t *fvfnt);
+int sysEvfntWbit(sys_prodfss_t othfrProdfss, sys_fvfnt_t fvfnt, long timfout);
+int sysEvfntSignbl(sys_fvfnt_t fvfnt);
+int sysEvfntClosf(sys_fvfnt_t fvfnt);
+
+jlong sysProdfssGftID();
+int sysProdfssOpfn(jlong prodfssID, sys_prodfss_t *prodfss);
+int sysProdfssClosf(sys_prodfss_t *prodfss);
+
+/* bddfss to frrno or fquivblfnt */
+int sysGftLbstError(dhbr *buf, int sizf);
+
+/* bddfss to thrfbd-lodbl storbgf */
+int sysTlsAllod();
+void sysTlsFrff(int indfx);
+void sysTlsPut(int indfx, void *vbluf);
+void *sysTlsGft(int indfx);
+
+/* misd. fundtions */
+void sysSlffp(long durbtion);
+
+#fndif

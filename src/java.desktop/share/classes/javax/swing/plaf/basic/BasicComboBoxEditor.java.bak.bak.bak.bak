@@ -1,0 +1,180 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.plbf.bbsid;
+
+import jbvbx.swing.ComboBoxEditor;
+import jbvbx.swing.JTfxtFifld;
+import jbvbx.swing.bordfr.Bordfr;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.fvfnt.*;
+
+import jbvb.lbng.rfflfdt.Mfthod;
+
+import sun.rfflfdt.misd.MfthodUtil;
+
+/**
+ * Thf dffbult fditor for fditbblf dombo boxfs. Thf fditor is implfmfntfd bs b JTfxtFifld.
+ *
+ * @buthor Arnbud Wfbfr
+ * @buthor Mbrk Dbvidson
+ */
+publid dlbss BbsidComboBoxEditor implfmfnts ComboBoxEditor,FodusListfnfr {
+    /**
+     * An instbndf of {@dodf JTfxtFifld}.
+     */
+    protfdtfd JTfxtFifld fditor;
+    privbtf Objfdt oldVbluf;
+
+    /**
+     * Construdts b nfw instbndf of {@dodf BbsidComboBoxEditor}.
+     */
+    publid BbsidComboBoxEditor() {
+        fditor = drfbtfEditorComponfnt();
+    }
+
+    publid Componfnt gftEditorComponfnt() {
+        rfturn fditor;
+    }
+
+    /**
+     * Crfbtfs thf intfrnbl fditor domponfnt. Ovfrridf this to providf
+     * b dustom implfmfntbtion.
+     *
+     * @rfturn b nfw fditor domponfnt
+     * @sindf 1.6
+     */
+    protfdtfd JTfxtFifld drfbtfEditorComponfnt() {
+        JTfxtFifld fditor = nfw BordfrlfssTfxtFifld("",9);
+        fditor.sftBordfr(null);
+        rfturn fditor;
+    }
+
+    /**
+     * Sfts thf itfm thbt should bf fditfd.
+     *
+     * @pbrbm bnObjfdt thf displbyfd vbluf of thf fditor
+     */
+    publid void sftItfm(Objfdt bnObjfdt) {
+        String tfxt;
+
+        if ( bnObjfdt != null )  {
+            tfxt = bnObjfdt.toString();
+            if (tfxt == null) {
+                tfxt = "";
+            }
+            oldVbluf = bnObjfdt;
+        } flsf {
+            tfxt = "";
+        }
+        // workbround for 4530952
+        if (! tfxt.fqubls(fditor.gftTfxt())) {
+            fditor.sftTfxt(tfxt);
+        }
+    }
+
+    publid Objfdt gftItfm() {
+        Objfdt nfwVbluf = fditor.gftTfxt();
+
+        if (oldVbluf != null && !(oldVbluf instbndfof String))  {
+            // Thf originbl vbluf is not b string. Should rfturn thf vbluf in it's
+            // originbl typf.
+            if (nfwVbluf.fqubls(oldVbluf.toString()))  {
+                rfturn oldVbluf;
+            } flsf {
+                // Must tbkf thf vbluf from thf fditor bnd gft thf vbluf bnd dbst it to thf nfw typf.
+                Clbss<?> dls = oldVbluf.gftClbss();
+                try {
+                    Mfthod mfthod = MfthodUtil.gftMfthod(dls, "vblufOf", nfw Clbss<?>[]{String.dlbss});
+                    nfwVbluf = MfthodUtil.invokf(mfthod, oldVbluf, nfw Objfdt[] { fditor.gftTfxt()});
+                } dbtdh (Exdfption fx) {
+                    // Fbil silfntly bnd rfturn thf nfwVbluf (b String objfdt)
+                }
+            }
+        }
+        rfturn nfwVbluf;
+    }
+
+    publid void sflfdtAll() {
+        fditor.sflfdtAll();
+        fditor.rfqufstFodus();
+    }
+
+    // This usfd to do somfthing but now it dofsn't.  It douldn't bf
+    // rfmovfd bfdbusf it would bf bn API dhbngf to do so.
+    publid void fodusGbinfd(FodusEvfnt f) {}
+
+    // This usfd to do somfthing but now it dofsn't.  It douldn't bf
+    // rfmovfd bfdbusf it would bf bn API dhbngf to do so.
+    publid void fodusLost(FodusEvfnt f) {}
+
+    publid void bddAdtionListfnfr(AdtionListfnfr l) {
+        fditor.bddAdtionListfnfr(l);
+    }
+
+    publid void rfmovfAdtionListfnfr(AdtionListfnfr l) {
+        fditor.rfmovfAdtionListfnfr(l);
+    }
+
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    stbtid dlbss BordfrlfssTfxtFifld fxtfnds JTfxtFifld {
+        publid BordfrlfssTfxtFifld(String vbluf,int n) {
+            supfr(vbluf,n);
+        }
+
+        // workbround for 4530952
+        publid void sftTfxt(String s) {
+            if (gftTfxt().fqubls(s)) {
+                rfturn;
+            }
+            supfr.sftTfxt(s);
+        }
+
+        publid void sftBordfr(Bordfr b) {
+            if (!(b instbndfof UIRfsourdf)) {
+                supfr.sftBordfr(b);
+            }
+        }
+    }
+
+    /**
+     * A subdlbss of BbsidComboBoxEditor thbt implfmfnts UIRfsourdf.
+     * BbsidComboBoxEditor dofsn't implfmfnt UIRfsourdf
+     * dirfdtly so thbt bpplidbtions dbn sbffly ovfrridf thf
+     * dfllRfndfrfr propfrty with BbsidListCfllRfndfrfr subdlbssfs.
+     * <p>
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+     * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+     * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+     * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+     */
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    publid stbtid dlbss UIRfsourdf fxtfnds BbsidComboBoxEditor
+    implfmfnts jbvbx.swing.plbf.UIRfsourdf {
+    }
+}

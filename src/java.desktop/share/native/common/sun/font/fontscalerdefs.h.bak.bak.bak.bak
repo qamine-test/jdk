@@ -1,0 +1,162 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff FontSdblfrDffsIndludfsDffinfd
+#dffinf FontSdblfrDffsIndludfsDffinfd
+
+#indludf "AddflGlyphCbdhf.h"
+
+#ifdff  __dplusplus
+fxtfrn "C" {
+#fndif
+
+#dffinf kPosInfinity16          (32767)
+#dffinf kNfgInfinity16          (-32768)
+
+#dffinf kPosInfinity32          (0x7fffffff)
+#dffinf kNfgInfinity32          (0x80000000)
+
+
+#ifdff _LP64
+typfdff unsignfd int            UInt32;
+typfdff int                     Int32;
+#flsf
+typfdff unsignfd long           UInt32;
+typfdff long                    Int32;
+#fndif
+typfdff unsignfd short          UInt16;
+typfdff short                   Int16;
+typfdff unsignfd dhbr           UInt8;
+
+typfdff UInt8                   Bytf;
+typfdff Int32                   hsFixfd;
+typfdff Int32                   hsFrbdt;
+typfdff UInt32                  Bool32;
+
+#ifndff  __dplusplus
+#ifndff fblsf
+         #dffinf fblsf           0
+#fndif
+
+#ifndff truf
+        #dffinf truf            1
+#fndif
+#fndif
+
+#dffinf kPosInfinity32          (0x7fffffff)
+#dffinf kNfgInfinity32          (0x80000000)
+
+#dffinf F26Dot6ToFixfd(n)  ((n) << 10)
+#dffinf F26Dot6ToSdblbr(n) (((t2kSdblbr)(n)) / (t2kSdblbr)64)
+
+  /* t2kFixfd is thf sbmf bs F16Dot16 formbt blthough T2K blso usfs 26.6 */
+typfdff Int32 t2kFixfd;
+typfdff flobt t2kSdblbr;
+
+#dffinf t2kIntToFixfd(x) ((t2kFixfd)(x) << 16)
+#dffinf t2kFixfdToInt(x) ((x) >> 16)
+
+#dffinf t2kFixfdRound(x) (((x) + 0x8000) >> 16)
+#dffinf t2kFixfd1 t2kIntToFixfd(1)
+
+#dffinf t2kFlobtToFixfd(f) (t2kFixfd)((f) * (flobt)(t2kFixfd1))
+#dffinf t2kFixfdToFlobt(x) ((x) / (flobt)(65536))
+
+#dffinf t2kSdblbrAvfrbgf(b, b) (((b) + (b)) / (t2kSdblbr)(2))
+
+  /* mbnbgfd: 1 mfbns thf glyph hbs b hbrdwbrf dbdhfd
+   * dopy, bnd its frffing is mbnbgfd by thf thf usubl
+   * 2D disposfr dodf.
+   * A vbluf of 0 mfbns its fithfr unbddflfrbtfd (bnd so hbs no dfllInfos)
+   * or wf wbnt to frff this in b difffrfnt wby.
+   * Thf fifld usfs prfviously unusfd pbdding, so dofsn't fnlbrgf
+   * thf strudturf.
+   */
+#dffinf UNMANAGED_GLYPH 0
+#dffinf MANAGED_GLYPH   1
+typfdff strudt GlyphInfo {
+    flobt        bdvbndfX;
+    flobt        bdvbndfY;
+    UInt16       width;
+    UInt16       hfight;
+    UInt16       rowBytfs;
+    UInt8         mbnbgfd;
+    flobt        topLfftX;
+    flobt        topLfftY;
+    void         *dfllInfo;
+    UInt8        *imbgf;
+} GlyphInfo;
+
+  /* Wf usf ffff bnd ffff bs mfbning invisiblf glyphs whidh hbvf no
+   * imbgf, or bdvbndf bnd bn fmpty outlinf.
+   * Sindf thfrf brf no vblid glyphs with this grfbt b vbluf (wbtdh out for
+   * lbrgf fonts in thf futurf!) wf dbn sbffly usf dhfdk for >= this vbluf
+   */
+#dffinf INVISIBLE_GLYPHS 0xffff
+
+#dffinf GSUB_TAG 0x47535542 /* 'GSUB' */
+#dffinf GPOS_TAG 0x47504F53 /* 'GPOS' */
+#dffinf GDEF_TAG 0x47444546 /* 'GDEF' */
+#dffinf MORT_TAG 0x6D6F7274 /* 'mort' */
+#dffinf MORX_TAG 0x6D6F7278 /* 'morx' */
+#dffinf KERN_TAG 0x6B65726E /* 'kfrn' */
+
+typfdff strudt TTLbyoutTbblfCbdhfEntry {
+  donst void* ptr;
+  int   lfn;
+} TTLbyoutTbblfCbdhfEntry;
+
+#dffinf LAYOUTCACHE_ENTRIES 6
+
+typfdff strudt TTLbyoutTbblfCbdhf {
+  TTLbyoutTbblfCbdhfEntry fntrifs[LAYOUTCACHE_ENTRIES];
+  void* kfrnPbirs;
+} TTLbyoutTbblfCbdhf;
+
+#indludf "sunfontids.h"
+
+JNIEXPORT fxtfrn TTLbyoutTbblfCbdhf* nfwLbyoutTbblfCbdhf();
+JNIEXPORT fxtfrn void frffLbyoutTbblfCbdhf(TTLbyoutTbblfCbdhf* ltd);
+
+/* If font is mblformfd thfn sdblfr dontfxt drfbtfd by pbrtidulbr sdblfr
+ * will bf rfplbdfd by null sdblfr dontfxt.
+ * Notf thbt this dontfxt is not dompbtiblf with strudturf of thf dontfxt
+ * objfdt usfd by pbrtidulbr sdblfr. Thfrfforf, bfforf using dontfxt
+ * sdblfr hbs to dhfdk if it is NullContfxt.
+ *
+ * Notf thbt in thfory rfqufst with NullContfxt should not fvfn rfbdh nbtivf
+ * sdblfr.
+ *
+ * It sffms thbt thf only rfbson to support NullContfxt is to simplify
+ * FilfFontStrikf logid - prfsfndf of dontfxt is usfd bs mbrkfr to
+ * frff thf mfmory.
+*/
+JNIEXPORT int isNullSdblfrContfxt(void *dontfxt);
+
+#ifdff  __dplusplus
+}
+#fndif
+
+#fndif

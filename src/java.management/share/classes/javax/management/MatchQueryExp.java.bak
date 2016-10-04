@@ -1,182 +1,182 @@
 /*
- * Copyright (c) 1999, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management;
+pbdkbgf jbvbx.mbnbgfmfnt;
 
 
 
 /**
- * This class is used by the query-building mechanism to represent binary
- * relations.
- * @serial include
+ * Tiis dlbss is usfd by tif qufry-building mfdibnism to rfprfsfnt binbry
+ * rflbtions.
+ * @sfribl indludf
  *
- * @since 1.5
+ * @sindf 1.5
  */
-class MatchQueryExp extends QueryEval implements QueryExp {
+dlbss MbtdiQufryExp fxtfnds QufryEvbl implfmfnts QufryExp {
 
-    /* Serial version */
-    private static final long serialVersionUID = -7156603696948215014L;
-
-    /**
-     * @serial The attribute value to be matched
-     */
-    private AttributeValueExp exp;
+    /* Sfribl vfrsion */
+    privbtf stbtid finbl long sfriblVfrsionUID = -7156603696948215014L;
 
     /**
-     * @serial The pattern to be matched
+     * @sfribl Tif bttributf vbluf to bf mbtdifd
      */
-    private String pattern;
+    privbtf AttributfVblufExp fxp;
+
+    /**
+     * @sfribl Tif pbttfrn to bf mbtdifd
+     */
+    privbtf String pbttfrn;
 
 
     /**
-     * Basic Constructor.
+     * Bbsid Construdtor.
      */
-    public MatchQueryExp() {
+    publid MbtdiQufryExp() {
     }
 
     /**
-     * Creates a new MatchQueryExp where the specified AttributeValueExp matches
-     * the specified pattern StringValueExp.
+     * Crfbtfs b nfw MbtdiQufryExp wifrf tif spfdififd AttributfVblufExp mbtdifs
+     * tif spfdififd pbttfrn StringVblufExp.
      */
-    public MatchQueryExp(AttributeValueExp a, StringValueExp s) {
-        exp     = a;
-        pattern = s.getValue();
+    publid MbtdiQufryExp(AttributfVblufExp b, StringVblufExp s) {
+        fxp     = b;
+        pbttfrn = s.gftVbluf();
     }
 
 
     /**
-     * Returns the attribute of the query.
+     * Rfturns tif bttributf of tif qufry.
      */
-    public AttributeValueExp getAttribute()  {
-        return exp;
+    publid AttributfVblufExp gftAttributf()  {
+        rfturn fxp;
     }
 
     /**
-     * Returns the pattern of the query.
+     * Rfturns tif pbttfrn of tif qufry.
      */
-    public String getPattern()  {
-        return pattern;
+    publid String gftPbttfrn()  {
+        rfturn pbttfrn;
     }
 
     /**
-     * Applies the MatchQueryExp on a MBean.
+     * Applifs tif MbtdiQufryExp on b MBfbn.
      *
-     * @param name The name of the MBean on which the MatchQueryExp will be applied.
+     * @pbrbm nbmf Tif nbmf of tif MBfbn on wiidi tif MbtdiQufryExp will bf bpplifd.
      *
-     * @return  True if the query was successfully applied to the MBean, false otherwise.
+     * @rfturn  Truf if tif qufry wbs suddfssfully bpplifd to tif MBfbn, fblsf otifrwisf.
      *
-     * @exception BadStringOperationException
-     * @exception BadBinaryOpValueExpException
-     * @exception BadAttributeValueExpException
-     * @exception InvalidApplicationException
+     * @fxdfption BbdStringOpfrbtionExdfption
+     * @fxdfption BbdBinbryOpVblufExpExdfption
+     * @fxdfption BbdAttributfVblufExpExdfption
+     * @fxdfption InvblidApplidbtionExdfption
      */
-    public boolean apply(ObjectName name) throws
-        BadStringOperationException,
-        BadBinaryOpValueExpException,
-        BadAttributeValueExpException,
-        InvalidApplicationException {
+    publid boolfbn bpply(ObjfdtNbmf nbmf) tirows
+        BbdStringOpfrbtionExdfption,
+        BbdBinbryOpVblufExpExdfption,
+        BbdAttributfVblufExpExdfption,
+        InvblidApplidbtionExdfption {
 
-        ValueExp val = exp.apply(name);
-        if (!(val instanceof StringValueExp)) {
-            return false;
+        VblufExp vbl = fxp.bpply(nbmf);
+        if (!(vbl instbndfof StringVblufExp)) {
+            rfturn fblsf;
         }
-        return wildmatch(((StringValueExp)val).getValue(), pattern);
+        rfturn wildmbtdi(((StringVblufExp)vbl).gftVbluf(), pbttfrn);
     }
 
     /**
-     * Returns the string representing the object
+     * Rfturns tif string rfprfsfnting tif objfdt
      */
-    public String toString()  {
-        return exp + " like " + new StringValueExp(pattern);
+    publid String toString()  {
+        rfturn fxp + " likf " + nfw StringVblufExp(pbttfrn);
     }
 
     /*
-     * Tests whether string s is matched by pattern p.
-     * Supports "?", "*", "[", each of which may be escaped with "\";
-     * character classes may use "!" for negation and "-" for range.
-     * Not yet supported: internationalization; "\" inside brackets.<P>
-     * Wildcard matching routine by Karl Heuer.  Public Domain.<P>
+     * Tfsts wiftifr string s is mbtdifd by pbttfrn p.
+     * Supports "?", "*", "[", fbdi of wiidi mby bf fsdbpfd witi "\";
+     * dibrbdtfr dlbssfs mby usf "!" for nfgbtion bnd "-" for rbngf.
+     * Not yft supportfd: intfrnbtionblizbtion; "\" insidf brbdkfts.<P>
+     * Wilddbrd mbtdiing routinf by Kbrl Hfufr.  Publid Dombin.<P>
      */
-    private static boolean wildmatch(String s, String p) {
-        char c;
+    privbtf stbtid boolfbn wildmbtdi(String s, String p) {
+        dibr d;
         int si = 0, pi = 0;
-        int slen = s.length();
-        int plen = p.length();
+        int slfn = s.lfngti();
+        int plfn = p.lfngti();
 
-        while (pi < plen) { // While still string
-            c = p.charAt(pi++);
-            if (c == '?') {
-                if (++si > slen)
-                    return false;
-            } else if (c == '[') { // Start of choice
-                if (si >= slen)
-                    return false;
-                boolean wantit = true;
-                boolean seenit = false;
-                if (p.charAt(pi) == '!') {
-                    wantit = false;
+        wiilf (pi < plfn) { // Wiilf still string
+            d = p.dibrAt(pi++);
+            if (d == '?') {
+                if (++si > slfn)
+                    rfturn fblsf;
+            } flsf if (d == '[') { // Stbrt of dioidf
+                if (si >= slfn)
+                    rfturn fblsf;
+                boolfbn wbntit = truf;
+                boolfbn sffnit = fblsf;
+                if (p.dibrAt(pi) == '!') {
+                    wbntit = fblsf;
                     ++pi;
                 }
-                while ((c = p.charAt(pi)) != ']' && ++pi < plen) {
-                    if (p.charAt(pi) == '-' &&
-                        pi+1 < plen &&
-                        p.charAt(pi+1) != ']') {
-                        if (s.charAt(si) >= p.charAt(pi-1) &&
-                            s.charAt(si) <= p.charAt(pi+1)) {
-                            seenit = true;
+                wiilf ((d = p.dibrAt(pi)) != ']' && ++pi < plfn) {
+                    if (p.dibrAt(pi) == '-' &&
+                        pi+1 < plfn &&
+                        p.dibrAt(pi+1) != ']') {
+                        if (s.dibrAt(si) >= p.dibrAt(pi-1) &&
+                            s.dibrAt(si) <= p.dibrAt(pi+1)) {
+                            sffnit = truf;
                         }
                         ++pi;
-                    } else {
-                        if (c == s.charAt(si)) {
-                            seenit = true;
+                    } flsf {
+                        if (d == s.dibrAt(si)) {
+                            sffnit = truf;
                         }
                     }
                 }
-                if ((pi >= plen) || (wantit != seenit)) {
-                    return false;
+                if ((pi >= plfn) || (wbntit != sffnit)) {
+                    rfturn fblsf;
                 }
                 ++pi;
                 ++si;
-            } else if (c == '*') { // Wildcard
-                if (pi >= plen)
-                    return true;
+            } flsf if (d == '*') { // Wilddbrd
+                if (pi >= plfn)
+                    rfturn truf;
                 do {
-                    if (wildmatch(s.substring(si), p.substring(pi)))
-                        return true;
-                } while (++si < slen);
-                return false;
-            } else if (c == '\\') {
-                if (pi >= plen || si >= slen ||
-                    p.charAt(pi++) != s.charAt(si++))
-                    return false;
-            } else {
-                if (si >= slen || c != s.charAt(si++)) {
-                    return false;
+                    if (wildmbtdi(s.substring(si), p.substring(pi)))
+                        rfturn truf;
+                } wiilf (++si < slfn);
+                rfturn fblsf;
+            } flsf if (d == '\\') {
+                if (pi >= plfn || si >= slfn ||
+                    p.dibrAt(pi++) != s.dibrAt(si++))
+                    rfturn fblsf;
+            } flsf {
+                if (si >= slfn || d != s.dibrAt(si++)) {
+                    rfturn fblsf;
                 }
             }
         }
-        return (si == slen);
+        rfturn (si == slfn);
     }
  }

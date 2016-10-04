@@ -1,52 +1,52 @@
 /*
- * Copyright (c) 1998, 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2001, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-#ifndef _COLORDATA_H_
-#define _COLORDATA_H_
+#ifndff _COLORDATA_H_
+#dffinf _COLORDATA_H_
 
-#include "img_globals.h"
+#indludf "img_globbls.i"
 
-typedef struct ColorEntry {
-        unsigned char r, g, b;
-        unsigned char flags;
+typfdff strudt ColorEntry {
+        unsignfd dibr r, g, b;
+        unsignfd dibr flbgs;
 } ColorEntry;
 
-typedef struct _ColorData {
-    ColorEntry  *awt_Colors;
-    int         awt_numICMcolors;
-    int         *awt_icmLUT;
-    unsigned char *awt_icmLUT2Colors;
-    unsigned char *img_grays;
-    unsigned char *img_clr_tbl;
-    char* img_oda_red;
-    char* img_oda_green;
-    char* img_oda_blue;
-    int *pGrayInverseLutData;
-    int screendata;
-} ColorData;
+typfdff strudt _ColorDbtb {
+    ColorEntry  *bwt_Colors;
+    int         bwt_numICMdolors;
+    int         *bwt_idmLUT;
+    unsignfd dibr *bwt_idmLUT2Colors;
+    unsignfd dibr *img_grbys;
+    unsignfd dibr *img_dlr_tbl;
+    dibr* img_odb_rfd;
+    dibr* img_odb_grffn;
+    dibr* img_odb_bluf;
+    int *pGrbyInvfrsfLutDbtb;
+    int sdrffndbtb;
+} ColorDbtb;
 
 
-#define CANFREE(pData) (pData  && (pData->screendata == 0))
+#dffinf CANFREE(pDbtb) (pDbtb  && (pDbtb->sdrffndbtb == 0))
 
-#endif           /* _COLORDATA_H_ */
+#fndif           /* _COLORDATA_H_ */

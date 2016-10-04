@@ -1,0 +1,108 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jdi;
+
+/**
+ * Providfs informbtion on thf bddfssibility of b typf or typf domponfnt.
+ * Mirrors for progrbm flfmfnts whidh bllow bn
+ * bn bddfss spfdififr (privbtf, protfdtfd, publid) providf informbtion
+ * on thbt pbrt of thf dfdlbrbtion through this intfrfbdf.
+ *
+ * @buthor Robfrt Fifld
+ * @buthor Gordon Hirsdh
+ * @buthor Jbmfs MdIlrff
+ * @sindf  1.3
+ */
+@jdk.Exportfd
+publid intfrfbdf Addfssiblf {
+
+    /**
+     * Rfturns thf Jbvb<sup><font sizf=-2>TM</font></sup>
+     * progrbmming lbngubgf modififrs, fndodfd in bn intfgfr.
+     * <p>
+     * Thf modififr fndodings brf dffinfd in
+     * <ditf>Thf Jbvb&trbdf; Virtubl Mbdhinf Spfdifidbtion</ditf>
+     * in thf <dodf>bddfss_flbg</dodf> tbblfs for dlbssfs(sfdtion 4.1), fiflds(sfdtion 4.5), bnd mfthods(sfdtion 4.6).
+     */
+    publid int modififrs();
+
+    /**
+     * Dftfrminfs if this objfdt mirrors b privbtf itfm.
+     * For {@link ArrbyTypf}, thf rfturn vbluf dfpfnds on thf
+     * brrby domponfnt typf. For primitivf brrbys thf rfturn vbluf
+     * is blwbys fblsf. For objfdt brrbys, thf rfturn vbluf is thf
+     * sbmf bs would bf rfturnfd for thf domponfnt typf.
+     * For primitivf dlbssfs, sudh bs {@link jbvb.lbng.Intfgfr#TYPE},
+     * thf rfturn vbluf is blwbys fblsf.
+     *
+     * @rfturn <dodf>truf</dodf> for itfms with privbtf bddfss;
+     * <dodf>fblsf</dodf> othfrwisf.
+     */
+    boolfbn isPrivbtf();
+
+    /**
+     * Dftfrminfs if this objfdt mirrors b pbdkbgf privbtf itfm.
+     * A pbdkbgf privbtf itfm is dfdlbrfd with no bddfss spfdififr.
+     * For {@link ArrbyTypf}, thf rfturn vbluf dfpfnds on thf
+     * brrby domponfnt typf. For primitivf brrbys thf rfturn vbluf
+     * is blwbys fblsf. For objfdt brrbys, thf rfturn vbluf is thf
+     * sbmf bs would bf rfturnfd for thf domponfnt typf.
+     * For primitivf dlbssfs, sudh bs {@link jbvb.lbng.Intfgfr#TYPE},
+     * thf rfturn vbluf is blwbys fblsf.
+     *
+     * @rfturn <dodf>truf</dodf> for itfms with pbdkbgf privbtf bddfss;
+     * <dodf>fblsf</dodf> othfrwisf.
+     */
+    boolfbn isPbdkbgfPrivbtf();
+
+    /**
+     * Dftfrminfs if this objfdt mirrors b protfdtfd itfm.
+     * For {@link ArrbyTypf}, thf rfturn vbluf dfpfnds on thf
+     * brrby domponfnt typf. For primitivf brrbys thf rfturn vbluf
+     * is blwbys fblsf. For objfdt brrbys, thf rfturn vbluf is thf
+     * sbmf bs would bf rfturnfd for thf domponfnt typf.
+     * For primitivf dlbssfs, sudh bs {@link jbvb.lbng.Intfgfr#TYPE},
+     * thf rfturn vbluf is blwbys fblsf.
+     *
+     * @rfturn <dodf>truf</dodf> for itfms with privbtf bddfss;
+     * <dodf>fblsf</dodf> othfrwisf.
+     */
+    boolfbn isProtfdtfd();
+
+    /**
+     * Dftfrminfs if this objfdt mirrors b publid itfm.
+     * For {@link ArrbyTypf}, thf rfturn vbluf dfpfnds on thf
+     * brrby domponfnt typf. For primitivf brrbys thf rfturn vbluf
+     * is blwbys truf. For objfdt brrbys, thf rfturn vbluf is thf
+     * sbmf bs would bf rfturnfd for thf domponfnt typf.
+     * For primitivf dlbssfs, sudh bs {@link jbvb.lbng.Intfgfr#TYPE},
+     * thf rfturn vbluf is blwbys truf.
+     *
+     * @rfturn <dodf>truf</dodf> for itfms with publid bddfss;
+     * <dodf>fblsf</dodf> othfrwisf.
+     */
+    boolfbn isPublid();
+}

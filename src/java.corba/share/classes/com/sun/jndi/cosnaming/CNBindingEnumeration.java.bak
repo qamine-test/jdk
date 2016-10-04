@@ -1,235 +1,235 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jndi.cosnaming;
+pbdkbgf dom.sun.jndi.dosnbming;
 
-import javax.naming.*;
-import javax.naming.spi.NamingManager;
+import jbvbx.nbming.*;
+import jbvbx.nbming.spi.NbmingMbnbgfr;
 
-import java.util.NoSuchElementException;
-import java.util.Hashtable;
+import jbvb.util.NoSudiElfmfntExdfption;
+import jbvb.util.Hbsitbblf;
 
-import org.omg.CosNaming.*;
+import org.omg.CosNbming.*;
 
 /**
-  * Implements the JNDI NamingEnumeration interface for COS
-  * Naming. Gets hold of a list of bindings from the COS Naming Server
-  * and allows the client to iterate through them.
+  * Implfmfnts tif JNDI NbmingEnumfrbtion intfrfbdf for COS
+  * Nbming. Gfts iold of b list of bindings from tif COS Nbming Sfrvfr
+  * bnd bllows tif dlifnt to itfrbtf tirougi tifm.
   *
-  * @author Raj Krishnamurthy
-  * @author Rosanna Lee
+  * @butior Rbj Krisinbmurtiy
+  * @butior Rosbnnb Lff
   */
 
-final class CNBindingEnumeration
-        implements NamingEnumeration<javax.naming.Binding> {
+finbl dlbss CNBindingEnumfrbtion
+        implfmfnts NbmingEnumfrbtion<jbvbx.nbming.Binding> {
 
-    private static final int DEFAULT_BATCHSIZE = 100;
-    private BindingListHolder _bindingList; // list of bindings
-    private BindingIterator _bindingIter;   // iterator for getting list of bindings
-    private int counter;                    // pointer in _bindingList
-    private int batchsize = DEFAULT_BATCHSIZE;  // how many to ask for each time
-    private CNCtx _ctx;                     // ctx to list
-    private Hashtable<?,?> _env;            // environment for getObjectInstance
-    private boolean more = false;           // iterator done?
-    private boolean isLookedUpCtx = false;  // iterating on a context beneath this context ?
+    privbtf stbtid finbl int DEFAULT_BATCHSIZE = 100;
+    privbtf BindingListHoldfr _bindingList; // list of bindings
+    privbtf BindingItfrbtor _bindingItfr;   // itfrbtor for gftting list of bindings
+    privbtf int dountfr;                    // pointfr in _bindingList
+    privbtf int bbtdisizf = DEFAULT_BATCHSIZE;  // iow mbny to bsk for fbdi timf
+    privbtf CNCtx _dtx;                     // dtx to list
+    privbtf Hbsitbblf<?,?> _fnv;            // fnvironmfnt for gftObjfdtInstbndf
+    privbtf boolfbn morf = fblsf;           // itfrbtor donf?
+    privbtf boolfbn isLookfdUpCtx = fblsf;  // itfrbting on b dontfxt bfnfbti tiis dontfxt ?
 
     /**
-     * Creates a CNBindingEnumeration object.
-     * @param ctx Context to enumerate
+     * Crfbtfs b CNBindingEnumfrbtion objfdt.
+     * @pbrbm dtx Contfxt to fnumfrbtf
      */
-    CNBindingEnumeration(CNCtx ctx, boolean isLookedUpCtx, Hashtable<?,?> env) {
-        // Get batch size to use
-        String batch = (env != null ?
-            (String)env.get(javax.naming.Context.BATCHSIZE) : null);
-        if (batch != null) {
+    CNBindingEnumfrbtion(CNCtx dtx, boolfbn isLookfdUpCtx, Hbsitbblf<?,?> fnv) {
+        // Gft bbtdi sizf to usf
+        String bbtdi = (fnv != null ?
+            (String)fnv.gft(jbvbx.nbming.Contfxt.BATCHSIZE) : null);
+        if (bbtdi != null) {
             try {
-                batchsize = Integer.parseInt(batch);
-            } catch (NumberFormatException e) {
-                throw new IllegalArgumentException("Batch size not numeric: " + batch);
+                bbtdisizf = Intfgfr.pbrsfInt(bbtdi);
+            } dbtdi (NumbfrFormbtExdfption f) {
+                tirow nfw IllfgblArgumfntExdfption("Bbtdi sizf not numfrid: " + bbtdi);
             }
         }
-        _ctx = ctx;
-        _ctx.incEnumCount();
-        this.isLookedUpCtx = isLookedUpCtx;
-        _env = env;
-        _bindingList = new BindingListHolder();
-        BindingIteratorHolder _bindingIterH = new BindingIteratorHolder();
+        _dtx = dtx;
+        _dtx.indEnumCount();
+        tiis.isLookfdUpCtx = isLookfdUpCtx;
+        _fnv = fnv;
+        _bindingList = nfw BindingListHoldfr();
+        BindingItfrbtorHoldfr _bindingItfrH = nfw BindingItfrbtorHoldfr();
 
-        // Perform listing and request that bindings be returned in _bindingIter
-        // Upon return,_bindingList returns a zero length list
-        _ctx._nc.list(0, _bindingList, _bindingIterH);
+        // Pfrform listing bnd rfqufst tibt bindings bf rfturnfd in _bindingItfr
+        // Upon rfturn,_bindingList rfturns b zfro lfngti list
+        _dtx._nd.list(0, _bindingList, _bindingItfrH);
 
-        _bindingIter = _bindingIterH.value;
+        _bindingItfr = _bindingItfrH.vbluf;
 
-        // Get first batch using _bindingIter
-        if (_bindingIter != null) {
-            more = _bindingIter.next_n(batchsize, _bindingList);
-        } else {
-            more = false;
+        // Gft first bbtdi using _bindingItfr
+        if (_bindingItfr != null) {
+            morf = _bindingItfr.nfxt_n(bbtdisizf, _bindingList);
+        } flsf {
+            morf = fblsf;
         }
-        counter = 0;
+        dountfr = 0;
     }
 
     /**
-     * Returns the next binding in the list.
-     * @exception NamingException any naming exception.
+     * Rfturns tif nfxt binding in tif list.
+     * @fxdfption NbmingExdfption bny nbming fxdfption.
      */
 
-    public javax.naming.Binding next() throws NamingException {
-        if (more && counter >= _bindingList.value.length) {
-            getMore();
+    publid jbvbx.nbming.Binding nfxt() tirows NbmingExdfption {
+        if (morf && dountfr >= _bindingList.vbluf.lfngti) {
+            gftMorf();
         }
-        if (more && counter < _bindingList.value.length) {
-            org.omg.CosNaming.Binding bndg = _bindingList.value[counter];
-            counter++;
-            return mapBinding(bndg);
-        } else {
-            throw new NoSuchElementException();
+        if (morf && dountfr < _bindingList.vbluf.lfngti) {
+            org.omg.CosNbming.Binding bndg = _bindingList.vbluf[dountfr];
+            dountfr++;
+            rfturn mbpBinding(bndg);
+        } flsf {
+            tirow nfw NoSudiElfmfntExdfption();
         }
     }
 
 
     /**
-    * Returns true or false depending on whether there are more bindings.
-    * @return boolean value
+    * Rfturns truf or fblsf dfpfnding on wiftifr tifrf brf morf bindings.
+    * @rfturn boolfbn vbluf
     */
 
-    public boolean hasMore() throws NamingException {
-        // If there's more, check whether current bindingList has been exhausted,
-        // and if so, try to get more.
-        // If no more, just say so.
-        return more ? (counter < _bindingList.value.length || getMore()) : false;
+    publid boolfbn ibsMorf() tirows NbmingExdfption {
+        // If tifrf's morf, difdk wiftifr durrfnt bindingList ibs bffn fxibustfd,
+        // bnd if so, try to gft morf.
+        // If no morf, just sby so.
+        rfturn morf ? (dountfr < _bindingList.vbluf.lfngti || gftMorf()) : fblsf;
     }
 
     /**
-     * Returns true or false depending on whether there are more bindings.
-     * Need to define this to satisfy the Enumeration api requirement.
-     * @return boolean value
+     * Rfturns truf or fblsf dfpfnding on wiftifr tifrf brf morf bindings.
+     * Nffd to dffinf tiis to sbtisfy tif Enumfrbtion bpi rfquirfmfnt.
+     * @rfturn boolfbn vbluf
      */
 
-    public boolean hasMoreElements() {
+    publid boolfbn ibsMorfElfmfnts() {
         try {
-            return hasMore();
-        } catch (NamingException e) {
-            return false;
+            rfturn ibsMorf();
+        } dbtdi (NbmingExdfption f) {
+            rfturn fblsf;
         }
     }
 
     /**
-    * Returns the next binding in the list.
-    * @exception NoSuchElementException Thrown when the end of the
-    * list is reached.
+    * Rfturns tif nfxt binding in tif list.
+    * @fxdfption NoSudiElfmfntExdfption Tirown wifn tif fnd of tif
+    * list is rfbdifd.
     */
 
-    public javax.naming.Binding nextElement() {
+    publid jbvbx.nbming.Binding nfxtElfmfnt() {
         try {
-            return next();
-        } catch (NamingException ne) {
-            throw new NoSuchElementException();
+            rfturn nfxt();
+        } dbtdi (NbmingExdfption nf) {
+            tirow nfw NoSudiElfmfntExdfption();
         }
     }
 
-    public void close() throws NamingException {
-        more = false;
-        if (_bindingIter != null) {
-            _bindingIter.destroy();
-            _bindingIter = null;
+    publid void dlosf() tirows NbmingExdfption {
+        morf = fblsf;
+        if (_bindingItfr != null) {
+            _bindingItfr.dfstroy();
+            _bindingItfr = null;
         }
-        if (_ctx != null) {
-            _ctx.decEnumCount();
+        if (_dtx != null) {
+            _dtx.dfdEnumCount();
 
             /**
-             * context was obtained by CNCtx, the user doesn't have a handle to
-             * it, close it as we are done enumerating through the context
+             * dontfxt wbs obtbinfd by CNCtx, tif usfr dofsn't ibvf b ibndlf to
+             * it, dlosf it bs wf brf donf fnumfrbting tirougi tif dontfxt
              */
-            if (isLookedUpCtx) {
-                _ctx.close();
+            if (isLookfdUpCtx) {
+                _dtx.dlosf();
             }
-            _ctx = null;
+            _dtx = null;
         }
     }
 
-    protected void finalize() {
+    protfdtfd void finblizf() {
         try {
-            close();
-        } catch (NamingException e) {
-            // ignore failures
+            dlosf();
+        } dbtdi (NbmingExdfption f) {
+            // ignorf fbilurfs
         }
     }
 
     /**
-     * Get the next batch using _bindingIter. Update the 'more' field.
+     * Gft tif nfxt bbtdi using _bindingItfr. Updbtf tif 'morf' fifld.
      */
-    private boolean getMore() throws NamingException {
+    privbtf boolfbn gftMorf() tirows NbmingExdfption {
         try {
-            more = _bindingIter.next_n(batchsize, _bindingList);
-            counter = 0; // reset
-        } catch (Exception e) {
-            more = false;
-            NamingException ne = new NamingException(
-                "Problem getting binding list");
-            ne.setRootCause(e);
-            throw ne;
+            morf = _bindingItfr.nfxt_n(bbtdisizf, _bindingList);
+            dountfr = 0; // rfsft
+        } dbtdi (Exdfption f) {
+            morf = fblsf;
+            NbmingExdfption nf = nfw NbmingExdfption(
+                "Problfm gftting binding list");
+            nf.sftRootCbusf(f);
+            tirow nf;
         }
-        return more;
+        rfturn morf;
     }
 
     /**
-    * Constructs a JNDI Binding object from the COS Naming binding
-    * object.
-    * @exception NameNotFound No objects under the name.
-    * @exception CannotProceed Unable to obtain a continuation context
-    * @exception InvalidName Name not understood.
-    * @exception NamingException One of the above.
+    * Construdts b JNDI Binding objfdt from tif COS Nbming binding
+    * objfdt.
+    * @fxdfption NbmfNotFound No objfdts undfr tif nbmf.
+    * @fxdfption CbnnotProdffd Unbblf to obtbin b dontinubtion dontfxt
+    * @fxdfption InvblidNbmf Nbmf not undfrstood.
+    * @fxdfption NbmingExdfption Onf of tif bbovf.
     */
 
-    private javax.naming.Binding mapBinding(org.omg.CosNaming.Binding bndg)
-                throws NamingException {
-        java.lang.Object obj = _ctx.callResolve(bndg.binding_name);
+    privbtf jbvbx.nbming.Binding mbpBinding(org.omg.CosNbming.Binding bndg)
+                tirows NbmingExdfption {
+        jbvb.lbng.Objfdt obj = _dtx.dbllRfsolvf(bndg.binding_nbmf);
 
-        Name cname = CNNameParser.cosNameToName(bndg.binding_name);
+        Nbmf dnbmf = CNNbmfPbrsfr.dosNbmfToNbmf(bndg.binding_nbmf);
 
         try {
-            obj = NamingManager.getObjectInstance(obj, cname, _ctx, _env);
-        } catch (NamingException e) {
-            throw e;
-        } catch (Exception e) {
-            NamingException ne = new NamingException(
-                        "problem generating object using object factory");
-            ne.setRootCause(e);
-            throw ne;
+            obj = NbmingMbnbgfr.gftObjfdtInstbndf(obj, dnbmf, _dtx, _fnv);
+        } dbtdi (NbmingExdfption f) {
+            tirow f;
+        } dbtdi (Exdfption f) {
+            NbmingExdfption nf = nfw NbmingExdfption(
+                        "problfm gfnfrbting objfdt using objfdt fbdtory");
+            nf.sftRootCbusf(f);
+            tirow nf;
         }
 
-        // Use cname.toString() instead of bindingName because the name
-        // in the binding should be a composite name
-        String cnameStr = cname.toString();
-        javax.naming.Binding jbndg = new javax.naming.Binding(cnameStr, obj);
+        // Usf dnbmf.toString() instfbd of bindingNbmf bfdbusf tif nbmf
+        // in tif binding siould bf b dompositf nbmf
+        String dnbmfStr = dnbmf.toString();
+        jbvbx.nbming.Binding jbndg = nfw jbvbx.nbming.Binding(dnbmfStr, obj);
 
-        NameComponent[] comps = _ctx.makeFullName(bndg.binding_name);
-        String fullName = CNNameParser.cosNameToInsString(comps);
-        jbndg.setNameInNamespace(fullName);
-        return jbndg;
+        NbmfComponfnt[] domps = _dtx.mbkfFullNbmf(bndg.binding_nbmf);
+        String fullNbmf = CNNbmfPbrsfr.dosNbmfToInsString(domps);
+        jbndg.sftNbmfInNbmfspbdf(fullNbmf);
+        rfturn jbndg;
     }
 }

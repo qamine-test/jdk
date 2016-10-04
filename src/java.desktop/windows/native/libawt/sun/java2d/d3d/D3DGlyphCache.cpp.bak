@@ -1,207 +1,207 @@
 /*
- * Copyright (c) 2007, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "D3DGlyphCache.h"
-#include "D3DTextRenderer.h"
-#include "D3DRenderQueue.h"
+#indludf "D3DGlypiCbdif.i"
+#indludf "D3DTfxtRfndfrfr.i"
+#indludf "D3DRfndfrQufuf.i"
 
-void D3DGlyphCache_FlushGlyphVertexCache();
+void D3DGlypiCbdif_FlusiGlypiVfrtfxCbdif();
 
-// static
+// stbtid
 HRESULT
-D3DGlyphCache::CreateInstance(D3DContext *pCtx, GlyphCacheType gcType,
-                              D3DGlyphCache **ppGlyphCache)
+D3DGlypiCbdif::CrfbtfInstbndf(D3DContfxt *pCtx, GlypiCbdifTypf gdTypf,
+                              D3DGlypiCbdif **ppGlypiCbdif)
 {
-    HRESULT res;
+    HRESULT rfs;
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DGlyphCache::CreateInstance");
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DGlypiCbdif::CrfbtfInstbndf");
 
-    *ppGlyphCache = new D3DGlyphCache(gcType);
-    if (FAILED(res = (*ppGlyphCache)->Init(pCtx))) {
-        delete *ppGlyphCache;
-        *ppGlyphCache = NULL;
+    *ppGlypiCbdif = nfw D3DGlypiCbdif(gdTypf);
+    if (FAILED(rfs = (*ppGlypiCbdif)->Init(pCtx))) {
+        dflftf *ppGlypiCbdif;
+        *ppGlypiCbdif = NULL;
     }
-    return res;
+    rfturn rfs;
 }
 
-D3DGlyphCache::D3DGlyphCache(GlyphCacheType type)
+D3DGlypiCbdif::D3DGlypiCbdif(GlypiCbdifTypf typf)
 {
-    J2dTraceLn1(J2D_TRACE_INFO, "D3DGlyphCache::D3DGlyphCache gcType=%d", type);
+    J2dTrbdfLn1(J2D_TRACE_INFO, "D3DGlypiCbdif::D3DGlypiCbdif gdTypf=%d", typf);
 
     pCtx = NULL;
-    gcType = type;
-    pGlyphCacheRes = NULL;
-    pGlyphCache = NULL;
-    tileFormat = (gcType == CACHE_GRAY) ? TILEFMT_1BYTE_ALPHA : TILEFMT_UNKNOWN;
-    lastRGBOrder = JNI_FALSE;
+    gdTypf = typf;
+    pGlypiCbdifRfs = NULL;
+    pGlypiCbdif = NULL;
+    tilfFormbt = (gdTypf == CACHE_GRAY) ? TILEFMT_1BYTE_ALPHA : TILEFMT_UNKNOWN;
+    lbstRGBOrdfr = JNI_FALSE;
 }
 
-D3DGlyphCache::~D3DGlyphCache()
+D3DGlypiCbdif::~D3DGlypiCbdif()
 {
-    J2dTraceLn(J2D_TRACE_INFO, "D3DGlyphCache::~D3DGlyphCache");
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DGlypiCbdif::~D3DGlypiCbdif");
 
-    ReleaseDefPoolResources();
+    RflfbsfDffPoolRfsourdfs();
 
     pCtx = NULL;
-    if (pGlyphCache != NULL) {
-        AccelGlyphCache_Free(pGlyphCache);
-        pGlyphCache = NULL;
+    if (pGlypiCbdif != NULL) {
+        AddflGlypiCbdif_Frff(pGlypiCbdif);
+        pGlypiCbdif = NULL;
     }
 }
 
 void
-D3DGlyphCache::ReleaseDefPoolResources()
+D3DGlypiCbdif::RflfbsfDffPoolRfsourdfs()
 {
-    J2dTraceLn(J2D_TRACE_INFO, "D3DGlyphCache::ReleaseDefPoolResources");
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DGlypiCbdif::RflfbsfDffPoolRfsourdfs");
 
-    AccelGlyphCache_Invalidate(pGlyphCache);
-    // REMIND: the glyph cache texture is not in the default pool, so
-    // this can be optimized not to release the texture
-    pCtx->GetResourceManager()->ReleaseResource(pGlyphCacheRes);
-    pGlyphCacheRes = NULL;
+    AddflGlypiCbdif_Invblidbtf(pGlypiCbdif);
+    // REMIND: tif glypi dbdif tfxturf is not in tif dffbult pool, so
+    // tiis dbn bf optimizfd not to rflfbsf tif tfxturf
+    pCtx->GftRfsourdfMbnbgfr()->RflfbsfRfsourdf(pGlypiCbdifRfs);
+    pGlypiCbdifRfs = NULL;
 }
 
 HRESULT
-D3DGlyphCache::Init(D3DContext *pCtx)
+D3DGlypiCbdif::Init(D3DContfxt *pCtx)
 {
-    D3DFORMAT format;
+    D3DFORMAT formbt;
 
     RETURN_STATUS_IF_NULL(pCtx, E_FAIL);
 
-    J2dTraceLn1(J2D_TRACE_INFO, "D3DGlyphCache::Init pCtx=%x", pCtx);
+    J2dTrbdfLn1(J2D_TRACE_INFO, "D3DGlypiCbdif::Init pCtx=%x", pCtx);
 
-    this->pCtx = pCtx;
+    tiis->pCtx = pCtx;
 
-    if (pGlyphCache == NULL) {
-        // init glyph cache data structure
-        pGlyphCache = AccelGlyphCache_Init(D3DTR_CACHE_WIDTH,
+    if (pGlypiCbdif == NULL) {
+        // init glypi dbdif dbtb strudturf
+        pGlypiCbdif = AddflGlypiCbdif_Init(D3DTR_CACHE_WIDTH,
                                            D3DTR_CACHE_HEIGHT,
                                            D3DTR_CACHE_CELL_WIDTH,
                                            D3DTR_CACHE_CELL_HEIGHT,
-                                           D3DGlyphCache_FlushGlyphVertexCache);
-        if (pGlyphCache == NULL) {
-            J2dRlsTraceLn(J2D_TRACE_ERROR,
-                          "D3DGlyphCache::Init: "\
-                          "could not init D3D glyph cache");
-            return E_FAIL;
+                                           D3DGlypiCbdif_FlusiGlypiVfrtfxCbdif);
+        if (pGlypiCbdif == NULL) {
+            J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                          "D3DGlypiCbdif::Init: "\
+                          "dould not init D3D glypi dbdif");
+            rfturn E_FAIL;
         }
     }
 
-    if (gcType == CACHE_GRAY) {
-        format = pCtx->IsTextureFormatSupported(D3DFMT_A8) ?
+    if (gdTypf == CACHE_GRAY) {
+        formbt = pCtx->IsTfxturfFormbtSupportfd(D3DFMT_A8) ?
             D3DFMT_A8 : D3DFMT_A8R8G8B8;
-    } else { // gcType == CACHE_LCD
-        format = pCtx->IsTextureFormatSupported(D3DFMT_R8G8B8) ?
+    } flsf { // gdTypf == CACHE_LCD
+        formbt = pCtx->IsTfxturfFormbtSupportfd(D3DFMT_R8G8B8) ?
             D3DFMT_R8G8B8 : D3DFMT_A8R8G8B8;
     }
 
-    HRESULT res = pCtx->GetResourceManager()->
-        CreateTexture(D3DTR_CACHE_WIDTH, D3DTR_CACHE_HEIGHT,
-                      FALSE/*isRTT*/, FALSE/*isOpaque*/, &format, 0/*usage*/,
-                      &pGlyphCacheRes);
-    if (FAILED(res)) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-                      "D3DGlyphCache::Init: "\
-                      "could not create glyph cache texture");
+    HRESULT rfs = pCtx->GftRfsourdfMbnbgfr()->
+        CrfbtfTfxturf(D3DTR_CACHE_WIDTH, D3DTR_CACHE_HEIGHT,
+                      FALSE/*isRTT*/, FALSE/*isOpbquf*/, &formbt, 0/*usbgf*/,
+                      &pGlypiCbdifRfs);
+    if (FAILED(rfs)) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                      "D3DGlypiCbdif::Init: "\
+                      "dould not drfbtf glypi dbdif tfxturf");
     }
 
-    return res;
+    rfturn rfs;
 }
 
 HRESULT
-D3DGlyphCache::AddGlyph(GlyphInfo *glyph)
+D3DGlypiCbdif::AddGlypi(GlypiInfo *glypi)
 {
-    HRESULT res = S_OK;
+    HRESULT rfs = S_OK;
 
-    RETURN_STATUS_IF_NULL(pGlyphCacheRes, E_FAIL);
+    RETURN_STATUS_IF_NULL(pGlypiCbdifRfs, E_FAIL);
 
-    CacheCellInfo *cellInfo = AccelGlyphCache_AddGlyph(pGlyphCache, glyph);
-    if (cellInfo != NULL) {
-        jint pixelsTouchedL = 0, pixelsTouchedR = 0;
-        // store glyph image in texture cell
-        res = pCtx->UploadTileToTexture(pGlyphCacheRes,
-                                        glyph->image,
-                                        cellInfo->x, cellInfo->y,
+    CbdifCfllInfo *dfllInfo = AddflGlypiCbdif_AddGlypi(pGlypiCbdif, glypi);
+    if (dfllInfo != NULL) {
+        jint pixflsToudifdL = 0, pixflsToudifdR = 0;
+        // storf glypi imbgf in tfxturf dfll
+        rfs = pCtx->UplobdTilfToTfxturf(pGlypiCbdifRfs,
+                                        glypi->imbgf,
+                                        dfllInfo->x, dfllInfo->y,
                                         0, 0,
-                                        glyph->width, glyph->height,
-                                        glyph->rowBytes, tileFormat,
-                                        &pixelsTouchedL,
-                                        &pixelsTouchedR);
-        // LCD text rendering optimization: if the number of pixels touched on
-        // the first or last column of the glyph image is less than 1/3 of the
-        // height of the glyph we do not consider them touched.
-        // See D3DTextRenderer.cpp:UpdateCachedDestination for more information.
-        // The leftOff/rightOff are only used in LCD cache case.
-        if (gcType == CACHE_LCD) {
-            jint threshold = glyph->height/3;
+                                        glypi->widti, glypi->ifigit,
+                                        glypi->rowBytfs, tilfFormbt,
+                                        &pixflsToudifdL,
+                                        &pixflsToudifdR);
+        // LCD tfxt rfndfring optimizbtion: if tif numbfr of pixfls toudifd on
+        // tif first or lbst dolumn of tif glypi imbgf is lfss tibn 1/3 of tif
+        // ifigit of tif glypi wf do not donsidfr tifm toudifd.
+        // Sff D3DTfxtRfndfrfr.dpp:UpdbtfCbdifdDfstinbtion for morf informbtion.
+        // Tif lfftOff/rigitOff brf only usfd in LCD dbdif dbsf.
+        if (gdTypf == CACHE_LCD) {
+            jint tirfsiold = glypi->ifigit/3;
 
-            cellInfo->leftOff  = pixelsTouchedL < threshold ?  1 : 0;
-            cellInfo->rightOff = pixelsTouchedR < threshold ? -1 : 0;
-        } else {
-            cellInfo->leftOff  = 0;
-            cellInfo->rightOff = 0;
+            dfllInfo->lfftOff  = pixflsToudifdL < tirfsiold ?  1 : 0;
+            dfllInfo->rigitOff = pixflsToudifdR < tirfsiold ? -1 : 0;
+        } flsf {
+            dfllInfo->lfftOff  = 0;
+            dfllInfo->rigitOff = 0;
         }
     }
 
-    return res;
+    rfturn rfs;
 }
 
 HRESULT
-D3DGlyphCache::CheckGlyphCacheByteOrder(jboolean rgbOrder)
+D3DGlypiCbdif::CifdkGlypiCbdifBytfOrdfr(jboolfbn rgbOrdfr)
 {
-    J2dTraceLn(J2D_TRACE_INFO, "D3DGlyphCache::CheckGlyphCacheByteOrder");
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DGlypiCbdif::CifdkGlypiCbdifBytfOrdfr");
 
-    if (gcType != CACHE_LCD) {
-        J2dTraceLn(J2D_TRACE_ERROR, "D3DGlyphCache::CheckGlyphCacheByteOrder"\
-                   " invoked on CACHE_GRAY cache type instance!");
-        return E_FAIL;
+    if (gdTypf != CACHE_LCD) {
+        J2dTrbdfLn(J2D_TRACE_ERROR, "D3DGlypiCbdif::CifdkGlypiCbdifBytfOrdfr"\
+                   " invokfd on CACHE_GRAY dbdif typf instbndf!");
+        rfturn E_FAIL;
     }
 
-    if (rgbOrder != lastRGBOrder) {
-        // need to invalidate the cache in this case; see comments
-        // for lastRGBOrder
-        AccelGlyphCache_Invalidate(pGlyphCache);
-        lastRGBOrder = rgbOrder;
+    if (rgbOrdfr != lbstRGBOrdfr) {
+        // nffd to invblidbtf tif dbdif in tiis dbsf; sff dommfnts
+        // for lbstRGBOrdfr
+        AddflGlypiCbdif_Invblidbtf(pGlypiCbdif);
+        lbstRGBOrdfr = rgbOrdfr;
     }
-    tileFormat = rgbOrder ? TILEFMT_3BYTE_RGB : TILEFMT_3BYTE_BGR;
+    tilfFormbt = rgbOrdfr ? TILEFMT_3BYTE_RGB : TILEFMT_3BYTE_BGR;
 
-    return S_OK;
+    rfturn S_OK;
 }
 
 /**
- * This method is invoked in the (relatively rare) case where one or
- * more glyphs is about to be kicked out of the glyph cache texture.
- * Here we simply flush the vertex queue of the current context in case
- * any pending vertices are dependent upon the current glyph cache layout.
+ * Tiis mftiod is invokfd in tif (rflbtivfly rbrf) dbsf wifrf onf or
+ * morf glypis is bbout to bf kidkfd out of tif glypi dbdif tfxturf.
+ * Hfrf wf simply flusi tif vfrtfx qufuf of tif durrfnt dontfxt in dbsf
+ * bny pfnding vfrtidfs brf dfpfndfnt upon tif durrfnt glypi dbdif lbyout.
  */
-static void
-D3DGlyphCache_FlushGlyphVertexCache()
+stbtid void
+D3DGlypiCbdif_FlusiGlypiVfrtfxCbdif()
 {
-    D3DContext *d3dc = D3DRQ_GetCurrentContext();
-    if (d3dc != NULL) {
-        J2dTraceLn(J2D_TRACE_INFO, "D3DGlyphCache_FlushGlyphVertexCache");
-        d3dc->FlushVertexQueue();
+    D3DContfxt *d3dd = D3DRQ_GftCurrfntContfxt();
+    if (d3dd != NULL) {
+        J2dTrbdfLn(J2D_TRACE_INFO, "D3DGlypiCbdif_FlusiGlypiVfrtfxCbdif");
+        d3dd->FlusiVfrtfxQufuf();
     }
 }

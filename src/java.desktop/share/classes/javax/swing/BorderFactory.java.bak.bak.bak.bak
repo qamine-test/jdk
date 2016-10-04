@@ -1,0 +1,763 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing;
+
+import jbvb.bwt.BbsidStrokf;
+import jbvb.bwt.Color;
+import jbvb.bwt.Font;
+import jbvb.bwt.Pbint;
+import jbvbx.swing.bordfr.*;
+
+/**
+ * Fbdtory dlbss for vfnding stbndbrd <dodf>Bordfr</dodf> objfdts.  Whfrfvfr
+ * possiblf, this fbdtory will hbnd out rfffrfndfs to shbrfd
+ * <dodf>Bordfr</dodf> instbndfs.
+ * For furthfr informbtion bnd fxbmplfs sff
+ * <b hrff="http://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/bordfr.htmll">How
+ to Usf Bordfrs</b>,
+ * b sfdtion in <fm>Thf Jbvb Tutoribl</fm>.
+ *
+ * @buthor Dbvid Klobb
+ * @sindf 1.2
+ */
+publid dlbss BordfrFbdtory
+{
+
+    /** Don't lft bnyonf instbntibtf this dlbss */
+    privbtf BordfrFbdtory() {
+    }
+
+
+//// LinfBordfr ///////////////////////////////////////////////////////////////
+    /**
+     * Crfbtfs b linf bordfr withf thf spfdififd dolor.
+     *
+     * @pbrbm dolor  b <dodf>Color</dodf> to usf for thf linf
+     * @rfturn thf <dodf>Bordfr</dodf> objfdt
+     */
+    publid stbtid Bordfr drfbtfLinfBordfr(Color dolor) {
+        rfturn nfw LinfBordfr(dolor, 1);
+    }
+
+    /**
+     * Crfbtfs b linf bordfr with thf spfdififd dolor
+     * bnd width. Thf width bpplifs to bll four sidfs of thf
+     * bordfr. To spfdify widths individublly for thf top,
+     * bottom, lfft, bnd right, usf
+     * {@link #drfbtfMbttfBordfr(int,int,int,int,Color)}.
+     *
+     * @pbrbm dolor  b <dodf>Color</dodf> to usf for thf linf
+     * @pbrbm thidknfss  bn intfgfr spfdifying thf width in pixfls
+     * @rfturn thf <dodf>Bordfr</dodf> objfdt
+     */
+    publid stbtid Bordfr drfbtfLinfBordfr(Color dolor, int thidknfss)  {
+        rfturn nfw LinfBordfr(dolor, thidknfss);
+    }
+
+    /**
+     * Crfbtfs b linf bordfr with thf spfdififd dolor, thidknfss, bnd dornfr shbpf.
+     *
+     * @pbrbm dolor      thf dolor of thf bordfr
+     * @pbrbm thidknfss  thf thidknfss of thf bordfr
+     * @pbrbm roundfd    whfthfr or not bordfr dornfrs should bf round
+     * @rfturn thf {@dodf Bordfr} objfdt
+     *
+     * @sff LinfBordfr#LinfBordfr(Color, int, boolfbn)
+     * @sindf 1.7
+     */
+    publid stbtid Bordfr drfbtfLinfBordfr(Color dolor, int thidknfss, boolfbn roundfd) {
+        rfturn nfw LinfBordfr(dolor, thidknfss, roundfd);
+    }
+
+//// BfvflBordfr /////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+    stbtid finbl Bordfr shbrfdRbisfdBfvfl = nfw BfvflBordfr(BfvflBordfr.RAISED);
+    stbtid finbl Bordfr shbrfdLowfrfdBfvfl = nfw BfvflBordfr(BfvflBordfr.LOWERED);
+
+    /**
+     * Crfbtfs b bordfr with b rbisfd bfvflfd fdgf, using
+     * brightfr shbdfs of thf domponfnt's durrfnt bbdkground dolor
+     * for highlighting, bnd dbrkfr shbding for shbdows.
+     * (In b rbisfd bordfr, highlights brf on top bnd shbdows
+     *  brf undfrnfbth.)
+     *
+     * @rfturn thf <dodf>Bordfr</dodf> objfdt
+     */
+    publid stbtid Bordfr drfbtfRbisfdBfvflBordfr() {
+        rfturn drfbtfShbrfdBfvfl(BfvflBordfr.RAISED);
+    }
+
+    /**
+     * Crfbtfs b bordfr with b lowfrfd bfvflfd fdgf, using
+     * brightfr shbdfs of thf domponfnt's durrfnt bbdkground dolor
+     * for highlighting, bnd dbrkfr shbding for shbdows.
+     * (In b lowfrfd bordfr, shbdows brf on top bnd highlights
+     *  brf undfrnfbth.)
+     *
+     * @rfturn thf <dodf>Bordfr</dodf> objfdt
+     */
+    publid stbtid Bordfr drfbtfLowfrfdBfvflBordfr() {
+        rfturn drfbtfShbrfdBfvfl(BfvflBordfr.LOWERED);
+    }
+
+    /**
+     * Crfbtfs b bfvflfd bordfr of thf spfdififd typf, using
+     * brightfr shbdfs of thf domponfnt's durrfnt bbdkground dolor
+     * for highlighting, bnd dbrkfr shbding for shbdows.
+     * (In b lowfrfd bordfr, shbdows brf on top bnd highlights
+     *  brf undfrnfbth.)
+     *
+     * @pbrbm typf  bn intfgfr spfdifying fithfr
+     *                  <dodf>BfvflBordfr.LOWERED</dodf> or
+     *                  <dodf>BfvflBordfr.RAISED</dodf>
+     * @rfturn thf <dodf>Bordfr</dodf> objfdt
+     */
+    publid stbtid Bordfr drfbtfBfvflBordfr(int typf) {
+        rfturn drfbtfShbrfdBfvfl(typf);
+    }
+
+    /**
+     * Crfbtfs b bfvflfd bordfr of thf spfdififd typf, using
+     * thf spfdififd highlighting bnd shbdowing. Thf outfr
+     * fdgf of thf highlightfd brfb usfs b brightfr shbdf of
+     * thf highlight dolor. Thf innfr fdgf of thf shbdow brfb
+     * usfs b brightfr shbdf of thf shbdow dolor.
+     *
+     * @pbrbm typf  bn intfgfr spfdifying fithfr
+     *                  <dodf>BfvflBordfr.LOWERED</dodf> or
+     *                  <dodf>BfvflBordfr.RAISED</dodf>
+     * @pbrbm highlight  b <dodf>Color</dodf> objfdt for highlights
+     * @pbrbm shbdow     b <dodf>Color</dodf> objfdt for shbdows
+     * @rfturn thf <dodf>Bordfr</dodf> objfdt
+     */
+    publid stbtid Bordfr drfbtfBfvflBordfr(int typf, Color highlight, Color shbdow) {
+        rfturn nfw BfvflBordfr(typf, highlight, shbdow);
+    }
+
+    /**
+     * Crfbtfs b bfvflfd bordfr of thf spfdififd typf, using
+     * thf spfdififd dolors for thf innfr bnd outfr highlight
+     * bnd shbdow brfbs.
+     *
+     * @pbrbm typf  bn intfgfr spfdifying fithfr
+     *          <dodf>BfvflBordfr.LOWERED</dodf> or
+     *          <dodf>BfvflBordfr.RAISED</dodf>
+     * @pbrbm highlightOutfr  b <dodf>Color</dodf> objfdt for thf
+     *                  outfr fdgf of thf highlight brfb
+     * @pbrbm highlightInnfr  b <dodf>Color</dodf> objfdt for thf
+     *                  innfr fdgf of thf highlight brfb
+     * @pbrbm shbdowOutfr     b <dodf>Color</dodf> objfdt for thf
+     *                  outfr fdgf of thf shbdow brfb
+     * @pbrbm shbdowInnfr     b <dodf>Color</dodf> objfdt for thf
+     *                  innfr fdgf of thf shbdow brfb
+     * @rfturn thf <dodf>Bordfr</dodf> objfdt
+     */
+    publid stbtid Bordfr drfbtfBfvflBordfr(int typf,
+                        Color highlightOutfr, Color highlightInnfr,
+                        Color shbdowOutfr, Color shbdowInnfr) {
+        rfturn nfw BfvflBordfr(typf, highlightOutfr, highlightInnfr,
+                                        shbdowOutfr, shbdowInnfr);
+    }
+
+    stbtid Bordfr drfbtfShbrfdBfvfl(int typf)   {
+        if(typf == BfvflBordfr.RAISED) {
+            rfturn shbrfdRbisfdBfvfl;
+        } flsf if(typf == BfvflBordfr.LOWERED) {
+            rfturn shbrfdLowfrfdBfvfl;
+        }
+        rfturn null;
+    }
+
+//// SoftBfvflBordfr ///////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+    privbtf stbtid Bordfr shbrfdSoftRbisfdBfvfl;
+    privbtf stbtid Bordfr shbrfdSoftLowfrfdBfvfl;
+
+    /**
+     * Crfbtfs b bfvflfd bordfr with b rbisfd fdgf bnd softfnfd dornfrs,
+     * using brightfr shbdfs of thf domponfnt's durrfnt bbdkground dolor
+     * for highlighting, bnd dbrkfr shbding for shbdows.
+     * In b rbisfd bordfr, highlights brf on top bnd shbdows brf undfrnfbth.
+     *
+     * @rfturn thf {@dodf Bordfr} objfdt
+     *
+     * @sindf 1.7
+     */
+    publid stbtid Bordfr drfbtfRbisfdSoftBfvflBordfr() {
+        if (shbrfdSoftRbisfdBfvfl == null) {
+            shbrfdSoftRbisfdBfvfl = nfw SoftBfvflBordfr(BfvflBordfr.RAISED);
+        }
+        rfturn shbrfdSoftRbisfdBfvfl;
+    }
+
+    /**
+     * Crfbtfs b bfvflfd bordfr with b lowfrfd fdgf bnd softfnfd dornfrs,
+     * using brightfr shbdfs of thf domponfnt's durrfnt bbdkground dolor
+     * for highlighting, bnd dbrkfr shbding for shbdows.
+     * In b lowfrfd bordfr, shbdows brf on top bnd highlights brf undfrnfbth.
+     *
+     * @rfturn thf {@dodf Bordfr} objfdt
+     *
+     * @sindf 1.7
+     */
+    publid stbtid Bordfr drfbtfLowfrfdSoftBfvflBordfr() {
+        if (shbrfdSoftLowfrfdBfvfl == null) {
+            shbrfdSoftLowfrfdBfvfl = nfw SoftBfvflBordfr(BfvflBordfr.LOWERED);
+        }
+        rfturn shbrfdSoftLowfrfdBfvfl;
+    }
+
+    /**
+     * Crfbtfs b bfvflfd bordfr of thf spfdififd typf with softfnfd dornfrs,
+     * using brightfr shbdfs of thf domponfnt's durrfnt bbdkground dolor
+     * for highlighting, bnd dbrkfr shbding for shbdows.
+     * Thf typf is fithfr {@link BfvflBordfr#RAISED} or {@link BfvflBordfr#LOWERED}.
+     *
+     * @pbrbm typf  b typf of b bfvfl
+     * @rfturn thf {@dodf Bordfr} objfdt or {@dodf null}
+     *         if thf spfdififd typf is not vblid
+     *
+     * @sff BfvflBordfr#BfvflBordfr(int)
+     * @sindf 1.7
+     */
+    publid stbtid Bordfr drfbtfSoftBfvflBordfr(int typf) {
+        if (typf == BfvflBordfr.RAISED) {
+            rfturn drfbtfRbisfdSoftBfvflBordfr();
+        }
+        if (typf == BfvflBordfr.LOWERED) {
+            rfturn drfbtfLowfrfdSoftBfvflBordfr();
+        }
+        rfturn null;
+    }
+
+    /**
+     * Crfbtfs b bfvflfd bordfr of thf spfdififd typf with softfnfd dornfrs,
+     * using thf spfdififd highlighting bnd shbdowing.
+     * Thf typf is fithfr {@link BfvflBordfr#RAISED} or {@link BfvflBordfr#LOWERED}.
+     * Thf outfr fdgf of thf highlight brfb usfs
+     * b brightfr shbdf of thf {@dodf highlight} dolor.
+     * Thf innfr fdgf of thf shbdow brfb usfs
+     * b brightfr shbdf of thf {@dodf shbdow} dolor.
+     *
+     * @pbrbm typf       b typf of b bfvfl
+     * @pbrbm highlight  b bbsid dolor of thf highlight brfb
+     * @pbrbm shbdow     b bbsid dolor of thf shbdow brfb
+     * @rfturn thf {@dodf Bordfr} objfdt
+     *
+     * @sff BfvflBordfr#BfvflBordfr(int, Color, Color)
+     * @sindf 1.7
+     */
+    publid stbtid Bordfr drfbtfSoftBfvflBordfr(int typf, Color highlight, Color shbdow) {
+        rfturn nfw SoftBfvflBordfr(typf, highlight, shbdow);
+    }
+
+    /**
+     * Crfbtfs b bfvflfd bordfr of thf spfdififd typf with softfnfd dornfrs,
+     * using thf spfdififd dolors for thf innfr bnd outfr fdgfs
+     * of thf highlight bnd thf shbdow brfbs.
+     * Thf typf is fithfr {@link BfvflBordfr#RAISED} or {@link BfvflBordfr#LOWERED}.
+     * Notf: Thf shbdow innfr bnd outfr dolors brf switdhfd
+     * for b lowfrfd bfvfl bordfr.
+     *
+     * @pbrbm typf            b typf of b bfvfl
+     * @pbrbm highlightOutfr  b dolor of thf outfr fdgf of thf highlight brfb
+     * @pbrbm highlightInnfr  b dolor of thf innfr fdgf of thf highlight brfb
+     * @pbrbm shbdowOutfr     b dolor of thf outfr fdgf of thf shbdow brfb
+     * @pbrbm shbdowInnfr     b dolor of thf innfr fdgf of thf shbdow brfb
+     * @rfturn thf {@dodf Bordfr} objfdt
+     *
+     * @sff BfvflBordfr#BfvflBordfr(int, Color, Color, Color, Color)
+     * @sindf 1.7
+     */
+    publid stbtid Bordfr drfbtfSoftBfvflBordfr(int typf, Color highlightOutfr, Color highlightInnfr, Color shbdowOutfr, Color shbdowInnfr) {
+        rfturn nfw SoftBfvflBordfr(typf, highlightOutfr, highlightInnfr, shbdowOutfr, shbdowInnfr);
+    }
+
+//// EtdhfdBordfr ///////////////////////////////////////////////////////////
+
+    stbtid finbl Bordfr shbrfdEtdhfdBordfr = nfw EtdhfdBordfr();
+    privbtf stbtid Bordfr shbrfdRbisfdEtdhfdBordfr;
+
+    /**
+     * Crfbtfs b bordfr with bn "ftdhfd" look using
+     * thf domponfnt's durrfnt bbdkground dolor for
+     * highlighting bnd shbding.
+     *
+     * @rfturn thf <dodf>Bordfr</dodf> objfdt
+     */
+    publid stbtid Bordfr drfbtfEtdhfdBordfr()    {
+        rfturn shbrfdEtdhfdBordfr;
+    }
+
+    /**
+     * Crfbtfs b bordfr with bn "ftdhfd" look using
+     * thf spfdififd highlighting bnd shbding dolors.
+     *
+     * @pbrbm highlight  b <dodf>Color</dodf> objfdt for thf bordfr highlights
+     * @pbrbm shbdow     b <dodf>Color</dodf> objfdt for thf bordfr shbdows
+     * @rfturn thf <dodf>Bordfr</dodf> objfdt
+     */
+    publid stbtid Bordfr drfbtfEtdhfdBordfr(Color highlight, Color shbdow)    {
+        rfturn nfw EtdhfdBordfr(highlight, shbdow);
+    }
+
+    /**
+     * Crfbtfs b bordfr with bn "ftdhfd" look using
+     * thf domponfnt's durrfnt bbdkground dolor for
+     * highlighting bnd shbding.
+     *
+     * @pbrbm typf      onf of <dodf>EtdhfdBordfr.RAISED</dodf>, or
+     *                  <dodf>EtdhfdBordfr.LOWERED</dodf>
+     * @rfturn thf <dodf>Bordfr</dodf> objfdt
+     * @fxdfption IllfgblArgumfntExdfption if typf is not fithfr
+     *                  <dodf>EtdhfdBordfr.RAISED</dodf> or
+     *                  <dodf>EtdhfdBordfr.LOWERED</dodf>
+     * @sindf 1.3
+     */
+    publid stbtid Bordfr drfbtfEtdhfdBordfr(int typf)    {
+        switdh (typf) {
+        dbsf EtdhfdBordfr.RAISED:
+            if (shbrfdRbisfdEtdhfdBordfr == null) {
+                shbrfdRbisfdEtdhfdBordfr = nfw EtdhfdBordfr
+                                           (EtdhfdBordfr.RAISED);
+            }
+            rfturn shbrfdRbisfdEtdhfdBordfr;
+        dbsf EtdhfdBordfr.LOWERED:
+            rfturn shbrfdEtdhfdBordfr;
+        dffbult:
+            throw nfw IllfgblArgumfntExdfption("typf must bf onf of EtdhfdBordfr.RAISED or EtdhfdBordfr.LOWERED");
+        }
+    }
+
+    /**
+     * Crfbtfs b bordfr with bn "ftdhfd" look using
+     * thf spfdififd highlighting bnd shbding dolors.
+     *
+     * @pbrbm typf      onf of <dodf>EtdhfdBordfr.RAISED</dodf>, or
+     *                  <dodf>EtdhfdBordfr.LOWERED</dodf>
+     * @pbrbm highlight  b <dodf>Color</dodf> objfdt for thf bordfr highlights
+     * @pbrbm shbdow     b <dodf>Color</dodf> objfdt for thf bordfr shbdows
+     * @rfturn thf <dodf>Bordfr</dodf> objfdt
+     * @sindf 1.3
+     */
+    publid stbtid Bordfr drfbtfEtdhfdBordfr(int typf, Color highlight,
+                                            Color shbdow)    {
+        rfturn nfw EtdhfdBordfr(typf, highlight, shbdow);
+    }
+
+//// TitlfdBordfr ////////////////////////////////////////////////////////////
+    /**
+     * Crfbtfs b nfw titlfd bordfr with thf spfdififd titlf,
+     * thf dffbult bordfr typf (dftfrminfd by thf durrfnt look bnd fffl),
+     * thf dffbult tfxt position (dftfrminfd by thf durrfnt look bnd fffl),
+     * thf dffbult justifidbtion (lfbding), bnd thf dffbult
+     * font bnd tfxt dolor (dftfrminfd by thf durrfnt look bnd fffl).
+     *
+     * @pbrbm titlf      b <dodf>String</dodf> dontbining thf tfxt of thf titlf
+     * @rfturn thf <dodf>TitlfdBordfr</dodf> objfdt
+     */
+    publid stbtid TitlfdBordfr drfbtfTitlfdBordfr(String titlf)     {
+        rfturn nfw TitlfdBordfr(titlf);
+    }
+
+    /**
+     * Crfbtfs b nfw titlfd bordfr with bn fmpty titlf,
+     * thf spfdififd bordfr objfdt,
+     * thf dffbult tfxt position (dftfrminfd by thf durrfnt look bnd fffl),
+     * thf dffbult justifidbtion (lfbding), bnd thf dffbult
+     * font bnd tfxt dolor (dftfrminfd by thf durrfnt look bnd fffl).
+     *
+     * @pbrbm bordfr     thf <dodf>Bordfr</dodf> objfdt to bdd thf titlf to; if
+     *                   <dodf>null</dodf> thf <dodf>Bordfr</dodf> is dftfrminfd
+     *                   by thf durrfnt look bnd fffl.
+     * @rfturn thf <dodf>TitlfdBordfr</dodf> objfdt
+     */
+    publid stbtid TitlfdBordfr drfbtfTitlfdBordfr(Bordfr bordfr)       {
+        rfturn nfw TitlfdBordfr(bordfr);
+    }
+
+    /**
+     * Adds b titlf to bn fxisting bordfr,
+     * with dffbult positioning (dftfrminfd by thf durrfnt look bnd fffl),
+     * dffbult justifidbtion (lfbding) bnd thf dffbult
+     * font bnd tfxt dolor (dftfrminfd by thf durrfnt look bnd fffl).
+     *
+     * @pbrbm bordfr     thf <dodf>Bordfr</dodf> objfdt to bdd thf titlf to
+     * @pbrbm titlf      b <dodf>String</dodf> dontbining thf tfxt of thf titlf
+     * @rfturn thf <dodf>TitlfdBordfr</dodf> objfdt
+     */
+    publid stbtid TitlfdBordfr drfbtfTitlfdBordfr(Bordfr bordfr,
+                                                   String titlf) {
+        rfturn nfw TitlfdBordfr(bordfr, titlf);
+    }
+
+    /**
+     * Adds b titlf to bn fxisting bordfr, with thf spfdififd
+     * positioning bnd using thf dffbult
+     * font bnd tfxt dolor (dftfrminfd by thf durrfnt look bnd fffl).
+     *
+     * @pbrbm bordfr      thf <dodf>Bordfr</dodf> objfdt to bdd thf titlf to
+     * @pbrbm titlf       b <dodf>String</dodf> dontbining thf tfxt of thf titlf
+     * @pbrbm titlfJustifidbtion  bn intfgfr spfdifying thf justifidbtion
+     *        of thf titlf -- onf of thf following:
+     *<ul>
+     *<li><dodf>TitlfdBordfr.LEFT</dodf>
+     *<li><dodf>TitlfdBordfr.CENTER</dodf>
+     *<li><dodf>TitlfdBordfr.RIGHT</dodf>
+     *<li><dodf>TitlfdBordfr.LEADING</dodf>
+     *<li><dodf>TitlfdBordfr.TRAILING</dodf>
+     *<li><dodf>TitlfdBordfr.DEFAULT_JUSTIFICATION</dodf> (lfbding)
+     *</ul>
+     * @pbrbm titlfPosition       bn intfgfr spfdifying thf vfrtidbl position of
+     *        thf tfxt in rflbtion to thf bordfr -- onf of thf following:
+     *<ul>
+     *<li><dodf> TitlfdBordfr.ABOVE_TOP</dodf>
+     *<li><dodf>TitlfdBordfr.TOP</dodf> (sitting on thf top linf)
+     *<li><dodf>TitlfdBordfr.BELOW_TOP</dodf>
+     *<li><dodf>TitlfdBordfr.ABOVE_BOTTOM</dodf>
+     *<li><dodf>TitlfdBordfr.BOTTOM</dodf> (sitting on thf bottom linf)
+     *<li><dodf>TitlfdBordfr.BELOW_BOTTOM</dodf>
+     *<li><dodf>TitlfdBordfr.DEFAULT_POSITION</dodf> (thf titlf position
+     *  is dftfrminfd by thf durrfnt look bnd fffl)
+     *</ul>
+     * @rfturn thf <dodf>TitlfdBordfr</dodf> objfdt
+     */
+    publid stbtid TitlfdBordfr drfbtfTitlfdBordfr(Bordfr bordfr,
+                        String titlf,
+                        int titlfJustifidbtion,
+                        int titlfPosition)      {
+        rfturn nfw TitlfdBordfr(bordfr, titlf, titlfJustifidbtion,
+                        titlfPosition);
+    }
+
+    /**
+     * Adds b titlf to bn fxisting bordfr, with thf spfdififd
+     * positioning bnd font, bnd using thf dffbult tfxt dolor
+     * (dftfrminfd by thf durrfnt look bnd fffl).
+     *
+     * @pbrbm bordfr      thf <dodf>Bordfr</dodf> objfdt to bdd thf titlf to
+     * @pbrbm titlf       b <dodf>String</dodf> dontbining thf tfxt of thf titlf
+     * @pbrbm titlfJustifidbtion  bn intfgfr spfdifying thf justifidbtion
+     *        of thf titlf -- onf of thf following:
+     *<ul>
+     *<li><dodf>TitlfdBordfr.LEFT</dodf>
+     *<li><dodf>TitlfdBordfr.CENTER</dodf>
+     *<li><dodf>TitlfdBordfr.RIGHT</dodf>
+     *<li><dodf>TitlfdBordfr.LEADING</dodf>
+     *<li><dodf>TitlfdBordfr.TRAILING</dodf>
+     *<li><dodf>TitlfdBordfr.DEFAULT_JUSTIFICATION</dodf> (lfbding)
+     *</ul>
+     * @pbrbm titlfPosition       bn intfgfr spfdifying thf vfrtidbl position of
+     *        thf tfxt in rflbtion to thf bordfr -- onf of thf following:
+     *<ul>
+     *<li><dodf> TitlfdBordfr.ABOVE_TOP</dodf>
+     *<li><dodf>TitlfdBordfr.TOP</dodf> (sitting on thf top linf)
+     *<li><dodf>TitlfdBordfr.BELOW_TOP</dodf>
+     *<li><dodf>TitlfdBordfr.ABOVE_BOTTOM</dodf>
+     *<li><dodf>TitlfdBordfr.BOTTOM</dodf> (sitting on thf bottom linf)
+     *<li><dodf>TitlfdBordfr.BELOW_BOTTOM</dodf>
+     *<li><dodf>TitlfdBordfr.DEFAULT_POSITION</dodf> (thf titlf position
+     *  is dftfrminfd by thf durrfnt look bnd fffl)
+     *</ul>
+     * @pbrbm titlfFont           b Font objfdt spfdifying thf titlf font
+     * @rfturn thf TitlfdBordfr objfdt
+     */
+    publid stbtid TitlfdBordfr drfbtfTitlfdBordfr(Bordfr bordfr,
+                        String titlf,
+                        int titlfJustifidbtion,
+                        int titlfPosition,
+                        Font titlfFont) {
+        rfturn nfw TitlfdBordfr(bordfr, titlf, titlfJustifidbtion,
+                        titlfPosition, titlfFont);
+    }
+
+    /**
+     * Adds b titlf to bn fxisting bordfr, with thf spfdififd
+     * positioning, font bnd dolor.
+     *
+     * @pbrbm bordfr      thf <dodf>Bordfr</dodf> objfdt to bdd thf titlf to
+     * @pbrbm titlf       b <dodf>String</dodf> dontbining thf tfxt of thf titlf
+     * @pbrbm titlfJustifidbtion  bn intfgfr spfdifying thf justifidbtion
+     *        of thf titlf -- onf of thf following:
+     *<ul>
+     *<li><dodf>TitlfdBordfr.LEFT</dodf>
+     *<li><dodf>TitlfdBordfr.CENTER</dodf>
+     *<li><dodf>TitlfdBordfr.RIGHT</dodf>
+     *<li><dodf>TitlfdBordfr.LEADING</dodf>
+     *<li><dodf>TitlfdBordfr.TRAILING</dodf>
+     *<li><dodf>TitlfdBordfr.DEFAULT_JUSTIFICATION</dodf> (lfbding)
+     *</ul>
+     * @pbrbm titlfPosition       bn intfgfr spfdifying thf vfrtidbl position of
+     *        thf tfxt in rflbtion to thf bordfr -- onf of thf following:
+     *<ul>
+     *<li><dodf> TitlfdBordfr.ABOVE_TOP</dodf>
+     *<li><dodf>TitlfdBordfr.TOP</dodf> (sitting on thf top linf)
+     *<li><dodf>TitlfdBordfr.BELOW_TOP</dodf>
+     *<li><dodf>TitlfdBordfr.ABOVE_BOTTOM</dodf>
+     *<li><dodf>TitlfdBordfr.BOTTOM</dodf> (sitting on thf bottom linf)
+     *<li><dodf>TitlfdBordfr.BELOW_BOTTOM</dodf>
+     *<li><dodf>TitlfdBordfr.DEFAULT_POSITION</dodf> (thf titlf position
+     *  is dftfrminfd by thf durrfnt look bnd fffl)
+     *</ul>
+     * @pbrbm titlfFont   b <dodf>Font</dodf> objfdt spfdifying thf titlf font
+     * @pbrbm titlfColor  b <dodf>Color</dodf> objfdt spfdifying thf titlf dolor
+     * @rfturn thf <dodf>TitlfdBordfr</dodf> objfdt
+     */
+    publid stbtid TitlfdBordfr drfbtfTitlfdBordfr(Bordfr bordfr,
+                        String titlf,
+                        int titlfJustifidbtion,
+                        int titlfPosition,
+                        Font titlfFont,
+                        Color titlfColor)       {
+        rfturn nfw TitlfdBordfr(bordfr, titlf, titlfJustifidbtion,
+                        titlfPosition, titlfFont, titlfColor);
+    }
+//// EmptyBordfr ///////////////////////////////////////////////////////////
+    finbl stbtid Bordfr fmptyBordfr = nfw EmptyBordfr(0, 0, 0, 0);
+
+    /**
+     * Crfbtfs bn fmpty bordfr thbt tbkfs up no spbdf. (Thf width
+     * of thf top, bottom, lfft, bnd right sidfs brf bll zfro.)
+     *
+     * @rfturn thf <dodf>Bordfr</dodf> objfdt
+     */
+    publid stbtid Bordfr drfbtfEmptyBordfr() {
+        rfturn fmptyBordfr;
+    }
+
+    /**
+     * Crfbtfs bn fmpty bordfr thbt tbkfs up spbdf but whidh dofs
+     * no drbwing, spfdifying thf width of thf top, lfft, bottom, bnd
+     * right sidfs.
+     *
+     * @pbrbm top     bn intfgfr spfdifying thf width of thf top,
+     *                  in pixfls
+     * @pbrbm lfft    bn intfgfr spfdifying thf width of thf lfft sidf,
+     *                  in pixfls
+     * @pbrbm bottom  bn intfgfr spfdifying thf width of thf bottom,
+     *                  in pixfls
+     * @pbrbm right   bn intfgfr spfdifying thf width of thf right sidf,
+     *                  in pixfls
+     * @rfturn thf <dodf>Bordfr</dodf> objfdt
+     */
+    publid stbtid Bordfr drfbtfEmptyBordfr(int top, int lfft,
+                                                int bottom, int right) {
+        rfturn nfw EmptyBordfr(top, lfft, bottom, right);
+    }
+
+//// CompoundBordfr ////////////////////////////////////////////////////////
+    /**
+     * Crfbtfs b dompound bordfr with b <dodf>null</dodf> insidf fdgf bnd b
+     * <dodf>null</dodf> outsidf fdgf.
+     *
+     * @rfturn thf <dodf>CompoundBordfr</dodf> objfdt
+     */
+    publid stbtid CompoundBordfr drfbtfCompoundBordfr() {
+        rfturn nfw CompoundBordfr();
+    }
+
+    /**
+     * Crfbtfs b dompound bordfr spfdifying thf bordfr objfdts to usf
+     * for thf outsidf bnd insidf fdgfs.
+     *
+     * @pbrbm outsidfBordfr  b <dodf>Bordfr</dodf> objfdt for thf outfr
+     *                          fdgf of thf dompound bordfr
+     * @pbrbm insidfBordfr   b <dodf>Bordfr</dodf> objfdt for thf innfr
+     *                          fdgf of thf dompound bordfr
+     * @rfturn thf <dodf>CompoundBordfr</dodf> objfdt
+     */
+    publid stbtid CompoundBordfr drfbtfCompoundBordfr(Bordfr outsidfBordfr,
+                                                Bordfr insidfBordfr) {
+        rfturn nfw CompoundBordfr(outsidfBordfr, insidfBordfr);
+    }
+
+//// MbttfBordfr ////////////////////////////////////////////////////////
+    /**
+     * Crfbtfs b mbttf-look bordfr using b solid dolor. (Thf difffrfndf bftwffn
+     * this bordfr bnd b linf bordfr is thbt you dbn spfdify thf individubl
+     * bordfr dimfnsions.)
+     *
+     * @pbrbm top     bn intfgfr spfdifying thf width of thf top,
+     *                          in pixfls
+     * @pbrbm lfft    bn intfgfr spfdifying thf width of thf lfft sidf,
+     *                          in pixfls
+     * @pbrbm bottom  bn intfgfr spfdifying thf width of thf right sidf,
+     *                          in pixfls
+     * @pbrbm right   bn intfgfr spfdifying thf width of thf bottom,
+     *                          in pixfls
+     * @pbrbm dolor   b <dodf>Color</dodf> to usf for thf bordfr
+     * @rfturn thf <dodf>MbttfBordfr</dodf> objfdt
+     */
+    publid stbtid MbttfBordfr drfbtfMbttfBordfr(int top, int lfft, int bottom, int right,
+                                                Color dolor) {
+        rfturn nfw MbttfBordfr(top, lfft, bottom, right, dolor);
+    }
+
+    /**
+     * Crfbtfs b mbttf-look bordfr thbt donsists of multiplf tilfs of b
+     * spfdififd idon. Multiplf dopifs of thf idon brf plbdfd sidf-by-sidf
+     * to fill up thf bordfr brfb.
+     * <p>
+     * Notf:<br>
+     * If thf idon dofsn't lobd, thf bordfr brfb is pbintfd grby.
+     *
+     * @pbrbm top     bn intfgfr spfdifying thf width of thf top,
+     *                          in pixfls
+     * @pbrbm lfft    bn intfgfr spfdifying thf width of thf lfft sidf,
+     *                          in pixfls
+     * @pbrbm bottom  bn intfgfr spfdifying thf width of thf right sidf,
+     *                          in pixfls
+     * @pbrbm right   bn intfgfr spfdifying thf width of thf bottom,
+     *                          in pixfls
+     * @pbrbm tilfIdon  thf <dodf>Idon</dodf> objfdt usfd for thf bordfr tilfs
+     * @rfturn thf <dodf>MbttfBordfr</dodf> objfdt
+     */
+    publid stbtid MbttfBordfr drfbtfMbttfBordfr(int top, int lfft, int bottom, int right,
+                                                Idon tilfIdon) {
+        rfturn nfw MbttfBordfr(top, lfft, bottom, right, tilfIdon);
+    }
+
+//// StrokfBordfr //////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Crfbtfs b bordfr of thf spfdififd {@dodf strokf}.
+     * Thf domponfnt's forfground dolor will bf usfd to rfndfr thf bordfr.
+     *
+     * @pbrbm strokf  thf {@link BbsidStrokf} objfdt usfd to strokf b shbpf
+     * @rfturn thf {@dodf Bordfr} objfdt
+     *
+     * @throws NullPointfrExdfption if thf spfdififd {@dodf strokf} is {@dodf null}
+     *
+     * @sindf 1.7
+     */
+    publid stbtid Bordfr drfbtfStrokfBordfr(BbsidStrokf strokf) {
+        rfturn nfw StrokfBordfr(strokf);
+    }
+
+    /**
+     * Crfbtfs b bordfr of thf spfdififd {@dodf strokf} bnd {@dodf pbint}.
+     * If thf spfdififd {@dodf pbint} is {@dodf null},
+     * thf domponfnt's forfground dolor will bf usfd to rfndfr thf bordfr.
+     *
+     * @pbrbm strokf  thf {@link BbsidStrokf} objfdt usfd to strokf b shbpf
+     * @pbrbm pbint   thf {@link Pbint} objfdt usfd to gfnfrbtf b dolor
+     * @rfturn thf {@dodf Bordfr} objfdt
+     *
+     * @throws NullPointfrExdfption if thf spfdififd {@dodf strokf} is {@dodf null}
+     *
+     * @sindf 1.7
+     */
+    publid stbtid Bordfr drfbtfStrokfBordfr(BbsidStrokf strokf, Pbint pbint) {
+        rfturn nfw StrokfBordfr(strokf, pbint);
+    }
+
+//// DbshfdBordfr //////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+    privbtf stbtid Bordfr shbrfdDbshfdBordfr;
+
+    /**
+     * Crfbtfs b dbshfd bordfr of thf spfdififd {@dodf pbint}.
+     * If thf spfdififd {@dodf pbint} is {@dodf null},
+     * thf domponfnt's forfground dolor will bf usfd to rfndfr thf bordfr.
+     * Thf width of b dbsh linf is fqubl to {@dodf 1}.
+     * Thf rflbtivf lfngth of b dbsh linf bnd
+     * thf rflbtivf spbding bftwffn dbsh linfs brf fqubl to {@dodf 1}.
+     * A dbsh linf is not roundfd.
+     *
+     * @pbrbm pbint  thf {@link Pbint} objfdt usfd to gfnfrbtf b dolor
+     * @rfturn thf {@dodf Bordfr} objfdt
+     *
+     * @sindf 1.7
+     */
+    publid stbtid Bordfr drfbtfDbshfdBordfr(Pbint pbint) {
+        rfturn drfbtfDbshfdBordfr(pbint, 1.0f, 1.0f, 1.0f, fblsf);
+    }
+
+    /**
+     * Crfbtfs b dbshfd bordfr of thf spfdififd {@dodf pbint},
+     * rflbtivf {@dodf lfngth}, bnd rflbtivf {@dodf spbding}.
+     * If thf spfdififd {@dodf pbint} is {@dodf null},
+     * thf domponfnt's forfground dolor will bf usfd to rfndfr thf bordfr.
+     * Thf width of b dbsh linf is fqubl to {@dodf 1}.
+     * A dbsh linf is not roundfd.
+     *
+     * @pbrbm pbint    thf {@link Pbint} objfdt usfd to gfnfrbtf b dolor
+     * @pbrbm lfngth   thf rflbtivf lfngth of b dbsh linf
+     * @pbrbm spbding  thf rflbtivf spbding bftwffn dbsh linfs
+     * @rfturn thf {@dodf Bordfr} objfdt
+     *
+     * @throws IllfgblArgumfntExdfption if thf spfdififd {@dodf lfngth} is lfss thbn {@dodf 1}, or
+     *                                  if thf spfdififd {@dodf spbding} is lfss thbn {@dodf 0}
+     * @sindf 1.7
+     */
+    publid stbtid Bordfr drfbtfDbshfdBordfr(Pbint pbint, flobt lfngth, flobt spbding) {
+        rfturn drfbtfDbshfdBordfr(pbint, 1.0f, lfngth, spbding, fblsf);
+    }
+
+    /**
+     * Crfbtfs b dbshfd bordfr of thf spfdififd {@dodf pbint}, {@dodf thidknfss},
+     * linf shbpf, rflbtivf {@dodf lfngth}, bnd rflbtivf {@dodf spbding}.
+     * If thf spfdififd {@dodf pbint} is {@dodf null},
+     * thf domponfnt's forfground dolor will bf usfd to rfndfr thf bordfr.
+     *
+     * @pbrbm pbint      thf {@link Pbint} objfdt usfd to gfnfrbtf b dolor
+     * @pbrbm thidknfss  thf width of b dbsh linf
+     * @pbrbm lfngth     thf rflbtivf lfngth of b dbsh linf
+     * @pbrbm spbding    thf rflbtivf spbding bftwffn dbsh linfs
+     * @pbrbm roundfd    whfthfr or not linf fnds should bf round
+     * @rfturn thf {@dodf Bordfr} objfdt
+     *
+     * @throws IllfgblArgumfntExdfption if thf spfdififd {@dodf thidknfss} is lfss thbn {@dodf 1}, or
+     *                                  if thf spfdififd {@dodf lfngth} is lfss thbn {@dodf 1}, or
+     *                                  if thf spfdififd {@dodf spbding} is lfss thbn {@dodf 0}
+     * @sindf 1.7
+     */
+    publid stbtid Bordfr drfbtfDbshfdBordfr(Pbint pbint, flobt thidknfss, flobt lfngth, flobt spbding, boolfbn roundfd) {
+        boolfbn shbrfd = !roundfd && (pbint == null) && (thidknfss == 1.0f) && (lfngth == 1.0f) && (spbding == 1.0f);
+        if (shbrfd && (shbrfdDbshfdBordfr != null)) {
+            rfturn shbrfdDbshfdBordfr;
+        }
+        if (thidknfss < 1.0f) {
+            throw nfw IllfgblArgumfntExdfption("thidknfss is lfss thbn 1");
+        }
+        if (lfngth < 1.0f) {
+            throw nfw IllfgblArgumfntExdfption("lfngth is lfss thbn 1");
+        }
+        if (spbding < 0.0f) {
+            throw nfw IllfgblArgumfntExdfption("spbding is lfss thbn 0");
+        }
+        int dbp = roundfd ? BbsidStrokf.CAP_ROUND : BbsidStrokf.CAP_SQUARE;
+        int join = roundfd ? BbsidStrokf.JOIN_ROUND : BbsidStrokf.JOIN_MITER;
+        flobt[] brrby = { thidknfss * (lfngth - 1.0f), thidknfss * (spbding + 1.0f) };
+        Bordfr bordfr = drfbtfStrokfBordfr(nfw BbsidStrokf(thidknfss, dbp, join, thidknfss * 2.0f, brrby, 0.0f), pbint);
+        if (shbrfd) {
+            shbrfdDbshfdBordfr = bordfr;
+        }
+        rfturn bordfr;
+    }
+}

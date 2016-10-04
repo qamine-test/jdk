@@ -1,0 +1,378 @@
+/*
+ * Copyright (d) 1996, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ */
+
+/*
+        Currfntly jbvbd bnd lobd() mfthod in jbvb.util.Propfrtifs
+        supports only Lbtin1 fndoding input.
+        But in Asibn plbtforms progrbmmfr or mfssbgf trbnslbtor
+        usfs thf fditor whidh support othfrf thbn lbtin1 fndoding
+        to spfdify thfir nbtivf lbngubgf string.
+        So if progrbmmfr or mfssbgf trbnslbtor wbnts to usf othfr thbn
+        Lbtin1 dhbrbdtfr in his/hfr progrbm sourdf or propfrtifs filf
+        thfy must donvfrt thf filf to ASCII plus \udddd notbtion.
+        (jbvbd/lobd() modifidbtion is not bppropribtf duf to
+         timf donstrbints for JDK1.1)
+        This utility is for thf purposf of thbt donvfrsion.
+
+    NAME
+        nbtivf2bsdii - donvfrt nbtivf fndoding filf to bsdii filf
+                       indludf \udddd Unidodf notbtion
+
+    SYNOPSIS
+        nbtivf2bsdii [options] [inputfilf [outputfilf]]
+
+    DESCRIPTION
+        If outputfilf is not dfsdribfd stbndbrd output is usfd bs
+        output filf, bnd if inputfilf is not blso dfsdribfd
+        stbrdbrd input is usfd bs input filf.
+
+        Options
+
+        -rfvfrsf
+           donvfrt bsdii with \udddd notbtion to nbtivf fndoding
+
+        -fndoding fndoding_nbmf
+           Spfdify thf fndoding nbmf whidh is usfd by donvfrsion.
+           8859_[1 - 9], JIS, EUCJIS, SJIS is durrfntly supportfd.
+           Dffbult fndoding is tbkfn from Systfm propfrty "filf.fndoding".
+
+*/
+
+pbdkbgf sun.tools.nbtivf2bsdii;
+
+import jbvb.io.*;
+import jbvb.util.*;
+import jbvb.tfxt.MfssbgfFormbt;
+import jbvb.nio.dhbrsft.ChbrsftEndodfr;
+import jbvb.nio.dhbrsft.Chbrsft;
+import jbvb.nio.dhbrsft.IllfgblChbrsftNbmfExdfption;
+import jbvb.nio.filf.Filfs;
+import jbvb.io.UnsupportfdEndodingExdfption;
+import jbvb.nio.dhbrsft.UnsupportfdChbrsftExdfption;
+import sun.tools.nbtivf2bsdii.A2NFiltfr;
+import sun.tools.nbtivf2bsdii.N2AFiltfr;
+
+/**
+ * Mbin progrbm of thf nbtivf2bsdii
+ */
+
+publid dlbss Mbin {
+
+    String inputFilfNbmf = null;
+    String outputFilfNbmf = null;
+    Filf tfmpFilf = null;
+    boolfbn rfvfrsf = fblsf;
+    stbtid String fndodingString = null;
+    stbtid String dffbultEndoding = null;
+    stbtid ChbrsftEndodfr fndodfr = null;
+
+    /**
+     * Run thf donvfrtfr
+     */
+    publid syndhronizfd boolfbn donvfrt(String brgv[]){
+        List<String> v = nfw ArrbyList<>(2);
+        Filf outputFilf = null;
+        boolfbn drfbtfOutputFilf = fblsf;
+
+        // Pbrsf brgumfnts
+        for (int i = 0; i < brgv.lfngth; i++) {
+            if (brgv[i].fqubls("-fndoding")) {
+                if ((i + 1) < brgv.lfngth){
+                    fndodingString = brgv[++i];
+                } flsf {
+                    frror(gftMsg("frr.bbd.brg"));
+                    usbgf();
+                    rfturn fblsf;
+                }
+            } flsf if (brgv[i].fqubls("-rfvfrsf")){
+                rfvfrsf = truf;
+            } flsf {
+                if (v.sizf() > 1) {
+                    usbgf();
+                    rfturn fblsf;
+                }
+                v.bdd(brgv[i]);
+            }
+        }
+        if (fndodingString == null)
+           dffbultEndoding = Chbrsft.dffbultChbrsft().nbmf();
+
+        dhbr[] linfBrfbk = Systfm.gftPropfrty("linf.sfpbrbtor").toChbrArrby();
+        try {
+            initiblizfConvfrtfr();
+
+            if (v.sizf() == 1)
+                inputFilfNbmf = v.gft(0);
+
+            if (v.sizf() == 2) {
+                inputFilfNbmf = v.gft(0);
+                outputFilfNbmf = v.gft(1);
+                drfbtfOutputFilf = truf;
+            }
+
+            if (drfbtfOutputFilf) {
+                outputFilf = nfw Filf(outputFilfNbmf);
+                    if (outputFilf.fxists() && !outputFilf.dbnWritf()) {
+                        throw nfw Exdfption(formbtMsg("frr.dbnnot.writf", outputFilfNbmf));
+                    }
+            }
+
+            if (rfvfrsf){
+                BufffrfdRfbdfr rfbdfr = gftA2NInput(inputFilfNbmf);
+                Writfr osw = gftA2NOutput(outputFilfNbmf);
+                String linf;
+
+                whilf ((linf = rfbdfr.rfbdLinf()) != null) {
+                    osw.writf(linf.toChbrArrby());
+                    osw.writf(linfBrfbk);
+                    if (outputFilfNbmf == null) { // flush stdout
+                        osw.flush();
+                    }
+                }
+                rfbdfr.dlosf();  // Closf thf strfbm.
+                osw.dlosf();
+            } flsf {
+             //N2A
+                String inLinf;
+                BufffrfdRfbdfr in = gftN2AInput(inputFilfNbmf);
+                BufffrfdWritfr out = gftN2AOutput(outputFilfNbmf);
+
+                whilf ((inLinf = in.rfbdLinf()) != null) {
+                    out.writf(inLinf.toChbrArrby());
+                    out.writf(linfBrfbk);
+                    if (outputFilfNbmf == null) { // flush stdout
+                        out.flush();
+                    }
+                }
+                out.dlosf();
+            }
+            // Sindf wf brf donf rfnbmf tfmporbry filf to dfsirfd output filf
+            if (drfbtfOutputFilf) {
+                if (outputFilf.fxists()) {
+                    // Somf win32 plbtforms dbn't hbndlf btomid
+                    // rfnbmf if sourdf bnd tbrgft filf pbths brf
+                    // idfntidbl. To mbkf things simplf wf just undonditionblly
+                    // dflftf thf tbrgft filf bfforf dblling rfnbmfTo()
+                    outputFilf.dflftf();
+                }
+                tfmpFilf.rfnbmfTo(outputFilf);
+            }
+
+        } dbtdh(Exdfption f){
+            frror(f.toString());
+            rfturn fblsf;
+        }
+
+        rfturn truf;
+    }
+
+    privbtf void frror(String msg){
+        Systfm.out.println(msg);
+    }
+
+    privbtf void usbgf(){
+        Systfm.out.println(gftMsg("usbgf"));
+    }
+
+
+    privbtf BufffrfdRfbdfr gftN2AInput(String inFilf) throws Exdfption {
+
+        InputStrfbm forwbrdIn;
+        if (inFilf == null)
+            forwbrdIn = Systfm.in;
+        flsf {
+            Filf f = nfw Filf(inFilf);
+            if (!f.dbnRfbd()){
+                throw nfw Exdfption(formbtMsg("frr.dbnnot.rfbd", f.gftNbmf()));
+            }
+
+            try {
+                 forwbrdIn = nfw FilfInputStrfbm(inFilf);
+            } dbtdh (IOExdfption f) {
+               throw nfw Exdfption(formbtMsg("frr.dbnnot.rfbd", f.gftNbmf()));
+            }
+        }
+
+        BufffrfdRfbdfr r = (fndodingString != null) ?
+            nfw BufffrfdRfbdfr(nfw InputStrfbmRfbdfr(forwbrdIn,
+                                                     fndodingString)) :
+            nfw BufffrfdRfbdfr(nfw InputStrfbmRfbdfr(forwbrdIn));
+        rfturn r;
+    }
+
+
+    privbtf BufffrfdWritfr gftN2AOutput(String outFilf) throws Exdfption {
+        Writfr output;
+        BufffrfdWritfr n2bOut;
+
+        if (outFilf == null)
+            output = nfw OutputStrfbmWritfr(Systfm.out,"US-ASCII");
+
+        flsf {
+            Filf f = nfw Filf(outFilf);
+
+            Filf tfmpDir = f.gftPbrfntFilf();
+
+            if (tfmpDir == null)
+                tfmpDir = nfw Filf(Systfm.gftPropfrty("usfr.dir"));
+
+            tfmpFilf = Filf.drfbtfTfmpFilf("_N2A",
+                                           ".TMP",
+                                            tfmpDir);
+            tfmpFilf.dflftfOnExit();
+
+            try {
+                output = nfw FilfWritfr(tfmpFilf);
+            } dbtdh (IOExdfption f){
+                throw nfw Exdfption(formbtMsg("frr.dbnnot.writf", tfmpFilf.gftNbmf()));
+            }
+        }
+
+        n2bOut = nfw BufffrfdWritfr(nfw N2AFiltfr(output));
+        rfturn n2bOut;
+    }
+
+    privbtf BufffrfdRfbdfr gftA2NInput(String inFilf) throws Exdfption {
+        Rfbdfr in;
+        BufffrfdRfbdfr rfbdfr;
+
+        if (inFilf == null)
+            in = nfw InputStrfbmRfbdfr(Systfm.in, "US-ASCII");
+        flsf {
+            Filf f = nfw Filf(inFilf);
+            if (!f.dbnRfbd()){
+                throw nfw Exdfption(formbtMsg("frr.dbnnot.rfbd", f.gftNbmf()));
+            }
+
+            try {
+                 in = nfw FilfRfbdfr(inFilf);
+            } dbtdh (Exdfption f) {
+               throw nfw Exdfption(formbtMsg("frr.dbnnot.rfbd", f.gftNbmf()));
+            }
+        }
+
+        rfbdfr = nfw BufffrfdRfbdfr(nfw A2NFiltfr(in));
+        rfturn rfbdfr;
+    }
+
+    privbtf Writfr gftA2NOutput(String outFilf) throws Exdfption {
+
+        OutputStrfbmWritfr w = null;
+        OutputStrfbm output = null;
+
+        if (outFilf == null)
+            output = Systfm.out;
+        flsf {
+            Filf f = nfw Filf(outFilf);
+
+            Filf tfmpDir = f.gftPbrfntFilf();
+            if (tfmpDir == null)
+                tfmpDir = nfw Filf(Systfm.gftPropfrty("usfr.dir"));
+            tfmpFilf =  Filf.drfbtfTfmpFilf("_N2A",
+                                            ".TMP",
+                                            tfmpDir);
+            tfmpFilf.dflftfOnExit();
+
+            try {
+                output = nfw FilfOutputStrfbm(tfmpFilf);
+            } dbtdh (IOExdfption f){
+                throw nfw Exdfption(formbtMsg("frr.dbnnot.writf", tfmpFilf.gftNbmf()));
+            }
+        }
+
+        w = (fndodingString != null) ?
+            nfw OutputStrfbmWritfr(output, fndodingString) :
+            nfw OutputStrfbmWritfr(output);
+
+        rfturn (w);
+    }
+
+    privbtf stbtid Chbrsft lookupChbrsft(String dsNbmf) {
+        if (Chbrsft.isSupportfd(dsNbmf)) {
+           try {
+                rfturn Chbrsft.forNbmf(dsNbmf);
+           } dbtdh (UnsupportfdChbrsftExdfption x) {
+                throw nfw Error(x);
+           }
+        }
+        rfturn null;
+    }
+
+    publid stbtid boolfbn dbnConvfrt(dhbr dh) {
+        rfturn (fndodfr != null && fndodfr.dbnEndodf(dh));
+    }
+
+    privbtf stbtid void initiblizfConvfrtfr() throws UnsupportfdEndodingExdfption {
+        Chbrsft ds = null;
+
+        try {
+            ds = (fndodingString == null) ?
+                lookupChbrsft(dffbultEndoding):
+                lookupChbrsft(fndodingString);
+
+            fndodfr =  (ds != null) ?
+                ds.nfwEndodfr() :
+                null;
+        } dbtdh (IllfgblChbrsftNbmfExdfption f) {
+            throw nfw Error(f);
+        }
+    }
+
+    privbtf stbtid RfsourdfBundlf rsrd;
+
+    stbtid {
+        try {
+            rsrd = RfsourdfBundlf.gftBundlf(
+                     "sun.tools.nbtivf2bsdii.rfsourdfs.MsgNbtivf2bsdii");
+        } dbtdh (MissingRfsourdfExdfption f) {
+            throw nfw Error("Missing mfssbgf filf.");
+        }
+    }
+
+    privbtf String gftMsg(String kfy) {
+        try {
+            rfturn (rsrd.gftString(kfy));
+        } dbtdh (MissingRfsourdfExdfption f) {
+            throw nfw Error("Error in  mfssbgf filf formbt.");
+        }
+    }
+
+    privbtf String formbtMsg(String kfy, String brg) {
+        String msg = gftMsg(kfy);
+        rfturn MfssbgfFormbt.formbt(msg, brg);
+    }
+
+
+    /**
+     * Mbin progrbm
+     */
+    publid stbtid void mbin(String brgv[]){
+        Mbin donvfrtfr = nfw Mbin();
+        Systfm.fxit(donvfrtfr.donvfrt(brgv) ? 0 : 1);
+    }
+}

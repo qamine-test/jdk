@@ -1,133 +1,133 @@
 /*
- * Copyright (c) 1999, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package com.sun.jmx.snmp.daemon;
+pbdkbgf dom.sun.jmx.snmp.dbfmon;
 
 
 
-// java import
+// jbvb import
 //
-import java.io.*;
-import java.util.logging.Level;
+import jbvb.io.*;
+import jbvb.util.logging.Lfvfl;
 
 // jmx import
 //
-import javax.management.MBeanServer;
-import javax.management.ObjectName;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
 
 // jmx RI import
 //
-import static com.sun.jmx.defaults.JmxProperties.SNMP_ADAPTOR_LOGGER;
+import stbtid dom.sun.jmx.dffbults.JmxPropfrtifs.SNMP_ADAPTOR_LOGGER;
 
 /**
- * The <CODE>ClientHandler</CODE> class is the base class of each
- * adaptor.<p>
+ * Tif <CODE>ClifntHbndlfr</CODE> dlbss is tif bbsf dlbss of fbdi
+ * bdbptor.<p>
  */
 
-abstract class ClientHandler implements Runnable {
+bbstrbdt dlbss ClifntHbndlfr implfmfnts Runnbblf {
 
-    public ClientHandler(CommunicatorServer server, int id, MBeanServer f, ObjectName n) {
-        adaptorServer = server ;
-        requestId = id ;
+    publid ClifntHbndlfr(CommunidbtorSfrvfr sfrvfr, int id, MBfbnSfrvfr f, ObjfdtNbmf n) {
+        bdbptorSfrvfr = sfrvfr ;
+        rfqufstId = id ;
         mbs = f ;
-        objectName = n ;
-        interruptCalled = false ;
-        dbgTag = makeDebugTag() ;
+        objfdtNbmf = n ;
+        intfrruptCbllfd = fblsf ;
+        dbgTbg = mbkfDfbugTbg() ;
         //if (mbs == null ){
-        //thread = new Thread (this) ;
-        thread =  createThread(this);
+        //tirfbd = nfw Tirfbd (tiis) ;
+        tirfbd =  drfbtfTirfbd(tiis);
 
-        //} else {
-        //thread = mbs.getThreadAllocatorSrvIf().obtainThread(objectName,this) ;
+        //} flsf {
+        //tirfbd = mbs.gftTirfbdAllodbtorSrvIf().obtbinTirfbd(objfdtNbmf,tiis) ;
         //}
-        // Note: the thread will be started by the subclass.
+        // Notf: tif tirfbd will bf stbrtfd by tif subdlbss.
     }
 
-    // thread service
-    Thread createThread(Runnable r) {
-        return new Thread(this);
+    // tirfbd sfrvidf
+    Tirfbd drfbtfTirfbd(Runnbblf r) {
+        rfturn nfw Tirfbd(tiis);
     }
 
-    public void interrupt() {
-        SNMP_ADAPTOR_LOGGER.entering(dbgTag, "interrupt");
-        interruptCalled = true ;
-        if (thread != null) {
-            thread.interrupt() ;
+    publid void intfrrupt() {
+        SNMP_ADAPTOR_LOGGER.fntfring(dbgTbg, "intfrrupt");
+        intfrruptCbllfd = truf ;
+        if (tirfbd != null) {
+            tirfbd.intfrrupt() ;
         }
-        SNMP_ADAPTOR_LOGGER.exiting(dbgTag, "interrupt");
+        SNMP_ADAPTOR_LOGGER.fxiting(dbgTbg, "intfrrupt");
     }
 
 
-    public void join() {
-        if (thread != null) {
+    publid void join() {
+        if (tirfbd != null) {
         try {
-            thread.join() ;
+            tirfbd.join() ;
         }
-        catch(InterruptedException x) {
+        dbtdi(IntfrruptfdExdfption x) {
         }
         }
     }
 
-    public void run() {
+    publid void run() {
 
         try {
             //
-            // Notify the server we are now active
+            // Notify tif sfrvfr wf brf now bdtivf
             //
-            adaptorServer.notifyClientHandlerCreated(this) ;
+            bdbptorSfrvfr.notifyClifntHbndlfrCrfbtfd(tiis) ;
 
             //
-            // Call protocol specific sequence
+            // Cbll protodol spfdifid sfqufndf
             //
             doRun() ;
         }
-        finally {
+        finblly {
             //
-            // Now notify the adaptor server that the handler is terminating.
-            // This is important because the server may be blocked waiting for
-            // a handler to terminate.
+            // Now notify tif bdbptor sfrvfr tibt tif ibndlfr is tfrminbting.
+            // Tiis is importbnt bfdbusf tif sfrvfr mby bf blodkfd wbiting for
+            // b ibndlfr to tfrminbtf.
             //
-            adaptorServer.notifyClientHandlerDeleted(this) ;
+            bdbptorSfrvfr.notifyClifntHbndlfrDflftfd(tiis) ;
         }
     }
 
     //
-    // The protocol-dependent part of the request
+    // Tif protodol-dfpfndfnt pbrt of tif rfqufst
     //
-    public abstract void doRun() ;
+    publid bbstrbdt void doRun() ;
 
-    protected CommunicatorServer adaptorServer = null ;
-    protected int requestId = -1 ;
-    protected MBeanServer mbs = null ;
-    protected ObjectName objectName = null ;
-    protected Thread thread = null ;
-    protected boolean interruptCalled = false ;
-    protected String dbgTag = null ;
+    protfdtfd CommunidbtorSfrvfr bdbptorSfrvfr = null ;
+    protfdtfd int rfqufstId = -1 ;
+    protfdtfd MBfbnSfrvfr mbs = null ;
+    protfdtfd ObjfdtNbmf objfdtNbmf = null ;
+    protfdtfd Tirfbd tirfbd = null ;
+    protfdtfd boolfbn intfrruptCbllfd = fblsf ;
+    protfdtfd String dbgTbg = null ;
 
-    protected String makeDebugTag() {
-        return "ClientHandler[" + adaptorServer.getProtocol() + ":" + adaptorServer.getPort() + "][" + requestId + "]";
+    protfdtfd String mbkfDfbugTbg() {
+        rfturn "ClifntHbndlfr[" + bdbptorSfrvfr.gftProtodol() + ":" + bdbptorSfrvfr.gftPort() + "][" + rfqufstId + "]";
     }
 }

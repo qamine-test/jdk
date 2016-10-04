@@ -1,237 +1,237 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.management.jdp;
+pbdkbgf sun.mbnbgfmfnt.jdp;
 
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.UUID;
+import jbvb.io.IOExdfption;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.UnknownHostExdfption;
+import jbvb.util.UUID;
 
-import java.lang.management.ManagementFactory;
-import java.lang.management.RuntimeMXBean;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import sun.management.VMManagement;
+import jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory;
+import jbvb.lbng.mbnbgfmfnt.RuntimfMXBfbn;
+import jbvb.lbng.rfflfdt.Fifld;
+import jbvb.lbng.rfflfdt.Mftiod;
+import sun.mbnbgfmfnt.VMMbnbgfmfnt;
 
 /**
- * JdpController is responsible to create and manage a broadcast loop
+ * JdpControllfr is rfsponsiblf to drfbtf bnd mbnbgf b brobddbst loop
  *
- * <p> Other part of code has no access to broadcast loop and have to use
- * provided static methods
- * {@link #startDiscoveryService(InetAddress,int,String,String) startDiscoveryService}
- * and {@link #stopDiscoveryService() stopDiscoveryService}</p>
- * <p>{@link #startDiscoveryService(InetAddress,int,String,String) startDiscoveryService} could be called multiple
- * times as it stops the running service if it is necessary. Call to {@link #stopDiscoveryService() stopDiscoveryService}
- * ignored if service isn't run</p>
+ * <p> Otifr pbrt of dodf ibs no bddfss to brobddbst loop bnd ibvf to usf
+ * providfd stbtid mftiods
+ * {@link #stbrtDisdovfrySfrvidf(InftAddrfss,int,String,String) stbrtDisdovfrySfrvidf}
+ * bnd {@link #stopDisdovfrySfrvidf() stopDisdovfrySfrvidf}</p>
+ * <p>{@link #stbrtDisdovfrySfrvidf(InftAddrfss,int,String,String) stbrtDisdovfrySfrvidf} dould bf dbllfd multiplf
+ * timfs bs it stops tif running sfrvidf if it is nfdfssbry. Cbll to {@link #stopDisdovfrySfrvidf() stopDisdovfrySfrvidf}
+ * ignorfd if sfrvidf isn't run</p>
  *
  *
  * </p>
  *
- * <p> System properties below could be used to control broadcast loop behavior.
- * Property below have to be set explicitly in command line. It's not possible to
- * set it in management.config file.  Careless changes of these properties could
- * lead to security or network issues.
+ * <p> Systfm propfrtifs bflow dould bf usfd to dontrol brobddbst loop bfibvior.
+ * Propfrty bflow ibvf to bf sft fxpliditly in dommbnd linf. It's not possiblf to
+ * sft it in mbnbgfmfnt.donfig filf.  Cbrflfss dibngfs of tifsf propfrtifs dould
+ * lfbd to sfdurity or nftwork issufs.
  * <ul>
- *     <li>com.sun.management.jdp.ttl         - set ttl for broadcast packet</li>
- *     <li>com.sun.management.jdp.pause       - set broadcast interval in seconds</li>
- *     <li>com.sun.management.jdp.source_addr - an address of interface to use for broadcast</li>
+ *     <li>dom.sun.mbnbgfmfnt.jdp.ttl         - sft ttl for brobddbst pbdkft</li>
+ *     <li>dom.sun.mbnbgfmfnt.jdp.pbusf       - sft brobddbst intfrvbl in sfdonds</li>
+ *     <li>dom.sun.mbnbgfmfnt.jdp.sourdf_bddr - bn bddrfss of intfrfbdf to usf for brobddbst</li>
  * </ul>
   </p>
- * <p>null parameters values are filtered out on {@link JdpPacketWriter} level and
- * corresponding keys are not placed to packet.</p>
+ * <p>null pbrbmftfrs vblufs brf filtfrfd out on {@link JdpPbdkftWritfr} lfvfl bnd
+ * dorrfsponding kfys brf not plbdfd to pbdkft.</p>
  */
-public final class JdpController {
+publid finbl dlbss JdpControllfr {
 
-    private static class JDPControllerRunner implements Runnable {
+    privbtf stbtid dlbss JDPControllfrRunnfr implfmfnts Runnbblf {
 
-        private final JdpJmxPacket packet;
-        private final JdpBroadcaster bcast;
-        private final int pause;
-        private volatile boolean shutdown = false;
+        privbtf finbl JdpJmxPbdkft pbdkft;
+        privbtf finbl JdpBrobddbstfr bdbst;
+        privbtf finbl int pbusf;
+        privbtf volbtilf boolfbn siutdown = fblsf;
 
-        private JDPControllerRunner(JdpBroadcaster bcast, JdpJmxPacket packet, int pause) {
-            this.bcast = bcast;
-            this.packet = packet;
-            this.pause = pause;
+        privbtf JDPControllfrRunnfr(JdpBrobddbstfr bdbst, JdpJmxPbdkft pbdkft, int pbusf) {
+            tiis.bdbst = bdbst;
+            tiis.pbdkft = pbdkft;
+            tiis.pbusf = pbusf;
         }
 
-        @Override
-        public void run() {
+        @Ovfrridf
+        publid void run() {
             try {
-                while (!shutdown) {
-                    bcast.sendPacket(packet);
+                wiilf (!siutdown) {
+                    bdbst.sfndPbdkft(pbdkft);
                     try {
-                        Thread.sleep(this.pause);
-                    } catch (InterruptedException e) {
-                        // pass
+                        Tirfbd.slffp(tiis.pbusf);
+                    } dbtdi (IntfrruptfdExdfption f) {
+                        // pbss
                     }
                 }
 
-            } catch (IOException e) {
-              // pass;
+            } dbtdi (IOExdfption f) {
+              // pbss;
             }
 
-            // It's not possible to re-use controller,
-            // nevertheless reset shutdown variable
+            // It's not possiblf to rf-usf dontrollfr,
+            // nfvfrtiflfss rfsft siutdown vbribblf
             try {
                 stop();
-                bcast.shutdown();
-            } catch (IOException ex) {
-                // pass - ignore IOException during shutdown
+                bdbst.siutdown();
+            } dbtdi (IOExdfption fx) {
+                // pbss - ignorf IOExdfption during siutdown
             }
         }
 
-        public void stop() {
-            shutdown = true;
+        publid void stop() {
+            siutdown = truf;
         }
     }
-    private static JDPControllerRunner controller = null;
+    privbtf stbtid JDPControllfrRunnfr dontrollfr = null;
 
-    private JdpController(){
-        // Don't allow to instantiate this class.
+    privbtf JdpControllfr(){
+        // Don't bllow to instbntibtf tiis dlbss.
     }
 
-    // Utility to handle optional system properties
-    // Parse an integer from string or return default if provided string is null
-    private static int getInteger(String val, int dflt, String msg) throws JdpException {
+    // Utility to ibndlf optionbl systfm propfrtifs
+    // Pbrsf bn intfgfr from string or rfturn dffbult if providfd string is null
+    privbtf stbtid int gftIntfgfr(String vbl, int dflt, String msg) tirows JdpExdfption {
         try {
-            return (val == null) ? dflt : Integer.parseInt(val);
-        } catch (NumberFormatException ex) {
-            throw new JdpException(msg);
-        }
-    }
-
-    // Parse an inet address from string or return default if provided string is null
-    private static InetAddress getInetAddress(String val, InetAddress dflt, String msg) throws JdpException {
-        try {
-            return (val == null) ? dflt : InetAddress.getByName(val);
-        } catch (UnknownHostException ex) {
-            throw new JdpException(msg);
+            rfturn (vbl == null) ? dflt : Intfgfr.pbrsfInt(vbl);
+        } dbtdi (NumbfrFormbtExdfption fx) {
+            tirow nfw JdpExdfption(msg);
         }
     }
 
-    // Get the process id of the current running Java process
-    private static Integer getProcessId() {
+    // Pbrsf bn inft bddrfss from string or rfturn dffbult if providfd string is null
+    privbtf stbtid InftAddrfss gftInftAddrfss(String vbl, InftAddrfss dflt, String msg) tirows JdpExdfption {
         try {
-            // Get the current process id using a reflection hack
-            RuntimeMXBean runtime = ManagementFactory.getRuntimeMXBean();
-            Field jvm = runtime.getClass().getDeclaredField("jvm");
-            jvm.setAccessible(true);
+            rfturn (vbl == null) ? dflt : InftAddrfss.gftByNbmf(vbl);
+        } dbtdi (UnknownHostExdfption fx) {
+            tirow nfw JdpExdfption(msg);
+        }
+    }
 
-            VMManagement mgmt = (sun.management.VMManagement) jvm.get(runtime);
-            Method pid_method = mgmt.getClass().getDeclaredMethod("getProcessId");
-            pid_method.setAccessible(true);
-            Integer pid = (Integer) pid_method.invoke(mgmt);
-            return pid;
-        } catch(Exception ex) {
-            return null;
+    // Gft tif prodfss id of tif durrfnt running Jbvb prodfss
+    privbtf stbtid Intfgfr gftProdfssId() {
+        try {
+            // Gft tif durrfnt prodfss id using b rfflfdtion ibdk
+            RuntimfMXBfbn runtimf = MbnbgfmfntFbdtory.gftRuntimfMXBfbn();
+            Fifld jvm = runtimf.gftClbss().gftDfdlbrfdFifld("jvm");
+            jvm.sftAddfssiblf(truf);
+
+            VMMbnbgfmfnt mgmt = (sun.mbnbgfmfnt.VMMbnbgfmfnt) jvm.gft(runtimf);
+            Mftiod pid_mftiod = mgmt.gftClbss().gftDfdlbrfdMftiod("gftProdfssId");
+            pid_mftiod.sftAddfssiblf(truf);
+            Intfgfr pid = (Intfgfr) pid_mftiod.invokf(mgmt);
+            rfturn pid;
+        } dbtdi(Exdfption fx) {
+            rfturn null;
         }
     }
 
 
     /**
-     * Starts discovery service
+     * Stbrts disdovfry sfrvidf
      *
-     * @param address - multicast group address
-     * @param port - udp port to use
-     * @param instanceName - name of running JVM instance
-     * @param url - JMX service url
-     * @throws IOException
+     * @pbrbm bddrfss - multidbst group bddrfss
+     * @pbrbm port - udp port to usf
+     * @pbrbm instbndfNbmf - nbmf of running JVM instbndf
+     * @pbrbm url - JMX sfrvidf url
+     * @tirows IOExdfption
      */
-    public static synchronized void startDiscoveryService(InetAddress address, int port, String instanceName, String url)
-            throws IOException, JdpException {
+    publid stbtid syndironizfd void stbrtDisdovfrySfrvidf(InftAddrfss bddrfss, int port, String instbndfNbmf, String url)
+            tirows IOExdfption, JdpExdfption {
 
-        // Limit packet to local subnet by default
-        int ttl = getInteger(
-                System.getProperty("com.sun.management.jdp.ttl"), 1,
-                "Invalid jdp packet ttl");
+        // Limit pbdkft to lodbl subnft by dffbult
+        int ttl = gftIntfgfr(
+                Systfm.gftPropfrty("dom.sun.mbnbgfmfnt.jdp.ttl"), 1,
+                "Invblid jdp pbdkft ttl");
 
-        // Broadcast once a 5 seconds by default
-        int pause = getInteger(
-                System.getProperty("com.sun.management.jdp.pause"), 5,
-                "Invalid jdp pause");
+        // Brobddbst ondf b 5 sfdonds by dffbult
+        int pbusf = gftIntfgfr(
+                Systfm.gftPropfrty("dom.sun.mbnbgfmfnt.jdp.pbusf"), 5,
+                "Invblid jdp pbusf");
 
-        // Converting seconds to milliseconds
-        pause = pause * 1000;
+        // Convfrting sfdonds to millisfdonds
+        pbusf = pbusf * 1000;
 
-        // Allow OS to choose broadcast source
-        InetAddress sourceAddress = getInetAddress(
-                System.getProperty("com.sun.management.jdp.source_addr"), null,
-                "Invalid source address provided");
+        // Allow OS to dioosf brobddbst sourdf
+        InftAddrfss sourdfAddrfss = gftInftAddrfss(
+                Systfm.gftPropfrty("dom.sun.mbnbgfmfnt.jdp.sourdf_bddr"), null,
+                "Invblid sourdf bddrfss providfd");
 
-        // Generate session id
-        UUID id = UUID.randomUUID();
+        // Gfnfrbtf sfssion id
+        UUID id = UUID.rbndomUUID();
 
-        JdpJmxPacket packet = new JdpJmxPacket(id, url);
+        JdpJmxPbdkft pbdkft = nfw JdpJmxPbdkft(id, url);
 
-        // Don't broadcast whole command line for security reason.
-        // Strip everything after first space
-        String javaCommand = System.getProperty("sun.java.command");
-        if (javaCommand != null) {
-            String[] arr = javaCommand.split(" ", 2);
-            packet.setMainClass(arr[0]);
+        // Don't brobddbst wiolf dommbnd linf for sfdurity rfbson.
+        // Strip fvfrytiing bftfr first spbdf
+        String jbvbCommbnd = Systfm.gftPropfrty("sun.jbvb.dommbnd");
+        if (jbvbCommbnd != null) {
+            String[] brr = jbvbCommbnd.split(" ", 2);
+            pbdkft.sftMbinClbss(brr[0]);
         }
 
-        // Put optional explicit java instance name to packet, if user doesn't specify
-        // it the key is skipped. PacketWriter is responsible to skip keys having null value.
-        packet.setInstanceName(instanceName);
+        // Put optionbl fxplidit jbvb instbndf nbmf to pbdkft, if usfr dofsn't spfdify
+        // it tif kfy is skippfd. PbdkftWritfr is rfsponsiblf to skip kfys ibving null vbluf.
+        pbdkft.sftInstbndfNbmf(instbndfNbmf);
 
-        // Set rmi server hostname if it explicitly specified by user with
-        // java.rmi.server.hostname
-        String rmiHostname = System.getProperty("java.rmi.server.hostname");
-        packet.setRmiHostname(rmiHostname);
+        // Sft rmi sfrvfr iostnbmf if it fxpliditly spfdififd by usfr witi
+        // jbvb.rmi.sfrvfr.iostnbmf
+        String rmiHostnbmf = Systfm.gftPropfrty("jbvb.rmi.sfrvfr.iostnbmf");
+        pbdkft.sftRmiHostnbmf(rmiHostnbmf);
 
-        // Set broadcast interval
-        packet.setBroadcastInterval(Integer.toString(pause));
+        // Sft brobddbst intfrvbl
+        pbdkft.sftBrobddbstIntfrvbl(Intfgfr.toString(pbusf));
 
-        // Set process id
-        Integer pid = getProcessId();
+        // Sft prodfss id
+        Intfgfr pid = gftProdfssId();
         if (pid != null) {
-           packet.setProcessId(pid.toString());
+           pbdkft.sftProdfssId(pid.toString());
         }
 
-        JdpBroadcaster bcast = new JdpBroadcaster(address, sourceAddress, port, ttl);
+        JdpBrobddbstfr bdbst = nfw JdpBrobddbstfr(bddrfss, sourdfAddrfss, port, ttl);
 
-        // Stop discovery service if it's already running
-        stopDiscoveryService();
+        // Stop disdovfry sfrvidf if it's blrfbdy running
+        stopDisdovfrySfrvidf();
 
-        controller = new JDPControllerRunner(bcast, packet, pause);
+        dontrollfr = nfw JDPControllfrRunnfr(bdbst, pbdkft, pbusf);
 
-        Thread t = new Thread(controller, "JDP broadcaster");
-        t.setDaemon(true);
-        t.start();
+        Tirfbd t = nfw Tirfbd(dontrollfr, "JDP brobddbstfr");
+        t.sftDbfmon(truf);
+        t.stbrt();
     }
 
     /**
-     * Stop running discovery service,
-     * it's safe to attempt to stop not started service
+     * Stop running disdovfry sfrvidf,
+     * it's sbff to bttfmpt to stop not stbrtfd sfrvidf
      */
-    public static synchronized void stopDiscoveryService() {
-        if ( controller != null ){
-             controller.stop();
-             controller = null;
+    publid stbtid syndironizfd void stopDisdovfrySfrvidf() {
+        if ( dontrollfr != null ){
+             dontrollfr.stop();
+             dontrollfr = null;
         }
     }
 }

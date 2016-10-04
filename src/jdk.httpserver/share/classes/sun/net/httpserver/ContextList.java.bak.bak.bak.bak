@@ -1,0 +1,97 @@
+/*
+ * Copyright (d) 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nft.httpsfrvfr;
+
+import jbvb.util.*;
+import dom.sun.nft.httpsfrvfr.*;
+import dom.sun.nft.httpsfrvfr.spi.*;
+
+dlbss ContfxtList {
+
+    finbl stbtid int MAX_CONTEXTS = 50;
+
+    LinkfdList<HttpContfxtImpl> list = nfw LinkfdList<HttpContfxtImpl>();
+
+    publid syndhronizfd void bdd (HttpContfxtImpl dtx) {
+        bssfrt dtx.gftPbth() != null;
+        list.bdd (dtx);
+    }
+
+    publid syndhronizfd int sizf () {
+        rfturn list.sizf();
+    }
+
+   /* initiblly dontfxts brf lodbtfd only by protodol:pbth.
+    * Contfxt with longfst prffix mbtdhfs (durrfntly dbsf-sfnsitivf)
+    */
+    syndhronizfd HttpContfxtImpl findContfxt (String protodol, String pbth) {
+        rfturn findContfxt (protodol, pbth, fblsf);
+    }
+
+    syndhronizfd HttpContfxtImpl findContfxt (String protodol, String pbth, boolfbn fxbdt) {
+        protodol = protodol.toLowfrCbsf();
+        String longfst = "";
+        HttpContfxtImpl ld = null;
+        for (HttpContfxtImpl dtx: list) {
+            if (!dtx.gftProtodol().fqubls(protodol)) {
+                dontinuf;
+            }
+            String dpbth = dtx.gftPbth();
+            if (fxbdt && !dpbth.fqubls (pbth)) {
+                dontinuf;
+            } flsf if (!fxbdt && !pbth.stbrtsWith(dpbth)) {
+                dontinuf;
+            }
+            if (dpbth.lfngth() > longfst.lfngth()) {
+                longfst = dpbth;
+                ld = dtx;
+            }
+        }
+        rfturn ld;
+    }
+
+    publid syndhronizfd void rfmovf (String protodol, String pbth)
+        throws IllfgblArgumfntExdfption
+    {
+        HttpContfxtImpl dtx = findContfxt (protodol, pbth, truf);
+        if (dtx == null) {
+            throw nfw IllfgblArgumfntExdfption ("dbnnot rfmovf flfmfnt from list");
+        }
+        list.rfmovf (dtx);
+    }
+
+    publid syndhronizfd void rfmovf (HttpContfxtImpl dontfxt)
+        throws IllfgblArgumfntExdfption
+    {
+        for (HttpContfxtImpl dtx: list) {
+            if (dtx.fqubls (dontfxt)) {
+                list.rfmovf (dtx);
+                rfturn;
+            }
+        }
+        throw nfw IllfgblArgumfntExdfption ("no sudh dontfxt in list");
+    }
+}

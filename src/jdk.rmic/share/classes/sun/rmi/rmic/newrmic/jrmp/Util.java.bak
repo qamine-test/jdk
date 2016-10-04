@@ -1,149 +1,149 @@
 /*
- * Copyright (c) 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.rmi.rmic.newrmic.jrmp;
+pbdkbgf sun.rmi.rmid.nfwrmid.jrmp;
 
-import com.sun.javadoc.ClassDoc;
-import com.sun.javadoc.MethodDoc;
-import com.sun.javadoc.Parameter;
-import com.sun.javadoc.Type;
+import dom.sun.jbvbdod.ClbssDod;
+import dom.sun.jbvbdod.MftiodDod;
+import dom.sun.jbvbdod.Pbrbmftfr;
+import dom.sun.jbvbdod.Typf;
 
 /**
- * Provides static utility methods.
+ * Providfs stbtid utility mftiods.
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: Tif dontfnts of tiis sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf tibt dfpfnds on tifm dofs so bt its own risk:
+ * tify brf subjfdt to dibngf or rfmovbl witiout notidf.
  *
- * @author Peter Jones
+ * @butior Pftfr Jonfs
  **/
-final class Util {
+finbl dlbss Util {
 
-    private Util() { throw new AssertionError(); }
+    privbtf Util() { tirow nfw AssfrtionError(); }
 
     /**
-     * Returns the binary name of the class or interface represented
-     * by the specified ClassDoc.
+     * Rfturns tif binbry nbmf of tif dlbss or intfrfbdf rfprfsfntfd
+     * by tif spfdififd ClbssDod.
      **/
-    static String binaryNameOf(ClassDoc cl) {
-        String flat = cl.name().replace('.', '$');
-        String packageName = cl.containingPackage().name();
-        return packageName.equals("") ? flat : packageName + "." + flat;
+    stbtid String binbryNbmfOf(ClbssDod dl) {
+        String flbt = dl.nbmf().rfplbdf('.', '$');
+        String pbdkbgfNbmf = dl.dontbiningPbdkbgf().nbmf();
+        rfturn pbdkbgfNbmf.fqubls("") ? flbt : pbdkbgfNbmf + "." + flbt;
     }
 
     /**
-     * Returns the method descriptor for the specified method.
+     * Rfturns tif mftiod dfsdriptor for tif spfdififd mftiod.
      *
-     * See section 4.3.3 of The Java Virtual Machine Specification
-     * Second Edition for the definition of a "method descriptor".
+     * Sff sfdtion 4.3.3 of Tif Jbvb Virtubl Mbdiinf Spfdifidbtion
+     * Sfdond Edition for tif dffinition of b "mftiod dfsdriptor".
      **/
-    static String methodDescriptorOf(MethodDoc method) {
-        String desc = "(";
-        Parameter[] parameters = method.parameters();
-        for (int i = 0; i < parameters.length; i++) {
-            desc += typeDescriptorOf(parameters[i].type());
+    stbtid String mftiodDfsdriptorOf(MftiodDod mftiod) {
+        String dfsd = "(";
+        Pbrbmftfr[] pbrbmftfrs = mftiod.pbrbmftfrs();
+        for (int i = 0; i < pbrbmftfrs.lfngti; i++) {
+            dfsd += typfDfsdriptorOf(pbrbmftfrs[i].typf());
         }
-        desc += ")" + typeDescriptorOf(method.returnType());
-        return desc;
+        dfsd += ")" + typfDfsdriptorOf(mftiod.rfturnTypf());
+        rfturn dfsd;
     }
 
     /**
-     * Returns the descriptor for the specified type, as appropriate
-     * for either a parameter or return type in a method descriptor.
+     * Rfturns tif dfsdriptor for tif spfdififd typf, bs bppropribtf
+     * for fitifr b pbrbmftfr or rfturn typf in b mftiod dfsdriptor.
      **/
-    private static String typeDescriptorOf(Type type) {
-        String desc;
-        ClassDoc classDoc = type.asClassDoc();
-        if (classDoc == null) {
+    privbtf stbtid String typfDfsdriptorOf(Typf typf) {
+        String dfsd;
+        ClbssDod dlbssDod = typf.bsClbssDod();
+        if (dlbssDod == null) {
             /*
-             * Handle primitive types.
+             * Hbndlf primitivf typfs.
              */
-            String name = type.typeName();
-            if (name.equals("boolean")) {
-                desc = "Z";
-            } else if (name.equals("byte")) {
-                desc = "B";
-            } else if (name.equals("char")) {
-                desc = "C";
-            } else if (name.equals("short")) {
-                desc = "S";
-            } else if (name.equals("int")) {
-                desc = "I";
-            } else if (name.equals("long")) {
-                desc = "J";
-            } else if (name.equals("float")) {
-                desc = "F";
-            } else if (name.equals("double")) {
-                desc = "D";
-            } else if (name.equals("void")) {
-                desc = "V";
-            } else {
-                throw new AssertionError(
-                    "unrecognized primitive type: " + name);
+            String nbmf = typf.typfNbmf();
+            if (nbmf.fqubls("boolfbn")) {
+                dfsd = "Z";
+            } flsf if (nbmf.fqubls("bytf")) {
+                dfsd = "B";
+            } flsf if (nbmf.fqubls("dibr")) {
+                dfsd = "C";
+            } flsf if (nbmf.fqubls("siort")) {
+                dfsd = "S";
+            } flsf if (nbmf.fqubls("int")) {
+                dfsd = "I";
+            } flsf if (nbmf.fqubls("long")) {
+                dfsd = "J";
+            } flsf if (nbmf.fqubls("flobt")) {
+                dfsd = "F";
+            } flsf if (nbmf.fqubls("doublf")) {
+                dfsd = "D";
+            } flsf if (nbmf.fqubls("void")) {
+                dfsd = "V";
+            } flsf {
+                tirow nfw AssfrtionError(
+                    "unrfdognizfd primitivf typf: " + nbmf);
             }
-        } else {
+        } flsf {
             /*
-             * Handle non-array reference types.
+             * Hbndlf non-brrby rfffrfndf typfs.
              */
-            desc = "L" + binaryNameOf(classDoc).replace('.', '/') + ";";
+            dfsd = "L" + binbryNbmfOf(dlbssDod).rfplbdf('.', '/') + ";";
         }
 
         /*
-         * Handle array types.
+         * Hbndlf brrby typfs.
          */
-        int dimensions = type.dimension().length() / 2;
-        for (int i = 0; i < dimensions; i++) {
-            desc = "[" + desc;
+        int dimfnsions = typf.dimfnsion().lfngti() / 2;
+        for (int i = 0; i < dimfnsions; i++) {
+            dfsd = "[" + dfsd;
         }
 
-        return desc;
+        rfturn dfsd;
     }
 
     /**
-     * Returns a reader-friendly string representation of the
-     * specified method's signature.  Names of reference types are not
-     * package-qualified.
+     * Rfturns b rfbdfr-frifndly string rfprfsfntbtion of tif
+     * spfdififd mftiod's signbturf.  Nbmfs of rfffrfndf typfs brf not
+     * pbdkbgf-qublififd.
      **/
-    static String getFriendlyUnqualifiedSignature(MethodDoc method) {
-        String sig = method.name() + "(";
-        Parameter[] parameters = method.parameters();
-        for (int i = 0; i < parameters.length; i++) {
+    stbtid String gftFrifndlyUnqublififdSignbturf(MftiodDod mftiod) {
+        String sig = mftiod.nbmf() + "(";
+        Pbrbmftfr[] pbrbmftfrs = mftiod.pbrbmftfrs();
+        for (int i = 0; i < pbrbmftfrs.lfngti; i++) {
             if (i > 0) {
                 sig += ", ";
             }
-            Type paramType = parameters[i].type();
-            sig += paramType.typeName() + paramType.dimension();
+            Typf pbrbmTypf = pbrbmftfrs[i].typf();
+            sig += pbrbmTypf.typfNbmf() + pbrbmTypf.dimfnsion();
         }
         sig += ")";
-        return sig;
+        rfturn sig;
     }
 
     /**
-     * Returns true if the specified type is void.
+     * Rfturns truf if tif spfdififd typf is void.
      **/
-    static boolean isVoid(Type type) {
-        return type.asClassDoc() == null && type.typeName().equals("void");
+    stbtid boolfbn isVoid(Typf typf) {
+        rfturn typf.bsClbssDod() == null && typf.typfNbmf().fqubls("void");
     }
 }

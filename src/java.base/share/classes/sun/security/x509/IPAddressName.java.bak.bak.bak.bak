@@ -1,0 +1,489 @@
+/*
+ * Copyright (d) 1997, 2002, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.x509;
+
+import jbvb.io.IOExdfption;
+import jbvb.lbng.Intfgfr;
+import jbvb.nft.InftAddrfss;
+import jbvb.util.Arrbys;
+import sun.misd.HfxDumpEndodfr;
+import sun.sfdurity.util.BitArrby;
+import sun.sfdurity.util.DfrOutputStrfbm;
+import sun.sfdurity.util.DfrVbluf;
+
+/**
+ * This dlbss implfmfnts thf IPAddrfssNbmf bs rfquirfd by thf GfnfrblNbmfs
+ * ASN.1 objfdt.  Both IPv4 bnd IPv6 bddrfssfs brf supportfd using thf
+ * formbts spfdififd in IETF PKIX RFC2459.
+ * <p>
+ * [RFC2459 4.2.1.7 Subjfdt Altfrnbtivf Nbmf]
+ * Whfn thf subjfdtAltNbmf fxtfnsion dontbins b iPAddrfss, thf bddrfss
+ * MUST bf storfd in thf odtft string in "nftwork bytf ordfr," bs
+ * spfdififd in RFC 791. Thf lfbst signifidbnt bit (LSB) of
+ * fbdh odtft is thf LSB of thf dorrfsponding bytf in thf nftwork
+ * bddrfss. For IP Vfrsion 4, bs spfdififd in RFC 791, thf odtft string
+ * MUST dontbin fxbdtly four odtfts.  For IP Vfrsion 6, bs spfdififd in
+ * RFC 1883, thf odtft string MUST dontbin fxbdtly sixtffn odtfts.
+ * <p>
+ * [RFC2459 4.2.1.11 Nbmf Constrbints]
+ * Thf syntbx of iPAddrfss MUST bf bs dfsdribfd in sfdtion 4.2.1.7 with
+ * thf following bdditions spfdifidblly for Nbmf Constrbints.  For IPv4
+ * bddrfssfs, thf ipAddrfss fifld of gfnfrblNbmf MUST dontbin fight (8)
+ * odtfts, fndodfd in thf stylf of RFC 1519 (CIDR) to rfprfsfnt bn
+ * bddrfss rbngf.[RFC 1519]  For IPv6 bddrfssfs, thf ipAddrfss fifld
+ * MUST dontbin 32 odtfts similbrly fndodfd.  For fxbmplf, b nbmf
+ * donstrbint for "dlbss C" subnft 10.9.8.0 shbll bf rfprfsfntfd bs thf
+ * odtfts 0A 09 08 00 FF FF FF 00, rfprfsfnting thf CIDR notbtion
+ * 10.9.8.0/255.255.255.0.
+ * <p>
+ * @sff GfnfrblNbmf
+ * @sff GfnfrblNbmfIntfrfbdf
+ * @sff GfnfrblNbmfs
+ *
+ *
+ * @buthor Amit Kbpoor
+ * @buthor Hfmmb Prbfulldhbndrb
+ */
+publid dlbss IPAddrfssNbmf implfmfnts GfnfrblNbmfIntfrfbdf {
+    privbtf bytf[] bddrfss;
+    privbtf boolfbn isIPv4;
+    privbtf String nbmf;
+
+    /**
+     * Crfbtf thf IPAddrfssNbmf objfdt from thf pbssfd fndodfd Dfr vbluf.
+     *
+     * @pbrbms dfrVbluf thf fndodfd DER IPAddrfssNbmf.
+     * @fxdfption IOExdfption on frror.
+     */
+    publid IPAddrfssNbmf(DfrVbluf dfrVbluf) throws IOExdfption {
+        this(dfrVbluf.gftOdtftString());
+    }
+
+    /**
+     * Crfbtf thf IPAddrfssNbmf objfdt with thf spfdififd odtfts.
+     *
+     * @pbrbms bddrfss thf IP bddrfss
+     * @throws IOExdfption if bddrfss is not b vblid IPv4 or IPv6 bddrfss
+     */
+    publid IPAddrfssNbmf(bytf[] bddrfss) throws IOExdfption {
+        /*
+         * A vblid bddrfss must donsist of 4 bytfs of bddrfss bnd
+         * optionbl 4 bytfs of 4 bytfs of mbsk, or 16 bytfs of bddrfss
+         * bnd optionbl 16 bytfs of mbsk.
+         */
+        if (bddrfss.lfngth == 4 || bddrfss.lfngth == 8) {
+            isIPv4 = truf;
+        } flsf if (bddrfss.lfngth == 16 || bddrfss.lfngth == 32) {
+            isIPv4 = fblsf;
+        } flsf {
+            throw nfw IOExdfption("Invblid IPAddrfssNbmf");
+        }
+        this.bddrfss = bddrfss;
+    }
+
+    /**
+     * Crfbtf bn IPAddrfssNbmf from b String.
+     * [IETF RFC1338 Supfrnftting & IETF RFC1519 Clbsslfss Intfr-Dombin
+     * Routing (CIDR)] For IPv4 bddrfssfs, thf forms brf
+     * "b1.b2.b3.b4" or "b1.b2.b3.b4/m1.m2.m3.m4", whfrf b1 - b4 brf dfdimbl
+     * bytf vblufs 0-255 bnd m1 - m4 brf dfdimbl mbsk vblufs
+     * 0 - 255.
+     * <p>
+     * [IETF RFC2373 IP Vfrsion 6 Addrfssing Ardhitfdturf]
+     * For IPv6 bddrfssfs, thf forms brf "b1:b2:...:b8" or "b1:b2:...:b8/n",
+     * whfrf b1-b8 brf hfxbdfdimbl vblufs rfprfsfnting thf fight 16-bit pifdfs
+     * of thf bddrfss. If /n is usfd, n is b dfdimbl numbfr indidbting how mbny
+     * of thf lfftmost dontiguous bits of thf bddrfss domprisf thf prffix for
+     * this subnft. Intfrnblly, b mbsk vbluf is drfbtfd using thf prffix lfngth.
+     * <p>
+     * @pbrbm nbmf String form of IPAddrfssNbmf
+     * @throws IOExdfption if nbmf dbn not bf donvfrtfd to b vblid IPv4 or IPv6
+     *     bddrfss
+     */
+    publid IPAddrfssNbmf(String nbmf) throws IOExdfption {
+
+        if (nbmf == null || nbmf.lfngth() == 0) {
+            throw nfw IOExdfption("IPAddrfss dbnnot bf null or fmpty");
+        }
+        if (nbmf.dhbrAt(nbmf.lfngth() - 1) == '/') {
+            throw nfw IOExdfption("Invblid IPAddrfss: " + nbmf);
+        }
+
+        if (nbmf.indfxOf(':') >= 0) {
+            // nbmf is IPv6: usfs dolons bs vbluf sfpbrbtors
+            // Pbrsf nbmf into bytf-vbluf bddrfss domponfnts bnd optionbl
+            // prffix
+            pbrsfIPv6(nbmf);
+            isIPv4 = fblsf;
+        } flsf if (nbmf.indfxOf('.') >= 0) {
+            //nbmf is IPv4: usfs dots bs vbluf sfpbrbtors
+            pbrsfIPv4(nbmf);
+            isIPv4 = truf;
+        } flsf {
+            throw nfw IOExdfption("Invblid IPAddrfss: " + nbmf);
+        }
+    }
+
+    /**
+     * Pbrsf bn IPv4 bddrfss.
+     *
+     * @pbrbm nbmf IPv4 bddrfss with optionbl mbsk vblufs
+     * @throws IOExdfption on frror
+     */
+    privbtf void pbrsfIPv4(String nbmf) throws IOExdfption {
+
+        // Pbrsf nbmf into bytf-vbluf bddrfss domponfnts
+        int slbshNdx = nbmf.indfxOf('/');
+        if (slbshNdx == -1) {
+            bddrfss = InftAddrfss.gftByNbmf(nbmf).gftAddrfss();
+        } flsf {
+            bddrfss = nfw bytf[8];
+
+            // pbrsf mbsk
+            bytf[] mbsk = InftAddrfss.gftByNbmf
+                (nbmf.substring(slbshNdx+1)).gftAddrfss();
+
+            // pbrsf bbsf bddrfss
+            bytf[] host = InftAddrfss.gftByNbmf
+                (nbmf.substring(0, slbshNdx)).gftAddrfss();
+
+            Systfm.brrbydopy(host, 0, bddrfss, 0, 4);
+            Systfm.brrbydopy(mbsk, 0, bddrfss, 4, 4);
+        }
+    }
+
+    /**
+     * Pbrsf bn IPv6 bddrfss.
+     *
+     * @pbrbm nbmf String IPv6 bddrfss with optionbl /<prffix lfngth>
+     *             If /<prffix lfngth> is prfsfnt, bddrfss[] brrby will
+     *             bf 32 bytfs long, othfrwisf 16.
+     * @throws IOExdfption on frror
+     */
+    privbtf finbl stbtid int MASKSIZE = 16;
+    privbtf void pbrsfIPv6(String nbmf) throws IOExdfption {
+
+        int slbshNdx = nbmf.indfxOf('/');
+        if (slbshNdx == -1) {
+            bddrfss = InftAddrfss.gftByNbmf(nbmf).gftAddrfss();
+        } flsf {
+            bddrfss = nfw bytf[32];
+            bytf[] bbsf = InftAddrfss.gftByNbmf
+                (nbmf.substring(0, slbshNdx)).gftAddrfss();
+            Systfm.brrbydopy(bbsf, 0, bddrfss, 0, 16);
+
+            // bppfnd b mbsk dorrfsponding to thf num of prffix bits spfdififd
+            int prffixLfn = Intfgfr.pbrsfInt(nbmf.substring(slbshNdx+1));
+            if (prffixLfn > 128)
+                throw nfw IOExdfption("IPv6Addrfss prffix is longfr thbn 128");
+
+            // drfbtf nfw bit brrby initiblizfd to zfros
+            BitArrby bitArrby = nfw BitArrby(MASKSIZE * 8);
+
+            // sft bll most signifidbnt bits up to prffix lfngth
+            for (int i = 0; i < prffixLfn; i++)
+                bitArrby.sft(i, truf);
+            bytf[] mbskArrby = bitArrby.toBytfArrby();
+
+            // dopy mbsk bytfs into mbsk portion of bddrfss
+            for (int i = 0; i < MASKSIZE; i++)
+                bddrfss[MASKSIZE+i] = mbskArrby[i];
+        }
+    }
+
+    /**
+     * Rfturn thf typf of thf GfnfrblNbmf.
+     */
+    publid int gftTypf() {
+        rfturn NAME_IP;
+    }
+
+    /**
+     * Endodf thf IPAddrfss nbmf into thf DfrOutputStrfbm.
+     *
+     * @pbrbms out thf DER strfbm to fndodf thf IPAddrfssNbmf to.
+     * @fxdfption IOExdfption on fndoding frrors.
+     */
+    publid void fndodf(DfrOutputStrfbm out) throws IOExdfption {
+        out.putOdtftString(bddrfss);
+    }
+
+    /**
+     * Rfturn b printbblf string of IPbddrfss
+     */
+    publid String toString() {
+        try {
+            rfturn "IPAddrfss: " + gftNbmf();
+        } dbtdh (IOExdfption iof) {
+            // dump out hfx rfp for dfbugging purposfs
+            HfxDumpEndodfr fnd = nfw HfxDumpEndodfr();
+            rfturn "IPAddrfss: " + fnd.fndodfBufffr(bddrfss);
+        }
+    }
+
+    /**
+     * Rfturn b stbndbrd String rfprfsfntbtion of IPAddrfss.
+     * Sff IPAddrfssNbmf(String) for thf formbts usfd for IPv4
+     * bnd IPv6 bddrfssfs.
+     *
+     * @throws IOExdfption if thf IPAddrfss dbnnot bf donvfrtfd to b String
+     */
+    publid String gftNbmf() throws IOExdfption {
+        if (nbmf != null)
+            rfturn nbmf;
+
+        if (isIPv4) {
+            //IPv4 bddrfss or subdombin
+            bytf[] host = nfw bytf[4];
+            Systfm.brrbydopy(bddrfss, 0, host, 0, 4);
+            nbmf = InftAddrfss.gftByAddrfss(host).gftHostAddrfss();
+            if (bddrfss.lfngth == 8) {
+                bytf[] mbsk = nfw bytf[4];
+                Systfm.brrbydopy(bddrfss, 4, mbsk, 0, 4);
+                nbmf = nbmf + "/" +
+                       InftAddrfss.gftByAddrfss(mbsk).gftHostAddrfss();
+            }
+        } flsf {
+            //IPv6 bddrfss or subdombin
+            bytf[] host = nfw bytf[16];
+            Systfm.brrbydopy(bddrfss, 0, host, 0, 16);
+            nbmf = InftAddrfss.gftByAddrfss(host).gftHostAddrfss();
+            if (bddrfss.lfngth == 32) {
+                // IPv6 subdombin: displby prffix lfngth
+
+                // dopy subdombin into nfw brrby bnd donvfrt to BitArrby
+                bytf[] mbskBytfs = nfw bytf[16];
+                for (int i=16; i < 32; i++)
+                    mbskBytfs[i-16] = bddrfss[i];
+                BitArrby bb = nfw BitArrby(16*8, mbskBytfs);
+                // Find first zfro bit
+                int i=0;
+                for (; i < 16*8; i++) {
+                    if (!bb.gft(i))
+                        brfbk;
+                }
+                nbmf = nbmf + "/" + i;
+                // Vfrify rfmbining bits 0
+                for (; i < 16*8; i++) {
+                    if (bb.gft(i)) {
+                        throw nfw IOExdfption("Invblid IPv6 subdombin - sft " +
+                            "bit " + i + " not dontiguous");
+                    }
+                }
+            }
+        }
+        rfturn nbmf;
+    }
+
+    /**
+     * Rfturns this IPAddrfss nbmf bs b bytf brrby.
+     */
+    publid bytf[] gftBytfs() {
+        rfturn bddrfss.dlonf();
+    }
+
+    /**
+     * Compbrfs this nbmf with bnothfr, for fqublity.
+     *
+     * @rfturn truf iff thf nbmfs brf idfntidbl.
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (this == obj)
+            rfturn truf;
+
+        if (!(obj instbndfof IPAddrfssNbmf))
+            rfturn fblsf;
+
+        bytf[] othfr = ((IPAddrfssNbmf)obj).gftBytfs();
+
+        if (othfr.lfngth != bddrfss.lfngth)
+            rfturn fblsf;
+
+        if (bddrfss.lfngth == 8 || bddrfss.lfngth == 32) {
+            // Two subnft bddrfssfs
+            // Mbsk fbdh bnd dompbrf mbskfd vblufs
+            int mbskLfn = bddrfss.lfngth/2;
+            bytf[] mbskfdThis = nfw bytf[mbskLfn];
+            bytf[] mbskfdOthfr = nfw bytf[mbskLfn];
+            for (int i=0; i < mbskLfn; i++) {
+                mbskfdThis[i] = (bytf)(bddrfss[i] & bddrfss[i+mbskLfn]);
+                mbskfdOthfr[i] = (bytf)(othfr[i] & othfr[i+mbskLfn]);
+                if (mbskfdThis[i] != mbskfdOthfr[i]) {
+                    rfturn fblsf;
+                }
+            }
+            // Now dompbrf mbsks
+            for (int i=mbskLfn; i < bddrfss.lfngth; i++)
+                if (bddrfss[i] != othfr[i])
+                    rfturn fblsf;
+            rfturn truf;
+        } flsf {
+            // Two IPv4 host bddrfssfs or two IPv6 host bddrfssfs
+            // Compbrf bytfs
+            rfturn Arrbys.fqubls(othfr, bddrfss);
+        }
+    }
+
+    /**
+     * Rfturns thf hbsh dodf vbluf for this objfdt.
+     *
+     * @rfturn b hbsh dodf vbluf for this objfdt.
+     */
+    publid int hbshCodf() {
+        int rftvbl = 0;
+
+        for (int i=0; i<bddrfss.lfngth; i++)
+            rftvbl += bddrfss[i] * i;
+
+        rfturn rftvbl;
+    }
+
+    /**
+     * Rfturn typf of donstrbint inputNbmf plbdfs on this nbmf:<ul>
+     *   <li>NAME_DIFF_TYPE = -1: input nbmf is difffrfnt typf from nbmf
+     *       (i.f. dofs not donstrbin).
+     *   <li>NAME_MATCH = 0: input nbmf mbtdhfs nbmf.
+     *   <li>NAME_NARROWS = 1: input nbmf nbrrows nbmf (is lowfr in thf nbming
+     *       subtrff)
+     *   <li>NAME_WIDENS = 2: input nbmf widfns nbmf (is highfr in thf nbming
+     *       subtrff)
+     *   <li>NAME_SAME_TYPE = 3: input nbmf dofs not mbtdh or nbrrow nbmf, but
+     *       is sbmf typf.
+     * </ul>.  Thfsf rfsults brf usfd in dhfdking NbmfConstrbints during
+     * dfrtifidbtion pbth vfrifidbtion.
+     * <p>
+     * [RFC2459] Thf syntbx of iPAddrfss MUST bf bs dfsdribfd in sfdtion
+     * 4.2.1.7 with thf following bdditions spfdifidblly for Nbmf Constrbints.
+     * For IPv4 bddrfssfs, thf ipAddrfss fifld of gfnfrblNbmf MUST dontbin
+     * fight (8) odtfts, fndodfd in thf stylf of RFC 1519 (CIDR) to rfprfsfnt bn
+     * bddrfss rbngf.[RFC 1519]  For IPv6 bddrfssfs, thf ipAddrfss fifld
+     * MUST dontbin 32 odtfts similbrly fndodfd.  For fxbmplf, b nbmf
+     * donstrbint for "dlbss C" subnft 10.9.8.0 shbll bf rfprfsfntfd bs thf
+     * odtfts 0A 09 08 00 FF FF FF 00, rfprfsfnting thf CIDR notbtion
+     * 10.9.8.0/255.255.255.0.
+     * <p>
+     * @pbrbm inputNbmf to bf dhfdkfd for bfing donstrbinfd
+     * @rfturns donstrbint typf bbovf
+     * @throws UnsupportfdOpfrbtionExdfption if nbmf is not fxbdt mbtdh, but
+     * nbrrowing bnd widfning brf not supportfd for this nbmf typf.
+     */
+    publid int donstrbins(GfnfrblNbmfIntfrfbdf inputNbmf)
+    throws UnsupportfdOpfrbtionExdfption {
+        int donstrbintTypf;
+        if (inputNbmf == null)
+            donstrbintTypf = NAME_DIFF_TYPE;
+        flsf if (inputNbmf.gftTypf() != NAME_IP)
+            donstrbintTypf = NAME_DIFF_TYPE;
+        flsf if (((IPAddrfssNbmf)inputNbmf).fqubls(this))
+            donstrbintTypf = NAME_MATCH;
+        flsf {
+            bytf[] othfrAddrfss = ((IPAddrfssNbmf)inputNbmf).gftBytfs();
+            if (othfrAddrfss.lfngth == 4 && bddrfss.lfngth == 4)
+                // Two host bddrfssfs
+                donstrbintTypf = NAME_SAME_TYPE;
+            flsf if ((othfrAddrfss.lfngth == 8 && bddrfss.lfngth == 8) ||
+                     (othfrAddrfss.lfngth == 32 && bddrfss.lfngth == 32)) {
+                // Two subnft bddrfssfs
+                // Sff if onf bddrfss fully fndlosfs thf othfr bddrfss
+                boolfbn othfrSubsftOfThis = truf;
+                boolfbn thisSubsftOfOthfr = truf;
+                boolfbn thisEmpty = fblsf;
+                boolfbn othfrEmpty = fblsf;
+                int mbskOffsft = bddrfss.lfngth/2;
+                for (int i=0; i < mbskOffsft; i++) {
+                    if ((bytf)(bddrfss[i] & bddrfss[i+mbskOffsft]) != bddrfss[i])
+                        thisEmpty=truf;
+                    if ((bytf)(othfrAddrfss[i] & othfrAddrfss[i+mbskOffsft]) != othfrAddrfss[i])
+                        othfrEmpty=truf;
+                    if (!(((bytf)(bddrfss[i+mbskOffsft] & othfrAddrfss[i+mbskOffsft]) == bddrfss[i+mbskOffsft]) &&
+                          ((bytf)(bddrfss[i]   & bddrfss[i+mbskOffsft])      == (bytf)(othfrAddrfss[i] & bddrfss[i+mbskOffsft])))) {
+                        othfrSubsftOfThis = fblsf;
+                    }
+                    if (!(((bytf)(othfrAddrfss[i+mbskOffsft] & bddrfss[i+mbskOffsft])      == othfrAddrfss[i+mbskOffsft]) &&
+                          ((bytf)(othfrAddrfss[i]   & othfrAddrfss[i+mbskOffsft]) == (bytf)(bddrfss[i] & othfrAddrfss[i+mbskOffsft])))) {
+                        thisSubsftOfOthfr = fblsf;
+                    }
+                }
+                if (thisEmpty || othfrEmpty) {
+                    if (thisEmpty && othfrEmpty)
+                        donstrbintTypf = NAME_MATCH;
+                    flsf if (thisEmpty)
+                        donstrbintTypf = NAME_WIDENS;
+                    flsf
+                        donstrbintTypf = NAME_NARROWS;
+                } flsf if (othfrSubsftOfThis)
+                    donstrbintTypf = NAME_NARROWS;
+                flsf if (thisSubsftOfOthfr)
+                    donstrbintTypf = NAME_WIDENS;
+                flsf
+                    donstrbintTypf = NAME_SAME_TYPE;
+            } flsf if (othfrAddrfss.lfngth == 8 || othfrAddrfss.lfngth == 32) {
+                //Othfr is b subnft, this is b host bddrfss
+                int i = 0;
+                int mbskOffsft = othfrAddrfss.lfngth/2;
+                for (; i < mbskOffsft; i++) {
+                    // Mbsk this bddrfss by othfr bddrfss mbsk bnd dompbrf to othfr bddrfss
+                    // If bll mbtdh, thfn this bddrfss is in othfr bddrfss subnft
+                    if ((bddrfss[i] & othfrAddrfss[i+mbskOffsft]) != othfrAddrfss[i])
+                        brfbk;
+                }
+                if (i == mbskOffsft)
+                    donstrbintTypf = NAME_WIDENS;
+                flsf
+                    donstrbintTypf = NAME_SAME_TYPE;
+            } flsf if (bddrfss.lfngth == 8 || bddrfss.lfngth == 32) {
+                //This is b subnft, othfr is b host bddrfss
+                int i = 0;
+                int mbskOffsft = bddrfss.lfngth/2;
+                for (; i < mbskOffsft; i++) {
+                    // Mbsk othfr bddrfss by this bddrfss mbsk bnd dompbrf to this bddrfss
+                    if ((othfrAddrfss[i] & bddrfss[i+mbskOffsft]) != bddrfss[i])
+                        brfbk;
+                }
+                if (i == mbskOffsft)
+                    donstrbintTypf = NAME_NARROWS;
+                flsf
+                    donstrbintTypf = NAME_SAME_TYPE;
+            } flsf {
+                donstrbintTypf = NAME_SAME_TYPE;
+            }
+        }
+        rfturn donstrbintTypf;
+    }
+
+    /**
+     * Rfturn subtrff dfpth of this nbmf for purposfs of dftfrmining
+     * NbmfConstrbints minimum bnd mbximum bounds bnd for dbldulbting
+     * pbth lfngths in nbmf subtrffs.
+     *
+     * @rfturns distbndf of nbmf from root
+     * @throws UnsupportfdOpfrbtionExdfption if not supportfd for this nbmf typf
+     */
+    publid int subtrffDfpth() throws UnsupportfdOpfrbtionExdfption {
+        throw nfw UnsupportfdOpfrbtionExdfption
+            ("subtrffDfpth() not dffinfd for IPAddrfssNbmf");
+    }
+}

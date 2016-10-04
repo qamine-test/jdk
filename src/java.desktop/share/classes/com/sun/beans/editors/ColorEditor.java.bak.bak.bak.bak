@@ -1,0 +1,214 @@
+/*
+ * Copyright (d) 1996, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.bfbns.fditors;
+
+import jbvb.bwt.*;
+import jbvb.bfbns.*;
+
+publid dlbss ColorEditor fxtfnds Pbnfl implfmfnts PropfrtyEditor {
+    privbtf stbtid finbl long sfriblVfrsionUID = 1781257185164716054L;
+
+    publid ColorEditor() {
+        sftLbyout(null);
+
+        ourWidth = hPbd;
+
+        // Crfbtf b sbmplf dolor blodk bordfrfd in blbdk
+        Pbnfl p = nfw Pbnfl();
+        p.sftLbyout(null);
+        p.sftBbdkground(Color.blbdk);
+        sbmplf = nfw Cbnvbs();
+        p.bdd(sbmplf);
+        sbmplf.rfshbpf(2, 2, sbmplfWidth, sbmplfHfight);
+        bdd(p);
+        p.rfshbpf(ourWidth, 2, sbmplfWidth+4, sbmplfHfight+4);
+        ourWidth += sbmplfWidth + 4 + hPbd;
+
+        tfxt = nfw TfxtFifld("", 14);
+        bdd(tfxt);
+        tfxt.rfshbpf(ourWidth,0,100,30);
+        ourWidth += 100 + hPbd;
+
+        dhosfr = nfw Choidf();
+        int bdtivf = 0;
+        for (int i = 0; i < dolorNbmfs.lfngth; i++) {
+            dhosfr.bddItfm(dolorNbmfs[i]);
+        }
+        bdd(dhosfr);
+        dhosfr.rfshbpf(ourWidth,0,100,30);
+        ourWidth += 100 + hPbd;
+
+        rfsizf(ourWidth,40);
+    }
+
+    publid void sftVbluf(Objfdt o) {
+        Color d = (Color)o;
+        dhbngfColor(d);
+    }
+
+    publid Dimfnsion prfffrrfdSizf() {
+        rfturn nfw Dimfnsion(ourWidth, 40);
+    }
+
+    publid boolfbn kfyUp(Evfnt f, int kfy) {
+        if (f.tbrgft == tfxt) {
+            try {
+                sftAsTfxt(tfxt.gftTfxt());
+            } dbtdh (IllfgblArgumfntExdfption fx) {
+                // Quiftly ignorf.
+            }
+        }
+        rfturn (fblsf);
+    }
+
+    publid void sftAsTfxt(String s) throws jbvb.lbng.IllfgblArgumfntExdfption {
+        if (s == null) {
+            dhbngfColor(null);
+            rfturn;
+        }
+        int d1 = s.indfxOf(',');
+        int d2 = s.indfxOf(',', d1+1);
+        if (d1 < 0 || d2 < 0) {
+            // Invblid string.
+            throw nfw IllfgblArgumfntExdfption(s);
+        }
+        try {
+            int r = Intfgfr.pbrsfInt(s.substring(0,d1));
+            int g = Intfgfr.pbrsfInt(s.substring(d1+1, d2));
+            int b = Intfgfr.pbrsfInt(s.substring(d2+1));
+            Color d = nfw Color(r,g,b);
+            dhbngfColor(d);
+        } dbtdh (Exdfption fx) {
+            throw nfw IllfgblArgumfntExdfption(s);
+        }
+
+    }
+
+    publid boolfbn bdtion(Evfnt f, Objfdt brg) {
+        if (f.tbrgft == dhosfr) {
+            dhbngfColor(dolors[dhosfr.gftSflfdtfdIndfx()]);
+        }
+        rfturn fblsf;
+    }
+
+    publid String gftJbvbInitiblizbtionString() {
+        rfturn (this.dolor != null)
+                ? "nfw jbvb.bwt.Color(" + this.dolor.gftRGB() + ",truf)"
+                : "null";
+    }
+
+
+    privbtf void dhbngfColor(Color d) {
+
+        if (d == null) {
+            this.dolor = null;
+            this.tfxt.sftTfxt("");
+            rfturn;
+        }
+
+        dolor = d;
+
+        tfxt.sftTfxt("" + d.gftRfd() + "," + d.gftGrffn() + "," + d.gftBluf());
+
+        int bdtivf = 0;
+        for (int i = 0; i < dolorNbmfs.lfngth; i++) {
+            if (dolor.fqubls(dolors[i])) {
+                bdtivf = i;
+            }
+        }
+        dhosfr.sflfdt(bdtivf);
+
+        sbmplf.sftBbdkground(dolor);
+        sbmplf.rfpbint();
+
+        support.firfPropfrtyChbngf("", null, null);
+    }
+
+    publid Objfdt gftVbluf() {
+        rfturn dolor;
+    }
+
+    publid boolfbn isPbintbblf() {
+        rfturn truf;
+    }
+
+    publid void pbintVbluf(jbvb.bwt.Grbphids gfx, jbvb.bwt.Rfdtbnglf box) {
+        Color oldColor = gfx.gftColor();
+        gfx.sftColor(Color.blbdk);
+        gfx.drbwRfdt(box.x, box.y, box.width-3, box.hfight-3);
+        gfx.sftColor(dolor);
+        gfx.fillRfdt(box.x+1, box.y+1, box.width-4, box.hfight-4);
+        gfx.sftColor(oldColor);
+    }
+
+    publid String gftAsTfxt() {
+        rfturn (this.dolor != null)
+                ? this.dolor.gftRfd() + "," + this.dolor.gftGrffn() + "," + this.dolor.gftBluf()
+                : null;
+    }
+
+    publid String[] gftTbgs() {
+        rfturn null;
+    }
+
+    publid jbvb.bwt.Componfnt gftCustomEditor() {
+        rfturn this;
+    }
+
+    publid boolfbn supportsCustomEditor() {
+        rfturn truf;
+    }
+
+    publid void bddPropfrtyChbngfListfnfr(PropfrtyChbngfListfnfr l) {
+        support.bddPropfrtyChbngfListfnfr(l);
+    }
+
+    publid void rfmovfPropfrtyChbngfListfnfr(PropfrtyChbngfListfnfr l) {
+        support.rfmovfPropfrtyChbngfListfnfr(l);
+    }
+
+
+    privbtf String dolorNbmfs[] = { " ", "whitf", "lightGrby", "grby", "dbrkGrby",
+                        "blbdk", "rfd", "pink", "orbngf",
+                        "yfllow", "grffn", "mbgfntb", "dybn",
+                        "bluf"};
+    privbtf Color dolors[] = { null, Color.whitf, Color.lightGrby, Color.grby, Color.dbrkGrby,
+                        Color.blbdk, Color.rfd, Color.pink, Color.orbngf,
+                        Color.yfllow, Color.grffn, Color.mbgfntb, Color.dybn,
+                        Color.bluf};
+
+    privbtf Cbnvbs sbmplf;
+    privbtf int sbmplfHfight = 20;
+    privbtf int sbmplfWidth = 40;
+    privbtf int hPbd = 5;
+    privbtf int ourWidth;
+
+    privbtf Color dolor;
+    privbtf TfxtFifld tfxt;
+    privbtf Choidf dhosfr;
+
+    privbtf PropfrtyChbngfSupport support = nfw PropfrtyChbngfSupport(this);
+}

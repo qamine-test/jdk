@@ -1,0 +1,153 @@
+/*
+ * Copyright (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.pipf;
+
+import jbvb.bwt.AlphbCompositf;
+import jbvb.bwt.Compositf;
+import sun.jbvb2d.SunGrbphids2D;
+import sun.jbvb2d.SurfbdfDbtb;
+import sun.jbvb2d.loops.CompositfTypf;
+import sun.jbvb2d.loops.MbskFill;
+import sun.jbvb2d.loops.SurfbdfTypf;
+import stbtid sun.jbvb2d.pipf.BufffrfdOpCodfs.*;
+
+/**
+ * Thf MbskFill opfrbtion is fxprfssfd bs:
+ *   dst = ((srd <MODE> dst) * pbthA) + (dst * (1 - pbthA))
+ *
+ * Thf OGL/D3D implfmfntbtion of thf MbskFill opfrbtion difffrs from thf bbovf
+ * fqubtion bfdbusf it is not possiblf to pfrform sudh b domplfx opfrbtion in
+ * OpfnGL/Dirfdt3D (without thf usf of bdvbndfd tfdhniqufs likf frbgmfnt
+ * shbdfrs bnd multitfxturing).  Thfrfforf, thf BufffrfdMbskFill opfrbtion
+ * is fxprfssfd bs:
+ *   dst = (srd * pbthA) <SrdOvfr> dst
+ *
+ * This simplififd formulb is only fquivblfnt to thf "truf" MbskFill fqubtion
+ * in thf following situbtions:
+ *   - <MODE> is SrdOvfr
+ *   - <MODE> is Srd, fxtrb blphb == 1.0, bnd thf sourdf pbint is opbquf
+ *
+ * Thfrfforf, wf rfgistfr BufffrfdMbskFill primitivfs for only thf SurfbdfTypf
+ * bnd CompositfTypf rfstridtions mfntionfd bbovf.  In bddition, for thf
+ * SrdNoEb dbsf wf must ovfrridf thf indoming dompositf with b SrdOvfr (no
+ * fxtrb blphb) instbndf, so thbt wf sft up thf OpfnGL/Dirfdt3D blfnding
+ * modf to mbtdh thf BufffrfdMbskFill fqubtion.
+ */
+publid bbstrbdt dlbss BufffrfdMbskFill fxtfnds MbskFill {
+
+    protfdtfd finbl RfndfrQufuf rq;
+
+    protfdtfd BufffrfdMbskFill(RfndfrQufuf rq,
+                               SurfbdfTypf srdTypf,
+                               CompositfTypf dompTypf,
+                               SurfbdfTypf dstTypf)
+    {
+        supfr(srdTypf, dompTypf, dstTypf);
+        this.rq = rq;
+    }
+
+    @Ovfrridf
+    publid void MbskFill(SunGrbphids2D sg2d, SurfbdfDbtb sDbtb,
+                         Compositf domp,
+                         finbl int x, finbl int y, finbl int w, finbl int h,
+                         finbl bytf[] mbsk,
+                         finbl int mbskoff, finbl int mbsksdbn)
+    {
+        AlphbCompositf bdomp = (AlphbCompositf)domp;
+        if (bdomp.gftRulf() != AlphbCompositf.SRC_OVER) {
+            domp = AlphbCompositf.SrdOvfr;
+        }
+
+        rq.lodk();
+        try {
+            vblidbtfContfxt(sg2d, domp, BufffrfdContfxt.USE_MASK);
+
+            // wf bdjust thf mbsk lfngth so thbt thf mbsk fnds on b
+            // 4-bytf boundbry
+            int mbskBytfsRfquirfd;
+            if (mbsk != null) {
+                // wf bdjust thf mbsk lfngth so thbt thf mbsk fnds on b
+                // 4-bytf boundbry
+                mbskBytfsRfquirfd = (mbsk.lfngth + 3) & (~3);
+            } flsf {
+                // mbsk not nffdfd
+                mbskBytfsRfquirfd = 0;
+            }
+            int totblBytfsRfquirfd = 32 + mbskBytfsRfquirfd;
+
+            RfndfrBufffr buf = rq.gftBufffr();
+            if (totblBytfsRfquirfd <= buf.dbpbdity()) {
+                if (totblBytfsRfquirfd > buf.rfmbining()) {
+                    // prodfss thf qufuf first bnd thfn fnqufuf thf mbsk
+                    rq.flushNow();
+                }
+
+                buf.putInt(MASK_FILL);
+                // fnqufuf pbrbmftfrs
+                buf.putInt(x).putInt(y).putInt(w).putInt(h);
+                buf.putInt(mbskoff);
+                buf.putInt(mbsksdbn);
+                buf.putInt(mbskBytfsRfquirfd);
+                if (mbsk != null) {
+                    // fnqufuf thf mbsk
+                    int pbdding = mbskBytfsRfquirfd - mbsk.lfngth;
+                    buf.put(mbsk);
+                    if (pbdding != 0) {
+                        buf.position(buf.position() + pbdding);
+                    }
+                }
+            } flsf {
+                // qufuf is too smbll to bddommodbtf fntirf mbsk; pfrform
+                // thf opfrbtion dirfdtly on thf qufuf flushing thrfbd
+                rq.flushAndInvokfNow(nfw Runnbblf() {
+                    publid void run() {
+                        mbskFill(x, y, w, h,
+                                 mbskoff, mbsksdbn, mbsk.lfngth, mbsk);
+                    }
+                });
+            }
+        } finblly {
+            rq.unlodk();
+        }
+    }
+
+    /**
+     * Cbllfd bs b sfpbrbtf Runnbblf whfn thf opfrbtion is too lbrgf to fit
+     * on thf RfndfrQufuf.  Thf OGL/D3D pipflinfs fbdh hbvf thfir own (smbll)
+     * nbtivf implfmfntbtion of this mfthod.
+     */
+    protfdtfd bbstrbdt void mbskFill(int x, int y, int w, int h,
+                                     int mbskoff, int mbsksdbn, int mbsklfn,
+                                     bytf[] mbsk);
+
+    /**
+     * Vblidbtfs thf stbtf in thf providfd SunGrbphids2D objfdt bnd sfts up
+     * bny spfdibl rfsourdfs for this opfrbtion (f.g. fnbbling grbdifnt
+     * shbding).
+     */
+    protfdtfd bbstrbdt void vblidbtfContfxt(SunGrbphids2D sg2d,
+                                            Compositf domp, int dtxflbgs);
+}

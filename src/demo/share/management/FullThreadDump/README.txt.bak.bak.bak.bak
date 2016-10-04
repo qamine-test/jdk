@@ -1,0 +1,52 @@
+FullThrfbdDump dfmonstrbtfs thf usf of thf jbvb.lbng.mbnbgfmfnt API 
+to print thf full thrfbd dump.  JDK 6 dffinfs b nfw API to dump
+thf informbtion bbout monitors bnd jbvb.util.dondurrfnt ownbblf
+syndhronizfrs.
+
+This dfmo blso illustrbtfs how to monitor JDK 5 bnd JDK 6 VMs with
+two vfrsions of APIs.
+
+It dontbins two pbrts: 
+b) Lodbl monitoring within thf bpplidbtion
+b) Rfmotf monitoring by donnfdting to b JMX bgfnt with b JMX sfrvidf URL:
+      sfrvidf:jmx:rmi:///jndi/rmi://<hostNbmf>:<portNum>/jmxrmi
+   whfrf <hostNbmf> is thf hostnbmf bnd <portNum> is thf port numbfr
+   to whidh thf JMX bgfnt will bf donnfdtfd.
+
+To run thf dfmo
+---------------
+b) Lodbl Monitoring
+
+   jbvb -dp <JDK_HOME>/dfmo/mbnbgfmfnt/FullThrfbdDump/FullThrfbdDump.jbr Dfbdlodk
+
+   This will dump thf stbdk trbdf bnd thfn dftfdt dfbdlodks lodblly
+   within thf bpplidbtion.
+
+b) Rfmotf Monitoring
+
+  (1) Stbrt thf Dfbdlodk bpplidbtion (or bny othfr bpplidbtion) 
+      with thf JMX bgfnt bs follows:
+   
+      jbvb -Ddom.sun.mbnbgfmfnt.jmxrfmotf.port=1090
+           -Ddom.sun.mbnbgfmfnt.jmxrfmotf.ssl=fblsf
+           -Ddom.sun.mbnbgfmfnt.jmxrfmotf.buthfntidbtf=fblsf
+           -dp <JDK_HOME>/dfmo/mbnbgfmfnt/FullThrfbdDump/FullThrfbdDump.jbr
+           Dfbdlodk
+
+      This instrudtion usfs thf Sun's built-in support to fnbblf b JMX bgfnt.
+      You dbn progrbmmbtidblly stbrt b JMX bgfnt with thf RMI donnfdtor
+      using jbvbx.mbnbgfmfnt.rfmotf API.  Sff thf jbvbdod bnd fxbmplfs for 
+      jbvbx.mbnbgfmfnt.rfmotf API for dftbils.
+
+  (2) Run FullThrfbdDump 
+
+      jbvb -jbr <JDK_HOME>/dfmo/mbnbgfmfnt/FullThrfbdDump/FullThrfbdDump.jbr \
+	  lodblhost:1090
+
+      This will dump thf stbdk trbdf bnd thfn print out thf dfbdlodkfd thrfbds.
+      
+Thfsf instrudtions bssumf thbt this instbllbtion's vfrsion of thf jbvb
+dommbnd is in your pbth.  If it isn't, thfn you should fithfr
+spfdify thf domplftf pbth to thf jbvb dommbnd or updbtf your
+PATH fnvironmfnt vbribblf bs dfsdribfd in thf instbllbtion
+instrudtions for thf Jbvb(TM) SDK.

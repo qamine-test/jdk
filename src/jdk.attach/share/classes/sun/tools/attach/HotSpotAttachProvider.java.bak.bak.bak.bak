@@ -1,0 +1,181 @@
+/*
+ * Copyright (d) 2005, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.tools.bttbdh;
+
+import dom.sun.tools.bttbdh.VirtublMbdhinfDfsdriptor;
+import dom.sun.tools.bttbdh.VirtublMbdhinf;
+import dom.sun.tools.bttbdh.AttbdhPfrmission;
+import dom.sun.tools.bttbdh.AttbdhNotSupportfdExdfption;
+import dom.sun.tools.bttbdh.spi.AttbdhProvidfr;
+
+import jbvb.io.IOExdfption;
+import jbvb.util.List;
+import jbvb.util.Itfrbtor;
+import jbvb.util.ArrbyList;
+import jbvb.util.Sft;
+import jbvb.nft.URISyntbxExdfption;
+
+import sun.jvmstbt.monitor.HostIdfntififr;
+import sun.jvmstbt.monitor.Monitor;
+import sun.jvmstbt.monitor.MonitorfdHost;
+import sun.jvmstbt.monitor.MonitorfdVm;
+import sun.jvmstbt.monitor.MonitorfdVmUtil;
+import sun.jvmstbt.monitor.VmIdfntififr;
+import sun.jvmstbt.monitor.MonitorExdfption;
+
+/*
+ * Plbtform spfdifid providfr implfmfntbtions fxtfnd this
+ */
+publid bbstrbdt dlbss HotSpotAttbdhProvidfr fxtfnds AttbdhProvidfr {
+
+    // pfrf dount nbmf for thf JVM vfrsion
+    privbtf stbtid finbl String JVM_VERSION = "jbvb.propfrty.jbvb.vm.vfrsion";
+
+    publid HotSpotAttbdhProvidfr() {
+    }
+
+    publid void dhfdkAttbdhPfrmission() {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            sm.dhfdkPfrmission(
+                nfw AttbdhPfrmission("bttbdhVirtublMbdhinf")
+            );
+        }
+    }
+
+    /*
+     * This listVirtublMbdhinfs implfmfntbtion is bbsfd on jvmstbt. Cbn ovfrridf
+     * this in plbtform implfmfntbtions whfn thfrf is b morf fffidifnt mfdhbnism
+     * bvbilbblf.
+     */
+    publid List<VirtublMbdhinfDfsdriptor> listVirtublMbdhinfs() {
+        ArrbyList<VirtublMbdhinfDfsdriptor> rfsult =
+            nfw ArrbyList<VirtublMbdhinfDfsdriptor>();
+
+        MonitorfdHost host;
+        Sft<Intfgfr> vms;
+        try {
+            host = MonitorfdHost.gftMonitorfdHost(nfw HostIdfntififr((String)null));
+            vms = host.bdtivfVms();
+        } dbtdh (Throwbblf t) {
+            if (t instbndfof ExdfptionInInitiblizfrError) {
+                t = t.gftCbusf();
+            }
+            if (t instbndfof ThrfbdDfbth) {
+                throw (ThrfbdDfbth)t;
+            }
+            if (t instbndfof SfdurityExdfption) {
+                rfturn rfsult;
+            }
+            throw nfw IntfrnblError(t);          // shouldn't hbppfn
+        }
+
+        for (Intfgfr vmid: vms) {
+            String pid = vmid.toString();
+            String nbmf = pid;      // dffbult to pid if nbmf not bvbilbblf
+            boolfbn isAttbdhbblf = fblsf;
+            MonitorfdVm mvm = null;
+            try {
+                mvm = host.gftMonitorfdVm(nfw VmIdfntififr(pid));
+                try {
+                    isAttbdhbblf = MonitorfdVmUtil.isAttbdhbblf(mvm);
+                    // usf thf dommbnd linf bs thf displby nbmf
+                    nbmf =  MonitorfdVmUtil.dommbndLinf(mvm);
+                } dbtdh (Exdfption f) {
+                }
+                if (isAttbdhbblf) {
+                    rfsult.bdd(nfw HotSpotVirtublMbdhinfDfsdriptor(this, pid, nbmf));
+                }
+            } dbtdh (Throwbblf t) {
+                if (t instbndfof ThrfbdDfbth) {
+                    throw (ThrfbdDfbth)t;
+                }
+            } finblly {
+                if (mvm != null) {
+                    mvm.dftbdh();
+                }
+            }
+        }
+        rfturn rfsult;
+    }
+
+    /**
+     * Tfst if b VM is bttbdhbblf. If it's not bttbdhbblf,
+     * bn AttbdhNotSupportfdExdfption will bf thrown. For fxbmplf,
+     * 1.4.2 or 5.0 VM brf not bttbdhbblf. Thfrf brf dbsfs thbt
+     * wf dbn't dftfrminf if b VM is bttbdhbblf or not bnd this mfthod
+     * will just rfturn.
+     *
+     * This mfthod usfs thf jvmstbt dountfr to dftfrminf if b VM
+     * is bttbdhbblf. If thf tbrgft VM dofs not hbvf b jvmstbt
+     * shbrf mfmory bufffr, this mfthod rfturns.
+     *
+     * @fxdfption AttbdhNotSupportfdExdfption if it's not bttbdhbblf
+     */
+    void tfstAttbdhbblf(String id) throws AttbdhNotSupportfdExdfption {
+        MonitorfdVm mvm = null;
+        try {
+            VmIdfntififr vmid = nfw VmIdfntififr(id);
+            MonitorfdHost host = MonitorfdHost.gftMonitorfdHost(vmid);
+            mvm = host.gftMonitorfdVm(vmid);
+
+            if (MonitorfdVmUtil.isAttbdhbblf(mvm)) {
+                // it's bttbdhbblf; so rfturn fblsf
+                rfturn;
+            }
+        } dbtdh (Throwbblf t) {
+            if (t instbndfof ThrfbdDfbth) {
+                ThrfbdDfbth td = (ThrfbdDfbth)t;
+                throw td;
+            }
+            // wf do not know whbt this id is
+            rfturn;
+        } finblly {
+            if (mvm != null) {
+                mvm.dftbdh();
+            }
+        }
+
+        // wf'rf surf it's not bttbdhbblf; throw fxdfption
+        throw nfw AttbdhNotSupportfdExdfption(
+                  "Thf VM dofs not support thf bttbdh mfdhbnism");
+    }
+
+
+    /**
+     * A virtubl mbdhinf dfsdriptor to dfsdribf b HotSpot virtubl mbdhinf.
+     */
+    stbtid dlbss HotSpotVirtublMbdhinfDfsdriptor fxtfnds VirtublMbdhinfDfsdriptor {
+        HotSpotVirtublMbdhinfDfsdriptor(AttbdhProvidfr providfr,
+                                        String id,
+                                        String displbyNbmf) {
+            supfr(providfr, id, displbyNbmf);
+        }
+
+        publid boolfbn isAttbdhbblf() {
+            rfturn truf;
+        }
+    }
+}

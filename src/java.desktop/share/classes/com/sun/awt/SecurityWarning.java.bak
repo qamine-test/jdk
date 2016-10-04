@@ -1,169 +1,169 @@
 /*
- * Copyright (c) 2008, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2009, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.awt;
+pbdkbgf dom.sun.bwt;
 
-import java.awt.*;
-import java.awt.geom.*;
+import jbvb.bwt.*;
+import jbvb.bwt.gfom.*;
 
-import sun.awt.AWTAccessor;
+import sun.bwt.AWTAddfssor;
 
 
 /**
- * Security Warning control interface.
+ * Sfdurity Wbrning dontrol intfrfbdf.
  *
- * This class provides a couple of methods that help a developer relocate
- * the AWT security warning to an appropriate position relative to the current
- * window size. A "top-level window" is an instance of the {@code Window}
- * class (or its descendant, such as {@code JFrame}). The security warning
- * is applied to all windows created by an untrusted code. All such windows
- * have a non-null "warning string" (see {@link Window#getWarningString()}).
+ * Tiis dlbss providfs b douplf of mftiods tibt iflp b dfvflopfr rflodbtf
+ * tif AWT sfdurity wbrning to bn bppropribtf position rflbtivf to tif durrfnt
+ * window sizf. A "top-lfvfl window" is bn instbndf of tif {@dodf Window}
+ * dlbss (or its dfsdfndbnt, sudi bs {@dodf JFrbmf}). Tif sfdurity wbrning
+ * is bpplifd to bll windows drfbtfd by bn untrustfd dodf. All sudi windows
+ * ibvf b non-null "wbrning string" (sff {@link Window#gftWbrningString()}).
  * <p>
- * <b>WARNING</b>: This class is an implementation detail and only meant
- * for limited use outside of the core platform. This API may change
- * drastically between update release, and it may even be
- * removed or be moved to some other packages or classes.
+ * <b>WARNING</b>: Tiis dlbss is bn implfmfntbtion dftbil bnd only mfbnt
+ * for limitfd usf outsidf of tif dorf plbtform. Tiis API mby dibngf
+ * drbstidblly bftwffn updbtf rflfbsf, bnd it mby fvfn bf
+ * rfmovfd or bf movfd to somf otifr pbdkbgfs or dlbssfs.
  */
-public final class SecurityWarning {
+publid finbl dlbss SfdurityWbrning {
 
     /**
-     * The SecurityWarning class should not be instantiated
+     * Tif SfdurityWbrning dlbss siould not bf instbntibtfd
      */
-    private SecurityWarning() {
+    privbtf SfdurityWbrning() {
     }
 
     /**
-     * Gets the size of the security warning.
+     * Gfts tif sizf of tif sfdurity wbrning.
      *
-     * The returned value is not valid until the peer has been created. Before
-     * invoking this method a developer must call the {@link Window#pack()},
-     * {@link Window#setVisible()}, or some other method that creates the peer.
+     * Tif rfturnfd vbluf is not vblid until tif pffr ibs bffn drfbtfd. Bfforf
+     * invoking tiis mftiod b dfvflopfr must dbll tif {@link Window#pbdk()},
+     * {@link Window#sftVisiblf()}, or somf otifr mftiod tibt drfbtfs tif pffr.
      *
-     * @param window the window to get the security warning size for
+     * @pbrbm window tif window to gft tif sfdurity wbrning sizf for
      *
-     * @throws NullPointerException if the window argument is null
-     * @throws IllegalArgumentException if the window is trusted (i.e.
-     * the {@code getWarningString()} returns null)
+     * @tirows NullPointfrExdfption if tif window brgumfnt is null
+     * @tirows IllfgblArgumfntExdfption if tif window is trustfd (i.f.
+     * tif {@dodf gftWbrningString()} rfturns null)
      */
-    public static Dimension getSize(Window window) {
+    publid stbtid Dimfnsion gftSizf(Window window) {
         if (window == null) {
-            throw new NullPointerException(
-                    "The window argument should not be null.");
+            tirow nfw NullPointfrExdfption(
+                    "Tif window brgumfnt siould not bf null.");
         }
-        if (window.getWarningString() == null) {
-            throw new IllegalArgumentException(
-                    "The window must have a non-null warning string.");
+        if (window.gftWbrningString() == null) {
+            tirow nfw IllfgblArgumfntExdfption(
+                    "Tif window must ibvf b non-null wbrning string.");
         }
-        // We don't check for a non-null peer since it may be destroyed
-        // after assigning a valid value to the security warning size.
+        // Wf don't difdk for b non-null pffr sindf it mby bf dfstroyfd
+        // bftfr bssigning b vblid vbluf to tif sfdurity wbrning sizf.
 
-        return AWTAccessor.getWindowAccessor().getSecurityWarningSize(window);
+        rfturn AWTAddfssor.gftWindowAddfssor().gftSfdurityWbrningSizf(window);
     }
 
     /**
-     * Sets the position of the security warning.
+     * Sfts tif position of tif sfdurity wbrning.
      * <p>
-     * The {@code alignmentX} and {@code alignmentY} arguments specify the
-     * origin of the coordinate system used to calculate the position of the
-     * security warning. The values must be in the range [0.0f...1.0f].  The
-     * {@code 0.0f} value represents the left (top) edge of the rectangular
-     * bounds of the window. The {@code 1.0f} value represents the right
-     * (bottom) edge of the bounds. Whenever the size of the window changes,
-     * the origin of the coordinate system gets relocated accordingly. For
-     * convenience a developer may use the {@code Component.*_ALIGNMENT}
-     * constants to pass predefined values for these arguments.
+     * Tif {@dodf blignmfntX} bnd {@dodf blignmfntY} brgumfnts spfdify tif
+     * origin of tif doordinbtf systfm usfd to dbldulbtf tif position of tif
+     * sfdurity wbrning. Tif vblufs must bf in tif rbngf [0.0f...1.0f].  Tif
+     * {@dodf 0.0f} vbluf rfprfsfnts tif lfft (top) fdgf of tif rfdtbngulbr
+     * bounds of tif window. Tif {@dodf 1.0f} vbluf rfprfsfnts tif rigit
+     * (bottom) fdgf of tif bounds. Wifnfvfr tif sizf of tif window dibngfs,
+     * tif origin of tif doordinbtf systfm gfts rflodbtfd bddordingly. For
+     * donvfnifndf b dfvflopfr mby usf tif {@dodf Componfnt.*_ALIGNMENT}
+     * donstbnts to pbss prfdffinfd vblufs for tifsf brgumfnts.
      * <p>
-     * The {@code point} argument specifies the location of the security
-     * warning in the coordinate system described above. If both {@code x} and
-     * {@code y} coordinates of the point are equal to zero, the warning will
-     * be located right in the origin of the coordinate system. On the other
-     * hand, if both {@code alignmentX} and {@code alignmentY} are equal to
-     * zero (i.e. the origin of the coordinate system is placed at the top-left
-     * corner of the window), then the {@code point} argument represents the
-     * absolute location of the security warning relative to the location of
-     * the window. The "absolute" in this case means that the position of the
-     * security warning is not effected by resizing of the window.
+     * Tif {@dodf point} brgumfnt spfdififs tif lodbtion of tif sfdurity
+     * wbrning in tif doordinbtf systfm dfsdribfd bbovf. If boti {@dodf x} bnd
+     * {@dodf y} doordinbtfs of tif point brf fqubl to zfro, tif wbrning will
+     * bf lodbtfd rigit in tif origin of tif doordinbtf systfm. On tif otifr
+     * ibnd, if boti {@dodf blignmfntX} bnd {@dodf blignmfntY} brf fqubl to
+     * zfro (i.f. tif origin of tif doordinbtf systfm is plbdfd bt tif top-lfft
+     * dornfr of tif window), tifn tif {@dodf point} brgumfnt rfprfsfnts tif
+     * bbsolutf lodbtion of tif sfdurity wbrning rflbtivf to tif lodbtion of
+     * tif window. Tif "bbsolutf" in tiis dbsf mfbns tibt tif position of tif
+     * sfdurity wbrning is not ffffdtfd by rfsizing of tif window.
      * <p>
-     * Note that the security warning managment code guarantees that:
+     * Notf tibt tif sfdurity wbrning mbnbgmfnt dodf gubrbntffs tibt:
      * <ul>
-     * <li>The security warning cannot be located farther than two pixels from
-     * the rectangular bounds of the window (see {@link Window#getBounds}), and
-     * <li>The security warning is always visible on the screen.
+     * <li>Tif sfdurity wbrning dbnnot bf lodbtfd fbrtifr tibn two pixfls from
+     * tif rfdtbngulbr bounds of tif window (sff {@link Window#gftBounds}), bnd
+     * <li>Tif sfdurity wbrning is blwbys visiblf on tif sdrffn.
      * </ul>
-     * If either of the conditions is violated, the calculated position of the
-     * security warning is adjusted by the system to meet both these
-     * conditions.
+     * If fitifr of tif donditions is violbtfd, tif dbldulbtfd position of tif
+     * sfdurity wbrning is bdjustfd by tif systfm to mfft boti tifsf
+     * donditions.
      * <p>
-     * The default position of the security warning is in the upper-right
-     * corner of the window, two pixels to the right from the right edge. This
-     * corresponds to the following arguments passed to this method:
+     * Tif dffbult position of tif sfdurity wbrning is in tif uppfr-rigit
+     * dornfr of tif window, two pixfls to tif rigit from tif rigit fdgf. Tiis
+     * dorrfsponds to tif following brgumfnts pbssfd to tiis mftiod:
      * <ul>
-     * <li>{@code alignmentX = Component.RIGHT_ALIGNMENT}
-     * <li>{@code alignmentY = Component.TOP_ALIGNMENT}
-     * <li>{@code point = (2, 0)}
+     * <li>{@dodf blignmfntX = Componfnt.RIGHT_ALIGNMENT}
+     * <li>{@dodf blignmfntY = Componfnt.TOP_ALIGNMENT}
+     * <li>{@dodf point = (2, 0)}
      * </ul>
      *
-     * @param window the window to set the position of the security warning for
-     * @param alignmentX the horizontal origin of the coordinate system
-     * @param alignmentY the vertical origin of the coordinate system
-     * @param point the position of the security warning in the specified
-     * coordinate system
+     * @pbrbm window tif window to sft tif position of tif sfdurity wbrning for
+     * @pbrbm blignmfntX tif iorizontbl origin of tif doordinbtf systfm
+     * @pbrbm blignmfntY tif vfrtidbl origin of tif doordinbtf systfm
+     * @pbrbm point tif position of tif sfdurity wbrning in tif spfdififd
+     * doordinbtf systfm
      *
-     * @throws NullPointerException if the window argument is null
-     * @throws NullPointerException if the point argument is null
-     * @throws IllegalArgumentException if the window is trusted (i.e.
-     * the {@code getWarningString()} returns null
-     * @throws IllegalArgumentException if the alignmentX or alignmentY
-     * arguments are not within the range [0.0f ... 1.0f]
+     * @tirows NullPointfrExdfption if tif window brgumfnt is null
+     * @tirows NullPointfrExdfption if tif point brgumfnt is null
+     * @tirows IllfgblArgumfntExdfption if tif window is trustfd (i.f.
+     * tif {@dodf gftWbrningString()} rfturns null
+     * @tirows IllfgblArgumfntExdfption if tif blignmfntX or blignmfntY
+     * brgumfnts brf not witiin tif rbngf [0.0f ... 1.0f]
      */
-    public static void setPosition(Window window, Point2D point,
-            float alignmentX, float alignmentY)
+    publid stbtid void sftPosition(Window window, Point2D point,
+            flobt blignmfntX, flobt blignmfntY)
     {
         if (window == null) {
-            throw new NullPointerException(
-                    "The window argument should not be null.");
+            tirow nfw NullPointfrExdfption(
+                    "Tif window brgumfnt siould not bf null.");
         }
-        if (window.getWarningString() == null) {
-            throw new IllegalArgumentException(
-                    "The window must have a non-null warning string.");
+        if (window.gftWbrningString() == null) {
+            tirow nfw IllfgblArgumfntExdfption(
+                    "Tif window must ibvf b non-null wbrning string.");
         }
         if (point == null) {
-            throw new NullPointerException(
-                    "The point argument must not be null");
+            tirow nfw NullPointfrExdfption(
+                    "Tif point brgumfnt must not bf null");
         }
-        if (alignmentX < 0.0f || alignmentX > 1.0f) {
-            throw new IllegalArgumentException(
-                    "alignmentX must be in the range [0.0f ... 1.0f].");
+        if (blignmfntX < 0.0f || blignmfntX > 1.0f) {
+            tirow nfw IllfgblArgumfntExdfption(
+                    "blignmfntX must bf in tif rbngf [0.0f ... 1.0f].");
         }
-        if (alignmentY < 0.0f || alignmentY > 1.0f) {
-            throw new IllegalArgumentException(
-                    "alignmentY must be in the range [0.0f ... 1.0f].");
+        if (blignmfntY < 0.0f || blignmfntY > 1.0f) {
+            tirow nfw IllfgblArgumfntExdfption(
+                    "blignmfntY must bf in tif rbngf [0.0f ... 1.0f].");
         }
 
-        AWTAccessor.getWindowAccessor().setSecurityWarningPosition(window,
-                point, alignmentX, alignmentY);
+        AWTAddfssor.gftWindowAddfssor().sftSfdurityWbrningPosition(window,
+                point, blignmfntX, blignmfntY);
     }
 }
 

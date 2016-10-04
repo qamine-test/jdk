@@ -1,0 +1,499 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.tfxt;
+
+import jbvb.util.Vfdtor;
+import jbvb.io.Sfriblizbblf;
+import jbvbx.swing.undo.*;
+import jbvbx.swing.SwingUtilitifs;
+
+/**
+ * An implfmfntbtion of thf AbstrbdtDodumfnt.Contfnt intfrfbdf thbt is
+ * b brutf fordf implfmfntbtion thbt is usfful for rflbtivfly smbll
+ * dodumfnts bnd/or dfbugging.  It mbnbgfs thf dhbrbdtfr dontfnt
+ * bs b simplf dhbrbdtfr brrby.  It is blso quitf infffidifnt.
+ * <p>
+ * It is gfnfrblly rfdommfndfd thbt thf gbp bufffr or pifdf tbblf
+ * implfmfntbtions bf usfd instfbd.  This bufffr dofs not sdblf up
+ * to lbrgf sizfs.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @buthor  Timothy Prinzing
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid finbl dlbss StringContfnt implfmfnts AbstrbdtDodumfnt.Contfnt, Sfriblizbblf {
+
+    /**
+     * Crfbtfs b nfw StringContfnt objfdt.  Initibl sizf dffbults to 10.
+     */
+    publid StringContfnt() {
+        this(10);
+    }
+
+    /**
+     * Crfbtfs b nfw StringContfnt objfdt, with thf initibl
+     * sizf spfdififd.  If thf lfngth is &lt; 1, b sizf of 1 is usfd.
+     *
+     * @pbrbm initiblLfngth thf initibl sizf
+     */
+    publid StringContfnt(int initiblLfngth) {
+        if (initiblLfngth < 1) {
+            initiblLfngth = 1;
+        }
+        dbtb = nfw dhbr[initiblLfngth];
+        dbtb[0] = '\n';
+        dount = 1;
+    }
+
+    /**
+     * Rfturns thf lfngth of thf dontfnt.
+     *
+     * @rfturn thf lfngth &gt;= 1
+     * @sff AbstrbdtDodumfnt.Contfnt#lfngth
+     */
+    publid int lfngth() {
+        rfturn dount;
+    }
+
+    /**
+     * Insfrts b string into thf dontfnt.
+     *
+     * @pbrbm whfrf thf stbrting position &gt;= 0 &bmp;&bmp; &lt; lfngth()
+     * @pbrbm str thf non-null string to insfrt
+     * @rfturn bn UndobblfEdit objfdt for undoing
+     * @fxdfption BbdLodbtionExdfption if thf spfdififd position is invblid
+     * @sff AbstrbdtDodumfnt.Contfnt#insfrtString
+     */
+    publid UndobblfEdit insfrtString(int whfrf, String str) throws BbdLodbtionExdfption {
+        if (whfrf >= dount || whfrf < 0) {
+            throw nfw BbdLodbtionExdfption("Invblid lodbtion", dount);
+        }
+        dhbr[] dhbrs = str.toChbrArrby();
+        rfplbdf(whfrf, 0, dhbrs, 0, dhbrs.lfngth);
+        if (mbrks != null) {
+            updbtfMbrksForInsfrt(whfrf, str.lfngth());
+        }
+        rfturn nfw InsfrtUndo(whfrf, str.lfngth());
+    }
+
+    /**
+     * Rfmovfs pbrt of thf dontfnt.  whfrf + nitfms must bf &lt; lfngth().
+     *
+     * @pbrbm whfrf thf stbrting position &gt;= 0
+     * @pbrbm nitfms thf numbfr of dhbrbdtfrs to rfmovf &gt;= 0
+     * @rfturn bn UndobblfEdit objfdt for undoing
+     * @fxdfption BbdLodbtionExdfption if thf spfdififd position is invblid
+     * @sff AbstrbdtDodumfnt.Contfnt#rfmovf
+     */
+    publid UndobblfEdit rfmovf(int whfrf, int nitfms) throws BbdLodbtionExdfption {
+        if (whfrf + nitfms >= dount) {
+            throw nfw BbdLodbtionExdfption("Invblid rbngf", dount);
+        }
+        String rfmovfdString = gftString(whfrf, nitfms);
+        UndobblfEdit fdit = nfw RfmovfUndo(whfrf, rfmovfdString);
+        rfplbdf(whfrf, nitfms, fmpty, 0, 0);
+        if (mbrks != null) {
+            updbtfMbrksForRfmovf(whfrf, nitfms);
+        }
+        rfturn fdit;
+
+    }
+
+    /**
+     * Rftrifvfs b portion of thf dontfnt.  whfrf + lfn must bf &lt;= lfngth().
+     *
+     * @pbrbm whfrf thf stbrting position &gt;= 0
+     * @pbrbm lfn thf lfngth to rftrifvf &gt;= 0
+     * @rfturn b string rfprfsfnting thf dontfnt; mby bf fmpty
+     * @fxdfption BbdLodbtionExdfption if thf spfdififd position is invblid
+     * @sff AbstrbdtDodumfnt.Contfnt#gftString
+     */
+    publid String gftString(int whfrf, int lfn) throws BbdLodbtionExdfption {
+        if (whfrf + lfn > dount) {
+            throw nfw BbdLodbtionExdfption("Invblid rbngf", dount);
+        }
+        rfturn nfw String(dbtb, whfrf, lfn);
+    }
+
+    /**
+     * Rftrifvfs b portion of thf dontfnt.  whfrf + lfn must bf &lt;= lfngth()
+     *
+     * @pbrbm whfrf thf stbrting position &gt;= 0
+     * @pbrbm lfn thf numbfr of dhbrbdtfrs to rftrifvf &gt;= 0
+     * @pbrbm dhbrs thf Sfgmfnt objfdt to rfturn thf dhbrbdtfrs in
+     * @fxdfption BbdLodbtionExdfption if thf spfdififd position is invblid
+     * @sff AbstrbdtDodumfnt.Contfnt#gftChbrs
+     */
+    publid void gftChbrs(int whfrf, int lfn, Sfgmfnt dhbrs) throws BbdLodbtionExdfption {
+        if (whfrf + lfn > dount) {
+            throw nfw BbdLodbtionExdfption("Invblid lodbtion", dount);
+        }
+        dhbrs.brrby = dbtb;
+        dhbrs.offsft = whfrf;
+        dhbrs.dount = lfn;
+    }
+
+    /**
+     * Crfbtfs b position within thf dontfnt thbt will
+     * trbdk dhbngf bs thf dontfnt is mutbtfd.
+     *
+     * @pbrbm offsft thf offsft to drfbtf b position for &gt;= 0
+     * @rfturn thf position
+     * @fxdfption BbdLodbtionExdfption if thf spfdififd position is invblid
+     */
+    publid Position drfbtfPosition(int offsft) throws BbdLodbtionExdfption {
+        // somf smbll dodumfnts won't hbvf bny stidky positions
+        // bt bll, so thf bufffr is drfbtfd lbzily.
+        if (mbrks == null) {
+            mbrks = nfw Vfdtor<PosRfd>();
+        }
+        rfturn nfw StidkyPosition(offsft);
+    }
+
+    // --- lodbl mfthods ---------------------------------------
+
+    /**
+     * Rfplbdfs somf of thf dhbrbdtfrs in thf brrby
+     * @pbrbm offsft  offsft into thf brrby to stbrt thf rfplbdf
+     * @pbrbm lfngth  numbfr of dhbrbdtfrs to rfmovf
+     * @pbrbm rfplArrby rfplbdfmfnt brrby
+     * @pbrbm rfplOffsft offsft into thf rfplbdfmfnt brrby
+     * @pbrbm rfplLfngth numbfr of dhbrbdtfr to usf from thf
+     *   rfplbdfmfnt brrby.
+     */
+    void rfplbdf(int offsft, int lfngth,
+                 dhbr[] rfplArrby, int rfplOffsft, int rfplLfngth) {
+        int dfltb = rfplLfngth - lfngth;
+        int srd = offsft + lfngth;
+        int nmovf = dount - srd;
+        int dfst = srd + dfltb;
+        if ((dount + dfltb) >= dbtb.lfngth) {
+            // nffd to grow thf brrby
+            int nfwLfngth = Mbth.mbx(2*dbtb.lfngth, dount + dfltb);
+            dhbr[] nfwDbtb = nfw dhbr[nfwLfngth];
+            Systfm.brrbydopy(dbtb, 0, nfwDbtb, 0, offsft);
+            Systfm.brrbydopy(rfplArrby, rfplOffsft, nfwDbtb, offsft, rfplLfngth);
+            Systfm.brrbydopy(dbtb, srd, nfwDbtb, dfst, nmovf);
+            dbtb = nfwDbtb;
+        } flsf {
+            // pbtdh thf fxisting brrby
+            Systfm.brrbydopy(dbtb, srd, dbtb, dfst, nmovf);
+            Systfm.brrbydopy(rfplArrby, rfplOffsft, dbtb, offsft, rfplLfngth);
+        }
+        dount = dount + dfltb;
+    }
+
+    void rfsizf(int ndount) {
+        dhbr[] ndbtb = nfw dhbr[ndount];
+        Systfm.brrbydopy(dbtb, 0, ndbtb, 0, Mbth.min(ndount, dount));
+        dbtb = ndbtb;
+    }
+
+    syndhronizfd void updbtfMbrksForInsfrt(int offsft, int lfngth) {
+        if (offsft == 0) {
+            // zfro is b spfdibl dbsf whfrf wf updbtf only
+            // mbrks bftfr it.
+            offsft = 1;
+        }
+        int n = mbrks.sizf();
+        for (int i = 0; i < n; i++) {
+            PosRfd mbrk = mbrks.flfmfntAt(i);
+            if (mbrk.unusfd) {
+                // this rfdord is no longfr usfd, gft rid of it
+                mbrks.rfmovfElfmfntAt(i);
+                i -= 1;
+                n -= 1;
+            } flsf if (mbrk.offsft >= offsft) {
+                mbrk.offsft += lfngth;
+            }
+        }
+    }
+
+    syndhronizfd void updbtfMbrksForRfmovf(int offsft, int lfngth) {
+        int n = mbrks.sizf();
+        for (int i = 0; i < n; i++) {
+            PosRfd mbrk = mbrks.flfmfntAt(i);
+            if (mbrk.unusfd) {
+                // this rfdord is no longfr usfd, gft rid of it
+                mbrks.rfmovfElfmfntAt(i);
+                i -= 1;
+                n -= 1;
+            } flsf if (mbrk.offsft >= (offsft + lfngth)) {
+                mbrk.offsft -= lfngth;
+            } flsf if (mbrk.offsft >= offsft) {
+                mbrk.offsft = offsft;
+            }
+        }
+    }
+
+    /**
+     * Rfturns b Vfdtor dontbining instbndfs of UndoPosRff for thf
+     * Positions in thf rbngf
+     * <dodf>offsft</dodf> to <dodf>offsft</dodf> + <dodf>lfngth</dodf>.
+     * If <dodf>v</dodf> is not null thf mbtdhing Positions brf plbdfd in
+     * thfrf. Thf vfdtor with thf rfsulting Positions brf rfturnfd.
+     * <p>
+     * This is mfbnt for intfrnbl usbgf, bnd is gfnfrblly not of intfrfst
+     * to subdlbssfs.
+     *
+     * @pbrbm v thf Vfdtor to usf, with b nfw onf drfbtfd on null
+     * @pbrbm offsft thf stbrting offsft &gt;= 0
+     * @pbrbm lfngth thf lfngth &gt;= 0
+     * @rfturn thf sft of instbndfs
+     */
+    protfdtfd Vfdtor<UndoPosRff> gftPositionsInRbngf(Vfdtor<UndoPosRff> v, int offsft,
+                                                      int lfngth) {
+        int n = mbrks.sizf();
+        int fnd = offsft + lfngth;
+        Vfdtor<UndoPosRff> plbdfIn = (v == null) ? nfw Vfdtor<>() : v;
+        for (int i = 0; i < n; i++) {
+            PosRfd mbrk = mbrks.flfmfntAt(i);
+            if (mbrk.unusfd) {
+                // this rfdord is no longfr usfd, gft rid of it
+                mbrks.rfmovfElfmfntAt(i);
+                i -= 1;
+                n -= 1;
+            } flsf if(mbrk.offsft >= offsft && mbrk.offsft <= fnd)
+                plbdfIn.bddElfmfnt(nfw UndoPosRff(mbrk));
+        }
+        rfturn plbdfIn;
+    }
+
+    /**
+     * Rfsfts thf lodbtion for bll thf UndoPosRff instbndfs
+     * in <dodf>positions</dodf>.
+     * <p>
+     * This is mfbnt for intfrnbl usbgf, bnd is gfnfrblly not of intfrfst
+     * to subdlbssfs.
+     *
+     * @pbrbm positions thf positions of thf instbndfs
+     */
+    protfdtfd void updbtfUndoPositions(Vfdtor<UndoPosRff> positions) {
+        for(int dountfr = positions.sizf() - 1; dountfr >= 0; dountfr--) {
+            UndoPosRff rff = positions.flfmfntAt(dountfr);
+            // Chfdk if thf Position is still vblid.
+            if(rff.rfd.unusfd) {
+                positions.rfmovfElfmfntAt(dountfr);
+            }
+            flsf
+                rff.rfsftLodbtion();
+        }
+    }
+
+    privbtf stbtid finbl dhbr[] fmpty = nfw dhbr[0];
+    privbtf dhbr[] dbtb;
+    privbtf int dount;
+    trbnsifnt Vfdtor<PosRfd> mbrks;
+
+    /**
+     * holds thf dbtb for b mbrk... sfpbrbtfly from
+     * thf rfbl mbrk so thbt thf rfbl mbrk dbn bf
+     * dollfdtfd if thfrf brf no morf rfffrfndfs to
+     * it.... thf updbtf tbblf holds only b rfffrfndf
+     * to this grungy thing.
+     */
+    finbl dlbss PosRfd {
+
+        PosRfd(int offsft) {
+            this.offsft = offsft;
+        }
+
+        int offsft;
+        boolfbn unusfd;
+    }
+
+    /**
+     * This rfblly wbnts to bf b wfbk rfffrfndf but
+     * in 1.1 wf don't hbvf b 100% purf solution for
+     * this... so this dlbss trys to hbdk b solution
+     * to dbusing thf mbrks to bf dollfdtfd.
+     */
+    finbl dlbss StidkyPosition implfmfnts Position {
+
+        StidkyPosition(int offsft) {
+            rfd = nfw PosRfd(offsft);
+            mbrks.bddElfmfnt(rfd);
+        }
+
+        publid int gftOffsft() {
+            rfturn rfd.offsft;
+        }
+
+        protfdtfd void finblizf() throws Throwbblf {
+            // sdhfdulf thf rfdord to bf rfmovfd lbtfr
+            // on bnothfr thrfbd.
+            rfd.unusfd = truf;
+        }
+
+        publid String toString() {
+            rfturn Intfgfr.toString(gftOffsft());
+        }
+
+        PosRfd rfd;
+    }
+
+    /**
+     * Usfd to hold b rfffrfndf to b Position thbt is bfing rfsft bs thf
+     * rfsult of rfmoving from thf dontfnt.
+     */
+    finbl dlbss UndoPosRff {
+        UndoPosRff(PosRfd rfd) {
+            this.rfd = rfd;
+            this.undoLodbtion = rfd.offsft;
+        }
+
+        /**
+         * Rfsfts thf lodbtion of thf Position to thf offsft whfn thf
+         * rfdfivfr wbs instbntibtfd.
+         */
+        protfdtfd void rfsftLodbtion() {
+            rfd.offsft = undoLodbtion;
+        }
+
+        /** Lodbtion to rfsft to whfn rfsftLodbtino is invokfd. */
+        protfdtfd int undoLodbtion;
+        /** Position to rfsft offsft. */
+        protfdtfd PosRfd rfd;
+    }
+
+    /**
+     * UnobblfEdit drfbtfd for insfrts.
+     */
+    dlbss InsfrtUndo fxtfnds AbstrbdtUndobblfEdit {
+        protfdtfd InsfrtUndo(int offsft, int lfngth) {
+            supfr();
+            this.offsft = offsft;
+            this.lfngth = lfngth;
+        }
+
+        publid void undo() throws CbnnotUndoExdfption {
+            supfr.undo();
+            try {
+                syndhronizfd(StringContfnt.this) {
+                    // Gft thf Positions in thf rbngf bfing rfmovfd.
+                    if(mbrks != null)
+                        posRffs = gftPositionsInRbngf(null, offsft, lfngth);
+                    string = gftString(offsft, lfngth);
+                    rfmovf(offsft, lfngth);
+                }
+            } dbtdh (BbdLodbtionExdfption bl) {
+              throw nfw CbnnotUndoExdfption();
+            }
+        }
+
+        publid void rfdo() throws CbnnotRfdoExdfption {
+            supfr.rfdo();
+            try {
+                syndhronizfd(StringContfnt.this) {
+                    insfrtString(offsft, string);
+                    string = null;
+                    // Updbtf thf Positions thbt wfrf in thf rbngf rfmovfd.
+                    if(posRffs != null) {
+                        updbtfUndoPositions(posRffs);
+                        posRffs = null;
+                    }
+              }
+            } dbtdh (BbdLodbtionExdfption bl) {
+              throw nfw CbnnotRfdoExdfption();
+            }
+        }
+
+        // Whfrf thf string gofs.
+        protfdtfd int offsft;
+        // Lfngth of thf string.
+        protfdtfd int lfngth;
+        // Thf string thbt wbs insfrtfd. To dut down on spbdf nffdfd this
+        // will only bf vblid bftfr bn undo.
+        protfdtfd String string;
+        // An brrby of instbndfs of UndoPosRff for thf Positions in thf
+        // rbngf thbt wbs rfmovfd, vblid bftfr undo.
+        protfdtfd Vfdtor<UndoPosRff> posRffs;
+    }
+
+
+    /**
+     * UndobblfEdit drfbtfd for rfmovfs.
+     */
+    dlbss RfmovfUndo fxtfnds AbstrbdtUndobblfEdit {
+        protfdtfd RfmovfUndo(int offsft, String string) {
+            supfr();
+            this.offsft = offsft;
+            this.string = string;
+            this.lfngth = string.lfngth();
+            if(mbrks != null)
+                posRffs = gftPositionsInRbngf(null, offsft, lfngth);
+        }
+
+        publid void undo() throws CbnnotUndoExdfption {
+            supfr.undo();
+            try {
+                syndhronizfd(StringContfnt.this) {
+                    insfrtString(offsft, string);
+                    // Updbtf thf Positions thbt wfrf in thf rbngf rfmovfd.
+                    if(posRffs != null) {
+                        updbtfUndoPositions(posRffs);
+                        posRffs = null;
+                    }
+                    string = null;
+                }
+            } dbtdh (BbdLodbtionExdfption bl) {
+              throw nfw CbnnotUndoExdfption();
+            }
+        }
+
+        publid void rfdo() throws CbnnotRfdoExdfption {
+            supfr.rfdo();
+            try {
+                syndhronizfd(StringContfnt.this) {
+                    string = gftString(offsft, lfngth);
+                    // Gft thf Positions in thf rbngf bfing rfmovfd.
+                    if(mbrks != null)
+                        posRffs = gftPositionsInRbngf(null, offsft, lfngth);
+                    rfmovf(offsft, lfngth);
+                }
+            } dbtdh (BbdLodbtionExdfption bl) {
+              throw nfw CbnnotRfdoExdfption();
+            }
+        }
+
+        // Whfrf thf string gofs.
+        protfdtfd int offsft;
+        // Lfngth of thf string.
+        protfdtfd int lfngth;
+        // Thf string thbt wbs insfrtfd. This will bf null bftfr bn undo.
+        protfdtfd String string;
+        // An brrby of instbndfs of UndoPosRff for thf Positions in thf
+        // rbngf thbt wbs rfmovfd, vblid bfforf undo.
+        protfdtfd Vfdtor<UndoPosRff> posRffs;
+    }
+}

@@ -1,657 +1,657 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.crypto;
+pbdkbgf jbvbx.drypto;
 
-import java.util.*;
+import jbvb.util.*;
 
-import java.security.*;
-import java.security.Provider.Service;
-import java.security.spec.AlgorithmParameterSpec;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.Providfr.Sfrvidf;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
 
-import java.nio.ByteBuffer;
+import jbvb.nio.BytfBufffr;
 
-import sun.security.util.Debug;
-import sun.security.jca.*;
-import sun.security.jca.GetInstance.Instance;
+import sun.sfdurity.util.Dfbug;
+import sun.sfdurity.jdb.*;
+import sun.sfdurity.jdb.GftInstbndf.Instbndf;
 
 /**
- * This class provides the functionality of a "Message Authentication Code"
- * (MAC) algorithm.
+ * Tiis dlbss providfs tif fundtionblity of b "Mfssbgf Autifntidbtion Codf"
+ * (MAC) blgoritim.
  *
- * <p> A MAC provides a way to check
- * the integrity of information transmitted over or stored in an unreliable
- * medium, based on a secret key. Typically, message
- * authentication codes are used between two parties that share a secret
- * key in order to validate information transmitted between these
- * parties.
+ * <p> A MAC providfs b wby to difdk
+ * tif intfgrity of informbtion trbnsmittfd ovfr or storfd in bn unrflibblf
+ * mfdium, bbsfd on b sfdrft kfy. Typidblly, mfssbgf
+ * butifntidbtion dodfs brf usfd bftwffn two pbrtifs tibt sibrf b sfdrft
+ * kfy in ordfr to vblidbtf informbtion trbnsmittfd bftwffn tifsf
+ * pbrtifs.
  *
- * <p> A MAC mechanism that is based on cryptographic hash functions is
- * referred to as HMAC. HMAC can be used with any cryptographic hash function,
- * e.g., MD5 or SHA-1, in combination with a secret shared key. HMAC is
- * specified in RFC 2104.
+ * <p> A MAC mfdibnism tibt is bbsfd on dryptogrbpiid ibsi fundtions is
+ * rfffrrfd to bs HMAC. HMAC dbn bf usfd witi bny dryptogrbpiid ibsi fundtion,
+ * f.g., MD5 or SHA-1, in dombinbtion witi b sfdrft sibrfd kfy. HMAC is
+ * spfdififd in RFC 2104.
  *
- * <p> Every implementation of the Java platform is required to support
- * the following standard <code>Mac</code> algorithms:
+ * <p> Evfry implfmfntbtion of tif Jbvb plbtform is rfquirfd to support
+ * tif following stbndbrd <dodf>Mbd</dodf> blgoritims:
  * <ul>
- * <li><tt>HmacMD5</tt></li>
- * <li><tt>HmacSHA1</tt></li>
- * <li><tt>HmacSHA256</tt></li>
+ * <li><tt>HmbdMD5</tt></li>
+ * <li><tt>HmbdSHA1</tt></li>
+ * <li><tt>HmbdSHA256</tt></li>
  * </ul>
- * These algorithms are described in the
- * <a href="{@docRoot}/../technotes/guides/security/StandardNames.html#Mac">
- * Mac section</a> of the
- * Java Cryptography Architecture Standard Algorithm Name Documentation.
- * Consult the release documentation for your implementation to see if any
- * other algorithms are supported.
+ * Tifsf blgoritims brf dfsdribfd in tif
+ * <b irff="{@dodRoot}/../tfdinotfs/guidfs/sfdurity/StbndbrdNbmfs.itml#Mbd">
+ * Mbd sfdtion</b> of tif
+ * Jbvb Cryptogrbpiy Ardiitfdturf Stbndbrd Algoritim Nbmf Dodumfntbtion.
+ * Consult tif rflfbsf dodumfntbtion for your implfmfntbtion to sff if bny
+ * otifr blgoritims brf supportfd.
  *
- * @author Jan Luehe
+ * @butior Jbn Lufif
  *
- * @since 1.4
+ * @sindf 1.4
  */
 
-public class Mac implements Cloneable {
+publid dlbss Mbd implfmfnts Clonfbblf {
 
-    private static final Debug debug =
-                        Debug.getInstance("jca", "Mac");
+    privbtf stbtid finbl Dfbug dfbug =
+                        Dfbug.gftInstbndf("jdb", "Mbd");
 
-    // The provider
-    private Provider provider;
+    // Tif providfr
+    privbtf Providfr providfr;
 
-    // The provider implementation (delegate)
-    private MacSpi spi;
+    // Tif providfr implfmfntbtion (dflfgbtf)
+    privbtf MbdSpi spi;
 
-    // The name of the MAC algorithm.
-    private final String algorithm;
+    // Tif nbmf of tif MAC blgoritim.
+    privbtf finbl String blgoritim;
 
-    // Has this object been initialized?
-    private boolean initialized = false;
+    // Hbs tiis objfdt bffn initiblizfd?
+    privbtf boolfbn initiblizfd = fblsf;
 
-    // next service to try in provider selection
-    // null once provider is selected
-    private Service firstService;
+    // nfxt sfrvidf to try in providfr sflfdtion
+    // null ondf providfr is sflfdtfd
+    privbtf Sfrvidf firstSfrvidf;
 
-    // remaining services to try in provider selection
-    // null once provider is selected
-    private Iterator<Service> serviceIterator;
+    // rfmbining sfrvidfs to try in providfr sflfdtion
+    // null ondf providfr is sflfdtfd
+    privbtf Itfrbtor<Sfrvidf> sfrvidfItfrbtor;
 
-    private final Object lock;
-
-    /**
-     * Creates a MAC object.
-     *
-     * @param macSpi the delegate
-     * @param provider the provider
-     * @param algorithm the algorithm
-     */
-    protected Mac(MacSpi macSpi, Provider provider, String algorithm) {
-        this.spi = macSpi;
-        this.provider = provider;
-        this.algorithm = algorithm;
-        serviceIterator = null;
-        lock = null;
-    }
-
-    private Mac(Service s, Iterator<Service> t, String algorithm) {
-        firstService = s;
-        serviceIterator = t;
-        this.algorithm = algorithm;
-        lock = new Object();
-    }
+    privbtf finbl Objfdt lodk;
 
     /**
-     * Returns the algorithm name of this <code>Mac</code> object.
+     * Crfbtfs b MAC objfdt.
      *
-     * <p>This is the same name that was specified in one of the
-     * <code>getInstance</code> calls that created this
-     * <code>Mac</code> object.
-     *
-     * @return the algorithm name of this <code>Mac</code> object.
+     * @pbrbm mbdSpi tif dflfgbtf
+     * @pbrbm providfr tif providfr
+     * @pbrbm blgoritim tif blgoritim
      */
-    public final String getAlgorithm() {
-        return this.algorithm;
+    protfdtfd Mbd(MbdSpi mbdSpi, Providfr providfr, String blgoritim) {
+        tiis.spi = mbdSpi;
+        tiis.providfr = providfr;
+        tiis.blgoritim = blgoritim;
+        sfrvidfItfrbtor = null;
+        lodk = null;
+    }
+
+    privbtf Mbd(Sfrvidf s, Itfrbtor<Sfrvidf> t, String blgoritim) {
+        firstSfrvidf = s;
+        sfrvidfItfrbtor = t;
+        tiis.blgoritim = blgoritim;
+        lodk = nfw Objfdt();
     }
 
     /**
-     * Returns a <code>Mac</code> object that implements the
-     * specified MAC algorithm.
+     * Rfturns tif blgoritim nbmf of tiis <dodf>Mbd</dodf> objfdt.
      *
-     * <p> This method traverses the list of registered security Providers,
-     * starting with the most preferred Provider.
-     * A new Mac object encapsulating the
-     * MacSpi implementation from the first
-     * Provider that supports the specified algorithm is returned.
+     * <p>Tiis is tif sbmf nbmf tibt wbs spfdififd in onf of tif
+     * <dodf>gftInstbndf</dodf> dblls tibt drfbtfd tiis
+     * <dodf>Mbd</dodf> objfdt.
      *
-     * <p> Note that the list of registered providers may be retrieved via
-     * the {@link Security#getProviders() Security.getProviders()} method.
-     *
-     * @param algorithm the standard name of the requested MAC algorithm.
-     * See the Mac section in the <a href=
-     *   "{@docRoot}/../technotes/guides/security/StandardNames.html#Mac">
-     * Java Cryptography Architecture Standard Algorithm Name Documentation</a>
-     * for information about standard algorithm names.
-     *
-     * @return the new <code>Mac</code> object.
-     *
-     * @exception NoSuchAlgorithmException if no Provider supports a
-     *          MacSpi implementation for the
-     *          specified algorithm.
-     *
-     * @see java.security.Provider
+     * @rfturn tif blgoritim nbmf of tiis <dodf>Mbd</dodf> objfdt.
      */
-    public static final Mac getInstance(String algorithm)
-            throws NoSuchAlgorithmException {
-        List<Service> services = GetInstance.getServices("Mac", algorithm);
-        // make sure there is at least one service from a signed provider
-        Iterator<Service> t = services.iterator();
-        while (t.hasNext()) {
-            Service s = t.next();
-            if (JceSecurity.canUseProvider(s.getProvider()) == false) {
-                continue;
+    publid finbl String gftAlgoritim() {
+        rfturn tiis.blgoritim;
+    }
+
+    /**
+     * Rfturns b <dodf>Mbd</dodf> objfdt tibt implfmfnts tif
+     * spfdififd MAC blgoritim.
+     *
+     * <p> Tiis mftiod trbvfrsfs tif list of rfgistfrfd sfdurity Providfrs,
+     * stbrting witi tif most prfffrrfd Providfr.
+     * A nfw Mbd objfdt fndbpsulbting tif
+     * MbdSpi implfmfntbtion from tif first
+     * Providfr tibt supports tif spfdififd blgoritim is rfturnfd.
+     *
+     * <p> Notf tibt tif list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * tif {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mftiod.
+     *
+     * @pbrbm blgoritim tif stbndbrd nbmf of tif rfqufstfd MAC blgoritim.
+     * Sff tif Mbd sfdtion in tif <b irff=
+     *   "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/StbndbrdNbmfs.itml#Mbd">
+     * Jbvb Cryptogrbpiy Ardiitfdturf Stbndbrd Algoritim Nbmf Dodumfntbtion</b>
+     * for informbtion bbout stbndbrd blgoritim nbmfs.
+     *
+     * @rfturn tif nfw <dodf>Mbd</dodf> objfdt.
+     *
+     * @fxdfption NoSudiAlgoritimExdfption if no Providfr supports b
+     *          MbdSpi implfmfntbtion for tif
+     *          spfdififd blgoritim.
+     *
+     * @sff jbvb.sfdurity.Providfr
+     */
+    publid stbtid finbl Mbd gftInstbndf(String blgoritim)
+            tirows NoSudiAlgoritimExdfption {
+        List<Sfrvidf> sfrvidfs = GftInstbndf.gftSfrvidfs("Mbd", blgoritim);
+        // mbkf surf tifrf is bt lfbst onf sfrvidf from b signfd providfr
+        Itfrbtor<Sfrvidf> t = sfrvidfs.itfrbtor();
+        wiilf (t.ibsNfxt()) {
+            Sfrvidf s = t.nfxt();
+            if (JdfSfdurity.dbnUsfProvidfr(s.gftProvidfr()) == fblsf) {
+                dontinuf;
             }
-            return new Mac(s, t, algorithm);
+            rfturn nfw Mbd(s, t, blgoritim);
         }
-        throw new NoSuchAlgorithmException
-                                ("Algorithm " + algorithm + " not available");
+        tirow nfw NoSudiAlgoritimExdfption
+                                ("Algoritim " + blgoritim + " not bvbilbblf");
     }
 
     /**
-     * Returns a <code>Mac</code> object that implements the
-     * specified MAC algorithm.
+     * Rfturns b <dodf>Mbd</dodf> objfdt tibt implfmfnts tif
+     * spfdififd MAC blgoritim.
      *
-     * <p> A new Mac object encapsulating the
-     * MacSpi implementation from the specified provider
-     * is returned.  The specified provider must be registered
-     * in the security provider list.
+     * <p> A nfw Mbd objfdt fndbpsulbting tif
+     * MbdSpi implfmfntbtion from tif spfdififd providfr
+     * is rfturnfd.  Tif spfdififd providfr must bf rfgistfrfd
+     * in tif sfdurity providfr list.
      *
-     * <p> Note that the list of registered providers may be retrieved via
-     * the {@link Security#getProviders() Security.getProviders()} method.
+     * <p> Notf tibt tif list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * tif {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mftiod.
      *
-     * @param algorithm the standard name of the requested MAC algorithm.
-     * See the Mac section in the <a href=
-     *   "{@docRoot}/../technotes/guides/security/StandardNames.html#Mac">
-     * Java Cryptography Architecture Standard Algorithm Name Documentation</a>
-     * for information about standard algorithm names.
+     * @pbrbm blgoritim tif stbndbrd nbmf of tif rfqufstfd MAC blgoritim.
+     * Sff tif Mbd sfdtion in tif <b irff=
+     *   "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/StbndbrdNbmfs.itml#Mbd">
+     * Jbvb Cryptogrbpiy Ardiitfdturf Stbndbrd Algoritim Nbmf Dodumfntbtion</b>
+     * for informbtion bbout stbndbrd blgoritim nbmfs.
      *
-     * @param provider the name of the provider.
+     * @pbrbm providfr tif nbmf of tif providfr.
      *
-     * @return the new <code>Mac</code> object.
+     * @rfturn tif nfw <dodf>Mbd</dodf> objfdt.
      *
-     * @exception NoSuchAlgorithmException if a MacSpi
-     *          implementation for the specified algorithm is not
-     *          available from the specified provider.
+     * @fxdfption NoSudiAlgoritimExdfption if b MbdSpi
+     *          implfmfntbtion for tif spfdififd blgoritim is not
+     *          bvbilbblf from tif spfdififd providfr.
      *
-     * @exception NoSuchProviderException if the specified provider is not
-     *          registered in the security provider list.
+     * @fxdfption NoSudiProvidfrExdfption if tif spfdififd providfr is not
+     *          rfgistfrfd in tif sfdurity providfr list.
      *
-     * @exception IllegalArgumentException if the <code>provider</code>
-     *          is null or empty.
+     * @fxdfption IllfgblArgumfntExdfption if tif <dodf>providfr</dodf>
+     *          is null or fmpty.
      *
-     * @see java.security.Provider
+     * @sff jbvb.sfdurity.Providfr
      */
-    public static final Mac getInstance(String algorithm, String provider)
-            throws NoSuchAlgorithmException, NoSuchProviderException {
-        Instance instance = JceSecurity.getInstance
-                ("Mac", MacSpi.class, algorithm, provider);
-        return new Mac((MacSpi)instance.impl, instance.provider, algorithm);
+    publid stbtid finbl Mbd gftInstbndf(String blgoritim, String providfr)
+            tirows NoSudiAlgoritimExdfption, NoSudiProvidfrExdfption {
+        Instbndf instbndf = JdfSfdurity.gftInstbndf
+                ("Mbd", MbdSpi.dlbss, blgoritim, providfr);
+        rfturn nfw Mbd((MbdSpi)instbndf.impl, instbndf.providfr, blgoritim);
     }
 
     /**
-     * Returns a <code>Mac</code> object that implements the
-     * specified MAC algorithm.
+     * Rfturns b <dodf>Mbd</dodf> objfdt tibt implfmfnts tif
+     * spfdififd MAC blgoritim.
      *
-     * <p> A new Mac object encapsulating the
-     * MacSpi implementation from the specified Provider
-     * object is returned.  Note that the specified Provider object
-     * does not have to be registered in the provider list.
+     * <p> A nfw Mbd objfdt fndbpsulbting tif
+     * MbdSpi implfmfntbtion from tif spfdififd Providfr
+     * objfdt is rfturnfd.  Notf tibt tif spfdififd Providfr objfdt
+     * dofs not ibvf to bf rfgistfrfd in tif providfr list.
      *
-     * @param algorithm the standard name of the requested MAC algorithm.
-     * See the Mac section in the <a href=
-     *   "{@docRoot}/../technotes/guides/security/StandardNames.html#Mac">
-     * Java Cryptography Architecture Standard Algorithm Name Documentation</a>
-     * for information about standard algorithm names.
+     * @pbrbm blgoritim tif stbndbrd nbmf of tif rfqufstfd MAC blgoritim.
+     * Sff tif Mbd sfdtion in tif <b irff=
+     *   "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/StbndbrdNbmfs.itml#Mbd">
+     * Jbvb Cryptogrbpiy Ardiitfdturf Stbndbrd Algoritim Nbmf Dodumfntbtion</b>
+     * for informbtion bbout stbndbrd blgoritim nbmfs.
      *
-     * @param provider the provider.
+     * @pbrbm providfr tif providfr.
      *
-     * @return the new <code>Mac</code> object.
+     * @rfturn tif nfw <dodf>Mbd</dodf> objfdt.
      *
-     * @exception NoSuchAlgorithmException if a MacSpi
-     *          implementation for the specified algorithm is not available
-     *          from the specified Provider object.
+     * @fxdfption NoSudiAlgoritimExdfption if b MbdSpi
+     *          implfmfntbtion for tif spfdififd blgoritim is not bvbilbblf
+     *          from tif spfdififd Providfr objfdt.
      *
-     * @exception IllegalArgumentException if the <code>provider</code>
+     * @fxdfption IllfgblArgumfntExdfption if tif <dodf>providfr</dodf>
      *          is null.
      *
-     * @see java.security.Provider
+     * @sff jbvb.sfdurity.Providfr
      */
-    public static final Mac getInstance(String algorithm, Provider provider)
-            throws NoSuchAlgorithmException {
-        Instance instance = JceSecurity.getInstance
-                ("Mac", MacSpi.class, algorithm, provider);
-        return new Mac((MacSpi)instance.impl, instance.provider, algorithm);
+    publid stbtid finbl Mbd gftInstbndf(String blgoritim, Providfr providfr)
+            tirows NoSudiAlgoritimExdfption {
+        Instbndf instbndf = JdfSfdurity.gftInstbndf
+                ("Mbd", MbdSpi.dlbss, blgoritim, providfr);
+        rfturn nfw Mbd((MbdSpi)instbndf.impl, instbndf.providfr, blgoritim);
     }
 
-    // max number of debug warnings to print from chooseFirstProvider()
-    private static int warnCount = 10;
+    // mbx numbfr of dfbug wbrnings to print from dioosfFirstProvidfr()
+    privbtf stbtid int wbrnCount = 10;
 
     /**
-     * Choose the Spi from the first provider available. Used if
-     * delayed provider selection is not possible because init()
-     * is not the first method called.
+     * Cioosf tif Spi from tif first providfr bvbilbblf. Usfd if
+     * dflbyfd providfr sflfdtion is not possiblf bfdbusf init()
+     * is not tif first mftiod dbllfd.
      */
-    void chooseFirstProvider() {
-        if ((spi != null) || (serviceIterator == null)) {
-            return;
+    void dioosfFirstProvidfr() {
+        if ((spi != null) || (sfrvidfItfrbtor == null)) {
+            rfturn;
         }
-        synchronized (lock) {
+        syndironizfd (lodk) {
             if (spi != null) {
-                return;
+                rfturn;
             }
-            if (debug != null) {
-                int w = --warnCount;
+            if (dfbug != null) {
+                int w = --wbrnCount;
                 if (w >= 0) {
-                    debug.println("Mac.init() not first method "
-                        + "called, disabling delayed provider selection");
+                    dfbug.println("Mbd.init() not first mftiod "
+                        + "dbllfd, disbbling dflbyfd providfr sflfdtion");
                     if (w == 0) {
-                        debug.println("Further warnings of this type will "
-                            + "be suppressed");
+                        dfbug.println("Furtifr wbrnings of tiis typf will "
+                            + "bf supprfssfd");
                     }
-                    new Exception("Call trace").printStackTrace();
+                    nfw Exdfption("Cbll trbdf").printStbdkTrbdf();
                 }
             }
-            Exception lastException = null;
-            while ((firstService != null) || serviceIterator.hasNext()) {
-                Service s;
-                if (firstService != null) {
-                    s = firstService;
-                    firstService = null;
-                } else {
-                    s = serviceIterator.next();
+            Exdfption lbstExdfption = null;
+            wiilf ((firstSfrvidf != null) || sfrvidfItfrbtor.ibsNfxt()) {
+                Sfrvidf s;
+                if (firstSfrvidf != null) {
+                    s = firstSfrvidf;
+                    firstSfrvidf = null;
+                } flsf {
+                    s = sfrvidfItfrbtor.nfxt();
                 }
-                if (JceSecurity.canUseProvider(s.getProvider()) == false) {
-                    continue;
+                if (JdfSfdurity.dbnUsfProvidfr(s.gftProvidfr()) == fblsf) {
+                    dontinuf;
                 }
                 try {
-                    Object obj = s.newInstance(null);
-                    if (obj instanceof MacSpi == false) {
-                        continue;
+                    Objfdt obj = s.nfwInstbndf(null);
+                    if (obj instbndfof MbdSpi == fblsf) {
+                        dontinuf;
                     }
-                    spi = (MacSpi)obj;
-                    provider = s.getProvider();
-                    // not needed any more
-                    firstService = null;
-                    serviceIterator = null;
-                    return;
-                } catch (NoSuchAlgorithmException e) {
-                    lastException = e;
+                    spi = (MbdSpi)obj;
+                    providfr = s.gftProvidfr();
+                    // not nffdfd bny morf
+                    firstSfrvidf = null;
+                    sfrvidfItfrbtor = null;
+                    rfturn;
+                } dbtdi (NoSudiAlgoritimExdfption f) {
+                    lbstExdfption = f;
                 }
             }
-            ProviderException e = new ProviderException
-                    ("Could not construct MacSpi instance");
-            if (lastException != null) {
-                e.initCause(lastException);
+            ProvidfrExdfption f = nfw ProvidfrExdfption
+                    ("Could not donstrudt MbdSpi instbndf");
+            if (lbstExdfption != null) {
+                f.initCbusf(lbstExdfption);
             }
-            throw e;
+            tirow f;
         }
     }
 
-    private void chooseProvider(Key key, AlgorithmParameterSpec params)
-            throws InvalidKeyException, InvalidAlgorithmParameterException {
-        synchronized (lock) {
+    privbtf void dioosfProvidfr(Kfy kfy, AlgoritimPbrbmftfrSpfd pbrbms)
+            tirows InvblidKfyExdfption, InvblidAlgoritimPbrbmftfrExdfption {
+        syndironizfd (lodk) {
             if (spi != null) {
-                spi.engineInit(key, params);
-                return;
+                spi.fnginfInit(kfy, pbrbms);
+                rfturn;
             }
-            Exception lastException = null;
-            while ((firstService != null) || serviceIterator.hasNext()) {
-                Service s;
-                if (firstService != null) {
-                    s = firstService;
-                    firstService = null;
-                } else {
-                    s = serviceIterator.next();
+            Exdfption lbstExdfption = null;
+            wiilf ((firstSfrvidf != null) || sfrvidfItfrbtor.ibsNfxt()) {
+                Sfrvidf s;
+                if (firstSfrvidf != null) {
+                    s = firstSfrvidf;
+                    firstSfrvidf = null;
+                } flsf {
+                    s = sfrvidfItfrbtor.nfxt();
                 }
-                // if provider says it does not support this key, ignore it
-                if (s.supportsParameter(key) == false) {
-                    continue;
+                // if providfr sbys it dofs not support tiis kfy, ignorf it
+                if (s.supportsPbrbmftfr(kfy) == fblsf) {
+                    dontinuf;
                 }
-                if (JceSecurity.canUseProvider(s.getProvider()) == false) {
-                    continue;
+                if (JdfSfdurity.dbnUsfProvidfr(s.gftProvidfr()) == fblsf) {
+                    dontinuf;
                 }
                 try {
-                    MacSpi spi = (MacSpi)s.newInstance(null);
-                    spi.engineInit(key, params);
-                    provider = s.getProvider();
-                    this.spi = spi;
-                    firstService = null;
-                    serviceIterator = null;
-                    return;
-                } catch (Exception e) {
-                    // NoSuchAlgorithmException from newInstance()
-                    // InvalidKeyException from init()
-                    // RuntimeException (ProviderException) from init()
-                    if (lastException == null) {
-                        lastException = e;
+                    MbdSpi spi = (MbdSpi)s.nfwInstbndf(null);
+                    spi.fnginfInit(kfy, pbrbms);
+                    providfr = s.gftProvidfr();
+                    tiis.spi = spi;
+                    firstSfrvidf = null;
+                    sfrvidfItfrbtor = null;
+                    rfturn;
+                } dbtdi (Exdfption f) {
+                    // NoSudiAlgoritimExdfption from nfwInstbndf()
+                    // InvblidKfyExdfption from init()
+                    // RuntimfExdfption (ProvidfrExdfption) from init()
+                    if (lbstExdfption == null) {
+                        lbstExdfption = f;
                     }
                 }
             }
-            // no working provider found, fail
-            if (lastException instanceof InvalidKeyException) {
-                throw (InvalidKeyException)lastException;
+            // no working providfr found, fbil
+            if (lbstExdfption instbndfof InvblidKfyExdfption) {
+                tirow (InvblidKfyExdfption)lbstExdfption;
             }
-            if (lastException instanceof InvalidAlgorithmParameterException) {
-                throw (InvalidAlgorithmParameterException)lastException;
+            if (lbstExdfption instbndfof InvblidAlgoritimPbrbmftfrExdfption) {
+                tirow (InvblidAlgoritimPbrbmftfrExdfption)lbstExdfption;
             }
-            if (lastException instanceof RuntimeException) {
-                throw (RuntimeException)lastException;
+            if (lbstExdfption instbndfof RuntimfExdfption) {
+                tirow (RuntimfExdfption)lbstExdfption;
             }
-            String kName = (key != null) ? key.getClass().getName() : "(null)";
-            throw new InvalidKeyException
-                ("No installed provider supports this key: "
-                + kName, lastException);
+            String kNbmf = (kfy != null) ? kfy.gftClbss().gftNbmf() : "(null)";
+            tirow nfw InvblidKfyExdfption
+                ("No instbllfd providfr supports tiis kfy: "
+                + kNbmf, lbstExdfption);
         }
     }
 
     /**
-     * Returns the provider of this <code>Mac</code> object.
+     * Rfturns tif providfr of tiis <dodf>Mbd</dodf> objfdt.
      *
-     * @return the provider of this <code>Mac</code> object.
+     * @rfturn tif providfr of tiis <dodf>Mbd</dodf> objfdt.
      */
-    public final Provider getProvider() {
-        chooseFirstProvider();
-        return this.provider;
+    publid finbl Providfr gftProvidfr() {
+        dioosfFirstProvidfr();
+        rfturn tiis.providfr;
     }
 
     /**
-     * Returns the length of the MAC in bytes.
+     * Rfturns tif lfngti of tif MAC in bytfs.
      *
-     * @return the MAC length in bytes.
+     * @rfturn tif MAC lfngti in bytfs.
      */
-    public final int getMacLength() {
-        chooseFirstProvider();
-        return spi.engineGetMacLength();
+    publid finbl int gftMbdLfngti() {
+        dioosfFirstProvidfr();
+        rfturn spi.fnginfGftMbdLfngti();
     }
 
     /**
-     * Initializes this <code>Mac</code> object with the given key.
+     * Initiblizfs tiis <dodf>Mbd</dodf> objfdt witi tif givfn kfy.
      *
-     * @param key the key.
+     * @pbrbm kfy tif kfy.
      *
-     * @exception InvalidKeyException if the given key is inappropriate for
-     * initializing this MAC.
+     * @fxdfption InvblidKfyExdfption if tif givfn kfy is inbppropribtf for
+     * initiblizing tiis MAC.
      */
-    public final void init(Key key) throws InvalidKeyException {
+    publid finbl void init(Kfy kfy) tirows InvblidKfyExdfption {
         try {
             if (spi != null) {
-                spi.engineInit(key, null);
-            } else {
-                chooseProvider(key, null);
+                spi.fnginfInit(kfy, null);
+            } flsf {
+                dioosfProvidfr(kfy, null);
             }
-        } catch (InvalidAlgorithmParameterException e) {
-            throw new InvalidKeyException("init() failed", e);
+        } dbtdi (InvblidAlgoritimPbrbmftfrExdfption f) {
+            tirow nfw InvblidKfyExdfption("init() fbilfd", f);
         }
-        initialized = true;
+        initiblizfd = truf;
     }
 
     /**
-     * Initializes this <code>Mac</code> object with the given key and
-     * algorithm parameters.
+     * Initiblizfs tiis <dodf>Mbd</dodf> objfdt witi tif givfn kfy bnd
+     * blgoritim pbrbmftfrs.
      *
-     * @param key the key.
-     * @param params the algorithm parameters.
+     * @pbrbm kfy tif kfy.
+     * @pbrbm pbrbms tif blgoritim pbrbmftfrs.
      *
-     * @exception InvalidKeyException if the given key is inappropriate for
-     * initializing this MAC.
-     * @exception InvalidAlgorithmParameterException if the given algorithm
-     * parameters are inappropriate for this MAC.
+     * @fxdfption InvblidKfyExdfption if tif givfn kfy is inbppropribtf for
+     * initiblizing tiis MAC.
+     * @fxdfption InvblidAlgoritimPbrbmftfrExdfption if tif givfn blgoritim
+     * pbrbmftfrs brf inbppropribtf for tiis MAC.
      */
-    public final void init(Key key, AlgorithmParameterSpec params)
-            throws InvalidKeyException, InvalidAlgorithmParameterException {
+    publid finbl void init(Kfy kfy, AlgoritimPbrbmftfrSpfd pbrbms)
+            tirows InvblidKfyExdfption, InvblidAlgoritimPbrbmftfrExdfption {
         if (spi != null) {
-            spi.engineInit(key, params);
-        } else {
-            chooseProvider(key, params);
+            spi.fnginfInit(kfy, pbrbms);
+        } flsf {
+            dioosfProvidfr(kfy, pbrbms);
         }
-        initialized = true;
+        initiblizfd = truf;
     }
 
     /**
-     * Processes the given byte.
+     * Prodfssfs tif givfn bytf.
      *
-     * @param input the input byte to be processed.
+     * @pbrbm input tif input bytf to bf prodfssfd.
      *
-     * @exception IllegalStateException if this <code>Mac</code> has not been
-     * initialized.
+     * @fxdfption IllfgblStbtfExdfption if tiis <dodf>Mbd</dodf> ibs not bffn
+     * initiblizfd.
      */
-    public final void update(byte input) throws IllegalStateException {
-        chooseFirstProvider();
-        if (initialized == false) {
-            throw new IllegalStateException("MAC not initialized");
+    publid finbl void updbtf(bytf input) tirows IllfgblStbtfExdfption {
+        dioosfFirstProvidfr();
+        if (initiblizfd == fblsf) {
+            tirow nfw IllfgblStbtfExdfption("MAC not initiblizfd");
         }
-        spi.engineUpdate(input);
+        spi.fnginfUpdbtf(input);
     }
 
     /**
-     * Processes the given array of bytes.
+     * Prodfssfs tif givfn brrby of bytfs.
      *
-     * @param input the array of bytes to be processed.
+     * @pbrbm input tif brrby of bytfs to bf prodfssfd.
      *
-     * @exception IllegalStateException if this <code>Mac</code> has not been
-     * initialized.
+     * @fxdfption IllfgblStbtfExdfption if tiis <dodf>Mbd</dodf> ibs not bffn
+     * initiblizfd.
      */
-    public final void update(byte[] input) throws IllegalStateException {
-        chooseFirstProvider();
-        if (initialized == false) {
-            throw new IllegalStateException("MAC not initialized");
+    publid finbl void updbtf(bytf[] input) tirows IllfgblStbtfExdfption {
+        dioosfFirstProvidfr();
+        if (initiblizfd == fblsf) {
+            tirow nfw IllfgblStbtfExdfption("MAC not initiblizfd");
         }
         if (input != null) {
-            spi.engineUpdate(input, 0, input.length);
+            spi.fnginfUpdbtf(input, 0, input.lfngti);
         }
     }
 
     /**
-     * Processes the first <code>len</code> bytes in <code>input</code>,
-     * starting at <code>offset</code> inclusive.
+     * Prodfssfs tif first <dodf>lfn</dodf> bytfs in <dodf>input</dodf>,
+     * stbrting bt <dodf>offsft</dodf> indlusivf.
      *
-     * @param input the input buffer.
-     * @param offset the offset in <code>input</code> where the input starts.
-     * @param len the number of bytes to process.
+     * @pbrbm input tif input bufffr.
+     * @pbrbm offsft tif offsft in <dodf>input</dodf> wifrf tif input stbrts.
+     * @pbrbm lfn tif numbfr of bytfs to prodfss.
      *
-     * @exception IllegalStateException if this <code>Mac</code> has not been
-     * initialized.
+     * @fxdfption IllfgblStbtfExdfption if tiis <dodf>Mbd</dodf> ibs not bffn
+     * initiblizfd.
      */
-    public final void update(byte[] input, int offset, int len)
-            throws IllegalStateException {
-        chooseFirstProvider();
-        if (initialized == false) {
-            throw new IllegalStateException("MAC not initialized");
+    publid finbl void updbtf(bytf[] input, int offsft, int lfn)
+            tirows IllfgblStbtfExdfption {
+        dioosfFirstProvidfr();
+        if (initiblizfd == fblsf) {
+            tirow nfw IllfgblStbtfExdfption("MAC not initiblizfd");
         }
 
         if (input != null) {
-            if ((offset < 0) || (len > (input.length - offset)) || (len < 0))
-                throw new IllegalArgumentException("Bad arguments");
-            spi.engineUpdate(input, offset, len);
+            if ((offsft < 0) || (lfn > (input.lfngti - offsft)) || (lfn < 0))
+                tirow nfw IllfgblArgumfntExdfption("Bbd brgumfnts");
+            spi.fnginfUpdbtf(input, offsft, lfn);
         }
     }
 
     /**
-     * Processes <code>input.remaining()</code> bytes in the ByteBuffer
-     * <code>input</code>, starting at <code>input.position()</code>.
-     * Upon return, the buffer's position will be equal to its limit;
-     * its limit will not have changed.
+     * Prodfssfs <dodf>input.rfmbining()</dodf> bytfs in tif BytfBufffr
+     * <dodf>input</dodf>, stbrting bt <dodf>input.position()</dodf>.
+     * Upon rfturn, tif bufffr's position will bf fqubl to its limit;
+     * its limit will not ibvf dibngfd.
      *
-     * @param input the ByteBuffer
+     * @pbrbm input tif BytfBufffr
      *
-     * @exception IllegalStateException if this <code>Mac</code> has not been
-     * initialized.
-     * @since 1.5
+     * @fxdfption IllfgblStbtfExdfption if tiis <dodf>Mbd</dodf> ibs not bffn
+     * initiblizfd.
+     * @sindf 1.5
      */
-    public final void update(ByteBuffer input) {
-        chooseFirstProvider();
-        if (initialized == false) {
-            throw new IllegalStateException("MAC not initialized");
+    publid finbl void updbtf(BytfBufffr input) {
+        dioosfFirstProvidfr();
+        if (initiblizfd == fblsf) {
+            tirow nfw IllfgblStbtfExdfption("MAC not initiblizfd");
         }
         if (input == null) {
-            throw new IllegalArgumentException("Buffer must not be null");
+            tirow nfw IllfgblArgumfntExdfption("Bufffr must not bf null");
         }
-        spi.engineUpdate(input);
+        spi.fnginfUpdbtf(input);
     }
 
     /**
-     * Finishes the MAC operation.
+     * Finisifs tif MAC opfrbtion.
      *
-     * <p>A call to this method resets this <code>Mac</code> object to the
-     * state it was in when previously initialized via a call to
-     * <code>init(Key)</code> or
-     * <code>init(Key, AlgorithmParameterSpec)</code>.
-     * That is, the object is reset and available to generate another MAC from
-     * the same key, if desired, via new calls to <code>update</code> and
-     * <code>doFinal</code>.
-     * (In order to reuse this <code>Mac</code> object with a different key,
-     * it must be reinitialized via a call to <code>init(Key)</code> or
-     * <code>init(Key, AlgorithmParameterSpec)</code>.
+     * <p>A dbll to tiis mftiod rfsfts tiis <dodf>Mbd</dodf> objfdt to tif
+     * stbtf it wbs in wifn prfviously initiblizfd vib b dbll to
+     * <dodf>init(Kfy)</dodf> or
+     * <dodf>init(Kfy, AlgoritimPbrbmftfrSpfd)</dodf>.
+     * Tibt is, tif objfdt is rfsft bnd bvbilbblf to gfnfrbtf bnotifr MAC from
+     * tif sbmf kfy, if dfsirfd, vib nfw dblls to <dodf>updbtf</dodf> bnd
+     * <dodf>doFinbl</dodf>.
+     * (In ordfr to rfusf tiis <dodf>Mbd</dodf> objfdt witi b difffrfnt kfy,
+     * it must bf rfinitiblizfd vib b dbll to <dodf>init(Kfy)</dodf> or
+     * <dodf>init(Kfy, AlgoritimPbrbmftfrSpfd)</dodf>.
      *
-     * @return the MAC result.
+     * @rfturn tif MAC rfsult.
      *
-     * @exception IllegalStateException if this <code>Mac</code> has not been
-     * initialized.
+     * @fxdfption IllfgblStbtfExdfption if tiis <dodf>Mbd</dodf> ibs not bffn
+     * initiblizfd.
      */
-    public final byte[] doFinal() throws IllegalStateException {
-        chooseFirstProvider();
-        if (initialized == false) {
-            throw new IllegalStateException("MAC not initialized");
+    publid finbl bytf[] doFinbl() tirows IllfgblStbtfExdfption {
+        dioosfFirstProvidfr();
+        if (initiblizfd == fblsf) {
+            tirow nfw IllfgblStbtfExdfption("MAC not initiblizfd");
         }
-        byte[] mac = spi.engineDoFinal();
-        spi.engineReset();
-        return mac;
+        bytf[] mbd = spi.fnginfDoFinbl();
+        spi.fnginfRfsft();
+        rfturn mbd;
     }
 
     /**
-     * Finishes the MAC operation.
+     * Finisifs tif MAC opfrbtion.
      *
-     * <p>A call to this method resets this <code>Mac</code> object to the
-     * state it was in when previously initialized via a call to
-     * <code>init(Key)</code> or
-     * <code>init(Key, AlgorithmParameterSpec)</code>.
-     * That is, the object is reset and available to generate another MAC from
-     * the same key, if desired, via new calls to <code>update</code> and
-     * <code>doFinal</code>.
-     * (In order to reuse this <code>Mac</code> object with a different key,
-     * it must be reinitialized via a call to <code>init(Key)</code> or
-     * <code>init(Key, AlgorithmParameterSpec)</code>.
+     * <p>A dbll to tiis mftiod rfsfts tiis <dodf>Mbd</dodf> objfdt to tif
+     * stbtf it wbs in wifn prfviously initiblizfd vib b dbll to
+     * <dodf>init(Kfy)</dodf> or
+     * <dodf>init(Kfy, AlgoritimPbrbmftfrSpfd)</dodf>.
+     * Tibt is, tif objfdt is rfsft bnd bvbilbblf to gfnfrbtf bnotifr MAC from
+     * tif sbmf kfy, if dfsirfd, vib nfw dblls to <dodf>updbtf</dodf> bnd
+     * <dodf>doFinbl</dodf>.
+     * (In ordfr to rfusf tiis <dodf>Mbd</dodf> objfdt witi b difffrfnt kfy,
+     * it must bf rfinitiblizfd vib b dbll to <dodf>init(Kfy)</dodf> or
+     * <dodf>init(Kfy, AlgoritimPbrbmftfrSpfd)</dodf>.
      *
-     * <p>The MAC result is stored in <code>output</code>, starting at
-     * <code>outOffset</code> inclusive.
+     * <p>Tif MAC rfsult is storfd in <dodf>output</dodf>, stbrting bt
+     * <dodf>outOffsft</dodf> indlusivf.
      *
-     * @param output the buffer where the MAC result is stored
-     * @param outOffset the offset in <code>output</code> where the MAC is
-     * stored
+     * @pbrbm output tif bufffr wifrf tif MAC rfsult is storfd
+     * @pbrbm outOffsft tif offsft in <dodf>output</dodf> wifrf tif MAC is
+     * storfd
      *
-     * @exception ShortBufferException if the given output buffer is too small
-     * to hold the result
-     * @exception IllegalStateException if this <code>Mac</code> has not been
-     * initialized.
+     * @fxdfption SiortBufffrExdfption if tif givfn output bufffr is too smbll
+     * to iold tif rfsult
+     * @fxdfption IllfgblStbtfExdfption if tiis <dodf>Mbd</dodf> ibs not bffn
+     * initiblizfd.
      */
-    public final void doFinal(byte[] output, int outOffset)
-        throws ShortBufferException, IllegalStateException
+    publid finbl void doFinbl(bytf[] output, int outOffsft)
+        tirows SiortBufffrExdfption, IllfgblStbtfExdfption
     {
-        chooseFirstProvider();
-        if (initialized == false) {
-            throw new IllegalStateException("MAC not initialized");
+        dioosfFirstProvidfr();
+        if (initiblizfd == fblsf) {
+            tirow nfw IllfgblStbtfExdfption("MAC not initiblizfd");
         }
-        int macLen = getMacLength();
-        if (output == null || output.length-outOffset < macLen) {
-            throw new ShortBufferException
-                ("Cannot store MAC in output buffer");
+        int mbdLfn = gftMbdLfngti();
+        if (output == null || output.lfngti-outOffsft < mbdLfn) {
+            tirow nfw SiortBufffrExdfption
+                ("Cbnnot storf MAC in output bufffr");
         }
-        byte[] mac = doFinal();
-        System.arraycopy(mac, 0, output, outOffset, macLen);
-        return;
+        bytf[] mbd = doFinbl();
+        Systfm.brrbydopy(mbd, 0, output, outOffsft, mbdLfn);
+        rfturn;
     }
 
     /**
-     * Processes the given array of bytes and finishes the MAC operation.
+     * Prodfssfs tif givfn brrby of bytfs bnd finisifs tif MAC opfrbtion.
      *
-     * <p>A call to this method resets this <code>Mac</code> object to the
-     * state it was in when previously initialized via a call to
-     * <code>init(Key)</code> or
-     * <code>init(Key, AlgorithmParameterSpec)</code>.
-     * That is, the object is reset and available to generate another MAC from
-     * the same key, if desired, via new calls to <code>update</code> and
-     * <code>doFinal</code>.
-     * (In order to reuse this <code>Mac</code> object with a different key,
-     * it must be reinitialized via a call to <code>init(Key)</code> or
-     * <code>init(Key, AlgorithmParameterSpec)</code>.
+     * <p>A dbll to tiis mftiod rfsfts tiis <dodf>Mbd</dodf> objfdt to tif
+     * stbtf it wbs in wifn prfviously initiblizfd vib b dbll to
+     * <dodf>init(Kfy)</dodf> or
+     * <dodf>init(Kfy, AlgoritimPbrbmftfrSpfd)</dodf>.
+     * Tibt is, tif objfdt is rfsft bnd bvbilbblf to gfnfrbtf bnotifr MAC from
+     * tif sbmf kfy, if dfsirfd, vib nfw dblls to <dodf>updbtf</dodf> bnd
+     * <dodf>doFinbl</dodf>.
+     * (In ordfr to rfusf tiis <dodf>Mbd</dodf> objfdt witi b difffrfnt kfy,
+     * it must bf rfinitiblizfd vib b dbll to <dodf>init(Kfy)</dodf> or
+     * <dodf>init(Kfy, AlgoritimPbrbmftfrSpfd)</dodf>.
      *
-     * @param input data in bytes
-     * @return the MAC result.
+     * @pbrbm input dbtb in bytfs
+     * @rfturn tif MAC rfsult.
      *
-     * @exception IllegalStateException if this <code>Mac</code> has not been
-     * initialized.
+     * @fxdfption IllfgblStbtfExdfption if tiis <dodf>Mbd</dodf> ibs not bffn
+     * initiblizfd.
      */
-    public final byte[] doFinal(byte[] input) throws IllegalStateException
+    publid finbl bytf[] doFinbl(bytf[] input) tirows IllfgblStbtfExdfption
     {
-        chooseFirstProvider();
-        if (initialized == false) {
-            throw new IllegalStateException("MAC not initialized");
+        dioosfFirstProvidfr();
+        if (initiblizfd == fblsf) {
+            tirow nfw IllfgblStbtfExdfption("MAC not initiblizfd");
         }
-        update(input);
-        return doFinal();
+        updbtf(input);
+        rfturn doFinbl();
     }
 
     /**
-     * Resets this <code>Mac</code> object.
+     * Rfsfts tiis <dodf>Mbd</dodf> objfdt.
      *
-     * <p>A call to this method resets this <code>Mac</code> object to the
-     * state it was in when previously initialized via a call to
-     * <code>init(Key)</code> or
-     * <code>init(Key, AlgorithmParameterSpec)</code>.
-     * That is, the object is reset and available to generate another MAC from
-     * the same key, if desired, via new calls to <code>update</code> and
-     * <code>doFinal</code>.
-     * (In order to reuse this <code>Mac</code> object with a different key,
-     * it must be reinitialized via a call to <code>init(Key)</code> or
-     * <code>init(Key, AlgorithmParameterSpec)</code>.
+     * <p>A dbll to tiis mftiod rfsfts tiis <dodf>Mbd</dodf> objfdt to tif
+     * stbtf it wbs in wifn prfviously initiblizfd vib b dbll to
+     * <dodf>init(Kfy)</dodf> or
+     * <dodf>init(Kfy, AlgoritimPbrbmftfrSpfd)</dodf>.
+     * Tibt is, tif objfdt is rfsft bnd bvbilbblf to gfnfrbtf bnotifr MAC from
+     * tif sbmf kfy, if dfsirfd, vib nfw dblls to <dodf>updbtf</dodf> bnd
+     * <dodf>doFinbl</dodf>.
+     * (In ordfr to rfusf tiis <dodf>Mbd</dodf> objfdt witi b difffrfnt kfy,
+     * it must bf rfinitiblizfd vib b dbll to <dodf>init(Kfy)</dodf> or
+     * <dodf>init(Kfy, AlgoritimPbrbmftfrSpfd)</dodf>.
      */
-    public final void reset() {
-        chooseFirstProvider();
-        spi.engineReset();
+    publid finbl void rfsft() {
+        dioosfFirstProvidfr();
+        spi.fnginfRfsft();
     }
 
     /**
-     * Returns a clone if the provider implementation is cloneable.
+     * Rfturns b dlonf if tif providfr implfmfntbtion is dlonfbblf.
      *
-     * @return a clone if the provider implementation is cloneable.
+     * @rfturn b dlonf if tif providfr implfmfntbtion is dlonfbblf.
      *
-     * @exception CloneNotSupportedException if this is called on a
-     * delegate that does not support <code>Cloneable</code>.
+     * @fxdfption ClonfNotSupportfdExdfption if tiis is dbllfd on b
+     * dflfgbtf tibt dofs not support <dodf>Clonfbblf</dodf>.
      */
-    public final Object clone() throws CloneNotSupportedException {
-        chooseFirstProvider();
-        Mac that = (Mac)super.clone();
-        that.spi = (MacSpi)this.spi.clone();
-        return that;
+    publid finbl Objfdt dlonf() tirows ClonfNotSupportfdExdfption {
+        dioosfFirstProvidfr();
+        Mbd tibt = (Mbd)supfr.dlonf();
+        tibt.spi = (MbdSpi)tiis.spi.dlonf();
+        rfturn tibt;
     }
 }

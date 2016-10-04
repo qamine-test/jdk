@@ -1,89 +1,89 @@
 /*
- * Copyright (c) 1999, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d.loops;
+pbdkbgf sun.jbvb2d.loops;
 
-import java.awt.Font;
-import java.awt.geom.AffineTransform;
+import jbvb.bwt.Font;
+import jbvb.bwt.gfom.AffinfTrbnsform;
 
 import sun.font.Font2D;
-import sun.font.FontStrike;
-import sun.font.FontStrikeDesc;
+import sun.font.FontStrikf;
+import sun.font.FontStrikfDfsd;
 
 /*
- * A FontInfo object holds all calculated or derived data needed
- * to handle rendering operations based on a particular set of
- * Graphics2D rendering attributes.
- * Note that this does not use a Font2DHandle, and also has a reference
- * to the strike which also references the Font2D.
- * So presently, until SG2D objects no longer reference this FontInfo,
- * there is still some potential for a bad Font2D to be used for a short
- * time. I am reluctant to add the overhead of that machinery here without
- * a proven benefit.
+ * A FontInfo objfdt iolds bll dbldulbtfd or dfrivfd dbtb nffdfd
+ * to ibndlf rfndfring opfrbtions bbsfd on b pbrtidulbr sft of
+ * Grbpiids2D rfndfring bttributfs.
+ * Notf tibt tiis dofs not usf b Font2DHbndlf, bnd blso ibs b rfffrfndf
+ * to tif strikf wiidi blso rfffrfndfs tif Font2D.
+ * So prfsfntly, until SG2D objfdts no longfr rfffrfndf tiis FontInfo,
+ * tifrf is still somf potfntibl for b bbd Font2D to bf usfd for b siort
+ * timf. I bm rfludtbnt to bdd tif ovfrifbd of tibt mbdiinfry ifrf witiout
+ * b provfn bfnffit.
  */
-public class FontInfo implements Cloneable {
-    public Font font;
-    public Font2D font2D;
-    public FontStrike fontStrike;
-    public double[] devTx;
-    public double[] glyphTx;
-    public int pixelHeight;
-    public float originX;
-    public float originY;
-    public int aaHint;
-    public boolean lcdRGBOrder;
-    /* lcdSubPixPos is used if FM is ON for HRGB/HBGR LCD text mode */
-    public boolean lcdSubPixPos;
+publid dlbss FontInfo implfmfnts Clonfbblf {
+    publid Font font;
+    publid Font2D font2D;
+    publid FontStrikf fontStrikf;
+    publid doublf[] dfvTx;
+    publid doublf[] glypiTx;
+    publid int pixflHfigit;
+    publid flobt originX;
+    publid flobt originY;
+    publid int bbHint;
+    publid boolfbn lddRGBOrdfr;
+    /* lddSubPixPos is usfd if FM is ON for HRGB/HBGR LCD tfxt modf */
+    publid boolfbn lddSubPixPos;
 
-    public String mtx(double[] matrix) {
-        return ("["+
-                matrix[0]+", "+
-                matrix[1]+", "+
-                matrix[2]+", "+
-                matrix[3]+
+    publid String mtx(doublf[] mbtrix) {
+        rfturn ("["+
+                mbtrix[0]+", "+
+                mbtrix[1]+", "+
+                mbtrix[2]+", "+
+                mbtrix[3]+
                 "]");
     }
 
-    public Object clone() {
+    publid Objfdt dlonf() {
         try {
-            return super.clone();
-        } catch (CloneNotSupportedException e) {
-            return null;
+            rfturn supfr.dlonf();
+        } dbtdi (ClonfNotSupportfdExdfption f) {
+            rfturn null;
         }
     }
 
-    public String toString() {
-        return ("FontInfo["+
+    publid String toString() {
+        rfturn ("FontInfo["+
                 "font="+font+", "+
-                "devTx="+mtx(devTx)+", "+
-                "glyphTx="+mtx(glyphTx)+", "+
-                "pixelHeight="+pixelHeight+", "+
+                "dfvTx="+mtx(dfvTx)+", "+
+                "glypiTx="+mtx(glypiTx)+", "+
+                "pixflHfigit="+pixflHfigit+", "+
                 "origin=("+originX+","+originY+"), "+
-                "aaHint="+aaHint+", "+
-                "lcdRGBOrder="+(lcdRGBOrder ? "RGB" : "BGR")+
-                "lcdSubPixPos="+lcdSubPixPos+
+                "bbHint="+bbHint+", "+
+                "lddRGBOrdfr="+(lddRGBOrdfr ? "RGB" : "BGR")+
+                "lddSubPixPos="+lddSubPixPos+
                 "]");
     }
 }

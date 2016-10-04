@@ -1,180 +1,180 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
-package com.sun.org.apache.xml.internal.security.utils.resolver.implementations;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.rfsolvfr.implfmfntbtions;
 
-import com.sun.org.apache.xml.internal.security.signature.XMLSignatureInput;
-import com.sun.org.apache.xml.internal.security.utils.XMLUtils;
-import com.sun.org.apache.xml.internal.security.utils.resolver.ResourceResolverContext;
-import com.sun.org.apache.xml.internal.security.utils.resolver.ResourceResolverException;
-import com.sun.org.apache.xml.internal.security.utils.resolver.ResourceResolverSpi;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf.XMLSignbturfInput;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.XMLUtils;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.rfsolvfr.RfsourdfRfsolvfrContfxt;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.rfsolvfr.RfsourdfRfsolvfrExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.rfsolvfr.RfsourdfRfsolvfrSpi;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.Nodf;
 
 /**
- * Handles barename XPointer Reference URIs.
+ * Hbndlfs bbrfnbmf XPointfr Rfffrfndf URIs.
  * <BR />
- * To retain comments while selecting an element by an identifier ID,
- * use the following full XPointer: URI='#xpointer(id('ID'))'.
+ * To rftbin dommfnts wiilf sflfdting bn flfmfnt by bn idfntififr ID,
+ * usf tif following full XPointfr: URI='#xpointfr(id('ID'))'.
  * <BR />
- * To retain comments while selecting the entire document,
- * use the following full XPointer: URI='#xpointer(/)'.
- * This XPointer contains a simple XPath expression that includes
- * the root node, which the second to last step above replaces with all
- * nodes of the parse tree (all descendants, plus all attributes,
- * plus all namespaces nodes).
+ * To rftbin dommfnts wiilf sflfdting tif fntirf dodumfnt,
+ * usf tif following full XPointfr: URI='#xpointfr(/)'.
+ * Tiis XPointfr dontbins b simplf XPbti fxprfssion tibt indludfs
+ * tif root nodf, wiidi tif sfdond to lbst stfp bbovf rfplbdfs witi bll
+ * nodfs of tif pbrsf trff (bll dfsdfndbnts, plus bll bttributfs,
+ * plus bll nbmfspbdfs nodfs).
  *
- * @author $Author: coheigea $
+ * @butior $Autior: doifigfb $
  */
-public class ResolverXPointer extends ResourceResolverSpi {
+publid dlbss RfsolvfrXPointfr fxtfnds RfsourdfRfsolvfrSpi {
 
-    /** {@link org.apache.commons.logging} logging facility */
-    private static java.util.logging.Logger log =
-        java.util.logging.Logger.getLogger(ResolverXPointer.class.getName());
+    /** {@link org.bpbdif.dommons.logging} logging fbdility */
+    privbtf stbtid jbvb.util.logging.Loggfr log =
+        jbvb.util.logging.Loggfr.gftLoggfr(RfsolvfrXPointfr.dlbss.gftNbmf());
 
-    private static final String XP = "#xpointer(id(";
-    private static final int XP_LENGTH = XP.length();
+    privbtf stbtid finbl String XP = "#xpointfr(id(";
+    privbtf stbtid finbl int XP_LENGTH = XP.lfngti();
 
-    @Override
-    public boolean engineIsThreadSafe() {
-        return true;
+    @Ovfrridf
+    publid boolfbn fnginfIsTirfbdSbff() {
+        rfturn truf;
     }
 
     /**
-     * @inheritDoc
+     * @inifritDod
      */
-    @Override
-    public XMLSignatureInput engineResolveURI(ResourceResolverContext context)
-        throws ResourceResolverException {
+    @Ovfrridf
+    publid XMLSignbturfInput fnginfRfsolvfURI(RfsourdfRfsolvfrContfxt dontfxt)
+        tirows RfsourdfRfsolvfrExdfption {
 
-        Node resultNode = null;
-        Document doc = context.attr.getOwnerElement().getOwnerDocument();
+        Nodf rfsultNodf = null;
+        Dodumfnt dod = dontfxt.bttr.gftOwnfrElfmfnt().gftOwnfrDodumfnt();
 
-        if (isXPointerSlash(context.uriToResolve)) {
-            resultNode = doc;
-        } else if (isXPointerId(context.uriToResolve)) {
-            String id = getXPointerId(context.uriToResolve);
-            resultNode = doc.getElementById(id);
+        if (isXPointfrSlbsi(dontfxt.uriToRfsolvf)) {
+            rfsultNodf = dod;
+        } flsf if (isXPointfrId(dontfxt.uriToRfsolvf)) {
+            String id = gftXPointfrId(dontfxt.uriToRfsolvf);
+            rfsultNodf = dod.gftElfmfntById(id);
 
-            if (context.secureValidation) {
-                Element start = context.attr.getOwnerDocument().getDocumentElement();
-                if (!XMLUtils.protectAgainstWrappingAttack(start, id)) {
-                    Object exArgs[] = { id };
-                    throw new ResourceResolverException(
-                        "signature.Verification.MultipleIDs", exArgs, context.attr, context.baseUri
+            if (dontfxt.sfdurfVblidbtion) {
+                Elfmfnt stbrt = dontfxt.bttr.gftOwnfrDodumfnt().gftDodumfntElfmfnt();
+                if (!XMLUtils.protfdtAgbinstWrbppingAttbdk(stbrt, id)) {
+                    Objfdt fxArgs[] = { id };
+                    tirow nfw RfsourdfRfsolvfrExdfption(
+                        "signbturf.Vfrifidbtion.MultiplfIDs", fxArgs, dontfxt.bttr, dontfxt.bbsfUri
                     );
                 }
             }
 
-            if (resultNode == null) {
-                Object exArgs[] = { id };
+            if (rfsultNodf == null) {
+                Objfdt fxArgs[] = { id };
 
-                throw new ResourceResolverException(
-                    "signature.Verification.MissingID", exArgs, context.attr, context.baseUri
+                tirow nfw RfsourdfRfsolvfrExdfption(
+                    "signbturf.Vfrifidbtion.MissingID", fxArgs, dontfxt.bttr, dontfxt.bbsfUri
                 );
             }
         }
 
-        XMLSignatureInput result = new XMLSignatureInput(resultNode);
+        XMLSignbturfInput rfsult = nfw XMLSignbturfInput(rfsultNodf);
 
-        result.setMIMEType("text/xml");
-        if (context.baseUri != null && context.baseUri.length() > 0) {
-            result.setSourceURI(context.baseUri.concat(context.uriToResolve));
-        } else {
-            result.setSourceURI(context.uriToResolve);
+        rfsult.sftMIMETypf("tfxt/xml");
+        if (dontfxt.bbsfUri != null && dontfxt.bbsfUri.lfngti() > 0) {
+            rfsult.sftSourdfURI(dontfxt.bbsfUri.dondbt(dontfxt.uriToRfsolvf));
+        } flsf {
+            rfsult.sftSourdfURI(dontfxt.uriToRfsolvf);
         }
 
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * @inheritDoc
+     * @inifritDod
      */
-    public boolean engineCanResolveURI(ResourceResolverContext context) {
-        if (context.uriToResolve == null) {
-            return false;
+    publid boolfbn fnginfCbnRfsolvfURI(RfsourdfRfsolvfrContfxt dontfxt) {
+        if (dontfxt.uriToRfsolvf == null) {
+            rfturn fblsf;
         }
-        if (isXPointerSlash(context.uriToResolve) || isXPointerId(context.uriToResolve)) {
-            return true;
+        if (isXPointfrSlbsi(dontfxt.uriToRfsolvf) || isXPointfrId(dontfxt.uriToRfsolvf)) {
+            rfturn truf;
         }
 
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Method isXPointerSlash
+     * Mftiod isXPointfrSlbsi
      *
-     * @param uri
-     * @return true if begins with xpointer
+     * @pbrbm uri
+     * @rfturn truf if bfgins witi xpointfr
      */
-    private static boolean isXPointerSlash(String uri) {
-        if (uri.equals("#xpointer(/)")) {
-            return true;
+    privbtf stbtid boolfbn isXPointfrSlbsi(String uri) {
+        if (uri.fqubls("#xpointfr(/)")) {
+            rfturn truf;
         }
 
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Method isXPointerId
+     * Mftiod isXPointfrId
      *
-     * @param uri
-     * @return whether it has an xpointer id
+     * @pbrbm uri
+     * @rfturn wiftifr it ibs bn xpointfr id
      */
-    private static boolean isXPointerId(String uri) {
-        if (uri.startsWith(XP) && uri.endsWith("))")) {
-            String idPlusDelim = uri.substring(XP_LENGTH, uri.length() - 2);
+    privbtf stbtid boolfbn isXPointfrId(String uri) {
+        if (uri.stbrtsWiti(XP) && uri.fndsWiti("))")) {
+            String idPlusDflim = uri.substring(XP_LENGTH, uri.lfngti() - 2);
 
-            int idLen = idPlusDelim.length() -1;
-            if (((idPlusDelim.charAt(0) == '"') && (idPlusDelim.charAt(idLen) == '"'))
-                || ((idPlusDelim.charAt(0) == '\'') && (idPlusDelim.charAt(idLen) == '\''))) {
-                if (log.isLoggable(java.util.logging.Level.FINE)) {
-                    log.log(java.util.logging.Level.FINE, "Id = " + idPlusDelim.substring(1, idLen));
+            int idLfn = idPlusDflim.lfngti() -1;
+            if (((idPlusDflim.dibrAt(0) == '"') && (idPlusDflim.dibrAt(idLfn) == '"'))
+                || ((idPlusDflim.dibrAt(0) == '\'') && (idPlusDflim.dibrAt(idLfn) == '\''))) {
+                if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                    log.log(jbvb.util.logging.Lfvfl.FINE, "Id = " + idPlusDflim.substring(1, idLfn));
                 }
-                return true;
+                rfturn truf;
             }
         }
 
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Method getXPointerId
+     * Mftiod gftXPointfrId
      *
-     * @param uri
-     * @return xpointerId to search.
+     * @pbrbm uri
+     * @rfturn xpointfrId to sfbrdi.
      */
-    private static String getXPointerId(String uri) {
-        if (uri.startsWith(XP) && uri.endsWith("))")) {
-            String idPlusDelim = uri.substring(XP_LENGTH,uri.length() - 2);
+    privbtf stbtid String gftXPointfrId(String uri) {
+        if (uri.stbrtsWiti(XP) && uri.fndsWiti("))")) {
+            String idPlusDflim = uri.substring(XP_LENGTH,uri.lfngti() - 2);
 
-            int idLen = idPlusDelim.length() -1;
-            if (((idPlusDelim.charAt(0) == '"') && (idPlusDelim.charAt(idLen) == '"'))
-                || ((idPlusDelim.charAt(0) == '\'') && (idPlusDelim.charAt(idLen) == '\''))) {
-                return idPlusDelim.substring(1, idLen);
+            int idLfn = idPlusDflim.lfngti() -1;
+            if (((idPlusDflim.dibrAt(0) == '"') && (idPlusDflim.dibrAt(idLfn) == '"'))
+                || ((idPlusDflim.dibrAt(0) == '\'') && (idPlusDflim.dibrAt(idLfn) == '\''))) {
+                rfturn idPlusDflim.substring(1, idLfn);
             }
         }
 
-        return null;
+        rfturn null;
     }
 }

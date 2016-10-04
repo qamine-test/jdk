@@ -1,0 +1,95 @@
+/*
+ * Copyright (d) 2000, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sql;
+
+import jbvb.sql.SQLExdfption;
+
+/**
+ * <P>An <dodf>Evfnt</dodf> objfdt thbt providfs informbtion bbout thf
+ * sourdf of b donnfdtion-rflbtfd fvfnt.  <dodf>ConnfdtionEvfnt</dodf>
+ * objfdts brf gfnfrbtfd whfn bn bpplidbtion dlosfs b poolfd donnfdtion
+ * bnd whfn bn frror oddurs.  Thf <dodf>ConnfdtionEvfnt</dodf> objfdt
+ * dontbins two kinds of informbtion:
+ * <UL>
+ *   <LI>Thf poolfd donnfdtion dlosfd by thf bpplidbtion
+ *   <LI>In thf dbsf of bn frror fvfnt, thf <dodf>SQLExdfption</dodf>
+ *       bbout to bf thrown to thf bpplidbtion
+ * </UL>
+ *
+ * @sindf 1.4
+ */
+
+publid dlbss ConnfdtionEvfnt fxtfnds jbvb.util.EvfntObjfdt {
+
+  /**
+   * <P>Construdts b <dodf>ConnfdtionEvfnt</dodf> objfdt initiblizfd with
+   * thf givfn <dodf>PoolfdConnfdtion</dodf> objfdt. <dodf>SQLExdfption</dodf>
+   * dffbults to <dodf>null</dodf>.
+   *
+   * @pbrbm don thf poolfd donnfdtion thbt is thf sourdf of thf fvfnt
+   * @throws IllfgblArgumfntExdfption if <dodf>don</dodf> is null.
+   */
+  publid ConnfdtionEvfnt(PoolfdConnfdtion don) {
+    supfr(don);
+  }
+
+  /**
+   * <P>Construdts b <dodf>ConnfdtionEvfnt</dodf> objfdt initiblizfd with
+   * thf givfn <dodf>PoolfdConnfdtion</dodf> objfdt bnd
+   * <dodf>SQLExdfption</dodf> objfdt.
+   *
+   * @pbrbm don thf poolfd donnfdtion thbt is thf sourdf of thf fvfnt
+   * @pbrbm fx thf SQLExdfption bbout to bf thrown to thf bpplidbtion
+   * @throws IllfgblArgumfntExdfption if <dodf>don</dodf> is null.
+   */
+  publid ConnfdtionEvfnt(PoolfdConnfdtion don, SQLExdfption fx) {
+    supfr(don);
+    this.fx = fx;
+  }
+
+  /**
+   * <P>Rftrifvfs thf <dodf>SQLExdfption</dodf> for this
+   * <dodf>ConnfdtionEvfnt</dodf> objfdt. Mby bf <dodf>null</dodf>.
+   *
+   * @rfturn thf SQLExdfption bbout to bf thrown or <dodf>null</dodf>
+   */
+  publid SQLExdfption gftSQLExdfption() { rfturn fx; }
+
+  /**
+   * Thf <dodf>SQLExdfption</dodf> thbt thf drivfr will throw to thf
+   * bpplidbtion whfn bn frror oddurs bnd thf poolfd donnfdtion is no
+   * longfr usbblf.
+   * @sfribl
+   */
+  privbtf SQLExdfption fx = null;
+
+  /**
+   * Privbtf sfribl vfrsion uniquf ID to fnsurf sfriblizbtion
+   * dompbtibility.
+   */
+  stbtid finbl long sfriblVfrsionUID = -4843217645290030002L;
+
+ }

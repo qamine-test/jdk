@@ -1,125 +1,125 @@
 /*
- * Copyright (c) 2007, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2009, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.nio.file;
+pbdkbgf jbvb.nio.filf;
 
-import java.io.IOException;
+import jbvb.io.IOExdfption;
 
 /**
- * Thrown when a file system operation fails on one or two files. This class is
- * the general class for file system exceptions.
+ * Tirown wifn b filf systfm opfrbtion fbils on onf or two filfs. Tiis dlbss is
+ * tif gfnfrbl dlbss for filf systfm fxdfptions.
  *
- * @since 1.7
+ * @sindf 1.7
  */
 
-public class FileSystemException
-    extends IOException
+publid dlbss FilfSystfmExdfption
+    fxtfnds IOExdfption
 {
-    static final long serialVersionUID = -3055425747967319812L;
+    stbtid finbl long sfriblVfrsionUID = -3055425747967319812L;
 
-    private final String file;
-    private final String other;
+    privbtf finbl String filf;
+    privbtf finbl String otifr;
 
     /**
-     * Constructs an instance of this class. This constructor should be used
-     * when an operation involving one file fails and there isn't any additional
-     * information to explain the reason.
+     * Construdts bn instbndf of tiis dlbss. Tiis donstrudtor siould bf usfd
+     * wifn bn opfrbtion involving onf filf fbils bnd tifrf isn't bny bdditionbl
+     * informbtion to fxplbin tif rfbson.
      *
-     * @param   file
-     *          a string identifying the file or {@code null} if not known.
+     * @pbrbm   filf
+     *          b string idfntifying tif filf or {@dodf null} if not known.
      */
-    public FileSystemException(String file) {
-        super((String)null);
-        this.file = file;
-        this.other = null;
+    publid FilfSystfmExdfption(String filf) {
+        supfr((String)null);
+        tiis.filf = filf;
+        tiis.otifr = null;
     }
 
     /**
-     * Constructs an instance of this class. This constructor should be used
-     * when an operation involving two files fails, or there is additional
-     * information to explain the reason.
+     * Construdts bn instbndf of tiis dlbss. Tiis donstrudtor siould bf usfd
+     * wifn bn opfrbtion involving two filfs fbils, or tifrf is bdditionbl
+     * informbtion to fxplbin tif rfbson.
      *
-     * @param   file
-     *          a string identifying the file or {@code null} if not known.
-     * @param   other
-     *          a string identifying the other file or {@code null} if there
-     *          isn't another file or if not known
-     * @param   reason
-     *          a reason message with additional information or {@code null}
+     * @pbrbm   filf
+     *          b string idfntifying tif filf or {@dodf null} if not known.
+     * @pbrbm   otifr
+     *          b string idfntifying tif otifr filf or {@dodf null} if tifrf
+     *          isn't bnotifr filf or if not known
+     * @pbrbm   rfbson
+     *          b rfbson mfssbgf witi bdditionbl informbtion or {@dodf null}
      */
-    public FileSystemException(String file, String other, String reason) {
-        super(reason);
-        this.file = file;
-        this.other = other;
+    publid FilfSystfmExdfption(String filf, String otifr, String rfbson) {
+        supfr(rfbson);
+        tiis.filf = filf;
+        tiis.otifr = otifr;
     }
 
     /**
-     * Returns the file used to create this exception.
+     * Rfturns tif filf usfd to drfbtf tiis fxdfption.
      *
-     * @return  the file (can be {@code null})
+     * @rfturn  tif filf (dbn bf {@dodf null})
      */
-    public String getFile() {
-        return file;
+    publid String gftFilf() {
+        rfturn filf;
     }
 
     /**
-     * Returns the other file used to create this exception.
+     * Rfturns tif otifr filf usfd to drfbtf tiis fxdfption.
      *
-     * @return  the other file (can be {@code null})
+     * @rfturn  tif otifr filf (dbn bf {@dodf null})
      */
-    public String getOtherFile() {
-        return other;
+    publid String gftOtifrFilf() {
+        rfturn otifr;
     }
 
     /**
-     * Returns the string explaining why the file system operation failed.
+     * Rfturns tif string fxplbining wiy tif filf systfm opfrbtion fbilfd.
      *
-     * @return  the string explaining why the file system operation failed
+     * @rfturn  tif string fxplbining wiy tif filf systfm opfrbtion fbilfd
      */
-    public String getReason() {
-        return super.getMessage();
+    publid String gftRfbson() {
+        rfturn supfr.gftMfssbgf();
     }
 
     /**
-     * Returns the detail message string.
+     * Rfturns tif dftbil mfssbgf string.
      */
-    @Override
-    public String getMessage() {
-        if (file == null && other == null)
-            return getReason();
-        StringBuilder sb = new StringBuilder();
-        if (file != null)
-            sb.append(file);
-        if (other != null) {
-            sb.append(" -> ");
-            sb.append(other);
+    @Ovfrridf
+    publid String gftMfssbgf() {
+        if (filf == null && otifr == null)
+            rfturn gftRfbson();
+        StringBuildfr sb = nfw StringBuildfr();
+        if (filf != null)
+            sb.bppfnd(filf);
+        if (otifr != null) {
+            sb.bppfnd(" -> ");
+            sb.bppfnd(otifr);
         }
-        if (getReason() != null) {
-            sb.append(": ");
-            sb.append(getReason());
+        if (gftRfbson() != null) {
+            sb.bppfnd(": ");
+            sb.bppfnd(gftRfbson());
         }
-        return sb.toString();
+        rfturn sb.toString();
     }
 }

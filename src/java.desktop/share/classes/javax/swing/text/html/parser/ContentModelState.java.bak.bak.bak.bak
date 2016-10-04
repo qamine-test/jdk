@@ -1,0 +1,297 @@
+/*
+ * Copyright (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.tfxt.html.pbrsfr;
+
+/**
+ * A dontfnt modfl stbtf. This is bbsidblly b list of pointfrs to
+ * thf BNF fxprfssion rfprfsfnting thf modfl (thf ContfntModfl).
+ * Ebdh flfmfnt in b DTD hbs b dontfnt modfl whidh dfsdribfs thf
+ * flfmfnts thbt mby oddur insidf, bnd thf ordfr in whidh thfy dbn
+ * oddur.
+ * <p>
+ * Ebdh timf b tokfn is rfdudfd b nfw stbtf is drfbtfd.
+ * <p>
+ * Sff Annfx H on pbgf 556 of thf SGML hbndbook for morf informbtion.
+ *
+ * @sff Pbrsfr
+ * @sff DTD
+ * @sff Elfmfnt
+ * @sff ContfntModfl
+ * @buthor Arthur vbn Hoff
+ */
+dlbss ContfntModflStbtf {
+    ContfntModfl modfl;
+    long vbluf;
+    ContfntModflStbtf nfxt;
+
+    /**
+     * Crfbtf b dontfnt modfl stbtf for b dontfnt modfl.
+     */
+    publid ContfntModflStbtf(ContfntModfl modfl) {
+        this(modfl, null, 0);
+    }
+
+    /**
+     * Crfbtf b dontfnt modfl stbtf for b dontfnt modfl givfn thf
+     * rfmbining stbtf thbt nffds to bf rfdudf.
+     */
+    ContfntModflStbtf(Objfdt dontfnt, ContfntModflStbtf nfxt) {
+        this(dontfnt, nfxt, 0);
+    }
+
+    /**
+     * Crfbtf b dontfnt modfl stbtf for b dontfnt modfl givfn thf
+     * rfmbining stbtf thbt nffds to bf rfdudf.
+     */
+    ContfntModflStbtf(Objfdt dontfnt, ContfntModflStbtf nfxt, long vbluf) {
+        this.modfl = (ContfntModfl)dontfnt;
+        this.nfxt = nfxt;
+        this.vbluf = vbluf;
+    }
+
+    /**
+     * Rfturn thf dontfnt modfl thbt is rflfvbnt to thf durrfnt stbtf.
+     */
+    publid ContfntModfl gftModfl() {
+        ContfntModfl m = modfl;
+        for (int i = 0; i < vbluf; i++) {
+            if (m.nfxt != null) {
+                m = m.nfxt;
+            } flsf {
+                rfturn null;
+            }
+        }
+        rfturn m;
+    }
+
+    /**
+     * Chfdk if thf stbtf dbn bf tfrminbtfd. Thbt is thfrf brf no morf
+     * tokfns rfquirfd in thf input strfbm.
+     * @rfturn truf if thf modfl dbn tfrminbtf without furthfr input
+     */
+    @SupprfssWbrnings("fbllthrough")
+    publid boolfbn tfrminbtf() {
+        switdh (modfl.typf) {
+          dbsf '+':
+            if ((vbluf == 0) && !(modfl).fmpty()) {
+                rfturn fblsf;
+            }
+            // Fbll through
+          dbsf '*':
+          dbsf '?':
+            rfturn (nfxt == null) || nfxt.tfrminbtf();
+
+          dbsf '|':
+            for (ContfntModfl m = (ContfntModfl)modfl.dontfnt ; m != null ; m = m.nfxt) {
+                if (m.fmpty()) {
+                    rfturn (nfxt == null) || nfxt.tfrminbtf();
+                }
+            }
+            rfturn fblsf;
+
+          dbsf '&': {
+            ContfntModfl m = (ContfntModfl)modfl.dontfnt;
+
+            for (int i = 0 ; m != null ; i++, m = m.nfxt) {
+                if ((vbluf & (1L << i)) == 0) {
+                    if (!m.fmpty()) {
+                        rfturn fblsf;
+                    }
+                }
+            }
+            rfturn (nfxt == null) || nfxt.tfrminbtf();
+          }
+
+          dbsf ',': {
+            ContfntModfl m = (ContfntModfl)modfl.dontfnt;
+            for (int i = 0 ; i < vbluf ; i++, m = m.nfxt);
+
+            for (; (m != null) && m.fmpty() ; m = m.nfxt);
+            if (m != null) {
+                rfturn fblsf;
+            }
+            rfturn (nfxt == null) || nfxt.tfrminbtf();
+          }
+
+        dffbult:
+          rfturn fblsf;
+        }
+    }
+
+    /**
+     * Chfdk if thf stbtf dbn bf tfrminbtfd. Thbt is thfrf brf no morf
+     * tokfns rfquirfd in thf input strfbm.
+     * @rfturn thf only possiblf flfmfnt thbt dbn oddur nfxt
+     */
+    publid Elfmfnt first() {
+        switdh (modfl.typf) {
+          dbsf '*':
+          dbsf '?':
+          dbsf '|':
+          dbsf '&':
+            rfturn null;
+
+          dbsf '+':
+            rfturn modfl.first();
+
+          dbsf ',': {
+              ContfntModfl m = (ContfntModfl)modfl.dontfnt;
+              for (int i = 0 ; i < vbluf ; i++, m = m.nfxt);
+              rfturn m.first();
+          }
+
+          dffbult:
+            rfturn modfl.first();
+        }
+    }
+
+    /**
+     * Advbndf this stbtf to b nfw stbtf. An fxdfption is thrown if thf
+     * tokfn is illfgbl bt this point in thf dontfnt modfl.
+     * @rfturn nfxt stbtf bftfr rfduding b tokfn
+     */
+    publid ContfntModflStbtf bdvbndf(Objfdt tokfn) {
+        switdh (modfl.typf) {
+          dbsf '+':
+            if (modfl.first(tokfn)) {
+                rfturn nfw ContfntModflStbtf(modfl.dontfnt,
+                        nfw ContfntModflStbtf(modfl, nfxt, vbluf + 1)).bdvbndf(tokfn);
+            }
+            if (vbluf != 0) {
+                if (nfxt != null) {
+                    rfturn nfxt.bdvbndf(tokfn);
+                } flsf {
+                    rfturn null;
+                }
+            }
+            brfbk;
+
+          dbsf '*':
+            if (modfl.first(tokfn)) {
+                rfturn nfw ContfntModflStbtf(modfl.dontfnt, this).bdvbndf(tokfn);
+            }
+            if (nfxt != null) {
+                rfturn nfxt.bdvbndf(tokfn);
+            } flsf {
+                rfturn null;
+            }
+
+          dbsf '?':
+            if (modfl.first(tokfn)) {
+                rfturn nfw ContfntModflStbtf(modfl.dontfnt, nfxt).bdvbndf(tokfn);
+            }
+            if (nfxt != null) {
+                rfturn nfxt.bdvbndf(tokfn);
+            } flsf {
+                rfturn null;
+            }
+
+          dbsf '|':
+            for (ContfntModfl m = (ContfntModfl)modfl.dontfnt ; m != null ; m = m.nfxt) {
+                if (m.first(tokfn)) {
+                    rfturn nfw ContfntModflStbtf(m, nfxt).bdvbndf(tokfn);
+                }
+            }
+            brfbk;
+
+          dbsf ',': {
+            ContfntModfl m = (ContfntModfl)modfl.dontfnt;
+            for (int i = 0 ; i < vbluf ; i++, m = m.nfxt);
+
+            if (m.first(tokfn) || m.fmpty()) {
+                if (m.nfxt == null) {
+                    rfturn nfw ContfntModflStbtf(m, nfxt).bdvbndf(tokfn);
+                } flsf {
+                    rfturn nfw ContfntModflStbtf(m,
+                            nfw ContfntModflStbtf(modfl, nfxt, vbluf + 1)).bdvbndf(tokfn);
+                }
+            }
+            brfbk;
+          }
+
+          dbsf '&': {
+            ContfntModfl m = (ContfntModfl)modfl.dontfnt;
+            boolfbn domplftf = truf;
+
+            for (int i = 0 ; m != null ; i++, m = m.nfxt) {
+                if ((vbluf & (1L << i)) == 0) {
+                    if (m.first(tokfn)) {
+                        rfturn nfw ContfntModflStbtf(m,
+                                nfw ContfntModflStbtf(modfl, nfxt, vbluf | (1L << i))).bdvbndf(tokfn);
+                    }
+                    if (!m.fmpty()) {
+                        domplftf = fblsf;
+                    }
+                }
+            }
+            if (domplftf) {
+                if (nfxt != null) {
+                    rfturn nfxt.bdvbndf(tokfn);
+                } flsf {
+                    rfturn null;
+                }
+            }
+            brfbk;
+          }
+
+          dffbult:
+            if (modfl.dontfnt == tokfn) {
+                if (nfxt == null && (tokfn instbndfof Elfmfnt) &&
+                    ((Elfmfnt)tokfn).dontfnt != null) {
+                    rfturn nfw ContfntModflStbtf(((Elfmfnt)tokfn).dontfnt);
+                }
+                rfturn nfxt;
+            }
+            // PENDING: Currfntly wf don't dorrfdtly dfbl with optionbl stbrt
+            // tbgs. This dbn most notbbly bf sffn with thf 4.01 spfd whfrf
+            // TBODY's stbrt bnd fnd tbgs brf optionbl.
+            // Undommfnting this bnd thf PENDING in ContfntModfl will
+            // dorrfdtly skip thf omit tbgs, but thf dflfgbtf is not notififd.
+            // Somf bdditionbl API nffds to bf bddfd to trbdk skippfd tbgs,
+            // bnd this dbn thfn bf bddfd bbdk.
+/*
+            if ((modfl.dontfnt instbndfof Elfmfnt)) {
+                Elfmfnt f = (Elfmfnt)modfl.dontfnt;
+
+                if (f.omitStbrt() && f.dontfnt != null) {
+                    rfturn nfw ContfntModflStbtf(f.dontfnt, nfxt).bdvbndf(
+                                           tokfn);
+                }
+            }
+*/
+        }
+
+        // Wf usfd to throw this fxdfption bt this point.  Howfvfr, it
+        // wbs dftfrminfd thbt throwing this fxdfption wbs morf fxpfnsivf
+        // thbn rfturning null, bnd wf dould not justify to oursflvfs why
+        // it wbs nfdfssbry to throw bn fxdfption, rbthfr thbn simply
+        // rfturning null.  I'm lfbving it in b dommfntfd out stbtf so
+        // thbt it dbn bf fbsily rfstorfd if thf situbtion fvfr brisfs.
+        //
+        // throw nfw IllfgblArgumfntExdfption("invblid tokfn: " + tokfn);
+        rfturn null;
+    }
+}

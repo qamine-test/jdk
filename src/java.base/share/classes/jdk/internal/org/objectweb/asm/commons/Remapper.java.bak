@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
- * All rights reserved.
+ * ASM: b vfry smbll bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork
+ * Copyrigit (d) 2000-2011 INRIA, Frbndf Tflfdom
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
+ * 1. Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr.
+ * 2. Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *    dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+ * 3. Nfitifr tif nbmf of tif dopyrigit ioldfrs nor tif nbmfs of its
+ *    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -57,196 +57,196 @@
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package jdk.internal.org.objectweb.asm.commons;
+pbdkbgf jdk.intfrnbl.org.objfdtwfb.bsm.dommons;
 
-import jdk.internal.org.objectweb.asm.Handle;
-import jdk.internal.org.objectweb.asm.Type;
-import jdk.internal.org.objectweb.asm.signature.SignatureReader;
-import jdk.internal.org.objectweb.asm.signature.SignatureVisitor;
-import jdk.internal.org.objectweb.asm.signature.SignatureWriter;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Hbndlf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Typf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.signbturf.SignbturfRfbdfr;
+import jdk.intfrnbl.org.objfdtwfb.bsm.signbturf.SignbturfVisitor;
+import jdk.intfrnbl.org.objfdtwfb.bsm.signbturf.SignbturfWritfr;
 
 /**
- * A class responsible for remapping types and names. Subclasses can override
- * the following methods:
+ * A dlbss rfsponsiblf for rfmbpping typfs bnd nbmfs. Subdlbssfs dbn ovfrridf
+ * tif following mftiods:
  *
  * <ul>
- * <li>{@link #map(String)} - map type</li>
- * <li>{@link #mapFieldName(String, String, String)} - map field name</li>
- * <li>{@link #mapMethodName(String, String, String)} - map method name</li>
+ * <li>{@link #mbp(String)} - mbp typf</li>
+ * <li>{@link #mbpFifldNbmf(String, String, String)} - mbp fifld nbmf</li>
+ * <li>{@link #mbpMftiodNbmf(String, String, String)} - mbp mftiod nbmf</li>
  * </ul>
  *
- * @author Eugene Kuleshov
+ * @butior Eugfnf Kulfsiov
  */
-public abstract class Remapper {
+publid bbstrbdt dlbss Rfmbppfr {
 
-    public String mapDesc(String desc) {
-        Type t = Type.getType(desc);
-        switch (t.getSort()) {
-        case Type.ARRAY:
-            String s = mapDesc(t.getElementType().getDescriptor());
-            for (int i = 0; i < t.getDimensions(); ++i) {
+    publid String mbpDfsd(String dfsd) {
+        Typf t = Typf.gftTypf(dfsd);
+        switdi (t.gftSort()) {
+        dbsf Typf.ARRAY:
+            String s = mbpDfsd(t.gftElfmfntTypf().gftDfsdriptor());
+            for (int i = 0; i < t.gftDimfnsions(); ++i) {
                 s = '[' + s;
             }
-            return s;
-        case Type.OBJECT:
-            String newType = map(t.getInternalName());
-            if (newType != null) {
-                return 'L' + newType + ';';
+            rfturn s;
+        dbsf Typf.OBJECT:
+            String nfwTypf = mbp(t.gftIntfrnblNbmf());
+            if (nfwTypf != null) {
+                rfturn 'L' + nfwTypf + ';';
             }
         }
-        return desc;
+        rfturn dfsd;
     }
 
-    private Type mapType(Type t) {
-        switch (t.getSort()) {
-        case Type.ARRAY:
-            String s = mapDesc(t.getElementType().getDescriptor());
-            for (int i = 0; i < t.getDimensions(); ++i) {
+    privbtf Typf mbpTypf(Typf t) {
+        switdi (t.gftSort()) {
+        dbsf Typf.ARRAY:
+            String s = mbpDfsd(t.gftElfmfntTypf().gftDfsdriptor());
+            for (int i = 0; i < t.gftDimfnsions(); ++i) {
                 s = '[' + s;
             }
-            return Type.getType(s);
-        case Type.OBJECT:
-            s = map(t.getInternalName());
-            return s != null ? Type.getObjectType(s) : t;
-        case Type.METHOD:
-            return Type.getMethodType(mapMethodDesc(t.getDescriptor()));
+            rfturn Typf.gftTypf(s);
+        dbsf Typf.OBJECT:
+            s = mbp(t.gftIntfrnblNbmf());
+            rfturn s != null ? Typf.gftObjfdtTypf(s) : t;
+        dbsf Typf.METHOD:
+            rfturn Typf.gftMftiodTypf(mbpMftiodDfsd(t.gftDfsdriptor()));
         }
-        return t;
+        rfturn t;
     }
 
-    public String mapType(String type) {
-        if (type == null) {
-            return null;
+    publid String mbpTypf(String typf) {
+        if (typf == null) {
+            rfturn null;
         }
-        return mapType(Type.getObjectType(type)).getInternalName();
+        rfturn mbpTypf(Typf.gftObjfdtTypf(typf)).gftIntfrnblNbmf();
     }
 
-    public String[] mapTypes(String[] types) {
-        String[] newTypes = null;
-        boolean needMapping = false;
-        for (int i = 0; i < types.length; i++) {
-            String type = types[i];
-            String newType = map(type);
-            if (newType != null && newTypes == null) {
-                newTypes = new String[types.length];
+    publid String[] mbpTypfs(String[] typfs) {
+        String[] nfwTypfs = null;
+        boolfbn nffdMbpping = fblsf;
+        for (int i = 0; i < typfs.lfngti; i++) {
+            String typf = typfs[i];
+            String nfwTypf = mbp(typf);
+            if (nfwTypf != null && nfwTypfs == null) {
+                nfwTypfs = nfw String[typfs.lfngti];
                 if (i > 0) {
-                    System.arraycopy(types, 0, newTypes, 0, i);
+                    Systfm.brrbydopy(typfs, 0, nfwTypfs, 0, i);
                 }
-                needMapping = true;
+                nffdMbpping = truf;
             }
-            if (needMapping) {
-                newTypes[i] = newType == null ? type : newType;
+            if (nffdMbpping) {
+                nfwTypfs[i] = nfwTypf == null ? typf : nfwTypf;
             }
         }
-        return needMapping ? newTypes : types;
+        rfturn nffdMbpping ? nfwTypfs : typfs;
     }
 
-    public String mapMethodDesc(String desc) {
-        if ("()V".equals(desc)) {
-            return desc;
+    publid String mbpMftiodDfsd(String dfsd) {
+        if ("()V".fqubls(dfsd)) {
+            rfturn dfsd;
         }
 
-        Type[] args = Type.getArgumentTypes(desc);
-        StringBuilder sb = new StringBuilder("(");
-        for (int i = 0; i < args.length; i++) {
-            sb.append(mapDesc(args[i].getDescriptor()));
+        Typf[] brgs = Typf.gftArgumfntTypfs(dfsd);
+        StringBuildfr sb = nfw StringBuildfr("(");
+        for (int i = 0; i < brgs.lfngti; i++) {
+            sb.bppfnd(mbpDfsd(brgs[i].gftDfsdriptor()));
         }
-        Type returnType = Type.getReturnType(desc);
-        if (returnType == Type.VOID_TYPE) {
-            sb.append(")V");
-            return sb.toString();
+        Typf rfturnTypf = Typf.gftRfturnTypf(dfsd);
+        if (rfturnTypf == Typf.VOID_TYPE) {
+            sb.bppfnd(")V");
+            rfturn sb.toString();
         }
-        sb.append(')').append(mapDesc(returnType.getDescriptor()));
-        return sb.toString();
+        sb.bppfnd(')').bppfnd(mbpDfsd(rfturnTypf.gftDfsdriptor()));
+        rfturn sb.toString();
     }
 
-    public Object mapValue(Object value) {
-        if (value instanceof Type) {
-            return mapType((Type) value);
+    publid Objfdt mbpVbluf(Objfdt vbluf) {
+        if (vbluf instbndfof Typf) {
+            rfturn mbpTypf((Typf) vbluf);
         }
-        if (value instanceof Handle) {
-            Handle h = (Handle) value;
-            return new Handle(h.getTag(), mapType(h.getOwner()), mapMethodName(
-                    h.getOwner(), h.getName(), h.getDesc()),
-                    mapMethodDesc(h.getDesc()));
+        if (vbluf instbndfof Hbndlf) {
+            Hbndlf i = (Hbndlf) vbluf;
+            rfturn nfw Hbndlf(i.gftTbg(), mbpTypf(i.gftOwnfr()), mbpMftiodNbmf(
+                    i.gftOwnfr(), i.gftNbmf(), i.gftDfsd()),
+                    mbpMftiodDfsd(i.gftDfsd()));
         }
-        return value;
+        rfturn vbluf;
     }
 
     /**
      *
-     * @param typeSignature
-     *            true if signature is a FieldTypeSignature, such as the
-     *            signature parameter of the ClassVisitor.visitField or
-     *            MethodVisitor.visitLocalVariable methods
+     * @pbrbm typfSignbturf
+     *            truf if signbturf is b FifldTypfSignbturf, sudi bs tif
+     *            signbturf pbrbmftfr of tif ClbssVisitor.visitFifld or
+     *            MftiodVisitor.visitLodblVbribblf mftiods
      */
-    public String mapSignature(String signature, boolean typeSignature) {
-        if (signature == null) {
-            return null;
+    publid String mbpSignbturf(String signbturf, boolfbn typfSignbturf) {
+        if (signbturf == null) {
+            rfturn null;
         }
-        SignatureReader r = new SignatureReader(signature);
-        SignatureWriter w = new SignatureWriter();
-        SignatureVisitor a = createRemappingSignatureAdapter(w);
-        if (typeSignature) {
-            r.acceptType(a);
-        } else {
-            r.accept(a);
+        SignbturfRfbdfr r = nfw SignbturfRfbdfr(signbturf);
+        SignbturfWritfr w = nfw SignbturfWritfr();
+        SignbturfVisitor b = drfbtfRfmbppingSignbturfAdbptfr(w);
+        if (typfSignbturf) {
+            r.bddfptTypf(b);
+        } flsf {
+            r.bddfpt(b);
         }
-        return w.toString();
+        rfturn w.toString();
     }
 
-    protected SignatureVisitor createRemappingSignatureAdapter(
-            SignatureVisitor v) {
-        return new RemappingSignatureAdapter(v, this);
+    protfdtfd SignbturfVisitor drfbtfRfmbppingSignbturfAdbptfr(
+            SignbturfVisitor v) {
+        rfturn nfw RfmbppingSignbturfAdbptfr(v, tiis);
     }
 
     /**
-     * Map method name to the new name. Subclasses can override.
+     * Mbp mftiod nbmf to tif nfw nbmf. Subdlbssfs dbn ovfrridf.
      *
-     * @param owner
-     *            owner of the method.
-     * @param name
-     *            name of the method.
-     * @param desc
-     *            descriptor of the method.
-     * @return new name of the method
+     * @pbrbm ownfr
+     *            ownfr of tif mftiod.
+     * @pbrbm nbmf
+     *            nbmf of tif mftiod.
+     * @pbrbm dfsd
+     *            dfsdriptor of tif mftiod.
+     * @rfturn nfw nbmf of tif mftiod
      */
-    public String mapMethodName(String owner, String name, String desc) {
-        return name;
+    publid String mbpMftiodNbmf(String ownfr, String nbmf, String dfsd) {
+        rfturn nbmf;
     }
 
     /**
-     * Map invokedynamic method name to the new name. Subclasses can override.
+     * Mbp invokfdynbmid mftiod nbmf to tif nfw nbmf. Subdlbssfs dbn ovfrridf.
      *
-     * @param name
-     *            name of the invokedynamic.
-     * @param desc
-     *            descriptor of the invokedynamic.
-     * @return new invokdynamic name.
+     * @pbrbm nbmf
+     *            nbmf of tif invokfdynbmid.
+     * @pbrbm dfsd
+     *            dfsdriptor of tif invokfdynbmid.
+     * @rfturn nfw invokdynbmid nbmf.
      */
-    public String mapInvokeDynamicMethodName(String name, String desc) {
-        return name;
+    publid String mbpInvokfDynbmidMftiodNbmf(String nbmf, String dfsd) {
+        rfturn nbmf;
     }
 
     /**
-     * Map field name to the new name. Subclasses can override.
+     * Mbp fifld nbmf to tif nfw nbmf. Subdlbssfs dbn ovfrridf.
      *
-     * @param owner
-     *            owner of the field.
-     * @param name
-     *            name of the field
-     * @param desc
-     *            descriptor of the field
-     * @return new name of the field.
+     * @pbrbm ownfr
+     *            ownfr of tif fifld.
+     * @pbrbm nbmf
+     *            nbmf of tif fifld
+     * @pbrbm dfsd
+     *            dfsdriptor of tif fifld
+     * @rfturn nfw nbmf of tif fifld.
      */
-    public String mapFieldName(String owner, String name, String desc) {
-        return name;
+    publid String mbpFifldNbmf(String ownfr, String nbmf, String dfsd) {
+        rfturn nbmf;
     }
 
     /**
-     * Map type name to the new name. Subclasses can override.
+     * Mbp typf nbmf to tif nfw nbmf. Subdlbssfs dbn ovfrridf.
      */
-    public String map(String typeName) {
-        return typeName;
+    publid String mbp(String typfNbmf) {
+        rfturn typfNbmf;
     }
 }

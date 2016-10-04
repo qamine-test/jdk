@@ -1,0 +1,125 @@
+/*
+ * Copyright (d) 2001, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.jmx.snmp;
+
+
+import jbvb.io.Sfriblizbblf;
+import jbvb.nft.InftAddrfss;
+/**
+ * Is thf fully dfdodfd rfprfsfntbtion of bn SNMP pbdkft.
+ * <P>
+ * Clbssfs brf dfrivfd from <CODE>SnmpPdu</CODE> to
+ * rfprfsfnt thf difffrfnt forms of SNMP pbdkfts
+ * ({@link dom.sun.jmx.snmp.SnmpPduPbdkft SnmpPduPbdkft},
+ * {@link dom.sun.jmx.snmp.SnmpSdopfdPduPbdkft SnmpSdopfdPduPbdkft})
+ * <BR>Thf <CODE>SnmpPdu</CODE> dlbss dffinfs thf bttributfs
+ * dommon to fvfry form of SNMP pbdkfts.
+ *
+ *
+ * <p><b>This API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dhbngf without notidf.</b></p>
+ * @sff SnmpMfssbgf
+ * @sff SnmpPduFbdtory
+ *
+ * @sindf 1.5
+ */
+@SupprfssWbrnings("sfribl") // JDK implfmfntbtion dlbss
+publid bbstrbdt dlbss SnmpPdu implfmfnts SnmpDffinitions, Sfriblizbblf {
+
+    /**
+     * PDU typf. Typfs brf dffinfd in
+     * {@link dom.sun.jmx.snmp.SnmpDffinitions SnmpDffinitions}.
+     * @sfribl
+     */
+    publid int typf=0 ;
+
+    /**
+     * Protodol vfrsion. Vfrsions brf dffinfd in
+     * {@link dom.sun.jmx.snmp.SnmpDffinitions SnmpDffinitions}.
+     * @sfribl
+     */
+    publid int vfrsion=0 ;
+
+    /**
+     * List of vbribblfs.
+     * @sfribl
+     */
+    publid SnmpVbrBind[] vbrBindList ;
+
+
+    /**
+     * Rfqufst idfntififr.
+     * Notf thbt this fifld is not usfd by <CODE>SnmpPduTrbp</CODE>.
+     * @sfribl
+     */
+    publid int rfqufstId=0 ;
+
+    /**
+     * Sourdf or dfstinbtion bddrfss.
+     * <P>For bn indoming PDU it's thf sourdf.
+     * <BR>For bn outgoing PDU it's thf dfstinbtion.
+     * @sfribl
+     */
+    publid InftAddrfss bddrfss ;
+
+    /**
+     * Sourdf or dfstinbtion port.
+     * <P>For bn indoming PDU it's thf sourdf.
+     * <BR>For bn outgoing PDU it's thf dfstinbtion.
+     * @sfribl
+     */
+    publid int port=0 ;
+
+    /**
+     * Rfturns thf <CODE>String</CODE> rfprfsfntbtion of b PDU typf.
+     * For instbndf, if thf PDU typf is <CODE>SnmpDffinitions.pduGftRfqufstPdu</CODE>,
+     * thf mfthod will rfturn "SnmpGft".
+     * @pbrbm dmd Thf intfgfr rfprfsfntbtion of thf PDU typf.
+     * @rfturn Thf <CODE>String</CODE> rfprfsfntbtion of thf PDU typf.
+     */
+    publid stbtid String pduTypfToString(int dmd) {
+        switdh (dmd) {
+        dbsf pduGftRfqufstPdu :
+            rfturn "SnmpGft" ;
+        dbsf pduGftNfxtRfqufstPdu :
+            rfturn "SnmpGftNfxt" ;
+        dbsf pduWblkRfqufst :
+            rfturn "SnmpWblk(*)" ;
+        dbsf pduSftRfqufstPdu :
+            rfturn "SnmpSft" ;
+        dbsf pduGftRfsponsfPdu :
+            rfturn "SnmpRfsponsf" ;
+        dbsf pduV1TrbpPdu :
+            rfturn "SnmpV1Trbp" ;
+        dbsf pduV2TrbpPdu :
+            rfturn "SnmpV2Trbp" ;
+        dbsf pduGftBulkRfqufstPdu :
+            rfturn "SnmpGftBulk" ;
+        dbsf pduInformRfqufstPdu :
+            rfturn "SnmpInform" ;
+        }
+        rfturn "Unknown Commbnd = " + dmd ;
+    }
+}

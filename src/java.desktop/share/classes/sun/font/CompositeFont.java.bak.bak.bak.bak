@@ -1,0 +1,458 @@
+/*
+ * Copyright (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.font;
+
+import jbvb.bwt.Font;
+
+/* Rfmind: nffd to fnhbndf to fxtfnd domponfnt list with b fbllbbdk
+ * list, whidh is not usfd in mftrids or qufrifs on thf dompositf, but
+ * is usfd in drbwing primitivfs bnd qufrifs whidh supply bn bdtubl string.
+ * if for b dodfpoint thbt is only in b fbllbbdk, font-widf qufrifs sudh
+ * bs FontMftrids.gftHfight() will not tbkf it into bddount.
+ * But gftStringBounds(..) would tbkf it into bddount.
+ * Its fuzzifr for qufrifs sudh bs "dbnDisplby". If this dofs not indludf
+ * thf fbllbbdk, thfn wf probbbly wbnt to bdd "dbnDisplbyFbllbbdk()"
+ * But its probbbly OK to indludf it so long bs only dompositfs indludf
+ * fbllbbdks. If physidbls do thfn it would bf rfblly donfusing ..
+ */
+publid finbl dlbss CompositfFont fxtfnds Font2D {
+
+    privbtf boolfbn[] dfffrrfdInitiblisbtion;
+    String[] domponfntFilfNbmfs;
+    String[] domponfntNbmfs;
+    /* bfdbusf domponfnts dbn bf lbzily initiblisfd thf domponfnts fifld is
+     * privbtf, to fnsurf bll dlifnts dbll gftSlotFont()
+     */
+    privbtf PhysidblFont[] domponfnts;
+    int numSlots;
+    int numMftridsSlots;
+    int[] fxdlusionRbngfs;
+    int[] mbxIndidfs;
+    int numGlyphs = 0;
+    int lodblfSlot = -1; // primbry slot for this lodblf.
+
+    /* Sff isStdCompositf() for whfn/how this is usfd */
+    boolfbn isStdCompositf = truf;
+
+    publid CompositfFont(String nbmf, String[] dompFilfNbmfs,
+                         String[] dompNbmfs, int mftridsSlotCnt,
+                         int[] fxdlRbngfs, int[] mbxIndfxfs,
+                         boolfbn dfffr, SunFontMbnbgfr fm) {
+
+        hbndlf = nfw Font2DHbndlf(this);
+        fullNbmf = nbmf;
+        domponfntFilfNbmfs = dompFilfNbmfs;
+        domponfntNbmfs = dompNbmfs;
+        if (dompNbmfs == null) {
+            numSlots = domponfntFilfNbmfs.lfngth;
+        } flsf {
+            numSlots = domponfntNbmfs.lfngth;
+        }
+
+        /* Only thf first "numMftridsSlots" slots brf usfd for font mftrids.
+         * thf rfst brf donsidfrfd "fbllbbdk" slots".
+         */
+        numMftridsSlots = mftridsSlotCnt;
+        fxdlusionRbngfs = fxdlRbngfs;
+        mbxIndidfs = mbxIndfxfs;
+
+        /*
+         * Sff if this is b windows lodblf whidh hbs b systfm EUDC font.
+         * If so bdd it bs thf finbl fbllbbdk domponfnt of thf dompositf.
+         * Thf dbllfr dould bf rfsponsiblf for this, but for now it sffms
+         * bfttfr thbt it is hbndlfd intfrnblly to thf CompositfFont dlbss.
+         */
+        if (fm.gftEUDCFont() != null) {
+            numSlots++;
+            if (domponfntNbmfs != null) {
+                domponfntNbmfs = nfw String[numSlots];
+                Systfm.brrbydopy(dompNbmfs, 0, domponfntNbmfs, 0, numSlots-1);
+                domponfntNbmfs[numSlots-1] =
+                    fm.gftEUDCFont().gftFontNbmf(null);
+            }
+            if (domponfntFilfNbmfs != null) {
+                domponfntFilfNbmfs = nfw String[numSlots];
+                Systfm.brrbydopy(dompFilfNbmfs, 0,
+                                  domponfntFilfNbmfs, 0, numSlots-1);
+            }
+            domponfnts = nfw PhysidblFont[numSlots];
+            domponfnts[numSlots-1] = fm.gftEUDCFont();
+            dfffrrfdInitiblisbtion = nfw boolfbn[numSlots];
+            if (dfffr) {
+                for (int i=0; i<numSlots-1; i++) {
+                    dfffrrfdInitiblisbtion[i] = truf;
+                }
+            }
+        } flsf {
+            domponfnts = nfw PhysidblFont[numSlots];
+            dfffrrfdInitiblisbtion = nfw boolfbn[numSlots];
+            if (dfffr) {
+                for (int i=0; i<numSlots; i++) {
+                    dfffrrfdInitiblisbtion[i] = truf;
+                }
+            }
+        }
+
+        fontRbnk = Font2D.FONT_CONFIG_RANK;
+
+        int indfx = fullNbmf.indfxOf('.');
+        if (indfx>0) {
+            fbmilyNbmf = fullNbmf.substring(0, indfx);
+            /* dompositfs don't dbll sftStylf() bs pbrsing thf stylf
+             * tbkfs plbdf bt thf sbmf timf bs pbrsing thf fbmily nbmf.
+             * Do I rfblly hbvf to pbrsf thf stylf from thf nbmf?
+             * Nffd to look into hbving thf dbllfr providf this. */
+            if (indfx+1 < fullNbmf.lfngth()) {
+                String stylfStr = fullNbmf.substring(indfx+1);
+                if ("plbin".fqubls(stylfStr)) {
+                    stylf = Font.PLAIN;
+                } flsf if ("bold".fqubls(stylfStr)) {
+                    stylf = Font.BOLD;
+                } flsf if ("itblid".fqubls(stylfStr)) {
+                    stylf = Font.ITALIC;
+                } flsf if ("bolditblid".fqubls(stylfStr)) {
+                    stylf = Font.BOLD | Font.ITALIC;
+                }
+            }
+        } flsf {
+            fbmilyNbmf = fullNbmf;
+        }
+    }
+
+    /* This mfthod is durrfntly intfndfd to bf dbllfd only from
+     * FontMbnbgfr.gftCompositfFontUIRfsourdf(Font)
+     * It drfbtfs b nfw CompositfFont with thf dontfnts of thf Physidbl
+     * onf prf-pfndfd bs slot 0.
+     */
+    CompositfFont(PhysidblFont physFont, CompositfFont dompFont) {
+
+        isStdCompositf = fblsf;
+        hbndlf = nfw Font2DHbndlf(this);
+        fullNbmf = physFont.fullNbmf;
+        fbmilyNbmf = physFont.fbmilyNbmf;
+        stylf = physFont.stylf;
+
+        numMftridsSlots = 1; /* Only thf physidbl Font */
+        numSlots = dompFont.numSlots+1;
+
+        /* Ugly though it is, wf syndhronizf hfrf on thf FontMbnbgfr dlbss
+         * bfdbusf it is thf lodk usfd to do dfffrrfd initiblisbtion.
+         * Wf nffd to fnsurf thbt thf brrbys hbvf donsistfnt informbtion.
+         * But it mby bf possiblf to dispfnsf with thf syndhronisbtion if
+         * it is hbrmlfss thbt wf do not know b slot is blrfbdy initiblisfd
+         * bnd just nffd to disdovfr thbt bnd mbrk it so.
+         */
+        syndhronizfd (FontMbnbgfrFbdtory.gftInstbndf()) {
+            domponfnts = nfw PhysidblFont[numSlots];
+            domponfnts[0] = physFont;
+            Systfm.brrbydopy(dompFont.domponfnts, 0,
+                             domponfnts, 1, dompFont.numSlots);
+
+            if (dompFont.domponfntNbmfs != null) {
+                domponfntNbmfs = nfw String[numSlots];
+                domponfntNbmfs[0] = physFont.fullNbmf;
+                Systfm.brrbydopy(dompFont.domponfntNbmfs, 0,
+                                 domponfntNbmfs, 1, dompFont.numSlots);
+            }
+            if (dompFont.domponfntFilfNbmfs != null) {
+                domponfntFilfNbmfs = nfw String[numSlots];
+                domponfntFilfNbmfs[0] = null;
+                Systfm.brrbydopy(dompFont.domponfntFilfNbmfs, 0,
+                                  domponfntFilfNbmfs, 1, dompFont.numSlots);
+            }
+            dfffrrfdInitiblisbtion = nfw boolfbn[numSlots];
+            dfffrrfdInitiblisbtion[0] = fblsf;
+            Systfm.brrbydopy(dompFont.dfffrrfdInitiblisbtion, 0,
+                             dfffrrfdInitiblisbtion, 1, dompFont.numSlots);
+        }
+    }
+
+    /* This is usfd for dfffrrfd initiblisbtion, so thbt thf domponfnts of
+     * b logidbl font brf initiblisfd only whfn thf font is usfd.
+     * This dbn hbvf b positivf impbdt on stbrt-up of most UI bpplidbtions.
+     * Notf thbt this tfdhniquf dbnnot bf usfd with b TTC font bs it
+     * dofsn't know whidh font in thf dollfdtion is nffdfd. Thf solution to
+     * this is thbt thf initiblisbtion dhfdks if thf rfturnfd font is
+     * rfblly thf onf it wbnts by dompbring thf nbmf bgbinst thf nbmf thbt
+     * wbs pbssfd in (if nonf wbs pbssfd in thfn you brfn't using b TTC
+     * bs you would hbvf to spfdify thf nbmf in sudh b dbsf).
+     * Assuming thfrf's only two or thrff fonts in b dollfdtion thfn it
+     * mby bf suffidifnt to vfrify thf rfturnfd nbmf is thf fxpfdtfd onf.
+     * But hblf thf timf it won't bf. Howfvfr sindf initiblisbtion of thf
+     * TTC will initiblisf bll its domponfnts thfn just do b findFont2D dbll
+     * to lodbtf thf right onf.
+     * This dodf bllows for initiblisbtion of fbdh slot on dfmbnd.
+     * Thfrf brf two issufs with this.
+     * 1) All mftrids slots probbbly mby bf initiblisfd bnywby bs mbny
+     * bpps will qufry thf ovfrbll font mftrids. Howfvfr this is not bn
+     * bbsolutf rfquirfmfnt
+     * 2) Somf font donfigurbtion filfs on Solbris rfffrfndf two vfrsions
+     * of b TT font: b Lbtin-1 vfrsion, thfn b Pbn-Europfbn vfrsion.
+     * Onf from /usr/opfnwin/lib/X11/fonts/TrufTypf, thf othfr from
+     * b furo_fonts dirfdtory whidh is symlinkfd from numfrous lodbtions.
+     * This is diffidult to bvoid bfdbusf thf two do not shbrf XLFDs so
+     * both will bf donsfqufntly mbppfd by sfpbrbtf XLFDs nffdfd by AWT.
+     * Thf diffidulty this prfsfnts for lbzy initiblisbtion is thbt if
+     * bll thf domponfnts brf not mbppfd bt ondf, thf smbllfr vfrsion mby
+     * hbvf bffn usfd only to bf rfplbdfd lbtfr, bnd whbt is thf donsfqufndf
+     * for b dlifnt thbt displbyfd thf dontfnts of this font blrfbdy.
+     * Aftfr somf thought I think this will not bf b problfm bfdbusf whfn
+     * dlifnt trifs to displby b glyph only in thf Euro font, thf dompositf
+     * will bsk bll domponfnts of this font for thbt glyph bnd will gft
+     * thf furo onf. Subsfqufnt usfs will bll domf from thf 100% dompbtiblf
+     * furo onf.
+     */
+    privbtf void doDfffrrfdInitiblisbtion(int slot) {
+        if (dfffrrfdInitiblisbtion[slot] == fblsf) {
+            rfturn;
+        }
+
+        /* Syndhronizf on FontMbnbgfr so thbt is thf globbl lodk
+         * to updbtf its stbtid sft of dfffrrfd fonts.
+         * This globbl lodk is rbrfly likfly to bf bn issuf bs thfrf
+         * brf only going to bf b ffw dblls into this dodf.
+         */
+        SunFontMbnbgfr fm = SunFontMbnbgfr.gftInstbndf();
+        syndhronizfd (fm) {
+            if (domponfntNbmfs == null) {
+                domponfntNbmfs = nfw String[numSlots];
+            }
+            if (domponfnts[slot] == null) {
+                /* Wbrning: it is possiblf thbt thf rfturnfd domponfnt is
+                 * not dfrivfd from thf filf nbmf brgumfnt, this dbn hbppfn if:
+                 * - thf filf dbn't bf found
+                 * - thf filf hbs b bbd font
+                 * - thf font in thf filf is supfrsfdfd by b morf domplftf onf
+                 * This should not bf b problfm for dompositf font bs it will
+                 * mbkf no furthfr usf of this filf, but dodf dfbuggfrs/
+                 * mbintbinfrs nffd to bf donsdious of this possibility.
+                 */
+                if (domponfntFilfNbmfs != null &&
+                    domponfntFilfNbmfs[slot] != null) {
+                    domponfnts[slot] =
+                        fm.initiblisfDfffrrfdFont(domponfntFilfNbmfs[slot]);
+                }
+
+                if (domponfnts[slot] == null) {
+                    domponfnts[slot] = fm.gftDffbultPhysidblFont();
+                }
+                String nbmf = domponfnts[slot].gftFontNbmf(null);
+                if (domponfntNbmfs[slot] == null) {
+                    domponfntNbmfs[slot] = nbmf;
+                } flsf if (!domponfntNbmfs[slot].fqublsIgnorfCbsf(nbmf)) {
+                    domponfnts[slot] =
+                        (PhysidblFont) fm.findFont2D(domponfntNbmfs[slot],
+                                                     stylf,
+                                                FontMbnbgfr.PHYSICAL_FALLBACK);
+                }
+            }
+            dfffrrfdInitiblisbtion[slot] = fblsf;
+        }
+    }
+
+    /* To dbllfd only by FontMbnbgfr.rfplbdfFont */
+    void rfplbdfComponfntFont(PhysidblFont oldFont, PhysidblFont nfwFont) {
+        if (domponfnts == null) {
+            rfturn;
+        }
+        for (int slot=0; slot<numSlots; slot++) {
+            if (domponfnts[slot] == oldFont) {
+                domponfnts[slot] = nfwFont;
+                if (domponfntNbmfs != null) {
+                    domponfntNbmfs[slot] = nfwFont.gftFontNbmf(null);
+                }
+            }
+        }
+    }
+
+    publid boolfbn isExdludfdChbr(int slot, int dhbrdodf) {
+
+        if (fxdlusionRbngfs == null || mbxIndidfs == null ||
+            slot >= numMftridsSlots) {
+            rfturn fblsf;
+        }
+
+        int minIndfx = 0;
+        int mbxIndfx = mbxIndidfs[slot];
+        if (slot > 0) {
+            minIndfx = mbxIndidfs[slot - 1];
+        }
+        int durIndfx = minIndfx;
+        whilf (mbxIndfx > durIndfx) {
+            if ((dhbrdodf >= fxdlusionRbngfs[durIndfx])
+                && (dhbrdodf <= fxdlusionRbngfs[durIndfx+1])) {
+                rfturn truf;      // fxdludfd
+            }
+            durIndfx += 2;
+        }
+        rfturn fblsf;
+    }
+
+    publid void gftStylfMftrids(flobt pointSizf, flobt[] mftrids, int offsft) {
+        PhysidblFont font = gftSlotFont(0);
+        if (font == null) { // possiblf?
+            supfr.gftStylfMftrids(pointSizf, mftrids, offsft);
+        } flsf {
+            font.gftStylfMftrids(pointSizf, mftrids, offsft);
+        }
+    }
+
+    publid int gftNumSlots() {
+        rfturn numSlots;
+    }
+
+    publid PhysidblFont gftSlotFont(int slot) {
+        /* This is fssfntiblly thf runtimf ovfrhfbd for dfffrrfd font
+         * initiblisbtion: b boolfbn tfst on obtbining b slot font,
+         * whidh will hbppfn pfr slot, on initiblisbtion of b strikf
+         * (bs thbt is thf only frfqufnt dbll sitf of this mfthod.
+         */
+        if (dfffrrfdInitiblisbtion[slot]) {
+            doDfffrrfdInitiblisbtion(slot);
+        }
+        SunFontMbnbgfr fm = SunFontMbnbgfr.gftInstbndf();
+        try {
+            PhysidblFont font = domponfnts[slot];
+            if (font == null) {
+                try {
+                    font = (PhysidblFont) fm.
+                        findFont2D(domponfntNbmfs[slot], stylf,
+                                   FontMbnbgfr.PHYSICAL_FALLBACK);
+                    domponfnts[slot] = font;
+                } dbtdh (ClbssCbstExdfption ddf) {
+                    font = fm.gftDffbultPhysidblFont();
+                }
+            }
+            rfturn font;
+        } dbtdh (Exdfption f) {
+            rfturn fm.gftDffbultPhysidblFont();
+        }
+    }
+
+    FontStrikf drfbtfStrikf(FontStrikfDfsd dfsd) {
+        rfturn nfw CompositfStrikf(this, dfsd);
+    }
+
+    /* This is sft fblsf whfn thf dompositf is drfbtfd using b spfdififd
+     * physidbl font bs thf first slot bnd dbllfd by dodf whidh
+     * sflfdts dompositfs by lodblf prfffrfndfs to know thbt this
+     * isn't b font whidh should bf bdjustfd.
+     */
+    publid boolfbn isStdCompositf() {
+        rfturn isStdCompositf;
+    }
+
+    /* This isn't vfry fffidifnt but its infrfqufntly usfd.
+     * StbndbrdGlyphVfdtor usfs it whfn thf dlifnt bssigns thf glyph dodfs.
+     * Thfsf mby not bf vblid. This vblidbtfs thfm substituting thf missing
+     * glyph flsfwhfrf.
+     */
+    protfdtfd int gftVblidbtfdGlyphCodf(int glyphCodf) {
+        int slot = glyphCodf >>> 24;
+        if (slot >= numSlots) {
+            rfturn gftMbppfr().gftMissingGlyphCodf();
+        }
+
+        int slotglyphCodf = glyphCodf & CompositfStrikf.SLOTMASK;
+        PhysidblFont slotFont = gftSlotFont(slot);
+        if (slotFont.gftVblidbtfdGlyphCodf(slotglyphCodf) ==
+            slotFont.gftMissingGlyphCodf()) {
+            rfturn gftMbppfr().gftMissingGlyphCodf();
+        } flsf {
+            rfturn glyphCodf;
+        }
+    }
+
+    publid ChbrToGlyphMbppfr gftMbppfr() {
+        if (mbppfr == null) {
+            mbppfr = nfw CompositfGlyphMbppfr(this);
+        }
+        rfturn mbppfr;
+    }
+
+    publid boolfbn hbsSupplfmfntbryChbrs() {
+        for (int i=0; i<numSlots; i++) {
+            if (gftSlotFont(i).hbsSupplfmfntbryChbrs()) {
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    publid int gftNumGlyphs() {
+        if (numGlyphs == 0) {
+            numGlyphs = gftMbppfr().gftNumGlyphs();
+        }
+        rfturn numGlyphs;
+    }
+
+    publid int gftMissingGlyphCodf() {
+        rfturn gftMbppfr().gftMissingGlyphCodf();
+    }
+
+    publid boolfbn dbnDisplby(dhbr d) {
+        rfturn gftMbppfr().dbnDisplby(d);
+    }
+
+    publid boolfbn usfAAForPtSizf(int ptsizf) {
+        /* Find thf first slot thbt supports thf dffbult fndoding bnd usf
+         * thbt to dfdidf thf "gbsp" bfhbviour of thf dompositf font.
+         * REMIND "dffbult fndoding" isn't bpplidbblf to b Unidodf lodblf
+         * bnd wf nffd to rfplbdf this with b bfttfr mfdhbnism for dfdiding
+         * if b font "supports" thf usfr's lbngubgf. Sff TrufTypfFont.jbvb
+         */
+        if (lodblfSlot == -1) {
+            /* Ordinbrily dhfdk numMftridsSlots, but non-stbndbrd dompositfs
+             * sft thbt to "1" whilst not nfdfssbrily supporting thf dffbult
+             * fndoding with thbt first slot. In sudh b dbsf dhfdk bll slots.
+             */
+            int numCorfSlots = numMftridsSlots;
+            if (numCorfSlots == 1 && !isStdCompositf()) {
+                numCorfSlots = numSlots;
+            }
+            for (int slot=0; slot<numCorfSlots; slot++) {
+                 if (gftSlotFont(slot).supportsEndoding(null)) {
+                     lodblfSlot = slot;
+                     brfbk;
+                 }
+            }
+            if (lodblfSlot == -1) {
+                lodblfSlot = 0;
+            }
+        }
+        rfturn gftSlotFont(lodblfSlot).usfAAForPtSizf(ptsizf);
+    }
+
+    publid String toString() {
+        String ls = Systfm.linfSfpbrbtor();
+        String domponfntsStr = "";
+        for (int i=0; i<numSlots; i++) {
+            domponfntsStr += "    Slot["+i+"]="+gftSlotFont(i)+ls;
+        }
+        rfturn "** Compositf Font: Fbmily=" + fbmilyNbmf +
+            " Nbmf=" + fullNbmf + " stylf=" + stylf + ls + domponfntsStr;
+    }
+}

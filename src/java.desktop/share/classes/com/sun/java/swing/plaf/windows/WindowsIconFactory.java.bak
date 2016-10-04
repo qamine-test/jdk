@@ -1,924 +1,924 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.java.swing.plaf.windows;
+pbdkbgf dom.sun.jbvb.swing.plbf.windows;
 
-import javax.swing.*;
-import javax.swing.plaf.ButtonUI;
-import javax.swing.plaf.UIResource;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.ButtonUI;
+import jbvbx.swing.plbf.UIRfsourdf;
 
-import java.awt.*;
-import java.io.Serializable;
+import jbvb.bwt.*;
+import jbvb.io.Sfriblizbblf;
 
-import static com.sun.java.swing.plaf.windows.TMSchema.*;
-import static com.sun.java.swing.plaf.windows.XPStyle.Skin;
+import stbtid dom.sun.jbvb.swing.plbf.windows.TMSdifmb.*;
+import stbtid dom.sun.jbvb.swing.plbf.windows.XPStylf.Skin;
 
-import sun.swing.MenuItemCheckIconFactory;
+import sun.swing.MfnuItfmCifdkIdonFbdtory;
 
 /**
- * Factory object that can vend Icons appropriate for the Windows L & F.
+ * Fbdtory objfdt tibt dbn vfnd Idons bppropribtf for tif Windows L & F.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases.  The current serialization support is appropriate
- * for short term storage or RMI between applications running the same
- * version of Swing.  A future release of Swing will provide support for
- * long term persistence.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs.  Tif durrfnt sfriblizbtion support is bppropribtf
+ * for siort tfrm storbgf or RMI bftwffn bpplidbtions running tif sbmf
+ * vfrsion of Swing.  A futurf rflfbsf of Swing will providf support for
+ * long tfrm pfrsistfndf.
  *
- * @author David Kloba
- * @author Georges Saab
- * @author Rich Schiavi
+ * @butior Dbvid Klobb
+ * @butior Gforgfs Sbbb
+ * @butior Ridi Sdiibvi
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class WindowsIconFactory implements Serializable
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss WindowsIdonFbdtory implfmfnts Sfriblizbblf
 {
-    private static Icon frame_closeIcon;
-    private static Icon frame_iconifyIcon;
-    private static Icon frame_maxIcon;
-    private static Icon frame_minIcon;
-    private static Icon frame_resizeIcon;
-    private static Icon checkBoxIcon;
-    private static Icon radioButtonIcon;
-    private static Icon checkBoxMenuItemIcon;
-    private static Icon radioButtonMenuItemIcon;
-    private static Icon menuItemCheckIcon;
-    private static Icon menuItemArrowIcon;
-    private static Icon menuArrowIcon;
-    private static VistaMenuItemCheckIconFactory menuItemCheckIconFactory;
+    privbtf stbtid Idon frbmf_dlosfIdon;
+    privbtf stbtid Idon frbmf_idonifyIdon;
+    privbtf stbtid Idon frbmf_mbxIdon;
+    privbtf stbtid Idon frbmf_minIdon;
+    privbtf stbtid Idon frbmf_rfsizfIdon;
+    privbtf stbtid Idon difdkBoxIdon;
+    privbtf stbtid Idon rbdioButtonIdon;
+    privbtf stbtid Idon difdkBoxMfnuItfmIdon;
+    privbtf stbtid Idon rbdioButtonMfnuItfmIdon;
+    privbtf stbtid Idon mfnuItfmCifdkIdon;
+    privbtf stbtid Idon mfnuItfmArrowIdon;
+    privbtf stbtid Idon mfnuArrowIdon;
+    privbtf stbtid VistbMfnuItfmCifdkIdonFbdtory mfnuItfmCifdkIdonFbdtory;
 
-    public static Icon getMenuItemCheckIcon() {
-        if (menuItemCheckIcon == null) {
-            menuItemCheckIcon = new MenuItemCheckIcon();
+    publid stbtid Idon gftMfnuItfmCifdkIdon() {
+        if (mfnuItfmCifdkIdon == null) {
+            mfnuItfmCifdkIdon = nfw MfnuItfmCifdkIdon();
         }
-        return menuItemCheckIcon;
+        rfturn mfnuItfmCifdkIdon;
     }
 
-    public static Icon getMenuItemArrowIcon() {
-        if (menuItemArrowIcon == null) {
-            menuItemArrowIcon = new MenuItemArrowIcon();
+    publid stbtid Idon gftMfnuItfmArrowIdon() {
+        if (mfnuItfmArrowIdon == null) {
+            mfnuItfmArrowIdon = nfw MfnuItfmArrowIdon();
         }
-        return menuItemArrowIcon;
+        rfturn mfnuItfmArrowIdon;
     }
 
-    public static Icon getMenuArrowIcon() {
-        if (menuArrowIcon == null) {
-            menuArrowIcon = new MenuArrowIcon();
+    publid stbtid Idon gftMfnuArrowIdon() {
+        if (mfnuArrowIdon == null) {
+            mfnuArrowIdon = nfw MfnuArrowIdon();
         }
-        return menuArrowIcon;
+        rfturn mfnuArrowIdon;
     }
 
-    public static Icon getCheckBoxIcon() {
-        if (checkBoxIcon == null) {
-            checkBoxIcon = new CheckBoxIcon();
+    publid stbtid Idon gftCifdkBoxIdon() {
+        if (difdkBoxIdon == null) {
+            difdkBoxIdon = nfw CifdkBoxIdon();
         }
-        return checkBoxIcon;
+        rfturn difdkBoxIdon;
     }
 
-    public static Icon getRadioButtonIcon() {
-        if (radioButtonIcon == null) {
-            radioButtonIcon = new RadioButtonIcon();
+    publid stbtid Idon gftRbdioButtonIdon() {
+        if (rbdioButtonIdon == null) {
+            rbdioButtonIdon = nfw RbdioButtonIdon();
         }
-        return radioButtonIcon;
+        rfturn rbdioButtonIdon;
     }
 
-    public static Icon getCheckBoxMenuItemIcon() {
-        if (checkBoxMenuItemIcon == null) {
-            checkBoxMenuItemIcon = new CheckBoxMenuItemIcon();
+    publid stbtid Idon gftCifdkBoxMfnuItfmIdon() {
+        if (difdkBoxMfnuItfmIdon == null) {
+            difdkBoxMfnuItfmIdon = nfw CifdkBoxMfnuItfmIdon();
         }
-        return checkBoxMenuItemIcon;
+        rfturn difdkBoxMfnuItfmIdon;
     }
 
-    public static Icon getRadioButtonMenuItemIcon() {
-        if (radioButtonMenuItemIcon == null) {
-            radioButtonMenuItemIcon = new RadioButtonMenuItemIcon();
+    publid stbtid Idon gftRbdioButtonMfnuItfmIdon() {
+        if (rbdioButtonMfnuItfmIdon == null) {
+            rbdioButtonMfnuItfmIdon = nfw RbdioButtonMfnuItfmIdon();
         }
-        return radioButtonMenuItemIcon;
+        rfturn rbdioButtonMfnuItfmIdon;
     }
 
-    static
-    synchronized VistaMenuItemCheckIconFactory getMenuItemCheckIconFactory() {
-        if (menuItemCheckIconFactory == null) {
-            menuItemCheckIconFactory =
-                new VistaMenuItemCheckIconFactory();
+    stbtid
+    syndironizfd VistbMfnuItfmCifdkIdonFbdtory gftMfnuItfmCifdkIdonFbdtory() {
+        if (mfnuItfmCifdkIdonFbdtory == null) {
+            mfnuItfmCifdkIdonFbdtory =
+                nfw VistbMfnuItfmCifdkIdonFbdtory();
         }
-        return menuItemCheckIconFactory;
+        rfturn mfnuItfmCifdkIdonFbdtory;
     }
 
-    public static Icon createFrameCloseIcon() {
-        if (frame_closeIcon == null) {
-            frame_closeIcon = new FrameButtonIcon(Part.WP_CLOSEBUTTON);
+    publid stbtid Idon drfbtfFrbmfClosfIdon() {
+        if (frbmf_dlosfIdon == null) {
+            frbmf_dlosfIdon = nfw FrbmfButtonIdon(Pbrt.WP_CLOSEBUTTON);
         }
-        return frame_closeIcon;
+        rfturn frbmf_dlosfIdon;
     }
 
-    public static Icon createFrameIconifyIcon() {
-        if (frame_iconifyIcon == null) {
-            frame_iconifyIcon = new FrameButtonIcon(Part.WP_MINBUTTON);
+    publid stbtid Idon drfbtfFrbmfIdonifyIdon() {
+        if (frbmf_idonifyIdon == null) {
+            frbmf_idonifyIdon = nfw FrbmfButtonIdon(Pbrt.WP_MINBUTTON);
         }
-        return frame_iconifyIcon;
+        rfturn frbmf_idonifyIdon;
     }
 
-    public static Icon createFrameMaximizeIcon() {
-        if (frame_maxIcon == null) {
-            frame_maxIcon = new FrameButtonIcon(Part.WP_MAXBUTTON);
+    publid stbtid Idon drfbtfFrbmfMbximizfIdon() {
+        if (frbmf_mbxIdon == null) {
+            frbmf_mbxIdon = nfw FrbmfButtonIdon(Pbrt.WP_MAXBUTTON);
         }
-        return frame_maxIcon;
+        rfturn frbmf_mbxIdon;
     }
 
-    public static Icon createFrameMinimizeIcon() {
-        if (frame_minIcon == null) {
-            frame_minIcon = new FrameButtonIcon(Part.WP_RESTOREBUTTON);
+    publid stbtid Idon drfbtfFrbmfMinimizfIdon() {
+        if (frbmf_minIdon == null) {
+            frbmf_minIdon = nfw FrbmfButtonIdon(Pbrt.WP_RESTOREBUTTON);
         }
-        return frame_minIcon;
+        rfturn frbmf_minIdon;
     }
 
-    public static Icon createFrameResizeIcon() {
-        if(frame_resizeIcon == null)
-            frame_resizeIcon = new ResizeIcon();
-        return frame_resizeIcon;
+    publid stbtid Idon drfbtfFrbmfRfsizfIdon() {
+        if(frbmf_rfsizfIdon == null)
+            frbmf_rfsizfIdon = nfw RfsizfIdon();
+        rfturn frbmf_rfsizfIdon;
     }
 
 
-    @SuppressWarnings("serial") // Same-version serialization only
-    private static class FrameButtonIcon implements Icon, Serializable {
-        private Part part;
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    privbtf stbtid dlbss FrbmfButtonIdon implfmfnts Idon, Sfriblizbblf {
+        privbtf Pbrt pbrt;
 
-        private FrameButtonIcon(Part part) {
-            this.part = part;
+        privbtf FrbmfButtonIdon(Pbrt pbrt) {
+            tiis.pbrt = pbrt;
         }
 
-        public void paintIcon(Component c, Graphics g, int x0, int y0) {
-            int width = getIconWidth();
-            int height = getIconHeight();
+        publid void pbintIdon(Componfnt d, Grbpiids g, int x0, int y0) {
+            int widti = gftIdonWidti();
+            int ifigit = gftIdonHfigit();
 
-            XPStyle xp = XPStyle.getXP();
+            XPStylf xp = XPStylf.gftXP();
             if (xp != null) {
-                Skin skin = xp.getSkin(c, part);
-                AbstractButton b = (AbstractButton)c;
-                ButtonModel model = b.getModel();
+                Skin skin = xp.gftSkin(d, pbrt);
+                AbstrbdtButton b = (AbstrbdtButton)d;
+                ButtonModfl modfl = b.gftModfl();
 
-                // Find out if frame is inactive
-                JInternalFrame jif = (JInternalFrame)SwingUtilities.
-                                        getAncestorOfClass(JInternalFrame.class, b);
-                boolean jifSelected = (jif != null && jif.isSelected());
+                // Find out if frbmf is inbdtivf
+                JIntfrnblFrbmf jif = (JIntfrnblFrbmf)SwingUtilitifs.
+                                        gftAndfstorOfClbss(JIntfrnblFrbmf.dlbss, b);
+                boolfbn jifSflfdtfd = (jif != null && jif.isSflfdtfd());
 
-                State state;
-                if (jifSelected) {
-                    if (!model.isEnabled()) {
-                        state = State.DISABLED;
-                    } else if (model.isArmed() && model.isPressed()) {
-                        state = State.PUSHED;
-                    } else if (model.isRollover()) {
-                        state = State.HOT;
-                    } else {
-                        state = State.NORMAL;
+                Stbtf stbtf;
+                if (jifSflfdtfd) {
+                    if (!modfl.isEnbblfd()) {
+                        stbtf = Stbtf.DISABLED;
+                    } flsf if (modfl.isArmfd() && modfl.isPrfssfd()) {
+                        stbtf = Stbtf.PUSHED;
+                    } flsf if (modfl.isRollovfr()) {
+                        stbtf = Stbtf.HOT;
+                    } flsf {
+                        stbtf = Stbtf.NORMAL;
                     }
-                } else {
-                    if (!model.isEnabled()) {
-                        state = State.INACTIVEDISABLED;
-                    } else if (model.isArmed() && model.isPressed()) {
-                        state = State.INACTIVEPUSHED;
-                    } else if (model.isRollover()) {
-                        state = State.INACTIVEHOT;
-                    } else {
-                        state = State.INACTIVENORMAL;
+                } flsf {
+                    if (!modfl.isEnbblfd()) {
+                        stbtf = Stbtf.INACTIVEDISABLED;
+                    } flsf if (modfl.isArmfd() && modfl.isPrfssfd()) {
+                        stbtf = Stbtf.INACTIVEPUSHED;
+                    } flsf if (modfl.isRollovfr()) {
+                        stbtf = Stbtf.INACTIVEHOT;
+                    } flsf {
+                        stbtf = Stbtf.INACTIVENORMAL;
                     }
                 }
-                skin.paintSkin(g, 0, 0, width, height, state);
-            } else {
-                g.setColor(Color.black);
-                int x = width / 12 + 2;
-                int y = height / 5;
-                int h = height - y * 2 - 1;
-                int w = width * 3/4 -3;
-                int thickness2 = Math.max(height / 8, 2);
-                int thickness  = Math.max(width / 15, 1);
-                if (part == Part.WP_CLOSEBUTTON) {
-                    int lineWidth;
-                    if      (width > 47) lineWidth = 6;
-                    else if (width > 37) lineWidth = 5;
-                    else if (width > 26) lineWidth = 4;
-                    else if (width > 16) lineWidth = 3;
-                    else if (width > 12) lineWidth = 2;
-                    else                 lineWidth = 1;
-                    y = height / 12 + 2;
-                    if (lineWidth == 1) {
+                skin.pbintSkin(g, 0, 0, widti, ifigit, stbtf);
+            } flsf {
+                g.sftColor(Color.blbdk);
+                int x = widti / 12 + 2;
+                int y = ifigit / 5;
+                int i = ifigit - y * 2 - 1;
+                int w = widti * 3/4 -3;
+                int tiidknfss2 = Mbti.mbx(ifigit / 8, 2);
+                int tiidknfss  = Mbti.mbx(widti / 15, 1);
+                if (pbrt == Pbrt.WP_CLOSEBUTTON) {
+                    int linfWidti;
+                    if      (widti > 47) linfWidti = 6;
+                    flsf if (widti > 37) linfWidti = 5;
+                    flsf if (widti > 26) linfWidti = 4;
+                    flsf if (widti > 16) linfWidti = 3;
+                    flsf if (widti > 12) linfWidti = 2;
+                    flsf                 linfWidti = 1;
+                    y = ifigit / 12 + 2;
+                    if (linfWidti == 1) {
                         if (w % 2 == 1) { x++; w++; }
-                        g.drawLine(x,     y, x+w-2, y+w-2);
-                        g.drawLine(x+w-2, y, x,     y+w-2);
-                    } else if (lineWidth == 2) {
+                        g.drbwLinf(x,     y, x+w-2, y+w-2);
+                        g.drbwLinf(x+w-2, y, x,     y+w-2);
+                    } flsf if (linfWidti == 2) {
                         if (w > 6) { x++; w--; }
-                        g.drawLine(x,     y, x+w-2, y+w-2);
-                        g.drawLine(x+w-2, y, x,     y+w-2);
-                        g.drawLine(x+1,   y, x+w-1, y+w-2);
-                        g.drawLine(x+w-1, y, x+1,   y+w-2);
-                    } else {
+                        g.drbwLinf(x,     y, x+w-2, y+w-2);
+                        g.drbwLinf(x+w-2, y, x,     y+w-2);
+                        g.drbwLinf(x+1,   y, x+w-1, y+w-2);
+                        g.drbwLinf(x+w-1, y, x+1,   y+w-2);
+                    } flsf {
                         x += 2; y++; w -= 2;
-                        g.drawLine(x,     y,   x+w-1, y+w-1);
-                        g.drawLine(x+w-1, y,   x,     y+w-1);
-                        g.drawLine(x+1,   y,   x+w-1, y+w-2);
-                        g.drawLine(x+w-2, y,   x,     y+w-2);
-                        g.drawLine(x,     y+1, x+w-2, y+w-1);
-                        g.drawLine(x+w-1, y+1, x+1,   y+w-1);
-                        for (int i = 4; i <= lineWidth; i++) {
-                            g.drawLine(x+i-2,   y,     x+w-1,   y+w-i+1);
-                            g.drawLine(x,       y+i-2, x+w-i+1, y+w-1);
-                            g.drawLine(x+w-i+1, y,     x,       y+w-i+1);
-                            g.drawLine(x+w-1,   y+i-2, x+i-2,   y+w-1);
+                        g.drbwLinf(x,     y,   x+w-1, y+w-1);
+                        g.drbwLinf(x+w-1, y,   x,     y+w-1);
+                        g.drbwLinf(x+1,   y,   x+w-1, y+w-2);
+                        g.drbwLinf(x+w-2, y,   x,     y+w-2);
+                        g.drbwLinf(x,     y+1, x+w-2, y+w-1);
+                        g.drbwLinf(x+w-1, y+1, x+1,   y+w-1);
+                        for (int i = 4; i <= linfWidti; i++) {
+                            g.drbwLinf(x+i-2,   y,     x+w-1,   y+w-i+1);
+                            g.drbwLinf(x,       y+i-2, x+w-i+1, y+w-1);
+                            g.drbwLinf(x+w-i+1, y,     x,       y+w-i+1);
+                            g.drbwLinf(x+w-1,   y+i-2, x+i-2,   y+w-1);
                         }
                     }
-                } else if (part == Part.WP_MINBUTTON) {
-                    g.fillRect(x, y+h-thickness2, w-w/3, thickness2);
-                } else if (part == Part.WP_MAXBUTTON) {
-                    g.fillRect(x, y, w, thickness2);
-                    g.fillRect(x, y, thickness, h);
-                    g.fillRect(x+w-thickness, y, thickness, h);
-                    g.fillRect(x, y+h-thickness, w, thickness);
-                } else if (part == Part.WP_RESTOREBUTTON) {
-                    g.fillRect(x+w/3, y, w-w/3, thickness2);
-                    g.fillRect(x+w/3, y, thickness, h/3);
-                    g.fillRect(x+w-thickness, y, thickness, h-h/3);
-                    g.fillRect(x+w-w/3, y+h-h/3-thickness, w/3, thickness);
+                } flsf if (pbrt == Pbrt.WP_MINBUTTON) {
+                    g.fillRfdt(x, y+i-tiidknfss2, w-w/3, tiidknfss2);
+                } flsf if (pbrt == Pbrt.WP_MAXBUTTON) {
+                    g.fillRfdt(x, y, w, tiidknfss2);
+                    g.fillRfdt(x, y, tiidknfss, i);
+                    g.fillRfdt(x+w-tiidknfss, y, tiidknfss, i);
+                    g.fillRfdt(x, y+i-tiidknfss, w, tiidknfss);
+                } flsf if (pbrt == Pbrt.WP_RESTOREBUTTON) {
+                    g.fillRfdt(x+w/3, y, w-w/3, tiidknfss2);
+                    g.fillRfdt(x+w/3, y, tiidknfss, i/3);
+                    g.fillRfdt(x+w-tiidknfss, y, tiidknfss, i-i/3);
+                    g.fillRfdt(x+w-w/3, y+i-i/3-tiidknfss, w/3, tiidknfss);
 
-                    g.fillRect(x, y+h/3, w-w/3, thickness2);
-                    g.fillRect(x, y+h/3, thickness, h-h/3);
-                    g.fillRect(x+w-w/3-thickness, y+h/3, thickness, h-h/3);
-                    g.fillRect(x, y+h-thickness, w-w/3, thickness);
+                    g.fillRfdt(x, y+i/3, w-w/3, tiidknfss2);
+                    g.fillRfdt(x, y+i/3, tiidknfss, i-i/3);
+                    g.fillRfdt(x+w-w/3-tiidknfss, y+i/3, tiidknfss, i-i/3);
+                    g.fillRfdt(x, y+i-tiidknfss, w-w/3, tiidknfss);
                 }
             }
         }
 
-        public int getIconWidth() {
-            int width;
-            if (XPStyle.getXP() != null) {
-                // Fix for XP bug where sometimes these sizes aren't updated properly
-                // Assume for now that height is correct and derive width using the
-                // ratio from the uxtheme part
-                width = UIManager.getInt("InternalFrame.titleButtonHeight") -2;
-                Dimension d = XPStyle.getPartSize(Part.WP_CLOSEBUTTON, State.NORMAL);
-                if (d != null && d.width != 0 && d.height != 0) {
-                    width = (int) ((float) width * d.width / d.height);
+        publid int gftIdonWidti() {
+            int widti;
+            if (XPStylf.gftXP() != null) {
+                // Fix for XP bug wifrf somftimfs tifsf sizfs brfn't updbtfd propfrly
+                // Assumf for now tibt ifigit is dorrfdt bnd dfrivf widti using tif
+                // rbtio from tif uxtifmf pbrt
+                widti = UIMbnbgfr.gftInt("IntfrnblFrbmf.titlfButtonHfigit") -2;
+                Dimfnsion d = XPStylf.gftPbrtSizf(Pbrt.WP_CLOSEBUTTON, Stbtf.NORMAL);
+                if (d != null && d.widti != 0 && d.ifigit != 0) {
+                    widti = (int) ((flobt) widti * d.widti / d.ifigit);
                 }
-            } else {
-                width = UIManager.getInt("InternalFrame.titleButtonWidth") -2;
+            } flsf {
+                widti = UIMbnbgfr.gftInt("IntfrnblFrbmf.titlfButtonWidti") -2;
             }
-            if (XPStyle.getXP() != null) {
-                width -= 2;
+            if (XPStylf.gftXP() != null) {
+                widti -= 2;
             }
-            return width;
+            rfturn widti;
         }
 
-        public int getIconHeight() {
-            int height = UIManager.getInt("InternalFrame.titleButtonHeight")-4;
-            return height;
+        publid int gftIdonHfigit() {
+            int ifigit = UIMbnbgfr.gftInt("IntfrnblFrbmf.titlfButtonHfigit")-4;
+            rfturn ifigit;
         }
     }
 
 
 
-        @SuppressWarnings("serial") // Same-version serialization only
-        private static class ResizeIcon implements Icon, Serializable {
-            public void paintIcon(Component c, Graphics g, int x, int y) {
-                g.setColor(UIManager.getColor("InternalFrame.resizeIconHighlight"));
-                g.drawLine(0, 11, 11, 0);
-                g.drawLine(4, 11, 11, 4);
-                g.drawLine(8, 11, 11, 8);
+        @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+        privbtf stbtid dlbss RfsizfIdon implfmfnts Idon, Sfriblizbblf {
+            publid void pbintIdon(Componfnt d, Grbpiids g, int x, int y) {
+                g.sftColor(UIMbnbgfr.gftColor("IntfrnblFrbmf.rfsizfIdonHigiligit"));
+                g.drbwLinf(0, 11, 11, 0);
+                g.drbwLinf(4, 11, 11, 4);
+                g.drbwLinf(8, 11, 11, 8);
 
-                g.setColor(UIManager.getColor("InternalFrame.resizeIconShadow"));
-                g.drawLine(1, 11, 11, 1);
-                g.drawLine(2, 11, 11, 2);
-                g.drawLine(5, 11, 11, 5);
-                g.drawLine(6, 11, 11, 6);
-                g.drawLine(9, 11, 11, 9);
-                g.drawLine(10, 11, 11, 10);
+                g.sftColor(UIMbnbgfr.gftColor("IntfrnblFrbmf.rfsizfIdonSibdow"));
+                g.drbwLinf(1, 11, 11, 1);
+                g.drbwLinf(2, 11, 11, 2);
+                g.drbwLinf(5, 11, 11, 5);
+                g.drbwLinf(6, 11, 11, 6);
+                g.drbwLinf(9, 11, 11, 9);
+                g.drbwLinf(10, 11, 11, 10);
             }
-            public int getIconWidth() { return 13; }
-            public int getIconHeight() { return 13; }
+            publid int gftIdonWidti() { rfturn 13; }
+            publid int gftIdonHfigit() { rfturn 13; }
         };
 
-    @SuppressWarnings("serial") // Same-version serialization only
-    private static class CheckBoxIcon implements Icon, Serializable
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    privbtf stbtid dlbss CifdkBoxIdon implfmfnts Idon, Sfriblizbblf
     {
-        final static int csize = 13;
-        public void paintIcon(Component c, Graphics g, int x, int y) {
-            JCheckBox cb = (JCheckBox) c;
-            ButtonModel model = cb.getModel();
-            XPStyle xp = XPStyle.getXP();
+        finbl stbtid int dsizf = 13;
+        publid void pbintIdon(Componfnt d, Grbpiids g, int x, int y) {
+            JCifdkBox db = (JCifdkBox) d;
+            ButtonModfl modfl = db.gftModfl();
+            XPStylf xp = XPStylf.gftXP();
 
             if (xp != null) {
-                State state;
-                if (model.isSelected()) {
-                    state = State.CHECKEDNORMAL;
-                    if (!model.isEnabled()) {
-                        state = State.CHECKEDDISABLED;
-                    } else if (model.isPressed() && model.isArmed()) {
-                        state = State.CHECKEDPRESSED;
-                    } else if (model.isRollover()) {
-                        state = State.CHECKEDHOT;
+                Stbtf stbtf;
+                if (modfl.isSflfdtfd()) {
+                    stbtf = Stbtf.CHECKEDNORMAL;
+                    if (!modfl.isEnbblfd()) {
+                        stbtf = Stbtf.CHECKEDDISABLED;
+                    } flsf if (modfl.isPrfssfd() && modfl.isArmfd()) {
+                        stbtf = Stbtf.CHECKEDPRESSED;
+                    } flsf if (modfl.isRollovfr()) {
+                        stbtf = Stbtf.CHECKEDHOT;
                     }
-                } else {
-                    state = State.UNCHECKEDNORMAL;
-                    if (!model.isEnabled()) {
-                        state = State.UNCHECKEDDISABLED;
-                    } else if (model.isPressed() && model.isArmed()) {
-                        state = State.UNCHECKEDPRESSED;
-                    } else if (model.isRollover()) {
-                        state = State.UNCHECKEDHOT;
+                } flsf {
+                    stbtf = Stbtf.UNCHECKEDNORMAL;
+                    if (!modfl.isEnbblfd()) {
+                        stbtf = Stbtf.UNCHECKEDDISABLED;
+                    } flsf if (modfl.isPrfssfd() && modfl.isArmfd()) {
+                        stbtf = Stbtf.UNCHECKEDPRESSED;
+                    } flsf if (modfl.isRollovfr()) {
+                        stbtf = Stbtf.UNCHECKEDHOT;
                     }
                 }
-                Part part = Part.BP_CHECKBOX;
-                xp.getSkin(c, part).paintSkin(g, x, y, state);
-            } else {
-                // outer bevel
-                if(!cb.isBorderPaintedFlat()) {
-                    // Outer top/left
-                    g.setColor(UIManager.getColor("CheckBox.shadow"));
-                    g.drawLine(x, y, x+11, y);
-                    g.drawLine(x, y+1, x, y+11);
+                Pbrt pbrt = Pbrt.BP_CHECKBOX;
+                xp.gftSkin(d, pbrt).pbintSkin(g, x, y, stbtf);
+            } flsf {
+                // outfr bfvfl
+                if(!db.isBordfrPbintfdFlbt()) {
+                    // Outfr top/lfft
+                    g.sftColor(UIMbnbgfr.gftColor("CifdkBox.sibdow"));
+                    g.drbwLinf(x, y, x+11, y);
+                    g.drbwLinf(x, y+1, x, y+11);
 
-                    // Outer bottom/right
-                    g.setColor(UIManager.getColor("CheckBox.highlight"));
-                    g.drawLine(x+12, y, x+12, y+12);
-                    g.drawLine(x, y+12, x+11, y+12);
+                    // Outfr bottom/rigit
+                    g.sftColor(UIMbnbgfr.gftColor("CifdkBox.iigiligit"));
+                    g.drbwLinf(x+12, y, x+12, y+12);
+                    g.drbwLinf(x, y+12, x+11, y+12);
 
-                    // Inner top.left
-                    g.setColor(UIManager.getColor("CheckBox.darkShadow"));
-                    g.drawLine(x+1, y+1, x+10, y+1);
-                    g.drawLine(x+1, y+2, x+1, y+10);
+                    // Innfr top.lfft
+                    g.sftColor(UIMbnbgfr.gftColor("CifdkBox.dbrkSibdow"));
+                    g.drbwLinf(x+1, y+1, x+10, y+1);
+                    g.drbwLinf(x+1, y+2, x+1, y+10);
 
-                    // Inner bottom/right
-                    g.setColor(UIManager.getColor("CheckBox.light"));
-                    g.drawLine(x+1, y+11, x+11, y+11);
-                    g.drawLine(x+11, y+1, x+11, y+10);
+                    // Innfr bottom/rigit
+                    g.sftColor(UIMbnbgfr.gftColor("CifdkBox.ligit"));
+                    g.drbwLinf(x+1, y+11, x+11, y+11);
+                    g.drbwLinf(x+11, y+1, x+11, y+10);
 
-                    // inside box
-                    if((model.isPressed() && model.isArmed()) || !model.isEnabled()) {
-                        g.setColor(UIManager.getColor("CheckBox.background"));
-                    } else {
-                        g.setColor(UIManager.getColor("CheckBox.interiorBackground"));
+                    // insidf box
+                    if((modfl.isPrfssfd() && modfl.isArmfd()) || !modfl.isEnbblfd()) {
+                        g.sftColor(UIMbnbgfr.gftColor("CifdkBox.bbdkground"));
+                    } flsf {
+                        g.sftColor(UIMbnbgfr.gftColor("CifdkBox.intfriorBbdkground"));
                     }
-                    g.fillRect(x+2, y+2, csize-4, csize-4);
-                } else {
-                    g.setColor(UIManager.getColor("CheckBox.shadow"));
-                    g.drawRect(x+1, y+1, csize-3, csize-3);
+                    g.fillRfdt(x+2, y+2, dsizf-4, dsizf-4);
+                } flsf {
+                    g.sftColor(UIMbnbgfr.gftColor("CifdkBox.sibdow"));
+                    g.drbwRfdt(x+1, y+1, dsizf-3, dsizf-3);
 
-                    if((model.isPressed() && model.isArmed()) || !model.isEnabled()) {
-                        g.setColor(UIManager.getColor("CheckBox.background"));
-                    } else {
-                        g.setColor(UIManager.getColor("CheckBox.interiorBackground"));
+                    if((modfl.isPrfssfd() && modfl.isArmfd()) || !modfl.isEnbblfd()) {
+                        g.sftColor(UIMbnbgfr.gftColor("CifdkBox.bbdkground"));
+                    } flsf {
+                        g.sftColor(UIMbnbgfr.gftColor("CifdkBox.intfriorBbdkground"));
                     }
-                    g.fillRect(x+2, y+2, csize-4, csize-4);
+                    g.fillRfdt(x+2, y+2, dsizf-4, dsizf-4);
                 }
 
-                if(model.isEnabled()) {
-                    g.setColor(UIManager.getColor("CheckBox.foreground"));
-                } else {
-                    g.setColor(UIManager.getColor("CheckBox.shadow"));
+                if(modfl.isEnbblfd()) {
+                    g.sftColor(UIMbnbgfr.gftColor("CifdkBox.forfground"));
+                } flsf {
+                    g.sftColor(UIMbnbgfr.gftColor("CifdkBox.sibdow"));
                 }
 
-                // paint check
-                if (model.isSelected()) {
-                    g.drawLine(x+9, y+3, x+9, y+3);
-                    g.drawLine(x+8, y+4, x+9, y+4);
-                    g.drawLine(x+7, y+5, x+9, y+5);
-                    g.drawLine(x+6, y+6, x+8, y+6);
-                    g.drawLine(x+3, y+7, x+7, y+7);
-                    g.drawLine(x+4, y+8, x+6, y+8);
-                    g.drawLine(x+5, y+9, x+5, y+9);
-                    g.drawLine(x+3, y+5, x+3, y+5);
-                    g.drawLine(x+3, y+6, x+4, y+6);
+                // pbint difdk
+                if (modfl.isSflfdtfd()) {
+                    g.drbwLinf(x+9, y+3, x+9, y+3);
+                    g.drbwLinf(x+8, y+4, x+9, y+4);
+                    g.drbwLinf(x+7, y+5, x+9, y+5);
+                    g.drbwLinf(x+6, y+6, x+8, y+6);
+                    g.drbwLinf(x+3, y+7, x+7, y+7);
+                    g.drbwLinf(x+4, y+8, x+6, y+8);
+                    g.drbwLinf(x+5, y+9, x+5, y+9);
+                    g.drbwLinf(x+3, y+5, x+3, y+5);
+                    g.drbwLinf(x+3, y+6, x+4, y+6);
                 }
             }
         }
 
-        public int getIconWidth() {
-            XPStyle xp = XPStyle.getXP();
+        publid int gftIdonWidti() {
+            XPStylf xp = XPStylf.gftXP();
             if (xp != null) {
-                return xp.getSkin(null, Part.BP_CHECKBOX).getWidth();
-            } else {
-                return csize;
+                rfturn xp.gftSkin(null, Pbrt.BP_CHECKBOX).gftWidti();
+            } flsf {
+                rfturn dsizf;
             }
         }
 
-        public int getIconHeight() {
-            XPStyle xp = XPStyle.getXP();
+        publid int gftIdonHfigit() {
+            XPStylf xp = XPStylf.gftXP();
             if (xp != null) {
-                return xp.getSkin(null, Part.BP_CHECKBOX).getHeight();
-            } else {
-                return csize;
+                rfturn xp.gftSkin(null, Pbrt.BP_CHECKBOX).gftHfigit();
+            } flsf {
+                rfturn dsizf;
             }
         }
     }
 
-    @SuppressWarnings("serial") // Same-version serialization only
-    private static class RadioButtonIcon implements Icon, UIResource, Serializable
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    privbtf stbtid dlbss RbdioButtonIdon implfmfnts Idon, UIRfsourdf, Sfriblizbblf
     {
-        public void paintIcon(Component c, Graphics g, int x, int y) {
-            AbstractButton b = (AbstractButton) c;
-            ButtonModel model = b.getModel();
-            XPStyle xp = XPStyle.getXP();
+        publid void pbintIdon(Componfnt d, Grbpiids g, int x, int y) {
+            AbstrbdtButton b = (AbstrbdtButton) d;
+            ButtonModfl modfl = b.gftModfl();
+            XPStylf xp = XPStylf.gftXP();
 
             if (xp != null) {
-                Part part = Part.BP_RADIOBUTTON;
-                Skin skin = xp.getSkin(b, part);
-                State state;
-                int index = 0;
-                if (model.isSelected()) {
-                    state = State.CHECKEDNORMAL;
-                    if (!model.isEnabled()) {
-                        state = State.CHECKEDDISABLED;
-                    } else if (model.isPressed() && model.isArmed()) {
-                        state = State.CHECKEDPRESSED;
-                    } else if (model.isRollover()) {
-                        state = State.CHECKEDHOT;
+                Pbrt pbrt = Pbrt.BP_RADIOBUTTON;
+                Skin skin = xp.gftSkin(b, pbrt);
+                Stbtf stbtf;
+                int indfx = 0;
+                if (modfl.isSflfdtfd()) {
+                    stbtf = Stbtf.CHECKEDNORMAL;
+                    if (!modfl.isEnbblfd()) {
+                        stbtf = Stbtf.CHECKEDDISABLED;
+                    } flsf if (modfl.isPrfssfd() && modfl.isArmfd()) {
+                        stbtf = Stbtf.CHECKEDPRESSED;
+                    } flsf if (modfl.isRollovfr()) {
+                        stbtf = Stbtf.CHECKEDHOT;
                     }
-                } else {
-                    state = State.UNCHECKEDNORMAL;
-                    if (!model.isEnabled()) {
-                        state = State.UNCHECKEDDISABLED;
-                    } else if (model.isPressed() && model.isArmed()) {
-                        state = State.UNCHECKEDPRESSED;
-                    } else if (model.isRollover()) {
-                        state = State.UNCHECKEDHOT;
+                } flsf {
+                    stbtf = Stbtf.UNCHECKEDNORMAL;
+                    if (!modfl.isEnbblfd()) {
+                        stbtf = Stbtf.UNCHECKEDDISABLED;
+                    } flsf if (modfl.isPrfssfd() && modfl.isArmfd()) {
+                        stbtf = Stbtf.UNCHECKEDPRESSED;
+                    } flsf if (modfl.isRollovfr()) {
+                        stbtf = Stbtf.UNCHECKEDHOT;
                     }
                 }
-                skin.paintSkin(g, x, y, state);
-            } else {
-                // fill interior
-                if((model.isPressed() && model.isArmed()) || !model.isEnabled()) {
-                    g.setColor(UIManager.getColor("RadioButton.background"));
-                } else {
-                    g.setColor(UIManager.getColor("RadioButton.interiorBackground"));
+                skin.pbintSkin(g, x, y, stbtf);
+            } flsf {
+                // fill intfrior
+                if((modfl.isPrfssfd() && modfl.isArmfd()) || !modfl.isEnbblfd()) {
+                    g.sftColor(UIMbnbgfr.gftColor("RbdioButton.bbdkground"));
+                } flsf {
+                    g.sftColor(UIMbnbgfr.gftColor("RbdioButton.intfriorBbdkground"));
                 }
-                g.fillRect(x+2, y+2, 8, 8);
+                g.fillRfdt(x+2, y+2, 8, 8);
 
 
-                    // outter left arc
-                g.setColor(UIManager.getColor("RadioButton.shadow"));
-                g.drawLine(x+4, y+0, x+7, y+0);
-                g.drawLine(x+2, y+1, x+3, y+1);
-                g.drawLine(x+8, y+1, x+9, y+1);
-                g.drawLine(x+1, y+2, x+1, y+3);
-                g.drawLine(x+0, y+4, x+0, y+7);
-                g.drawLine(x+1, y+8, x+1, y+9);
+                    // outtfr lfft brd
+                g.sftColor(UIMbnbgfr.gftColor("RbdioButton.sibdow"));
+                g.drbwLinf(x+4, y+0, x+7, y+0);
+                g.drbwLinf(x+2, y+1, x+3, y+1);
+                g.drbwLinf(x+8, y+1, x+9, y+1);
+                g.drbwLinf(x+1, y+2, x+1, y+3);
+                g.drbwLinf(x+0, y+4, x+0, y+7);
+                g.drbwLinf(x+1, y+8, x+1, y+9);
 
-                // outter right arc
-                g.setColor(UIManager.getColor("RadioButton.highlight"));
-                g.drawLine(x+2, y+10, x+3, y+10);
-                g.drawLine(x+4, y+11, x+7, y+11);
-                g.drawLine(x+8, y+10, x+9, y+10);
-                g.drawLine(x+10, y+9, x+10, y+8);
-                g.drawLine(x+11, y+7, x+11, y+4);
-                g.drawLine(x+10, y+3, x+10, y+2);
-
-
-                // inner left arc
-                g.setColor(UIManager.getColor("RadioButton.darkShadow"));
-                g.drawLine(x+4, y+1, x+7, y+1);
-                g.drawLine(x+2, y+2, x+3, y+2);
-                g.drawLine(x+8, y+2, x+9, y+2);
-                g.drawLine(x+2, y+3, x+2, y+3);
-                g.drawLine(x+1, y+4, x+1, y+7);
-                g.drawLine(x+2, y+8, x+2, y+8);
+                // outtfr rigit brd
+                g.sftColor(UIMbnbgfr.gftColor("RbdioButton.iigiligit"));
+                g.drbwLinf(x+2, y+10, x+3, y+10);
+                g.drbwLinf(x+4, y+11, x+7, y+11);
+                g.drbwLinf(x+8, y+10, x+9, y+10);
+                g.drbwLinf(x+10, y+9, x+10, y+8);
+                g.drbwLinf(x+11, y+7, x+11, y+4);
+                g.drbwLinf(x+10, y+3, x+10, y+2);
 
 
-                // inner right arc
-                g.setColor(UIManager.getColor("RadioButton.light"));
-                g.drawLine(x+2,  y+9,  x+3,  y+9);
-                g.drawLine(x+4,  y+10, x+7,  y+10);
-                g.drawLine(x+8,  y+9,  x+9,  y+9);
-                g.drawLine(x+9,  y+8,  x+9,  y+8);
-                g.drawLine(x+10, y+7,  x+10, y+4);
-                g.drawLine(x+9,  y+3,  x+9,  y+3);
+                // innfr lfft brd
+                g.sftColor(UIMbnbgfr.gftColor("RbdioButton.dbrkSibdow"));
+                g.drbwLinf(x+4, y+1, x+7, y+1);
+                g.drbwLinf(x+2, y+2, x+3, y+2);
+                g.drbwLinf(x+8, y+2, x+9, y+2);
+                g.drbwLinf(x+2, y+3, x+2, y+3);
+                g.drbwLinf(x+1, y+4, x+1, y+7);
+                g.drbwLinf(x+2, y+8, x+2, y+8);
 
 
-                 // indicate whether selected or not
-                if (model.isSelected()) {
-                    if (model.isEnabled()) {
-                        g.setColor(UIManager.getColor("RadioButton.foreground"));
-                    } else {
-                        g.setColor(UIManager.getColor("RadioButton.shadow"));
+                // innfr rigit brd
+                g.sftColor(UIMbnbgfr.gftColor("RbdioButton.ligit"));
+                g.drbwLinf(x+2,  y+9,  x+3,  y+9);
+                g.drbwLinf(x+4,  y+10, x+7,  y+10);
+                g.drbwLinf(x+8,  y+9,  x+9,  y+9);
+                g.drbwLinf(x+9,  y+8,  x+9,  y+8);
+                g.drbwLinf(x+10, y+7,  x+10, y+4);
+                g.drbwLinf(x+9,  y+3,  x+9,  y+3);
+
+
+                 // indidbtf wiftifr sflfdtfd or not
+                if (modfl.isSflfdtfd()) {
+                    if (modfl.isEnbblfd()) {
+                        g.sftColor(UIMbnbgfr.gftColor("RbdioButton.forfground"));
+                    } flsf {
+                        g.sftColor(UIMbnbgfr.gftColor("RbdioButton.sibdow"));
                     }
-                    g.fillRect(x+4, y+5, 4, 2);
-                    g.fillRect(x+5, y+4, 2, 4);
+                    g.fillRfdt(x+4, y+5, 4, 2);
+                    g.fillRfdt(x+5, y+4, 2, 4);
                 }
             }
         }
 
-        public int getIconWidth() {
-            XPStyle xp = XPStyle.getXP();
+        publid int gftIdonWidti() {
+            XPStylf xp = XPStylf.gftXP();
             if (xp != null) {
-                return xp.getSkin(null, Part.BP_RADIOBUTTON).getWidth();
-            } else {
-                return 13;
+                rfturn xp.gftSkin(null, Pbrt.BP_RADIOBUTTON).gftWidti();
+            } flsf {
+                rfturn 13;
             }
         }
 
-        public int getIconHeight() {
-            XPStyle xp = XPStyle.getXP();
+        publid int gftIdonHfigit() {
+            XPStylf xp = XPStylf.gftXP();
             if (xp != null) {
-                return xp.getSkin(null, Part.BP_RADIOBUTTON).getHeight();
-            } else {
-                return 13;
+                rfturn xp.gftSkin(null, Pbrt.BP_RADIOBUTTON).gftHfigit();
+            } flsf {
+                rfturn 13;
             }
         }
-    } // end class RadioButtonIcon
+    } // fnd dlbss RbdioButtonIdon
 
 
-    @SuppressWarnings("serial") // Same-version serialization only
-    private static class CheckBoxMenuItemIcon implements Icon, UIResource, Serializable
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    privbtf stbtid dlbss CifdkBoxMfnuItfmIdon implfmfnts Idon, UIRfsourdf, Sfriblizbblf
     {
-        public void paintIcon(Component c, Graphics g, int x, int y) {
-            AbstractButton b = (AbstractButton) c;
-            ButtonModel model = b.getModel();
-            boolean isSelected = model.isSelected();
-            if (isSelected) {
-                y = y - getIconHeight() / 2;
-                g.drawLine(x+9, y+3, x+9, y+3);
-                g.drawLine(x+8, y+4, x+9, y+4);
-                g.drawLine(x+7, y+5, x+9, y+5);
-                g.drawLine(x+6, y+6, x+8, y+6);
-                g.drawLine(x+3, y+7, x+7, y+7);
-                g.drawLine(x+4, y+8, x+6, y+8);
-                g.drawLine(x+5, y+9, x+5, y+9);
-                g.drawLine(x+3, y+5, x+3, y+5);
-                g.drawLine(x+3, y+6, x+4, y+6);
+        publid void pbintIdon(Componfnt d, Grbpiids g, int x, int y) {
+            AbstrbdtButton b = (AbstrbdtButton) d;
+            ButtonModfl modfl = b.gftModfl();
+            boolfbn isSflfdtfd = modfl.isSflfdtfd();
+            if (isSflfdtfd) {
+                y = y - gftIdonHfigit() / 2;
+                g.drbwLinf(x+9, y+3, x+9, y+3);
+                g.drbwLinf(x+8, y+4, x+9, y+4);
+                g.drbwLinf(x+7, y+5, x+9, y+5);
+                g.drbwLinf(x+6, y+6, x+8, y+6);
+                g.drbwLinf(x+3, y+7, x+7, y+7);
+                g.drbwLinf(x+4, y+8, x+6, y+8);
+                g.drbwLinf(x+5, y+9, x+5, y+9);
+                g.drbwLinf(x+3, y+5, x+3, y+5);
+                g.drbwLinf(x+3, y+6, x+4, y+6);
             }
         }
-        public int getIconWidth() { return 9; }
-        public int getIconHeight() { return 9; }
+        publid int gftIdonWidti() { rfturn 9; }
+        publid int gftIdonHfigit() { rfturn 9; }
 
-    } // End class CheckBoxMenuItemIcon
+    } // End dlbss CifdkBoxMfnuItfmIdon
 
 
-    @SuppressWarnings("serial") // Same-version serialization only
-    private static class RadioButtonMenuItemIcon implements Icon, UIResource, Serializable
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    privbtf stbtid dlbss RbdioButtonMfnuItfmIdon implfmfnts Idon, UIRfsourdf, Sfriblizbblf
     {
-        public void paintIcon(Component c, Graphics g, int x, int y) {
-            AbstractButton b = (AbstractButton) c;
-            ButtonModel model = b.getModel();
-            if (b.isSelected() == true) {
-               g.fillRoundRect(x+3,y+3, getIconWidth()-6, getIconHeight()-6,
+        publid void pbintIdon(Componfnt d, Grbpiids g, int x, int y) {
+            AbstrbdtButton b = (AbstrbdtButton) d;
+            ButtonModfl modfl = b.gftModfl();
+            if (b.isSflfdtfd() == truf) {
+               g.fillRoundRfdt(x+3,y+3, gftIdonWidti()-6, gftIdonHfigit()-6,
                                4, 4);
             }
         }
-        public int getIconWidth() { return 12; }
-        public int getIconHeight() { return 12; }
+        publid int gftIdonWidti() { rfturn 12; }
+        publid int gftIdonHfigit() { rfturn 12; }
 
-    } // End class RadioButtonMenuItemIcon
+    } // End dlbss RbdioButtonMfnuItfmIdon
 
 
-    @SuppressWarnings("serial") // Same-version serialization only
-    private static class MenuItemCheckIcon implements Icon, UIResource, Serializable{
-        public void paintIcon(Component c, Graphics g, int x, int y) {
-            /* For debugging:
-               Color oldColor = g.getColor();
-            g.setColor(Color.orange);
-            g.fill3DRect(x,y,getIconWidth(), getIconHeight(), true);
-            g.setColor(oldColor);
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    privbtf stbtid dlbss MfnuItfmCifdkIdon implfmfnts Idon, UIRfsourdf, Sfriblizbblf{
+        publid void pbintIdon(Componfnt d, Grbpiids g, int x, int y) {
+            /* For dfbugging:
+               Color oldColor = g.gftColor();
+            g.sftColor(Color.orbngf);
+            g.fill3DRfdt(x,y,gftIdonWidti(), gftIdonHfigit(), truf);
+            g.sftColor(oldColor);
             */
         }
-        public int getIconWidth() { return 9; }
-        public int getIconHeight() { return 9; }
+        publid int gftIdonWidti() { rfturn 9; }
+        publid int gftIdonHfigit() { rfturn 9; }
 
-    } // End class MenuItemCheckIcon
+    } // End dlbss MfnuItfmCifdkIdon
 
-    @SuppressWarnings("serial") // Same-version serialization only
-    private static class MenuItemArrowIcon implements Icon, UIResource, Serializable {
-        public void paintIcon(Component c, Graphics g, int x, int y) {
-            /* For debugging:
-            Color oldColor = g.getColor();
-            g.setColor(Color.green);
-            g.fill3DRect(x,y,getIconWidth(), getIconHeight(), true);
-            g.setColor(oldColor);
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    privbtf stbtid dlbss MfnuItfmArrowIdon implfmfnts Idon, UIRfsourdf, Sfriblizbblf {
+        publid void pbintIdon(Componfnt d, Grbpiids g, int x, int y) {
+            /* For dfbugging:
+            Color oldColor = g.gftColor();
+            g.sftColor(Color.grffn);
+            g.fill3DRfdt(x,y,gftIdonWidti(), gftIdonHfigit(), truf);
+            g.sftColor(oldColor);
             */
         }
-        public int getIconWidth() { return 4; }
-        public int getIconHeight() { return 8; }
+        publid int gftIdonWidti() { rfturn 4; }
+        publid int gftIdonHfigit() { rfturn 8; }
 
-    } // End class MenuItemArrowIcon
+    } // End dlbss MfnuItfmArrowIdon
 
-    @SuppressWarnings("serial") // Same-version serialization only
-    private static class MenuArrowIcon implements Icon, UIResource, Serializable {
-        public void paintIcon(Component c, Graphics g, int x, int y) {
-            XPStyle xp = XPStyle.getXP();
-            if (WindowsMenuItemUI.isVistaPainting(xp)) {
-                State state = State.NORMAL;
-                if (c instanceof JMenuItem) {
-                    state = ((JMenuItem) c).getModel().isEnabled()
-                    ? State.NORMAL : State.DISABLED;
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    privbtf stbtid dlbss MfnuArrowIdon implfmfnts Idon, UIRfsourdf, Sfriblizbblf {
+        publid void pbintIdon(Componfnt d, Grbpiids g, int x, int y) {
+            XPStylf xp = XPStylf.gftXP();
+            if (WindowsMfnuItfmUI.isVistbPbinting(xp)) {
+                Stbtf stbtf = Stbtf.NORMAL;
+                if (d instbndfof JMfnuItfm) {
+                    stbtf = ((JMfnuItfm) d).gftModfl().isEnbblfd()
+                    ? Stbtf.NORMAL : Stbtf.DISABLED;
                 }
-                Skin skin = xp.getSkin(c, Part.MP_POPUPSUBMENU);
-                if (WindowsGraphicsUtils.isLeftToRight(c)) {
-                    skin.paintSkin(g, x, y, state);
-                } else {
-                    Graphics2D g2d = (Graphics2D)g.create();
-                    g2d.translate(x + skin.getWidth(), y);
-                    g2d.scale(-1, 1);
-                    skin.paintSkin(g2d, 0, 0, state);
-                    g2d.dispose();
+                Skin skin = xp.gftSkin(d, Pbrt.MP_POPUPSUBMENU);
+                if (WindowsGrbpiidsUtils.isLfftToRigit(d)) {
+                    skin.pbintSkin(g, x, y, stbtf);
+                } flsf {
+                    Grbpiids2D g2d = (Grbpiids2D)g.drfbtf();
+                    g2d.trbnslbtf(x + skin.gftWidti(), y);
+                    g2d.sdblf(-1, 1);
+                    skin.pbintSkin(g2d, 0, 0, stbtf);
+                    g2d.disposf();
                 }
-            } else {
-                g.translate(x,y);
-                if( WindowsGraphicsUtils.isLeftToRight(c) ) {
-                    g.drawLine( 0, 0, 0, 7 );
-                    g.drawLine( 1, 1, 1, 6 );
-                    g.drawLine( 2, 2, 2, 5 );
-                    g.drawLine( 3, 3, 3, 4 );
-                } else {
-                    g.drawLine( 4, 0, 4, 7 );
-                    g.drawLine( 3, 1, 3, 6 );
-                    g.drawLine( 2, 2, 2, 5 );
-                    g.drawLine( 1, 3, 1, 4 );
+            } flsf {
+                g.trbnslbtf(x,y);
+                if( WindowsGrbpiidsUtils.isLfftToRigit(d) ) {
+                    g.drbwLinf( 0, 0, 0, 7 );
+                    g.drbwLinf( 1, 1, 1, 6 );
+                    g.drbwLinf( 2, 2, 2, 5 );
+                    g.drbwLinf( 3, 3, 3, 4 );
+                } flsf {
+                    g.drbwLinf( 4, 0, 4, 7 );
+                    g.drbwLinf( 3, 1, 3, 6 );
+                    g.drbwLinf( 2, 2, 2, 5 );
+                    g.drbwLinf( 1, 3, 1, 4 );
                 }
-                g.translate(-x,-y);
+                g.trbnslbtf(-x,-y);
             }
         }
-        public int getIconWidth() {
-            XPStyle xp = XPStyle.getXP();
-            if (WindowsMenuItemUI.isVistaPainting(xp)) {
-                Skin skin = xp.getSkin(null, Part.MP_POPUPSUBMENU);
-                return skin.getWidth();
-            } else {
-                return 4;
+        publid int gftIdonWidti() {
+            XPStylf xp = XPStylf.gftXP();
+            if (WindowsMfnuItfmUI.isVistbPbinting(xp)) {
+                Skin skin = xp.gftSkin(null, Pbrt.MP_POPUPSUBMENU);
+                rfturn skin.gftWidti();
+            } flsf {
+                rfturn 4;
             }
         }
-        public int getIconHeight() {
-            XPStyle xp = XPStyle.getXP();
-            if (WindowsMenuItemUI.isVistaPainting(xp)) {
-                Skin skin = xp.getSkin(null, Part.MP_POPUPSUBMENU);
-                return skin.getHeight();
-            } else {
-                return 8;
+        publid int gftIdonHfigit() {
+            XPStylf xp = XPStylf.gftXP();
+            if (WindowsMfnuItfmUI.isVistbPbinting(xp)) {
+                Skin skin = xp.gftSkin(null, Pbrt.MP_POPUPSUBMENU);
+                rfturn skin.gftHfigit();
+            } flsf {
+                rfturn 8;
             }
         }
-    } // End class MenuArrowIcon
+    } // End dlbss MfnuArrowIdon
 
-    static class VistaMenuItemCheckIconFactory
-           implements MenuItemCheckIconFactory {
-        private static final int OFFSET = 3;
+    stbtid dlbss VistbMfnuItfmCifdkIdonFbdtory
+           implfmfnts MfnuItfmCifdkIdonFbdtory {
+        privbtf stbtid finbl int OFFSET = 3;
 
-        public Icon getIcon(JMenuItem component) {
-            return new VistaMenuItemCheckIcon(component);
+        publid Idon gftIdon(JMfnuItfm domponfnt) {
+            rfturn nfw VistbMfnuItfmCifdkIdon(domponfnt);
         }
 
-        public boolean isCompatible(Object icon, String prefix) {
-            return icon instanceof VistaMenuItemCheckIcon
-              && ((VistaMenuItemCheckIcon) icon).type == getType(prefix);
+        publid boolfbn isCompbtiblf(Objfdt idon, String prffix) {
+            rfturn idon instbndfof VistbMfnuItfmCifdkIdon
+              && ((VistbMfnuItfmCifdkIdon) idon).typf == gftTypf(prffix);
         }
 
-        public Icon getIcon(String type) {
-            return new VistaMenuItemCheckIcon(type);
+        publid Idon gftIdon(String typf) {
+            rfturn nfw VistbMfnuItfmCifdkIdon(typf);
         }
 
-        static int getIconWidth() {
-            XPStyle xp = XPStyle.getXP();
-            return ((xp != null) ? xp.getSkin(null, Part.MP_POPUPCHECK).getWidth() : 16)
+        stbtid int gftIdonWidti() {
+            XPStylf xp = XPStylf.gftXP();
+            rfturn ((xp != null) ? xp.gftSkin(null, Pbrt.MP_POPUPCHECK).gftWidti() : 16)
                 + 2 * OFFSET;
         }
 
-        private static Class<? extends JMenuItem> getType(Component c) {
-            Class<? extends JMenuItem> rv = null;
-            if (c instanceof JCheckBoxMenuItem) {
-                rv = JCheckBoxMenuItem.class;
-            } else if (c instanceof JRadioButtonMenuItem) {
-                rv = JRadioButtonMenuItem.class;
-            } else if (c instanceof JMenu) {
-                rv = JMenu.class;
-            } else if (c instanceof JMenuItem) {
-                rv = JMenuItem.class;
+        privbtf stbtid Clbss<? fxtfnds JMfnuItfm> gftTypf(Componfnt d) {
+            Clbss<? fxtfnds JMfnuItfm> rv = null;
+            if (d instbndfof JCifdkBoxMfnuItfm) {
+                rv = JCifdkBoxMfnuItfm.dlbss;
+            } flsf if (d instbndfof JRbdioButtonMfnuItfm) {
+                rv = JRbdioButtonMfnuItfm.dlbss;
+            } flsf if (d instbndfof JMfnu) {
+                rv = JMfnu.dlbss;
+            } flsf if (d instbndfof JMfnuItfm) {
+                rv = JMfnuItfm.dlbss;
             }
-            return rv;
+            rfturn rv;
         }
 
-        private static Class<? extends JMenuItem> getType(String type) {
-            Class<? extends JMenuItem> rv = null;
-            if (type == "CheckBoxMenuItem") {
-                rv = JCheckBoxMenuItem.class;
-            } else if (type == "RadioButtonMenuItem") {
-                rv = JRadioButtonMenuItem.class;
-            } else if (type == "Menu") {
-                rv = JMenu.class;
-            } else if (type == "MenuItem") {
-                rv = JMenuItem.class;
-            } else {
-                // this should never happen
-                rv = JMenuItem.class;
+        privbtf stbtid Clbss<? fxtfnds JMfnuItfm> gftTypf(String typf) {
+            Clbss<? fxtfnds JMfnuItfm> rv = null;
+            if (typf == "CifdkBoxMfnuItfm") {
+                rv = JCifdkBoxMfnuItfm.dlbss;
+            } flsf if (typf == "RbdioButtonMfnuItfm") {
+                rv = JRbdioButtonMfnuItfm.dlbss;
+            } flsf if (typf == "Mfnu") {
+                rv = JMfnu.dlbss;
+            } flsf if (typf == "MfnuItfm") {
+                rv = JMfnuItfm.dlbss;
+            } flsf {
+                // tiis siould nfvfr ibppfn
+                rv = JMfnuItfm.dlbss;
             }
-            return rv;
+            rfturn rv;
         }
 
         /**
-         * CheckIcon for JMenuItem, JMenu, JCheckBoxMenuItem and
-         * JRadioButtonMenuItem.
-         * Note: to be used on Vista only.
+         * CifdkIdon for JMfnuItfm, JMfnu, JCifdkBoxMfnuItfm bnd
+         * JRbdioButtonMfnuItfm.
+         * Notf: to bf usfd on Vistb only.
          */
-        @SuppressWarnings("serial") // Same-version serialization only
-        private static class VistaMenuItemCheckIcon
-              implements Icon, UIResource, Serializable {
+        @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+        privbtf stbtid dlbss VistbMfnuItfmCifdkIdon
+              implfmfnts Idon, UIRfsourdf, Sfriblizbblf {
 
-            private final JMenuItem menuItem;
-            private final Class<? extends JMenuItem> type;
+            privbtf finbl JMfnuItfm mfnuItfm;
+            privbtf finbl Clbss<? fxtfnds JMfnuItfm> typf;
 
-            VistaMenuItemCheckIcon(JMenuItem menuItem) {
-                this.type = getType(menuItem);
-                this.menuItem = menuItem;
+            VistbMfnuItfmCifdkIdon(JMfnuItfm mfnuItfm) {
+                tiis.typf = gftTypf(mfnuItfm);
+                tiis.mfnuItfm = mfnuItfm;
             }
-            VistaMenuItemCheckIcon(String type) {
-                this.type = getType(type);
-                this.menuItem = null;
+            VistbMfnuItfmCifdkIdon(String typf) {
+                tiis.typf = gftTypf(typf);
+                tiis.mfnuItfm = null;
             }
 
-            public int getIconHeight() {
-                Icon lafIcon = getLaFIcon();
-                if (lafIcon != null) {
-                    return lafIcon.getIconHeight();
+            publid int gftIdonHfigit() {
+                Idon lbfIdon = gftLbFIdon();
+                if (lbfIdon != null) {
+                    rfturn lbfIdon.gftIdonHfigit();
                 }
-                Icon icon = getIcon();
-                int height = 0;
-                if (icon != null) {
-                    height = icon.getIconHeight();
-                } else {
-                    XPStyle xp = XPStyle.getXP();
+                Idon idon = gftIdon();
+                int ifigit = 0;
+                if (idon != null) {
+                    ifigit = idon.gftIdonHfigit();
+                } flsf {
+                    XPStylf xp = XPStylf.gftXP();
                     if (xp != null) {
-                        Skin skin = xp.getSkin(null, Part.MP_POPUPCHECK);
-                        height = skin.getHeight();
-                    } else {
-                        height = 16;
+                        Skin skin = xp.gftSkin(null, Pbrt.MP_POPUPCHECK);
+                        ifigit = skin.gftHfigit();
+                    } flsf {
+                        ifigit = 16;
                     }
                 }
-                height +=  2 * OFFSET;
-                return height;
+                ifigit +=  2 * OFFSET;
+                rfturn ifigit;
             }
 
-            public int getIconWidth() {
-                Icon lafIcon = getLaFIcon();
-                if (lafIcon != null) {
-                    return lafIcon.getIconWidth();
+            publid int gftIdonWidti() {
+                Idon lbfIdon = gftLbFIdon();
+                if (lbfIdon != null) {
+                    rfturn lbfIdon.gftIdonWidti();
                 }
-                Icon icon = getIcon();
-                int width = 0;
-                if (icon != null) {
-                    width = icon.getIconWidth() + 2 * OFFSET;
-                } else {
-                    width = VistaMenuItemCheckIconFactory.getIconWidth();
+                Idon idon = gftIdon();
+                int widti = 0;
+                if (idon != null) {
+                    widti = idon.gftIdonWidti() + 2 * OFFSET;
+                } flsf {
+                    widti = VistbMfnuItfmCifdkIdonFbdtory.gftIdonWidti();
                 }
-                return width;
+                rfturn widti;
             }
 
-            public void paintIcon(Component c, Graphics g, int x, int y) {
-                Icon lafIcon = getLaFIcon();
-                if (lafIcon != null) {
-                    lafIcon.paintIcon(c, g, x, y);
-                    return;
+            publid void pbintIdon(Componfnt d, Grbpiids g, int x, int y) {
+                Idon lbfIdon = gftLbFIdon();
+                if (lbfIdon != null) {
+                    lbfIdon.pbintIdon(d, g, x, y);
+                    rfturn;
                 }
-                assert menuItem == null || c == menuItem;
-                Icon icon = getIcon();
-                if (type == JCheckBoxMenuItem.class
-                      || type == JRadioButtonMenuItem.class) {
-                    AbstractButton b = (AbstractButton) c;
-                    if (b.isSelected()) {
-                        Part backgroundPart = Part.MP_POPUPCHECKBACKGROUND;
-                        Part part = Part.MP_POPUPCHECK;
-                        State backgroundState;
-                        State state;
-                        if (isEnabled(c, null)) {
-                            backgroundState =
-                                (icon != null) ? State.BITMAP : State.NORMAL;
-                            state = (type == JRadioButtonMenuItem.class)
-                              ? State.BULLETNORMAL
-                              : State.CHECKMARKNORMAL;
-                        } else {
-                            backgroundState = State.DISABLEDPUSHED;
-                            state =
-                                (type == JRadioButtonMenuItem.class)
-                                  ? State.BULLETDISABLED
-                                  : State.CHECKMARKDISABLED;
+                bssfrt mfnuItfm == null || d == mfnuItfm;
+                Idon idon = gftIdon();
+                if (typf == JCifdkBoxMfnuItfm.dlbss
+                      || typf == JRbdioButtonMfnuItfm.dlbss) {
+                    AbstrbdtButton b = (AbstrbdtButton) d;
+                    if (b.isSflfdtfd()) {
+                        Pbrt bbdkgroundPbrt = Pbrt.MP_POPUPCHECKBACKGROUND;
+                        Pbrt pbrt = Pbrt.MP_POPUPCHECK;
+                        Stbtf bbdkgroundStbtf;
+                        Stbtf stbtf;
+                        if (isEnbblfd(d, null)) {
+                            bbdkgroundStbtf =
+                                (idon != null) ? Stbtf.BITMAP : Stbtf.NORMAL;
+                            stbtf = (typf == JRbdioButtonMfnuItfm.dlbss)
+                              ? Stbtf.BULLETNORMAL
+                              : Stbtf.CHECKMARKNORMAL;
+                        } flsf {
+                            bbdkgroundStbtf = Stbtf.DISABLEDPUSHED;
+                            stbtf =
+                                (typf == JRbdioButtonMfnuItfm.dlbss)
+                                  ? Stbtf.BULLETDISABLED
+                                  : Stbtf.CHECKMARKDISABLED;
                         }
-                        XPStyle xp = XPStyle.getXP();
+                        XPStylf xp = XPStylf.gftXP();
                         if (xp != null) {
                             Skin skin;
-                            skin =  xp.getSkin(c, backgroundPart);
-                            skin.paintSkin(g, x, y,
-                                getIconWidth(), getIconHeight(), backgroundState);
-                            if (icon == null) {
-                                skin = xp.getSkin(c, part);
-                                skin.paintSkin(g, x + OFFSET, y + OFFSET, state);
+                            skin =  xp.gftSkin(d, bbdkgroundPbrt);
+                            skin.pbintSkin(g, x, y,
+                                gftIdonWidti(), gftIdonHfigit(), bbdkgroundStbtf);
+                            if (idon == null) {
+                                skin = xp.gftSkin(d, pbrt);
+                                skin.pbintSkin(g, x + OFFSET, y + OFFSET, stbtf);
                             }
                         }
                     }
                 }
-                if (icon != null) {
-                    icon.paintIcon(c, g, x + OFFSET, y + OFFSET);
+                if (idon != null) {
+                    idon.pbintIdon(d, g, x + OFFSET, y + OFFSET);
                 }
             }
-            private static WindowsMenuItemUIAccessor getAccessor(
-                    JMenuItem menuItem) {
-                WindowsMenuItemUIAccessor rv = null;
-                ButtonUI uiObject = (menuItem != null) ? menuItem.getUI()
+            privbtf stbtid WindowsMfnuItfmUIAddfssor gftAddfssor(
+                    JMfnuItfm mfnuItfm) {
+                WindowsMfnuItfmUIAddfssor rv = null;
+                ButtonUI uiObjfdt = (mfnuItfm != null) ? mfnuItfm.gftUI()
                         : null;
-                if (uiObject instanceof WindowsMenuItemUI) {
-                    rv = ((WindowsMenuItemUI) uiObject).accessor;
-                } else if (uiObject instanceof WindowsMenuUI) {
-                    rv = ((WindowsMenuUI) uiObject).accessor;
-                } else if (uiObject instanceof WindowsCheckBoxMenuItemUI) {
-                    rv = ((WindowsCheckBoxMenuItemUI) uiObject).accessor;
-                } else if (uiObject instanceof WindowsRadioButtonMenuItemUI) {
-                    rv = ((WindowsRadioButtonMenuItemUI) uiObject).accessor;
+                if (uiObjfdt instbndfof WindowsMfnuItfmUI) {
+                    rv = ((WindowsMfnuItfmUI) uiObjfdt).bddfssor;
+                } flsf if (uiObjfdt instbndfof WindowsMfnuUI) {
+                    rv = ((WindowsMfnuUI) uiObjfdt).bddfssor;
+                } flsf if (uiObjfdt instbndfof WindowsCifdkBoxMfnuItfmUI) {
+                    rv = ((WindowsCifdkBoxMfnuItfmUI) uiObjfdt).bddfssor;
+                } flsf if (uiObjfdt instbndfof WindowsRbdioButtonMfnuItfmUI) {
+                    rv = ((WindowsRbdioButtonMfnuItfmUI) uiObjfdt).bddfssor;
                 }
-                return rv;
+                rfturn rv;
             }
 
-            private static boolean isEnabled(Component  c, State state) {
-                if (state == null && c instanceof JMenuItem) {
-                    WindowsMenuItemUIAccessor accessor =
-                        getAccessor((JMenuItem) c);
-                    if (accessor != null) {
-                        state = accessor.getState((JMenuItem) c);
+            privbtf stbtid boolfbn isEnbblfd(Componfnt  d, Stbtf stbtf) {
+                if (stbtf == null && d instbndfof JMfnuItfm) {
+                    WindowsMfnuItfmUIAddfssor bddfssor =
+                        gftAddfssor((JMfnuItfm) d);
+                    if (bddfssor != null) {
+                        stbtf = bddfssor.gftStbtf((JMfnuItfm) d);
                     }
                 }
-                if (state == null) {
-                    if (c != null) {
-                        return c.isEnabled();
-                    } else {
-                        return true;
+                if (stbtf == null) {
+                    if (d != null) {
+                        rfturn d.isEnbblfd();
+                    } flsf {
+                        rfturn truf;
                     }
-                } else {
-                    return (state != State.DISABLED)
-                        && (state != State.DISABLEDHOT)
-                        && (state != State.DISABLEDPUSHED);
+                } flsf {
+                    rfturn (stbtf != Stbtf.DISABLED)
+                        && (stbtf != Stbtf.DISABLEDHOT)
+                        && (stbtf != Stbtf.DISABLEDPUSHED);
                 }
             }
-            private Icon getIcon() {
-                Icon rv = null;
-                if (menuItem == null) {
-                    return rv;
+            privbtf Idon gftIdon() {
+                Idon rv = null;
+                if (mfnuItfm == null) {
+                    rfturn rv;
                 }
-                WindowsMenuItemUIAccessor accessor =
-                    getAccessor(menuItem);
-                State state = (accessor != null) ? accessor.getState(menuItem)
+                WindowsMfnuItfmUIAddfssor bddfssor =
+                    gftAddfssor(mfnuItfm);
+                Stbtf stbtf = (bddfssor != null) ? bddfssor.gftStbtf(mfnuItfm)
                         : null;
-                if (isEnabled(menuItem, null)) {
-                    if (state == State.PUSHED) {
-                        rv = menuItem.getPressedIcon();
-                    } else {
-                        rv = menuItem.getIcon();
+                if (isEnbblfd(mfnuItfm, null)) {
+                    if (stbtf == Stbtf.PUSHED) {
+                        rv = mfnuItfm.gftPrfssfdIdon();
+                    } flsf {
+                        rv = mfnuItfm.gftIdon();
                     }
-                } else {
-                    rv = menuItem.getDisabledIcon();
+                } flsf {
+                    rv = mfnuItfm.gftDisbblfdIdon();
                 }
-                return rv;
+                rfturn rv;
             }
             /**
-             * Check if developer changed icon in the UI table.
+             * Cifdk if dfvflopfr dibngfd idon in tif UI tbblf.
              *
-             * @return the icon to use or {@code null} if the current one is to
-             * be used
+             * @rfturn tif idon to usf or {@dodf null} if tif durrfnt onf is to
+             * bf usfd
              */
-            private Icon getLaFIcon() {
-                // use icon from the UI table if it does not match this one.
-                Icon rv = (Icon) UIManager.getDefaults().get(typeToString(type));
-                if (rv instanceof VistaMenuItemCheckIcon
-                      && ((VistaMenuItemCheckIcon) rv).type == type) {
+            privbtf Idon gftLbFIdon() {
+                // usf idon from tif UI tbblf if it dofs not mbtdi tiis onf.
+                Idon rv = (Idon) UIMbnbgfr.gftDffbults().gft(typfToString(typf));
+                if (rv instbndfof VistbMfnuItfmCifdkIdon
+                      && ((VistbMfnuItfmCifdkIdon) rv).typf == typf) {
                     rv = null;
                 }
-                return rv;
+                rfturn rv;
             }
 
-            private static String typeToString(
-                    Class<? extends JMenuItem> type) {
-                assert type == JMenuItem.class
-                    || type == JMenu.class
-                    || type == JCheckBoxMenuItem.class
-                    || type == JRadioButtonMenuItem.class;
-                StringBuilder sb = new StringBuilder(type.getName());
-                // remove package name, dot and the first character
-                sb.delete(0, sb.lastIndexOf("J") + 1);
-                sb.append(".checkIcon");
-                return sb.toString();
+            privbtf stbtid String typfToString(
+                    Clbss<? fxtfnds JMfnuItfm> typf) {
+                bssfrt typf == JMfnuItfm.dlbss
+                    || typf == JMfnu.dlbss
+                    || typf == JCifdkBoxMfnuItfm.dlbss
+                    || typf == JRbdioButtonMfnuItfm.dlbss;
+                StringBuildfr sb = nfw StringBuildfr(typf.gftNbmf());
+                // rfmovf pbdkbgf nbmf, dot bnd tif first dibrbdtfr
+                sb.dflftf(0, sb.lbstIndfxOf("J") + 1);
+                sb.bppfnd(".difdkIdon");
+                rfturn sb.toString();
             }
         }
-    } // End class VistaMenuItemCheckIconFactory
+    } // End dlbss VistbMfnuItfmCifdkIdonFbdtory
 }

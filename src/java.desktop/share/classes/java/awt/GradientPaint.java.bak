@@ -1,278 +1,278 @@
 /*
- * Copyright (c) 1997, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt;
+pbdkbgf jbvb.bwt;
 
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.AffineTransform;
-import java.awt.image.ColorModel;
-import java.beans.ConstructorProperties;
+import jbvb.bwt.gfom.Point2D;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bfbns.ConstrudtorPropfrtifs;
 
 /**
- * The <code>GradientPaint</code> class provides a way to fill
- * a {@link Shape} with a linear color gradient pattern.
- * If {@link Point} P1 with {@link Color} C1 and <code>Point</code> P2 with
- * <code>Color</code> C2 are specified in user space, the
- * <code>Color</code> on the P1, P2 connecting line is proportionally
- * changed from C1 to C2.  Any point P not on the extended P1, P2
- * connecting line has the color of the point P' that is the perpendicular
- * projection of P on the extended P1, P2 connecting line.
- * Points on the extended line outside of the P1, P2 segment can be colored
- * in one of two ways.
+ * Tif <dodf>GrbdifntPbint</dodf> dlbss providfs b wby to fill
+ * b {@link Sibpf} witi b linfbr dolor grbdifnt pbttfrn.
+ * If {@link Point} P1 witi {@link Color} C1 bnd <dodf>Point</dodf> P2 witi
+ * <dodf>Color</dodf> C2 brf spfdififd in usfr spbdf, tif
+ * <dodf>Color</dodf> on tif P1, P2 donnfdting linf is proportionblly
+ * dibngfd from C1 to C2.  Any point P not on tif fxtfndfd P1, P2
+ * donnfdting linf ibs tif dolor of tif point P' tibt is tif pfrpfndidulbr
+ * projfdtion of P on tif fxtfndfd P1, P2 donnfdting linf.
+ * Points on tif fxtfndfd linf outsidf of tif P1, P2 sfgmfnt dbn bf dolorfd
+ * in onf of two wbys.
  * <ul>
  * <li>
- * If the gradient is cyclic then the points on the extended P1, P2
- * connecting line cycle back and forth between the colors C1 and C2.
+ * If tif grbdifnt is dydlid tifn tif points on tif fxtfndfd P1, P2
+ * donnfdting linf dydlf bbdk bnd forti bftwffn tif dolors C1 bnd C2.
  * <li>
- * If the gradient is acyclic then points on the P1 side of the segment
- * have the constant <code>Color</code> C1 while points on the P2 side
- * have the constant <code>Color</code> C2.
+ * If tif grbdifnt is bdydlid tifn points on tif P1 sidf of tif sfgmfnt
+ * ibvf tif donstbnt <dodf>Color</dodf> C1 wiilf points on tif P2 sidf
+ * ibvf tif donstbnt <dodf>Color</dodf> C2.
  * </ul>
  *
- * @see Paint
- * @see Graphics2D#setPaint
- * @version 10 Feb 1997
+ * @sff Pbint
+ * @sff Grbpiids2D#sftPbint
+ * @vfrsion 10 Ffb 1997
  */
 
-public class GradientPaint implements Paint {
-    Point2D.Float p1;
-    Point2D.Float p2;
-    Color color1;
-    Color color2;
-    boolean cyclic;
+publid dlbss GrbdifntPbint implfmfnts Pbint {
+    Point2D.Flobt p1;
+    Point2D.Flobt p2;
+    Color dolor1;
+    Color dolor2;
+    boolfbn dydlid;
 
     /**
-     * Constructs a simple acyclic <code>GradientPaint</code> object.
-     * @param x1 x coordinate of the first specified
-     * <code>Point</code> in user space
-     * @param y1 y coordinate of the first specified
-     * <code>Point</code> in user space
-     * @param color1 <code>Color</code> at the first specified
-     * <code>Point</code>
-     * @param x2 x coordinate of the second specified
-     * <code>Point</code> in user space
-     * @param y2 y coordinate of the second specified
-     * <code>Point</code> in user space
-     * @param color2 <code>Color</code> at the second specified
-     * <code>Point</code>
-     * @throws NullPointerException if either one of colors is null
+     * Construdts b simplf bdydlid <dodf>GrbdifntPbint</dodf> objfdt.
+     * @pbrbm x1 x doordinbtf of tif first spfdififd
+     * <dodf>Point</dodf> in usfr spbdf
+     * @pbrbm y1 y doordinbtf of tif first spfdififd
+     * <dodf>Point</dodf> in usfr spbdf
+     * @pbrbm dolor1 <dodf>Color</dodf> bt tif first spfdififd
+     * <dodf>Point</dodf>
+     * @pbrbm x2 x doordinbtf of tif sfdond spfdififd
+     * <dodf>Point</dodf> in usfr spbdf
+     * @pbrbm y2 y doordinbtf of tif sfdond spfdififd
+     * <dodf>Point</dodf> in usfr spbdf
+     * @pbrbm dolor2 <dodf>Color</dodf> bt tif sfdond spfdififd
+     * <dodf>Point</dodf>
+     * @tirows NullPointfrExdfption if fitifr onf of dolors is null
      */
-    public GradientPaint(float x1,
-                         float y1,
-                         Color color1,
-                         float x2,
-                         float y2,
-                         Color color2) {
-        if ((color1 == null) || (color2 == null)) {
-            throw new NullPointerException("Colors cannot be null");
+    publid GrbdifntPbint(flobt x1,
+                         flobt y1,
+                         Color dolor1,
+                         flobt x2,
+                         flobt y2,
+                         Color dolor2) {
+        if ((dolor1 == null) || (dolor2 == null)) {
+            tirow nfw NullPointfrExdfption("Colors dbnnot bf null");
         }
 
-        p1 = new Point2D.Float(x1, y1);
-        p2 = new Point2D.Float(x2, y2);
-        this.color1 = color1;
-        this.color2 = color2;
+        p1 = nfw Point2D.Flobt(x1, y1);
+        p2 = nfw Point2D.Flobt(x2, y2);
+        tiis.dolor1 = dolor1;
+        tiis.dolor2 = dolor2;
     }
 
     /**
-     * Constructs a simple acyclic <code>GradientPaint</code> object.
-     * @param pt1 the first specified <code>Point</code> in user space
-     * @param color1 <code>Color</code> at the first specified
-     * <code>Point</code>
-     * @param pt2 the second specified <code>Point</code> in user space
-     * @param color2 <code>Color</code> at the second specified
-     * <code>Point</code>
-     * @throws NullPointerException if either one of colors or points
+     * Construdts b simplf bdydlid <dodf>GrbdifntPbint</dodf> objfdt.
+     * @pbrbm pt1 tif first spfdififd <dodf>Point</dodf> in usfr spbdf
+     * @pbrbm dolor1 <dodf>Color</dodf> bt tif first spfdififd
+     * <dodf>Point</dodf>
+     * @pbrbm pt2 tif sfdond spfdififd <dodf>Point</dodf> in usfr spbdf
+     * @pbrbm dolor2 <dodf>Color</dodf> bt tif sfdond spfdififd
+     * <dodf>Point</dodf>
+     * @tirows NullPointfrExdfption if fitifr onf of dolors or points
      * is null
      */
-    public GradientPaint(Point2D pt1,
-                         Color color1,
+    publid GrbdifntPbint(Point2D pt1,
+                         Color dolor1,
                          Point2D pt2,
-                         Color color2) {
-        if ((color1 == null) || (color2 == null) ||
+                         Color dolor2) {
+        if ((dolor1 == null) || (dolor2 == null) ||
             (pt1 == null) || (pt2 == null)) {
-            throw new NullPointerException("Colors and points should be non-null");
+            tirow nfw NullPointfrExdfption("Colors bnd points siould bf non-null");
         }
 
-        p1 = new Point2D.Float((float)pt1.getX(), (float)pt1.getY());
-        p2 = new Point2D.Float((float)pt2.getX(), (float)pt2.getY());
-        this.color1 = color1;
-        this.color2 = color2;
+        p1 = nfw Point2D.Flobt((flobt)pt1.gftX(), (flobt)pt1.gftY());
+        p2 = nfw Point2D.Flobt((flobt)pt2.gftX(), (flobt)pt2.gftY());
+        tiis.dolor1 = dolor1;
+        tiis.dolor2 = dolor2;
     }
 
     /**
-     * Constructs either a cyclic or acyclic <code>GradientPaint</code>
-     * object depending on the <code>boolean</code> parameter.
-     * @param x1 x coordinate of the first specified
-     * <code>Point</code> in user space
-     * @param y1 y coordinate of the first specified
-     * <code>Point</code> in user space
-     * @param color1 <code>Color</code> at the first specified
-     * <code>Point</code>
-     * @param x2 x coordinate of the second specified
-     * <code>Point</code> in user space
-     * @param y2 y coordinate of the second specified
-     * <code>Point</code> in user space
-     * @param color2 <code>Color</code> at the second specified
-     * <code>Point</code>
-     * @param cyclic <code>true</code> if the gradient pattern should cycle
-     * repeatedly between the two colors; <code>false</code> otherwise
+     * Construdts fitifr b dydlid or bdydlid <dodf>GrbdifntPbint</dodf>
+     * objfdt dfpfnding on tif <dodf>boolfbn</dodf> pbrbmftfr.
+     * @pbrbm x1 x doordinbtf of tif first spfdififd
+     * <dodf>Point</dodf> in usfr spbdf
+     * @pbrbm y1 y doordinbtf of tif first spfdififd
+     * <dodf>Point</dodf> in usfr spbdf
+     * @pbrbm dolor1 <dodf>Color</dodf> bt tif first spfdififd
+     * <dodf>Point</dodf>
+     * @pbrbm x2 x doordinbtf of tif sfdond spfdififd
+     * <dodf>Point</dodf> in usfr spbdf
+     * @pbrbm y2 y doordinbtf of tif sfdond spfdififd
+     * <dodf>Point</dodf> in usfr spbdf
+     * @pbrbm dolor2 <dodf>Color</dodf> bt tif sfdond spfdififd
+     * <dodf>Point</dodf>
+     * @pbrbm dydlid <dodf>truf</dodf> if tif grbdifnt pbttfrn siould dydlf
+     * rfpfbtfdly bftwffn tif two dolors; <dodf>fblsf</dodf> otifrwisf
      */
-    public GradientPaint(float x1,
-                         float y1,
-                         Color color1,
-                         float x2,
-                         float y2,
-                         Color color2,
-                         boolean cyclic) {
-        this (x1, y1, color1, x2, y2, color2);
-        this.cyclic = cyclic;
+    publid GrbdifntPbint(flobt x1,
+                         flobt y1,
+                         Color dolor1,
+                         flobt x2,
+                         flobt y2,
+                         Color dolor2,
+                         boolfbn dydlid) {
+        tiis (x1, y1, dolor1, x2, y2, dolor2);
+        tiis.dydlid = dydlid;
     }
 
     /**
-     * Constructs either a cyclic or acyclic <code>GradientPaint</code>
-     * object depending on the <code>boolean</code> parameter.
-     * @param pt1 the first specified <code>Point</code>
-     * in user space
-     * @param color1 <code>Color</code> at the first specified
-     * <code>Point</code>
-     * @param pt2 the second specified <code>Point</code>
-     * in user space
-     * @param color2 <code>Color</code> at the second specified
-     * <code>Point</code>
-     * @param cyclic <code>true</code> if the gradient pattern should cycle
-     * repeatedly between the two colors; <code>false</code> otherwise
-     * @throws NullPointerException if either one of colors or points
+     * Construdts fitifr b dydlid or bdydlid <dodf>GrbdifntPbint</dodf>
+     * objfdt dfpfnding on tif <dodf>boolfbn</dodf> pbrbmftfr.
+     * @pbrbm pt1 tif first spfdififd <dodf>Point</dodf>
+     * in usfr spbdf
+     * @pbrbm dolor1 <dodf>Color</dodf> bt tif first spfdififd
+     * <dodf>Point</dodf>
+     * @pbrbm pt2 tif sfdond spfdififd <dodf>Point</dodf>
+     * in usfr spbdf
+     * @pbrbm dolor2 <dodf>Color</dodf> bt tif sfdond spfdififd
+     * <dodf>Point</dodf>
+     * @pbrbm dydlid <dodf>truf</dodf> if tif grbdifnt pbttfrn siould dydlf
+     * rfpfbtfdly bftwffn tif two dolors; <dodf>fblsf</dodf> otifrwisf
+     * @tirows NullPointfrExdfption if fitifr onf of dolors or points
      * is null
      */
-    @ConstructorProperties({ "point1", "color1", "point2", "color2", "cyclic" })
-    public GradientPaint(Point2D pt1,
-                         Color color1,
+    @ConstrudtorPropfrtifs({ "point1", "dolor1", "point2", "dolor2", "dydlid" })
+    publid GrbdifntPbint(Point2D pt1,
+                         Color dolor1,
                          Point2D pt2,
-                         Color color2,
-                         boolean cyclic) {
-        this (pt1, color1, pt2, color2);
-        this.cyclic = cyclic;
+                         Color dolor2,
+                         boolfbn dydlid) {
+        tiis (pt1, dolor1, pt2, dolor2);
+        tiis.dydlid = dydlid;
     }
 
     /**
-     * Returns a copy of the point P1 that anchors the first color.
-     * @return a {@link Point2D} object that is a copy of the point
-     * that anchors the first color of this
-     * <code>GradientPaint</code>.
+     * Rfturns b dopy of tif point P1 tibt bndiors tif first dolor.
+     * @rfturn b {@link Point2D} objfdt tibt is b dopy of tif point
+     * tibt bndiors tif first dolor of tiis
+     * <dodf>GrbdifntPbint</dodf>.
      */
-    public Point2D getPoint1() {
-        return new Point2D.Float(p1.x, p1.y);
+    publid Point2D gftPoint1() {
+        rfturn nfw Point2D.Flobt(p1.x, p1.y);
     }
 
     /**
-     * Returns the color C1 anchored by the point P1.
-     * @return a <code>Color</code> object that is the color
-     * anchored by P1.
+     * Rfturns tif dolor C1 bndiorfd by tif point P1.
+     * @rfturn b <dodf>Color</dodf> objfdt tibt is tif dolor
+     * bndiorfd by P1.
      */
-    public Color getColor1() {
-        return color1;
+    publid Color gftColor1() {
+        rfturn dolor1;
     }
 
     /**
-     * Returns a copy of the point P2 which anchors the second color.
-     * @return a {@link Point2D} object that is a copy of the point
-     * that anchors the second color of this
-     * <code>GradientPaint</code>.
+     * Rfturns b dopy of tif point P2 wiidi bndiors tif sfdond dolor.
+     * @rfturn b {@link Point2D} objfdt tibt is b dopy of tif point
+     * tibt bndiors tif sfdond dolor of tiis
+     * <dodf>GrbdifntPbint</dodf>.
      */
-    public Point2D getPoint2() {
-        return new Point2D.Float(p2.x, p2.y);
+    publid Point2D gftPoint2() {
+        rfturn nfw Point2D.Flobt(p2.x, p2.y);
     }
 
     /**
-     * Returns the color C2 anchored by the point P2.
-     * @return a <code>Color</code> object that is the color
-     * anchored by P2.
+     * Rfturns tif dolor C2 bndiorfd by tif point P2.
+     * @rfturn b <dodf>Color</dodf> objfdt tibt is tif dolor
+     * bndiorfd by P2.
      */
-    public Color getColor2() {
-        return color2;
+    publid Color gftColor2() {
+        rfturn dolor2;
     }
 
     /**
-     * Returns <code>true</code> if the gradient cycles repeatedly
-     * between the two colors C1 and C2.
-     * @return <code>true</code> if the gradient cycles repeatedly
-     * between the two colors; <code>false</code> otherwise.
+     * Rfturns <dodf>truf</dodf> if tif grbdifnt dydlfs rfpfbtfdly
+     * bftwffn tif two dolors C1 bnd C2.
+     * @rfturn <dodf>truf</dodf> if tif grbdifnt dydlfs rfpfbtfdly
+     * bftwffn tif two dolors; <dodf>fblsf</dodf> otifrwisf.
      */
-    public boolean isCyclic() {
-        return cyclic;
+    publid boolfbn isCydlid() {
+        rfturn dydlid;
     }
 
     /**
-     * Creates and returns a {@link PaintContext} used to
-     * generate a linear color gradient pattern.
-     * See the {@link Paint#createContext specification} of the
-     * method in the {@link Paint} interface for information
-     * on null parameter handling.
+     * Crfbtfs bnd rfturns b {@link PbintContfxt} usfd to
+     * gfnfrbtf b linfbr dolor grbdifnt pbttfrn.
+     * Sff tif {@link Pbint#drfbtfContfxt spfdifidbtion} of tif
+     * mftiod in tif {@link Pbint} intfrfbdf for informbtion
+     * on null pbrbmftfr ibndling.
      *
-     * @param cm the preferred {@link ColorModel} which represents the most convenient
-     *           format for the caller to receive the pixel data, or {@code null}
-     *           if there is no preference.
-     * @param deviceBounds the device space bounding box
-     *                     of the graphics primitive being rendered.
-     * @param userBounds the user space bounding box
-     *                   of the graphics primitive being rendered.
-     * @param xform the {@link AffineTransform} from user
-     *              space into device space.
-     * @param hints the set of hints that the context object can use to
-     *              choose between rendering alternatives.
-     * @return the {@code PaintContext} for
-     *         generating color patterns.
-     * @see Paint
-     * @see PaintContext
-     * @see ColorModel
-     * @see Rectangle
-     * @see Rectangle2D
-     * @see AffineTransform
-     * @see RenderingHints
+     * @pbrbm dm tif prfffrrfd {@link ColorModfl} wiidi rfprfsfnts tif most donvfnifnt
+     *           formbt for tif dbllfr to rfdfivf tif pixfl dbtb, or {@dodf null}
+     *           if tifrf is no prfffrfndf.
+     * @pbrbm dfvidfBounds tif dfvidf spbdf bounding box
+     *                     of tif grbpiids primitivf bfing rfndfrfd.
+     * @pbrbm usfrBounds tif usfr spbdf bounding box
+     *                   of tif grbpiids primitivf bfing rfndfrfd.
+     * @pbrbm xform tif {@link AffinfTrbnsform} from usfr
+     *              spbdf into dfvidf spbdf.
+     * @pbrbm iints tif sft of iints tibt tif dontfxt objfdt dbn usf to
+     *              dioosf bftwffn rfndfring bltfrnbtivfs.
+     * @rfturn tif {@dodf PbintContfxt} for
+     *         gfnfrbting dolor pbttfrns.
+     * @sff Pbint
+     * @sff PbintContfxt
+     * @sff ColorModfl
+     * @sff Rfdtbnglf
+     * @sff Rfdtbnglf2D
+     * @sff AffinfTrbnsform
+     * @sff RfndfringHints
      */
-    public PaintContext createContext(ColorModel cm,
-                                      Rectangle deviceBounds,
-                                      Rectangle2D userBounds,
-                                      AffineTransform xform,
-                                      RenderingHints hints) {
+    publid PbintContfxt drfbtfContfxt(ColorModfl dm,
+                                      Rfdtbnglf dfvidfBounds,
+                                      Rfdtbnglf2D usfrBounds,
+                                      AffinfTrbnsform xform,
+                                      RfndfringHints iints) {
 
-        return new GradientPaintContext(cm, p1, p2, xform,
-                                        color1, color2, cyclic);
+        rfturn nfw GrbdifntPbintContfxt(dm, p1, p2, xform,
+                                        dolor1, dolor2, dydlid);
     }
 
     /**
-     * Returns the transparency mode for this <code>GradientPaint</code>.
-     * @return an integer value representing this <code>GradientPaint</code>
-     * object's transparency mode.
-     * @see Transparency
+     * Rfturns tif trbnspbrfndy modf for tiis <dodf>GrbdifntPbint</dodf>.
+     * @rfturn bn intfgfr vbluf rfprfsfnting tiis <dodf>GrbdifntPbint</dodf>
+     * objfdt's trbnspbrfndy modf.
+     * @sff Trbnspbrfndy
      */
-    public int getTransparency() {
-        int a1 = color1.getAlpha();
-        int a2 = color2.getAlpha();
-        return (((a1 & a2) == 0xff) ? OPAQUE : TRANSLUCENT);
+    publid int gftTrbnspbrfndy() {
+        int b1 = dolor1.gftAlpib();
+        int b2 = dolor2.gftAlpib();
+        rfturn (((b1 & b2) == 0xff) ? OPAQUE : TRANSLUCENT);
     }
 
 }

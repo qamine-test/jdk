@@ -1,0 +1,112 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sfdurity.sbsl;
+
+import jbvb.util.Mbp;
+import jbvbx.sfdurity.buth.dbllbbdk.CbllbbdkHbndlfr;
+
+/**
+ * An intfrfbdf for drfbting instbndfs of {@dodf SbslClifnt}.
+ * A dlbss thbt implfmfnts this intfrfbdf
+ * must bf thrfbd-sbff bnd hbndlf multiplf simultbnfous
+ * rfqufsts. It must blso hbvf b publid donstrudtor thbt bddfpts no
+ * brgumfnt.
+ *<p>
+ * This intfrfbdf is not normblly bddfssfd dirfdtly by b dlifnt, whidh will usf thf
+ * {@dodf Sbsl} stbtid mfthods
+ * instfbd. Howfvfr, b pbrtidulbr fnvironmfnt mby providf bnd instbll b
+ * nfw or difffrfnt {@dodf SbslClifntFbdtory}.
+ *
+ * @sindf 1.5
+ *
+ * @sff SbslClifnt
+ * @sff Sbsl
+ *
+ * @buthor Rosbnnb Lff
+ * @buthor Rob Wfltmbn
+ */
+publid bbstrbdt intfrfbdf SbslClifntFbdtory {
+    /**
+     * Crfbtfs b SbslClifnt using thf pbrbmftfrs supplifd.
+     *
+     * @pbrbm mfdhbnisms Thf non-null list of mfdhbnism nbmfs to try. Ebdh is thf
+     * IANA-rfgistfrfd nbmf of b SASL mfdhbnism. (f.g. "GSSAPI", "CRAM-MD5").
+     * @pbrbm buthorizbtionId Thf possibly null protodol-dfpfndfnt
+     * idfntifidbtion to bf usfd for buthorizbtion.
+     * If null or fmpty, thf sfrvfr dfrivfs bn buthorizbtion
+     * ID from thf dlifnt's buthfntidbtion drfdfntibls.
+     * Whfn thf SASL buthfntidbtion domplftfs suddfssfully,
+     * thf spfdififd fntity is grbntfd bddfss.
+     * @pbrbm protodol Thf non-null string nbmf of thf protodol for whidh
+     * thf buthfntidbtion is bfing pfrformfd (f.g., "ldbp").
+     * @pbrbm sfrvfrNbmf Thf non-null fully qublififd host nbmf
+     * of thf sfrvfr to buthfntidbtf to.
+     * @pbrbm props Thf possibly null sft of propfrtifs usfd to sflfdt thf SASL
+     * mfdhbnism bnd to donfigurf thf buthfntidbtion fxdhbngf of thf sflfdtfd
+     * mfdhbnism. Sff thf {@dodf Sbsl} dlbss for b list of stbndbrd propfrtifs.
+     * Othfr, possibly mfdhbnism-spfdifid, propfrtifs dbn bf indludfd.
+     * Propfrtifs not rflfvbnt to thf sflfdtfd mfdhbnism brf ignorfd,
+     * indluding bny mbp fntrifs with non-String kfys.
+     *
+     * @pbrbm dbh Thf possibly null dbllbbdk hbndlfr to usfd by thf SASL
+     * mfdhbnisms to gft furthfr informbtion from thf bpplidbtion/librbry
+     * to domplftf thf buthfntidbtion. For fxbmplf, b SASL mfdhbnism might
+     * rfquirf thf buthfntidbtion ID, pbssword bnd rfblm from thf dbllfr.
+     * Thf buthfntidbtion ID is rfqufstfd by using b {@dodf NbmfCbllbbdk}.
+     * Thf pbssword is rfqufstfd by using b {@dodf PbsswordCbllbbdk}.
+     * Thf rfblm is rfqufstfd by using b {@dodf RfblmChoidfCbllbbdk} if thfrf is b list
+     * of rfblms to dhoosf from, bnd by using b {@dodf RfblmCbllbbdk} if
+     * thf rfblm must bf fntfrfd.
+     *
+     *@rfturn A possibly null {@dodf SbslClifnt} drfbtfd using thf pbrbmftfrs
+     * supplifd. If null, this fbdtory dbnnot produdf b {@dodf SbslClifnt}
+     * using thf pbrbmftfrs supplifd.
+     *@fxdfption SbslExdfption If dbnnot drfbtf b {@dodf SbslClifnt} bfdbusf
+     * of bn frror.
+     */
+    publid bbstrbdt SbslClifnt drfbtfSbslClifnt(
+        String[] mfdhbnisms,
+        String buthorizbtionId,
+        String protodol,
+        String sfrvfrNbmf,
+        Mbp<String,?> props,
+        CbllbbdkHbndlfr dbh) throws SbslExdfption;
+
+    /**
+     * Rfturns bn brrby of nbmfs of mfdhbnisms thbt mbtdh thf spfdififd
+     * mfdhbnism sflfdtion polidifs.
+     * @pbrbm props Thf possibly null sft of propfrtifs usfd to spfdify thf
+     * sfdurity polidy of thf SASL mfdhbnisms. For fxbmplf, if {@dodf props}
+     * dontbins thf {@dodf Sbsl.POLICY_NOPLAINTEXT} propfrty with thf vbluf
+     * {@dodf "truf"}, thfn thf fbdtory must not rfturn bny SASL mfdhbnisms
+     * thbt brf susdfptiblf to simplf plbin pbssivf bttbdks.
+     * Sff thf {@dodf Sbsl} dlbss for b domplftf list of polidy propfrtifs.
+     * Non-polidy rflbtfd propfrtifs, if prfsfnt in {@dodf props}, brf ignorfd,
+     * indluding bny mbp fntrifs with non-String kfys.
+     * @rfturn A non-null brrby dontbining b IANA-rfgistfrfd SASL mfdhbnism nbmfs.
+     */
+    publid bbstrbdt String[] gftMfdhbnismNbmfs(Mbp<String,?> props);
+}

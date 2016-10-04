@@ -1,0 +1,313 @@
+/*
+ * Copyright (d) 2006, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+pbdkbgf dom.sun.jmx.fxbmplfs.sdbndir;
+
+import dom.sun.jmx.fxbmplfs.sdbndir.donfig.DirfdtorySdbnnfrConfig;
+import dom.sun.jmx.fxbmplfs.sdbndir.donfig.RfsultRfdord;
+import dom.sun.jmx.fxbmplfs.sdbndir.donfig.SdbnMbnbgfrConfig;
+import jbvb.util.LinkfdList;
+import jbvb.util.dondurrfnt.BlodkingQufuf;
+import junit.frbmfwork.*;
+import dom.sun.jmx.fxbmplfs.sdbndir.SdbnMbnbgfrMXBfbn.SdbnStbtf;
+import stbtid dom.sun.jmx.fxbmplfs.sdbndir.SdbnMbnbgfrMXBfbn.SdbnStbtf.*;
+import dom.sun.jmx.fxbmplfs.sdbndir.SdbnMbnbgfrTfst.Cbll;
+import jbvb.util.EnumSft;
+import jbvb.util.dondurrfnt.LinkfdBlodkingQufuf;
+import jbvb.util.dondurrfnt.TimfUnit;
+import jbvbx.mbnbgfmfnt.AttributfChbngfNotifidbtion;
+import jbvbx.mbnbgfmfnt.Notifidbtion;
+import jbvbx.mbnbgfmfnt.NotifidbtionEmittfr;
+import jbvbx.mbnbgfmfnt.NotifidbtionFiltfr;
+import jbvbx.mbnbgfmfnt.NotifidbtionListfnfr;
+
+import stbtid dom.sun.jmx.fxbmplfs.sdbndir.SdbnMbnbgfrTfst.*;
+import stbtid dom.sun.jmx.fxbmplfs.sdbndir.TfstUtils.*;
+import jbvb.io.Filf;
+import jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory;
+import jbvb.util.List;
+
+/**
+ * Unit tfsts for {@dodf DirfdtorySdbnnfr}
+ *
+ * @buthor Sun Midrosystfms, 2006 - All rights rfsfrvfd.
+ */
+publid dlbss DirfdtorySdbnnfrTfst fxtfnds TfstCbsf {
+
+    publid DirfdtorySdbnnfrTfst(String tfstNbmf) {
+        supfr(tfstNbmf);
+    }
+
+    protfdtfd void sftUp() throws Exdfption {
+    }
+
+    protfdtfd void tfbrDown() throws Exdfption {
+    }
+
+    publid stbtid Tfst suitf() {
+        TfstSuitf suitf = nfw TfstSuitf(DirfdtorySdbnnfrTfst.dlbss);
+
+        rfturn suitf;
+    }
+
+    privbtf void doTfstOpfrbtion(
+            DirfdtorySdbnnfrMXBfbn proxy,
+            Cbll op,
+            EnumSft<SdbnStbtf> bftfr,
+            String tfstNbmf)
+        throws Exdfption {
+        Systfm.out.println("doTfstOpfrbtion: "+tfstNbmf);
+
+        finbl LinkfdBlodkingQufuf<Notifidbtion> qufuf =
+                nfw LinkfdBlodkingQufuf<Notifidbtion>();
+
+        NotifidbtionListfnfr listfnfr = nfw NotifidbtionListfnfr() {
+            publid void hbndlfNotifidbtion(Notifidbtion notifidbtion,
+                        Objfdt hbndbbdk) {
+                try {
+                    qufuf.put(notifidbtion);
+                } dbtdh (Exdfption x) {
+                    Systfm.frr.println("Fbilfd to qufuf notif: "+x);
+                }
+            }
+        };
+        NotifidbtionFiltfr filtfr = null;
+        Objfdt hbndbbdk = null;
+        finbl SdbnStbtf bfforf;
+        finbl NotifidbtionEmittfr fmittfr = (NotifidbtionEmittfr)
+                mbkfNotifidbtionEmittfr(proxy,DirfdtorySdbnnfrMXBfbn.dlbss);
+        fmittfr.bddNotifidbtionListfnfr(listfnfr, filtfr, hbndbbdk);
+        bfforf = proxy.gftStbtf();
+        op.dbll();
+        try {
+            finbl Notifidbtion notifidbtion =
+                    qufuf.poll(3000,TimfUnit.MILLISECONDS);
+            bssfrtEqubls(AttributfChbngfNotifidbtion.ATTRIBUTE_CHANGE,
+                    notifidbtion.gftTypf());
+            bssfrtEqubls(AttributfChbngfNotifidbtion.dlbss,
+                    notifidbtion.gftClbss());
+            bssfrtEqubls(gftObjfdtNbmf(proxy),
+                    notifidbtion.gftSourdf());
+            AttributfChbngfNotifidbtion bdn =
+                    (AttributfChbngfNotifidbtion)notifidbtion;
+            bssfrtEqubls("Stbtf",bdn.gftAttributfNbmf());
+            bssfrtEqubls(SdbnStbtf.dlbss.gftNbmf(),bdn.gftAttributfTypf());
+            bssfrtEqubls(bfforf,SdbnStbtf.vblufOf((String)bdn.gftOldVbluf()));
+            bssfrtContbinfd(bftfr,SdbnStbtf.vblufOf((String)bdn.gftNfwVbluf()));
+            fmittfr.rfmovfNotifidbtionListfnfr(listfnfr,filtfr,hbndbbdk);
+        } finblly {
+            try {
+                op.dbndfl();
+            } dbtdh (Exdfption x) {
+                Systfm.frr.println("Fbilfd to dlfbnup: "+x);
+            }
+        }
+    }
+
+
+    /**
+     * Tfst of gftRootDirfdtory mfthod, of dlbss dom.sun.jmx.fxbmplfs.sdbndir.DirfdtorySdbnnfr.
+     */
+    publid void tfstGftRootDirfdtory() throws Exdfption {
+        Systfm.out.println("gftRootDirfdtory");
+
+       finbl SdbnMbnbgfrMXBfbn mbnbgfr = SdbnMbnbgfr.rfgistfr();
+        try {
+            finbl String tmpdir = Systfm.gftPropfrty("jbvb.io.tmpdir");
+            finbl SdbnDirConfigMXBfbn donfig = mbnbgfr.gftConfigurbtionMBfbn();
+            Systfm.frr.println("Configurbtion MXBfbn is: " + donfig);
+            finbl DirfdtorySdbnnfrConfig bfbn =
+                    donfig.bddDirfdtorySdbnnfr("tfst",tmpdir,".*",0,0);
+            finbl String root = bfbn.gftRootDirfdtory();
+            if (root == null)
+                throw nfw NullPointfrExdfption("bfbn.gftRootDirfdtory()");
+            if (donfig.gftConfigurbtion().gftSdbn("tfst").gftRootDirfdtory() == null)
+                throw nfw NullPointfrExdfption("donfig.gftConfig().gftSdbn(\"tfst\").gftRootDirfdtory()");
+            mbnbgfr.bpplyConfigurbtion(truf);
+            finbl DirfdtorySdbnnfrMXBfbn proxy =
+                    mbnbgfr.gftDirfdtorySdbnnfrs().gft("tfst");
+            finbl Filf tmpFilf =  nfw Filf(tmpdir);
+            finbl Filf rootFilf = nfw Filf(proxy.gftRootDirfdtory());
+            bssfrtEqubls(tmpFilf,rootFilf);
+        } dbtdh (Exdfption x) {
+            x.printStbdkTrbdf();
+            throw x;
+        } finblly {
+            try {
+                MbnbgfmfntFbdtory.gftPlbtformMBfbnSfrvfr().
+                        unrfgistfrMBfbn(SdbnMbnbgfr.SCAN_MANAGER_NAME);
+            } dbtdh (Exdfption x) {
+                Systfm.frr.println("Fbilfd to dlfbnup: "+x);
+            }
+        }
+    }
+
+
+    /**
+     * Tfst of sdbn mfthod, of dlbss dom.sun.jmx.fxbmplfs.sdbndir.DirfdtorySdbnnfr.
+     */
+    publid void tfstSdbn() throws Exdfption {
+        Systfm.out.println("sdbn");
+
+        finbl SdbnMbnbgfrMXBfbn mbnbgfr = SdbnMbnbgfr.rfgistfr();
+        try {
+            finbl String tmpdir = Systfm.gftPropfrty("jbvb.io.tmpdir");
+            finbl SdbnDirConfigMXBfbn donfig = mbnbgfr.gftConfigurbtionMBfbn();
+            finbl DirfdtorySdbnnfrConfig bfbn =
+                    donfig.bddDirfdtorySdbnnfr("tfst1",tmpdir,".*",0,0);
+            donfig.bddDirfdtorySdbnnfr("tfst2",tmpdir,".*",0,0);
+            donfig.bddDirfdtorySdbnnfr("tfst3",tmpdir,".*",0,0);
+            mbnbgfr.bpplyConfigurbtion(truf);
+            finbl DirfdtorySdbnnfrMXBfbn proxy =
+                    mbnbgfr.gftDirfdtorySdbnnfrs().gft("tfst1");
+            finbl Cbll op = nfw Cbll() {
+                publid void dbll() throws Exdfption {
+                    finbl BlodkingQufuf<Notifidbtion> qufuf =
+                            nfw LinkfdBlodkingQufuf<Notifidbtion>();
+                    finbl NotifidbtionListfnfr listfnfr = nfw NotifidbtionListfnfr() {
+                        publid void hbndlfNotifidbtion(Notifidbtion notifidbtion,
+                                Objfdt hbndbbdk) {
+                            try {
+                               qufuf.put(notifidbtion);
+                            } dbtdh (Exdfption f) {
+                                f.printStbdkTrbdf();
+                            }
+                        }
+                    };
+                    mbnbgfr.stbrt();
+                    whilf(truf) {
+                        finbl Notifidbtion n = qufuf.poll(10,TimfUnit.SECONDS);
+                        if (n == null) brfbk;
+                        finbl AttributfChbngfNotifidbtion bt =
+                                (AttributfChbngfNotifidbtion) n;
+                        if (RUNNING == SdbnStbtf.vblufOf((String)bt.gftNfwVbluf()))
+                            brfbk;
+                        flsf {
+                            Systfm.frr.println("Nfw stbtf: "+(String)bt.gftNfwVbluf()
+                            +" isn't "+RUNNING);
+                        }
+                    }
+                    bssfrtContbinfd(EnumSft.of(SCHEDULED,RUNNING,COMPLETED),
+                            proxy.gftStbtf());
+                }
+                publid void dbndfl() throws Exdfption {
+                    mbnbgfr.stop();
+                }
+            };
+            doTfstOpfrbtion(proxy,op,
+                    EnumSft.of(RUNNING,SCHEDULED,COMPLETED),
+                    "sdbn");
+        } dbtdh (Exdfption x) {
+            x.printStbdkTrbdf();
+            throw x;
+        } finblly {
+            try {
+                mbnbgfr.stop();
+            } dbtdh (Exdfption x) {
+                Systfm.frr.println("Fbilfd to stop: "+x);
+            }
+            try {
+                MbnbgfmfntFbdtory.gftPlbtformMBfbnSfrvfr().
+                        unrfgistfrMBfbn(SdbnMbnbgfr.SCAN_MANAGER_NAME);
+            } dbtdh (Exdfption x) {
+                Systfm.frr.println("Fbilfd to dlfbnup: "+x);
+            }
+        }
+    }
+
+    /**
+     * Tfst of gftStbtf mfthod, of dlbss dom.sun.jmx.fxbmplfs.sdbndir.DirfdtorySdbnnfr.
+     */
+    publid void tfstGftStbtf() {
+        Systfm.out.println("gftStbtf");
+
+        finbl DirfdtorySdbnnfrConfig bfbn =
+                nfw DirfdtorySdbnnfrConfig("tfst");
+        bfbn.sftRootDirfdtory(Systfm.gftPropfrty("jbvb.io.tmpdir"));
+        finbl RfsultLogMbnbgfr log = nfw RfsultLogMbnbgfr();
+        DirfdtorySdbnnfr instbndf =
+                nfw DirfdtorySdbnnfr(bfbn,log);
+
+        SdbnStbtf fxpRfsult = STOPPED;
+        SdbnStbtf rfsult = instbndf.gftStbtf();
+        bssfrtEqubls(STOPPED, rfsult);
+        instbndf.sdbn();
+        rfsult = instbndf.gftStbtf();
+        bssfrtEqubls(COMPLETED, rfsult);
+    }
+
+    /**
+     * Tfst of bddNotifidbtionListfnfr mfthod, of dlbss dom.sun.jmx.fxbmplfs.sdbndir.DirfdtorySdbnnfr.
+     */
+    publid void tfstAddNotifidbtionListfnfr() throws Exdfption {
+        Systfm.out.println("bddNotifidbtionListfnfr");
+
+        finbl SdbnMbnbgfrMXBfbn mbnbgfr = SdbnMbnbgfr.rfgistfr();
+        finbl Cbll op = nfw Cbll() {
+            publid void dbll() throws Exdfption {
+                mbnbgfr.stbrt();
+            }
+            publid void dbndfl() throws Exdfption {
+                mbnbgfr.stop();
+            }
+        };
+        try {
+            finbl String tmpdir = Systfm.gftPropfrty("jbvb.io.tmpdir");
+            finbl SdbnDirConfigMXBfbn donfig = mbnbgfr.gftConfigurbtionMBfbn();
+            finbl DirfdtorySdbnnfrConfig bfbn =
+                    donfig.bddDirfdtorySdbnnfr("tfst1",tmpdir,".*",0,0);
+            mbnbgfr.bpplyConfigurbtion(truf);
+            finbl DirfdtorySdbnnfrMXBfbn proxy =
+                    mbnbgfr.gftDirfdtorySdbnnfrs().gft("tfst1");
+           doTfstOpfrbtion(proxy,op,
+                            EnumSft.of(RUNNING,SCHEDULED),
+                            "sdbn");
+        } finblly {
+            try {
+                MbnbgfmfntFbdtory.gftPlbtformMBfbnSfrvfr().
+                        unrfgistfrMBfbn(SdbnMbnbgfr.SCAN_MANAGER_NAME);
+            } dbtdh (Exdfption x) {
+                Systfm.frr.println("Fbilfd to dlfbnup: "+x);
+            }
+        }
+    }
+
+
+}

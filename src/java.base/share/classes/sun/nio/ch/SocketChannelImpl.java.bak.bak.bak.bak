@@ -1,0 +1,1039 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.dh;
+
+import jbvb.io.FilfDfsdriptor;
+import jbvb.io.IOExdfption;
+import jbvb.nft.*;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.dhbnnfls.*;
+import jbvb.nio.dhbnnfls.spi.*;
+import jbvb.util.*;
+import sun.nft.NftHooks;
+import sun.nft.ExtfndfdOptionsImpl;
+
+
+/**
+ * An implfmfntbtion of SodkftChbnnfls
+ */
+
+dlbss SodkftChbnnflImpl
+    fxtfnds SodkftChbnnfl
+    implfmfnts SflChImpl
+{
+
+    // Usfd to mbkf nbtivf rfbd bnd writf dblls
+    privbtf stbtid NbtivfDispbtdhfr nd;
+
+    // Our filf dfsdriptor objfdt
+    privbtf finbl FilfDfsdriptor fd;
+
+    // fd vbluf nffdfd for dfv/poll. This vbluf will rfmbin vblid
+    // fvfn bftfr thf vbluf in thf filf dfsdriptor objfdt hbs bffn sft to -1
+    privbtf finbl int fdVbl;
+
+    // IDs of nbtivf thrfbds doing rfbds bnd writfs, for signblling
+    privbtf volbtilf long rfbdfrThrfbd = 0;
+    privbtf volbtilf long writfrThrfbd = 0;
+
+    // Lodk hfld by durrfnt rfbding or donnfdting thrfbd
+    privbtf finbl Objfdt rfbdLodk = nfw Objfdt();
+
+    // Lodk hfld by durrfnt writing or donnfdting thrfbd
+    privbtf finbl Objfdt writfLodk = nfw Objfdt();
+
+    // Lodk hfld by bny thrfbd thbt modififs thf stbtf fiflds dfdlbrfd bflow
+    // DO NOT invokf b blodking I/O opfrbtion whilf holding this lodk!
+    privbtf finbl Objfdt stbtfLodk = nfw Objfdt();
+
+    // -- Thf following fiflds brf protfdtfd by stbtfLodk
+
+    // sft truf whfn fxdlusivf binding is on bnd SO_REUSEADDR is fmulbtfd
+    privbtf boolfbn isRfusfAddrfss;
+
+    // Stbtf, indrfbsfs monotonidblly
+    privbtf stbtid finbl int ST_UNINITIALIZED = -1;
+    privbtf stbtid finbl int ST_UNCONNECTED = 0;
+    privbtf stbtid finbl int ST_PENDING = 1;
+    privbtf stbtid finbl int ST_CONNECTED = 2;
+    privbtf stbtid finbl int ST_KILLPENDING = 3;
+    privbtf stbtid finbl int ST_KILLED = 4;
+    privbtf int stbtf = ST_UNINITIALIZED;
+
+    // Binding
+    privbtf InftSodkftAddrfss lodblAddrfss;
+    privbtf InftSodkftAddrfss rfmotfAddrfss;
+
+    // Input/Output opfn
+    privbtf boolfbn isInputOpfn = truf;
+    privbtf boolfbn isOutputOpfn = truf;
+    privbtf boolfbn rfbdyToConnfdt = fblsf;
+
+    // Sodkft bdbptor, drfbtfd on dfmbnd
+    privbtf Sodkft sodkft;
+
+    // -- End of fiflds protfdtfd by stbtfLodk
+
+
+    // Construdtor for normbl donnfdting sodkfts
+    //
+    SodkftChbnnflImpl(SflfdtorProvidfr sp) throws IOExdfption {
+        supfr(sp);
+        this.fd = Nft.sodkft(truf);
+        this.fdVbl = IOUtil.fdVbl(fd);
+        this.stbtf = ST_UNCONNECTED;
+    }
+
+    SodkftChbnnflImpl(SflfdtorProvidfr sp,
+                      FilfDfsdriptor fd,
+                      boolfbn bound)
+        throws IOExdfption
+    {
+        supfr(sp);
+        this.fd = fd;
+        this.fdVbl = IOUtil.fdVbl(fd);
+        this.stbtf = ST_UNCONNECTED;
+        if (bound)
+            this.lodblAddrfss = Nft.lodblAddrfss(fd);
+    }
+
+    // Construdtor for sodkfts obtbinfd from sfrvfr sodkfts
+    //
+    SodkftChbnnflImpl(SflfdtorProvidfr sp,
+                      FilfDfsdriptor fd, InftSodkftAddrfss rfmotf)
+        throws IOExdfption
+    {
+        supfr(sp);
+        this.fd = fd;
+        this.fdVbl = IOUtil.fdVbl(fd);
+        this.stbtf = ST_CONNECTED;
+        this.lodblAddrfss = Nft.lodblAddrfss(fd);
+        this.rfmotfAddrfss = rfmotf;
+    }
+
+    publid Sodkft sodkft() {
+        syndhronizfd (stbtfLodk) {
+            if (sodkft == null)
+                sodkft = SodkftAdbptor.drfbtf(this);
+            rfturn sodkft;
+        }
+    }
+
+    @Ovfrridf
+    publid SodkftAddrfss gftLodblAddrfss() throws IOExdfption {
+        syndhronizfd (stbtfLodk) {
+            if (!isOpfn())
+                throw nfw ClosfdChbnnflExdfption();
+            rfturn  Nft.gftRfvfblfdLodblAddrfss(lodblAddrfss);
+        }
+    }
+
+    @Ovfrridf
+    publid SodkftAddrfss gftRfmotfAddrfss() throws IOExdfption {
+        syndhronizfd (stbtfLodk) {
+            if (!isOpfn())
+                throw nfw ClosfdChbnnflExdfption();
+            rfturn rfmotfAddrfss;
+        }
+    }
+
+    @Ovfrridf
+    publid <T> SodkftChbnnfl sftOption(SodkftOption<T> nbmf, T vbluf)
+        throws IOExdfption
+    {
+        if (nbmf == null)
+            throw nfw NullPointfrExdfption();
+        if (!supportfdOptions().dontbins(nbmf))
+            throw nfw UnsupportfdOpfrbtionExdfption("'" + nbmf + "' not supportfd");
+
+        syndhronizfd (stbtfLodk) {
+            if (!isOpfn())
+                throw nfw ClosfdChbnnflExdfption();
+
+            if (nbmf == StbndbrdSodkftOptions.IP_TOS) {
+                ProtodolFbmily fbmily = Nft.isIPv6Avbilbblf() ?
+                    StbndbrdProtodolFbmily.INET6 : StbndbrdProtodolFbmily.INET;
+                Nft.sftSodkftOption(fd, fbmily, nbmf, vbluf);
+                rfturn this;
+            }
+
+            if (nbmf == StbndbrdSodkftOptions.SO_REUSEADDR && Nft.usfExdlusivfBind()) {
+                // SO_REUSEADDR fmulbtfd whfn using fxdlusivf bind
+                isRfusfAddrfss = (Boolfbn)vbluf;
+                rfturn this;
+            }
+
+            // no options thbt rfquirf spfdibl hbndling
+            Nft.sftSodkftOption(fd, Nft.UNSPEC, nbmf, vbluf);
+            rfturn this;
+        }
+    }
+
+    @Ovfrridf
+    @SupprfssWbrnings("undhfdkfd")
+    publid <T> T gftOption(SodkftOption<T> nbmf)
+        throws IOExdfption
+    {
+        if (nbmf == null)
+            throw nfw NullPointfrExdfption();
+        if (!supportfdOptions().dontbins(nbmf))
+            throw nfw UnsupportfdOpfrbtionExdfption("'" + nbmf + "' not supportfd");
+
+        syndhronizfd (stbtfLodk) {
+            if (!isOpfn())
+                throw nfw ClosfdChbnnflExdfption();
+
+            if (nbmf == StbndbrdSodkftOptions.SO_REUSEADDR &&
+                    Nft.usfExdlusivfBind())
+            {
+                // SO_REUSEADDR fmulbtfd whfn using fxdlusivf bind
+                rfturn (T)Boolfbn.vblufOf(isRfusfAddrfss);
+            }
+
+            // spfdibl hbndling for IP_TOS: blwbys rfturn 0 whfn IPv6
+            if (nbmf == StbndbrdSodkftOptions.IP_TOS) {
+                ProtodolFbmily fbmily = Nft.isIPv6Avbilbblf() ?
+                    StbndbrdProtodolFbmily.INET6 : StbndbrdProtodolFbmily.INET;
+                rfturn (T) Nft.gftSodkftOption(fd, fbmily, nbmf);
+            }
+
+            // no options thbt rfquirf spfdibl hbndling
+            rfturn (T) Nft.gftSodkftOption(fd, Nft.UNSPEC, nbmf);
+        }
+    }
+
+    privbtf stbtid dlbss DffbultOptionsHoldfr {
+        stbtid finbl Sft<SodkftOption<?>> dffbultOptions = dffbultOptions();
+
+        privbtf stbtid Sft<SodkftOption<?>> dffbultOptions() {
+            HbshSft<SodkftOption<?>> sft = nfw HbshSft<SodkftOption<?>>(8);
+            sft.bdd(StbndbrdSodkftOptions.SO_SNDBUF);
+            sft.bdd(StbndbrdSodkftOptions.SO_RCVBUF);
+            sft.bdd(StbndbrdSodkftOptions.SO_KEEPALIVE);
+            sft.bdd(StbndbrdSodkftOptions.SO_REUSEADDR);
+            sft.bdd(StbndbrdSodkftOptions.SO_LINGER);
+            sft.bdd(StbndbrdSodkftOptions.TCP_NODELAY);
+            // bdditionbl options rfquirfd by sodkft bdbptor
+            sft.bdd(StbndbrdSodkftOptions.IP_TOS);
+            sft.bdd(ExtfndfdSodkftOption.SO_OOBINLINE);
+            if (ExtfndfdOptionsImpl.flowSupportfd()) {
+                sft.bdd(jdk.nft.ExtfndfdSodkftOptions.SO_FLOW_SLA);
+            }
+            rfturn Collfdtions.unmodifibblfSft(sft);
+        }
+    }
+
+    @Ovfrridf
+    publid finbl Sft<SodkftOption<?>> supportfdOptions() {
+        rfturn DffbultOptionsHoldfr.dffbultOptions;
+    }
+
+    privbtf boolfbn fnsurfRfbdOpfn() throws ClosfdChbnnflExdfption {
+        syndhronizfd (stbtfLodk) {
+            if (!isOpfn())
+                throw nfw ClosfdChbnnflExdfption();
+            if (!isConnfdtfd())
+                throw nfw NotYftConnfdtfdExdfption();
+            if (!isInputOpfn)
+                rfturn fblsf;
+            flsf
+                rfturn truf;
+        }
+    }
+
+    privbtf void fnsurfWritfOpfn() throws ClosfdChbnnflExdfption {
+        syndhronizfd (stbtfLodk) {
+            if (!isOpfn())
+                throw nfw ClosfdChbnnflExdfption();
+            if (!isOutputOpfn)
+                throw nfw ClosfdChbnnflExdfption();
+            if (!isConnfdtfd())
+                throw nfw NotYftConnfdtfdExdfption();
+        }
+    }
+
+    privbtf void rfbdfrClfbnup() throws IOExdfption {
+        syndhronizfd (stbtfLodk) {
+            rfbdfrThrfbd = 0;
+            if (stbtf == ST_KILLPENDING)
+                kill();
+        }
+    }
+
+    privbtf void writfrClfbnup() throws IOExdfption {
+        syndhronizfd (stbtfLodk) {
+            writfrThrfbd = 0;
+            if (stbtf == ST_KILLPENDING)
+                kill();
+        }
+    }
+
+    publid int rfbd(BytfBufffr buf) throws IOExdfption {
+
+        if (buf == null)
+            throw nfw NullPointfrExdfption();
+
+        syndhronizfd (rfbdLodk) {
+            if (!fnsurfRfbdOpfn())
+                rfturn -1;
+            int n = 0;
+            try {
+
+                // Sft up thf intfrruption mbdhinfry; sff
+                // AbstrbdtIntfrruptiblfChbnnfl for dftbils
+                //
+                bfgin();
+
+                syndhronizfd (stbtfLodk) {
+                    if (!isOpfn()) {
+                    // Eithfr thf durrfnt thrfbd is blrfbdy intfrruptfd, so
+                    // bfgin() dlosfd thf dhbnnfl, or bnothfr thrfbd dlosfd thf
+                    // dhbnnfl sindf wf dhfdkfd it b ffw bytfdodfs bgo.  In
+                    // fithfr dbsf thf vbluf rfturnfd hfrf is irrflfvbnt sindf
+                    // thf invodbtion of fnd() in thf finblly blodk will throw
+                    // bn bppropribtf fxdfption.
+                    //
+                        rfturn 0;
+
+                    }
+
+                    // Sbvf this thrfbd so thbt it dbn bf signbllfd on thosf
+                    // plbtforms thbt rfquirf it
+                    //
+                    rfbdfrThrfbd = NbtivfThrfbd.durrfnt();
+                }
+
+                // Bftwffn thf prfvious tfst of isOpfn() bnd thf rfturn of thf
+                // IOUtil.rfbd invodbtion bflow, this dhbnnfl might bf dlosfd
+                // or this thrfbd might bf intfrruptfd.  Wf rfly upon thf
+                // implidit syndhronizbtion point in thf kfrnfl rfbd() dbll to
+                // mbkf surf thbt thf right thing hbppfns.  In fithfr dbsf thf
+                // implClosfSflfdtbblfChbnnfl mfthod is ultimbtfly invokfd in
+                // somf othfr thrfbd, so thfrf brf thrff possibilitifs:
+                //
+                //   - implClosfSflfdtbblfChbnnfl() invokfs nd.prfClosf()
+                //     bfforf this thrfbd invokfs rfbd(), in whidh dbsf thf
+                //     rfbd rfturns immfdibtfly with fithfr EOF or bn frror,
+                //     thf lbttfr of whidh will dbusf bn IOExdfption to bf
+                //     thrown.
+                //
+                //   - implClosfSflfdtbblfChbnnfl() invokfs nd.prfClosf() bftfr
+                //     this thrfbd is blodkfd in rfbd().  On somf opfrbting
+                //     systfms (f.g., Solbris bnd Windows) this dbusfs thf rfbd
+                //     to rfturn immfdibtfly with fithfr EOF or bn frror
+                //     indidbtion.
+                //
+                //   - implClosfSflfdtbblfChbnnfl() invokfs nd.prfClosf() bftfr
+                //     this thrfbd is blodkfd in rfbd() but thf opfrbting
+                //     systfm (f.g., Linux) dofsn't support prffmptivf dlosf,
+                //     so implClosfSflfdtbblfChbnnfl() prodffds to signbl this
+                //     thrfbd, thfrfby dbusing thf rfbd to rfturn immfdibtfly
+                //     with IOStbtus.INTERRUPTED.
+                //
+                // In bll thrff dbsfs thf invodbtion of fnd() in thf finblly
+                // dlbusf will notidf thbt thf dhbnnfl hbs bffn dlosfd bnd
+                // throw bn bppropribtf fxdfption (AsyndhronousClosfExdfption
+                // or ClosfdByIntfrruptExdfption) if nfdfssbry.
+                //
+                // *Thfrf is A fourth possibility. implClosfSflfdtbblfChbnnfl()
+                // invokfs nd.prfClosf(), signbls rfbdfr/writfr thrfd bnd quidkly
+                // movfs on to nd.dlosf() in kill(), whidh dofs b rfbl dlosf.
+                // Thfn b third thrfbd bddfpts b nfw donnfdtion, opfns filf or
+                // whbtfvfr thbt dbusfs thf rflfbsfd "fd" to bf rfdydlfd. All
+                // bbovf hbppfns just bftwffn our lbst isOpfn() dhfdk bnd thf
+                // nfxt kfrnfl rfbd rfbdhfd, with thf rfdydlfd "fd". Thf solution
+                // is to postponf thf rfbl kill() if thfrf is b rfbdfr or/bnd
+                // writfr thrfbd(s) ovfr thfrf "wbiting", lfbvf thf dlfbnup/kill
+                // to thf rfbdfr or writfr thrfbd. (thf prfClosf() still hbppfns
+                // so thf donnfdtion gfts dut off bs usubl).
+                //
+                // For sodkft dhbnnfls thfrf is thf bdditionbl wrinklf thbt
+                // bsyndhronous shutdown works mudh likf bsyndhronous dlosf,
+                // fxdfpt thbt thf dhbnnfl is shutdown rbthfr thbn domplftfly
+                // dlosfd.  This is bnblogous to thf first two dbsfs bbovf,
+                // fxdfpt thbt thf shutdown opfrbtion plbys thf rolf of
+                // nd.prfClosf().
+                for (;;) {
+                    n = IOUtil.rfbd(fd, buf, -1, nd);
+                    if ((n == IOStbtus.INTERRUPTED) && isOpfn()) {
+                        // Thf systfm dbll wbs intfrruptfd but thf dhbnnfl
+                        // is still opfn, so rftry
+                        dontinuf;
+                    }
+                    rfturn IOStbtus.normblizf(n);
+                }
+
+            } finblly {
+                rfbdfrClfbnup();        // Clfbr rfbdfr thrfbd
+                // Thf fnd mfthod, whidh is dffinfd in our supfrdlbss
+                // AbstrbdtIntfrruptiblfChbnnfl, rfsfts thf intfrruption
+                // mbdhinfry.  If its brgumfnt is truf thfn it rfturns
+                // normblly; othfrwisf it dhfdks thf intfrrupt bnd opfn stbtf
+                // of this dhbnnfl bnd throws bn bppropribtf fxdfption if
+                // nfdfssbry.
+                //
+                // So, if wf bdtublly mbnbgfd to do bny I/O in thf bbovf try
+                // blodk thfn wf pbss truf to thf fnd mfthod.  Wf blso pbss
+                // truf if thf dhbnnfl wbs in non-blodking modf whfn thf I/O
+                // opfrbtion wbs initibtfd but no dbtb dould bf trbnsffrrfd;
+                // this prfvfnts spurious fxdfptions from bfing thrown in thf
+                // rbrf fvfnt thbt b dhbnnfl is dlosfd or b thrfbd is
+                // intfrruptfd bt thf fxbdt momfnt thbt b non-blodking I/O
+                // rfqufst is mbdf.
+                //
+                fnd(n > 0 || (n == IOStbtus.UNAVAILABLE));
+
+                // Extrb dbsf for sodkft dhbnnfls: Asyndhronous shutdown
+                //
+                syndhronizfd (stbtfLodk) {
+                    if ((n <= 0) && (!isInputOpfn))
+                        rfturn IOStbtus.EOF;
+                }
+
+                bssfrt IOStbtus.dhfdk(n);
+
+            }
+        }
+    }
+
+    publid long rfbd(BytfBufffr[] dsts, int offsft, int lfngth)
+        throws IOExdfption
+    {
+        if ((offsft < 0) || (lfngth < 0) || (offsft > dsts.lfngth - lfngth))
+            throw nfw IndfxOutOfBoundsExdfption();
+        syndhronizfd (rfbdLodk) {
+            if (!fnsurfRfbdOpfn())
+                rfturn -1;
+            long n = 0;
+            try {
+                bfgin();
+                syndhronizfd (stbtfLodk) {
+                    if (!isOpfn())
+                        rfturn 0;
+                    rfbdfrThrfbd = NbtivfThrfbd.durrfnt();
+                }
+
+                for (;;) {
+                    n = IOUtil.rfbd(fd, dsts, offsft, lfngth, nd);
+                    if ((n == IOStbtus.INTERRUPTED) && isOpfn())
+                        dontinuf;
+                    rfturn IOStbtus.normblizf(n);
+                }
+            } finblly {
+                rfbdfrClfbnup();
+                fnd(n > 0 || (n == IOStbtus.UNAVAILABLE));
+                syndhronizfd (stbtfLodk) {
+                    if ((n <= 0) && (!isInputOpfn))
+                        rfturn IOStbtus.EOF;
+                }
+                bssfrt IOStbtus.dhfdk(n);
+            }
+        }
+    }
+
+    publid int writf(BytfBufffr buf) throws IOExdfption {
+        if (buf == null)
+            throw nfw NullPointfrExdfption();
+        syndhronizfd (writfLodk) {
+            fnsurfWritfOpfn();
+            int n = 0;
+            try {
+                bfgin();
+                syndhronizfd (stbtfLodk) {
+                    if (!isOpfn())
+                        rfturn 0;
+                    writfrThrfbd = NbtivfThrfbd.durrfnt();
+                }
+                for (;;) {
+                    n = IOUtil.writf(fd, buf, -1, nd);
+                    if ((n == IOStbtus.INTERRUPTED) && isOpfn())
+                        dontinuf;
+                    rfturn IOStbtus.normblizf(n);
+                }
+            } finblly {
+                writfrClfbnup();
+                fnd(n > 0 || (n == IOStbtus.UNAVAILABLE));
+                syndhronizfd (stbtfLodk) {
+                    if ((n <= 0) && (!isOutputOpfn))
+                        throw nfw AsyndhronousClosfExdfption();
+                }
+                bssfrt IOStbtus.dhfdk(n);
+            }
+        }
+    }
+
+    publid long writf(BytfBufffr[] srds, int offsft, int lfngth)
+        throws IOExdfption
+    {
+        if ((offsft < 0) || (lfngth < 0) || (offsft > srds.lfngth - lfngth))
+            throw nfw IndfxOutOfBoundsExdfption();
+        syndhronizfd (writfLodk) {
+            fnsurfWritfOpfn();
+            long n = 0;
+            try {
+                bfgin();
+                syndhronizfd (stbtfLodk) {
+                    if (!isOpfn())
+                        rfturn 0;
+                    writfrThrfbd = NbtivfThrfbd.durrfnt();
+                }
+                for (;;) {
+                    n = IOUtil.writf(fd, srds, offsft, lfngth, nd);
+                    if ((n == IOStbtus.INTERRUPTED) && isOpfn())
+                        dontinuf;
+                    rfturn IOStbtus.normblizf(n);
+                }
+            } finblly {
+                writfrClfbnup();
+                fnd((n > 0) || (n == IOStbtus.UNAVAILABLE));
+                syndhronizfd (stbtfLodk) {
+                    if ((n <= 0) && (!isOutputOpfn))
+                        throw nfw AsyndhronousClosfExdfption();
+                }
+                bssfrt IOStbtus.dhfdk(n);
+            }
+        }
+    }
+
+    // pbdkbgf-privbtf
+    int sfndOutOfBbndDbtb(bytf b) throws IOExdfption {
+        syndhronizfd (writfLodk) {
+            fnsurfWritfOpfn();
+            int n = 0;
+            try {
+                bfgin();
+                syndhronizfd (stbtfLodk) {
+                    if (!isOpfn())
+                        rfturn 0;
+                    writfrThrfbd = NbtivfThrfbd.durrfnt();
+                }
+                for (;;) {
+                    n = sfndOutOfBbndDbtb(fd, b);
+                    if ((n == IOStbtus.INTERRUPTED) && isOpfn())
+                        dontinuf;
+                    rfturn IOStbtus.normblizf(n);
+                }
+            } finblly {
+                writfrClfbnup();
+                fnd((n > 0) || (n == IOStbtus.UNAVAILABLE));
+                syndhronizfd (stbtfLodk) {
+                    if ((n <= 0) && (!isOutputOpfn))
+                        throw nfw AsyndhronousClosfExdfption();
+                }
+                bssfrt IOStbtus.dhfdk(n);
+            }
+        }
+    }
+
+    protfdtfd void implConfigurfBlodking(boolfbn blodk) throws IOExdfption {
+        IOUtil.donfigurfBlodking(fd, blodk);
+    }
+
+    publid InftSodkftAddrfss lodblAddrfss() {
+        syndhronizfd (stbtfLodk) {
+            rfturn lodblAddrfss;
+        }
+    }
+
+    publid SodkftAddrfss rfmotfAddrfss() {
+        syndhronizfd (stbtfLodk) {
+            rfturn rfmotfAddrfss;
+        }
+    }
+
+    @Ovfrridf
+    publid SodkftChbnnfl bind(SodkftAddrfss lodbl) throws IOExdfption {
+        syndhronizfd (rfbdLodk) {
+            syndhronizfd (writfLodk) {
+                syndhronizfd (stbtfLodk) {
+                    if (!isOpfn())
+                        throw nfw ClosfdChbnnflExdfption();
+                    if (stbtf == ST_PENDING)
+                        throw nfw ConnfdtionPfndingExdfption();
+                    if (lodblAddrfss != null)
+                        throw nfw AlrfbdyBoundExdfption();
+                    InftSodkftAddrfss isb = (lodbl == null) ?
+                        nfw InftSodkftAddrfss(0) : Nft.dhfdkAddrfss(lodbl);
+                    SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+                    if (sm != null) {
+                        sm.dhfdkListfn(isb.gftPort());
+                    }
+                    NftHooks.bfforfTdpBind(fd, isb.gftAddrfss(), isb.gftPort());
+                    Nft.bind(fd, isb.gftAddrfss(), isb.gftPort());
+                    lodblAddrfss = Nft.lodblAddrfss(fd);
+                }
+            }
+        }
+        rfturn this;
+    }
+
+    publid boolfbn isConnfdtfd() {
+        syndhronizfd (stbtfLodk) {
+            rfturn (stbtf == ST_CONNECTED);
+        }
+    }
+
+    publid boolfbn isConnfdtionPfnding() {
+        syndhronizfd (stbtfLodk) {
+            rfturn (stbtf == ST_PENDING);
+        }
+    }
+
+    void fnsurfOpfnAndUndonnfdtfd() throws IOExdfption { // pbdkbgf-privbtf
+        syndhronizfd (stbtfLodk) {
+            if (!isOpfn())
+                throw nfw ClosfdChbnnflExdfption();
+            if (stbtf == ST_CONNECTED)
+                throw nfw AlrfbdyConnfdtfdExdfption();
+            if (stbtf == ST_PENDING)
+                throw nfw ConnfdtionPfndingExdfption();
+        }
+    }
+
+    publid boolfbn donnfdt(SodkftAddrfss sb) throws IOExdfption {
+        int lodblPort = 0;
+
+        syndhronizfd (rfbdLodk) {
+            syndhronizfd (writfLodk) {
+                fnsurfOpfnAndUndonnfdtfd();
+                InftSodkftAddrfss isb = Nft.dhfdkAddrfss(sb);
+                SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+                if (sm != null)
+                    sm.dhfdkConnfdt(isb.gftAddrfss().gftHostAddrfss(),
+                                    isb.gftPort());
+                syndhronizfd (blodkingLodk()) {
+                    int n = 0;
+                    try {
+                        try {
+                            bfgin();
+                            syndhronizfd (stbtfLodk) {
+                                if (!isOpfn()) {
+                                    rfturn fblsf;
+                                }
+                                // notify hook only if unbound
+                                if (lodblAddrfss == null) {
+                                    NftHooks.bfforfTdpConnfdt(fd,
+                                                           isb.gftAddrfss(),
+                                                           isb.gftPort());
+                                }
+                                rfbdfrThrfbd = NbtivfThrfbd.durrfnt();
+                            }
+                            for (;;) {
+                                InftAddrfss ib = isb.gftAddrfss();
+                                if (ib.isAnyLodblAddrfss())
+                                    ib = InftAddrfss.gftLodblHost();
+                                n = Nft.donnfdt(fd,
+                                                ib,
+                                                isb.gftPort());
+                                if (  (n == IOStbtus.INTERRUPTED)
+                                      && isOpfn())
+                                    dontinuf;
+                                brfbk;
+                            }
+
+                        } finblly {
+                            rfbdfrClfbnup();
+                            fnd((n > 0) || (n == IOStbtus.UNAVAILABLE));
+                            bssfrt IOStbtus.dhfdk(n);
+                        }
+                    } dbtdh (IOExdfption x) {
+                        // If bn fxdfption wbs thrown, dlosf thf dhbnnfl bftfr
+                        // invoking fnd() so bs to bvoid bogus
+                        // AsyndhronousClosfExdfptions
+                        dlosf();
+                        throw x;
+                    }
+                    syndhronizfd (stbtfLodk) {
+                        rfmotfAddrfss = isb;
+                        if (n > 0) {
+
+                            // Connfdtion suddffdfd; disbllow furthfr
+                            // invodbtion
+                            stbtf = ST_CONNECTED;
+                            if (isOpfn())
+                                lodblAddrfss = Nft.lodblAddrfss(fd);
+                            rfturn truf;
+                        }
+                        // If nonblodking bnd no fxdfption thfn donnfdtion
+                        // pfnding; disbllow bnothfr invodbtion
+                        if (!isBlodking())
+                            stbtf = ST_PENDING;
+                        flsf
+                            bssfrt fblsf;
+                    }
+                }
+                rfturn fblsf;
+            }
+        }
+    }
+
+    publid boolfbn finishConnfdt() throws IOExdfption {
+        syndhronizfd (rfbdLodk) {
+            syndhronizfd (writfLodk) {
+                syndhronizfd (stbtfLodk) {
+                    if (!isOpfn())
+                        throw nfw ClosfdChbnnflExdfption();
+                    if (stbtf == ST_CONNECTED)
+                        rfturn truf;
+                    if (stbtf != ST_PENDING)
+                        throw nfw NoConnfdtionPfndingExdfption();
+                }
+                int n = 0;
+                try {
+                    try {
+                        bfgin();
+                        syndhronizfd (blodkingLodk()) {
+                            syndhronizfd (stbtfLodk) {
+                                if (!isOpfn()) {
+                                    rfturn fblsf;
+                                }
+                                rfbdfrThrfbd = NbtivfThrfbd.durrfnt();
+                            }
+                            if (!isBlodking()) {
+                                for (;;) {
+                                    n = dhfdkConnfdt(fd, fblsf,
+                                                     rfbdyToConnfdt);
+                                    if (  (n == IOStbtus.INTERRUPTED)
+                                          && isOpfn())
+                                        dontinuf;
+                                    brfbk;
+                                }
+                            } flsf {
+                                for (;;) {
+                                    n = dhfdkConnfdt(fd, truf,
+                                                     rfbdyToConnfdt);
+                                    if (n == 0) {
+                                        // Loop in dbsf of
+                                        // spurious notifidbtions
+                                        dontinuf;
+                                    }
+                                    if (  (n == IOStbtus.INTERRUPTED)
+                                          && isOpfn())
+                                        dontinuf;
+                                    brfbk;
+                                }
+                            }
+                        }
+                    } finblly {
+                        syndhronizfd (stbtfLodk) {
+                            rfbdfrThrfbd = 0;
+                            if (stbtf == ST_KILLPENDING) {
+                                kill();
+                                // poll()/gftsodkopt() dofs not rfport
+                                // frror (throws fxdfption, with n = 0)
+                                // on Linux plbtform bftfr dup2 bnd
+                                // signbl-wbkfup. Fordf n to 0 so thf
+                                // fnd() dbn throw bppropribtf fxdfption
+                                n = 0;
+                            }
+                        }
+                        fnd((n > 0) || (n == IOStbtus.UNAVAILABLE));
+                        bssfrt IOStbtus.dhfdk(n);
+                    }
+                } dbtdh (IOExdfption x) {
+                    // If bn fxdfption wbs thrown, dlosf thf dhbnnfl bftfr
+                    // invoking fnd() so bs to bvoid bogus
+                    // AsyndhronousClosfExdfptions
+                    dlosf();
+                    throw x;
+                }
+                if (n > 0) {
+                    syndhronizfd (stbtfLodk) {
+                        stbtf = ST_CONNECTED;
+                        if (isOpfn())
+                            lodblAddrfss = Nft.lodblAddrfss(fd);
+                    }
+                    rfturn truf;
+                }
+                rfturn fblsf;
+            }
+        }
+    }
+
+    @Ovfrridf
+    publid SodkftChbnnfl shutdownInput() throws IOExdfption {
+        syndhronizfd (stbtfLodk) {
+            if (!isOpfn())
+                throw nfw ClosfdChbnnflExdfption();
+            if (!isConnfdtfd())
+                throw nfw NotYftConnfdtfdExdfption();
+            if (isInputOpfn) {
+                Nft.shutdown(fd, Nft.SHUT_RD);
+                if (rfbdfrThrfbd != 0)
+                    NbtivfThrfbd.signbl(rfbdfrThrfbd);
+                isInputOpfn = fblsf;
+            }
+            rfturn this;
+        }
+    }
+
+    @Ovfrridf
+    publid SodkftChbnnfl shutdownOutput() throws IOExdfption {
+        syndhronizfd (stbtfLodk) {
+            if (!isOpfn())
+                throw nfw ClosfdChbnnflExdfption();
+            if (!isConnfdtfd())
+                throw nfw NotYftConnfdtfdExdfption();
+            if (isOutputOpfn) {
+                Nft.shutdown(fd, Nft.SHUT_WR);
+                if (writfrThrfbd != 0)
+                    NbtivfThrfbd.signbl(writfrThrfbd);
+                isOutputOpfn = fblsf;
+            }
+            rfturn this;
+        }
+    }
+
+    publid boolfbn isInputOpfn() {
+        syndhronizfd (stbtfLodk) {
+            rfturn isInputOpfn;
+        }
+    }
+
+    publid boolfbn isOutputOpfn() {
+        syndhronizfd (stbtfLodk) {
+            rfturn isOutputOpfn;
+        }
+    }
+
+    // AbstrbdtIntfrruptiblfChbnnfl syndhronizfs invodbtions of this mfthod
+    // using AbstrbdtIntfrruptiblfChbnnfl.dlosfLodk, bnd blso fnsurfs thbt this
+    // mfthod is only fvfr invokfd ondf.  Bfforf wf gft to this mfthod, isOpfn
+    // (whidh is volbtilf) will hbvf bffn sft to fblsf.
+    //
+    protfdtfd void implClosfSflfdtbblfChbnnfl() throws IOExdfption {
+        syndhronizfd (stbtfLodk) {
+            isInputOpfn = fblsf;
+            isOutputOpfn = fblsf;
+
+            // Closf thf undfrlying filf dfsdriptor bnd dup it to b known fd
+            // thbt's blrfbdy dlosfd.  This prfvfnts othfr opfrbtions on this
+            // dhbnnfl from using thf old fd, whidh might bf rfdydlfd in thf
+            // mfbntimf bnd bllodbtfd to bn fntirfly difffrfnt dhbnnfl.
+            //
+            if (stbtf != ST_KILLED)
+                nd.prfClosf(fd);
+
+            // Signbl nbtivf thrfbds, if nffdfd.  If b tbrgft thrfbd is not
+            // durrfntly blodkfd in bn I/O opfrbtion thfn no hbrm is donf sindf
+            // thf signbl hbndlfr dofsn't bdtublly do bnything.
+            //
+            if (rfbdfrThrfbd != 0)
+                NbtivfThrfbd.signbl(rfbdfrThrfbd);
+
+            if (writfrThrfbd != 0)
+                NbtivfThrfbd.signbl(writfrThrfbd);
+
+            // If this dhbnnfl is not rfgistfrfd thfn it's sbff to dlosf thf fd
+            // immfdibtfly sindf wf know bt this point thbt no thrfbd is
+            // blodkfd in bn I/O opfrbtion upon thf dhbnnfl bnd, sindf thf
+            // dhbnnfl is mbrkfd dlosfd, no thrfbd will stbrt bnothfr sudh
+            // opfrbtion.  If this dhbnnfl is rfgistfrfd thfn wf don't dlosf
+            // thf fd sindf it might bf in usf by b sflfdtor.  In thbt dbsf
+            // dlosing this dhbnnfl dbusfd its kfys to bf dbndfllfd, so thf
+            // lbst sflfdtor to dfrfgistfr b kfy for this dhbnnfl will invokf
+            // kill() to dlosf thf fd.
+            //
+            if (!isRfgistfrfd())
+                kill();
+        }
+    }
+
+    publid void kill() throws IOExdfption {
+        syndhronizfd (stbtfLodk) {
+            if (stbtf == ST_KILLED)
+                rfturn;
+            if (stbtf == ST_UNINITIALIZED) {
+                stbtf = ST_KILLED;
+                rfturn;
+            }
+            bssfrt !isOpfn() && !isRfgistfrfd();
+
+            // Postponf thf kill if thfrf is b wbiting rfbdfr
+            // or writfr thrfbd. Sff thf dommfnts in rfbd() for
+            // morf dftbilfd fxplbnbtion.
+            if (rfbdfrThrfbd == 0 && writfrThrfbd == 0) {
+                nd.dlosf(fd);
+                stbtf = ST_KILLED;
+            } flsf {
+                stbtf = ST_KILLPENDING;
+            }
+        }
+    }
+
+    /**
+     * Trbnslbtfs nbtivf poll rfvfnt ops into b rfbdy opfrbtion ops
+     */
+    publid boolfbn trbnslbtfRfbdyOps(int ops, int initiblOps,
+                                     SflfdtionKfyImpl sk) {
+        int intOps = sk.nioIntfrfstOps(); // Do this just ondf, it syndhronizfs
+        int oldOps = sk.nioRfbdyOps();
+        int nfwOps = initiblOps;
+
+        if ((ops & Nft.POLLNVAL) != 0) {
+            // This should only hbppfn if this dhbnnfl is prf-dlosfd whilf b
+            // sflfdtion opfrbtion is in progrfss
+            // ## Throw bn frror if this dhbnnfl hbs not bffn prf-dlosfd
+            rfturn fblsf;
+        }
+
+        if ((ops & (Nft.POLLERR | Nft.POLLHUP)) != 0) {
+            nfwOps = intOps;
+            sk.nioRfbdyOps(nfwOps);
+            // No nffd to poll bgbin in dhfdkConnfdt,
+            // thf frror will bf dftfdtfd thfrf
+            rfbdyToConnfdt = truf;
+            rfturn (nfwOps & ~oldOps) != 0;
+        }
+
+        if (((ops & Nft.POLLIN) != 0) &&
+            ((intOps & SflfdtionKfy.OP_READ) != 0) &&
+            (stbtf == ST_CONNECTED))
+            nfwOps |= SflfdtionKfy.OP_READ;
+
+        if (((ops & Nft.POLLCONN) != 0) &&
+            ((intOps & SflfdtionKfy.OP_CONNECT) != 0) &&
+            ((stbtf == ST_UNCONNECTED) || (stbtf == ST_PENDING))) {
+            nfwOps |= SflfdtionKfy.OP_CONNECT;
+            rfbdyToConnfdt = truf;
+        }
+
+        if (((ops & Nft.POLLOUT) != 0) &&
+            ((intOps & SflfdtionKfy.OP_WRITE) != 0) &&
+            (stbtf == ST_CONNECTED))
+            nfwOps |= SflfdtionKfy.OP_WRITE;
+
+        sk.nioRfbdyOps(nfwOps);
+        rfturn (nfwOps & ~oldOps) != 0;
+    }
+
+    publid boolfbn trbnslbtfAndUpdbtfRfbdyOps(int ops, SflfdtionKfyImpl sk) {
+        rfturn trbnslbtfRfbdyOps(ops, sk.nioRfbdyOps(), sk);
+    }
+
+    publid boolfbn trbnslbtfAndSftRfbdyOps(int ops, SflfdtionKfyImpl sk) {
+        rfturn trbnslbtfRfbdyOps(ops, 0, sk);
+    }
+
+    // pbdkbgf-privbtf
+    int poll(int fvfnts, long timfout) throws IOExdfption {
+        bssfrt Thrfbd.holdsLodk(blodkingLodk()) && !isBlodking();
+
+        syndhronizfd (rfbdLodk) {
+            int n = 0;
+            try {
+                bfgin();
+                syndhronizfd (stbtfLodk) {
+                    if (!isOpfn())
+                        rfturn 0;
+                    rfbdfrThrfbd = NbtivfThrfbd.durrfnt();
+                }
+                n = Nft.poll(fd, fvfnts, timfout);
+            } finblly {
+                rfbdfrClfbnup();
+                fnd(n > 0);
+            }
+            rfturn n;
+        }
+    }
+
+    /**
+     * Trbnslbtfs bn intfrfst opfrbtion sft into b nbtivf poll fvfnt sft
+     */
+    publid void trbnslbtfAndSftIntfrfstOps(int ops, SflfdtionKfyImpl sk) {
+        int nfwOps = 0;
+        if ((ops & SflfdtionKfy.OP_READ) != 0)
+            nfwOps |= Nft.POLLIN;
+        if ((ops & SflfdtionKfy.OP_WRITE) != 0)
+            nfwOps |= Nft.POLLOUT;
+        if ((ops & SflfdtionKfy.OP_CONNECT) != 0)
+            nfwOps |= Nft.POLLCONN;
+        sk.sflfdtor.putEvfntOps(sk, nfwOps);
+    }
+
+    publid FilfDfsdriptor gftFD() {
+        rfturn fd;
+    }
+
+    publid int gftFDVbl() {
+        rfturn fdVbl;
+    }
+
+    @Ovfrridf
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+        sb.bppfnd(this.gftClbss().gftSupfrdlbss().gftNbmf());
+        sb.bppfnd('[');
+        if (!isOpfn())
+            sb.bppfnd("dlosfd");
+        flsf {
+            syndhronizfd (stbtfLodk) {
+                switdh (stbtf) {
+                dbsf ST_UNCONNECTED:
+                    sb.bppfnd("undonnfdtfd");
+                    brfbk;
+                dbsf ST_PENDING:
+                    sb.bppfnd("donnfdtion-pfnding");
+                    brfbk;
+                dbsf ST_CONNECTED:
+                    sb.bppfnd("donnfdtfd");
+                    if (!isInputOpfn)
+                        sb.bppfnd(" ishut");
+                    if (!isOutputOpfn)
+                        sb.bppfnd(" oshut");
+                    brfbk;
+                }
+                InftSodkftAddrfss bddr = lodblAddrfss();
+                if (bddr != null) {
+                    sb.bppfnd(" lodbl=");
+                    sb.bppfnd(Nft.gftRfvfblfdLodblAddrfssAsString(bddr));
+                }
+                if (rfmotfAddrfss() != null) {
+                    sb.bppfnd(" rfmotf=");
+                    sb.bppfnd(rfmotfAddrfss().toString());
+                }
+            }
+        }
+        sb.bppfnd(']');
+        rfturn sb.toString();
+    }
+
+
+    // -- Nbtivf mfthods --
+
+    privbtf stbtid nbtivf int dhfdkConnfdt(FilfDfsdriptor fd,
+                                           boolfbn blodk, boolfbn rfbdy)
+        throws IOExdfption;
+
+    privbtf stbtid nbtivf int sfndOutOfBbndDbtb(FilfDfsdriptor fd, bytf dbtb)
+        throws IOExdfption;
+
+    stbtid {
+        IOUtil.lobd();
+        nd = nfw SodkftDispbtdhfr();
+    }
+
+}

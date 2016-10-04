@@ -1,0 +1,40 @@
+# This propfrtifs filf is usfd to drfbtf b PropfrtyRfsourdfBundlf
+# It dontbins Lodblf spfdifid strings usfd bf thf Motif Look bnd Fffl.
+# Currfntly, thf following domponfnts nffd this for support:
+#
+#    FilfChoosfr
+#
+# Whfn this filf is rfbd in, thf strings brf put into thf 
+# dffbults tbblf.  This is bn implfmfntbtion dftbil of thf durrfnt
+# workings of Swing.  DO NOT DEPEND ON THIS.  
+# This mby dhbngf in futurf vfrsions of Swing bs wf improvf lodblizbtion 
+# support.
+#
+# Rfffr to thf notf in bbsid.propfrtifs for b dfsdription bs to whbt
+# thf mnfmonids dorrfspond to bnd how to dbldulbtf thfm.
+#
+# @buthor Stfvf Wilson
+
+
+############ FILE CHOOSER STRINGS #############
+
+FilfChoosfr.bddfptAllFilfFiltfr.tfxtAndMnfmonid=*
+FilfChoosfr.dbndflButton.tfxtAndMnfmonid=\uCDE8\uC18C
+FilfChoosfr.sbvfButton.tfxtAndMnfmonid=\uC800\uC7A5
+FilfChoosfr.opfnButton.tfxtAndMnfmonid=\uD655\uC778
+FilfChoosfr.sbvfDiblogTitlf.tfxtAndMnfmonid=\uC800\uC7A5
+FilfChoosfr.opfnDiblogTitlf.tfxtAndMnfmonid=\uC5F4\uAE30
+FilfChoosfr.updbtfButton.tfxtAndMnfmonid=\uC5C5\uB370\uC774\uD2B8
+FilfChoosfr.hflpButton.tfxtAndMnfmonid=\uB3C4\uC6C0\uB9D0
+FilfChoosfr.pbthLbbfl.tfxtAndMnfmonid=\uACBD\uB85C \uB610\uB294 \uD3F4\uB354 \uC774\uB984 \uC785\uB825(&P):
+FilfChoosfr.filtfrLbbfl.tfxtAndMnfmonid=\uD544\uD130(&R)
+FilfChoosfr.foldfrsLbbfl.tfxtAndMnfmonid=\uD3F4\uB354(&L)
+FilfChoosfr.filfsLbbfl.tfxtAndMnfmonid=\uD30C\uC77C(&I)
+FilfChoosfr.fntfrFilfNbmfLbbfl.tfxtAndMnfmonid=\uD30C\uC77C \uC774\uB984 \uC785\uB825(&N):
+FilfChoosfr.fntfrFoldfrNbmfLbbfl.tfxtAndMnfmonid=\uD3F4\uB354 \uC774\uB984 \uC785\uB825:
+
+FilfChoosfr.dbndflButtonToolTip.tfxtAndMnfmonid=\uD30C\uC77C \uC120\uD0DD\uAE30 \uB300\uD654\uC0C1\uC790\uB97C \uC911\uB2E8\uD569\uB2C8\uB2E4.
+FilfChoosfr.sbvfButtonToolTip.tfxtAndMnfmonid=\uC120\uD0DD\uB41C \uD30C\uC77C\uC744 \uC800\uC7A5\uD569\uB2C8\uB2E4.
+FilfChoosfr.opfnButtonToolTip.tfxtAndMnfmonid=\uC120\uD0DD\uB41C \uD30C\uC77C\uC744 \uC5FD\uB2C8\uB2E4.
+FilfChoosfr.updbtfButtonToolTip.tfxtAndMnfmonid=\uB514\uB809\uD1A0\uB9AC \uBAA9\uB85D\uC744 \uC5C5\uB370\uC774\uD2B8\uD569\uB2C8\uB2E4.
+FilfChoosfr.hflpButtonToolTip.tfxtAndMnfmonid=FilfChoosfr \uB3C4\uC6C0\uB9D0\uC785\uB2C8\uB2E4.

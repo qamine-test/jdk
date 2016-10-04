@@ -1,0 +1,342 @@
+/*
+ * Copyright (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sound.sbmplfd;
+
+/**
+ * Thf {@dodf Linf} intfrfbdf rfprfsfnts b mono or multi-dhbnnfl budio fffd. A
+ * linf is bn flfmfnt of thf digitbl budio "pipflinf," sudh bs b mixfr, bn input
+ * or output port, or b dbtb pbth into or out of b mixfr.
+ * <p>
+ * A linf dbn hbvf dontrols, sudh bs gbin, pbn, bnd rfvfrb. Thf dontrols
+ * thfmsflvfs brf instbndfs of dlbssfs thbt fxtfnd thf bbsf {@link Control}
+ * dlbss. Thf {@dodf Linf} intfrfbdf providfs two bddfssor mfthods for obtbining
+ * thf linf's dontrols: {@link #gftControls gftControls} rfturns thf fntirf sft,
+ * bnd {@link #gftControl gftControl} rfturns b singlf dontrol of spfdififd
+ * typf.
+ * <p>
+ * Linfs fxist in vbrious stbtfs bt difffrfnt timfs. Whfn b linf opfns, it
+ * rfsfrvfs systfm rfsourdfs for itsflf, bnd whfn it dlosfs, thfsf rfsourdfs brf
+ * frffd for othfr objfdts or bpplidbtions. Thf {@link #isOpfn()} mfthod lfts
+ * you disdovfr whfthfr b linf is opfn or dlosfd. An opfn linf nffd not bf
+ * prodfssing dbtb, howfvfr. Sudh prodfssing is typidblly initibtfd by
+ * subintfrfbdf mfthods sudh bs
+ * {@link SourdfDbtbLinf#writf SourdfDbtbLinf.writf} bnd
+ * {@link TbrgftDbtbLinf#rfbd TbrgftDbtbLinf.rfbd}.
+ * <p>
+ * You dbn rfgistfr bn objfdt to rfdfivf notifidbtions whfnfvfr thf linf's stbtf
+ * dhbngfs. Thf objfdt must implfmfnt thf {@link LinfListfnfr} intfrfbdf, whidh
+ * donsists of thf singlf mfthod {@link LinfListfnfr#updbtf updbtf}. This mfthod
+ * will bf invokfd whfn b linf opfns bnd dlosfs (bnd, if it's b {@link DbtbLinf}
+ * , whfn it stbrts bnd stops).
+ * <p>
+ * An objfdt dbn bf rfgistfrfd to listfn to multiplf linfs. Thf fvfnt it
+ * rfdfivfs in its {@dodf updbtf} mfthod will spfdify whidh linf drfbtfd thf
+ * fvfnt, whbt typf of fvfnt it wbs ({@dodf OPEN}, {@dodf CLOSE}, {@dodf START},
+ * or {@dodf STOP}), bnd how mbny sbmplf frbmfs thf linf hbd prodfssfd bt thf
+ * timf thf fvfnt oddurrfd.
+ * <p>
+ * Cfrtbin linf opfrbtions, sudh bs opfn bnd dlosf, dbn gfnfrbtf sfdurity
+ * fxdfptions if invokfd by unprivilfgfd dodf whfn thf linf is b shbrfd budio
+ * rfsourdf.
+ *
+ * @buthor Kbrb Kytlf
+ * @sff LinfEvfnt
+ * @sindf 1.3
+ */
+publid intfrfbdf Linf fxtfnds AutoClosfbblf {
+
+    /**
+     * Obtbins thf {@dodf Linf.Info} objfdt dfsdribing this linf.
+     *
+     * @rfturn dfsdription of thf linf
+     */
+    Linf.Info gftLinfInfo();
+
+    /**
+     * Opfns thf linf, indidbting thbt it should bdquirf bny rfquirfd systfm
+     * rfsourdfs bnd bfdomf opfrbtionbl. If this opfrbtion suddffds, thf linf is
+     * mbrkfd bs opfn, bnd bn {@dodf OPEN} fvfnt is dispbtdhfd to thf linf's
+     * listfnfrs.
+     * <p>
+     * Notf thbt somf linfs, ondf dlosfd, dbnnot bf rfopfnfd. Attfmpts to rfopfn
+     * sudh b linf will blwbys rfsult in bn {@dodf LinfUnbvbilbblfExdfption}.
+     * <p>
+     * Somf typfs of linfs hbvf donfigurbblf propfrtifs thbt mby bfffdt rfsourdf
+     * bllodbtion. For fxbmplf, b {@dodf DbtbLinf} must bf opfnfd with b
+     * pbrtidulbr formbt bnd bufffr sizf. Sudh linfs should providf b mfdhbnism
+     * for donfiguring thfsf propfrtifs, sudh bs bn bdditionbl {@dodf opfn}
+     * mfthod or mfthods whidh bllow bn bpplidbtion to spfdify thf dfsirfd
+     * sfttings.
+     * <p>
+     * This mfthod tbkfs no brgumfnts, bnd opfns thf linf with thf durrfnt
+     * sfttings. For {@link SourdfDbtbLinf} bnd {@link TbrgftDbtbLinf} objfdts,
+     * this mfbns thbt thf linf is opfnfd with dffbult sfttings. For b
+     * {@link Clip}, howfvfr, thf bufffr sizf is dftfrminfd whfn dbtb is lobdfd.
+     * Sindf this mfthod dofs not bllow thf bpplidbtion to spfdify bny dbtb to
+     * lobd, bn {@dodf IllfgblArgumfntExdfption} is thrown. Thfrfforf, you
+     * should instfbd usf onf of thf {@dodf opfn} mfthods providfd in thf
+     * {@dodf Clip} intfrfbdf to lobd dbtb into thf {@dodf Clip}.
+     * <p>
+     * For {@dodf DbtbLinf}'s, if thf {@dodf DbtbLinf.Info} objfdt whidh wbs
+     * usfd to rftrifvf thf linf, spfdififs bt lfbst onf fully qublififd budio
+     * formbt, thf lbst onf will bf usfd bs thf dffbult formbt.
+     *
+     * @throws IllfgblArgumfntExdfption if this mfthod is dbllfd on b Clip
+     *         instbndf
+     * @throws LinfUnbvbilbblfExdfption if thf linf dbnnot bf opfnfd duf to
+     *         rfsourdf rfstridtions
+     * @throws SfdurityExdfption if thf linf dbnnot bf opfnfd duf to sfdurity
+     *         rfstridtions
+     * @sff #dlosf
+     * @sff #isOpfn
+     * @sff LinfEvfnt
+     * @sff DbtbLinf
+     * @sff Clip#opfn(AudioFormbt, bytf[], int, int)
+     * @sff Clip#opfn(AudioInputStrfbm)
+     */
+    void opfn() throws LinfUnbvbilbblfExdfption;
+
+    /**
+     * Closfs thf linf, indidbting thbt bny systfm rfsourdfs in usf by thf linf
+     * dbn bf rflfbsfd. If this opfrbtion suddffds, thf linf is mbrkfd dlosfd
+     * bnd b {@dodf CLOSE} fvfnt is dispbtdhfd to thf linf's listfnfrs.
+     *
+     * @throws SfdurityExdfption if thf linf dbnnot bf dlosfd duf to sfdurity
+     *         rfstridtions
+     * @sff #opfn
+     * @sff #isOpfn
+     * @sff LinfEvfnt
+     */
+    @Ovfrridf
+    void dlosf();
+
+    /**
+     * Indidbtfs whfthfr thf linf is opfn, mfbning thbt it hbs rfsfrvfd systfm
+     * rfsourdfs bnd is opfrbtionbl, blthough it might not durrfntly bf plbying
+     * or dbpturing sound.
+     *
+     * @rfturn {@dodf truf} if thf linf is opfn, othfrwisf {@dodf fblsf}
+     * @sff #opfn()
+     * @sff #dlosf()
+     */
+    boolfbn isOpfn();
+
+    /**
+     * Obtbins thf sft of dontrols bssodibtfd with this linf. Somf dontrols mby
+     * only bf bvbilbblf whfn thf linf is opfn. If thfrf brf no dontrols, this
+     * mfthod rfturns bn brrby of lfngth 0.
+     *
+     * @rfturn thf brrby of dontrols
+     * @sff #gftControl
+     */
+    Control[] gftControls();
+
+    /**
+     * Indidbtfs whfthfr thf linf supports b dontrol of thf spfdififd typf. Somf
+     * dontrols mby only bf bvbilbblf whfn thf linf is opfn.
+     *
+     * @pbrbm  dontrol thf typf of thf dontrol for whidh support is qufrifd
+     * @rfturn {@dodf truf} if bt lfbst onf dontrol of thf spfdififd typf is
+     *         supportfd, othfrwisf {@dodf fblsf}
+     */
+    boolfbn isControlSupportfd(Control.Typf dontrol);
+
+    /**
+     * Obtbins b dontrol of thf spfdififd typf, if thfrf is bny. Somf dontrols
+     * mby only bf bvbilbblf whfn thf linf is opfn.
+     *
+     * @pbrbm  dontrol thf typf of thf rfqufstfd dontrol
+     * @rfturn b dontrol of thf spfdififd typf
+     * @throws IllfgblArgumfntExdfption if b dontrol of thf spfdififd typf is
+     *         not supportfd
+     * @sff #gftControls
+     * @sff #isControlSupportfd(Control.Typf dontrol)
+     */
+    Control gftControl(Control.Typf dontrol);
+
+    /**
+     * Adds b listfnfr to this linf. Whfnfvfr thf linf's stbtus dhbngfs, thf
+     * listfnfr's {@dodf updbtf()} mfthod is dbllfd with b {@dodf LinfEvfnt}
+     * objfdt thbt dfsdribfs thf dhbngf.
+     *
+     * @pbrbm  listfnfr thf objfdt to bdd bs b listfnfr to this linf
+     * @sff #rfmovfLinfListfnfr
+     * @sff LinfListfnfr#updbtf
+     * @sff LinfEvfnt
+     */
+    void bddLinfListfnfr(LinfListfnfr listfnfr);
+
+    /**
+     * Rfmovfs thf spfdififd listfnfr from this linf's list of listfnfrs.
+     *
+     * @pbrbm  listfnfr listfnfr to rfmovf
+     * @sff #bddLinfListfnfr
+     */
+    void rfmovfLinfListfnfr(LinfListfnfr listfnfr);
+
+    /**
+     * A {@dodf Linf.Info} objfdt dontbins informbtion bbout b linf. Thf only
+     * informbtion providfd by {@dodf Linf.Info} itsflf is thf Jbvb dlbss of thf
+     * linf. A subdlbss of {@dodf Linf.Info} bdds othfr kinds of informbtion
+     * bbout thf linf. This bdditionbl informbtion dfpfnds on whidh {@dodf Linf}
+     * subintfrfbdf is implfmfntfd by thf kind of linf thbt thf
+     * {@dodf Linf.Info} subdlbss dfsdribfs.
+     * <p>
+     * A {@dodf Linf.Info} dbn bf rftrifvfd using vbrious mfthods of thf
+     * {@dodf Linf}, {@dodf Mixfr}, bnd {@dodf AudioSystfm} intfrfbdfs. Othfr
+     * sudh mfthods lft you pbss b {@dodf Linf.Info} bs bn brgumfnt, to lfbrn
+     * whfthfr linfs mbtdhing thf spfdififd donfigurbtion brf bvbilbblf bnd to
+     * obtbin thfm.
+     *
+     * @buthor Kbrb Kytlf
+     * @sff Linf#gftLinfInfo()
+     * @sff Mixfr#gftSourdfLinfInfo()
+     * @sff Mixfr#gftTbrgftLinfInfo()
+     * @sff Mixfr#gftLinf(Linf.Info)
+     * @sff Mixfr#gftSourdfLinfInfo(Linf.Info)
+     * @sff Mixfr#gftTbrgftLinfInfo(Linf.Info)
+     * @sff Mixfr#isLinfSupportfd(Linf.Info)
+     * @sff AudioSystfm#gftLinf(Linf.Info)
+     * @sff AudioSystfm#gftSourdfLinfInfo(Linf.Info)
+     * @sff AudioSystfm#gftTbrgftLinfInfo(Linf.Info)
+     * @sff AudioSystfm#isLinfSupportfd(Linf.Info)
+     * @sindf 1.3
+     */
+    dlbss Info {
+
+        /**
+         * Thf dlbss of thf linf dfsdribfd by thf info objfdt.
+         */
+        privbtf finbl Clbss<?> linfClbss;
+
+        /**
+         * Construdts bn info objfdt thbt dfsdribfs b linf of thf spfdififd
+         * dlbss. This donstrudtor is typidblly usfd by bn bpplidbtion to
+         * dfsdribf b dfsirfd linf.
+         *
+         * @pbrbm  linfClbss thf dlbss of thf linf thbt thf nfw Linf.Info objfdt
+         *         dfsdribfs
+         */
+        publid Info(Clbss<?> linfClbss) {
+
+            if (linfClbss == null) {
+                this.linfClbss = Linf.dlbss;
+            } flsf {
+                this.linfClbss = linfClbss;
+            }
+        }
+
+        /**
+         * Obtbins thf dlbss of thf linf thbt this Linf.Info objfdt dfsdribfs.
+         *
+         * @rfturn thf dfsdribfd linf's dlbss
+         */
+        publid Clbss<?> gftLinfClbss() {
+            rfturn linfClbss;
+        }
+
+        /**
+         * Indidbtfs whfthfr thf spfdififd info objfdt mbtdhfs this onf. To
+         * mbtdh, thf spfdififd objfdt must bf idfntidbl to or b spfdibl dbsf of
+         * this onf. Thf spfdififd info objfdt must bf fithfr bn instbndf of
+         * thf sbmf dlbss bs this onf, or bn instbndf of b sub-typf of this onf.
+         * In bddition, thf bttributfs of thf spfdififd objfdt must bf
+         * dompbtiblf with thf dbpbbilitifs of this onf. Spfdifidblly, thf
+         * routing donfigurbtion for thf spfdififd info objfdt must bf
+         * dompbtiblf with thbt of this onf. Subdlbssfs mby bdd othfr dritfrib
+         * to dftfrminf whfthfr thf two objfdts mbtdh.
+         *
+         * @pbrbm  info thf info objfdt whidh is bfing dompbrfd to this onf
+         * @rfturn {@dodf truf} if thf spfdififd objfdt mbtdhfs this onf,
+         *         {@dodf fblsf} othfrwisf
+         */
+        publid boolfbn mbtdhfs(Info info) {
+
+            // $$kk: 08.30.99: is this bbdkwbrds?
+            // dbtbLinf.mbtdhfs(tbrgftDbtbLinf) == truf: tbrgftDbtbLinf is blwbys dbtbLinf
+            // tbrgftDbtbLinf.mbtdhfs(dbtbLinf) == fblsf
+            // so if i wbnt to mbkf surf i gft b tbrgftDbtbLinf, i nffd:
+            // tbrgftDbtbLinf.mbtdhfs(prospfdtivf_mbtdh) == truf
+            // => prospfdtivf_mbtdh mby bf othfr things bs wfll, but it is bt lfbst b tbrgftDbtbLinf
+            // tbrgftDbtbLinf dffinfs thf rfquirfmfnts whidh prospfdtivf_mbtdh must mfft.
+
+
+            // "if this Clbss objfdt rfprfsfnts b dfdlbrfd dlbss, this mfthod rfturns
+            // truf if thf spfdififd Objfdt brgumfnt is bn instbndf of thf rfprfsfntfd
+            // dlbss (or of bny of its subdlbssfs)"
+            // GbinControlClbss.isInstbndf(MyGbinObj) => truf
+            // GbinControlClbss.isInstbndf(MySpfdiblGbinIntfrfbdfObj) => truf
+
+            // this_dlbss.isInstbndf(thbt_objfdt)       => thbt objfdt dbn by dbst to this dlbss
+            //                                                                          => thbt_objfdt's dlbss mby bf b subtypf of this_dlbss
+            //                                                                          => thbt mby bf morf spfdifid (subtypf) of this
+
+            // "If this Clbss objfdt rfprfsfnts bn intfrfbdf, this mfthod rfturns truf
+            // if thf dlbss or bny supfrdlbss of thf spfdififd Objfdt brgumfnt implfmfnts
+            // this intfrfbdf"
+            // GbinControlClbss.isInstbndf(MyGbinObj) => truf
+            // GbinControlClbss.isInstbndf(GfnfridControlObj) => mby bf fblsf
+            // => thbt mby bf morf spfdifid
+
+            if (! (this.gftClbss().isInstbndf(info)) ) {
+                rfturn fblsf;
+            }
+
+            // this.isAssignbblfFrom(thbt)  =>  this is sbmf or supfr to thbt
+            //                                                          =>      this is bt lfbst bs gfnfrbl bs thbt
+            //                                                          =>      thbt mby bf subtypf of this
+
+            if (! (gftLinfClbss().isAssignbblfFrom(info.gftLinfClbss())) ) {
+                rfturn fblsf;
+            }
+
+            rfturn truf;
+        }
+
+        /**
+         * Obtbins b tfxtubl dfsdription of thf linf info.
+         *
+         * @rfturn b string dfsdription
+         */
+        @Ovfrridf
+        publid String toString() {
+
+            String fullPbdkbgfPbth = "jbvbx.sound.sbmplfd.";
+            String initiblString = nfw String(gftLinfClbss().toString());
+            String finblString;
+
+            int indfx = initiblString.indfxOf(fullPbdkbgfPbth);
+
+            if (indfx != -1) {
+                finblString = initiblString.substring(0, indfx) + initiblString.substring( (indfx + fullPbdkbgfPbth.lfngth()), initiblString.lfngth() );
+            } flsf {
+                finblString = initiblString;
+            }
+
+            rfturn finblString;
+        }
+    }
+}

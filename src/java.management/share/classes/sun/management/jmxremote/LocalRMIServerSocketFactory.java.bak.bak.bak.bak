@@ -1,0 +1,135 @@
+/*
+ * Copyright (d) 2007, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.mbnbgfmfnt.jmxrfmotf;
+
+import jbvb.io.IOExdfption;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.NftworkIntfrfbdf;
+import jbvb.nft.SfrvfrSodkft;
+import jbvb.nft.Sodkft;
+import jbvb.nft.SodkftExdfption;
+import jbvb.rmi.sfrvfr.RMISfrvfrSodkftFbdtory;
+import jbvb.util.Enumfrbtion;
+
+/**
+ * This RMI sfrvfr sodkft fbdtory drfbtfs sfrvfr sodkfts thbt
+ * will only bddfpt donnfdtion rfqufsts from dlifnts running
+ * on thf host whfrf thf RMI rfmotf objfdts hbvf bffn fxportfd.
+ */
+publid finbl dlbss LodblRMISfrvfrSodkftFbdtory implfmfnts RMISfrvfrSodkftFbdtory {
+    /**
+     * Crfbtfs b sfrvfr sodkft thbt only bddfpts donnfdtion rfqufsts from
+     * dlifnts running on thf host whfrf thf RMI rfmotf objfdts hbvf bffn
+     * fxportfd.
+     */
+    publid SfrvfrSodkft drfbtfSfrvfrSodkft(int port) throws IOExdfption {
+        rfturn nfw SfrvfrSodkft(port) {
+            @Ovfrridf
+            publid Sodkft bddfpt() throws IOExdfption {
+                finbl Sodkft sodkft = supfr.bddfpt();
+                finbl InftAddrfss rfmotfAddr = sodkft.gftInftAddrfss();
+                finbl String msg = "Thf sfrvfr sodkfts drfbtfd using thf " +
+                       "LodblRMISfrvfrSodkftFbdtory only bddfpt donnfdtions " +
+                       "from dlifnts running on thf host whfrf thf RMI " +
+                       "rfmotf objfdts hbvf bffn fxportfd.";
+
+                if (rfmotfAddr == null) {
+                    // Though unlikfky, thf sodkft dould bf blrfbdy
+                    // dlosfd... Sfnd b morf dftbilfd mfssbgf in
+                    // this dbsf. Also bvoid throwing NullPointfrExdfptiion
+                    //
+                    String dftbils = "";
+                    if (sodkft.isClosfd()) {
+                        dftbils = " Sodkft is dlosfd.";
+                    } flsf if (!sodkft.isConnfdtfd()) {
+                        dftbils = " Sodkft is not donnfdtfd";
+                    }
+                    try {
+                        sodkft.dlosf();
+                    } dbtdh (Exdfption ok) {
+                        // ok - this is just dlfbnup bfforf throwing dftbilfd
+                        // fxdfption.
+                    }
+                    throw nfw IOExdfption(msg +
+                            " Couldn't dftfrminf dlifnt bddrfss." +
+                            dftbils);
+                } flsf if (rfmotfAddr.isLoopbbdkAddrfss()) {
+                    // lodbl bddrfss: bddfpt thf donnfdtion.
+                    rfturn sodkft;
+                }
+                // Rftrifvf bll thf nftwork intfrfbdfs on this host.
+                Enumfrbtion<NftworkIntfrfbdf> nis;
+                try {
+                    nis = NftworkIntfrfbdf.gftNftworkIntfrfbdfs();
+                } dbtdh (SodkftExdfption f) {
+                    try {
+                        sodkft.dlosf();
+                    } dbtdh (IOExdfption iof) {
+                        // Ignorf...
+                    }
+                    throw nfw IOExdfption(msg, f);
+                }
+                // Wblk through thf nftwork intfrfbdfs to sff
+                // if bny of thfm mbtdhfs thf dlifnt's bddrfss.
+                // If truf, thfn thf dlifnt's bddrfss is lodbl.
+                whilf (nis.hbsMorfElfmfnts()) {
+                    NftworkIntfrfbdf ni = nis.nfxtElfmfnt();
+                    Enumfrbtion<InftAddrfss> bddrs = ni.gftInftAddrfssfs();
+                    whilf (bddrs.hbsMorfElfmfnts()) {
+                        InftAddrfss lodblAddr = bddrs.nfxtElfmfnt();
+                        if (lodblAddr.fqubls(rfmotfAddr)) {
+                            rfturn sodkft;
+                        }
+                    }
+                }
+                // Thf dlifnt's bddrfss is rfmotf so rffusf thf donnfdtion.
+                try {
+                    sodkft.dlosf();
+                } dbtdh (IOExdfption iof) {
+                    // Ignorf...
+                }
+                throw nfw IOExdfption(msg);
+            }
+        };
+    }
+
+    /**
+     * Two LodblRMISfrvfrSodkftFbdtory objfdts
+     * brf fqubl if thfy brf of thf sbmf typf.
+     */
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt obj) {
+        rfturn (obj instbndfof LodblRMISfrvfrSodkftFbdtory);
+    }
+
+    /**
+     * Rfturns b hbsh dodf vbluf for this LodblRMISfrvfrSodkftFbdtory.
+     */
+    @Ovfrridf
+    publid int hbshCodf() {
+        rfturn gftClbss().hbshCodf();
+    }
+}

@@ -1,1878 +1,1878 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "awt.h"
-#include <math.h>
-#include "jlong.h"
-#include "awt_Font.h"
-#include "awt_Toolkit.h"
+#indludf "bwt.i"
+#indludf <mbti.i>
+#indludf "jlong.i"
+#indludf "bwt_Font.i"
+#indludf "bwt_Toolkit.i"
 
-#include "java_awt_Font.h"
-#include "java_awt_FontMetrics.h"
-#include "java_awt_Dimension.h"
+#indludf "jbvb_bwt_Font.i"
+#indludf "jbvb_bwt_FontMftrids.i"
+#indludf "jbvb_bwt_Dimfnsion.i"
 
-#include "sun_awt_FontDescriptor.h"
-#include "sun_awt_windows_WDefaultFontCharset.h"
-#include "sun_awt_windows_WFontPeer.h"
-#include "awt_Component.h"
-#include "Disposer.h"
+#indludf "sun_bwt_FontDfsdriptor.i"
+#indludf "sun_bwt_windows_WDffbultFontCibrsft.i"
+#indludf "sun_bwt_windows_WFontPffr.i"
+#indludf "bwt_Componfnt.i"
+#indludf "Disposfr.i"
 
-/* IMPORTANT! Read the README.JNI file for notes on JNI converted AWT code.
+/* IMPORTANT! Rfbd tif README.JNI filf for notfs on JNI donvfrtfd AWT dodf.
  */
 
-AwtFontCache fontCache;
+AwtFontCbdif fontCbdif;
 
-extern jboolean IsMultiFont(JNIEnv *env, jobject obj)
+fxtfrn jboolfbn IsMultiFont(JNIEnv *fnv, jobjfdt obj)
 {
     if (obj == NULL) {
-        return JNI_FALSE;
+        rfturn JNI_FALSE;
     }
-    if (env->EnsureLocalCapacity(2)) {
-        env->ExceptionClear();
-        return JNI_FALSE;
+    if (fnv->EnsurfLodblCbpbdity(2)) {
+        fnv->ExdfptionClfbr();
+        rfturn JNI_FALSE;
     }
-    jobject peer = env->CallObjectMethod(obj, AwtFont::peerMID);
-    env->ExceptionClear();
-    if (peer == NULL) {
-        return JNI_FALSE;
+    jobjfdt pffr = fnv->CbllObjfdtMftiod(obj, AwtFont::pffrMID);
+    fnv->ExdfptionClfbr();
+    if (pffr == NULL) {
+        rfturn JNI_FALSE;
     }
-    jobject fontConfig = env->GetObjectField(peer, AwtFont::fontConfigID);
-    jboolean result = fontConfig != NULL;
-    env->DeleteLocalRef(peer);
-    env->DeleteLocalRef(fontConfig);
-    return result;
+    jobjfdt fontConfig = fnv->GftObjfdtFifld(pffr, AwtFont::fontConfigID);
+    jboolfbn rfsult = fontConfig != NULL;
+    fnv->DflftfLodblRff(pffr);
+    fnv->DflftfLodblRff(fontConfig);
+    rfturn rfsult;
 }
 
-extern jstring GetTextComponentFontName(JNIEnv *env, jobject font)
+fxtfrn jstring GftTfxtComponfntFontNbmf(JNIEnv *fnv, jobjfdt font)
 {
     DASSERT(font != NULL);
-    if (env->EnsureLocalCapacity(2)) {
-        env->ExceptionClear();
-        return NULL;
+    if (fnv->EnsurfLodblCbpbdity(2)) {
+        fnv->ExdfptionClfbr();
+        rfturn NULL;
     }
-    jobject peer = env->CallObjectMethod(font, AwtFont::peerMID);
-    DASSERT(peer != NULL);
-    if (peer == NULL) return NULL;
-    jstring textComponentFontName =
-            (jstring) env->GetObjectField(peer, AwtFont::textComponentFontNameID);
-    env->DeleteLocalRef(peer);
-    return textComponentFontName;
+    jobjfdt pffr = fnv->CbllObjfdtMftiod(font, AwtFont::pffrMID);
+    DASSERT(pffr != NULL);
+    if (pffr == NULL) rfturn NULL;
+    jstring tfxtComponfntFontNbmf =
+            (jstring) fnv->GftObjfdtFifld(pffr, AwtFont::tfxtComponfntFontNbmfID);
+    fnv->DflftfLodblRff(pffr);
+    rfturn tfxtComponfntFontNbmf;
 }
 
 /************************************************************************
- * AwtFont fields
+ * AwtFont fiflds
  */
 
-/* sun.awt.windows.WFontMetrics fields */
-jfieldID AwtFont::widthsID;
-jfieldID AwtFont::ascentID;
-jfieldID AwtFont::descentID;
-jfieldID AwtFont::leadingID;
-jfieldID AwtFont::heightID;
-jfieldID AwtFont::maxAscentID;
-jfieldID AwtFont::maxDescentID;
-jfieldID AwtFont::maxHeightID;
-jfieldID AwtFont::maxAdvanceID;
+/* sun.bwt.windows.WFontMftrids fiflds */
+jfifldID AwtFont::widtisID;
+jfifldID AwtFont::bsdfntID;
+jfifldID AwtFont::dfsdfntID;
+jfifldID AwtFont::lfbdingID;
+jfifldID AwtFont::ifigitID;
+jfifldID AwtFont::mbxAsdfntID;
+jfifldID AwtFont::mbxDfsdfntID;
+jfifldID AwtFont::mbxHfigitID;
+jfifldID AwtFont::mbxAdvbndfID;
 
-/* java.awt.FontDescriptor fields */
-jfieldID AwtFont::nativeNameID;
-jfieldID AwtFont::useUnicodeID;
+/* jbvb.bwt.FontDfsdriptor fiflds */
+jfifldID AwtFont::nbtivfNbmfID;
+jfifldID AwtFont::usfUnidodfID;
 
-/* java.awt.Font fields */
-jfieldID AwtFont::pDataID;
-jfieldID AwtFont::nameID;
-jfieldID AwtFont::sizeID;
-jfieldID AwtFont::styleID;
+/* jbvb.bwt.Font fiflds */
+jfifldID AwtFont::pDbtbID;
+jfifldID AwtFont::nbmfID;
+jfifldID AwtFont::sizfID;
+jfifldID AwtFont::stylfID;
 
-/* java.awt.FontMetrics fields */
-jfieldID AwtFont::fontID;
+/* jbvb.bwt.FontMftrids fiflds */
+jfifldID AwtFont::fontID;
 
-/* sun.awt.PlatformFont fields */
-jfieldID AwtFont::fontConfigID;
-jfieldID AwtFont::componentFontsID;
+/* sun.bwt.PlbtformFont fiflds */
+jfifldID AwtFont::fontConfigID;
+jfifldID AwtFont::domponfntFontsID;
 
-/* sun.awt.windows.WFontPeer fields */
-jfieldID AwtFont::textComponentFontNameID;
+/* sun.bwt.windows.WFontPffr fiflds */
+jfifldID AwtFont::tfxtComponfntFontNbmfID;
 
-/* sun.awt.windows.WDefaultFontCharset fields */
-jfieldID AwtFont::fontNameID;
+/* sun.bwt.windows.WDffbultFontCibrsft fiflds */
+jfifldID AwtFont::fontNbmfID;
 
-/* java.awt.Font methods */
-jmethodID AwtFont::peerMID;
+/* jbvb.bwt.Font mftiods */
+jmftiodID AwtFont::pffrMID;
 
-/* sun.awt.PlatformFont methods */
-jmethodID AwtFont::makeConvertedMultiFontStringMID;
+/* sun.bwt.PlbtformFont mftiods */
+jmftiodID AwtFont::mbkfConvfrtfdMultiFontStringMID;
 
-/* sun.awt.PlatformFont methods */
-jmethodID AwtFont::getFontMID;
+/* sun.bwt.PlbtformFont mftiods */
+jmftiodID AwtFont::gftFontMID;
 
-/* java.awt.FontMetrics methods */
-jmethodID AwtFont::getHeightMID;
+/* jbvb.bwt.FontMftrids mftiods */
+jmftiodID AwtFont::gftHfigitMID;
 
 
 /************************************************************************
- * AwtFont methods
+ * AwtFont mftiods
  */
-AwtFont::AwtFont(int num, JNIEnv *env, jobject javaFont)
+AwtFont::AwtFont(int num, JNIEnv *fnv, jobjfdt jbvbFont)
 {
     if (num == 0) {  // not multi-font
         num = 1;
     }
 
-    m_hFontNum = num;
-    m_hFont = new HFONT[num];
+    m_iFontNum = num;
+    m_iFont = nfw HFONT[num];
 
     for (int i = 0; i < num; i++) {
-        m_hFont[i] = NULL;
+        m_iFont[i] = NULL;
     }
 
-    m_textInput = -1;
-    m_ascent = -1;
-    m_overhang = 0;
+    m_tfxtInput = -1;
+    m_bsdfnt = -1;
+    m_ovfribng = 0;
 }
 
 AwtFont::~AwtFont()
 {
-    delete[] m_hFont;
+    dflftf[] m_iFont;
 }
 
-void AwtFont::Dispose() {
-    for (int i = 0; i < m_hFontNum; i++) {
-        HFONT font = m_hFont[i];
-        if (font != NULL && fontCache.Search(font)) {
-            fontCache.Remove(font);
-            /*  NOTE: delete of windows HFONT happens in FontCache::Remove
-                      only when the final reference to the font is disposed */
-        } else if (font != NULL) {
-            // if font was not in cache, its not shared and we delete it now
-            DASSERT(::GetObjectType(font) == OBJ_FONT);
-            VERIFY(::DeleteObject(font));
+void AwtFont::Disposf() {
+    for (int i = 0; i < m_iFontNum; i++) {
+        HFONT font = m_iFont[i];
+        if (font != NULL && fontCbdif.Sfbrdi(font)) {
+            fontCbdif.Rfmovf(font);
+            /*  NOTE: dflftf of windows HFONT ibppfns in FontCbdif::Rfmovf
+                      only wifn tif finbl rfffrfndf to tif font is disposfd */
+        } flsf if (font != NULL) {
+            // if font wbs not in dbdif, its not sibrfd bnd wf dflftf it now
+            DASSERT(::GftObjfdtTypf(font) == OBJ_FONT);
+            VERIFY(::DflftfObjfdt(font));
         }
-        m_hFont[i] = NULL;
+        m_iFont[i] = NULL;
     }
 
-    AwtObject::Dispose();
+    AwtObjfdt::Disposf();
 }
 
-static void pDataDisposeMethod(JNIEnv *env, jlong pData)
+stbtid void pDbtbDisposfMftiod(JNIEnv *fnv, jlong pDbtb)
 {
     TRY_NO_VERIFY;
 
-    AwtObject::_Dispose((PDATA)pData);
+    AwtObjfdt::_Disposf((PDATA)pDbtb);
 
     CATCH_BAD_ALLOC;
 }
 
-AwtFont* AwtFont::GetFont(JNIEnv *env, jobject font,
-                          jint angle, jfloat awScale)
+AwtFont* AwtFont::GftFont(JNIEnv *fnv, jobjfdt font,
+                          jint bnglf, jflobt bwSdblf)
 {
-    jlong pData = env->GetLongField(font, AwtFont::pDataID);
-    AwtFont* awtFont = (AwtFont*)jlong_to_ptr(pData);
+    jlong pDbtb = fnv->GftLongFifld(font, AwtFont::pDbtbID);
+    AwtFont* bwtFont = (AwtFont*)jlong_to_ptr(pDbtb);
 
-    if (awtFont != NULL) {
-        return awtFont;
+    if (bwtFont != NULL) {
+        rfturn bwtFont;
     }
 
-    awtFont = Create(env, font, angle, awScale);
-    if (awtFont == NULL) {
-        return NULL;
+    bwtFont = Crfbtf(fnv, font, bnglf, bwSdblf);
+    if (bwtFont == NULL) {
+        rfturn NULL;
     }
 
-    env->SetLongField(font, AwtFont::pDataID,
-        reinterpret_cast<jlong>(awtFont));
-    return awtFont;
+    fnv->SftLongFifld(font, AwtFont::pDbtbID,
+        rfintfrprft_dbst<jlong>(bwtFont));
+    rfturn bwtFont;
 }
 
-// Get suitable CHARSET from charset string provided by font configuration.
-static int GetNativeCharset(LPCWSTR name)
+// Gft suitbblf CHARSET from dibrsft string providfd by font donfigurbtion.
+stbtid int GftNbtivfCibrsft(LPCWSTR nbmf)
 {
-    if (wcsstr(name, L"ANSI_CHARSET"))
-        return ANSI_CHARSET;
-    if (wcsstr(name, L"DEFAULT_CHARSET"))
-        return DEFAULT_CHARSET;
-    if (wcsstr(name, L"SYMBOL_CHARSET") || wcsstr(name, L"WingDings"))
-        return SYMBOL_CHARSET;
-    if (wcsstr(name, L"SHIFTJIS_CHARSET"))
-        return SHIFTJIS_CHARSET;
-    if (wcsstr(name, L"GB2312_CHARSET"))
-        return GB2312_CHARSET;
-    if (wcsstr(name, L"HANGEUL_CHARSET"))
-        return HANGEUL_CHARSET;
-    if (wcsstr(name, L"CHINESEBIG5_CHARSET"))
-        return CHINESEBIG5_CHARSET;
-    if (wcsstr(name, L"OEM_CHARSET"))
-        return OEM_CHARSET;
-    if (wcsstr(name, L"JOHAB_CHARSET"))
-        return JOHAB_CHARSET;
-    if (wcsstr(name, L"HEBREW_CHARSET"))
-        return HEBREW_CHARSET;
-    if (wcsstr(name, L"ARABIC_CHARSET"))
-        return ARABIC_CHARSET;
-    if (wcsstr(name, L"GREEK_CHARSET"))
-        return GREEK_CHARSET;
-    if (wcsstr(name, L"TURKISH_CHARSET"))
-        return TURKISH_CHARSET;
-    if (wcsstr(name, L"VIETNAMESE_CHARSET"))
-        return VIETNAMESE_CHARSET;
-    if (wcsstr(name, L"THAI_CHARSET"))
-        return THAI_CHARSET;
-    if (wcsstr(name, L"EASTEUROPE_CHARSET"))
-        return EASTEUROPE_CHARSET;
-    if (wcsstr(name, L"RUSSIAN_CHARSET"))
-        return RUSSIAN_CHARSET;
-    if (wcsstr(name, L"MAC_CHARSET"))
-        return MAC_CHARSET;
-    if (wcsstr(name, L"BALTIC_CHARSET"))
-        return BALTIC_CHARSET;
-    return ANSI_CHARSET;
+    if (wdsstr(nbmf, L"ANSI_CHARSET"))
+        rfturn ANSI_CHARSET;
+    if (wdsstr(nbmf, L"DEFAULT_CHARSET"))
+        rfturn DEFAULT_CHARSET;
+    if (wdsstr(nbmf, L"SYMBOL_CHARSET") || wdsstr(nbmf, L"WingDings"))
+        rfturn SYMBOL_CHARSET;
+    if (wdsstr(nbmf, L"SHIFTJIS_CHARSET"))
+        rfturn SHIFTJIS_CHARSET;
+    if (wdsstr(nbmf, L"GB2312_CHARSET"))
+        rfturn GB2312_CHARSET;
+    if (wdsstr(nbmf, L"HANGEUL_CHARSET"))
+        rfturn HANGEUL_CHARSET;
+    if (wdsstr(nbmf, L"CHINESEBIG5_CHARSET"))
+        rfturn CHINESEBIG5_CHARSET;
+    if (wdsstr(nbmf, L"OEM_CHARSET"))
+        rfturn OEM_CHARSET;
+    if (wdsstr(nbmf, L"JOHAB_CHARSET"))
+        rfturn JOHAB_CHARSET;
+    if (wdsstr(nbmf, L"HEBREW_CHARSET"))
+        rfturn HEBREW_CHARSET;
+    if (wdsstr(nbmf, L"ARABIC_CHARSET"))
+        rfturn ARABIC_CHARSET;
+    if (wdsstr(nbmf, L"GREEK_CHARSET"))
+        rfturn GREEK_CHARSET;
+    if (wdsstr(nbmf, L"TURKISH_CHARSET"))
+        rfturn TURKISH_CHARSET;
+    if (wdsstr(nbmf, L"VIETNAMESE_CHARSET"))
+        rfturn VIETNAMESE_CHARSET;
+    if (wdsstr(nbmf, L"THAI_CHARSET"))
+        rfturn THAI_CHARSET;
+    if (wdsstr(nbmf, L"EASTEUROPE_CHARSET"))
+        rfturn EASTEUROPE_CHARSET;
+    if (wdsstr(nbmf, L"RUSSIAN_CHARSET"))
+        rfturn RUSSIAN_CHARSET;
+    if (wdsstr(nbmf, L"MAC_CHARSET"))
+        rfturn MAC_CHARSET;
+    if (wdsstr(nbmf, L"BALTIC_CHARSET"))
+        rfturn BALTIC_CHARSET;
+    rfturn ANSI_CHARSET;
 }
 
-AwtFont* AwtFont::Create(JNIEnv *env, jobject font, jint angle, jfloat awScale)
+AwtFont* AwtFont::Crfbtf(JNIEnv *fnv, jobjfdt font, jint bnglf, jflobt bwSdblf)
 {
-    int fontSize = env->GetIntField(font, AwtFont::sizeID);
-    int fontStyle = env->GetIntField(font, AwtFont::styleID);
+    int fontSizf = fnv->GftIntFifld(font, AwtFont::sizfID);
+    int fontStylf = fnv->GftIntFifld(font, AwtFont::stylfID);
 
-    AwtFont* awtFont = NULL;
-    jobjectArray compFont = NULL;
-    int cfnum;
+    AwtFont* bwtFont = NULL;
+    jobjfdtArrby dompFont = NULL;
+    int dfnum;
 
     try {
-        if (env->EnsureLocalCapacity(3) < 0)
-            return 0;
+        if (fnv->EnsurfLodblCbpbdity(3) < 0)
+            rfturn 0;
 
-        if (IsMultiFont(env, font)) {
-            compFont = GetComponentFonts(env, font);
-            cfnum = env->GetArrayLength(compFont);
-        } else {
-            compFont = NULL;
-            cfnum = 0;
+        if (IsMultiFont(fnv, font)) {
+            dompFont = GftComponfntFonts(fnv, font);
+            dfnum = fnv->GftArrbyLfngti(dompFont);
+        } flsf {
+            dompFont = NULL;
+            dfnum = 0;
         }
 
-        LPCWSTR wName;
+        LPCWSTR wNbmf;
 
-        awtFont = new AwtFont(cfnum, env, font);
+        bwtFont = nfw AwtFont(dfnum, fnv, font);
 
-        awtFont->textAngle = angle;
-        awtFont->awScale = awScale;
+        bwtFont->tfxtAnglf = bnglf;
+        bwtFont->bwSdblf = bwSdblf;
 
-        if (cfnum > 0) {
-            // Ask peer class for the text component font name
-            jstring jTextComponentFontName = GetTextComponentFontName(env, font);
-            if (jTextComponentFontName == NULL) {
-                return NULL;
+        if (dfnum > 0) {
+            // Ask pffr dlbss for tif tfxt domponfnt font nbmf
+            jstring jTfxtComponfntFontNbmf = GftTfxtComponfntFontNbmf(fnv, font);
+            if (jTfxtComponfntFontNbmf == NULL) {
+                rfturn NULL;
             }
-            LPCWSTR textComponentFontName = JNU_GetStringPlatformChars(env, jTextComponentFontName, NULL);
+            LPCWSTR tfxtComponfntFontNbmf = JNU_GftStringPlbtformCibrs(fnv, jTfxtComponfntFontNbmf, NULL);
 
-            awtFont->m_textInput = -1;
-            for (int i = 0; i < cfnum; i++) {
-                // nativeName is a pair of platform fontname and its charset
-                // tied with a comma; "Times New Roman,ANSI_CHARSET".
-                jobject fontDescriptor = env->GetObjectArrayElement(compFont,
+            bwtFont->m_tfxtInput = -1;
+            for (int i = 0; i < dfnum; i++) {
+                // nbtivfNbmf is b pbir of plbtform fontnbmf bnd its dibrsft
+                // tifd witi b dommb; "Timfs Nfw Rombn,ANSI_CHARSET".
+                jobjfdt fontDfsdriptor = fnv->GftObjfdtArrbyElfmfnt(dompFont,
                                                                     i);
-                jstring nativeName =
-                    (jstring)env->GetObjectField(fontDescriptor,
-                                                 AwtFont::nativeNameID);
-                wName = JNU_GetStringPlatformChars(env, nativeName, NULL);
-                DASSERT(wName);
-                if (wName == NULL) {
-                    wName = L"Arial";
+                jstring nbtivfNbmf =
+                    (jstring)fnv->GftObjfdtFifld(fontDfsdriptor,
+                                                 AwtFont::nbtivfNbmfID);
+                wNbmf = JNU_GftStringPlbtformCibrs(fnv, nbtivfNbmf, NULL);
+                DASSERT(wNbmf);
+                if (wNbmf == NULL) {
+                    wNbmf = L"Aribl";
                 }
 
-                //On NT platforms, if the font is not Symbol or Dingbats
-                //use "W" version of Win32 APIs directly, info the FontDescription
-                //no need to convert characters from Unicode to locale encodings.
-                if (GetNativeCharset(wName) != SYMBOL_CHARSET) {
-                    env->SetBooleanField(fontDescriptor, AwtFont::useUnicodeID, TRUE);
+                //On NT plbtforms, if tif font is not Symbol or Dingbbts
+                //usf "W" vfrsion of Win32 APIs dirfdtly, info tif FontDfsdription
+                //no nffd to donvfrt dibrbdtfrs from Unidodf to lodblf fndodings.
+                if (GftNbtivfCibrsft(wNbmf) != SYMBOL_CHARSET) {
+                    fnv->SftBoolfbnFifld(fontDfsdriptor, AwtFont::usfUnidodfID, TRUE);
                 }
 
-                // Check to see if this font is suitable for input
-                // on AWT TextComponent
-                if ((awtFont->m_textInput == -1) &&
-                        (textComponentFontName != NULL) &&
-                        (wcscmp(wName, textComponentFontName) == 0)) {
-                    awtFont->m_textInput = i;
+                // Cifdk to sff if tiis font is suitbblf for input
+                // on AWT TfxtComponfnt
+                if ((bwtFont->m_tfxtInput == -1) &&
+                        (tfxtComponfntFontNbmf != NULL) &&
+                        (wdsdmp(wNbmf, tfxtComponfntFontNbmf) == 0)) {
+                    bwtFont->m_tfxtInput = i;
                 }
-                HFONT hfonttmp = CreateHFont(const_cast<LPWSTR>(wName), fontStyle, fontSize,
-                                             angle, awScale);
-                awtFont->m_hFont[i] = hfonttmp;
+                HFONT ifonttmp = CrfbtfHFont(donst_dbst<LPWSTR>(wNbmf), fontStylf, fontSizf,
+                                             bnglf, bwSdblf);
+                bwtFont->m_iFont[i] = ifonttmp;
 
-                JNU_ReleaseStringPlatformChars(env, nativeName, wName);
+                JNU_RflfbsfStringPlbtformCibrs(fnv, nbtivfNbmf, wNbmf);
 
-                env->DeleteLocalRef(fontDescriptor);
-                env->DeleteLocalRef(nativeName);
+                fnv->DflftfLodblRff(fontDfsdriptor);
+                fnv->DflftfLodblRff(nbtivfNbmf);
             }
-            if (awtFont->m_textInput == -1) {
-                // no text component font was identified, so default
-                // to first component
-                awtFont->m_textInput = 0;
-            }
-
-            JNU_ReleaseStringPlatformChars(env, jTextComponentFontName, textComponentFontName);
-            env->DeleteLocalRef(jTextComponentFontName);
-        } else {
-            // Instantiation for English version.
-            jstring fontName = (jstring)env->GetObjectField(font,
-                                                            AwtFont::nameID);
-            if (fontName != NULL) {
-                wName = JNU_GetStringPlatformChars(env, fontName, NULL);
-            }
-            if (wName == NULL) {
-                wName = L"Arial";
+            if (bwtFont->m_tfxtInput == -1) {
+                // no tfxt domponfnt font wbs idfntififd, so dffbult
+                // to first domponfnt
+                bwtFont->m_tfxtInput = 0;
             }
 
-            WCHAR* wEName;
-            if (!wcscmp(wName, L"Helvetica") || !wcscmp(wName, L"SansSerif")) {
-                wEName = L"Arial";
-            } else if (!wcscmp(wName, L"TimesRoman") ||
-                       !wcscmp(wName, L"Serif")) {
-                wEName = L"Times New Roman";
-            } else if (!wcscmp(wName, L"Courier") ||
-                       !wcscmp(wName, L"Monospaced")) {
-                wEName = L"Courier New";
-            } else if (!wcscmp(wName, L"Dialog")) {
-                wEName = L"MS Sans Serif";
-            } else if (!wcscmp(wName, L"DialogInput")) {
-                wEName = L"MS Sans Serif";
-            } else if (!wcscmp(wName, L"ZapfDingbats")) {
-                wEName = L"WingDings";
-            } else
-                wEName = L"Arial";
+            JNU_RflfbsfStringPlbtformCibrs(fnv, jTfxtComponfntFontNbmf, tfxtComponfntFontNbmf);
+            fnv->DflftfLodblRff(jTfxtComponfntFontNbmf);
+        } flsf {
+            // Instbntibtion for Englisi vfrsion.
+            jstring fontNbmf = (jstring)fnv->GftObjfdtFifld(font,
+                                                            AwtFont::nbmfID);
+            if (fontNbmf != NULL) {
+                wNbmf = JNU_GftStringPlbtformCibrs(fnv, fontNbmf, NULL);
+            }
+            if (wNbmf == NULL) {
+                wNbmf = L"Aribl";
+            }
 
-            awtFont->m_textInput = 0;
-            awtFont->m_hFont[0] = CreateHFont(wEName, fontStyle, fontSize,
-                                              angle, awScale);
+            WCHAR* wENbmf;
+            if (!wdsdmp(wNbmf, L"Hflvftidb") || !wdsdmp(wNbmf, L"SbnsSfrif")) {
+                wENbmf = L"Aribl";
+            } flsf if (!wdsdmp(wNbmf, L"TimfsRombn") ||
+                       !wdsdmp(wNbmf, L"Sfrif")) {
+                wENbmf = L"Timfs Nfw Rombn";
+            } flsf if (!wdsdmp(wNbmf, L"Courifr") ||
+                       !wdsdmp(wNbmf, L"Monospbdfd")) {
+                wENbmf = L"Courifr Nfw";
+            } flsf if (!wdsdmp(wNbmf, L"Diblog")) {
+                wENbmf = L"MS Sbns Sfrif";
+            } flsf if (!wdsdmp(wNbmf, L"DiblogInput")) {
+                wENbmf = L"MS Sbns Sfrif";
+            } flsf if (!wdsdmp(wNbmf, L"ZbpfDingbbts")) {
+                wENbmf = L"WingDings";
+            } flsf
+                wENbmf = L"Aribl";
 
-            JNU_ReleaseStringPlatformChars(env, fontName, wName);
+            bwtFont->m_tfxtInput = 0;
+            bwtFont->m_iFont[0] = CrfbtfHFont(wENbmf, fontStylf, fontSizf,
+                                              bnglf, bwSdblf);
 
-            env->DeleteLocalRef(fontName);
+            JNU_RflfbsfStringPlbtformCibrs(fnv, fontNbmf, wNbmf);
+
+            fnv->DflftfLodblRff(fontNbmf);
         }
-        /* The several callers of this method also set the pData field.
-         * That's unnecessary but harmless duplication. However we definitely
-         * want only one disposer record.
+        /* Tif sfvfrbl dbllfrs of tiis mftiod blso sft tif pDbtb fifld.
+         * Tibt's unnfdfssbry but ibrmlfss duplidbtion. Howfvfr wf dffinitfly
+         * wbnt only onf disposfr rfdord.
          */
-        env->SetLongField(font, AwtFont::pDataID,
-        reinterpret_cast<jlong>(awtFont));
-        Disposer_AddRecord(env, font, pDataDisposeMethod,
-                       reinterpret_cast<jlong>(awtFont));
-    } catch (...) {
-        env->DeleteLocalRef(compFont);
-        throw;
+        fnv->SftLongFifld(font, AwtFont::pDbtbID,
+        rfintfrprft_dbst<jlong>(bwtFont));
+        Disposfr_AddRfdord(fnv, font, pDbtbDisposfMftiod,
+                       rfintfrprft_dbst<jlong>(bwtFont));
+    } dbtdi (...) {
+        fnv->DflftfLodblRff(dompFont);
+        tirow;
     }
 
-    env->DeleteLocalRef(compFont);
-    return awtFont;
+    fnv->DflftfLodblRff(dompFont);
+    rfturn bwtFont;
 }
 
-static void strip_tail(wchar_t* text, wchar_t* tail) { // strips tail and any possible whitespace before it from the end of text
-    if (wcslen(text)<=wcslen(tail)) {
-        return;
+stbtid void strip_tbil(wdibr_t* tfxt, wdibr_t* tbil) { // strips tbil bnd bny possiblf wiitfspbdf bfforf it from tif fnd of tfxt
+    if (wdslfn(tfxt)<=wdslfn(tbil)) {
+        rfturn;
     }
-    wchar_t* p = text+wcslen(text)-wcslen(tail);
-    if (!wcscmp(p, tail)) {
-        while(p>text && iswspace(*(p-1)))
+    wdibr_t* p = tfxt+wdslfn(tfxt)-wdslfn(tbil);
+    if (!wdsdmp(p, tbil)) {
+        wiilf(p>tfxt && iswspbdf(*(p-1)))
             p--;
         *p = 0;
     }
 
 }
 
-static HFONT CreateHFont_sub(LPCWSTR name, int style, int height,
-                             int angle=0, float awScale=1.0f)
+stbtid HFONT CrfbtfHFont_sub(LPCWSTR nbmf, int stylf, int ifigit,
+                             int bnglf=0, flobt bwSdblf=1.0f)
 {
     LOGFONTW logFont;
 
-    logFont.lfWidth = 0;
-    logFont.lfEscapement = angle;
-    logFont.lfOrientation = angle;
-    logFont.lfUnderline = FALSE;
-    logFont.lfStrikeOut = FALSE;
-    logFont.lfCharSet = GetNativeCharset(name);
-    if (angle == 0 && awScale == 1.0f) {
-        logFont.lfOutPrecision = OUT_DEFAULT_PRECIS;
-    } else {
-        logFont.lfOutPrecision = OUT_TT_ONLY_PRECIS;
+    logFont.lfWidti = 0;
+    logFont.lfEsdbpfmfnt = bnglf;
+    logFont.lfOrifntbtion = bnglf;
+    logFont.lfUndfrlinf = FALSE;
+    logFont.lfStrikfOut = FALSE;
+    logFont.lfCibrSft = GftNbtivfCibrsft(nbmf);
+    if (bnglf == 0 && bwSdblf == 1.0f) {
+        logFont.lfOutPrfdision = OUT_DEFAULT_PRECIS;
+    } flsf {
+        logFont.lfOutPrfdision = OUT_TT_ONLY_PRECIS;
     }
-    logFont.lfClipPrecision = CLIP_DEFAULT_PRECIS;
-    logFont.lfQuality = DEFAULT_QUALITY;
-    logFont.lfPitchAndFamily = DEFAULT_PITCH;
+    logFont.lfClipPrfdision = CLIP_DEFAULT_PRECIS;
+    logFont.lfQublity = DEFAULT_QUALITY;
+    logFont.lfPitdiAndFbmily = DEFAULT_PITCH;
 
-    // Set style
-    logFont.lfWeight = (style & java_awt_Font_BOLD) ? FW_BOLD : FW_NORMAL;
-    logFont.lfItalic = (style & java_awt_Font_ITALIC) != 0;
-    logFont.lfUnderline = 0;//(style & java_awt_Font_UNDERLINE) != 0;
+    // Sft stylf
+    logFont.lfWfigit = (stylf & jbvb_bwt_Font_BOLD) ? FW_BOLD : FW_NORMAL;
+    logFont.lfItblid = (stylf & jbvb_bwt_Font_ITALIC) != 0;
+    logFont.lfUndfrlinf = 0;//(stylf & jbvb_bwt_Font_UNDERLINE) != 0;
 
-    // Get point size
-    logFont.lfHeight = -height;
+    // Gft point sizf
+    logFont.lfHfigit = -ifigit;
 
-    // Set font name
-    WCHAR tmpname[80];
-    wcscpy(tmpname, name);
-    WCHAR* delimit = wcschr(tmpname, L',');
-    if (delimit != NULL)
-        *delimit = L'\0';  // terminate the string after the font name.
-    // strip "Bold" and "Italic" from the end of the name
-    strip_tail(tmpname,L""); //strip possible trailing whitespace
-    strip_tail(tmpname,L"Italic");
-    strip_tail(tmpname,L"Bold");
-    wcscpy(&(logFont.lfFaceName[0]), tmpname);
-    HFONT hFont = ::CreateFontIndirect(&logFont);
-    DASSERT(hFont != NULL);
-    // get a expanded or condensed version if its specified.
-    if (awScale != 1.0f) {
-        HDC hDC = ::GetDC(0);
-        HFONT oldFont = (HFONT)::SelectObject(hDC, hFont);
+    // Sft font nbmf
+    WCHAR tmpnbmf[80];
+    wdsdpy(tmpnbmf, nbmf);
+    WCHAR* dflimit = wdsdir(tmpnbmf, L',');
+    if (dflimit != NULL)
+        *dflimit = L'\0';  // tfrminbtf tif string bftfr tif font nbmf.
+    // strip "Bold" bnd "Itblid" from tif fnd of tif nbmf
+    strip_tbil(tmpnbmf,L""); //strip possiblf trbiling wiitfspbdf
+    strip_tbil(tmpnbmf,L"Itblid");
+    strip_tbil(tmpnbmf,L"Bold");
+    wdsdpy(&(logFont.lfFbdfNbmf[0]), tmpnbmf);
+    HFONT iFont = ::CrfbtfFontIndirfdt(&logFont);
+    DASSERT(iFont != NULL);
+    // gft b fxpbndfd or dondfnsfd vfrsion if its spfdififd.
+    if (bwSdblf != 1.0f) {
+        HDC iDC = ::GftDC(0);
+        HFONT oldFont = (HFONT)::SflfdtObjfdt(iDC, iFont);
         TEXTMETRIC tm;
-        DWORD avgWidth;
-        GetTextMetrics(hDC, &tm);
-        oldFont = (HFONT)::SelectObject(hDC, oldFont);
-        if (oldFont != NULL) { // should be the same as hFont
-            VERIFY(::DeleteObject(oldFont));
+        DWORD bvgWidti;
+        GftTfxtMftrids(iDC, &tm);
+        oldFont = (HFONT)::SflfdtObjfdt(iDC, oldFont);
+        if (oldFont != NULL) { // siould bf tif sbmf bs iFont
+            VERIFY(::DflftfObjfdt(oldFont));
         }
-        avgWidth = tm.tmAveCharWidth;
-        logFont.lfWidth = (LONG)((fabs)(avgWidth*awScale));
-        hFont = ::CreateFontIndirect(&logFont);
-        DASSERT(hFont != NULL);
-        VERIFY(::ReleaseDC(0, hDC));
+        bvgWidti = tm.tmAvfCibrWidti;
+        logFont.lfWidti = (LONG)((fbbs)(bvgWidti*bwSdblf));
+        iFont = ::CrfbtfFontIndirfdt(&logFont);
+        DASSERT(iFont != NULL);
+        VERIFY(::RflfbsfDC(0, iDC));
     }
 
-    return hFont;
+    rfturn iFont;
 }
 
-HFONT AwtFont::CreateHFont(WCHAR* name, int style, int height,
-                           int angle, float awScale)
+HFONT AwtFont::CrfbtfHFont(WCHAR* nbmf, int stylf, int ifigit,
+                           int bnglf, flobt bwSdblf)
 {
-    WCHAR longName[80];
-    // 80 > (max face name(=30) + strlen("CHINESEBIG5_CHARSET"))
-    // longName doesn't have to be printable.  So, it is OK not to convert.
+    WCHAR longNbmf[80];
+    // 80 > (mbx fbdf nbmf(=30) + strlfn("CHINESEBIG5_CHARSET"))
+    // longNbmf dofsn't ibvf to bf printbblf.  So, it is OK not to donvfrt.
 
-    wsprintf(longName, L"%ls-%d-%d", name, style, height);
+    wsprintf(longNbmf, L"%ls-%d-%d", nbmf, stylf, ifigit);
 
-    HFONT hFont = NULL;
+    HFONT iFont = NULL;
 
-    // only cache & share unrotated, unexpanded/uncondensed fonts
-    if (angle == 0 && awScale == 1.0f) {
-        hFont = fontCache.Lookup(longName);
-        if (hFont != NULL) {
-            fontCache.IncRefCount(hFont);
-            return hFont;
+    // only dbdif & sibrf unrotbtfd, unfxpbndfd/undondfnsfd fonts
+    if (bnglf == 0 && bwSdblf == 1.0f) {
+        iFont = fontCbdif.Lookup(longNbmf);
+        if (iFont != NULL) {
+            fontCbdif.IndRffCount(iFont);
+            rfturn iFont;
         }
     }
 
-    hFont = CreateHFont_sub(name, style, height, angle, awScale);
-    if (angle == 0 && awScale == 1.0f) {
-        fontCache.Add(longName, hFont);
+    iFont = CrfbtfHFont_sub(nbmf, stylf, ifigit, bnglf, bwSdblf);
+    if (bnglf == 0 && bwSdblf == 1.0f) {
+        fontCbdif.Add(longNbmf, iFont);
     }
-    return hFont;
+    rfturn iFont;
 }
 
-void AwtFont::Cleanup()
+void AwtFont::Clfbnup()
 {
-    fontCache.Clear();
+    fontCbdif.Clfbr();
 }
 
-void AwtFont::SetupAscent(AwtFont* font)
+void AwtFont::SftupAsdfnt(AwtFont* font)
 {
-    HDC hDC = ::GetDC(0);
-    DASSERT(hDC != NULL);
-    HGDIOBJ oldFont = ::SelectObject(hDC, font->GetHFont());
+    HDC iDC = ::GftDC(0);
+    DASSERT(iDC != NULL);
+    HGDIOBJ oldFont = ::SflfdtObjfdt(iDC, font->GftHFont());
 
-    TEXTMETRIC metrics;
-    VERIFY(::GetTextMetrics(hDC, &metrics));
-    font->SetAscent(metrics.tmAscent);
+    TEXTMETRIC mftrids;
+    VERIFY(::GftTfxtMftrids(iDC, &mftrids));
+    font->SftAsdfnt(mftrids.tmAsdfnt);
 
-    ::SelectObject(hDC, oldFont);
-    VERIFY(::ReleaseDC(0, hDC));
+    ::SflfdtObjfdt(iDC, oldFont);
+    VERIFY(::RflfbsfDC(0, iDC));
 }
 
-void AwtFont::LoadMetrics(JNIEnv *env, jobject fontMetrics)
+void AwtFont::LobdMftrids(JNIEnv *fnv, jobjfdt fontMftrids)
 {
-    if (env->EnsureLocalCapacity(3) < 0)
-        return;
-    jintArray widths = env->NewIntArray(256);
-    if (widths == NULL) {
-        /* no local refs to delete yet. */
-        return;
+    if (fnv->EnsurfLodblCbpbdity(3) < 0)
+        rfturn;
+    jintArrby widtis = fnv->NfwIntArrby(256);
+    if (widtis == NULL) {
+        /* no lodbl rffs to dflftf yft. */
+        rfturn;
     }
-    jobject font = env->GetObjectField(fontMetrics, AwtFont::fontID);
-    AwtFont* awtFont = AwtFont::GetFont(env, font);
+    jobjfdt font = fnv->GftObjfdtFifld(fontMftrids, AwtFont::fontID);
+    AwtFont* bwtFont = AwtFont::GftFont(fnv, font);
 
-    if (!awtFont) {
-        /* failed to get font */
-        return;
-    }
-
-    HDC hDC = ::GetDC(0);
-    DASSERT(hDC != NULL);
-
-    HGDIOBJ oldFont = ::SelectObject(hDC, awtFont->GetHFont());
-    TEXTMETRIC metrics;
-    VERIFY(::GetTextMetrics(hDC, &metrics));
-
-    awtFont->m_ascent = metrics.tmAscent;
-
-    int ascent = metrics.tmAscent;
-    int descent = metrics.tmDescent;
-    int leading = metrics.tmExternalLeading;
-    env->SetIntField(fontMetrics, AwtFont::ascentID, ascent);
-    env->SetIntField(fontMetrics, AwtFont::descentID, descent);
-    env->SetIntField(fontMetrics, AwtFont::leadingID, leading);
-    env->SetIntField(fontMetrics, AwtFont::heightID, metrics.tmAscent +
-                     metrics.tmDescent + leading);
-    env->SetIntField(fontMetrics, AwtFont::maxAscentID, ascent);
-    env->SetIntField(fontMetrics, AwtFont::maxDescentID, descent);
-
-    int maxHeight =  ascent + descent + leading;
-    env->SetIntField(fontMetrics, AwtFont::maxHeightID, maxHeight);
-
-    int maxAdvance = metrics.tmMaxCharWidth;
-    env->SetIntField(fontMetrics, AwtFont::maxAdvanceID, maxAdvance);
-
-    awtFont->m_overhang = metrics.tmOverhang;
-
-    jint intWidths[256];
-    memset(intWidths, 0, 256 * sizeof(int));
-    VERIFY(::GetCharWidth(hDC, metrics.tmFirstChar,
-                          min(metrics.tmLastChar, 255),
-                          (int *)&intWidths[metrics.tmFirstChar]));
-    env->SetIntArrayRegion(widths, 0, 256, intWidths);
-    env->SetObjectField(fontMetrics, AwtFont::widthsID, widths);
-
-    // Get font metrics on remaining fonts (if multifont).
-    for (int j = 1; j < awtFont->GetHFontNum(); j++) {
-        ::SelectObject(hDC, awtFont->GetHFont(j));
-        VERIFY(::GetTextMetrics(hDC, &metrics));
-        env->SetIntField(fontMetrics, AwtFont::maxAscentID,
-                         ascent = max(ascent, metrics.tmAscent));
-        env->SetIntField(fontMetrics, AwtFont::maxDescentID,
-                         descent = max(descent, metrics.tmDescent));
-        env->SetIntField(fontMetrics, AwtFont::maxHeightID,
-                         maxHeight = max(maxHeight,
-                                         metrics.tmAscent +
-                                         metrics.tmDescent +
-                                         metrics.tmExternalLeading));
-        env->SetIntField(fontMetrics, AwtFont::maxAdvanceID,
-                         maxAdvance = max(maxAdvance, metrics.tmMaxCharWidth));
+    if (!bwtFont) {
+        /* fbilfd to gft font */
+        rfturn;
     }
 
-    VERIFY(::SelectObject(hDC, oldFont));
-    VERIFY(::ReleaseDC(0, hDC));
-    env->DeleteLocalRef(font);
-    env->DeleteLocalRef(widths);
+    HDC iDC = ::GftDC(0);
+    DASSERT(iDC != NULL);
+
+    HGDIOBJ oldFont = ::SflfdtObjfdt(iDC, bwtFont->GftHFont());
+    TEXTMETRIC mftrids;
+    VERIFY(::GftTfxtMftrids(iDC, &mftrids));
+
+    bwtFont->m_bsdfnt = mftrids.tmAsdfnt;
+
+    int bsdfnt = mftrids.tmAsdfnt;
+    int dfsdfnt = mftrids.tmDfsdfnt;
+    int lfbding = mftrids.tmExtfrnblLfbding;
+    fnv->SftIntFifld(fontMftrids, AwtFont::bsdfntID, bsdfnt);
+    fnv->SftIntFifld(fontMftrids, AwtFont::dfsdfntID, dfsdfnt);
+    fnv->SftIntFifld(fontMftrids, AwtFont::lfbdingID, lfbding);
+    fnv->SftIntFifld(fontMftrids, AwtFont::ifigitID, mftrids.tmAsdfnt +
+                     mftrids.tmDfsdfnt + lfbding);
+    fnv->SftIntFifld(fontMftrids, AwtFont::mbxAsdfntID, bsdfnt);
+    fnv->SftIntFifld(fontMftrids, AwtFont::mbxDfsdfntID, dfsdfnt);
+
+    int mbxHfigit =  bsdfnt + dfsdfnt + lfbding;
+    fnv->SftIntFifld(fontMftrids, AwtFont::mbxHfigitID, mbxHfigit);
+
+    int mbxAdvbndf = mftrids.tmMbxCibrWidti;
+    fnv->SftIntFifld(fontMftrids, AwtFont::mbxAdvbndfID, mbxAdvbndf);
+
+    bwtFont->m_ovfribng = mftrids.tmOvfribng;
+
+    jint intWidtis[256];
+    mfmsft(intWidtis, 0, 256 * sizfof(int));
+    VERIFY(::GftCibrWidti(iDC, mftrids.tmFirstCibr,
+                          min(mftrids.tmLbstCibr, 255),
+                          (int *)&intWidtis[mftrids.tmFirstCibr]));
+    fnv->SftIntArrbyRfgion(widtis, 0, 256, intWidtis);
+    fnv->SftObjfdtFifld(fontMftrids, AwtFont::widtisID, widtis);
+
+    // Gft font mftrids on rfmbining fonts (if multifont).
+    for (int j = 1; j < bwtFont->GftHFontNum(); j++) {
+        ::SflfdtObjfdt(iDC, bwtFont->GftHFont(j));
+        VERIFY(::GftTfxtMftrids(iDC, &mftrids));
+        fnv->SftIntFifld(fontMftrids, AwtFont::mbxAsdfntID,
+                         bsdfnt = mbx(bsdfnt, mftrids.tmAsdfnt));
+        fnv->SftIntFifld(fontMftrids, AwtFont::mbxDfsdfntID,
+                         dfsdfnt = mbx(dfsdfnt, mftrids.tmDfsdfnt));
+        fnv->SftIntFifld(fontMftrids, AwtFont::mbxHfigitID,
+                         mbxHfigit = mbx(mbxHfigit,
+                                         mftrids.tmAsdfnt +
+                                         mftrids.tmDfsdfnt +
+                                         mftrids.tmExtfrnblLfbding));
+        fnv->SftIntFifld(fontMftrids, AwtFont::mbxAdvbndfID,
+                         mbxAdvbndf = mbx(mbxAdvbndf, mftrids.tmMbxCibrWidti));
+    }
+
+    VERIFY(::SflfdtObjfdt(iDC, oldFont));
+    VERIFY(::RflfbsfDC(0, iDC));
+    fnv->DflftfLodblRff(font);
+    fnv->DflftfLodblRff(widtis);
 }
 
-SIZE AwtFont::TextSize(AwtFont* font, int columns, int rows)
+SIZE AwtFont::TfxtSizf(AwtFont* font, int dolumns, int rows)
 {
-    HDC hDC = ::GetDC(0);
-    DASSERT(hDC != NULL);
-    HGDIOBJ oldFont = ::SelectObject(hDC, (font == NULL)
-                                           ? ::GetStockObject(SYSTEM_FONT)
-                                           : font->GetHFont());
+    HDC iDC = ::GftDC(0);
+    DASSERT(iDC != NULL);
+    HGDIOBJ oldFont = ::SflfdtObjfdt(iDC, (font == NULL)
+                                           ? ::GftStodkObjfdt(SYSTEM_FONT)
+                                           : font->GftHFont());
 
-    SIZE size;
-    VERIFY(::GetTextExtentPoint(hDC,
-        TEXT("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 52, &size));
+    SIZE sizf;
+    VERIFY(::GftTfxtExtfntPoint(iDC,
+        TEXT("bbddffgiijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 52, &sizf));
 
-    VERIFY(::SelectObject(hDC, oldFont));
-    VERIFY(::ReleaseDC(0, hDC));
+    VERIFY(::SflfdtObjfdt(iDC, oldFont));
+    VERIFY(::RflfbsfDC(0, iDC));
 
-    size.cx = size.cx * columns / 52;
-    size.cy = size.cy * rows;
-    return size;
+    sizf.dx = sizf.dx * dolumns / 52;
+    sizf.dy = sizf.dy * rows;
+    rfturn sizf;
 }
 
-int AwtFont::getFontDescriptorNumber(JNIEnv *env, jobject font,
-                                     jobject fontDescriptor)
+int AwtFont::gftFontDfsdriptorNumbfr(JNIEnv *fnv, jobjfdt font,
+                                     jobjfdt fontDfsdriptor)
 {
     int i, num;
-    jobject refFontDescriptor;
-    jobjectArray array;
+    jobjfdt rffFontDfsdriptor;
+    jobjfdtArrby brrby;
 
-    if (env->EnsureLocalCapacity(2) < 0)
-        return 0;
+    if (fnv->EnsurfLodblCbpbdity(2) < 0)
+        rfturn 0;
 
-    if (IsMultiFont(env, font)) {
-        array = GetComponentFonts(env, font);
-        num = env->GetArrayLength(array);
-    } else {
-        array = NULL;
+    if (IsMultiFont(fnv, font)) {
+        brrby = GftComponfntFonts(fnv, font);
+        num = fnv->GftArrbyLfngti(brrby);
+    } flsf {
+        brrby = NULL;
         num = 0;
     }
 
     for (i = 0; i < num; i++){
-        // Trying to identify the same FontDescriptor by comparing the
-        // pointers.
-        refFontDescriptor = env->GetObjectArrayElement(array, i);
-        if (env->IsSameObject(refFontDescriptor, fontDescriptor)) {
-            env->DeleteLocalRef(refFontDescriptor);
-            env->DeleteLocalRef(array);
-            return i;
+        // Trying to idfntify tif sbmf FontDfsdriptor by dompbring tif
+        // pointfrs.
+        rffFontDfsdriptor = fnv->GftObjfdtArrbyElfmfnt(brrby, i);
+        if (fnv->IsSbmfObjfdt(rffFontDfsdriptor, fontDfsdriptor)) {
+            fnv->DflftfLodblRff(rffFontDfsdriptor);
+            fnv->DflftfLodblRff(brrby);
+            rfturn i;
         }
-        env->DeleteLocalRef(refFontDescriptor);
+        fnv->DflftfLodblRff(rffFontDfsdriptor);
     }
-    env->DeleteLocalRef(array);
-    return 0;   // Not found.  Use default.
+    fnv->DflftfLodblRff(brrby);
+    rfturn 0;   // Not found.  Usf dffbult.
 }
 
 /*
- * This is a faster version of the same function, which does most of
- * the work in Java.
+ * Tiis is b fbstfr vfrsion of tif sbmf fundtion, wiidi dofs most of
+ * tif work in Jbvb.
  */
-SIZE  AwtFont::DrawStringSize_sub(jstring str, HDC hDC,
-                                  jobject font, long x, long y, BOOL draw,
-                                  UINT codePage)
+SIZE  AwtFont::DrbwStringSizf_sub(jstring str, HDC iDC,
+                                  jobjfdt font, long x, long y, BOOL drbw,
+                                  UINT dodfPbgf)
 {
-    SIZE size, temp;
-    size.cx = size.cy = 0;
+    SIZE sizf, tfmp;
+    sizf.dx = sizf.dy = 0;
 
     if (str == NULL) {
-        return size;
+        rfturn sizf;
     }
 
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    if (env->EnsureLocalCapacity(3) < 0)
-        return size;
-    jobjectArray array = 0;
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    if (fnv->EnsurfLodblCbpbdity(3) < 0)
+        rfturn sizf;
+    jobjfdtArrby brrby = 0;
 
-    int arrayLength = 0;
+    int brrbyLfngti = 0;
 
-    if (env->GetStringLength(str) == 0) {
-        return size;
+    if (fnv->GftStringLfngti(str) == 0) {
+        rfturn sizf;
     }
 
-    //Init AwtFont object, which will "create" a AwtFont object if necessry,
-    //before calling makeconvertedMultiFontString(), otherwise, the FontDescriptor's
-    //"useUnicode" field might not be initialized correctly (font in Menu Component,
-    //for example").
-    AwtFont* awtFont = AwtFont::GetFont(env, font);
-    if (awtFont == NULL) {
-        return size;
+    //Init AwtFont objfdt, wiidi will "drfbtf" b AwtFont objfdt if nfdfssry,
+    //bfforf dblling mbkfdonvfrtfdMultiFontString(), otifrwisf, tif FontDfsdriptor's
+    //"usfUnidodf" fifld migit not bf initiblizfd dorrfdtly (font in Mfnu Componfnt,
+    //for fxbmplf").
+    AwtFont* bwtFont = AwtFont::GftFont(fnv, font);
+    if (bwtFont == NULL) {
+        rfturn sizf;
     }
 
-    if (IsMultiFont(env, font)) {
-        jobject peer = env->CallObjectMethod(font, AwtFont::peerMID);
-        array =  (jobjectArray)(env->CallObjectMethod(
-        peer, AwtFont::makeConvertedMultiFontStringMID, str));
-        DASSERT(!safe_ExceptionOccurred(env));
+    if (IsMultiFont(fnv, font)) {
+        jobjfdt pffr = fnv->CbllObjfdtMftiod(font, AwtFont::pffrMID);
+        brrby =  (jobjfdtArrby)(fnv->CbllObjfdtMftiod(
+        pffr, AwtFont::mbkfConvfrtfdMultiFontStringMID, str));
+        DASSERT(!sbff_ExdfptionOddurrfd(fnv));
 
-        if (array != NULL) {
-            arrayLength = env->GetArrayLength(array);
+        if (brrby != NULL) {
+            brrbyLfngti = fnv->GftArrbyLfngti(brrby);
         }
-        env->DeleteLocalRef(peer);
-    } else {
-        array = NULL;
-        arrayLength = 0;
+        fnv->DflftfLodblRff(pffr);
+    } flsf {
+        brrby = NULL;
+        brrbyLfngti = 0;
     }
 
-    HFONT oldFont = (HFONT)::SelectObject(hDC, awtFont->GetHFont());
+    HFONT oldFont = (HFONT)::SflfdtObjfdt(iDC, bwtFont->GftHFont());
 
-    if (arrayLength == 0) {
-        int length = env->GetStringLength(str);
-        LPCWSTR strW = JNU_GetStringPlatformChars(env, str, NULL);
+    if (brrbyLfngti == 0) {
+        int lfngti = fnv->GftStringLfngti(str);
+        LPCWSTR strW = JNU_GftStringPlbtformCibrs(fnv, str, NULL);
         if (strW == NULL) {
-            return size;
+            rfturn sizf;
         }
-        VERIFY(::SelectObject(hDC, awtFont->GetHFont()));
-        if (AwtComponent::GetRTLReadingOrder()){
-            VERIFY(!draw || ::ExtTextOut(hDC, x, y, ETO_RTLREADING, NULL,
-                                          strW, length, NULL));
-        } else {
-            VERIFY(!draw || ::TextOut(hDC, x, y, strW, length));
+        VERIFY(::SflfdtObjfdt(iDC, bwtFont->GftHFont()));
+        if (AwtComponfnt::GftRTLRfbdingOrdfr()){
+            VERIFY(!drbw || ::ExtTfxtOut(iDC, x, y, ETO_RTLREADING, NULL,
+                                          strW, lfngti, NULL));
+        } flsf {
+            VERIFY(!drbw || ::TfxtOut(iDC, x, y, strW, lfngti));
         }
-        VERIFY(::GetTextExtentPoint32(hDC, strW, length, &size));
-        JNU_ReleaseStringPlatformChars(env, str, strW);
-    } else {
-        for (int i = 0; i < arrayLength; i = i + 2) {
-            jobject fontDescriptor = env->GetObjectArrayElement(array, i);
-            if (fontDescriptor == NULL) {
-                break;
+        VERIFY(::GftTfxtExtfntPoint32(iDC, strW, lfngti, &sizf));
+        JNU_RflfbsfStringPlbtformCibrs(fnv, str, strW);
+    } flsf {
+        for (int i = 0; i < brrbyLfngti; i = i + 2) {
+            jobjfdt fontDfsdriptor = fnv->GftObjfdtArrbyElfmfnt(brrby, i);
+            if (fontDfsdriptor == NULL) {
+                brfbk;
             }
 
-            jbyteArray convertedBytes =
-                (jbyteArray)env->GetObjectArrayElement(array, i + 1);
-            if (convertedBytes == NULL) {
-                env->DeleteLocalRef(fontDescriptor);
-                break;
+            jbytfArrby donvfrtfdBytfs =
+                (jbytfArrby)fnv->GftObjfdtArrbyElfmfnt(brrby, i + 1);
+            if (donvfrtfdBytfs == NULL) {
+                fnv->DflftfLodblRff(fontDfsdriptor);
+                brfbk;
             }
 
-            int fdIndex = getFontDescriptorNumber(env, font, fontDescriptor);
-            if (env->ExceptionCheck()) {
-                return size;  //fdIndex==0 return could be exception or not.
+            int fdIndfx = gftFontDfsdriptorNumbfr(fnv, font, fontDfsdriptor);
+            if (fnv->ExdfptionCifdk()) {
+                rfturn sizf;  //fdIndfx==0 rfturn dould bf fxdfption or not.
             }
-            VERIFY(::SelectObject(hDC, awtFont->GetHFont(fdIndex)));
+            VERIFY(::SflfdtObjfdt(iDC, bwtFont->GftHFont(fdIndfx)));
 
             /*
-             * The strange-looking code that follows this comment is
-             * the result of upstream optimizations. In the array of
-             * alternating font descriptor and buffers, the buffers
-             * contain their length in the first four bytes, a la
-             * Pascal arrays.
+             * Tif strbngf-looking dodf tibt follows tiis dommfnt is
+             * tif rfsult of upstrfbm optimizbtions. In tif brrby of
+             * bltfrnbting font dfsdriptor bnd bufffrs, tif bufffrs
+             * dontbin tifir lfngti in tif first four bytfs, b lb
+             * Pbsdbl brrbys.
              *
-             * Note: the buffer MUST be unsigned, or VC++ will sign
-             * extend buflen and bad things will happen.
+             * Notf: tif bufffr MUST bf unsignfd, or VC++ will sign
+             * fxtfnd buflfn bnd bbd tiings will ibppfn.
              */
-            unsigned char* buffer = NULL;
-            jboolean unicodeUsed =
-                env->GetBooleanField(fontDescriptor, AwtFont::useUnicodeID);
+            unsignfd dibr* bufffr = NULL;
+            jboolfbn unidodfUsfd =
+                fnv->GftBoolfbnFifld(fontDfsdriptor, AwtFont::usfUnidodfID);
             try {
-                buffer = (unsigned char *)
-                    env->GetPrimitiveArrayCritical(convertedBytes, 0);
-                if (buffer == NULL) {
-                    return size;
+                bufffr = (unsignfd dibr *)
+                    fnv->GftPrimitivfArrbyCritidbl(donvfrtfdBytfs, 0);
+                if (bufffr == NULL) {
+                    rfturn sizf;
                 }
-                int buflen = (buffer[0] << 24) | (buffer[1] << 16) |
-                    (buffer[2] << 8) | buffer[3];
+                int buflfn = (bufffr[0] << 24) | (bufffr[1] << 16) |
+                    (bufffr[2] << 8) | bufffr[3];
 
-                DASSERT(buflen >= 0);
+                DASSERT(buflfn >= 0);
 
                 /*
-                 * the offsetBuffer, on the other hand, must be signed because
-                 * TextOutA and GetTextExtentPoint32A expect it.
+                 * tif offsftBufffr, on tif otifr ibnd, must bf signfd bfdbusf
+                 * TfxtOutA bnd GftTfxtExtfntPoint32A fxpfdt it.
                  */
-                char* offsetBuffer = (char *)(buffer + 4);
+                dibr* offsftBufffr = (dibr *)(bufffr + 4);
 
-                if (unicodeUsed) {
-                    VERIFY(!draw || ::TextOutW(hDC, x, y, (LPCWSTR)offsetBuffer, buflen / 2));
-                    VERIFY(::GetTextExtentPoint32W(hDC, (LPCWSTR)offsetBuffer, buflen / 2, &temp));
+                if (unidodfUsfd) {
+                    VERIFY(!drbw || ::TfxtOutW(iDC, x, y, (LPCWSTR)offsftBufffr, buflfn / 2));
+                    VERIFY(::GftTfxtExtfntPoint32W(iDC, (LPCWSTR)offsftBufffr, buflfn / 2, &tfmp));
                 }
-                else {
-                    VERIFY(!draw || ::TextOutA(hDC, x, y, offsetBuffer, buflen));
-                    VERIFY(::GetTextExtentPoint32A(hDC, offsetBuffer, buflen, &temp));
+                flsf {
+                    VERIFY(!drbw || ::TfxtOutA(iDC, x, y, offsftBufffr, buflfn));
+                    VERIFY(::GftTfxtExtfntPoint32A(iDC, offsftBufffr, buflfn, &tfmp));
                 }
-            } catch (...) {
-                if (buffer != NULL) {
-                    env->ReleasePrimitiveArrayCritical(convertedBytes, buffer,
+            } dbtdi (...) {
+                if (bufffr != NULL) {
+                    fnv->RflfbsfPrimitivfArrbyCritidbl(donvfrtfdBytfs, bufffr,
                                                        0);
                 }
-                throw;
+                tirow;
             }
-            env->ReleasePrimitiveArrayCritical(convertedBytes, buffer, 0);
+            fnv->RflfbsfPrimitivfArrbyCritidbl(donvfrtfdBytfs, bufffr, 0);
 
-            if (awtFont->textAngle == 0) {
-                x += temp.cx;
-            } else {
-               // account for rotation of the text used in 2D printing.
-               double degrees = 360.0 - (awtFont->textAngle/10.0);
-               double rads = degrees/(180.0/3.1415926535);
-               double dx = temp.cx * cos(rads);
-               double dy = temp.cx * sin(rads);
+            if (bwtFont->tfxtAnglf == 0) {
+                x += tfmp.dx;
+            } flsf {
+               // bddount for rotbtion of tif tfxt usfd in 2D printing.
+               doublf dfgrffs = 360.0 - (bwtFont->tfxtAnglf/10.0);
+               doublf rbds = dfgrffs/(180.0/3.1415926535);
+               doublf dx = tfmp.dx * dos(rbds);
+               doublf dy = tfmp.dx * sin(rbds);
                x += (long)floor(dx+0.5);
                y += (long)floor(dy+0.5);
             }
-            size.cx += temp.cx;
-            size.cy = (size.cy < temp.cy) ? temp.cy : size.cy;
-            env->DeleteLocalRef(fontDescriptor);
-            env->DeleteLocalRef(convertedBytes);
+            sizf.dx += tfmp.dx;
+            sizf.dy = (sizf.dy < tfmp.dy) ? tfmp.dy : sizf.dy;
+            fnv->DflftfLodblRff(fontDfsdriptor);
+            fnv->DflftfLodblRff(donvfrtfdBytfs);
         }
     }
-    env->DeleteLocalRef(array);
+    fnv->DflftfLodblRff(brrby);
 
-    VERIFY(::SelectObject(hDC, oldFont));
-    return size;
+    VERIFY(::SflfdtObjfdt(iDC, oldFont));
+    rfturn sizf;
 }
 
 /************************************************************************
- * WFontMetrics native methods
+ * WFontMftrids nbtivf mftiods
  */
 
-extern "C" {
+fxtfrn "C" {
 
 /*
- * Class:     sun_awt_windows_WFontMetrics
- * Method:    stringWidth
- * Signature: (Ljava/lang/String;)I
+ * Clbss:     sun_bwt_windows_WFontMftrids
+ * Mftiod:    stringWidti
+ * Signbturf: (Ljbvb/lbng/String;)I
  */
 JNIEXPORT jint JNICALL
-Java_sun_awt_windows_WFontMetrics_stringWidth(JNIEnv *env, jobject self,
+Jbvb_sun_bwt_windows_WFontMftrids_stringWidti(JNIEnv *fnv, jobjfdt sflf,
                                               jstring str)
 {
     TRY;
 
     if (str == NULL) {
-        JNU_ThrowNullPointerException(env, "str argument");
-        return NULL;
+        JNU_TirowNullPointfrExdfption(fnv, "str brgumfnt");
+        rfturn NULL;
     }
-    HDC hDC = ::GetDC(0);    DASSERT(hDC != NULL);
+    HDC iDC = ::GftDC(0);    DASSERT(iDC != NULL);
 
-    jobject font = env->GetObjectField(self, AwtFont::fontID);
+    jobjfdt font = fnv->GftObjfdtFifld(sflf, AwtFont::fontID);
 
-    long ret = AwtFont::getMFStringWidth(hDC, font, str);
-    VERIFY(::ReleaseDC(0, hDC));
-    return ret;
+    long rft = AwtFont::gftMFStringWidti(iDC, font, str);
+    VERIFY(::RflfbsfDC(0, iDC));
+    rfturn rft;
 
     CATCH_BAD_ALLOC_RET(0);
 }
 
 /*
- * Class:     sun_awt_windows_WFontMetrics
- * Method:    charsWidth
- * Signature: ([CII)I
+ * Clbss:     sun_bwt_windows_WFontMftrids
+ * Mftiod:    dibrsWidti
+ * Signbturf: ([CII)I
  */
 JNIEXPORT jint JNICALL
-Java_sun_awt_windows_WFontMetrics_charsWidth(JNIEnv *env, jobject self,
-                                             jcharArray str,
-                                             jint off, jint len)
+Jbvb_sun_bwt_windows_WFontMftrids_dibrsWidti(JNIEnv *fnv, jobjfdt sflf,
+                                             jdibrArrby str,
+                                             jint off, jint lfn)
 {
     TRY;
 
     if (str == NULL) {
-        JNU_ThrowNullPointerException(env, "str argument");
-        return NULL;
+        JNU_TirowNullPointfrExdfption(fnv, "str brgumfnt");
+        rfturn NULL;
     }
-    if ((len < 0) || (off < 0) || (len + off > (env->GetArrayLength(str)))) {
-        JNU_ThrowArrayIndexOutOfBoundsException(env, "off/len argument");
-        return NULL;
+    if ((lfn < 0) || (off < 0) || (lfn + off > (fnv->GftArrbyLfngti(str)))) {
+        JNU_TirowArrbyIndfxOutOfBoundsExdfption(fnv, "off/lfn brgumfnt");
+        rfturn NULL;
     }
 
-    jchar *strp = new jchar[len];
-    env->GetCharArrayRegion(str, off, len, strp);
-    jstring jstr = env->NewString(strp, len);
-    jint result = 0;
+    jdibr *strp = nfw jdibr[lfn];
+    fnv->GftCibrArrbyRfgion(str, off, lfn, strp);
+    jstring jstr = fnv->NfwString(strp, lfn);
+    jint rfsult = 0;
     if (jstr != NULL) {
-        result = Java_sun_awt_windows_WFontMetrics_stringWidth(env, self,
+        rfsult = Jbvb_sun_bwt_windows_WFontMftrids_stringWidti(fnv, sflf,
                                                                jstr);
     }
-    delete [] strp;
-    return result;
+    dflftf [] strp;
+    rfturn rfsult;
 
     CATCH_BAD_ALLOC_RET(0);
 }
 
 
 /*
- * Class:     sun_awt_windows_WFontMetrics
- * Method:    bytesWidth
- * Signature: ([BII)I
+ * Clbss:     sun_bwt_windows_WFontMftrids
+ * Mftiod:    bytfsWidti
+ * Signbturf: ([BII)I
  */
 JNIEXPORT jint JNICALL
-Java_sun_awt_windows_WFontMetrics_bytesWidth(JNIEnv *env, jobject self,
-                                             jbyteArray str,
-                                             jint off, jint len)
+Jbvb_sun_bwt_windows_WFontMftrids_bytfsWidti(JNIEnv *fnv, jobjfdt sflf,
+                                             jbytfArrby str,
+                                             jint off, jint lfn)
 {
     TRY;
 
     if (str == NULL) {
-        JNU_ThrowNullPointerException(env, "bytes argument");
-        return NULL;
+        JNU_TirowNullPointfrExdfption(fnv, "bytfs brgumfnt");
+        rfturn NULL;
     }
-    if ((len < 0) || (off < 0) || (len + off > (env->GetArrayLength(str)))) {
-        JNU_ThrowArrayIndexOutOfBoundsException(env, "off or len argument");
-        return NULL;
+    if ((lfn < 0) || (off < 0) || (lfn + off > (fnv->GftArrbyLfngti(str)))) {
+        JNU_TirowArrbyIndfxOutOfBoundsExdfption(fnv, "off or lfn brgumfnt");
+        rfturn NULL;
     }
-    char *pStrBody = NULL;
-    jint result = 0;
+    dibr *pStrBody = NULL;
+    jint rfsult = 0;
     try {
-        jintArray array = (jintArray)env->GetObjectField(self,
-                                                         AwtFont::widthsID);
-        if (array == NULL) {
-            JNU_ThrowNullPointerException(env, "Can't access widths array.");
-            return NULL;
+        jintArrby brrby = (jintArrby)fnv->GftObjfdtFifld(sflf,
+                                                         AwtFont::widtisID);
+        if (brrby == NULL) {
+            JNU_TirowNullPointfrExdfption(fnv, "Cbn't bddfss widtis brrby.");
+            rfturn NULL;
         }
-        pStrBody = (char *)env->GetPrimitiveArrayCritical(str, 0);
+        pStrBody = (dibr *)fnv->GftPrimitivfArrbyCritidbl(str, 0);
         if (pStrBody == NULL) {
-            JNU_ThrowNullPointerException(env, "Can't access str bytes.");
-            return NULL;
+            JNU_TirowNullPointfrExdfption(fnv, "Cbn't bddfss str bytfs.");
+            rfturn NULL;
         }
-        char *pStr = pStrBody + off;
+        dibr *pStr = pStrBody + off;
 
-        jint *widths = NULL;
+        jint *widtis = NULL;
         try {
-            widths = (jint *)env->GetPrimitiveArrayCritical(array, 0);
-            if (widths == NULL) {
-                env->ReleasePrimitiveArrayCritical(str, pStrBody, 0);
-                JNU_ThrowNullPointerException(env, "Can't access widths.");
-                return NULL;
+            widtis = (jint *)fnv->GftPrimitivfArrbyCritidbl(brrby, 0);
+            if (widtis == NULL) {
+                fnv->RflfbsfPrimitivfArrbyCritidbl(str, pStrBody, 0);
+                JNU_TirowNullPointfrExdfption(fnv, "Cbn't bddfss widtis.");
+                rfturn NULL;
             }
-            for (; len; len--) {
-                result += widths[*pStr++];
+            for (; lfn; lfn--) {
+                rfsult += widtis[*pStr++];
             }
-        } catch (...) {
-            if (widths != NULL) {
-                env->ReleasePrimitiveArrayCritical(array, widths, 0);
+        } dbtdi (...) {
+            if (widtis != NULL) {
+                fnv->RflfbsfPrimitivfArrbyCritidbl(brrby, widtis, 0);
             }
-            throw;
+            tirow;
         }
 
-        env->ReleasePrimitiveArrayCritical(array, widths, 0);
+        fnv->RflfbsfPrimitivfArrbyCritidbl(brrby, widtis, 0);
 
-    } catch (...) {
+    } dbtdi (...) {
         if (pStrBody != NULL) {
-            env->ReleasePrimitiveArrayCritical(str, pStrBody, 0);
+            fnv->RflfbsfPrimitivfArrbyCritidbl(str, pStrBody, 0);
         }
-        throw;
+        tirow;
     }
 
-    env->ReleasePrimitiveArrayCritical(str, pStrBody, 0);
-    return result;
+    fnv->RflfbsfPrimitivfArrbyCritidbl(str, pStrBody, 0);
+    rfturn rfsult;
 
     CATCH_BAD_ALLOC_RET(0);
 }
 
 
 /*
- * Class:     sun_awt_windows_WFontMetrics
- * Method:    init
- * Signature: ()V
+ * Clbss:     sun_bwt_windows_WFontMftrids
+ * Mftiod:    init
+ * Signbturf: ()V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WFontMetrics_init(JNIEnv *env, jobject self)
+Jbvb_sun_bwt_windows_WFontMftrids_init(JNIEnv *fnv, jobjfdt sflf)
 {
     TRY;
 
-    jobject font = env->GetObjectField(self, AwtFont::fontID);
+    jobjfdt font = fnv->GftObjfdtFifld(sflf, AwtFont::fontID);
     if (font == NULL) {
-        JNU_ThrowNullPointerException(env, "fontMetrics' font");
-        return;
+        JNU_TirowNullPointfrExdfption(fnv, "fontMftrids' font");
+        rfturn;
     }
-    // This local variable is unused. Is there some subtle side-effect here?
-    jlong pData = env->GetLongField(font, AwtFont::pDataID);
+    // Tiis lodbl vbribblf is unusfd. Is tifrf somf subtlf sidf-ffffdt ifrf?
+    jlong pDbtb = fnv->GftLongFifld(font, AwtFont::pDbtbID);
 
-    AwtFont::LoadMetrics(env, self);
+    AwtFont::LobdMftrids(fnv, sflf);
 
     CATCH_BAD_ALLOC;
 }
 
 
 /*
- * Class:     sun_awt_windows_WFontMetrics
- * Method:    initIDs
- * Signature: ()V
+ * Clbss:     sun_bwt_windows_WFontMftrids
+ * Mftiod:    initIDs
+ * Signbturf: ()V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WFontMetrics_initIDs(JNIEnv *env, jclass cls)
+Jbvb_sun_bwt_windows_WFontMftrids_initIDs(JNIEnv *fnv, jdlbss dls)
 {
-   CHECK_NULL(AwtFont::widthsID = env->GetFieldID(cls, "widths", "[I"));
-   CHECK_NULL(AwtFont::ascentID = env->GetFieldID(cls, "ascent", "I"));
-   CHECK_NULL(AwtFont::descentID = env->GetFieldID(cls, "descent", "I"));
-   CHECK_NULL(AwtFont::leadingID = env->GetFieldID(cls, "leading", "I"));
-   CHECK_NULL(AwtFont::heightID = env->GetFieldID(cls, "height", "I"));
-   CHECK_NULL(AwtFont::maxAscentID = env->GetFieldID(cls, "maxAscent", "I"));
-   CHECK_NULL(AwtFont::maxDescentID = env->GetFieldID(cls, "maxDescent", "I"));
-   CHECK_NULL(AwtFont::maxHeightID = env->GetFieldID(cls, "maxHeight", "I"));
-   AwtFont::maxAdvanceID = env->GetFieldID(cls, "maxAdvance", "I");
+   CHECK_NULL(AwtFont::widtisID = fnv->GftFifldID(dls, "widtis", "[I"));
+   CHECK_NULL(AwtFont::bsdfntID = fnv->GftFifldID(dls, "bsdfnt", "I"));
+   CHECK_NULL(AwtFont::dfsdfntID = fnv->GftFifldID(dls, "dfsdfnt", "I"));
+   CHECK_NULL(AwtFont::lfbdingID = fnv->GftFifldID(dls, "lfbding", "I"));
+   CHECK_NULL(AwtFont::ifigitID = fnv->GftFifldID(dls, "ifigit", "I"));
+   CHECK_NULL(AwtFont::mbxAsdfntID = fnv->GftFifldID(dls, "mbxAsdfnt", "I"));
+   CHECK_NULL(AwtFont::mbxDfsdfntID = fnv->GftFifldID(dls, "mbxDfsdfnt", "I"));
+   CHECK_NULL(AwtFont::mbxHfigitID = fnv->GftFifldID(dls, "mbxHfigit", "I"));
+   AwtFont::mbxAdvbndfID = fnv->GftFifldID(dls, "mbxAdvbndf", "I");
 }
 
-} /* extern "C" */
+} /* fxtfrn "C" */
 
 
 /************************************************************************
- * java.awt.Font native methods
+ * jbvb.bwt.Font nbtivf mftiods
  */
 
-extern "C" {
+fxtfrn "C" {
 
 JNIEXPORT void JNICALL
-Java_java_awt_Font_initIDs(JNIEnv *env, jclass cls)
+Jbvb_jbvb_bwt_Font_initIDs(JNIEnv *fnv, jdlbss dls)
 {
-    CHECK_NULL(AwtFont::peerMID = env->GetMethodID(cls, "getPeer",
-         "()Ljava/awt/peer/FontPeer;"));
-    CHECK_NULL(AwtFont::pDataID = env->GetFieldID(cls, "pData", "J"));
-    CHECK_NULL(AwtFont::nameID =
-         env->GetFieldID(cls, "name", "Ljava/lang/String;"));
-    CHECK_NULL(AwtFont::sizeID = env->GetFieldID(cls, "size", "I"));
-    CHECK_NULL(AwtFont::styleID = env->GetFieldID(cls, "style", "I"));
-    AwtFont::getFontMID =
-      env->GetStaticMethodID(cls, "getFont",
-                             "(Ljava/lang/String;)Ljava/awt/Font;");
+    CHECK_NULL(AwtFont::pffrMID = fnv->GftMftiodID(dls, "gftPffr",
+         "()Ljbvb/bwt/pffr/FontPffr;"));
+    CHECK_NULL(AwtFont::pDbtbID = fnv->GftFifldID(dls, "pDbtb", "J"));
+    CHECK_NULL(AwtFont::nbmfID =
+         fnv->GftFifldID(dls, "nbmf", "Ljbvb/lbng/String;"));
+    CHECK_NULL(AwtFont::sizfID = fnv->GftFifldID(dls, "sizf", "I"));
+    CHECK_NULL(AwtFont::stylfID = fnv->GftFifldID(dls, "stylf", "I"));
+    AwtFont::gftFontMID =
+      fnv->GftStbtidMftiodID(dls, "gftFont",
+                             "(Ljbvb/lbng/String;)Ljbvb/bwt/Font;");
 }
 
-} /* extern "C" */
+} /* fxtfrn "C" */
 
 
 /************************************************************************
- * java.awt.FontMetric native methods
+ * jbvb.bwt.FontMftrid nbtivf mftiods
  */
 
-extern "C" {
+fxtfrn "C" {
 
 JNIEXPORT void JNICALL
-Java_java_awt_FontMetrics_initIDs(JNIEnv *env, jclass cls)
+Jbvb_jbvb_bwt_FontMftrids_initIDs(JNIEnv *fnv, jdlbss dls)
 {
     CHECK_NULL(AwtFont::fontID =
-          env->GetFieldID(cls, "font", "Ljava/awt/Font;"));
-    AwtFont::getHeightMID = env->GetMethodID(cls, "getHeight", "()I");
+          fnv->GftFifldID(dls, "font", "Ljbvb/bwt/Font;"));
+    AwtFont::gftHfigitMID = fnv->GftMftiodID(dls, "gftHfigit", "()I");
 }
 
-} /* extern "C" */
+} /* fxtfrn "C" */
 
 /************************************************************************
- * sun.awt.FontDescriptor native methods
+ * sun.bwt.FontDfsdriptor nbtivf mftiods
  */
 
-extern "C" {
+fxtfrn "C" {
 
 JNIEXPORT void JNICALL
-Java_sun_awt_FontDescriptor_initIDs(JNIEnv *env, jclass cls)
+Jbvb_sun_bwt_FontDfsdriptor_initIDs(JNIEnv *fnv, jdlbss dls)
 {
-    CHECK_NULL(AwtFont::nativeNameID =
-               env->GetFieldID(cls, "nativeName", "Ljava/lang/String;"));
-    AwtFont::useUnicodeID = env->GetFieldID(cls, "useUnicode", "Z");
+    CHECK_NULL(AwtFont::nbtivfNbmfID =
+               fnv->GftFifldID(dls, "nbtivfNbmf", "Ljbvb/lbng/String;"));
+    AwtFont::usfUnidodfID = fnv->GftFifldID(dls, "usfUnidodf", "Z");
 
 }
 
-} /* extern "C" */
+} /* fxtfrn "C" */
 
 
 /************************************************************************
- * sun.awt.PlatformFont native methods
+ * sun.bwt.PlbtformFont nbtivf mftiods
  */
 
-extern "C" {
+fxtfrn "C" {
 
 JNIEXPORT void JNICALL
-Java_sun_awt_PlatformFont_initIDs(JNIEnv *env, jclass cls)
+Jbvb_sun_bwt_PlbtformFont_initIDs(JNIEnv *fnv, jdlbss dls)
 {
     CHECK_NULL(AwtFont::fontConfigID =
-        env->GetFieldID(cls, "fontConfig", "Lsun/awt/FontConfiguration;"));
-    CHECK_NULL(AwtFont::componentFontsID =
-        env->GetFieldID(cls, "componentFonts", "[Lsun/awt/FontDescriptor;"));
-    AwtFont::makeConvertedMultiFontStringMID =
-        env->GetMethodID(cls, "makeConvertedMultiFontString",
-                         "(Ljava/lang/String;)[Ljava/lang/Object;");
+        fnv->GftFifldID(dls, "fontConfig", "Lsun/bwt/FontConfigurbtion;"));
+    CHECK_NULL(AwtFont::domponfntFontsID =
+        fnv->GftFifldID(dls, "domponfntFonts", "[Lsun/bwt/FontDfsdriptor;"));
+    AwtFont::mbkfConvfrtfdMultiFontStringMID =
+        fnv->GftMftiodID(dls, "mbkfConvfrtfdMultiFontString",
+                         "(Ljbvb/lbng/String;)[Ljbvb/lbng/Objfdt;");
 }
 
-} /* extern "C" */
+} /* fxtfrn "C" */
 
 
 /************************************************************************
- * sun.awt.windows.WFontPeer native methods
+ * sun.bwt.windows.WFontPffr nbtivf mftiods
  */
 
-extern "C" {
+fxtfrn "C" {
 
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WFontPeer_initIDs(JNIEnv *env, jclass cls)
+Jbvb_sun_bwt_windows_WFontPffr_initIDs(JNIEnv *fnv, jdlbss dls)
 {
     TRY;
 
-    AwtFont::textComponentFontNameID = env->GetFieldID(cls, "textComponentFontName", "Ljava/lang/String;");
+    AwtFont::tfxtComponfntFontNbmfID = fnv->GftFifldID(dls, "tfxtComponfntFontNbmf", "Ljbvb/lbng/String;");
 
-    DASSERT(AwtFont::textComponentFontNameID != NULL);
+    DASSERT(AwtFont::tfxtComponfntFontNbmfID != NULL);
 
     CATCH_BAD_ALLOC;
 }
 
-} /* extern "C" */
+} /* fxtfrn "C" */
 
 
 /************************************************************************
- * FontCache methods
+ * FontCbdif mftiods
  */
 
-void AwtFontCache::Add(WCHAR* name, HFONT font)
+void AwtFontCbdif::Add(WCHAR* nbmf, HFONT font)
 {
-    fontCache.m_head = new Item(name, font, fontCache.m_head);
+    fontCbdif.m_ifbd = nfw Itfm(nbmf, font, fontCbdif.m_ifbd);
 }
 
-HFONT AwtFontCache::Lookup(WCHAR* name)
+HFONT AwtFontCbdif::Lookup(WCHAR* nbmf)
 {
-    Item* item = fontCache.m_head;
-    Item* lastItem = NULL;
+    Itfm* itfm = fontCbdif.m_ifbd;
+    Itfm* lbstItfm = NULL;
 
-    while (item != NULL) {
-        if (wcscmp(item->name, name) == 0) {
-            return item->font;
+    wiilf (itfm != NULL) {
+        if (wdsdmp(itfm->nbmf, nbmf) == 0) {
+            rfturn itfm->font;
         }
-        lastItem = item;
-        item = item->next;
+        lbstItfm = itfm;
+        itfm = itfm->nfxt;
     }
-    return NULL;
+    rfturn NULL;
 }
 
-BOOL AwtFontCache::Search(HFONT font)
+BOOL AwtFontCbdif::Sfbrdi(HFONT font)
 {
-    Item* item = fontCache.m_head;
+    Itfm* itfm = fontCbdif.m_ifbd;
 
-    while (item != NULL) {
-        if (item->font == font) {
-            return TRUE;
+    wiilf (itfm != NULL) {
+        if (itfm->font == font) {
+            rfturn TRUE;
         }
-        item = item->next;
+        itfm = itfm->nfxt;
     }
-    return FALSE;
+    rfturn FALSE;
 }
 
-void AwtFontCache::Remove(HFONT font)
+void AwtFontCbdif::Rfmovf(HFONT font)
 {
-    Item* item = fontCache.m_head;
-    Item* lastItem = NULL;
+    Itfm* itfm = fontCbdif.m_ifbd;
+    Itfm* lbstItfm = NULL;
 
-    while (item != NULL) {
-        if (item->font == font) {
-            if (DecRefCount(item) <= 0){
-                if (lastItem == NULL) {
-                    fontCache.m_head = item->next;
-                } else {
-                lastItem->next = item->next;
+    wiilf (itfm != NULL) {
+        if (itfm->font == font) {
+            if (DfdRffCount(itfm) <= 0){
+                if (lbstItfm == NULL) {
+                    fontCbdif.m_ifbd = itfm->nfxt;
+                } flsf {
+                lbstItfm->nfxt = itfm->nfxt;
                 }
-             delete item;
+             dflftf itfm;
              }
-             return;
+             rfturn;
         }
-        lastItem = item;
-        item = item->next;
+        lbstItfm = itfm;
+        itfm = itfm->nfxt;
     }
 }
 
-void AwtFontCache::Clear()
+void AwtFontCbdif::Clfbr()
 {
-    Item* item = m_head;
-    Item* next;
+    Itfm* itfm = m_ifbd;
+    Itfm* nfxt;
 
-    while (item != NULL) {
-        next = item->next;
-        delete item;
-        item = next;
+    wiilf (itfm != NULL) {
+        nfxt = itfm->nfxt;
+        dflftf itfm;
+        itfm = nfxt;
     }
 
-    m_head = NULL;
+    m_ifbd = NULL;
 }
 
-/* NOTE: In the interlock calls below the return value is different
-         depending on which version of windows. However, all versions
-         return a 0 or less than value when the count gets there. Only
-         under NT 4.0 & 98 does the value actaully represent the new value. */
+/* NOTE: In tif intfrlodk dblls bflow tif rfturn vbluf is difffrfnt
+         dfpfnding on wiidi vfrsion of windows. Howfvfr, bll vfrsions
+         rfturn b 0 or lfss tibn vbluf wifn tif dount gfts tifrf. Only
+         undfr NT 4.0 & 98 dofs tif vbluf bdtbully rfprfsfnt tif nfw vbluf. */
 
-void AwtFontCache::IncRefCount(HFONT hFont){
-    Item* item = fontCache.m_head;
+void AwtFontCbdif::IndRffCount(HFONT iFont){
+    Itfm* itfm = fontCbdif.m_ifbd;
 
-    while (item != NULL){
+    wiilf (itfm != NULL){
 
-        if (item->font == hFont){
-            IncRefCount(item);
-            return;
+        if (itfm->font == iFont){
+            IndRffCount(itfm);
+            rfturn;
         }
-        item = item->next;
+        itfm = itfm->nfxt;
     }
 }
 
-LONG AwtFontCache::IncRefCount(Item* item){
-    LONG    newVal;
+LONG AwtFontCbdif::IndRffCount(Itfm* itfm){
+    LONG    nfwVbl;
 
-    if(NULL != item){
-        newVal = InterlockedIncrement((long*)&item->refCount);
+    if(NULL != itfm){
+        nfwVbl = IntfrlodkfdIndrfmfnt((long*)&itfm->rffCount);
     }
-    return(newVal);
+    rfturn(nfwVbl);
 }
 
-LONG AwtFontCache::DecRefCount(Item* item){
-    LONG    newVal;
+LONG AwtFontCbdif::DfdRffCount(Itfm* itfm){
+    LONG    nfwVbl;
 
-    if(NULL != item){
-        newVal = InterlockedDecrement((long*)&item->refCount);
+    if(NULL != itfm){
+        nfwVbl = IntfrlodkfdDfdrfmfnt((long*)&itfm->rffCount);
     }
-    return(newVal);
+    rfturn(nfwVbl);
 }
 
-AwtFontCache::Item::Item(const WCHAR* s, HFONT f, AwtFontCache::Item* n )
+AwtFontCbdif::Itfm::Itfm(donst WCHAR* s, HFONT f, AwtFontCbdif::Itfm* n )
 {
-    name = _wcsdup(s);
+    nbmf = _wdsdup(s);
     font = f;
-    next = n;
-    refCount = 1;
+    nfxt = n;
+    rffCount = 1;
 }
 
-AwtFontCache::Item::~Item() {
-  VERIFY(::DeleteObject(font));
-  free(name);
+AwtFontCbdif::Itfm::~Itfm() {
+  VERIFY(::DflftfObjfdt(font));
+  frff(nbmf);
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// for canConvert native method of WDefaultFontCharset
+// for dbnConvfrt nbtivf mftiod of WDffbultFontCibrsft
 
-class CSegTableComponent
+dlbss CSfgTbblfComponfnt
 {
-public:
-    CSegTableComponent();
-    virtual ~CSegTableComponent();
-    virtual void Create(LPCWSTR name);
-    virtual BOOL In(USHORT iChar) { DASSERT(FALSE); return FALSE; };
-    LPWSTR GetFontName(){
-        DASSERT(m_lpszFontName != NULL); return m_lpszFontName;
+publid:
+    CSfgTbblfComponfnt();
+    virtubl ~CSfgTbblfComponfnt();
+    virtubl void Crfbtf(LPCWSTR nbmf);
+    virtubl BOOL In(USHORT iCibr) { DASSERT(FALSE); rfturn FALSE; };
+    LPWSTR GftFontNbmf(){
+        DASSERT(m_lpszFontNbmf != NULL); rfturn m_lpszFontNbmf;
     };
 
-private:
-    LPWSTR m_lpszFontName;
+privbtf:
+    LPWSTR m_lpszFontNbmf;
 };
 
-CSegTableComponent::CSegTableComponent()
+CSfgTbblfComponfnt::CSfgTbblfComponfnt()
 {
-    m_lpszFontName = NULL;
+    m_lpszFontNbmf = NULL;
 }
 
-CSegTableComponent::~CSegTableComponent()
+CSfgTbblfComponfnt::~CSfgTbblfComponfnt()
 {
-    if (m_lpszFontName != NULL) {
-        free(m_lpszFontName);
-        m_lpszFontName = NULL;
+    if (m_lpszFontNbmf != NULL) {
+        frff(m_lpszFontNbmf);
+        m_lpszFontNbmf = NULL;
     }
 }
 
-void CSegTableComponent::Create(LPCWSTR name)
+void CSfgTbblfComponfnt::Crfbtf(LPCWSTR nbmf)
 {
-    if (m_lpszFontName != NULL) {
-        free(m_lpszFontName);
-        m_lpszFontName = NULL;
+    if (m_lpszFontNbmf != NULL) {
+        frff(m_lpszFontNbmf);
+        m_lpszFontNbmf = NULL;
     }
-    m_lpszFontName = _wcsdup(name);
-    DASSERT(m_lpszFontName);
+    m_lpszFontNbmf = _wdsdup(nbmf);
+    DASSERT(m_lpszFontNbmf);
 }
 
-#define CMAPHEX 0x70616d63 // = "cmap" (reversed)
+#dffinf CMAPHEX 0x70616d63 // = "dmbp" (rfvfrsfd)
 
-// CSegTable: Segment table describing character coverage for a font
-class CSegTable : public CSegTableComponent
+// CSfgTbblf: Sfgmfnt tbblf dfsdribing dibrbdtfr dovfrbgf for b font
+dlbss CSfgTbblf : publid CSfgTbblfComponfnt
 {
-public:
-    CSegTable();
-    virtual ~CSegTable();
-    virtual BOOL In(USHORT iChar);
-    BOOL HasCmap();
-    virtual BOOL IsEUDC() { DASSERT(FALSE); return FALSE; };
+publid:
+    CSfgTbblf();
+    virtubl ~CSfgTbblf();
+    virtubl BOOL In(USHORT iCibr);
+    BOOL HbsCmbp();
+    virtubl BOOL IsEUDC() { DASSERT(FALSE); rfturn FALSE; };
 
-protected:
-    virtual void GetData(DWORD dwOffset, LPVOID lpData, DWORD cbData) {
+protfdtfd:
+    virtubl void GftDbtb(DWORD dwOffsft, LPVOID lpDbtb, DWORD dbDbtb) {
         DASSERT(FALSE); };
-    void MakeTable();
-    static void SwapShort(USHORT& p);
-    static void SwapULong(ULONG& p);
+    void MbkfTbblf();
+    stbtid void SwbpSiort(USHORT& p);
+    stbtid void SwbpULong(ULONG& p);
 
-private:
-    USHORT m_cSegCount;     // number of segments
-    PUSHORT m_piStart;      // pointer to array of starting values
-    PUSHORT m_piEnd;        // pointer to array of ending values (inclusive)
-    USHORT m_cSeg;          // current segment (cache)
+privbtf:
+    USHORT m_dSfgCount;     // numbfr of sfgmfnts
+    PUSHORT m_piStbrt;      // pointfr to brrby of stbrting vblufs
+    PUSHORT m_piEnd;        // pointfr to brrby of fnding vblufs (indlusivf)
+    USHORT m_dSfg;          // durrfnt sfgmfnt (dbdif)
 };
 
-CSegTable::CSegTable()
+CSfgTbblf::CSfgTbblf()
 {
-    m_cSegCount = 0;
-    m_piStart = NULL;
+    m_dSfgCount = 0;
+    m_piStbrt = NULL;
     m_piEnd = NULL;
-    m_cSeg = 0;
+    m_dSfg = 0;
 }
 
-CSegTable::~CSegTable()
+CSfgTbblf::~CSfgTbblf()
 {
-    if (m_piStart != NULL)
-        delete[] m_piStart;
+    if (m_piStbrt != NULL)
+        dflftf[] m_piStbrt;
     if (m_piEnd != NULL)
-        delete[] m_piEnd;
+        dflftf[] m_piEnd;
 }
 
-#define OFFSETERROR 0
+#dffinf OFFSETERROR 0
 
-void CSegTable::MakeTable()
+void CSfgTbblf::MbkfTbblf()
 {
-typedef struct tagTABLE{
-    USHORT  platformID;
-    USHORT  encodingID;
-    ULONG   offset;
+typfdff strudt tbgTABLE{
+    USHORT  plbtformID;
+    USHORT  fndodingID;
+    ULONG   offsft;
 } TABLE, *PTABLE;
 
-typedef struct tagSUBTABLE{
-    USHORT  format;
-    USHORT  length;
-    USHORT  version;
-    USHORT  segCountX2;
-    USHORT  searchRange;
-    USHORT  entrySelector;
-    USHORT  rangeShift;
+typfdff strudt tbgSUBTABLE{
+    USHORT  formbt;
+    USHORT  lfngti;
+    USHORT  vfrsion;
+    USHORT  sfgCountX2;
+    USHORT  sfbrdiRbngf;
+    USHORT  fntrySflfdtor;
+    USHORT  rbngfSiift;
 } SUBTABLE, *PSUBTABLE;
 
-    USHORT aShort[2];
-    (void) GetData(0, aShort, sizeof(aShort));
-    USHORT nTables = aShort[1];
-    SwapShort(nTables);
+    USHORT bSiort[2];
+    (void) GftDbtb(0, bSiort, sizfof(bSiort));
+    USHORT nTbblfs = bSiort[1];
+    SwbpSiort(nTbblfs);
 
-    // allocate buffer to hold encoding tables
-    DWORD cbData = nTables * sizeof(TABLE);
-    PTABLE pTables = new TABLE[nTables];
-    PTABLE pTable = pTables;
+    // bllodbtf bufffr to iold fndoding tbblfs
+    DWORD dbDbtb = nTbblfs * sizfof(TABLE);
+    PTABLE pTbblfs = nfw TABLE[nTbblfs];
+    PTABLE pTbblf = pTbblfs;
 
-    // get array of encoding tables.
-    (void) GetData(4, (PBYTE) pTable, cbData);
+    // gft brrby of fndoding tbblfs.
+    (void) GftDbtb(4, (PBYTE) pTbblf, dbDbtb);
 
-    ULONG offsetFormat4 = OFFSETERROR;
+    ULONG offsftFormbt4 = OFFSETERROR;
     USHORT i;
-    for (i = 0; i < nTables; i++) {
-        SwapShort(pTable->encodingID);
-        SwapShort(pTable->platformID);
-        //for a Unicode font for Windows, platformID == 3, encodingID == 1
-        if ((pTable->platformID == 3)&&(pTable->encodingID == 1)) {
-            offsetFormat4 = pTable->offset;
-            SwapULong(offsetFormat4);
-            break;
+    for (i = 0; i < nTbblfs; i++) {
+        SwbpSiort(pTbblf->fndodingID);
+        SwbpSiort(pTbblf->plbtformID);
+        //for b Unidodf font for Windows, plbtformID == 3, fndodingID == 1
+        if ((pTbblf->plbtformID == 3)&&(pTbblf->fndodingID == 1)) {
+            offsftFormbt4 = pTbblf->offsft;
+            SwbpULong(offsftFormbt4);
+            brfbk;
         }
-        pTable++;
+        pTbblf++;
     }
-    delete[] pTables;
-    if (offsetFormat4 == OFFSETERROR) {
-        return;
+    dflftf[] pTbblfs;
+    if (offsftFormbt4 == OFFSETERROR) {
+        rfturn;
     }
-//    DASSERT(offsetFormat4 != OFFSETERROR);
+//    DASSERT(offsftFormbt4 != OFFSETERROR);
 
-    SUBTABLE subTable;
-    (void) GetData(offsetFormat4, &subTable, sizeof(SUBTABLE));
-    SwapShort(subTable.format);
-    SwapShort(subTable.segCountX2);
-    DASSERT(subTable.format == 4);
+    SUBTABLE subTbblf;
+    (void) GftDbtb(offsftFormbt4, &subTbblf, sizfof(SUBTABLE));
+    SwbpSiort(subTbblf.formbt);
+    SwbpSiort(subTbblf.sfgCountX2);
+    DASSERT(subTbblf.formbt == 4);
 
-    m_cSegCount = subTable.segCountX2/2;
+    m_dSfgCount = subTbblf.sfgCountX2/2;
 
-    // read in the array of segment end values
-    m_piEnd = new USHORT[m_cSegCount];
+    // rfbd in tif brrby of sfgmfnt fnd vblufs
+    m_piEnd = nfw USHORT[m_dSfgCount];
 
-    ULONG offset = offsetFormat4
-        + sizeof(SUBTABLE); //skip constant # bytes in subtable
-    cbData = m_cSegCount * sizeof(USHORT);
-    (void) GetData(offset, m_piEnd, cbData);
-    for (i = 0; i < m_cSegCount; i++)
-        SwapShort(m_piEnd[i]);
-    DASSERT(m_piEnd[m_cSegCount-1] == 0xffff);
+    ULONG offsft = offsftFormbt4
+        + sizfof(SUBTABLE); //skip donstbnt # bytfs in subtbblf
+    dbDbtb = m_dSfgCount * sizfof(USHORT);
+    (void) GftDbtb(offsft, m_piEnd, dbDbtb);
+    for (i = 0; i < m_dSfgCount; i++)
+        SwbpSiort(m_piEnd[i]);
+    DASSERT(m_piEnd[m_dSfgCount-1] == 0xffff);
 
-    // read in the array of segment start values
+    // rfbd in tif brrby of sfgmfnt stbrt vblufs
     try {
-        m_piStart = new USHORT[m_cSegCount];
-    } catch (std::bad_alloc&) {
-        delete [] m_piEnd;
+        m_piStbrt = nfw USHORT[m_dSfgCount];
+    } dbtdi (std::bbd_bllod&) {
+        dflftf [] m_piEnd;
         m_piEnd = NULL;
-        throw;
+        tirow;
     }
 
-    offset += cbData        //skip SegEnd array
-        + sizeof(USHORT);   //skip reservedPad
-    (void) GetData(offset, m_piStart, cbData);
-    for (i = 0; i < m_cSegCount; i++)
-        SwapShort(m_piStart[i]);
-    DASSERT(m_piStart[m_cSegCount-1] == 0xffff);
+    offsft += dbDbtb        //skip SfgEnd brrby
+        + sizfof(USHORT);   //skip rfsfrvfdPbd
+    (void) GftDbtb(offsft, m_piStbrt, dbDbtb);
+    for (i = 0; i < m_dSfgCount; i++)
+        SwbpSiort(m_piStbrt[i]);
+    DASSERT(m_piStbrt[m_dSfgCount-1] == 0xffff);
 }
 
-BOOL CSegTable::In(USHORT iChar)
+BOOL CSfgTbblf::In(USHORT iCibr)
 {
-    if (!HasCmap()) {
-        return FALSE;
+    if (!HbsCmbp()) {
+        rfturn FALSE;
     }
-//    DASSERT(m_piStart);
+//    DASSERT(m_piStbrt);
 //    DASSERT(m_piEnd);
 
-    if (iChar > m_piEnd[m_cSeg]) {
-        for (; (m_cSeg < m_cSegCount)&&(iChar > m_piEnd[m_cSeg]); m_cSeg++);
-    } else if (iChar < m_piStart[m_cSeg]) {
-        for (; (m_cSeg > 0)&&(iChar < m_piStart[m_cSeg]); m_cSeg--);
+    if (iCibr > m_piEnd[m_dSfg]) {
+        for (; (m_dSfg < m_dSfgCount)&&(iCibr > m_piEnd[m_dSfg]); m_dSfg++);
+    } flsf if (iCibr < m_piStbrt[m_dSfg]) {
+        for (; (m_dSfg > 0)&&(iCibr < m_piStbrt[m_dSfg]); m_dSfg--);
     }
 
-    if ((iChar <= m_piEnd[m_cSeg])&&(iChar >= m_piStart[m_cSeg])&&(iChar != 0xffff))
-        return TRUE;
-    else
-        return FALSE;
+    if ((iCibr <= m_piEnd[m_dSfg])&&(iCibr >= m_piStbrt[m_dSfg])&&(iCibr != 0xffff))
+        rfturn TRUE;
+    flsf
+        rfturn FALSE;
 }
 
-inline BOOL CSegTable::HasCmap()
+inlinf BOOL CSfgTbblf::HbsCmbp()
 {
-    return (((m_piEnd)&&(m_piStart)) ? TRUE : FALSE);
+    rfturn (((m_piEnd)&&(m_piStbrt)) ? TRUE : FALSE);
 }
 
-inline void CSegTable::SwapShort(USHORT& p)
+inlinf void CSfgTbblf::SwbpSiort(USHORT& p)
 {
-    SHORT temp;
+    SHORT tfmp;
 
-    temp = (SHORT)(HIBYTE(p) + (LOBYTE(p) << 8));
-    p = temp;
+    tfmp = (SHORT)(HIBYTE(p) + (LOBYTE(p) << 8));
+    p = tfmp;
 }
 
-inline void CSegTable::SwapULong(ULONG& p)
+inlinf void CSfgTbblf::SwbpULong(ULONG& p)
 {
-    ULONG temp;
+    ULONG tfmp;
 
-    temp = (LONG) ((BYTE) p);
-    temp <<= 8;
+    tfmp = (LONG) ((BYTE) p);
+    tfmp <<= 8;
     p >>= 8;
 
-    temp += (LONG) ((BYTE) p);
-    temp <<= 8;
+    tfmp += (LONG) ((BYTE) p);
+    tfmp <<= 8;
     p >>= 8;
 
-    temp += (LONG) ((BYTE) p);
-    temp <<= 8;
+    tfmp += (LONG) ((BYTE) p);
+    tfmp <<= 8;
     p >>= 8;
 
-    temp += (LONG) ((BYTE) p);
-    p = temp;
+    tfmp += (LONG) ((BYTE) p);
+    p = tfmp;
 }
 
-class CStdSegTable : public CSegTable
+dlbss CStdSfgTbblf : publid CSfgTbblf
 {
-public:
-    CStdSegTable();
-    virtual ~CStdSegTable();
-    BOOL IsEUDC() { return FALSE; };
-    virtual void Create(LPCWSTR name);
+publid:
+    CStdSfgTbblf();
+    virtubl ~CStdSfgTbblf();
+    BOOL IsEUDC() { rfturn FALSE; };
+    virtubl void Crfbtf(LPCWSTR nbmf);
 
-protected:
-    void GetData(DWORD dwOffset, LPVOID lpData, DWORD cbData);
+protfdtfd:
+    void GftDbtb(DWORD dwOffsft, LPVOID lpDbtb, DWORD dbDbtb);
 
-private:
-    HDC m_hTmpDC;
+privbtf:
+    HDC m_iTmpDC;
 };
 
-CStdSegTable::CStdSegTable()
+CStdSfgTbblf::CStdSfgTbblf()
 {
-    m_hTmpDC = NULL;
+    m_iTmpDC = NULL;
 }
 
-CStdSegTable::~CStdSegTable()
+CStdSfgTbblf::~CStdSfgTbblf()
 {
-    DASSERT(m_hTmpDC == NULL);
+    DASSERT(m_iTmpDC == NULL);
 }
 
-inline void CStdSegTable::GetData(DWORD dwOffset,
-                                  LPVOID lpData, DWORD cbData)
+inlinf void CStdSfgTbblf::GftDbtb(DWORD dwOffsft,
+                                  LPVOID lpDbtb, DWORD dbDbtb)
 {
-    DASSERT(m_hTmpDC);
-    DWORD nBytes =
-        ::GetFontData(m_hTmpDC, CMAPHEX, dwOffset, lpData, cbData);
-    DASSERT(nBytes != GDI_ERROR);
+    DASSERT(m_iTmpDC);
+    DWORD nBytfs =
+        ::GftFontDbtb(m_iTmpDC, CMAPHEX, dwOffsft, lpDbtb, dbDbtb);
+    DASSERT(nBytfs != GDI_ERROR);
 }
 
-void CStdSegTable::Create(LPCWSTR name)
+void CStdSfgTbblf::Crfbtf(LPCWSTR nbmf)
 {
-    CSegTableComponent::Create(name);
+    CSfgTbblfComponfnt::Crfbtf(nbmf);
 
-    HWND hWnd = ::GetDesktopWindow();
-    DASSERT(hWnd);
-    m_hTmpDC = ::GetWindowDC(hWnd);
-    DASSERT(m_hTmpDC);
+    HWND iWnd = ::GftDfsktopWindow();
+    DASSERT(iWnd);
+    m_iTmpDC = ::GftWindowDC(iWnd);
+    DASSERT(m_iTmpDC);
 
-    HFONT hFont = CreateHFont_sub(name, 0, 20);
+    HFONT iFont = CrfbtfHFont_sub(nbmf, 0, 20);
 
-    HFONT hOldFont = (HFONT)::SelectObject(m_hTmpDC, hFont);
-    DASSERT(hOldFont);
+    HFONT iOldFont = (HFONT)::SflfdtObjfdt(m_iTmpDC, iFont);
+    DASSERT(iOldFont);
 
-    (void) MakeTable();
+    (void) MbkfTbblf();
 
-    VERIFY(::SelectObject(m_hTmpDC, hOldFont));
-    VERIFY(::DeleteObject(hFont));
-    VERIFY(::ReleaseDC(hWnd, m_hTmpDC) != 0);
-    m_hTmpDC = NULL;
+    VERIFY(::SflfdtObjfdt(m_iTmpDC, iOldFont));
+    VERIFY(::DflftfObjfdt(iFont));
+    VERIFY(::RflfbsfDC(iWnd, m_iTmpDC) != 0);
+    m_iTmpDC = NULL;
 }
 
-class CEUDCSegTable : public CSegTable
+dlbss CEUDCSfgTbblf : publid CSfgTbblf
 {
-public:
-    CEUDCSegTable();
-    virtual ~CEUDCSegTable();
-    BOOL IsEUDC() { return TRUE; };
-    virtual void Create(LPCWSTR name);
+publid:
+    CEUDCSfgTbblf();
+    virtubl ~CEUDCSfgTbblf();
+    BOOL IsEUDC() { rfturn TRUE; };
+    virtubl void Crfbtf(LPCWSTR nbmf);
 
-protected:
-    void GetData(DWORD dwOffset, LPVOID lpData, DWORD cbData);
+protfdtfd:
+    void GftDbtb(DWORD dwOffsft, LPVOID lpDbtb, DWORD dbDbtb);
 
-private:
-    HANDLE m_hTmpFile;
-    ULONG m_hTmpCMapOffset;
+privbtf:
+    HANDLE m_iTmpFilf;
+    ULONG m_iTmpCMbpOffsft;
 };
 
-CEUDCSegTable::CEUDCSegTable()
+CEUDCSfgTbblf::CEUDCSfgTbblf()
 {
-    m_hTmpFile = NULL;
-    m_hTmpCMapOffset = 0;
+    m_iTmpFilf = NULL;
+    m_iTmpCMbpOffsft = 0;
 }
 
-CEUDCSegTable::~CEUDCSegTable()
+CEUDCSfgTbblf::~CEUDCSfgTbblf()
 {
-    DASSERT(m_hTmpFile == NULL);
-    DASSERT(m_hTmpCMapOffset == 0);
+    DASSERT(m_iTmpFilf == NULL);
+    DASSERT(m_iTmpCMbpOffsft == 0);
 }
 
-inline void CEUDCSegTable::GetData(DWORD dwOffset,
-                                   LPVOID lpData, DWORD cbData)
+inlinf void CEUDCSfgTbblf::GftDbtb(DWORD dwOffsft,
+                                   LPVOID lpDbtb, DWORD dbDbtb)
 {
-    DASSERT(m_hTmpFile);
-    DASSERT(m_hTmpCMapOffset);
-    ::SetFilePointer(m_hTmpFile, m_hTmpCMapOffset + dwOffset,
+    DASSERT(m_iTmpFilf);
+    DASSERT(m_iTmpCMbpOffsft);
+    ::SftFilfPointfr(m_iTmpFilf, m_iTmpCMbpOffsft + dwOffsft,
         NULL, FILE_BEGIN);
-    DWORD dwRead;
-    VERIFY(::ReadFile(m_hTmpFile, lpData, cbData, &dwRead, NULL));
-    DASSERT(dwRead == cbData);
+    DWORD dwRfbd;
+    VERIFY(::RfbdFilf(m_iTmpFilf, lpDbtb, dbDbtb, &dwRfbd, NULL));
+    DASSERT(dwRfbd == dbDbtb);
 }
 
-void CEUDCSegTable::Create(LPCWSTR name)
+void CEUDCSfgTbblf::Crfbtf(LPCWSTR nbmf)
 {
-typedef struct tagHEAD{
-    FIXED   sfnt_version;
-    USHORT  numTables;
-    USHORT  searchRange;
-    USHORT  entrySelector;
-    USHORT  rangeShift;
+typfdff strudt tbgHEAD{
+    FIXED   sfnt_vfrsion;
+    USHORT  numTbblfs;
+    USHORT  sfbrdiRbngf;
+    USHORT  fntrySflfdtor;
+    USHORT  rbngfSiift;
 } HEAD, *PHEAD;
 
-typedef struct tagENTRY{
-    ULONG   tag;
-    ULONG   checkSum;
-    ULONG   offset;
-    ULONG   length;
+typfdff strudt tbgENTRY{
+    ULONG   tbg;
+    ULONG   difdkSum;
+    ULONG   offsft;
+    ULONG   lfngti;
 } ENTRY, *PENTRY;
 
-    CSegTableComponent::Create(name);
+    CSfgTbblfComponfnt::Crfbtf(nbmf);
 
-    // create EUDC font file and make EUDCSegTable
-    // after wrapper function for CreateFileW, we use only CreateFileW
-    m_hTmpFile = ::CreateFile(name, GENERIC_READ,
+    // drfbtf EUDC font filf bnd mbkf EUDCSfgTbblf
+    // bftfr wrbppfr fundtion for CrfbtfFilfW, wf usf only CrfbtfFilfW
+    m_iTmpFilf = ::CrfbtfFilf(nbmf, GENERIC_READ,
                                FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
-    if (m_hTmpFile == INVALID_HANDLE_VALUE){
-        m_hTmpFile = NULL;
-        return;
+    if (m_iTmpFilf == INVALID_HANDLE_VALUE){
+        m_iTmpFilf = NULL;
+        rfturn;
     }
 
-    HEAD head;
-    DWORD dwRead;
-    VERIFY(::ReadFile(m_hTmpFile, &head, sizeof(head), &dwRead, NULL));
-    DASSERT(dwRead == sizeof(HEAD));
-    SwapShort(head.numTables);
-    ENTRY entry;
-    for (int i = 0; i < head.numTables; i++){
-        VERIFY(::ReadFile(m_hTmpFile, &entry, sizeof(entry), &dwRead, NULL));
-        DASSERT(dwRead == sizeof(ENTRY));
-        if (entry.tag == CMAPHEX)
-            break;
+    HEAD ifbd;
+    DWORD dwRfbd;
+    VERIFY(::RfbdFilf(m_iTmpFilf, &ifbd, sizfof(ifbd), &dwRfbd, NULL));
+    DASSERT(dwRfbd == sizfof(HEAD));
+    SwbpSiort(ifbd.numTbblfs);
+    ENTRY fntry;
+    for (int i = 0; i < ifbd.numTbblfs; i++){
+        VERIFY(::RfbdFilf(m_iTmpFilf, &fntry, sizfof(fntry), &dwRfbd, NULL));
+        DASSERT(dwRfbd == sizfof(ENTRY));
+        if (fntry.tbg == CMAPHEX)
+            brfbk;
     }
-    DASSERT(entry.tag == CMAPHEX);
-    SwapULong(entry.offset);
-    m_hTmpCMapOffset = entry.offset;
+    DASSERT(fntry.tbg == CMAPHEX);
+    SwbpULong(fntry.offsft);
+    m_iTmpCMbpOffsft = fntry.offsft;
 
-    (void) MakeTable();
+    (void) MbkfTbblf();
 
-    m_hTmpCMapOffset = 0;
-    VERIFY(::CloseHandle(m_hTmpFile));
-    m_hTmpFile = NULL;
+    m_iTmpCMbpOffsft = 0;
+    VERIFY(::ClosfHbndlf(m_iTmpFilf));
+    m_iTmpFilf = NULL;
 }
 
-class CSegTableManagerComponent
+dlbss CSfgTbblfMbnbgfrComponfnt
 {
-public:
-    CSegTableManagerComponent();
-    ~CSegTableManagerComponent();
+publid:
+    CSfgTbblfMbnbgfrComponfnt();
+    ~CSfgTbblfMbnbgfrComponfnt();
 
-protected:
-    void MakeBiggerTable();
-    CSegTableComponent **m_tables;
-    int m_nTable;
-    int m_nMaxTable;
+protfdtfd:
+    void MbkfBiggfrTbblf();
+    CSfgTbblfComponfnt **m_tbblfs;
+    int m_nTbblf;
+    int m_nMbxTbblf;
 };
 
-#define TABLENUM 20
+#dffinf TABLENUM 20
 
-CSegTableManagerComponent::CSegTableManagerComponent()
+CSfgTbblfMbnbgfrComponfnt::CSfgTbblfMbnbgfrComponfnt()
 {
-    m_nTable = 0;
-    m_nMaxTable = TABLENUM;
-    m_tables = new CSegTableComponent*[m_nMaxTable];
+    m_nTbblf = 0;
+    m_nMbxTbblf = TABLENUM;
+    m_tbblfs = nfw CSfgTbblfComponfnt*[m_nMbxTbblf];
 }
 
-CSegTableManagerComponent::~CSegTableManagerComponent()
+CSfgTbblfMbnbgfrComponfnt::~CSfgTbblfMbnbgfrComponfnt()
 {
-    for (int i = 0; i < m_nTable; i++) {
-        DASSERT(m_tables[i]);
-        delete m_tables[i];
+    for (int i = 0; i < m_nTbblf; i++) {
+        DASSERT(m_tbblfs[i]);
+        dflftf m_tbblfs[i];
     }
-    delete [] m_tables;
-    m_tables = NULL;
+    dflftf [] m_tbblfs;
+    m_tbblfs = NULL;
 }
 
-void CSegTableManagerComponent::MakeBiggerTable()
+void CSfgTbblfMbnbgfrComponfnt::MbkfBiggfrTbblf()
 {
-    CSegTableComponent **tables =
-        new CSegTableComponent*[m_nMaxTable + TABLENUM];
+    CSfgTbblfComponfnt **tbblfs =
+        nfw CSfgTbblfComponfnt*[m_nMbxTbblf + TABLENUM];
 
-    for (int i = 0; i < m_nMaxTable; i++)
-        tables[i] = m_tables[i];
+    for (int i = 0; i < m_nMbxTbblf; i++)
+        tbblfs[i] = m_tbblfs[i];
 
-    delete[] m_tables;
+    dflftf[] m_tbblfs;
 
-    m_tables = tables;
-    m_nMaxTable += TABLENUM;
+    m_tbblfs = tbblfs;
+    m_nMbxTbblf += TABLENUM;
 }
 
-class CSegTableManager : public CSegTableManagerComponent
+dlbss CSfgTbblfMbnbgfr : publid CSfgTbblfMbnbgfrComponfnt
 {
-public:
-    CSegTable* GetTable(LPCWSTR lpszFontName, BOOL fEUDC);
+publid:
+    CSfgTbblf* GftTbblf(LPCWSTR lpszFontNbmf, BOOL fEUDC);
 };
 
-CSegTable* CSegTableManager::GetTable(LPCWSTR lpszFontName, BOOL fEUDC)
+CSfgTbblf* CSfgTbblfMbnbgfr::GftTbblf(LPCWSTR lpszFontNbmf, BOOL fEUDC)
 {
-    for (int i = 0; i < m_nTable; i++) {
-        if ((((CSegTable*)m_tables[i])->IsEUDC() == fEUDC) &&
-            (wcscmp(m_tables[i]->GetFontName(),lpszFontName) == 0))
-            return (CSegTable*) m_tables[i];
+    for (int i = 0; i < m_nTbblf; i++) {
+        if ((((CSfgTbblf*)m_tbblfs[i])->IsEUDC() == fEUDC) &&
+            (wdsdmp(m_tbblfs[i]->GftFontNbmf(),lpszFontNbmf) == 0))
+            rfturn (CSfgTbblf*) m_tbblfs[i];
     }
 
-    if (m_nTable == m_nMaxTable) {
-        (void) MakeBiggerTable();
+    if (m_nTbblf == m_nMbxTbblf) {
+        (void) MbkfBiggfrTbblf();
     }
-    DASSERT(m_nTable < m_nMaxTable);
+    DASSERT(m_nTbblf < m_nMbxTbblf);
 
     if (!fEUDC) {
-        m_tables[m_nTable] = new CStdSegTable;
-    } else {
-        m_tables[m_nTable] = new CEUDCSegTable;
+        m_tbblfs[m_nTbblf] = nfw CStdSfgTbblf;
+    } flsf {
+        m_tbblfs[m_nTbblf] = nfw CEUDCSfgTbblf;
     }
-    m_tables[m_nTable]->Create(lpszFontName);
-    return (CSegTable*) m_tables[m_nTable++];
+    m_tbblfs[m_nTbblf]->Crfbtf(lpszFontNbmf);
+    rfturn (CSfgTbblf*) m_tbblfs[m_nTbblf++];
 }
 
-CSegTableManager g_segTableManager;
+CSfgTbblfMbnbgfr g_sfgTbblfMbnbgfr;
 
-class CCombinedSegTable : public CSegTableComponent
+dlbss CCombinfdSfgTbblf : publid CSfgTbblfComponfnt
 {
-public:
-    CCombinedSegTable();
-    void Create(LPCWSTR name);
-    BOOL In(USHORT iChar);
+publid:
+    CCombinfdSfgTbblf();
+    void Crfbtf(LPCWSTR nbmf);
+    BOOL In(USHORT iCibr);
 
-private:
-    LPSTR GetCodePageSubkey();
-    void GetEUDCFileName(LPWSTR lpszFileName, int cchFileName);
-    static char m_szCodePageSubkey[16];
-    static WCHAR m_szDefaultEUDCFile[_MAX_PATH];
-    static BOOL m_fEUDCSubKeyExist;
-    static BOOL m_fTTEUDCFileExist;
-    CStdSegTable* m_pStdSegTable;
-    CEUDCSegTable* m_pEUDCSegTable;
+privbtf:
+    LPSTR GftCodfPbgfSubkfy();
+    void GftEUDCFilfNbmf(LPWSTR lpszFilfNbmf, int ddiFilfNbmf);
+    stbtid dibr m_szCodfPbgfSubkfy[16];
+    stbtid WCHAR m_szDffbultEUDCFilf[_MAX_PATH];
+    stbtid BOOL m_fEUDCSubKfyExist;
+    stbtid BOOL m_fTTEUDCFilfExist;
+    CStdSfgTbblf* m_pStdSfgTbblf;
+    CEUDCSfgTbblf* m_pEUDCSfgTbblf;
 };
 
-char CCombinedSegTable::m_szCodePageSubkey[16] = "";
+dibr CCombinfdSfgTbblf::m_szCodfPbgfSubkfy[16] = "";
 
-WCHAR CCombinedSegTable::m_szDefaultEUDCFile[_MAX_PATH] = L"";
+WCHAR CCombinfdSfgTbblf::m_szDffbultEUDCFilf[_MAX_PATH] = L"";
 
-BOOL CCombinedSegTable::m_fEUDCSubKeyExist = TRUE;
+BOOL CCombinfdSfgTbblf::m_fEUDCSubKfyExist = TRUE;
 
-BOOL CCombinedSegTable::m_fTTEUDCFileExist = TRUE;
+BOOL CCombinfdSfgTbblf::m_fTTEUDCFilfExist = TRUE;
 
-CCombinedSegTable::CCombinedSegTable()
+CCombinfdSfgTbblf::CCombinfdSfgTbblf()
 {
-    m_pStdSegTable = NULL;
-    m_pEUDCSegTable = NULL;
+    m_pStdSfgTbblf = NULL;
+    m_pEUDCSfgTbblf = NULL;
 }
 
-#include <locale.h>
-LPSTR CCombinedSegTable::GetCodePageSubkey()
+#indludf <lodblf.i>
+LPSTR CCombinfdSfgTbblf::GftCodfPbgfSubkfy()
 {
-    if (strlen(m_szCodePageSubkey) > 0) {
-        return m_szCodePageSubkey;
+    if (strlfn(m_szCodfPbgfSubkfy) > 0) {
+        rfturn m_szCodfPbgfSubkfy;
     }
 
-    LPSTR lpszLocale = setlocale(LC_CTYPE, "");
-    // cf lpszLocale = "Japanese_Japan.932"
-    if (lpszLocale == NULL) {
-        return NULL;
+    LPSTR lpszLodblf = sftlodblf(LC_CTYPE, "");
+    // df lpszLodblf = "Jbpbnfsf_Jbpbn.932"
+    if (lpszLodblf == NULL) {
+        rfturn NULL;
     }
-    LPSTR lpszCP = strchr(lpszLocale, (int) '.');
+    LPSTR lpszCP = strdir(lpszLodblf, (int) '.');
     if (lpszCP == NULL) {
-        return NULL;
+        rfturn NULL;
     }
-    lpszCP++; // cf lpszCP = "932"
+    lpszCP++; // df lpszCP = "932"
 
-    char szSubKey[80];
-    strcpy(szSubKey, "EUDC\\");
-    strcpy(&(szSubKey[strlen(szSubKey)]), lpszCP);
-    strcpy(m_szCodePageSubkey, szSubKey);
-    return m_szCodePageSubkey;
+    dibr szSubKfy[80];
+    strdpy(szSubKfy, "EUDC\\");
+    strdpy(&(szSubKfy[strlfn(szSubKfy)]), lpszCP);
+    strdpy(m_szCodfPbgfSubkfy, szSubKfy);
+    rfturn m_szCodfPbgfSubkfy;
 }
 
-void CCombinedSegTable::GetEUDCFileName(LPWSTR lpszFileName, int cchFileName)
+void CCombinfdSfgTbblf::GftEUDCFilfNbmf(LPWSTR lpszFilfNbmf, int ddiFilfNbmf)
 {
-    if (m_fEUDCSubKeyExist == FALSE)
-        return;
+    if (m_fEUDCSubKfyExist == FALSE)
+        rfturn;
 
-    // get filename of typeface-specific TureType EUDC font
-    LPSTR lpszSubKey = GetCodePageSubkey();
-    if (lpszSubKey == NULL) {
-        m_fEUDCSubKeyExist = FALSE;
-        return; // can not get codepage information
+    // gft filfnbmf of typffbdf-spfdifid TurfTypf EUDC font
+    LPSTR lpszSubKfy = GftCodfPbgfSubkfy();
+    if (lpszSubKfy == NULL) {
+        m_fEUDCSubKfyExist = FALSE;
+        rfturn; // dbn not gft dodfpbgf informbtion
     }
-    HKEY hRootKey = HKEY_CURRENT_USER;
-    HKEY hKey;
-    LONG lRet = ::RegOpenKeyExA(hRootKey, lpszSubKey, 0, KEY_ALL_ACCESS, &hKey);
-    if (lRet != ERROR_SUCCESS) {
-        m_fEUDCSubKeyExist = FALSE;
-        return; // no EUDC font
+    HKEY iRootKfy = HKEY_CURRENT_USER;
+    HKEY iKfy;
+    LONG lRft = ::RfgOpfnKfyExA(iRootKfy, lpszSubKfy, 0, KEY_ALL_ACCESS, &iKfy);
+    if (lRft != ERROR_SUCCESS) {
+        m_fEUDCSubKfyExist = FALSE;
+        rfturn; // no EUDC font
     }
 
-    // get EUDC font file name
-    WCHAR szFamilyName[80];
-    wcscpy(szFamilyName, GetFontName());
-    WCHAR* delimit = wcschr(szFamilyName, L',');
-    if (delimit != NULL)
-        *delimit = L'\0';
-    DWORD dwType;
-    UCHAR szFileName[_MAX_PATH];
-    ::ZeroMemory(szFileName, sizeof(szFileName));
-    DWORD dwBytes = sizeof(szFileName);
-    // try Typeface-specific EUDC font
-    char szTmpName[80];
-    VERIFY(::WideCharToMultiByte(CP_ACP, 0, szFamilyName, -1,
-        szTmpName, sizeof(szTmpName), NULL, NULL));
-    LONG lStatus = ::RegQueryValueExA(hKey, (LPCSTR) szTmpName,
-        NULL, &dwType, szFileName, &dwBytes);
-    BOOL fUseDefault = FALSE;
-    if (lStatus != ERROR_SUCCESS){ // try System default EUDC font
-        if (m_fTTEUDCFileExist == FALSE)
-            return;
-        if (wcslen(m_szDefaultEUDCFile) > 0) {
-            wcscpy(lpszFileName, m_szDefaultEUDCFile);
-            return;
+    // gft EUDC font filf nbmf
+    WCHAR szFbmilyNbmf[80];
+    wdsdpy(szFbmilyNbmf, GftFontNbmf());
+    WCHAR* dflimit = wdsdir(szFbmilyNbmf, L',');
+    if (dflimit != NULL)
+        *dflimit = L'\0';
+    DWORD dwTypf;
+    UCHAR szFilfNbmf[_MAX_PATH];
+    ::ZfroMfmory(szFilfNbmf, sizfof(szFilfNbmf));
+    DWORD dwBytfs = sizfof(szFilfNbmf);
+    // try Typffbdf-spfdifid EUDC font
+    dibr szTmpNbmf[80];
+    VERIFY(::WidfCibrToMultiBytf(CP_ACP, 0, szFbmilyNbmf, -1,
+        szTmpNbmf, sizfof(szTmpNbmf), NULL, NULL));
+    LONG lStbtus = ::RfgQufryVblufExA(iKfy, (LPCSTR) szTmpNbmf,
+        NULL, &dwTypf, szFilfNbmf, &dwBytfs);
+    BOOL fUsfDffbult = FALSE;
+    if (lStbtus != ERROR_SUCCESS){ // try Systfm dffbult EUDC font
+        if (m_fTTEUDCFilfExist == FALSE)
+            rfturn;
+        if (wdslfn(m_szDffbultEUDCFilf) > 0) {
+            wdsdpy(lpszFilfNbmf, m_szDffbultEUDCFilf);
+            rfturn;
         }
-        char szDefault[] = "SystemDefaultEUDCFont";
-        lStatus = ::RegQueryValueExA(hKey, (LPCSTR) szDefault,
-            NULL, &dwType, szFileName, &dwBytes);
-        fUseDefault = TRUE;
-        if (lStatus != ERROR_SUCCESS) {
-            m_fTTEUDCFileExist = FALSE;
-            // This font is associated with no EUDC font
-            // and there is no system default EUDC font
-            return;
+        dibr szDffbult[] = "SystfmDffbultEUDCFont";
+        lStbtus = ::RfgQufryVblufExA(iKfy, (LPCSTR) szDffbult,
+            NULL, &dwTypf, szFilfNbmf, &dwBytfs);
+        fUsfDffbult = TRUE;
+        if (lStbtus != ERROR_SUCCESS) {
+            m_fTTEUDCFilfExist = FALSE;
+            // Tiis font is bssodibtfd witi no EUDC font
+            // bnd tifrf is no systfm dffbult EUDC font
+            rfturn;
         }
     }
 
-    if (strcmp((LPCSTR) szFileName, "userfont.fon") == 0) {
-        // This font is associated with no EUDC font
-        // and the system default EUDC font is not TrueType
-        m_fTTEUDCFileExist = FALSE;
-        return;
+    if (strdmp((LPCSTR) szFilfNbmf, "usfrfont.fon") == 0) {
+        // Tiis font is bssodibtfd witi no EUDC font
+        // bnd tif systfm dffbult EUDC font is not TrufTypf
+        m_fTTEUDCFilfExist = FALSE;
+        rfturn;
     }
 
-    DASSERT(strlen((LPCSTR)szFileName) > 0);
-    VERIFY(::MultiByteToWideChar(CP_ACP, 0,
-        (LPCSTR)szFileName, -1, lpszFileName, cchFileName) != 0);
-    if (fUseDefault)
-        wcscpy(m_szDefaultEUDCFile, lpszFileName);
+    DASSERT(strlfn((LPCSTR)szFilfNbmf) > 0);
+    VERIFY(::MultiBytfToWidfCibr(CP_ACP, 0,
+        (LPCSTR)szFilfNbmf, -1, lpszFilfNbmf, ddiFilfNbmf) != 0);
+    if (fUsfDffbult)
+        wdsdpy(m_szDffbultEUDCFilf, lpszFilfNbmf);
 }
 
-void CCombinedSegTable::Create(LPCWSTR name)
+void CCombinfdSfgTbblf::Crfbtf(LPCWSTR nbmf)
 {
-    CSegTableComponent::Create(name);
+    CSfgTbblfComponfnt::Crfbtf(nbmf);
 
-    m_pStdSegTable =
-        (CStdSegTable*) g_segTableManager.GetTable(name, FALSE/*not EUDC*/);
-    WCHAR szEUDCFileName[_MAX_PATH];
-    ::ZeroMemory(szEUDCFileName, sizeof(szEUDCFileName));
-    (void) GetEUDCFileName(szEUDCFileName,
-        sizeof(szEUDCFileName)/sizeof(WCHAR));
-    if (wcslen(szEUDCFileName) > 0) {
-        m_pEUDCSegTable = (CEUDCSegTable*) g_segTableManager.GetTable(
-            szEUDCFileName, TRUE/*EUDC*/);
-        if (m_pEUDCSegTable->HasCmap() == FALSE)
-            m_pEUDCSegTable = NULL;
+    m_pStdSfgTbblf =
+        (CStdSfgTbblf*) g_sfgTbblfMbnbgfr.GftTbblf(nbmf, FALSE/*not EUDC*/);
+    WCHAR szEUDCFilfNbmf[_MAX_PATH];
+    ::ZfroMfmory(szEUDCFilfNbmf, sizfof(szEUDCFilfNbmf));
+    (void) GftEUDCFilfNbmf(szEUDCFilfNbmf,
+        sizfof(szEUDCFilfNbmf)/sizfof(WCHAR));
+    if (wdslfn(szEUDCFilfNbmf) > 0) {
+        m_pEUDCSfgTbblf = (CEUDCSfgTbblf*) g_sfgTbblfMbnbgfr.GftTbblf(
+            szEUDCFilfNbmf, TRUE/*EUDC*/);
+        if (m_pEUDCSfgTbblf->HbsCmbp() == FALSE)
+            m_pEUDCSfgTbblf = NULL;
     }
 }
 
-BOOL CCombinedSegTable::In(USHORT iChar)
+BOOL CCombinfdSfgTbblf::In(USHORT iCibr)
 {
-    DASSERT(m_pStdSegTable);
-    if (m_pStdSegTable->In(iChar))
-        return TRUE;
+    DASSERT(m_pStdSfgTbblf);
+    if (m_pStdSfgTbblf->In(iCibr))
+        rfturn TRUE;
 
-    if (m_pEUDCSegTable != NULL)
-        return m_pEUDCSegTable->In(iChar);
+    if (m_pEUDCSfgTbblf != NULL)
+        rfturn m_pEUDCSfgTbblf->In(iCibr);
 
-    return FALSE;
+    rfturn FALSE;
 }
 
-class CCombinedSegTableManager : public CSegTableManagerComponent
+dlbss CCombinfdSfgTbblfMbnbgfr : publid CSfgTbblfMbnbgfrComponfnt
 {
-public:
-    CCombinedSegTable* GetTable(LPCWSTR lpszFontName);
+publid:
+    CCombinfdSfgTbblf* GftTbblf(LPCWSTR lpszFontNbmf);
 };
 
-CCombinedSegTable* CCombinedSegTableManager::GetTable(LPCWSTR lpszFontName)
+CCombinfdSfgTbblf* CCombinfdSfgTbblfMbnbgfr::GftTbblf(LPCWSTR lpszFontNbmf)
 {
-    for (int i = 0; i < m_nTable; i++) {
-        if (wcscmp(m_tables[i]->GetFontName(),lpszFontName) == 0)
-            return (CCombinedSegTable*) m_tables[i];
+    for (int i = 0; i < m_nTbblf; i++) {
+        if (wdsdmp(m_tbblfs[i]->GftFontNbmf(),lpszFontNbmf) == 0)
+            rfturn (CCombinfdSfgTbblf*) m_tbblfs[i];
     }
 
-    if (m_nTable == m_nMaxTable) {
-        (void) MakeBiggerTable();
+    if (m_nTbblf == m_nMbxTbblf) {
+        (void) MbkfBiggfrTbblf();
     }
-    DASSERT(m_nTable < m_nMaxTable);
+    DASSERT(m_nTbblf < m_nMbxTbblf);
 
-    m_tables[m_nTable] = new CCombinedSegTable;
-    m_tables[m_nTable]->Create(lpszFontName);
+    m_tbblfs[m_nTbblf] = nfw CCombinfdSfgTbblf;
+    m_tbblfs[m_nTbblf]->Crfbtf(lpszFontNbmf);
 
-    return (CCombinedSegTable*) m_tables[m_nTable++];
+    rfturn (CCombinfdSfgTbblf*) m_tbblfs[m_nTbblf++];
 }
 
 
 /************************************************************************
- * WDefaultFontCharset native methos
+ * WDffbultFontCibrsft nbtivf mftios
  */
 
-extern "C" {
+fxtfrn "C" {
 
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WDefaultFontCharset_initIDs(JNIEnv *env, jclass cls)
+Jbvb_sun_bwt_windows_WDffbultFontCibrsft_initIDs(JNIEnv *fnv, jdlbss dls)
 {
     TRY;
 
-    AwtFont::fontNameID = env->GetFieldID(cls, "fontName",
-                                          "Ljava/lang/String;");
-    DASSERT(AwtFont::fontNameID != NULL);
+    AwtFont::fontNbmfID = fnv->GftFifldID(dls, "fontNbmf",
+                                          "Ljbvb/lbng/String;");
+    DASSERT(AwtFont::fontNbmfID != NULL);
 
     CATCH_BAD_ALLOC;
 }
 
 
 /*
- * !!!!!!!!!!!!!!!!!!!! this does not work. I am not sure why, but
- * when active, this will reliably crash HJ, with no hope of debugging
- * for java.  It doesn't seem to crash the _g version.
+ * !!!!!!!!!!!!!!!!!!!! tiis dofs not work. I bm not surf wiy, but
+ * wifn bdtivf, tiis will rflibbly drbsi HJ, witi no iopf of dfbugging
+ * for jbvb.  It dofsn't sffm to drbsi tif _g vfrsion.
  * !!!!!!!!!!!!!!!!!!!!!!!!!!!!
  *
- * I suspect may be running out of C stack: see alloca in
- * JNI_GET_STRING, the alloca in it.
+ * I suspfdt mby bf running out of C stbdk: sff bllodb in
+ * JNI_GET_STRING, tif bllodb in it.
  *
- * (the method is prefixed with XXX so that the linker won't find it) */
-JNIEXPORT jboolean JNICALL
-Java_sun_awt_windows_WDefaultFontCharset_canConvert(JNIEnv *env, jobject self,
-                                                    jchar ch)
+ * (tif mftiod is prffixfd witi XXX so tibt tif linkfr won't find it) */
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_bwt_windows_WDffbultFontCibrsft_dbnConvfrt(JNIEnv *fnv, jobjfdt sflf,
+                                                    jdibr di)
 {
     TRY;
 
-    static CCombinedSegTableManager tableManager;
+    stbtid CCombinfdSfgTbblfMbnbgfr tbblfMbnbgfr;
 
-    jstring fontName = (jstring)env->GetObjectField(self, AwtFont::fontNameID);
-    DASSERT(fontName != NULL); // leave in for debug mode.
-    CHECK_NULL_RETURN(fontName, FALSE);  // in production, just return
-    LPCWSTR fontNameW = JNU_GetStringPlatformChars(env, fontName, NULL);
-    CHECK_NULL_RETURN(fontNameW, FALSE);
-    CCombinedSegTable* pTable = tableManager.GetTable(fontNameW);
-    JNU_ReleaseStringPlatformChars(env, fontName, fontNameW);
-    return (pTable->In((USHORT) ch) ? JNI_TRUE : JNI_FALSE);
+    jstring fontNbmf = (jstring)fnv->GftObjfdtFifld(sflf, AwtFont::fontNbmfID);
+    DASSERT(fontNbmf != NULL); // lfbvf in for dfbug modf.
+    CHECK_NULL_RETURN(fontNbmf, FALSE);  // in produdtion, just rfturn
+    LPCWSTR fontNbmfW = JNU_GftStringPlbtformCibrs(fnv, fontNbmf, NULL);
+    CHECK_NULL_RETURN(fontNbmfW, FALSE);
+    CCombinfdSfgTbblf* pTbblf = tbblfMbnbgfr.GftTbblf(fontNbmfW);
+    JNU_RflfbsfStringPlbtformCibrs(fnv, fontNbmf, fontNbmfW);
+    rfturn (pTbblf->In((USHORT) di) ? JNI_TRUE : JNI_FALSE);
 
     CATCH_BAD_ALLOC_RET(FALSE);
 }
 
-} /* extern "C" */
+} /* fxtfrn "C" */

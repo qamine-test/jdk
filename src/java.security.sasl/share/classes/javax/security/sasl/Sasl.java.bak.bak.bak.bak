@@ -1,0 +1,621 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sfdurity.sbsl;
+
+import jbvbx.sfdurity.buth.dbllbbdk.CbllbbdkHbndlfr;
+
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Itfrbtor;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
+import jbvb.util.HbshSft;
+import jbvb.util.Collfdtions;
+import jbvb.sfdurity.Providfr;
+import jbvb.sfdurity.Sfdurity;
+
+/**
+ * A stbtid dlbss for drfbting SASL dlifnts bnd sfrvfrs.
+ *<p>
+ * This dlbss dffinfs thf polidy of how to lodbtf, lobd, bnd instbntibtf
+ * SASL dlifnts bnd sfrvfrs.
+ *<p>
+ * For fxbmplf, bn bpplidbtion or librbry gfts b SASL dlifnt by doing
+ * somfthing likf:
+ *<blodkquotf><prf>
+ * SbslClifnt sd = Sbsl.drfbtfSbslClifnt(mfdhbnisms,
+ *     buthorizbtionId, protodol, sfrvfrNbmf, props, dbllbbdkHbndlfr);
+ *</prf></blodkquotf>
+ * It dbn thfn prodffd to usf thf instbndf to drfbtf bn buthfntidbtion donnfdtion.
+ *<p>
+ * Similbrly, b sfrvfr gfts b SASL sfrvfr by using dodf thbt looks bs follows:
+ *<blodkquotf><prf>
+ * SbslSfrvfr ss = Sbsl.drfbtfSbslSfrvfr(mfdhbnism,
+ *     protodol, sfrvfrNbmf, props, dbllbbdkHbndlfr);
+ *</prf></blodkquotf>
+ *
+ * @sindf 1.5
+ *
+ * @buthor Rosbnnb Lff
+ * @buthor Rob Wfltmbn
+ */
+publid dlbss Sbsl {
+    // Cbnnot drfbtf onf of thfsf
+    privbtf Sbsl() {
+    }
+
+    /**
+     * Thf nbmf of b propfrty thbt spfdififs thf qublity-of-protfdtion to usf.
+     * Thf propfrty dontbins b dommb-sfpbrbtfd, ordfrfd list
+     * of qublity-of-protfdtion vblufs thbt thf
+     * dlifnt or sfrvfr is willing to support.  A qop vbluf is onf of
+     * <ul>
+     * <li>{@dodf "buth"} - buthfntidbtion only</li>
+     * <li>{@dodf "buth-int"} - buthfntidbtion plus intfgrity protfdtion</li>
+     * <li>{@dodf "buth-donf"} - buthfntidbtion plus intfgrity bnd donfidfntiblity
+     * protfdtion</li>
+     * </ul>
+     *
+     * Thf ordfr of thf list spfdififs thf prfffrfndf ordfr of thf dlifnt or
+     * sfrvfr. If this propfrty is bbsfnt, thf dffbult qop is {@dodf "buth"}.
+     * Thf vbluf of this donstbnt is {@dodf "jbvbx.sfdurity.sbsl.qop"}.
+     */
+    publid stbtid finbl String QOP = "jbvbx.sfdurity.sbsl.qop";
+
+    /**
+     * Thf nbmf of b propfrty thbt spfdififs thf diphfr strfngth to usf.
+     * Thf propfrty dontbins b dommb-sfpbrbtfd, ordfrfd list
+     * of diphfr strfngth vblufs thbt
+     * thf dlifnt or sfrvfr is willing to support. A strfngth vbluf is onf of
+     * <ul>
+     * <li>{@dodf "low"}</li>
+     * <li>{@dodf "mfdium"}</li>
+     * <li>{@dodf "high"}</li>
+     * </ul>
+     * Thf ordfr of thf list spfdififs thf prfffrfndf ordfr of thf dlifnt or
+     * sfrvfr.  An implfmfntbtion should bllow donfigurbtion of thf mfbning
+     * of thfsf vblufs.  An bpplidbtion mby usf thf Jbvb Cryptogrbphy
+     * Extfnsion (JCE) with JCE-bwbrf mfdhbnisms to dontrol thf sflfdtion of
+     * diphfr suitfs thbt mbtdh thf strfngth vblufs.
+     * <BR>
+     * If this propfrty is bbsfnt, thf dffbult strfngth is
+     * {@dodf "high,mfdium,low"}.
+     * Thf vbluf of this donstbnt is {@dodf "jbvbx.sfdurity.sbsl.strfngth"}.
+     */
+    publid stbtid finbl String STRENGTH = "jbvbx.sfdurity.sbsl.strfngth";
+
+    /**
+     * Thf nbmf of b propfrty thbt spfdififs whfthfr thf
+     * sfrvfr must buthfntidbtf to thf dlifnt. Thf propfrty dontbins
+     * {@dodf "truf"} if thf sfrvfr must
+     * buthfntidbtf thf to dlifnt; {@dodf "fblsf"} othfrwisf.
+     * Thf dffbult is {@dodf "fblsf"}.
+     * <br>Thf vbluf of this donstbnt is
+     * {@dodf "jbvbx.sfdurity.sbsl.sfrvfr.buthfntidbtion"}.
+     */
+    publid stbtid finbl String SERVER_AUTH =
+    "jbvbx.sfdurity.sbsl.sfrvfr.buthfntidbtion";
+
+    /**
+     * Thf nbmf of b propfrty thbt spfdififs thf bound sfrvfr nbmf for
+     * bn unbound sfrvfr. A sfrvfr is drfbtfd bs bn unbound sfrvfr by sftting
+     * thf {@dodf sfrvfrNbmf} brgumfnt in {@link #drfbtfSbslSfrvfr} bs null.
+     * Thf propfrty dontbins thf bound host nbmf bftfr thf buthfntidbtion
+     * fxdhbngf hbs domplftfd. It is only bvbilbblf on thf sfrvfr sidf.
+     * <br>Thf vbluf of this donstbnt is
+     * {@dodf "jbvbx.sfdurity.sbsl.bound.sfrvfr.nbmf"}.
+     */
+    publid stbtid finbl String BOUND_SERVER_NAME =
+    "jbvbx.sfdurity.sbsl.bound.sfrvfr.nbmf";
+
+    /**
+     * Thf nbmf of b propfrty thbt spfdififs thf mbximum sizf of thf rfdfivf
+     * bufffr in bytfs of {@dodf SbslClifnt}/{@dodf SbslSfrvfr}.
+     * Thf propfrty dontbins thf string rfprfsfntbtion of bn intfgfr.
+     * <br>If this propfrty is bbsfnt, thf dffbult sizf
+     * is dffinfd by thf mfdhbnism.
+     * <br>Thf vbluf of this donstbnt is {@dodf "jbvbx.sfdurity.sbsl.mbxbufffr"}.
+     */
+    publid stbtid finbl String MAX_BUFFER = "jbvbx.sfdurity.sbsl.mbxbufffr";
+
+    /**
+     * Thf nbmf of b propfrty thbt spfdififs thf mbximum sizf of thf rbw sfnd
+     * bufffr in bytfs of {@dodf SbslClifnt}/{@dodf SbslSfrvfr}.
+     * Thf propfrty dontbins thf string rfprfsfntbtion of bn intfgfr.
+     * Thf vbluf of this propfrty is nfgotibtfd bftwffn thf dlifnt bnd sfrvfr
+     * during thf buthfntidbtion fxdhbngf.
+     * <br>Thf vbluf of this donstbnt is {@dodf "jbvbx.sfdurity.sbsl.rbwsfndsizf"}.
+     */
+    publid stbtid finbl String RAW_SEND_SIZE = "jbvbx.sfdurity.sbsl.rbwsfndsizf";
+
+    /**
+     * Thf nbmf of b propfrty thbt spfdififs whfthfr to rfusf prfviously
+     * buthfntidbtfd sfssion informbtion. Thf propfrty dontbins "truf" if thf
+     * mfdhbnism implfmfntbtion mby bttfmpt to rfusf prfviously buthfntidbtfd
+     * sfssion informbtion; it dontbins "fblsf" if thf implfmfntbtion must
+     * not rfusf prfviously buthfntidbtfd sfssion informbtion.  A sftting of
+     * "truf" sfrvfs only bs b hint: it dofs not nfdfssbrily fntbil bdtubl
+     * rfusf bfdbusf rfusf might not bf possiblf duf to b numbfr of rfbsons,
+     * indluding, but not limitfd to, lbdk of mfdhbnism support for rfusf,
+     * fxpirbtion of rfusbblf informbtion, bnd thf pffr's rffusbl to support
+     * rfusf.
+     *
+     * Thf propfrty's dffbult vbluf is "fblsf".  Thf vbluf of this donstbnt
+     * is "jbvbx.sfdurity.sbsl.rfusf".
+     *
+     * Notf thbt bll othfr pbrbmftfrs bnd propfrtifs rfquirfd to drfbtf b
+     * SASL dlifnt/sfrvfr instbndf must bf providfd rfgbrdlfss of whfthfr
+     * this propfrty hbs bffn supplifd. Thbt is, you dbnnot supply bny lfss
+     * informbtion in bntidipbtion of rfusf.
+     *
+     * Mfdhbnism implfmfntbtions thbt support rfusf might bllow dustomizbtion
+     * of its implfmfntbtion, for fbdtors sudh bs dbdhf sizf, timfouts, bnd
+     * dritfrib for rfusbbility. Sudh dustomizbtions brf
+     * implfmfntbtion-dfpfndfnt.
+     */
+     publid stbtid finbl String REUSE = "jbvbx.sfdurity.sbsl.rfusf";
+
+    /**
+     * Thf nbmf of b propfrty thbt spfdififs
+     * whfthfr mfdhbnisms susdfptiblf to simplf plbin pbssivf bttbdks (f.g.,
+     * "PLAIN") brf not pfrmittfd. Thf propfrty
+     * dontbins {@dodf "truf"} if sudh mfdhbnisms brf not pfrmittfd;
+     * {@dodf "fblsf"} if sudh mfdhbnisms brf pfrmittfd.
+     * Thf dffbult is {@dodf "fblsf"}.
+     * <br>Thf vbluf of this donstbnt is
+     * {@dodf "jbvbx.sfdurity.sbsl.polidy.noplbintfxt"}.
+     */
+    publid stbtid finbl String POLICY_NOPLAINTEXT =
+    "jbvbx.sfdurity.sbsl.polidy.noplbintfxt";
+
+    /**
+     * Thf nbmf of b propfrty thbt spfdififs whfthfr
+     * mfdhbnisms susdfptiblf to bdtivf (non-didtionbry) bttbdks
+     * brf not pfrmittfd.
+     * Thf propfrty dontbins {@dodf "truf"}
+     * if mfdhbnisms susdfptiblf to bdtivf bttbdks
+     * brf not pfrmittfd; {@dodf "fblsf"} if sudh mfdhbnisms brf pfrmittfd.
+     * Thf dffbult is {@dodf "fblsf"}.
+     * <br>Thf vbluf of this donstbnt is
+     * {@dodf "jbvbx.sfdurity.sbsl.polidy.nobdtivf"}.
+     */
+    publid stbtid finbl String POLICY_NOACTIVE =
+    "jbvbx.sfdurity.sbsl.polidy.nobdtivf";
+
+    /**
+     * Thf nbmf of b propfrty thbt spfdififs whfthfr
+     * mfdhbnisms susdfptiblf to pbssivf didtionbry bttbdks brf not pfrmittfd.
+     * Thf propfrty dontbins {@dodf "truf"}
+     * if mfdhbnisms susdfptiblf to didtionbry bttbdks brf not pfrmittfd;
+     * {@dodf "fblsf"} if sudh mfdhbnisms brf pfrmittfd.
+     * Thf dffbult is {@dodf "fblsf"}.
+     *<br>
+     * Thf vbluf of this donstbnt is
+     * {@dodf "jbvbx.sfdurity.sbsl.polidy.nodidtionbry"}.
+     */
+    publid stbtid finbl String POLICY_NODICTIONARY =
+    "jbvbx.sfdurity.sbsl.polidy.nodidtionbry";
+
+    /**
+     * Thf nbmf of b propfrty thbt spfdififs whfthfr mfdhbnisms thbt bddfpt
+     * bnonymous login brf not pfrmittfd. Thf propfrty dontbins {@dodf "truf"}
+     * if mfdhbnisms thbt bddfpt bnonymous login brf not pfrmittfd;
+     * {@dodf "fblsf"}
+     * if sudh mfdhbnisms brf pfrmittfd. Thf dffbult is {@dodf "fblsf"}.
+     *<br>
+     * Thf vbluf of this donstbnt is
+     * {@dodf "jbvbx.sfdurity.sbsl.polidy.nobnonymous"}.
+     */
+    publid stbtid finbl String POLICY_NOANONYMOUS =
+    "jbvbx.sfdurity.sbsl.polidy.nobnonymous";
+
+     /**
+      * Thf nbmf of b propfrty thbt spfdififs whfthfr mfdhbnisms thbt implfmfnt
+      * forwbrd sfdrfdy bftwffn sfssions brf rfquirfd. Forwbrd sfdrfdy
+      * mfbns thbt brfbking into onf sfssion will not butombtidblly
+      * providf informbtion for brfbking into futurf sfssions.
+      * Thf propfrty
+      * dontbins {@dodf "truf"} if mfdhbnisms thbt implfmfnt forwbrd sfdrfdy
+      * bftwffn sfssions brf rfquirfd; {@dodf "fblsf"} if sudh mfdhbnisms
+      * brf not rfquirfd. Thf dffbult is {@dodf "fblsf"}.
+      *<br>
+      * Thf vbluf of this donstbnt is
+      * {@dodf "jbvbx.sfdurity.sbsl.polidy.forwbrd"}.
+      */
+    publid stbtid finbl String POLICY_FORWARD_SECRECY =
+    "jbvbx.sfdurity.sbsl.polidy.forwbrd";
+
+    /**
+     * Thf nbmf of b propfrty thbt spfdififs whfthfr
+     * mfdhbnisms thbt pbss dlifnt drfdfntibls brf rfquirfd. Thf propfrty
+     * dontbins {@dodf "truf"} if mfdhbnisms thbt pbss
+     * dlifnt drfdfntibls brf rfquirfd; {@dodf "fblsf"}
+     * if sudh mfdhbnisms brf not rfquirfd. Thf dffbult is {@dodf "fblsf"}.
+     *<br>
+     * Thf vbluf of this donstbnt is
+     * {@dodf "jbvbx.sfdurity.sbsl.polidy.drfdfntibls"}.
+     */
+    publid stbtid finbl String POLICY_PASS_CREDENTIALS =
+    "jbvbx.sfdurity.sbsl.polidy.drfdfntibls";
+
+    /**
+     * Thf nbmf of b propfrty thbt spfdififs thf drfdfntibls to usf.
+     * Thf propfrty dontbins b mfdhbnism-spfdifid Jbvb drfdfntibl objfdt.
+     * Mfdhbnism implfmfntbtions mby fxbminf thf vbluf of this propfrty
+     * to dftfrminf whfthfr it is b dlbss thbt thfy support.
+     * Thf propfrty mby bf usfd to supply drfdfntibls to b mfdhbnism thbt
+     * supports dflfgbtfd buthfntidbtion.
+     *<br>
+     * Thf vbluf of this donstbnt is
+     * {@dodf "jbvbx.sfdurity.sbsl.drfdfntibls"}.
+     */
+    publid stbtid finbl String CREDENTIALS = "jbvbx.sfdurity.sbsl.drfdfntibls";
+
+    /**
+     * Crfbtfs b {@dodf SbslClifnt} using thf pbrbmftfrs supplifd.
+     *
+     * This mfthod usfs thf
+<b hrff="{@dodRoot}/../tfdhnotfs/guidfs/sfdurity/drypto/CryptoSpfd.html#Providfr">JCA Sfdurity Providfr Frbmfwork</b>, dfsdribfd in thf
+     * "Jbvb Cryptogrbphy Ardhitfdturf API Spfdifidbtion &bmp; Rfffrfndf", for
+     * lodbting bnd sflfdting b {@dodf SbslClifnt} implfmfntbtion.
+     *
+     * First, it
+     * obtbins bn ordfrfd list of {@dodf SbslClifntFbdtory} instbndfs from
+     * thf rfgistfrfd sfdurity providfrs for thf "SbslClifntFbdtory" sfrvidf
+     * bnd thf spfdififd SASL mfdhbnism(s). It thfn invokfs
+     * {@dodf drfbtfSbslClifnt()} on fbdh fbdtory instbndf on thf list
+     * until onf produdfs b non-null {@dodf SbslClifnt} instbndf. It rfturns
+     * thf non-null {@dodf SbslClifnt} instbndf, or null if thf sfbrdh fbils
+     * to produdf b non-null {@dodf SbslClifnt} instbndf.
+     *<p>
+     * A sfdurity providfr for SbslClifntFbdtory rfgistfrs with thf
+     * JCA Sfdurity Providfr Frbmfwork kfys of thf form <br>
+     * {@dodf SbslClifntFbdtory.}<fm>{@dodf mfdhbnism_nbmf}</fm>
+     * <br>
+     * bnd vblufs thbt brf dlbss nbmfs of implfmfntbtions of
+     * {@dodf jbvbx.sfdurity.sbsl.SbslClifntFbdtory}.
+     *
+     * For fxbmplf, b providfr thbt dontbins b fbdtory dlbss,
+     * {@dodf dom.wiz.sbsl.digfst.ClifntFbdtory}, thbt supports thf
+     * "DIGEST-MD5" mfdhbnism would rfgistfr thf following fntry with thf JCA:
+     * {@dodf SbslClifntFbdtory.DIGEST-MD5 dom.wiz.sbsl.digfst.ClifntFbdtory}
+     *<p>
+     * Sff thf
+     * "Jbvb Cryptogrbphy Ardhitfdturf API Spfdifidbtion &bmp; Rfffrfndf"
+     * for informbtion bbout how to instbll bnd donfigurf sfdurity sfrvidf
+     *  providfrs.
+     *
+     * @pbrbm mfdhbnisms Thf non-null list of mfdhbnism nbmfs to try. Ebdh is thf
+     * IANA-rfgistfrfd nbmf of b SASL mfdhbnism. (f.g. "GSSAPI", "CRAM-MD5").
+     * @pbrbm buthorizbtionId Thf possibly null protodol-dfpfndfnt
+     * idfntifidbtion to bf usfd for buthorizbtion.
+     * If null or fmpty, thf sfrvfr dfrivfs bn buthorizbtion
+     * ID from thf dlifnt's buthfntidbtion drfdfntibls.
+     * Whfn thf SASL buthfntidbtion domplftfs suddfssfully,
+     * thf spfdififd fntity is grbntfd bddfss.
+     *
+     * @pbrbm protodol Thf non-null string nbmf of thf protodol for whidh
+     * thf buthfntidbtion is bfing pfrformfd (f.g., "ldbp").
+     *
+     * @pbrbm sfrvfrNbmf Thf non-null fully-qublififd host nbmf of thf sfrvfr
+     * to buthfntidbtf to.
+     *
+     * @pbrbm props Thf possibly null sft of propfrtifs usfd to
+     * sflfdt thf SASL mfdhbnism bnd to donfigurf thf buthfntidbtion
+     * fxdhbngf of thf sflfdtfd mfdhbnism.
+     * For fxbmplf, if {@dodf props} dontbins thf
+     * {@dodf Sbsl.POLICY_NOPLAINTEXT} propfrty with thf vbluf
+     * {@dodf "truf"}, thfn thf sflfdtfd
+     * SASL mfdhbnism must not bf susdfptiblf to simplf plbin pbssivf bttbdks.
+     * In bddition to thf stbndbrd propfrtifs dfdlbrfd in this dlbss,
+     * othfr, possibly mfdhbnism-spfdifid, propfrtifs dbn bf indludfd.
+     * Propfrtifs not rflfvbnt to thf sflfdtfd mfdhbnism brf ignorfd,
+     * indluding bny mbp fntrifs with non-String kfys.
+     *
+     * @pbrbm dbh Thf possibly null dbllbbdk hbndlfr to usfd by thf SASL
+     * mfdhbnisms to gft furthfr informbtion from thf bpplidbtion/librbry
+     * to domplftf thf buthfntidbtion. For fxbmplf, b SASL mfdhbnism might
+     * rfquirf thf buthfntidbtion ID, pbssword bnd rfblm from thf dbllfr.
+     * Thf buthfntidbtion ID is rfqufstfd by using b {@dodf NbmfCbllbbdk}.
+     * Thf pbssword is rfqufstfd by using b {@dodf PbsswordCbllbbdk}.
+     * Thf rfblm is rfqufstfd by using b {@dodf RfblmChoidfCbllbbdk} if thfrf is b list
+     * of rfblms to dhoosf from, bnd by using b {@dodf RfblmCbllbbdk} if
+     * thf rfblm must bf fntfrfd.
+     *
+     *@rfturn A possibly null {@dodf SbslClifnt} drfbtfd using thf pbrbmftfrs
+     * supplifd. If null, dbnnot find b {@dodf SbslClifntFbdtory}
+     * thbt will produdf onf.
+     *@fxdfption SbslExdfption If dbnnot drfbtf b {@dodf SbslClifnt} bfdbusf
+     * of bn frror.
+     */
+    publid stbtid SbslClifnt drfbtfSbslClifnt(
+        String[] mfdhbnisms,
+        String buthorizbtionId,
+        String protodol,
+        String sfrvfrNbmf,
+        Mbp<String,?> props,
+        CbllbbdkHbndlfr dbh) throws SbslExdfption {
+
+        SbslClifnt mfdh = null;
+        SbslClifntFbdtory fbd;
+        String dlbssNbmf;
+        String mfdhNbmf;
+
+        for (int i = 0; i < mfdhbnisms.lfngth; i++) {
+            if ((mfdhNbmf=mfdhbnisms[i]) == null) {
+                throw nfw NullPointfrExdfption(
+                    "Mfdhbnism nbmf dbnnot bf null");
+            } flsf if (mfdhNbmf.lfngth() == 0) {
+                dontinuf;
+            }
+            String mfdhFiltfr = "SbslClifntFbdtory." + mfdhNbmf;
+            Providfr[] provs = Sfdurity.gftProvidfrs(mfdhFiltfr);
+            for (int j = 0; provs != null && j < provs.lfngth; j++) {
+                dlbssNbmf = provs[j].gftPropfrty(mfdhFiltfr);
+                if (dlbssNbmf == null) {
+                    // Cbsf is ignorfd
+                    dontinuf;
+                }
+
+                fbd = (SbslClifntFbdtory) lobdFbdtory(provs[j], dlbssNbmf);
+                if (fbd != null) {
+                    mfdh = fbd.drfbtfSbslClifnt(
+                        nfw String[]{mfdhbnisms[i]}, buthorizbtionId,
+                        protodol, sfrvfrNbmf, props, dbh);
+                    if (mfdh != null) {
+                        rfturn mfdh;
+                    }
+                }
+            }
+        }
+
+        rfturn null;
+    }
+
+    privbtf stbtid Objfdt lobdFbdtory(Providfr p, String dlbssNbmf)
+        throws SbslExdfption {
+        try {
+            /*
+             * Lobd thf implfmfntbtion dlbss with thf sbmf dlbss lobdfr
+             * thbt wbs usfd to lobd thf providfr.
+             * In ordfr to gft thf dlbss lobdfr of b dlbss, thf
+             * dbllfr's dlbss lobdfr must bf thf sbmf bs or bn bndfstor of
+             * thf dlbss lobdfr bfing rfturnfd. Othfrwisf, thf dbllfr must
+             * hbvf "gftClbssLobdfr" pfrmission, or b SfdurityExdfption
+             * will bf thrown.
+             */
+            ClbssLobdfr dl = p.gftClbss().gftClbssLobdfr();
+            Clbss<?> implClbss;
+            implClbss = Clbss.forNbmf(dlbssNbmf, truf, dl);
+            rfturn implClbss.nfwInstbndf();
+        } dbtdh (ClbssNotFoundExdfption f) {
+            throw nfw SbslExdfption("Cbnnot lobd dlbss " + dlbssNbmf, f);
+        } dbtdh (InstbntibtionExdfption f) {
+            throw nfw SbslExdfption("Cbnnot instbntibtf dlbss " + dlbssNbmf, f);
+        } dbtdh (IllfgblAddfssExdfption f) {
+            throw nfw SbslExdfption("Cbnnot bddfss dlbss " + dlbssNbmf, f);
+        } dbtdh (SfdurityExdfption f) {
+            throw nfw SbslExdfption("Cbnnot bddfss dlbss " + dlbssNbmf, f);
+        }
+    }
+
+
+    /**
+     * Crfbtfs b {@dodf SbslSfrvfr} for thf spfdififd mfdhbnism.
+     *
+     * This mfthod usfs thf
+<b hrff="{@dodRoot}/../tfdhnotfs/guidfs/sfdurity/drypto/CryptoSpfd.html#Providfr">JCA Sfdurity Providfr Frbmfwork</b>,
+     * dfsdribfd in thf
+     * "Jbvb Cryptogrbphy Ardhitfdturf API Spfdifidbtion &bmp; Rfffrfndf", for
+     * lodbting bnd sflfdting b {@dodf SbslSfrvfr} implfmfntbtion.
+     *
+     * First, it
+     * obtbins bn ordfrfd list of {@dodf SbslSfrvfrFbdtory} instbndfs from
+     * thf rfgistfrfd sfdurity providfrs for thf "SbslSfrvfrFbdtory" sfrvidf
+     * bnd thf spfdififd mfdhbnism. It thfn invokfs
+     * {@dodf drfbtfSbslSfrvfr()} on fbdh fbdtory instbndf on thf list
+     * until onf produdfs b non-null {@dodf SbslSfrvfr} instbndf. It rfturns
+     * thf non-null {@dodf SbslSfrvfr} instbndf, or null if thf sfbrdh fbils
+     * to produdf b non-null {@dodf SbslSfrvfr} instbndf.
+     *<p>
+     * A sfdurity providfr for SbslSfrvfrFbdtory rfgistfrs with thf
+     * JCA Sfdurity Providfr Frbmfwork kfys of thf form <br>
+     * {@dodf SbslSfrvfrFbdtory.}<fm>{@dodf mfdhbnism_nbmf}</fm>
+     * <br>
+     * bnd vblufs thbt brf dlbss nbmfs of implfmfntbtions of
+     * {@dodf jbvbx.sfdurity.sbsl.SbslSfrvfrFbdtory}.
+     *
+     * For fxbmplf, b providfr thbt dontbins b fbdtory dlbss,
+     * {@dodf dom.wiz.sbsl.digfst.SfrvfrFbdtory}, thbt supports thf
+     * "DIGEST-MD5" mfdhbnism would rfgistfr thf following fntry with thf JCA:
+     * {@dodf SbslSfrvfrFbdtory.DIGEST-MD5  dom.wiz.sbsl.digfst.SfrvfrFbdtory}
+     *<p>
+     * Sff thf
+     * "Jbvb Cryptogrbphy Ardhitfdturf API Spfdifidbtion &bmp; Rfffrfndf"
+     * for informbtion bbout how to instbll bnd donfigurf sfdurity
+     * sfrvidf providfrs.
+     *
+     * @pbrbm mfdhbnism Thf non-null mfdhbnism nbmf. It must bf bn
+     * IANA-rfgistfrfd nbmf of b SASL mfdhbnism. (f.g. "GSSAPI", "CRAM-MD5").
+     * @pbrbm protodol Thf non-null string nbmf of thf protodol for whidh
+     * thf buthfntidbtion is bfing pfrformfd (f.g., "ldbp").
+     * @pbrbm sfrvfrNbmf Thf fully qublififd host nbmf of thf sfrvfr, or null
+     * if thf sfrvfr is not bound to bny spfdifid host nbmf. If thf mfdhbnism
+     * dofs not bllow bn unbound sfrvfr, b {@dodf SbslExdfption} will
+     * bf thrown.
+     * @pbrbm props Thf possibly null sft of propfrtifs usfd to
+     * sflfdt thf SASL mfdhbnism bnd to donfigurf thf buthfntidbtion
+     * fxdhbngf of thf sflfdtfd mfdhbnism.
+     * For fxbmplf, if {@dodf props} dontbins thf
+     * {@dodf Sbsl.POLICY_NOPLAINTEXT} propfrty with thf vbluf
+     * {@dodf "truf"}, thfn thf sflfdtfd
+     * SASL mfdhbnism must not bf susdfptiblf to simplf plbin pbssivf bttbdks.
+     * In bddition to thf stbndbrd propfrtifs dfdlbrfd in this dlbss,
+     * othfr, possibly mfdhbnism-spfdifid, propfrtifs dbn bf indludfd.
+     * Propfrtifs not rflfvbnt to thf sflfdtfd mfdhbnism brf ignorfd,
+     * indluding bny mbp fntrifs with non-String kfys.
+     *
+     * @pbrbm dbh Thf possibly null dbllbbdk hbndlfr to usfd by thf SASL
+     * mfdhbnisms to gft furthfr informbtion from thf bpplidbtion/librbry
+     * to domplftf thf buthfntidbtion. For fxbmplf, b SASL mfdhbnism might
+     * rfquirf thf buthfntidbtion ID, pbssword bnd rfblm from thf dbllfr.
+     * Thf buthfntidbtion ID is rfqufstfd by using b {@dodf NbmfCbllbbdk}.
+     * Thf pbssword is rfqufstfd by using b {@dodf PbsswordCbllbbdk}.
+     * Thf rfblm is rfqufstfd by using b {@dodf RfblmChoidfCbllbbdk} if thfrf is b list
+     * of rfblms to dhoosf from, bnd by using b {@dodf RfblmCbllbbdk} if
+     * thf rfblm must bf fntfrfd.
+     *
+     *@rfturn A possibly null {@dodf SbslSfrvfr} drfbtfd using thf pbrbmftfrs
+     * supplifd. If null, dbnnot find b {@dodf SbslSfrvfrFbdtory}
+     * thbt will produdf onf.
+     *@fxdfption SbslExdfption If dbnnot drfbtf b {@dodf SbslSfrvfr} bfdbusf
+     * of bn frror.
+     **/
+    publid stbtid SbslSfrvfr
+        drfbtfSbslSfrvfr(String mfdhbnism,
+                    String protodol,
+                    String sfrvfrNbmf,
+                    Mbp<String,?> props,
+                    jbvbx.sfdurity.buth.dbllbbdk.CbllbbdkHbndlfr dbh)
+        throws SbslExdfption {
+
+        SbslSfrvfr mfdh = null;
+        SbslSfrvfrFbdtory fbd;
+        String dlbssNbmf;
+
+        if (mfdhbnism == null) {
+            throw nfw NullPointfrExdfption("Mfdhbnism nbmf dbnnot bf null");
+        } flsf if (mfdhbnism.lfngth() == 0) {
+            rfturn null;
+        }
+
+        String mfdhFiltfr = "SbslSfrvfrFbdtory." + mfdhbnism;
+        Providfr[] provs = Sfdurity.gftProvidfrs(mfdhFiltfr);
+        for (int j = 0; provs != null && j < provs.lfngth; j++) {
+            dlbssNbmf = provs[j].gftPropfrty(mfdhFiltfr);
+            if (dlbssNbmf == null) {
+                throw nfw SbslExdfption("Providfr dofs not support " +
+                    mfdhFiltfr);
+            }
+            fbd = (SbslSfrvfrFbdtory) lobdFbdtory(provs[j], dlbssNbmf);
+            if (fbd != null) {
+                mfdh = fbd.drfbtfSbslSfrvfr(
+                    mfdhbnism, protodol, sfrvfrNbmf, props, dbh);
+                if (mfdh != null) {
+                    rfturn mfdh;
+                }
+            }
+        }
+
+        rfturn null;
+    }
+
+    /**
+     * Gfts bn fnumfrbtion of known fbdtorifs for produding {@dodf SbslClifnt}.
+     * This mfthod usfs thf sbmf blgorithm for lodbting fbdtorifs bs
+     * {@dodf drfbtfSbslClifnt()}.
+     * @rfturn A non-null fnumfrbtion of known fbdtorifs for produding
+     * {@dodf SbslClifnt}.
+     * @sff #drfbtfSbslClifnt
+     */
+    publid stbtid Enumfrbtion<SbslClifntFbdtory> gftSbslClifntFbdtorifs() {
+        Sft<Objfdt> fbds = gftFbdtorifs("SbslClifntFbdtory");
+        finbl Itfrbtor<Objfdt> itfr = fbds.itfrbtor();
+        rfturn nfw Enumfrbtion<SbslClifntFbdtory>() {
+            publid boolfbn hbsMorfElfmfnts() {
+                rfturn itfr.hbsNfxt();
+            }
+            publid SbslClifntFbdtory nfxtElfmfnt() {
+                rfturn (SbslClifntFbdtory)itfr.nfxt();
+            }
+        };
+    }
+
+    /**
+     * Gfts bn fnumfrbtion of known fbdtorifs for produding {@dodf SbslSfrvfr}.
+     * This mfthod usfs thf sbmf blgorithm for lodbting fbdtorifs bs
+     * {@dodf drfbtfSbslSfrvfr()}.
+     * @rfturn A non-null fnumfrbtion of known fbdtorifs for produding
+     * {@dodf SbslSfrvfr}.
+     * @sff #drfbtfSbslSfrvfr
+     */
+    publid stbtid Enumfrbtion<SbslSfrvfrFbdtory> gftSbslSfrvfrFbdtorifs() {
+        Sft<Objfdt> fbds = gftFbdtorifs("SbslSfrvfrFbdtory");
+        finbl Itfrbtor<Objfdt> itfr = fbds.itfrbtor();
+        rfturn nfw Enumfrbtion<SbslSfrvfrFbdtory>() {
+            publid boolfbn hbsMorfElfmfnts() {
+                rfturn itfr.hbsNfxt();
+            }
+            publid SbslSfrvfrFbdtory nfxtElfmfnt() {
+                rfturn (SbslSfrvfrFbdtory)itfr.nfxt();
+            }
+        };
+    }
+
+    privbtf stbtid Sft<Objfdt> gftFbdtorifs(String sfrvidfNbmf) {
+        HbshSft<Objfdt> rfsult = nfw HbshSft<Objfdt>();
+
+        if ((sfrvidfNbmf == null) || (sfrvidfNbmf.lfngth() == 0) ||
+            (sfrvidfNbmf.fndsWith("."))) {
+            rfturn rfsult;
+        }
+
+
+        Providfr[] providfrs = Sfdurity.gftProvidfrs();
+        HbshSft<String> dlbssfs = nfw HbshSft<String>();
+        Objfdt fbd;
+
+        for (int i = 0; i < providfrs.lfngth; i++) {
+            dlbssfs.dlfbr();
+
+            // Chfdk thf kfys for fbdh providfr.
+            for (Enumfrbtion<Objfdt> f = providfrs[i].kfys(); f.hbsMorfElfmfnts(); ) {
+                String durrfntKfy = (String)f.nfxtElfmfnt();
+                if (durrfntKfy.stbrtsWith(sfrvidfNbmf)) {
+                    // Wf should skip thf durrfntKfy if it dontbins b
+                    // whitfspbdf. Thf rfbson is: sudh bn fntry in thf
+                    // providfr propfrty dontbins bttributfs for thf
+                    // implfmfntbtion of bn blgorithm. Wf brf only intfrfstfd
+                    // in fntrifs whidh lfbd to thf implfmfntbtion
+                    // dlbssfs.
+                    if (durrfntKfy.indfxOf(' ') < 0) {
+                        String dlbssNbmf = providfrs[i].gftPropfrty(durrfntKfy);
+                        if (!dlbssfs.dontbins(dlbssNbmf)) {
+                            dlbssfs.bdd(dlbssNbmf);
+                            try {
+                                fbd = lobdFbdtory(providfrs[i], dlbssNbmf);
+                                if (fbd != null) {
+                                    rfsult.bdd(fbd);
+                                }
+                            }dbtdh (Exdfption ignorf) {
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        rfturn Collfdtions.unmodifibblfSft(rfsult);
+    }
+}

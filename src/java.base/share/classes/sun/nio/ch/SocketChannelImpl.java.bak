@@ -1,1039 +1,1039 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.ch;
+pbdkbgf sun.nio.di;
 
-import java.io.FileDescriptor;
-import java.io.IOException;
-import java.net.*;
-import java.nio.ByteBuffer;
-import java.nio.channels.*;
-import java.nio.channels.spi.*;
-import java.util.*;
-import sun.net.NetHooks;
-import sun.net.ExtendedOptionsImpl;
+import jbvb.io.FilfDfsdriptor;
+import jbvb.io.IOExdfption;
+import jbvb.nft.*;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.dibnnfls.*;
+import jbvb.nio.dibnnfls.spi.*;
+import jbvb.util.*;
+import sun.nft.NftHooks;
+import sun.nft.ExtfndfdOptionsImpl;
 
 
 /**
- * An implementation of SocketChannels
+ * An implfmfntbtion of SodkftCibnnfls
  */
 
-class SocketChannelImpl
-    extends SocketChannel
-    implements SelChImpl
+dlbss SodkftCibnnflImpl
+    fxtfnds SodkftCibnnfl
+    implfmfnts SflCiImpl
 {
 
-    // Used to make native read and write calls
-    private static NativeDispatcher nd;
+    // Usfd to mbkf nbtivf rfbd bnd writf dblls
+    privbtf stbtid NbtivfDispbtdifr nd;
 
-    // Our file descriptor object
-    private final FileDescriptor fd;
+    // Our filf dfsdriptor objfdt
+    privbtf finbl FilfDfsdriptor fd;
 
-    // fd value needed for dev/poll. This value will remain valid
-    // even after the value in the file descriptor object has been set to -1
-    private final int fdVal;
+    // fd vbluf nffdfd for dfv/poll. Tiis vbluf will rfmbin vblid
+    // fvfn bftfr tif vbluf in tif filf dfsdriptor objfdt ibs bffn sft to -1
+    privbtf finbl int fdVbl;
 
-    // IDs of native threads doing reads and writes, for signalling
-    private volatile long readerThread = 0;
-    private volatile long writerThread = 0;
+    // IDs of nbtivf tirfbds doing rfbds bnd writfs, for signblling
+    privbtf volbtilf long rfbdfrTirfbd = 0;
+    privbtf volbtilf long writfrTirfbd = 0;
 
-    // Lock held by current reading or connecting thread
-    private final Object readLock = new Object();
+    // Lodk ifld by durrfnt rfbding or donnfdting tirfbd
+    privbtf finbl Objfdt rfbdLodk = nfw Objfdt();
 
-    // Lock held by current writing or connecting thread
-    private final Object writeLock = new Object();
+    // Lodk ifld by durrfnt writing or donnfdting tirfbd
+    privbtf finbl Objfdt writfLodk = nfw Objfdt();
 
-    // Lock held by any thread that modifies the state fields declared below
-    // DO NOT invoke a blocking I/O operation while holding this lock!
-    private final Object stateLock = new Object();
+    // Lodk ifld by bny tirfbd tibt modififs tif stbtf fiflds dfdlbrfd bflow
+    // DO NOT invokf b blodking I/O opfrbtion wiilf iolding tiis lodk!
+    privbtf finbl Objfdt stbtfLodk = nfw Objfdt();
 
-    // -- The following fields are protected by stateLock
+    // -- Tif following fiflds brf protfdtfd by stbtfLodk
 
-    // set true when exclusive binding is on and SO_REUSEADDR is emulated
-    private boolean isReuseAddress;
+    // sft truf wifn fxdlusivf binding is on bnd SO_REUSEADDR is fmulbtfd
+    privbtf boolfbn isRfusfAddrfss;
 
-    // State, increases monotonically
-    private static final int ST_UNINITIALIZED = -1;
-    private static final int ST_UNCONNECTED = 0;
-    private static final int ST_PENDING = 1;
-    private static final int ST_CONNECTED = 2;
-    private static final int ST_KILLPENDING = 3;
-    private static final int ST_KILLED = 4;
-    private int state = ST_UNINITIALIZED;
+    // Stbtf, indrfbsfs monotonidblly
+    privbtf stbtid finbl int ST_UNINITIALIZED = -1;
+    privbtf stbtid finbl int ST_UNCONNECTED = 0;
+    privbtf stbtid finbl int ST_PENDING = 1;
+    privbtf stbtid finbl int ST_CONNECTED = 2;
+    privbtf stbtid finbl int ST_KILLPENDING = 3;
+    privbtf stbtid finbl int ST_KILLED = 4;
+    privbtf int stbtf = ST_UNINITIALIZED;
 
     // Binding
-    private InetSocketAddress localAddress;
-    private InetSocketAddress remoteAddress;
+    privbtf InftSodkftAddrfss lodblAddrfss;
+    privbtf InftSodkftAddrfss rfmotfAddrfss;
 
-    // Input/Output open
-    private boolean isInputOpen = true;
-    private boolean isOutputOpen = true;
-    private boolean readyToConnect = false;
+    // Input/Output opfn
+    privbtf boolfbn isInputOpfn = truf;
+    privbtf boolfbn isOutputOpfn = truf;
+    privbtf boolfbn rfbdyToConnfdt = fblsf;
 
-    // Socket adaptor, created on demand
-    private Socket socket;
+    // Sodkft bdbptor, drfbtfd on dfmbnd
+    privbtf Sodkft sodkft;
 
-    // -- End of fields protected by stateLock
+    // -- End of fiflds protfdtfd by stbtfLodk
 
 
-    // Constructor for normal connecting sockets
+    // Construdtor for normbl donnfdting sodkfts
     //
-    SocketChannelImpl(SelectorProvider sp) throws IOException {
-        super(sp);
-        this.fd = Net.socket(true);
-        this.fdVal = IOUtil.fdVal(fd);
-        this.state = ST_UNCONNECTED;
+    SodkftCibnnflImpl(SflfdtorProvidfr sp) tirows IOExdfption {
+        supfr(sp);
+        tiis.fd = Nft.sodkft(truf);
+        tiis.fdVbl = IOUtil.fdVbl(fd);
+        tiis.stbtf = ST_UNCONNECTED;
     }
 
-    SocketChannelImpl(SelectorProvider sp,
-                      FileDescriptor fd,
-                      boolean bound)
-        throws IOException
+    SodkftCibnnflImpl(SflfdtorProvidfr sp,
+                      FilfDfsdriptor fd,
+                      boolfbn bound)
+        tirows IOExdfption
     {
-        super(sp);
-        this.fd = fd;
-        this.fdVal = IOUtil.fdVal(fd);
-        this.state = ST_UNCONNECTED;
+        supfr(sp);
+        tiis.fd = fd;
+        tiis.fdVbl = IOUtil.fdVbl(fd);
+        tiis.stbtf = ST_UNCONNECTED;
         if (bound)
-            this.localAddress = Net.localAddress(fd);
+            tiis.lodblAddrfss = Nft.lodblAddrfss(fd);
     }
 
-    // Constructor for sockets obtained from server sockets
+    // Construdtor for sodkfts obtbinfd from sfrvfr sodkfts
     //
-    SocketChannelImpl(SelectorProvider sp,
-                      FileDescriptor fd, InetSocketAddress remote)
-        throws IOException
+    SodkftCibnnflImpl(SflfdtorProvidfr sp,
+                      FilfDfsdriptor fd, InftSodkftAddrfss rfmotf)
+        tirows IOExdfption
     {
-        super(sp);
-        this.fd = fd;
-        this.fdVal = IOUtil.fdVal(fd);
-        this.state = ST_CONNECTED;
-        this.localAddress = Net.localAddress(fd);
-        this.remoteAddress = remote;
+        supfr(sp);
+        tiis.fd = fd;
+        tiis.fdVbl = IOUtil.fdVbl(fd);
+        tiis.stbtf = ST_CONNECTED;
+        tiis.lodblAddrfss = Nft.lodblAddrfss(fd);
+        tiis.rfmotfAddrfss = rfmotf;
     }
 
-    public Socket socket() {
-        synchronized (stateLock) {
-            if (socket == null)
-                socket = SocketAdaptor.create(this);
-            return socket;
+    publid Sodkft sodkft() {
+        syndironizfd (stbtfLodk) {
+            if (sodkft == null)
+                sodkft = SodkftAdbptor.drfbtf(tiis);
+            rfturn sodkft;
         }
     }
 
-    @Override
-    public SocketAddress getLocalAddress() throws IOException {
-        synchronized (stateLock) {
-            if (!isOpen())
-                throw new ClosedChannelException();
-            return  Net.getRevealedLocalAddress(localAddress);
+    @Ovfrridf
+    publid SodkftAddrfss gftLodblAddrfss() tirows IOExdfption {
+        syndironizfd (stbtfLodk) {
+            if (!isOpfn())
+                tirow nfw ClosfdCibnnflExdfption();
+            rfturn  Nft.gftRfvfblfdLodblAddrfss(lodblAddrfss);
         }
     }
 
-    @Override
-    public SocketAddress getRemoteAddress() throws IOException {
-        synchronized (stateLock) {
-            if (!isOpen())
-                throw new ClosedChannelException();
-            return remoteAddress;
+    @Ovfrridf
+    publid SodkftAddrfss gftRfmotfAddrfss() tirows IOExdfption {
+        syndironizfd (stbtfLodk) {
+            if (!isOpfn())
+                tirow nfw ClosfdCibnnflExdfption();
+            rfturn rfmotfAddrfss;
         }
     }
 
-    @Override
-    public <T> SocketChannel setOption(SocketOption<T> name, T value)
-        throws IOException
+    @Ovfrridf
+    publid <T> SodkftCibnnfl sftOption(SodkftOption<T> nbmf, T vbluf)
+        tirows IOExdfption
     {
-        if (name == null)
-            throw new NullPointerException();
-        if (!supportedOptions().contains(name))
-            throw new UnsupportedOperationException("'" + name + "' not supported");
+        if (nbmf == null)
+            tirow nfw NullPointfrExdfption();
+        if (!supportfdOptions().dontbins(nbmf))
+            tirow nfw UnsupportfdOpfrbtionExdfption("'" + nbmf + "' not supportfd");
 
-        synchronized (stateLock) {
-            if (!isOpen())
-                throw new ClosedChannelException();
+        syndironizfd (stbtfLodk) {
+            if (!isOpfn())
+                tirow nfw ClosfdCibnnflExdfption();
 
-            if (name == StandardSocketOptions.IP_TOS) {
-                ProtocolFamily family = Net.isIPv6Available() ?
-                    StandardProtocolFamily.INET6 : StandardProtocolFamily.INET;
-                Net.setSocketOption(fd, family, name, value);
-                return this;
+            if (nbmf == StbndbrdSodkftOptions.IP_TOS) {
+                ProtodolFbmily fbmily = Nft.isIPv6Avbilbblf() ?
+                    StbndbrdProtodolFbmily.INET6 : StbndbrdProtodolFbmily.INET;
+                Nft.sftSodkftOption(fd, fbmily, nbmf, vbluf);
+                rfturn tiis;
             }
 
-            if (name == StandardSocketOptions.SO_REUSEADDR && Net.useExclusiveBind()) {
-                // SO_REUSEADDR emulated when using exclusive bind
-                isReuseAddress = (Boolean)value;
-                return this;
+            if (nbmf == StbndbrdSodkftOptions.SO_REUSEADDR && Nft.usfExdlusivfBind()) {
+                // SO_REUSEADDR fmulbtfd wifn using fxdlusivf bind
+                isRfusfAddrfss = (Boolfbn)vbluf;
+                rfturn tiis;
             }
 
-            // no options that require special handling
-            Net.setSocketOption(fd, Net.UNSPEC, name, value);
-            return this;
+            // no options tibt rfquirf spfdibl ibndling
+            Nft.sftSodkftOption(fd, Nft.UNSPEC, nbmf, vbluf);
+            rfturn tiis;
         }
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public <T> T getOption(SocketOption<T> name)
-        throws IOException
+    @Ovfrridf
+    @SupprfssWbrnings("undifdkfd")
+    publid <T> T gftOption(SodkftOption<T> nbmf)
+        tirows IOExdfption
     {
-        if (name == null)
-            throw new NullPointerException();
-        if (!supportedOptions().contains(name))
-            throw new UnsupportedOperationException("'" + name + "' not supported");
+        if (nbmf == null)
+            tirow nfw NullPointfrExdfption();
+        if (!supportfdOptions().dontbins(nbmf))
+            tirow nfw UnsupportfdOpfrbtionExdfption("'" + nbmf + "' not supportfd");
 
-        synchronized (stateLock) {
-            if (!isOpen())
-                throw new ClosedChannelException();
+        syndironizfd (stbtfLodk) {
+            if (!isOpfn())
+                tirow nfw ClosfdCibnnflExdfption();
 
-            if (name == StandardSocketOptions.SO_REUSEADDR &&
-                    Net.useExclusiveBind())
+            if (nbmf == StbndbrdSodkftOptions.SO_REUSEADDR &&
+                    Nft.usfExdlusivfBind())
             {
-                // SO_REUSEADDR emulated when using exclusive bind
-                return (T)Boolean.valueOf(isReuseAddress);
+                // SO_REUSEADDR fmulbtfd wifn using fxdlusivf bind
+                rfturn (T)Boolfbn.vblufOf(isRfusfAddrfss);
             }
 
-            // special handling for IP_TOS: always return 0 when IPv6
-            if (name == StandardSocketOptions.IP_TOS) {
-                ProtocolFamily family = Net.isIPv6Available() ?
-                    StandardProtocolFamily.INET6 : StandardProtocolFamily.INET;
-                return (T) Net.getSocketOption(fd, family, name);
+            // spfdibl ibndling for IP_TOS: blwbys rfturn 0 wifn IPv6
+            if (nbmf == StbndbrdSodkftOptions.IP_TOS) {
+                ProtodolFbmily fbmily = Nft.isIPv6Avbilbblf() ?
+                    StbndbrdProtodolFbmily.INET6 : StbndbrdProtodolFbmily.INET;
+                rfturn (T) Nft.gftSodkftOption(fd, fbmily, nbmf);
             }
 
-            // no options that require special handling
-            return (T) Net.getSocketOption(fd, Net.UNSPEC, name);
+            // no options tibt rfquirf spfdibl ibndling
+            rfturn (T) Nft.gftSodkftOption(fd, Nft.UNSPEC, nbmf);
         }
     }
 
-    private static class DefaultOptionsHolder {
-        static final Set<SocketOption<?>> defaultOptions = defaultOptions();
+    privbtf stbtid dlbss DffbultOptionsHoldfr {
+        stbtid finbl Sft<SodkftOption<?>> dffbultOptions = dffbultOptions();
 
-        private static Set<SocketOption<?>> defaultOptions() {
-            HashSet<SocketOption<?>> set = new HashSet<SocketOption<?>>(8);
-            set.add(StandardSocketOptions.SO_SNDBUF);
-            set.add(StandardSocketOptions.SO_RCVBUF);
-            set.add(StandardSocketOptions.SO_KEEPALIVE);
-            set.add(StandardSocketOptions.SO_REUSEADDR);
-            set.add(StandardSocketOptions.SO_LINGER);
-            set.add(StandardSocketOptions.TCP_NODELAY);
-            // additional options required by socket adaptor
-            set.add(StandardSocketOptions.IP_TOS);
-            set.add(ExtendedSocketOption.SO_OOBINLINE);
-            if (ExtendedOptionsImpl.flowSupported()) {
-                set.add(jdk.net.ExtendedSocketOptions.SO_FLOW_SLA);
+        privbtf stbtid Sft<SodkftOption<?>> dffbultOptions() {
+            HbsiSft<SodkftOption<?>> sft = nfw HbsiSft<SodkftOption<?>>(8);
+            sft.bdd(StbndbrdSodkftOptions.SO_SNDBUF);
+            sft.bdd(StbndbrdSodkftOptions.SO_RCVBUF);
+            sft.bdd(StbndbrdSodkftOptions.SO_KEEPALIVE);
+            sft.bdd(StbndbrdSodkftOptions.SO_REUSEADDR);
+            sft.bdd(StbndbrdSodkftOptions.SO_LINGER);
+            sft.bdd(StbndbrdSodkftOptions.TCP_NODELAY);
+            // bdditionbl options rfquirfd by sodkft bdbptor
+            sft.bdd(StbndbrdSodkftOptions.IP_TOS);
+            sft.bdd(ExtfndfdSodkftOption.SO_OOBINLINE);
+            if (ExtfndfdOptionsImpl.flowSupportfd()) {
+                sft.bdd(jdk.nft.ExtfndfdSodkftOptions.SO_FLOW_SLA);
             }
-            return Collections.unmodifiableSet(set);
+            rfturn Collfdtions.unmodifibblfSft(sft);
         }
     }
 
-    @Override
-    public final Set<SocketOption<?>> supportedOptions() {
-        return DefaultOptionsHolder.defaultOptions;
+    @Ovfrridf
+    publid finbl Sft<SodkftOption<?>> supportfdOptions() {
+        rfturn DffbultOptionsHoldfr.dffbultOptions;
     }
 
-    private boolean ensureReadOpen() throws ClosedChannelException {
-        synchronized (stateLock) {
-            if (!isOpen())
-                throw new ClosedChannelException();
-            if (!isConnected())
-                throw new NotYetConnectedException();
-            if (!isInputOpen)
-                return false;
-            else
-                return true;
+    privbtf boolfbn fnsurfRfbdOpfn() tirows ClosfdCibnnflExdfption {
+        syndironizfd (stbtfLodk) {
+            if (!isOpfn())
+                tirow nfw ClosfdCibnnflExdfption();
+            if (!isConnfdtfd())
+                tirow nfw NotYftConnfdtfdExdfption();
+            if (!isInputOpfn)
+                rfturn fblsf;
+            flsf
+                rfturn truf;
         }
     }
 
-    private void ensureWriteOpen() throws ClosedChannelException {
-        synchronized (stateLock) {
-            if (!isOpen())
-                throw new ClosedChannelException();
-            if (!isOutputOpen)
-                throw new ClosedChannelException();
-            if (!isConnected())
-                throw new NotYetConnectedException();
+    privbtf void fnsurfWritfOpfn() tirows ClosfdCibnnflExdfption {
+        syndironizfd (stbtfLodk) {
+            if (!isOpfn())
+                tirow nfw ClosfdCibnnflExdfption();
+            if (!isOutputOpfn)
+                tirow nfw ClosfdCibnnflExdfption();
+            if (!isConnfdtfd())
+                tirow nfw NotYftConnfdtfdExdfption();
         }
     }
 
-    private void readerCleanup() throws IOException {
-        synchronized (stateLock) {
-            readerThread = 0;
-            if (state == ST_KILLPENDING)
+    privbtf void rfbdfrClfbnup() tirows IOExdfption {
+        syndironizfd (stbtfLodk) {
+            rfbdfrTirfbd = 0;
+            if (stbtf == ST_KILLPENDING)
                 kill();
         }
     }
 
-    private void writerCleanup() throws IOException {
-        synchronized (stateLock) {
-            writerThread = 0;
-            if (state == ST_KILLPENDING)
+    privbtf void writfrClfbnup() tirows IOExdfption {
+        syndironizfd (stbtfLodk) {
+            writfrTirfbd = 0;
+            if (stbtf == ST_KILLPENDING)
                 kill();
         }
     }
 
-    public int read(ByteBuffer buf) throws IOException {
+    publid int rfbd(BytfBufffr buf) tirows IOExdfption {
 
         if (buf == null)
-            throw new NullPointerException();
+            tirow nfw NullPointfrExdfption();
 
-        synchronized (readLock) {
-            if (!ensureReadOpen())
-                return -1;
+        syndironizfd (rfbdLodk) {
+            if (!fnsurfRfbdOpfn())
+                rfturn -1;
             int n = 0;
             try {
 
-                // Set up the interruption machinery; see
-                // AbstractInterruptibleChannel for details
+                // Sft up tif intfrruption mbdiinfry; sff
+                // AbstrbdtIntfrruptiblfCibnnfl for dftbils
                 //
-                begin();
+                bfgin();
 
-                synchronized (stateLock) {
-                    if (!isOpen()) {
-                    // Either the current thread is already interrupted, so
-                    // begin() closed the channel, or another thread closed the
-                    // channel since we checked it a few bytecodes ago.  In
-                    // either case the value returned here is irrelevant since
-                    // the invocation of end() in the finally block will throw
-                    // an appropriate exception.
+                syndironizfd (stbtfLodk) {
+                    if (!isOpfn()) {
+                    // Eitifr tif durrfnt tirfbd is blrfbdy intfrruptfd, so
+                    // bfgin() dlosfd tif dibnnfl, or bnotifr tirfbd dlosfd tif
+                    // dibnnfl sindf wf difdkfd it b ffw bytfdodfs bgo.  In
+                    // fitifr dbsf tif vbluf rfturnfd ifrf is irrflfvbnt sindf
+                    // tif invodbtion of fnd() in tif finblly blodk will tirow
+                    // bn bppropribtf fxdfption.
                     //
-                        return 0;
+                        rfturn 0;
 
                     }
 
-                    // Save this thread so that it can be signalled on those
-                    // platforms that require it
+                    // Sbvf tiis tirfbd so tibt it dbn bf signbllfd on tiosf
+                    // plbtforms tibt rfquirf it
                     //
-                    readerThread = NativeThread.current();
+                    rfbdfrTirfbd = NbtivfTirfbd.durrfnt();
                 }
 
-                // Between the previous test of isOpen() and the return of the
-                // IOUtil.read invocation below, this channel might be closed
-                // or this thread might be interrupted.  We rely upon the
-                // implicit synchronization point in the kernel read() call to
-                // make sure that the right thing happens.  In either case the
-                // implCloseSelectableChannel method is ultimately invoked in
-                // some other thread, so there are three possibilities:
+                // Bftwffn tif prfvious tfst of isOpfn() bnd tif rfturn of tif
+                // IOUtil.rfbd invodbtion bflow, tiis dibnnfl migit bf dlosfd
+                // or tiis tirfbd migit bf intfrruptfd.  Wf rfly upon tif
+                // implidit syndironizbtion point in tif kfrnfl rfbd() dbll to
+                // mbkf surf tibt tif rigit tiing ibppfns.  In fitifr dbsf tif
+                // implClosfSflfdtbblfCibnnfl mftiod is ultimbtfly invokfd in
+                // somf otifr tirfbd, so tifrf brf tirff possibilitifs:
                 //
-                //   - implCloseSelectableChannel() invokes nd.preClose()
-                //     before this thread invokes read(), in which case the
-                //     read returns immediately with either EOF or an error,
-                //     the latter of which will cause an IOException to be
-                //     thrown.
+                //   - implClosfSflfdtbblfCibnnfl() invokfs nd.prfClosf()
+                //     bfforf tiis tirfbd invokfs rfbd(), in wiidi dbsf tif
+                //     rfbd rfturns immfdibtfly witi fitifr EOF or bn frror,
+                //     tif lbttfr of wiidi will dbusf bn IOExdfption to bf
+                //     tirown.
                 //
-                //   - implCloseSelectableChannel() invokes nd.preClose() after
-                //     this thread is blocked in read().  On some operating
-                //     systems (e.g., Solaris and Windows) this causes the read
-                //     to return immediately with either EOF or an error
-                //     indication.
+                //   - implClosfSflfdtbblfCibnnfl() invokfs nd.prfClosf() bftfr
+                //     tiis tirfbd is blodkfd in rfbd().  On somf opfrbting
+                //     systfms (f.g., Solbris bnd Windows) tiis dbusfs tif rfbd
+                //     to rfturn immfdibtfly witi fitifr EOF or bn frror
+                //     indidbtion.
                 //
-                //   - implCloseSelectableChannel() invokes nd.preClose() after
-                //     this thread is blocked in read() but the operating
-                //     system (e.g., Linux) doesn't support preemptive close,
-                //     so implCloseSelectableChannel() proceeds to signal this
-                //     thread, thereby causing the read to return immediately
-                //     with IOStatus.INTERRUPTED.
+                //   - implClosfSflfdtbblfCibnnfl() invokfs nd.prfClosf() bftfr
+                //     tiis tirfbd is blodkfd in rfbd() but tif opfrbting
+                //     systfm (f.g., Linux) dofsn't support prffmptivf dlosf,
+                //     so implClosfSflfdtbblfCibnnfl() prodffds to signbl tiis
+                //     tirfbd, tifrfby dbusing tif rfbd to rfturn immfdibtfly
+                //     witi IOStbtus.INTERRUPTED.
                 //
-                // In all three cases the invocation of end() in the finally
-                // clause will notice that the channel has been closed and
-                // throw an appropriate exception (AsynchronousCloseException
-                // or ClosedByInterruptException) if necessary.
+                // In bll tirff dbsfs tif invodbtion of fnd() in tif finblly
+                // dlbusf will notidf tibt tif dibnnfl ibs bffn dlosfd bnd
+                // tirow bn bppropribtf fxdfption (AsyndironousClosfExdfption
+                // or ClosfdByIntfrruptExdfption) if nfdfssbry.
                 //
-                // *There is A fourth possibility. implCloseSelectableChannel()
-                // invokes nd.preClose(), signals reader/writer thred and quickly
-                // moves on to nd.close() in kill(), which does a real close.
-                // Then a third thread accepts a new connection, opens file or
-                // whatever that causes the released "fd" to be recycled. All
-                // above happens just between our last isOpen() check and the
-                // next kernel read reached, with the recycled "fd". The solution
-                // is to postpone the real kill() if there is a reader or/and
-                // writer thread(s) over there "waiting", leave the cleanup/kill
-                // to the reader or writer thread. (the preClose() still happens
-                // so the connection gets cut off as usual).
+                // *Tifrf is A fourti possibility. implClosfSflfdtbblfCibnnfl()
+                // invokfs nd.prfClosf(), signbls rfbdfr/writfr tirfd bnd quidkly
+                // movfs on to nd.dlosf() in kill(), wiidi dofs b rfbl dlosf.
+                // Tifn b tiird tirfbd bddfpts b nfw donnfdtion, opfns filf or
+                // wibtfvfr tibt dbusfs tif rflfbsfd "fd" to bf rfdydlfd. All
+                // bbovf ibppfns just bftwffn our lbst isOpfn() difdk bnd tif
+                // nfxt kfrnfl rfbd rfbdifd, witi tif rfdydlfd "fd". Tif solution
+                // is to postponf tif rfbl kill() if tifrf is b rfbdfr or/bnd
+                // writfr tirfbd(s) ovfr tifrf "wbiting", lfbvf tif dlfbnup/kill
+                // to tif rfbdfr or writfr tirfbd. (tif prfClosf() still ibppfns
+                // so tif donnfdtion gfts dut off bs usubl).
                 //
-                // For socket channels there is the additional wrinkle that
-                // asynchronous shutdown works much like asynchronous close,
-                // except that the channel is shutdown rather than completely
-                // closed.  This is analogous to the first two cases above,
-                // except that the shutdown operation plays the role of
-                // nd.preClose().
+                // For sodkft dibnnfls tifrf is tif bdditionbl wrinklf tibt
+                // bsyndironous siutdown works mudi likf bsyndironous dlosf,
+                // fxdfpt tibt tif dibnnfl is siutdown rbtifr tibn domplftfly
+                // dlosfd.  Tiis is bnblogous to tif first two dbsfs bbovf,
+                // fxdfpt tibt tif siutdown opfrbtion plbys tif rolf of
+                // nd.prfClosf().
                 for (;;) {
-                    n = IOUtil.read(fd, buf, -1, nd);
-                    if ((n == IOStatus.INTERRUPTED) && isOpen()) {
-                        // The system call was interrupted but the channel
-                        // is still open, so retry
-                        continue;
+                    n = IOUtil.rfbd(fd, buf, -1, nd);
+                    if ((n == IOStbtus.INTERRUPTED) && isOpfn()) {
+                        // Tif systfm dbll wbs intfrruptfd but tif dibnnfl
+                        // is still opfn, so rftry
+                        dontinuf;
                     }
-                    return IOStatus.normalize(n);
+                    rfturn IOStbtus.normblizf(n);
                 }
 
-            } finally {
-                readerCleanup();        // Clear reader thread
-                // The end method, which is defined in our superclass
-                // AbstractInterruptibleChannel, resets the interruption
-                // machinery.  If its argument is true then it returns
-                // normally; otherwise it checks the interrupt and open state
-                // of this channel and throws an appropriate exception if
-                // necessary.
+            } finblly {
+                rfbdfrClfbnup();        // Clfbr rfbdfr tirfbd
+                // Tif fnd mftiod, wiidi is dffinfd in our supfrdlbss
+                // AbstrbdtIntfrruptiblfCibnnfl, rfsfts tif intfrruption
+                // mbdiinfry.  If its brgumfnt is truf tifn it rfturns
+                // normblly; otifrwisf it difdks tif intfrrupt bnd opfn stbtf
+                // of tiis dibnnfl bnd tirows bn bppropribtf fxdfption if
+                // nfdfssbry.
                 //
-                // So, if we actually managed to do any I/O in the above try
-                // block then we pass true to the end method.  We also pass
-                // true if the channel was in non-blocking mode when the I/O
-                // operation was initiated but no data could be transferred;
-                // this prevents spurious exceptions from being thrown in the
-                // rare event that a channel is closed or a thread is
-                // interrupted at the exact moment that a non-blocking I/O
-                // request is made.
+                // So, if wf bdtublly mbnbgfd to do bny I/O in tif bbovf try
+                // blodk tifn wf pbss truf to tif fnd mftiod.  Wf blso pbss
+                // truf if tif dibnnfl wbs in non-blodking modf wifn tif I/O
+                // opfrbtion wbs initibtfd but no dbtb dould bf trbnsffrrfd;
+                // tiis prfvfnts spurious fxdfptions from bfing tirown in tif
+                // rbrf fvfnt tibt b dibnnfl is dlosfd or b tirfbd is
+                // intfrruptfd bt tif fxbdt momfnt tibt b non-blodking I/O
+                // rfqufst is mbdf.
                 //
-                end(n > 0 || (n == IOStatus.UNAVAILABLE));
+                fnd(n > 0 || (n == IOStbtus.UNAVAILABLE));
 
-                // Extra case for socket channels: Asynchronous shutdown
+                // Extrb dbsf for sodkft dibnnfls: Asyndironous siutdown
                 //
-                synchronized (stateLock) {
-                    if ((n <= 0) && (!isInputOpen))
-                        return IOStatus.EOF;
+                syndironizfd (stbtfLodk) {
+                    if ((n <= 0) && (!isInputOpfn))
+                        rfturn IOStbtus.EOF;
                 }
 
-                assert IOStatus.check(n);
+                bssfrt IOStbtus.difdk(n);
 
             }
         }
     }
 
-    public long read(ByteBuffer[] dsts, int offset, int length)
-        throws IOException
+    publid long rfbd(BytfBufffr[] dsts, int offsft, int lfngti)
+        tirows IOExdfption
     {
-        if ((offset < 0) || (length < 0) || (offset > dsts.length - length))
-            throw new IndexOutOfBoundsException();
-        synchronized (readLock) {
-            if (!ensureReadOpen())
-                return -1;
+        if ((offsft < 0) || (lfngti < 0) || (offsft > dsts.lfngti - lfngti))
+            tirow nfw IndfxOutOfBoundsExdfption();
+        syndironizfd (rfbdLodk) {
+            if (!fnsurfRfbdOpfn())
+                rfturn -1;
             long n = 0;
             try {
-                begin();
-                synchronized (stateLock) {
-                    if (!isOpen())
-                        return 0;
-                    readerThread = NativeThread.current();
+                bfgin();
+                syndironizfd (stbtfLodk) {
+                    if (!isOpfn())
+                        rfturn 0;
+                    rfbdfrTirfbd = NbtivfTirfbd.durrfnt();
                 }
 
                 for (;;) {
-                    n = IOUtil.read(fd, dsts, offset, length, nd);
-                    if ((n == IOStatus.INTERRUPTED) && isOpen())
-                        continue;
-                    return IOStatus.normalize(n);
+                    n = IOUtil.rfbd(fd, dsts, offsft, lfngti, nd);
+                    if ((n == IOStbtus.INTERRUPTED) && isOpfn())
+                        dontinuf;
+                    rfturn IOStbtus.normblizf(n);
                 }
-            } finally {
-                readerCleanup();
-                end(n > 0 || (n == IOStatus.UNAVAILABLE));
-                synchronized (stateLock) {
-                    if ((n <= 0) && (!isInputOpen))
-                        return IOStatus.EOF;
+            } finblly {
+                rfbdfrClfbnup();
+                fnd(n > 0 || (n == IOStbtus.UNAVAILABLE));
+                syndironizfd (stbtfLodk) {
+                    if ((n <= 0) && (!isInputOpfn))
+                        rfturn IOStbtus.EOF;
                 }
-                assert IOStatus.check(n);
+                bssfrt IOStbtus.difdk(n);
             }
         }
     }
 
-    public int write(ByteBuffer buf) throws IOException {
+    publid int writf(BytfBufffr buf) tirows IOExdfption {
         if (buf == null)
-            throw new NullPointerException();
-        synchronized (writeLock) {
-            ensureWriteOpen();
+            tirow nfw NullPointfrExdfption();
+        syndironizfd (writfLodk) {
+            fnsurfWritfOpfn();
             int n = 0;
             try {
-                begin();
-                synchronized (stateLock) {
-                    if (!isOpen())
-                        return 0;
-                    writerThread = NativeThread.current();
+                bfgin();
+                syndironizfd (stbtfLodk) {
+                    if (!isOpfn())
+                        rfturn 0;
+                    writfrTirfbd = NbtivfTirfbd.durrfnt();
                 }
                 for (;;) {
-                    n = IOUtil.write(fd, buf, -1, nd);
-                    if ((n == IOStatus.INTERRUPTED) && isOpen())
-                        continue;
-                    return IOStatus.normalize(n);
+                    n = IOUtil.writf(fd, buf, -1, nd);
+                    if ((n == IOStbtus.INTERRUPTED) && isOpfn())
+                        dontinuf;
+                    rfturn IOStbtus.normblizf(n);
                 }
-            } finally {
-                writerCleanup();
-                end(n > 0 || (n == IOStatus.UNAVAILABLE));
-                synchronized (stateLock) {
-                    if ((n <= 0) && (!isOutputOpen))
-                        throw new AsynchronousCloseException();
+            } finblly {
+                writfrClfbnup();
+                fnd(n > 0 || (n == IOStbtus.UNAVAILABLE));
+                syndironizfd (stbtfLodk) {
+                    if ((n <= 0) && (!isOutputOpfn))
+                        tirow nfw AsyndironousClosfExdfption();
                 }
-                assert IOStatus.check(n);
+                bssfrt IOStbtus.difdk(n);
             }
         }
     }
 
-    public long write(ByteBuffer[] srcs, int offset, int length)
-        throws IOException
+    publid long writf(BytfBufffr[] srds, int offsft, int lfngti)
+        tirows IOExdfption
     {
-        if ((offset < 0) || (length < 0) || (offset > srcs.length - length))
-            throw new IndexOutOfBoundsException();
-        synchronized (writeLock) {
-            ensureWriteOpen();
+        if ((offsft < 0) || (lfngti < 0) || (offsft > srds.lfngti - lfngti))
+            tirow nfw IndfxOutOfBoundsExdfption();
+        syndironizfd (writfLodk) {
+            fnsurfWritfOpfn();
             long n = 0;
             try {
-                begin();
-                synchronized (stateLock) {
-                    if (!isOpen())
-                        return 0;
-                    writerThread = NativeThread.current();
+                bfgin();
+                syndironizfd (stbtfLodk) {
+                    if (!isOpfn())
+                        rfturn 0;
+                    writfrTirfbd = NbtivfTirfbd.durrfnt();
                 }
                 for (;;) {
-                    n = IOUtil.write(fd, srcs, offset, length, nd);
-                    if ((n == IOStatus.INTERRUPTED) && isOpen())
-                        continue;
-                    return IOStatus.normalize(n);
+                    n = IOUtil.writf(fd, srds, offsft, lfngti, nd);
+                    if ((n == IOStbtus.INTERRUPTED) && isOpfn())
+                        dontinuf;
+                    rfturn IOStbtus.normblizf(n);
                 }
-            } finally {
-                writerCleanup();
-                end((n > 0) || (n == IOStatus.UNAVAILABLE));
-                synchronized (stateLock) {
-                    if ((n <= 0) && (!isOutputOpen))
-                        throw new AsynchronousCloseException();
+            } finblly {
+                writfrClfbnup();
+                fnd((n > 0) || (n == IOStbtus.UNAVAILABLE));
+                syndironizfd (stbtfLodk) {
+                    if ((n <= 0) && (!isOutputOpfn))
+                        tirow nfw AsyndironousClosfExdfption();
                 }
-                assert IOStatus.check(n);
+                bssfrt IOStbtus.difdk(n);
             }
         }
     }
 
-    // package-private
-    int sendOutOfBandData(byte b) throws IOException {
-        synchronized (writeLock) {
-            ensureWriteOpen();
+    // pbdkbgf-privbtf
+    int sfndOutOfBbndDbtb(bytf b) tirows IOExdfption {
+        syndironizfd (writfLodk) {
+            fnsurfWritfOpfn();
             int n = 0;
             try {
-                begin();
-                synchronized (stateLock) {
-                    if (!isOpen())
-                        return 0;
-                    writerThread = NativeThread.current();
+                bfgin();
+                syndironizfd (stbtfLodk) {
+                    if (!isOpfn())
+                        rfturn 0;
+                    writfrTirfbd = NbtivfTirfbd.durrfnt();
                 }
                 for (;;) {
-                    n = sendOutOfBandData(fd, b);
-                    if ((n == IOStatus.INTERRUPTED) && isOpen())
-                        continue;
-                    return IOStatus.normalize(n);
+                    n = sfndOutOfBbndDbtb(fd, b);
+                    if ((n == IOStbtus.INTERRUPTED) && isOpfn())
+                        dontinuf;
+                    rfturn IOStbtus.normblizf(n);
                 }
-            } finally {
-                writerCleanup();
-                end((n > 0) || (n == IOStatus.UNAVAILABLE));
-                synchronized (stateLock) {
-                    if ((n <= 0) && (!isOutputOpen))
-                        throw new AsynchronousCloseException();
+            } finblly {
+                writfrClfbnup();
+                fnd((n > 0) || (n == IOStbtus.UNAVAILABLE));
+                syndironizfd (stbtfLodk) {
+                    if ((n <= 0) && (!isOutputOpfn))
+                        tirow nfw AsyndironousClosfExdfption();
                 }
-                assert IOStatus.check(n);
+                bssfrt IOStbtus.difdk(n);
             }
         }
     }
 
-    protected void implConfigureBlocking(boolean block) throws IOException {
-        IOUtil.configureBlocking(fd, block);
+    protfdtfd void implConfigurfBlodking(boolfbn blodk) tirows IOExdfption {
+        IOUtil.donfigurfBlodking(fd, blodk);
     }
 
-    public InetSocketAddress localAddress() {
-        synchronized (stateLock) {
-            return localAddress;
+    publid InftSodkftAddrfss lodblAddrfss() {
+        syndironizfd (stbtfLodk) {
+            rfturn lodblAddrfss;
         }
     }
 
-    public SocketAddress remoteAddress() {
-        synchronized (stateLock) {
-            return remoteAddress;
+    publid SodkftAddrfss rfmotfAddrfss() {
+        syndironizfd (stbtfLodk) {
+            rfturn rfmotfAddrfss;
         }
     }
 
-    @Override
-    public SocketChannel bind(SocketAddress local) throws IOException {
-        synchronized (readLock) {
-            synchronized (writeLock) {
-                synchronized (stateLock) {
-                    if (!isOpen())
-                        throw new ClosedChannelException();
-                    if (state == ST_PENDING)
-                        throw new ConnectionPendingException();
-                    if (localAddress != null)
-                        throw new AlreadyBoundException();
-                    InetSocketAddress isa = (local == null) ?
-                        new InetSocketAddress(0) : Net.checkAddress(local);
-                    SecurityManager sm = System.getSecurityManager();
+    @Ovfrridf
+    publid SodkftCibnnfl bind(SodkftAddrfss lodbl) tirows IOExdfption {
+        syndironizfd (rfbdLodk) {
+            syndironizfd (writfLodk) {
+                syndironizfd (stbtfLodk) {
+                    if (!isOpfn())
+                        tirow nfw ClosfdCibnnflExdfption();
+                    if (stbtf == ST_PENDING)
+                        tirow nfw ConnfdtionPfndingExdfption();
+                    if (lodblAddrfss != null)
+                        tirow nfw AlrfbdyBoundExdfption();
+                    InftSodkftAddrfss isb = (lodbl == null) ?
+                        nfw InftSodkftAddrfss(0) : Nft.difdkAddrfss(lodbl);
+                    SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
                     if (sm != null) {
-                        sm.checkListen(isa.getPort());
+                        sm.difdkListfn(isb.gftPort());
                     }
-                    NetHooks.beforeTcpBind(fd, isa.getAddress(), isa.getPort());
-                    Net.bind(fd, isa.getAddress(), isa.getPort());
-                    localAddress = Net.localAddress(fd);
+                    NftHooks.bfforfTdpBind(fd, isb.gftAddrfss(), isb.gftPort());
+                    Nft.bind(fd, isb.gftAddrfss(), isb.gftPort());
+                    lodblAddrfss = Nft.lodblAddrfss(fd);
                 }
             }
         }
-        return this;
+        rfturn tiis;
     }
 
-    public boolean isConnected() {
-        synchronized (stateLock) {
-            return (state == ST_CONNECTED);
+    publid boolfbn isConnfdtfd() {
+        syndironizfd (stbtfLodk) {
+            rfturn (stbtf == ST_CONNECTED);
         }
     }
 
-    public boolean isConnectionPending() {
-        synchronized (stateLock) {
-            return (state == ST_PENDING);
+    publid boolfbn isConnfdtionPfnding() {
+        syndironizfd (stbtfLodk) {
+            rfturn (stbtf == ST_PENDING);
         }
     }
 
-    void ensureOpenAndUnconnected() throws IOException { // package-private
-        synchronized (stateLock) {
-            if (!isOpen())
-                throw new ClosedChannelException();
-            if (state == ST_CONNECTED)
-                throw new AlreadyConnectedException();
-            if (state == ST_PENDING)
-                throw new ConnectionPendingException();
+    void fnsurfOpfnAndUndonnfdtfd() tirows IOExdfption { // pbdkbgf-privbtf
+        syndironizfd (stbtfLodk) {
+            if (!isOpfn())
+                tirow nfw ClosfdCibnnflExdfption();
+            if (stbtf == ST_CONNECTED)
+                tirow nfw AlrfbdyConnfdtfdExdfption();
+            if (stbtf == ST_PENDING)
+                tirow nfw ConnfdtionPfndingExdfption();
         }
     }
 
-    public boolean connect(SocketAddress sa) throws IOException {
-        int localPort = 0;
+    publid boolfbn donnfdt(SodkftAddrfss sb) tirows IOExdfption {
+        int lodblPort = 0;
 
-        synchronized (readLock) {
-            synchronized (writeLock) {
-                ensureOpenAndUnconnected();
-                InetSocketAddress isa = Net.checkAddress(sa);
-                SecurityManager sm = System.getSecurityManager();
+        syndironizfd (rfbdLodk) {
+            syndironizfd (writfLodk) {
+                fnsurfOpfnAndUndonnfdtfd();
+                InftSodkftAddrfss isb = Nft.difdkAddrfss(sb);
+                SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
                 if (sm != null)
-                    sm.checkConnect(isa.getAddress().getHostAddress(),
-                                    isa.getPort());
-                synchronized (blockingLock()) {
+                    sm.difdkConnfdt(isb.gftAddrfss().gftHostAddrfss(),
+                                    isb.gftPort());
+                syndironizfd (blodkingLodk()) {
                     int n = 0;
                     try {
                         try {
-                            begin();
-                            synchronized (stateLock) {
-                                if (!isOpen()) {
-                                    return false;
+                            bfgin();
+                            syndironizfd (stbtfLodk) {
+                                if (!isOpfn()) {
+                                    rfturn fblsf;
                                 }
-                                // notify hook only if unbound
-                                if (localAddress == null) {
-                                    NetHooks.beforeTcpConnect(fd,
-                                                           isa.getAddress(),
-                                                           isa.getPort());
+                                // notify iook only if unbound
+                                if (lodblAddrfss == null) {
+                                    NftHooks.bfforfTdpConnfdt(fd,
+                                                           isb.gftAddrfss(),
+                                                           isb.gftPort());
                                 }
-                                readerThread = NativeThread.current();
+                                rfbdfrTirfbd = NbtivfTirfbd.durrfnt();
                             }
                             for (;;) {
-                                InetAddress ia = isa.getAddress();
-                                if (ia.isAnyLocalAddress())
-                                    ia = InetAddress.getLocalHost();
-                                n = Net.connect(fd,
-                                                ia,
-                                                isa.getPort());
-                                if (  (n == IOStatus.INTERRUPTED)
-                                      && isOpen())
-                                    continue;
-                                break;
+                                InftAddrfss ib = isb.gftAddrfss();
+                                if (ib.isAnyLodblAddrfss())
+                                    ib = InftAddrfss.gftLodblHost();
+                                n = Nft.donnfdt(fd,
+                                                ib,
+                                                isb.gftPort());
+                                if (  (n == IOStbtus.INTERRUPTED)
+                                      && isOpfn())
+                                    dontinuf;
+                                brfbk;
                             }
 
-                        } finally {
-                            readerCleanup();
-                            end((n > 0) || (n == IOStatus.UNAVAILABLE));
-                            assert IOStatus.check(n);
+                        } finblly {
+                            rfbdfrClfbnup();
+                            fnd((n > 0) || (n == IOStbtus.UNAVAILABLE));
+                            bssfrt IOStbtus.difdk(n);
                         }
-                    } catch (IOException x) {
-                        // If an exception was thrown, close the channel after
-                        // invoking end() so as to avoid bogus
-                        // AsynchronousCloseExceptions
-                        close();
-                        throw x;
+                    } dbtdi (IOExdfption x) {
+                        // If bn fxdfption wbs tirown, dlosf tif dibnnfl bftfr
+                        // invoking fnd() so bs to bvoid bogus
+                        // AsyndironousClosfExdfptions
+                        dlosf();
+                        tirow x;
                     }
-                    synchronized (stateLock) {
-                        remoteAddress = isa;
+                    syndironizfd (stbtfLodk) {
+                        rfmotfAddrfss = isb;
                         if (n > 0) {
 
-                            // Connection succeeded; disallow further
-                            // invocation
-                            state = ST_CONNECTED;
-                            if (isOpen())
-                                localAddress = Net.localAddress(fd);
-                            return true;
+                            // Connfdtion suddffdfd; disbllow furtifr
+                            // invodbtion
+                            stbtf = ST_CONNECTED;
+                            if (isOpfn())
+                                lodblAddrfss = Nft.lodblAddrfss(fd);
+                            rfturn truf;
                         }
-                        // If nonblocking and no exception then connection
-                        // pending; disallow another invocation
-                        if (!isBlocking())
-                            state = ST_PENDING;
-                        else
-                            assert false;
+                        // If nonblodking bnd no fxdfption tifn donnfdtion
+                        // pfnding; disbllow bnotifr invodbtion
+                        if (!isBlodking())
+                            stbtf = ST_PENDING;
+                        flsf
+                            bssfrt fblsf;
                     }
                 }
-                return false;
+                rfturn fblsf;
             }
         }
     }
 
-    public boolean finishConnect() throws IOException {
-        synchronized (readLock) {
-            synchronized (writeLock) {
-                synchronized (stateLock) {
-                    if (!isOpen())
-                        throw new ClosedChannelException();
-                    if (state == ST_CONNECTED)
-                        return true;
-                    if (state != ST_PENDING)
-                        throw new NoConnectionPendingException();
+    publid boolfbn finisiConnfdt() tirows IOExdfption {
+        syndironizfd (rfbdLodk) {
+            syndironizfd (writfLodk) {
+                syndironizfd (stbtfLodk) {
+                    if (!isOpfn())
+                        tirow nfw ClosfdCibnnflExdfption();
+                    if (stbtf == ST_CONNECTED)
+                        rfturn truf;
+                    if (stbtf != ST_PENDING)
+                        tirow nfw NoConnfdtionPfndingExdfption();
                 }
                 int n = 0;
                 try {
                     try {
-                        begin();
-                        synchronized (blockingLock()) {
-                            synchronized (stateLock) {
-                                if (!isOpen()) {
-                                    return false;
+                        bfgin();
+                        syndironizfd (blodkingLodk()) {
+                            syndironizfd (stbtfLodk) {
+                                if (!isOpfn()) {
+                                    rfturn fblsf;
                                 }
-                                readerThread = NativeThread.current();
+                                rfbdfrTirfbd = NbtivfTirfbd.durrfnt();
                             }
-                            if (!isBlocking()) {
+                            if (!isBlodking()) {
                                 for (;;) {
-                                    n = checkConnect(fd, false,
-                                                     readyToConnect);
-                                    if (  (n == IOStatus.INTERRUPTED)
-                                          && isOpen())
-                                        continue;
-                                    break;
+                                    n = difdkConnfdt(fd, fblsf,
+                                                     rfbdyToConnfdt);
+                                    if (  (n == IOStbtus.INTERRUPTED)
+                                          && isOpfn())
+                                        dontinuf;
+                                    brfbk;
                                 }
-                            } else {
+                            } flsf {
                                 for (;;) {
-                                    n = checkConnect(fd, true,
-                                                     readyToConnect);
+                                    n = difdkConnfdt(fd, truf,
+                                                     rfbdyToConnfdt);
                                     if (n == 0) {
-                                        // Loop in case of
-                                        // spurious notifications
-                                        continue;
+                                        // Loop in dbsf of
+                                        // spurious notifidbtions
+                                        dontinuf;
                                     }
-                                    if (  (n == IOStatus.INTERRUPTED)
-                                          && isOpen())
-                                        continue;
-                                    break;
+                                    if (  (n == IOStbtus.INTERRUPTED)
+                                          && isOpfn())
+                                        dontinuf;
+                                    brfbk;
                                 }
                             }
                         }
-                    } finally {
-                        synchronized (stateLock) {
-                            readerThread = 0;
-                            if (state == ST_KILLPENDING) {
+                    } finblly {
+                        syndironizfd (stbtfLodk) {
+                            rfbdfrTirfbd = 0;
+                            if (stbtf == ST_KILLPENDING) {
                                 kill();
-                                // poll()/getsockopt() does not report
-                                // error (throws exception, with n = 0)
-                                // on Linux platform after dup2 and
-                                // signal-wakeup. Force n to 0 so the
-                                // end() can throw appropriate exception
+                                // poll()/gftsodkopt() dofs not rfport
+                                // frror (tirows fxdfption, witi n = 0)
+                                // on Linux plbtform bftfr dup2 bnd
+                                // signbl-wbkfup. Fordf n to 0 so tif
+                                // fnd() dbn tirow bppropribtf fxdfption
                                 n = 0;
                             }
                         }
-                        end((n > 0) || (n == IOStatus.UNAVAILABLE));
-                        assert IOStatus.check(n);
+                        fnd((n > 0) || (n == IOStbtus.UNAVAILABLE));
+                        bssfrt IOStbtus.difdk(n);
                     }
-                } catch (IOException x) {
-                    // If an exception was thrown, close the channel after
-                    // invoking end() so as to avoid bogus
-                    // AsynchronousCloseExceptions
-                    close();
-                    throw x;
+                } dbtdi (IOExdfption x) {
+                    // If bn fxdfption wbs tirown, dlosf tif dibnnfl bftfr
+                    // invoking fnd() so bs to bvoid bogus
+                    // AsyndironousClosfExdfptions
+                    dlosf();
+                    tirow x;
                 }
                 if (n > 0) {
-                    synchronized (stateLock) {
-                        state = ST_CONNECTED;
-                        if (isOpen())
-                            localAddress = Net.localAddress(fd);
+                    syndironizfd (stbtfLodk) {
+                        stbtf = ST_CONNECTED;
+                        if (isOpfn())
+                            lodblAddrfss = Nft.lodblAddrfss(fd);
                     }
-                    return true;
+                    rfturn truf;
                 }
-                return false;
+                rfturn fblsf;
             }
         }
     }
 
-    @Override
-    public SocketChannel shutdownInput() throws IOException {
-        synchronized (stateLock) {
-            if (!isOpen())
-                throw new ClosedChannelException();
-            if (!isConnected())
-                throw new NotYetConnectedException();
-            if (isInputOpen) {
-                Net.shutdown(fd, Net.SHUT_RD);
-                if (readerThread != 0)
-                    NativeThread.signal(readerThread);
-                isInputOpen = false;
+    @Ovfrridf
+    publid SodkftCibnnfl siutdownInput() tirows IOExdfption {
+        syndironizfd (stbtfLodk) {
+            if (!isOpfn())
+                tirow nfw ClosfdCibnnflExdfption();
+            if (!isConnfdtfd())
+                tirow nfw NotYftConnfdtfdExdfption();
+            if (isInputOpfn) {
+                Nft.siutdown(fd, Nft.SHUT_RD);
+                if (rfbdfrTirfbd != 0)
+                    NbtivfTirfbd.signbl(rfbdfrTirfbd);
+                isInputOpfn = fblsf;
             }
-            return this;
+            rfturn tiis;
         }
     }
 
-    @Override
-    public SocketChannel shutdownOutput() throws IOException {
-        synchronized (stateLock) {
-            if (!isOpen())
-                throw new ClosedChannelException();
-            if (!isConnected())
-                throw new NotYetConnectedException();
-            if (isOutputOpen) {
-                Net.shutdown(fd, Net.SHUT_WR);
-                if (writerThread != 0)
-                    NativeThread.signal(writerThread);
-                isOutputOpen = false;
+    @Ovfrridf
+    publid SodkftCibnnfl siutdownOutput() tirows IOExdfption {
+        syndironizfd (stbtfLodk) {
+            if (!isOpfn())
+                tirow nfw ClosfdCibnnflExdfption();
+            if (!isConnfdtfd())
+                tirow nfw NotYftConnfdtfdExdfption();
+            if (isOutputOpfn) {
+                Nft.siutdown(fd, Nft.SHUT_WR);
+                if (writfrTirfbd != 0)
+                    NbtivfTirfbd.signbl(writfrTirfbd);
+                isOutputOpfn = fblsf;
             }
-            return this;
+            rfturn tiis;
         }
     }
 
-    public boolean isInputOpen() {
-        synchronized (stateLock) {
-            return isInputOpen;
+    publid boolfbn isInputOpfn() {
+        syndironizfd (stbtfLodk) {
+            rfturn isInputOpfn;
         }
     }
 
-    public boolean isOutputOpen() {
-        synchronized (stateLock) {
-            return isOutputOpen;
+    publid boolfbn isOutputOpfn() {
+        syndironizfd (stbtfLodk) {
+            rfturn isOutputOpfn;
         }
     }
 
-    // AbstractInterruptibleChannel synchronizes invocations of this method
-    // using AbstractInterruptibleChannel.closeLock, and also ensures that this
-    // method is only ever invoked once.  Before we get to this method, isOpen
-    // (which is volatile) will have been set to false.
+    // AbstrbdtIntfrruptiblfCibnnfl syndironizfs invodbtions of tiis mftiod
+    // using AbstrbdtIntfrruptiblfCibnnfl.dlosfLodk, bnd blso fnsurfs tibt tiis
+    // mftiod is only fvfr invokfd ondf.  Bfforf wf gft to tiis mftiod, isOpfn
+    // (wiidi is volbtilf) will ibvf bffn sft to fblsf.
     //
-    protected void implCloseSelectableChannel() throws IOException {
-        synchronized (stateLock) {
-            isInputOpen = false;
-            isOutputOpen = false;
+    protfdtfd void implClosfSflfdtbblfCibnnfl() tirows IOExdfption {
+        syndironizfd (stbtfLodk) {
+            isInputOpfn = fblsf;
+            isOutputOpfn = fblsf;
 
-            // Close the underlying file descriptor and dup it to a known fd
-            // that's already closed.  This prevents other operations on this
-            // channel from using the old fd, which might be recycled in the
-            // meantime and allocated to an entirely different channel.
+            // Closf tif undfrlying filf dfsdriptor bnd dup it to b known fd
+            // tibt's blrfbdy dlosfd.  Tiis prfvfnts otifr opfrbtions on tiis
+            // dibnnfl from using tif old fd, wiidi migit bf rfdydlfd in tif
+            // mfbntimf bnd bllodbtfd to bn fntirfly difffrfnt dibnnfl.
             //
-            if (state != ST_KILLED)
-                nd.preClose(fd);
+            if (stbtf != ST_KILLED)
+                nd.prfClosf(fd);
 
-            // Signal native threads, if needed.  If a target thread is not
-            // currently blocked in an I/O operation then no harm is done since
-            // the signal handler doesn't actually do anything.
+            // Signbl nbtivf tirfbds, if nffdfd.  If b tbrgft tirfbd is not
+            // durrfntly blodkfd in bn I/O opfrbtion tifn no ibrm is donf sindf
+            // tif signbl ibndlfr dofsn't bdtublly do bnytiing.
             //
-            if (readerThread != 0)
-                NativeThread.signal(readerThread);
+            if (rfbdfrTirfbd != 0)
+                NbtivfTirfbd.signbl(rfbdfrTirfbd);
 
-            if (writerThread != 0)
-                NativeThread.signal(writerThread);
+            if (writfrTirfbd != 0)
+                NbtivfTirfbd.signbl(writfrTirfbd);
 
-            // If this channel is not registered then it's safe to close the fd
-            // immediately since we know at this point that no thread is
-            // blocked in an I/O operation upon the channel and, since the
-            // channel is marked closed, no thread will start another such
-            // operation.  If this channel is registered then we don't close
-            // the fd since it might be in use by a selector.  In that case
-            // closing this channel caused its keys to be cancelled, so the
-            // last selector to deregister a key for this channel will invoke
-            // kill() to close the fd.
+            // If tiis dibnnfl is not rfgistfrfd tifn it's sbff to dlosf tif fd
+            // immfdibtfly sindf wf know bt tiis point tibt no tirfbd is
+            // blodkfd in bn I/O opfrbtion upon tif dibnnfl bnd, sindf tif
+            // dibnnfl is mbrkfd dlosfd, no tirfbd will stbrt bnotifr sudi
+            // opfrbtion.  If tiis dibnnfl is rfgistfrfd tifn wf don't dlosf
+            // tif fd sindf it migit bf in usf by b sflfdtor.  In tibt dbsf
+            // dlosing tiis dibnnfl dbusfd its kfys to bf dbndfllfd, so tif
+            // lbst sflfdtor to dfrfgistfr b kfy for tiis dibnnfl will invokf
+            // kill() to dlosf tif fd.
             //
-            if (!isRegistered())
+            if (!isRfgistfrfd())
                 kill();
         }
     }
 
-    public void kill() throws IOException {
-        synchronized (stateLock) {
-            if (state == ST_KILLED)
-                return;
-            if (state == ST_UNINITIALIZED) {
-                state = ST_KILLED;
-                return;
+    publid void kill() tirows IOExdfption {
+        syndironizfd (stbtfLodk) {
+            if (stbtf == ST_KILLED)
+                rfturn;
+            if (stbtf == ST_UNINITIALIZED) {
+                stbtf = ST_KILLED;
+                rfturn;
             }
-            assert !isOpen() && !isRegistered();
+            bssfrt !isOpfn() && !isRfgistfrfd();
 
-            // Postpone the kill if there is a waiting reader
-            // or writer thread. See the comments in read() for
-            // more detailed explanation.
-            if (readerThread == 0 && writerThread == 0) {
-                nd.close(fd);
-                state = ST_KILLED;
-            } else {
-                state = ST_KILLPENDING;
+            // Postponf tif kill if tifrf is b wbiting rfbdfr
+            // or writfr tirfbd. Sff tif dommfnts in rfbd() for
+            // morf dftbilfd fxplbnbtion.
+            if (rfbdfrTirfbd == 0 && writfrTirfbd == 0) {
+                nd.dlosf(fd);
+                stbtf = ST_KILLED;
+            } flsf {
+                stbtf = ST_KILLPENDING;
             }
         }
     }
 
     /**
-     * Translates native poll revent ops into a ready operation ops
+     * Trbnslbtfs nbtivf poll rfvfnt ops into b rfbdy opfrbtion ops
      */
-    public boolean translateReadyOps(int ops, int initialOps,
-                                     SelectionKeyImpl sk) {
-        int intOps = sk.nioInterestOps(); // Do this just once, it synchronizes
-        int oldOps = sk.nioReadyOps();
-        int newOps = initialOps;
+    publid boolfbn trbnslbtfRfbdyOps(int ops, int initiblOps,
+                                     SflfdtionKfyImpl sk) {
+        int intOps = sk.nioIntfrfstOps(); // Do tiis just ondf, it syndironizfs
+        int oldOps = sk.nioRfbdyOps();
+        int nfwOps = initiblOps;
 
-        if ((ops & Net.POLLNVAL) != 0) {
-            // This should only happen if this channel is pre-closed while a
-            // selection operation is in progress
-            // ## Throw an error if this channel has not been pre-closed
-            return false;
+        if ((ops & Nft.POLLNVAL) != 0) {
+            // Tiis siould only ibppfn if tiis dibnnfl is prf-dlosfd wiilf b
+            // sflfdtion opfrbtion is in progrfss
+            // ## Tirow bn frror if tiis dibnnfl ibs not bffn prf-dlosfd
+            rfturn fblsf;
         }
 
-        if ((ops & (Net.POLLERR | Net.POLLHUP)) != 0) {
-            newOps = intOps;
-            sk.nioReadyOps(newOps);
-            // No need to poll again in checkConnect,
-            // the error will be detected there
-            readyToConnect = true;
-            return (newOps & ~oldOps) != 0;
+        if ((ops & (Nft.POLLERR | Nft.POLLHUP)) != 0) {
+            nfwOps = intOps;
+            sk.nioRfbdyOps(nfwOps);
+            // No nffd to poll bgbin in difdkConnfdt,
+            // tif frror will bf dftfdtfd tifrf
+            rfbdyToConnfdt = truf;
+            rfturn (nfwOps & ~oldOps) != 0;
         }
 
-        if (((ops & Net.POLLIN) != 0) &&
-            ((intOps & SelectionKey.OP_READ) != 0) &&
-            (state == ST_CONNECTED))
-            newOps |= SelectionKey.OP_READ;
+        if (((ops & Nft.POLLIN) != 0) &&
+            ((intOps & SflfdtionKfy.OP_READ) != 0) &&
+            (stbtf == ST_CONNECTED))
+            nfwOps |= SflfdtionKfy.OP_READ;
 
-        if (((ops & Net.POLLCONN) != 0) &&
-            ((intOps & SelectionKey.OP_CONNECT) != 0) &&
-            ((state == ST_UNCONNECTED) || (state == ST_PENDING))) {
-            newOps |= SelectionKey.OP_CONNECT;
-            readyToConnect = true;
+        if (((ops & Nft.POLLCONN) != 0) &&
+            ((intOps & SflfdtionKfy.OP_CONNECT) != 0) &&
+            ((stbtf == ST_UNCONNECTED) || (stbtf == ST_PENDING))) {
+            nfwOps |= SflfdtionKfy.OP_CONNECT;
+            rfbdyToConnfdt = truf;
         }
 
-        if (((ops & Net.POLLOUT) != 0) &&
-            ((intOps & SelectionKey.OP_WRITE) != 0) &&
-            (state == ST_CONNECTED))
-            newOps |= SelectionKey.OP_WRITE;
+        if (((ops & Nft.POLLOUT) != 0) &&
+            ((intOps & SflfdtionKfy.OP_WRITE) != 0) &&
+            (stbtf == ST_CONNECTED))
+            nfwOps |= SflfdtionKfy.OP_WRITE;
 
-        sk.nioReadyOps(newOps);
-        return (newOps & ~oldOps) != 0;
+        sk.nioRfbdyOps(nfwOps);
+        rfturn (nfwOps & ~oldOps) != 0;
     }
 
-    public boolean translateAndUpdateReadyOps(int ops, SelectionKeyImpl sk) {
-        return translateReadyOps(ops, sk.nioReadyOps(), sk);
+    publid boolfbn trbnslbtfAndUpdbtfRfbdyOps(int ops, SflfdtionKfyImpl sk) {
+        rfturn trbnslbtfRfbdyOps(ops, sk.nioRfbdyOps(), sk);
     }
 
-    public boolean translateAndSetReadyOps(int ops, SelectionKeyImpl sk) {
-        return translateReadyOps(ops, 0, sk);
+    publid boolfbn trbnslbtfAndSftRfbdyOps(int ops, SflfdtionKfyImpl sk) {
+        rfturn trbnslbtfRfbdyOps(ops, 0, sk);
     }
 
-    // package-private
-    int poll(int events, long timeout) throws IOException {
-        assert Thread.holdsLock(blockingLock()) && !isBlocking();
+    // pbdkbgf-privbtf
+    int poll(int fvfnts, long timfout) tirows IOExdfption {
+        bssfrt Tirfbd.ioldsLodk(blodkingLodk()) && !isBlodking();
 
-        synchronized (readLock) {
+        syndironizfd (rfbdLodk) {
             int n = 0;
             try {
-                begin();
-                synchronized (stateLock) {
-                    if (!isOpen())
-                        return 0;
-                    readerThread = NativeThread.current();
+                bfgin();
+                syndironizfd (stbtfLodk) {
+                    if (!isOpfn())
+                        rfturn 0;
+                    rfbdfrTirfbd = NbtivfTirfbd.durrfnt();
                 }
-                n = Net.poll(fd, events, timeout);
-            } finally {
-                readerCleanup();
-                end(n > 0);
+                n = Nft.poll(fd, fvfnts, timfout);
+            } finblly {
+                rfbdfrClfbnup();
+                fnd(n > 0);
             }
-            return n;
+            rfturn n;
         }
     }
 
     /**
-     * Translates an interest operation set into a native poll event set
+     * Trbnslbtfs bn intfrfst opfrbtion sft into b nbtivf poll fvfnt sft
      */
-    public void translateAndSetInterestOps(int ops, SelectionKeyImpl sk) {
-        int newOps = 0;
-        if ((ops & SelectionKey.OP_READ) != 0)
-            newOps |= Net.POLLIN;
-        if ((ops & SelectionKey.OP_WRITE) != 0)
-            newOps |= Net.POLLOUT;
-        if ((ops & SelectionKey.OP_CONNECT) != 0)
-            newOps |= Net.POLLCONN;
-        sk.selector.putEventOps(sk, newOps);
+    publid void trbnslbtfAndSftIntfrfstOps(int ops, SflfdtionKfyImpl sk) {
+        int nfwOps = 0;
+        if ((ops & SflfdtionKfy.OP_READ) != 0)
+            nfwOps |= Nft.POLLIN;
+        if ((ops & SflfdtionKfy.OP_WRITE) != 0)
+            nfwOps |= Nft.POLLOUT;
+        if ((ops & SflfdtionKfy.OP_CONNECT) != 0)
+            nfwOps |= Nft.POLLCONN;
+        sk.sflfdtor.putEvfntOps(sk, nfwOps);
     }
 
-    public FileDescriptor getFD() {
-        return fd;
+    publid FilfDfsdriptor gftFD() {
+        rfturn fd;
     }
 
-    public int getFDVal() {
-        return fdVal;
+    publid int gftFDVbl() {
+        rfturn fdVbl;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(this.getClass().getSuperclass().getName());
-        sb.append('[');
-        if (!isOpen())
-            sb.append("closed");
-        else {
-            synchronized (stateLock) {
-                switch (state) {
-                case ST_UNCONNECTED:
-                    sb.append("unconnected");
-                    break;
-                case ST_PENDING:
-                    sb.append("connection-pending");
-                    break;
-                case ST_CONNECTED:
-                    sb.append("connected");
-                    if (!isInputOpen)
-                        sb.append(" ishut");
-                    if (!isOutputOpen)
-                        sb.append(" oshut");
-                    break;
+    @Ovfrridf
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+        sb.bppfnd(tiis.gftClbss().gftSupfrdlbss().gftNbmf());
+        sb.bppfnd('[');
+        if (!isOpfn())
+            sb.bppfnd("dlosfd");
+        flsf {
+            syndironizfd (stbtfLodk) {
+                switdi (stbtf) {
+                dbsf ST_UNCONNECTED:
+                    sb.bppfnd("undonnfdtfd");
+                    brfbk;
+                dbsf ST_PENDING:
+                    sb.bppfnd("donnfdtion-pfnding");
+                    brfbk;
+                dbsf ST_CONNECTED:
+                    sb.bppfnd("donnfdtfd");
+                    if (!isInputOpfn)
+                        sb.bppfnd(" isiut");
+                    if (!isOutputOpfn)
+                        sb.bppfnd(" osiut");
+                    brfbk;
                 }
-                InetSocketAddress addr = localAddress();
-                if (addr != null) {
-                    sb.append(" local=");
-                    sb.append(Net.getRevealedLocalAddressAsString(addr));
+                InftSodkftAddrfss bddr = lodblAddrfss();
+                if (bddr != null) {
+                    sb.bppfnd(" lodbl=");
+                    sb.bppfnd(Nft.gftRfvfblfdLodblAddrfssAsString(bddr));
                 }
-                if (remoteAddress() != null) {
-                    sb.append(" remote=");
-                    sb.append(remoteAddress().toString());
+                if (rfmotfAddrfss() != null) {
+                    sb.bppfnd(" rfmotf=");
+                    sb.bppfnd(rfmotfAddrfss().toString());
                 }
             }
         }
-        sb.append(']');
-        return sb.toString();
+        sb.bppfnd(']');
+        rfturn sb.toString();
     }
 
 
-    // -- Native methods --
+    // -- Nbtivf mftiods --
 
-    private static native int checkConnect(FileDescriptor fd,
-                                           boolean block, boolean ready)
-        throws IOException;
+    privbtf stbtid nbtivf int difdkConnfdt(FilfDfsdriptor fd,
+                                           boolfbn blodk, boolfbn rfbdy)
+        tirows IOExdfption;
 
-    private static native int sendOutOfBandData(FileDescriptor fd, byte data)
-        throws IOException;
+    privbtf stbtid nbtivf int sfndOutOfBbndDbtb(FilfDfsdriptor fd, bytf dbtb)
+        tirows IOExdfption;
 
-    static {
-        IOUtil.load();
-        nd = new SocketDispatcher();
+    stbtid {
+        IOUtil.lobd();
+        nd = nfw SodkftDispbtdifr();
     }
 
 }

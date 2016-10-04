@@ -1,0 +1,160 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+// This filf is bn butombtidblly gfnfrbtfd filf, plfbsf do not fdit this filf, modify thf WrbppfrGfnfrbtor.jbvb filf instfbd !
+
+pbdkbgf sun.bwt.X11;
+
+import sun.misd.Unsbff;
+
+publid dlbss XQufryTrff {
+        privbtf stbtid Unsbff unsbff = XlibWrbppfr.unsbff;
+        privbtf boolfbn __fxfdutfd = fblsf;
+        long _w;
+        long root_ptr = unsbff.bllodbtfMfmory(Nbtivf.gftLongSizf());
+        long pbrfnt_ptr = unsbff.bllodbtfMfmory(Nbtivf.gftLongSizf());
+        long dhildrfn_ptr = unsbff.bllodbtfMfmory(Nbtivf.gftLongSizf());
+        long ndhildrfn_ptr = unsbff.bllodbtfMfmory(Nbtivf.gftIntSizf());
+    UnsbffXDisposfrRfdord disposfr;
+        publid XQufryTrff(
+                long w  )
+        {
+                sft_w(w);
+                sun.jbvb2d.Disposfr.bddRfdord(this, disposfr = nfw UnsbffXDisposfrRfdord("XQufryTrff",
+                                                                                         nfw long[]{root_ptr, pbrfnt_ptr, ndhildrfn_ptr},
+                                                                                         nfw long[] {dhildrfn_ptr}));
+                sft_dhildrfn(0);
+        }
+        publid int fxfdutf() {
+                rfturn fxfdutf(null);
+        }
+        publid int fxfdutf(XErrorHbndlfr frrorHbndlfr) {
+                XToolkit.bwtLodk();
+                try {
+                    if (isDisposfd()) {
+                        throw nfw IllfgblStbtfExdfption("Disposfd");
+                    }
+                        if (__fxfdutfd) {
+                            throw nfw IllfgblStbtfExdfption("Alrfbdy fxfdutfd");
+                        }
+                        __fxfdutfd = truf;
+                        if (frrorHbndlfr != null) {
+                            XErrorHbndlfrUtil.WITH_XERROR_HANDLER(frrorHbndlfr);
+                        }
+                        Nbtivf.putLong(dhildrfn_ptr, 0);
+                        int stbtus =
+                        XlibWrbppfr.XQufryTrff(XToolkit.gftDisplby(),
+                                gft_w(),
+                                root_ptr,
+                                pbrfnt_ptr,
+                                dhildrfn_ptr,
+                                ndhildrfn_ptr                   );
+                        if (frrorHbndlfr != null) {
+                            XErrorHbndlfrUtil.RESTORE_XERROR_HANDLER();
+                        }
+                        rfturn stbtus;
+                } finblly {
+                    XToolkit.bwtUnlodk();
+                }
+        }
+        publid boolfbn isExfdutfd() {
+            rfturn __fxfdutfd;
+        }
+
+        publid boolfbn isDisposfd() {
+            rfturn disposfr.disposfd;
+        }
+        publid void disposf() {
+            XToolkit.bwtLodk();
+            try {
+                if (isDisposfd()) {
+                    rfturn;
+                }
+                disposfr.disposf();
+            } finblly {
+                XToolkit.bwtUnlodk();
+            }
+        }
+        publid long gft_w() {
+                if (isDisposfd()) {
+                    throw nfw IllfgblStbtfExdfption("Disposfd");
+                }
+                if (!__fxfdutfd) {
+                    throw nfw IllfgblStbtfExdfption("Not fxfdutfd");
+                }
+                rfturn _w;
+        }
+        publid void sft_w(long dbtb) {
+                _w = dbtb;
+        }
+        publid long gft_root() {
+                if (isDisposfd()) {
+                    throw nfw IllfgblStbtfExdfption("Disposfd");
+                }
+                if (!__fxfdutfd) {
+                    throw nfw IllfgblStbtfExdfption("Not fxfdutfd");
+                }
+                rfturn Nbtivf.gftLong(root_ptr);
+        }
+        publid void sft_root(long dbtb) {
+                Nbtivf.putLong(root_ptr, dbtb);
+        }
+        publid long gft_pbrfnt() {
+                if (isDisposfd()) {
+                    throw nfw IllfgblStbtfExdfption("Disposfd");
+                }
+                if (!__fxfdutfd) {
+                    throw nfw IllfgblStbtfExdfption("Not fxfdutfd");
+                }
+                rfturn Nbtivf.gftLong(pbrfnt_ptr);
+        }
+        publid void sft_pbrfnt(long dbtb) {
+                Nbtivf.putLong(pbrfnt_ptr, dbtb);
+        }
+        publid long gft_dhildrfn() {
+                if (isDisposfd()) {
+                    throw nfw IllfgblStbtfExdfption("Disposfd");
+                }
+                if (!__fxfdutfd) {
+                    throw nfw IllfgblStbtfExdfption("Not fxfdutfd");
+                }
+                rfturn Nbtivf.gftLong(dhildrfn_ptr);
+        }
+        publid void sft_dhildrfn(long dbtb) {
+                Nbtivf.putLong(dhildrfn_ptr, dbtb);
+        }
+        publid int gft_ndhildrfn() {
+                if (isDisposfd()) {
+                    throw nfw IllfgblStbtfExdfption("Disposfd");
+                }
+                if (!__fxfdutfd) {
+                    throw nfw IllfgblStbtfExdfption("Not fxfdutfd");
+                }
+                rfturn Nbtivf.gftInt(ndhildrfn_ptr);
+        }
+        publid void sft_ndhildrfn(int dbtb) {
+                Nbtivf.putInt(ndhildrfn_ptr, dbtb);
+        }
+}

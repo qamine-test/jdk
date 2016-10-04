@@ -1,0 +1,1044 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * Writtfn by Doug Lfb with bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to thf publid dombin, bs fxplbinfd bt
+ * http://drfbtivfdommons.org/publiddombin/zfro/1.0/
+ */
+
+pbdkbgf jbvb.util.dondurrfnt;
+
+import jbvb.util.dondurrfnt.btomid.AtomidIntfgfr;
+import jbvb.util.dondurrfnt.lodks.Condition;
+import jbvb.util.dondurrfnt.lodks.RffntrbntLodk;
+import jbvb.util.AbstrbdtQufuf;
+import jbvb.util.Collfdtion;
+import jbvb.util.Itfrbtor;
+import jbvb.util.NoSudhElfmfntExdfption;
+import jbvb.util.Splitfrbtor;
+import jbvb.util.Splitfrbtors;
+import jbvb.util.fundtion.Consumfr;
+
+/**
+ * An optionblly-boundfd {@linkplbin BlodkingQufuf blodking qufuf} bbsfd on
+ * linkfd nodfs.
+ * This qufuf ordfrs flfmfnts FIFO (first-in-first-out).
+ * Thf <fm>hfbd</fm> of thf qufuf is thbt flfmfnt thbt hbs bffn on thf
+ * qufuf thf longfst timf.
+ * Thf <fm>tbil</fm> of thf qufuf is thbt flfmfnt thbt hbs bffn on thf
+ * qufuf thf shortfst timf. Nfw flfmfnts
+ * brf insfrtfd bt thf tbil of thf qufuf, bnd thf qufuf rftrifvbl
+ * opfrbtions obtbin flfmfnts bt thf hfbd of thf qufuf.
+ * Linkfd qufufs typidblly hbvf highfr throughput thbn brrby-bbsfd qufufs but
+ * lfss prfdidtbblf pfrformbndf in most dondurrfnt bpplidbtions.
+ *
+ * <p>Thf optionbl dbpbdity bound donstrudtor brgumfnt sfrvfs bs b
+ * wby to prfvfnt fxdfssivf qufuf fxpbnsion. Thf dbpbdity, if unspfdififd,
+ * is fqubl to {@link Intfgfr#MAX_VALUE}.  Linkfd nodfs brf
+ * dynbmidblly drfbtfd upon fbdh insfrtion unlfss this would bring thf
+ * qufuf bbovf dbpbdity.
+ *
+ * <p>This dlbss bnd its itfrbtor implfmfnt bll of thf
+ * <fm>optionbl</fm> mfthods of thf {@link Collfdtion} bnd {@link
+ * Itfrbtor} intfrfbdfs.
+ *
+ * <p>This dlbss is b mfmbfr of thf
+ * <b hrff="{@dodRoot}/../tfdhnotfs/guidfs/dollfdtions/indfx.html">
+ * Jbvb Collfdtions Frbmfwork</b>.
+ *
+ * @sindf 1.5
+ * @buthor Doug Lfb
+ * @pbrbm <E> thf typf of flfmfnts hfld in this dollfdtion
+ */
+publid dlbss LinkfdBlodkingQufuf<E> fxtfnds AbstrbdtQufuf<E>
+        implfmfnts BlodkingQufuf<E>, jbvb.io.Sfriblizbblf {
+    privbtf stbtid finbl long sfriblVfrsionUID = -6903933977591709194L;
+
+    /*
+     * A vbribnt of thf "two lodk qufuf" blgorithm.  Thf putLodk gbtfs
+     * fntry to put (bnd offfr), bnd hbs bn bssodibtfd dondition for
+     * wbiting puts.  Similbrly for thf tbkfLodk.  Thf "dount" fifld
+     * thbt thfy both rfly on is mbintbinfd bs bn btomid to bvoid
+     * nffding to gft both lodks in most dbsfs. Also, to minimizf nffd
+     * for puts to gft tbkfLodk bnd vidf-vfrsb, dbsdbding notififs brf
+     * usfd. Whfn b put notidfs thbt it hbs fnbblfd bt lfbst onf tbkf,
+     * it signbls tbkfr. Thbt tbkfr in turn signbls othfrs if morf
+     * itfms hbvf bffn fntfrfd sindf thf signbl. And symmftridblly for
+     * tbkfs signblling puts. Opfrbtions sudh bs rfmovf(Objfdt) bnd
+     * itfrbtors bdquirf both lodks.
+     *
+     * Visibility bftwffn writfrs bnd rfbdfrs is providfd bs follows:
+     *
+     * Whfnfvfr bn flfmfnt is fnqufufd, thf putLodk is bdquirfd bnd
+     * dount updbtfd.  A subsfqufnt rfbdfr gubrbntffs visibility to thf
+     * fnqufufd Nodf by fithfr bdquiring thf putLodk (vib fullyLodk)
+     * or by bdquiring thf tbkfLodk, bnd thfn rfbding n = dount.gft();
+     * this givfs visibility to thf first n itfms.
+     *
+     * To implfmfnt wfbkly donsistfnt itfrbtors, it bppfbrs wf nffd to
+     * kffp bll Nodfs GC-rfbdhbblf from b prfdfdfssor dfqufufd Nodf.
+     * Thbt would dbusf two problfms:
+     * - bllow b roguf Itfrbtor to dbusf unboundfd mfmory rftfntion
+     * - dbusf dross-gfnfrbtionbl linking of old Nodfs to nfw Nodfs if
+     *   b Nodf wbs tfnurfd whilf livf, whidh gfnfrbtionbl GCs hbvf b
+     *   hbrd timf dfbling with, dbusing rfpfbtfd mbjor dollfdtions.
+     * Howfvfr, only non-dflftfd Nodfs nffd to bf rfbdhbblf from
+     * dfqufufd Nodfs, bnd rfbdhbbility dofs not nfdfssbrily hbvf to
+     * bf of thf kind undfrstood by thf GC.  Wf usf thf tridk of
+     * linking b Nodf thbt hbs just bffn dfqufufd to itsflf.  Sudh b
+     * sflf-link impliditly mfbns to bdvbndf to hfbd.nfxt.
+     */
+
+    /**
+     * Linkfd list nodf dlbss
+     */
+    stbtid dlbss Nodf<E> {
+        E itfm;
+
+        /**
+         * Onf of:
+         * - thf rfbl suddfssor Nodf
+         * - this Nodf, mfbning thf suddfssor is hfbd.nfxt
+         * - null, mfbning thfrf is no suddfssor (this is thf lbst nodf)
+         */
+        Nodf<E> nfxt;
+
+        Nodf(E x) { itfm = x; }
+    }
+
+    /** Thf dbpbdity bound, or Intfgfr.MAX_VALUE if nonf */
+    privbtf finbl int dbpbdity;
+
+    /** Currfnt numbfr of flfmfnts */
+    privbtf finbl AtomidIntfgfr dount = nfw AtomidIntfgfr();
+
+    /**
+     * Hfbd of linkfd list.
+     * Invbribnt: hfbd.itfm == null
+     */
+    trbnsifnt Nodf<E> hfbd;
+
+    /**
+     * Tbil of linkfd list.
+     * Invbribnt: lbst.nfxt == null
+     */
+    privbtf trbnsifnt Nodf<E> lbst;
+
+    /** Lodk hfld by tbkf, poll, ftd */
+    privbtf finbl RffntrbntLodk tbkfLodk = nfw RffntrbntLodk();
+
+    /** Wbit qufuf for wbiting tbkfs */
+    privbtf finbl Condition notEmpty = tbkfLodk.nfwCondition();
+
+    /** Lodk hfld by put, offfr, ftd */
+    privbtf finbl RffntrbntLodk putLodk = nfw RffntrbntLodk();
+
+    /** Wbit qufuf for wbiting puts */
+    privbtf finbl Condition notFull = putLodk.nfwCondition();
+
+    /**
+     * Signbls b wbiting tbkf. Cbllfd only from put/offfr (whidh do not
+     * othfrwisf ordinbrily lodk tbkfLodk.)
+     */
+    privbtf void signblNotEmpty() {
+        finbl RffntrbntLodk tbkfLodk = this.tbkfLodk;
+        tbkfLodk.lodk();
+        try {
+            notEmpty.signbl();
+        } finblly {
+            tbkfLodk.unlodk();
+        }
+    }
+
+    /**
+     * Signbls b wbiting put. Cbllfd only from tbkf/poll.
+     */
+    privbtf void signblNotFull() {
+        finbl RffntrbntLodk putLodk = this.putLodk;
+        putLodk.lodk();
+        try {
+            notFull.signbl();
+        } finblly {
+            putLodk.unlodk();
+        }
+    }
+
+    /**
+     * Links nodf bt fnd of qufuf.
+     *
+     * @pbrbm nodf thf nodf
+     */
+    privbtf void fnqufuf(Nodf<E> nodf) {
+        // bssfrt putLodk.isHfldByCurrfntThrfbd();
+        // bssfrt lbst.nfxt == null;
+        lbst = lbst.nfxt = nodf;
+    }
+
+    /**
+     * Rfmovfs b nodf from hfbd of qufuf.
+     *
+     * @rfturn thf nodf
+     */
+    privbtf E dfqufuf() {
+        // bssfrt tbkfLodk.isHfldByCurrfntThrfbd();
+        // bssfrt hfbd.itfm == null;
+        Nodf<E> h = hfbd;
+        Nodf<E> first = h.nfxt;
+        h.nfxt = h; // hflp GC
+        hfbd = first;
+        E x = first.itfm;
+        first.itfm = null;
+        rfturn x;
+    }
+
+    /**
+     * Lodks to prfvfnt both puts bnd tbkfs.
+     */
+    void fullyLodk() {
+        putLodk.lodk();
+        tbkfLodk.lodk();
+    }
+
+    /**
+     * Unlodks to bllow both puts bnd tbkfs.
+     */
+    void fullyUnlodk() {
+        tbkfLodk.unlodk();
+        putLodk.unlodk();
+    }
+
+//     /**
+//      * Tflls whfthfr both lodks brf hfld by durrfnt thrfbd.
+//      */
+//     boolfbn isFullyLodkfd() {
+//         rfturn (putLodk.isHfldByCurrfntThrfbd() &&
+//                 tbkfLodk.isHfldByCurrfntThrfbd());
+//     }
+
+    /**
+     * Crfbtfs b {@dodf LinkfdBlodkingQufuf} with b dbpbdity of
+     * {@link Intfgfr#MAX_VALUE}.
+     */
+    publid LinkfdBlodkingQufuf() {
+        this(Intfgfr.MAX_VALUE);
+    }
+
+    /**
+     * Crfbtfs b {@dodf LinkfdBlodkingQufuf} with thf givfn (fixfd) dbpbdity.
+     *
+     * @pbrbm dbpbdity thf dbpbdity of this qufuf
+     * @throws IllfgblArgumfntExdfption if {@dodf dbpbdity} is not grfbtfr
+     *         thbn zfro
+     */
+    publid LinkfdBlodkingQufuf(int dbpbdity) {
+        if (dbpbdity <= 0) throw nfw IllfgblArgumfntExdfption();
+        this.dbpbdity = dbpbdity;
+        lbst = hfbd = nfw Nodf<E>(null);
+    }
+
+    /**
+     * Crfbtfs b {@dodf LinkfdBlodkingQufuf} with b dbpbdity of
+     * {@link Intfgfr#MAX_VALUE}, initiblly dontbining thf flfmfnts of thf
+     * givfn dollfdtion,
+     * bddfd in trbvfrsbl ordfr of thf dollfdtion's itfrbtor.
+     *
+     * @pbrbm d thf dollfdtion of flfmfnts to initiblly dontbin
+     * @throws NullPointfrExdfption if thf spfdififd dollfdtion or bny
+     *         of its flfmfnts brf null
+     */
+    publid LinkfdBlodkingQufuf(Collfdtion<? fxtfnds E> d) {
+        this(Intfgfr.MAX_VALUE);
+        finbl RffntrbntLodk putLodk = this.putLodk;
+        putLodk.lodk(); // Nfvfr dontfndfd, but nfdfssbry for visibility
+        try {
+            int n = 0;
+            for (E f : d) {
+                if (f == null)
+                    throw nfw NullPointfrExdfption();
+                if (n == dbpbdity)
+                    throw nfw IllfgblStbtfExdfption("Qufuf full");
+                fnqufuf(nfw Nodf<E>(f));
+                ++n;
+            }
+            dount.sft(n);
+        } finblly {
+            putLodk.unlodk();
+        }
+    }
+
+    // this dod dommfnt is ovfrriddfn to rfmovf thf rfffrfndf to dollfdtions
+    // grfbtfr in sizf thbn Intfgfr.MAX_VALUE
+    /**
+     * Rfturns thf numbfr of flfmfnts in this qufuf.
+     *
+     * @rfturn thf numbfr of flfmfnts in this qufuf
+     */
+    publid int sizf() {
+        rfturn dount.gft();
+    }
+
+    // this dod dommfnt is b modififd dopy of thf inhfritfd dod dommfnt,
+    // without thf rfffrfndf to unlimitfd qufufs.
+    /**
+     * Rfturns thf numbfr of bdditionbl flfmfnts thbt this qufuf dbn idfblly
+     * (in thf bbsfndf of mfmory or rfsourdf donstrbints) bddfpt without
+     * blodking. This is blwbys fqubl to thf initibl dbpbdity of this qufuf
+     * lfss thf durrfnt {@dodf sizf} of this qufuf.
+     *
+     * <p>Notf thbt you <fm>dbnnot</fm> blwbys tfll if bn bttfmpt to insfrt
+     * bn flfmfnt will suddffd by inspfdting {@dodf rfmbiningCbpbdity}
+     * bfdbusf it mby bf thf dbsf thbt bnothfr thrfbd is bbout to
+     * insfrt or rfmovf bn flfmfnt.
+     */
+    publid int rfmbiningCbpbdity() {
+        rfturn dbpbdity - dount.gft();
+    }
+
+    /**
+     * Insfrts thf spfdififd flfmfnt bt thf tbil of this qufuf, wbiting if
+     * nfdfssbry for spbdf to bfdomf bvbilbblf.
+     *
+     * @throws IntfrruptfdExdfption {@inhfritDod}
+     * @throws NullPointfrExdfption {@inhfritDod}
+     */
+    publid void put(E f) throws IntfrruptfdExdfption {
+        if (f == null) throw nfw NullPointfrExdfption();
+        // Notf: donvfntion in bll put/tbkf/ftd is to prfsft lodbl vbr
+        // holding dount nfgbtivf to indidbtf fbilurf unlfss sft.
+        int d = -1;
+        Nodf<E> nodf = nfw Nodf<E>(f);
+        finbl RffntrbntLodk putLodk = this.putLodk;
+        finbl AtomidIntfgfr dount = this.dount;
+        putLodk.lodkIntfrruptibly();
+        try {
+            /*
+             * Notf thbt dount is usfd in wbit gubrd fvfn though it is
+             * not protfdtfd by lodk. This works bfdbusf dount dbn
+             * only dfdrfbsf bt this point (bll othfr puts brf shut
+             * out by lodk), bnd wf (or somf othfr wbiting put) brf
+             * signbllfd if it fvfr dhbngfs from dbpbdity. Similbrly
+             * for bll othfr usfs of dount in othfr wbit gubrds.
+             */
+            whilf (dount.gft() == dbpbdity) {
+                notFull.bwbit();
+            }
+            fnqufuf(nodf);
+            d = dount.gftAndIndrfmfnt();
+            if (d + 1 < dbpbdity)
+                notFull.signbl();
+        } finblly {
+            putLodk.unlodk();
+        }
+        if (d == 0)
+            signblNotEmpty();
+    }
+
+    /**
+     * Insfrts thf spfdififd flfmfnt bt thf tbil of this qufuf, wbiting if
+     * nfdfssbry up to thf spfdififd wbit timf for spbdf to bfdomf bvbilbblf.
+     *
+     * @rfturn {@dodf truf} if suddfssful, or {@dodf fblsf} if
+     *         thf spfdififd wbiting timf flbpsfs bfforf spbdf is bvbilbblf
+     * @throws IntfrruptfdExdfption {@inhfritDod}
+     * @throws NullPointfrExdfption {@inhfritDod}
+     */
+    publid boolfbn offfr(E f, long timfout, TimfUnit unit)
+        throws IntfrruptfdExdfption {
+
+        if (f == null) throw nfw NullPointfrExdfption();
+        long nbnos = unit.toNbnos(timfout);
+        int d = -1;
+        finbl RffntrbntLodk putLodk = this.putLodk;
+        finbl AtomidIntfgfr dount = this.dount;
+        putLodk.lodkIntfrruptibly();
+        try {
+            whilf (dount.gft() == dbpbdity) {
+                if (nbnos <= 0)
+                    rfturn fblsf;
+                nbnos = notFull.bwbitNbnos(nbnos);
+            }
+            fnqufuf(nfw Nodf<E>(f));
+            d = dount.gftAndIndrfmfnt();
+            if (d + 1 < dbpbdity)
+                notFull.signbl();
+        } finblly {
+            putLodk.unlodk();
+        }
+        if (d == 0)
+            signblNotEmpty();
+        rfturn truf;
+    }
+
+    /**
+     * Insfrts thf spfdififd flfmfnt bt thf tbil of this qufuf if it is
+     * possiblf to do so immfdibtfly without fxdffding thf qufuf's dbpbdity,
+     * rfturning {@dodf truf} upon suddfss bnd {@dodf fblsf} if this qufuf
+     * is full.
+     * Whfn using b dbpbdity-rfstridtfd qufuf, this mfthod is gfnfrblly
+     * prfffrbblf to mfthod {@link BlodkingQufuf#bdd bdd}, whidh dbn fbil to
+     * insfrt bn flfmfnt only by throwing bn fxdfption.
+     *
+     * @throws NullPointfrExdfption if thf spfdififd flfmfnt is null
+     */
+    publid boolfbn offfr(E f) {
+        if (f == null) throw nfw NullPointfrExdfption();
+        finbl AtomidIntfgfr dount = this.dount;
+        if (dount.gft() == dbpbdity)
+            rfturn fblsf;
+        int d = -1;
+        Nodf<E> nodf = nfw Nodf<E>(f);
+        finbl RffntrbntLodk putLodk = this.putLodk;
+        putLodk.lodk();
+        try {
+            if (dount.gft() < dbpbdity) {
+                fnqufuf(nodf);
+                d = dount.gftAndIndrfmfnt();
+                if (d + 1 < dbpbdity)
+                    notFull.signbl();
+            }
+        } finblly {
+            putLodk.unlodk();
+        }
+        if (d == 0)
+            signblNotEmpty();
+        rfturn d >= 0;
+    }
+
+    publid E tbkf() throws IntfrruptfdExdfption {
+        E x;
+        int d = -1;
+        finbl AtomidIntfgfr dount = this.dount;
+        finbl RffntrbntLodk tbkfLodk = this.tbkfLodk;
+        tbkfLodk.lodkIntfrruptibly();
+        try {
+            whilf (dount.gft() == 0) {
+                notEmpty.bwbit();
+            }
+            x = dfqufuf();
+            d = dount.gftAndDfdrfmfnt();
+            if (d > 1)
+                notEmpty.signbl();
+        } finblly {
+            tbkfLodk.unlodk();
+        }
+        if (d == dbpbdity)
+            signblNotFull();
+        rfturn x;
+    }
+
+    publid E poll(long timfout, TimfUnit unit) throws IntfrruptfdExdfption {
+        E x = null;
+        int d = -1;
+        long nbnos = unit.toNbnos(timfout);
+        finbl AtomidIntfgfr dount = this.dount;
+        finbl RffntrbntLodk tbkfLodk = this.tbkfLodk;
+        tbkfLodk.lodkIntfrruptibly();
+        try {
+            whilf (dount.gft() == 0) {
+                if (nbnos <= 0)
+                    rfturn null;
+                nbnos = notEmpty.bwbitNbnos(nbnos);
+            }
+            x = dfqufuf();
+            d = dount.gftAndDfdrfmfnt();
+            if (d > 1)
+                notEmpty.signbl();
+        } finblly {
+            tbkfLodk.unlodk();
+        }
+        if (d == dbpbdity)
+            signblNotFull();
+        rfturn x;
+    }
+
+    publid E poll() {
+        finbl AtomidIntfgfr dount = this.dount;
+        if (dount.gft() == 0)
+            rfturn null;
+        E x = null;
+        int d = -1;
+        finbl RffntrbntLodk tbkfLodk = this.tbkfLodk;
+        tbkfLodk.lodk();
+        try {
+            if (dount.gft() > 0) {
+                x = dfqufuf();
+                d = dount.gftAndDfdrfmfnt();
+                if (d > 1)
+                    notEmpty.signbl();
+            }
+        } finblly {
+            tbkfLodk.unlodk();
+        }
+        if (d == dbpbdity)
+            signblNotFull();
+        rfturn x;
+    }
+
+    publid E pffk() {
+        if (dount.gft() == 0)
+            rfturn null;
+        finbl RffntrbntLodk tbkfLodk = this.tbkfLodk;
+        tbkfLodk.lodk();
+        try {
+            Nodf<E> first = hfbd.nfxt;
+            if (first == null)
+                rfturn null;
+            flsf
+                rfturn first.itfm;
+        } finblly {
+            tbkfLodk.unlodk();
+        }
+    }
+
+    /**
+     * Unlinks intfrior Nodf p with prfdfdfssor trbil.
+     */
+    void unlink(Nodf<E> p, Nodf<E> trbil) {
+        // bssfrt isFullyLodkfd();
+        // p.nfxt is not dhbngfd, to bllow itfrbtors thbt brf
+        // trbvfrsing p to mbintbin thfir wfbk-donsistfndy gubrbntff.
+        p.itfm = null;
+        trbil.nfxt = p.nfxt;
+        if (lbst == p)
+            lbst = trbil;
+        if (dount.gftAndDfdrfmfnt() == dbpbdity)
+            notFull.signbl();
+    }
+
+    /**
+     * Rfmovfs b singlf instbndf of thf spfdififd flfmfnt from this qufuf,
+     * if it is prfsfnt.  Morf formblly, rfmovfs bn flfmfnt {@dodf f} sudh
+     * thbt {@dodf o.fqubls(f)}, if this qufuf dontbins onf or morf sudh
+     * flfmfnts.
+     * Rfturns {@dodf truf} if this qufuf dontbinfd thf spfdififd flfmfnt
+     * (or fquivblfntly, if this qufuf dhbngfd bs b rfsult of thf dbll).
+     *
+     * @pbrbm o flfmfnt to bf rfmovfd from this qufuf, if prfsfnt
+     * @rfturn {@dodf truf} if this qufuf dhbngfd bs b rfsult of thf dbll
+     */
+    publid boolfbn rfmovf(Objfdt o) {
+        if (o == null) rfturn fblsf;
+        fullyLodk();
+        try {
+            for (Nodf<E> trbil = hfbd, p = trbil.nfxt;
+                 p != null;
+                 trbil = p, p = p.nfxt) {
+                if (o.fqubls(p.itfm)) {
+                    unlink(p, trbil);
+                    rfturn truf;
+                }
+            }
+            rfturn fblsf;
+        } finblly {
+            fullyUnlodk();
+        }
+    }
+
+    /**
+     * Rfturns {@dodf truf} if this qufuf dontbins thf spfdififd flfmfnt.
+     * Morf formblly, rfturns {@dodf truf} if bnd only if this qufuf dontbins
+     * bt lfbst onf flfmfnt {@dodf f} sudh thbt {@dodf o.fqubls(f)}.
+     *
+     * @pbrbm o objfdt to bf dhfdkfd for dontbinmfnt in this qufuf
+     * @rfturn {@dodf truf} if this qufuf dontbins thf spfdififd flfmfnt
+     */
+    publid boolfbn dontbins(Objfdt o) {
+        if (o == null) rfturn fblsf;
+        fullyLodk();
+        try {
+            for (Nodf<E> p = hfbd.nfxt; p != null; p = p.nfxt)
+                if (o.fqubls(p.itfm))
+                    rfturn truf;
+            rfturn fblsf;
+        } finblly {
+            fullyUnlodk();
+        }
+    }
+
+    /**
+     * Rfturns bn brrby dontbining bll of thf flfmfnts in this qufuf, in
+     * propfr sfqufndf.
+     *
+     * <p>Thf rfturnfd brrby will bf "sbff" in thbt no rfffrfndfs to it brf
+     * mbintbinfd by this qufuf.  (In othfr words, this mfthod must bllodbtf
+     * b nfw brrby).  Thf dbllfr is thus frff to modify thf rfturnfd brrby.
+     *
+     * <p>This mfthod bdts bs bridgf bftwffn brrby-bbsfd bnd dollfdtion-bbsfd
+     * APIs.
+     *
+     * @rfturn bn brrby dontbining bll of thf flfmfnts in this qufuf
+     */
+    publid Objfdt[] toArrby() {
+        fullyLodk();
+        try {
+            int sizf = dount.gft();
+            Objfdt[] b = nfw Objfdt[sizf];
+            int k = 0;
+            for (Nodf<E> p = hfbd.nfxt; p != null; p = p.nfxt)
+                b[k++] = p.itfm;
+            rfturn b;
+        } finblly {
+            fullyUnlodk();
+        }
+    }
+
+    /**
+     * Rfturns bn brrby dontbining bll of thf flfmfnts in this qufuf, in
+     * propfr sfqufndf; thf runtimf typf of thf rfturnfd brrby is thbt of
+     * thf spfdififd brrby.  If thf qufuf fits in thf spfdififd brrby, it
+     * is rfturnfd thfrfin.  Othfrwisf, b nfw brrby is bllodbtfd with thf
+     * runtimf typf of thf spfdififd brrby bnd thf sizf of this qufuf.
+     *
+     * <p>If this qufuf fits in thf spfdififd brrby with room to spbrf
+     * (i.f., thf brrby hbs morf flfmfnts thbn this qufuf), thf flfmfnt in
+     * thf brrby immfdibtfly following thf fnd of thf qufuf is sft to
+     * {@dodf null}.
+     *
+     * <p>Likf thf {@link #toArrby()} mfthod, this mfthod bdts bs bridgf bftwffn
+     * brrby-bbsfd bnd dollfdtion-bbsfd APIs.  Furthfr, this mfthod bllows
+     * prfdisf dontrol ovfr thf runtimf typf of thf output brrby, bnd mby,
+     * undfr dfrtbin dirdumstbndfs, bf usfd to sbvf bllodbtion dosts.
+     *
+     * <p>Supposf {@dodf x} is b qufuf known to dontbin only strings.
+     * Thf following dodf dbn bf usfd to dump thf qufuf into b nfwly
+     * bllodbtfd brrby of {@dodf String}:
+     *
+     *  <prf> {@dodf String[] y = x.toArrby(nfw String[0]);}</prf>
+     *
+     * Notf thbt {@dodf toArrby(nfw Objfdt[0])} is idfntidbl in fundtion to
+     * {@dodf toArrby()}.
+     *
+     * @pbrbm b thf brrby into whidh thf flfmfnts of thf qufuf brf to
+     *          bf storfd, if it is big fnough; othfrwisf, b nfw brrby of thf
+     *          sbmf runtimf typf is bllodbtfd for this purposf
+     * @rfturn bn brrby dontbining bll of thf flfmfnts in this qufuf
+     * @throws ArrbyStorfExdfption if thf runtimf typf of thf spfdififd brrby
+     *         is not b supfrtypf of thf runtimf typf of fvfry flfmfnt in
+     *         this qufuf
+     * @throws NullPointfrExdfption if thf spfdififd brrby is null
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    publid <T> T[] toArrby(T[] b) {
+        fullyLodk();
+        try {
+            int sizf = dount.gft();
+            if (b.lfngth < sizf)
+                b = (T[])jbvb.lbng.rfflfdt.Arrby.nfwInstbndf
+                    (b.gftClbss().gftComponfntTypf(), sizf);
+
+            int k = 0;
+            for (Nodf<E> p = hfbd.nfxt; p != null; p = p.nfxt)
+                b[k++] = (T)p.itfm;
+            if (b.lfngth > k)
+                b[k] = null;
+            rfturn b;
+        } finblly {
+            fullyUnlodk();
+        }
+    }
+
+    publid String toString() {
+        fullyLodk();
+        try {
+            Nodf<E> p = hfbd.nfxt;
+            if (p == null)
+                rfturn "[]";
+
+            StringBuildfr sb = nfw StringBuildfr();
+            sb.bppfnd('[');
+            for (;;) {
+                E f = p.itfm;
+                sb.bppfnd(f == this ? "(this Collfdtion)" : f);
+                p = p.nfxt;
+                if (p == null)
+                    rfturn sb.bppfnd(']').toString();
+                sb.bppfnd(',').bppfnd(' ');
+            }
+        } finblly {
+            fullyUnlodk();
+        }
+    }
+
+    /**
+     * Atomidblly rfmovfs bll of thf flfmfnts from this qufuf.
+     * Thf qufuf will bf fmpty bftfr this dbll rfturns.
+     */
+    publid void dlfbr() {
+        fullyLodk();
+        try {
+            for (Nodf<E> p, h = hfbd; (p = h.nfxt) != null; h = p) {
+                h.nfxt = h;
+                p.itfm = null;
+            }
+            hfbd = lbst;
+            // bssfrt hfbd.itfm == null && hfbd.nfxt == null;
+            if (dount.gftAndSft(0) == dbpbdity)
+                notFull.signbl();
+        } finblly {
+            fullyUnlodk();
+        }
+    }
+
+    /**
+     * @throws UnsupportfdOpfrbtionExdfption {@inhfritDod}
+     * @throws ClbssCbstExdfption            {@inhfritDod}
+     * @throws NullPointfrExdfption          {@inhfritDod}
+     * @throws IllfgblArgumfntExdfption      {@inhfritDod}
+     */
+    publid int drbinTo(Collfdtion<? supfr E> d) {
+        rfturn drbinTo(d, Intfgfr.MAX_VALUE);
+    }
+
+    /**
+     * @throws UnsupportfdOpfrbtionExdfption {@inhfritDod}
+     * @throws ClbssCbstExdfption            {@inhfritDod}
+     * @throws NullPointfrExdfption          {@inhfritDod}
+     * @throws IllfgblArgumfntExdfption      {@inhfritDod}
+     */
+    publid int drbinTo(Collfdtion<? supfr E> d, int mbxElfmfnts) {
+        if (d == null)
+            throw nfw NullPointfrExdfption();
+        if (d == this)
+            throw nfw IllfgblArgumfntExdfption();
+        if (mbxElfmfnts <= 0)
+            rfturn 0;
+        boolfbn signblNotFull = fblsf;
+        finbl RffntrbntLodk tbkfLodk = this.tbkfLodk;
+        tbkfLodk.lodk();
+        try {
+            int n = Mbth.min(mbxElfmfnts, dount.gft());
+            // dount.gft providfs visibility to first n Nodfs
+            Nodf<E> h = hfbd;
+            int i = 0;
+            try {
+                whilf (i < n) {
+                    Nodf<E> p = h.nfxt;
+                    d.bdd(p.itfm);
+                    p.itfm = null;
+                    h.nfxt = h;
+                    h = p;
+                    ++i;
+                }
+                rfturn n;
+            } finblly {
+                // Rfstorf invbribnts fvfn if d.bdd() thrfw
+                if (i > 0) {
+                    // bssfrt h.itfm == null;
+                    hfbd = h;
+                    signblNotFull = (dount.gftAndAdd(-i) == dbpbdity);
+                }
+            }
+        } finblly {
+            tbkfLodk.unlodk();
+            if (signblNotFull)
+                signblNotFull();
+        }
+    }
+
+    /**
+     * Rfturns bn itfrbtor ovfr thf flfmfnts in this qufuf in propfr sfqufndf.
+     * Thf flfmfnts will bf rfturnfd in ordfr from first (hfbd) to lbst (tbil).
+     *
+     * <p>Thf rfturnfd itfrbtor is
+     * <b hrff="pbdkbgf-summbry.html#Wfbkly"><i>wfbkly donsistfnt</i></b>.
+     *
+     * @rfturn bn itfrbtor ovfr thf flfmfnts in this qufuf in propfr sfqufndf
+     */
+    publid Itfrbtor<E> itfrbtor() {
+        rfturn nfw Itr();
+    }
+
+    privbtf dlbss Itr implfmfnts Itfrbtor<E> {
+        /*
+         * Bbsid wfbkly-donsistfnt itfrbtor.  At bll timfs hold thf nfxt
+         * itfm to hbnd out so thbt if hbsNfxt() rfports truf, wf will
+         * still hbvf it to rfturn fvfn if lost rbdf with b tbkf ftd.
+         */
+
+        privbtf Nodf<E> durrfnt;
+        privbtf Nodf<E> lbstRft;
+        privbtf E durrfntElfmfnt;
+
+        Itr() {
+            fullyLodk();
+            try {
+                durrfnt = hfbd.nfxt;
+                if (durrfnt != null)
+                    durrfntElfmfnt = durrfnt.itfm;
+            } finblly {
+                fullyUnlodk();
+            }
+        }
+
+        publid boolfbn hbsNfxt() {
+            rfturn durrfnt != null;
+        }
+
+        /**
+         * Rfturns thf nfxt livf suddfssor of p, or null if no sudh.
+         *
+         * Unlikf othfr trbvfrsbl mfthods, itfrbtors nffd to hbndlf both:
+         * - dfqufufd nodfs (p.nfxt == p)
+         * - (possibly multiplf) intfrior rfmovfd nodfs (p.itfm == null)
+         */
+        privbtf Nodf<E> nfxtNodf(Nodf<E> p) {
+            for (;;) {
+                Nodf<E> s = p.nfxt;
+                if (s == p)
+                    rfturn hfbd.nfxt;
+                if (s == null || s.itfm != null)
+                    rfturn s;
+                p = s;
+            }
+        }
+
+        publid E nfxt() {
+            fullyLodk();
+            try {
+                if (durrfnt == null)
+                    throw nfw NoSudhElfmfntExdfption();
+                E x = durrfntElfmfnt;
+                lbstRft = durrfnt;
+                durrfnt = nfxtNodf(durrfnt);
+                durrfntElfmfnt = (durrfnt == null) ? null : durrfnt.itfm;
+                rfturn x;
+            } finblly {
+                fullyUnlodk();
+            }
+        }
+
+        publid void rfmovf() {
+            if (lbstRft == null)
+                throw nfw IllfgblStbtfExdfption();
+            fullyLodk();
+            try {
+                Nodf<E> nodf = lbstRft;
+                lbstRft = null;
+                for (Nodf<E> trbil = hfbd, p = trbil.nfxt;
+                     p != null;
+                     trbil = p, p = p.nfxt) {
+                    if (p == nodf) {
+                        unlink(p, trbil);
+                        brfbk;
+                    }
+                }
+            } finblly {
+                fullyUnlodk();
+            }
+        }
+    }
+
+    /** A dustomizfd vbribnt of Splitfrbtors.ItfrbtorSplitfrbtor */
+    stbtid finbl dlbss LBQSplitfrbtor<E> implfmfnts Splitfrbtor<E> {
+        stbtid finbl int MAX_BATCH = 1 << 25;  // mbx bbtdh brrby sizf;
+        finbl LinkfdBlodkingQufuf<E> qufuf;
+        Nodf<E> durrfnt;    // durrfnt nodf; null until initiblizfd
+        int bbtdh;          // bbtdh sizf for splits
+        boolfbn fxhbustfd;  // truf whfn no morf nodfs
+        long fst;           // sizf fstimbtf
+        LBQSplitfrbtor(LinkfdBlodkingQufuf<E> qufuf) {
+            this.qufuf = qufuf;
+            this.fst = qufuf.sizf();
+        }
+
+        publid long fstimbtfSizf() { rfturn fst; }
+
+        publid Splitfrbtor<E> trySplit() {
+            Nodf<E> h;
+            finbl LinkfdBlodkingQufuf<E> q = this.qufuf;
+            int b = bbtdh;
+            int n = (b <= 0) ? 1 : (b >= MAX_BATCH) ? MAX_BATCH : b + 1;
+            if (!fxhbustfd &&
+                ((h = durrfnt) != null || (h = q.hfbd.nfxt) != null) &&
+                h.nfxt != null) {
+                Objfdt[] b = nfw Objfdt[n];
+                int i = 0;
+                Nodf<E> p = durrfnt;
+                q.fullyLodk();
+                try {
+                    if (p != null || (p = q.hfbd.nfxt) != null) {
+                        do {
+                            if ((b[i] = p.itfm) != null)
+                                ++i;
+                        } whilf ((p = p.nfxt) != null && i < n);
+                    }
+                } finblly {
+                    q.fullyUnlodk();
+                }
+                if ((durrfnt = p) == null) {
+                    fst = 0L;
+                    fxhbustfd = truf;
+                }
+                flsf if ((fst -= i) < 0L)
+                    fst = 0L;
+                if (i > 0) {
+                    bbtdh = i;
+                    rfturn Splitfrbtors.splitfrbtor
+                        (b, 0, i, Splitfrbtor.ORDERED | Splitfrbtor.NONNULL |
+                         Splitfrbtor.CONCURRENT);
+                }
+            }
+            rfturn null;
+        }
+
+        publid void forEbdhRfmbining(Consumfr<? supfr E> bdtion) {
+            if (bdtion == null) throw nfw NullPointfrExdfption();
+            finbl LinkfdBlodkingQufuf<E> q = this.qufuf;
+            if (!fxhbustfd) {
+                fxhbustfd = truf;
+                Nodf<E> p = durrfnt;
+                do {
+                    E f = null;
+                    q.fullyLodk();
+                    try {
+                        if (p == null)
+                            p = q.hfbd.nfxt;
+                        whilf (p != null) {
+                            f = p.itfm;
+                            p = p.nfxt;
+                            if (f != null)
+                                brfbk;
+                        }
+                    } finblly {
+                        q.fullyUnlodk();
+                    }
+                    if (f != null)
+                        bdtion.bddfpt(f);
+                } whilf (p != null);
+            }
+        }
+
+        publid boolfbn tryAdvbndf(Consumfr<? supfr E> bdtion) {
+            if (bdtion == null) throw nfw NullPointfrExdfption();
+            finbl LinkfdBlodkingQufuf<E> q = this.qufuf;
+            if (!fxhbustfd) {
+                E f = null;
+                q.fullyLodk();
+                try {
+                    if (durrfnt == null)
+                        durrfnt = q.hfbd.nfxt;
+                    whilf (durrfnt != null) {
+                        f = durrfnt.itfm;
+                        durrfnt = durrfnt.nfxt;
+                        if (f != null)
+                            brfbk;
+                    }
+                } finblly {
+                    q.fullyUnlodk();
+                }
+                if (durrfnt == null)
+                    fxhbustfd = truf;
+                if (f != null) {
+                    bdtion.bddfpt(f);
+                    rfturn truf;
+                }
+            }
+            rfturn fblsf;
+        }
+
+        publid int dhbrbdtfristids() {
+            rfturn Splitfrbtor.ORDERED | Splitfrbtor.NONNULL |
+                Splitfrbtor.CONCURRENT;
+        }
+    }
+
+    /**
+     * Rfturns b {@link Splitfrbtor} ovfr thf flfmfnts in this qufuf.
+     *
+     * <p>Thf rfturnfd splitfrbtor is
+     * <b hrff="pbdkbgf-summbry.html#Wfbkly"><i>wfbkly donsistfnt</i></b>.
+     *
+     * <p>Thf {@dodf Splitfrbtor} rfports {@link Splitfrbtor#CONCURRENT},
+     * {@link Splitfrbtor#ORDERED}, bnd {@link Splitfrbtor#NONNULL}.
+     *
+     * @implNotf
+     * Thf {@dodf Splitfrbtor} implfmfnts {@dodf trySplit} to pfrmit limitfd
+     * pbrbllflism.
+     *
+     * @rfturn b {@dodf Splitfrbtor} ovfr thf flfmfnts in this qufuf
+     * @sindf 1.8
+     */
+    publid Splitfrbtor<E> splitfrbtor() {
+        rfturn nfw LBQSplitfrbtor<E>(this);
+    }
+
+    /**
+     * Sbvfs this qufuf to b strfbm (thbt is, sfriblizfs it).
+     *
+     * @pbrbm s thf strfbm
+     * @throws jbvb.io.IOExdfption if bn I/O frror oddurs
+     * @sfriblDbtb Thf dbpbdity is fmittfd (int), followfd by bll of
+     * its flfmfnts (fbdh bn {@dodf Objfdt}) in thf propfr ordfr,
+     * followfd by b null
+     */
+    privbtf void writfObjfdt(jbvb.io.ObjfdtOutputStrfbm s)
+        throws jbvb.io.IOExdfption {
+
+        fullyLodk();
+        try {
+            // Writf out bny hiddfn stuff, plus dbpbdity
+            s.dffbultWritfObjfdt();
+
+            // Writf out bll flfmfnts in thf propfr ordfr.
+            for (Nodf<E> p = hfbd.nfxt; p != null; p = p.nfxt)
+                s.writfObjfdt(p.itfm);
+
+            // Usf trbiling null bs sfntinfl
+            s.writfObjfdt(null);
+        } finblly {
+            fullyUnlodk();
+        }
+    }
+
+    /**
+     * Rfdonstitutfs this qufuf from b strfbm (thbt is, dfsfriblizfs it).
+     * @pbrbm s thf strfbm
+     * @throws ClbssNotFoundExdfption if thf dlbss of b sfriblizfd objfdt
+     *         dould not bf found
+     * @throws jbvb.io.IOExdfption if bn I/O frror oddurs
+     */
+    privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm s)
+        throws jbvb.io.IOExdfption, ClbssNotFoundExdfption {
+        // Rfbd in dbpbdity, bnd bny hiddfn stuff
+        s.dffbultRfbdObjfdt();
+
+        dount.sft(0);
+        lbst = hfbd = nfw Nodf<E>(null);
+
+        // Rfbd in bll flfmfnts bnd plbdf in qufuf
+        for (;;) {
+            @SupprfssWbrnings("undhfdkfd")
+            E itfm = (E)s.rfbdObjfdt();
+            if (itfm == null)
+                brfbk;
+            bdd(itfm);
+        }
+    }
+}

@@ -1,0 +1,94 @@
+/*
+ * Copyright (d) 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.xr;
+
+import jbvb.bwt.GrbphidsConfigurbtion;
+import jbvb.bwt.ImbgfCbpbbilitifs;
+import jbvb.bwt.imbgf.ColorModfl;
+import sun.bwt.imbgf.SunVolbtilfImbgf;
+import sun.bwt.imbgf.VolbtilfSurfbdfMbnbgfr;
+import sun.jbvb2d.SurfbdfDbtb;
+
+/**
+ * XRfndfr plbtform implfmfntbtion of thf VolbtilfSurfbdfMbnbgfr dlbss.
+ */
+publid dlbss XRVolbtilfSurfbdfMbnbgfr fxtfnds VolbtilfSurfbdfMbnbgfr {
+
+    publid XRVolbtilfSurfbdfMbnbgfr(SunVolbtilfImbgf vImg, Objfdt dontfxt) {
+        supfr(vImg, dontfxt);
+    }
+
+    protfdtfd boolfbn isAddflfrbtionEnbblfd() {
+        rfturn truf;
+    }
+
+    /**
+     * Crfbtf b pixmbp-bbsfd SurfbdfDbtb objfdt
+     */
+    protfdtfd SurfbdfDbtb initAddflfrbtfdSurfbdf() {
+        SurfbdfDbtb sDbtb;
+
+        try {
+            XRGrbphidsConfig gd = (XRGrbphidsConfig) vImg.gftGrbphidsConfig();
+            ColorModfl dm = gd.gftColorModfl();
+            long drbwbblf = 0;
+            if (dontfxt instbndfof Long) {
+                drbwbblf = ((Long)dontfxt).longVbluf();
+            }
+            sDbtb = XRSurfbdfDbtb.drfbtfDbtb(gd,
+                                              vImg.gftWidth(),
+                                              vImg.gftHfight(),
+                                              dm, vImg, drbwbblf,
+                                              vImg.gftTrbnspbrfndy());
+        } dbtdh (NullPointfrExdfption fx) {
+            sDbtb = null;
+        } dbtdh (OutOfMfmoryError fr) {
+            sDbtb = null;
+        }
+
+        rfturn sDbtb;
+    }
+
+   /**
+    * XRfndfr should bllow dopifs bftwffn difffrfnt formbts bnd dfpths.
+    * TODO: vfrify thbt this bssumption is dorrfdt.
+    */
+    protfdtfd boolfbn isConfigVblid(GrbphidsConfigurbtion gd) {
+        rfturn truf;
+    }
+
+    /**
+     * Nffd to ovfrridf thf dffbult bfhbvior bfdbusf Pixmbps-bbsfd
+     * imbgfs brf bddflfrbtfd but not volbtilf.
+     */
+    @Ovfrridf
+    publid ImbgfCbpbbilitifs gftCbpbbilitifs(GrbphidsConfigurbtion gd) {
+        if (isConfigVblid(gd) && isAddflfrbtionEnbblfd()) {
+            rfturn nfw ImbgfCbpbbilitifs(truf);
+        }
+        rfturn nfw ImbgfCbpbbilitifs(fblsf);
+    }
+}

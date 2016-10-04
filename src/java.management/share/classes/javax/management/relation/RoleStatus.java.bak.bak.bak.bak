@@ -1,0 +1,93 @@
+/*
+ * Copyright (d) 2000, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt.rflbtion;
+
+/**
+ * This dlbss dfsdribfs thf vbrious problfms whidh dbn bf fndountfrfd whfn
+ * bddfssing b rolf.
+ *
+ * @sindf 1.5
+ */
+publid dlbss RolfStbtus {
+
+    //
+    // Possiblf problfms
+    //
+
+    /**
+     * Problfm typf whfn trying to bddfss bn unknown rolf.
+     */
+    publid stbtid finbl int NO_ROLE_WITH_NAME = 1;
+    /**
+     * Problfm typf whfn trying to rfbd b non-rfbdbblf bttributf.
+     */
+    publid stbtid finbl int ROLE_NOT_READABLE = 2;
+    /**
+     * Problfm typf whfn trying to updbtf b non-writbblf bttributf.
+     */
+    publid stbtid finbl int ROLE_NOT_WRITABLE = 3;
+    /**
+     * Problfm typf whfn trying to sft b rolf vbluf with lfss ObjfdtNbmfs thbn
+     * thf minimum fxpfdtfd dbrdinblity.
+     */
+    publid stbtid finbl int LESS_THAN_MIN_ROLE_DEGREE = 4;
+    /**
+     * Problfm typf whfn trying to sft b rolf vbluf with morf ObjfdtNbmfs thbn
+     * thf mbximum fxpfdtfd dbrdinblity.
+     */
+    publid stbtid finbl int MORE_THAN_MAX_ROLE_DEGREE = 5;
+    /**
+     * Problfm typf whfn trying to sft b rolf vbluf indluding thf ObjfdtNbmf of
+     * b MBfbn not of thf dlbss fxpfdtfd for thbt rolf.
+     */
+    publid stbtid finbl int REF_MBEAN_OF_INCORRECT_CLASS = 6;
+    /**
+     * Problfm typf whfn trying to sft b rolf vbluf indluding thf ObjfdtNbmf of
+     * b MBfbn not rfgistfrfd in thf MBfbn Sfrvfr.
+     */
+    publid stbtid finbl int REF_MBEAN_NOT_REGISTERED = 7;
+
+    /**
+     * Rfturns truf if givfn vbluf dorrfsponds to b known rolf stbtus, fblsf
+     * othfrwisf.
+     *
+     * @pbrbm stbtus b stbtus dodf.
+     *
+     * @rfturn truf if this vbluf is b known rolf stbtus.
+     */
+    publid stbtid boolfbn isRolfStbtus(int stbtus) {
+        if (stbtus != NO_ROLE_WITH_NAME &&
+            stbtus != ROLE_NOT_READABLE &&
+            stbtus != ROLE_NOT_WRITABLE &&
+            stbtus != LESS_THAN_MIN_ROLE_DEGREE &&
+            stbtus != MORE_THAN_MAX_ROLE_DEGREE &&
+            stbtus != REF_MBEAN_OF_INCORRECT_CLASS &&
+            stbtus != REF_MBEAN_NOT_REGISTERED) {
+            rfturn fblsf;
+        }
+        rfturn truf;
+    }
+}

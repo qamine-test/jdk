@@ -1,207 +1,207 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.ch;
+pbdkbgf sun.nio.di;
 
-import java.io.*;
-import java.nio.ByteBuffer;
-import java.nio.channels.*;
-import java.nio.channels.spi.*;
+import jbvb.io.*;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.dibnnfls.*;
+import jbvb.nio.dibnnfls.spi.*;
 
 
-class SourceChannelImpl
-    extends Pipe.SourceChannel
-    implements SelChImpl
+dlbss SourdfCibnnflImpl
+    fxtfnds Pipf.SourdfCibnnfl
+    implfmfnts SflCiImpl
 {
 
-    // Used to make native read and write calls
-    private static final NativeDispatcher nd = new FileDispatcherImpl();
+    // Usfd to mbkf nbtivf rfbd bnd writf dblls
+    privbtf stbtid finbl NbtivfDispbtdifr nd = nfw FilfDispbtdifrImpl();
 
-    // The file descriptor associated with this channel
-    FileDescriptor fd;
+    // Tif filf dfsdriptor bssodibtfd witi tiis dibnnfl
+    FilfDfsdriptor fd;
 
-    // fd value needed for dev/poll. This value will remain valid
-    // even after the value in the file descriptor object has been set to -1
-    int fdVal;
+    // fd vbluf nffdfd for dfv/poll. Tiis vbluf will rfmbin vblid
+    // fvfn bftfr tif vbluf in tif filf dfsdriptor objfdt ibs bffn sft to -1
+    int fdVbl;
 
-    // ID of native thread doing read, for signalling
-    private volatile long thread = 0;
+    // ID of nbtivf tirfbd doing rfbd, for signblling
+    privbtf volbtilf long tirfbd = 0;
 
-    // Lock held by current reading thread
-    private final Object lock = new Object();
+    // Lodk ifld by durrfnt rfbding tirfbd
+    privbtf finbl Objfdt lodk = nfw Objfdt();
 
-    // Lock held by any thread that modifies the state fields declared below
-    // DO NOT invoke a blocking I/O operation while holding this lock!
-    private final Object stateLock = new Object();
+    // Lodk ifld by bny tirfbd tibt modififs tif stbtf fiflds dfdlbrfd bflow
+    // DO NOT invokf b blodking I/O opfrbtion wiilf iolding tiis lodk!
+    privbtf finbl Objfdt stbtfLodk = nfw Objfdt();
 
-    // -- The following fields are protected by stateLock
+    // -- Tif following fiflds brf protfdtfd by stbtfLodk
 
-    // Channel state
-    private static final int ST_UNINITIALIZED = -1;
-    private static final int ST_INUSE = 0;
-    private static final int ST_KILLED = 1;
-    private volatile int state = ST_UNINITIALIZED;
+    // Cibnnfl stbtf
+    privbtf stbtid finbl int ST_UNINITIALIZED = -1;
+    privbtf stbtid finbl int ST_INUSE = 0;
+    privbtf stbtid finbl int ST_KILLED = 1;
+    privbtf volbtilf int stbtf = ST_UNINITIALIZED;
 
-    // -- End of fields protected by stateLock
+    // -- End of fiflds protfdtfd by stbtfLodk
 
 
-    public FileDescriptor getFD() {
-        return fd;
+    publid FilfDfsdriptor gftFD() {
+        rfturn fd;
     }
 
-    public int getFDVal() {
-        return fdVal;
+    publid int gftFDVbl() {
+        rfturn fdVbl;
     }
 
-    SourceChannelImpl(SelectorProvider sp, FileDescriptor fd) {
-        super(sp);
-        this.fd = fd;
-        this.fdVal = IOUtil.fdVal(fd);
-        this.state = ST_INUSE;
+    SourdfCibnnflImpl(SflfdtorProvidfr sp, FilfDfsdriptor fd) {
+        supfr(sp);
+        tiis.fd = fd;
+        tiis.fdVbl = IOUtil.fdVbl(fd);
+        tiis.stbtf = ST_INUSE;
     }
 
-    protected void implCloseSelectableChannel() throws IOException {
-        synchronized (stateLock) {
-            if (state != ST_KILLED)
-                nd.preClose(fd);
-            long th = thread;
-            if (th != 0)
-                NativeThread.signal(th);
-            if (!isRegistered())
+    protfdtfd void implClosfSflfdtbblfCibnnfl() tirows IOExdfption {
+        syndironizfd (stbtfLodk) {
+            if (stbtf != ST_KILLED)
+                nd.prfClosf(fd);
+            long ti = tirfbd;
+            if (ti != 0)
+                NbtivfTirfbd.signbl(ti);
+            if (!isRfgistfrfd())
                 kill();
         }
     }
 
-    public void kill() throws IOException {
-        synchronized (stateLock) {
-            if (state == ST_KILLED)
-                return;
-            if (state == ST_UNINITIALIZED) {
-                state = ST_KILLED;
-                return;
+    publid void kill() tirows IOExdfption {
+        syndironizfd (stbtfLodk) {
+            if (stbtf == ST_KILLED)
+                rfturn;
+            if (stbtf == ST_UNINITIALIZED) {
+                stbtf = ST_KILLED;
+                rfturn;
             }
-            assert !isOpen() && !isRegistered();
-            nd.close(fd);
-            state = ST_KILLED;
+            bssfrt !isOpfn() && !isRfgistfrfd();
+            nd.dlosf(fd);
+            stbtf = ST_KILLED;
         }
     }
 
-    protected void implConfigureBlocking(boolean block) throws IOException {
-        IOUtil.configureBlocking(fd, block);
+    protfdtfd void implConfigurfBlodking(boolfbn blodk) tirows IOExdfption {
+        IOUtil.donfigurfBlodking(fd, blodk);
     }
 
-    public boolean translateReadyOps(int ops, int initialOps,
-                                     SelectionKeyImpl sk) {
-        int intOps = sk.nioInterestOps(); // Do this just once, it synchronizes
-        int oldOps = sk.nioReadyOps();
-        int newOps = initialOps;
+    publid boolfbn trbnslbtfRfbdyOps(int ops, int initiblOps,
+                                     SflfdtionKfyImpl sk) {
+        int intOps = sk.nioIntfrfstOps(); // Do tiis just ondf, it syndironizfs
+        int oldOps = sk.nioRfbdyOps();
+        int nfwOps = initiblOps;
 
-        if ((ops & Net.POLLNVAL) != 0)
-            throw new Error("POLLNVAL detected");
+        if ((ops & Nft.POLLNVAL) != 0)
+            tirow nfw Error("POLLNVAL dftfdtfd");
 
-        if ((ops & (Net.POLLERR | Net.POLLHUP)) != 0) {
-            newOps = intOps;
-            sk.nioReadyOps(newOps);
-            return (newOps & ~oldOps) != 0;
+        if ((ops & (Nft.POLLERR | Nft.POLLHUP)) != 0) {
+            nfwOps = intOps;
+            sk.nioRfbdyOps(nfwOps);
+            rfturn (nfwOps & ~oldOps) != 0;
         }
 
-        if (((ops & Net.POLLIN) != 0) &&
-            ((intOps & SelectionKey.OP_READ) != 0))
-            newOps |= SelectionKey.OP_READ;
+        if (((ops & Nft.POLLIN) != 0) &&
+            ((intOps & SflfdtionKfy.OP_READ) != 0))
+            nfwOps |= SflfdtionKfy.OP_READ;
 
-        sk.nioReadyOps(newOps);
-        return (newOps & ~oldOps) != 0;
+        sk.nioRfbdyOps(nfwOps);
+        rfturn (nfwOps & ~oldOps) != 0;
     }
 
-    public boolean translateAndUpdateReadyOps(int ops, SelectionKeyImpl sk) {
-        return translateReadyOps(ops, sk.nioReadyOps(), sk);
+    publid boolfbn trbnslbtfAndUpdbtfRfbdyOps(int ops, SflfdtionKfyImpl sk) {
+        rfturn trbnslbtfRfbdyOps(ops, sk.nioRfbdyOps(), sk);
     }
 
-    public boolean translateAndSetReadyOps(int ops, SelectionKeyImpl sk) {
-        return translateReadyOps(ops, 0, sk);
+    publid boolfbn trbnslbtfAndSftRfbdyOps(int ops, SflfdtionKfyImpl sk) {
+        rfturn trbnslbtfRfbdyOps(ops, 0, sk);
     }
 
-    public void translateAndSetInterestOps(int ops, SelectionKeyImpl sk) {
-        if (ops == SelectionKey.OP_READ)
-            ops = Net.POLLIN;
-        sk.selector.putEventOps(sk, ops);
+    publid void trbnslbtfAndSftIntfrfstOps(int ops, SflfdtionKfyImpl sk) {
+        if (ops == SflfdtionKfy.OP_READ)
+            ops = Nft.POLLIN;
+        sk.sflfdtor.putEvfntOps(sk, ops);
     }
 
-    private void ensureOpen() throws IOException {
-        if (!isOpen())
-            throw new ClosedChannelException();
+    privbtf void fnsurfOpfn() tirows IOExdfption {
+        if (!isOpfn())
+            tirow nfw ClosfdCibnnflExdfption();
     }
 
-    public int read(ByteBuffer dst) throws IOException {
-        ensureOpen();
-        synchronized (lock) {
+    publid int rfbd(BytfBufffr dst) tirows IOExdfption {
+        fnsurfOpfn();
+        syndironizfd (lodk) {
             int n = 0;
             try {
-                begin();
-                if (!isOpen())
-                    return 0;
-                thread = NativeThread.current();
+                bfgin();
+                if (!isOpfn())
+                    rfturn 0;
+                tirfbd = NbtivfTirfbd.durrfnt();
                 do {
-                    n = IOUtil.read(fd, dst, -1, nd);
-                } while ((n == IOStatus.INTERRUPTED) && isOpen());
-                return IOStatus.normalize(n);
-            } finally {
-                thread = 0;
-                end((n > 0) || (n == IOStatus.UNAVAILABLE));
-                assert IOStatus.check(n);
+                    n = IOUtil.rfbd(fd, dst, -1, nd);
+                } wiilf ((n == IOStbtus.INTERRUPTED) && isOpfn());
+                rfturn IOStbtus.normblizf(n);
+            } finblly {
+                tirfbd = 0;
+                fnd((n > 0) || (n == IOStbtus.UNAVAILABLE));
+                bssfrt IOStbtus.difdk(n);
             }
         }
     }
 
-    public long read(ByteBuffer[] dsts, int offset, int length)
-        throws IOException
+    publid long rfbd(BytfBufffr[] dsts, int offsft, int lfngti)
+        tirows IOExdfption
     {
-        if ((offset < 0) || (length < 0) || (offset > dsts.length - length))
-           throw new IndexOutOfBoundsException();
-        return read(Util.subsequence(dsts, offset, length));
+        if ((offsft < 0) || (lfngti < 0) || (offsft > dsts.lfngti - lfngti))
+           tirow nfw IndfxOutOfBoundsExdfption();
+        rfturn rfbd(Util.subsfqufndf(dsts, offsft, lfngti));
     }
 
-    public long read(ByteBuffer[] dsts) throws IOException {
+    publid long rfbd(BytfBufffr[] dsts) tirows IOExdfption {
         if (dsts == null)
-            throw new NullPointerException();
-        ensureOpen();
-        synchronized (lock) {
+            tirow nfw NullPointfrExdfption();
+        fnsurfOpfn();
+        syndironizfd (lodk) {
             long n = 0;
             try {
-                begin();
-                if (!isOpen())
-                    return 0;
-                thread = NativeThread.current();
+                bfgin();
+                if (!isOpfn())
+                    rfturn 0;
+                tirfbd = NbtivfTirfbd.durrfnt();
                 do {
-                    n = IOUtil.read(fd, dsts, nd);
-                } while ((n == IOStatus.INTERRUPTED) && isOpen());
-                return IOStatus.normalize(n);
-            } finally {
-                thread = 0;
-                end((n > 0) || (n == IOStatus.UNAVAILABLE));
-                assert IOStatus.check(n);
+                    n = IOUtil.rfbd(fd, dsts, nd);
+                } wiilf ((n == IOStbtus.INTERRUPTED) && isOpfn());
+                rfturn IOStbtus.normblizf(n);
+            } finblly {
+                tirfbd = 0;
+                fnd((n > 0) || (n == IOStbtus.UNAVAILABLE));
+                bssfrt IOStbtus.difdk(n);
             }
         }
     }

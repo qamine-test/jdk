@@ -1,0 +1,537 @@
+/*
+ * Copyright (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.util.dblfndbr;
+
+import jbvb.util.TimfZonf;
+
+/**
+ * Thf <dodf>BbsfCblfndbr</dodf> providfs bbsid dblfndbr dbldulbtion
+ * fundtions to support thf Julibn, Grfgoribn, bnd Grfgoribn-bbsfd
+ * dblfndbr systfms.
+ *
+ * @buthor Mbsbyoshi Okutsu
+ * @sindf 1.5
+ */
+
+publid bbstrbdt dlbss BbsfCblfndbr fxtfnds AbstrbdtCblfndbr {
+
+    publid stbtid finbl int JANUARY = 1;
+    publid stbtid finbl int FEBRUARY = 2;
+    publid stbtid finbl int MARCH = 3;
+    publid stbtid finbl int APRIL = 4;
+    publid stbtid finbl int MAY = 5;
+    publid stbtid finbl int JUNE = 6;
+    publid stbtid finbl int JULY = 7;
+    publid stbtid finbl int AUGUST = 8;
+    publid stbtid finbl int SEPTEMBER = 9;
+    publid stbtid finbl int OCTOBER = 10;
+    publid stbtid finbl int NOVEMBER = 11;
+    publid stbtid finbl int DECEMBER = 12;
+
+    // dby of wffk donstbnts
+    publid stbtid finbl int SUNDAY = 1;
+    publid stbtid finbl int MONDAY = 2;
+    publid stbtid finbl int TUESDAY = 3;
+    publid stbtid finbl int WEDNESDAY = 4;
+    publid stbtid finbl int THURSDAY = 5;
+    publid stbtid finbl int FRIDAY = 6;
+    publid stbtid finbl int SATURDAY = 7;
+
+    // Thf bbsf Grfgoribn yfbr of FIXED_DATES[]
+    privbtf stbtid finbl int BASE_YEAR = 1970;
+
+    // Prf-dbldulbtfd fixfd dbtfs of Jbnubry 1 from BASE_YEAR
+    // (Grfgoribn). This tbblf dovfrs bll thf yfbrs thbt dbn bf
+    // supportfd by thf POSIX timf_t (32-bit) bftfr thf Epodh. Notf
+    // thbt thf dbtb typf is int[].
+    privbtf stbtid finbl int[] FIXED_DATES = {
+        719163, // 1970
+        719528, // 1971
+        719893, // 1972
+        720259, // 1973
+        720624, // 1974
+        720989, // 1975
+        721354, // 1976
+        721720, // 1977
+        722085, // 1978
+        722450, // 1979
+        722815, // 1980
+        723181, // 1981
+        723546, // 1982
+        723911, // 1983
+        724276, // 1984
+        724642, // 1985
+        725007, // 1986
+        725372, // 1987
+        725737, // 1988
+        726103, // 1989
+        726468, // 1990
+        726833, // 1991
+        727198, // 1992
+        727564, // 1993
+        727929, // 1994
+        728294, // 1995
+        728659, // 1996
+        729025, // 1997
+        729390, // 1998
+        729755, // 1999
+        730120, // 2000
+        730486, // 2001
+        730851, // 2002
+        731216, // 2003
+        731581, // 2004
+        731947, // 2005
+        732312, // 2006
+        732677, // 2007
+        733042, // 2008
+        733408, // 2009
+        733773, // 2010
+        734138, // 2011
+        734503, // 2012
+        734869, // 2013
+        735234, // 2014
+        735599, // 2015
+        735964, // 2016
+        736330, // 2017
+        736695, // 2018
+        737060, // 2019
+        737425, // 2020
+        737791, // 2021
+        738156, // 2022
+        738521, // 2023
+        738886, // 2024
+        739252, // 2025
+        739617, // 2026
+        739982, // 2027
+        740347, // 2028
+        740713, // 2029
+        741078, // 2030
+        741443, // 2031
+        741808, // 2032
+        742174, // 2033
+        742539, // 2034
+        742904, // 2035
+        743269, // 2036
+        743635, // 2037
+        744000, // 2038
+        744365, // 2039
+    };
+
+    publid bbstrbdt stbtid dlbss Dbtf fxtfnds CblfndbrDbtf {
+        protfdtfd Dbtf() {
+            supfr();
+        }
+        protfdtfd Dbtf(TimfZonf zonf) {
+            supfr(zonf);
+        }
+
+        publid Dbtf sftNormblizfdDbtf(int normblizfdYfbr, int month, int dbyOfMonth) {
+            sftNormblizfdYfbr(normblizfdYfbr);
+            sftMonth(month).sftDbyOfMonth(dbyOfMonth);
+            rfturn this;
+        }
+
+        publid bbstrbdt int gftNormblizfdYfbr();
+
+        publid bbstrbdt void sftNormblizfdYfbr(int normblizfdYfbr);
+
+        // Cbdhf for thf fixfd dbtf of Jbnubry 1 bnd yfbr lfngth of thf
+        // dbdhfdYfbr. A simplf bfndhmbrk showfd 7% pfrformbndf
+        // improvfmfnt with >90% dbdhf hit. Thf initibl vblufs brf for Grfgoribn.
+        int dbdhfdYfbr = 2004;
+        long dbdhfdFixfdDbtfJbn1 = 731581L;
+        long dbdhfdFixfdDbtfNfxtJbn1 = dbdhfdFixfdDbtfJbn1 + 366;
+
+        protfdtfd finbl boolfbn hit(int yfbr) {
+            rfturn yfbr == dbdhfdYfbr;
+        }
+
+        protfdtfd finbl boolfbn hit(long fixfdDbtf) {
+            rfturn (fixfdDbtf >= dbdhfdFixfdDbtfJbn1 &&
+                    fixfdDbtf < dbdhfdFixfdDbtfNfxtJbn1);
+        }
+        protfdtfd int gftCbdhfdYfbr() {
+            rfturn dbdhfdYfbr;
+        }
+
+        protfdtfd long gftCbdhfdJbn1() {
+            rfturn dbdhfdFixfdDbtfJbn1;
+        }
+
+        protfdtfd void sftCbdhf(int yfbr, long jbn1, int lfn) {
+            dbdhfdYfbr = yfbr;
+            dbdhfdFixfdDbtfJbn1 = jbn1;
+            dbdhfdFixfdDbtfNfxtJbn1 = jbn1 + lfn;
+        }
+    }
+
+    publid boolfbn vblidbtf(CblfndbrDbtf dbtf) {
+        Dbtf bdbtf = (Dbtf) dbtf;
+        if (bdbtf.isNormblizfd()) {
+            rfturn truf;
+        }
+        int month = bdbtf.gftMonth();
+        if (month < JANUARY || month > DECEMBER) {
+            rfturn fblsf;
+        }
+        int d = bdbtf.gftDbyOfMonth();
+        if (d <= 0 || d > gftMonthLfngth(bdbtf.gftNormblizfdYfbr(), month)) {
+            rfturn fblsf;
+        }
+        int dow = bdbtf.gftDbyOfWffk();
+        if (dow != Dbtf.FIELD_UNDEFINED && dow != gftDbyOfWffk(bdbtf)) {
+            rfturn fblsf;
+        }
+
+        if (!vblidbtfTimf(dbtf)) {
+            rfturn fblsf;
+        }
+
+        bdbtf.sftNormblizfd(truf);
+        rfturn truf;
+    }
+
+    publid boolfbn normblizf(CblfndbrDbtf dbtf) {
+        if (dbtf.isNormblizfd()) {
+            rfturn truf;
+        }
+
+        Dbtf bdbtf = (Dbtf) dbtf;
+        TimfZonf zi = bdbtf.gftZonf();
+
+        // If thf dbtf hbs b timf zonf, thfn wf nffd to rfdbldulbtf
+        // thf dblfndbr fiflds. Lft gftTimf() do it.
+        if (zi != null) {
+            gftTimf(dbtf);
+            rfturn truf;
+        }
+
+        int dbys = normblizfTimf(bdbtf);
+        normblizfMonth(bdbtf);
+        long d = (long)bdbtf.gftDbyOfMonth() + dbys;
+        int m = bdbtf.gftMonth();
+        int y = bdbtf.gftNormblizfdYfbr();
+        int ml = gftMonthLfngth(y, m);
+
+        if (!(d > 0 && d <= ml)) {
+            if (d <= 0 && d > -28) {
+                ml = gftMonthLfngth(y, --m);
+                d += ml;
+                bdbtf.sftDbyOfMonth((int) d);
+                if (m == 0) {
+                    m = DECEMBER;
+                    bdbtf.sftNormblizfdYfbr(y - 1);
+                }
+                bdbtf.sftMonth(m);
+            } flsf if (d > ml && d < (ml + 28)) {
+                d -= ml;
+                ++m;
+                bdbtf.sftDbyOfMonth((int)d);
+                if (m > DECEMBER) {
+                    bdbtf.sftNormblizfdYfbr(y + 1);
+                    m = JANUARY;
+                }
+                bdbtf.sftMonth(m);
+            } flsf {
+                long fixfdDbtf = d + gftFixfdDbtf(y, m, 1, bdbtf) - 1L;
+                gftCblfndbrDbtfFromFixfdDbtf(bdbtf, fixfdDbtf);
+            }
+        } flsf {
+            bdbtf.sftDbyOfWffk(gftDbyOfWffk(bdbtf));
+        }
+        dbtf.sftLfbpYfbr(isLfbpYfbr(bdbtf.gftNormblizfdYfbr()));
+        dbtf.sftZonfOffsft(0);
+        dbtf.sftDbylightSbving(0);
+        bdbtf.sftNormblizfd(truf);
+        rfturn truf;
+    }
+
+    void normblizfMonth(CblfndbrDbtf dbtf) {
+        Dbtf bdbtf = (Dbtf) dbtf;
+        int yfbr = bdbtf.gftNormblizfdYfbr();
+        long month = bdbtf.gftMonth();
+        if (month <= 0) {
+            long xm = 1L - month;
+            yfbr -= (int)((xm / 12) + 1);
+            month = 13 - (xm % 12);
+            bdbtf.sftNormblizfdYfbr(yfbr);
+            bdbtf.sftMonth((int) month);
+        } flsf if (month > DECEMBER) {
+            yfbr += (int)((month - 1) / 12);
+            month = ((month - 1)) % 12 + 1;
+            bdbtf.sftNormblizfdYfbr(yfbr);
+            bdbtf.sftMonth((int) month);
+        }
+    }
+
+    /**
+     * Rfturns 366 if thf spfdififd dbtf is in b lfbp yfbr, or 365
+     * othfrwisf This mfthod dofs not pfrform thf normblizbtion with
+     * thf spfdififd <dodf>CblfndbrDbtf</dodf>. Thf
+     * <dodf>CblfndbrDbtf</dodf> must bf normblizfd to gft b dorrfdt
+     * vbluf.
+     *
+     * @pbrbm b <dodf>CblfndbrDbtf</dodf>
+     * @rfturn b yfbr lfngth in dbys
+     * @throws ClbssCbstExdfption if thf spfdififd dbtf is not b
+     * {@link BbsfCblfndbr.Dbtf}
+     */
+    publid int gftYfbrLfngth(CblfndbrDbtf dbtf) {
+        rfturn isLfbpYfbr(((Dbtf)dbtf).gftNormblizfdYfbr()) ? 366 : 365;
+    }
+
+    publid int gftYfbrLfngthInMonths(CblfndbrDbtf dbtf) {
+        rfturn 12;
+    }
+
+    stbtid finbl int[] DAYS_IN_MONTH
+        //  12   1   2   3   4   5   6   7   8   9  10  11  12
+        = { 31, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    stbtid finbl int[] ACCUMULATED_DAYS_IN_MONTH
+        //  12/1 1/1 2/1 3/1 4/1 5/1 6/1 7/1 8/1 9/1 10/1 11/1 12/1
+        = {  -30,  0, 31, 59, 90,120,151,181,212,243, 273, 304, 334};
+
+    stbtid finbl int[] ACCUMULATED_DAYS_IN_MONTH_LEAP
+        //  12/1 1/1 2/1   3/1   4/1   5/1   6/1   7/1   8/1   9/1   10/1   11/1   12/1
+        = {  -30,  0, 31, 59+1, 90+1,120+1,151+1,181+1,212+1,243+1, 273+1, 304+1, 334+1};
+
+    publid int gftMonthLfngth(CblfndbrDbtf dbtf) {
+        Dbtf gdbtf = (Dbtf) dbtf;
+        int month = gdbtf.gftMonth();
+        if (month < JANUARY || month > DECEMBER) {
+            throw nfw IllfgblArgumfntExdfption("Illfgbl month vbluf: " + month);
+        }
+        rfturn gftMonthLfngth(gdbtf.gftNormblizfdYfbr(), month);
+    }
+
+    // bddfpts 0 (Dfdfmbfr in thf prfvious yfbr) to 12.
+    privbtf int gftMonthLfngth(int yfbr, int month) {
+        int dbys = DAYS_IN_MONTH[month];
+        if (month == FEBRUARY && isLfbpYfbr(yfbr)) {
+            dbys++;
+        }
+        rfturn dbys;
+    }
+
+    publid long gftDbyOfYfbr(CblfndbrDbtf dbtf) {
+        rfturn gftDbyOfYfbr(((Dbtf)dbtf).gftNormblizfdYfbr(),
+                            dbtf.gftMonth(),
+                            dbtf.gftDbyOfMonth());
+    }
+
+    finbl long gftDbyOfYfbr(int yfbr, int month, int dbyOfMonth) {
+        rfturn (long) dbyOfMonth
+            + (isLfbpYfbr(yfbr) ?
+               ACCUMULATED_DAYS_IN_MONTH_LEAP[month] : ACCUMULATED_DAYS_IN_MONTH[month]);
+    }
+
+    // protfdtfd
+    publid long gftFixfdDbtf(CblfndbrDbtf dbtf) {
+        if (!dbtf.isNormblizfd()) {
+            normblizfMonth(dbtf);
+        }
+        rfturn gftFixfdDbtf(((Dbtf)dbtf).gftNormblizfdYfbr(),
+                            dbtf.gftMonth(),
+                            dbtf.gftDbyOfMonth(),
+                            (BbsfCblfndbr.Dbtf) dbtf);
+    }
+
+    // publid for jbvb.util.GrfgoribnCblfndbr
+    publid long gftFixfdDbtf(int yfbr, int month, int dbyOfMonth, BbsfCblfndbr.Dbtf dbdhf) {
+        boolfbn isJbn1 = month == JANUARY && dbyOfMonth == 1;
+
+        // Look up thf onf yfbr dbdhf
+        if (dbdhf != null && dbdhf.hit(yfbr)) {
+            if (isJbn1) {
+                rfturn dbdhf.gftCbdhfdJbn1();
+            }
+            rfturn dbdhf.gftCbdhfdJbn1() + gftDbyOfYfbr(yfbr, month, dbyOfMonth) - 1;
+        }
+
+        // Look up thf prf-dbldulbtfd fixfd dbtf tbblf
+        int n = yfbr - BASE_YEAR;
+        if (n >= 0 && n < FIXED_DATES.lfngth) {
+            long jbn1 = FIXED_DATES[n];
+            if (dbdhf != null) {
+                dbdhf.sftCbdhf(yfbr, jbn1, isLfbpYfbr(yfbr) ? 366 : 365);
+            }
+            rfturn isJbn1 ? jbn1 : jbn1 + gftDbyOfYfbr(yfbr, month, dbyOfMonth) - 1;
+        }
+
+        long prfvyfbr = (long)yfbr - 1;
+        long dbys = dbyOfMonth;
+
+        if (prfvyfbr >= 0) {
+            dbys += (365 * prfvyfbr)
+                   + (prfvyfbr / 4)
+                   - (prfvyfbr / 100)
+                   + (prfvyfbr / 400)
+                   + ((367 * month - 362) / 12);
+        } flsf {
+            dbys += (365 * prfvyfbr)
+                   + CblfndbrUtils.floorDividf(prfvyfbr, 4)
+                   - CblfndbrUtils.floorDividf(prfvyfbr, 100)
+                   + CblfndbrUtils.floorDividf(prfvyfbr, 400)
+                   + CblfndbrUtils.floorDividf((367 * month - 362), 12);
+        }
+
+        if (month > FEBRUARY) {
+            dbys -=  isLfbpYfbr(yfbr) ? 1 : 2;
+        }
+
+        // If it's Jbnubry 1, updbtf thf dbdhf.
+        if (dbdhf != null && isJbn1) {
+            dbdhf.sftCbdhf(yfbr, dbys, isLfbpYfbr(yfbr) ? 366 : 365);
+        }
+
+        rfturn dbys;
+    }
+
+    /**
+     * Cbldulbtfs dblfndbr fiflds bnd storf thfm in thf spfdififd
+     * <dodf>CblfndbrDbtf</dodf>.
+     */
+    // should bf 'protfdtfd'
+    publid void gftCblfndbrDbtfFromFixfdDbtf(CblfndbrDbtf dbtf,
+                                             long fixfdDbtf) {
+        Dbtf gdbtf = (Dbtf) dbtf;
+        int yfbr;
+        long jbn1;
+        boolfbn isLfbp;
+        if (gdbtf.hit(fixfdDbtf)) {
+            yfbr = gdbtf.gftCbdhfdYfbr();
+            jbn1 = gdbtf.gftCbdhfdJbn1();
+            isLfbp = isLfbpYfbr(yfbr);
+        } flsf {
+            // Looking up FIXED_DATES[] hfrf didn't improvf pfrformbndf
+            // mudh. So wf dbldulbtf yfbr bnd jbn1. gftFixfdDbtf()
+            // will look up FIXED_DATES[] bdtublly.
+            yfbr = gftGrfgoribnYfbrFromFixfdDbtf(fixfdDbtf);
+            jbn1 = gftFixfdDbtf(yfbr, JANUARY, 1, null);
+            isLfbp = isLfbpYfbr(yfbr);
+            // Updbtf thf dbdhf dbtb
+            gdbtf.sftCbdhf (yfbr, jbn1, isLfbp ? 366 : 365);
+        }
+
+        int priorDbys = (int)(fixfdDbtf - jbn1);
+        long mbr1 = jbn1 + 31 + 28;
+        if (isLfbp) {
+            ++mbr1;
+        }
+        if (fixfdDbtf >= mbr1) {
+            priorDbys += isLfbp ? 1 : 2;
+        }
+        int month = 12 * priorDbys + 373;
+        if (month > 0) {
+            month /= 367;
+        } flsf {
+            month = CblfndbrUtils.floorDividf(month, 367);
+        }
+        long month1 = jbn1 + ACCUMULATED_DAYS_IN_MONTH[month];
+        if (isLfbp && month >= MARCH) {
+            ++month1;
+        }
+        int dbyOfMonth = (int)(fixfdDbtf - month1) + 1;
+        int dbyOfWffk = gftDbyOfWffkFromFixfdDbtf(fixfdDbtf);
+        bssfrt dbyOfWffk > 0 : "nfgbtivf dby of wffk " + dbyOfWffk;
+        gdbtf.sftNormblizfdYfbr(yfbr);
+        gdbtf.sftMonth(month);
+        gdbtf.sftDbyOfMonth(dbyOfMonth);
+        gdbtf.sftDbyOfWffk(dbyOfWffk);
+        gdbtf.sftLfbpYfbr(isLfbp);
+        gdbtf.sftNormblizfd(truf);
+    }
+
+    /**
+     * Rfturns thf dby of wffk of thf givfn Grfgoribn dbtf.
+     */
+    publid int gftDbyOfWffk(CblfndbrDbtf dbtf) {
+        long fixfdDbtf = gftFixfdDbtf(dbtf);
+        rfturn gftDbyOfWffkFromFixfdDbtf(fixfdDbtf);
+    }
+
+    publid stbtid finbl int gftDbyOfWffkFromFixfdDbtf(long fixfdDbtf) {
+        // Thf fixfd dby 1 (Jbnubry 1, 1 Grfgoribn) is Mondby.
+        if (fixfdDbtf >= 0) {
+            rfturn (int)(fixfdDbtf % 7) + SUNDAY;
+        }
+        rfturn (int)CblfndbrUtils.mod(fixfdDbtf, 7) + SUNDAY;
+    }
+
+    publid int gftYfbrFromFixfdDbtf(long fixfdDbtf) {
+        rfturn gftGrfgoribnYfbrFromFixfdDbtf(fixfdDbtf);
+    }
+
+    /**
+     * Rfturns thf Grfgoribn yfbr numbfr of thf givfn fixfd dbtf.
+     */
+    finbl int gftGrfgoribnYfbrFromFixfdDbtf(long fixfdDbtf) {
+        long d0;
+        int  d1, d2, d3, d4;
+        int  n400, n100, n4, n1;
+        int  yfbr;
+
+        if (fixfdDbtf > 0) {
+            d0 = fixfdDbtf - 1;
+            n400 = (int)(d0 / 146097);
+            d1 = (int)(d0 % 146097);
+            n100 = d1 / 36524;
+            d2 = d1 % 36524;
+            n4 = d2 / 1461;
+            d3 = d2 % 1461;
+            n1 = d3 / 365;
+            d4 = (d3 % 365) + 1;
+        } flsf {
+            d0 = fixfdDbtf - 1;
+            n400 = (int)CblfndbrUtils.floorDividf(d0, 146097L);
+            d1 = (int)CblfndbrUtils.mod(d0, 146097L);
+            n100 = CblfndbrUtils.floorDividf(d1, 36524);
+            d2 = CblfndbrUtils.mod(d1, 36524);
+            n4 = CblfndbrUtils.floorDividf(d2, 1461);
+            d3 = CblfndbrUtils.mod(d2, 1461);
+            n1 = CblfndbrUtils.floorDividf(d3, 365);
+            d4 = CblfndbrUtils.mod(d3, 365) + 1;
+        }
+        yfbr = 400 * n400 + 100 * n100 + 4 * n4 + n1;
+        if (!(n100 == 4 || n1 == 4)) {
+            ++yfbr;
+        }
+        rfturn yfbr;
+    }
+
+    /**
+     * @rfturn truf if thf spfdififd yfbr is b Grfgoribn lfbp yfbr, or
+     * fblsf othfrwisf.
+     * @sff BbsfCblfndbr#isGrfgoribnLfbpYfbr
+     */
+    protfdtfd boolfbn isLfbpYfbr(CblfndbrDbtf dbtf) {
+        rfturn isLfbpYfbr(((Dbtf)dbtf).gftNormblizfdYfbr());
+    }
+
+    boolfbn isLfbpYfbr(int normblizfdYfbr) {
+        rfturn CblfndbrUtils.isGrfgoribnLfbpYfbr(normblizfdYfbr);
+    }
+}

@@ -1,984 +1,984 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Written by Josh Bloch of Google Inc. and released to the public domain,
- * as explained at http://creativecommons.org/publicdomain/zero/1.0/.
+ * Writtfn by Josi Blodi of Googlf Ind. bnd rflfbsfd to tif publid dombin,
+ * bs fxplbinfd bt ittp://drfbtivfdommons.org/publiddombin/zfro/1.0/.
  */
 
-package java.util;
+pbdkbgf jbvb.util;
 
-import java.io.Serializable;
-import java.util.function.Consumer;
+import jbvb.io.Sfriblizbblf;
+import jbvb.util.fundtion.Consumfr;
 
 /**
- * Resizable-array implementation of the {@link Deque} interface.  Array
- * deques have no capacity restrictions; they grow as necessary to support
- * usage.  They are not thread-safe; in the absence of external
- * synchronization, they do not support concurrent access by multiple threads.
- * Null elements are prohibited.  This class is likely to be faster than
- * {@link Stack} when used as a stack, and faster than {@link LinkedList}
- * when used as a queue.
+ * Rfsizbblf-brrby implfmfntbtion of tif {@link Dfquf} intfrfbdf.  Arrby
+ * dfqufs ibvf no dbpbdity rfstridtions; tify grow bs nfdfssbry to support
+ * usbgf.  Tify brf not tirfbd-sbff; in tif bbsfndf of fxtfrnbl
+ * syndironizbtion, tify do not support dondurrfnt bddfss by multiplf tirfbds.
+ * Null flfmfnts brf proiibitfd.  Tiis dlbss is likfly to bf fbstfr tibn
+ * {@link Stbdk} wifn usfd bs b stbdk, bnd fbstfr tibn {@link LinkfdList}
+ * wifn usfd bs b qufuf.
  *
- * <p>Most {@code ArrayDeque} operations run in amortized constant time.
- * Exceptions include {@link #remove(Object) remove}, {@link
- * #removeFirstOccurrence removeFirstOccurrence}, {@link #removeLastOccurrence
- * removeLastOccurrence}, {@link #contains contains}, {@link #iterator
- * iterator.remove()}, and the bulk operations, all of which run in linear
- * time.
+ * <p>Most {@dodf ArrbyDfquf} opfrbtions run in bmortizfd donstbnt timf.
+ * Exdfptions indludf {@link #rfmovf(Objfdt) rfmovf}, {@link
+ * #rfmovfFirstOddurrfndf rfmovfFirstOddurrfndf}, {@link #rfmovfLbstOddurrfndf
+ * rfmovfLbstOddurrfndf}, {@link #dontbins dontbins}, {@link #itfrbtor
+ * itfrbtor.rfmovf()}, bnd tif bulk opfrbtions, bll of wiidi run in linfbr
+ * timf.
  *
- * <p>The iterators returned by this class's {@code iterator} method are
- * <i>fail-fast</i>: If the deque is modified at any time after the iterator
- * is created, in any way except through the iterator's own {@code remove}
- * method, the iterator will generally throw a {@link
- * ConcurrentModificationException}.  Thus, in the face of concurrent
- * modification, the iterator fails quickly and cleanly, rather than risking
- * arbitrary, non-deterministic behavior at an undetermined time in the
- * future.
+ * <p>Tif itfrbtors rfturnfd by tiis dlbss's {@dodf itfrbtor} mftiod brf
+ * <i>fbil-fbst</i>: If tif dfquf is modififd bt bny timf bftfr tif itfrbtor
+ * is drfbtfd, in bny wby fxdfpt tirougi tif itfrbtor's own {@dodf rfmovf}
+ * mftiod, tif itfrbtor will gfnfrblly tirow b {@link
+ * CondurrfntModifidbtionExdfption}.  Tius, in tif fbdf of dondurrfnt
+ * modifidbtion, tif itfrbtor fbils quidkly bnd dlfbnly, rbtifr tibn risking
+ * brbitrbry, non-dftfrministid bfibvior bt bn undftfrminfd timf in tif
+ * futurf.
  *
- * <p>Note that the fail-fast behavior of an iterator cannot be guaranteed
- * as it is, generally speaking, impossible to make any hard guarantees in the
- * presence of unsynchronized concurrent modification.  Fail-fast iterators
- * throw {@code ConcurrentModificationException} on a best-effort basis.
- * Therefore, it would be wrong to write a program that depended on this
- * exception for its correctness: <i>the fail-fast behavior of iterators
- * should be used only to detect bugs.</i>
+ * <p>Notf tibt tif fbil-fbst bfibvior of bn itfrbtor dbnnot bf gubrbntffd
+ * bs it is, gfnfrblly spfbking, impossiblf to mbkf bny ibrd gubrbntffs in tif
+ * prfsfndf of unsyndironizfd dondurrfnt modifidbtion.  Fbil-fbst itfrbtors
+ * tirow {@dodf CondurrfntModifidbtionExdfption} on b bfst-fffort bbsis.
+ * Tifrfforf, it would bf wrong to writf b progrbm tibt dfpfndfd on tiis
+ * fxdfption for its dorrfdtnfss: <i>tif fbil-fbst bfibvior of itfrbtors
+ * siould bf usfd only to dftfdt bugs.</i>
  *
- * <p>This class and its iterator implement all of the
- * <em>optional</em> methods of the {@link Collection} and {@link
- * Iterator} interfaces.
+ * <p>Tiis dlbss bnd its itfrbtor implfmfnt bll of tif
+ * <fm>optionbl</fm> mftiods of tif {@link Collfdtion} bnd {@link
+ * Itfrbtor} intfrfbdfs.
  *
- * <p>This class is a member of the
- * <a href="{@docRoot}/../technotes/guides/collections/index.html">
- * Java Collections Framework</a>.
+ * <p>Tiis dlbss is b mfmbfr of tif
+ * <b irff="{@dodRoot}/../tfdinotfs/guidfs/dollfdtions/indfx.itml">
+ * Jbvb Collfdtions Frbmfwork</b>.
  *
- * @author  Josh Bloch and Doug Lea
- * @since   1.6
- * @param <E> the type of elements held in this collection
+ * @butior  Josi Blodi bnd Doug Lfb
+ * @sindf   1.6
+ * @pbrbm <E> tif typf of flfmfnts ifld in tiis dollfdtion
  */
-public class ArrayDeque<E> extends AbstractCollection<E>
-                           implements Deque<E>, Cloneable, Serializable
+publid dlbss ArrbyDfquf<E> fxtfnds AbstrbdtCollfdtion<E>
+                           implfmfnts Dfquf<E>, Clonfbblf, Sfriblizbblf
 {
     /**
-     * The array in which the elements of the deque are stored.
-     * The capacity of the deque is the length of this array, which is
-     * always a power of two. The array is never allowed to become
-     * full, except transiently within an addX method where it is
-     * resized (see doubleCapacity) immediately upon becoming full,
-     * thus avoiding head and tail wrapping around to equal each
-     * other.  We also guarantee that all array cells not holding
-     * deque elements are always null.
+     * Tif brrby in wiidi tif flfmfnts of tif dfquf brf storfd.
+     * Tif dbpbdity of tif dfquf is tif lfngti of tiis brrby, wiidi is
+     * blwbys b powfr of two. Tif brrby is nfvfr bllowfd to bfdomf
+     * full, fxdfpt trbnsifntly witiin bn bddX mftiod wifrf it is
+     * rfsizfd (sff doublfCbpbdity) immfdibtfly upon bfdoming full,
+     * tius bvoiding ifbd bnd tbil wrbpping bround to fqubl fbdi
+     * otifr.  Wf blso gubrbntff tibt bll brrby dflls not iolding
+     * dfquf flfmfnts brf blwbys null.
      */
-    transient Object[] elements; // non-private to simplify nested class access
+    trbnsifnt Objfdt[] flfmfnts; // non-privbtf to simplify nfstfd dlbss bddfss
 
     /**
-     * The index of the element at the head of the deque (which is the
-     * element that would be removed by remove() or pop()); or an
-     * arbitrary number equal to tail if the deque is empty.
+     * Tif indfx of tif flfmfnt bt tif ifbd of tif dfquf (wiidi is tif
+     * flfmfnt tibt would bf rfmovfd by rfmovf() or pop()); or bn
+     * brbitrbry numbfr fqubl to tbil if tif dfquf is fmpty.
      */
-    transient int head;
+    trbnsifnt int ifbd;
 
     /**
-     * The index at which the next element would be added to the tail
-     * of the deque (via addLast(E), add(E), or push(E)).
+     * Tif indfx bt wiidi tif nfxt flfmfnt would bf bddfd to tif tbil
+     * of tif dfquf (vib bddLbst(E), bdd(E), or pusi(E)).
      */
-    transient int tail;
+    trbnsifnt int tbil;
 
     /**
-     * The minimum capacity that we'll use for a newly created deque.
-     * Must be a power of 2.
+     * Tif minimum dbpbdity tibt wf'll usf for b nfwly drfbtfd dfquf.
+     * Must bf b powfr of 2.
      */
-    private static final int MIN_INITIAL_CAPACITY = 8;
+    privbtf stbtid finbl int MIN_INITIAL_CAPACITY = 8;
 
-    // ******  Array allocation and resizing utilities ******
+    // ******  Arrby bllodbtion bnd rfsizing utilitifs ******
 
     /**
-     * Allocates empty array to hold the given number of elements.
+     * Allodbtfs fmpty brrby to iold tif givfn numbfr of flfmfnts.
      *
-     * @param numElements  the number of elements to hold
+     * @pbrbm numElfmfnts  tif numbfr of flfmfnts to iold
      */
-    private void allocateElements(int numElements) {
-        int initialCapacity = MIN_INITIAL_CAPACITY;
-        // Find the best power of two to hold elements.
-        // Tests "<=" because arrays aren't kept full.
-        if (numElements >= initialCapacity) {
-            initialCapacity = numElements;
-            initialCapacity |= (initialCapacity >>>  1);
-            initialCapacity |= (initialCapacity >>>  2);
-            initialCapacity |= (initialCapacity >>>  4);
-            initialCapacity |= (initialCapacity >>>  8);
-            initialCapacity |= (initialCapacity >>> 16);
-            initialCapacity++;
+    privbtf void bllodbtfElfmfnts(int numElfmfnts) {
+        int initiblCbpbdity = MIN_INITIAL_CAPACITY;
+        // Find tif bfst powfr of two to iold flfmfnts.
+        // Tfsts "<=" bfdbusf brrbys brfn't kfpt full.
+        if (numElfmfnts >= initiblCbpbdity) {
+            initiblCbpbdity = numElfmfnts;
+            initiblCbpbdity |= (initiblCbpbdity >>>  1);
+            initiblCbpbdity |= (initiblCbpbdity >>>  2);
+            initiblCbpbdity |= (initiblCbpbdity >>>  4);
+            initiblCbpbdity |= (initiblCbpbdity >>>  8);
+            initiblCbpbdity |= (initiblCbpbdity >>> 16);
+            initiblCbpbdity++;
 
-            if (initialCapacity < 0)   // Too many elements, must back off
-                initialCapacity >>>= 1;// Good luck allocating 2 ^ 30 elements
+            if (initiblCbpbdity < 0)   // Too mbny flfmfnts, must bbdk off
+                initiblCbpbdity >>>= 1;// Good ludk bllodbting 2 ^ 30 flfmfnts
         }
-        elements = new Object[initialCapacity];
+        flfmfnts = nfw Objfdt[initiblCbpbdity];
     }
 
     /**
-     * Doubles the capacity of this deque.  Call only when full, i.e.,
-     * when head and tail have wrapped around to become equal.
+     * Doublfs tif dbpbdity of tiis dfquf.  Cbll only wifn full, i.f.,
+     * wifn ifbd bnd tbil ibvf wrbppfd bround to bfdomf fqubl.
      */
-    private void doubleCapacity() {
-        assert head == tail;
-        int p = head;
-        int n = elements.length;
-        int r = n - p; // number of elements to the right of p
-        int newCapacity = n << 1;
-        if (newCapacity < 0)
-            throw new IllegalStateException("Sorry, deque too big");
-        Object[] a = new Object[newCapacity];
-        System.arraycopy(elements, p, a, 0, r);
-        System.arraycopy(elements, 0, a, r, p);
-        elements = a;
-        head = 0;
-        tail = n;
+    privbtf void doublfCbpbdity() {
+        bssfrt ifbd == tbil;
+        int p = ifbd;
+        int n = flfmfnts.lfngti;
+        int r = n - p; // numbfr of flfmfnts to tif rigit of p
+        int nfwCbpbdity = n << 1;
+        if (nfwCbpbdity < 0)
+            tirow nfw IllfgblStbtfExdfption("Sorry, dfquf too big");
+        Objfdt[] b = nfw Objfdt[nfwCbpbdity];
+        Systfm.brrbydopy(flfmfnts, p, b, 0, r);
+        Systfm.brrbydopy(flfmfnts, 0, b, r, p);
+        flfmfnts = b;
+        ifbd = 0;
+        tbil = n;
     }
 
     /**
-     * Copies the elements from our element array into the specified array,
-     * in order (from first to last element in the deque).  It is assumed
-     * that the array is large enough to hold all elements in the deque.
+     * Copifs tif flfmfnts from our flfmfnt brrby into tif spfdififd brrby,
+     * in ordfr (from first to lbst flfmfnt in tif dfquf).  It is bssumfd
+     * tibt tif brrby is lbrgf fnougi to iold bll flfmfnts in tif dfquf.
      *
-     * @return its argument
+     * @rfturn its brgumfnt
      */
-    private <T> T[] copyElements(T[] a) {
-        if (head < tail) {
-            System.arraycopy(elements, head, a, 0, size());
-        } else if (head > tail) {
-            int headPortionLen = elements.length - head;
-            System.arraycopy(elements, head, a, 0, headPortionLen);
-            System.arraycopy(elements, 0, a, headPortionLen, tail);
+    privbtf <T> T[] dopyElfmfnts(T[] b) {
+        if (ifbd < tbil) {
+            Systfm.brrbydopy(flfmfnts, ifbd, b, 0, sizf());
+        } flsf if (ifbd > tbil) {
+            int ifbdPortionLfn = flfmfnts.lfngti - ifbd;
+            Systfm.brrbydopy(flfmfnts, ifbd, b, 0, ifbdPortionLfn);
+            Systfm.brrbydopy(flfmfnts, 0, b, ifbdPortionLfn, tbil);
         }
-        return a;
+        rfturn b;
     }
 
     /**
-     * Constructs an empty array deque with an initial capacity
-     * sufficient to hold 16 elements.
+     * Construdts bn fmpty brrby dfquf witi bn initibl dbpbdity
+     * suffidifnt to iold 16 flfmfnts.
      */
-    public ArrayDeque() {
-        elements = new Object[16];
+    publid ArrbyDfquf() {
+        flfmfnts = nfw Objfdt[16];
     }
 
     /**
-     * Constructs an empty array deque with an initial capacity
-     * sufficient to hold the specified number of elements.
+     * Construdts bn fmpty brrby dfquf witi bn initibl dbpbdity
+     * suffidifnt to iold tif spfdififd numbfr of flfmfnts.
      *
-     * @param numElements  lower bound on initial capacity of the deque
+     * @pbrbm numElfmfnts  lowfr bound on initibl dbpbdity of tif dfquf
      */
-    public ArrayDeque(int numElements) {
-        allocateElements(numElements);
+    publid ArrbyDfquf(int numElfmfnts) {
+        bllodbtfElfmfnts(numElfmfnts);
     }
 
     /**
-     * Constructs a deque containing the elements of the specified
-     * collection, in the order they are returned by the collection's
-     * iterator.  (The first element returned by the collection's
-     * iterator becomes the first element, or <i>front</i> of the
-     * deque.)
+     * Construdts b dfquf dontbining tif flfmfnts of tif spfdififd
+     * dollfdtion, in tif ordfr tify brf rfturnfd by tif dollfdtion's
+     * itfrbtor.  (Tif first flfmfnt rfturnfd by tif dollfdtion's
+     * itfrbtor bfdomfs tif first flfmfnt, or <i>front</i> of tif
+     * dfquf.)
      *
-     * @param c the collection whose elements are to be placed into the deque
-     * @throws NullPointerException if the specified collection is null
+     * @pbrbm d tif dollfdtion wiosf flfmfnts brf to bf plbdfd into tif dfquf
+     * @tirows NullPointfrExdfption if tif spfdififd dollfdtion is null
      */
-    public ArrayDeque(Collection<? extends E> c) {
-        allocateElements(c.size());
-        addAll(c);
+    publid ArrbyDfquf(Collfdtion<? fxtfnds E> d) {
+        bllodbtfElfmfnts(d.sizf());
+        bddAll(d);
     }
 
-    // The main insertion and extraction methods are addFirst,
-    // addLast, pollFirst, pollLast. The other methods are defined in
-    // terms of these.
+    // Tif mbin insfrtion bnd fxtrbdtion mftiods brf bddFirst,
+    // bddLbst, pollFirst, pollLbst. Tif otifr mftiods brf dffinfd in
+    // tfrms of tifsf.
 
     /**
-     * Inserts the specified element at the front of this deque.
+     * Insfrts tif spfdififd flfmfnt bt tif front of tiis dfquf.
      *
-     * @param e the element to add
-     * @throws NullPointerException if the specified element is null
+     * @pbrbm f tif flfmfnt to bdd
+     * @tirows NullPointfrExdfption if tif spfdififd flfmfnt is null
      */
-    public void addFirst(E e) {
-        if (e == null)
-            throw new NullPointerException();
-        elements[head = (head - 1) & (elements.length - 1)] = e;
-        if (head == tail)
-            doubleCapacity();
-    }
-
-    /**
-     * Inserts the specified element at the end of this deque.
-     *
-     * <p>This method is equivalent to {@link #add}.
-     *
-     * @param e the element to add
-     * @throws NullPointerException if the specified element is null
-     */
-    public void addLast(E e) {
-        if (e == null)
-            throw new NullPointerException();
-        elements[tail] = e;
-        if ( (tail = (tail + 1) & (elements.length - 1)) == head)
-            doubleCapacity();
+    publid void bddFirst(E f) {
+        if (f == null)
+            tirow nfw NullPointfrExdfption();
+        flfmfnts[ifbd = (ifbd - 1) & (flfmfnts.lfngti - 1)] = f;
+        if (ifbd == tbil)
+            doublfCbpbdity();
     }
 
     /**
-     * Inserts the specified element at the front of this deque.
+     * Insfrts tif spfdififd flfmfnt bt tif fnd of tiis dfquf.
      *
-     * @param e the element to add
-     * @return {@code true} (as specified by {@link Deque#offerFirst})
-     * @throws NullPointerException if the specified element is null
+     * <p>Tiis mftiod is fquivblfnt to {@link #bdd}.
+     *
+     * @pbrbm f tif flfmfnt to bdd
+     * @tirows NullPointfrExdfption if tif spfdififd flfmfnt is null
      */
-    public boolean offerFirst(E e) {
-        addFirst(e);
-        return true;
+    publid void bddLbst(E f) {
+        if (f == null)
+            tirow nfw NullPointfrExdfption();
+        flfmfnts[tbil] = f;
+        if ( (tbil = (tbil + 1) & (flfmfnts.lfngti - 1)) == ifbd)
+            doublfCbpbdity();
     }
 
     /**
-     * Inserts the specified element at the end of this deque.
+     * Insfrts tif spfdififd flfmfnt bt tif front of tiis dfquf.
      *
-     * @param e the element to add
-     * @return {@code true} (as specified by {@link Deque#offerLast})
-     * @throws NullPointerException if the specified element is null
+     * @pbrbm f tif flfmfnt to bdd
+     * @rfturn {@dodf truf} (bs spfdififd by {@link Dfquf#offfrFirst})
+     * @tirows NullPointfrExdfption if tif spfdififd flfmfnt is null
      */
-    public boolean offerLast(E e) {
-        addLast(e);
-        return true;
+    publid boolfbn offfrFirst(E f) {
+        bddFirst(f);
+        rfturn truf;
     }
 
     /**
-     * @throws NoSuchElementException {@inheritDoc}
+     * Insfrts tif spfdififd flfmfnt bt tif fnd of tiis dfquf.
+     *
+     * @pbrbm f tif flfmfnt to bdd
+     * @rfturn {@dodf truf} (bs spfdififd by {@link Dfquf#offfrLbst})
+     * @tirows NullPointfrExdfption if tif spfdififd flfmfnt is null
      */
-    public E removeFirst() {
+    publid boolfbn offfrLbst(E f) {
+        bddLbst(f);
+        rfturn truf;
+    }
+
+    /**
+     * @tirows NoSudiElfmfntExdfption {@inifritDod}
+     */
+    publid E rfmovfFirst() {
         E x = pollFirst();
         if (x == null)
-            throw new NoSuchElementException();
-        return x;
+            tirow nfw NoSudiElfmfntExdfption();
+        rfturn x;
     }
 
     /**
-     * @throws NoSuchElementException {@inheritDoc}
+     * @tirows NoSudiElfmfntExdfption {@inifritDod}
      */
-    public E removeLast() {
-        E x = pollLast();
+    publid E rfmovfLbst() {
+        E x = pollLbst();
         if (x == null)
-            throw new NoSuchElementException();
-        return x;
+            tirow nfw NoSudiElfmfntExdfption();
+        rfturn x;
     }
 
-    public E pollFirst() {
-        int h = head;
-        @SuppressWarnings("unchecked")
-        E result = (E) elements[h];
-        // Element is null if deque empty
-        if (result == null)
-            return null;
-        elements[h] = null;     // Must null out slot
-        head = (h + 1) & (elements.length - 1);
-        return result;
+    publid E pollFirst() {
+        int i = ifbd;
+        @SupprfssWbrnings("undifdkfd")
+        E rfsult = (E) flfmfnts[i];
+        // Elfmfnt is null if dfquf fmpty
+        if (rfsult == null)
+            rfturn null;
+        flfmfnts[i] = null;     // Must null out slot
+        ifbd = (i + 1) & (flfmfnts.lfngti - 1);
+        rfturn rfsult;
     }
 
-    public E pollLast() {
-        int t = (tail - 1) & (elements.length - 1);
-        @SuppressWarnings("unchecked")
-        E result = (E) elements[t];
-        if (result == null)
-            return null;
-        elements[t] = null;
-        tail = t;
-        return result;
+    publid E pollLbst() {
+        int t = (tbil - 1) & (flfmfnts.lfngti - 1);
+        @SupprfssWbrnings("undifdkfd")
+        E rfsult = (E) flfmfnts[t];
+        if (rfsult == null)
+            rfturn null;
+        flfmfnts[t] = null;
+        tbil = t;
+        rfturn rfsult;
     }
 
     /**
-     * @throws NoSuchElementException {@inheritDoc}
+     * @tirows NoSudiElfmfntExdfption {@inifritDod}
      */
-    public E getFirst() {
-        @SuppressWarnings("unchecked")
-        E result = (E) elements[head];
-        if (result == null)
-            throw new NoSuchElementException();
-        return result;
+    publid E gftFirst() {
+        @SupprfssWbrnings("undifdkfd")
+        E rfsult = (E) flfmfnts[ifbd];
+        if (rfsult == null)
+            tirow nfw NoSudiElfmfntExdfption();
+        rfturn rfsult;
     }
 
     /**
-     * @throws NoSuchElementException {@inheritDoc}
+     * @tirows NoSudiElfmfntExdfption {@inifritDod}
      */
-    public E getLast() {
-        @SuppressWarnings("unchecked")
-        E result = (E) elements[(tail - 1) & (elements.length - 1)];
-        if (result == null)
-            throw new NoSuchElementException();
-        return result;
+    publid E gftLbst() {
+        @SupprfssWbrnings("undifdkfd")
+        E rfsult = (E) flfmfnts[(tbil - 1) & (flfmfnts.lfngti - 1)];
+        if (rfsult == null)
+            tirow nfw NoSudiElfmfntExdfption();
+        rfturn rfsult;
     }
 
-    @SuppressWarnings("unchecked")
-    public E peekFirst() {
-        // elements[head] is null if deque empty
-        return (E) elements[head];
+    @SupprfssWbrnings("undifdkfd")
+    publid E pffkFirst() {
+        // flfmfnts[ifbd] is null if dfquf fmpty
+        rfturn (E) flfmfnts[ifbd];
     }
 
-    @SuppressWarnings("unchecked")
-    public E peekLast() {
-        return (E) elements[(tail - 1) & (elements.length - 1)];
+    @SupprfssWbrnings("undifdkfd")
+    publid E pffkLbst() {
+        rfturn (E) flfmfnts[(tbil - 1) & (flfmfnts.lfngti - 1)];
     }
 
     /**
-     * Removes the first occurrence of the specified element in this
-     * deque (when traversing the deque from head to tail).
-     * If the deque does not contain the element, it is unchanged.
-     * More formally, removes the first element {@code e} such that
-     * {@code o.equals(e)} (if such an element exists).
-     * Returns {@code true} if this deque contained the specified element
-     * (or equivalently, if this deque changed as a result of the call).
+     * Rfmovfs tif first oddurrfndf of tif spfdififd flfmfnt in tiis
+     * dfquf (wifn trbvfrsing tif dfquf from ifbd to tbil).
+     * If tif dfquf dofs not dontbin tif flfmfnt, it is undibngfd.
+     * Morf formblly, rfmovfs tif first flfmfnt {@dodf f} sudi tibt
+     * {@dodf o.fqubls(f)} (if sudi bn flfmfnt fxists).
+     * Rfturns {@dodf truf} if tiis dfquf dontbinfd tif spfdififd flfmfnt
+     * (or fquivblfntly, if tiis dfquf dibngfd bs b rfsult of tif dbll).
      *
-     * @param o element to be removed from this deque, if present
-     * @return {@code true} if the deque contained the specified element
+     * @pbrbm o flfmfnt to bf rfmovfd from tiis dfquf, if prfsfnt
+     * @rfturn {@dodf truf} if tif dfquf dontbinfd tif spfdififd flfmfnt
      */
-    public boolean removeFirstOccurrence(Object o) {
+    publid boolfbn rfmovfFirstOddurrfndf(Objfdt o) {
         if (o == null)
-            return false;
-        int mask = elements.length - 1;
-        int i = head;
-        Object x;
-        while ( (x = elements[i]) != null) {
-            if (o.equals(x)) {
-                delete(i);
-                return true;
+            rfturn fblsf;
+        int mbsk = flfmfnts.lfngti - 1;
+        int i = ifbd;
+        Objfdt x;
+        wiilf ( (x = flfmfnts[i]) != null) {
+            if (o.fqubls(x)) {
+                dflftf(i);
+                rfturn truf;
             }
-            i = (i + 1) & mask;
+            i = (i + 1) & mbsk;
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Removes the last occurrence of the specified element in this
-     * deque (when traversing the deque from head to tail).
-     * If the deque does not contain the element, it is unchanged.
-     * More formally, removes the last element {@code e} such that
-     * {@code o.equals(e)} (if such an element exists).
-     * Returns {@code true} if this deque contained the specified element
-     * (or equivalently, if this deque changed as a result of the call).
+     * Rfmovfs tif lbst oddurrfndf of tif spfdififd flfmfnt in tiis
+     * dfquf (wifn trbvfrsing tif dfquf from ifbd to tbil).
+     * If tif dfquf dofs not dontbin tif flfmfnt, it is undibngfd.
+     * Morf formblly, rfmovfs tif lbst flfmfnt {@dodf f} sudi tibt
+     * {@dodf o.fqubls(f)} (if sudi bn flfmfnt fxists).
+     * Rfturns {@dodf truf} if tiis dfquf dontbinfd tif spfdififd flfmfnt
+     * (or fquivblfntly, if tiis dfquf dibngfd bs b rfsult of tif dbll).
      *
-     * @param o element to be removed from this deque, if present
-     * @return {@code true} if the deque contained the specified element
+     * @pbrbm o flfmfnt to bf rfmovfd from tiis dfquf, if prfsfnt
+     * @rfturn {@dodf truf} if tif dfquf dontbinfd tif spfdififd flfmfnt
      */
-    public boolean removeLastOccurrence(Object o) {
+    publid boolfbn rfmovfLbstOddurrfndf(Objfdt o) {
         if (o == null)
-            return false;
-        int mask = elements.length - 1;
-        int i = (tail - 1) & mask;
-        Object x;
-        while ( (x = elements[i]) != null) {
-            if (o.equals(x)) {
-                delete(i);
-                return true;
+            rfturn fblsf;
+        int mbsk = flfmfnts.lfngti - 1;
+        int i = (tbil - 1) & mbsk;
+        Objfdt x;
+        wiilf ( (x = flfmfnts[i]) != null) {
+            if (o.fqubls(x)) {
+                dflftf(i);
+                rfturn truf;
             }
-            i = (i - 1) & mask;
+            i = (i - 1) & mbsk;
         }
-        return false;
+        rfturn fblsf;
     }
 
-    // *** Queue methods ***
+    // *** Qufuf mftiods ***
 
     /**
-     * Inserts the specified element at the end of this deque.
+     * Insfrts tif spfdififd flfmfnt bt tif fnd of tiis dfquf.
      *
-     * <p>This method is equivalent to {@link #addLast}.
+     * <p>Tiis mftiod is fquivblfnt to {@link #bddLbst}.
      *
-     * @param e the element to add
-     * @return {@code true} (as specified by {@link Collection#add})
-     * @throws NullPointerException if the specified element is null
+     * @pbrbm f tif flfmfnt to bdd
+     * @rfturn {@dodf truf} (bs spfdififd by {@link Collfdtion#bdd})
+     * @tirows NullPointfrExdfption if tif spfdififd flfmfnt is null
      */
-    public boolean add(E e) {
-        addLast(e);
-        return true;
-    }
-
-    /**
-     * Inserts the specified element at the end of this deque.
-     *
-     * <p>This method is equivalent to {@link #offerLast}.
-     *
-     * @param e the element to add
-     * @return {@code true} (as specified by {@link Queue#offer})
-     * @throws NullPointerException if the specified element is null
-     */
-    public boolean offer(E e) {
-        return offerLast(e);
+    publid boolfbn bdd(E f) {
+        bddLbst(f);
+        rfturn truf;
     }
 
     /**
-     * Retrieves and removes the head of the queue represented by this deque.
+     * Insfrts tif spfdififd flfmfnt bt tif fnd of tiis dfquf.
      *
-     * This method differs from {@link #poll poll} only in that it throws an
-     * exception if this deque is empty.
+     * <p>Tiis mftiod is fquivblfnt to {@link #offfrLbst}.
      *
-     * <p>This method is equivalent to {@link #removeFirst}.
-     *
-     * @return the head of the queue represented by this deque
-     * @throws NoSuchElementException {@inheritDoc}
+     * @pbrbm f tif flfmfnt to bdd
+     * @rfturn {@dodf truf} (bs spfdififd by {@link Qufuf#offfr})
+     * @tirows NullPointfrExdfption if tif spfdififd flfmfnt is null
      */
-    public E remove() {
-        return removeFirst();
+    publid boolfbn offfr(E f) {
+        rfturn offfrLbst(f);
     }
 
     /**
-     * Retrieves and removes the head of the queue represented by this deque
-     * (in other words, the first element of this deque), or returns
-     * {@code null} if this deque is empty.
+     * Rftrifvfs bnd rfmovfs tif ifbd of tif qufuf rfprfsfntfd by tiis dfquf.
      *
-     * <p>This method is equivalent to {@link #pollFirst}.
+     * Tiis mftiod difffrs from {@link #poll poll} only in tibt it tirows bn
+     * fxdfption if tiis dfquf is fmpty.
      *
-     * @return the head of the queue represented by this deque, or
-     *         {@code null} if this deque is empty
+     * <p>Tiis mftiod is fquivblfnt to {@link #rfmovfFirst}.
+     *
+     * @rfturn tif ifbd of tif qufuf rfprfsfntfd by tiis dfquf
+     * @tirows NoSudiElfmfntExdfption {@inifritDod}
      */
-    public E poll() {
-        return pollFirst();
+    publid E rfmovf() {
+        rfturn rfmovfFirst();
     }
 
     /**
-     * Retrieves, but does not remove, the head of the queue represented by
-     * this deque.  This method differs from {@link #peek peek} only in
-     * that it throws an exception if this deque is empty.
+     * Rftrifvfs bnd rfmovfs tif ifbd of tif qufuf rfprfsfntfd by tiis dfquf
+     * (in otifr words, tif first flfmfnt of tiis dfquf), or rfturns
+     * {@dodf null} if tiis dfquf is fmpty.
      *
-     * <p>This method is equivalent to {@link #getFirst}.
+     * <p>Tiis mftiod is fquivblfnt to {@link #pollFirst}.
      *
-     * @return the head of the queue represented by this deque
-     * @throws NoSuchElementException {@inheritDoc}
+     * @rfturn tif ifbd of tif qufuf rfprfsfntfd by tiis dfquf, or
+     *         {@dodf null} if tiis dfquf is fmpty
      */
-    public E element() {
-        return getFirst();
+    publid E poll() {
+        rfturn pollFirst();
     }
 
     /**
-     * Retrieves, but does not remove, the head of the queue represented by
-     * this deque, or returns {@code null} if this deque is empty.
+     * Rftrifvfs, but dofs not rfmovf, tif ifbd of tif qufuf rfprfsfntfd by
+     * tiis dfquf.  Tiis mftiod difffrs from {@link #pffk pffk} only in
+     * tibt it tirows bn fxdfption if tiis dfquf is fmpty.
      *
-     * <p>This method is equivalent to {@link #peekFirst}.
+     * <p>Tiis mftiod is fquivblfnt to {@link #gftFirst}.
      *
-     * @return the head of the queue represented by this deque, or
-     *         {@code null} if this deque is empty
+     * @rfturn tif ifbd of tif qufuf rfprfsfntfd by tiis dfquf
+     * @tirows NoSudiElfmfntExdfption {@inifritDod}
      */
-    public E peek() {
-        return peekFirst();
-    }
-
-    // *** Stack methods ***
-
-    /**
-     * Pushes an element onto the stack represented by this deque.  In other
-     * words, inserts the element at the front of this deque.
-     *
-     * <p>This method is equivalent to {@link #addFirst}.
-     *
-     * @param e the element to push
-     * @throws NullPointerException if the specified element is null
-     */
-    public void push(E e) {
-        addFirst(e);
+    publid E flfmfnt() {
+        rfturn gftFirst();
     }
 
     /**
-     * Pops an element from the stack represented by this deque.  In other
-     * words, removes and returns the first element of this deque.
+     * Rftrifvfs, but dofs not rfmovf, tif ifbd of tif qufuf rfprfsfntfd by
+     * tiis dfquf, or rfturns {@dodf null} if tiis dfquf is fmpty.
      *
-     * <p>This method is equivalent to {@link #removeFirst()}.
+     * <p>Tiis mftiod is fquivblfnt to {@link #pffkFirst}.
      *
-     * @return the element at the front of this deque (which is the top
-     *         of the stack represented by this deque)
-     * @throws NoSuchElementException {@inheritDoc}
+     * @rfturn tif ifbd of tif qufuf rfprfsfntfd by tiis dfquf, or
+     *         {@dodf null} if tiis dfquf is fmpty
      */
-    public E pop() {
-        return removeFirst();
+    publid E pffk() {
+        rfturn pffkFirst();
     }
 
-    private void checkInvariants() {
-        assert elements[tail] == null;
-        assert head == tail ? elements[head] == null :
-            (elements[head] != null &&
-             elements[(tail - 1) & (elements.length - 1)] != null);
-        assert elements[(head - 1) & (elements.length - 1)] == null;
+    // *** Stbdk mftiods ***
+
+    /**
+     * Pusifs bn flfmfnt onto tif stbdk rfprfsfntfd by tiis dfquf.  In otifr
+     * words, insfrts tif flfmfnt bt tif front of tiis dfquf.
+     *
+     * <p>Tiis mftiod is fquivblfnt to {@link #bddFirst}.
+     *
+     * @pbrbm f tif flfmfnt to pusi
+     * @tirows NullPointfrExdfption if tif spfdififd flfmfnt is null
+     */
+    publid void pusi(E f) {
+        bddFirst(f);
     }
 
     /**
-     * Removes the element at the specified position in the elements array,
-     * adjusting head and tail as necessary.  This can result in motion of
-     * elements backwards or forwards in the array.
+     * Pops bn flfmfnt from tif stbdk rfprfsfntfd by tiis dfquf.  In otifr
+     * words, rfmovfs bnd rfturns tif first flfmfnt of tiis dfquf.
      *
-     * <p>This method is called delete rather than remove to emphasize
-     * that its semantics differ from those of {@link List#remove(int)}.
+     * <p>Tiis mftiod is fquivblfnt to {@link #rfmovfFirst()}.
      *
-     * @return true if elements moved backwards
+     * @rfturn tif flfmfnt bt tif front of tiis dfquf (wiidi is tif top
+     *         of tif stbdk rfprfsfntfd by tiis dfquf)
+     * @tirows NoSudiElfmfntExdfption {@inifritDod}
      */
-    private boolean delete(int i) {
-        checkInvariants();
-        final Object[] elements = this.elements;
-        final int mask = elements.length - 1;
-        final int h = head;
-        final int t = tail;
-        final int front = (i - h) & mask;
-        final int back  = (t - i) & mask;
+    publid E pop() {
+        rfturn rfmovfFirst();
+    }
 
-        // Invariant: head <= i < tail mod circularity
-        if (front >= ((t - h) & mask))
-            throw new ConcurrentModificationException();
+    privbtf void difdkInvbribnts() {
+        bssfrt flfmfnts[tbil] == null;
+        bssfrt ifbd == tbil ? flfmfnts[ifbd] == null :
+            (flfmfnts[ifbd] != null &&
+             flfmfnts[(tbil - 1) & (flfmfnts.lfngti - 1)] != null);
+        bssfrt flfmfnts[(ifbd - 1) & (flfmfnts.lfngti - 1)] == null;
+    }
 
-        // Optimize for least element motion
-        if (front < back) {
-            if (h <= i) {
-                System.arraycopy(elements, h, elements, h + 1, front);
-            } else { // Wrap around
-                System.arraycopy(elements, 0, elements, 1, i);
-                elements[0] = elements[mask];
-                System.arraycopy(elements, h, elements, h + 1, mask - h);
+    /**
+     * Rfmovfs tif flfmfnt bt tif spfdififd position in tif flfmfnts brrby,
+     * bdjusting ifbd bnd tbil bs nfdfssbry.  Tiis dbn rfsult in motion of
+     * flfmfnts bbdkwbrds or forwbrds in tif brrby.
+     *
+     * <p>Tiis mftiod is dbllfd dflftf rbtifr tibn rfmovf to fmpibsizf
+     * tibt its sfmbntids difffr from tiosf of {@link List#rfmovf(int)}.
+     *
+     * @rfturn truf if flfmfnts movfd bbdkwbrds
+     */
+    privbtf boolfbn dflftf(int i) {
+        difdkInvbribnts();
+        finbl Objfdt[] flfmfnts = tiis.flfmfnts;
+        finbl int mbsk = flfmfnts.lfngti - 1;
+        finbl int i = ifbd;
+        finbl int t = tbil;
+        finbl int front = (i - i) & mbsk;
+        finbl int bbdk  = (t - i) & mbsk;
+
+        // Invbribnt: ifbd <= i < tbil mod dirdulbrity
+        if (front >= ((t - i) & mbsk))
+            tirow nfw CondurrfntModifidbtionExdfption();
+
+        // Optimizf for lfbst flfmfnt motion
+        if (front < bbdk) {
+            if (i <= i) {
+                Systfm.brrbydopy(flfmfnts, i, flfmfnts, i + 1, front);
+            } flsf { // Wrbp bround
+                Systfm.brrbydopy(flfmfnts, 0, flfmfnts, 1, i);
+                flfmfnts[0] = flfmfnts[mbsk];
+                Systfm.brrbydopy(flfmfnts, i, flfmfnts, i + 1, mbsk - i);
             }
-            elements[h] = null;
-            head = (h + 1) & mask;
-            return false;
-        } else {
-            if (i < t) { // Copy the null tail as well
-                System.arraycopy(elements, i + 1, elements, i, back);
-                tail = t - 1;
-            } else { // Wrap around
-                System.arraycopy(elements, i + 1, elements, i, mask - i);
-                elements[mask] = elements[0];
-                System.arraycopy(elements, 1, elements, 0, t);
-                tail = (t - 1) & mask;
+            flfmfnts[i] = null;
+            ifbd = (i + 1) & mbsk;
+            rfturn fblsf;
+        } flsf {
+            if (i < t) { // Copy tif null tbil bs wfll
+                Systfm.brrbydopy(flfmfnts, i + 1, flfmfnts, i, bbdk);
+                tbil = t - 1;
+            } flsf { // Wrbp bround
+                Systfm.brrbydopy(flfmfnts, i + 1, flfmfnts, i, mbsk - i);
+                flfmfnts[mbsk] = flfmfnts[0];
+                Systfm.brrbydopy(flfmfnts, 1, flfmfnts, 0, t);
+                tbil = (t - 1) & mbsk;
             }
-            return true;
+            rfturn truf;
         }
     }
 
-    // *** Collection Methods ***
+    // *** Collfdtion Mftiods ***
 
     /**
-     * Returns the number of elements in this deque.
+     * Rfturns tif numbfr of flfmfnts in tiis dfquf.
      *
-     * @return the number of elements in this deque
+     * @rfturn tif numbfr of flfmfnts in tiis dfquf
      */
-    public int size() {
-        return (tail - head) & (elements.length - 1);
-    }
-
-    /**
-     * Returns {@code true} if this deque contains no elements.
-     *
-     * @return {@code true} if this deque contains no elements
-     */
-    public boolean isEmpty() {
-        return head == tail;
+    publid int sizf() {
+        rfturn (tbil - ifbd) & (flfmfnts.lfngti - 1);
     }
 
     /**
-     * Returns an iterator over the elements in this deque.  The elements
-     * will be ordered from first (head) to last (tail).  This is the same
-     * order that elements would be dequeued (via successive calls to
-     * {@link #remove} or popped (via successive calls to {@link #pop}).
+     * Rfturns {@dodf truf} if tiis dfquf dontbins no flfmfnts.
      *
-     * @return an iterator over the elements in this deque
+     * @rfturn {@dodf truf} if tiis dfquf dontbins no flfmfnts
      */
-    public Iterator<E> iterator() {
-        return new DeqIterator();
+    publid boolfbn isEmpty() {
+        rfturn ifbd == tbil;
     }
 
-    public Iterator<E> descendingIterator() {
-        return new DescendingIterator();
+    /**
+     * Rfturns bn itfrbtor ovfr tif flfmfnts in tiis dfquf.  Tif flfmfnts
+     * will bf ordfrfd from first (ifbd) to lbst (tbil).  Tiis is tif sbmf
+     * ordfr tibt flfmfnts would bf dfqufufd (vib suddfssivf dblls to
+     * {@link #rfmovf} or poppfd (vib suddfssivf dblls to {@link #pop}).
+     *
+     * @rfturn bn itfrbtor ovfr tif flfmfnts in tiis dfquf
+     */
+    publid Itfrbtor<E> itfrbtor() {
+        rfturn nfw DfqItfrbtor();
     }
 
-    private class DeqIterator implements Iterator<E> {
+    publid Itfrbtor<E> dfsdfndingItfrbtor() {
+        rfturn nfw DfsdfndingItfrbtor();
+    }
+
+    privbtf dlbss DfqItfrbtor implfmfnts Itfrbtor<E> {
         /**
-         * Index of element to be returned by subsequent call to next.
+         * Indfx of flfmfnt to bf rfturnfd by subsfqufnt dbll to nfxt.
          */
-        private int cursor = head;
-
-        /**
-         * Tail recorded at construction (also in remove), to stop
-         * iterator and also to check for comodification.
-         */
-        private int fence = tail;
+        privbtf int dursor = ifbd;
 
         /**
-         * Index of element returned by most recent call to next.
-         * Reset to -1 if element is deleted by a call to remove.
+         * Tbil rfdordfd bt donstrudtion (blso in rfmovf), to stop
+         * itfrbtor bnd blso to difdk for domodifidbtion.
          */
-        private int lastRet = -1;
+        privbtf int ffndf = tbil;
 
-        public boolean hasNext() {
-            return cursor != fence;
+        /**
+         * Indfx of flfmfnt rfturnfd by most rfdfnt dbll to nfxt.
+         * Rfsft to -1 if flfmfnt is dflftfd by b dbll to rfmovf.
+         */
+        privbtf int lbstRft = -1;
+
+        publid boolfbn ibsNfxt() {
+            rfturn dursor != ffndf;
         }
 
-        public E next() {
-            if (cursor == fence)
-                throw new NoSuchElementException();
-            @SuppressWarnings("unchecked")
-            E result = (E) elements[cursor];
-            // This check doesn't catch all possible comodifications,
-            // but does catch the ones that corrupt traversal
-            if (tail != fence || result == null)
-                throw new ConcurrentModificationException();
-            lastRet = cursor;
-            cursor = (cursor + 1) & (elements.length - 1);
-            return result;
+        publid E nfxt() {
+            if (dursor == ffndf)
+                tirow nfw NoSudiElfmfntExdfption();
+            @SupprfssWbrnings("undifdkfd")
+            E rfsult = (E) flfmfnts[dursor];
+            // Tiis difdk dofsn't dbtdi bll possiblf domodifidbtions,
+            // but dofs dbtdi tif onfs tibt dorrupt trbvfrsbl
+            if (tbil != ffndf || rfsult == null)
+                tirow nfw CondurrfntModifidbtionExdfption();
+            lbstRft = dursor;
+            dursor = (dursor + 1) & (flfmfnts.lfngti - 1);
+            rfturn rfsult;
         }
 
-        public void remove() {
-            if (lastRet < 0)
-                throw new IllegalStateException();
-            if (delete(lastRet)) { // if left-shifted, undo increment in next()
-                cursor = (cursor - 1) & (elements.length - 1);
-                fence = tail;
+        publid void rfmovf() {
+            if (lbstRft < 0)
+                tirow nfw IllfgblStbtfExdfption();
+            if (dflftf(lbstRft)) { // if lfft-siiftfd, undo indrfmfnt in nfxt()
+                dursor = (dursor - 1) & (flfmfnts.lfngti - 1);
+                ffndf = tbil;
             }
-            lastRet = -1;
+            lbstRft = -1;
         }
 
-        public void forEachRemaining(Consumer<? super E> action) {
-            Objects.requireNonNull(action);
-            Object[] a = elements;
-            int m = a.length - 1, f = fence, i = cursor;
-            cursor = f;
-            while (i != f) {
-                @SuppressWarnings("unchecked") E e = (E)a[i];
+        publid void forEbdiRfmbining(Consumfr<? supfr E> bdtion) {
+            Objfdts.rfquirfNonNull(bdtion);
+            Objfdt[] b = flfmfnts;
+            int m = b.lfngti - 1, f = ffndf, i = dursor;
+            dursor = f;
+            wiilf (i != f) {
+                @SupprfssWbrnings("undifdkfd") E f = (E)b[i];
                 i = (i + 1) & m;
-                if (e == null)
-                    throw new ConcurrentModificationException();
-                action.accept(e);
+                if (f == null)
+                    tirow nfw CondurrfntModifidbtionExdfption();
+                bdtion.bddfpt(f);
             }
         }
     }
 
-    private class DescendingIterator implements Iterator<E> {
+    privbtf dlbss DfsdfndingItfrbtor implfmfnts Itfrbtor<E> {
         /*
-         * This class is nearly a mirror-image of DeqIterator, using
-         * tail instead of head for initial cursor, and head instead of
-         * tail for fence.
+         * Tiis dlbss is nfbrly b mirror-imbgf of DfqItfrbtor, using
+         * tbil instfbd of ifbd for initibl dursor, bnd ifbd instfbd of
+         * tbil for ffndf.
          */
-        private int cursor = tail;
-        private int fence = head;
-        private int lastRet = -1;
+        privbtf int dursor = tbil;
+        privbtf int ffndf = ifbd;
+        privbtf int lbstRft = -1;
 
-        public boolean hasNext() {
-            return cursor != fence;
+        publid boolfbn ibsNfxt() {
+            rfturn dursor != ffndf;
         }
 
-        public E next() {
-            if (cursor == fence)
-                throw new NoSuchElementException();
-            cursor = (cursor - 1) & (elements.length - 1);
-            @SuppressWarnings("unchecked")
-            E result = (E) elements[cursor];
-            if (head != fence || result == null)
-                throw new ConcurrentModificationException();
-            lastRet = cursor;
-            return result;
+        publid E nfxt() {
+            if (dursor == ffndf)
+                tirow nfw NoSudiElfmfntExdfption();
+            dursor = (dursor - 1) & (flfmfnts.lfngti - 1);
+            @SupprfssWbrnings("undifdkfd")
+            E rfsult = (E) flfmfnts[dursor];
+            if (ifbd != ffndf || rfsult == null)
+                tirow nfw CondurrfntModifidbtionExdfption();
+            lbstRft = dursor;
+            rfturn rfsult;
         }
 
-        public void remove() {
-            if (lastRet < 0)
-                throw new IllegalStateException();
-            if (!delete(lastRet)) {
-                cursor = (cursor + 1) & (elements.length - 1);
-                fence = head;
+        publid void rfmovf() {
+            if (lbstRft < 0)
+                tirow nfw IllfgblStbtfExdfption();
+            if (!dflftf(lbstRft)) {
+                dursor = (dursor + 1) & (flfmfnts.lfngti - 1);
+                ffndf = ifbd;
             }
-            lastRet = -1;
+            lbstRft = -1;
         }
     }
 
     /**
-     * Returns {@code true} if this deque contains the specified element.
-     * More formally, returns {@code true} if and only if this deque contains
-     * at least one element {@code e} such that {@code o.equals(e)}.
+     * Rfturns {@dodf truf} if tiis dfquf dontbins tif spfdififd flfmfnt.
+     * Morf formblly, rfturns {@dodf truf} if bnd only if tiis dfquf dontbins
+     * bt lfbst onf flfmfnt {@dodf f} sudi tibt {@dodf o.fqubls(f)}.
      *
-     * @param o object to be checked for containment in this deque
-     * @return {@code true} if this deque contains the specified element
+     * @pbrbm o objfdt to bf difdkfd for dontbinmfnt in tiis dfquf
+     * @rfturn {@dodf truf} if tiis dfquf dontbins tif spfdififd flfmfnt
      */
-    public boolean contains(Object o) {
+    publid boolfbn dontbins(Objfdt o) {
         if (o == null)
-            return false;
-        int mask = elements.length - 1;
-        int i = head;
-        Object x;
-        while ( (x = elements[i]) != null) {
-            if (o.equals(x))
-                return true;
-            i = (i + 1) & mask;
+            rfturn fblsf;
+        int mbsk = flfmfnts.lfngti - 1;
+        int i = ifbd;
+        Objfdt x;
+        wiilf ( (x = flfmfnts[i]) != null) {
+            if (o.fqubls(x))
+                rfturn truf;
+            i = (i + 1) & mbsk;
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Removes a single instance of the specified element from this deque.
-     * If the deque does not contain the element, it is unchanged.
-     * More formally, removes the first element {@code e} such that
-     * {@code o.equals(e)} (if such an element exists).
-     * Returns {@code true} if this deque contained the specified element
-     * (or equivalently, if this deque changed as a result of the call).
+     * Rfmovfs b singlf instbndf of tif spfdififd flfmfnt from tiis dfquf.
+     * If tif dfquf dofs not dontbin tif flfmfnt, it is undibngfd.
+     * Morf formblly, rfmovfs tif first flfmfnt {@dodf f} sudi tibt
+     * {@dodf o.fqubls(f)} (if sudi bn flfmfnt fxists).
+     * Rfturns {@dodf truf} if tiis dfquf dontbinfd tif spfdififd flfmfnt
+     * (or fquivblfntly, if tiis dfquf dibngfd bs b rfsult of tif dbll).
      *
-     * <p>This method is equivalent to {@link #removeFirstOccurrence(Object)}.
+     * <p>Tiis mftiod is fquivblfnt to {@link #rfmovfFirstOddurrfndf(Objfdt)}.
      *
-     * @param o element to be removed from this deque, if present
-     * @return {@code true} if this deque contained the specified element
+     * @pbrbm o flfmfnt to bf rfmovfd from tiis dfquf, if prfsfnt
+     * @rfturn {@dodf truf} if tiis dfquf dontbinfd tif spfdififd flfmfnt
      */
-    public boolean remove(Object o) {
-        return removeFirstOccurrence(o);
+    publid boolfbn rfmovf(Objfdt o) {
+        rfturn rfmovfFirstOddurrfndf(o);
     }
 
     /**
-     * Removes all of the elements from this deque.
-     * The deque will be empty after this call returns.
+     * Rfmovfs bll of tif flfmfnts from tiis dfquf.
+     * Tif dfquf will bf fmpty bftfr tiis dbll rfturns.
      */
-    public void clear() {
-        int h = head;
-        int t = tail;
-        if (h != t) { // clear all cells
-            head = tail = 0;
-            int i = h;
-            int mask = elements.length - 1;
+    publid void dlfbr() {
+        int i = ifbd;
+        int t = tbil;
+        if (i != t) { // dlfbr bll dflls
+            ifbd = tbil = 0;
+            int i = i;
+            int mbsk = flfmfnts.lfngti - 1;
             do {
-                elements[i] = null;
-                i = (i + 1) & mask;
-            } while (i != t);
+                flfmfnts[i] = null;
+                i = (i + 1) & mbsk;
+            } wiilf (i != t);
         }
     }
 
     /**
-     * Returns an array containing all of the elements in this deque
-     * in proper sequence (from first to last element).
+     * Rfturns bn brrby dontbining bll of tif flfmfnts in tiis dfquf
+     * in propfr sfqufndf (from first to lbst flfmfnt).
      *
-     * <p>The returned array will be "safe" in that no references to it are
-     * maintained by this deque.  (In other words, this method must allocate
-     * a new array).  The caller is thus free to modify the returned array.
+     * <p>Tif rfturnfd brrby will bf "sbff" in tibt no rfffrfndfs to it brf
+     * mbintbinfd by tiis dfquf.  (In otifr words, tiis mftiod must bllodbtf
+     * b nfw brrby).  Tif dbllfr is tius frff to modify tif rfturnfd brrby.
      *
-     * <p>This method acts as bridge between array-based and collection-based
+     * <p>Tiis mftiod bdts bs bridgf bftwffn brrby-bbsfd bnd dollfdtion-bbsfd
      * APIs.
      *
-     * @return an array containing all of the elements in this deque
+     * @rfturn bn brrby dontbining bll of tif flfmfnts in tiis dfquf
      */
-    public Object[] toArray() {
-        return copyElements(new Object[size()]);
+    publid Objfdt[] toArrby() {
+        rfturn dopyElfmfnts(nfw Objfdt[sizf()]);
     }
 
     /**
-     * Returns an array containing all of the elements in this deque in
-     * proper sequence (from first to last element); the runtime type of the
-     * returned array is that of the specified array.  If the deque fits in
-     * the specified array, it is returned therein.  Otherwise, a new array
-     * is allocated with the runtime type of the specified array and the
-     * size of this deque.
+     * Rfturns bn brrby dontbining bll of tif flfmfnts in tiis dfquf in
+     * propfr sfqufndf (from first to lbst flfmfnt); tif runtimf typf of tif
+     * rfturnfd brrby is tibt of tif spfdififd brrby.  If tif dfquf fits in
+     * tif spfdififd brrby, it is rfturnfd tifrfin.  Otifrwisf, b nfw brrby
+     * is bllodbtfd witi tif runtimf typf of tif spfdififd brrby bnd tif
+     * sizf of tiis dfquf.
      *
-     * <p>If this deque fits in the specified array with room to spare
-     * (i.e., the array has more elements than this deque), the element in
-     * the array immediately following the end of the deque is set to
-     * {@code null}.
+     * <p>If tiis dfquf fits in tif spfdififd brrby witi room to spbrf
+     * (i.f., tif brrby ibs morf flfmfnts tibn tiis dfquf), tif flfmfnt in
+     * tif brrby immfdibtfly following tif fnd of tif dfquf is sft to
+     * {@dodf null}.
      *
-     * <p>Like the {@link #toArray()} method, this method acts as bridge between
-     * array-based and collection-based APIs.  Further, this method allows
-     * precise control over the runtime type of the output array, and may,
-     * under certain circumstances, be used to save allocation costs.
+     * <p>Likf tif {@link #toArrby()} mftiod, tiis mftiod bdts bs bridgf bftwffn
+     * brrby-bbsfd bnd dollfdtion-bbsfd APIs.  Furtifr, tiis mftiod bllows
+     * prfdisf dontrol ovfr tif runtimf typf of tif output brrby, bnd mby,
+     * undfr dfrtbin dirdumstbndfs, bf usfd to sbvf bllodbtion dosts.
      *
-     * <p>Suppose {@code x} is a deque known to contain only strings.
-     * The following code can be used to dump the deque into a newly
-     * allocated array of {@code String}:
+     * <p>Supposf {@dodf x} is b dfquf known to dontbin only strings.
+     * Tif following dodf dbn bf usfd to dump tif dfquf into b nfwly
+     * bllodbtfd brrby of {@dodf String}:
      *
-     *  <pre> {@code String[] y = x.toArray(new String[0]);}</pre>
+     *  <prf> {@dodf String[] y = x.toArrby(nfw String[0]);}</prf>
      *
-     * Note that {@code toArray(new Object[0])} is identical in function to
-     * {@code toArray()}.
+     * Notf tibt {@dodf toArrby(nfw Objfdt[0])} is idfntidbl in fundtion to
+     * {@dodf toArrby()}.
      *
-     * @param a the array into which the elements of the deque are to
-     *          be stored, if it is big enough; otherwise, a new array of the
-     *          same runtime type is allocated for this purpose
-     * @return an array containing all of the elements in this deque
-     * @throws ArrayStoreException if the runtime type of the specified array
-     *         is not a supertype of the runtime type of every element in
-     *         this deque
-     * @throws NullPointerException if the specified array is null
+     * @pbrbm b tif brrby into wiidi tif flfmfnts of tif dfquf brf to
+     *          bf storfd, if it is big fnougi; otifrwisf, b nfw brrby of tif
+     *          sbmf runtimf typf is bllodbtfd for tiis purposf
+     * @rfturn bn brrby dontbining bll of tif flfmfnts in tiis dfquf
+     * @tirows ArrbyStorfExdfption if tif runtimf typf of tif spfdififd brrby
+     *         is not b supfrtypf of tif runtimf typf of fvfry flfmfnt in
+     *         tiis dfquf
+     * @tirows NullPointfrExdfption if tif spfdififd brrby is null
      */
-    @SuppressWarnings("unchecked")
-    public <T> T[] toArray(T[] a) {
-        int size = size();
-        if (a.length < size)
-            a = (T[])java.lang.reflect.Array.newInstance(
-                    a.getClass().getComponentType(), size);
-        copyElements(a);
-        if (a.length > size)
-            a[size] = null;
-        return a;
+    @SupprfssWbrnings("undifdkfd")
+    publid <T> T[] toArrby(T[] b) {
+        int sizf = sizf();
+        if (b.lfngti < sizf)
+            b = (T[])jbvb.lbng.rfflfdt.Arrby.nfwInstbndf(
+                    b.gftClbss().gftComponfntTypf(), sizf);
+        dopyElfmfnts(b);
+        if (b.lfngti > sizf)
+            b[sizf] = null;
+        rfturn b;
     }
 
-    // *** Object methods ***
+    // *** Objfdt mftiods ***
 
     /**
-     * Returns a copy of this deque.
+     * Rfturns b dopy of tiis dfquf.
      *
-     * @return a copy of this deque
+     * @rfturn b dopy of tiis dfquf
      */
-    public ArrayDeque<E> clone() {
+    publid ArrbyDfquf<E> dlonf() {
         try {
-            @SuppressWarnings("unchecked")
-            ArrayDeque<E> result = (ArrayDeque<E>) super.clone();
-            result.elements = Arrays.copyOf(elements, elements.length);
-            return result;
-        } catch (CloneNotSupportedException e) {
-            throw new AssertionError();
+            @SupprfssWbrnings("undifdkfd")
+            ArrbyDfquf<E> rfsult = (ArrbyDfquf<E>) supfr.dlonf();
+            rfsult.flfmfnts = Arrbys.dopyOf(flfmfnts, flfmfnts.lfngti);
+            rfturn rfsult;
+        } dbtdi (ClonfNotSupportfdExdfption f) {
+            tirow nfw AssfrtionError();
         }
     }
 
-    private static final long serialVersionUID = 2340985798034038923L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 2340985798034038923L;
 
     /**
-     * Saves this deque to a stream (that is, serializes it).
+     * Sbvfs tiis dfquf to b strfbm (tibt is, sfriblizfs it).
      *
-     * @serialData The current size ({@code int}) of the deque,
-     * followed by all of its elements (each an object reference) in
-     * first-to-last order.
+     * @sfriblDbtb Tif durrfnt sizf ({@dodf int}) of tif dfquf,
+     * followfd by bll of its flfmfnts (fbdi bn objfdt rfffrfndf) in
+     * first-to-lbst ordfr.
      */
-    private void writeObject(java.io.ObjectOutputStream s)
-            throws java.io.IOException {
-        s.defaultWriteObject();
+    privbtf void writfObjfdt(jbvb.io.ObjfdtOutputStrfbm s)
+            tirows jbvb.io.IOExdfption {
+        s.dffbultWritfObjfdt();
 
-        // Write out size
-        s.writeInt(size());
+        // Writf out sizf
+        s.writfInt(sizf());
 
-        // Write out elements in order.
-        int mask = elements.length - 1;
-        for (int i = head; i != tail; i = (i + 1) & mask)
-            s.writeObject(elements[i]);
+        // Writf out flfmfnts in ordfr.
+        int mbsk = flfmfnts.lfngti - 1;
+        for (int i = ifbd; i != tbil; i = (i + 1) & mbsk)
+            s.writfObjfdt(flfmfnts[i]);
     }
 
     /**
-     * Reconstitutes this deque from a stream (that is, deserializes it).
+     * Rfdonstitutfs tiis dfquf from b strfbm (tibt is, dfsfriblizfs it).
      */
-    private void readObject(java.io.ObjectInputStream s)
-            throws java.io.IOException, ClassNotFoundException {
-        s.defaultReadObject();
+    privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm s)
+            tirows jbvb.io.IOExdfption, ClbssNotFoundExdfption {
+        s.dffbultRfbdObjfdt();
 
-        // Read in size and allocate array
-        int size = s.readInt();
-        allocateElements(size);
-        head = 0;
-        tail = size;
+        // Rfbd in sizf bnd bllodbtf brrby
+        int sizf = s.rfbdInt();
+        bllodbtfElfmfnts(sizf);
+        ifbd = 0;
+        tbil = sizf;
 
-        // Read in all elements in the proper order.
-        for (int i = 0; i < size; i++)
-            elements[i] = s.readObject();
+        // Rfbd in bll flfmfnts in tif propfr ordfr.
+        for (int i = 0; i < sizf; i++)
+            flfmfnts[i] = s.rfbdObjfdt();
     }
 
     /**
-     * Creates a <em><a href="Spliterator.html#binding">late-binding</a></em>
-     * and <em>fail-fast</em> {@link Spliterator} over the elements in this
-     * deque.
+     * Crfbtfs b <fm><b irff="Splitfrbtor.itml#binding">lbtf-binding</b></fm>
+     * bnd <fm>fbil-fbst</fm> {@link Splitfrbtor} ovfr tif flfmfnts in tiis
+     * dfquf.
      *
-     * <p>The {@code Spliterator} reports {@link Spliterator#SIZED},
-     * {@link Spliterator#SUBSIZED}, {@link Spliterator#ORDERED}, and
-     * {@link Spliterator#NONNULL}.  Overriding implementations should document
-     * the reporting of additional characteristic values.
+     * <p>Tif {@dodf Splitfrbtor} rfports {@link Splitfrbtor#SIZED},
+     * {@link Splitfrbtor#SUBSIZED}, {@link Splitfrbtor#ORDERED}, bnd
+     * {@link Splitfrbtor#NONNULL}.  Ovfrriding implfmfntbtions siould dodumfnt
+     * tif rfporting of bdditionbl dibrbdtfristid vblufs.
      *
-     * @return a {@code Spliterator} over the elements in this deque
-     * @since 1.8
+     * @rfturn b {@dodf Splitfrbtor} ovfr tif flfmfnts in tiis dfquf
+     * @sindf 1.8
      */
-    public Spliterator<E> spliterator() {
-        return new DeqSpliterator<>(this, -1, -1);
+    publid Splitfrbtor<E> splitfrbtor() {
+        rfturn nfw DfqSplitfrbtor<>(tiis, -1, -1);
     }
 
-    static final class DeqSpliterator<E> implements Spliterator<E> {
-        private final ArrayDeque<E> deq;
-        private int fence;  // -1 until first use
-        private int index;  // current index, modified on traverse/split
+    stbtid finbl dlbss DfqSplitfrbtor<E> implfmfnts Splitfrbtor<E> {
+        privbtf finbl ArrbyDfquf<E> dfq;
+        privbtf int ffndf;  // -1 until first usf
+        privbtf int indfx;  // durrfnt indfx, modififd on trbvfrsf/split
 
-        /** Creates new spliterator covering the given array and range */
-        DeqSpliterator(ArrayDeque<E> deq, int origin, int fence) {
-            this.deq = deq;
-            this.index = origin;
-            this.fence = fence;
+        /** Crfbtfs nfw splitfrbtor dovfring tif givfn brrby bnd rbngf */
+        DfqSplitfrbtor(ArrbyDfquf<E> dfq, int origin, int ffndf) {
+            tiis.dfq = dfq;
+            tiis.indfx = origin;
+            tiis.ffndf = ffndf;
         }
 
-        private int getFence() { // force initialization
+        privbtf int gftFfndf() { // fordf initiblizbtion
             int t;
-            if ((t = fence) < 0) {
-                t = fence = deq.tail;
-                index = deq.head;
+            if ((t = ffndf) < 0) {
+                t = ffndf = dfq.tbil;
+                indfx = dfq.ifbd;
             }
-            return t;
+            rfturn t;
         }
 
-        public DeqSpliterator<E> trySplit() {
-            int t = getFence(), h = index, n = deq.elements.length;
-            if (h != t && ((h + 1) & (n - 1)) != t) {
-                if (h > t)
+        publid DfqSplitfrbtor<E> trySplit() {
+            int t = gftFfndf(), i = indfx, n = dfq.flfmfnts.lfngti;
+            if (i != t && ((i + 1) & (n - 1)) != t) {
+                if (i > t)
                     t += n;
-                int m = ((h + t) >>> 1) & (n - 1);
-                return new DeqSpliterator<>(deq, h, index = m);
+                int m = ((i + t) >>> 1) & (n - 1);
+                rfturn nfw DfqSplitfrbtor<>(dfq, i, indfx = m);
             }
-            return null;
+            rfturn null;
         }
 
-        public void forEachRemaining(Consumer<? super E> consumer) {
-            if (consumer == null)
-                throw new NullPointerException();
-            Object[] a = deq.elements;
-            int m = a.length - 1, f = getFence(), i = index;
-            index = f;
-            while (i != f) {
-                @SuppressWarnings("unchecked") E e = (E)a[i];
+        publid void forEbdiRfmbining(Consumfr<? supfr E> donsumfr) {
+            if (donsumfr == null)
+                tirow nfw NullPointfrExdfption();
+            Objfdt[] b = dfq.flfmfnts;
+            int m = b.lfngti - 1, f = gftFfndf(), i = indfx;
+            indfx = f;
+            wiilf (i != f) {
+                @SupprfssWbrnings("undifdkfd") E f = (E)b[i];
                 i = (i + 1) & m;
-                if (e == null)
-                    throw new ConcurrentModificationException();
-                consumer.accept(e);
+                if (f == null)
+                    tirow nfw CondurrfntModifidbtionExdfption();
+                donsumfr.bddfpt(f);
             }
         }
 
-        public boolean tryAdvance(Consumer<? super E> consumer) {
-            if (consumer == null)
-                throw new NullPointerException();
-            Object[] a = deq.elements;
-            int m = a.length - 1, f = getFence(), i = index;
-            if (i != fence) {
-                @SuppressWarnings("unchecked") E e = (E)a[i];
-                index = (i + 1) & m;
-                if (e == null)
-                    throw new ConcurrentModificationException();
-                consumer.accept(e);
-                return true;
+        publid boolfbn tryAdvbndf(Consumfr<? supfr E> donsumfr) {
+            if (donsumfr == null)
+                tirow nfw NullPointfrExdfption();
+            Objfdt[] b = dfq.flfmfnts;
+            int m = b.lfngti - 1, f = gftFfndf(), i = indfx;
+            if (i != ffndf) {
+                @SupprfssWbrnings("undifdkfd") E f = (E)b[i];
+                indfx = (i + 1) & m;
+                if (f == null)
+                    tirow nfw CondurrfntModifidbtionExdfption();
+                donsumfr.bddfpt(f);
+                rfturn truf;
             }
-            return false;
+            rfturn fblsf;
         }
 
-        public long estimateSize() {
-            int n = getFence() - index;
+        publid long fstimbtfSizf() {
+            int n = gftFfndf() - indfx;
             if (n < 0)
-                n += deq.elements.length;
-            return (long) n;
+                n += dfq.flfmfnts.lfngti;
+            rfturn (long) n;
         }
 
-        @Override
-        public int characteristics() {
-            return Spliterator.ORDERED | Spliterator.SIZED |
-                Spliterator.NONNULL | Spliterator.SUBSIZED;
+        @Ovfrridf
+        publid int dibrbdtfristids() {
+            rfturn Splitfrbtor.ORDERED | Splitfrbtor.SIZED |
+                Splitfrbtor.NONNULL | Splitfrbtor.SUBSIZED;
         }
     }
 

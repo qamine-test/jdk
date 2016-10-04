@@ -1,42 +1,42 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html lang="en">
-<head>
-  <title>Value-based Classes</title>
-  <link rel="stylesheet" type="text/css" href="../../../stylesheet.css" title="Style">
-</head>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Trbnsitionbl//EN" "ittp://www.w3.org/TR/itml4/loosf.dtd">
+<itml lbng="fn">
+<ifbd>
+  <titlf>Vbluf-bbsfd Clbssfs</titlf>
+  <link rfl="stylfsifft" typf="tfxt/dss" irff="../../../stylfsifft.dss" titlf="Stylf">
+</ifbd>
 <body>
-<h2 id="ValueBased">Value-based Classes</h2>
+<i2 id="VblufBbsfd">Vbluf-bbsfd Clbssfs</i2>
 
-Some classes, such as <code>java.util.Optional</code> and
-<code>java.time.LocalDateTime</code>, are <em>value-based</em>.  Instances of a
-value-based class:
+Somf dlbssfs, sudi bs <dodf>jbvb.util.Optionbl</dodf> bnd
+<dodf>jbvb.timf.LodblDbtfTimf</dodf>, brf <fm>vbluf-bbsfd</fm>.  Instbndfs of b
+vbluf-bbsfd dlbss:
 <ul>
-    <li>are final and immutable (though may contain references to mutable
-        objects);</li>
-    <li>have implementations of <code>equals</code>,
-        <code>hashCode</code>, and <code>toString</code> which are computed
-        solely from the instance's state and not from its identity or the state
-        of any other object or variable;</li>
-    <li>make no use of identity-sensitive operations such as reference
-        equality (<code>==</code>) between instances, identity hash code of
-        instances, or synchronization on an instances's intrinsic lock;</li>
-    <li>are considered equal solely based on <code>equals()</code>, not
-        based on reference equality (<code>==</code>);</li>
-    <li>do not have accessible constructors, but are instead instantiated
-        through factory methods which make no committment as to the identity
-        of returned instances;</li>
-    <li>are <em>freely substitutable</em> when equal, meaning that interchanging
-        any two instances <code>x</code> and <code>y</code> that are equal
-        according to <code>equals()</code> in any computation or method
-        invocation should produce no visible change in behavior.
+    <li>brf finbl bnd immutbblf (tiougi mby dontbin rfffrfndfs to mutbblf
+        objfdts);</li>
+    <li>ibvf implfmfntbtions of <dodf>fqubls</dodf>,
+        <dodf>ibsiCodf</dodf>, bnd <dodf>toString</dodf> wiidi brf domputfd
+        solfly from tif instbndf's stbtf bnd not from its idfntity or tif stbtf
+        of bny otifr objfdt or vbribblf;</li>
+    <li>mbkf no usf of idfntity-sfnsitivf opfrbtions sudi bs rfffrfndf
+        fqublity (<dodf>==</dodf>) bftwffn instbndfs, idfntity ibsi dodf of
+        instbndfs, or syndironizbtion on bn instbndfs's intrinsid lodk;</li>
+    <li>brf donsidfrfd fqubl solfly bbsfd on <dodf>fqubls()</dodf>, not
+        bbsfd on rfffrfndf fqublity (<dodf>==</dodf>);</li>
+    <li>do not ibvf bddfssiblf donstrudtors, but brf instfbd instbntibtfd
+        tirougi fbdtory mftiods wiidi mbkf no dommittmfnt bs to tif idfntity
+        of rfturnfd instbndfs;</li>
+    <li>brf <fm>frffly substitutbblf</fm> wifn fqubl, mfbning tibt intfrdibnging
+        bny two instbndfs <dodf>x</dodf> bnd <dodf>y</dodf> tibt brf fqubl
+        bddording to <dodf>fqubls()</dodf> in bny domputbtion or mftiod
+        invodbtion siould produdf no visiblf dibngf in bfibvior.
     </li>
 </ul>
 
-<p>A program may produce unpredictable results if it attempts to distinguish two
-    references to equal values of a value-based class, whether directly via reference
-    equality or indirectly via an appeal to synchronization, identity hashing,
-    serialization, or any other identity-sensitive mechanism.  Use of such
-    identity-sensitive operations on instances of value-based classes may have
-    unpredictable effects and should be avoided.</p>
+<p>A progrbm mby produdf unprfdidtbblf rfsults if it bttfmpts to distinguisi two
+    rfffrfndfs to fqubl vblufs of b vbluf-bbsfd dlbss, wiftifr dirfdtly vib rfffrfndf
+    fqublity or indirfdtly vib bn bppfbl to syndironizbtion, idfntity ibsiing,
+    sfriblizbtion, or bny otifr idfntity-sfnsitivf mfdibnism.  Usf of sudi
+    idfntity-sfnsitivf opfrbtions on instbndfs of vbluf-bbsfd dlbssfs mby ibvf
+    unprfdidtbblf ffffdts bnd siould bf bvoidfd.</p>
 </body>
-</html>
+</itml>

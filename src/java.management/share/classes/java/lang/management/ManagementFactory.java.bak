@@ -1,865 +1,865 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang.management;
-import javax.management.DynamicMBean;
-import javax.management.MBeanServer;
-import javax.management.MBeanServerConnection;
-import javax.management.MBeanServerFactory;
-import javax.management.MBeanServerPermission;
-import javax.management.NotificationEmitter;
-import javax.management.ObjectInstance;
-import javax.management.ObjectName;
-import javax.management.InstanceAlreadyExistsException;
-import javax.management.InstanceNotFoundException;
-import javax.management.MalformedObjectNameException;
-import javax.management.MBeanRegistrationException;
-import javax.management.NotCompliantMBeanException;
-import javax.management.StandardEmitterMBean;
-import javax.management.StandardMBean;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.security.AccessController;
-import java.security.Permission;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
-import javax.management.JMX;
-import sun.management.ManagementFactoryHelper;
+pbdkbgf jbvb.lbng.mbnbgfmfnt;
+import jbvbx.mbnbgfmfnt.DynbmidMBfbn;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfrFbdtory;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfrPfrmission;
+import jbvbx.mbnbgfmfnt.NotifidbtionEmittfr;
+import jbvbx.mbnbgfmfnt.ObjfdtInstbndf;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import jbvbx.mbnbgfmfnt.InstbndfAlrfbdyExistsExdfption;
+import jbvbx.mbnbgfmfnt.InstbndfNotFoundExdfption;
+import jbvbx.mbnbgfmfnt.MblformfdObjfdtNbmfExdfption;
+import jbvbx.mbnbgfmfnt.MBfbnRfgistrbtionExdfption;
+import jbvbx.mbnbgfmfnt.NotComplibntMBfbnExdfption;
+import jbvbx.mbnbgfmfnt.StbndbrdEmittfrMBfbn;
+import jbvbx.mbnbgfmfnt.StbndbrdMBfbn;
+import jbvb.util.Collfdtions;
+import jbvb.util.List;
+import jbvb.util.Sft;
+import jbvb.util.HbsiMbp;
+import jbvb.util.HbsiSft;
+import jbvb.util.Mbp;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.Pfrmission;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.PrivilfgfdAdtionExdfption;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvbx.mbnbgfmfnt.JMX;
+import sun.mbnbgfmfnt.MbnbgfmfntFbdtoryHflpfr;
 
 /**
- * The {@code ManagementFactory} class is a factory class for getting
- * managed beans for the Java platform.
- * This class consists of static methods each of which returns
- * one or more <i>platform MXBeans</i> representing
- * the management interface of a component of the Java virtual
- * machine.
+ * Tif {@dodf MbnbgfmfntFbdtory} dlbss is b fbdtory dlbss for gftting
+ * mbnbgfd bfbns for tif Jbvb plbtform.
+ * Tiis dlbss donsists of stbtid mftiods fbdi of wiidi rfturns
+ * onf or morf <i>plbtform MXBfbns</i> rfprfsfnting
+ * tif mbnbgfmfnt intfrfbdf of b domponfnt of tif Jbvb virtubl
+ * mbdiinf.
  *
- * <h3><a name="MXBean">Platform MXBeans</a></h3>
+ * <i3><b nbmf="MXBfbn">Plbtform MXBfbns</b></i3>
  * <p>
- * A platform MXBean is a <i>managed bean</i> that
- * conforms to the <a href="../../../javax/management/package-summary.html">JMX</a>
- * Instrumentation Specification and only uses a set of basic data types.
- * A JMX management application and the {@linkplain
- * #getPlatformMBeanServer platform MBeanServer}
- * can interoperate without requiring classes for MXBean specific
- * data types.
- * The data types being transmitted between the JMX connector
- * server and the connector client are
- * {@linkplain javax.management.openmbean.OpenType open types}
- * and this allows interoperation across versions.
- * See <a href="../../../javax/management/MXBean.html#MXBean-spec">
- * the specification of MXBeans</a> for details.
+ * A plbtform MXBfbn is b <i>mbnbgfd bfbn</i> tibt
+ * donforms to tif <b irff="../../../jbvbx/mbnbgfmfnt/pbdkbgf-summbry.itml">JMX</b>
+ * Instrumfntbtion Spfdifidbtion bnd only usfs b sft of bbsid dbtb typfs.
+ * A JMX mbnbgfmfnt bpplidbtion bnd tif {@linkplbin
+ * #gftPlbtformMBfbnSfrvfr plbtform MBfbnSfrvfr}
+ * dbn intfropfrbtf witiout rfquiring dlbssfs for MXBfbn spfdifid
+ * dbtb typfs.
+ * Tif dbtb typfs bfing trbnsmittfd bftwffn tif JMX donnfdtor
+ * sfrvfr bnd tif donnfdtor dlifnt brf
+ * {@linkplbin jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnTypf opfn typfs}
+ * bnd tiis bllows intfropfrbtion bdross vfrsions.
+ * Sff <b irff="../../../jbvbx/mbnbgfmfnt/MXBfbn.itml#MXBfbn-spfd">
+ * tif spfdifidbtion of MXBfbns</b> for dftbils.
  *
- * <a name="MXBeanNames"></a>
- * <p>Each platform MXBean is a {@link PlatformManagedObject}
- * and it has a unique
- * {@link javax.management.ObjectName ObjectName} for
- * registration in the platform {@code MBeanServer} as returned by
- * by the {@link PlatformManagedObject#getObjectName getObjectName}
- * method.
+ * <b nbmf="MXBfbnNbmfs"></b>
+ * <p>Ebdi plbtform MXBfbn is b {@link PlbtformMbnbgfdObjfdt}
+ * bnd it ibs b uniquf
+ * {@link jbvbx.mbnbgfmfnt.ObjfdtNbmf ObjfdtNbmf} for
+ * rfgistrbtion in tif plbtform {@dodf MBfbnSfrvfr} bs rfturnfd by
+ * by tif {@link PlbtformMbnbgfdObjfdt#gftObjfdtNbmf gftObjfdtNbmf}
+ * mftiod.
  *
  * <p>
- * An application can access a platform MXBean in the following ways:
- * <h4>1. Direct access to an MXBean interface</h4>
- * <blockquote>
+ * An bpplidbtion dbn bddfss b plbtform MXBfbn in tif following wbys:
+ * <i4>1. Dirfdt bddfss to bn MXBfbn intfrfbdf</i4>
+ * <blodkquotf>
  * <ul>
- *     <li>Get an MXBean instance by calling the
- *         {@link #getPlatformMXBean(Class) getPlatformMXBean} or
- *         {@link #getPlatformMXBeans(Class) getPlatformMXBeans} method
- *         and access the MXBean locally in the running
- *         virtual machine.
+ *     <li>Gft bn MXBfbn instbndf by dblling tif
+ *         {@link #gftPlbtformMXBfbn(Clbss) gftPlbtformMXBfbn} or
+ *         {@link #gftPlbtformMXBfbns(Clbss) gftPlbtformMXBfbns} mftiod
+ *         bnd bddfss tif MXBfbn lodblly in tif running
+ *         virtubl mbdiinf.
  *         </li>
- *     <li>Construct an MXBean proxy instance that forwards the
- *         method calls to a given {@link MBeanServer MBeanServer} by calling
- *         the {@link #getPlatformMXBean(MBeanServerConnection, Class)} or
- *         {@link #getPlatformMXBeans(MBeanServerConnection, Class)} method.
- *         The {@link #newPlatformMXBeanProxy newPlatformMXBeanProxy} method
- *         can also be used to construct an MXBean proxy instance of
- *         a given {@code ObjectName}.
- *         A proxy is typically constructed to remotely access
- *         an MXBean of another running virtual machine.
+ *     <li>Construdt bn MXBfbn proxy instbndf tibt forwbrds tif
+ *         mftiod dblls to b givfn {@link MBfbnSfrvfr MBfbnSfrvfr} by dblling
+ *         tif {@link #gftPlbtformMXBfbn(MBfbnSfrvfrConnfdtion, Clbss)} or
+ *         {@link #gftPlbtformMXBfbns(MBfbnSfrvfrConnfdtion, Clbss)} mftiod.
+ *         Tif {@link #nfwPlbtformMXBfbnProxy nfwPlbtformMXBfbnProxy} mftiod
+ *         dbn blso bf usfd to donstrudt bn MXBfbn proxy instbndf of
+ *         b givfn {@dodf ObjfdtNbmf}.
+ *         A proxy is typidblly donstrudtfd to rfmotfly bddfss
+ *         bn MXBfbn of bnotifr running virtubl mbdiinf.
  *         </li>
  * </ul>
- * <h4>2. Indirect access to an MXBean interface via MBeanServer</h4>
+ * <i4>2. Indirfdt bddfss to bn MXBfbn intfrfbdf vib MBfbnSfrvfr</i4>
  * <ul>
- *     <li>Go through the platform {@code MBeanServer} to access MXBeans
- *         locally or a specific <tt>MBeanServerConnection</tt> to access
- *         MXBeans remotely.
- *         The attributes and operations of an MXBean use only
- *         <em>JMX open types</em> which include basic data types,
- *         {@link javax.management.openmbean.CompositeData CompositeData},
- *         and {@link javax.management.openmbean.TabularData TabularData}
- *         defined in
- *         {@link javax.management.openmbean.OpenType OpenType}.
- *         The mapping is specified in
- *         the {@linkplain javax.management.MXBean MXBean} specification
- *         for details.
+ *     <li>Go tirougi tif plbtform {@dodf MBfbnSfrvfr} to bddfss MXBfbns
+ *         lodblly or b spfdifid <tt>MBfbnSfrvfrConnfdtion</tt> to bddfss
+ *         MXBfbns rfmotfly.
+ *         Tif bttributfs bnd opfrbtions of bn MXBfbn usf only
+ *         <fm>JMX opfn typfs</fm> wiidi indludf bbsid dbtb typfs,
+ *         {@link jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb CompositfDbtb},
+ *         bnd {@link jbvbx.mbnbgfmfnt.opfnmbfbn.TbbulbrDbtb TbbulbrDbtb}
+ *         dffinfd in
+ *         {@link jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnTypf OpfnTypf}.
+ *         Tif mbpping is spfdififd in
+ *         tif {@linkplbin jbvbx.mbnbgfmfnt.MXBfbn MXBfbn} spfdifidbtion
+ *         for dftbils.
  *        </li>
  * </ul>
- * </blockquote>
+ * </blodkquotf>
  *
  * <p>
- * The {@link #getPlatformManagementInterfaces getPlatformManagementInterfaces}
- * method returns all management interfaces supported in the Java virtual machine
- * including the standard management interfaces listed in the tables
- * below as well as the management interfaces extended by the JDK implementation.
+ * Tif {@link #gftPlbtformMbnbgfmfntIntfrfbdfs gftPlbtformMbnbgfmfntIntfrfbdfs}
+ * mftiod rfturns bll mbnbgfmfnt intfrfbdfs supportfd in tif Jbvb virtubl mbdiinf
+ * indluding tif stbndbrd mbnbgfmfnt intfrfbdfs listfd in tif tbblfs
+ * bflow bs wfll bs tif mbnbgfmfnt intfrfbdfs fxtfndfd by tif JDK implfmfntbtion.
  * <p>
- * A Java virtual machine has a single instance of the following management
- * interfaces:
+ * A Jbvb virtubl mbdiinf ibs b singlf instbndf of tif following mbnbgfmfnt
+ * intfrfbdfs:
  *
- * <blockquote>
- * <table border summary="The list of Management Interfaces and their single instances">
+ * <blodkquotf>
+ * <tbblf bordfr summbry="Tif list of Mbnbgfmfnt Intfrfbdfs bnd tifir singlf instbndfs">
  * <tr>
- * <th>Management Interface</th>
- * <th>ObjectName</th>
+ * <ti>Mbnbgfmfnt Intfrfbdf</ti>
+ * <ti>ObjfdtNbmf</ti>
  * </tr>
  * <tr>
- * <td> {@link ClassLoadingMXBean} </td>
+ * <td> {@link ClbssLobdingMXBfbn} </td>
  * <td> {@link #CLASS_LOADING_MXBEAN_NAME
- *             java.lang:type=ClassLoading}</td>
+ *             jbvb.lbng:typf=ClbssLobding}</td>
  * </tr>
  * <tr>
- * <td> {@link MemoryMXBean} </td>
+ * <td> {@link MfmoryMXBfbn} </td>
  * <td> {@link #MEMORY_MXBEAN_NAME
- *             java.lang:type=Memory}</td>
+ *             jbvb.lbng:typf=Mfmory}</td>
  * </tr>
  * <tr>
- * <td> {@link ThreadMXBean} </td>
+ * <td> {@link TirfbdMXBfbn} </td>
  * <td> {@link #THREAD_MXBEAN_NAME
- *             java.lang:type=Threading}</td>
+ *             jbvb.lbng:typf=Tirfbding}</td>
  * </tr>
  * <tr>
- * <td> {@link RuntimeMXBean} </td>
+ * <td> {@link RuntimfMXBfbn} </td>
  * <td> {@link #RUNTIME_MXBEAN_NAME
- *             java.lang:type=Runtime}</td>
+ *             jbvb.lbng:typf=Runtimf}</td>
  * </tr>
  * <tr>
- * <td> {@link OperatingSystemMXBean} </td>
+ * <td> {@link OpfrbtingSystfmMXBfbn} </td>
  * <td> {@link #OPERATING_SYSTEM_MXBEAN_NAME
- *             java.lang:type=OperatingSystem}</td>
+ *             jbvb.lbng:typf=OpfrbtingSystfm}</td>
  * </tr>
  * <tr>
- * <td> {@link PlatformLoggingMXBean} </td>
- * <td> {@link java.util.logging.LogManager#LOGGING_MXBEAN_NAME
- *             java.util.logging:type=Logging}</td>
+ * <td> {@link PlbtformLoggingMXBfbn} </td>
+ * <td> {@link jbvb.util.logging.LogMbnbgfr#LOGGING_MXBEAN_NAME
+ *             jbvb.util.logging:typf=Logging}</td>
  * </tr>
- * </table>
- * </blockquote>
+ * </tbblf>
+ * </blodkquotf>
  *
  * <p>
- * A Java virtual machine has zero or a single instance of
- * the following management interfaces.
+ * A Jbvb virtubl mbdiinf ibs zfro or b singlf instbndf of
+ * tif following mbnbgfmfnt intfrfbdfs.
  *
- * <blockquote>
- * <table border summary="The list of Management Interfaces and their single instances">
+ * <blodkquotf>
+ * <tbblf bordfr summbry="Tif list of Mbnbgfmfnt Intfrfbdfs bnd tifir singlf instbndfs">
  * <tr>
- * <th>Management Interface</th>
- * <th>ObjectName</th>
+ * <ti>Mbnbgfmfnt Intfrfbdf</ti>
+ * <ti>ObjfdtNbmf</ti>
  * </tr>
  * <tr>
- * <td> {@link CompilationMXBean} </td>
+ * <td> {@link CompilbtionMXBfbn} </td>
  * <td> {@link #COMPILATION_MXBEAN_NAME
- *             java.lang:type=Compilation}</td>
+ *             jbvb.lbng:typf=Compilbtion}</td>
  * </tr>
- * </table>
- * </blockquote>
+ * </tbblf>
+ * </blodkquotf>
  *
  * <p>
- * A Java virtual machine may have one or more instances of the following
- * management interfaces.
- * <blockquote>
- * <table border summary="The list of Management Interfaces and their single instances">
+ * A Jbvb virtubl mbdiinf mby ibvf onf or morf instbndfs of tif following
+ * mbnbgfmfnt intfrfbdfs.
+ * <blodkquotf>
+ * <tbblf bordfr summbry="Tif list of Mbnbgfmfnt Intfrfbdfs bnd tifir singlf instbndfs">
  * <tr>
- * <th>Management Interface</th>
- * <th>ObjectName</th>
+ * <ti>Mbnbgfmfnt Intfrfbdf</ti>
+ * <ti>ObjfdtNbmf</ti>
  * </tr>
  * <tr>
- * <td> {@link GarbageCollectorMXBean} </td>
+ * <td> {@link GbrbbgfCollfdtorMXBfbn} </td>
  * <td> {@link #GARBAGE_COLLECTOR_MXBEAN_DOMAIN_TYPE
- *             java.lang:type=GarbageCollector}<tt>,name=</tt><i>collector's name</i></td>
+ *             jbvb.lbng:typf=GbrbbgfCollfdtor}<tt>,nbmf=</tt><i>dollfdtor's nbmf</i></td>
  * </tr>
  * <tr>
- * <td> {@link MemoryManagerMXBean} </td>
+ * <td> {@link MfmoryMbnbgfrMXBfbn} </td>
  * <td> {@link #MEMORY_MANAGER_MXBEAN_DOMAIN_TYPE
- *             java.lang:type=MemoryManager}<tt>,name=</tt><i>manager's name</i></td>
+ *             jbvb.lbng:typf=MfmoryMbnbgfr}<tt>,nbmf=</tt><i>mbnbgfr's nbmf</i></td>
  * </tr>
  * <tr>
- * <td> {@link MemoryPoolMXBean} </td>
+ * <td> {@link MfmoryPoolMXBfbn} </td>
  * <td> {@link #MEMORY_POOL_MXBEAN_DOMAIN_TYPE
- *             java.lang:type=MemoryPool}<tt>,name=</tt><i>pool's name</i></td>
+ *             jbvb.lbng:typf=MfmoryPool}<tt>,nbmf=</tt><i>pool's nbmf</i></td>
  * </tr>
  * <tr>
- * <td> {@link BufferPoolMXBean} </td>
- * <td> {@code java.nio:type=BufferPool,name=}<i>pool name</i></td>
+ * <td> {@link BufffrPoolMXBfbn} </td>
+ * <td> {@dodf jbvb.nio:typf=BufffrPool,nbmf=}<i>pool nbmf</i></td>
  * </tr>
- * </table>
- * </blockquote>
+ * </tbblf>
+ * </blodkquotf>
  *
- * @see <a href="../../../javax/management/package-summary.html">
- *      JMX Specification</a>
- * @see <a href="package-summary.html#examples">
- *      Ways to Access Management Metrics</a>
- * @see javax.management.MXBean
+ * @sff <b irff="../../../jbvbx/mbnbgfmfnt/pbdkbgf-summbry.itml">
+ *      JMX Spfdifidbtion</b>
+ * @sff <b irff="pbdkbgf-summbry.itml#fxbmplfs">
+ *      Wbys to Addfss Mbnbgfmfnt Mftrids</b>
+ * @sff jbvbx.mbnbgfmfnt.MXBfbn
  *
- * @author  Mandy Chung
- * @since   1.5
+ * @butior  Mbndy Ciung
+ * @sindf   1.5
  */
-public class ManagementFactory {
-    // A class with only static fields and methods.
-    private ManagementFactory() {};
+publid dlbss MbnbgfmfntFbdtory {
+    // A dlbss witi only stbtid fiflds bnd mftiods.
+    privbtf MbnbgfmfntFbdtory() {};
 
     /**
-     * String representation of the
-     * <tt>ObjectName</tt> for the {@link ClassLoadingMXBean}.
+     * String rfprfsfntbtion of tif
+     * <tt>ObjfdtNbmf</tt> for tif {@link ClbssLobdingMXBfbn}.
      */
-    public final static String CLASS_LOADING_MXBEAN_NAME =
-        "java.lang:type=ClassLoading";
+    publid finbl stbtid String CLASS_LOADING_MXBEAN_NAME =
+        "jbvb.lbng:typf=ClbssLobding";
 
     /**
-     * String representation of the
-     * <tt>ObjectName</tt> for the {@link CompilationMXBean}.
+     * String rfprfsfntbtion of tif
+     * <tt>ObjfdtNbmf</tt> for tif {@link CompilbtionMXBfbn}.
      */
-    public final static String COMPILATION_MXBEAN_NAME =
-        "java.lang:type=Compilation";
+    publid finbl stbtid String COMPILATION_MXBEAN_NAME =
+        "jbvb.lbng:typf=Compilbtion";
 
     /**
-     * String representation of the
-     * <tt>ObjectName</tt> for the {@link MemoryMXBean}.
+     * String rfprfsfntbtion of tif
+     * <tt>ObjfdtNbmf</tt> for tif {@link MfmoryMXBfbn}.
      */
-    public final static String MEMORY_MXBEAN_NAME =
-        "java.lang:type=Memory";
+    publid finbl stbtid String MEMORY_MXBEAN_NAME =
+        "jbvb.lbng:typf=Mfmory";
 
     /**
-     * String representation of the
-     * <tt>ObjectName</tt> for the {@link OperatingSystemMXBean}.
+     * String rfprfsfntbtion of tif
+     * <tt>ObjfdtNbmf</tt> for tif {@link OpfrbtingSystfmMXBfbn}.
      */
-    public final static String OPERATING_SYSTEM_MXBEAN_NAME =
-        "java.lang:type=OperatingSystem";
+    publid finbl stbtid String OPERATING_SYSTEM_MXBEAN_NAME =
+        "jbvb.lbng:typf=OpfrbtingSystfm";
 
     /**
-     * String representation of the
-     * <tt>ObjectName</tt> for the {@link RuntimeMXBean}.
+     * String rfprfsfntbtion of tif
+     * <tt>ObjfdtNbmf</tt> for tif {@link RuntimfMXBfbn}.
      */
-    public final static String RUNTIME_MXBEAN_NAME =
-        "java.lang:type=Runtime";
+    publid finbl stbtid String RUNTIME_MXBEAN_NAME =
+        "jbvb.lbng:typf=Runtimf";
 
     /**
-     * String representation of the
-     * <tt>ObjectName</tt> for the {@link ThreadMXBean}.
+     * String rfprfsfntbtion of tif
+     * <tt>ObjfdtNbmf</tt> for tif {@link TirfbdMXBfbn}.
      */
-    public final static String THREAD_MXBEAN_NAME =
-        "java.lang:type=Threading";
+    publid finbl stbtid String THREAD_MXBEAN_NAME =
+        "jbvb.lbng:typf=Tirfbding";
 
     /**
-     * The domain name and the type key property in
-     * the <tt>ObjectName</tt> for a {@link GarbageCollectorMXBean}.
-     * The unique <tt>ObjectName</tt> for a <tt>GarbageCollectorMXBean</tt>
-     * can be formed by appending this string with
-     * "<tt>,name=</tt><i>collector's name</i>".
+     * Tif dombin nbmf bnd tif typf kfy propfrty in
+     * tif <tt>ObjfdtNbmf</tt> for b {@link GbrbbgfCollfdtorMXBfbn}.
+     * Tif uniquf <tt>ObjfdtNbmf</tt> for b <tt>GbrbbgfCollfdtorMXBfbn</tt>
+     * dbn bf formfd by bppfnding tiis string witi
+     * "<tt>,nbmf=</tt><i>dollfdtor's nbmf</i>".
      */
-    public final static String GARBAGE_COLLECTOR_MXBEAN_DOMAIN_TYPE =
-        "java.lang:type=GarbageCollector";
+    publid finbl stbtid String GARBAGE_COLLECTOR_MXBEAN_DOMAIN_TYPE =
+        "jbvb.lbng:typf=GbrbbgfCollfdtor";
 
     /**
-     * The domain name and the type key property in
-     * the <tt>ObjectName</tt> for a {@link MemoryManagerMXBean}.
-     * The unique <tt>ObjectName</tt> for a <tt>MemoryManagerMXBean</tt>
-     * can be formed by appending this string with
-     * "<tt>,name=</tt><i>manager's name</i>".
+     * Tif dombin nbmf bnd tif typf kfy propfrty in
+     * tif <tt>ObjfdtNbmf</tt> for b {@link MfmoryMbnbgfrMXBfbn}.
+     * Tif uniquf <tt>ObjfdtNbmf</tt> for b <tt>MfmoryMbnbgfrMXBfbn</tt>
+     * dbn bf formfd by bppfnding tiis string witi
+     * "<tt>,nbmf=</tt><i>mbnbgfr's nbmf</i>".
      */
-    public final static String MEMORY_MANAGER_MXBEAN_DOMAIN_TYPE=
-        "java.lang:type=MemoryManager";
+    publid finbl stbtid String MEMORY_MANAGER_MXBEAN_DOMAIN_TYPE=
+        "jbvb.lbng:typf=MfmoryMbnbgfr";
 
     /**
-     * The domain name and the type key property in
-     * the <tt>ObjectName</tt> for a {@link MemoryPoolMXBean}.
-     * The unique <tt>ObjectName</tt> for a <tt>MemoryPoolMXBean</tt>
-     * can be formed by appending this string with
-     * <tt>,name=</tt><i>pool's name</i>.
+     * Tif dombin nbmf bnd tif typf kfy propfrty in
+     * tif <tt>ObjfdtNbmf</tt> for b {@link MfmoryPoolMXBfbn}.
+     * Tif uniquf <tt>ObjfdtNbmf</tt> for b <tt>MfmoryPoolMXBfbn</tt>
+     * dbn bf formfd by bppfnding tiis string witi
+     * <tt>,nbmf=</tt><i>pool's nbmf</i>.
      */
-    public final static String MEMORY_POOL_MXBEAN_DOMAIN_TYPE=
-        "java.lang:type=MemoryPool";
+    publid finbl stbtid String MEMORY_POOL_MXBEAN_DOMAIN_TYPE=
+        "jbvb.lbng:typf=MfmoryPool";
 
     /**
-     * Returns the managed bean for the class loading system of
-     * the Java virtual machine.
+     * Rfturns tif mbnbgfd bfbn for tif dlbss lobding systfm of
+     * tif Jbvb virtubl mbdiinf.
      *
-     * @return a {@link ClassLoadingMXBean} object for
-     * the Java virtual machine.
+     * @rfturn b {@link ClbssLobdingMXBfbn} objfdt for
+     * tif Jbvb virtubl mbdiinf.
      */
-    public static ClassLoadingMXBean getClassLoadingMXBean() {
-        return ManagementFactoryHelper.getClassLoadingMXBean();
+    publid stbtid ClbssLobdingMXBfbn gftClbssLobdingMXBfbn() {
+        rfturn MbnbgfmfntFbdtoryHflpfr.gftClbssLobdingMXBfbn();
     }
 
     /**
-     * Returns the managed bean for the memory system of
-     * the Java virtual machine.
+     * Rfturns tif mbnbgfd bfbn for tif mfmory systfm of
+     * tif Jbvb virtubl mbdiinf.
      *
-     * @return a {@link MemoryMXBean} object for the Java virtual machine.
+     * @rfturn b {@link MfmoryMXBfbn} objfdt for tif Jbvb virtubl mbdiinf.
      */
-    public static MemoryMXBean getMemoryMXBean() {
-        return ManagementFactoryHelper.getMemoryMXBean();
+    publid stbtid MfmoryMXBfbn gftMfmoryMXBfbn() {
+        rfturn MbnbgfmfntFbdtoryHflpfr.gftMfmoryMXBfbn();
     }
 
     /**
-     * Returns the managed bean for the thread system of
-     * the Java virtual machine.
+     * Rfturns tif mbnbgfd bfbn for tif tirfbd systfm of
+     * tif Jbvb virtubl mbdiinf.
      *
-     * @return a {@link ThreadMXBean} object for the Java virtual machine.
+     * @rfturn b {@link TirfbdMXBfbn} objfdt for tif Jbvb virtubl mbdiinf.
      */
-    public static ThreadMXBean getThreadMXBean() {
-        return ManagementFactoryHelper.getThreadMXBean();
+    publid stbtid TirfbdMXBfbn gftTirfbdMXBfbn() {
+        rfturn MbnbgfmfntFbdtoryHflpfr.gftTirfbdMXBfbn();
     }
 
     /**
-     * Returns the managed bean for the runtime system of
-     * the Java virtual machine.
+     * Rfturns tif mbnbgfd bfbn for tif runtimf systfm of
+     * tif Jbvb virtubl mbdiinf.
      *
-     * @return a {@link RuntimeMXBean} object for the Java virtual machine.
+     * @rfturn b {@link RuntimfMXBfbn} objfdt for tif Jbvb virtubl mbdiinf.
 
      */
-    public static RuntimeMXBean getRuntimeMXBean() {
-        return ManagementFactoryHelper.getRuntimeMXBean();
+    publid stbtid RuntimfMXBfbn gftRuntimfMXBfbn() {
+        rfturn MbnbgfmfntFbdtoryHflpfr.gftRuntimfMXBfbn();
     }
 
     /**
-     * Returns the managed bean for the compilation system of
-     * the Java virtual machine.  This method returns <tt>null</tt>
-     * if the Java virtual machine has no compilation system.
+     * Rfturns tif mbnbgfd bfbn for tif dompilbtion systfm of
+     * tif Jbvb virtubl mbdiinf.  Tiis mftiod rfturns <tt>null</tt>
+     * if tif Jbvb virtubl mbdiinf ibs no dompilbtion systfm.
      *
-     * @return a {@link CompilationMXBean} object for the Java virtual
-     *   machine or <tt>null</tt> if the Java virtual machine has
-     *   no compilation system.
+     * @rfturn b {@link CompilbtionMXBfbn} objfdt for tif Jbvb virtubl
+     *   mbdiinf or <tt>null</tt> if tif Jbvb virtubl mbdiinf ibs
+     *   no dompilbtion systfm.
      */
-    public static CompilationMXBean getCompilationMXBean() {
-        return ManagementFactoryHelper.getCompilationMXBean();
+    publid stbtid CompilbtionMXBfbn gftCompilbtionMXBfbn() {
+        rfturn MbnbgfmfntFbdtoryHflpfr.gftCompilbtionMXBfbn();
     }
 
     /**
-     * Returns the managed bean for the operating system on which
-     * the Java virtual machine is running.
+     * Rfturns tif mbnbgfd bfbn for tif opfrbting systfm on wiidi
+     * tif Jbvb virtubl mbdiinf is running.
      *
-     * @return an {@link OperatingSystemMXBean} object for
-     * the Java virtual machine.
+     * @rfturn bn {@link OpfrbtingSystfmMXBfbn} objfdt for
+     * tif Jbvb virtubl mbdiinf.
      */
-    public static OperatingSystemMXBean getOperatingSystemMXBean() {
-        return ManagementFactoryHelper.getOperatingSystemMXBean();
+    publid stbtid OpfrbtingSystfmMXBfbn gftOpfrbtingSystfmMXBfbn() {
+        rfturn MbnbgfmfntFbdtoryHflpfr.gftOpfrbtingSystfmMXBfbn();
     }
 
     /**
-     * Returns a list of {@link MemoryPoolMXBean} objects in the
-     * Java virtual machine.
-     * The Java virtual machine can have one or more memory pools.
-     * It may add or remove memory pools during execution.
+     * Rfturns b list of {@link MfmoryPoolMXBfbn} objfdts in tif
+     * Jbvb virtubl mbdiinf.
+     * Tif Jbvb virtubl mbdiinf dbn ibvf onf or morf mfmory pools.
+     * It mby bdd or rfmovf mfmory pools during fxfdution.
      *
-     * @return a list of <tt>MemoryPoolMXBean</tt> objects.
+     * @rfturn b list of <tt>MfmoryPoolMXBfbn</tt> objfdts.
      *
      */
-    public static List<MemoryPoolMXBean> getMemoryPoolMXBeans() {
-        return ManagementFactoryHelper.getMemoryPoolMXBeans();
+    publid stbtid List<MfmoryPoolMXBfbn> gftMfmoryPoolMXBfbns() {
+        rfturn MbnbgfmfntFbdtoryHflpfr.gftMfmoryPoolMXBfbns();
     }
 
     /**
-     * Returns a list of {@link MemoryManagerMXBean} objects
-     * in the Java virtual machine.
-     * The Java virtual machine can have one or more memory managers.
-     * It may add or remove memory managers during execution.
+     * Rfturns b list of {@link MfmoryMbnbgfrMXBfbn} objfdts
+     * in tif Jbvb virtubl mbdiinf.
+     * Tif Jbvb virtubl mbdiinf dbn ibvf onf or morf mfmory mbnbgfrs.
+     * It mby bdd or rfmovf mfmory mbnbgfrs during fxfdution.
      *
-     * @return a list of <tt>MemoryManagerMXBean</tt> objects.
+     * @rfturn b list of <tt>MfmoryMbnbgfrMXBfbn</tt> objfdts.
      *
      */
-    public static List<MemoryManagerMXBean> getMemoryManagerMXBeans() {
-        return ManagementFactoryHelper.getMemoryManagerMXBeans();
+    publid stbtid List<MfmoryMbnbgfrMXBfbn> gftMfmoryMbnbgfrMXBfbns() {
+        rfturn MbnbgfmfntFbdtoryHflpfr.gftMfmoryMbnbgfrMXBfbns();
     }
 
 
     /**
-     * Returns a list of {@link GarbageCollectorMXBean} objects
-     * in the Java virtual machine.
-     * The Java virtual machine may have one or more
-     * <tt>GarbageCollectorMXBean</tt> objects.
-     * It may add or remove <tt>GarbageCollectorMXBean</tt>
-     * during execution.
+     * Rfturns b list of {@link GbrbbgfCollfdtorMXBfbn} objfdts
+     * in tif Jbvb virtubl mbdiinf.
+     * Tif Jbvb virtubl mbdiinf mby ibvf onf or morf
+     * <tt>GbrbbgfCollfdtorMXBfbn</tt> objfdts.
+     * It mby bdd or rfmovf <tt>GbrbbgfCollfdtorMXBfbn</tt>
+     * during fxfdution.
      *
-     * @return a list of <tt>GarbageCollectorMXBean</tt> objects.
+     * @rfturn b list of <tt>GbrbbgfCollfdtorMXBfbn</tt> objfdts.
      *
      */
-    public static List<GarbageCollectorMXBean> getGarbageCollectorMXBeans() {
-        return ManagementFactoryHelper.getGarbageCollectorMXBeans();
+    publid stbtid List<GbrbbgfCollfdtorMXBfbn> gftGbrbbgfCollfdtorMXBfbns() {
+        rfturn MbnbgfmfntFbdtoryHflpfr.gftGbrbbgfCollfdtorMXBfbns();
     }
 
-    private static MBeanServer platformMBeanServer;
+    privbtf stbtid MBfbnSfrvfr plbtformMBfbnSfrvfr;
     /**
-     * Returns the platform {@link javax.management.MBeanServer MBeanServer}.
-     * On the first call to this method, it first creates the platform
-     * {@code MBeanServer} by calling the
-     * {@link javax.management.MBeanServerFactory#createMBeanServer
-     * MBeanServerFactory.createMBeanServer}
-     * method and registers each platform MXBean in this platform
-     * {@code MBeanServer} with its
-     * {@link PlatformManagedObject#getObjectName ObjectName}.
-     * This method, in subsequent calls, will simply return the
-     * initially created platform {@code MBeanServer}.
+     * Rfturns tif plbtform {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfr MBfbnSfrvfr}.
+     * On tif first dbll to tiis mftiod, it first drfbtfs tif plbtform
+     * {@dodf MBfbnSfrvfr} by dblling tif
+     * {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfrFbdtory#drfbtfMBfbnSfrvfr
+     * MBfbnSfrvfrFbdtory.drfbtfMBfbnSfrvfr}
+     * mftiod bnd rfgistfrs fbdi plbtform MXBfbn in tiis plbtform
+     * {@dodf MBfbnSfrvfr} witi its
+     * {@link PlbtformMbnbgfdObjfdt#gftObjfdtNbmf ObjfdtNbmf}.
+     * Tiis mftiod, in subsfqufnt dblls, will simply rfturn tif
+     * initiblly drfbtfd plbtform {@dodf MBfbnSfrvfr}.
      * <p>
-     * MXBeans that get created and destroyed dynamically, for example,
-     * memory {@link MemoryPoolMXBean pools} and
-     * {@link MemoryManagerMXBean managers},
-     * will automatically be registered and deregistered into the platform
-     * {@code MBeanServer}.
+     * MXBfbns tibt gft drfbtfd bnd dfstroyfd dynbmidblly, for fxbmplf,
+     * mfmory {@link MfmoryPoolMXBfbn pools} bnd
+     * {@link MfmoryMbnbgfrMXBfbn mbnbgfrs},
+     * will butombtidblly bf rfgistfrfd bnd dfrfgistfrfd into tif plbtform
+     * {@dodf MBfbnSfrvfr}.
      * <p>
-     * If the system property {@code javax.management.builder.initial}
-     * is set, the platform {@code MBeanServer} creation will be done
-     * by the specified {@link javax.management.MBeanServerBuilder}.
+     * If tif systfm propfrty {@dodf jbvbx.mbnbgfmfnt.buildfr.initibl}
+     * is sft, tif plbtform {@dodf MBfbnSfrvfr} drfbtion will bf donf
+     * by tif spfdififd {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfrBuildfr}.
      * <p>
-     * It is recommended that this platform MBeanServer also be used
-     * to register other application managed beans
-     * besides the platform MXBeans.
-     * This will allow all MBeans to be published through the same
-     * {@code MBeanServer} and hence allow for easier network publishing
-     * and discovery.
-     * Name conflicts with the platform MXBeans should be avoided.
+     * It is rfdommfndfd tibt tiis plbtform MBfbnSfrvfr blso bf usfd
+     * to rfgistfr otifr bpplidbtion mbnbgfd bfbns
+     * bfsidfs tif plbtform MXBfbns.
+     * Tiis will bllow bll MBfbns to bf publisifd tirougi tif sbmf
+     * {@dodf MBfbnSfrvfr} bnd ifndf bllow for fbsifr nftwork publisiing
+     * bnd disdovfry.
+     * Nbmf donflidts witi tif plbtform MXBfbns siould bf bvoidfd.
      *
-     * @return the platform {@code MBeanServer}; the platform
-     *         MXBeans are registered into the platform {@code MBeanServer}
-     *         at the first time this method is called.
+     * @rfturn tif plbtform {@dodf MBfbnSfrvfr}; tif plbtform
+     *         MXBfbns brf rfgistfrfd into tif plbtform {@dodf MBfbnSfrvfr}
+     *         bt tif first timf tiis mftiod is dbllfd.
      *
-     * @exception SecurityException if there is a security manager
-     * and the caller does not have the permission required by
-     * {@link javax.management.MBeanServerFactory#createMBeanServer}.
+     * @fxdfption SfdurityExdfption if tifrf is b sfdurity mbnbgfr
+     * bnd tif dbllfr dofs not ibvf tif pfrmission rfquirfd by
+     * {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfrFbdtory#drfbtfMBfbnSfrvfr}.
      *
-     * @see javax.management.MBeanServerFactory
-     * @see javax.management.MBeanServerFactory#createMBeanServer
+     * @sff jbvbx.mbnbgfmfnt.MBfbnSfrvfrFbdtory
+     * @sff jbvbx.mbnbgfmfnt.MBfbnSfrvfrFbdtory#drfbtfMBfbnSfrvfr
      */
-    public static synchronized MBeanServer getPlatformMBeanServer() {
-        SecurityManager sm = System.getSecurityManager();
+    publid stbtid syndironizfd MBfbnSfrvfr gftPlbtformMBfbnSfrvfr() {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            Permission perm = new MBeanServerPermission("createMBeanServer");
-            sm.checkPermission(perm);
+            Pfrmission pfrm = nfw MBfbnSfrvfrPfrmission("drfbtfMBfbnSfrvfr");
+            sm.difdkPfrmission(pfrm);
         }
 
-        if (platformMBeanServer == null) {
-            platformMBeanServer = MBeanServerFactory.createMBeanServer();
-            for (PlatformComponent pc : PlatformComponent.values()) {
-                List<? extends PlatformManagedObject> list =
-                    pc.getMXBeans(pc.getMXBeanInterface());
-                for (PlatformManagedObject o : list) {
-                    // Each PlatformComponent represents one management
-                    // interface. Some MXBean may extend another one.
-                    // The MXBean instances for one platform component
-                    // (returned by pc.getMXBeans()) might be also
-                    // the MXBean instances for another platform component.
-                    // e.g. com.sun.management.GarbageCollectorMXBean
+        if (plbtformMBfbnSfrvfr == null) {
+            plbtformMBfbnSfrvfr = MBfbnSfrvfrFbdtory.drfbtfMBfbnSfrvfr();
+            for (PlbtformComponfnt pd : PlbtformComponfnt.vblufs()) {
+                List<? fxtfnds PlbtformMbnbgfdObjfdt> list =
+                    pd.gftMXBfbns(pd.gftMXBfbnIntfrfbdf());
+                for (PlbtformMbnbgfdObjfdt o : list) {
+                    // Ebdi PlbtformComponfnt rfprfsfnts onf mbnbgfmfnt
+                    // intfrfbdf. Somf MXBfbn mby fxtfnd bnotifr onf.
+                    // Tif MXBfbn instbndfs for onf plbtform domponfnt
+                    // (rfturnfd by pd.gftMXBfbns()) migit bf blso
+                    // tif MXBfbn instbndfs for bnotifr plbtform domponfnt.
+                    // f.g. dom.sun.mbnbgfmfnt.GbrbbgfCollfdtorMXBfbn
                     //
-                    // So need to check if an MXBean instance is registered
-                    // before registering into the platform MBeanServer
-                    if (!platformMBeanServer.isRegistered(o.getObjectName())) {
-                        addMXBean(platformMBeanServer, o);
+                    // So nffd to difdk if bn MXBfbn instbndf is rfgistfrfd
+                    // bfforf rfgistfring into tif plbtform MBfbnSfrvfr
+                    if (!plbtformMBfbnSfrvfr.isRfgistfrfd(o.gftObjfdtNbmf())) {
+                        bddMXBfbn(plbtformMBfbnSfrvfr, o);
                     }
                 }
             }
-            HashMap<ObjectName, DynamicMBean> dynmbeans =
-                    ManagementFactoryHelper.getPlatformDynamicMBeans();
-            for (Map.Entry<ObjectName, DynamicMBean> e : dynmbeans.entrySet()) {
-                addDynamicMBean(platformMBeanServer, e.getValue(), e.getKey());
+            HbsiMbp<ObjfdtNbmf, DynbmidMBfbn> dynmbfbns =
+                    MbnbgfmfntFbdtoryHflpfr.gftPlbtformDynbmidMBfbns();
+            for (Mbp.Entry<ObjfdtNbmf, DynbmidMBfbn> f : dynmbfbns.fntrySft()) {
+                bddDynbmidMBfbn(plbtformMBfbnSfrvfr, f.gftVbluf(), f.gftKfy());
             }
         }
-        return platformMBeanServer;
+        rfturn plbtformMBfbnSfrvfr;
     }
 
     /**
-     * Returns a proxy for a platform MXBean interface of a
-     * given <a href="#MXBeanNames">MXBean name</a>
-     * that forwards its method calls through the given
-     * <tt>MBeanServerConnection</tt>.
+     * Rfturns b proxy for b plbtform MXBfbn intfrfbdf of b
+     * givfn <b irff="#MXBfbnNbmfs">MXBfbn nbmf</b>
+     * tibt forwbrds its mftiod dblls tirougi tif givfn
+     * <tt>MBfbnSfrvfrConnfdtion</tt>.
      *
-     * <p>This method is equivalent to:
-     * <blockquote>
-     * {@link java.lang.reflect.Proxy#newProxyInstance
-     *        Proxy.newProxyInstance}<tt>(mxbeanInterface.getClassLoader(),
-     *        new Class[] { mxbeanInterface }, handler)</tt>
-     * </blockquote>
+     * <p>Tiis mftiod is fquivblfnt to:
+     * <blodkquotf>
+     * {@link jbvb.lbng.rfflfdt.Proxy#nfwProxyInstbndf
+     *        Proxy.nfwProxyInstbndf}<tt>(mxbfbnIntfrfbdf.gftClbssLobdfr(),
+     *        nfw Clbss[] { mxbfbnIntfrfbdf }, ibndlfr)</tt>
+     * </blodkquotf>
      *
-     * where <tt>handler</tt> is an {@link java.lang.reflect.InvocationHandler
-     * InvocationHandler} to which method invocations to the MXBean interface
-     * are dispatched. This <tt>handler</tt> converts an input parameter
-     * from an MXBean data type to its mapped open type before forwarding
-     * to the <tt>MBeanServer</tt> and converts a return value from
-     * an MXBean method call through the <tt>MBeanServer</tt>
-     * from an open type to the corresponding return type declared in
-     * the MXBean interface.
-     *
-     * <p>
-     * If the MXBean is a notification emitter (i.e.,
-     * it implements
-     * {@link javax.management.NotificationEmitter NotificationEmitter}),
-     * both the <tt>mxbeanInterface</tt> and <tt>NotificationEmitter</tt>
-     * will be implemented by this proxy.
+     * wifrf <tt>ibndlfr</tt> is bn {@link jbvb.lbng.rfflfdt.InvodbtionHbndlfr
+     * InvodbtionHbndlfr} to wiidi mftiod invodbtions to tif MXBfbn intfrfbdf
+     * brf dispbtdifd. Tiis <tt>ibndlfr</tt> donvfrts bn input pbrbmftfr
+     * from bn MXBfbn dbtb typf to its mbppfd opfn typf bfforf forwbrding
+     * to tif <tt>MBfbnSfrvfr</tt> bnd donvfrts b rfturn vbluf from
+     * bn MXBfbn mftiod dbll tirougi tif <tt>MBfbnSfrvfr</tt>
+     * from bn opfn typf to tif dorrfsponding rfturn typf dfdlbrfd in
+     * tif MXBfbn intfrfbdf.
      *
      * <p>
-     * <b>Notes:</b>
+     * If tif MXBfbn is b notifidbtion fmittfr (i.f.,
+     * it implfmfnts
+     * {@link jbvbx.mbnbgfmfnt.NotifidbtionEmittfr NotifidbtionEmittfr}),
+     * boti tif <tt>mxbfbnIntfrfbdf</tt> bnd <tt>NotifidbtionEmittfr</tt>
+     * will bf implfmfntfd by tiis proxy.
+     *
+     * <p>
+     * <b>Notfs:</b>
      * <ol>
-     * <li>Using an MXBean proxy is a convenience remote access to
-     * a platform MXBean of a running virtual machine.  All method
-     * calls to the MXBean proxy are forwarded to an
-     * <tt>MBeanServerConnection</tt> where
-     * {@link java.io.IOException IOException} may be thrown
-     * when the communication problem occurs with the connector server.
-     * An application remotely accesses the platform MXBeans using
-     * proxy should prepare to catch <tt>IOException</tt> as if
-     * accessing with the <tt>MBeanServerConnector</tt> interface.</li>
+     * <li>Using bn MXBfbn proxy is b donvfnifndf rfmotf bddfss to
+     * b plbtform MXBfbn of b running virtubl mbdiinf.  All mftiod
+     * dblls to tif MXBfbn proxy brf forwbrdfd to bn
+     * <tt>MBfbnSfrvfrConnfdtion</tt> wifrf
+     * {@link jbvb.io.IOExdfption IOExdfption} mby bf tirown
+     * wifn tif dommunidbtion problfm oddurs witi tif donnfdtor sfrvfr.
+     * An bpplidbtion rfmotfly bddfssfs tif plbtform MXBfbns using
+     * proxy siould prfpbrf to dbtdi <tt>IOExdfption</tt> bs if
+     * bddfssing witi tif <tt>MBfbnSfrvfrConnfdtor</tt> intfrfbdf.</li>
      *
-     * <li>When a client application is designed to remotely access MXBeans
-     * for a running virtual machine whose version is different than
-     * the version on which the application is running,
-     * it should prepare to catch
-     * {@link java.io.InvalidObjectException InvalidObjectException}
-     * which is thrown when an MXBean proxy receives a name of an
-     * enum constant which is missing in the enum class loaded in
-     * the client application. </li>
+     * <li>Wifn b dlifnt bpplidbtion is dfsignfd to rfmotfly bddfss MXBfbns
+     * for b running virtubl mbdiinf wiosf vfrsion is difffrfnt tibn
+     * tif vfrsion on wiidi tif bpplidbtion is running,
+     * it siould prfpbrf to dbtdi
+     * {@link jbvb.io.InvblidObjfdtExdfption InvblidObjfdtExdfption}
+     * wiidi is tirown wifn bn MXBfbn proxy rfdfivfs b nbmf of bn
+     * fnum donstbnt wiidi is missing in tif fnum dlbss lobdfd in
+     * tif dlifnt bpplidbtion. </li>
      *
-     * <li>{@link javax.management.MBeanServerInvocationHandler
-     * MBeanServerInvocationHandler} or its
-     * {@link javax.management.MBeanServerInvocationHandler#newProxyInstance
-     * newProxyInstance} method cannot be used to create
-     * a proxy for a platform MXBean. The proxy object created
-     * by <tt>MBeanServerInvocationHandler</tt> does not handle
-     * the properties of the platform MXBeans described in
-     * the <a href="#MXBean">class specification</a>.
+     * <li>{@link jbvbx.mbnbgfmfnt.MBfbnSfrvfrInvodbtionHbndlfr
+     * MBfbnSfrvfrInvodbtionHbndlfr} or its
+     * {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfrInvodbtionHbndlfr#nfwProxyInstbndf
+     * nfwProxyInstbndf} mftiod dbnnot bf usfd to drfbtf
+     * b proxy for b plbtform MXBfbn. Tif proxy objfdt drfbtfd
+     * by <tt>MBfbnSfrvfrInvodbtionHbndlfr</tt> dofs not ibndlf
+     * tif propfrtifs of tif plbtform MXBfbns dfsdribfd in
+     * tif <b irff="#MXBfbn">dlbss spfdifidbtion</b>.
      *</li>
      * </ol>
      *
-     * @param connection the <tt>MBeanServerConnection</tt> to forward to.
-     * @param mxbeanName the name of a platform MXBean within
-     * <tt>connection</tt> to forward to. <tt>mxbeanName</tt> must be
-     * in the format of {@link ObjectName ObjectName}.
-     * @param mxbeanInterface the MXBean interface to be implemented
-     * by the proxy.
-     * @param <T> an {@code mxbeanInterface} type parameter
+     * @pbrbm donnfdtion tif <tt>MBfbnSfrvfrConnfdtion</tt> to forwbrd to.
+     * @pbrbm mxbfbnNbmf tif nbmf of b plbtform MXBfbn witiin
+     * <tt>donnfdtion</tt> to forwbrd to. <tt>mxbfbnNbmf</tt> must bf
+     * in tif formbt of {@link ObjfdtNbmf ObjfdtNbmf}.
+     * @pbrbm mxbfbnIntfrfbdf tif MXBfbn intfrfbdf to bf implfmfntfd
+     * by tif proxy.
+     * @pbrbm <T> bn {@dodf mxbfbnIntfrfbdf} typf pbrbmftfr
      *
-     * @return a proxy for a platform MXBean interface of a
-     * given <a href="#MXBeanNames">MXBean name</a>
-     * that forwards its method calls through the given
-     * <tt>MBeanServerConnection</tt>, or {@code null} if not exist.
+     * @rfturn b proxy for b plbtform MXBfbn intfrfbdf of b
+     * givfn <b irff="#MXBfbnNbmfs">MXBfbn nbmf</b>
+     * tibt forwbrds its mftiod dblls tirougi tif givfn
+     * <tt>MBfbnSfrvfrConnfdtion</tt>, or {@dodf null} if not fxist.
      *
-     * @throws IllegalArgumentException if
+     * @tirows IllfgblArgumfntExdfption if
      * <ul>
-     * <li><tt>mxbeanName</tt> is not with a valid
-     *     {@link ObjectName ObjectName} format, or</li>
-     * <li>the named MXBean in the <tt>connection</tt> is
-     *     not a MXBean provided by the platform, or</li>
-     * <li>the named MXBean is not registered in the
-     *     <tt>MBeanServerConnection</tt>, or</li>
-     * <li>the named MXBean is not an instance of the given
-     *     <tt>mxbeanInterface</tt></li>
+     * <li><tt>mxbfbnNbmf</tt> is not witi b vblid
+     *     {@link ObjfdtNbmf ObjfdtNbmf} formbt, or</li>
+     * <li>tif nbmfd MXBfbn in tif <tt>donnfdtion</tt> is
+     *     not b MXBfbn providfd by tif plbtform, or</li>
+     * <li>tif nbmfd MXBfbn is not rfgistfrfd in tif
+     *     <tt>MBfbnSfrvfrConnfdtion</tt>, or</li>
+     * <li>tif nbmfd MXBfbn is not bn instbndf of tif givfn
+     *     <tt>mxbfbnIntfrfbdf</tt></li>
      * </ul>
      *
-     * @throws java.io.IOException if a communication problem
-     * occurred when accessing the <tt>MBeanServerConnection</tt>.
+     * @tirows jbvb.io.IOExdfption if b dommunidbtion problfm
+     * oddurrfd wifn bddfssing tif <tt>MBfbnSfrvfrConnfdtion</tt>.
      */
-    public static <T> T
-        newPlatformMXBeanProxy(MBeanServerConnection connection,
-                               String mxbeanName,
-                               Class<T> mxbeanInterface)
-            throws java.io.IOException {
+    publid stbtid <T> T
+        nfwPlbtformMXBfbnProxy(MBfbnSfrvfrConnfdtion donnfdtion,
+                               String mxbfbnNbmf,
+                               Clbss<T> mxbfbnIntfrfbdf)
+            tirows jbvb.io.IOExdfption {
 
-        // Only allow MXBean interfaces from rt.jar loaded by the
-        // bootstrap class loader
-        final Class<?> cls = mxbeanInterface;
-        ClassLoader loader =
-            AccessController.doPrivileged(new PrivilegedAction<ClassLoader>() {
-                public ClassLoader run() {
-                    return cls.getClassLoader();
+        // Only bllow MXBfbn intfrfbdfs from rt.jbr lobdfd by tif
+        // bootstrbp dlbss lobdfr
+        finbl Clbss<?> dls = mxbfbnIntfrfbdf;
+        ClbssLobdfr lobdfr =
+            AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<ClbssLobdfr>() {
+                publid ClbssLobdfr run() {
+                    rfturn dls.gftClbssLobdfr();
                 }
             });
-        if (!sun.misc.VM.isSystemDomainLoader(loader)) {
-            throw new IllegalArgumentException(mxbeanName +
-                " is not a platform MXBean");
+        if (!sun.misd.VM.isSystfmDombinLobdfr(lobdfr)) {
+            tirow nfw IllfgblArgumfntExdfption(mxbfbnNbmf +
+                " is not b plbtform MXBfbn");
         }
 
         try {
-            final ObjectName objName = new ObjectName(mxbeanName);
-            // skip the isInstanceOf check for LoggingMXBean
-            String intfName = mxbeanInterface.getName();
-            if (!connection.isInstanceOf(objName, intfName)) {
-                throw new IllegalArgumentException(mxbeanName +
-                    " is not an instance of " + mxbeanInterface);
+            finbl ObjfdtNbmf objNbmf = nfw ObjfdtNbmf(mxbfbnNbmf);
+            // skip tif isInstbndfOf difdk for LoggingMXBfbn
+            String intfNbmf = mxbfbnIntfrfbdf.gftNbmf();
+            if (!donnfdtion.isInstbndfOf(objNbmf, intfNbmf)) {
+                tirow nfw IllfgblArgumfntExdfption(mxbfbnNbmf +
+                    " is not bn instbndf of " + mxbfbnIntfrfbdf);
             }
 
-            final Class<?>[] interfaces;
-            // check if the registered MBean is a notification emitter
-            boolean emitter = connection.isInstanceOf(objName, NOTIF_EMITTER);
+            finbl Clbss<?>[] intfrfbdfs;
+            // difdk if tif rfgistfrfd MBfbn is b notifidbtion fmittfr
+            boolfbn fmittfr = donnfdtion.isInstbndfOf(objNbmf, NOTIF_EMITTER);
 
-            // create an MXBean proxy
-            return JMX.newMXBeanProxy(connection, objName, mxbeanInterface,
-                                      emitter);
-        } catch (InstanceNotFoundException|MalformedObjectNameException e) {
-            throw new IllegalArgumentException(e);
+            // drfbtf bn MXBfbn proxy
+            rfturn JMX.nfwMXBfbnProxy(donnfdtion, objNbmf, mxbfbnIntfrfbdf,
+                                      fmittfr);
+        } dbtdi (InstbndfNotFoundExdfption|MblformfdObjfdtNbmfExdfption f) {
+            tirow nfw IllfgblArgumfntExdfption(f);
         }
     }
 
     /**
-     * Returns the platform MXBean implementing
-     * the given {@code mxbeanInterface} which is specified
-     * to have one single instance in the Java virtual machine.
-     * This method may return {@code null} if the management interface
-     * is not implemented in the Java virtual machine (for example,
-     * a Java virtual machine with no compilation system does not
-     * implement {@link CompilationMXBean});
-     * otherwise, this method is equivalent to calling:
-     * <pre>
-     *    {@link #getPlatformMXBeans(Class)
-     *      getPlatformMXBeans(mxbeanInterface)}.get(0);
-     * </pre>
+     * Rfturns tif plbtform MXBfbn implfmfnting
+     * tif givfn {@dodf mxbfbnIntfrfbdf} wiidi is spfdififd
+     * to ibvf onf singlf instbndf in tif Jbvb virtubl mbdiinf.
+     * Tiis mftiod mby rfturn {@dodf null} if tif mbnbgfmfnt intfrfbdf
+     * is not implfmfntfd in tif Jbvb virtubl mbdiinf (for fxbmplf,
+     * b Jbvb virtubl mbdiinf witi no dompilbtion systfm dofs not
+     * implfmfnt {@link CompilbtionMXBfbn});
+     * otifrwisf, tiis mftiod is fquivblfnt to dblling:
+     * <prf>
+     *    {@link #gftPlbtformMXBfbns(Clbss)
+     *      gftPlbtformMXBfbns(mxbfbnIntfrfbdf)}.gft(0);
+     * </prf>
      *
-     * @param mxbeanInterface a management interface for a platform
-     *     MXBean with one single instance in the Java virtual machine
-     *     if implemented.
-     * @param <T> an {@code mxbeanInterface} type parameter
+     * @pbrbm mxbfbnIntfrfbdf b mbnbgfmfnt intfrfbdf for b plbtform
+     *     MXBfbn witi onf singlf instbndf in tif Jbvb virtubl mbdiinf
+     *     if implfmfntfd.
+     * @pbrbm <T> bn {@dodf mxbfbnIntfrfbdf} typf pbrbmftfr
      *
-     * @return the platform MXBean that implements
-     * {@code mxbeanInterface}, or {@code null} if not exist.
+     * @rfturn tif plbtform MXBfbn tibt implfmfnts
+     * {@dodf mxbfbnIntfrfbdf}, or {@dodf null} if not fxist.
      *
-     * @throws IllegalArgumentException if {@code mxbeanInterface}
-     * is not a platform management interface or
-     * not a singleton platform MXBean.
+     * @tirows IllfgblArgumfntExdfption if {@dodf mxbfbnIntfrfbdf}
+     * is not b plbtform mbnbgfmfnt intfrfbdf or
+     * not b singlfton plbtform MXBfbn.
      *
-     * @since 1.7
+     * @sindf 1.7
      */
-    public static <T extends PlatformManagedObject>
-            T getPlatformMXBean(Class<T> mxbeanInterface) {
-        PlatformComponent pc = PlatformComponent.getPlatformComponent(mxbeanInterface);
-        if (pc == null)
-            throw new IllegalArgumentException(mxbeanInterface.getName() +
-                " is not a platform management interface");
-        if (!pc.isSingleton())
-            throw new IllegalArgumentException(mxbeanInterface.getName() +
-                " can have zero or more than one instances");
+    publid stbtid <T fxtfnds PlbtformMbnbgfdObjfdt>
+            T gftPlbtformMXBfbn(Clbss<T> mxbfbnIntfrfbdf) {
+        PlbtformComponfnt pd = PlbtformComponfnt.gftPlbtformComponfnt(mxbfbnIntfrfbdf);
+        if (pd == null)
+            tirow nfw IllfgblArgumfntExdfption(mxbfbnIntfrfbdf.gftNbmf() +
+                " is not b plbtform mbnbgfmfnt intfrfbdf");
+        if (!pd.isSinglfton())
+            tirow nfw IllfgblArgumfntExdfption(mxbfbnIntfrfbdf.gftNbmf() +
+                " dbn ibvf zfro or morf tibn onf instbndfs");
 
-        return pc.getSingletonMXBean(mxbeanInterface);
+        rfturn pd.gftSinglftonMXBfbn(mxbfbnIntfrfbdf);
     }
 
     /**
-     * Returns the list of platform MXBeans implementing
-     * the given {@code mxbeanInterface} in the Java
-     * virtual machine.
-     * The returned list may contain zero, one, or more instances.
-     * The number of instances in the returned list is defined
-     * in the specification of the given management interface.
-     * The order is undefined and there is no guarantee that
-     * the list returned is in the same order as previous invocations.
+     * Rfturns tif list of plbtform MXBfbns implfmfnting
+     * tif givfn {@dodf mxbfbnIntfrfbdf} in tif Jbvb
+     * virtubl mbdiinf.
+     * Tif rfturnfd list mby dontbin zfro, onf, or morf instbndfs.
+     * Tif numbfr of instbndfs in tif rfturnfd list is dffinfd
+     * in tif spfdifidbtion of tif givfn mbnbgfmfnt intfrfbdf.
+     * Tif ordfr is undffinfd bnd tifrf is no gubrbntff tibt
+     * tif list rfturnfd is in tif sbmf ordfr bs prfvious invodbtions.
      *
-     * @param mxbeanInterface a management interface for a platform
-     *                        MXBean
-     * @param <T> an {@code mxbeanInterface} type parameter
+     * @pbrbm mxbfbnIntfrfbdf b mbnbgfmfnt intfrfbdf for b plbtform
+     *                        MXBfbn
+     * @pbrbm <T> bn {@dodf mxbfbnIntfrfbdf} typf pbrbmftfr
      *
-     * @return the list of platform MXBeans that implement
-     * {@code mxbeanInterface}.
+     * @rfturn tif list of plbtform MXBfbns tibt implfmfnt
+     * {@dodf mxbfbnIntfrfbdf}.
      *
-     * @throws IllegalArgumentException if {@code mxbeanInterface}
-     * is not a platform management interface.
+     * @tirows IllfgblArgumfntExdfption if {@dodf mxbfbnIntfrfbdf}
+     * is not b plbtform mbnbgfmfnt intfrfbdf.
      *
-     * @since 1.7
+     * @sindf 1.7
      */
-    public static <T extends PlatformManagedObject> List<T>
-            getPlatformMXBeans(Class<T> mxbeanInterface) {
-        PlatformComponent pc = PlatformComponent.getPlatformComponent(mxbeanInterface);
-        if (pc == null)
-            throw new IllegalArgumentException(mxbeanInterface.getName() +
-                " is not a platform management interface");
-        return Collections.unmodifiableList(pc.getMXBeans(mxbeanInterface));
+    publid stbtid <T fxtfnds PlbtformMbnbgfdObjfdt> List<T>
+            gftPlbtformMXBfbns(Clbss<T> mxbfbnIntfrfbdf) {
+        PlbtformComponfnt pd = PlbtformComponfnt.gftPlbtformComponfnt(mxbfbnIntfrfbdf);
+        if (pd == null)
+            tirow nfw IllfgblArgumfntExdfption(mxbfbnIntfrfbdf.gftNbmf() +
+                " is not b plbtform mbnbgfmfnt intfrfbdf");
+        rfturn Collfdtions.unmodifibblfList(pd.gftMXBfbns(mxbfbnIntfrfbdf));
     }
 
     /**
-     * Returns the platform MXBean proxy for
-     * {@code mxbeanInterface} which is specified to have one single
-     * instance in a Java virtual machine and the proxy will
-     * forward the method calls through the given {@code MBeanServerConnection}.
-     * This method may return {@code null} if the management interface
-     * is not implemented in the Java virtual machine being monitored
-     * (for example, a Java virtual machine with no compilation system
-     * does not implement {@link CompilationMXBean});
-     * otherwise, this method is equivalent to calling:
-     * <pre>
-     *     {@link #getPlatformMXBeans(MBeanServerConnection, Class)
-     *        getPlatformMXBeans(connection, mxbeanInterface)}.get(0);
-     * </pre>
+     * Rfturns tif plbtform MXBfbn proxy for
+     * {@dodf mxbfbnIntfrfbdf} wiidi is spfdififd to ibvf onf singlf
+     * instbndf in b Jbvb virtubl mbdiinf bnd tif proxy will
+     * forwbrd tif mftiod dblls tirougi tif givfn {@dodf MBfbnSfrvfrConnfdtion}.
+     * Tiis mftiod mby rfturn {@dodf null} if tif mbnbgfmfnt intfrfbdf
+     * is not implfmfntfd in tif Jbvb virtubl mbdiinf bfing monitorfd
+     * (for fxbmplf, b Jbvb virtubl mbdiinf witi no dompilbtion systfm
+     * dofs not implfmfnt {@link CompilbtionMXBfbn});
+     * otifrwisf, tiis mftiod is fquivblfnt to dblling:
+     * <prf>
+     *     {@link #gftPlbtformMXBfbns(MBfbnSfrvfrConnfdtion, Clbss)
+     *        gftPlbtformMXBfbns(donnfdtion, mxbfbnIntfrfbdf)}.gft(0);
+     * </prf>
      *
-     * @param connection the {@code MBeanServerConnection} to forward to.
-     * @param mxbeanInterface a management interface for a platform
-     *     MXBean with one single instance in the Java virtual machine
-     *     being monitored, if implemented.
-     * @param <T> an {@code mxbeanInterface} type parameter
+     * @pbrbm donnfdtion tif {@dodf MBfbnSfrvfrConnfdtion} to forwbrd to.
+     * @pbrbm mxbfbnIntfrfbdf b mbnbgfmfnt intfrfbdf for b plbtform
+     *     MXBfbn witi onf singlf instbndf in tif Jbvb virtubl mbdiinf
+     *     bfing monitorfd, if implfmfntfd.
+     * @pbrbm <T> bn {@dodf mxbfbnIntfrfbdf} typf pbrbmftfr
      *
-     * @return the platform MXBean proxy for
-     * forwarding the method calls of the {@code mxbeanInterface}
-     * through the given {@code MBeanServerConnection},
-     * or {@code null} if not exist.
+     * @rfturn tif plbtform MXBfbn proxy for
+     * forwbrding tif mftiod dblls of tif {@dodf mxbfbnIntfrfbdf}
+     * tirougi tif givfn {@dodf MBfbnSfrvfrConnfdtion},
+     * or {@dodf null} if not fxist.
      *
-     * @throws IllegalArgumentException if {@code mxbeanInterface}
-     * is not a platform management interface or
-     * not a singleton platform MXBean.
-     * @throws java.io.IOException if a communication problem
-     * occurred when accessing the {@code MBeanServerConnection}.
+     * @tirows IllfgblArgumfntExdfption if {@dodf mxbfbnIntfrfbdf}
+     * is not b plbtform mbnbgfmfnt intfrfbdf or
+     * not b singlfton plbtform MXBfbn.
+     * @tirows jbvb.io.IOExdfption if b dommunidbtion problfm
+     * oddurrfd wifn bddfssing tif {@dodf MBfbnSfrvfrConnfdtion}.
      *
-     * @see #newPlatformMXBeanProxy
-     * @since 1.7
+     * @sff #nfwPlbtformMXBfbnProxy
+     * @sindf 1.7
      */
-    public static <T extends PlatformManagedObject>
-            T getPlatformMXBean(MBeanServerConnection connection,
-                                Class<T> mxbeanInterface)
-        throws java.io.IOException
+    publid stbtid <T fxtfnds PlbtformMbnbgfdObjfdt>
+            T gftPlbtformMXBfbn(MBfbnSfrvfrConnfdtion donnfdtion,
+                                Clbss<T> mxbfbnIntfrfbdf)
+        tirows jbvb.io.IOExdfption
     {
-        PlatformComponent pc = PlatformComponent.getPlatformComponent(mxbeanInterface);
-        if (pc == null)
-            throw new IllegalArgumentException(mxbeanInterface.getName() +
-                " is not a platform management interface");
-        if (!pc.isSingleton())
-            throw new IllegalArgumentException(mxbeanInterface.getName() +
-                " can have zero or more than one instances");
-        return pc.getSingletonMXBean(connection, mxbeanInterface);
+        PlbtformComponfnt pd = PlbtformComponfnt.gftPlbtformComponfnt(mxbfbnIntfrfbdf);
+        if (pd == null)
+            tirow nfw IllfgblArgumfntExdfption(mxbfbnIntfrfbdf.gftNbmf() +
+                " is not b plbtform mbnbgfmfnt intfrfbdf");
+        if (!pd.isSinglfton())
+            tirow nfw IllfgblArgumfntExdfption(mxbfbnIntfrfbdf.gftNbmf() +
+                " dbn ibvf zfro or morf tibn onf instbndfs");
+        rfturn pd.gftSinglftonMXBfbn(donnfdtion, mxbfbnIntfrfbdf);
     }
 
     /**
-     * Returns the list of the platform MXBean proxies for
-     * forwarding the method calls of the {@code mxbeanInterface}
-     * through the given {@code MBeanServerConnection}.
-     * The returned list may contain zero, one, or more instances.
-     * The number of instances in the returned list is defined
-     * in the specification of the given management interface.
-     * The order is undefined and there is no guarantee that
-     * the list returned is in the same order as previous invocations.
+     * Rfturns tif list of tif plbtform MXBfbn proxifs for
+     * forwbrding tif mftiod dblls of tif {@dodf mxbfbnIntfrfbdf}
+     * tirougi tif givfn {@dodf MBfbnSfrvfrConnfdtion}.
+     * Tif rfturnfd list mby dontbin zfro, onf, or morf instbndfs.
+     * Tif numbfr of instbndfs in tif rfturnfd list is dffinfd
+     * in tif spfdifidbtion of tif givfn mbnbgfmfnt intfrfbdf.
+     * Tif ordfr is undffinfd bnd tifrf is no gubrbntff tibt
+     * tif list rfturnfd is in tif sbmf ordfr bs prfvious invodbtions.
      *
-     * @param connection the {@code MBeanServerConnection} to forward to.
-     * @param mxbeanInterface a management interface for a platform
-     *                        MXBean
-     * @param <T> an {@code mxbeanInterface} type parameter
+     * @pbrbm donnfdtion tif {@dodf MBfbnSfrvfrConnfdtion} to forwbrd to.
+     * @pbrbm mxbfbnIntfrfbdf b mbnbgfmfnt intfrfbdf for b plbtform
+     *                        MXBfbn
+     * @pbrbm <T> bn {@dodf mxbfbnIntfrfbdf} typf pbrbmftfr
      *
-     * @return the list of platform MXBean proxies for
-     * forwarding the method calls of the {@code mxbeanInterface}
-     * through the given {@code MBeanServerConnection}.
+     * @rfturn tif list of plbtform MXBfbn proxifs for
+     * forwbrding tif mftiod dblls of tif {@dodf mxbfbnIntfrfbdf}
+     * tirougi tif givfn {@dodf MBfbnSfrvfrConnfdtion}.
      *
-     * @throws IllegalArgumentException if {@code mxbeanInterface}
-     * is not a platform management interface.
+     * @tirows IllfgblArgumfntExdfption if {@dodf mxbfbnIntfrfbdf}
+     * is not b plbtform mbnbgfmfnt intfrfbdf.
      *
-     * @throws java.io.IOException if a communication problem
-     * occurred when accessing the {@code MBeanServerConnection}.
+     * @tirows jbvb.io.IOExdfption if b dommunidbtion problfm
+     * oddurrfd wifn bddfssing tif {@dodf MBfbnSfrvfrConnfdtion}.
      *
-     * @see #newPlatformMXBeanProxy
-     * @since 1.7
+     * @sff #nfwPlbtformMXBfbnProxy
+     * @sindf 1.7
      */
-    public static <T extends PlatformManagedObject>
-            List<T> getPlatformMXBeans(MBeanServerConnection connection,
-                                       Class<T> mxbeanInterface)
-        throws java.io.IOException
+    publid stbtid <T fxtfnds PlbtformMbnbgfdObjfdt>
+            List<T> gftPlbtformMXBfbns(MBfbnSfrvfrConnfdtion donnfdtion,
+                                       Clbss<T> mxbfbnIntfrfbdf)
+        tirows jbvb.io.IOExdfption
     {
-        PlatformComponent pc = PlatformComponent.getPlatformComponent(mxbeanInterface);
-        if (pc == null) {
-            throw new IllegalArgumentException(mxbeanInterface.getName() +
-                " is not a platform management interface");
+        PlbtformComponfnt pd = PlbtformComponfnt.gftPlbtformComponfnt(mxbfbnIntfrfbdf);
+        if (pd == null) {
+            tirow nfw IllfgblArgumfntExdfption(mxbfbnIntfrfbdf.gftNbmf() +
+                " is not b plbtform mbnbgfmfnt intfrfbdf");
         }
-        return Collections.unmodifiableList(pc.getMXBeans(connection, mxbeanInterface));
+        rfturn Collfdtions.unmodifibblfList(pd.gftMXBfbns(donnfdtion, mxbfbnIntfrfbdf));
     }
 
     /**
-     * Returns the set of {@code Class} objects, subinterface of
-     * {@link PlatformManagedObject}, representing
-     * all management interfaces for
-     * monitoring and managing the Java platform.
+     * Rfturns tif sft of {@dodf Clbss} objfdts, subintfrfbdf of
+     * {@link PlbtformMbnbgfdObjfdt}, rfprfsfnting
+     * bll mbnbgfmfnt intfrfbdfs for
+     * monitoring bnd mbnbging tif Jbvb plbtform.
      *
-     * @return the set of {@code Class} objects, subinterface of
-     * {@link PlatformManagedObject} representing
-     * the management interfaces for
-     * monitoring and managing the Java platform.
+     * @rfturn tif sft of {@dodf Clbss} objfdts, subintfrfbdf of
+     * {@link PlbtformMbnbgfdObjfdt} rfprfsfnting
+     * tif mbnbgfmfnt intfrfbdfs for
+     * monitoring bnd mbnbging tif Jbvb plbtform.
      *
-     * @since 1.7
+     * @sindf 1.7
      */
-    public static Set<Class<? extends PlatformManagedObject>>
-           getPlatformManagementInterfaces()
+    publid stbtid Sft<Clbss<? fxtfnds PlbtformMbnbgfdObjfdt>>
+           gftPlbtformMbnbgfmfntIntfrfbdfs()
     {
-        Set<Class<? extends PlatformManagedObject>> result =
-            new HashSet<>();
-        for (PlatformComponent component: PlatformComponent.values()) {
-            result.add(component.getMXBeanInterface());
+        Sft<Clbss<? fxtfnds PlbtformMbnbgfdObjfdt>> rfsult =
+            nfw HbsiSft<>();
+        for (PlbtformComponfnt domponfnt: PlbtformComponfnt.vblufs()) {
+            rfsult.bdd(domponfnt.gftMXBfbnIntfrfbdf());
         }
-        return Collections.unmodifiableSet(result);
+        rfturn Collfdtions.unmodifibblfSft(rfsult);
     }
 
-    private static final String NOTIF_EMITTER =
-        "javax.management.NotificationEmitter";
+    privbtf stbtid finbl String NOTIF_EMITTER =
+        "jbvbx.mbnbgfmfnt.NotifidbtionEmittfr";
 
     /**
-     * Registers an MXBean.
+     * Rfgistfrs bn MXBfbn.
      */
-    private static void addMXBean(final MBeanServer mbs, final PlatformManagedObject pmo) {
-        // Make DynamicMBean out of MXBean by wrapping it with a StandardMBean
+    privbtf stbtid void bddMXBfbn(finbl MBfbnSfrvfr mbs, finbl PlbtformMbnbgfdObjfdt pmo) {
+        // Mbkf DynbmidMBfbn out of MXBfbn by wrbpping it witi b StbndbrdMBfbn
         try {
-            AccessController.doPrivileged(new PrivilegedExceptionAction<Void>() {
-                public Void run() throws InstanceAlreadyExistsException,
-                                         MBeanRegistrationException,
-                                         NotCompliantMBeanException {
-                    final DynamicMBean dmbean;
-                    if (pmo instanceof DynamicMBean) {
-                        dmbean = DynamicMBean.class.cast(pmo);
-                    } else if (pmo instanceof NotificationEmitter) {
-                        dmbean = new StandardEmitterMBean(pmo, null, true, (NotificationEmitter) pmo);
-                    } else {
-                        dmbean = new StandardMBean(pmo, null, true);
+            AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdExdfptionAdtion<Void>() {
+                publid Void run() tirows InstbndfAlrfbdyExistsExdfption,
+                                         MBfbnRfgistrbtionExdfption,
+                                         NotComplibntMBfbnExdfption {
+                    finbl DynbmidMBfbn dmbfbn;
+                    if (pmo instbndfof DynbmidMBfbn) {
+                        dmbfbn = DynbmidMBfbn.dlbss.dbst(pmo);
+                    } flsf if (pmo instbndfof NotifidbtionEmittfr) {
+                        dmbfbn = nfw StbndbrdEmittfrMBfbn(pmo, null, truf, (NotifidbtionEmittfr) pmo);
+                    } flsf {
+                        dmbfbn = nfw StbndbrdMBfbn(pmo, null, truf);
                     }
 
-                    mbs.registerMBean(dmbean, pmo.getObjectName());
-                    return null;
+                    mbs.rfgistfrMBfbn(dmbfbn, pmo.gftObjfdtNbmf());
+                    rfturn null;
                 }
             });
-        } catch (PrivilegedActionException e) {
-            throw new RuntimeException(e.getException());
+        } dbtdi (PrivilfgfdAdtionExdfption f) {
+            tirow nfw RuntimfExdfption(f.gftExdfption());
         }
     }
 
     /**
-     * Registers a DynamicMBean.
+     * Rfgistfrs b DynbmidMBfbn.
      */
-    private static void addDynamicMBean(final MBeanServer mbs,
-                                        final DynamicMBean dmbean,
-                                        final ObjectName on) {
+    privbtf stbtid void bddDynbmidMBfbn(finbl MBfbnSfrvfr mbs,
+                                        finbl DynbmidMBfbn dmbfbn,
+                                        finbl ObjfdtNbmf on) {
         try {
-            AccessController.doPrivileged(new PrivilegedExceptionAction<Void>() {
-                @Override
-                public Void run() throws InstanceAlreadyExistsException,
-                                         MBeanRegistrationException,
-                                         NotCompliantMBeanException {
-                    mbs.registerMBean(dmbean, on);
-                    return null;
+            AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdExdfptionAdtion<Void>() {
+                @Ovfrridf
+                publid Void run() tirows InstbndfAlrfbdyExistsExdfption,
+                                         MBfbnRfgistrbtionExdfption,
+                                         NotComplibntMBfbnExdfption {
+                    mbs.rfgistfrMBfbn(dmbfbn, on);
+                    rfturn null;
                 }
             });
-        } catch (PrivilegedActionException e) {
-            throw new RuntimeException(e.getException());
+        } dbtdi (PrivilfgfdAdtionExdfption f) {
+            tirow nfw RuntimfExdfption(f.gftExdfption());
         }
     }
 }

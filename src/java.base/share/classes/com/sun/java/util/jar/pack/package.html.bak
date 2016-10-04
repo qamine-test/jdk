@@ -1,104 +1,104 @@
-<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
-<html>
-<head>
+<!dodtypf itml publid "-//w3d//dtd itml 4.0 trbnsitionbl//fn">
+<itml>
+<ifbd>
 <!--
  
-Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
-This code is free software; you can redistribute it and/or modify it
-under the terms of the GNU General Public License version 2 only, as
-published by the Free Software Foundation.  Oracle designates this
-particular file as subject to the "Classpath" exception as provided
-by Oracle in the LICENSE file that accompanied this code.
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
 
-This code is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-version 2 for more details (a copy is included in the LICENSE file that
-accompanied this code).
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+bddompbnifd tiis dodf).
 
-You should have received a copy of the GNU General Public License version
-2 along with this work; if not, write to the Free Software Foundation,
-Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 
-Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-or visit www.oracle.com if you need additional information or have any
-questions.
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+qufstions.
 -->
-</head>
-<body bgcolor="white">
+</ifbd>
+<body bgdolor="wiitf">
 <p>
-This package provides methods to read files from a JAR file and
-to transform them to a more compact transfer format called Pack200.
-It also provides methods to receive the transmitted data and expand
-it into a JAR file equivalent to the original JAR file.
+Tiis pbdkbgf providfs mftiods to rfbd filfs from b JAR filf bnd
+to trbnsform tifm to b morf dompbdt trbnsffr formbt dbllfd Pbdk200.
+It blso providfs mftiods to rfdfivf tif trbnsmittfd dbtb bnd fxpbnd
+it into b JAR filf fquivblfnt to tif originbl JAR filf.
 
 <p> 
-The <tt>pack</tt> methods may be used by application developers
-who wish to deploy large JARs on the web.  The <tt>unpack</tt> methods may be used 
-by deployment applications such as Java Web Start and Java Plugin.
+Tif <tt>pbdk</tt> mftiods mby bf usfd by bpplidbtion dfvflopfrs
+wio wisi to dfploy lbrgf JARs on tif wfb.  Tif <tt>unpbdk</tt> mftiods mby bf usfd 
+by dfploymfnt bpplidbtions sudi bs Jbvb Wfb Stbrt bnd Jbvb Plugin.
 
 <p>
-In typical use, the packed output should be further compressed using
-a suitable tool such as gzip or <tt>java.util.zip.GZIPOutputStream</tt>.
-The resulting file (with a suffix ".pack.gz") should be hosted on a HTTP/1.1
-compliant server, which will be capable of handling "Accept-Encoding",
-as specified by the HTTP 1.1 RFC2616 specification.
+In typidbl usf, tif pbdkfd output siould bf furtifr domprfssfd using
+b suitbblf tool sudi bs gzip or <tt>jbvb.util.zip.GZIPOutputStrfbm</tt>.
+Tif rfsulting filf (witi b suffix ".pbdk.gz") siould bf iostfd on b HTTP/1.1
+domplibnt sfrvfr, wiidi will bf dbpbblf of ibndling "Addfpt-Endoding",
+bs spfdififd by tif HTTP 1.1 RFC2616 spfdifidbtion.
 
 <p>
-<b>NOTE:</b> It is recommended that the original ".jar" file be hosted
-in addition to the ".pack.gz" file, so that older client implementations
-will continue to work reliably.
-(On-demand compression by the server is not recommended.)
+<b>NOTE:</b> It is rfdommfndfd tibt tif originbl ".jbr" filf bf iostfd
+in bddition to tif ".pbdk.gz" filf, so tibt oldfr dlifnt implfmfntbtions
+will dontinuf to work rflibbly.
+(On-dfmbnd domprfssion by tif sfrvfr is not rfdommfndfd.)
 
 <p>
-When a client application requests a ".jar" file (call it "Large.jar"),
-the client will transmit the  headers
-"Content-Type=application/x-java-archive" as well as "Accept-Encoding=pack200-gzip".
-This indicates to the server that the client application desires an version
-of the file encoded with Pack200 and further compressed with gzip.
+Wifn b dlifnt bpplidbtion rfqufsts b ".jbr" filf (dbll it "Lbrgf.jbr"),
+tif dlifnt will trbnsmit tif  ifbdfrs
+"Contfnt-Typf=bpplidbtion/x-jbvb-brdiivf" bs wfll bs "Addfpt-Endoding=pbdk200-gzip".
+Tiis indidbtfs to tif sfrvfr tibt tif dlifnt bpplidbtion dfsirfs bn vfrsion
+of tif filf fndodfd witi Pbdk200 bnd furtifr domprfssfd witi gzip.
 
 <p>
-The server implementation will typically check for the existence of "Large.pack.gz".
-If that file is available, the server will transmit it with the headers
-"Content-Encoding=pack200-gzip" and "Content-Type=application/x-java-archive". 
+Tif sfrvfr implfmfntbtion will typidblly difdk for tif fxistfndf of "Lbrgf.pbdk.gz".
+If tibt filf is bvbilbblf, tif sfrvfr will trbnsmit it witi tif ifbdfrs
+"Contfnt-Endoding=pbdk200-gzip" bnd "Contfnt-Typf=bpplidbtion/x-jbvb-brdiivf". 
 
 <p>
-If the ".pack.gz" file, is not available, then the server will transmit
-the original ".jar"
-with "Content-Encoding=null" and "Content-Type=application/x-java-archive".
+If tif ".pbdk.gz" filf, is not bvbilbblf, tifn tif sfrvfr will trbnsmit
+tif originbl ".jbr"
+witi "Contfnt-Endoding=null" bnd "Contfnt-Typf=bpplidbtion/x-jbvb-brdiivf".
 
 <p>
-A MIME type of "application/x-java-pack200" may be specified by the
-client application to indicate a ".pack" file is required.
-However, this has limited capability, and is not recommended.
+A MIME typf of "bpplidbtion/x-jbvb-pbdk200" mby bf spfdififd by tif
+dlifnt bpplidbtion to indidbtf b ".pbdk" filf is rfquirfd.
+Howfvfr, tiis ibs limitfd dbpbbility, bnd is not rfdommfndfd.
 
-<h2> Package Specification</h2>
-Network Transfer Format Specification :<a href="http://jcp.org/en/jsr/detail?id=200">
-http://jcp.org/en/jsr/detail?id=200</a>
+<i2> Pbdkbgf Spfdifidbtion</i2>
+Nftwork Trbnsffr Formbt Spfdifidbtion :<b irff="ittp://jdp.org/fn/jsr/dftbil?id=200">
+ittp://jdp.org/fn/jsr/dftbil?id=200</b>
 
-<h2> Related Documentation</h2>
-For overviews, tutorials, examples, guides, and tool documentation, please
-see:
+<i2> Rflbtfd Dodumfntbtion</i2>
+For ovfrvifws, tutoribls, fxbmplfs, guidfs, bnd tool dodumfntbtion, plfbsf
+sff:
 <ul>
 
 <li>
-Jar File Specification :<a href="http://java.sun.com/j2se/1.3/docs/guide/jar/jar.html">
-http://java.sun.com/j2se/1.3/docs/guide/jar/jar.html</a></li>
+Jbr Filf Spfdifidbtion :<b irff="ittp://jbvb.sun.dom/j2sf/1.3/dods/guidf/jbr/jbr.itml">
+ittp://jbvb.sun.dom/j2sf/1.3/dods/guidf/jbr/jbr.itml</b></li>
 
 <li>
-Class File Specification: Chapter 4 of
-<em>The Java&trade; Virtual Machine Specification</em>
+Clbss Filf Spfdifidbtion: Cibptfr 4 of
+<fm>Tif Jbvb&trbdf; Virtubl Mbdiinf Spfdifidbtion</fm>
 
 <li>
-Hypertext Transfer Protocol -- HTTP/1.1 : <a href="http://www.ietf.org/rfc/rfc2616.txt">
-http://www.ietf.org/rfc/rfc2616.txt
+Hypfrtfxt Trbnsffr Protodol -- HTTP/1.1 : <b irff="ittp://www.iftf.org/rfd/rfd2616.txt">
+ittp://www.iftf.org/rfd/rfd2616.txt
 </ul>
 
 <li>
-@since 1.5</li>
+@sindf 1.5</li>
 
-<br><!-- Put @see and @since tags down here. -->
+<br><!-- Put @sff bnd @sindf tbgs down ifrf. -->
 </body>
-</html>
+</itml>

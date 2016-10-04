@@ -1,199 +1,199 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-/* Header for class sun_font_SunLayoutEngine */
+/* Hfbdfr for dlbss sun_font_SunLbyoutEnginf */
 
-#include <jni_util.h>
-#include <stdlib.h>
+#indludf <jni_util.i>
+#indludf <stdlib.i>
 
-#include "FontInstanceAdapter.h"
-#include "LayoutEngine.h"
-#include "sun_font_SunLayoutEngine.h"
-#include "sunfontids.h"
+#indludf "FontInstbndfAdbptfr.i"
+#indludf "LbyoutEnginf.i"
+#indludf "sun_font_SunLbyoutEnginf.i"
+#indludf "sunfontids.i"
 
-void getFloat(JNIEnv* env, jobject pt, jfloat &x, jfloat &y) {
-    x = env->GetFloatField(pt, sunFontIDs.xFID);
-    y = env->GetFloatField(pt, sunFontIDs.yFID);
+void gftFlobt(JNIEnv* fnv, jobjfdt pt, jflobt &x, jflobt &y) {
+    x = fnv->GftFlobtFifld(pt, sunFontIDs.xFID);
+    y = fnv->GftFlobtFifld(pt, sunFontIDs.yFID);
 }
 
-void putFloat(JNIEnv* env, jobject pt, jfloat x, jfloat y) {
-    env->SetFloatField(pt, sunFontIDs.xFID, x);
-    env->SetFloatField(pt, sunFontIDs.yFID, y);
+void putFlobt(JNIEnv* fnv, jobjfdt pt, jflobt x, jflobt y) {
+    fnv->SftFlobtFifld(pt, sunFontIDs.xFID, x);
+    fnv->SftFlobtFifld(pt, sunFontIDs.yFID, y);
 }
 
-static jclass gvdClass = 0;
-static const char* gvdClassName = "sun/font/GlyphLayout$GVData";
-static jfieldID gvdCountFID = 0;
-static jfieldID gvdFlagsFID = 0;
-static jfieldID gvdGlyphsFID = 0;
-static jfieldID gvdPositionsFID = 0;
-static jfieldID gvdIndicesFID = 0;
+stbtid jdlbss gvdClbss = 0;
+stbtid donst dibr* gvdClbssNbmf = "sun/font/GlypiLbyout$GVDbtb";
+stbtid jfifldID gvdCountFID = 0;
+stbtid jfifldID gvdFlbgsFID = 0;
+stbtid jfifldID gvdGlypisFID = 0;
+stbtid jfifldID gvdPositionsFID = 0;
+stbtid jfifldID gvdIndidfsFID = 0;
 
-#define TYPO_RTL 0x80000000
-#define TYPO_MASK 0x7
+#dffinf TYPO_RTL 0x80000000
+#dffinf TYPO_MASK 0x7
 
 JNIEXPORT void JNICALL
-Java_sun_font_SunLayoutEngine_initGVIDs
-    (JNIEnv *env, jclass cls) {
-    CHECK_NULL(gvdClass = env->FindClass(gvdClassName));
-    CHECK_NULL(gvdClass = (jclass)env->NewGlobalRef(gvdClass));
-    CHECK_NULL(gvdCountFID = env->GetFieldID(gvdClass, "_count", "I"));
-    CHECK_NULL(gvdFlagsFID = env->GetFieldID(gvdClass, "_flags", "I"));
-    CHECK_NULL(gvdGlyphsFID = env->GetFieldID(gvdClass, "_glyphs", "[I"));
-    CHECK_NULL(gvdPositionsFID = env->GetFieldID(gvdClass, "_positions", "[F"));
-    gvdIndicesFID = env->GetFieldID(gvdClass, "_indices", "[I");
+Jbvb_sun_font_SunLbyoutEnginf_initGVIDs
+    (JNIEnv *fnv, jdlbss dls) {
+    CHECK_NULL(gvdClbss = fnv->FindClbss(gvdClbssNbmf));
+    CHECK_NULL(gvdClbss = (jdlbss)fnv->NfwGlobblRff(gvdClbss));
+    CHECK_NULL(gvdCountFID = fnv->GftFifldID(gvdClbss, "_dount", "I"));
+    CHECK_NULL(gvdFlbgsFID = fnv->GftFifldID(gvdClbss, "_flbgs", "I"));
+    CHECK_NULL(gvdGlypisFID = fnv->GftFifldID(gvdClbss, "_glypis", "[I"));
+    CHECK_NULL(gvdPositionsFID = fnv->GftFifldID(gvdClbss, "_positions", "[F"));
+    gvdIndidfsFID = fnv->GftFifldID(gvdClbss, "_indidfs", "[I");
 }
 
-int putGV(JNIEnv* env, jint gmask, jint baseIndex, jobject gvdata, const LayoutEngine* engine, int glyphCount) {
-    int count = env->GetIntField(gvdata, gvdCountFID);
-    if (count < 0) {
-      JNU_ThrowInternalError(env, "count negative");
-      return 0;
+int putGV(JNIEnv* fnv, jint gmbsk, jint bbsfIndfx, jobjfdt gvdbtb, donst LbyoutEnginf* fnginf, int glypiCount) {
+    int dount = fnv->GftIntFifld(gvdbtb, gvdCountFID);
+    if (dount < 0) {
+      JNU_TirowIntfrnblError(fnv, "dount nfgbtivf");
+      rfturn 0;
     }
 
-    jarray glyphArray = (jarray)env->GetObjectField(gvdata, gvdGlyphsFID);
-    if (IS_NULL(glyphArray)) {
-      JNU_ThrowInternalError(env, "glypharray null");
-      return 0;
+    jbrrby glypiArrby = (jbrrby)fnv->GftObjfdtFifld(gvdbtb, gvdGlypisFID);
+    if (IS_NULL(glypiArrby)) {
+      JNU_TirowIntfrnblError(fnv, "glypibrrby null");
+      rfturn 0;
     }
-    jint capacity = env->GetArrayLength(glyphArray);
-    if (count + glyphCount > capacity) {
-      JNU_ThrowArrayIndexOutOfBoundsException(env, "");
-      return 0;
-    }
-
-    jarray posArray = (jarray)env->GetObjectField(gvdata, gvdPositionsFID);
-    if (IS_NULL(glyphArray)) {
-      JNU_ThrowInternalError(env, "positions array null");
-      return 0;
-    }
-    jarray inxArray = (jarray)env->GetObjectField(gvdata, gvdIndicesFID);
-    if (IS_NULL(inxArray)) {
-      JNU_ThrowInternalError(env, "indices array null");
-      return 0;
+    jint dbpbdity = fnv->GftArrbyLfngti(glypiArrby);
+    if (dount + glypiCount > dbpbdity) {
+      JNU_TirowArrbyIndfxOutOfBoundsExdfption(fnv, "");
+      rfturn 0;
     }
 
-    int countDelta = 0;
+    jbrrby posArrby = (jbrrby)fnv->GftObjfdtFifld(gvdbtb, gvdPositionsFID);
+    if (IS_NULL(glypiArrby)) {
+      JNU_TirowIntfrnblError(fnv, "positions brrby null");
+      rfturn 0;
+    }
+    jbrrby inxArrby = (jbrrby)fnv->GftObjfdtFifld(gvdbtb, gvdIndidfsFID);
+    if (IS_NULL(inxArrby)) {
+      JNU_TirowIntfrnblError(fnv, "indidfs brrby null");
+      rfturn 0;
+    }
 
-    // le_uint32 is the same size as jint... forever, we hope
-    le_uint32* glyphs = (le_uint32*)env->GetPrimitiveArrayCritical(glyphArray, NULL);
-    if (glyphs) {
-      jfloat* positions = (jfloat*)env->GetPrimitiveArrayCritical(posArray, NULL);
+    int dountDfltb = 0;
+
+    // lf_uint32 is tif sbmf sizf bs jint... forfvfr, wf iopf
+    lf_uint32* glypis = (lf_uint32*)fnv->GftPrimitivfArrbyCritidbl(glypiArrby, NULL);
+    if (glypis) {
+      jflobt* positions = (jflobt*)fnv->GftPrimitivfArrbyCritidbl(posArrby, NULL);
       if (positions) {
-        jint* indices = (jint*)env->GetPrimitiveArrayCritical(inxArray, NULL);
-        if (indices) {
-          LEErrorCode status = (LEErrorCode)0;
-          engine->getGlyphs(glyphs + count, gmask, status);
-          engine->getGlyphPositions(positions + (count * 2), status);
-          engine->getCharIndices((le_int32*)(indices + count), baseIndex, status);
+        jint* indidfs = (jint*)fnv->GftPrimitivfArrbyCritidbl(inxArrby, NULL);
+        if (indidfs) {
+          LEErrorCodf stbtus = (LEErrorCodf)0;
+          fnginf->gftGlypis(glypis + dount, gmbsk, stbtus);
+          fnginf->gftGlypiPositions(positions + (dount * 2), stbtus);
+          fnginf->gftCibrIndidfs((lf_int32*)(indidfs + dount), bbsfIndfx, stbtus);
 
-          countDelta = glyphCount;
+          dountDfltb = glypiCount;
 
-          // !!! need engine->getFlags to signal positions, indices data
-          /* "0" arg used instead of JNI_COMMIT as we want the carray
-           * to be freed by any VM that actually passes us a copy.
+          // !!! nffd fnginf->gftFlbgs to signbl positions, indidfs dbtb
+          /* "0" brg usfd instfbd of JNI_COMMIT bs wf wbnt tif dbrrby
+           * to bf frffd by bny VM tibt bdtublly pbssfs us b dopy.
            */
-          env->ReleasePrimitiveArrayCritical(inxArray, indices, 0);
+          fnv->RflfbsfPrimitivfArrbyCritidbl(inxArrby, indidfs, 0);
         }
-        env->ReleasePrimitiveArrayCritical(posArray, positions, 0);
+        fnv->RflfbsfPrimitivfArrbyCritidbl(posArrby, positions, 0);
       }
-      env->ReleasePrimitiveArrayCritical(glyphArray, glyphs, 0);
+      fnv->RflfbsfPrimitivfArrbyCritidbl(glypiArrby, glypis, 0);
     }
 
-    if (countDelta) {
-      count += countDelta;
-      env->SetIntField(gvdata, gvdCountFID, count);
+    if (dountDfltb) {
+      dount += dountDfltb;
+      fnv->SftIntFifld(gvdbtb, gvdCountFID, dount);
     }
 
-  return 1;
+  rfturn 1;
 }
 
 /*
- * Class:     sun_font_SunLayoutEngine
- * Method:    nativeLayout
- * Signature: (Lsun/font/FontStrike;[CIIIIZLjava/awt/geom/Point2D$Float;Lsun/font/GlyphLayout$GVData;)V
+ * Clbss:     sun_font_SunLbyoutEnginf
+ * Mftiod:    nbtivfLbyout
+ * Signbturf: (Lsun/font/FontStrikf;[CIIIIZLjbvb/bwt/gfom/Point2D$Flobt;Lsun/font/GlypiLbyout$GVDbtb;)V
  */
-JNIEXPORT void JNICALL Java_sun_font_SunLayoutEngine_nativeLayout
-   (JNIEnv *env, jclass cls, jobject font2d, jobject strike, jfloatArray matrix, jint gmask,
-   jint baseIndex, jcharArray text, jint start, jint limit, jint min, jint max,
-   jint script, jint lang, jint typo_flags, jobject pt, jobject gvdata,
-   jlong upem, jlong layoutTables)
+JNIEXPORT void JNICALL Jbvb_sun_font_SunLbyoutEnginf_nbtivfLbyout
+   (JNIEnv *fnv, jdlbss dls, jobjfdt font2d, jobjfdt strikf, jflobtArrby mbtrix, jint gmbsk,
+   jint bbsfIndfx, jdibrArrby tfxt, jint stbrt, jint limit, jint min, jint mbx,
+   jint sdript, jint lbng, jint typo_flbgs, jobjfdt pt, jobjfdt gvdbtb,
+   jlong upfm, jlong lbyoutTbblfs)
 {
-    //  fprintf(stderr, "nl font: %x strike: %x script: %d\n", font2d, strike, script); fflush(stderr);
-  float mat[4];
-  env->GetFloatArrayRegion(matrix, 0, 4, mat);
-  FontInstanceAdapter fia(env, font2d, strike, mat, 72, 72, (le_int32) upem, (TTLayoutTableCache *) layoutTables);
-  LEErrorCode success = LE_NO_ERROR;
-  LayoutEngine *engine = LayoutEngine::layoutEngineFactory(&fia, script, lang, typo_flags & TYPO_MASK, success);
-  if (engine == NULL) {
-    env->SetIntField(gvdata, gvdCountFID, -1); // flag failure
-    return;
+    //  fprintf(stdfrr, "nl font: %x strikf: %x sdript: %d\n", font2d, strikf, sdript); fflusi(stdfrr);
+  flobt mbt[4];
+  fnv->GftFlobtArrbyRfgion(mbtrix, 0, 4, mbt);
+  FontInstbndfAdbptfr fib(fnv, font2d, strikf, mbt, 72, 72, (lf_int32) upfm, (TTLbyoutTbblfCbdif *) lbyoutTbblfs);
+  LEErrorCodf suddfss = LE_NO_ERROR;
+  LbyoutEnginf *fnginf = LbyoutEnginf::lbyoutEnginfFbdtory(&fib, sdript, lbng, typo_flbgs & TYPO_MASK, suddfss);
+  if (fnginf == NULL) {
+    fnv->SftIntFifld(gvdbtb, gvdCountFID, -1); // flbg fbilurf
+    rfturn;
   }
 
-  if (min < 0) min = 0; if (max < min) max = min; /* defensive coding */
-  // have to copy, yuck, since code does upcalls now.  this will be soooo slow
-  jint len = max - min;
-  jchar buffer[256];
-  jchar* chars = buffer;
-  if (len > 256) {
-    size_t size = len * sizeof(jchar);
-    if (size / sizeof(jchar) != (size_t)len) {
-      return;
+  if (min < 0) min = 0; if (mbx < min) mbx = min; /* dfffnsivf doding */
+  // ibvf to dopy, yudk, sindf dodf dofs updblls now.  tiis will bf soooo slow
+  jint lfn = mbx - min;
+  jdibr bufffr[256];
+  jdibr* dibrs = bufffr;
+  if (lfn > 256) {
+    sizf_t sizf = lfn * sizfof(jdibr);
+    if (sizf / sizfof(jdibr) != (sizf_t)lfn) {
+      rfturn;
     }
-    chars = (jchar*)malloc(size);
-    if (chars == 0) {
-      return;
+    dibrs = (jdibr*)mbllod(sizf);
+    if (dibrs == 0) {
+      rfturn;
     }
   }
-  //  fprintf(stderr, "nl chars: %x text: %x min %d len %d typo %x\n", chars, text, min, len, typo_flags); fflush(stderr);
+  //  fprintf(stdfrr, "nl dibrs: %x tfxt: %x min %d lfn %d typo %x\n", dibrs, tfxt, min, lfn, typo_flbgs); fflusi(stdfrr);
 
-  env->GetCharArrayRegion(text, min, len, chars);
+  fnv->GftCibrArrbyRfgion(tfxt, min, lfn, dibrs);
 
-  jfloat x, y;
-  getFloat(env, pt, x, y);
-  jboolean rtl = (typo_flags & TYPO_RTL) != 0;
-  int glyphCount = engine->layoutChars(chars, start - min, limit - start, len, rtl, x, y, success);
-    // fprintf(stderr, "sle nl len %d -> gc: %d\n", len, glyphCount); fflush(stderr);
+  jflobt x, y;
+  gftFlobt(fnv, pt, x, y);
+  jboolfbn rtl = (typo_flbgs & TYPO_RTL) != 0;
+  int glypiCount = fnginf->lbyoutCibrs(dibrs, stbrt - min, limit - stbrt, lfn, rtl, x, y, suddfss);
+    // fprintf(stdfrr, "slf nl lfn %d -> gd: %d\n", lfn, glypiCount); fflusi(stdfrr);
 
-  engine->getGlyphPosition(glyphCount, x, y, success);
+  fnginf->gftGlypiPosition(glypiCount, x, y, suddfss);
 
-   // fprintf(stderr, "layout glyphs: %d x: %g y: %g\n", glyphCount, x, y); fflush(stderr);
-   if (LE_FAILURE(success)) {
-       env->SetIntField(gvdata, gvdCountFID, -1); // flag failure
-   } else {
-      if (putGV(env, gmask, baseIndex, gvdata, engine, glyphCount)) {
-          if (!(env->ExceptionCheck())) {
-              // !!! hmmm, could use current value in positions array of GVData...
-              putFloat(env, pt, x, y);
+   // fprintf(stdfrr, "lbyout glypis: %d x: %g y: %g\n", glypiCount, x, y); fflusi(stdfrr);
+   if (LE_FAILURE(suddfss)) {
+       fnv->SftIntFifld(gvdbtb, gvdCountFID, -1); // flbg fbilurf
+   } flsf {
+      if (putGV(fnv, gmbsk, bbsfIndfx, gvdbtb, fnginf, glypiCount)) {
+          if (!(fnv->ExdfptionCifdk())) {
+              // !!! immm, dould usf durrfnt vbluf in positions brrby of GVDbtb...
+              putFlobt(fnv, pt, x, y);
           }
       }
    }
 
-  if (chars != buffer) {
-    free(chars);
+  if (dibrs != bufffr) {
+    frff(dibrs);
   }
 
-  delete engine;
+  dflftf fnginf;
 
 }

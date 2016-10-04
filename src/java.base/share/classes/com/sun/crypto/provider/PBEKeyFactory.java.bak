@@ -1,306 +1,306 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.crypto.provider;
+pbdkbgf dom.sun.drypto.providfr;
 
-import java.security.InvalidKeyException;
-import java.security.spec.KeySpec;
-import java.security.spec.InvalidKeySpecException;
-import javax.crypto.SecretKey;
-import javax.crypto.SecretKeyFactorySpi;
-import javax.crypto.spec.PBEKeySpec;
-import java.util.HashSet;
-import java.util.Locale;
+import jbvb.sfdurity.InvblidKfyExdfption;
+import jbvb.sfdurity.spfd.KfySpfd;
+import jbvb.sfdurity.spfd.InvblidKfySpfdExdfption;
+import jbvbx.drypto.SfdrftKfy;
+import jbvbx.drypto.SfdrftKfyFbdtorySpi;
+import jbvbx.drypto.spfd.PBEKfySpfd;
+import jbvb.util.HbsiSft;
+import jbvb.util.Lodblf;
 
 /**
- * This class implements a key factory for PBE keys according to PKCS#5,
- * meaning that the password must consist of printable ASCII characters
- * (values 32 to 126 decimal inclusive) and only the low order 8 bits
- * of each password character are used.
+ * Tiis dlbss implfmfnts b kfy fbdtory for PBE kfys bddording to PKCS#5,
+ * mfbning tibt tif pbssword must donsist of printbblf ASCII dibrbdtfrs
+ * (vblufs 32 to 126 dfdimbl indlusivf) bnd only tif low ordfr 8 bits
+ * of fbdi pbssword dibrbdtfr brf usfd.
  *
- * @author Jan Luehe
+ * @butior Jbn Lufif
  *
  */
-abstract class PBEKeyFactory extends SecretKeyFactorySpi {
+bbstrbdt dlbss PBEKfyFbdtory fxtfnds SfdrftKfyFbdtorySpi {
 
-    private String type;
-    private static HashSet<String> validTypes;
+    privbtf String typf;
+    privbtf stbtid HbsiSft<String> vblidTypfs;
 
     /**
-     * Simple constructor
+     * Simplf donstrudtor
      */
-    private PBEKeyFactory(String keytype) {
-        type = keytype;
+    privbtf PBEKfyFbdtory(String kfytypf) {
+        typf = kfytypf;
     }
 
-    static {
-        validTypes = new HashSet<String>(17);
-        validTypes.add("PBEWithMD5AndDES".toUpperCase(Locale.ENGLISH));
-        validTypes.add("PBEWithSHA1AndDESede".toUpperCase(Locale.ENGLISH));
-        validTypes.add("PBEWithSHA1AndRC2_40".toUpperCase(Locale.ENGLISH));
-        validTypes.add("PBEWithSHA1AndRC2_128".toUpperCase(Locale.ENGLISH));
-        validTypes.add("PBEWithSHA1AndRC4_40".toUpperCase(Locale.ENGLISH));
-        validTypes.add("PBEWithSHA1AndRC4_128".toUpperCase(Locale.ENGLISH));
-        // Proprietary algorithm.
-        validTypes.add("PBEWithMD5AndTripleDES".toUpperCase(Locale.ENGLISH));
-        validTypes.add("PBEWithHmacSHA1AndAES_128".toUpperCase(Locale.ENGLISH));
-        validTypes.add("PBEWithHmacSHA224AndAES_128".toUpperCase(Locale.ENGLISH));
-        validTypes.add("PBEWithHmacSHA256AndAES_128".toUpperCase(Locale.ENGLISH));
-        validTypes.add("PBEWithHmacSHA384AndAES_128".toUpperCase(Locale.ENGLISH));
-        validTypes.add("PBEWithHmacSHA512AndAES_128".toUpperCase(Locale.ENGLISH));
-        validTypes.add("PBEWithHmacSHA1AndAES_256".toUpperCase(Locale.ENGLISH));
-        validTypes.add("PBEWithHmacSHA224AndAES_256".toUpperCase(Locale.ENGLISH));
-        validTypes.add("PBEWithHmacSHA256AndAES_256".toUpperCase(Locale.ENGLISH));
-        validTypes.add("PBEWithHmacSHA384AndAES_256".toUpperCase(Locale.ENGLISH));
-        validTypes.add("PBEWithHmacSHA512AndAES_256".toUpperCase(Locale.ENGLISH));
+    stbtid {
+        vblidTypfs = nfw HbsiSft<String>(17);
+        vblidTypfs.bdd("PBEWitiMD5AndDES".toUppfrCbsf(Lodblf.ENGLISH));
+        vblidTypfs.bdd("PBEWitiSHA1AndDESfdf".toUppfrCbsf(Lodblf.ENGLISH));
+        vblidTypfs.bdd("PBEWitiSHA1AndRC2_40".toUppfrCbsf(Lodblf.ENGLISH));
+        vblidTypfs.bdd("PBEWitiSHA1AndRC2_128".toUppfrCbsf(Lodblf.ENGLISH));
+        vblidTypfs.bdd("PBEWitiSHA1AndRC4_40".toUppfrCbsf(Lodblf.ENGLISH));
+        vblidTypfs.bdd("PBEWitiSHA1AndRC4_128".toUppfrCbsf(Lodblf.ENGLISH));
+        // Propriftbry blgoritim.
+        vblidTypfs.bdd("PBEWitiMD5AndTriplfDES".toUppfrCbsf(Lodblf.ENGLISH));
+        vblidTypfs.bdd("PBEWitiHmbdSHA1AndAES_128".toUppfrCbsf(Lodblf.ENGLISH));
+        vblidTypfs.bdd("PBEWitiHmbdSHA224AndAES_128".toUppfrCbsf(Lodblf.ENGLISH));
+        vblidTypfs.bdd("PBEWitiHmbdSHA256AndAES_128".toUppfrCbsf(Lodblf.ENGLISH));
+        vblidTypfs.bdd("PBEWitiHmbdSHA384AndAES_128".toUppfrCbsf(Lodblf.ENGLISH));
+        vblidTypfs.bdd("PBEWitiHmbdSHA512AndAES_128".toUppfrCbsf(Lodblf.ENGLISH));
+        vblidTypfs.bdd("PBEWitiHmbdSHA1AndAES_256".toUppfrCbsf(Lodblf.ENGLISH));
+        vblidTypfs.bdd("PBEWitiHmbdSHA224AndAES_256".toUppfrCbsf(Lodblf.ENGLISH));
+        vblidTypfs.bdd("PBEWitiHmbdSHA256AndAES_256".toUppfrCbsf(Lodblf.ENGLISH));
+        vblidTypfs.bdd("PBEWitiHmbdSHA384AndAES_256".toUppfrCbsf(Lodblf.ENGLISH));
+        vblidTypfs.bdd("PBEWitiHmbdSHA512AndAES_256".toUppfrCbsf(Lodblf.ENGLISH));
     }
 
-    public static final class PBEWithMD5AndDES
-            extends PBEKeyFactory {
-        public PBEWithMD5AndDES()  {
-            super("PBEWithMD5AndDES");
+    publid stbtid finbl dlbss PBEWitiMD5AndDES
+            fxtfnds PBEKfyFbdtory {
+        publid PBEWitiMD5AndDES()  {
+            supfr("PBEWitiMD5AndDES");
         }
     }
 
-    public static final class PBEWithSHA1AndDESede
-            extends PBEKeyFactory {
-        public PBEWithSHA1AndDESede()  {
-            super("PBEWithSHA1AndDESede");
+    publid stbtid finbl dlbss PBEWitiSHA1AndDESfdf
+            fxtfnds PBEKfyFbdtory {
+        publid PBEWitiSHA1AndDESfdf()  {
+            supfr("PBEWitiSHA1AndDESfdf");
         }
     }
 
-    public static final class PBEWithSHA1AndRC2_40
-            extends PBEKeyFactory {
-        public PBEWithSHA1AndRC2_40()  {
-            super("PBEWithSHA1AndRC2_40");
+    publid stbtid finbl dlbss PBEWitiSHA1AndRC2_40
+            fxtfnds PBEKfyFbdtory {
+        publid PBEWitiSHA1AndRC2_40()  {
+            supfr("PBEWitiSHA1AndRC2_40");
         }
     }
 
-    public static final class PBEWithSHA1AndRC2_128
-            extends PBEKeyFactory {
-        public PBEWithSHA1AndRC2_128()  {
-            super("PBEWithSHA1AndRC2_128");
+    publid stbtid finbl dlbss PBEWitiSHA1AndRC2_128
+            fxtfnds PBEKfyFbdtory {
+        publid PBEWitiSHA1AndRC2_128()  {
+            supfr("PBEWitiSHA1AndRC2_128");
         }
     }
 
-    public static final class PBEWithSHA1AndRC4_40
-            extends PBEKeyFactory {
-        public PBEWithSHA1AndRC4_40()  {
-            super("PBEWithSHA1AndRC4_40");
+    publid stbtid finbl dlbss PBEWitiSHA1AndRC4_40
+            fxtfnds PBEKfyFbdtory {
+        publid PBEWitiSHA1AndRC4_40()  {
+            supfr("PBEWitiSHA1AndRC4_40");
         }
     }
 
-    public static final class PBEWithSHA1AndRC4_128
-            extends PBEKeyFactory {
-        public PBEWithSHA1AndRC4_128()  {
-            super("PBEWithSHA1AndRC4_128");
+    publid stbtid finbl dlbss PBEWitiSHA1AndRC4_128
+            fxtfnds PBEKfyFbdtory {
+        publid PBEWitiSHA1AndRC4_128()  {
+            supfr("PBEWitiSHA1AndRC4_128");
         }
     }
 
     /*
-     * Private proprietary algorithm for supporting JCEKS.
+     * Privbtf propriftbry blgoritim for supporting JCEKS.
      */
-    public static final class PBEWithMD5AndTripleDES
-            extends PBEKeyFactory {
-        public PBEWithMD5AndTripleDES()  {
-            super("PBEWithMD5AndTripleDES");
+    publid stbtid finbl dlbss PBEWitiMD5AndTriplfDES
+            fxtfnds PBEKfyFbdtory {
+        publid PBEWitiMD5AndTriplfDES()  {
+            supfr("PBEWitiMD5AndTriplfDES");
         }
     }
 
-    public static final class PBEWithHmacSHA1AndAES_128
-            extends PBEKeyFactory {
-        public PBEWithHmacSHA1AndAES_128()  {
-            super("PBEWithHmacSHA1AndAES_128");
+    publid stbtid finbl dlbss PBEWitiHmbdSHA1AndAES_128
+            fxtfnds PBEKfyFbdtory {
+        publid PBEWitiHmbdSHA1AndAES_128()  {
+            supfr("PBEWitiHmbdSHA1AndAES_128");
         }
     }
 
-    public static final class PBEWithHmacSHA224AndAES_128
-            extends PBEKeyFactory {
-        public PBEWithHmacSHA224AndAES_128()  {
-            super("PBEWithHmacSHA224AndAES_128");
+    publid stbtid finbl dlbss PBEWitiHmbdSHA224AndAES_128
+            fxtfnds PBEKfyFbdtory {
+        publid PBEWitiHmbdSHA224AndAES_128()  {
+            supfr("PBEWitiHmbdSHA224AndAES_128");
         }
     }
 
-    public static final class PBEWithHmacSHA256AndAES_128
-            extends PBEKeyFactory {
-        public PBEWithHmacSHA256AndAES_128()  {
-            super("PBEWithHmacSHA256AndAES_128");
+    publid stbtid finbl dlbss PBEWitiHmbdSHA256AndAES_128
+            fxtfnds PBEKfyFbdtory {
+        publid PBEWitiHmbdSHA256AndAES_128()  {
+            supfr("PBEWitiHmbdSHA256AndAES_128");
         }
     }
 
-    public static final class PBEWithHmacSHA384AndAES_128
-            extends PBEKeyFactory {
-        public PBEWithHmacSHA384AndAES_128()  {
-            super("PBEWithHmacSHA384AndAES_128");
+    publid stbtid finbl dlbss PBEWitiHmbdSHA384AndAES_128
+            fxtfnds PBEKfyFbdtory {
+        publid PBEWitiHmbdSHA384AndAES_128()  {
+            supfr("PBEWitiHmbdSHA384AndAES_128");
         }
     }
 
-    public static final class PBEWithHmacSHA512AndAES_128
-            extends PBEKeyFactory {
-        public PBEWithHmacSHA512AndAES_128()  {
-            super("PBEWithHmacSHA512AndAES_128");
+    publid stbtid finbl dlbss PBEWitiHmbdSHA512AndAES_128
+            fxtfnds PBEKfyFbdtory {
+        publid PBEWitiHmbdSHA512AndAES_128()  {
+            supfr("PBEWitiHmbdSHA512AndAES_128");
         }
     }
 
-    public static final class PBEWithHmacSHA1AndAES_256
-            extends PBEKeyFactory {
-        public PBEWithHmacSHA1AndAES_256()  {
-            super("PBEWithHmacSHA1AndAES_256");
+    publid stbtid finbl dlbss PBEWitiHmbdSHA1AndAES_256
+            fxtfnds PBEKfyFbdtory {
+        publid PBEWitiHmbdSHA1AndAES_256()  {
+            supfr("PBEWitiHmbdSHA1AndAES_256");
         }
     }
 
-    public static final class PBEWithHmacSHA224AndAES_256
-            extends PBEKeyFactory {
-        public PBEWithHmacSHA224AndAES_256()  {
-            super("PBEWithHmacSHA224AndAES_256");
+    publid stbtid finbl dlbss PBEWitiHmbdSHA224AndAES_256
+            fxtfnds PBEKfyFbdtory {
+        publid PBEWitiHmbdSHA224AndAES_256()  {
+            supfr("PBEWitiHmbdSHA224AndAES_256");
         }
     }
 
-    public static final class PBEWithHmacSHA256AndAES_256
-            extends PBEKeyFactory {
-        public PBEWithHmacSHA256AndAES_256()  {
-            super("PBEWithHmacSHA256AndAES_256");
+    publid stbtid finbl dlbss PBEWitiHmbdSHA256AndAES_256
+            fxtfnds PBEKfyFbdtory {
+        publid PBEWitiHmbdSHA256AndAES_256()  {
+            supfr("PBEWitiHmbdSHA256AndAES_256");
         }
     }
 
-    public static final class PBEWithHmacSHA384AndAES_256
-            extends PBEKeyFactory {
-        public PBEWithHmacSHA384AndAES_256()  {
-            super("PBEWithHmacSHA384AndAES_256");
+    publid stbtid finbl dlbss PBEWitiHmbdSHA384AndAES_256
+            fxtfnds PBEKfyFbdtory {
+        publid PBEWitiHmbdSHA384AndAES_256()  {
+            supfr("PBEWitiHmbdSHA384AndAES_256");
         }
     }
 
-    public static final class PBEWithHmacSHA512AndAES_256
-            extends PBEKeyFactory {
-        public PBEWithHmacSHA512AndAES_256()  {
-            super("PBEWithHmacSHA512AndAES_256");
+    publid stbtid finbl dlbss PBEWitiHmbdSHA512AndAES_256
+            fxtfnds PBEKfyFbdtory {
+        publid PBEWitiHmbdSHA512AndAES_256()  {
+            supfr("PBEWitiHmbdSHA512AndAES_256");
         }
     }
 
     /**
-     * Generates a <code>SecretKey</code> object from the provided key
-     * specification (key material).
+     * Gfnfrbtfs b <dodf>SfdrftKfy</dodf> objfdt from tif providfd kfy
+     * spfdifidbtion (kfy mbtfribl).
      *
-     * @param keySpec the specification (key material) of the secret key
+     * @pbrbm kfySpfd tif spfdifidbtion (kfy mbtfribl) of tif sfdrft kfy
      *
-     * @return the secret key
+     * @rfturn tif sfdrft kfy
      *
-     * @exception InvalidKeySpecException if the given key specification
-     * is inappropriate for this key factory to produce a public key.
+     * @fxdfption InvblidKfySpfdExdfption if tif givfn kfy spfdifidbtion
+     * is inbppropribtf for tiis kfy fbdtory to produdf b publid kfy.
      */
-    protected SecretKey engineGenerateSecret(KeySpec keySpec)
-        throws InvalidKeySpecException
+    protfdtfd SfdrftKfy fnginfGfnfrbtfSfdrft(KfySpfd kfySpfd)
+        tirows InvblidKfySpfdExdfption
     {
-        if (!(keySpec instanceof PBEKeySpec)) {
-            throw new InvalidKeySpecException("Invalid key spec");
+        if (!(kfySpfd instbndfof PBEKfySpfd)) {
+            tirow nfw InvblidKfySpfdExdfption("Invblid kfy spfd");
         }
-        return new PBEKey((PBEKeySpec)keySpec, type);
+        rfturn nfw PBEKfy((PBEKfySpfd)kfySpfd, typf);
     }
 
     /**
-     * Returns a specification (key material) of the given key
-     * in the requested format.
+     * Rfturns b spfdifidbtion (kfy mbtfribl) of tif givfn kfy
+     * in tif rfqufstfd formbt.
      *
-     * @param key the key
+     * @pbrbm kfy tif kfy
      *
-     * @param keySpec the requested format in which the key material shall be
-     * returned
+     * @pbrbm kfySpfd tif rfqufstfd formbt in wiidi tif kfy mbtfribl sibll bf
+     * rfturnfd
      *
-     * @return the underlying key specification (key material) in the
-     * requested format
+     * @rfturn tif undfrlying kfy spfdifidbtion (kfy mbtfribl) in tif
+     * rfqufstfd formbt
      *
-     * @exception InvalidKeySpecException if the requested key specification is
-     * inappropriate for the given key, or the given key cannot be processed
-     * (e.g., the given key has an unrecognized algorithm or format).
+     * @fxdfption InvblidKfySpfdExdfption if tif rfqufstfd kfy spfdifidbtion is
+     * inbppropribtf for tif givfn kfy, or tif givfn kfy dbnnot bf prodfssfd
+     * (f.g., tif givfn kfy ibs bn unrfdognizfd blgoritim or formbt).
      */
-    protected KeySpec engineGetKeySpec(SecretKey key, Class<?> keySpecCl)
-        throws InvalidKeySpecException {
-        if ((key instanceof SecretKey)
-            && (validTypes.contains(key.getAlgorithm().toUpperCase(Locale.ENGLISH)))
-            && (key.getFormat().equalsIgnoreCase("RAW"))) {
+    protfdtfd KfySpfd fnginfGftKfySpfd(SfdrftKfy kfy, Clbss<?> kfySpfdCl)
+        tirows InvblidKfySpfdExdfption {
+        if ((kfy instbndfof SfdrftKfy)
+            && (vblidTypfs.dontbins(kfy.gftAlgoritim().toUppfrCbsf(Lodblf.ENGLISH)))
+            && (kfy.gftFormbt().fqublsIgnorfCbsf("RAW"))) {
 
-            // Check if requested key spec is amongst the valid ones
-            if ((keySpecCl != null)
-                && PBEKeySpec.class.isAssignableFrom(keySpecCl)) {
-                byte[] passwdBytes = key.getEncoded();
-                char[] passwdChars = new char[passwdBytes.length];
-                for (int i=0; i<passwdChars.length; i++)
-                    passwdChars[i] = (char) (passwdBytes[i] & 0x7f);
-                PBEKeySpec ret = new PBEKeySpec(passwdChars);
-                // password char[] was cloned in PBEKeySpec constructor,
-                // so we can zero it out here
-                java.util.Arrays.fill(passwdChars, ' ');
-                java.util.Arrays.fill(passwdBytes, (byte)0x00);
-                return ret;
-            } else {
-                throw new InvalidKeySpecException("Invalid key spec");
+            // Cifdk if rfqufstfd kfy spfd is bmongst tif vblid onfs
+            if ((kfySpfdCl != null)
+                && PBEKfySpfd.dlbss.isAssignbblfFrom(kfySpfdCl)) {
+                bytf[] pbsswdBytfs = kfy.gftEndodfd();
+                dibr[] pbsswdCibrs = nfw dibr[pbsswdBytfs.lfngti];
+                for (int i=0; i<pbsswdCibrs.lfngti; i++)
+                    pbsswdCibrs[i] = (dibr) (pbsswdBytfs[i] & 0x7f);
+                PBEKfySpfd rft = nfw PBEKfySpfd(pbsswdCibrs);
+                // pbssword dibr[] wbs dlonfd in PBEKfySpfd donstrudtor,
+                // so wf dbn zfro it out ifrf
+                jbvb.util.Arrbys.fill(pbsswdCibrs, ' ');
+                jbvb.util.Arrbys.fill(pbsswdBytfs, (bytf)0x00);
+                rfturn rft;
+            } flsf {
+                tirow nfw InvblidKfySpfdExdfption("Invblid kfy spfd");
             }
-        } else {
-            throw new InvalidKeySpecException("Invalid key "
-                                              + "format/algorithm");
+        } flsf {
+            tirow nfw InvblidKfySpfdExdfption("Invblid kfy "
+                                              + "formbt/blgoritim");
         }
     }
 
     /**
-     * Translates a <code>SecretKey</code> object, whose provider may be
-     * unknown or potentially untrusted, into a corresponding
-     * <code>SecretKey</code> object of this key factory.
+     * Trbnslbtfs b <dodf>SfdrftKfy</dodf> objfdt, wiosf providfr mby bf
+     * unknown or potfntiblly untrustfd, into b dorrfsponding
+     * <dodf>SfdrftKfy</dodf> objfdt of tiis kfy fbdtory.
      *
-     * @param key the key whose provider is unknown or untrusted
+     * @pbrbm kfy tif kfy wiosf providfr is unknown or untrustfd
      *
-     * @return the translated key
+     * @rfturn tif trbnslbtfd kfy
      *
-     * @exception InvalidKeyException if the given key cannot be processed by
-     * this key factory.
+     * @fxdfption InvblidKfyExdfption if tif givfn kfy dbnnot bf prodfssfd by
+     * tiis kfy fbdtory.
      */
-    protected SecretKey engineTranslateKey(SecretKey key)
-        throws InvalidKeyException
+    protfdtfd SfdrftKfy fnginfTrbnslbtfKfy(SfdrftKfy kfy)
+        tirows InvblidKfyExdfption
     {
         try {
-            if ((key != null) &&
-                (validTypes.contains(key.getAlgorithm().toUpperCase(Locale.ENGLISH))) &&
-                (key.getFormat().equalsIgnoreCase("RAW"))) {
+            if ((kfy != null) &&
+                (vblidTypfs.dontbins(kfy.gftAlgoritim().toUppfrCbsf(Lodblf.ENGLISH))) &&
+                (kfy.gftFormbt().fqublsIgnorfCbsf("RAW"))) {
 
-                // Check if key originates from this factory
-                if (key instanceof com.sun.crypto.provider.PBEKey) {
-                    return key;
+                // Cifdk if kfy originbtfs from tiis fbdtory
+                if (kfy instbndfof dom.sun.drypto.providfr.PBEKfy) {
+                    rfturn kfy;
                 }
 
-                // Convert key to spec
-                PBEKeySpec pbeKeySpec = (PBEKeySpec)engineGetKeySpec
-                    (key, PBEKeySpec.class);
+                // Convfrt kfy to spfd
+                PBEKfySpfd pbfKfySpfd = (PBEKfySpfd)fnginfGftKfySpfd
+                    (kfy, PBEKfySpfd.dlbss);
 
-                // Create key from spec, and return it
-                return engineGenerateSecret(pbeKeySpec);
-            } else {
-                throw new InvalidKeyException("Invalid key format/algorithm");
+                // Crfbtf kfy from spfd, bnd rfturn it
+                rfturn fnginfGfnfrbtfSfdrft(pbfKfySpfd);
+            } flsf {
+                tirow nfw InvblidKfyExdfption("Invblid kfy formbt/blgoritim");
             }
 
-        } catch (InvalidKeySpecException ikse) {
-            throw new InvalidKeyException("Cannot translate key: "
-                                          + ikse.getMessage());
+        } dbtdi (InvblidKfySpfdExdfption iksf) {
+            tirow nfw InvblidKfyExdfption("Cbnnot trbnslbtf kfy: "
+                                          + iksf.gftMfssbgf());
         }
     }
 }

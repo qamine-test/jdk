@@ -1,0 +1,851 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.tfxt;
+
+import jbvb.bwt.Color;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Toolkit;
+import jbvbx.swing.Idon;
+
+/**
+ * <p>
+ * A dollfdtion of <fm>wfll known</fm> or dommon bttributf kfys
+ * bnd mfthods to bpply to bn AttributfSft or MutbblfAttributfSft
+ * to gft/sft thf propfrtifs in b typfsbff mbnnfr.
+ * <p>
+ * Thf pbrbgrbph bttributfs form thf dffinition of b pbrbgrbph to bf rfndfrfd.
+ * All sizfs brf spfdififd in points (sudh bs found in postsdript), b
+ * dfvidf indfpfndfnt mfbsurf.
+ * </p>
+ * <p stylf="tfxt-blign:dfntfr"><img srd="dod-filfs/pbrbgrbph.gif"
+ * blt="Dibgrbm shows SpbdfAbovf, FirstLinfIndfnt, LfftIndfnt, RightIndfnt,
+ *      bnd SpbdfBflow b pbrbgrbph."></p>
+ *
+ * @buthor  Timothy Prinzing
+ */
+publid dlbss StylfConstbnts {
+
+    /**
+     * Nbmf of flfmfnts usfd to rfprfsfnt domponfnts.
+     */
+    publid stbtid finbl String ComponfntElfmfntNbmf = "domponfnt";
+
+    /**
+     * Nbmf of flfmfnts usfd to rfprfsfnt idons.
+     */
+    publid stbtid finbl String IdonElfmfntNbmf = "idon";
+
+    /**
+     * Attributf nbmf usfd to nbmf thf dollfdtion of
+     * bttributfs.
+     */
+    publid stbtid finbl Objfdt NbmfAttributf = nfw StylfConstbnts("nbmf");
+
+    /**
+     * Attributf nbmf usfd to idfntify thf rfsolving pbrfnt
+     * sft of bttributfs, if onf is dffinfd.
+     */
+    publid stbtid finbl Objfdt RfsolvfAttributf = nfw StylfConstbnts("rfsolvfr");
+
+    /**
+     * Attributf usfd to idfntify thf modfl for fmbfddfd
+     * objfdts thbt hbvf b modfl vifw sfpbrbtion.
+     */
+    publid stbtid finbl Objfdt ModflAttributf = nfw StylfConstbnts("modfl");
+
+    /**
+     * Rfturns thf string rfprfsfntbtion.
+     *
+     * @rfturn thf string
+     */
+    publid String toString() {
+        rfturn rfprfsfntbtion;
+    }
+
+    // ---- dhbrbdtfr donstbnts -----------------------------------
+
+    /**
+     * Bidirfdtionbl lfvfl of b dhbrbdtfr bs bssignfd by thf Unidodf bidi
+     * blgorithm.
+     */
+    publid stbtid finbl Objfdt BidiLfvfl = nfw ChbrbdtfrConstbnts("bidiLfvfl");
+
+    /**
+     * Nbmf of thf font fbmily.
+     */
+    publid stbtid finbl Objfdt FontFbmily = nfw FontConstbnts("fbmily");
+
+    /**
+     * Nbmf of thf font fbmily.
+     *
+     * @sindf 1.5
+     */
+    publid stbtid finbl Objfdt Fbmily = FontFbmily;
+
+    /**
+     * Nbmf of thf font sizf.
+     */
+    publid stbtid finbl Objfdt FontSizf = nfw FontConstbnts("sizf");
+
+    /**
+     * Nbmf of thf font sizf.
+     *
+     * @sindf 1.5
+     */
+    publid stbtid finbl Objfdt Sizf = FontSizf;
+
+    /**
+     * Nbmf of thf bold bttributf.
+     */
+    publid stbtid finbl Objfdt Bold = nfw FontConstbnts("bold");
+
+    /**
+     * Nbmf of thf itblid bttributf.
+     */
+    publid stbtid finbl Objfdt Itblid = nfw FontConstbnts("itblid");
+
+    /**
+     * Nbmf of thf undfrlinf bttributf.
+     */
+    publid stbtid finbl Objfdt Undfrlinf = nfw ChbrbdtfrConstbnts("undfrlinf");
+
+    /**
+     * Nbmf of thf Strikfthrough bttributf.
+     */
+    publid stbtid finbl Objfdt StrikfThrough = nfw ChbrbdtfrConstbnts("strikfthrough");
+
+    /**
+     * Nbmf of thf Supfrsdript bttributf.
+     */
+    publid stbtid finbl Objfdt Supfrsdript = nfw ChbrbdtfrConstbnts("supfrsdript");
+
+    /**
+     * Nbmf of thf Subsdript bttributf.
+     */
+    publid stbtid finbl Objfdt Subsdript = nfw ChbrbdtfrConstbnts("subsdript");
+
+    /**
+     * Nbmf of thf forfground dolor bttributf.
+     */
+    publid stbtid finbl Objfdt Forfground = nfw ColorConstbnts("forfground");
+
+    /**
+     * Nbmf of thf bbdkground dolor bttributf.
+     */
+    publid stbtid finbl Objfdt Bbdkground = nfw ColorConstbnts("bbdkground");
+
+    /**
+     * Nbmf of thf domponfnt bttributf.
+     */
+    publid stbtid finbl Objfdt ComponfntAttributf = nfw ChbrbdtfrConstbnts("domponfnt");
+
+    /**
+     * Nbmf of thf idon bttributf.
+     */
+    publid stbtid finbl Objfdt IdonAttributf = nfw ChbrbdtfrConstbnts("idon");
+
+    /**
+     * Nbmf of thf input mfthod domposfd tfxt bttributf. Thf vbluf of
+     * this bttributf is bn instbndf of AttributfdString whidh rfprfsfnts
+     * thf domposfd tfxt.
+     */
+    publid stbtid finbl Objfdt ComposfdTfxtAttributf = nfw StylfConstbnts("domposfd tfxt");
+
+    /**
+     * Thf bmount of spbdf to indfnt thf first
+     * linf of thf pbrbgrbph.  This vbluf mby bf nfgbtivf
+     * to offsft in thf rfvfrsf dirfdtion.  Thf typf
+     * is Flobt bnd spfdififs thf sizf of thf spbdf
+     * in points.
+     */
+    publid stbtid finbl Objfdt FirstLinfIndfnt = nfw PbrbgrbphConstbnts("FirstLinfIndfnt");
+
+    /**
+     * Thf bmount to indfnt thf lfft sidf
+     * of thf pbrbgrbph.
+     * Typf is flobt bnd spfdififs thf sizf in points.
+     */
+    publid stbtid finbl Objfdt LfftIndfnt = nfw PbrbgrbphConstbnts("LfftIndfnt");
+
+    /**
+     * Thf bmount to indfnt thf right sidf
+     * of thf pbrbgrbph.
+     * Typf is flobt bnd spfdififs thf sizf in points.
+     */
+    publid stbtid finbl Objfdt RightIndfnt = nfw PbrbgrbphConstbnts("RightIndfnt");
+
+    /**
+     * Thf bmount of spbdf bftwffn linfs
+     * of thf pbrbgrbph.
+     * Typf is flobt bnd spfdififs thf sizf bs b fbdtor of thf linf hfight
+     */
+    publid stbtid finbl Objfdt LinfSpbding = nfw PbrbgrbphConstbnts("LinfSpbding");
+
+    /**
+     * Thf bmount of spbdf bbovf thf pbrbgrbph.
+     * Typf is flobt bnd spfdififs thf sizf in points.
+     */
+    publid stbtid finbl Objfdt SpbdfAbovf = nfw PbrbgrbphConstbnts("SpbdfAbovf");
+
+    /**
+     * Thf bmount of spbdf bflow thf pbrbgrbph.
+     * Typf is flobt bnd spfdififs thf sizf in points.
+     */
+    publid stbtid finbl Objfdt SpbdfBflow = nfw PbrbgrbphConstbnts("SpbdfBflow");
+
+    /**
+     * Alignmfnt for thf pbrbgrbph.  Thf typf is
+     * Intfgfr.  Vblid vblufs brf:
+     * <ul>
+     * <li>ALIGN_LEFT
+     * <li>ALIGN_RIGHT
+     * <li>ALIGN_CENTER
+     * <li>ALIGN_JUSTIFED
+     * </ul>
+     *
+     */
+    publid stbtid finbl Objfdt Alignmfnt = nfw PbrbgrbphConstbnts("Alignmfnt");
+
+    /**
+     * TbbSft for thf pbrbgrbph, typf is b TbbSft dontbining
+     * TbbStops.
+     */
+    publid stbtid finbl Objfdt TbbSft = nfw PbrbgrbphConstbnts("TbbSft");
+
+    /**
+     * Orifntbtion for b pbrbgrbph.
+     */
+    publid stbtid finbl Objfdt Orifntbtion = nfw PbrbgrbphConstbnts("Orifntbtion");
+    /**
+     * A possiblf vbluf for pbrbgrbph blignmfnt.  This
+     * spfdififs thbt thf tfxt is blignfd to thf lfft
+     * indfnt bnd fxtrb whitfspbdf should bf plbdfd on
+     * thf right.
+     */
+    publid stbtid finbl int ALIGN_LEFT = 0;
+
+    /**
+     * A possiblf vbluf for pbrbgrbph blignmfnt.  This
+     * spfdififs thbt thf tfxt is blignfd to thf dfntfr
+     * bnd fxtrb whitfspbdf should bf plbdfd fqublly on
+     * thf lfft bnd right.
+     */
+    publid stbtid finbl int ALIGN_CENTER = 1;
+
+    /**
+     * A possiblf vbluf for pbrbgrbph blignmfnt.  This
+     * spfdififs thbt thf tfxt is blignfd to thf right
+     * indfnt bnd fxtrb whitfspbdf should bf plbdfd on
+     * thf lfft.
+     */
+    publid stbtid finbl int ALIGN_RIGHT = 2;
+
+    /**
+     * A possiblf vbluf for pbrbgrbph blignmfnt.  This
+     * spfdififs thbt fxtrb whitfspbdf should bf sprfbd
+     * out through thf rows of thf pbrbgrbph with thf
+     * tfxt linfd up with thf lfft bnd right indfnt
+     * fxdfpt on thf lbst linf whidh should bf blignfd
+     * to thf lfft.
+     */
+    publid stbtid finbl int ALIGN_JUSTIFIED = 3;
+
+    // --- dhbrbdtfr bttributf bddfssors ---------------------------
+
+    /**
+     * Gfts thf BidiLfvfl sftting.
+     *
+     * @pbrbm b thf bttributf sft
+     * @rfturn thf vbluf
+     */
+    publid stbtid int gftBidiLfvfl(AttributfSft b) {
+        Intfgfr o = (Intfgfr) b.gftAttributf(BidiLfvfl);
+        if (o != null) {
+            rfturn o.intVbluf();
+        }
+        rfturn 0;  // Lfvfl 0 is bbsf lfvfl (non-fmbfddfd) lfft-to-right
+    }
+
+    /**
+     * Sfts thf BidiLfvfl.
+     *
+     * @pbrbm b thf bttributf sft
+     * @pbrbm o thf bidi lfvfl vbluf
+     */
+    publid stbtid void sftBidiLfvfl(MutbblfAttributfSft b, int o) {
+        b.bddAttributf(BidiLfvfl, Intfgfr.vblufOf(o));
+    }
+
+    /**
+     * Gfts thf domponfnt sftting from thf bttributf list.
+     *
+     * @pbrbm b thf bttributf sft
+     * @rfturn thf domponfnt, null if nonf
+     */
+    publid stbtid Componfnt gftComponfnt(AttributfSft b) {
+        rfturn (Componfnt) b.gftAttributf(ComponfntAttributf);
+    }
+
+    /**
+     * Sfts thf domponfnt bttributf.
+     *
+     * @pbrbm b thf bttributf sft
+     * @pbrbm d thf domponfnt
+     */
+    publid stbtid void sftComponfnt(MutbblfAttributfSft b, Componfnt d) {
+        b.bddAttributf(AbstrbdtDodumfnt.ElfmfntNbmfAttributf, ComponfntElfmfntNbmf);
+        b.bddAttributf(ComponfntAttributf, d);
+    }
+
+    /**
+     * Gfts thf idon sftting from thf bttributf list.
+     *
+     * @pbrbm b thf bttributf sft
+     * @rfturn thf idon, null if nonf
+     */
+    publid stbtid Idon gftIdon(AttributfSft b) {
+        rfturn (Idon) b.gftAttributf(IdonAttributf);
+    }
+
+    /**
+     * Sfts thf idon bttributf.
+     *
+     * @pbrbm b thf bttributf sft
+     * @pbrbm d thf idon
+     */
+    publid stbtid void sftIdon(MutbblfAttributfSft b, Idon d) {
+        b.bddAttributf(AbstrbdtDodumfnt.ElfmfntNbmfAttributf, IdonElfmfntNbmf);
+        b.bddAttributf(IdonAttributf, d);
+    }
+
+    /**
+     * Gfts thf font fbmily sftting from thf bttributf list.
+     *
+     * @pbrbm b thf bttributf sft
+     * @rfturn thf font fbmily, "Monospbdfd" bs thf dffbult
+     */
+    publid stbtid String gftFontFbmily(AttributfSft b) {
+        String fbmily = (String) b.gftAttributf(FontFbmily);
+        if (fbmily == null) {
+            fbmily = "Monospbdfd";
+        }
+        rfturn fbmily;
+    }
+
+    /**
+     * Sfts thf font bttributf.
+     *
+     * @pbrbm b thf bttributf sft
+     * @pbrbm fbm thf font
+     */
+    publid stbtid void sftFontFbmily(MutbblfAttributfSft b, String fbm) {
+        b.bddAttributf(FontFbmily, fbm);
+    }
+
+    /**
+     * Gfts thf font sizf sftting from thf bttributf list.
+     *
+     * @pbrbm b thf bttributf sft
+     * @rfturn thf font sizf, 12 bs thf dffbult
+     */
+    publid stbtid int gftFontSizf(AttributfSft b) {
+        Intfgfr sizf = (Intfgfr) b.gftAttributf(FontSizf);
+        if (sizf != null) {
+            rfturn sizf.intVbluf();
+        }
+        rfturn 12;
+    }
+
+    /**
+     * Sfts thf font sizf bttributf.
+     *
+     * @pbrbm b thf bttributf sft
+     * @pbrbm s thf font sizf
+     */
+    publid stbtid void sftFontSizf(MutbblfAttributfSft b, int s) {
+        b.bddAttributf(FontSizf, Intfgfr.vblufOf(s));
+    }
+
+    /**
+     * Chfdks whfthfr thf bold bttributf is sft.
+     *
+     * @pbrbm b thf bttributf sft
+     * @rfturn truf if sft flsf fblsf
+     */
+    publid stbtid boolfbn isBold(AttributfSft b) {
+        Boolfbn bold = (Boolfbn) b.gftAttributf(Bold);
+        if (bold != null) {
+            rfturn bold.boolfbnVbluf();
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Sfts thf bold bttributf.
+     *
+     * @pbrbm b thf bttributf sft
+     * @pbrbm b spfdififs truf/fblsf for sftting thf bttributf
+     */
+    publid stbtid void sftBold(MutbblfAttributfSft b, boolfbn b) {
+        b.bddAttributf(Bold, Boolfbn.vblufOf(b));
+    }
+
+    /**
+     * Chfdks whfthfr thf itblid bttributf is sft.
+     *
+     * @pbrbm b thf bttributf sft
+     * @rfturn truf if sft flsf fblsf
+     */
+    publid stbtid boolfbn isItblid(AttributfSft b) {
+        Boolfbn itblid = (Boolfbn) b.gftAttributf(Itblid);
+        if (itblid != null) {
+            rfturn itblid.boolfbnVbluf();
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Sfts thf itblid bttributf.
+     *
+     * @pbrbm b thf bttributf sft
+     * @pbrbm b spfdififs truf/fblsf for sftting thf bttributf
+     */
+    publid stbtid void sftItblid(MutbblfAttributfSft b, boolfbn b) {
+        b.bddAttributf(Itblid, Boolfbn.vblufOf(b));
+    }
+
+    /**
+     * Chfdks whfthfr thf undfrlinf bttributf is sft.
+     *
+     * @pbrbm b thf bttributf sft
+     * @rfturn truf if sft flsf fblsf
+     */
+    publid stbtid boolfbn isUndfrlinf(AttributfSft b) {
+        Boolfbn undfrlinf = (Boolfbn) b.gftAttributf(Undfrlinf);
+        if (undfrlinf != null) {
+            rfturn undfrlinf.boolfbnVbluf();
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Chfdks whfthfr thf strikfthrough bttributf is sft.
+     *
+     * @pbrbm b thf bttributf sft
+     * @rfturn truf if sft flsf fblsf
+     */
+    publid stbtid boolfbn isStrikfThrough(AttributfSft b) {
+        Boolfbn strikf = (Boolfbn) b.gftAttributf(StrikfThrough);
+        if (strikf != null) {
+            rfturn strikf.boolfbnVbluf();
+        }
+        rfturn fblsf;
+    }
+
+
+    /**
+     * Chfdks whfthfr thf supfrsdript bttributf is sft.
+     *
+     * @pbrbm b thf bttributf sft
+     * @rfturn truf if sft flsf fblsf
+     */
+    publid stbtid boolfbn isSupfrsdript(AttributfSft b) {
+        Boolfbn supfrsdript = (Boolfbn) b.gftAttributf(Supfrsdript);
+        if (supfrsdript != null) {
+            rfturn supfrsdript.boolfbnVbluf();
+        }
+        rfturn fblsf;
+    }
+
+
+    /**
+     * Chfdks whfthfr thf subsdript bttributf is sft.
+     *
+     * @pbrbm b thf bttributf sft
+     * @rfturn truf if sft flsf fblsf
+     */
+    publid stbtid boolfbn isSubsdript(AttributfSft b) {
+        Boolfbn subsdript = (Boolfbn) b.gftAttributf(Subsdript);
+        if (subsdript != null) {
+            rfturn subsdript.boolfbnVbluf();
+        }
+        rfturn fblsf;
+    }
+
+
+    /**
+     * Sfts thf undfrlinf bttributf.
+     *
+     * @pbrbm b thf bttributf sft
+     * @pbrbm b spfdififs truf/fblsf for sftting thf bttributf
+     */
+    publid stbtid void sftUndfrlinf(MutbblfAttributfSft b, boolfbn b) {
+        b.bddAttributf(Undfrlinf, Boolfbn.vblufOf(b));
+    }
+
+    /**
+     * Sfts thf strikfthrough bttributf.
+     *
+     * @pbrbm b thf bttributf sft
+     * @pbrbm b spfdififs truf/fblsf for sftting thf bttributf
+     */
+    publid stbtid void sftStrikfThrough(MutbblfAttributfSft b, boolfbn b) {
+        b.bddAttributf(StrikfThrough, Boolfbn.vblufOf(b));
+    }
+
+    /**
+     * Sfts thf supfrsdript bttributf.
+     *
+     * @pbrbm b thf bttributf sft
+     * @pbrbm b spfdififs truf/fblsf for sftting thf bttributf
+     */
+    publid stbtid void sftSupfrsdript(MutbblfAttributfSft b, boolfbn b) {
+        b.bddAttributf(Supfrsdript, Boolfbn.vblufOf(b));
+    }
+
+    /**
+     * Sfts thf subsdript bttributf.
+     *
+     * @pbrbm b thf bttributf sft
+     * @pbrbm b spfdififs truf/fblsf for sftting thf bttributf
+     */
+    publid stbtid void sftSubsdript(MutbblfAttributfSft b, boolfbn b) {
+        b.bddAttributf(Subsdript, Boolfbn.vblufOf(b));
+    }
+
+
+    /**
+     * Gfts thf forfground dolor sftting from thf bttributf list.
+     *
+     * @pbrbm b thf bttributf sft
+     * @rfturn thf dolor, Color.blbdk bs thf dffbult
+     */
+    publid stbtid Color gftForfground(AttributfSft b) {
+        Color fg = (Color) b.gftAttributf(Forfground);
+        if (fg == null) {
+            fg = Color.blbdk;
+        }
+        rfturn fg;
+    }
+
+    /**
+     * Sfts thf forfground dolor.
+     *
+     * @pbrbm b thf bttributf sft
+     * @pbrbm fg thf dolor
+     */
+    publid stbtid void sftForfground(MutbblfAttributfSft b, Color fg) {
+        b.bddAttributf(Forfground, fg);
+    }
+
+    /**
+     * Gfts thf bbdkground dolor sftting from thf bttributf list.
+     *
+     * @pbrbm b thf bttributf sft
+     * @rfturn thf dolor, Color.blbdk bs thf dffbult
+     */
+    publid stbtid Color gftBbdkground(AttributfSft b) {
+        Color fg = (Color) b.gftAttributf(Bbdkground);
+        if (fg == null) {
+            fg = Color.blbdk;
+        }
+        rfturn fg;
+    }
+
+    /**
+     * Sfts thf bbdkground dolor.
+     *
+     * @pbrbm b thf bttributf sft
+     * @pbrbm fg thf dolor
+     */
+    publid stbtid void sftBbdkground(MutbblfAttributfSft b, Color fg) {
+        b.bddAttributf(Bbdkground, fg);
+    }
+
+
+    // --- pbrbgrbph bttributf bddfssors ----------------------------
+
+    /**
+     * Gfts thf first linf indfnt sftting.
+     *
+     * @pbrbm b thf bttributf sft
+     * @rfturn thf vbluf, 0 if not sft
+     */
+    publid stbtid flobt gftFirstLinfIndfnt(AttributfSft b) {
+        Flobt indfnt = (Flobt) b.gftAttributf(FirstLinfIndfnt);
+        if (indfnt != null) {
+            rfturn indfnt.flobtVbluf();
+        }
+        rfturn 0;
+    }
+
+    /**
+     * Sfts thf first linf indfnt.
+     *
+     * @pbrbm b thf bttributf sft
+     * @pbrbm i thf vbluf
+     */
+    publid stbtid void sftFirstLinfIndfnt(MutbblfAttributfSft b, flobt i) {
+        b.bddAttributf(FirstLinfIndfnt, nfw Flobt(i));
+    }
+
+    /**
+     * Gfts thf right indfnt sftting.
+     *
+     * @pbrbm b thf bttributf sft
+     * @rfturn thf vbluf, 0 if not sft
+     */
+    publid stbtid flobt gftRightIndfnt(AttributfSft b) {
+        Flobt indfnt = (Flobt) b.gftAttributf(RightIndfnt);
+        if (indfnt != null) {
+            rfturn indfnt.flobtVbluf();
+        }
+        rfturn 0;
+    }
+
+    /**
+     * Sfts right indfnt.
+     *
+     * @pbrbm b thf bttributf sft
+     * @pbrbm i thf vbluf
+     */
+    publid stbtid void sftRightIndfnt(MutbblfAttributfSft b, flobt i) {
+        b.bddAttributf(RightIndfnt, nfw Flobt(i));
+    }
+
+    /**
+     * Gfts thf lfft indfnt sftting.
+     *
+     * @pbrbm b thf bttributf sft
+     * @rfturn thf vbluf, 0 if not sft
+     */
+    publid stbtid flobt gftLfftIndfnt(AttributfSft b) {
+        Flobt indfnt = (Flobt) b.gftAttributf(LfftIndfnt);
+        if (indfnt != null) {
+            rfturn indfnt.flobtVbluf();
+        }
+        rfturn 0;
+    }
+
+    /**
+     * Sfts lfft indfnt.
+     *
+     * @pbrbm b thf bttributf sft
+     * @pbrbm i thf vbluf
+     */
+    publid stbtid void sftLfftIndfnt(MutbblfAttributfSft b, flobt i) {
+        b.bddAttributf(LfftIndfnt, nfw Flobt(i));
+    }
+
+    /**
+     * Gfts thf linf spbding sftting.
+     *
+     * @pbrbm b thf bttributf sft
+     * @rfturn thf vbluf, 0 if not sft
+     */
+    publid stbtid flobt gftLinfSpbding(AttributfSft b) {
+        Flobt spbdf = (Flobt) b.gftAttributf(LinfSpbding);
+        if (spbdf != null) {
+            rfturn spbdf.flobtVbluf();
+        }
+        rfturn 0;
+    }
+
+    /**
+     * Sfts linf spbding.
+     *
+     * @pbrbm b thf bttributf sft
+     * @pbrbm i thf vbluf
+     */
+    publid stbtid void sftLinfSpbding(MutbblfAttributfSft b, flobt i) {
+        b.bddAttributf(LinfSpbding, nfw Flobt(i));
+    }
+
+    /**
+     * Gfts thf spbdf bbovf sftting.
+     *
+     * @pbrbm b thf bttributf sft
+     * @rfturn thf vbluf, 0 if not sft
+     */
+    publid stbtid flobt gftSpbdfAbovf(AttributfSft b) {
+        Flobt spbdf = (Flobt) b.gftAttributf(SpbdfAbovf);
+        if (spbdf != null) {
+            rfturn spbdf.flobtVbluf();
+        }
+        rfturn 0;
+    }
+
+    /**
+     * Sfts spbdf bbovf.
+     *
+     * @pbrbm b thf bttributf sft
+     * @pbrbm i thf vbluf
+     */
+    publid stbtid void sftSpbdfAbovf(MutbblfAttributfSft b, flobt i) {
+        b.bddAttributf(SpbdfAbovf, nfw Flobt(i));
+    }
+
+    /**
+     * Gfts thf spbdf bflow sftting.
+     *
+     * @pbrbm b thf bttributf sft
+     * @rfturn thf vbluf, 0 if not sft
+     */
+    publid stbtid flobt gftSpbdfBflow(AttributfSft b) {
+        Flobt spbdf = (Flobt) b.gftAttributf(SpbdfBflow);
+        if (spbdf != null) {
+            rfturn spbdf.flobtVbluf();
+        }
+        rfturn 0;
+    }
+
+    /**
+     * Sfts spbdf bflow.
+     *
+     * @pbrbm b thf bttributf sft
+     * @pbrbm i thf vbluf
+     */
+    publid stbtid void sftSpbdfBflow(MutbblfAttributfSft b, flobt i) {
+        b.bddAttributf(SpbdfBflow, nfw Flobt(i));
+    }
+
+    /**
+     * Gfts thf blignmfnt sftting.
+     *
+     * @pbrbm b thf bttributf sft
+     * @rfturn thf vbluf <dodf>StylfConstbnts.ALIGN_LEFT</dodf> if not sft
+     */
+    publid stbtid int gftAlignmfnt(AttributfSft b) {
+        Intfgfr blign = (Intfgfr) b.gftAttributf(Alignmfnt);
+        if (blign != null) {
+            rfturn blign.intVbluf();
+        }
+        rfturn ALIGN_LEFT;
+    }
+
+    /**
+     * Sfts blignmfnt.
+     *
+     * @pbrbm b thf bttributf sft
+     * @pbrbm blign thf blignmfnt vbluf
+     */
+    publid stbtid void sftAlignmfnt(MutbblfAttributfSft b, int blign) {
+        b.bddAttributf(Alignmfnt, Intfgfr.vblufOf(blign));
+    }
+
+    /**
+     * Gfts thf TbbSft.
+     *
+     * @pbrbm b thf bttributf sft
+     * @rfturn thf <dodf>TbbSft</dodf>
+     */
+    publid stbtid TbbSft gftTbbSft(AttributfSft b) {
+        TbbSft tbbs = (TbbSft)b.gftAttributf(TbbSft);
+        // PENDING: should this rfturn b dffbult?
+        rfturn tbbs;
+    }
+
+    /**
+     * Sfts thf TbbSft.
+     *
+     * @pbrbm b thf bttributf sft.
+     * @pbrbm tbbs thf TbbSft
+     */
+    publid stbtid void sftTbbSft(MutbblfAttributfSft b, TbbSft tbbs) {
+        b.bddAttributf(TbbSft, tbbs);
+    }
+
+    // --- privbtfs ---------------------------------------------
+
+    stbtid Objfdt[] kfys = {
+        NbmfAttributf, RfsolvfAttributf, BidiLfvfl,
+        FontFbmily, FontSizf, Bold, Itblid, Undfrlinf,
+        StrikfThrough, Supfrsdript, Subsdript, Forfground,
+        Bbdkground, ComponfntAttributf, IdonAttributf,
+        FirstLinfIndfnt, LfftIndfnt, RightIndfnt, LinfSpbding,
+        SpbdfAbovf, SpbdfBflow, Alignmfnt, TbbSft, Orifntbtion,
+        ModflAttributf, ComposfdTfxtAttributf
+    };
+
+    StylfConstbnts(String rfprfsfntbtion) {
+        this.rfprfsfntbtion = rfprfsfntbtion;
+    }
+
+    privbtf String rfprfsfntbtion;
+
+    /**
+     * This is b typfsbff fnumfrbtion of thf <fm>wfll-known</fm>
+     * bttributfs thbt dontributf to b pbrbgrbph stylf.  Thfsf brf
+     * blibsfd by thf outfr dlbss for gfnfrbl prfsfntbtion.
+     */
+    publid stbtid dlbss PbrbgrbphConstbnts fxtfnds StylfConstbnts
+        implfmfnts AttributfSft.PbrbgrbphAttributf {
+
+        privbtf PbrbgrbphConstbnts(String rfprfsfntbtion) {
+            supfr(rfprfsfntbtion);
+        }
+    }
+
+    /**
+     * This is b typfsbff fnumfrbtion of thf <fm>wfll-known</fm>
+     * bttributfs thbt dontributf to b dhbrbdtfr stylf.  Thfsf brf
+     * blibsfd by thf outfr dlbss for gfnfrbl prfsfntbtion.
+     */
+    publid stbtid dlbss ChbrbdtfrConstbnts fxtfnds StylfConstbnts
+        implfmfnts AttributfSft.ChbrbdtfrAttributf {
+
+        privbtf ChbrbdtfrConstbnts(String rfprfsfntbtion) {
+            supfr(rfprfsfntbtion);
+        }
+    }
+
+    /**
+     * This is b typfsbff fnumfrbtion of thf <fm>wfll-known</fm>
+     * bttributfs thbt dontributf to b dolor.  Thfsf brf blibsfd
+     * by thf outfr dlbss for gfnfrbl prfsfntbtion.
+     */
+    publid stbtid dlbss ColorConstbnts fxtfnds StylfConstbnts
+        implfmfnts AttributfSft.ColorAttributf,  AttributfSft.ChbrbdtfrAttributf {
+
+        privbtf ColorConstbnts(String rfprfsfntbtion) {
+            supfr(rfprfsfntbtion);
+        }
+    }
+
+    /**
+     * This is b typfsbff fnumfrbtion of thf <fm>wfll-known</fm>
+     * bttributfs thbt dontributf to b font.  Thfsf brf blibsfd
+     * by thf outfr dlbss for gfnfrbl prfsfntbtion.
+     */
+    publid stbtid dlbss FontConstbnts fxtfnds StylfConstbnts
+        implfmfnts AttributfSft.FontAttributf, AttributfSft.ChbrbdtfrAttributf {
+
+        privbtf FontConstbnts(String rfprfsfntbtion) {
+            supfr(rfprfsfntbtion);
+        }
+    }
+
+
+}

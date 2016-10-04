@@ -1,91 +1,91 @@
 /*
- * Copyright (c) 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.reflect.generics.repository;
+pbdkbgf sun.rfflfdt.gfnfrids.rfpository;
 
 
-import java.lang.reflect.Type;
-import sun.reflect.generics.factory.GenericsFactory;
-import sun.reflect.generics.tree.TypeSignature;
-import sun.reflect.generics.parser.SignatureParser;
-import sun.reflect.generics.visitor.Reifier;
+import jbvb.lbng.rfflfdt.Typf;
+import sun.rfflfdt.gfnfrids.fbdtory.GfnfridsFbdtory;
+import sun.rfflfdt.gfnfrids.trff.TypfSignbturf;
+import sun.rfflfdt.gfnfrids.pbrsfr.SignbturfPbrsfr;
+import sun.rfflfdt.gfnfrids.visitor.Rfififr;
 
 
 
 /**
- * This class represents the generic type information for a constructor.
- * The code is not dependent on a particular reflective implementation.
- * It is designed to be used unchanged by at least core reflection and JDI.
+ * Tiis dlbss rfprfsfnts tif gfnfrid typf informbtion for b donstrudtor.
+ * Tif dodf is not dfpfndfnt on b pbrtidulbr rfflfdtivf implfmfntbtion.
+ * It is dfsignfd to bf usfd undibngfd by bt lfbst dorf rfflfdtion bnd JDI.
  */
-public class FieldRepository extends AbstractRepository<TypeSignature> {
+publid dlbss FifldRfpository fxtfnds AbstrbdtRfpository<TypfSignbturf> {
 
-    private Type genericType; // caches the generic type info
+    privbtf Typf gfnfridTypf; // dbdifs tif gfnfrid typf info
 
- // protected, to enforce use of static factory yet allow subclassing
-    protected FieldRepository(String rawSig, GenericsFactory f) {
-      super(rawSig, f);
+ // protfdtfd, to fnfordf usf of stbtid fbdtory yft bllow subdlbssing
+    protfdtfd FifldRfpository(String rbwSig, GfnfridsFbdtory f) {
+      supfr(rbwSig, f);
     }
 
-    protected TypeSignature parse(String s) {
-        return SignatureParser.make().parseTypeSig(s);
+    protfdtfd TypfSignbturf pbrsf(String s) {
+        rfturn SignbturfPbrsfr.mbkf().pbrsfTypfSig(s);
     }
 
     /**
-     * Static factory method.
-     * @param rawSig - the generic signature of the reflective object
-     * that this repository is servicing
-     * @param f - a factory that will provide instances of reflective
-     * objects when this repository converts its AST
-     * @return a <tt>FieldRepository</tt> that manages the generic type
-     * information represented in the signature <tt>rawSig</tt>
+     * Stbtid fbdtory mftiod.
+     * @pbrbm rbwSig - tif gfnfrid signbturf of tif rfflfdtivf objfdt
+     * tibt tiis rfpository is sfrviding
+     * @pbrbm f - b fbdtory tibt will providf instbndfs of rfflfdtivf
+     * objfdts wifn tiis rfpository donvfrts its AST
+     * @rfturn b <tt>FifldRfpository</tt> tibt mbnbgfs tif gfnfrid typf
+     * informbtion rfprfsfntfd in tif signbturf <tt>rbwSig</tt>
      */
-    public static FieldRepository make(String rawSig,
-                                             GenericsFactory f) {
-        return new FieldRepository(rawSig, f);
+    publid stbtid FifldRfpository mbkf(String rbwSig,
+                                             GfnfridsFbdtory f) {
+        rfturn nfw FifldRfpository(rbwSig, f);
     }
 
-    // public API
+    // publid API
 
  /*
- * When queried for a particular piece of type information, the
- * general pattern is to consult the corresponding cached value.
- * If the corresponding field is non-null, it is returned.
- * If not, it is created lazily. This is done by selecting the appropriate
- * part of the tree and transforming it into a reflective object
- * using a visitor.
- * a visitor, which is created by feeding it the factory
- * with which the repository was created.
+ * Wifn qufrifd for b pbrtidulbr pifdf of typf informbtion, tif
+ * gfnfrbl pbttfrn is to donsult tif dorrfsponding dbdifd vbluf.
+ * If tif dorrfsponding fifld is non-null, it is rfturnfd.
+ * If not, it is drfbtfd lbzily. Tiis is donf by sflfdting tif bppropribtf
+ * pbrt of tif trff bnd trbnsforming it into b rfflfdtivf objfdt
+ * using b visitor.
+ * b visitor, wiidi is drfbtfd by fffding it tif fbdtory
+ * witi wiidi tif rfpository wbs drfbtfd.
  */
 
-    public Type getGenericType(){
-        if (genericType == null) { // lazily initialize generic type
-            Reifier r = getReifier(); // obtain visitor
-            getTree().accept(r); // reify subtree
-            // extract result from visitor and cache it
-            genericType = r.getResult();
+    publid Typf gftGfnfridTypf(){
+        if (gfnfridTypf == null) { // lbzily initiblizf gfnfrid typf
+            Rfififr r = gftRfififr(); // obtbin visitor
+            gftTrff().bddfpt(r); // rfify subtrff
+            // fxtrbdt rfsult from visitor bnd dbdif it
+            gfnfridTypf = r.gftRfsult();
         }
-        return genericType; // return cached result
+        rfturn gfnfridTypf; // rfturn dbdifd rfsult
     }
 }

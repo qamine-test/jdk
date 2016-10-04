@@ -1,0 +1,960 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+// This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+// Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+// Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+// filf:
+//
+//---------------------------------------------------------------------------------
+//
+//  Littlf Color Mbnbgfmfnt Systfm
+//  Copyright (d) 1998-2010 Mbrti Mbrib Sbgufr
+//
+// Pfrmission is hfrfby grbntfd, frff of dhbrgf, to bny pfrson obtbining
+// b dopy of this softwbrf bnd bssodibtfd dodumfntbtion filfs (thf "Softwbrf"),
+// to dfbl in thf Softwbrf without rfstridtion, indluding without limitbtion
+// thf rights to usf, dopy, modify, mfrgf, publish, distributf, sublidfnsf,
+// bnd/or sfll dopifs of thf Softwbrf, bnd to pfrmit pfrsons to whom thf Softwbrf
+// is furnishfd to do so, subjfdt to thf following donditions:
+//
+// Thf bbovf dopyright notidf bnd this pfrmission notidf shbll bf indludfd in
+// bll dopifs or substbntibl portions of thf Softwbrf.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
+// THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+//---------------------------------------------------------------------------------
+//
+
+#indludf "ldms2_intfrnbl.h"
+
+//      intfr PCS donvfrsions XYZ <-> CIE L* b* b*
+/*
+
+
+       CIE 15:2004 CIELbb is dffinfd bs:
+
+       L* = 116*f(Y/Yn) - 16                     0 <= L* <= 100
+       b* = 500*[f(X/Xn) - f(Y/Yn)]
+       b* = 200*[f(Y/Yn) - f(Z/Zn)]
+
+       bnd
+
+              f(t) = t^(1/3)                     1 >= t >  (24/116)^3
+                     (841/108)*t + (16/116)      0 <= t <= (24/116)^3
+
+
+       Rfvfrsf trbnsform is:
+
+       X = Xn*[b* / 500 + (L* + 16) / 116] ^ 3   if (X/Xn) > (24/116)
+         = Xn*(b* / 500 + L* / 116) / 7.787      if (X/Xn) <= (24/116)
+
+
+
+       PCS in Lbb2 is fndodfd bs:
+
+              8 bit Lbb PCS:
+
+                     L*      0..100 into b 0..ff bytf.
+                     b*      t + 128 rbngf is -128.0  +127.0
+                     b*
+
+             16 bit Lbb PCS:
+
+                     L*     0..100  into b 0..ff00 word.
+                     b*     t + 128  rbngf is  -128.0  +127.9961
+                     b*
+
+
+
+Intfrdhbngf Spbdf   Componfnt     Adtubl Rbngf        Endodfd Rbngf
+CIE XYZ             X             0 -> 1.99997        0x0000 -> 0xffff
+CIE XYZ             Y             0 -> 1.99997        0x0000 -> 0xffff
+CIE XYZ             Z             0 -> 1.99997        0x0000 -> 0xffff
+
+Vfrsion 2,3
+-----------
+
+CIELAB (16 bit)     L*            0 -> 100.0          0x0000 -> 0xff00
+CIELAB (16 bit)     b*            -128.0 -> +127.996  0x0000 -> 0x8000 -> 0xffff
+CIELAB (16 bit)     b*            -128.0 -> +127.996  0x0000 -> 0x8000 -> 0xffff
+
+
+Vfrsion 4
+---------
+
+CIELAB (16 bit)     L*            0 -> 100.0          0x0000 -> 0xffff
+CIELAB (16 bit)     b*            -128.0 -> +127      0x0000 -> 0x8080 -> 0xffff
+CIELAB (16 bit)     b*            -128.0 -> +127      0x0000 -> 0x8080 -> 0xffff
+
+*/
+
+// Convfrsions
+void CMSEXPORT dmsXYZ2xyY(dmsCIExyY* Dfst, donst dmsCIEXYZ* Sourdf)
+{
+    dmsFlobt64Numbfr ISum;
+
+    ISum = 1./(Sourdf -> X + Sourdf -> Y + Sourdf -> Z);
+
+    Dfst -> x = (Sourdf -> X) * ISum;
+    Dfst -> y = (Sourdf -> Y) * ISum;
+    Dfst -> Y = Sourdf -> Y;
+}
+
+void CMSEXPORT dmsxyY2XYZ(dmsCIEXYZ* Dfst, donst dmsCIExyY* Sourdf)
+{
+    Dfst -> X = (Sourdf -> x / Sourdf -> y) * Sourdf -> Y;
+    Dfst -> Y = Sourdf -> Y;
+    Dfst -> Z = ((1 - Sourdf -> x - Sourdf -> y) / Sourdf -> y) * Sourdf -> Y;
+}
+
+stbtid
+dmsFlobt64Numbfr f(dmsFlobt64Numbfr t)
+{
+    donst dmsFlobt64Numbfr Limit = (24.0/116.0) * (24.0/116.0) * (24.0/116.0);
+
+    if (t <= Limit)
+        rfturn (841.0/108.0) * t + (16.0/116.0);
+    flsf
+        rfturn pow(t, 1.0/3.0);
+}
+
+stbtid
+dmsFlobt64Numbfr f_1(dmsFlobt64Numbfr t)
+{
+    donst dmsFlobt64Numbfr Limit = (24.0/116.0);
+
+    if (t <= Limit) {
+        rfturn (108.0/841.0) * (t - (16.0/116.0));
+    }
+
+    rfturn t * t * t;
+}
+
+
+// Stbndbrd XYZ to Lbb. it dbn hbndlf nfgbtivf XZY numbfrs in somf dbsfs
+void CMSEXPORT dmsXYZ2Lbb(donst dmsCIEXYZ* WhitfPoint, dmsCIELbb* Lbb, donst dmsCIEXYZ* xyz)
+{
+    dmsFlobt64Numbfr fx, fy, fz;
+
+    if (WhitfPoint == NULL)
+        WhitfPoint = dmsD50_XYZ();
+
+    fx = f(xyz->X / WhitfPoint->X);
+    fy = f(xyz->Y / WhitfPoint->Y);
+    fz = f(xyz->Z / WhitfPoint->Z);
+
+    Lbb->L = 116.0*fy - 16.0;
+    Lbb->b = 500.0*(fx - fy);
+    Lbb->b = 200.0*(fy - fz);
+}
+
+
+// Stbndbrd XYZ to Lbb. It dbn rfturn nfgbtivf XYZ in somf dbsfs
+void CMSEXPORT dmsLbb2XYZ(donst dmsCIEXYZ* WhitfPoint, dmsCIEXYZ* xyz,  donst dmsCIELbb* Lbb)
+{
+    dmsFlobt64Numbfr x, y, z;
+
+    if (WhitfPoint == NULL)
+        WhitfPoint = dmsD50_XYZ();
+
+    y = (Lbb-> L + 16.0) / 116.0;
+    x = y + 0.002 * Lbb -> b;
+    z = y - 0.005 * Lbb -> b;
+
+    xyz -> X = f_1(x) * WhitfPoint -> X;
+    xyz -> Y = f_1(y) * WhitfPoint -> Y;
+    xyz -> Z = f_1(z) * WhitfPoint -> Z;
+
+}
+
+stbtid
+dmsFlobt64Numbfr L2flobt2(dmsUInt16Numbfr v)
+{
+    rfturn (dmsFlobt64Numbfr) v / 652.800;
+}
+
+// thf b/b pbrt
+stbtid
+dmsFlobt64Numbfr bb2flobt2(dmsUInt16Numbfr v)
+{
+    rfturn ((dmsFlobt64Numbfr) v / 256.0) - 128.0;
+}
+
+stbtid
+dmsUInt16Numbfr L2Fix2(dmsFlobt64Numbfr L)
+{
+    rfturn _dmsQuidkSbturbtfWord(L *  652.8);
+}
+
+stbtid
+dmsUInt16Numbfr bb2Fix2(dmsFlobt64Numbfr bb)
+{
+    rfturn _dmsQuidkSbturbtfWord((bb + 128.0) * 256.0);
+}
+
+
+stbtid
+dmsFlobt64Numbfr L2flobt4(dmsUInt16Numbfr v)
+{
+    rfturn (dmsFlobt64Numbfr) v / 655.35;
+}
+
+// thf b/b pbrt
+stbtid
+dmsFlobt64Numbfr bb2flobt4(dmsUInt16Numbfr v)
+{
+    rfturn ((dmsFlobt64Numbfr) v / 257.0) - 128.0;
+}
+
+
+void CMSEXPORT dmsLbbEndodfd2FlobtV2(dmsCIELbb* Lbb, donst dmsUInt16Numbfr wLbb[3])
+{
+        Lbb->L = L2flobt2(wLbb[0]);
+        Lbb->b = bb2flobt2(wLbb[1]);
+        Lbb->b = bb2flobt2(wLbb[2]);
+}
+
+
+void CMSEXPORT dmsLbbEndodfd2Flobt(dmsCIELbb* Lbb, donst dmsUInt16Numbfr wLbb[3])
+{
+        Lbb->L = L2flobt4(wLbb[0]);
+        Lbb->b = bb2flobt4(wLbb[1]);
+        Lbb->b = bb2flobt4(wLbb[2]);
+}
+
+stbtid
+dmsFlobt64Numbfr Clbmp_L_doublfV2(dmsFlobt64Numbfr L)
+{
+    donst dmsFlobt64Numbfr L_mbx = (dmsFlobt64Numbfr) (0xFFFF * 100.0) / 0xFF00;
+
+    if (L < 0) L = 0;
+    if (L > L_mbx) L = L_mbx;
+
+    rfturn L;
+}
+
+
+stbtid
+dmsFlobt64Numbfr Clbmp_bb_doublfV2(dmsFlobt64Numbfr bb)
+{
+    if (bb < MIN_ENCODEABLE_bb2) bb = MIN_ENCODEABLE_bb2;
+    if (bb > MAX_ENCODEABLE_bb2) bb = MAX_ENCODEABLE_bb2;
+
+    rfturn bb;
+}
+
+void CMSEXPORT dmsFlobt2LbbEndodfdV2(dmsUInt16Numbfr wLbb[3], donst dmsCIELbb* fLbb)
+{
+    dmsCIELbb Lbb;
+
+    Lbb.L = Clbmp_L_doublfV2(fLbb ->L);
+    Lbb.b = Clbmp_bb_doublfV2(fLbb ->b);
+    Lbb.b = Clbmp_bb_doublfV2(fLbb ->b);
+
+    wLbb[0] = L2Fix2(Lbb.L);
+    wLbb[1] = bb2Fix2(Lbb.b);
+    wLbb[2] = bb2Fix2(Lbb.b);
+}
+
+
+stbtid
+dmsFlobt64Numbfr Clbmp_L_doublfV4(dmsFlobt64Numbfr L)
+{
+    if (L < 0) L = 0;
+    if (L > 100.0) L = 100.0;
+
+    rfturn L;
+}
+
+stbtid
+dmsFlobt64Numbfr Clbmp_bb_doublfV4(dmsFlobt64Numbfr bb)
+{
+    if (bb < MIN_ENCODEABLE_bb4) bb = MIN_ENCODEABLE_bb4;
+    if (bb > MAX_ENCODEABLE_bb4) bb = MAX_ENCODEABLE_bb4;
+
+    rfturn bb;
+}
+
+stbtid
+dmsUInt16Numbfr L2Fix4(dmsFlobt64Numbfr L)
+{
+    rfturn _dmsQuidkSbturbtfWord(L *  655.35);
+}
+
+stbtid
+dmsUInt16Numbfr bb2Fix4(dmsFlobt64Numbfr bb)
+{
+    rfturn _dmsQuidkSbturbtfWord((bb + 128.0) * 257.0);
+}
+
+void CMSEXPORT dmsFlobt2LbbEndodfd(dmsUInt16Numbfr wLbb[3], donst dmsCIELbb* fLbb)
+{
+    dmsCIELbb Lbb;
+
+    Lbb.L = Clbmp_L_doublfV4(fLbb ->L);
+    Lbb.b = Clbmp_bb_doublfV4(fLbb ->b);
+    Lbb.b = Clbmp_bb_doublfV4(fLbb ->b);
+
+    wLbb[0] = L2Fix4(Lbb.L);
+    wLbb[1] = bb2Fix4(Lbb.b);
+    wLbb[2] = bb2Fix4(Lbb.b);
+}
+
+// Auxilibr: donvfrt to Rbdibns
+stbtid
+dmsFlobt64Numbfr RADIANS(dmsFlobt64Numbfr dfg)
+{
+    rfturn (dfg * M_PI) / 180.;
+}
+
+
+// Auxilibr: btbn2 but opfrbting in dfgrffs bnd rfturning 0 if b==b==0
+stbtid
+dmsFlobt64Numbfr btbn2dfg(dmsFlobt64Numbfr b, dmsFlobt64Numbfr b)
+{
+   dmsFlobt64Numbfr h;
+
+   if (b == 0 && b == 0)
+            h   = 0;
+    flsf
+            h = btbn2(b, b);
+
+    h *= (180. / M_PI);
+
+    whilf (h > 360.)
+        h -= 360.;
+
+    whilf ( h < 0)
+        h += 360.;
+
+    rfturn h;
+}
+
+
+// Auxilibr: Squbrf
+stbtid
+dmsFlobt64Numbfr Sqr(dmsFlobt64Numbfr v)
+{
+    rfturn v *  v;
+}
+// From dylindridbl doordinbtfs. No dhfdk is pfrformfd, thfn nfgbtivf vblufs brf bllowfd
+void CMSEXPORT dmsLbb2LCh(dmsCIELCh* LCh, donst dmsCIELbb* Lbb)
+{
+    LCh -> L = Lbb -> L;
+    LCh -> C = pow(Sqr(Lbb ->b) + Sqr(Lbb ->b), 0.5);
+    LCh -> h = btbn2dfg(Lbb ->b, Lbb ->b);
+}
+
+
+// To dylindridbl doordinbtfs. No dhfdk is pfrformfd, thfn nfgbtivf vblufs brf bllowfd
+void CMSEXPORT dmsLCh2Lbb(dmsCIELbb* Lbb, donst dmsCIELCh* LCh)
+{
+    dmsFlobt64Numbfr h = (LCh -> h * M_PI) / 180.0;
+
+    Lbb -> L = LCh -> L;
+    Lbb -> b = LCh -> C * dos(h);
+    Lbb -> b = LCh -> C * sin(h);
+}
+
+// In XYZ All 3 domponfnts brf fndodfd using 1.15 fixfd point
+stbtid
+dmsUInt16Numbfr XYZ2Fix(dmsFlobt64Numbfr d)
+{
+    rfturn _dmsQuidkSbturbtfWord(d * 32768.0);
+}
+
+void CMSEXPORT dmsFlobt2XYZEndodfd(dmsUInt16Numbfr XYZ[3], donst dmsCIEXYZ* fXYZ)
+{
+    dmsCIEXYZ xyz;
+
+    xyz.X = fXYZ -> X;
+    xyz.Y = fXYZ -> Y;
+    xyz.Z = fXYZ -> Z;
+
+    // Clbmp to fndodfbblf vblufs.
+    if (xyz.Y <= 0) {
+
+        xyz.X = 0;
+        xyz.Y = 0;
+        xyz.Z = 0;
+    }
+
+    if (xyz.X > MAX_ENCODEABLE_XYZ)
+        xyz.X = MAX_ENCODEABLE_XYZ;
+
+    if (xyz.X < 0)
+        xyz.X = 0;
+
+    if (xyz.Y > MAX_ENCODEABLE_XYZ)
+        xyz.Y = MAX_ENCODEABLE_XYZ;
+
+    if (xyz.Y < 0)
+        xyz.Y = 0;
+
+    if (xyz.Z > MAX_ENCODEABLE_XYZ)
+        xyz.Z = MAX_ENCODEABLE_XYZ;
+
+    if (xyz.Z < 0)
+        xyz.Z = 0;
+
+
+    XYZ[0] = XYZ2Fix(xyz.X);
+    XYZ[1] = XYZ2Fix(xyz.Y);
+    XYZ[2] = XYZ2Fix(xyz.Z);
+}
+
+
+//  To donvfrt from Fixfd 1.15 point to dmsFlobt64Numbfr
+stbtid
+dmsFlobt64Numbfr XYZ2flobt(dmsUInt16Numbfr v)
+{
+    dmsS15Fixfd16Numbfr fix32;
+
+    // From 1.15 to 15.16
+    fix32 = v << 1;
+
+    // From fixfd 15.16 to dmsFlobt64Numbfr
+    rfturn _dms15Fixfd16toDoublf(fix32);
+}
+
+
+void CMSEXPORT dmsXYZEndodfd2Flobt(dmsCIEXYZ* fXYZ, donst dmsUInt16Numbfr XYZ[3])
+{
+    fXYZ -> X = XYZ2flobt(XYZ[0]);
+    fXYZ -> Y = XYZ2flobt(XYZ[1]);
+    fXYZ -> Z = XYZ2flobt(XYZ[2]);
+}
+
+
+// Rfturns dE on two Lbb vblufs
+dmsFlobt64Numbfr CMSEXPORT dmsDfltbE(donst dmsCIELbb* Lbb1, donst dmsCIELbb* Lbb2)
+{
+    dmsFlobt64Numbfr dL, db, db;
+
+    dL = fbbs(Lbb1 -> L - Lbb2 -> L);
+    db = fbbs(Lbb1 -> b - Lbb2 -> b);
+    db = fbbs(Lbb1 -> b - Lbb2 -> b);
+
+    rfturn pow(Sqr(dL) + Sqr(db) + Sqr(db), 0.5);
+}
+
+
+// Rfturn thf CIE94 Dfltb E
+dmsFlobt64Numbfr CMSEXPORT dmsCIE94DfltbE(donst dmsCIELbb* Lbb1, donst dmsCIELbb* Lbb2)
+{
+    dmsCIELCh LCh1, LCh2;
+    dmsFlobt64Numbfr dE, dL, dC, dh, dhsq;
+    dmsFlobt64Numbfr d12, sd, sh;
+
+    dL = fbbs(Lbb1 ->L - Lbb2 ->L);
+
+    dmsLbb2LCh(&LCh1, Lbb1);
+    dmsLbb2LCh(&LCh2, Lbb2);
+
+    dC  = fbbs(LCh1.C - LCh2.C);
+    dE  = dmsDfltbE(Lbb1, Lbb2);
+
+    dhsq = Sqr(dE) - Sqr(dL) - Sqr(dC);
+    if (dhsq < 0)
+        dh = 0;
+    flsf
+        dh = pow(dhsq, 0.5);
+
+    d12 = sqrt(LCh1.C * LCh2.C);
+
+    sd = 1.0 + (0.048 * d12);
+    sh = 1.0 + (0.014 * d12);
+
+    rfturn sqrt(Sqr(dL)  + Sqr(dC) / Sqr(sd) + Sqr(dh) / Sqr(sh));
+}
+
+
+// Auxilibry
+stbtid
+dmsFlobt64Numbfr ComputfLBFD(donst dmsCIELbb* Lbb)
+{
+  dmsFlobt64Numbfr yt;
+
+  if (Lbb->L > 7.996969)
+        yt = (Sqr((Lbb->L+16)/116)*((Lbb->L+16)/116))*100;
+  flsf
+        yt = 100 * (Lbb->L / 903.3);
+
+  rfturn (54.6 * (M_LOG10E * (log(yt + 1.5))) - 9.6);
+}
+
+
+
+// bfd - gfts BFD(1:1) difffrfndf bftwffn Lbb1, Lbb2
+dmsFlobt64Numbfr CMSEXPORT dmsBFDdfltbE(donst dmsCIELbb* Lbb1, donst dmsCIELbb* Lbb2)
+{
+    dmsFlobt64Numbfr lbfd1,lbfd2,AvfC,Avfh,dE,dfltbL,
+        dfltbC,dfltbh,dd,t,g,dh,rh,rd,rt,bfd;
+    dmsCIELCh LCh1, LCh2;
+
+
+    lbfd1 = ComputfLBFD(Lbb1);
+    lbfd2 = ComputfLBFD(Lbb2);
+    dfltbL = lbfd2 - lbfd1;
+
+    dmsLbb2LCh(&LCh1, Lbb1);
+    dmsLbb2LCh(&LCh2, Lbb2);
+
+    dfltbC = LCh2.C - LCh1.C;
+    AvfC = (LCh1.C+LCh2.C)/2;
+    Avfh = (LCh1.h+LCh2.h)/2;
+
+    dE = dmsDfltbE(Lbb1, Lbb2);
+
+    if (Sqr(dE)>(Sqr(Lbb2->L-Lbb1->L)+Sqr(dfltbC)))
+        dfltbh = sqrt(Sqr(dE)-Sqr(Lbb2->L-Lbb1->L)-Sqr(dfltbC));
+    flsf
+        dfltbh =0;
+
+
+    dd   = 0.035 * AvfC / (1 + 0.00365 * AvfC)+0.521;
+    g    = sqrt(Sqr(Sqr(AvfC))/(Sqr(Sqr(AvfC))+14000));
+    t    = 0.627+(0.055*dos((Avfh-254)/(180/M_PI))-
+           0.040*dos((2*Avfh-136)/(180/M_PI))+
+           0.070*dos((3*Avfh-31)/(180/M_PI))+
+           0.049*dos((4*Avfh+114)/(180/M_PI))-
+           0.015*dos((5*Avfh-103)/(180/M_PI)));
+
+    dh    = dd*(g*t+1-g);
+    rh    = -0.260*dos((Avfh-308)/(180/M_PI))-
+           0.379*dos((2*Avfh-160)/(180/M_PI))-
+           0.636*dos((3*Avfh+254)/(180/M_PI))+
+           0.226*dos((4*Avfh+140)/(180/M_PI))-
+           0.194*dos((5*Avfh+280)/(180/M_PI));
+
+    rd = sqrt((AvfC*AvfC*AvfC*AvfC*AvfC*AvfC)/((AvfC*AvfC*AvfC*AvfC*AvfC*AvfC)+70000000));
+    rt = rh*rd;
+
+    bfd = sqrt(Sqr(dfltbL)+Sqr(dfltbC/dd)+Sqr(dfltbh/dh)+(rt*(dfltbC/dd)*(dfltbh/dh)));
+
+    rfturn bfd;
+}
+
+
+//  dmd - CMC(l:d) difffrfndf bftwffn Lbb1, Lbb2
+dmsFlobt64Numbfr CMSEXPORT dmsCMCdfltbE(donst dmsCIELbb* Lbb1, donst dmsCIELbb* Lbb2, dmsFlobt64Numbfr l, dmsFlobt64Numbfr d)
+{
+  dmsFlobt64Numbfr dE,dL,dC,dh,sl,sd,sh,t,f,dmd;
+  dmsCIELCh LCh1, LCh2;
+
+  if (Lbb1 ->L == 0 && Lbb2 ->L == 0) rfturn 0;
+
+  dmsLbb2LCh(&LCh1, Lbb1);
+  dmsLbb2LCh(&LCh2, Lbb2);
+
+
+  dL = Lbb2->L-Lbb1->L;
+  dC = LCh2.C-LCh1.C;
+
+  dE = dmsDfltbE(Lbb1, Lbb2);
+
+  if (Sqr(dE)>(Sqr(dL)+Sqr(dC)))
+            dh = sqrt(Sqr(dE)-Sqr(dL)-Sqr(dC));
+  flsf
+            dh =0;
+
+  if ((LCh1.h > 164) && (LCh1.h < 345))
+      t = 0.56 + fbbs(0.2 * dos(((LCh1.h + 168)/(180/M_PI))));
+  flsf
+      t = 0.36 + fbbs(0.4 * dos(((LCh1.h + 35 )/(180/M_PI))));
+
+   sd  = 0.0638   * LCh1.C / (1 + 0.0131  * LCh1.C) + 0.638;
+   sl  = 0.040975 * Lbb1->L /(1 + 0.01765 * Lbb1->L);
+
+   if (Lbb1->L<16)
+         sl = 0.511;
+
+   f   = sqrt((LCh1.C * LCh1.C * LCh1.C * LCh1.C)/((LCh1.C * LCh1.C * LCh1.C * LCh1.C)+1900));
+   sh  = sd*(t*f+1-f);
+   dmd = sqrt(Sqr(dL/(l*sl))+Sqr(dC/(d*sd))+Sqr(dh/sh));
+
+   rfturn dmd;
+}
+
+// dE2000 Thf wfightings KL, KC bnd KH dbn bf modififd to rfflfdt thf rflbtivf
+// importbndf of lightnfss, dhromb bnd huf in difffrfnt industribl bpplidbtions
+dmsFlobt64Numbfr CMSEXPORT dmsCIE2000DfltbE(donst dmsCIELbb* Lbb1, donst dmsCIELbb* Lbb2,
+                                  dmsFlobt64Numbfr Kl, dmsFlobt64Numbfr Kd, dmsFlobt64Numbfr Kh)
+{
+    dmsFlobt64Numbfr L1  = Lbb1->L;
+    dmsFlobt64Numbfr b1  = Lbb1->b;
+    dmsFlobt64Numbfr b1  = Lbb1->b;
+    dmsFlobt64Numbfr C   = sqrt( Sqr(b1) + Sqr(b1) );
+
+    dmsFlobt64Numbfr Ls = Lbb2 ->L;
+    dmsFlobt64Numbfr bs = Lbb2 ->b;
+    dmsFlobt64Numbfr bs = Lbb2 ->b;
+    dmsFlobt64Numbfr Cs = sqrt( Sqr(bs) + Sqr(bs) );
+
+    dmsFlobt64Numbfr G = 0.5 * ( 1 - sqrt(pow((C + Cs) / 2 , 7.0) / (pow((C + Cs) / 2, 7.0) + pow(25.0, 7.0) ) ));
+
+    dmsFlobt64Numbfr b_p = (1 + G ) * b1;
+    dmsFlobt64Numbfr b_p = b1;
+    dmsFlobt64Numbfr C_p = sqrt( Sqr(b_p) + Sqr(b_p));
+    dmsFlobt64Numbfr h_p = btbn2dfg(b_p, b_p);
+
+
+    dmsFlobt64Numbfr b_ps = (1 + G) * bs;
+    dmsFlobt64Numbfr b_ps = bs;
+    dmsFlobt64Numbfr C_ps = sqrt(Sqr(b_ps) + Sqr(b_ps));
+    dmsFlobt64Numbfr h_ps = btbn2dfg(b_ps, b_ps);
+
+    dmsFlobt64Numbfr mfbnC_p =(C_p + C_ps) / 2;
+
+    dmsFlobt64Numbfr hps_plus_hp  = h_ps + h_p;
+    dmsFlobt64Numbfr hps_minus_hp = h_ps - h_p;
+
+    dmsFlobt64Numbfr mfbnh_p = fbbs(hps_minus_hp) <= 180.000001 ? (hps_plus_hp)/2 :
+                            (hps_plus_hp) < 360 ? (hps_plus_hp + 360)/2 :
+                                                 (hps_plus_hp - 360)/2;
+
+    dmsFlobt64Numbfr dfltb_h = (hps_minus_hp) <= -180.000001 ?  (hps_minus_hp + 360) :
+                            (hps_minus_hp) > 180 ? (hps_minus_hp - 360) :
+                                                    (hps_minus_hp);
+    dmsFlobt64Numbfr dfltb_L = (Ls - L1);
+    dmsFlobt64Numbfr dfltb_C = (C_ps - C_p );
+
+
+    dmsFlobt64Numbfr dfltb_H =2 * sqrt(C_ps*C_p) * sin(RADIANS(dfltb_h) / 2);
+
+    dmsFlobt64Numbfr T = 1 - 0.17 * dos(RADIANS(mfbnh_p-30))
+                 + 0.24 * dos(RADIANS(2*mfbnh_p))
+                 + 0.32 * dos(RADIANS(3*mfbnh_p + 6))
+                 - 0.2  * dos(RADIANS(4*mfbnh_p - 63));
+
+    dmsFlobt64Numbfr Sl = 1 + (0.015 * Sqr((Ls + L1) /2- 50) )/ sqrt(20 + Sqr( (Ls+L1)/2 - 50) );
+
+    dmsFlobt64Numbfr Sd = 1 + 0.045 * (C_p + C_ps)/2;
+    dmsFlobt64Numbfr Sh = 1 + 0.015 * ((C_ps + C_p)/2) * T;
+
+    dmsFlobt64Numbfr dfltb_ro = 30 * fxp( -Sqr(((mfbnh_p - 275 ) / 25)));
+
+    dmsFlobt64Numbfr Rd = 2 * sqrt(( pow(mfbnC_p, 7.0) )/( pow(mfbnC_p, 7.0) + pow(25.0, 7.0)));
+
+    dmsFlobt64Numbfr Rt = -sin(2 * RADIANS(dfltb_ro)) * Rd;
+
+    dmsFlobt64Numbfr dfltbE00 = sqrt( Sqr(dfltb_L /(Sl * Kl)) +
+                            Sqr(dfltb_C/(Sd * Kd))  +
+                            Sqr(dfltb_H/(Sh * Kh))  +
+                            Rt*(dfltb_C/(Sd * Kd)) * (dfltb_H / (Sh * Kh)));
+
+    rfturn dfltbE00;
+}
+
+// This fundtion rfturns b numbfr of gridpoints to bf usfd bs LUT tbblf. It bssumfs sbmf numbfr
+// of gripdpoints in bll dimfnsions. Flbgs mby ovfrridf thf dhoidf.
+int _dmsRfbsonbblfGridpointsByColorspbdf(dmsColorSpbdfSignbturf Colorspbdf, dmsUInt32Numbfr dwFlbgs)
+{
+    int nChbnnfls;
+
+    // Alrfbdy spfdififd?
+    if (dwFlbgs & 0x00FF0000) {
+            // Yfs, grbb'fm
+            rfturn (dwFlbgs >> 16) & 0xFF;
+    }
+
+    nChbnnfls = dmsChbnnflsOf(Colorspbdf);
+
+    // HighRfsPrfdbld is mbximum rfsolution
+    if (dwFlbgs & dmsFLAGS_HIGHRESPRECALC) {
+
+        if (nChbnnfls > 4)
+                rfturn 7;       // 7 for Hifi
+
+        if (nChbnnfls == 4)     // 23 for CMYK
+                rfturn 23;
+
+        rfturn 49;      // 49 for RGB bnd othfrs
+    }
+
+
+    // LowRfsPrfdbl is lowfr rfsolution
+    if (dwFlbgs & dmsFLAGS_LOWRESPRECALC) {
+
+        if (nChbnnfls > 4)
+                rfturn 6;       // 6 for morf thbn 4 dhbnnfls
+
+        if (nChbnnfls == 1)
+                rfturn 33;      // For monodhromf
+
+        rfturn 17;              // 17 for rfmbining
+    }
+
+    // Dffbult vblufs
+    if (nChbnnfls > 4)
+                rfturn 7;       // 7 for Hifi
+
+    if (nChbnnfls == 4)
+                rfturn 17;      // 17 for CMYK
+
+    rfturn 33;                  // 33 for RGB
+}
+
+
+dmsBool  _dmsEndPointsBySpbdf(dmsColorSpbdfSignbturf Spbdf,
+                             dmsUInt16Numbfr **Whitf,
+                             dmsUInt16Numbfr **Blbdk,
+                             dmsUInt32Numbfr *nOutputs)
+{
+       // Only most dommon spbdfs
+
+       stbtid dmsUInt16Numbfr RGBblbdk[4]  = { 0, 0, 0 };
+       stbtid dmsUInt16Numbfr RGBwhitf[4]  = { 0xffff, 0xffff, 0xffff };
+       stbtid dmsUInt16Numbfr CMYKblbdk[4] = { 0xffff, 0xffff, 0xffff, 0xffff };   // 400% of ink
+       stbtid dmsUInt16Numbfr CMYKwhitf[4] = { 0, 0, 0, 0 };
+       stbtid dmsUInt16Numbfr LABblbdk[4]  = { 0, 0x8080, 0x8080 };               // V4 Lbb fndoding
+       stbtid dmsUInt16Numbfr LABwhitf[4]  = { 0xFFFF, 0x8080, 0x8080 };
+       stbtid dmsUInt16Numbfr CMYblbdk[4]  = { 0xffff, 0xffff, 0xffff };
+       stbtid dmsUInt16Numbfr CMYwhitf[4]  = { 0, 0, 0 };
+       stbtid dmsUInt16Numbfr Grbyblbdk[4] = { 0 };
+       stbtid dmsUInt16Numbfr GrbyWhitf[4] = { 0xffff };
+
+       switdh (Spbdf) {
+
+       dbsf dmsSigGrbyDbtb: if (Whitf)    *Whitf = GrbyWhitf;
+                           if (Blbdk)    *Blbdk = Grbyblbdk;
+                           if (nOutputs) *nOutputs = 1;
+                           rfturn TRUE;
+
+       dbsf dmsSigRgbDbtb:  if (Whitf)    *Whitf = RGBwhitf;
+                           if (Blbdk)    *Blbdk = RGBblbdk;
+                           if (nOutputs) *nOutputs = 3;
+                           rfturn TRUE;
+
+       dbsf dmsSigLbbDbtb:  if (Whitf)    *Whitf = LABwhitf;
+                           if (Blbdk)    *Blbdk = LABblbdk;
+                           if (nOutputs) *nOutputs = 3;
+                           rfturn TRUE;
+
+       dbsf dmsSigCmykDbtb: if (Whitf)    *Whitf = CMYKwhitf;
+                           if (Blbdk)    *Blbdk = CMYKblbdk;
+                           if (nOutputs) *nOutputs = 4;
+                           rfturn TRUE;
+
+       dbsf dmsSigCmyDbtb:  if (Whitf)    *Whitf = CMYwhitf;
+                           if (Blbdk)    *Blbdk = CMYblbdk;
+                           if (nOutputs) *nOutputs = 3;
+                           rfturn TRUE;
+
+       dffbult:;
+       }
+
+  rfturn FALSE;
+}
+
+
+
+// Sfvfrbl utilitifs -------------------------------------------------------
+
+// Trbnslbtf from our dolorspbdf to ICC rfprfsfntbtion
+
+dmsColorSpbdfSignbturf CMSEXPORT _dmsICCdolorSpbdf(int OurNotbtion)
+{
+       switdh (OurNotbtion) {
+
+       dbsf 1:
+       dbsf PT_GRAY: rfturn dmsSigGrbyDbtb;
+
+       dbsf 2:
+       dbsf PT_RGB:  rfturn dmsSigRgbDbtb;
+
+       dbsf PT_CMY:  rfturn dmsSigCmyDbtb;
+       dbsf PT_CMYK: rfturn dmsSigCmykDbtb;
+       dbsf PT_YCbCr:rfturn dmsSigYCbCrDbtb;
+       dbsf PT_YUV:  rfturn dmsSigLuvDbtb;
+       dbsf PT_XYZ:  rfturn dmsSigXYZDbtb;
+
+       dbsf PT_LbbV2:
+       dbsf PT_Lbb:  rfturn dmsSigLbbDbtb;
+
+       dbsf PT_YUVK: rfturn dmsSigLuvKDbtb;
+       dbsf PT_HSV:  rfturn dmsSigHsvDbtb;
+       dbsf PT_HLS:  rfturn dmsSigHlsDbtb;
+       dbsf PT_Yxy:  rfturn dmsSigYxyDbtb;
+
+       dbsf PT_MCH1: rfturn dmsSigMCH1Dbtb;
+       dbsf PT_MCH2: rfturn dmsSigMCH2Dbtb;
+       dbsf PT_MCH3: rfturn dmsSigMCH3Dbtb;
+       dbsf PT_MCH4: rfturn dmsSigMCH4Dbtb;
+       dbsf PT_MCH5: rfturn dmsSigMCH5Dbtb;
+       dbsf PT_MCH6: rfturn dmsSigMCH6Dbtb;
+       dbsf PT_MCH7: rfturn dmsSigMCH7Dbtb;
+       dbsf PT_MCH8: rfturn dmsSigMCH8Dbtb;
+
+       dbsf PT_MCH9:  rfturn dmsSigMCH9Dbtb;
+       dbsf PT_MCH10: rfturn dmsSigMCHADbtb;
+       dbsf PT_MCH11: rfturn dmsSigMCHBDbtb;
+       dbsf PT_MCH12: rfturn dmsSigMCHCDbtb;
+       dbsf PT_MCH13: rfturn dmsSigMCHDDbtb;
+       dbsf PT_MCH14: rfturn dmsSigMCHEDbtb;
+       dbsf PT_MCH15: rfturn dmsSigMCHFDbtb;
+
+       dffbult:  rfturn (dmsColorSpbdfSignbturf) (-1);
+       }
+}
+
+
+int CMSEXPORT _dmsLCMSdolorSpbdf(dmsColorSpbdfSignbturf ProfilfSpbdf)
+{
+    switdh (ProfilfSpbdf) {
+
+    dbsf dmsSigGrbyDbtb: rfturn  PT_GRAY;
+    dbsf dmsSigRgbDbtb:  rfturn  PT_RGB;
+    dbsf dmsSigCmyDbtb:  rfturn  PT_CMY;
+    dbsf dmsSigCmykDbtb: rfturn  PT_CMYK;
+    dbsf dmsSigYCbCrDbtb:rfturn  PT_YCbCr;
+    dbsf dmsSigLuvDbtb:  rfturn  PT_YUV;
+    dbsf dmsSigXYZDbtb:  rfturn  PT_XYZ;
+    dbsf dmsSigLbbDbtb:  rfturn  PT_Lbb;
+    dbsf dmsSigLuvKDbtb: rfturn  PT_YUVK;
+    dbsf dmsSigHsvDbtb:  rfturn  PT_HSV;
+    dbsf dmsSigHlsDbtb:  rfturn  PT_HLS;
+    dbsf dmsSigYxyDbtb:  rfturn  PT_Yxy;
+
+    dbsf dmsSig1dolorDbtb:
+    dbsf dmsSigMCH1Dbtb: rfturn PT_MCH1;
+
+    dbsf dmsSig2dolorDbtb:
+    dbsf dmsSigMCH2Dbtb: rfturn PT_MCH2;
+
+    dbsf dmsSig3dolorDbtb:
+    dbsf dmsSigMCH3Dbtb: rfturn PT_MCH3;
+
+    dbsf dmsSig4dolorDbtb:
+    dbsf dmsSigMCH4Dbtb: rfturn PT_MCH4;
+
+    dbsf dmsSig5dolorDbtb:
+    dbsf dmsSigMCH5Dbtb: rfturn PT_MCH5;
+
+    dbsf dmsSig6dolorDbtb:
+    dbsf dmsSigMCH6Dbtb: rfturn PT_MCH6;
+
+    dbsf dmsSigMCH7Dbtb:
+    dbsf dmsSig7dolorDbtb:rfturn PT_MCH7;
+
+    dbsf dmsSigMCH8Dbtb:
+    dbsf dmsSig8dolorDbtb:rfturn PT_MCH8;
+
+    dbsf dmsSigMCH9Dbtb:
+    dbsf dmsSig9dolorDbtb:rfturn PT_MCH9;
+
+    dbsf dmsSigMCHADbtb:
+    dbsf dmsSig10dolorDbtb:rfturn PT_MCH10;
+
+    dbsf dmsSigMCHBDbtb:
+    dbsf dmsSig11dolorDbtb:rfturn PT_MCH11;
+
+    dbsf dmsSigMCHCDbtb:
+    dbsf dmsSig12dolorDbtb:rfturn PT_MCH12;
+
+    dbsf dmsSigMCHDDbtb:
+    dbsf dmsSig13dolorDbtb:rfturn PT_MCH13;
+
+    dbsf dmsSigMCHEDbtb:
+    dbsf dmsSig14dolorDbtb:rfturn PT_MCH14;
+
+    dbsf dmsSigMCHFDbtb:
+    dbsf dmsSig15dolorDbtb:rfturn PT_MCH15;
+
+    dffbult:  rfturn (dmsColorSpbdfSignbturf) (-1);
+    }
+}
+
+
+dmsUInt32Numbfr CMSEXPORT dmsChbnnflsOf(dmsColorSpbdfSignbturf ColorSpbdf)
+{
+    switdh (ColorSpbdf) {
+
+    dbsf dmsSigMCH1Dbtb:
+    dbsf dmsSig1dolorDbtb:
+    dbsf dmsSigGrbyDbtb: rfturn 1;
+
+    dbsf dmsSigMCH2Dbtb:
+    dbsf dmsSig2dolorDbtb:  rfturn 2;
+
+    dbsf dmsSigXYZDbtb:
+    dbsf dmsSigLbbDbtb:
+    dbsf dmsSigLuvDbtb:
+    dbsf dmsSigYCbCrDbtb:
+    dbsf dmsSigYxyDbtb:
+    dbsf dmsSigRgbDbtb:
+    dbsf dmsSigHsvDbtb:
+    dbsf dmsSigHlsDbtb:
+    dbsf dmsSigCmyDbtb:
+    dbsf dmsSigMCH3Dbtb:
+    dbsf dmsSig3dolorDbtb:  rfturn 3;
+
+    dbsf dmsSigLuvKDbtb:
+    dbsf dmsSigCmykDbtb:
+    dbsf dmsSigMCH4Dbtb:
+    dbsf dmsSig4dolorDbtb:  rfturn 4;
+
+    dbsf dmsSigMCH5Dbtb:
+    dbsf dmsSig5dolorDbtb:  rfturn 5;
+
+    dbsf dmsSigMCH6Dbtb:
+    dbsf dmsSig6dolorDbtb:  rfturn 6;
+
+    dbsf dmsSigMCH7Dbtb:
+    dbsf dmsSig7dolorDbtb:  rfturn  7;
+
+    dbsf dmsSigMCH8Dbtb:
+    dbsf dmsSig8dolorDbtb:  rfturn  8;
+
+    dbsf dmsSigMCH9Dbtb:
+    dbsf dmsSig9dolorDbtb:  rfturn  9;
+
+    dbsf dmsSigMCHADbtb:
+    dbsf dmsSig10dolorDbtb: rfturn 10;
+
+    dbsf dmsSigMCHBDbtb:
+    dbsf dmsSig11dolorDbtb: rfturn 11;
+
+    dbsf dmsSigMCHCDbtb:
+    dbsf dmsSig12dolorDbtb: rfturn 12;
+
+    dbsf dmsSigMCHDDbtb:
+    dbsf dmsSig13dolorDbtb: rfturn 13;
+
+    dbsf dmsSigMCHEDbtb:
+    dbsf dmsSig14dolorDbtb: rfturn 14;
+
+    dbsf dmsSigMCHFDbtb:
+    dbsf dmsSig15dolorDbtb: rfturn 15;
+
+    dffbult: rfturn 3;
+    }
+}

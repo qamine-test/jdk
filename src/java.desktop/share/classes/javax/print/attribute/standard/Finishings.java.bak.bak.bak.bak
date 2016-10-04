@@ -1,0 +1,477 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.print.bttributf.stbndbrd;
+
+import jbvbx.print.bttributf.Attributf;
+import jbvbx.print.bttributf.EnumSyntbx;
+import jbvbx.print.bttributf.DodAttributf;
+import jbvbx.print.bttributf.PrintRfqufstAttributf;
+import jbvbx.print.bttributf.PrintJobAttributf;
+
+/**
+ * Clbss Finishings is b printing bttributf dlbss, bn fnumfrbtion, thbt
+ * idfntififs whfthfr thf printfr bpplifs b finishing opfrbtion of somf kind
+ * of binding to fbdh dopy of fbdh printfd dodumfnt in thf job. For multidod
+ * print jobs (jobs with multiplf dodumfnts), thf
+ * {@link MultiplfDodumfntHbndling
+ * MultiplfDodumfntHbndling} bttributf dftfrminfs whbt donstitutfs b "dopy"
+ * for purposfs of finishing.
+ * <P>
+ * Stbndbrd Finishings vblufs brf:
+ * <TABLE BORDER=0 CELLPADDING=0 CELLSPACING=0 WIDTH=100% SUMMARY="lbyout">
+ * <TR>
+ * <TD STYLE="WIDTH:10%">
+ * &nbsp;
+ * </TD>
+ * <TD STYLE="WIDTH:27%">
+ * {@link #NONE NONE}
+ * </TD>
+ * <TD STYLE="WIDTH:27%">
+ * {@link #STAPLE STAPLE}
+ * </TD>
+ * <TD STYLE="WIDTH:36%">
+ * {@link #EDGE_STITCH EDGE_STITCH}
+ * </TD>
+ * </TR>
+ * <TR>
+ * <TD>
+ * &nbsp;
+ * </TD>
+ * <TD>
+ * {@link #BIND BIND}
+ * </TD>
+ * <TD>
+ * {@link #SADDLE_STITCH SADDLE_STITCH}
+ * </TD>
+ * <TD>
+ * {@link #COVER COVER}
+ * </TD>
+ * <TD>
+ * &nbsp;
+ * </TD>
+ * </TR>
+ * </TABLE>
+ * <P>
+ * Thf following Finishings vblufs brf morf spfdifid; thfy indidbtf b
+ * dornfr or bn fdgf bs if thf dodumfnt wfrf b portrbit dodumfnt:
+ * <TABLE BORDER=0 CELLPADDING=0 CELLSPACING=0 WIDTH=100% SUMMARY="lbyout">
+ * <TR>
+ * <TD STYLE="WIDTH:10%">
+ * &nbsp;
+ * </TD>
+ * <TD STYLE="WIDTH:27%">
+ * {@link #STAPLE_TOP_LEFT STAPLE_TOP_LEFT}
+ * </TD>
+ * <TD STYLE="WIDTH:27%">
+ * {@link #EDGE_STITCH_LEFT EDGE_STITCH_LEFT}
+ * </TD>
+ * <TD STYLE="WIDTH:27%">
+ * {@link #STAPLE_DUAL_LEFT STAPLE_DUAL_LEFT}
+ * </TD>
+ * <TD STYLE="WIDTH:9%">
+ * &nbsp;
+ * </TD>
+ * </TR>
+ * <TR>
+ * <TD STYLE="WIDTH:10%">
+ * &nbsp;
+ * </TD>
+ * <TD STYLE="WIDTH:27%">
+ * {@link #STAPLE_BOTTOM_LEFT STAPLE_BOTTOM_LEFT}
+ * </TD>
+ * <TD STYLE="WIDTH:27%">
+ * {@link #EDGE_STITCH_TOP EDGE_STITCH_TOP}
+ * </TD>
+ * <TD STYLE="WIDTH:27%">
+ * {@link #STAPLE_DUAL_TOP STAPLE_DUAL_TOP}
+ * </TD>
+ * <TD STYLE="WIDTH:9%">
+ * &nbsp;
+ * </TD>
+ * </TR>
+ * <TR>
+ * <TD STYLE="WIDTH:10%">
+ * &nbsp;
+ * </TD>
+ * <TD STYLE="WIDTH:27%">
+ * {@link #STAPLE_TOP_RIGHT STAPLE_TOP_RIGHT}
+ * </TD>
+ * <TD STYLE="WIDTH:27%">
+ * {@link #EDGE_STITCH_RIGHT EDGE_STITCH_RIGHT}
+ * </TD>
+ * <TD STYLE="WIDTH:27%">
+ * {@link #STAPLE_DUAL_RIGHT STAPLE_DUAL_RIGHT}
+ * </TD>
+ * <TD STYLE="WIDTH:9%">
+ * &nbsp;
+ * </TD>
+ * </TR>
+ * <TR>
+ * <TD STYLE="WIDTH:10%">
+ * &nbsp;
+ * </TD>
+ * <TD STYLE="WIDTH:27%">
+ * {@link #STAPLE_BOTTOM_RIGHT STAPLE_BOTTOM_RIGHT}
+ * </TD>
+ * <TD STYLE="WIDTH:27%">
+ * {@link #EDGE_STITCH_BOTTOM EDGE_STITCH_BOTTOM}
+ * </TD>
+ * <TD STYLE="WIDTH:27%">
+ * {@link #STAPLE_DUAL_BOTTOM STAPLE_DUAL_BOTTOM}
+ * </TD>
+ * <TD STYLE="WIDTH:9%">
+ * &nbsp;
+ * </TD>
+ * </TR>
+ * </TABLE>
+ * <P>
+ * Thf STAPLE_<I>XXX</I> vblufs brf spfdififd with rfspfdt to thf
+ * dodumfnt bs if thf dodumfnt wfrf b portrbit dodumfnt. If thf dodumfnt is
+ * bdtublly b lbndsdbpf or b rfvfrsf-lbndsdbpf dodumfnt, thf dlifnt supplifs thf
+ * bppropribtf trbnsformfd vbluf. For fxbmplf, to position b stbplf in thf uppfr
+ * lfft hbnd dornfr of b lbndsdbpf dodumfnt whfn hfld for rfbding, thf dlifnt
+ * supplifs thf STAPLE_BOTTOM_LEFT vbluf (sindf lbndsdbpf is
+ * dffinfd bs b +90 dfgrff rotbtion from portrbit, i.f., bnti-dlodkwisf). On thf
+ * othfr hbnd, to position b stbplf in thf uppfr lfft hbnd dornfr of b
+ * rfvfrsf-lbndsdbpf dodumfnt whfn hfld for rfbding, thf dlifnt supplifs thf
+ * STAPLE_TOP_RIGHT vbluf (sindf rfvfrsf-lbndsdbpf is dffinfd bs b
+ * -90 dfgrff rotbtion from portrbit, i.f., dlodkwisf).
+ * <P>
+ * Thf bnglf (vfrtidbl, horizontbl, bnglfd) of fbdh stbplf with rfspfdt to thf
+ * dodumfnt dfpfnds on thf implfmfntbtion whidh mby in turn dfpfnd on thf vbluf
+ * of thf bttributf.
+ * <P>
+ * Thf ffffdt of b Finishings bttributf on b multidod print job (b job
+ * with multiplf dodumfnts) dfpfnds on whfthfr bll thf dods hbvf thf sbmf
+ * binding spfdififd or whfthfr difffrfnt dods hbvf difffrfnt bindings
+ * spfdififd, bnd on thf (pfrhbps dffbultfd) vbluf of thf {@link
+ * MultiplfDodumfntHbndling MultiplfDodumfntHbndling} bttributf.
+ * <UL>
+ * <LI>
+ * If bll thf dods hbvf thf sbmf binding spfdififd, thfn bny vbluf of {@link
+ * MultiplfDodumfntHbndling MultiplfDodumfntHbndling} mbkfs sfnsf, bnd thf
+ * printfr's prodfssing dfpfnds on thf {@link MultiplfDodumfntHbndling
+ * MultiplfDodumfntHbndling} vbluf:
+ * <UL>
+ * <LI>
+ * SINGLE_DOCUMENT -- All thf input dods will bf bound togfthfr bs onf output
+ * dodumfnt with thf spfdififd binding.
+ *
+ * <LI>
+ * SINGLE_DOCUMENT_NEW_SHEET -- All thf input dods will bf bound togfthfr bs onf
+ * output dodumfnt with thf spfdififd binding, bnd thf first imprfssion of fbdh
+ * input dod will blwbys stbrt on b nfw mfdib shfft.
+ *
+ * <LI>
+ * SEPARATE_DOCUMENTS_UNCOLLATED_COPIES -- Ebdh input dod will bf bound
+ * sfpbrbtfly with thf spfdififd binding.
+ *
+ * <LI>
+ * SEPARATE_DOCUMENTS_COLLATED_COPIES -- Ebdh input dod will bf bound sfpbrbtfly
+ * with thf spfdififd binding.
+ * </UL>
+ *
+ * <LI>
+ * If difffrfnt dods hbvf difffrfnt bindings spfdififd, thfn only two vblufs of
+ * {@link MultiplfDodumfntHbndling MultiplfDodumfntHbndling} mbkf sfnsf, bnd thf
+ * printfr rfports bn frror whfn thf job is submittfd if bny othfr vbluf is
+ * spfdififd:
+ * <UL>
+ * <LI>
+ * SEPARATE_DOCUMENTS_UNCOLLATED_COPIES -- Ebdh input dod will bf bound
+ * sfpbrbtfly with its own spfdififd binding.
+ *
+ * <LI>
+ * SEPARATE_DOCUMENTS_COLLATED_COPIES -- Ebdh input dod will bf bound sfpbrbtfly
+ * with its own spfdififd binding.
+ * </UL>
+ * </UL>
+ * <P>
+ * <B>IPP Compbtibility:</B> Clbss Finishings fndbpsulbtfs somf of thf
+ * IPP fnum vblufs thbt dbn bf indludfd in bn IPP "finishings" bttributf, whidh
+ * is b sft of fnums. Thf dbtfgory nbmf rfturnfd by
+ * <CODE>gftNbmf()</CODE> is thf IPP bttributf nbmf.  Thf fnumfrbtion's
+ * intfgfr vbluf is thf IPP fnum vbluf.  Thf <dodf>toString()</dodf> mfthod
+ * rfturns thf IPP string rfprfsfntbtion of thf bttributf vbluf.
+ * In IPP Finishings is b multi-vbluf bttributf, this API durrfntly bllows
+ * only onf binding to bf spfdififd.
+ *
+ * @buthor  Albn Kbminsky
+ */
+publid dlbss Finishings fxtfnds EnumSyntbx
+    implfmfnts DodAttributf, PrintRfqufstAttributf, PrintJobAttributf {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -627840419548391754L;
+
+    /**
+     * Pfrform no binding.
+     */
+    publid stbtid finbl Finishings NONE = nfw Finishings(3);
+
+    /**
+     * Bind thf dodumfnt(s) with onf or morf stbplfs. Thf fxbdt numbfr bnd
+     * plbdfmfnt of thf stbplfs is sitf-dffinfd.
+     */
+    publid stbtid finbl Finishings STAPLE = nfw Finishings(4);
+
+    /**
+     * This vbluf is spfdififd whfn it is dfsirfd to sflfdt b non-printfd (or
+     * prf-printfd) dovfr for thf dodumfnt. This dofs not supplbnt thf
+     * spfdifidbtion of b printfd dovfr (on dovfr stodk mfdium) by thf
+     * dodumfnt  itsflf.
+     */
+    publid stbtid finbl Finishings COVER = nfw Finishings(6);
+
+    /**
+     * This vbluf indidbtfs thbt b binding is to bf bpplifd to thf dodumfnt;
+     * thf typf bnd plbdfmfnt of thf binding is sitf-dffinfd.
+     */
+    publid stbtid finbl Finishings BIND = nfw Finishings(7);
+
+    /**
+     * Bind thf dodumfnt(s) with onf or morf stbplfs (wirf stitdhfs) blong thf
+     * middlf fold. Thf fxbdt numbfr bnd plbdfmfnt of thf stbplfs bnd thf
+     * middlf fold is implfmfntbtion- bnd/or sitf-dffinfd.
+     */
+    publid stbtid finbl Finishings SADDLE_STITCH =
+        nfw Finishings(8);
+
+    /**
+     * Bind thf dodumfnt(s) with onf or morf stbplfs (wirf stitdhfs) blong onf
+     * fdgf. Thf fxbdt numbfr bnd plbdfmfnt of thf stbplfs is implfmfntbtion-
+     * bnd/or sitf- dffinfd.
+     */
+    publid stbtid finbl Finishings EDGE_STITCH =
+        nfw Finishings(9);
+
+    /**
+     * Bind thf dodumfnt(s) with onf or morf stbplfs in thf top lfft dornfr.
+     */
+    publid stbtid finbl Finishings STAPLE_TOP_LEFT =
+        nfw Finishings(20);
+
+    /**
+     * Bind thf dodumfnt(s) with onf or morf stbplfs in thf bottom lfft
+     * dornfr.
+     */
+    publid stbtid finbl Finishings STAPLE_BOTTOM_LEFT =
+        nfw Finishings(21);
+
+    /**
+     * Bind thf dodumfnt(s) with onf or morf stbplfs in thf top right dornfr.
+     */
+    publid stbtid finbl Finishings STAPLE_TOP_RIGHT =
+        nfw Finishings(22);
+
+    /**
+     * Bind thf dodumfnt(s) with onf or morf stbplfs in thf bottom right
+     * dornfr.
+     */
+    publid stbtid finbl Finishings STAPLE_BOTTOM_RIGHT =
+        nfw Finishings(23);
+
+    /**
+     * Bind thf dodumfnt(s) with onf or morf stbplfs (wirf stitdhfs) blong thf
+     * lfft fdgf. Thf fxbdt numbfr bnd plbdfmfnt of thf stbplfs is
+     * implfmfntbtion- bnd/or sitf-dffinfd.
+     */
+    publid stbtid finbl Finishings EDGE_STITCH_LEFT =
+        nfw Finishings(24);
+
+    /**
+     * Bind thf dodumfnt(s) with onf or morf stbplfs (wirf stitdhfs) blong thf
+     * top fdgf. Thf fxbdt numbfr bnd plbdfmfnt of thf stbplfs is
+     * implfmfntbtion- bnd/or sitf-dffinfd.
+     */
+    publid stbtid finbl Finishings EDGE_STITCH_TOP =
+        nfw Finishings(25);
+
+    /**
+     * Bind thf dodumfnt(s) with onf or morf stbplfs (wirf stitdhfs) blong thf
+     * right fdgf. Thf fxbdt numbfr bnd plbdfmfnt of thf stbplfs is
+     * implfmfntbtion- bnd/or sitf-dffinfd.
+     */
+    publid stbtid finbl Finishings EDGE_STITCH_RIGHT =
+        nfw Finishings(26);
+
+    /**
+     * Bind thf dodumfnt(s) with onf or morf stbplfs (wirf stitdhfs) blong thf
+     * bottom fdgf. Thf fxbdt numbfr bnd plbdfmfnt of thf stbplfs is
+     * implfmfntbtion- bnd/or sitf-dffinfd.
+     */
+    publid stbtid finbl Finishings EDGE_STITCH_BOTTOM =
+        nfw Finishings(27);
+
+    /**
+     * Bind thf dodumfnt(s) with two stbplfs (wirf stitdhfs) blong thf lfft
+     * fdgf bssuming b portrbit dodumfnt (sff bbovf).
+     */
+    publid stbtid finbl Finishings STAPLE_DUAL_LEFT =
+        nfw Finishings(28);
+
+    /**
+     * Bind thf dodumfnt(s) with two stbplfs (wirf stitdhfs) blong thf top
+     * fdgf bssuming b portrbit dodumfnt (sff bbovf).
+     */
+    publid stbtid finbl Finishings STAPLE_DUAL_TOP =
+        nfw Finishings(29);
+
+    /**
+     * Bind thf dodumfnt(s) with two stbplfs (wirf stitdhfs) blong thf right
+     * fdgf bssuming b portrbit dodumfnt (sff bbovf).
+     */
+    publid stbtid finbl Finishings STAPLE_DUAL_RIGHT =
+        nfw Finishings(30);
+
+    /**
+     * Bind thf dodumfnt(s) with two stbplfs (wirf stitdhfs) blong thf bottom
+     * fdgf bssuming b portrbit dodumfnt (sff bbovf).
+     */
+    publid stbtid finbl Finishings STAPLE_DUAL_BOTTOM =
+        nfw Finishings(31);
+
+    /**
+     * Construdt b nfw finishings binding fnumfrbtion vbluf with thf givfn
+     * intfgfr vbluf.
+     *
+     * @pbrbm  vbluf  Intfgfr vbluf.
+     */
+    protfdtfd Finishings(int vbluf) {
+        supfr(vbluf);
+    }
+
+    privbtf stbtid finbl String[] myStringTbblf =
+                {"nonf",
+                 "stbplf",
+                 null,
+                 "dovfr",
+                 "bind",
+                 "sbddlf-stitdh",
+                 "fdgf-stitdh",
+                 null, // Thf nfxt tfn fnum vblufs brf rfsfrvfd.
+                 null,
+                 null,
+                 null,
+                 null,
+                 null,
+                 null,
+                 null,
+                 null,
+                 null,
+                 "stbplf-top-lfft",
+                 "stbplf-bottom-lfft",
+                 "stbplf-top-right",
+                 "stbplf-bottom-right",
+                 "fdgf-stitdh-lfft",
+                 "fdgf-stitdh-top",
+                 "fdgf-stitdh-right",
+                 "fdgf-stitdh-bottom",
+                 "stbplf-dubl-lfft",
+                 "stbplf-dubl-top",
+                 "stbplf-dubl-right",
+                 "stbplf-dubl-bottom"
+                };
+
+    privbtf stbtid finbl Finishings[] myEnumVblufTbblf =
+                {NONE,
+                 STAPLE,
+                 null,
+                 COVER,
+                 BIND,
+                 SADDLE_STITCH,
+                 EDGE_STITCH,
+                 null, // Thf nfxt tfn fnum vblufs brf rfsfrvfd.
+                 null,
+                 null,
+                 null,
+                 null,
+                 null,
+                 null,
+                 null,
+                 null,
+                 null,
+                 STAPLE_TOP_LEFT,
+                 STAPLE_BOTTOM_LEFT,
+                 STAPLE_TOP_RIGHT,
+                 STAPLE_BOTTOM_RIGHT,
+                 EDGE_STITCH_LEFT,
+                 EDGE_STITCH_TOP,
+                 EDGE_STITCH_RIGHT,
+                 EDGE_STITCH_BOTTOM,
+                 STAPLE_DUAL_LEFT,
+                 STAPLE_DUAL_TOP,
+                 STAPLE_DUAL_RIGHT,
+                 STAPLE_DUAL_BOTTOM
+                };
+
+    /**
+     * Rfturns thf string tbblf for dlbss Finishings.
+     */
+    protfdtfd String[] gftStringTbblf() {
+        rfturn myStringTbblf.dlonf();
+    }
+
+    /**
+     * Rfturns thf fnumfrbtion vbluf tbblf for dlbss Finishings.
+     */
+    protfdtfd EnumSyntbx[] gftEnumVblufTbblf() {
+        rfturn (EnumSyntbx[])myEnumVblufTbblf.dlonf();
+    }
+
+    /**
+     * Rfturns thf lowfst intfgfr vbluf usfd by dlbss Finishings.
+     */
+    protfdtfd int gftOffsft() {
+        rfturn 3;
+    }
+
+    /**
+     * Gft thf printing bttributf dlbss whidh is to bf usfd bs thf "dbtfgory"
+     * for this printing bttributf vbluf.
+     * <P>
+     * For dlbss Finishings bnd bny vfndor-dffinfd subdlbssfs, thf
+     * dbtfgory is dlbss Finishings itsflf.
+     *
+     * @rfturn  Printing bttributf dlbss (dbtfgory), bn instbndf of dlbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
+     */
+    publid finbl Clbss<? fxtfnds Attributf> gftCbtfgory() {
+        rfturn Finishings.dlbss;
+    }
+
+    /**
+     * Gft thf nbmf of thf dbtfgory of whidh this bttributf vbluf is bn
+     * instbndf.
+     * <P>
+     * For dlbss Finishings bnd bny vfndor-dffinfd subdlbssfs, thf
+     * dbtfgory nbmf is <CODE>"finishings"</CODE>.
+     *
+     * @rfturn  Attributf dbtfgory nbmf.
+     */
+    publid finbl String gftNbmf() {
+        rfturn "finishings";
+    }
+
+}

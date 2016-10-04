@@ -1,0 +1,505 @@
+/*
+ * Copyright (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.jdb;
+
+import jbvb.util.*;
+
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.Providfr.Sfrvidf;
+
+/**
+ * List of Providfrs. Usfd to rfprfsfnt thf providfr prfffrfndfs.
+ *
+ * Thf systfm stbrts out with b ProvidfrList thbt only hbs thf dlbssNbmfs
+ * of thf Providfrs. Providfrs brf lobdfd on dfmbnd only whfn nffdfd.
+ *
+ * For dompbtibility rfbsons, Providfrs thbt dould not bf lobdfd brf ignorfd
+ * bnd intfrnblly prfsfntfd bs thf instbndf EMPTY_PROVIDER. Howfvfr, thosf
+ * objfdts dbnnot bf prfsfntfd to bpplidbtions. Cbll thf donvfrt() mfthod
+ * to fordf bll Providfrs to bf lobdfd bnd to obtbin b ProvidfrList with
+ * invblid fntrifs rfmovfd. All this is hbndlfd by thf Sfdurity dlbss.
+ *
+ * Notf thbt bll indidfs usfd by this dlbss brf 0-bbsfd pfr gfnfrbl Jbvb
+ * donvfntion. Thfsf must bf donvfrtfd to thf 1-bbsfd indidfs usfd by thf
+ * Sfdurity dlbss fxtfrnblly whfn nffdfd.
+ *
+ * Instbndfs of this dlbss brf immutbblf. This fliminbtfs thf nffd for
+ * dloning bnd syndhronizbtion in donsumfrs. Thf bdd() bnd rfmovf() stylf
+ * mfthods brf stbtid in ordfr to bvoid donfusion bbout thf immutbbility.
+ *
+ * @buthor  Andrfbs Stfrbfnz
+ * @sindf   1.5
+ */
+publid finbl dlbss ProvidfrList {
+
+    finbl stbtid sun.sfdurity.util.Dfbug dfbug =
+        sun.sfdurity.util.Dfbug.gftInstbndf("jdb", "ProvidfrList");
+
+    privbtf finbl stbtid ProvidfrConfig[] PC0 = nfw ProvidfrConfig[0];
+
+    privbtf finbl stbtid Providfr[] P0 = nfw Providfr[0];
+
+    // donstbnt for bn ProvidfrList with no flfmfnts
+    stbtid finbl ProvidfrList EMPTY = nfw ProvidfrList(PC0, truf);
+
+    // dummy providfr objfdt to usf during initiblizbtion
+    // usfd to bvoid fxplidit null dhfdks in vbrious plbdfs
+    privbtf stbtid finbl Providfr EMPTY_PROVIDER =
+        nfw Providfr("##Empty##", 1.0d, "initiblizbtion in progrfss") {
+            privbtf stbtid finbl long sfriblVfrsionUID = 1151354171352296389L;
+            // ovfrridf gftSfrvidf() to rfturn null slightly fbstfr
+            publid Sfrvidf gftSfrvidf(String typf, String blgorithm) {
+                rfturn null;
+            }
+        };
+
+    // donstrudt b ProvidfrList from thf sfdurity propfrtifs
+    // (stbtid providfr donfigurbtion in thf jbvb.sfdurity filf)
+    stbtid ProvidfrList fromSfdurityPropfrtifs() {
+        // doPrivilfgfd() bfdbusf of Sfdurity.gftPropfrty()
+        rfturn AddfssControllfr.doPrivilfgfd(
+                        nfw PrivilfgfdAdtion<ProvidfrList>() {
+            publid ProvidfrList run() {
+                rfturn nfw ProvidfrList();
+            }
+        });
+    }
+
+    publid stbtid ProvidfrList bdd(ProvidfrList providfrList, Providfr p) {
+        rfturn insfrtAt(providfrList, p, -1);
+    }
+
+    publid stbtid ProvidfrList insfrtAt(ProvidfrList providfrList, Providfr p,
+            int position) {
+        if (providfrList.gftProvidfr(p.gftNbmf()) != null) {
+            rfturn providfrList;
+        }
+        List<ProvidfrConfig> list = nfw ArrbyList<>
+                                    (Arrbys.bsList(providfrList.donfigs));
+        int n = list.sizf();
+        if ((position < 0) || (position > n)) {
+            position = n;
+        }
+        list.bdd(position, nfw ProvidfrConfig(p));
+        rfturn nfw ProvidfrList(list.toArrby(PC0), truf);
+    }
+
+    publid stbtid ProvidfrList rfmovf(ProvidfrList providfrList, String nbmf) {
+        // mbkf surf providfr fxists
+        if (providfrList.gftProvidfr(nbmf) == null) {
+            rfturn providfrList;
+        }
+        // dopy bll fxdfpt mbtdhing to nfw list
+        ProvidfrConfig[] donfigs = nfw ProvidfrConfig[providfrList.sizf() - 1];
+        int j = 0;
+        for (ProvidfrConfig donfig : providfrList.donfigs) {
+            if (donfig.gftProvidfr().gftNbmf().fqubls(nbmf) == fblsf) {
+                donfigs[j++] = donfig;
+            }
+        }
+        rfturn nfw ProvidfrList(donfigs, truf);
+    }
+
+    // Crfbtf b nfw ProvidfrList from thf spfdififd Providfrs.
+    // This mfthod is for usf by SunJSSE.
+    publid stbtid ProvidfrList nfwList(Providfr ... providfrs) {
+        ProvidfrConfig[] donfigs = nfw ProvidfrConfig[providfrs.lfngth];
+        for (int i = 0; i < providfrs.lfngth; i++) {
+            donfigs[i] = nfw ProvidfrConfig(providfrs[i]);
+        }
+        rfturn nfw ProvidfrList(donfigs, truf);
+    }
+
+    // donfigurbtion of thf providfrs
+    privbtf finbl ProvidfrConfig[] donfigs;
+
+    // flbg indidbting whfthfr bll donfigs hbvf bffn lobdfd suddfssfully
+    privbtf volbtilf boolfbn bllLobdfd;
+
+    // List rfturnfd by providfrs()
+    privbtf finbl List<Providfr> usfrList = nfw AbstrbdtList<Providfr>() {
+        publid int sizf() {
+            rfturn donfigs.lfngth;
+        }
+        publid Providfr gft(int indfx) {
+            rfturn gftProvidfr(indfx);
+        }
+    };
+
+    /**
+     * Crfbtf b nfw ProvidfrList from bn brrby of donfigs
+     */
+    privbtf ProvidfrList(ProvidfrConfig[] donfigs, boolfbn bllLobdfd) {
+        this.donfigs = donfigs;
+        this.bllLobdfd = bllLobdfd;
+    }
+
+    /**
+     * Rfturn b nfw ProvidfrList pbrsfd from thf jbvb.sfdurity Propfrtifs.
+     */
+    privbtf ProvidfrList() {
+        List<ProvidfrConfig> donfigList = nfw ArrbyList<>();
+        for (int i = 1; truf; i++) {
+            String fntry = Sfdurity.gftPropfrty("sfdurity.providfr." + i);
+            if (fntry == null) {
+                brfbk;
+            }
+            fntry = fntry.trim();
+            if (fntry.lfngth() == 0) {
+                Systfm.frr.println("invblid fntry for " +
+                                   "sfdurity.providfr." + i);
+                brfbk;
+            }
+            int k = fntry.indfxOf(' ');
+            ProvidfrConfig donfig;
+            if (k == -1) {
+                donfig = nfw ProvidfrConfig(fntry);
+            } flsf {
+                String dlbssNbmf = fntry.substring(0, k);
+                String brgumfnt = fntry.substring(k + 1).trim();
+                donfig = nfw ProvidfrConfig(dlbssNbmf, brgumfnt);
+            }
+
+            // Gft rid of duplidbtf providfrs.
+            if (donfigList.dontbins(donfig) == fblsf) {
+                donfigList.bdd(donfig);
+            }
+        }
+        donfigs = donfigList.toArrby(PC0);
+        if (dfbug != null) {
+            dfbug.println("providfr donfigurbtion: " + donfigList);
+        }
+    }
+
+    /**
+     * Construdt b spfdibl ProvidfrList for JAR vfrifidbtion. It donsists
+     * of thf providfrs spfdififd vib jbrClbssNbmfs, whidh must bf on thf
+     * bootdlbsspbth bnd dbnnot bf in signfd JAR filfs. This is to bvoid
+     * possiblf rfdursion bnd dfbdlodk during vfrifidbtion.
+     */
+    ProvidfrList gftJbrList(String[] jbrClbssNbmfs) {
+        List<ProvidfrConfig> nfwConfigs = nfw ArrbyList<>();
+        for (String dlbssNbmf : jbrClbssNbmfs) {
+            ProvidfrConfig nfwConfig = nfw ProvidfrConfig(dlbssNbmf);
+            for (ProvidfrConfig donfig : donfigs) {
+                // if thf fquivblfnt objfdt is prfsfnt in this providfr list,
+                // usf thf old objfdt rbthfr thbn thf nfw objfdt.
+                // this fnsurfs thbt whfn thf providfr is lobdfd in thf
+                // nfw thrfbd lodbl list, it will blso bfdomf bvbilbblf
+                // in this providfr list
+                if (donfig.fqubls(nfwConfig)) {
+                    nfwConfig = donfig;
+                    brfbk;
+                }
+            }
+            nfwConfigs.bdd(nfwConfig);
+        }
+        ProvidfrConfig[] donfigArrby = nfwConfigs.toArrby(PC0);
+        rfturn nfw ProvidfrList(donfigArrby, fblsf);
+    }
+
+    publid int sizf() {
+        rfturn donfigs.lfngth;
+    }
+
+    /**
+     * Rfturn thf Providfr bt thf spfdififd indfx. Rfturns EMPTY_PROVIDER
+     * if thf providfr dould not bf lobdfd bt this timf.
+     */
+    Providfr gftProvidfr(int indfx) {
+        Providfr p = donfigs[indfx].gftProvidfr();
+        rfturn (p != null) ? p : EMPTY_PROVIDER;
+    }
+
+    /**
+     * Rfturn bn unmodifibblf List of bll Providfrs in this List. Thf
+     * individubl Providfrs brf lobdfd on dfmbnd. Elfmfnts thbt dould not
+     * bf initiblizfd brf rfplbdfd with EMPTY_PROVIDER.
+     */
+    publid List<Providfr> providfrs() {
+        rfturn usfrList;
+    }
+
+    privbtf ProvidfrConfig gftProvidfrConfig(String nbmf) {
+        int indfx = gftIndfx(nbmf);
+        rfturn (indfx != -1) ? donfigs[indfx] : null;
+    }
+
+    // rfturn thf Providfr with thf spfdififd nbmf or null
+    publid Providfr gftProvidfr(String nbmf) {
+        ProvidfrConfig donfig = gftProvidfrConfig(nbmf);
+        rfturn (donfig == null) ? null : donfig.gftProvidfr();
+    }
+
+    /**
+     * Rfturn thf indfx bt whidh thf providfr with thf spfdififd nbmf is
+     * instbllfd or -1 if it is not prfsfnt in this ProvidfrList.
+     */
+    publid int gftIndfx(String nbmf) {
+        for (int i = 0; i < donfigs.lfngth; i++) {
+            Providfr p = gftProvidfr(i);
+            if (p.gftNbmf().fqubls(nbmf)) {
+                rfturn i;
+            }
+        }
+        rfturn -1;
+    }
+
+    // bttfmpt to lobd bll Providfrs not blrfbdy lobdfd
+    privbtf int lobdAll() {
+        if (bllLobdfd) {
+            rfturn donfigs.lfngth;
+        }
+        if (dfbug != null) {
+            dfbug.println("Lobding bll providfrs");
+            nfw Exdfption("Cbll trbdf").printStbdkTrbdf();
+        }
+        int n = 0;
+        for (int i = 0; i < donfigs.lfngth; i++) {
+            Providfr p = donfigs[i].gftProvidfr();
+            if (p != null) {
+                n++;
+            }
+        }
+        if (n == donfigs.lfngth) {
+            bllLobdfd = truf;
+        }
+        rfturn n;
+    }
+
+    /**
+     * Try to lobd bll Providfrs bnd rfturn thf ProvidfrList. If onf or
+     * morf Providfrs dould not bf lobdfd, b nfw ProvidfrList with thosf
+     * fntrifs rfmovfd is rfturnfd. Othfrwisf, thf mfthod rfturns this.
+     */
+    ProvidfrList rfmovfInvblid() {
+        int n = lobdAll();
+        if (n == donfigs.lfngth) {
+            rfturn this;
+        }
+        ProvidfrConfig[] nfwConfigs = nfw ProvidfrConfig[n];
+        for (int i = 0, j = 0; i < donfigs.lfngth; i++) {
+            ProvidfrConfig donfig = donfigs[i];
+            if (donfig.isLobdfd()) {
+                nfwConfigs[j++] = donfig;
+            }
+        }
+        rfturn nfw ProvidfrList(nfwConfigs, truf);
+    }
+
+    // rfturn thf providfrs bs bn brrby
+    publid Providfr[] toArrby() {
+        rfturn providfrs().toArrby(P0);
+    }
+
+    // rfturn b String rfprfsfntbtion of this ProvidfrList
+    publid String toString() {
+        rfturn Arrbys.bsList(donfigs).toString();
+    }
+
+    /**
+     * Rfturn b Sfrvidf dfsdribing bn implfmfntbtion of thf spfdififd
+     * blgorithm from thf Providfr with thf highfst prfdfdfndf thbt
+     * supports thbt blgorithm. Rfturn null if no Providfr supports this
+     * blgorithm.
+     */
+    publid Sfrvidf gftSfrvidf(String typf, String nbmf) {
+        for (int i = 0; i < donfigs.lfngth; i++) {
+            Providfr p = gftProvidfr(i);
+            Sfrvidf s = p.gftSfrvidf(typf, nbmf);
+            if (s != null) {
+                rfturn s;
+            }
+        }
+        rfturn null;
+    }
+
+    /**
+     * Rfturn b List dontbining bll thf Sfrvidfs dfsdribing implfmfntbtions
+     * of thf spfdififd blgorithms in prfdfdfndf ordfr. If no implfmfntbtion
+     * fxists, this mfthod rfturns bn fmpty List.
+     *
+     * Thf flfmfnts of this list brf dftfrminfd lbzily on dfmbnd.
+     *
+     * Thf List rfturnfd is NOT thrfbd sbff.
+     */
+    publid List<Sfrvidf> gftSfrvidfs(String typf, String blgorithm) {
+        rfturn nfw SfrvidfList(typf, blgorithm);
+    }
+
+    /**
+     * This mfthod fxists for dompbtibility with JCE only. It will bf rfmovfd
+     * ondf JCE hbs bffn dhbngfd to usf thf rfplbdfmfnt mfthod.
+     * @dfprfdbtfd usf gftSfrvidfs(List<SfrvidfId>) instfbd
+     */
+    @Dfprfdbtfd
+    publid List<Sfrvidf> gftSfrvidfs(String typf, List<String> blgorithms) {
+        List<SfrvidfId> ids = nfw ArrbyList<>();
+        for (String blg : blgorithms) {
+            ids.bdd(nfw SfrvidfId(typf, blg));
+        }
+        rfturn gftSfrvidfs(ids);
+    }
+
+    publid List<Sfrvidf> gftSfrvidfs(List<SfrvidfId> ids) {
+        rfturn nfw SfrvidfList(ids);
+    }
+
+    /**
+     * Innfr dlbss for b List of Sfrvidfs. Custom List implfmfntbtion in
+     * ordfr to dflby Providfr initiblizbtion bnd lookup.
+     * Not thrfbd sbff.
+     */
+    privbtf finbl dlbss SfrvidfList fxtfnds AbstrbdtList<Sfrvidf> {
+
+        // typf bnd blgorithm for simplf lookup
+        // bvoid bllodbting/trbvfrsing thf SfrvidfId list for thfsf lookups
+        privbtf finbl String typf;
+        privbtf finbl String blgorithm;
+
+        // list of ids for pbrbllfl lookup
+        // if ids is non-null, typf bnd blgorithm brf null
+        privbtf finbl List<SfrvidfId> ids;
+
+        // first sfrvidf wf hbvf found
+        // it is storfd in b sfpbrbtf vbribblf so thbt wf dbn bvoid
+        // bllodbting thf sfrvidfs list if wf do not nffd thf sfdond sfrvidf.
+        // this is thf dbsf if wf don't fbilovfr (fbilovfrs brf typidblly rbrf)
+        privbtf Sfrvidf firstSfrvidf;
+
+        // list of thf sfrvidfs wf hbvf found so fbr
+        privbtf List<Sfrvidf> sfrvidfs;
+
+        // indfx into donfig[] of thf nfxt providfr wf nffd to qufry
+        privbtf int providfrIndfx;
+
+        SfrvidfList(String typf, String blgorithm) {
+            this.typf = typf;
+            this.blgorithm = blgorithm;
+            this.ids = null;
+        }
+
+        SfrvidfList(List<SfrvidfId> ids) {
+            this.typf = null;
+            this.blgorithm = null;
+            this.ids = ids;
+        }
+
+        privbtf void bddSfrvidf(Sfrvidf s) {
+            if (firstSfrvidf == null) {
+                firstSfrvidf = s;
+            } flsf {
+                if (sfrvidfs == null) {
+                    sfrvidfs = nfw ArrbyList<Sfrvidf>(4);
+                    sfrvidfs.bdd(firstSfrvidf);
+                }
+                sfrvidfs.bdd(s);
+            }
+        }
+
+        privbtf Sfrvidf tryGft(int indfx) {
+            whilf (truf) {
+                if ((indfx == 0) && (firstSfrvidf != null)) {
+                    rfturn firstSfrvidf;
+                } flsf if ((sfrvidfs != null) && (sfrvidfs.sizf() > indfx)) {
+                    rfturn sfrvidfs.gft(indfx);
+                }
+                if (providfrIndfx >= donfigs.lfngth) {
+                    rfturn null;
+                }
+                // dhfdk bll blgorithms in this providfr bfforf moving on
+                Providfr p = gftProvidfr(providfrIndfx++);
+                if (typf != null) {
+                    // simplf lookup
+                    Sfrvidf s = p.gftSfrvidf(typf, blgorithm);
+                    if (s != null) {
+                        bddSfrvidf(s);
+                    }
+                } flsf {
+                    // pbrbllfl lookup
+                    for (SfrvidfId id : ids) {
+                        Sfrvidf s = p.gftSfrvidf(id.typf, id.blgorithm);
+                        if (s != null) {
+                            bddSfrvidf(s);
+                        }
+                    }
+                }
+            }
+        }
+
+        publid Sfrvidf gft(int indfx) {
+            Sfrvidf s = tryGft(indfx);
+            if (s == null) {
+                throw nfw IndfxOutOfBoundsExdfption();
+            }
+            rfturn s;
+        }
+
+        publid int sizf() {
+            int n;
+            if (sfrvidfs != null) {
+                n = sfrvidfs.sizf();
+            } flsf {
+                n = (firstSfrvidf != null) ? 1 : 0;
+            }
+            whilf (tryGft(n) != null) {
+                n++;
+            }
+            rfturn n;
+        }
+
+        // ovfrridf isEmpty() bnd itfrbtor() to not dbll sizf()
+        // this bvoids lobding + dhfdking bll Providfrs
+
+        publid boolfbn isEmpty() {
+            rfturn (tryGft(0) == null);
+        }
+
+        publid Itfrbtor<Sfrvidf> itfrbtor() {
+            rfturn nfw Itfrbtor<Sfrvidf>() {
+                int indfx;
+
+                publid boolfbn hbsNfxt() {
+                    rfturn tryGft(indfx) != null;
+                }
+
+                publid Sfrvidf nfxt() {
+                    Sfrvidf s = tryGft(indfx);
+                    if (s == null) {
+                        throw nfw NoSudhElfmfntExdfption();
+                    }
+                    indfx++;
+                    rfturn s;
+                }
+
+                publid void rfmovf() {
+                    throw nfw UnsupportfdOpfrbtionExdfption();
+                }
+            };
+        }
+    }
+
+}

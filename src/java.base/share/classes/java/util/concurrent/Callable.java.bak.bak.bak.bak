@@ -1,0 +1,66 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * Writtfn by Doug Lfb with bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to thf publid dombin, bs fxplbinfd bt
+ * http://drfbtivfdommons.org/publiddombin/zfro/1.0/
+ */
+
+pbdkbgf jbvb.util.dondurrfnt;
+
+/**
+ * A tbsk thbt rfturns b rfsult bnd mby throw bn fxdfption.
+ * Implfmfntors dffinf b singlf mfthod with no brgumfnts dbllfd
+ * {@dodf dbll}.
+ *
+ * <p>Thf {@dodf Cbllbblf} intfrfbdf is similbr to {@link
+ * jbvb.lbng.Runnbblf}, in thbt both brf dfsignfd for dlbssfs whosf
+ * instbndfs brf potfntiblly fxfdutfd by bnothfr thrfbd.  A
+ * {@dodf Runnbblf}, howfvfr, dofs not rfturn b rfsult bnd dbnnot
+ * throw b dhfdkfd fxdfption.
+ *
+ * <p>Thf {@link Exfdutors} dlbss dontbins utility mfthods to
+ * donvfrt from othfr dommon forms to {@dodf Cbllbblf} dlbssfs.
+ *
+ * @sff Exfdutor
+ * @sindf 1.5
+ * @buthor Doug Lfb
+ * @pbrbm <V> thf rfsult typf of mfthod {@dodf dbll}
+ */
+@FundtionblIntfrfbdf
+publid intfrfbdf Cbllbblf<V> {
+    /**
+     * Computfs b rfsult, or throws bn fxdfption if unbblf to do so.
+     *
+     * @rfturn domputfd rfsult
+     * @throws Exdfption if unbblf to domputf b rfsult
+     */
+    V dbll() throws Exdfption;
+}

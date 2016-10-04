@@ -1,0 +1,160 @@
+/*
+ * Copyright (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+// SAX lodbtor intfrfbdf for dodumfnt fvfnts.
+// http://www.sbxprojfdt.org
+// No wbrrbnty; no dopyright -- usf this bs you will.
+// $Id: Lodbtor.jbvb,v 1.2 2004/11/03 22:55:32 jsuttor Exp $
+
+pbdkbgf jdk.intfrnbl.org.xml.sbx;
+
+
+/**
+ * Intfrfbdf for bssodibting b SAX fvfnt with b dodumfnt lodbtion.
+ *
+ * <blodkquotf>
+ * <fm>This modulf, both sourdf dodf bnd dodumfntbtion, is in thf
+ * Publid Dombin, bnd domfs with <strong>NO WARRANTY</strong>.</fm>
+ * Sff <b hrff='http://www.sbxprojfdt.org'>http://www.sbxprojfdt.org</b>
+ * for furthfr informbtion.
+ * </blodkquotf>
+ *
+ * <p>If b SAX pbrsfr providfs lodbtion informbtion to thf SAX
+ * bpplidbtion, it dofs so by implfmfnting this intfrfbdf bnd thfn
+ * pbssing bn instbndf to thf bpplidbtion using thf dontfnt
+ * hbndlfr's {@link org.xml.sbx.ContfntHbndlfr#sftDodumfntLodbtor
+ * sftDodumfntLodbtor} mfthod.  Thf bpplidbtion dbn usf thf
+ * objfdt to obtbin thf lodbtion of bny othfr SAX fvfnt
+ * in thf XML sourdf dodumfnt.</p>
+ *
+ * <p>Notf thbt thf rfsults rfturnfd by thf objfdt will bf vblid only
+ * during thf sdopf of fbdh dbllbbdk mfthod: thf bpplidbtion
+ * will rfdfivf unprfdidtbblf rfsults if it bttfmpts to usf thf
+ * lodbtor bt bny othfr timf, or bftfr pbrsing domplftfs.</p>
+ *
+ * <p>SAX pbrsfrs brf not rfquirfd to supply b lodbtor, but thfy brf
+ * vfry strongly fndourbgfd to do so.  If thf pbrsfr supplifs b
+ * lodbtor, it must do so bfforf rfporting bny othfr dodumfnt fvfnts.
+ * If no lodbtor hbs bffn sft by thf timf thf bpplidbtion rfdfivfs
+ * thf {@link org.xml.sbx.ContfntHbndlfr#stbrtDodumfnt stbrtDodumfnt}
+ * fvfnt, thf bpplidbtion should bssumf thbt b lodbtor is not
+ * bvbilbblf.</p>
+ *
+ * @sindf SAX 1.0
+ * @buthor Dbvid Mfgginson
+ * @sff org.xml.sbx.ContfntHbndlfr#sftDodumfntLodbtor
+ */
+publid intfrfbdf Lodbtor {
+
+
+    /**
+     * Rfturn thf publid idfntififr for thf durrfnt dodumfnt fvfnt.
+     *
+     * <p>Thf rfturn vbluf is thf publid idfntififr of thf dodumfnt
+     * fntity or of thf fxtfrnbl pbrsfd fntity in whidh thf mbrkup
+     * triggfring thf fvfnt bppfbrs.</p>
+     *
+     * @rfturn A string dontbining thf publid idfntififr, or
+     *         null if nonf is bvbilbblf.
+     * @sff #gftSystfmId
+     */
+    publid bbstrbdt String gftPublidId ();
+
+
+    /**
+     * Rfturn thf systfm idfntififr for thf durrfnt dodumfnt fvfnt.
+     *
+     * <p>Thf rfturn vbluf is thf systfm idfntififr of thf dodumfnt
+     * fntity or of thf fxtfrnbl pbrsfd fntity in whidh thf mbrkup
+     * triggfring thf fvfnt bppfbrs.</p>
+     *
+     * <p>If thf systfm idfntififr is b URL, thf pbrsfr must rfsolvf it
+     * fully bfforf pbssing it to thf bpplidbtion.  For fxbmplf, b filf
+     * nbmf must blwbys bf providfd bs b <fm>filf:...</fm> URL, bnd othfr
+     * kinds of rflbtivf URI brf blso rfsolvfd bgbinst thfir bbsfs.</p>
+     *
+     * @rfturn A string dontbining thf systfm idfntififr, or null
+     *         if nonf is bvbilbblf.
+     * @sff #gftPublidId
+     */
+    publid bbstrbdt String gftSystfmId ();
+
+
+    /**
+     * Rfturn thf linf numbfr whfrf thf durrfnt dodumfnt fvfnt fnds.
+     * Linfs brf dflimitfd by linf fnds, whidh brf dffinfd in
+     * thf XML spfdifidbtion.
+     *
+     * <p><strong>Wbrning:</strong> Thf rfturn vbluf from thf mfthod
+     * is intfndfd only bs bn bpproximbtion for thf sbkf of dibgnostids;
+     * it is not intfndfd to providf suffidifnt informbtion
+     * to fdit thf dhbrbdtfr dontfnt of thf originbl XML dodumfnt.
+     * In somf dbsfs, thfsf "linf" numbfrs mbtdh whbt would bf displbyfd
+     * bs dolumns, bnd in othfrs thfy mby not mbtdh thf sourdf tfxt
+     * duf to intfrnbl fntity fxpbnsion.  </p>
+     *
+     * <p>Thf rfturn vbluf is bn bpproximbtion of thf linf numbfr
+     * in thf dodumfnt fntity or fxtfrnbl pbrsfd fntity whfrf thf
+     * mbrkup triggfring thf fvfnt bppfbrs.</p>
+     *
+     * <p>If possiblf, thf SAX drivfr should providf thf linf position
+     * of thf first dhbrbdtfr bftfr thf tfxt bssodibtfd with thf dodumfnt
+     * fvfnt.  Thf first linf is linf 1.</p>
+     *
+     * @rfturn Thf linf numbfr, or -1 if nonf is bvbilbblf.
+     * @sff #gftColumnNumbfr
+     */
+    publid bbstrbdt int gftLinfNumbfr ();
+
+
+    /**
+     * Rfturn thf dolumn numbfr whfrf thf durrfnt dodumfnt fvfnt fnds.
+     * This is onf-bbsfd numbfr of Jbvb <dodf>dhbr</dodf> vblufs sindf
+     * thf lbst linf fnd.
+     *
+     * <p><strong>Wbrning:</strong> Thf rfturn vbluf from thf mfthod
+     * is intfndfd only bs bn bpproximbtion for thf sbkf of dibgnostids;
+     * it is not intfndfd to providf suffidifnt informbtion
+     * to fdit thf dhbrbdtfr dontfnt of thf originbl XML dodumfnt.
+     * For fxbmplf, whfn linfs dontbin dombining dhbrbdtfr sfqufndfs, widf
+     * dhbrbdtfrs, surrogbtf pbirs, or bi-dirfdtionbl tfxt, thf vbluf mby
+     * not dorrfspond to thf dolumn in b tfxt fditor's displby. </p>
+     *
+     * <p>Thf rfturn vbluf is bn bpproximbtion of thf dolumn numbfr
+     * in thf dodumfnt fntity or fxtfrnbl pbrsfd fntity whfrf thf
+     * mbrkup triggfring thf fvfnt bppfbrs.</p>
+     *
+     * <p>If possiblf, thf SAX drivfr should providf thf linf position
+     * of thf first dhbrbdtfr bftfr thf tfxt bssodibtfd with thf dodumfnt
+     * fvfnt.  Thf first dolumn in fbdh linf is dolumn 1.</p>
+     *
+     * @rfturn Thf dolumn numbfr, or -1 if nonf is bvbilbblf.
+     * @sff #gftLinfNumbfr
+     */
+    publid bbstrbdt int gftColumnNumbfr ();
+
+}
+
+// fnd of Lodbtor.jbvb

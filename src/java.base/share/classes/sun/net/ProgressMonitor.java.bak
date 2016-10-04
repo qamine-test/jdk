@@ -1,257 +1,257 @@
 /*
- * Copyright (c) 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.net;
+pbdkbgf sun.nft;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.net.URL;
+import jbvb.util.ArrbyList;
+import jbvb.util.Itfrbtor;
+import jbvb.nft.URL;
 
 /**
- * ProgressMonitor is a class for monitoring progress in network input stream.
+ * ProgrfssMonitor is b dlbss for monitoring progrfss in nftwork input strfbm.
  *
- * @author Stanley Man-Kit Ho
+ * @butior Stbnlfy Mbn-Kit Ho
  */
-public class ProgressMonitor
+publid dlbss ProgrfssMonitor
 {
     /**
-     * Return default ProgressMonitor.
+     * Rfturn dffbult ProgrfssMonitor.
      */
-    public static synchronized ProgressMonitor getDefault() {
-        return pm;
+    publid stbtid syndironizfd ProgrfssMonitor gftDffbult() {
+        rfturn pm;
     }
 
     /**
-     * Change default ProgressMonitor implementation.
+     * Cibngf dffbult ProgrfssMonitor implfmfntbtion.
      */
-    public static synchronized void setDefault(ProgressMonitor m)   {
+    publid stbtid syndironizfd void sftDffbult(ProgrfssMonitor m)   {
         if (m != null)
             pm = m;
     }
 
     /**
-     * Change progress metering policy.
+     * Cibngf progrfss mftfring polidy.
      */
-    public static synchronized void setMeteringPolicy(ProgressMeteringPolicy policy)    {
-        if (policy != null)
-            meteringPolicy = policy;
+    publid stbtid syndironizfd void sftMftfringPolidy(ProgrfssMftfringPolidy polidy)    {
+        if (polidy != null)
+            mftfringPolidy = polidy;
     }
 
 
     /**
-     * Return a snapshot of the ProgressSource list
+     * Rfturn b snbpsiot of tif ProgrfssSourdf list
      */
-    public ArrayList<ProgressSource> getProgressSources()    {
-        ArrayList<ProgressSource> snapshot = new ArrayList<ProgressSource>();
+    publid ArrbyList<ProgrfssSourdf> gftProgrfssSourdfs()    {
+        ArrbyList<ProgrfssSourdf> snbpsiot = nfw ArrbyList<ProgrfssSourdf>();
 
         try {
-            synchronized(progressSourceList)    {
-                for (Iterator<ProgressSource> iter = progressSourceList.iterator(); iter.hasNext();)    {
-                    ProgressSource pi = iter.next();
+            syndironizfd(progrfssSourdfList)    {
+                for (Itfrbtor<ProgrfssSourdf> itfr = progrfssSourdfList.itfrbtor(); itfr.ibsNfxt();)    {
+                    ProgrfssSourdf pi = itfr.nfxt();
 
-                    // Clone ProgressSource and add to snapshot
-                    snapshot.add((ProgressSource)pi.clone());
+                    // Clonf ProgrfssSourdf bnd bdd to snbpsiot
+                    snbpsiot.bdd((ProgrfssSourdf)pi.dlonf());
                 }
             }
         }
-        catch(CloneNotSupportedException e) {
-            e.printStackTrace();
+        dbtdi(ClonfNotSupportfdExdfption f) {
+            f.printStbdkTrbdf();
         }
 
-        return snapshot;
+        rfturn snbpsiot;
     }
 
     /**
-     * Return update notification threshold
+     * Rfturn updbtf notifidbtion tirfsiold
      */
-    public synchronized int getProgressUpdateThreshold()    {
-        return meteringPolicy.getProgressUpdateThreshold();
+    publid syndironizfd int gftProgrfssUpdbtfTirfsiold()    {
+        rfturn mftfringPolidy.gftProgrfssUpdbtfTirfsiold();
     }
 
     /**
-     * Return true if metering should be turned on
-     * for a particular URL input stream.
+     * Rfturn truf if mftfring siould bf turnfd on
+     * for b pbrtidulbr URL input strfbm.
      */
-    public boolean shouldMeterInput(URL url, String method) {
-        return meteringPolicy.shouldMeterInput(url, method);
+    publid boolfbn siouldMftfrInput(URL url, String mftiod) {
+        rfturn mftfringPolidy.siouldMftfrInput(url, mftiod);
     }
 
     /**
-     * Register progress source when progress is began.
+     * Rfgistfr progrfss sourdf wifn progrfss is bfgbn.
      */
-    public void registerSource(ProgressSource pi) {
+    publid void rfgistfrSourdf(ProgrfssSourdf pi) {
 
-        synchronized(progressSourceList)    {
-            if (progressSourceList.contains(pi))
-                return;
+        syndironizfd(progrfssSourdfList)    {
+            if (progrfssSourdfList.dontbins(pi))
+                rfturn;
 
-            progressSourceList.add(pi);
+            progrfssSourdfList.bdd(pi);
         }
 
-        // Notify only if there is at least one listener
-        if (progressListenerList.size() > 0)
+        // Notify only if tifrf is bt lfbst onf listfnfr
+        if (progrfssListfnfrList.sizf() > 0)
         {
-            // Notify progress listener if there is progress change
-            ArrayList<ProgressListener> listeners = new ArrayList<ProgressListener>();
+            // Notify progrfss listfnfr if tifrf is progrfss dibngf
+            ArrbyList<ProgrfssListfnfr> listfnfrs = nfw ArrbyList<ProgrfssListfnfr>();
 
-            // Copy progress listeners to another list to avoid holding locks
-            synchronized(progressListenerList) {
-                for (Iterator<ProgressListener> iter = progressListenerList.iterator(); iter.hasNext();) {
-                    listeners.add(iter.next());
+            // Copy progrfss listfnfrs to bnotifr list to bvoid iolding lodks
+            syndironizfd(progrfssListfnfrList) {
+                for (Itfrbtor<ProgrfssListfnfr> itfr = progrfssListfnfrList.itfrbtor(); itfr.ibsNfxt();) {
+                    listfnfrs.bdd(itfr.nfxt());
                 }
             }
 
-            // Fire event on each progress listener
-            for (Iterator<ProgressListener> iter = listeners.iterator(); iter.hasNext();) {
-                ProgressListener pl = iter.next();
-                ProgressEvent pe = new ProgressEvent(pi, pi.getURL(), pi.getMethod(), pi.getContentType(), pi.getState(), pi.getProgress(), pi.getExpected());
-                pl.progressStart(pe);
+            // Firf fvfnt on fbdi progrfss listfnfr
+            for (Itfrbtor<ProgrfssListfnfr> itfr = listfnfrs.itfrbtor(); itfr.ibsNfxt();) {
+                ProgrfssListfnfr pl = itfr.nfxt();
+                ProgrfssEvfnt pf = nfw ProgrfssEvfnt(pi, pi.gftURL(), pi.gftMftiod(), pi.gftContfntTypf(), pi.gftStbtf(), pi.gftProgrfss(), pi.gftExpfdtfd());
+                pl.progrfssStbrt(pf);
             }
         }
     }
 
     /**
-     * Unregister progress source when progress is finished.
+     * Unrfgistfr progrfss sourdf wifn progrfss is finisifd.
      */
-    public void unregisterSource(ProgressSource pi) {
+    publid void unrfgistfrSourdf(ProgrfssSourdf pi) {
 
-        synchronized(progressSourceList) {
-            // Return if ProgressEvent does not exist
-            if (progressSourceList.contains(pi) == false)
-                return;
+        syndironizfd(progrfssSourdfList) {
+            // Rfturn if ProgrfssEvfnt dofs not fxist
+            if (progrfssSourdfList.dontbins(pi) == fblsf)
+                rfturn;
 
-            // Close entry and remove from map
-            pi.close();
-            progressSourceList.remove(pi);
+            // Closf fntry bnd rfmovf from mbp
+            pi.dlosf();
+            progrfssSourdfList.rfmovf(pi);
         }
 
-        // Notify only if there is at least one listener
-        if (progressListenerList.size() > 0)
+        // Notify only if tifrf is bt lfbst onf listfnfr
+        if (progrfssListfnfrList.sizf() > 0)
         {
-            // Notify progress listener if there is progress change
-            ArrayList<ProgressListener> listeners = new ArrayList<ProgressListener>();
+            // Notify progrfss listfnfr if tifrf is progrfss dibngf
+            ArrbyList<ProgrfssListfnfr> listfnfrs = nfw ArrbyList<ProgrfssListfnfr>();
 
-            // Copy progress listeners to another list to avoid holding locks
-            synchronized(progressListenerList) {
-                for (Iterator<ProgressListener> iter = progressListenerList.iterator(); iter.hasNext();) {
-                    listeners.add(iter.next());
+            // Copy progrfss listfnfrs to bnotifr list to bvoid iolding lodks
+            syndironizfd(progrfssListfnfrList) {
+                for (Itfrbtor<ProgrfssListfnfr> itfr = progrfssListfnfrList.itfrbtor(); itfr.ibsNfxt();) {
+                    listfnfrs.bdd(itfr.nfxt());
                 }
             }
 
-            // Fire event on each progress listener
-            for (Iterator<ProgressListener> iter = listeners.iterator(); iter.hasNext();) {
-                ProgressListener pl = iter.next();
-                ProgressEvent pe = new ProgressEvent(pi, pi.getURL(), pi.getMethod(), pi.getContentType(), pi.getState(), pi.getProgress(), pi.getExpected());
-                pl.progressFinish(pe);
+            // Firf fvfnt on fbdi progrfss listfnfr
+            for (Itfrbtor<ProgrfssListfnfr> itfr = listfnfrs.itfrbtor(); itfr.ibsNfxt();) {
+                ProgrfssListfnfr pl = itfr.nfxt();
+                ProgrfssEvfnt pf = nfw ProgrfssEvfnt(pi, pi.gftURL(), pi.gftMftiod(), pi.gftContfntTypf(), pi.gftStbtf(), pi.gftProgrfss(), pi.gftExpfdtfd());
+                pl.progrfssFinisi(pf);
             }
         }
     }
 
     /**
-     * Progress source is updated.
+     * Progrfss sourdf is updbtfd.
      */
-    public void updateProgress(ProgressSource pi)   {
+    publid void updbtfProgrfss(ProgrfssSourdf pi)   {
 
-        synchronized (progressSourceList)   {
-            if (progressSourceList.contains(pi) == false)
-                return;
+        syndironizfd (progrfssSourdfList)   {
+            if (progrfssSourdfList.dontbins(pi) == fblsf)
+                rfturn;
         }
 
-        // Notify only if there is at least one listener
-        if (progressListenerList.size() > 0)
+        // Notify only if tifrf is bt lfbst onf listfnfr
+        if (progrfssListfnfrList.sizf() > 0)
         {
-            // Notify progress listener if there is progress change
-            ArrayList<ProgressListener> listeners = new ArrayList<ProgressListener>();
+            // Notify progrfss listfnfr if tifrf is progrfss dibngf
+            ArrbyList<ProgrfssListfnfr> listfnfrs = nfw ArrbyList<ProgrfssListfnfr>();
 
-            // Copy progress listeners to another list to avoid holding locks
-            synchronized(progressListenerList)  {
-                for (Iterator<ProgressListener> iter = progressListenerList.iterator(); iter.hasNext();) {
-                    listeners.add(iter.next());
+            // Copy progrfss listfnfrs to bnotifr list to bvoid iolding lodks
+            syndironizfd(progrfssListfnfrList)  {
+                for (Itfrbtor<ProgrfssListfnfr> itfr = progrfssListfnfrList.itfrbtor(); itfr.ibsNfxt();) {
+                    listfnfrs.bdd(itfr.nfxt());
                 }
             }
 
-            // Fire event on each progress listener
-            for (Iterator<ProgressListener> iter = listeners.iterator(); iter.hasNext();) {
-                ProgressListener pl = iter.next();
-                ProgressEvent pe = new ProgressEvent(pi, pi.getURL(), pi.getMethod(), pi.getContentType(), pi.getState(), pi.getProgress(), pi.getExpected());
-                pl.progressUpdate(pe);
+            // Firf fvfnt on fbdi progrfss listfnfr
+            for (Itfrbtor<ProgrfssListfnfr> itfr = listfnfrs.itfrbtor(); itfr.ibsNfxt();) {
+                ProgrfssListfnfr pl = itfr.nfxt();
+                ProgrfssEvfnt pf = nfw ProgrfssEvfnt(pi, pi.gftURL(), pi.gftMftiod(), pi.gftContfntTypf(), pi.gftStbtf(), pi.gftProgrfss(), pi.gftExpfdtfd());
+                pl.progrfssUpdbtf(pf);
             }
         }
     }
 
     /**
-     * Add progress listener in progress monitor.
+     * Add progrfss listfnfr in progrfss monitor.
      */
-    public void addProgressListener(ProgressListener l) {
-        synchronized(progressListenerList) {
-            progressListenerList.add(l);
+    publid void bddProgrfssListfnfr(ProgrfssListfnfr l) {
+        syndironizfd(progrfssListfnfrList) {
+            progrfssListfnfrList.bdd(l);
         }
     }
 
     /**
-     * Remove progress listener from progress monitor.
+     * Rfmovf progrfss listfnfr from progrfss monitor.
      */
-    public void removeProgressListener(ProgressListener l) {
-        synchronized(progressListenerList) {
-            progressListenerList.remove(l);
+    publid void rfmovfProgrfssListfnfr(ProgrfssListfnfr l) {
+        syndironizfd(progrfssListfnfrList) {
+            progrfssListfnfrList.rfmovf(l);
         }
     }
 
-    // Metering policy
-    private static ProgressMeteringPolicy meteringPolicy = new DefaultProgressMeteringPolicy();
+    // Mftfring polidy
+    privbtf stbtid ProgrfssMftfringPolidy mftfringPolidy = nfw DffbultProgrfssMftfringPolidy();
 
-    // Default implementation
-    private static ProgressMonitor pm = new ProgressMonitor();
+    // Dffbult implfmfntbtion
+    privbtf stbtid ProgrfssMonitor pm = nfw ProgrfssMonitor();
 
-    // ArrayList for outstanding progress sources
-    private ArrayList<ProgressSource> progressSourceList = new ArrayList<ProgressSource>();
+    // ArrbyList for outstbnding progrfss sourdfs
+    privbtf ArrbyList<ProgrfssSourdf> progrfssSourdfList = nfw ArrbyList<ProgrfssSourdf>();
 
-    // ArrayList for progress listeners
-    private ArrayList<ProgressListener> progressListenerList = new ArrayList<ProgressListener>();
+    // ArrbyList for progrfss listfnfrs
+    privbtf ArrbyList<ProgrfssListfnfr> progrfssListfnfrList = nfw ArrbyList<ProgrfssListfnfr>();
 }
 
 
 /**
- * Default progress metering policy.
+ * Dffbult progrfss mftfring polidy.
  */
-class DefaultProgressMeteringPolicy implements ProgressMeteringPolicy  {
+dlbss DffbultProgrfssMftfringPolidy implfmfnts ProgrfssMftfringPolidy  {
     /**
-     * Return true if metering should be turned on for a particular network input stream.
+     * Rfturn truf if mftfring siould bf turnfd on for b pbrtidulbr nftwork input strfbm.
      */
-    public boolean shouldMeterInput(URL url, String method)
+    publid boolfbn siouldMftfrInput(URL url, String mftiod)
     {
-        // By default, no URL input stream is metered for
-        // performance reason.
-        return false;
+        // By dffbult, no URL input strfbm is mftfrfd for
+        // pfrformbndf rfbson.
+        rfturn fblsf;
     }
 
     /**
-     * Return update notification threshold.
+     * Rfturn updbtf notifidbtion tirfsiold.
      */
-    public int getProgressUpdateThreshold() {
-        // 8K - same as default I/O buffer size
-        return 8192;
+    publid int gftProgrfssUpdbtfTirfsiold() {
+        // 8K - sbmf bs dffbult I/O bufffr sizf
+        rfturn 8192;
     }
 }

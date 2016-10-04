@@ -1,472 +1,472 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.text;
+pbdkbgf jbvbx.swing.tfxt;
 
-import java.lang.reflect.*;
-import java.text.*;
-import java.util.*;
-import sun.reflect.misc.ReflectUtil;
-import sun.swing.SwingUtilities2;
+import jbvb.lbng.rfflfdt.*;
+import jbvb.tfxt.*;
+import jbvb.util.*;
+import sun.rfflfdt.misd.RfflfdtUtil;
+import sun.swing.SwingUtilitifs2;
 
 /**
- * <code>NumberFormatter</code> subclasses <code>InternationalFormatter</code>
- * adding special behavior for numbers. Among the specializations are
- * (these are only used if the <code>NumberFormatter</code> does not display
- * invalid numbers, for example, <code>setAllowsInvalid(false)</code>):
+ * <dodf>NumbfrFormbttfr</dodf> subdlbssfs <dodf>IntfrnbtionblFormbttfr</dodf>
+ * bdding spfdibl bfibvior for numbfrs. Among tif spfdiblizbtions brf
+ * (tifsf brf only usfd if tif <dodf>NumbfrFormbttfr</dodf> dofs not displby
+ * invblid numbfrs, for fxbmplf, <dodf>sftAllowsInvblid(fblsf)</dodf>):
  * <ul>
- *   <li>Pressing +/- (- is determined from the
- *       <code>DecimalFormatSymbols</code> associated with the
- *       <code>DecimalFormat</code>) in any field but the exponent
- *       field will attempt to change the sign of the number to
- *       positive/negative.
- *   <li>Pressing +/- (- is determined from the
- *       <code>DecimalFormatSymbols</code> associated with the
- *       <code>DecimalFormat</code>) in the exponent field will
- *       attempt to change the sign of the exponent to positive/negative.
+ *   <li>Prfssing +/- (- is dftfrminfd from tif
+ *       <dodf>DfdimblFormbtSymbols</dodf> bssodibtfd witi tif
+ *       <dodf>DfdimblFormbt</dodf>) in bny fifld but tif fxponfnt
+ *       fifld will bttfmpt to dibngf tif sign of tif numbfr to
+ *       positivf/nfgbtivf.
+ *   <li>Prfssing +/- (- is dftfrminfd from tif
+ *       <dodf>DfdimblFormbtSymbols</dodf> bssodibtfd witi tif
+ *       <dodf>DfdimblFormbt</dodf>) in tif fxponfnt fifld will
+ *       bttfmpt to dibngf tif sign of tif fxponfnt to positivf/nfgbtivf.
  * </ul>
  * <p>
- * If you are displaying scientific numbers, you may wish to turn on
- * overwrite mode, <code>setOverwriteMode(true)</code>. For example:
- * <pre>
- * DecimalFormat decimalFormat = new DecimalFormat("0.000E0");
- * NumberFormatter textFormatter = new NumberFormatter(decimalFormat);
- * textFormatter.setOverwriteMode(true);
- * textFormatter.setAllowsInvalid(false);
- * </pre>
+ * If you brf displbying sdifntifid numbfrs, you mby wisi to turn on
+ * ovfrwritf modf, <dodf>sftOvfrwritfModf(truf)</dodf>. For fxbmplf:
+ * <prf>
+ * DfdimblFormbt dfdimblFormbt = nfw DfdimblFormbt("0.000E0");
+ * NumbfrFormbttfr tfxtFormbttfr = nfw NumbfrFormbttfr(dfdimblFormbt);
+ * tfxtFormbttfr.sftOvfrwritfModf(truf);
+ * tfxtFormbttfr.sftAllowsInvblid(fblsf);
+ * </prf>
  * <p>
- * If you are going to allow the user to enter decimal
- * values, you should either force the DecimalFormat to contain at least
- * one decimal (<code>#.0###</code>), or allow the value to be invalid
- * <code>setAllowsInvalid(true)</code>. Otherwise users may not be able to
- * input decimal values.
+ * If you brf going to bllow tif usfr to fntfr dfdimbl
+ * vblufs, you siould fitifr fordf tif DfdimblFormbt to dontbin bt lfbst
+ * onf dfdimbl (<dodf>#.0###</dodf>), or bllow tif vbluf to bf invblid
+ * <dodf>sftAllowsInvblid(truf)</dodf>. Otifrwisf usfrs mby not bf bblf to
+ * input dfdimbl vblufs.
  * <p>
- * <code>NumberFormatter</code> provides slightly different behavior to
- * <code>stringToValue</code> than that of its superclass. If you have
- * specified a Class for values, {@link #setValueClass}, that is one of
- * of <code>Integer</code>, <code>Long</code>, <code>Float</code>,
- * <code>Double</code>, <code>Byte</code> or <code>Short</code> and
- * the Format's <code>parseObject</code> returns an instance of
- * <code>Number</code>, the corresponding instance of the value class
- * will be created using the constructor appropriate for the primitive
- * type the value class represents. For example:
- * <code>setValueClass(Integer.class)</code> will cause the resulting
- * value to be created via
- * <code>new Integer(((Number)formatter.parseObject(string)).intValue())</code>.
- * This is typically useful if you
- * wish to set a min/max value as the various <code>Number</code>
- * implementations are generally not comparable to each other. This is also
- * useful if for some reason you need a specific <code>Number</code>
- * implementation for your values.
+ * <dodf>NumbfrFormbttfr</dodf> providfs sligitly difffrfnt bfibvior to
+ * <dodf>stringToVbluf</dodf> tibn tibt of its supfrdlbss. If you ibvf
+ * spfdififd b Clbss for vblufs, {@link #sftVblufClbss}, tibt is onf of
+ * of <dodf>Intfgfr</dodf>, <dodf>Long</dodf>, <dodf>Flobt</dodf>,
+ * <dodf>Doublf</dodf>, <dodf>Bytf</dodf> or <dodf>Siort</dodf> bnd
+ * tif Formbt's <dodf>pbrsfObjfdt</dodf> rfturns bn instbndf of
+ * <dodf>Numbfr</dodf>, tif dorrfsponding instbndf of tif vbluf dlbss
+ * will bf drfbtfd using tif donstrudtor bppropribtf for tif primitivf
+ * typf tif vbluf dlbss rfprfsfnts. For fxbmplf:
+ * <dodf>sftVblufClbss(Intfgfr.dlbss)</dodf> will dbusf tif rfsulting
+ * vbluf to bf drfbtfd vib
+ * <dodf>nfw Intfgfr(((Numbfr)formbttfr.pbrsfObjfdt(string)).intVbluf())</dodf>.
+ * Tiis is typidblly usfful if you
+ * wisi to sft b min/mbx vbluf bs tif vbrious <dodf>Numbfr</dodf>
+ * implfmfntbtions brf gfnfrblly not dompbrbblf to fbdi otifr. Tiis is blso
+ * usfful if for somf rfbson you nffd b spfdifid <dodf>Numbfr</dodf>
+ * implfmfntbtion for your vblufs.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @since 1.4
+ * @sindf 1.4
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class NumberFormatter extends InternationalFormatter {
-    /** The special characters from the Format instance. */
-    private String specialChars;
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss NumbfrFormbttfr fxtfnds IntfrnbtionblFormbttfr {
+    /** Tif spfdibl dibrbdtfrs from tif Formbt instbndf. */
+    privbtf String spfdiblCibrs;
 
     /**
-     * Creates a <code>NumberFormatter</code> with the a default
-     * <code>NumberFormat</code> instance obtained from
-     * <code>NumberFormat.getNumberInstance()</code>.
+     * Crfbtfs b <dodf>NumbfrFormbttfr</dodf> witi tif b dffbult
+     * <dodf>NumbfrFormbt</dodf> instbndf obtbinfd from
+     * <dodf>NumbfrFormbt.gftNumbfrInstbndf()</dodf>.
      */
-    public NumberFormatter() {
-        this(NumberFormat.getNumberInstance());
+    publid NumbfrFormbttfr() {
+        tiis(NumbfrFormbt.gftNumbfrInstbndf());
     }
 
     /**
-     * Creates a NumberFormatter with the specified Format instance.
+     * Crfbtfs b NumbfrFormbttfr witi tif spfdififd Formbt instbndf.
      *
-     * @param format Format used to dictate legal values
+     * @pbrbm formbt Formbt usfd to didtbtf lfgbl vblufs
      */
-    public NumberFormatter(NumberFormat format) {
-        super(format);
-        setFormat(format);
-        setAllowsInvalid(true);
-        setCommitsOnValidEdit(false);
-        setOverwriteMode(false);
+    publid NumbfrFormbttfr(NumbfrFormbt formbt) {
+        supfr(formbt);
+        sftFormbt(formbt);
+        sftAllowsInvblid(truf);
+        sftCommitsOnVblidEdit(fblsf);
+        sftOvfrwritfModf(fblsf);
     }
 
     /**
-     * Sets the format that dictates the legal values that can be edited
-     * and displayed.
+     * Sfts tif formbt tibt didtbtfs tif lfgbl vblufs tibt dbn bf fditfd
+     * bnd displbyfd.
      * <p>
-     * If you have used the nullary constructor the value of this property
-     * will be determined for the current locale by way of the
-     * <code>NumberFormat.getNumberInstance()</code> method.
+     * If you ibvf usfd tif nullbry donstrudtor tif vbluf of tiis propfrty
+     * will bf dftfrminfd for tif durrfnt lodblf by wby of tif
+     * <dodf>NumbfrFormbt.gftNumbfrInstbndf()</dodf> mftiod.
      *
-     * @param format NumberFormat instance used to dictate legal values
+     * @pbrbm formbt NumbfrFormbt instbndf usfd to didtbtf lfgbl vblufs
      */
-    public void setFormat(Format format) {
-        super.setFormat(format);
+    publid void sftFormbt(Formbt formbt) {
+        supfr.sftFormbt(formbt);
 
-        DecimalFormatSymbols dfs = getDecimalFormatSymbols();
+        DfdimblFormbtSymbols dfs = gftDfdimblFormbtSymbols();
 
         if (dfs != null) {
-            StringBuilder sb = new StringBuilder();
+            StringBuildfr sb = nfw StringBuildfr();
 
-            sb.append(dfs.getCurrencySymbol());
-            sb.append(dfs.getDecimalSeparator());
-            sb.append(dfs.getGroupingSeparator());
-            sb.append(dfs.getInfinity());
-            sb.append(dfs.getInternationalCurrencySymbol());
-            sb.append(dfs.getMinusSign());
-            sb.append(dfs.getMonetaryDecimalSeparator());
-            sb.append(dfs.getNaN());
-            sb.append(dfs.getPercent());
-            sb.append('+');
-            specialChars = sb.toString();
+            sb.bppfnd(dfs.gftCurrfndySymbol());
+            sb.bppfnd(dfs.gftDfdimblSfpbrbtor());
+            sb.bppfnd(dfs.gftGroupingSfpbrbtor());
+            sb.bppfnd(dfs.gftInfinity());
+            sb.bppfnd(dfs.gftIntfrnbtionblCurrfndySymbol());
+            sb.bppfnd(dfs.gftMinusSign());
+            sb.bppfnd(dfs.gftMonftbryDfdimblSfpbrbtor());
+            sb.bppfnd(dfs.gftNbN());
+            sb.bppfnd(dfs.gftPfrdfnt());
+            sb.bppfnd('+');
+            spfdiblCibrs = sb.toString();
         }
-        else {
-            specialChars = "";
+        flsf {
+            spfdiblCibrs = "";
         }
     }
 
     /**
-     * Invokes <code>parseObject</code> on <code>f</code>, returning
-     * its value.
+     * Invokfs <dodf>pbrsfObjfdt</dodf> on <dodf>f</dodf>, rfturning
+     * its vbluf.
      */
-    Object stringToValue(String text, Format f) throws ParseException {
+    Objfdt stringToVbluf(String tfxt, Formbt f) tirows PbrsfExdfption {
         if (f == null) {
-            return text;
+            rfturn tfxt;
         }
-        Object value = f.parseObject(text);
+        Objfdt vbluf = f.pbrsfObjfdt(tfxt);
 
-        return convertValueToValueClass(value, getValueClass());
+        rfturn donvfrtVblufToVblufClbss(vbluf, gftVblufClbss());
     }
 
     /**
-     * Converts the passed in value to the passed in class. This only
-     * works if <code>valueClass</code> is one of <code>Integer</code>,
-     * <code>Long</code>, <code>Float</code>, <code>Double</code>,
-     * <code>Byte</code> or <code>Short</code> and <code>value</code>
-     * is an instanceof <code>Number</code>.
+     * Convfrts tif pbssfd in vbluf to tif pbssfd in dlbss. Tiis only
+     * works if <dodf>vblufClbss</dodf> is onf of <dodf>Intfgfr</dodf>,
+     * <dodf>Long</dodf>, <dodf>Flobt</dodf>, <dodf>Doublf</dodf>,
+     * <dodf>Bytf</dodf> or <dodf>Siort</dodf> bnd <dodf>vbluf</dodf>
+     * is bn instbndfof <dodf>Numbfr</dodf>.
      */
-    private Object convertValueToValueClass(Object value,
-                                            Class<?> valueClass) {
-        if (valueClass != null && (value instanceof Number)) {
-            Number numberValue = (Number)value;
-            if (valueClass == Integer.class) {
-                return Integer.valueOf(numberValue.intValue());
+    privbtf Objfdt donvfrtVblufToVblufClbss(Objfdt vbluf,
+                                            Clbss<?> vblufClbss) {
+        if (vblufClbss != null && (vbluf instbndfof Numbfr)) {
+            Numbfr numbfrVbluf = (Numbfr)vbluf;
+            if (vblufClbss == Intfgfr.dlbss) {
+                rfturn Intfgfr.vblufOf(numbfrVbluf.intVbluf());
             }
-            else if (valueClass == Long.class) {
-                return Long.valueOf(numberValue.longValue());
+            flsf if (vblufClbss == Long.dlbss) {
+                rfturn Long.vblufOf(numbfrVbluf.longVbluf());
             }
-            else if (valueClass == Float.class) {
-                return Float.valueOf(numberValue.floatValue());
+            flsf if (vblufClbss == Flobt.dlbss) {
+                rfturn Flobt.vblufOf(numbfrVbluf.flobtVbluf());
             }
-            else if (valueClass == Double.class) {
-                return Double.valueOf(numberValue.doubleValue());
+            flsf if (vblufClbss == Doublf.dlbss) {
+                rfturn Doublf.vblufOf(numbfrVbluf.doublfVbluf());
             }
-            else if (valueClass == Byte.class) {
-                return Byte.valueOf(numberValue.byteValue());
+            flsf if (vblufClbss == Bytf.dlbss) {
+                rfturn Bytf.vblufOf(numbfrVbluf.bytfVbluf());
             }
-            else if (valueClass == Short.class) {
-                return Short.valueOf(numberValue.shortValue());
+            flsf if (vblufClbss == Siort.dlbss) {
+                rfturn Siort.vblufOf(numbfrVbluf.siortVbluf());
             }
         }
-        return value;
+        rfturn vbluf;
     }
 
     /**
-     * Returns the character that is used to toggle to positive values.
+     * Rfturns tif dibrbdtfr tibt is usfd to togglf to positivf vblufs.
      */
-    private char getPositiveSign() {
-        return '+';
+    privbtf dibr gftPositivfSign() {
+        rfturn '+';
     }
 
     /**
-     * Returns the character that is used to toggle to negative values.
+     * Rfturns tif dibrbdtfr tibt is usfd to togglf to nfgbtivf vblufs.
      */
-    private char getMinusSign() {
-        DecimalFormatSymbols dfs = getDecimalFormatSymbols();
+    privbtf dibr gftMinusSign() {
+        DfdimblFormbtSymbols dfs = gftDfdimblFormbtSymbols();
 
         if (dfs != null) {
-            return dfs.getMinusSign();
+            rfturn dfs.gftMinusSign();
         }
-        return '-';
+        rfturn '-';
     }
 
     /**
-     * Returns the character that is used to toggle to negative values.
+     * Rfturns tif dibrbdtfr tibt is usfd to togglf to nfgbtivf vblufs.
      */
-    private char getDecimalSeparator() {
-        DecimalFormatSymbols dfs = getDecimalFormatSymbols();
+    privbtf dibr gftDfdimblSfpbrbtor() {
+        DfdimblFormbtSymbols dfs = gftDfdimblFormbtSymbols();
 
         if (dfs != null) {
-            return dfs.getDecimalSeparator();
+            rfturn dfs.gftDfdimblSfpbrbtor();
         }
-        return '.';
+        rfturn '.';
     }
 
     /**
-     * Returns the DecimalFormatSymbols from the Format instance.
+     * Rfturns tif DfdimblFormbtSymbols from tif Formbt instbndf.
      */
-    private DecimalFormatSymbols getDecimalFormatSymbols() {
-        Format f = getFormat();
+    privbtf DfdimblFormbtSymbols gftDfdimblFormbtSymbols() {
+        Formbt f = gftFormbt();
 
-        if (f instanceof DecimalFormat) {
-            return ((DecimalFormat)f).getDecimalFormatSymbols();
+        if (f instbndfof DfdimblFormbt) {
+            rfturn ((DfdimblFormbt)f).gftDfdimblFormbtSymbols();
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Subclassed to return false if <code>text</code> contains in an invalid
-     * character to insert, that is, it is not a digit
-     * (<code>Character.isDigit()</code>) and
-     * not one of the characters defined by the DecimalFormatSymbols.
+     * Subdlbssfd to rfturn fblsf if <dodf>tfxt</dodf> dontbins in bn invblid
+     * dibrbdtfr to insfrt, tibt is, it is not b digit
+     * (<dodf>Cibrbdtfr.isDigit()</dodf>) bnd
+     * not onf of tif dibrbdtfrs dffinfd by tif DfdimblFormbtSymbols.
      */
-    boolean isLegalInsertText(String text) {
-        if (getAllowsInvalid()) {
-            return true;
+    boolfbn isLfgblInsfrtTfxt(String tfxt) {
+        if (gftAllowsInvblid()) {
+            rfturn truf;
         }
-        for (int counter = text.length() - 1; counter >= 0; counter--) {
-            char aChar = text.charAt(counter);
+        for (int dountfr = tfxt.lfngti() - 1; dountfr >= 0; dountfr--) {
+            dibr bCibr = tfxt.dibrAt(dountfr);
 
-            if (!Character.isDigit(aChar) &&
-                           specialChars.indexOf(aChar) == -1){
-                return false;
+            if (!Cibrbdtfr.isDigit(bCibr) &&
+                           spfdiblCibrs.indfxOf(bCibr) == -1){
+                rfturn fblsf;
             }
         }
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Subclassed to treat the decimal separator, grouping separator,
-     * exponent symbol, percent, permille, currency and sign as literals.
+     * Subdlbssfd to trfbt tif dfdimbl sfpbrbtor, grouping sfpbrbtor,
+     * fxponfnt symbol, pfrdfnt, pfrmillf, durrfndy bnd sign bs litfrbls.
      */
-    boolean isLiteral(Map<?, ?> attrs) {
-        if (!super.isLiteral(attrs)) {
-            if (attrs == null) {
-                return false;
+    boolfbn isLitfrbl(Mbp<?, ?> bttrs) {
+        if (!supfr.isLitfrbl(bttrs)) {
+            if (bttrs == null) {
+                rfturn fblsf;
             }
-            int size = attrs.size();
+            int sizf = bttrs.sizf();
 
-            if (attrs.get(NumberFormat.Field.GROUPING_SEPARATOR) != null) {
-                size--;
-                if (attrs.get(NumberFormat.Field.INTEGER) != null) {
-                    size--;
+            if (bttrs.gft(NumbfrFormbt.Fifld.GROUPING_SEPARATOR) != null) {
+                sizf--;
+                if (bttrs.gft(NumbfrFormbt.Fifld.INTEGER) != null) {
+                    sizf--;
                 }
             }
-            if (attrs.get(NumberFormat.Field.EXPONENT_SYMBOL) != null) {
-                size--;
+            if (bttrs.gft(NumbfrFormbt.Fifld.EXPONENT_SYMBOL) != null) {
+                sizf--;
             }
-            if (attrs.get(NumberFormat.Field.PERCENT) != null) {
-                size--;
+            if (bttrs.gft(NumbfrFormbt.Fifld.PERCENT) != null) {
+                sizf--;
             }
-            if (attrs.get(NumberFormat.Field.PERMILLE) != null) {
-                size--;
+            if (bttrs.gft(NumbfrFormbt.Fifld.PERMILLE) != null) {
+                sizf--;
             }
-            if (attrs.get(NumberFormat.Field.CURRENCY) != null) {
-                size--;
+            if (bttrs.gft(NumbfrFormbt.Fifld.CURRENCY) != null) {
+                sizf--;
             }
-            if (attrs.get(NumberFormat.Field.SIGN) != null) {
-                size--;
+            if (bttrs.gft(NumbfrFormbt.Fifld.SIGN) != null) {
+                sizf--;
             }
-            return size == 0;
+            rfturn sizf == 0;
         }
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Subclassed to make the decimal separator navigable, as well
-     * as making the character between the integer field and the next
-     * field navigable.
+     * Subdlbssfd to mbkf tif dfdimbl sfpbrbtor nbvigbblf, bs wfll
+     * bs mbking tif dibrbdtfr bftwffn tif intfgfr fifld bnd tif nfxt
+     * fifld nbvigbblf.
      */
-    boolean isNavigatable(int index) {
-        if (!super.isNavigatable(index)) {
-            // Don't skip the decimal, it causes wierd behavior
-            return getBufferedChar(index) == getDecimalSeparator();
+    boolfbn isNbvigbtbblf(int indfx) {
+        if (!supfr.isNbvigbtbblf(indfx)) {
+            // Don't skip tif dfdimbl, it dbusfs wifrd bfibvior
+            rfturn gftBufffrfdCibr(indfx) == gftDfdimblSfpbrbtor();
         }
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Returns the first <code>NumberFormat.Field</code> starting
-     * <code>index</code> incrementing by <code>direction</code>.
+     * Rfturns tif first <dodf>NumbfrFormbt.Fifld</dodf> stbrting
+     * <dodf>indfx</dodf> indrfmfnting by <dodf>dirfdtion</dodf>.
      */
-    private NumberFormat.Field getFieldFrom(int index, int direction) {
-        if (isValidMask()) {
-            int max = getFormattedTextField().getDocument().getLength();
-            AttributedCharacterIterator iterator = getIterator();
+    privbtf NumbfrFormbt.Fifld gftFifldFrom(int indfx, int dirfdtion) {
+        if (isVblidMbsk()) {
+            int mbx = gftFormbttfdTfxtFifld().gftDodumfnt().gftLfngti();
+            AttributfdCibrbdtfrItfrbtor itfrbtor = gftItfrbtor();
 
-            if (index >= max) {
-                index += direction;
+            if (indfx >= mbx) {
+                indfx += dirfdtion;
             }
-            while (index >= 0 && index < max) {
-                iterator.setIndex(index);
+            wiilf (indfx >= 0 && indfx < mbx) {
+                itfrbtor.sftIndfx(indfx);
 
-                Map<?,?> attrs = iterator.getAttributes();
+                Mbp<?,?> bttrs = itfrbtor.gftAttributfs();
 
-                if (attrs != null && attrs.size() > 0) {
-                    for (Object key : attrs.keySet()) {
-                        if (key instanceof NumberFormat.Field) {
-                            return (NumberFormat.Field)key;
+                if (bttrs != null && bttrs.sizf() > 0) {
+                    for (Objfdt kfy : bttrs.kfySft()) {
+                        if (kfy instbndfof NumbfrFormbt.Fifld) {
+                            rfturn (NumbfrFormbt.Fifld)kfy;
                         }
                     }
                 }
-                index += direction;
+                indfx += dirfdtion;
             }
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Overriden to toggle the value if the positive/minus sign
-     * is inserted.
+     * Ovfrridfn to togglf tif vbluf if tif positivf/minus sign
+     * is insfrtfd.
      */
-    void replace(DocumentFilter.FilterBypass fb, int offset, int length,
-                String string, AttributeSet attr) throws BadLocationException {
-        if (!getAllowsInvalid() && length == 0 && string != null &&
-            string.length() == 1 &&
-            toggleSignIfNecessary(fb, offset, string.charAt(0))) {
-            return;
+    void rfplbdf(DodumfntFiltfr.FiltfrBypbss fb, int offsft, int lfngti,
+                String string, AttributfSft bttr) tirows BbdLodbtionExdfption {
+        if (!gftAllowsInvblid() && lfngti == 0 && string != null &&
+            string.lfngti() == 1 &&
+            togglfSignIfNfdfssbry(fb, offsft, string.dibrAt(0))) {
+            rfturn;
         }
-        super.replace(fb, offset, length, string, attr);
+        supfr.rfplbdf(fb, offsft, lfngti, string, bttr);
     }
 
     /**
-     * Will change the sign of the integer or exponent field if
-     * <code>aChar</code> is the positive or minus sign. Returns
-     * true if a sign change was attempted.
+     * Will dibngf tif sign of tif intfgfr or fxponfnt fifld if
+     * <dodf>bCibr</dodf> is tif positivf or minus sign. Rfturns
+     * truf if b sign dibngf wbs bttfmptfd.
      */
-    private boolean toggleSignIfNecessary(DocumentFilter.FilterBypass fb,
-                                              int offset, char aChar) throws
-                              BadLocationException {
-        if (aChar == getMinusSign() || aChar == getPositiveSign()) {
-            NumberFormat.Field field = getFieldFrom(offset, -1);
-            Object newValue;
+    privbtf boolfbn togglfSignIfNfdfssbry(DodumfntFiltfr.FiltfrBypbss fb,
+                                              int offsft, dibr bCibr) tirows
+                              BbdLodbtionExdfption {
+        if (bCibr == gftMinusSign() || bCibr == gftPositivfSign()) {
+            NumbfrFormbt.Fifld fifld = gftFifldFrom(offsft, -1);
+            Objfdt nfwVbluf;
 
             try {
-                if (field == null ||
-                    (field != NumberFormat.Field.EXPONENT &&
-                     field != NumberFormat.Field.EXPONENT_SYMBOL &&
-                     field != NumberFormat.Field.EXPONENT_SIGN)) {
-                    newValue = toggleSign((aChar == getPositiveSign()));
+                if (fifld == null ||
+                    (fifld != NumbfrFormbt.Fifld.EXPONENT &&
+                     fifld != NumbfrFormbt.Fifld.EXPONENT_SYMBOL &&
+                     fifld != NumbfrFormbt.Fifld.EXPONENT_SIGN)) {
+                    nfwVbluf = togglfSign((bCibr == gftPositivfSign()));
                 }
-                else {
-                    // exponent
-                    newValue = toggleExponentSign(offset, aChar);
+                flsf {
+                    // fxponfnt
+                    nfwVbluf = togglfExponfntSign(offsft, bCibr);
                 }
-                if (newValue != null && isValidValue(newValue, false)) {
-                    int lc = getLiteralCountTo(offset);
-                    String string = valueToString(newValue);
+                if (nfwVbluf != null && isVblidVbluf(nfwVbluf, fblsf)) {
+                    int ld = gftLitfrblCountTo(offsft);
+                    String string = vblufToString(nfwVbluf);
 
-                    fb.remove(0, fb.getDocument().getLength());
-                    fb.insertString(0, string, null);
-                    updateValue(newValue);
-                    repositionCursor(getLiteralCountTo(offset) -
-                                     lc + offset, 1);
-                    return true;
+                    fb.rfmovf(0, fb.gftDodumfnt().gftLfngti());
+                    fb.insfrtString(0, string, null);
+                    updbtfVbluf(nfwVbluf);
+                    rfpositionCursor(gftLitfrblCountTo(offsft) -
+                                     ld + offsft, 1);
+                    rfturn truf;
                 }
-            } catch (ParseException pe) {
-                invalidEdit();
+            } dbtdi (PbrsfExdfption pf) {
+                invblidEdit();
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Invoked to toggle the sign. For this to work the value class
-     * must have a single arg constructor that takes a String.
+     * Invokfd to togglf tif sign. For tiis to work tif vbluf dlbss
+     * must ibvf b singlf brg donstrudtor tibt tbkfs b String.
      */
-    private Object toggleSign(boolean positive) throws ParseException {
-        Object value = stringToValue(getFormattedTextField().getText());
+    privbtf Objfdt togglfSign(boolfbn positivf) tirows PbrsfExdfption {
+        Objfdt vbluf = stringToVbluf(gftFormbttfdTfxtFifld().gftTfxt());
 
-        if (value != null) {
-            // toString isn't localized, so that using +/- should work
-            // correctly.
-            String string = value.toString();
+        if (vbluf != null) {
+            // toString isn't lodblizfd, so tibt using +/- siould work
+            // dorrfdtly.
+            String string = vbluf.toString();
 
-            if (string != null && string.length() > 0) {
-                if (positive) {
-                    if (string.charAt(0) == '-') {
+            if (string != null && string.lfngti() > 0) {
+                if (positivf) {
+                    if (string.dibrAt(0) == '-') {
                         string = string.substring(1);
                     }
                 }
-                else {
-                    if (string.charAt(0) == '+') {
+                flsf {
+                    if (string.dibrAt(0) == '+') {
                         string = string.substring(1);
                     }
-                    if (string.length() > 0 && string.charAt(0) != '-') {
+                    if (string.lfngti() > 0 && string.dibrAt(0) != '-') {
                         string = "-" + string;
                     }
                 }
                 if (string != null) {
-                    Class<?> valueClass = getValueClass();
+                    Clbss<?> vblufClbss = gftVblufClbss();
 
-                    if (valueClass == null) {
-                        valueClass = value.getClass();
+                    if (vblufClbss == null) {
+                        vblufClbss = vbluf.gftClbss();
                     }
                     try {
-                        ReflectUtil.checkPackageAccess(valueClass);
-                        SwingUtilities2.checkAccess(valueClass.getModifiers());
-                        Constructor<?> cons = valueClass.getConstructor(
-                                              new Class<?>[] { String.class });
-                        if (cons != null) {
-                            SwingUtilities2.checkAccess(cons.getModifiers());
-                            return cons.newInstance(new Object[]{string});
+                        RfflfdtUtil.difdkPbdkbgfAddfss(vblufClbss);
+                        SwingUtilitifs2.difdkAddfss(vblufClbss.gftModififrs());
+                        Construdtor<?> dons = vblufClbss.gftConstrudtor(
+                                              nfw Clbss<?>[] { String.dlbss });
+                        if (dons != null) {
+                            SwingUtilitifs2.difdkAddfss(dons.gftModififrs());
+                            rfturn dons.nfwInstbndf(nfw Objfdt[]{string});
                         }
-                    } catch (Throwable ex) { }
+                    } dbtdi (Tirowbblf fx) { }
                 }
             }
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Invoked to toggle the sign of the exponent (for scientific
-     * numbers).
+     * Invokfd to togglf tif sign of tif fxponfnt (for sdifntifid
+     * numbfrs).
      */
-    private Object toggleExponentSign(int offset, char aChar) throws
-                             BadLocationException, ParseException {
-        String string = getFormattedTextField().getText();
-        int replaceLength = 0;
-        int loc = getAttributeStart(NumberFormat.Field.EXPONENT_SIGN);
+    privbtf Objfdt togglfExponfntSign(int offsft, dibr bCibr) tirows
+                             BbdLodbtionExdfption, PbrsfExdfption {
+        String string = gftFormbttfdTfxtFifld().gftTfxt();
+        int rfplbdfLfngti = 0;
+        int lod = gftAttributfStbrt(NumbfrFormbt.Fifld.EXPONENT_SIGN);
 
-        if (loc >= 0) {
-            replaceLength = 1;
-            offset = loc;
+        if (lod >= 0) {
+            rfplbdfLfngti = 1;
+            offsft = lod;
         }
-        if (aChar == getPositiveSign()) {
-            string = getReplaceString(offset, replaceLength, null);
+        if (bCibr == gftPositivfSign()) {
+            string = gftRfplbdfString(offsft, rfplbdfLfngti, null);
         }
-        else {
-            string = getReplaceString(offset, replaceLength,
-                                      new String(new char[] { aChar }));
+        flsf {
+            string = gftRfplbdfString(offsft, rfplbdfLfngti,
+                                      nfw String(nfw dibr[] { bCibr }));
         }
-        return stringToValue(string);
+        rfturn stringToVbluf(string);
     }
 }

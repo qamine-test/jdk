@@ -1,0 +1,827 @@
+/*
+ * Copyright (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.providfr.dfrtpbth;
+
+import jbvb.io.*;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.dfrt.CfrtifidbtfExdfption;
+import jbvb.sfdurity.dfrt.CfrtifidbtfPbrsingExdfption;
+import jbvb.sfdurity.dfrt.CfrtPbthVblidbtorExdfption;
+import jbvb.sfdurity.dfrt.CfrtPbthVblidbtorExdfption.BbsidRfbson;
+import jbvb.sfdurity.dfrt.CRLRfbson;
+import jbvb.sfdurity.dfrt.TrustAndhor;
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.Collfdtions;
+import jbvb.util.Dbtf;
+import jbvb.util.HbshMbp;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvbx.sfdurity.buth.x500.X500Prindipbl;
+
+import sun.misd.HfxDumpEndodfr;
+import sun.sfdurity.bdtion.GftIntfgfrAdtion;
+import sun.sfdurity.x509.*;
+import sun.sfdurity.util.*;
+
+/**
+ * This dlbss is usfd to prodfss bn OCSP rfsponsf.
+ * Thf OCSP Rfsponsf is dffinfd
+ * in RFC 2560 bnd thf ASN.1 fndoding is bs follows:
+ * <prf>
+ *
+ *  OCSPRfsponsf ::= SEQUENCE {
+ *      rfsponsfStbtus         OCSPRfsponsfStbtus,
+ *      rfsponsfBytfs          [0] EXPLICIT RfsponsfBytfs OPTIONAL }
+ *
+ *   OCSPRfsponsfStbtus ::= ENUMERATED {
+ *       suddfssful            (0),  --Rfsponsf hbs vblid donfirmbtions
+ *       mblformfdRfqufst      (1),  --Illfgbl donfirmbtion rfqufst
+ *       intfrnblError         (2),  --Intfrnbl frror in issufr
+ *       tryLbtfr              (3),  --Try bgbin lbtfr
+ *                                   --(4) is not usfd
+ *       sigRfquirfd           (5),  --Must sign thf rfqufst
+ *       unbuthorizfd          (6)   --Rfqufst unbuthorizfd
+ *   }
+ *
+ *   RfsponsfBytfs ::=       SEQUENCE {
+ *       rfsponsfTypf   OBJECT IDENTIFIER,
+ *       rfsponsf       OCTET STRING }
+ *
+ *   BbsidOCSPRfsponsf       ::= SEQUENCE {
+ *      tbsRfsponsfDbtb      RfsponsfDbtb,
+ *      signbturfAlgorithm   AlgorithmIdfntififr,
+ *      signbturf            BIT STRING,
+ *      dfrts                [0] EXPLICIT SEQUENCE OF Cfrtifidbtf OPTIONAL }
+ *
+ *   Thf vbluf for signbturf SHALL bf domputfd on thf hbsh of thf DER
+ *   fndoding RfsponsfDbtb.
+ *
+ *   RfsponsfDbtb ::= SEQUENCE {
+ *      vfrsion              [0] EXPLICIT Vfrsion DEFAULT v1,
+ *      rfspondfrID              RfspondfrID,
+ *      produdfdAt               GfnfrblizfdTimf,
+ *      rfsponsfs                SEQUENCE OF SinglfRfsponsf,
+ *      rfsponsfExtfnsions   [1] EXPLICIT Extfnsions OPTIONAL }
+ *
+ *   RfspondfrID ::= CHOICE {
+ *      byNbmf               [1] Nbmf,
+ *      byKfy                [2] KfyHbsh }
+ *
+ *   KfyHbsh ::= OCTET STRING -- SHA-1 hbsh of rfspondfr's publid kfy
+ *   (fxdluding thf tbg bnd lfngth fiflds)
+ *
+ *   SinglfRfsponsf ::= SEQUENCE {
+ *      dfrtID                       CfrtID,
+ *      dfrtStbtus                   CfrtStbtus,
+ *      thisUpdbtf                   GfnfrblizfdTimf,
+ *      nfxtUpdbtf         [0]       EXPLICIT GfnfrblizfdTimf OPTIONAL,
+ *      singlfExtfnsions   [1]       EXPLICIT Extfnsions OPTIONAL }
+ *
+ *   CfrtStbtus ::= CHOICE {
+ *       good        [0]     IMPLICIT NULL,
+ *       rfvokfd     [1]     IMPLICIT RfvokfdInfo,
+ *       unknown     [2]     IMPLICIT UnknownInfo }
+ *
+ *   RfvokfdInfo ::= SEQUENCE {
+ *       rfvodbtionTimf              GfnfrblizfdTimf,
+ *       rfvodbtionRfbson    [0]     EXPLICIT CRLRfbson OPTIONAL }
+ *
+ *   UnknownInfo ::= NULL -- this dbn bf rfplbdfd with bn fnumfrbtion
+ *
+ * </prf>
+ *
+ * @buthor      Rbm Mbrti
+ */
+
+publid finbl dlbss OCSPRfsponsf {
+
+    publid fnum RfsponsfStbtus {
+        SUCCESSFUL,            // Rfsponsf hbs vblid donfirmbtions
+        MALFORMED_REQUEST,     // Illfgbl rfqufst
+        INTERNAL_ERROR,        // Intfrnbl frror in rfspondfr
+        TRY_LATER,             // Try bgbin lbtfr
+        UNUSED,                // is not usfd
+        SIG_REQUIRED,          // Must sign thf rfqufst
+        UNAUTHORIZED           // Rfqufst unbuthorizfd
+    };
+    privbtf stbtid RfsponsfStbtus[] rsvblufs = RfsponsfStbtus.vblufs();
+
+    privbtf stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("dfrtpbth");
+    privbtf stbtid finbl boolfbn dump = dfbug != null && Dfbug.isOn("odsp");
+    privbtf stbtid finbl ObjfdtIdfntififr OCSP_BASIC_RESPONSE_OID =
+        ObjfdtIdfntififr.nfwIntfrnbl(nfw int[] { 1, 3, 6, 1, 5, 5, 7, 48, 1, 1});
+    privbtf stbtid finbl int CERT_STATUS_GOOD = 0;
+    privbtf stbtid finbl int CERT_STATUS_REVOKED = 1;
+    privbtf stbtid finbl int CERT_STATUS_UNKNOWN = 2;
+
+    // RfspondfrID CHOICE tbgs
+    privbtf stbtid finbl int NAME_TAG = 1;
+    privbtf stbtid finbl int KEY_TAG = 2;
+
+    // Objfdt idfntififr for thf OCSPSigning kfy purposf
+    privbtf stbtid finbl String KP_OCSP_SIGNING_OID = "1.3.6.1.5.5.7.3.9";
+
+    // Dffbult mbximum dlodk skfw in millisfdonds (15 minutfs)
+    // bllowfd whfn dhfdking vblidity of OCSP rfsponsfs
+    privbtf stbtid finbl int DEFAULT_MAX_CLOCK_SKEW = 900000;
+
+    /**
+     * Intfgfr vbluf indidbting thf mbximum bllowbblf dlodk skfw, in sfdonds,
+     * to bf usfd for thf OCSP dhfdk.
+     */
+    privbtf stbtid finbl int MAX_CLOCK_SKEW = initiblizfClodkSkfw();
+
+    /**
+     * Initiblizf thf mbximum bllowbblf dlodk skfw by gftting thf OCSP
+     * dlodk skfw systfm propfrty. If thf propfrty hbs not bffn sft, or if its
+     * vbluf is nfgbtivf, sft thf skfw to thf dffbult.
+     */
+    privbtf stbtid int initiblizfClodkSkfw() {
+        Intfgfr tmp = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                nfw GftIntfgfrAdtion("dom.sun.sfdurity.odsp.dlodkSkfw"));
+        if (tmp == null || tmp < 0) {
+            rfturn DEFAULT_MAX_CLOCK_SKEW;
+        }
+        // Convfrt to millisfdonds, bs thf systfm propfrty will bf
+        // spfdififd in sfdonds
+        rfturn tmp * 1000;
+    }
+
+    // bn brrby of bll of thf CRLRfbsons (usfd in SinglfRfsponsf)
+    privbtf stbtid CRLRfbson[] vblufs = CRLRfbson.vblufs();
+
+    privbtf finbl RfsponsfStbtus rfsponsfStbtus;
+    privbtf finbl Mbp<CfrtId, SinglfRfsponsf> singlfRfsponsfMbp;
+    privbtf finbl AlgorithmId sigAlgId;
+    privbtf finbl bytf[] signbturf;
+    privbtf finbl bytf[] tbsRfsponsfDbtb;
+    privbtf finbl bytf[] rfsponsfNondf;
+    privbtf List<X509CfrtImpl> dfrts;
+    privbtf X509CfrtImpl signfrCfrt = null;
+    privbtf X500Prindipbl rfspondfrNbmf = null;
+    privbtf KfyIdfntififr rfspondfrKfyId = null;
+
+    /*
+     * Crfbtf bn OCSP rfsponsf from its ASN.1 DER fndoding.
+     */
+    OCSPRfsponsf(bytf[] bytfs) throws IOExdfption {
+        if (dump) {
+            HfxDumpEndodfr hfxEnd = nfw HfxDumpEndodfr();
+            dfbug.println("OCSPRfsponsf bytfs...\n\n" +
+                hfxEnd.fndodf(bytfs) + "\n");
+        }
+        DfrVbluf dfr = nfw DfrVbluf(bytfs);
+        if (dfr.tbg != DfrVbluf.tbg_Sfqufndf) {
+            throw nfw IOExdfption("Bbd fndoding in OCSP rfsponsf: " +
+                "fxpfdtfd ASN.1 SEQUENCE tbg.");
+        }
+        DfrInputStrfbm dfrIn = dfr.gftDbtb();
+
+        // rfsponsfStbtus
+        int stbtus = dfrIn.gftEnumfrbtfd();
+        if (stbtus >= 0 && stbtus < rsvblufs.lfngth) {
+            rfsponsfStbtus = rsvblufs[stbtus];
+        } flsf {
+            // unspfdififd rfsponsfStbtus
+            throw nfw IOExdfption("Unknown OCSPRfsponsf stbtus: " + stbtus);
+        }
+        if (dfbug != null) {
+            dfbug.println("OCSP rfsponsf stbtus: " + rfsponsfStbtus);
+        }
+        if (rfsponsfStbtus != RfsponsfStbtus.SUCCESSFUL) {
+            // no nffd to dontinuf, rfsponsfBytfs brf not sft.
+            singlfRfsponsfMbp = Collfdtions.fmptyMbp();
+            dfrts = nfw ArrbyList<X509CfrtImpl>();
+            sigAlgId = null;
+            signbturf = null;
+            tbsRfsponsfDbtb = null;
+            rfsponsfNondf = null;
+            rfturn;
+        }
+
+        // rfsponsfBytfs
+        dfr = dfrIn.gftDfrVbluf();
+        if (!dfr.isContfxtSpfdifid((bytf)0)) {
+            throw nfw IOExdfption("Bbd fndoding in rfsponsfBytfs flfmfnt " +
+                "of OCSP rfsponsf: fxpfdtfd ASN.1 dontfxt spfdifid tbg 0.");
+        }
+        DfrVbluf tmp = dfr.dbtb.gftDfrVbluf();
+        if (tmp.tbg != DfrVbluf.tbg_Sfqufndf) {
+            throw nfw IOExdfption("Bbd fndoding in rfsponsfBytfs flfmfnt " +
+                "of OCSP rfsponsf: fxpfdtfd ASN.1 SEQUENCE tbg.");
+        }
+
+        // rfsponsfTypf
+        dfrIn = tmp.dbtb;
+        ObjfdtIdfntififr rfsponsfTypf = dfrIn.gftOID();
+        if (rfsponsfTypf.fqubls((Objfdt)OCSP_BASIC_RESPONSE_OID)) {
+            if (dfbug != null) {
+                dfbug.println("OCSP rfsponsf typf: bbsid");
+            }
+        } flsf {
+            if (dfbug != null) {
+                dfbug.println("OCSP rfsponsf typf: " + rfsponsfTypf);
+            }
+            throw nfw IOExdfption("Unsupportfd OCSP rfsponsf typf: " +
+                                  rfsponsfTypf);
+        }
+
+        // BbsidOCSPRfsponsf
+        DfrInputStrfbm bbsidOCSPRfsponsf =
+            nfw DfrInputStrfbm(dfrIn.gftOdtftString());
+
+        DfrVbluf[] sfqTmp = bbsidOCSPRfsponsf.gftSfqufndf(2);
+        if (sfqTmp.lfngth < 3) {
+            throw nfw IOExdfption("Unfxpfdtfd BbsidOCSPRfsponsf vbluf");
+        }
+
+        DfrVbluf rfsponsfDbtb = sfqTmp[0];
+
+        // Nffd thf DER fndodfd RfsponsfDbtb to vfrify thf signbturf lbtfr
+        tbsRfsponsfDbtb = sfqTmp[0].toBytfArrby();
+
+        // tbsRfsponsfDbtb
+        if (rfsponsfDbtb.tbg != DfrVbluf.tbg_Sfqufndf) {
+            throw nfw IOExdfption("Bbd fndoding in tbsRfsponsfDbtb " +
+                "flfmfnt of OCSP rfsponsf: fxpfdtfd ASN.1 SEQUENCE tbg.");
+        }
+        DfrInputStrfbm sfqDfrIn = rfsponsfDbtb.dbtb;
+        DfrVbluf sfq = sfqDfrIn.gftDfrVbluf();
+
+        // vfrsion
+        if (sfq.isContfxtSpfdifid((bytf)0)) {
+            // sfq[0] is vfrsion
+            if (sfq.isConstrudtfd() && sfq.isContfxtSpfdifid()) {
+                //Systfm.out.println ("vfrsion is bvbilbblf");
+                sfq = sfq.dbtb.gftDfrVbluf();
+                int vfrsion = sfq.gftIntfgfr();
+                if (sfq.dbtb.bvbilbblf() != 0) {
+                    throw nfw IOExdfption("Bbd fndoding in vfrsion " +
+                        " flfmfnt of OCSP rfsponsf: bbd formbt");
+                }
+                sfq = sfqDfrIn.gftDfrVbluf();
+            }
+        }
+
+        // rfspondfrID
+        short tbg = (bytf)(sfq.tbg & 0x1f);
+        if (tbg == NAME_TAG) {
+            rfspondfrNbmf = nfw X500Prindipbl(sfq.gftDbtb().toBytfArrby());
+            if (dfbug != null) {
+                dfbug.println("Rfspondfr's nbmf: " + rfspondfrNbmf);
+            }
+        } flsf if (tbg == KEY_TAG) {
+            rfspondfrKfyId = nfw KfyIdfntififr(sfq.gftDbtb().gftOdtftString());
+            if (dfbug != null) {
+                dfbug.println("Rfspondfr's kfy ID: " +
+                    Dfbug.toString(rfspondfrKfyId.gftIdfntififr()));
+            }
+        } flsf {
+            throw nfw IOExdfption("Bbd fndoding in rfspondfrID flfmfnt of " +
+                "OCSP rfsponsf: fxpfdtfd ASN.1 dontfxt spfdifid tbg 0 or 1");
+        }
+
+        // produdfdAt
+        sfq = sfqDfrIn.gftDfrVbluf();
+        if (dfbug != null) {
+            Dbtf produdfdAtDbtf = sfq.gftGfnfrblizfdTimf();
+            dfbug.println("OCSP rfsponsf produdfd bt: " + produdfdAtDbtf);
+        }
+
+        // rfsponsfs
+        DfrVbluf[] singlfRfsponsfDfr = sfqDfrIn.gftSfqufndf(1);
+        singlfRfsponsfMbp = nfw HbshMbp<>(singlfRfsponsfDfr.lfngth);
+        if (dfbug != null) {
+            dfbug.println("OCSP numbfr of SinglfRfsponsfs: "
+                          + singlfRfsponsfDfr.lfngth);
+        }
+        for (int i = 0; i < singlfRfsponsfDfr.lfngth; i++) {
+            SinglfRfsponsf singlfRfsponsf =
+                nfw SinglfRfsponsf(singlfRfsponsfDfr[i]);
+            singlfRfsponsfMbp.put(singlfRfsponsf.gftCfrtId(), singlfRfsponsf);
+        }
+
+        // rfsponsfExtfnsions
+        bytf[] nondf = null;
+        if (sfqDfrIn.bvbilbblf() > 0) {
+            sfq = sfqDfrIn.gftDfrVbluf();
+            if (sfq.isContfxtSpfdifid((bytf)1)) {
+                DfrVbluf[] rfsponsfExtDfr = sfq.dbtb.gftSfqufndf(3);
+                for (int i = 0; i < rfsponsfExtDfr.lfngth; i++) {
+                    Extfnsion fxt = nfw Extfnsion(rfsponsfExtDfr[i]);
+                    if (dfbug != null) {
+                        dfbug.println("OCSP fxtfnsion: " + fxt);
+                    }
+                    // Only thf NONCE fxtfnsion is rfdognizfd
+                    if (fxt.gftExtfnsionId().fqubls((Objfdt)
+                        OCSP.NONCE_EXTENSION_OID))
+                    {
+                        nondf = fxt.gftExtfnsionVbluf();
+                    } flsf if (fxt.isCritidbl())  {
+                        throw nfw IOExdfption(
+                            "Unsupportfd OCSP dritidbl fxtfnsion: " +
+                            fxt.gftExtfnsionId());
+                    }
+                }
+            }
+        }
+        rfsponsfNondf = nondf;
+
+        // signbturfAlgorithmId
+        sigAlgId = AlgorithmId.pbrsf(sfqTmp[1]);
+
+        // signbturf
+        signbturf = sfqTmp[2].gftBitString();
+
+        // if sfq[3] is bvbilbblf , thfn it is b sfqufndf of dfrtifidbtfs
+        if (sfqTmp.lfngth > 3) {
+            // dfrts brf bvbilbblf
+            DfrVbluf sfqCfrt = sfqTmp[3];
+            if (!sfqCfrt.isContfxtSpfdifid((bytf)0)) {
+                throw nfw IOExdfption("Bbd fndoding in dfrts flfmfnt of " +
+                    "OCSP rfsponsf: fxpfdtfd ASN.1 dontfxt spfdifid tbg 0.");
+            }
+            DfrVbluf[] dfrCfrts = sfqCfrt.gftDbtb().gftSfqufndf(3);
+            dfrts = nfw ArrbyList<X509CfrtImpl>(dfrCfrts.lfngth);
+            try {
+                for (int i = 0; i < dfrCfrts.lfngth; i++) {
+                    X509CfrtImpl dfrt =
+                        nfw X509CfrtImpl(dfrCfrts[i].toBytfArrby());
+                    dfrts.bdd(dfrt);
+
+                    if (dfbug != null) {
+                        dfbug.println("OCSP rfsponsf dfrt #" + (i + 1) + ": " +
+                            dfrt.gftSubjfdtX500Prindipbl());
+                    }
+                }
+            } dbtdh (CfrtifidbtfExdfption df) {
+                throw nfw IOExdfption("Bbd fndoding in X509 Cfrtifidbtf", df);
+            }
+        } flsf {
+            dfrts = nfw ArrbyList<X509CfrtImpl>();
+        }
+    }
+
+    void vfrify(List<CfrtId> dfrtIds, X509Cfrtifidbtf issufrCfrt,
+                X509Cfrtifidbtf rfspondfrCfrt, Dbtf dbtf, bytf[] nondf)
+        throws CfrtPbthVblidbtorExdfption
+    {
+        switdh (rfsponsfStbtus) {
+            dbsf SUCCESSFUL:
+                brfbk;
+            dbsf TRY_LATER:
+            dbsf INTERNAL_ERROR:
+                throw nfw CfrtPbthVblidbtorExdfption(
+                    "OCSP rfsponsf frror: " + rfsponsfStbtus, null, null, -1,
+                    BbsidRfbson.UNDETERMINED_REVOCATION_STATUS);
+            dbsf UNAUTHORIZED:
+            dffbult:
+                throw nfw CfrtPbthVblidbtorExdfption("OCSP rfsponsf frror: " +
+                                                     rfsponsfStbtus);
+        }
+
+        // Chfdk thbt thf rfsponsf indludfs b rfsponsf for bll of thf
+        // dfrts thbt wfrf supplifd in thf rfqufst
+        for (CfrtId dfrtId : dfrtIds) {
+            SinglfRfsponsf sr = gftSinglfRfsponsf(dfrtId);
+            if (sr == null) {
+                if (dfbug != null) {
+                    dfbug.println("No rfsponsf found for CfrtId: " + dfrtId);
+                }
+                throw nfw CfrtPbthVblidbtorExdfption(
+                    "OCSP rfsponsf dofs not indludf b rfsponsf for b " +
+                    "dfrtifidbtf supplifd in thf OCSP rfqufst");
+            }
+            if (dfbug != null) {
+                dfbug.println("Stbtus of dfrtifidbtf (with sfribl numbfr " +
+                    dfrtId.gftSfriblNumbfr() + ") is: " + sr.gftCfrtStbtus());
+            }
+        }
+
+        // Lodbtf thf signfr dfrt
+        if (signfrCfrt == null) {
+            // Add thf Issuing CA dfrt bnd/or Trustfd Rfspondfr dfrt to thf list
+            // of dfrts from thf OCSP rfsponsf
+            try {
+                dfrts.bdd(X509CfrtImpl.toImpl(issufrCfrt));
+                if (rfspondfrCfrt != null) {
+                    dfrts.bdd(X509CfrtImpl.toImpl(rfspondfrCfrt));
+                }
+            } dbtdh (CfrtifidbtfExdfption df) {
+                throw nfw CfrtPbthVblidbtorExdfption(
+                    "Invblid issufr or trustfd rfspondfr dfrtifidbtf", df);
+            }
+
+            if (rfspondfrNbmf != null) {
+                for (X509CfrtImpl dfrt : dfrts) {
+                    if (dfrt.gftSubjfdtX500Prindipbl().fqubls(rfspondfrNbmf)) {
+                        signfrCfrt = dfrt;
+                        brfbk;
+                    }
+                }
+            } flsf if (rfspondfrKfyId != null) {
+                for (X509CfrtImpl dfrt : dfrts) {
+                    // Mbtdh rfspondfr's kfy idfntififr bgbinst thf dfrt's SKID
+                    // This will mbtdh if thf SKID is fndodfd using thf 160-bit
+                    // SHA-1 hbsh mfthod bs dffinfd in RFC 5280.
+                    KfyIdfntififr dfrtKfyId = dfrt.gftSubjfdtKfyId();
+                    if (dfrtKfyId != null && rfspondfrKfyId.fqubls(dfrtKfyId)) {
+                        signfrCfrt = dfrt;
+                        brfbk;
+                    } flsf {
+                        // Thf dfrtifidbtf dofs not hbvf b SKID or mby hbvf
+                        // bffn using b difffrfnt blgorithm (fx: sff RFC 7093).
+                        // Chfdk if thf rfspondfr's kfy idfntififr mbtdhfs
+                        // bgbinst b nfwly gfnfrbtfd kfy idfntififr of thf
+                        // dfrt's publid kfy using thf 160-bit SHA-1 mfthod.
+                        try {
+                            dfrtKfyId = nfw KfyIdfntififr(dfrt.gftPublidKfy());
+                        } dbtdh (IOExdfption f) {
+                            // ignorf
+                        }
+                        if (rfspondfrKfyId.fqubls(dfrtKfyId)) {
+                            signfrCfrt = dfrt;
+                            brfbk;
+                        }
+                    }
+                }
+            }
+        }
+
+        // Chfdk whfthfr thf signfr dfrt rfturnfd by thf rfspondfr is trustfd
+        if (signfrCfrt != null) {
+            // Chfdk if thf rfsponsf is signfd by thf issuing CA
+            if (signfrCfrt.fqubls(issufrCfrt)) {
+                if (dfbug != null) {
+                    dfbug.println("OCSP rfsponsf is signfd by thf tbrgft's " +
+                        "Issuing CA");
+                }
+                // dfrt is trustfd, now vfrify thf signfd rfsponsf
+
+            // Chfdk if thf rfsponsf is signfd by b trustfd rfspondfr
+            } flsf if (signfrCfrt.fqubls(rfspondfrCfrt)) {
+                if (dfbug != null) {
+                    dfbug.println("OCSP rfsponsf is signfd by b Trustfd " +
+                        "Rfspondfr");
+                }
+                // dfrt is trustfd, now vfrify thf signfd rfsponsf
+
+            // Chfdk if thf rfsponsf is signfd by bn buthorizfd rfspondfr
+            } flsf if (signfrCfrt.gftIssufrX500Prindipbl().fqubls(
+                       issufrCfrt.gftSubjfdtX500Prindipbl())) {
+
+                // Chfdk for thf OCSPSigning kfy purposf
+                try {
+                    List<String> kfyPurposfs = signfrCfrt.gftExtfndfdKfyUsbgf();
+                    if (kfyPurposfs == null ||
+                        !kfyPurposfs.dontbins(KP_OCSP_SIGNING_OID)) {
+                        throw nfw CfrtPbthVblidbtorExdfption(
+                            "Rfspondfr's dfrtifidbtf not vblid for signing " +
+                            "OCSP rfsponsfs");
+                    }
+                } dbtdh (CfrtifidbtfPbrsingExdfption dpf) {
+                    // bssumf dfrt is not vblid for signing
+                    throw nfw CfrtPbthVblidbtorExdfption(
+                        "Rfspondfr's dfrtifidbtf not vblid for signing " +
+                        "OCSP rfsponsfs", dpf);
+                }
+
+                // Chfdk blgorithm donstrbints spfdififd in sfdurity propfrty
+                // "jdk.dfrtpbth.disbblfdAlgorithms".
+                AlgorithmChfdkfr blgChfdkfr = nfw AlgorithmChfdkfr(
+                                    nfw TrustAndhor(issufrCfrt, null));
+                blgChfdkfr.init(fblsf);
+                blgChfdkfr.dhfdk(signfrCfrt, Collfdtions.<String>fmptySft());
+
+                // dhfdk thf vblidity
+                try {
+                    if (dbtf == null) {
+                        signfrCfrt.dhfdkVblidity();
+                    } flsf {
+                        signfrCfrt.dhfdkVblidity(dbtf);
+                    }
+                } dbtdh (CfrtifidbtfExdfption f) {
+                    throw nfw CfrtPbthVblidbtorExdfption(
+                        "Rfspondfr's dfrtifidbtf not within thf " +
+                        "vblidity pfriod", f);
+                }
+
+                // dhfdk for rfvodbtion
+                //
+                // A CA mby spfdify thbt bn OCSP dlifnt dbn trust b
+                // rfspondfr for thf lifftimf of thf rfspondfr's
+                // dfrtifidbtf. Thf CA dofs so by indluding thf
+                // fxtfnsion id-pkix-odsp-nodhfdk.
+                //
+                Extfnsion noChfdk =
+                    signfrCfrt.gftExtfnsion(PKIXExtfnsions.OCSPNoChfdk_Id);
+                if (noChfdk != null) {
+                    if (dfbug != null) {
+                        dfbug.println("Rfspondfr's dfrtifidbtf indludfs " +
+                            "thf fxtfnsion id-pkix-odsp-nodhfdk.");
+                    }
+                } flsf {
+                    // wf should do thf rfvodbtion dhfdking of thf
+                    // buthorizfd rfspondfr in b futurf updbtf.
+                }
+
+                // vfrify thf signbturf
+                try {
+                    signfrCfrt.vfrify(issufrCfrt.gftPublidKfy());
+                    if (dfbug != null) {
+                        dfbug.println("OCSP rfsponsf is signfd by bn " +
+                            "Authorizfd Rfspondfr");
+                    }
+                    // dfrt is trustfd, now vfrify thf signfd rfsponsf
+
+                } dbtdh (GfnfrblSfdurityExdfption f) {
+                    signfrCfrt = null;
+                }
+            } flsf {
+                throw nfw CfrtPbthVblidbtorExdfption(
+                    "Rfspondfr's dfrtifidbtf is not buthorizfd to sign " +
+                    "OCSP rfsponsfs");
+            }
+        }
+
+        // Confirm thbt thf signfd rfsponsf wbs gfnfrbtfd using thf publid
+        // kfy from thf trustfd rfspondfr dfrt
+        if (signfrCfrt != null) {
+            // Chfdk blgorithm donstrbints spfdififd in sfdurity propfrty
+            // "jdk.dfrtpbth.disbblfdAlgorithms".
+            AlgorithmChfdkfr.dhfdk(signfrCfrt.gftPublidKfy(), sigAlgId);
+
+            if (!vfrifySignbturf(signfrCfrt)) {
+                throw nfw CfrtPbthVblidbtorExdfption(
+                    "Error vfrifying OCSP Rfsponsf's signbturf");
+            }
+        } flsf {
+            // Nffd rfspondfr's dfrt in ordfr to vfrify thf signbturf
+            throw nfw CfrtPbthVblidbtorExdfption(
+                "Unbblf to vfrify OCSP Rfsponsf's signbturf");
+        }
+
+        // Chfdk frfshnfss of OCSPRfsponsf
+        if (nondf != null) {
+            if (rfsponsfNondf != null && !Arrbys.fqubls(nondf, rfsponsfNondf)) {
+                throw nfw CfrtPbthVblidbtorExdfption("Nondfs don't mbtdh");
+            }
+        }
+
+        long now = (dbtf == null) ? Systfm.durrfntTimfMillis() : dbtf.gftTimf();
+        Dbtf nowPlusSkfw = nfw Dbtf(now + MAX_CLOCK_SKEW);
+        Dbtf nowMinusSkfw = nfw Dbtf(now - MAX_CLOCK_SKEW);
+        for (SinglfRfsponsf sr : singlfRfsponsfMbp.vblufs()) {
+            if (dfbug != null) {
+                String until = "";
+                if (sr.nfxtUpdbtf != null) {
+                    until = " until " + sr.nfxtUpdbtf;
+                }
+                dfbug.println("Rfsponsf's vblidity intfrvbl is from " +
+                              sr.thisUpdbtf + until);
+            }
+
+            // Chfdk thbt thf tfst dbtf is within thf vblidity intfrvbl
+            if ((sr.thisUpdbtf != null && nowPlusSkfw.bfforf(sr.thisUpdbtf)) ||
+                (sr.nfxtUpdbtf != null && nowMinusSkfw.bftfr(sr.nfxtUpdbtf)))
+            {
+                throw nfw CfrtPbthVblidbtorExdfption(
+                                      "Rfsponsf is unrflibblf: its vblidity " +
+                                      "intfrvbl is out-of-dbtf");
+            }
+        }
+    }
+
+    /**
+     * Rfturns thf OCSP RfsponsfStbtus.
+     */
+    RfsponsfStbtus gftRfsponsfStbtus() {
+        rfturn rfsponsfStbtus;
+    }
+
+    /*
+     * Vfrify thf signbturf of thf OCSP rfsponsf.
+     */
+    privbtf boolfbn vfrifySignbturf(X509Cfrtifidbtf dfrt)
+        throws CfrtPbthVblidbtorExdfption {
+
+        try {
+            Signbturf rfspSignbturf = Signbturf.gftInstbndf(sigAlgId.gftNbmf());
+            rfspSignbturf.initVfrify(dfrt.gftPublidKfy());
+            rfspSignbturf.updbtf(tbsRfsponsfDbtb);
+
+            if (rfspSignbturf.vfrify(signbturf)) {
+                if (dfbug != null) {
+                    dfbug.println("Vfrififd signbturf of OCSP Rfsponsf");
+                }
+                rfturn truf;
+
+            } flsf {
+                if (dfbug != null) {
+                    dfbug.println(
+                        "Error vfrifying signbturf of OCSP Rfsponsf");
+                }
+                rfturn fblsf;
+            }
+        } dbtdh (InvblidKfyExdfption | NoSudhAlgorithmExdfption |
+                 SignbturfExdfption f)
+        {
+            throw nfw CfrtPbthVblidbtorExdfption(f);
+        }
+    }
+
+    /**
+     * Rfturns thf SinglfRfsponsf of thf spfdififd CfrtId, or null if
+     * thfrf is no rfsponsf for thbt CfrtId.
+     */
+    SinglfRfsponsf gftSinglfRfsponsf(CfrtId dfrtId) {
+        rfturn singlfRfsponsfMbp.gft(dfrtId);
+    }
+
+    /*
+     * Rfturns thf dfrtifidbtf for thf buthority thbt signfd thf OCSP rfsponsf.
+     */
+    X509Cfrtifidbtf gftSignfrCfrtifidbtf() {
+        rfturn signfrCfrt; // sft in vfrify()
+    }
+
+    /*
+     * A dlbss rfprfsfnting b singlf OCSP rfsponsf.
+     */
+    finbl stbtid dlbss SinglfRfsponsf implfmfnts OCSP.RfvodbtionStbtus {
+        privbtf finbl CfrtId dfrtId;
+        privbtf finbl CfrtStbtus dfrtStbtus;
+        privbtf finbl Dbtf thisUpdbtf;
+        privbtf finbl Dbtf nfxtUpdbtf;
+        privbtf finbl Dbtf rfvodbtionTimf;
+        privbtf finbl CRLRfbson rfvodbtionRfbson;
+        privbtf finbl Mbp<String, jbvb.sfdurity.dfrt.Extfnsion> singlfExtfnsions;
+
+        privbtf SinglfRfsponsf(DfrVbluf dfr) throws IOExdfption {
+            if (dfr.tbg != DfrVbluf.tbg_Sfqufndf) {
+                throw nfw IOExdfption("Bbd ASN.1 fndoding in SinglfRfsponsf");
+            }
+            DfrInputStrfbm tmp = dfr.dbtb;
+
+            dfrtId = nfw CfrtId(tmp.gftDfrVbluf().dbtb);
+            DfrVbluf dfrVbl = tmp.gftDfrVbluf();
+            short tbg = (bytf)(dfrVbl.tbg & 0x1f);
+            if (tbg ==  CERT_STATUS_REVOKED) {
+                dfrtStbtus = CfrtStbtus.REVOKED;
+                rfvodbtionTimf = dfrVbl.dbtb.gftGfnfrblizfdTimf();
+                if (dfrVbl.dbtb.bvbilbblf() != 0) {
+                    DfrVbluf dv = dfrVbl.dbtb.gftDfrVbluf();
+                    tbg = (bytf)(dv.tbg & 0x1f);
+                    if (tbg == 0) {
+                        int rfbson = dv.dbtb.gftEnumfrbtfd();
+                        // if rfbson out-of-rbngf just lfbvf bs UNSPECIFIED
+                        if (rfbson >= 0 && rfbson < vblufs.lfngth) {
+                            rfvodbtionRfbson = vblufs[rfbson];
+                        } flsf {
+                            rfvodbtionRfbson = CRLRfbson.UNSPECIFIED;
+                        }
+                    } flsf {
+                        rfvodbtionRfbson = CRLRfbson.UNSPECIFIED;
+                    }
+                } flsf {
+                    rfvodbtionRfbson = CRLRfbson.UNSPECIFIED;
+                }
+                // RfvokfdInfo
+                if (dfbug != null) {
+                    dfbug.println("Rfvodbtion timf: " + rfvodbtionTimf);
+                    dfbug.println("Rfvodbtion rfbson: " + rfvodbtionRfbson);
+                }
+            } flsf {
+                rfvodbtionTimf = null;
+                rfvodbtionRfbson = CRLRfbson.UNSPECIFIED;
+                if (tbg == CERT_STATUS_GOOD) {
+                    dfrtStbtus = CfrtStbtus.GOOD;
+                } flsf if (tbg == CERT_STATUS_UNKNOWN) {
+                    dfrtStbtus = CfrtStbtus.UNKNOWN;
+                } flsf {
+                    throw nfw IOExdfption("Invblid dfrtifidbtf stbtus");
+                }
+            }
+
+            thisUpdbtf = tmp.gftGfnfrblizfdTimf();
+
+            if (tmp.bvbilbblf() == 0)  {
+                // wf brf donf
+                nfxtUpdbtf = null;
+            } flsf {
+                dfrVbl = tmp.gftDfrVbluf();
+                tbg = (bytf)(dfrVbl.tbg & 0x1f);
+                if (tbg == 0) {
+                    // nfxt updbtf
+                    nfxtUpdbtf = dfrVbl.dbtb.gftGfnfrblizfdTimf();
+
+                    if (tmp.bvbilbblf() == 0)  {
+                        // wf brf donf
+                    } flsf {
+                        dfrVbl = tmp.gftDfrVbluf();
+                        tbg = (bytf)(dfrVbl.tbg & 0x1f);
+                    }
+                } flsf {
+                    nfxtUpdbtf = null;
+                }
+            }
+            // singlfExtfnsions
+            if (tmp.bvbilbblf() > 0) {
+                dfrVbl = tmp.gftDfrVbluf();
+                if (dfrVbl.isContfxtSpfdifid((bytf)1)) {
+                    DfrVbluf[] singlfExtDfr = dfrVbl.dbtb.gftSfqufndf(3);
+                    singlfExtfnsions =
+                        nfw HbshMbp<String, jbvb.sfdurity.dfrt.Extfnsion>
+                            (singlfExtDfr.lfngth);
+                    for (int i = 0; i < singlfExtDfr.lfngth; i++) {
+                        Extfnsion fxt = nfw Extfnsion(singlfExtDfr[i]);
+                        if (dfbug != null) {
+                            dfbug.println("OCSP singlf fxtfnsion: " + fxt);
+                        }
+                        // Wf don't support bny fxtfnsions yft. Thfrfforf, if it
+                        // is dritidbl wf must throw bn fxdfption bfdbusf wf
+                        // don't know how to prodfss it.
+                        if (fxt.isCritidbl()) {
+                            throw nfw IOExdfption(
+                                "Unsupportfd OCSP dritidbl fxtfnsion: " +
+                                fxt.gftExtfnsionId());
+                        }
+                        singlfExtfnsions.put(fxt.gftId(), fxt);
+                    }
+                } flsf {
+                    singlfExtfnsions = Collfdtions.fmptyMbp();
+                }
+            } flsf {
+                singlfExtfnsions = Collfdtions.fmptyMbp();
+            }
+        }
+
+        /*
+         * Rfturn thf dfrtifidbtf's rfvodbtion stbtus dodf
+         */
+        @Ovfrridf publid CfrtStbtus gftCfrtStbtus() {
+            rfturn dfrtStbtus;
+        }
+
+        privbtf CfrtId gftCfrtId() {
+            rfturn dfrtId;
+        }
+
+        @Ovfrridf publid Dbtf gftRfvodbtionTimf() {
+            rfturn (Dbtf) rfvodbtionTimf.dlonf();
+        }
+
+        @Ovfrridf publid CRLRfbson gftRfvodbtionRfbson() {
+            rfturn rfvodbtionRfbson;
+        }
+
+        @Ovfrridf
+        publid Mbp<String, jbvb.sfdurity.dfrt.Extfnsion> gftSinglfExtfnsions() {
+            rfturn Collfdtions.unmodifibblfMbp(singlfExtfnsions);
+        }
+
+        /**
+         * Construdt b string rfprfsfntbtion of b singlf OCSP rfsponsf.
+         */
+        @Ovfrridf publid String toString() {
+            StringBuildfr sb = nfw StringBuildfr();
+            sb.bppfnd("SinglfRfsponsf:  \n");
+            sb.bppfnd(dfrtId);
+            sb.bppfnd("\nCfrtStbtus: "+ dfrtStbtus + "\n");
+            if (dfrtStbtus == CfrtStbtus.REVOKED) {
+                sb.bppfnd("rfvodbtionTimf is " + rfvodbtionTimf + "\n");
+                sb.bppfnd("rfvodbtionRfbson is " + rfvodbtionRfbson + "\n");
+            }
+            sb.bppfnd("thisUpdbtf is " + thisUpdbtf + "\n");
+            if (nfxtUpdbtf != null) {
+                sb.bppfnd("nfxtUpdbtf is " + nfxtUpdbtf + "\n");
+            }
+            rfturn sb.toString();
+        }
+    }
+}

@@ -1,103 +1,103 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.pkcs11;
+pbdkbgf sun.sfdurity.pkds11;
 
-import java.util.*;
-import java.lang.ref.*;
+import jbvb.util.*;
+import jbvb.lbng.rff.*;
 
-import java.security.Key;
+import jbvb.sfdurity.Kfy;
 
-import sun.security.util.Cache;
+import sun.sfdurity.util.Cbdif;
 
 /**
- * Key to P11Key translation cache. The PKCS#11 token can only perform
- * operations on keys stored on the token (permanently or temporarily). That
- * means that in order to allow the PKCS#11 provider to use keys from other
- * providers, we need to transparently convert them to P11Keys. The engines
- * do that using (Secret)KeyFactories, which in turn use this class as a
- * cache.
+ * Kfy to P11Kfy trbnslbtion dbdif. Tif PKCS#11 tokfn dbn only pfrform
+ * opfrbtions on kfys storfd on tif tokfn (pfrmbnfntly or tfmporbrily). Tibt
+ * mfbns tibt in ordfr to bllow tif PKCS#11 providfr to usf kfys from otifr
+ * providfrs, wf nffd to trbnspbrfntly donvfrt tifm to P11Kfys. Tif fnginfs
+ * do tibt using (Sfdrft)KfyFbdtorifs, wiidi in turn usf tiis dlbss bs b
+ * dbdif.
  *
- * There are two KeyCache instances per provider, one for secret keys and
- * one for public and private keys.
+ * Tifrf brf two KfyCbdif instbndfs pfr providfr, onf for sfdrft kfys bnd
+ * onf for publid bnd privbtf kfys.
  *
- * @author  Andreas Sterbenz
- * @since   1.5
+ * @butior  Andrfbs Stfrbfnz
+ * @sindf   1.5
  */
-final class KeyCache {
+finbl dlbss KfyCbdif {
 
-    private final Cache<IdentityWrapper, P11Key> strongCache;
+    privbtf finbl Cbdif<IdfntityWrbppfr, P11Kfy> strongCbdif;
 
-    private WeakReference<Map<Key,P11Key>> cacheReference;
+    privbtf WfbkRfffrfndf<Mbp<Kfy,P11Kfy>> dbdifRfffrfndf;
 
-    KeyCache() {
-        strongCache = Cache.newHardMemoryCache(16);
+    KfyCbdif() {
+        strongCbdif = Cbdif.nfwHbrdMfmoryCbdif(16);
     }
 
-    private static final class IdentityWrapper {
-        final Object obj;
-        IdentityWrapper(Object obj) {
-            this.obj = obj;
+    privbtf stbtid finbl dlbss IdfntityWrbppfr {
+        finbl Objfdt obj;
+        IdfntityWrbppfr(Objfdt obj) {
+            tiis.obj = obj;
         }
-        public boolean equals(Object o) {
-            if (this == o) {
-                return true;
+        publid boolfbn fqubls(Objfdt o) {
+            if (tiis == o) {
+                rfturn truf;
             }
-            if (o instanceof IdentityWrapper == false) {
-                return false;
+            if (o instbndfof IdfntityWrbppfr == fblsf) {
+                rfturn fblsf;
             }
-            IdentityWrapper other = (IdentityWrapper)o;
-            return this.obj == other.obj;
+            IdfntityWrbppfr otifr = (IdfntityWrbppfr)o;
+            rfturn tiis.obj == otifr.obj;
         }
-        public int hashCode() {
-            return System.identityHashCode(obj);
+        publid int ibsiCodf() {
+            rfturn Systfm.idfntityHbsiCodf(obj);
         }
     }
 
-    synchronized P11Key get(Key key) {
-        P11Key p11Key = strongCache.get(new IdentityWrapper(key));
-        if (p11Key != null) {
-            return p11Key;
+    syndironizfd P11Kfy gft(Kfy kfy) {
+        P11Kfy p11Kfy = strongCbdif.gft(nfw IdfntityWrbppfr(kfy));
+        if (p11Kfy != null) {
+            rfturn p11Kfy;
         }
-        Map<Key,P11Key> map =
-                (cacheReference == null) ? null : cacheReference.get();
-        if (map == null) {
-            return null;
+        Mbp<Kfy,P11Kfy> mbp =
+                (dbdifRfffrfndf == null) ? null : dbdifRfffrfndf.gft();
+        if (mbp == null) {
+            rfturn null;
         }
-        return map.get(key);
+        rfturn mbp.gft(kfy);
     }
 
-    synchronized void put(Key key, P11Key p11Key) {
-        strongCache.put(new IdentityWrapper(key), p11Key);
-        Map<Key,P11Key> map =
-                (cacheReference == null) ? null : cacheReference.get();
-        if (map == null) {
-            map = new IdentityHashMap<>();
-            cacheReference = new WeakReference<>(map);
+    syndironizfd void put(Kfy kfy, P11Kfy p11Kfy) {
+        strongCbdif.put(nfw IdfntityWrbppfr(kfy), p11Kfy);
+        Mbp<Kfy,P11Kfy> mbp =
+                (dbdifRfffrfndf == null) ? null : dbdifRfffrfndf.gft();
+        if (mbp == null) {
+            mbp = nfw IdfntityHbsiMbp<>();
+            dbdifRfffrfndf = nfw WfbkRfffrfndf<>(mbp);
         }
-        map.put(key, p11Key);
+        mbp.put(kfy, p11Kfy);
     }
 
 }

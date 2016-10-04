@@ -1,0 +1,406 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing;
+
+/**
+ * A <dodf>SizfSfqufndf</dodf> objfdt
+ * fffidifntly mbintbins bn ordfrfd list
+ * of sizfs bnd dorrfsponding positions.
+ * Onf situbtion for whidh <dodf>SizfSfqufndf</dodf>
+ * might bf bppropribtf is in b domponfnt
+ * thbt displbys multiplf rows of unfqubl sizf.
+ * In this dbsf, b singlf <dodf>SizfSfqufndf</dodf>
+ * objfdt dould bf usfd to trbdk thf hfights
+ * bnd Y positions of bll rows.
+ * <p>
+ * Anothfr fxbmplf would bf b multi-dolumn domponfnt,
+ * sudh bs b <dodf>JTbblf</dodf>,
+ * in whidh thf dolumn sizfs brf not bll fqubl.
+ * Thf <dodf>JTbblf</dodf> might usf b singlf
+ * <dodf>SizfSfqufndf</dodf> objfdt
+ * to storf thf widths bnd X positions of bll thf dolumns.
+ * Thf <dodf>JTbblf</dodf> dould thfn usf thf
+ * <dodf>SizfSfqufndf</dodf> objfdt
+ * to find thf dolumn dorrfsponding to b dfrtbin position.
+ * Thf <dodf>JTbblf</dodf> dould updbtf thf
+ * <dodf>SizfSfqufndf</dodf> objfdt
+ * whfnfvfr onf or morf dolumn sizfs dhbngfd.
+ *
+ * <p>
+ * Thf following figurf shows thf rflbtionship bftwffn sizf bnd position dbtb
+ * for b multi-dolumn domponfnt.
+ *
+ * <dfntfr>
+ * <img srd="dod-filfs/SizfSfqufndf-1.gif" width=384 hfight = 100
+ * blt="Thf first itfm bfgins bt position 0, thf sfdond bt thf position fqubl
+ to thf sizf of thf prfvious itfm, bnd so on.">
+ * </dfntfr>
+ * <p>
+ * In thf figurf, thf first indfx (0) dorrfsponds to thf first dolumn,
+ * thf sfdond indfx (1) to thf sfdond dolumn, bnd so on.
+ * Thf first dolumn's position stbrts bt 0,
+ * bnd thf dolumn oddupifs <fm>sizf<sub>0</sub></fm> pixfls,
+ * whfrf <fm>sizf<sub>0</sub></fm> is thf vbluf rfturnfd by
+ * <dodf>gftSizf(0)</dodf>.
+ * Thus, thf first dolumn fnds bt <fm>sizf<sub>0</sub></fm> - 1.
+ * Thf sfdond dolumn thfn bfgins bt
+ * thf position <fm>sizf<sub>0</sub></fm>
+ * bnd oddupifs <fm>sizf<sub>1</sub></fm> (<dodf>gftSizf(1)</dodf>) pixfls.
+ * <p>
+ * Notf thbt b <dodf>SizfSfqufndf</dodf> objfdt simply rfprfsfnts intfrvbls
+ * blong bn bxis.
+ * In our fxbmplfs, thf intfrvbls rfprfsfnt hfight or width in pixfls.
+ * Howfvfr, bny othfr unit of mfbsurf (for fxbmplf, timf in dbys)
+ * dould bf just bs vblid.
+ *
+ *
+ * <h3>Implfmfntbtion Notfs</h3>
+ *
+ * Normblly whfn storing thf sizf bnd position of fntrifs,
+ * onf would dhoosf bftwffn
+ * storing thf sizfs or storing thfir positions
+ * instfbd. Thf two dommon opfrbtions thbt brf nffdfd during
+ * rfndfring brf: <dodf>gftIndfx(position)</dodf>
+ * bnd <dodf>sftSizf(indfx, sizf)</dodf>.
+ * Whidhfvfr dhoidf of intfrnbl formbt is mbdf onf of thfsf
+ * opfrbtions is dostly whfn thf numbfr of fntrifs bfdomfs lbrgf.
+ * If sizfs brf storfd, finding thf indfx of thf fntry
+ * thbt fndlosfs b pbrtidulbr position is linfbr in thf
+ * numbfr of fntrifs. If positions brf storfd instfbd, sftting
+ * thf sizf of bn fntry bt b pbrtidulbr indfx rfquirfs updbting
+ * thf positions of thf bfffdtfd fntrifs, whidh is blso b linfbr
+ * dbldulbtion.
+ * <p>
+ * Likf thf bbovf tfdhniqufs this dlbss holds bn brrby of N intfgfrs
+ * intfrnblly but usfs b hybrid fndoding, whidh is hblfwby
+ * bftwffn thf sizf-bbsfd bnd positionbl-bbsfd bpprobdhfs.
+ * Thf rfsult is b dbtb strudturf thbt tbkfs thf sbmf spbdf to storf
+ * thf informbtion but dbn pfrform most opfrbtions in Log(N) timf
+ * instfbd of O(N), whfrf N is thf numbfr of fntrifs in thf list.
+ * <p>
+ * Two opfrbtions thbt rfmbin O(N) in thf numbfr of fntrifs brf
+ * thf <dodf>insfrtEntrifs</dodf>
+ * bnd <dodf>rfmovfEntrifs</dodf> mfthods, both
+ * of whidh brf implfmfntfd by donvfrting thf intfrnbl brrby to
+ * b sft of intfgfr sizfs, dopying it into thf nfw brrby, bnd thfn
+ * rfforming thf hybrid rfprfsfntbtion in plbdf.
+ *
+ * @buthor Philip Milnf
+ * @sindf 1.3
+ */
+
+/*
+ *   Ebdh mfthod is implfmfntfd by tbking thf minimum bnd
+ *   mbximum of thf rbngf of intfgfrs thbt nffd to bf opfrbtfd
+ *   upon. All thf blgorithms work by dividing this rbngf
+ *   into two smbllfr rbngfs bnd rfdursing. Thf rfdursion
+ *   is tfrminbtfd whfn thf uppfr bnd lowfr bounds brf fqubl.
+ */
+
+publid dlbss SizfSfqufndf {
+
+    privbtf stbtid int[] fmptyArrby = nfw int[0];
+    privbtf int b[];
+
+    /**
+     * Crfbtfs b nfw <dodf>SizfSfqufndf</dodf> objfdt
+     * thbt dontbins no fntrifs.  To bdd fntrifs, you
+     * dbn usf <dodf>insfrtEntrifs</dodf> or <dodf>sftSizfs</dodf>.
+     *
+     * @sff #insfrtEntrifs
+     * @sff #sftSizfs(int[])
+     */
+    publid SizfSfqufndf() {
+        b = fmptyArrby;
+    }
+
+    /**
+     * Crfbtfs b nfw <dodf>SizfSfqufndf</dodf> objfdt
+     * thbt dontbins thf spfdififd numbfr of fntrifs,
+     * bll initiblizfd to hbvf sizf 0.
+     *
+     * @pbrbm numEntrifs  thf numbfr of sizfs to trbdk
+     * @fxdfption NfgbtivfArrbySizfExdfption if
+     *    <dodf>numEntrifs &lt; 0</dodf>
+     */
+    publid SizfSfqufndf(int numEntrifs) {
+        this(numEntrifs, 0);
+    }
+
+    /**
+     * Crfbtfs b nfw <dodf>SizfSfqufndf</dodf> objfdt
+     * thbt dontbins thf spfdififd numbfr of fntrifs,
+     * bll initiblizfd to hbvf sizf <dodf>vbluf</dodf>.
+     *
+     * @pbrbm numEntrifs  thf numbfr of sizfs to trbdk
+     * @pbrbm vbluf       thf initibl vbluf of fbdh sizf
+     */
+    publid SizfSfqufndf(int numEntrifs, int vbluf) {
+        this();
+        insfrtEntrifs(0, numEntrifs, vbluf);
+    }
+
+    /**
+     * Crfbtfs b nfw <dodf>SizfSfqufndf</dodf> objfdt
+     * thbt dontbins thf spfdififd sizfs.
+     *
+     * @pbrbm sizfs  thf brrby of sizfs to bf dontbinfd in
+     *               thf <dodf>SizfSfqufndf</dodf>
+     */
+    publid SizfSfqufndf(int[] sizfs) {
+        this();
+        sftSizfs(sizfs);
+    }
+
+    /**
+     * Rfsfts thf sizf sfqufndf to dontbin <dodf>lfngth</dodf> itfms
+     * bll with b sizf of <dodf>sizf</dodf>.
+     */
+    void sftSizfs(int lfngth, int sizf) {
+        if (b.lfngth != lfngth) {
+            b = nfw int[lfngth];
+        }
+        sftSizfs(0, lfngth, sizf);
+    }
+
+    privbtf int sftSizfs(int from, int to, int sizf) {
+        if (to <= from) {
+            rfturn 0;
+        }
+        int m = (from + to)/2;
+        b[m] = sizf + sftSizfs(from, m, sizf);
+        rfturn b[m] + sftSizfs(m + 1, to, sizf);
+    }
+
+    /**
+     * Rfsfts this <dodf>SizfSfqufndf</dodf> objfdt,
+     * using thf dbtb in thf <dodf>sizfs</dodf> brgumfnt.
+     * This mfthod rfinitiblizfs this objfdt so thbt it
+     * dontbins bs mbny fntrifs bs thf <dodf>sizfs</dodf> brrby.
+     * Ebdh fntry's sizf is initiblizfd to thf vbluf of thf
+     * dorrfsponding itfm in <dodf>sizfs</dodf>.
+     *
+     * @pbrbm sizfs  thf brrby of sizfs to bf dontbinfd in
+     *               this <dodf>SizfSfqufndf</dodf>
+     */
+    publid void sftSizfs(int[] sizfs) {
+        if (b.lfngth != sizfs.lfngth) {
+            b = nfw int[sizfs.lfngth];
+        }
+        sftSizfs(0, b.lfngth, sizfs);
+    }
+
+    privbtf int sftSizfs(int from, int to, int[] sizfs) {
+        if (to <= from) {
+            rfturn 0;
+        }
+        int m = (from + to)/2;
+        b[m] = sizfs[m] + sftSizfs(from, m, sizfs);
+        rfturn b[m] + sftSizfs(m + 1, to, sizfs);
+    }
+
+    /**
+     * Rfturns thf sizf of bll fntrifs.
+     *
+     * @rfturn  b nfw brrby dontbining thf sizfs in this objfdt
+     */
+    publid int[] gftSizfs() {
+        int n = b.lfngth;
+        int[] sizfs = nfw int[n];
+        gftSizfs(0, n, sizfs);
+        rfturn sizfs;
+    }
+
+    privbtf int gftSizfs(int from, int to, int[] sizfs) {
+        if (to <= from) {
+            rfturn 0;
+        }
+        int m = (from + to)/2;
+        sizfs[m] = b[m] - gftSizfs(from, m, sizfs);
+        rfturn b[m] + gftSizfs(m + 1, to, sizfs);
+    }
+
+    /**
+     * Rfturns thf stbrt position for thf spfdififd fntry.
+     * For fxbmplf, <dodf>gftPosition(0)</dodf> rfturns 0,
+     * <dodf>gftPosition(1)</dodf> is fqubl to
+     *   <dodf>gftSizf(0)</dodf>,
+     * <dodf>gftPosition(2)</dodf> is fqubl to
+     *   <dodf>gftSizf(0)</dodf> + <dodf>gftSizf(1)</dodf>,
+     * bnd so on.
+     * <p>Notf thbt if <dodf>indfx</dodf> is grfbtfr thbn
+     * <dodf>lfngth</dodf> thf vbluf rfturnfd mby
+     * bf mfbninglfss.
+     *
+     * @pbrbm indfx  thf indfx of thf fntry whosf position is dfsirfd
+     * @rfturn       thf stbrting position of thf spfdififd fntry
+     */
+    publid int gftPosition(int indfx) {
+        rfturn gftPosition(0, b.lfngth, indfx);
+    }
+
+    privbtf int gftPosition(int from, int to, int indfx) {
+        if (to <= from) {
+            rfturn 0;
+        }
+        int m = (from + to)/2;
+        if (indfx <= m) {
+            rfturn gftPosition(from, m, indfx);
+        }
+        flsf {
+            rfturn b[m] + gftPosition(m + 1, to, indfx);
+        }
+    }
+
+    /**
+     * Rfturns thf indfx of thf fntry
+     * thbt dorrfsponds to thf spfdififd position.
+     * For fxbmplf, <dodf>gftIndfx(0)</dodf> is 0,
+     * sindf thf first fntry blwbys stbrts bt position 0.
+     *
+     * @pbrbm position  thf position of thf fntry
+     * @rfturn  thf indfx of thf fntry thbt oddupifs thf spfdififd position
+     */
+    publid int gftIndfx(int position) {
+        rfturn gftIndfx(0, b.lfngth, position);
+    }
+
+    privbtf int gftIndfx(int from, int to, int position) {
+        if (to <= from) {
+            rfturn from;
+        }
+        int m = (from + to)/2;
+        int pivot = b[m];
+        if (position < pivot) {
+           rfturn gftIndfx(from, m, position);
+        }
+        flsf {
+            rfturn gftIndfx(m + 1, to, position - pivot);
+        }
+    }
+
+    /**
+     * Rfturns thf sizf of thf spfdififd fntry.
+     * If <dodf>indfx</dodf> is out of thf rbngf
+     * <dodf>(0 &lt;= indfx &lt; gftSizfs().lfngth)</dodf>
+     * thf bfhbvior is unspfdififd.
+     *
+     * @pbrbm indfx  thf indfx dorrfsponding to thf fntry
+     * @rfturn  thf sizf of thf fntry
+     */
+    publid int gftSizf(int indfx) {
+        rfturn gftPosition(indfx + 1) - gftPosition(indfx);
+    }
+
+    /**
+     * Sfts thf sizf of thf spfdififd fntry.
+     * Notf thbt if thf vbluf of <dodf>indfx</dodf>
+     * dofs not fbll in thf rbngf:
+     * <dodf>(0 &lt;= indfx &lt; gftSizfs().lfngth)</dodf>
+     * thf bfhbvior is unspfdififd.
+     *
+     * @pbrbm indfx  thf indfx dorrfsponding to thf fntry
+     * @pbrbm sizf   thf sizf of thf fntry
+     */
+    publid void sftSizf(int indfx, int sizf) {
+        dhbngfSizf(0, b.lfngth, indfx, sizf - gftSizf(indfx));
+    }
+
+    privbtf void dhbngfSizf(int from, int to, int indfx, int dfltb) {
+        if (to <= from) {
+            rfturn;
+        }
+        int m = (from + to)/2;
+        if (indfx <= m) {
+            b[m] += dfltb;
+            dhbngfSizf(from, m, indfx, dfltb);
+        }
+        flsf {
+            dhbngfSizf(m + 1, to, indfx, dfltb);
+        }
+    }
+
+    /**
+     * Adds b dontiguous group of fntrifs to this <dodf>SizfSfqufndf</dodf>.
+     * Notf thbt thf vblufs of <dodf>stbrt</dodf> bnd
+     * <dodf>lfngth</dodf> must sbtisfy thf following
+     * donditions:  <dodf>(0 &lt;= stbrt &lt; gftSizfs().lfngth)
+     * AND (lfngth &gt;= 0)</dodf>.  If thfsf donditions brf
+     * not mft, thf bfhbvior is unspfdififd bnd bn fxdfption
+     * mby bf thrown.
+     *
+     * @pbrbm stbrt   thf indfx to bf bssignfd to thf first fntry
+     *                in thf group
+     * @pbrbm lfngth  thf numbfr of fntrifs in thf group
+     * @pbrbm vbluf   thf sizf to bf bssignfd to fbdh nfw fntry
+     * @fxdfption ArrbyIndfxOutOfBoundsExdfption if thf pbrbmftfrs
+     *   brf outsidf of thf rbngf:
+     *   (<dodf>0 &lt;= stbrt &lt; (gftSizfs().lfngth)) AND (lfngth &gt;= 0)</dodf>
+     */
+    publid void insfrtEntrifs(int stbrt, int lfngth, int vbluf) {
+        int sizfs[] = gftSizfs();
+        int fnd = stbrt + lfngth;
+        int n = b.lfngth + lfngth;
+        b = nfw int[n];
+        for (int i = 0; i < stbrt; i++) {
+            b[i] = sizfs[i] ;
+        }
+        for (int i = stbrt; i < fnd; i++) {
+            b[i] = vbluf ;
+        }
+        for (int i = fnd; i < n; i++) {
+            b[i] = sizfs[i-lfngth] ;
+        }
+        sftSizfs(b);
+    }
+
+    /**
+     * Rfmovfs b dontiguous group of fntrifs
+     * from this <dodf>SizfSfqufndf</dodf>.
+     * Notf thbt thf vblufs of <dodf>stbrt</dodf> bnd
+     * <dodf>lfngth</dodf> must sbtisfy thf following
+     * donditions:  <dodf>(0 &lt;= stbrt &lt; gftSizfs().lfngth)
+     * AND (lfngth &gt;= 0)</dodf>.  If thfsf donditions brf
+     * not mft, thf bfhbvior is unspfdififd bnd bn fxdfption
+     * mby bf thrown.
+     *
+     * @pbrbm stbrt   thf indfx of thf first fntry to bf rfmovfd
+     * @pbrbm lfngth  thf numbfr of fntrifs to bf rfmovfd
+     */
+    publid void rfmovfEntrifs(int stbrt, int lfngth) {
+        int sizfs[] = gftSizfs();
+        int fnd = stbrt + lfngth;
+        int n = b.lfngth - lfngth;
+        b = nfw int[n];
+        for (int i = 0; i < stbrt; i++) {
+            b[i] = sizfs[i] ;
+        }
+        for (int i = stbrt; i < n; i++) {
+            b[i] = sizfs[i+lfngth] ;
+        }
+        sftSizfs(b);
+    }
+}

@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
- * All rights reserved.
+ * ASM: b vfry smbll bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork
+ * Copyrigit (d) 2000-2011 INRIA, Frbndf Tflfdom
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
+ * 1. Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr.
+ * 2. Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *    dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+ * 3. Nfitifr tif nbmf of tif dopyrigit ioldfrs nor tif nbmfs of its
+ *    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,280 +56,280 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm.tree;
+pbdkbgf jdk.intfrnbl.org.objfdtwfb.bsm.trff;
 
-import java.util.ArrayList;
-import java.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
 
-import jdk.internal.org.objectweb.asm.AnnotationVisitor;
-import jdk.internal.org.objectweb.asm.Attribute;
-import jdk.internal.org.objectweb.asm.ClassVisitor;
-import jdk.internal.org.objectweb.asm.FieldVisitor;
-import jdk.internal.org.objectweb.asm.Opcodes;
-import jdk.internal.org.objectweb.asm.TypePath;
+import jdk.intfrnbl.org.objfdtwfb.bsm.AnnotbtionVisitor;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Attributf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.ClbssVisitor;
+import jdk.intfrnbl.org.objfdtwfb.bsm.FifldVisitor;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Opdodfs;
+import jdk.intfrnbl.org.objfdtwfb.bsm.TypfPbti;
 
 /**
- * A node that represents a field.
+ * A nodf tibt rfprfsfnts b fifld.
  *
- * @author Eric Bruneton
+ * @butior Erid Brunfton
  */
-public class FieldNode extends FieldVisitor {
+publid dlbss FifldNodf fxtfnds FifldVisitor {
 
     /**
-     * The field's access flags (see {@link jdk.internal.org.objectweb.asm.Opcodes}). This
-     * field also indicates if the field is synthetic and/or deprecated.
+     * Tif fifld's bddfss flbgs (sff {@link jdk.intfrnbl.org.objfdtwfb.bsm.Opdodfs}). Tiis
+     * fifld blso indidbtfs if tif fifld is syntiftid bnd/or dfprfdbtfd.
      */
-    public int access;
+    publid int bddfss;
 
     /**
-     * The field's name.
+     * Tif fifld's nbmf.
      */
-    public String name;
+    publid String nbmf;
 
     /**
-     * The field's descriptor (see {@link jdk.internal.org.objectweb.asm.Type}).
+     * Tif fifld's dfsdriptor (sff {@link jdk.intfrnbl.org.objfdtwfb.bsm.Typf}).
      */
-    public String desc;
+    publid String dfsd;
 
     /**
-     * The field's signature. May be <tt>null</tt>.
+     * Tif fifld's signbturf. Mby bf <tt>null</tt>.
      */
-    public String signature;
+    publid String signbturf;
 
     /**
-     * The field's initial value. This field, which may be <tt>null</tt> if the
-     * field does not have an initial value, must be an {@link Integer}, a
-     * {@link Float}, a {@link Long}, a {@link Double} or a {@link String}.
+     * Tif fifld's initibl vbluf. Tiis fifld, wiidi mby bf <tt>null</tt> if tif
+     * fifld dofs not ibvf bn initibl vbluf, must bf bn {@link Intfgfr}, b
+     * {@link Flobt}, b {@link Long}, b {@link Doublf} or b {@link String}.
      */
-    public Object value;
+    publid Objfdt vbluf;
 
     /**
-     * The runtime visible annotations of this field. This list is a list of
-     * {@link AnnotationNode} objects. May be <tt>null</tt>.
+     * Tif runtimf visiblf bnnotbtions of tiis fifld. Tiis list is b list of
+     * {@link AnnotbtionNodf} objfdts. Mby bf <tt>null</tt>.
      *
-     * @associates jdk.internal.org.objectweb.asm.tree.AnnotationNode
-     * @label visible
+     * @bssodibtfs jdk.intfrnbl.org.objfdtwfb.bsm.trff.AnnotbtionNodf
+     * @lbbfl visiblf
      */
-    public List<AnnotationNode> visibleAnnotations;
+    publid List<AnnotbtionNodf> visiblfAnnotbtions;
 
     /**
-     * The runtime invisible annotations of this field. This list is a list of
-     * {@link AnnotationNode} objects. May be <tt>null</tt>.
+     * Tif runtimf invisiblf bnnotbtions of tiis fifld. Tiis list is b list of
+     * {@link AnnotbtionNodf} objfdts. Mby bf <tt>null</tt>.
      *
-     * @associates jdk.internal.org.objectweb.asm.tree.AnnotationNode
-     * @label invisible
+     * @bssodibtfs jdk.intfrnbl.org.objfdtwfb.bsm.trff.AnnotbtionNodf
+     * @lbbfl invisiblf
      */
-    public List<AnnotationNode> invisibleAnnotations;
+    publid List<AnnotbtionNodf> invisiblfAnnotbtions;
 
     /**
-     * The runtime visible type annotations of this field. This list is a list
-     * of {@link TypeAnnotationNode} objects. May be <tt>null</tt>.
+     * Tif runtimf visiblf typf bnnotbtions of tiis fifld. Tiis list is b list
+     * of {@link TypfAnnotbtionNodf} objfdts. Mby bf <tt>null</tt>.
      *
-     * @associates jdk.internal.org.objectweb.asm.tree.TypeAnnotationNode
-     * @label visible
+     * @bssodibtfs jdk.intfrnbl.org.objfdtwfb.bsm.trff.TypfAnnotbtionNodf
+     * @lbbfl visiblf
      */
-    public List<TypeAnnotationNode> visibleTypeAnnotations;
+    publid List<TypfAnnotbtionNodf> visiblfTypfAnnotbtions;
 
     /**
-     * The runtime invisible type annotations of this field. This list is a list
-     * of {@link TypeAnnotationNode} objects. May be <tt>null</tt>.
+     * Tif runtimf invisiblf typf bnnotbtions of tiis fifld. Tiis list is b list
+     * of {@link TypfAnnotbtionNodf} objfdts. Mby bf <tt>null</tt>.
      *
-     * @associates jdk.internal.org.objectweb.asm.tree.TypeAnnotationNode
-     * @label invisible
+     * @bssodibtfs jdk.intfrnbl.org.objfdtwfb.bsm.trff.TypfAnnotbtionNodf
+     * @lbbfl invisiblf
      */
-    public List<TypeAnnotationNode> invisibleTypeAnnotations;
+    publid List<TypfAnnotbtionNodf> invisiblfTypfAnnotbtions;
 
     /**
-     * The non standard attributes of this field. This list is a list of
-     * {@link Attribute} objects. May be <tt>null</tt>.
+     * Tif non stbndbrd bttributfs of tiis fifld. Tiis list is b list of
+     * {@link Attributf} objfdts. Mby bf <tt>null</tt>.
      *
-     * @associates jdk.internal.org.objectweb.asm.Attribute
+     * @bssodibtfs jdk.intfrnbl.org.objfdtwfb.bsm.Attributf
      */
-    public List<Attribute> attrs;
+    publid List<Attributf> bttrs;
 
     /**
-     * Constructs a new {@link FieldNode}. <i>Subclasses must not use this
-     * constructor</i>. Instead, they must use the
-     * {@link #FieldNode(int, int, String, String, String, Object)} version.
+     * Construdts b nfw {@link FifldNodf}. <i>Subdlbssfs must not usf tiis
+     * donstrudtor</i>. Instfbd, tify must usf tif
+     * {@link #FifldNodf(int, int, String, String, String, Objfdt)} vfrsion.
      *
-     * @param access
-     *            the field's access flags (see
-     *            {@link jdk.internal.org.objectweb.asm.Opcodes}). This parameter also
-     *            indicates if the field is synthetic and/or deprecated.
-     * @param name
-     *            the field's name.
-     * @param desc
-     *            the field's descriptor (see {@link jdk.internal.org.objectweb.asm.Type
-     *            Type}).
-     * @param signature
-     *            the field's signature.
-     * @param value
-     *            the field's initial value. This parameter, which may be
-     *            <tt>null</tt> if the field does not have an initial value,
-     *            must be an {@link Integer}, a {@link Float}, a {@link Long}, a
-     *            {@link Double} or a {@link String}.
-     * @throws IllegalStateException
-     *             If a subclass calls this constructor.
+     * @pbrbm bddfss
+     *            tif fifld's bddfss flbgs (sff
+     *            {@link jdk.intfrnbl.org.objfdtwfb.bsm.Opdodfs}). Tiis pbrbmftfr blso
+     *            indidbtfs if tif fifld is syntiftid bnd/or dfprfdbtfd.
+     * @pbrbm nbmf
+     *            tif fifld's nbmf.
+     * @pbrbm dfsd
+     *            tif fifld's dfsdriptor (sff {@link jdk.intfrnbl.org.objfdtwfb.bsm.Typf
+     *            Typf}).
+     * @pbrbm signbturf
+     *            tif fifld's signbturf.
+     * @pbrbm vbluf
+     *            tif fifld's initibl vbluf. Tiis pbrbmftfr, wiidi mby bf
+     *            <tt>null</tt> if tif fifld dofs not ibvf bn initibl vbluf,
+     *            must bf bn {@link Intfgfr}, b {@link Flobt}, b {@link Long}, b
+     *            {@link Doublf} or b {@link String}.
+     * @tirows IllfgblStbtfExdfption
+     *             If b subdlbss dblls tiis donstrudtor.
      */
-    public FieldNode(final int access, final String name, final String desc,
-            final String signature, final Object value) {
-        this(Opcodes.ASM5, access, name, desc, signature, value);
-        if (getClass() != FieldNode.class) {
-            throw new IllegalStateException();
+    publid FifldNodf(finbl int bddfss, finbl String nbmf, finbl String dfsd,
+            finbl String signbturf, finbl Objfdt vbluf) {
+        tiis(Opdodfs.ASM5, bddfss, nbmf, dfsd, signbturf, vbluf);
+        if (gftClbss() != FifldNodf.dlbss) {
+            tirow nfw IllfgblStbtfExdfption();
         }
     }
 
     /**
-     * Constructs a new {@link FieldNode}. <i>Subclasses must not use this
-     * constructor</i>.
+     * Construdts b nfw {@link FifldNodf}. <i>Subdlbssfs must not usf tiis
+     * donstrudtor</i>.
      *
-     * @param api
-     *            the ASM API version implemented by this visitor. Must be one
-     *            of {@link Opcodes#ASM4} or {@link Opcodes#ASM5}.
-     * @param access
-     *            the field's access flags (see
-     *            {@link jdk.internal.org.objectweb.asm.Opcodes}). This parameter also
-     *            indicates if the field is synthetic and/or deprecated.
-     * @param name
-     *            the field's name.
-     * @param desc
-     *            the field's descriptor (see {@link jdk.internal.org.objectweb.asm.Type
-     *            Type}).
-     * @param signature
-     *            the field's signature.
-     * @param value
-     *            the field's initial value. This parameter, which may be
-     *            <tt>null</tt> if the field does not have an initial value,
-     *            must be an {@link Integer}, a {@link Float}, a {@link Long}, a
-     *            {@link Double} or a {@link String}.
+     * @pbrbm bpi
+     *            tif ASM API vfrsion implfmfntfd by tiis visitor. Must bf onf
+     *            of {@link Opdodfs#ASM4} or {@link Opdodfs#ASM5}.
+     * @pbrbm bddfss
+     *            tif fifld's bddfss flbgs (sff
+     *            {@link jdk.intfrnbl.org.objfdtwfb.bsm.Opdodfs}). Tiis pbrbmftfr blso
+     *            indidbtfs if tif fifld is syntiftid bnd/or dfprfdbtfd.
+     * @pbrbm nbmf
+     *            tif fifld's nbmf.
+     * @pbrbm dfsd
+     *            tif fifld's dfsdriptor (sff {@link jdk.intfrnbl.org.objfdtwfb.bsm.Typf
+     *            Typf}).
+     * @pbrbm signbturf
+     *            tif fifld's signbturf.
+     * @pbrbm vbluf
+     *            tif fifld's initibl vbluf. Tiis pbrbmftfr, wiidi mby bf
+     *            <tt>null</tt> if tif fifld dofs not ibvf bn initibl vbluf,
+     *            must bf bn {@link Intfgfr}, b {@link Flobt}, b {@link Long}, b
+     *            {@link Doublf} or b {@link String}.
      */
-    public FieldNode(final int api, final int access, final String name,
-            final String desc, final String signature, final Object value) {
-        super(api);
-        this.access = access;
-        this.name = name;
-        this.desc = desc;
-        this.signature = signature;
-        this.value = value;
+    publid FifldNodf(finbl int bpi, finbl int bddfss, finbl String nbmf,
+            finbl String dfsd, finbl String signbturf, finbl Objfdt vbluf) {
+        supfr(bpi);
+        tiis.bddfss = bddfss;
+        tiis.nbmf = nbmf;
+        tiis.dfsd = dfsd;
+        tiis.signbturf = signbturf;
+        tiis.vbluf = vbluf;
     }
 
     // ------------------------------------------------------------------------
-    // Implementation of the FieldVisitor abstract class
+    // Implfmfntbtion of tif FifldVisitor bbstrbdt dlbss
     // ------------------------------------------------------------------------
 
-    @Override
-    public AnnotationVisitor visitAnnotation(final String desc,
-            final boolean visible) {
-        AnnotationNode an = new AnnotationNode(desc);
-        if (visible) {
-            if (visibleAnnotations == null) {
-                visibleAnnotations = new ArrayList<AnnotationNode>(1);
+    @Ovfrridf
+    publid AnnotbtionVisitor visitAnnotbtion(finbl String dfsd,
+            finbl boolfbn visiblf) {
+        AnnotbtionNodf bn = nfw AnnotbtionNodf(dfsd);
+        if (visiblf) {
+            if (visiblfAnnotbtions == null) {
+                visiblfAnnotbtions = nfw ArrbyList<AnnotbtionNodf>(1);
             }
-            visibleAnnotations.add(an);
-        } else {
-            if (invisibleAnnotations == null) {
-                invisibleAnnotations = new ArrayList<AnnotationNode>(1);
+            visiblfAnnotbtions.bdd(bn);
+        } flsf {
+            if (invisiblfAnnotbtions == null) {
+                invisiblfAnnotbtions = nfw ArrbyList<AnnotbtionNodf>(1);
             }
-            invisibleAnnotations.add(an);
+            invisiblfAnnotbtions.bdd(bn);
         }
-        return an;
+        rfturn bn;
     }
 
-    @Override
-    public AnnotationVisitor visitTypeAnnotation(int typeRef,
-            TypePath typePath, String desc, boolean visible) {
-        TypeAnnotationNode an = new TypeAnnotationNode(typeRef, typePath, desc);
-        if (visible) {
-            if (visibleTypeAnnotations == null) {
-                visibleTypeAnnotations = new ArrayList<TypeAnnotationNode>(1);
+    @Ovfrridf
+    publid AnnotbtionVisitor visitTypfAnnotbtion(int typfRff,
+            TypfPbti typfPbti, String dfsd, boolfbn visiblf) {
+        TypfAnnotbtionNodf bn = nfw TypfAnnotbtionNodf(typfRff, typfPbti, dfsd);
+        if (visiblf) {
+            if (visiblfTypfAnnotbtions == null) {
+                visiblfTypfAnnotbtions = nfw ArrbyList<TypfAnnotbtionNodf>(1);
             }
-            visibleTypeAnnotations.add(an);
-        } else {
-            if (invisibleTypeAnnotations == null) {
-                invisibleTypeAnnotations = new ArrayList<TypeAnnotationNode>(1);
+            visiblfTypfAnnotbtions.bdd(bn);
+        } flsf {
+            if (invisiblfTypfAnnotbtions == null) {
+                invisiblfTypfAnnotbtions = nfw ArrbyList<TypfAnnotbtionNodf>(1);
             }
-            invisibleTypeAnnotations.add(an);
+            invisiblfTypfAnnotbtions.bdd(bn);
         }
-        return an;
+        rfturn bn;
     }
 
-    @Override
-    public void visitAttribute(final Attribute attr) {
-        if (attrs == null) {
-            attrs = new ArrayList<Attribute>(1);
+    @Ovfrridf
+    publid void visitAttributf(finbl Attributf bttr) {
+        if (bttrs == null) {
+            bttrs = nfw ArrbyList<Attributf>(1);
         }
-        attrs.add(attr);
+        bttrs.bdd(bttr);
     }
 
-    @Override
-    public void visitEnd() {
+    @Ovfrridf
+    publid void visitEnd() {
     }
 
     // ------------------------------------------------------------------------
-    // Accept methods
+    // Addfpt mftiods
     // ------------------------------------------------------------------------
 
     /**
-     * Checks that this field node is compatible with the given ASM API version.
-     * This methods checks that this node, and all its nodes recursively, do not
-     * contain elements that were introduced in more recent versions of the ASM
-     * API than the given version.
+     * Cifdks tibt tiis fifld nodf is dompbtiblf witi tif givfn ASM API vfrsion.
+     * Tiis mftiods difdks tibt tiis nodf, bnd bll its nodfs rfdursivfly, do not
+     * dontbin flfmfnts tibt wfrf introdudfd in morf rfdfnt vfrsions of tif ASM
+     * API tibn tif givfn vfrsion.
      *
-     * @param api
-     *            an ASM API version. Must be one of {@link Opcodes#ASM4} or
-     *            {@link Opcodes#ASM5}.
+     * @pbrbm bpi
+     *            bn ASM API vfrsion. Must bf onf of {@link Opdodfs#ASM4} or
+     *            {@link Opdodfs#ASM5}.
      */
-    public void check(final int api) {
-        if (api == Opcodes.ASM4) {
-            if (visibleTypeAnnotations != null
-                    && visibleTypeAnnotations.size() > 0) {
-                throw new RuntimeException();
+    publid void difdk(finbl int bpi) {
+        if (bpi == Opdodfs.ASM4) {
+            if (visiblfTypfAnnotbtions != null
+                    && visiblfTypfAnnotbtions.sizf() > 0) {
+                tirow nfw RuntimfExdfption();
             }
-            if (invisibleTypeAnnotations != null
-                    && invisibleTypeAnnotations.size() > 0) {
-                throw new RuntimeException();
+            if (invisiblfTypfAnnotbtions != null
+                    && invisiblfTypfAnnotbtions.sizf() > 0) {
+                tirow nfw RuntimfExdfption();
             }
         }
     }
 
     /**
-     * Makes the given class visitor visit this field.
+     * Mbkfs tif givfn dlbss visitor visit tiis fifld.
      *
-     * @param cv
-     *            a class visitor.
+     * @pbrbm dv
+     *            b dlbss visitor.
      */
-    public void accept(final ClassVisitor cv) {
-        FieldVisitor fv = cv.visitField(access, name, desc, signature, value);
+    publid void bddfpt(finbl ClbssVisitor dv) {
+        FifldVisitor fv = dv.visitFifld(bddfss, nbmf, dfsd, signbturf, vbluf);
         if (fv == null) {
-            return;
+            rfturn;
         }
         int i, n;
-        n = visibleAnnotations == null ? 0 : visibleAnnotations.size();
+        n = visiblfAnnotbtions == null ? 0 : visiblfAnnotbtions.sizf();
         for (i = 0; i < n; ++i) {
-            AnnotationNode an = visibleAnnotations.get(i);
-            an.accept(fv.visitAnnotation(an.desc, true));
+            AnnotbtionNodf bn = visiblfAnnotbtions.gft(i);
+            bn.bddfpt(fv.visitAnnotbtion(bn.dfsd, truf));
         }
-        n = invisibleAnnotations == null ? 0 : invisibleAnnotations.size();
+        n = invisiblfAnnotbtions == null ? 0 : invisiblfAnnotbtions.sizf();
         for (i = 0; i < n; ++i) {
-            AnnotationNode an = invisibleAnnotations.get(i);
-            an.accept(fv.visitAnnotation(an.desc, false));
+            AnnotbtionNodf bn = invisiblfAnnotbtions.gft(i);
+            bn.bddfpt(fv.visitAnnotbtion(bn.dfsd, fblsf));
         }
-        n = visibleTypeAnnotations == null ? 0 : visibleTypeAnnotations.size();
+        n = visiblfTypfAnnotbtions == null ? 0 : visiblfTypfAnnotbtions.sizf();
         for (i = 0; i < n; ++i) {
-            TypeAnnotationNode an = visibleTypeAnnotations.get(i);
-            an.accept(fv.visitTypeAnnotation(an.typeRef, an.typePath, an.desc,
-                    true));
+            TypfAnnotbtionNodf bn = visiblfTypfAnnotbtions.gft(i);
+            bn.bddfpt(fv.visitTypfAnnotbtion(bn.typfRff, bn.typfPbti, bn.dfsd,
+                    truf));
         }
-        n = invisibleTypeAnnotations == null ? 0 : invisibleTypeAnnotations
-                .size();
+        n = invisiblfTypfAnnotbtions == null ? 0 : invisiblfTypfAnnotbtions
+                .sizf();
         for (i = 0; i < n; ++i) {
-            TypeAnnotationNode an = invisibleTypeAnnotations.get(i);
-            an.accept(fv.visitTypeAnnotation(an.typeRef, an.typePath, an.desc,
-                    false));
+            TypfAnnotbtionNodf bn = invisiblfTypfAnnotbtions.gft(i);
+            bn.bddfpt(fv.visitTypfAnnotbtion(bn.typfRff, bn.typfPbti, bn.dfsd,
+                    fblsf));
         }
-        n = attrs == null ? 0 : attrs.size();
+        n = bttrs == null ? 0 : bttrs.sizf();
         for (i = 0; i < n; ++i) {
-            fv.visitAttribute(attrs.get(i));
+            fv.visitAttributf(bttrs.gft(i));
         }
         fv.visitEnd();
     }

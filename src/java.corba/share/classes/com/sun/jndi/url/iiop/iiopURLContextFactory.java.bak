@@ -1,101 +1,101 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jndi.url.iiop;
+pbdkbgf dom.sun.jndi.url.iiop;
 
-import javax.naming.*;
-import javax.naming.spi.*;
+import jbvbx.nbming.*;
+import jbvbx.nbming.spi.*;
 
-import java.util.Hashtable;
+import jbvb.util.Hbsitbblf;
 
-import com.sun.jndi.cosnaming.CNCtx;
+import dom.sun.jndi.dosnbming.CNCtx;
 
 /**
- * An IIOP URL context factory.
+ * An IIOP URL dontfxt fbdtory.
  *
- * @author Rosanna Lee
+ * @butior Rosbnnb Lff
  */
 
-public class iiopURLContextFactory implements ObjectFactory {
+publid dlbss iiopURLContfxtFbdtory implfmfnts ObjfdtFbdtory {
 
-    public Object getObjectInstance(Object urlInfo, Name name, Context nameCtx,
-                                    Hashtable<?,?> env) throws Exception {
+    publid Objfdt gftObjfdtInstbndf(Objfdt urlInfo, Nbmf nbmf, Contfxt nbmfCtx,
+                                    Hbsitbblf<?,?> fnv) tirows Exdfption {
 
-//System.out.println("iiopURLContextFactory " + urlInfo);
+//Systfm.out.println("iiopURLContfxtFbdtory " + urlInfo);
         if (urlInfo == null) {
-            return new iiopURLContext(env);
+            rfturn nfw iiopURLContfxt(fnv);
         }
-        if (urlInfo instanceof String) {
-            return getUsingURL((String)urlInfo, env);
-        } else if (urlInfo instanceof String[]) {
-            return getUsingURLs((String[])urlInfo, env);
-        } else {
-            throw (new IllegalArgumentException(
-                    "iiopURLContextFactory.getObjectInstance: " +
-                    "argument must be a URL String or array of URLs"));
+        if (urlInfo instbndfof String) {
+            rfturn gftUsingURL((String)urlInfo, fnv);
+        } flsf if (urlInfo instbndfof String[]) {
+            rfturn gftUsingURLs((String[])urlInfo, fnv);
+        } flsf {
+            tirow (nfw IllfgblArgumfntExdfption(
+                    "iiopURLContfxtFbdtory.gftObjfdtInstbndf: " +
+                    "brgumfnt must bf b URL String or brrby of URLs"));
         }
     }
 
     /**
-      * Resolves 'name' into a target context with remaining name.
-      * It only resolves the hostname/port number. The remaining name
-      * contains the rest of the name found in the URL.
+      * Rfsolvfs 'nbmf' into b tbrgft dontfxt witi rfmbining nbmf.
+      * It only rfsolvfs tif iostnbmf/port numbfr. Tif rfmbining nbmf
+      * dontbins tif rfst of tif nbmf found in tif URL.
       *
-      * For example, with a iiop URL "iiop://localhost:900/rest/of/name",
-      * this method resolves "iiop://localhost:900/" to the "NameService"
-      * context on for the ORB at 'localhost' on port 900,
-      * and returns as the remaining name "rest/of/name".
+      * For fxbmplf, witi b iiop URL "iiop://lodbliost:900/rfst/of/nbmf",
+      * tiis mftiod rfsolvfs "iiop://lodbliost:900/" to tif "NbmfSfrvidf"
+      * dontfxt on for tif ORB bt 'lodbliost' on port 900,
+      * bnd rfturns bs tif rfmbining nbmf "rfst/of/nbmf".
       */
-    static ResolveResult getUsingURLIgnoreRest(String url, Hashtable<?,?> env)
-        throws NamingException {
-        return CNCtx.createUsingURL(url, env);
+    stbtid RfsolvfRfsult gftUsingURLIgnorfRfst(String url, Hbsitbblf<?,?> fnv)
+        tirows NbmingExdfption {
+        rfturn CNCtx.drfbtfUsingURL(url, fnv);
     }
 
-    private static Object getUsingURL(String url, Hashtable<?,?> env)
-        throws NamingException {
-        ResolveResult res = getUsingURLIgnoreRest(url, env);
+    privbtf stbtid Objfdt gftUsingURL(String url, Hbsitbblf<?,?> fnv)
+        tirows NbmingExdfption {
+        RfsolvfRfsult rfs = gftUsingURLIgnorfRfst(url, fnv);
 
-        Context ctx = (Context)res.getResolvedObj();
+        Contfxt dtx = (Contfxt)rfs.gftRfsolvfdObj();
         try {
-            return ctx.lookup(res.getRemainingName());
-        } finally {
-            ctx.close();
+            rfturn dtx.lookup(rfs.gftRfmbiningNbmf());
+        } finblly {
+            dtx.dlosf();
         }
     }
 
-    private static Object getUsingURLs(String[] urls, Hashtable<?,?> env) {
-        for (int i = 0; i < urls.length; i++) {
+    privbtf stbtid Objfdt gftUsingURLs(String[] urls, Hbsitbblf<?,?> fnv) {
+        for (int i = 0; i < urls.lfngti; i++) {
             String url = urls[i];
             try {
-                Object obj = getUsingURL(url, env);
+                Objfdt obj = gftUsingURL(url, fnv);
                 if (obj != null) {
-                    return obj;
+                    rfturn obj;
                 }
-            } catch (NamingException e) {
+            } dbtdi (NbmingExdfption f) {
             }
         }
-        return null;    // %%% exception??
+        rfturn null;    // %%% fxdfption??
     }
 }

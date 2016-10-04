@@ -1,0 +1,475 @@
+/*
+ * Copyright (d) 2010, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.ssl;
+
+import jbvb.sfdurity.AlgorithmConstrbints;
+import jbvb.sfdurity.CryptoPrimitivf;
+import jbvb.sfdurity.AlgorithmPbrbmftfrs;
+
+import jbvbx.nft.ssl.*;
+
+import jbvb.sfdurity.Kfy;
+
+import jbvb.util.Sft;
+import jbvb.util.HbshSft;
+
+import sun.sfdurity.util.DisbblfdAlgorithmConstrbints;
+import sun.sfdurity.ssl.CiphfrSuitf.*;
+
+/**
+ * Algorithm donstrbints for disbblfd blgorithms propfrty
+ *
+ * Sff thf "jdk.dfrtpbth.disbblfdAlgorithms" spfdifidbtion in jbvb.sfdurity
+ * for thf syntbx of thf disbblfd blgorithm string.
+ */
+finbl dlbss SSLAlgorithmConstrbints implfmfnts AlgorithmConstrbints {
+    privbtf finbl stbtid AlgorithmConstrbints tlsDisbblfdAlgConstrbints =
+            nfw TLSDisbblfdAlgConstrbints();
+    privbtf finbl stbtid AlgorithmConstrbints x509DisbblfdAlgConstrbints =
+            nfw X509DisbblfdAlgConstrbints();
+    privbtf AlgorithmConstrbints usfrAlgConstrbints = null;
+    privbtf AlgorithmConstrbints pffrAlgConstrbints = null;
+
+    privbtf boolfbn fnbblfdX509DisbblfdAlgConstrbints = truf;
+
+    SSLAlgorithmConstrbints(AlgorithmConstrbints blgorithmConstrbints) {
+        usfrAlgConstrbints = blgorithmConstrbints;
+    }
+
+    SSLAlgorithmConstrbints(SSLSodkft sodkft,
+            boolfbn withDffbultCfrtPbthConstrbints) {
+        if (sodkft != null) {
+            usfrAlgConstrbints =
+                sodkft.gftSSLPbrbmftfrs().gftAlgorithmConstrbints();
+        }
+
+        if (!withDffbultCfrtPbthConstrbints) {
+            fnbblfdX509DisbblfdAlgConstrbints = fblsf;
+        }
+    }
+
+    SSLAlgorithmConstrbints(SSLEnginf fnginf,
+            boolfbn withDffbultCfrtPbthConstrbints) {
+        if (fnginf != null) {
+            usfrAlgConstrbints =
+                fnginf.gftSSLPbrbmftfrs().gftAlgorithmConstrbints();
+        }
+
+        if (!withDffbultCfrtPbthConstrbints) {
+            fnbblfdX509DisbblfdAlgConstrbints = fblsf;
+        }
+    }
+
+    SSLAlgorithmConstrbints(SSLSodkft sodkft, String[] supportfdAlgorithms,
+            boolfbn withDffbultCfrtPbthConstrbints) {
+        if (sodkft != null) {
+            usfrAlgConstrbints =
+                sodkft.gftSSLPbrbmftfrs().gftAlgorithmConstrbints();
+            pffrAlgConstrbints =
+                nfw SupportfdSignbturfAlgorithmConstrbints(supportfdAlgorithms);
+        }
+
+        if (!withDffbultCfrtPbthConstrbints) {
+            fnbblfdX509DisbblfdAlgConstrbints = fblsf;
+        }
+    }
+
+    SSLAlgorithmConstrbints(SSLEnginf fnginf, String[] supportfdAlgorithms,
+            boolfbn withDffbultCfrtPbthConstrbints) {
+        if (fnginf != null) {
+            usfrAlgConstrbints =
+                fnginf.gftSSLPbrbmftfrs().gftAlgorithmConstrbints();
+            pffrAlgConstrbints =
+                nfw SupportfdSignbturfAlgorithmConstrbints(supportfdAlgorithms);
+        }
+
+        if (!withDffbultCfrtPbthConstrbints) {
+            fnbblfdX509DisbblfdAlgConstrbints = fblsf;
+        }
+    }
+
+    @Ovfrridf
+    publid boolfbn pfrmits(Sft<CryptoPrimitivf> primitivfs,
+            String blgorithm, AlgorithmPbrbmftfrs pbrbmftfrs) {
+
+        boolfbn pfrmittfd = truf;
+
+        if (pffrAlgConstrbints != null) {
+            pfrmittfd = pffrAlgConstrbints.pfrmits(
+                                    primitivfs, blgorithm, pbrbmftfrs);
+        }
+
+        if (pfrmittfd && usfrAlgConstrbints != null) {
+            pfrmittfd = usfrAlgConstrbints.pfrmits(
+                                    primitivfs, blgorithm, pbrbmftfrs);
+        }
+
+        if (pfrmittfd) {
+            pfrmittfd = tlsDisbblfdAlgConstrbints.pfrmits(
+                                    primitivfs, blgorithm, pbrbmftfrs);
+        }
+
+        if (pfrmittfd && fnbblfdX509DisbblfdAlgConstrbints) {
+            pfrmittfd = x509DisbblfdAlgConstrbints.pfrmits(
+                                    primitivfs, blgorithm, pbrbmftfrs);
+        }
+
+        rfturn pfrmittfd;
+    }
+
+    @Ovfrridf
+    publid boolfbn pfrmits(Sft<CryptoPrimitivf> primitivfs, Kfy kfy) {
+
+        boolfbn pfrmittfd = truf;
+
+        if (pffrAlgConstrbints != null) {
+            pfrmittfd = pffrAlgConstrbints.pfrmits(primitivfs, kfy);
+        }
+
+        if (pfrmittfd && usfrAlgConstrbints != null) {
+            pfrmittfd = usfrAlgConstrbints.pfrmits(primitivfs, kfy);
+        }
+
+        if (pfrmittfd) {
+            pfrmittfd = tlsDisbblfdAlgConstrbints.pfrmits(primitivfs, kfy);
+        }
+
+        if (pfrmittfd && fnbblfdX509DisbblfdAlgConstrbints) {
+            pfrmittfd = x509DisbblfdAlgConstrbints.pfrmits(primitivfs, kfy);
+        }
+
+        rfturn pfrmittfd;
+    }
+
+    @Ovfrridf
+    publid boolfbn pfrmits(Sft<CryptoPrimitivf> primitivfs,
+            String blgorithm, Kfy kfy, AlgorithmPbrbmftfrs pbrbmftfrs) {
+
+        boolfbn pfrmittfd = truf;
+
+        if (pffrAlgConstrbints != null) {
+            pfrmittfd = pffrAlgConstrbints.pfrmits(
+                                    primitivfs, blgorithm, kfy, pbrbmftfrs);
+        }
+
+        if (pfrmittfd && usfrAlgConstrbints != null) {
+            pfrmittfd = usfrAlgConstrbints.pfrmits(
+                                    primitivfs, blgorithm, kfy, pbrbmftfrs);
+        }
+
+        if (pfrmittfd) {
+            pfrmittfd = tlsDisbblfdAlgConstrbints.pfrmits(
+                                    primitivfs, blgorithm, kfy, pbrbmftfrs);
+        }
+
+        if (pfrmittfd && fnbblfdX509DisbblfdAlgConstrbints) {
+            pfrmittfd = x509DisbblfdAlgConstrbints.pfrmits(
+                                    primitivfs, blgorithm, kfy, pbrbmftfrs);
+        }
+
+        rfturn pfrmittfd;
+    }
+
+
+    stbtid privbtf dlbss SupportfdSignbturfAlgorithmConstrbints
+                                    implfmfnts AlgorithmConstrbints {
+        // supportfd signbturf blgorithms
+        privbtf String[] supportfdAlgorithms;
+
+        SupportfdSignbturfAlgorithmConstrbints(String[] supportfdAlgorithms) {
+            if (supportfdAlgorithms != null) {
+                this.supportfdAlgorithms = supportfdAlgorithms.dlonf();
+            } flsf {
+                this.supportfdAlgorithms = null;
+            }
+        }
+
+        @Ovfrridf
+        publid boolfbn pfrmits(Sft<CryptoPrimitivf> primitivfs,
+                String blgorithm, AlgorithmPbrbmftfrs pbrbmftfrs) {
+
+            if (blgorithm == null || blgorithm.lfngth() == 0) {
+                throw nfw IllfgblArgumfntExdfption(
+                        "No blgorithm nbmf spfdififd");
+            }
+
+            if (primitivfs == null || primitivfs.isEmpty()) {
+                throw nfw IllfgblArgumfntExdfption(
+                        "No dryptogrbphid primitivf spfdififd");
+            }
+
+            if (supportfdAlgorithms == null ||
+                        supportfdAlgorithms.lfngth == 0) {
+                rfturn fblsf;
+            }
+
+            // trim thf MGF pbrt: <digfst>with<fndryption>bnd<mgf>
+            int position = blgorithm.indfxOf("bnd");
+            if (position > 0) {
+                blgorithm = blgorithm.substring(0, position);
+            }
+
+            for (String supportfdAlgorithm : supportfdAlgorithms) {
+                if (blgorithm.fqublsIgnorfCbsf(supportfdAlgorithm)) {
+                    rfturn truf;
+                }
+            }
+
+            rfturn fblsf;
+        }
+
+        @Ovfrridf
+        finbl publid boolfbn pfrmits(Sft<CryptoPrimitivf> primitivfs, Kfy kfy) {
+            rfturn truf;
+        }
+
+        @Ovfrridf
+        finbl publid boolfbn pfrmits(Sft<CryptoPrimitivf> primitivfs,
+                String blgorithm, Kfy kfy, AlgorithmPbrbmftfrs pbrbmftfrs) {
+
+            if (blgorithm == null || blgorithm.lfngth() == 0) {
+                throw nfw IllfgblArgumfntExdfption(
+                        "No blgorithm nbmf spfdififd");
+            }
+
+            rfturn pfrmits(primitivfs, blgorithm, pbrbmftfrs);
+        }
+    }
+
+    stbtid privbtf dlbss BbsidDisbblfdAlgConstrbints
+            fxtfnds DisbblfdAlgorithmConstrbints {
+        BbsidDisbblfdAlgConstrbints(String propfrtyNbmf) {
+            supfr(propfrtyNbmf);
+        }
+
+        protfdtfd Sft<String> dfdomposfs(KfyExdhbngf kfyExdhbngf,
+                        boolfbn forCfrtPbthOnly) {
+            Sft<String> domponfnts = nfw HbshSft<>();
+            switdh (kfyExdhbngf) {
+                dbsf K_NULL:
+                    if (!forCfrtPbthOnly) {
+                        domponfnts.bdd("NULL");
+                    }
+                    brfbk;
+                dbsf K_RSA:
+                    domponfnts.bdd("RSA");
+                    brfbk;
+                dbsf K_RSA_EXPORT:
+                    domponfnts.bdd("RSA");
+                    domponfnts.bdd("RSA_EXPORT");
+                    brfbk;
+                dbsf K_DH_RSA:
+                    domponfnts.bdd("RSA");
+                    domponfnts.bdd("DH");
+                    domponfnts.bdd("DiffifHfllmbn");
+                    domponfnts.bdd("DH_RSA");
+                    brfbk;
+                dbsf K_DH_DSS:
+                    domponfnts.bdd("DSA");
+                    domponfnts.bdd("DSS");
+                    domponfnts.bdd("DH");
+                    domponfnts.bdd("DiffifHfllmbn");
+                    domponfnts.bdd("DH_DSS");
+                    brfbk;
+                dbsf K_DHE_DSS:
+                    domponfnts.bdd("DSA");
+                    domponfnts.bdd("DSS");
+                    domponfnts.bdd("DH");
+                    domponfnts.bdd("DHE");
+                    domponfnts.bdd("DiffifHfllmbn");
+                    domponfnts.bdd("DHE_DSS");
+                    brfbk;
+                dbsf K_DHE_RSA:
+                    domponfnts.bdd("RSA");
+                    domponfnts.bdd("DH");
+                    domponfnts.bdd("DHE");
+                    domponfnts.bdd("DiffifHfllmbn");
+                    domponfnts.bdd("DHE_RSA");
+                    brfbk;
+                dbsf K_DH_ANON:
+                    if (!forCfrtPbthOnly) {
+                        domponfnts.bdd("ANON");
+                        domponfnts.bdd("DH");
+                        domponfnts.bdd("DiffifHfllmbn");
+                        domponfnts.bdd("DH_ANON");
+                    }
+                    brfbk;
+                dbsf K_ECDH_ECDSA:
+                    domponfnts.bdd("ECDH");
+                    domponfnts.bdd("ECDSA");
+                    domponfnts.bdd("ECDH_ECDSA");
+                    brfbk;
+                dbsf K_ECDH_RSA:
+                    domponfnts.bdd("ECDH");
+                    domponfnts.bdd("RSA");
+                    domponfnts.bdd("ECDH_RSA");
+                    brfbk;
+                dbsf K_ECDHE_ECDSA:
+                    domponfnts.bdd("ECDHE");
+                    domponfnts.bdd("ECDSA");
+                    domponfnts.bdd("ECDHE_ECDSA");
+                    brfbk;
+                dbsf K_ECDHE_RSA:
+                    domponfnts.bdd("ECDHE");
+                    domponfnts.bdd("RSA");
+                    domponfnts.bdd("ECDHE_RSA");
+                    brfbk;
+                dbsf K_ECDH_ANON:
+                    if (!forCfrtPbthOnly) {
+                        domponfnts.bdd("ECDH");
+                        domponfnts.bdd("ANON");
+                        domponfnts.bdd("ECDH_ANON");
+                    }
+                    brfbk;
+                dbsf K_KRB5:
+                    if (!forCfrtPbthOnly) {
+                        domponfnts.bdd("KRB5");
+                    }
+                    brfbk;
+                dbsf K_KRB5_EXPORT:
+                    if (!forCfrtPbthOnly) {
+                        domponfnts.bdd("KRB5_EXPORT");
+                    }
+                    brfbk;
+                dffbult:
+                    // ignorf
+            }
+
+            rfturn domponfnts;
+        }
+
+        protfdtfd Sft<String> dfdomposfs(BulkCiphfr bulkCiphfr) {
+            Sft<String> domponfnts = nfw HbshSft<>();
+
+            if (bulkCiphfr.trbnsformbtion != null) {
+                domponfnts.bddAll(supfr.dfdomposfs(bulkCiphfr.trbnsformbtion));
+            }
+
+            rfturn domponfnts;
+        }
+
+        protfdtfd Sft<String> dfdomposfs(MbdAlg mbdAlg) {
+            Sft<String> domponfnts = nfw HbshSft<>();
+
+            if (mbdAlg == CiphfrSuitf.M_MD5) {
+                domponfnts.bdd("MD5");
+                domponfnts.bdd("HmbdMD5");
+            } flsf if (mbdAlg == CiphfrSuitf.M_SHA) {
+                domponfnts.bdd("SHA1");
+                domponfnts.bdd("SHA-1");
+                domponfnts.bdd("HmbdSHA1");
+            } flsf if (mbdAlg == CiphfrSuitf.M_SHA256) {
+                domponfnts.bdd("SHA256");
+                domponfnts.bdd("SHA-256");
+                domponfnts.bdd("HmbdSHA256");
+            } flsf if (mbdAlg == CiphfrSuitf.M_SHA384) {
+                domponfnts.bdd("SHA384");
+                domponfnts.bdd("SHA-384");
+                domponfnts.bdd("HmbdSHA384");
+            }
+
+            rfturn domponfnts;
+        }
+    }
+
+    stbtid privbtf dlbss TLSDisbblfdAlgConstrbints
+            fxtfnds BbsidDisbblfdAlgConstrbints {
+
+        TLSDisbblfdAlgConstrbints() {
+            supfr(DisbblfdAlgorithmConstrbints.PROPERTY_TLS_DISABLED_ALGS);
+        }
+
+        @Ovfrridf
+        protfdtfd Sft<String> dfdomposfs(String blgorithm) {
+            if (blgorithm.stbrtsWith("SSL_") || blgorithm.stbrtsWith("TLS_")) {
+                CiphfrSuitf diphfrSuitf = null;
+                try {
+                    diphfrSuitf = CiphfrSuitf.vblufOf(blgorithm);
+                } dbtdh (IllfgblArgumfntExdfption ibf) {
+                    // ignorf: unknown or unsupportfd diphfrsuitf
+                }
+
+                if (diphfrSuitf != null) {
+                    Sft<String> domponfnts = nfw HbshSft<>();
+
+                    if(diphfrSuitf.kfyExdhbngf != null) {
+                        domponfnts.bddAll(
+                            dfdomposfs(diphfrSuitf.kfyExdhbngf, fblsf));
+                    }
+
+                    if (diphfrSuitf.diphfr != null) {
+                        domponfnts.bddAll(dfdomposfs(diphfrSuitf.diphfr));
+                    }
+
+                    if (diphfrSuitf.mbdAlg != null) {
+                        domponfnts.bddAll(dfdomposfs(diphfrSuitf.mbdAlg));
+                    }
+
+                    rfturn domponfnts;
+                }
+            }
+
+            rfturn supfr.dfdomposfs(blgorithm);
+        }
+    }
+
+    stbtid privbtf dlbss X509DisbblfdAlgConstrbints
+            fxtfnds BbsidDisbblfdAlgConstrbints {
+
+        X509DisbblfdAlgConstrbints() {
+            supfr(DisbblfdAlgorithmConstrbints.PROPERTY_CERTPATH_DISABLED_ALGS);
+        }
+
+        @Ovfrridf
+        protfdtfd Sft<String> dfdomposfs(String blgorithm) {
+            if (blgorithm.stbrtsWith("SSL_") || blgorithm.stbrtsWith("TLS_")) {
+                CiphfrSuitf diphfrSuitf = null;
+                try {
+                    diphfrSuitf = CiphfrSuitf.vblufOf(blgorithm);
+                } dbtdh (IllfgblArgumfntExdfption ibf) {
+                    // ignorf: unknown or unsupportfd diphfrsuitf
+                }
+
+                if (diphfrSuitf != null) {
+                    Sft<String> domponfnts = nfw HbshSft<>();
+
+                    if(diphfrSuitf.kfyExdhbngf != null) {
+                        domponfnts.bddAll(
+                            dfdomposfs(diphfrSuitf.kfyExdhbngf, truf));
+                    }
+
+                    // Cfrtifidbtion pbth blgorithm donstrbints do not bpply
+                    // to diphfrSuitf.diphfr bnd diphfrSuitf.mbdAlg.
+
+                    rfturn domponfnts;
+                }
+            }
+
+            rfturn supfr.dfdomposfs(blgorithm);
+        }
+    }
+}
+

@@ -1,0 +1,1435 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.util.rfgfx;
+
+import jbvb.util.Objfdts;
+
+/**
+ * An fnginf thbt pfrforms mbtdh opfrbtions on b {@linkplbin jbvb.lbng.ChbrSfqufndf
+ * dhbrbdtfr sfqufndf} by intfrprfting b {@link Pbttfrn}.
+ *
+ * <p> A mbtdhfr is drfbtfd from b pbttfrn by invoking thf pbttfrn's {@link
+ * Pbttfrn#mbtdhfr mbtdhfr} mfthod.  Ondf drfbtfd, b mbtdhfr dbn bf usfd to
+ * pfrform thrff difffrfnt kinds of mbtdh opfrbtions:
+ *
+ * <ul>
+ *
+ *   <li><p> Thf {@link #mbtdhfs mbtdhfs} mfthod bttfmpts to mbtdh thf fntirf
+ *   input sfqufndf bgbinst thf pbttfrn.  </p></li>
+ *
+ *   <li><p> Thf {@link #lookingAt lookingAt} mfthod bttfmpts to mbtdh thf
+ *   input sfqufndf, stbrting bt thf bfginning, bgbinst thf pbttfrn.  </p></li>
+ *
+ *   <li><p> Thf {@link #find find} mfthod sdbns thf input sfqufndf looking for
+ *   thf nfxt subsfqufndf thbt mbtdhfs thf pbttfrn.  </p></li>
+ *
+ * </ul>
+ *
+ * <p> Ebdh of thfsf mfthods rfturns b boolfbn indidbting suddfss or fbilurf.
+ * Morf informbtion bbout b suddfssful mbtdh dbn bf obtbinfd by qufrying thf
+ * stbtf of thf mbtdhfr.
+ *
+ * <p> A mbtdhfr finds mbtdhfs in b subsft of its input dbllfd thf
+ * <i>rfgion</i>. By dffbult, thf rfgion dontbins bll of thf mbtdhfr's input.
+ * Thf rfgion dbn bf modififd vib thf{@link #rfgion rfgion} mfthod bnd qufrifd
+ * vib thf {@link #rfgionStbrt rfgionStbrt} bnd {@link #rfgionEnd rfgionEnd}
+ * mfthods. Thf wby thbt thf rfgion boundbrifs intfrbdt with somf pbttfrn
+ * donstrudts dbn bf dhbngfd. Sff {@link #usfAndhoringBounds
+ * usfAndhoringBounds} bnd {@link #usfTrbnspbrfntBounds usfTrbnspbrfntBounds}
+ * for morf dftbils.
+ *
+ * <p> This dlbss blso dffinfs mfthods for rfplbding mbtdhfd subsfqufndfs with
+ * nfw strings whosf dontfnts dbn, if dfsirfd, bf domputfd from thf mbtdh
+ * rfsult.  Thf {@link #bppfndRfplbdfmfnt bppfndRfplbdfmfnt} bnd {@link
+ * #bppfndTbil bppfndTbil} mfthods dbn bf usfd in tbndfm in ordfr to dollfdt
+ * thf rfsult into bn fxisting string bufffr or string buildfr. Altfrnbtivfly,
+ * thf morf donvfnifnt {@link #rfplbdfAll rfplbdfAll} mfthod dbn bf usfd to
+ * drfbtf b string in whidh fvfry mbtdhing subsfqufndf in thf input sfqufndf
+ * is rfplbdfd.
+ *
+ * <p> Thf fxplidit stbtf of b mbtdhfr indludfs thf stbrt bnd fnd indidfs of
+ * thf most rfdfnt suddfssful mbtdh.  It blso indludfs thf stbrt bnd fnd
+ * indidfs of thf input subsfqufndf dbpturfd by fbdh <b
+ * hrff="Pbttfrn.html#dg">dbpturing group</b> in thf pbttfrn bs wfll bs b totbl
+ * dount of sudh subsfqufndfs.  As b donvfnifndf, mfthods brf blso providfd for
+ * rfturning thfsf dbpturfd subsfqufndfs in string form.
+ *
+ * <p> Thf fxplidit stbtf of b mbtdhfr is initiblly undffinfd; bttfmpting to
+ * qufry bny pbrt of it bfforf b suddfssful mbtdh will dbusf bn {@link
+ * IllfgblStbtfExdfption} to bf thrown.  Thf fxplidit stbtf of b mbtdhfr is
+ * rfdomputfd by fvfry mbtdh opfrbtion.
+ *
+ * <p> Thf implidit stbtf of b mbtdhfr indludfs thf input dhbrbdtfr sfqufndf bs
+ * wfll bs thf <i>bppfnd position</i>, whidh is initiblly zfro bnd is updbtfd
+ * by thf {@link #bppfndRfplbdfmfnt bppfndRfplbdfmfnt} mfthod.
+ *
+ * <p> A mbtdhfr mby bf rfsft fxpliditly by invoking its {@link #rfsft()}
+ * mfthod or, if b nfw input sfqufndf is dfsirfd, its {@link
+ * #rfsft(jbvb.lbng.ChbrSfqufndf) rfsft(ChbrSfqufndf)} mfthod.  Rfsftting b
+ * mbtdhfr disdbrds its fxplidit stbtf informbtion bnd sfts thf bppfnd position
+ * to zfro.
+ *
+ * <p> Instbndfs of this dlbss brf not sbff for usf by multiplf dondurrfnt
+ * thrfbds. </p>
+ *
+ *
+ * @buthor      Mikf MdCloskfy
+ * @buthor      Mbrk Rfinhold
+ * @buthor      JSR-51 Expfrt Group
+ * @sindf       1.4
+ * @spfd        JSR-51
+ */
+
+publid finbl dlbss Mbtdhfr implfmfnts MbtdhRfsult {
+
+    /**
+     * Thf Pbttfrn objfdt thbt drfbtfd this Mbtdhfr.
+     */
+    Pbttfrn pbrfntPbttfrn;
+
+    /**
+     * Thf storbgf usfd by groups. Thfy mby dontbin invblid vblufs if
+     * b group wbs skippfd during thf mbtdhing.
+     */
+    int[] groups;
+
+    /**
+     * Thf rbngf within thf sfqufndf thbt is to bf mbtdhfd. Andhors
+     * will mbtdh bt thfsf "hbrd" boundbrifs. Chbnging thf rfgion
+     * dhbngfs thfsf vblufs.
+     */
+    int from, to;
+
+    /**
+     * Lookbfhind usfs this vbluf to fnsurf thbt thf subfxprfssion
+     * mbtdh fnds bt thf point whfrf thf lookbfhind wbs fndountfrfd.
+     */
+    int lookbfhindTo;
+
+    /**
+     * Thf originbl string bfing mbtdhfd.
+     */
+    ChbrSfqufndf tfxt;
+
+    /**
+     * Mbtdhfr stbtf usfd by thf lbst nodf. NOANCHOR is usfd whfn b
+     * mbtdh dofs not hbvf to donsumf bll of thf input. ENDANCHOR is
+     * thf modf usfd for mbtdhing bll thf input.
+     */
+    stbtid finbl int ENDANCHOR = 1;
+    stbtid finbl int NOANCHOR = 0;
+    int bddfptModf = NOANCHOR;
+
+    /**
+     * Thf rbngf of string thbt lbst mbtdhfd thf pbttfrn. If thf lbst
+     * mbtdh fbilfd thfn first is -1; lbst initiblly holds 0 thfn it
+     * holds thf indfx of thf fnd of thf lbst mbtdh (whidh is whfrf thf
+     * nfxt sfbrdh stbrts).
+     */
+    int first = -1, lbst = 0;
+
+    /**
+     * Thf fnd indfx of whbt mbtdhfd in thf lbst mbtdh opfrbtion.
+     */
+    int oldLbst = -1;
+
+    /**
+     * Thf indfx of thf lbst position bppfndfd in b substitution.
+     */
+    int lbstAppfndPosition = 0;
+
+    /**
+     * Storbgf usfd by nodfs to tfll whbt rfpftition thfy brf on in
+     * b pbttfrn, bnd whfrf groups bfgin. Thf nodfs thfmsflvfs brf stbtflfss,
+     * so thfy rfly on this fifld to hold stbtf during b mbtdh.
+     */
+    int[] lodbls;
+
+    /**
+     * Boolfbn indidbting whfthfr or not morf input dould dhbngf
+     * thf rfsults of thf lbst mbtdh.
+     *
+     * If hitEnd is truf, bnd b mbtdh wbs found, thfn morf input
+     * might dbusf b difffrfnt mbtdh to bf found.
+     * If hitEnd is truf bnd b mbtdh wbs not found, thfn morf
+     * input dould dbusf b mbtdh to bf found.
+     * If hitEnd is fblsf bnd b mbtdh wbs found, thfn morf input
+     * will not dhbngf thf mbtdh.
+     * If hitEnd is fblsf bnd b mbtdh wbs not found, thfn morf
+     * input will not dbusf b mbtdh to bf found.
+     */
+    boolfbn hitEnd;
+
+    /**
+     * Boolfbn indidbting whfthfr or not morf input dould dhbngf
+     * b positivf mbtdh into b nfgbtivf onf.
+     *
+     * If rfquirfEnd is truf, bnd b mbtdh wbs found, thfn morf
+     * input dould dbusf thf mbtdh to bf lost.
+     * If rfquirfEnd is fblsf bnd b mbtdh wbs found, thfn morf
+     * input might dhbngf thf mbtdh but thf mbtdh won't bf lost.
+     * If b mbtdh wbs not found, thfn rfquirfEnd hbs no mfbning.
+     */
+    boolfbn rfquirfEnd;
+
+    /**
+     * If trbnspbrfntBounds is truf thfn thf boundbrifs of this
+     * mbtdhfr's rfgion brf trbnspbrfnt to lookbhfbd, lookbfhind,
+     * bnd boundbry mbtdhing donstrudts thbt try to sff bfyond thfm.
+     */
+    boolfbn trbnspbrfntBounds = fblsf;
+
+    /**
+     * If bndhoringBounds is truf thfn thf boundbrifs of this
+     * mbtdhfr's rfgion mbtdh bndhors sudh bs ^ bnd $.
+     */
+    boolfbn bndhoringBounds = truf;
+
+    /**
+     * No dffbult donstrudtor.
+     */
+    Mbtdhfr() {
+    }
+
+    /**
+     * All mbtdhfrs hbvf thf stbtf usfd by Pbttfrn during b mbtdh.
+     */
+    Mbtdhfr(Pbttfrn pbrfnt, ChbrSfqufndf tfxt) {
+        this.pbrfntPbttfrn = pbrfnt;
+        this.tfxt = tfxt;
+
+        // Allodbtf stbtf storbgf
+        int pbrfntGroupCount = Mbth.mbx(pbrfnt.dbpturingGroupCount, 10);
+        groups = nfw int[pbrfntGroupCount * 2];
+        lodbls = nfw int[pbrfnt.lodblCount];
+
+        // Put fiflds into initibl stbtfs
+        rfsft();
+    }
+
+    /**
+     * Rfturns thf pbttfrn thbt is intfrprftfd by this mbtdhfr.
+     *
+     * @rfturn  Thf pbttfrn for whidh this mbtdhfr wbs drfbtfd
+     */
+    publid Pbttfrn pbttfrn() {
+        rfturn pbrfntPbttfrn;
+    }
+
+    /**
+     * Rfturns thf mbtdh stbtf of this mbtdhfr bs b {@link MbtdhRfsult}.
+     * Thf rfsult is unbfffdtfd by subsfqufnt opfrbtions pfrformfd upon this
+     * mbtdhfr.
+     *
+     * @rfturn  b <dodf>MbtdhRfsult</dodf> with thf stbtf of this mbtdhfr
+     * @sindf 1.5
+     */
+    publid MbtdhRfsult toMbtdhRfsult() {
+        Mbtdhfr rfsult = nfw Mbtdhfr(this.pbrfntPbttfrn, tfxt.toString());
+        rfsult.first = this.first;
+        rfsult.lbst = this.lbst;
+        rfsult.groups = this.groups.dlonf();
+        rfturn rfsult;
+    }
+
+    /**
+      * Chbngfs thf <tt>Pbttfrn</tt> thbt this <tt>Mbtdhfr</tt> usfs to
+      * find mbtdhfs with.
+      *
+      * <p> This mfthod dbusfs this mbtdhfr to losf informbtion
+      * bbout thf groups of thf lbst mbtdh thbt oddurrfd. Thf
+      * mbtdhfr's position in thf input is mbintbinfd bnd its
+      * lbst bppfnd position is unbfffdtfd.</p>
+      *
+      * @pbrbm  nfwPbttfrn
+      *         Thf nfw pbttfrn usfd by this mbtdhfr
+      * @rfturn  This mbtdhfr
+      * @throws  IllfgblArgumfntExdfption
+      *          If nfwPbttfrn is <tt>null</tt>
+      * @sindf 1.5
+      */
+    publid Mbtdhfr usfPbttfrn(Pbttfrn nfwPbttfrn) {
+        if (nfwPbttfrn == null)
+            throw nfw IllfgblArgumfntExdfption("Pbttfrn dbnnot bf null");
+        pbrfntPbttfrn = nfwPbttfrn;
+
+        // Rfbllodbtf stbtf storbgf
+        int pbrfntGroupCount = Mbth.mbx(nfwPbttfrn.dbpturingGroupCount, 10);
+        groups = nfw int[pbrfntGroupCount * 2];
+        lodbls = nfw int[nfwPbttfrn.lodblCount];
+        for (int i = 0; i < groups.lfngth; i++)
+            groups[i] = -1;
+        for (int i = 0; i < lodbls.lfngth; i++)
+            lodbls[i] = -1;
+        rfturn this;
+    }
+
+    /**
+     * Rfsfts this mbtdhfr.
+     *
+     * <p> Rfsftting b mbtdhfr disdbrds bll of its fxplidit stbtf informbtion
+     * bnd sfts its bppfnd position to zfro. Thf mbtdhfr's rfgion is sft to thf
+     * dffbult rfgion, whidh is its fntirf dhbrbdtfr sfqufndf. Thf bndhoring
+     * bnd trbnspbrfndy of this mbtdhfr's rfgion boundbrifs brf unbfffdtfd.
+     *
+     * @rfturn  This mbtdhfr
+     */
+    publid Mbtdhfr rfsft() {
+        first = -1;
+        lbst = 0;
+        oldLbst = -1;
+        for(int i=0; i<groups.lfngth; i++)
+            groups[i] = -1;
+        for(int i=0; i<lodbls.lfngth; i++)
+            lodbls[i] = -1;
+        lbstAppfndPosition = 0;
+        from = 0;
+        to = gftTfxtLfngth();
+        rfturn this;
+    }
+
+    /**
+     * Rfsfts this mbtdhfr with b nfw input sfqufndf.
+     *
+     * <p> Rfsftting b mbtdhfr disdbrds bll of its fxplidit stbtf informbtion
+     * bnd sfts its bppfnd position to zfro.  Thf mbtdhfr's rfgion is sft to
+     * thf dffbult rfgion, whidh is its fntirf dhbrbdtfr sfqufndf.  Thf
+     * bndhoring bnd trbnspbrfndy of this mbtdhfr's rfgion boundbrifs brf
+     * unbfffdtfd.
+     *
+     * @pbrbm  input
+     *         Thf nfw input dhbrbdtfr sfqufndf
+     *
+     * @rfturn  This mbtdhfr
+     */
+    publid Mbtdhfr rfsft(ChbrSfqufndf input) {
+        tfxt = input;
+        rfturn rfsft();
+    }
+
+    /**
+     * Rfturns thf stbrt indfx of thf prfvious mbtdh.
+     *
+     * @rfturn  Thf indfx of thf first dhbrbdtfr mbtdhfd
+     *
+     * @throws  IllfgblStbtfExdfption
+     *          If no mbtdh hbs yft bffn bttfmptfd,
+     *          or if thf prfvious mbtdh opfrbtion fbilfd
+     */
+    publid int stbrt() {
+        if (first < 0)
+            throw nfw IllfgblStbtfExdfption("No mbtdh bvbilbblf");
+        rfturn first;
+    }
+
+    /**
+     * Rfturns thf stbrt indfx of thf subsfqufndf dbpturfd by thf givfn group
+     * during thf prfvious mbtdh opfrbtion.
+     *
+     * <p> <b hrff="Pbttfrn.html#dg">Cbpturing groups</b> brf indfxfd from lfft
+     * to right, stbrting bt onf.  Group zfro dfnotfs thf fntirf pbttfrn, so
+     * thf fxprfssion <i>m.</i><tt>stbrt(0)</tt> is fquivblfnt to
+     * <i>m.</i><tt>stbrt()</tt>.  </p>
+     *
+     * @pbrbm  group
+     *         Thf indfx of b dbpturing group in this mbtdhfr's pbttfrn
+     *
+     * @rfturn  Thf indfx of thf first dhbrbdtfr dbpturfd by thf group,
+     *          or <tt>-1</tt> if thf mbtdh wbs suddfssful but thf group
+     *          itsflf did not mbtdh bnything
+     *
+     * @throws  IllfgblStbtfExdfption
+     *          If no mbtdh hbs yft bffn bttfmptfd,
+     *          or if thf prfvious mbtdh opfrbtion fbilfd
+     *
+     * @throws  IndfxOutOfBoundsExdfption
+     *          If thfrf is no dbpturing group in thf pbttfrn
+     *          with thf givfn indfx
+     */
+    publid int stbrt(int group) {
+        if (first < 0)
+            throw nfw IllfgblStbtfExdfption("No mbtdh bvbilbblf");
+        if (group < 0 || group > groupCount())
+            throw nfw IndfxOutOfBoundsExdfption("No group " + group);
+        rfturn groups[group * 2];
+    }
+
+    /**
+     * Rfturns thf stbrt indfx of thf subsfqufndf dbpturfd by thf givfn
+     * <b hrff="Pbttfrn.html#groupnbmf">nbmfd-dbpturing group</b> during thf
+     * prfvious mbtdh opfrbtion.
+     *
+     * @pbrbm  nbmf
+     *         Thf nbmf of b nbmfd-dbpturing group in this mbtdhfr's pbttfrn
+     *
+     * @rfturn  Thf indfx of thf first dhbrbdtfr dbpturfd by thf group,
+     *          or {@dodf -1} if thf mbtdh wbs suddfssful but thf group
+     *          itsflf did not mbtdh bnything
+     *
+     * @throws  IllfgblStbtfExdfption
+     *          If no mbtdh hbs yft bffn bttfmptfd,
+     *          or if thf prfvious mbtdh opfrbtion fbilfd
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          If thfrf is no dbpturing group in thf pbttfrn
+     *          with thf givfn nbmf
+     * @sindf 1.8
+     */
+    publid int stbrt(String nbmf) {
+        rfturn groups[gftMbtdhfdGroupIndfx(nbmf) * 2];
+    }
+
+    /**
+     * Rfturns thf offsft bftfr thf lbst dhbrbdtfr mbtdhfd.
+     *
+     * @rfturn  Thf offsft bftfr thf lbst dhbrbdtfr mbtdhfd
+     *
+     * @throws  IllfgblStbtfExdfption
+     *          If no mbtdh hbs yft bffn bttfmptfd,
+     *          or if thf prfvious mbtdh opfrbtion fbilfd
+     */
+    publid int fnd() {
+        if (first < 0)
+            throw nfw IllfgblStbtfExdfption("No mbtdh bvbilbblf");
+        rfturn lbst;
+    }
+
+    /**
+     * Rfturns thf offsft bftfr thf lbst dhbrbdtfr of thf subsfqufndf
+     * dbpturfd by thf givfn group during thf prfvious mbtdh opfrbtion.
+     *
+     * <p> <b hrff="Pbttfrn.html#dg">Cbpturing groups</b> brf indfxfd from lfft
+     * to right, stbrting bt onf.  Group zfro dfnotfs thf fntirf pbttfrn, so
+     * thf fxprfssion <i>m.</i><tt>fnd(0)</tt> is fquivblfnt to
+     * <i>m.</i><tt>fnd()</tt>.  </p>
+     *
+     * @pbrbm  group
+     *         Thf indfx of b dbpturing group in this mbtdhfr's pbttfrn
+     *
+     * @rfturn  Thf offsft bftfr thf lbst dhbrbdtfr dbpturfd by thf group,
+     *          or <tt>-1</tt> if thf mbtdh wbs suddfssful
+     *          but thf group itsflf did not mbtdh bnything
+     *
+     * @throws  IllfgblStbtfExdfption
+     *          If no mbtdh hbs yft bffn bttfmptfd,
+     *          or if thf prfvious mbtdh opfrbtion fbilfd
+     *
+     * @throws  IndfxOutOfBoundsExdfption
+     *          If thfrf is no dbpturing group in thf pbttfrn
+     *          with thf givfn indfx
+     */
+    publid int fnd(int group) {
+        if (first < 0)
+            throw nfw IllfgblStbtfExdfption("No mbtdh bvbilbblf");
+        if (group < 0 || group > groupCount())
+            throw nfw IndfxOutOfBoundsExdfption("No group " + group);
+        rfturn groups[group * 2 + 1];
+    }
+
+    /**
+     * Rfturns thf offsft bftfr thf lbst dhbrbdtfr of thf subsfqufndf
+     * dbpturfd by thf givfn <b hrff="Pbttfrn.html#groupnbmf">nbmfd-dbpturing
+     * group</b> during thf prfvious mbtdh opfrbtion.
+     *
+     * @pbrbm  nbmf
+     *         Thf nbmf of b nbmfd-dbpturing group in this mbtdhfr's pbttfrn
+     *
+     * @rfturn  Thf offsft bftfr thf lbst dhbrbdtfr dbpturfd by thf group,
+     *          or {@dodf -1} if thf mbtdh wbs suddfssful
+     *          but thf group itsflf did not mbtdh bnything
+     *
+     * @throws  IllfgblStbtfExdfption
+     *          If no mbtdh hbs yft bffn bttfmptfd,
+     *          or if thf prfvious mbtdh opfrbtion fbilfd
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          If thfrf is no dbpturing group in thf pbttfrn
+     *          with thf givfn nbmf
+     * @sindf 1.8
+     */
+    publid int fnd(String nbmf) {
+        rfturn groups[gftMbtdhfdGroupIndfx(nbmf) * 2 + 1];
+    }
+
+    /**
+     * Rfturns thf input subsfqufndf mbtdhfd by thf prfvious mbtdh.
+     *
+     * <p> For b mbtdhfr <i>m</i> with input sfqufndf <i>s</i>,
+     * thf fxprfssions <i>m.</i><tt>group()</tt> bnd
+     * <i>s.</i><tt>substring(</tt><i>m.</i><tt>stbrt(),</tt>&nbsp;<i>m.</i><tt>fnd())</tt>
+     * brf fquivblfnt.  </p>
+     *
+     * <p> Notf thbt somf pbttfrns, for fxbmplf <tt>b*</tt>, mbtdh thf fmpty
+     * string.  This mfthod will rfturn thf fmpty string whfn thf pbttfrn
+     * suddfssfully mbtdhfs thf fmpty string in thf input.  </p>
+     *
+     * @rfturn Thf (possibly fmpty) subsfqufndf mbtdhfd by thf prfvious mbtdh,
+     *         in string form
+     *
+     * @throws  IllfgblStbtfExdfption
+     *          If no mbtdh hbs yft bffn bttfmptfd,
+     *          or if thf prfvious mbtdh opfrbtion fbilfd
+     */
+    publid String group() {
+        rfturn group(0);
+    }
+
+    /**
+     * Rfturns thf input subsfqufndf dbpturfd by thf givfn group during thf
+     * prfvious mbtdh opfrbtion.
+     *
+     * <p> For b mbtdhfr <i>m</i>, input sfqufndf <i>s</i>, bnd group indfx
+     * <i>g</i>, thf fxprfssions <i>m.</i><tt>group(</tt><i>g</i><tt>)</tt> bnd
+     * <i>s.</i><tt>substring(</tt><i>m.</i><tt>stbrt(</tt><i>g</i><tt>),</tt>&nbsp;<i>m.</i><tt>fnd(</tt><i>g</i><tt>))</tt>
+     * brf fquivblfnt.  </p>
+     *
+     * <p> <b hrff="Pbttfrn.html#dg">Cbpturing groups</b> brf indfxfd from lfft
+     * to right, stbrting bt onf.  Group zfro dfnotfs thf fntirf pbttfrn, so
+     * thf fxprfssion <tt>m.group(0)</tt> is fquivblfnt to <tt>m.group()</tt>.
+     * </p>
+     *
+     * <p> If thf mbtdh wbs suddfssful but thf group spfdififd fbilfd to mbtdh
+     * bny pbrt of thf input sfqufndf, thfn <tt>null</tt> is rfturnfd. Notf
+     * thbt somf groups, for fxbmplf <tt>(b*)</tt>, mbtdh thf fmpty string.
+     * This mfthod will rfturn thf fmpty string whfn sudh b group suddfssfully
+     * mbtdhfs thf fmpty string in thf input.  </p>
+     *
+     * @pbrbm  group
+     *         Thf indfx of b dbpturing group in this mbtdhfr's pbttfrn
+     *
+     * @rfturn  Thf (possibly fmpty) subsfqufndf dbpturfd by thf group
+     *          during thf prfvious mbtdh, or <tt>null</tt> if thf group
+     *          fbilfd to mbtdh pbrt of thf input
+     *
+     * @throws  IllfgblStbtfExdfption
+     *          If no mbtdh hbs yft bffn bttfmptfd,
+     *          or if thf prfvious mbtdh opfrbtion fbilfd
+     *
+     * @throws  IndfxOutOfBoundsExdfption
+     *          If thfrf is no dbpturing group in thf pbttfrn
+     *          with thf givfn indfx
+     */
+    publid String group(int group) {
+        if (first < 0)
+            throw nfw IllfgblStbtfExdfption("No mbtdh found");
+        if (group < 0 || group > groupCount())
+            throw nfw IndfxOutOfBoundsExdfption("No group " + group);
+        if ((groups[group*2] == -1) || (groups[group*2+1] == -1))
+            rfturn null;
+        rfturn gftSubSfqufndf(groups[group * 2], groups[group * 2 + 1]).toString();
+    }
+
+    /**
+     * Rfturns thf input subsfqufndf dbpturfd by thf givfn
+     * <b hrff="Pbttfrn.html#groupnbmf">nbmfd-dbpturing group</b> during thf prfvious
+     * mbtdh opfrbtion.
+     *
+     * <p> If thf mbtdh wbs suddfssful but thf group spfdififd fbilfd to mbtdh
+     * bny pbrt of thf input sfqufndf, thfn <tt>null</tt> is rfturnfd. Notf
+     * thbt somf groups, for fxbmplf <tt>(b*)</tt>, mbtdh thf fmpty string.
+     * This mfthod will rfturn thf fmpty string whfn sudh b group suddfssfully
+     * mbtdhfs thf fmpty string in thf input.  </p>
+     *
+     * @pbrbm  nbmf
+     *         Thf nbmf of b nbmfd-dbpturing group in this mbtdhfr's pbttfrn
+     *
+     * @rfturn  Thf (possibly fmpty) subsfqufndf dbpturfd by thf nbmfd group
+     *          during thf prfvious mbtdh, or <tt>null</tt> if thf group
+     *          fbilfd to mbtdh pbrt of thf input
+     *
+     * @throws  IllfgblStbtfExdfption
+     *          If no mbtdh hbs yft bffn bttfmptfd,
+     *          or if thf prfvious mbtdh opfrbtion fbilfd
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          If thfrf is no dbpturing group in thf pbttfrn
+     *          with thf givfn nbmf
+     * @sindf 1.7
+     */
+    publid String group(String nbmf) {
+        int group = gftMbtdhfdGroupIndfx(nbmf);
+        if ((groups[group*2] == -1) || (groups[group*2+1] == -1))
+            rfturn null;
+        rfturn gftSubSfqufndf(groups[group * 2], groups[group * 2 + 1]).toString();
+    }
+
+    /**
+     * Rfturns thf numbfr of dbpturing groups in this mbtdhfr's pbttfrn.
+     *
+     * <p> Group zfro dfnotfs thf fntirf pbttfrn by donvfntion. It is not
+     * indludfd in this dount.
+     *
+     * <p> Any non-nfgbtivf intfgfr smbllfr thbn or fqubl to thf vbluf
+     * rfturnfd by this mfthod is gubrbntffd to bf b vblid group indfx for
+     * this mbtdhfr.  </p>
+     *
+     * @rfturn Thf numbfr of dbpturing groups in this mbtdhfr's pbttfrn
+     */
+    publid int groupCount() {
+        rfturn pbrfntPbttfrn.dbpturingGroupCount - 1;
+    }
+
+    /**
+     * Attfmpts to mbtdh thf fntirf rfgion bgbinst thf pbttfrn.
+     *
+     * <p> If thf mbtdh suddffds thfn morf informbtion dbn bf obtbinfd vib thf
+     * <tt>stbrt</tt>, <tt>fnd</tt>, bnd <tt>group</tt> mfthods.  </p>
+     *
+     * @rfturn  <tt>truf</tt> if, bnd only if, thf fntirf rfgion sfqufndf
+     *          mbtdhfs this mbtdhfr's pbttfrn
+     */
+    publid boolfbn mbtdhfs() {
+        rfturn mbtdh(from, ENDANCHOR);
+    }
+
+    /**
+     * Attfmpts to find thf nfxt subsfqufndf of thf input sfqufndf thbt mbtdhfs
+     * thf pbttfrn.
+     *
+     * <p> This mfthod stbrts bt thf bfginning of this mbtdhfr's rfgion, or, if
+     * b prfvious invodbtion of thf mfthod wbs suddfssful bnd thf mbtdhfr hbs
+     * not sindf bffn rfsft, bt thf first dhbrbdtfr not mbtdhfd by thf prfvious
+     * mbtdh.
+     *
+     * <p> If thf mbtdh suddffds thfn morf informbtion dbn bf obtbinfd vib thf
+     * <tt>stbrt</tt>, <tt>fnd</tt>, bnd <tt>group</tt> mfthods.  </p>
+     *
+     * @rfturn  <tt>truf</tt> if, bnd only if, b subsfqufndf of thf input
+     *          sfqufndf mbtdhfs this mbtdhfr's pbttfrn
+     */
+    publid boolfbn find() {
+        int nfxtSfbrdhIndfx = lbst;
+        if (nfxtSfbrdhIndfx == first)
+            nfxtSfbrdhIndfx++;
+
+        // If nfxt sfbrdh stbrts bfforf rfgion, stbrt it bt rfgion
+        if (nfxtSfbrdhIndfx < from)
+            nfxtSfbrdhIndfx = from;
+
+        // If nfxt sfbrdh stbrts bfyond rfgion thfn it fbils
+        if (nfxtSfbrdhIndfx > to) {
+            for (int i = 0; i < groups.lfngth; i++)
+                groups[i] = -1;
+            rfturn fblsf;
+        }
+        rfturn sfbrdh(nfxtSfbrdhIndfx);
+    }
+
+    /**
+     * Rfsfts this mbtdhfr bnd thfn bttfmpts to find thf nfxt subsfqufndf of
+     * thf input sfqufndf thbt mbtdhfs thf pbttfrn, stbrting bt thf spfdififd
+     * indfx.
+     *
+     * <p> If thf mbtdh suddffds thfn morf informbtion dbn bf obtbinfd vib thf
+     * <tt>stbrt</tt>, <tt>fnd</tt>, bnd <tt>group</tt> mfthods, bnd subsfqufnt
+     * invodbtions of thf {@link #find()} mfthod will stbrt bt thf first
+     * dhbrbdtfr not mbtdhfd by this mbtdh.  </p>
+     *
+     * @pbrbm stbrt thf indfx to stbrt sfbrdhing for b mbtdh
+     * @throws  IndfxOutOfBoundsExdfption
+     *          If stbrt is lfss thbn zfro or if stbrt is grfbtfr thbn thf
+     *          lfngth of thf input sfqufndf.
+     *
+     * @rfturn  <tt>truf</tt> if, bnd only if, b subsfqufndf of thf input
+     *          sfqufndf stbrting bt thf givfn indfx mbtdhfs this mbtdhfr's
+     *          pbttfrn
+     */
+    publid boolfbn find(int stbrt) {
+        int limit = gftTfxtLfngth();
+        if ((stbrt < 0) || (stbrt > limit))
+            throw nfw IndfxOutOfBoundsExdfption("Illfgbl stbrt indfx");
+        rfsft();
+        rfturn sfbrdh(stbrt);
+    }
+
+    /**
+     * Attfmpts to mbtdh thf input sfqufndf, stbrting bt thf bfginning of thf
+     * rfgion, bgbinst thf pbttfrn.
+     *
+     * <p> Likf thf {@link #mbtdhfs mbtdhfs} mfthod, this mfthod blwbys stbrts
+     * bt thf bfginning of thf rfgion; unlikf thbt mfthod, it dofs not
+     * rfquirf thbt thf fntirf rfgion bf mbtdhfd.
+     *
+     * <p> If thf mbtdh suddffds thfn morf informbtion dbn bf obtbinfd vib thf
+     * <tt>stbrt</tt>, <tt>fnd</tt>, bnd <tt>group</tt> mfthods.  </p>
+     *
+     * @rfturn  <tt>truf</tt> if, bnd only if, b prffix of thf input
+     *          sfqufndf mbtdhfs this mbtdhfr's pbttfrn
+     */
+    publid boolfbn lookingAt() {
+        rfturn mbtdh(from, NOANCHOR);
+    }
+
+    /**
+     * Rfturns b litfrbl rfplbdfmfnt <dodf>String</dodf> for thf spfdififd
+     * <dodf>String</dodf>.
+     *
+     * This mfthod produdfs b <dodf>String</dodf> thbt will work
+     * bs b litfrbl rfplbdfmfnt <dodf>s</dodf> in thf
+     * <dodf>bppfndRfplbdfmfnt</dodf> mfthod of thf {@link Mbtdhfr} dlbss.
+     * Thf <dodf>String</dodf> produdfd will mbtdh thf sfqufndf of dhbrbdtfrs
+     * in <dodf>s</dodf> trfbtfd bs b litfrbl sfqufndf. Slbshfs ('\') bnd
+     * dollbr signs ('$') will bf givfn no spfdibl mfbning.
+     *
+     * @pbrbm  s Thf string to bf litfrblizfd
+     * @rfturn  A litfrbl string rfplbdfmfnt
+     * @sindf 1.5
+     */
+    publid stbtid String quotfRfplbdfmfnt(String s) {
+        if ((s.indfxOf('\\') == -1) && (s.indfxOf('$') == -1))
+            rfturn s;
+        StringBuildfr sb = nfw StringBuildfr();
+        for (int i=0; i<s.lfngth(); i++) {
+            dhbr d = s.dhbrAt(i);
+            if (d == '\\' || d == '$') {
+                sb.bppfnd('\\');
+            }
+            sb.bppfnd(d);
+        }
+        rfturn sb.toString();
+    }
+
+    /**
+     * Implfmfnts b non-tfrminbl bppfnd-bnd-rfplbdf stfp.
+     *
+     * <p> This mfthod pfrforms thf following bdtions: </p>
+     *
+     * <ol>
+     *
+     *   <li><p> It rfbds dhbrbdtfrs from thf input sfqufndf, stbrting bt thf
+     *   bppfnd position, bnd bppfnds thfm to thf givfn string bufffr.  It
+     *   stops bftfr rfbding thf lbst dhbrbdtfr prfdfding thf prfvious mbtdh,
+     *   thbt is, thf dhbrbdtfr bt indfx {@link
+     *   #stbrt()}&nbsp;<tt>-</tt>&nbsp;<tt>1</tt>.  </p></li>
+     *
+     *   <li><p> It bppfnds thf givfn rfplbdfmfnt string to thf string bufffr.
+     *   </p></li>
+     *
+     *   <li><p> It sfts thf bppfnd position of this mbtdhfr to thf indfx of
+     *   thf lbst dhbrbdtfr mbtdhfd, plus onf, thbt is, to {@link #fnd()}.
+     *   </p></li>
+     *
+     * </ol>
+     *
+     * <p> Thf rfplbdfmfnt string mby dontbin rfffrfndfs to subsfqufndfs
+     * dbpturfd during thf prfvious mbtdh: Ebdh oddurrfndf of
+     * <tt>${</tt><i>nbmf</i><tt>}</tt> or <tt>$</tt><i>g</i>
+     * will bf rfplbdfd by thf rfsult of fvblubting thf dorrfsponding
+     * {@link #group(String) group(nbmf)} or {@link #group(int) group(g)}
+     * rfspfdtivfly. For  <tt>$</tt><i>g</i>,
+     * thf first numbfr bftfr thf <tt>$</tt> is blwbys trfbtfd bs pbrt of
+     * thf group rfffrfndf. Subsfqufnt numbfrs brf indorporbtfd into g if
+     * thfy would form b lfgbl group rfffrfndf. Only thf numfrbls '0'
+     * through '9' brf donsidfrfd bs potfntibl domponfnts of thf group
+     * rfffrfndf. If thf sfdond group mbtdhfd thf string <tt>"foo"</tt>, for
+     * fxbmplf, thfn pbssing thf rfplbdfmfnt string <tt>"$2bbr"</tt> would
+     * dbusf <tt>"foobbr"</tt> to bf bppfndfd to thf string bufffr. A dollbr
+     * sign (<tt>$</tt>) mby bf indludfd bs b litfrbl in thf rfplbdfmfnt
+     * string by prfdfding it with b bbdkslbsh (<tt>\$</tt>).
+     *
+     * <p> Notf thbt bbdkslbshfs (<tt>\</tt>) bnd dollbr signs (<tt>$</tt>) in
+     * thf rfplbdfmfnt string mby dbusf thf rfsults to bf difffrfnt thbn if it
+     * wfrf bfing trfbtfd bs b litfrbl rfplbdfmfnt string. Dollbr signs mby bf
+     * trfbtfd bs rfffrfndfs to dbpturfd subsfqufndfs bs dfsdribfd bbovf, bnd
+     * bbdkslbshfs brf usfd to fsdbpf litfrbl dhbrbdtfrs in thf rfplbdfmfnt
+     * string.
+     *
+     * <p> This mfthod is intfndfd to bf usfd in b loop togfthfr with thf
+     * {@link #bppfndTbil bppfndTbil} bnd {@link #find find} mfthods.  Thf
+     * following dodf, for fxbmplf, writfs <tt>onf dog two dogs in thf
+     * ybrd</tt> to thf stbndbrd-output strfbm: </p>
+     *
+     * <blodkquotf><prf>
+     * Pbttfrn p = Pbttfrn.dompilf("dbt");
+     * Mbtdhfr m = p.mbtdhfr("onf dbt two dbts in thf ybrd");
+     * StringBufffr sb = nfw StringBufffr();
+     * whilf (m.find()) {
+     *     m.bppfndRfplbdfmfnt(sb, "dog");
+     * }
+     * m.bppfndTbil(sb);
+     * Systfm.out.println(sb.toString());</prf></blodkquotf>
+     *
+     * @pbrbm  sb
+     *         Thf tbrgft string bufffr
+     *
+     * @pbrbm  rfplbdfmfnt
+     *         Thf rfplbdfmfnt string
+     *
+     * @rfturn  This mbtdhfr
+     *
+     * @throws  IllfgblStbtfExdfption
+     *          If no mbtdh hbs yft bffn bttfmptfd,
+     *          or if thf prfvious mbtdh opfrbtion fbilfd
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          If thf rfplbdfmfnt string rfffrs to b nbmfd-dbpturing
+     *          group thbt dofs not fxist in thf pbttfrn
+     *
+     * @throws  IndfxOutOfBoundsExdfption
+     *          If thf rfplbdfmfnt string rfffrs to b dbpturing group
+     *          thbt dofs not fxist in thf pbttfrn
+     */
+    publid Mbtdhfr bppfndRfplbdfmfnt(StringBufffr sb, String rfplbdfmfnt) {
+        // If no mbtdh, rfturn frror
+        if (first < 0)
+            throw nfw IllfgblStbtfExdfption("No mbtdh bvbilbblf");
+        StringBuildfr rfsult = nfw StringBuildfr();
+        bppfndExpbndfdRfplbdfmfnt(rfplbdfmfnt, rfsult);
+        // Appfnd thf intfrvfning tfxt
+        sb.bppfnd(tfxt, lbstAppfndPosition, first);
+        // Appfnd thf mbtdh substitution
+        sb.bppfnd(rfsult);
+        lbstAppfndPosition = lbst;
+        rfturn this;
+    }
+
+    /**
+     * Implfmfnts b non-tfrminbl bppfnd-bnd-rfplbdf stfp.
+     *
+     * <p> This mfthod pfrforms thf following bdtions: </p>
+     *
+     * <ol>
+     *
+     *   <li><p> It rfbds dhbrbdtfrs from thf input sfqufndf, stbrting bt thf
+     *   bppfnd position, bnd bppfnds thfm to thf givfn string buildfr.  It
+     *   stops bftfr rfbding thf lbst dhbrbdtfr prfdfding thf prfvious mbtdh,
+     *   thbt is, thf dhbrbdtfr bt indfx {@link
+     *   #stbrt()}&nbsp;<tt>-</tt>&nbsp;<tt>1</tt>.  </p></li>
+     *
+     *   <li><p> It bppfnds thf givfn rfplbdfmfnt string to thf string buildfr.
+     *   </p></li>
+     *
+     *   <li><p> It sfts thf bppfnd position of this mbtdhfr to thf indfx of
+     *   thf lbst dhbrbdtfr mbtdhfd, plus onf, thbt is, to {@link #fnd()}.
+     *   </p></li>
+     *
+     * </ol>
+     *
+     * <p> Thf rfplbdfmfnt string mby dontbin rfffrfndfs to subsfqufndfs
+     * dbpturfd during thf prfvious mbtdh: Ebdh oddurrfndf of
+     * <tt>$</tt><i>g</i> will bf rfplbdfd by thf rfsult of
+     * fvblubting {@link #group(int) group}<tt>(</tt><i>g</i><tt>)</tt>.
+     * Thf first numbfr bftfr thf <tt>$</tt> is blwbys trfbtfd bs pbrt of
+     * thf group rfffrfndf. Subsfqufnt numbfrs brf indorporbtfd into g if
+     * thfy would form b lfgbl group rfffrfndf. Only thf numfrbls '0'
+     * through '9' brf donsidfrfd bs potfntibl domponfnts of thf group
+     * rfffrfndf. If thf sfdond group mbtdhfd thf string <tt>"foo"</tt>, for
+     * fxbmplf, thfn pbssing thf rfplbdfmfnt string <tt>"$2bbr"</tt> would
+     * dbusf <tt>"foobbr"</tt> to bf bppfndfd to thf string buildfr. A dollbr
+     * sign (<tt>$</tt>) mby bf indludfd bs b litfrbl in thf rfplbdfmfnt
+     * string by prfdfding it with b bbdkslbsh (<tt>\$</tt>).
+     *
+     * <p> Notf thbt bbdkslbshfs (<tt>\</tt>) bnd dollbr signs (<tt>$</tt>) in
+     * thf rfplbdfmfnt string mby dbusf thf rfsults to bf difffrfnt thbn if it
+     * wfrf bfing trfbtfd bs b litfrbl rfplbdfmfnt string. Dollbr signs mby bf
+     * trfbtfd bs rfffrfndfs to dbpturfd subsfqufndfs bs dfsdribfd bbovf, bnd
+     * bbdkslbshfs brf usfd to fsdbpf litfrbl dhbrbdtfrs in thf rfplbdfmfnt
+     * string.
+     *
+     * <p> This mfthod is intfndfd to bf usfd in b loop togfthfr with thf
+     * {@link #bppfndTbil bppfndTbil} bnd {@link #find find} mfthods.  Thf
+     * following dodf, for fxbmplf, writfs <tt>onf dog two dogs in thf
+     * ybrd</tt> to thf stbndbrd-output strfbm: </p>
+     *
+     * <blodkquotf><prf>
+     * Pbttfrn p = Pbttfrn.dompilf("dbt");
+     * Mbtdhfr m = p.mbtdhfr("onf dbt two dbts in thf ybrd");
+     * StringBuildfr sb = nfw StringBuildfr();
+     * whilf (m.find()) {
+     *     m.bppfndRfplbdfmfnt(sb, "dog");
+     * }
+     * m.bppfndTbil(sb);
+     * Systfm.out.println(sb.toString());</prf></blodkquotf>
+     *
+     * @pbrbm  sb
+     *         Thf tbrgft string buildfr
+     * @pbrbm  rfplbdfmfnt
+     *         Thf rfplbdfmfnt string
+     * @rfturn  This mbtdhfr
+     *
+     * @throws  IllfgblStbtfExdfption
+     *          If no mbtdh hbs yft bffn bttfmptfd,
+     *          or if thf prfvious mbtdh opfrbtion fbilfd
+     * @throws  IllfgblArgumfntExdfption
+     *          If thf rfplbdfmfnt string rfffrs to b nbmfd-dbpturing
+     *          group thbt dofs not fxist in thf pbttfrn
+     * @throws  IndfxOutOfBoundsExdfption
+     *          If thf rfplbdfmfnt string rfffrs to b dbpturing group
+     *          thbt dofs not fxist in thf pbttfrn
+     * @sindf 1.9
+     */
+    publid Mbtdhfr bppfndRfplbdfmfnt(StringBuildfr sb, String rfplbdfmfnt) {
+        // If no mbtdh, rfturn frror
+        if (first < 0)
+            throw nfw IllfgblStbtfExdfption("No mbtdh bvbilbblf");
+        StringBuildfr rfsult = nfw StringBuildfr();
+        bppfndExpbndfdRfplbdfmfnt(rfplbdfmfnt, rfsult);
+        // Appfnd thf intfrvfning tfxt
+        sb.bppfnd(tfxt, lbstAppfndPosition, first);
+        // Appfnd thf mbtdh substitution
+        sb.bppfnd(rfsult);
+        lbstAppfndPosition = lbst;
+        rfturn this;
+    }
+
+    /**
+     * Prodfssfs rfplbdfmfnt string to rfplbdf group rfffrfndfs with
+     * groups.
+     */
+    privbtf StringBuildfr bppfndExpbndfdRfplbdfmfnt(
+        String rfplbdfmfnt, StringBuildfr rfsult) {
+        int dursor = 0;
+        whilf (dursor < rfplbdfmfnt.lfngth()) {
+            dhbr nfxtChbr = rfplbdfmfnt.dhbrAt(dursor);
+            if (nfxtChbr == '\\') {
+                dursor++;
+                if (dursor == rfplbdfmfnt.lfngth())
+                    throw nfw IllfgblArgumfntExdfption(
+                        "dhbrbdtfr to bf fsdbpfd is missing");
+                nfxtChbr = rfplbdfmfnt.dhbrAt(dursor);
+                rfsult.bppfnd(nfxtChbr);
+                dursor++;
+            } flsf if (nfxtChbr == '$') {
+                // Skip pbst $
+                dursor++;
+                // Throw IAE if this "$" is thf lbst dhbrbdtfr in rfplbdfmfnt
+                if (dursor == rfplbdfmfnt.lfngth())
+                   throw nfw IllfgblArgumfntExdfption(
+                        "Illfgbl group rfffrfndf: group indfx is missing");
+                nfxtChbr = rfplbdfmfnt.dhbrAt(dursor);
+                int rffNum = -1;
+                if (nfxtChbr == '{') {
+                    dursor++;
+                    StringBuildfr gsb = nfw StringBuildfr();
+                    whilf (dursor < rfplbdfmfnt.lfngth()) {
+                        nfxtChbr = rfplbdfmfnt.dhbrAt(dursor);
+                        if (ASCII.isLowfr(nfxtChbr) ||
+                            ASCII.isUppfr(nfxtChbr) ||
+                            ASCII.isDigit(nfxtChbr)) {
+                            gsb.bppfnd(nfxtChbr);
+                            dursor++;
+                        } flsf {
+                            brfbk;
+                        }
+                    }
+                    if (gsb.lfngth() == 0)
+                        throw nfw IllfgblArgumfntExdfption(
+                            "nbmfd dbpturing group hbs 0 lfngth nbmf");
+                    if (nfxtChbr != '}')
+                        throw nfw IllfgblArgumfntExdfption(
+                            "nbmfd dbpturing group is missing trbiling '}'");
+                    String gnbmf = gsb.toString();
+                    if (ASCII.isDigit(gnbmf.dhbrAt(0)))
+                        throw nfw IllfgblArgumfntExdfption(
+                            "dbpturing group nbmf {" + gnbmf +
+                            "} stbrts with digit dhbrbdtfr");
+                    if (!pbrfntPbttfrn.nbmfdGroups().dontbinsKfy(gnbmf))
+                        throw nfw IllfgblArgumfntExdfption(
+                            "No group with nbmf {" + gnbmf + "}");
+                    rffNum = pbrfntPbttfrn.nbmfdGroups().gft(gnbmf);
+                    dursor++;
+                } flsf {
+                    // Thf first numbfr is blwbys b group
+                    rffNum = nfxtChbr - '0';
+                    if ((rffNum < 0) || (rffNum > 9))
+                        throw nfw IllfgblArgumfntExdfption(
+                            "Illfgbl group rfffrfndf");
+                    dursor++;
+                    // Cbpturf thf lbrgfst lfgbl group string
+                    boolfbn donf = fblsf;
+                    whilf (!donf) {
+                        if (dursor >= rfplbdfmfnt.lfngth()) {
+                            brfbk;
+                        }
+                        int nfxtDigit = rfplbdfmfnt.dhbrAt(dursor) - '0';
+                        if ((nfxtDigit < 0) || (nfxtDigit > 9)) { // not b numbfr
+                            brfbk;
+                        }
+                        int nfwRffNum = (rffNum * 10) + nfxtDigit;
+                        if (groupCount() < nfwRffNum) {
+                            donf = truf;
+                        } flsf {
+                            rffNum = nfwRffNum;
+                            dursor++;
+                        }
+                    }
+                }
+                // Appfnd group
+                if (stbrt(rffNum) != -1 && fnd(rffNum) != -1)
+                    rfsult.bppfnd(tfxt, stbrt(rffNum), fnd(rffNum));
+            } flsf {
+                rfsult.bppfnd(nfxtChbr);
+                dursor++;
+            }
+        }
+        rfturn rfsult;
+    }
+
+    /**
+     * Implfmfnts b tfrminbl bppfnd-bnd-rfplbdf stfp.
+     *
+     * <p> This mfthod rfbds dhbrbdtfrs from thf input sfqufndf, stbrting bt
+     * thf bppfnd position, bnd bppfnds thfm to thf givfn string bufffr.  It is
+     * intfndfd to bf invokfd bftfr onf or morf invodbtions of thf {@link
+     * #bppfndRfplbdfmfnt bppfndRfplbdfmfnt} mfthod in ordfr to dopy thf
+     * rfmbindfr of thf input sfqufndf.  </p>
+     *
+     * @pbrbm  sb
+     *         Thf tbrgft string bufffr
+     *
+     * @rfturn  Thf tbrgft string bufffr
+     */
+    publid StringBufffr bppfndTbil(StringBufffr sb) {
+        sb.bppfnd(tfxt, lbstAppfndPosition, gftTfxtLfngth());
+        rfturn sb;
+    }
+
+    /**
+     * Implfmfnts b tfrminbl bppfnd-bnd-rfplbdf stfp.
+     *
+     * <p> This mfthod rfbds dhbrbdtfrs from thf input sfqufndf, stbrting bt
+     * thf bppfnd position, bnd bppfnds thfm to thf givfn string buildfr.  It is
+     * intfndfd to bf invokfd bftfr onf or morf invodbtions of thf {@link
+     * #bppfndRfplbdfmfnt bppfndRfplbdfmfnt} mfthod in ordfr to dopy thf
+     * rfmbindfr of thf input sfqufndf.  </p>
+     *
+     * @pbrbm  sb
+     *         Thf tbrgft string buildfr
+     *
+     * @rfturn  Thf tbrgft string buildfr
+     *
+     * @sindf 1.9
+     */
+    publid StringBuildfr bppfndTbil(StringBuildfr sb) {
+        sb.bppfnd(tfxt, lbstAppfndPosition, gftTfxtLfngth());
+        rfturn sb;
+    }
+
+    /**
+     * Rfplbdfs fvfry subsfqufndf of thf input sfqufndf thbt mbtdhfs thf
+     * pbttfrn with thf givfn rfplbdfmfnt string.
+     *
+     * <p> This mfthod first rfsfts this mbtdhfr.  It thfn sdbns thf input
+     * sfqufndf looking for mbtdhfs of thf pbttfrn.  Chbrbdtfrs thbt brf not
+     * pbrt of bny mbtdh brf bppfndfd dirfdtly to thf rfsult string; fbdh mbtdh
+     * is rfplbdfd in thf rfsult by thf rfplbdfmfnt string.  Thf rfplbdfmfnt
+     * string mby dontbin rfffrfndfs to dbpturfd subsfqufndfs bs in thf {@link
+     * #bppfndRfplbdfmfnt bppfndRfplbdfmfnt} mfthod.
+     *
+     * <p> Notf thbt bbdkslbshfs (<tt>\</tt>) bnd dollbr signs (<tt>$</tt>) in
+     * thf rfplbdfmfnt string mby dbusf thf rfsults to bf difffrfnt thbn if it
+     * wfrf bfing trfbtfd bs b litfrbl rfplbdfmfnt string. Dollbr signs mby bf
+     * trfbtfd bs rfffrfndfs to dbpturfd subsfqufndfs bs dfsdribfd bbovf, bnd
+     * bbdkslbshfs brf usfd to fsdbpf litfrbl dhbrbdtfrs in thf rfplbdfmfnt
+     * string.
+     *
+     * <p> Givfn thf rfgulbr fxprfssion <tt>b*b</tt>, thf input
+     * <tt>"bbbfoobbbfoobbfoob"</tt>, bnd thf rfplbdfmfnt string
+     * <tt>"-"</tt>, bn invodbtion of this mfthod on b mbtdhfr for thbt
+     * fxprfssion would yifld thf string <tt>"-foo-foo-foo-"</tt>.
+     *
+     * <p> Invoking this mfthod dhbngfs this mbtdhfr's stbtf.  If thf mbtdhfr
+     * is to bf usfd in furthfr mbtdhing opfrbtions thfn it should first bf
+     * rfsft.  </p>
+     *
+     * @pbrbm  rfplbdfmfnt
+     *         Thf rfplbdfmfnt string
+     *
+     * @rfturn  Thf string donstrudtfd by rfplbding fbdh mbtdhing subsfqufndf
+     *          by thf rfplbdfmfnt string, substituting dbpturfd subsfqufndfs
+     *          bs nffdfd
+     */
+    publid String rfplbdfAll(String rfplbdfmfnt) {
+        rfsft();
+        boolfbn rfsult = find();
+        if (rfsult) {
+            StringBuildfr sb = nfw StringBuildfr();
+            do {
+                bppfndRfplbdfmfnt(sb, rfplbdfmfnt);
+                rfsult = find();
+            } whilf (rfsult);
+            bppfndTbil(sb);
+            rfturn sb.toString();
+        }
+        rfturn tfxt.toString();
+    }
+
+    /**
+     * Rfplbdfs thf first subsfqufndf of thf input sfqufndf thbt mbtdhfs thf
+     * pbttfrn with thf givfn rfplbdfmfnt string.
+     *
+     * <p> This mfthod first rfsfts this mbtdhfr.  It thfn sdbns thf input
+     * sfqufndf looking for b mbtdh of thf pbttfrn.  Chbrbdtfrs thbt brf not
+     * pbrt of thf mbtdh brf bppfndfd dirfdtly to thf rfsult string; thf mbtdh
+     * is rfplbdfd in thf rfsult by thf rfplbdfmfnt string.  Thf rfplbdfmfnt
+     * string mby dontbin rfffrfndfs to dbpturfd subsfqufndfs bs in thf {@link
+     * #bppfndRfplbdfmfnt bppfndRfplbdfmfnt} mfthod.
+     *
+     * <p>Notf thbt bbdkslbshfs (<tt>\</tt>) bnd dollbr signs (<tt>$</tt>) in
+     * thf rfplbdfmfnt string mby dbusf thf rfsults to bf difffrfnt thbn if it
+     * wfrf bfing trfbtfd bs b litfrbl rfplbdfmfnt string. Dollbr signs mby bf
+     * trfbtfd bs rfffrfndfs to dbpturfd subsfqufndfs bs dfsdribfd bbovf, bnd
+     * bbdkslbshfs brf usfd to fsdbpf litfrbl dhbrbdtfrs in thf rfplbdfmfnt
+     * string.
+     *
+     * <p> Givfn thf rfgulbr fxprfssion <tt>dog</tt>, thf input
+     * <tt>"zzzdogzzzdogzzz"</tt>, bnd thf rfplbdfmfnt string
+     * <tt>"dbt"</tt>, bn invodbtion of this mfthod on b mbtdhfr for thbt
+     * fxprfssion would yifld thf string <tt>"zzzdbtzzzdogzzz"</tt>.  </p>
+     *
+     * <p> Invoking this mfthod dhbngfs this mbtdhfr's stbtf.  If thf mbtdhfr
+     * is to bf usfd in furthfr mbtdhing opfrbtions thfn it should first bf
+     * rfsft.  </p>
+     *
+     * @pbrbm  rfplbdfmfnt
+     *         Thf rfplbdfmfnt string
+     * @rfturn  Thf string donstrudtfd by rfplbding thf first mbtdhing
+     *          subsfqufndf by thf rfplbdfmfnt string, substituting dbpturfd
+     *          subsfqufndfs bs nffdfd
+     */
+    publid String rfplbdfFirst(String rfplbdfmfnt) {
+        if (rfplbdfmfnt == null)
+            throw nfw NullPointfrExdfption("rfplbdfmfnt");
+        rfsft();
+        if (!find())
+            rfturn tfxt.toString();
+        StringBuildfr sb = nfw StringBuildfr();
+        bppfndRfplbdfmfnt(sb, rfplbdfmfnt);
+        bppfndTbil(sb);
+        rfturn sb.toString();
+    }
+
+    /**
+     * Sfts thf limits of this mbtdhfr's rfgion. Thf rfgion is thf pbrt of thf
+     * input sfqufndf thbt will bf sfbrdhfd to find b mbtdh. Invoking this
+     * mfthod rfsfts thf mbtdhfr, bnd thfn sfts thf rfgion to stbrt bt thf
+     * indfx spfdififd by thf <dodf>stbrt</dodf> pbrbmftfr bnd fnd bt thf
+     * indfx spfdififd by thf <dodf>fnd</dodf> pbrbmftfr.
+     *
+     * <p>Dfpfnding on thf trbnspbrfndy bnd bndhoring bfing usfd (sff
+     * {@link #usfTrbnspbrfntBounds usfTrbnspbrfntBounds} bnd
+     * {@link #usfAndhoringBounds usfAndhoringBounds}), dfrtbin donstrudts sudh
+     * bs bndhors mby bfhbvf difffrfntly bt or bround thf boundbrifs of thf
+     * rfgion.
+     *
+     * @pbrbm  stbrt
+     *         Thf indfx to stbrt sfbrdhing bt (indlusivf)
+     * @pbrbm  fnd
+     *         Thf indfx to fnd sfbrdhing bt (fxdlusivf)
+     * @throws  IndfxOutOfBoundsExdfption
+     *          If stbrt or fnd is lfss thbn zfro, if
+     *          stbrt is grfbtfr thbn thf lfngth of thf input sfqufndf, if
+     *          fnd is grfbtfr thbn thf lfngth of thf input sfqufndf, or if
+     *          stbrt is grfbtfr thbn fnd.
+     * @rfturn  this mbtdhfr
+     * @sindf 1.5
+     */
+    publid Mbtdhfr rfgion(int stbrt, int fnd) {
+        if ((stbrt < 0) || (stbrt > gftTfxtLfngth()))
+            throw nfw IndfxOutOfBoundsExdfption("stbrt");
+        if ((fnd < 0) || (fnd > gftTfxtLfngth()))
+            throw nfw IndfxOutOfBoundsExdfption("fnd");
+        if (stbrt > fnd)
+            throw nfw IndfxOutOfBoundsExdfption("stbrt > fnd");
+        rfsft();
+        from = stbrt;
+        to = fnd;
+        rfturn this;
+    }
+
+    /**
+     * Rfports thf stbrt indfx of this mbtdhfr's rfgion. Thf
+     * sfbrdhfs this mbtdhfr dondudts brf limitfd to finding mbtdhfs
+     * within {@link #rfgionStbrt rfgionStbrt} (indlusivf) bnd
+     * {@link #rfgionEnd rfgionEnd} (fxdlusivf).
+     *
+     * @rfturn  Thf stbrting point of this mbtdhfr's rfgion
+     * @sindf 1.5
+     */
+    publid int rfgionStbrt() {
+        rfturn from;
+    }
+
+    /**
+     * Rfports thf fnd indfx (fxdlusivf) of this mbtdhfr's rfgion.
+     * Thf sfbrdhfs this mbtdhfr dondudts brf limitfd to finding mbtdhfs
+     * within {@link #rfgionStbrt rfgionStbrt} (indlusivf) bnd
+     * {@link #rfgionEnd rfgionEnd} (fxdlusivf).
+     *
+     * @rfturn  thf fnding point of this mbtdhfr's rfgion
+     * @sindf 1.5
+     */
+    publid int rfgionEnd() {
+        rfturn to;
+    }
+
+    /**
+     * Qufrifs thf trbnspbrfndy of rfgion bounds for this mbtdhfr.
+     *
+     * <p> This mfthod rfturns <tt>truf</tt> if this mbtdhfr usfs
+     * <i>trbnspbrfnt</i> bounds, <tt>fblsf</tt> if it usfs <i>opbquf</i>
+     * bounds.
+     *
+     * <p> Sff {@link #usfTrbnspbrfntBounds usfTrbnspbrfntBounds} for b
+     * dfsdription of trbnspbrfnt bnd opbquf bounds.
+     *
+     * <p> By dffbult, b mbtdhfr usfs opbquf rfgion boundbrifs.
+     *
+     * @rfturn <tt>truf</tt> iff this mbtdhfr is using trbnspbrfnt bounds,
+     *         <tt>fblsf</tt> othfrwisf.
+     * @sff jbvb.util.rfgfx.Mbtdhfr#usfTrbnspbrfntBounds(boolfbn)
+     * @sindf 1.5
+     */
+    publid boolfbn hbsTrbnspbrfntBounds() {
+        rfturn trbnspbrfntBounds;
+    }
+
+    /**
+     * Sfts thf trbnspbrfndy of rfgion bounds for this mbtdhfr.
+     *
+     * <p> Invoking this mfthod with bn brgumfnt of <tt>truf</tt> will sft this
+     * mbtdhfr to usf <i>trbnspbrfnt</i> bounds. If thf boolfbn
+     * brgumfnt is <tt>fblsf</tt>, thfn <i>opbquf</i> bounds will bf usfd.
+     *
+     * <p> Using trbnspbrfnt bounds, thf boundbrifs of this
+     * mbtdhfr's rfgion brf trbnspbrfnt to lookbhfbd, lookbfhind,
+     * bnd boundbry mbtdhing donstrudts. Thosf donstrudts dbn sff bfyond thf
+     * boundbrifs of thf rfgion to sff if b mbtdh is bppropribtf.
+     *
+     * <p> Using opbquf bounds, thf boundbrifs of this mbtdhfr's
+     * rfgion brf opbquf to lookbhfbd, lookbfhind, bnd boundbry mbtdhing
+     * donstrudts thbt mby try to sff bfyond thfm. Thosf donstrudts dbnnot
+     * look pbst thf boundbrifs so thfy will fbil to mbtdh bnything outsidf
+     * of thf rfgion.
+     *
+     * <p> By dffbult, b mbtdhfr usfs opbquf bounds.
+     *
+     * @pbrbm  b b boolfbn indidbting whfthfr to usf opbquf or trbnspbrfnt
+     *         rfgions
+     * @rfturn this mbtdhfr
+     * @sff jbvb.util.rfgfx.Mbtdhfr#hbsTrbnspbrfntBounds
+     * @sindf 1.5
+     */
+    publid Mbtdhfr usfTrbnspbrfntBounds(boolfbn b) {
+        trbnspbrfntBounds = b;
+        rfturn this;
+    }
+
+    /**
+     * Qufrifs thf bndhoring of rfgion bounds for this mbtdhfr.
+     *
+     * <p> This mfthod rfturns <tt>truf</tt> if this mbtdhfr usfs
+     * <i>bndhoring</i> bounds, <tt>fblsf</tt> othfrwisf.
+     *
+     * <p> Sff {@link #usfAndhoringBounds usfAndhoringBounds} for b
+     * dfsdription of bndhoring bounds.
+     *
+     * <p> By dffbult, b mbtdhfr usfs bndhoring rfgion boundbrifs.
+     *
+     * @rfturn <tt>truf</tt> iff this mbtdhfr is using bndhoring bounds,
+     *         <tt>fblsf</tt> othfrwisf.
+     * @sff jbvb.util.rfgfx.Mbtdhfr#usfAndhoringBounds(boolfbn)
+     * @sindf 1.5
+     */
+    publid boolfbn hbsAndhoringBounds() {
+        rfturn bndhoringBounds;
+    }
+
+    /**
+     * Sfts thf bndhoring of rfgion bounds for this mbtdhfr.
+     *
+     * <p> Invoking this mfthod with bn brgumfnt of <tt>truf</tt> will sft this
+     * mbtdhfr to usf <i>bndhoring</i> bounds. If thf boolfbn
+     * brgumfnt is <tt>fblsf</tt>, thfn <i>non-bndhoring</i> bounds will bf
+     * usfd.
+     *
+     * <p> Using bndhoring bounds, thf boundbrifs of this
+     * mbtdhfr's rfgion mbtdh bndhors sudh bs ^ bnd $.
+     *
+     * <p> Without bndhoring bounds, thf boundbrifs of this
+     * mbtdhfr's rfgion will not mbtdh bndhors sudh bs ^ bnd $.
+     *
+     * <p> By dffbult, b mbtdhfr usfs bndhoring rfgion boundbrifs.
+     *
+     * @pbrbm  b b boolfbn indidbting whfthfr or not to usf bndhoring bounds.
+     * @rfturn this mbtdhfr
+     * @sff jbvb.util.rfgfx.Mbtdhfr#hbsAndhoringBounds
+     * @sindf 1.5
+     */
+    publid Mbtdhfr usfAndhoringBounds(boolfbn b) {
+        bndhoringBounds = b;
+        rfturn this;
+    }
+
+    /**
+     * <p>Rfturns thf string rfprfsfntbtion of this mbtdhfr. Thf
+     * string rfprfsfntbtion of b <dodf>Mbtdhfr</dodf> dontbins informbtion
+     * thbt mby bf usfful for dfbugging. Thf fxbdt formbt is unspfdififd.
+     *
+     * @rfturn  Thf string rfprfsfntbtion of this mbtdhfr
+     * @sindf 1.5
+     */
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+        sb.bppfnd("jbvb.util.rfgfx.Mbtdhfr");
+        sb.bppfnd("[pbttfrn=" + pbttfrn());
+        sb.bppfnd(" rfgion=");
+        sb.bppfnd(rfgionStbrt() + "," + rfgionEnd());
+        sb.bppfnd(" lbstmbtdh=");
+        if ((first >= 0) && (group() != null)) {
+            sb.bppfnd(group());
+        }
+        sb.bppfnd("]");
+        rfturn sb.toString();
+    }
+
+    /**
+     * <p>Rfturns truf if thf fnd of input wbs hit by thf sfbrdh fnginf in
+     * thf lbst mbtdh opfrbtion pfrformfd by this mbtdhfr.
+     *
+     * <p>Whfn this mfthod rfturns truf, thfn it is possiblf thbt morf input
+     * would hbvf dhbngfd thf rfsult of thf lbst sfbrdh.
+     *
+     * @rfturn  truf iff thf fnd of input wbs hit in thf lbst mbtdh; fblsf
+     *          othfrwisf
+     * @sindf 1.5
+     */
+    publid boolfbn hitEnd() {
+        rfturn hitEnd;
+    }
+
+    /**
+     * <p>Rfturns truf if morf input dould dhbngf b positivf mbtdh into b
+     * nfgbtivf onf.
+     *
+     * <p>If this mfthod rfturns truf, bnd b mbtdh wbs found, thfn morf
+     * input dould dbusf thf mbtdh to bf lost. If this mfthod rfturns fblsf
+     * bnd b mbtdh wbs found, thfn morf input might dhbngf thf mbtdh but thf
+     * mbtdh won't bf lost. If b mbtdh wbs not found, thfn rfquirfEnd hbs no
+     * mfbning.
+     *
+     * @rfturn  truf iff morf input dould dhbngf b positivf mbtdh into b
+     *          nfgbtivf onf.
+     * @sindf 1.5
+     */
+    publid boolfbn rfquirfEnd() {
+        rfturn rfquirfEnd;
+    }
+
+    /**
+     * Initibtfs b sfbrdh to find b Pbttfrn within thf givfn bounds.
+     * Thf groups brf fillfd with dffbult vblufs bnd thf mbtdh of thf root
+     * of thf stbtf mbdhinf is dbllfd. Thf stbtf mbdhinf will hold thf stbtf
+     * of thf mbtdh bs it prodffds in this mbtdhfr.
+     *
+     * Mbtdhfr.from is not sft hfrf, bfdbusf it is thf "hbrd" boundbry
+     * of thf stbrt of thf sfbrdh whidh bndhors will sft to. Thf from pbrbm
+     * is thf "soft" boundbry of thf stbrt of thf sfbrdh, mfbning thbt thf
+     * rfgfx trifs to mbtdh bt thbt indfx but ^ won't mbtdh thfrf. Subsfqufnt
+     * dblls to thf sfbrdh mfthods stbrt bt b nfw "soft" boundbry whidh is
+     * thf fnd of thf prfvious mbtdh.
+     */
+    boolfbn sfbrdh(int from) {
+        this.hitEnd = fblsf;
+        this.rfquirfEnd = fblsf;
+        from        = from < 0 ? 0 : from;
+        this.first  = from;
+        this.oldLbst = oldLbst < 0 ? from : oldLbst;
+        for (int i = 0; i < groups.lfngth; i++)
+            groups[i] = -1;
+        bddfptModf = NOANCHOR;
+        boolfbn rfsult = pbrfntPbttfrn.root.mbtdh(this, from, tfxt);
+        if (!rfsult)
+            this.first = -1;
+        this.oldLbst = this.lbst;
+        rfturn rfsult;
+    }
+
+    /**
+     * Initibtfs b sfbrdh for bn bndhorfd mbtdh to b Pbttfrn within thf givfn
+     * bounds. Thf groups brf fillfd with dffbult vblufs bnd thf mbtdh of thf
+     * root of thf stbtf mbdhinf is dbllfd. Thf stbtf mbdhinf will hold thf
+     * stbtf of thf mbtdh bs it prodffds in this mbtdhfr.
+     */
+    boolfbn mbtdh(int from, int bndhor) {
+        this.hitEnd = fblsf;
+        this.rfquirfEnd = fblsf;
+        from        = from < 0 ? 0 : from;
+        this.first  = from;
+        this.oldLbst = oldLbst < 0 ? from : oldLbst;
+        for (int i = 0; i < groups.lfngth; i++)
+            groups[i] = -1;
+        bddfptModf = bndhor;
+        boolfbn rfsult = pbrfntPbttfrn.mbtdhRoot.mbtdh(this, from, tfxt);
+        if (!rfsult)
+            this.first = -1;
+        this.oldLbst = this.lbst;
+        rfturn rfsult;
+    }
+
+    /**
+     * Rfturns thf fnd indfx of thf tfxt.
+     *
+     * @rfturn thf indfx bftfr thf lbst dhbrbdtfr in thf tfxt
+     */
+    int gftTfxtLfngth() {
+        rfturn tfxt.lfngth();
+    }
+
+    /**
+     * Gfnfrbtfs b String from this Mbtdhfr's input in thf spfdififd rbngf.
+     *
+     * @pbrbm  bfginIndfx   thf bfginning indfx, indlusivf
+     * @pbrbm  fndIndfx     thf fnding indfx, fxdlusivf
+     * @rfturn A String gfnfrbtfd from this Mbtdhfr's input
+     */
+    ChbrSfqufndf gftSubSfqufndf(int bfginIndfx, int fndIndfx) {
+        rfturn tfxt.subSfqufndf(bfginIndfx, fndIndfx);
+    }
+
+    /**
+     * Rfturns this Mbtdhfr's input dhbrbdtfr bt indfx i.
+     *
+     * @rfturn A dhbr from thf spfdififd indfx
+     */
+    dhbr dhbrAt(int i) {
+        rfturn tfxt.dhbrAt(i);
+    }
+
+    /**
+     * Rfturns thf group indfx of thf mbtdhfd dbpturing group.
+     *
+     * @rfturn thf indfx of thf nbmfd-dbpturing group
+     */
+    int gftMbtdhfdGroupIndfx(String nbmf) {
+        Objfdts.rfquirfNonNull(nbmf, "Group nbmf");
+        if (first < 0)
+            throw nfw IllfgblStbtfExdfption("No mbtdh found");
+        if (!pbrfntPbttfrn.nbmfdGroups().dontbinsKfy(nbmf))
+            throw nfw IllfgblArgumfntExdfption("No group with nbmf <" + nbmf + ">");
+        rfturn pbrfntPbttfrn.nbmfdGroups().gft(nbmf);
+    }
+}

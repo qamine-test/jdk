@@ -1,618 +1,618 @@
 /*
- * Copyright (c) 2009, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2009, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <stdlib.h>
-#include <string.h>
-#include "Sctp.h"
+#indludf <stdlib.i>
+#indludf <string.i>
+#indludf "Sdtp.i"
 
-#include "jni.h"
-#include "nio_util.h"
-#include "nio.h"
-#include "net_util.h"
-#include "net_util_md.h"
-#include "sun_nio_ch_sctp_SctpNet.h"
-#include "sun_nio_ch_sctp_SctpChannelImpl.h"
-#include "sun_nio_ch_sctp_AssociationChange.h"
-#include "sun_nio_ch_sctp_ResultContainer.h"
-#include "sun_nio_ch_sctp_PeerAddrChange.h"
+#indludf "jni.i"
+#indludf "nio_util.i"
+#indludf "nio.i"
+#indludf "nft_util.i"
+#indludf "nft_util_md.i"
+#indludf "sun_nio_di_sdtp_SdtpNft.i"
+#indludf "sun_nio_di_sdtp_SdtpCibnnflImpl.i"
+#indludf "sun_nio_di_sdtp_AssodibtionCibngf.i"
+#indludf "sun_nio_di_sdtp_RfsultContbinfr.i"
+#indludf "sun_nio_di_sdtp_PffrAddrCibngf.i"
 
-static int SCTP_NOTIFICATION_SIZE = sizeof(union sctp_notification);
+stbtid int SCTP_NOTIFICATION_SIZE = sizfof(union sdtp_notifidbtion);
 
-#define MESSAGE_IMPL_CLASS              "sun/nio/ch/sctp/MessageInfoImpl"
-#define RESULT_CONTAINER_CLASS          "sun/nio/ch/sctp/ResultContainer"
-#define SEND_FAILED_CLASS               "sun/nio/ch/sctp/SendFailed"
-#define ASSOC_CHANGE_CLASS              "sun/nio/ch/sctp/AssociationChange"
-#define PEER_CHANGE_CLASS               "sun/nio/ch/sctp/PeerAddrChange"
-#define SHUTDOWN_CLASS                  "sun/nio/ch/sctp/Shutdown"
+#dffinf MESSAGE_IMPL_CLASS              "sun/nio/di/sdtp/MfssbgfInfoImpl"
+#dffinf RESULT_CONTAINER_CLASS          "sun/nio/di/sdtp/RfsultContbinfr"
+#dffinf SEND_FAILED_CLASS               "sun/nio/di/sdtp/SfndFbilfd"
+#dffinf ASSOC_CHANGE_CLASS              "sun/nio/di/sdtp/AssodibtionCibngf"
+#dffinf PEER_CHANGE_CLASS               "sun/nio/di/sdtp/PffrAddrCibngf"
+#dffinf SHUTDOWN_CLASS                  "sun/nio/di/sdtp/Siutdown"
 
-struct controlData {
-    int assocId;
-    unsigned short streamNumber;
-    jboolean unordered;
-    unsigned int ppid;
+strudt dontrolDbtb {
+    int bssodId;
+    unsignfd siort strfbmNumbfr;
+    jboolfbn unordfrfd;
+    unsignfd int ppid;
 };
 
-static jclass    smi_class;    /* sun.nio.ch.sctp.MessageInfoImpl            */
-static jmethodID smi_ctrID;    /* sun.nio.ch.sctp.MessageInfoImpl.<init>     */
-static jfieldID  src_valueID;  /* sun.nio.ch.sctp.ResultContainer.value      */
-static jfieldID  src_typeID;   /* sun.nio.ch.sctp.ResultContainer.type       */
-static jclass    ssf_class;    /* sun.nio.ch.sctp.SendFailed                 */
-static jmethodID ssf_ctrID;    /* sun.nio.ch.sctp.SendFailed.<init>          */
-static jclass    sac_class;    /* sun.nio.ch.sctp.AssociationChange          */
-static jmethodID sac_ctrID;    /* sun.nio.ch.sctp.AssociationChange.<init>   */
-static jclass    spc_class;    /* sun.nio.ch.sctp.PeerAddressChanged         */
-static jmethodID spc_ctrID;    /* sun.nio.ch.sctp.PeerAddressChanged.<init>  */
-static jclass    ss_class;     /* sun.nio.ch.sctp.Shutdown                   */
-static jmethodID ss_ctrID;     /* sun.nio.ch.sctp.Shutdown.<init>            */
+stbtid jdlbss    smi_dlbss;    /* sun.nio.di.sdtp.MfssbgfInfoImpl            */
+stbtid jmftiodID smi_dtrID;    /* sun.nio.di.sdtp.MfssbgfInfoImpl.<init>     */
+stbtid jfifldID  srd_vblufID;  /* sun.nio.di.sdtp.RfsultContbinfr.vbluf      */
+stbtid jfifldID  srd_typfID;   /* sun.nio.di.sdtp.RfsultContbinfr.typf       */
+stbtid jdlbss    ssf_dlbss;    /* sun.nio.di.sdtp.SfndFbilfd                 */
+stbtid jmftiodID ssf_dtrID;    /* sun.nio.di.sdtp.SfndFbilfd.<init>          */
+stbtid jdlbss    sbd_dlbss;    /* sun.nio.di.sdtp.AssodibtionCibngf          */
+stbtid jmftiodID sbd_dtrID;    /* sun.nio.di.sdtp.AssodibtionCibngf.<init>   */
+stbtid jdlbss    spd_dlbss;    /* sun.nio.di.sdtp.PffrAddrfssCibngfd         */
+stbtid jmftiodID spd_dtrID;    /* sun.nio.di.sdtp.PffrAddrfssCibngfd.<init>  */
+stbtid jdlbss    ss_dlbss;     /* sun.nio.di.sdtp.Siutdown                   */
+stbtid jmftiodID ss_dtrID;     /* sun.nio.di.sdtp.Siutdown.<init>            */
 
-/* defined in SctpNet.c */
-jobject SockAddrToInetSocketAddress(JNIEnv* env, struct sockaddr* addr);
+/* dffinfd in SdtpNft.d */
+jobjfdt SodkAddrToInftSodkftAddrfss(JNIEnv* fnv, strudt sodkbddr* bddr);
 
-jint handleSocketError(JNIEnv *env, jint errorValue);
+jint ibndlfSodkftError(JNIEnv *fnv, jint frrorVbluf);
 
-/* use SocketChannelImpl's checkConnect implementation */
-extern jint Java_sun_nio_ch_SocketChannelImpl_checkConnect(JNIEnv* env,
-    jobject this, jobject fdo, jboolean block, jboolean ready);
+/* usf SodkftCibnnflImpl's difdkConnfdt implfmfntbtion */
+fxtfrn jint Jbvb_sun_nio_di_SodkftCibnnflImpl_difdkConnfdt(JNIEnv* fnv,
+    jobjfdt tiis, jobjfdt fdo, jboolfbn blodk, jboolfbn rfbdy);
 
 /*
- * Class:     sun_nio_ch_sctp_SctpChannelImpl
- * Method:    initIDs
- * Signature: ()V
+ * Clbss:     sun_nio_di_sdtp_SdtpCibnnflImpl
+ * Mftiod:    initIDs
+ * Signbturf: ()V
  */
-JNIEXPORT void JNICALL Java_sun_nio_ch_sctp_SctpChannelImpl_initIDs
-  (JNIEnv *env, jclass klass) {
-    jclass cls;
+JNIEXPORT void JNICALL Jbvb_sun_nio_di_sdtp_SdtpCibnnflImpl_initIDs
+  (JNIEnv *fnv, jdlbss klbss) {
+    jdlbss dls;
 
-    /* MessageInfoImpl */
-    cls = (*env)->FindClass(env, MESSAGE_IMPL_CLASS);
-    CHECK_NULL(cls);
-    smi_class = (*env)->NewGlobalRef(env, cls);
-    CHECK_NULL(smi_class);
-    smi_ctrID = (*env)->GetMethodID(env, cls, "<init>",
-            "(ILjava/net/SocketAddress;IIZZI)V");
-    CHECK_NULL(smi_ctrID);
+    /* MfssbgfInfoImpl */
+    dls = (*fnv)->FindClbss(fnv, MESSAGE_IMPL_CLASS);
+    CHECK_NULL(dls);
+    smi_dlbss = (*fnv)->NfwGlobblRff(fnv, dls);
+    CHECK_NULL(smi_dlbss);
+    smi_dtrID = (*fnv)->GftMftiodID(fnv, dls, "<init>",
+            "(ILjbvb/nft/SodkftAddrfss;IIZZI)V");
+    CHECK_NULL(smi_dtrID);
 
-    /* ResultContainer */
-    cls = (*env)->FindClass(env, RESULT_CONTAINER_CLASS);
-    CHECK_NULL(cls);
-    src_valueID = (*env)->GetFieldID(env, cls, "value", "Ljava/lang/Object;");
-    CHECK_NULL(src_valueID);
-    src_typeID = (*env)->GetFieldID(env, cls, "type", "I");
-    CHECK_NULL(src_typeID);
+    /* RfsultContbinfr */
+    dls = (*fnv)->FindClbss(fnv, RESULT_CONTAINER_CLASS);
+    CHECK_NULL(dls);
+    srd_vblufID = (*fnv)->GftFifldID(fnv, dls, "vbluf", "Ljbvb/lbng/Objfdt;");
+    CHECK_NULL(srd_vblufID);
+    srd_typfID = (*fnv)->GftFifldID(fnv, dls, "typf", "I");
+    CHECK_NULL(srd_typfID);
 
-    /* SendFailed */
-    cls = (*env)->FindClass(env, SEND_FAILED_CLASS);
-    CHECK_NULL(cls);
-    ssf_class = (*env)->NewGlobalRef(env, cls);
-    CHECK_NULL(ssf_class);
-    ssf_ctrID = (*env)->GetMethodID(env, cls, "<init>",
-        "(ILjava/net/SocketAddress;Ljava/nio/ByteBuffer;II)V");
-    CHECK_NULL(ssf_ctrID);
+    /* SfndFbilfd */
+    dls = (*fnv)->FindClbss(fnv, SEND_FAILED_CLASS);
+    CHECK_NULL(dls);
+    ssf_dlbss = (*fnv)->NfwGlobblRff(fnv, dls);
+    CHECK_NULL(ssf_dlbss);
+    ssf_dtrID = (*fnv)->GftMftiodID(fnv, dls, "<init>",
+        "(ILjbvb/nft/SodkftAddrfss;Ljbvb/nio/BytfBufffr;II)V");
+    CHECK_NULL(ssf_dtrID);
 
-    /* AssociationChange */
-    cls = (*env)->FindClass(env, ASSOC_CHANGE_CLASS);
-    CHECK_NULL(cls);
-    sac_class = (*env)->NewGlobalRef(env, cls);
-    CHECK_NULL(sac_class);
-    sac_ctrID = (*env)->GetMethodID(env, cls, "<init>", "(IIII)V");
-    CHECK_NULL(sac_ctrID);
+    /* AssodibtionCibngf */
+    dls = (*fnv)->FindClbss(fnv, ASSOC_CHANGE_CLASS);
+    CHECK_NULL(dls);
+    sbd_dlbss = (*fnv)->NfwGlobblRff(fnv, dls);
+    CHECK_NULL(sbd_dlbss);
+    sbd_dtrID = (*fnv)->GftMftiodID(fnv, dls, "<init>", "(IIII)V");
+    CHECK_NULL(sbd_dtrID);
 
-    /* PeerAddrChange */
-    cls = (*env)->FindClass(env, PEER_CHANGE_CLASS);
-    CHECK_NULL(cls);
-    spc_class = (*env)->NewGlobalRef(env, cls);
-    CHECK_NULL(spc_class);
-    spc_ctrID = (*env)->GetMethodID(env, cls, "<init>",
-            "(ILjava/net/SocketAddress;I)V");
-    CHECK_NULL(spc_ctrID);
+    /* PffrAddrCibngf */
+    dls = (*fnv)->FindClbss(fnv, PEER_CHANGE_CLASS);
+    CHECK_NULL(dls);
+    spd_dlbss = (*fnv)->NfwGlobblRff(fnv, dls);
+    CHECK_NULL(spd_dlbss);
+    spd_dtrID = (*fnv)->GftMftiodID(fnv, dls, "<init>",
+            "(ILjbvb/nft/SodkftAddrfss;I)V");
+    CHECK_NULL(spd_dtrID);
 
-    /* Shutdown */
-    cls = (*env)->FindClass(env, SHUTDOWN_CLASS);
-    CHECK_NULL(cls);
-    ss_class = (*env)->NewGlobalRef(env, cls);
-    CHECK_NULL(ss_class);
-    ss_ctrID = (*env)->GetMethodID(env, cls, "<init>", "(I)V");
-    CHECK_NULL(ss_ctrID);
+    /* Siutdown */
+    dls = (*fnv)->FindClbss(fnv, SHUTDOWN_CLASS);
+    CHECK_NULL(dls);
+    ss_dlbss = (*fnv)->NfwGlobblRff(fnv, dls);
+    CHECK_NULL(ss_dlbss);
+    ss_dtrID = (*fnv)->GftMftiodID(fnv, dls, "<init>", "(I)V");
+    CHECK_NULL(ss_dtrID);
 }
 
-void getControlData
-  (struct msghdr* msg, struct controlData* cdata) {
-    struct cmsghdr* cmsg;
+void gftControlDbtb
+  (strudt msgidr* msg, strudt dontrolDbtb* ddbtb) {
+    strudt dmsgidr* dmsg;
 
-    for (cmsg = CMSG_FIRSTHDR(msg); cmsg != NULL; cmsg = CMSG_NXTHDR(msg, cmsg)) {
-        if (cmsg->cmsg_level == IPPROTO_SCTP && cmsg->cmsg_type == SCTP_SNDRCV) {
-            struct sctp_sndrcvinfo *sri;
+    for (dmsg = CMSG_FIRSTHDR(msg); dmsg != NULL; dmsg = CMSG_NXTHDR(msg, dmsg)) {
+        if (dmsg->dmsg_lfvfl == IPPROTO_SCTP && dmsg->dmsg_typf == SCTP_SNDRCV) {
+            strudt sdtp_sndrdvinfo *sri;
 
-            sri = (struct sctp_sndrcvinfo *) CMSG_DATA(cmsg);
-            cdata->assocId = sri->sinfo_assoc_id;
-            cdata->streamNumber = sri->sinfo_stream;
-            cdata->unordered = (sri->sinfo_flags & SCTP_UNORDERED) ? JNI_TRUE :
+            sri = (strudt sdtp_sndrdvinfo *) CMSG_DATA(dmsg);
+            ddbtb->bssodId = sri->sinfo_bssod_id;
+            ddbtb->strfbmNumbfr = sri->sinfo_strfbm;
+            ddbtb->unordfrfd = (sri->sinfo_flbgs & SCTP_UNORDERED) ? JNI_TRUE :
                 JNI_FALSE;
-            cdata->ppid = ntohl(sri->sinfo_ppid);
+            ddbtb->ppid = ntoil(sri->sinfo_ppid);
 
-            return;
+            rfturn;
         }
     }
-    return;
+    rfturn;
 }
 
-void setControlData
-  (struct msghdr* msg, struct controlData* cdata) {
-    struct cmsghdr* cmsg;
-    struct sctp_sndrcvinfo *sri;
+void sftControlDbtb
+  (strudt msgidr* msg, strudt dontrolDbtb* ddbtb) {
+    strudt dmsgidr* dmsg;
+    strudt sdtp_sndrdvinfo *sri;
 
-    cmsg = CMSG_FIRSTHDR(msg);
-    cmsg->cmsg_level = IPPROTO_SCTP;
-    cmsg->cmsg_type = SCTP_SNDRCV;
-    cmsg->cmsg_len = CMSG_LEN(sizeof(struct sctp_sndrcvinfo));
+    dmsg = CMSG_FIRSTHDR(msg);
+    dmsg->dmsg_lfvfl = IPPROTO_SCTP;
+    dmsg->dmsg_typf = SCTP_SNDRCV;
+    dmsg->dmsg_lfn = CMSG_LEN(sizfof(strudt sdtp_sndrdvinfo));
 
-    /* Initialize the payload */
-    sri = (struct sctp_sndrcvinfo*) CMSG_DATA(cmsg);
-    memset(sri, 0, sizeof (*sri));
+    /* Initiblizf tif pbylobd */
+    sri = (strudt sdtp_sndrdvinfo*) CMSG_DATA(dmsg);
+    mfmsft(sri, 0, sizfof (*sri));
 
-    if (cdata->streamNumber > 0) {
-        sri->sinfo_stream = cdata->streamNumber;
+    if (ddbtb->strfbmNumbfr > 0) {
+        sri->sinfo_strfbm = ddbtb->strfbmNumbfr;
     }
-    if (cdata->assocId > 0) {
-        sri->sinfo_assoc_id = cdata->assocId;
+    if (ddbtb->bssodId > 0) {
+        sri->sinfo_bssod_id = ddbtb->bssodId;
     }
-    if (cdata->unordered == JNI_TRUE) {
-        sri->sinfo_flags = sri->sinfo_flags | SCTP_UNORDERED;
-    }
-
-    if (cdata->ppid > 0) {
-        sri->sinfo_ppid = htonl(cdata->ppid);
+    if (ddbtb->unordfrfd == JNI_TRUE) {
+        sri->sinfo_flbgs = sri->sinfo_flbgs | SCTP_UNORDERED;
     }
 
-    /* Sum of the length of all control messages in the buffer. */
-    msg->msg_controllen = cmsg->cmsg_len;
+    if (ddbtb->ppid > 0) {
+        sri->sinfo_ppid = itonl(ddbtb->ppid);
+    }
+
+    /* Sum of tif lfngti of bll dontrol mfssbgfs in tif bufffr. */
+    msg->msg_dontrollfn = dmsg->dmsg_lfn;
 }
 
-// TODO: test: can create send failed without any data? if so need to
-// update API so that buffer can be null if no data.
-void handleSendFailed
-  (JNIEnv* env, int fd, jobject resultContainerObj, struct sctp_send_failed *ssf,
-   int read, jboolean isEOR, struct sockaddr* sap) {
-    jobject bufferObj = NULL, resultObj, isaObj;
-    char *addressP;
-    struct sctp_sndrcvinfo *sri;
-    int remaining, dataLength;
+// TODO: tfst: dbn drfbtf sfnd fbilfd witiout bny dbtb? if so nffd to
+// updbtf API so tibt bufffr dbn bf null if no dbtb.
+void ibndlfSfndFbilfd
+  (JNIEnv* fnv, int fd, jobjfdt rfsultContbinfrObj, strudt sdtp_sfnd_fbilfd *ssf,
+   int rfbd, jboolfbn isEOR, strudt sodkbddr* sbp) {
+    jobjfdt bufffrObj = NULL, rfsultObj, isbObj;
+    dibr *bddrfssP;
+    strudt sdtp_sndrdvinfo *sri;
+    int rfmbining, dbtbLfngti;
 
-    /* the actual undelivered message data is directly after the ssf */
-    int dataOffset = sizeof(struct sctp_send_failed);
+    /* tif bdtubl undflivfrfd mfssbgf dbtb is dirfdtly bftfr tif ssf */
+    int dbtbOffsft = sizfof(strudt sdtp_sfnd_fbilfd);
 
-    sri = (struct sctp_sndrcvinfo*) &ssf->ssf_info;
+    sri = (strudt sdtp_sndrdvinfo*) &ssf->ssf_info;
 
-    /* the number of bytes remaining to be read in the sctp_send_failed notif*/
-    remaining = ssf->ssf_length - read;
+    /* tif numbfr of bytfs rfmbining to bf rfbd in tif sdtp_sfnd_fbilfd notif*/
+    rfmbining = ssf->ssf_lfngti - rfbd;
 
-    /* the size of the actual undelivered message */
-    dataLength = ssf->ssf_length - dataOffset;
+    /* tif sizf of tif bdtubl undflivfrfd mfssbgf */
+    dbtbLfngti = ssf->ssf_lfngti - dbtbOffsft;
 
-    /* retrieved address from sockaddr */
-    isaObj = SockAddrToInetSocketAddress(env, sap);
-    CHECK_NULL(isaObj);
+    /* rftrifvfd bddrfss from sodkbddr */
+    isbObj = SodkAddrToInftSodkftAddrfss(fnv, sbp);
+    CHECK_NULL(isbObj);
 
-    /* data retrieved from sff_data */
-    if (dataLength > 0) {
-        struct iovec iov[1];
-        struct msghdr msg[1];
-        int rv, alreadyRead;
-        char *dataP = (char*) ssf;
-        dataP += dataOffset;
+    /* dbtb rftrifvfd from sff_dbtb */
+    if (dbtbLfngti > 0) {
+        strudt iovfd iov[1];
+        strudt msgidr msg[1];
+        int rv, blrfbdyRfbd;
+        dibr *dbtbP = (dibr*) ssf;
+        dbtbP += dbtbOffsft;
 
-        if ((addressP = malloc(dataLength)) == NULL) {
-            JNU_ThrowOutOfMemoryError(env, "handleSendFailed");
-            return;
+        if ((bddrfssP = mbllod(dbtbLfngti)) == NULL) {
+            JNU_TirowOutOfMfmoryError(fnv, "ibndlfSfndFbilfd");
+            rfturn;
         }
 
-        memset(msg, 0, sizeof (*msg));
+        mfmsft(msg, 0, sizfof (*msg));
         msg->msg_iov = iov;
-        msg->msg_iovlen = 1;
+        msg->msg_iovlfn = 1;
 
-        bufferObj = (*env)->NewDirectByteBuffer(env, addressP, dataLength);
-        CHECK_NULL(bufferObj);
+        bufffrObj = (*fnv)->NfwDirfdtBytfBufffr(fnv, bddrfssP, dbtbLfngti);
+        CHECK_NULL(bufffrObj);
 
-        alreadyRead = read - dataOffset;
-        if (alreadyRead > 0) {
-            memcpy(addressP, /*ssf->ssf_data*/ dataP, alreadyRead);
-            iov->iov_base = addressP + alreadyRead;
-            iov->iov_len = dataLength - alreadyRead;
-        } else {
-            iov->iov_base = addressP;
-            iov->iov_len = dataLength;
+        blrfbdyRfbd = rfbd - dbtbOffsft;
+        if (blrfbdyRfbd > 0) {
+            mfmdpy(bddrfssP, /*ssf->ssf_dbtb*/ dbtbP, blrfbdyRfbd);
+            iov->iov_bbsf = bddrfssP + blrfbdyRfbd;
+            iov->iov_lfn = dbtbLfngti - blrfbdyRfbd;
+        } flsf {
+            iov->iov_bbsf = bddrfssP;
+            iov->iov_lfn = dbtbLfngti;
         }
 
-        if (remaining > 0) {
-            if ((rv = recvmsg(fd, msg, 0)) < 0) {
-                handleSocketError(env, errno);
-                return;
+        if (rfmbining > 0) {
+            if ((rv = rfdvmsg(fd, msg, 0)) < 0) {
+                ibndlfSodkftError(fnv, frrno);
+                rfturn;
             }
 
-            if (rv != (dataLength - alreadyRead) || !(msg->msg_flags & MSG_EOR)) {
-                //TODO: assert false: "should not reach here";
-                return;
+            if (rv != (dbtbLfngti - blrfbdyRfbd) || !(msg->msg_flbgs & MSG_EOR)) {
+                //TODO: bssfrt fblsf: "siould not rfbdi ifrf";
+                rfturn;
             }
-            // TODO: Set and document (in API) buffers position.
+            // TODO: Sft bnd dodumfnt (in API) bufffrs position.
         }
     }
 
-    /* create SendFailed */
-    resultObj = (*env)->NewObject(env, ssf_class, ssf_ctrID, ssf->ssf_assoc_id,
-            isaObj, bufferObj, ssf->ssf_error, sri->sinfo_stream);
-    CHECK_NULL(resultObj);
-    (*env)->SetObjectField(env, resultContainerObj, src_valueID, resultObj);
-    (*env)->SetIntField(env, resultContainerObj, src_typeID,
-            sun_nio_ch_sctp_ResultContainer_SEND_FAILED);
+    /* drfbtf SfndFbilfd */
+    rfsultObj = (*fnv)->NfwObjfdt(fnv, ssf_dlbss, ssf_dtrID, ssf->ssf_bssod_id,
+            isbObj, bufffrObj, ssf->ssf_frror, sri->sinfo_strfbm);
+    CHECK_NULL(rfsultObj);
+    (*fnv)->SftObjfdtFifld(fnv, rfsultContbinfrObj, srd_vblufID, rfsultObj);
+    (*fnv)->SftIntFifld(fnv, rfsultContbinfrObj, srd_typfID,
+            sun_nio_di_sdtp_RfsultContbinfr_SEND_FAILED);
 }
 
-void handleAssocChange
-  (JNIEnv* env, jobject resultContainerObj, struct sctp_assoc_change *sac) {
-    jobject resultObj;
-    int state = 0;
+void ibndlfAssodCibngf
+  (JNIEnv* fnv, jobjfdt rfsultContbinfrObj, strudt sdtp_bssod_dibngf *sbd) {
+    jobjfdt rfsultObj;
+    int stbtf = 0;
 
-    switch (sac->sac_state) {
-        case SCTP_COMM_UP :
-            state = sun_nio_ch_sctp_AssociationChange_SCTP_COMM_UP;
-            break;
-        case SCTP_COMM_LOST :
-            state = sun_nio_ch_sctp_AssociationChange_SCTP_COMM_LOST;
-            break;
-        case SCTP_RESTART :
-            state = sun_nio_ch_sctp_AssociationChange_SCTP_RESTART;
-            break;
-        case SCTP_SHUTDOWN_COMP :
-            state = sun_nio_ch_sctp_AssociationChange_SCTP_SHUTDOWN;
-            break;
-        case SCTP_CANT_STR_ASSOC :
-            state = sun_nio_ch_sctp_AssociationChange_SCTP_CANT_START;
+    switdi (sbd->sbd_stbtf) {
+        dbsf SCTP_COMM_UP :
+            stbtf = sun_nio_di_sdtp_AssodibtionCibngf_SCTP_COMM_UP;
+            brfbk;
+        dbsf SCTP_COMM_LOST :
+            stbtf = sun_nio_di_sdtp_AssodibtionCibngf_SCTP_COMM_LOST;
+            brfbk;
+        dbsf SCTP_RESTART :
+            stbtf = sun_nio_di_sdtp_AssodibtionCibngf_SCTP_RESTART;
+            brfbk;
+        dbsf SCTP_SHUTDOWN_COMP :
+            stbtf = sun_nio_di_sdtp_AssodibtionCibngf_SCTP_SHUTDOWN;
+            brfbk;
+        dbsf SCTP_CANT_STR_ASSOC :
+            stbtf = sun_nio_di_sdtp_AssodibtionCibngf_SCTP_CANT_START;
     }
 
-    /* create AssociationChange */
-    resultObj = (*env)->NewObject(env, sac_class, sac_ctrID, sac->sac_assoc_id,
-        state, sac->sac_outbound_streams, sac->sac_inbound_streams);
-    CHECK_NULL(resultObj);
-    (*env)->SetObjectField(env, resultContainerObj, src_valueID, resultObj);
-    (*env)->SetIntField(env, resultContainerObj, src_typeID,
-            sun_nio_ch_sctp_ResultContainer_ASSOCIATION_CHANGED);
+    /* drfbtf AssodibtionCibngf */
+    rfsultObj = (*fnv)->NfwObjfdt(fnv, sbd_dlbss, sbd_dtrID, sbd->sbd_bssod_id,
+        stbtf, sbd->sbd_outbound_strfbms, sbd->sbd_inbound_strfbms);
+    CHECK_NULL(rfsultObj);
+    (*fnv)->SftObjfdtFifld(fnv, rfsultContbinfrObj, srd_vblufID, rfsultObj);
+    (*fnv)->SftIntFifld(fnv, rfsultContbinfrObj, srd_typfID,
+            sun_nio_di_sdtp_RfsultContbinfr_ASSOCIATION_CHANGED);
 }
 
-void handleShutdown
-  (JNIEnv* env, jobject resultContainerObj, struct sctp_shutdown_event* sse) {
-    /* create Shutdown */
-    jobject resultObj = (*env)->NewObject(env, ss_class, ss_ctrID, sse->sse_assoc_id);
-    CHECK_NULL(resultObj);
-    (*env)->SetObjectField(env, resultContainerObj, src_valueID, resultObj);
-    (*env)->SetIntField(env, resultContainerObj, src_typeID,
-            sun_nio_ch_sctp_ResultContainer_SHUTDOWN);
+void ibndlfSiutdown
+  (JNIEnv* fnv, jobjfdt rfsultContbinfrObj, strudt sdtp_siutdown_fvfnt* ssf) {
+    /* drfbtf Siutdown */
+    jobjfdt rfsultObj = (*fnv)->NfwObjfdt(fnv, ss_dlbss, ss_dtrID, ssf->ssf_bssod_id);
+    CHECK_NULL(rfsultObj);
+    (*fnv)->SftObjfdtFifld(fnv, rfsultContbinfrObj, srd_vblufID, rfsultObj);
+    (*fnv)->SftIntFifld(fnv, rfsultContbinfrObj, srd_typfID,
+            sun_nio_di_sdtp_RfsultContbinfr_SHUTDOWN);
 }
 
-void handlePeerAddrChange
-  (JNIEnv* env, jobject resultContainerObj, struct sctp_paddr_change* spc) {
-    int event = 0;
-    jobject addressObj, resultObj;
-    unsigned int state = spc->spc_state;
+void ibndlfPffrAddrCibngf
+  (JNIEnv* fnv, jobjfdt rfsultContbinfrObj, strudt sdtp_pbddr_dibngf* spd) {
+    int fvfnt = 0;
+    jobjfdt bddrfssObj, rfsultObj;
+    unsignfd int stbtf = spd->spd_stbtf;
 
-    switch (state) {
-        case SCTP_ADDR_AVAILABLE :
-            event = sun_nio_ch_sctp_PeerAddrChange_SCTP_ADDR_AVAILABLE;
-            break;
-        case SCTP_ADDR_UNREACHABLE :
-            event = sun_nio_ch_sctp_PeerAddrChange_SCTP_ADDR_UNREACHABLE;
-            break;
-        case SCTP_ADDR_REMOVED :
-            event = sun_nio_ch_sctp_PeerAddrChange_SCTP_ADDR_REMOVED;
-            break;
-        case SCTP_ADDR_ADDED :
-            event = sun_nio_ch_sctp_PeerAddrChange_SCTP_ADDR_ADDED;
-            break;
-        case SCTP_ADDR_MADE_PRIM :
-            event = sun_nio_ch_sctp_PeerAddrChange_SCTP_ADDR_MADE_PRIM;
-#ifdef __linux__  /* Solaris currently doesn't support SCTP_ADDR_CONFIRMED */
-            break;
-        case SCTP_ADDR_CONFIRMED :
-            event = sun_nio_ch_sctp_PeerAddrChange_SCTP_ADDR_CONFIRMED;
-#endif  /* __linux__ */
+    switdi (stbtf) {
+        dbsf SCTP_ADDR_AVAILABLE :
+            fvfnt = sun_nio_di_sdtp_PffrAddrCibngf_SCTP_ADDR_AVAILABLE;
+            brfbk;
+        dbsf SCTP_ADDR_UNREACHABLE :
+            fvfnt = sun_nio_di_sdtp_PffrAddrCibngf_SCTP_ADDR_UNREACHABLE;
+            brfbk;
+        dbsf SCTP_ADDR_REMOVED :
+            fvfnt = sun_nio_di_sdtp_PffrAddrCibngf_SCTP_ADDR_REMOVED;
+            brfbk;
+        dbsf SCTP_ADDR_ADDED :
+            fvfnt = sun_nio_di_sdtp_PffrAddrCibngf_SCTP_ADDR_ADDED;
+            brfbk;
+        dbsf SCTP_ADDR_MADE_PRIM :
+            fvfnt = sun_nio_di_sdtp_PffrAddrCibngf_SCTP_ADDR_MADE_PRIM;
+#ifdff __linux__  /* Solbris durrfntly dofsn't support SCTP_ADDR_CONFIRMED */
+            brfbk;
+        dbsf SCTP_ADDR_CONFIRMED :
+            fvfnt = sun_nio_di_sdtp_PffrAddrCibngf_SCTP_ADDR_CONFIRMED;
+#fndif  /* __linux__ */
     }
 
-    addressObj = SockAddrToInetSocketAddress(env, (struct sockaddr*)&spc->spc_aaddr);
-    CHECK_NULL(addressObj);
+    bddrfssObj = SodkAddrToInftSodkftAddrfss(fnv, (strudt sodkbddr*)&spd->spd_bbddr);
+    CHECK_NULL(bddrfssObj);
 
-    /* create PeerAddressChanged */
-    resultObj = (*env)->NewObject(env, spc_class, spc_ctrID, spc->spc_assoc_id,
-            addressObj, event);
-    CHECK_NULL(resultObj);
-    (*env)->SetObjectField(env, resultContainerObj, src_valueID, resultObj);
-    (*env)->SetIntField(env, resultContainerObj, src_typeID,
-            sun_nio_ch_sctp_ResultContainer_PEER_ADDRESS_CHANGED);
+    /* drfbtf PffrAddrfssCibngfd */
+    rfsultObj = (*fnv)->NfwObjfdt(fnv, spd_dlbss, spd_dtrID, spd->spd_bssod_id,
+            bddrfssObj, fvfnt);
+    CHECK_NULL(rfsultObj);
+    (*fnv)->SftObjfdtFifld(fnv, rfsultContbinfrObj, srd_vblufID, rfsultObj);
+    (*fnv)->SftIntFifld(fnv, rfsultContbinfrObj, srd_typfID,
+            sun_nio_di_sdtp_RfsultContbinfr_PEER_ADDRESS_CHANGED);
 }
 
-void handleUninteresting
-  (union sctp_notification *snp) {
-    //fprintf(stdout,"\nNative: handleUninterestingNotification: Receive notification type [%u]", snp->sn_header.sn_type);
+void ibndlfUnintfrfsting
+  (union sdtp_notifidbtion *snp) {
+    //fprintf(stdout,"\nNbtivf: ibndlfUnintfrfstingNotifidbtion: Rfdfivf notifidbtion typf [%u]", snp->sn_ifbdfr.sn_typf);
 }
 
 /**
- * Handle notifications from the SCTP stack.
- * Returns JNI_TRUE if the notification is one that is of interest to the
- * Java API, otherwise JNI_FALSE.
+ * Hbndlf notifidbtions from tif SCTP stbdk.
+ * Rfturns JNI_TRUE if tif notifidbtion is onf tibt is of intfrfst to tif
+ * Jbvb API, otifrwisf JNI_FALSE.
  */
-jboolean handleNotification
-  (JNIEnv* env, int fd, jobject resultContainerObj, union sctp_notification* snp,
-   int read, jboolean isEOR, struct sockaddr* sap) {
-    switch (snp->sn_header.sn_type) {
-        case SCTP_SEND_FAILED:
-            handleSendFailed(env, fd, resultContainerObj, &snp->sn_send_failed,
-                    read, isEOR, sap);
-            return JNI_TRUE;
-        case SCTP_ASSOC_CHANGE:
-            handleAssocChange(env, resultContainerObj, &snp->sn_assoc_change);
-            return JNI_TRUE;
-        case SCTP_SHUTDOWN_EVENT:
-            handleShutdown(env, resultContainerObj, &snp->sn_shutdown_event);
-            return JNI_TRUE;
-        case SCTP_PEER_ADDR_CHANGE:
-            handlePeerAddrChange(env, resultContainerObj, &snp->sn_paddr_change);
-            return JNI_TRUE;
-        default :
-            /* the Java API is not interested in this event, maybe we are? */
-            handleUninteresting(snp);
+jboolfbn ibndlfNotifidbtion
+  (JNIEnv* fnv, int fd, jobjfdt rfsultContbinfrObj, union sdtp_notifidbtion* snp,
+   int rfbd, jboolfbn isEOR, strudt sodkbddr* sbp) {
+    switdi (snp->sn_ifbdfr.sn_typf) {
+        dbsf SCTP_SEND_FAILED:
+            ibndlfSfndFbilfd(fnv, fd, rfsultContbinfrObj, &snp->sn_sfnd_fbilfd,
+                    rfbd, isEOR, sbp);
+            rfturn JNI_TRUE;
+        dbsf SCTP_ASSOC_CHANGE:
+            ibndlfAssodCibngf(fnv, rfsultContbinfrObj, &snp->sn_bssod_dibngf);
+            rfturn JNI_TRUE;
+        dbsf SCTP_SHUTDOWN_EVENT:
+            ibndlfSiutdown(fnv, rfsultContbinfrObj, &snp->sn_siutdown_fvfnt);
+            rfturn JNI_TRUE;
+        dbsf SCTP_PEER_ADDR_CHANGE:
+            ibndlfPffrAddrCibngf(fnv, rfsultContbinfrObj, &snp->sn_pbddr_dibngf);
+            rfturn JNI_TRUE;
+        dffbult :
+            /* tif Jbvb API is not intfrfstfd in tiis fvfnt, mbybf wf brf? */
+            ibndlfUnintfrfsting(snp);
     }
-    return JNI_FALSE;
+    rfturn JNI_FALSE;
 }
 
-void handleMessage
-  (JNIEnv* env, jobject resultContainerObj, struct msghdr* msg,int read,
-   jboolean isEOR, struct sockaddr* sap) {
-    jobject isa, resultObj;
-    struct controlData cdata[1];
+void ibndlfMfssbgf
+  (JNIEnv* fnv, jobjfdt rfsultContbinfrObj, strudt msgidr* msg,int rfbd,
+   jboolfbn isEOR, strudt sodkbddr* sbp) {
+    jobjfdt isb, rfsultObj;
+    strudt dontrolDbtb ddbtb[1];
 
-    if (read == 0) {
-        /* we reached EOF */
-        read = -1;
+    if (rfbd == 0) {
+        /* wf rfbdifd EOF */
+        rfbd = -1;
     }
 
-    isa = SockAddrToInetSocketAddress(env, sap);
-    CHECK_NULL(isa);
-    getControlData(msg, cdata);
+    isb = SodkAddrToInftSodkftAddrfss(fnv, sbp);
+    CHECK_NULL(isb);
+    gftControlDbtb(msg, ddbtb);
 
-    /* create MessageInfoImpl */
-    resultObj = (*env)->NewObject(env, smi_class, smi_ctrID, cdata->assocId,
-                                  isa, read, cdata->streamNumber,
+    /* drfbtf MfssbgfInfoImpl */
+    rfsultObj = (*fnv)->NfwObjfdt(fnv, smi_dlbss, smi_dtrID, ddbtb->bssodId,
+                                  isb, rfbd, ddbtb->strfbmNumbfr,
                                   isEOR ? JNI_TRUE : JNI_FALSE,
-                                  cdata->unordered, cdata->ppid);
-    CHECK_NULL(resultObj);
-    (*env)->SetObjectField(env, resultContainerObj, src_valueID, resultObj);
-    (*env)->SetIntField(env, resultContainerObj, src_typeID,
-                        sun_nio_ch_sctp_ResultContainer_MESSAGE);
+                                  ddbtb->unordfrfd, ddbtb->ppid);
+    CHECK_NULL(rfsultObj);
+    (*fnv)->SftObjfdtFifld(fnv, rfsultContbinfrObj, srd_vblufID, rfsultObj);
+    (*fnv)->SftIntFifld(fnv, rfsultContbinfrObj, srd_typfID,
+                        sun_nio_di_sdtp_RfsultContbinfr_MESSAGE);
 }
 
 /*
- * Class:     sun_nio_ch_sctp_SctpChannelImpl
- * Method:    receive0
- * Signature: (ILsun/nio/ch/sctp/ResultContainer;JIZ)I
+ * Clbss:     sun_nio_di_sdtp_SdtpCibnnflImpl
+ * Mftiod:    rfdfivf0
+ * Signbturf: (ILsun/nio/di/sdtp/RfsultContbinfr;JIZ)I
  */
-JNIEXPORT jint JNICALL Java_sun_nio_ch_sctp_SctpChannelImpl_receive0
-  (JNIEnv *env, jclass klass, jint fd, jobject resultContainerObj,
-   jlong address, jint length, jboolean peek) {
-    SOCKADDR sa;
-    int sa_len = sizeof(sa);
-    ssize_t rv = 0;
-    jlong *addr = jlong_to_ptr(address);
-    struct iovec iov[1];
-    struct msghdr msg[1];
-    char cbuf[CMSG_SPACE(sizeof (struct sctp_sndrcvinfo))];
-    int flags = peek == JNI_TRUE ? MSG_PEEK : 0;
+JNIEXPORT jint JNICALL Jbvb_sun_nio_di_sdtp_SdtpCibnnflImpl_rfdfivf0
+  (JNIEnv *fnv, jdlbss klbss, jint fd, jobjfdt rfsultContbinfrObj,
+   jlong bddrfss, jint lfngti, jboolfbn pffk) {
+    SOCKADDR sb;
+    int sb_lfn = sizfof(sb);
+    ssizf_t rv = 0;
+    jlong *bddr = jlong_to_ptr(bddrfss);
+    strudt iovfd iov[1];
+    strudt msgidr msg[1];
+    dibr dbuf[CMSG_SPACE(sizfof (strudt sdtp_sndrdvinfo))];
+    int flbgs = pffk == JNI_TRUE ? MSG_PEEK : 0;
 
-    /* Set up the msghdr structure for receiving */
-    memset(msg, 0, sizeof (*msg));
-    msg->msg_name = &sa;
-    msg->msg_namelen = sa_len;
-    iov->iov_base = addr;
-    iov->iov_len = length;
+    /* Sft up tif msgidr strudturf for rfdfiving */
+    mfmsft(msg, 0, sizfof (*msg));
+    msg->msg_nbmf = &sb;
+    msg->msg_nbmflfn = sb_lfn;
+    iov->iov_bbsf = bddr;
+    iov->iov_lfn = lfngti;
     msg->msg_iov = iov;
-    msg->msg_iovlen = 1;
-    msg->msg_control = cbuf;
-    msg->msg_controllen = sizeof(cbuf);
-    msg->msg_flags = 0;
+    msg->msg_iovlfn = 1;
+    msg->msg_dontrol = dbuf;
+    msg->msg_dontrollfn = sizfof(dbuf);
+    msg->msg_flbgs = 0;
 
     do {
-        if ((rv = recvmsg(fd, msg, flags)) < 0) {
-            if (errno == EWOULDBLOCK) {
-                return IOS_UNAVAILABLE;
-            } else if (errno == EINTR) {
-                return IOS_INTERRUPTED;
+        if ((rv = rfdvmsg(fd, msg, flbgs)) < 0) {
+            if (frrno == EWOULDBLOCK) {
+                rfturn IOS_UNAVAILABLE;
+            } flsf if (frrno == EINTR) {
+                rfturn IOS_INTERRUPTED;
 
-#ifdef __linux__
-            } else if (errno == ENOTCONN) {
-                /* ENOTCONN when EOF reached */
+#ifdff __linux__
+            } flsf if (frrno == ENOTCONN) {
+                /* ENOTCONN wifn EOF rfbdifd */
                 rv = 0;
-                /* there will be no control data */
-                msg->msg_controllen = 0;
-#endif /* __linux__ */
+                /* tifrf will bf no dontrol dbtb */
+                msg->msg_dontrollfn = 0;
+#fndif /* __linux__ */
 
-            } else {
-                handleSocketError(env, errno);
-                return 0;
+            } flsf {
+                ibndlfSodkftError(fnv, frrno);
+                rfturn 0;
             }
         }
 
-        if (msg->msg_flags & MSG_NOTIFICATION) {
-            char *bufp = (char*)addr;
-            union sctp_notification *snp;
-            jboolean allocated = JNI_FALSE;
+        if (msg->msg_flbgs & MSG_NOTIFICATION) {
+            dibr *bufp = (dibr*)bddr;
+            union sdtp_notifidbtion *snp;
+            jboolfbn bllodbtfd = JNI_FALSE;
 
             if (rv > SCTP_NOTIFICATION_SIZE) {
-                JNU_ThrowInternalError(env, "should not reach here");
-                return -1;
+                JNU_TirowIntfrnblError(fnv, "siould not rfbdi ifrf");
+                rfturn -1;
             }
 
-            if (!(msg->msg_flags & MSG_EOR) && length < SCTP_NOTIFICATION_SIZE) {
-                char* newBuf;
+            if (!(msg->msg_flbgs & MSG_EOR) && lfngti < SCTP_NOTIFICATION_SIZE) {
+                dibr* nfwBuf;
                 int rvSAVE = rv;
 
-                if ((newBuf = malloc(SCTP_NOTIFICATION_SIZE)) == NULL) {
-                    JNU_ThrowOutOfMemoryError(env, "Out of native heap space.");
-                    return -1;
+                if ((nfwBuf = mbllod(SCTP_NOTIFICATION_SIZE)) == NULL) {
+                    JNU_TirowOutOfMfmoryError(fnv, "Out of nbtivf ifbp spbdf.");
+                    rfturn -1;
                 }
-                allocated = JNI_TRUE;
+                bllodbtfd = JNI_TRUE;
 
-                memcpy(newBuf, addr, rv);
-                iov->iov_base = newBuf + rv;
-                iov->iov_len = SCTP_NOTIFICATION_SIZE - rv;
-                if ((rv = recvmsg(fd, msg, flags)) < 0) {
-                    handleSocketError(env, errno);
-                    return 0;
+                mfmdpy(nfwBuf, bddr, rv);
+                iov->iov_bbsf = nfwBuf + rv;
+                iov->iov_lfn = SCTP_NOTIFICATION_SIZE - rv;
+                if ((rv = rfdvmsg(fd, msg, flbgs)) < 0) {
+                    ibndlfSodkftError(fnv, frrno);
+                    rfturn 0;
                 }
-                bufp = newBuf;
+                bufp = nfwBuf;
                 rv += rvSAVE;
             }
-#ifdef __sparc
-              else if ((intptr_t)addr & 0x3) {
-                /* the given buffer is not 4 byte aligned */
-                char* newBuf;
-                if ((newBuf = malloc(SCTP_NOTIFICATION_SIZE)) == NULL) {
-                    JNU_ThrowOutOfMemoryError(env, "Out of native heap space.");
-                    return -1;
+#ifdff __spbrd
+              flsf if ((intptr_t)bddr & 0x3) {
+                /* tif givfn bufffr is not 4 bytf blignfd */
+                dibr* nfwBuf;
+                if ((nfwBuf = mbllod(SCTP_NOTIFICATION_SIZE)) == NULL) {
+                    JNU_TirowOutOfMfmoryError(fnv, "Out of nbtivf ifbp spbdf.");
+                    rfturn -1;
                 }
-                allocated = JNI_TRUE;
+                bllodbtfd = JNI_TRUE;
 
-                memcpy(newBuf, addr, rv);
-                bufp = newBuf;
+                mfmdpy(nfwBuf, bddr, rv);
+                bufp = nfwBuf;
             }
-#endif
-            snp = (union sctp_notification *) bufp;
-            if (handleNotification(env, fd, resultContainerObj, snp, rv,
-                                   (msg->msg_flags & MSG_EOR),
-                                   (struct sockaddr*)&sa ) == JNI_TRUE) {
-                /* We have received a notification that is of interest to
-                   to the Java API. The appropriate notification will be
-                   set in the result container. */
-                if (allocated == JNI_TRUE) {
-                    free(bufp);
+#fndif
+            snp = (union sdtp_notifidbtion *) bufp;
+            if (ibndlfNotifidbtion(fnv, fd, rfsultContbinfrObj, snp, rv,
+                                   (msg->msg_flbgs & MSG_EOR),
+                                   (strudt sodkbddr*)&sb ) == JNI_TRUE) {
+                /* Wf ibvf rfdfivfd b notifidbtion tibt is of intfrfst to
+                   to tif Jbvb API. Tif bppropribtf notifidbtion will bf
+                   sft in tif rfsult dontbinfr. */
+                if (bllodbtfd == JNI_TRUE) {
+                    frff(bufp);
                 }
-                return 0;
+                rfturn 0;
             }
 
-            if (allocated == JNI_TRUE) {
-                free(bufp);
+            if (bllodbtfd == JNI_TRUE) {
+                frff(bufp);
             }
 
-            // set iov back to addr, and reset msg_controllen
-            iov->iov_base = addr;
-            iov->iov_len = length;
-            msg->msg_control = cbuf;
-            msg->msg_controllen = sizeof(cbuf);
+            // sft iov bbdk to bddr, bnd rfsft msg_dontrollfn
+            iov->iov_bbsf = bddr;
+            iov->iov_lfn = lfngti;
+            msg->msg_dontrol = dbuf;
+            msg->msg_dontrollfn = sizfof(dbuf);
         }
-    } while (msg->msg_flags & MSG_NOTIFICATION);
+    } wiilf (msg->msg_flbgs & MSG_NOTIFICATION);
 
-    handleMessage(env, resultContainerObj, msg, rv,
-            (msg->msg_flags & MSG_EOR), (struct sockaddr*)&sa);
-    return rv;
+    ibndlfMfssbgf(fnv, rfsultContbinfrObj, msg, rv,
+            (msg->msg_flbgs & MSG_EOR), (strudt sodkbddr*)&sb);
+    rfturn rv;
 }
 
 /*
- * Class:     sun_nio_ch_sctp_SctpChannelImpl
- * Method:    send0
- * Signature: (IJILjava/net/InetAddress;IIIZI)I
+ * Clbss:     sun_nio_di_sdtp_SdtpCibnnflImpl
+ * Mftiod:    sfnd0
+ * Signbturf: (IJILjbvb/nft/InftAddrfss;IIIZI)I
  */
-JNIEXPORT jint JNICALL Java_sun_nio_ch_sctp_SctpChannelImpl_send0
-  (JNIEnv *env, jclass klass, jint fd, jlong address, jint length,
-   jobject targetAddress, jint targetPort, jint assocId, jint streamNumber,
-   jboolean unordered, jint ppid) {
-    SOCKADDR sa;
-    int sa_len = sizeof(sa);
-    ssize_t rv = 0;
-    jlong *addr = jlong_to_ptr(address);
-    struct iovec iov[1];
-    struct msghdr msg[1];
-    int cbuf_size = CMSG_SPACE(sizeof (struct sctp_sndrcvinfo));
-    char cbuf[CMSG_SPACE(sizeof (struct sctp_sndrcvinfo))];
-    struct controlData cdata[1];
+JNIEXPORT jint JNICALL Jbvb_sun_nio_di_sdtp_SdtpCibnnflImpl_sfnd0
+  (JNIEnv *fnv, jdlbss klbss, jint fd, jlong bddrfss, jint lfngti,
+   jobjfdt tbrgftAddrfss, jint tbrgftPort, jint bssodId, jint strfbmNumbfr,
+   jboolfbn unordfrfd, jint ppid) {
+    SOCKADDR sb;
+    int sb_lfn = sizfof(sb);
+    ssizf_t rv = 0;
+    jlong *bddr = jlong_to_ptr(bddrfss);
+    strudt iovfd iov[1];
+    strudt msgidr msg[1];
+    int dbuf_sizf = CMSG_SPACE(sizfof (strudt sdtp_sndrdvinfo));
+    dibr dbuf[CMSG_SPACE(sizfof (strudt sdtp_sndrdvinfo))];
+    strudt dontrolDbtb ddbtb[1];
 
-    /* SctpChannel:
-     *    targetAddress may contain the preferred address or NULL to use primary,
-     *    assocId will always be -1
-     * SctpMultiChannell:
-     *    Setup new association, targetAddress will contain address, assocId = -1
-     *    Association already existing, assocId != -1, targetAddress = preferred addr
+    /* SdtpCibnnfl:
+     *    tbrgftAddrfss mby dontbin tif prfffrrfd bddrfss or NULL to usf primbry,
+     *    bssodId will blwbys bf -1
+     * SdtpMultiCibnnfll:
+     *    Sftup nfw bssodibtion, tbrgftAddrfss will dontbin bddrfss, bssodId = -1
+     *    Assodibtion blrfbdy fxisting, bssodId != -1, tbrgftAddrfss = prfffrrfd bddr
      */
-    if (targetAddress != NULL /*&& assocId <= 0*/) {
-        if (NET_InetAddressToSockaddr(env, targetAddress, targetPort,
-                                      (struct sockaddr *)&sa,
-                                      &sa_len, JNI_TRUE) != 0) {
-            return IOS_THROWN;
+    if (tbrgftAddrfss != NULL /*&& bssodId <= 0*/) {
+        if (NET_InftAddrfssToSodkbddr(fnv, tbrgftAddrfss, tbrgftPort,
+                                      (strudt sodkbddr *)&sb,
+                                      &sb_lfn, JNI_TRUE) != 0) {
+            rfturn IOS_THROWN;
         }
-    } else {
-        memset(&sa, '\x0', sa_len);
-        sa_len = 0;
+    } flsf {
+        mfmsft(&sb, '\x0', sb_lfn);
+        sb_lfn = 0;
     }
 
-    /* Set up the msghdr structure for sending */
-    memset(msg, 0, sizeof (*msg));
-    memset(cbuf, 0, cbuf_size);
-    msg->msg_name = &sa;
-    msg->msg_namelen = sa_len;
-    iov->iov_base = addr;
-    iov->iov_len = length;
+    /* Sft up tif msgidr strudturf for sfnding */
+    mfmsft(msg, 0, sizfof (*msg));
+    mfmsft(dbuf, 0, dbuf_sizf);
+    msg->msg_nbmf = &sb;
+    msg->msg_nbmflfn = sb_lfn;
+    iov->iov_bbsf = bddr;
+    iov->iov_lfn = lfngti;
     msg->msg_iov = iov;
-    msg->msg_iovlen = 1;
-    msg->msg_control = cbuf;
-    msg->msg_controllen = cbuf_size;
-    msg->msg_flags = 0;
+    msg->msg_iovlfn = 1;
+    msg->msg_dontrol = dbuf;
+    msg->msg_dontrollfn = dbuf_sizf;
+    msg->msg_flbgs = 0;
 
-    cdata->streamNumber = streamNumber;
-    cdata->assocId = assocId;
-    cdata->unordered = unordered;
-    cdata->ppid = ppid;
-    setControlData(msg, cdata);
+    ddbtb->strfbmNumbfr = strfbmNumbfr;
+    ddbtb->bssodId = bssodId;
+    ddbtb->unordfrfd = unordfrfd;
+    ddbtb->ppid = ppid;
+    sftControlDbtb(msg, ddbtb);
 
-    if ((rv = sendmsg(fd, msg, 0)) < 0) {
-        if (errno == EWOULDBLOCK) {
-            return IOS_UNAVAILABLE;
-        } else if (errno == EINTR) {
-            return IOS_INTERRUPTED;
-        } else if (errno == EPIPE) {
-            JNU_ThrowByName(env, JNU_JAVANETPKG "SocketException",
-                            "Socket is shutdown for writing");
-        } else {
-            handleSocketError(env, errno);
-            return 0;
+    if ((rv = sfndmsg(fd, msg, 0)) < 0) {
+        if (frrno == EWOULDBLOCK) {
+            rfturn IOS_UNAVAILABLE;
+        } flsf if (frrno == EINTR) {
+            rfturn IOS_INTERRUPTED;
+        } flsf if (frrno == EPIPE) {
+            JNU_TirowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption",
+                            "Sodkft is siutdown for writing");
+        } flsf {
+            ibndlfSodkftError(fnv, frrno);
+            rfturn 0;
         }
     }
 
-    return rv;
+    rfturn rv;
 }
 
 /*
- * Class:     sun_nio_ch_sctp_SctpChannelImpl
- * Method:    checkConnect
- * Signature: (Ljava/io/FileDescriptor;ZZ)I
+ * Clbss:     sun_nio_di_sdtp_SdtpCibnnflImpl
+ * Mftiod:    difdkConnfdt
+ * Signbturf: (Ljbvb/io/FilfDfsdriptor;ZZ)I
  */
-JNIEXPORT jint JNICALL Java_sun_nio_ch_sctp_SctpChannelImpl_checkConnect
-  (JNIEnv* env, jobject this, jobject fdo, jboolean block, jboolean ready) {
-    return Java_sun_nio_ch_SocketChannelImpl_checkConnect(env, this,
-                                                          fdo, block, ready);
+JNIEXPORT jint JNICALL Jbvb_sun_nio_di_sdtp_SdtpCibnnflImpl_difdkConnfdt
+  (JNIEnv* fnv, jobjfdt tiis, jobjfdt fdo, jboolfbn blodk, jboolfbn rfbdy) {
+    rfturn Jbvb_sun_nio_di_SodkftCibnnflImpl_difdkConnfdt(fnv, tiis,
+                                                          fdo, blodk, rfbdy);
 }

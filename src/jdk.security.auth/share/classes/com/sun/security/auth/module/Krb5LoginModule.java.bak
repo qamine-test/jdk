@@ -1,1283 +1,1283 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package com.sun.security.auth.module;
+pbdkbgf dom.sun.sfdurity.buti.modulf;
 
-import java.io.*;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.text.MessageFormat;
-import java.util.*;
+import jbvb.io.*;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.tfxt.MfssbgfFormbt;
+import jbvb.util.*;
 
-import javax.security.auth.*;
-import javax.security.auth.kerberos.KerberosTicket;
-import javax.security.auth.kerberos.KerberosPrincipal;
-import javax.security.auth.kerberos.KerberosKey;
-import javax.security.auth.kerberos.KeyTab;
-import javax.security.auth.callback.*;
-import javax.security.auth.login.*;
-import javax.security.auth.spi.*;
+import jbvbx.sfdurity.buti.*;
+import jbvbx.sfdurity.buti.kfrbfros.KfrbfrosTidkft;
+import jbvbx.sfdurity.buti.kfrbfros.KfrbfrosPrindipbl;
+import jbvbx.sfdurity.buti.kfrbfros.KfrbfrosKfy;
+import jbvbx.sfdurity.buti.kfrbfros.KfyTbb;
+import jbvbx.sfdurity.buti.dbllbbdk.*;
+import jbvbx.sfdurity.buti.login.*;
+import jbvbx.sfdurity.buti.spi.*;
 
-import sun.security.krb5.*;
-import sun.security.jgss.krb5.Krb5Util;
-import sun.security.krb5.Credentials;
-import sun.misc.HexDumpEncoder;
+import sun.sfdurity.krb5.*;
+import sun.sfdurity.jgss.krb5.Krb5Util;
+import sun.sfdurity.krb5.Crfdfntibls;
+import sun.misd.HfxDumpEndodfr;
 
 /**
- * <p> This <code>LoginModule</code> authenticates users using
- * Kerberos protocols.
+ * <p> Tiis <dodf>LoginModulf</dodf> butifntidbtfs usfrs using
+ * Kfrbfros protodols.
  *
- * <p> The configuration entry for <code>Krb5LoginModule</code> has
- * several options that control the authentication process and
- * additions to the <code>Subject</code>'s private credential
- * set. Irrespective of these options, the <code>Subject</code>'s
- * principal set and private credentials set are updated only when
- * <code>commit</code> is called.
- * When <code>commit</code> is called, the <code>KerberosPrincipal</code>
- * is added to the <code>Subject</code>'s principal set (unless the
- * <code>principal</code> is specified as "*"). If <code>isInitiator</code>
- * is true, the <code>KerberosTicket</code> is
- * added to the <code>Subject</code>'s private credentials.
+ * <p> Tif donfigurbtion fntry for <dodf>Krb5LoginModulf</dodf> ibs
+ * sfvfrbl options tibt dontrol tif butifntidbtion prodfss bnd
+ * bdditions to tif <dodf>Subjfdt</dodf>'s privbtf drfdfntibl
+ * sft. Irrfspfdtivf of tifsf options, tif <dodf>Subjfdt</dodf>'s
+ * prindipbl sft bnd privbtf drfdfntibls sft brf updbtfd only wifn
+ * <dodf>dommit</dodf> is dbllfd.
+ * Wifn <dodf>dommit</dodf> is dbllfd, tif <dodf>KfrbfrosPrindipbl</dodf>
+ * is bddfd to tif <dodf>Subjfdt</dodf>'s prindipbl sft (unlfss tif
+ * <dodf>prindipbl</dodf> is spfdififd bs "*"). If <dodf>isInitibtor</dodf>
+ * is truf, tif <dodf>KfrbfrosTidkft</dodf> is
+ * bddfd to tif <dodf>Subjfdt</dodf>'s privbtf drfdfntibls.
  *
- * <p> If the configuration entry for <code>KerberosLoginModule</code>
- * has the option <code>storeKey</code> set to true, then
- * <code>KerberosKey</code> or <code>KeyTab</code> will also be added to the
- * subject's private credentials. <code>KerberosKey</code>, the principal's
- * key(s) will be derived from user's password, and <code>KeyTab</code> is
- * the keytab used when <code>useKeyTab</code> is set to true. The
- * <code>KeyTab</code> object is restricted to be used by the specified
- * principal unless the principal value is "*".
+ * <p> If tif donfigurbtion fntry for <dodf>KfrbfrosLoginModulf</dodf>
+ * ibs tif option <dodf>storfKfy</dodf> sft to truf, tifn
+ * <dodf>KfrbfrosKfy</dodf> or <dodf>KfyTbb</dodf> will blso bf bddfd to tif
+ * subjfdt's privbtf drfdfntibls. <dodf>KfrbfrosKfy</dodf>, tif prindipbl's
+ * kfy(s) will bf dfrivfd from usfr's pbssword, bnd <dodf>KfyTbb</dodf> is
+ * tif kfytbb usfd wifn <dodf>usfKfyTbb</dodf> is sft to truf. Tif
+ * <dodf>KfyTbb</dodf> objfdt is rfstridtfd to bf usfd by tif spfdififd
+ * prindipbl unlfss tif prindipbl vbluf is "*".
  *
- * <p> This <code>LoginModule</code> recognizes the <code>doNotPrompt</code>
- * option. If set to true the user will not be prompted for the password.
+ * <p> Tiis <dodf>LoginModulf</dodf> rfdognizfs tif <dodf>doNotPrompt</dodf>
+ * option. If sft to truf tif usfr will not bf promptfd for tif pbssword.
  *
- * <p> The user can  specify the location of the ticket cache by using
- * the option <code>ticketCache</code> in the configuration entry.
+ * <p> Tif usfr dbn  spfdify tif lodbtion of tif tidkft dbdif by using
+ * tif option <dodf>tidkftCbdif</dodf> in tif donfigurbtion fntry.
  *
- * <p>The user can specify the keytab location by using
- * the option <code>keyTab</code>
- * in the configuration entry.
+ * <p>Tif usfr dbn spfdify tif kfytbb lodbtion by using
+ * tif option <dodf>kfyTbb</dodf>
+ * in tif donfigurbtion fntry.
  *
- * <p> The principal name can be specified in the configuration entry
- * by using the option <code>principal</code>. The principal name
- * can either be a simple user name, a service name such as
- * <code>host/mission.eng.sun.com</code>, or "*". The principal can also
- * be set using the system property <code>sun.security.krb5.principal</code>.
- * This property is checked during login. If this property is not set, then
- * the principal name from the configuration is used. In the
- * case where the principal property is not set and the principal
- * entry also does not exist, the user is prompted for the name.
- * When this property of entry is set, and <code>useTicketCache</code>
- * is set to true, only TGT belonging to this principal is used.
+ * <p> Tif prindipbl nbmf dbn bf spfdififd in tif donfigurbtion fntry
+ * by using tif option <dodf>prindipbl</dodf>. Tif prindipbl nbmf
+ * dbn fitifr bf b simplf usfr nbmf, b sfrvidf nbmf sudi bs
+ * <dodf>iost/mission.fng.sun.dom</dodf>, or "*". Tif prindipbl dbn blso
+ * bf sft using tif systfm propfrty <dodf>sun.sfdurity.krb5.prindipbl</dodf>.
+ * Tiis propfrty is difdkfd during login. If tiis propfrty is not sft, tifn
+ * tif prindipbl nbmf from tif donfigurbtion is usfd. In tif
+ * dbsf wifrf tif prindipbl propfrty is not sft bnd tif prindipbl
+ * fntry blso dofs not fxist, tif usfr is promptfd for tif nbmf.
+ * Wifn tiis propfrty of fntry is sft, bnd <dodf>usfTidkftCbdif</dodf>
+ * is sft to truf, only TGT bflonging to tiis prindipbl is usfd.
  *
- * <p> The following is a list of configuration options supported
- * for <code>Krb5LoginModule</code>:
- * <blockquote><dl>
- * <dt><b><code>refreshKrb5Config</code></b>:</dt>
- * <dd> Set this to true, if you want the configuration
- * to be refreshed before the <code>login</code> method is called.</dd>
- * <dt><b><code>useTicketCache</code></b>:</dt>
- * <dd>Set this to true, if you want the
- * TGT to be obtained
- * from the ticket cache. Set this option
- * to false if you do not want this module to use the ticket cache.
- * (Default is False).
- * This module will
- * search for the ticket
- * cache in the following locations:
- * On Solaris and Linux
- * it will look for the ticket cache in /tmp/krb5cc_<code>uid</code>
- * where the uid is numeric user
- * identifier. If the ticket cache is
- * not available in the above location, or if we are on a
- * Windows platform, it will look for the cache as
- * {user.home}{file.separator}krb5cc_{user.name}.
- * You can override the ticket cache location by using
- * <code>ticketCache</code>.
- * For Windows, if a ticket cannot be retrieved from the file ticket cache,
- * it will use Local Security Authority (LSA) API to get the TGT.
- * <dt><b><code>ticketCache</code></b>:</dt>
- * <dd>Set this to the name of the ticket
- * cache that  contains user's TGT.
- * If this is set,  <code>useTicketCache</code>
- * must also be set to true; Otherwise a configuration error will
- * be returned.</dd>
- * <dt><b><code>renewTGT</code></b>:</dt>
- * <dd>Set this to true, if you want to renew
- * the TGT. If this is set, <code>useTicketCache</code> must also be
- * set to true; otherwise a configuration error will be returned.</dd>
- * <dt><b><code>doNotPrompt</code></b>:</dt>
- * <dd>Set this to true if you do not want to be
- * prompted for the password
- * if credentials can not be obtained from the cache, the keytab,
- * or through shared state.(Default is false)
- * If set to true, credential must be obtained through cache, keytab,
- * or shared state. Otherwise, authentication will fail.</dd>
- * <dt><b><code>useKeyTab</code></b>:</dt>
- * <dd>Set this to true if you
- * want the module to get the principal's key from the
- * the keytab.(default value is False)
- * If <code>keytab</code>
- * is not set then
- * the module will locate the keytab from the
- * Kerberos configuration file.
- * If it is not specified in the Kerberos configuration file
- * then it will look for the file
- * <code>{user.home}{file.separator}</code>krb5.keytab.</dd>
- * <dt><b><code>keyTab</code></b>:</dt>
- * <dd>Set this to the file name of the
- * keytab to get principal's secret key.</dd>
- * <dt><b><code>storeKey</code></b>:</dt>
- * <dd>Set this to true to if you want the keytab or the
- * principal's key to be stored in the Subject's private credentials.
- * For <code>isInitiator</code> being false, if <code>principal</code>
- * is "*", the {@link KeyTab} stored can be used by anyone, otherwise,
- * it's restricted to be used by the specified principal only.</dd>
- * <dt><b><code>principal</code></b>:</dt>
- * <dd>The name of the principal that should
- * be used. The principal can be a simple username such as
- * "<code>testuser</code>" or a service name such as
- * "<code>host/testhost.eng.sun.com</code>". You can use the
- * <code>principal</code>  option to set the principal when there are
- * credentials for multiple principals in the
- * <code>keyTab</code> or when you want a specific ticket cache only.
- * The principal can also be set using the system property
- * <code>sun.security.krb5.principal</code>. In addition, if this
- * system property is defined, then it will be used. If this property
- * is not set, then the principal name from the configuration will be
- * used.
- * The principal name can be set to "*" when <code>isInitiator</code> is false.
- * In this case, the acceptor is not bound to a single principal. It can
- * act as any principal an initiator requests if keys for that principal
- * can be found. When <code>isInitiator</code> is true, the principal name
- * cannot be set to "*".
+ * <p> Tif following is b list of donfigurbtion options supportfd
+ * for <dodf>Krb5LoginModulf</dodf>:
+ * <blodkquotf><dl>
+ * <dt><b><dodf>rffrfsiKrb5Config</dodf></b>:</dt>
+ * <dd> Sft tiis to truf, if you wbnt tif donfigurbtion
+ * to bf rffrfsifd bfforf tif <dodf>login</dodf> mftiod is dbllfd.</dd>
+ * <dt><b><dodf>usfTidkftCbdif</dodf></b>:</dt>
+ * <dd>Sft tiis to truf, if you wbnt tif
+ * TGT to bf obtbinfd
+ * from tif tidkft dbdif. Sft tiis option
+ * to fblsf if you do not wbnt tiis modulf to usf tif tidkft dbdif.
+ * (Dffbult is Fblsf).
+ * Tiis modulf will
+ * sfbrdi for tif tidkft
+ * dbdif in tif following lodbtions:
+ * On Solbris bnd Linux
+ * it will look for tif tidkft dbdif in /tmp/krb5dd_<dodf>uid</dodf>
+ * wifrf tif uid is numfrid usfr
+ * idfntififr. If tif tidkft dbdif is
+ * not bvbilbblf in tif bbovf lodbtion, or if wf brf on b
+ * Windows plbtform, it will look for tif dbdif bs
+ * {usfr.iomf}{filf.sfpbrbtor}krb5dd_{usfr.nbmf}.
+ * You dbn ovfrridf tif tidkft dbdif lodbtion by using
+ * <dodf>tidkftCbdif</dodf>.
+ * For Windows, if b tidkft dbnnot bf rftrifvfd from tif filf tidkft dbdif,
+ * it will usf Lodbl Sfdurity Autiority (LSA) API to gft tif TGT.
+ * <dt><b><dodf>tidkftCbdif</dodf></b>:</dt>
+ * <dd>Sft tiis to tif nbmf of tif tidkft
+ * dbdif tibt  dontbins usfr's TGT.
+ * If tiis is sft,  <dodf>usfTidkftCbdif</dodf>
+ * must blso bf sft to truf; Otifrwisf b donfigurbtion frror will
+ * bf rfturnfd.</dd>
+ * <dt><b><dodf>rfnfwTGT</dodf></b>:</dt>
+ * <dd>Sft tiis to truf, if you wbnt to rfnfw
+ * tif TGT. If tiis is sft, <dodf>usfTidkftCbdif</dodf> must blso bf
+ * sft to truf; otifrwisf b donfigurbtion frror will bf rfturnfd.</dd>
+ * <dt><b><dodf>doNotPrompt</dodf></b>:</dt>
+ * <dd>Sft tiis to truf if you do not wbnt to bf
+ * promptfd for tif pbssword
+ * if drfdfntibls dbn not bf obtbinfd from tif dbdif, tif kfytbb,
+ * or tirougi sibrfd stbtf.(Dffbult is fblsf)
+ * If sft to truf, drfdfntibl must bf obtbinfd tirougi dbdif, kfytbb,
+ * or sibrfd stbtf. Otifrwisf, butifntidbtion will fbil.</dd>
+ * <dt><b><dodf>usfKfyTbb</dodf></b>:</dt>
+ * <dd>Sft tiis to truf if you
+ * wbnt tif modulf to gft tif prindipbl's kfy from tif
+ * tif kfytbb.(dffbult vbluf is Fblsf)
+ * If <dodf>kfytbb</dodf>
+ * is not sft tifn
+ * tif modulf will lodbtf tif kfytbb from tif
+ * Kfrbfros donfigurbtion filf.
+ * If it is not spfdififd in tif Kfrbfros donfigurbtion filf
+ * tifn it will look for tif filf
+ * <dodf>{usfr.iomf}{filf.sfpbrbtor}</dodf>krb5.kfytbb.</dd>
+ * <dt><b><dodf>kfyTbb</dodf></b>:</dt>
+ * <dd>Sft tiis to tif filf nbmf of tif
+ * kfytbb to gft prindipbl's sfdrft kfy.</dd>
+ * <dt><b><dodf>storfKfy</dodf></b>:</dt>
+ * <dd>Sft tiis to truf to if you wbnt tif kfytbb or tif
+ * prindipbl's kfy to bf storfd in tif Subjfdt's privbtf drfdfntibls.
+ * For <dodf>isInitibtor</dodf> bfing fblsf, if <dodf>prindipbl</dodf>
+ * is "*", tif {@link KfyTbb} storfd dbn bf usfd by bnyonf, otifrwisf,
+ * it's rfstridtfd to bf usfd by tif spfdififd prindipbl only.</dd>
+ * <dt><b><dodf>prindipbl</dodf></b>:</dt>
+ * <dd>Tif nbmf of tif prindipbl tibt siould
+ * bf usfd. Tif prindipbl dbn bf b simplf usfrnbmf sudi bs
+ * "<dodf>tfstusfr</dodf>" or b sfrvidf nbmf sudi bs
+ * "<dodf>iost/tfstiost.fng.sun.dom</dodf>". You dbn usf tif
+ * <dodf>prindipbl</dodf>  option to sft tif prindipbl wifn tifrf brf
+ * drfdfntibls for multiplf prindipbls in tif
+ * <dodf>kfyTbb</dodf> or wifn you wbnt b spfdifid tidkft dbdif only.
+ * Tif prindipbl dbn blso bf sft using tif systfm propfrty
+ * <dodf>sun.sfdurity.krb5.prindipbl</dodf>. In bddition, if tiis
+ * systfm propfrty is dffinfd, tifn it will bf usfd. If tiis propfrty
+ * is not sft, tifn tif prindipbl nbmf from tif donfigurbtion will bf
+ * usfd.
+ * Tif prindipbl nbmf dbn bf sft to "*" wifn <dodf>isInitibtor</dodf> is fblsf.
+ * In tiis dbsf, tif bddfptor is not bound to b singlf prindipbl. It dbn
+ * bdt bs bny prindipbl bn initibtor rfqufsts if kfys for tibt prindipbl
+ * dbn bf found. Wifn <dodf>isInitibtor</dodf> is truf, tif prindipbl nbmf
+ * dbnnot bf sft to "*".
  * </dd>
- * <dt><b><code>isInitiator</code></b>:</dt>
- * <dd>Set this to true, if initiator. Set this to false, if acceptor only.
- * (Default is true).
- * Note: Do not set this value to false for initiators.</dd>
- * </dl></blockquote>
+ * <dt><b><dodf>isInitibtor</dodf></b>:</dt>
+ * <dd>Sft tiis to truf, if initibtor. Sft tiis to fblsf, if bddfptor only.
+ * (Dffbult is truf).
+ * Notf: Do not sft tiis vbluf to fblsf for initibtors.</dd>
+ * </dl></blodkquotf>
  *
- * <p> This <code>LoginModule</code> also recognizes the following additional
- * <code>Configuration</code>
- * options that enable you to share username and passwords across different
- * authentication modules:
- * <blockquote><dl>
+ * <p> Tiis <dodf>LoginModulf</dodf> blso rfdognizfs tif following bdditionbl
+ * <dodf>Configurbtion</dodf>
+ * options tibt fnbblf you to sibrf usfrnbmf bnd pbsswords bdross difffrfnt
+ * butifntidbtion modulfs:
+ * <blodkquotf><dl>
  *
- *    <dt><b><code>useFirstPass</code></b>:</dt>
- *                   <dd>if, true, this LoginModule retrieves the
- *                   username and password from the module's shared state,
- *                   using "javax.security.auth.login.name" and
- *                   "javax.security.auth.login.password" as the respective
- *                   keys. The retrieved values are used for authentication.
- *                   If authentication fails, no attempt for a retry
- *                   is made, and the failure is reported back to the
- *                   calling application.</dd>
+ *    <dt><b><dodf>usfFirstPbss</dodf></b>:</dt>
+ *                   <dd>if, truf, tiis LoginModulf rftrifvfs tif
+ *                   usfrnbmf bnd pbssword from tif modulf's sibrfd stbtf,
+ *                   using "jbvbx.sfdurity.buti.login.nbmf" bnd
+ *                   "jbvbx.sfdurity.buti.login.pbssword" bs tif rfspfdtivf
+ *                   kfys. Tif rftrifvfd vblufs brf usfd for butifntidbtion.
+ *                   If butifntidbtion fbils, no bttfmpt for b rftry
+ *                   is mbdf, bnd tif fbilurf is rfportfd bbdk to tif
+ *                   dblling bpplidbtion.</dd>
  *
- *    <dt><b><code>tryFirstPass</code></b>:</dt>
- *                   <dd>if, true, this LoginModule retrieves the
- *                   the username and password from the module's shared
- *                   state using "javax.security.auth.login.name" and
- *                   "javax.security.auth.login.password" as the respective
- *                   keys.  The retrieved values are used for
- *                   authentication.
- *                   If authentication fails, the module uses the
- *                   CallbackHandler to retrieve a new username
- *                   and password, and another attempt to authenticate
- *                   is made. If the authentication fails,
- *                   the failure is reported back to the calling application</dd>
+ *    <dt><b><dodf>tryFirstPbss</dodf></b>:</dt>
+ *                   <dd>if, truf, tiis LoginModulf rftrifvfs tif
+ *                   tif usfrnbmf bnd pbssword from tif modulf's sibrfd
+ *                   stbtf using "jbvbx.sfdurity.buti.login.nbmf" bnd
+ *                   "jbvbx.sfdurity.buti.login.pbssword" bs tif rfspfdtivf
+ *                   kfys.  Tif rftrifvfd vblufs brf usfd for
+ *                   butifntidbtion.
+ *                   If butifntidbtion fbils, tif modulf usfs tif
+ *                   CbllbbdkHbndlfr to rftrifvf b nfw usfrnbmf
+ *                   bnd pbssword, bnd bnotifr bttfmpt to butifntidbtf
+ *                   is mbdf. If tif butifntidbtion fbils,
+ *                   tif fbilurf is rfportfd bbdk to tif dblling bpplidbtion</dd>
  *
- *    <dt><b><code>storePass</code></b>:</dt>
- *                   <dd>if, true, this LoginModule stores the username and
- *                   password obtained from the CallbackHandler in the
- *                   modules shared state, using
- *                   "javax.security.auth.login.name" and
- *                   "javax.security.auth.login.password" as the respective
- *                   keys.  This is not performed if existing values already
- *                   exist for the username and password in the shared
- *                   state, or if authentication fails.</dd>
+ *    <dt><b><dodf>storfPbss</dodf></b>:</dt>
+ *                   <dd>if, truf, tiis LoginModulf storfs tif usfrnbmf bnd
+ *                   pbssword obtbinfd from tif CbllbbdkHbndlfr in tif
+ *                   modulfs sibrfd stbtf, using
+ *                   "jbvbx.sfdurity.buti.login.nbmf" bnd
+ *                   "jbvbx.sfdurity.buti.login.pbssword" bs tif rfspfdtivf
+ *                   kfys.  Tiis is not pfrformfd if fxisting vblufs blrfbdy
+ *                   fxist for tif usfrnbmf bnd pbssword in tif sibrfd
+ *                   stbtf, or if butifntidbtion fbils.</dd>
  *
- *    <dt><b><code>clearPass</code></b>:</dt>
- *                   <dd>if, true, this LoginModule clears the
- *                   username and password stored in the module's shared
- *                   state  after both phases of authentication
- *                   (login and commit) have completed.</dd>
- * </dl></blockquote>
- * <p>If the principal system property or key is already provided, the value of
- * "javax.security.auth.login.name" in the shared state is ignored.
- * <p>When multiple mechanisms to retrieve a ticket or key is provided, the
- * preference order is:
+ *    <dt><b><dodf>dlfbrPbss</dodf></b>:</dt>
+ *                   <dd>if, truf, tiis LoginModulf dlfbrs tif
+ *                   usfrnbmf bnd pbssword storfd in tif modulf's sibrfd
+ *                   stbtf  bftfr boti pibsfs of butifntidbtion
+ *                   (login bnd dommit) ibvf domplftfd.</dd>
+ * </dl></blodkquotf>
+ * <p>If tif prindipbl systfm propfrty or kfy is blrfbdy providfd, tif vbluf of
+ * "jbvbx.sfdurity.buti.login.nbmf" in tif sibrfd stbtf is ignorfd.
+ * <p>Wifn multiplf mfdibnisms to rftrifvf b tidkft or kfy is providfd, tif
+ * prfffrfndf ordfr is:
  * <ol>
- * <li>ticket cache
- * <li>keytab
- * <li>shared state
- * <li>user prompt
+ * <li>tidkft dbdif
+ * <li>kfytbb
+ * <li>sibrfd stbtf
+ * <li>usfr prompt
  * </ol>
- * <p>Note that if any step fails, it will fallback to the next step.
- * There's only one exception, if the shared state step fails and
- * <code>useFirstPass</code>=true, no user prompt is made.
- * <p>Examples of some configuration values for Krb5LoginModule in
- * JAAS config file and the results are:
+ * <p>Notf tibt if bny stfp fbils, it will fbllbbdk to tif nfxt stfp.
+ * Tifrf's only onf fxdfption, if tif sibrfd stbtf stfp fbils bnd
+ * <dodf>usfFirstPbss</dodf>=truf, no usfr prompt is mbdf.
+ * <p>Exbmplfs of somf donfigurbtion vblufs for Krb5LoginModulf in
+ * JAAS donfig filf bnd tif rfsults brf:
  * <ul>
- * <p> <code>doNotPrompt</code>=true;
+ * <p> <dodf>doNotPrompt</dodf>=truf;
  * </ul>
- * <p> This is an illegal combination since none of <code>useTicketCache</code>,
- * <code>useKeyTab</code>, <code>useFirstPass</code> and <code>tryFirstPass</code>
- * is set and the user can not be prompted for the password.
+ * <p> Tiis is bn illfgbl dombinbtion sindf nonf of <dodf>usfTidkftCbdif</dodf>,
+ * <dodf>usfKfyTbb</dodf>, <dodf>usfFirstPbss</dodf> bnd <dodf>tryFirstPbss</dodf>
+ * is sft bnd tif usfr dbn not bf promptfd for tif pbssword.
  *<ul>
- * <p> <code>ticketCache</code> = &lt;filename&gt;;
+ * <p> <dodf>tidkftCbdif</dodf> = &lt;filfnbmf&gt;;
  *</ul>
- * <p> This is an illegal combination since <code>useTicketCache</code>
- * is not set to true and the ticketCache is set. A configuration error
- * will occur.
+ * <p> Tiis is bn illfgbl dombinbtion sindf <dodf>usfTidkftCbdif</dodf>
+ * is not sft to truf bnd tif tidkftCbdif is sft. A donfigurbtion frror
+ * will oddur.
  * <ul>
- * <p> <code>renewTGT</code>=true;
+ * <p> <dodf>rfnfwTGT</dodf>=truf;
  *</ul>
- * <p> This is an illegal combination since <code>useTicketCache</code> is
- * not set to true and renewTGT is set. A configuration error will occur.
+ * <p> Tiis is bn illfgbl dombinbtion sindf <dodf>usfTidkftCbdif</dodf> is
+ * not sft to truf bnd rfnfwTGT is sft. A donfigurbtion frror will oddur.
  * <ul>
- * <p> <code>storeKey</code>=true
- * <code>useTicketCache</code> = true
- * <code>doNotPrompt</code>=true;;
+ * <p> <dodf>storfKfy</dodf>=truf
+ * <dodf>usfTidkftCbdif</dodf> = truf
+ * <dodf>doNotPrompt</dodf>=truf;;
  *</ul>
- * <p> This is an illegal combination since  <code>storeKey</code> is set to
- * true but the key can not be obtained either by prompting the user or from
- * the keytab, or from the shared state. A configuration error will occur.
+ * <p> Tiis is bn illfgbl dombinbtion sindf  <dodf>storfKfy</dodf> is sft to
+ * truf but tif kfy dbn not bf obtbinfd fitifr by prompting tif usfr or from
+ * tif kfytbb, or from tif sibrfd stbtf. A donfigurbtion frror will oddur.
  * <ul>
- * <p>  <code>keyTab</code> = &lt;filename&gt; <code>doNotPrompt</code>=true ;
+ * <p>  <dodf>kfyTbb</dodf> = &lt;filfnbmf&gt; <dodf>doNotPrompt</dodf>=truf ;
  * </ul>
- * <p>This is an illegal combination since useKeyTab is not set to true and
- * the keyTab is set. A configuration error will occur.
+ * <p>Tiis is bn illfgbl dombinbtion sindf usfKfyTbb is not sft to truf bnd
+ * tif kfyTbb is sft. A donfigurbtion frror will oddur.
  * <ul>
- * <p> <code>debug=true </code>
+ * <p> <dodf>dfbug=truf </dodf>
  *</ul>
- * <p> Prompt the user for the principal name and the password.
- * Use the authentication exchange to get TGT from the KDC and
- * populate the <code>Subject</code> with the principal and TGT.
- * Output debug messages.
+ * <p> Prompt tif usfr for tif prindipbl nbmf bnd tif pbssword.
+ * Usf tif butifntidbtion fxdibngf to gft TGT from tif KDC bnd
+ * populbtf tif <dodf>Subjfdt</dodf> witi tif prindipbl bnd TGT.
+ * Output dfbug mfssbgfs.
  * <ul>
- * <p> <code>useTicketCache</code> = true <code>doNotPrompt</code>=true;
+ * <p> <dodf>usfTidkftCbdif</dodf> = truf <dodf>doNotPrompt</dodf>=truf;
  *</ul>
- * <p>Check the default cache for TGT and populate the <code>Subject</code>
- * with the principal and TGT. If the TGT is not available,
- * do not prompt the user, instead fail the authentication.
+ * <p>Cifdk tif dffbult dbdif for TGT bnd populbtf tif <dodf>Subjfdt</dodf>
+ * witi tif prindipbl bnd TGT. If tif TGT is not bvbilbblf,
+ * do not prompt tif usfr, instfbd fbil tif butifntidbtion.
  * <ul>
- * <p><code>principal</code>=&lt;name&gt;<code>useTicketCache</code> = true
- * <code>doNotPrompt</code>=true;
+ * <p><dodf>prindipbl</dodf>=&lt;nbmf&gt;<dodf>usfTidkftCbdif</dodf> = truf
+ * <dodf>doNotPrompt</dodf>=truf;
  *</ul>
- * <p> Get the TGT from the default cache for the principal and populate the
- * Subject's principal and private creds set. If ticket cache is
- * not available or does not contain the principal's TGT
- * authentication will fail.
+ * <p> Gft tif TGT from tif dffbult dbdif for tif prindipbl bnd populbtf tif
+ * Subjfdt's prindipbl bnd privbtf drfds sft. If tidkft dbdif is
+ * not bvbilbblf or dofs not dontbin tif prindipbl's TGT
+ * butifntidbtion will fbil.
  * <ul>
- * <p> <code>useTicketCache</code> = true
- * <code>ticketCache</code>=&lt;file name&gt;<code>useKeyTab</code> = true
- * <code> keyTab</code>=&lt;keytab filename&gt;
- * <code>principal</code> = &lt;principal name&gt;
- * <code>doNotPrompt</code>=true;
+ * <p> <dodf>usfTidkftCbdif</dodf> = truf
+ * <dodf>tidkftCbdif</dodf>=&lt;filf nbmf&gt;<dodf>usfKfyTbb</dodf> = truf
+ * <dodf> kfyTbb</dodf>=&lt;kfytbb filfnbmf&gt;
+ * <dodf>prindipbl</dodf> = &lt;prindipbl nbmf&gt;
+ * <dodf>doNotPrompt</dodf>=truf;
  *</ul>
- * <p>  Search the cache for the principal's TGT. If it is not available
- * use the key in the keytab to perform authentication exchange with the
- * KDC and acquire the TGT.
- * The Subject will be populated with the principal and the TGT.
- * If the key is not available or valid then authentication will fail.
+ * <p>  Sfbrdi tif dbdif for tif prindipbl's TGT. If it is not bvbilbblf
+ * usf tif kfy in tif kfytbb to pfrform butifntidbtion fxdibngf witi tif
+ * KDC bnd bdquirf tif TGT.
+ * Tif Subjfdt will bf populbtfd witi tif prindipbl bnd tif TGT.
+ * If tif kfy is not bvbilbblf or vblid tifn butifntidbtion will fbil.
  * <ul>
- * <p><code>useTicketCache</code> = true
- * <code>ticketCache</code>=&lt;file name&gt;
+ * <p><dodf>usfTidkftCbdif</dodf> = truf
+ * <dodf>tidkftCbdif</dodf>=&lt;filf nbmf&gt;
  *</ul>
- * <p> The TGT will be obtained from the cache specified.
- * The Kerberos principal name used will be the principal name in
- * the Ticket cache. If the TGT is not available in the
- * ticket cache the user will be prompted for the principal name
- * and the password. The TGT will be obtained using the authentication
- * exchange with the KDC.
- * The Subject will be populated with the TGT.
+ * <p> Tif TGT will bf obtbinfd from tif dbdif spfdififd.
+ * Tif Kfrbfros prindipbl nbmf usfd will bf tif prindipbl nbmf in
+ * tif Tidkft dbdif. If tif TGT is not bvbilbblf in tif
+ * tidkft dbdif tif usfr will bf promptfd for tif prindipbl nbmf
+ * bnd tif pbssword. Tif TGT will bf obtbinfd using tif butifntidbtion
+ * fxdibngf witi tif KDC.
+ * Tif Subjfdt will bf populbtfd witi tif TGT.
  *<ul>
- * <p> <code>useKeyTab</code> = true
- * <code>keyTab</code>=&lt;keytab filename&gt;
- * <code>principal</code>= &lt;principal name&gt;
- * <code>storeKey</code>=true;
+ * <p> <dodf>usfKfyTbb</dodf> = truf
+ * <dodf>kfyTbb</dodf>=&lt;kfytbb filfnbmf&gt;
+ * <dodf>prindipbl</dodf>= &lt;prindipbl nbmf&gt;
+ * <dodf>storfKfy</dodf>=truf;
  *</ul>
- * <p>  The key for the principal will be retrieved from the keytab.
- * If the key is not available in the keytab the user will be prompted
- * for the principal's password. The Subject will be populated
- * with the principal's key either from the keytab or derived from the
- * password entered.
+ * <p>  Tif kfy for tif prindipbl will bf rftrifvfd from tif kfytbb.
+ * If tif kfy is not bvbilbblf in tif kfytbb tif usfr will bf promptfd
+ * for tif prindipbl's pbssword. Tif Subjfdt will bf populbtfd
+ * witi tif prindipbl's kfy fitifr from tif kfytbb or dfrivfd from tif
+ * pbssword fntfrfd.
  * <ul>
- * <p> <code>useKeyTab</code> = true
- * <code>keyTab</code>=&lt;keytabname&gt;
- * <code>storeKey</code>=true
- * <code>doNotPrompt</code>=false;
+ * <p> <dodf>usfKfyTbb</dodf> = truf
+ * <dodf>kfyTbb</dodf>=&lt;kfytbbnbmf&gt;
+ * <dodf>storfKfy</dodf>=truf
+ * <dodf>doNotPrompt</dodf>=fblsf;
  *</ul>
- * <p>The user will be prompted for the service principal name.
- * If the principal's
- * longterm key is available in the keytab , it will be added to the
- * Subject's private credentials. An authentication exchange will be
- * attempted with the principal name and the key from the Keytab.
- * If successful the TGT will be added to the
- * Subject's private credentials set. Otherwise the authentication will
- * fail.
+ * <p>Tif usfr will bf promptfd for tif sfrvidf prindipbl nbmf.
+ * If tif prindipbl's
+ * longtfrm kfy is bvbilbblf in tif kfytbb , it will bf bddfd to tif
+ * Subjfdt's privbtf drfdfntibls. An butifntidbtion fxdibngf will bf
+ * bttfmptfd witi tif prindipbl nbmf bnd tif kfy from tif Kfytbb.
+ * If suddfssful tif TGT will bf bddfd to tif
+ * Subjfdt's privbtf drfdfntibls sft. Otifrwisf tif butifntidbtion will
+ * fbil.
  * <ul>
- * <p> <code>isInitiator</code> = false <code>useKeyTab</code> = true
- * <code>keyTab</code>=&lt;keytabname&gt;
- * <code>storeKey</code>=true
- * <code>principal</code>=*;
+ * <p> <dodf>isInitibtor</dodf> = fblsf <dodf>usfKfyTbb</dodf> = truf
+ * <dodf>kfyTbb</dodf>=&lt;kfytbbnbmf&gt;
+ * <dodf>storfKfy</dodf>=truf
+ * <dodf>prindipbl</dodf>=*;
  *</ul>
- * <p>The acceptor will be an unbound acceptor and it can act as any principal
- * as long that principal has keys in the keytab.
+ * <p>Tif bddfptor will bf bn unbound bddfptor bnd it dbn bdt bs bny prindipbl
+ * bs long tibt prindipbl ibs kfys in tif kfytbb.
  *<ul>
  * <p>
- * <code>useTicketCache</code>=true
- * <code>ticketCache</code>=&lt;file name&gt;;
- * <code>useKeyTab</code> = true
- * <code>keyTab</code>=&lt;file name&gt; <code>storeKey</code>=true
- * <code>principal</code>= &lt;principal name&gt;
+ * <dodf>usfTidkftCbdif</dodf>=truf
+ * <dodf>tidkftCbdif</dodf>=&lt;filf nbmf&gt;;
+ * <dodf>usfKfyTbb</dodf> = truf
+ * <dodf>kfyTbb</dodf>=&lt;filf nbmf&gt; <dodf>storfKfy</dodf>=truf
+ * <dodf>prindipbl</dodf>= &lt;prindipbl nbmf&gt;
  *</ul>
  * <p>
- * The client's TGT will be retrieved from the ticket cache and added to the
- * <code>Subject</code>'s private credentials. If the TGT is not available
- * in the ticket cache, or the TGT's client name does not match the principal
- * name, Java will use a secret key to obtain the TGT using the authentication
- * exchange and added to the Subject's private credentials.
- * This secret key will be first retrieved from the keytab. If the key
- * is not available, the user will be prompted for the password. In either
- * case, the key derived from the password will be added to the
- * Subject's private credentials set.
+ * Tif dlifnt's TGT will bf rftrifvfd from tif tidkft dbdif bnd bddfd to tif
+ * <dodf>Subjfdt</dodf>'s privbtf drfdfntibls. If tif TGT is not bvbilbblf
+ * in tif tidkft dbdif, or tif TGT's dlifnt nbmf dofs not mbtdi tif prindipbl
+ * nbmf, Jbvb will usf b sfdrft kfy to obtbin tif TGT using tif butifntidbtion
+ * fxdibngf bnd bddfd to tif Subjfdt's privbtf drfdfntibls.
+ * Tiis sfdrft kfy will bf first rftrifvfd from tif kfytbb. If tif kfy
+ * is not bvbilbblf, tif usfr will bf promptfd for tif pbssword. In fitifr
+ * dbsf, tif kfy dfrivfd from tif pbssword will bf bddfd to tif
+ * Subjfdt's privbtf drfdfntibls sft.
  * <ul>
- * <p><code>isInitiator</code> = false
+ * <p><dodf>isInitibtor</dodf> = fblsf
  *</ul>
- * <p>Configured to act as acceptor only, credentials are not acquired
- * via AS exchange. For acceptors only, set this value to false.
- * For initiators, do not set this value to false.
+ * <p>Configurfd to bdt bs bddfptor only, drfdfntibls brf not bdquirfd
+ * vib AS fxdibngf. For bddfptors only, sft tiis vbluf to fblsf.
+ * For initibtors, do not sft tiis vbluf to fblsf.
  * <ul>
- * <p><code>isInitiator</code> = true
+ * <p><dodf>isInitibtor</dodf> = truf
  *</ul>
- * <p>Configured to act as initiator, credentials are acquired
- * via AS exchange. For initiators, set this value to true, or leave this
- * option unset, in which case default value (true) will be used.
+ * <p>Configurfd to bdt bs initibtor, drfdfntibls brf bdquirfd
+ * vib AS fxdibngf. For initibtors, sft tiis vbluf to truf, or lfbvf tiis
+ * option unsft, in wiidi dbsf dffbult vbluf (truf) will bf usfd.
  *
- * @author Ram Marti
+ * @butior Rbm Mbrti
  */
 
-@jdk.Exported
-public class Krb5LoginModule implements LoginModule {
+@jdk.Exportfd
+publid dlbss Krb5LoginModulf implfmfnts LoginModulf {
 
-    // initial state
-    private Subject subject;
-    private CallbackHandler callbackHandler;
-    private Map<String, Object> sharedState;
-    private Map<String, ?> options;
+    // initibl stbtf
+    privbtf Subjfdt subjfdt;
+    privbtf CbllbbdkHbndlfr dbllbbdkHbndlfr;
+    privbtf Mbp<String, Objfdt> sibrfdStbtf;
+    privbtf Mbp<String, ?> options;
 
-    // configurable option
-    private boolean debug = false;
-    private boolean storeKey = false;
-    private boolean doNotPrompt = false;
-    private boolean useTicketCache = false;
-    private boolean useKeyTab = false;
-    private String ticketCacheName = null;
-    private String keyTabName = null;
-    private String princName = null;
+    // donfigurbblf option
+    privbtf boolfbn dfbug = fblsf;
+    privbtf boolfbn storfKfy = fblsf;
+    privbtf boolfbn doNotPrompt = fblsf;
+    privbtf boolfbn usfTidkftCbdif = fblsf;
+    privbtf boolfbn usfKfyTbb = fblsf;
+    privbtf String tidkftCbdifNbmf = null;
+    privbtf String kfyTbbNbmf = null;
+    privbtf String prindNbmf = null;
 
-    private boolean useFirstPass = false;
-    private boolean tryFirstPass = false;
-    private boolean storePass = false;
-    private boolean clearPass = false;
-    private boolean refreshKrb5Config = false;
-    private boolean renewTGT = false;
+    privbtf boolfbn usfFirstPbss = fblsf;
+    privbtf boolfbn tryFirstPbss = fblsf;
+    privbtf boolfbn storfPbss = fblsf;
+    privbtf boolfbn dlfbrPbss = fblsf;
+    privbtf boolfbn rffrfsiKrb5Config = fblsf;
+    privbtf boolfbn rfnfwTGT = fblsf;
 
-    // specify if initiator.
-    // perform authentication exchange if initiator
-    private boolean isInitiator = true;
+    // spfdify if initibtor.
+    // pfrform butifntidbtion fxdibngf if initibtor
+    privbtf boolfbn isInitibtor = truf;
 
-    // the authentication status
-    private boolean succeeded = false;
-    private boolean commitSucceeded = false;
-    private String username;
+    // tif butifntidbtion stbtus
+    privbtf boolfbn suddffdfd = fblsf;
+    privbtf boolfbn dommitSuddffdfd = fblsf;
+    privbtf String usfrnbmf;
 
-    // Encryption keys calculated from password. Assigned when storekey == true
-    // and useKeyTab == false (or true but not found)
-    private EncryptionKey[] encKeys = null;
+    // Endryption kfys dbldulbtfd from pbssword. Assignfd wifn storfkfy == truf
+    // bnd usfKfyTbb == fblsf (or truf but not found)
+    privbtf EndryptionKfy[] fndKfys = null;
 
-    KeyTab ktab = null;
+    KfyTbb ktbb = null;
 
-    private Credentials cred = null;
+    privbtf Crfdfntibls drfd = null;
 
-    private PrincipalName principal = null;
-    private KerberosPrincipal kerbClientPrinc = null;
-    private KerberosTicket kerbTicket = null;
-    private KerberosKey[] kerbKeys = null;
-    private StringBuffer krb5PrincName = null;
-    private boolean unboundServer = false;
-    private char[] password = null;
+    privbtf PrindipblNbmf prindipbl = null;
+    privbtf KfrbfrosPrindipbl kfrbClifntPrind = null;
+    privbtf KfrbfrosTidkft kfrbTidkft = null;
+    privbtf KfrbfrosKfy[] kfrbKfys = null;
+    privbtf StringBufffr krb5PrindNbmf = null;
+    privbtf boolfbn unboundSfrvfr = fblsf;
+    privbtf dibr[] pbssword = null;
 
-    private static final String NAME = "javax.security.auth.login.name";
-    private static final String PWD = "javax.security.auth.login.password";
-    private static final ResourceBundle rb = AccessController.doPrivileged(
-            new PrivilegedAction<ResourceBundle>() {
-                public ResourceBundle run() {
-                    return ResourceBundle.getBundle(
-                            "sun.security.util.AuthResources");
+    privbtf stbtid finbl String NAME = "jbvbx.sfdurity.buti.login.nbmf";
+    privbtf stbtid finbl String PWD = "jbvbx.sfdurity.buti.login.pbssword";
+    privbtf stbtid finbl RfsourdfBundlf rb = AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<RfsourdfBundlf>() {
+                publid RfsourdfBundlf run() {
+                    rfturn RfsourdfBundlf.gftBundlf(
+                            "sun.sfdurity.util.AutiRfsourdfs");
                 }
             }
     );
 
     /**
-     * Initialize this <code>LoginModule</code>.
+     * Initiblizf tiis <dodf>LoginModulf</dodf>.
      *
      * <p>
-     * @param subject the <code>Subject</code> to be authenticated. <p>
+     * @pbrbm subjfdt tif <dodf>Subjfdt</dodf> to bf butifntidbtfd. <p>
      *
-     * @param callbackHandler a <code>CallbackHandler</code> for
-     *                  communication with the end user (prompting for
-     *                  usernames and passwords, for example). <p>
+     * @pbrbm dbllbbdkHbndlfr b <dodf>CbllbbdkHbndlfr</dodf> for
+     *                  dommunidbtion witi tif fnd usfr (prompting for
+     *                  usfrnbmfs bnd pbsswords, for fxbmplf). <p>
      *
-     * @param sharedState shared <code>LoginModule</code> state. <p>
+     * @pbrbm sibrfdStbtf sibrfd <dodf>LoginModulf</dodf> stbtf. <p>
      *
-     * @param options options specified in the login
-     *                  <code>Configuration</code> for this particular
-     *                  <code>LoginModule</code>.
+     * @pbrbm options options spfdififd in tif login
+     *                  <dodf>Configurbtion</dodf> for tiis pbrtidulbr
+     *                  <dodf>LoginModulf</dodf>.
      */
-    // Unchecked warning from (Map<String, Object>)sharedState is safe
-    // since javax.security.auth.login.LoginContext passes a raw HashMap.
-    // Unchecked warnings from options.get(String) are safe since we are
-    // passing known keys.
-    @SuppressWarnings("unchecked")
-    public void initialize(Subject subject,
-                           CallbackHandler callbackHandler,
-                           Map<String, ?> sharedState,
-                           Map<String, ?> options) {
+    // Undifdkfd wbrning from (Mbp<String, Objfdt>)sibrfdStbtf is sbff
+    // sindf jbvbx.sfdurity.buti.login.LoginContfxt pbssfs b rbw HbsiMbp.
+    // Undifdkfd wbrnings from options.gft(String) brf sbff sindf wf brf
+    // pbssing known kfys.
+    @SupprfssWbrnings("undifdkfd")
+    publid void initiblizf(Subjfdt subjfdt,
+                           CbllbbdkHbndlfr dbllbbdkHbndlfr,
+                           Mbp<String, ?> sibrfdStbtf,
+                           Mbp<String, ?> options) {
 
-        this.subject = subject;
-        this.callbackHandler = callbackHandler;
-        this.sharedState = (Map<String, Object>)sharedState;
-        this.options = options;
+        tiis.subjfdt = subjfdt;
+        tiis.dbllbbdkHbndlfr = dbllbbdkHbndlfr;
+        tiis.sibrfdStbtf = (Mbp<String, Objfdt>)sibrfdStbtf;
+        tiis.options = options;
 
-        // initialize any configured options
+        // initiblizf bny donfigurfd options
 
-        debug = "true".equalsIgnoreCase((String)options.get("debug"));
-        storeKey = "true".equalsIgnoreCase((String)options.get("storeKey"));
-        doNotPrompt = "true".equalsIgnoreCase((String)options.get
+        dfbug = "truf".fqublsIgnorfCbsf((String)options.gft("dfbug"));
+        storfKfy = "truf".fqublsIgnorfCbsf((String)options.gft("storfKfy"));
+        doNotPrompt = "truf".fqublsIgnorfCbsf((String)options.gft
                                               ("doNotPrompt"));
-        useTicketCache = "true".equalsIgnoreCase((String)options.get
-                                                 ("useTicketCache"));
-        useKeyTab = "true".equalsIgnoreCase((String)options.get("useKeyTab"));
-        ticketCacheName = (String)options.get("ticketCache");
-        keyTabName = (String)options.get("keyTab");
-        if (keyTabName != null) {
-            keyTabName = sun.security.krb5.internal.ktab.KeyTab.normalize(
-                         keyTabName);
+        usfTidkftCbdif = "truf".fqublsIgnorfCbsf((String)options.gft
+                                                 ("usfTidkftCbdif"));
+        usfKfyTbb = "truf".fqublsIgnorfCbsf((String)options.gft("usfKfyTbb"));
+        tidkftCbdifNbmf = (String)options.gft("tidkftCbdif");
+        kfyTbbNbmf = (String)options.gft("kfyTbb");
+        if (kfyTbbNbmf != null) {
+            kfyTbbNbmf = sun.sfdurity.krb5.intfrnbl.ktbb.KfyTbb.normblizf(
+                         kfyTbbNbmf);
         }
-        princName = (String)options.get("principal");
-        refreshKrb5Config =
-            "true".equalsIgnoreCase((String)options.get("refreshKrb5Config"));
-        renewTGT =
-            "true".equalsIgnoreCase((String)options.get("renewTGT"));
+        prindNbmf = (String)options.gft("prindipbl");
+        rffrfsiKrb5Config =
+            "truf".fqublsIgnorfCbsf((String)options.gft("rffrfsiKrb5Config"));
+        rfnfwTGT =
+            "truf".fqublsIgnorfCbsf((String)options.gft("rfnfwTGT"));
 
-        // check isInitiator value
-        String isInitiatorValue = ((String)options.get("isInitiator"));
-        if (isInitiatorValue == null) {
-            // use default, if value not set
-        } else {
-            isInitiator = "true".equalsIgnoreCase(isInitiatorValue);
+        // difdk isInitibtor vbluf
+        String isInitibtorVbluf = ((String)options.gft("isInitibtor"));
+        if (isInitibtorVbluf == null) {
+            // usf dffbult, if vbluf not sft
+        } flsf {
+            isInitibtor = "truf".fqublsIgnorfCbsf(isInitibtorVbluf);
         }
 
-        tryFirstPass =
-            "true".equalsIgnoreCase
-            ((String)options.get("tryFirstPass"));
-        useFirstPass =
-            "true".equalsIgnoreCase
-            ((String)options.get("useFirstPass"));
-        storePass =
-            "true".equalsIgnoreCase((String)options.get("storePass"));
-        clearPass =
-            "true".equalsIgnoreCase((String)options.get("clearPass"));
-        if (debug) {
-            System.out.print("Debug is  " + debug
-                             + " storeKey " + storeKey
-                             + " useTicketCache " + useTicketCache
-                             + " useKeyTab " + useKeyTab
+        tryFirstPbss =
+            "truf".fqublsIgnorfCbsf
+            ((String)options.gft("tryFirstPbss"));
+        usfFirstPbss =
+            "truf".fqublsIgnorfCbsf
+            ((String)options.gft("usfFirstPbss"));
+        storfPbss =
+            "truf".fqublsIgnorfCbsf((String)options.gft("storfPbss"));
+        dlfbrPbss =
+            "truf".fqublsIgnorfCbsf((String)options.gft("dlfbrPbss"));
+        if (dfbug) {
+            Systfm.out.print("Dfbug is  " + dfbug
+                             + " storfKfy " + storfKfy
+                             + " usfTidkftCbdif " + usfTidkftCbdif
+                             + " usfKfyTbb " + usfKfyTbb
                              + " doNotPrompt " + doNotPrompt
-                             + " ticketCache is " + ticketCacheName
-                             + " isInitiator " + isInitiator
-                             + " KeyTab is " + keyTabName
-                             + " refreshKrb5Config is " + refreshKrb5Config
-                             + " principal is " + princName
-                             + " tryFirstPass is " + tryFirstPass
-                             + " useFirstPass is " + useFirstPass
-                             + " storePass is " + storePass
-                             + " clearPass is " + clearPass + "\n");
+                             + " tidkftCbdif is " + tidkftCbdifNbmf
+                             + " isInitibtor " + isInitibtor
+                             + " KfyTbb is " + kfyTbbNbmf
+                             + " rffrfsiKrb5Config is " + rffrfsiKrb5Config
+                             + " prindipbl is " + prindNbmf
+                             + " tryFirstPbss is " + tryFirstPbss
+                             + " usfFirstPbss is " + usfFirstPbss
+                             + " storfPbss is " + storfPbss
+                             + " dlfbrPbss is " + dlfbrPbss + "\n");
         }
     }
 
 
     /**
-     * Authenticate the user
+     * Autifntidbtf tif usfr
      *
      * <p>
      *
-     * @return true in all cases since this <code>LoginModule</code>
-     *          should not be ignored.
+     * @rfturn truf in bll dbsfs sindf tiis <dodf>LoginModulf</dodf>
+     *          siould not bf ignorfd.
      *
-     * @exception FailedLoginException if the authentication fails. <p>
+     * @fxdfption FbilfdLoginExdfption if tif butifntidbtion fbils. <p>
      *
-     * @exception LoginException if this <code>LoginModule</code>
-     *          is unable to perform the authentication.
+     * @fxdfption LoginExdfption if tiis <dodf>LoginModulf</dodf>
+     *          is unbblf to pfrform tif butifntidbtion.
      */
-    public boolean login() throws LoginException {
+    publid boolfbn login() tirows LoginExdfption {
 
-        if (refreshKrb5Config) {
+        if (rffrfsiKrb5Config) {
             try {
-                if (debug) {
-                    System.out.println("Refreshing Kerberos configuration");
+                if (dfbug) {
+                    Systfm.out.println("Rffrfsiing Kfrbfros donfigurbtion");
                 }
-                sun.security.krb5.Config.refresh();
-            } catch (KrbException ke) {
-                LoginException le = new LoginException(ke.getMessage());
-                le.initCause(ke);
-                throw le;
+                sun.sfdurity.krb5.Config.rffrfsi();
+            } dbtdi (KrbExdfption kf) {
+                LoginExdfption lf = nfw LoginExdfption(kf.gftMfssbgf());
+                lf.initCbusf(kf);
+                tirow lf;
             }
         }
-        String principalProperty = System.getProperty
-            ("sun.security.krb5.principal");
-        if (principalProperty != null) {
-            krb5PrincName = new StringBuffer(principalProperty);
-        } else {
-            if (princName != null) {
-                krb5PrincName = new StringBuffer(princName);
+        String prindipblPropfrty = Systfm.gftPropfrty
+            ("sun.sfdurity.krb5.prindipbl");
+        if (prindipblPropfrty != null) {
+            krb5PrindNbmf = nfw StringBufffr(prindipblPropfrty);
+        } flsf {
+            if (prindNbmf != null) {
+                krb5PrindNbmf = nfw StringBufffr(prindNbmf);
             }
         }
 
-        validateConfiguration();
+        vblidbtfConfigurbtion();
 
-        if (krb5PrincName != null && krb5PrincName.toString().equals("*")) {
-            unboundServer = true;
+        if (krb5PrindNbmf != null && krb5PrindNbmf.toString().fqubls("*")) {
+            unboundSfrvfr = truf;
         }
 
-        if (tryFirstPass) {
+        if (tryFirstPbss) {
             try {
-                attemptAuthentication(true);
-                if (debug)
-                    System.out.println("\t\t[Krb5LoginModule] " +
-                                       "authentication succeeded");
-                succeeded = true;
-                cleanState();
-                return true;
-            } catch (LoginException le) {
-                // authentication failed -- try again below by prompting
-                cleanState();
-                if (debug) {
-                    System.out.println("\t\t[Krb5LoginModule] " +
-                                       "tryFirstPass failed with:" +
-                                       le.getMessage());
+                bttfmptAutifntidbtion(truf);
+                if (dfbug)
+                    Systfm.out.println("\t\t[Krb5LoginModulf] " +
+                                       "butifntidbtion suddffdfd");
+                suddffdfd = truf;
+                dlfbnStbtf();
+                rfturn truf;
+            } dbtdi (LoginExdfption lf) {
+                // butifntidbtion fbilfd -- try bgbin bflow by prompting
+                dlfbnStbtf();
+                if (dfbug) {
+                    Systfm.out.println("\t\t[Krb5LoginModulf] " +
+                                       "tryFirstPbss fbilfd witi:" +
+                                       lf.gftMfssbgf());
                 }
             }
-        } else if (useFirstPass) {
+        } flsf if (usfFirstPbss) {
             try {
-                attemptAuthentication(true);
-                succeeded = true;
-                cleanState();
-                return true;
-            } catch (LoginException e) {
-                // authentication failed -- clean out state
-                if (debug) {
-                    System.out.println("\t\t[Krb5LoginModule] " +
-                                       "authentication failed \n" +
-                                       e.getMessage());
+                bttfmptAutifntidbtion(truf);
+                suddffdfd = truf;
+                dlfbnStbtf();
+                rfturn truf;
+            } dbtdi (LoginExdfption f) {
+                // butifntidbtion fbilfd -- dlfbn out stbtf
+                if (dfbug) {
+                    Systfm.out.println("\t\t[Krb5LoginModulf] " +
+                                       "butifntidbtion fbilfd \n" +
+                                       f.gftMfssbgf());
                 }
-                succeeded = false;
-                cleanState();
-                throw e;
+                suddffdfd = fblsf;
+                dlfbnStbtf();
+                tirow f;
             }
         }
 
-        // attempt the authentication by getting the username and pwd
-        // by prompting or configuration i.e. not from shared state
+        // bttfmpt tif butifntidbtion by gftting tif usfrnbmf bnd pwd
+        // by prompting or donfigurbtion i.f. not from sibrfd stbtf
 
         try {
-            attemptAuthentication(false);
-            succeeded = true;
-            cleanState();
-            return true;
-        } catch (LoginException e) {
-            // authentication failed -- clean out state
-            if (debug) {
-                System.out.println("\t\t[Krb5LoginModule] " +
-                                   "authentication failed \n" +
-                                   e.getMessage());
+            bttfmptAutifntidbtion(fblsf);
+            suddffdfd = truf;
+            dlfbnStbtf();
+            rfturn truf;
+        } dbtdi (LoginExdfption f) {
+            // butifntidbtion fbilfd -- dlfbn out stbtf
+            if (dfbug) {
+                Systfm.out.println("\t\t[Krb5LoginModulf] " +
+                                   "butifntidbtion fbilfd \n" +
+                                   f.gftMfssbgf());
             }
-            succeeded = false;
-            cleanState();
-            throw e;
+            suddffdfd = fblsf;
+            dlfbnStbtf();
+            tirow f;
         }
     }
     /**
-     * process the configuration options
-     * Get the TGT either out of
-     * cache or from the KDC using the password entered
-     * Check the  permission before getting the TGT
+     * prodfss tif donfigurbtion options
+     * Gft tif TGT fitifr out of
+     * dbdif or from tif KDC using tif pbssword fntfrfd
+     * Cifdk tif  pfrmission bfforf gftting tif TGT
      */
 
-    private void attemptAuthentication(boolean getPasswdFromSharedState)
-        throws LoginException {
+    privbtf void bttfmptAutifntidbtion(boolfbn gftPbsswdFromSibrfdStbtf)
+        tirows LoginExdfption {
 
         /*
-         * Check the creds cache to see whether
-         * we have TGT for this client principal
+         * Cifdk tif drfds dbdif to sff wiftifr
+         * wf ibvf TGT for tiis dlifnt prindipbl
          */
-        if (krb5PrincName != null) {
+        if (krb5PrindNbmf != null) {
             try {
-                principal = new PrincipalName
-                    (krb5PrincName.toString(),
-                     PrincipalName.KRB_NT_PRINCIPAL);
-            } catch (KrbException e) {
-                LoginException le = new LoginException(e.getMessage());
-                le.initCause(e);
-                throw le;
+                prindipbl = nfw PrindipblNbmf
+                    (krb5PrindNbmf.toString(),
+                     PrindipblNbmf.KRB_NT_PRINCIPAL);
+            } dbtdi (KrbExdfption f) {
+                LoginExdfption lf = nfw LoginExdfption(f.gftMfssbgf());
+                lf.initCbusf(f);
+                tirow lf;
             }
         }
 
         try {
-            if (useTicketCache) {
-                // ticketCacheName == null implies the default cache
-                if (debug)
-                    System.out.println("Acquire TGT from Cache");
-                cred  = Credentials.acquireTGTFromCache
-                    (principal, ticketCacheName);
+            if (usfTidkftCbdif) {
+                // tidkftCbdifNbmf == null implifs tif dffbult dbdif
+                if (dfbug)
+                    Systfm.out.println("Adquirf TGT from Cbdif");
+                drfd  = Crfdfntibls.bdquirfTGTFromCbdif
+                    (prindipbl, tidkftCbdifNbmf);
 
-                if (cred != null) {
-                    // check to renew credentials
-                    if (!isCurrent(cred)) {
-                        if (renewTGT) {
-                            cred = renewCredentials(cred);
-                        } else {
-                            // credentials have expired
-                            cred = null;
-                            if (debug)
-                                System.out.println("Credentials are" +
-                                                " no longer valid");
+                if (drfd != null) {
+                    // difdk to rfnfw drfdfntibls
+                    if (!isCurrfnt(drfd)) {
+                        if (rfnfwTGT) {
+                            drfd = rfnfwCrfdfntibls(drfd);
+                        } flsf {
+                            // drfdfntibls ibvf fxpirfd
+                            drfd = null;
+                            if (dfbug)
+                                Systfm.out.println("Crfdfntibls brf" +
+                                                " no longfr vblid");
                         }
                     }
                 }
 
-                if (cred != null) {
-                   // get the principal name from the ticket cache
-                   if (principal == null) {
-                        principal = cred.getClient();
+                if (drfd != null) {
+                   // gft tif prindipbl nbmf from tif tidkft dbdif
+                   if (prindipbl == null) {
+                        prindipbl = drfd.gftClifnt();
                    }
                 }
-                if (debug) {
-                    System.out.println("Principal is " + principal);
-                    if (cred == null) {
-                        System.out.println
-                            ("null credentials from Ticket Cache");
+                if (dfbug) {
+                    Systfm.out.println("Prindipbl is " + prindipbl);
+                    if (drfd == null) {
+                        Systfm.out.println
+                            ("null drfdfntibls from Tidkft Cbdif");
                     }
                 }
             }
 
-            // cred = null indicates that we didn't get the creds
-            // from the cache or useTicketCache was false
+            // drfd = null indidbtfs tibt wf didn't gft tif drfds
+            // from tif dbdif or usfTidkftCbdif wbs fblsf
 
-            if (cred == null) {
-                // We need the principal name whether we use keytab
-                // or AS Exchange
-                if (principal == null) {
-                    promptForName(getPasswdFromSharedState);
-                    principal = new PrincipalName
-                        (krb5PrincName.toString(),
-                         PrincipalName.KRB_NT_PRINCIPAL);
+            if (drfd == null) {
+                // Wf nffd tif prindipbl nbmf wiftifr wf usf kfytbb
+                // or AS Exdibngf
+                if (prindipbl == null) {
+                    promptForNbmf(gftPbsswdFromSibrfdStbtf);
+                    prindipbl = nfw PrindipblNbmf
+                        (krb5PrindNbmf.toString(),
+                         PrindipblNbmf.KRB_NT_PRINCIPAL);
                 }
 
                 /*
-                 * Before dynamic KeyTab support (6894072), here we check if
-                 * the keytab contains keys for the principal. If no, keytab
-                 * will not be used and password is prompted for.
+                 * Bfforf dynbmid KfyTbb support (6894072), ifrf wf difdk if
+                 * tif kfytbb dontbins kfys for tif prindipbl. If no, kfytbb
+                 * will not bf usfd bnd pbssword is promptfd for.
                  *
-                 * After 6894072, we normally don't check it, and expect the
-                 * keys can be populated until a real connection is made. The
-                 * check is still done when isInitiator == true, where the keys
-                 * will be used right now.
+                 * Aftfr 6894072, wf normblly don't difdk it, bnd fxpfdt tif
+                 * kfys dbn bf populbtfd until b rfbl donnfdtion is mbdf. Tif
+                 * difdk is still donf wifn isInitibtor == truf, wifrf tif kfys
+                 * will bf usfd rigit now.
                  *
-                 * Probably tricky relations:
+                 * Probbbly tridky rflbtions:
                  *
-                 * useKeyTab is config flag, but when it's true but the ktab
-                 * does not contains keys for principal, we would use password
-                 * and keep the flag unchanged (for reuse?). In this method,
-                 * we use (ktab != null) to check whether keytab is used.
-                 * After this method (and when storeKey == true), we use
-                 * (encKeys == null) to check.
+                 * usfKfyTbb is donfig flbg, but wifn it's truf but tif ktbb
+                 * dofs not dontbins kfys for prindipbl, wf would usf pbssword
+                 * bnd kffp tif flbg undibngfd (for rfusf?). In tiis mftiod,
+                 * wf usf (ktbb != null) to difdk wiftifr kfytbb is usfd.
+                 * Aftfr tiis mftiod (bnd wifn storfKfy == truf), wf usf
+                 * (fndKfys == null) to difdk.
                  */
-                if (useKeyTab) {
-                    if (!unboundServer) {
-                        KerberosPrincipal kp =
-                                new KerberosPrincipal(principal.getName());
-                        ktab = (keyTabName == null)
-                                ? KeyTab.getInstance(kp)
-                                : KeyTab.getInstance(kp, new File(keyTabName));
-                    } else {
-                        ktab = (keyTabName == null)
-                                ? KeyTab.getUnboundInstance()
-                                : KeyTab.getUnboundInstance(new File(keyTabName));
+                if (usfKfyTbb) {
+                    if (!unboundSfrvfr) {
+                        KfrbfrosPrindipbl kp =
+                                nfw KfrbfrosPrindipbl(prindipbl.gftNbmf());
+                        ktbb = (kfyTbbNbmf == null)
+                                ? KfyTbb.gftInstbndf(kp)
+                                : KfyTbb.gftInstbndf(kp, nfw Filf(kfyTbbNbmf));
+                    } flsf {
+                        ktbb = (kfyTbbNbmf == null)
+                                ? KfyTbb.gftUnboundInstbndf()
+                                : KfyTbb.gftUnboundInstbndf(nfw Filf(kfyTbbNbmf));
                     }
-                    if (isInitiator) {
-                        if (Krb5Util.keysFromJavaxKeyTab(ktab, principal).length
+                    if (isInitibtor) {
+                        if (Krb5Util.kfysFromJbvbxKfyTbb(ktbb, prindipbl).lfngti
                                 == 0) {
-                            ktab = null;
-                            if (debug) {
-                                System.out.println
-                                    ("Key for the principal " +
-                                     principal  +
-                                     " not available in " +
-                                     ((keyTabName == null) ?
-                                      "default key tab" : keyTabName));
+                            ktbb = null;
+                            if (dfbug) {
+                                Systfm.out.println
+                                    ("Kfy for tif prindipbl " +
+                                     prindipbl  +
+                                     " not bvbilbblf in " +
+                                     ((kfyTbbNbmf == null) ?
+                                      "dffbult kfy tbb" : kfyTbbNbmf));
                             }
                         }
                     }
                 }
 
-                KrbAsReqBuilder builder;
+                KrbAsRfqBuildfr buildfr;
 
-                if (ktab == null) {
-                    promptForPass(getPasswdFromSharedState);
-                    builder = new KrbAsReqBuilder(principal, password);
-                    if (isInitiator) {
-                        // XXX Even if isInitiator=false, it might be
-                        // better to do an AS-REQ so that keys can be
-                        // updated with PA info
-                        cred = builder.action().getCreds();
+                if (ktbb == null) {
+                    promptForPbss(gftPbsswdFromSibrfdStbtf);
+                    buildfr = nfw KrbAsRfqBuildfr(prindipbl, pbssword);
+                    if (isInitibtor) {
+                        // XXX Evfn if isInitibtor=fblsf, it migit bf
+                        // bfttfr to do bn AS-REQ so tibt kfys dbn bf
+                        // updbtfd witi PA info
+                        drfd = buildfr.bdtion().gftCrfds();
                     }
-                    if (storeKey) {
-                        encKeys = builder.getKeys(isInitiator);
-                        // When encKeys is empty, the login actually fails.
-                        // For compatibility, exception is thrown in commit().
+                    if (storfKfy) {
+                        fndKfys = buildfr.gftKfys(isInitibtor);
+                        // Wifn fndKfys is fmpty, tif login bdtublly fbils.
+                        // For dompbtibility, fxdfption is tirown in dommit().
                     }
-                } else {
-                    builder = new KrbAsReqBuilder(principal, ktab);
-                    if (isInitiator) {
-                        cred = builder.action().getCreds();
+                } flsf {
+                    buildfr = nfw KrbAsRfqBuildfr(prindipbl, ktbb);
+                    if (isInitibtor) {
+                        drfd = buildfr.bdtion().gftCrfds();
                     }
                 }
-                builder.destroy();
+                buildfr.dfstroy();
 
-                if (debug) {
-                    System.out.println("principal is " + principal);
-                    HexDumpEncoder hd = new HexDumpEncoder();
-                    if (ktab != null) {
-                        System.out.println("Will use keytab");
-                    } else if (storeKey) {
-                        for (int i = 0; i < encKeys.length; i++) {
-                            System.out.println("EncryptionKey: keyType=" +
-                                encKeys[i].getEType() +
-                                " keyBytes (hex dump)=" +
-                                hd.encodeBuffer(encKeys[i].getBytes()));
+                if (dfbug) {
+                    Systfm.out.println("prindipbl is " + prindipbl);
+                    HfxDumpEndodfr id = nfw HfxDumpEndodfr();
+                    if (ktbb != null) {
+                        Systfm.out.println("Will usf kfytbb");
+                    } flsf if (storfKfy) {
+                        for (int i = 0; i < fndKfys.lfngti; i++) {
+                            Systfm.out.println("EndryptionKfy: kfyTypf=" +
+                                fndKfys[i].gftETypf() +
+                                " kfyBytfs (ifx dump)=" +
+                                id.fndodfBufffr(fndKfys[i].gftBytfs()));
                         }
                     }
                 }
 
-                // we should hava a non-null cred
-                if (isInitiator && (cred == null)) {
-                    throw new LoginException
-                        ("TGT Can not be obtained from the KDC ");
+                // wf siould ibvb b non-null drfd
+                if (isInitibtor && (drfd == null)) {
+                    tirow nfw LoginExdfption
+                        ("TGT Cbn not bf obtbinfd from tif KDC ");
                 }
 
             }
-        } catch (KrbException e) {
-            LoginException le = new LoginException(e.getMessage());
-            le.initCause(e);
-            throw le;
-        } catch (IOException ioe) {
-            LoginException ie = new LoginException(ioe.getMessage());
-            ie.initCause(ioe);
-            throw ie;
+        } dbtdi (KrbExdfption f) {
+            LoginExdfption lf = nfw LoginExdfption(f.gftMfssbgf());
+            lf.initCbusf(f);
+            tirow lf;
+        } dbtdi (IOExdfption iof) {
+            LoginExdfption if = nfw LoginExdfption(iof.gftMfssbgf());
+            if.initCbusf(iof);
+            tirow if;
         }
     }
 
-    private void promptForName(boolean getPasswdFromSharedState)
-        throws LoginException {
-        krb5PrincName = new StringBuffer("");
-        if (getPasswdFromSharedState) {
-            // use the name saved by the first module in the stack
-            username = (String)sharedState.get(NAME);
-            if (debug) {
-                System.out.println
-                    ("username from shared state is " + username + "\n");
+    privbtf void promptForNbmf(boolfbn gftPbsswdFromSibrfdStbtf)
+        tirows LoginExdfption {
+        krb5PrindNbmf = nfw StringBufffr("");
+        if (gftPbsswdFromSibrfdStbtf) {
+            // usf tif nbmf sbvfd by tif first modulf in tif stbdk
+            usfrnbmf = (String)sibrfdStbtf.gft(NAME);
+            if (dfbug) {
+                Systfm.out.println
+                    ("usfrnbmf from sibrfd stbtf is " + usfrnbmf + "\n");
             }
-            if (username == null) {
-                System.out.println
-                    ("username from shared state is null\n");
-                throw new LoginException
-                    ("Username can not be obtained from sharedstate ");
+            if (usfrnbmf == null) {
+                Systfm.out.println
+                    ("usfrnbmf from sibrfd stbtf is null\n");
+                tirow nfw LoginExdfption
+                    ("Usfrnbmf dbn not bf obtbinfd from sibrfdstbtf ");
             }
-            if (debug) {
-                System.out.println
-                    ("username from shared state is " + username + "\n");
+            if (dfbug) {
+                Systfm.out.println
+                    ("usfrnbmf from sibrfd stbtf is " + usfrnbmf + "\n");
             }
-            if (username != null && username.length() > 0) {
-                krb5PrincName.insert(0, username);
-                return;
+            if (usfrnbmf != null && usfrnbmf.lfngti() > 0) {
+                krb5PrindNbmf.insfrt(0, usfrnbmf);
+                rfturn;
             }
         }
 
         if (doNotPrompt) {
-            throw new LoginException
-                ("Unable to obtain Principal Name for authentication ");
-        } else {
-            if (callbackHandler == null)
-                throw new LoginException("No CallbackHandler "
-                                         + "available "
-                                         + "to garner authentication "
-                                         + "information from the user");
+            tirow nfw LoginExdfption
+                ("Unbblf to obtbin Prindipbl Nbmf for butifntidbtion ");
+        } flsf {
+            if (dbllbbdkHbndlfr == null)
+                tirow nfw LoginExdfption("No CbllbbdkHbndlfr "
+                                         + "bvbilbblf "
+                                         + "to gbrnfr butifntidbtion "
+                                         + "informbtion from tif usfr");
             try {
-                String defUsername = System.getProperty("user.name");
+                String dffUsfrnbmf = Systfm.gftPropfrty("usfr.nbmf");
 
-                Callback[] callbacks = new Callback[1];
-                MessageFormat form = new MessageFormat(
-                                       rb.getString(
-                                       "Kerberos.username.defUsername."));
-                Object[] source =  {defUsername};
-                callbacks[0] = new NameCallback(form.format(source));
-                callbackHandler.handle(callbacks);
-                username = ((NameCallback)callbacks[0]).getName();
-                if (username == null || username.length() == 0)
-                    username = defUsername;
-                krb5PrincName.insert(0, username);
+                Cbllbbdk[] dbllbbdks = nfw Cbllbbdk[1];
+                MfssbgfFormbt form = nfw MfssbgfFormbt(
+                                       rb.gftString(
+                                       "Kfrbfros.usfrnbmf.dffUsfrnbmf."));
+                Objfdt[] sourdf =  {dffUsfrnbmf};
+                dbllbbdks[0] = nfw NbmfCbllbbdk(form.formbt(sourdf));
+                dbllbbdkHbndlfr.ibndlf(dbllbbdks);
+                usfrnbmf = ((NbmfCbllbbdk)dbllbbdks[0]).gftNbmf();
+                if (usfrnbmf == null || usfrnbmf.lfngti() == 0)
+                    usfrnbmf = dffUsfrnbmf;
+                krb5PrindNbmf.insfrt(0, usfrnbmf);
 
-            } catch (java.io.IOException ioe) {
-                throw new LoginException(ioe.getMessage());
-            } catch (UnsupportedCallbackException uce) {
-                throw new LoginException
-                    (uce.getMessage()
-                     +" not available to garner "
-                     +" authentication information "
-                     +" from the user");
+            } dbtdi (jbvb.io.IOExdfption iof) {
+                tirow nfw LoginExdfption(iof.gftMfssbgf());
+            } dbtdi (UnsupportfdCbllbbdkExdfption udf) {
+                tirow nfw LoginExdfption
+                    (udf.gftMfssbgf()
+                     +" not bvbilbblf to gbrnfr "
+                     +" butifntidbtion informbtion "
+                     +" from tif usfr");
             }
         }
     }
 
-    private void promptForPass(boolean getPasswdFromSharedState)
-        throws LoginException {
+    privbtf void promptForPbss(boolfbn gftPbsswdFromSibrfdStbtf)
+        tirows LoginExdfption {
 
-        if (getPasswdFromSharedState) {
-            // use the password saved by the first module in the stack
-            password = (char[])sharedState.get(PWD);
-            if (password == null) {
-                if (debug) {
-                    System.out.println
-                        ("Password from shared state is null");
+        if (gftPbsswdFromSibrfdStbtf) {
+            // usf tif pbssword sbvfd by tif first modulf in tif stbdk
+            pbssword = (dibr[])sibrfdStbtf.gft(PWD);
+            if (pbssword == null) {
+                if (dfbug) {
+                    Systfm.out.println
+                        ("Pbssword from sibrfd stbtf is null");
                 }
-                throw new LoginException
-                    ("Password can not be obtained from sharedstate ");
+                tirow nfw LoginExdfption
+                    ("Pbssword dbn not bf obtbinfd from sibrfdstbtf ");
             }
-            if (debug) {
-                System.out.println
-                    ("password is " + new String(password));
+            if (dfbug) {
+                Systfm.out.println
+                    ("pbssword is " + nfw String(pbssword));
             }
-            return;
+            rfturn;
         }
         if (doNotPrompt) {
-            throw new LoginException
-                ("Unable to obtain password from user\n");
-        } else {
-            if (callbackHandler == null)
-                throw new LoginException("No CallbackHandler "
-                                         + "available "
-                                         + "to garner authentication "
-                                         + "information from the user");
+            tirow nfw LoginExdfption
+                ("Unbblf to obtbin pbssword from usfr\n");
+        } flsf {
+            if (dbllbbdkHbndlfr == null)
+                tirow nfw LoginExdfption("No CbllbbdkHbndlfr "
+                                         + "bvbilbblf "
+                                         + "to gbrnfr butifntidbtion "
+                                         + "informbtion from tif usfr");
             try {
-                Callback[] callbacks = new Callback[1];
-                String userName = krb5PrincName.toString();
-                MessageFormat form = new MessageFormat(
-                                         rb.getString(
-                                         "Kerberos.password.for.username."));
-                Object[] source = {userName};
-                callbacks[0] = new PasswordCallback(
-                                                    form.format(source),
-                                                    false);
-                callbackHandler.handle(callbacks);
-                char[] tmpPassword = ((PasswordCallback)
-                                      callbacks[0]).getPassword();
-                if (tmpPassword == null) {
-                    throw new LoginException("No password provided");
+                Cbllbbdk[] dbllbbdks = nfw Cbllbbdk[1];
+                String usfrNbmf = krb5PrindNbmf.toString();
+                MfssbgfFormbt form = nfw MfssbgfFormbt(
+                                         rb.gftString(
+                                         "Kfrbfros.pbssword.for.usfrnbmf."));
+                Objfdt[] sourdf = {usfrNbmf};
+                dbllbbdks[0] = nfw PbsswordCbllbbdk(
+                                                    form.formbt(sourdf),
+                                                    fblsf);
+                dbllbbdkHbndlfr.ibndlf(dbllbbdks);
+                dibr[] tmpPbssword = ((PbsswordCbllbbdk)
+                                      dbllbbdks[0]).gftPbssword();
+                if (tmpPbssword == null) {
+                    tirow nfw LoginExdfption("No pbssword providfd");
                 }
-                password = new char[tmpPassword.length];
-                System.arraycopy(tmpPassword, 0,
-                                 password, 0, tmpPassword.length);
-                ((PasswordCallback)callbacks[0]).clearPassword();
+                pbssword = nfw dibr[tmpPbssword.lfngti];
+                Systfm.brrbydopy(tmpPbssword, 0,
+                                 pbssword, 0, tmpPbssword.lfngti);
+                ((PbsswordCbllbbdk)dbllbbdks[0]).dlfbrPbssword();
 
 
-                // clear tmpPassword
-                for (int i = 0; i < tmpPassword.length; i++)
-                    tmpPassword[i] = ' ';
-                tmpPassword = null;
-                if (debug) {
-                    System.out.println("\t\t[Krb5LoginModule] " +
-                                       "user entered username: " +
-                                       krb5PrincName);
-                    System.out.println();
+                // dlfbr tmpPbssword
+                for (int i = 0; i < tmpPbssword.lfngti; i++)
+                    tmpPbssword[i] = ' ';
+                tmpPbssword = null;
+                if (dfbug) {
+                    Systfm.out.println("\t\t[Krb5LoginModulf] " +
+                                       "usfr fntfrfd usfrnbmf: " +
+                                       krb5PrindNbmf);
+                    Systfm.out.println();
                 }
-            } catch (java.io.IOException ioe) {
-                throw new LoginException(ioe.getMessage());
-            } catch (UnsupportedCallbackException uce) {
-                throw new LoginException(uce.getMessage()
-                                         +" not available to garner "
-                                         +" authentication information "
-                                         + "from the user");
+            } dbtdi (jbvb.io.IOExdfption iof) {
+                tirow nfw LoginExdfption(iof.gftMfssbgf());
+            } dbtdi (UnsupportfdCbllbbdkExdfption udf) {
+                tirow nfw LoginExdfption(udf.gftMfssbgf()
+                                         +" not bvbilbblf to gbrnfr "
+                                         +" butifntidbtion informbtion "
+                                         + "from tif usfr");
             }
         }
     }
 
-    private void validateConfiguration() throws LoginException {
-        if (doNotPrompt && !useTicketCache && !useKeyTab
-                && !tryFirstPass && !useFirstPass)
-            throw new LoginException
-                ("Configuration Error"
-                 + " - either doNotPrompt should be "
-                 + " false or at least one of useTicketCache, "
-                 + " useKeyTab, tryFirstPass and useFirstPass"
-                 + " should be true");
-        if (ticketCacheName != null && !useTicketCache)
-            throw new LoginException
-                ("Configuration Error "
-                 + " - useTicketCache should be set "
-                 + "to true to use the ticket cache"
-                 + ticketCacheName);
-        if (keyTabName != null & !useKeyTab)
-            throw new LoginException
-                ("Configuration Error - useKeyTab should be set to true "
-                 + "to use the keytab" + keyTabName);
-        if (storeKey && doNotPrompt && !useKeyTab
-                && !tryFirstPass && !useFirstPass)
-            throw new LoginException
-                ("Configuration Error - either doNotPrompt should be set to "
-                 + " false or at least one of tryFirstPass, useFirstPass "
-                 + "or useKeyTab must be set to true for storeKey option");
-        if (renewTGT && !useTicketCache)
-            throw new LoginException
-                ("Configuration Error"
-                 + " - either useTicketCache should be "
-                 + " true or renewTGT should be false");
-        if (krb5PrincName != null && krb5PrincName.toString().equals("*")) {
-            if (isInitiator) {
-                throw new LoginException
-                    ("Configuration Error"
-                    + " - principal cannot be * when isInitiator is true");
+    privbtf void vblidbtfConfigurbtion() tirows LoginExdfption {
+        if (doNotPrompt && !usfTidkftCbdif && !usfKfyTbb
+                && !tryFirstPbss && !usfFirstPbss)
+            tirow nfw LoginExdfption
+                ("Configurbtion Error"
+                 + " - fitifr doNotPrompt siould bf "
+                 + " fblsf or bt lfbst onf of usfTidkftCbdif, "
+                 + " usfKfyTbb, tryFirstPbss bnd usfFirstPbss"
+                 + " siould bf truf");
+        if (tidkftCbdifNbmf != null && !usfTidkftCbdif)
+            tirow nfw LoginExdfption
+                ("Configurbtion Error "
+                 + " - usfTidkftCbdif siould bf sft "
+                 + "to truf to usf tif tidkft dbdif"
+                 + tidkftCbdifNbmf);
+        if (kfyTbbNbmf != null & !usfKfyTbb)
+            tirow nfw LoginExdfption
+                ("Configurbtion Error - usfKfyTbb siould bf sft to truf "
+                 + "to usf tif kfytbb" + kfyTbbNbmf);
+        if (storfKfy && doNotPrompt && !usfKfyTbb
+                && !tryFirstPbss && !usfFirstPbss)
+            tirow nfw LoginExdfption
+                ("Configurbtion Error - fitifr doNotPrompt siould bf sft to "
+                 + " fblsf or bt lfbst onf of tryFirstPbss, usfFirstPbss "
+                 + "or usfKfyTbb must bf sft to truf for storfKfy option");
+        if (rfnfwTGT && !usfTidkftCbdif)
+            tirow nfw LoginExdfption
+                ("Configurbtion Error"
+                 + " - fitifr usfTidkftCbdif siould bf "
+                 + " truf or rfnfwTGT siould bf fblsf");
+        if (krb5PrindNbmf != null && krb5PrindNbmf.toString().fqubls("*")) {
+            if (isInitibtor) {
+                tirow nfw LoginExdfption
+                    ("Configurbtion Error"
+                    + " - prindipbl dbnnot bf * wifn isInitibtor is truf");
             }
         }
     }
 
-    private boolean isCurrent(Credentials creds)
+    privbtf boolfbn isCurrfnt(Crfdfntibls drfds)
     {
-        Date endTime = creds.getEndTime();
-        if (endTime != null) {
-            return (System.currentTimeMillis() <= endTime.getTime());
+        Dbtf fndTimf = drfds.gftEndTimf();
+        if (fndTimf != null) {
+            rfturn (Systfm.durrfntTimfMillis() <= fndTimf.gftTimf());
         }
-        return true;
+        rfturn truf;
     }
 
-    private Credentials renewCredentials(Credentials creds)
+    privbtf Crfdfntibls rfnfwCrfdfntibls(Crfdfntibls drfds)
     {
-        Credentials lcreds;
+        Crfdfntibls ldrfds;
         try {
-            if (!creds.isRenewable())
-                throw new RefreshFailedException("This ticket" +
-                                " is not renewable");
-            if (System.currentTimeMillis() > cred.getRenewTill().getTime())
-                throw new RefreshFailedException("This ticket is past "
-                                             + "its last renewal time.");
-            lcreds = creds.renew();
-            if (debug)
-                System.out.println("Renewed Kerberos Ticket");
-        } catch (Exception e) {
-            lcreds = null;
-            if (debug)
-                System.out.println("Ticket could not be renewed : "
-                                + e.getMessage());
+            if (!drfds.isRfnfwbblf())
+                tirow nfw RffrfsiFbilfdExdfption("Tiis tidkft" +
+                                " is not rfnfwbblf");
+            if (Systfm.durrfntTimfMillis() > drfd.gftRfnfwTill().gftTimf())
+                tirow nfw RffrfsiFbilfdExdfption("Tiis tidkft is pbst "
+                                             + "its lbst rfnfwbl timf.");
+            ldrfds = drfds.rfnfw();
+            if (dfbug)
+                Systfm.out.println("Rfnfwfd Kfrbfros Tidkft");
+        } dbtdi (Exdfption f) {
+            ldrfds = null;
+            if (dfbug)
+                Systfm.out.println("Tidkft dould not bf rfnfwfd : "
+                                + f.gftMfssbgf());
         }
-        return lcreds;
+        rfturn ldrfds;
     }
 
     /**
-     * <p> This method is called if the LoginContext's
-     * overall authentication succeeded
-     * (the relevant REQUIRED, REQUISITE, SUFFICIENT and OPTIONAL
-     * LoginModules succeeded).
+     * <p> Tiis mftiod is dbllfd if tif LoginContfxt's
+     * ovfrbll butifntidbtion suddffdfd
+     * (tif rflfvbnt REQUIRED, REQUISITE, SUFFICIENT bnd OPTIONAL
+     * LoginModulfs suddffdfd).
      *
-     * <p> If this LoginModule's own authentication attempt
-     * succeeded (checked by retrieving the private state saved by the
-     * <code>login</code> method), then this method associates a
-     * <code>Krb5Principal</code>
-     * with the <code>Subject</code> located in the
-     * <code>LoginModule</code>. It adds Kerberos Credentials to the
-     *  the Subject's private credentials set. If this LoginModule's own
-     * authentication attempted failed, then this method removes
-     * any state that was originally saved.
+     * <p> If tiis LoginModulf's own butifntidbtion bttfmpt
+     * suddffdfd (difdkfd by rftrifving tif privbtf stbtf sbvfd by tif
+     * <dodf>login</dodf> mftiod), tifn tiis mftiod bssodibtfs b
+     * <dodf>Krb5Prindipbl</dodf>
+     * witi tif <dodf>Subjfdt</dodf> lodbtfd in tif
+     * <dodf>LoginModulf</dodf>. It bdds Kfrbfros Crfdfntibls to tif
+     *  tif Subjfdt's privbtf drfdfntibls sft. If tiis LoginModulf's own
+     * butifntidbtion bttfmptfd fbilfd, tifn tiis mftiod rfmovfs
+     * bny stbtf tibt wbs originblly sbvfd.
      *
      * <p>
      *
-     * @exception LoginException if the commit fails.
+     * @fxdfption LoginExdfption if tif dommit fbils.
      *
-     * @return true if this LoginModule's own login and commit
-     *          attempts succeeded, or false otherwise.
+     * @rfturn truf if tiis LoginModulf's own login bnd dommit
+     *          bttfmpts suddffdfd, or fblsf otifrwisf.
      */
 
-    public boolean commit() throws LoginException {
+    publid boolfbn dommit() tirows LoginExdfption {
 
         /*
-         * Let us add the Krb5 Creds to the Subject's
-         * private credentials. The credentials are of type
-         * KerberosKey or KerberosTicket
+         * Lft us bdd tif Krb5 Crfds to tif Subjfdt's
+         * privbtf drfdfntibls. Tif drfdfntibls brf of typf
+         * KfrbfrosKfy or KfrbfrosTidkft
          */
-        if (succeeded == false) {
-            return false;
-        } else {
+        if (suddffdfd == fblsf) {
+            rfturn fblsf;
+        } flsf {
 
-            if (isInitiator && (cred == null)) {
-                succeeded = false;
-                throw new LoginException("Null Client Credential");
+            if (isInitibtor && (drfd == null)) {
+                suddffdfd = fblsf;
+                tirow nfw LoginExdfption("Null Clifnt Crfdfntibl");
             }
 
-            if (subject.isReadOnly()) {
-                cleanKerberosCred();
-                throw new LoginException("Subject is Readonly");
+            if (subjfdt.isRfbdOnly()) {
+                dlfbnKfrbfrosCrfd();
+                tirow nfw LoginExdfption("Subjfdt is Rfbdonly");
             }
 
             /*
-             * Add the Principal (authenticated identity)
-             * to the Subject's principal set and
-             * add the credentials (TGT or Service key) to the
-             * Subject's private credentials
+             * Add tif Prindipbl (butifntidbtfd idfntity)
+             * to tif Subjfdt's prindipbl sft bnd
+             * bdd tif drfdfntibls (TGT or Sfrvidf kfy) to tif
+             * Subjfdt's privbtf drfdfntibls
              */
 
-            Set<Object> privCredSet =  subject.getPrivateCredentials();
-            Set<java.security.Principal> princSet  = subject.getPrincipals();
-            kerbClientPrinc = new KerberosPrincipal(principal.getName());
+            Sft<Objfdt> privCrfdSft =  subjfdt.gftPrivbtfCrfdfntibls();
+            Sft<jbvb.sfdurity.Prindipbl> prindSft  = subjfdt.gftPrindipbls();
+            kfrbClifntPrind = nfw KfrbfrosPrindipbl(prindipbl.gftNbmf());
 
-            // create Kerberos Ticket
-            if (isInitiator) {
-                kerbTicket = Krb5Util.credsToTicket(cred);
+            // drfbtf Kfrbfros Tidkft
+            if (isInitibtor) {
+                kfrbTidkft = Krb5Util.drfdsToTidkft(drfd);
             }
 
-            if (storeKey && encKeys != null) {
-                if (encKeys.length == 0) {
-                    succeeded = false;
-                    throw new LoginException("Null Server Key ");
+            if (storfKfy && fndKfys != null) {
+                if (fndKfys.lfngti == 0) {
+                    suddffdfd = fblsf;
+                    tirow nfw LoginExdfption("Null Sfrvfr Kfy ");
                 }
 
-                kerbKeys = new KerberosKey[encKeys.length];
-                for (int i = 0; i < encKeys.length; i ++) {
-                    Integer temp = encKeys[i].getKeyVersionNumber();
-                    kerbKeys[i] = new KerberosKey(kerbClientPrinc,
-                                          encKeys[i].getBytes(),
-                                          encKeys[i].getEType(),
-                                          (temp == null?
-                                          0: temp.intValue()));
+                kfrbKfys = nfw KfrbfrosKfy[fndKfys.lfngti];
+                for (int i = 0; i < fndKfys.lfngti; i ++) {
+                    Intfgfr tfmp = fndKfys[i].gftKfyVfrsionNumbfr();
+                    kfrbKfys[i] = nfw KfrbfrosKfy(kfrbClifntPrind,
+                                          fndKfys[i].gftBytfs(),
+                                          fndKfys[i].gftETypf(),
+                                          (tfmp == null?
+                                          0: tfmp.intVbluf()));
                 }
 
             }
-            // Let us add the kerbClientPrinc,kerbTicket and KeyTab/KerbKey (if
-            // storeKey is true)
+            // Lft us bdd tif kfrbClifntPrind,kfrbTidkft bnd KfyTbb/KfrbKfy (if
+            // storfKfy is truf)
 
-            // We won't add "*" as a KerberosPrincipal
-            if (!unboundServer &&
-                    !princSet.contains(kerbClientPrinc)) {
-                princSet.add(kerbClientPrinc);
+            // Wf won't bdd "*" bs b KfrbfrosPrindipbl
+            if (!unboundSfrvfr &&
+                    !prindSft.dontbins(kfrbClifntPrind)) {
+                prindSft.bdd(kfrbClifntPrind);
             }
 
-            // add the TGT
-            if (kerbTicket != null) {
-                if (!privCredSet.contains(kerbTicket))
-                    privCredSet.add(kerbTicket);
+            // bdd tif TGT
+            if (kfrbTidkft != null) {
+                if (!privCrfdSft.dontbins(kfrbTidkft))
+                    privCrfdSft.bdd(kfrbTidkft);
             }
 
-            if (storeKey) {
-                if (encKeys == null) {
-                    if (ktab != null) {
-                        if (!privCredSet.contains(ktab)) {
-                            privCredSet.add(ktab);
+            if (storfKfy) {
+                if (fndKfys == null) {
+                    if (ktbb != null) {
+                        if (!privCrfdSft.dontbins(ktbb)) {
+                            privCrfdSft.bdd(ktbb);
                         }
-                    } else {
-                        succeeded = false;
-                        throw new LoginException("No key to store");
+                    } flsf {
+                        suddffdfd = fblsf;
+                        tirow nfw LoginExdfption("No kfy to storf");
                     }
-                } else {
-                    for (int i = 0; i < kerbKeys.length; i ++) {
-                        if (!privCredSet.contains(kerbKeys[i])) {
-                            privCredSet.add(kerbKeys[i]);
+                } flsf {
+                    for (int i = 0; i < kfrbKfys.lfngti; i ++) {
+                        if (!privCrfdSft.dontbins(kfrbKfys[i])) {
+                            privCrfdSft.bdd(kfrbKfys[i]);
                         }
-                        encKeys[i].destroy();
-                        encKeys[i] = null;
-                        if (debug) {
-                            System.out.println("Added server's key"
-                                            + kerbKeys[i]);
-                            System.out.println("\t\t[Krb5LoginModule] " +
-                                           "added Krb5Principal  " +
-                                           kerbClientPrinc.toString()
-                                           + " to Subject");
+                        fndKfys[i].dfstroy();
+                        fndKfys[i] = null;
+                        if (dfbug) {
+                            Systfm.out.println("Addfd sfrvfr's kfy"
+                                            + kfrbKfys[i]);
+                            Systfm.out.println("\t\t[Krb5LoginModulf] " +
+                                           "bddfd Krb5Prindipbl  " +
+                                           kfrbClifntPrind.toString()
+                                           + " to Subjfdt");
                         }
                     }
                 }
             }
         }
-        commitSucceeded = true;
-        if (debug)
-            System.out.println("Commit Succeeded \n");
-        return true;
+        dommitSuddffdfd = truf;
+        if (dfbug)
+            Systfm.out.println("Commit Suddffdfd \n");
+        rfturn truf;
     }
 
     /**
-     * <p> This method is called if the LoginContext's
-     * overall authentication failed.
-     * (the relevant REQUIRED, REQUISITE, SUFFICIENT and OPTIONAL
-     * LoginModules did not succeed).
+     * <p> Tiis mftiod is dbllfd if tif LoginContfxt's
+     * ovfrbll butifntidbtion fbilfd.
+     * (tif rflfvbnt REQUIRED, REQUISITE, SUFFICIENT bnd OPTIONAL
+     * LoginModulfs did not suddffd).
      *
-     * <p> If this LoginModule's own authentication attempt
-     * succeeded (checked by retrieving the private state saved by the
-     * <code>login</code> and <code>commit</code> methods),
-     * then this method cleans up any state that was originally saved.
+     * <p> If tiis LoginModulf's own butifntidbtion bttfmpt
+     * suddffdfd (difdkfd by rftrifving tif privbtf stbtf sbvfd by tif
+     * <dodf>login</dodf> bnd <dodf>dommit</dodf> mftiods),
+     * tifn tiis mftiod dlfbns up bny stbtf tibt wbs originblly sbvfd.
      *
      * <p>
      *
-     * @exception LoginException if the abort fails.
+     * @fxdfption LoginExdfption if tif bbort fbils.
      *
-     * @return false if this LoginModule's own login and/or commit attempts
-     *          failed, and true otherwise.
+     * @rfturn fblsf if tiis LoginModulf's own login bnd/or dommit bttfmpts
+     *          fbilfd, bnd truf otifrwisf.
      */
 
-    public boolean abort() throws LoginException {
-        if (succeeded == false) {
-            return false;
-        } else if (succeeded == true && commitSucceeded == false) {
-            // login succeeded but overall authentication failed
-            succeeded = false;
-            cleanKerberosCred();
-        } else {
-            // overall authentication succeeded and commit succeeded,
-            // but someone else's commit failed
+    publid boolfbn bbort() tirows LoginExdfption {
+        if (suddffdfd == fblsf) {
+            rfturn fblsf;
+        } flsf if (suddffdfd == truf && dommitSuddffdfd == fblsf) {
+            // login suddffdfd but ovfrbll butifntidbtion fbilfd
+            suddffdfd = fblsf;
+            dlfbnKfrbfrosCrfd();
+        } flsf {
+            // ovfrbll butifntidbtion suddffdfd bnd dommit suddffdfd,
+            // but somfonf flsf's dommit fbilfd
             logout();
         }
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Logout the user.
+     * Logout tif usfr.
      *
-     * <p> This method removes the <code>Krb5Principal</code>
-     * that was added by the <code>commit</code> method.
+     * <p> Tiis mftiod rfmovfs tif <dodf>Krb5Prindipbl</dodf>
+     * tibt wbs bddfd by tif <dodf>dommit</dodf> mftiod.
      *
      * <p>
      *
-     * @exception LoginException if the logout fails.
+     * @fxdfption LoginExdfption if tif logout fbils.
      *
-     * @return true in all cases since this <code>LoginModule</code>
-     *          should not be ignored.
+     * @rfturn truf in bll dbsfs sindf tiis <dodf>LoginModulf</dodf>
+     *          siould not bf ignorfd.
      */
-    public boolean logout() throws LoginException {
+    publid boolfbn logout() tirows LoginExdfption {
 
-        if (debug) {
-            System.out.println("\t\t[Krb5LoginModule]: " +
-                "Entering logout");
+        if (dfbug) {
+            Systfm.out.println("\t\t[Krb5LoginModulf]: " +
+                "Entfring logout");
         }
 
-        if (subject.isReadOnly()) {
-            cleanKerberosCred();
-            throw new LoginException("Subject is Readonly");
+        if (subjfdt.isRfbdOnly()) {
+            dlfbnKfrbfrosCrfd();
+            tirow nfw LoginExdfption("Subjfdt is Rfbdonly");
         }
 
-        subject.getPrincipals().remove(kerbClientPrinc);
-           // Let us remove all Kerberos credentials stored in the Subject
-        Iterator<Object> it = subject.getPrivateCredentials().iterator();
-        while (it.hasNext()) {
-            Object o = it.next();
-            if (o instanceof KerberosTicket ||
-                    o instanceof KerberosKey ||
-                    o instanceof KeyTab) {
-                it.remove();
+        subjfdt.gftPrindipbls().rfmovf(kfrbClifntPrind);
+           // Lft us rfmovf bll Kfrbfros drfdfntibls storfd in tif Subjfdt
+        Itfrbtor<Objfdt> it = subjfdt.gftPrivbtfCrfdfntibls().itfrbtor();
+        wiilf (it.ibsNfxt()) {
+            Objfdt o = it.nfxt();
+            if (o instbndfof KfrbfrosTidkft ||
+                    o instbndfof KfrbfrosKfy ||
+                    o instbndfof KfyTbb) {
+                it.rfmovf();
             }
         }
-        // clean the kerberos ticket and keys
-        cleanKerberosCred();
+        // dlfbn tif kfrbfros tidkft bnd kfys
+        dlfbnKfrbfrosCrfd();
 
-        succeeded = false;
-        commitSucceeded = false;
-        if (debug) {
-            System.out.println("\t\t[Krb5LoginModule]: " +
-                               "logged out Subject");
+        suddffdfd = fblsf;
+        dommitSuddffdfd = fblsf;
+        if (dfbug) {
+            Systfm.out.println("\t\t[Krb5LoginModulf]: " +
+                               "loggfd out Subjfdt");
         }
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Clean Kerberos credentials
+     * Clfbn Kfrbfros drfdfntibls
      */
-    private void cleanKerberosCred() throws LoginException {
-        // Clean the ticket and server key
+    privbtf void dlfbnKfrbfrosCrfd() tirows LoginExdfption {
+        // Clfbn tif tidkft bnd sfrvfr kfy
         try {
-            if (kerbTicket != null)
-                kerbTicket.destroy();
-            if (kerbKeys != null) {
-                for (int i = 0; i < kerbKeys.length; i++) {
-                    kerbKeys[i].destroy();
+            if (kfrbTidkft != null)
+                kfrbTidkft.dfstroy();
+            if (kfrbKfys != null) {
+                for (int i = 0; i < kfrbKfys.lfngti; i++) {
+                    kfrbKfys[i].dfstroy();
                 }
             }
-        } catch (DestroyFailedException e) {
-            throw new LoginException
-                ("Destroy Failed on Kerberos Private Credentials");
+        } dbtdi (DfstroyFbilfdExdfption f) {
+            tirow nfw LoginExdfption
+                ("Dfstroy Fbilfd on Kfrbfros Privbtf Crfdfntibls");
         }
-        kerbTicket = null;
-        kerbKeys = null;
-        kerbClientPrinc = null;
+        kfrbTidkft = null;
+        kfrbKfys = null;
+        kfrbClifntPrind = null;
     }
 
     /**
-     * Clean out the state
+     * Clfbn out tif stbtf
      */
-    private void cleanState() {
+    privbtf void dlfbnStbtf() {
 
-        // save input as shared state only if
-        // authentication succeeded
-        if (succeeded) {
-            if (storePass &&
-                !sharedState.containsKey(NAME) &&
-                !sharedState.containsKey(PWD)) {
-                sharedState.put(NAME, username);
-                sharedState.put(PWD, password);
+        // sbvf input bs sibrfd stbtf only if
+        // butifntidbtion suddffdfd
+        if (suddffdfd) {
+            if (storfPbss &&
+                !sibrfdStbtf.dontbinsKfy(NAME) &&
+                !sibrfdStbtf.dontbinsKfy(PWD)) {
+                sibrfdStbtf.put(NAME, usfrnbmf);
+                sibrfdStbtf.put(PWD, pbssword);
             }
-        } else {
-            // remove temp results for the next try
-            encKeys = null;
-            ktab = null;
-            principal = null;
+        } flsf {
+            // rfmovf tfmp rfsults for tif nfxt try
+            fndKfys = null;
+            ktbb = null;
+            prindipbl = null;
         }
-        username = null;
-        password = null;
-        if (krb5PrincName != null && krb5PrincName.length() != 0)
-            krb5PrincName.delete(0, krb5PrincName.length());
-        krb5PrincName = null;
-        if (clearPass) {
-            sharedState.remove(NAME);
-            sharedState.remove(PWD);
+        usfrnbmf = null;
+        pbssword = null;
+        if (krb5PrindNbmf != null && krb5PrindNbmf.lfngti() != 0)
+            krb5PrindNbmf.dflftf(0, krb5PrindNbmf.lfngti());
+        krb5PrindNbmf = null;
+        if (dlfbrPbss) {
+            sibrfdStbtf.rfmovf(NAME);
+            sibrfdStbtf.rfmovf(PWD);
         }
     }
 }

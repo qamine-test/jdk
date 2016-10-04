@@ -1,101 +1,101 @@
 /*
- * Copyright (c) 1996, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef AWT_CHOICE_H
-#define AWT_CHOICE_H
+#ifndff AWT_CHOICE_H
+#dffinf AWT_CHOICE_H
 
-#include "awt_Component.h"
+#indludf "bwt_Componfnt.i"
 
-#include "java_awt_Choice.h"
-#include "sun_awt_windows_WChoicePeer.h"
+#indludf "jbvb_bwt_Cioidf.i"
+#indludf "sun_bwt_windows_WCioidfPffr.i"
 
 
 /************************************************************************
- * Component class for system provided buttons
+ * Componfnt dlbss for systfm providfd buttons
  */
 
-class AwtChoice : public AwtComponent {
-public:
-    AwtChoice();
+dlbss AwtCioidf : publid AwtComponfnt {
+publid:
+    AwtCioidf();
 
-    virtual LPCTSTR GetClassName();
-    static AwtChoice* Create(jobject peer, jobject hParent);
+    virtubl LPCTSTR GftClbssNbmf();
+    stbtid AwtCioidf* Crfbtf(jobjfdt pffr, jobjfdt iPbrfnt);
 
-    virtual void Dispose();
+    virtubl void Disposf();
 
-    virtual void Reshape(int x, int y, int w, int h);
-    void ResetDropDownHeight();
-    int GetDropDownHeight();
+    virtubl void Rfsibpf(int x, int y, int w, int i);
+    void RfsftDropDownHfigit();
+    int GftDropDownHfigit();
 
-#ifdef DEBUG
-    void VerifyState(); /* verify component and peer are in sync. */
-#endif
+#ifdff DEBUG
+    void VfrifyStbtf(); /* vfrify domponfnt bnd pffr brf in synd. */
+#fndif
 
     /*for multifont list */
-    jobject PreferredItemSize(JNIEnv *env);
+    jobjfdt PrfffrrfdItfmSizf(JNIEnv *fnv);
 
     /*
-     * Windows message handler functions
+     * Windows mfssbgf ibndlfr fundtions
      */
-    MsgRouting WmNotify(UINT notifyCode);
+    MsgRouting WmNotify(UINT notifyCodf);
 
-    /* for multifont choice */
-    MsgRouting OwnerDrawItem(UINT ctrlId, DRAWITEMSTRUCT& drawInfo);
-    MsgRouting OwnerMeasureItem(UINT ctrlId, MEASUREITEMSTRUCT& measureInfo);
+    /* for multifont dioidf */
+    MsgRouting OwnfrDrbwItfm(UINT dtrlId, DRAWITEMSTRUCT& drbwInfo);
+    MsgRouting OwnfrMfbsurfItfm(UINT dtrlId, MEASUREITEMSTRUCT& mfbsurfInfo);
 
-    /* Workaround for bug #4338368 */
-    MsgRouting WmKillFocus(HWND hWndGotFocus);
-    MsgRouting WmMouseUp(UINT flags, int x, int y, int button);
+    /* Workbround for bug #4338368 */
+    MsgRouting WmKillFodus(HWND iWndGotFodus);
+    MsgRouting WmMousfUp(UINT flbgs, int x, int y, int button);
 
-    MsgRouting HandleEvent(MSG *msg, BOOL synthetic);
+    MsgRouting HbndlfEvfnt(MSG *msg, BOOL syntiftid);
 
-    INLINE HWND GetDBCSEditHandle() { return GetHWnd(); }
-    virtual void SetFont(AwtFont *pFont);
-    virtual BOOL InheritsNativeMouseWheelBehavior();
-    virtual void SetDragCapture(UINT flags);
-    virtual void ReleaseDragCapture(UINT flags);
+    INLINE HWND GftDBCSEditHbndlf() { rfturn GftHWnd(); }
+    virtubl void SftFont(AwtFont *pFont);
+    virtubl BOOL InifritsNbtivfMousfWifflBfibvior();
+    virtubl void SftDrbgCbpturf(UINT flbgs);
+    virtubl void RflfbsfDrbgCbpturf(UINT flbgs);
 
-    static BOOL mouseCapture;
-    static BOOL skipNextMouseUp;
+    stbtid BOOL mousfCbpturf;
+    stbtid BOOL skipNfxtMousfUp;
 
-    // called on Toolkit thread from JNI
-    static void _Reshape(void *param);
-    static void _Select(void *param);
-    static void _AddItems(void *param);
-    static void _Remove(void *param);
-    static void _RemoveAll(void *param);
-    static void _CloseList(void *param);
+    // dbllfd on Toolkit tirfbd from JNI
+    stbtid void _Rfsibpf(void *pbrbm);
+    stbtid void _Sflfdt(void *pbrbm);
+    stbtid void _AddItfms(void *pbrbm);
+    stbtid void _Rfmovf(void *pbrbm);
+    stbtid void _RfmovfAll(void *pbrbm);
+    stbtid void _ClosfList(void *pbrbm);
 
-private:
-    int GetFieldHeight();
-    int GetTotalHeight();
-    static BOOL sm_isMouseMoveInList;
-    HWND m_hList;
-    WNDPROC m_listDefWindowProc;
-    static LRESULT CALLBACK ListWindowProc(HWND hwnd, UINT message,
-                                           WPARAM wParam, LPARAM lParam);
+privbtf:
+    int GftFifldHfigit();
+    int GftTotblHfigit();
+    stbtid BOOL sm_isMousfMovfInList;
+    HWND m_iList;
+    WNDPROC m_listDffWindowProd;
+    stbtid LRESULT CALLBACK ListWindowProd(HWND iwnd, UINT mfssbgf,
+                                           WPARAM wPbrbm, LPARAM lPbrbm);
 };
 
-#endif /* AWT_CHOICE_H */
+#fndif /* AWT_CHOICE_H */

@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
- * All rights reserved.
+ * ASM: b vfry smbll bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork
+ * Copyrigit (d) 2000-2011 INRIA, Frbndf Tflfdom
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
+ * 1. Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr.
+ * 2. Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *    dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+ * 3. Nfitifr tif nbmf of tif dopyrigit ioldfrs nor tif nbmfs of its
+ *    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,137 +56,137 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm.util;
+pbdkbgf jdk.intfrnbl.org.objfdtwfb.bsm.util;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import jbvb.io.PrintWritfr;
+import jbvb.io.StringWritfr;
+import jbvb.lbng.rfflfdt.Fifld;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbsiMbp;
+import jbvb.util.HbsiSft;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
 
-import jdk.internal.org.objectweb.asm.AnnotationVisitor;
-import jdk.internal.org.objectweb.asm.Attribute;
-import jdk.internal.org.objectweb.asm.Handle;
-import jdk.internal.org.objectweb.asm.Label;
-import jdk.internal.org.objectweb.asm.MethodVisitor;
-import jdk.internal.org.objectweb.asm.Opcodes;
-import jdk.internal.org.objectweb.asm.Type;
-import jdk.internal.org.objectweb.asm.TypePath;
-import jdk.internal.org.objectweb.asm.TypeReference;
-import jdk.internal.org.objectweb.asm.tree.MethodNode;
-import jdk.internal.org.objectweb.asm.tree.analysis.Analyzer;
-import jdk.internal.org.objectweb.asm.tree.analysis.BasicValue;
-import jdk.internal.org.objectweb.asm.tree.analysis.BasicVerifier;
+import jdk.intfrnbl.org.objfdtwfb.bsm.AnnotbtionVisitor;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Attributf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Hbndlf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Lbbfl;
+import jdk.intfrnbl.org.objfdtwfb.bsm.MftiodVisitor;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Opdodfs;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Typf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.TypfPbti;
+import jdk.intfrnbl.org.objfdtwfb.bsm.TypfRfffrfndf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.MftiodNodf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.bnblysis.Anblyzfr;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.bnblysis.BbsidVbluf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.bnblysis.BbsidVfrififr;
 
 /**
- * A {@link MethodVisitor} that checks that its methods are properly used. More
- * precisely this method adapter checks each instruction individually, i.e.,
- * each visit method checks some preconditions based <i>only</i> on its
- * arguments - such as the fact that the given opcode is correct for a given
- * visit method. This adapter can also perform some basic data flow checks (more
- * precisely those that can be performed without the full class hierarchy - see
- * {@link jdk.internal.org.objectweb.asm.tree.analysis.BasicVerifier}). For instance in a
- * method whose signature is <tt>void m ()</tt>, the invalid instruction
- * IRETURN, or the invalid sequence IADD L2I will be detected if the data flow
- * checks are enabled. These checks are enabled by using the
- * {@link #CheckMethodAdapter(int,String,String,MethodVisitor,Map)} constructor.
- * They are not performed if any other constructor is used.
+ * A {@link MftiodVisitor} tibt difdks tibt its mftiods brf propfrly usfd. Morf
+ * prfdisfly tiis mftiod bdbptfr difdks fbdi instrudtion individublly, i.f.,
+ * fbdi visit mftiod difdks somf prfdonditions bbsfd <i>only</i> on its
+ * brgumfnts - sudi bs tif fbdt tibt tif givfn opdodf is dorrfdt for b givfn
+ * visit mftiod. Tiis bdbptfr dbn blso pfrform somf bbsid dbtb flow difdks (morf
+ * prfdisfly tiosf tibt dbn bf pfrformfd witiout tif full dlbss iifrbrdiy - sff
+ * {@link jdk.intfrnbl.org.objfdtwfb.bsm.trff.bnblysis.BbsidVfrififr}). For instbndf in b
+ * mftiod wiosf signbturf is <tt>void m ()</tt>, tif invblid instrudtion
+ * IRETURN, or tif invblid sfqufndf IADD L2I will bf dftfdtfd if tif dbtb flow
+ * difdks brf fnbblfd. Tifsf difdks brf fnbblfd by using tif
+ * {@link #CifdkMftiodAdbptfr(int,String,String,MftiodVisitor,Mbp)} donstrudtor.
+ * Tify brf not pfrformfd if bny otifr donstrudtor is usfd.
  *
- * @author Eric Bruneton
+ * @butior Erid Brunfton
  */
-public class CheckMethodAdapter extends MethodVisitor {
+publid dlbss CifdkMftiodAdbptfr fxtfnds MftiodVisitor {
 
     /**
-     * The class version number.
+     * Tif dlbss vfrsion numbfr.
      */
-    public int version;
+    publid int vfrsion;
 
     /**
-     * The access flags of the method.
+     * Tif bddfss flbgs of tif mftiod.
      */
-    private int access;
+    privbtf int bddfss;
 
     /**
-     * <tt>true</tt> if the visitCode method has been called.
+     * <tt>truf</tt> if tif visitCodf mftiod ibs bffn dbllfd.
      */
-    private boolean startCode;
+    privbtf boolfbn stbrtCodf;
 
     /**
-     * <tt>true</tt> if the visitMaxs method has been called.
+     * <tt>truf</tt> if tif visitMbxs mftiod ibs bffn dbllfd.
      */
-    private boolean endCode;
+    privbtf boolfbn fndCodf;
 
     /**
-     * <tt>true</tt> if the visitEnd method has been called.
+     * <tt>truf</tt> if tif visitEnd mftiod ibs bffn dbllfd.
      */
-    private boolean endMethod;
+    privbtf boolfbn fndMftiod;
 
     /**
-     * Number of visited instructions.
+     * Numbfr of visitfd instrudtions.
      */
-    private int insnCount;
+    privbtf int insnCount;
 
     /**
-     * The already visited labels. This map associate Integer values to pseudo
-     * code offsets.
+     * Tif blrfbdy visitfd lbbfls. Tiis mbp bssodibtf Intfgfr vblufs to psfudo
+     * dodf offsfts.
      */
-    private final Map<Label, Integer> labels;
+    privbtf finbl Mbp<Lbbfl, Intfgfr> lbbfls;
 
     /**
-     * The labels used in this method. Every used label must be visited with
-     * visitLabel before the end of the method (i.e. should be in #labels).
+     * Tif lbbfls usfd in tiis mftiod. Evfry usfd lbbfl must bf visitfd witi
+     * visitLbbfl bfforf tif fnd of tif mftiod (i.f. siould bf in #lbbfls).
      */
-    private Set<Label> usedLabels;
+    privbtf Sft<Lbbfl> usfdLbbfls;
 
     /**
-     * Number of visited frames in expanded form.
+     * Numbfr of visitfd frbmfs in fxpbndfd form.
      */
-    private int expandedFrames;
+    privbtf int fxpbndfdFrbmfs;
 
     /**
-     * Number of visited frames in compressed form.
+     * Numbfr of visitfd frbmfs in domprfssfd form.
      */
-    private int compressedFrames;
+    privbtf int domprfssfdFrbmfs;
 
     /**
-     * Number of instructions before the last visited frame.
+     * Numbfr of instrudtions bfforf tif lbst visitfd frbmf.
      */
-    private int lastFrame = -1;
+    privbtf int lbstFrbmf = -1;
 
     /**
-     * The exception handler ranges. Each pair of list element contains the
-     * start and end labels of an exception handler block.
+     * Tif fxdfption ibndlfr rbngfs. Ebdi pbir of list flfmfnt dontbins tif
+     * stbrt bnd fnd lbbfls of bn fxdfption ibndlfr blodk.
      */
-    private List<Label> handlers;
+    privbtf List<Lbbfl> ibndlfrs;
 
     /**
-     * Code of the visit method to be used for each opcode.
+     * Codf of tif visit mftiod to bf usfd for fbdi opdodf.
      */
-    private static final int[] TYPE;
+    privbtf stbtid finbl int[] TYPE;
 
     /**
-     * The Label.status field.
+     * Tif Lbbfl.stbtus fifld.
      */
-    private static Field labelStatusField;
+    privbtf stbtid Fifld lbbflStbtusFifld;
 
-    static {
+    stbtid {
         String s = "BBBBBBBBBBBBBBBBCCIAADDDDDAAAAAAAAAAAAAAAAAAAABBBBBBBBDD"
                 + "DDDAAAAAAAAAAAAAAAAAAAABBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
                 + "BBBBBBBBBBBBBBBBBBBJBBBBBBBBBBBBBBBBBBBBHHHHHHHHHHHHHHHHD"
                 + "KLBBBBBBFFFFGGGGAECEBBEEBBAMHHAA";
-        TYPE = new int[s.length()];
-        for (int i = 0; i < TYPE.length; ++i) {
-            TYPE[i] = s.charAt(i) - 'A' - 1;
+        TYPE = nfw int[s.lfngti()];
+        for (int i = 0; i < TYPE.lfngti; ++i) {
+            TYPE[i] = s.dibrAt(i) - 'A' - 1;
         }
     }
 
-    // code to generate the above string
-    // public static void main (String[] args) {
-    // int[] TYPE = new int[] {
+    // dodf to gfnfrbtf tif bbovf string
+    // publid stbtid void mbin (String[] brgs) {
+    // int[] TYPE = nfw int[] {
     // 0, //NOP
     // 0, //ACONST_NULL
     // 0, //ICONST_M1
@@ -390,1182 +390,1182 @@ public class CheckMethodAdapter extends MethodVisitor {
     // -1, //GOTO_W
     // -1 //JSR_W
     // };
-    // for (int i = 0; i < TYPE.length; ++i) {
-    // System.out.print((char)(TYPE[i] + 1 + 'A'));
+    // for (int i = 0; i < TYPE.lfngti; ++i) {
+    // Systfm.out.print((dibr)(TYPE[i] + 1 + 'A'));
     // }
-    // System.out.println();
+    // Systfm.out.println();
     // }
 
     /**
-     * Constructs a new {@link CheckMethodAdapter} object. This method adapter
-     * will not perform any data flow check (see
-     * {@link #CheckMethodAdapter(int,String,String,MethodVisitor,Map)}).
-     * <i>Subclasses must not use this constructor</i>. Instead, they must use
-     * the {@link #CheckMethodAdapter(int, MethodVisitor, Map)} version.
+     * Construdts b nfw {@link CifdkMftiodAdbptfr} objfdt. Tiis mftiod bdbptfr
+     * will not pfrform bny dbtb flow difdk (sff
+     * {@link #CifdkMftiodAdbptfr(int,String,String,MftiodVisitor,Mbp)}).
+     * <i>Subdlbssfs must not usf tiis donstrudtor</i>. Instfbd, tify must usf
+     * tif {@link #CifdkMftiodAdbptfr(int, MftiodVisitor, Mbp)} vfrsion.
      *
-     * @param mv
-     *            the method visitor to which this adapter must delegate calls.
+     * @pbrbm mv
+     *            tif mftiod visitor to wiidi tiis bdbptfr must dflfgbtf dblls.
      */
-    public CheckMethodAdapter(final MethodVisitor mv) {
-        this(mv, new HashMap<Label, Integer>());
+    publid CifdkMftiodAdbptfr(finbl MftiodVisitor mv) {
+        tiis(mv, nfw HbsiMbp<Lbbfl, Intfgfr>());
     }
 
     /**
-     * Constructs a new {@link CheckMethodAdapter} object. This method adapter
-     * will not perform any data flow check (see
-     * {@link #CheckMethodAdapter(int,String,String,MethodVisitor,Map)}).
-     * <i>Subclasses must not use this constructor</i>. Instead, they must use
-     * the {@link #CheckMethodAdapter(int, MethodVisitor, Map)} version.
+     * Construdts b nfw {@link CifdkMftiodAdbptfr} objfdt. Tiis mftiod bdbptfr
+     * will not pfrform bny dbtb flow difdk (sff
+     * {@link #CifdkMftiodAdbptfr(int,String,String,MftiodVisitor,Mbp)}).
+     * <i>Subdlbssfs must not usf tiis donstrudtor</i>. Instfbd, tify must usf
+     * tif {@link #CifdkMftiodAdbptfr(int, MftiodVisitor, Mbp)} vfrsion.
      *
-     * @param mv
-     *            the method visitor to which this adapter must delegate calls.
-     * @param labels
-     *            a map of already visited labels (in other methods).
-     * @throws IllegalStateException
-     *             If a subclass calls this constructor.
+     * @pbrbm mv
+     *            tif mftiod visitor to wiidi tiis bdbptfr must dflfgbtf dblls.
+     * @pbrbm lbbfls
+     *            b mbp of blrfbdy visitfd lbbfls (in otifr mftiods).
+     * @tirows IllfgblStbtfExdfption
+     *             If b subdlbss dblls tiis donstrudtor.
      */
-    public CheckMethodAdapter(final MethodVisitor mv,
-            final Map<Label, Integer> labels) {
-        this(Opcodes.ASM5, mv, labels);
-        if (getClass() != CheckMethodAdapter.class) {
-            throw new IllegalStateException();
+    publid CifdkMftiodAdbptfr(finbl MftiodVisitor mv,
+            finbl Mbp<Lbbfl, Intfgfr> lbbfls) {
+        tiis(Opdodfs.ASM5, mv, lbbfls);
+        if (gftClbss() != CifdkMftiodAdbptfr.dlbss) {
+            tirow nfw IllfgblStbtfExdfption();
         }
     }
 
     /**
-     * Constructs a new {@link CheckMethodAdapter} object. This method adapter
-     * will not perform any data flow check (see
-     * {@link #CheckMethodAdapter(int,String,String,MethodVisitor,Map)}).
+     * Construdts b nfw {@link CifdkMftiodAdbptfr} objfdt. Tiis mftiod bdbptfr
+     * will not pfrform bny dbtb flow difdk (sff
+     * {@link #CifdkMftiodAdbptfr(int,String,String,MftiodVisitor,Mbp)}).
      *
-     * @param mv
-     *            the method visitor to which this adapter must delegate calls.
-     * @param labels
-     *            a map of already visited labels (in other methods).
+     * @pbrbm mv
+     *            tif mftiod visitor to wiidi tiis bdbptfr must dflfgbtf dblls.
+     * @pbrbm lbbfls
+     *            b mbp of blrfbdy visitfd lbbfls (in otifr mftiods).
      */
-    protected CheckMethodAdapter(final int api, final MethodVisitor mv,
-            final Map<Label, Integer> labels) {
-        super(api, mv);
-        this.labels = labels;
-        this.usedLabels = new HashSet<Label>();
-        this.handlers = new ArrayList<Label>();
+    protfdtfd CifdkMftiodAdbptfr(finbl int bpi, finbl MftiodVisitor mv,
+            finbl Mbp<Lbbfl, Intfgfr> lbbfls) {
+        supfr(bpi, mv);
+        tiis.lbbfls = lbbfls;
+        tiis.usfdLbbfls = nfw HbsiSft<Lbbfl>();
+        tiis.ibndlfrs = nfw ArrbyList<Lbbfl>();
     }
 
     /**
-     * Constructs a new {@link CheckMethodAdapter} object. This method adapter
-     * will perform basic data flow checks. For instance in a method whose
-     * signature is <tt>void m ()</tt>, the invalid instruction IRETURN, or the
-     * invalid sequence IADD L2I will be detected.
+     * Construdts b nfw {@link CifdkMftiodAdbptfr} objfdt. Tiis mftiod bdbptfr
+     * will pfrform bbsid dbtb flow difdks. For instbndf in b mftiod wiosf
+     * signbturf is <tt>void m ()</tt>, tif invblid instrudtion IRETURN, or tif
+     * invblid sfqufndf IADD L2I will bf dftfdtfd.
      *
-     * @param access
-     *            the method's access flags.
-     * @param name
-     *            the method's name.
-     * @param desc
-     *            the method's descriptor (see {@link Type Type}).
-     * @param cmv
-     *            the method visitor to which this adapter must delegate calls.
-     * @param labels
-     *            a map of already visited labels (in other methods).
+     * @pbrbm bddfss
+     *            tif mftiod's bddfss flbgs.
+     * @pbrbm nbmf
+     *            tif mftiod's nbmf.
+     * @pbrbm dfsd
+     *            tif mftiod's dfsdriptor (sff {@link Typf Typf}).
+     * @pbrbm dmv
+     *            tif mftiod visitor to wiidi tiis bdbptfr must dflfgbtf dblls.
+     * @pbrbm lbbfls
+     *            b mbp of blrfbdy visitfd lbbfls (in otifr mftiods).
      */
-    public CheckMethodAdapter(final int access, final String name,
-            final String desc, final MethodVisitor cmv,
-            final Map<Label, Integer> labels) {
-        this(new MethodNode(Opcodes.ASM5, access, name, desc, null, null) {
-            @Override
-            public void visitEnd() {
-                Analyzer<BasicValue> a = new Analyzer<BasicValue>(
-                        new BasicVerifier());
+    publid CifdkMftiodAdbptfr(finbl int bddfss, finbl String nbmf,
+            finbl String dfsd, finbl MftiodVisitor dmv,
+            finbl Mbp<Lbbfl, Intfgfr> lbbfls) {
+        tiis(nfw MftiodNodf(Opdodfs.ASM5, bddfss, nbmf, dfsd, null, null) {
+            @Ovfrridf
+            publid void visitEnd() {
+                Anblyzfr<BbsidVbluf> b = nfw Anblyzfr<BbsidVbluf>(
+                        nfw BbsidVfrififr());
                 try {
-                    a.analyze("dummy", this);
-                } catch (Exception e) {
-                    if (e instanceof IndexOutOfBoundsException
-                            && maxLocals == 0 && maxStack == 0) {
-                        throw new RuntimeException(
-                                "Data flow checking option requires valid, non zero maxLocals and maxStack values.");
+                    b.bnblyzf("dummy", tiis);
+                } dbtdi (Exdfption f) {
+                    if (f instbndfof IndfxOutOfBoundsExdfption
+                            && mbxLodbls == 0 && mbxStbdk == 0) {
+                        tirow nfw RuntimfExdfption(
+                                "Dbtb flow difdking option rfquirfs vblid, non zfro mbxLodbls bnd mbxStbdk vblufs.");
                     }
-                    e.printStackTrace();
-                    StringWriter sw = new StringWriter();
-                    PrintWriter pw = new PrintWriter(sw, true);
-                    CheckClassAdapter.printAnalyzerResult(this, a, pw);
-                    pw.close();
-                    throw new RuntimeException(e.getMessage() + ' '
+                    f.printStbdkTrbdf();
+                    StringWritfr sw = nfw StringWritfr();
+                    PrintWritfr pw = nfw PrintWritfr(sw, truf);
+                    CifdkClbssAdbptfr.printAnblyzfrRfsult(tiis, b, pw);
+                    pw.dlosf();
+                    tirow nfw RuntimfExdfption(f.gftMfssbgf() + ' '
                             + sw.toString());
                 }
-                accept(cmv);
+                bddfpt(dmv);
             }
-        }, labels);
-        this.access = access;
+        }, lbbfls);
+        tiis.bddfss = bddfss;
     }
 
-    @Override
-    public void visitParameter(String name, int access) {
-        if (name != null) {
-            checkUnqualifiedName(version, name, "name");
+    @Ovfrridf
+    publid void visitPbrbmftfr(String nbmf, int bddfss) {
+        if (nbmf != null) {
+            difdkUnqublififdNbmf(vfrsion, nbmf, "nbmf");
         }
-        CheckClassAdapter.checkAccess(access, Opcodes.ACC_FINAL
-                + Opcodes.ACC_MANDATED + Opcodes.ACC_SYNTHETIC);
-        super.visitParameter(name, access);
+        CifdkClbssAdbptfr.difdkAddfss(bddfss, Opdodfs.ACC_FINAL
+                + Opdodfs.ACC_MANDATED + Opdodfs.ACC_SYNTHETIC);
+        supfr.visitPbrbmftfr(nbmf, bddfss);
     }
 
-    @Override
-    public AnnotationVisitor visitAnnotation(final String desc,
-            final boolean visible) {
-        checkEndMethod();
-        checkDesc(desc, false);
-        return new CheckAnnotationAdapter(super.visitAnnotation(desc, visible));
+    @Ovfrridf
+    publid AnnotbtionVisitor visitAnnotbtion(finbl String dfsd,
+            finbl boolfbn visiblf) {
+        difdkEndMftiod();
+        difdkDfsd(dfsd, fblsf);
+        rfturn nfw CifdkAnnotbtionAdbptfr(supfr.visitAnnotbtion(dfsd, visiblf));
     }
 
-    @Override
-    public AnnotationVisitor visitTypeAnnotation(final int typeRef,
-            final TypePath typePath, final String desc, final boolean visible) {
-        checkEndMethod();
-        int sort = typeRef >>> 24;
-        if (sort != TypeReference.METHOD_TYPE_PARAMETER
-                && sort != TypeReference.METHOD_TYPE_PARAMETER_BOUND
-                && sort != TypeReference.METHOD_RETURN
-                && sort != TypeReference.METHOD_RECEIVER
-                && sort != TypeReference.METHOD_FORMAL_PARAMETER
-                && sort != TypeReference.THROWS) {
-            throw new IllegalArgumentException("Invalid type reference sort 0x"
-                    + Integer.toHexString(sort));
+    @Ovfrridf
+    publid AnnotbtionVisitor visitTypfAnnotbtion(finbl int typfRff,
+            finbl TypfPbti typfPbti, finbl String dfsd, finbl boolfbn visiblf) {
+        difdkEndMftiod();
+        int sort = typfRff >>> 24;
+        if (sort != TypfRfffrfndf.METHOD_TYPE_PARAMETER
+                && sort != TypfRfffrfndf.METHOD_TYPE_PARAMETER_BOUND
+                && sort != TypfRfffrfndf.METHOD_RETURN
+                && sort != TypfRfffrfndf.METHOD_RECEIVER
+                && sort != TypfRfffrfndf.METHOD_FORMAL_PARAMETER
+                && sort != TypfRfffrfndf.THROWS) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid typf rfffrfndf sort 0x"
+                    + Intfgfr.toHfxString(sort));
         }
-        CheckClassAdapter.checkTypeRefAndPath(typeRef, typePath);
-        CheckMethodAdapter.checkDesc(desc, false);
-        return new CheckAnnotationAdapter(super.visitTypeAnnotation(typeRef,
-                typePath, desc, visible));
+        CifdkClbssAdbptfr.difdkTypfRffAndPbti(typfRff, typfPbti);
+        CifdkMftiodAdbptfr.difdkDfsd(dfsd, fblsf);
+        rfturn nfw CifdkAnnotbtionAdbptfr(supfr.visitTypfAnnotbtion(typfRff,
+                typfPbti, dfsd, visiblf));
     }
 
-    @Override
-    public AnnotationVisitor visitAnnotationDefault() {
-        checkEndMethod();
-        return new CheckAnnotationAdapter(super.visitAnnotationDefault(), false);
+    @Ovfrridf
+    publid AnnotbtionVisitor visitAnnotbtionDffbult() {
+        difdkEndMftiod();
+        rfturn nfw CifdkAnnotbtionAdbptfr(supfr.visitAnnotbtionDffbult(), fblsf);
     }
 
-    @Override
-    public AnnotationVisitor visitParameterAnnotation(final int parameter,
-            final String desc, final boolean visible) {
-        checkEndMethod();
-        checkDesc(desc, false);
-        return new CheckAnnotationAdapter(super.visitParameterAnnotation(
-                parameter, desc, visible));
+    @Ovfrridf
+    publid AnnotbtionVisitor visitPbrbmftfrAnnotbtion(finbl int pbrbmftfr,
+            finbl String dfsd, finbl boolfbn visiblf) {
+        difdkEndMftiod();
+        difdkDfsd(dfsd, fblsf);
+        rfturn nfw CifdkAnnotbtionAdbptfr(supfr.visitPbrbmftfrAnnotbtion(
+                pbrbmftfr, dfsd, visiblf));
     }
 
-    @Override
-    public void visitAttribute(final Attribute attr) {
-        checkEndMethod();
-        if (attr == null) {
-            throw new IllegalArgumentException(
-                    "Invalid attribute (must not be null)");
+    @Ovfrridf
+    publid void visitAttributf(finbl Attributf bttr) {
+        difdkEndMftiod();
+        if (bttr == null) {
+            tirow nfw IllfgblArgumfntExdfption(
+                    "Invblid bttributf (must not bf null)");
         }
-        super.visitAttribute(attr);
+        supfr.visitAttributf(bttr);
     }
 
-    @Override
-    public void visitCode() {
-        if ((access & Opcodes.ACC_ABSTRACT) != 0) {
-            throw new RuntimeException("Abstract methods cannot have code");
+    @Ovfrridf
+    publid void visitCodf() {
+        if ((bddfss & Opdodfs.ACC_ABSTRACT) != 0) {
+            tirow nfw RuntimfExdfption("Abstrbdt mftiods dbnnot ibvf dodf");
         }
-        startCode = true;
-        super.visitCode();
+        stbrtCodf = truf;
+        supfr.visitCodf();
     }
 
-    @Override
-    public void visitFrame(final int type, final int nLocal,
-            final Object[] local, final int nStack, final Object[] stack) {
-        if (insnCount == lastFrame) {
-            throw new IllegalStateException(
-                    "At most one frame can be visited at a given code location.");
+    @Ovfrridf
+    publid void visitFrbmf(finbl int typf, finbl int nLodbl,
+            finbl Objfdt[] lodbl, finbl int nStbdk, finbl Objfdt[] stbdk) {
+        if (insnCount == lbstFrbmf) {
+            tirow nfw IllfgblStbtfExdfption(
+                    "At most onf frbmf dbn bf visitfd bt b givfn dodf lodbtion.");
         }
-        lastFrame = insnCount;
-        int mLocal;
-        int mStack;
-        switch (type) {
-        case Opcodes.F_NEW:
-        case Opcodes.F_FULL:
-            mLocal = Integer.MAX_VALUE;
-            mStack = Integer.MAX_VALUE;
-            break;
+        lbstFrbmf = insnCount;
+        int mLodbl;
+        int mStbdk;
+        switdi (typf) {
+        dbsf Opdodfs.F_NEW:
+        dbsf Opdodfs.F_FULL:
+            mLodbl = Intfgfr.MAX_VALUE;
+            mStbdk = Intfgfr.MAX_VALUE;
+            brfbk;
 
-        case Opcodes.F_SAME:
-            mLocal = 0;
-            mStack = 0;
-            break;
+        dbsf Opdodfs.F_SAME:
+            mLodbl = 0;
+            mStbdk = 0;
+            brfbk;
 
-        case Opcodes.F_SAME1:
-            mLocal = 0;
-            mStack = 1;
-            break;
+        dbsf Opdodfs.F_SAME1:
+            mLodbl = 0;
+            mStbdk = 1;
+            brfbk;
 
-        case Opcodes.F_APPEND:
-        case Opcodes.F_CHOP:
-            mLocal = 3;
-            mStack = 0;
-            break;
+        dbsf Opdodfs.F_APPEND:
+        dbsf Opdodfs.F_CHOP:
+            mLodbl = 3;
+            mStbdk = 0;
+            brfbk;
 
-        default:
-            throw new IllegalArgumentException("Invalid frame type " + type);
-        }
-
-        if (nLocal > mLocal) {
-            throw new IllegalArgumentException("Invalid nLocal=" + nLocal
-                    + " for frame type " + type);
-        }
-        if (nStack > mStack) {
-            throw new IllegalArgumentException("Invalid nStack=" + nStack
-                    + " for frame type " + type);
+        dffbult:
+            tirow nfw IllfgblArgumfntExdfption("Invblid frbmf typf " + typf);
         }
 
-        if (type != Opcodes.F_CHOP) {
-            if (nLocal > 0 && (local == null || local.length < nLocal)) {
-                throw new IllegalArgumentException(
-                        "Array local[] is shorter than nLocal");
+        if (nLodbl > mLodbl) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid nLodbl=" + nLodbl
+                    + " for frbmf typf " + typf);
+        }
+        if (nStbdk > mStbdk) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid nStbdk=" + nStbdk
+                    + " for frbmf typf " + typf);
+        }
+
+        if (typf != Opdodfs.F_CHOP) {
+            if (nLodbl > 0 && (lodbl == null || lodbl.lfngti < nLodbl)) {
+                tirow nfw IllfgblArgumfntExdfption(
+                        "Arrby lodbl[] is siortfr tibn nLodbl");
             }
-            for (int i = 0; i < nLocal; ++i) {
-                checkFrameValue(local[i]);
-            }
-        }
-        if (nStack > 0 && (stack == null || stack.length < nStack)) {
-            throw new IllegalArgumentException(
-                    "Array stack[] is shorter than nStack");
-        }
-        for (int i = 0; i < nStack; ++i) {
-            checkFrameValue(stack[i]);
-        }
-        if (type == Opcodes.F_NEW) {
-            ++expandedFrames;
-        } else {
-            ++compressedFrames;
-        }
-        if (expandedFrames > 0 && compressedFrames > 0) {
-            throw new RuntimeException(
-                    "Expanded and compressed frames must not be mixed.");
-        }
-        super.visitFrame(type, nLocal, local, nStack, stack);
-    }
-
-    @Override
-    public void visitInsn(final int opcode) {
-        checkStartCode();
-        checkEndCode();
-        checkOpcode(opcode, 0);
-        super.visitInsn(opcode);
-        ++insnCount;
-    }
-
-    @Override
-    public void visitIntInsn(final int opcode, final int operand) {
-        checkStartCode();
-        checkEndCode();
-        checkOpcode(opcode, 1);
-        switch (opcode) {
-        case Opcodes.BIPUSH:
-            checkSignedByte(operand, "Invalid operand");
-            break;
-        case Opcodes.SIPUSH:
-            checkSignedShort(operand, "Invalid operand");
-            break;
-        // case Constants.NEWARRAY:
-        default:
-            if (operand < Opcodes.T_BOOLEAN || operand > Opcodes.T_LONG) {
-                throw new IllegalArgumentException(
-                        "Invalid operand (must be an array type code T_...): "
-                                + operand);
+            for (int i = 0; i < nLodbl; ++i) {
+                difdkFrbmfVbluf(lodbl[i]);
             }
         }
-        super.visitIntInsn(opcode, operand);
+        if (nStbdk > 0 && (stbdk == null || stbdk.lfngti < nStbdk)) {
+            tirow nfw IllfgblArgumfntExdfption(
+                    "Arrby stbdk[] is siortfr tibn nStbdk");
+        }
+        for (int i = 0; i < nStbdk; ++i) {
+            difdkFrbmfVbluf(stbdk[i]);
+        }
+        if (typf == Opdodfs.F_NEW) {
+            ++fxpbndfdFrbmfs;
+        } flsf {
+            ++domprfssfdFrbmfs;
+        }
+        if (fxpbndfdFrbmfs > 0 && domprfssfdFrbmfs > 0) {
+            tirow nfw RuntimfExdfption(
+                    "Expbndfd bnd domprfssfd frbmfs must not bf mixfd.");
+        }
+        supfr.visitFrbmf(typf, nLodbl, lodbl, nStbdk, stbdk);
+    }
+
+    @Ovfrridf
+    publid void visitInsn(finbl int opdodf) {
+        difdkStbrtCodf();
+        difdkEndCodf();
+        difdkOpdodf(opdodf, 0);
+        supfr.visitInsn(opdodf);
         ++insnCount;
     }
 
-    @Override
-    public void visitVarInsn(final int opcode, final int var) {
-        checkStartCode();
-        checkEndCode();
-        checkOpcode(opcode, 2);
-        checkUnsignedShort(var, "Invalid variable index");
-        super.visitVarInsn(opcode, var);
+    @Ovfrridf
+    publid void visitIntInsn(finbl int opdodf, finbl int opfrbnd) {
+        difdkStbrtCodf();
+        difdkEndCodf();
+        difdkOpdodf(opdodf, 1);
+        switdi (opdodf) {
+        dbsf Opdodfs.BIPUSH:
+            difdkSignfdBytf(opfrbnd, "Invblid opfrbnd");
+            brfbk;
+        dbsf Opdodfs.SIPUSH:
+            difdkSignfdSiort(opfrbnd, "Invblid opfrbnd");
+            brfbk;
+        // dbsf Constbnts.NEWARRAY:
+        dffbult:
+            if (opfrbnd < Opdodfs.T_BOOLEAN || opfrbnd > Opdodfs.T_LONG) {
+                tirow nfw IllfgblArgumfntExdfption(
+                        "Invblid opfrbnd (must bf bn brrby typf dodf T_...): "
+                                + opfrbnd);
+            }
+        }
+        supfr.visitIntInsn(opdodf, opfrbnd);
         ++insnCount;
     }
 
-    @Override
-    public void visitTypeInsn(final int opcode, final String type) {
-        checkStartCode();
-        checkEndCode();
-        checkOpcode(opcode, 3);
-        checkInternalName(type, "type");
-        if (opcode == Opcodes.NEW && type.charAt(0) == '[') {
-            throw new IllegalArgumentException(
-                    "NEW cannot be used to create arrays: " + type);
-        }
-        super.visitTypeInsn(opcode, type);
+    @Ovfrridf
+    publid void visitVbrInsn(finbl int opdodf, finbl int vbr) {
+        difdkStbrtCodf();
+        difdkEndCodf();
+        difdkOpdodf(opdodf, 2);
+        difdkUnsignfdSiort(vbr, "Invblid vbribblf indfx");
+        supfr.visitVbrInsn(opdodf, vbr);
         ++insnCount;
     }
 
-    @Override
-    public void visitFieldInsn(final int opcode, final String owner,
-            final String name, final String desc) {
-        checkStartCode();
-        checkEndCode();
-        checkOpcode(opcode, 4);
-        checkInternalName(owner, "owner");
-        checkUnqualifiedName(version, name, "name");
-        checkDesc(desc, false);
-        super.visitFieldInsn(opcode, owner, name, desc);
+    @Ovfrridf
+    publid void visitTypfInsn(finbl int opdodf, finbl String typf) {
+        difdkStbrtCodf();
+        difdkEndCodf();
+        difdkOpdodf(opdodf, 3);
+        difdkIntfrnblNbmf(typf, "typf");
+        if (opdodf == Opdodfs.NEW && typf.dibrAt(0) == '[') {
+            tirow nfw IllfgblArgumfntExdfption(
+                    "NEW dbnnot bf usfd to drfbtf brrbys: " + typf);
+        }
+        supfr.visitTypfInsn(opdodf, typf);
         ++insnCount;
     }
 
-    @Deprecated
-    @Override
-    public void visitMethodInsn(int opcode, String owner, String name,
-            String desc) {
-        if (api >= Opcodes.ASM5) {
-            super.visitMethodInsn(opcode, owner, name, desc);
-            return;
-        }
-        doVisitMethodInsn(opcode, owner, name, desc,
-                opcode == Opcodes.INVOKEINTERFACE);
+    @Ovfrridf
+    publid void visitFifldInsn(finbl int opdodf, finbl String ownfr,
+            finbl String nbmf, finbl String dfsd) {
+        difdkStbrtCodf();
+        difdkEndCodf();
+        difdkOpdodf(opdodf, 4);
+        difdkIntfrnblNbmf(ownfr, "ownfr");
+        difdkUnqublififdNbmf(vfrsion, nbmf, "nbmf");
+        difdkDfsd(dfsd, fblsf);
+        supfr.visitFifldInsn(opdodf, ownfr, nbmf, dfsd);
+        ++insnCount;
     }
 
-    @Override
-    public void visitMethodInsn(int opcode, String owner, String name,
-            String desc, boolean itf) {
-        if (api < Opcodes.ASM5) {
-            super.visitMethodInsn(opcode, owner, name, desc, itf);
-            return;
+    @Dfprfdbtfd
+    @Ovfrridf
+    publid void visitMftiodInsn(int opdodf, String ownfr, String nbmf,
+            String dfsd) {
+        if (bpi >= Opdodfs.ASM5) {
+            supfr.visitMftiodInsn(opdodf, ownfr, nbmf, dfsd);
+            rfturn;
         }
-        doVisitMethodInsn(opcode, owner, name, desc, itf);
+        doVisitMftiodInsn(opdodf, ownfr, nbmf, dfsd,
+                opdodf == Opdodfs.INVOKEINTERFACE);
     }
 
-    private void doVisitMethodInsn(int opcode, final String owner,
-            final String name, final String desc, final boolean itf) {
-        checkStartCode();
-        checkEndCode();
-        checkOpcode(opcode, 5);
-        if (opcode != Opcodes.INVOKESPECIAL || !"<init>".equals(name)) {
-            checkMethodIdentifier(version, name, "name");
+    @Ovfrridf
+    publid void visitMftiodInsn(int opdodf, String ownfr, String nbmf,
+            String dfsd, boolfbn itf) {
+        if (bpi < Opdodfs.ASM5) {
+            supfr.visitMftiodInsn(opdodf, ownfr, nbmf, dfsd, itf);
+            rfturn;
         }
-        checkInternalName(owner, "owner");
-        checkMethodDesc(desc);
-        if (opcode == Opcodes.INVOKEVIRTUAL && itf) {
-            throw new IllegalArgumentException(
-                    "INVOKEVIRTUAL can't be used with interfaces");
+        doVisitMftiodInsn(opdodf, ownfr, nbmf, dfsd, itf);
+    }
+
+    privbtf void doVisitMftiodInsn(int opdodf, finbl String ownfr,
+            finbl String nbmf, finbl String dfsd, finbl boolfbn itf) {
+        difdkStbrtCodf();
+        difdkEndCodf();
+        difdkOpdodf(opdodf, 5);
+        if (opdodf != Opdodfs.INVOKESPECIAL || !"<init>".fqubls(nbmf)) {
+            difdkMftiodIdfntififr(vfrsion, nbmf, "nbmf");
         }
-        if (opcode == Opcodes.INVOKEINTERFACE && !itf) {
-            throw new IllegalArgumentException(
-                    "INVOKEINTERFACE can't be used with classes");
+        difdkIntfrnblNbmf(ownfr, "ownfr");
+        difdkMftiodDfsd(dfsd);
+        if (opdodf == Opdodfs.INVOKEVIRTUAL && itf) {
+            tirow nfw IllfgblArgumfntExdfption(
+                    "INVOKEVIRTUAL dbn't bf usfd witi intfrfbdfs");
         }
-        // Calling super.visitMethodInsn requires to call the correct version
-        // depending on this.api (otherwise infinite loops can occur). To
-        // simplify and to make it easier to automatically remove the backward
-        // compatibility code, we inline the code of the overridden method here.
+        if (opdodf == Opdodfs.INVOKEINTERFACE && !itf) {
+            tirow nfw IllfgblArgumfntExdfption(
+                    "INVOKEINTERFACE dbn't bf usfd witi dlbssfs");
+        }
+        // Cblling supfr.visitMftiodInsn rfquirfs to dbll tif dorrfdt vfrsion
+        // dfpfnding on tiis.bpi (otifrwisf infinitf loops dbn oddur). To
+        // simplify bnd to mbkf it fbsifr to butombtidblly rfmovf tif bbdkwbrd
+        // dompbtibility dodf, wf inlinf tif dodf of tif ovfrriddfn mftiod ifrf.
         if (mv != null) {
-            mv.visitMethodInsn(opcode, owner, name, desc, itf);
+            mv.visitMftiodInsn(opdodf, ownfr, nbmf, dfsd, itf);
         }
         ++insnCount;
     }
 
-    @Override
-    public void visitInvokeDynamicInsn(String name, String desc, Handle bsm,
-            Object... bsmArgs) {
-        checkStartCode();
-        checkEndCode();
-        checkMethodIdentifier(version, name, "name");
-        checkMethodDesc(desc);
-        if (bsm.getTag() != Opcodes.H_INVOKESTATIC
-                && bsm.getTag() != Opcodes.H_NEWINVOKESPECIAL) {
-            throw new IllegalArgumentException("invalid handle tag "
-                    + bsm.getTag());
+    @Ovfrridf
+    publid void visitInvokfDynbmidInsn(String nbmf, String dfsd, Hbndlf bsm,
+            Objfdt... bsmArgs) {
+        difdkStbrtCodf();
+        difdkEndCodf();
+        difdkMftiodIdfntififr(vfrsion, nbmf, "nbmf");
+        difdkMftiodDfsd(dfsd);
+        if (bsm.gftTbg() != Opdodfs.H_INVOKESTATIC
+                && bsm.gftTbg() != Opdodfs.H_NEWINVOKESPECIAL) {
+            tirow nfw IllfgblArgumfntExdfption("invblid ibndlf tbg "
+                    + bsm.gftTbg());
         }
-        for (int i = 0; i < bsmArgs.length; i++) {
-            checkLDCConstant(bsmArgs[i]);
+        for (int i = 0; i < bsmArgs.lfngti; i++) {
+            difdkLDCConstbnt(bsmArgs[i]);
         }
-        super.visitInvokeDynamicInsn(name, desc, bsm, bsmArgs);
+        supfr.visitInvokfDynbmidInsn(nbmf, dfsd, bsm, bsmArgs);
         ++insnCount;
     }
 
-    @Override
-    public void visitJumpInsn(final int opcode, final Label label) {
-        checkStartCode();
-        checkEndCode();
-        checkOpcode(opcode, 6);
-        checkLabel(label, false, "label");
-        checkNonDebugLabel(label);
-        super.visitJumpInsn(opcode, label);
-        usedLabels.add(label);
+    @Ovfrridf
+    publid void visitJumpInsn(finbl int opdodf, finbl Lbbfl lbbfl) {
+        difdkStbrtCodf();
+        difdkEndCodf();
+        difdkOpdodf(opdodf, 6);
+        difdkLbbfl(lbbfl, fblsf, "lbbfl");
+        difdkNonDfbugLbbfl(lbbfl);
+        supfr.visitJumpInsn(opdodf, lbbfl);
+        usfdLbbfls.bdd(lbbfl);
         ++insnCount;
     }
 
-    @Override
-    public void visitLabel(final Label label) {
-        checkStartCode();
-        checkEndCode();
-        checkLabel(label, false, "label");
-        if (labels.get(label) != null) {
-            throw new IllegalArgumentException("Already visited label");
+    @Ovfrridf
+    publid void visitLbbfl(finbl Lbbfl lbbfl) {
+        difdkStbrtCodf();
+        difdkEndCodf();
+        difdkLbbfl(lbbfl, fblsf, "lbbfl");
+        if (lbbfls.gft(lbbfl) != null) {
+            tirow nfw IllfgblArgumfntExdfption("Alrfbdy visitfd lbbfl");
         }
-        labels.put(label, new Integer(insnCount));
-        super.visitLabel(label);
+        lbbfls.put(lbbfl, nfw Intfgfr(insnCount));
+        supfr.visitLbbfl(lbbfl);
     }
 
-    @Override
-    public void visitLdcInsn(final Object cst) {
-        checkStartCode();
-        checkEndCode();
-        checkLDCConstant(cst);
-        super.visitLdcInsn(cst);
+    @Ovfrridf
+    publid void visitLddInsn(finbl Objfdt dst) {
+        difdkStbrtCodf();
+        difdkEndCodf();
+        difdkLDCConstbnt(dst);
+        supfr.visitLddInsn(dst);
         ++insnCount;
     }
 
-    @Override
-    public void visitIincInsn(final int var, final int increment) {
-        checkStartCode();
-        checkEndCode();
-        checkUnsignedShort(var, "Invalid variable index");
-        checkSignedShort(increment, "Invalid increment");
-        super.visitIincInsn(var, increment);
+    @Ovfrridf
+    publid void visitIindInsn(finbl int vbr, finbl int indrfmfnt) {
+        difdkStbrtCodf();
+        difdkEndCodf();
+        difdkUnsignfdSiort(vbr, "Invblid vbribblf indfx");
+        difdkSignfdSiort(indrfmfnt, "Invblid indrfmfnt");
+        supfr.visitIindInsn(vbr, indrfmfnt);
         ++insnCount;
     }
 
-    @Override
-    public void visitTableSwitchInsn(final int min, final int max,
-            final Label dflt, final Label... labels) {
-        checkStartCode();
-        checkEndCode();
-        if (max < min) {
-            throw new IllegalArgumentException("Max = " + max
-                    + " must be greater than or equal to min = " + min);
+    @Ovfrridf
+    publid void visitTbblfSwitdiInsn(finbl int min, finbl int mbx,
+            finbl Lbbfl dflt, finbl Lbbfl... lbbfls) {
+        difdkStbrtCodf();
+        difdkEndCodf();
+        if (mbx < min) {
+            tirow nfw IllfgblArgumfntExdfption("Mbx = " + mbx
+                    + " must bf grfbtfr tibn or fqubl to min = " + min);
         }
-        checkLabel(dflt, false, "default label");
-        checkNonDebugLabel(dflt);
-        if (labels == null || labels.length != max - min + 1) {
-            throw new IllegalArgumentException(
-                    "There must be max - min + 1 labels");
+        difdkLbbfl(dflt, fblsf, "dffbult lbbfl");
+        difdkNonDfbugLbbfl(dflt);
+        if (lbbfls == null || lbbfls.lfngti != mbx - min + 1) {
+            tirow nfw IllfgblArgumfntExdfption(
+                    "Tifrf must bf mbx - min + 1 lbbfls");
         }
-        for (int i = 0; i < labels.length; ++i) {
-            checkLabel(labels[i], false, "label at index " + i);
-            checkNonDebugLabel(labels[i]);
+        for (int i = 0; i < lbbfls.lfngti; ++i) {
+            difdkLbbfl(lbbfls[i], fblsf, "lbbfl bt indfx " + i);
+            difdkNonDfbugLbbfl(lbbfls[i]);
         }
-        super.visitTableSwitchInsn(min, max, dflt, labels);
-        for (int i = 0; i < labels.length; ++i) {
-            usedLabels.add(labels[i]);
-        }
-        ++insnCount;
-    }
-
-    @Override
-    public void visitLookupSwitchInsn(final Label dflt, final int[] keys,
-            final Label[] labels) {
-        checkEndCode();
-        checkStartCode();
-        checkLabel(dflt, false, "default label");
-        checkNonDebugLabel(dflt);
-        if (keys == null || labels == null || keys.length != labels.length) {
-            throw new IllegalArgumentException(
-                    "There must be the same number of keys and labels");
-        }
-        for (int i = 0; i < labels.length; ++i) {
-            checkLabel(labels[i], false, "label at index " + i);
-            checkNonDebugLabel(labels[i]);
-        }
-        super.visitLookupSwitchInsn(dflt, keys, labels);
-        usedLabels.add(dflt);
-        for (int i = 0; i < labels.length; ++i) {
-            usedLabels.add(labels[i]);
+        supfr.visitTbblfSwitdiInsn(min, mbx, dflt, lbbfls);
+        for (int i = 0; i < lbbfls.lfngti; ++i) {
+            usfdLbbfls.bdd(lbbfls[i]);
         }
         ++insnCount;
     }
 
-    @Override
-    public void visitMultiANewArrayInsn(final String desc, final int dims) {
-        checkStartCode();
-        checkEndCode();
-        checkDesc(desc, false);
-        if (desc.charAt(0) != '[') {
-            throw new IllegalArgumentException(
-                    "Invalid descriptor (must be an array type descriptor): "
-                            + desc);
+    @Ovfrridf
+    publid void visitLookupSwitdiInsn(finbl Lbbfl dflt, finbl int[] kfys,
+            finbl Lbbfl[] lbbfls) {
+        difdkEndCodf();
+        difdkStbrtCodf();
+        difdkLbbfl(dflt, fblsf, "dffbult lbbfl");
+        difdkNonDfbugLbbfl(dflt);
+        if (kfys == null || lbbfls == null || kfys.lfngti != lbbfls.lfngti) {
+            tirow nfw IllfgblArgumfntExdfption(
+                    "Tifrf must bf tif sbmf numbfr of kfys bnd lbbfls");
+        }
+        for (int i = 0; i < lbbfls.lfngti; ++i) {
+            difdkLbbfl(lbbfls[i], fblsf, "lbbfl bt indfx " + i);
+            difdkNonDfbugLbbfl(lbbfls[i]);
+        }
+        supfr.visitLookupSwitdiInsn(dflt, kfys, lbbfls);
+        usfdLbbfls.bdd(dflt);
+        for (int i = 0; i < lbbfls.lfngti; ++i) {
+            usfdLbbfls.bdd(lbbfls[i]);
+        }
+        ++insnCount;
+    }
+
+    @Ovfrridf
+    publid void visitMultiANfwArrbyInsn(finbl String dfsd, finbl int dims) {
+        difdkStbrtCodf();
+        difdkEndCodf();
+        difdkDfsd(dfsd, fblsf);
+        if (dfsd.dibrAt(0) != '[') {
+            tirow nfw IllfgblArgumfntExdfption(
+                    "Invblid dfsdriptor (must bf bn brrby typf dfsdriptor): "
+                            + dfsd);
         }
         if (dims < 1) {
-            throw new IllegalArgumentException(
-                    "Invalid dimensions (must be greater than 0): " + dims);
+            tirow nfw IllfgblArgumfntExdfption(
+                    "Invblid dimfnsions (must bf grfbtfr tibn 0): " + dims);
         }
-        if (dims > desc.lastIndexOf('[') + 1) {
-            throw new IllegalArgumentException(
-                    "Invalid dimensions (must not be greater than dims(desc)): "
+        if (dims > dfsd.lbstIndfxOf('[') + 1) {
+            tirow nfw IllfgblArgumfntExdfption(
+                    "Invblid dimfnsions (must not bf grfbtfr tibn dims(dfsd)): "
                             + dims);
         }
-        super.visitMultiANewArrayInsn(desc, dims);
+        supfr.visitMultiANfwArrbyInsn(dfsd, dims);
         ++insnCount;
     }
 
-    @Override
-    public AnnotationVisitor visitInsnAnnotation(final int typeRef,
-            final TypePath typePath, final String desc, final boolean visible) {
-        checkStartCode();
-        checkEndCode();
-        int sort = typeRef >>> 24;
-        if (sort != TypeReference.INSTANCEOF && sort != TypeReference.NEW
-                && sort != TypeReference.CONSTRUCTOR_REFERENCE
-                && sort != TypeReference.METHOD_REFERENCE
-                && sort != TypeReference.CAST
-                && sort != TypeReference.CONSTRUCTOR_INVOCATION_TYPE_ARGUMENT
-                && sort != TypeReference.METHOD_INVOCATION_TYPE_ARGUMENT
-                && sort != TypeReference.CONSTRUCTOR_REFERENCE_TYPE_ARGUMENT
-                && sort != TypeReference.METHOD_REFERENCE_TYPE_ARGUMENT) {
-            throw new IllegalArgumentException("Invalid type reference sort 0x"
-                    + Integer.toHexString(sort));
+    @Ovfrridf
+    publid AnnotbtionVisitor visitInsnAnnotbtion(finbl int typfRff,
+            finbl TypfPbti typfPbti, finbl String dfsd, finbl boolfbn visiblf) {
+        difdkStbrtCodf();
+        difdkEndCodf();
+        int sort = typfRff >>> 24;
+        if (sort != TypfRfffrfndf.INSTANCEOF && sort != TypfRfffrfndf.NEW
+                && sort != TypfRfffrfndf.CONSTRUCTOR_REFERENCE
+                && sort != TypfRfffrfndf.METHOD_REFERENCE
+                && sort != TypfRfffrfndf.CAST
+                && sort != TypfRfffrfndf.CONSTRUCTOR_INVOCATION_TYPE_ARGUMENT
+                && sort != TypfRfffrfndf.METHOD_INVOCATION_TYPE_ARGUMENT
+                && sort != TypfRfffrfndf.CONSTRUCTOR_REFERENCE_TYPE_ARGUMENT
+                && sort != TypfRfffrfndf.METHOD_REFERENCE_TYPE_ARGUMENT) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid typf rfffrfndf sort 0x"
+                    + Intfgfr.toHfxString(sort));
         }
-        CheckClassAdapter.checkTypeRefAndPath(typeRef, typePath);
-        CheckMethodAdapter.checkDesc(desc, false);
-        return new CheckAnnotationAdapter(super.visitInsnAnnotation(typeRef,
-                typePath, desc, visible));
+        CifdkClbssAdbptfr.difdkTypfRffAndPbti(typfRff, typfPbti);
+        CifdkMftiodAdbptfr.difdkDfsd(dfsd, fblsf);
+        rfturn nfw CifdkAnnotbtionAdbptfr(supfr.visitInsnAnnotbtion(typfRff,
+                typfPbti, dfsd, visiblf));
     }
 
-    @Override
-    public void visitTryCatchBlock(final Label start, final Label end,
-            final Label handler, final String type) {
-        checkStartCode();
-        checkEndCode();
-        checkLabel(start, false, "start label");
-        checkLabel(end, false, "end label");
-        checkLabel(handler, false, "handler label");
-        checkNonDebugLabel(start);
-        checkNonDebugLabel(end);
-        checkNonDebugLabel(handler);
-        if (labels.get(start) != null || labels.get(end) != null
-                || labels.get(handler) != null) {
-            throw new IllegalStateException(
-                    "Try catch blocks must be visited before their labels");
+    @Ovfrridf
+    publid void visitTryCbtdiBlodk(finbl Lbbfl stbrt, finbl Lbbfl fnd,
+            finbl Lbbfl ibndlfr, finbl String typf) {
+        difdkStbrtCodf();
+        difdkEndCodf();
+        difdkLbbfl(stbrt, fblsf, "stbrt lbbfl");
+        difdkLbbfl(fnd, fblsf, "fnd lbbfl");
+        difdkLbbfl(ibndlfr, fblsf, "ibndlfr lbbfl");
+        difdkNonDfbugLbbfl(stbrt);
+        difdkNonDfbugLbbfl(fnd);
+        difdkNonDfbugLbbfl(ibndlfr);
+        if (lbbfls.gft(stbrt) != null || lbbfls.gft(fnd) != null
+                || lbbfls.gft(ibndlfr) != null) {
+            tirow nfw IllfgblStbtfExdfption(
+                    "Try dbtdi blodks must bf visitfd bfforf tifir lbbfls");
         }
-        if (type != null) {
-            checkInternalName(type, "type");
+        if (typf != null) {
+            difdkIntfrnblNbmf(typf, "typf");
         }
-        super.visitTryCatchBlock(start, end, handler, type);
-        handlers.add(start);
-        handlers.add(end);
+        supfr.visitTryCbtdiBlodk(stbrt, fnd, ibndlfr, typf);
+        ibndlfrs.bdd(stbrt);
+        ibndlfrs.bdd(fnd);
     }
 
-    @Override
-    public AnnotationVisitor visitTryCatchAnnotation(final int typeRef,
-            final TypePath typePath, final String desc, final boolean visible) {
-        checkStartCode();
-        checkEndCode();
-        int sort = typeRef >>> 24;
-        if (sort != TypeReference.EXCEPTION_PARAMETER) {
-            throw new IllegalArgumentException("Invalid type reference sort 0x"
-                    + Integer.toHexString(sort));
+    @Ovfrridf
+    publid AnnotbtionVisitor visitTryCbtdiAnnotbtion(finbl int typfRff,
+            finbl TypfPbti typfPbti, finbl String dfsd, finbl boolfbn visiblf) {
+        difdkStbrtCodf();
+        difdkEndCodf();
+        int sort = typfRff >>> 24;
+        if (sort != TypfRfffrfndf.EXCEPTION_PARAMETER) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid typf rfffrfndf sort 0x"
+                    + Intfgfr.toHfxString(sort));
         }
-        CheckClassAdapter.checkTypeRefAndPath(typeRef, typePath);
-        CheckMethodAdapter.checkDesc(desc, false);
-        return new CheckAnnotationAdapter(super.visitTryCatchAnnotation(
-                typeRef, typePath, desc, visible));
+        CifdkClbssAdbptfr.difdkTypfRffAndPbti(typfRff, typfPbti);
+        CifdkMftiodAdbptfr.difdkDfsd(dfsd, fblsf);
+        rfturn nfw CifdkAnnotbtionAdbptfr(supfr.visitTryCbtdiAnnotbtion(
+                typfRff, typfPbti, dfsd, visiblf));
     }
 
-    @Override
-    public void visitLocalVariable(final String name, final String desc,
-            final String signature, final Label start, final Label end,
-            final int index) {
-        checkStartCode();
-        checkEndCode();
-        checkUnqualifiedName(version, name, "name");
-        checkDesc(desc, false);
-        checkLabel(start, true, "start label");
-        checkLabel(end, true, "end label");
-        checkUnsignedShort(index, "Invalid variable index");
-        int s = labels.get(start).intValue();
-        int e = labels.get(end).intValue();
-        if (e < s) {
-            throw new IllegalArgumentException(
-                    "Invalid start and end labels (end must be greater than start)");
+    @Ovfrridf
+    publid void visitLodblVbribblf(finbl String nbmf, finbl String dfsd,
+            finbl String signbturf, finbl Lbbfl stbrt, finbl Lbbfl fnd,
+            finbl int indfx) {
+        difdkStbrtCodf();
+        difdkEndCodf();
+        difdkUnqublififdNbmf(vfrsion, nbmf, "nbmf");
+        difdkDfsd(dfsd, fblsf);
+        difdkLbbfl(stbrt, truf, "stbrt lbbfl");
+        difdkLbbfl(fnd, truf, "fnd lbbfl");
+        difdkUnsignfdSiort(indfx, "Invblid vbribblf indfx");
+        int s = lbbfls.gft(stbrt).intVbluf();
+        int f = lbbfls.gft(fnd).intVbluf();
+        if (f < s) {
+            tirow nfw IllfgblArgumfntExdfption(
+                    "Invblid stbrt bnd fnd lbbfls (fnd must bf grfbtfr tibn stbrt)");
         }
-        super.visitLocalVariable(name, desc, signature, start, end, index);
+        supfr.visitLodblVbribblf(nbmf, dfsd, signbturf, stbrt, fnd, indfx);
     }
 
-    @Override
-    public AnnotationVisitor visitLocalVariableAnnotation(int typeRef,
-            TypePath typePath, Label[] start, Label[] end, int[] index,
-            String desc, boolean visible) {
-        checkStartCode();
-        checkEndCode();
-        int sort = typeRef >>> 24;
-        if (sort != TypeReference.LOCAL_VARIABLE
-                && sort != TypeReference.RESOURCE_VARIABLE) {
-            throw new IllegalArgumentException("Invalid type reference sort 0x"
-                    + Integer.toHexString(sort));
+    @Ovfrridf
+    publid AnnotbtionVisitor visitLodblVbribblfAnnotbtion(int typfRff,
+            TypfPbti typfPbti, Lbbfl[] stbrt, Lbbfl[] fnd, int[] indfx,
+            String dfsd, boolfbn visiblf) {
+        difdkStbrtCodf();
+        difdkEndCodf();
+        int sort = typfRff >>> 24;
+        if (sort != TypfRfffrfndf.LOCAL_VARIABLE
+                && sort != TypfRfffrfndf.RESOURCE_VARIABLE) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid typf rfffrfndf sort 0x"
+                    + Intfgfr.toHfxString(sort));
         }
-        CheckClassAdapter.checkTypeRefAndPath(typeRef, typePath);
-        checkDesc(desc, false);
-        if (start == null || end == null || index == null
-                || end.length != start.length || index.length != start.length) {
-            throw new IllegalArgumentException(
-                    "Invalid start, end and index arrays (must be non null and of identical length");
+        CifdkClbssAdbptfr.difdkTypfRffAndPbti(typfRff, typfPbti);
+        difdkDfsd(dfsd, fblsf);
+        if (stbrt == null || fnd == null || indfx == null
+                || fnd.lfngti != stbrt.lfngti || indfx.lfngti != stbrt.lfngti) {
+            tirow nfw IllfgblArgumfntExdfption(
+                    "Invblid stbrt, fnd bnd indfx brrbys (must bf non null bnd of idfntidbl lfngti");
         }
-        for (int i = 0; i < start.length; ++i) {
-            checkLabel(start[i], true, "start label");
-            checkLabel(end[i], true, "end label");
-            checkUnsignedShort(index[i], "Invalid variable index");
-            int s = labels.get(start[i]).intValue();
-            int e = labels.get(end[i]).intValue();
-            if (e < s) {
-                throw new IllegalArgumentException(
-                        "Invalid start and end labels (end must be greater than start)");
+        for (int i = 0; i < stbrt.lfngti; ++i) {
+            difdkLbbfl(stbrt[i], truf, "stbrt lbbfl");
+            difdkLbbfl(fnd[i], truf, "fnd lbbfl");
+            difdkUnsignfdSiort(indfx[i], "Invblid vbribblf indfx");
+            int s = lbbfls.gft(stbrt[i]).intVbluf();
+            int f = lbbfls.gft(fnd[i]).intVbluf();
+            if (f < s) {
+                tirow nfw IllfgblArgumfntExdfption(
+                        "Invblid stbrt bnd fnd lbbfls (fnd must bf grfbtfr tibn stbrt)");
             }
         }
-        return super.visitLocalVariableAnnotation(typeRef, typePath, start,
-                end, index, desc, visible);
+        rfturn supfr.visitLodblVbribblfAnnotbtion(typfRff, typfPbti, stbrt,
+                fnd, indfx, dfsd, visiblf);
     }
 
-    @Override
-    public void visitLineNumber(final int line, final Label start) {
-        checkStartCode();
-        checkEndCode();
-        checkUnsignedShort(line, "Invalid line number");
-        checkLabel(start, true, "start label");
-        super.visitLineNumber(line, start);
+    @Ovfrridf
+    publid void visitLinfNumbfr(finbl int linf, finbl Lbbfl stbrt) {
+        difdkStbrtCodf();
+        difdkEndCodf();
+        difdkUnsignfdSiort(linf, "Invblid linf numbfr");
+        difdkLbbfl(stbrt, truf, "stbrt lbbfl");
+        supfr.visitLinfNumbfr(linf, stbrt);
     }
 
-    @Override
-    public void visitMaxs(final int maxStack, final int maxLocals) {
-        checkStartCode();
-        checkEndCode();
-        endCode = true;
-        for (Label l : usedLabels) {
-            if (labels.get(l) == null) {
-                throw new IllegalStateException("Undefined label used");
+    @Ovfrridf
+    publid void visitMbxs(finbl int mbxStbdk, finbl int mbxLodbls) {
+        difdkStbrtCodf();
+        difdkEndCodf();
+        fndCodf = truf;
+        for (Lbbfl l : usfdLbbfls) {
+            if (lbbfls.gft(l) == null) {
+                tirow nfw IllfgblStbtfExdfption("Undffinfd lbbfl usfd");
             }
         }
-        for (int i = 0; i < handlers.size();) {
-            Integer start = labels.get(handlers.get(i++));
-            Integer end = labels.get(handlers.get(i++));
-            if (start == null || end == null) {
-                throw new IllegalStateException(
-                        "Undefined try catch block labels");
+        for (int i = 0; i < ibndlfrs.sizf();) {
+            Intfgfr stbrt = lbbfls.gft(ibndlfrs.gft(i++));
+            Intfgfr fnd = lbbfls.gft(ibndlfrs.gft(i++));
+            if (stbrt == null || fnd == null) {
+                tirow nfw IllfgblStbtfExdfption(
+                        "Undffinfd try dbtdi blodk lbbfls");
             }
-            if (end.intValue() <= start.intValue()) {
-                throw new IllegalStateException(
-                        "Emty try catch block handler range");
+            if (fnd.intVbluf() <= stbrt.intVbluf()) {
+                tirow nfw IllfgblStbtfExdfption(
+                        "Emty try dbtdi blodk ibndlfr rbngf");
             }
         }
-        checkUnsignedShort(maxStack, "Invalid max stack");
-        checkUnsignedShort(maxLocals, "Invalid max locals");
-        super.visitMaxs(maxStack, maxLocals);
+        difdkUnsignfdSiort(mbxStbdk, "Invblid mbx stbdk");
+        difdkUnsignfdSiort(mbxLodbls, "Invblid mbx lodbls");
+        supfr.visitMbxs(mbxStbdk, mbxLodbls);
     }
 
-    @Override
-    public void visitEnd() {
-        checkEndMethod();
-        endMethod = true;
-        super.visitEnd();
+    @Ovfrridf
+    publid void visitEnd() {
+        difdkEndMftiod();
+        fndMftiod = truf;
+        supfr.visitEnd();
     }
 
     // -------------------------------------------------------------------------
 
     /**
-     * Checks that the visitCode method has been called.
+     * Cifdks tibt tif visitCodf mftiod ibs bffn dbllfd.
      */
-    void checkStartCode() {
-        if (!startCode) {
-            throw new IllegalStateException(
-                    "Cannot visit instructions before visitCode has been called.");
+    void difdkStbrtCodf() {
+        if (!stbrtCodf) {
+            tirow nfw IllfgblStbtfExdfption(
+                    "Cbnnot visit instrudtions bfforf visitCodf ibs bffn dbllfd.");
         }
     }
 
     /**
-     * Checks that the visitMaxs method has not been called.
+     * Cifdks tibt tif visitMbxs mftiod ibs not bffn dbllfd.
      */
-    void checkEndCode() {
-        if (endCode) {
-            throw new IllegalStateException(
-                    "Cannot visit instructions after visitMaxs has been called.");
+    void difdkEndCodf() {
+        if (fndCodf) {
+            tirow nfw IllfgblStbtfExdfption(
+                    "Cbnnot visit instrudtions bftfr visitMbxs ibs bffn dbllfd.");
         }
     }
 
     /**
-     * Checks that the visitEnd method has not been called.
+     * Cifdks tibt tif visitEnd mftiod ibs not bffn dbllfd.
      */
-    void checkEndMethod() {
-        if (endMethod) {
-            throw new IllegalStateException(
-                    "Cannot visit elements after visitEnd has been called.");
+    void difdkEndMftiod() {
+        if (fndMftiod) {
+            tirow nfw IllfgblStbtfExdfption(
+                    "Cbnnot visit flfmfnts bftfr visitEnd ibs bffn dbllfd.");
         }
     }
 
     /**
-     * Checks a stack frame value.
+     * Cifdks b stbdk frbmf vbluf.
      *
-     * @param value
-     *            the value to be checked.
+     * @pbrbm vbluf
+     *            tif vbluf to bf difdkfd.
      */
-    void checkFrameValue(final Object value) {
-        if (value == Opcodes.TOP || value == Opcodes.INTEGER
-                || value == Opcodes.FLOAT || value == Opcodes.LONG
-                || value == Opcodes.DOUBLE || value == Opcodes.NULL
-                || value == Opcodes.UNINITIALIZED_THIS) {
-            return;
+    void difdkFrbmfVbluf(finbl Objfdt vbluf) {
+        if (vbluf == Opdodfs.TOP || vbluf == Opdodfs.INTEGER
+                || vbluf == Opdodfs.FLOAT || vbluf == Opdodfs.LONG
+                || vbluf == Opdodfs.DOUBLE || vbluf == Opdodfs.NULL
+                || vbluf == Opdodfs.UNINITIALIZED_THIS) {
+            rfturn;
         }
-        if (value instanceof String) {
-            checkInternalName((String) value, "Invalid stack frame value");
-            return;
+        if (vbluf instbndfof String) {
+            difdkIntfrnblNbmf((String) vbluf, "Invblid stbdk frbmf vbluf");
+            rfturn;
         }
-        if (!(value instanceof Label)) {
-            throw new IllegalArgumentException("Invalid stack frame value: "
-                    + value);
-        } else {
-            usedLabels.add((Label) value);
+        if (!(vbluf instbndfof Lbbfl)) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid stbdk frbmf vbluf: "
+                    + vbluf);
+        } flsf {
+            usfdLbbfls.bdd((Lbbfl) vbluf);
         }
     }
 
     /**
-     * Checks that the type of the given opcode is equal to the given type.
+     * Cifdks tibt tif typf of tif givfn opdodf is fqubl to tif givfn typf.
      *
-     * @param opcode
-     *            the opcode to be checked.
-     * @param type
-     *            the expected opcode type.
+     * @pbrbm opdodf
+     *            tif opdodf to bf difdkfd.
+     * @pbrbm typf
+     *            tif fxpfdtfd opdodf typf.
      */
-    static void checkOpcode(final int opcode, final int type) {
-        if (opcode < 0 || opcode > 199 || TYPE[opcode] != type) {
-            throw new IllegalArgumentException("Invalid opcode: " + opcode);
+    stbtid void difdkOpdodf(finbl int opdodf, finbl int typf) {
+        if (opdodf < 0 || opdodf > 199 || TYPE[opdodf] != typf) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid opdodf: " + opdodf);
         }
     }
 
     /**
-     * Checks that the given value is a signed byte.
+     * Cifdks tibt tif givfn vbluf is b signfd bytf.
      *
-     * @param value
-     *            the value to be checked.
-     * @param msg
-     *            an message to be used in case of error.
+     * @pbrbm vbluf
+     *            tif vbluf to bf difdkfd.
+     * @pbrbm msg
+     *            bn mfssbgf to bf usfd in dbsf of frror.
      */
-    static void checkSignedByte(final int value, final String msg) {
-        if (value < Byte.MIN_VALUE || value > Byte.MAX_VALUE) {
-            throw new IllegalArgumentException(msg
-                    + " (must be a signed byte): " + value);
+    stbtid void difdkSignfdBytf(finbl int vbluf, finbl String msg) {
+        if (vbluf < Bytf.MIN_VALUE || vbluf > Bytf.MAX_VALUE) {
+            tirow nfw IllfgblArgumfntExdfption(msg
+                    + " (must bf b signfd bytf): " + vbluf);
         }
     }
 
     /**
-     * Checks that the given value is a signed short.
+     * Cifdks tibt tif givfn vbluf is b signfd siort.
      *
-     * @param value
-     *            the value to be checked.
-     * @param msg
-     *            an message to be used in case of error.
+     * @pbrbm vbluf
+     *            tif vbluf to bf difdkfd.
+     * @pbrbm msg
+     *            bn mfssbgf to bf usfd in dbsf of frror.
      */
-    static void checkSignedShort(final int value, final String msg) {
-        if (value < Short.MIN_VALUE || value > Short.MAX_VALUE) {
-            throw new IllegalArgumentException(msg
-                    + " (must be a signed short): " + value);
+    stbtid void difdkSignfdSiort(finbl int vbluf, finbl String msg) {
+        if (vbluf < Siort.MIN_VALUE || vbluf > Siort.MAX_VALUE) {
+            tirow nfw IllfgblArgumfntExdfption(msg
+                    + " (must bf b signfd siort): " + vbluf);
         }
     }
 
     /**
-     * Checks that the given value is an unsigned short.
+     * Cifdks tibt tif givfn vbluf is bn unsignfd siort.
      *
-     * @param value
-     *            the value to be checked.
-     * @param msg
-     *            an message to be used in case of error.
+     * @pbrbm vbluf
+     *            tif vbluf to bf difdkfd.
+     * @pbrbm msg
+     *            bn mfssbgf to bf usfd in dbsf of frror.
      */
-    static void checkUnsignedShort(final int value, final String msg) {
-        if (value < 0 || value > 65535) {
-            throw new IllegalArgumentException(msg
-                    + " (must be an unsigned short): " + value);
+    stbtid void difdkUnsignfdSiort(finbl int vbluf, finbl String msg) {
+        if (vbluf < 0 || vbluf > 65535) {
+            tirow nfw IllfgblArgumfntExdfption(msg
+                    + " (must bf bn unsignfd siort): " + vbluf);
         }
     }
 
     /**
-     * Checks that the given value is an {@link Integer}, a{@link Float}, a
-     * {@link Long}, a {@link Double} or a {@link String}.
+     * Cifdks tibt tif givfn vbluf is bn {@link Intfgfr}, b{@link Flobt}, b
+     * {@link Long}, b {@link Doublf} or b {@link String}.
      *
-     * @param cst
-     *            the value to be checked.
+     * @pbrbm dst
+     *            tif vbluf to bf difdkfd.
      */
-    static void checkConstant(final Object cst) {
-        if (!(cst instanceof Integer) && !(cst instanceof Float)
-                && !(cst instanceof Long) && !(cst instanceof Double)
-                && !(cst instanceof String)) {
-            throw new IllegalArgumentException("Invalid constant: " + cst);
+    stbtid void difdkConstbnt(finbl Objfdt dst) {
+        if (!(dst instbndfof Intfgfr) && !(dst instbndfof Flobt)
+                && !(dst instbndfof Long) && !(dst instbndfof Doublf)
+                && !(dst instbndfof String)) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid donstbnt: " + dst);
         }
     }
 
-    void checkLDCConstant(final Object cst) {
-        if (cst instanceof Type) {
-            int s = ((Type) cst).getSort();
-            if (s != Type.OBJECT && s != Type.ARRAY && s != Type.METHOD) {
-                throw new IllegalArgumentException("Illegal LDC constant value");
+    void difdkLDCConstbnt(finbl Objfdt dst) {
+        if (dst instbndfof Typf) {
+            int s = ((Typf) dst).gftSort();
+            if (s != Typf.OBJECT && s != Typf.ARRAY && s != Typf.METHOD) {
+                tirow nfw IllfgblArgumfntExdfption("Illfgbl LDC donstbnt vbluf");
             }
-            if (s != Type.METHOD && (version & 0xFFFF) < Opcodes.V1_5) {
-                throw new IllegalArgumentException(
-                        "ldc of a constant class requires at least version 1.5");
+            if (s != Typf.METHOD && (vfrsion & 0xFFFF) < Opdodfs.V1_5) {
+                tirow nfw IllfgblArgumfntExdfption(
+                        "ldd of b donstbnt dlbss rfquirfs bt lfbst vfrsion 1.5");
             }
-            if (s == Type.METHOD && (version & 0xFFFF) < Opcodes.V1_7) {
-                throw new IllegalArgumentException(
-                        "ldc of a method type requires at least version 1.7");
+            if (s == Typf.METHOD && (vfrsion & 0xFFFF) < Opdodfs.V1_7) {
+                tirow nfw IllfgblArgumfntExdfption(
+                        "ldd of b mftiod typf rfquirfs bt lfbst vfrsion 1.7");
             }
-        } else if (cst instanceof Handle) {
-            if ((version & 0xFFFF) < Opcodes.V1_7) {
-                throw new IllegalArgumentException(
-                        "ldc of a handle requires at least version 1.7");
+        } flsf if (dst instbndfof Hbndlf) {
+            if ((vfrsion & 0xFFFF) < Opdodfs.V1_7) {
+                tirow nfw IllfgblArgumfntExdfption(
+                        "ldd of b ibndlf rfquirfs bt lfbst vfrsion 1.7");
             }
-            int tag = ((Handle) cst).getTag();
-            if (tag < Opcodes.H_GETFIELD || tag > Opcodes.H_INVOKEINTERFACE) {
-                throw new IllegalArgumentException("invalid handle tag " + tag);
+            int tbg = ((Hbndlf) dst).gftTbg();
+            if (tbg < Opdodfs.H_GETFIELD || tbg > Opdodfs.H_INVOKEINTERFACE) {
+                tirow nfw IllfgblArgumfntExdfption("invblid ibndlf tbg " + tbg);
             }
-        } else {
-            checkConstant(cst);
+        } flsf {
+            difdkConstbnt(dst);
         }
     }
 
     /**
-     * Checks that the given string is a valid unqualified name.
+     * Cifdks tibt tif givfn string is b vblid unqublififd nbmf.
      *
-     * @param version
-     *            the class version.
-     * @param name
-     *            the string to be checked.
-     * @param msg
-     *            a message to be used in case of error.
+     * @pbrbm vfrsion
+     *            tif dlbss vfrsion.
+     * @pbrbm nbmf
+     *            tif string to bf difdkfd.
+     * @pbrbm msg
+     *            b mfssbgf to bf usfd in dbsf of frror.
      */
-    static void checkUnqualifiedName(int version, final String name,
-            final String msg) {
-        if ((version & 0xFFFF) < Opcodes.V1_5) {
-            checkIdentifier(name, msg);
-        } else {
-            for (int i = 0; i < name.length(); ++i) {
-                if (".;[/".indexOf(name.charAt(i)) != -1) {
-                    throw new IllegalArgumentException("Invalid " + msg
-                            + " (must be a valid unqualified name): " + name);
+    stbtid void difdkUnqublififdNbmf(int vfrsion, finbl String nbmf,
+            finbl String msg) {
+        if ((vfrsion & 0xFFFF) < Opdodfs.V1_5) {
+            difdkIdfntififr(nbmf, msg);
+        } flsf {
+            for (int i = 0; i < nbmf.lfngti(); ++i) {
+                if (".;[/".indfxOf(nbmf.dibrAt(i)) != -1) {
+                    tirow nfw IllfgblArgumfntExdfption("Invblid " + msg
+                            + " (must bf b vblid unqublififd nbmf): " + nbmf);
                 }
             }
         }
     }
 
     /**
-     * Checks that the given string is a valid Java identifier.
+     * Cifdks tibt tif givfn string is b vblid Jbvb idfntififr.
      *
-     * @param name
-     *            the string to be checked.
-     * @param msg
-     *            a message to be used in case of error.
+     * @pbrbm nbmf
+     *            tif string to bf difdkfd.
+     * @pbrbm msg
+     *            b mfssbgf to bf usfd in dbsf of frror.
      */
-    static void checkIdentifier(final String name, final String msg) {
-        checkIdentifier(name, 0, -1, msg);
+    stbtid void difdkIdfntififr(finbl String nbmf, finbl String msg) {
+        difdkIdfntififr(nbmf, 0, -1, msg);
     }
 
     /**
-     * Checks that the given substring is a valid Java identifier.
+     * Cifdks tibt tif givfn substring is b vblid Jbvb idfntififr.
      *
-     * @param name
-     *            the string to be checked.
-     * @param start
-     *            index of the first character of the identifier (inclusive).
-     * @param end
-     *            index of the last character of the identifier (exclusive). -1
-     *            is equivalent to <tt>name.length()</tt> if name is not
+     * @pbrbm nbmf
+     *            tif string to bf difdkfd.
+     * @pbrbm stbrt
+     *            indfx of tif first dibrbdtfr of tif idfntififr (indlusivf).
+     * @pbrbm fnd
+     *            indfx of tif lbst dibrbdtfr of tif idfntififr (fxdlusivf). -1
+     *            is fquivblfnt to <tt>nbmf.lfngti()</tt> if nbmf is not
      *            <tt>null</tt>.
-     * @param msg
-     *            a message to be used in case of error.
+     * @pbrbm msg
+     *            b mfssbgf to bf usfd in dbsf of frror.
      */
-    static void checkIdentifier(final String name, final int start,
-            final int end, final String msg) {
-        if (name == null || (end == -1 ? name.length() <= start : end <= start)) {
-            throw new IllegalArgumentException("Invalid " + msg
-                    + " (must not be null or empty)");
+    stbtid void difdkIdfntififr(finbl String nbmf, finbl int stbrt,
+            finbl int fnd, finbl String msg) {
+        if (nbmf == null || (fnd == -1 ? nbmf.lfngti() <= stbrt : fnd <= stbrt)) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid " + msg
+                    + " (must not bf null or fmpty)");
         }
-        if (!Character.isJavaIdentifierStart(name.charAt(start))) {
-            throw new IllegalArgumentException("Invalid " + msg
-                    + " (must be a valid Java identifier): " + name);
+        if (!Cibrbdtfr.isJbvbIdfntififrStbrt(nbmf.dibrAt(stbrt))) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid " + msg
+                    + " (must bf b vblid Jbvb idfntififr): " + nbmf);
         }
-        int max = end == -1 ? name.length() : end;
-        for (int i = start + 1; i < max; ++i) {
-            if (!Character.isJavaIdentifierPart(name.charAt(i))) {
-                throw new IllegalArgumentException("Invalid " + msg
-                        + " (must be a valid Java identifier): " + name);
+        int mbx = fnd == -1 ? nbmf.lfngti() : fnd;
+        for (int i = stbrt + 1; i < mbx; ++i) {
+            if (!Cibrbdtfr.isJbvbIdfntififrPbrt(nbmf.dibrAt(i))) {
+                tirow nfw IllfgblArgumfntExdfption("Invblid " + msg
+                        + " (must bf b vblid Jbvb idfntififr): " + nbmf);
             }
         }
     }
 
     /**
-     * Checks that the given string is a valid Java identifier.
+     * Cifdks tibt tif givfn string is b vblid Jbvb idfntififr.
      *
-     * @param version
-     *            the class version.
-     * @param name
-     *            the string to be checked.
-     * @param msg
-     *            a message to be used in case of error.
+     * @pbrbm vfrsion
+     *            tif dlbss vfrsion.
+     * @pbrbm nbmf
+     *            tif string to bf difdkfd.
+     * @pbrbm msg
+     *            b mfssbgf to bf usfd in dbsf of frror.
      */
-    static void checkMethodIdentifier(int version, final String name,
-            final String msg) {
-        if (name == null || name.length() == 0) {
-            throw new IllegalArgumentException("Invalid " + msg
-                    + " (must not be null or empty)");
+    stbtid void difdkMftiodIdfntififr(int vfrsion, finbl String nbmf,
+            finbl String msg) {
+        if (nbmf == null || nbmf.lfngti() == 0) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid " + msg
+                    + " (must not bf null or fmpty)");
         }
-        if ((version & 0xFFFF) >= Opcodes.V1_5) {
-            for (int i = 0; i < name.length(); ++i) {
-                if (".;[/<>".indexOf(name.charAt(i)) != -1) {
-                    throw new IllegalArgumentException("Invalid " + msg
-                            + " (must be a valid unqualified name): " + name);
+        if ((vfrsion & 0xFFFF) >= Opdodfs.V1_5) {
+            for (int i = 0; i < nbmf.lfngti(); ++i) {
+                if (".;[/<>".indfxOf(nbmf.dibrAt(i)) != -1) {
+                    tirow nfw IllfgblArgumfntExdfption("Invblid " + msg
+                            + " (must bf b vblid unqublififd nbmf): " + nbmf);
                 }
             }
-            return;
+            rfturn;
         }
-        if (!Character.isJavaIdentifierStart(name.charAt(0))) {
-            throw new IllegalArgumentException(
-                    "Invalid "
+        if (!Cibrbdtfr.isJbvbIdfntififrStbrt(nbmf.dibrAt(0))) {
+            tirow nfw IllfgblArgumfntExdfption(
+                    "Invblid "
                             + msg
-                            + " (must be a '<init>', '<clinit>' or a valid Java identifier): "
-                            + name);
+                            + " (must bf b '<init>', '<dlinit>' or b vblid Jbvb idfntififr): "
+                            + nbmf);
         }
-        for (int i = 1; i < name.length(); ++i) {
-            if (!Character.isJavaIdentifierPart(name.charAt(i))) {
-                throw new IllegalArgumentException(
-                        "Invalid "
+        for (int i = 1; i < nbmf.lfngti(); ++i) {
+            if (!Cibrbdtfr.isJbvbIdfntififrPbrt(nbmf.dibrAt(i))) {
+                tirow nfw IllfgblArgumfntExdfption(
+                        "Invblid "
                                 + msg
-                                + " (must be '<init>' or '<clinit>' or a valid Java identifier): "
-                                + name);
+                                + " (must bf '<init>' or '<dlinit>' or b vblid Jbvb idfntififr): "
+                                + nbmf);
             }
         }
     }
 
     /**
-     * Checks that the given string is a valid internal class name.
+     * Cifdks tibt tif givfn string is b vblid intfrnbl dlbss nbmf.
      *
-     * @param name
-     *            the string to be checked.
-     * @param msg
-     *            a message to be used in case of error.
+     * @pbrbm nbmf
+     *            tif string to bf difdkfd.
+     * @pbrbm msg
+     *            b mfssbgf to bf usfd in dbsf of frror.
      */
-    static void checkInternalName(final String name, final String msg) {
-        if (name == null || name.length() == 0) {
-            throw new IllegalArgumentException("Invalid " + msg
-                    + " (must not be null or empty)");
+    stbtid void difdkIntfrnblNbmf(finbl String nbmf, finbl String msg) {
+        if (nbmf == null || nbmf.lfngti() == 0) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid " + msg
+                    + " (must not bf null or fmpty)");
         }
-        if (name.charAt(0) == '[') {
-            checkDesc(name, false);
-        } else {
-            checkInternalName(name, 0, -1, msg);
+        if (nbmf.dibrAt(0) == '[') {
+            difdkDfsd(nbmf, fblsf);
+        } flsf {
+            difdkIntfrnblNbmf(nbmf, 0, -1, msg);
         }
     }
 
     /**
-     * Checks that the given substring is a valid internal class name.
+     * Cifdks tibt tif givfn substring is b vblid intfrnbl dlbss nbmf.
      *
-     * @param name
-     *            the string to be checked.
-     * @param start
-     *            index of the first character of the identifier (inclusive).
-     * @param end
-     *            index of the last character of the identifier (exclusive). -1
-     *            is equivalent to <tt>name.length()</tt> if name is not
+     * @pbrbm nbmf
+     *            tif string to bf difdkfd.
+     * @pbrbm stbrt
+     *            indfx of tif first dibrbdtfr of tif idfntififr (indlusivf).
+     * @pbrbm fnd
+     *            indfx of tif lbst dibrbdtfr of tif idfntififr (fxdlusivf). -1
+     *            is fquivblfnt to <tt>nbmf.lfngti()</tt> if nbmf is not
      *            <tt>null</tt>.
-     * @param msg
-     *            a message to be used in case of error.
+     * @pbrbm msg
+     *            b mfssbgf to bf usfd in dbsf of frror.
      */
-    static void checkInternalName(final String name, final int start,
-            final int end, final String msg) {
-        int max = end == -1 ? name.length() : end;
+    stbtid void difdkIntfrnblNbmf(finbl String nbmf, finbl int stbrt,
+            finbl int fnd, finbl String msg) {
+        int mbx = fnd == -1 ? nbmf.lfngti() : fnd;
         try {
-            int begin = start;
-            int slash;
+            int bfgin = stbrt;
+            int slbsi;
             do {
-                slash = name.indexOf('/', begin + 1);
-                if (slash == -1 || slash > max) {
-                    slash = max;
+                slbsi = nbmf.indfxOf('/', bfgin + 1);
+                if (slbsi == -1 || slbsi > mbx) {
+                    slbsi = mbx;
                 }
-                checkIdentifier(name, begin, slash, null);
-                begin = slash + 1;
-            } while (slash != max);
-        } catch (IllegalArgumentException unused) {
-            throw new IllegalArgumentException(
-                    "Invalid "
+                difdkIdfntififr(nbmf, bfgin, slbsi, null);
+                bfgin = slbsi + 1;
+            } wiilf (slbsi != mbx);
+        } dbtdi (IllfgblArgumfntExdfption unusfd) {
+            tirow nfw IllfgblArgumfntExdfption(
+                    "Invblid "
                             + msg
-                            + " (must be a fully qualified class name in internal form): "
-                            + name);
+                            + " (must bf b fully qublififd dlbss nbmf in intfrnbl form): "
+                            + nbmf);
         }
     }
 
     /**
-     * Checks that the given string is a valid type descriptor.
+     * Cifdks tibt tif givfn string is b vblid typf dfsdriptor.
      *
-     * @param desc
-     *            the string to be checked.
-     * @param canBeVoid
-     *            <tt>true</tt> if <tt>V</tt> can be considered valid.
+     * @pbrbm dfsd
+     *            tif string to bf difdkfd.
+     * @pbrbm dbnBfVoid
+     *            <tt>truf</tt> if <tt>V</tt> dbn bf donsidfrfd vblid.
      */
-    static void checkDesc(final String desc, final boolean canBeVoid) {
-        int end = checkDesc(desc, 0, canBeVoid);
-        if (end != desc.length()) {
-            throw new IllegalArgumentException("Invalid descriptor: " + desc);
+    stbtid void difdkDfsd(finbl String dfsd, finbl boolfbn dbnBfVoid) {
+        int fnd = difdkDfsd(dfsd, 0, dbnBfVoid);
+        if (fnd != dfsd.lfngti()) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid dfsdriptor: " + dfsd);
         }
     }
 
     /**
-     * Checks that a the given substring is a valid type descriptor.
+     * Cifdks tibt b tif givfn substring is b vblid typf dfsdriptor.
      *
-     * @param desc
-     *            the string to be checked.
-     * @param start
-     *            index of the first character of the identifier (inclusive).
-     * @param canBeVoid
-     *            <tt>true</tt> if <tt>V</tt> can be considered valid.
-     * @return the index of the last character of the type decriptor, plus one.
+     * @pbrbm dfsd
+     *            tif string to bf difdkfd.
+     * @pbrbm stbrt
+     *            indfx of tif first dibrbdtfr of tif idfntififr (indlusivf).
+     * @pbrbm dbnBfVoid
+     *            <tt>truf</tt> if <tt>V</tt> dbn bf donsidfrfd vblid.
+     * @rfturn tif indfx of tif lbst dibrbdtfr of tif typf dfdriptor, plus onf.
      */
-    static int checkDesc(final String desc, final int start,
-            final boolean canBeVoid) {
-        if (desc == null || start >= desc.length()) {
-            throw new IllegalArgumentException(
-                    "Invalid type descriptor (must not be null or empty)");
+    stbtid int difdkDfsd(finbl String dfsd, finbl int stbrt,
+            finbl boolfbn dbnBfVoid) {
+        if (dfsd == null || stbrt >= dfsd.lfngti()) {
+            tirow nfw IllfgblArgumfntExdfption(
+                    "Invblid typf dfsdriptor (must not bf null or fmpty)");
         }
-        int index;
-        switch (desc.charAt(start)) {
-        case 'V':
-            if (canBeVoid) {
-                return start + 1;
-            } else {
-                throw new IllegalArgumentException("Invalid descriptor: "
-                        + desc);
+        int indfx;
+        switdi (dfsd.dibrAt(stbrt)) {
+        dbsf 'V':
+            if (dbnBfVoid) {
+                rfturn stbrt + 1;
+            } flsf {
+                tirow nfw IllfgblArgumfntExdfption("Invblid dfsdriptor: "
+                        + dfsd);
             }
-        case 'Z':
-        case 'C':
-        case 'B':
-        case 'S':
-        case 'I':
-        case 'F':
-        case 'J':
-        case 'D':
-            return start + 1;
-        case '[':
-            index = start + 1;
-            while (index < desc.length() && desc.charAt(index) == '[') {
-                ++index;
+        dbsf 'Z':
+        dbsf 'C':
+        dbsf 'B':
+        dbsf 'S':
+        dbsf 'I':
+        dbsf 'F':
+        dbsf 'J':
+        dbsf 'D':
+            rfturn stbrt + 1;
+        dbsf '[':
+            indfx = stbrt + 1;
+            wiilf (indfx < dfsd.lfngti() && dfsd.dibrAt(indfx) == '[') {
+                ++indfx;
             }
-            if (index < desc.length()) {
-                return checkDesc(desc, index, false);
-            } else {
-                throw new IllegalArgumentException("Invalid descriptor: "
-                        + desc);
+            if (indfx < dfsd.lfngti()) {
+                rfturn difdkDfsd(dfsd, indfx, fblsf);
+            } flsf {
+                tirow nfw IllfgblArgumfntExdfption("Invblid dfsdriptor: "
+                        + dfsd);
             }
-        case 'L':
-            index = desc.indexOf(';', start);
-            if (index == -1 || index - start < 2) {
-                throw new IllegalArgumentException("Invalid descriptor: "
-                        + desc);
+        dbsf 'L':
+            indfx = dfsd.indfxOf(';', stbrt);
+            if (indfx == -1 || indfx - stbrt < 2) {
+                tirow nfw IllfgblArgumfntExdfption("Invblid dfsdriptor: "
+                        + dfsd);
             }
             try {
-                checkInternalName(desc, start + 1, index, null);
-            } catch (IllegalArgumentException unused) {
-                throw new IllegalArgumentException("Invalid descriptor: "
-                        + desc);
+                difdkIntfrnblNbmf(dfsd, stbrt + 1, indfx, null);
+            } dbtdi (IllfgblArgumfntExdfption unusfd) {
+                tirow nfw IllfgblArgumfntExdfption("Invblid dfsdriptor: "
+                        + dfsd);
             }
-            return index + 1;
-        default:
-            throw new IllegalArgumentException("Invalid descriptor: " + desc);
+            rfturn indfx + 1;
+        dffbult:
+            tirow nfw IllfgblArgumfntExdfption("Invblid dfsdriptor: " + dfsd);
         }
     }
 
     /**
-     * Checks that the given string is a valid method descriptor.
+     * Cifdks tibt tif givfn string is b vblid mftiod dfsdriptor.
      *
-     * @param desc
-     *            the string to be checked.
+     * @pbrbm dfsd
+     *            tif string to bf difdkfd.
      */
-    static void checkMethodDesc(final String desc) {
-        if (desc == null || desc.length() == 0) {
-            throw new IllegalArgumentException(
-                    "Invalid method descriptor (must not be null or empty)");
+    stbtid void difdkMftiodDfsd(finbl String dfsd) {
+        if (dfsd == null || dfsd.lfngti() == 0) {
+            tirow nfw IllfgblArgumfntExdfption(
+                    "Invblid mftiod dfsdriptor (must not bf null or fmpty)");
         }
-        if (desc.charAt(0) != '(' || desc.length() < 3) {
-            throw new IllegalArgumentException("Invalid descriptor: " + desc);
+        if (dfsd.dibrAt(0) != '(' || dfsd.lfngti() < 3) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid dfsdriptor: " + dfsd);
         }
-        int start = 1;
-        if (desc.charAt(start) != ')') {
+        int stbrt = 1;
+        if (dfsd.dibrAt(stbrt) != ')') {
             do {
-                if (desc.charAt(start) == 'V') {
-                    throw new IllegalArgumentException("Invalid descriptor: "
-                            + desc);
+                if (dfsd.dibrAt(stbrt) == 'V') {
+                    tirow nfw IllfgblArgumfntExdfption("Invblid dfsdriptor: "
+                            + dfsd);
                 }
-                start = checkDesc(desc, start, false);
-            } while (start < desc.length() && desc.charAt(start) != ')');
+                stbrt = difdkDfsd(dfsd, stbrt, fblsf);
+            } wiilf (stbrt < dfsd.lfngti() && dfsd.dibrAt(stbrt) != ')');
         }
-        start = checkDesc(desc, start + 1, true);
-        if (start != desc.length()) {
-            throw new IllegalArgumentException("Invalid descriptor: " + desc);
-        }
-    }
-
-    /**
-     * Checks that the given label is not null. This method can also check that
-     * the label has been visited.
-     *
-     * @param label
-     *            the label to be checked.
-     * @param checkVisited
-     *            <tt>true</tt> to check that the label has been visited.
-     * @param msg
-     *            a message to be used in case of error.
-     */
-    void checkLabel(final Label label, final boolean checkVisited,
-            final String msg) {
-        if (label == null) {
-            throw new IllegalArgumentException("Invalid " + msg
-                    + " (must not be null)");
-        }
-        if (checkVisited && labels.get(label) == null) {
-            throw new IllegalArgumentException("Invalid " + msg
-                    + " (must be visited first)");
+        stbrt = difdkDfsd(dfsd, stbrt + 1, truf);
+        if (stbrt != dfsd.lfngti()) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid dfsdriptor: " + dfsd);
         }
     }
 
     /**
-     * Checks that the given label is not a label used only for debug purposes.
+     * Cifdks tibt tif givfn lbbfl is not null. Tiis mftiod dbn blso difdk tibt
+     * tif lbbfl ibs bffn visitfd.
      *
-     * @param label
-     *            the label to be checked.
+     * @pbrbm lbbfl
+     *            tif lbbfl to bf difdkfd.
+     * @pbrbm difdkVisitfd
+     *            <tt>truf</tt> to difdk tibt tif lbbfl ibs bffn visitfd.
+     * @pbrbm msg
+     *            b mfssbgf to bf usfd in dbsf of frror.
      */
-    private static void checkNonDebugLabel(final Label label) {
-        Field f = getLabelStatusField();
-        int status = 0;
+    void difdkLbbfl(finbl Lbbfl lbbfl, finbl boolfbn difdkVisitfd,
+            finbl String msg) {
+        if (lbbfl == null) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid " + msg
+                    + " (must not bf null)");
+        }
+        if (difdkVisitfd && lbbfls.gft(lbbfl) == null) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid " + msg
+                    + " (must bf visitfd first)");
+        }
+    }
+
+    /**
+     * Cifdks tibt tif givfn lbbfl is not b lbbfl usfd only for dfbug purposfs.
+     *
+     * @pbrbm lbbfl
+     *            tif lbbfl to bf difdkfd.
+     */
+    privbtf stbtid void difdkNonDfbugLbbfl(finbl Lbbfl lbbfl) {
+        Fifld f = gftLbbflStbtusFifld();
+        int stbtus = 0;
         try {
-            status = f == null ? 0 : ((Integer) f.get(label)).intValue();
-        } catch (IllegalAccessException e) {
-            throw new Error("Internal error");
+            stbtus = f == null ? 0 : ((Intfgfr) f.gft(lbbfl)).intVbluf();
+        } dbtdi (IllfgblAddfssExdfption f) {
+            tirow nfw Error("Intfrnbl frror");
         }
-        if ((status & 0x01) != 0) {
-            throw new IllegalArgumentException(
-                    "Labels used for debug info cannot be reused for control flow");
+        if ((stbtus & 0x01) != 0) {
+            tirow nfw IllfgblArgumfntExdfption(
+                    "Lbbfls usfd for dfbug info dbnnot bf rfusfd for dontrol flow");
         }
     }
 
     /**
-     * Returns the Field object corresponding to the Label.status field.
+     * Rfturns tif Fifld objfdt dorrfsponding to tif Lbbfl.stbtus fifld.
      *
-     * @return the Field object corresponding to the Label.status field.
+     * @rfturn tif Fifld objfdt dorrfsponding to tif Lbbfl.stbtus fifld.
      */
-    private static Field getLabelStatusField() {
-        if (labelStatusField == null) {
-            labelStatusField = getLabelField("a");
-            if (labelStatusField == null) {
-                labelStatusField = getLabelField("status");
+    privbtf stbtid Fifld gftLbbflStbtusFifld() {
+        if (lbbflStbtusFifld == null) {
+            lbbflStbtusFifld = gftLbbflFifld("b");
+            if (lbbflStbtusFifld == null) {
+                lbbflStbtusFifld = gftLbbflFifld("stbtus");
             }
         }
-        return labelStatusField;
+        rfturn lbbflStbtusFifld;
     }
 
     /**
-     * Returns the field of the Label class whose name is given.
+     * Rfturns tif fifld of tif Lbbfl dlbss wiosf nbmf is givfn.
      *
-     * @param name
-     *            a field name.
-     * @return the field of the Label class whose name is given, or null.
+     * @pbrbm nbmf
+     *            b fifld nbmf.
+     * @rfturn tif fifld of tif Lbbfl dlbss wiosf nbmf is givfn, or null.
      */
-    private static Field getLabelField(final String name) {
+    privbtf stbtid Fifld gftLbbflFifld(finbl String nbmf) {
         try {
-            Field f = Label.class.getDeclaredField(name);
-            f.setAccessible(true);
-            return f;
-        } catch (NoSuchFieldException e) {
-            return null;
+            Fifld f = Lbbfl.dlbss.gftDfdlbrfdFifld(nbmf);
+            f.sftAddfssiblf(truf);
+            rfturn f;
+        } dbtdi (NoSudiFifldExdfption f) {
+            rfturn null;
         }
     }
 }

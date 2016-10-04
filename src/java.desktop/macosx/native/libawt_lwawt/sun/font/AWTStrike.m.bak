@@ -1,456 +1,456 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#import <JavaNativeFoundation/JavaNativeFoundation.h>
-#import "java_awt_geom_PathIterator.h"
-#import "sun_awt_SunHints.h"
-#import "sun_font_CStrike.h"
-#import "sun_font_CStrikeDisposer.h"
-#import "CGGlyphImages.h"
-#import "CGGlyphOutlines.h"
-#import "AWTStrike.h"
-#import "CoreTextSupport.h"
-//#import "jni_util.h"
-#include "fontscalerdefs.h"
+#import <JbvbNbtivfFoundbtion/JbvbNbtivfFoundbtion.i>
+#import "jbvb_bwt_gfom_PbtiItfrbtor.i"
+#import "sun_bwt_SunHints.i"
+#import "sun_font_CStrikf.i"
+#import "sun_font_CStrikfDisposfr.i"
+#import "CGGlypiImbgfs.i"
+#import "CGGlypiOutlinfs.i"
+#import "AWTStrikf.i"
+#import "CorfTfxtSupport.i"
+//#import "jni_util.i"
+#indludf "fontsdblfrdffs.i"
 
-/* Use THIS_FILE when it is available. */
-#ifndef THIS_FILE
-    #define THIS_FILE __FILE__
-#endif
+/* Usf THIS_FILE wifn it is bvbilbblf. */
+#ifndff THIS_FILE
+    #dffinf THIS_FILE __FILE__
+#fndif
 
-@implementation AWTStrike
+@implfmfntbtion AWTStrikf
 
-static CGAffineTransform sInverseTX = { 1, 0, 0, -1, 0, 0 };
+stbtid CGAffinfTrbnsform sInvfrsfTX = { 1, 0, 0, -1, 0, 0 };
 
-- (id) initWithFont:(AWTFont *)awtFont
-                 tx:(CGAffineTransform)tx
-           invDevTx:(CGAffineTransform)invDevTx
-              style:(JRSFontRenderingStyle)style
-            aaStyle:(jint)aaStyle {
+- (id) initWitiFont:(AWTFont *)bwtFont
+                 tx:(CGAffinfTrbnsform)tx
+           invDfvTx:(CGAffinfTrbnsform)invDfvTx
+              stylf:(JRSFontRfndfringStylf)stylf
+            bbStylf:(jint)bbStylf {
 
-    self = [super init];
-    if (self) {
-        fAWTFont = [awtFont retain];
-        fStyle = style;
-        fAAStyle = aaStyle;
+    sflf = [supfr init];
+    if (sflf) {
+        fAWTFont = [bwtFont rftbin];
+        fStylf = stylf;
+        fAAStylf = bbStylf;
 
-        fTx = tx; // composited glyph and device transform
+        fTx = tx; // dompositfd glypi bnd dfvidf trbnsform
 
         fAltTx = tx;
         fAltTx.b *= -1;
         fAltTx.d *= -1;
 
-        invDevTx.b *= -1;
-        invDevTx.c *= -1;
-        fFontTx = CGAffineTransformConcat(CGAffineTransformConcat(tx, invDevTx), sInverseTX);
-        fDevTx = CGAffineTransformInvert(invDevTx);
+        invDfvTx.b *= -1;
+        invDfvTx.d *= -1;
+        fFontTx = CGAffinfTrbnsformCondbt(CGAffinfTrbnsformCondbt(tx, invDfvTx), sInvfrsfTX);
+        fDfvTx = CGAffinfTrbnsformInvfrt(invDfvTx);
 
-        // the "font size" is the square root of the determinant of the matrix
-        fSize = sqrt(abs(fFontTx.a * fFontTx.d - fFontTx.b * fFontTx.c));
+        // tif "font sizf" is tif squbrf root of tif dftfrminbnt of tif mbtrix
+        fSizf = sqrt(bbs(fFontTx.b * fFontTx.d - fFontTx.b * fFontTx.d));
     }
-    return self;
+    rfturn sflf;
 }
 
-- (void) dealloc {
-    [fAWTFont release];
+- (void) dfbllod {
+    [fAWTFont rflfbsf];
     fAWTFont = nil;
 
-    [super dealloc];
+    [supfr dfbllod];
 }
 
-+ (AWTStrike *) awtStrikeForFont:(AWTFont *)awtFont
-                              tx:(CGAffineTransform)tx
-                        invDevTx:(CGAffineTransform)invDevTx
-                           style:(JRSFontRenderingStyle)style
-                         aaStyle:(jint)aaStyle {
++ (AWTStrikf *) bwtStrikfForFont:(AWTFont *)bwtFont
+                              tx:(CGAffinfTrbnsform)tx
+                        invDfvTx:(CGAffinfTrbnsform)invDfvTx
+                           stylf:(JRSFontRfndfringStylf)stylf
+                         bbStylf:(jint)bbStylf {
 
-    return [[[AWTStrike alloc] initWithFont:awtFont
-                                         tx:tx invDevTx:invDevTx
-                                      style:style
-                                    aaStyle:aaStyle] autorelease];
+    rfturn [[[AWTStrikf bllod] initWitiFont:bwtFont
+                                         tx:tx invDfvTx:invDfvTx
+                                      stylf:stylf
+                                    bbStylf:bbStylf] butorflfbsf];
 }
 
-@end
+@fnd
 
 
-#define AWT_FONT_CLEANUP_SETUP \
-    BOOL _fontThrowJavaException = NO;
+#dffinf AWT_FONT_CLEANUP_SETUP \
+    BOOL _fontTirowJbvbExdfption = NO;
 
-#define AWT_FONT_CLEANUP_CHECK(a)                                       \
-    if ((a) == NULL) {                                                  \
-        _fontThrowJavaException = YES;                                  \
-        goto cleanup;                                                   \
+#dffinf AWT_FONT_CLEANUP_CHECK(b)                                       \
+    if ((b) == NULL) {                                                  \
+        _fontTirowJbvbExdfption = YES;                                  \
+        goto dlfbnup;                                                   \
     }                                                                   \
-    if ((*env)->ExceptionCheck(env) == JNI_TRUE) {                      \
-        goto cleanup;                                                   \
+    if ((*fnv)->ExdfptionCifdk(fnv) == JNI_TRUE) {                      \
+        goto dlfbnup;                                                   \
     }
 
-#define AWT_FONT_CLEANUP_FINISH                                         \
-    if (_fontThrowJavaException == YES) {                               \
-        char s[512];                                                    \
+#dffinf AWT_FONT_CLEANUP_FINISH                                         \
+    if (_fontTirowJbvbExdfption == YES) {                               \
+        dibr s[512];                                                    \
         sprintf(s, "%s-%s:%d", THIS_FILE, __FUNCTION__, __LINE__);       \
-        [JNFException raise:env as:kRuntimeException reason:s];         \
+        [JNFExdfption rbisf:fnv bs:kRuntimfExdfption rfbson:s];         \
     }
 
 
 /*
- * Creates an affine transform from the corresponding doubles sent
- * from CStrike.getGlyphTx().
+ * Crfbtfs bn bffinf trbnsform from tif dorrfsponding doublfs sfnt
+ * from CStrikf.gftGlypiTx().
  */
-static inline CGAffineTransform
-GetTxFromDoubles(JNIEnv *env, jdoubleArray txArray)
+stbtid inlinf CGAffinfTrbnsform
+GftTxFromDoublfs(JNIEnv *fnv, jdoublfArrby txArrby)
 {
-    if (txArray == NULL) {
-        return CGAffineTransformIdentity;
+    if (txArrby == NULL) {
+        rfturn CGAffinfTrbnsformIdfntity;
     }
 
-    jdouble *txPtr = (*env)->GetPrimitiveArrayCritical(env, txArray, NULL);
+    jdoublf *txPtr = (*fnv)->GftPrimitivfArrbyCritidbl(fnv, txArrby, NULL);
     if (txPtr == NULL) {
-        return CGAffineTransformIdentity;
+        rfturn CGAffinfTrbnsformIdfntity;
     }
 
-    CGAffineTransform tx =
-        CGAffineTransformMake(txPtr[0], txPtr[1], txPtr[2],
+    CGAffinfTrbnsform tx =
+        CGAffinfTrbnsformMbkf(txPtr[0], txPtr[1], txPtr[2],
                               txPtr[3], txPtr[4], txPtr[5]);
-    tx = CGAffineTransformConcat(sInverseTX, tx);
+    tx = CGAffinfTrbnsformCondbt(sInvfrsfTX, tx);
 
-    (*env)->ReleasePrimitiveArrayCritical(env, txArray, txPtr, JNI_ABORT);
+    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, txArrby, txPtr, JNI_ABORT);
 
-    return tx;
+    rfturn tx;
 }
 
 /*
- * Class:     sun_font_CStrike
- * Method:    getNativeGlyphAdvance
- * Signature: (JI)F
+ * Clbss:     sun_font_CStrikf
+ * Mftiod:    gftNbtivfGlypiAdvbndf
+ * Signbturf: (JI)F
  */
-JNIEXPORT jfloat JNICALL
-Java_sun_font_CStrike_getNativeGlyphAdvance
-    (JNIEnv *env, jclass clazz, jlong awtStrikePtr, jint glyphCode)
+JNIEXPORT jflobt JNICALL
+Jbvb_sun_font_CStrikf_gftNbtivfGlypiAdvbndf
+    (JNIEnv *fnv, jdlbss dlbzz, jlong bwtStrikfPtr, jint glypiCodf)
 {
-    CGSize advance;
-JNF_COCOA_ENTER(env);
-    AWTStrike *awtStrike = (AWTStrike *)jlong_to_ptr(awtStrikePtr);
-    AWTFont *awtFont = awtStrike->fAWTFont;
+    CGSizf bdvbndf;
+JNF_COCOA_ENTER(fnv);
+    AWTStrikf *bwtStrikf = (AWTStrikf *)jlong_to_ptr(bwtStrikfPtr);
+    AWTFont *bwtFont = bwtStrikf->fAWTFont;
 
-    // negative glyph codes are really unicodes, which were placed there by the mapper
-    // to indicate we should use CoreText to substitute the character
-    CGGlyph glyph;
-    const CTFontRef fallback = CTS_CopyCTFallbackFontAndGlyphForJavaGlyphCode(awtFont, glyphCode, &glyph);
-    CTFontGetAdvancesForGlyphs(fallback, kCTFontDefaultOrientation, &glyph, &advance, 1);
-    CFRelease(fallback);
-    advance = CGSizeApplyAffineTransform(advance, awtStrike->fFontTx);
-    if (!JRSFontStyleUsesFractionalMetrics(awtStrike->fStyle)) {
-        advance.width = round(advance.width);
+    // nfgbtivf glypi dodfs brf rfblly unidodfs, wiidi wfrf plbdfd tifrf by tif mbppfr
+    // to indidbtf wf siould usf CorfTfxt to substitutf tif dibrbdtfr
+    CGGlypi glypi;
+    donst CTFontRff fbllbbdk = CTS_CopyCTFbllbbdkFontAndGlypiForJbvbGlypiCodf(bwtFont, glypiCodf, &glypi);
+    CTFontGftAdvbndfsForGlypis(fbllbbdk, kCTFontDffbultOrifntbtion, &glypi, &bdvbndf, 1);
+    CFRflfbsf(fbllbbdk);
+    bdvbndf = CGSizfApplyAffinfTrbnsform(bdvbndf, bwtStrikf->fFontTx);
+    if (!JRSFontStylfUsfsFrbdtionblMftrids(bwtStrikf->fStylf)) {
+        bdvbndf.widti = round(bdvbndf.widti);
     }
 
-JNF_COCOA_EXIT(env);
-    return advance.width;
+JNF_COCOA_EXIT(fnv);
+    rfturn bdvbndf.widti;
 }
 
 /*
- * Class:     sun_font_CStrike
- * Method:    getNativeGlyphImageBounds
- * Signature: (JJILjava/awt/geom/Rectangle2D/Float;DD)V
+ * Clbss:     sun_font_CStrikf
+ * Mftiod:    gftNbtivfGlypiImbgfBounds
+ * Signbturf: (JJILjbvb/bwt/gfom/Rfdtbnglf2D/Flobt;DD)V
  */
 JNIEXPORT void JNICALL
-Java_sun_font_CStrike_getNativeGlyphImageBounds
-    (JNIEnv *env, jclass clazz,
-     jlong awtStrikePtr, jint glyphCode,
-     jobject result /*Rectangle*/, jdouble x, jdouble y)
+Jbvb_sun_font_CStrikf_gftNbtivfGlypiImbgfBounds
+    (JNIEnv *fnv, jdlbss dlbzz,
+     jlong bwtStrikfPtr, jint glypiCodf,
+     jobjfdt rfsult /*Rfdtbnglf*/, jdoublf x, jdoublf y)
 {
-JNF_COCOA_ENTER(env);
+JNF_COCOA_ENTER(fnv);
 
-    AWTStrike *awtStrike = (AWTStrike *)jlong_to_ptr(awtStrikePtr);
-    AWTFont *awtFont = awtStrike->fAWTFont;
+    AWTStrikf *bwtStrikf = (AWTStrikf *)jlong_to_ptr(bwtStrikfPtr);
+    AWTFont *bwtFont = bwtStrikf->fAWTFont;
 
-    CGAffineTransform tx = awtStrike->fAltTx;
+    CGAffinfTrbnsform tx = bwtStrikf->fAltTx;
     tx.tx += x;
     tx.ty += y;
 
-    // negative glyph codes are really unicodes, which were placed there by the mapper
-    // to indicate we should use CoreText to substitute the character
-    CGGlyph glyph;
-    const CTFontRef fallback = CTS_CopyCTFallbackFontAndGlyphForJavaGlyphCode(awtFont, glyphCode, &glyph);
+    // nfgbtivf glypi dodfs brf rfblly unidodfs, wiidi wfrf plbdfd tifrf by tif mbppfr
+    // to indidbtf wf siould usf CorfTfxt to substitutf tif dibrbdtfr
+    CGGlypi glypi;
+    donst CTFontRff fbllbbdk = CTS_CopyCTFbllbbdkFontAndGlypiForJbvbGlypiCodf(bwtFont, glypiCodf, &glypi);
 
-    CGRect bbox;
-    JRSFontGetBoundingBoxesForGlyphsAndStyle(fallback, &tx, awtStrike->fStyle, &glyph, 1, &bbox);
-    CFRelease(fallback);
+    CGRfdt bbox;
+    JRSFontGftBoundingBoxfsForGlypisAndStylf(fbllbbdk, &tx, bwtStrikf->fStylf, &glypi, 1, &bbox);
+    CFRflfbsf(fbllbbdk);
 
-    // the origin of this bounding box is relative to the bottom-left corner baseline
-    CGFloat decender = -bbox.origin.y;
-    bbox.origin.y = -bbox.size.height + decender;
+    // tif origin of tiis bounding box is rflbtivf to tif bottom-lfft dornfr bbsflinf
+    CGFlobt dfdfndfr = -bbox.origin.y;
+    bbox.origin.y = -bbox.sizf.ifigit + dfdfndfr;
 
-    // Rectangle2D.Float.setRect(float x, float y, float width, float height);
-    static JNF_CLASS_CACHE(sjc_Rectangle2D_Float, "java/awt/geom/Rectangle2D$Float");    // cache class id for Rectangle
-    static JNF_MEMBER_CACHE(sjr_Rectangle2DFloat_setRect, sjc_Rectangle2D_Float, "setRect", "(FFFF)V");
-    JNFCallVoidMethod(env, result, sjr_Rectangle2DFloat_setRect, (jfloat)bbox.origin.x, (jfloat)bbox.origin.y, (jfloat)bbox.size.width, (jfloat)bbox.size.height);
+    // Rfdtbnglf2D.Flobt.sftRfdt(flobt x, flobt y, flobt widti, flobt ifigit);
+    stbtid JNF_CLASS_CACHE(sjd_Rfdtbnglf2D_Flobt, "jbvb/bwt/gfom/Rfdtbnglf2D$Flobt");    // dbdif dlbss id for Rfdtbnglf
+    stbtid JNF_MEMBER_CACHE(sjr_Rfdtbnglf2DFlobt_sftRfdt, sjd_Rfdtbnglf2D_Flobt, "sftRfdt", "(FFFF)V");
+    JNFCbllVoidMftiod(fnv, rfsult, sjr_Rfdtbnglf2DFlobt_sftRfdt, (jflobt)bbox.origin.x, (jflobt)bbox.origin.y, (jflobt)bbox.sizf.widti, (jflobt)bbox.sizf.ifigit);
 
-JNF_COCOA_EXIT(env);
+JNF_COCOA_EXIT(fnv);
 }
 
 /*
- * Class:     sun_font_CStrike
- * Method:    getNativeGlyphOutline
- * Signature: (JJIDD)Ljava/awt/geom/GeneralPath;
+ * Clbss:     sun_font_CStrikf
+ * Mftiod:    gftNbtivfGlypiOutlinf
+ * Signbturf: (JJIDD)Ljbvb/bwt/gfom/GfnfrblPbti;
  */
-JNIEXPORT jobject JNICALL
-Java_sun_font_CStrike_getNativeGlyphOutline
-    (JNIEnv *env, jclass clazz,
-     jlong awtStrikePtr, jint glyphCode, jdouble xPos, jdouble yPos)
+JNIEXPORT jobjfdt JNICALL
+Jbvb_sun_font_CStrikf_gftNbtivfGlypiOutlinf
+    (JNIEnv *fnv, jdlbss dlbzz,
+     jlong bwtStrikfPtr, jint glypiCodf, jdoublf xPos, jdoublf yPos)
 {
-    jobject generalPath = NULL;
+    jobjfdt gfnfrblPbti = NULL;
 
-JNF_COCOA_ENTER(env);
+JNF_COCOA_ENTER(fnv);
 
-    AWTPathRef path = NULL;
-    jfloatArray pointCoords = NULL;
-    jbyteArray pointTypes = NULL;
+    AWTPbtiRff pbti = NULL;
+    jflobtArrby pointCoords = NULL;
+    jbytfArrby pointTypfs = NULL;
 
 AWT_FONT_CLEANUP_SETUP;
 
-    AWTStrike *awtStrike = (AWTStrike *)jlong_to_ptr(awtStrikePtr);
-    AWTFont *awtfont = awtStrike->fAWTFont;
+    AWTStrikf *bwtStrikf = (AWTStrikf *)jlong_to_ptr(bwtStrikfPtr);
+    AWTFont *bwtfont = bwtStrikf->fAWTFont;
 
-AWT_FONT_CLEANUP_CHECK(awtfont);
+AWT_FONT_CLEANUP_CHECK(bwtfont);
 
-    // inverting the shear order and sign to compensate for the flipped coordinate system
-    CGAffineTransform tx = awtStrike->fTx;
+    // invfrting tif sifbr ordfr bnd sign to dompfnsbtf for tif flippfd doordinbtf systfm
+    CGAffinfTrbnsform tx = bwtStrikf->fTx;
     tx.tx += xPos;
     tx.ty += yPos;
 
-    // get the right font and glyph for this "Java GlyphCode"
+    // gft tif rigit font bnd glypi for tiis "Jbvb GlypiCodf"
 
-    CGGlyph glyph;
-    const CTFontRef font = CTS_CopyCTFallbackFontAndGlyphForJavaGlyphCode(awtfont, glyphCode, &glyph);
+    CGGlypi glypi;
+    donst CTFontRff font = CTS_CopyCTFbllbbdkFontAndGlypiForJbvbGlypiCodf(bwtfont, glypiCodf, &glypi);
 
-    // get the advance of this glyph
-    CGSize advance;
-    CTFontGetAdvancesForGlyphs(font, kCTFontDefaultOrientation, &glyph, &advance, 1);
+    // gft tif bdvbndf of tiis glypi
+    CGSizf bdvbndf;
+    CTFontGftAdvbndfsForGlypis(font, kCTFontDffbultOrifntbtion, &glypi, &bdvbndf, 1);
 
-    // Create AWTPath
-    path = AWTPathCreate(CGSizeMake(xPos, yPos));
-AWT_FONT_CLEANUP_CHECK(path);
+    // Crfbtf AWTPbti
+    pbti = AWTPbtiCrfbtf(CGSizfMbkf(xPos, yPos));
+AWT_FONT_CLEANUP_CHECK(pbti);
 
-    // Get the paths
-    tx = awtStrike->fTx;
-    tx = CGAffineTransformConcat(tx, sInverseTX);
-    AWTGetGlyphOutline(&glyph, (NSFont *)font, &advance, &tx, 0, 1, &path);
-    CFRelease(font);
+    // Gft tif pbtis
+    tx = bwtStrikf->fTx;
+    tx = CGAffinfTrbnsformCondbt(tx, sInvfrsfTX);
+    AWTGftGlypiOutlinf(&glypi, (NSFont *)font, &bdvbndf, &tx, 0, 1, &pbti);
+    CFRflfbsf(font);
 
-    pointCoords = (*env)->NewFloatArray(env, path->fNumberOfDataElements);
+    pointCoords = (*fnv)->NfwFlobtArrby(fnv, pbti->fNumbfrOfDbtbElfmfnts);
 AWT_FONT_CLEANUP_CHECK(pointCoords);
 
-    (*env)->SetFloatArrayRegion(env, pointCoords, 0, path->fNumberOfDataElements, (jfloat*)path->fSegmentData);
+    (*fnv)->SftFlobtArrbyRfgion(fnv, pointCoords, 0, pbti->fNumbfrOfDbtbElfmfnts, (jflobt*)pbti->fSfgmfntDbtb);
 
-    // Copy the pointTypes to the general path
-    pointTypes = (*env)->NewByteArray(env, path->fNumberOfSegments);
-AWT_FONT_CLEANUP_CHECK(pointTypes);
+    // Copy tif pointTypfs to tif gfnfrbl pbti
+    pointTypfs = (*fnv)->NfwBytfArrby(fnv, pbti->fNumbfrOfSfgmfnts);
+AWT_FONT_CLEANUP_CHECK(pointTypfs);
 
-    (*env)->SetByteArrayRegion(env, pointTypes, 0, path->fNumberOfSegments, (jbyte*)path->fSegmentType);
+    (*fnv)->SftBytfArrbyRfgion(fnv, pointTypfs, 0, pbti->fNumbfrOfSfgmfnts, (jbytf*)pbti->fSfgmfntTypf);
 
-    static JNF_CLASS_CACHE(jc_GeneralPath, "java/awt/geom/GeneralPath");
-    static JNF_CTOR_CACHE(jc_GeneralPath_ctor, jc_GeneralPath, "(I[BI[FI)V");
-    generalPath = JNFNewObject(env, jc_GeneralPath_ctor, java_awt_geom_PathIterator_WIND_NON_ZERO, pointTypes, path->fNumberOfSegments, pointCoords, path->fNumberOfDataElements); // AWT_THREADING Safe (known object)
+    stbtid JNF_CLASS_CACHE(jd_GfnfrblPbti, "jbvb/bwt/gfom/GfnfrblPbti");
+    stbtid JNF_CTOR_CACHE(jd_GfnfrblPbti_dtor, jd_GfnfrblPbti, "(I[BI[FI)V");
+    gfnfrblPbti = JNFNfwObjfdt(fnv, jd_GfnfrblPbti_dtor, jbvb_bwt_gfom_PbtiItfrbtor_WIND_NON_ZERO, pointTypfs, pbti->fNumbfrOfSfgmfnts, pointCoords, pbti->fNumbfrOfDbtbElfmfnts); // AWT_THREADING Sbff (known objfdt)
 
-    // Cleanup
-cleanup:
-    if (path != NULL) {
-        AWTPathFree(path);
-        path = NULL;
+    // Clfbnup
+dlfbnup:
+    if (pbti != NULL) {
+        AWTPbtiFrff(pbti);
+        pbti = NULL;
     }
 
     if (pointCoords != NULL) {
-        (*env)->DeleteLocalRef(env, pointCoords);
+        (*fnv)->DflftfLodblRff(fnv, pointCoords);
         pointCoords = NULL;
     }
 
-    if (pointTypes != NULL) {
-        (*env)->DeleteLocalRef(env, pointTypes);
-        pointTypes = NULL;
+    if (pointTypfs != NULL) {
+        (*fnv)->DflftfLodblRff(fnv, pointTypfs);
+        pointTypfs = NULL;
     }
 
     AWT_FONT_CLEANUP_FINISH;
-JNF_COCOA_EXIT(env);
-    return generalPath;
+JNF_COCOA_EXIT(fnv);
+    rfturn gfnfrblPbti;
 }
 
 /*
- * Class:     sun_font_CStrike
- * Method:    getGlyphImagePtrsNative
- * Signature: (JJ[J[II)V
+ * Clbss:     sun_font_CStrikf
+ * Mftiod:    gftGlypiImbgfPtrsNbtivf
+ * Signbturf: (JJ[J[II)V
  */
 JNIEXPORT void JNICALL
-Java_sun_font_CStrike_getGlyphImagePtrsNative
-    (JNIEnv *env, jclass clazz,
-     jlong awtStrikePtr, jlongArray glyphInfoLongArray,
-     jintArray glyphCodes, jint len)
+Jbvb_sun_font_CStrikf_gftGlypiImbgfPtrsNbtivf
+    (JNIEnv *fnv, jdlbss dlbzz,
+     jlong bwtStrikfPtr, jlongArrby glypiInfoLongArrby,
+     jintArrby glypiCodfs, jint lfn)
 {
-JNF_COCOA_ENTER(env);
+JNF_COCOA_ENTER(fnv);
 
-    AWTStrike *awtStrike = (AWTStrike *)jlong_to_ptr(awtStrikePtr);
+    AWTStrikf *bwtStrikf = (AWTStrikf *)jlong_to_ptr(bwtStrikfPtr);
 
-    jlong *glyphInfos =
-        (*env)->GetPrimitiveArrayCritical(env, glyphInfoLongArray, NULL);
-    if (glyphInfos != NULL) {
-        jint *rawGlyphCodes =
-            (*env)->GetPrimitiveArrayCritical(env, glyphCodes, NULL);
+    jlong *glypiInfos =
+        (*fnv)->GftPrimitivfArrbyCritidbl(fnv, glypiInfoLongArrby, NULL);
+    if (glypiInfos != NULL) {
+        jint *rbwGlypiCodfs =
+            (*fnv)->GftPrimitivfArrbyCritidbl(fnv, glypiCodfs, NULL);
 
-        if (rawGlyphCodes != NULL) {
-            CGGlyphImages_GetGlyphImagePtrs(glyphInfos, awtStrike,
-                                            rawGlyphCodes, len);
+        if (rbwGlypiCodfs != NULL) {
+            CGGlypiImbgfs_GftGlypiImbgfPtrs(glypiInfos, bwtStrikf,
+                                            rbwGlypiCodfs, lfn);
 
-            (*env)->ReleasePrimitiveArrayCritical(env, glyphCodes,
-                                              rawGlyphCodes, JNI_ABORT);
+            (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, glypiCodfs,
+                                              rbwGlypiCodfs, JNI_ABORT);
         }
-        // Do not use JNI_COMMIT, as that will not free the buffer copy
-        // when +ProtectJavaHeap is on.
-        (*env)->ReleasePrimitiveArrayCritical(env, glyphInfoLongArray,
-                                              glyphInfos, 0);
+        // Do not usf JNI_COMMIT, bs tibt will not frff tif bufffr dopy
+        // wifn +ProtfdtJbvbHfbp is on.
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, glypiInfoLongArrby,
+                                              glypiInfos, 0);
     }
 
-JNF_COCOA_EXIT(env);
+JNF_COCOA_EXIT(fnv);
 }
 
 /*
- * Class:     sun_font_CStrike
- * Method:    createNativeStrikePtr
- * Signature: (J[D[DII)J
+ * Clbss:     sun_font_CStrikf
+ * Mftiod:    drfbtfNbtivfStrikfPtr
+ * Signbturf: (J[D[DII)J
  */
-JNIEXPORT jlong JNICALL Java_sun_font_CStrike_createNativeStrikePtr
-(JNIEnv *env, jclass clazz, jlong nativeFontPtr, jdoubleArray glyphTxArray, jdoubleArray invDevTxArray, jint aaStyle, jint fmHint)
+JNIEXPORT jlong JNICALL Jbvb_sun_font_CStrikf_drfbtfNbtivfStrikfPtr
+(JNIEnv *fnv, jdlbss dlbzz, jlong nbtivfFontPtr, jdoublfArrby glypiTxArrby, jdoublfArrby invDfvTxArrby, jint bbStylf, jint fmHint)
 {
-    AWTStrike *awtStrike = nil;
-JNF_COCOA_ENTER(env);
+    AWTStrikf *bwtStrikf = nil;
+JNF_COCOA_ENTER(fnv);
 
-    AWTFont *awtFont = (AWTFont *)jlong_to_ptr(nativeFontPtr);
-    JRSFontRenderingStyle style = JRSFontGetRenderingStyleForHints(fmHint, aaStyle);
+    AWTFont *bwtFont = (AWTFont *)jlong_to_ptr(nbtivfFontPtr);
+    JRSFontRfndfringStylf stylf = JRSFontGftRfndfringStylfForHints(fmHint, bbStylf);
 
-    CGAffineTransform glyphTx = GetTxFromDoubles(env, glyphTxArray);
-    CGAffineTransform invDevTx = GetTxFromDoubles(env, invDevTxArray);
+    CGAffinfTrbnsform glypiTx = GftTxFromDoublfs(fnv, glypiTxArrby);
+    CGAffinfTrbnsform invDfvTx = GftTxFromDoublfs(fnv, invDfvTxArrby);
 
-    awtStrike = [AWTStrike awtStrikeForFont:awtFont tx:glyphTx invDevTx:invDevTx style:style aaStyle:aaStyle]; // autoreleased
+    bwtStrikf = [AWTStrikf bwtStrikfForFont:bwtFont tx:glypiTx invDfvTx:invDfvTx stylf:stylf bbStylf:bbStylf]; // butorflfbsfd
 
-    if (awtStrike)
+    if (bwtStrikf)
     {
-        CFRetain(awtStrike); // GC
+        CFRftbin(bwtStrikf); // GC
     }
 
-JNF_COCOA_EXIT(env);
-    return ptr_to_jlong(awtStrike);
+JNF_COCOA_EXIT(fnv);
+    rfturn ptr_to_jlong(bwtStrikf);
 }
 
 /*
- * Class:     sun_font_CStrike
- * Method:    disposeNativeStrikePtr
- * Signature: (J)V
+ * Clbss:     sun_font_CStrikf
+ * Mftiod:    disposfNbtivfStrikfPtr
+ * Signbturf: (J)V
  */
 JNIEXPORT void JNICALL
-Java_sun_font_CStrike_disposeNativeStrikePtr
-    (JNIEnv *env, jclass clazz, jlong awtStrike)
+Jbvb_sun_font_CStrikf_disposfNbtivfStrikfPtr
+    (JNIEnv *fnv, jdlbss dlbzz, jlong bwtStrikf)
 {
-JNF_COCOA_ENTER(env);
+JNF_COCOA_ENTER(fnv);
 
-    if (awtStrike) {
-        CFRelease((AWTStrike *)jlong_to_ptr(awtStrike)); // GC
+    if (bwtStrikf) {
+        CFRflfbsf((AWTStrikf *)jlong_to_ptr(bwtStrikf)); // GC
     }
 
-JNF_COCOA_EXIT(env);
+JNF_COCOA_EXIT(fnv);
 }
 
 /*
- * Class:     sun_font_CStrike
- * Method:    getFontMetrics
- * Signature: (J)Lsun/font/StrikeMetrics;
+ * Clbss:     sun_font_CStrikf
+ * Mftiod:    gftFontMftrids
+ * Signbturf: (J)Lsun/font/StrikfMftrids;
  */
-JNIEXPORT jobject JNICALL
-Java_sun_font_CStrike_getFontMetrics
-    (JNIEnv *env, jclass clazz, jlong awtStrikePtr)
+JNIEXPORT jobjfdt JNICALL
+Jbvb_sun_font_CStrikf_gftFontMftrids
+    (JNIEnv *fnv, jdlbss dlbzz, jlong bwtStrikfPtr)
 {
-    jobject metrics = NULL;
+    jobjfdt mftrids = NULL;
 
-JNF_COCOA_ENTER(env);
+JNF_COCOA_ENTER(fnv);
     AWT_FONT_CLEANUP_SETUP;
 
-    AWTFont *awtfont = ((AWTStrike *)jlong_to_ptr(awtStrikePtr))->fAWTFont;
-    AWT_FONT_CLEANUP_CHECK(awtfont);
+    AWTFont *bwtfont = ((AWTStrikf *)jlong_to_ptr(bwtStrikfPtr))->fAWTFont;
+    AWT_FONT_CLEANUP_CHECK(bwtfont);
 
-    CGFontRef cgFont = awtfont->fNativeCGFont;
+    CGFontRff dgFont = bwtfont->fNbtivfCGFont;
 
-    jfloat ay=0.0, dy=0.0, mx=0.0, ly=0.0;
-    int unitsPerEm = CGFontGetUnitsPerEm(cgFont);
-    CGFloat scaleX = (1.0 / unitsPerEm);
-    CGFloat scaleY = (1.0 / unitsPerEm);
+    jflobt by=0.0, dy=0.0, mx=0.0, ly=0.0;
+    int unitsPfrEm = CGFontGftUnitsPfrEm(dgFont);
+    CGFlobt sdblfX = (1.0 / unitsPfrEm);
+    CGFlobt sdblfY = (1.0 / unitsPfrEm);
 
-    // Ascent
-    ay = -(CGFloat)CGFontGetAscent(cgFont) * scaleY;
+    // Asdfnt
+    by = -(CGFlobt)CGFontGftAsdfnt(dgFont) * sdblfY;
 
-    // Descent
-    dy = -(CGFloat)CGFontGetDescent(cgFont) * scaleY;
+    // Dfsdfnt
+    dy = -(CGFlobt)CGFontGftDfsdfnt(dgFont) * sdblfY;
 
-    // Leading
-    ly = (CGFloat)CGFontGetLeading(cgFont) * scaleY;
+    // Lfbding
+    ly = (CGFlobt)CGFontGftLfbding(dgFont) * sdblfY;
 
-    // Max Advance for Font Direction (Strictly horizontal)
-    mx = [awtfont->fFont maximumAdvancement].width;
+    // Mbx Advbndf for Font Dirfdtion (Stridtly iorizontbl)
+    mx = [bwtfont->fFont mbximumAdvbndfmfnt].widti;
 
     /*
-     * ascent:   no need to set ascentX - it will be zero.
-     * descent:  no need to set descentX - it will be zero.
-     * baseline: old releases "made up" a number and also seemed to
-     *           make it up for "X" and set "Y" to 0.
-     * leadingX: no need to set leadingX - it will be zero.
-     * leadingY: made-up number, but being compatible with what 1.4.x did.
-     * advance:  no need to set yMaxLinearAdvanceWidth - it will be zero.
+     * bsdfnt:   no nffd to sft bsdfntX - it will bf zfro.
+     * dfsdfnt:  no nffd to sft dfsdfntX - it will bf zfro.
+     * bbsflinf: old rflfbsfs "mbdf up" b numbfr bnd blso sffmfd to
+     *           mbkf it up for "X" bnd sft "Y" to 0.
+     * lfbdingX: no nffd to sft lfbdingX - it will bf zfro.
+     * lfbdingY: mbdf-up numbfr, but bfing dompbtiblf witi wibt 1.4.x did.
+     * bdvbndf:  no nffd to sft yMbxLinfbrAdvbndfWidti - it will bf zfro.
      */
 
-    JNF_CLASS_CACHE(sjc_StrikeMetrics, "sun/font/StrikeMetrics");
-    JNF_CTOR_CACHE(strikeMetricsCtr, sjc_StrikeMetrics, "(FFFFFFFFFF)V");
-    metrics = JNFNewObject(env, strikeMetricsCtr,
-                           0.0, ay, 0.0, dy, 1.0,
+    JNF_CLASS_CACHE(sjd_StrikfMftrids, "sun/font/StrikfMftrids");
+    JNF_CTOR_CACHE(strikfMftridsCtr, sjd_StrikfMftrids, "(FFFFFFFFFF)V");
+    mftrids = JNFNfwObjfdt(fnv, strikfMftridsCtr,
+                           0.0, by, 0.0, dy, 1.0,
                            0.0, 0.0, ly, mx, 0.0);
 
-cleanup:
+dlfbnup:
     AWT_FONT_CLEANUP_FINISH;
-JNF_COCOA_EXIT(env);
+JNF_COCOA_EXIT(fnv);
 
-    return metrics;
+    rfturn mftrids;
 }
 
-extern void AccelGlyphCache_RemoveAllInfos(GlyphInfo* glyph);
+fxtfrn void AddflGlypiCbdif_RfmovfAllInfos(GlypiInfo* glypi);
 /*
- * Class:     sun_font_CStrikeDisposer
- * Method:    removeGlyphInfoFromCache
- * Signature: (J)V
+ * Clbss:     sun_font_CStrikfDisposfr
+ * Mftiod:    rfmovfGlypiInfoFromCbdif
+ * Signbturf: (J)V
  */
-JNIEXPORT void JNICALL Java_sun_font_CStrikeDisposer_removeGlyphInfoFromCache
-(JNIEnv *env, jclass cls, jlong glyphInfo)
+JNIEXPORT void JNICALL Jbvb_sun_font_CStrikfDisposfr_rfmovfGlypiInfoFromCbdif
+(JNIEnv *fnv, jdlbss dls, jlong glypiInfo)
 {
-    JNF_COCOA_ENTER(env);
+    JNF_COCOA_ENTER(fnv);
 
-    AccelGlyphCache_RemoveAllCellInfos((GlyphInfo*)jlong_to_ptr(glyphInfo));
+    AddflGlypiCbdif_RfmovfAllCfllInfos((GlypiInfo*)jlong_to_ptr(glypiInfo));
 
-    JNF_COCOA_EXIT(env);
+    JNF_COCOA_EXIT(fnv);
 }

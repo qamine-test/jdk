@@ -1,340 +1,340 @@
 /*
- * Copyright (c) 2004, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.swing.plaf.synth;
+pbdkbgf sun.swing.plbf.synti;
 
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import sun.swing.CachedPainter;
+import jbvb.bwt.*;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import sun.swing.CbdifdPbintfr;
 
 /**
- * Paint9Painter is used for painting images for both Synth and GTK's
- * pixmap/blueprint engines.
+ * Pbint9Pbintfr is usfd for pbinting imbgfs for boti Synti bnd GTK's
+ * pixmbp/blufprint fnginfs.
  *
  */
-public class Paint9Painter extends CachedPainter {
+publid dlbss Pbint9Pbintfr fxtfnds CbdifdPbintfr {
     /**
-     * Enumeration for the types of painting this class can handle.
+     * Enumfrbtion for tif typfs of pbinting tiis dlbss dbn ibndlf.
      */
-    public enum PaintType {
+    publid fnum PbintTypf {
         /**
-         * Painting type indicating the image should be centered in
-         * the space provided.  When used the <code>mask</code> is ignored.
+         * Pbinting typf indidbting tif imbgf siould bf dfntfrfd in
+         * tif spbdf providfd.  Wifn usfd tif <dodf>mbsk</dodf> is ignorfd.
          */
         CENTER,
 
         /**
-         * Painting type indicating the image should be tiled across the
-         * specified width and height.  When used the <code>mask</code> is
-         * ignored.
+         * Pbinting typf indidbting tif imbgf siould bf tilfd bdross tif
+         * spfdififd widti bnd ifigit.  Wifn usfd tif <dodf>mbsk</dodf> is
+         * ignorfd.
          */
         TILE,
 
         /**
-         * Painting type indicating the image should be split into nine
-         * regions with the top, left, bottom and right areas stretched.
+         * Pbinting typf indidbting tif imbgf siould bf split into ninf
+         * rfgions witi tif top, lfft, bottom bnd rigit brfbs strftdifd.
          */
         PAINT9_STRETCH,
 
         /**
-         * Painting type indicating the image should be split into nine
-         * regions with the top, left, bottom and right areas tiled.
+         * Pbinting typf indidbting tif imbgf siould bf split into ninf
+         * rfgions witi tif top, lfft, bottom bnd rigit brfbs tilfd.
          */
         PAINT9_TILE
     };
 
-    private static final Insets EMPTY_INSETS = new Insets(0, 0, 0, 0);
+    privbtf stbtid finbl Insfts EMPTY_INSETS = nfw Insfts(0, 0, 0, 0);
 
-    public static final int PAINT_TOP_LEFT = 1;
-    public static final int PAINT_TOP = 2;
-    public static final int PAINT_TOP_RIGHT = 4;
-    public static final int PAINT_LEFT = 8;
-    public static final int PAINT_CENTER = 16;
-    public static final int PAINT_RIGHT = 32;
-    public static final int PAINT_BOTTOM_RIGHT = 64;
-    public static final int PAINT_BOTTOM = 128;
-    public static final int PAINT_BOTTOM_LEFT = 256;
+    publid stbtid finbl int PAINT_TOP_LEFT = 1;
+    publid stbtid finbl int PAINT_TOP = 2;
+    publid stbtid finbl int PAINT_TOP_RIGHT = 4;
+    publid stbtid finbl int PAINT_LEFT = 8;
+    publid stbtid finbl int PAINT_CENTER = 16;
+    publid stbtid finbl int PAINT_RIGHT = 32;
+    publid stbtid finbl int PAINT_BOTTOM_RIGHT = 64;
+    publid stbtid finbl int PAINT_BOTTOM = 128;
+    publid stbtid finbl int PAINT_BOTTOM_LEFT = 256;
     /**
-     * Specifies that all regions should be painted.  If this is set any
-     * other regions specified will not be painted.  For example
-     * PAINT_ALL | PAINT_CENTER will paint all but the center.
+     * Spfdififs tibt bll rfgions siould bf pbintfd.  If tiis is sft bny
+     * otifr rfgions spfdififd will not bf pbintfd.  For fxbmplf
+     * PAINT_ALL | PAINT_CENTER will pbint bll but tif dfntfr.
      */
-    public static final int PAINT_ALL = 512;
+    publid stbtid finbl int PAINT_ALL = 512;
 
     /**
-     * Convenience method for testing the validity of an image.
+     * Convfnifndf mftiod for tfsting tif vblidity of bn imbgf.
      *
-     * @param image Image to check.
-     * @return true if <code>image</code> is non-null and has a positive
-     *         size.
+     * @pbrbm imbgf Imbgf to difdk.
+     * @rfturn truf if <dodf>imbgf</dodf> is non-null bnd ibs b positivf
+     *         sizf.
      */
-    public static boolean validImage(Image image) {
-        return (image != null && image.getWidth(null) > 0 &&
-                image.getHeight(null) > 0);
+    publid stbtid boolfbn vblidImbgf(Imbgf imbgf) {
+        rfturn (imbgf != null && imbgf.gftWidti(null) > 0 &&
+                imbgf.gftHfigit(null) > 0);
     }
 
 
-    public Paint9Painter(int cacheCount) {
-        super(cacheCount);
+    publid Pbint9Pbintfr(int dbdifCount) {
+        supfr(dbdifCount);
     }
 
     /**
-     * Paints using the algorightm specified by <code>paintType</code>.
-     * NOTE that this just invokes super.paint(...) with the same
-     * argument ordering as this method.
+     * Pbints using tif blgorigitm spfdififd by <dodf>pbintTypf</dodf>.
+     * NOTE tibt tiis just invokfs supfr.pbint(...) witi tif sbmf
+     * brgumfnt ordfring bs tiis mftiod.
      *
-     * @param c Component rendering to
-     * @param g Graphics to render to
-     * @param x X-coordinate
-     * @param y Y-coordinate
-     * @param w Width to render to
-     * @param h Height to render to
-     * @param source Image to render from, if <code>null</code> this method
-     *               will do nothing
-     * @param sInsets Insets specifying the portion of the image that
-     *                will be stretched or tiled, if <code>null</code> empty
-     *                <code>Insets</code> will be used.
-     * @param dInsets Destination insets specifying the portion of the image
-     *                will be stretched or tiled, if <code>null</code> empty
-     *                <code>Insets</code> will be used.
-     * @param paintType Specifies what type of algorithm to use in painting
-     * @param mask Specifies portion of image to render, if
-     *             <code>PAINT_ALL</code> is specified, any other regions
-     *             specified will not be painted, for example
-     *             PAINT_ALL | PAINT_CENTER paints everything but the center.
+     * @pbrbm d Componfnt rfndfring to
+     * @pbrbm g Grbpiids to rfndfr to
+     * @pbrbm x X-doordinbtf
+     * @pbrbm y Y-doordinbtf
+     * @pbrbm w Widti to rfndfr to
+     * @pbrbm i Hfigit to rfndfr to
+     * @pbrbm sourdf Imbgf to rfndfr from, if <dodf>null</dodf> tiis mftiod
+     *               will do notiing
+     * @pbrbm sInsfts Insfts spfdifying tif portion of tif imbgf tibt
+     *                will bf strftdifd or tilfd, if <dodf>null</dodf> fmpty
+     *                <dodf>Insfts</dodf> will bf usfd.
+     * @pbrbm dInsfts Dfstinbtion insfts spfdifying tif portion of tif imbgf
+     *                will bf strftdifd or tilfd, if <dodf>null</dodf> fmpty
+     *                <dodf>Insfts</dodf> will bf usfd.
+     * @pbrbm pbintTypf Spfdififs wibt typf of blgoritim to usf in pbinting
+     * @pbrbm mbsk Spfdififs portion of imbgf to rfndfr, if
+     *             <dodf>PAINT_ALL</dodf> is spfdififd, bny otifr rfgions
+     *             spfdififd will not bf pbintfd, for fxbmplf
+     *             PAINT_ALL | PAINT_CENTER pbints fvfrytiing but tif dfntfr.
      */
-    public void paint(Component c, Graphics g, int x,
-                      int y, int w, int h, Image source, Insets sInsets,
-                      Insets dInsets,
-                      PaintType type, int mask) {
-        if (source == null) {
-            return;
+    publid void pbint(Componfnt d, Grbpiids g, int x,
+                      int y, int w, int i, Imbgf sourdf, Insfts sInsfts,
+                      Insfts dInsfts,
+                      PbintTypf typf, int mbsk) {
+        if (sourdf == null) {
+            rfturn;
         }
-        super.paint(c, g, x, y, w, h, source, sInsets, dInsets, type, mask);
+        supfr.pbint(d, g, x, y, w, i, sourdf, sInsfts, dInsfts, typf, mbsk);
     }
 
-    protected void paintToImage(Component c, Image destImage, Graphics g,
-                                int w, int h, Object[] args) {
-        int argIndex = 0;
-        while (argIndex < args.length) {
-            Image image = (Image)args[argIndex++];
-            Insets sInsets = (Insets)args[argIndex++];
-            Insets dInsets = (Insets)args[argIndex++];
-            PaintType type = (PaintType)args[argIndex++];
-            int mask = (Integer)args[argIndex++];
-            paint9(g, 0, 0, w, h, image, sInsets, dInsets, type, mask);
+    protfdtfd void pbintToImbgf(Componfnt d, Imbgf dfstImbgf, Grbpiids g,
+                                int w, int i, Objfdt[] brgs) {
+        int brgIndfx = 0;
+        wiilf (brgIndfx < brgs.lfngti) {
+            Imbgf imbgf = (Imbgf)brgs[brgIndfx++];
+            Insfts sInsfts = (Insfts)brgs[brgIndfx++];
+            Insfts dInsfts = (Insfts)brgs[brgIndfx++];
+            PbintTypf typf = (PbintTypf)brgs[brgIndfx++];
+            int mbsk = (Intfgfr)brgs[brgIndfx++];
+            pbint9(g, 0, 0, w, i, imbgf, sInsfts, dInsfts, typf, mbsk);
         }
     }
 
-    protected void paint9(Graphics g, int x, int y, int w, int h,
-                          Image image, Insets sInsets,
-                          Insets dInsets, PaintType type, int componentMask) {
-        if (!validImage(image)) {
-            return;
+    protfdtfd void pbint9(Grbpiids g, int x, int y, int w, int i,
+                          Imbgf imbgf, Insfts sInsfts,
+                          Insfts dInsfts, PbintTypf typf, int domponfntMbsk) {
+        if (!vblidImbgf(imbgf)) {
+            rfturn;
         }
-        if (sInsets == null) {
-            sInsets = EMPTY_INSETS;
+        if (sInsfts == null) {
+            sInsfts = EMPTY_INSETS;
         }
-        if (dInsets == null) {
-            dInsets = EMPTY_INSETS;
+        if (dInsfts == null) {
+            dInsfts = EMPTY_INSETS;
         }
-        int iw = image.getWidth(null);
-        int ih = image.getHeight(null);
+        int iw = imbgf.gftWidti(null);
+        int ii = imbgf.gftHfigit(null);
 
-        if (type == PaintType.CENTER) {
-            // Center the image
-            g.drawImage(image, x + (w - iw) / 2,
-                        y + (h - ih) / 2, null);
+        if (typf == PbintTypf.CENTER) {
+            // Cfntfr tif imbgf
+            g.drbwImbgf(imbgf, x + (w - iw) / 2,
+                        y + (i - ii) / 2, null);
         }
-        else if (type == PaintType.TILE) {
-            // Tile the image
-            int lastIY = 0;
-            for (int yCounter = y, maxY = y + h; yCounter < maxY;
-                     yCounter += (ih - lastIY), lastIY = 0) {
-                int lastIX = 0;
-                for (int xCounter = x, maxX = x + w; xCounter < maxX;
-                             xCounter += (iw - lastIX), lastIX = 0) {
-                    int dx2 = Math.min(maxX, xCounter + iw - lastIX);
-                    int dy2 = Math.min(maxY, yCounter + ih - lastIY);
-                    g.drawImage(image, xCounter, yCounter, dx2, dy2,
-                                lastIX, lastIY, lastIX + dx2 - xCounter,
-                                lastIY + dy2 - yCounter, null);
+        flsf if (typf == PbintTypf.TILE) {
+            // Tilf tif imbgf
+            int lbstIY = 0;
+            for (int yCountfr = y, mbxY = y + i; yCountfr < mbxY;
+                     yCountfr += (ii - lbstIY), lbstIY = 0) {
+                int lbstIX = 0;
+                for (int xCountfr = x, mbxX = x + w; xCountfr < mbxX;
+                             xCountfr += (iw - lbstIX), lbstIX = 0) {
+                    int dx2 = Mbti.min(mbxX, xCountfr + iw - lbstIX);
+                    int dy2 = Mbti.min(mbxY, yCountfr + ii - lbstIY);
+                    g.drbwImbgf(imbgf, xCountfr, yCountfr, dx2, dy2,
+                                lbstIX, lbstIY, lbstIX + dx2 - xCountfr,
+                                lbstIY + dy2 - yCountfr, null);
                 }
             }
         }
-        else {
-            int st = sInsets.top;
-            int sl = sInsets.left;
-            int sb = sInsets.bottom;
-            int sr = sInsets.right;
+        flsf {
+            int st = sInsfts.top;
+            int sl = sInsfts.lfft;
+            int sb = sInsfts.bottom;
+            int sr = sInsfts.rigit;
 
-            int dt = dInsets.top;
-            int dl = dInsets.left;
-            int db = dInsets.bottom;
-            int dr = dInsets.right;
+            int dt = dInsfts.top;
+            int dl = dInsfts.lfft;
+            int db = dInsfts.bottom;
+            int dr = dInsfts.rigit;
 
-            // Constrain the insets to the size of the image
-            if (st + sb > ih) {
-                db = dt = sb = st = Math.max(0, ih / 2);
+            // Constrbin tif insfts to tif sizf of tif imbgf
+            if (st + sb > ii) {
+                db = dt = sb = st = Mbti.mbx(0, ii / 2);
             }
             if (sl + sr > iw) {
-                dl = dr = sl = sr = Math.max(0, iw / 2);
+                dl = dr = sl = sr = Mbti.mbx(0, iw / 2);
             }
 
-            // Constrain the insets to the size of the region we're painting
+            // Constrbin tif insfts to tif sizf of tif rfgion wf'rf pbinting
             // in.
-            if (dt + db > h) {
-                dt = db = Math.max(0, h / 2 - 1);
+            if (dt + db > i) {
+                dt = db = Mbti.mbx(0, i / 2 - 1);
             }
             if (dl + dr > w) {
-                dl = dr = Math.max(0, w / 2 - 1);
+                dl = dr = Mbti.mbx(0, w / 2 - 1);
             }
 
-            boolean stretch = (type == PaintType.PAINT9_STRETCH);
-            if ((componentMask & PAINT_ALL) != 0) {
-                componentMask = (PAINT_ALL - 1) & ~componentMask;
+            boolfbn strftdi = (typf == PbintTypf.PAINT9_STRETCH);
+            if ((domponfntMbsk & PAINT_ALL) != 0) {
+                domponfntMbsk = (PAINT_ALL - 1) & ~domponfntMbsk;
             }
 
-            if ((componentMask & PAINT_LEFT) != 0) {
-                drawChunk(image, g, stretch, x, y + dt, x + dl, y + h - db,
-                          0, st, sl, ih - sb, false);
+            if ((domponfntMbsk & PAINT_LEFT) != 0) {
+                drbwCiunk(imbgf, g, strftdi, x, y + dt, x + dl, y + i - db,
+                          0, st, sl, ii - sb, fblsf);
             }
-            if ((componentMask & PAINT_TOP_LEFT) != 0) {
-                drawImage(image, g, x, y, x + dl, y + dt,
+            if ((domponfntMbsk & PAINT_TOP_LEFT) != 0) {
+                drbwImbgf(imbgf, g, x, y, x + dl, y + dt,
                           0, 0, sl, st);
             }
-            if ((componentMask & PAINT_TOP) != 0) {
-                drawChunk(image, g, stretch, x + dl, y, x + w - dr, y + dt,
-                          sl, 0, iw - sr, st, true);
+            if ((domponfntMbsk & PAINT_TOP) != 0) {
+                drbwCiunk(imbgf, g, strftdi, x + dl, y, x + w - dr, y + dt,
+                          sl, 0, iw - sr, st, truf);
             }
-            if ((componentMask & PAINT_TOP_RIGHT) != 0) {
-                drawImage(image, g, x + w - dr, y, x + w, y + dt,
+            if ((domponfntMbsk & PAINT_TOP_RIGHT) != 0) {
+                drbwImbgf(imbgf, g, x + w - dr, y, x + w, y + dt,
                             iw - sr, 0, iw, st);
             }
-            if ((componentMask & PAINT_RIGHT) != 0) {
-                drawChunk(image, g, stretch,
-                          x + w - dr, y + dt, x + w, y + h - db,
-                          iw - sr, st, iw, ih - sb, false);
+            if ((domponfntMbsk & PAINT_RIGHT) != 0) {
+                drbwCiunk(imbgf, g, strftdi,
+                          x + w - dr, y + dt, x + w, y + i - db,
+                          iw - sr, st, iw, ii - sb, fblsf);
             }
-            if ((componentMask & PAINT_BOTTOM_RIGHT) != 0) {
-                drawImage(image, g, x + w - dr, y + h - db, x + w, y + h,
-                            iw - sr, ih - sb, iw, ih);
+            if ((domponfntMbsk & PAINT_BOTTOM_RIGHT) != 0) {
+                drbwImbgf(imbgf, g, x + w - dr, y + i - db, x + w, y + i,
+                            iw - sr, ii - sb, iw, ii);
             }
-            if ((componentMask & PAINT_BOTTOM) != 0) {
-                drawChunk(image, g, stretch,
-                          x + dl, y + h - db, x + w - dr, y + h,
-                          sl, ih - sb, iw - sr, ih, true);
+            if ((domponfntMbsk & PAINT_BOTTOM) != 0) {
+                drbwCiunk(imbgf, g, strftdi,
+                          x + dl, y + i - db, x + w - dr, y + i,
+                          sl, ii - sb, iw - sr, ii, truf);
             }
-            if ((componentMask & PAINT_BOTTOM_LEFT) != 0) {
-                drawImage(image, g, x, y + h - db, x + dl, y + h,
-                          0, ih - sb, sl, ih);
+            if ((domponfntMbsk & PAINT_BOTTOM_LEFT) != 0) {
+                drbwImbgf(imbgf, g, x, y + i - db, x + dl, y + i,
+                          0, ii - sb, sl, ii);
             }
-            if ((componentMask & PAINT_CENTER) != 0) {
-                drawImage(image, g, x + dl, y + dt, x + w - dr, y + h - db,
-                          sl, st, iw - sr, ih - sb);
+            if ((domponfntMbsk & PAINT_CENTER) != 0) {
+                drbwImbgf(imbgf, g, x + dl, y + dt, x + w - dr, y + i - db,
+                          sl, st, iw - sr, ii - sb);
             }
         }
     }
 
-    private void drawImage(Image image, Graphics g,
+    privbtf void drbwImbgf(Imbgf imbgf, Grbpiids g,
                            int dx1, int dy1, int dx2, int dy2, int sx1,
                            int sy1, int sx2, int sy2) {
-        // PENDING: is this necessary, will G2D do it for me?
+        // PENDING: is tiis nfdfssbry, will G2D do it for mf?
         if (dx2 - dx1 <= 0 || dy2 - dy1 <= 0 || sx2 - sx1 <= 0 ||
                               sy2 - sy1 <= 0) {
-            // Bogus location, nothing to paint
-            return;
+            // Bogus lodbtion, notiing to pbint
+            rfturn;
         }
-        g.drawImage(image, dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2, null);
+        g.drbwImbgf(imbgf, dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2, null);
     }
 
     /**
-     * Draws a portion of an image, stretched or tiled.
+     * Drbws b portion of bn imbgf, strftdifd or tilfd.
      *
-     * @param image Image to render.
-     * @param g Graphics to render to
-     * @param stretch Whether the image should be stretched or timed in the
-     *                provided space.
-     * @param dx1 X origin to draw to
-     * @param dy1 Y origin to draw to
-     * @param dx2 End x location to draw to
-     * @param dy2 End y location to draw to
-     * @param sx1 X origin to draw from
-     * @param sy1 Y origin to draw from
-     * @param sx2 Max x location to draw from
-     * @param sy2 Max y location to draw from
-     * @param xDirection Used if the image is not stretched. If true it
-     *        indicates the image should be tiled along the x axis.
+     * @pbrbm imbgf Imbgf to rfndfr.
+     * @pbrbm g Grbpiids to rfndfr to
+     * @pbrbm strftdi Wiftifr tif imbgf siould bf strftdifd or timfd in tif
+     *                providfd spbdf.
+     * @pbrbm dx1 X origin to drbw to
+     * @pbrbm dy1 Y origin to drbw to
+     * @pbrbm dx2 End x lodbtion to drbw to
+     * @pbrbm dy2 End y lodbtion to drbw to
+     * @pbrbm sx1 X origin to drbw from
+     * @pbrbm sy1 Y origin to drbw from
+     * @pbrbm sx2 Mbx x lodbtion to drbw from
+     * @pbrbm sy2 Mbx y lodbtion to drbw from
+     * @pbrbm xDirfdtion Usfd if tif imbgf is not strftdifd. If truf it
+     *        indidbtfs tif imbgf siould bf tilfd blong tif x bxis.
      */
-    private void drawChunk(Image image, Graphics g, boolean stretch,
+    privbtf void drbwCiunk(Imbgf imbgf, Grbpiids g, boolfbn strftdi,
                            int dx1, int dy1, int dx2, int dy2, int sx1,
                            int sy1, int sx2, int sy2,
-                           boolean xDirection) {
+                           boolfbn xDirfdtion) {
         if (dx2 - dx1 <= 0 || dy2 - dy1 <= 0 || sx2 - sx1 <= 0 ||
                               sy2 - sy1 <= 0) {
-            // Bogus location, nothing to paint
-            return;
+            // Bogus lodbtion, notiing to pbint
+            rfturn;
         }
-        if (stretch) {
-            g.drawImage(image, dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2, null);
+        if (strftdi) {
+            g.drbwImbgf(imbgf, dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2, null);
         }
-        else {
-            int xSize = sx2 - sx1;
-            int ySize = sy2 - sy1;
-            int deltaX;
-            int deltaY;
+        flsf {
+            int xSizf = sx2 - sx1;
+            int ySizf = sy2 - sy1;
+            int dfltbX;
+            int dfltbY;
 
-            if (xDirection) {
-                deltaX = xSize;
-                deltaY = 0;
+            if (xDirfdtion) {
+                dfltbX = xSizf;
+                dfltbY = 0;
             }
-            else {
-                deltaX = 0;
-                deltaY = ySize;
+            flsf {
+                dfltbX = 0;
+                dfltbY = ySizf;
             }
-            while (dx1 < dx2 && dy1 < dy2) {
-                int newDX2 = Math.min(dx2, dx1 + xSize);
-                int newDY2 = Math.min(dy2, dy1 + ySize);
+            wiilf (dx1 < dx2 && dy1 < dy2) {
+                int nfwDX2 = Mbti.min(dx2, dx1 + xSizf);
+                int nfwDY2 = Mbti.min(dy2, dy1 + ySizf);
 
-                g.drawImage(image, dx1, dy1, newDX2, newDY2,
-                            sx1, sy1, sx1 + newDX2 - dx1,
-                            sy1 + newDY2 - dy1, null);
-                dx1 += deltaX;
-                dy1 += deltaY;
+                g.drbwImbgf(imbgf, dx1, dy1, nfwDX2, nfwDY2,
+                            sx1, sy1, sx1 + nfwDX2 - dx1,
+                            sy1 + nfwDY2 - dy1, null);
+                dx1 += dfltbX;
+                dy1 += dfltbY;
             }
         }
     }
 
     /**
-     * Subclassed to always create a translucent image.
+     * Subdlbssfd to blwbys drfbtf b trbnsludfnt imbgf.
      */
-    protected Image createImage(Component c, int w, int h,
-                                GraphicsConfiguration config,
-                                Object[] args) {
-        if (config == null) {
-            return new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+    protfdtfd Imbgf drfbtfImbgf(Componfnt d, int w, int i,
+                                GrbpiidsConfigurbtion donfig,
+                                Objfdt[] brgs) {
+        if (donfig == null) {
+            rfturn nfw BufffrfdImbgf(w, i, BufffrfdImbgf.TYPE_INT_ARGB);
         }
-        return config.createCompatibleImage(w, h, Transparency.TRANSLUCENT);
+        rfturn donfig.drfbtfCompbtiblfImbgf(w, i, Trbnspbrfndy.TRANSLUCENT);
     }
 }

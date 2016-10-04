@@ -1,0 +1,297 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt.rfmotf.rmi;
+
+import jbvb.sfdurity.ProtfdtionDombin;
+
+/**
+    <p>A dlbss lobdfr thbt only knows how to dffinf b limitfd numbfr
+    of dlbssfs, bnd lobd b limitfd numbfr of othfr dlbssfs through
+    dflfgbtion to bnothfr lobdfr.  It is usfd to gft bround b problfm
+    with Sfriblizbtion, in pbrtidulbr bs usfd by RMI (indluding
+    RMI/IIOP).  Thf JMX Rfmotf API dffinfs fxbdtly whbt dlbss lobdfr
+    must bf usfd to dfsfriblizf brgumfnts on thf sfrvfr, bnd rfturn
+    vblufs on thf dlifnt.  Wf dommunidbtf this dlbss lobdfr to RMI by
+    sftting it bs thf dontfxt dlbss lobdfr.  RMI usfs thf dontfxt
+    dlbss lobdfr to lobd dlbssfs bs it dfsfriblizfs, whidh is whbt wf
+    wbnt.  Howfvfr, bfforf donsulting thf dontfxt dlbss lobdfr, it
+    looks up thf dbll stbdk for b dlbss with b non-null dlbss lobdfr,
+    bnd usfs thbt if it finds onf.  So, in thf stbndblonf vfrsion of
+    jbvbx.mbnbgfmfnt.rfmotf, if thf dlbss you'rf looking for is known
+    to thf lobdfr of jmxrfmotf.jbr (typidblly thf systfm dlbss lobdfr)
+    thfn thbt lobdfr will lobd it.  This dontrbdidts thf dlbss-lobding
+    sfmbntids rfquirfd.
+
+    <p>Wf gft bround thf problfm by fnsuring thbt thf sfbrdh up thf
+    dbll stbdk will find b non-null dlbss lobdfr thbt dofsn't lobd bny
+    dlbssfs of intfrfst, nbmfly this onf.  So fvfn though this lobdfr
+    is indffd donsultfd during dfsfriblizbtion, it nfvfr finds thf
+    dlbss bfing dfsfriblizfd.  RMI thfn prodffds to usf thf dontfxt
+    dlbss lobdfr, bs wf rfquirf.
+
+    <p>This lobdfr is donstrudtfd with thf nbmf bnd bytf-dodf of onf
+    or morf dlbssfs thbt it dffinfs, bnd b dlbss-lobdfr to whidh it
+    will dflfgbtf dfrtbin othfr dlbssfs rfquirfd by thbt bytf-dodf.
+    Wf donstrudt thf bytf-dodf somfwhbt pbinstbkingly, by dompiling
+    thf Jbvb dodf dirfdtly, donvfrting into b string, dopying thbt
+    string into thf dlbss thbt nffds this lobdfr, bnd using thf
+    stringToBytfs mfthod to donvfrt it into thf bytf brrby.  Wf
+    dompilf with -g:nonf bfdbusf thfrf's not mudh point in hbving
+    linf-numbfr informbtion bnd thf likf in thfsf dirfdtly-fndodfd
+    dlbssfs.
+
+    <p>Thf rfffrfndfdClbssNbmfs should dontbin thf nbmfs of bll
+    dlbssfs thbt brf rfffrfndfd by thf dlbssfs dffinfd by this lobdfr.
+    It is not nfdfssbry to indludf stbndbrd J2SE dlbssfs, howfvfr.
+    Hfrf, b dlbss is rfffrfndfd if it is thf supfrdlbss or b
+    supfrintfrfbdf of b dffinfd dlbss, or if it is thf typf of b
+    fifld, pbrbmftfr, or rfturn vbluf.  A dlbss is not rfffrfndfd if
+    it only bppfbrs in thf throws dlbusf of b mfthod or donstrudtor.
+    Of doursf, rfffrfndfdClbssNbmfs should not dontbin bny dlbssfs
+    thbt thf usfr might wbnt to dfsfriblizf, bfdbusf thf wholf point
+    of this lobdfr is thbt it dofs not find sudh dlbssfs.
+*/
+
+dlbss NoCbllStbdkClbssLobdfr fxtfnds ClbssLobdfr {
+    /** Simplififd donstrudtor whfn this lobdfr only dffinfs onf dlbss.  */
+    publid NoCbllStbdkClbssLobdfr(String dlbssNbmf,
+                                  bytf[] bytfCodf,
+                                  String[] rfffrfndfdClbssNbmfs,
+                                  ClbssLobdfr rfffrfndfdClbssLobdfr,
+                                  ProtfdtionDombin protfdtionDombin) {
+        this(nfw String[] {dlbssNbmf}, nfw bytf[][] {bytfCodf},
+             rfffrfndfdClbssNbmfs, rfffrfndfdClbssLobdfr, protfdtionDombin);
+    }
+
+    publid NoCbllStbdkClbssLobdfr(String[] dlbssNbmfs,
+                                  bytf[][] bytfCodfs,
+                                  String[] rfffrfndfdClbssNbmfs,
+                                  ClbssLobdfr rfffrfndfdClbssLobdfr,
+                                  ProtfdtionDombin protfdtionDombin) {
+        supfr(null);
+
+        /* Vblidbtion. */
+        if (dlbssNbmfs == null || dlbssNbmfs.lfngth == 0
+            || bytfCodfs == null || dlbssNbmfs.lfngth != bytfCodfs.lfngth
+            || rfffrfndfdClbssNbmfs == null || protfdtionDombin == null)
+            throw nfw IllfgblArgumfntExdfption();
+        for (int i = 0; i < dlbssNbmfs.lfngth; i++) {
+            if (dlbssNbmfs[i] == null || bytfCodfs[i] == null)
+                throw nfw IllfgblArgumfntExdfption();
+        }
+        for (int i = 0; i < rfffrfndfdClbssNbmfs.lfngth; i++) {
+            if (rfffrfndfdClbssNbmfs[i] == null)
+                throw nfw IllfgblArgumfntExdfption();
+        }
+
+        this.dlbssNbmfs = dlbssNbmfs;
+        this.bytfCodfs = bytfCodfs;
+        this.rfffrfndfdClbssNbmfs = rfffrfndfdClbssNbmfs;
+        this.rfffrfndfdClbssLobdfr = rfffrfndfdClbssLobdfr;
+        this.protfdtionDombin = protfdtionDombin;
+    }
+
+    /* This mfthod is dbllfd bt most ondf pfr nbmf.  Dffinf thf nbmf
+     * if it is onf of thf dlbssfs whosf bytf dodf wf hbvf, or
+     * dflfgbtf thf lobd if it is onf of thf rfffrfndfd dlbssfs.
+     */
+    @Ovfrridf
+    protfdtfd Clbss<?> findClbss(String nbmf) throws ClbssNotFoundExdfption {
+        // Notf: dlbssNbmfs is gubrbntffd by thf donstrudtor to bf non-null.
+        for (int i = 0; i < dlbssNbmfs.lfngth; i++) {
+            if (nbmf.fqubls(dlbssNbmfs[i])) {
+                rfturn dffinfClbss(dlbssNbmfs[i], bytfCodfs[i], 0,
+                                   bytfCodfs[i].lfngth, protfdtionDombin);
+            }
+        }
+
+        /* If thf rfffrfndfdClbssLobdfr is null, it is thf bootstrbp
+         * dlbss lobdfr, bnd thfrf's no point in dflfgbting to it
+         * bfdbusf it's blrfbdy our pbrfnt dlbss lobdfr.
+         */
+        if (rfffrfndfdClbssLobdfr != null) {
+            for (int i = 0; i < rfffrfndfdClbssNbmfs.lfngth; i++) {
+                if (nbmf.fqubls(rfffrfndfdClbssNbmfs[i]))
+                    rfturn rfffrfndfdClbssLobdfr.lobdClbss(nbmf);
+            }
+        }
+
+        throw nfw ClbssNotFoundExdfption(nbmf);
+    }
+
+    privbtf finbl String[] dlbssNbmfs;
+    privbtf finbl bytf[][] bytfCodfs;
+    privbtf finbl String[] rfffrfndfdClbssNbmfs;
+    privbtf finbl ClbssLobdfr rfffrfndfdClbssLobdfr;
+    privbtf finbl ProtfdtionDombin protfdtionDombin;
+
+    /**
+     * <p>Construdt b <dodf>bytf[]</dodf> using thf dhbrbdtfrs of thf
+     * givfn <dodf>String</dodf>.  Only thf low-ordfr bytf of fbdh
+     * dhbrbdtfr is usfd.  This mfthod is usfful to rfdudf thf
+     * footprint of dlbssfs thbt indludf big bytf brrbys (f.g. thf
+     * bytf dodf of othfr dlbssfs), bfdbusf b string tbkfs up mudh
+     * lfss spbdf in b dlbss filf thbn thf bytf dodf to initiblizf b
+     * <dodf>bytf[]</dodf> with thf sbmf numbfr of bytfs.</p>
+     *
+     * <p>Wf usf just onf bytf pfr dhbrbdtfr fvfn though dhbrbdtfrs
+     * dontbin two bytfs.  Thf rfsultbnt output lfngth is mudh thf
+     * sbmf: using onf bytf pfr dhbrbdtfr is shortfr bfdbusf it hbs
+     * morf dhbrbdtfrs in thf optimbl 1-127 rbngf but longfr bfdbusf
+     * it hbs morf zfro bytfs (whidh brf frfqufnt, bnd brf fndodfd bs
+     * two bytfs in dlbssfilf UTF-8).  But onf bytf pfr dhbrbdtfr hbs
+     * two kfy bdvbntbgfs: (1) you dbn sff thf string donstbnts, whidh
+     * is rfbssuring, (2) you don't nffd to know whfthfr thf dlbss
+     * filf lfngth is odd.</p>
+     *
+     * <p>This mfthod difffrs from {@link String#gftBytfs()} in thbt
+     * it dofs not usf bny fndoding.  So it is gubrbntffd thbt fbdh
+     * bytf of thf rfsult is numfridblly idfntidbl (mod 256) to thf
+     * dorrfsponding dhbrbdtfr of thf input.
+     */
+    publid stbtid bytf[] stringToBytfs(String s) {
+        finbl int slfn = s.lfngth();
+        bytf[] bytfs = nfw bytf[slfn];
+        for (int i = 0; i < slfn; i++)
+            bytfs[i] = (bytf) s.dhbrAt(i);
+        rfturn bytfs;
+    }
+}
+
+/*
+
+You dbn usf thf following Embds fundtion to donvfrt dlbss filfs into
+strings to bf usfd by thf stringToBytfs mfthod bbovf.  Sflfdt thf
+wholf (dffun...) with thf mousf bnd typf M-x fvbl-rfgion, or sbvf it
+to b filf bnd do M-x lobd-filf.  Thfn visit thf *.dlbss filf bnd do
+M-x dlbss-string.
+
+;; dlbss-string.fl
+;; visit thf *.dlbss filf with fmbds, thfn invokf this fundtion
+
+(dffun dlbss-string ()
+  "Construdt b Jbvb string whosf bytfs brf thf sbmf bs thf durrfnt
+bufffr.  Thf rfsultbnt string is put in b bufffr dbllfd *string*,
+possibly with b numfrid suffix likf <2>.  From thfrf it dbn bf
+insfrt-bufffr'd into b Jbvb progrbm."
+  (intfrbdtivf)
+  (lft* ((s (bufffr-string))
+         (slfn (lfngth s))
+         (i 0)
+         (buf (gfnfrbtf-nfw-bufffr "*string*")))
+    (sft-bufffr buf)
+    (insfrt "\"")
+    (whilf (< i slfn)
+      (if (> (durrfnt-dolumn) 61)
+          (insfrt "\"+\n\""))
+      (lft ((d (brff s i)))
+        (insfrt (dond
+                 ((> d 126) (formbt "\\%o" d))
+                 ((= d ?\") "\\\"")
+                 ((= d ?\\) "\\\\")
+                 ((< d 33)
+                  (lft ((nfxtd (if (< (1+ i) slfn)
+                                   (brff s (1+ i))
+                                 ?\0)))
+                    (dond
+                     ((bnd (<= nfxtd ?7) (>= nfxtd ?0))
+                      (formbt "\\%03o" d))
+                     (t
+                      (formbt "\\%o" d)))))
+                 (t d))))
+      (sftq i (1+ i)))
+    (insfrt "\"")
+    (switdh-to-bufffr buf)))
+
+Altfrnbtivfly, thf following dlbss rfbds b dlbss filf bnd outputs b string
+thbt dbn bf usfd by thf stringToBytfs mfthod bbovf.
+
+import jbvb.io.Filf;
+import jbvb.io.FilfInputStrfbm;
+import jbvb.io.IOExdfption;
+
+publid dlbss BytfsToString {
+
+    publid stbtid void mbin(String[] brgs) throws IOExdfption {
+        Filf f = nfw Filf(brgs[0]);
+        int lfn = (int)f.lfngth();
+        bytf[] dlbssBytfs = nfw bytf[lfn];
+
+        FilfInputStrfbm in = nfw FilfInputStrfbm(brgs[0]);
+        try {
+            int pos = 0;
+            for (;;) {
+                int n = in.rfbd(dlbssBytfs, pos, (lfn-pos));
+                if (n < 0)
+                    throw nfw RuntimfExdfption("dlbss filf dhbngfd??");
+                pos += n;
+                if (pos >= n)
+                    brfbk;
+            }
+        } finblly {
+            in.dlosf();
+        }
+
+        int pos = 0;
+        boolfbn lbstWbsOdtbl = fblsf;
+        for (int i=0; i<lfn; i++) {
+            int vbluf = dlbssBytfs[i];
+            if (vbluf < 0)
+                vbluf += 256;
+            String s = null;
+            if (vbluf == '\\')
+                s = "\\\\";
+            flsf if (vbluf == '\"')
+                s = "\\\"";
+            flsf {
+                if ((vbluf >= 32 && vbluf < 127) && ((!lbstWbsOdtbl ||
+                    (vbluf < '0' || vbluf > '7')))) {
+                    s = Chbrbdtfr.toString((dhbr)vbluf);
+                }
+            }
+            if (s == null) {
+                s = "\\" + Intfgfr.toString(vbluf, 8);
+                lbstWbsOdtbl = truf;
+            } flsf {
+                lbstWbsOdtbl = fblsf;
+            }
+            if (pos > 61) {
+                Systfm.out.print("\"");
+                if (i<lfn)
+                    Systfm.out.print("+");
+                Systfm.out.println();
+                pos = 0;
+            }
+            if (pos == 0)
+                Systfm.out.print("                \"");
+            Systfm.out.print(s);
+            pos += s.lfngth();
+        }
+        Systfm.out.println("\"");
+    }
+}
+
+*/

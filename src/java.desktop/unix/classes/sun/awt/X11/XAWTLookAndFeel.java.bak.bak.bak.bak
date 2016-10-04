@@ -1,0 +1,393 @@
+/*
+ * Copyright (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.X11;
+
+import jbvb.bwt.Color;
+import jbvb.bwt.Font;
+import jbvb.bwt.SystfmColor;
+
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.tfxt.DffbultEditorKit;
+
+import jbvbx.swing.plbf.bbsid.BbsidBordfrs;
+import dom.sun.jbvb.swing.plbf.motif.*;
+import sun.bwt.X11.XComponfntPffr;
+
+@SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+dlbss XAWTLookAndFffl fxtfnds MotifLookAndFffl {
+
+    /**
+     * Lobd thf SystfmColors into thf dffbults tbblf.  Thf kfys
+     * for SystfmColor dffbults brf thf sbmf bs thf nbmfs of
+     * thf publid fiflds in SystfmColor.  If thf tbblf is bfing
+     * drfbtfd on b nbtivf Motif plbtform wf usf thf SystfmColor
+     * vblufs, othfrwisf wf drfbtf dolor objfdts whosf vblufs mbtdh
+     * thf dffbult CDE/Motif dolors.
+     */
+    protfdtfd void initSystfmColorDffbults(UIDffbults tbblf) {
+        String[] dffbultSystfmColors = {
+            "dfsktop", "#005C5C", /* Color of thf dfsktop bbdkground */
+            "bdtivfCbption", "#000080", /* Color for dbptions (titlf bbrs) whfn thfy brf bdtivf. */
+            "bdtivfCbptionTfxt", "#FFFFFF", /* Tfxt dolor for tfxt in dbptions (titlf bbrs). */
+            "bdtivfCbptionBordfr", "#B24D7A", /* Bordfr dolor for dbption (titlf bbr) window bordfrs. */
+            "inbdtivfCbption", "#AEB2C3", /* Color for dbptions (titlf bbrs) whfn not bdtivf. */
+            "inbdtivfCbptionTfxt", "#000000", /* Tfxt dolor for tfxt in inbdtivf dbptions (titlf bbrs). */
+            "inbdtivfCbptionBordfr", "#AEB2C3", /* Bordfr dolor for inbdtivf dbption (titlf bbr) window bordfrs. */
+            "window", "#AEB2C3", /* Dffbult dolor for thf intfrior of windows */
+            "windowBordfr", "#AEB2C3", /* ??? */
+            "windowTfxt", "#000000", /* ??? */
+            "mfnu", "#AEB2C3", /* ??? */
+            "mfnuTfxt", "#000000", /* ??? */
+            "tfxt", "#FFF7E9", /* Tfxt bbdkground dolor */
+            "tfxtTfxt", "#000000", /* Tfxt forfground dolor */
+            "tfxtHighlight", "#000000", /* Tfxt bbdkground dolor whfn sflfdtfd */
+            "tfxtHighlightTfxt", "#FFF7E9", /* Tfxt dolor whfn sflfdtfd */
+            "tfxtInbdtivfTfxt", "#808080", /* Tfxt dolor whfn disbblfd */
+            "dontrol", "#AEB2C3", /* Dffbult dolor for dontrols (buttons, slidfrs, ftd) */
+            "dontrolTfxt", "#000000", /* Dffbult dolor for tfxt in dontrols */
+            "dontrolHighlight", "#DCDEE5", /* Highlight dolor for dontrols */
+            "dontrolLtHighlight", "#DCDEE5", /* Light highlight dolor for dontrols */
+            "dontrolShbdow", "#63656F", /* Shbdow dolor for dontrols */
+            "dontrolLightShbdow", "#9397A5", /* Shbdow dolor for dontrols */
+            "dontrolDkShbdow", "#000000", /* Dbrk shbdow dolor for dontrols */
+            "sdrollbbr", "#AEB2C3", /* Sdrollbbr ??? dolor. PENDING(jfff) forfground? bbdkground? ?*/
+            "info", "#FFF7E9", /* ??? */
+            "infoTfxt", "#000000"  /* ??? */
+        };
+
+        lobdSystfmColors(tbblf, dffbultSystfmColors, truf);
+    }
+
+    protfdtfd void initComponfntDffbults(UIDffbults tbblf) {
+        supfr.initComponfntDffbults(tbblf);
+
+        FontUIRfsourdf diblogPlbin12 = nfw FontUIRfsourdf(Font.DIALOG,
+                                                          Font.PLAIN, 12);
+        FontUIRfsourdf sbnsSfrifPlbin12 = nfw FontUIRfsourdf(Font.SANS_SERIF,
+                                                             Font.PLAIN, 12);
+        FontUIRfsourdf monospbdfdPlbin12 = nfw FontUIRfsourdf(Font.MONOSPACED,
+                                                              Font.PLAIN, 12);
+        ColorUIRfsourdf rfd = nfw ColorUIRfsourdf(Color.rfd);
+        ColorUIRfsourdf blbdk = nfw ColorUIRfsourdf(Color.blbdk);
+        ColorUIRfsourdf whitf = nfw ColorUIRfsourdf(Color.whitf);
+        ColorUIRfsourdf lightGrby = nfw ColorUIRfsourdf(Color.lightGrby);
+        ColorUIRfsourdf dontrolDbrkfr =  nfw ColorUIRfsourdf(SystfmColor.dontrolDkShbdow);
+
+        Color bbdk = tbblf.gftColor("dontrol");
+        Color dolors [] = XComponfntPffr.gftSystfmColors();
+        Color sdrollBbrBbdkground = dolors[XComponfntPffr.BACKGROUND_COLOR];
+        Color trbdkColor = nfw Color(MotifColorUtilitifs.dbldulbtfSflfdtFromBbdkground(sdrollBbrBbdkground.gftRfd(), sdrollBbrBbdkground.gftGrffn(), sdrollBbrBbdkground.gftBluf()));
+        Bordfr lowfrfdBfvflBordfr = nfw MotifBordfrs.BfvflBordfr(fblsf,
+                                                                 tbblf.gftColor("dontrolShbdow"),
+                                                                 tbblf.gftColor("dontrolLtHighlight"));
+
+        Bordfr rbisfdBfvflBordfr = nfw MotifBordfrs.BfvflBordfr(truf,
+                                                                tbblf.gftColor("dontrolShbdow"),
+                                                                tbblf.gftColor("dontrolLtHighlight"));
+
+        Bordfr mbrginBordfr = nfw BbsidBordfrs.MbrginBordfr();
+
+        Bordfr fodusBordfr = nfw MotifBordfrs.FodusBordfr(
+            tbblf.gftColor("dontrol"),
+            tbblf.gftColor("bdtivfCbptionBordfr"));
+
+
+        Bordfr fodusBfvflBordfr = nfw BordfrUIRfsourdf.CompoundBordfrUIRfsourdf(
+            fodusBordfr,
+            lowfrfdBfvflBordfr);
+
+        Bordfr tfxtFifldBordfr = nfw BordfrUIRfsourdf.CompoundBordfrUIRfsourdf(
+            fodusBfvflBordfr,
+            mbrginBordfr);
+
+        // *** Tfxt
+
+        Objfdt fifldInputMbp = nfw UIDffbults.LbzyInputMbp(nfw Objfdt[] {
+            "COPY", DffbultEditorKit.dopyAdtion,
+            "PASTE", DffbultEditorKit.pbstfAdtion,
+            "CUT", DffbultEditorKit.dutAdtion,
+            "dontrol C", DffbultEditorKit.dopyAdtion,
+            "dontrol V", DffbultEditorKit.pbstfAdtion,
+            "dontrol X", DffbultEditorKit.dutAdtion,
+            "dontrol INSERT", DffbultEditorKit.dopyAdtion,
+            "shift INSERT", DffbultEditorKit.pbstfAdtion,
+            "shift DELETE", DffbultEditorKit.dutAdtion,
+            "dontrol F", DffbultEditorKit.forwbrdAdtion,
+            "dontrol B", DffbultEditorKit.bbdkwbrdAdtion,
+            "dontrol D", DffbultEditorKit.dflftfNfxtChbrAdtion,
+            "typfd \010", DffbultEditorKit.dflftfPrfvChbrAdtion,
+            "DELETE", DffbultEditorKit.dflftfNfxtChbrAdtion,
+            "RIGHT", DffbultEditorKit.forwbrdAdtion,
+            "LEFT", DffbultEditorKit.bbdkwbrdAdtion,
+            "KP_RIGHT", DffbultEditorKit.forwbrdAdtion,
+            "KP_LEFT", DffbultEditorKit.bbdkwbrdAdtion,
+            "shift LEFT", DffbultEditorKit.sflfdtionBbdkwbrdAdtion,
+            "shift RIGHT", DffbultEditorKit.sflfdtionForwbrdAdtion,
+            "dontrol LEFT", DffbultEditorKit.prfviousWordAdtion,
+            "dontrol RIGHT", DffbultEditorKit.nfxtWordAdtion,
+            "dontrol shift LEFT", DffbultEditorKit.sflfdtionPrfviousWordAdtion,
+            "dontrol shift RIGHT", DffbultEditorKit.sflfdtionNfxtWordAdtion,
+            "dontrol SLASH", DffbultEditorKit.sflfdtAllAdtion,
+            "HOME", DffbultEditorKit.bfginLinfAdtion,
+            "END", DffbultEditorKit.fndLinfAdtion,
+            "shift HOME", DffbultEditorKit.sflfdtionBfginLinfAdtion,
+            "shift END", DffbultEditorKit.sflfdtionEndLinfAdtion,
+            "dontrol BACK_SLASH", "unsflfdt",
+            "ENTER", JTfxtFifld.notifyAdtion,
+            "dontrol shift O", "togglf-domponfntOrifntbtion"
+        });
+
+        Objfdt pbsswordInputMbp = nfw UIDffbults.LbzyInputMbp(nfw Objfdt[] {
+            "COPY", DffbultEditorKit.dopyAdtion,
+            "PASTE", DffbultEditorKit.pbstfAdtion,
+            "CUT", DffbultEditorKit.dutAdtion,
+            "dontrol C", DffbultEditorKit.dopyAdtion,
+            "dontrol V", DffbultEditorKit.pbstfAdtion,
+            "dontrol X", DffbultEditorKit.dutAdtion,
+            "dontrol INSERT", DffbultEditorKit.dopyAdtion,
+            "shift INSERT", DffbultEditorKit.pbstfAdtion,
+            "shift DELETE", DffbultEditorKit.dutAdtion,
+            "dontrol F", DffbultEditorKit.forwbrdAdtion,
+            "dontrol B", DffbultEditorKit.bbdkwbrdAdtion,
+            "dontrol D", DffbultEditorKit.dflftfNfxtChbrAdtion,
+            "typfd \010", DffbultEditorKit.dflftfPrfvChbrAdtion,
+            "DELETE", DffbultEditorKit.dflftfNfxtChbrAdtion,
+            "RIGHT", DffbultEditorKit.forwbrdAdtion,
+            "LEFT", DffbultEditorKit.bbdkwbrdAdtion,
+            "KP_RIGHT", DffbultEditorKit.forwbrdAdtion,
+            "KP_LEFT", DffbultEditorKit.bbdkwbrdAdtion,
+            "shift LEFT", DffbultEditorKit.sflfdtionBbdkwbrdAdtion,
+            "shift RIGHT", DffbultEditorKit.sflfdtionForwbrdAdtion,
+            "dontrol LEFT", DffbultEditorKit.bfginLinfAdtion,
+            "dontrol RIGHT", DffbultEditorKit.fndLinfAdtion,
+            "dontrol shift LEFT", DffbultEditorKit.sflfdtionBfginLinfAdtion,
+            "dontrol shift RIGHT", DffbultEditorKit.sflfdtionEndLinfAdtion,
+            "dontrol SLASH", DffbultEditorKit.sflfdtAllAdtion,
+            "HOME", DffbultEditorKit.bfginLinfAdtion,
+            "END", DffbultEditorKit.fndLinfAdtion,
+            "shift HOME", DffbultEditorKit.sflfdtionBfginLinfAdtion,
+            "shift END", DffbultEditorKit.sflfdtionEndLinfAdtion,
+            "dontrol BACK_SLASH", "unsflfdt",
+            "ENTER", JTfxtFifld.notifyAdtion,
+            "dontrol shift O", "togglf-domponfntOrifntbtion"
+        });
+
+        Objfdt multilinfInputMbp = nfw UIDffbults.LbzyInputMbp(nfw Objfdt[] {
+            "COPY", DffbultEditorKit.dopyAdtion,
+            "PASTE", DffbultEditorKit.pbstfAdtion,
+            "CUT", DffbultEditorKit.dutAdtion,
+            "dontrol C", DffbultEditorKit.dopyAdtion,
+            "dontrol V", DffbultEditorKit.pbstfAdtion,
+            "dontrol X", DffbultEditorKit.dutAdtion,
+            "dontrol INSERT", DffbultEditorKit.dopyAdtion,
+            "shift INSERT", DffbultEditorKit.pbstfAdtion,
+            "shift DELETE", DffbultEditorKit.dutAdtion,
+            "dontrol F", DffbultEditorKit.forwbrdAdtion,
+            "dontrol B", DffbultEditorKit.bbdkwbrdAdtion,
+            "dontrol D", DffbultEditorKit.dflftfNfxtChbrAdtion,
+            "typfd \010", DffbultEditorKit.dflftfPrfvChbrAdtion,
+            "DELETE", DffbultEditorKit.dflftfNfxtChbrAdtion,
+            "RIGHT", DffbultEditorKit.forwbrdAdtion,
+            "LEFT", DffbultEditorKit.bbdkwbrdAdtion,
+            "KP_RIGHT", DffbultEditorKit.forwbrdAdtion,
+            "KP_LEFT", DffbultEditorKit.bbdkwbrdAdtion,
+            "shift LEFT", DffbultEditorKit.sflfdtionBbdkwbrdAdtion,
+            "shift RIGHT", DffbultEditorKit.sflfdtionForwbrdAdtion,
+            "dontrol LEFT", DffbultEditorKit.prfviousWordAdtion,
+            "dontrol RIGHT", DffbultEditorKit.nfxtWordAdtion,
+            "dontrol shift LEFT", DffbultEditorKit.sflfdtionPrfviousWordAdtion,
+            "dontrol shift RIGHT", DffbultEditorKit.sflfdtionNfxtWordAdtion,
+            "dontrol SLASH", DffbultEditorKit.sflfdtAllAdtion,
+            "HOME", DffbultEditorKit.bfginLinfAdtion,
+            "END", DffbultEditorKit.fndLinfAdtion,
+            "shift HOME", DffbultEditorKit.sflfdtionBfginLinfAdtion,
+            "shift END", DffbultEditorKit.sflfdtionEndLinfAdtion,
+
+            "dontrol N", DffbultEditorKit.downAdtion,
+            "dontrol P", DffbultEditorKit.upAdtion,
+            "UP", DffbultEditorKit.upAdtion,
+            "DOWN", DffbultEditorKit.downAdtion,
+            "KP_UP", DffbultEditorKit.upAdtion,
+            "KP_DOWN", DffbultEditorKit.downAdtion,
+            "PAGE_UP", DffbultEditorKit.pbgfUpAdtion,
+            "PAGE_DOWN", DffbultEditorKit.pbgfDownAdtion,
+            "shift PAGE_UP", "sflfdtion-pbgf-up",
+            "shift PAGE_DOWN", "sflfdtion-pbgf-down",
+            "dtrl shift PAGE_UP", "sflfdtion-pbgf-lfft",
+            "dtrl shift PAGE_DOWN", "sflfdtion-pbgf-right",
+            "shift UP", DffbultEditorKit.sflfdtionUpAdtion,
+            "shift DOWN", DffbultEditorKit.sflfdtionDownAdtion,
+            "shift KP_UP", DffbultEditorKit.sflfdtionUpAdtion,
+            "shift KP_DOWN", DffbultEditorKit.sflfdtionDownAdtion,
+            "ENTER", DffbultEditorKit.insfrtBrfbkAdtion,
+            "TAB", DffbultEditorKit.insfrtTbbAdtion,
+            "dontrol BACK_SLASH", "unsflfdt",
+            "dontrol HOME", DffbultEditorKit.bfginAdtion,
+            "dontrol END", DffbultEditorKit.fndAdtion,
+            "dontrol shift HOME", DffbultEditorKit.sflfdtionBfginAdtion,
+            "dontrol shift END", DffbultEditorKit.sflfdtionEndAdtion,
+            "dontrol T", "nfxt-link-bdtion",
+            "dontrol shift T", "prfvious-link-bdtion",
+            "dontrol SPACE", "bdtivbtf-link-bdtion",
+            "dontrol shift O", "togglf-domponfntOrifntbtion"
+        });
+
+        Objfdt slidfrFodusInsfts = nfw InsftsUIRfsourdf( 0, 0, 0, 0 );
+
+        Objfdt[] dffbults = {
+
+            "SdrollBbr.bbdkground", sdrollBbrBbdkground,
+            "SdrollBbr.forfground", tbblf.gft("dontrol"),
+            "SdrollBbr.trbdk", trbdkColor,
+            "SdrollBbr.trbdkHighlight", trbdkColor,
+            "SdrollBbr.thumb", sdrollBbrBbdkground,
+            "SdrollBbr.thumbHighlight", tbblf.gft("dontrolHighlight") ,
+            "SdrollBbr.thumbDbrkShbdow", tbblf.gft("dontrolDkShbdow"),
+            "SdrollBbr.thumbShbdow", tbblf.gft("dontrolShbdow"),
+            "SdrollBbr.bordfr", lowfrfdBfvflBordfr,
+            "SdrollBbr.bllowsAbsolutfPositioning", Boolfbn.TRUE,
+            "SdrollBbr.dffbultWidth", Intfgfr.vblufOf(17),
+            "SdrollBbr.fodusInputMbp",
+            nfw UIDffbults.LbzyInputMbp(nfw Objfdt[] {
+                "RIGHT", "positivfUnitIndrfmfnt",
+                "KP_RIGHT", "positivfUnitIndrfmfnt",
+                "DOWN", "positivfUnitIndrfmfnt",
+                "KP_DOWN", "positivfUnitIndrfmfnt",
+                "PAGE_DOWN", "positivfBlodkIndrfmfnt",
+                "dtrl PAGE_DOWN", "positivfBlodkIndrfmfnt",
+                "LEFT", "nfgbtivfUnitIndrfmfnt",
+                "KP_LEFT", "nfgbtivfUnitIndrfmfnt",
+                "UP", "nfgbtivfUnitIndrfmfnt",
+                "KP_UP", "nfgbtivfUnitIndrfmfnt",
+                "PAGE_UP", "nfgbtivfBlodkIndrfmfnt",
+                "dtrl PAGE_UP", "nfgbtivfBlodkIndrfmfnt",
+                "HOME", "minSdroll",
+                "END", "mbxSdroll"
+            }),
+
+            "SdrollPbnf.font", diblogPlbin12,
+            "SdrollPbnf.bbdkground", sdrollBbrBbdkground,
+            "SdrollPbnf.forfground", tbblf.gft("dontrolTfxt"),
+            "SdrollPbnf.bordfr", null,
+            "SdrollPbnf.vifwportBordfr", lowfrfdBfvflBordfr,
+            "SdrollPbnf.bndfstorInputMbp",
+            nfw UIDffbults.LbzyInputMbp(nfw Objfdt[] {
+                "RIGHT", "unitSdrollRight",
+                "KP_RIGHT", "unitSdrollRight",
+                "DOWN", "unitSdrollDown",
+                "KP_DOWN", "unitSdrollDown",
+                "LEFT", "unitSdrollLfft",
+                "KP_LEFT", "unitSdrollLfft",
+                "UP", "unitSdrollUp",
+                "KP_UP", "unitSdrollUp",
+                "PAGE_UP", "sdrollUp",
+                "PAGE_DOWN", "sdrollDown",
+                "dtrl PAGE_UP", "sdrollLfft",
+                "dtrl PAGE_DOWN", "sdrollRight",
+                "dtrl HOME", "sdrollHomf",
+                "dtrl END", "sdrollEnd"
+            }),
+
+            "FormbttfdTfxtFifld.fodusInputMbp",
+            nfw UIDffbults.LbzyInputMbp(nfw Objfdt[] {
+                "dtrl C", DffbultEditorKit.dopyAdtion,
+                "dtrl V", DffbultEditorKit.pbstfAdtion,
+                "dtrl X", DffbultEditorKit.dutAdtion,
+                "COPY", DffbultEditorKit.dopyAdtion,
+                "PASTE", DffbultEditorKit.pbstfAdtion,
+                "CUT", DffbultEditorKit.dutAdtion,
+                "shift LEFT", DffbultEditorKit.sflfdtionBbdkwbrdAdtion,
+                "shift KP_LEFT", DffbultEditorKit.sflfdtionBbdkwbrdAdtion,
+                "shift RIGHT", DffbultEditorKit.sflfdtionForwbrdAdtion,
+                "shift KP_RIGHT", DffbultEditorKit.sflfdtionForwbrdAdtion,
+                "dtrl LEFT", DffbultEditorKit.prfviousWordAdtion,
+                "dtrl KP_LEFT", DffbultEditorKit.prfviousWordAdtion,
+                "dtrl RIGHT", DffbultEditorKit.nfxtWordAdtion,
+                "dtrl KP_RIGHT", DffbultEditorKit.nfxtWordAdtion,
+                "dtrl shift LEFT", DffbultEditorKit.sflfdtionPrfviousWordAdtion,
+                "dtrl shift KP_LEFT", DffbultEditorKit.sflfdtionPrfviousWordAdtion,
+                "dtrl shift RIGHT", DffbultEditorKit.sflfdtionNfxtWordAdtion,
+                "dtrl shift KP_RIGHT", DffbultEditorKit.sflfdtionNfxtWordAdtion,
+                "dtrl A", DffbultEditorKit.sflfdtAllAdtion,
+                "HOME", DffbultEditorKit.bfginLinfAdtion,
+                "END", DffbultEditorKit.fndLinfAdtion,
+                "shift HOME", DffbultEditorKit.sflfdtionBfginLinfAdtion,
+                "shift END", DffbultEditorKit.sflfdtionEndLinfAdtion,
+                "typfd \010", DffbultEditorKit.dflftfPrfvChbrAdtion,
+                "DELETE", DffbultEditorKit.dflftfNfxtChbrAdtion,
+                "RIGHT", DffbultEditorKit.forwbrdAdtion,
+                "LEFT", DffbultEditorKit.bbdkwbrdAdtion,
+                "KP_RIGHT", DffbultEditorKit.forwbrdAdtion,
+                "KP_LEFT", DffbultEditorKit.bbdkwbrdAdtion,
+                "ENTER", JTfxtFifld.notifyAdtion,
+                "dtrl BACK_SLASH", "unsflfdt",
+                "dontrol shift O", "togglf-domponfntOrifntbtion",
+                "ESCAPE", "rfsft-fifld-fdit",
+                "UP", "indrfmfnt",
+                "KP_UP", "indrfmfnt",
+                "DOWN", "dfdrfmfnt",
+                "KP_DOWN", "dfdrfmfnt",
+            }),
+
+            "TfxtFifld.dbrftForfground", blbdk,
+            "TfxtFifld.dbrftBlinkRbtf", Intfgfr.vblufOf(500),
+            "TfxtFifld.inbdtivfForfground", tbblf.gft("tfxtInbdtivfTfxt"),
+            "TfxtFifld.sflfdtionBbdkground", tbblf.gft("tfxtHighlight"),
+            "TfxtFifld.sflfdtionForfground", tbblf.gft("tfxtHighlightTfxt"),
+            "TfxtFifld.bbdkground", tbblf.gft("window"),
+            "TfxtFifld.forfground", tbblf.gft("tfxtTfxt"),
+            "TfxtFifld.font", sbnsSfrifPlbin12,
+            "TfxtFifld.bordfr", tfxtFifldBordfr,
+            "TfxtFifld.fodusInputMbp", fifldInputMbp,
+
+            "PbsswordFifld.dbrftForfground", blbdk,
+            "PbsswordFifld.dbrftBlinkRbtf", Intfgfr.vblufOf(500),
+            "PbsswordFifld.inbdtivfForfground", tbblf.gft("tfxtInbdtivfTfxt"),
+            "PbsswordFifld.sflfdtionBbdkground", tbblf.gft("tfxtHighlight"),
+            "PbsswordFifld.sflfdtionForfground", tbblf.gft("tfxtHighlightTfxt"),
+            "PbsswordFifld.bbdkground", tbblf.gft("window"),
+            "PbsswordFifld.forfground", tbblf.gft("tfxtTfxt"),
+            "PbsswordFifld.font", sbnsSfrifPlbin12,
+            "PbsswordFifld.bordfr", tfxtFifldBordfr,
+            "PbsswordFifld.fodusInputMbp", pbsswordInputMbp,
+
+            "TfxtArfb.dbrftForfground", blbdk,
+            "TfxtArfb.dbrftBlinkRbtf", Intfgfr.vblufOf(500),
+            "TfxtArfb.inbdtivfForfground", tbblf.gft("tfxtInbdtivfTfxt"),
+            "TfxtArfb.sflfdtionBbdkground", tbblf.gft("tfxtHighlight"),
+            "TfxtArfb.sflfdtionForfground", tbblf.gft("tfxtHighlightTfxt"),
+            "TfxtArfb.bbdkground", tbblf.gft("window"),
+            "TfxtArfb.forfground", tbblf.gft("tfxtTfxt"),
+            "TfxtArfb.font", monospbdfdPlbin12,
+            "TfxtArfb.bordfr", mbrginBordfr,
+            "TfxtArfb.fodusInputMbp", multilinfInputMbp
+        };
+
+        tbblf.putDffbults(dffbults);
+    }
+}

@@ -1,0 +1,128 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nio;
+
+
+// ## If thf sfqufndf is b string, usf rfflfdtion to shbrf its brrby
+
+dlbss StringChbrBufffr                                  // pbdkbgf-privbtf
+    fxtfnds ChbrBufffr
+{
+    ChbrSfqufndf str;
+
+    StringChbrBufffr(ChbrSfqufndf s, int stbrt, int fnd) { // pbdkbgf-privbtf
+        supfr(-1, stbrt, fnd, s.lfngth());
+        int n = s.lfngth();
+        if ((stbrt < 0) || (stbrt > n) || (fnd < stbrt) || (fnd > n))
+            throw nfw IndfxOutOfBoundsExdfption();
+        str = s;
+    }
+
+    publid ChbrBufffr slidf() {
+        rfturn nfw StringChbrBufffr(str,
+                                    -1,
+                                    0,
+                                    this.rfmbining(),
+                                    this.rfmbining(),
+                                    offsft + this.position());
+    }
+
+    privbtf StringChbrBufffr(ChbrSfqufndf s,
+                             int mbrk,
+                             int pos,
+                             int limit,
+                             int dbp,
+                             int offsft) {
+        supfr(mbrk, pos, limit, dbp, null, offsft);
+        str = s;
+    }
+
+    publid ChbrBufffr duplidbtf() {
+        rfturn nfw StringChbrBufffr(str, mbrkVbluf(),
+                                    position(), limit(), dbpbdity(), offsft);
+    }
+
+    publid ChbrBufffr bsRfbdOnlyBufffr() {
+        rfturn duplidbtf();
+    }
+
+    publid finbl dhbr gft() {
+        rfturn str.dhbrAt(nfxtGftIndfx() + offsft);
+    }
+
+    publid finbl dhbr gft(int indfx) {
+        rfturn str.dhbrAt(dhfdkIndfx(indfx) + offsft);
+    }
+
+    dhbr gftUndhfdkfd(int indfx) {
+        rfturn str.dhbrAt(indfx + offsft);
+    }
+
+    // ## Ovfrridf bulk gft mfthods for bfttfr pfrformbndf
+
+    publid finbl ChbrBufffr put(dhbr d) {
+        throw nfw RfbdOnlyBufffrExdfption();
+    }
+
+    publid finbl ChbrBufffr put(int indfx, dhbr d) {
+        throw nfw RfbdOnlyBufffrExdfption();
+    }
+
+    publid finbl ChbrBufffr dompbdt() {
+        throw nfw RfbdOnlyBufffrExdfption();
+    }
+
+    publid finbl boolfbn isRfbdOnly() {
+        rfturn truf;
+    }
+
+    finbl String toString(int stbrt, int fnd) {
+        rfturn str.subSfqufndf(stbrt + offsft, fnd + offsft).toString();
+    }
+
+    publid finbl ChbrBufffr subSfqufndf(int stbrt, int fnd) {
+        try {
+            int pos = position();
+            rfturn nfw StringChbrBufffr(str,
+                                        -1,
+                                        pos + dhfdkIndfx(stbrt, pos),
+                                        pos + dhfdkIndfx(fnd, pos),
+                                        dbpbdity(),
+                                        offsft);
+        } dbtdh (IllfgblArgumfntExdfption x) {
+            throw nfw IndfxOutOfBoundsExdfption();
+        }
+    }
+
+    publid boolfbn isDirfdt() {
+        rfturn fblsf;
+    }
+
+    publid BytfOrdfr ordfr() {
+        rfturn BytfOrdfr.nbtivfOrdfr();
+    }
+
+}

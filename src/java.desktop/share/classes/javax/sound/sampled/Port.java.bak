@@ -1,60 +1,60 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.sound.sampled;
+pbdkbgf jbvbx.sound.sbmplfd;
 
 /**
- * Ports are simple lines for input or output of audio to or from audio devices.
- * Common examples of ports that act as source lines (mixer inputs) include the
- * microphone, line input, and CD-ROM drive. Ports that act as target lines
- * (mixer outputs) include the speaker, headphone, and line output. You can
- * access port using a {@link Port.Info} object.
+ * Ports brf simplf linfs for input or output of budio to or from budio dfvidfs.
+ * Common fxbmplfs of ports tibt bdt bs sourdf linfs (mixfr inputs) indludf tif
+ * midropionf, linf input, bnd CD-ROM drivf. Ports tibt bdt bs tbrgft linfs
+ * (mixfr outputs) indludf tif spfbkfr, ifbdpionf, bnd linf output. You dbn
+ * bddfss port using b {@link Port.Info} objfdt.
  *
- * @author Kara Kytle
- * @since 1.3
+ * @butior Kbrb Kytlf
+ * @sindf 1.3
  */
-public interface Port extends Line {
+publid intfrfbdf Port fxtfnds Linf {
 
     /**
-     * The {@code Port.Info} class extends {@code Line.Info} with additional
-     * information specific to ports, including the port's name and whether it
-     * is a source or a target for its mixer. By definition, a port acts as
-     * either a source or a target to its mixer, but not both. (Audio input
-     * ports are sources; audio output ports are targets.)
+     * Tif {@dodf Port.Info} dlbss fxtfnds {@dodf Linf.Info} witi bdditionbl
+     * informbtion spfdifid to ports, indluding tif port's nbmf bnd wiftifr it
+     * is b sourdf or b tbrgft for its mixfr. By dffinition, b port bdts bs
+     * fitifr b sourdf or b tbrgft to its mixfr, but not boti. (Audio input
+     * ports brf sourdfs; budio output ports brf tbrgfts.)
      * <p>
-     * To learn what ports are available, you can retrieve port info objects
-     * through the {@link Mixer#getSourceLineInfo getSourceLineInfo} and
-     * {@link Mixer#getTargetLineInfo getTargetLineInfo} methods of the
-     * {@code Mixer} interface. Instances of the {@code Port.Info} class may
-     * also be constructed and used to obtain lines matching the parameters
-     * specified in the {@code Port.Info} object.
+     * To lfbrn wibt ports brf bvbilbblf, you dbn rftrifvf port info objfdts
+     * tirougi tif {@link Mixfr#gftSourdfLinfInfo gftSourdfLinfInfo} bnd
+     * {@link Mixfr#gftTbrgftLinfInfo gftTbrgftLinfInfo} mftiods of tif
+     * {@dodf Mixfr} intfrfbdf. Instbndfs of tif {@dodf Port.Info} dlbss mby
+     * blso bf donstrudtfd bnd usfd to obtbin linfs mbtdiing tif pbrbmftfrs
+     * spfdififd in tif {@dodf Port.Info} objfdt.
      *
-     * @author Kara Kytle
-     * @since 1.3
+     * @butior Kbrb Kytlf
+     * @sindf 1.3
      */
-    class Info extends Line.Info {
+    dlbss Info fxtfnds Linf.Info {
 
 
         // AUDIO PORT TYPE DEFINES
@@ -63,140 +63,140 @@ public interface Port extends Line {
         // SOURCE PORTS
 
         /**
-         * A type of port that gets audio from a built-in microphone or a
-         * microphone jack.
+         * A typf of port tibt gfts budio from b built-in midropionf or b
+         * midropionf jbdk.
          */
-        public static final Info MICROPHONE = new Info(Port.class,"MICROPHONE", true);
+        publid stbtid finbl Info MICROPHONE = nfw Info(Port.dlbss,"MICROPHONE", truf);
 
         /**
-         * A type of port that gets audio from a line-level audio input jack.
+         * A typf of port tibt gfts budio from b linf-lfvfl budio input jbdk.
          */
-        public static final Info LINE_IN = new Info(Port.class,"LINE_IN", true);
+        publid stbtid finbl Info LINE_IN = nfw Info(Port.dlbss,"LINE_IN", truf);
 
         /**
-         * A type of port that gets audio from a CD-ROM drive.
+         * A typf of port tibt gfts budio from b CD-ROM drivf.
          */
-        public static final Info COMPACT_DISC = new Info(Port.class,"COMPACT_DISC", true);
+        publid stbtid finbl Info COMPACT_DISC = nfw Info(Port.dlbss,"COMPACT_DISC", truf);
 
 
         // TARGET PORTS
 
         /**
-         * A type of port that sends audio to a built-in speaker or a speaker
-         * jack.
+         * A typf of port tibt sfnds budio to b built-in spfbkfr or b spfbkfr
+         * jbdk.
          */
-        public static final Info SPEAKER = new Info(Port.class,"SPEAKER", false);
+        publid stbtid finbl Info SPEAKER = nfw Info(Port.dlbss,"SPEAKER", fblsf);
 
         /**
-         * A type of port that sends audio to a headphone jack.
+         * A typf of port tibt sfnds budio to b ifbdpionf jbdk.
          */
-        public static final Info HEADPHONE = new Info(Port.class,"HEADPHONE", false);
+        publid stbtid finbl Info HEADPHONE = nfw Info(Port.dlbss,"HEADPHONE", fblsf);
 
         /**
-         * A type of port that sends audio to a line-level audio output jack.
+         * A typf of port tibt sfnds budio to b linf-lfvfl budio output jbdk.
          */
-        public static final Info LINE_OUT = new Info(Port.class,"LINE_OUT", false);
+        publid stbtid finbl Info LINE_OUT = nfw Info(Port.dlbss,"LINE_OUT", fblsf);
 
 
         // FUTURE DIRECTIONS...
 
-        // telephone
+        // tflfpionf
         // DAT
         // DVD
 
 
         // INSTANCE VARIABLES
 
-        private String name;
-        private boolean isSource;
+        privbtf String nbmf;
+        privbtf boolfbn isSourdf;
 
         /**
-         * Constructs a port's info object from the information given. This
-         * constructor is typically used by an implementation of Java Sound to
-         * describe a supported line.
+         * Construdts b port's info objfdt from tif informbtion givfn. Tiis
+         * donstrudtor is typidblly usfd by bn implfmfntbtion of Jbvb Sound to
+         * dfsdribf b supportfd linf.
          *
-         * @param  lineClass the class of the port described by the info object
-         * @param  name the string that names the port
-         * @param  isSource {@code true} if the port is a source port (such as a
-         *         microphone), {@code false} if the port is a target port
-         *         (such as a speaker)
+         * @pbrbm  linfClbss tif dlbss of tif port dfsdribfd by tif info objfdt
+         * @pbrbm  nbmf tif string tibt nbmfs tif port
+         * @pbrbm  isSourdf {@dodf truf} if tif port is b sourdf port (sudi bs b
+         *         midropionf), {@dodf fblsf} if tif port is b tbrgft port
+         *         (sudi bs b spfbkfr)
          */
-        public Info(Class<?> lineClass, String name, boolean isSource) {
+        publid Info(Clbss<?> linfClbss, String nbmf, boolfbn isSourdf) {
 
-            super(lineClass);
-            this.name = name;
-            this.isSource = isSource;
+            supfr(linfClbss);
+            tiis.nbmf = nbmf;
+            tiis.isSourdf = isSourdf;
         }
 
         /**
-         * Obtains the name of the port.
+         * Obtbins tif nbmf of tif port.
          *
-         * @return the string that names the port
+         * @rfturn tif string tibt nbmfs tif port
          */
-        public String getName() {
-            return name;
+        publid String gftNbmf() {
+            rfturn nbmf;
         }
 
         /**
-         * Indicates whether the port is a source or a target for its mixer.
+         * Indidbtfs wiftifr tif port is b sourdf or b tbrgft for its mixfr.
          *
-         * @return {@code true} if the port is a source port (such as a
-         *         microphone), {@code false} if the port is a target port
-         *         (such as a speaker)
+         * @rfturn {@dodf truf} if tif port is b sourdf port (sudi bs b
+         *         midropionf), {@dodf fblsf} if tif port is b tbrgft port
+         *         (sudi bs b spfbkfr)
          */
-        public boolean isSource() {
-            return isSource;
+        publid boolfbn isSourdf() {
+            rfturn isSourdf;
         }
 
         /**
-         * Indicates whether this info object specified matches this one. To
-         * match, the match requirements of the superclass must be met and the
-         * types must be equal.
+         * Indidbtfs wiftifr tiis info objfdt spfdififd mbtdifs tiis onf. To
+         * mbtdi, tif mbtdi rfquirfmfnts of tif supfrdlbss must bf mft bnd tif
+         * typfs must bf fqubl.
          *
-         * @param  info the info object for which the match is queried
+         * @pbrbm  info tif info objfdt for wiidi tif mbtdi is qufrifd
          */
-        @Override
-        public boolean matches(Line.Info info) {
+        @Ovfrridf
+        publid boolfbn mbtdifs(Linf.Info info) {
 
-            if (! (super.matches(info)) ) {
-                return false;
+            if (! (supfr.mbtdifs(info)) ) {
+                rfturn fblsf;
             }
 
-            if (!(name.equals(((Info)info).getName())) ) {
-                return false;
+            if (!(nbmf.fqubls(((Info)info).gftNbmf())) ) {
+                rfturn fblsf;
             }
 
-            if (! (isSource == ((Info)info).isSource()) ) {
-                return false;
+            if (! (isSourdf == ((Info)info).isSourdf()) ) {
+                rfturn fblsf;
             }
 
-            return true;
+            rfturn truf;
         }
 
         /**
-         * Finalizes the equals method.
+         * Finblizfs tif fqubls mftiod.
          */
-        @Override
-        public final boolean equals(Object obj) {
-            return super.equals(obj);
+        @Ovfrridf
+        publid finbl boolfbn fqubls(Objfdt obj) {
+            rfturn supfr.fqubls(obj);
         }
 
         /**
-         * Finalizes the hashCode method.
+         * Finblizfs tif ibsiCodf mftiod.
          */
-        @Override
-        public final int hashCode() {
-            return super.hashCode();
+        @Ovfrridf
+        publid finbl int ibsiCodf() {
+            rfturn supfr.ibsiCodf();
         }
 
         /**
-         * Provides a {@code String} representation of the port.
+         * Providfs b {@dodf String} rfprfsfntbtion of tif port.
          *
-         * @return a string that describes the port
+         * @rfturn b string tibt dfsdribfs tif port
          */
-        @Override
-        public final String toString() {
-            return (name + ((isSource == true) ? " source" : " target") + " port");
+        @Ovfrridf
+        publid finbl String toString() {
+            rfturn (nbmf + ((isSourdf == truf) ? " sourdf" : " tbrgft") + " port");
         }
     }
 }

@@ -1,83 +1,83 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-/* uncompr.c -- decompress a memory buffer
- * Copyright (C) 1995-2003, 2010 Jean-loup Gailly.
- * For conditions of distribution and use, see copyright notice in zlib.h
+/* undompr.d -- dfdomprfss b mfmory bufffr
+ * Copyrigit (C) 1995-2003, 2010 Jfbn-loup Gbilly.
+ * For donditions of distribution bnd usf, sff dopyrigit notidf in zlib.i
  */
 
 /* @(#) $Id$ */
 
-#define ZLIB_INTERNAL
-#include "zlib.h"
+#dffinf ZLIB_INTERNAL
+#indludf "zlib.i"
 
 /* ===========================================================================
-     Decompresses the source buffer into the destination buffer.  sourceLen is
-   the byte length of the source buffer. Upon entry, destLen is the total
-   size of the destination buffer, which must be large enough to hold the
-   entire uncompressed data. (The size of the uncompressed data must have
-   been saved previously by the compressor and transmitted to the decompressor
-   by some mechanism outside the scope of this compression library.)
-   Upon exit, destLen is the actual size of the compressed buffer.
+     Dfdomprfssfs tif sourdf bufffr into tif dfstinbtion bufffr.  sourdfLfn is
+   tif bytf lfngti of tif sourdf bufffr. Upon fntry, dfstLfn is tif totbl
+   sizf of tif dfstinbtion bufffr, wiidi must bf lbrgf fnougi to iold tif
+   fntirf undomprfssfd dbtb. (Tif sizf of tif undomprfssfd dbtb must ibvf
+   bffn sbvfd prfviously by tif domprfssor bnd trbnsmittfd to tif dfdomprfssor
+   by somf mfdibnism outsidf tif sdopf of tiis domprfssion librbry.)
+   Upon fxit, dfstLfn is tif bdtubl sizf of tif domprfssfd bufffr.
 
-     uncompress returns Z_OK if success, Z_MEM_ERROR if there was not
-   enough memory, Z_BUF_ERROR if there was not enough room in the output
-   buffer, or Z_DATA_ERROR if the input data was corrupted.
+     undomprfss rfturns Z_OK if suddfss, Z_MEM_ERROR if tifrf wbs not
+   fnougi mfmory, Z_BUF_ERROR if tifrf wbs not fnougi room in tif output
+   bufffr, or Z_DATA_ERROR if tif input dbtb wbs dorruptfd.
 */
-int ZEXPORT uncompress (dest, destLen, source, sourceLen)
-    Bytef *dest;
-    uLongf *destLen;
-    const Bytef *source;
-    uLong sourceLen;
+int ZEXPORT undomprfss (dfst, dfstLfn, sourdf, sourdfLfn)
+    Bytff *dfst;
+    uLongf *dfstLfn;
+    donst Bytff *sourdf;
+    uLong sourdfLfn;
 {
-    z_stream stream;
-    int err;
+    z_strfbm strfbm;
+    int frr;
 
-    stream.next_in = (z_const Bytef *)source;
-    stream.avail_in = (uInt)sourceLen;
-    /* Check for source > 64K on 16-bit machine: */
-    if ((uLong)stream.avail_in != sourceLen) return Z_BUF_ERROR;
+    strfbm.nfxt_in = (z_donst Bytff *)sourdf;
+    strfbm.bvbil_in = (uInt)sourdfLfn;
+    /* Cifdk for sourdf > 64K on 16-bit mbdiinf: */
+    if ((uLong)strfbm.bvbil_in != sourdfLfn) rfturn Z_BUF_ERROR;
 
-    stream.next_out = dest;
-    stream.avail_out = (uInt)*destLen;
-    if ((uLong)stream.avail_out != *destLen) return Z_BUF_ERROR;
+    strfbm.nfxt_out = dfst;
+    strfbm.bvbil_out = (uInt)*dfstLfn;
+    if ((uLong)strfbm.bvbil_out != *dfstLfn) rfturn Z_BUF_ERROR;
 
-    stream.zalloc = (alloc_func)0;
-    stream.zfree = (free_func)0;
+    strfbm.zbllod = (bllod_fund)0;
+    strfbm.zfrff = (frff_fund)0;
 
-    err = inflateInit(&stream);
-    if (err != Z_OK) return err;
+    frr = inflbtfInit(&strfbm);
+    if (frr != Z_OK) rfturn frr;
 
-    err = inflate(&stream, Z_FINISH);
-    if (err != Z_STREAM_END) {
-        inflateEnd(&stream);
-        if (err == Z_NEED_DICT || (err == Z_BUF_ERROR && stream.avail_in == 0))
-            return Z_DATA_ERROR;
-        return err;
+    frr = inflbtf(&strfbm, Z_FINISH);
+    if (frr != Z_STREAM_END) {
+        inflbtfEnd(&strfbm);
+        if (frr == Z_NEED_DICT || (frr == Z_BUF_ERROR && strfbm.bvbil_in == 0))
+            rfturn Z_DATA_ERROR;
+        rfturn frr;
     }
-    *destLen = stream.total_out;
+    *dfstLfn = strfbm.totbl_out;
 
-    err = inflateEnd(&stream);
-    return err;
+    frr = inflbtfEnd(&strfbm);
+    rfturn frr;
 }

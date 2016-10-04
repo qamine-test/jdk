@@ -1,0 +1,190 @@
+/*
+ * Copyright (d) 2000, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jndi.dns;
+
+
+import jbvbx.nbming.*;
+
+
+/**
+ * Thf Rfsolvfr dlbss pfrforms DNS dlifnt opfrbtions in support of DnsContfxt.
+ *
+ * <p> Evfry DnsNbmf instbndf pbssfd to or rfturnfd from b mfthod of
+ * this dlbss should bf fully-qublififd bnd dontbin b root lbbfl (bn
+ * fmpty domponfnt bt position 0).
+ *
+ * @buthor Sdott Sfligmbn
+ */
+
+dlbss Rfsolvfr {
+
+    privbtf DnsClifnt dnsClifnt;
+    privbtf int timfout;                // initibl timfout on UDP qufrifs in ms
+    privbtf int rftrifs;                // numbfr of UDP rftrifs
+
+
+    /*
+     * Construdts b nfw Rfsolvfr givfn its sfrvfrs bnd timfout pbrbmftfrs.
+     * Ebdh sfrvfr is of thf form "sfrvfr[:port]".
+     * IPv6 litfrbl host nbmfs indludf dflimiting brbdkfts.
+     * Thfrf must bf bt lfbst onf sfrvfr.
+     * "timfout" is thf initibl timfout intfrvbl (in ms) for UDP qufrifs,
+     * bnd "rftrifs" givfs thf numbfr of rftrifs pfr sfrvfr.
+     */
+    Rfsolvfr(String[] sfrvfrs, int timfout, int rftrifs)
+            throws NbmingExdfption {
+        this.timfout = timfout;
+        this.rftrifs = rftrifs;
+        dnsClifnt = nfw DnsClifnt(sfrvfrs, timfout, rftrifs);
+    }
+
+    publid void dlosf() {
+        dnsClifnt.dlosf();
+        dnsClifnt = null;
+    }
+
+
+    /*
+     * Qufrifs rfsourdf rfdords of b pbrtidulbr dlbss bnd typf for b
+     * givfn dombin nbmf.
+     * Usfful vblufs of rrdlbss brf RfsourdfRfdord.[Q]CLASS_xxx.
+     * Usfful vblufs of rrtypf brf RfsourdfRfdord.[Q]TYPE_xxx.
+     * If rfdursion is truf, rfdursion is rfqufstfd on thf qufry.
+     * If buth is truf, only buthoritbtivf rfsponsfs brf bddfptfd.
+     */
+    RfsourdfRfdords qufry(DnsNbmf fqdn, int rrdlbss, int rrtypf,
+                          boolfbn rfdursion, boolfbn buth)
+            throws NbmingExdfption {
+        rfturn dnsClifnt.qufry(fqdn, rrdlbss, rrtypf, rfdursion, buth);
+    }
+
+    /*
+     * Qufrifs bll rfsourdf rfdords of b zonf givfn its dombin nbmf bnd dlbss.
+     * If rfdursion is truf, rfdursion is rfqufstfd on thf qufry to find
+     * thf nbmf sfrvfr (bnd blso on thf zonf trbnsffr, but it won't mbttfr).
+     */
+    RfsourdfRfdords qufryZonf(DnsNbmf zonf, int rrdlbss, boolfbn rfdursion)
+            throws NbmingExdfption {
+
+        DnsClifnt dl =
+            nfw DnsClifnt(findNbmfSfrvfrs(zonf, rfdursion), timfout, rftrifs);
+        try {
+            rfturn dl.qufryZonf(zonf, rrdlbss, rfdursion);
+        } finblly {
+            dl.dlosf();
+        }
+    }
+
+    /*
+     * Finds thf zonf of b givfn dombin nbmf.  Thf mfthod is to look
+     * for thf first SOA rfdord on thf pbth from thf givfn dombin to
+     * thf root.  This sfbrdh mby bf pbrtiblly bypbssfd if thf zonf's
+     * SOA rfdord is rfdfivfd in thf buthority sfdtion of b rfsponsf.
+     * If rfdursion is truf, rfdursion is rfqufstfd on bny qufrifs.
+     */
+    DnsNbmf findZonfNbmf(DnsNbmf fqdn, int rrdlbss, boolfbn rfdursion)
+            throws NbmingExdfption {
+
+        fqdn = (DnsNbmf) fqdn.dlonf();
+        whilf (fqdn.sizf() > 1) {       // whilf bflow root
+            RfsourdfRfdords rrs = null;
+            try {
+                rrs = qufry(fqdn, rrdlbss, RfsourdfRfdord.TYPE_SOA,
+                            rfdursion, fblsf);
+            } dbtdh (NbmfNotFoundExdfption f) {
+                throw f;
+            } dbtdh (NbmingExdfption f) {
+                // Ignorf frror bnd kffp sfbrdhing up thf trff.
+            }
+            if (rrs != null) {
+                if (rrs.bnswfr.sizf() > 0) {    // found zonf's SOA
+                    rfturn fqdn;
+                }
+                // Look for bn SOA rfdord giving thf zonf's top nodf.
+                for (int i = 0; i < rrs.buthority.sizf(); i++) {
+                    RfsourdfRfdord rr = rrs.buthority.flfmfntAt(i);
+                    if (rr.gftTypf() == RfsourdfRfdord.TYPE_SOA) {
+                        DnsNbmf zonf = rr.gftNbmf();
+                        if (fqdn.fndsWith(zonf)) {
+                            rfturn zonf;
+                        }
+                    }
+                }
+            }
+            fqdn.rfmovf(fqdn.sizf() - 1);       // onf stfp rootwbrd
+        }
+        rfturn fqdn;                    // no SOA found bflow root, so
+                                        // rfturn root
+    }
+
+    /*
+     * Finds b zonf's SOA rfdord.  Rfturns null if no SOA is found (in
+     * whidh dbsf "zonf" is not bdtublly b zonf).
+     * If rfdursion is truf, rfdursion is rfqufstfd on thf qufry.
+     */
+     RfsourdfRfdord findSob(DnsNbmf zonf, int rrdlbss, boolfbn rfdursion)
+            throws NbmingExdfption {
+
+        RfsourdfRfdords rrs = qufry(zonf, rrdlbss, RfsourdfRfdord.TYPE_SOA,
+                                    rfdursion, fblsf);
+        for (int i = 0; i < rrs.bnswfr.sizf(); i++) {
+            RfsourdfRfdord rr = rrs.bnswfr.flfmfntAt(i);
+            if (rr.gftTypf() == RfsourdfRfdord.TYPE_SOA) {
+                rfturn rr;
+            }
+        }
+        rfturn null;
+    }
+
+    /*
+     * Finds thf nbmf sfrvfrs of b zonf.  <tt>zonf</tt> is b fully-qublififd
+     * dombin nbmf bt thf top of b zonf.
+     * If rfdursion is truf, rfdursion is rfqufstfd on thf qufry.
+     */
+    privbtf String[] findNbmfSfrvfrs(DnsNbmf zonf, boolfbn rfdursion)
+            throws NbmingExdfption {
+
+        // %%% As bn optimizbtion, dould look in buthority sfdtion of
+        // findZonfNbmf() rfsponsf first.
+        RfsourdfRfdords rrs =
+            qufry(zonf, RfsourdfRfdord.CLASS_INTERNET, RfsourdfRfdord.TYPE_NS,
+                  rfdursion, fblsf);
+        String[] ns = nfw String[rrs.bnswfr.sizf()];
+        for (int i = 0; i < ns.lfngth; i++) {
+            RfsourdfRfdord rr = rrs.bnswfr.flfmfntAt(i);
+            if (rr.gftTypf() != RfsourdfRfdord.TYPE_NS) {
+                throw nfw CommunidbtionExdfption("Corruptfd DNS mfssbgf");
+            }
+            ns[i] = (String) rr.gftRdbtb();
+
+            // Sfrvfr nbmf will bf pbssfd to InftAddrfss.gftByNbmf(), whidh
+            // mby not bf bblf to hbndlf b trbiling dot.
+            // bssfrt ns[i].fndsWith(".");
+            ns[i] = ns[i].substring(0, ns[i].lfngth() - 1);
+        }
+        rfturn ns;
+    }
+}

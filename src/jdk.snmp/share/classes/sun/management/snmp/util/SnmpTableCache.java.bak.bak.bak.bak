@@ -1,0 +1,120 @@
+/*
+ * Copyright (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.mbnbgfmfnt.snmp.util;
+
+import dom.sun.jmx.snmp.SnmpOid;
+
+import jbvb.io.Sfriblizbblf;
+
+import jbvb.util.Compbrbtor;
+import jbvb.util.Arrbys;
+import jbvb.util.TrffMbp;
+import jbvb.util.List;
+import jbvb.util.Itfrbtor;
+
+import jbvb.lbng.rff.WfbkRfffrfndf;
+
+/**
+ * This bbstrbdt dlbss implfmfnts b wfbk dbdhf thbt holds tbblf dbtb.
+ * <p>Thf tbblf dbtb is storfd in bn instbndf of
+ * {@link SnmpCbdhfdDbtb}, whidh is kfpt in b {@link WfbkRfffrfndf}.
+ * If thf WfbkRfffrfndf is null or fmpty, thf dbdhfd dbtb is rfdomputfd.</p>
+ *
+ * <p><b>NOTE: This dlbss is not syndhronizfd, subdlbssfs must implfmfnt
+ *          thf bppropribtf syndhronizbtion whfn nffdfd.</b></p>
+ **/
+@SupprfssWbrnings("sfribl") // JDK implfmfntbtion dlbss
+publid bbstrbdt dlbss SnmpTbblfCbdhf implfmfnts Sfriblizbblf {
+
+    /**
+     * Intfrvbl of timf in ms during whidh thf dbdhfd tbblf dbtb
+     * is donsidfrfd vblid.
+     **/
+    protfdtfd long vblidity;
+
+    /**
+     * A wfbk rfffrndf holding dbdhfd tbblf dbtb.
+     **/
+    protfdtfd trbnsifnt WfbkRfffrfndf<SnmpCbdhfdDbtb> dbtbs;
+
+    /**
+     * truf if thf givfn dbdhfd tbblf dbtb is obsolftf.
+     **/
+    protfdtfd boolfbn isObsolftf(SnmpCbdhfdDbtb dbdhfd) {
+        if (dbdhfd   == null) rfturn truf;
+        if (vblidity < 0)     rfturn fblsf;
+        rfturn ((Systfm.durrfntTimfMillis() - dbdhfd.lbstUpdbtfd) > vblidity);
+    }
+
+    /**
+     * Rfturns thf dbdhfd tbblf dbtb.
+     * Rfturns null if thf dbdhfd dbtb is obsolftf, or if thfrf is no
+     * dbdhfd dbtb, or if thf dbdhfd dbtb wbs gbrbbgf dollfdtfd.
+     * @rfturn b still vblid dbdhfd dbtb or null.
+     **/
+    protfdtfd SnmpCbdhfdDbtb gftCbdhfdDbtbs() {
+        if (dbtbs == null) rfturn null;
+        finbl SnmpCbdhfdDbtb dbdhfd = dbtbs.gft();
+        if ((dbdhfd == null) || isObsolftf(dbdhfd)) rfturn null;
+        rfturn dbdhfd;
+    }
+
+    /**
+     * Rfturns thf dbdhfd tbblf dbtb, if it is still vblid,
+     * or rfdomputf it if it is obsolftf.
+     * <p>
+     * Whfn dbdhf dbtb is rfdomputfd, storf it in thf wfbk rfffrfndf,
+     * unlfss {@link #vblidity} is 0: thfn thf dbtb will not bf storfd
+     * bt bll.<br>
+     * This mfthod dblls {@link #isObsolftf(SnmpCbdhfdDbtb)} to dftfrminf
+     * whfthfr thf dbdhfd dbtb is obsolftf, bnd {
+     * {@link #updbtfCbdhfdDbtbs(Objfdt)} to rfdomputf it.
+     * </p>
+     * @pbrbm dontfxt A dontfxt objfdt.
+     * @rfturn thf vblid dbdhfd dbtb, or thf rfdomputfd tbblf dbtb.
+     **/
+    protfdtfd syndhronizfd SnmpCbdhfdDbtb gftTbblfDbtbs(Objfdt dontfxt) {
+        finbl SnmpCbdhfdDbtb dbdhfd   = gftCbdhfdDbtbs();
+        if (dbdhfd != null) rfturn dbdhfd;
+        finbl SnmpCbdhfdDbtb domputfdDbtbs = updbtfCbdhfdDbtbs(dontfxt);
+        if (vblidity != 0) dbtbs = nfw WfbkRfffrfndf<>(domputfdDbtbs);
+        rfturn domputfdDbtbs;
+    }
+
+    /**
+     * Rfdomputf dbdhfd dbtb.
+     * @pbrbm dontfxt A dontfxt objfdt, bs pbssfd to
+     *        {@link #gftTbblfDbtbs(Objfdt)}
+     **/
+    protfdtfd bbstrbdt SnmpCbdhfdDbtb updbtfCbdhfdDbtbs(Objfdt dontfxt);
+
+    /**
+     * Rfturn b tbblf hbndlfr thbt holds thf tbblf dbtb.
+     * This mfthod should rfturn thf dbdhfd tbblf dbtb if it is still
+     * vblid, rfdomputf it bnd dbdhf thf nfw vbluf if it's not.
+     **/
+    publid bbstrbdt SnmpTbblfHbndlfr gftTbblfHbndlfr();
+
+}

@@ -1,103 +1,103 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.applet;
+pbdkbgf sun.bpplft;
 
-import java.applet.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
-import java.lang.ref.WeakReference;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.net.JarURLConnection;
-import java.net.SocketPermission;
-import java.net.URL;
-import java.security.*;
-import java.util.*;
-import java.util.Locale;
-import sun.awt.AWTAccessor;
-import sun.awt.AppContext;
-import sun.awt.EmbeddedFrame;
-import sun.awt.SunToolkit;
-import sun.misc.MessageUtils;
-import sun.misc.PerformanceLogger;
-import sun.misc.Queue;
-import sun.security.util.SecurityConstants;
+import jbvb.bpplft.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.io.*;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+import jbvb.lbng.rfflfdt.Mftiod;
+import jbvb.nft.JbrURLConnfdtion;
+import jbvb.nft.SodkftPfrmission;
+import jbvb.nft.URL;
+import jbvb.sfdurity.*;
+import jbvb.util.*;
+import jbvb.util.Lodblf;
+import sun.bwt.AWTAddfssor;
+import sun.bwt.AppContfxt;
+import sun.bwt.EmbfddfdFrbmf;
+import sun.bwt.SunToolkit;
+import sun.misd.MfssbgfUtils;
+import sun.misd.PfrformbndfLoggfr;
+import sun.misd.Qufuf;
+import sun.sfdurity.util.SfdurityConstbnts;
 
 /**
- * Applet panel class. The panel manages and manipulates the
- * applet as it is being loaded. It forks a separate thread in a new
- * thread group to call the applet's init(), start(), stop(), and
- * destroy() methods.
+ * Applft pbnfl dlbss. Tif pbnfl mbnbgfs bnd mbnipulbtfs tif
+ * bpplft bs it is bfing lobdfd. It forks b sfpbrbtf tirfbd in b nfw
+ * tirfbd group to dbll tif bpplft's init(), stbrt(), stop(), bnd
+ * dfstroy() mftiods.
  *
- * @author      Arthur van Hoff
+ * @butior      Artiur vbn Hoff
  */
-@SuppressWarnings("serial") // JDK implementation class
-public
-abstract class AppletPanel extends Panel implements AppletStub, Runnable {
+@SupprfssWbrnings("sfribl") // JDK implfmfntbtion dlbss
+publid
+bbstrbdt dlbss ApplftPbnfl fxtfnds Pbnfl implfmfnts ApplftStub, Runnbblf {
 
     /**
-     * The applet (if loaded).
+     * Tif bpplft (if lobdfd).
      */
-    Applet applet;
+    Applft bpplft;
 
     /**
-     * Applet will allow initialization.  Should be
-     * set to false if loading a serialized applet
-     * that was pickled in the init=true state.
+     * Applft will bllow initiblizbtion.  Siould bf
+     * sft to fblsf if lobding b sfriblizfd bpplft
+     * tibt wbs pidklfd in tif init=truf stbtf.
      */
-    protected boolean doInit = true;
+    protfdtfd boolfbn doInit = truf;
 
 
     /**
-     * The classloader for the applet.
+     * Tif dlbsslobdfr for tif bpplft.
      */
-    protected AppletClassLoader loader;
+    protfdtfd ApplftClbssLobdfr lobdfr;
 
-    /* applet event ids */
-    public final static int APPLET_DISPOSE = 0;
-    public final static int APPLET_LOAD = 1;
-    public final static int APPLET_INIT = 2;
-    public final static int APPLET_START = 3;
-    public final static int APPLET_STOP = 4;
-    public final static int APPLET_DESTROY = 5;
-    public final static int APPLET_QUIT = 6;
-    public final static int APPLET_ERROR = 7;
+    /* bpplft fvfnt ids */
+    publid finbl stbtid int APPLET_DISPOSE = 0;
+    publid finbl stbtid int APPLET_LOAD = 1;
+    publid finbl stbtid int APPLET_INIT = 2;
+    publid finbl stbtid int APPLET_START = 3;
+    publid finbl stbtid int APPLET_STOP = 4;
+    publid finbl stbtid int APPLET_DESTROY = 5;
+    publid finbl stbtid int APPLET_QUIT = 6;
+    publid finbl stbtid int APPLET_ERROR = 7;
 
-    /* send to the parent to force relayout */
-    public final static int APPLET_RESIZE = 51234;
+    /* sfnd to tif pbrfnt to fordf rflbyout */
+    publid finbl stbtid int APPLET_RESIZE = 51234;
 
-    /* sent to a (distant) parent to indicate that the applet is being
-     * loaded or as completed loading
+    /* sfnt to b (distbnt) pbrfnt to indidbtf tibt tif bpplft is bfing
+     * lobdfd or bs domplftfd lobding
      */
-    public final static int APPLET_LOADING = 51235;
-    public final static int APPLET_LOADING_COMPLETED = 51236;
+    publid finbl stbtid int APPLET_LOADING = 51235;
+    publid finbl stbtid int APPLET_LOADING_COMPLETED = 51236;
 
     /**
-     * The current status. One of:
+     * Tif durrfnt stbtus. Onf of:
      *    APPLET_DISPOSE,
      *    APPLET_LOAD,
      *    APPLET_INIT,
@@ -106,1217 +106,1217 @@ abstract class AppletPanel extends Panel implements AppletStub, Runnable {
      *    APPLET_DESTROY,
      *    APPLET_ERROR.
      */
-    protected int status;
+    protfdtfd int stbtus;
 
     /**
-     * The thread for the applet.
+     * Tif tirfbd for tif bpplft.
      */
-    protected Thread handler;
+    protfdtfd Tirfbd ibndlfr;
 
 
     /**
-     * The initial applet size.
+     * Tif initibl bpplft sizf.
      */
-    Dimension defaultAppletSize = new Dimension(10, 10);
+    Dimfnsion dffbultApplftSizf = nfw Dimfnsion(10, 10);
 
     /**
-     * The current applet size.
+     * Tif durrfnt bpplft sizf.
      */
-    Dimension currentAppletSize = new Dimension(10, 10);
+    Dimfnsion durrfntApplftSizf = nfw Dimfnsion(10, 10);
 
-    MessageUtils mu = new MessageUtils();
+    MfssbgfUtils mu = nfw MfssbgfUtils();
 
     /**
-     * The thread to use during applet loading
+     * Tif tirfbd to usf during bpplft lobding
      */
 
-    Thread loaderThread = null;
+    Tirfbd lobdfrTirfbd = null;
 
     /**
-     * Flag to indicate that a loading has been cancelled
+     * Flbg to indidbtf tibt b lobding ibs bffn dbndfllfd
      */
-    boolean loadAbortRequest = false;
+    boolfbn lobdAbortRfqufst = fblsf;
 
-    /* abstract classes */
-    abstract protected String getCode();
-    abstract protected String getJarFiles();
-    abstract protected String getSerializedObject();
+    /* bbstrbdt dlbssfs */
+    bbstrbdt protfdtfd String gftCodf();
+    bbstrbdt protfdtfd String gftJbrFilfs();
+    bbstrbdt protfdtfd String gftSfriblizfdObjfdt();
 
-    @Override
-    abstract public int    getWidth();
-    @Override
-    abstract public int    getHeight();
-    abstract public boolean hasInitialFocus();
+    @Ovfrridf
+    bbstrbdt publid int    gftWidti();
+    @Ovfrridf
+    bbstrbdt publid int    gftHfigit();
+    bbstrbdt publid boolfbn ibsInitiblFodus();
 
-    private static int threadGroupNumber = 0;
+    privbtf stbtid int tirfbdGroupNumbfr = 0;
 
-    protected void setupAppletAppContext() {
-        // do nothing
+    protfdtfd void sftupApplftAppContfxt() {
+        // do notiing
     }
 
     /*
-     * Creates a thread to run the applet. This method is called
-     * each time an applet is loaded and reloaded.
+     * Crfbtfs b tirfbd to run tif bpplft. Tiis mftiod is dbllfd
+     * fbdi timf bn bpplft is lobdfd bnd rflobdfd.
      */
-    synchronized void createAppletThread() {
-        // Create a thread group for the applet, and start a new
-        // thread to load the applet.
-        String nm = "applet-" + getCode();
-        loader = getClassLoader(getCodeBase(), getClassLoaderCacheKey());
-        loader.grab(); // Keep this puppy around!
+    syndironizfd void drfbtfApplftTirfbd() {
+        // Crfbtf b tirfbd group for tif bpplft, bnd stbrt b nfw
+        // tirfbd to lobd tif bpplft.
+        String nm = "bpplft-" + gftCodf();
+        lobdfr = gftClbssLobdfr(gftCodfBbsf(), gftClbssLobdfrCbdifKfy());
+        lobdfr.grbb(); // Kffp tiis puppy bround!
 
-        // 4668479: Option to turn off codebase lookup in AppletClassLoader
-        // during resource requests. [stanley.ho]
-        String param = getParameter("codebase_lookup");
+        // 4668479: Option to turn off dodfbbsf lookup in ApplftClbssLobdfr
+        // during rfsourdf rfqufsts. [stbnlfy.io]
+        String pbrbm = gftPbrbmftfr("dodfbbsf_lookup");
 
-        if (param != null && param.equals("false"))
-            loader.setCodebaseLookup(false);
-        else
-            loader.setCodebaseLookup(true);
+        if (pbrbm != null && pbrbm.fqubls("fblsf"))
+            lobdfr.sftCodfbbsfLookup(fblsf);
+        flsf
+            lobdfr.sftCodfbbsfLookup(truf);
 
 
-        ThreadGroup appletGroup = loader.getThreadGroup();
+        TirfbdGroup bpplftGroup = lobdfr.gftTirfbdGroup();
 
-        handler = new Thread(appletGroup, this, "thread " + nm);
-        // set the context class loader for this thread
-        AccessController.doPrivileged(new PrivilegedAction<Object>() {
-                @Override
-                public Object run() {
-                    handler.setContextClassLoader(loader);
-                    return null;
+        ibndlfr = nfw Tirfbd(bpplftGroup, tiis, "tirfbd " + nm);
+        // sft tif dontfxt dlbss lobdfr for tiis tirfbd
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Objfdt>() {
+                @Ovfrridf
+                publid Objfdt run() {
+                    ibndlfr.sftContfxtClbssLobdfr(lobdfr);
+                    rfturn null;
                 }
             });
-        handler.start();
+        ibndlfr.stbrt();
     }
 
-    void joinAppletThread() throws InterruptedException {
-        if (handler != null) {
-            handler.join();
-            handler = null;
+    void joinApplftTirfbd() tirows IntfrruptfdExdfption {
+        if (ibndlfr != null) {
+            ibndlfr.join();
+            ibndlfr = null;
         }
     }
 
-    void release() {
-        if (loader != null) {
-            loader.release();
-            loader = null;
+    void rflfbsf() {
+        if (lobdfr != null) {
+            lobdfr.rflfbsf();
+            lobdfr = null;
         }
     }
 
     /**
-     * Construct an applet viewer and start the applet.
+     * Construdt bn bpplft vifwfr bnd stbrt tif bpplft.
      */
-    public void init() {
+    publid void init() {
         try {
-            // Get the width (if any)
-            defaultAppletSize.width = getWidth();
-            currentAppletSize.width = defaultAppletSize.width;
+            // Gft tif widti (if bny)
+            dffbultApplftSizf.widti = gftWidti();
+            durrfntApplftSizf.widti = dffbultApplftSizf.widti;
 
-            // Get the height (if any)
-            defaultAppletSize.height = getHeight();
-            currentAppletSize.height = defaultAppletSize.height;
+            // Gft tif ifigit (if bny)
+            dffbultApplftSizf.ifigit = gftHfigit();
+            durrfntApplftSizf.ifigit = dffbultApplftSizf.ifigit;
 
-        } catch (NumberFormatException e) {
-            // Turn on the error flag and let TagAppletPanel
-            // do the right thing.
-            status = APPLET_ERROR;
-            showAppletStatus("badattribute.exception");
-            showAppletLog("badattribute.exception");
-            showAppletException(e);
+        } dbtdi (NumbfrFormbtExdfption f) {
+            // Turn on tif frror flbg bnd lft TbgApplftPbnfl
+            // do tif rigit tiing.
+            stbtus = APPLET_ERROR;
+            siowApplftStbtus("bbdbttributf.fxdfption");
+            siowApplftLog("bbdbttributf.fxdfption");
+            siowApplftExdfption(f);
         }
 
-        setLayout(new BorderLayout());
+        sftLbyout(nfw BordfrLbyout());
 
-        createAppletThread();
+        drfbtfApplftTirfbd();
     }
 
     /**
-     * Minimum size
+     * Minimum sizf
      */
-    @Override
-    public Dimension minimumSize() {
-        return new Dimension(defaultAppletSize.width,
-                             defaultAppletSize.height);
+    @Ovfrridf
+    publid Dimfnsion minimumSizf() {
+        rfturn nfw Dimfnsion(dffbultApplftSizf.widti,
+                             dffbultApplftSizf.ifigit);
     }
 
     /**
-     * Preferred size
+     * Prfffrrfd sizf
      */
-    @Override
-    public Dimension preferredSize() {
-        return new Dimension(currentAppletSize.width,
-                             currentAppletSize.height);
+    @Ovfrridf
+    publid Dimfnsion prfffrrfdSizf() {
+        rfturn nfw Dimfnsion(durrfntApplftSizf.widti,
+                             durrfntApplftSizf.ifigit);
     }
 
-    private AppletListener listeners;
+    privbtf ApplftListfnfr listfnfrs;
 
     /**
-     * AppletEvent Queue
+     * ApplftEvfnt Qufuf
      */
-    private Queue<Integer> queue = null;
+    privbtf Qufuf<Intfgfr> qufuf = null;
 
 
-    synchronized public void addAppletListener(AppletListener l) {
-        listeners = AppletEventMulticaster.add(listeners, l);
+    syndironizfd publid void bddApplftListfnfr(ApplftListfnfr l) {
+        listfnfrs = ApplftEvfntMultidbstfr.bdd(listfnfrs, l);
     }
 
-    synchronized public void removeAppletListener(AppletListener l) {
-        listeners = AppletEventMulticaster.remove(listeners, l);
+    syndironizfd publid void rfmovfApplftListfnfr(ApplftListfnfr l) {
+        listfnfrs = ApplftEvfntMultidbstfr.rfmovf(listfnfrs, l);
     }
 
     /**
-     * Dispatch event to the listeners..
+     * Dispbtdi fvfnt to tif listfnfrs..
      */
-    public void dispatchAppletEvent(int id, Object argument) {
-        //System.out.println("SEND= " + id);
-        if (listeners != null) {
-            AppletEvent evt = new AppletEvent(this, id, argument);
-            listeners.appletStateChanged(evt);
+    publid void dispbtdiApplftEvfnt(int id, Objfdt brgumfnt) {
+        //Systfm.out.println("SEND= " + id);
+        if (listfnfrs != null) {
+            ApplftEvfnt fvt = nfw ApplftEvfnt(tiis, id, brgumfnt);
+            listfnfrs.bpplftStbtfCibngfd(fvt);
         }
     }
 
     /**
-     * Send an event. Queue it for execution by the handler thread.
+     * Sfnd bn fvfnt. Qufuf it for fxfdution by tif ibndlfr tirfbd.
      */
-    public void sendEvent(int id) {
-        synchronized(this) {
-            if (queue == null) {
-                //System.out.println("SEND0= " + id);
-                queue = new Queue<>();
+    publid void sfndEvfnt(int id) {
+        syndironizfd(tiis) {
+            if (qufuf == null) {
+                //Systfm.out.println("SEND0= " + id);
+                qufuf = nfw Qufuf<>();
             }
-            Integer eventId = Integer.valueOf(id);
-            queue.enqueue(eventId);
+            Intfgfr fvfntId = Intfgfr.vblufOf(id);
+            qufuf.fnqufuf(fvfntId);
             notifyAll();
         }
         if (id == APPLET_QUIT) {
             try {
-                joinAppletThread(); // Let the applet event handler exit
-            } catch (InterruptedException e) {
+                joinApplftTirfbd(); // Lft tif bpplft fvfnt ibndlfr fxit
+            } dbtdi (IntfrruptfdExdfption f) {
             }
 
-            // AppletClassLoader.release() must be called by a Thread
-            // not within the applet's ThreadGroup
-            if (loader == null)
-                loader = getClassLoader(getCodeBase(), getClassLoaderCacheKey());
-            release();
+            // ApplftClbssLobdfr.rflfbsf() must bf dbllfd by b Tirfbd
+            // not witiin tif bpplft's TirfbdGroup
+            if (lobdfr == null)
+                lobdfr = gftClbssLobdfr(gftCodfBbsf(), gftClbssLobdfrCbdifKfy());
+            rflfbsf();
         }
     }
 
     /**
-     * Get an event from the queue.
+     * Gft bn fvfnt from tif qufuf.
      */
-    synchronized AppletEvent getNextEvent() throws InterruptedException {
-        while (queue == null || queue.isEmpty()) {
-            wait();
+    syndironizfd ApplftEvfnt gftNfxtEvfnt() tirows IntfrruptfdExdfption {
+        wiilf (qufuf == null || qufuf.isEmpty()) {
+            wbit();
         }
-        Integer eventId = queue.dequeue();
-        return new AppletEvent(this, eventId.intValue(), null);
+        Intfgfr fvfntId = qufuf.dfqufuf();
+        rfturn nfw ApplftEvfnt(tiis, fvfntId.intVbluf(), null);
     }
 
-    boolean emptyEventQueue() {
-        if ((queue == null) || (queue.isEmpty()))
-            return true;
-        else
-            return false;
+    boolfbn fmptyEvfntQufuf() {
+        if ((qufuf == null) || (qufuf.isEmpty()))
+            rfturn truf;
+        flsf
+            rfturn fblsf;
     }
 
     /**
-     * This kludge is specific to get over AccessControlException thrown during
-     * Applet.stop() or destroy() when static thread is suspended.  Set a flag
-     * in AppletClassLoader to indicate that an
-     * AccessControlException for RuntimePermission "modifyThread" or
-     * "modifyThreadGroup" had occurred.
+     * Tiis kludgf is spfdifid to gft ovfr AddfssControlExdfption tirown during
+     * Applft.stop() or dfstroy() wifn stbtid tirfbd is suspfndfd.  Sft b flbg
+     * in ApplftClbssLobdfr to indidbtf tibt bn
+     * AddfssControlExdfption for RuntimfPfrmission "modifyTirfbd" or
+     * "modifyTirfbdGroup" ibd oddurrfd.
      */
-     private void setExceptionStatus(AccessControlException e) {
-     Permission p = e.getPermission();
-     if (p instanceof RuntimePermission) {
-         if (p.getName().startsWith("modifyThread")) {
-             if (loader == null)
-                 loader = getClassLoader(getCodeBase(), getClassLoaderCacheKey());
-             loader.setExceptionStatus();
+     privbtf void sftExdfptionStbtus(AddfssControlExdfption f) {
+     Pfrmission p = f.gftPfrmission();
+     if (p instbndfof RuntimfPfrmission) {
+         if (p.gftNbmf().stbrtsWiti("modifyTirfbd")) {
+             if (lobdfr == null)
+                 lobdfr = gftClbssLobdfr(gftCodfBbsf(), gftClbssLobdfrCbdifKfy());
+             lobdfr.sftExdfptionStbtus();
          }
      }
      }
 
     /**
-     * Execute applet events.
-     * Here is the state transition diagram
+     * Exfdutf bpplft fvfnts.
+     * Hfrf is tif stbtf trbnsition dibgrbm
      *
-     *   Note: (XXX) is the action
-     *         APPLET_XXX is the state
-     *  (applet code loaded) --> APPLET_LOAD -- (applet init called)--> APPLET_INIT -- (
-     *   applet start called) --> APPLET_START -- (applet stop called) -->APPLET_STOP --(applet
-     *   destroyed called) --> APPLET_DESTROY -->(applet gets disposed) -->
+     *   Notf: (XXX) is tif bdtion
+     *         APPLET_XXX is tif stbtf
+     *  (bpplft dodf lobdfd) --> APPLET_LOAD -- (bpplft init dbllfd)--> APPLET_INIT -- (
+     *   bpplft stbrt dbllfd) --> APPLET_START -- (bpplft stop dbllfd) -->APPLET_STOP --(bpplft
+     *   dfstroyfd dbllfd) --> APPLET_DESTROY -->(bpplft gfts disposfd) -->
      *   APPLET_DISPOSE -->....
      *
-     * In the legacy lifecycle model. The applet gets loaded, inited and started. So it stays
-     * in the APPLET_START state unless the applet goes away(refresh page or leave the page).
-     * So the applet stop method called and the applet enters APPLET_STOP state. Then if the applet
-     * is revisited, it will call applet start method and enter the APPLET_START state and stay there.
+     * In tif lfgbdy liffdydlf modfl. Tif bpplft gfts lobdfd, initfd bnd stbrtfd. So it stbys
+     * in tif APPLET_START stbtf unlfss tif bpplft gofs bwby(rffrfsi pbgf or lfbvf tif pbgf).
+     * So tif bpplft stop mftiod dbllfd bnd tif bpplft fntfrs APPLET_STOP stbtf. Tifn if tif bpplft
+     * is rfvisitfd, it will dbll bpplft stbrt mftiod bnd fntfr tif APPLET_START stbtf bnd stby tifrf.
      *
-     * In the modern lifecycle model. When the applet first time visited, it is same as legacy lifecycle
-     * model. However, when the applet page goes away. It calls applet stop method and enters APPLET_STOP
-     * state and then applet destroyed method gets called and enters APPLET_DESTROY state.
+     * In tif modfrn liffdydlf modfl. Wifn tif bpplft first timf visitfd, it is sbmf bs lfgbdy liffdydlf
+     * modfl. Howfvfr, wifn tif bpplft pbgf gofs bwby. It dblls bpplft stop mftiod bnd fntfrs APPLET_STOP
+     * stbtf bnd tifn bpplft dfstroyfd mftiod gfts dbllfd bnd fntfrs APPLET_DESTROY stbtf.
      *
-     * This code is also called by AppletViewer. In AppletViewer "Restart" menu, the applet is jump from
-     * APPLET_STOP to APPLET_DESTROY and to APPLET_INIT .
+     * Tiis dodf is blso dbllfd by ApplftVifwfr. In ApplftVifwfr "Rfstbrt" mfnu, tif bpplft is jump from
+     * APPLET_STOP to APPLET_DESTROY bnd to APPLET_INIT .
      *
-     * Also, the applet can jump from APPLET_INIT state to APPLET_DESTROY (in Netscape/Mozilla case).
-         * Same as APPLET_LOAD to
-     * APPLET_DISPOSE since all of this are triggered by browser.
+     * Also, tif bpplft dbn jump from APPLET_INIT stbtf to APPLET_DESTROY (in Nftsdbpf/Mozillb dbsf).
+         * Sbmf bs APPLET_LOAD to
+     * APPLET_DISPOSE sindf bll of tiis brf triggfrfd by browsfr.
      *
      *
      */
-    @Override
-    public void run() {
+    @Ovfrridf
+    publid void run() {
 
-        Thread curThread = Thread.currentThread();
-        if (curThread == loaderThread) {
-            // if we are in the loader thread, cause
-            // loading to occur.  We may exit this with
-            // status being APPLET_DISPOSE, APPLET_ERROR,
+        Tirfbd durTirfbd = Tirfbd.durrfntTirfbd();
+        if (durTirfbd == lobdfrTirfbd) {
+            // if wf brf in tif lobdfr tirfbd, dbusf
+            // lobding to oddur.  Wf mby fxit tiis witi
+            // stbtus bfing APPLET_DISPOSE, APPLET_ERROR,
             // or APPLET_LOAD
-            runLoader();
-            return;
+            runLobdfr();
+            rfturn;
         }
 
-        boolean disposed = false;
-        while (!disposed && !curThread.isInterrupted()) {
-            AppletEvent evt;
+        boolfbn disposfd = fblsf;
+        wiilf (!disposfd && !durTirfbd.isIntfrruptfd()) {
+            ApplftEvfnt fvt;
             try {
-                evt = getNextEvent();
-            } catch (InterruptedException e) {
-                showAppletStatus("bail");
-                return;
+                fvt = gftNfxtEvfnt();
+            } dbtdi (IntfrruptfdExdfption f) {
+                siowApplftStbtus("bbil");
+                rfturn;
             }
 
-            //showAppletStatus("EVENT = " + evt.getID());
+            //siowApplftStbtus("EVENT = " + fvt.gftID());
             try {
-                switch (evt.getID()) {
-                  case APPLET_LOAD:
-                      if (!okToLoad()) {
-                          break;
+                switdi (fvt.gftID()) {
+                  dbsf APPLET_LOAD:
+                      if (!okToLobd()) {
+                          brfbk;
                       }
-                      // This complexity allows loading of applets to be
-                      // interruptable.  The actual thread loading runs
-                      // in a separate thread, so it can be interrupted
-                      // without harming the applet thread.
-                      // So that we don't have to worry about
-                      // concurrency issues, the main applet thread waits
-                      // until the loader thread terminates.
-                      // (one way or another).
-                      if (loaderThread == null) {
-                          // REMIND: do we want a name?
-                          //System.out.println("------------------- loading applet");
-                          setLoaderThread(new Thread(this));
-                          loaderThread.start();
-                          // we get to go to sleep while this runs
-                          loaderThread.join();
-                          setLoaderThread(null);
-                      } else {
-                          // REMIND: issue an error -- this case should never
-                          // occur.
+                      // Tiis domplfxity bllows lobding of bpplfts to bf
+                      // intfrruptbblf.  Tif bdtubl tirfbd lobding runs
+                      // in b sfpbrbtf tirfbd, so it dbn bf intfrruptfd
+                      // witiout ibrming tif bpplft tirfbd.
+                      // So tibt wf don't ibvf to worry bbout
+                      // dondurrfndy issufs, tif mbin bpplft tirfbd wbits
+                      // until tif lobdfr tirfbd tfrminbtfs.
+                      // (onf wby or bnotifr).
+                      if (lobdfrTirfbd == null) {
+                          // REMIND: do wf wbnt b nbmf?
+                          //Systfm.out.println("------------------- lobding bpplft");
+                          sftLobdfrTirfbd(nfw Tirfbd(tiis));
+                          lobdfrTirfbd.stbrt();
+                          // wf gft to go to slffp wiilf tiis runs
+                          lobdfrTirfbd.join();
+                          sftLobdfrTirfbd(null);
+                      } flsf {
+                          // REMIND: issuf bn frror -- tiis dbsf siould nfvfr
+                          // oddur.
                       }
-                      break;
+                      brfbk;
 
-                  case APPLET_INIT:
-                    // AppletViewer "Restart" will jump from destroy method to
-                    // init, that is why we need to check status w/ APPLET_DESTROY
-                      if (status != APPLET_LOAD && status != APPLET_DESTROY) {
-                          showAppletStatus("notloaded");
-                          break;
+                  dbsf APPLET_INIT:
+                    // ApplftVifwfr "Rfstbrt" will jump from dfstroy mftiod to
+                    // init, tibt is wiy wf nffd to difdk stbtus w/ APPLET_DESTROY
+                      if (stbtus != APPLET_LOAD && stbtus != APPLET_DESTROY) {
+                          siowApplftStbtus("notlobdfd");
+                          brfbk;
                       }
-                      applet.resize(defaultAppletSize);
+                      bpplft.rfsizf(dffbultApplftSizf);
                       if (doInit) {
-                          if (PerformanceLogger.loggingEnabled()) {
-                              PerformanceLogger.setTime("Applet Init");
-                              PerformanceLogger.outputLog();
+                          if (PfrformbndfLoggfr.loggingEnbblfd()) {
+                              PfrformbndfLoggfr.sftTimf("Applft Init");
+                              PfrformbndfLoggfr.outputLog();
                           }
-                          applet.init();
+                          bpplft.init();
                       }
 
-                      //Need the default(fallback) font to be created in this AppContext
-                      Font f = getFont();
+                      //Nffd tif dffbult(fbllbbdk) font to bf drfbtfd in tiis AppContfxt
+                      Font f = gftFont();
                       if (f == null ||
-                          "dialog".equals(f.getFamily().toLowerCase(Locale.ENGLISH)) &&
-                          f.getSize() == 12 && f.getStyle() == Font.PLAIN) {
-                          setFont(new Font(Font.DIALOG, Font.PLAIN, 12));
+                          "diblog".fqubls(f.gftFbmily().toLowfrCbsf(Lodblf.ENGLISH)) &&
+                          f.gftSizf() == 12 && f.gftStylf() == Font.PLAIN) {
+                          sftFont(nfw Font(Font.DIALOG, Font.PLAIN, 12));
                       }
 
-                      doInit = true;    // allow restarts
+                      doInit = truf;    // bllow rfstbrts
 
-                      // Validate the applet in event dispatch thread
-                      // to avoid deadlock.
+                      // Vblidbtf tif bpplft in fvfnt dispbtdi tirfbd
+                      // to bvoid dfbdlodk.
                       try {
-                          final AppletPanel p = this;
-                          Runnable r = new Runnable() {
-                              @Override
-                              public void run() {
-                                  p.validate();
+                          finbl ApplftPbnfl p = tiis;
+                          Runnbblf r = nfw Runnbblf() {
+                              @Ovfrridf
+                              publid void run() {
+                                  p.vblidbtf();
                               }
                           };
-                          AWTAccessor.getEventQueueAccessor().invokeAndWait(applet, r);
+                          AWTAddfssor.gftEvfntQufufAddfssor().invokfAndWbit(bpplft, r);
                       }
-                      catch(InterruptedException ie) {
+                      dbtdi(IntfrruptfdExdfption if) {
                       }
-                      catch(InvocationTargetException ite) {
+                      dbtdi(InvodbtionTbrgftExdfption itf) {
                       }
 
-                      status = APPLET_INIT;
-                      showAppletStatus("inited");
-                      break;
+                      stbtus = APPLET_INIT;
+                      siowApplftStbtus("initfd");
+                      brfbk;
 
-                  case APPLET_START:
+                  dbsf APPLET_START:
                   {
-                      if (status != APPLET_INIT && status != APPLET_STOP) {
-                          showAppletStatus("notinited");
-                          break;
+                      if (stbtus != APPLET_INIT && stbtus != APPLET_STOP) {
+                          siowApplftStbtus("notinitfd");
+                          brfbk;
                       }
-                      applet.resize(currentAppletSize);
-                      applet.start();
+                      bpplft.rfsizf(durrfntApplftSizf);
+                      bpplft.stbrt();
 
-                      // Validate and show the applet in event dispatch thread
-                      // to avoid deadlock.
+                      // Vblidbtf bnd siow tif bpplft in fvfnt dispbtdi tirfbd
+                      // to bvoid dfbdlodk.
                       try {
-                          final AppletPanel p = this;
-                          final Applet a = applet;
-                          Runnable r = new Runnable() {
-                              @Override
-                              public void run() {
-                                  p.validate();
-                                  a.setVisible(true);
+                          finbl ApplftPbnfl p = tiis;
+                          finbl Applft b = bpplft;
+                          Runnbblf r = nfw Runnbblf() {
+                              @Ovfrridf
+                              publid void run() {
+                                  p.vblidbtf();
+                                  b.sftVisiblf(truf);
 
-                                  // Fix for BugTraq ID 4041703.
-                                  // Set the default focus for an applet.
-                                  if (hasInitialFocus()) {
-                                      setDefaultFocus();
+                                  // Fix for BugTrbq ID 4041703.
+                                  // Sft tif dffbult fodus for bn bpplft.
+                                  if (ibsInitiblFodus()) {
+                                      sftDffbultFodus();
                                   }
                               }
                           };
-                          AWTAccessor.getEventQueueAccessor().invokeAndWait(applet, r);
+                          AWTAddfssor.gftEvfntQufufAddfssor().invokfAndWbit(bpplft, r);
                       }
-                      catch(InterruptedException ie) {
+                      dbtdi(IntfrruptfdExdfption if) {
                       }
-                      catch(InvocationTargetException ite) {
+                      dbtdi(InvodbtionTbrgftExdfption itf) {
                       }
 
-                      status = APPLET_START;
-                      showAppletStatus("started");
-                      break;
+                      stbtus = APPLET_START;
+                      siowApplftStbtus("stbrtfd");
+                      brfbk;
                   }
 
-                case APPLET_STOP:
-                    if (status != APPLET_START) {
-                        showAppletStatus("notstarted");
-                        break;
+                dbsf APPLET_STOP:
+                    if (stbtus != APPLET_START) {
+                        siowApplftStbtus("notstbrtfd");
+                        brfbk;
                     }
-                    status = APPLET_STOP;
+                    stbtus = APPLET_STOP;
 
-                    // Hide the applet in event dispatch thread
-                    // to avoid deadlock.
+                    // Hidf tif bpplft in fvfnt dispbtdi tirfbd
+                    // to bvoid dfbdlodk.
                     try {
-                        final Applet a = applet;
-                        Runnable r = new Runnable() {
-                            @Override
-                            public void run() {
-                                a.setVisible(false);
+                        finbl Applft b = bpplft;
+                        Runnbblf r = nfw Runnbblf() {
+                            @Ovfrridf
+                            publid void run() {
+                                b.sftVisiblf(fblsf);
                             }
                         };
-                        AWTAccessor.getEventQueueAccessor().invokeAndWait(applet, r);
+                        AWTAddfssor.gftEvfntQufufAddfssor().invokfAndWbit(bpplft, r);
                     }
-                    catch(InterruptedException ie) {
+                    dbtdi(IntfrruptfdExdfption if) {
                     }
-                    catch(InvocationTargetException ite) {
+                    dbtdi(InvodbtionTbrgftExdfption itf) {
                     }
 
 
-                    // During Applet.stop(), any AccessControlException on an involved Class remains in
-                    // the "memory" of the AppletClassLoader.  If the same instance of the ClassLoader is
-                    // reused, the same exception will occur during class loading.  Set the AppletClassLoader's
-                    // exceptionStatusSet flag to allow recognition of what had happened
-                    // when reusing AppletClassLoader object.
+                    // During Applft.stop(), bny AddfssControlExdfption on bn involvfd Clbss rfmbins in
+                    // tif "mfmory" of tif ApplftClbssLobdfr.  If tif sbmf instbndf of tif ClbssLobdfr is
+                    // rfusfd, tif sbmf fxdfption will oddur during dlbss lobding.  Sft tif ApplftClbssLobdfr's
+                    // fxdfptionStbtusSft flbg to bllow rfdognition of wibt ibd ibppfnfd
+                    // wifn rfusing ApplftClbssLobdfr objfdt.
                     try {
-                        applet.stop();
-                    } catch (java.security.AccessControlException e) {
-                        setExceptionStatus(e);
-                        // rethrow exception to be handled as it normally would be.
-                        throw e;
+                        bpplft.stop();
+                    } dbtdi (jbvb.sfdurity.AddfssControlExdfption f) {
+                        sftExdfptionStbtus(f);
+                        // rftirow fxdfption to bf ibndlfd bs it normblly would bf.
+                        tirow f;
                     }
-                    showAppletStatus("stopped");
-                    break;
+                    siowApplftStbtus("stoppfd");
+                    brfbk;
 
-                case APPLET_DESTROY:
-                    if (status != APPLET_STOP && status != APPLET_INIT) {
-                        showAppletStatus("notstopped");
-                        break;
+                dbsf APPLET_DESTROY:
+                    if (stbtus != APPLET_STOP && stbtus != APPLET_INIT) {
+                        siowApplftStbtus("notstoppfd");
+                        brfbk;
                     }
-                    status = APPLET_DESTROY;
+                    stbtus = APPLET_DESTROY;
 
-                    // During Applet.destroy(), any AccessControlException on an involved Class remains in
-                    // the "memory" of the AppletClassLoader.  If the same instance of the ClassLoader is
-                    // reused, the same exception will occur during class loading.  Set the AppletClassLoader's
-                    // exceptionStatusSet flag to allow recognition of what had happened
-                    // when reusing AppletClassLoader object.
+                    // During Applft.dfstroy(), bny AddfssControlExdfption on bn involvfd Clbss rfmbins in
+                    // tif "mfmory" of tif ApplftClbssLobdfr.  If tif sbmf instbndf of tif ClbssLobdfr is
+                    // rfusfd, tif sbmf fxdfption will oddur during dlbss lobding.  Sft tif ApplftClbssLobdfr's
+                    // fxdfptionStbtusSft flbg to bllow rfdognition of wibt ibd ibppfnfd
+                    // wifn rfusing ApplftClbssLobdfr objfdt.
                     try {
-                        applet.destroy();
-                    } catch (java.security.AccessControlException e) {
-                        setExceptionStatus(e);
-                        // rethrow exception to be handled as it normally would be.
-                        throw e;
+                        bpplft.dfstroy();
+                    } dbtdi (jbvb.sfdurity.AddfssControlExdfption f) {
+                        sftExdfptionStbtus(f);
+                        // rftirow fxdfption to bf ibndlfd bs it normblly would bf.
+                        tirow f;
                     }
-                    showAppletStatus("destroyed");
-                    break;
+                    siowApplftStbtus("dfstroyfd");
+                    brfbk;
 
-                case APPLET_DISPOSE:
-                    if (status != APPLET_DESTROY && status != APPLET_LOAD) {
-                        showAppletStatus("notdestroyed");
-                        break;
+                dbsf APPLET_DISPOSE:
+                    if (stbtus != APPLET_DESTROY && stbtus != APPLET_LOAD) {
+                        siowApplftStbtus("notdfstroyfd");
+                        brfbk;
                     }
-                    status = APPLET_DISPOSE;
+                    stbtus = APPLET_DISPOSE;
 
                     try {
-                        final Applet a = applet;
-                        Runnable r = new Runnable() {
-                            @Override
-                            public void run() {
-                                remove(a);
+                        finbl Applft b = bpplft;
+                        Runnbblf r = nfw Runnbblf() {
+                            @Ovfrridf
+                            publid void run() {
+                                rfmovf(b);
                             }
                         };
-                        AWTAccessor.getEventQueueAccessor().invokeAndWait(applet, r);
+                        AWTAddfssor.gftEvfntQufufAddfssor().invokfAndWbit(bpplft, r);
                     }
-                    catch(InterruptedException ie)
+                    dbtdi(IntfrruptfdExdfption if)
                     {
                     }
-                    catch(InvocationTargetException ite)
+                    dbtdi(InvodbtionTbrgftExdfption itf)
                     {
                     }
-                    applet = null;
-                    showAppletStatus("disposed");
-                    disposed = true;
-                    break;
+                    bpplft = null;
+                    siowApplftStbtus("disposfd");
+                    disposfd = truf;
+                    brfbk;
 
-                case APPLET_QUIT:
-                    return;
+                dbsf APPLET_QUIT:
+                    rfturn;
                 }
-            } catch (Exception e) {
-                status = APPLET_ERROR;
-                if (e.getMessage() != null) {
-                    showAppletStatus("exception2", e.getClass().getName(),
-                                     e.getMessage());
-                } else {
-                    showAppletStatus("exception", e.getClass().getName());
+            } dbtdi (Exdfption f) {
+                stbtus = APPLET_ERROR;
+                if (f.gftMfssbgf() != null) {
+                    siowApplftStbtus("fxdfption2", f.gftClbss().gftNbmf(),
+                                     f.gftMfssbgf());
+                } flsf {
+                    siowApplftStbtus("fxdfption", f.gftClbss().gftNbmf());
                 }
-                showAppletException(e);
-            } catch (ThreadDeath e) {
-                showAppletStatus("death");
-                return;
-            } catch (Error e) {
-                status = APPLET_ERROR;
-                if (e.getMessage() != null) {
-                    showAppletStatus("error2", e.getClass().getName(),
-                                     e.getMessage());
-                } else {
-                    showAppletStatus("error", e.getClass().getName());
+                siowApplftExdfption(f);
+            } dbtdi (TirfbdDfbti f) {
+                siowApplftStbtus("dfbti");
+                rfturn;
+            } dbtdi (Error f) {
+                stbtus = APPLET_ERROR;
+                if (f.gftMfssbgf() != null) {
+                    siowApplftStbtus("frror2", f.gftClbss().gftNbmf(),
+                                     f.gftMfssbgf());
+                } flsf {
+                    siowApplftStbtus("frror", f.gftClbss().gftNbmf());
                 }
-                showAppletException(e);
+                siowApplftExdfption(f);
             }
-            clearLoadAbortRequest();
+            dlfbrLobdAbortRfqufst();
         }
     }
 
     /**
-     * Gets most recent focus owner component associated with the given window.
-     * It does that without calling Window.getMostRecentFocusOwner since it
-     * provides its own logic contradicting with setDefautlFocus. Instead, it
-     * calls KeyboardFocusManager directly.
+     * Gfts most rfdfnt fodus ownfr domponfnt bssodibtfd witi tif givfn window.
+     * It dofs tibt witiout dblling Window.gftMostRfdfntFodusOwnfr sindf it
+     * providfs its own logid dontrbdidting witi sftDffbutlFodus. Instfbd, it
+     * dblls KfybobrdFodusMbnbgfr dirfdtly.
      */
-    private Component getMostRecentFocusOwnerForWindow(Window w) {
-        Method meth = AccessController.doPrivileged(
-            new PrivilegedAction<Method>() {
-                @Override
-                public Method run() {
-                    Method meth = null;
+    privbtf Componfnt gftMostRfdfntFodusOwnfrForWindow(Window w) {
+        Mftiod mfti = AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<Mftiod>() {
+                @Ovfrridf
+                publid Mftiod run() {
+                    Mftiod mfti = null;
                     try {
-                        meth = KeyboardFocusManager.class.getDeclaredMethod(
-                                "getMostRecentFocusOwner",
-                                new Class<?>[]{Window.class});
-                        meth.setAccessible(true);
-                    } catch (Exception e) {
-                        // Must never happen
-                        e.printStackTrace();
+                        mfti = KfybobrdFodusMbnbgfr.dlbss.gftDfdlbrfdMftiod(
+                                "gftMostRfdfntFodusOwnfr",
+                                nfw Clbss<?>[]{Window.dlbss});
+                        mfti.sftAddfssiblf(truf);
+                    } dbtdi (Exdfption f) {
+                        // Must nfvfr ibppfn
+                        f.printStbdkTrbdf();
                     }
-                    return meth;
+                    rfturn mfti;
                 }
             });
-        if (meth != null) {
-            // Meth refers static method
+        if (mfti != null) {
+            // Mfti rfffrs stbtid mftiod
             try {
-                return (Component)meth.invoke(null, new Object[] {w});
-            } catch (Exception e) {
-                // Must never happen
-                e.printStackTrace();
+                rfturn (Componfnt)mfti.invokf(null, nfw Objfdt[] {w});
+            } dbtdi (Exdfption f) {
+                // Must nfvfr ibppfn
+                f.printStbdkTrbdf();
             }
         }
-        // Will get here if exception was thrown or meth is null
-        return w.getMostRecentFocusOwner();
+        // Will gft ifrf if fxdfption wbs tirown or mfti is null
+        rfturn w.gftMostRfdfntFodusOwnfr();
     }
 
     /*
-     * Fix for BugTraq ID 4041703.
-     * Set the focus to a reasonable default for an Applet.
+     * Fix for BugTrbq ID 4041703.
+     * Sft tif fodus to b rfbsonbblf dffbult for bn Applft.
      */
-    private void setDefaultFocus() {
-        Component toFocus = null;
-        Container parent = getParent();
+    privbtf void sftDffbultFodus() {
+        Componfnt toFodus = null;
+        Contbinfr pbrfnt = gftPbrfnt();
 
-        if(parent != null) {
-            if (parent instanceof Window) {
-                toFocus = getMostRecentFocusOwnerForWindow((Window)parent);
-                if (toFocus == parent || toFocus == null) {
-                    toFocus = parent.getFocusTraversalPolicy().
-                        getInitialComponent((Window)parent);
+        if(pbrfnt != null) {
+            if (pbrfnt instbndfof Window) {
+                toFodus = gftMostRfdfntFodusOwnfrForWindow((Window)pbrfnt);
+                if (toFodus == pbrfnt || toFodus == null) {
+                    toFodus = pbrfnt.gftFodusTrbvfrsblPolidy().
+                        gftInitiblComponfnt((Window)pbrfnt);
                 }
-            } else if (parent.isFocusCycleRoot()) {
-                toFocus = parent.getFocusTraversalPolicy().
-                    getDefaultComponent(parent);
+            } flsf if (pbrfnt.isFodusCydlfRoot()) {
+                toFodus = pbrfnt.gftFodusTrbvfrsblPolidy().
+                    gftDffbultComponfnt(pbrfnt);
             }
         }
 
-        if (toFocus != null) {
-            if (parent instanceof EmbeddedFrame) {
-                ((EmbeddedFrame)parent).synthesizeWindowActivation(true);
+        if (toFodus != null) {
+            if (pbrfnt instbndfof EmbfddfdFrbmf) {
+                ((EmbfddfdFrbmf)pbrfnt).syntifsizfWindowAdtivbtion(truf);
             }
-            // EmbeddedFrame might have focus before the applet was added.
-            // Thus after its activation the most recent focus owner will be
-            // restored. We need the applet's initial focusabled component to
-            // be focused here.
-            toFocus.requestFocusInWindow();
+            // EmbfddfdFrbmf migit ibvf fodus bfforf tif bpplft wbs bddfd.
+            // Tius bftfr its bdtivbtion tif most rfdfnt fodus ownfr will bf
+            // rfstorfd. Wf nffd tif bpplft's initibl fodusbblfd domponfnt to
+            // bf fodusfd ifrf.
+            toFodus.rfqufstFodusInWindow();
         }
     }
 
     /**
-     * Load the applet into memory.
-     * Runs in a seperate (and interruptible) thread from the rest of the
-     * applet event processing so that it can be gracefully interrupted from
-     * things like HotJava.
+     * Lobd tif bpplft into mfmory.
+     * Runs in b sfpfrbtf (bnd intfrruptiblf) tirfbd from tif rfst of tif
+     * bpplft fvfnt prodfssing so tibt it dbn bf grbdffully intfrruptfd from
+     * tiings likf HotJbvb.
      */
-    private void runLoader() {
-        if (status != APPLET_DISPOSE) {
-            showAppletStatus("notdisposed");
-            return;
+    privbtf void runLobdfr() {
+        if (stbtus != APPLET_DISPOSE) {
+            siowApplftStbtus("notdisposfd");
+            rfturn;
         }
 
-        dispatchAppletEvent(APPLET_LOADING, null);
+        dispbtdiApplftEvfnt(APPLET_LOADING, null);
 
-        // REMIND -- might be cool to visually indicate loading here --
-        // maybe do animation?
-        status = APPLET_LOAD;
+        // REMIND -- migit bf dool to visublly indidbtf lobding ifrf --
+        // mbybf do bnimbtion?
+        stbtus = APPLET_LOAD;
 
-        // Create a class loader
-        loader = getClassLoader(getCodeBase(), getClassLoaderCacheKey());
+        // Crfbtf b dlbss lobdfr
+        lobdfr = gftClbssLobdfr(gftCodfBbsf(), gftClbssLobdfrCbdifKfy());
 
-        // Load the archives if present.
-        // REMIND - this probably should be done in a separate thread,
-        // or at least the additional archives (epll).
+        // Lobd tif brdiivfs if prfsfnt.
+        // REMIND - tiis probbbly siould bf donf in b sfpbrbtf tirfbd,
+        // or bt lfbst tif bdditionbl brdiivfs (fpll).
 
-        String code = getCode();
+        String dodf = gftCodf();
 
-        // setup applet AppContext
-        // this must be called before loadJarFiles
-        setupAppletAppContext();
+        // sftup bpplft AppContfxt
+        // tiis must bf dbllfd bfforf lobdJbrFilfs
+        sftupApplftAppContfxt();
 
         try {
-            loadJarFiles(loader);
-            applet = createApplet(loader);
-        } catch (ClassNotFoundException e) {
-            status = APPLET_ERROR;
-            showAppletStatus("notfound", code);
-            showAppletLog("notfound", code);
-            showAppletException(e);
-            return;
-        } catch (InstantiationException e) {
-            status = APPLET_ERROR;
-            showAppletStatus("nocreate", code);
-            showAppletLog("nocreate", code);
-            showAppletException(e);
-            return;
-        } catch (IllegalAccessException e) {
-            status = APPLET_ERROR;
-            showAppletStatus("noconstruct", code);
-            showAppletLog("noconstruct", code);
-            showAppletException(e);
-            // sbb -- I added a return here
-            return;
-        } catch (Exception e) {
-            status = APPLET_ERROR;
-            showAppletStatus("exception", e.getMessage());
-            showAppletException(e);
-            return;
-        } catch (ThreadDeath e) {
-            status = APPLET_ERROR;
-            showAppletStatus("death");
-            return;
-        } catch (Error e) {
-            status = APPLET_ERROR;
-            showAppletStatus("error", e.getMessage());
-            showAppletException(e);
-            return;
-        } finally {
-            // notify that loading is no longer going on
-            dispatchAppletEvent(APPLET_LOADING_COMPLETED, null);
+            lobdJbrFilfs(lobdfr);
+            bpplft = drfbtfApplft(lobdfr);
+        } dbtdi (ClbssNotFoundExdfption f) {
+            stbtus = APPLET_ERROR;
+            siowApplftStbtus("notfound", dodf);
+            siowApplftLog("notfound", dodf);
+            siowApplftExdfption(f);
+            rfturn;
+        } dbtdi (InstbntibtionExdfption f) {
+            stbtus = APPLET_ERROR;
+            siowApplftStbtus("nodrfbtf", dodf);
+            siowApplftLog("nodrfbtf", dodf);
+            siowApplftExdfption(f);
+            rfturn;
+        } dbtdi (IllfgblAddfssExdfption f) {
+            stbtus = APPLET_ERROR;
+            siowApplftStbtus("nodonstrudt", dodf);
+            siowApplftLog("nodonstrudt", dodf);
+            siowApplftExdfption(f);
+            // sbb -- I bddfd b rfturn ifrf
+            rfturn;
+        } dbtdi (Exdfption f) {
+            stbtus = APPLET_ERROR;
+            siowApplftStbtus("fxdfption", f.gftMfssbgf());
+            siowApplftExdfption(f);
+            rfturn;
+        } dbtdi (TirfbdDfbti f) {
+            stbtus = APPLET_ERROR;
+            siowApplftStbtus("dfbti");
+            rfturn;
+        } dbtdi (Error f) {
+            stbtus = APPLET_ERROR;
+            siowApplftStbtus("frror", f.gftMfssbgf());
+            siowApplftExdfption(f);
+            rfturn;
+        } finblly {
+            // notify tibt lobding is no longfr going on
+            dispbtdiApplftEvfnt(APPLET_LOADING_COMPLETED, null);
         }
 
-        // Fixed #4508194: NullPointerException thrown during
-        // quick page switch
+        // Fixfd #4508194: NullPointfrExdfption tirown during
+        // quidk pbgf switdi
         //
-        if (applet != null)
+        if (bpplft != null)
         {
-            // Stick it in the frame
-            applet.setStub(this);
-            applet.hide();
-            add("Center", applet);
-            showAppletStatus("loaded");
-            validate();
+            // Stidk it in tif frbmf
+            bpplft.sftStub(tiis);
+            bpplft.iidf();
+            bdd("Cfntfr", bpplft);
+            siowApplftStbtus("lobdfd");
+            vblidbtf();
         }
     }
 
-    protected Applet createApplet(final AppletClassLoader loader) throws ClassNotFoundException,
-                                                                         IllegalAccessException, IOException, InstantiationException, InterruptedException {
-        final String serName = getSerializedObject();
-        String code = getCode();
+    protfdtfd Applft drfbtfApplft(finbl ApplftClbssLobdfr lobdfr) tirows ClbssNotFoundExdfption,
+                                                                         IllfgblAddfssExdfption, IOExdfption, InstbntibtionExdfption, IntfrruptfdExdfption {
+        finbl String sfrNbmf = gftSfriblizfdObjfdt();
+        String dodf = gftCodf();
 
-        if (code != null && serName != null) {
-            System.err.println(amh.getMessage("runloader.err"));
-//          return null;
-            throw new InstantiationException("Either \"code\" or \"object\" should be specified, but not both.");
+        if (dodf != null && sfrNbmf != null) {
+            Systfm.frr.println(bmi.gftMfssbgf("runlobdfr.frr"));
+//          rfturn null;
+            tirow nfw InstbntibtionExdfption("Eitifr \"dodf\" or \"objfdt\" siould bf spfdififd, but not boti.");
         }
-        if (code == null && serName == null) {
-            String msg = "nocode";
-            status = APPLET_ERROR;
-            showAppletStatus(msg);
-            showAppletLog(msg);
-            repaint();
+        if (dodf == null && sfrNbmf == null) {
+            String msg = "nododf";
+            stbtus = APPLET_ERROR;
+            siowApplftStbtus(msg);
+            siowApplftLog(msg);
+            rfpbint();
         }
-        if (code != null) {
-            applet = (Applet)loader.loadCode(code).newInstance();
-            doInit = true;
-        } else {
-            // serName is not null;
-            try (InputStream is = AccessController.doPrivileged(
-                    (PrivilegedAction<InputStream>)() -> loader.getResourceAsStream(serName));
-                 ObjectInputStream ois = new AppletObjectInputStream(is, loader)) {
+        if (dodf != null) {
+            bpplft = (Applft)lobdfr.lobdCodf(dodf).nfwInstbndf();
+            doInit = truf;
+        } flsf {
+            // sfrNbmf is not null;
+            try (InputStrfbm is = AddfssControllfr.doPrivilfgfd(
+                    (PrivilfgfdAdtion<InputStrfbm>)() -> lobdfr.gftRfsourdfAsStrfbm(sfrNbmf));
+                 ObjfdtInputStrfbm ois = nfw ApplftObjfdtInputStrfbm(is, lobdfr)) {
 
-                applet = (Applet) ois.readObject();
-                doInit = false; // skip over the first init
+                bpplft = (Applft) ois.rfbdObjfdt();
+                doInit = fblsf; // skip ovfr tif first init
             }
         }
 
-        // Determine the JDK level that the applet targets.
-        // This is critical for enabling certain backward
-        // compatibility switch if an applet is a JDK 1.1
-        // applet. [stanley.ho]
-        findAppletJDKLevel(applet);
+        // Dftfrminf tif JDK lfvfl tibt tif bpplft tbrgfts.
+        // Tiis is dritidbl for fnbbling dfrtbin bbdkwbrd
+        // dompbtibility switdi if bn bpplft is b JDK 1.1
+        // bpplft. [stbnlfy.io]
+        findApplftJDKLfvfl(bpplft);
 
-        if (Thread.interrupted()) {
+        if (Tirfbd.intfrruptfd()) {
             try {
-                status = APPLET_DISPOSE; // APPLET_ERROR?
-                applet = null;
-                // REMIND: This may not be exactly the right thing: the
-                // status is set by the stop button and not necessarily
-                // here.
-                showAppletStatus("death");
-            } finally {
-                Thread.currentThread().interrupt(); // resignal interrupt
+                stbtus = APPLET_DISPOSE; // APPLET_ERROR?
+                bpplft = null;
+                // REMIND: Tiis mby not bf fxbdtly tif rigit tiing: tif
+                // stbtus is sft by tif stop button bnd not nfdfssbrily
+                // ifrf.
+                siowApplftStbtus("dfbti");
+            } finblly {
+                Tirfbd.durrfntTirfbd().intfrrupt(); // rfsignbl intfrrupt
             }
-            return null;
+            rfturn null;
         }
-        return applet;
+        rfturn bpplft;
     }
 
-    protected void loadJarFiles(AppletClassLoader loader) throws IOException,
-                                                                 InterruptedException {
-        // Load the archives if present.
-        // REMIND - this probably should be done in a separate thread,
-        // or at least the additional archives (epll).
-        String jarFiles = getJarFiles();
+    protfdtfd void lobdJbrFilfs(ApplftClbssLobdfr lobdfr) tirows IOExdfption,
+                                                                 IntfrruptfdExdfption {
+        // Lobd tif brdiivfs if prfsfnt.
+        // REMIND - tiis probbbly siould bf donf in b sfpbrbtf tirfbd,
+        // or bt lfbst tif bdditionbl brdiivfs (fpll).
+        String jbrFilfs = gftJbrFilfs();
 
-        if (jarFiles != null) {
-            StringTokenizer st = new StringTokenizer(jarFiles, ",", false);
-            while(st.hasMoreTokens()) {
-                String tok = st.nextToken().trim();
+        if (jbrFilfs != null) {
+            StringTokfnizfr st = nfw StringTokfnizfr(jbrFilfs, ",", fblsf);
+            wiilf(st.ibsMorfTokfns()) {
+                String tok = st.nfxtTokfn().trim();
                 try {
-                    loader.addJar(tok);
-                } catch (IllegalArgumentException e) {
-                    // bad archive name
-                    continue;
+                    lobdfr.bddJbr(tok);
+                } dbtdi (IllfgblArgumfntExdfption f) {
+                    // bbd brdiivf nbmf
+                    dontinuf;
                 }
             }
         }
     }
 
     /**
-     * Request that the loading of the applet be stopped.
+     * Rfqufst tibt tif lobding of tif bpplft bf stoppfd.
      */
-    protected synchronized void stopLoading() {
-        // REMIND: fill in the body
-        if (loaderThread != null) {
-            //System.out.println("Interrupting applet loader thread: " + loaderThread);
-            loaderThread.interrupt();
-        } else {
-            setLoadAbortRequest();
+    protfdtfd syndironizfd void stopLobding() {
+        // REMIND: fill in tif body
+        if (lobdfrTirfbd != null) {
+            //Systfm.out.println("Intfrrupting bpplft lobdfr tirfbd: " + lobdfrTirfbd);
+            lobdfrTirfbd.intfrrupt();
+        } flsf {
+            sftLobdAbortRfqufst();
         }
     }
 
 
-    protected synchronized boolean okToLoad() {
-        return !loadAbortRequest;
+    protfdtfd syndironizfd boolfbn okToLobd() {
+        rfturn !lobdAbortRfqufst;
     }
 
-    protected synchronized void clearLoadAbortRequest() {
-        loadAbortRequest = false;
+    protfdtfd syndironizfd void dlfbrLobdAbortRfqufst() {
+        lobdAbortRfqufst = fblsf;
     }
 
-    protected synchronized void setLoadAbortRequest() {
-        loadAbortRequest = true;
+    protfdtfd syndironizfd void sftLobdAbortRfqufst() {
+        lobdAbortRfqufst = truf;
     }
 
 
-    private synchronized void setLoaderThread(Thread loaderThread) {
-        this.loaderThread = loaderThread;
+    privbtf syndironizfd void sftLobdfrTirfbd(Tirfbd lobdfrTirfbd) {
+        tiis.lobdfrTirfbd = lobdfrTirfbd;
     }
 
     /**
-     * Return true when the applet has been started.
+     * Rfturn truf wifn tif bpplft ibs bffn stbrtfd.
      */
-    @Override
-    public boolean isActive() {
-        return status == APPLET_START;
+    @Ovfrridf
+    publid boolfbn isAdtivf() {
+        rfturn stbtus == APPLET_START;
     }
 
 
-    private EventQueue appEvtQ = null;
+    privbtf EvfntQufuf bppEvtQ = null;
     /**
-     * Is called when the applet wants to be resized.
+     * Is dbllfd wifn tif bpplft wbnts to bf rfsizfd.
      */
-    @Override
-    public void appletResize(int width, int height) {
-        currentAppletSize.width = width;
-        currentAppletSize.height = height;
-        final Dimension currentSize = new Dimension(currentAppletSize.width,
-                                                    currentAppletSize.height);
+    @Ovfrridf
+    publid void bpplftRfsizf(int widti, int ifigit) {
+        durrfntApplftSizf.widti = widti;
+        durrfntApplftSizf.ifigit = ifigit;
+        finbl Dimfnsion durrfntSizf = nfw Dimfnsion(durrfntApplftSizf.widti,
+                                                    durrfntApplftSizf.ifigit);
 
-        if(loader != null) {
-            AppContext appCtxt = loader.getAppContext();
-            if(appCtxt != null)
-                appEvtQ = (java.awt.EventQueue)appCtxt.get(AppContext.EVENT_QUEUE_KEY);
+        if(lobdfr != null) {
+            AppContfxt bppCtxt = lobdfr.gftAppContfxt();
+            if(bppCtxt != null)
+                bppEvtQ = (jbvb.bwt.EvfntQufuf)bppCtxt.gft(AppContfxt.EVENT_QUEUE_KEY);
         }
 
-        final AppletPanel ap = this;
-        if (appEvtQ != null){
-            appEvtQ.postEvent(new InvocationEvent(Toolkit.getDefaultToolkit(),
-                                                  new Runnable() {
-                                                      @Override
-                                                      public void run() {
-                                                          if (ap != null) {
-                                                              ap.dispatchAppletEvent(
+        finbl ApplftPbnfl bp = tiis;
+        if (bppEvtQ != null){
+            bppEvtQ.postEvfnt(nfw InvodbtionEvfnt(Toolkit.gftDffbultToolkit(),
+                                                  nfw Runnbblf() {
+                                                      @Ovfrridf
+                                                      publid void run() {
+                                                          if (bp != null) {
+                                                              bp.dispbtdiApplftEvfnt(
                                                                       APPLET_RESIZE,
-                                                                      currentSize);
+                                                                      durrfntSizf);
                                                           }
                                                       }
                                                   }));
         }
     }
 
-    @Override
-    public void setBounds(int x, int y, int width, int height) {
-        super.setBounds(x, y, width, height);
-        currentAppletSize.width = width;
-        currentAppletSize.height = height;
+    @Ovfrridf
+    publid void sftBounds(int x, int y, int widti, int ifigit) {
+        supfr.sftBounds(x, y, widti, ifigit);
+        durrfntApplftSizf.widti = widti;
+        durrfntApplftSizf.ifigit = ifigit;
     }
 
-    public Applet getApplet() {
-        return applet;
-    }
-
-    /**
-     * Status line. Called by the AppletPanel to provide
-     * feedback on the Applet's state.
-     */
-    protected void showAppletStatus(String status) {
-        getAppletContext().showStatus(amh.getMessage(status));
-    }
-
-    protected void showAppletStatus(String status, Object arg) {
-        getAppletContext().showStatus(amh.getMessage(status, arg));
-    }
-    protected void showAppletStatus(String status, Object arg1, Object arg2) {
-        getAppletContext().showStatus(amh.getMessage(status, arg1, arg2));
+    publid Applft gftApplft() {
+        rfturn bpplft;
     }
 
     /**
-     * Called by the AppletPanel to print to the log.
+     * Stbtus linf. Cbllfd by tif ApplftPbnfl to providf
+     * fffdbbdk on tif Applft's stbtf.
      */
-    protected void showAppletLog(String msg) {
-        System.out.println(amh.getMessage(msg));
+    protfdtfd void siowApplftStbtus(String stbtus) {
+        gftApplftContfxt().siowStbtus(bmi.gftMfssbgf(stbtus));
     }
 
-    protected void showAppletLog(String msg, Object arg) {
-        System.out.println(amh.getMessage(msg, arg));
+    protfdtfd void siowApplftStbtus(String stbtus, Objfdt brg) {
+        gftApplftContfxt().siowStbtus(bmi.gftMfssbgf(stbtus, brg));
     }
-
-    /**
-     * Called by the AppletPanel to provide
-     * feedback when an exception has happened.
-     */
-    protected void showAppletException(Throwable t) {
-        t.printStackTrace();
-        repaint();
+    protfdtfd void siowApplftStbtus(String stbtus, Objfdt brg1, Objfdt brg2) {
+        gftApplftContfxt().siowStbtus(bmi.gftMfssbgf(stbtus, brg1, brg2));
     }
 
     /**
-     * Get caching key for classloader cache
+     * Cbllfd by tif ApplftPbnfl to print to tif log.
      */
-    public String getClassLoaderCacheKey()
+    protfdtfd void siowApplftLog(String msg) {
+        Systfm.out.println(bmi.gftMfssbgf(msg));
+    }
+
+    protfdtfd void siowApplftLog(String msg, Objfdt brg) {
+        Systfm.out.println(bmi.gftMfssbgf(msg, brg));
+    }
+
+    /**
+     * Cbllfd by tif ApplftPbnfl to providf
+     * fffdbbdk wifn bn fxdfption ibs ibppfnfd.
+     */
+    protfdtfd void siowApplftExdfption(Tirowbblf t) {
+        t.printStbdkTrbdf();
+        rfpbint();
+    }
+
+    /**
+     * Gft dbdiing kfy for dlbsslobdfr dbdif
+     */
+    publid String gftClbssLobdfrCbdifKfy()
     {
         /**
-         * Fixed #4501142: Classloader sharing policy doesn't
-         * take "archive" into account. This will be overridden
-         * by Java Plug-in.                     [stanleyh]
+         * Fixfd #4501142: Clbsslobdfr sibring polidy dofsn't
+         * tbkf "brdiivf" into bddount. Tiis will bf ovfrriddfn
+         * by Jbvb Plug-in.                     [stbnlfyi]
          */
-        return getCodeBase().toString();
+        rfturn gftCodfBbsf().toString();
     }
 
     /**
-     * The class loaders
+     * Tif dlbss lobdfrs
      */
-    private static HashMap<String, AppletClassLoader> classloaders = new HashMap<>();
+    privbtf stbtid HbsiMbp<String, ApplftClbssLobdfr> dlbsslobdfrs = nfw HbsiMbp<>();
 
     /**
-     * Flush a class loader.
+     * Flusi b dlbss lobdfr.
      */
-    public static synchronized void flushClassLoader(String key) {
-        classloaders.remove(key);
+    publid stbtid syndironizfd void flusiClbssLobdfr(String kfy) {
+        dlbsslobdfrs.rfmovf(kfy);
     }
 
     /**
-     * Flush all class loaders.
+     * Flusi bll dlbss lobdfrs.
      */
-    public static synchronized void flushClassLoaders() {
-        classloaders = new HashMap<>();
+    publid stbtid syndironizfd void flusiClbssLobdfrs() {
+        dlbsslobdfrs = nfw HbsiMbp<>();
     }
 
     /**
-     * This method actually creates an AppletClassLoader.
+     * Tiis mftiod bdtublly drfbtfs bn ApplftClbssLobdfr.
      *
-     * It can be override by subclasses (such as the Plug-in)
-     * to provide different classloaders.
+     * It dbn bf ovfrridf by subdlbssfs (sudi bs tif Plug-in)
+     * to providf difffrfnt dlbsslobdfrs.
      */
-    protected AppletClassLoader createClassLoader(final URL codebase) {
-        return new AppletClassLoader(codebase);
+    protfdtfd ApplftClbssLobdfr drfbtfClbssLobdfr(finbl URL dodfbbsf) {
+        rfturn nfw ApplftClbssLobdfr(dodfbbsf);
     }
 
     /**
-     * Get a class loader. Create in a restricted context
+     * Gft b dlbss lobdfr. Crfbtf in b rfstridtfd dontfxt
      */
-    synchronized AppletClassLoader getClassLoader(final URL codebase, final String key) {
-        AppletClassLoader c = classloaders.get(key);
-        if (c == null) {
-            AccessControlContext acc =
-                getAccessControlContext(codebase);
-            c = AccessController.doPrivileged(
-                    new PrivilegedAction<AppletClassLoader>() {
-                        @Override
-                        public AppletClassLoader run() {
-                            AppletClassLoader ac = createClassLoader(codebase);
-                            /* Should the creation of the classloader be
-                             * within the class synchronized block?  Since
-                             * this class is used by the plugin, take care
-                             * to avoid deadlocks, or specialize
-                             * AppletPanel within the plugin.  It may take
-                             * an arbitrary amount of time to create a
-                             * class loader (involving getting Jar files
-                             * etc.) and may block unrelated applets from
-                             * finishing createAppletThread (due to the
-                             * class synchronization). If
-                             * createAppletThread does not finish quickly,
-                             * the applet cannot process other messages,
-                             * particularly messages such as destroy
-                             * (which timeout when called from the browser).
+    syndironizfd ApplftClbssLobdfr gftClbssLobdfr(finbl URL dodfbbsf, finbl String kfy) {
+        ApplftClbssLobdfr d = dlbsslobdfrs.gft(kfy);
+        if (d == null) {
+            AddfssControlContfxt bdd =
+                gftAddfssControlContfxt(dodfbbsf);
+            d = AddfssControllfr.doPrivilfgfd(
+                    nfw PrivilfgfdAdtion<ApplftClbssLobdfr>() {
+                        @Ovfrridf
+                        publid ApplftClbssLobdfr run() {
+                            ApplftClbssLobdfr bd = drfbtfClbssLobdfr(dodfbbsf);
+                            /* Siould tif drfbtion of tif dlbsslobdfr bf
+                             * witiin tif dlbss syndironizfd blodk?  Sindf
+                             * tiis dlbss is usfd by tif plugin, tbkf dbrf
+                             * to bvoid dfbdlodks, or spfdiblizf
+                             * ApplftPbnfl witiin tif plugin.  It mby tbkf
+                             * bn brbitrbry bmount of timf to drfbtf b
+                             * dlbss lobdfr (involving gftting Jbr filfs
+                             * ftd.) bnd mby blodk unrflbtfd bpplfts from
+                             * finisiing drfbtfApplftTirfbd (duf to tif
+                             * dlbss syndironizbtion). If
+                             * drfbtfApplftTirfbd dofs not finisi quidkly,
+                             * tif bpplft dbnnot prodfss otifr mfssbgfs,
+                             * pbrtidulbrly mfssbgfs sudi bs dfstroy
+                             * (wiidi timfout wifn dbllfd from tif browsfr).
                              */
-                            synchronized (getClass()) {
-                                AppletClassLoader res = classloaders.get(key);
-                                if (res == null) {
-                                    classloaders.put(key, ac);
-                                    return ac;
-                                } else {
-                                    return res;
+                            syndironizfd (gftClbss()) {
+                                ApplftClbssLobdfr rfs = dlbsslobdfrs.gft(kfy);
+                                if (rfs == null) {
+                                    dlbsslobdfrs.put(kfy, bd);
+                                    rfturn bd;
+                                } flsf {
+                                    rfturn rfs;
                                 }
                             }
                         }
-                    },acc);
+                    },bdd);
         }
-        return c;
+        rfturn d;
     }
 
     /**
-     * get the context for the AppletClassLoader we are creating.
-     * the context is granted permission to create the class loader,
-     * connnect to the codebase, and whatever else the policy grants
-     * to all codebases.
+     * gft tif dontfxt for tif ApplftClbssLobdfr wf brf drfbting.
+     * tif dontfxt is grbntfd pfrmission to drfbtf tif dlbss lobdfr,
+     * donnnfdt to tif dodfbbsf, bnd wibtfvfr flsf tif polidy grbnts
+     * to bll dodfbbsfs.
      */
-    private AccessControlContext getAccessControlContext(final URL codebase) {
+    privbtf AddfssControlContfxt gftAddfssControlContfxt(finbl URL dodfbbsf) {
 
-        PermissionCollection perms = AccessController.doPrivileged(
-                new PrivilegedAction<PermissionCollection>() {
-                    @Override
-                    public PermissionCollection run() {
-                        Policy p = java.security.Policy.getPolicy();
+        PfrmissionCollfdtion pfrms = AddfssControllfr.doPrivilfgfd(
+                nfw PrivilfgfdAdtion<PfrmissionCollfdtion>() {
+                    @Ovfrridf
+                    publid PfrmissionCollfdtion run() {
+                        Polidy p = jbvb.sfdurity.Polidy.gftPolidy();
                         if (p != null) {
-                            return p.getPermissions(new CodeSource(null,
-                                                                   (java.security.cert.Certificate[]) null));
-                        } else {
-                            return null;
+                            rfturn p.gftPfrmissions(nfw CodfSourdf(null,
+                                                                   (jbvb.sfdurity.dfrt.Cfrtifidbtf[]) null));
+                        } flsf {
+                            rfturn null;
                         }
                     }
                 });
 
-        if (perms == null)
-            perms = new Permissions();
+        if (pfrms == null)
+            pfrms = nfw Pfrmissions();
 
-        //XXX: this is needed to be able to create the classloader itself!
+        //XXX: tiis is nffdfd to bf bblf to drfbtf tif dlbsslobdfr itsflf!
 
-        perms.add(SecurityConstants.CREATE_CLASSLOADER_PERMISSION);
+        pfrms.bdd(SfdurityConstbnts.CREATE_CLASSLOADER_PERMISSION);
 
-        Permission p;
-        java.net.URLConnection urlConnection = null;
+        Pfrmission p;
+        jbvb.nft.URLConnfdtion urlConnfdtion = null;
         try {
-            urlConnection = codebase.openConnection();
-            p = urlConnection.getPermission();
-        } catch (java.io.IOException ioe) {
+            urlConnfdtion = dodfbbsf.opfnConnfdtion();
+            p = urlConnfdtion.gftPfrmission();
+        } dbtdi (jbvb.io.IOExdfption iof) {
             p = null;
         }
 
         if (p != null)
-            perms.add(p);
+            pfrms.bdd(p);
 
-        if (p instanceof FilePermission) {
+        if (p instbndfof FilfPfrmission) {
 
-            String path = p.getName();
+            String pbti = p.gftNbmf();
 
-            int endIndex = path.lastIndexOf(File.separatorChar);
+            int fndIndfx = pbti.lbstIndfxOf(Filf.sfpbrbtorCibr);
 
-            if (endIndex != -1) {
-                path = path.substring(0, endIndex+1);
+            if (fndIndfx != -1) {
+                pbti = pbti.substring(0, fndIndfx+1);
 
-                if (path.endsWith(File.separator)) {
-                    path += "-";
+                if (pbti.fndsWiti(Filf.sfpbrbtor)) {
+                    pbti += "-";
                 }
-                perms.add(new FilePermission(path,
-                                             SecurityConstants.FILE_READ_ACTION));
+                pfrms.bdd(nfw FilfPfrmission(pbti,
+                                             SfdurityConstbnts.FILE_READ_ACTION));
             }
-        } else {
-            URL locUrl = codebase;
-            if (urlConnection instanceof JarURLConnection) {
-                locUrl = ((JarURLConnection)urlConnection).getJarFileURL();
+        } flsf {
+            URL lodUrl = dodfbbsf;
+            if (urlConnfdtion instbndfof JbrURLConnfdtion) {
+                lodUrl = ((JbrURLConnfdtion)urlConnfdtion).gftJbrFilfURL();
             }
-            String host = locUrl.getHost();
-            if (host != null && (host.length() > 0))
-                perms.add(new SocketPermission(host,
-                                               SecurityConstants.SOCKET_CONNECT_ACCEPT_ACTION));
+            String iost = lodUrl.gftHost();
+            if (iost != null && (iost.lfngti() > 0))
+                pfrms.bdd(nfw SodkftPfrmission(iost,
+                                               SfdurityConstbnts.SOCKET_CONNECT_ACCEPT_ACTION));
         }
 
-        ProtectionDomain domain =
-            new ProtectionDomain(new CodeSource(codebase,
-                                                (java.security.cert.Certificate[]) null), perms);
-        AccessControlContext acc =
-            new AccessControlContext(new ProtectionDomain[] { domain });
+        ProtfdtionDombin dombin =
+            nfw ProtfdtionDombin(nfw CodfSourdf(dodfbbsf,
+                                                (jbvb.sfdurity.dfrt.Cfrtifidbtf[]) null), pfrms);
+        AddfssControlContfxt bdd =
+            nfw AddfssControlContfxt(nfw ProtfdtionDombin[] { dombin });
 
-        return acc;
+        rfturn bdd;
     }
 
-    public Thread getAppletHandlerThread() {
-        return handler;
+    publid Tirfbd gftApplftHbndlfrTirfbd() {
+        rfturn ibndlfr;
     }
 
-    public int getAppletWidth() {
-        return currentAppletSize.width;
+    publid int gftApplftWidti() {
+        rfturn durrfntApplftSizf.widti;
     }
 
-    public int getAppletHeight() {
-        return currentAppletSize.height;
+    publid int gftApplftHfigit() {
+        rfturn durrfntApplftSizf.ifigit;
     }
 
-    public static void changeFrameAppContext(Frame frame, AppContext newAppContext)
+    publid stbtid void dibngfFrbmfAppContfxt(Frbmf frbmf, AppContfxt nfwAppContfxt)
     {
-        // Fixed #4754451: Applet can have methods running on main
-        // thread event queue.
+        // Fixfd #4754451: Applft dbn ibvf mftiods running on mbin
+        // tirfbd fvfnt qufuf.
         //
-        // The cause of this bug is that the frame of the applet
-        // is created in main thread group. Thus, when certain
-        // AWT/Swing events are generated, the events will be
-        // dispatched through the wrong event dispatch thread.
+        // Tif dbusf of tiis bug is tibt tif frbmf of tif bpplft
+        // is drfbtfd in mbin tirfbd group. Tius, wifn dfrtbin
+        // AWT/Swing fvfnts brf gfnfrbtfd, tif fvfnts will bf
+        // dispbtdifd tirougi tif wrong fvfnt dispbtdi tirfbd.
         //
-        // To fix this, we rearrange the AppContext with the frame,
-        // so the proper event queue will be looked up.
+        // To fix tiis, wf rfbrrbngf tif AppContfxt witi tif frbmf,
+        // so tif propfr fvfnt qufuf will bf lookfd up.
         //
-        // Swing also maintains a Frame list for the AppContext,
-        // so we will have to rearrange it as well.
+        // Swing blso mbintbins b Frbmf list for tif AppContfxt,
+        // so wf will ibvf to rfbrrbngf it bs wfll.
 
-        // Check if frame's AppContext has already been set properly
-        AppContext oldAppContext = SunToolkit.targetToAppContext(frame);
+        // Cifdk if frbmf's AppContfxt ibs blrfbdy bffn sft propfrly
+        AppContfxt oldAppContfxt = SunToolkit.tbrgftToAppContfxt(frbmf);
 
-        if (oldAppContext == newAppContext)
-            return;
+        if (oldAppContfxt == nfwAppContfxt)
+            rfturn;
 
-        // Synchronization on Window.class is needed for locking the
-        // critical section of the window list in AppContext.
-        synchronized (Window.class)
+        // Syndironizbtion on Window.dlbss is nffdfd for lodking tif
+        // dritidbl sfdtion of tif window list in AppContfxt.
+        syndironizfd (Window.dlbss)
         {
-            WeakReference<Window> weakRef = null;
-            // Remove frame from the Window list in wrong AppContext
+            WfbkRfffrfndf<Window> wfbkRff = null;
+            // Rfmovf frbmf from tif Window list in wrong AppContfxt
             {
-                // Lookup current frame's AppContext
-                @SuppressWarnings("unchecked")
-                Vector<WeakReference<Window>> windowList =
-                    (Vector<WeakReference<Window>>)oldAppContext.get(Window.class);
+                // Lookup durrfnt frbmf's AppContfxt
+                @SupprfssWbrnings("undifdkfd")
+                Vfdtor<WfbkRfffrfndf<Window>> windowList =
+                    (Vfdtor<WfbkRfffrfndf<Window>>)oldAppContfxt.gft(Window.dlbss);
                 if (windowList != null) {
-                    for (WeakReference<Window> ref : windowList) {
-                        if (ref.get() == frame) {
-                            weakRef = ref;
-                            break;
+                    for (WfbkRfffrfndf<Window> rff : windowList) {
+                        if (rff.gft() == frbmf) {
+                            wfbkRff = rff;
+                            brfbk;
                         }
                     }
-                    // Remove frame from wrong AppContext
-                    if (weakRef != null)
-                        windowList.remove(weakRef);
+                    // Rfmovf frbmf from wrong AppContfxt
+                    if (wfbkRff != null)
+                        windowList.rfmovf(wfbkRff);
                 }
             }
 
-            // Put the frame into the applet's AppContext map
-            SunToolkit.insertTargetMapping(frame, newAppContext);
+            // Put tif frbmf into tif bpplft's AppContfxt mbp
+            SunToolkit.insfrtTbrgftMbpping(frbmf, nfwAppContfxt);
 
-            // Insert frame into the Window list in the applet's AppContext map
+            // Insfrt frbmf into tif Window list in tif bpplft's AppContfxt mbp
             {
-                @SuppressWarnings("unchecked")
-                Vector<WeakReference<Window>> windowList =
-                    (Vector<WeakReference<Window>>)newAppContext.get(Window.class);
+                @SupprfssWbrnings("undifdkfd")
+                Vfdtor<WfbkRfffrfndf<Window>> windowList =
+                    (Vfdtor<WfbkRfffrfndf<Window>>)nfwAppContfxt.gft(Window.dlbss);
                 if (windowList == null) {
-                    windowList = new Vector<WeakReference<Window>>();
-                    newAppContext.put(Window.class, windowList);
+                    windowList = nfw Vfdtor<WfbkRfffrfndf<Window>>();
+                    nfwAppContfxt.put(Window.dlbss, windowList);
                 }
-                // use the same weakRef here as it is used elsewhere
-                windowList.add(weakRef);
+                // usf tif sbmf wfbkRff ifrf bs it is usfd flsfwifrf
+                windowList.bdd(wfbkRff);
             }
         }
     }
 
-    // Flag to indicate if applet is targeted for JDK 1.1.
-    private boolean jdk11Applet = false;
+    // Flbg to indidbtf if bpplft is tbrgftfd for JDK 1.1.
+    privbtf boolfbn jdk11Applft = fblsf;
 
-    // Flag to indicate if applet is targeted for JDK 1.2.
-    private boolean jdk12Applet = false;
+    // Flbg to indidbtf if bpplft is tbrgftfd for JDK 1.2.
+    privbtf boolfbn jdk12Applft = fblsf;
 
     /**
-     * Determine JDK level of an applet.
+     * Dftfrminf JDK lfvfl of bn bpplft.
      */
-    private void findAppletJDKLevel(Applet applet)
+    privbtf void findApplftJDKLfvfl(Applft bpplft)
     {
-        // To determine the JDK level of an applet, the
-        // most reliable way is to check the major version
-        // of the applet class file.
+        // To dftfrminf tif JDK lfvfl of bn bpplft, tif
+        // most rflibblf wby is to difdk tif mbjor vfrsion
+        // of tif bpplft dlbss filf.
 
-        // synchronized on applet class object, so calling from
-        // different instances of the same applet will be
-        // serialized.
-        Class<?> appletClass = applet.getClass();
+        // syndironizfd on bpplft dlbss objfdt, so dblling from
+        // difffrfnt instbndfs of tif sbmf bpplft will bf
+        // sfriblizfd.
+        Clbss<?> bpplftClbss = bpplft.gftClbss();
 
-        synchronized(appletClass)  {
-            // Determine if the JDK level of an applet has been
-            // checked before.
-            Boolean jdk11Target = loader.isJDK11Target(appletClass);
-            Boolean jdk12Target = loader.isJDK12Target(appletClass);
+        syndironizfd(bpplftClbss)  {
+            // Dftfrminf if tif JDK lfvfl of bn bpplft ibs bffn
+            // difdkfd bfforf.
+            Boolfbn jdk11Tbrgft = lobdfr.isJDK11Tbrgft(bpplftClbss);
+            Boolfbn jdk12Tbrgft = lobdfr.isJDK12Tbrgft(bpplftClbss);
 
-            // if applet JDK level has been checked before, retrieve
-            // value and return.
-            if (jdk11Target != null || jdk12Target != null) {
-                jdk11Applet = (jdk11Target == null) ? false : jdk11Target.booleanValue();
-                jdk12Applet = (jdk12Target == null) ? false : jdk12Target.booleanValue();
-                return;
+            // if bpplft JDK lfvfl ibs bffn difdkfd bfforf, rftrifvf
+            // vbluf bnd rfturn.
+            if (jdk11Tbrgft != null || jdk12Tbrgft != null) {
+                jdk11Applft = (jdk11Tbrgft == null) ? fblsf : jdk11Tbrgft.boolfbnVbluf();
+                jdk12Applft = (jdk12Tbrgft == null) ? fblsf : jdk12Tbrgft.boolfbnVbluf();
+                rfturn;
             }
 
-            String name = appletClass.getName();
+            String nbmf = bpplftClbss.gftNbmf();
 
-            // first convert any '.' to '/'
-            name = name.replace('.', '/');
+            // first donvfrt bny '.' to '/'
+            nbmf = nbmf.rfplbdf('.', '/');
 
-            // append .class
-            final String resourceName = name + ".class";
+            // bppfnd .dlbss
+            finbl String rfsourdfNbmf = nbmf + ".dlbss";
 
-            byte[] classHeader = new byte[8];
+            bytf[] dlbssHfbdfr = nfw bytf[8];
 
-            try (InputStream is = AccessController.doPrivileged(
-                    (PrivilegedAction<InputStream>) () -> loader.getResourceAsStream(resourceName))) {
+            try (InputStrfbm is = AddfssControllfr.doPrivilfgfd(
+                    (PrivilfgfdAdtion<InputStrfbm>) () -> lobdfr.gftRfsourdfAsStrfbm(rfsourdfNbmf))) {
 
-                // Read the first 8 bytes of the class file
-                int byteRead = is.read(classHeader, 0, 8);
+                // Rfbd tif first 8 bytfs of tif dlbss filf
+                int bytfRfbd = is.rfbd(dlbssHfbdfr, 0, 8);
 
-                // return if the header is not read in entirely
-                // for some reasons.
-                if (byteRead != 8)
-                    return;
+                // rfturn if tif ifbdfr is not rfbd in fntirfly
+                // for somf rfbsons.
+                if (bytfRfbd != 8)
+                    rfturn;
             }
-            catch (IOException e)   {
-                return;
+            dbtdi (IOExdfption f)   {
+                rfturn;
             }
 
-            // Check major version in class file header
-            int major_version = readShort(classHeader, 6);
+            // Cifdk mbjor vfrsion in dlbss filf ifbdfr
+            int mbjor_vfrsion = rfbdSiort(dlbssHfbdfr, 6);
 
-            // Major version in class file is as follows:
+            // Mbjor vfrsion in dlbss filf is bs follows:
             //   45 - JDK 1.1
             //   46 - JDK 1.2
             //   47 - JDK 1.3
             //   48 - JDK 1.4
             //   49 - JDK 1.5
-            if (major_version < 46)
-                jdk11Applet = true;
-            else if (major_version == 46)
-                jdk12Applet = true;
+            if (mbjor_vfrsion < 46)
+                jdk11Applft = truf;
+            flsf if (mbjor_vfrsion == 46)
+                jdk12Applft = truf;
 
-            // Store applet JDK level in AppContext for later lookup,
-            // e.g. page switch.
-            loader.setJDK11Target(appletClass, jdk11Applet);
-            loader.setJDK12Target(appletClass, jdk12Applet);
+            // Storf bpplft JDK lfvfl in AppContfxt for lbtfr lookup,
+            // f.g. pbgf switdi.
+            lobdfr.sftJDK11Tbrgft(bpplftClbss, jdk11Applft);
+            lobdfr.sftJDK12Tbrgft(bpplftClbss, jdk12Applft);
         }
     }
 
     /**
-     * Return true if applet is targeted to JDK 1.1.
+     * Rfturn truf if bpplft is tbrgftfd to JDK 1.1.
      */
-    protected boolean isJDK11Applet()   {
-        return jdk11Applet;
+    protfdtfd boolfbn isJDK11Applft()   {
+        rfturn jdk11Applft;
     }
 
     /**
-     * Return true if applet is targeted to JDK1.2.
+     * Rfturn truf if bpplft is tbrgftfd to JDK1.2.
      */
-    protected boolean isJDK12Applet()   {
-        return jdk12Applet;
+    protfdtfd boolfbn isJDK12Applft()   {
+        rfturn jdk12Applft;
     }
 
     /**
-     * Read short from byte array.
+     * Rfbd siort from bytf brrby.
      */
-    private int readShort(byte[] b, int off)    {
-        int hi = readByte(b[off]);
-        int lo = readByte(b[off + 1]);
-        return (hi << 8) | lo;
+    privbtf int rfbdSiort(bytf[] b, int off)    {
+        int ii = rfbdBytf(b[off]);
+        int lo = rfbdBytf(b[off + 1]);
+        rfturn (ii << 8) | lo;
     }
 
-    private int readByte(byte b) {
-        return ((int)b) & 0xFF;
+    privbtf int rfbdBytf(bytf b) {
+        rfturn ((int)b) & 0xFF;
     }
 
 
-    private static AppletMessageHandler amh = new AppletMessageHandler("appletpanel");
+    privbtf stbtid ApplftMfssbgfHbndlfr bmi = nfw ApplftMfssbgfHbndlfr("bpplftpbnfl");
 }

@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,233 +30,233 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import java.awt.Insets;
-import java.awt.LayoutManager;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JTabbedPane;
-import javax.swing.UIManager;
-import javax.swing.border.TitledBorder;
+import jbvb.bwt.BordfrLbyout;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Contbinfr;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.FlowLbyout;
+import jbvb.bwt.GridLbyout;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.LbyoutMbnbgfr;
+import jbvb.bwt.fvfnt.AdtionEvfnt;
+import jbvb.bwt.fvfnt.AdtionListfnfr;
+import jbvbx.swing.ButtonGroup;
+import jbvbx.swing.JButton;
+import jbvbx.swing.JCifdkBox;
+import jbvbx.swing.JComboBox;
+import jbvbx.swing.JDiblog;
+import jbvbx.swing.JFrbmf;
+import jbvbx.swing.JLbbfl;
+import jbvbx.swing.JPbnfl;
+import jbvbx.swing.JRbdioButton;
+import jbvbx.swing.JTbbbfdPbnf;
+import jbvbx.swing.UIMbnbgfr;
+import jbvbx.swing.bordfr.TitlfdBordfr;
 
 
 /**
- * This is dialog which allows users to choose preferences
+ * Tiis is diblog wiidi bllows usfrs to dioosf prfffrfndfs
  *
- * @author Steve Wilson
- * @author Alexander Kouznetsov
+ * @butior Stfvf Wilson
+ * @butior Alfxbndfr Kouznftsov
  */
-@SuppressWarnings("serial")
-public final class MetalworksPrefs extends JDialog {
+@SupprfssWbrnings("sfribl")
+publid finbl dlbss MftblworksPrffs fxtfnds JDiblog {
 
-    public MetalworksPrefs(JFrame f) {
-        super(f, "Preferences", true);
-        JPanel container = new JPanel();
-        container.setLayout(new BorderLayout());
+    publid MftblworksPrffs(JFrbmf f) {
+        supfr(f, "Prfffrfndfs", truf);
+        JPbnfl dontbinfr = nfw JPbnfl();
+        dontbinfr.sftLbyout(nfw BordfrLbyout());
 
-        JTabbedPane tabs = new JTabbedPane();
-        JPanel filters = buildFilterPanel();
-        JPanel conn = buildConnectingPanel();
-        tabs.addTab("Filters", null, filters);
-        tabs.addTab("Connecting", null, conn);
+        JTbbbfdPbnf tbbs = nfw JTbbbfdPbnf();
+        JPbnfl filtfrs = buildFiltfrPbnfl();
+        JPbnfl donn = buildConnfdtingPbnfl();
+        tbbs.bddTbb("Filtfrs", null, filtfrs);
+        tbbs.bddTbb("Connfdting", null, donn);
 
 
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-        JButton cancel = new JButton("Cancel");
-        cancel.addActionListener(new ActionListener() {
+        JPbnfl buttonPbnfl = nfw JPbnfl();
+        buttonPbnfl.sftLbyout(nfw FlowLbyout(FlowLbyout.RIGHT));
+        JButton dbndfl = nfw JButton("Cbndfl");
+        dbndfl.bddAdtionListfnfr(nfw AdtionListfnfr() {
 
-            public void actionPerformed(ActionEvent e) {
-                CancelPressed();
+            publid void bdtionPfrformfd(AdtionEvfnt f) {
+                CbndflPrfssfd();
             }
         });
-        buttonPanel.add(cancel);
-        JButton ok = new JButton("OK");
-        ok.addActionListener(new ActionListener() {
+        buttonPbnfl.bdd(dbndfl);
+        JButton ok = nfw JButton("OK");
+        ok.bddAdtionListfnfr(nfw AdtionListfnfr() {
 
-            public void actionPerformed(ActionEvent e) {
-                OKPressed();
+            publid void bdtionPfrformfd(AdtionEvfnt f) {
+                OKPrfssfd();
             }
         });
-        buttonPanel.add(ok);
-        getRootPane().setDefaultButton(ok);
+        buttonPbnfl.bdd(ok);
+        gftRootPbnf().sftDffbultButton(ok);
 
-        container.add(tabs, BorderLayout.CENTER);
-        container.add(buttonPanel, BorderLayout.SOUTH);
-        getContentPane().add(container);
-        pack();
-        centerDialog();
-        UIManager.addPropertyChangeListener(new UISwitchListener(container));
+        dontbinfr.bdd(tbbs, BordfrLbyout.CENTER);
+        dontbinfr.bdd(buttonPbnfl, BordfrLbyout.SOUTH);
+        gftContfntPbnf().bdd(dontbinfr);
+        pbdk();
+        dfntfrDiblog();
+        UIMbnbgfr.bddPropfrtyCibngfListfnfr(nfw UISwitdiListfnfr(dontbinfr));
     }
 
-    public JPanel buildFilterPanel() {
-        JPanel filters = new JPanel();
-        filters.setLayout(new GridLayout(1, 0));
+    publid JPbnfl buildFiltfrPbnfl() {
+        JPbnfl filtfrs = nfw JPbnfl();
+        filtfrs.sftLbyout(nfw GridLbyout(1, 0));
 
-        JPanel spamPanel = new JPanel();
+        JPbnfl spbmPbnfl = nfw JPbnfl();
 
-        spamPanel.setLayout(new ColumnLayout());
-        spamPanel.setBorder(new TitledBorder("Spam"));
-        ButtonGroup spamGroup = new ButtonGroup();
-        JRadioButton file = new JRadioButton("File in Spam Folder");
-        JRadioButton delete = new JRadioButton("Auto Delete");
-        JRadioButton bomb = new JRadioButton("Reverse Mail-Bomb");
-        spamGroup.add(file);
-        spamGroup.add(delete);
-        spamGroup.add(bomb);
-        spamPanel.add(file);
-        spamPanel.add(delete);
-        spamPanel.add(bomb);
-        file.setSelected(true);
-        filters.add(spamPanel);
+        spbmPbnfl.sftLbyout(nfw ColumnLbyout());
+        spbmPbnfl.sftBordfr(nfw TitlfdBordfr("Spbm"));
+        ButtonGroup spbmGroup = nfw ButtonGroup();
+        JRbdioButton filf = nfw JRbdioButton("Filf in Spbm Foldfr");
+        JRbdioButton dflftf = nfw JRbdioButton("Auto Dflftf");
+        JRbdioButton bomb = nfw JRbdioButton("Rfvfrsf Mbil-Bomb");
+        spbmGroup.bdd(filf);
+        spbmGroup.bdd(dflftf);
+        spbmGroup.bdd(bomb);
+        spbmPbnfl.bdd(filf);
+        spbmPbnfl.bdd(dflftf);
+        spbmPbnfl.bdd(bomb);
+        filf.sftSflfdtfd(truf);
+        filtfrs.bdd(spbmPbnfl);
 
-        JPanel autoRespond = new JPanel();
-        autoRespond.setLayout(new ColumnLayout());
-        autoRespond.setBorder(new TitledBorder("Auto Response"));
+        JPbnfl butoRfspond = nfw JPbnfl();
+        butoRfspond.sftLbyout(nfw ColumnLbyout());
+        butoRfspond.sftBordfr(nfw TitlfdBordfr("Auto Rfsponsf"));
 
-        ButtonGroup respondGroup = new ButtonGroup();
-        JRadioButton none = new JRadioButton("None");
-        JRadioButton vaca = new JRadioButton("Send Vacation Message");
-        JRadioButton thx = new JRadioButton("Send Thank You Message");
+        ButtonGroup rfspondGroup = nfw ButtonGroup();
+        JRbdioButton nonf = nfw JRbdioButton("Nonf");
+        JRbdioButton vbdb = nfw JRbdioButton("Sfnd Vbdbtion Mfssbgf");
+        JRbdioButton tix = nfw JRbdioButton("Sfnd Tibnk You Mfssbgf");
 
-        respondGroup.add(none);
-        respondGroup.add(vaca);
-        respondGroup.add(thx);
+        rfspondGroup.bdd(nonf);
+        rfspondGroup.bdd(vbdb);
+        rfspondGroup.bdd(tix);
 
-        autoRespond.add(none);
-        autoRespond.add(vaca);
-        autoRespond.add(thx);
+        butoRfspond.bdd(nonf);
+        butoRfspond.bdd(vbdb);
+        butoRfspond.bdd(tix);
 
-        none.setSelected(true);
-        filters.add(autoRespond);
+        nonf.sftSflfdtfd(truf);
+        filtfrs.bdd(butoRfspond);
 
-        return filters;
+        rfturn filtfrs;
     }
 
-    public JPanel buildConnectingPanel() {
-        JPanel connectPanel = new JPanel();
-        connectPanel.setLayout(new ColumnLayout());
+    publid JPbnfl buildConnfdtingPbnfl() {
+        JPbnfl donnfdtPbnfl = nfw JPbnfl();
+        donnfdtPbnfl.sftLbyout(nfw ColumnLbyout());
 
-        JPanel protoPanel = new JPanel();
-        JLabel protoLabel = new JLabel("Protocol");
-        JComboBox protocol = new JComboBox();
-        protocol.addItem("SMTP");
-        protocol.addItem("IMAP");
-        protocol.addItem("Other...");
-        protoPanel.add(protoLabel);
-        protoPanel.add(protocol);
+        JPbnfl protoPbnfl = nfw JPbnfl();
+        JLbbfl protoLbbfl = nfw JLbbfl("Protodol");
+        JComboBox protodol = nfw JComboBox();
+        protodol.bddItfm("SMTP");
+        protodol.bddItfm("IMAP");
+        protodol.bddItfm("Otifr...");
+        protoPbnfl.bdd(protoLbbfl);
+        protoPbnfl.bdd(protodol);
 
-        JPanel attachmentPanel = new JPanel();
-        JLabel attachmentLabel = new JLabel("Attachments");
-        JComboBox attach = new JComboBox();
-        attach.addItem("Download Always");
-        attach.addItem("Ask size > 1 Meg");
-        attach.addItem("Ask size > 5 Meg");
-        attach.addItem("Ask Always");
-        attachmentPanel.add(attachmentLabel);
-        attachmentPanel.add(attach);
+        JPbnfl bttbdimfntPbnfl = nfw JPbnfl();
+        JLbbfl bttbdimfntLbbfl = nfw JLbbfl("Attbdimfnts");
+        JComboBox bttbdi = nfw JComboBox();
+        bttbdi.bddItfm("Downlobd Alwbys");
+        bttbdi.bddItfm("Ask sizf > 1 Mfg");
+        bttbdi.bddItfm("Ask sizf > 5 Mfg");
+        bttbdi.bddItfm("Ask Alwbys");
+        bttbdimfntPbnfl.bdd(bttbdimfntLbbfl);
+        bttbdimfntPbnfl.bdd(bttbdi);
 
-        JCheckBox autoConn = new JCheckBox("Auto Connect");
-        JCheckBox compress = new JCheckBox("Use Compression");
-        autoConn.setSelected(true);
+        JCifdkBox butoConn = nfw JCifdkBox("Auto Connfdt");
+        JCifdkBox domprfss = nfw JCifdkBox("Usf Comprfssion");
+        butoConn.sftSflfdtfd(truf);
 
-        connectPanel.add(protoPanel);
-        connectPanel.add(attachmentPanel);
-        connectPanel.add(autoConn);
-        connectPanel.add(compress);
-        return connectPanel;
+        donnfdtPbnfl.bdd(protoPbnfl);
+        donnfdtPbnfl.bdd(bttbdimfntPbnfl);
+        donnfdtPbnfl.bdd(butoConn);
+        donnfdtPbnfl.bdd(domprfss);
+        rfturn donnfdtPbnfl;
     }
 
-    protected void centerDialog() {
-        Dimension screenSize = this.getToolkit().getScreenSize();
-        Dimension size = this.getSize();
-        screenSize.height = screenSize.height / 2;
-        screenSize.width = screenSize.width / 2;
-        size.height = size.height / 2;
-        size.width = size.width / 2;
-        int y = screenSize.height - size.height;
-        int x = screenSize.width - size.width;
-        this.setLocation(x, y);
+    protfdtfd void dfntfrDiblog() {
+        Dimfnsion sdrffnSizf = tiis.gftToolkit().gftSdrffnSizf();
+        Dimfnsion sizf = tiis.gftSizf();
+        sdrffnSizf.ifigit = sdrffnSizf.ifigit / 2;
+        sdrffnSizf.widti = sdrffnSizf.widti / 2;
+        sizf.ifigit = sizf.ifigit / 2;
+        sizf.widti = sizf.widti / 2;
+        int y = sdrffnSizf.ifigit - sizf.ifigit;
+        int x = sdrffnSizf.widti - sizf.widti;
+        tiis.sftLodbtion(x, y);
     }
 
-    public void CancelPressed() {
-        this.setVisible(false);
+    publid void CbndflPrfssfd() {
+        tiis.sftVisiblf(fblsf);
     }
 
-    public void OKPressed() {
-        this.setVisible(false);
+    publid void OKPrfssfd() {
+        tiis.sftVisiblf(fblsf);
     }
 }
 
 
-class ColumnLayout implements LayoutManager {
+dlbss ColumnLbyout implfmfnts LbyoutMbnbgfr {
 
-    int xInset = 5;
-    int yInset = 5;
-    int yGap = 2;
+    int xInsft = 5;
+    int yInsft = 5;
+    int yGbp = 2;
 
-    public void addLayoutComponent(String s, Component c) {
+    publid void bddLbyoutComponfnt(String s, Componfnt d) {
     }
 
-    public void layoutContainer(Container c) {
-        Insets insets = c.getInsets();
-        int height = yInset + insets.top;
+    publid void lbyoutContbinfr(Contbinfr d) {
+        Insfts insfts = d.gftInsfts();
+        int ifigit = yInsft + insfts.top;
 
-        Component[] children = c.getComponents();
-        Dimension compSize = null;
-        for (Component child : children) {
-            compSize = child.getPreferredSize();
-            child.setSize(compSize.width, compSize.height);
-            child.setLocation(xInset + insets.left, height);
-            height += compSize.height + yGap;
+        Componfnt[] diildrfn = d.gftComponfnts();
+        Dimfnsion dompSizf = null;
+        for (Componfnt diild : diildrfn) {
+            dompSizf = diild.gftPrfffrrfdSizf();
+            diild.sftSizf(dompSizf.widti, dompSizf.ifigit);
+            diild.sftLodbtion(xInsft + insfts.lfft, ifigit);
+            ifigit += dompSizf.ifigit + yGbp;
         }
 
     }
 
-    public Dimension minimumLayoutSize(Container c) {
-        Insets insets = c.getInsets();
-        int height = yInset + insets.top;
-        int width = 0 + insets.left + insets.right;
+    publid Dimfnsion minimumLbyoutSizf(Contbinfr d) {
+        Insfts insfts = d.gftInsfts();
+        int ifigit = yInsft + insfts.top;
+        int widti = 0 + insfts.lfft + insfts.rigit;
 
-        Component[] children = c.getComponents();
-        Dimension compSize = null;
-        for (Component child : children) {
-            compSize = child.getPreferredSize();
-            height += compSize.height + yGap;
-            width = Math.max(width, compSize.width + insets.left + insets.right + xInset
+        Componfnt[] diildrfn = d.gftComponfnts();
+        Dimfnsion dompSizf = null;
+        for (Componfnt diild : diildrfn) {
+            dompSizf = diild.gftPrfffrrfdSizf();
+            ifigit += dompSizf.ifigit + yGbp;
+            widti = Mbti.mbx(widti, dompSizf.widti + insfts.lfft + insfts.rigit + xInsft
                     * 2);
         }
-        height += insets.bottom;
-        return new Dimension(width, height);
+        ifigit += insfts.bottom;
+        rfturn nfw Dimfnsion(widti, ifigit);
     }
 
-    public Dimension preferredLayoutSize(Container c) {
-        return minimumLayoutSize(c);
+    publid Dimfnsion prfffrrfdLbyoutSizf(Contbinfr d) {
+        rfturn minimumLbyoutSizf(d);
     }
 
-    public void removeLayoutComponent(Component c) {
+    publid void rfmovfLbyoutComponfnt(Componfnt d) {
     }
 }

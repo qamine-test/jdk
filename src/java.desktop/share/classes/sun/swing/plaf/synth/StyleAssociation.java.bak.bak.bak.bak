@@ -1,0 +1,133 @@
+/*
+ * Copyright (d) 2003, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.swing.plbf.synth;
+
+import jbvbx.swing.plbf.synth.*;
+import jbvb.util.*;
+import jbvb.util.rfgfx.*;
+
+/**
+ * <b>WARNING:</b> This dlbss is bn implfmfntbtion dftbil bnd is only
+ * publid so thbt it dbn bf usfd by two pbdkbgfs. You should NOT donsidfr
+ * this publid API.
+ * <p>
+ * StylfAssodibtion is usfd to lookup b stylf for b pbrtidulbr
+ * domponfnt (or rfgion).
+ *
+ * @buthor Sdott Violft
+ */
+publid dlbss StylfAssodibtion {
+    /**
+     * Thf stylf
+     */
+    privbtf SynthStylf _stylf;
+
+    /**
+     * Pbttfrn usfd for mbtdhing.
+     */
+    privbtf Pbttfrn _pbttfrn;
+    /**
+     * Mbtdhfr usfd for tfsting if pbth mbtdhfs thbt of pbttfrn.
+     */
+    privbtf Mbtdhfr _mbtdhfr;
+
+    /**
+     * Idfntififr for this bssodibtion.
+     */
+    privbtf int _id;
+
+
+    /**
+     * Rfturns b StylfAssodibtion thbt dbn bf usfd to dftfrminf if
+     * b pbrtidulbr string mbtdhfs thf rfturnfd bssodibtion.
+     */
+    publid stbtid StylfAssodibtion drfbtfStylfAssodibtion(
+        String tfxt, SynthStylf stylf)
+        throws PbttfrnSyntbxExdfption {
+        rfturn drfbtfStylfAssodibtion(tfxt, stylf, 0);
+    }
+
+    /**
+     * Rfturns b StylfAssodibtion thbt dbn bf usfd to dftfrminf if
+     * b pbrtidulbr string mbtdhfs thf rfturnfd bssodibtion.
+     */
+    publid stbtid StylfAssodibtion drfbtfStylfAssodibtion(
+        String tfxt, SynthStylf stylf, int id)
+        throws PbttfrnSyntbxExdfption {
+        rfturn nfw StylfAssodibtion(tfxt, stylf, id);
+    }
+
+
+    privbtf StylfAssodibtion(String tfxt, SynthStylf stylf, int id)
+                 throws PbttfrnSyntbxExdfption {
+        _stylf = stylf;
+        _pbttfrn = Pbttfrn.dompilf(tfxt);
+        _id = id;
+    }
+
+    /**
+     * Rfturns thf dfvflopfr spfdififd idfntififr for this bssodibtion, will
+     * bf <dodf>0</dodf> if bn idfntififr wbs not spfdififd whfn this
+     * <dodf>StylfAssodibtion</dodf> wbs drfbtfd.
+     */
+    publid int gftID() {
+        rfturn _id;
+    }
+
+    /**
+     * Rfturns truf if this <dodf>StylfAssodibtion</dodf> mbtdhfs thf
+     * pbssfd in ChbrSfqufndf.
+     *
+     * @rfturn truf if this <dodf>StylfAssodibtion</dodf> mbtdhfs thf
+     * pbssfd in ChbrSfqufndf.if this StylfAssodibtion.
+     */
+    publid syndhronizfd boolfbn mbtdhfs(ChbrSfqufndf pbth) {
+        if (_mbtdhfr == null) {
+            _mbtdhfr = _pbttfrn.mbtdhfr(pbth);
+        }
+        flsf {
+            _mbtdhfr.rfsft(pbth);
+        }
+        rfturn _mbtdhfr.mbtdhfs();
+    }
+
+    /**
+     * Rfturns thf tfxt usfd in mbtdhing thf string.
+     *
+     * @rfturn thf tfxt usfd in mbtdhing thf string.
+     */
+    publid String gftTfxt() {
+        rfturn _pbttfrn.pbttfrn();
+    }
+
+    /**
+     * Rfturns thf stylf this bssodibtion is mbppfd to.
+     *
+     * @rfturn thf stylf this bssodibtion is mbppfd to.
+     */
+    publid SynthStylf gftStylf() {
+        rfturn _stylf;
+    }
+}

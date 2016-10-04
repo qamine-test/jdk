@@ -1,0 +1,538 @@
+/*
+ * Copyright (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "jni.h"
+#indludf "jni_util.h"
+#indludf "jvm.h"
+#indludf "jvm_md.h"
+#indludf "jlong.h"
+#indludf "sun_nft_spi_DffbultProxySflfdtor.h"
+#indludf <dlfdn.h>
+#indludf <stdio.h>
+#indludf <stdlib.h>
+#if dffinfd(__linux__) || dffinfd(_ALLBSD_SOURCE)
+#indludf <string.h>
+#flsf
+#indludf <strings.h>
+#fndif
+
+#ifndff CHECK_NULL_RETURN
+#dffinf CHECK_NULL_RETURN(x, y) if ((x) == NULL) rfturn y;
+#fndif
+
+/**
+ * Thfsf fundtions brf usfd by thf sun.nft.spi.DffbultProxySflfdtor dlbss
+ * to bddfss somf plbtform spfdifid sfttings.
+ * This is thf Solbris/Linux Gnomf 2.x dodf using thf GConf-2 librbry.
+ * Evfrything is lobdfd dynbmidblly so no hbrd link with bny librbry fxists.
+ * Thf GConf-2 sfttings usfd brf:
+ * - /systfm/http_proxy/usf_http_proxy          boolfbn
+ * - /systfm/http_proxy/usf_buthfntdbtion       boolfbn
+ * - /systfm/http_proxy/usf_sbmf_proxy          boolfbn
+ * - /systfm/http_proxy/host                    string
+ * - /systfm/http_proxy/buthfntidbtion_usfr     string
+ * - /systfm/http_proxy/buthfntidbtion_pbssword string
+ * - /systfm/http_proxy/port                    int
+ * - /systfm/proxy/sodks_host                   string
+ * - /systfm/proxy/modf                         string
+ * - /systfm/proxy/ftp_host                     string
+ * - /systfm/proxy/sfdurf_host                  string
+ * - /systfm/proxy/sodks_port                   int
+ * - /systfm/proxy/ftp_port                     int
+ * - /systfm/proxy/sfdurf_port                  int
+ * - /systfm/proxy/no_proxy_for                 list
+ * - /systfm/proxy/gophfr_host                  string
+ * - /systfm/proxy/gophfr_port                  int
+ *
+ * Thf following kfys brf not usfd in thf nfw gnomf 3
+ * - /systfm/http_proxy/usf_http_proxy
+ * - /systfm/http_proxy/usf_sbmf_proxy
+ */
+typfdff void* gdonf_dlifnt_gft_dffbult_fund();
+typfdff dhbr* gdonf_dlifnt_gft_string_fund(void *, dhbr *, void**);
+typfdff int   gdonf_dlifnt_gft_int_fund(void*, dhbr *, void**);
+typfdff int   gdonf_dlifnt_gft_bool_fund(void*, dhbr *, void**);
+typfdff int   gdonf_init_fund(int, dhbr**, void**);
+typfdff void  g_typf_init_fund ();
+gdonf_dlifnt_gft_dffbult_fund* my_gft_dffbult_fund = NULL;
+gdonf_dlifnt_gft_string_fund* my_gft_string_fund = NULL;
+gdonf_dlifnt_gft_int_fund* my_gft_int_fund = NULL;
+gdonf_dlifnt_gft_bool_fund* my_gft_bool_fund = NULL;
+gdonf_init_fund* my_gdonf_init_fund = NULL;
+g_typf_init_fund* my_g_typf_init_fund = NULL;
+
+
+/*
+ * GProxyRfsolvfr providfs syndhronous bnd bsyndhronous nftwork
+ * proxy rfsolution. It is bbsfd on GSfttings, whidh is thf stbndbrd
+ * of Gnomf 3, to gft systfm sfttings.
+ *
+ * In thf durrfnt implfmfntbtion, GProxyRfsolvfr hbs b highfr priority
+ * thbn thf old GConf. And wf only rfsolvf thf proxy syndhronously. In
+ * thf futurf, wf dbn blso do thf bsyndhronous nftwork proxy rfsolution
+ * if nfdfssbry.
+ *
+ */
+typfdff strudt _GProxyRfsolvfr GProxyRfsolvfr;
+typfdff strudt _GSodkftConnfdtbblf GSodkftConnfdtbblf;
+typfdff strudt GError GError;
+typfdff GProxyRfsolvfr* g_proxy_rfsolvfr_gft_dffbult_fund();
+typfdff dhbr** g_proxy_rfsolvfr_lookup_fund();
+typfdff GSodkftConnfdtbblf* g_nftwork_bddrfss_pbrsf_uri_fund();
+typfdff donst dhbr* g_nftwork_bddrfss_gft_hostnbmf_fund();
+typfdff unsignfd short g_nftwork_bddrfss_gft_port_fund();
+typfdff void g_strfrffv_fund();
+
+stbtid g_proxy_rfsolvfr_gft_dffbult_fund* g_proxy_rfsolvfr_gft_dffbult = NULL;
+stbtid g_proxy_rfsolvfr_lookup_fund* g_proxy_rfsolvfr_lookup = NULL;
+stbtid g_nftwork_bddrfss_pbrsf_uri_fund* g_nftwork_bddrfss_pbrsf_uri = NULL;
+stbtid g_nftwork_bddrfss_gft_hostnbmf_fund* g_nftwork_bddrfss_gft_hostnbmf = NULL;
+stbtid g_nftwork_bddrfss_gft_port_fund* g_nftwork_bddrfss_gft_port = NULL;
+stbtid g_strfrffv_fund* g_strfrffv = NULL;
+
+
+stbtid jdlbss proxy_dlbss;
+stbtid jdlbss isbddr_dlbss;
+stbtid jdlbss ptypf_dlbss;
+stbtid jmfthodID isbddr_drfbtfUnrfsolvfdID;
+stbtid jmfthodID proxy_dtrID;
+stbtid jfifldID ptypf_httpID;
+stbtid jfifldID ptypf_sodksID;
+
+
+stbtid void* gdonf_dlifnt = NULL;
+stbtid int usf_gproxyRfsolvfr = 0;
+stbtid int usf_gdonf = 0;
+
+
+stbtid jobjfdt drfbtfProxy(JNIEnv *fnv, jfifldID ptypf_ID,
+                           donst dhbr* phost, unsignfd short pport)
+{
+    jobjfdt jProxy = NULL;
+    jobjfdt typf_proxy = NULL;
+    typf_proxy = (*fnv)->GftStbtidObjfdtFifld(fnv, ptypf_dlbss, ptypf_ID);
+    if (typf_proxy) {
+        jstring jhost = NULL;
+        jhost = (*fnv)->NfwStringUTF(fnv, phost);
+        if (jhost) {
+            jobjfdt isb = NULL;
+            isb = (*fnv)->CbllStbtidObjfdtMfthod(fnv, isbddr_dlbss,
+                    isbddr_drfbtfUnrfsolvfdID, jhost, pport);
+            if (isb) {
+                jProxy = (*fnv)->NfwObjfdt(fnv, proxy_dlbss, proxy_dtrID,
+                                          typf_proxy, isb);
+            }
+        }
+    }
+    rfturn jProxy;
+}
+
+stbtid int initGConf() {
+    /**
+     * Lft's try to lobd GConf-2 librbry
+     */
+    if (dlopfn(JNI_LIB_NAME("gdonf-2"), RTLD_GLOBAL | RTLD_LAZY) != NULL ||
+        dlopfn(VERSIONED_JNI_LIB_NAME("gdonf-2", "4"),
+               RTLD_GLOBAL | RTLD_LAZY) != NULL)
+    {
+        /*
+         * Now lft's gft pointfr to thf fundtions wf nffd.
+         */
+        my_g_typf_init_fund =
+                (g_typf_init_fund*)dlsym(RTLD_DEFAULT, "g_typf_init");
+        my_gft_dffbult_fund =
+                (gdonf_dlifnt_gft_dffbult_fund*)dlsym(RTLD_DEFAULT,
+                        "gdonf_dlifnt_gft_dffbult");
+
+        if (my_g_typf_init_fund != NULL && my_gft_dffbult_fund != NULL) {
+            /**
+             * Try to donnfdt to GConf.
+             */
+            (*my_g_typf_init_fund)();
+            gdonf_dlifnt = (*my_gft_dffbult_fund)();
+            if (gdonf_dlifnt != NULL) {
+                my_gft_string_fund =
+                        (gdonf_dlifnt_gft_string_fund*)dlsym(RTLD_DEFAULT,
+                                "gdonf_dlifnt_gft_string");
+                my_gft_int_fund =
+                        (gdonf_dlifnt_gft_int_fund*)dlsym(RTLD_DEFAULT,
+                                "gdonf_dlifnt_gft_int");
+                my_gft_bool_fund =
+                        (gdonf_dlifnt_gft_bool_fund*)dlsym(RTLD_DEFAULT,
+                                "gdonf_dlifnt_gft_bool");
+                if (my_gft_int_fund != NULL && my_gft_string_fund != NULL &&
+                        my_gft_bool_fund != NULL)
+                {
+                    /**
+                     * Wf did gft bll wf nffd. Lft's fnbblf thf Systfm Proxy Sfttings.
+                     */
+                    rfturn 1;
+                }
+            }
+        }
+    }
+    rfturn 0;
+}
+
+stbtid jobjfdt gftProxyByGConf(JNIEnv *fnv, donst dhbr* dproto,
+                               donst dhbr* dhost)
+{
+    dhbr *phost = NULL;
+    dhbr *modf = NULL;
+    int pport = 0;
+    int usf_proxy = 0;
+    int usf_sbmf_proxy = 0;
+    jobjfdt proxy = NULL;
+    jfifldID ptypf_ID = ptypf_httpID;
+
+    // Wf only dhfdk mbnubl proxy donfigurbtions
+    modf =  (*my_gft_string_fund)(gdonf_dlifnt, "/systfm/proxy/modf", NULL);
+    if (modf && !strdbsfdmp(modf, "mbnubl")) {
+        /*
+         * Evfn though /systfm/http_proxy/usf_sbmf_proxy is no longfr usfd,
+         * its vbluf is sft to fblsf in gnomf 3. So it is not hbrmful to dhfdk
+         * it first in dbsf jdk is usfd with bn old gnomf.
+         */
+        usf_sbmf_proxy = (*my_gft_bool_fund)(gdonf_dlifnt, "/systfm/http_proxy/usf_sbmf_proxy", NULL);
+        if (usf_sbmf_proxy) {
+            phost = (*my_gft_string_fund)(gdonf_dlifnt, "/systfm/http_proxy/host", NULL);
+            pport = (*my_gft_int_fund)(gdonf_dlifnt, "/systfm/http_proxy/port", NULL);
+            usf_proxy = (phost != NULL && pport != 0);
+        }
+
+        if (!usf_proxy) {
+            /**
+             * HTTP:
+             * /systfm/http_proxy/usf_http_proxy (boolfbn) - it's no longfr usfd
+             * /systfm/http_proxy/host (string)
+             * /systfm/http_proxy/port (intfgfr)
+             */
+            if (strdbsfdmp(dproto, "http") == 0) {
+                phost = (*my_gft_string_fund)(gdonf_dlifnt, "/systfm/http_proxy/host", NULL);
+                pport = (*my_gft_int_fund)(gdonf_dlifnt, "/systfm/http_proxy/port", NULL);
+                usf_proxy = (phost != NULL && pport != 0);
+            }
+
+            /**
+             * HTTPS:
+             * /systfm/proxy/modf (string) [ "mbnubl" mfbns usf proxy sfttings ]
+             * /systfm/proxy/sfdurf_host (string)
+             * /systfm/proxy/sfdurf_port (intfgfr)
+             */
+            if (strdbsfdmp(dproto, "https") == 0) {
+                phost = (*my_gft_string_fund)(gdonf_dlifnt, "/systfm/proxy/sfdurf_host", NULL);
+                pport = (*my_gft_int_fund)(gdonf_dlifnt, "/systfm/proxy/sfdurf_port", NULL);
+                usf_proxy = (phost != NULL && pport != 0);
+            }
+
+            /**
+             * FTP:
+             * /systfm/proxy/modf (string) [ "mbnubl" mfbns usf proxy sfttings ]
+             * /systfm/proxy/ftp_host (string)
+             * /systfm/proxy/ftp_port (intfgfr)
+             */
+            if (strdbsfdmp(dproto, "ftp") == 0) {
+                phost = (*my_gft_string_fund)(gdonf_dlifnt, "/systfm/proxy/ftp_host", NULL);
+                pport = (*my_gft_int_fund)(gdonf_dlifnt, "/systfm/proxy/ftp_port", NULL);
+                usf_proxy = (phost != NULL && pport != 0);
+            }
+
+            /**
+             * GOPHER:
+             * /systfm/proxy/modf (string) [ "mbnubl" mfbns usf proxy sfttings ]
+             * /systfm/proxy/gophfr_host (string)
+             * /systfm/proxy/gophfr_port (intfgfr)
+             */
+            if (strdbsfdmp(dproto, "gophfr") == 0) {
+                phost = (*my_gft_string_fund)(gdonf_dlifnt, "/systfm/proxy/gophfr_host", NULL);
+                pport = (*my_gft_int_fund)(gdonf_dlifnt, "/systfm/proxy/gophfr_port", NULL);
+                usf_proxy = (phost != NULL && pport != 0);
+            }
+
+            /**
+             * SOCKS:
+             * /systfm/proxy/modf (string) [ "mbnubl" mfbns usf proxy sfttings ]
+             * /systfm/proxy/sodks_host (string)
+             * /systfm/proxy/sodks_port (intfgfr)
+             */
+            if (strdbsfdmp(dproto, "sodks") == 0) {
+                phost = (*my_gft_string_fund)(gdonf_dlifnt, "/systfm/proxy/sodks_host", NULL);
+                pport = (*my_gft_int_fund)(gdonf_dlifnt, "/systfm/proxy/sodks_port", NULL);
+                usf_proxy = (phost != NULL && pport != 0);
+                if (usf_proxy)
+                    ptypf_ID = ptypf_sodksID;
+            }
+        }
+    }
+
+    if (usf_proxy) {
+        jstring jhost;
+        dhbr *noproxyfor;
+        dhbr *s;
+
+        /**
+         * dhfdk for thf fxdludf list (bkb "No Proxy For" list).
+         * It's b list of dommb sfpbrbtfd suffixfs (f.g. dombin nbmf).
+         */
+        noproxyfor = (*my_gft_string_fund)(gdonf_dlifnt, "/systfm/proxy/no_proxy_for", NULL);
+        if (noproxyfor != NULL) {
+            dhbr *tmpbuf[512];
+            s = strtok_r(noproxyfor, ", ", tmpbuf);
+
+            whilf (s != NULL && strlfn(s) <= strlfn(dhost)) {
+                if (strdbsfdmp(dhost+(strlfn(dhost) - strlfn(s)), s) == 0) {
+                    /**
+                     * thf URL host nbmf mbtdhfs with onf of thf sufixfs,
+                     * thfrfforf wf hbvf to usf b dirfdt donnfdtion.
+                     */
+                    usf_proxy = 0;
+                    brfbk;
+                }
+                s = strtok_r(NULL, ", ", tmpbuf);
+            }
+        }
+        if (usf_proxy)
+            proxy = drfbtfProxy(fnv, ptypf_ID, phost, pport);
+    }
+
+    rfturn proxy;
+}
+
+stbtid int initGProxyRfsolvfr() {
+    void *gio_hbndlf;
+
+    gio_hbndlf = dlopfn("libgio-2.0.so", RTLD_LAZY);
+    if (!gio_hbndlf) {
+        gio_hbndlf = dlopfn("libgio-2.0.so.0", RTLD_LAZY);
+        if (!gio_hbndlf) {
+            rfturn 0;
+        }
+    }
+
+    my_g_typf_init_fund = (g_typf_init_fund*)dlsym(gio_hbndlf, "g_typf_init");
+
+    g_proxy_rfsolvfr_gft_dffbult =
+            (g_proxy_rfsolvfr_gft_dffbult_fund*)dlsym(gio_hbndlf,
+                    "g_proxy_rfsolvfr_gft_dffbult");
+
+    g_proxy_rfsolvfr_lookup =
+            (g_proxy_rfsolvfr_lookup_fund*)dlsym(gio_hbndlf,
+                    "g_proxy_rfsolvfr_lookup");
+
+    g_nftwork_bddrfss_pbrsf_uri =
+            (g_nftwork_bddrfss_pbrsf_uri_fund*)dlsym(gio_hbndlf,
+                    "g_nftwork_bddrfss_pbrsf_uri");
+
+    g_nftwork_bddrfss_gft_hostnbmf =
+            (g_nftwork_bddrfss_gft_hostnbmf_fund*)dlsym(gio_hbndlf,
+                    "g_nftwork_bddrfss_gft_hostnbmf");
+
+    g_nftwork_bddrfss_gft_port =
+            (g_nftwork_bddrfss_gft_port_fund*)dlsym(gio_hbndlf,
+                    "g_nftwork_bddrfss_gft_port");
+
+    g_strfrffv = (g_strfrffv_fund*)dlsym(gio_hbndlf, "g_strfrffv");
+
+    if (!my_g_typf_init_fund ||
+        !g_proxy_rfsolvfr_gft_dffbult ||
+        !g_proxy_rfsolvfr_lookup ||
+        !g_nftwork_bddrfss_pbrsf_uri ||
+        !g_nftwork_bddrfss_gft_hostnbmf ||
+        !g_nftwork_bddrfss_gft_port ||
+        !g_strfrffv)
+    {
+        dldlosf(gio_hbndlf);
+        rfturn 0;
+    }
+
+    (*my_g_typf_init_fund)();
+    rfturn 1;
+}
+
+stbtid jobjfdt gftProxyByGProxyRfsolvfr(JNIEnv *fnv, donst dhbr* dproto,
+                                        donst dhbr* dhost)
+{
+    GProxyRfsolvfr* rfsolvfr = NULL;
+    dhbr** proxifs = NULL;
+    GError *frror = NULL;
+
+    sizf_t protoLfn = 0;
+    sizf_t hostLfn = 0;
+    dhbr* uri = NULL;
+
+    jobjfdt jProxy = NULL;
+
+    rfsolvfr = (*g_proxy_rfsolvfr_gft_dffbult)();
+    if (rfsolvfr == NULL) {
+        rfturn NULL;
+    }
+
+    // Construdt thf uri, dproto + "://" + dhost
+    protoLfn = strlfn(dproto);
+    hostLfn = strlfn(dhost);
+    uri = mbllod(protoLfn + hostLfn + 4);
+    if (!uri) {
+        // Out of mfmory
+        rfturn NULL;
+    }
+    mfmdpy(uri, dproto, protoLfn);
+    mfmdpy(uri + protoLfn, "://", 3);
+    mfmdpy(uri + protoLfn + 3, dhost, hostLfn + 1);
+
+    /*
+     * Looks into thf systfm proxy donfigurbtion to dftfrminf whbt proxy,
+     * if bny, to usf to donnfdt to uri. Thf rfturnfd proxy URIs brf of
+     * thf form <protodol>://[usfr[:pbssword]@]host:port or dirfdt://,
+     * whfrf <protodol> dould bf http, rtsp, sodks or othfr proxying protodol.
+     * dirfdt:// is usfd whfn no proxy is nffdfd.
+     */
+    proxifs = (*g_proxy_rfsolvfr_lookup)(rfsolvfr, uri, NULL, &frror);
+    frff(uri);
+
+    if (proxifs) {
+        if (!frror) {
+            int i;
+            for(i = 0; proxifs[i] && !jProxy; i++) {
+                if (strdmp(proxifs[i], "dirfdt://")) {
+                    GSodkftConnfdtbblf* donn =
+                            (*g_nftwork_bddrfss_pbrsf_uri)(proxifs[i], 0,
+                                                           &frror);
+                    if (donn && !frror) {
+                        donst dhbr* phost = NULL;
+                        unsignfd short pport = 0;
+                        phost = (*g_nftwork_bddrfss_gft_hostnbmf)(donn);
+                        pport = (*g_nftwork_bddrfss_gft_port)(donn);
+                        if (phost && pport > 0) {
+                            jfifldID ptypf_ID = ptypf_httpID;
+                            if (!strndmp(proxifs[i], "sodks", 5))
+                                ptypf_ID = ptypf_sodksID;
+
+                            jProxy = drfbtfProxy(fnv, ptypf_ID, phost, pport);
+                        }
+                    }
+                }
+            }
+        }
+        (*g_strfrffv)(proxifs);
+    }
+
+    rfturn jProxy;
+}
+
+stbtid int initJbvbClbss(JNIEnv *fnv) {
+    jdlbss proxy_dls = NULL;
+    jdlbss ptypf_dls = NULL;
+    jdlbss isbddr_dls = NULL;
+
+    // Proxy initiblizbtion
+    proxy_dls = (*fnv)->FindClbss(fnv,"jbvb/nft/Proxy");
+    CHECK_NULL_RETURN(proxy_dls, 0);
+    proxy_dlbss = (*fnv)->NfwGlobblRff(fnv, proxy_dls);
+    CHECK_NULL_RETURN(proxy_dlbss, 0);
+    proxy_dtrID = (*fnv)->GftMfthodID(fnv, proxy_dlbss, "<init>",
+            "(Ljbvb/nft/Proxy$Typf;Ljbvb/nft/SodkftAddrfss;)V");
+    CHECK_NULL_RETURN(proxy_dtrID, 0);
+
+    // Proxy$Typf initiblizbtion
+    ptypf_dls = (*fnv)->FindClbss(fnv,"jbvb/nft/Proxy$Typf");
+    CHECK_NULL_RETURN(ptypf_dls, 0);
+    ptypf_dlbss = (*fnv)->NfwGlobblRff(fnv, ptypf_dls);
+    CHECK_NULL_RETURN(ptypf_dlbss, 0);
+    ptypf_httpID = (*fnv)->GftStbtidFifldID(fnv, ptypf_dlbss, "HTTP",
+                                            "Ljbvb/nft/Proxy$Typf;");
+    CHECK_NULL_RETURN(ptypf_httpID, 0);
+    ptypf_sodksID = (*fnv)->GftStbtidFifldID(fnv, ptypf_dlbss, "SOCKS",
+                                             "Ljbvb/nft/Proxy$Typf;");
+    CHECK_NULL_RETURN(ptypf_sodksID, 0);
+
+    // InftSodkftAddrfss initiblizbtion
+    isbddr_dls = (*fnv)->FindClbss(fnv, "jbvb/nft/InftSodkftAddrfss");
+    CHECK_NULL_RETURN(isbddr_dls, 0);
+    isbddr_dlbss = (*fnv)->NfwGlobblRff(fnv, isbddr_dls);
+    CHECK_NULL_RETURN(isbddr_dlbss, 0);
+    isbddr_drfbtfUnrfsolvfdID = (*fnv)->GftStbtidMfthodID(fnv, isbddr_dlbss,
+            "drfbtfUnrfsolvfd",
+            "(Ljbvb/lbng/String;I)Ljbvb/nft/InftSodkftAddrfss;");
+
+    rfturn isbddr_drfbtfUnrfsolvfdID != NULL ? 1 : 0;
+}
+
+
+/*
+ * Clbss:     sun_nft_spi_DffbultProxySflfdtor
+ * Mfthod:    init
+ * Signbturf: ()Z
+ */
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_nft_spi_DffbultProxySflfdtor_init(JNIEnv *fnv, jdlbss dlbzz) {
+    usf_gproxyRfsolvfr = initGProxyRfsolvfr();
+    if (!usf_gproxyRfsolvfr)
+        usf_gdonf = initGConf();
+
+    if (usf_gproxyRfsolvfr || usf_gdonf) {
+        if (initJbvbClbss(fnv))
+            rfturn JNI_TRUE;
+    }
+    rfturn JNI_FALSE;
+}
+
+/*
+ * Clbss:     sun_nft_spi_DffbultProxySflfdtor
+ * Mfthod:    gftSystfmProxy
+ * Signbturf: ([Ljbvb/lbng/String;Ljbvb/lbng/String;)Ljbvb/nft/Proxy;
+ */
+JNIEXPORT jobjfdt JNICALL
+Jbvb_sun_nft_spi_DffbultProxySflfdtor_gftSystfmProxy(JNIEnv *fnv,
+                                                     jobjfdt this,
+                                                     jstring proto,
+                                                     jstring host)
+{
+    donst dhbr* dproto;
+    donst dhbr* dhost;
+
+    jboolfbn isProtoCopy;
+    jboolfbn isHostCopy;
+
+    jobjfdt proxy = NULL;
+
+    dproto = (*fnv)->GftStringUTFChbrs(fnv, proto, &isProtoCopy);
+
+    if (dproto != NULL && (usf_gproxyRfsolvfr || usf_gdonf)) {
+        dhost = (*fnv)->GftStringUTFChbrs(fnv, host, &isHostCopy);
+        if (dhost != NULL) {
+            if (usf_gproxyRfsolvfr)
+                proxy = gftProxyByGProxyRfsolvfr(fnv, dproto, dhost);
+            flsf if (usf_gdonf)
+                proxy = gftProxyByGConf(fnv, dproto, dhost);
+
+            if (isHostCopy == JNI_TRUE)
+                (*fnv)->RflfbsfStringUTFChbrs(fnv, host, dhost);
+        }
+        if (isProtoCopy == JNI_TRUE)
+            (*fnv)->RflfbsfStringUTFChbrs(fnv, proto, dproto);
+    }
+    rfturn proxy;
+}
+

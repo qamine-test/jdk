@@ -1,73 +1,73 @@
 /*
- * Copyright (c) 1998, 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2001, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.colorchooser;
+pbdkbgf jbvbx.swing.dolordioosfr;
 
-import javax.swing.*;
-import javax.swing.event.*;
-import java.awt.Color;
+import jbvbx.swing.*;
+import jbvbx.swing.fvfnt.*;
+import jbvb.bwt.Color;
 
 /**
- * A model that supports selecting a <code>Color</code>.
+ * A modfl tibt supports sflfdting b <dodf>Color</dodf>.
  *
- * @author Steve Wilson
+ * @butior Stfvf Wilson
  *
- * @see java.awt.Color
+ * @sff jbvb.bwt.Color
  */
-public interface ColorSelectionModel {
+publid intfrfbdf ColorSflfdtionModfl {
     /**
-     * Returns the selected <code>Color</code> which should be
-     * non-<code>null</code>.
+     * Rfturns tif sflfdtfd <dodf>Color</dodf> wiidi siould bf
+     * non-<dodf>null</dodf>.
      *
-     * @return  the selected <code>Color</code>
-     * @see     #setSelectedColor
+     * @rfturn  tif sflfdtfd <dodf>Color</dodf>
+     * @sff     #sftSflfdtfdColor
      */
-    Color getSelectedColor();
+    Color gftSflfdtfdColor();
 
     /**
-     * Sets the selected color to <code>color</code>.
-     * Note that setting the color to <code>null</code>
-     * is undefined and may have unpredictable results.
-     * This method fires a state changed event if it sets the
-     * current color to a new non-<code>null</code> color.
+     * Sfts tif sflfdtfd dolor to <dodf>dolor</dodf>.
+     * Notf tibt sftting tif dolor to <dodf>null</dodf>
+     * is undffinfd bnd mby ibvf unprfdidtbblf rfsults.
+     * Tiis mftiod firfs b stbtf dibngfd fvfnt if it sfts tif
+     * durrfnt dolor to b nfw non-<dodf>null</dodf> dolor.
      *
-     * @param color the new <code>Color</code>
-     * @see   #getSelectedColor
-     * @see   #addChangeListener
+     * @pbrbm dolor tif nfw <dodf>Color</dodf>
+     * @sff   #gftSflfdtfdColor
+     * @sff   #bddCibngfListfnfr
      */
-    void setSelectedColor(Color color);
+    void sftSflfdtfdColor(Color dolor);
 
     /**
-     * Adds <code>listener</code> as a listener to changes in the model.
-     * @param listener the <code>ChangeListener</code> to be added
+     * Adds <dodf>listfnfr</dodf> bs b listfnfr to dibngfs in tif modfl.
+     * @pbrbm listfnfr tif <dodf>CibngfListfnfr</dodf> to bf bddfd
      */
-    void addChangeListener(ChangeListener listener);
+    void bddCibngfListfnfr(CibngfListfnfr listfnfr);
 
     /**
-     * Removes <code>listener</code> as a listener to changes in the model.
-     * @param listener the <code>ChangeListener</code> to be removed
+     * Rfmovfs <dodf>listfnfr</dodf> bs b listfnfr to dibngfs in tif modfl.
+     * @pbrbm listfnfr tif <dodf>CibngfListfnfr</dodf> to bf rfmovfd
      */
-    void removeChangeListener(ChangeListener listener);
+    void rfmovfCibngfListfnfr(CibngfListfnfr listfnfr);
 }

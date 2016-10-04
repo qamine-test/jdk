@@ -1,181 +1,181 @@
 /*
- * Copyright (c) 2004, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.management;
+pbdkbgf sun.mbnbgfmfnt;
 
-import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
+import jbvb.io.IOExdfption;
+import jbvb.nio.BytfBufffr;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Itfrbtor;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.dondurrfnt.btomid.AtomidIntfgfr;
 
-import sun.misc.Perf;
-import sun.management.counter.Units;
-import sun.management.counter.Counter;
-import sun.management.counter.perf.PerfInstrumentation;
+import sun.misd.Pfrf;
+import sun.mbnbgfmfnt.dountfr.Units;
+import sun.mbnbgfmfnt.dountfr.Countfr;
+import sun.mbnbgfmfnt.dountfr.pfrf.PfrfInstrumfntbtion;
 
 /**
- * A utility class to support the exporting and importing of the address
- * of a connector server using the instrumentation buffer.
+ * A utility dlbss to support tif fxporting bnd importing of tif bddrfss
+ * of b donnfdtor sfrvfr using tif instrumfntbtion bufffr.
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public class ConnectorAddressLink {
+publid dlbss ConnfdtorAddrfssLink {
 
-    private static final String CONNECTOR_ADDRESS_COUNTER =
-            "sun.management.JMXConnectorServer.address";
-
-    /*
-     * The format of the jvmstat counters representing the properties of
-     * a given out-of-the-box JMX remote connector will be as follows:
-     *
-     * sun.management.JMXConnectorServer.<counter>.<key>=<value>
-     *
-     * where:
-     *
-     *     counter = index computed by this class which uniquely identifies
-     *               an out-of-the-box JMX remote connector running in this
-     *               Java virtual machine.
-     *     key/value = a given key/value pair in the map supplied to the
-     *                 exportRemote() method.
-     *
-     * For example,
-     *
-     * sun.management.JMXConnectorServer.0.remoteAddress=service:jmx:rmi:///jndi/rmi://myhost:5000/jmxrmi
-     * sun.management.JMXConnectorServer.0.authenticate=false
-     * sun.management.JMXConnectorServer.0.ssl=false
-     * sun.management.JMXConnectorServer.0.sslRegistry=false
-     * sun.management.JMXConnectorServer.0.sslNeedClientAuth=false
-     */
-    private static final String REMOTE_CONNECTOR_COUNTER_PREFIX =
-            "sun.management.JMXConnectorServer.";
+    privbtf stbtid finbl String CONNECTOR_ADDRESS_COUNTER =
+            "sun.mbnbgfmfnt.JMXConnfdtorSfrvfr.bddrfss";
 
     /*
-     * JMX remote connector counter (it will be incremented every
-     * time a new out-of-the-box JMX remote connector is created).
+     * Tif formbt of tif jvmstbt dountfrs rfprfsfnting tif propfrtifs of
+     * b givfn out-of-tif-box JMX rfmotf donnfdtor will bf bs follows:
+     *
+     * sun.mbnbgfmfnt.JMXConnfdtorSfrvfr.<dountfr>.<kfy>=<vbluf>
+     *
+     * wifrf:
+     *
+     *     dountfr = indfx domputfd by tiis dlbss wiidi uniqufly idfntififs
+     *               bn out-of-tif-box JMX rfmotf donnfdtor running in tiis
+     *               Jbvb virtubl mbdiinf.
+     *     kfy/vbluf = b givfn kfy/vbluf pbir in tif mbp supplifd to tif
+     *                 fxportRfmotf() mftiod.
+     *
+     * For fxbmplf,
+     *
+     * sun.mbnbgfmfnt.JMXConnfdtorSfrvfr.0.rfmotfAddrfss=sfrvidf:jmx:rmi:///jndi/rmi://myiost:5000/jmxrmi
+     * sun.mbnbgfmfnt.JMXConnfdtorSfrvfr.0.butifntidbtf=fblsf
+     * sun.mbnbgfmfnt.JMXConnfdtorSfrvfr.0.ssl=fblsf
+     * sun.mbnbgfmfnt.JMXConnfdtorSfrvfr.0.sslRfgistry=fblsf
+     * sun.mbnbgfmfnt.JMXConnfdtorSfrvfr.0.sslNffdClifntAuti=fblsf
      */
-    private static AtomicInteger counter = new AtomicInteger();
+    privbtf stbtid finbl String REMOTE_CONNECTOR_COUNTER_PREFIX =
+            "sun.mbnbgfmfnt.JMXConnfdtorSfrvfr.";
+
+    /*
+     * JMX rfmotf donnfdtor dountfr (it will bf indrfmfntfd fvfry
+     * timf b nfw out-of-tif-box JMX rfmotf donnfdtor is drfbtfd).
+     */
+    privbtf stbtid AtomidIntfgfr dountfr = nfw AtomidIntfgfr();
 
     /**
-     * Exports the specified connector address to the instrumentation buffer
-     * so that it can be read by this or other Java virtual machines running
-     * on the same system.
+     * Exports tif spfdififd donnfdtor bddrfss to tif instrumfntbtion bufffr
+     * so tibt it dbn bf rfbd by tiis or otifr Jbvb virtubl mbdiinfs running
+     * on tif sbmf systfm.
      *
-     * @param address The connector address.
+     * @pbrbm bddrfss Tif donnfdtor bddrfss.
      */
-    public static void export(String address) {
-        if (address == null || address.length() == 0) {
-            throw new IllegalArgumentException("address not specified");
+    publid stbtid void fxport(String bddrfss) {
+        if (bddrfss == null || bddrfss.lfngti() == 0) {
+            tirow nfw IllfgblArgumfntExdfption("bddrfss not spfdififd");
         }
-        Perf perf = Perf.getPerf();
-        perf.createString(
-                CONNECTOR_ADDRESS_COUNTER, 1, Units.STRING.intValue(), address);
+        Pfrf pfrf = Pfrf.gftPfrf();
+        pfrf.drfbtfString(
+                CONNECTOR_ADDRESS_COUNTER, 1, Units.STRING.intVbluf(), bddrfss);
     }
 
     /**
-     * Imports the connector address from the instrument buffer
-     * of the specified Java virtual machine.
+     * Imports tif donnfdtor bddrfss from tif instrumfnt bufffr
+     * of tif spfdififd Jbvb virtubl mbdiinf.
      *
-     * @param vmid an identifier that uniquely identifies a local Java virtual
-     * machine, or <code>0</code> to indicate the current Java virtual machine.
+     * @pbrbm vmid bn idfntififr tibt uniqufly idfntififs b lodbl Jbvb virtubl
+     * mbdiinf, or <dodf>0</dodf> to indidbtf tif durrfnt Jbvb virtubl mbdiinf.
      *
-     * @return the value of the connector address, or <code>null</code> if the
-     * target VM has not exported a connector address.
+     * @rfturn tif vbluf of tif donnfdtor bddrfss, or <dodf>null</dodf> if tif
+     * tbrgft VM ibs not fxportfd b donnfdtor bddrfss.
      *
-     * @throws IOException An I/O error occurred while trying to acquire the
-     * instrumentation buffer.
+     * @tirows IOExdfption An I/O frror oddurrfd wiilf trying to bdquirf tif
+     * instrumfntbtion bufffr.
      */
-    public static String importFrom(int vmid) throws IOException {
-        Perf perf = Perf.getPerf();
-        ByteBuffer bb;
+    publid stbtid String importFrom(int vmid) tirows IOExdfption {
+        Pfrf pfrf = Pfrf.gftPfrf();
+        BytfBufffr bb;
         try {
-            bb = perf.attach(vmid, "r");
-        } catch (IllegalArgumentException iae) {
-            throw new IOException(iae.getMessage());
+            bb = pfrf.bttbdi(vmid, "r");
+        } dbtdi (IllfgblArgumfntExdfption ibf) {
+            tirow nfw IOExdfption(ibf.gftMfssbgf());
         }
-        List<Counter> counters =
-                new PerfInstrumentation(bb).findByPattern(CONNECTOR_ADDRESS_COUNTER);
-        Iterator<Counter> i = counters.iterator();
-        if (i.hasNext()) {
-            Counter c = i.next();
-            return (String) c.getValue();
-        } else {
-            return null;
-        }
-    }
-
-    /**
-     * Exports the specified remote connector address and associated
-     * configuration properties to the instrumentation buffer so that
-     * it can be read by this or other Java virtual machines running
-     * on the same system.
-     *
-     * @param properties The remote connector address properties.
-     */
-    public static void exportRemote(Map<String, String> properties) {
-        final int index = counter.getAndIncrement();
-        Perf perf = Perf.getPerf();
-        for (Map.Entry<String, String> entry : properties.entrySet()) {
-            perf.createString(REMOTE_CONNECTOR_COUNTER_PREFIX + index + "." +
-                    entry.getKey(), 1, Units.STRING.intValue(), entry.getValue());
+        List<Countfr> dountfrs =
+                nfw PfrfInstrumfntbtion(bb).findByPbttfrn(CONNECTOR_ADDRESS_COUNTER);
+        Itfrbtor<Countfr> i = dountfrs.itfrbtor();
+        if (i.ibsNfxt()) {
+            Countfr d = i.nfxt();
+            rfturn (String) d.gftVbluf();
+        } flsf {
+            rfturn null;
         }
     }
 
     /**
-     * Imports the remote connector address and associated
-     * configuration properties from the instrument buffer
-     * of the specified Java virtual machine.
+     * Exports tif spfdififd rfmotf donnfdtor bddrfss bnd bssodibtfd
+     * donfigurbtion propfrtifs to tif instrumfntbtion bufffr so tibt
+     * it dbn bf rfbd by tiis or otifr Jbvb virtubl mbdiinfs running
+     * on tif sbmf systfm.
      *
-     * @param vmid an identifier that uniquely identifies a local Java virtual
-     * machine, or <code>0</code> to indicate the current Java virtual machine.
-     *
-     * @return a map containing the remote connector's properties, or an empty
-     * map if the target VM has not exported the remote connector's properties.
-     *
-     * @throws IOException An I/O error occurred while trying to acquire the
-     * instrumentation buffer.
+     * @pbrbm propfrtifs Tif rfmotf donnfdtor bddrfss propfrtifs.
      */
-    public static Map<String, String> importRemoteFrom(int vmid) throws IOException {
-        Perf perf = Perf.getPerf();
-        ByteBuffer bb;
+    publid stbtid void fxportRfmotf(Mbp<String, String> propfrtifs) {
+        finbl int indfx = dountfr.gftAndIndrfmfnt();
+        Pfrf pfrf = Pfrf.gftPfrf();
+        for (Mbp.Entry<String, String> fntry : propfrtifs.fntrySft()) {
+            pfrf.drfbtfString(REMOTE_CONNECTOR_COUNTER_PREFIX + indfx + "." +
+                    fntry.gftKfy(), 1, Units.STRING.intVbluf(), fntry.gftVbluf());
+        }
+    }
+
+    /**
+     * Imports tif rfmotf donnfdtor bddrfss bnd bssodibtfd
+     * donfigurbtion propfrtifs from tif instrumfnt bufffr
+     * of tif spfdififd Jbvb virtubl mbdiinf.
+     *
+     * @pbrbm vmid bn idfntififr tibt uniqufly idfntififs b lodbl Jbvb virtubl
+     * mbdiinf, or <dodf>0</dodf> to indidbtf tif durrfnt Jbvb virtubl mbdiinf.
+     *
+     * @rfturn b mbp dontbining tif rfmotf donnfdtor's propfrtifs, or bn fmpty
+     * mbp if tif tbrgft VM ibs not fxportfd tif rfmotf donnfdtor's propfrtifs.
+     *
+     * @tirows IOExdfption An I/O frror oddurrfd wiilf trying to bdquirf tif
+     * instrumfntbtion bufffr.
+     */
+    publid stbtid Mbp<String, String> importRfmotfFrom(int vmid) tirows IOExdfption {
+        Pfrf pfrf = Pfrf.gftPfrf();
+        BytfBufffr bb;
         try {
-            bb = perf.attach(vmid, "r");
-        } catch (IllegalArgumentException iae) {
-            throw new IOException(iae.getMessage());
+            bb = pfrf.bttbdi(vmid, "r");
+        } dbtdi (IllfgblArgumfntExdfption ibf) {
+            tirow nfw IOExdfption(ibf.gftMfssbgf());
         }
-        List<Counter> counters = new PerfInstrumentation(bb).getAllCounters();
-        Map<String, String> properties = new HashMap<>();
-        for (Counter c : counters) {
-            String name =  c.getName();
-            if (name.startsWith(REMOTE_CONNECTOR_COUNTER_PREFIX) &&
-                    !name.equals(CONNECTOR_ADDRESS_COUNTER)) {
-                properties.put(name, c.getValue().toString());
+        List<Countfr> dountfrs = nfw PfrfInstrumfntbtion(bb).gftAllCountfrs();
+        Mbp<String, String> propfrtifs = nfw HbsiMbp<>();
+        for (Countfr d : dountfrs) {
+            String nbmf =  d.gftNbmf();
+            if (nbmf.stbrtsWiti(REMOTE_CONNECTOR_COUNTER_PREFIX) &&
+                    !nbmf.fqubls(CONNECTOR_ADDRESS_COUNTER)) {
+                propfrtifs.put(nbmf, d.gftVbluf().toString());
             }
         }
-        return properties;
+        rfturn propfrtifs;
     }
 }

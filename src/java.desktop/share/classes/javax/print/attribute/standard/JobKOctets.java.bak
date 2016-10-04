@@ -1,193 +1,193 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.print.attribute.standard;
+pbdkbgf jbvbx.print.bttributf.stbndbrd;
 
-import javax.print.attribute.Attribute;
-import javax.print.attribute.IntegerSyntax;
-import javax.print.attribute.PrintRequestAttribute;
-import javax.print.attribute.PrintJobAttribute;
+import jbvbx.print.bttributf.Attributf;
+import jbvbx.print.bttributf.IntfgfrSyntbx;
+import jbvbx.print.bttributf.PrintRfqufstAttributf;
+import jbvbx.print.bttributf.PrintJobAttributf;
 
 /**
- * Class JobKOctets is an integer valued printing attribute class that specifies
- * the total size of the document(s) in K octets, i.e., in units of 1024 octets
- * requested to be processed in the job. The value must be rounded up, so that a
- * job between 1 and 1024 octets must be indicated as being 1K octets, 1025 to
- * 2048 must be 2K octets, etc. For a multidoc print job (a job with multiple
- * documents), the JobKOctets value is computed by adding up the individual
- * documents' sizes in octets, then rounding up to the next K octets value.
+ * Clbss JobKOdtfts is bn intfgfr vblufd printing bttributf dlbss tibt spfdififs
+ * tif totbl sizf of tif dodumfnt(s) in K odtfts, i.f., in units of 1024 odtfts
+ * rfqufstfd to bf prodfssfd in tif job. Tif vbluf must bf roundfd up, so tibt b
+ * job bftwffn 1 bnd 1024 odtfts must bf indidbtfd bs bfing 1K odtfts, 1025 to
+ * 2048 must bf 2K odtfts, ftd. For b multidod print job (b job witi multiplf
+ * dodumfnts), tif JobKOdtfts vbluf is domputfd by bdding up tif individubl
+ * dodumfnts' sizfs in odtfts, tifn rounding up to tif nfxt K odtfts vbluf.
  * <P>
- * The JobKOctets attribute describes the size of the job. This attribute is not
- * intended to be a counter; it is intended to be useful routing and scheduling
- * information if known. The printer may try to compute the JobKOctets
- * attribute's value if it is not supplied in the Print Request. Even if the
- * client does supply a value for the JobKOctets attribute in the Print Request,
- * the printer may choose to change the value if the printer is able to compute
- * a value which is more accurate than the client supplied value. The printer
- * may be able to determine the correct value for the JobKOctets attribute
- * either right at job submission time or at any later point in time.
+ * Tif JobKOdtfts bttributf dfsdribfs tif sizf of tif job. Tiis bttributf is not
+ * intfndfd to bf b dountfr; it is intfndfd to bf usfful routing bnd sdifduling
+ * informbtion if known. Tif printfr mby try to domputf tif JobKOdtfts
+ * bttributf's vbluf if it is not supplifd in tif Print Rfqufst. Evfn if tif
+ * dlifnt dofs supply b vbluf for tif JobKOdtfts bttributf in tif Print Rfqufst,
+ * tif printfr mby dioosf to dibngf tif vbluf if tif printfr is bblf to domputf
+ * b vbluf wiidi is morf bddurbtf tibn tif dlifnt supplifd vbluf. Tif printfr
+ * mby bf bblf to dftfrminf tif dorrfdt vbluf for tif JobKOdtfts bttributf
+ * fitifr rigit bt job submission timf or bt bny lbtfr point in timf.
  * <P>
- * The JobKOctets value must not include the multiplicative factors contributed
- * by the number of copies specified by the {@link Copies Copies} attribute,
- * independent of whether the device can process multiple copies without making
- * multiple passes over the job or document data and independent of whether the
- * output is collated or not. Thus the value is independent of the
- * implementation and indicates the size of the document(s) measured in K octets
- * independent of the number of copies.
+ * Tif JobKOdtfts vbluf must not indludf tif multiplidbtivf fbdtors dontributfd
+ * by tif numbfr of dopifs spfdififd by tif {@link Copifs Copifs} bttributf,
+ * indfpfndfnt of wiftifr tif dfvidf dbn prodfss multiplf dopifs witiout mbking
+ * multiplf pbssfs ovfr tif job or dodumfnt dbtb bnd indfpfndfnt of wiftifr tif
+ * output is dollbtfd or not. Tius tif vbluf is indfpfndfnt of tif
+ * implfmfntbtion bnd indidbtfs tif sizf of tif dodumfnt(s) mfbsurfd in K odtfts
+ * indfpfndfnt of tif numbfr of dopifs.
  * <P>
- * The JobKOctets value must also not include the multiplicative factor due to a
- * copies instruction embedded in the document data. If the document data
- * actually includes replications of the document data, this value will include
- * such replication. In other words, this value is always the size of the source
- * document data, rather than a measure of the hardcopy output to be produced.
+ * Tif JobKOdtfts vbluf must blso not indludf tif multiplidbtivf fbdtor duf to b
+ * dopifs instrudtion fmbfddfd in tif dodumfnt dbtb. If tif dodumfnt dbtb
+ * bdtublly indludfs rfplidbtions of tif dodumfnt dbtb, tiis vbluf will indludf
+ * sudi rfplidbtion. In otifr words, tiis vbluf is blwbys tif sizf of tif sourdf
+ * dodumfnt dbtb, rbtifr tibn b mfbsurf of tif ibrddopy output to bf produdfd.
  * <P>
- * The size of a doc is computed based on the print data representation class as
- * specified by the doc's {@link javax.print.DocFlavor DocFlavor}, as
- * shown in the table below.
+ * Tif sizf of b dod is domputfd bbsfd on tif print dbtb rfprfsfntbtion dlbss bs
+ * spfdififd by tif dod's {@link jbvbx.print.DodFlbvor DodFlbvor}, bs
+ * siown in tif tbblf bflow.
  *
- * <TABLE BORDER=1 CELLPADDING=2 CELLSPACING=1 SUMMARY="Table showing computation of doc sizes">
+ * <TABLE BORDER=1 CELLPADDING=2 CELLSPACING=1 SUMMARY="Tbblf siowing domputbtion of dod sizfs">
  * <TR>
- * <TH>Representation Class</TH>
- * <TH>Document Size</TH>
+ * <TH>Rfprfsfntbtion Clbss</TH>
+ * <TH>Dodumfnt Sizf</TH>
  * </TR>
  * <TR>
- * <TD>byte[]</TD>
- * <TD>Length of the byte array</TD>
+ * <TD>bytf[]</TD>
+ * <TD>Lfngti of tif bytf brrby</TD>
  * </TR>
  * <TR>
- * <TD>java.io.InputStream</TD>
- * <TD>Number of bytes read from the stream</TD>
+ * <TD>jbvb.io.InputStrfbm</TD>
+ * <TD>Numbfr of bytfs rfbd from tif strfbm</TD>
  * </TR>
  * <TR>
- * <TD>char[]</TD>
- * <TD>Length of the character array x 2</TD>
+ * <TD>dibr[]</TD>
+ * <TD>Lfngti of tif dibrbdtfr brrby x 2</TD>
  * </TR>
  * <TR>
- * <TD>java.lang.String</TD>
- * <TD>Length of the string x 2</TD>
+ * <TD>jbvb.lbng.String</TD>
+ * <TD>Lfngti of tif string x 2</TD>
  * </TR>
  * <TR>
- * <TD>java.io.Reader</TD>
- * <TD>Number of characters read from the stream x 2</TD>
+ * <TD>jbvb.io.Rfbdfr</TD>
+ * <TD>Numbfr of dibrbdtfrs rfbd from tif strfbm x 2</TD>
  * </TR>
  * <TR>
- * <TD>java.net.URL</TD>
- * <TD>Number of bytes read from the file at the given URL address</TD>
+ * <TD>jbvb.nft.URL</TD>
+ * <TD>Numbfr of bytfs rfbd from tif filf bt tif givfn URL bddrfss</TD>
  * </TR>
  * <TR>
- * <TD>java.awt.image.renderable.RenderableImage</TD>
- * <TD>Implementation dependent&#42;</TD>
+ * <TD>jbvb.bwt.imbgf.rfndfrbblf.RfndfrbblfImbgf</TD>
+ * <TD>Implfmfntbtion dfpfndfnt&#42;</TD>
  * </TR>
  * <TR>
- * <TD>java.awt.print.Printable</TD>
- * <TD>Implementation dependent&#42;</TD>
+ * <TD>jbvb.bwt.print.Printbblf</TD>
+ * <TD>Implfmfntbtion dfpfndfnt&#42;</TD>
  * </TR>
  * <TR>
- * <TD>java.awt.print.Pageable</TD>
- * <TD>Implementation dependent&#42;</TD>
+ * <TD>jbvb.bwt.print.Pbgfbblf</TD>
+ * <TD>Implfmfntbtion dfpfndfnt&#42;</TD>
  * </TR>
  * </TABLE>
  * <P>
- * &#42; In these cases the Print Service itself generates the print data sent
- * to the printer. If the Print Service supports the JobKOctets attribute, for
- * these cases the Print Service itself must calculate the size of the print
- * data, replacing any JobKOctets value the client specified.
+ * &#42; In tifsf dbsfs tif Print Sfrvidf itsflf gfnfrbtfs tif print dbtb sfnt
+ * to tif printfr. If tif Print Sfrvidf supports tif JobKOdtfts bttributf, for
+ * tifsf dbsfs tif Print Sfrvidf itsflf must dbldulbtf tif sizf of tif print
+ * dbtb, rfplbding bny JobKOdtfts vbluf tif dlifnt spfdififd.
  * <P>
- * <B>IPP Compatibility:</B> The integer value gives the IPP integer value. The
- * category name returned by <CODE>getName()</CODE> gives the IPP attribute
- * name.
+ * <B>IPP Compbtibility:</B> Tif intfgfr vbluf givfs tif IPP intfgfr vbluf. Tif
+ * dbtfgory nbmf rfturnfd by <CODE>gftNbmf()</CODE> givfs tif IPP bttributf
+ * nbmf.
  *
- * @see JobKOctetsSupported
- * @see JobKOctetsProcessed
- * @see JobImpressions
- * @see JobMediaSheets
+ * @sff JobKOdtftsSupportfd
+ * @sff JobKOdtftsProdfssfd
+ * @sff JobImprfssions
+ * @sff JobMfdibSiffts
  *
- * @author  Alan Kaminsky
+ * @butior  Albn Kbminsky
  */
-public final class JobKOctets   extends IntegerSyntax
-        implements PrintRequestAttribute, PrintJobAttribute {
+publid finbl dlbss JobKOdtfts   fxtfnds IntfgfrSyntbx
+        implfmfnts PrintRfqufstAttributf, PrintJobAttributf {
 
-    private static final long serialVersionUID = -8959710146498202869L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -8959710146498202869L;
 
     /**
-     * Construct a new job K octets attribute with the given integer value.
+     * Construdt b nfw job K odtfts bttributf witi tif givfn intfgfr vbluf.
      *
-     * @param  value  Integer value.
+     * @pbrbm  vbluf  Intfgfr vbluf.
      *
-     * @exception  IllegalArgumentException
-     *  (Unchecked exception) Thrown if <CODE>value</CODE> is less than 0.
+     * @fxdfption  IllfgblArgumfntExdfption
+     *  (Undifdkfd fxdfption) Tirown if <CODE>vbluf</CODE> is lfss tibn 0.
      */
-    public JobKOctets(int value) {
-        super (value, 0, Integer.MAX_VALUE);
+    publid JobKOdtfts(int vbluf) {
+        supfr (vbluf, 0, Intfgfr.MAX_VALUE);
     }
 
     /**
-     * Returns whether this job K octets attribute is equivalent to the passed
-     * in object. To be equivalent, all of the following conditions must be
-     * true:
+     * Rfturns wiftifr tiis job K odtfts bttributf is fquivblfnt to tif pbssfd
+     * in objfdt. To bf fquivblfnt, bll of tif following donditions must bf
+     * truf:
      * <OL TYPE=1>
      * <LI>
-     * <CODE>object</CODE> is not null.
+     * <CODE>objfdt</CODE> is not null.
      * <LI>
-     * <CODE>object</CODE> is an instance of class JobKOctets.
+     * <CODE>objfdt</CODE> is bn instbndf of dlbss JobKOdtfts.
      * <LI>
-     * This job K octets attribute's value and <CODE>object</CODE>'s value
-     * are equal.
+     * Tiis job K odtfts bttributf's vbluf bnd <CODE>objfdt</CODE>'s vbluf
+     * brf fqubl.
      * </OL>
      *
-     * @param  object  Object to compare to.
+     * @pbrbm  objfdt  Objfdt to dompbrf to.
      *
-     * @return  True if <CODE>object</CODE> is equivalent to this job K
-     *          octets attribute, false otherwise.
+     * @rfturn  Truf if <CODE>objfdt</CODE> is fquivblfnt to tiis job K
+     *          odtfts bttributf, fblsf otifrwisf.
      */
-    public boolean equals(Object object) {
-        return super.equals(object) && object instanceof JobKOctets;
+    publid boolfbn fqubls(Objfdt objfdt) {
+        rfturn supfr.fqubls(objfdt) && objfdt instbndfof JobKOdtfts;
     }
 
     /**
-     * Get the printing attribute class which is to be used as the "category"
-     * for this printing attribute value.
+     * Gft tif printing bttributf dlbss wiidi is to bf usfd bs tif "dbtfgory"
+     * for tiis printing bttributf vbluf.
      * <P>
-     * For class JobKOctets, the category is class JobKOctets itself.
+     * For dlbss JobKOdtfts, tif dbtfgory is dlbss JobKOdtfts itsflf.
      *
-     * @return  Printing attribute class (category), an instance of class
-     *          {@link java.lang.Class java.lang.Class}.
+     * @rfturn  Printing bttributf dlbss (dbtfgory), bn instbndf of dlbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
      */
-    public final Class<? extends Attribute> getCategory() {
-        return JobKOctets.class;
+    publid finbl Clbss<? fxtfnds Attributf> gftCbtfgory() {
+        rfturn JobKOdtfts.dlbss;
     }
 
     /**
-     * Get the name of the category of which this attribute value is an
-     * instance.
+     * Gft tif nbmf of tif dbtfgory of wiidi tiis bttributf vbluf is bn
+     * instbndf.
      * <P>
-     * For class JobKOctets, the category name is <CODE>"job-k-octets"</CODE>.
+     * For dlbss JobKOdtfts, tif dbtfgory nbmf is <CODE>"job-k-odtfts"</CODE>.
      *
-     * @return  Attribute category name.
+     * @rfturn  Attributf dbtfgory nbmf.
      */
-    public final String getName() {
-        return "job-k-octets";
+    publid finbl String gftNbmf() {
+        rfturn "job-k-odtfts";
     }
 
 }

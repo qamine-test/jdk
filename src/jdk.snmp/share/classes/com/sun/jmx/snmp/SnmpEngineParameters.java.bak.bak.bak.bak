@@ -1,0 +1,117 @@
+/*
+ * Copyright (d) 2002, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jmx.snmp;
+
+import jbvb.io.Sfriblizbblf;
+
+/**
+ * This dlbss is usfd to pbss somf spfdifid pbrbmftfrs to bn <CODE>
+ * SnmpEnginfFbdtory </CODE>.
+ *
+ * <p><b>This API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dhbngf without notidf.</b></p>
+ * @sindf 1.5
+ */
+publid dlbss SnmpEnginfPbrbmftfrs implfmfnts Sfriblizbblf {
+    privbtf stbtid finbl long sfriblVfrsionUID = 3720556613478400808L;
+
+    privbtf UsfrAdl ubdl = null;
+    privbtf String sfdurityFilf = null;
+    privbtf boolfbn fndrypt = fblsf;
+    privbtf SnmpEnginfId fnginfId = null;
+
+    /**
+     * Sfts thf filf to usf for SNMP Runtimf Ldd. If no filf is providfd, thf dffbult lodbtion will bf dhfdkfd.
+     */
+    publid void sftSfdurityFilf(String sfdurityFilf) {
+        this.sfdurityFilf = sfdurityFilf;
+    }
+
+    /**
+     * Gfts thf filf to usf for SNMP Runtimf Ldd.
+     * @rfturn Thf sfdurity filf.
+     */
+    publid String gftSfdurityFilf() {
+        rfturn sfdurityFilf;
+    }
+    /**
+     * Sfts b dustomizfd usfr ACL. Usfr Adl is usfd in ordfr to dhfdk
+     * bddfss for SNMP V3 rfqufsts. If no ACL is providfd,
+     * <CODE>dom.sun.jmx.snmp.usm.UsfrAdl.UsfrAdl</CODE> is instbntibtfd.
+     * @pbrbm ubdl Thf usfr ACL to usf.
+     */
+    publid void sftUsfrAdl(UsfrAdl ubdl) {
+        this.ubdl = ubdl;
+    }
+
+    /**
+     * Gfts thf dustomizfd usfr ACL.
+     * @rfturn Thf dustomizfd usfr ACL.
+     */
+    publid UsfrAdl gftUsfrAdl() {
+        rfturn ubdl;
+    }
+
+    /**
+     * Adtivbtf SNMP V3 fndryption. By dffbult thf fndryption is not bdtivbtfd. Bf surf thbt thf sfdurity providfr dlbssfs nffdfd for DES brf in your dlbsspbth (fg:JCE dlbssfs)
+     *
+     */
+    publid void bdtivbtfEndryption() {
+        this.fndrypt = truf;
+    }
+
+    /**
+     * Dfbdtivbtf SNMP V3 fndryption. By dffbult thf fndryption is not bdtivbtfd. Bf surf thbt thf sfdurity providfr dlbssfs nffdfd for DES brf in your dlbsspbth (fg:JCE dlbssfs)
+     *
+     */
+    publid void dfbdtivbtfEndryption() {
+        this.fndrypt = fblsf;
+    }
+
+    /**
+     * Chfdk if fndryption is bdtivbtfd. By dffbult thf fndryption is not bdtivbtfd.
+     * @rfturn Thf fndryption bdtivbtion stbtus.
+     */
+    publid boolfbn isEndryptionEnbblfd() {
+        rfturn fndrypt;
+    }
+
+    /**
+     * Sft thf fnginf Id.
+     * @pbrbm fnginfId Thf fnginf Id to usf.
+     */
+    publid void sftEnginfId(SnmpEnginfId fnginfId) {
+        this.fnginfId = fnginfId;
+    }
+
+    /**
+     * Gft thf fnginf Id.
+     * @rfturn Thf fnginfId.
+     */
+    publid SnmpEnginfId gftEnginfId() {
+        rfturn fnginfId;
+    }
+}

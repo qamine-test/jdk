@@ -1,415 +1,415 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <stdlib.h>
-#include "jni.h"
-#include "AccelGlyphCache.h"
-#include "Trace.h"
-
-/**
- * When the cache is full, we will try to reuse the cache cells that have
- * been used relatively less than the others (and we will save the cells that
- * have been rendered more than the threshold defined here).
- */
-#define TIMES_RENDERED_THRESHOLD 5
+#indludf <stdlib.i>
+#indludf "jni.i"
+#indludf "AddflGlypiCbdif.i"
+#indludf "Trbdf.i"
 
 /**
- * Creates a new GlyphCacheInfo structure, fills in the initial values, and
- * then returns a pointer to the GlyphCacheInfo record.
- *
- * Note that this method only sets up a data structure describing a
- * rectangular region of accelerated memory, containing "virtual" cells of
- * the requested size.  The cell information is added lazily to the linked
- * list describing the cache as new glyphs are added.  Platform specific
- * glyph caching code is responsible for actually creating the accelerated
- * memory surface that will contain the individual glyph images.
- *
- * Each glyph contains a reference to a list of cell infos - one per glyph
- * cache. There may be multiple glyph caches (for example, one per graphics
- * adapter), so if the glyph is cached on two devices its cell list will
- * consists of two elements corresponding to different glyph caches.
- *
- * The platform-specific glyph caching code is supposed to use
- * GetCellInfoForCache method for retrieving cache infos from the glyph's list.
- *
- * Note that if it is guaranteed that there will be only one global glyph
- * cache then it one does not have to use AccelGlyphCache_GetCellInfoForCache
- * for retrieving cell info for the glyph, but instead just use the struct's
- * field directly.
+ * Wifn tif dbdif is full, wf will try to rfusf tif dbdif dflls tibt ibvf
+ * bffn usfd rflbtivfly lfss tibn tif otifrs (bnd wf will sbvf tif dflls tibt
+ * ibvf bffn rfndfrfd morf tibn tif tirfsiold dffinfd ifrf).
  */
-GlyphCacheInfo *
-AccelGlyphCache_Init(jint width, jint height,
-                     jint cellWidth, jint cellHeight,
-                     FlushFunc *func)
+#dffinf TIMES_RENDERED_THRESHOLD 5
+
+/**
+ * Crfbtfs b nfw GlypiCbdifInfo strudturf, fills in tif initibl vblufs, bnd
+ * tifn rfturns b pointfr to tif GlypiCbdifInfo rfdord.
+ *
+ * Notf tibt tiis mftiod only sfts up b dbtb strudturf dfsdribing b
+ * rfdtbngulbr rfgion of bddflfrbtfd mfmory, dontbining "virtubl" dflls of
+ * tif rfqufstfd sizf.  Tif dfll informbtion is bddfd lbzily to tif linkfd
+ * list dfsdribing tif dbdif bs nfw glypis brf bddfd.  Plbtform spfdifid
+ * glypi dbdiing dodf is rfsponsiblf for bdtublly drfbting tif bddflfrbtfd
+ * mfmory surfbdf tibt will dontbin tif individubl glypi imbgfs.
+ *
+ * Ebdi glypi dontbins b rfffrfndf to b list of dfll infos - onf pfr glypi
+ * dbdif. Tifrf mby bf multiplf glypi dbdifs (for fxbmplf, onf pfr grbpiids
+ * bdbptfr), so if tif glypi is dbdifd on two dfvidfs its dfll list will
+ * donsists of two flfmfnts dorrfsponding to difffrfnt glypi dbdifs.
+ *
+ * Tif plbtform-spfdifid glypi dbdiing dodf is supposfd to usf
+ * GftCfllInfoForCbdif mftiod for rftrifving dbdif infos from tif glypi's list.
+ *
+ * Notf tibt if it is gubrbntffd tibt tifrf will bf only onf globbl glypi
+ * dbdif tifn it onf dofs not ibvf to usf AddflGlypiCbdif_GftCfllInfoForCbdif
+ * for rftrifving dfll info for tif glypi, but instfbd just usf tif strudt's
+ * fifld dirfdtly.
+ */
+GlypiCbdifInfo *
+AddflGlypiCbdif_Init(jint widti, jint ifigit,
+                     jint dfllWidti, jint dfllHfigit,
+                     FlusiFund *fund)
 {
-    GlyphCacheInfo *gcinfo;
+    GlypiCbdifInfo *gdinfo;
 
-    J2dTraceLn(J2D_TRACE_INFO, "AccelGlyphCache_Init");
+    J2dTrbdfLn(J2D_TRACE_INFO, "AddflGlypiCbdif_Init");
 
-    gcinfo = (GlyphCacheInfo *)malloc(sizeof(GlyphCacheInfo));
-    if (gcinfo == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "AccelGlyphCache_Init: could not allocate GlyphCacheInfo");
-        return NULL;
+    gdinfo = (GlypiCbdifInfo *)mbllod(sizfof(GlypiCbdifInfo));
+    if (gdinfo == NULL) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "AddflGlypiCbdif_Init: dould not bllodbtf GlypiCbdifInfo");
+        rfturn NULL;
     }
 
-    gcinfo->head = NULL;
-    gcinfo->tail = NULL;
-    gcinfo->width = width;
-    gcinfo->height = height;
-    gcinfo->cellWidth = cellWidth;
-    gcinfo->cellHeight = cellHeight;
-    gcinfo->isFull = JNI_FALSE;
-    gcinfo->Flush = func;
+    gdinfo->ifbd = NULL;
+    gdinfo->tbil = NULL;
+    gdinfo->widti = widti;
+    gdinfo->ifigit = ifigit;
+    gdinfo->dfllWidti = dfllWidti;
+    gdinfo->dfllHfigit = dfllHfigit;
+    gdinfo->isFull = JNI_FALSE;
+    gdinfo->Flusi = fund;
 
-    return gcinfo;
+    rfturn gdinfo;
 }
 
 /**
- * Attempts to add the provided glyph to the specified cache.  If the
- * operation is successful, a pointer to the newly occupied cache cell is
- * stored in the glyph's cellInfo field; otherwise, its cellInfo field is
- * set to NULL, indicating that the glyph's original bits should be rendered
- * instead.  If the cache is full, the least-recently-used glyph is
- * invalidated and its cache cell is reassigned to the new glyph being added.
+ * Attfmpts to bdd tif providfd glypi to tif spfdififd dbdif.  If tif
+ * opfrbtion is suddfssful, b pointfr to tif nfwly oddupifd dbdif dfll is
+ * storfd in tif glypi's dfllInfo fifld; otifrwisf, its dfllInfo fifld is
+ * sft to NULL, indidbting tibt tif glypi's originbl bits siould bf rfndfrfd
+ * instfbd.  If tif dbdif is full, tif lfbst-rfdfntly-usfd glypi is
+ * invblidbtfd bnd its dbdif dfll is rfbssignfd to tif nfw glypi bfing bddfd.
  *
- * Note that this method only ensures that a rectangular region in the
- * "virtual" glyph cache is available for the glyph image.  Platform specific
- * glyph caching code is responsible for actually caching the glyph image
- * in the associated accelerated memory surface.
+ * Notf tibt tiis mftiod only fnsurfs tibt b rfdtbngulbr rfgion in tif
+ * "virtubl" glypi dbdif is bvbilbblf for tif glypi imbgf.  Plbtform spfdifid
+ * glypi dbdiing dodf is rfsponsiblf for bdtublly dbdiing tif glypi imbgf
+ * in tif bssodibtfd bddflfrbtfd mfmory surfbdf.
  *
- * Returns created cell info if it was successfully created and added to the
- * cache and glyph's cell lists, NULL otherwise.
+ * Rfturns drfbtfd dfll info if it wbs suddfssfully drfbtfd bnd bddfd to tif
+ * dbdif bnd glypi's dfll lists, NULL otifrwisf.
  */
-CacheCellInfo *
-AccelGlyphCache_AddGlyph(GlyphCacheInfo *cache, GlyphInfo *glyph)
+CbdifCfllInfo *
+AddflGlypiCbdif_AddGlypi(GlypiCbdifInfo *dbdif, GlypiInfo *glypi)
 {
-    CacheCellInfo *cellinfo = NULL;
-    jint w = glyph->width;
-    jint h = glyph->height;
+    CbdifCfllInfo *dfllinfo = NULL;
+    jint w = glypi->widti;
+    jint i = glypi->ifigit;
 
-    J2dTraceLn(J2D_TRACE_INFO, "AccelGlyphCache_AddGlyph");
+    J2dTrbdfLn(J2D_TRACE_INFO, "AddflGlypiCbdif_AddGlypi");
 
-    if ((glyph->width > cache->cellWidth) ||
-        (glyph->height > cache->cellHeight))
+    if ((glypi->widti > dbdif->dfllWidti) ||
+        (glypi->ifigit > dbdif->dfllHfigit))
     {
-        return NULL;
+        rfturn NULL;
     }
 
-    if (!cache->isFull) {
+    if (!dbdif->isFull) {
         jint x, y;
 
-        if (cache->head == NULL) {
+        if (dbdif->ifbd == NULL) {
             x = 0;
             y = 0;
-        } else {
-            x = cache->tail->x + cache->cellWidth;
-            y = cache->tail->y;
-            if ((x + cache->cellWidth) > cache->width) {
+        } flsf {
+            x = dbdif->tbil->x + dbdif->dfllWidti;
+            y = dbdif->tbil->y;
+            if ((x + dbdif->dfllWidti) > dbdif->widti) {
                 x = 0;
-                y += cache->cellHeight;
-                if ((y + cache->cellHeight) > cache->height) {
-                    // no room left for a new cell; we'll go through the
-                    // isFull path below
-                    cache->isFull = JNI_TRUE;
+                y += dbdif->dfllHfigit;
+                if ((y + dbdif->dfllHfigit) > dbdif->ifigit) {
+                    // no room lfft for b nfw dfll; wf'll go tirougi tif
+                    // isFull pbti bflow
+                    dbdif->isFull = JNI_TRUE;
                 }
             }
         }
 
-        if (!cache->isFull) {
-            // create new CacheCellInfo
-            cellinfo = (CacheCellInfo *)malloc(sizeof(CacheCellInfo));
-            if (cellinfo == NULL) {
-                J2dTraceLn(J2D_TRACE_ERROR, "could not allocate CellInfo");
-                return NULL;
+        if (!dbdif->isFull) {
+            // drfbtf nfw CbdifCfllInfo
+            dfllinfo = (CbdifCfllInfo *)mbllod(sizfof(CbdifCfllInfo));
+            if (dfllinfo == NULL) {
+                J2dTrbdfLn(J2D_TRACE_ERROR, "dould not bllodbtf CfllInfo");
+                rfturn NULL;
             }
 
-            cellinfo->cacheInfo = cache;
-            cellinfo->glyphInfo = glyph;
-            cellinfo->timesRendered = 0;
-            cellinfo->x = x;
-            cellinfo->y = y;
-            cellinfo->leftOff = 0;
-            cellinfo->rightOff = 0;
-            cellinfo->tx1 = (jfloat)cellinfo->x / cache->width;
-            cellinfo->ty1 = (jfloat)cellinfo->y / cache->height;
-            cellinfo->tx2 = cellinfo->tx1 + ((jfloat)w / cache->width);
-            cellinfo->ty2 = cellinfo->ty1 + ((jfloat)h / cache->height);
+            dfllinfo->dbdifInfo = dbdif;
+            dfllinfo->glypiInfo = glypi;
+            dfllinfo->timfsRfndfrfd = 0;
+            dfllinfo->x = x;
+            dfllinfo->y = y;
+            dfllinfo->lfftOff = 0;
+            dfllinfo->rigitOff = 0;
+            dfllinfo->tx1 = (jflobt)dfllinfo->x / dbdif->widti;
+            dfllinfo->ty1 = (jflobt)dfllinfo->y / dbdif->ifigit;
+            dfllinfo->tx2 = dfllinfo->tx1 + ((jflobt)w / dbdif->widti);
+            dfllinfo->ty2 = dfllinfo->ty1 + ((jflobt)i / dbdif->ifigit);
 
-            if (cache->head == NULL) {
-                // initialize the head cell
-                cache->head = cellinfo;
-            } else {
-                // update existing tail cell
-                cache->tail->next = cellinfo;
+            if (dbdif->ifbd == NULL) {
+                // initiblizf tif ifbd dfll
+                dbdif->ifbd = dfllinfo;
+            } flsf {
+                // updbtf fxisting tbil dfll
+                dbdif->tbil->nfxt = dfllinfo;
             }
 
-            // add the new cell to the end of the list
-            cache->tail = cellinfo;
-            cellinfo->next = NULL;
-            cellinfo->nextGCI = NULL;
+            // bdd tif nfw dfll to tif fnd of tif list
+            dbdif->tbil = dfllinfo;
+            dfllinfo->nfxt = NULL;
+            dfllinfo->nfxtGCI = NULL;
         }
     }
 
-    if (cache->isFull) {
+    if (dbdif->isFull) {
         /**
-         * Search through the cells, and for each cell:
-         *   - reset its timesRendered counter to zero
-         *   - toss it to the end of the list
-         * Eventually we will find a cell that either:
-         *   - is empty, or
-         *   - has been used less than the threshold
-         * When we find such a cell, we will:
-         *   - break out of the loop
-         *   - invalidate any glyph that may be residing in that cell
-         *   - update the cell with the new resident glyph's information
+         * Sfbrdi tirougi tif dflls, bnd for fbdi dfll:
+         *   - rfsft its timfsRfndfrfd dountfr to zfro
+         *   - toss it to tif fnd of tif list
+         * Evfntublly wf will find b dfll tibt fitifr:
+         *   - is fmpty, or
+         *   - ibs bffn usfd lfss tibn tif tirfsiold
+         * Wifn wf find sudi b dfll, wf will:
+         *   - brfbk out of tif loop
+         *   - invblidbtf bny glypi tibt mby bf rfsiding in tibt dfll
+         *   - updbtf tif dfll witi tif nfw rfsidfnt glypi's informbtion
          *
-         * The goal here is to keep the glyphs rendered most often in the
-         * cache, while younger glyphs hang out near the end of the list.
-         * Those young glyphs that have only been used a few times will move
-         * towards the head of the list and will eventually be kicked to
-         * the curb.
+         * Tif gobl ifrf is to kffp tif glypis rfndfrfd most oftfn in tif
+         * dbdif, wiilf youngfr glypis ibng out nfbr tif fnd of tif list.
+         * Tiosf young glypis tibt ibvf only bffn usfd b ffw timfs will movf
+         * towbrds tif ifbd of tif list bnd will fvfntublly bf kidkfd to
+         * tif durb.
          *
-         * In the worst-case scenario, all cells will be occupied and they
-         * will all have timesRendered counts above the threshold, so we will
-         * end up iterating through all the cells exactly once.  Since we are
-         * resetting their counters along the way, we are guaranteed to
-         * eventually hit the original "head" cell, whose counter is now zero.
-         * This avoids the possibility of an infinite loop.
+         * In tif worst-dbsf sdfnbrio, bll dflls will bf oddupifd bnd tify
+         * will bll ibvf timfsRfndfrfd dounts bbovf tif tirfsiold, so wf will
+         * fnd up itfrbting tirougi bll tif dflls fxbdtly ondf.  Sindf wf brf
+         * rfsftting tifir dountfrs blong tif wby, wf brf gubrbntffd to
+         * fvfntublly iit tif originbl "ifbd" dfll, wiosf dountfr is now zfro.
+         * Tiis bvoids tif possibility of bn infinitf loop.
          */
 
         do {
-            // the head cell will be updated on each iteration
-            CacheCellInfo *current = cache->head;
+            // tif ifbd dfll will bf updbtfd on fbdi itfrbtion
+            CbdifCfllInfo *durrfnt = dbdif->ifbd;
 
-            if ((current->glyphInfo == NULL) ||
-                (current->timesRendered < TIMES_RENDERED_THRESHOLD))
+            if ((durrfnt->glypiInfo == NULL) ||
+                (durrfnt->timfsRfndfrfd < TIMES_RENDERED_THRESHOLD))
             {
-                // all bow before the chosen one (we will break out of the
-                // loop now that we've found an appropriate cell)
-                cellinfo = current;
+                // bll bow bfforf tif diosfn onf (wf will brfbk out of tif
+                // loop now tibt wf'vf found bn bppropribtf dfll)
+                dfllinfo = durrfnt;
             }
 
-            // move cell to the end of the list; update existing head and
-            // tail pointers
-            cache->head = current->next;
-            cache->tail->next = current;
-            cache->tail = current;
-            current->next = NULL;
-            current->timesRendered = 0;
-        } while (cellinfo == NULL);
+            // movf dfll to tif fnd of tif list; updbtf fxisting ifbd bnd
+            // tbil pointfrs
+            dbdif->ifbd = durrfnt->nfxt;
+            dbdif->tbil->nfxt = durrfnt;
+            dbdif->tbil = durrfnt;
+            durrfnt->nfxt = NULL;
+            durrfnt->timfsRfndfrfd = 0;
+        } wiilf (dfllinfo == NULL);
 
-        if (cellinfo->glyphInfo != NULL) {
-            // flush in case any pending vertices are depending on the
-            // glyph that is about to be kicked out
-            if (cache->Flush != NULL) {
-                cache->Flush();
+        if (dfllinfo->glypiInfo != NULL) {
+            // flusi in dbsf bny pfnding vfrtidfs brf dfpfnding on tif
+            // glypi tibt is bbout to bf kidkfd out
+            if (dbdif->Flusi != NULL) {
+                dbdif->Flusi();
             }
 
-            // if the cell is occupied, notify the base glyph that the
-            // cached version for this cache is about to be kicked out
-            AccelGlyphCache_RemoveCellInfo(cellinfo->glyphInfo, cellinfo);
+            // if tif dfll is oddupifd, notify tif bbsf glypi tibt tif
+            // dbdifd vfrsion for tiis dbdif is bbout to bf kidkfd out
+            AddflGlypiCbdif_RfmovfCfllInfo(dfllinfo->glypiInfo, dfllinfo);
         }
 
-        // update cellinfo with glyph's occupied region information
-        cellinfo->glyphInfo = glyph;
-        cellinfo->tx2 = cellinfo->tx1 + ((jfloat)w / cache->width);
-        cellinfo->ty2 = cellinfo->ty1 + ((jfloat)h / cache->height);
+        // updbtf dfllinfo witi glypi's oddupifd rfgion informbtion
+        dfllinfo->glypiInfo = glypi;
+        dfllinfo->tx2 = dfllinfo->tx1 + ((jflobt)w / dbdif->widti);
+        dfllinfo->ty2 = dfllinfo->ty1 + ((jflobt)i / dbdif->ifigit);
     }
 
-    // add cache cell to the glyph's cells list
-    AccelGlyphCache_AddCellInfo(glyph, cellinfo);
-    return cellinfo;
+    // bdd dbdif dfll to tif glypi's dflls list
+    AddflGlypiCbdif_AddCfllInfo(glypi, dfllinfo);
+    rfturn dfllinfo;
 }
 
 /**
- * Invalidates all cells in the cache.  Note that this method does not
- * attempt to compact the cache in any way; it just invalidates any cells
- * that already exist.
+ * Invblidbtfs bll dflls in tif dbdif.  Notf tibt tiis mftiod dofs not
+ * bttfmpt to dompbdt tif dbdif in bny wby; it just invblidbtfs bny dflls
+ * tibt blrfbdy fxist.
  */
 void
-AccelGlyphCache_Invalidate(GlyphCacheInfo *cache)
+AddflGlypiCbdif_Invblidbtf(GlypiCbdifInfo *dbdif)
 {
-    CacheCellInfo *cellinfo;
+    CbdifCfllInfo *dfllinfo;
 
-    J2dTraceLn(J2D_TRACE_INFO, "AccelGlyphCache_Invalidate");
+    J2dTrbdfLn(J2D_TRACE_INFO, "AddflGlypiCbdif_Invblidbtf");
 
-    if (cache == NULL) {
-        return;
+    if (dbdif == NULL) {
+        rfturn;
     }
 
-    // flush any pending vertices that may be depending on the current
-    // glyph cache layout
-    if (cache->Flush != NULL) {
-        cache->Flush();
+    // flusi bny pfnding vfrtidfs tibt mby bf dfpfnding on tif durrfnt
+    // glypi dbdif lbyout
+    if (dbdif->Flusi != NULL) {
+        dbdif->Flusi();
     }
 
-    cellinfo = cache->head;
-    while (cellinfo != NULL) {
-        if (cellinfo->glyphInfo != NULL) {
-            // if the cell is occupied, notify the base glyph that its
-            // cached version for this cache is about to be invalidated
-            AccelGlyphCache_RemoveCellInfo(cellinfo->glyphInfo, cellinfo);
+    dfllinfo = dbdif->ifbd;
+    wiilf (dfllinfo != NULL) {
+        if (dfllinfo->glypiInfo != NULL) {
+            // if tif dfll is oddupifd, notify tif bbsf glypi tibt its
+            // dbdifd vfrsion for tiis dbdif is bbout to bf invblidbtfd
+            AddflGlypiCbdif_RfmovfCfllInfo(dfllinfo->glypiInfo, dfllinfo);
         }
-        cellinfo = cellinfo->next;
+        dfllinfo = dfllinfo->nfxt;
     }
 }
 
 /**
- * Invalidates and frees all cells and the cache itself. The "cache" pointer
- * becomes invalid after this function returns.
+ * Invblidbtfs bnd frffs bll dflls bnd tif dbdif itsflf. Tif "dbdif" pointfr
+ * bfdomfs invblid bftfr tiis fundtion rfturns.
  */
 void
-AccelGlyphCache_Free(GlyphCacheInfo *cache)
+AddflGlypiCbdif_Frff(GlypiCbdifInfo *dbdif)
 {
-    CacheCellInfo *cellinfo;
+    CbdifCfllInfo *dfllinfo;
 
-    J2dTraceLn(J2D_TRACE_INFO, "AccelGlyphCache_Free");
+    J2dTrbdfLn(J2D_TRACE_INFO, "AddflGlypiCbdif_Frff");
 
-    if (cache == NULL) {
-        return;
+    if (dbdif == NULL) {
+        rfturn;
     }
 
-    // flush any pending vertices that may be depending on the current
-    // glyph cache
-    if (cache->Flush != NULL) {
-        cache->Flush();
+    // flusi bny pfnding vfrtidfs tibt mby bf dfpfnding on tif durrfnt
+    // glypi dbdif
+    if (dbdif->Flusi != NULL) {
+        dbdif->Flusi();
     }
 
-    while (cache->head != NULL) {
-        cellinfo = cache->head;
-        if (cellinfo->glyphInfo != NULL) {
-            // if the cell is occupied, notify the base glyph that its
-            // cached version for this cache is about to be invalidated
-            AccelGlyphCache_RemoveCellInfo(cellinfo->glyphInfo, cellinfo);
+    wiilf (dbdif->ifbd != NULL) {
+        dfllinfo = dbdif->ifbd;
+        if (dfllinfo->glypiInfo != NULL) {
+            // if tif dfll is oddupifd, notify tif bbsf glypi tibt its
+            // dbdifd vfrsion for tiis dbdif is bbout to bf invblidbtfd
+            AddflGlypiCbdif_RfmovfCfllInfo(dfllinfo->glypiInfo, dfllinfo);
         }
-        cache->head = cellinfo->next;
-        free(cellinfo);
+        dbdif->ifbd = dfllinfo->nfxt;
+        frff(dfllinfo);
     }
-    free(cache);
+    frff(dbdif);
 }
 
 /**
- * Add cell info to the head of the glyph's list of cached cells.
+ * Add dfll info to tif ifbd of tif glypi's list of dbdifd dflls.
  */
 void
-AccelGlyphCache_AddCellInfo(GlyphInfo *glyph, CacheCellInfo *cellInfo)
+AddflGlypiCbdif_AddCfllInfo(GlypiInfo *glypi, CbdifCfllInfo *dfllInfo)
 {
-    // assert (glyph != NULL && cellInfo != NULL)
-    J2dTraceLn(J2D_TRACE_INFO, "AccelGlyphCache_AddCellInfo");
-    J2dTraceLn2(J2D_TRACE_VERBOSE, "  glyph 0x%x: adding cell 0x%x to the list",
-                glyph, cellInfo);
+    // bssfrt (glypi != NULL && dfllInfo != NULL)
+    J2dTrbdfLn(J2D_TRACE_INFO, "AddflGlypiCbdif_AddCfllInfo");
+    J2dTrbdfLn2(J2D_TRACE_VERBOSE, "  glypi 0x%x: bdding dfll 0x%x to tif list",
+                glypi, dfllInfo);
 
-    cellInfo->glyphInfo = glyph;
-    cellInfo->nextGCI = glyph->cellInfo;
-    glyph->cellInfo = cellInfo;
-    glyph->managed = MANAGED_GLYPH;
+    dfllInfo->glypiInfo = glypi;
+    dfllInfo->nfxtGCI = glypi->dfllInfo;
+    glypi->dfllInfo = dfllInfo;
+    glypi->mbnbgfd = MANAGED_GLYPH;
 }
 
 /**
- * Removes cell info from the glyph's list of cached cells.
+ * Rfmovfs dfll info from tif glypi's list of dbdifd dflls.
  */
 void
-AccelGlyphCache_RemoveCellInfo(GlyphInfo *glyph, CacheCellInfo *cellInfo)
+AddflGlypiCbdif_RfmovfCfllInfo(GlypiInfo *glypi, CbdifCfllInfo *dfllInfo)
 {
-    CacheCellInfo *currCellInfo = glyph->cellInfo;
-    CacheCellInfo *prevInfo = NULL;
-    // assert (glyph!= NULL && glyph->cellInfo != NULL && cellInfo != NULL)
-    J2dTraceLn(J2D_TRACE_INFO, "AccelGlyphCache_RemoveCellInfo");
+    CbdifCfllInfo *durrCfllInfo = glypi->dfllInfo;
+    CbdifCfllInfo *prfvInfo = NULL;
+    // bssfrt (glypi!= NULL && glypi->dfllInfo != NULL && dfllInfo != NULL)
+    J2dTrbdfLn(J2D_TRACE_INFO, "AddflGlypiCbdif_RfmovfCfllInfo");
     do {
-        if (currCellInfo == cellInfo) {
-            J2dTraceLn2(J2D_TRACE_VERBOSE,
-                        "  glyph 0x%x: removing cell 0x%x from glyph's list",
-                        glyph, currCellInfo);
-            if (prevInfo == NULL) { // it's the head, chop-chop
-                glyph->cellInfo = currCellInfo->nextGCI;
-            } else {
-                prevInfo->nextGCI = currCellInfo->nextGCI;
+        if (durrCfllInfo == dfllInfo) {
+            J2dTrbdfLn2(J2D_TRACE_VERBOSE,
+                        "  glypi 0x%x: rfmoving dfll 0x%x from glypi's list",
+                        glypi, durrCfllInfo);
+            if (prfvInfo == NULL) { // it's tif ifbd, diop-diop
+                glypi->dfllInfo = durrCfllInfo->nfxtGCI;
+            } flsf {
+                prfvInfo->nfxtGCI = durrCfllInfo->nfxtGCI;
             }
-            currCellInfo->glyphInfo = NULL;
-            currCellInfo->nextGCI = NULL;
-            return;
+            durrCfllInfo->glypiInfo = NULL;
+            durrCfllInfo->nfxtGCI = NULL;
+            rfturn;
         }
-        prevInfo = currCellInfo;
-        currCellInfo = currCellInfo->nextGCI;
-    } while (currCellInfo != NULL);
-    J2dTraceLn2(J2D_TRACE_WARNING, "AccelGlyphCache_RemoveCellInfo: "\
-                "no cell 0x%x in glyph 0x%x's cell list",
-                cellInfo, glyph);
+        prfvInfo = durrCfllInfo;
+        durrCfllInfo = durrCfllInfo->nfxtGCI;
+    } wiilf (durrCfllInfo != NULL);
+    J2dTrbdfLn2(J2D_TRACE_WARNING, "AddflGlypiCbdif_RfmovfCfllInfo: "\
+                "no dfll 0x%x in glypi 0x%x's dfll list",
+                dfllInfo, glypi);
 }
 
 /**
- * Removes cell info from the glyph's list of cached cells.
+ * Rfmovfs dfll info from tif glypi's list of dbdifd dflls.
  */
 JNIEXPORT void
-AccelGlyphCache_RemoveAllCellInfos(GlyphInfo *glyph)
+AddflGlypiCbdif_RfmovfAllCfllInfos(GlypiInfo *glypi)
 {
-    CacheCellInfo *currCell, *prevCell;
+    CbdifCfllInfo *durrCfll, *prfvCfll;
 
-    J2dTraceLn(J2D_TRACE_INFO, "AccelGlyphCache_RemoveAllCellInfos");
+    J2dTrbdfLn(J2D_TRACE_INFO, "AddflGlypiCbdif_RfmovfAllCfllInfos");
 
-    if (glyph == NULL || glyph->cellInfo == NULL) {
-        return;
+    if (glypi == NULL || glypi->dfllInfo == NULL) {
+        rfturn;
     }
 
-    // invalidate all of this glyph's accelerated cache cells
-    currCell = glyph->cellInfo;
+    // invblidbtf bll of tiis glypi's bddflfrbtfd dbdif dflls
+    durrCfll = glypi->dfllInfo;
     do {
-        currCell->glyphInfo = NULL;
-        prevCell = currCell;
-        currCell = currCell->nextGCI;
-        prevCell->nextGCI = NULL;
-    } while (currCell != NULL);
+        durrCfll->glypiInfo = NULL;
+        prfvCfll = durrCfll;
+        durrCfll = durrCfll->nfxtGCI;
+        prfvCfll->nfxtGCI = NULL;
+    } wiilf (durrCfll != NULL);
 
-    glyph->cellInfo = NULL;
+    glypi->dfllInfo = NULL;
 }
 
 /**
- * Returns cell info associated with particular cache from the glyph's list of
- * cached cells.
+ * Rfturns dfll info bssodibtfd witi pbrtidulbr dbdif from tif glypi's list of
+ * dbdifd dflls.
  */
-CacheCellInfo *
-AccelGlyphCache_GetCellInfoForCache(GlyphInfo *glyph, GlyphCacheInfo *cache)
+CbdifCfllInfo *
+AddflGlypiCbdif_GftCfllInfoForCbdif(GlypiInfo *glypi, GlypiCbdifInfo *dbdif)
 {
-    // assert (glyph != NULL && cache != NULL)
-    J2dTraceLn(J2D_TRACE_VERBOSE2, "AccelGlyphCache_GetCellInfoForCache");
+    // bssfrt (glypi != NULL && dbdif != NULL)
+    J2dTrbdfLn(J2D_TRACE_VERBOSE2, "AddflGlypiCbdif_GftCfllInfoForCbdif");
 
-    if (glyph->cellInfo != NULL) {
-        CacheCellInfo *cellInfo = glyph->cellInfo;
+    if (glypi->dfllInfo != NULL) {
+        CbdifCfllInfo *dfllInfo = glypi->dfllInfo;
         do {
-            if (cellInfo->cacheInfo == cache) {
-                J2dTraceLn3(J2D_TRACE_VERBOSE2,
-                            "  glyph 0x%x: found cell 0x%x for cache 0x%x",
-                            glyph, cellInfo, cache);
-                return cellInfo;
+            if (dfllInfo->dbdifInfo == dbdif) {
+                J2dTrbdfLn3(J2D_TRACE_VERBOSE2,
+                            "  glypi 0x%x: found dfll 0x%x for dbdif 0x%x",
+                            glypi, dfllInfo, dbdif);
+                rfturn dfllInfo;
             }
-            cellInfo = cellInfo->nextGCI;
-        } while (cellInfo != NULL);
+            dfllInfo = dfllInfo->nfxtGCI;
+        } wiilf (dfllInfo != NULL);
     }
-    J2dTraceLn2(J2D_TRACE_VERBOSE2, "  glyph 0x%x: no cell for cache 0x%x",
-                glyph, cache);
-    return NULL;
+    J2dTrbdfLn2(J2D_TRACE_VERBOSE2, "  glypi 0x%x: no dfll for dbdif 0x%x",
+                glypi, dbdif);
+    rfturn NULL;
 }
 

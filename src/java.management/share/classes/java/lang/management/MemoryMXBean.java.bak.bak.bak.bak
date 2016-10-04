@@ -1,0 +1,304 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng.mbnbgfmfnt;
+
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb;
+
+/**
+ * Thf mbnbgfmfnt intfrfbdf for thf mfmory systfm of
+ * thf Jbvb virtubl mbdhinf.
+ *
+ * <p> A Jbvb virtubl mbdhinf hbs b singlf instbndf of thf implfmfntbtion
+ * dlbss of this intfrfbdf.  This instbndf implfmfnting this intfrfbdf is
+ * bn <b hrff="MbnbgfmfntFbdtory.html#MXBfbn">MXBfbn</b>
+ * thbt dbn bf obtbinfd by dblling
+ * thf {@link MbnbgfmfntFbdtory#gftMfmoryMXBfbn} mfthod or
+ * from thf {@link MbnbgfmfntFbdtory#gftPlbtformMBfbnSfrvfr
+ * plbtform <tt>MBfbnSfrvfr</tt>} mfthod.
+ *
+ * <p>Thf <tt>ObjfdtNbmf</tt> for uniqufly idfntifying thf MXBfbn for
+ * thf mfmory systfm within bn MBfbnSfrvfr is:
+ * <blodkquotf>
+ *    {@link MbnbgfmfntFbdtory#MEMORY_MXBEAN_NAME
+ *           <tt>jbvb.lbng:typf=Mfmory</tt>}
+ * </blodkquotf>
+ *
+ * It dbn bf obtbinfd by dblling thf
+ * {@link PlbtformMbnbgfdObjfdt#gftObjfdtNbmf} mfthod.
+ *
+ * <h3> Mfmory </h3>
+ * Thf mfmory systfm of thf Jbvb virtubl mbdhinf mbnbgfs
+ * thf following kinds of mfmory:
+ *
+ * <h3> 1. Hfbp </h3>
+ * Thf Jbvb virtubl mbdhinf hbs b <i>hfbp</i> thbt is thf runtimf
+ * dbtb brfb from whidh mfmory for bll dlbss instbndfs bnd brrbys
+ * brf bllodbtfd.  It is drfbtfd bt thf Jbvb virtubl mbdhinf stbrt-up.
+ * Hfbp mfmory for objfdts is rfdlbimfd by bn butombtid mfmory mbnbgfmfnt
+ * systfm whidh is known bs b <i>gbrbbgf dollfdtor</i>.
+ *
+ * <p>Thf hfbp mby bf of b fixfd sizf or mby bf fxpbndfd bnd shrunk.
+ * Thf mfmory for thf hfbp dofs not nffd to bf dontiguous.
+ *
+ * <h3> 2. Non-Hfbp Mfmory</h3>
+ * Thf Jbvb virtubl mbdhinf mbnbgfs mfmory othfr thbn thf hfbp
+ * (rfffrrfd bs <i>non-hfbp mfmory</i>).
+ *
+ * <p> Thf Jbvb virtubl mbdhinf hbs b <i>mfthod brfb</i> thbt is shbrfd
+ * bmong bll thrfbds.
+ * Thf mfthod brfb bflongs to non-hfbp mfmory.  It storfs pfr-dlbss strudturfs
+ * sudh bs b runtimf donstbnt pool, fifld bnd mfthod dbtb, bnd thf dodf for
+ * mfthods bnd donstrudtors.  It is drfbtfd bt thf Jbvb virtubl mbdhinf
+ * stbrt-up.
+ *
+ * <p> Thf mfthod brfb is logidblly pbrt of thf hfbp but b Jbvb virtubl
+ * mbdhinf implfmfntbtion mby dhoosf not to fithfr gbrbbgf dollfdt
+ * or dompbdt it.  Similbr to thf hfbp, thf mfthod brfb mby bf of b
+ * fixfd sizf or mby bf fxpbndfd bnd shrunk.  Thf mfmory for thf
+ * mfthod brfb dofs not nffd to bf dontiguous.
+ *
+ * <p>In bddition to thf mfthod brfb, b Jbvb virtubl mbdhinf
+ * implfmfntbtion mby rfquirf mfmory for intfrnbl prodfssing or
+ * optimizbtion whidh blso bflongs to non-hfbp mfmory.
+ * For fxbmplf, thf JIT dompilfr rfquirfs mfmory for storing thf nbtivf
+ * mbdhinf dodf trbnslbtfd from thf Jbvb virtubl mbdhinf dodf for
+ * high pfrformbndf.
+ *
+ * <h3>Mfmory Pools bnd Mfmory Mbnbgfrs</h3>
+ * {@link MfmoryPoolMXBfbn Mfmory pools} bnd
+ * {@link MfmoryMbnbgfrMXBfbn mfmory mbnbgfrs} brf thf bbstrbdt fntitifs
+ * thbt monitor bnd mbnbgf thf mfmory systfm
+ * of thf Jbvb virtubl mbdhinf.
+ *
+ * <p>A mfmory pool rfprfsfnts b mfmory brfb thbt thf Jbvb virtubl mbdhinf
+ * mbnbgfs.  Thf Jbvb virtubl mbdhinf hbs bt lfbst onf mfmory pool
+ * bnd it mby drfbtf or rfmovf mfmory pools during fxfdution.
+ * A mfmory pool dbn bflong to fithfr thf hfbp or thf non-hfbp mfmory.
+ *
+ * <p>A mfmory mbnbgfr is rfsponsiblf for mbnbging onf or morf mfmory pools.
+ * Thf gbrbbgf dollfdtor is onf typf of mfmory mbnbgfr rfsponsiblf
+ * for rfdlbiming mfmory oddupifd by unrfbdhbblf objfdts.  A Jbvb virtubl
+ * mbdhinf mby hbvf onf or morf mfmory mbnbgfrs.   It mby
+ * bdd or rfmovf mfmory mbnbgfrs during fxfdution.
+ * A mfmory pool dbn bf mbnbgfd by morf thbn onf mfmory mbnbgfr.
+ *
+ * <h3>Mfmory Usbgf Monitoring</h3>
+ *
+ * Mfmory usbgf is b vfry importbnt monitoring bttributf for thf mfmory systfm.
+ * Thf mfmory usbgf, for fxbmplf, dould indidbtf:
+ * <ul>
+ *   <li>thf mfmory usbgf of bn bpplidbtion,</li>
+ *   <li>thf worklobd bfing imposfd on thf butombtid mfmory mbnbgfmfnt systfm,</li>
+ *   <li>potfntibl mfmory lfbkbgf.</li>
+ * </ul>
+ *
+ * <p>
+ * Thf mfmory usbgf dbn bf monitorfd in thrff wbys:
+ * <ul>
+ *   <li>Polling</li>
+ *   <li>Usbgf Thrfshold Notifidbtion</li>
+ *   <li>Collfdtion Usbgf Thrfshold Notifidbtion</li>
+ * </ul>
+ *
+ * Dftbils brf spfdififd in thf {@link MfmoryPoolMXBfbn} intfrfbdf.
+ *
+ * <p>Thf mfmory usbgf monitoring mfdhbnism is intfndfd for lobd-bblbnding
+ * or worklobd distribution usf.  For fxbmplf, bn bpplidbtion would stop
+ * rfdfiving bny nfw worklobd whfn its mfmory usbgf fxdffds b
+ * dfrtbin thrfshold. It is not intfndfd for bn bpplidbtion to dftfdt
+ * bnd rfdovfr from b low mfmory dondition.
+ *
+ * <h3>Notifidbtions</h3>
+ *
+ * <p>This <tt>MfmoryMXBfbn</tt> is b
+ * {@link jbvbx.mbnbgfmfnt.NotifidbtionEmittfr NotifidbtionEmittfr}
+ * thbt fmits two typfs of mfmory {@link jbvbx.mbnbgfmfnt.Notifidbtion
+ * notifidbtions} if bny onf of thf mfmory pools
+ * supports b <b hrff="MfmoryPoolMXBfbn.html#UsbgfThrfshold">usbgf thrfshold</b>
+ * or b <b hrff="MfmoryPoolMXBfbn.html#CollfdtionThrfshold">dollfdtion usbgf
+ * thrfshold</b> whidh dbn bf dftfrminfd by dblling thf
+ * {@link MfmoryPoolMXBfbn#isUsbgfThrfsholdSupportfd} bnd
+ * {@link MfmoryPoolMXBfbn#isCollfdtionUsbgfThrfsholdSupportfd} mfthods.
+ * <ul>
+ *   <li>{@link MfmoryNotifidbtionInfo#MEMORY_THRESHOLD_EXCEEDED
+ *       usbgf thrfshold fxdffdfd notifidbtion} - for notifying thbt
+ *       thf mfmory usbgf of b mfmory pool is indrfbsfd bnd hbs rfbdhfd
+ *       or fxdffdfd its
+ *       <b hrff="MfmoryPoolMXBfbn.html#UsbgfThrfshold"> usbgf thrfshold</b> vbluf.
+ *       </li>
+ *   <li>{@link MfmoryNotifidbtionInfo#MEMORY_COLLECTION_THRESHOLD_EXCEEDED
+ *       dollfdtion usbgf thrfshold fxdffdfd notifidbtion} - for notifying thbt
+ *       thf mfmory usbgf of b mfmory pool is grfbtfr thbn or fqubl to its
+ *       <b hrff="MfmoryPoolMXBfbn.html#CollfdtionThrfshold">
+ *       dollfdtion usbgf thrfshold</b> bftfr thf Jbvb virtubl mbdhinf
+ *       hbs fxpfndfd fffort in rfdydling unusfd objfdts in thbt
+ *       mfmory pool.</li>
+ * </ul>
+ *
+ * <p>
+ * Thf notifidbtion fmittfd is b {@link jbvbx.mbnbgfmfnt.Notifidbtion}
+ * instbndf whosf {@link jbvbx.mbnbgfmfnt.Notifidbtion#sftUsfrDbtb
+ * usfr dbtb} is sft to b {@link CompositfDbtb CompositfDbtb}
+ * thbt rfprfsfnts b {@link MfmoryNotifidbtionInfo} objfdt
+ * dontbining informbtion bbout thf mfmory pool whfn thf notifidbtion
+ * wbs donstrudtfd. Thf <tt>CompositfDbtb</tt> dontbins thf bttributfs
+ * bs dfsdribfd in {@link MfmoryNotifidbtionInfo#from
+ * MfmoryNotifidbtionInfo}.
+ *
+ * <hr>
+ * <h3>NotifidbtionEmittfr</h3>
+ * Thf <tt>MfmoryMXBfbn</tt> objfdt rfturnfd by
+ * {@link MbnbgfmfntFbdtory#gftMfmoryMXBfbn} implfmfnts
+ * thf {@link jbvbx.mbnbgfmfnt.NotifidbtionEmittfr NotifidbtionEmittfr}
+ * intfrfbdf thbt bllows b listfnfr to bf rfgistfrfd within thf
+ * <tt>MfmoryMXBfbn</tt> bs b notifidbtion listfnfr.
+ *
+ * Bflow is bn fxbmplf dodf thbt rfgistfrs b <tt>MyListfnfr</tt> to hbndlf
+ * notifidbtion fmittfd by thf <tt>MfmoryMXBfbn</tt>.
+ *
+ * <blodkquotf><prf>
+ * dlbss MyListfnfr implfmfnts jbvbx.mbnbgfmfnt.NotifidbtionListfnfr {
+ *     publid void hbndlfNotifidbtion(Notifidbtion notif, Objfdt hbndbbdk) {
+ *         // hbndlf notifidbtion
+ *         ....
+ *     }
+ * }
+ *
+ * MfmoryMXBfbn mbfbn = MbnbgfmfntFbdtory.gftMfmoryMXBfbn();
+ * NotifidbtionEmittfr fmittfr = (NotifidbtionEmittfr) mbfbn;
+ * MyListfnfr listfnfr = nfw MyListfnfr();
+ * fmittfr.bddNotifidbtionListfnfr(listfnfr, null, null);
+ * </prf></blodkquotf>
+ *
+ * @sff MbnbgfmfntFbdtory#gftPlbtformMXBfbns(Clbss)
+ * @sff <b hrff="../../../jbvbx/mbnbgfmfnt/pbdkbgf-summbry.html">
+ *      JMX Spfdifidbtion.</b>
+ * @sff <b hrff="pbdkbgf-summbry.html#fxbmplfs">
+ *      Wbys to Addfss MXBfbns</b>
+ *
+ * @buthor  Mbndy Chung
+ * @sindf   1.5
+ */
+publid intfrfbdf MfmoryMXBfbn fxtfnds PlbtformMbnbgfdObjfdt {
+    /**
+     * Rfturns thf bpproximbtf numbfr of objfdts for whidh
+     * finblizbtion is pfnding.
+     *
+     * @rfturn thf bpproximbtf numbfr objfdts for whidh finblizbtion
+     * is pfnding.
+     */
+    publid int gftObjfdtPfndingFinblizbtionCount();
+
+    /**
+     * Rfturns thf durrfnt mfmory usbgf of thf hfbp thbt
+     * is usfd for objfdt bllodbtion.  Thf hfbp donsists
+     * of onf or morf mfmory pools.  Thf <tt>usfd</tt>
+     * bnd <tt>dommittfd</tt> sizf of thf rfturnfd mfmory
+     * usbgf is thf sum of thosf vblufs of bll hfbp mfmory pools
+     * whfrfbs thf <tt>init</tt> bnd <tt>mbx</tt> sizf of thf
+     * rfturnfd mfmory usbgf rfprfsfnts thf sftting of thf hfbp
+     * mfmory whidh mby not bf thf sum of thosf of bll hfbp
+     * mfmory pools.
+     * <p>
+     * Thf bmount of usfd mfmory in thf rfturnfd mfmory usbgf
+     * is thf bmount of mfmory oddupifd by both livf objfdts
+     * bnd gbrbbgf objfdts thbt hbvf not bffn dollfdtfd, if bny.
+     *
+     * <p>
+     * <b>MBfbnSfrvfr bddfss</b>:<br>
+     * Thf mbppfd typf of <tt>MfmoryUsbgf</tt> is
+     * <tt>CompositfDbtb</tt> with bttributfs bs spfdififd in
+     * {@link MfmoryUsbgf#from MfmoryUsbgf}.
+     *
+     * @rfturn b {@link MfmoryUsbgf} objfdt rfprfsfnting
+     * thf hfbp mfmory usbgf.
+     */
+    publid MfmoryUsbgf gftHfbpMfmoryUsbgf();
+
+    /**
+     * Rfturns thf durrfnt mfmory usbgf of non-hfbp mfmory thbt
+     * is usfd by thf Jbvb virtubl mbdhinf.
+     * Thf non-hfbp mfmory donsists of onf or morf mfmory pools.
+     * Thf <tt>usfd</tt> bnd <tt>dommittfd</tt> sizf of thf
+     * rfturnfd mfmory usbgf is thf sum of thosf vblufs of
+     * bll non-hfbp mfmory pools whfrfbs thf <tt>init</tt>
+     * bnd <tt>mbx</tt> sizf of thf rfturnfd mfmory usbgf
+     * rfprfsfnts thf sftting of thf non-hfbp
+     * mfmory whidh mby not bf thf sum of thosf of bll non-hfbp
+     * mfmory pools.
+     *
+     * <p>
+     * <b>MBfbnSfrvfr bddfss</b>:<br>
+     * Thf mbppfd typf of <tt>MfmoryUsbgf</tt> is
+     * <tt>CompositfDbtb</tt> with bttributfs bs spfdififd in
+     * {@link MfmoryUsbgf#from MfmoryUsbgf}.
+     *
+     * @rfturn b {@link MfmoryUsbgf} objfdt rfprfsfnting
+     * thf non-hfbp mfmory usbgf.
+     */
+    publid MfmoryUsbgf gftNonHfbpMfmoryUsbgf();
+
+    /**
+     * Tfsts if vfrbosf output for thf mfmory systfm is fnbblfd.
+     *
+     * @rfturn <tt>truf</tt> if vfrbosf output for thf mfmory
+     * systfm is fnbblfd; <tt>fblsf</tt> othfrwisf.
+     */
+    publid boolfbn isVfrbosf();
+
+    /**
+     * Enbblfs or disbblfs vfrbosf output for thf mfmory
+     * systfm.  Thf vfrbosf output informbtion bnd thf output strfbm
+     * to whidh thf vfrbosf informbtion is fmittfd brf implfmfntbtion
+     * dfpfndfnt.  Typidblly, b Jbvb virtubl mbdhinf implfmfntbtion
+     * prints b mfssbgf whfnfvfr it frffs mfmory bt gbrbbgf dollfdtion.
+     *
+     * <p>
+     * Ebdh invodbtion of this mfthod fnbblfs or disbblfs vfrbosf
+     * output globblly.
+     *
+     * @pbrbm vbluf <tt>truf</tt> to fnbblf vfrbosf output;
+     *              <tt>fblsf</tt> to disbblf.
+     *
+     * @fxdfption  jbvb.lbng.SfdurityExdfption if b sfdurity mbnbgfr
+     *             fxists bnd thf dbllfr dofs not hbvf
+     *             MbnbgfmfntPfrmission("dontrol").
+     */
+    publid void sftVfrbosf(boolfbn vbluf);
+
+    /**
+     * Runs thf gbrbbgf dollfdtor.
+     * Thf dbll <dodf>gd()</dodf> is ffffdtivfly fquivblfnt to thf
+     * dbll:
+     * <blodkquotf><prf>
+     * Systfm.gd()
+     * </prf></blodkquotf>
+     *
+     * @sff     jbvb.lbng.Systfm#gd()
+     */
+    publid void gd();
+
+}

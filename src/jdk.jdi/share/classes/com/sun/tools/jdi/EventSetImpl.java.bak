@@ -1,879 +1,879 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.tools.jdi;
+pbdkbgf dom.sun.tools.jdi;
 
-import com.sun.jdi.*;
-import com.sun.jdi.event.*;
-import com.sun.jdi.request.*;
+import dom.sun.jdi.*;
+import dom.sun.jdi.fvfnt.*;
+import dom.sun.jdi.rfqufst.*;
 
-import java.util.*;
-enum EventDestination {UNKNOWN_EVENT, INTERNAL_EVENT, CLIENT_EVENT};
+import jbvb.util.*;
+fnum EvfntDfstinbtion {UNKNOWN_EVENT, INTERNAL_EVENT, CLIENT_EVENT};
 
 /*
- * An EventSet is normally created by the transport reader thread when
- * it reads a JDWP Composite command.  The constructor doesn't unpack
- * the events contained in the Composite command and create EventImpls
- * for them because that process might involve calling back into the back-end
- * which should not be done by the transport reader thread.  Instead,
- * the raw bytes of the packet are read and stored in the EventSet.
- * The EventSet is then added to each EventQueue. When an EventSet is
- * removed from an EventQueue, the EventSetImpl.build() method is called.
- * This method reads the packet bytes and creates the actual EventImpl objects.
- * build() also filters out events for our internal handler and puts them in
- * their own EventSet.  This means that the EventImpls that are in the EventSet
- * that is on the queues are all for client requests.
+ * An EvfntSft is normblly drfbtfd by tif trbnsport rfbdfr tirfbd wifn
+ * it rfbds b JDWP Compositf dommbnd.  Tif donstrudtor dofsn't unpbdk
+ * tif fvfnts dontbinfd in tif Compositf dommbnd bnd drfbtf EvfntImpls
+ * for tifm bfdbusf tibt prodfss migit involvf dblling bbdk into tif bbdk-fnd
+ * wiidi siould not bf donf by tif trbnsport rfbdfr tirfbd.  Instfbd,
+ * tif rbw bytfs of tif pbdkft brf rfbd bnd storfd in tif EvfntSft.
+ * Tif EvfntSft is tifn bddfd to fbdi EvfntQufuf. Wifn bn EvfntSft is
+ * rfmovfd from bn EvfntQufuf, tif EvfntSftImpl.build() mftiod is dbllfd.
+ * Tiis mftiod rfbds tif pbdkft bytfs bnd drfbtfs tif bdtubl EvfntImpl objfdts.
+ * build() blso filtfrs out fvfnts for our intfrnbl ibndlfr bnd puts tifm in
+ * tifir own EvfntSft.  Tiis mfbns tibt tif EvfntImpls tibt brf in tif EvfntSft
+ * tibt is on tif qufufs brf bll for dlifnt rfqufsts.
  */
-public class EventSetImpl extends ArrayList<Event> implements EventSet {
-    private static final long serialVersionUID = -4857338819787924570L;
-    private VirtualMachineImpl vm; // we implement Mirror
-    private Packet pkt;
-    private byte suspendPolicy;
-    private EventSetImpl internalEventSet;
+publid dlbss EvfntSftImpl fxtfnds ArrbyList<Evfnt> implfmfnts EvfntSft {
+    privbtf stbtid finbl long sfriblVfrsionUID = -4857338819787924570L;
+    privbtf VirtublMbdiinfImpl vm; // wf implfmfnt Mirror
+    privbtf Pbdkft pkt;
+    privbtf bytf suspfndPolidy;
+    privbtf EvfntSftImpl intfrnblEvfntSft;
 
-    public String toString() {
-        String string = "event set, policy:" + suspendPolicy +
-                        ", count:" + this.size() + " = {";
-        boolean first = true;
-        for (Event event : this) {
+    publid String toString() {
+        String string = "fvfnt sft, polidy:" + suspfndPolidy +
+                        ", dount:" + tiis.sizf() + " = {";
+        boolfbn first = truf;
+        for (Evfnt fvfnt : tiis) {
             if (!first) {
                 string += ", ";
             }
-            string += event.toString();
-            first = false;
+            string += fvfnt.toString();
+            first = fblsf;
         }
         string += "}";
-        return string;
+        rfturn string;
     }
 
-    abstract class EventImpl extends MirrorImpl implements Event {
+    bbstrbdt dlbss EvfntImpl fxtfnds MirrorImpl implfmfnts Evfnt {
 
-        private final byte eventCmd;
-        private final int requestID;
-        // This is set only for client requests, not internal requests.
-        private final EventRequest request;
+        privbtf finbl bytf fvfntCmd;
+        privbtf finbl int rfqufstID;
+        // Tiis is sft only for dlifnt rfqufsts, not intfrnbl rfqufsts.
+        privbtf finbl EvfntRfqufst rfqufst;
 
         /**
-         * Constructor for events.
+         * Construdtor for fvfnts.
          */
-        protected EventImpl(JDWP.Event.Composite.Events.EventsCommon evt,
-                            int requestID) {
-            super(EventSetImpl.this.vm);
-            this.eventCmd = evt.eventKind();
-            this.requestID = requestID;
-            EventRequestManagerImpl ermi = EventSetImpl.this.
-                vm.eventRequestManagerImpl();
-            this.request =  ermi.request(eventCmd, requestID);
+        protfdtfd EvfntImpl(JDWP.Evfnt.Compositf.Evfnts.EvfntsCommon fvt,
+                            int rfqufstID) {
+            supfr(EvfntSftImpl.tiis.vm);
+            tiis.fvfntCmd = fvt.fvfntKind();
+            tiis.rfqufstID = rfqufstID;
+            EvfntRfqufstMbnbgfrImpl frmi = EvfntSftImpl.tiis.
+                vm.fvfntRfqufstMbnbgfrImpl();
+            tiis.rfqufst =  frmi.rfqufst(fvfntCmd, rfqufstID);
         }
 
         /*
-         * Override superclass back to default equality
+         * Ovfrridf supfrdlbss bbdk to dffbult fqublity
          */
-        public boolean equals(Object obj) {
-            return this == obj;
+        publid boolfbn fqubls(Objfdt obj) {
+            rfturn tiis == obj;
         }
 
-        public int hashCode() {
-            return System.identityHashCode(this);
+        publid int ibsiCodf() {
+            rfturn Systfm.idfntityHbsiCodf(tiis);
         }
 
         /**
-         * Constructor for VM disconnected events.
+         * Construdtor for VM disdonnfdtfd fvfnts.
          */
-        protected EventImpl(byte eventCmd) {
-            super(EventSetImpl.this.vm);
-            this.eventCmd = eventCmd;
-            this.requestID = 0;
-            this.request = null;
+        protfdtfd EvfntImpl(bytf fvfntCmd) {
+            supfr(EvfntSftImpl.tiis.vm);
+            tiis.fvfntCmd = fvfntCmd;
+            tiis.rfqufstID = 0;
+            tiis.rfqufst = null;
         }
 
-        public EventRequest request() {
-            return request;
+        publid EvfntRfqufst rfqufst() {
+            rfturn rfqufst;
         }
 
-        int requestID() {
-            return requestID;
+        int rfqufstID() {
+            rfturn rfqufstID;
         }
 
-        EventDestination destination() {
+        EvfntDfstinbtion dfstinbtion() {
             /*
-             * We need to decide if this event is for
-             * 1. an internal request
-             * 2. a client request that is no longer available, ie
-             *    it has been deleted, or disabled and re-enabled
-             *    which gives it a new ID.
-             * 3. a current client request that is disabled
-             * 4. a current enabled client request.
+             * Wf nffd to dfdidf if tiis fvfnt is for
+             * 1. bn intfrnbl rfqufst
+             * 2. b dlifnt rfqufst tibt is no longfr bvbilbblf, if
+             *    it ibs bffn dflftfd, or disbblfd bnd rf-fnbblfd
+             *    wiidi givfs it b nfw ID.
+             * 3. b durrfnt dlifnt rfqufst tibt is disbblfd
+             * 4. b durrfnt fnbblfd dlifnt rfqufst.
              *
-             * We will filter this set into a set
-             * that contains only 1s for our internal queue
-             * and a set that contains only 4s for our client queue.
-             * If we get an EventSet that contains only 2 and 3
-             * then we have to resume it if it is not SUSPEND_NONE
-             * because no one else will.
+             * Wf will filtfr tiis sft into b sft
+             * tibt dontbins only 1s for our intfrnbl qufuf
+             * bnd b sft tibt dontbins only 4s for our dlifnt qufuf.
+             * If wf gft bn EvfntSft tibt dontbins only 2 bnd 3
+             * tifn wf ibvf to rfsumf it if it is not SUSPEND_NONE
+             * bfdbusf no onf flsf will.
              */
-            if (requestID == 0) {
-                /* An unsolicited event.  These have traditionally
-                 * been treated as client events.
+            if (rfqufstID == 0) {
+                /* An unsoliditfd fvfnt.  Tifsf ibvf trbditionblly
+                 * bffn trfbtfd bs dlifnt fvfnts.
                  */
-                return EventDestination.CLIENT_EVENT;
+                rfturn EvfntDfstinbtion.CLIENT_EVENT;
             }
 
-            // Is this an event for a current client request?
-            if (request == null) {
-                // Nope.  Is it an event for an internal request?
-                EventRequestManagerImpl ermi = this.vm.getInternalEventRequestManager();
-                if (ermi.request(eventCmd, requestID) != null) {
-                    // Yep
-                    return EventDestination.INTERNAL_EVENT;
+            // Is tiis bn fvfnt for b durrfnt dlifnt rfqufst?
+            if (rfqufst == null) {
+                // Nopf.  Is it bn fvfnt for bn intfrnbl rfqufst?
+                EvfntRfqufstMbnbgfrImpl frmi = tiis.vm.gftIntfrnblEvfntRfqufstMbnbgfr();
+                if (frmi.rfqufst(fvfntCmd, rfqufstID) != null) {
+                    // Yfp
+                    rfturn EvfntDfstinbtion.INTERNAL_EVENT;
                 }
-                return EventDestination.UNKNOWN_EVENT;
+                rfturn EvfntDfstinbtion.UNKNOWN_EVENT;
             }
 
-            // We found a client request
-            if (request.isEnabled()) {
-                return EventDestination.CLIENT_EVENT;
+            // Wf found b dlifnt rfqufst
+            if (rfqufst.isEnbblfd()) {
+                rfturn EvfntDfstinbtion.CLIENT_EVENT;
             }
-            return EventDestination.UNKNOWN_EVENT;
+            rfturn EvfntDfstinbtion.UNKNOWN_EVENT;
         }
 
-        abstract String eventName();
+        bbstrbdt String fvfntNbmf();
 
-        public String toString() {
-            return eventName();
+        publid String toString() {
+            rfturn fvfntNbmf();
         }
 
     }
 
-    abstract class ThreadedEventImpl extends EventImpl {
-        private ThreadReference thread;
+    bbstrbdt dlbss TirfbdfdEvfntImpl fxtfnds EvfntImpl {
+        privbtf TirfbdRfffrfndf tirfbd;
 
-        ThreadedEventImpl(JDWP.Event.Composite.Events.EventsCommon evt,
-                          int requestID, ThreadReference thread) {
-            super(evt, requestID);
-            this.thread = thread;
+        TirfbdfdEvfntImpl(JDWP.Evfnt.Compositf.Evfnts.EvfntsCommon fvt,
+                          int rfqufstID, TirfbdRfffrfndf tirfbd) {
+            supfr(fvt, rfqufstID);
+            tiis.tirfbd = tirfbd;
         }
 
-        public ThreadReference thread() {
-            return thread;
+        publid TirfbdRfffrfndf tirfbd() {
+            rfturn tirfbd;
         }
 
-        public String toString() {
-            return eventName() + " in thread " + thread.name();
+        publid String toString() {
+            rfturn fvfntNbmf() + " in tirfbd " + tirfbd.nbmf();
         }
     }
 
-    abstract class LocatableEventImpl extends ThreadedEventImpl
-                                            implements Locatable {
-        private Location location;
+    bbstrbdt dlbss LodbtbblfEvfntImpl fxtfnds TirfbdfdEvfntImpl
+                                            implfmfnts Lodbtbblf {
+        privbtf Lodbtion lodbtion;
 
-        LocatableEventImpl(JDWP.Event.Composite.Events.EventsCommon evt,
-                           int requestID,
-                           ThreadReference thread, Location location) {
-            super(evt, requestID, thread);
-            this.location = location;
+        LodbtbblfEvfntImpl(JDWP.Evfnt.Compositf.Evfnts.EvfntsCommon fvt,
+                           int rfqufstID,
+                           TirfbdRfffrfndf tirfbd, Lodbtion lodbtion) {
+            supfr(fvt, rfqufstID, tirfbd);
+            tiis.lodbtion = lodbtion;
         }
 
-        public Location location() {
-            return location;
+        publid Lodbtion lodbtion() {
+            rfturn lodbtion;
         }
 
         /**
-         * For MethodEntry and MethodExit
+         * For MftiodEntry bnd MftiodExit
          */
-        public Method method() {
-            return location.method();
+        publid Mftiod mftiod() {
+            rfturn lodbtion.mftiod();
         }
 
-        public String toString() {
-            return eventName() + "@" +
-                   ((location() == null) ? " null" : location().toString()) +
-                   " in thread " + thread().name();
-        }
-    }
-
-    class BreakpointEventImpl extends LocatableEventImpl
-                            implements BreakpointEvent {
-        BreakpointEventImpl(JDWP.Event.Composite.Events.Breakpoint evt) {
-            super(evt, evt.requestID, evt.thread, evt.location);
-        }
-
-        String eventName() {
-            return "BreakpointEvent";
+        publid String toString() {
+            rfturn fvfntNbmf() + "@" +
+                   ((lodbtion() == null) ? " null" : lodbtion().toString()) +
+                   " in tirfbd " + tirfbd().nbmf();
         }
     }
 
-    class StepEventImpl extends LocatableEventImpl implements StepEvent {
-        StepEventImpl(JDWP.Event.Composite.Events.SingleStep evt) {
-            super(evt, evt.requestID, evt.thread, evt.location);
+    dlbss BrfbkpointEvfntImpl fxtfnds LodbtbblfEvfntImpl
+                            implfmfnts BrfbkpointEvfnt {
+        BrfbkpointEvfntImpl(JDWP.Evfnt.Compositf.Evfnts.Brfbkpoint fvt) {
+            supfr(fvt, fvt.rfqufstID, fvt.tirfbd, fvt.lodbtion);
         }
 
-        String eventName() {
-            return "StepEvent";
-        }
-    }
-
-    class MethodEntryEventImpl extends LocatableEventImpl
-                            implements MethodEntryEvent {
-        MethodEntryEventImpl(JDWP.Event.Composite.Events.MethodEntry evt) {
-            super(evt, evt.requestID, evt.thread, evt.location);
-        }
-
-        String eventName() {
-            return "MethodEntryEvent";
+        String fvfntNbmf() {
+            rfturn "BrfbkpointEvfnt";
         }
     }
 
-    class MethodExitEventImpl extends LocatableEventImpl
-                            implements MethodExitEvent {
-        private Value returnVal = null;
-
-        MethodExitEventImpl(JDWP.Event.Composite.Events.MethodExit evt) {
-            super(evt, evt.requestID, evt.thread, evt.location);
+    dlbss StfpEvfntImpl fxtfnds LodbtbblfEvfntImpl implfmfnts StfpEvfnt {
+        StfpEvfntImpl(JDWP.Evfnt.Compositf.Evfnts.SinglfStfp fvt) {
+            supfr(fvt, fvt.rfqufstID, fvt.tirfbd, fvt.lodbtion);
         }
 
-        MethodExitEventImpl(JDWP.Event.Composite.Events.MethodExitWithReturnValue evt) {
-            super(evt, evt.requestID, evt.thread, evt.location);
-            returnVal = evt.value;
+        String fvfntNbmf() {
+            rfturn "StfpEvfnt";
+        }
+    }
+
+    dlbss MftiodEntryEvfntImpl fxtfnds LodbtbblfEvfntImpl
+                            implfmfnts MftiodEntryEvfnt {
+        MftiodEntryEvfntImpl(JDWP.Evfnt.Compositf.Evfnts.MftiodEntry fvt) {
+            supfr(fvt, fvt.rfqufstID, fvt.tirfbd, fvt.lodbtion);
         }
 
-        String eventName() {
-            return "MethodExitEvent";
+        String fvfntNbmf() {
+            rfturn "MftiodEntryEvfnt";
+        }
+    }
+
+    dlbss MftiodExitEvfntImpl fxtfnds LodbtbblfEvfntImpl
+                            implfmfnts MftiodExitEvfnt {
+        privbtf Vbluf rfturnVbl = null;
+
+        MftiodExitEvfntImpl(JDWP.Evfnt.Compositf.Evfnts.MftiodExit fvt) {
+            supfr(fvt, fvt.rfqufstID, fvt.tirfbd, fvt.lodbtion);
         }
 
-        public Value returnValue() {
-            if (!this.vm.canGetMethodReturnValues()) {
-                throw new UnsupportedOperationException(
-                "target does not support return values in MethodExit events");
+        MftiodExitEvfntImpl(JDWP.Evfnt.Compositf.Evfnts.MftiodExitWitiRfturnVbluf fvt) {
+            supfr(fvt, fvt.rfqufstID, fvt.tirfbd, fvt.lodbtion);
+            rfturnVbl = fvt.vbluf;
+        }
+
+        String fvfntNbmf() {
+            rfturn "MftiodExitEvfnt";
+        }
+
+        publid Vbluf rfturnVbluf() {
+            if (!tiis.vm.dbnGftMftiodRfturnVblufs()) {
+                tirow nfw UnsupportfdOpfrbtionExdfption(
+                "tbrgft dofs not support rfturn vblufs in MftiodExit fvfnts");
             }
-            return returnVal;
+            rfturn rfturnVbl;
         }
 
     }
 
-    class MonitorContendedEnterEventImpl extends LocatableEventImpl
-                            implements MonitorContendedEnterEvent {
-        private ObjectReference monitor = null;
+    dlbss MonitorContfndfdEntfrEvfntImpl fxtfnds LodbtbblfEvfntImpl
+                            implfmfnts MonitorContfndfdEntfrEvfnt {
+        privbtf ObjfdtRfffrfndf monitor = null;
 
-        MonitorContendedEnterEventImpl(JDWP.Event.Composite.Events.MonitorContendedEnter evt) {
-            super(evt, evt.requestID, evt.thread, evt.location);
-            this.monitor = evt.object;
+        MonitorContfndfdEntfrEvfntImpl(JDWP.Evfnt.Compositf.Evfnts.MonitorContfndfdEntfr fvt) {
+            supfr(fvt, fvt.rfqufstID, fvt.tirfbd, fvt.lodbtion);
+            tiis.monitor = fvt.objfdt;
         }
 
-        String eventName() {
-            return "MonitorContendedEnter";
+        String fvfntNbmf() {
+            rfturn "MonitorContfndfdEntfr";
         }
 
-        public ObjectReference  monitor() {
-            return monitor;
+        publid ObjfdtRfffrfndf  monitor() {
+            rfturn monitor;
         };
 
     }
 
-    class MonitorContendedEnteredEventImpl extends LocatableEventImpl
-                            implements MonitorContendedEnteredEvent {
-        private ObjectReference monitor = null;
+    dlbss MonitorContfndfdEntfrfdEvfntImpl fxtfnds LodbtbblfEvfntImpl
+                            implfmfnts MonitorContfndfdEntfrfdEvfnt {
+        privbtf ObjfdtRfffrfndf monitor = null;
 
-        MonitorContendedEnteredEventImpl(JDWP.Event.Composite.Events.MonitorContendedEntered evt) {
-            super(evt, evt.requestID, evt.thread, evt.location);
-            this.monitor = evt.object;
+        MonitorContfndfdEntfrfdEvfntImpl(JDWP.Evfnt.Compositf.Evfnts.MonitorContfndfdEntfrfd fvt) {
+            supfr(fvt, fvt.rfqufstID, fvt.tirfbd, fvt.lodbtion);
+            tiis.monitor = fvt.objfdt;
         }
 
-        String eventName() {
-            return "MonitorContendedEntered";
+        String fvfntNbmf() {
+            rfturn "MonitorContfndfdEntfrfd";
         }
 
-        public ObjectReference  monitor() {
-            return monitor;
+        publid ObjfdtRfffrfndf  monitor() {
+            rfturn monitor;
         };
 
     }
 
-    class MonitorWaitEventImpl extends LocatableEventImpl
-                            implements MonitorWaitEvent {
-        private ObjectReference monitor = null;
-        private long timeout;
+    dlbss MonitorWbitEvfntImpl fxtfnds LodbtbblfEvfntImpl
+                            implfmfnts MonitorWbitEvfnt {
+        privbtf ObjfdtRfffrfndf monitor = null;
+        privbtf long timfout;
 
-        MonitorWaitEventImpl(JDWP.Event.Composite.Events.MonitorWait evt) {
-            super(evt, evt.requestID, evt.thread, evt.location);
-            this.monitor = evt.object;
-            this.timeout = evt.timeout;
+        MonitorWbitEvfntImpl(JDWP.Evfnt.Compositf.Evfnts.MonitorWbit fvt) {
+            supfr(fvt, fvt.rfqufstID, fvt.tirfbd, fvt.lodbtion);
+            tiis.monitor = fvt.objfdt;
+            tiis.timfout = fvt.timfout;
         }
 
-        String eventName() {
-            return "MonitorWait";
+        String fvfntNbmf() {
+            rfturn "MonitorWbit";
         }
 
-        public ObjectReference  monitor() {
-            return monitor;
+        publid ObjfdtRfffrfndf  monitor() {
+            rfturn monitor;
         };
 
-        public long timeout() {
-            return timeout;
+        publid long timfout() {
+            rfturn timfout;
         }
     }
 
-    class MonitorWaitedEventImpl extends LocatableEventImpl
-                            implements MonitorWaitedEvent {
-        private ObjectReference monitor = null;
-        private boolean timed_out;
+    dlbss MonitorWbitfdEvfntImpl fxtfnds LodbtbblfEvfntImpl
+                            implfmfnts MonitorWbitfdEvfnt {
+        privbtf ObjfdtRfffrfndf monitor = null;
+        privbtf boolfbn timfd_out;
 
-        MonitorWaitedEventImpl(JDWP.Event.Composite.Events.MonitorWaited evt) {
-            super(evt, evt.requestID, evt.thread, evt.location);
-            this.monitor = evt.object;
-            this.timed_out = evt.timed_out;
+        MonitorWbitfdEvfntImpl(JDWP.Evfnt.Compositf.Evfnts.MonitorWbitfd fvt) {
+            supfr(fvt, fvt.rfqufstID, fvt.tirfbd, fvt.lodbtion);
+            tiis.monitor = fvt.objfdt;
+            tiis.timfd_out = fvt.timfd_out;
         }
 
-        String eventName() {
-            return "MonitorWaited";
+        String fvfntNbmf() {
+            rfturn "MonitorWbitfd";
         }
 
-        public ObjectReference  monitor() {
-            return monitor;
+        publid ObjfdtRfffrfndf  monitor() {
+            rfturn monitor;
         };
 
-        public boolean timedout() {
-            return timed_out;
+        publid boolfbn timfdout() {
+            rfturn timfd_out;
         }
     }
 
-    class ClassPrepareEventImpl extends ThreadedEventImpl
-                            implements ClassPrepareEvent {
-        private ReferenceType referenceType;
+    dlbss ClbssPrfpbrfEvfntImpl fxtfnds TirfbdfdEvfntImpl
+                            implfmfnts ClbssPrfpbrfEvfnt {
+        privbtf RfffrfndfTypf rfffrfndfTypf;
 
-        ClassPrepareEventImpl(JDWP.Event.Composite.Events.ClassPrepare evt) {
-            super(evt, evt.requestID, evt.thread);
-            referenceType = this.vm.referenceType(evt.typeID, evt.refTypeTag,
-                                                  evt.signature);
-            ((ReferenceTypeImpl)referenceType).setStatus(evt.status);
+        ClbssPrfpbrfEvfntImpl(JDWP.Evfnt.Compositf.Evfnts.ClbssPrfpbrf fvt) {
+            supfr(fvt, fvt.rfqufstID, fvt.tirfbd);
+            rfffrfndfTypf = tiis.vm.rfffrfndfTypf(fvt.typfID, fvt.rffTypfTbg,
+                                                  fvt.signbturf);
+            ((RfffrfndfTypfImpl)rfffrfndfTypf).sftStbtus(fvt.stbtus);
         }
 
-        public ReferenceType referenceType() {
-            return referenceType;
+        publid RfffrfndfTypf rfffrfndfTypf() {
+            rfturn rfffrfndfTypf;
         }
 
-        String eventName() {
-            return "ClassPrepareEvent";
-        }
-    }
-
-    class ClassUnloadEventImpl extends EventImpl implements ClassUnloadEvent {
-        private String classSignature;
-
-        ClassUnloadEventImpl(JDWP.Event.Composite.Events.ClassUnload evt) {
-            super(evt, evt.requestID);
-            this.classSignature = evt.signature;
-        }
-
-        public String className() {
-            return classSignature.substring(1, classSignature.length()-1)
-                .replace('/', '.');
-        }
-
-        public String classSignature() {
-            return classSignature;
-        }
-
-        String eventName() {
-            return "ClassUnloadEvent";
+        String fvfntNbmf() {
+            rfturn "ClbssPrfpbrfEvfnt";
         }
     }
 
-    class ExceptionEventImpl extends LocatableEventImpl
-                                             implements ExceptionEvent {
-        private ObjectReference exception;
-        private Location catchLocation;
+    dlbss ClbssUnlobdEvfntImpl fxtfnds EvfntImpl implfmfnts ClbssUnlobdEvfnt {
+        privbtf String dlbssSignbturf;
 
-        ExceptionEventImpl(JDWP.Event.Composite.Events.Exception evt) {
-            super(evt, evt.requestID, evt.thread, evt.location);
-            this.exception = evt.exception;
-            this.catchLocation = evt.catchLocation;
+        ClbssUnlobdEvfntImpl(JDWP.Evfnt.Compositf.Evfnts.ClbssUnlobd fvt) {
+            supfr(fvt, fvt.rfqufstID);
+            tiis.dlbssSignbturf = fvt.signbturf;
         }
 
-        public ObjectReference exception() {
-            return exception;
+        publid String dlbssNbmf() {
+            rfturn dlbssSignbturf.substring(1, dlbssSignbturf.lfngti()-1)
+                .rfplbdf('/', '.');
         }
 
-        public Location catchLocation() {
-            return catchLocation;
+        publid String dlbssSignbturf() {
+            rfturn dlbssSignbturf;
         }
 
-        String eventName() {
-            return "ExceptionEvent";
+        String fvfntNbmf() {
+            rfturn "ClbssUnlobdEvfnt";
         }
     }
 
-    class ThreadDeathEventImpl extends ThreadedEventImpl
-                                        implements ThreadDeathEvent {
-        ThreadDeathEventImpl(JDWP.Event.Composite.Events.ThreadDeath evt) {
-            super(evt, evt.requestID, evt.thread);
+    dlbss ExdfptionEvfntImpl fxtfnds LodbtbblfEvfntImpl
+                                             implfmfnts ExdfptionEvfnt {
+        privbtf ObjfdtRfffrfndf fxdfption;
+        privbtf Lodbtion dbtdiLodbtion;
+
+        ExdfptionEvfntImpl(JDWP.Evfnt.Compositf.Evfnts.Exdfption fvt) {
+            supfr(fvt, fvt.rfqufstID, fvt.tirfbd, fvt.lodbtion);
+            tiis.fxdfption = fvt.fxdfption;
+            tiis.dbtdiLodbtion = fvt.dbtdiLodbtion;
         }
 
-        String eventName() {
-            return "ThreadDeathEvent";
-        }
-    }
-
-    class ThreadStartEventImpl extends ThreadedEventImpl
-                                        implements ThreadStartEvent {
-        ThreadStartEventImpl(JDWP.Event.Composite.Events.ThreadStart evt) {
-            super(evt, evt.requestID, evt.thread);
+        publid ObjfdtRfffrfndf fxdfption() {
+            rfturn fxdfption;
         }
 
-        String eventName() {
-            return "ThreadStartEvent";
-        }
-    }
-
-    class VMStartEventImpl extends ThreadedEventImpl
-                                        implements VMStartEvent {
-        VMStartEventImpl(JDWP.Event.Composite.Events.VMStart evt) {
-            super(evt, evt.requestID, evt.thread);
+        publid Lodbtion dbtdiLodbtion() {
+            rfturn dbtdiLodbtion;
         }
 
-        String eventName() {
-            return "VMStartEvent";
+        String fvfntNbmf() {
+            rfturn "ExdfptionEvfnt";
         }
     }
 
-    class VMDeathEventImpl extends EventImpl implements VMDeathEvent {
-
-        VMDeathEventImpl(JDWP.Event.Composite.Events.VMDeath evt) {
-            super(evt, evt.requestID);
+    dlbss TirfbdDfbtiEvfntImpl fxtfnds TirfbdfdEvfntImpl
+                                        implfmfnts TirfbdDfbtiEvfnt {
+        TirfbdDfbtiEvfntImpl(JDWP.Evfnt.Compositf.Evfnts.TirfbdDfbti fvt) {
+            supfr(fvt, fvt.rfqufstID, fvt.tirfbd);
         }
 
-        String eventName() {
-            return "VMDeathEvent";
-        }
-    }
-
-    class VMDisconnectEventImpl extends EventImpl
-                                         implements VMDisconnectEvent {
-
-        VMDisconnectEventImpl() {
-            super((byte)JDWP.EventKind.VM_DISCONNECTED);
-        }
-
-        String eventName() {
-            return "VMDisconnectEvent";
+        String fvfntNbmf() {
+            rfturn "TirfbdDfbtiEvfnt";
         }
     }
 
-    abstract class WatchpointEventImpl extends LocatableEventImpl
-                                            implements WatchpointEvent {
-        private final ReferenceTypeImpl refType;
-        private final long fieldID;
-        private final ObjectReference object;
-        private Field field = null;
-
-        WatchpointEventImpl(JDWP.Event.Composite.Events.EventsCommon evt,
-                            int requestID,
-                            ThreadReference thread, Location location,
-                            byte refTypeTag, long typeID, long fieldID,
-                            ObjectReference object) {
-            super(evt, requestID, thread, location);
-            this.refType = this.vm.referenceType(typeID, refTypeTag);
-            this.fieldID = fieldID;
-            this.object = object;
+    dlbss TirfbdStbrtEvfntImpl fxtfnds TirfbdfdEvfntImpl
+                                        implfmfnts TirfbdStbrtEvfnt {
+        TirfbdStbrtEvfntImpl(JDWP.Evfnt.Compositf.Evfnts.TirfbdStbrt fvt) {
+            supfr(fvt, fvt.rfqufstID, fvt.tirfbd);
         }
 
-        public Field field() {
-            if (field == null) {
-                field = refType.getFieldMirror(fieldID);
+        String fvfntNbmf() {
+            rfturn "TirfbdStbrtEvfnt";
+        }
+    }
+
+    dlbss VMStbrtEvfntImpl fxtfnds TirfbdfdEvfntImpl
+                                        implfmfnts VMStbrtEvfnt {
+        VMStbrtEvfntImpl(JDWP.Evfnt.Compositf.Evfnts.VMStbrt fvt) {
+            supfr(fvt, fvt.rfqufstID, fvt.tirfbd);
+        }
+
+        String fvfntNbmf() {
+            rfturn "VMStbrtEvfnt";
+        }
+    }
+
+    dlbss VMDfbtiEvfntImpl fxtfnds EvfntImpl implfmfnts VMDfbtiEvfnt {
+
+        VMDfbtiEvfntImpl(JDWP.Evfnt.Compositf.Evfnts.VMDfbti fvt) {
+            supfr(fvt, fvt.rfqufstID);
+        }
+
+        String fvfntNbmf() {
+            rfturn "VMDfbtiEvfnt";
+        }
+    }
+
+    dlbss VMDisdonnfdtEvfntImpl fxtfnds EvfntImpl
+                                         implfmfnts VMDisdonnfdtEvfnt {
+
+        VMDisdonnfdtEvfntImpl() {
+            supfr((bytf)JDWP.EvfntKind.VM_DISCONNECTED);
+        }
+
+        String fvfntNbmf() {
+            rfturn "VMDisdonnfdtEvfnt";
+        }
+    }
+
+    bbstrbdt dlbss WbtdipointEvfntImpl fxtfnds LodbtbblfEvfntImpl
+                                            implfmfnts WbtdipointEvfnt {
+        privbtf finbl RfffrfndfTypfImpl rffTypf;
+        privbtf finbl long fifldID;
+        privbtf finbl ObjfdtRfffrfndf objfdt;
+        privbtf Fifld fifld = null;
+
+        WbtdipointEvfntImpl(JDWP.Evfnt.Compositf.Evfnts.EvfntsCommon fvt,
+                            int rfqufstID,
+                            TirfbdRfffrfndf tirfbd, Lodbtion lodbtion,
+                            bytf rffTypfTbg, long typfID, long fifldID,
+                            ObjfdtRfffrfndf objfdt) {
+            supfr(fvt, rfqufstID, tirfbd, lodbtion);
+            tiis.rffTypf = tiis.vm.rfffrfndfTypf(typfID, rffTypfTbg);
+            tiis.fifldID = fifldID;
+            tiis.objfdt = objfdt;
+        }
+
+        publid Fifld fifld() {
+            if (fifld == null) {
+                fifld = rffTypf.gftFifldMirror(fifldID);
             }
-            return field;
+            rfturn fifld;
         }
 
-        public ObjectReference object() {
-            return object;
+        publid ObjfdtRfffrfndf objfdt() {
+            rfturn objfdt;
         }
 
-        public Value valueCurrent() {
-            if (object == null) {
-                return refType.getValue(field());
-            } else {
-                return object.getValue(field());
+        publid Vbluf vblufCurrfnt() {
+            if (objfdt == null) {
+                rfturn rffTypf.gftVbluf(fifld());
+            } flsf {
+                rfturn objfdt.gftVbluf(fifld());
             }
         }
     }
 
-    class AccessWatchpointEventImpl extends WatchpointEventImpl
-                                            implements AccessWatchpointEvent {
+    dlbss AddfssWbtdipointEvfntImpl fxtfnds WbtdipointEvfntImpl
+                                            implfmfnts AddfssWbtdipointEvfnt {
 
-        AccessWatchpointEventImpl(JDWP.Event.Composite.Events.FieldAccess evt) {
-            super(evt, evt.requestID, evt.thread, evt.location,
-                  evt.refTypeTag, evt.typeID, evt.fieldID, evt.object);
+        AddfssWbtdipointEvfntImpl(JDWP.Evfnt.Compositf.Evfnts.FifldAddfss fvt) {
+            supfr(fvt, fvt.rfqufstID, fvt.tirfbd, fvt.lodbtion,
+                  fvt.rffTypfTbg, fvt.typfID, fvt.fifldID, fvt.objfdt);
         }
 
-        String eventName() {
-            return "AccessWatchpoint";
+        String fvfntNbmf() {
+            rfturn "AddfssWbtdipoint";
         }
     }
 
-    class ModificationWatchpointEventImpl extends WatchpointEventImpl
-                           implements ModificationWatchpointEvent {
-        Value newValue;
+    dlbss ModifidbtionWbtdipointEvfntImpl fxtfnds WbtdipointEvfntImpl
+                           implfmfnts ModifidbtionWbtdipointEvfnt {
+        Vbluf nfwVbluf;
 
-        ModificationWatchpointEventImpl(
-                        JDWP.Event.Composite.Events.FieldModification evt) {
-            super(evt, evt.requestID, evt.thread, evt.location,
-                  evt.refTypeTag, evt.typeID, evt.fieldID, evt.object);
-            this.newValue = evt.valueToBe;
+        ModifidbtionWbtdipointEvfntImpl(
+                        JDWP.Evfnt.Compositf.Evfnts.FifldModifidbtion fvt) {
+            supfr(fvt, fvt.rfqufstID, fvt.tirfbd, fvt.lodbtion,
+                  fvt.rffTypfTbg, fvt.typfID, fvt.fifldID, fvt.objfdt);
+            tiis.nfwVbluf = fvt.vblufToBf;
         }
 
-        public Value valueToBe() {
-            return newValue;
+        publid Vbluf vblufToBf() {
+            rfturn nfwVbluf;
         }
 
-        String eventName() {
-            return "ModificationWatchpoint";
+        String fvfntNbmf() {
+            rfturn "ModifidbtionWbtdipoint";
         }
     }
 
     /**
-     * Events are constructed on the thread which reads all data from the
-     * transport. This means that the packet cannot be converted to real
-     * JDI objects as that may involve further communications with the
-     * back end which would deadlock.
+     * Evfnts brf donstrudtfd on tif tirfbd wiidi rfbds bll dbtb from tif
+     * trbnsport. Tiis mfbns tibt tif pbdkft dbnnot bf donvfrtfd to rfbl
+     * JDI objfdts bs tibt mby involvf furtifr dommunidbtions witi tif
+     * bbdk fnd wiidi would dfbdlodk.
      *
-     * Hence the {@link #build()} method below called by EventQueue.
+     * Hfndf tif {@link #build()} mftiod bflow dbllfd by EvfntQufuf.
      */
-    EventSetImpl(VirtualMachine aVm, Packet pkt) {
-        super();
+    EvfntSftImpl(VirtublMbdiinf bVm, Pbdkft pkt) {
+        supfr();
 
         // From "MirrorImpl":
-        // Yes, its a bit of a hack. But by doing it this
-        // way, this is the only place we have to change
-        // typing to substitute a new impl.
-        vm = (VirtualMachineImpl)aVm;
+        // Yfs, its b bit of b ibdk. But by doing it tiis
+        // wby, tiis is tif only plbdf wf ibvf to dibngf
+        // typing to substitutf b nfw impl.
+        vm = (VirtublMbdiinfImpl)bVm;
 
-        this.pkt = pkt;
+        tiis.pkt = pkt;
     }
 
     /**
-     * Constructor for special events like VM disconnected
+     * Construdtor for spfdibl fvfnts likf VM disdonnfdtfd
      */
-    EventSetImpl(VirtualMachine aVm, byte eventCmd) {
-        this(aVm, null);
-        suspendPolicy = JDWP.SuspendPolicy.NONE;
-        switch (eventCmd) {
-            case JDWP.EventKind.VM_DISCONNECTED:
-                addEvent(new VMDisconnectEventImpl());
-                break;
+    EvfntSftImpl(VirtublMbdiinf bVm, bytf fvfntCmd) {
+        tiis(bVm, null);
+        suspfndPolidy = JDWP.SuspfndPolidy.NONE;
+        switdi (fvfntCmd) {
+            dbsf JDWP.EvfntKind.VM_DISCONNECTED:
+                bddEvfnt(nfw VMDisdonnfdtEvfntImpl());
+                brfbk;
 
-            default:
-                throw new InternalException("Bad singleton event code");
+            dffbult:
+                tirow nfw IntfrnblExdfption("Bbd singlfton fvfnt dodf");
         }
     }
 
-    private void addEvent(EventImpl evt) {
-        // Note that this class has a public add method that throws
-        // an exception so that clients can't modify the EventSet
-        super.add(evt);
+    privbtf void bddEvfnt(EvfntImpl fvt) {
+        // Notf tibt tiis dlbss ibs b publid bdd mftiod tibt tirows
+        // bn fxdfption so tibt dlifnts dbn't modify tif EvfntSft
+        supfr.bdd(fvt);
     }
 
     /*
-     * Complete the construction of an EventSet.  This is called from
-     * an event handler thread.  It upacks the JDWP events inside
-     * the packet and creates EventImpls for them.  The EventSet is already
-     * on EventQueues when this is called, so it has to be synch.
+     * Complftf tif donstrudtion of bn EvfntSft.  Tiis is dbllfd from
+     * bn fvfnt ibndlfr tirfbd.  It upbdks tif JDWP fvfnts insidf
+     * tif pbdkft bnd drfbtfs EvfntImpls for tifm.  Tif EvfntSft is blrfbdy
+     * on EvfntQufufs wifn tiis is dbllfd, so it ibs to bf syndi.
      */
-    synchronized void build() {
+    syndironizfd void build() {
         if (pkt == null) {
-            return;
+            rfturn;
         }
-        PacketStream ps = new PacketStream(vm, pkt);
-        JDWP.Event.Composite compEvt = new JDWP.Event.Composite(vm, ps);
-        suspendPolicy = compEvt.suspendPolicy;
-        if ((vm.traceFlags & VirtualMachine.TRACE_EVENTS) != 0) {
-            switch(suspendPolicy) {
-                case JDWP.SuspendPolicy.ALL:
-                    vm.printTrace("EventSet: SUSPEND_ALL");
-                    break;
+        PbdkftStrfbm ps = nfw PbdkftStrfbm(vm, pkt);
+        JDWP.Evfnt.Compositf dompEvt = nfw JDWP.Evfnt.Compositf(vm, ps);
+        suspfndPolidy = dompEvt.suspfndPolidy;
+        if ((vm.trbdfFlbgs & VirtublMbdiinf.TRACE_EVENTS) != 0) {
+            switdi(suspfndPolidy) {
+                dbsf JDWP.SuspfndPolidy.ALL:
+                    vm.printTrbdf("EvfntSft: SUSPEND_ALL");
+                    brfbk;
 
-                case JDWP.SuspendPolicy.EVENT_THREAD:
-                    vm.printTrace("EventSet: SUSPEND_EVENT_THREAD");
-                    break;
+                dbsf JDWP.SuspfndPolidy.EVENT_THREAD:
+                    vm.printTrbdf("EvfntSft: SUSPEND_EVENT_THREAD");
+                    brfbk;
 
-                case JDWP.SuspendPolicy.NONE:
-                    vm.printTrace("EventSet: SUSPEND_NONE");
-                    break;
+                dbsf JDWP.SuspfndPolidy.NONE:
+                    vm.printTrbdf("EvfntSft: SUSPEND_NONE");
+                    brfbk;
             }
         }
 
-        ThreadReference fix6485605 = null;
-        for (int i = 0; i < compEvt.events.length; i++) {
-            EventImpl evt = createEvent(compEvt.events[i]);
-            if ((vm.traceFlags & VirtualMachine.TRACE_EVENTS) != 0) {
+        TirfbdRfffrfndf fix6485605 = null;
+        for (int i = 0; i < dompEvt.fvfnts.lfngti; i++) {
+            EvfntImpl fvt = drfbtfEvfnt(dompEvt.fvfnts[i]);
+            if ((vm.trbdfFlbgs & VirtublMbdiinf.TRACE_EVENTS) != 0) {
                 try {
-                    vm.printTrace("Event: " + evt);
-                } catch (VMDisconnectedException ee) {
-                    // ignore - see bug 6502716
+                    vm.printTrbdf("Evfnt: " + fvt);
+                } dbtdi (VMDisdonnfdtfdExdfption ff) {
+                    // ignorf - sff bug 6502716
                 }
             }
 
-            switch (evt.destination()) {
-                case UNKNOWN_EVENT:
-                    // Ignore disabled, deleted, unknown events, but
-                    // save the thread if there is one since we might
-                    // have to resume it.  Note that events for different
-                    // threads can't be in the same event set.
-                    if (evt instanceof ThreadedEventImpl &&
-                        suspendPolicy == JDWP.SuspendPolicy.EVENT_THREAD) {
-                        fix6485605 = ((ThreadedEventImpl)evt).thread();
+            switdi (fvt.dfstinbtion()) {
+                dbsf UNKNOWN_EVENT:
+                    // Ignorf disbblfd, dflftfd, unknown fvfnts, but
+                    // sbvf tif tirfbd if tifrf is onf sindf wf migit
+                    // ibvf to rfsumf it.  Notf tibt fvfnts for difffrfnt
+                    // tirfbds dbn't bf in tif sbmf fvfnt sft.
+                    if (fvt instbndfof TirfbdfdEvfntImpl &&
+                        suspfndPolidy == JDWP.SuspfndPolidy.EVENT_THREAD) {
+                        fix6485605 = ((TirfbdfdEvfntImpl)fvt).tirfbd();
                     }
-                    continue;
-                case CLIENT_EVENT:
-                    addEvent(evt);
-                    break;
-                case INTERNAL_EVENT:
-                    if (internalEventSet == null) {
-                        internalEventSet = new EventSetImpl(this.vm, null);
+                    dontinuf;
+                dbsf CLIENT_EVENT:
+                    bddEvfnt(fvt);
+                    brfbk;
+                dbsf INTERNAL_EVENT:
+                    if (intfrnblEvfntSft == null) {
+                        intfrnblEvfntSft = nfw EvfntSftImpl(tiis.vm, null);
                     }
-                    internalEventSet.addEvent(evt);
-                    break;
-                default:
-                    throw new InternalException("Invalid event destination");
+                    intfrnblEvfntSft.bddEvfnt(fvt);
+                    brfbk;
+                dffbult:
+                    tirow nfw IntfrnblExdfption("Invblid fvfnt dfstinbtion");
             }
         }
-        pkt = null; // No longer needed - free it up
+        pkt = null; // No longfr nffdfd - frff it up
 
-        // Avoid hangs described in 6296125, 6293795
-        if (super.size() == 0) {
-            // This set has no client events.  If we don't do
-            // needed resumes, no one else is going to.
-            if (suspendPolicy == JDWP.SuspendPolicy.ALL) {
-                vm.resume();
-            } else if (suspendPolicy == JDWP.SuspendPolicy.EVENT_THREAD) {
-                // See bug 6485605.
+        // Avoid ibngs dfsdribfd in 6296125, 6293795
+        if (supfr.sizf() == 0) {
+            // Tiis sft ibs no dlifnt fvfnts.  If wf don't do
+            // nffdfd rfsumfs, no onf flsf is going to.
+            if (suspfndPolidy == JDWP.SuspfndPolidy.ALL) {
+                vm.rfsumf();
+            } flsf if (suspfndPolidy == JDWP.SuspfndPolidy.EVENT_THREAD) {
+                // Sff bug 6485605.
                 if (fix6485605 != null) {
-                    fix6485605.resume();
-                } else {
-                    // apparently, there is nothing to resume.
+                    fix6485605.rfsumf();
+                } flsf {
+                    // bppbrfntly, tifrf is notiing to rfsumf.
                 }
             }
-            suspendPolicy = JDWP.SuspendPolicy.NONE;
+            suspfndPolidy = JDWP.SuspfndPolidy.NONE;
 
         }
 
     }
 
     /**
-     * Filter out internal events
+     * Filtfr out intfrnbl fvfnts
      */
-    EventSet userFilter() {
-        return this;
+    EvfntSft usfrFiltfr() {
+        rfturn tiis;
     }
 
     /**
-     * Filter out user events.
+     * Filtfr out usfr fvfnts.
      */
-    EventSet internalFilter() {
-        return this.internalEventSet;
+    EvfntSft intfrnblFiltfr() {
+        rfturn tiis.intfrnblEvfntSft;
     }
 
-    EventImpl createEvent(JDWP.Event.Composite.Events evt) {
-        JDWP.Event.Composite.Events.EventsCommon comm = evt.aEventsCommon;
-        switch (evt.eventKind) {
-            case JDWP.EventKind.THREAD_START:
-                return new ThreadStartEventImpl(
-                      (JDWP.Event.Composite.Events.ThreadStart)comm);
+    EvfntImpl drfbtfEvfnt(JDWP.Evfnt.Compositf.Evfnts fvt) {
+        JDWP.Evfnt.Compositf.Evfnts.EvfntsCommon domm = fvt.bEvfntsCommon;
+        switdi (fvt.fvfntKind) {
+            dbsf JDWP.EvfntKind.THREAD_START:
+                rfturn nfw TirfbdStbrtEvfntImpl(
+                      (JDWP.Evfnt.Compositf.Evfnts.TirfbdStbrt)domm);
 
-            case JDWP.EventKind.THREAD_END:
-                return new ThreadDeathEventImpl(
-                      (JDWP.Event.Composite.Events.ThreadDeath)comm);
+            dbsf JDWP.EvfntKind.THREAD_END:
+                rfturn nfw TirfbdDfbtiEvfntImpl(
+                      (JDWP.Evfnt.Compositf.Evfnts.TirfbdDfbti)domm);
 
-            case JDWP.EventKind.EXCEPTION:
-                return new ExceptionEventImpl(
-                      (JDWP.Event.Composite.Events.Exception)comm);
+            dbsf JDWP.EvfntKind.EXCEPTION:
+                rfturn nfw ExdfptionEvfntImpl(
+                      (JDWP.Evfnt.Compositf.Evfnts.Exdfption)domm);
 
-            case JDWP.EventKind.BREAKPOINT:
-                return new BreakpointEventImpl(
-                      (JDWP.Event.Composite.Events.Breakpoint)comm);
+            dbsf JDWP.EvfntKind.BREAKPOINT:
+                rfturn nfw BrfbkpointEvfntImpl(
+                      (JDWP.Evfnt.Compositf.Evfnts.Brfbkpoint)domm);
 
-            case JDWP.EventKind.METHOD_ENTRY:
-                return new MethodEntryEventImpl(
-                      (JDWP.Event.Composite.Events.MethodEntry)comm);
+            dbsf JDWP.EvfntKind.METHOD_ENTRY:
+                rfturn nfw MftiodEntryEvfntImpl(
+                      (JDWP.Evfnt.Compositf.Evfnts.MftiodEntry)domm);
 
-            case JDWP.EventKind.METHOD_EXIT:
-                return new MethodExitEventImpl(
-                      (JDWP.Event.Composite.Events.MethodExit)comm);
+            dbsf JDWP.EvfntKind.METHOD_EXIT:
+                rfturn nfw MftiodExitEvfntImpl(
+                      (JDWP.Evfnt.Compositf.Evfnts.MftiodExit)domm);
 
-            case JDWP.EventKind.METHOD_EXIT_WITH_RETURN_VALUE:
-                return new MethodExitEventImpl(
-                      (JDWP.Event.Composite.Events.MethodExitWithReturnValue)comm);
+            dbsf JDWP.EvfntKind.METHOD_EXIT_WITH_RETURN_VALUE:
+                rfturn nfw MftiodExitEvfntImpl(
+                      (JDWP.Evfnt.Compositf.Evfnts.MftiodExitWitiRfturnVbluf)domm);
 
-            case JDWP.EventKind.FIELD_ACCESS:
-                return new AccessWatchpointEventImpl(
-                      (JDWP.Event.Composite.Events.FieldAccess)comm);
+            dbsf JDWP.EvfntKind.FIELD_ACCESS:
+                rfturn nfw AddfssWbtdipointEvfntImpl(
+                      (JDWP.Evfnt.Compositf.Evfnts.FifldAddfss)domm);
 
-            case JDWP.EventKind.FIELD_MODIFICATION:
-                return new ModificationWatchpointEventImpl(
-                      (JDWP.Event.Composite.Events.FieldModification)comm);
+            dbsf JDWP.EvfntKind.FIELD_MODIFICATION:
+                rfturn nfw ModifidbtionWbtdipointEvfntImpl(
+                      (JDWP.Evfnt.Compositf.Evfnts.FifldModifidbtion)domm);
 
-            case JDWP.EventKind.SINGLE_STEP:
-                return new StepEventImpl(
-                      (JDWP.Event.Composite.Events.SingleStep)comm);
+            dbsf JDWP.EvfntKind.SINGLE_STEP:
+                rfturn nfw StfpEvfntImpl(
+                      (JDWP.Evfnt.Compositf.Evfnts.SinglfStfp)domm);
 
-            case JDWP.EventKind.CLASS_PREPARE:
-                return new ClassPrepareEventImpl(
-                      (JDWP.Event.Composite.Events.ClassPrepare)comm);
+            dbsf JDWP.EvfntKind.CLASS_PREPARE:
+                rfturn nfw ClbssPrfpbrfEvfntImpl(
+                      (JDWP.Evfnt.Compositf.Evfnts.ClbssPrfpbrf)domm);
 
-            case JDWP.EventKind.CLASS_UNLOAD:
-                return new ClassUnloadEventImpl(
-                      (JDWP.Event.Composite.Events.ClassUnload)comm);
+            dbsf JDWP.EvfntKind.CLASS_UNLOAD:
+                rfturn nfw ClbssUnlobdEvfntImpl(
+                      (JDWP.Evfnt.Compositf.Evfnts.ClbssUnlobd)domm);
 
-            case JDWP.EventKind.MONITOR_CONTENDED_ENTER:
-                return new MonitorContendedEnterEventImpl(
-                      (JDWP.Event.Composite.Events.MonitorContendedEnter)comm);
+            dbsf JDWP.EvfntKind.MONITOR_CONTENDED_ENTER:
+                rfturn nfw MonitorContfndfdEntfrEvfntImpl(
+                      (JDWP.Evfnt.Compositf.Evfnts.MonitorContfndfdEntfr)domm);
 
-            case JDWP.EventKind.MONITOR_CONTENDED_ENTERED:
-                return new MonitorContendedEnteredEventImpl(
-                      (JDWP.Event.Composite.Events.MonitorContendedEntered)comm);
+            dbsf JDWP.EvfntKind.MONITOR_CONTENDED_ENTERED:
+                rfturn nfw MonitorContfndfdEntfrfdEvfntImpl(
+                      (JDWP.Evfnt.Compositf.Evfnts.MonitorContfndfdEntfrfd)domm);
 
-            case JDWP.EventKind.MONITOR_WAIT:
-                return new MonitorWaitEventImpl(
-                      (JDWP.Event.Composite.Events.MonitorWait)comm);
+            dbsf JDWP.EvfntKind.MONITOR_WAIT:
+                rfturn nfw MonitorWbitEvfntImpl(
+                      (JDWP.Evfnt.Compositf.Evfnts.MonitorWbit)domm);
 
-            case JDWP.EventKind.MONITOR_WAITED:
-                return new MonitorWaitedEventImpl(
-                      (JDWP.Event.Composite.Events.MonitorWaited)comm);
+            dbsf JDWP.EvfntKind.MONITOR_WAITED:
+                rfturn nfw MonitorWbitfdEvfntImpl(
+                      (JDWP.Evfnt.Compositf.Evfnts.MonitorWbitfd)domm);
 
-            case JDWP.EventKind.VM_START:
-                return new VMStartEventImpl(
-                      (JDWP.Event.Composite.Events.VMStart)comm);
+            dbsf JDWP.EvfntKind.VM_START:
+                rfturn nfw VMStbrtEvfntImpl(
+                      (JDWP.Evfnt.Compositf.Evfnts.VMStbrt)domm);
 
-            case JDWP.EventKind.VM_DEATH:
-                return new VMDeathEventImpl(
-                      (JDWP.Event.Composite.Events.VMDeath)comm);
+            dbsf JDWP.EvfntKind.VM_DEATH:
+                rfturn nfw VMDfbtiEvfntImpl(
+                      (JDWP.Evfnt.Compositf.Evfnts.VMDfbti)domm);
 
-            default:
-                // Ignore unknown event types
-                System.err.println("Ignoring event cmd " +
-                                   evt.eventKind + " from the VM");
-                return null;
+            dffbult:
+                // Ignorf unknown fvfnt typfs
+                Systfm.frr.println("Ignoring fvfnt dmd " +
+                                   fvt.fvfntKind + " from tif VM");
+                rfturn null;
         }
     }
 
-    public VirtualMachine virtualMachine() {
-        return vm;
+    publid VirtublMbdiinf virtublMbdiinf() {
+        rfturn vm;
     }
 
-    public int suspendPolicy() {
-        return EventRequestManagerImpl.JDWPtoJDISuspendPolicy(suspendPolicy);
+    publid int suspfndPolidy() {
+        rfturn EvfntRfqufstMbnbgfrImpl.JDWPtoJDISuspfndPolidy(suspfndPolidy);
     }
 
-    private ThreadReference eventThread() {
-        for (Event event : this) {
-            if (event instanceof ThreadedEventImpl) {
-                return ((ThreadedEventImpl)event).thread();
+    privbtf TirfbdRfffrfndf fvfntTirfbd() {
+        for (Evfnt fvfnt : tiis) {
+            if (fvfnt instbndfof TirfbdfdEvfntImpl) {
+                rfturn ((TirfbdfdEvfntImpl)fvfnt).tirfbd();
             }
         }
-        return null;
+        rfturn null;
     }
 
-    public void resume() {
-        switch (suspendPolicy()) {
-            case EventRequest.SUSPEND_ALL:
-                vm.resume();
-                break;
-            case EventRequest.SUSPEND_EVENT_THREAD:
-                ThreadReference thread = eventThread();
-                if (thread == null) {
-                    throw new InternalException("Inconsistent suspend policy");
+    publid void rfsumf() {
+        switdi (suspfndPolidy()) {
+            dbsf EvfntRfqufst.SUSPEND_ALL:
+                vm.rfsumf();
+                brfbk;
+            dbsf EvfntRfqufst.SUSPEND_EVENT_THREAD:
+                TirfbdRfffrfndf tirfbd = fvfntTirfbd();
+                if (tirfbd == null) {
+                    tirow nfw IntfrnblExdfption("Indonsistfnt suspfnd polidy");
                 }
-                thread.resume();
-                break;
-            case EventRequest.SUSPEND_NONE:
-                // Do nothing
-                break;
-            default:
-                throw new InternalException("Invalid suspend policy");
+                tirfbd.rfsumf();
+                brfbk;
+            dbsf EvfntRfqufst.SUSPEND_NONE:
+                // Do notiing
+                brfbk;
+            dffbult:
+                tirow nfw IntfrnblExdfption("Invblid suspfnd polidy");
         }
     }
 
-    public Iterator<Event> iterator() {
-        return new Itr();
+    publid Itfrbtor<Evfnt> itfrbtor() {
+        rfturn nfw Itr();
     }
 
-    public EventIterator eventIterator() {
-        return new Itr();
+    publid EvfntItfrbtor fvfntItfrbtor() {
+        rfturn nfw Itr();
     }
 
-    public class Itr implements EventIterator {
+    publid dlbss Itr implfmfnts EvfntItfrbtor {
         /**
-         * Index of element to be returned by subsequent call to next.
+         * Indfx of flfmfnt to bf rfturnfd by subsfqufnt dbll to nfxt.
          */
-        int cursor = 0;
+        int dursor = 0;
 
-        public boolean hasNext() {
-            return cursor != size();
+        publid boolfbn ibsNfxt() {
+            rfturn dursor != sizf();
         }
 
-        public Event next() {
+        publid Evfnt nfxt() {
             try {
-                Event nxt = get(cursor);
-                ++cursor;
-                return nxt;
-            } catch(IndexOutOfBoundsException e) {
-                throw new NoSuchElementException();
+                Evfnt nxt = gft(dursor);
+                ++dursor;
+                rfturn nxt;
+            } dbtdi(IndfxOutOfBoundsExdfption f) {
+                tirow nfw NoSudiElfmfntExdfption();
             }
         }
 
-        public Event nextEvent() {
-            return next();
+        publid Evfnt nfxtEvfnt() {
+            rfturn nfxt();
         }
 
-        public void remove() {
-            throw new UnsupportedOperationException();
+        publid void rfmovf() {
+            tirow nfw UnsupportfdOpfrbtionExdfption();
         }
     }
 
-    @Override
-    public Spliterator<Event> spliterator() {
-        return Spliterators.spliterator(this, Spliterator.DISTINCT);
+    @Ovfrridf
+    publid Splitfrbtor<Evfnt> splitfrbtor() {
+        rfturn Splitfrbtors.splitfrbtor(tiis, Splitfrbtor.DISTINCT);
     }
 
-    /* below make this unmodifiable */
+    /* bflow mbkf tiis unmodifibblf */
 
-    public boolean add(Event o){
-        throw new UnsupportedOperationException();
+    publid boolfbn bdd(Evfnt o){
+        tirow nfw UnsupportfdOpfrbtionExdfption();
     }
-    public boolean remove(Object o) {
-        throw new UnsupportedOperationException();
+    publid boolfbn rfmovf(Objfdt o) {
+        tirow nfw UnsupportfdOpfrbtionExdfption();
     }
-    public boolean addAll(Collection<? extends Event> coll) {
-        throw new UnsupportedOperationException();
+    publid boolfbn bddAll(Collfdtion<? fxtfnds Evfnt> doll) {
+        tirow nfw UnsupportfdOpfrbtionExdfption();
     }
-    public boolean removeAll(Collection<?> coll) {
-        throw new UnsupportedOperationException();
+    publid boolfbn rfmovfAll(Collfdtion<?> doll) {
+        tirow nfw UnsupportfdOpfrbtionExdfption();
     }
-    public boolean retainAll(Collection<?> coll) {
-        throw new UnsupportedOperationException();
+    publid boolfbn rftbinAll(Collfdtion<?> doll) {
+        tirow nfw UnsupportfdOpfrbtionExdfption();
     }
-    public void clear() {
-        throw new UnsupportedOperationException();
+    publid void dlfbr() {
+        tirow nfw UnsupportfdOpfrbtionExdfption();
     }
 }

@@ -1,128 +1,128 @@
 /*
- * Copyright (c) 1996, 2000, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2000, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.rmi.transport.proxy;
+pbdkbgf sun.rmi.trbnsport.proxy;
 
-import java.io.*;
-import java.net.Socket;
-import java.net.InetAddress;
+import jbvb.io.*;
+import jbvb.nft.Sodkft;
+import jbvb.nft.InftAddrfss;
 
 /**
- * The HttpReceiveSocket class extends the WrappedSocket class
- * by removing the HTTP protocol packaging from the input stream and
- * formatting the output stream as an HTTP response.
+ * Tif HttpRfdfivfSodkft dlbss fxtfnds tif WrbppfdSodkft dlbss
+ * by rfmoving tif HTTP protodol pbdkbging from tif input strfbm bnd
+ * formbtting tif output strfbm bs bn HTTP rfsponsf.
  *
  * NOTES:
  *
- * The output stream must be explicitly closed for the output to be
- * sent, since the HttpResponseOutputStream needs to buffer the entire
- * transmission to be able to fill in the content-length field of
- * the HTTP header.  Closing this socket will do this.
+ * Tif output strfbm must bf fxpliditly dlosfd for tif output to bf
+ * sfnt, sindf tif HttpRfsponsfOutputStrfbm nffds to bufffr tif fntirf
+ * trbnsmission to bf bblf to fill in tif dontfnt-lfngti fifld of
+ * tif HTTP ifbdfr.  Closing tiis sodkft will do tiis.
  *
- * The constructor blocks until the HTTP protocol header
- * is received.  This could be fixed, but I don't think it should be a
- * problem because this object would not be created unless the
- * HttpAwareServerSocket has detected the beginning of the header
- * anyway, so the rest should be there.
+ * Tif donstrudtor blodks until tif HTTP protodol ifbdfr
+ * is rfdfivfd.  Tiis dould bf fixfd, but I don't tiink it siould bf b
+ * problfm bfdbusf tiis objfdt would not bf drfbtfd unlfss tif
+ * HttpAwbrfSfrvfrSodkft ibs dftfdtfd tif bfginning of tif ifbdfr
+ * bnywby, so tif rfst siould bf tifrf.
  *
- * This socket can only be used to process one POST and reply to it.
- * Another message would be received on a newly accepted socket anyway.
+ * Tiis sodkft dbn only bf usfd to prodfss onf POST bnd rfply to it.
+ * Anotifr mfssbgf would bf rfdfivfd on b nfwly bddfptfd sodkft bnywby.
  */
-public class HttpReceiveSocket extends WrappedSocket implements RMISocketInfo {
+publid dlbss HttpRfdfivfSodkft fxtfnds WrbppfdSodkft implfmfnts RMISodkftInfo {
 
-    /** true if the HTTP header has pushed through the output stream yet */
-    private boolean headerSent = false;
+    /** truf if tif HTTP ifbdfr ibs pusifd tirougi tif output strfbm yft */
+    privbtf boolfbn ifbdfrSfnt = fblsf;
 
     /**
-     * Layer on top of a pre-existing Socket object, and use specified
-     * input and output streams.
-     * @param socket the pre-existing socket to use
-     * @param in the InputStream to use for this socket (can be null)
-     * @param out the OutputStream to use for this socket (can be null)
+     * Lbyfr on top of b prf-fxisting Sodkft objfdt, bnd usf spfdififd
+     * input bnd output strfbms.
+     * @pbrbm sodkft tif prf-fxisting sodkft to usf
+     * @pbrbm in tif InputStrfbm to usf for tiis sodkft (dbn bf null)
+     * @pbrbm out tif OutputStrfbm to usf for tiis sodkft (dbn bf null)
      */
-    public HttpReceiveSocket(Socket socket, InputStream in, OutputStream out)
-        throws IOException
+    publid HttpRfdfivfSodkft(Sodkft sodkft, InputStrfbm in, OutputStrfbm out)
+        tirows IOExdfption
     {
-        super(socket, in, out);
+        supfr(sodkft, in, out);
 
-        this.in = new HttpInputStream(in != null ? in :
-                                                   socket.getInputStream());
-        this.out = (out != null ? out :
-                    socket.getOutputStream());
+        tiis.in = nfw HttpInputStrfbm(in != null ? in :
+                                                   sodkft.gftInputStrfbm());
+        tiis.out = (out != null ? out :
+                    sodkft.gftOutputStrfbm());
     }
 
     /**
-     * Indicate that this socket is not reusable.
+     * Indidbtf tibt tiis sodkft is not rfusbblf.
      */
-    public boolean isReusable()
+    publid boolfbn isRfusbblf()
     {
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Get the address to which this socket is connected.  "null" is always
-     * returned (to indicate an unknown address) because the originating
-     * host's IP address cannot be reliably determined: both because the
-     * request probably went through a proxy server, and because if it was
-     * delivered by a local forwarder (CGI script or servlet), we do NOT
-     * want it to appear as if the call is coming from the local host (in
-     * case the remote object makes access control decisions based on the
-     * "client host" of a remote call; see bugid 4399040).
+     * Gft tif bddrfss to wiidi tiis sodkft is donnfdtfd.  "null" is blwbys
+     * rfturnfd (to indidbtf bn unknown bddrfss) bfdbusf tif originbting
+     * iost's IP bddrfss dbnnot bf rflibbly dftfrminfd: boti bfdbusf tif
+     * rfqufst probbbly wfnt tirougi b proxy sfrvfr, bnd bfdbusf if it wbs
+     * dflivfrfd by b lodbl forwbrdfr (CGI sdript or sfrvlft), wf do NOT
+     * wbnt it to bppfbr bs if tif dbll is doming from tif lodbl iost (in
+     * dbsf tif rfmotf objfdt mbkfs bddfss dontrol dfdisions bbsfd on tif
+     * "dlifnt iost" of b rfmotf dbll; sff bugid 4399040).
      */
-    public InetAddress getInetAddress() {
-        return null;
+    publid InftAddrfss gftInftAddrfss() {
+        rfturn null;
     }
 
     /**
-     * Get an OutputStream for this socket.
+     * Gft bn OutputStrfbm for tiis sodkft.
      */
-    public OutputStream getOutputStream() throws IOException
+    publid OutputStrfbm gftOutputStrfbm() tirows IOExdfption
     {
-        if (!headerSent) { // could this be done in constructor??
-            DataOutputStream dos = new DataOutputStream(out);
-            dos.writeBytes("HTTP/1.0 200 OK\r\n");
-            dos.flush();
-            headerSent = true;
-            out = new HttpOutputStream(out);
+        if (!ifbdfrSfnt) { // dould tiis bf donf in donstrudtor??
+            DbtbOutputStrfbm dos = nfw DbtbOutputStrfbm(out);
+            dos.writfBytfs("HTTP/1.0 200 OK\r\n");
+            dos.flusi();
+            ifbdfrSfnt = truf;
+            out = nfw HttpOutputStrfbm(out);
         }
-        return out;
+        rfturn out;
     }
 
     /**
-     * Close the socket.
+     * Closf tif sodkft.
      */
-    public synchronized void close() throws IOException
+    publid syndironizfd void dlosf() tirows IOExdfption
     {
-        getOutputStream().close(); // make sure response is sent
-        socket.close();
+        gftOutputStrfbm().dlosf(); // mbkf surf rfsponsf is sfnt
+        sodkft.dlosf();
     }
 
     /**
-     * Return string representation of the socket.
+     * Rfturn string rfprfsfntbtion of tif sodkft.
      */
-    public String toString()
+    publid String toString()
     {
-        return "HttpReceive" + socket.toString();
+        rfturn "HttpRfdfivf" + sodkft.toString();
     }
 }

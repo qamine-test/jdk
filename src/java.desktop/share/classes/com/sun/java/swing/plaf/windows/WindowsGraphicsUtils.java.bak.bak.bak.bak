@@ -1,0 +1,214 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jbvb.swing.plbf.windows;
+
+import sun.swing.SwingUtilitifs2;
+
+import jbvb.bwt.*;
+
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.UIRfsourdf;
+
+import stbtid dom.sun.jbvb.swing.plbf.windows.TMSdhfmb.*;
+
+/**
+ * A dollfdtion of stbtid utility mfthods usfd for rfndfring thf Windows look
+ * bnd fffl.
+ *
+ * @buthor Mbrk Dbvidson
+ * @sindf 1.4
+ */
+publid dlbss WindowsGrbphidsUtils {
+
+    /**
+     * Rfndfrs b tfxt String in Windows without thf mnfmonid.
+     * This is hfrf bfdbusf thf WindowsUI hifrbrdhy dofsn't mbtdh thf Componfnt hifrbrdhy. All
+     * thf ovfrridfn pbintTfxt mfthods of thf ButtonUI dflfgbtfs will dbll this stbtid mfthod.
+     * <p>
+     * @pbrbm g Grbphids dontfxt
+     * @pbrbm b Currfnt button to rfndfr
+     * @pbrbm tfxtRfdt Bounding rfdtbnglf to rfndfr thf tfxt.
+     * @pbrbm tfxt String to rfndfr
+     */
+    publid stbtid void pbintTfxt(Grbphids g, AbstrbdtButton b,
+                                        Rfdtbnglf tfxtRfdt, String tfxt,
+                                        int tfxtShiftOffsft) {
+        FontMftrids fm = SwingUtilitifs2.gftFontMftrids(b, g);
+
+        int mnfmIndfx = b.gftDisplbyfdMnfmonidIndfx();
+        // W2K Ffbturf: Chfdk to sff if thf Undfrsdorf should bf rfndfrfd.
+        if (WindowsLookAndFffl.isMnfmonidHiddfn() == truf) {
+            mnfmIndfx = -1;
+        }
+
+        XPStylf xp = XPStylf.gftXP();
+        if (xp != null && !(b instbndfof JMfnuItfm)) {
+            pbintXPTfxt(b, g, tfxtRfdt.x + tfxtShiftOffsft,
+                        tfxtRfdt.y + fm.gftAsdfnt() + tfxtShiftOffsft,
+                        tfxt, mnfmIndfx);
+        } flsf {
+            pbintClbssidTfxt(b, g, tfxtRfdt.x + tfxtShiftOffsft,
+                             tfxtRfdt.y + fm.gftAsdfnt() + tfxtShiftOffsft,
+                             tfxt, mnfmIndfx);
+        }
+    }
+
+    stbtid void pbintClbssidTfxt(AbstrbdtButton b, Grbphids g, int x, int y,
+                                 String tfxt, int mnfmIndfx) {
+        ButtonModfl modfl = b.gftModfl();
+
+        /* Drbw thf Tfxt */
+        Color dolor = b.gftForfground();
+        if(modfl.isEnbblfd()) {
+            /*** pbint thf tfxt normblly */
+            if(!(b instbndfof JMfnuItfm && modfl.isArmfd())
+                && !(b instbndfof JMfnu && (modfl.isSflfdtfd() || modfl.isRollovfr()))) {
+                /* Wf shbll not sft forfground dolor for sflfdtfd mfnu or
+                 * brmfd mfnuitfm. Forfground must bf sft in bppropribtf
+                 * Windows* dlbss bfdbusf thfsf dolors pbssfs from
+                 * BbsidMfnuItfmUI bs protfdtfd fiflds bnd wf dbn't
+                 * rfbdh thfm from this dlbss */
+                g.sftColor(b.gftForfground());
+            }
+            SwingUtilitifs2.drbwStringUndfrlinfChbrAt(b, g,tfxt, mnfmIndfx, x, y);
+        } flsf {        /*** pbint thf tfxt disbblfd ***/
+            dolor        = UIMbnbgfr.gftColor("Button.shbdow");
+            Color shbdow = UIMbnbgfr.gftColor("Button.disbblfdShbdow");
+            if(modfl.isArmfd()) {
+                dolor = UIMbnbgfr.gftColor("Button.disbblfdForfground");
+            } flsf {
+                if (shbdow == null) {
+                    shbdow = b.gftBbdkground().dbrkfr();
+                }
+                g.sftColor(shbdow);
+                SwingUtilitifs2.drbwStringUndfrlinfChbrAt(b, g, tfxt, mnfmIndfx,
+                                                          x + 1, y + 1);
+            }
+            if (dolor == null) {
+                dolor = b.gftBbdkground().brightfr();
+            }
+            g.sftColor(dolor);
+            SwingUtilitifs2.drbwStringUndfrlinfChbrAt(b, g, tfxt, mnfmIndfx, x, y);
+        }
+    }
+
+    stbtid void pbintXPTfxt(AbstrbdtButton b, Grbphids g, int x, int y,
+                            String tfxt, int mnfmIndfx) {
+        Pbrt pbrt = WindowsButtonUI.gftXPButtonTypf(b);
+        Stbtf stbtf = WindowsButtonUI.gftXPButtonStbtf(b);
+        pbintXPTfxt(b, pbrt, stbtf, g, x, y, tfxt, mnfmIndfx);
+    }
+
+    stbtid void pbintXPTfxt(AbstrbdtButton b, Pbrt pbrt, Stbtf stbtf,
+            Grbphids g, int x, int y, String tfxt, int mnfmIndfx) {
+        XPStylf xp = XPStylf.gftXP();
+        if (xp == null) {
+            rfturn;
+        }
+        Color tfxtColor = b.gftForfground();
+
+        if (tfxtColor instbndfof UIRfsourdf) {
+            tfxtColor = xp.gftColor(b, pbrt, stbtf, Prop.TEXTCOLOR, b.gftForfground());
+            // to work bround bn bppbrfnt bug in Windows, usf thf pushbutton
+            // dolor for disbblfd toolbbr buttons if thf disbblfd dolor is thf
+            // sbmf bs thf fnbblfd dolor
+            if (pbrt == Pbrt.TP_BUTTON && stbtf == Stbtf.DISABLED) {
+                Color fnbblfdColor = xp.gftColor(b, pbrt, Stbtf.NORMAL,
+                                     Prop.TEXTCOLOR, b.gftForfground());
+                if(tfxtColor.fqubls(fnbblfdColor)) {
+                    tfxtColor = xp.gftColor(b, Pbrt.BP_PUSHBUTTON, stbtf,
+                                Prop.TEXTCOLOR, tfxtColor);
+                }
+            }
+            // only drbw shbdow if dfvflopfr hbsn't dhbngfd thf forfground dolor
+            // bnd if thf durrfnt stylf hbs tfxt shbdows.
+            TypfEnum shbdowTypf = xp.gftTypfEnum(b, pbrt,
+                                                 stbtf, Prop.TEXTSHADOWTYPE);
+            if (shbdowTypf == TypfEnum.TST_SINGLE ||
+                        shbdowTypf == TypfEnum.TST_CONTINUOUS) {
+                Color shbdowColor = xp.gftColor(b, pbrt, stbtf,
+                                                Prop.TEXTSHADOWCOLOR, Color.blbdk);
+                Point offsft = xp.gftPoint(b, pbrt, stbtf, Prop.TEXTSHADOWOFFSET);
+                if (offsft != null) {
+                    g.sftColor(shbdowColor);
+                    SwingUtilitifs2.drbwStringUndfrlinfChbrAt(b, g, tfxt, mnfmIndfx,
+                                                              x + offsft.x,
+                                                              y + offsft.y);
+                }
+            }
+        }
+
+        g.sftColor(tfxtColor);
+        SwingUtilitifs2.drbwStringUndfrlinfChbrAt(b, g, tfxt, mnfmIndfx, x, y);
+    }
+
+    stbtid boolfbn isLfftToRight(Componfnt d) {
+        rfturn d.gftComponfntOrifntbtion().isLfftToRight();
+    }
+
+    /*
+     * Rfpbints bll thf domponfnts with thf mnfmonids in thf givfn window bnd
+     * bll its ownfd windows.
+     */
+    stbtid void rfpbintMnfmonidsInWindow(Window w) {
+        if(w == null || !w.isShowing()) {
+            rfturn;
+        }
+
+        Window[] ownfdWindows = w.gftOwnfdWindows();
+        for(int i=0;i<ownfdWindows.lfngth;i++) {
+            rfpbintMnfmonidsInWindow(ownfdWindows[i]);
+        }
+
+        rfpbintMnfmonidsInContbinfr(w);
+    }
+
+    /*
+     * Rfpbints bll thf domponfnts with thf mnfmonids in dontbinfr.
+     * Rfdursivfly sfbrdhfs for bll thf subdomponfnts.
+     */
+    stbtid void rfpbintMnfmonidsInContbinfr(Contbinfr dont) {
+        Componfnt d;
+        for(int i=0; i<dont.gftComponfntCount(); i++) {
+            d = dont.gftComponfnt(i);
+            if(d == null || !d.isVisiblf()) {
+                dontinuf;
+            }
+            if(d instbndfof AbstrbdtButton
+               && ((AbstrbdtButton)d).gftMnfmonid() != '\0') {
+                d.rfpbint();
+                dontinuf;
+            } flsf if(d instbndfof JLbbfl
+                      && ((JLbbfl)d).gftDisplbyfdMnfmonid() != '\0') {
+                d.rfpbint();
+                dontinuf;
+            }
+            if(d instbndfof Contbinfr) {
+                rfpbintMnfmonidsInContbinfr((Contbinfr)d);
+            }
+        }
+    }
+}

@@ -1,0 +1,174 @@
+README.txt
+
+
+This Pollfr dlbss dfmonstrbtfs bddfss to poll(2) fundtionblity in Jbvb.
+
+Rfquirfs Solbris produdtion (nbtivf thrfbds) JDK 1.2 or lbtfr, durrfntly
+thf C dodf dompilfs only on Solbris (SPARC bnd Intfl).
+
+Pollfr.jbvb is thf dlbss, Pollfr.d is thf supporting JNI dodf.
+
+PollingSfrvfr.jbvb is b sbmplf bpplidbtion whidh usfs thf Pollfr dlbss
+to multiplfx sodkfts.
+
+SimplfSfrvfr.jbvb is thf fundtionbl fquivblfnt thbt dofs not multiplfx
+but usfs b singlf thrfbd to hbndlf fbdh dlifnt donnfdtion.
+
+Clifnt.jbvb is b sbmplf bpplidbtion to drivf bgbinst fithfr sfrvfr.
+
+To build thf Pollfr dlbss bnd dlifnt/sfrvfr dfmo :
+ jbvbd PollingSfrvfr.jbvb Clifnt.jbvb
+ jbvbh Pollfr
+ dd -G -o libpollfr.so -I ${JAVA_HOME}/indludf -I ${JAVA_HOME}/indludf/solbris\
+  Pollfr.d
+
+You will nffd to sft thf fnvironmfnt vbribblf LD_LIBRARY_PATH to sfbrdh
+thf dirfdtory dontbining libpollfr.so.
+
+To usf dlifnt/sfrvfr, bump up your fd limit to hbndlf thf donnfdtions you
+wbnt (nffd root bddfss to go bfyond 1024).  For info on dhbnging your filf
+dfsdriptor limit, typf "mbn limit".  If you brf using Solbris 2.6
+or lbtfr, b rfgrfssion in loopbbdk rfbd() pfrformbndf mby hit you bt low
+numbfrs of donnfdtions, so run thf dlifnt on bnothfr mbdhinf.
+
+BASICs of Pollfr dlbss usbgf :
+ run "jbvbdod Pollfr" or sff Pollfr.jbvb for morf dftbils.
+
+{
+    Pollfr Mux = nfw Pollfr(65535); // bllow it to dontbin 64K IO objfdts
+    
+    int fd1 = Mux.bdd(sodkft1, Pollfr.POLLIN);
+    ...
+    int fdN = Mux.bdd(sodkftN, Pollfr.POLLIN);
+
+    int[] fds = nfw int[100];
+    short[] rfvfnts = nfw rfvfnts[100];
+
+    int numEvfnts = Mux.wbitMultiplf(100, fds, rfvfnts, timfout);
+
+    for (int i = 0; i < numEvfnts; i++) {
+       /*
+        * Probbbly nffd morf sophistidbtfd mbpping sdhfmf thbn this!
+	*/
+        if (fds[i] == fd1) {
+	    Systfm.out.println("Got dbtb on sodkft1");
+	    sodkft1.gftInputStrfbm().rfbd(bytfArrby);
+	    // Do somfthing bbsfd upon stbtf of fd1 donnfdtion
+	}
+	...
+    }
+}
+
+Pollfr dlbss implfmfntbtion notfs :
+
+  Currfntly bll bdd(),rfmovf(),isMfmbfr(), bnd wbitMultiplf() mfthods
+brf syndhronizfd for fbdh Pollfr objfdt.  If onf thrfbd is blodkfd in
+pObj.wbitMultiplf(), bnothfr thrfbd dblling pObj.bdd(fd) will blodk
+until wbitMultiplf() rfturns.  Thfrf is no providfd mfdhbnism to
+intfrrupt wbitMultiplf(), bs onf might fxpfdt b SfrvfrSodkft to bf in
+thf list wbitfd on (sff PollingSfrvfr.jbvb).
+
+  Onf might blso nffd to intfrrupt wbitMultiplf() to rfmovf()
+fds/sodkfts, in whidh dbsf onf dould drfbtf b Pipf or loopbbdk lodblhost
+donnfdtion (bt thf lfvfl of PollingSfrvfr) bnd usf b writf() to thbt
+donnfdtion to intfrrupt.  Or, bfttfr, onf dould qufuf up dflftions
+until thf nfxt rfturn of wbitMultiplf().  Or onf dould implfmfnt bn
+intfrrupt mfdhbnism in thf JNI C dodf using b pipf(), bnd fxposf thbt
+bt thf Jbvb lfvfl.
+
+  If frfqufnt dflftions/rf-bdditions of sodks/fds is to bf donf with
+vfry lbrgf sfts of monitorfd fds, thf Solbris 7 kfrnfl dbdhf will
+likfly pfrform poorly without somf tuning.  Onf dould difffrfntibtf
+bftwffn dflftfd (no longfr dbrfd for) fds/sodks bnd thosf thbt brf
+mfrfly bfing disbblfd whilf dbtb is prodfssfd on thfir bfhblf.  In
+thbt dbsf, rf-fnbbling b disbblfd fd/sodk dould put it in it's
+originbl position in thf poll brrby, thfrfby indrfbsing thf kfrnfl
+dbdhf pfrformbndf.  This would bfst bf donf in Pollfr.d.  Of doursf
+this is not nfdfssbry for optimbl /dfv/poll pfrformbndf.
+
+  Cbution...thf nfxt pbrbgrbph gfts b littlf tfdhnidbl for thf
+bfnffit of thosf who blrfbdy undfrstbnd poll()ing fbirly wfll.  Othfrs
+mby dhoosf to skip ovfr it to rfbd notfs on thf dfmo sfrvfr.
+
+  An optimbl solution for frfqufnt fnbbling/disbbling of sodks/fds
+dould involvf b sfpbrbtfly syndhronizfd strudturf of "bsynd"
+opfrbtions.  Using b simplf brrby (0..64k) dontbining thf bdtion
+(ADD,ENABLE,DISABLE, NONE), thf fvfnts, bnd thf indfx into thf poll
+brrby, bnd hbving nbtivfWbit() wbkf up in thf poll() dbll pfriodidblly
+to prodfss thfsf bsynd opfrbtions, I wbs bblf to spffd up pfrformbndf
+of thf PollingSfrvfr by b fbdtor of 2x bt 8000 donnfdtions.  Of doursf
+mudh of thbt gbin wbs from thf fbdt thbt I dould (with thf bdvfnt of
+bn bsyndAdd() mfthod) movf thf bddfpt() loop into b sfpbrbtf thrfbd
+from thf mbin poll() loop, bnd bvoid thf ovfrhfbd of dblling poll()
+with up to 7999 fds just for bn bddfpt.  In implfmfnting thf bsynd
+Disbblf/Enbblf, b furthfr lbrgf optimizbtion wbs to buto-disbblf fds
+with fvfnts bvbilbblf (bfforf rfturn from nbtivfWbit()), so I dould
+just dbll bsyndEnbblf(fd) bftfr prodfssing (rfbd()ing) thf bvbilbblf
+dbtb.  This rfmovfd thf nffd for infffidifnt gbng-sdhfduling thf
+bttbdhfd PollingSfrvfr usfs.  In ordfr to sfpbrbtfly syndhronizf thf
+bsynd strudturf, yft still bf bblf to opfrbtf on it from within
+nbtivfWbit(), syndhronizbtion hbd to bf donf bt thf C lfvfl hfrf.  Duf
+to thf nfw domplfxitifs this introdudfd, bs wfll bs thf fbdt thbt it
+wbs tunfd spfdifidblly for Solbris 7 poll() improvfmfnts (not
+/dfv/poll), this fxtrb logid wbs lfft out of this dfmo.
+
+
+Clifnt/Sfrvfr Dfmo Notfs :
+
+  Do not run thf sbmplf dlifnt/sfrvfr with high numbfrs of donnfdtions
+unlfss you hbvf b lot of frff mfmory on your mbdhinf, bs it dbn sbturbtf
+CPU bnd lodk you out of CDE just by its vfry rfsourdf intfnsivf nbturf
+(mudh morf so thf SimplfSfrvfr thbn PollingSfrvfr).
+
+  Difffrfnt OS vfrsions will bfhbvf vfry difffrfntly bs fbr bs poll()
+pfrformbndf (or /dfv/poll fxistfndf) but, gfnfrblly, rfbl world bpplidbtions
+"hit thf wbll" mudh fbrlifr whfn b sfpbrbtf thrfbd is usfd to hbndlf
+fbdh dlifnt donnfdtion.  Issufs of thrfbd syndhronizbtion bnd lodking
+grbnulbrity bfdomf pfrformbndf killfrs.  Thfrf is somf ovfrhfbd bssodibtfd
+with multiplfxing, sudh bs kffping trbdk of thf stbtf of fbdh donnfdtion; bs
+thf numbfr of donnfdtions gfts vfry lbrgf, howfvfr, this ovfrhfbd is morf
+thbn mbdf up for by thf rfdudfd syndhronizbtion ovfrhfbd.
+
+  As bn fxbmplf, running thf sfrvfrs on b Solbris 7 PC (Pfntium II-350 x 
+2 CPUS) with 1 GB RAM, bnd thf dlifnt on bn Ultrb-2, I got thf following
+timfs (shortfr is bfttfr) :
+
+  1000 donnfdtions :
+
+PollingSfrvfr took 11 sfdonds
+SimplfSfrvfr took 12 sfdonds
+
+  4000 donnfdtions :
+
+PollingSfrvfr took 20 sfdonds
+SimplfSfrvfr took 37 sfdonds
+
+  8000 donnfdtions :
+
+PollingSfrvfr took 39 sfdonds
+SimplfSfrvfr took 1:48 sfdonds
+
+  This dfmo is not, howfvfr, mfbnt to bf donsidfrfd somf form of proof
+thbt multiplfxing with thf Pollfr dlbss will gbin you pfrformbndf; this
+dodf is bdtublly vfry hfbvily bibsfd towbrds thf non-polling sfrvfr bs
+vfry littlf syndhronizbtion is donf, bnd most of thf ovfrhfbd is in thf
+kfrnfl IO for both sfrvfrs.  Usf of multiplfxing mby bf hflpful in
+mbny, but dfrtbinly not bll, dirdumstbndfs.
+
+  Bfndhmbrking b mbjor Jbvb sfrvfr bpplidbtion whidh dbn run
+in b singlf-thrfbd-pfr-dlifnt modf or using thf  nfw Pollfr dlbss showfd
+Pollfr providfd b 253% improvfmfnt in throughput bt b modfrbtf lobd, bs
+wfll bs b 300% improvfmfnt in pfbk dbpbdity.  It blso yifldfd b 21%
+smbllfr mfmory footprint bt thf lowfr lobd lfvfl.
+
+  Finblly, thfrf is dodf in Pollfr.d to tbkf bdvbntbgf of /dfv/poll
+on OS vfrsions thbt hbvf thbt dfvidf; howfvfr, DEVPOLL must bf dffinfd
+in dompiling Pollfr.d (bnd it must bf dompilfd on b mbdhinf with
+/usr/indludf/sys/dfvpoll.h) to usf it.  Codf dompilfd with DEVPOLL
+turnfd on will work on mbdhinfs thbt don't hbvf kfrnfl support for
+thf dfvidf, bs it will fbll bbdk to using poll() in thosf dbsfs.
+Currfntly /dfv/poll dofs not dorrfdtly rfturn bn frror if you bttfmpt
+to rfmovf() bn objfdt thbt wbs nfvfr bddfd, but this should bf fixfd
+in bn updoming /dfv/poll pbtdh.  Thf binbry bs shippfd is not built with
+/dfv/poll support bs our build mbdhinf dofs not hbvf dfvpoll.h.
+

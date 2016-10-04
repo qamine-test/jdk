@@ -1,1043 +1,1043 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Writtfn by Doug Lfb witi bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to tif publid dombin, bs fxplbinfd bt
+ * ittp://drfbtivfdommons.org/publiddombin/zfro/1.0/
  */
 
-package java.util.concurrent;
+pbdkbgf jbvb.util.dondurrfnt;
 
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.ReentrantLock;
-import java.util.AbstractQueue;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-import java.util.PriorityQueue;
-import java.util.Queue;
-import java.util.SortedSet;
-import java.util.Spliterator;
-import java.util.function.Consumer;
+import jbvb.util.dondurrfnt.lodks.Condition;
+import jbvb.util.dondurrfnt.lodks.RffntrbntLodk;
+import jbvb.util.AbstrbdtQufuf;
+import jbvb.util.Arrbys;
+import jbvb.util.Collfdtion;
+import jbvb.util.Compbrbtor;
+import jbvb.util.Itfrbtor;
+import jbvb.util.NoSudiElfmfntExdfption;
+import jbvb.util.PriorityQufuf;
+import jbvb.util.Qufuf;
+import jbvb.util.SortfdSft;
+import jbvb.util.Splitfrbtor;
+import jbvb.util.fundtion.Consumfr;
 
 /**
- * An unbounded {@linkplain BlockingQueue blocking queue} that uses
- * the same ordering rules as class {@link PriorityQueue} and supplies
- * blocking retrieval operations.  While this queue is logically
- * unbounded, attempted additions may fail due to resource exhaustion
- * (causing {@code OutOfMemoryError}). This class does not permit
- * {@code null} elements.  A priority queue relying on {@linkplain
- * Comparable natural ordering} also does not permit insertion of
- * non-comparable objects (doing so results in
- * {@code ClassCastException}).
+ * An unboundfd {@linkplbin BlodkingQufuf blodking qufuf} tibt usfs
+ * tif sbmf ordfring rulfs bs dlbss {@link PriorityQufuf} bnd supplifs
+ * blodking rftrifvbl opfrbtions.  Wiilf tiis qufuf is logidblly
+ * unboundfd, bttfmptfd bdditions mby fbil duf to rfsourdf fxibustion
+ * (dbusing {@dodf OutOfMfmoryError}). Tiis dlbss dofs not pfrmit
+ * {@dodf null} flfmfnts.  A priority qufuf rflying on {@linkplbin
+ * Compbrbblf nbturbl ordfring} blso dofs not pfrmit insfrtion of
+ * non-dompbrbblf objfdts (doing so rfsults in
+ * {@dodf ClbssCbstExdfption}).
  *
- * <p>This class and its iterator implement all of the
- * <em>optional</em> methods of the {@link Collection} and {@link
- * Iterator} interfaces.  The Iterator provided in method {@link
- * #iterator()} is <em>not</em> guaranteed to traverse the elements of
- * the PriorityBlockingQueue in any particular order. If you need
- * ordered traversal, consider using
- * {@code Arrays.sort(pq.toArray())}.  Also, method {@code drainTo}
- * can be used to <em>remove</em> some or all elements in priority
- * order and place them in another collection.
+ * <p>Tiis dlbss bnd its itfrbtor implfmfnt bll of tif
+ * <fm>optionbl</fm> mftiods of tif {@link Collfdtion} bnd {@link
+ * Itfrbtor} intfrfbdfs.  Tif Itfrbtor providfd in mftiod {@link
+ * #itfrbtor()} is <fm>not</fm> gubrbntffd to trbvfrsf tif flfmfnts of
+ * tif PriorityBlodkingQufuf in bny pbrtidulbr ordfr. If you nffd
+ * ordfrfd trbvfrsbl, donsidfr using
+ * {@dodf Arrbys.sort(pq.toArrby())}.  Also, mftiod {@dodf drbinTo}
+ * dbn bf usfd to <fm>rfmovf</fm> somf or bll flfmfnts in priority
+ * ordfr bnd plbdf tifm in bnotifr dollfdtion.
  *
- * <p>Operations on this class make no guarantees about the ordering
- * of elements with equal priority. If you need to enforce an
- * ordering, you can define custom classes or comparators that use a
- * secondary key to break ties in primary priority values.  For
- * example, here is a class that applies first-in-first-out
- * tie-breaking to comparable elements. To use it, you would insert a
- * {@code new FIFOEntry(anEntry)} instead of a plain entry object.
+ * <p>Opfrbtions on tiis dlbss mbkf no gubrbntffs bbout tif ordfring
+ * of flfmfnts witi fqubl priority. If you nffd to fnfordf bn
+ * ordfring, you dbn dffinf dustom dlbssfs or dompbrbtors tibt usf b
+ * sfdondbry kfy to brfbk tifs in primbry priority vblufs.  For
+ * fxbmplf, ifrf is b dlbss tibt bpplifs first-in-first-out
+ * tif-brfbking to dompbrbblf flfmfnts. To usf it, you would insfrt b
+ * {@dodf nfw FIFOEntry(bnEntry)} instfbd of b plbin fntry objfdt.
  *
- *  <pre> {@code
- * class FIFOEntry<E extends Comparable<? super E>>
- *     implements Comparable<FIFOEntry<E>> {
- *   static final AtomicLong seq = new AtomicLong(0);
- *   final long seqNum;
- *   final E entry;
- *   public FIFOEntry(E entry) {
- *     seqNum = seq.getAndIncrement();
- *     this.entry = entry;
+ *  <prf> {@dodf
+ * dlbss FIFOEntry<E fxtfnds Compbrbblf<? supfr E>>
+ *     implfmfnts Compbrbblf<FIFOEntry<E>> {
+ *   stbtid finbl AtomidLong sfq = nfw AtomidLong(0);
+ *   finbl long sfqNum;
+ *   finbl E fntry;
+ *   publid FIFOEntry(E fntry) {
+ *     sfqNum = sfq.gftAndIndrfmfnt();
+ *     tiis.fntry = fntry;
  *   }
- *   public E getEntry() { return entry; }
- *   public int compareTo(FIFOEntry<E> other) {
- *     int res = entry.compareTo(other.entry);
- *     if (res == 0 && other.entry != this.entry)
- *       res = (seqNum < other.seqNum ? -1 : 1);
- *     return res;
+ *   publid E gftEntry() { rfturn fntry; }
+ *   publid int dompbrfTo(FIFOEntry<E> otifr) {
+ *     int rfs = fntry.dompbrfTo(otifr.fntry);
+ *     if (rfs == 0 && otifr.fntry != tiis.fntry)
+ *       rfs = (sfqNum < otifr.sfqNum ? -1 : 1);
+ *     rfturn rfs;
  *   }
- * }}</pre>
+ * }}</prf>
  *
- * <p>This class is a member of the
- * <a href="{@docRoot}/../technotes/guides/collections/index.html">
- * Java Collections Framework</a>.
+ * <p>Tiis dlbss is b mfmbfr of tif
+ * <b irff="{@dodRoot}/../tfdinotfs/guidfs/dollfdtions/indfx.itml">
+ * Jbvb Collfdtions Frbmfwork</b>.
  *
- * @since 1.5
- * @author Doug Lea
- * @param <E> the type of elements held in this collection
+ * @sindf 1.5
+ * @butior Doug Lfb
+ * @pbrbm <E> tif typf of flfmfnts ifld in tiis dollfdtion
  */
-@SuppressWarnings("unchecked")
-public class PriorityBlockingQueue<E> extends AbstractQueue<E>
-    implements BlockingQueue<E>, java.io.Serializable {
-    private static final long serialVersionUID = 5595510919245408276L;
+@SupprfssWbrnings("undifdkfd")
+publid dlbss PriorityBlodkingQufuf<E> fxtfnds AbstrbdtQufuf<E>
+    implfmfnts BlodkingQufuf<E>, jbvb.io.Sfriblizbblf {
+    privbtf stbtid finbl long sfriblVfrsionUID = 5595510919245408276L;
 
     /*
-     * The implementation uses an array-based binary heap, with public
-     * operations protected with a single lock. However, allocation
-     * during resizing uses a simple spinlock (used only while not
-     * holding main lock) in order to allow takes to operate
-     * concurrently with allocation.  This avoids repeated
-     * postponement of waiting consumers and consequent element
-     * build-up. The need to back away from lock during allocation
-     * makes it impossible to simply wrap delegated
-     * java.util.PriorityQueue operations within a lock, as was done
-     * in a previous version of this class. To maintain
-     * interoperability, a plain PriorityQueue is still used during
-     * serialization, which maintains compatibility at the expense of
-     * transiently doubling overhead.
+     * Tif implfmfntbtion usfs bn brrby-bbsfd binbry ifbp, witi publid
+     * opfrbtions protfdtfd witi b singlf lodk. Howfvfr, bllodbtion
+     * during rfsizing usfs b simplf spinlodk (usfd only wiilf not
+     * iolding mbin lodk) in ordfr to bllow tbkfs to opfrbtf
+     * dondurrfntly witi bllodbtion.  Tiis bvoids rfpfbtfd
+     * postponfmfnt of wbiting donsumfrs bnd donsfqufnt flfmfnt
+     * build-up. Tif nffd to bbdk bwby from lodk during bllodbtion
+     * mbkfs it impossiblf to simply wrbp dflfgbtfd
+     * jbvb.util.PriorityQufuf opfrbtions witiin b lodk, bs wbs donf
+     * in b prfvious vfrsion of tiis dlbss. To mbintbin
+     * intfropfrbbility, b plbin PriorityQufuf is still usfd during
+     * sfriblizbtion, wiidi mbintbins dompbtibility bt tif fxpfnsf of
+     * trbnsifntly doubling ovfrifbd.
      */
 
     /**
-     * Default array capacity.
+     * Dffbult brrby dbpbdity.
      */
-    private static final int DEFAULT_INITIAL_CAPACITY = 11;
+    privbtf stbtid finbl int DEFAULT_INITIAL_CAPACITY = 11;
 
     /**
-     * The maximum size of array to allocate.
-     * Some VMs reserve some header words in an array.
-     * Attempts to allocate larger arrays may result in
-     * OutOfMemoryError: Requested array size exceeds VM limit
+     * Tif mbximum sizf of brrby to bllodbtf.
+     * Somf VMs rfsfrvf somf ifbdfr words in bn brrby.
+     * Attfmpts to bllodbtf lbrgfr brrbys mby rfsult in
+     * OutOfMfmoryError: Rfqufstfd brrby sizf fxdffds VM limit
      */
-    private static final int MAX_ARRAY_SIZE = Integer.MAX_VALUE - 8;
+    privbtf stbtid finbl int MAX_ARRAY_SIZE = Intfgfr.MAX_VALUE - 8;
 
     /**
-     * Priority queue represented as a balanced binary heap: the two
-     * children of queue[n] are queue[2*n+1] and queue[2*(n+1)].  The
-     * priority queue is ordered by comparator, or by the elements'
-     * natural ordering, if comparator is null: For each node n in the
-     * heap and each descendant d of n, n <= d.  The element with the
-     * lowest value is in queue[0], assuming the queue is nonempty.
+     * Priority qufuf rfprfsfntfd bs b bblbndfd binbry ifbp: tif two
+     * diildrfn of qufuf[n] brf qufuf[2*n+1] bnd qufuf[2*(n+1)].  Tif
+     * priority qufuf is ordfrfd by dompbrbtor, or by tif flfmfnts'
+     * nbturbl ordfring, if dompbrbtor is null: For fbdi nodf n in tif
+     * ifbp bnd fbdi dfsdfndbnt d of n, n <= d.  Tif flfmfnt witi tif
+     * lowfst vbluf is in qufuf[0], bssuming tif qufuf is nonfmpty.
      */
-    private transient Object[] queue;
+    privbtf trbnsifnt Objfdt[] qufuf;
 
     /**
-     * The number of elements in the priority queue.
+     * Tif numbfr of flfmfnts in tif priority qufuf.
      */
-    private transient int size;
+    privbtf trbnsifnt int sizf;
 
     /**
-     * The comparator, or null if priority queue uses elements'
-     * natural ordering.
+     * Tif dompbrbtor, or null if priority qufuf usfs flfmfnts'
+     * nbturbl ordfring.
      */
-    private transient Comparator<? super E> comparator;
+    privbtf trbnsifnt Compbrbtor<? supfr E> dompbrbtor;
 
     /**
-     * Lock used for all public operations
+     * Lodk usfd for bll publid opfrbtions
      */
-    private final ReentrantLock lock;
+    privbtf finbl RffntrbntLodk lodk;
 
     /**
-     * Condition for blocking when empty
+     * Condition for blodking wifn fmpty
      */
-    private final Condition notEmpty;
+    privbtf finbl Condition notEmpty;
 
     /**
-     * Spinlock for allocation, acquired via CAS.
+     * Spinlodk for bllodbtion, bdquirfd vib CAS.
      */
-    private transient volatile int allocationSpinLock;
+    privbtf trbnsifnt volbtilf int bllodbtionSpinLodk;
 
     /**
-     * A plain PriorityQueue used only for serialization,
-     * to maintain compatibility with previous versions
-     * of this class. Non-null only during serialization/deserialization.
+     * A plbin PriorityQufuf usfd only for sfriblizbtion,
+     * to mbintbin dompbtibility witi prfvious vfrsions
+     * of tiis dlbss. Non-null only during sfriblizbtion/dfsfriblizbtion.
      */
-    private PriorityQueue<E> q;
+    privbtf PriorityQufuf<E> q;
 
     /**
-     * Creates a {@code PriorityBlockingQueue} with the default
-     * initial capacity (11) that orders its elements according to
-     * their {@linkplain Comparable natural ordering}.
+     * Crfbtfs b {@dodf PriorityBlodkingQufuf} witi tif dffbult
+     * initibl dbpbdity (11) tibt ordfrs its flfmfnts bddording to
+     * tifir {@linkplbin Compbrbblf nbturbl ordfring}.
      */
-    public PriorityBlockingQueue() {
-        this(DEFAULT_INITIAL_CAPACITY, null);
+    publid PriorityBlodkingQufuf() {
+        tiis(DEFAULT_INITIAL_CAPACITY, null);
     }
 
     /**
-     * Creates a {@code PriorityBlockingQueue} with the specified
-     * initial capacity that orders its elements according to their
-     * {@linkplain Comparable natural ordering}.
+     * Crfbtfs b {@dodf PriorityBlodkingQufuf} witi tif spfdififd
+     * initibl dbpbdity tibt ordfrs its flfmfnts bddording to tifir
+     * {@linkplbin Compbrbblf nbturbl ordfring}.
      *
-     * @param initialCapacity the initial capacity for this priority queue
-     * @throws IllegalArgumentException if {@code initialCapacity} is less
-     *         than 1
+     * @pbrbm initiblCbpbdity tif initibl dbpbdity for tiis priority qufuf
+     * @tirows IllfgblArgumfntExdfption if {@dodf initiblCbpbdity} is lfss
+     *         tibn 1
      */
-    public PriorityBlockingQueue(int initialCapacity) {
-        this(initialCapacity, null);
+    publid PriorityBlodkingQufuf(int initiblCbpbdity) {
+        tiis(initiblCbpbdity, null);
     }
 
     /**
-     * Creates a {@code PriorityBlockingQueue} with the specified initial
-     * capacity that orders its elements according to the specified
-     * comparator.
+     * Crfbtfs b {@dodf PriorityBlodkingQufuf} witi tif spfdififd initibl
+     * dbpbdity tibt ordfrs its flfmfnts bddording to tif spfdififd
+     * dompbrbtor.
      *
-     * @param initialCapacity the initial capacity for this priority queue
-     * @param  comparator the comparator that will be used to order this
-     *         priority queue.  If {@code null}, the {@linkplain Comparable
-     *         natural ordering} of the elements will be used.
-     * @throws IllegalArgumentException if {@code initialCapacity} is less
-     *         than 1
+     * @pbrbm initiblCbpbdity tif initibl dbpbdity for tiis priority qufuf
+     * @pbrbm  dompbrbtor tif dompbrbtor tibt will bf usfd to ordfr tiis
+     *         priority qufuf.  If {@dodf null}, tif {@linkplbin Compbrbblf
+     *         nbturbl ordfring} of tif flfmfnts will bf usfd.
+     * @tirows IllfgblArgumfntExdfption if {@dodf initiblCbpbdity} is lfss
+     *         tibn 1
      */
-    public PriorityBlockingQueue(int initialCapacity,
-                                 Comparator<? super E> comparator) {
-        if (initialCapacity < 1)
-            throw new IllegalArgumentException();
-        this.lock = new ReentrantLock();
-        this.notEmpty = lock.newCondition();
-        this.comparator = comparator;
-        this.queue = new Object[initialCapacity];
+    publid PriorityBlodkingQufuf(int initiblCbpbdity,
+                                 Compbrbtor<? supfr E> dompbrbtor) {
+        if (initiblCbpbdity < 1)
+            tirow nfw IllfgblArgumfntExdfption();
+        tiis.lodk = nfw RffntrbntLodk();
+        tiis.notEmpty = lodk.nfwCondition();
+        tiis.dompbrbtor = dompbrbtor;
+        tiis.qufuf = nfw Objfdt[initiblCbpbdity];
     }
 
     /**
-     * Creates a {@code PriorityBlockingQueue} containing the elements
-     * in the specified collection.  If the specified collection is a
-     * {@link SortedSet} or a {@link PriorityQueue}, this
-     * priority queue will be ordered according to the same ordering.
-     * Otherwise, this priority queue will be ordered according to the
-     * {@linkplain Comparable natural ordering} of its elements.
+     * Crfbtfs b {@dodf PriorityBlodkingQufuf} dontbining tif flfmfnts
+     * in tif spfdififd dollfdtion.  If tif spfdififd dollfdtion is b
+     * {@link SortfdSft} or b {@link PriorityQufuf}, tiis
+     * priority qufuf will bf ordfrfd bddording to tif sbmf ordfring.
+     * Otifrwisf, tiis priority qufuf will bf ordfrfd bddording to tif
+     * {@linkplbin Compbrbblf nbturbl ordfring} of its flfmfnts.
      *
-     * @param  c the collection whose elements are to be placed
-     *         into this priority queue
-     * @throws ClassCastException if elements of the specified collection
-     *         cannot be compared to one another according to the priority
-     *         queue's ordering
-     * @throws NullPointerException if the specified collection or any
-     *         of its elements are null
+     * @pbrbm  d tif dollfdtion wiosf flfmfnts brf to bf plbdfd
+     *         into tiis priority qufuf
+     * @tirows ClbssCbstExdfption if flfmfnts of tif spfdififd dollfdtion
+     *         dbnnot bf dompbrfd to onf bnotifr bddording to tif priority
+     *         qufuf's ordfring
+     * @tirows NullPointfrExdfption if tif spfdififd dollfdtion or bny
+     *         of its flfmfnts brf null
      */
-    public PriorityBlockingQueue(Collection<? extends E> c) {
-        this.lock = new ReentrantLock();
-        this.notEmpty = lock.newCondition();
-        boolean heapify = true; // true if not known to be in heap order
-        boolean screen = true;  // true if must screen for nulls
-        if (c instanceof SortedSet<?>) {
-            SortedSet<? extends E> ss = (SortedSet<? extends E>) c;
-            this.comparator = (Comparator<? super E>) ss.comparator();
-            heapify = false;
+    publid PriorityBlodkingQufuf(Collfdtion<? fxtfnds E> d) {
+        tiis.lodk = nfw RffntrbntLodk();
+        tiis.notEmpty = lodk.nfwCondition();
+        boolfbn ifbpify = truf; // truf if not known to bf in ifbp ordfr
+        boolfbn sdrffn = truf;  // truf if must sdrffn for nulls
+        if (d instbndfof SortfdSft<?>) {
+            SortfdSft<? fxtfnds E> ss = (SortfdSft<? fxtfnds E>) d;
+            tiis.dompbrbtor = (Compbrbtor<? supfr E>) ss.dompbrbtor();
+            ifbpify = fblsf;
         }
-        else if (c instanceof PriorityBlockingQueue<?>) {
-            PriorityBlockingQueue<? extends E> pq =
-                (PriorityBlockingQueue<? extends E>) c;
-            this.comparator = (Comparator<? super E>) pq.comparator();
-            screen = false;
-            if (pq.getClass() == PriorityBlockingQueue.class) // exact match
-                heapify = false;
+        flsf if (d instbndfof PriorityBlodkingQufuf<?>) {
+            PriorityBlodkingQufuf<? fxtfnds E> pq =
+                (PriorityBlodkingQufuf<? fxtfnds E>) d;
+            tiis.dompbrbtor = (Compbrbtor<? supfr E>) pq.dompbrbtor();
+            sdrffn = fblsf;
+            if (pq.gftClbss() == PriorityBlodkingQufuf.dlbss) // fxbdt mbtdi
+                ifbpify = fblsf;
         }
-        Object[] a = c.toArray();
-        int n = a.length;
-        // If c.toArray incorrectly doesn't return Object[], copy it.
-        if (a.getClass() != Object[].class)
-            a = Arrays.copyOf(a, n, Object[].class);
-        if (screen && (n == 1 || this.comparator != null)) {
+        Objfdt[] b = d.toArrby();
+        int n = b.lfngti;
+        // If d.toArrby indorrfdtly dofsn't rfturn Objfdt[], dopy it.
+        if (b.gftClbss() != Objfdt[].dlbss)
+            b = Arrbys.dopyOf(b, n, Objfdt[].dlbss);
+        if (sdrffn && (n == 1 || tiis.dompbrbtor != null)) {
             for (int i = 0; i < n; ++i)
-                if (a[i] == null)
-                    throw new NullPointerException();
+                if (b[i] == null)
+                    tirow nfw NullPointfrExdfption();
         }
-        this.queue = a;
-        this.size = n;
-        if (heapify)
-            heapify();
+        tiis.qufuf = b;
+        tiis.sizf = n;
+        if (ifbpify)
+            ifbpify();
     }
 
     /**
-     * Tries to grow array to accommodate at least one more element
-     * (but normally expand by about 50%), giving up (allowing retry)
-     * on contention (which we expect to be rare). Call only while
-     * holding lock.
+     * Trifs to grow brrby to bddommodbtf bt lfbst onf morf flfmfnt
+     * (but normblly fxpbnd by bbout 50%), giving up (bllowing rftry)
+     * on dontfntion (wiidi wf fxpfdt to bf rbrf). Cbll only wiilf
+     * iolding lodk.
      *
-     * @param array the heap array
-     * @param oldCap the length of the array
+     * @pbrbm brrby tif ifbp brrby
+     * @pbrbm oldCbp tif lfngti of tif brrby
      */
-    private void tryGrow(Object[] array, int oldCap) {
-        lock.unlock(); // must release and then re-acquire main lock
-        Object[] newArray = null;
-        if (allocationSpinLock == 0 &&
-            UNSAFE.compareAndSwapInt(this, allocationSpinLockOffset,
+    privbtf void tryGrow(Objfdt[] brrby, int oldCbp) {
+        lodk.unlodk(); // must rflfbsf bnd tifn rf-bdquirf mbin lodk
+        Objfdt[] nfwArrby = null;
+        if (bllodbtionSpinLodk == 0 &&
+            UNSAFE.dompbrfAndSwbpInt(tiis, bllodbtionSpinLodkOffsft,
                                      0, 1)) {
             try {
-                int newCap = oldCap + ((oldCap < 64) ?
-                                       (oldCap + 2) : // grow faster if small
-                                       (oldCap >> 1));
-                if (newCap - MAX_ARRAY_SIZE > 0) {    // possible overflow
-                    int minCap = oldCap + 1;
-                    if (minCap < 0 || minCap > MAX_ARRAY_SIZE)
-                        throw new OutOfMemoryError();
-                    newCap = MAX_ARRAY_SIZE;
+                int nfwCbp = oldCbp + ((oldCbp < 64) ?
+                                       (oldCbp + 2) : // grow fbstfr if smbll
+                                       (oldCbp >> 1));
+                if (nfwCbp - MAX_ARRAY_SIZE > 0) {    // possiblf ovfrflow
+                    int minCbp = oldCbp + 1;
+                    if (minCbp < 0 || minCbp > MAX_ARRAY_SIZE)
+                        tirow nfw OutOfMfmoryError();
+                    nfwCbp = MAX_ARRAY_SIZE;
                 }
-                if (newCap > oldCap && queue == array)
-                    newArray = new Object[newCap];
-            } finally {
-                allocationSpinLock = 0;
+                if (nfwCbp > oldCbp && qufuf == brrby)
+                    nfwArrby = nfw Objfdt[nfwCbp];
+            } finblly {
+                bllodbtionSpinLodk = 0;
             }
         }
-        if (newArray == null) // back off if another thread is allocating
-            Thread.yield();
-        lock.lock();
-        if (newArray != null && queue == array) {
-            queue = newArray;
-            System.arraycopy(array, 0, newArray, 0, oldCap);
+        if (nfwArrby == null) // bbdk off if bnotifr tirfbd is bllodbting
+            Tirfbd.yifld();
+        lodk.lodk();
+        if (nfwArrby != null && qufuf == brrby) {
+            qufuf = nfwArrby;
+            Systfm.brrbydopy(brrby, 0, nfwArrby, 0, oldCbp);
         }
     }
 
     /**
-     * Mechanics for poll().  Call only while holding lock.
+     * Mfdibnids for poll().  Cbll only wiilf iolding lodk.
      */
-    private E dequeue() {
-        int n = size - 1;
+    privbtf E dfqufuf() {
+        int n = sizf - 1;
         if (n < 0)
-            return null;
-        else {
-            Object[] array = queue;
-            E result = (E) array[0];
-            E x = (E) array[n];
-            array[n] = null;
-            Comparator<? super E> cmp = comparator;
-            if (cmp == null)
-                siftDownComparable(0, x, array, n);
-            else
-                siftDownUsingComparator(0, x, array, n, cmp);
-            size = n;
-            return result;
+            rfturn null;
+        flsf {
+            Objfdt[] brrby = qufuf;
+            E rfsult = (E) brrby[0];
+            E x = (E) brrby[n];
+            brrby[n] = null;
+            Compbrbtor<? supfr E> dmp = dompbrbtor;
+            if (dmp == null)
+                siftDownCompbrbblf(0, x, brrby, n);
+            flsf
+                siftDownUsingCompbrbtor(0, x, brrby, n, dmp);
+            sizf = n;
+            rfturn rfsult;
         }
     }
 
     /**
-     * Inserts item x at position k, maintaining heap invariant by
-     * promoting x up the tree until it is greater than or equal to
-     * its parent, or is the root.
+     * Insfrts itfm x bt position k, mbintbining ifbp invbribnt by
+     * promoting x up tif trff until it is grfbtfr tibn or fqubl to
+     * its pbrfnt, or is tif root.
      *
-     * To simplify and speed up coercions and comparisons. the
-     * Comparable and Comparator versions are separated into different
-     * methods that are otherwise identical. (Similarly for siftDown.)
-     * These methods are static, with heap state as arguments, to
-     * simplify use in light of possible comparator exceptions.
+     * To simplify bnd spffd up dofrdions bnd dompbrisons. tif
+     * Compbrbblf bnd Compbrbtor vfrsions brf sfpbrbtfd into difffrfnt
+     * mftiods tibt brf otifrwisf idfntidbl. (Similbrly for siftDown.)
+     * Tifsf mftiods brf stbtid, witi ifbp stbtf bs brgumfnts, to
+     * simplify usf in ligit of possiblf dompbrbtor fxdfptions.
      *
-     * @param k the position to fill
-     * @param x the item to insert
-     * @param array the heap array
+     * @pbrbm k tif position to fill
+     * @pbrbm x tif itfm to insfrt
+     * @pbrbm brrby tif ifbp brrby
      */
-    private static <T> void siftUpComparable(int k, T x, Object[] array) {
-        Comparable<? super T> key = (Comparable<? super T>) x;
-        while (k > 0) {
-            int parent = (k - 1) >>> 1;
-            Object e = array[parent];
-            if (key.compareTo((T) e) >= 0)
-                break;
-            array[k] = e;
-            k = parent;
+    privbtf stbtid <T> void siftUpCompbrbblf(int k, T x, Objfdt[] brrby) {
+        Compbrbblf<? supfr T> kfy = (Compbrbblf<? supfr T>) x;
+        wiilf (k > 0) {
+            int pbrfnt = (k - 1) >>> 1;
+            Objfdt f = brrby[pbrfnt];
+            if (kfy.dompbrfTo((T) f) >= 0)
+                brfbk;
+            brrby[k] = f;
+            k = pbrfnt;
         }
-        array[k] = key;
+        brrby[k] = kfy;
     }
 
-    private static <T> void siftUpUsingComparator(int k, T x, Object[] array,
-                                       Comparator<? super T> cmp) {
-        while (k > 0) {
-            int parent = (k - 1) >>> 1;
-            Object e = array[parent];
-            if (cmp.compare(x, (T) e) >= 0)
-                break;
-            array[k] = e;
-            k = parent;
+    privbtf stbtid <T> void siftUpUsingCompbrbtor(int k, T x, Objfdt[] brrby,
+                                       Compbrbtor<? supfr T> dmp) {
+        wiilf (k > 0) {
+            int pbrfnt = (k - 1) >>> 1;
+            Objfdt f = brrby[pbrfnt];
+            if (dmp.dompbrf(x, (T) f) >= 0)
+                brfbk;
+            brrby[k] = f;
+            k = pbrfnt;
         }
-        array[k] = x;
+        brrby[k] = x;
     }
 
     /**
-     * Inserts item x at position k, maintaining heap invariant by
-     * demoting x down the tree repeatedly until it is less than or
-     * equal to its children or is a leaf.
+     * Insfrts itfm x bt position k, mbintbining ifbp invbribnt by
+     * dfmoting x down tif trff rfpfbtfdly until it is lfss tibn or
+     * fqubl to its diildrfn or is b lfbf.
      *
-     * @param k the position to fill
-     * @param x the item to insert
-     * @param array the heap array
-     * @param n heap size
+     * @pbrbm k tif position to fill
+     * @pbrbm x tif itfm to insfrt
+     * @pbrbm brrby tif ifbp brrby
+     * @pbrbm n ifbp sizf
      */
-    private static <T> void siftDownComparable(int k, T x, Object[] array,
+    privbtf stbtid <T> void siftDownCompbrbblf(int k, T x, Objfdt[] brrby,
                                                int n) {
         if (n > 0) {
-            Comparable<? super T> key = (Comparable<? super T>)x;
-            int half = n >>> 1;           // loop while a non-leaf
-            while (k < half) {
-                int child = (k << 1) + 1; // assume left child is least
-                Object c = array[child];
-                int right = child + 1;
-                if (right < n &&
-                    ((Comparable<? super T>) c).compareTo((T) array[right]) > 0)
-                    c = array[child = right];
-                if (key.compareTo((T) c) <= 0)
-                    break;
-                array[k] = c;
-                k = child;
+            Compbrbblf<? supfr T> kfy = (Compbrbblf<? supfr T>)x;
+            int iblf = n >>> 1;           // loop wiilf b non-lfbf
+            wiilf (k < iblf) {
+                int diild = (k << 1) + 1; // bssumf lfft diild is lfbst
+                Objfdt d = brrby[diild];
+                int rigit = diild + 1;
+                if (rigit < n &&
+                    ((Compbrbblf<? supfr T>) d).dompbrfTo((T) brrby[rigit]) > 0)
+                    d = brrby[diild = rigit];
+                if (kfy.dompbrfTo((T) d) <= 0)
+                    brfbk;
+                brrby[k] = d;
+                k = diild;
             }
-            array[k] = key;
+            brrby[k] = kfy;
         }
     }
 
-    private static <T> void siftDownUsingComparator(int k, T x, Object[] array,
+    privbtf stbtid <T> void siftDownUsingCompbrbtor(int k, T x, Objfdt[] brrby,
                                                     int n,
-                                                    Comparator<? super T> cmp) {
+                                                    Compbrbtor<? supfr T> dmp) {
         if (n > 0) {
-            int half = n >>> 1;
-            while (k < half) {
-                int child = (k << 1) + 1;
-                Object c = array[child];
-                int right = child + 1;
-                if (right < n && cmp.compare((T) c, (T) array[right]) > 0)
-                    c = array[child = right];
-                if (cmp.compare(x, (T) c) <= 0)
-                    break;
-                array[k] = c;
-                k = child;
+            int iblf = n >>> 1;
+            wiilf (k < iblf) {
+                int diild = (k << 1) + 1;
+                Objfdt d = brrby[diild];
+                int rigit = diild + 1;
+                if (rigit < n && dmp.dompbrf((T) d, (T) brrby[rigit]) > 0)
+                    d = brrby[diild = rigit];
+                if (dmp.dompbrf(x, (T) d) <= 0)
+                    brfbk;
+                brrby[k] = d;
+                k = diild;
             }
-            array[k] = x;
+            brrby[k] = x;
         }
     }
 
     /**
-     * Establishes the heap invariant (described above) in the entire tree,
-     * assuming nothing about the order of the elements prior to the call.
+     * Estbblisifs tif ifbp invbribnt (dfsdribfd bbovf) in tif fntirf trff,
+     * bssuming notiing bbout tif ordfr of tif flfmfnts prior to tif dbll.
      */
-    private void heapify() {
-        Object[] array = queue;
-        int n = size;
-        int half = (n >>> 1) - 1;
-        Comparator<? super E> cmp = comparator;
-        if (cmp == null) {
-            for (int i = half; i >= 0; i--)
-                siftDownComparable(i, (E) array[i], array, n);
+    privbtf void ifbpify() {
+        Objfdt[] brrby = qufuf;
+        int n = sizf;
+        int iblf = (n >>> 1) - 1;
+        Compbrbtor<? supfr E> dmp = dompbrbtor;
+        if (dmp == null) {
+            for (int i = iblf; i >= 0; i--)
+                siftDownCompbrbblf(i, (E) brrby[i], brrby, n);
         }
-        else {
-            for (int i = half; i >= 0; i--)
-                siftDownUsingComparator(i, (E) array[i], array, n, cmp);
+        flsf {
+            for (int i = iblf; i >= 0; i--)
+                siftDownUsingCompbrbtor(i, (E) brrby[i], brrby, n, dmp);
         }
     }
 
     /**
-     * Inserts the specified element into this priority queue.
+     * Insfrts tif spfdififd flfmfnt into tiis priority qufuf.
      *
-     * @param e the element to add
-     * @return {@code true} (as specified by {@link Collection#add})
-     * @throws ClassCastException if the specified element cannot be compared
-     *         with elements currently in the priority queue according to the
-     *         priority queue's ordering
-     * @throws NullPointerException if the specified element is null
+     * @pbrbm f tif flfmfnt to bdd
+     * @rfturn {@dodf truf} (bs spfdififd by {@link Collfdtion#bdd})
+     * @tirows ClbssCbstExdfption if tif spfdififd flfmfnt dbnnot bf dompbrfd
+     *         witi flfmfnts durrfntly in tif priority qufuf bddording to tif
+     *         priority qufuf's ordfring
+     * @tirows NullPointfrExdfption if tif spfdififd flfmfnt is null
      */
-    public boolean add(E e) {
-        return offer(e);
+    publid boolfbn bdd(E f) {
+        rfturn offfr(f);
     }
 
     /**
-     * Inserts the specified element into this priority queue.
-     * As the queue is unbounded, this method will never return {@code false}.
+     * Insfrts tif spfdififd flfmfnt into tiis priority qufuf.
+     * As tif qufuf is unboundfd, tiis mftiod will nfvfr rfturn {@dodf fblsf}.
      *
-     * @param e the element to add
-     * @return {@code true} (as specified by {@link Queue#offer})
-     * @throws ClassCastException if the specified element cannot be compared
-     *         with elements currently in the priority queue according to the
-     *         priority queue's ordering
-     * @throws NullPointerException if the specified element is null
+     * @pbrbm f tif flfmfnt to bdd
+     * @rfturn {@dodf truf} (bs spfdififd by {@link Qufuf#offfr})
+     * @tirows ClbssCbstExdfption if tif spfdififd flfmfnt dbnnot bf dompbrfd
+     *         witi flfmfnts durrfntly in tif priority qufuf bddording to tif
+     *         priority qufuf's ordfring
+     * @tirows NullPointfrExdfption if tif spfdififd flfmfnt is null
      */
-    public boolean offer(E e) {
-        if (e == null)
-            throw new NullPointerException();
-        final ReentrantLock lock = this.lock;
-        lock.lock();
-        int n, cap;
-        Object[] array;
-        while ((n = size) >= (cap = (array = queue).length))
-            tryGrow(array, cap);
+    publid boolfbn offfr(E f) {
+        if (f == null)
+            tirow nfw NullPointfrExdfption();
+        finbl RffntrbntLodk lodk = tiis.lodk;
+        lodk.lodk();
+        int n, dbp;
+        Objfdt[] brrby;
+        wiilf ((n = sizf) >= (dbp = (brrby = qufuf).lfngti))
+            tryGrow(brrby, dbp);
         try {
-            Comparator<? super E> cmp = comparator;
-            if (cmp == null)
-                siftUpComparable(n, e, array);
-            else
-                siftUpUsingComparator(n, e, array, cmp);
-            size = n + 1;
-            notEmpty.signal();
-        } finally {
-            lock.unlock();
+            Compbrbtor<? supfr E> dmp = dompbrbtor;
+            if (dmp == null)
+                siftUpCompbrbblf(n, f, brrby);
+            flsf
+                siftUpUsingCompbrbtor(n, f, brrby, dmp);
+            sizf = n + 1;
+            notEmpty.signbl();
+        } finblly {
+            lodk.unlodk();
         }
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Inserts the specified element into this priority queue.
-     * As the queue is unbounded, this method will never block.
+     * Insfrts tif spfdififd flfmfnt into tiis priority qufuf.
+     * As tif qufuf is unboundfd, tiis mftiod will nfvfr blodk.
      *
-     * @param e the element to add
-     * @throws ClassCastException if the specified element cannot be compared
-     *         with elements currently in the priority queue according to the
-     *         priority queue's ordering
-     * @throws NullPointerException if the specified element is null
+     * @pbrbm f tif flfmfnt to bdd
+     * @tirows ClbssCbstExdfption if tif spfdififd flfmfnt dbnnot bf dompbrfd
+     *         witi flfmfnts durrfntly in tif priority qufuf bddording to tif
+     *         priority qufuf's ordfring
+     * @tirows NullPointfrExdfption if tif spfdififd flfmfnt is null
      */
-    public void put(E e) {
-        offer(e); // never need to block
+    publid void put(E f) {
+        offfr(f); // nfvfr nffd to blodk
     }
 
     /**
-     * Inserts the specified element into this priority queue.
-     * As the queue is unbounded, this method will never block or
-     * return {@code false}.
+     * Insfrts tif spfdififd flfmfnt into tiis priority qufuf.
+     * As tif qufuf is unboundfd, tiis mftiod will nfvfr blodk or
+     * rfturn {@dodf fblsf}.
      *
-     * @param e the element to add
-     * @param timeout This parameter is ignored as the method never blocks
-     * @param unit This parameter is ignored as the method never blocks
-     * @return {@code true} (as specified by
-     *  {@link BlockingQueue#offer(Object,long,TimeUnit) BlockingQueue.offer})
-     * @throws ClassCastException if the specified element cannot be compared
-     *         with elements currently in the priority queue according to the
-     *         priority queue's ordering
-     * @throws NullPointerException if the specified element is null
+     * @pbrbm f tif flfmfnt to bdd
+     * @pbrbm timfout Tiis pbrbmftfr is ignorfd bs tif mftiod nfvfr blodks
+     * @pbrbm unit Tiis pbrbmftfr is ignorfd bs tif mftiod nfvfr blodks
+     * @rfturn {@dodf truf} (bs spfdififd by
+     *  {@link BlodkingQufuf#offfr(Objfdt,long,TimfUnit) BlodkingQufuf.offfr})
+     * @tirows ClbssCbstExdfption if tif spfdififd flfmfnt dbnnot bf dompbrfd
+     *         witi flfmfnts durrfntly in tif priority qufuf bddording to tif
+     *         priority qufuf's ordfring
+     * @tirows NullPointfrExdfption if tif spfdififd flfmfnt is null
      */
-    public boolean offer(E e, long timeout, TimeUnit unit) {
-        return offer(e); // never need to block
+    publid boolfbn offfr(E f, long timfout, TimfUnit unit) {
+        rfturn offfr(f); // nfvfr nffd to blodk
     }
 
-    public E poll() {
-        final ReentrantLock lock = this.lock;
-        lock.lock();
+    publid E poll() {
+        finbl RffntrbntLodk lodk = tiis.lodk;
+        lodk.lodk();
         try {
-            return dequeue();
-        } finally {
-            lock.unlock();
+            rfturn dfqufuf();
+        } finblly {
+            lodk.unlodk();
         }
     }
 
-    public E take() throws InterruptedException {
-        final ReentrantLock lock = this.lock;
-        lock.lockInterruptibly();
-        E result;
+    publid E tbkf() tirows IntfrruptfdExdfption {
+        finbl RffntrbntLodk lodk = tiis.lodk;
+        lodk.lodkIntfrruptibly();
+        E rfsult;
         try {
-            while ( (result = dequeue()) == null)
-                notEmpty.await();
-        } finally {
-            lock.unlock();
+            wiilf ( (rfsult = dfqufuf()) == null)
+                notEmpty.bwbit();
+        } finblly {
+            lodk.unlodk();
         }
-        return result;
+        rfturn rfsult;
     }
 
-    public E poll(long timeout, TimeUnit unit) throws InterruptedException {
-        long nanos = unit.toNanos(timeout);
-        final ReentrantLock lock = this.lock;
-        lock.lockInterruptibly();
-        E result;
+    publid E poll(long timfout, TimfUnit unit) tirows IntfrruptfdExdfption {
+        long nbnos = unit.toNbnos(timfout);
+        finbl RffntrbntLodk lodk = tiis.lodk;
+        lodk.lodkIntfrruptibly();
+        E rfsult;
         try {
-            while ( (result = dequeue()) == null && nanos > 0)
-                nanos = notEmpty.awaitNanos(nanos);
-        } finally {
-            lock.unlock();
+            wiilf ( (rfsult = dfqufuf()) == null && nbnos > 0)
+                nbnos = notEmpty.bwbitNbnos(nbnos);
+        } finblly {
+            lodk.unlodk();
         }
-        return result;
+        rfturn rfsult;
     }
 
-    public E peek() {
-        final ReentrantLock lock = this.lock;
-        lock.lock();
+    publid E pffk() {
+        finbl RffntrbntLodk lodk = tiis.lodk;
+        lodk.lodk();
         try {
-            return (size == 0) ? null : (E) queue[0];
-        } finally {
-            lock.unlock();
+            rfturn (sizf == 0) ? null : (E) qufuf[0];
+        } finblly {
+            lodk.unlodk();
         }
     }
 
     /**
-     * Returns the comparator used to order the elements in this queue,
-     * or {@code null} if this queue uses the {@linkplain Comparable
-     * natural ordering} of its elements.
+     * Rfturns tif dompbrbtor usfd to ordfr tif flfmfnts in tiis qufuf,
+     * or {@dodf null} if tiis qufuf usfs tif {@linkplbin Compbrbblf
+     * nbturbl ordfring} of its flfmfnts.
      *
-     * @return the comparator used to order the elements in this queue,
-     *         or {@code null} if this queue uses the natural
-     *         ordering of its elements
+     * @rfturn tif dompbrbtor usfd to ordfr tif flfmfnts in tiis qufuf,
+     *         or {@dodf null} if tiis qufuf usfs tif nbturbl
+     *         ordfring of its flfmfnts
      */
-    public Comparator<? super E> comparator() {
-        return comparator;
+    publid Compbrbtor<? supfr E> dompbrbtor() {
+        rfturn dompbrbtor;
     }
 
-    public int size() {
-        final ReentrantLock lock = this.lock;
-        lock.lock();
+    publid int sizf() {
+        finbl RffntrbntLodk lodk = tiis.lodk;
+        lodk.lodk();
         try {
-            return size;
-        } finally {
-            lock.unlock();
+            rfturn sizf;
+        } finblly {
+            lodk.unlodk();
         }
     }
 
     /**
-     * Always returns {@code Integer.MAX_VALUE} because
-     * a {@code PriorityBlockingQueue} is not capacity constrained.
-     * @return {@code Integer.MAX_VALUE} always
+     * Alwbys rfturns {@dodf Intfgfr.MAX_VALUE} bfdbusf
+     * b {@dodf PriorityBlodkingQufuf} is not dbpbdity donstrbinfd.
+     * @rfturn {@dodf Intfgfr.MAX_VALUE} blwbys
      */
-    public int remainingCapacity() {
-        return Integer.MAX_VALUE;
+    publid int rfmbiningCbpbdity() {
+        rfturn Intfgfr.MAX_VALUE;
     }
 
-    private int indexOf(Object o) {
+    privbtf int indfxOf(Objfdt o) {
         if (o != null) {
-            Object[] array = queue;
-            int n = size;
+            Objfdt[] brrby = qufuf;
+            int n = sizf;
             for (int i = 0; i < n; i++)
-                if (o.equals(array[i]))
-                    return i;
+                if (o.fqubls(brrby[i]))
+                    rfturn i;
         }
-        return -1;
+        rfturn -1;
     }
 
     /**
-     * Removes the ith element from queue.
+     * Rfmovfs tif iti flfmfnt from qufuf.
      */
-    private void removeAt(int i) {
-        Object[] array = queue;
-        int n = size - 1;
-        if (n == i) // removed last element
-            array[i] = null;
-        else {
-            E moved = (E) array[n];
-            array[n] = null;
-            Comparator<? super E> cmp = comparator;
-            if (cmp == null)
-                siftDownComparable(i, moved, array, n);
-            else
-                siftDownUsingComparator(i, moved, array, n, cmp);
-            if (array[i] == moved) {
-                if (cmp == null)
-                    siftUpComparable(i, moved, array);
-                else
-                    siftUpUsingComparator(i, moved, array, cmp);
+    privbtf void rfmovfAt(int i) {
+        Objfdt[] brrby = qufuf;
+        int n = sizf - 1;
+        if (n == i) // rfmovfd lbst flfmfnt
+            brrby[i] = null;
+        flsf {
+            E movfd = (E) brrby[n];
+            brrby[n] = null;
+            Compbrbtor<? supfr E> dmp = dompbrbtor;
+            if (dmp == null)
+                siftDownCompbrbblf(i, movfd, brrby, n);
+            flsf
+                siftDownUsingCompbrbtor(i, movfd, brrby, n, dmp);
+            if (brrby[i] == movfd) {
+                if (dmp == null)
+                    siftUpCompbrbblf(i, movfd, brrby);
+                flsf
+                    siftUpUsingCompbrbtor(i, movfd, brrby, dmp);
             }
         }
-        size = n;
+        sizf = n;
     }
 
     /**
-     * Removes a single instance of the specified element from this queue,
-     * if it is present.  More formally, removes an element {@code e} such
-     * that {@code o.equals(e)}, if this queue contains one or more such
-     * elements.  Returns {@code true} if and only if this queue contained
-     * the specified element (or equivalently, if this queue changed as a
-     * result of the call).
+     * Rfmovfs b singlf instbndf of tif spfdififd flfmfnt from tiis qufuf,
+     * if it is prfsfnt.  Morf formblly, rfmovfs bn flfmfnt {@dodf f} sudi
+     * tibt {@dodf o.fqubls(f)}, if tiis qufuf dontbins onf or morf sudi
+     * flfmfnts.  Rfturns {@dodf truf} if bnd only if tiis qufuf dontbinfd
+     * tif spfdififd flfmfnt (or fquivblfntly, if tiis qufuf dibngfd bs b
+     * rfsult of tif dbll).
      *
-     * @param o element to be removed from this queue, if present
-     * @return {@code true} if this queue changed as a result of the call
+     * @pbrbm o flfmfnt to bf rfmovfd from tiis qufuf, if prfsfnt
+     * @rfturn {@dodf truf} if tiis qufuf dibngfd bs b rfsult of tif dbll
      */
-    public boolean remove(Object o) {
-        final ReentrantLock lock = this.lock;
-        lock.lock();
+    publid boolfbn rfmovf(Objfdt o) {
+        finbl RffntrbntLodk lodk = tiis.lodk;
+        lodk.lodk();
         try {
-            int i = indexOf(o);
+            int i = indfxOf(o);
             if (i == -1)
-                return false;
-            removeAt(i);
-            return true;
-        } finally {
-            lock.unlock();
+                rfturn fblsf;
+            rfmovfAt(i);
+            rfturn truf;
+        } finblly {
+            lodk.unlodk();
         }
     }
 
     /**
-     * Identity-based version for use in Itr.remove
+     * Idfntity-bbsfd vfrsion for usf in Itr.rfmovf
      */
-    void removeEQ(Object o) {
-        final ReentrantLock lock = this.lock;
-        lock.lock();
+    void rfmovfEQ(Objfdt o) {
+        finbl RffntrbntLodk lodk = tiis.lodk;
+        lodk.lodk();
         try {
-            Object[] array = queue;
-            for (int i = 0, n = size; i < n; i++) {
-                if (o == array[i]) {
-                    removeAt(i);
-                    break;
+            Objfdt[] brrby = qufuf;
+            for (int i = 0, n = sizf; i < n; i++) {
+                if (o == brrby[i]) {
+                    rfmovfAt(i);
+                    brfbk;
                 }
             }
-        } finally {
-            lock.unlock();
+        } finblly {
+            lodk.unlodk();
         }
     }
 
     /**
-     * Returns {@code true} if this queue contains the specified element.
-     * More formally, returns {@code true} if and only if this queue contains
-     * at least one element {@code e} such that {@code o.equals(e)}.
+     * Rfturns {@dodf truf} if tiis qufuf dontbins tif spfdififd flfmfnt.
+     * Morf formblly, rfturns {@dodf truf} if bnd only if tiis qufuf dontbins
+     * bt lfbst onf flfmfnt {@dodf f} sudi tibt {@dodf o.fqubls(f)}.
      *
-     * @param o object to be checked for containment in this queue
-     * @return {@code true} if this queue contains the specified element
+     * @pbrbm o objfdt to bf difdkfd for dontbinmfnt in tiis qufuf
+     * @rfturn {@dodf truf} if tiis qufuf dontbins tif spfdififd flfmfnt
      */
-    public boolean contains(Object o) {
-        final ReentrantLock lock = this.lock;
-        lock.lock();
+    publid boolfbn dontbins(Objfdt o) {
+        finbl RffntrbntLodk lodk = tiis.lodk;
+        lodk.lodk();
         try {
-            return indexOf(o) != -1;
-        } finally {
-            lock.unlock();
+            rfturn indfxOf(o) != -1;
+        } finblly {
+            lodk.unlodk();
         }
     }
 
     /**
-     * Returns an array containing all of the elements in this queue.
-     * The returned array elements are in no particular order.
+     * Rfturns bn brrby dontbining bll of tif flfmfnts in tiis qufuf.
+     * Tif rfturnfd brrby flfmfnts brf in no pbrtidulbr ordfr.
      *
-     * <p>The returned array will be "safe" in that no references to it are
-     * maintained by this queue.  (In other words, this method must allocate
-     * a new array).  The caller is thus free to modify the returned array.
+     * <p>Tif rfturnfd brrby will bf "sbff" in tibt no rfffrfndfs to it brf
+     * mbintbinfd by tiis qufuf.  (In otifr words, tiis mftiod must bllodbtf
+     * b nfw brrby).  Tif dbllfr is tius frff to modify tif rfturnfd brrby.
      *
-     * <p>This method acts as bridge between array-based and collection-based
+     * <p>Tiis mftiod bdts bs bridgf bftwffn brrby-bbsfd bnd dollfdtion-bbsfd
      * APIs.
      *
-     * @return an array containing all of the elements in this queue
+     * @rfturn bn brrby dontbining bll of tif flfmfnts in tiis qufuf
      */
-    public Object[] toArray() {
-        final ReentrantLock lock = this.lock;
-        lock.lock();
+    publid Objfdt[] toArrby() {
+        finbl RffntrbntLodk lodk = tiis.lodk;
+        lodk.lodk();
         try {
-            return Arrays.copyOf(queue, size);
-        } finally {
-            lock.unlock();
+            rfturn Arrbys.dopyOf(qufuf, sizf);
+        } finblly {
+            lodk.unlodk();
         }
     }
 
-    public String toString() {
-        final ReentrantLock lock = this.lock;
-        lock.lock();
+    publid String toString() {
+        finbl RffntrbntLodk lodk = tiis.lodk;
+        lodk.lodk();
         try {
-            int n = size;
+            int n = sizf;
             if (n == 0)
-                return "[]";
-            StringBuilder sb = new StringBuilder();
-            sb.append('[');
+                rfturn "[]";
+            StringBuildfr sb = nfw StringBuildfr();
+            sb.bppfnd('[');
             for (int i = 0; i < n; ++i) {
-                Object e = queue[i];
-                sb.append(e == this ? "(this Collection)" : e);
+                Objfdt f = qufuf[i];
+                sb.bppfnd(f == tiis ? "(tiis Collfdtion)" : f);
                 if (i != n - 1)
-                    sb.append(',').append(' ');
+                    sb.bppfnd(',').bppfnd(' ');
             }
-            return sb.append(']').toString();
-        } finally {
-            lock.unlock();
+            rfturn sb.bppfnd(']').toString();
+        } finblly {
+            lodk.unlodk();
         }
     }
 
     /**
-     * @throws UnsupportedOperationException {@inheritDoc}
-     * @throws ClassCastException            {@inheritDoc}
-     * @throws NullPointerException          {@inheritDoc}
-     * @throws IllegalArgumentException      {@inheritDoc}
+     * @tirows UnsupportfdOpfrbtionExdfption {@inifritDod}
+     * @tirows ClbssCbstExdfption            {@inifritDod}
+     * @tirows NullPointfrExdfption          {@inifritDod}
+     * @tirows IllfgblArgumfntExdfption      {@inifritDod}
      */
-    public int drainTo(Collection<? super E> c) {
-        return drainTo(c, Integer.MAX_VALUE);
+    publid int drbinTo(Collfdtion<? supfr E> d) {
+        rfturn drbinTo(d, Intfgfr.MAX_VALUE);
     }
 
     /**
-     * @throws UnsupportedOperationException {@inheritDoc}
-     * @throws ClassCastException            {@inheritDoc}
-     * @throws NullPointerException          {@inheritDoc}
-     * @throws IllegalArgumentException      {@inheritDoc}
+     * @tirows UnsupportfdOpfrbtionExdfption {@inifritDod}
+     * @tirows ClbssCbstExdfption            {@inifritDod}
+     * @tirows NullPointfrExdfption          {@inifritDod}
+     * @tirows IllfgblArgumfntExdfption      {@inifritDod}
      */
-    public int drainTo(Collection<? super E> c, int maxElements) {
-        if (c == null)
-            throw new NullPointerException();
-        if (c == this)
-            throw new IllegalArgumentException();
-        if (maxElements <= 0)
-            return 0;
-        final ReentrantLock lock = this.lock;
-        lock.lock();
+    publid int drbinTo(Collfdtion<? supfr E> d, int mbxElfmfnts) {
+        if (d == null)
+            tirow nfw NullPointfrExdfption();
+        if (d == tiis)
+            tirow nfw IllfgblArgumfntExdfption();
+        if (mbxElfmfnts <= 0)
+            rfturn 0;
+        finbl RffntrbntLodk lodk = tiis.lodk;
+        lodk.lodk();
         try {
-            int n = Math.min(size, maxElements);
+            int n = Mbti.min(sizf, mbxElfmfnts);
             for (int i = 0; i < n; i++) {
-                c.add((E) queue[0]); // In this order, in case add() throws.
-                dequeue();
+                d.bdd((E) qufuf[0]); // In tiis ordfr, in dbsf bdd() tirows.
+                dfqufuf();
             }
-            return n;
-        } finally {
-            lock.unlock();
+            rfturn n;
+        } finblly {
+            lodk.unlodk();
         }
     }
 
     /**
-     * Atomically removes all of the elements from this queue.
-     * The queue will be empty after this call returns.
+     * Atomidblly rfmovfs bll of tif flfmfnts from tiis qufuf.
+     * Tif qufuf will bf fmpty bftfr tiis dbll rfturns.
      */
-    public void clear() {
-        final ReentrantLock lock = this.lock;
-        lock.lock();
+    publid void dlfbr() {
+        finbl RffntrbntLodk lodk = tiis.lodk;
+        lodk.lodk();
         try {
-            Object[] array = queue;
-            int n = size;
-            size = 0;
+            Objfdt[] brrby = qufuf;
+            int n = sizf;
+            sizf = 0;
             for (int i = 0; i < n; i++)
-                array[i] = null;
-        } finally {
-            lock.unlock();
+                brrby[i] = null;
+        } finblly {
+            lodk.unlodk();
         }
     }
 
     /**
-     * Returns an array containing all of the elements in this queue; the
-     * runtime type of the returned array is that of the specified array.
-     * The returned array elements are in no particular order.
-     * If the queue fits in the specified array, it is returned therein.
-     * Otherwise, a new array is allocated with the runtime type of the
-     * specified array and the size of this queue.
+     * Rfturns bn brrby dontbining bll of tif flfmfnts in tiis qufuf; tif
+     * runtimf typf of tif rfturnfd brrby is tibt of tif spfdififd brrby.
+     * Tif rfturnfd brrby flfmfnts brf in no pbrtidulbr ordfr.
+     * If tif qufuf fits in tif spfdififd brrby, it is rfturnfd tifrfin.
+     * Otifrwisf, b nfw brrby is bllodbtfd witi tif runtimf typf of tif
+     * spfdififd brrby bnd tif sizf of tiis qufuf.
      *
-     * <p>If this queue fits in the specified array with room to spare
-     * (i.e., the array has more elements than this queue), the element in
-     * the array immediately following the end of the queue is set to
-     * {@code null}.
+     * <p>If tiis qufuf fits in tif spfdififd brrby witi room to spbrf
+     * (i.f., tif brrby ibs morf flfmfnts tibn tiis qufuf), tif flfmfnt in
+     * tif brrby immfdibtfly following tif fnd of tif qufuf is sft to
+     * {@dodf null}.
      *
-     * <p>Like the {@link #toArray()} method, this method acts as bridge between
-     * array-based and collection-based APIs.  Further, this method allows
-     * precise control over the runtime type of the output array, and may,
-     * under certain circumstances, be used to save allocation costs.
+     * <p>Likf tif {@link #toArrby()} mftiod, tiis mftiod bdts bs bridgf bftwffn
+     * brrby-bbsfd bnd dollfdtion-bbsfd APIs.  Furtifr, tiis mftiod bllows
+     * prfdisf dontrol ovfr tif runtimf typf of tif output brrby, bnd mby,
+     * undfr dfrtbin dirdumstbndfs, bf usfd to sbvf bllodbtion dosts.
      *
-     * <p>Suppose {@code x} is a queue known to contain only strings.
-     * The following code can be used to dump the queue into a newly
-     * allocated array of {@code String}:
+     * <p>Supposf {@dodf x} is b qufuf known to dontbin only strings.
+     * Tif following dodf dbn bf usfd to dump tif qufuf into b nfwly
+     * bllodbtfd brrby of {@dodf String}:
      *
-     *  <pre> {@code String[] y = x.toArray(new String[0]);}</pre>
+     *  <prf> {@dodf String[] y = x.toArrby(nfw String[0]);}</prf>
      *
-     * Note that {@code toArray(new Object[0])} is identical in function to
-     * {@code toArray()}.
+     * Notf tibt {@dodf toArrby(nfw Objfdt[0])} is idfntidbl in fundtion to
+     * {@dodf toArrby()}.
      *
-     * @param a the array into which the elements of the queue are to
-     *          be stored, if it is big enough; otherwise, a new array of the
-     *          same runtime type is allocated for this purpose
-     * @return an array containing all of the elements in this queue
-     * @throws ArrayStoreException if the runtime type of the specified array
-     *         is not a supertype of the runtime type of every element in
-     *         this queue
-     * @throws NullPointerException if the specified array is null
+     * @pbrbm b tif brrby into wiidi tif flfmfnts of tif qufuf brf to
+     *          bf storfd, if it is big fnougi; otifrwisf, b nfw brrby of tif
+     *          sbmf runtimf typf is bllodbtfd for tiis purposf
+     * @rfturn bn brrby dontbining bll of tif flfmfnts in tiis qufuf
+     * @tirows ArrbyStorfExdfption if tif runtimf typf of tif spfdififd brrby
+     *         is not b supfrtypf of tif runtimf typf of fvfry flfmfnt in
+     *         tiis qufuf
+     * @tirows NullPointfrExdfption if tif spfdififd brrby is null
      */
-    public <T> T[] toArray(T[] a) {
-        final ReentrantLock lock = this.lock;
-        lock.lock();
+    publid <T> T[] toArrby(T[] b) {
+        finbl RffntrbntLodk lodk = tiis.lodk;
+        lodk.lodk();
         try {
-            int n = size;
-            if (a.length < n)
-                // Make a new array of a's runtime type, but my contents:
-                return (T[]) Arrays.copyOf(queue, size, a.getClass());
-            System.arraycopy(queue, 0, a, 0, n);
-            if (a.length > n)
-                a[n] = null;
-            return a;
-        } finally {
-            lock.unlock();
+            int n = sizf;
+            if (b.lfngti < n)
+                // Mbkf b nfw brrby of b's runtimf typf, but my dontfnts:
+                rfturn (T[]) Arrbys.dopyOf(qufuf, sizf, b.gftClbss());
+            Systfm.brrbydopy(qufuf, 0, b, 0, n);
+            if (b.lfngti > n)
+                b[n] = null;
+            rfturn b;
+        } finblly {
+            lodk.unlodk();
         }
     }
 
     /**
-     * Returns an iterator over the elements in this queue. The
-     * iterator does not return the elements in any particular order.
+     * Rfturns bn itfrbtor ovfr tif flfmfnts in tiis qufuf. Tif
+     * itfrbtor dofs not rfturn tif flfmfnts in bny pbrtidulbr ordfr.
      *
-     * <p>The returned iterator is
-     * <a href="package-summary.html#Weakly"><i>weakly consistent</i></a>.
+     * <p>Tif rfturnfd itfrbtor is
+     * <b irff="pbdkbgf-summbry.itml#Wfbkly"><i>wfbkly donsistfnt</i></b>.
      *
-     * @return an iterator over the elements in this queue
+     * @rfturn bn itfrbtor ovfr tif flfmfnts in tiis qufuf
      */
-    public Iterator<E> iterator() {
-        return new Itr(toArray());
+    publid Itfrbtor<E> itfrbtor() {
+        rfturn nfw Itr(toArrby());
     }
 
     /**
-     * Snapshot iterator that works off copy of underlying q array.
+     * Snbpsiot itfrbtor tibt works off dopy of undfrlying q brrby.
      */
-    final class Itr implements Iterator<E> {
-        final Object[] array; // Array of all elements
-        int cursor;           // index of next element to return
-        int lastRet;          // index of last element, or -1 if no such
+    finbl dlbss Itr implfmfnts Itfrbtor<E> {
+        finbl Objfdt[] brrby; // Arrby of bll flfmfnts
+        int dursor;           // indfx of nfxt flfmfnt to rfturn
+        int lbstRft;          // indfx of lbst flfmfnt, or -1 if no sudi
 
-        Itr(Object[] array) {
-            lastRet = -1;
-            this.array = array;
+        Itr(Objfdt[] brrby) {
+            lbstRft = -1;
+            tiis.brrby = brrby;
         }
 
-        public boolean hasNext() {
-            return cursor < array.length;
+        publid boolfbn ibsNfxt() {
+            rfturn dursor < brrby.lfngti;
         }
 
-        public E next() {
-            if (cursor >= array.length)
-                throw new NoSuchElementException();
-            lastRet = cursor;
-            return (E)array[cursor++];
+        publid E nfxt() {
+            if (dursor >= brrby.lfngti)
+                tirow nfw NoSudiElfmfntExdfption();
+            lbstRft = dursor;
+            rfturn (E)brrby[dursor++];
         }
 
-        public void remove() {
-            if (lastRet < 0)
-                throw new IllegalStateException();
-            removeEQ(array[lastRet]);
-            lastRet = -1;
+        publid void rfmovf() {
+            if (lbstRft < 0)
+                tirow nfw IllfgblStbtfExdfption();
+            rfmovfEQ(brrby[lbstRft]);
+            lbstRft = -1;
         }
     }
 
     /**
-     * Saves this queue to a stream (that is, serializes it).
+     * Sbvfs tiis qufuf to b strfbm (tibt is, sfriblizfs it).
      *
-     * For compatibility with previous version of this class, elements
-     * are first copied to a java.util.PriorityQueue, which is then
-     * serialized.
+     * For dompbtibility witi prfvious vfrsion of tiis dlbss, flfmfnts
+     * brf first dopifd to b jbvb.util.PriorityQufuf, wiidi is tifn
+     * sfriblizfd.
      *
-     * @param s the stream
-     * @throws java.io.IOException if an I/O error occurs
+     * @pbrbm s tif strfbm
+     * @tirows jbvb.io.IOExdfption if bn I/O frror oddurs
      */
-    private void writeObject(java.io.ObjectOutputStream s)
-        throws java.io.IOException {
-        lock.lock();
+    privbtf void writfObjfdt(jbvb.io.ObjfdtOutputStrfbm s)
+        tirows jbvb.io.IOExdfption {
+        lodk.lodk();
         try {
-            // avoid zero capacity argument
-            q = new PriorityQueue<E>(Math.max(size, 1), comparator);
-            q.addAll(this);
-            s.defaultWriteObject();
-        } finally {
+            // bvoid zfro dbpbdity brgumfnt
+            q = nfw PriorityQufuf<E>(Mbti.mbx(sizf, 1), dompbrbtor);
+            q.bddAll(tiis);
+            s.dffbultWritfObjfdt();
+        } finblly {
             q = null;
-            lock.unlock();
+            lodk.unlodk();
         }
     }
 
     /**
-     * Reconstitutes this queue from a stream (that is, deserializes it).
-     * @param s the stream
-     * @throws ClassNotFoundException if the class of a serialized object
-     *         could not be found
-     * @throws java.io.IOException if an I/O error occurs
+     * Rfdonstitutfs tiis qufuf from b strfbm (tibt is, dfsfriblizfs it).
+     * @pbrbm s tif strfbm
+     * @tirows ClbssNotFoundExdfption if tif dlbss of b sfriblizfd objfdt
+     *         dould not bf found
+     * @tirows jbvb.io.IOExdfption if bn I/O frror oddurs
      */
-    private void readObject(java.io.ObjectInputStream s)
-        throws java.io.IOException, ClassNotFoundException {
+    privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm s)
+        tirows jbvb.io.IOExdfption, ClbssNotFoundExdfption {
         try {
-            s.defaultReadObject();
-            this.queue = new Object[q.size()];
-            comparator = q.comparator();
-            addAll(q);
-        } finally {
+            s.dffbultRfbdObjfdt();
+            tiis.qufuf = nfw Objfdt[q.sizf()];
+            dompbrbtor = q.dompbrbtor();
+            bddAll(q);
+        } finblly {
             q = null;
         }
     }
 
-    // Similar to Collections.ArraySnapshotSpliterator but avoids
-    // commitment to toArray until needed
-    static final class PBQSpliterator<E> implements Spliterator<E> {
-        final PriorityBlockingQueue<E> queue;
-        Object[] array;
-        int index;
-        int fence;
+    // Similbr to Collfdtions.ArrbySnbpsiotSplitfrbtor but bvoids
+    // dommitmfnt to toArrby until nffdfd
+    stbtid finbl dlbss PBQSplitfrbtor<E> implfmfnts Splitfrbtor<E> {
+        finbl PriorityBlodkingQufuf<E> qufuf;
+        Objfdt[] brrby;
+        int indfx;
+        int ffndf;
 
-        PBQSpliterator(PriorityBlockingQueue<E> queue, Object[] array,
-                       int index, int fence) {
-            this.queue = queue;
-            this.array = array;
-            this.index = index;
-            this.fence = fence;
+        PBQSplitfrbtor(PriorityBlodkingQufuf<E> qufuf, Objfdt[] brrby,
+                       int indfx, int ffndf) {
+            tiis.qufuf = qufuf;
+            tiis.brrby = brrby;
+            tiis.indfx = indfx;
+            tiis.ffndf = ffndf;
         }
 
-        final int getFence() {
-            int hi;
-            if ((hi = fence) < 0)
-                hi = fence = (array = queue.toArray()).length;
-            return hi;
+        finbl int gftFfndf() {
+            int ii;
+            if ((ii = ffndf) < 0)
+                ii = ffndf = (brrby = qufuf.toArrby()).lfngti;
+            rfturn ii;
         }
 
-        public Spliterator<E> trySplit() {
-            int hi = getFence(), lo = index, mid = (lo + hi) >>> 1;
-            return (lo >= mid) ? null :
-                new PBQSpliterator<E>(queue, array, lo, index = mid);
+        publid Splitfrbtor<E> trySplit() {
+            int ii = gftFfndf(), lo = indfx, mid = (lo + ii) >>> 1;
+            rfturn (lo >= mid) ? null :
+                nfw PBQSplitfrbtor<E>(qufuf, brrby, lo, indfx = mid);
         }
 
-        @SuppressWarnings("unchecked")
-        public void forEachRemaining(Consumer<? super E> action) {
-            Object[] a; int i, hi; // hoist accesses and checks from loop
-            if (action == null)
-                throw new NullPointerException();
-            if ((a = array) == null)
-                fence = (a = queue.toArray()).length;
-            if ((hi = fence) <= a.length &&
-                (i = index) >= 0 && i < (index = hi)) {
-                do { action.accept((E)a[i]); } while (++i < hi);
+        @SupprfssWbrnings("undifdkfd")
+        publid void forEbdiRfmbining(Consumfr<? supfr E> bdtion) {
+            Objfdt[] b; int i, ii; // ioist bddfssfs bnd difdks from loop
+            if (bdtion == null)
+                tirow nfw NullPointfrExdfption();
+            if ((b = brrby) == null)
+                ffndf = (b = qufuf.toArrby()).lfngti;
+            if ((ii = ffndf) <= b.lfngti &&
+                (i = indfx) >= 0 && i < (indfx = ii)) {
+                do { bdtion.bddfpt((E)b[i]); } wiilf (++i < ii);
             }
         }
 
-        public boolean tryAdvance(Consumer<? super E> action) {
-            if (action == null)
-                throw new NullPointerException();
-            if (getFence() > index && index >= 0) {
-                @SuppressWarnings("unchecked") E e = (E) array[index++];
-                action.accept(e);
-                return true;
+        publid boolfbn tryAdvbndf(Consumfr<? supfr E> bdtion) {
+            if (bdtion == null)
+                tirow nfw NullPointfrExdfption();
+            if (gftFfndf() > indfx && indfx >= 0) {
+                @SupprfssWbrnings("undifdkfd") E f = (E) brrby[indfx++];
+                bdtion.bddfpt(f);
+                rfturn truf;
             }
-            return false;
+            rfturn fblsf;
         }
 
-        public long estimateSize() { return (long)(getFence() - index); }
+        publid long fstimbtfSizf() { rfturn (long)(gftFfndf() - indfx); }
 
-        public int characteristics() {
-            return Spliterator.NONNULL | Spliterator.SIZED | Spliterator.SUBSIZED;
+        publid int dibrbdtfristids() {
+            rfturn Splitfrbtor.NONNULL | Splitfrbtor.SIZED | Splitfrbtor.SUBSIZED;
         }
     }
 
     /**
-     * Returns a {@link Spliterator} over the elements in this queue.
+     * Rfturns b {@link Splitfrbtor} ovfr tif flfmfnts in tiis qufuf.
      *
-     * <p>The returned spliterator is
-     * <a href="package-summary.html#Weakly"><i>weakly consistent</i></a>.
+     * <p>Tif rfturnfd splitfrbtor is
+     * <b irff="pbdkbgf-summbry.itml#Wfbkly"><i>wfbkly donsistfnt</i></b>.
      *
-     * <p>The {@code Spliterator} reports {@link Spliterator#SIZED} and
-     * {@link Spliterator#NONNULL}.
+     * <p>Tif {@dodf Splitfrbtor} rfports {@link Splitfrbtor#SIZED} bnd
+     * {@link Splitfrbtor#NONNULL}.
      *
-     * @implNote
-     * The {@code Spliterator} additionally reports {@link Spliterator#SUBSIZED}.
+     * @implNotf
+     * Tif {@dodf Splitfrbtor} bdditionblly rfports {@link Splitfrbtor#SUBSIZED}.
      *
-     * @return a {@code Spliterator} over the elements in this queue
-     * @since 1.8
+     * @rfturn b {@dodf Splitfrbtor} ovfr tif flfmfnts in tiis qufuf
+     * @sindf 1.8
      */
-    public Spliterator<E> spliterator() {
-        return new PBQSpliterator<E>(this, null, 0, -1);
+    publid Splitfrbtor<E> splitfrbtor() {
+        rfturn nfw PBQSplitfrbtor<E>(tiis, null, 0, -1);
     }
 
-    // Unsafe mechanics
-    private static final sun.misc.Unsafe UNSAFE;
-    private static final long allocationSpinLockOffset;
-    static {
+    // Unsbff mfdibnids
+    privbtf stbtid finbl sun.misd.Unsbff UNSAFE;
+    privbtf stbtid finbl long bllodbtionSpinLodkOffsft;
+    stbtid {
         try {
-            UNSAFE = sun.misc.Unsafe.getUnsafe();
-            Class<?> k = PriorityBlockingQueue.class;
-            allocationSpinLockOffset = UNSAFE.objectFieldOffset
-                (k.getDeclaredField("allocationSpinLock"));
-        } catch (Exception e) {
-            throw new Error(e);
+            UNSAFE = sun.misd.Unsbff.gftUnsbff();
+            Clbss<?> k = PriorityBlodkingQufuf.dlbss;
+            bllodbtionSpinLodkOffsft = UNSAFE.objfdtFifldOffsft
+                (k.gftDfdlbrfdFifld("bllodbtionSpinLodk"));
+        } dbtdi (Exdfption f) {
+            tirow nfw Error(f);
         }
     }
 }

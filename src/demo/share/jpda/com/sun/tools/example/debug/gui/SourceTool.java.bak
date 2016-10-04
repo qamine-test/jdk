@@ -1,392 +1,392 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-package com.sun.tools.example.debug.gui;
+pbdkbgf dom.sun.tools.fxbmplf.dfbug.gui;
 
-import java.io.*;
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
+import jbvb.io.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvbx.swing.*;
 
-import com.sun.jdi.*;
-import com.sun.jdi.request.*;
+import dom.sun.jdi.*;
+import dom.sun.jdi.rfqufst.*;
 
-import com.sun.tools.example.debug.bdi.*;
+import dom.sun.tools.fxbmplf.dfbug.bdi.*;
 
-public class SourceTool extends JPanel {
+publid dlbss SourdfTool fxtfnds JPbnfl {
 
-    private static final long serialVersionUID = -5461299294186395257L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -5461299294186395257L;
 
-    private Environment env;
+    privbtf Environmfnt fnv;
 
-    private ExecutionManager runtime;
-    private ContextManager context;
-    private SourceManager sourceManager;
+    privbtf ExfdutionMbnbgfr runtimf;
+    privbtf ContfxtMbnbgfr dontfxt;
+    privbtf SourdfMbnbgfr sourdfMbnbgfr;
 
-    private JList list;
-    private ListModel sourceModel;
+    privbtf JList list;
+    privbtf ListModfl sourdfModfl;
 
-    // Information on source file that is on display, or failed to be
-    // displayed due to inaccessible source.  Used to update display
-    // when sourcepath is changed.
+    // Informbtion on sourdf filf tibt is on displby, or fbilfd to bf
+    // displbyfd duf to inbddfssiblf sourdf.  Usfd to updbtf displby
+    // wifn sourdfpbti is dibngfd.
 
-    private String sourceName;          // relative path name, if showSourceFile
-    private Location sourceLocn;        // location, if showSourceForLocation
-    private CommandInterpreter interpreter;
+    privbtf String sourdfNbmf;          // rflbtivf pbti nbmf, if siowSourdfFilf
+    privbtf Lodbtion sourdfLodn;        // lodbtion, if siowSourdfForLodbtion
+    privbtf CommbndIntfrprftfr intfrprftfr;
 
-    public SourceTool(Environment env) {
+    publid SourdfTool(Environmfnt fnv) {
 
-        super(new BorderLayout());
+        supfr(nfw BordfrLbyout());
 
-        this.env = env;
+        tiis.fnv = fnv;
 
-        runtime = env.getExecutionManager();
-        sourceManager = env.getSourceManager();
-        this.context = env.getContextManager();
-        this.interpreter = new CommandInterpreter(env, true);
+        runtimf = fnv.gftExfdutionMbnbgfr();
+        sourdfMbnbgfr = fnv.gftSourdfMbnbgfr();
+        tiis.dontfxt = fnv.gftContfxtMbnbgfr();
+        tiis.intfrprftfr = nfw CommbndIntfrprftfr(fnv, truf);
 
-        sourceModel = new DefaultListModel();  // empty
+        sourdfModfl = nfw DffbultListModfl();  // fmpty
 
-        list = new JList(sourceModel);
-        list.setCellRenderer(new SourceLineRenderer());
+        list = nfw JList(sourdfModfl);
+        list.sftCfllRfndfrfr(nfw SourdfLinfRfndfrfr());
 
-        list.setPrototypeCellValue(SourceModel.prototypeCellValue);
+        list.sftPrototypfCfllVbluf(SourdfModfl.prototypfCfllVbluf);
 
-        SourceToolListener listener = new SourceToolListener();
-        context.addContextListener(listener);
-        runtime.addSpecListener(listener);
-        sourceManager.addSourceListener(listener);
+        SourdfToolListfnfr listfnfr = nfw SourdfToolListfnfr();
+        dontfxt.bddContfxtListfnfr(listfnfr);
+        runtimf.bddSpfdListfnfr(listfnfr);
+        sourdfMbnbgfr.bddSourdfListfnfr(listfnfr);
 
-        MouseListener squeek = new STMouseListener();
-        list.addMouseListener(squeek);
+        MousfListfnfr squffk = nfw STMousfListfnfr();
+        list.bddMousfListfnfr(squffk);
 
-        add(new JScrollPane(list));
+        bdd(nfw JSdrollPbnf(list));
     }
 
-    public void setTextFont(Font f) {
-        list.setFont(f);
-        list.setPrototypeCellValue(SourceModel.prototypeCellValue);
+    publid void sftTfxtFont(Font f) {
+        list.sftFont(f);
+        list.sftPrototypfCfllVbluf(SourdfModfl.prototypfCfllVbluf);
     }
 
-    private class SourceToolListener
-               implements ContextListener, SourceListener, SpecListener
+    privbtf dlbss SourdfToolListfnfr
+               implfmfnts ContfxtListfnfr, SourdfListfnfr, SpfdListfnfr
     {
 
-        // ContextListener
+        // ContfxtListfnfr
 
-        @Override
-        public void currentFrameChanged(CurrentFrameChangedEvent e) {
-            showSourceContext(e.getThread(), e.getIndex());
+        @Ovfrridf
+        publid void durrfntFrbmfCibngfd(CurrfntFrbmfCibngfdEvfnt f) {
+            siowSourdfContfxt(f.gftTirfbd(), f.gftIndfx());
         }
 
-            // Clear source view.
-            //      sourceModel = new DefaultListModel();  // empty
+            // Clfbr sourdf vifw.
+            //      sourdfModfl = nfw DffbultListModfl();  // fmpty
 
-        // SourceListener
+        // SourdfListfnfr
 
-        @Override
-        public void sourcepathChanged(SourcepathChangedEvent e) {
-            // Reload source view if its contents depend
-            // on the source path.
-            if (sourceName != null) {
-                showSourceFile(sourceName);
-            } else if (sourceLocn != null) {
-                showSourceForLocation(sourceLocn);
+        @Ovfrridf
+        publid void sourdfpbtiCibngfd(SourdfpbtiCibngfdEvfnt f) {
+            // Rflobd sourdf vifw if its dontfnts dfpfnd
+            // on tif sourdf pbti.
+            if (sourdfNbmf != null) {
+                siowSourdfFilf(sourdfNbmf);
+            } flsf if (sourdfLodn != null) {
+                siowSourdfForLodbtion(sourdfLodn);
             }
         }
 
-        // SpecListener
+        // SpfdListfnfr
 
-        @Override
-        public void breakpointSet(SpecEvent e) {
-            breakpointResolved(e);
+        @Ovfrridf
+        publid void brfbkpointSft(SpfdEvfnt f) {
+            brfbkpointRfsolvfd(f);
         }
 
-        @Override
-        public void breakpointDeferred(SpecEvent e) { }
+        @Ovfrridf
+        publid void brfbkpointDfffrrfd(SpfdEvfnt f) { }
 
-        @Override
-        public void breakpointDeleted(SpecEvent e) {
-            BreakpointRequest req = (BreakpointRequest)e.getEventRequest();
-            Location loc = req.location();
-            if (loc != null) {
+        @Ovfrridf
+        publid void brfbkpointDflftfd(SpfdEvfnt f) {
+            BrfbkpointRfqufst rfq = (BrfbkpointRfqufst)f.gftEvfntRfqufst();
+            Lodbtion lod = rfq.lodbtion();
+            if (lod != null) {
                 try {
-                    SourceModel sm = sourceManager.sourceForLocation(loc);
-                    sm.showBreakpoint(loc.lineNumber(), false);
-                    showSourceForLocation(loc);
-                } catch (Exception exc) {
+                    SourdfModfl sm = sourdfMbnbgfr.sourdfForLodbtion(lod);
+                    sm.siowBrfbkpoint(lod.linfNumbfr(), fblsf);
+                    siowSourdfForLodbtion(lod);
+                } dbtdi (Exdfption fxd) {
                 }
             }
         }
 
-        @Override
-        public void breakpointResolved(SpecEvent e) {
-            BreakpointRequest req = (BreakpointRequest)e.getEventRequest();
-            Location loc = req.location();
+        @Ovfrridf
+        publid void brfbkpointRfsolvfd(SpfdEvfnt f) {
+            BrfbkpointRfqufst rfq = (BrfbkpointRfqufst)f.gftEvfntRfqufst();
+            Lodbtion lod = rfq.lodbtion();
             try {
-                SourceModel sm = sourceManager.sourceForLocation(loc);
-                sm.showBreakpoint(loc.lineNumber(), true);
-                showSourceForLocation(loc);
-            } catch (Exception exc) {
+                SourdfModfl sm = sourdfMbnbgfr.sourdfForLodbtion(lod);
+                sm.siowBrfbkpoint(lod.linfNumbfr(), truf);
+                siowSourdfForLodbtion(lod);
+            } dbtdi (Exdfption fxd) {
             }
         }
 
-        @Override
-        public void breakpointError(SpecErrorEvent e) {
-            breakpointDeleted(e);
+        @Ovfrridf
+        publid void brfbkpointError(SpfdErrorEvfnt f) {
+            brfbkpointDflftfd(f);
         }
 
-        @Override
-        public void watchpointSet(SpecEvent e) {
+        @Ovfrridf
+        publid void wbtdipointSft(SpfdEvfnt f) {
         }
-        @Override
-        public void watchpointDeferred(SpecEvent e) {
+        @Ovfrridf
+        publid void wbtdipointDfffrrfd(SpfdEvfnt f) {
         }
-        @Override
-        public void watchpointDeleted(SpecEvent e) {
+        @Ovfrridf
+        publid void wbtdipointDflftfd(SpfdEvfnt f) {
         }
-        @Override
-        public void watchpointResolved(SpecEvent e) {
+        @Ovfrridf
+        publid void wbtdipointRfsolvfd(SpfdEvfnt f) {
         }
-        @Override
-        public void watchpointError(SpecErrorEvent e) {
+        @Ovfrridf
+        publid void wbtdipointError(SpfdErrorEvfnt f) {
         }
 
-        @Override
-        public void exceptionInterceptSet(SpecEvent e) {
+        @Ovfrridf
+        publid void fxdfptionIntfrdfptSft(SpfdEvfnt f) {
         }
-        @Override
-        public void exceptionInterceptDeferred(SpecEvent e) {
+        @Ovfrridf
+        publid void fxdfptionIntfrdfptDfffrrfd(SpfdEvfnt f) {
         }
-        @Override
-        public void exceptionInterceptDeleted(SpecEvent e) {
+        @Ovfrridf
+        publid void fxdfptionIntfrdfptDflftfd(SpfdEvfnt f) {
         }
-        @Override
-        public void exceptionInterceptResolved(SpecEvent e) {
+        @Ovfrridf
+        publid void fxdfptionIntfrdfptRfsolvfd(SpfdEvfnt f) {
         }
-        @Override
-        public void exceptionInterceptError(SpecErrorEvent e) {
+        @Ovfrridf
+        publid void fxdfptionIntfrdfptError(SpfdErrorEvfnt f) {
         }
     }
 
-    private void showSourceContext(ThreadReference thread, int index) {
-        //### Should use ThreadInfo here.
-        StackFrame frame = null;
-        if (thread != null) {
+    privbtf void siowSourdfContfxt(TirfbdRfffrfndf tirfbd, int indfx) {
+        //### Siould usf TirfbdInfo ifrf.
+        StbdkFrbmf frbmf = null;
+        if (tirfbd != null) {
             try {
-                frame = thread.frame(index);
-            } catch (IncompatibleThreadStateException e) {}
+                frbmf = tirfbd.frbmf(indfx);
+            } dbtdi (IndompbtiblfTirfbdStbtfExdfption f) {}
         }
-        if (frame == null) {
-            return;
+        if (frbmf == null) {
+            rfturn;
         }
-        Location locn = frame.location();
+        Lodbtion lodn = frbmf.lodbtion();
         /*****
-        if (!showSourceForLocation(locn)) {
-            env.notice("Could not display source for "
-                       + Utils.locationString(locn));
+        if (!siowSourdfForLodbtion(lodn)) {
+            fnv.notidf("Could not displby sourdf for "
+                       + Utils.lodbtionString(lodn));
         }
         *****/
-        showSourceForLocation(locn);
+        siowSourdfForLodbtion(lodn);
     }
 
-    public boolean showSourceForLocation(Location locn) {
-        sourceName = null;
-        sourceLocn = locn;
-        int lineNo = locn.lineNumber();
-        if (lineNo != -1) {
-            SourceModel source = sourceManager.sourceForLocation(locn);
-            if (source != null) {
-                showSourceAtLine(source, lineNo-1);
-                return true;
+    publid boolfbn siowSourdfForLodbtion(Lodbtion lodn) {
+        sourdfNbmf = null;
+        sourdfLodn = lodn;
+        int linfNo = lodn.linfNumbfr();
+        if (linfNo != -1) {
+            SourdfModfl sourdf = sourdfMbnbgfr.sourdfForLodbtion(lodn);
+            if (sourdf != null) {
+                siowSourdfAtLinf(sourdf, linfNo-1);
+                rfturn truf;
             }
         }
-        // Here if we could not display source.
-        showSourceUnavailable();
-        return false;
+        // Hfrf if wf dould not displby sourdf.
+        siowSourdfUnbvbilbblf();
+        rfturn fblsf;
     }
 
-    public boolean showSourceFile(String fileName) {
-        sourceLocn = null;
-        File file;
-        if (!fileName.startsWith(File.separator)) {
-            sourceName = fileName;
-            SearchPath sourcePath = sourceManager.getSourcePath();
-            file = sourcePath.resolve(fileName);
-            if (file == null) {
-                //env.failure("Source not found on current source path.");
-                showSourceUnavailable();
-                return false;
+    publid boolfbn siowSourdfFilf(String filfNbmf) {
+        sourdfLodn = null;
+        Filf filf;
+        if (!filfNbmf.stbrtsWiti(Filf.sfpbrbtor)) {
+            sourdfNbmf = filfNbmf;
+            SfbrdiPbti sourdfPbti = sourdfMbnbgfr.gftSourdfPbti();
+            filf = sourdfPbti.rfsolvf(filfNbmf);
+            if (filf == null) {
+                //fnv.fbilurf("Sourdf not found on durrfnt sourdf pbti.");
+                siowSourdfUnbvbilbblf();
+                rfturn fblsf;
             }
-        } else {
-            sourceName = null;  // Absolute pathname does not depend on sourcepath.
-            file = new File(fileName);
+        } flsf {
+            sourdfNbmf = null;  // Absolutf pbtinbmf dofs not dfpfnd on sourdfpbti.
+            filf = nfw Filf(filfNbmf);
         }
-        SourceModel source = sourceManager.sourceForFile(file);
-        if (source != null) {
-            showSource(source);
-            return true;
+        SourdfModfl sourdf = sourdfMbnbgfr.sourdfForFilf(filf);
+        if (sourdf != null) {
+            siowSourdf(sourdf);
+            rfturn truf;
         }
-        showSourceUnavailable();
-        return false;
+        siowSourdfUnbvbilbblf();
+        rfturn fblsf;
     }
 
-    private void showSource(SourceModel model) {
-        setViewModel(model);
+    privbtf void siowSourdf(SourdfModfl modfl) {
+        sftVifwModfl(modfl);
     }
 
-    private void showSourceAtLine(SourceModel model, int lineNo) {
-        setViewModel(model);
-        if (model.isActuallySource && (lineNo < model.getSize())) {
-            list.setSelectedIndex(lineNo);
-            if (lineNo+4 < model.getSize()) {
-                list.ensureIndexIsVisible(lineNo+4);  // give some context
+    privbtf void siowSourdfAtLinf(SourdfModfl modfl, int linfNo) {
+        sftVifwModfl(modfl);
+        if (modfl.isAdtubllySourdf && (linfNo < modfl.gftSizf())) {
+            list.sftSflfdtfdIndfx(linfNo);
+            if (linfNo+4 < modfl.gftSizf()) {
+                list.fnsurfIndfxIsVisiblf(linfNo+4);  // givf somf dontfxt
             }
-            list.ensureIndexIsVisible(lineNo);
+            list.fnsurfIndfxIsVisiblf(linfNo);
         }
     }
 
-    private void showSourceUnavailable() {
-        SourceModel model = new SourceModel("[Source code is not available]");
-        setViewModel(model);
+    privbtf void siowSourdfUnbvbilbblf() {
+        SourdfModfl modfl = nfw SourdfModfl("[Sourdf dodf is not bvbilbblf]");
+        sftVifwModfl(modfl);
     }
 
-    private void setViewModel(SourceModel model) {
-        if (model != sourceModel) {
-            // install new model
-            list.setModel(model);
-            sourceModel = model;
+    privbtf void sftVifwModfl(SourdfModfl modfl) {
+        if (modfl != sourdfModfl) {
+            // instbll nfw modfl
+            list.sftModfl(modfl);
+            sourdfModfl = modfl;
         }
     }
 
-    private class SourceLineRenderer extends DefaultListCellRenderer {
+    privbtf dlbss SourdfLinfRfndfrfr fxtfnds DffbultListCfllRfndfrfr {
 
-        @Override
-        public Component getListCellRendererComponent(JList list,
-                                                      Object value,
-                                                      int index,
-                                                      boolean isSelected,
-                                                      boolean cellHasFocus) {
+        @Ovfrridf
+        publid Componfnt gftListCfllRfndfrfrComponfnt(JList list,
+                                                      Objfdt vbluf,
+                                                      int indfx,
+                                                      boolfbn isSflfdtfd,
+                                                      boolfbn dfllHbsFodus) {
 
-            //### Should set background highlight and/or icon if breakpoint on this line.
-            // Configures "this"
-            super.getListCellRendererComponent(list, value, index,
-                                               isSelected, cellHasFocus);
+            //### Siould sft bbdkground iigiligit bnd/or idon if brfbkpoint on tiis linf.
+            // Configurfs "tiis"
+            supfr.gftListCfllRfndfrfrComponfnt(list, vbluf, indfx,
+                                               isSflfdtfd, dfllHbsFodus);
 
-            SourceModel.Line line = (SourceModel.Line)value;
+            SourdfModfl.Linf linf = (SourdfModfl.Linf)vbluf;
 
-            //### Tab expansion is now done when source file is read in,
-            //### to speed up display.  This costs a lot of space, slows
-            //### down source file loading, and has not been demonstrated
-            //### to yield an observable improvement in display performance.
-            //### Measurements may be appropriate here.
-            //String sourceLine = expandTabs((String)value);
-            setText(line.text);
-            if (line.hasBreakpoint) {
-                setIcon(Icons.stopSignIcon);
-            } else if (line.isExecutable()) {
-                setIcon(Icons.execIcon);
-            } else {
-                setIcon(Icons.blankIcon);
+            //### Tbb fxpbnsion is now donf wifn sourdf filf is rfbd in,
+            //### to spffd up displby.  Tiis dosts b lot of spbdf, slows
+            //### down sourdf filf lobding, bnd ibs not bffn dfmonstrbtfd
+            //### to yifld bn obsfrvbblf improvfmfnt in displby pfrformbndf.
+            //### Mfbsurfmfnts mby bf bppropribtf ifrf.
+            //String sourdfLinf = fxpbndTbbs((String)vbluf);
+            sftTfxt(linf.tfxt);
+            if (linf.ibsBrfbkpoint) {
+                sftIdon(Idons.stopSignIdon);
+            } flsf if (linf.isExfdutbblf()) {
+                sftIdon(Idons.fxfdIdon);
+            } flsf {
+                sftIdon(Idons.blbnkIdon);
             }
 
 
-            return this;
+            rfturn tiis;
         }
 
-        @Override
-        public Dimension getPreferredSize() {
-            Dimension dim = super.getPreferredSize();
-            return new Dimension(dim.width, dim.height-5);
+        @Ovfrridf
+        publid Dimfnsion gftPrfffrrfdSizf() {
+            Dimfnsion dim = supfr.gftPrfffrrfdSizf();
+            rfturn nfw Dimfnsion(dim.widti, dim.ifigit-5);
         }
 
     }
 
-    private class STMouseListener extends MouseAdapter implements MouseListener {
-        @Override
-        public void mousePressed(MouseEvent e) {
-            if (e.isPopupTrigger()) {
-                showPopupMenu((Component)e.getSource(),
-                              e.getX(), e.getY());
-            }
-        }
-
-        @Override
-        public void mouseReleased(MouseEvent e) {
-            if (e.isPopupTrigger()) {
-                showPopupMenu((Component)e.getSource(),
-                              e.getX(), e.getY());
+    privbtf dlbss STMousfListfnfr fxtfnds MousfAdbptfr implfmfnts MousfListfnfr {
+        @Ovfrridf
+        publid void mousfPrfssfd(MousfEvfnt f) {
+            if (f.isPopupTriggfr()) {
+                siowPopupMfnu((Componfnt)f.gftSourdf(),
+                              f.gftX(), f.gftY());
             }
         }
 
-        private void showPopupMenu(Component invoker, int x, int y) {
-            JList list = (JList)invoker;
-            int ln = list.getSelectedIndex() + 1;
-            SourceModel.Line line =
-                (SourceModel.Line)list.getSelectedValue();
-            JPopupMenu popup = new JPopupMenu();
+        @Ovfrridf
+        publid void mousfRflfbsfd(MousfEvfnt f) {
+            if (f.isPopupTriggfr()) {
+                siowPopupMfnu((Componfnt)f.gftSourdf(),
+                              f.gftX(), f.gftY());
+            }
+        }
 
-            if (line == null) {
-                popup.add(new JMenuItem("please select a line"));
-            } else if (line.isExecutable()) {
-                String className = line.refType.name();
-                if (line.hasBreakpoint()) {
-                    popup.add(commandItem("Clear Breakpoint",
-                                          "clear " + className +
+        privbtf void siowPopupMfnu(Componfnt invokfr, int x, int y) {
+            JList list = (JList)invokfr;
+            int ln = list.gftSflfdtfdIndfx() + 1;
+            SourdfModfl.Linf linf =
+                (SourdfModfl.Linf)list.gftSflfdtfdVbluf();
+            JPopupMfnu popup = nfw JPopupMfnu();
+
+            if (linf == null) {
+                popup.bdd(nfw JMfnuItfm("plfbsf sflfdt b linf"));
+            } flsf if (linf.isExfdutbblf()) {
+                String dlbssNbmf = linf.rffTypf.nbmf();
+                if (linf.ibsBrfbkpoint()) {
+                    popup.bdd(dommbndItfm("Clfbr Brfbkpoint",
+                                          "dlfbr " + dlbssNbmf +
                                           ":" + ln));
-                } else {
-                    popup.add(commandItem("Set Breakpoint",
-                                          "stop at " + className +
+                } flsf {
+                    popup.bdd(dommbndItfm("Sft Brfbkpoint",
+                                          "stop bt " + dlbssNbmf +
                                           ":" + ln));
                 }
-            } else {
-                popup.add(new JMenuItem("not an executable line"));
+            } flsf {
+                popup.bdd(nfw JMfnuItfm("not bn fxfdutbblf linf"));
             }
 
-            popup.show(invoker,
-                       x + popup.getWidth()/2, y + popup.getHeight()/2);
+            popup.siow(invokfr,
+                       x + popup.gftWidti()/2, y + popup.gftHfigit()/2);
         }
 
-        private JMenuItem commandItem(String label, final String cmd) {
-            JMenuItem item = new JMenuItem(label);
-            item.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    interpreter.executeCommand(cmd);
+        privbtf JMfnuItfm dommbndItfm(String lbbfl, finbl String dmd) {
+            JMfnuItfm itfm = nfw JMfnuItfm(lbbfl);
+            itfm.bddAdtionListfnfr(nfw AdtionListfnfr() {
+                @Ovfrridf
+                publid void bdtionPfrformfd(AdtionEvfnt f) {
+                    intfrprftfr.fxfdutfCommbnd(dmd);
                 }
             });
-            return item;
+            rfturn itfm;
         }
     }
 }

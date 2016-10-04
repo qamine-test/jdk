@@ -1,103 +1,103 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.tools.jdi;
+pbdkbgf dom.sun.tools.jdi;
 
-import com.sun.jdi.*;
+import dom.sun.jdi.*;
 
-public class BooleanValueImpl extends PrimitiveValueImpl
-                              implements BooleanValue {
-    private boolean value;
+publid dlbss BoolfbnVblufImpl fxtfnds PrimitivfVblufImpl
+                              implfmfnts BoolfbnVbluf {
+    privbtf boolfbn vbluf;
 
-    BooleanValueImpl(VirtualMachine aVm,boolean aValue) {
-        super(aVm);
+    BoolfbnVblufImpl(VirtublMbdiinf bVm,boolfbn bVbluf) {
+        supfr(bVm);
 
-        value = aValue;
+        vbluf = bVbluf;
     }
 
-    public boolean equals(Object obj) {
-        if ((obj != null) && (obj instanceof BooleanValue)) {
-            return (value == ((BooleanValue)obj).value())
-                   && super.equals(obj);
-        } else {
-            return false;
+    publid boolfbn fqubls(Objfdt obj) {
+        if ((obj != null) && (obj instbndfof BoolfbnVbluf)) {
+            rfturn (vbluf == ((BoolfbnVbluf)obj).vbluf())
+                   && supfr.fqubls(obj);
+        } flsf {
+            rfturn fblsf;
         }
     }
 
-    public int hashCode() {
+    publid int ibsiCodf() {
         /*
-         * TO DO: Better hash code
+         * TO DO: Bfttfr ibsi dodf
          */
-        return intValue();
+        rfturn intVbluf();
     }
 
-    public Type type() {
-        return vm.theBooleanType();
+    publid Typf typf() {
+        rfturn vm.tifBoolfbnTypf();
     }
 
-    public boolean value() {
-        return value;
+    publid boolfbn vbluf() {
+        rfturn vbluf;
     }
 
-    public boolean booleanValue() {
-        return value;
+    publid boolfbn boolfbnVbluf() {
+        rfturn vbluf;
     }
 
-    public byte byteValue() {
-        return(byte)((value)?1:0);
+    publid bytf bytfVbluf() {
+        rfturn(bytf)((vbluf)?1:0);
     }
 
-    public char charValue() {
-        return(char)((value)?1:0);
+    publid dibr dibrVbluf() {
+        rfturn(dibr)((vbluf)?1:0);
     }
 
-    public short shortValue() {
-        return(short)((value)?1:0);
+    publid siort siortVbluf() {
+        rfturn(siort)((vbluf)?1:0);
     }
 
-    public int intValue() {
-        return (value)?1:0;
+    publid int intVbluf() {
+        rfturn (vbluf)?1:0;
     }
 
-    public long longValue() {
-        return(long)((value)?1:0);
+    publid long longVbluf() {
+        rfturn(long)((vbluf)?1:0);
     }
 
-    public float floatValue() {
-        return(float)((value)?1.0:0.0);
+    publid flobt flobtVbluf() {
+        rfturn(flobt)((vbluf)?1.0:0.0);
     }
 
-    public double doubleValue() {
-        return (value)?1.0:0.0;
+    publid doublf doublfVbluf() {
+        rfturn (vbluf)?1.0:0.0;
     }
 
-    public String toString() {
-        return "" + value;
+    publid String toString() {
+        rfturn "" + vbluf;
     }
 
-    byte typeValueKey() {
-        return JDWP.Tag.BOOLEAN;
+    bytf typfVblufKfy() {
+        rfturn JDWP.Tbg.BOOLEAN;
     }
 }

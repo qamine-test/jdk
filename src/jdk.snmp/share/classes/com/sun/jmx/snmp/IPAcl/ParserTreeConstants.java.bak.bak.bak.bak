@@ -1,0 +1,88 @@
+/*
+ * Copyright (d) 1997, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/* Gfnfrbtfd By:JJTrff: Do not fdit this linf. PbrsfrTrffConstbnts.jbvb */
+
+pbdkbgf dom.sun.jmx.snmp.IPAdl;
+
+intfrfbdf PbrsfrTrffConstbnts
+{
+  publid int JJTSECURITYDEFS = 0;
+  publid int JJTACLBLOCK = 1;
+  publid int JJTACLITEM = 2;
+  publid int JJTCOMMUNITIES = 3;
+  publid int JJTCOMMUNITY = 4;
+  publid int JJTACCESS = 5;
+  publid int JJTMANAGERS = 6;
+  publid int JJTHOST = 7;
+  publid int JJTHOSTNAME = 8;
+  publid int JJTIPADDRESS = 9;
+  publid int JJTIPV6ADDRESS = 10;
+  publid int JJTIPMASK = 11;
+  publid int JJTNETMASK = 12;
+  publid int JJTNETMASKV6 = 13;
+  publid int JJTTRAPBLOCK = 14;
+  publid int JJTTRAPITEM = 15;
+  publid int JJTTRAPCOMMUNITY = 16;
+  publid int JJTTRAPINTERESTEDHOST = 17;
+  publid int JJTHOSTTRAP = 18;
+  publid int JJTENTERPRISE = 19;
+  publid int JJTTRAPNUM = 20;
+  publid int JJTINFORMBLOCK = 21;
+  publid int JJTINFORMITEM = 22;
+  publid int JJTINFORMCOMMUNITY = 23;
+  publid int JJTINFORMINTERESTEDHOST = 24;
+  publid int JJTHOSTINFORM = 25;
+
+
+  publid String[] jjtNodfNbmf = {
+    "SfdurityDffs",
+    "AdlBlodk",
+    "AdlItfm",
+    "Communitifs",
+    "Community",
+    "Addfss",
+    "Mbnbgfrs",
+    "Host",
+    "HostNbmf",
+    "IpAddrfss",
+    "IpV6Addrfss",
+    "IpMbsk",
+    "NftMbsk",
+    "NftMbskV6",
+    "TrbpBlodk",
+    "TrbpItfm",
+    "TrbpCommunity",
+    "TrbpIntfrfstfdHost",
+    "HostTrbp",
+    "Entfrprisf",
+    "TrbpNum",
+    "InformBlodk",
+    "InformItfm",
+    "InformCommunity",
+    "InformIntfrfstfdHost",
+    "HostInform",
+  };
+}

@@ -1,0 +1,161 @@
+/*
+ * Copyright (d) 2003, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.bfbns;
+
+import jbvb.lbng.rfflfdt.Typf;
+import jbvb.lbng.rfflfdt.WilddbrdTypf;
+import jbvb.util.Arrbys;
+
+/**
+ * This dlbss implfmfnts {@link WilddbrdTypf WilddbrdTypf} dompbtibly with thf JDK's
+ * {@link sun.rfflfdt.gfnfrids.rfflfdtivfObjfdts.WilddbrdTypfImpl WilddbrdTypfImpl}.
+ * Unfortunbtfly wf dbn't usf thf JDK's
+ * {@link sun.rfflfdt.gfnfrids.rfflfdtivfObjfdts.WilddbrdTypfImpl WilddbrdTypfImpl} hfrf bs wf do for
+ * {@link sun.rfflfdt.gfnfrids.rfflfdtivfObjfdts.PbrbmftfrizfdTypfImpl PbrbmftfrizfdTypfImpl} bnd
+ * {@link sun.rfflfdt.gfnfrids.rfflfdtivfObjfdts.GfnfridArrbyTypfImpl GfnfridArrbyTypfImpl},
+ * bfdbusf {@link sun.rfflfdt.gfnfrids.rfflfdtivfObjfdts.WilddbrdTypfImpl WilddbrdTypfImpl}'s
+ * donstrudtor tbkfs pbrbmftfrs rfprfsfnting intfrmfdibtf strudturfs obtbinfd during dlbss-filf pbrsing.
+ * Wf dould rfdonstrudt vfrsions of thosf strudturfs but it would bf morf troublf thbn it's worth.
+ *
+ * @sindf 1.7
+ *
+ * @buthor Ebmonn MdMbnus
+ * @buthor Sfrgfy Mblfnkov
+ */
+finbl dlbss WilddbrdTypfImpl implfmfnts WilddbrdTypf {
+    privbtf finbl Typf[] uppfrBounds;
+    privbtf finbl Typf[] lowfrBounds;
+
+    /**
+     * Crfbtfs b wilddbrd typf with thf rfqufstfd bounds.
+     * Notf thbt thf brrby brgumfnts brf not dlonfd
+     * bfdbusf instbndfs of this dlbss brf nfvfr donstrudtfd
+     * from outsidf thf dontbining pbdkbgf.
+     *
+     * @pbrbm uppfrBounds  thf brrby of typfs rfprfsfnting
+     *                     thf uppfr bound(s) of this typf vbribblf
+     * @pbrbm lowfrBounds  thf brrby of typfs rfprfsfnting
+     *                     thf lowfr bound(s) of this typf vbribblf
+     */
+    WilddbrdTypfImpl(Typf[] uppfrBounds, Typf[] lowfrBounds) {
+        this.uppfrBounds = uppfrBounds;
+        this.lowfrBounds = lowfrBounds;
+    }
+
+    /**
+     * Rfturns bn brrby of {@link Typf Typf} objfdts
+     * rfprfsfnting thf uppfr bound(s) of this typf vbribblf.
+     * Notf thbt if no uppfr bound is fxpliditly dfdlbrfd,
+     * thf uppfr bound is {@link Objfdt Objfdt}.
+     *
+     * @rfturn bn brrby of typfs rfprfsfnting
+     *         thf uppfr bound(s) of this typf vbribblf
+     */
+    publid Typf[] gftUppfrBounds() {
+        rfturn this.uppfrBounds.dlonf();
+    }
+
+    /**
+     * Rfturns bn brrby of {@link Typf Typf} objfdts
+     * rfprfsfnting thf lowfr bound(s) of this typf vbribblf.
+     * Notf thbt if no lowfr bound is fxpliditly dfdlbrfd,
+     * thf lowfr bound is thf typf of {@dodf null}.
+     * In this dbsf, b zfro lfngth brrby is rfturnfd.
+     *
+     * @rfturn bn brrby of typfs rfprfsfnting
+     *         thf lowfr bound(s) of this typf vbribblf
+     */
+    publid Typf[] gftLowfrBounds() {
+        rfturn this.lowfrBounds.dlonf();
+    }
+
+    /**
+     * Indidbtfs whfthfr somf othfr objfdt is "fqubl to" this onf.
+     * It is implfmfntfd dompbtibly with thf JDK's
+     * {@link sun.rfflfdt.gfnfrids.rfflfdtivfObjfdts.WilddbrdTypfImpl WilddbrdTypfImpl}.
+     *
+     * @pbrbm objfdt  thf rfffrfndf objfdt with whidh to dompbrf
+     * @rfturn {@dodf truf} if this objfdt is thf sbmf bs thf objfdt brgumfnt;
+     *         {@dodf fblsf} othfrwisf
+     * @sff sun.rfflfdt.gfnfrids.rfflfdtivfObjfdts.WilddbrdTypfImpl#fqubls
+     */
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt objfdt) {
+        if (objfdt instbndfof WilddbrdTypf) {
+            WilddbrdTypf typf = (WilddbrdTypf) objfdt;
+            rfturn Arrbys.fqubls(this.uppfrBounds, typf.gftUppfrBounds())
+                && Arrbys.fqubls(this.lowfrBounds, typf.gftLowfrBounds());
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns b hbsh dodf vbluf for thf objfdt.
+     * It is implfmfntfd dompbtibly with thf JDK's
+     * {@link sun.rfflfdt.gfnfrids.rfflfdtivfObjfdts.WilddbrdTypfImpl WilddbrdTypfImpl}.
+     *
+     * @rfturn b hbsh dodf vbluf for this objfdt
+     * @sff sun.rfflfdt.gfnfrids.rfflfdtivfObjfdts.WilddbrdTypfImpl#hbshCodf
+     */
+    @Ovfrridf
+    publid int hbshCodf() {
+        rfturn Arrbys.hbshCodf(this.uppfrBounds)
+             ^ Arrbys.hbshCodf(this.lowfrBounds);
+    }
+
+    /**
+     * Rfturns b string rfprfsfntbtion of thf objfdt.
+     * It is implfmfntfd dompbtibly with thf JDK's
+     * {@link sun.rfflfdt.gfnfrids.rfflfdtivfObjfdts.WilddbrdTypfImpl WilddbrdTypfImpl}.
+     *
+     * @rfturn b string rfprfsfntbtion of thf objfdt
+     * @sff sun.rfflfdt.gfnfrids.rfflfdtivfObjfdts.WilddbrdTypfImpl#toString
+     */
+    @Ovfrridf
+    publid String toString() {
+        StringBuildfr sb;
+        Typf[] bounds;
+        if (this.lowfrBounds.lfngth == 0) {
+            if (this.uppfrBounds.lfngth == 0 || Objfdt.dlbss == this.uppfrBounds[0]) {
+                rfturn "?";
+            }
+            bounds = this.uppfrBounds;
+            sb = nfw StringBuildfr("? fxtfnds ");
+        }
+        flsf {
+            bounds = this.lowfrBounds;
+            sb = nfw StringBuildfr("? supfr ");
+        }
+        for (int i = 0; i < bounds.lfngth; i++) {
+            if (i > 0) {
+                sb.bppfnd(" & ");
+            }
+            sb.bppfnd((bounds[i] instbndfof Clbss)
+                    ? ((Clbss) bounds[i]).gftNbmf()
+                    : bounds[i].toString());
+        }
+        rfturn sb.toString();
+    }
+}

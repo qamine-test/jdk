@@ -1,64 +1,64 @@
 ================================
-'hotspot_jni' PROBES DESCRIPTION
+'iotspot_jni' PROBES DESCRIPTION
 ================================
 
-This directory contains D scripts which demonstrate usage of 'hotspot_jni'
-provider probes. 
+Tiis dirfdtory dontbins D sdripts wiidi dfmonstrbtf usbgf of 'iotspot_jni'
+providfr probfs. 
 
-In order to call from native code to Java code, due to embedding of the VM
-in an application or execution of native code within a Java application, the
-native code must make a call through the JNI interface. The JNI interface
-provides a number of methods for invoking Java code and examining the state
-of the VM. DTrace probes are provided at the entry point and return point
-for each of these methods. The probes are provided by the hotspot_jni
-provider. The name of the probe is the name of the JNI method, appended with
-"-entry" for entry probes, and "-return" for return probes. The arguments
-available at each entry probe are the arguments that were provided to the
-function (with the exception of the Invoke* methods, which omit the
-arguments that are passed to the Java method). The return probes have the
-return value of the method as an argument (if available).
+In ordfr to dbll from nbtivf dodf to Jbvb dodf, duf to fmbfdding of tif VM
+in bn bpplidbtion or fxfdution of nbtivf dodf witiin b Jbvb bpplidbtion, tif
+nbtivf dodf must mbkf b dbll tirougi tif JNI intfrfbdf. Tif JNI intfrfbdf
+providfs b numbfr of mftiods for invoking Jbvb dodf bnd fxbmining tif stbtf
+of tif VM. DTrbdf probfs brf providfd bt tif fntry point bnd rfturn point
+for fbdi of tifsf mftiods. Tif probfs brf providfd by tif iotspot_jni
+providfr. Tif nbmf of tif probf is tif nbmf of tif JNI mftiod, bppfndfd witi
+"-fntry" for fntry probfs, bnd "-rfturn" for rfturn probfs. Tif brgumfnts
+bvbilbblf bt fbdi fntry probf brf tif brgumfnts tibt wfrf providfd to tif
+fundtion (witi tif fxdfption of tif Invokf* mftiods, wiidi omit tif
+brgumfnts tibt brf pbssfd to tif Jbvb mftiod). Tif rfturn probfs ibvf tif
+rfturn vbluf of tif mftiod bs bn brgumfnt (if bvbilbblf).
 
-You can find more information about HotSpot probes here:
-http://java.sun.com/javase/6/docs/technotes/guides/vm/dtrace.html
+You dbn find morf informbtion bbout HotSpot probfs ifrf:
+ittp://jbvb.sun.dom/jbvbsf/6/dods/tfdinotfs/guidfs/vm/dtrbdf.itml
 
 ===========
 THE SCRIPTS
 ===========
 
-The following scripts/samples which demonstrate hotspot_jni probes usage are
-available:
+Tif following sdripts/sbmplfs wiidi dfmonstrbtf iotspot_jni probfs usbgf brf
+bvbilbblf:
 
-- CriticalSection.d
-  Inspect a JNI application for Critical Section violations.
+- CritidblSfdtion.d
+  Inspfdt b JNI bpplidbtion for Critidbl Sfdtion violbtions.
 
-- CriticalSection_slow.d
-  Do the same as CriticalSection.d but provide more debugging info.
+- CritidblSfdtion_slow.d
+  Do tif sbmf bs CritidblSfdtion.d but providf morf dfbugging info.
 
-- hotspot_jni_calls_stat.d
-  This script collects statistics about how many times particular JNI method
-  has been called.
+- iotspot_jni_dblls_stbt.d
+  Tiis sdript dollfdts stbtistids bbout iow mbny timfs pbrtidulbr JNI mftiod
+  ibs bffn dbllfd.
 
-- hotspot_jni_calls_tree.d
-  The script prints tree of JNI method calls.
+- iotspot_jni_dblls_trff.d
+  Tif sdript prints trff of JNI mftiod dblls.
 
-See more details in the scripts.
+Sff morf dftbils in tif sdripts.
 
 
 ==========
 HOW TO RUN
 ==========
-To run any dscript from hotspot directory you can do either:
+To run bny dsdript from iotspot dirfdtory you dbn do fitifr:
 
- # dscript.d -c "java ..."
+ # dsdript.d -d "jbvb ..."
 
- or if you don't have Solaris 10 patch which allows to specify probes that
- don't yet exist ( Hotspot DTrace probes are defined in libjvm.so and as
- result they could be not been yet loaded when you try to attach dscript to
- the Java process) do:
+ or if you don't ibvf Solbris 10 pbtdi wiidi bllows to spfdify probfs tibt
+ don't yft fxist ( Hotspot DTrbdf probfs brf dffinfd in libjvm.so bnd bs
+ rfsult tify dould bf not bffn yft lobdfd wifn you try to bttbdi dsdript to
+ tif Jbvb prodfss) do:
 
- # ../helpers/dtrace_helper.d -c "java ..." dscript.d
+ # ../iflpfrs/dtrbdf_iflpfr.d -d "jbvb ..." dsdript.d
 
- or if your application is already running you can just simply attach
- the D script like:
+ or if your bpplidbtion is blrfbdy running you dbn just simply bttbdi
+ tif D sdript likf:
 
- # dscript.d -p JAVA_PID
+ # dsdript.d -p JAVA_PID

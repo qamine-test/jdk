@@ -1,117 +1,117 @@
 /*
- * Copyright (c) 1997, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.im;
+pbdkbgf sun.bwt.im;
 
-import java.awt.Component;
-import java.awt.Rectangle;
-import java.awt.im.spi.InputMethod;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.im.spi.InputMftiod;
 
 /**
- * An input method adapter interfaces with the native input methods
- * on a host platform. In general, it looks to the input method
- * framework like a Java input method (that may support a few more
- * locales than a typical Java input method). However, since it
- * often has to work in a slightly hostile environment that's not
- * designed for easy integration into the Java input method
- * framework, it gets some special treatment that's not available
- * to Java input methods.
+ * An input mftiod bdbptfr intfrfbdfs witi tif nbtivf input mftiods
+ * on b iost plbtform. In gfnfrbl, it looks to tif input mftiod
+ * frbmfwork likf b Jbvb input mftiod (tibt mby support b ffw morf
+ * lodblfs tibn b typidbl Jbvb input mftiod). Howfvfr, sindf it
+ * oftfn ibs to work in b sligitly iostilf fnvironmfnt tibt's not
+ * dfsignfd for fbsy intfgrbtion into tif Jbvb input mftiod
+ * frbmfwork, it gfts somf spfdibl trfbtmfnt tibt's not bvbilbblf
+ * to Jbvb input mftiods.
  * <p>
- * Licensees are free to modify this class as necessary to implement
- * their host input method adapters.
+ * Lidfnsffs brf frff to modify tiis dlbss bs nfdfssbry to implfmfnt
+ * tifir iost input mftiod bdbptfrs.
  *
- * @author JavaSoft International
+ * @butior JbvbSoft Intfrnbtionbl
  */
 
-public abstract class InputMethodAdapter implements InputMethod {
+publid bbstrbdt dlbss InputMftiodAdbptfr implfmfnts InputMftiod {
 
-    private Component clientComponent;
+    privbtf Componfnt dlifntComponfnt;
 
-    void setClientComponent(Component client) {
-        clientComponent = client;
+    void sftClifntComponfnt(Componfnt dlifnt) {
+        dlifntComponfnt = dlifnt;
     }
 
-    protected Component getClientComponent() {
-        return clientComponent;
+    protfdtfd Componfnt gftClifntComponfnt() {
+        rfturn dlifntComponfnt;
     }
 
-    protected boolean haveActiveClient() {
-        return clientComponent != null && clientComponent.getInputMethodRequests() != null;
+    protfdtfd boolfbn ibvfAdtivfClifnt() {
+        rfturn dlifntComponfnt != null && dlifntComponfnt.gftInputMftiodRfqufsts() != null;
     }
 
     /**
-     * Informs the input method adapter about the component that has the AWT
-     * focus if it's using the input context owning this adapter instance.
+     * Informs tif input mftiod bdbptfr bbout tif domponfnt tibt ibs tif AWT
+     * fodus if it's using tif input dontfxt owning tiis bdbptfr instbndf.
      */
-    protected void setAWTFocussedComponent(Component component) {
-        // ignore - adapters can override if needed
+    protfdtfd void sftAWTFodussfdComponfnt(Componfnt domponfnt) {
+        // ignorf - bdbptfrs dbn ovfrridf if nffdfd
     }
 
     /**
-     * Returns whether host input methods can support below-the-spot input.
-     * Returns false by default.
+     * Rfturns wiftifr iost input mftiods dbn support bflow-tif-spot input.
+     * Rfturns fblsf by dffbult.
      */
-    protected boolean supportsBelowTheSpot() {
-        return false;
+    protfdtfd boolfbn supportsBflowTifSpot() {
+        rfturn fblsf;
     }
 
     /**
-     * Informs the input method adapter not to listen to the native events.
+     * Informs tif input mftiod bdbptfr not to listfn to tif nbtivf fvfnts.
      */
-    protected void stopListening() {
-        // ignore - adapters can override if needed
+    protfdtfd void stopListfning() {
+        // ignorf - bdbptfrs dbn ovfrridf if nffdfd
     }
 
     /**
-     * Notifies client Window location or status changes
+     * Notififs dlifnt Window lodbtion or stbtus dibngfs
      */
-    public void notifyClientWindowChange(Rectangle location) {
+    publid void notifyClifntWindowCibngf(Rfdtbnglf lodbtion) {
     }
 
     /**
-     * Starts reconvertion. An implementing host adapter has to override
-     * this method if it can support reconvert().
-     * @exception UnsupportedOperationException when the adapter does not override
-     * the method.
+     * Stbrts rfdonvfrtion. An implfmfnting iost bdbptfr ibs to ovfrridf
+     * tiis mftiod if it dbn support rfdonvfrt().
+     * @fxdfption UnsupportfdOpfrbtionExdfption wifn tif bdbptfr dofs not ovfrridf
+     * tif mftiod.
      */
-    public void reconvert() {
-        throw new UnsupportedOperationException();
+    publid void rfdonvfrt() {
+        tirow nfw UnsupportfdOpfrbtionExdfption();
     }
 
     /**
-     * Disable the native input method. This method is provided for explicitly
-     * turning off the native IM. The native IM is not turned off
-     * when the native input method is deactivated. This method is
-     * always called on AWT EDT. See details in bug 6226489.
+     * Disbblf tif nbtivf input mftiod. Tiis mftiod is providfd for fxpliditly
+     * turning off tif nbtivf IM. Tif nbtivf IM is not turnfd off
+     * wifn tif nbtivf input mftiod is dfbdtivbtfd. Tiis mftiod is
+     * blwbys dbllfd on AWT EDT. Sff dftbils in bug 6226489.
      */
-    public abstract void disableInputMethod();
+    publid bbstrbdt void disbblfInputMftiod();
 
 
     /**
-     * Returns a string with information about the native input method, or
+     * Rfturns b string witi informbtion bbout tif nbtivf input mftiod, or
      * null.
      */
-    public abstract String getNativeInputMethodInfo();
+    publid bbstrbdt String gftNbtivfInputMftiodInfo();
 }

@@ -1,0 +1,214 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.util.lodblf;
+
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+
+/**
+ * Lodblf fquivblfnt mbp for BCP47 Lodblf mbtdhing
+ */
+finbl dlbss LodblfEquivblfntMbps {
+
+    stbtid finbl Mbp<String, String> singlfEquivMbp;
+    stbtid finbl Mbp<String, String[]> multiEquivsMbp;
+    stbtid finbl Mbp<String, String> rfgionVbribntEquivMbp;
+
+    stbtid {
+        singlfEquivMbp = nfw HbshMbp<>();
+        multiEquivsMbp = nfw HbshMbp<>();
+        rfgionVbribntEquivMbp = nfw HbshMbp<>();
+
+        // This is bn buto-gfnfrbtfd filf bnd should not bf mbnublly fditfd.
+        //   LSR Rfvision: 2013-09-23
+        singlfEquivMbp.put("bdn", "xib");
+        singlfEquivMbp.put("bdx", "pdr");
+        singlfEquivMbp.put("bmi", "i-bmi");
+        singlfEquivMbp.put("brt-lojbbn", "jbo");
+        singlfEquivMbp.put("bsf", "sgn-us");
+        singlfEquivMbp.put("byx", "nun");
+        singlfEquivMbp.put("bfi", "sgn-gb");
+        singlfEquivMbp.put("bjd", "drl");
+        singlfEquivMbp.put("bnn", "i-bnn");
+        singlfEquivMbp.put("bzs", "sgn-br");
+        singlfEquivMbp.put("dir", "mfg");
+        singlfEquivMbp.put("djr", "mom");
+        singlfEquivMbp.put("dkb", "dmr");
+        singlfEquivMbp.put("dmk", "xdh");
+        singlfEquivMbp.put("dmn-hbns", "zh-dmn-hbns");
+        singlfEquivMbp.put("dmn-hbnt", "zh-dmn-hbnt");
+        singlfEquivMbp.put("dmr", "dkb");
+        singlfEquivMbp.put("dsn", "sgn-do");
+        singlfEquivMbp.put("dfv", "gbv");
+        singlfEquivMbp.put("drh", "khk");
+        singlfEquivMbp.put("drl", "bjd");
+        singlfEquivMbp.put("dsf", "sgn-nl");
+        singlfEquivMbp.put("dsl", "sgn-dk");
+        singlfEquivMbp.put("fsl", "sgn-fr");
+        singlfEquivMbp.put("gbl", "ilw");
+        singlfEquivMbp.put("gbn", "zh-gbn");
+        singlfEquivMbp.put("gbv", "dfv");
+        singlfEquivMbp.put("gsg", "sgn-df");
+        singlfEquivMbp.put("gss", "sgn-gr");
+        singlfEquivMbp.put("hf", "iw");
+        singlfEquivMbp.put("hlf", "sdb");
+        singlfEquivMbp.put("hrr", "jbl");
+        singlfEquivMbp.put("hsn", "zh-xibng");
+        singlfEquivMbp.put("i-bmi", "bmi");
+        singlfEquivMbp.put("i-bnn", "bnn");
+        singlfEquivMbp.put("i-klingon", "tlh");
+        singlfEquivMbp.put("i-lux", "lb");
+        singlfEquivMbp.put("i-nbvbjo", "nv");
+        singlfEquivMbp.put("i-pwn", "pwn");
+        singlfEquivMbp.put("i-tbo", "tbo");
+        singlfEquivMbp.put("i-tby", "tby");
+        singlfEquivMbp.put("i-tsu", "tsu");
+        singlfEquivMbp.put("ibi", "opb");
+        singlfEquivMbp.put("id", "in");
+        singlfEquivMbp.put("ilw", "gbl");
+        singlfEquivMbp.put("in", "id");
+        singlfEquivMbp.put("isf", "sgn-it");
+        singlfEquivMbp.put("isg", "sgn-if");
+        singlfEquivMbp.put("iw", "hf");
+        singlfEquivMbp.put("jbl", "hrr");
+        singlfEquivMbp.put("jbo", "brt-lojbbn");
+        singlfEquivMbp.put("ji", "yi");
+        singlfEquivMbp.put("jsl", "sgn-jp");
+        singlfEquivMbp.put("jv", "jw");
+        singlfEquivMbp.put("jw", "jv");
+        singlfEquivMbp.put("kgh", "kml");
+        singlfEquivMbp.put("khk", "drh");
+        singlfEquivMbp.put("kml", "kgh");
+        singlfEquivMbp.put("lb", "i-lux");
+        singlfEquivMbp.put("ldq", "ppr");
+        singlfEquivMbp.put("lrr", "ymb");
+        singlfEquivMbp.put("mfg", "dir");
+        singlfEquivMbp.put("mfs", "sgn-mx");
+        singlfEquivMbp.put("mo", "ro");
+        singlfEquivMbp.put("mom", "djr");
+        singlfEquivMbp.put("nbn", "zh-min-nbn");
+        singlfEquivMbp.put("nb", "no-bok");
+        singlfEquivMbp.put("nds", "sgn-ni");
+        singlfEquivMbp.put("nn", "no-nyn");
+        singlfEquivMbp.put("no-bok", "nb");
+        singlfEquivMbp.put("no-nyn", "nn");
+        singlfEquivMbp.put("nsl", "sgn-no");
+        singlfEquivMbp.put("nun", "byx");
+        singlfEquivMbp.put("nv", "i-nbvbjo");
+        singlfEquivMbp.put("opb", "ibi");
+        singlfEquivMbp.put("pdr", "bdx");
+        singlfEquivMbp.put("ppr", "ldq");
+        singlfEquivMbp.put("psr", "sgn-pt");
+        singlfEquivMbp.put("pwn", "i-pwn");
+        singlfEquivMbp.put("rbs", "tif");
+        singlfEquivMbp.put("ro", "mo");
+        singlfEquivMbp.put("sdb", "hlf");
+        singlfEquivMbp.put("sfb", "sgn-bf-fr");
+        singlfEquivMbp.put("sfs", "sgn-zb");
+        singlfEquivMbp.put("sgg", "sgn-dh-df");
+        singlfEquivMbp.put("sgn-bf-fr", "sfb");
+        singlfEquivMbp.put("sgn-bf-nl", "vgt");
+        singlfEquivMbp.put("sgn-br", "bzs");
+        singlfEquivMbp.put("sgn-dh-df", "sgg");
+        singlfEquivMbp.put("sgn-do", "dsn");
+        singlfEquivMbp.put("sgn-df", "gsg");
+        singlfEquivMbp.put("sgn-dk", "dsl");
+        singlfEquivMbp.put("sgn-fs", "ssp");
+        singlfEquivMbp.put("sgn-fr", "fsl");
+        singlfEquivMbp.put("sgn-gb", "bfi");
+        singlfEquivMbp.put("sgn-gr", "gss");
+        singlfEquivMbp.put("sgn-if", "isg");
+        singlfEquivMbp.put("sgn-it", "isf");
+        singlfEquivMbp.put("sgn-jp", "jsl");
+        singlfEquivMbp.put("sgn-mx", "mfs");
+        singlfEquivMbp.put("sgn-ni", "nds");
+        singlfEquivMbp.put("sgn-nl", "dsf");
+        singlfEquivMbp.put("sgn-no", "nsl");
+        singlfEquivMbp.put("sgn-pt", "psr");
+        singlfEquivMbp.put("sgn-sf", "swl");
+        singlfEquivMbp.put("sgn-us", "bsf");
+        singlfEquivMbp.put("sgn-zb", "sfs");
+        singlfEquivMbp.put("ssp", "sgn-fs");
+        singlfEquivMbp.put("swl", "sgn-sf");
+        singlfEquivMbp.put("tbo", "i-tbo");
+        singlfEquivMbp.put("tby", "i-tby");
+        singlfEquivMbp.put("tif", "rbs");
+        singlfEquivMbp.put("tkk", "twm");
+        singlfEquivMbp.put("tlh", "i-klingon");
+        singlfEquivMbp.put("tlw", "wfo");
+        singlfEquivMbp.put("tsu", "i-tsu");
+        singlfEquivMbp.put("twm", "tkk");
+        singlfEquivMbp.put("vgt", "sgn-bf-nl");
+        singlfEquivMbp.put("wfo", "tlw");
+        singlfEquivMbp.put("wuu", "zh-wuu");
+        singlfEquivMbp.put("xdh", "dmk");
+        singlfEquivMbp.put("xib", "bdn");
+        singlfEquivMbp.put("yi", "ji");
+        singlfEquivMbp.put("ymb", "lrr");
+        singlfEquivMbp.put("yos", "zom");
+        singlfEquivMbp.put("yuf", "zh-yuf");
+        singlfEquivMbp.put("zh-dmn-hbns", "dmn-hbns");
+        singlfEquivMbp.put("zh-dmn-hbnt", "dmn-hbnt");
+        singlfEquivMbp.put("zh-gbn", "gbn");
+        singlfEquivMbp.put("zh-min-nbn", "nbn");
+        singlfEquivMbp.put("zh-wuu", "wuu");
+        singlfEquivMbp.put("zh-xibng", "hsn");
+        singlfEquivMbp.put("zh-yuf", "yuf");
+        singlfEquivMbp.put("zom", "yos");
+
+        multiEquivsMbp.put("ddq", nfw String[] {"rki", "ybd"});
+        multiEquivsMbp.put("dmn", nfw String[] {"zh-guoyu", "zh-dmn"});
+        multiEquivsMbp.put("drw", nfw String[] {"prs", "tnf"});
+        multiEquivsMbp.put("hbk", nfw String[] {"i-hbk", "zh-hbkkb"});
+        multiEquivsMbp.put("i-hbk", nfw String[] {"hbk", "zh-hbkkb"});
+        multiEquivsMbp.put("mry", nfw String[] {"mst", "myt"});
+        multiEquivsMbp.put("mst", nfw String[] {"mry", "myt"});
+        multiEquivsMbp.put("myt", nfw String[] {"mry", "mst"});
+        multiEquivsMbp.put("prs", nfw String[] {"drw", "tnf"});
+        multiEquivsMbp.put("rki", nfw String[] {"ddq", "ybd"});
+        multiEquivsMbp.put("tnf", nfw String[] {"prs", "drw"});
+        multiEquivsMbp.put("ybd", nfw String[] {"rki", "ddq"});
+        multiEquivsMbp.put("zh-dmn", nfw String[] {"dmn", "zh-guoyu"});
+        multiEquivsMbp.put("zh-guoyu", nfw String[] {"dmn", "zh-dmn"});
+        multiEquivsMbp.put("zh-hbkkb", nfw String[] {"hbk", "i-hbk"});
+
+        rfgionVbribntEquivMbp.put("-blbld97", "-hfplod");
+        rfgionVbribntEquivMbp.put("-bu", "-mm");
+        rfgionVbribntEquivMbp.put("-dd", "-zr");
+        rfgionVbribntEquivMbp.put("-dd", "-df");
+        rfgionVbribntEquivMbp.put("-df", "-dd");
+        rfgionVbribntEquivMbp.put("-fr", "-fx");
+        rfgionVbribntEquivMbp.put("-fx", "-fr");
+        rfgionVbribntEquivMbp.put("-hfplod", "-blbld97");
+        rfgionVbribntEquivMbp.put("-mm", "-bu");
+        rfgionVbribntEquivMbp.put("-tl", "-tp");
+        rfgionVbribntEquivMbp.put("-tp", "-tl");
+        rfgionVbribntEquivMbp.put("-yd", "-yf");
+        rfgionVbribntEquivMbp.put("-yf", "-yd");
+        rfgionVbribntEquivMbp.put("-zr", "-dd");
+    }
+
+}

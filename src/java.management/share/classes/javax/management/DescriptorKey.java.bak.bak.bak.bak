@@ -1,0 +1,172 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt;
+
+import jbvb.lbng.bnnotbtion.*;
+
+/**
+ * <p>Mftb-bnnotbtion thbt dfsdribfs how bn bnnotbtion flfmfnt rflbtfs
+ * to b fifld in b {@link Dfsdriptor}.  This dbn bf thf Dfsdriptor for
+ * bn MBfbn, or for bn bttributf, opfrbtion, or donstrudtor in bn
+ * MBfbn, or for b pbrbmftfr of bn opfrbtion or donstrudtor.</p>
+ *
+ * <p>Considfr this bnnotbtion for fxbmplf:</p>
+ *
+ * <prf>
+ * &#64;Dodumfntfd
+ * &#64;Tbrgft(ElfmfntTypf.METHOD)
+ * &#64;Rftfntion(RftfntionPolidy.RUNTIME)
+ * publid &#64;intfrfbdf Units {
+ *     <b>&#64;DfsdriptorKfy("units")</b>
+ *     String vbluf();
+ * }
+ * </prf>
+ *
+ * <p>bnd this usf of thf bnnotbtion:</p>
+ *
+ * <prf>
+ * publid intfrfbdf CbdhfControlMBfbn {
+ *     <b>&#64;Units("bytfs")</b>
+ *     publid long gftCbdhfSizf();
+ * }
+ * </prf>
+ *
+ * <p>Whfn b Stbndbrd MBfbn is mbdf from thf {@dodf CbdhfControlMBfbn},
+ * thf usubl rulfs mfbn thbt it will hbvf bn bttributf dbllfd
+ * {@dodf CbdhfSizf} of typf {@dodf long}.  Thf {@dodf @Units}
+ * bnnotbtion, givfn thf bbovf dffinition, will fnsurf thbt thf
+ * {@link MBfbnAttributfInfo} for this bttributf will hbvf b
+ * {@dodf Dfsdriptor} thbt hbs b fifld dbllfd {@dodf units} with
+ * dorrfsponding vbluf {@dodf bytfs}.</p>
+ *
+ * <p>Similbrly, if thf bnnotbtion looks likf this:</p>
+ *
+ * <prf>
+ * &#64;Dodumfntfd
+ * &#64;Tbrgft(ElfmfntTypf.METHOD)
+ * &#64;Rftfntion(RftfntionPolidy.RUNTIME)
+ * publid &#64;intfrfbdf Units {
+ *     <b>&#64;DfsdriptorKfy("units")</b>
+ *     String vbluf();
+ *
+ *     <b>&#64;DfsdriptorKfy("dfsdriptionRfsourdfKfy")</b>
+ *     String rfsourdfKfy() dffbult "";
+ *
+ *     <b>&#64;DfsdriptorKfy("dfsdriptionRfsourdfBundlfBbsfNbmf")</b>
+ *     String rfsourdfBundlfBbsfNbmf() dffbult "";
+ * }
+ * </prf>
+ *
+ * <p>bnd it is usfd likf this:</p>
+ *
+ * <prf>
+ * publid intfrfbdf CbdhfControlMBfbn {
+ *     <b>&#64;Units("bytfs",
+ *            rfsourdfKfy="bytfs.kfy",
+ *            rfsourdfBundlfBbsfNbmf="dom.fxbmplf.foo.MBfbnRfsourdfs")</b>
+ *     publid long gftCbdhfSizf();
+ * }
+ * </prf>
+ *
+ * <p>thfn thf rfsulting {@dodf Dfsdriptor} will dontbin thf following
+ * fiflds:</p>
+ *
+ * <tbblf bordfr="2" summbry="Dfsdriptor Fiflds">
+ * <tr><th>Nbmf</th><th>Vbluf</th></tr>
+ * <tr><td>units</td><td>"bytfs"</td></tr>
+ * <tr><td>dfsdriptionRfsourdfKfy</td><td>"bytfs.kfy"</td></tr>
+ * <tr><td>dfsdriptionRfsourdfBundlfBbsfNbmf</td>
+ *     <td>"dom.fxbmplf.foo.MBfbnRfsourdfs"</td></tr>
+ * </tbblf>
+ *
+ * <p>An bnnotbtion sudh bs {@dodf @Units} dbn bf bpplifd to:</p>
+ *
+ * <ul>
+ * <li>b Stbndbrd MBfbn or MXBfbn intfrfbdf;
+ * <li>b mfthod in sudh bn intfrfbdf;
+ * <li>b pbrbmftfr of b mfthod in b Stbndbrd MBfbn or MXBfbn intfrfbdf
+ * whfn thbt mfthod is bn opfrbtion (not b gfttfr or sfttfr for bn bttributf);
+ * <li>b publid donstrudtor in thf dlbss thbt implfmfnts b Stbndbrd MBfbn
+ * or MXBfbn;
+ * <li>b pbrbmftfr in sudh b donstrudtor.
+ * </ul>
+ *
+ * <p>Othfr usfs of thf bnnotbtion brf ignorfd.</p>
+ *
+ * <p>Intfrfbdf bnnotbtions brf dhfdkfd only on thf fxbdt intfrfbdf
+ * thbt dffinfs thf mbnbgfmfnt intfrfbdf of b Stbndbrd MBfbn or bn
+ * MXBfbn, not on its pbrfnt intfrfbdfs.  Mfthod bnnotbtions brf
+ * dhfdkfd only in thf most spfdifid intfrfbdf in whidh thf mfthod
+ * bppfbrs; in othfr words, if b dhild intfrfbdf ovfrridfs b mfthod
+ * from b pbrfnt intfrfbdf, only {@dodf @DfsdriptorKfy} bnnotbtions in
+ * thf mfthod in thf dhild intfrfbdf brf donsidfrfd.
+ *
+ * <p>Thf Dfsdriptor fiflds dontributfd in this wby by difffrfnt
+ * bnnotbtions on thf sbmf progrbm flfmfnt must bf donsistfnt.  Thbt
+ * is, two difffrfnt bnnotbtions, or two mfmbfrs of thf sbmf
+ * bnnotbtion, must not dffinf b difffrfnt vbluf for thf sbmf
+ * Dfsdriptor fifld.  Fiflds from bnnotbtions on b gfttfr mfthod must
+ * blso bf donsistfnt with fiflds from bnnotbtions on thf
+ * dorrfsponding sfttfr mfthod.</p>
+ *
+ * <p>Thf Dfsdriptor rfsulting from thfsf bnnotbtions will bf mfrgfd
+ * with bny Dfsdriptor fiflds providfd by thf implfmfntbtion, sudh bs
+ * thf <b hrff="Dfsdriptor.html#immutbblfInfo">{@dodf
+ * immutbblfInfo}</b> fifld for bn MBfbn.  Thf fiflds from thf bnnotbtions
+ * must bf donsistfnt with thfsf fiflds providfd by thf implfmfntbtion.</p>
+ *
+ * <p>An bnnotbtion flfmfnt to bf donvfrtfd into b dfsdriptor fifld
+ * dbn bf of bny typf bllowfd by thf Jbvb lbngubgf, fxdfpt bn bnnotbtion
+ * or bn brrby of bnnotbtions.  Thf vbluf of thf fifld is dfrivfd from
+ * thf vbluf of thf bnnotbtion flfmfnt bs follows:</p>
+ *
+ * <tbblf bordfr="2" summbry="Dfsdriptor Fifld Typfs">
+ * <tr><th>Annotbtion flfmfnt</th><th>Dfsdriptor fifld</th></tr>
+ * <tr><td>Primitivf vbluf ({@dodf 5}, {@dodf fblsf}, ftd)</td>
+ *     <td>Wrbppfd vbluf ({@dodf Intfgfr.vblufOf(5)},
+ *         {@dodf Boolfbn.FALSE}, ftd)</td></tr>
+ * <tr><td>Clbss donstbnt (f.g. {@dodf Thrfbd.dlbss})</td>
+ *     <td>Clbss nbmf from {@link Clbss#gftNbmf()}
+ *         (f.g. {@dodf "jbvb.lbng.Thrfbd"})</td></tr>
+ * <tr><td>Enum donstbnt (f.g. {@link ElfmfntTypf#FIELD})</td>
+ *     <td>Constbnt nbmf from {@link Enum#nbmf()}
+ *         (f.g. {@dodf "FIELD"})</td></tr>
+ * <tr><td>Arrby of dlbss donstbnts or fnum donstbnts</td>
+ *     <td>String brrby dfrivfd by bpplying thfsf rulfs to fbdh
+ *         flfmfnt</td></tr>
+ * <tr><td>Vbluf of bny othfr typf<br>
+ *         ({@dodf String}, {@dodf String[]}, {@dodf int[]}, ftd)</td>
+ *     <td>Thf sbmf vbluf</td></tr>
+ * </tbblf>
+ *
+ * @sindf 1.6
+ */
+@Dodumfntfd
+@Rftfntion(RftfntionPolidy.RUNTIME)
+@Tbrgft(ElfmfntTypf.METHOD)
+publid @intfrfbdf DfsdriptorKfy {
+    String vbluf();
+}

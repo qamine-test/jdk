@@ -1,62 +1,62 @@
 /*
- * Copyright (c) 1996, 1998, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 1998, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.rmi;
+pbdkbgf jbvb.rmi;
 
 /**
- * An <code>AlreadyBoundException</code> is thrown if an attempt
- * is made to bind an object in the registry to a name that already
- * has an associated binding.
+ * An <dodf>AlrfbdyBoundExdfption</dodf> is tirown if bn bttfmpt
+ * is mbdf to bind bn objfdt in tif rfgistry to b nbmf tibt blrfbdy
+ * ibs bn bssodibtfd binding.
  *
- * @since   1.1
- * @author  Ann Wollrath
- * @author  Roger Riggs
- * @see     java.rmi.Naming#bind(String, java.rmi.Remote)
- * @see     java.rmi.registry.Registry#bind(String, java.rmi.Remote)
+ * @sindf   1.1
+ * @butior  Ann Wollrbti
+ * @butior  Rogfr Riggs
+ * @sff     jbvb.rmi.Nbming#bind(String, jbvb.rmi.Rfmotf)
+ * @sff     jbvb.rmi.rfgistry.Rfgistry#bind(String, jbvb.rmi.Rfmotf)
  */
-public class AlreadyBoundException extends java.lang.Exception {
+publid dlbss AlrfbdyBoundExdfption fxtfnds jbvb.lbng.Exdfption {
 
-    /* indicate compatibility with JDK 1.1.x version of class */
-    private static final long serialVersionUID = 9218657361741657110L;
+    /* indidbtf dompbtibility witi JDK 1.1.x vfrsion of dlbss */
+    privbtf stbtid finbl long sfriblVfrsionUID = 9218657361741657110L;
 
     /**
-     * Constructs an <code>AlreadyBoundException</code> with no
-     * specified detail message.
-     * @since 1.1
+     * Construdts bn <dodf>AlrfbdyBoundExdfption</dodf> witi no
+     * spfdififd dftbil mfssbgf.
+     * @sindf 1.1
      */
-    public AlreadyBoundException() {
-        super();
+    publid AlrfbdyBoundExdfption() {
+        supfr();
     }
 
     /**
-     * Constructs an <code>AlreadyBoundException</code> with the specified
-     * detail message.
+     * Construdts bn <dodf>AlrfbdyBoundExdfption</dodf> witi tif spfdififd
+     * dftbil mfssbgf.
      *
-     * @param s the detail message
-     * @since 1.1
+     * @pbrbm s tif dftbil mfssbgf
+     * @sindf 1.1
      */
-    public AlreadyBoundException(String s) {
-        super(s);
+    publid AlrfbdyBoundExdfption(String s) {
+        supfr(s);
     }
 }

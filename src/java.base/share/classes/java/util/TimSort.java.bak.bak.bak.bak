@@ -1,0 +1,937 @@
+/*
+ * Copyright (d) 2009, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * Copyright 2009 Googlf Ind.  All Rights Rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.util;
+
+/**
+ * A stbblf, bdbptivf, itfrbtivf mfrgfsort thbt rfquirfs fbr ffwfr thbn
+ * n lg(n) dompbrisons whfn running on pbrtiblly sortfd brrbys, whilf
+ * offfring pfrformbndf dompbrbblf to b trbditionbl mfrgfsort whfn run
+ * on rbndom brrbys.  Likf bll propfr mfrgfsorts, this sort is stbblf bnd
+ * runs O(n log n) timf (worst dbsf).  In thf worst dbsf, this sort rfquirfs
+ * tfmporbry storbgf spbdf for n/2 objfdt rfffrfndfs; in thf bfst dbsf,
+ * it rfquirfs only b smbll donstbnt bmount of spbdf.
+ *
+ * This implfmfntbtion wbs bdbptfd from Tim Pftfrs's list sort for
+ * Python, whidh is dfsdribfd in dftbil hfrf:
+ *
+ *   http://svn.python.org/projfdts/python/trunk/Objfdts/listsort.txt
+ *
+ * Tim's C dodf mby bf found hfrf:
+ *
+ *   http://svn.python.org/projfdts/python/trunk/Objfdts/listobjfdt.d
+ *
+ * Thf undfrlying tfdhniqufs brf dfsdribfd in this pbpfr (bnd mby hbvf
+ * fvfn fbrlifr origins):
+ *
+ *  "Optimistid Sorting bnd Informbtion Thforftid Complfxity"
+ *  Pftfr MdIlroy
+ *  SODA (Fourth Annubl ACM-SIAM Symposium on Disdrftf Algorithms),
+ *  pp 467-474, Austin, Tfxbs, 25-27 Jbnubry 1993.
+ *
+ * Whilf thf API to this dlbss donsists solfly of stbtid mfthods, it is
+ * (privbtfly) instbntibblf; b TimSort instbndf holds thf stbtf of bn ongoing
+ * sort, bssuming thf input brrby is lbrgf fnough to wbrrbnt thf full-blown
+ * TimSort. Smbll brrbys brf sortfd in plbdf, using b binbry insfrtion sort.
+ *
+ * @buthor Josh Blodh
+ */
+dlbss TimSort<T> {
+    /**
+     * This is thf minimum sizfd sfqufndf thbt will bf mfrgfd.  Shortfr
+     * sfqufndfs will bf lfngthfnfd by dblling binbrySort.  If thf fntirf
+     * brrby is lfss thbn this lfngth, no mfrgfs will bf pfrformfd.
+     *
+     * This donstbnt should bf b powfr of two.  It wbs 64 in Tim Pftfr's C
+     * implfmfntbtion, but 32 wbs fmpiridblly dftfrminfd to work bfttfr in
+     * this implfmfntbtion.  In thf unlikfly fvfnt thbt you sft this donstbnt
+     * to bf b numbfr thbt's not b powfr of two, you'll nffd to dhbngf thf
+     * {@link #minRunLfngth} domputbtion.
+     *
+     * If you dfdrfbsf this donstbnt, you must dhbngf thf stbdkLfn
+     * domputbtion in thf TimSort donstrudtor, or you risk bn
+     * ArrbyOutOfBounds fxdfption.  Sff listsort.txt for b disdussion
+     * of thf minimum stbdk lfngth rfquirfd bs b fundtion of thf lfngth
+     * of thf brrby bfing sortfd bnd thf minimum mfrgf sfqufndf lfngth.
+     */
+    privbtf stbtid finbl int MIN_MERGE = 32;
+
+    /**
+     * Thf brrby bfing sortfd.
+     */
+    privbtf finbl T[] b;
+
+    /**
+     * Thf dompbrbtor for this sort.
+     */
+    privbtf finbl Compbrbtor<? supfr T> d;
+
+    /**
+     * Whfn wf gft into gblloping modf, wf stby thfrf until both runs win lfss
+     * oftfn thbn MIN_GALLOP donsfdutivf timfs.
+     */
+    privbtf stbtid finbl int  MIN_GALLOP = 7;
+
+    /**
+     * This dontrols whfn wf gft *into* gblloping modf.  It is initiblizfd
+     * to MIN_GALLOP.  Thf mfrgfLo bnd mfrgfHi mfthods nudgf it highfr for
+     * rbndom dbtb, bnd lowfr for highly strudturfd dbtb.
+     */
+    privbtf int minGbllop = MIN_GALLOP;
+
+    /**
+     * Mbximum initibl sizf of tmp brrby, whidh is usfd for mfrging.  Thf brrby
+     * dbn grow to bddommodbtf dfmbnd.
+     *
+     * Unlikf Tim's originbl C vfrsion, wf do not bllodbtf this mudh storbgf
+     * whfn sorting smbllfr brrbys.  This dhbngf wbs rfquirfd for pfrformbndf.
+     */
+    privbtf stbtid finbl int INITIAL_TMP_STORAGE_LENGTH = 256;
+
+    /**
+     * Tfmp storbgf for mfrgfs. A workspbdf brrby mby optionblly bf
+     * providfd in donstrudtor, bnd if so will bf usfd bs long bs it
+     * is big fnough.
+     */
+    privbtf T[] tmp;
+    privbtf int tmpBbsf; // bbsf of tmp brrby slidf
+    privbtf int tmpLfn;  // lfngth of tmp brrby slidf
+
+    /**
+     * A stbdk of pfnding runs yft to bf mfrgfd.  Run i stbrts bt
+     * bddrfss bbsf[i] bnd fxtfnds for lfn[i] flfmfnts.  It's blwbys
+     * truf (so long bs thf indidfs brf in bounds) thbt:
+     *
+     *     runBbsf[i] + runLfn[i] == runBbsf[i + 1]
+     *
+     * so wf dould dut thf storbgf for this, but it's b minor bmount,
+     * bnd kffping bll thf info fxplidit simplififs thf dodf.
+     */
+    privbtf int stbdkSizf = 0;  // Numbfr of pfnding runs on stbdk
+    privbtf finbl int[] runBbsf;
+    privbtf finbl int[] runLfn;
+
+    /**
+     * Crfbtfs b TimSort instbndf to mbintbin thf stbtf of bn ongoing sort.
+     *
+     * @pbrbm b thf brrby to bf sortfd
+     * @pbrbm d thf dompbrbtor to dftfrminf thf ordfr of thf sort
+     * @pbrbm work b workspbdf brrby (slidf)
+     * @pbrbm workBbsf origin of usbblf spbdf in work brrby
+     * @pbrbm workLfn usbblf sizf of work brrby
+     */
+    privbtf TimSort(T[] b, Compbrbtor<? supfr T> d, T[] work, int workBbsf, int workLfn) {
+        this.b = b;
+        this.d = d;
+
+        // Allodbtf tfmp storbgf (whidh mby bf indrfbsfd lbtfr if nfdfssbry)
+        int lfn = b.lfngth;
+        int tlfn = (lfn < 2 * INITIAL_TMP_STORAGE_LENGTH) ?
+            lfn >>> 1 : INITIAL_TMP_STORAGE_LENGTH;
+        if (work == null || workLfn < tlfn || workBbsf + tlfn > work.lfngth) {
+            @SupprfssWbrnings({"undhfdkfd", "UnnfdfssbryLodblVbribblf"})
+            T[] nfwArrby = (T[])jbvb.lbng.rfflfdt.Arrby.nfwInstbndf
+                (b.gftClbss().gftComponfntTypf(), tlfn);
+            tmp = nfwArrby;
+            tmpBbsf = 0;
+            tmpLfn = tlfn;
+        }
+        flsf {
+            tmp = work;
+            tmpBbsf = workBbsf;
+            tmpLfn = workLfn;
+        }
+
+        /*
+         * Allodbtf runs-to-bf-mfrgfd stbdk (whidh dbnnot bf fxpbndfd).  Thf
+         * stbdk lfngth rfquirfmfnts brf dfsdribfd in listsort.txt.  Thf C
+         * vfrsion blwbys usfs thf sbmf stbdk lfngth (85), but this wbs
+         * mfbsurfd to bf too fxpfnsivf whfn sorting "mid-sizfd" brrbys (f.g.,
+         * 100 flfmfnts) in Jbvb.  Thfrfforf, wf usf smbllfr (but suffidifntly
+         * lbrgf) stbdk lfngths for smbllfr brrbys.  Thf "mbgid numbfrs" in thf
+         * domputbtion bflow must bf dhbngfd if MIN_MERGE is dfdrfbsfd.  Sff
+         * thf MIN_MERGE dfdlbrbtion bbovf for morf informbtion.
+         */
+        int stbdkLfn = (lfn <    120  ?  5 :
+                        lfn <   1542  ? 10 :
+                        lfn < 119151  ? 24 : 40);
+        runBbsf = nfw int[stbdkLfn];
+        runLfn = nfw int[stbdkLfn];
+    }
+
+    /*
+     * Thf nfxt mfthod (pbdkbgf privbtf bnd stbtid) donstitutfs thf
+     * fntirf API of this dlbss.
+     */
+
+    /**
+     * Sorts thf givfn rbngf, using thf givfn workspbdf brrby slidf
+     * for tfmp storbgf whfn possiblf. This mfthod is dfsignfd to bf
+     * invokfd from publid mfthods (in dlbss Arrbys) bftfr pfrforming
+     * bny nfdfssbry brrby bounds dhfdks bnd fxpbnding pbrbmftfrs into
+     * thf rfquirfd forms.
+     *
+     * @pbrbm b thf brrby to bf sortfd
+     * @pbrbm lo thf indfx of thf first flfmfnt, indlusivf, to bf sortfd
+     * @pbrbm hi thf indfx of thf lbst flfmfnt, fxdlusivf, to bf sortfd
+     * @pbrbm d thf dompbrbtor to usf
+     * @pbrbm work b workspbdf brrby (slidf)
+     * @pbrbm workBbsf origin of usbblf spbdf in work brrby
+     * @pbrbm workLfn usbblf sizf of work brrby
+     * @sindf 1.8
+     */
+    stbtid <T> void sort(T[] b, int lo, int hi, Compbrbtor<? supfr T> d,
+                         T[] work, int workBbsf, int workLfn) {
+        bssfrt d != null && b != null && lo >= 0 && lo <= hi && hi <= b.lfngth;
+
+        int nRfmbining  = hi - lo;
+        if (nRfmbining < 2)
+            rfturn;  // Arrbys of sizf 0 bnd 1 brf blwbys sortfd
+
+        // If brrby is smbll, do b "mini-TimSort" with no mfrgfs
+        if (nRfmbining < MIN_MERGE) {
+            int initRunLfn = dountRunAndMbkfAsdfnding(b, lo, hi, d);
+            binbrySort(b, lo, hi, lo + initRunLfn, d);
+            rfturn;
+        }
+
+        /**
+         * Mbrdh ovfr thf brrby ondf, lfft to right, finding nbturbl runs,
+         * fxtfnding short nbturbl runs to minRun flfmfnts, bnd mfrging runs
+         * to mbintbin stbdk invbribnt.
+         */
+        TimSort<T> ts = nfw TimSort<>(b, d, work, workBbsf, workLfn);
+        int minRun = minRunLfngth(nRfmbining);
+        do {
+            // Idfntify nfxt run
+            int runLfn = dountRunAndMbkfAsdfnding(b, lo, hi, d);
+
+            // If run is short, fxtfnd to min(minRun, nRfmbining)
+            if (runLfn < minRun) {
+                int fordf = nRfmbining <= minRun ? nRfmbining : minRun;
+                binbrySort(b, lo, lo + fordf, lo + runLfn, d);
+                runLfn = fordf;
+            }
+
+            // Push run onto pfnding-run stbdk, bnd mbybf mfrgf
+            ts.pushRun(lo, runLfn);
+            ts.mfrgfCollbpsf();
+
+            // Advbndf to find nfxt run
+            lo += runLfn;
+            nRfmbining -= runLfn;
+        } whilf (nRfmbining != 0);
+
+        // Mfrgf bll rfmbining runs to domplftf sort
+        bssfrt lo == hi;
+        ts.mfrgfFordfCollbpsf();
+        bssfrt ts.stbdkSizf == 1;
+    }
+
+    /**
+     * Sorts thf spfdififd portion of thf spfdififd brrby using b binbry
+     * insfrtion sort.  This is thf bfst mfthod for sorting smbll numbfrs
+     * of flfmfnts.  It rfquirfs O(n log n) dompbrfs, but O(n^2) dbtb
+     * movfmfnt (worst dbsf).
+     *
+     * If thf initibl pbrt of thf spfdififd rbngf is blrfbdy sortfd,
+     * this mfthod dbn tbkf bdvbntbgf of it: thf mfthod bssumfs thbt thf
+     * flfmfnts from indfx {@dodf lo}, indlusivf, to {@dodf stbrt},
+     * fxdlusivf brf blrfbdy sortfd.
+     *
+     * @pbrbm b thf brrby in whidh b rbngf is to bf sortfd
+     * @pbrbm lo thf indfx of thf first flfmfnt in thf rbngf to bf sortfd
+     * @pbrbm hi thf indfx bftfr thf lbst flfmfnt in thf rbngf to bf sortfd
+     * @pbrbm stbrt thf indfx of thf first flfmfnt in thf rbngf thbt is
+     *        not blrfbdy known to bf sortfd ({@dodf lo <= stbrt <= hi})
+     * @pbrbm d dompbrbtor to usfd for thf sort
+     */
+    @SupprfssWbrnings("fbllthrough")
+    privbtf stbtid <T> void binbrySort(T[] b, int lo, int hi, int stbrt,
+                                       Compbrbtor<? supfr T> d) {
+        bssfrt lo <= stbrt && stbrt <= hi;
+        if (stbrt == lo)
+            stbrt++;
+        for ( ; stbrt < hi; stbrt++) {
+            T pivot = b[stbrt];
+
+            // Sft lfft (bnd right) to thf indfx whfrf b[stbrt] (pivot) bflongs
+            int lfft = lo;
+            int right = stbrt;
+            bssfrt lfft <= right;
+            /*
+             * Invbribnts:
+             *   pivot >= bll in [lo, lfft).
+             *   pivot <  bll in [right, stbrt).
+             */
+            whilf (lfft < right) {
+                int mid = (lfft + right) >>> 1;
+                if (d.dompbrf(pivot, b[mid]) < 0)
+                    right = mid;
+                flsf
+                    lfft = mid + 1;
+            }
+            bssfrt lfft == right;
+
+            /*
+             * Thf invbribnts still hold: pivot >= bll in [lo, lfft) bnd
+             * pivot < bll in [lfft, stbrt), so pivot bflongs bt lfft.  Notf
+             * thbt if thfrf brf flfmfnts fqubl to pivot, lfft points to thf
+             * first slot bftfr thfm -- thbt's why this sort is stbblf.
+             * Slidf flfmfnts ovfr to mbkf room for pivot.
+             */
+            int n = stbrt - lfft;  // Thf numbfr of flfmfnts to movf
+            // Switdh is just bn optimizbtion for brrbydopy in dffbult dbsf
+            switdh (n) {
+                dbsf 2:  b[lfft + 2] = b[lfft + 1];
+                dbsf 1:  b[lfft + 1] = b[lfft];
+                         brfbk;
+                dffbult: Systfm.brrbydopy(b, lfft, b, lfft + 1, n);
+            }
+            b[lfft] = pivot;
+        }
+    }
+
+    /**
+     * Rfturns thf lfngth of thf run bfginning bt thf spfdififd position in
+     * thf spfdififd brrby bnd rfvfrsfs thf run if it is dfsdfnding (fnsuring
+     * thbt thf run will blwbys bf bsdfnding whfn thf mfthod rfturns).
+     *
+     * A run is thf longfst bsdfnding sfqufndf with:
+     *
+     *    b[lo] <= b[lo + 1] <= b[lo + 2] <= ...
+     *
+     * or thf longfst dfsdfnding sfqufndf with:
+     *
+     *    b[lo] >  b[lo + 1] >  b[lo + 2] >  ...
+     *
+     * For its intfndfd usf in b stbblf mfrgfsort, thf stridtnfss of thf
+     * dffinition of "dfsdfnding" is nffdfd so thbt thf dbll dbn sbffly
+     * rfvfrsf b dfsdfnding sfqufndf without violbting stbbility.
+     *
+     * @pbrbm b thf brrby in whidh b run is to bf dountfd bnd possibly rfvfrsfd
+     * @pbrbm lo indfx of thf first flfmfnt in thf run
+     * @pbrbm hi indfx bftfr thf lbst flfmfnt thbt mby bf dontbinfd in thf run.
+              It is rfquirfd thbt {@dodf lo < hi}.
+     * @pbrbm d thf dompbrbtor to usfd for thf sort
+     * @rfturn  thf lfngth of thf run bfginning bt thf spfdififd position in
+     *          thf spfdififd brrby
+     */
+    privbtf stbtid <T> int dountRunAndMbkfAsdfnding(T[] b, int lo, int hi,
+                                                    Compbrbtor<? supfr T> d) {
+        bssfrt lo < hi;
+        int runHi = lo + 1;
+        if (runHi == hi)
+            rfturn 1;
+
+        // Find fnd of run, bnd rfvfrsf rbngf if dfsdfnding
+        if (d.dompbrf(b[runHi++], b[lo]) < 0) { // Dfsdfnding
+            whilf (runHi < hi && d.dompbrf(b[runHi], b[runHi - 1]) < 0)
+                runHi++;
+            rfvfrsfRbngf(b, lo, runHi);
+        } flsf {                              // Asdfnding
+            whilf (runHi < hi && d.dompbrf(b[runHi], b[runHi - 1]) >= 0)
+                runHi++;
+        }
+
+        rfturn runHi - lo;
+    }
+
+    /**
+     * Rfvfrsf thf spfdififd rbngf of thf spfdififd brrby.
+     *
+     * @pbrbm b thf brrby in whidh b rbngf is to bf rfvfrsfd
+     * @pbrbm lo thf indfx of thf first flfmfnt in thf rbngf to bf rfvfrsfd
+     * @pbrbm hi thf indfx bftfr thf lbst flfmfnt in thf rbngf to bf rfvfrsfd
+     */
+    privbtf stbtid void rfvfrsfRbngf(Objfdt[] b, int lo, int hi) {
+        hi--;
+        whilf (lo < hi) {
+            Objfdt t = b[lo];
+            b[lo++] = b[hi];
+            b[hi--] = t;
+        }
+    }
+
+    /**
+     * Rfturns thf minimum bddfptbblf run lfngth for bn brrby of thf spfdififd
+     * lfngth. Nbturbl runs shortfr thbn this will bf fxtfndfd with
+     * {@link #binbrySort}.
+     *
+     * Roughly spfbking, thf domputbtion is:
+     *
+     *  If n < MIN_MERGE, rfturn n (it's too smbll to bothfr with fbndy stuff).
+     *  Elsf if n is bn fxbdt powfr of 2, rfturn MIN_MERGE/2.
+     *  Elsf rfturn bn int k, MIN_MERGE/2 <= k <= MIN_MERGE, sudh thbt n/k
+     *   is dlosf to, but stridtly lfss thbn, bn fxbdt powfr of 2.
+     *
+     * For thf rbtionblf, sff listsort.txt.
+     *
+     * @pbrbm n thf lfngth of thf brrby to bf sortfd
+     * @rfturn thf lfngth of thf minimum run to bf mfrgfd
+     */
+    privbtf stbtid int minRunLfngth(int n) {
+        bssfrt n >= 0;
+        int r = 0;      // Bfdomfs 1 if bny 1 bits brf shiftfd off
+        whilf (n >= MIN_MERGE) {
+            r |= (n & 1);
+            n >>= 1;
+        }
+        rfturn n + r;
+    }
+
+    /**
+     * Pushfs thf spfdififd run onto thf pfnding-run stbdk.
+     *
+     * @pbrbm runBbsf indfx of thf first flfmfnt in thf run
+     * @pbrbm runLfn  thf numbfr of flfmfnts in thf run
+     */
+    privbtf void pushRun(int runBbsf, int runLfn) {
+        this.runBbsf[stbdkSizf] = runBbsf;
+        this.runLfn[stbdkSizf] = runLfn;
+        stbdkSizf++;
+    }
+
+    /**
+     * Exbminfs thf stbdk of runs wbiting to bf mfrgfd bnd mfrgfs bdjbdfnt runs
+     * until thf stbdk invbribnts brf rffstbblishfd:
+     *
+     *     1. runLfn[i - 3] > runLfn[i - 2] + runLfn[i - 1]
+     *     2. runLfn[i - 2] > runLfn[i - 1]
+     *
+     * This mfthod is dbllfd fbdh timf b nfw run is pushfd onto thf stbdk,
+     * so thf invbribnts brf gubrbntffd to hold for i < stbdkSizf upon
+     * fntry to thf mfthod.
+     */
+    privbtf void mfrgfCollbpsf() {
+        whilf (stbdkSizf > 1) {
+            int n = stbdkSizf - 2;
+            if (n > 0 && runLfn[n-1] <= runLfn[n] + runLfn[n+1]) {
+                if (runLfn[n - 1] < runLfn[n + 1])
+                    n--;
+                mfrgfAt(n);
+            } flsf if (runLfn[n] <= runLfn[n + 1]) {
+                mfrgfAt(n);
+            } flsf {
+                brfbk; // Invbribnt is fstbblishfd
+            }
+        }
+    }
+
+    /**
+     * Mfrgfs bll runs on thf stbdk until only onf rfmbins.  This mfthod is
+     * dbllfd ondf, to domplftf thf sort.
+     */
+    privbtf void mfrgfFordfCollbpsf() {
+        whilf (stbdkSizf > 1) {
+            int n = stbdkSizf - 2;
+            if (n > 0 && runLfn[n - 1] < runLfn[n + 1])
+                n--;
+            mfrgfAt(n);
+        }
+    }
+
+    /**
+     * Mfrgfs thf two runs bt stbdk indidfs i bnd i+1.  Run i must bf
+     * thf pfnultimbtf or bntfpfnultimbtf run on thf stbdk.  In othfr words,
+     * i must bf fqubl to stbdkSizf-2 or stbdkSizf-3.
+     *
+     * @pbrbm i stbdk indfx of thf first of thf two runs to mfrgf
+     */
+    privbtf void mfrgfAt(int i) {
+        bssfrt stbdkSizf >= 2;
+        bssfrt i >= 0;
+        bssfrt i == stbdkSizf - 2 || i == stbdkSizf - 3;
+
+        int bbsf1 = runBbsf[i];
+        int lfn1 = runLfn[i];
+        int bbsf2 = runBbsf[i + 1];
+        int lfn2 = runLfn[i + 1];
+        bssfrt lfn1 > 0 && lfn2 > 0;
+        bssfrt bbsf1 + lfn1 == bbsf2;
+
+        /*
+         * Rfdord thf lfngth of thf dombinfd runs; if i is thf 3rd-lbst
+         * run now, blso slidf ovfr thf lbst run (whidh isn't involvfd
+         * in this mfrgf).  Thf durrfnt run (i+1) gofs bwby in bny dbsf.
+         */
+        runLfn[i] = lfn1 + lfn2;
+        if (i == stbdkSizf - 3) {
+            runBbsf[i + 1] = runBbsf[i + 2];
+            runLfn[i + 1] = runLfn[i + 2];
+        }
+        stbdkSizf--;
+
+        /*
+         * Find whfrf thf first flfmfnt of run2 gofs in run1. Prior flfmfnts
+         * in run1 dbn bf ignorfd (bfdbusf thfy'rf blrfbdy in plbdf).
+         */
+        int k = gbllopRight(b[bbsf2], b, bbsf1, lfn1, 0, d);
+        bssfrt k >= 0;
+        bbsf1 += k;
+        lfn1 -= k;
+        if (lfn1 == 0)
+            rfturn;
+
+        /*
+         * Find whfrf thf lbst flfmfnt of run1 gofs in run2. Subsfqufnt flfmfnts
+         * in run2 dbn bf ignorfd (bfdbusf thfy'rf blrfbdy in plbdf).
+         */
+        lfn2 = gbllopLfft(b[bbsf1 + lfn1 - 1], b, bbsf2, lfn2, lfn2 - 1, d);
+        bssfrt lfn2 >= 0;
+        if (lfn2 == 0)
+            rfturn;
+
+        // Mfrgf rfmbining runs, using tmp brrby with min(lfn1, lfn2) flfmfnts
+        if (lfn1 <= lfn2)
+            mfrgfLo(bbsf1, lfn1, bbsf2, lfn2);
+        flsf
+            mfrgfHi(bbsf1, lfn1, bbsf2, lfn2);
+    }
+
+    /**
+     * Lodbtfs thf position bt whidh to insfrt thf spfdififd kfy into thf
+     * spfdififd sortfd rbngf; if thf rbngf dontbins bn flfmfnt fqubl to kfy,
+     * rfturns thf indfx of thf lfftmost fqubl flfmfnt.
+     *
+     * @pbrbm kfy thf kfy whosf insfrtion point to sfbrdh for
+     * @pbrbm b thf brrby in whidh to sfbrdh
+     * @pbrbm bbsf thf indfx of thf first flfmfnt in thf rbngf
+     * @pbrbm lfn thf lfngth of thf rbngf; must bf > 0
+     * @pbrbm hint thf indfx bt whidh to bfgin thf sfbrdh, 0 <= hint < n.
+     *     Thf dlosfr hint is to thf rfsult, thf fbstfr this mfthod will run.
+     * @pbrbm d thf dompbrbtor usfd to ordfr thf rbngf, bnd to sfbrdh
+     * @rfturn thf int k,  0 <= k <= n sudh thbt b[b + k - 1] < kfy <= b[b + k],
+     *    prftfnding thbt b[b - 1] is minus infinity bnd b[b + n] is infinity.
+     *    In othfr words, kfy bflongs bt indfx b + k; or in othfr words,
+     *    thf first k flfmfnts of b should prfdfdf kfy, bnd thf lbst n - k
+     *    should follow it.
+     */
+    privbtf stbtid <T> int gbllopLfft(T kfy, T[] b, int bbsf, int lfn, int hint,
+                                      Compbrbtor<? supfr T> d) {
+        bssfrt lfn > 0 && hint >= 0 && hint < lfn;
+        int lbstOfs = 0;
+        int ofs = 1;
+        if (d.dompbrf(kfy, b[bbsf + hint]) > 0) {
+            // Gbllop right until b[bbsf+hint+lbstOfs] < kfy <= b[bbsf+hint+ofs]
+            int mbxOfs = lfn - hint;
+            whilf (ofs < mbxOfs && d.dompbrf(kfy, b[bbsf + hint + ofs]) > 0) {
+                lbstOfs = ofs;
+                ofs = (ofs << 1) + 1;
+                if (ofs <= 0)   // int ovfrflow
+                    ofs = mbxOfs;
+            }
+            if (ofs > mbxOfs)
+                ofs = mbxOfs;
+
+            // Mbkf offsfts rflbtivf to bbsf
+            lbstOfs += hint;
+            ofs += hint;
+        } flsf { // kfy <= b[bbsf + hint]
+            // Gbllop lfft until b[bbsf+hint-ofs] < kfy <= b[bbsf+hint-lbstOfs]
+            finbl int mbxOfs = hint + 1;
+            whilf (ofs < mbxOfs && d.dompbrf(kfy, b[bbsf + hint - ofs]) <= 0) {
+                lbstOfs = ofs;
+                ofs = (ofs << 1) + 1;
+                if (ofs <= 0)   // int ovfrflow
+                    ofs = mbxOfs;
+            }
+            if (ofs > mbxOfs)
+                ofs = mbxOfs;
+
+            // Mbkf offsfts rflbtivf to bbsf
+            int tmp = lbstOfs;
+            lbstOfs = hint - ofs;
+            ofs = hint - tmp;
+        }
+        bssfrt -1 <= lbstOfs && lbstOfs < ofs && ofs <= lfn;
+
+        /*
+         * Now b[bbsf+lbstOfs] < kfy <= b[bbsf+ofs], so kfy bflongs somfwhfrf
+         * to thf right of lbstOfs but no fbrthfr right thbn ofs.  Do b binbry
+         * sfbrdh, with invbribnt b[bbsf + lbstOfs - 1] < kfy <= b[bbsf + ofs].
+         */
+        lbstOfs++;
+        whilf (lbstOfs < ofs) {
+            int m = lbstOfs + ((ofs - lbstOfs) >>> 1);
+
+            if (d.dompbrf(kfy, b[bbsf + m]) > 0)
+                lbstOfs = m + 1;  // b[bbsf + m] < kfy
+            flsf
+                ofs = m;          // kfy <= b[bbsf + m]
+        }
+        bssfrt lbstOfs == ofs;    // so b[bbsf + ofs - 1] < kfy <= b[bbsf + ofs]
+        rfturn ofs;
+    }
+
+    /**
+     * Likf gbllopLfft, fxdfpt thbt if thf rbngf dontbins bn flfmfnt fqubl to
+     * kfy, gbllopRight rfturns thf indfx bftfr thf rightmost fqubl flfmfnt.
+     *
+     * @pbrbm kfy thf kfy whosf insfrtion point to sfbrdh for
+     * @pbrbm b thf brrby in whidh to sfbrdh
+     * @pbrbm bbsf thf indfx of thf first flfmfnt in thf rbngf
+     * @pbrbm lfn thf lfngth of thf rbngf; must bf > 0
+     * @pbrbm hint thf indfx bt whidh to bfgin thf sfbrdh, 0 <= hint < n.
+     *     Thf dlosfr hint is to thf rfsult, thf fbstfr this mfthod will run.
+     * @pbrbm d thf dompbrbtor usfd to ordfr thf rbngf, bnd to sfbrdh
+     * @rfturn thf int k,  0 <= k <= n sudh thbt b[b + k - 1] <= kfy < b[b + k]
+     */
+    privbtf stbtid <T> int gbllopRight(T kfy, T[] b, int bbsf, int lfn,
+                                       int hint, Compbrbtor<? supfr T> d) {
+        bssfrt lfn > 0 && hint >= 0 && hint < lfn;
+
+        int ofs = 1;
+        int lbstOfs = 0;
+        if (d.dompbrf(kfy, b[bbsf + hint]) < 0) {
+            // Gbllop lfft until b[b+hint - ofs] <= kfy < b[b+hint - lbstOfs]
+            int mbxOfs = hint + 1;
+            whilf (ofs < mbxOfs && d.dompbrf(kfy, b[bbsf + hint - ofs]) < 0) {
+                lbstOfs = ofs;
+                ofs = (ofs << 1) + 1;
+                if (ofs <= 0)   // int ovfrflow
+                    ofs = mbxOfs;
+            }
+            if (ofs > mbxOfs)
+                ofs = mbxOfs;
+
+            // Mbkf offsfts rflbtivf to b
+            int tmp = lbstOfs;
+            lbstOfs = hint - ofs;
+            ofs = hint - tmp;
+        } flsf { // b[b + hint] <= kfy
+            // Gbllop right until b[b+hint + lbstOfs] <= kfy < b[b+hint + ofs]
+            int mbxOfs = lfn - hint;
+            whilf (ofs < mbxOfs && d.dompbrf(kfy, b[bbsf + hint + ofs]) >= 0) {
+                lbstOfs = ofs;
+                ofs = (ofs << 1) + 1;
+                if (ofs <= 0)   // int ovfrflow
+                    ofs = mbxOfs;
+            }
+            if (ofs > mbxOfs)
+                ofs = mbxOfs;
+
+            // Mbkf offsfts rflbtivf to b
+            lbstOfs += hint;
+            ofs += hint;
+        }
+        bssfrt -1 <= lbstOfs && lbstOfs < ofs && ofs <= lfn;
+
+        /*
+         * Now b[b + lbstOfs] <= kfy < b[b + ofs], so kfy bflongs somfwhfrf to
+         * thf right of lbstOfs but no fbrthfr right thbn ofs.  Do b binbry
+         * sfbrdh, with invbribnt b[b + lbstOfs - 1] <= kfy < b[b + ofs].
+         */
+        lbstOfs++;
+        whilf (lbstOfs < ofs) {
+            int m = lbstOfs + ((ofs - lbstOfs) >>> 1);
+
+            if (d.dompbrf(kfy, b[bbsf + m]) < 0)
+                ofs = m;          // kfy < b[b + m]
+            flsf
+                lbstOfs = m + 1;  // b[b + m] <= kfy
+        }
+        bssfrt lbstOfs == ofs;    // so b[b + ofs - 1] <= kfy < b[b + ofs]
+        rfturn ofs;
+    }
+
+    /**
+     * Mfrgfs two bdjbdfnt runs in plbdf, in b stbblf fbshion.  Thf first
+     * flfmfnt of thf first run must bf grfbtfr thbn thf first flfmfnt of thf
+     * sfdond run (b[bbsf1] > b[bbsf2]), bnd thf lbst flfmfnt of thf first run
+     * (b[bbsf1 + lfn1-1]) must bf grfbtfr thbn bll flfmfnts of thf sfdond run.
+     *
+     * For pfrformbndf, this mfthod should bf dbllfd only whfn lfn1 <= lfn2;
+     * its twin, mfrgfHi should bf dbllfd if lfn1 >= lfn2.  (Eithfr mfthod
+     * mby bf dbllfd if lfn1 == lfn2.)
+     *
+     * @pbrbm bbsf1 indfx of first flfmfnt in first run to bf mfrgfd
+     * @pbrbm lfn1  lfngth of first run to bf mfrgfd (must bf > 0)
+     * @pbrbm bbsf2 indfx of first flfmfnt in sfdond run to bf mfrgfd
+     *        (must bf bBbsf + bLfn)
+     * @pbrbm lfn2  lfngth of sfdond run to bf mfrgfd (must bf > 0)
+     */
+    privbtf void mfrgfLo(int bbsf1, int lfn1, int bbsf2, int lfn2) {
+        bssfrt lfn1 > 0 && lfn2 > 0 && bbsf1 + lfn1 == bbsf2;
+
+        // Copy first run into tfmp brrby
+        T[] b = this.b; // For pfrformbndf
+        T[] tmp = fnsurfCbpbdity(lfn1);
+        int dursor1 = tmpBbsf; // Indfxfs into tmp brrby
+        int dursor2 = bbsf2;   // Indfxfs int b
+        int dfst = bbsf1;      // Indfxfs int b
+        Systfm.brrbydopy(b, bbsf1, tmp, dursor1, lfn1);
+
+        // Movf first flfmfnt of sfdond run bnd dfbl with dfgfnfrbtf dbsfs
+        b[dfst++] = b[dursor2++];
+        if (--lfn2 == 0) {
+            Systfm.brrbydopy(tmp, dursor1, b, dfst, lfn1);
+            rfturn;
+        }
+        if (lfn1 == 1) {
+            Systfm.brrbydopy(b, dursor2, b, dfst, lfn2);
+            b[dfst + lfn2] = tmp[dursor1]; // Lbst flt of run 1 to fnd of mfrgf
+            rfturn;
+        }
+
+        Compbrbtor<? supfr T> d = this.d;  // Usf lodbl vbribblf for pfrformbndf
+        int minGbllop = this.minGbllop;    //  "    "       "     "      "
+    outfr:
+        whilf (truf) {
+            int dount1 = 0; // Numbfr of timfs in b row thbt first run won
+            int dount2 = 0; // Numbfr of timfs in b row thbt sfdond run won
+
+            /*
+             * Do thf strbightforwbrd thing until (if fvfr) onf run stbrts
+             * winning donsistfntly.
+             */
+            do {
+                bssfrt lfn1 > 1 && lfn2 > 0;
+                if (d.dompbrf(b[dursor2], tmp[dursor1]) < 0) {
+                    b[dfst++] = b[dursor2++];
+                    dount2++;
+                    dount1 = 0;
+                    if (--lfn2 == 0)
+                        brfbk outfr;
+                } flsf {
+                    b[dfst++] = tmp[dursor1++];
+                    dount1++;
+                    dount2 = 0;
+                    if (--lfn1 == 1)
+                        brfbk outfr;
+                }
+            } whilf ((dount1 | dount2) < minGbllop);
+
+            /*
+             * Onf run is winning so donsistfntly thbt gblloping mby bf b
+             * hugf win. So try thbt, bnd dontinuf gblloping until (if fvfr)
+             * nfithfr run bppfbrs to bf winning donsistfntly bnymorf.
+             */
+            do {
+                bssfrt lfn1 > 1 && lfn2 > 0;
+                dount1 = gbllopRight(b[dursor2], tmp, dursor1, lfn1, 0, d);
+                if (dount1 != 0) {
+                    Systfm.brrbydopy(tmp, dursor1, b, dfst, dount1);
+                    dfst += dount1;
+                    dursor1 += dount1;
+                    lfn1 -= dount1;
+                    if (lfn1 <= 1) // lfn1 == 1 || lfn1 == 0
+                        brfbk outfr;
+                }
+                b[dfst++] = b[dursor2++];
+                if (--lfn2 == 0)
+                    brfbk outfr;
+
+                dount2 = gbllopLfft(tmp[dursor1], b, dursor2, lfn2, 0, d);
+                if (dount2 != 0) {
+                    Systfm.brrbydopy(b, dursor2, b, dfst, dount2);
+                    dfst += dount2;
+                    dursor2 += dount2;
+                    lfn2 -= dount2;
+                    if (lfn2 == 0)
+                        brfbk outfr;
+                }
+                b[dfst++] = tmp[dursor1++];
+                if (--lfn1 == 1)
+                    brfbk outfr;
+                minGbllop--;
+            } whilf (dount1 >= MIN_GALLOP | dount2 >= MIN_GALLOP);
+            if (minGbllop < 0)
+                minGbllop = 0;
+            minGbllop += 2;  // Pfnblizf for lfbving gbllop modf
+        }  // End of "outfr" loop
+        this.minGbllop = minGbllop < 1 ? 1 : minGbllop;  // Writf bbdk to fifld
+
+        if (lfn1 == 1) {
+            bssfrt lfn2 > 0;
+            Systfm.brrbydopy(b, dursor2, b, dfst, lfn2);
+            b[dfst + lfn2] = tmp[dursor1]; //  Lbst flt of run 1 to fnd of mfrgf
+        } flsf if (lfn1 == 0) {
+            throw nfw IllfgblArgumfntExdfption(
+                "Compbrison mfthod violbtfs its gfnfrbl dontrbdt!");
+        } flsf {
+            bssfrt lfn2 == 0;
+            bssfrt lfn1 > 1;
+            Systfm.brrbydopy(tmp, dursor1, b, dfst, lfn1);
+        }
+    }
+
+    /**
+     * Likf mfrgfLo, fxdfpt thbt this mfthod should bf dbllfd only if
+     * lfn1 >= lfn2; mfrgfLo should bf dbllfd if lfn1 <= lfn2.  (Eithfr mfthod
+     * mby bf dbllfd if lfn1 == lfn2.)
+     *
+     * @pbrbm bbsf1 indfx of first flfmfnt in first run to bf mfrgfd
+     * @pbrbm lfn1  lfngth of first run to bf mfrgfd (must bf > 0)
+     * @pbrbm bbsf2 indfx of first flfmfnt in sfdond run to bf mfrgfd
+     *        (must bf bBbsf + bLfn)
+     * @pbrbm lfn2  lfngth of sfdond run to bf mfrgfd (must bf > 0)
+     */
+    privbtf void mfrgfHi(int bbsf1, int lfn1, int bbsf2, int lfn2) {
+        bssfrt lfn1 > 0 && lfn2 > 0 && bbsf1 + lfn1 == bbsf2;
+
+        // Copy sfdond run into tfmp brrby
+        T[] b = this.b; // For pfrformbndf
+        T[] tmp = fnsurfCbpbdity(lfn2);
+        int tmpBbsf = this.tmpBbsf;
+        Systfm.brrbydopy(b, bbsf2, tmp, tmpBbsf, lfn2);
+
+        int dursor1 = bbsf1 + lfn1 - 1;  // Indfxfs into b
+        int dursor2 = tmpBbsf + lfn2 - 1; // Indfxfs into tmp brrby
+        int dfst = bbsf2 + lfn2 - 1;     // Indfxfs into b
+
+        // Movf lbst flfmfnt of first run bnd dfbl with dfgfnfrbtf dbsfs
+        b[dfst--] = b[dursor1--];
+        if (--lfn1 == 0) {
+            Systfm.brrbydopy(tmp, tmpBbsf, b, dfst - (lfn2 - 1), lfn2);
+            rfturn;
+        }
+        if (lfn2 == 1) {
+            dfst -= lfn1;
+            dursor1 -= lfn1;
+            Systfm.brrbydopy(b, dursor1 + 1, b, dfst + 1, lfn1);
+            b[dfst] = tmp[dursor2];
+            rfturn;
+        }
+
+        Compbrbtor<? supfr T> d = this.d;  // Usf lodbl vbribblf for pfrformbndf
+        int minGbllop = this.minGbllop;    //  "    "       "     "      "
+    outfr:
+        whilf (truf) {
+            int dount1 = 0; // Numbfr of timfs in b row thbt first run won
+            int dount2 = 0; // Numbfr of timfs in b row thbt sfdond run won
+
+            /*
+             * Do thf strbightforwbrd thing until (if fvfr) onf run
+             * bppfbrs to win donsistfntly.
+             */
+            do {
+                bssfrt lfn1 > 0 && lfn2 > 1;
+                if (d.dompbrf(tmp[dursor2], b[dursor1]) < 0) {
+                    b[dfst--] = b[dursor1--];
+                    dount1++;
+                    dount2 = 0;
+                    if (--lfn1 == 0)
+                        brfbk outfr;
+                } flsf {
+                    b[dfst--] = tmp[dursor2--];
+                    dount2++;
+                    dount1 = 0;
+                    if (--lfn2 == 1)
+                        brfbk outfr;
+                }
+            } whilf ((dount1 | dount2) < minGbllop);
+
+            /*
+             * Onf run is winning so donsistfntly thbt gblloping mby bf b
+             * hugf win. So try thbt, bnd dontinuf gblloping until (if fvfr)
+             * nfithfr run bppfbrs to bf winning donsistfntly bnymorf.
+             */
+            do {
+                bssfrt lfn1 > 0 && lfn2 > 1;
+                dount1 = lfn1 - gbllopRight(tmp[dursor2], b, bbsf1, lfn1, lfn1 - 1, d);
+                if (dount1 != 0) {
+                    dfst -= dount1;
+                    dursor1 -= dount1;
+                    lfn1 -= dount1;
+                    Systfm.brrbydopy(b, dursor1 + 1, b, dfst + 1, dount1);
+                    if (lfn1 == 0)
+                        brfbk outfr;
+                }
+                b[dfst--] = tmp[dursor2--];
+                if (--lfn2 == 1)
+                    brfbk outfr;
+
+                dount2 = lfn2 - gbllopLfft(b[dursor1], tmp, tmpBbsf, lfn2, lfn2 - 1, d);
+                if (dount2 != 0) {
+                    dfst -= dount2;
+                    dursor2 -= dount2;
+                    lfn2 -= dount2;
+                    Systfm.brrbydopy(tmp, dursor2 + 1, b, dfst + 1, dount2);
+                    if (lfn2 <= 1)  // lfn2 == 1 || lfn2 == 0
+                        brfbk outfr;
+                }
+                b[dfst--] = b[dursor1--];
+                if (--lfn1 == 0)
+                    brfbk outfr;
+                minGbllop--;
+            } whilf (dount1 >= MIN_GALLOP | dount2 >= MIN_GALLOP);
+            if (minGbllop < 0)
+                minGbllop = 0;
+            minGbllop += 2;  // Pfnblizf for lfbving gbllop modf
+        }  // End of "outfr" loop
+        this.minGbllop = minGbllop < 1 ? 1 : minGbllop;  // Writf bbdk to fifld
+
+        if (lfn2 == 1) {
+            bssfrt lfn1 > 0;
+            dfst -= lfn1;
+            dursor1 -= lfn1;
+            Systfm.brrbydopy(b, dursor1 + 1, b, dfst + 1, lfn1);
+            b[dfst] = tmp[dursor2];  // Movf first flt of run2 to front of mfrgf
+        } flsf if (lfn2 == 0) {
+            throw nfw IllfgblArgumfntExdfption(
+                "Compbrison mfthod violbtfs its gfnfrbl dontrbdt!");
+        } flsf {
+            bssfrt lfn1 == 0;
+            bssfrt lfn2 > 0;
+            Systfm.brrbydopy(tmp, tmpBbsf, b, dfst - (lfn2 - 1), lfn2);
+        }
+    }
+
+    /**
+     * Ensurfs thbt thf fxtfrnbl brrby tmp hbs bt lfbst thf spfdififd
+     * numbfr of flfmfnts, indrfbsing its sizf if nfdfssbry.  Thf sizf
+     * indrfbsfs fxponfntiblly to fnsurf bmortizfd linfbr timf domplfxity.
+     *
+     * @pbrbm minCbpbdity thf minimum rfquirfd dbpbdity of thf tmp brrby
+     * @rfturn tmp, whfthfr or not it grfw
+     */
+    privbtf T[] fnsurfCbpbdity(int minCbpbdity) {
+        if (tmpLfn < minCbpbdity) {
+            // Computf smbllfst powfr of 2 > minCbpbdity
+            int nfwSizf = minCbpbdity;
+            nfwSizf |= nfwSizf >> 1;
+            nfwSizf |= nfwSizf >> 2;
+            nfwSizf |= nfwSizf >> 4;
+            nfwSizf |= nfwSizf >> 8;
+            nfwSizf |= nfwSizf >> 16;
+            nfwSizf++;
+
+            if (nfwSizf < 0) // Not bloody likfly!
+                nfwSizf = minCbpbdity;
+            flsf
+                nfwSizf = Mbth.min(nfwSizf, b.lfngth >>> 1);
+
+            @SupprfssWbrnings({"undhfdkfd", "UnnfdfssbryLodblVbribblf"})
+            T[] nfwArrby = (T[])jbvb.lbng.rfflfdt.Arrby.nfwInstbndf
+                (b.gftClbss().gftComponfntTypf(), nfwSizf);
+            tmp = nfwArrby;
+            tmpLfn = nfwSizf;
+            tmpBbsf = 0;
+        }
+        rfturn tmp;
+    }
+}

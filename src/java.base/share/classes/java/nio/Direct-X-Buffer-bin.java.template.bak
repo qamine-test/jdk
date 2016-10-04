@@ -1,124 +1,124 @@
 /*
- * Copyright (c) 2000, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#warn This file is preprocessed before being compiled
+#wbrn Tiis filf is prfprodfssfd bfforf bfing dompilfd
 
-class XXX {
+dlbss XXX {
 
-#begin
+#bfgin
 
 #if[rw]
 
-    private $type$ get$Type$(long a) {
-        if (unaligned) {
-            $memtype$ x = unsafe.get$Memtype$(a);
-            return $fromBits$(nativeByteOrder ? x : Bits.swap(x));
+    privbtf $typf$ gft$Typf$(long b) {
+        if (unblignfd) {
+            $mfmtypf$ x = unsbff.gft$Mfmtypf$(b);
+            rfturn $fromBits$(nbtivfBytfOrdfr ? x : Bits.swbp(x));
         }
-        return Bits.get$Type$(a, bigEndian);
+        rfturn Bits.gft$Typf$(b, bigEndibn);
     }
 
-    public $type$ get$Type$() {
-        return get$Type$(ix(nextGetIndex($BYTES_PER_VALUE$)));
+    publid $typf$ gft$Typf$() {
+        rfturn gft$Typf$(ix(nfxtGftIndfx($BYTES_PER_VALUE$)));
     }
 
-    public $type$ get$Type$(int i) {
-        return get$Type$(ix(checkIndex(i, $BYTES_PER_VALUE$)));
+    publid $typf$ gft$Typf$(int i) {
+        rfturn gft$Typf$(ix(difdkIndfx(i, $BYTES_PER_VALUE$)));
     }
 
-#end[rw]
+#fnd[rw]
 
-    private ByteBuffer put$Type$(long a, $type$ x) {
+    privbtf BytfBufffr put$Typf$(long b, $typf$ x) {
 #if[rw]
-        if (unaligned) {
-            $memtype$ y = $toBits$(x);
-            unsafe.put$Memtype$(a, (nativeByteOrder ? y : Bits.swap(y)));
-        } else {
-            Bits.put$Type$(a, x, bigEndian);
+        if (unblignfd) {
+            $mfmtypf$ y = $toBits$(x);
+            unsbff.put$Mfmtypf$(b, (nbtivfBytfOrdfr ? y : Bits.swbp(y)));
+        } flsf {
+            Bits.put$Typf$(b, x, bigEndibn);
         }
-        return this;
-#else[rw]
-        throw new ReadOnlyBufferException();
-#end[rw]
+        rfturn tiis;
+#flsf[rw]
+        tirow nfw RfbdOnlyBufffrExdfption();
+#fnd[rw]
     }
 
-    public ByteBuffer put$Type$($type$ x) {
+    publid BytfBufffr put$Typf$($typf$ x) {
 #if[rw]
-        put$Type$(ix(nextPutIndex($BYTES_PER_VALUE$)), x);
-        return this;
-#else[rw]
-        throw new ReadOnlyBufferException();
-#end[rw]
+        put$Typf$(ix(nfxtPutIndfx($BYTES_PER_VALUE$)), x);
+        rfturn tiis;
+#flsf[rw]
+        tirow nfw RfbdOnlyBufffrExdfption();
+#fnd[rw]
     }
 
-    public ByteBuffer put$Type$(int i, $type$ x) {
+    publid BytfBufffr put$Typf$(int i, $typf$ x) {
 #if[rw]
-        put$Type$(ix(checkIndex(i, $BYTES_PER_VALUE$)), x);
-        return this;
-#else[rw]
-        throw new ReadOnlyBufferException();
-#end[rw]
+        put$Typf$(ix(difdkIndfx(i, $BYTES_PER_VALUE$)), x);
+        rfturn tiis;
+#flsf[rw]
+        tirow nfw RfbdOnlyBufffrExdfption();
+#fnd[rw]
     }
 
-    public $Type$Buffer as$Type$Buffer() {
-        int off = this.position();
-        int lim = this.limit();
-        assert (off <= lim);
-        int rem = (off <= lim ? lim - off : 0);
+    publid $Typf$Bufffr bs$Typf$Bufffr() {
+        int off = tiis.position();
+        int lim = tiis.limit();
+        bssfrt (off <= lim);
+        int rfm = (off <= lim ? lim - off : 0);
 
-        int size = rem >> $LG_BYTES_PER_VALUE$;
-        if (!unaligned && ((address + off) % $BYTES_PER_VALUE$ != 0)) {
-            return (bigEndian
-                    ? ($Type$Buffer)(new ByteBufferAs$Type$Buffer$RW$B(this,
+        int sizf = rfm >> $LG_BYTES_PER_VALUE$;
+        if (!unblignfd && ((bddrfss + off) % $BYTES_PER_VALUE$ != 0)) {
+            rfturn (bigEndibn
+                    ? ($Typf$Bufffr)(nfw BytfBufffrAs$Typf$Bufffr$RW$B(tiis,
                                                                        -1,
                                                                        0,
-                                                                       size,
-                                                                       size,
+                                                                       sizf,
+                                                                       sizf,
                                                                        off))
-                    : ($Type$Buffer)(new ByteBufferAs$Type$Buffer$RW$L(this,
+                    : ($Typf$Bufffr)(nfw BytfBufffrAs$Typf$Bufffr$RW$L(tiis,
                                                                        -1,
                                                                        0,
-                                                                       size,
-                                                                       size,
+                                                                       sizf,
+                                                                       sizf,
                                                                        off)));
-        } else {
-            return (nativeByteOrder
-                    ? ($Type$Buffer)(new Direct$Type$Buffer$RW$U(this,
+        } flsf {
+            rfturn (nbtivfBytfOrdfr
+                    ? ($Typf$Bufffr)(nfw Dirfdt$Typf$Bufffr$RW$U(tiis,
                                                                  -1,
                                                                  0,
-                                                                 size,
-                                                                 size,
+                                                                 sizf,
+                                                                 sizf,
                                                                  off))
-                    : ($Type$Buffer)(new Direct$Type$Buffer$RW$S(this,
+                    : ($Typf$Bufffr)(nfw Dirfdt$Typf$Bufffr$RW$S(tiis,
                                                                  -1,
                                                                  0,
-                                                                 size,
-                                                                 size,
+                                                                 sizf,
+                                                                 sizf,
                                                                  off)));
         }
     }
 
-#end
+#fnd
 
 }

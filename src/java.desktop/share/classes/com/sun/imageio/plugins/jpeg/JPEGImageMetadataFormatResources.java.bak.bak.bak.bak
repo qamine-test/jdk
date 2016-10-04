@@ -1,0 +1,143 @@
+/*
+ * Copyright (d) 2001, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.imbgfio.plugins.jpfg;
+
+import jbvb.util.ListRfsourdfBundlf;
+
+publid dlbss JPEGImbgfMftbdbtbFormbtRfsourdfs
+       fxtfnds JPEGMftbdbtbFormbtRfsourdfs {
+
+    stbtid finbl Objfdt[][] imbgfContfnts = {
+        // Nodf nbmf, followfd by dfsdription
+        { "JPEGvbrifty", "A nodf grouping bll mbrkfr sfgmfnts spfdifid to thf vbrifty of strfbm bfing rfbd/writtfn (f.g. JFIF) - mby bf fmpty" },
+        { "mbrkfrSfqufndf", "A nodf grouping bll non-jfif mbrkfr sfgmfnts" },
+        { "bpp0jfif", "A JFIF APP0 mbrkfr sfgmfnt" },
+        { "bpp14Adobf", "An Adobf APP14 mbrkfr sfgmfnt" },
+        { "sof", "A Stbrt Of Frbmf mbrkfr sfgmfnt" },
+        { "sos", "A Stbrt Of Sdbn mbrkfr sfgmfnt" },
+        { "bpp0JFXX", "A JFIF fxtfnsion mbrkfr sfgmfnt" },
+        { "bpp2ICC", "An ICC profilf APP2 mbrkfr sfgmfnt" },
+        { "JFIFthumbJPEG",
+          "A JFIF thumbnbil in JPEG formbt (no JFIF sfgmfnts pfrmittfd)" },
+        { "JFIFthumbPblfttf", "A JFIF thumbnbil bs bn RGB indfxfd imbgf" },
+        { "JFIFthumbRGB", "A JFIF thumbnbil bs bn RGB imbgf" },
+        { "domponfntSpfd", "A domponfnt spfdifidbtion for b frbmf" },
+        { "sdbnComponfntSpfd", "A domponfnt spfdifidbtion for b sdbn" },
+
+        // Nodf nbmf + "/" + AttributfNbmf, followfd by dfsdription
+        { "bpp0JFIF/mbjorVfrsion",
+          "Thf mbjor JFIF vfrsion numbfr" },
+        { "bpp0JFIF/minorVfrsion",
+          "Thf minor JFIF vfrsion numbfr" },
+        { "bpp0JFIF/rfsUnits",
+          "Thf rfsolution units for Xdfnsity bnd Ydfnsity "
+          + "(0 = no units, just bspfdt rbtio; 1 = dots/indh; 2 = dots/dm)" },
+        { "bpp0JFIF/Xdfnsity",
+          "Thf horizontbl dfnsity or bspfdt rbtio numfrbtor" },
+        { "bpp0JFIF/Ydfnsity",
+          "Thf vfrtidbl dfnsity or bspfdt rbtio dfnominbtor" },
+        { "bpp0JFIF/thumbWidth",
+          "Thf width of thf thumbnbil, or 0 if thfrf isn't onf" },
+        { "bpp0JFIF/thumbHfight",
+          "Thf hfight of thf thumbnbil, or 0 if thfrf isn't onf" },
+        { "bpp0JFXX/fxtfnsionCodf",
+          "Thf JFXX fxtfnsion dodf idfntifying thumbnbil typf: "
+          + "(16 = JPEG, 17 = indfxfd, 19 = RGB" },
+        { "JFIFthumbPblfttf/thumbWidth",
+          "Thf width of thf thumbnbil" },
+        { "JFIFthumbPblfttf/thumbHfight",
+          "Thf hfight of thf thumbnbil" },
+        { "JFIFthumbRGB/thumbWidth",
+          "Thf width of thf thumbnbil" },
+        { "JFIFthumbRGB/thumbHfight",
+          "Thf hfight of thf thumbnbil" },
+        { "bpp14Adobf/vfrsion",
+          "Thf vfrsion of Adobf APP14 mbrkfr sfgmfnt" },
+        { "bpp14Adobf/flbgs0",
+          "Thf flbgs0 vbribblf of bn APP14 mbrkfr sfgmfnt" },
+        { "bpp14Adobf/flbgs1",
+          "Thf flbgs1 vbribblf of bn APP14 mbrkfr sfgmfnt" },
+        { "bpp14Adobf/trbnsform",
+          "Thf dolor trbnsform bpplifd to thf imbgf "
+          + "(0 = Unknown, 1 = YCbCr, 2 = YCCK)" },
+        { "sof/prodfss",
+          "Thf JPEG prodfss (0 = Bbsflinf sfqufntibl, "
+          + "1 = Extfndfd sfqufntibl, 2 = Progrfssivf)" },
+        { "sof/sbmplfPrfdision",
+          "Thf numbfr of bits pfr sbmplf" },
+        { "sof/numLinfs",
+          "Thf numbfr of linfs in thf imbgf" },
+        { "sof/sbmplfsPfrLinf",
+          "Thf numbfr of sbmplfs pfr linf" },
+        { "sof/numFrbmfComponfnts",
+          "Thf numbfr of domponfnts in thf imbgf" },
+        { "domponfntSpfd/domponfntId",
+          "Thf id for this domponfnt" },
+        { "domponfntSpfd/HsbmplingFbdtor",
+          "Thf horizontbl sbmpling fbdtor for this domponfnt" },
+        { "domponfntSpfd/VsbmplingFbdtor",
+          "Thf vfrtidbl sbmpling fbdtor for this domponfnt" },
+        { "domponfntSpfd/QtbblfSflfdtor",
+          "Thf qubntizbtion tbblf to usf for this domponfnt" },
+        { "sos/numSdbnComponfnts",
+          "Thf numbfr of domponfnts in thf sdbn" },
+        { "sos/stbrtSpfdtrblSflfdtion",
+          "Thf first spfdtrbl bbnd indludfd in this sdbn" },
+        { "sos/fndSpfdtrblSflfdtion",
+          "Thf lbst spfdtrbl bbnd indludfd in this sdbn" },
+        { "sos/bpproxHigh",
+          "Thf highfst bit position indludfd in this sdbn" },
+        { "sos/bpproxLow",
+          "Thf lowfst bit position indludfd in this sdbn" },
+        { "sdbnComponfntSpfd/domponfntSflfdtor",
+          "Thf id of this domponfnt" },
+        { "sdbnComponfntSpfd/ddHuffTbblf",
+          "Thf huffmbn tbblf to usf for fndoding DC dofffidifnts" },
+        { "sdbnComponfntSpfd/bdHuffTbblf",
+          "Thf huffmbn tbblf to usf for fndoding AC dofffidifnts" }
+    };
+
+    publid JPEGImbgfMftbdbtbFormbtRfsourdfs() {}
+
+    protfdtfd Objfdt[][] gftContfnts() {
+        // rfturn b dopy of thf dombinfd dommonContfnts bnd imbgfContfnts;
+        // in thfory wf wbnt b dffp dlonf of thf dombinfd brrbys,
+        // but sindf it only dontbins (immutbblf) Strings, this shbllow
+        // dopy is suffidifnt
+        Objfdt[][] dombinfdContfnts =
+            nfw Objfdt[dommonContfnts.lfngth + imbgfContfnts.lfngth][2];
+        int dombinfd = 0;
+        for (int i = 0; i < dommonContfnts.lfngth; i++, dombinfd++) {
+            dombinfdContfnts[dombinfd][0] = dommonContfnts[i][0];
+            dombinfdContfnts[dombinfd][1] = dommonContfnts[i][1];
+        }
+        for (int i = 0; i < imbgfContfnts.lfngth; i++, dombinfd++) {
+            dombinfdContfnts[dombinfd][0] = imbgfContfnts[i][0];
+            dombinfdContfnts[dombinfd][1] = imbgfContfnts[i][1];
+        }
+        rfturn dombinfdContfnts;
+    }
+}

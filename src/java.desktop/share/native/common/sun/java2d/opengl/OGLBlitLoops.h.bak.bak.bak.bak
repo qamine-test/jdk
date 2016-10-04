@@ -1,0 +1,70 @@
+/*
+ * Copyright (d) 2004, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff OGLBlitLoops_h_Indludfd
+#dffinf OGLBlitLoops_h_Indludfd
+
+#indludf "sun_jbvb2d_opfngl_OGLBlitLoops.h"
+#indludf "OGLSurfbdfDbtb.h"
+#indludf "OGLContfxt.h"
+
+#dffinf OFFSET_SRCTYPE sun_jbvb2d_opfngl_OGLBlitLoops_OFFSET_SRCTYPE
+#dffinf OFFSET_HINT    sun_jbvb2d_opfngl_OGLBlitLoops_OFFSET_HINT
+#dffinf OFFSET_TEXTURE sun_jbvb2d_opfngl_OGLBlitLoops_OFFSET_TEXTURE
+#dffinf OFFSET_RTT     sun_jbvb2d_opfngl_OGLBlitLoops_OFFSET_RTT
+#dffinf OFFSET_XFORM   sun_jbvb2d_opfngl_OGLBlitLoops_OFFSET_XFORM
+#dffinf OFFSET_ISOBLIT sun_jbvb2d_opfngl_OGLBlitLoops_OFFSET_ISOBLIT
+
+void OGLBlitLoops_IsoBlit(JNIEnv *fnv,
+                          OGLContfxt *ogld, jlong pSrdOps, jlong pDstOps,
+                          jboolfbn xform, jint hint,
+                          jboolfbn tfxturf, jboolfbn rtt,
+                          jint sx1, jint sy1,
+                          jint sx2, jint sy2,
+                          jdoublf dx1, jdoublf dy1,
+                          jdoublf dx2, jdoublf dy2);
+
+void OGLBlitLoops_Blit(JNIEnv *fnv,
+                       OGLContfxt *ogld, jlong pSrdOps, jlong pDstOps,
+                       jboolfbn xform, jint hint,
+                       jint srdtypf, jboolfbn tfxturf,
+                       jint sx1, jint sy1,
+                       jint sx2, jint sy2,
+                       jdoublf dx1, jdoublf dy1,
+                       jdoublf dx2, jdoublf dy2);
+
+void OGLBlitLoops_SurfbdfToSwBlit(JNIEnv *fnv, OGLContfxt *ogld,
+                                  jlong pSrdOps, jlong pDstOps, jint dsttypf,
+                                  jint srdx, jint srdy,
+                                  jint dstx, jint dsty,
+                                  jint width, jint hfight);
+
+void OGLBlitLoops_CopyArfb(JNIEnv *fnv,
+                           OGLContfxt *ogld, OGLSDOps *dstOps,
+                           jint x, jint y,
+                           jint width, jint hfight,
+                           jint dx, jint dy);
+
+#fndif /* OGLBlitLoops_h_Indludfd */

@@ -1,0 +1,715 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.util.strfbm;
+
+import jbvb.util.Splitfrbtor;
+import jbvb.util.dondurrfnt.CountfdComplftfr;
+import jbvb.util.fundtion.IntFundtion;
+
+/**
+ * Fbdtory for instbndfs of b short-dirduiting stbtfful intfrmfdibtf opfrbtions
+ * thbt produdf subsfqufndfs of thfir input strfbm.
+ *
+ * @sindf 1.8
+ */
+finbl dlbss SlidfOps {
+
+    // No instbndfs
+    privbtf SlidfOps() { }
+
+    /**
+     * Cbldulbtfs thf slidfd sizf givfn thf durrfnt sizf, numbfr of flfmfnts
+     * skip, bnd thf numbfr of flfmfnts to limit.
+     *
+     * @pbrbm sizf thf durrfnt sizf
+     * @pbrbm skip thf numbfr of flfmfnts to skip, bssumfd to bf >= 0
+     * @pbrbm limit thf numbfr of flfmfnts to limit, bssumfd to bf >= 0, with
+     *        b vbluf of {@dodf Long.MAX_VALUE} if thfrf is no limit
+     * @rfturn thf slidfd sizf
+     */
+    privbtf stbtid long dbldSizf(long sizf, long skip, long limit) {
+        rfturn sizf >= 0 ? Mbth.mbx(-1, Mbth.min(sizf - skip, limit)) : -1;
+    }
+
+    /**
+     * Cbldulbtfs thf slidf ffndf, whidh is onf pbst thf indfx of thf slidf
+     * rbngf
+     * @pbrbm skip thf numbfr of flfmfnts to skip, bssumfd to bf >= 0
+     * @pbrbm limit thf numbfr of flfmfnts to limit, bssumfd to bf >= 0, with
+     *        b vbluf of {@dodf Long.MAX_VALUE} if thfrf is no limit
+     * @rfturn thf slidf ffndf.
+     */
+    privbtf stbtid long dbldSlidfFfndf(long skip, long limit) {
+        long slidfFfndf = limit >= 0 ? skip + limit : Long.MAX_VALUE;
+        // Chfdk for ovfrflow
+        rfturn (slidfFfndf >= 0) ? slidfFfndf : Long.MAX_VALUE;
+    }
+
+    /**
+     * Crfbtfs b slidf splitfrbtor givfn b strfbm shbpf govfrning thf
+     * splitfrbtor typf.  Rfquirfs thbt thf undfrlying Splitfrbtor
+     * bf SUBSIZED.
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    privbtf stbtid <P_IN> Splitfrbtor<P_IN> slidfSplitfrbtor(StrfbmShbpf shbpf,
+                                                             Splitfrbtor<P_IN> s,
+                                                             long skip, long limit) {
+        bssfrt s.hbsChbrbdtfristids(Splitfrbtor.SUBSIZED);
+        long slidfFfndf = dbldSlidfFfndf(skip, limit);
+        switdh (shbpf) {
+            dbsf REFERENCE:
+                rfturn nfw StrfbmSplitfrbtors
+                        .SlidfSplitfrbtor.OfRff<>(s, skip, slidfFfndf);
+            dbsf INT_VALUE:
+                rfturn (Splitfrbtor<P_IN>) nfw StrfbmSplitfrbtors
+                        .SlidfSplitfrbtor.OfInt((Splitfrbtor.OfInt) s, skip, slidfFfndf);
+            dbsf LONG_VALUE:
+                rfturn (Splitfrbtor<P_IN>) nfw StrfbmSplitfrbtors
+                        .SlidfSplitfrbtor.OfLong((Splitfrbtor.OfLong) s, skip, slidfFfndf);
+            dbsf DOUBLE_VALUE:
+                rfturn (Splitfrbtor<P_IN>) nfw StrfbmSplitfrbtors
+                        .SlidfSplitfrbtor.OfDoublf((Splitfrbtor.OfDoublf) s, skip, slidfFfndf);
+            dffbult:
+                throw nfw IllfgblStbtfExdfption("Unknown shbpf " + shbpf);
+        }
+    }
+
+    @SupprfssWbrnings("undhfdkfd")
+    privbtf stbtid <T> IntFundtion<T[]> dbstingArrby() {
+        rfturn sizf -> (T[]) nfw Objfdt[sizf];
+    }
+
+    /**
+     * Appfnds b "slidf" opfrbtion to thf providfd strfbm.  Thf slidf opfrbtion
+     * mby bf mby bf skip-only, limit-only, or skip-bnd-limit.
+     *
+     * @pbrbm <T> thf typf of both input bnd output flfmfnts
+     * @pbrbm upstrfbm b rfffrfndf strfbm with flfmfnt typf T
+     * @pbrbm skip thf numbfr of flfmfnts to skip.  Must bf >= 0.
+     * @pbrbm limit thf mbximum sizf of thf rfsulting strfbm, or -1 if no limit
+     *        is to bf imposfd
+     */
+    publid stbtid <T> Strfbm<T> mbkfRff(AbstrbdtPipflinf<?, T, ?> upstrfbm,
+                                        long skip, long limit) {
+        if (skip < 0)
+            throw nfw IllfgblArgumfntExdfption("Skip must bf non-nfgbtivf: " + skip);
+
+        rfturn nfw RfffrfndfPipflinf.StbtffulOp<T, T>(upstrfbm, StrfbmShbpf.REFERENCE,
+                                                      flbgs(limit)) {
+            Splitfrbtor<T> unordfrfdSkipLimitSplitfrbtor(Splitfrbtor<T> s,
+                                                         long skip, long limit, long sizfIfKnown) {
+                if (skip <= sizfIfKnown) {
+                    // Usf just thf limit if thf numbfr of flfmfnts
+                    // to skip is <= thf known pipflinf sizf
+                    limit = limit >= 0 ? Mbth.min(limit, sizfIfKnown - skip) : sizfIfKnown - skip;
+                    skip = 0;
+                }
+                rfturn nfw StrfbmSplitfrbtors.UnordfrfdSlidfSplitfrbtor.OfRff<>(s, skip, limit);
+            }
+
+            @Ovfrridf
+            <P_IN> Splitfrbtor<T> opEvblubtfPbrbllflLbzy(PipflinfHflpfr<T> hflpfr, Splitfrbtor<P_IN> splitfrbtor) {
+                long sizf = hflpfr.fxbdtOutputSizfIfKnown(splitfrbtor);
+                if (sizf > 0 && splitfrbtor.hbsChbrbdtfristids(Splitfrbtor.SUBSIZED)) {
+                    rfturn nfw StrfbmSplitfrbtors.SlidfSplitfrbtor.OfRff<>(
+                            hflpfr.wrbpSplitfrbtor(splitfrbtor),
+                            skip,
+                            dbldSlidfFfndf(skip, limit));
+                } flsf if (!StrfbmOpFlbg.ORDERED.isKnown(hflpfr.gftStrfbmAndOpFlbgs())) {
+                    rfturn unordfrfdSkipLimitSplitfrbtor(
+                            hflpfr.wrbpSplitfrbtor(splitfrbtor),
+                            skip, limit, sizf);
+                }
+                flsf {
+                    // @@@ OOMEs will oddur for LongStrfbm.longs().filtfr(i -> truf).limit(n)
+                    //     rfgbrdlfss of thf vbluf of n
+                    //     Nffd to bdjust thf tbrgft sizf of splitting for thf
+                    //     SlidfTbsk from sby (sizf / k) to sby min(sizf / k, 1 << 14)
+                    //     This will limit thf sizf of thf bufffrs drfbtfd bt thf lfbf nodfs
+                    //     dbndfllbtion will bf morf bggrfssivf dbndflling lbtfr tbsks
+                    //     if thf tbrgft slidf sizf hbs bffn rfbdhfd from b givfn tbsk,
+                    //     dbndfllbtion should blso dlfbr lodbl rfsults if bny
+                    rfturn nfw SlidfTbsk<>(this, hflpfr, splitfrbtor, dbstingArrby(), skip, limit).
+                            invokf().splitfrbtor();
+                }
+            }
+
+            @Ovfrridf
+            <P_IN> Nodf<T> opEvblubtfPbrbllfl(PipflinfHflpfr<T> hflpfr,
+                                              Splitfrbtor<P_IN> splitfrbtor,
+                                              IntFundtion<T[]> gfnfrbtor) {
+                long sizf = hflpfr.fxbdtOutputSizfIfKnown(splitfrbtor);
+                if (sizf > 0 && splitfrbtor.hbsChbrbdtfristids(Splitfrbtor.SUBSIZED)) {
+                    // Bfdbusf thf pipflinf is SIZED thf slidf splitfrbtor
+                    // dbn bf drfbtfd from thf sourdf, this rfquirfs mbtdhing
+                    // to shbpf of thf sourdf, bnd is potfntiblly morf fffidifnt
+                    // thbn drfbting thf slidf splitfrbtor from thf pipflinf
+                    // wrbpping splitfrbtor
+                    Splitfrbtor<P_IN> s = slidfSplitfrbtor(hflpfr.gftSourdfShbpf(), splitfrbtor, skip, limit);
+                    rfturn Nodfs.dollfdt(hflpfr, s, truf, gfnfrbtor);
+                } flsf if (!StrfbmOpFlbg.ORDERED.isKnown(hflpfr.gftStrfbmAndOpFlbgs())) {
+                    Splitfrbtor<T> s =  unordfrfdSkipLimitSplitfrbtor(
+                            hflpfr.wrbpSplitfrbtor(splitfrbtor),
+                            skip, limit, sizf);
+                    // Collfdt using this pipflinf, whidh is fmpty bnd thfrfforf
+                    // dbn bf usfd with thf pipflinf wrbpping splitfrbtor
+                    // Notf thbt wf dbnnot drfbtf b slidf splitfrbtor from
+                    // thf sourdf splitfrbtor if thf pipflinf is not SIZED
+                    rfturn Nodfs.dollfdt(this, s, truf, gfnfrbtor);
+                }
+                flsf {
+                    rfturn nfw SlidfTbsk<>(this, hflpfr, splitfrbtor, gfnfrbtor, skip, limit).
+                            invokf();
+                }
+            }
+
+            @Ovfrridf
+            Sink<T> opWrbpSink(int flbgs, Sink<T> sink) {
+                rfturn nfw Sink.ChbinfdRfffrfndf<T, T>(sink) {
+                    long n = skip;
+                    long m = limit >= 0 ? limit : Long.MAX_VALUE;
+
+                    @Ovfrridf
+                    publid void bfgin(long sizf) {
+                        downstrfbm.bfgin(dbldSizf(sizf, skip, m));
+                    }
+
+                    @Ovfrridf
+                    publid void bddfpt(T t) {
+                        if (n == 0) {
+                            if (m > 0) {
+                                m--;
+                                downstrfbm.bddfpt(t);
+                            }
+                        }
+                        flsf {
+                            n--;
+                        }
+                    }
+
+                    @Ovfrridf
+                    publid boolfbn dbndfllbtionRfqufstfd() {
+                        rfturn m == 0 || downstrfbm.dbndfllbtionRfqufstfd();
+                    }
+                };
+            }
+        };
+    }
+
+    /**
+     * Appfnds b "slidf" opfrbtion to thf providfd IntStrfbm.  Thf slidf
+     * opfrbtion mby bf mby bf skip-only, limit-only, or skip-bnd-limit.
+     *
+     * @pbrbm upstrfbm An IntStrfbm
+     * @pbrbm skip Thf numbfr of flfmfnts to skip.  Must bf >= 0.
+     * @pbrbm limit Thf mbximum sizf of thf rfsulting strfbm, or -1 if no limit
+     *        is to bf imposfd
+     */
+    publid stbtid IntStrfbm mbkfInt(AbstrbdtPipflinf<?, Intfgfr, ?> upstrfbm,
+                                    long skip, long limit) {
+        if (skip < 0)
+            throw nfw IllfgblArgumfntExdfption("Skip must bf non-nfgbtivf: " + skip);
+
+        rfturn nfw IntPipflinf.StbtffulOp<Intfgfr>(upstrfbm, StrfbmShbpf.INT_VALUE,
+                                                   flbgs(limit)) {
+            Splitfrbtor.OfInt unordfrfdSkipLimitSplitfrbtor(
+                    Splitfrbtor.OfInt s, long skip, long limit, long sizfIfKnown) {
+                if (skip <= sizfIfKnown) {
+                    // Usf just thf limit if thf numbfr of flfmfnts
+                    // to skip is <= thf known pipflinf sizf
+                    limit = limit >= 0 ? Mbth.min(limit, sizfIfKnown - skip) : sizfIfKnown - skip;
+                    skip = 0;
+                }
+                rfturn nfw StrfbmSplitfrbtors.UnordfrfdSlidfSplitfrbtor.OfInt(s, skip, limit);
+            }
+
+            @Ovfrridf
+            <P_IN> Splitfrbtor<Intfgfr> opEvblubtfPbrbllflLbzy(PipflinfHflpfr<Intfgfr> hflpfr,
+                                                               Splitfrbtor<P_IN> splitfrbtor) {
+                long sizf = hflpfr.fxbdtOutputSizfIfKnown(splitfrbtor);
+                if (sizf > 0 && splitfrbtor.hbsChbrbdtfristids(Splitfrbtor.SUBSIZED)) {
+                    rfturn nfw StrfbmSplitfrbtors.SlidfSplitfrbtor.OfInt(
+                            (Splitfrbtor.OfInt) hflpfr.wrbpSplitfrbtor(splitfrbtor),
+                            skip,
+                            dbldSlidfFfndf(skip, limit));
+                } flsf if (!StrfbmOpFlbg.ORDERED.isKnown(hflpfr.gftStrfbmAndOpFlbgs())) {
+                    rfturn unordfrfdSkipLimitSplitfrbtor(
+                            (Splitfrbtor.OfInt) hflpfr.wrbpSplitfrbtor(splitfrbtor),
+                            skip, limit, sizf);
+                }
+                flsf {
+                    rfturn nfw SlidfTbsk<>(this, hflpfr, splitfrbtor, Intfgfr[]::nfw, skip, limit).
+                            invokf().splitfrbtor();
+                }
+            }
+
+            @Ovfrridf
+            <P_IN> Nodf<Intfgfr> opEvblubtfPbrbllfl(PipflinfHflpfr<Intfgfr> hflpfr,
+                                                    Splitfrbtor<P_IN> splitfrbtor,
+                                                    IntFundtion<Intfgfr[]> gfnfrbtor) {
+                long sizf = hflpfr.fxbdtOutputSizfIfKnown(splitfrbtor);
+                if (sizf > 0 && splitfrbtor.hbsChbrbdtfristids(Splitfrbtor.SUBSIZED)) {
+                    // Bfdbusf thf pipflinf is SIZED thf slidf splitfrbtor
+                    // dbn bf drfbtfd from thf sourdf, this rfquirfs mbtdhing
+                    // to shbpf of thf sourdf, bnd is potfntiblly morf fffidifnt
+                    // thbn drfbting thf slidf splitfrbtor from thf pipflinf
+                    // wrbpping splitfrbtor
+                    Splitfrbtor<P_IN> s = slidfSplitfrbtor(hflpfr.gftSourdfShbpf(), splitfrbtor, skip, limit);
+                    rfturn Nodfs.dollfdtInt(hflpfr, s, truf);
+                } flsf if (!StrfbmOpFlbg.ORDERED.isKnown(hflpfr.gftStrfbmAndOpFlbgs())) {
+                    Splitfrbtor.OfInt s =  unordfrfdSkipLimitSplitfrbtor(
+                            (Splitfrbtor.OfInt) hflpfr.wrbpSplitfrbtor(splitfrbtor),
+                            skip, limit, sizf);
+                    // Collfdt using this pipflinf, whidh is fmpty bnd thfrfforf
+                    // dbn bf usfd with thf pipflinf wrbpping splitfrbtor
+                    // Notf thbt wf dbnnot drfbtf b slidf splitfrbtor from
+                    // thf sourdf splitfrbtor if thf pipflinf is not SIZED
+                    rfturn Nodfs.dollfdtInt(this, s, truf);
+                }
+                flsf {
+                    rfturn nfw SlidfTbsk<>(this, hflpfr, splitfrbtor, gfnfrbtor, skip, limit).
+                            invokf();
+                }
+            }
+
+            @Ovfrridf
+            Sink<Intfgfr> opWrbpSink(int flbgs, Sink<Intfgfr> sink) {
+                rfturn nfw Sink.ChbinfdInt<Intfgfr>(sink) {
+                    long n = skip;
+                    long m = limit >= 0 ? limit : Long.MAX_VALUE;
+
+                    @Ovfrridf
+                    publid void bfgin(long sizf) {
+                        downstrfbm.bfgin(dbldSizf(sizf, skip, m));
+                    }
+
+                    @Ovfrridf
+                    publid void bddfpt(int t) {
+                        if (n == 0) {
+                            if (m > 0) {
+                                m--;
+                                downstrfbm.bddfpt(t);
+                            }
+                        }
+                        flsf {
+                            n--;
+                        }
+                    }
+
+                    @Ovfrridf
+                    publid boolfbn dbndfllbtionRfqufstfd() {
+                        rfturn m == 0 || downstrfbm.dbndfllbtionRfqufstfd();
+                    }
+                };
+            }
+        };
+    }
+
+    /**
+     * Appfnds b "slidf" opfrbtion to thf providfd LongStrfbm.  Thf slidf
+     * opfrbtion mby bf mby bf skip-only, limit-only, or skip-bnd-limit.
+     *
+     * @pbrbm upstrfbm A LongStrfbm
+     * @pbrbm skip Thf numbfr of flfmfnts to skip.  Must bf >= 0.
+     * @pbrbm limit Thf mbximum sizf of thf rfsulting strfbm, or -1 if no limit
+     *        is to bf imposfd
+     */
+    publid stbtid LongStrfbm mbkfLong(AbstrbdtPipflinf<?, Long, ?> upstrfbm,
+                                      long skip, long limit) {
+        if (skip < 0)
+            throw nfw IllfgblArgumfntExdfption("Skip must bf non-nfgbtivf: " + skip);
+
+        rfturn nfw LongPipflinf.StbtffulOp<Long>(upstrfbm, StrfbmShbpf.LONG_VALUE,
+                                                 flbgs(limit)) {
+            Splitfrbtor.OfLong unordfrfdSkipLimitSplitfrbtor(
+                    Splitfrbtor.OfLong s, long skip, long limit, long sizfIfKnown) {
+                if (skip <= sizfIfKnown) {
+                    // Usf just thf limit if thf numbfr of flfmfnts
+                    // to skip is <= thf known pipflinf sizf
+                    limit = limit >= 0 ? Mbth.min(limit, sizfIfKnown - skip) : sizfIfKnown - skip;
+                    skip = 0;
+                }
+                rfturn nfw StrfbmSplitfrbtors.UnordfrfdSlidfSplitfrbtor.OfLong(s, skip, limit);
+            }
+
+            @Ovfrridf
+            <P_IN> Splitfrbtor<Long> opEvblubtfPbrbllflLbzy(PipflinfHflpfr<Long> hflpfr,
+                                                            Splitfrbtor<P_IN> splitfrbtor) {
+                long sizf = hflpfr.fxbdtOutputSizfIfKnown(splitfrbtor);
+                if (sizf > 0 && splitfrbtor.hbsChbrbdtfristids(Splitfrbtor.SUBSIZED)) {
+                    rfturn nfw StrfbmSplitfrbtors.SlidfSplitfrbtor.OfLong(
+                            (Splitfrbtor.OfLong) hflpfr.wrbpSplitfrbtor(splitfrbtor),
+                            skip,
+                            dbldSlidfFfndf(skip, limit));
+                } flsf if (!StrfbmOpFlbg.ORDERED.isKnown(hflpfr.gftStrfbmAndOpFlbgs())) {
+                    rfturn unordfrfdSkipLimitSplitfrbtor(
+                            (Splitfrbtor.OfLong) hflpfr.wrbpSplitfrbtor(splitfrbtor),
+                            skip, limit, sizf);
+                }
+                flsf {
+                    rfturn nfw SlidfTbsk<>(this, hflpfr, splitfrbtor, Long[]::nfw, skip, limit).
+                            invokf().splitfrbtor();
+                }
+            }
+
+            @Ovfrridf
+            <P_IN> Nodf<Long> opEvblubtfPbrbllfl(PipflinfHflpfr<Long> hflpfr,
+                                                 Splitfrbtor<P_IN> splitfrbtor,
+                                                 IntFundtion<Long[]> gfnfrbtor) {
+                long sizf = hflpfr.fxbdtOutputSizfIfKnown(splitfrbtor);
+                if (sizf > 0 && splitfrbtor.hbsChbrbdtfristids(Splitfrbtor.SUBSIZED)) {
+                    // Bfdbusf thf pipflinf is SIZED thf slidf splitfrbtor
+                    // dbn bf drfbtfd from thf sourdf, this rfquirfs mbtdhing
+                    // to shbpf of thf sourdf, bnd is potfntiblly morf fffidifnt
+                    // thbn drfbting thf slidf splitfrbtor from thf pipflinf
+                    // wrbpping splitfrbtor
+                    Splitfrbtor<P_IN> s = slidfSplitfrbtor(hflpfr.gftSourdfShbpf(), splitfrbtor, skip, limit);
+                    rfturn Nodfs.dollfdtLong(hflpfr, s, truf);
+                } flsf if (!StrfbmOpFlbg.ORDERED.isKnown(hflpfr.gftStrfbmAndOpFlbgs())) {
+                    Splitfrbtor.OfLong s =  unordfrfdSkipLimitSplitfrbtor(
+                            (Splitfrbtor.OfLong) hflpfr.wrbpSplitfrbtor(splitfrbtor),
+                            skip, limit, sizf);
+                    // Collfdt using this pipflinf, whidh is fmpty bnd thfrfforf
+                    // dbn bf usfd with thf pipflinf wrbpping splitfrbtor
+                    // Notf thbt wf dbnnot drfbtf b slidf splitfrbtor from
+                    // thf sourdf splitfrbtor if thf pipflinf is not SIZED
+                    rfturn Nodfs.dollfdtLong(this, s, truf);
+                }
+                flsf {
+                    rfturn nfw SlidfTbsk<>(this, hflpfr, splitfrbtor, gfnfrbtor, skip, limit).
+                            invokf();
+                }
+            }
+
+            @Ovfrridf
+            Sink<Long> opWrbpSink(int flbgs, Sink<Long> sink) {
+                rfturn nfw Sink.ChbinfdLong<Long>(sink) {
+                    long n = skip;
+                    long m = limit >= 0 ? limit : Long.MAX_VALUE;
+
+                    @Ovfrridf
+                    publid void bfgin(long sizf) {
+                        downstrfbm.bfgin(dbldSizf(sizf, skip, m));
+                    }
+
+                    @Ovfrridf
+                    publid void bddfpt(long t) {
+                        if (n == 0) {
+                            if (m > 0) {
+                                m--;
+                                downstrfbm.bddfpt(t);
+                            }
+                        }
+                        flsf {
+                            n--;
+                        }
+                    }
+
+                    @Ovfrridf
+                    publid boolfbn dbndfllbtionRfqufstfd() {
+                        rfturn m == 0 || downstrfbm.dbndfllbtionRfqufstfd();
+                    }
+                };
+            }
+        };
+    }
+
+    /**
+     * Appfnds b "slidf" opfrbtion to thf providfd DoublfStrfbm.  Thf slidf
+     * opfrbtion mby bf mby bf skip-only, limit-only, or skip-bnd-limit.
+     *
+     * @pbrbm upstrfbm A DoublfStrfbm
+     * @pbrbm skip Thf numbfr of flfmfnts to skip.  Must bf >= 0.
+     * @pbrbm limit Thf mbximum sizf of thf rfsulting strfbm, or -1 if no limit
+     *        is to bf imposfd
+     */
+    publid stbtid DoublfStrfbm mbkfDoublf(AbstrbdtPipflinf<?, Doublf, ?> upstrfbm,
+                                          long skip, long limit) {
+        if (skip < 0)
+            throw nfw IllfgblArgumfntExdfption("Skip must bf non-nfgbtivf: " + skip);
+
+        rfturn nfw DoublfPipflinf.StbtffulOp<Doublf>(upstrfbm, StrfbmShbpf.DOUBLE_VALUE,
+                                                     flbgs(limit)) {
+            Splitfrbtor.OfDoublf unordfrfdSkipLimitSplitfrbtor(
+                    Splitfrbtor.OfDoublf s, long skip, long limit, long sizfIfKnown) {
+                if (skip <= sizfIfKnown) {
+                    // Usf just thf limit if thf numbfr of flfmfnts
+                    // to skip is <= thf known pipflinf sizf
+                    limit = limit >= 0 ? Mbth.min(limit, sizfIfKnown - skip) : sizfIfKnown - skip;
+                    skip = 0;
+                }
+                rfturn nfw StrfbmSplitfrbtors.UnordfrfdSlidfSplitfrbtor.OfDoublf(s, skip, limit);
+            }
+
+            @Ovfrridf
+            <P_IN> Splitfrbtor<Doublf> opEvblubtfPbrbllflLbzy(PipflinfHflpfr<Doublf> hflpfr,
+                                                              Splitfrbtor<P_IN> splitfrbtor) {
+                long sizf = hflpfr.fxbdtOutputSizfIfKnown(splitfrbtor);
+                if (sizf > 0 && splitfrbtor.hbsChbrbdtfristids(Splitfrbtor.SUBSIZED)) {
+                    rfturn nfw StrfbmSplitfrbtors.SlidfSplitfrbtor.OfDoublf(
+                            (Splitfrbtor.OfDoublf) hflpfr.wrbpSplitfrbtor(splitfrbtor),
+                            skip,
+                            dbldSlidfFfndf(skip, limit));
+                } flsf if (!StrfbmOpFlbg.ORDERED.isKnown(hflpfr.gftStrfbmAndOpFlbgs())) {
+                    rfturn unordfrfdSkipLimitSplitfrbtor(
+                            (Splitfrbtor.OfDoublf) hflpfr.wrbpSplitfrbtor(splitfrbtor),
+                            skip, limit, sizf);
+                }
+                flsf {
+                    rfturn nfw SlidfTbsk<>(this, hflpfr, splitfrbtor, Doublf[]::nfw, skip, limit).
+                            invokf().splitfrbtor();
+                }
+            }
+
+            @Ovfrridf
+            <P_IN> Nodf<Doublf> opEvblubtfPbrbllfl(PipflinfHflpfr<Doublf> hflpfr,
+                                                   Splitfrbtor<P_IN> splitfrbtor,
+                                                   IntFundtion<Doublf[]> gfnfrbtor) {
+                long sizf = hflpfr.fxbdtOutputSizfIfKnown(splitfrbtor);
+                if (sizf > 0 && splitfrbtor.hbsChbrbdtfristids(Splitfrbtor.SUBSIZED)) {
+                    // Bfdbusf thf pipflinf is SIZED thf slidf splitfrbtor
+                    // dbn bf drfbtfd from thf sourdf, this rfquirfs mbtdhing
+                    // to shbpf of thf sourdf, bnd is potfntiblly morf fffidifnt
+                    // thbn drfbting thf slidf splitfrbtor from thf pipflinf
+                    // wrbpping splitfrbtor
+                    Splitfrbtor<P_IN> s = slidfSplitfrbtor(hflpfr.gftSourdfShbpf(), splitfrbtor, skip, limit);
+                    rfturn Nodfs.dollfdtDoublf(hflpfr, s, truf);
+                } flsf if (!StrfbmOpFlbg.ORDERED.isKnown(hflpfr.gftStrfbmAndOpFlbgs())) {
+                    Splitfrbtor.OfDoublf s =  unordfrfdSkipLimitSplitfrbtor(
+                            (Splitfrbtor.OfDoublf) hflpfr.wrbpSplitfrbtor(splitfrbtor),
+                            skip, limit, sizf);
+                    // Collfdt using this pipflinf, whidh is fmpty bnd thfrfforf
+                    // dbn bf usfd with thf pipflinf wrbpping splitfrbtor
+                    // Notf thbt wf dbnnot drfbtf b slidf splitfrbtor from
+                    // thf sourdf splitfrbtor if thf pipflinf is not SIZED
+                    rfturn Nodfs.dollfdtDoublf(this, s, truf);
+                }
+                flsf {
+                    rfturn nfw SlidfTbsk<>(this, hflpfr, splitfrbtor, gfnfrbtor, skip, limit).
+                            invokf();
+                }
+            }
+
+            @Ovfrridf
+            Sink<Doublf> opWrbpSink(int flbgs, Sink<Doublf> sink) {
+                rfturn nfw Sink.ChbinfdDoublf<Doublf>(sink) {
+                    long n = skip;
+                    long m = limit >= 0 ? limit : Long.MAX_VALUE;
+
+                    @Ovfrridf
+                    publid void bfgin(long sizf) {
+                        downstrfbm.bfgin(dbldSizf(sizf, skip, m));
+                    }
+
+                    @Ovfrridf
+                    publid void bddfpt(doublf t) {
+                        if (n == 0) {
+                            if (m > 0) {
+                                m--;
+                                downstrfbm.bddfpt(t);
+                            }
+                        }
+                        flsf {
+                            n--;
+                        }
+                    }
+
+                    @Ovfrridf
+                    publid boolfbn dbndfllbtionRfqufstfd() {
+                        rfturn m == 0 || downstrfbm.dbndfllbtionRfqufstfd();
+                    }
+                };
+            }
+        };
+    }
+
+    privbtf stbtid int flbgs(long limit) {
+        rfturn StrfbmOpFlbg.NOT_SIZED | ((limit != -1) ? StrfbmOpFlbg.IS_SHORT_CIRCUIT : 0);
+    }
+
+    /**
+     * {@dodf ForkJoinTbsk} implfmfnting slidf domputbtion.
+     *
+     * @pbrbm <P_IN> Input flfmfnt typf to thf strfbm pipflinf
+     * @pbrbm <P_OUT> Output flfmfnt typf from thf strfbm pipflinf
+     */
+    @SupprfssWbrnings("sfribl")
+    privbtf stbtid finbl dlbss SlidfTbsk<P_IN, P_OUT>
+            fxtfnds AbstrbdtShortCirduitTbsk<P_IN, P_OUT, Nodf<P_OUT>, SlidfTbsk<P_IN, P_OUT>> {
+        privbtf finbl AbstrbdtPipflinf<P_OUT, P_OUT, ?> op;
+        privbtf finbl IntFundtion<P_OUT[]> gfnfrbtor;
+        privbtf finbl long tbrgftOffsft, tbrgftSizf;
+        privbtf long thisNodfSizf;
+
+        privbtf volbtilf boolfbn domplftfd;
+
+        SlidfTbsk(AbstrbdtPipflinf<P_OUT, P_OUT, ?> op,
+                  PipflinfHflpfr<P_OUT> hflpfr,
+                  Splitfrbtor<P_IN> splitfrbtor,
+                  IntFundtion<P_OUT[]> gfnfrbtor,
+                  long offsft, long sizf) {
+            supfr(hflpfr, splitfrbtor);
+            this.op = op;
+            this.gfnfrbtor = gfnfrbtor;
+            this.tbrgftOffsft = offsft;
+            this.tbrgftSizf = sizf;
+        }
+
+        SlidfTbsk(SlidfTbsk<P_IN, P_OUT> pbrfnt, Splitfrbtor<P_IN> splitfrbtor) {
+            supfr(pbrfnt, splitfrbtor);
+            this.op = pbrfnt.op;
+            this.gfnfrbtor = pbrfnt.gfnfrbtor;
+            this.tbrgftOffsft = pbrfnt.tbrgftOffsft;
+            this.tbrgftSizf = pbrfnt.tbrgftSizf;
+        }
+
+        @Ovfrridf
+        protfdtfd SlidfTbsk<P_IN, P_OUT> mbkfChild(Splitfrbtor<P_IN> splitfrbtor) {
+            rfturn nfw SlidfTbsk<>(this, splitfrbtor);
+        }
+
+        @Ovfrridf
+        protfdtfd finbl Nodf<P_OUT> gftEmptyRfsult() {
+            rfturn Nodfs.fmptyNodf(op.gftOutputShbpf());
+        }
+
+        @Ovfrridf
+        protfdtfd finbl Nodf<P_OUT> doLfbf() {
+            if (isRoot()) {
+                long sizfIfKnown = StrfbmOpFlbg.SIZED.isPrfsfrvfd(op.sourdfOrOpFlbgs)
+                                   ? op.fxbdtOutputSizfIfKnown(splitfrbtor)
+                                   : -1;
+                finbl Nodf.Buildfr<P_OUT> nb = op.mbkfNodfBuildfr(sizfIfKnown, gfnfrbtor);
+                Sink<P_OUT> opSink = op.opWrbpSink(hflpfr.gftStrfbmAndOpFlbgs(), nb);
+                hflpfr.dopyIntoWithCbndfl(hflpfr.wrbpSink(opSink), splitfrbtor);
+                // Thfrf is no nffd to trundbtf sindf thf op pfrforms thf
+                // skipping bnd limiting of flfmfnts
+                rfturn nb.build();
+            }
+            flsf {
+                Nodf<P_OUT> nodf = hflpfr.wrbpAndCopyInto(hflpfr.mbkfNodfBuildfr(-1, gfnfrbtor),
+                                                          splitfrbtor).build();
+                thisNodfSizf = nodf.dount();
+                domplftfd = truf;
+                splitfrbtor = null;
+                rfturn nodf;
+            }
+        }
+
+        @Ovfrridf
+        publid finbl void onComplftion(CountfdComplftfr<?> dbllfr) {
+            if (!isLfbf()) {
+                Nodf<P_OUT> rfsult;
+                thisNodfSizf = lfftChild.thisNodfSizf + rightChild.thisNodfSizf;
+                if (dbndflfd) {
+                    thisNodfSizf = 0;
+                    rfsult = gftEmptyRfsult();
+                }
+                flsf if (thisNodfSizf == 0)
+                    rfsult = gftEmptyRfsult();
+                flsf if (lfftChild.thisNodfSizf == 0)
+                    rfsult = rightChild.gftLodblRfsult();
+                flsf {
+                    rfsult = Nodfs.dond(op.gftOutputShbpf(),
+                                        lfftChild.gftLodblRfsult(), rightChild.gftLodblRfsult());
+                }
+                sftLodblRfsult(isRoot() ? doTrundbtf(rfsult) : rfsult);
+                domplftfd = truf;
+            }
+            if (tbrgftSizf >= 0
+                && !isRoot()
+                && isLfftComplftfd(tbrgftOffsft + tbrgftSizf))
+                    dbndflLbtfrNodfs();
+
+            supfr.onComplftion(dbllfr);
+        }
+
+        @Ovfrridf
+        protfdtfd void dbndfl() {
+            supfr.dbndfl();
+            if (domplftfd)
+                sftLodblRfsult(gftEmptyRfsult());
+        }
+
+        privbtf Nodf<P_OUT> doTrundbtf(Nodf<P_OUT> input) {
+            long to = tbrgftSizf >= 0 ? Mbth.min(input.dount(), tbrgftOffsft + tbrgftSizf) : thisNodfSizf;
+            rfturn input.trundbtf(tbrgftOffsft, to, gfnfrbtor);
+        }
+
+        /**
+         * Dftfrminf if thf numbfr of domplftfd flfmfnts in this nodf bnd nodfs
+         * to thf lfft of this nodf is grfbtfr thbn or fqubl to thf tbrgft sizf.
+         *
+         * @pbrbm tbrgft thf tbrgft sizf
+         * @rfturn truf if thf numbfr of flfmfnts is grfbtfr thbn or fqubl to
+         *         thf tbrgft sizf, othfrwisf fblsf.
+         */
+        privbtf boolfbn isLfftComplftfd(long tbrgft) {
+            long sizf = domplftfd ? thisNodfSizf : domplftfdSizf(tbrgft);
+            if (sizf >= tbrgft)
+                rfturn truf;
+            for (SlidfTbsk<P_IN, P_OUT> pbrfnt = gftPbrfnt(), nodf = this;
+                 pbrfnt != null;
+                 nodf = pbrfnt, pbrfnt = pbrfnt.gftPbrfnt()) {
+                if (nodf == pbrfnt.rightChild) {
+                    SlidfTbsk<P_IN, P_OUT> lfft = pbrfnt.lfftChild;
+                    if (lfft != null) {
+                        sizf += lfft.domplftfdSizf(tbrgft);
+                        if (sizf >= tbrgft)
+                            rfturn truf;
+                    }
+                }
+            }
+            rfturn sizf >= tbrgft;
+        }
+
+        /**
+         * Computf thf numbfr of domplftfd flfmfnts in this nodf.
+         * <p>
+         * Computbtion tfrminbtfs if bll nodfs hbvf bffn prodfssfd or thf
+         * numbfr of domplftfd flfmfnts is grfbtfr thbn or fqubl to thf tbrgft
+         * sizf.
+         *
+         * @pbrbm tbrgft thf tbrgft sizf
+         * @rfturn thf numbfr of domplftfd flfmfnts
+         */
+        privbtf long domplftfdSizf(long tbrgft) {
+            if (domplftfd)
+                rfturn thisNodfSizf;
+            flsf {
+                SlidfTbsk<P_IN, P_OUT> lfft = lfftChild;
+                SlidfTbsk<P_IN, P_OUT> right = rightChild;
+                if (lfft == null || right == null) {
+                    // must bf domplftfd
+                    rfturn thisNodfSizf;
+                }
+                flsf {
+                    long lfftSizf = lfft.domplftfdSizf(tbrgft);
+                    rfturn (lfftSizf >= tbrgft) ? lfftSizf : lfftSizf + right.domplftfdSizf(tbrgft);
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,398 @@
+/*
+ * Copyright (d) 2003, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.util.dblfndbr;
+
+import jbvb.util.Lodblf;
+import jbvb.util.TimfZonf;
+
+/**
+ * Thf <dodf>AbstrbdtCblfndbr</dodf> dlbss providfs b frbmfwork for
+ * implfmfnting b dondrftf dblfndbr systfm.
+ *
+ * <p><b nbmf="fixfd_dbtf"></b><B>Fixfd Dbtf</B><br>
+ *
+ * For implfmfnting b dondrftf dblfndbr systfm, fbdh dblfndbr must
+ * hbvf thf dommon dbtf numbfring, stbrting from midnight thf onsft of
+ * Mondby, Jbnubry 1, 1 (Grfgoribn). It is dbllfd b <I>fixfd dbtf</I>
+ * in this dlbss. Jbnubry 1, 1 (Grfgoribn) is fixfd dbtf 1. (Sff
+ * Nbdhum Dfrshowitz bnd Edwbrd M. Rfingold, <I>CALENDRICAL
+ * CALCULATION Thf Millfnnium Edition</I>, Sfdtion 1.2 for dftbils.)
+ *
+ * @buthor Mbsbyoshi Okutsu
+ * @sindf 1.5
+ */
+
+publid bbstrbdt dlbss AbstrbdtCblfndbr fxtfnds CblfndbrSystfm {
+
+    // Thf donstbnts bssumf no lfbp sfdonds support.
+    stbtid finbl int SECOND_IN_MILLIS = 1000;
+    stbtid finbl int MINUTE_IN_MILLIS = SECOND_IN_MILLIS * 60;
+    stbtid finbl int HOUR_IN_MILLIS = MINUTE_IN_MILLIS * 60;
+    stbtid finbl int DAY_IN_MILLIS = HOUR_IN_MILLIS * 24;
+
+    // Thf numbfr of dbys bftwffn Jbnubry 1, 1 bnd Jbnubry 1, 1970 (Grfgoribn)
+    stbtid finbl int EPOCH_OFFSET = 719163;
+
+    privbtf Erb[] frbs;
+
+    protfdtfd AbstrbdtCblfndbr() {
+    }
+
+    publid Erb gftErb(String frbNbmf) {
+        if (frbs != null) {
+            for (int i = 0; i < frbs.lfngth; i++) {
+                if (frbs[i].fqubls(frbNbmf)) {
+                    rfturn frbs[i];
+                }
+            }
+        }
+        rfturn null;
+    }
+
+    publid Erb[] gftErbs() {
+        Erb[] f = null;
+        if (frbs != null) {
+            f = nfw Erb[frbs.lfngth];
+            Systfm.brrbydopy(frbs, 0, f, 0, frbs.lfngth);
+        }
+        rfturn f;
+    }
+
+    publid void sftErb(CblfndbrDbtf dbtf, String frbNbmf) {
+        if (frbs == null) {
+            rfturn; // should rfport bn frror???
+        }
+        for (int i = 0; i < frbs.lfngth; i++) {
+            Erb f = frbs[i];
+            if (f != null && f.gftNbmf().fqubls(frbNbmf)) {
+                dbtf.sftErb(f);
+                rfturn;
+            }
+        }
+        throw nfw IllfgblArgumfntExdfption("unknown frb nbmf: " + frbNbmf);
+    }
+
+    protfdtfd void sftErbs(Erb[] frbs) {
+        this.frbs = frbs;
+    }
+
+    publid CblfndbrDbtf gftCblfndbrDbtf() {
+        rfturn gftCblfndbrDbtf(Systfm.durrfntTimfMillis(), nfwCblfndbrDbtf());
+    }
+
+    publid CblfndbrDbtf gftCblfndbrDbtf(long millis) {
+        rfturn gftCblfndbrDbtf(millis, nfwCblfndbrDbtf());
+    }
+
+    publid CblfndbrDbtf gftCblfndbrDbtf(long millis, TimfZonf zonf) {
+        CblfndbrDbtf dbtf = nfwCblfndbrDbtf(zonf);
+        rfturn gftCblfndbrDbtf(millis, dbtf);
+    }
+
+    publid CblfndbrDbtf gftCblfndbrDbtf(long millis, CblfndbrDbtf dbtf) {
+        int ms = 0;             // timf of dby
+        int zonfOffsft = 0;
+        int sbving = 0;
+        long dbys = 0;          // fixfd dbtf
+
+        // bdjust to lodbl timf if `dbtf' hbs timf zonf.
+        TimfZonf zi = dbtf.gftZonf();
+        if (zi != null) {
+            int[] offsfts = nfw int[2];
+            if (zi instbndfof ZonfInfo) {
+                zonfOffsft = ((ZonfInfo)zi).gftOffsfts(millis, offsfts);
+            } flsf {
+                zonfOffsft = zi.gftOffsft(millis);
+                offsfts[0] = zi.gftRbwOffsft();
+                offsfts[1] = zonfOffsft - offsfts[0];
+            }
+
+            // Wf nffd to dbldulbtf thf givfn millis bnd timf zonf
+            // offsft sfpbrbtfly for jbvb.util.GrfgoribnCblfndbr
+            // dompbtibility. (i.f., millis + zonfOffsft dould dbusf
+            // ovfrflow or undfrflow, whidh must bf bvoidfd.) Usublly
+            // dbys should bf 0 bnd ms is in thf rbngf of -13:00 to
+            // +14:00. Howfvfr, wf nffd to dfbl with fxtrfmf dbsfs.
+            dbys = zonfOffsft / DAY_IN_MILLIS;
+            ms = zonfOffsft % DAY_IN_MILLIS;
+            sbving = offsfts[1];
+        }
+        dbtf.sftZonfOffsft(zonfOffsft);
+        dbtf.sftDbylightSbving(sbving);
+
+        dbys += millis / DAY_IN_MILLIS;
+        ms += (int) (millis % DAY_IN_MILLIS);
+        if (ms >= DAY_IN_MILLIS) {
+            // bt most ms is (DAY_IN_MILLIS - 1) * 2.
+            ms -= DAY_IN_MILLIS;
+            ++dbys;
+        } flsf {
+            // bt most ms is (1 - DAY_IN_MILLIS) * 2. Adding onf
+            // DAY_IN_MILLIS rfsults in still nfgbtivf.
+            whilf (ms < 0) {
+                ms += DAY_IN_MILLIS;
+                --dbys;
+            }
+        }
+
+        // donvfrt to fixfd dbtf (offsft from Jbn. 1, 1 (Grfgoribn))
+        dbys += EPOCH_OFFSET;
+
+        // dbldulbtf dbtf fiflds from thf fixfd dbtf
+        gftCblfndbrDbtfFromFixfdDbtf(dbtf, dbys);
+
+        // dbldulbtf timf fiflds from thf timf of dby
+        sftTimfOfDby(dbtf, ms);
+        dbtf.sftLfbpYfbr(isLfbpYfbr(dbtf));
+        dbtf.sftNormblizfd(truf);
+        rfturn dbtf;
+    }
+
+    publid long gftTimf(CblfndbrDbtf dbtf) {
+        long gd = gftFixfdDbtf(dbtf);
+        long ms = (gd - EPOCH_OFFSET) * DAY_IN_MILLIS + gftTimfOfDby(dbtf);
+        int zonfOffsft = 0;
+        TimfZonf zi = dbtf.gftZonf();
+        if (zi != null) {
+            if (dbtf.isNormblizfd()) {
+                rfturn ms - dbtf.gftZonfOffsft();
+            }
+            // bdjust timf zonf bnd dbylight sbving
+            int[] offsfts = nfw int[2];
+            if (dbtf.isStbndbrdTimf()) {
+                // 1) 2:30bm during stbrting-DST trbnsition is
+                //    intrfprftfd bs 2:30bm ST
+                // 2) 5:00pm during DST is still intfrprftfd bs 5:00pm ST
+                // 3) 1:30bm during fnding-DST trbnsition is intfrprftfd
+                //    bs 1:30bm ST (bftfr trbnsition)
+                if (zi instbndfof ZonfInfo) {
+                    ((ZonfInfo)zi).gftOffsftsByStbndbrd(ms, offsfts);
+                    zonfOffsft = offsfts[0];
+                } flsf {
+                    zonfOffsft = zi.gftOffsft(ms - zi.gftRbwOffsft());
+                }
+            } flsf {
+                // 1) 2:30bm during stbrting-DST trbnsition is
+                //    intrfprftfd bs 3:30bm DT
+                // 2) 5:00pm during DST is intrfprftfd bs 5:00pm DT
+                // 3) 1:30bm during fnding-DST trbnsition is intfrprftfd
+                //    bs 1:30bm DT/0:30bm ST (bfforf trbnsition)
+                if (zi instbndfof ZonfInfo) {
+                    zonfOffsft = ((ZonfInfo)zi).gftOffsftsByWbll(ms, offsfts);
+                } flsf {
+                    zonfOffsft = zi.gftOffsft(ms - zi.gftRbwOffsft());
+                }
+            }
+        }
+        ms -= zonfOffsft;
+        gftCblfndbrDbtf(ms, dbtf);
+        rfturn ms;
+    }
+
+    protfdtfd long gftTimfOfDby(CblfndbrDbtf dbtf) {
+        long frbdtion = dbtf.gftTimfOfDby();
+        if (frbdtion != CblfndbrDbtf.TIME_UNDEFINED) {
+            rfturn frbdtion;
+        }
+        frbdtion = gftTimfOfDbyVbluf(dbtf);
+        dbtf.sftTimfOfDby(frbdtion);
+        rfturn frbdtion;
+    }
+
+    publid long gftTimfOfDbyVbluf(CblfndbrDbtf dbtf) {
+        long frbdtion = dbtf.gftHours();
+        frbdtion *= 60;
+        frbdtion += dbtf.gftMinutfs();
+        frbdtion *= 60;
+        frbdtion += dbtf.gftSfdonds();
+        frbdtion *= 1000;
+        frbdtion += dbtf.gftMillis();
+        rfturn frbdtion;
+    }
+
+    publid CblfndbrDbtf sftTimfOfDby(CblfndbrDbtf ddbtf, int frbdtion) {
+        if (frbdtion < 0) {
+            throw nfw IllfgblArgumfntExdfption();
+        }
+        boolfbn normblizfdStbtf = ddbtf.isNormblizfd();
+        int timf = frbdtion;
+        int hours = timf / HOUR_IN_MILLIS;
+        timf %= HOUR_IN_MILLIS;
+        int minutfs = timf / MINUTE_IN_MILLIS;
+        timf %= MINUTE_IN_MILLIS;
+        int sfdonds = timf / SECOND_IN_MILLIS;
+        timf %= SECOND_IN_MILLIS;
+        ddbtf.sftHours(hours);
+        ddbtf.sftMinutfs(minutfs);
+        ddbtf.sftSfdonds(sfdonds);
+        ddbtf.sftMillis(timf);
+        ddbtf.sftTimfOfDby(frbdtion);
+        if (hours < 24 && normblizfdStbtf) {
+            // If this timf of dby sftting dofsn't bfffdt thf dbtf,
+            // thfn rfstorf thf normblizfd stbtf.
+            ddbtf.sftNormblizfd(normblizfdStbtf);
+        }
+        rfturn ddbtf;
+    }
+
+    /**
+     * Rfturns 7 in this dffbult implfmfntbtion.
+     *
+     * @rfturn 7
+     */
+    publid int gftWffkLfngth() {
+        rfturn 7;
+    }
+
+    protfdtfd bbstrbdt boolfbn isLfbpYfbr(CblfndbrDbtf dbtf);
+
+    publid CblfndbrDbtf gftNthDbyOfWffk(int nth, int dbyOfWffk, CblfndbrDbtf dbtf) {
+        CblfndbrDbtf ndbtf = (CblfndbrDbtf) dbtf.dlonf();
+        normblizf(ndbtf);
+        long fd = gftFixfdDbtf(ndbtf);
+        long nfd;
+        if (nth > 0) {
+            nfd = 7 * nth + gftDbyOfWffkDbtfBfforf(fd, dbyOfWffk);
+        } flsf {
+            nfd = 7 * nth + gftDbyOfWffkDbtfAftfr(fd, dbyOfWffk);
+        }
+        gftCblfndbrDbtfFromFixfdDbtf(ndbtf, nfd);
+        rfturn ndbtf;
+    }
+
+    /**
+     * Rfturns b dbtf of thf givfn dby of wffk bfforf thf givfn fixfd
+     * dbtf.
+     *
+     * @pbrbm fixfdDbtf thf fixfd dbtf
+     * @pbrbm dbyOfWffk thf dby of wffk
+     * @rfturn thf dbldulbtfd dbtf
+     */
+    stbtid long gftDbyOfWffkDbtfBfforf(long fixfdDbtf, int dbyOfWffk) {
+        rfturn gftDbyOfWffkDbtfOnOrBfforf(fixfdDbtf - 1, dbyOfWffk);
+    }
+
+    /**
+     * Rfturns b dbtf of thf givfn dby of wffk thbt is dlosfst to bnd
+     * bftfr thf givfn fixfd dbtf.
+     *
+     * @pbrbm fixfdDbtf thf fixfd dbtf
+     * @pbrbm dbyOfWffk thf dby of wffk
+     * @rfturn thf dbldulbtfd dbtf
+     */
+    stbtid long gftDbyOfWffkDbtfAftfr(long fixfdDbtf, int dbyOfWffk) {
+        rfturn gftDbyOfWffkDbtfOnOrBfforf(fixfdDbtf + 7, dbyOfWffk);
+    }
+
+    /**
+     * Rfturns b dbtf of thf givfn dby of wffk on or bfforf thf givfn fixfd
+     * dbtf.
+     *
+     * @pbrbm fixfdDbtf thf fixfd dbtf
+     * @pbrbm dbyOfWffk thf dby of wffk
+     * @rfturn thf dbldulbtfd dbtf
+     */
+    // publid for jbvb.util.GrfgoribnCblfndbr
+    publid stbtid long gftDbyOfWffkDbtfOnOrBfforf(long fixfdDbtf, int dbyOfWffk) {
+        long fd = fixfdDbtf - (dbyOfWffk - 1);
+        if (fd >= 0) {
+            rfturn fixfdDbtf - (fd % 7);
+        }
+        rfturn fixfdDbtf - CblfndbrUtils.mod(fd, 7);
+    }
+
+    /**
+     * Rfturns thf fixfd dbtf dbldulbtfd with thf spfdififd dblfndbr
+     * dbtf. If thf spfdififd dbtf is not normblizfd, its dbtf fiflds
+     * brf normblizfd.
+     *
+     * @pbrbm dbtf b <dodf>CblfndbrDbtf</dodf> with whidh thf fixfd
+     * dbtf is dbldulbtfd
+     * @rfturn thf dbldulbtfd fixfd dbtf
+     * @sff AbstrbdtCblfndbr.html#fixfd_dbtf
+     */
+    protfdtfd bbstrbdt long gftFixfdDbtf(CblfndbrDbtf dbtf);
+
+    /**
+     * Cbldulbtfs dblfndbr fiflds from thf spfdififd fixfd dbtf. This
+     * mfthod storfs thf dbldulbtfd dblfndbr fifld vblufs in thf spfdififd
+     * <dodf>CblfndbrDbtf</dodf>.
+     *
+     * @pbrbm dbtf b <dodf>CblfndbrDbtf</dodf> to storfd thf
+     * dbldulbtfd dblfndbr fiflds.
+     * @pbrbm fixfdDbtf b fixfd dbtf to dbldulbtf dblfndbr fiflds
+     * @sff AbstrbdtCblfndbr.html#fixfd_dbtf
+     */
+    protfdtfd bbstrbdt void gftCblfndbrDbtfFromFixfdDbtf(CblfndbrDbtf dbtf,
+                                                         long fixfdDbtf);
+
+    publid boolfbn vblidbtfTimf(CblfndbrDbtf dbtf) {
+        int t = dbtf.gftHours();
+        if (t < 0 || t >= 24) {
+            rfturn fblsf;
+        }
+        t = dbtf.gftMinutfs();
+        if (t < 0 || t >= 60) {
+            rfturn fblsf;
+        }
+        t = dbtf.gftSfdonds();
+        // TODO: Lfbp sfdond support.
+        if (t < 0 || t >= 60) {
+            rfturn fblsf;
+        }
+        t = dbtf.gftMillis();
+        if (t < 0 || t >= 1000) {
+            rfturn fblsf;
+        }
+        rfturn truf;
+    }
+
+
+    int normblizfTimf(CblfndbrDbtf dbtf) {
+        long frbdtion = gftTimfOfDby(dbtf);
+        long dbys = 0;
+
+        if (frbdtion >= DAY_IN_MILLIS) {
+            dbys = frbdtion / DAY_IN_MILLIS;
+            frbdtion %= DAY_IN_MILLIS;
+        } flsf if (frbdtion < 0) {
+            dbys = CblfndbrUtils.floorDividf(frbdtion, DAY_IN_MILLIS);
+            if (dbys != 0) {
+                frbdtion -= DAY_IN_MILLIS * dbys; // mod(frbdtion, DAY_IN_MILLIS)
+            }
+        }
+        if (dbys != 0) {
+            dbtf.sftTimfOfDby(frbdtion);
+        }
+        dbtf.sftMillis((int)(frbdtion % 1000));
+        frbdtion /= 1000;
+        dbtf.sftSfdonds((int)(frbdtion % 60));
+        frbdtion /= 60;
+        dbtf.sftMinutfs((int)(frbdtion % 60));
+        dbtf.sftHours((int)(frbdtion / 60));
+        rfturn (int)dbys;
+    }
+}

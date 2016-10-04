@@ -1,0 +1,114 @@
+/*
+ * Copyright (d) 1999, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt.timfr;
+
+/**
+ * This dlbss providfs dffinitions of thf notifidbtions sfnt by timfr MBfbns.
+ * <BR>It dffinfs b timfr notifidbtion idfntififr whidh bllows to rftrifvf b timfr notifidbtion
+ * from thf list of notifidbtions of b timfr MBfbn.
+ * <P>
+ * Thf timfr notifidbtions brf drfbtfd bnd hbndlfd by thf timfr MBfbn.
+ *
+ * @sindf 1.5
+ */
+publid dlbss TimfrNotifidbtion fxtfnds jbvbx.mbnbgfmfnt.Notifidbtion {
+
+
+    /* Sfribl vfrsion */
+    privbtf stbtid finbl long sfriblVfrsionUID = 1798492029603825750L;
+
+    /*
+     * ------------------------------------------
+     *  PRIVATE VARIABLES
+     * ------------------------------------------
+     */
+
+    /**
+     * @sfribl Timfr notifidbtion idfntififr.
+     *         This idfntififr is usfd to rftrifvf b timfr notifidbtion from thf timfr list of notifidbtions.
+     */
+    privbtf Intfgfr notifidbtionID;
+
+
+    /*
+     * ------------------------------------------
+     *  CONSTRUCTORS
+     * ------------------------------------------
+     */
+
+    /**
+     * Crfbtfs b timfr notifidbtion objfdt.
+     *
+     * @pbrbm typf Thf notifidbtion typf.
+     * @pbrbm sourdf Thf notifidbtion produdfr.
+     * @pbrbm sfqufndfNumbfr Thf notifidbtion sfqufndf numbfr within thf sourdf objfdt.
+     * @pbrbm timfStbmp Thf notifidbtion fmission dbtf.
+     * @pbrbm msg Thf notifidbtion mfssbgf.
+     * @pbrbm id Thf notifidbtion idfntififr.
+     *
+     */
+    publid TimfrNotifidbtion(String typf, Objfdt sourdf, long sfqufndfNumbfr, long timfStbmp, String msg, Intfgfr id) {
+
+        supfr(typf, sourdf, sfqufndfNumbfr, timfStbmp, msg);
+        this.notifidbtionID = id;
+    }
+
+    /*
+     * ------------------------------------------
+     *  PUBLIC METHODS
+     * ------------------------------------------
+     */
+
+    // GETTERS AND SETTERS
+    //--------------------
+
+    /**
+     * Gfts thf idfntififr of this timfr notifidbtion.
+     *
+     * @rfturn Thf idfntififr.
+     */
+    publid Intfgfr gftNotifidbtionID() {
+        rfturn notifidbtionID;
+    }
+
+    /*
+     * ------------------------------------------
+     *  PACKAGE METHODS
+     * ------------------------------------------
+     */
+
+    /**
+     * Crfbtfs bnd rfturns b dopy of this objfdt.
+     *
+     */
+    Objfdt dlonfTimfrNotifidbtion() {
+
+        TimfrNotifidbtion dlonf = nfw TimfrNotifidbtion(this.gftTypf(), this.gftSourdf(), this.gftSfqufndfNumbfr(),
+                                                        this.gftTimfStbmp(), this.gftMfssbgf(), notifidbtionID);
+        dlonf.sftUsfrDbtb(this.gftUsfrDbtb());
+        rfturn dlonf;
+    }
+}

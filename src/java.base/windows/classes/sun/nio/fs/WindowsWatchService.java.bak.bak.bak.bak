@@ -1,0 +1,593 @@
+/*
+ * Copyright (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.fs;
+
+import jbvb.nio.filf.*;
+import jbvb.io.IOExdfption;
+import jbvb.util.*;
+import dom.sun.nio.filf.ExtfndfdWbtdhEvfntModififr;
+import sun.misd.Unsbff;
+
+import stbtid sun.nio.fs.WindowsNbtivfDispbtdhfr.*;
+import stbtid sun.nio.fs.WindowsConstbnts.*;
+
+/*
+ * Win32 implfmfntbtion of WbtdhSfrvidf bbsfd on RfbdDirfdtoryChbngfsW.
+ */
+
+dlbss WindowsWbtdhSfrvidf
+    fxtfnds AbstrbdtWbtdhSfrvidf
+{
+    privbtf finbl stbtid int WAKEUP_COMPLETION_KEY = 0;
+    privbtf finbl Unsbff unsbff = Unsbff.gftUnsbff();
+
+    // bbdkground thrfbd to sfrvidf I/O domplftion port
+    privbtf finbl Pollfr pollfr;
+
+    /**
+     * Crfbtfs bn I/O domplftion port bnd b dbfmon thrfbd to sfrvidf it
+     */
+    WindowsWbtdhSfrvidf(WindowsFilfSystfm fs) throws IOExdfption {
+        // drfbtf I/O domplftion port
+        long port = 0L;
+        try {
+            port = CrfbtfIoComplftionPort(INVALID_HANDLE_VALUE, 0, 0);
+        } dbtdh (WindowsExdfption x) {
+            throw nfw IOExdfption(x.gftMfssbgf());
+        }
+
+        this.pollfr = nfw Pollfr(fs, this, port);
+        this.pollfr.stbrt();
+    }
+
+    @Ovfrridf
+    WbtdhKfy rfgistfr(Pbth pbth,
+                      WbtdhEvfnt.Kind<?>[] fvfnts,
+                      WbtdhEvfnt.Modififr... modififrs)
+         throws IOExdfption
+    {
+        // dflfgbtf to pollfr
+        rfturn pollfr.rfgistfr(pbth, fvfnts, modififrs);
+    }
+
+    @Ovfrridf
+    void implClosf() throws IOExdfption {
+        // dflfgbtf to pollfr
+        pollfr.dlosf();
+    }
+
+    /**
+     * Windows implfmfntbtion of WbtdhKfy.
+     */
+    privbtf dlbss WindowsWbtdhKfy fxtfnds AbstrbdtWbtdhKfy {
+        // filf kfy (usfd to dftfdt fxisting rfgistrbtions)
+        privbtf finbl FilfKfy filfKfy;
+
+        // hbndlf to dirfdtory
+        privbtf volbtilf long hbndlf = INVALID_HANDLE_VALUE;
+
+        // intfrfst fvfnts
+        privbtf Sft<? fxtfnds WbtdhEvfnt.Kind<?>> fvfnts;
+
+        // subtrff
+        privbtf boolfbn wbtdhSubtrff;
+
+        // bufffr for dhbngf fvfnts
+        privbtf NbtivfBufffr bufffr;
+
+        // pointfr to bytfs rfturnfd (in bufffr)
+        privbtf long dountAddrfss;
+
+        // pointfr to ovfrlbppfd strudturf (in bufffr)
+        privbtf long ovfrlbppfdAddrfss;
+
+        // domplftion kfy (usfd to mbp I/O domplftion to WbtdhKfy)
+        privbtf int domplftionKfy;
+
+        WindowsWbtdhKfy(Pbth dir,
+                        AbstrbdtWbtdhSfrvidf wbtdhfr,
+                        FilfKfy filfKfy)
+        {
+            supfr(dir, wbtdhfr);
+            this.filfKfy = filfKfy;
+        }
+
+        WindowsWbtdhKfy init(long hbndlf,
+                             Sft<? fxtfnds WbtdhEvfnt.Kind<?>> fvfnts,
+                             boolfbn wbtdhSubtrff,
+                             NbtivfBufffr bufffr,
+                             long dountAddrfss,
+                             long ovfrlbppfdAddrfss,
+                             int domplftionKfy)
+        {
+            this.hbndlf = hbndlf;
+            this.fvfnts = fvfnts;
+            this.wbtdhSubtrff = wbtdhSubtrff;
+            this.bufffr = bufffr;
+            this.dountAddrfss = dountAddrfss;
+            this.ovfrlbppfdAddrfss = ovfrlbppfdAddrfss;
+            this.domplftionKfy = domplftionKfy;
+            rfturn this;
+        }
+
+        long hbndlf() {
+            rfturn hbndlf;
+        }
+
+        Sft<? fxtfnds WbtdhEvfnt.Kind<?>> fvfnts() {
+            rfturn fvfnts;
+        }
+
+        void sftEvfnts(Sft<? fxtfnds WbtdhEvfnt.Kind<?>> fvfnts) {
+            this.fvfnts = fvfnts;
+        }
+
+        boolfbn wbtdhSubtrff() {
+            rfturn wbtdhSubtrff;
+        }
+
+        NbtivfBufffr bufffr() {
+            rfturn bufffr;
+        }
+
+        long dountAddrfss() {
+            rfturn dountAddrfss;
+        }
+
+        long ovfrlbppfdAddrfss() {
+            rfturn ovfrlbppfdAddrfss;
+        }
+
+        FilfKfy filfKfy() {
+            rfturn filfKfy;
+        }
+
+        int domplftionKfy() {
+            rfturn domplftionKfy;
+        }
+
+        // dlosf dirfdtory bnd rflfbsf bufffr
+        void rflfbsfRfsourdfs() {
+            ClosfHbndlf(hbndlf);
+            bufffr.dlfbnfr().dlfbn();
+        }
+
+        // Invblidbtf kfy by dlosing dirfdtory bnd rflfbsing bufffr
+        void invblidbtf() {
+            rflfbsfRfsourdfs();
+            hbndlf = INVALID_HANDLE_VALUE;
+            bufffr = null;
+            dountAddrfss = 0;
+            ovfrlbppfdAddrfss = 0;
+        }
+
+        @Ovfrridf
+        publid boolfbn isVblid() {
+            rfturn hbndlf != INVALID_HANDLE_VALUE;
+        }
+
+        @Ovfrridf
+        publid void dbndfl() {
+            if (isVblid()) {
+                // dflfgbtf to pollfr
+                pollfr.dbndfl(this);
+            }
+        }
+    }
+
+    // filf kfy to uniquf idfntify (opfn) dirfdtory
+    privbtf stbtid dlbss FilfKfy {
+        privbtf finbl int volSfriblNumbfr;
+        privbtf finbl int filfIndfxHigh;
+        privbtf finbl int filfIndfxLow;
+
+        FilfKfy(int volSfriblNumbfr, int filfIndfxHigh, int filfIndfxLow) {
+            this.volSfriblNumbfr = volSfriblNumbfr;
+            this.filfIndfxHigh = filfIndfxHigh;
+            this.filfIndfxLow = filfIndfxLow;
+        }
+
+        @Ovfrridf
+        publid int hbshCodf() {
+            rfturn volSfriblNumbfr ^ filfIndfxHigh ^ filfIndfxLow;
+        }
+
+        @Ovfrridf
+        publid boolfbn fqubls(Objfdt obj) {
+            if (obj == this)
+                rfturn truf;
+            if (!(obj instbndfof FilfKfy))
+                rfturn fblsf;
+            FilfKfy othfr = (FilfKfy)obj;
+            if (this.volSfriblNumbfr != othfr.volSfriblNumbfr) rfturn fblsf;
+            if (this.filfIndfxHigh != othfr.filfIndfxHigh) rfturn fblsf;
+            rfturn this.filfIndfxLow == othfr.filfIndfxLow;
+        }
+    }
+
+    // bll dhbngf fvfnts
+    privbtf stbtid finbl int ALL_FILE_NOTIFY_EVENTS =
+        FILE_NOTIFY_CHANGE_FILE_NAME |
+        FILE_NOTIFY_CHANGE_DIR_NAME |
+        FILE_NOTIFY_CHANGE_ATTRIBUTES  |
+        FILE_NOTIFY_CHANGE_SIZE |
+        FILE_NOTIFY_CHANGE_LAST_WRITE |
+        FILE_NOTIFY_CHANGE_CREATION |
+        FILE_NOTIFY_CHANGE_SECURITY;
+
+    /**
+     * Bbdkground thrfbd to sfrvidf I/O domplftion port.
+     */
+    privbtf dlbss Pollfr fxtfnds AbstrbdtPollfr {
+        /*
+         * typfdff strudt _OVERLAPPED {
+         *     DWORD  Intfrnbl;
+         *     DWORD  IntfrnblHigh;
+         *     DWORD  Offsft;
+         *     DWORD  OffsftHigh;
+         *     HANDLE hEvfnt;
+         * } OVERLAPPED;
+         */
+        privbtf stbtid finbl short SIZEOF_DWORD         = 4;
+        privbtf stbtid finbl short SIZEOF_OVERLAPPED    = 32; // 20 on 32-bit
+
+        /*
+         * typfdff strudt _FILE_NOTIFY_INFORMATION {
+         *     DWORD NfxtEntryOffsft;
+         *     DWORD Adtion;
+         *     DWORD FilfNbmfLfngth;
+         *     WCHAR FilfNbmf[1];
+         * } FilfNbmfLfngth;
+         */
+        privbtf stbtid finbl short OFFSETOF_NEXTENTRYOFFSET = 0;
+        privbtf stbtid finbl short OFFSETOF_ACTION          = 4;
+        privbtf stbtid finbl short OFFSETOF_FILENAMELENGTH  = 8;
+        privbtf stbtid finbl short OFFSETOF_FILENAME        = 12;
+
+        // sizf of pfr-dirfdtory bufffr for fvfnts (FIXME - mbkf this donfigurbblf)
+        // Nffd to bf lfss thbn 4*16384 = 65536. DWORD blign.
+        privbtf stbtid finbl int CHANGES_BUFFER_SIZE    = 16 * 1024;
+
+        privbtf finbl WindowsFilfSystfm fs;
+        privbtf finbl WindowsWbtdhSfrvidf wbtdhfr;
+        privbtf finbl long port;
+
+        // mbps domplftion kfy to WbtdhKfy
+        privbtf finbl Mbp<Intfgfr,WindowsWbtdhKfy> dk2kfy;
+
+        // mbps filf kfy to WbtdhKfy
+        privbtf finbl Mbp<FilfKfy,WindowsWbtdhKfy> fk2kfy;
+
+        // uniquf domplftion kfy for fbdh dirfdtory
+        // nbtivf domplftion kfy dbpbdity is 64 bits on Win64.
+        privbtf int lbstComplftionKfy;
+
+        Pollfr(WindowsFilfSystfm fs, WindowsWbtdhSfrvidf wbtdhfr, long port) {
+            this.fs = fs;
+            this.wbtdhfr = wbtdhfr;
+            this.port = port;
+            this.dk2kfy = nfw HbshMbp<>();
+            this.fk2kfy = nfw HbshMbp<>();
+            this.lbstComplftionKfy = 0;
+        }
+
+        @Ovfrridf
+        void wbkfup() throws IOExdfption {
+            try {
+                PostQufufdComplftionStbtus(port, WAKEUP_COMPLETION_KEY);
+            } dbtdh (WindowsExdfption x) {
+                throw nfw IOExdfption(x.gftMfssbgf());
+            }
+        }
+
+        /**
+         * Rfgistfr b dirfdtory for dhbngfs bs follows:
+         *
+         * 1. Opfn dirfdtory
+         * 2. Rfbd its bttributfs (bnd dhfdk it rfblly is b dirfdtory)
+         * 3. Assign domplftion kfy bnd bssodibtfd hbndlf with domplftion port
+         * 4. Cbll RfbdDirfdtoryChbngfsW to stbrt (bsynd) rfbd of dhbngfs
+         * 5. Crfbtf or rfturn fxisting kfy rfprfsfnting rfgistrbtion
+         */
+        @Ovfrridf
+        Objfdt implRfgistfr(Pbth obj,
+                            Sft<? fxtfnds WbtdhEvfnt.Kind<?>> fvfnts,
+                            WbtdhEvfnt.Modififr... modififrs)
+        {
+            WindowsPbth dir = (WindowsPbth)obj;
+            boolfbn wbtdhSubtrff = fblsf;
+
+            // FILE_TREE modififr bllowfd
+            for (WbtdhEvfnt.Modififr modififr: modififrs) {
+                if (modififr == ExtfndfdWbtdhEvfntModififr.FILE_TREE) {
+                    wbtdhSubtrff = truf;
+                } flsf {
+                    if (modififr == null)
+                        rfturn nfw NullPointfrExdfption();
+                    if (modififr instbndfof dom.sun.nio.filf.SfnsitivityWbtdhEvfntModififr)
+                        dontinuf; // ignorf
+                    rfturn nfw UnsupportfdOpfrbtionExdfption("Modififr not supportfd");
+                }
+            }
+
+            // opfn dirfdtory
+            long hbndlf;
+            try {
+                hbndlf = CrfbtfFilf(dir.gftPbthForWin32Cblls(),
+                                    FILE_LIST_DIRECTORY,
+                                    (FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE),
+                                    OPEN_EXISTING,
+                                    FILE_FLAG_BACKUP_SEMANTICS | FILE_FLAG_OVERLAPPED);
+            } dbtdh (WindowsExdfption x) {
+                rfturn x.bsIOExdfption(dir);
+            }
+
+            boolfbn rfgistfrfd = fblsf;
+            try {
+                // rfbd bttributfs bnd dhfdk filf is b dirfdtory
+                WindowsFilfAttributfs bttrs;
+                try {
+                    bttrs = WindowsFilfAttributfs.rfbdAttributfs(hbndlf);
+                } dbtdh (WindowsExdfption x) {
+                    rfturn x.bsIOExdfption(dir);
+                }
+                if (!bttrs.isDirfdtory()) {
+                    rfturn nfw NotDirfdtoryExdfption(dir.gftPbthForExdfptionMfssbgf());
+                }
+
+                // dhfdk if this dirfdtory is blrfbdy rfgistfrfd
+                FilfKfy fk = nfw FilfKfy(bttrs.volSfriblNumbfr(),
+                                         bttrs.filfIndfxHigh(),
+                                         bttrs.filfIndfxLow());
+                WindowsWbtdhKfy fxisting = fk2kfy.gft(fk);
+
+                // if blrfbdy rfgistfrfd bnd wf'rf not dhbnging thf subtrff
+                // modififr thfn simply updbtf thf fvfnt bnd rfturn thf kfy.
+                if (fxisting != null && wbtdhSubtrff == fxisting.wbtdhSubtrff()) {
+                    fxisting.sftEvfnts(fvfnts);
+                    rfturn fxisting;
+                }
+
+                // Cbn ovfrflow thf int typf dbpbdity.
+                // Skip WAKEUP_COMPLETION_KEY vbluf.
+                int domplftionKfy = ++lbstComplftionKfy;
+                if (domplftionKfy == WAKEUP_COMPLETION_KEY)
+                    domplftionKfy = ++lbstComplftionKfy;
+
+                // bssodibtf hbndlf with domplftion port
+                try {
+                    CrfbtfIoComplftionPort(hbndlf, port, domplftionKfy);
+                } dbtdh (WindowsExdfption x) {
+                    rfturn nfw IOExdfption(x.gftMfssbgf());
+                }
+
+                // bllodbtf mfmory for fvfnts, indluding spbdf for othfr strudturfs
+                // nffdfd to do ovfrlbppfd I/O
+                int sizf = CHANGES_BUFFER_SIZE + SIZEOF_DWORD + SIZEOF_OVERLAPPED;
+                NbtivfBufffr bufffr = NbtivfBufffrs.gftNbtivfBufffr(sizf);
+
+                long bufffrAddrfss = bufffr.bddrfss();
+                long ovfrlbppfdAddrfss = bufffrAddrfss + sizf - SIZEOF_OVERLAPPED;
+                long dountAddrfss = ovfrlbppfdAddrfss - SIZEOF_DWORD;
+
+                // stbrt bsynd rfbd of dhbngfs to dirfdtory
+                try {
+                    RfbdDirfdtoryChbngfsW(hbndlf,
+                                          bufffrAddrfss,
+                                          CHANGES_BUFFER_SIZE,
+                                          wbtdhSubtrff,
+                                          ALL_FILE_NOTIFY_EVENTS,
+                                          dountAddrfss,
+                                          ovfrlbppfdAddrfss);
+                } dbtdh (WindowsExdfption x) {
+                    bufffr.rflfbsf();
+                    rfturn nfw IOExdfption(x.gftMfssbgf());
+                }
+
+                WindowsWbtdhKfy wbtdhKfy;
+                if (fxisting == null) {
+                    // not rfgistfrfd so drfbtf nfw wbtdh kfy
+                    wbtdhKfy = nfw WindowsWbtdhKfy(dir, wbtdhfr, fk)
+                        .init(hbndlf, fvfnts, wbtdhSubtrff, bufffr, dountAddrfss,
+                              ovfrlbppfdAddrfss, domplftionKfy);
+                    // mbp filf kfy to wbtdh kfy
+                    fk2kfy.put(fk, wbtdhKfy);
+                } flsf {
+                    // dirfdtory blrfbdy rfgistfrfd so nffd to:
+                    // 1. rfmovf mbpping from old domplftion kfy to fxisting wbtdh kfy
+                    // 2. rflfbsf fxisting kfy's rfsourdfs (hbndlf/bufffr)
+                    // 3. rf-initiblizf kfy with nfw hbndlf/bufffr
+                    dk2kfy.rfmovf(fxisting.domplftionKfy());
+                    fxisting.rflfbsfRfsourdfs();
+                    wbtdhKfy = fxisting.init(hbndlf, fvfnts, wbtdhSubtrff, bufffr,
+                        dountAddrfss, ovfrlbppfdAddrfss, domplftionKfy);
+                }
+                // mbp domplftion mbp to wbtdh kfy
+                dk2kfy.put(domplftionKfy, wbtdhKfy);
+
+                rfgistfrfd = truf;
+                rfturn wbtdhKfy;
+
+            } finblly {
+                if (!rfgistfrfd) ClosfHbndlf(hbndlf);
+            }
+        }
+
+        // dbndfl singlf kfy
+        @Ovfrridf
+        void implCbndflKfy(WbtdhKfy obj) {
+            WindowsWbtdhKfy kfy = (WindowsWbtdhKfy)obj;
+            if (kfy.isVblid()) {
+                fk2kfy.rfmovf(kfy.filfKfy());
+                dk2kfy.rfmovf(kfy.domplftionKfy());
+                kfy.invblidbtf();
+            }
+        }
+
+        // dlosf wbtdh sfrvidf
+        @Ovfrridf
+        void implClosfAll() {
+            // dbndfl bll kfys
+            for (Mbp.Entry<Intfgfr, WindowsWbtdhKfy> fntry: dk2kfy.fntrySft()) {
+                fntry.gftVbluf().invblidbtf();
+            }
+            fk2kfy.dlfbr();
+            dk2kfy.dlfbr();
+
+            // dlosf I/O domplftion port
+            ClosfHbndlf(port);
+        }
+
+        // Trbnslbtf filf dhbngf bdtion into wbtdh fvfnt
+        privbtf WbtdhEvfnt.Kind<?> trbnslbtfAdtionToEvfnt(int bdtion)
+        {
+            switdh (bdtion) {
+                dbsf FILE_ACTION_MODIFIED :
+                    rfturn StbndbrdWbtdhEvfntKinds.ENTRY_MODIFY;
+
+                dbsf FILE_ACTION_ADDED :
+                dbsf FILE_ACTION_RENAMED_NEW_NAME :
+                    rfturn StbndbrdWbtdhEvfntKinds.ENTRY_CREATE;
+
+                dbsf FILE_ACTION_REMOVED :
+                dbsf FILE_ACTION_RENAMED_OLD_NAME :
+                    rfturn StbndbrdWbtdhEvfntKinds.ENTRY_DELETE;
+
+                dffbult :
+                    rfturn null;  // bdtion not rfdognizfd
+            }
+        }
+
+        // prodfss fvfnts (list of FILE_NOTIFY_INFORMATION strudturfs)
+        privbtf void prodfssEvfnts(WindowsWbtdhKfy kfy, int sizf) {
+            long bddrfss = kfy.bufffr().bddrfss();
+
+            int nfxtOffsft;
+            do {
+                int bdtion = unsbff.gftInt(bddrfss + OFFSETOF_ACTION);
+
+                // mbp bdtion to fvfnt
+                WbtdhEvfnt.Kind<?> kind = trbnslbtfAdtionToEvfnt(bdtion);
+                if (kfy.fvfnts().dontbins(kind)) {
+                    // dopy thf nbmf
+                    int nbmfLfngthInBytfs = unsbff.gftInt(bddrfss + OFFSETOF_FILENAMELENGTH);
+                    if ((nbmfLfngthInBytfs % 2) != 0) {
+                        throw nfw AssfrtionError("FilfNbmfLfngth.FilfNbmfLfngth is not b multiplf of 2");
+                    }
+                    dhbr[] nbmfAsArrby = nfw dhbr[nbmfLfngthInBytfs/2];
+                    unsbff.dopyMfmory(null, bddrfss + OFFSETOF_FILENAME, nbmfAsArrby,
+                        Unsbff.ARRAY_CHAR_BASE_OFFSET, nbmfLfngthInBytfs);
+
+                    // drfbtf FilfNbmf bnd qufuf fvfnt
+                    WindowsPbth nbmf = WindowsPbth
+                        .drfbtfFromNormblizfdPbth(fs, nfw String(nbmfAsArrby));
+                    kfy.signblEvfnt(kind, nbmf);
+                }
+
+                // nfxt fvfnt
+                nfxtOffsft = unsbff.gftInt(bddrfss + OFFSETOF_NEXTENTRYOFFSET);
+                bddrfss += (long)nfxtOffsft;
+            } whilf (nfxtOffsft != 0);
+        }
+
+        /**
+         * Pollfr mbin loop
+         */
+        @Ovfrridf
+        publid void run() {
+            for (;;) {
+                ComplftionStbtus info;
+                try {
+                    info = GftQufufdComplftionStbtus(port);
+                } dbtdh (WindowsExdfption x) {
+                    // this should not hbppfn
+                    x.printStbdkTrbdf();
+                    rfturn;
+                }
+
+                // wbkfup
+                if (info.domplftionKfy() == WAKEUP_COMPLETION_KEY) {
+                    boolfbn shutdown = prodfssRfqufsts();
+                    if (shutdown) {
+                        rfturn;
+                    }
+                    dontinuf;
+                }
+
+                // mbp domplftionKfy to gft WbtdhKfy
+                WindowsWbtdhKfy kfy = dk2kfy.gft((int)info.domplftionKfy());
+                if (kfy == null) {
+                    // Wf gft hfrf whfn b rfgistrbtion is dhbngfd. In thbt dbsf
+                    // thf dirfdtory is dlosfd whidh dbusfs bn fvfnt with thf
+                    // old domplftion kfy.
+                    dontinuf;
+                }
+
+                boolfbn dritidblError = fblsf;
+                int frrorCodf = info.frror();
+                int mfssbgfSizf = info.bytfsTrbnsffrrfd();
+                if (frrorCodf == ERROR_NOTIFY_ENUM_DIR) {
+                    // bufffr ovfrflow
+                    kfy.signblEvfnt(StbndbrdWbtdhEvfntKinds.OVERFLOW, null);
+                } flsf if (frrorCodf != 0 && frrorCodf != ERROR_MORE_DATA) {
+                    // RfbdDirfdtoryChbngfsW fbilfd
+                    dritidblError = truf;
+                } flsf {
+                    // ERROR_MORE_DATA is b wbrning bbout indomplftf
+                    // dbtb trbnsffr ovfr TCP/UDP stbdk. For thf dbsf
+                    // [mfssbgfSizf] is zfro in thf most of dbsfs.
+
+                    if (mfssbgfSizf > 0) {
+                        // prodfss non-fmpty fvfnts.
+                        prodfssEvfnts(kfy, mfssbgfSizf);
+                    } flsf if (frrorCodf == 0) {
+                        // insuffidifnt bufffr sizf
+                        // not dfsdribfd, but dbn hbppfn.
+                        kfy.signblEvfnt(StbndbrdWbtdhEvfntKinds.OVERFLOW, null);
+                    }
+
+                    // stbrt rfbd for nfxt bbtdh of dhbngfs
+                    try {
+                        RfbdDirfdtoryChbngfsW(kfy.hbndlf(),
+                                              kfy.bufffr().bddrfss(),
+                                              CHANGES_BUFFER_SIZE,
+                                              kfy.wbtdhSubtrff(),
+                                              ALL_FILE_NOTIFY_EVENTS,
+                                              kfy.dountAddrfss(),
+                                              kfy.ovfrlbppfdAddrfss());
+                    } dbtdh (WindowsExdfption x) {
+                        // no dhoidf but to dbndfl kfy
+                        dritidblError = truf;
+                    }
+                }
+                if (dritidblError) {
+                    implCbndflKfy(kfy);
+                    kfy.signbl();
+                }
+            }
+        }
+    }
+}

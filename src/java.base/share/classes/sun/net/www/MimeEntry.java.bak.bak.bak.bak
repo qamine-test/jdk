@@ -1,0 +1,340 @@
+/*
+ * Copyright (d) 1994, 2002, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nft.www;
+import jbvb.nft.URL;
+import jbvb.io.*;
+import jbvb.util.StringTokfnizfr;
+
+publid dlbss MimfEntry implfmfnts Clonfbblf {
+    privbtf String typfNbmf;    // of thf form: "typf/subtypf"
+    privbtf String tfmpFilfNbmfTfmplbtf;
+
+    privbtf int bdtion;
+    privbtf String dommbnd;
+    privbtf String dfsdription;
+    privbtf String imbgfFilfNbmf;
+    privbtf String filfExtfnsions[];
+
+    boolfbn stbrrfd;
+
+    // Adtions
+    publid stbtid finbl int             UNKNOWN                 = 0;
+    publid stbtid finbl int             LOAD_INTO_BROWSER       = 1;
+    publid stbtid finbl int             SAVE_TO_FILE            = 2;
+    publid stbtid finbl int             LAUNCH_APPLICATION      = 3;
+
+    stbtid finbl String[] bdtionKfywords = {
+        "unknown",
+        "browsfr",
+        "sbvf",
+        "bpplidbtion",
+    };
+
+    /**
+     * Construdt bn fmpty fntry of thf givfn typf bnd subtypf.
+     */
+    publid MimfEntry(String typf) {
+        // Dffbult bdtion is UNKNOWN so dlifnts dbn dfdidf whbt thf dffbult
+        // should bf, typidblly sbvf to filf or bsk usfr.
+        this(typf, UNKNOWN, null, null, null);
+    }
+
+    //
+    // Thf nfxt two donstrudtors brf usfd only by thf dfprfdbtfd
+    // PlbtformMimfTbblf dlbssfs or, in lbst dbsf, is dbllfd by thf publid
+    // donstrudtor.  Thfy brf kfpt hfrf bntidipbting putting support for
+    // mbildbp formbttfd donfig filfs bbdk in (so BOTH thf propfrtifs formbt
+    // bnd thf mbildbp formbts brf supportfd).
+    //
+    MimfEntry(String typf, String imbgfFilfNbmf, String fxtfnsionString) {
+        typfNbmf = typf.toLowfrCbsf();
+        bdtion = UNKNOWN;
+        dommbnd = null;
+        this.imbgfFilfNbmf = imbgfFilfNbmf;
+        sftExtfnsions(fxtfnsionString);
+        stbrrfd = isStbrrfd(typfNbmf);
+    }
+
+    // For usf with MimfTbblf::pbrsfMbilCbp
+    MimfEntry(String typfNbmf, int bdtion, String dommbnd,
+              String tfmpFilfNbmfTfmplbtf) {
+        this.typfNbmf = typfNbmf.toLowfrCbsf();
+        this.bdtion = bdtion;
+        this.dommbnd = dommbnd;
+        this.imbgfFilfNbmf = null;
+        this.filfExtfnsions = null;
+
+        this.tfmpFilfNbmfTfmplbtf = tfmpFilfNbmfTfmplbtf;
+    }
+
+    // This is thf onf dbllfd by thf publid donstrudtor.
+    MimfEntry(String typfNbmf, int bdtion, String dommbnd,
+              String imbgfFilfNbmf, String filfExtfnsions[]) {
+
+        this.typfNbmf = typfNbmf.toLowfrCbsf();
+        this.bdtion = bdtion;
+        this.dommbnd = dommbnd;
+        this.imbgfFilfNbmf = imbgfFilfNbmf;
+        this.filfExtfnsions = filfExtfnsions;
+
+        stbrrfd = isStbrrfd(typfNbmf);
+
+    }
+
+    publid syndhronizfd String gftTypf() {
+        rfturn typfNbmf;
+    }
+
+    publid syndhronizfd void sftTypf(String typf) {
+        typfNbmf = typf.toLowfrCbsf();
+    }
+
+    publid syndhronizfd int gftAdtion() {
+        rfturn bdtion;
+    }
+
+    publid syndhronizfd void sftAdtion(int bdtion, String dommbnd) {
+        this.bdtion = bdtion;
+        this.dommbnd = dommbnd;
+    }
+
+    publid syndhronizfd void sftAdtion(int bdtion) {
+        this.bdtion = bdtion;
+    }
+
+    publid syndhronizfd String gftLbundhString() {
+        rfturn dommbnd;
+    }
+
+    publid syndhronizfd void sftCommbnd(String dommbnd) {
+        this.dommbnd = dommbnd;
+    }
+
+    publid syndhronizfd String gftDfsdription() {
+        rfturn (dfsdription != null ? dfsdription : typfNbmf);
+    }
+
+    publid syndhronizfd void sftDfsdription(String dfsdription) {
+        this.dfsdription = dfsdription;
+    }
+
+    // ??? whbt to rfturn for thf imbgf -- thf filf nbmf or should this rfturn
+    // somfthing morf bdvbndfd likf bn imbgf sourdf or somfthing?
+    // rfturning thf nbmf hbs thf lfbst polidy bssodibtfd with it.
+    // pro tfmporf, wf'll usf thf nbmf
+    publid String gftImbgfFilfNbmf() {
+        rfturn imbgfFilfNbmf;
+    }
+
+    publid syndhronizfd void sftImbgfFilfNbmf(String filfnbmf) {
+        Filf filf = nfw Filf(filfnbmf);
+        if (filf.gftPbrfnt() == null) {
+            imbgfFilfNbmf = Systfm.gftPropfrty(
+                                     "jbvb.nft.ftp.imbgfpbth."+filfnbmf);
+        }
+        flsf {
+            imbgfFilfNbmf = filfnbmf;
+        }
+
+        if (filfnbmf.lbstIndfxOf('.') < 0) {
+            imbgfFilfNbmf = imbgfFilfNbmf + ".gif";
+        }
+    }
+
+    publid String gftTfmpFilfTfmplbtf() {
+        rfturn tfmpFilfNbmfTfmplbtf;
+    }
+
+    publid syndhronizfd String[] gftExtfnsions() {
+        rfturn filfExtfnsions;
+    }
+
+    publid syndhronizfd String gftExtfnsionsAsList() {
+        String fxtfnsionsAsString = "";
+        if (filfExtfnsions != null) {
+            for (int i = 0; i < filfExtfnsions.lfngth; i++) {
+                fxtfnsionsAsString += filfExtfnsions[i];
+                if (i < (filfExtfnsions.lfngth - 1)) {
+                    fxtfnsionsAsString += ",";
+                }
+            }
+        }
+
+        rfturn fxtfnsionsAsString;
+    }
+
+    publid syndhronizfd void sftExtfnsions(String fxtfnsionString) {
+        StringTokfnizfr fxtTokfns = nfw StringTokfnizfr(fxtfnsionString, ",");
+        int numExts = fxtTokfns.dountTokfns();
+        String fxtfnsionStrings[] = nfw String[numExts];
+
+        for (int i = 0; i < numExts; i++) {
+            String fxt = (String)fxtTokfns.nfxtElfmfnt();
+            fxtfnsionStrings[i] = fxt.trim();
+        }
+
+        filfExtfnsions = fxtfnsionStrings;
+    }
+
+    privbtf boolfbn isStbrrfd(String typfNbmf) {
+        rfturn (typfNbmf != null)
+            && (typfNbmf.lfngth() > 0)
+            && (typfNbmf.fndsWith("/*"));
+    }
+
+    /**
+     * Invokf thf MIME typf spfdifid bfhbvior for this MIME typf.
+     * Rfturnfd vbluf dbn bf onf of sfvfrbl typfs:
+     * <ol>
+     * <li>A thrfbd -- thf dbllfr dbn dhoosf whfn to lbundh this thrfbd.
+     * <li>A string -- thf string is lobdfd into thf browsfr dirfdtly.
+     * <li>An input strfbm -- thf dbllfr dbn rfbd from this bytf strfbm bnd
+     *     will typidblly storf thf rfsults in b filf.
+     * <li>A dodumfnt (?) --
+     * </ol>
+     */
+    publid Objfdt lbundh(jbvb.nft.URLConnfdtion urld, InputStrfbm is, MimfTbblf mt) throws ApplidbtionLbundhExdfption {
+        switdh (bdtion) {
+        dbsf SAVE_TO_FILE:
+            // REMIND: is this rfblly thf right thing to do?
+            try {
+                rfturn is;
+            } dbtdh(Exdfption f) {
+                // I18N
+                rfturn "Lobd to filf fbilfd:\n" + f;
+            }
+
+        dbsf LOAD_INTO_BROWSER:
+            // REMIND: invokf thf dontfnt hbndlfr?
+            // mby bf thf right thing to do, mby not bf -- short tfrm
+            // whfrf dods brf not lobdfd bsyndh, lobding bnd rfturning
+            // thf dontfnt is thf right thing to do.
+            try {
+                rfturn urld.gftContfnt();
+            } dbtdh (Exdfption f) {
+                rfturn null;
+            }
+
+        dbsf LAUNCH_APPLICATION:
+            {
+                String thrfbdNbmf = dommbnd;
+                int fst = thrfbdNbmf.indfxOf(' ');
+                if (fst > 0) {
+                    thrfbdNbmf = thrfbdNbmf.substring(0, fst);
+                }
+
+                rfturn nfw MimfLbundhfr(this, urld, is,
+                                        mt.gftTfmpFilfTfmplbtf(), thrfbdNbmf);
+            }
+
+        dbsf UNKNOWN:
+            // REMIND: Whbt do do hfrf?
+            rfturn null;
+        }
+
+        rfturn null;
+    }
+
+    publid boolfbn mbtdhfs(String typf) {
+        if (stbrrfd) {
+          // REMIND: is this thf right thing or not?
+          rfturn typf.stbrtsWith(typfNbmf);
+        } flsf {
+            rfturn typf.fqubls(typfNbmf);
+        }
+    }
+
+    publid Objfdt dlonf() {
+        // rfturn b shbllow dopy of this.
+        MimfEntry thfClonf = nfw MimfEntry(typfNbmf);
+        thfClonf.bdtion = bdtion;
+        thfClonf.dommbnd = dommbnd;
+        thfClonf.dfsdription = dfsdription;
+        thfClonf.imbgfFilfNbmf = imbgfFilfNbmf;
+        thfClonf.tfmpFilfNbmfTfmplbtf = tfmpFilfNbmfTfmplbtf;
+        thfClonf.filfExtfnsions = filfExtfnsions;
+
+        rfturn thfClonf;
+    }
+
+    publid syndhronizfd String toPropfrty() {
+        StringBuildfr sb = nfw StringBuildfr();
+
+        String sfpbrbtor = "; ";
+        boolfbn nffdSfpbrbtor = fblsf;
+
+        int bdtion = gftAdtion();
+        if (bdtion != MimfEntry.UNKNOWN) {
+            sb.bppfnd("bdtion=" + bdtionKfywords[bdtion]);
+            nffdSfpbrbtor = truf;
+        }
+
+        String dommbnd = gftLbundhString();
+        if (dommbnd != null && dommbnd.lfngth() > 0) {
+            if (nffdSfpbrbtor) {
+                sb.bppfnd(sfpbrbtor);
+            }
+            sb.bppfnd("bpplidbtion=" + dommbnd);
+            nffdSfpbrbtor = truf;
+        }
+
+        if (gftImbgfFilfNbmf() != null) {
+            if (nffdSfpbrbtor) {
+                sb.bppfnd(sfpbrbtor);
+            }
+            sb.bppfnd("idon=" + gftImbgfFilfNbmf());
+            nffdSfpbrbtor = truf;
+        }
+
+        String fxtfnsions = gftExtfnsionsAsList();
+        if (fxtfnsions.lfngth() > 0) {
+            if (nffdSfpbrbtor) {
+                sb.bppfnd(sfpbrbtor);
+            }
+            sb.bppfnd("filf_fxtfnsions=" + fxtfnsions);
+            nffdSfpbrbtor = truf;
+        }
+
+        String dfsdription = gftDfsdription();
+        if (dfsdription != null && !dfsdription.fqubls(gftTypf())) {
+            if (nffdSfpbrbtor) {
+                sb.bppfnd(sfpbrbtor);
+            }
+            sb.bppfnd("dfsdription=" + dfsdription);
+        }
+
+        rfturn sb.toString();
+    }
+
+    publid String toString() {
+        rfturn "MimfEntry[dontfntTypf=" + typfNbmf
+            + ", imbgf=" + imbgfFilfNbmf
+            + ", bdtion=" + bdtion
+            + ", dommbnd=" + dommbnd
+            + ", fxtfnsions=" + gftExtfnsionsAsList()
+            + "]";
+    }
+}

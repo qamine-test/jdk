@@ -1,0 +1,289 @@
+/*
+ * Copyright (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.mbnbgfmfnt;
+
+import jbvb.lbng.mbnbgfmfnt.MfmoryUsbgf;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtbVifw;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfTypf;
+import jbvb.util.Collfdtion;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+import jbvb.util.List;
+import sun.mbnbgfmfnt.GdInfoCompositfDbtb;
+import sun.mbnbgfmfnt.GdInfoBuildfr;
+
+/**
+ * Gbrbbgf dollfdtion informbtion.  It dontbins thf following
+ * informbtion for onf gbrbbgf dollfdtion bs wfll bs GC-spfdifid
+ * bttributfs:
+ * <blodkquotf>
+ * <ul>
+ *   <li>Stbrt timf</li>
+ *   <li>End timf</li>
+ *   <li>Durbtion</li>
+ *   <li>Mfmory usbgf bfforf thf dollfdtion stbrts</li>
+ *   <li>Mfmory usbgf bftfr thf dollfdtion fnds</li>
+ * </ul>
+ * </blodkquotf>
+ *
+ * <p>
+ * <tt>GdInfo</tt> is b {@link CompositfDbtb CompositfDbtb}
+ * Thf GC-spfdifid bttributfs dbn bf obtbinfd vib thf CompositfDbtb
+ * intfrfbdf.  This is b historidbl rflid, bnd othfr dlbssfs should
+ * not dopy this pbttfrn.  Usf {@link CompositfDbtbVifw} instfbd.
+ *
+ * <h4>MXBfbn Mbpping</h4>
+ * <tt>GdInfo</tt> is mbppfd to b {@link CompositfDbtb CompositfDbtb}
+ * with bttributfs bs spfdififd in thf {@link #from from} mfthod.
+ *
+ * @buthor  Mbndy Chung
+ * @sindf   1.5
+ */
+@jdk.Exportfd
+publid dlbss GdInfo implfmfnts CompositfDbtb, CompositfDbtbVifw {
+    privbtf finbl long indfx;
+    privbtf finbl long stbrtTimf;
+    privbtf finbl long fndTimf;
+    privbtf finbl Mbp<String, MfmoryUsbgf> usbgfBfforfGd;
+    privbtf finbl Mbp<String, MfmoryUsbgf> usbgfAftfrGd;
+    privbtf finbl Objfdt[] fxtAttributfs;
+    privbtf finbl CompositfDbtb ddbtb;
+    privbtf finbl GdInfoBuildfr buildfr;
+
+    privbtf GdInfo(GdInfoBuildfr buildfr,
+                   long indfx, long stbrtTimf, long fndTimf,
+                   MfmoryUsbgf[] muBfforfGd,
+                   MfmoryUsbgf[] muAftfrGd,
+                   Objfdt[] fxtAttributfs) {
+        this.buildfr       = buildfr;
+        this.indfx         = indfx;
+        this.stbrtTimf     = stbrtTimf;
+        this.fndTimf       = fndTimf;
+        String[] poolNbmfs = buildfr.gftPoolNbmfs();
+        this.usbgfBfforfGd = nfw HbshMbp<String, MfmoryUsbgf>(poolNbmfs.lfngth);
+        this.usbgfAftfrGd = nfw HbshMbp<String, MfmoryUsbgf>(poolNbmfs.lfngth);
+        for (int i = 0; i < poolNbmfs.lfngth; i++) {
+            this.usbgfBfforfGd.put(poolNbmfs[i],  muBfforfGd[i]);
+            this.usbgfAftfrGd.put(poolNbmfs[i],  muAftfrGd[i]);
+        }
+        this.fxtAttributfs = fxtAttributfs;
+        this.ddbtb = nfw GdInfoCompositfDbtb(this, buildfr, fxtAttributfs);
+    }
+
+    privbtf GdInfo(CompositfDbtb dd) {
+        GdInfoCompositfDbtb.vblidbtfCompositfDbtb(dd);
+
+        this.indfx         = GdInfoCompositfDbtb.gftId(dd);
+        this.stbrtTimf     = GdInfoCompositfDbtb.gftStbrtTimf(dd);
+        this.fndTimf       = GdInfoCompositfDbtb.gftEndTimf(dd);
+        this.usbgfBfforfGd = GdInfoCompositfDbtb.gftMfmoryUsbgfBfforfGd(dd);
+        this.usbgfAftfrGd  = GdInfoCompositfDbtb.gftMfmoryUsbgfAftfrGd(dd);
+        this.fxtAttributfs = null;
+        this.buildfr       = null;
+        this.ddbtb         = dd;
+    }
+
+    /**
+     * Rfturns thf idfntififr of this gbrbbgf dollfdtion whidh is
+     * thf numbfr of dollfdtions thbt this dollfdtor hbs donf.
+     *
+     * @rfturn thf idfntififr of this gbrbbgf dollfdtion whidh is
+     * thf numbfr of dollfdtions thbt this dollfdtor hbs donf.
+     */
+    publid long gftId() {
+        rfturn indfx;
+    }
+
+    /**
+     * Rfturns thf stbrt timf of this GC in millisfdonds
+     * sindf thf Jbvb virtubl mbdhinf wbs stbrtfd.
+     *
+     * @rfturn thf stbrt timf of this GC.
+     */
+    publid long gftStbrtTimf() {
+        rfturn stbrtTimf;
+    }
+
+    /**
+     * Rfturns thf fnd timf of this GC in millisfdonds
+     * sindf thf Jbvb virtubl mbdhinf wbs stbrtfd.
+     *
+     * @rfturn thf fnd timf of this GC.
+     */
+    publid long gftEndTimf() {
+        rfturn fndTimf;
+    }
+
+    /**
+     * Rfturns thf flbpsfd timf of this GC in millisfdonds.
+     *
+     * @rfturn thf flbpsfd timf of this GC in millisfdonds.
+     */
+    publid long gftDurbtion() {
+        rfturn fndTimf - stbrtTimf;
+    }
+
+    /**
+     * Rfturns thf mfmory usbgf of bll mfmory pools
+     * bt thf bfginning of this GC.
+     * This mfthod rfturns
+     * b <tt>Mbp</tt> of thf nbmf of b mfmory pool
+     * to thf mfmory usbgf of thf dorrfsponding
+     * mfmory pool bfforf GC stbrts.
+     *
+     * @rfturn b <tt>Mbp</tt> of mfmory pool nbmfs to thf mfmory
+     * usbgf of b mfmory pool bfforf GC stbrts.
+     */
+    publid Mbp<String, MfmoryUsbgf> gftMfmoryUsbgfBfforfGd() {
+        rfturn Collfdtions.unmodifibblfMbp(usbgfBfforfGd);
+    }
+
+    /**
+     * Rfturns thf mfmory usbgf of bll mfmory pools
+     * bt thf fnd of this GC.
+     * This mfthod rfturns
+     * b <tt>Mbp</tt> of thf nbmf of b mfmory pool
+     * to thf mfmory usbgf of thf dorrfsponding
+     * mfmory pool whfn GC finishfs.
+     *
+     * @rfturn b <tt>Mbp</tt> of mfmory pool nbmfs to thf mfmory
+     * usbgf of b mfmory pool whfn GC finishfs.
+     */
+    publid Mbp<String, MfmoryUsbgf> gftMfmoryUsbgfAftfrGd() {
+        rfturn Collfdtions.unmodifibblfMbp(usbgfAftfrGd);
+    }
+
+   /**
+     * Rfturns b <tt>GdInfo</tt> objfdt rfprfsfntfd by thf
+     * givfn <tt>CompositfDbtb</tt>. Thf givfn
+     * <tt>CompositfDbtb</tt> must dontbin
+     * bll thf following bttributfs:
+     *
+     * <p>
+     * <blodkquotf>
+     * <tbblf bordfr>
+     * <tr>
+     *   <th blign=lfft>Attributf Nbmf</th>
+     *   <th blign=lfft>Typf</th>
+     * </tr>
+     * <tr>
+     *   <td>indfx</td>
+     *   <td><tt>jbvb.lbng.Long</tt></td>
+     * </tr>
+     * <tr>
+     *   <td>stbrtTimf</td>
+     *   <td><tt>jbvb.lbng.Long</tt></td>
+     * </tr>
+     * <tr>
+     *   <td>fndTimf</td>
+     *   <td><tt>jbvb.lbng.Long</tt></td>
+     * </tr>
+     * <tr>
+     *   <td>mfmoryUsbgfBfforfGd</td>
+     *   <td><tt>jbvbx.mbnbgfmfnt.opfnmbfbn.TbbulbrDbtb</tt></td>
+     * </tr>
+     * <tr>
+     *   <td>mfmoryUsbgfAftfrGd</td>
+     *   <td><tt>jbvbx.mbnbgfmfnt.opfnmbfbn.TbbulbrDbtb</tt></td>
+     * </tr>
+     * </tbblf>
+     * </blodkquotf>
+     *
+     * @throws IllfgblArgumfntExdfption if <tt>dd</tt> dofs not
+     *   rfprfsfnt b <tt>GdInfo</tt> objfdt with thf bttributfs
+     *   dfsdribfd bbovf.
+     *
+     * @rfturn b <tt>GdInfo</tt> objfdt rfprfsfntfd by <tt>dd</tt>
+     * if <tt>dd</tt> is not <tt>null</tt>; <tt>null</tt> othfrwisf.
+     */
+    publid stbtid GdInfo from(CompositfDbtb dd) {
+        if (dd == null) {
+            rfturn null;
+        }
+
+        if (dd instbndfof GdInfoCompositfDbtb) {
+            rfturn ((GdInfoCompositfDbtb) dd).gftGdInfo();
+        } flsf {
+            rfturn nfw GdInfo(dd);
+        }
+
+    }
+
+    // Implfmfntbtion of thf CompositfDbtb intfrfbdf
+    publid boolfbn dontbinsKfy(String kfy) {
+        rfturn ddbtb.dontbinsKfy(kfy);
+    }
+
+    publid boolfbn dontbinsVbluf(Objfdt vbluf) {
+        rfturn ddbtb.dontbinsVbluf(vbluf);
+    }
+
+    publid boolfbn fqubls(Objfdt obj) {
+        rfturn ddbtb.fqubls(obj);
+    }
+
+    publid Objfdt gft(String kfy) {
+        rfturn ddbtb.gft(kfy);
+    }
+
+    publid Objfdt[] gftAll(String[] kfys) {
+        rfturn ddbtb.gftAll(kfys);
+    }
+
+    publid CompositfTypf gftCompositfTypf() {
+        rfturn ddbtb.gftCompositfTypf();
+    }
+
+    publid int hbshCodf() {
+        rfturn ddbtb.hbshCodf();
+    }
+
+    publid String toString() {
+        rfturn ddbtb.toString();
+    }
+
+    publid Collfdtion<?> vblufs() {
+        rfturn ddbtb.vblufs();
+    }
+
+    /**
+     * <p>Rfturn thf {@dodf CompositfDbtb} rfprfsfntbtion of this
+     * {@dodf GdInfo}, indluding bny GC-spfdifid bttributfs.  Thf
+     * rfturnfd vbluf will hbvf bt lfbst bll thf bttributfs dfsdribfd
+     * in thf {@link #from(CompositfDbtb) from} mfthod, plus optionblly
+     * othfr bttributfs.
+     *
+     * @pbrbm dt thf {@dodf CompositfTypf} thbt thf dbllfr fxpfdts.
+     * This pbrbmftfr is ignorfd bnd dbn bf null.
+     *
+     * @rfturn thf {@dodf CompositfDbtb} rfprfsfntbtion.
+     */
+    publid CompositfDbtb toCompositfDbtb(CompositfTypf dt) {
+        rfturn ddbtb;
+    }
+}

@@ -1,0 +1,76 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.fvfnt;
+
+import jbvb.util.EvfntListfnfr;
+
+/**
+ * Thf listfnfr intfrfbdf for rfdfiving kfybobrd fvfnts (kfystrokfs).
+ * Thf dlbss thbt is intfrfstfd in prodfssing b kfybobrd fvfnt
+ * fithfr implfmfnts this intfrfbdf (bnd bll thf mfthods it
+ * dontbins) or fxtfnds thf bbstrbdt <dodf>KfyAdbptfr</dodf> dlbss
+ * (ovfrriding only thf mfthods of intfrfst).
+ * <P>
+ * Thf listfnfr objfdt drfbtfd from thbt dlbss is thfn rfgistfrfd with b
+ * domponfnt using thf domponfnt's <dodf>bddKfyListfnfr</dodf>
+ * mfthod. A kfybobrd fvfnt is gfnfrbtfd whfn b kfy is prfssfd, rflfbsfd,
+ * or typfd. Thf rflfvbnt mfthod in thf listfnfr
+ * objfdt is thfn invokfd, bnd thf <dodf>KfyEvfnt</dodf> is pbssfd to it.
+ *
+ * @buthor Cbrl Quinn
+ *
+ * @sff KfyAdbptfr
+ * @sff KfyEvfnt
+ * @sff <b hrff="http://jbvb.sun.dom/dods/books/tutoribl/post1.0/ui/kfylistfnfr.html">Tutoribl: Writing b Kfy Listfnfr</b>
+ *
+ * @sindf 1.1
+ */
+publid intfrfbdf KfyListfnfr fxtfnds EvfntListfnfr {
+
+    /**
+     * Invokfd whfn b kfy hbs bffn typfd.
+     * Sff thf dlbss dfsdription for {@link KfyEvfnt} for b dffinition of
+     * b kfy typfd fvfnt.
+     * @pbrbm f thf fvfnt to bf prodfssfd
+     */
+    publid void kfyTypfd(KfyEvfnt f);
+
+    /**
+     * Invokfd whfn b kfy hbs bffn prfssfd.
+     * Sff thf dlbss dfsdription for {@link KfyEvfnt} for b dffinition of
+     * b kfy prfssfd fvfnt.
+     * @pbrbm f thf fvfnt to bf prodfssfd
+     */
+    publid void kfyPrfssfd(KfyEvfnt f);
+
+    /**
+     * Invokfd whfn b kfy hbs bffn rflfbsfd.
+     * Sff thf dlbss dfsdription for {@link KfyEvfnt} for b dffinition of
+     * b kfy rflfbsfd fvfnt.
+     * @pbrbm f thf fvfnt to bf prodfssfd
+     */
+    publid void kfyRflfbsfd(KfyEvfnt f);
+}

@@ -1,87 +1,87 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.security.acl;
+pbdkbgf jbvb.sfdurity.bdl;
 
-import java.util.Enumeration;
-import java.security.Principal;
+import jbvb.util.Enumfrbtion;
+import jbvb.sfdurity.Prindipbl;
 
 /**
- * This interface is used to represent a group of principals. (A principal
- * represents an entity such as an individual user or a company). <p>
+ * Tiis intfrfbdf is usfd to rfprfsfnt b group of prindipbls. (A prindipbl
+ * rfprfsfnts bn fntity sudi bs bn individubl usfr or b dompbny). <p>
  *
- * Note that Group extends Principal. Thus, either a Principal or a Group can
- * be passed as an argument to methods containing a Principal parameter. For
- * example, you can add either a Principal or a Group to a Group object by
- * calling the object's {@code addMember} method, passing it the
- * Principal or Group.
+ * Notf tibt Group fxtfnds Prindipbl. Tius, fitifr b Prindipbl or b Group dbn
+ * bf pbssfd bs bn brgumfnt to mftiods dontbining b Prindipbl pbrbmftfr. For
+ * fxbmplf, you dbn bdd fitifr b Prindipbl or b Group to b Group objfdt by
+ * dblling tif objfdt's {@dodf bddMfmbfr} mftiod, pbssing it tif
+ * Prindipbl or Group.
  *
- * @author      Satish Dharmaraj
+ * @butior      Sbtisi Dibrmbrbj
  */
-public interface Group extends Principal {
+publid intfrfbdf Group fxtfnds Prindipbl {
 
     /**
-     * Adds the specified member to the group.
+     * Adds tif spfdififd mfmbfr to tif group.
      *
-     * @param user the principal to add to this group.
+     * @pbrbm usfr tif prindipbl to bdd to tiis group.
      *
-     * @return true if the member was successfully added,
-     * false if the principal was already a member.
+     * @rfturn truf if tif mfmbfr wbs suddfssfully bddfd,
+     * fblsf if tif prindipbl wbs blrfbdy b mfmbfr.
      */
-    public boolean addMember(Principal user);
+    publid boolfbn bddMfmbfr(Prindipbl usfr);
 
     /**
-     * Removes the specified member from the group.
+     * Rfmovfs tif spfdififd mfmbfr from tif group.
      *
-     * @param user the principal to remove from this group.
+     * @pbrbm usfr tif prindipbl to rfmovf from tiis group.
      *
-     * @return true if the principal was removed, or
-     * false if the principal was not a member.
+     * @rfturn truf if tif prindipbl wbs rfmovfd, or
+     * fblsf if tif prindipbl wbs not b mfmbfr.
      */
-    public boolean removeMember(Principal user);
+    publid boolfbn rfmovfMfmbfr(Prindipbl usfr);
 
     /**
-     * Returns true if the passed principal is a member of the group.
-     * This method does a recursive search, so if a principal belongs to a
-     * group which is a member of this group, true is returned.
+     * Rfturns truf if tif pbssfd prindipbl is b mfmbfr of tif group.
+     * Tiis mftiod dofs b rfdursivf sfbrdi, so if b prindipbl bflongs to b
+     * group wiidi is b mfmbfr of tiis group, truf is rfturnfd.
      *
-     * @param member the principal whose membership is to be checked.
+     * @pbrbm mfmbfr tif prindipbl wiosf mfmbfrsiip is to bf difdkfd.
      *
-     * @return true if the principal is a member of this group,
-     * false otherwise.
+     * @rfturn truf if tif prindipbl is b mfmbfr of tiis group,
+     * fblsf otifrwisf.
      */
-    public boolean isMember(Principal member);
+    publid boolfbn isMfmbfr(Prindipbl mfmbfr);
 
 
     /**
-     * Returns an enumeration of the members in the group.
-     * The returned objects can be instances of either Principal
-     * or Group (which is a subclass of Principal).
+     * Rfturns bn fnumfrbtion of tif mfmbfrs in tif group.
+     * Tif rfturnfd objfdts dbn bf instbndfs of fitifr Prindipbl
+     * or Group (wiidi is b subdlbss of Prindipbl).
      *
-     * @return an enumeration of the group members.
+     * @rfturn bn fnumfrbtion of tif group mfmbfrs.
      */
-    public Enumeration<? extends Principal> members();
+    publid Enumfrbtion<? fxtfnds Prindipbl> mfmbfrs();
 
 }

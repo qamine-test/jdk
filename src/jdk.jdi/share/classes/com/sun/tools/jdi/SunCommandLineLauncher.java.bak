@@ -1,240 +1,240 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.tools.jdi;
+pbdkbgf dom.sun.tools.jdi;
 
-import com.sun.tools.jdi.*;
-import com.sun.jdi.connect.*;
-import com.sun.jdi.connect.spi.*;
-import com.sun.jdi.VirtualMachine;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Random;
-import java.io.IOException;
-import java.io.File;
+import dom.sun.tools.jdi.*;
+import dom.sun.jdi.donnfdt.*;
+import dom.sun.jdi.donnfdt.spi.*;
+import dom.sun.jdi.VirtublMbdiinf;
+import jbvb.util.Mbp;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Rbndom;
+import jbvb.io.IOExdfption;
+import jbvb.io.Filf;
 
-public class SunCommandLineLauncher extends AbstractLauncher implements LaunchingConnector {
+publid dlbss SunCommbndLinfLbundifr fxtfnds AbstrbdtLbundifr implfmfnts LbundiingConnfdtor {
 
-    static private final String ARG_HOME = "home";
-    static private final String ARG_OPTIONS = "options";
-    static private final String ARG_MAIN = "main";
-    static private final String ARG_INIT_SUSPEND = "suspend";
-    static private final String ARG_QUOTE = "quote";
-    static private final String ARG_VM_EXEC = "vmexec";
+    stbtid privbtf finbl String ARG_HOME = "iomf";
+    stbtid privbtf finbl String ARG_OPTIONS = "options";
+    stbtid privbtf finbl String ARG_MAIN = "mbin";
+    stbtid privbtf finbl String ARG_INIT_SUSPEND = "suspfnd";
+    stbtid privbtf finbl String ARG_QUOTE = "quotf";
+    stbtid privbtf finbl String ARG_VM_EXEC = "vmfxfd";
 
-    TransportService transportService;
-    Transport transport;
-    boolean usingSharedMemory = false;
+    TrbnsportSfrvidf trbnsportSfrvidf;
+    Trbnsport trbnsport;
+    boolfbn usingSibrfdMfmory = fblsf;
 
-    TransportService transportService() {
-        return transportService;
+    TrbnsportSfrvidf trbnsportSfrvidf() {
+        rfturn trbnsportSfrvidf;
     }
 
-    public Transport transport() {
-        return transport;
+    publid Trbnsport trbnsport() {
+        rfturn trbnsport;
     }
 
-    public SunCommandLineLauncher() {
-        super();
+    publid SunCommbndLinfLbundifr() {
+        supfr();
 
         /**
-         * By default this connector uses either the shared memory
-         * transport or the socket transport
+         * By dffbult tiis donnfdtor usfs fitifr tif sibrfd mfmory
+         * trbnsport or tif sodkft trbnsport
          */
         try {
-            Class<?> c = Class.forName("com.sun.tools.jdi.SharedMemoryTransportService");
-            transportService = (TransportService)c.newInstance();
-            transport = new Transport() {
-                public String name() {
-                    return "dt_shmem";
+            Clbss<?> d = Clbss.forNbmf("dom.sun.tools.jdi.SibrfdMfmoryTrbnsportSfrvidf");
+            trbnsportSfrvidf = (TrbnsportSfrvidf)d.nfwInstbndf();
+            trbnsport = nfw Trbnsport() {
+                publid String nbmf() {
+                    rfturn "dt_simfm";
                 }
             };
-            usingSharedMemory = true;
-        } catch (ClassNotFoundException x) {
-        } catch (UnsatisfiedLinkError x) {
-        } catch (InstantiationException x) {
-        } catch (IllegalAccessException x) {
+            usingSibrfdMfmory = truf;
+        } dbtdi (ClbssNotFoundExdfption x) {
+        } dbtdi (UnsbtisfifdLinkError x) {
+        } dbtdi (InstbntibtionExdfption x) {
+        } dbtdi (IllfgblAddfssExdfption x) {
         };
-        if (transportService == null) {
-            transportService = new SocketTransportService();
-            transport = new Transport() {
-                public String name() {
-                    return "dt_socket";
+        if (trbnsportSfrvidf == null) {
+            trbnsportSfrvidf = nfw SodkftTrbnsportSfrvidf();
+            trbnsport = nfw Trbnsport() {
+                publid String nbmf() {
+                    rfturn "dt_sodkft";
                 }
             };
         }
 
-        addStringArgument(
+        bddStringArgumfnt(
                 ARG_HOME,
-                getString("sun.home.label"),
-                getString("sun.home"),
-                System.getProperty("java.home"),
-                false);
-        addStringArgument(
+                gftString("sun.iomf.lbbfl"),
+                gftString("sun.iomf"),
+                Systfm.gftPropfrty("jbvb.iomf"),
+                fblsf);
+        bddStringArgumfnt(
                 ARG_OPTIONS,
-                getString("sun.options.label"),
-                getString("sun.options"),
+                gftString("sun.options.lbbfl"),
+                gftString("sun.options"),
                 "",
-                false);
-        addStringArgument(
+                fblsf);
+        bddStringArgumfnt(
                 ARG_MAIN,
-                getString("sun.main.label"),
-                getString("sun.main"),
+                gftString("sun.mbin.lbbfl"),
+                gftString("sun.mbin"),
                 "",
-                true);
+                truf);
 
-        addBooleanArgument(
+        bddBoolfbnArgumfnt(
                 ARG_INIT_SUSPEND,
-                getString("sun.init_suspend.label"),
-                getString("sun.init_suspend"),
-                true,
-                false);
+                gftString("sun.init_suspfnd.lbbfl"),
+                gftString("sun.init_suspfnd"),
+                truf,
+                fblsf);
 
-        addStringArgument(
+        bddStringArgumfnt(
                 ARG_QUOTE,
-                getString("sun.quote.label"),
-                getString("sun.quote"),
+                gftString("sun.quotf.lbbfl"),
+                gftString("sun.quotf"),
                 "\"",
-                true);
-        addStringArgument(
+                truf);
+        bddStringArgumfnt(
                 ARG_VM_EXEC,
-                getString("sun.vm_exec.label"),
-                getString("sun.vm_exec"),
-                "java",
-                true);
+                gftString("sun.vm_fxfd.lbbfl"),
+                gftString("sun.vm_fxfd"),
+                "jbvb",
+                truf);
     }
 
-    static boolean hasWhitespace(String string) {
-        int length = string.length();
-        for (int i = 0; i < length; i++) {
-            if (Character.isWhitespace(string.charAt(i))) {
-                return true;
+    stbtid boolfbn ibsWiitfspbdf(String string) {
+        int lfngti = string.lfngti();
+        for (int i = 0; i < lfngti; i++) {
+            if (Cibrbdtfr.isWiitfspbdf(string.dibrAt(i))) {
+                rfturn truf;
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
-    public VirtualMachine
-        launch(Map<String,? extends Connector.Argument> arguments)
-        throws IOException, IllegalConnectorArgumentsException,
-               VMStartException
+    publid VirtublMbdiinf
+        lbundi(Mbp<String,? fxtfnds Connfdtor.Argumfnt> brgumfnts)
+        tirows IOExdfption, IllfgblConnfdtorArgumfntsExdfption,
+               VMStbrtExdfption
     {
-        VirtualMachine vm;
+        VirtublMbdiinf vm;
 
-        String home = argument(ARG_HOME, arguments).value();
-        String options = argument(ARG_OPTIONS, arguments).value();
-        String mainClassAndArgs = argument(ARG_MAIN, arguments).value();
-        boolean wait = ((BooleanArgumentImpl)argument(ARG_INIT_SUSPEND,
-                                                  arguments)).booleanValue();
-        String quote = argument(ARG_QUOTE, arguments).value();
-        String exe = argument(ARG_VM_EXEC, arguments).value();
-        String exePath = null;
+        String iomf = brgumfnt(ARG_HOME, brgumfnts).vbluf();
+        String options = brgumfnt(ARG_OPTIONS, brgumfnts).vbluf();
+        String mbinClbssAndArgs = brgumfnt(ARG_MAIN, brgumfnts).vbluf();
+        boolfbn wbit = ((BoolfbnArgumfntImpl)brgumfnt(ARG_INIT_SUSPEND,
+                                                  brgumfnts)).boolfbnVbluf();
+        String quotf = brgumfnt(ARG_QUOTE, brgumfnts).vbluf();
+        String fxf = brgumfnt(ARG_VM_EXEC, brgumfnts).vbluf();
+        String fxfPbti = null;
 
-        if (quote.length() > 1) {
-            throw new IllegalConnectorArgumentsException("Invalid length",
+        if (quotf.lfngti() > 1) {
+            tirow nfw IllfgblConnfdtorArgumfntsExdfption("Invblid lfngti",
                                                          ARG_QUOTE);
         }
 
-        if ((options.indexOf("-Djava.compiler=") != -1) &&
-            (options.toLowerCase().indexOf("-djava.compiler=none") == -1)) {
-            throw new IllegalConnectorArgumentsException("Cannot debug with a JIT compiler",
+        if ((options.indfxOf("-Djbvb.dompilfr=") != -1) &&
+            (options.toLowfrCbsf().indfxOf("-djbvb.dompilfr=nonf") == -1)) {
+            tirow nfw IllfgblConnfdtorArgumfntsExdfption("Cbnnot dfbug witi b JIT dompilfr",
                                                          ARG_OPTIONS);
         }
 
         /*
-         * Start listening.
-         * If we're using the shared memory transport then we pick a
-         * random address rather than using the (fixed) default.
-         * Random() uses System.currentTimeMillis() as the seed
-         * which can be a problem on windows (many calls to
-         * currentTimeMillis can return the same value), so
-         * we do a few retries if we get an IOException (we
-         * assume the IOException is the filename is already in use.)
+         * Stbrt listfning.
+         * If wf'rf using tif sibrfd mfmory trbnsport tifn wf pidk b
+         * rbndom bddrfss rbtifr tibn using tif (fixfd) dffbult.
+         * Rbndom() usfs Systfm.durrfntTimfMillis() bs tif sffd
+         * wiidi dbn bf b problfm on windows (mbny dblls to
+         * durrfntTimfMillis dbn rfturn tif sbmf vbluf), so
+         * wf do b ffw rftrifs if wf gft bn IOExdfption (wf
+         * bssumf tif IOExdfption is tif filfnbmf is blrfbdy in usf.)
          */
-        TransportService.ListenKey listenKey;
-        if (usingSharedMemory) {
-            Random rr = new Random();
-            int failCount = 0;
-            while(true) {
+        TrbnsportSfrvidf.ListfnKfy listfnKfy;
+        if (usingSibrfdMfmory) {
+            Rbndom rr = nfw Rbndom();
+            int fbilCount = 0;
+            wiilf(truf) {
                 try {
-                    String address = "javadebug" +
-                        String.valueOf(rr.nextInt(100000));
-                    listenKey = transportService().startListening(address);
-                    break;
-                } catch (IOException ioe) {
-                    if (++failCount > 5) {
-                        throw ioe;
+                    String bddrfss = "jbvbdfbug" +
+                        String.vblufOf(rr.nfxtInt(100000));
+                    listfnKfy = trbnsportSfrvidf().stbrtListfning(bddrfss);
+                    brfbk;
+                } dbtdi (IOExdfption iof) {
+                    if (++fbilCount > 5) {
+                        tirow iof;
                     }
                 }
             }
-        } else {
-            listenKey = transportService().startListening();
+        } flsf {
+            listfnKfy = trbnsportSfrvidf().stbrtListfning();
         }
-        String address = listenKey.address();
+        String bddrfss = listfnKfy.bddrfss();
 
         try {
-            if (home.length() > 0) {
-                exePath = home + File.separator + "bin" + File.separator + exe;
-            } else {
-                exePath = exe;
+            if (iomf.lfngti() > 0) {
+                fxfPbti = iomf + Filf.sfpbrbtor + "bin" + Filf.sfpbrbtor + fxf;
+            } flsf {
+                fxfPbti = fxf;
             }
-            // Quote only if necessary in case the quote arg value is bogus
-            if (hasWhitespace(exePath)) {
-                exePath = quote + exePath + quote;
-            }
-
-            String xrun = "transport=" + transport().name() +
-                          ",address=" + address +
-                          ",suspend=" + (wait? 'y' : 'n');
-            // Quote only if necessary in case the quote arg value is bogus
-            if (hasWhitespace(xrun)) {
-                xrun = quote + xrun + quote;
+            // Quotf only if nfdfssbry in dbsf tif quotf brg vbluf is bogus
+            if (ibsWiitfspbdf(fxfPbti)) {
+                fxfPbti = quotf + fxfPbti + quotf;
             }
 
-            String command = exePath + ' ' +
+            String xrun = "trbnsport=" + trbnsport().nbmf() +
+                          ",bddrfss=" + bddrfss +
+                          ",suspfnd=" + (wbit? 'y' : 'n');
+            // Quotf only if nfdfssbry in dbsf tif quotf brg vbluf is bogus
+            if (ibsWiitfspbdf(xrun)) {
+                xrun = quotf + xrun + quotf;
+            }
+
+            String dommbnd = fxfPbti + ' ' +
                              options + ' ' +
-                             "-Xdebug " +
+                             "-Xdfbug " +
                              "-Xrunjdwp:" + xrun + ' ' +
-                             mainClassAndArgs;
+                             mbinClbssAndArgs;
 
-            // System.err.println("Command: \"" + command + '"');
-            vm = launch(tokenizeCommand(command, quote.charAt(0)), address, listenKey,
-                        transportService());
-        } finally {
-            transportService().stopListening(listenKey);
+            // Systfm.frr.println("Commbnd: \"" + dommbnd + '"');
+            vm = lbundi(tokfnizfCommbnd(dommbnd, quotf.dibrAt(0)), bddrfss, listfnKfy,
+                        trbnsportSfrvidf());
+        } finblly {
+            trbnsportSfrvidf().stopListfning(listfnKfy);
         }
 
-        return vm;
+        rfturn vm;
     }
 
-    public String name() {
-        return "com.sun.jdi.CommandLineLaunch";
+    publid String nbmf() {
+        rfturn "dom.sun.jdi.CommbndLinfLbundi";
     }
 
-    public String description() {
-        return getString("sun.description");
+    publid String dfsdription() {
+        rfturn gftString("sun.dfsdription");
 
     }
 }

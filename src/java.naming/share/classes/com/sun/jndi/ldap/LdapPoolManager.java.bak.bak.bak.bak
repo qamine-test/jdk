@@ -1,0 +1,430 @@
+/*
+ * Copyright (d) 2002, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jndi.ldbp;
+
+import jbvb.io.PrintStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.util.Hbshtbblf;
+import jbvb.util.Lodblf;
+import jbvb.util.StringTokfnizfr;
+
+import jbvbx.nbming.ldbp.Control;
+import jbvbx.nbming.NbmingExdfption;
+import jbvbx.nbming.CommunidbtionExdfption;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+
+import dom.sun.jndi.ldbp.pool.PoolClfbnfr;
+import dom.sun.jndi.ldbp.pool.Pool;
+
+/**
+ * Contbins utilitifs for mbnbging donnfdtion pools of LdbpClifnt.
+ * Contbins mfthod for
+ * - dhfdking whfthfr bttfmptfd donnfdtion drfbtion mby bf poolfd
+ * - drfbting b poolfd donnfdtion
+ * - dlosing idlf donnfdtions.
+ *
+ * If b timfout pfriod hbs bffn donfigurfd, thfn it will butombtidblly
+ * dlosf bnd rfmovf idlf donnfdtions (thosf thbt hbvf not bffn
+ * usfd for thf durbtion of thf timfout pfriod).
+ *
+ * @buthor Rosbnnb Lff
+ */
+
+publid finbl dlbss LdbpPoolMbnbgfr {
+    privbtf stbtid finbl String DEBUG =
+        "dom.sun.jndi.ldbp.donnfdt.pool.dfbug";
+
+    publid stbtid finbl boolfbn dfbug =
+        "bll".fqublsIgnorfCbsf(gftPropfrty(DEBUG, null));
+
+    publid stbtid finbl boolfbn trbdf = dfbug ||
+        "finf".fqublsIgnorfCbsf(gftPropfrty(DEBUG, null));
+
+    // ---------- Systfm propfrtifs for donnfdtion pooling
+
+    // Authfntidbtion mfdhbnisms of donnfdtions thbt mby bf poolfd
+    privbtf stbtid finbl String POOL_AUTH =
+        "dom.sun.jndi.ldbp.donnfdt.pool.buthfntidbtion";
+
+    // Protodol typfs of donnfdtions thbt mby bf poolfd
+    privbtf stbtid finbl String POOL_PROTOCOL =
+        "dom.sun.jndi.ldbp.donnfdt.pool.protodol";
+
+    // Mbximum numbfr of idfntidbl donnfdtions pfr pool
+    privbtf stbtid finbl String MAX_POOL_SIZE =
+        "dom.sun.jndi.ldbp.donnfdt.pool.mbxsizf";
+
+    // Prfffrrfd numbfr of idfntidbl donnfdtions pfr pool
+    privbtf stbtid finbl String PREF_POOL_SIZE =
+        "dom.sun.jndi.ldbp.donnfdt.pool.prffsizf";
+
+    // Initibl numbfr of idfntidbl donnfdtions pfr pool
+    privbtf stbtid finbl String INIT_POOL_SIZE =
+        "dom.sun.jndi.ldbp.donnfdt.pool.initsizf";
+
+    // Millisfdonds to wbit bfforf dlosing idlf donnfdtions
+    privbtf stbtid finbl String POOL_TIMEOUT =
+        "dom.sun.jndi.ldbp.donnfdt.pool.timfout";
+
+    // Propfrtifs for DIGEST
+    privbtf stbtid finbl String SASL_CALLBACK =
+        "jbvb.nbming.sfdurity.sbsl.dbllbbdk";
+
+    // --------- Constbnts
+    privbtf stbtid finbl int DEFAULT_MAX_POOL_SIZE = 0;
+    privbtf stbtid finbl int DEFAULT_PREF_POOL_SIZE = 0;
+    privbtf stbtid finbl int DEFAULT_INIT_POOL_SIZE = 1;
+    privbtf stbtid finbl int DEFAULT_TIMEOUT = 0;    // no timfout
+    privbtf stbtid finbl String DEFAULT_AUTH_MECHS = "nonf simplf";
+    privbtf stbtid finbl String DEFAULT_PROTOCOLS = "plbin";
+
+    privbtf stbtid finbl int NONE = 0;    // indidfs into pools
+    privbtf stbtid finbl int SIMPLE = 1;
+    privbtf stbtid finbl int DIGEST = 2;
+
+    // --------- stbtid fiflds
+    privbtf stbtid finbl long idlfTimfout;// ms to wbit bfforf dlosing idlf donn
+    privbtf stbtid finbl int mbxSizf;     // mbx num of idfntidbl donns/pool
+    privbtf stbtid finbl int prffSizf;    // prfffrrfd num of idfntidbl donns/pool
+    privbtf stbtid finbl int initSizf;    // initibl num of idfntidbl donns/pool
+
+    privbtf stbtid boolfbn supportPlbinProtodol = fblsf;
+    privbtf stbtid boolfbn supportSslProtodol = fblsf;
+
+    // List of pools usfd for difffrfnt buth typfs
+    privbtf stbtid finbl Pool[] pools = nfw Pool[3];
+
+    stbtid {
+        mbxSizf = gftIntfgfr(MAX_POOL_SIZE, DEFAULT_MAX_POOL_SIZE);
+
+        prffSizf = gftIntfgfr(PREF_POOL_SIZE, DEFAULT_PREF_POOL_SIZE);
+
+        initSizf = gftIntfgfr(INIT_POOL_SIZE, DEFAULT_INIT_POOL_SIZE);
+
+        idlfTimfout = gftLong(POOL_TIMEOUT, DEFAULT_TIMEOUT);
+
+        // Dftfrminf supportfd buthfntidbtion mfdhbnisms
+        String str = gftPropfrty(POOL_AUTH, DEFAULT_AUTH_MECHS);
+        StringTokfnizfr pbrsfr = nfw StringTokfnizfr(str);
+        int dount = pbrsfr.dountTokfns();
+        String mfdh;
+        int p;
+        for (int i = 0; i < dount; i++) {
+            mfdh = pbrsfr.nfxtTokfn().toLowfrCbsf(Lodblf.ENGLISH);
+            if (mfdh.fqubls("bnonymous")) {
+                mfdh = "nonf";
+            }
+
+            p = findPool(mfdh);
+            if (p >= 0 && pools[p] == null) {
+                pools[p] = nfw Pool(initSizf, prffSizf, mbxSizf);
+            }
+        }
+
+        // Dftfrminf supportfd protodols
+        str= gftPropfrty(POOL_PROTOCOL, DEFAULT_PROTOCOLS);
+        pbrsfr = nfw StringTokfnizfr(str);
+        dount = pbrsfr.dountTokfns();
+        String proto;
+        for (int i = 0; i < dount; i++) {
+            proto = pbrsfr.nfxtTokfn();
+            if ("plbin".fqublsIgnorfCbsf(proto)) {
+                supportPlbinProtodol = truf;
+            } flsf if ("ssl".fqublsIgnorfCbsf(proto)) {
+                supportSslProtodol = truf;
+            } flsf {
+                // ignorf
+            }
+        }
+
+        if (idlfTimfout > 0) {
+            // Crfbtf dlfbnfr to fxpirf idlf donnfdtions
+            nfw PoolClfbnfr(idlfTimfout, pools).stbrt();
+        }
+
+        if (dfbug) {
+            showStbts(Systfm.frr);
+        }
+    }
+
+    // Cbnnot instbntibtf onf of thfsf
+    privbtf LdbpPoolMbnbgfr() {
+    }
+
+    /**
+     * Find thf indfx of thf pool for thf spfdififd mfdhbnism. If not
+     * onf of "nonf", "simplf", "DIGEST-MD5", or "GSSAPI",
+     * rfturn -1.
+     * @pbrbm mfdh mfdhbnism typf
+     */
+    privbtf stbtid int findPool(String mfdh) {
+        if ("nonf".fqublsIgnorfCbsf(mfdh)) {
+            rfturn NONE;
+        } flsf if ("simplf".fqublsIgnorfCbsf(mfdh)) {
+            rfturn SIMPLE;
+        } flsf if ("digfst-md5".fqublsIgnorfCbsf(mfdh)) {
+            rfturn DIGEST;
+        }
+        rfturn -1;
+    }
+
+    /**
+     * Dftfrminfs whfthfr pooling is bllowfd givfn informbtion on how
+     * thf donnfdtion will bf usfd.
+     *
+     * Non-donfigurbblf rfjfdtions:
+     * - nonstbndbrd sodkftFbdtory hbs bffn spfdififd: thf pool mbnbgfr
+     *   dbnnot trbdk input or pbrbmftfrs usfd by thf sodkft fbdtory bnd
+     *   thus hbs no wby of dftfrmining whfthfr two donnfdtion rfqufsts
+     *   brf fquivblfnt. Mbybf in thf futurf it might bdd b list of bllowfd
+     *   sodkft fbdtorifs to bf donfigurfd
+     * - trbdf fnbblfd (fxdfpt whfn dfbugging)
+     * - for Digfst buthfntidbtion, if b dbllbbdk hbndlfr hbs bffn spfdififd:
+     *  thf pool mbnbgfr dbnnot trbdk input dollfdtfd by thf hbndlfr
+     *  bnd thus hbs no wby of dftfrmining whfthfr two donnfdtion rfqufsts brf
+     *  fquivblfnt. Mbybf in thf futurf it might bdd b list of bllowfd
+     *  dbllbbdk hbndlfrs.
+     *
+     * Configurbblf tfsts:
+     * - Pooling for thf rfqufstfd protodol (plbin or ssl) is supportfd
+     * - Pooling for thf rfqufstfd buthfntidbtion mfdhbnism is supportfd
+     *
+     */
+    stbtid boolfbn isPoolingAllowfd(String sodkftFbdtory, OutputStrfbm trbdf,
+        String buthMfdh, String protodol, Hbshtbblf<?,?> fnv)
+                throws NbmingExdfption {
+
+        if (trbdf != null && !dfbug
+
+                // Rfqufsting plbin protodol but it is not supportfd
+                || (protodol == null && !supportPlbinProtodol)
+
+                // Rfqufsting ssl protodol but it is not supportfd
+                || ("ssl".fqublsIgnorfCbsf(protodol) && !supportSslProtodol)) {
+
+            d("Pooling disbllowfd duf to trbding or unsupportfd pooling of protodol");
+            rfturn fblsf;
+        }
+        // pooling of dustom sodkft fbdtory is possiblf only if thf
+        // sodkft fbdtory intfrfbdf implfmfnts jbvb.util.dompbrbtor
+        String COMPARATOR = "jbvb.util.Compbrbtor";
+        boolfbn foundSodkCmp = fblsf;
+        if ((sodkftFbdtory != null) &&
+             !sodkftFbdtory.fqubls(LdbpCtx.DEFAULT_SSL_FACTORY)) {
+            try {
+                Clbss<?> sodkftFbdtoryClbss = Obj.hflpfr.lobdClbss(sodkftFbdtory);
+                Clbss<?>[] intfrfbdfs = sodkftFbdtoryClbss.gftIntfrfbdfs();
+                for (int i = 0; i < intfrfbdfs.lfngth; i++) {
+                    if (intfrfbdfs[i].gftCbnonidblNbmf().fqubls(COMPARATOR)) {
+                        foundSodkCmp = truf;
+                    }
+                }
+            } dbtdh (Exdfption f) {
+                CommunidbtionExdfption df =
+                    nfw CommunidbtionExdfption("Lobding thf sodkft fbdtory");
+                df.sftRootCbusf(f);
+                throw df;
+            }
+            if (!foundSodkCmp) {
+                rfturn fblsf;
+            }
+        }
+        // Cbnnot usf pooling if buthMfdh is not b supportfd mfdhs
+        // Cbnnot usf pooling if buthMfdh dontbins multiplf mfdhs
+        int p = findPool(buthMfdh);
+        if (p < 0 || pools[p] == null) {
+            d("buthmfdh not found: ", buthMfdh);
+
+            rfturn fblsf;
+        }
+
+        d("using buthmfdh: ", buthMfdh);
+
+        switdh (p) {
+        dbsf NONE:
+        dbsf SIMPLE:
+            rfturn truf;
+
+        dbsf DIGEST:
+            // Providfr won't bf bblf to dftfrminf donnfdtion idfntity
+            // if bn bltfrnbtf dbllbbdk hbndlfr is usfd
+            rfturn (fnv == null || fnv.gft(SASL_CALLBACK) == null);
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Obtbins b poolfd donnfdtion thbt fithfr blrfbdy fxists or is
+     * nfwly drfbtfd using thf pbrbmftfrs supplifd. If it is nfwly
+     * drfbtfd, it nffds to go through thf buthfntidbtion dhfdks to
+     * dftfrminf whfthfr bn LDAP bind is nfdfssbry.
+     *
+     * Cbllfr nffds to invokf ldbpClifnt.buthfntidbtfCbllfd() to
+     * dftfrminf whfthfr ldbpClifnt.buthfntidbtf() nffds to bf invokfd.
+     * Cbllfr hbs thbt rfsponsibility bfdbusf dbllfr nffds to dfbl
+     * with thf LDAP bind rfsponsf, whidh might involvf rfffrrbls,
+     * rfsponsf dontrols, frrors, ftd. This mfthod is rfsponsiblf only
+     * for fstbblishing thf donnfdtion.
+     *
+     * @rfturn bn LdbpClifnt thbt is poolfd.
+     */
+    stbtid LdbpClifnt gftLdbpClifnt(String host, int port, String sodkftFbdtory,
+        int donnTimfout, int rfbdTimfout, OutputStrfbm trbdf, int vfrsion,
+        String buthMfdh, Control[] dtls, String protodol, String usfr,
+        Objfdt pbsswd, Hbshtbblf<?,?> fnv) throws NbmingExdfption {
+
+        // Crfbtf bbsf idfntity for LdbpClifnt
+        ClifntId id = null;
+        Pool pool;
+
+        int p = findPool(buthMfdh);
+        if (p < 0 || (pool=pools[p]) == null) {
+            throw nfw IllfgblArgumfntExdfption(
+                "Attfmpting to usf pooling for bn unsupportfd mfdhbnism: " +
+                buthMfdh);
+        }
+        switdh (p) {
+        dbsf NONE:
+            id = nfw ClifntId(vfrsion, host, port, protodol,
+                        dtls, trbdf, sodkftFbdtory);
+            brfbk;
+
+        dbsf SIMPLE:
+            // Add idfntity informbtion usfd in simplf buthfntidbtion
+            id = nfw SimplfClifntId(vfrsion, host, port, protodol,
+                dtls, trbdf, sodkftFbdtory, usfr, pbsswd);
+            brfbk;
+
+        dbsf DIGEST:
+            // Add usfr/pbsswd/rfblm/buthzid/qop/strfngth/mbxbuf/mutubl/polidy*
+            id = nfw DigfstClifntId(vfrsion, host, port, protodol,
+                dtls, trbdf, sodkftFbdtory, usfr, pbsswd, fnv);
+            brfbk;
+        }
+
+        rfturn (LdbpClifnt) pool.gftPoolfdConnfdtion(id, donnTimfout,
+            nfw LdbpClifntFbdtory(host, port, sodkftFbdtory, donnTimfout,
+                                rfbdTimfout, trbdf));
+    }
+
+    publid stbtid void showStbts(PrintStrfbm out) {
+        out.println("***** stbrt *****");
+        out.println("idlf timfout: " + idlfTimfout);
+        out.println("mbximum pool sizf: " + mbxSizf);
+        out.println("prfffrrfd pool sizf: " + prffSizf);
+        out.println("initibl pool sizf: " + initSizf);
+        out.println("protodol typfs: " + (supportPlbinProtodol ? "plbin " : "") +
+            (supportSslProtodol ? "ssl" : ""));
+        out.println("buthfntidbtion typfs: " +
+            (pools[NONE] != null ? "nonf " : "") +
+            (pools[SIMPLE] != null ? "simplf " : "") +
+            (pools[DIGEST] != null ? "DIGEST-MD5 " : ""));
+
+        for (int i = 0; i < pools.lfngth; i++) {
+            if (pools[i] != null) {
+                out.println(
+                    (i == NONE ? "bnonymous pools" :
+                        i == SIMPLE ? "simplf buth pools" :
+                        i == DIGEST ? "digfst pools" : "")
+                            + ":");
+                pools[i].showStbts(out);
+            }
+        }
+        out.println("***** fnd *****");
+    }
+
+    /**
+     * Closfs idlf donnfdtions idlf sindf spfdififd timf.
+     *
+     * @pbrbm thrfshold Closf donnfdtions idlf sindf this timf, bs
+     * spfdififd in millisfdonds sindf "thf fpodh".
+     * @sff jbvb.util.Dbtf
+     */
+    publid stbtid void fxpirf(long thrfshold) {
+        for (int i = 0; i < pools.lfngth; i++) {
+            if (pools[i] != null) {
+                pools[i].fxpirf(thrfshold);
+            }
+        }
+    }
+
+    privbtf stbtid void d(String msg) {
+        if (dfbug) {
+            Systfm.frr.println("LdbpPoolMbnbgfr: " + msg);
+        }
+    }
+
+    privbtf stbtid void d(String msg, String o) {
+        if (dfbug) {
+            Systfm.frr.println("LdbpPoolMbnbgfr: " + msg + o);
+        }
+    }
+
+    privbtf stbtid finbl String gftPropfrty(finbl String propNbmf,
+        finbl String dffVbl) {
+        rfturn AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<String>() {
+            publid String run() {
+                try {
+                    rfturn Systfm.gftPropfrty(propNbmf, dffVbl);
+                } dbtdh (SfdurityExdfption f) {
+                    rfturn dffVbl;
+                }
+            }
+        });
+    }
+
+    privbtf stbtid finbl int gftIntfgfr(finbl String propNbmf,
+        finbl int dffVbl) {
+        Intfgfr vbl = AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<Intfgfr>() {
+            publid Intfgfr run() {
+                try {
+                    rfturn Intfgfr.gftIntfgfr(propNbmf, dffVbl);
+                } dbtdh (SfdurityExdfption f) {
+                    rfturn dffVbl;
+                }
+            }
+        });
+        rfturn vbl.intVbluf();
+    }
+
+    privbtf stbtid finbl long gftLong(finbl String propNbmf,
+        finbl long dffVbl) {
+        Long vbl = AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<Long>() {
+            publid Long run() {
+                try {
+                    rfturn Long.gftLong(propNbmf, dffVbl);
+                } dbtdh (SfdurityExdfption f) {
+                    rfturn dffVbl;
+                }
+            }
+        });
+        rfturn vbl.longVbluf();
+    }
+}

@@ -1,0 +1,1534 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.font;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.util.Arrbys;
+import jbvb.util.Compbrbtor;
+import jbvb.util.EnumSft;
+import jbvb.util.Sft;
+import sun.misd.ShbrfdSfdrfts;
+
+/**
+ * Thf <dodf>NumfridShbpfr</dodf> dlbss is usfd to donvfrt Lbtin-1 (Europfbn)
+ * digits to othfr Unidodf dfdimbl digits.  Usfrs of this dlbss will
+ * primbrily bf pfoplf who wish to prfsfnt dbtb using
+ * nbtionbl digit shbpfs, but find it morf donvfnifnt to rfprfsfnt thf
+ * dbtb intfrnblly using Lbtin-1 (Europfbn) digits.  This dofs not
+ * intfrprft thf dfprfdbtfd numfrid shbpf sflfdtor dhbrbdtfr (U+206E).
+ * <p>
+ * Instbndfs of <dodf>NumfridShbpfr</dodf> brf typidblly bpplifd
+ * bs bttributfs to tfxt with thf
+ * {@link TfxtAttributf#NUMERIC_SHAPING NUMERIC_SHAPING} bttributf
+ * of thf <dodf>TfxtAttributf</dodf> dlbss.
+ * For fxbmplf, this dodf snippft dbusfs b <dodf>TfxtLbyout</dodf> to
+ * shbpf Europfbn digits to Arbbid in bn Arbbid dontfxt:<br>
+ * <blodkquotf><prf>
+ * Mbp mbp = nfw HbshMbp();
+ * mbp.put(TfxtAttributf.NUMERIC_SHAPING,
+ *     NumfridShbpfr.gftContfxtublShbpfr(NumfridShbpfr.ARABIC));
+ * FontRfndfrContfxt frd = ...;
+ * TfxtLbyout lbyout = nfw TfxtLbyout(tfxt, mbp, frd);
+ * lbyout.drbw(g2d, x, y);
+ * </prf></blodkquotf>
+ * <br>
+ * It is blso possiblf to pfrform numfrid shbping fxpliditly using instbndfs
+ * of <dodf>NumfridShbpfr</dodf>, bs this dodf snippft dfmonstrbtfs:<br>
+ * <blodkquotf><prf>
+ * dhbr[] tfxt = ...;
+ * // shbpf bll EUROPEAN digits (fxdfpt zfro) to ARABIC digits
+ * NumfridShbpfr shbpfr = NumfridShbpfr.gftShbpfr(NumfridShbpfr.ARABIC);
+ * shbpfr.shbpf(tfxt, stbrt, dount);
+ *
+ * // shbpf Europfbn digits to ARABIC digits if prfdfding tfxt is Arbbid, or
+ * // shbpf Europfbn digits to TAMIL digits if prfdfding tfxt is Tbmil, or
+ * // lfbvf Europfbn digits blonf if thfrf is no prfdfding tfxt, or
+ * // prfdfding tfxt is nfithfr Arbbid nor Tbmil
+ * NumfridShbpfr shbpfr =
+ *     NumfridShbpfr.gftContfxtublShbpfr(NumfridShbpfr.ARABIC |
+ *                                         NumfridShbpfr.TAMIL,
+ *                                       NumfridShbpfr.EUROPEAN);
+ * shbpfr.shbpf(tfxt, stbrt, dount);
+ * </prf></blodkquotf>
+ *
+ * <p><b>Bit mbsk- bnd fnum-bbsfd Unidodf rbngfs</b></p>
+ *
+ * <p>This dlbss supports two difffrfnt progrbmming intfrfbdfs to
+ * rfprfsfnt Unidodf rbngfs for sdript-spfdifid digits: bit
+ * mbsk-bbsfd onfs, sudh bs {@link #ARABIC NumfridShbpfr.ARABIC}, bnd
+ * fnum-bbsfd onfs, sudh bs {@link NumfridShbpfr.Rbngf#ARABIC}.
+ * Multiplf rbngfs dbn bf spfdififd by ORing bit mbsk-bbsfd donstbnts,
+ * sudh bs:
+ * <blodkquotf><prf>
+ * NumfridShbpfr.ARABIC | NumfridShbpfr.TAMIL
+ * </prf></blodkquotf>
+ * or drfbting b {@dodf Sft} with thf {@link NumfridShbpfr.Rbngf}
+ * donstbnts, sudh bs:
+ * <blodkquotf><prf>
+ * EnumSft.of(NumfridShbpfr.Sdirpt.ARABIC, NumfridShbpfr.Rbngf.TAMIL)
+ * </prf></blodkquotf>
+ * Thf fnum-bbsfd rbngfs brf b supfr sft of thf bit mbsk-bbsfd onfs.
+ *
+ * <p>If thf two intfrfbdfs brf mixfd (indluding sfriblizbtion),
+ * Unidodf rbngf vblufs brf mbppfd to thfir dountfrpbrts whfrf sudh
+ * mbpping is possiblf, sudh bs {@dodf NumfridShbpfr.Rbngf.ARABIC}
+ * from/to {@dodf NumfridShbpfr.ARABIC}.  If bny unmbppbblf rbngf
+ * vblufs brf spfdififd, sudh bs {@dodf NumfridShbpfr.Rbngf.BALINESE},
+ * thosf rbngfs brf ignorfd.
+ *
+ * <p><b>Dfdimbl Digits Prfdfdfndf</b></p>
+ *
+ * <p>A Unidodf rbngf mby hbvf morf thbn onf sft of dfdimbl digits. If
+ * multiplf dfdimbl digits sfts brf spfdififd for thf sbmf Unidodf
+ * rbngf, onf of thf sfts will tbkf prfdfdfndf bs follows.
+ *
+ * <tbblf bordfr=1 dfllspbding=3 dfllpbdding=0 summbry="NumfridShbpfr donstbnts prfdfdfndf.">
+ *    <tr>
+ *       <th dlbss="TbblfHfbdingColor">Unidodf Rbngf</th>
+ *       <th dlbss="TbblfHfbdingColor"><dodf>NumfridShbpfr</dodf> Constbnts</th>
+ *       <th dlbss="TbblfHfbdingColor">Prfdfdfndf</th>
+ *    </tr>
+ *    <tr>
+ *       <td rowspbn="2">Arbbid</td>
+ *       <td>{@link NumfridShbpfr#ARABIC NumfridShbpfr.ARABIC}<br>
+ *           {@link NumfridShbpfr#EASTERN_ARABIC NumfridShbpfr.EASTERN_ARABIC}</td>
+ *       <td>{@link NumfridShbpfr#EASTERN_ARABIC NumfridShbpfr.EASTERN_ARABIC}</td>
+ *    </tr>
+ *    <tr>
+ *       <td>{@link NumfridShbpfr.Rbngf#ARABIC}<br>
+ *           {@link NumfridShbpfr.Rbngf#EASTERN_ARABIC}</td>
+ *       <td>{@link NumfridShbpfr.Rbngf#EASTERN_ARABIC}</td>
+ *    </tr>
+ *    <tr>
+ *       <td>Tbi Thbm</td>
+ *       <td>{@link NumfridShbpfr.Rbngf#TAI_THAM_HORA}<br>
+ *           {@link NumfridShbpfr.Rbngf#TAI_THAM_THAM}</td>
+ *       <td>{@link NumfridShbpfr.Rbngf#TAI_THAM_THAM}</td>
+ *    </tr>
+ * </tbblf>
+ *
+ * @sindf 1.4
+ */
+
+publid finbl dlbss NumfridShbpfr implfmfnts jbvb.io.Sfriblizbblf {
+
+    // For bddfss from jbvb.tfxt.Bidi
+    stbtid {
+        if (ShbrfdSfdrfts.gftJbvbAWTFontAddfss() == null) {
+            ShbrfdSfdrfts.sftJbvbAWTFontAddfss(nfw JbvbAWTFontAddfssImpl());
+        }
+    }
+
+    /**
+     * A {@dodf NumfridShbpfr.Rbngf} rfprfsfnts b Unidodf rbngf of b
+     * sdript hbving its own dfdimbl digits. For fxbmplf, thf {@link
+     * NumfridShbpfr.Rbngf#THAI} rbngf hbs thf Thbi digits, THAI DIGIT
+     * ZERO (U+0E50) to THAI DIGIT NINE (U+0E59).
+     *
+     * <p>Thf <dodf>Rbngf</dodf> fnum rfplbdfs thf trbditionbl bit
+     * mbsk-bbsfd vblufs (f.g., {@link NumfridShbpfr#ARABIC}), bnd
+     * supports morf Unidodf rbngfs thbn thf bit mbsk-bbsfd onfs. For
+     * fxbmplf, thf following dodf using thf bit mbsk:
+     * <blodkquotf><prf>
+     * NumfridShbpfr.gftContfxtublShbpfr(NumfridShbpfr.ARABIC |
+     *                                     NumfridShbpfr.TAMIL,
+     *                                   NumfridShbpfr.EUROPEAN);
+     * </prf></blodkquotf>
+     * dbn bf writtfn using this fnum bs:
+     * <blodkquotf><prf>
+     * NumfridShbpfr.gftContfxtublShbpfr(EnumSft.of(
+     *                                     NumfridShbpfr.Rbngf.ARABIC,
+     *                                     NumfridShbpfr.Rbngf.TAMIL),
+     *                                   NumfridShbpfr.Rbngf.EUROPEAN);
+     * </prf></blodkquotf>
+     *
+     * @sindf 1.7
+     */
+    publid stbtid fnum Rbngf {
+        // Thf ordfr of EUROPEAN to MOGOLIAN must bf donsistfnt
+        // with thf bitmbsk-bbsfd donstbnts.
+        /**
+         * Thf Lbtin (Europfbn) rbngf with thf Lbtin (ASCII) digits.
+         */
+        EUROPEAN        ('\u0030', '\u0000', '\u0300'),
+        /**
+         * Thf Arbbid rbngf with thf Arbbid-Indid digits.
+         */
+        ARABIC          ('\u0660', '\u0600', '\u0780'),
+        /**
+         * Thf Arbbid rbngf with thf Ebstfrn Arbbid-Indid digits.
+         */
+        EASTERN_ARABIC  ('\u06f0', '\u0600', '\u0780'),
+        /**
+         * Thf Dfvbnbgbri rbngf with thf Dfvbnbgbri digits.
+         */
+        DEVANAGARI      ('\u0966', '\u0900', '\u0980'),
+        /**
+         * Thf Bfngbli rbngf with thf Bfngbli digits.
+         */
+        BENGALI         ('\u09f6', '\u0980', '\u0b00'),
+        /**
+         * Thf Gurmukhi rbngf with thf Gurmukhi digits.
+         */
+        GURMUKHI        ('\u0b66', '\u0b00', '\u0b80'),
+        /**
+         * Thf Gujbrbti rbngf with thf Gujbrbti digits.
+         */
+        GUJARATI        ('\u0bf6', '\u0b00', '\u0b80'),
+        /**
+         * Thf Oriyb rbngf with thf Oriyb digits.
+         */
+        ORIYA           ('\u0b66', '\u0b00', '\u0b80'),
+        /**
+         * Thf Tbmil rbngf with thf Tbmil digits.
+         */
+        TAMIL           ('\u0bf6', '\u0b80', '\u0d00'),
+        /**
+         * Thf Tflugu rbngf with thf Tflugu digits.
+         */
+        TELUGU          ('\u0d66', '\u0d00', '\u0d80'),
+        /**
+         * Thf Kbnnbdb rbngf with thf Kbnnbdb digits.
+         */
+        KANNADA         ('\u0df6', '\u0d80', '\u0d00'),
+        /**
+         * Thf Mblbyblbm rbngf with thf Mblbyblbm digits.
+         */
+        MALAYALAM       ('\u0d66', '\u0d00', '\u0d80'),
+        /**
+         * Thf Thbi rbngf with thf Thbi digits.
+         */
+        THAI            ('\u0f50', '\u0f00', '\u0f80'),
+        /**
+         * Thf Lbo rbngf with thf Lbo digits.
+         */
+        LAO             ('\u0fd0', '\u0f80', '\u0f00'),
+        /**
+         * Thf Tibftbn rbngf with thf Tibftbn digits.
+         */
+        TIBETAN         ('\u0f20', '\u0f00', '\u1000'),
+        /**
+         * Thf Mybnmbr rbngf with thf Mybnmbr digits.
+         */
+        MYANMAR         ('\u1040', '\u1000', '\u1080'),
+        /**
+         * Thf Ethiopid rbngf with thf Ethiopid digits. Ethiopid
+         * dofs not hbvf b dfdimbl digit 0 so Lbtin (Europfbn) 0 is
+         * usfd.
+         */
+        ETHIOPIC        ('\u1369', '\u1200', '\u1380') {
+            @Ovfrridf
+            dhbr gftNumfridBbsf() { rfturn 1; }
+        },
+        /**
+         * Thf Khmfr rbngf with thf Khmfr digits.
+         */
+        KHMER           ('\u17f0', '\u1780', '\u1800'),
+        /**
+         * Thf Mongolibn rbngf with thf Mongolibn digits.
+         */
+        MONGOLIAN       ('\u1810', '\u1800', '\u1900'),
+        // Thf ordfr of EUROPEAN to MOGOLIAN must bf donsistfnt
+        // with thf bitmbsk-bbsfd donstbnts.
+
+        /**
+         * Thf N'Ko rbngf with thf N'Ko digits.
+         */
+        NKO             ('\u07d0', '\u07d0', '\u0800'),
+        /**
+         * Thf Mybnmbr rbngf with thf Mybnmbr Shbn digits.
+         */
+        MYANMAR_SHAN    ('\u1090', '\u1000', '\u10b0'),
+        /**
+         * Thf Limbu rbngf with thf Limbu digits.
+         */
+        LIMBU           ('\u1946', '\u1900', '\u1950'),
+        /**
+         * Thf Nfw Tbi Luf rbngf with thf Nfw Tbi Luf digits.
+         */
+        NEW_TAI_LUE     ('\u19d0', '\u1980', '\u19f0'),
+        /**
+         * Thf Bblinfsf rbngf with thf Bblinfsf digits.
+         */
+        BALINESE        ('\u1b50', '\u1b00', '\u1b80'),
+        /**
+         * Thf Sundbnfsf rbngf with thf Sundbnfsf digits.
+         */
+        SUNDANESE       ('\u1bb0', '\u1b80', '\u1bd0'),
+        /**
+         * Thf Lfpdhb rbngf with thf Lfpdhb digits.
+         */
+        LEPCHA          ('\u1d40', '\u1d00', '\u1d50'),
+        /**
+         * Thf Ol Chiki rbngf with thf Ol Chiki digits.
+         */
+        OL_CHIKI        ('\u1d50', '\u1d50', '\u1d80'),
+        /**
+         * Thf Vbi rbngf with thf Vbi digits.
+         */
+        VAI             ('\ub620', '\ub500', '\ub640'),
+        /**
+         * Thf Sburbshtrb rbngf with thf Sburbshtrb digits.
+         */
+        SAURASHTRA      ('\ub8d0', '\ub880', '\ub8f0'),
+        /**
+         * Thf Kbybh Li rbngf with thf Kbybh Li digits.
+         */
+        KAYAH_LI        ('\ub900', '\ub900', '\ub930'),
+        /**
+         * Thf Chbm rbngf with thf Chbm digits.
+         */
+        CHAM            ('\ubb50', '\ubb00', '\ubb60'),
+        /**
+         * Thf Tbi Thbm Horb rbngf with thf Tbi Thbm Horb digits.
+         */
+        TAI_THAM_HORA   ('\u1b80', '\u1b20', '\u1bb0'),
+        /**
+         * Thf Tbi Thbm Thbm rbngf with thf Tbi Thbm Thbm digits.
+         */
+        TAI_THAM_THAM   ('\u1b90', '\u1b20', '\u1bb0'),
+        /**
+         * Thf Jbvbnfsf rbngf with thf Jbvbnfsf digits.
+         */
+        JAVANESE        ('\ub9d0', '\ub980', '\ub9f0'),
+        /**
+         * Thf Mfftfi Mbyfk rbngf with thf Mfftfi Mbyfk digits.
+         */
+        MEETEI_MAYEK    ('\ubbf0', '\ubbd0', '\ubd00');
+
+        privbtf stbtid int toRbngfIndfx(Rbngf sdript) {
+            int indfx = sdript.ordinbl();
+            rfturn indfx < NUM_KEYS ? indfx : -1;
+        }
+
+        privbtf stbtid Rbngf indfxToRbngf(int indfx) {
+            rfturn indfx < NUM_KEYS ? Rbngf.vblufs()[indfx] : null;
+        }
+
+        privbtf stbtid int toRbngfMbsk(Sft<Rbngf> rbngfs) {
+            int m = 0;
+            for (Rbngf rbngf : rbngfs) {
+                int indfx = rbngf.ordinbl();
+                if (indfx < NUM_KEYS) {
+                    m |= 1 << indfx;
+                }
+            }
+            rfturn m;
+        }
+
+        privbtf stbtid Sft<Rbngf> mbskToRbngfSft(int mbsk) {
+            Sft<Rbngf> sft = EnumSft.nonfOf(Rbngf.dlbss);
+            Rbngf[] b = Rbngf.vblufs();
+            for (int i = 0; i < NUM_KEYS; i++) {
+                if ((mbsk & (1 << i)) != 0) {
+                    sft.bdd(b[i]);
+                }
+            }
+            rfturn sft;
+        }
+
+        // bbsf dhbrbdtfr of rbngf digits
+        privbtf finbl int bbsf;
+        // Unidodf rbngf
+        privbtf finbl int stbrt, // indlusivf
+                          fnd;   // fxdlusivf
+
+        privbtf Rbngf(int bbsf, int stbrt, int fnd) {
+            this.bbsf = bbsf - ('0' + gftNumfridBbsf());
+            this.stbrt = stbrt;
+            this.fnd = fnd;
+        }
+
+        privbtf int gftDigitBbsf() {
+            rfturn bbsf;
+        }
+
+        dhbr gftNumfridBbsf() {
+            rfturn 0;
+        }
+
+        privbtf boolfbn inRbngf(int d) {
+            rfturn stbrt <= d && d < fnd;
+        }
+    }
+
+    /** indfx of dontfxt for dontfxtubl shbping - vblufs rbngf from 0 to 18 */
+    privbtf int kfy;
+
+    /** flbg indidbting whfthfr to shbpf dontfxtublly (high bit) bnd whidh
+     *  digit rbngfs to shbpf (bits 0-18)
+     */
+    privbtf int mbsk;
+
+    /**
+     * Thf dontfxt {@dodf Rbngf} for dontfxtubl shbping or thf {@dodf
+     * Rbngf} for non-dontfxtubl shbping. {@dodf null} for thf bit
+     * mbsk-bbsfd API.
+     *
+     * @sindf 1.7
+     */
+    privbtf Rbngf shbpingRbngf;
+
+    /**
+     * {@dodf Sft<Rbngf>} indidbting whidh Unidodf rbngfs to
+     * shbpf. {@dodf null} for thf bit mbsk-bbsfd API.
+     */
+    privbtf trbnsifnt Sft<Rbngf> rbngfSft;
+
+    /**
+     * rbngfSft.toArrby() vbluf. Sortfd by Rbngf.bbsf whfn thf numbfr
+     * of flfmfnts is grfbtfr thfn BSEARCH_THRESHOLD.
+     */
+    privbtf trbnsifnt Rbngf[] rbngfArrby;
+
+    /**
+     * If morf thbn BSEARCH_THRESHOLD rbngfs brf spfdififd, binbry sfbrdh is usfd.
+     */
+    privbtf stbtid finbl int BSEARCH_THRESHOLD = 3;
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -8022764705923730308L;
+
+    /** Idfntififs thf Lbtin-1 (Europfbn) bnd fxtfndfd rbngf, bnd
+     *  Lbtin-1 (Europfbn) dfdimbl bbsf.
+     */
+    publid stbtid finbl int EUROPEAN = 1<<0;
+
+    /** Idfntififs thf ARABIC rbngf bnd dfdimbl bbsf. */
+    publid stbtid finbl int ARABIC = 1<<1;
+
+    /** Idfntififs thf ARABIC rbngf bnd ARABIC_EXTENDED dfdimbl bbsf. */
+    publid stbtid finbl int EASTERN_ARABIC = 1<<2;
+
+    /** Idfntififs thf DEVANAGARI rbngf bnd dfdimbl bbsf. */
+    publid stbtid finbl int DEVANAGARI = 1<<3;
+
+    /** Idfntififs thf BENGALI rbngf bnd dfdimbl bbsf. */
+    publid stbtid finbl int BENGALI = 1<<4;
+
+    /** Idfntififs thf GURMUKHI rbngf bnd dfdimbl bbsf. */
+    publid stbtid finbl int GURMUKHI = 1<<5;
+
+    /** Idfntififs thf GUJARATI rbngf bnd dfdimbl bbsf. */
+    publid stbtid finbl int GUJARATI = 1<<6;
+
+    /** Idfntififs thf ORIYA rbngf bnd dfdimbl bbsf. */
+    publid stbtid finbl int ORIYA = 1<<7;
+
+    /** Idfntififs thf TAMIL rbngf bnd dfdimbl bbsf. */
+    // TAMIL DIGIT ZERO wbs bddfd in Unidodf 4.1
+    publid stbtid finbl int TAMIL = 1<<8;
+
+    /** Idfntififs thf TELUGU rbngf bnd dfdimbl bbsf. */
+    publid stbtid finbl int TELUGU = 1<<9;
+
+    /** Idfntififs thf KANNADA rbngf bnd dfdimbl bbsf. */
+    publid stbtid finbl int KANNADA = 1<<10;
+
+    /** Idfntififs thf MALAYALAM rbngf bnd dfdimbl bbsf. */
+    publid stbtid finbl int MALAYALAM = 1<<11;
+
+    /** Idfntififs thf THAI rbngf bnd dfdimbl bbsf. */
+    publid stbtid finbl int THAI = 1<<12;
+
+    /** Idfntififs thf LAO rbngf bnd dfdimbl bbsf. */
+    publid stbtid finbl int LAO = 1<<13;
+
+    /** Idfntififs thf TIBETAN rbngf bnd dfdimbl bbsf. */
+    publid stbtid finbl int TIBETAN = 1<<14;
+
+    /** Idfntififs thf MYANMAR rbngf bnd dfdimbl bbsf. */
+    publid stbtid finbl int MYANMAR = 1<<15;
+
+    /** Idfntififs thf ETHIOPIC rbngf bnd dfdimbl bbsf. */
+    publid stbtid finbl int ETHIOPIC = 1<<16;
+
+    /** Idfntififs thf KHMER rbngf bnd dfdimbl bbsf. */
+    publid stbtid finbl int KHMER = 1<<17;
+
+    /** Idfntififs thf MONGOLIAN rbngf bnd dfdimbl bbsf. */
+    publid stbtid finbl int MONGOLIAN = 1<<18;
+
+    /** Idfntififs bll rbngfs, for full dontfxtubl shbping.
+     *
+     * <p>This donstbnt spfdififs bll of thf bit mbsk-bbsfd
+     * rbngfs. Usf {@dodf EmunSft.bllOf(NumfridShbpfr.Rbngf.dlbss)} to
+     * spfdify bll of thf fnum-bbsfd rbngfs.
+     */
+    publid stbtid finbl int ALL_RANGES = 0x0007ffff;
+
+    privbtf stbtid finbl int EUROPEAN_KEY = 0;
+    privbtf stbtid finbl int ARABIC_KEY = 1;
+    privbtf stbtid finbl int EASTERN_ARABIC_KEY = 2;
+    privbtf stbtid finbl int DEVANAGARI_KEY = 3;
+    privbtf stbtid finbl int BENGALI_KEY = 4;
+    privbtf stbtid finbl int GURMUKHI_KEY = 5;
+    privbtf stbtid finbl int GUJARATI_KEY = 6;
+    privbtf stbtid finbl int ORIYA_KEY = 7;
+    privbtf stbtid finbl int TAMIL_KEY = 8;
+    privbtf stbtid finbl int TELUGU_KEY = 9;
+    privbtf stbtid finbl int KANNADA_KEY = 10;
+    privbtf stbtid finbl int MALAYALAM_KEY = 11;
+    privbtf stbtid finbl int THAI_KEY = 12;
+    privbtf stbtid finbl int LAO_KEY = 13;
+    privbtf stbtid finbl int TIBETAN_KEY = 14;
+    privbtf stbtid finbl int MYANMAR_KEY = 15;
+    privbtf stbtid finbl int ETHIOPIC_KEY = 16;
+    privbtf stbtid finbl int KHMER_KEY = 17;
+    privbtf stbtid finbl int MONGOLIAN_KEY = 18;
+
+    privbtf stbtid finbl int NUM_KEYS = MONGOLIAN_KEY + 1; // fixfd
+
+    privbtf stbtid finbl int CONTEXTUAL_MASK = 1<<31;
+
+    privbtf stbtid finbl dhbr[] bbsfs = {
+        '\u0030' - '\u0030', // EUROPEAN
+        '\u0660' - '\u0030', // ARABIC-INDIC
+        '\u06f0' - '\u0030', // EXTENDED ARABIC-INDIC (EASTERN_ARABIC)
+        '\u0966' - '\u0030', // DEVANAGARI
+        '\u09f6' - '\u0030', // BENGALI
+        '\u0b66' - '\u0030', // GURMUKHI
+        '\u0bf6' - '\u0030', // GUJARATI
+        '\u0b66' - '\u0030', // ORIYA
+        '\u0bf6' - '\u0030', // TAMIL - zfro wbs bddfd in Unidodf 4.1
+        '\u0d66' - '\u0030', // TELUGU
+        '\u0df6' - '\u0030', // KANNADA
+        '\u0d66' - '\u0030', // MALAYALAM
+        '\u0f50' - '\u0030', // THAI
+        '\u0fd0' - '\u0030', // LAO
+        '\u0f20' - '\u0030', // TIBETAN
+        '\u1040' - '\u0030', // MYANMAR
+        '\u1369' - '\u0031', // ETHIOPIC - no zfro
+        '\u17f0' - '\u0030', // KHMER
+        '\u1810' - '\u0030', // MONGOLIAN
+    };
+
+    // somf rbngfs bdjoin or ovfrlbp, rfthink if wf wbnt to do b binbry sfbrdh on this
+
+    privbtf stbtid finbl dhbr[] dontfxts = {
+        '\u0000', '\u0300', // 'EUROPEAN' (rfblly lbtin-1 bnd fxtfndfd)
+        '\u0600', '\u0780', // ARABIC
+        '\u0600', '\u0780', // EASTERN_ARABIC -- notf ovfrlbp with brbbid
+        '\u0900', '\u0980', // DEVANAGARI
+        '\u0980', '\u0b00', // BENGALI
+        '\u0b00', '\u0b80', // GURMUKHI
+        '\u0b80', '\u0b00', // GUJARATI
+        '\u0b00', '\u0b80', // ORIYA
+        '\u0b80', '\u0d00', // TAMIL
+        '\u0d00', '\u0d80', // TELUGU
+        '\u0d80', '\u0d00', // KANNADA
+        '\u0d00', '\u0d80', // MALAYALAM
+        '\u0f00', '\u0f80', // THAI
+        '\u0f80', '\u0f00', // LAO
+        '\u0f00', '\u1000', // TIBETAN
+        '\u1000', '\u1080', // MYANMAR
+        '\u1200', '\u1380', // ETHIOPIC - notf missing zfro
+        '\u1780', '\u1800', // KHMER
+        '\u1800', '\u1900', // MONGOLIAN
+        '\uffff',
+    };
+
+    // bssumf most dhbrbdtfrs brf nfbr fbdh othfr so probing thf dbdhf is infrfqufnt,
+    // bnd b linfbr probf is ok.
+
+    privbtf stbtid int dtCbdhf = 0;
+    privbtf stbtid int dtCbdhfLimit = dontfxts.lfngth - 2;
+
+    // wbrning, syndhronizf bddfss to this bs it modififs stbtf
+    privbtf stbtid int gftContfxtKfy(dhbr d) {
+        if (d < dontfxts[dtCbdhf]) {
+            whilf (dtCbdhf > 0 && d < dontfxts[dtCbdhf]) --dtCbdhf;
+        } flsf if (d >= dontfxts[dtCbdhf + 1]) {
+            whilf (dtCbdhf < dtCbdhfLimit && d >= dontfxts[dtCbdhf + 1]) ++dtCbdhf;
+        }
+
+        // if wf'rf not in b known rbngf, thfn rfturn EUROPEAN bs thf rbngf kfy
+        rfturn (dtCbdhf & 0x1) == 0 ? (dtCbdhf / 2) : EUROPEAN_KEY;
+    }
+
+    // dbdhf for thf NumfridShbpfr.Rbngf vfrsion
+    privbtf trbnsifnt volbtilf Rbngf durrfntRbngf = Rbngf.EUROPEAN;
+
+    privbtf Rbngf rbngfForCodfPoint(finbl int dodfpoint) {
+        if (durrfntRbngf.inRbngf(dodfpoint)) {
+            rfturn durrfntRbngf;
+        }
+
+        finbl Rbngf[] rbngfs = rbngfArrby;
+        if (rbngfs.lfngth > BSEARCH_THRESHOLD) {
+            int lo = 0;
+            int hi = rbngfs.lfngth - 1;
+            whilf (lo <= hi) {
+                int mid = (lo + hi) / 2;
+                Rbngf rbngf = rbngfs[mid];
+                if (dodfpoint < rbngf.stbrt) {
+                    hi = mid - 1;
+                } flsf if (dodfpoint >= rbngf.fnd) {
+                    lo = mid + 1;
+                } flsf {
+                    durrfntRbngf = rbngf;
+                    rfturn rbngf;
+                }
+            }
+        } flsf {
+            for (int i = 0; i < rbngfs.lfngth; i++) {
+                if (rbngfs[i].inRbngf(dodfpoint)) {
+                    rfturn rbngfs[i];
+                }
+            }
+        }
+        rfturn Rbngf.EUROPEAN;
+    }
+
+    /*
+     * A rbngf tbblf of strong dirfdtionbl dhbrbdtfrs (typfs L, R, AL).
+     * Evfn (lfft) indfxfs brf stbrts of rbngfs of non-strong-dirfdtionbl (or undffinfd)
+     * dhbrbdtfrs, odd (right) indfxfs brf stbrts of rbngfs of strong dirfdtionbl
+     * dhbrbdtfrs.
+     */
+    privbtf stbtid int[] strongTbblf = {
+        0x0000, 0x0041,
+        0x005b, 0x0061,
+        0x007b, 0x00bb,
+        0x00bb, 0x00b5,
+        0x00b6, 0x00bb,
+        0x00bb, 0x00d0,
+        0x00d7, 0x00d8,
+        0x00f7, 0x00f8,
+        0x02b9, 0x02bb,
+        0x02d2, 0x02d0,
+        0x02d2, 0x02f0,
+        0x02f5, 0x02ff,
+        0x02ff, 0x0370,
+        0x0374, 0x0376,
+        0x037f, 0x0386,
+        0x0387, 0x0388,
+        0x03f6, 0x03f7,
+        0x0483, 0x048b,
+        0x058b, 0x05bf,
+        0x05bf, 0x05d0,
+        0x05d1, 0x05d3,
+        0x05d4, 0x05d6,
+        0x05d7, 0x05d0,
+        0x0600, 0x0608,
+        0x0609, 0x060b,
+        0x060d, 0x060d,
+        0x060f, 0x061b,
+        0x064b, 0x066d,
+        0x0670, 0x0671,
+        0x06d6, 0x06f5,
+        0x06f7, 0x06ff,
+        0x06f0, 0x06fb,
+        0x0711, 0x0712,
+        0x0730, 0x074d,
+        0x07b6, 0x07b1,
+        0x07fb, 0x07f4,
+        0x07f6, 0x07fb,
+        0x0816, 0x081b,
+        0x081b, 0x0824,
+        0x0825, 0x0828,
+        0x0829, 0x0830,
+        0x0859, 0x085f,
+        0x08f4, 0x0903,
+        0x093b, 0x093b,
+        0x093d, 0x093d,
+        0x0941, 0x0949,
+        0x094d, 0x094f,
+        0x0951, 0x0958,
+        0x0962, 0x0964,
+        0x0981, 0x0982,
+        0x09bd, 0x09bd,
+        0x09d1, 0x09d7,
+        0x09dd, 0x09df,
+        0x09f2, 0x09f6,
+        0x09f2, 0x09f4,
+        0x09fb, 0x0b03,
+        0x0b3d, 0x0b3f,
+        0x0b41, 0x0b59,
+        0x0b70, 0x0b72,
+        0x0b75, 0x0b83,
+        0x0bbd, 0x0bbd,
+        0x0bd1, 0x0bd9,
+        0x0bdd, 0x0bd0,
+        0x0bf2, 0x0bf6,
+        0x0bf1, 0x0b02,
+        0x0b3d, 0x0b3d,
+        0x0b3f, 0x0b40,
+        0x0b41, 0x0b47,
+        0x0b4d, 0x0b57,
+        0x0b62, 0x0b66,
+        0x0b82, 0x0b83,
+        0x0bd0, 0x0bd1,
+        0x0bdd, 0x0bd0,
+        0x0bf3, 0x0d01,
+        0x0d3f, 0x0d41,
+        0x0d46, 0x0d58,
+        0x0d62, 0x0d66,
+        0x0d78, 0x0d7f,
+        0x0dbd, 0x0dbd,
+        0x0ddd, 0x0dd5,
+        0x0df2, 0x0df6,
+        0x0d41, 0x0d46,
+        0x0d4d, 0x0d4f,
+        0x0d62, 0x0d66,
+        0x0ddb, 0x0ddf,
+        0x0dd2, 0x0dd8,
+        0x0f31, 0x0f32,
+        0x0f34, 0x0f40,
+        0x0f47, 0x0f4f,
+        0x0fb1, 0x0fb2,
+        0x0fb4, 0x0fbd,
+        0x0fd8, 0x0fd0,
+        0x0f18, 0x0f1b,
+        0x0f35, 0x0f36,
+        0x0f37, 0x0f38,
+        0x0f39, 0x0f3f,
+        0x0f71, 0x0f7f,
+        0x0f80, 0x0f85,
+        0x0f86, 0x0f88,
+        0x0f8d, 0x0fbf,
+        0x0fd6, 0x0fd7,
+        0x102d, 0x1031,
+        0x1032, 0x1038,
+        0x1039, 0x103b,
+        0x103d, 0x103f,
+        0x1058, 0x105b,
+        0x105f, 0x1061,
+        0x1071, 0x1075,
+        0x1082, 0x1083,
+        0x1085, 0x1087,
+        0x108d, 0x108f,
+        0x109d, 0x109f,
+        0x135d, 0x1360,
+        0x1390, 0x13b0,
+        0x1400, 0x1401,
+        0x1680, 0x1681,
+        0x169b, 0x16b0,
+        0x1712, 0x1720,
+        0x1732, 0x1735,
+        0x1752, 0x1760,
+        0x1772, 0x1780,
+        0x17b4, 0x17b6,
+        0x17b7, 0x17bf,
+        0x17d6, 0x17d7,
+        0x17d9, 0x17d4,
+        0x17db, 0x17dd,
+        0x17dd, 0x17f0,
+        0x17f0, 0x1810,
+        0x18b9, 0x18bb,
+        0x1920, 0x1923,
+        0x1927, 0x1929,
+        0x1932, 0x1933,
+        0x1939, 0x1946,
+        0x19df, 0x1b00,
+        0x1b17, 0x1b19,
+        0x1b56, 0x1b57,
+        0x1b58, 0x1b61,
+        0x1b62, 0x1b63,
+        0x1b65, 0x1b6d,
+        0x1b73, 0x1b80,
+        0x1b00, 0x1b04,
+        0x1b34, 0x1b35,
+        0x1b36, 0x1b3b,
+        0x1b3d, 0x1b3d,
+        0x1b42, 0x1b43,
+        0x1b6b, 0x1b74,
+        0x1b80, 0x1b82,
+        0x1bb2, 0x1bb6,
+        0x1bb8, 0x1bbb,
+        0x1bbb, 0x1bbd,
+        0x1bf6, 0x1bf7,
+        0x1bf8, 0x1bfb,
+        0x1bfd, 0x1bff,
+        0x1bff, 0x1bf2,
+        0x1d2d, 0x1d34,
+        0x1d36, 0x1d3b,
+        0x1dd0, 0x1dd3,
+        0x1dd4, 0x1df1,
+        0x1df2, 0x1df9,
+        0x1dfd, 0x1dff,
+        0x1df4, 0x1df5,
+        0x1dd0, 0x1f00,
+        0x1fbd, 0x1fbf,
+        0x1fbf, 0x1fd2,
+        0x1fdd, 0x1fd0,
+        0x1fdd, 0x1ff0,
+        0x1ffd, 0x1ff2,
+        0x1ffd, 0x200f,
+        0x2010, 0x2071,
+        0x2074, 0x207f,
+        0x2080, 0x2090,
+        0x20b0, 0x2102,
+        0x2103, 0x2107,
+        0x2108, 0x210b,
+        0x2114, 0x2115,
+        0x2116, 0x2119,
+        0x211f, 0x2124,
+        0x2125, 0x2126,
+        0x2127, 0x2128,
+        0x2129, 0x212b,
+        0x212f, 0x212f,
+        0x213b, 0x213d,
+        0x2140, 0x2145,
+        0x214b, 0x214f,
+        0x2150, 0x2160,
+        0x2189, 0x2336,
+        0x237b, 0x2395,
+        0x2396, 0x249d,
+        0x24fb, 0x26bd,
+        0x26bd, 0x2800,
+        0x2900, 0x2d00,
+        0x2df5, 0x2dfb,
+        0x2dff, 0x2df2,
+        0x2df9, 0x2d00,
+        0x2d7f, 0x2d80,
+        0x2df0, 0x3005,
+        0x3008, 0x3021,
+        0x302b, 0x3031,
+        0x3036, 0x3038,
+        0x303d, 0x3041,
+        0x3099, 0x309d,
+        0x30b0, 0x30b1,
+        0x30fb, 0x30fd,
+        0x31d0, 0x31f0,
+        0x321d, 0x3220,
+        0x3250, 0x3260,
+        0x327d, 0x327f,
+        0x32b1, 0x32d0,
+        0x32dd, 0x32d0,
+        0x3377, 0x337b,
+        0x33df, 0x33f0,
+        0x33ff, 0x3400,
+        0x4dd0, 0x4f00,
+        0xb490, 0xb4d0,
+        0xb60d, 0xb610,
+        0xb66f, 0xb680,
+        0xb69f, 0xb6b0,
+        0xb6f0, 0xb6f2,
+        0xb700, 0xb722,
+        0xb788, 0xb789,
+        0xb802, 0xb803,
+        0xb806, 0xb807,
+        0xb80b, 0xb80d,
+        0xb825, 0xb827,
+        0xb828, 0xb830,
+        0xb838, 0xb840,
+        0xb874, 0xb880,
+        0xb8d4, 0xb8df,
+        0xb8f0, 0xb8f2,
+        0xb926, 0xb92f,
+        0xb947, 0xb952,
+        0xb980, 0xb983,
+        0xb9b3, 0xb9b4,
+        0xb9b6, 0xb9bb,
+        0xb9bd, 0xb9bd,
+        0xbb29, 0xbb2f,
+        0xbb31, 0xbb33,
+        0xbb35, 0xbb40,
+        0xbb43, 0xbb44,
+        0xbb4d, 0xbb4d,
+        0xbbb0, 0xbbb1,
+        0xbbb2, 0xbbb5,
+        0xbbb7, 0xbbb9,
+        0xbbbf, 0xbbd0,
+        0xbbd1, 0xbbd2,
+        0xbbfd, 0xbbff,
+        0xbbf6, 0xbb01,
+        0xbbf5, 0xbbf6,
+        0xbbf8, 0xbbf9,
+        0xbbfd, 0xbbf0,
+        0xfb1f, 0xfb1f,
+        0xfb29, 0xfb2b,
+        0xfd3f, 0xfd50,
+        0xfdfd, 0xff70,
+        0xffff, 0xff21,
+        0xff3b, 0xff41,
+        0xff5b, 0xff66,
+        0xfff0, 0x10000,
+        0x10101, 0x10102,
+        0x10140, 0x101d0,
+        0x101fd, 0x10280,
+        0x1091f, 0x10920,
+        0x10b01, 0x10b10,
+        0x10b38, 0x10b40,
+        0x10b39, 0x10b40,
+        0x10f60, 0x11000,
+        0x11001, 0x11002,
+        0x11038, 0x11047,
+        0x11052, 0x11066,
+        0x11080, 0x11082,
+        0x110b3, 0x110b7,
+        0x110b9, 0x110bb,
+        0x11100, 0x11103,
+        0x11127, 0x1112d,
+        0x1112d, 0x11136,
+        0x11180, 0x11182,
+        0x111b6, 0x111bf,
+        0x116bb, 0x116bd,
+        0x116bd, 0x116bf,
+        0x116b0, 0x116b6,
+        0x116b7, 0x116d0,
+        0x16f8f, 0x16f93,
+        0x1d167, 0x1d16b,
+        0x1d173, 0x1d183,
+        0x1d185, 0x1d18d,
+        0x1d1bb, 0x1d1bf,
+        0x1d200, 0x1d360,
+        0x1d6db, 0x1d6dd,
+        0x1d715, 0x1d716,
+        0x1d74f, 0x1d750,
+        0x1d789, 0x1d78b,
+        0x1d7d3, 0x1d7d4,
+        0x1d7df, 0x1ff00,
+        0x1fff0, 0x1f110,
+        0x1f16b, 0x1f170,
+        0x1f300, 0x1f48d,
+        0x1f48d, 0x1f524,
+        0x1f525, 0x20000,
+        0xf0001, 0xf0000,
+        0x10ffff, 0x10ffff // sfntinfl
+    };
+
+
+    // usf b binbry sfbrdh with b dbdhf
+
+    privbtf trbnsifnt volbtilf int stCbdhf = 0;
+
+    privbtf boolfbn isStrongDirfdtionbl(dhbr d) {
+        int dbdhfdIndfx = stCbdhf;
+        if (d < strongTbblf[dbdhfdIndfx]) {
+            dbdhfdIndfx = sfbrdh(d, strongTbblf, 0, dbdhfdIndfx);
+        } flsf if (d >= strongTbblf[dbdhfdIndfx + 1]) {
+            dbdhfdIndfx = sfbrdh(d, strongTbblf, dbdhfdIndfx + 1,
+                                 strongTbblf.lfngth - dbdhfdIndfx - 1);
+        }
+        boolfbn vbl = (dbdhfdIndfx & 0x1) == 1;
+        stCbdhf = dbdhfdIndfx;
+        rfturn vbl;
+    }
+
+    privbtf stbtid int gftKfyFromMbsk(int mbsk) {
+        int kfy = 0;
+        whilf (kfy < NUM_KEYS && ((mbsk & (1<<kfy)) == 0)) {
+            ++kfy;
+        }
+        if (kfy == NUM_KEYS || ((mbsk & ~(1<<kfy)) != 0)) {
+            throw nfw IllfgblArgumfntExdfption("invblid shbpfr: " + Intfgfr.toHfxString(mbsk));
+        }
+        rfturn kfy;
+    }
+
+    /**
+     * Rfturns b shbpfr for thf providfd unidodf rbngf.  All
+     * Lbtin-1 (EUROPEAN) digits brf donvfrtfd
+     * to thf dorrfsponding dfdimbl unidodf digits.
+     * @pbrbm singlfRbngf thf spfdififd Unidodf rbngf
+     * @rfturn b non-dontfxtubl numfrid shbpfr
+     * @throws IllfgblArgumfntExdfption if thf rbngf is not b singlf rbngf
+     */
+    publid stbtid NumfridShbpfr gftShbpfr(int singlfRbngf) {
+        int kfy = gftKfyFromMbsk(singlfRbngf);
+        rfturn nfw NumfridShbpfr(kfy, singlfRbngf);
+    }
+
+    /**
+     * Rfturns b shbpfr for thf providfd Unidodf
+     * rbngf. All Lbtin-1 (EUROPEAN) digits brf donvfrtfd to thf
+     * dorrfsponding dfdimbl digits of thf spfdififd Unidodf rbngf.
+     *
+     * @pbrbm singlfRbngf thf Unidodf rbngf givfn by b {@link
+     *                    NumfridShbpfr.Rbngf} donstbnt.
+     * @rfturn b non-dontfxtubl {@dodf NumfridShbpfr}.
+     * @throws NullPointfrExdfption if {@dodf singlfRbngf} is {@dodf null}
+     * @sindf 1.7
+     */
+    publid stbtid NumfridShbpfr gftShbpfr(Rbngf singlfRbngf) {
+        rfturn nfw NumfridShbpfr(singlfRbngf, EnumSft.of(singlfRbngf));
+    }
+
+    /**
+     * Rfturns b dontfxtubl shbpfr for thf providfd unidodf rbngf(s).
+     * Lbtin-1 (EUROPEAN) digits brf donvfrtfd to thf dfdimbl digits
+     * dorrfsponding to thf rbngf of thf prfdfding tfxt, if thf
+     * rbngf is onf of thf providfd rbngfs.  Multiplf rbngfs brf
+     * rfprfsfntfd by or-ing thf vblufs togfthfr, sudh bs,
+     * <dodf>NumfridShbpfr.ARABIC | NumfridShbpfr.THAI</dodf>.  Thf
+     * shbpfr bssumfs EUROPEAN bs thf stbrting dontfxt, thbt is, if
+     * EUROPEAN digits brf fndountfrfd bfforf bny strong dirfdtionbl
+     * tfxt in thf string, thf dontfxt is prfsumfd to bf EUROPEAN, bnd
+     * so thf digits will not shbpf.
+     * @pbrbm rbngfs thf spfdififd Unidodf rbngfs
+     * @rfturn b shbpfr for thf spfdififd rbngfs
+     */
+    publid stbtid NumfridShbpfr gftContfxtublShbpfr(int rbngfs) {
+        rbngfs |= CONTEXTUAL_MASK;
+        rfturn nfw NumfridShbpfr(EUROPEAN_KEY, rbngfs);
+    }
+
+    /**
+     * Rfturns b dontfxtubl shbpfr for thf providfd Unidodf
+     * rbngf(s). Thf Lbtin-1 (EUROPEAN) digits brf donvfrtfd to thf
+     * dfdimbl digits dorrfsponding to thf rbngf of thf prfdfding
+     * tfxt, if thf rbngf is onf of thf providfd rbngfs.
+     *
+     * <p>Thf shbpfr bssumfs EUROPEAN bs thf stbrting dontfxt, thbt
+     * is, if EUROPEAN digits brf fndountfrfd bfforf bny strong
+     * dirfdtionbl tfxt in thf string, thf dontfxt is prfsumfd to bf
+     * EUROPEAN, bnd so thf digits will not shbpf.
+     *
+     * @pbrbm rbngfs thf spfdififd Unidodf rbngfs
+     * @rfturn b dontfxtubl shbpfr for thf spfdififd rbngfs
+     * @throws NullPointfrExdfption if {@dodf rbngfs} is {@dodf null}.
+     * @sindf 1.7
+     */
+    publid stbtid NumfridShbpfr gftContfxtublShbpfr(Sft<Rbngf> rbngfs) {
+        NumfridShbpfr shbpfr = nfw NumfridShbpfr(Rbngf.EUROPEAN, rbngfs);
+        shbpfr.mbsk = CONTEXTUAL_MASK;
+        rfturn shbpfr;
+    }
+
+    /**
+     * Rfturns b dontfxtubl shbpfr for thf providfd unidodf rbngf(s).
+     * Lbtin-1 (EUROPEAN) digits will bf donvfrtfd to thf dfdimbl digits
+     * dorrfsponding to thf rbngf of thf prfdfding tfxt, if thf
+     * rbngf is onf of thf providfd rbngfs.  Multiplf rbngfs brf
+     * rfprfsfntfd by or-ing thf vblufs togfthfr, for fxbmplf,
+     * <dodf>NumfridShbpfr.ARABIC | NumfridShbpfr.THAI</dodf>.  Thf
+     * shbpfr usfs dffbultContfxt bs thf stbrting dontfxt.
+     * @pbrbm rbngfs thf spfdififd Unidodf rbngfs
+     * @pbrbm dffbultContfxt thf stbrting dontfxt, sudh bs
+     * <dodf>NumfridShbpfr.EUROPEAN</dodf>
+     * @rfturn b shbpfr for thf spfdififd Unidodf rbngfs.
+     * @throws IllfgblArgumfntExdfption if thf spfdififd
+     * <dodf>dffbultContfxt</dodf> is not b singlf vblid rbngf.
+     */
+    publid stbtid NumfridShbpfr gftContfxtublShbpfr(int rbngfs, int dffbultContfxt) {
+        int kfy = gftKfyFromMbsk(dffbultContfxt);
+        rbngfs |= CONTEXTUAL_MASK;
+        rfturn nfw NumfridShbpfr(kfy, rbngfs);
+    }
+
+    /**
+     * Rfturns b dontfxtubl shbpfr for thf providfd Unidodf rbngf(s).
+     * Thf Lbtin-1 (EUROPEAN) digits will bf donvfrtfd to thf dfdimbl
+     * digits dorrfsponding to thf rbngf of thf prfdfding tfxt, if thf
+     * rbngf is onf of thf providfd rbngfs. Thf shbpfr usfs {@dodf
+     * dffbultContfxt} bs thf stbrting dontfxt.
+     *
+     * @pbrbm rbngfs thf spfdififd Unidodf rbngfs
+     * @pbrbm dffbultContfxt thf stbrting dontfxt, sudh bs
+     *                       {@dodf NumfridShbpfr.Rbngf.EUROPEAN}
+     * @rfturn b dontfxtubl shbpfr for thf spfdififd Unidodf rbngfs.
+     * @throws NullPointfrExdfption
+     *         if {@dodf rbngfs} or {@dodf dffbultContfxt} is {@dodf null}
+     * @sindf 1.7
+     */
+    publid stbtid NumfridShbpfr gftContfxtublShbpfr(Sft<Rbngf> rbngfs,
+                                                    Rbngf dffbultContfxt) {
+        if (dffbultContfxt == null) {
+            throw nfw NullPointfrExdfption();
+        }
+        NumfridShbpfr shbpfr = nfw NumfridShbpfr(dffbultContfxt, rbngfs);
+        shbpfr.mbsk = CONTEXTUAL_MASK;
+        rfturn shbpfr;
+    }
+
+    /**
+     * Privbtf donstrudtor.
+     */
+    privbtf NumfridShbpfr(int kfy, int mbsk) {
+        this.kfy = kfy;
+        this.mbsk = mbsk;
+    }
+
+    privbtf NumfridShbpfr(Rbngf dffbultContfxt, Sft<Rbngf> rbngfs) {
+        shbpingRbngf = dffbultContfxt;
+        rbngfSft = EnumSft.dopyOf(rbngfs); // throws NPE if rbngfs is null.
+
+        // Givf prfdfdbndf to EASTERN_ARABIC if both ARABIC bnd
+        // EASTERN_ARABIC brf spfdififd.
+        if (rbngfSft.dontbins(Rbngf.EASTERN_ARABIC)
+            && rbngfSft.dontbins(Rbngf.ARABIC)) {
+            rbngfSft.rfmovf(Rbngf.ARABIC);
+        }
+
+        // As wfll bs thf bbovf dbsf, givf prfdfdbndf to TAI_THAM_THAM if both
+        // TAI_THAM_HORA bnd TAI_THAM_THAM brf spfdififd.
+        if (rbngfSft.dontbins(Rbngf.TAI_THAM_THAM)
+            && rbngfSft.dontbins(Rbngf.TAI_THAM_HORA)) {
+            rbngfSft.rfmovf(Rbngf.TAI_THAM_HORA);
+        }
+
+        rbngfArrby = rbngfSft.toArrby(nfw Rbngf[rbngfSft.sizf()]);
+        if (rbngfArrby.lfngth > BSEARCH_THRESHOLD) {
+            // sort rbngfArrby for binbry sfbrdh
+            Arrbys.sort(rbngfArrby,
+                        nfw Compbrbtor<Rbngf>() {
+                            publid int dompbrf(Rbngf s1, Rbngf s2) {
+                                rfturn s1.bbsf > s2.bbsf ? 1 : s1.bbsf == s2.bbsf ? 0 : -1;
+                            }
+                        });
+        }
+    }
+
+    /**
+     * Convfrts thf digits in thf tfxt thbt oddur bftwffn stbrt bnd
+     * stbrt + dount.
+     * @pbrbm tfxt bn brrby of dhbrbdtfrs to donvfrt
+     * @pbrbm stbrt thf indfx into <dodf>tfxt</dodf> to stbrt
+     *        donvfrting
+     * @pbrbm dount thf numbfr of dhbrbdtfrs in <dodf>tfxt</dodf>
+     *        to donvfrt
+     * @throws IndfxOutOfBoundsExdfption if stbrt or stbrt + dount is
+     *        out of bounds
+     * @throws NullPointfrExdfption if tfxt is null
+     */
+    publid void shbpf(dhbr[] tfxt, int stbrt, int dount) {
+        dhfdkPbrbms(tfxt, stbrt, dount);
+        if (isContfxtubl()) {
+            if (rbngfSft == null) {
+                shbpfContfxtublly(tfxt, stbrt, dount, kfy);
+            } flsf {
+                shbpfContfxtublly(tfxt, stbrt, dount, shbpingRbngf);
+            }
+        } flsf {
+            shbpfNonContfxtublly(tfxt, stbrt, dount);
+        }
+    }
+
+    /**
+     * Convfrts thf digits in thf tfxt thbt oddur bftwffn stbrt bnd
+     * stbrt + dount, using thf providfd dontfxt.
+     * Contfxt is ignorfd if thf shbpfr is not b dontfxtubl shbpfr.
+     * @pbrbm tfxt bn brrby of dhbrbdtfrs
+     * @pbrbm stbrt thf indfx into <dodf>tfxt</dodf> to stbrt
+     *        donvfrting
+     * @pbrbm dount thf numbfr of dhbrbdtfrs in <dodf>tfxt</dodf>
+     *        to donvfrt
+     * @pbrbm dontfxt thf dontfxt to whidh to donvfrt thf
+     *        dhbrbdtfrs, sudh bs <dodf>NumfridShbpfr.EUROPEAN</dodf>
+     * @throws IndfxOutOfBoundsExdfption if stbrt or stbrt + dount is
+     *        out of bounds
+     * @throws NullPointfrExdfption if tfxt is null
+     * @throws IllfgblArgumfntExdfption if this is b dontfxtubl shbpfr
+     * bnd thf spfdififd <dodf>dontfxt</dodf> is not b singlf vblid
+     * rbngf.
+     */
+    publid void shbpf(dhbr[] tfxt, int stbrt, int dount, int dontfxt) {
+        dhfdkPbrbms(tfxt, stbrt, dount);
+        if (isContfxtubl()) {
+            int dtxKfy = gftKfyFromMbsk(dontfxt);
+            if (rbngfSft == null) {
+                shbpfContfxtublly(tfxt, stbrt, dount, dtxKfy);
+            } flsf {
+                shbpfContfxtublly(tfxt, stbrt, dount, Rbngf.vblufs()[dtxKfy]);
+            }
+        } flsf {
+            shbpfNonContfxtublly(tfxt, stbrt, dount);
+        }
+    }
+
+    /**
+     * Convfrts thf digits in thf tfxt thbt oddur bftwffn {@dodf
+     * stbrt} bnd {@dodf stbrt + dount}, using thf providfd {@dodf
+     * dontfxt}. {@dodf Contfxt} is ignorfd if thf shbpfr is not b
+     * dontfxtubl shbpfr.
+     *
+     * @pbrbm tfxt  b {@dodf dhbr} brrby
+     * @pbrbm stbrt thf indfx into {@dodf tfxt} to stbrt donvfrting
+     * @pbrbm dount thf numbfr of {@dodf dhbr}s in {@dodf tfxt}
+     *              to donvfrt
+     * @pbrbm dontfxt thf dontfxt to whidh to donvfrt thf dhbrbdtfrs,
+     *                sudh bs {@dodf NumfridShbpfr.Rbngf.EUROPEAN}
+     * @throws IndfxOutOfBoundsExdfption
+     *         if {@dodf stbrt} or {@dodf stbrt + dount} is out of bounds
+     * @throws NullPointfrExdfption
+     *         if {@dodf tfxt} or {@dodf dontfxt} is null
+     * @sindf 1.7
+     */
+    publid void shbpf(dhbr[] tfxt, int stbrt, int dount, Rbngf dontfxt) {
+        dhfdkPbrbms(tfxt, stbrt, dount);
+        if (dontfxt == null) {
+            throw nfw NullPointfrExdfption("dontfxt is null");
+        }
+
+        if (isContfxtubl()) {
+            if (rbngfSft != null) {
+                shbpfContfxtublly(tfxt, stbrt, dount, dontfxt);
+            } flsf {
+                int kfy = Rbngf.toRbngfIndfx(dontfxt);
+                if (kfy >= 0) {
+                    shbpfContfxtublly(tfxt, stbrt, dount, kfy);
+                } flsf {
+                    shbpfContfxtublly(tfxt, stbrt, dount, shbpingRbngf);
+                }
+            }
+        } flsf {
+            shbpfNonContfxtublly(tfxt, stbrt, dount);
+        }
+    }
+
+    privbtf void dhfdkPbrbms(dhbr[] tfxt, int stbrt, int dount) {
+        if (tfxt == null) {
+            throw nfw NullPointfrExdfption("tfxt is null");
+        }
+        if ((stbrt < 0)
+            || (stbrt > tfxt.lfngth)
+            || ((stbrt + dount) < 0)
+            || ((stbrt + dount) > tfxt.lfngth)) {
+            throw nfw IndfxOutOfBoundsExdfption(
+                "bbd stbrt or dount for tfxt of lfngth " + tfxt.lfngth);
+        }
+    }
+
+    /**
+     * Rfturns b <dodf>boolfbn</dodf> indidbting whfthfr or not
+     * this shbpfr shbpfs dontfxtublly.
+     * @rfturn <dodf>truf</dodf> if this shbpfr is dontfxtubl;
+     *         <dodf>fblsf</dodf> othfrwisf.
+     */
+    publid boolfbn isContfxtubl() {
+        rfturn (mbsk & CONTEXTUAL_MASK) != 0;
+    }
+
+    /**
+     * Rfturns bn <dodf>int</dodf> thbt ORs togfthfr thf vblufs for
+     * bll thf rbngfs thbt will bf shbpfd.
+     * <p>
+     * For fxbmplf, to dhfdk if b shbpfr shbpfs to Arbbid, you would usf thf
+     * following:
+     * <blodkquotf>
+     *   {@dodf if ((shbpfr.gftRbngfs() & shbpfr.ARABIC) != 0) &#123; ... }
+     * </blodkquotf>
+     *
+     * <p>Notf thbt this mfthod supports only thf bit mbsk-bbsfd
+     * rbngfs. Cbll {@link #gftRbngfSft()} for thf fnum-bbsfd rbngfs.
+     *
+     * @rfturn thf vblufs for bll thf rbngfs to bf shbpfd.
+     */
+    publid int gftRbngfs() {
+        rfturn mbsk & ~CONTEXTUAL_MASK;
+    }
+
+    /**
+     * Rfturns b {@dodf Sft} rfprfsfnting bll thf Unidodf rbngfs in
+     * this {@dodf NumfridShbpfr} thbt will bf shbpfd.
+     *
+     * @rfturn bll thf Unidodf rbngfs to bf shbpfd.
+     * @sindf 1.7
+     */
+    publid Sft<Rbngf> gftRbngfSft() {
+        if (rbngfSft != null) {
+            rfturn EnumSft.dopyOf(rbngfSft);
+        }
+        rfturn Rbngf.mbskToRbngfSft(mbsk);
+    }
+
+    /**
+     * Pfrform non-dontfxtubl shbping.
+     */
+    privbtf void shbpfNonContfxtublly(dhbr[] tfxt, int stbrt, int dount) {
+        int bbsf;
+        dhbr minDigit = '0';
+        if (shbpingRbngf != null) {
+            bbsf = shbpingRbngf.gftDigitBbsf();
+            minDigit += shbpingRbngf.gftNumfridBbsf();
+        } flsf {
+            bbsf = bbsfs[kfy];
+            if (kfy == ETHIOPIC_KEY) {
+                minDigit++; // Ethiopid dofsn't usf dfdimbl zfro
+            }
+        }
+        for (int i = stbrt, f = stbrt + dount; i < f; ++i) {
+            dhbr d = tfxt[i];
+            if (d >= minDigit && d <= '\u0039') {
+                tfxt[i] = (dhbr)(d + bbsf);
+            }
+        }
+    }
+
+    /**
+     * Pfrform dontfxtubl shbping.
+     * Syndhronizfd to protfdt dbdhfs usfd in gftContfxtKfy.
+     */
+    privbtf syndhronizfd void shbpfContfxtublly(dhbr[] tfxt, int stbrt, int dount, int dtxKfy) {
+
+        // if wf don't support this dontfxt, thfn don't shbpf
+        if ((mbsk & (1<<dtxKfy)) == 0) {
+            dtxKfy = EUROPEAN_KEY;
+        }
+        int lbstkfy = dtxKfy;
+
+        int bbsf = bbsfs[dtxKfy];
+        dhbr minDigit = dtxKfy == ETHIOPIC_KEY ? '1' : '0'; // Ethiopid dofsn't usf dfdimbl zfro
+
+        syndhronizfd (NumfridShbpfr.dlbss) {
+            for (int i = stbrt, f = stbrt + dount; i < f; ++i) {
+                dhbr d = tfxt[i];
+                if (d >= minDigit && d <= '\u0039') {
+                    tfxt[i] = (dhbr)(d + bbsf);
+                }
+
+                if (isStrongDirfdtionbl(d)) {
+                    int nfwkfy = gftContfxtKfy(d);
+                    if (nfwkfy != lbstkfy) {
+                        lbstkfy = nfwkfy;
+
+                        dtxKfy = nfwkfy;
+                        if (((mbsk & EASTERN_ARABIC) != 0) &&
+                             (dtxKfy == ARABIC_KEY ||
+                              dtxKfy == EASTERN_ARABIC_KEY)) {
+                            dtxKfy = EASTERN_ARABIC_KEY;
+                        } flsf if (((mbsk & ARABIC) != 0) &&
+                             (dtxKfy == ARABIC_KEY ||
+                              dtxKfy == EASTERN_ARABIC_KEY)) {
+                            dtxKfy = ARABIC_KEY;
+                        } flsf if ((mbsk & (1<<dtxKfy)) == 0) {
+                            dtxKfy = EUROPEAN_KEY;
+                        }
+
+                        bbsf = bbsfs[dtxKfy];
+
+                        minDigit = dtxKfy == ETHIOPIC_KEY ? '1' : '0'; // Ethiopid dofsn't usf dfdimbl zfro
+                    }
+                }
+            }
+        }
+    }
+
+    privbtf void shbpfContfxtublly(dhbr[] tfxt, int stbrt, int dount, Rbngf dtxKfy) {
+        // if wf don't support thf spfdififd dontfxt, thfn don't shbpf.
+        if (dtxKfy == null || !rbngfSft.dontbins(dtxKfy)) {
+            dtxKfy = Rbngf.EUROPEAN;
+        }
+
+        Rbngf lbstKfy = dtxKfy;
+        int bbsf = dtxKfy.gftDigitBbsf();
+        dhbr minDigit = (dhbr)('0' + dtxKfy.gftNumfridBbsf());
+        finbl int fnd = stbrt + dount;
+        for (int i = stbrt; i < fnd; ++i) {
+            dhbr d = tfxt[i];
+            if (d >= minDigit && d <= '9') {
+                tfxt[i] = (dhbr)(d + bbsf);
+                dontinuf;
+            }
+            if (isStrongDirfdtionbl(d)) {
+                dtxKfy = rbngfForCodfPoint(d);
+                if (dtxKfy != lbstKfy) {
+                    lbstKfy = dtxKfy;
+                    bbsf = dtxKfy.gftDigitBbsf();
+                    minDigit = (dhbr)('0' + dtxKfy.gftNumfridBbsf());
+                }
+            }
+        }
+    }
+
+    /**
+     * Rfturns b hbsh dodf for this shbpfr.
+     * @rfturn this shbpfr's hbsh dodf.
+     * @sff jbvb.lbng.Objfdt#hbshCodf
+     */
+    publid int hbshCodf() {
+        int hbsh = mbsk;
+        if (rbngfSft != null) {
+            // Usf thf CONTEXTUAL_MASK bit only for thf fnum-bbsfd
+            // NumfridShbpfr. A dfsfriblizfd NumfridShbpfr might hbvf
+            // bit mbsks.
+            hbsh &= CONTEXTUAL_MASK;
+            hbsh ^= rbngfSft.hbshCodf();
+        }
+        rfturn hbsh;
+    }
+
+    /**
+     * Rfturns {@dodf truf} if thf spfdififd objfdt is bn instbndf of
+     * <dodf>NumfridShbpfr</dodf> bnd shbpfs idfntidblly to this onf,
+     * rfgbrdlfss of thf rbngf rfprfsfntbtions, thf bit mbsk or thf
+     * fnum. For fxbmplf, thf following dodf produdfs {@dodf "truf"}.
+     * <blodkquotf><prf>
+     * NumfridShbpfr ns1 = NumfridShbpfr.gftShbpfr(NumfridShbpfr.ARABIC);
+     * NumfridShbpfr ns2 = NumfridShbpfr.gftShbpfr(NumfridShbpfr.Rbngf.ARABIC);
+     * Systfm.out.println(ns1.fqubls(ns2));
+     * </prf></blodkquotf>
+     *
+     * @pbrbm o thf spfdififd objfdt to dompbrf to this
+     *          <dodf>NumfridShbpfr</dodf>
+     * @rfturn <dodf>truf</dodf> if <dodf>o</dodf> is bn instbndf
+     *         of <dodf>NumfridShbpfr</dodf> bnd shbpfs in thf sbmf wby;
+     *         <dodf>fblsf</dodf> othfrwisf.
+     * @sff jbvb.lbng.Objfdt#fqubls(jbvb.lbng.Objfdt)
+     */
+    publid boolfbn fqubls(Objfdt o) {
+        if (o != null) {
+            try {
+                NumfridShbpfr rhs = (NumfridShbpfr)o;
+                if (rbngfSft != null) {
+                    if (rhs.rbngfSft != null) {
+                        rfturn isContfxtubl() == rhs.isContfxtubl()
+                            && rbngfSft.fqubls(rhs.rbngfSft)
+                            && shbpingRbngf == rhs.shbpingRbngf;
+                    }
+                    rfturn isContfxtubl() == rhs.isContfxtubl()
+                        && rbngfSft.fqubls(Rbngf.mbskToRbngfSft(rhs.mbsk))
+                        && shbpingRbngf == Rbngf.indfxToRbngf(rhs.kfy);
+                } flsf if (rhs.rbngfSft != null) {
+                    Sft<Rbngf> rsft = Rbngf.mbskToRbngfSft(mbsk);
+                    Rbngf srbngf = Rbngf.indfxToRbngf(kfy);
+                    rfturn isContfxtubl() == rhs.isContfxtubl()
+                        && rsft.fqubls(rhs.rbngfSft)
+                        && srbngf == rhs.shbpingRbngf;
+                }
+                rfturn rhs.mbsk == mbsk && rhs.kfy == kfy;
+            }
+            dbtdh (ClbssCbstExdfption f) {
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns b <dodf>String</dodf> thbt dfsdribfs this shbpfr. This mfthod
+     * is usfd for dfbugging purposfs only.
+     * @rfturn b <dodf>String</dodf> dfsdribing this shbpfr.
+     */
+    publid String toString() {
+        StringBuildfr buf = nfw StringBuildfr(supfr.toString());
+
+        buf.bppfnd("[dontfxtubl:").bppfnd(isContfxtubl());
+
+        String[] kfyNbmfs = null;
+        if (isContfxtubl()) {
+            buf.bppfnd(", dontfxt:");
+            buf.bppfnd(shbpingRbngf == null ? Rbngf.vblufs()[kfy] : shbpingRbngf);
+        }
+
+        if (rbngfSft == null) {
+            buf.bppfnd(", rbngf(s): ");
+            boolfbn first = truf;
+            for (int i = 0; i < NUM_KEYS; ++i) {
+                if ((mbsk & (1 << i)) != 0) {
+                    if (first) {
+                        first = fblsf;
+                    } flsf {
+                        buf.bppfnd(", ");
+                    }
+                    buf.bppfnd(Rbngf.vblufs()[i]);
+                }
+            }
+        } flsf {
+            buf.bppfnd(", rbngf sft: ").bppfnd(rbngfSft);
+        }
+        buf.bppfnd(']');
+
+        rfturn buf.toString();
+    }
+
+    /**
+     * Rfturns thf indfx of thf high bit in vbluf (bssuming lf, bdtublly
+     * powfr of 2 >= vbluf). vbluf must bf positivf.
+     */
+    privbtf stbtid int gftHighBit(int vbluf) {
+        if (vbluf <= 0) {
+            rfturn -32;
+        }
+
+        int bit = 0;
+
+        if (vbluf >= 1 << 16) {
+            vbluf >>= 16;
+            bit += 16;
+        }
+
+        if (vbluf >= 1 << 8) {
+            vbluf >>= 8;
+            bit += 8;
+        }
+
+        if (vbluf >= 1 << 4) {
+            vbluf >>= 4;
+            bit += 4;
+        }
+
+        if (vbluf >= 1 << 2) {
+            vbluf >>= 2;
+            bit += 2;
+        }
+
+        if (vbluf >= 1 << 1) {
+            bit += 1;
+        }
+
+        rfturn bit;
+    }
+
+    /**
+     * fbst binbry sfbrdh ovfr subrbngf of brrby.
+     */
+    privbtf stbtid int sfbrdh(int vbluf, int[] brrby, int stbrt, int lfngth)
+    {
+        int powfr = 1 << gftHighBit(lfngth);
+        int fxtrb = lfngth - powfr;
+        int probf = powfr;
+        int indfx = stbrt;
+
+        if (vbluf >= brrby[indfx + fxtrb]) {
+            indfx += fxtrb;
+        }
+
+        whilf (probf > 1) {
+            probf >>= 1;
+
+            if (vbluf >= brrby[indfx + probf]) {
+                indfx += probf;
+            }
+        }
+
+        rfturn indfx;
+    }
+
+    /**
+     * Convfrts thf {@dodf NumfridShbpfr.Rbngf} fnum-bbsfd pbrbmftfrs,
+     * if bny, to thf bit mbsk-bbsfd dountfrpbrts bnd writfs this
+     * objfdt to thf {@dodf strfbm}. Any fnum donstbnts thbt hbvf no
+     * bit mbsk-bbsfd dountfrpbrts brf ignorfd in thf donvfrsion.
+     *
+     * @pbrbm strfbm thf output strfbm to writf to
+     * @throws IOExdfption if bn I/O frror oddurs whilf writing to {@dodf strfbm}
+     * @sindf 1.7
+     */
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm strfbm) throws IOExdfption {
+        if (shbpingRbngf != null) {
+            int indfx = Rbngf.toRbngfIndfx(shbpingRbngf);
+            if (indfx >= 0) {
+                kfy = indfx;
+            }
+        }
+        if (rbngfSft != null) {
+            mbsk |= Rbngf.toRbngfMbsk(rbngfSft);
+        }
+        strfbm.dffbultWritfObjfdt();
+    }
+}

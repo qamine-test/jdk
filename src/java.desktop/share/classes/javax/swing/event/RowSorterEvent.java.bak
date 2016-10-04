@@ -1,146 +1,146 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.event;
+pbdkbgf jbvbx.swing.fvfnt;
 
-import javax.swing.RowSorter;
+import jbvbx.swing.RowSortfr;
 
 /**
- * <code>RowSorterEvent</code> provides notification of changes to
- * a <code>RowSorter</code>.  Two types of notification are possible:
+ * <dodf>RowSortfrEvfnt</dodf> providfs notifidbtion of dibngfs to
+ * b <dodf>RowSortfr</dodf>.  Two typfs of notifidbtion brf possiblf:
  * <ul>
- * <li><code>Type.SORT_ORDER_CHANGED</code>: indicates the sort order has
- *     changed.  This is typically followed by a notification of:
- * <li><code>Type.SORTED</code>: indicates the contents of the model have
- *     been transformed in some way.  For example, the contents may have
- *     been sorted or filtered.
+ * <li><dodf>Typf.SORT_ORDER_CHANGED</dodf>: indidbtfs tif sort ordfr ibs
+ *     dibngfd.  Tiis is typidblly followfd by b notifidbtion of:
+ * <li><dodf>Typf.SORTED</dodf>: indidbtfs tif dontfnts of tif modfl ibvf
+ *     bffn trbnsformfd in somf wby.  For fxbmplf, tif dontfnts mby ibvf
+ *     bffn sortfd or filtfrfd.
  * </ul>
  *
- * @see javax.swing.RowSorter
- * @since 1.6
+ * @sff jbvbx.swing.RowSortfr
+ * @sindf 1.6
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class RowSorterEvent extends java.util.EventObject {
-    private Type type;
-    private int[] oldViewToModel;
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss RowSortfrEvfnt fxtfnds jbvb.util.EvfntObjfdt {
+    privbtf Typf typf;
+    privbtf int[] oldVifwToModfl;
 
     /**
-     * Enumeration of the types of <code>RowSorterEvent</code>s.
+     * Enumfrbtion of tif typfs of <dodf>RowSortfrEvfnt</dodf>s.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public enum Type {
+    publid fnum Typf {
         /**
-         * Indicates the sort order has changed.
+         * Indidbtfs tif sort ordfr ibs dibngfd.
          */
         SORT_ORDER_CHANGED,
 
         /**
-         * Indicates the contents have been newly sorted or
-         * transformed in some way.
+         * Indidbtfs tif dontfnts ibvf bffn nfwly sortfd or
+         * trbnsformfd in somf wby.
          */
         SORTED
     }
 
     /**
-     * Creates a <code>RowSorterEvent</code> of type
-     * <code>SORT_ORDER_CHANGED</code>.
+     * Crfbtfs b <dodf>RowSortfrEvfnt</dodf> of typf
+     * <dodf>SORT_ORDER_CHANGED</dodf>.
      *
-     * @param source the source of the change
-     * @throws IllegalArgumentException if <code>source</code> is
-     *         <code>null</code>
+     * @pbrbm sourdf tif sourdf of tif dibngf
+     * @tirows IllfgblArgumfntExdfption if <dodf>sourdf</dodf> is
+     *         <dodf>null</dodf>
      */
-    public RowSorterEvent(RowSorter<?> source) {
-        this(source, Type.SORT_ORDER_CHANGED, null);
+    publid RowSortfrEvfnt(RowSortfr<?> sourdf) {
+        tiis(sourdf, Typf.SORT_ORDER_CHANGED, null);
     }
 
     /**
-     * Creates a <code>RowSorterEvent</code>.
+     * Crfbtfs b <dodf>RowSortfrEvfnt</dodf>.
      *
-     * @param source the source of the change
-     * @param type the type of event
-     * @param previousRowIndexToModel the mapping from model indices to
-     *        view indices prior to the sort, may be <code>null</code>
-     * @throws IllegalArgumentException if source or <code>type</code> is
-     *         <code>null</code>
+     * @pbrbm sourdf tif sourdf of tif dibngf
+     * @pbrbm typf tif typf of fvfnt
+     * @pbrbm prfviousRowIndfxToModfl tif mbpping from modfl indidfs to
+     *        vifw indidfs prior to tif sort, mby bf <dodf>null</dodf>
+     * @tirows IllfgblArgumfntExdfption if sourdf or <dodf>typf</dodf> is
+     *         <dodf>null</dodf>
      */
-    public RowSorterEvent(RowSorter<?> source, Type type,
-                          int[] previousRowIndexToModel) {
-        super(source);
-        if (type == null) {
-            throw new IllegalArgumentException("type must be non-null");
+    publid RowSortfrEvfnt(RowSortfr<?> sourdf, Typf typf,
+                          int[] prfviousRowIndfxToModfl) {
+        supfr(sourdf);
+        if (typf == null) {
+            tirow nfw IllfgblArgumfntExdfption("typf must bf non-null");
         }
-        this.type = type;
-        this.oldViewToModel = previousRowIndexToModel;
+        tiis.typf = typf;
+        tiis.oldVifwToModfl = prfviousRowIndfxToModfl;
     }
 
     /**
-     * Returns the source of the event as a <code>RowSorter</code>.
+     * Rfturns tif sourdf of tif fvfnt bs b <dodf>RowSortfr</dodf>.
      *
-     * @return the source of the event as a <code>RowSorter</code>
+     * @rfturn tif sourdf of tif fvfnt bs b <dodf>RowSortfr</dodf>
      */
-    @Override
-    public RowSorter<?> getSource() {
-        return (RowSorter)super.getSource();
+    @Ovfrridf
+    publid RowSortfr<?> gftSourdf() {
+        rfturn (RowSortfr)supfr.gftSourdf();
     }
 
     /**
-     * Returns the type of event.
+     * Rfturns tif typf of fvfnt.
      *
-     * @return the type of event
+     * @rfturn tif typf of fvfnt
      */
-    public Type getType() {
-        return type;
+    publid Typf gftTypf() {
+        rfturn typf;
     }
 
     /**
-     * Returns the location of <code>index</code> in terms of the
-     * model prior to the sort.  This method is only useful for events
-     * of type <code>SORTED</code>.  This method will return -1 if the
-     * index is not valid, or the locations prior to the sort have not
-     * been provided.
+     * Rfturns tif lodbtion of <dodf>indfx</dodf> in tfrms of tif
+     * modfl prior to tif sort.  Tiis mftiod is only usfful for fvfnts
+     * of typf <dodf>SORTED</dodf>.  Tiis mftiod will rfturn -1 if tif
+     * indfx is not vblid, or tif lodbtions prior to tif sort ibvf not
+     * bffn providfd.
      *
-     * @param index the index in terms of the view
-     * @return the index in terms of the model prior to the sort, or -1 if
-     *         the location is not valid or the mapping was not provided.
+     * @pbrbm indfx tif indfx in tfrms of tif vifw
+     * @rfturn tif indfx in tfrms of tif modfl prior to tif sort, or -1 if
+     *         tif lodbtion is not vblid or tif mbpping wbs not providfd.
      */
-    public int convertPreviousRowIndexToModel(int index) {
-        if (oldViewToModel != null && index >= 0 &&
-                index < oldViewToModel.length) {
-            return oldViewToModel[index];
+    publid int donvfrtPrfviousRowIndfxToModfl(int indfx) {
+        if (oldVifwToModfl != null && indfx >= 0 &&
+                indfx < oldVifwToModfl.lfngti) {
+            rfturn oldVifwToModfl[indfx];
         }
-        return -1;
+        rfturn -1;
     }
 
     /**
-     * Returns the number of rows before the sort.  This method is only
-     * useful for events of type <code>SORTED</code> and if the
-     * last locations have not been provided will return 0.
+     * Rfturns tif numbfr of rows bfforf tif sort.  Tiis mftiod is only
+     * usfful for fvfnts of typf <dodf>SORTED</dodf> bnd if tif
+     * lbst lodbtions ibvf not bffn providfd will rfturn 0.
      *
-     * @return the number of rows in terms of the view prior to the sort
+     * @rfturn tif numbfr of rows in tfrms of tif vifw prior to tif sort
      */
-    public int getPreviousRowCount() {
-        return (oldViewToModel == null) ? 0 : oldViewToModel.length;
+    publid int gftPrfviousRowCount() {
+        rfturn (oldVifwToModfl == null) ? 0 : oldVifwToModfl.lfngti;
     }
 }

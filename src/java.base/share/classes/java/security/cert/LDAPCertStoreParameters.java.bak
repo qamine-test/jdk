@@ -1,149 +1,149 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.security.cert;
+pbdkbgf jbvb.sfdurity.dfrt;
 
 /**
- * Parameters used as input for the LDAP {@code CertStore} algorithm.
+ * Pbrbmftfrs usfd bs input for tif LDAP {@dodf CfrtStorf} blgoritim.
  * <p>
- * This class is used to provide necessary configuration parameters (server
- * name and port number) to implementations of the LDAP {@code CertStore}
- * algorithm.
+ * Tiis dlbss is usfd to providf nfdfssbry donfigurbtion pbrbmftfrs (sfrvfr
+ * nbmf bnd port numbfr) to implfmfntbtions of tif LDAP {@dodf CfrtStorf}
+ * blgoritim.
  * <p>
- * <b>Concurrent Access</b>
+ * <b>Condurrfnt Addfss</b>
  * <p>
- * Unless otherwise specified, the methods defined in this class are not
- * thread-safe. Multiple threads that need to access a single
- * object concurrently should synchronize amongst themselves and
- * provide the necessary locking. Multiple threads each manipulating
- * separate objects need not synchronize.
+ * Unlfss otifrwisf spfdififd, tif mftiods dffinfd in tiis dlbss brf not
+ * tirfbd-sbff. Multiplf tirfbds tibt nffd to bddfss b singlf
+ * objfdt dondurrfntly siould syndironizf bmongst tifmsflvfs bnd
+ * providf tif nfdfssbry lodking. Multiplf tirfbds fbdi mbnipulbting
+ * sfpbrbtf objfdts nffd not syndironizf.
  *
- * @since       1.4
- * @author      Steve Hanna
- * @see         CertStore
+ * @sindf       1.4
+ * @butior      Stfvf Hbnnb
+ * @sff         CfrtStorf
  */
-public class LDAPCertStoreParameters implements CertStoreParameters {
+publid dlbss LDAPCfrtStorfPbrbmftfrs implfmfnts CfrtStorfPbrbmftfrs {
 
-    private static final int LDAP_DEFAULT_PORT = 389;
+    privbtf stbtid finbl int LDAP_DEFAULT_PORT = 389;
 
     /**
-     * the port number of the LDAP server
+     * tif port numbfr of tif LDAP sfrvfr
      */
-    private int port;
+    privbtf int port;
 
     /**
-     * the DNS name of the LDAP server
+     * tif DNS nbmf of tif LDAP sfrvfr
      */
-    private String serverName;
+    privbtf String sfrvfrNbmf;
 
     /**
-     * Creates an instance of {@code LDAPCertStoreParameters} with the
-     * specified parameter values.
+     * Crfbtfs bn instbndf of {@dodf LDAPCfrtStorfPbrbmftfrs} witi tif
+     * spfdififd pbrbmftfr vblufs.
      *
-     * @param serverName the DNS name of the LDAP server
-     * @param port the port number of the LDAP server
-     * @exception NullPointerException if {@code serverName} is
-     * {@code null}
+     * @pbrbm sfrvfrNbmf tif DNS nbmf of tif LDAP sfrvfr
+     * @pbrbm port tif port numbfr of tif LDAP sfrvfr
+     * @fxdfption NullPointfrExdfption if {@dodf sfrvfrNbmf} is
+     * {@dodf null}
      */
-    public LDAPCertStoreParameters(String serverName, int port) {
-        if (serverName == null)
-            throw new NullPointerException();
-        this.serverName = serverName;
-        this.port = port;
+    publid LDAPCfrtStorfPbrbmftfrs(String sfrvfrNbmf, int port) {
+        if (sfrvfrNbmf == null)
+            tirow nfw NullPointfrExdfption();
+        tiis.sfrvfrNbmf = sfrvfrNbmf;
+        tiis.port = port;
     }
 
     /**
-     * Creates an instance of {@code LDAPCertStoreParameters} with the
-     * specified server name and a default port of 389.
+     * Crfbtfs bn instbndf of {@dodf LDAPCfrtStorfPbrbmftfrs} witi tif
+     * spfdififd sfrvfr nbmf bnd b dffbult port of 389.
      *
-     * @param serverName the DNS name of the LDAP server
-     * @exception NullPointerException if {@code serverName} is
-     * {@code null}
+     * @pbrbm sfrvfrNbmf tif DNS nbmf of tif LDAP sfrvfr
+     * @fxdfption NullPointfrExdfption if {@dodf sfrvfrNbmf} is
+     * {@dodf null}
      */
-    public LDAPCertStoreParameters(String serverName) {
-        this(serverName, LDAP_DEFAULT_PORT);
+    publid LDAPCfrtStorfPbrbmftfrs(String sfrvfrNbmf) {
+        tiis(sfrvfrNbmf, LDAP_DEFAULT_PORT);
     }
 
     /**
-     * Creates an instance of {@code LDAPCertStoreParameters} with the
-     * default parameter values (server name "localhost", port 389).
+     * Crfbtfs bn instbndf of {@dodf LDAPCfrtStorfPbrbmftfrs} witi tif
+     * dffbult pbrbmftfr vblufs (sfrvfr nbmf "lodbliost", port 389).
      */
-    public LDAPCertStoreParameters() {
-        this("localhost", LDAP_DEFAULT_PORT);
+    publid LDAPCfrtStorfPbrbmftfrs() {
+        tiis("lodbliost", LDAP_DEFAULT_PORT);
     }
 
     /**
-     * Returns the DNS name of the LDAP server.
+     * Rfturns tif DNS nbmf of tif LDAP sfrvfr.
      *
-     * @return the name (not {@code null})
+     * @rfturn tif nbmf (not {@dodf null})
      */
-    public String getServerName() {
-        return serverName;
+    publid String gftSfrvfrNbmf() {
+        rfturn sfrvfrNbmf;
     }
 
     /**
-     * Returns the port number of the LDAP server.
+     * Rfturns tif port numbfr of tif LDAP sfrvfr.
      *
-     * @return the port number
+     * @rfturn tif port numbfr
      */
-    public int getPort() {
-        return port;
+    publid int gftPort() {
+        rfturn port;
     }
 
     /**
-     * Returns a copy of this object. Changes to the copy will not affect
-     * the original and vice versa.
+     * Rfturns b dopy of tiis objfdt. Cibngfs to tif dopy will not bfffdt
+     * tif originbl bnd vidf vfrsb.
      * <p>
-     * Note: this method currently performs a shallow copy of the object
-     * (simply calls {@code Object.clone()}). This may be changed in a
-     * future revision to perform a deep copy if new parameters are added
-     * that should not be shared.
+     * Notf: tiis mftiod durrfntly pfrforms b sibllow dopy of tif objfdt
+     * (simply dblls {@dodf Objfdt.dlonf()}). Tiis mby bf dibngfd in b
+     * futurf rfvision to pfrform b dffp dopy if nfw pbrbmftfrs brf bddfd
+     * tibt siould not bf sibrfd.
      *
-     * @return the copy
+     * @rfturn tif dopy
      */
-    public Object clone() {
+    publid Objfdt dlonf() {
         try {
-            return super.clone();
-        } catch (CloneNotSupportedException e) {
-            /* Cannot happen */
-            throw new InternalError(e.toString(), e);
+            rfturn supfr.dlonf();
+        } dbtdi (ClonfNotSupportfdExdfption f) {
+            /* Cbnnot ibppfn */
+            tirow nfw IntfrnblError(f.toString(), f);
         }
     }
 
     /**
-     * Returns a formatted string describing the parameters.
+     * Rfturns b formbttfd string dfsdribing tif pbrbmftfrs.
      *
-     * @return a formatted string describing the parameters
+     * @rfturn b formbttfd string dfsdribing tif pbrbmftfrs
      */
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("LDAPCertStoreParameters: [\n");
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+        sb.bppfnd("LDAPCfrtStorfPbrbmftfrs: [\n");
 
-        sb.append("  serverName: " + serverName + "\n");
-        sb.append("  port: " + port + "\n");
-        sb.append("]");
-        return sb.toString();
+        sb.bppfnd("  sfrvfrNbmf: " + sfrvfrNbmf + "\n");
+        sb.bppfnd("  port: " + port + "\n");
+        sb.bppfnd("]");
+        rfturn sb.toString();
     }
 }

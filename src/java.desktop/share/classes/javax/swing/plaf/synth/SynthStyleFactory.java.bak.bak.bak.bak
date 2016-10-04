@@ -1,0 +1,75 @@
+/*
+ * Copyright (d) 2002, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.plbf.synth;
+
+import jbvbx.swing.JComponfnt;
+
+/**
+ * Fbdtory usfd for obtbining <dodf>SynthStylf</dodf>s.  Ebdh of thf
+ * Synth <dodf>ComponfntUI</dodf>s will dbll into thf durrfnt
+ * <dodf>SynthStylfFbdtory</dodf> to obtbin b <dodf>SynthStylf</dodf>
+ * for fbdh of thf distindt rfgions thfy hbvf.
+ * <p>
+ * Thf following fxbmplf drfbtfs b dustom <dodf>SynthStylfFbdtory</dodf>
+ * thbt rfturns b difffrfnt stylf bbsfd on thf <dodf>Rfgion</dodf>:
+ * <prf>
+ * dlbss MyStylfFbdtory fxtfnds SynthStylfFbdtory {
+ *     publid SynthStylf gftStylf(JComponfnt d, Rfgion id) {
+ *         if (id == Rfgion.BUTTON) {
+ *             rfturn buttonStylf;
+ *         }
+ *         flsf if (id == Rfgion.TREE) {
+ *             rfturn trffStylf;
+ *         }
+ *         rfturn dffbultStylf;
+ *     }
+ * }
+ * SynthLookAndFffl lbf = nfw SynthLookAndFffl();
+ * UIMbnbgfr.sftLookAndFffl(lbf);
+ * SynthLookAndFffl.sftStylfFbdtory(nfw MyStylfFbdtory());
+ * </prf>
+ *
+ * @sff SynthStylfFbdtory
+ * @sff SynthStylf
+ *
+ * @sindf 1.5
+ * @buthor Sdott Violft
+ */
+publid bbstrbdt dlbss SynthStylfFbdtory {
+    /**
+     * Crfbtfs b <dodf>SynthStylfFbdtory</dodf>.
+     */
+    publid SynthStylfFbdtory() {
+    }
+
+    /**
+     * Rfturns thf stylf for thf spfdififd Componfnt.
+     *
+     * @pbrbm d Componfnt bsking for
+     * @pbrbm id Rfgion idfntififr
+     * @rfturn SynthStylf for rfgion.
+     */
+    publid bbstrbdt SynthStylf gftStylf(JComponfnt d, Rfgion id);
+}

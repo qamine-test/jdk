@@ -1,0 +1,86 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity;
+
+import jbvb.sfdurity.spfd.AlgorithmPbrbmftfrSpfd;
+
+/**
+ * This dlbss dffinfs thf <i>Sfrvidf Providfr Intfrfbdf</i> (<b>SPI</b>)
+ * for thf {@dodf AlgorithmPbrbmftfrGfnfrbtor} dlbss, whidh
+ * is usfd to gfnfrbtf b sft of pbrbmftfrs to bf usfd with b dfrtbin blgorithm.
+ *
+ * <p> All thf bbstrbdt mfthods in this dlbss must bf implfmfntfd by fbdh
+ * dryptogrbphid sfrvidf providfr who wishfs to supply thf implfmfntbtion
+ * of b pbrbmftfr gfnfrbtor for b pbrtidulbr blgorithm.
+ *
+ * <p> In dbsf thf dlifnt dofs not fxpliditly initiblizf thf
+ * AlgorithmPbrbmftfrGfnfrbtor (vib b dbll to bn {@dodf fnginfInit}
+ * mfthod), fbdh providfr must supply (bnd dodumfnt) b dffbult initiblizbtion.
+ * For fxbmplf, thf Sun providfr usfs b dffbult modulus primf sizf of 1024
+ * bits for thf gfnfrbtion of DSA pbrbmftfrs.
+ *
+ * @buthor Jbn Lufhf
+ *
+ *
+ * @sff AlgorithmPbrbmftfrGfnfrbtor
+ * @sff AlgorithmPbrbmftfrs
+ * @sff jbvb.sfdurity.spfd.AlgorithmPbrbmftfrSpfd
+ *
+ * @sindf 1.2
+ */
+
+publid bbstrbdt dlbss AlgorithmPbrbmftfrGfnfrbtorSpi {
+
+    /**
+     * Initiblizfs this pbrbmftfr gfnfrbtor for b dfrtbin sizf
+     * bnd sourdf of rbndomnfss.
+     *
+     * @pbrbm sizf thf sizf (numbfr of bits).
+     * @pbrbm rbndom thf sourdf of rbndomnfss.
+     */
+    protfdtfd bbstrbdt void fnginfInit(int sizf, SfdurfRbndom rbndom);
+
+    /**
+     * Initiblizfs this pbrbmftfr gfnfrbtor with b sft of
+     * blgorithm-spfdifid pbrbmftfr gfnfrbtion vblufs.
+     *
+     * @pbrbm gfnPbrbmSpfd thf sft of blgorithm-spfdifid pbrbmftfr gfnfrbtion vblufs.
+     * @pbrbm rbndom thf sourdf of rbndomnfss.
+     *
+     * @fxdfption InvblidAlgorithmPbrbmftfrExdfption if thf givfn pbrbmftfr
+     * gfnfrbtion vblufs brf inbppropribtf for this pbrbmftfr gfnfrbtor.
+     */
+    protfdtfd bbstrbdt void fnginfInit(AlgorithmPbrbmftfrSpfd gfnPbrbmSpfd,
+                                       SfdurfRbndom rbndom)
+        throws InvblidAlgorithmPbrbmftfrExdfption;
+
+    /**
+     * Gfnfrbtfs thf pbrbmftfrs.
+     *
+     * @rfturn thf nfw AlgorithmPbrbmftfrs objfdt.
+     */
+    protfdtfd bbstrbdt AlgorithmPbrbmftfrs fnginfGfnfrbtfPbrbmftfrs();
+}

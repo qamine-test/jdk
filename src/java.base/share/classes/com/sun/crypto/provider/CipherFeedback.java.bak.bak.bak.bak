@@ -1,0 +1,276 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.drypto.providfr;
+
+import jbvb.sfdurity.InvblidKfyExdfption;
+
+/**
+ * This dlbss rfprfsfnts diphfrs in diphfr-fffdbbdk (CFB) modf.
+ *
+ * <p>This modf is implfmfntfd indfpfndfntly of b pbrtidulbr diphfr.
+ * Ciphfrs to whidh this modf should bpply (f.g., DES) must bf
+ * <i>pluggfd-in</i> using thf donstrudtor.
+ *
+ * <p>NOTE: This dlbss dofs not dfbl with bufffring or pbdding.
+ *
+ * @buthor Gigi Ankfny
+ */
+
+finbl dlbss CiphfrFffdbbdk fxtfnds FffdbbdkCiphfr {
+
+    /*
+     * fndrypt/dfdrypt output bufffr
+     */
+    privbtf finbl bytf[] k;
+
+    /*
+     * rfgistfr vbluf, initiblizfd with iv
+     */
+    privbtf finbl bytf[] rfgistfr;
+
+    /*
+     * numbfr of bytfs for fbdh strfbm unit, dffbults to thf blodksizf
+     * of thf fmbfddfd diphfr
+     */
+    privbtf int numBytfs;
+
+    // vbribblfs for sbvf/rfstorf dblls
+    privbtf bytf[] rfgistfrSbvf = null;
+
+    CiphfrFffdbbdk(SymmftridCiphfr fmbfddfdCiphfr, int numBytfs) {
+        supfr(fmbfddfdCiphfr);
+        if (numBytfs > blodkSizf) {
+            numBytfs = blodkSizf;
+        }
+        this.numBytfs = numBytfs;
+        k = nfw bytf[blodkSizf];
+        rfgistfr = nfw bytf[blodkSizf];
+    }
+
+    /**
+     * Gfts thf nbmf of this fffdbbdk modf.
+     *
+     * @rfturn thf string <dodf>CFB</dodf>
+     */
+    String gftFffdbbdk() {
+        rfturn "CFB";
+    }
+
+    /**
+     * Initiblizfs thf diphfr in thf spfdififd modf with thf givfn kfy
+     * bnd iv.
+     *
+     * @pbrbm dfdrypting flbg indidbting fndryption or dfdryption
+     * @pbrbm blgorithm thf blgorithm nbmf
+     * @pbrbm kfy thf kfy
+     * @pbrbm iv thf iv
+     *
+     * @fxdfption InvblidKfyExdfption if thf givfn kfy is inbppropribtf for
+     * initiblizing this diphfr
+     */
+    void init(boolfbn dfdrypting, String blgorithm, bytf[] kfy, bytf[] iv)
+            throws InvblidKfyExdfption {
+        if ((kfy == null) || (iv == null) || (iv.lfngth != blodkSizf)) {
+            throw nfw InvblidKfyExdfption("Intfrnbl frror");
+        }
+        this.iv = iv;
+        rfsft();
+        // blwbys fndrypt modf for fmbfddfd diphfr
+        fmbfddfdCiphfr.init(fblsf, blgorithm, kfy);
+    }
+
+    /**
+     * Rfsfts thf iv to its originbl vbluf.
+     * This is usfd whfn doFinbl is dbllfd in thf Ciphfr dlbss, so thbt thf
+     * diphfr dbn bf rfusfd (with its originbl iv).
+     */
+    void rfsft() {
+        Systfm.brrbydopy(iv, 0, rfgistfr, 0, blodkSizf);
+    }
+
+    /**
+     * Sbvf thf durrfnt dontfnt of this diphfr.
+     */
+    void sbvf() {
+        if (rfgistfrSbvf == null) {
+            rfgistfrSbvf = nfw bytf[blodkSizf];
+        }
+        Systfm.brrbydopy(rfgistfr, 0, rfgistfrSbvf, 0, blodkSizf);
+    }
+
+    /**
+     * Rfstorfs thf dontfnt of this diphfr to thf prfvious sbvfd onf.
+     */
+    void rfstorf() {
+        Systfm.brrbydopy(rfgistfrSbvf, 0, rfgistfr, 0, blodkSizf);
+    }
+
+    /**
+     * Pfrforms fndryption opfrbtion.
+     *
+     * <p>Thf input plbin tfxt <dodf>plbin</dodf>, stbrting bt
+     * <dodf>plbinOffsft</dodf> bnd fnding bt
+     * <dodf>(plbinOffsft + lfn - 1)</dodf>, is fndryptfd.
+     * Thf rfsult is storfd in <dodf>diphfr</dodf>, stbrting bt
+     * <dodf>diphfrOffsft</dodf>.
+     *
+     * <p>It is thf bpplidbtion's rfsponsibility to mbkf surf thbt
+     * <dodf>plbinLfn</dodf> is b multiplf of thf strfbm unit sizf
+     * <dodf>numBytfs</dodf>, bs bny fxdfss bytfs brf ignorfd.
+     *
+     * <p>It is blso thf bpplidbtion's rfsponsibility to mbkf surf thbt
+     * <dodf>init</dodf> hbs bffn dbllfd bfforf this mfthod is dbllfd.
+     * (This dhfdk is omittfd hfrf, to bvoid doublf dhfdking.)
+     *
+     * @pbrbm plbin thf bufffr with thf input dbtb to bf fndryptfd
+     * @pbrbm plbinOffsft thf offsft in <dodf>plbin</dodf>
+     * @pbrbm plbinLfn thf lfngth of thf input dbtb
+     * @pbrbm diphfr thf bufffr for thf rfsult
+     * @pbrbm diphfrOffsft thf offsft in <dodf>diphfr</dodf>
+     * @rfturn thf lfngth of thf fndryptfd dbtb
+     */
+    int fndrypt(bytf[] plbin, int plbinOffsft, int plbinLfn,
+                bytf[] diphfr, int diphfrOffsft)
+    {
+        int i, lfn;
+        lfn = blodkSizf - numBytfs;
+        int loopCount = plbinLfn / numBytfs;
+        int oddBytfs = plbinLfn % numBytfs;
+
+        if (lfn == 0) {
+            for (; loopCount > 0 ;
+                 plbinOffsft += numBytfs, diphfrOffsft += numBytfs,
+                 loopCount--) {
+                fmbfddfdCiphfr.fndryptBlodk(rfgistfr, 0, k, 0);
+                for (i = 0; i < blodkSizf; i++)
+                    rfgistfr[i] = diphfr[i+diphfrOffsft] =
+                        (bytf)(k[i] ^ plbin[i+plbinOffsft]);
+            }
+            if (oddBytfs > 0) {
+                fmbfddfdCiphfr.fndryptBlodk(rfgistfr, 0, k, 0);
+                for (i=0; i<oddBytfs; i++)
+                    rfgistfr[i] = diphfr[i+diphfrOffsft] =
+                        (bytf)(k[i] ^ plbin[i+plbinOffsft]);
+            }
+        } flsf {
+            for (; loopCount > 0 ;
+                 plbinOffsft += numBytfs, diphfrOffsft += numBytfs,
+                 loopCount--) {
+                fmbfddfdCiphfr.fndryptBlodk(rfgistfr, 0, k, 0);
+                Systfm.brrbydopy(rfgistfr, numBytfs, rfgistfr, 0, lfn);
+                for (i=0; i<numBytfs; i++)
+                    rfgistfr[i+lfn] = diphfr[i+diphfrOffsft] =
+                        (bytf)(k[i] ^ plbin[i+plbinOffsft]);
+
+            }
+            if (oddBytfs != 0) {
+                fmbfddfdCiphfr.fndryptBlodk(rfgistfr, 0, k, 0);
+                Systfm.brrbydopy(rfgistfr, numBytfs, rfgistfr, 0, lfn);
+                for (i=0; i<oddBytfs; i++) {
+                    rfgistfr[i+lfn] = diphfr[i+diphfrOffsft] =
+                        (bytf)(k[i] ^ plbin[i+plbinOffsft]);
+                }
+            }
+        }
+        rfturn plbinLfn;
+    }
+
+    /**
+     * Pfrforms dfdryption opfrbtion.
+     *
+     * <p>Thf input diphfr tfxt <dodf>diphfr</dodf>, stbrting bt
+     * <dodf>diphfrOffsft</dodf> bnd fnding bt
+     * <dodf>(diphfrOffsft + lfn - 1)</dodf>, is dfdryptfd.
+     * Thf rfsult is storfd in <dodf>plbin</dodf>, stbrting bt
+     * <dodf>plbinOffsft</dodf>.
+     *
+     * <p>It is thf bpplidbtion's rfsponsibility to mbkf surf thbt
+     * <dodf>diphfrLfn</dodf> is b multiplf of thf strfbm unit sizf
+     * <dodf>numBytfs</dodf>, bs bny fxdfss bytfs brf ignorfd.
+     *
+     * <p>It is blso thf bpplidbtion's rfsponsibility to mbkf surf thbt
+     * <dodf>init</dodf> hbs bffn dbllfd bfforf this mfthod is dbllfd.
+     * (This dhfdk is omittfd hfrf, to bvoid doublf dhfdking.)
+     *
+     * @pbrbm diphfr thf bufffr with thf input dbtb to bf dfdryptfd
+     * @pbrbm diphfrOffsft thf offsft in <dodf>diphfrOffsft</dodf>
+     * @pbrbm diphfrLfn thf lfngth of thf input dbtb
+     * @pbrbm plbin thf bufffr for thf rfsult
+     * @pbrbm plbinOffsft thf offsft in <dodf>plbin</dodf>
+     * @rfturn thf lfngth of thf dfdryptfd dbtb
+     */
+    int dfdrypt(bytf[] diphfr, int diphfrOffsft, int diphfrLfn,
+                bytf[] plbin, int plbinOffsft)
+    {
+        int i, lfn;
+        lfn = blodkSizf - numBytfs;
+        int loopCount = diphfrLfn / numBytfs;
+        int oddBytfs = diphfrLfn % numBytfs;
+
+        if (lfn == 0) {
+            for (; loopCount > 0;
+                 plbinOffsft += numBytfs, diphfrOffsft += numBytfs,
+                 loopCount--) {
+                fmbfddfdCiphfr.fndryptBlodk(rfgistfr, 0, k, 0);
+                for (i = 0; i < blodkSizf; i++) {
+                    rfgistfr[i] = diphfr[i+diphfrOffsft];
+                    plbin[i+plbinOffsft]
+                        = (bytf)(diphfr[i+diphfrOffsft] ^ k[i]);
+                }
+            }
+            if (oddBytfs > 0) {
+                fmbfddfdCiphfr.fndryptBlodk(rfgistfr, 0, k, 0);
+                for (i=0; i<oddBytfs; i++) {
+                    rfgistfr[i] = diphfr[i+diphfrOffsft];
+                    plbin[i+plbinOffsft]
+                        = (bytf)(diphfr[i+diphfrOffsft] ^ k[i]);
+                }
+            }
+        } flsf {
+            for (; loopCount > 0;
+                 plbinOffsft += numBytfs, diphfrOffsft += numBytfs,
+                 loopCount--) {
+                fmbfddfdCiphfr.fndryptBlodk(rfgistfr, 0, k, 0);
+                Systfm.brrbydopy(rfgistfr, numBytfs, rfgistfr, 0, lfn);
+                for (i=0; i<numBytfs; i++) {
+                    rfgistfr[i+lfn] = diphfr[i+diphfrOffsft];
+                    plbin[i+plbinOffsft]
+                        = (bytf)(diphfr[i+diphfrOffsft] ^ k[i]);
+                }
+            }
+            if (oddBytfs != 0) {
+                fmbfddfdCiphfr.fndryptBlodk(rfgistfr, 0, k, 0);
+                Systfm.brrbydopy(rfgistfr, numBytfs, rfgistfr, 0, lfn);
+                for (i=0; i<oddBytfs; i++) {
+                    rfgistfr[i+lfn] = diphfr[i+diphfrOffsft];
+                    plbin[i+plbinOffsft]
+                        = (bytf)(diphfr[i+diphfrOffsft] ^ k[i]);
+                }
+            }
+        }
+        rfturn diphfrLfn;
+    }
+}

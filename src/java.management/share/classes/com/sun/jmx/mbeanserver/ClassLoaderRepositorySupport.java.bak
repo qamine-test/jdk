@@ -1,320 +1,320 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jmx.mbeanserver;
+pbdkbgf dom.sun.jmx.mbfbnsfrvfr;
 
 
-import static com.sun.jmx.defaults.JmxProperties.MBEANSERVER_LOGGER;
-import java.security.Permission;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Map;
-import java.util.logging.Level;
-import javax.management.MBeanPermission;
+import stbtid dom.sun.jmx.dffbults.JmxPropfrtifs.MBEANSERVER_LOGGER;
+import jbvb.sfdurity.Pfrmission;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.logging.Lfvfl;
+import jbvbx.mbnbgfmfnt.MBfbnPfrmission;
 
-import javax.management.ObjectName;
-import javax.management.loading.PrivateClassLoader;
-import sun.reflect.misc.ReflectUtil;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import jbvbx.mbnbgfmfnt.lobding.PrivbtfClbssLobdfr;
+import sun.rfflfdt.misd.RfflfdtUtil;
 
 /**
- * This class keeps the list of Class Loaders registered in the MBean Server.
- * It provides the necessary methods to load classes using the
- * registered Class Loaders.
+ * Tiis dlbss kffps tif list of Clbss Lobdfrs rfgistfrfd in tif MBfbn Sfrvfr.
+ * It providfs tif nfdfssbry mftiods to lobd dlbssfs using tif
+ * rfgistfrfd Clbss Lobdfrs.
  *
- * @since 1.5
+ * @sindf 1.5
  */
-final class ClassLoaderRepositorySupport
-    implements ModifiableClassLoaderRepository {
+finbl dlbss ClbssLobdfrRfpositorySupport
+    implfmfnts ModifibblfClbssLobdfrRfpository {
 
-    /* We associate an optional ObjectName with each entry so that
-       we can remove the correct entry when unregistering an MBean
-       that is a ClassLoader.  The same object could be registered
-       under two different names (even though this is not recommended)
-       so if we did not do this we could disturb the defined
-       semantics for the order of ClassLoaders in the repository.  */
-    private static class LoaderEntry {
-        ObjectName name; // can be null
-        ClassLoader loader;
+    /* Wf bssodibtf bn optionbl ObjfdtNbmf witi fbdi fntry so tibt
+       wf dbn rfmovf tif dorrfdt fntry wifn unrfgistfring bn MBfbn
+       tibt is b ClbssLobdfr.  Tif sbmf objfdt dould bf rfgistfrfd
+       undfr two difffrfnt nbmfs (fvfn tiougi tiis is not rfdommfndfd)
+       so if wf did not do tiis wf dould disturb tif dffinfd
+       sfmbntids for tif ordfr of ClbssLobdfrs in tif rfpository.  */
+    privbtf stbtid dlbss LobdfrEntry {
+        ObjfdtNbmf nbmf; // dbn bf null
+        ClbssLobdfr lobdfr;
 
-        LoaderEntry(ObjectName name,  ClassLoader loader) {
-            this.name = name;
-            this.loader = loader;
+        LobdfrEntry(ObjfdtNbmf nbmf,  ClbssLobdfr lobdfr) {
+            tiis.nbmf = nbmf;
+            tiis.lobdfr = lobdfr;
         }
     }
 
-    private static final LoaderEntry[] EMPTY_LOADER_ARRAY = new LoaderEntry[0];
+    privbtf stbtid finbl LobdfrEntry[] EMPTY_LOADER_ARRAY = nfw LobdfrEntry[0];
 
     /**
-     * List of class loaders
-     * Only read-only actions should be performed on this object.
+     * List of dlbss lobdfrs
+     * Only rfbd-only bdtions siould bf pfrformfd on tiis objfdt.
      *
-     * We do O(n) operations on this array, e.g. when removing
-     * a ClassLoader.  The assumption is that the number of elements
-     * is small, probably less than ten, and that the vast majority
-     * of operations are searches (loadClass) which are by definition
-     * linear.
+     * Wf do O(n) opfrbtions on tiis brrby, f.g. wifn rfmoving
+     * b ClbssLobdfr.  Tif bssumption is tibt tif numbfr of flfmfnts
+     * is smbll, probbbly lfss tibn tfn, bnd tibt tif vbst mbjority
+     * of opfrbtions brf sfbrdifs (lobdClbss) wiidi brf by dffinition
+     * linfbr.
      */
-    private LoaderEntry[] loaders = EMPTY_LOADER_ARRAY;
+    privbtf LobdfrEntry[] lobdfrs = EMPTY_LOADER_ARRAY;
 
     /**
-     * Same behavior as add(Object o) in {@link java.util.List}.
-     * Replace the loader list with a new one in which the new
-     * loader has been added.
+     * Sbmf bfibvior bs bdd(Objfdt o) in {@link jbvb.util.List}.
+     * Rfplbdf tif lobdfr list witi b nfw onf in wiidi tif nfw
+     * lobdfr ibs bffn bddfd.
      **/
-    private synchronized boolean add(ObjectName name, ClassLoader cl) {
-        List<LoaderEntry> l =
-            new ArrayList<LoaderEntry>(Arrays.asList(loaders));
-        l.add(new LoaderEntry(name, cl));
-        loaders = l.toArray(EMPTY_LOADER_ARRAY);
-        return true;
+    privbtf syndironizfd boolfbn bdd(ObjfdtNbmf nbmf, ClbssLobdfr dl) {
+        List<LobdfrEntry> l =
+            nfw ArrbyList<LobdfrEntry>(Arrbys.bsList(lobdfrs));
+        l.bdd(nfw LobdfrEntry(nbmf, dl));
+        lobdfrs = l.toArrby(EMPTY_LOADER_ARRAY);
+        rfturn truf;
     }
 
     /**
-     * Same behavior as remove(Object o) in {@link java.util.List}.
-     * Replace the loader list with a new one in which the old loader
-     * has been removed.
+     * Sbmf bfibvior bs rfmovf(Objfdt o) in {@link jbvb.util.List}.
+     * Rfplbdf tif lobdfr list witi b nfw onf in wiidi tif old lobdfr
+     * ibs bffn rfmovfd.
      *
-     * The ObjectName may be null, in which case the entry to
-     * be removed must also have a null ObjectName and the ClassLoader
-     * values must match.  If the ObjectName is not null, then
-     * the first entry with a matching ObjectName is removed,
-     * regardless of whether ClassLoader values match.  (In fact,
-     * the ClassLoader parameter will usually be null in this case.)
+     * Tif ObjfdtNbmf mby bf null, in wiidi dbsf tif fntry to
+     * bf rfmovfd must blso ibvf b null ObjfdtNbmf bnd tif ClbssLobdfr
+     * vblufs must mbtdi.  If tif ObjfdtNbmf is not null, tifn
+     * tif first fntry witi b mbtdiing ObjfdtNbmf is rfmovfd,
+     * rfgbrdlfss of wiftifr ClbssLobdfr vblufs mbtdi.  (In fbdt,
+     * tif ClbssLobdfr pbrbmftfr will usublly bf null in tiis dbsf.)
      **/
-    private synchronized boolean remove(ObjectName name, ClassLoader cl) {
-        final int size = loaders.length;
-        for (int i = 0; i < size; i++) {
-            LoaderEntry entry = loaders[i];
-            boolean match =
-                (name == null) ?
-                cl == entry.loader :
-                name.equals(entry.name);
-            if (match) {
-                LoaderEntry[] newloaders = new LoaderEntry[size - 1];
-                System.arraycopy(loaders, 0, newloaders, 0, i);
-                System.arraycopy(loaders, i + 1, newloaders, i,
-                                 size - 1 - i);
-                loaders = newloaders;
-                return true;
+    privbtf syndironizfd boolfbn rfmovf(ObjfdtNbmf nbmf, ClbssLobdfr dl) {
+        finbl int sizf = lobdfrs.lfngti;
+        for (int i = 0; i < sizf; i++) {
+            LobdfrEntry fntry = lobdfrs[i];
+            boolfbn mbtdi =
+                (nbmf == null) ?
+                dl == fntry.lobdfr :
+                nbmf.fqubls(fntry.nbmf);
+            if (mbtdi) {
+                LobdfrEntry[] nfwlobdfrs = nfw LobdfrEntry[sizf - 1];
+                Systfm.brrbydopy(lobdfrs, 0, nfwlobdfrs, 0, i);
+                Systfm.brrbydopy(lobdfrs, i + 1, nfwlobdfrs, i,
+                                 sizf - 1 - i);
+                lobdfrs = nfwlobdfrs;
+                rfturn truf;
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
 
     /**
-     * List of valid search
+     * List of vblid sfbrdi
      */
-    private final Map<String,List<ClassLoader>> search =
-        new Hashtable<String,List<ClassLoader>>(10);
+    privbtf finbl Mbp<String,List<ClbssLobdfr>> sfbrdi =
+        nfw Hbsitbblf<String,List<ClbssLobdfr>>(10);
 
     /**
-     * List of named class loaders.
+     * List of nbmfd dlbss lobdfrs.
      */
-    private final Map<ObjectName,ClassLoader> loadersWithNames =
-        new Hashtable<ObjectName,ClassLoader>(10);
+    privbtf finbl Mbp<ObjfdtNbmf,ClbssLobdfr> lobdfrsWitiNbmfs =
+        nfw Hbsitbblf<ObjfdtNbmf,ClbssLobdfr>(10);
 
-    // from javax.management.loading.DefaultLoaderRepository
-    public final Class<?> loadClass(String className)
-        throws ClassNotFoundException {
-        return  loadClass(loaders, className, null, null);
+    // from jbvbx.mbnbgfmfnt.lobding.DffbultLobdfrRfpository
+    publid finbl Clbss<?> lobdClbss(String dlbssNbmf)
+        tirows ClbssNotFoundExdfption {
+        rfturn  lobdClbss(lobdfrs, dlbssNbmf, null, null);
     }
 
 
-    // from javax.management.loading.DefaultLoaderRepository
-    public final Class<?> loadClassWithout(ClassLoader without, String className)
-            throws ClassNotFoundException {
-        if (MBEANSERVER_LOGGER.isLoggable(Level.FINER)) {
-            MBEANSERVER_LOGGER.logp(Level.FINER,
-                    ClassLoaderRepositorySupport.class.getName(),
-                    "loadClassWithout", className + " without " + without);
+    // from jbvbx.mbnbgfmfnt.lobding.DffbultLobdfrRfpository
+    publid finbl Clbss<?> lobdClbssWitiout(ClbssLobdfr witiout, String dlbssNbmf)
+            tirows ClbssNotFoundExdfption {
+        if (MBEANSERVER_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MBEANSERVER_LOGGER.logp(Lfvfl.FINER,
+                    ClbssLobdfrRfpositorySupport.dlbss.gftNbmf(),
+                    "lobdClbssWitiout", dlbssNbmf + " witiout " + witiout);
         }
 
-        // without is null => just behave as loadClass
+        // witiout is null => just bfibvf bs lobdClbss
         //
-        if (without == null)
-            return loadClass(loaders, className, null, null);
+        if (witiout == null)
+            rfturn lobdClbss(lobdfrs, dlbssNbmf, null, null);
 
-        // We must try to load the class without the given loader.
+        // Wf must try to lobd tif dlbss witiout tif givfn lobdfr.
         //
-        startValidSearch(without, className);
+        stbrtVblidSfbrdi(witiout, dlbssNbmf);
         try {
-            return loadClass(loaders, className, without, null);
-        } finally {
-            stopValidSearch(without, className);
+            rfturn lobdClbss(lobdfrs, dlbssNbmf, witiout, null);
+        } finblly {
+            stopVblidSfbrdi(witiout, dlbssNbmf);
         }
     }
 
 
-    public final Class<?> loadClassBefore(ClassLoader stop, String className)
-            throws ClassNotFoundException {
-        if (MBEANSERVER_LOGGER.isLoggable(Level.FINER)) {
-            MBEANSERVER_LOGGER.logp(Level.FINER,
-                    ClassLoaderRepositorySupport.class.getName(),
-                    "loadClassBefore", className + " before " + stop);
+    publid finbl Clbss<?> lobdClbssBfforf(ClbssLobdfr stop, String dlbssNbmf)
+            tirows ClbssNotFoundExdfption {
+        if (MBEANSERVER_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MBEANSERVER_LOGGER.logp(Lfvfl.FINER,
+                    ClbssLobdfrRfpositorySupport.dlbss.gftNbmf(),
+                    "lobdClbssBfforf", dlbssNbmf + " bfforf " + stop);
         }
 
         if (stop == null)
-            return loadClass(loaders, className, null, null);
+            rfturn lobdClbss(lobdfrs, dlbssNbmf, null, null);
 
-        startValidSearch(stop, className);
+        stbrtVblidSfbrdi(stop, dlbssNbmf);
         try {
-            return loadClass(loaders, className, null, stop);
-        } finally {
-            stopValidSearch(stop, className);
+            rfturn lobdClbss(lobdfrs, dlbssNbmf, null, stop);
+        } finblly {
+            stopVblidSfbrdi(stop, dlbssNbmf);
         }
     }
 
 
-    private Class<?> loadClass(final LoaderEntry list[],
-                               final String className,
-                               final ClassLoader without,
-                               final ClassLoader stop)
-            throws ClassNotFoundException {
-        ReflectUtil.checkPackageAccess(className);
-        final int size = list.length;
-        for(int i=0; i<size; i++) {
+    privbtf Clbss<?> lobdClbss(finbl LobdfrEntry list[],
+                               finbl String dlbssNbmf,
+                               finbl ClbssLobdfr witiout,
+                               finbl ClbssLobdfr stop)
+            tirows ClbssNotFoundExdfption {
+        RfflfdtUtil.difdkPbdkbgfAddfss(dlbssNbmf);
+        finbl int sizf = list.lfngti;
+        for(int i=0; i<sizf; i++) {
             try {
-                final ClassLoader cl = list[i].loader;
-                if (cl == null) // bootstrap class loader
-                    return Class.forName(className, false, null);
-                if (cl == without)
-                    continue;
-                if (cl == stop)
-                    break;
-                if (MBEANSERVER_LOGGER.isLoggable(Level.FINER)) {
-                    MBEANSERVER_LOGGER.logp(Level.FINER,
-                            ClassLoaderRepositorySupport.class.getName(),
-                            "loadClass", "Trying loader = " + cl);
+                finbl ClbssLobdfr dl = list[i].lobdfr;
+                if (dl == null) // bootstrbp dlbss lobdfr
+                    rfturn Clbss.forNbmf(dlbssNbmf, fblsf, null);
+                if (dl == witiout)
+                    dontinuf;
+                if (dl == stop)
+                    brfbk;
+                if (MBEANSERVER_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                    MBEANSERVER_LOGGER.logp(Lfvfl.FINER,
+                            ClbssLobdfrRfpositorySupport.dlbss.gftNbmf(),
+                            "lobdClbss", "Trying lobdfr = " + dl);
                 }
-                /* We used to have a special case for "instanceof
-                   MLet" here, where we invoked the method
-                   loadClass(className, null) to prevent infinite
-                   recursion.  But the rule whereby the MLet only
-                   consults loaders that precede it in the CLR (via
-                   loadClassBefore) means that the recursion can't
-                   happen, and the test here caused some legitimate
-                   classloading to fail.  For example, if you have
-                   dependencies C->D->E with loaders {E D C} in the
-                   CLR in that order, you would expect to be able to
-                   load C.  The problem is that while resolving D, CLR
-                   delegation is disabled, so it can't find E.  */
-                return Class.forName(className, false, cl);
-            } catch (ClassNotFoundException e) {
-                // OK: continue with next class
+                /* Wf usfd to ibvf b spfdibl dbsf for "instbndfof
+                   MLft" ifrf, wifrf wf invokfd tif mftiod
+                   lobdClbss(dlbssNbmf, null) to prfvfnt infinitf
+                   rfdursion.  But tif rulf wifrfby tif MLft only
+                   donsults lobdfrs tibt prfdfdf it in tif CLR (vib
+                   lobdClbssBfforf) mfbns tibt tif rfdursion dbn't
+                   ibppfn, bnd tif tfst ifrf dbusfd somf lfgitimbtf
+                   dlbsslobding to fbil.  For fxbmplf, if you ibvf
+                   dfpfndfndifs C->D->E witi lobdfrs {E D C} in tif
+                   CLR in tibt ordfr, you would fxpfdt to bf bblf to
+                   lobd C.  Tif problfm is tibt wiilf rfsolving D, CLR
+                   dflfgbtion is disbblfd, so it dbn't find E.  */
+                rfturn Clbss.forNbmf(dlbssNbmf, fblsf, dl);
+            } dbtdi (ClbssNotFoundExdfption f) {
+                // OK: dontinuf witi nfxt dlbss
             }
         }
 
-        throw new ClassNotFoundException(className);
+        tirow nfw ClbssNotFoundExdfption(dlbssNbmf);
     }
 
-    private synchronized void startValidSearch(ClassLoader aloader,
-                                               String className)
-        throws ClassNotFoundException {
-        // Check if we have such a current search
+    privbtf syndironizfd void stbrtVblidSfbrdi(ClbssLobdfr blobdfr,
+                                               String dlbssNbmf)
+        tirows ClbssNotFoundExdfption {
+        // Cifdk if wf ibvf sudi b durrfnt sfbrdi
         //
-        List<ClassLoader> excluded = search.get(className);
-        if ((excluded!= null) && (excluded.contains(aloader))) {
-            if (MBEANSERVER_LOGGER.isLoggable(Level.FINER)) {
-                MBEANSERVER_LOGGER.logp(Level.FINER,
-                        ClassLoaderRepositorySupport.class.getName(),
-                        "startValidSearch", "Already requested loader = " +
-                        aloader + " class = " + className);
+        List<ClbssLobdfr> fxdludfd = sfbrdi.gft(dlbssNbmf);
+        if ((fxdludfd!= null) && (fxdludfd.dontbins(blobdfr))) {
+            if (MBEANSERVER_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                MBEANSERVER_LOGGER.logp(Lfvfl.FINER,
+                        ClbssLobdfrRfpositorySupport.dlbss.gftNbmf(),
+                        "stbrtVblidSfbrdi", "Alrfbdy rfqufstfd lobdfr = " +
+                        blobdfr + " dlbss = " + dlbssNbmf);
             }
-            throw new ClassNotFoundException(className);
+            tirow nfw ClbssNotFoundExdfption(dlbssNbmf);
         }
 
-        // Add an entry
+        // Add bn fntry
         //
-        if (excluded == null) {
-            excluded = new ArrayList<ClassLoader>(1);
-            search.put(className, excluded);
+        if (fxdludfd == null) {
+            fxdludfd = nfw ArrbyList<ClbssLobdfr>(1);
+            sfbrdi.put(dlbssNbmf, fxdludfd);
         }
-        excluded.add(aloader);
-        if (MBEANSERVER_LOGGER.isLoggable(Level.FINER)) {
-            MBEANSERVER_LOGGER.logp(Level.FINER,
-                    ClassLoaderRepositorySupport.class.getName(),
-                    "startValidSearch",
-                    "loader = " + aloader + " class = " + className);
+        fxdludfd.bdd(blobdfr);
+        if (MBEANSERVER_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MBEANSERVER_LOGGER.logp(Lfvfl.FINER,
+                    ClbssLobdfrRfpositorySupport.dlbss.gftNbmf(),
+                    "stbrtVblidSfbrdi",
+                    "lobdfr = " + blobdfr + " dlbss = " + dlbssNbmf);
         }
     }
 
-    private synchronized void stopValidSearch(ClassLoader aloader,
-                                              String className) {
+    privbtf syndironizfd void stopVblidSfbrdi(ClbssLobdfr blobdfr,
+                                              String dlbssNbmf) {
 
-        // Retrieve the search.
+        // Rftrifvf tif sfbrdi.
         //
-        List<ClassLoader> excluded = search.get(className);
-        if (excluded != null) {
-            excluded.remove(aloader);
-            if (MBEANSERVER_LOGGER.isLoggable(Level.FINER)) {
-                MBEANSERVER_LOGGER.logp(Level.FINER,
-                        ClassLoaderRepositorySupport.class.getName(),
-                        "stopValidSearch",
-                        "loader = " + aloader + " class = " + className);
+        List<ClbssLobdfr> fxdludfd = sfbrdi.gft(dlbssNbmf);
+        if (fxdludfd != null) {
+            fxdludfd.rfmovf(blobdfr);
+            if (MBEANSERVER_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                MBEANSERVER_LOGGER.logp(Lfvfl.FINER,
+                        ClbssLobdfrRfpositorySupport.dlbss.gftNbmf(),
+                        "stopVblidSfbrdi",
+                        "lobdfr = " + blobdfr + " dlbss = " + dlbssNbmf);
             }
         }
     }
 
-    public final void addClassLoader(ClassLoader loader) {
-        add(null, loader);
+    publid finbl void bddClbssLobdfr(ClbssLobdfr lobdfr) {
+        bdd(null, lobdfr);
     }
 
-    public final void removeClassLoader(ClassLoader loader) {
-        remove(null, loader);
+    publid finbl void rfmovfClbssLobdfr(ClbssLobdfr lobdfr) {
+        rfmovf(null, lobdfr);
     }
 
-    public final synchronized void addClassLoader(ObjectName name,
-                                                  ClassLoader loader) {
-        loadersWithNames.put(name, loader);
-        if (!(loader instanceof PrivateClassLoader))
-            add(name, loader);
+    publid finbl syndironizfd void bddClbssLobdfr(ObjfdtNbmf nbmf,
+                                                  ClbssLobdfr lobdfr) {
+        lobdfrsWitiNbmfs.put(nbmf, lobdfr);
+        if (!(lobdfr instbndfof PrivbtfClbssLobdfr))
+            bdd(nbmf, lobdfr);
     }
 
-    public final synchronized void removeClassLoader(ObjectName name) {
-        ClassLoader loader = loadersWithNames.remove(name);
-        if (!(loader instanceof PrivateClassLoader))
-            remove(name, loader);
+    publid finbl syndironizfd void rfmovfClbssLobdfr(ObjfdtNbmf nbmf) {
+        ClbssLobdfr lobdfr = lobdfrsWitiNbmfs.rfmovf(nbmf);
+        if (!(lobdfr instbndfof PrivbtfClbssLobdfr))
+            rfmovf(nbmf, lobdfr);
     }
 
-    public final ClassLoader getClassLoader(ObjectName name) {
-        ClassLoader instance = loadersWithNames.get(name);
-        if (instance != null) {
-            SecurityManager sm = System.getSecurityManager();
+    publid finbl ClbssLobdfr gftClbssLobdfr(ObjfdtNbmf nbmf) {
+        ClbssLobdfr instbndf = lobdfrsWitiNbmfs.gft(nbmf);
+        if (instbndf != null) {
+            SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
             if (sm != null) {
-                Permission perm =
-                        new MBeanPermission(instance.getClass().getName(),
+                Pfrmission pfrm =
+                        nfw MBfbnPfrmission(instbndf.gftClbss().gftNbmf(),
                         null,
-                        name,
-                        "getClassLoader");
-                sm.checkPermission(perm);
+                        nbmf,
+                        "gftClbssLobdfr");
+                sm.difdkPfrmission(pfrm);
             }
         }
-        return instance;
+        rfturn instbndf;
     }
 
 }

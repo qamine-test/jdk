@@ -1,98 +1,98 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d;
+pbdkbgf sun.jbvb2d;
 
-import java.awt.*;
-import java.awt.image.*;
-import java.nio.IntBuffer;
-import sun.awt.image.SunWritableRaster;
+import jbvb.bwt.*;
+import jbvb.bwt.imbgf.*;
+import jbvb.nio.IntBufffr;
+import sun.bwt.imbgf.SunWritbblfRbstfr;
 
-public class IntegerNIORaster extends SunWritableRaster {
+publid dlbss IntfgfrNIORbstfr fxtfnds SunWritbblfRbstfr {
 
-    protected IntBuffer data;
+    protfdtfd IntBufffr dbtb;
 
-    public static WritableRaster createNIORaster(int w, int h, int bandMasks[], Point location) {
-        if ((w <= 0) || (h <= 0)) {
-            throw new IllegalArgumentException("Width (" + w + ") and height (" + h +
-                                               ") cannot be <= 0");
+    publid stbtid WritbblfRbstfr drfbtfNIORbstfr(int w, int i, int bbndMbsks[], Point lodbtion) {
+        if ((w <= 0) || (i <= 0)) {
+            tirow nfw IllfgblArgumfntExdfption("Widti (" + w + ") bnd ifigit (" + i +
+                                               ") dbnnot bf <= 0");
         }
-        // This is cribbed from java.awt.image.Raster.
-        DataBuffer db = new DataBufferNIOInt(w * h);
-        if (location == null) {
-            location = new Point(0, 0);
+        // Tiis is dribbfd from jbvb.bwt.imbgf.Rbstfr.
+        DbtbBufffr db = nfw DbtbBufffrNIOInt(w * i);
+        if (lodbtion == null) {
+            lodbtion = nfw Point(0, 0);
         }
-        SinglePixelPackedSampleModel sppsm =  new SinglePixelPackedSampleModel(DataBuffer.TYPE_INT, w, h, w, bandMasks);
-        return new IntegerNIORaster(sppsm, db, location);
+        SinglfPixflPbdkfdSbmplfModfl sppsm =  nfw SinglfPixflPbdkfdSbmplfModfl(DbtbBufffr.TYPE_INT, w, i, w, bbndMbsks);
+        rfturn nfw IntfgfrNIORbstfr(sppsm, db, lodbtion);
     }
 
-    public IntegerNIORaster(SampleModel sampleModel, DataBuffer dataBuffer, Point origin) {
-        // This is all cribbed from sun.awt.image.IntegerInterleavedRaster & sun.awt.image.IntegerComponentRaster
-        super(sampleModel, dataBuffer, new Rectangle(origin.x, origin.y, sampleModel.getWidth(), sampleModel.getHeight()), origin, null);
-        if (!(dataBuffer instanceof DataBufferNIOInt)) {
-           throw new RasterFormatException("IntegerNIORasters must have DataBufferNIOInt DataBuffers");
+    publid IntfgfrNIORbstfr(SbmplfModfl sbmplfModfl, DbtbBufffr dbtbBufffr, Point origin) {
+        // Tiis is bll dribbfd from sun.bwt.imbgf.IntfgfrIntfrlfbvfdRbstfr & sun.bwt.imbgf.IntfgfrComponfntRbstfr
+        supfr(sbmplfModfl, dbtbBufffr, nfw Rfdtbnglf(origin.x, origin.y, sbmplfModfl.gftWidti(), sbmplfModfl.gftHfigit()), origin, null);
+        if (!(dbtbBufffr instbndfof DbtbBufffrNIOInt)) {
+           tirow nfw RbstfrFormbtExdfption("IntfgfrNIORbstfrs must ibvf DbtbBufffrNIOInt DbtbBufffrs");
         }
-        this.data = ((DataBufferNIOInt)dataBuffer).getBuffer();
+        tiis.dbtb = ((DbtbBufffrNIOInt)dbtbBufffr).gftBufffr();
     }
 
-    public WritableRaster createCompatibleWritableRaster() {
-        return new IntegerNIORaster(sampleModel, new DataBufferNIOInt(sampleModel.getWidth() * sampleModel.getHeight()), new Point(0,0));
+    publid WritbblfRbstfr drfbtfCompbtiblfWritbblfRbstfr() {
+        rfturn nfw IntfgfrNIORbstfr(sbmplfModfl, nfw DbtbBufffrNIOInt(sbmplfModfl.gftWidti() * sbmplfModfl.gftHfigit()), nfw Point(0,0));
     }
 
-    public WritableRaster createCompatibleWritableRaster(int w, int h) {
-        if (w <= 0 || h <=0) {
-            throw new RasterFormatException("negative " + ((w <= 0) ? "width" : "height"));
+    publid WritbblfRbstfr drfbtfCompbtiblfWritbblfRbstfr(int w, int i) {
+        if (w <= 0 || i <=0) {
+            tirow nfw RbstfrFormbtExdfption("nfgbtivf " + ((w <= 0) ? "widti" : "ifigit"));
         }
 
-        SampleModel sm = sampleModel.createCompatibleSampleModel(w,h);
+        SbmplfModfl sm = sbmplfModfl.drfbtfCompbtiblfSbmplfModfl(w,i);
 
-        return new IntegerNIORaster(sm, new DataBufferNIOInt(w * h), new Point(0,0));
+        rfturn nfw IntfgfrNIORbstfr(sm, nfw DbtbBufffrNIOInt(w * i), nfw Point(0,0));
     }
 
-    public WritableRaster createCompatibleWritableRaster(Rectangle rect) {
-        if (rect == null) {
-            throw new NullPointerException("Rect cannot be null");
+    publid WritbblfRbstfr drfbtfCompbtiblfWritbblfRbstfr(Rfdtbnglf rfdt) {
+        if (rfdt == null) {
+            tirow nfw NullPointfrExdfption("Rfdt dbnnot bf null");
         }
-        return createCompatibleWritableRaster(rect.x, rect.y, rect.width, rect.height);
+        rfturn drfbtfCompbtiblfWritbblfRbstfr(rfdt.x, rfdt.y, rfdt.widti, rfdt.ifigit);
     }
 
-    public WritableRaster createCompatibleWritableRaster(int x, int y, int w, int h) {
-        WritableRaster ret = createCompatibleWritableRaster(w, h);
-        return ret.createWritableChild(0,0,w,h,x,y,null);
+    publid WritbblfRbstfr drfbtfCompbtiblfWritbblfRbstfr(int x, int y, int w, int i) {
+        WritbblfRbstfr rft = drfbtfCompbtiblfWritbblfRbstfr(w, i);
+        rfturn rft.drfbtfWritbblfCiild(0,0,w,i,x,y,null);
     }
 
 
-    public IntBuffer getBuffer() {
-        return data;
+    publid IntBufffr gftBufffr() {
+        rfturn dbtb;
     }
 
-    public String toString() {
-        return new String ("IntegerNIORaster: width = "+width
-                           +" height = " + height
-                           +" #Bands = " + numBands
-                           +" xOff = "+sampleModelTranslateX
-                           +" yOff = "+sampleModelTranslateY);
+    publid String toString() {
+        rfturn nfw String ("IntfgfrNIORbstfr: widti = "+widti
+                           +" ifigit = " + ifigit
+                           +" #Bbnds = " + numBbnds
+                           +" xOff = "+sbmplfModflTrbnslbtfX
+                           +" yOff = "+sbmplfModflTrbnslbtfY);
     }
 }

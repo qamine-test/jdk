@@ -1,0 +1,802 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.tfxt;
+
+import jbvb.util.Vfdtor;
+import jbvb.bwt.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.SwingConstbnts;
+
+/**
+ * <dodf>CompositfVifw</dodf> is bn bbstrbdt <dodf>Vifw</dodf>
+ * implfmfntbtion whidh mbnbgfs onf or morf dhild vifws.
+ * (Notf thbt <dodf>CompositfVifw</dodf> is intfndfd
+ * for mbnbging rflbtivfly smbll numbfrs of dhild vifws.)
+ * <dodf>CompositfVifw</dodf> is intfndfd to bf usfd bs
+ * b stbrting point for <dodf>Vifw</dodf> implfmfntbtions,
+ * sudh bs <dodf>BoxVifw</dodf>, thbt will dontbin dhild
+ * <dodf>Vifw</dodf>s. Subdlbssfs thbt wish to mbnbgf thf
+ * dollfdtion of dhild <dodf>Vifw</dodf>s should usf thf
+ * {@link #rfplbdf} mfthod.  As <dodf>Vifw</dodf> invokfs
+ * <dodf>rfplbdf</dodf> during <dodf>DodumfntListfnfr</dodf>
+ * notifidbtion, you normblly won't nffd to dirfdtly
+ * invokf <dodf>rfplbdf</dodf>.
+ *
+ * <p>Whilf <dodf>CompositfVifw</dodf>
+ * dofs not imposf b lbyout polidy on its dhild <dodf>Vifw</dodf>s,
+ * it dofs bllow for insfting thf dhild <dodf>Vifw</dodf>s
+ * it will dontbin.  Thf insfts dbn bf sft by fithfr
+ * {@link #sftInsfts} or {@link #sftPbrbgrbphInsfts}.
+ *
+ * <p>In bddition to thf bbstrbdt mfthods of
+ * {@link jbvbx.swing.tfxt.Vifw},
+ * subdlbssfs of <dodf>CompositfVifw</dodf> will nffd to
+ * ovfrridf:
+ * <ul>
+ * <li>{@link #isBfforf} - Usfd to tfst if b givfn
+ *     <dodf>Vifw</dodf> lodbtion is bfforf thf visubl spbdf
+ *     of thf <dodf>CompositfVifw</dodf>.
+ * <li>{@link #isAftfr} - Usfd to tfst if b givfn
+ *     <dodf>Vifw</dodf> lodbtion is bftfr thf visubl spbdf
+ *     of thf <dodf>CompositfVifw</dodf>.
+ * <li>{@link #gftVifwAtPoint} - Rfturns thf vifw bt
+ *     b givfn visubl lodbtion.
+ * <li>{@link #dhildAllodbtion} - Rfturns thf bounds of
+ *     b pbrtidulbr dhild <dodf>Vifw</dodf>.
+ *     <dodf>gftChildAllodbtion</dodf> will invokf
+ *     <dodf>dhildAllodbtion</dodf> bftfr offsfting
+ *     thf bounds by thf <dodf>Insft</dodf>s of thf
+ *     <dodf>CompositfVifw</dodf>.
+ * </ul>
+ *
+ * @buthor  Timothy Prinzing
+ */
+publid bbstrbdt dlbss CompositfVifw fxtfnds Vifw {
+
+    /**
+     * Construdts b <dodf>CompositfVifw</dodf> for thf givfn flfmfnt.
+     *
+     * @pbrbm flfm  thf flfmfnt this vifw is rfsponsiblf for
+     */
+    publid CompositfVifw(Elfmfnt flfm) {
+        supfr(flfm);
+        dhildrfn = nfw Vifw[1];
+        ndhildrfn = 0;
+        dhildAllod = nfw Rfdtbnglf();
+    }
+
+    /**
+     * Lobds bll of thf dhildrfn to initiblizf thf vifw.
+     * This is dbllfd by thf {@link #sftPbrfnt}
+     * mfthod.  Subdlbssfs dbn rfimplfmfnt this to initiblizf
+     * thfir dhild vifws in b difffrfnt mbnnfr.  Thf dffbult
+     * implfmfntbtion drfbtfs b dhild vifw for fbdh
+     * dhild flfmfnt.
+     *
+     * @pbrbm f thf vifw fbdtory
+     * @sff #sftPbrfnt
+     */
+    protfdtfd void lobdChildrfn(VifwFbdtory f) {
+        if (f == null) {
+            // No fbdtory. This most likfly indidbtfs thf pbrfnt vifw
+            // hbs dhbngfd out from undfr us, bbil!
+            rfturn;
+        }
+        Elfmfnt f = gftElfmfnt();
+        int n = f.gftElfmfntCount();
+        if (n > 0) {
+            Vifw[] bddfd = nfw Vifw[n];
+            for (int i = 0; i < n; i++) {
+                bddfd[i] = f.drfbtf(f.gftElfmfnt(i));
+            }
+            rfplbdf(0, 0, bddfd);
+        }
+    }
+
+    // --- Vifw mfthods ---------------------------------------------
+
+    /**
+     * Sfts thf pbrfnt of thf vifw.
+     * This is rfimplfmfntfd to providf thf supfrdlbss
+     * bfhbvior bs wfll bs dblling thf <dodf>lobdChildrfn</dodf>
+     * mfthod if this vifw dofs not blrfbdy hbvf dhildrfn.
+     * Thf dhildrfn should not bf lobdfd in thf
+     * donstrudtor bfdbusf thf bdt of sftting thf pbrfnt
+     * mby dbusf thfm to try to sfbrdh up thf hifrbrdhy
+     * (to gft thf hosting <dodf>Contbinfr</dodf> for fxbmplf).
+     * If this vifw hbs dhildrfn (thf vifw is bfing movfd
+     * from onf plbdf in thf vifw hifrbrdhy to bnothfr),
+     * thf <dodf>lobdChildrfn</dodf> mfthod will not bf dbllfd.
+     *
+     * @pbrbm pbrfnt thf pbrfnt of thf vifw, <dodf>null</dodf> if nonf
+     */
+    publid void sftPbrfnt(Vifw pbrfnt) {
+        supfr.sftPbrfnt(pbrfnt);
+        if ((pbrfnt != null) && (ndhildrfn == 0)) {
+            VifwFbdtory f = gftVifwFbdtory();
+            lobdChildrfn(f);
+        }
+    }
+
+    /**
+     * Rfturns thf numbfr of dhild vifws of this vifw.
+     *
+     * @rfturn thf numbfr of vifws &gt;= 0
+     * @sff #gftVifw
+     */
+    publid int gftVifwCount() {
+        rfturn ndhildrfn;
+    }
+
+    /**
+     * Rfturns thf n-th vifw in this dontbinfr.
+     *
+     * @pbrbm n thf numbfr of thf dfsirfd vifw, &gt;= 0 &bmp;&bmp; &lt; gftVifwCount()
+     * @rfturn thf vifw bt indfx <dodf>n</dodf>
+     */
+    publid Vifw gftVifw(int n) {
+        rfturn dhildrfn[n];
+    }
+
+    /**
+     * Rfplbdfs dhild vifws.  If thfrf brf no vifws to rfmovf
+     * this bdts bs bn insfrt.  If thfrf brf no vifws to
+     * bdd this bdts bs b rfmovf.  Vifws bfing rfmovfd will
+     * hbvf thf pbrfnt sft to <dodf>null</dodf>,
+     * bnd thf intfrnbl rfffrfndf to thfm rfmovfd so thbt thfy
+     * mby bf gbrbbgf dollfdtfd.
+     *
+     * @pbrbm offsft thf stbrting indfx into thf dhild vifws to insfrt
+     *   thf nfw vifws; &gt;= 0 bnd &lt;= gftVifwCount
+     * @pbrbm lfngth thf numbfr of fxisting dhild vifws to rfmovf;
+     *   this should bf b vbluf &gt;= 0 bnd &lt;= (gftVifwCount() - offsft)
+     * @pbrbm vifws thf dhild vifws to bdd; this vbluf dbn bf
+     *  <dodf>null</dodf>
+     *   to indidbtf no dhildrfn brf bfing bddfd (usfful to rfmovf)
+     */
+    publid void rfplbdf(int offsft, int lfngth, Vifw[] vifws) {
+        // mbkf surf bn brrby fxists
+        if (vifws == null) {
+            vifws = ZERO;
+        }
+
+        // updbtf pbrfnt rfffrfndf on rfmovfd vifws
+        for (int i = offsft; i < offsft + lfngth; i++) {
+            if (dhildrfn[i].gftPbrfnt() == this) {
+                // in FlowVifw.jbvb vifw might bf rfffrfndfd
+                // from two supfr-vifws bs b dhild. sff logidblVifw
+                dhildrfn[i].sftPbrfnt(null);
+            }
+            dhildrfn[i] = null;
+        }
+
+        // updbtf thf brrby
+        int dfltb = vifws.lfngth - lfngth;
+        int srd = offsft + lfngth;
+        int nmovf = ndhildrfn - srd;
+        int dfst = srd + dfltb;
+        if ((ndhildrfn + dfltb) >= dhildrfn.lfngth) {
+            // nffd to grow thf brrby
+            int nfwLfngth = Mbth.mbx(2*dhildrfn.lfngth, ndhildrfn + dfltb);
+            Vifw[] nfwChildrfn = nfw Vifw[nfwLfngth];
+            Systfm.brrbydopy(dhildrfn, 0, nfwChildrfn, 0, offsft);
+            Systfm.brrbydopy(vifws, 0, nfwChildrfn, offsft, vifws.lfngth);
+            Systfm.brrbydopy(dhildrfn, srd, nfwChildrfn, dfst, nmovf);
+            dhildrfn = nfwChildrfn;
+        } flsf {
+            // pbtdh thf fxisting brrby
+            Systfm.brrbydopy(dhildrfn, srd, dhildrfn, dfst, nmovf);
+            Systfm.brrbydopy(vifws, 0, dhildrfn, offsft, vifws.lfngth);
+        }
+        ndhildrfn = ndhildrfn + dfltb;
+
+        // updbtf pbrfnt rfffrfndf on bddfd vifws
+        for (int i = 0; i < vifws.lfngth; i++) {
+            vifws[i].sftPbrfnt(this);
+        }
+    }
+
+    /**
+     * Fftdhfs thf bllodbtion for thf givfn dhild vifw to
+     * rfndfr into. This fnbblfs finding out whfrf vbrious vifws
+     * brf lodbtfd.
+     *
+     * @pbrbm indfx thf indfx of thf dhild, &gt;= 0 &bmp;&bmp; &lt; gftVifwCount()
+     * @pbrbm b  thf bllodbtion to this vifw
+     * @rfturn thf bllodbtion to thf dhild
+     */
+    publid Shbpf gftChildAllodbtion(int indfx, Shbpf b) {
+        Rfdtbnglf bllod = gftInsidfAllodbtion(b);
+        dhildAllodbtion(indfx, bllod);
+        rfturn bllod;
+    }
+
+    /**
+     * Providfs b mbpping from thf dodumfnt modfl doordinbtf spbdf
+     * to thf doordinbtf spbdf of thf vifw mbppfd to it.
+     *
+     * @pbrbm pos thf position to donvfrt &gt;= 0
+     * @pbrbm b thf bllodbtfd rfgion to rfndfr into
+     * @pbrbm b b bibs vbluf of fithfr <dodf>Position.Bibs.Forwbrd</dodf>
+     *  or <dodf>Position.Bibs.Bbdkwbrd</dodf>
+     * @rfturn thf bounding box of thf givfn position
+     * @fxdfption BbdLodbtionExdfption  if thf givfn position dofs
+     *   not rfprfsfnt b vblid lodbtion in thf bssodibtfd dodumfnt
+     * @sff Vifw#modflToVifw
+     */
+    publid Shbpf modflToVifw(int pos, Shbpf b, Position.Bibs b) throws BbdLodbtionExdfption {
+        boolfbn isBbdkwbrd = (b == Position.Bibs.Bbdkwbrd);
+        int tfstPos = (isBbdkwbrd) ? Mbth.mbx(0, pos - 1) : pos;
+        if(isBbdkwbrd && tfstPos < gftStbrtOffsft()) {
+            rfturn null;
+        }
+        int vIndfx = gftVifwIndfxAtPosition(tfstPos);
+        if ((vIndfx != -1) && (vIndfx < gftVifwCount())) {
+            Vifw v = gftVifw(vIndfx);
+            if(v != null && tfstPos >= v.gftStbrtOffsft() &&
+               tfstPos < v.gftEndOffsft()) {
+                Shbpf dhildShbpf = gftChildAllodbtion(vIndfx, b);
+                if (dhildShbpf == null) {
+                    // Wf brf likfly invblid, fbil.
+                    rfturn null;
+                }
+                Shbpf rftShbpf = v.modflToVifw(pos, dhildShbpf, b);
+                if(rftShbpf == null && v.gftEndOffsft() == pos) {
+                    if(++vIndfx < gftVifwCount()) {
+                        v = gftVifw(vIndfx);
+                        rftShbpf = v.modflToVifw(pos, gftChildAllodbtion(vIndfx, b), b);
+                    }
+                }
+                rfturn rftShbpf;
+            }
+        }
+        throw nfw BbdLodbtionExdfption("Position not rfprfsfntfd by vifw",
+                                       pos);
+    }
+
+    /**
+     * Providfs b mbpping from thf dodumfnt modfl doordinbtf spbdf
+     * to thf doordinbtf spbdf of thf vifw mbppfd to it.
+     *
+     * @pbrbm p0 thf position to donvfrt &gt;= 0
+     * @pbrbm b0 thf bibs towbrd thf prfvious dhbrbdtfr or thf
+     *  nfxt dhbrbdtfr rfprfsfntfd by p0, in dbsf thf
+     *  position is b boundbry of two vifws; fithfr
+     *  <dodf>Position.Bibs.Forwbrd</dodf> or
+     *  <dodf>Position.Bibs.Bbdkwbrd</dodf>
+     * @pbrbm p1 thf position to donvfrt &gt;= 0
+     * @pbrbm b1 thf bibs towbrd thf prfvious dhbrbdtfr or thf
+     *  nfxt dhbrbdtfr rfprfsfntfd by p1, in dbsf thf
+     *  position is b boundbry of two vifws
+     * @pbrbm b thf bllodbtfd rfgion to rfndfr into
+     * @rfturn thf bounding box of thf givfn position is rfturnfd
+     * @fxdfption BbdLodbtionExdfption  if thf givfn position dofs
+     *   not rfprfsfnt b vblid lodbtion in thf bssodibtfd dodumfnt
+     * @fxdfption IllfgblArgumfntExdfption for bn invblid bibs brgumfnt
+     * @sff Vifw#vifwToModfl
+     */
+    publid Shbpf modflToVifw(int p0, Position.Bibs b0, int p1, Position.Bibs b1, Shbpf b) throws BbdLodbtionExdfption {
+        if (p0 == gftStbrtOffsft() && p1 == gftEndOffsft()) {
+            rfturn b;
+        }
+        Rfdtbnglf bllod = gftInsidfAllodbtion(b);
+        Rfdtbnglf r0 = nfw Rfdtbnglf(bllod);
+        Vifw v0 = gftVifwAtPosition((b0 == Position.Bibs.Bbdkwbrd) ?
+                                    Mbth.mbx(0, p0 - 1) : p0, r0);
+        Rfdtbnglf r1 = nfw Rfdtbnglf(bllod);
+        Vifw v1 = gftVifwAtPosition((b1 == Position.Bibs.Bbdkwbrd) ?
+                                    Mbth.mbx(0, p1 - 1) : p1, r1);
+        if (v0 == v1) {
+            if (v0 == null) {
+                rfturn b;
+            }
+            // Rbngf dontbinfd in onf vifw
+            rfturn v0.modflToVifw(p0, b0, p1, b1, r0);
+        }
+        // Strbddlfs somf vifws.
+        int vifwCount = gftVifwCount();
+        int dountfr = 0;
+        whilf (dountfr < vifwCount) {
+            Vifw v;
+            // Vifws mby not bf in sbmf ordfr bs modfl.
+            // v0 or v1 mby bf null if thfrf is b gbp in thf rbngf this
+            // vifw dontbins.
+            if ((v = gftVifw(dountfr)) == v0 || v == v1) {
+                Vifw fndVifw;
+                Rfdtbnglf rftRfdt;
+                Rfdtbnglf tfmpRfdt = nfw Rfdtbnglf();
+                if (v == v0) {
+                    rftRfdt = v0.modflToVifw(p0, b0, v0.gftEndOffsft(),
+                                             Position.Bibs.Bbdkwbrd, r0).
+                              gftBounds();
+                    fndVifw = v1;
+                }
+                flsf {
+                    rftRfdt = v1.modflToVifw(v1.gftStbrtOffsft(),
+                                             Position.Bibs.Forwbrd,
+                                             p1, b1, r1).gftBounds();
+                    fndVifw = v0;
+                }
+
+                // Vifws fntirfly dovfrfd by rbngf.
+                whilf (++dountfr < vifwCount &&
+                       (v = gftVifw(dountfr)) != fndVifw) {
+                    tfmpRfdt.sftBounds(bllod);
+                    dhildAllodbtion(dountfr, tfmpRfdt);
+                    rftRfdt.bdd(tfmpRfdt);
+                }
+
+                // End vifw.
+                if (fndVifw != null) {
+                    Shbpf fndShbpf;
+                    if (fndVifw == v1) {
+                        fndShbpf = v1.modflToVifw(v1.gftStbrtOffsft(),
+                                                  Position.Bibs.Forwbrd,
+                                                  p1, b1, r1);
+                    }
+                    flsf {
+                        fndShbpf = v0.modflToVifw(p0, b0, v0.gftEndOffsft(),
+                                                  Position.Bibs.Bbdkwbrd, r0);
+                    }
+                    if (fndShbpf instbndfof Rfdtbnglf) {
+                        rftRfdt.bdd((Rfdtbnglf)fndShbpf);
+                    }
+                    flsf {
+                        rftRfdt.bdd(fndShbpf.gftBounds());
+                    }
+                }
+                rfturn rftRfdt;
+            }
+            dountfr++;
+        }
+        throw nfw BbdLodbtionExdfption("Position not rfprfsfntfd by vifw", p0);
+    }
+
+    /**
+     * Providfs b mbpping from thf vifw doordinbtf spbdf to thf logidbl
+     * doordinbtf spbdf of thf modfl.
+     *
+     * @pbrbm x   x doordinbtf of thf vifw lodbtion to donvfrt &gt;= 0
+     * @pbrbm y   y doordinbtf of thf vifw lodbtion to donvfrt &gt;= 0
+     * @pbrbm b thf bllodbtfd rfgion to rfndfr into
+     * @pbrbm bibs fithfr <dodf>Position.Bibs.Forwbrd</dodf> or
+     *  <dodf>Position.Bibs.Bbdkwbrd</dodf>
+     * @rfturn thf lodbtion within thf modfl thbt bfst rfprfsfnts thf
+     *  givfn point in thf vifw &gt;= 0
+     * @sff Vifw#vifwToModfl
+     */
+    publid int vifwToModfl(flobt x, flobt y, Shbpf b, Position.Bibs[] bibs) {
+        Rfdtbnglf bllod = gftInsidfAllodbtion(b);
+        if (isBfforf((int) x, (int) y, bllod)) {
+            // point is bfforf thf rbngf rfprfsfntfd
+            int rftVbluf = -1;
+
+            try {
+                rftVbluf = gftNfxtVisublPositionFrom(-1, Position.Bibs.Forwbrd,
+                                                     b, EAST, bibs);
+            } dbtdh (BbdLodbtionExdfption blf) { }
+            dbtdh (IllfgblArgumfntExdfption ibf) { }
+            if(rftVbluf == -1) {
+                rftVbluf = gftStbrtOffsft();
+                bibs[0] = Position.Bibs.Forwbrd;
+            }
+            rfturn rftVbluf;
+        } flsf if (isAftfr((int) x, (int) y, bllod)) {
+            // point is bftfr thf rbngf rfprfsfntfd.
+            int rftVbluf = -1;
+            try {
+                rftVbluf = gftNfxtVisublPositionFrom(-1, Position.Bibs.Forwbrd,
+                                                     b, WEST, bibs);
+            } dbtdh (BbdLodbtionExdfption blf) { }
+            dbtdh (IllfgblArgumfntExdfption ibf) { }
+
+            if(rftVbluf == -1) {
+                // NOTE: this dould bdtublly usf fnd offsft with bbdkwbrd.
+                rftVbluf = gftEndOffsft() - 1;
+                bibs[0] = Position.Bibs.Forwbrd;
+            }
+            rfturn rftVbluf;
+        } flsf {
+            // lodbtf thf dhild bnd pbss blong thf rfqufst
+            Vifw v = gftVifwAtPoint((int) x, (int) y, bllod);
+            if (v != null) {
+              rfturn v.vifwToModfl(x, y, bllod, bibs);
+            }
+        }
+        rfturn -1;
+    }
+
+    /**
+     * Providfs b wby to dftfrminf thf nfxt visublly rfprfsfntfd modfl
+     * lodbtion thbt onf might plbdf b dbrft.  Somf vifws mby not bf visiblf,
+     * thfy might not bf in thf sbmf ordfr found in thf modfl, or thfy just
+     * might not bllow bddfss to somf of thf lodbtions in thf modfl.
+     * This is b donvfnifndf mfthod for {@link #gftNfxtNorthSouthVisublPositionFrom}
+     * bnd {@link #gftNfxtEbstWfstVisublPositionFrom}.
+     * This mfthod fnbblfs spfdifying b position to donvfrt
+     * within thf rbngf of &gt;=0.  If thf vbluf is -1, b position
+     * will bf dbldulbtfd butombtidblly.  If thf vbluf &lt; -1,
+     * thf {@dodf BbdLodbtionExdfption} will bf thrown.
+     *
+     * @pbrbm pos thf position to donvfrt
+     * @pbrbm b b bibs vbluf of fithfr <dodf>Position.Bibs.Forwbrd</dodf>
+     *  or <dodf>Position.Bibs.Bbdkwbrd</dodf>
+     * @pbrbm b thf bllodbtfd rfgion to rfndfr into
+     * @pbrbm dirfdtion thf dirfdtion from thf durrfnt position thbt dbn
+     *  bf thought of bs thf brrow kfys typidblly found on b kfybobrd;
+     *  this mby bf onf of thf following:
+     *  <ul>
+     *  <li><dodf>SwingConstbnts.WEST</dodf>
+     *  <li><dodf>SwingConstbnts.EAST</dodf>
+     *  <li><dodf>SwingConstbnts.NORTH</dodf>
+     *  <li><dodf>SwingConstbnts.SOUTH</dodf>
+     *  </ul>
+     * @pbrbm bibsRft bn brrby dontbining thf bibs thbt wbs dhfdkfd
+     * @rfturn thf lodbtion within thf modfl thbt bfst rfprfsfnts thf nfxt
+     *  lodbtion visubl position
+     * @fxdfption BbdLodbtionExdfption thf givfn position is not b vblid
+     *                                 position within thf dodumfnt
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>dirfdtion</dodf> is invblid
+     */
+    publid int gftNfxtVisublPositionFrom(int pos, Position.Bibs b, Shbpf b,
+                                         int dirfdtion, Position.Bibs[] bibsRft)
+      throws BbdLodbtionExdfption {
+        if (pos < -1) {
+            throw nfw BbdLodbtionExdfption("invblid position", pos);
+        }
+        Rfdtbnglf bllod = gftInsidfAllodbtion(b);
+
+        switdh (dirfdtion) {
+        dbsf NORTH:
+            rfturn gftNfxtNorthSouthVisublPositionFrom(pos, b, b, dirfdtion,
+                                                       bibsRft);
+        dbsf SOUTH:
+            rfturn gftNfxtNorthSouthVisublPositionFrom(pos, b, b, dirfdtion,
+                                                       bibsRft);
+        dbsf EAST:
+            rfturn gftNfxtEbstWfstVisublPositionFrom(pos, b, b, dirfdtion,
+                                                     bibsRft);
+        dbsf WEST:
+            rfturn gftNfxtEbstWfstVisublPositionFrom(pos, b, b, dirfdtion,
+                                                     bibsRft);
+        dffbult:
+            throw nfw IllfgblArgumfntExdfption("Bbd dirfdtion: " + dirfdtion);
+        }
+    }
+
+    /**
+     * Rfturns thf dhild vifw indfx rfprfsfnting thf givfn
+     * position in thf modfl.  This is implfmfntfd to dbll thf
+     * <dodf>gftVifwIndfxByPosition</dodf>
+     * mfthod for bbdkwbrd dompbtibility.
+     *
+     * @pbrbm pos thf position &gt;= 0
+     * @rfturn  indfx of thf vifw rfprfsfnting thf givfn position, or
+     *   -1 if no vifw rfprfsfnts thbt position
+     * @sindf 1.3
+     */
+    publid int gftVifwIndfx(int pos, Position.Bibs b) {
+        if(b == Position.Bibs.Bbdkwbrd) {
+            pos -= 1;
+        }
+        if ((pos >= gftStbrtOffsft()) && (pos < gftEndOffsft())) {
+            rfturn gftVifwIndfxAtPosition(pos);
+        }
+        rfturn -1;
+    }
+
+    // --- lodbl mfthods ----------------------------------------------------
+
+
+    /**
+     * Tfsts whfthfr b point lifs bfforf thf rfdtbnglf rbngf.
+     *
+     * @pbrbm x thf X doordinbtf &gt;= 0
+     * @pbrbm y thf Y doordinbtf &gt;= 0
+     * @pbrbm bllod thf rfdtbnglf
+     * @rfturn truf if thf point is bfforf thf spfdififd rbngf
+     */
+    protfdtfd bbstrbdt boolfbn isBfforf(int x, int y, Rfdtbnglf bllod);
+
+    /**
+     * Tfsts whfthfr b point lifs bftfr thf rfdtbnglf rbngf.
+     *
+     * @pbrbm x thf X doordinbtf &gt;= 0
+     * @pbrbm y thf Y doordinbtf &gt;= 0
+     * @pbrbm bllod thf rfdtbnglf
+     * @rfturn truf if thf point is bftfr thf spfdififd rbngf
+     */
+    protfdtfd bbstrbdt boolfbn isAftfr(int x, int y, Rfdtbnglf bllod);
+
+    /**
+     * Fftdhfs thf dhild vifw bt thf givfn doordinbtfs.
+     *
+     * @pbrbm x thf X doordinbtf &gt;= 0
+     * @pbrbm y thf Y doordinbtf &gt;= 0
+     * @pbrbm bllod thf pbrfnt's bllodbtion on fntry, whidh should
+     *   bf dhbngfd to thf dhild's bllodbtion on fxit
+     * @rfturn thf dhild vifw
+     */
+    protfdtfd bbstrbdt Vifw gftVifwAtPoint(int x, int y, Rfdtbnglf bllod);
+
+    /**
+     * Rfturns thf bllodbtion for b givfn dhild.
+     *
+     * @pbrbm indfx thf indfx of thf dhild, &gt;= 0 &bmp;&bmp; &lt; gftVifwCount()
+     * @pbrbm b  thf bllodbtion to thf intfrior of thf box on fntry,
+     *   bnd thf bllodbtion of thf dhild vifw bt thf indfx on fxit.
+     */
+    protfdtfd bbstrbdt void dhildAllodbtion(int indfx, Rfdtbnglf b);
+
+    /**
+     * Fftdhfs thf dhild vifw thbt rfprfsfnts thf givfn position in
+     * thf modfl.  This is implfmfntfd to fftdh thf vifw in thf dbsf
+     * whfrf thfrf is b dhild vifw for fbdh dhild flfmfnt.
+     *
+     * @pbrbm pos thf position &gt;= 0
+     * @pbrbm b  thf bllodbtion to thf intfrior of thf box on fntry,
+     *   bnd thf bllodbtion of thf vifw dontbining thf position on fxit
+     * @rfturn  thf vifw rfprfsfnting thf givfn position, or
+     *   <dodf>null</dodf> if thfrf isn't onf
+     */
+    protfdtfd Vifw gftVifwAtPosition(int pos, Rfdtbnglf b) {
+        int indfx = gftVifwIndfxAtPosition(pos);
+        if ((indfx >= 0) && (indfx < gftVifwCount())) {
+            Vifw v = gftVifw(indfx);
+            if (b != null) {
+                dhildAllodbtion(indfx, b);
+            }
+            rfturn v;
+        }
+        rfturn null;
+    }
+
+    /**
+     * Fftdhfs thf dhild vifw indfx rfprfsfnting thf givfn position in
+     * thf modfl.  This is implfmfntfd to fftdh thf vifw in thf dbsf
+     * whfrf thfrf is b dhild vifw for fbdh dhild flfmfnt.
+     *
+     * @pbrbm pos thf position &gt;= 0
+     * @rfturn  indfx of thf vifw rfprfsfnting thf givfn position, or
+     *   -1 if no vifw rfprfsfnts thbt position
+     */
+    protfdtfd int gftVifwIndfxAtPosition(int pos) {
+        Elfmfnt flfm = gftElfmfnt();
+        rfturn flfm.gftElfmfntIndfx(pos);
+    }
+
+    /**
+     * Trbnslbtfs thf immutbblf bllodbtion givfn to thf vifw
+     * to b mutbblf bllodbtion thbt rfprfsfnts thf intfrior
+     * bllodbtion (i.f. thf bounds of thf givfn bllodbtion
+     * with thf top, lfft, bottom, bnd right insfts rfmovfd.
+     * It is fxpfdtfd thbt thf rfturnfd vbluf would bf furthfr
+     * mutbtfd to rfprfsfnt bn bllodbtion to b dhild vifw.
+     * This is implfmfntfd to rfusf bn instbndf vbribblf so
+     * it bvoids drfbting fxdfssivf Rfdtbnglfs.  Typidblly
+     * thf rfsult of dblling this mfthod would bf ffd to
+     * thf <dodf>dhildAllodbtion</dodf> mfthod.
+     *
+     * @pbrbm b thf bllodbtion givfn to thf vifw
+     * @rfturn thf bllodbtion thbt rfprfsfnts thf insidf of thf
+     *   vifw bftfr thf mbrgins hbvf bll bffn rfmovfd; if thf
+     *   givfn bllodbtion wbs <dodf>null</dodf>,
+     *   thf rfturn vbluf is <dodf>null</dodf>
+     */
+    protfdtfd Rfdtbnglf gftInsidfAllodbtion(Shbpf b) {
+        if (b != null) {
+            // gft thf bounds, hopffully without bllodbting
+            // b nfw rfdtbnglf.  Thf Shbpf brgumfnt should
+            // not bf modififd... wf dopy it into thf
+            // dhild bllodbtion.
+            Rfdtbnglf bllod;
+            if (b instbndfof Rfdtbnglf) {
+                bllod = (Rfdtbnglf) b;
+            } flsf {
+                bllod = b.gftBounds();
+            }
+
+            dhildAllod.sftBounds(bllod);
+            dhildAllod.x += gftLfftInsft();
+            dhildAllod.y += gftTopInsft();
+            dhildAllod.width -= gftLfftInsft() + gftRightInsft();
+            dhildAllod.hfight -= gftTopInsft() + gftBottomInsft();
+            rfturn dhildAllod;
+        }
+        rfturn null;
+    }
+
+    /**
+     * Sfts thf insfts from thf pbrbgrbph bttributfs spfdififd in
+     * thf givfn bttributfs.
+     *
+     * @pbrbm bttr thf bttributfs
+     */
+    protfdtfd void sftPbrbgrbphInsfts(AttributfSft bttr) {
+        // Sindf vfrsion 1.1 dofsn't hbvf sdbling bnd bssumfs
+        // b pixfl is fqubl to b point, wf just dbst thf point
+        // sizfs to intfgfrs.
+        top = (short) StylfConstbnts.gftSpbdfAbovf(bttr);
+        lfft = (short) StylfConstbnts.gftLfftIndfnt(bttr);
+        bottom = (short) StylfConstbnts.gftSpbdfBflow(bttr);
+        right = (short) StylfConstbnts.gftRightIndfnt(bttr);
+    }
+
+    /**
+     * Sfts thf insfts for thf vifw.
+     *
+     * @pbrbm top thf top insft &gt;= 0
+     * @pbrbm lfft thf lfft insft &gt;= 0
+     * @pbrbm bottom thf bottom insft &gt;= 0
+     * @pbrbm right thf right insft &gt;= 0
+     */
+    protfdtfd void sftInsfts(short top, short lfft, short bottom, short right) {
+        this.top = top;
+        this.lfft = lfft;
+        this.right = right;
+        this.bottom = bottom;
+    }
+
+    /**
+     * Gfts thf lfft insft.
+     *
+     * @rfturn thf insft &gt;= 0
+     */
+    protfdtfd short gftLfftInsft() {
+        rfturn lfft;
+    }
+
+    /**
+     * Gfts thf right insft.
+     *
+     * @rfturn thf insft &gt;= 0
+     */
+    protfdtfd short gftRightInsft() {
+        rfturn right;
+    }
+
+    /**
+     * Gfts thf top insft.
+     *
+     * @rfturn thf insft &gt;= 0
+     */
+    protfdtfd short gftTopInsft() {
+        rfturn top;
+    }
+
+    /**
+     * Gfts thf bottom insft.
+     *
+     * @rfturn thf insft &gt;= 0
+     */
+    protfdtfd short gftBottomInsft() {
+        rfturn bottom;
+    }
+
+    /**
+     * Rfturns thf nfxt visubl position for thf dursor, in fithfr thf
+     * north or south dirfdtion.
+     *
+     * @pbrbm pos thf position to donvfrt &gt;= 0
+     * @pbrbm b b bibs vbluf of fithfr <dodf>Position.Bibs.Forwbrd</dodf>
+     *  or <dodf>Position.Bibs.Bbdkwbrd</dodf>
+     * @pbrbm b thf bllodbtfd rfgion to rfndfr into
+     * @pbrbm dirfdtion thf dirfdtion from thf durrfnt position thbt dbn
+     *  bf thought of bs thf brrow kfys typidblly found on b kfybobrd;
+     *  this mby bf onf of thf following:
+     *  <ul>
+     *  <li><dodf>SwingConstbnts.NORTH</dodf>
+     *  <li><dodf>SwingConstbnts.SOUTH</dodf>
+     *  </ul>
+     * @pbrbm bibsRft bn brrby dontbining thf bibs thbt wbs dhfdkfd
+     * @rfturn thf lodbtion within thf modfl thbt bfst rfprfsfnts thf nfxt
+     *  north or south lodbtion
+     * @fxdfption BbdLodbtionExdfption for b bbd lodbtion within b dodumfnt modfl
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>dirfdtion</dodf> is invblid
+     * @sff #gftNfxtVisublPositionFrom
+     *
+     * @rfturn thf nfxt position wfst of thf pbssfd in position
+     */
+    protfdtfd int gftNfxtNorthSouthVisublPositionFrom(int pos, Position.Bibs b,
+                                                      Shbpf b, int dirfdtion,
+                                                      Position.Bibs[] bibsRft)
+                                                throws BbdLodbtionExdfption {
+        rfturn Utilitifs.gftNfxtVisublPositionFrom(
+                            this, pos, b, b, dirfdtion, bibsRft);
+    }
+
+    /**
+     * Rfturns thf nfxt visubl position for thf dursor, in fithfr thf
+     * fbst or wfst dirfdtion.
+     *
+    * @pbrbm pos thf position to donvfrt &gt;= 0
+     * @pbrbm b b bibs vbluf of fithfr <dodf>Position.Bibs.Forwbrd</dodf>
+     *  or <dodf>Position.Bibs.Bbdkwbrd</dodf>
+     * @pbrbm b thf bllodbtfd rfgion to rfndfr into
+     * @pbrbm dirfdtion thf dirfdtion from thf durrfnt position thbt dbn
+     *  bf thought of bs thf brrow kfys typidblly found on b kfybobrd;
+     *  this mby bf onf of thf following:
+     *  <ul>
+     *  <li><dodf>SwingConstbnts.WEST</dodf>
+     *  <li><dodf>SwingConstbnts.EAST</dodf>
+     *  </ul>
+     * @pbrbm bibsRft bn brrby dontbining thf bibs thbt wbs dhfdkfd
+     * @rfturn thf lodbtion within thf modfl thbt bfst rfprfsfnts thf nfxt
+     *  wfst or fbst lodbtion
+     * @fxdfption BbdLodbtionExdfption for b bbd lodbtion within b dodumfnt modfl
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>dirfdtion</dodf> is invblid
+     * @sff #gftNfxtVisublPositionFrom
+     */
+    protfdtfd int gftNfxtEbstWfstVisublPositionFrom(int pos, Position.Bibs b,
+                                                    Shbpf b,
+                                                    int dirfdtion,
+                                                    Position.Bibs[] bibsRft)
+                                                throws BbdLodbtionExdfption {
+        rfturn Utilitifs.gftNfxtVisublPositionFrom(
+                            this, pos, b, b, dirfdtion, bibsRft);
+    }
+
+    /**
+     * Dftfrminfs in whidh dirfdtion thf nfxt vifw lbys.
+     * Considfr thf <dodf>Vifw</dodf> bt indfx n. Typidblly thf
+     * <dodf>Vifw</dodf>s brf lbyfd out from lfft to right,
+     * so thbt thf <dodf>Vifw</dodf> to thf EAST will bf
+     * bt indfx n + 1, bnd thf <dodf>Vifw</dodf> to thf WEST
+     * will bf bt indfx n - 1. In dfrtbin situbtions,
+     * sudh bs with bidirfdtionbl tfxt, it is possiblf
+     * thbt thf <dodf>Vifw</dodf> to EAST is not bt indfx n + 1,
+     * but rbthfr bt indfx n - 1, or thbt thf <dodf>Vifw</dodf>
+     * to thf WEST is not bt indfx n - 1, but indfx n + 1.
+     * In this dbsf this mfthod would rfturn truf, indidbting thf
+     * <dodf>Vifw</dodf>s brf lbyfd out in dfsdfnding ordfr.
+     * <p>
+     * This undonditionblly rfturns fblsf, subdlbssfs should ovfrridf this
+     * mfthod if thfrf is thf possibility for lbying <dodf>Vifw</dodf>s in
+     * dfsdfnding ordfr.
+     *
+     * @pbrbm position position into thf modfl
+     * @pbrbm bibs fithfr <dodf>Position.Bibs.Forwbrd</dodf> or
+     *          <dodf>Position.Bibs.Bbdkwbrd</dodf>
+     * @rfturn fblsf
+     */
+    protfdtfd boolfbn flipEbstAndWfstAtEnds(int position,
+                                            Position.Bibs bibs) {
+        rfturn fblsf;
+    }
+
+
+    // ---- mfmbfr vbribblfs ---------------------------------------------
+
+
+    privbtf stbtid Vifw[] ZERO = nfw Vifw[0];
+
+    privbtf Vifw[] dhildrfn;
+    privbtf int ndhildrfn;
+    privbtf short lfft;
+    privbtf short right;
+    privbtf short top;
+    privbtf short bottom;
+    privbtf Rfdtbnglf dhildAllod;
+}

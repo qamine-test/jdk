@@ -1,431 +1,431 @@
 /*
- * Copyright (c) 2006, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.java.swing.plaf.windows;
+pbdkbgf dom.sun.jbvb.swing.plbf.windows;
 
-import java.security.AccessController;
-import sun.security.action.GetBooleanAction;
+import jbvb.sfdurity.AddfssControllfr;
+import sun.sfdurity.bdtion.GftBoolfbnAdtion;
 
-import java.util.*;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeEvent;
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
+import jbvb.util.*;
+import jbvb.bfbns.PropfrtyCibngfListfnfr;
+import jbvb.bfbns.PropfrtyCibngfEvfnt;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvbx.swing.*;
 
 
 
-import sun.swing.UIClientPropertyKey;
-import com.sun.java.swing.plaf.windows.TMSchema.State;
-import static com.sun.java.swing.plaf.windows.TMSchema.State.*;
-import com.sun.java.swing.plaf.windows.TMSchema.Part;
-import com.sun.java.swing.plaf.windows.TMSchema.Prop;
-import com.sun.java.swing.plaf.windows.XPStyle.Skin;
+import sun.swing.UIClifntPropfrtyKfy;
+import dom.sun.jbvb.swing.plbf.windows.TMSdifmb.Stbtf;
+import stbtid dom.sun.jbvb.swing.plbf.windows.TMSdifmb.Stbtf.*;
+import dom.sun.jbvb.swing.plbf.windows.TMSdifmb.Pbrt;
+import dom.sun.jbvb.swing.plbf.windows.TMSdifmb.Prop;
+import dom.sun.jbvb.swing.plbf.windows.XPStylf.Skin;
 
-import sun.awt.AppContext;
+import sun.bwt.AppContfxt;
 
 /**
- * A class to help mimic Vista theme animations.  The only kind of
- * animation it handles for now is 'transition' animation (this seems
- * to be the only animation which Vista theme can do). This is when
- * one picture fadein over another one in some period of time.
- * According to
- * https://connect.microsoft.com/feedback/ViewFeedback.aspx?FeedbackID=86852&SiteID=4
- * The animations are all linear.
+ * A dlbss to iflp mimid Vistb tifmf bnimbtions.  Tif only kind of
+ * bnimbtion it ibndlfs for now is 'trbnsition' bnimbtion (tiis sffms
+ * to bf tif only bnimbtion wiidi Vistb tifmf dbn do). Tiis is wifn
+ * onf pidturf fbdfin ovfr bnotifr onf in somf pfriod of timf.
+ * Addording to
+ * ittps://donnfdt.midrosoft.dom/fffdbbdk/VifwFffdbbdk.bspx?FffdbbdkID=86852&SitfID=4
+ * Tif bnimbtions brf bll linfbr.
  *
- * This class has a number of responsibilities.
+ * Tiis dlbss ibs b numbfr of rfsponsibilitifs.
  * <ul>
- *   <li> It trigger rapaint for the UI components involved in the animation
- *   <li> It tracks the animation state for every UI component involved in the
- *        animation and paints {@code Skin} in new {@code State} over the
- *        {@code Skin} in last {@code State} using
- *        {@code AlphaComposite.SrcOver.derive(alpha)} where {code alpha}
- *        depends on the state of animation
+ *   <li> It triggfr rbpbint for tif UI domponfnts involvfd in tif bnimbtion
+ *   <li> It trbdks tif bnimbtion stbtf for fvfry UI domponfnt involvfd in tif
+ *        bnimbtion bnd pbints {@dodf Skin} in nfw {@dodf Stbtf} ovfr tif
+ *        {@dodf Skin} in lbst {@dodf Stbtf} using
+ *        {@dodf AlpibCompositf.SrdOvfr.dfrivf(blpib)} wifrf {dodf blpib}
+ *        dfpfnds on tif stbtf of bnimbtion
  * </ul>
  *
- * @author Igor Kushnirskiy
+ * @butior Igor Kusinirskiy
  */
-class AnimationController implements ActionListener, PropertyChangeListener {
+dlbss AnimbtionControllfr implfmfnts AdtionListfnfr, PropfrtyCibngfListfnfr {
 
-    private final static boolean VISTA_ANIMATION_DISABLED =
-        AccessController.doPrivileged(new GetBooleanAction("swing.disablevistaanimation"));
+    privbtf finbl stbtid boolfbn VISTA_ANIMATION_DISABLED =
+        AddfssControllfr.doPrivilfgfd(nfw GftBoolfbnAdtion("swing.disbblfvistbbnimbtion"));
 
 
-    private final static Object ANIMATION_CONTROLLER_KEY =
-        new StringBuilder("ANIMATION_CONTROLLER_KEY");
+    privbtf finbl stbtid Objfdt ANIMATION_CONTROLLER_KEY =
+        nfw StringBuildfr("ANIMATION_CONTROLLER_KEY");
 
-    private final Map<JComponent, Map<Part, AnimationState>> animationStateMap =
-            new WeakHashMap<JComponent, Map<Part, AnimationState>>();
+    privbtf finbl Mbp<JComponfnt, Mbp<Pbrt, AnimbtionStbtf>> bnimbtionStbtfMbp =
+            nfw WfbkHbsiMbp<JComponfnt, Mbp<Pbrt, AnimbtionStbtf>>();
 
-    //this timer is used to cause repaint on animated components
-    //30 repaints per second should give smooth animation affect
-    private final javax.swing.Timer timer =
-        new javax.swing.Timer(1000/30, this);
+    //tiis timfr is usfd to dbusf rfpbint on bnimbtfd domponfnts
+    //30 rfpbints pfr sfdond siould givf smooti bnimbtion bfffdt
+    privbtf finbl jbvbx.swing.Timfr timfr =
+        nfw jbvbx.swing.Timfr(1000/30, tiis);
 
-    private static synchronized AnimationController getAnimationController() {
-        AppContext appContext = AppContext.getAppContext();
-        Object obj = appContext.get(ANIMATION_CONTROLLER_KEY);
+    privbtf stbtid syndironizfd AnimbtionControllfr gftAnimbtionControllfr() {
+        AppContfxt bppContfxt = AppContfxt.gftAppContfxt();
+        Objfdt obj = bppContfxt.gft(ANIMATION_CONTROLLER_KEY);
         if (obj == null) {
-            obj = new AnimationController();
-            appContext.put(ANIMATION_CONTROLLER_KEY, obj);
+            obj = nfw AnimbtionControllfr();
+            bppContfxt.put(ANIMATION_CONTROLLER_KEY, obj);
         }
-        return (AnimationController) obj;
+        rfturn (AnimbtionControllfr) obj;
     }
 
-    private AnimationController() {
-        timer.setRepeats(true);
-        timer.setCoalesce(true);
-        //we need to dispose the controller on l&f change
-        UIManager.addPropertyChangeListener(this);
+    privbtf AnimbtionControllfr() {
+        timfr.sftRfpfbts(truf);
+        timfr.sftCoblfsdf(truf);
+        //wf nffd to disposf tif dontrollfr on l&f dibngf
+        UIMbnbgfr.bddPropfrtyCibngfListfnfr(tiis);
     }
 
-    private static void triggerAnimation(JComponent c,
-                           Part part, State newState) {
-        if (c instanceof javax.swing.JTabbedPane
-            || part == Part.TP_BUTTON) {
-            //idk: we can not handle tabs animation because
-            //the same (component,part) is used to handle all the tabs
-            //and we can not track the states
-            //Vista theme might have transition duration for toolbar buttons
-            //but native application does not seem to animate them
-            return;
+    privbtf stbtid void triggfrAnimbtion(JComponfnt d,
+                           Pbrt pbrt, Stbtf nfwStbtf) {
+        if (d instbndfof jbvbx.swing.JTbbbfdPbnf
+            || pbrt == Pbrt.TP_BUTTON) {
+            //idk: wf dbn not ibndlf tbbs bnimbtion bfdbusf
+            //tif sbmf (domponfnt,pbrt) is usfd to ibndlf bll tif tbbs
+            //bnd wf dbn not trbdk tif stbtfs
+            //Vistb tifmf migit ibvf trbnsition durbtion for toolbbr buttons
+            //but nbtivf bpplidbtion dofs not sffm to bnimbtf tifm
+            rfturn;
         }
-        AnimationController controller =
-            AnimationController.getAnimationController();
-        State oldState = controller.getState(c, part);
-        if (oldState != newState) {
-            controller.putState(c, part, newState);
-            if (newState == State.DEFAULTED) {
-                // it seems for DEFAULTED button state Vista does animation from
+        AnimbtionControllfr dontrollfr =
+            AnimbtionControllfr.gftAnimbtionControllfr();
+        Stbtf oldStbtf = dontrollfr.gftStbtf(d, pbrt);
+        if (oldStbtf != nfwStbtf) {
+            dontrollfr.putStbtf(d, pbrt, nfwStbtf);
+            if (nfwStbtf == Stbtf.DEFAULTED) {
+                // it sffms for DEFAULTED button stbtf Vistb dofs bnimbtion from
                 // HOT
-                oldState = State.HOT;
+                oldStbtf = Stbtf.HOT;
             }
-            if (oldState != null) {
-                long duration;
-                if (newState == State.DEFAULTED) {
-                    //Only button might have DEFAULTED state
-                    //idk: do not know how to get the value from Vista
-                    //one second seems plausible value
-                    duration = 1000;
-                } else {
-                    XPStyle xp = XPStyle.getXP();
-                    duration = (xp != null)
-                               ? xp.getThemeTransitionDuration(
-                                       c, part,
-                                       normalizeState(oldState),
-                                       normalizeState(newState),
+            if (oldStbtf != null) {
+                long durbtion;
+                if (nfwStbtf == Stbtf.DEFAULTED) {
+                    //Only button migit ibvf DEFAULTED stbtf
+                    //idk: do not know iow to gft tif vbluf from Vistb
+                    //onf sfdond sffms plbusiblf vbluf
+                    durbtion = 1000;
+                } flsf {
+                    XPStylf xp = XPStylf.gftXP();
+                    durbtion = (xp != null)
+                               ? xp.gftTifmfTrbnsitionDurbtion(
+                                       d, pbrt,
+                                       normblizfStbtf(oldStbtf),
+                                       normblizfStbtf(nfwStbtf),
                                        Prop.TRANSITIONDURATIONS)
                                : 1000;
                 }
-                controller.startAnimation(c, part, oldState, newState, duration);
+                dontrollfr.stbrtAnimbtion(d, pbrt, oldStbtf, nfwStbtf, durbtion);
             }
         }
     }
 
-    // for scrollbar up, down, left and right button pictures are
-    // defined by states.  It seems that theme has duration defined
-    // only for up button states thus we doing this translation here.
-    private static State normalizeState(State state) {
-        State rv;
-        switch (state) {
-        case DOWNPRESSED:
-            /* falls through */
-        case LEFTPRESSED:
-            /* falls through */
-        case RIGHTPRESSED:
+    // for sdrollbbr up, down, lfft bnd rigit button pidturfs brf
+    // dffinfd by stbtfs.  It sffms tibt tifmf ibs durbtion dffinfd
+    // only for up button stbtfs tius wf doing tiis trbnslbtion ifrf.
+    privbtf stbtid Stbtf normblizfStbtf(Stbtf stbtf) {
+        Stbtf rv;
+        switdi (stbtf) {
+        dbsf DOWNPRESSED:
+            /* fblls tirougi */
+        dbsf LEFTPRESSED:
+            /* fblls tirougi */
+        dbsf RIGHTPRESSED:
             rv = UPPRESSED;
-            break;
+            brfbk;
 
-        case DOWNDISABLED:
-            /* falls through */
-        case LEFTDISABLED:
-            /* falls through */
-        case RIGHTDISABLED:
+        dbsf DOWNDISABLED:
+            /* fblls tirougi */
+        dbsf LEFTDISABLED:
+            /* fblls tirougi */
+        dbsf RIGHTDISABLED:
             rv = UPDISABLED;
-            break;
+            brfbk;
 
-        case DOWNHOT:
-            /* falls through */
-        case LEFTHOT:
-            /* falls through */
-        case RIGHTHOT:
+        dbsf DOWNHOT:
+            /* fblls tirougi */
+        dbsf LEFTHOT:
+            /* fblls tirougi */
+        dbsf RIGHTHOT:
             rv = UPHOT;
-            break;
+            brfbk;
 
-        case DOWNNORMAL:
-            /* falls through */
-        case LEFTNORMAL:
-            /* falls through */
-        case RIGHTNORMAL:
+        dbsf DOWNNORMAL:
+            /* fblls tirougi */
+        dbsf LEFTNORMAL:
+            /* fblls tirougi */
+        dbsf RIGHTNORMAL:
             rv = UPNORMAL;
-            break;
+            brfbk;
 
-        default :
-            rv = state;
-            break;
+        dffbult :
+            rv = stbtf;
+            brfbk;
         }
-        return rv;
+        rfturn rv;
     }
 
-    private synchronized State getState(JComponent component, Part part) {
-        State rv = null;
-        Object tmpObject =
-            component.getClientProperty(PartUIClientPropertyKey.getKey(part));
-        if (tmpObject instanceof State) {
-            rv = (State) tmpObject;
+    privbtf syndironizfd Stbtf gftStbtf(JComponfnt domponfnt, Pbrt pbrt) {
+        Stbtf rv = null;
+        Objfdt tmpObjfdt =
+            domponfnt.gftClifntPropfrty(PbrtUIClifntPropfrtyKfy.gftKfy(pbrt));
+        if (tmpObjfdt instbndfof Stbtf) {
+            rv = (Stbtf) tmpObjfdt;
         }
-        return rv;
+        rfturn rv;
     }
 
-    private synchronized void putState(JComponent component, Part part,
-                                       State state) {
-        component.putClientProperty(PartUIClientPropertyKey.getKey(part),
-                                    state);
+    privbtf syndironizfd void putStbtf(JComponfnt domponfnt, Pbrt pbrt,
+                                       Stbtf stbtf) {
+        domponfnt.putClifntPropfrty(PbrtUIClifntPropfrtyKfy.gftKfy(pbrt),
+                                    stbtf);
     }
 
-    private synchronized void startAnimation(JComponent component,
-                                     Part part,
-                                     State startState,
-                                     State endState,
+    privbtf syndironizfd void stbrtAnimbtion(JComponfnt domponfnt,
+                                     Pbrt pbrt,
+                                     Stbtf stbrtStbtf,
+                                     Stbtf fndStbtf,
                                      long millis) {
-        boolean isForwardAndReverse = false;
-        if (endState == State.DEFAULTED) {
-            isForwardAndReverse = true;
+        boolfbn isForwbrdAndRfvfrsf = fblsf;
+        if (fndStbtf == Stbtf.DEFAULTED) {
+            isForwbrdAndRfvfrsf = truf;
         }
-        Map<Part, AnimationState> map = animationStateMap.get(component);
+        Mbp<Pbrt, AnimbtionStbtf> mbp = bnimbtionStbtfMbp.gft(domponfnt);
         if (millis <= 0) {
-            if (map != null) {
-                map.remove(part);
-                if (map.size() == 0) {
-                    animationStateMap.remove(component);
+            if (mbp != null) {
+                mbp.rfmovf(pbrt);
+                if (mbp.sizf() == 0) {
+                    bnimbtionStbtfMbp.rfmovf(domponfnt);
                 }
             }
-            return;
+            rfturn;
         }
-        if (map == null) {
-            map = new EnumMap<Part, AnimationState>(Part.class);
-            animationStateMap.put(component, map);
+        if (mbp == null) {
+            mbp = nfw EnumMbp<Pbrt, AnimbtionStbtf>(Pbrt.dlbss);
+            bnimbtionStbtfMbp.put(domponfnt, mbp);
         }
-        map.put(part,
-                new AnimationState(startState, millis, isForwardAndReverse));
-        if (! timer.isRunning()) {
-            timer.start();
+        mbp.put(pbrt,
+                nfw AnimbtionStbtf(stbrtStbtf, millis, isForwbrdAndRfvfrsf));
+        if (! timfr.isRunning()) {
+            timfr.stbrt();
         }
     }
 
-    static void paintSkin(JComponent component, Skin skin,
-                      Graphics g, int dx, int dy, int dw, int dh, State state) {
+    stbtid void pbintSkin(JComponfnt domponfnt, Skin skin,
+                      Grbpiids g, int dx, int dy, int dw, int di, Stbtf stbtf) {
         if (VISTA_ANIMATION_DISABLED) {
-            skin.paintSkinRaw(g, dx, dy, dw, dh, state);
-            return;
+            skin.pbintSkinRbw(g, dx, dy, dw, di, stbtf);
+            rfturn;
         }
-        triggerAnimation(component, skin.part, state);
-        AnimationController controller = getAnimationController();
-        synchronized (controller) {
-            AnimationState animationState = null;
-            Map<Part, AnimationState> map =
-                controller.animationStateMap.get(component);
-            if (map != null) {
-                animationState = map.get(skin.part);
+        triggfrAnimbtion(domponfnt, skin.pbrt, stbtf);
+        AnimbtionControllfr dontrollfr = gftAnimbtionControllfr();
+        syndironizfd (dontrollfr) {
+            AnimbtionStbtf bnimbtionStbtf = null;
+            Mbp<Pbrt, AnimbtionStbtf> mbp =
+                dontrollfr.bnimbtionStbtfMbp.gft(domponfnt);
+            if (mbp != null) {
+                bnimbtionStbtf = mbp.gft(skin.pbrt);
             }
-            if (animationState != null) {
-                animationState.paintSkin(skin, g, dx, dy, dw, dh, state);
-            } else {
-                skin.paintSkinRaw(g, dx, dy, dw, dh, state);
+            if (bnimbtionStbtf != null) {
+                bnimbtionStbtf.pbintSkin(skin, g, dx, dy, dw, di, stbtf);
+            } flsf {
+                skin.pbintSkinRbw(g, dx, dy, dw, di, stbtf);
             }
-        }
-    }
-
-    public synchronized void propertyChange(PropertyChangeEvent e) {
-        if ("lookAndFeel" == e.getPropertyName()
-            && ! (e.getNewValue() instanceof WindowsLookAndFeel) ) {
-            dispose();
         }
     }
 
-    public synchronized void actionPerformed(ActionEvent e) {
-        java.util.List<JComponent> componentsToRemove = null;
-        java.util.List<Part> partsToRemove = null;
-        for (JComponent component : animationStateMap.keySet()) {
-            component.repaint();
-            if (partsToRemove != null) {
-                partsToRemove.clear();
-            }
-            Map<Part, AnimationState> map = animationStateMap.get(component);
-            if (! component.isShowing()
-                  || map == null
-                  || map.size() == 0) {
-                if (componentsToRemove == null) {
-                    componentsToRemove = new ArrayList<JComponent>();
-                }
-                componentsToRemove.add(component);
-                continue;
-            }
-            for (Part part : map.keySet()) {
-                if (map.get(part).isDone()) {
-                    if (partsToRemove == null) {
-                        partsToRemove = new ArrayList<Part>();
-                    }
-                    partsToRemove.add(part);
-                }
-            }
-            if (partsToRemove != null) {
-                if (partsToRemove.size() == map.size()) {
-                    //animation is done for the component
-                    if (componentsToRemove == null) {
-                        componentsToRemove = new ArrayList<JComponent>();
-                    }
-                    componentsToRemove.add(component);
-                } else {
-                    for (Part part : partsToRemove) {
-                        map.remove(part);
-                    }
-                }
-            }
-        }
-        if (componentsToRemove != null) {
-            for (JComponent component : componentsToRemove) {
-                animationStateMap.remove(component);
-            }
-        }
-        if (animationStateMap.size() == 0) {
-            timer.stop();
+    publid syndironizfd void propfrtyCibngf(PropfrtyCibngfEvfnt f) {
+        if ("lookAndFffl" == f.gftPropfrtyNbmf()
+            && ! (f.gftNfwVbluf() instbndfof WindowsLookAndFffl) ) {
+            disposf();
         }
     }
 
-    private synchronized void dispose() {
-        timer.stop();
-        UIManager.removePropertyChangeListener(this);
-        synchronized (AnimationController.class) {
-            AppContext.getAppContext()
+    publid syndironizfd void bdtionPfrformfd(AdtionEvfnt f) {
+        jbvb.util.List<JComponfnt> domponfntsToRfmovf = null;
+        jbvb.util.List<Pbrt> pbrtsToRfmovf = null;
+        for (JComponfnt domponfnt : bnimbtionStbtfMbp.kfySft()) {
+            domponfnt.rfpbint();
+            if (pbrtsToRfmovf != null) {
+                pbrtsToRfmovf.dlfbr();
+            }
+            Mbp<Pbrt, AnimbtionStbtf> mbp = bnimbtionStbtfMbp.gft(domponfnt);
+            if (! domponfnt.isSiowing()
+                  || mbp == null
+                  || mbp.sizf() == 0) {
+                if (domponfntsToRfmovf == null) {
+                    domponfntsToRfmovf = nfw ArrbyList<JComponfnt>();
+                }
+                domponfntsToRfmovf.bdd(domponfnt);
+                dontinuf;
+            }
+            for (Pbrt pbrt : mbp.kfySft()) {
+                if (mbp.gft(pbrt).isDonf()) {
+                    if (pbrtsToRfmovf == null) {
+                        pbrtsToRfmovf = nfw ArrbyList<Pbrt>();
+                    }
+                    pbrtsToRfmovf.bdd(pbrt);
+                }
+            }
+            if (pbrtsToRfmovf != null) {
+                if (pbrtsToRfmovf.sizf() == mbp.sizf()) {
+                    //bnimbtion is donf for tif domponfnt
+                    if (domponfntsToRfmovf == null) {
+                        domponfntsToRfmovf = nfw ArrbyList<JComponfnt>();
+                    }
+                    domponfntsToRfmovf.bdd(domponfnt);
+                } flsf {
+                    for (Pbrt pbrt : pbrtsToRfmovf) {
+                        mbp.rfmovf(pbrt);
+                    }
+                }
+            }
+        }
+        if (domponfntsToRfmovf != null) {
+            for (JComponfnt domponfnt : domponfntsToRfmovf) {
+                bnimbtionStbtfMbp.rfmovf(domponfnt);
+            }
+        }
+        if (bnimbtionStbtfMbp.sizf() == 0) {
+            timfr.stop();
+        }
+    }
+
+    privbtf syndironizfd void disposf() {
+        timfr.stop();
+        UIMbnbgfr.rfmovfPropfrtyCibngfListfnfr(tiis);
+        syndironizfd (AnimbtionControllfr.dlbss) {
+            AppContfxt.gftAppContfxt()
                 .put(ANIMATION_CONTROLLER_KEY, null);
         }
     }
 
-    private static class AnimationState {
-        private final State startState;
+    privbtf stbtid dlbss AnimbtionStbtf {
+        privbtf finbl Stbtf stbrtStbtf;
 
-        //animation duration in nanoseconds
-        private final long duration;
+        //bnimbtion durbtion in nbnosfdonds
+        privbtf finbl long durbtion;
 
-        //animatin start time in nanoseconds
-        private long startTime;
+        //bnimbtin stbrt timf in nbnosfdonds
+        privbtf long stbrtTimf;
 
-        //direction the alpha value is changing
-        //forward  - from 0 to 1
-        //!forward - from 1 to 0
-        private boolean isForward = true;
+        //dirfdtion tif blpib vbluf is dibnging
+        //forwbrd  - from 0 to 1
+        //!forwbrd - from 1 to 0
+        privbtf boolfbn isForwbrd = truf;
 
-        //if isForwardAndReverse the animation continually goes
-        //forward and reverse. alpha value is changing from 0 to 1 then
-        //from 1 to 0 and so forth
-        private boolean isForwardAndReverse;
+        //if isForwbrdAndRfvfrsf tif bnimbtion dontinublly gofs
+        //forwbrd bnd rfvfrsf. blpib vbluf is dibnging from 0 to 1 tifn
+        //from 1 to 0 bnd so forti
+        privbtf boolfbn isForwbrdAndRfvfrsf;
 
-        private float progress;
+        privbtf flobt progrfss;
 
-        AnimationState(final State startState,
-                       final long milliseconds,
-                       boolean isForwardAndReverse) {
-            assert startState != null && milliseconds > 0;
-            assert SwingUtilities.isEventDispatchThread();
+        AnimbtionStbtf(finbl Stbtf stbrtStbtf,
+                       finbl long millisfdonds,
+                       boolfbn isForwbrdAndRfvfrsf) {
+            bssfrt stbrtStbtf != null && millisfdonds > 0;
+            bssfrt SwingUtilitifs.isEvfntDispbtdiTirfbd();
 
-            this.startState = startState;
-            this.duration = milliseconds * 1000000;
-            this.startTime = System.nanoTime();
-            this.isForwardAndReverse = isForwardAndReverse;
-            progress = 0f;
+            tiis.stbrtStbtf = stbrtStbtf;
+            tiis.durbtion = millisfdonds * 1000000;
+            tiis.stbrtTimf = Systfm.nbnoTimf();
+            tiis.isForwbrdAndRfvfrsf = isForwbrdAndRfvfrsf;
+            progrfss = 0f;
         }
-        private void updateProgress() {
-            assert SwingUtilities.isEventDispatchThread();
+        privbtf void updbtfProgrfss() {
+            bssfrt SwingUtilitifs.isEvfntDispbtdiTirfbd();
 
-            if (isDone()) {
-                return;
+            if (isDonf()) {
+                rfturn;
             }
-            long currentTime = System.nanoTime();
+            long durrfntTimf = Systfm.nbnoTimf();
 
-            progress = ((float) (currentTime - startTime))
-                / duration;
-            progress = Math.max(progress, 0); //in case time was reset
-            if (progress >= 1) {
-                progress = 1;
-                if (isForwardAndReverse) {
-                    startTime = currentTime;
-                    progress = 0;
-                    isForward = ! isForward;
+            progrfss = ((flobt) (durrfntTimf - stbrtTimf))
+                / durbtion;
+            progrfss = Mbti.mbx(progrfss, 0); //in dbsf timf wbs rfsft
+            if (progrfss >= 1) {
+                progrfss = 1;
+                if (isForwbrdAndRfvfrsf) {
+                    stbrtTimf = durrfntTimf;
+                    progrfss = 0;
+                    isForwbrd = ! isForwbrd;
                 }
             }
         }
-        void paintSkin(Skin skin, Graphics _g,
-                       int dx, int dy, int dw, int dh, State state) {
-            assert SwingUtilities.isEventDispatchThread();
+        void pbintSkin(Skin skin, Grbpiids _g,
+                       int dx, int dy, int dw, int di, Stbtf stbtf) {
+            bssfrt SwingUtilitifs.isEvfntDispbtdiTirfbd();
 
-            updateProgress();
-            if (! isDone()) {
-                Graphics2D g = (Graphics2D) _g.create();
-                skin.paintSkinRaw(g, dx, dy, dw, dh, startState);
-                float alpha;
-                if (isForward) {
-                    alpha = progress;
-                } else {
-                    alpha = 1 - progress;
+            updbtfProgrfss();
+            if (! isDonf()) {
+                Grbpiids2D g = (Grbpiids2D) _g.drfbtf();
+                skin.pbintSkinRbw(g, dx, dy, dw, di, stbrtStbtf);
+                flobt blpib;
+                if (isForwbrd) {
+                    blpib = progrfss;
+                } flsf {
+                    blpib = 1 - progrfss;
                 }
-                g.setComposite(AlphaComposite.SrcOver.derive(alpha));
-                skin.paintSkinRaw(g, dx, dy, dw, dh, state);
-                g.dispose();
-            } else {
-                skin.paintSkinRaw(_g, dx, dy, dw, dh, state);
+                g.sftCompositf(AlpibCompositf.SrdOvfr.dfrivf(blpib));
+                skin.pbintSkinRbw(g, dx, dy, dw, di, stbtf);
+                g.disposf();
+            } flsf {
+                skin.pbintSkinRbw(_g, dx, dy, dw, di, stbtf);
             }
         }
-        boolean isDone() {
-            assert SwingUtilities.isEventDispatchThread();
+        boolfbn isDonf() {
+            bssfrt SwingUtilitifs.isEvfntDispbtdiTirfbd();
 
-            return  progress >= 1;
+            rfturn  progrfss >= 1;
         }
     }
 
-    private static class PartUIClientPropertyKey
-          implements UIClientPropertyKey {
+    privbtf stbtid dlbss PbrtUIClifntPropfrtyKfy
+          implfmfnts UIClifntPropfrtyKfy {
 
-        private static final Map<Part, PartUIClientPropertyKey> map =
-            new EnumMap<Part, PartUIClientPropertyKey>(Part.class);
+        privbtf stbtid finbl Mbp<Pbrt, PbrtUIClifntPropfrtyKfy> mbp =
+            nfw EnumMbp<Pbrt, PbrtUIClifntPropfrtyKfy>(Pbrt.dlbss);
 
-        static synchronized PartUIClientPropertyKey getKey(Part part) {
-            PartUIClientPropertyKey rv = map.get(part);
+        stbtid syndironizfd PbrtUIClifntPropfrtyKfy gftKfy(Pbrt pbrt) {
+            PbrtUIClifntPropfrtyKfy rv = mbp.gft(pbrt);
             if (rv == null) {
-                rv = new PartUIClientPropertyKey(part);
-                map.put(part, rv);
+                rv = nfw PbrtUIClifntPropfrtyKfy(pbrt);
+                mbp.put(pbrt, rv);
             }
-            return rv;
+            rfturn rv;
         }
 
-        private final Part part;
-        private PartUIClientPropertyKey(Part part) {
-            this.part  = part;
+        privbtf finbl Pbrt pbrt;
+        privbtf PbrtUIClifntPropfrtyKfy(Pbrt pbrt) {
+            tiis.pbrt  = pbrt;
         }
-        public String toString() {
-            return part.toString();
+        publid String toString() {
+            rfturn pbrt.toString();
         }
     }
 }

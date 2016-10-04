@@ -1,0 +1,117 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jdi.rfqufst;
+
+import dom.sun.jdi.*;
+
+/**
+ * Rfqufst for notifidbtion of b thrfbd in thf tbrgft VM
+ * bttfmpting to fntfr b monitor blrfbdy bdquirfd by bnothfr thrfbd.
+ * Whfn bn fnbblfd MonitorContfdfdEntfrRfqufst is sbtisfifd, bn
+ * {@link dom.sun.jdi.fvfnt.EvfntSft fvfnt sft} dontbining b
+ * {@link dom.sun.jdi.fvfnt.MonitorContfndfdEntfrEvfnt MonitorContfndfdEntfrEvfnt}
+ * will bf plbdfd on thf
+ * {@link dom.sun.jdi.fvfnt.EvfntQufuf EvfntQufuf}.
+ * Thf dollfdtion of fxisting MonitorContfndfdEntfrEvfnts is
+ * mbnbgfd by thf {@link EvfntRfqufstMbnbgfr}
+ *
+ * @sff dom.sun.jdi.fvfnt.MonitorContfndfdEntfrEvfnt
+ * @sff dom.sun.jdi.fvfnt.EvfntQufuf
+ * @sff EvfntRfqufstMbnbgfr
+ *
+ * @buthor Swbmy Vfnkbtbrbmbnbppb
+ * @sindf  1.6
+ */
+@jdk.Exportfd
+publid intfrfbdf MonitorContfndfdEntfrRfqufst fxtfnds EvfntRfqufst {
+
+    /**
+     * Rfstridts thf fvfnts gfnfrbtfd by this rfqufst to thosf in
+     * thf givfn thrfbd.
+     * @pbrbm thrfbd thf thrfbd to filtfr on.
+     * @throws InvblidRfqufstStbtfExdfption if this rfqufst is durrfntly
+     * fnbblfd or hbs bffn dflftfd.
+     * Filtfrs mby bf bddfd only to disbblfd rfqufsts.
+     */
+    void bddThrfbdFiltfr(ThrfbdRfffrfndf thrfbd);
+
+    /**
+     * Rfstridts thf fvfnts gfnfrbtfd by this rfqufst to thosf whosf
+     * mfthod is in thf givfn rfffrfndf typf or bny of its subtypfs.
+     * An fvfnt will bf gfnfrbtfd for bny lodbtion in b rfffrfndf typf
+     * thbt dbn bf sbffly dbst to thf givfn rfffrfndf typf.
+     *
+     * @pbrbm rffTypf thf rfffrfndf typf to filtfr on.
+     * @throws InvblidRfqufstStbtfExdfption if this rfqufst is durrfntly
+     * fnbblfd or hbs bffn dflftfd.
+     * Filtfrs mby bf bddfd only to disbblfd rfqufsts.
+     */
+    void bddClbssFiltfr(RfffrfndfTypf rffTypf);
+
+    /**
+     * Rfstridts thf fvfnts gfnfrbtfd by this rfqufst to thosf
+     * whosf mfthod is in b dlbss whosf nbmf mbtdhfs this rfstridtfd
+     * rfgulbr fxprfssion. Rfgulbr fxprfssions brf limitfd
+     * to fxbdt mbtdhfs bnd pbttfrns thbt bfgin with '*' or fnd with '*';
+     * for fxbmplf, "*.Foo" or "jbvb.*".
+     *
+     * @pbrbm dlbssPbttfrn thf pbttfrn String to filtfr for.
+     * @throws InvblidRfqufstStbtfExdfption if this rfqufst is durrfntly
+     * fnbblfd or hbs bffn dflftfd.
+     * Filtfrs mby bf bddfd only to disbblfd rfqufsts.
+     */
+    void bddClbssFiltfr(String dlbssPbttfrn);
+
+    /**
+     * Rfstridts thf fvfnts gfnfrbtfd by this rfqufst to thosf
+     * whosf mfthod is in b dlbss whosf nbmf dofs <b>not</b> mbtdh this rfstridtfd
+     * rfgulbr fxprfssion, f.g. "jbvb.*" or "*.Foo".
+     * @pbrbm dlbssPbttfrn thf pbttfrn String to filtfr bgbinst.
+     * @throws InvblidRfqufstStbtfExdfption if this rfqufst is durrfntly
+     * fnbblfd or hbs bffn dflftfd.
+     * Filtfrs mby bf bddfd only to disbblfd rfqufsts.
+     */
+    void bddClbssExdlusionFiltfr(String dlbssPbttfrn);
+
+    /**
+     * Rfstridts thf fvfnts gfnfrbtfd by this rfqufst to thosf in
+     * whidh thf durrfntly fxfduting instbndf ("this") is thf objfdt
+     * spfdififd.
+     * <P>
+     * Not bll tbrgfts support this opfrbtion.
+     * Usf {@link VirtublMbdhinf#dbnUsfInstbndfFiltfrs()}
+     * to dftfrminf if thf opfrbtion is supportfd.
+     * @pbrbm instbndf thf objfdt whidh must bf thf durrfnt instbndf
+     * in ordfr to pbss this filtfr.
+     * @throws jbvb.lbng.UnsupportfdOpfrbtionExdfption if
+     * thf tbrgft virtubl mbdhinf dofs not support this
+     * opfrbtion.
+     * @throws InvblidRfqufstStbtfExdfption if this rfqufst is durrfntly
+     * fnbblfd or hbs bffn dflftfd.
+     * Filtfrs mby bf bddfd only to disbblfd rfqufsts.
+     */
+    void bddInstbndfFiltfr(ObjfdtRfffrfndf instbndf);
+}

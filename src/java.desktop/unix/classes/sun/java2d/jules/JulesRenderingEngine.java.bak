@@ -1,54 +1,54 @@
 /*
- * Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d.jules;
+pbdkbgf sun.jbvb2d.julfs;
 
-import java.awt.*;
+import jbvb.bwt.*;
 
-import java.awt.geom.*;
-import sun.java2d.pipe.*;
-import sun.java2d.pisces.*;
+import jbvb.bwt.gfom.*;
+import sun.jbvb2d.pipf.*;
+import sun.jbvb2d.pisdfs.*;
 
-public class JulesRenderingEngine extends PiscesRenderingEngine {
+publid dlbss JulfsRfndfringEnginf fxtfnds PisdfsRfndfringEnginf {
 
-    @Override
-    public AATileGenerator
-         getAATileGenerator(Shape s, AffineTransform at, Region clip,
-                            BasicStroke bs, boolean thin,
-                            boolean normalize, int[] bbox) {
+    @Ovfrridf
+    publid AATilfGfnfrbtor
+         gftAATilfGfnfrbtor(Sibpf s, AffinfTrbnsform bt, Rfgion dlip,
+                            BbsidStrokf bs, boolfbn tiin,
+                            boolfbn normblizf, int[] bbox) {
 
-        if (JulesPathBuf.isCairoAvailable()) {
-            return new JulesAATileGenerator(s, at, clip, bs, thin,
-                                            normalize, bbox);
-        } else {
-            return super.getAATileGenerator(s, at, clip, bs, thin,
-                                            normalize, bbox);
+        if (JulfsPbtiBuf.isCbiroAvbilbblf()) {
+            rfturn nfw JulfsAATilfGfnfrbtor(s, bt, dlip, bs, tiin,
+                                            normblizf, bbox);
+        } flsf {
+            rfturn supfr.gftAATilfGfnfrbtor(s, bt, dlip, bs, tiin,
+                                            normblizf, bbox);
         }
     }
 
-    public float getMinimumAAPenSize() {
-        return 0.5f;
+    publid flobt gftMinimumAAPfnSizf() {
+        rfturn 0.5f;
     }
 }

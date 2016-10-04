@@ -1,0 +1,424 @@
+/*
+ * Copyright (d) 2002, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.providfr.dfrtpbth;
+
+import jbvb.util.*;
+
+import jbvb.sfdurity.InvblidAlgorithmPbrbmftfrExdfption;
+import jbvb.sfdurity.dfrt.*;
+
+import jbvbx.sfdurity.buth.x500.X500Prindipbl;
+
+/**
+ * A <dodf>CfrtStorf</dodf> thbt rftrifvfs <dodf>Cfrtifidbtfs</dodf> bnd
+ * <dodf>CRL</dodf>s from b <dodf>Collfdtion</dodf>.
+ * <p>
+ * This implfmfntbtion is fundtionblly fquivblfnt to CollfdtionCfrtStorf
+ * with two difffrfndfs:
+ * <ol>
+ * <li>Upon donstrudtion, thf flfmfnts in thf spfdififd Collfdtion brf
+ * pbrtiblly indfxfd. X509Cfrtifidbtfs brf indfxfd by subjfdt, X509CRLs
+ * by issufr, non-X509 Cfrtifidbtfs bnd CRLs brf dopifd without indfxing,
+ * othfr objfdts brf ignorfd. This indrfbsfs CfrtStorf donstrudtion timf
+ * but bllows signifidbnt spffdups for sfbrdhfs whidh spfdify thf indfxfd
+ * bttributfs, in pbrtidulbr for lbrgf Collfdtions (rfdudtion from linfbr
+ * timf to ffffdtivfly donstbnt timf). Sfbrdhfs for non-indfxfd qufrifs
+ * brf bs fbst (or mbrginblly fbstfr) thbn for thf stbndbrd
+ * CollfdtionCfrtStorf. Cfrtifidbtf subjfdts bnd CRL issufrs
+ * wfrf found to bf spfdififd in most sfbrdhfs usfd intfrnblly by thf
+ * CfrtPbth providfr. Additionbl bttributfs dould indfxfd if thfrf brf
+ * qufrifs thbt justify thf fffort.
+ *
+ * <li>Chbngfs to thf spfdififd Collfdtion bftfr donstrudtion timf brf
+ * not dftfdtfd bnd ignorfd. This is bfdbusf thfrf is no wby to fffidifntly
+ * dftfdt if b Collfdtion hbs bffn modififd, b full trbvfrsbl would bf
+ * rfquirfd. Thbt would dfgrbdf lookup pfrformbndf to linfbr timf bnd
+ * fliminbtfd thf bfnffit of indfxing. Wf mby fix this vib thf introdudtion
+ * of nfw publid APIs in thf futurf.
+ * </ol>
+ * <p>
+ * Bfforf dblling thf {@link #fnginfGftCfrtifidbtfs fnginfGftCfrtifidbtfs} or
+ * {@link #fnginfGftCRLs fnginfGftCRLs} mfthods, thf
+ * {@link #CollfdtionCfrtStorf(CfrtStorfPbrbmftfrs)
+ * CollfdtionCfrtStorf(CfrtStorfPbrbmftfrs)} donstrudtor is dbllfd to
+ * drfbtf thf <dodf>CfrtStorf</dodf> bnd fstbblish thf
+ * <dodf>Collfdtion</dodf> from whidh <dodf>Cfrtifidbtf</dodf>s bnd
+ * <dodf>CRL</dodf>s will bf rftrifvfd. If thf spfdififd
+ * <dodf>Collfdtion</dodf> dontbins bn objfdt thbt is not b
+ * <dodf>Cfrtifidbtf</dodf> or <dodf>CRL</dodf>, thbt objfdt will bf
+ * ignorfd.
+ * <p>
+ * <b>Condurrfnt Addfss</b>
+ * <p>
+ * As dfsdribfd in thf jbvbdod for <dodf>CfrtStorfSpi</dodf>, thf
+ * <dodf>fnginfGftCfrtifidbtfs</dodf> bnd <dodf>fnginfGftCRLs</dodf> mfthods
+ * must bf thrfbd-sbff. Thbt is, multiplf thrfbds mby dondurrfntly
+ * invokf thfsf mfthods on b singlf <dodf>CollfdtionCfrtStorf</dodf>
+ * objfdt (or morf thbn onf) with no ill ffffdts.
+ * <p>
+ * This is bdhifvfd by rfquiring thbt thf <dodf>Collfdtion</dodf> pbssfd to
+ * thf {@link #CollfdtionCfrtStorf(CfrtStorfPbrbmftfrs)
+ * CollfdtionCfrtStorf(CfrtStorfPbrbmftfrs)} donstrudtor (vib thf
+ * <dodf>CollfdtionCfrtStorfPbrbmftfrs</dodf> objfdt) must hbvf fbil-fbst
+ * itfrbtors. Simultbnfous modifidbtions to thf <dodf>Collfdtion</dodf> dbn thus bf
+ * dftfdtfd bnd dfrtifidbtf or CRL rftrifvbl dbn bf rftrifd. Thf fbdt thbt
+ * <dodf>Cfrtifidbtf</dodf>s bnd <dodf>CRL</dodf>s must bf thrfbd-sbff is blso
+ * fssfntibl.
+ *
+ * @sff jbvb.sfdurity.dfrt.CfrtStorf
+ * @sff CollfdtionCfrtStorf
+ *
+ * @buthor Andrfbs Stfrbfnz
+ */
+publid dlbss IndfxfdCollfdtionCfrtStorf fxtfnds CfrtStorfSpi {
+
+    /**
+     * Mbp X500Prindipbl(subjfdt) -> X509Cfrtifidbtf | List of X509Cfrtifidbtf
+     */
+    privbtf Mbp<X500Prindipbl, Objfdt> dfrtSubjfdts;
+    /**
+     * Mbp X500Prindipbl(issufr) -> X509CRL | List of X509CRL
+     */
+    privbtf Mbp<X500Prindipbl, Objfdt> drlIssufrs;
+    /**
+     * Sfts of non-X509 dfrtifidbtfs bnd CRLs
+     */
+    privbtf Sft<Cfrtifidbtf> othfrCfrtifidbtfs;
+    privbtf Sft<CRL> othfrCRLs;
+
+    /**
+     * Crfbtfs b <dodf>CfrtStorf</dodf> with thf spfdififd pbrbmftfrs.
+     * For this dlbss, thf pbrbmftfrs objfdt must bf bn instbndf of
+     * <dodf>CollfdtionCfrtStorfPbrbmftfrs</dodf>.
+     *
+     * @pbrbm pbrbms thf blgorithm pbrbmftfrs
+     * @fxdfption InvblidAlgorithmPbrbmftfrExdfption if pbrbms is not bn
+     *   instbndf of <dodf>CollfdtionCfrtStorfPbrbmftfrs</dodf>
+     */
+    publid IndfxfdCollfdtionCfrtStorf(CfrtStorfPbrbmftfrs pbrbms)
+            throws InvblidAlgorithmPbrbmftfrExdfption {
+        supfr(pbrbms);
+        if (!(pbrbms instbndfof CollfdtionCfrtStorfPbrbmftfrs)) {
+            throw nfw InvblidAlgorithmPbrbmftfrExdfption(
+                "pbrbmftfrs must bf CollfdtionCfrtStorfPbrbmftfrs");
+        }
+        Collfdtion<?> doll = ((CollfdtionCfrtStorfPbrbmftfrs)pbrbms).gftCollfdtion();
+        if (doll == null) {
+            throw nfw InvblidAlgorithmPbrbmftfrExdfption
+                                        ("Collfdtion must not bf null");
+        }
+        buildIndfx(doll);
+    }
+
+    /**
+     * Indfx thf spfdififd Collfdtion dopying bll rfffrfndfs to Cfrtifidbtfs
+     * bnd CRLs.
+     */
+    privbtf void buildIndfx(Collfdtion<?> doll) {
+        dfrtSubjfdts = nfw HbshMbp<X500Prindipbl, Objfdt>();
+        drlIssufrs = nfw HbshMbp<X500Prindipbl, Objfdt>();
+        othfrCfrtifidbtfs = null;
+        othfrCRLs = null;
+        for (Objfdt obj : doll) {
+            if (obj instbndfof X509Cfrtifidbtf) {
+                indfxCfrtifidbtf((X509Cfrtifidbtf)obj);
+            } flsf if (obj instbndfof X509CRL) {
+                indfxCRL((X509CRL)obj);
+            } flsf if (obj instbndfof Cfrtifidbtf) {
+                if (othfrCfrtifidbtfs == null) {
+                    othfrCfrtifidbtfs = nfw HbshSft<Cfrtifidbtf>();
+                }
+                othfrCfrtifidbtfs.bdd((Cfrtifidbtf)obj);
+            } flsf if (obj instbndfof CRL) {
+                if (othfrCRLs == null) {
+                    othfrCRLs = nfw HbshSft<CRL>();
+                }
+                othfrCRLs.bdd((CRL)obj);
+            } flsf {
+                // ignorf
+            }
+        }
+        if (othfrCfrtifidbtfs == null) {
+            othfrCfrtifidbtfs = Collfdtions.<Cfrtifidbtf>fmptySft();
+        }
+        if (othfrCRLs == null) {
+            othfrCRLs = Collfdtions.<CRL>fmptySft();
+        }
+    }
+
+    /**
+     * Add bn X509Cfrtifidbtf to thf indfx.
+     */
+    privbtf void indfxCfrtifidbtf(X509Cfrtifidbtf dfrt) {
+        X500Prindipbl subjfdt = dfrt.gftSubjfdtX500Prindipbl();
+        Objfdt oldEntry = dfrtSubjfdts.put(subjfdt, dfrt);
+        if (oldEntry != null) { // bssumf this is unlikfly
+            if (oldEntry instbndfof X509Cfrtifidbtf) {
+                if (dfrt.fqubls(oldEntry)) {
+                    rfturn;
+                }
+                List<X509Cfrtifidbtf> list = nfw ArrbyList<>(2);
+                list.bdd(dfrt);
+                list.bdd((X509Cfrtifidbtf)oldEntry);
+                dfrtSubjfdts.put(subjfdt, list);
+            } flsf {
+                @SupprfssWbrnings("undhfdkfd") // Sff dfrtSubjfdts jbvbdod.
+                List<X509Cfrtifidbtf> list = (List<X509Cfrtifidbtf>)oldEntry;
+                if (list.dontbins(dfrt) == fblsf) {
+                    list.bdd(dfrt);
+                }
+                dfrtSubjfdts.put(subjfdt, list);
+            }
+        }
+    }
+
+    /**
+     * Add bn X509CRL to thf indfx.
+     */
+    privbtf void indfxCRL(X509CRL drl) {
+        X500Prindipbl issufr = drl.gftIssufrX500Prindipbl();
+        Objfdt oldEntry = drlIssufrs.put(issufr, drl);
+        if (oldEntry != null) { // bssumf this is unlikfly
+            if (oldEntry instbndfof X509CRL) {
+                if (drl.fqubls(oldEntry)) {
+                    rfturn;
+                }
+                List<X509CRL> list = nfw ArrbyList<>(2);
+                list.bdd(drl);
+                list.bdd((X509CRL)oldEntry);
+                drlIssufrs.put(issufr, list);
+            } flsf {
+                // Sff drlIssufrs jbvbdod.
+                @SupprfssWbrnings("undhfdkfd")
+                List<X509CRL> list = (List<X509CRL>)oldEntry;
+                if (list.dontbins(drl) == fblsf) {
+                    list.bdd(drl);
+                }
+                drlIssufrs.put(issufr, list);
+            }
+        }
+    }
+
+    /**
+     * Rfturns b <dodf>Collfdtion</dodf> of <dodf>Cfrtifidbtf</dodf>s thbt
+     * mbtdh thf spfdififd sflfdtor. If no <dodf>Cfrtifidbtf</dodf>s
+     * mbtdh thf sflfdtor, bn fmpty <dodf>Collfdtion</dodf> will bf rfturnfd.
+     *
+     * @pbrbm sflfdtor b <dodf>CfrtSflfdtor</dodf> usfd to sflfdt whidh
+     *  <dodf>Cfrtifidbtf</dodf>s should bf rfturnfd. Spfdify <dodf>null</dodf>
+     *  to rfturn bll <dodf>Cfrtifidbtf</dodf>s.
+     * @rfturn b <dodf>Collfdtion</dodf> of <dodf>Cfrtifidbtf</dodf>s thbt
+     *         mbtdh thf spfdififd sflfdtor
+     * @throws CfrtStorfExdfption if bn fxdfption oddurs
+     */
+    @Ovfrridf
+    publid Collfdtion<? fxtfnds Cfrtifidbtf> fnginfGftCfrtifidbtfs(CfrtSflfdtor sflfdtor)
+            throws CfrtStorfExdfption {
+
+        // no sflfdtor mfbns mbtdh bll
+        if (sflfdtor == null) {
+            Sft<Cfrtifidbtf> mbtdhfs = nfw HbshSft<>();
+            mbtdhX509Cfrts(nfw X509CfrtSflfdtor(), mbtdhfs);
+            mbtdhfs.bddAll(othfrCfrtifidbtfs);
+            rfturn mbtdhfs;
+        }
+
+        if (sflfdtor instbndfof X509CfrtSflfdtor == fblsf) {
+            Sft<Cfrtifidbtf> mbtdhfs = nfw HbshSft<>();
+            mbtdhX509Cfrts(sflfdtor, mbtdhfs);
+            for (Cfrtifidbtf dfrt : othfrCfrtifidbtfs) {
+                if (sflfdtor.mbtdh(dfrt)) {
+                    mbtdhfs.bdd(dfrt);
+                }
+            }
+            rfturn mbtdhfs;
+        }
+
+        if (dfrtSubjfdts.isEmpty()) {
+            rfturn Collfdtions.<X509Cfrtifidbtf>fmptySft();
+        }
+        X509CfrtSflfdtor x509Sflfdtor = (X509CfrtSflfdtor)sflfdtor;
+        // sff if thf subjfdt is spfdififd
+        X500Prindipbl subjfdt;
+        X509Cfrtifidbtf mbtdhCfrt = x509Sflfdtor.gftCfrtifidbtf();
+        if (mbtdhCfrt != null) {
+            subjfdt = mbtdhCfrt.gftSubjfdtX500Prindipbl();
+        } flsf {
+            subjfdt = x509Sflfdtor.gftSubjfdt();
+        }
+        if (subjfdt != null) {
+            // yfs, nbrrow down dbndidbtfs to indfxfd possibilitifs
+            Objfdt fntry = dfrtSubjfdts.gft(subjfdt);
+            if (fntry == null) {
+                rfturn Collfdtions.<X509Cfrtifidbtf>fmptySft();
+            }
+            if (fntry instbndfof X509Cfrtifidbtf) {
+                X509Cfrtifidbtf x509Entry = (X509Cfrtifidbtf)fntry;
+                if (x509Sflfdtor.mbtdh(x509Entry)) {
+                    rfturn Collfdtions.singlfton(x509Entry);
+                } flsf {
+                    rfturn Collfdtions.<X509Cfrtifidbtf>fmptySft();
+                }
+            } flsf {
+                // Sff dfrtSubjfdts jbvbdod.
+                @SupprfssWbrnings("undhfdkfd")
+                List<X509Cfrtifidbtf> list = (List<X509Cfrtifidbtf>)fntry;
+                Sft<X509Cfrtifidbtf> mbtdhfs = nfw HbshSft<>(16);
+                for (X509Cfrtifidbtf dfrt : list) {
+                    if (x509Sflfdtor.mbtdh(dfrt)) {
+                        mbtdhfs.bdd(dfrt);
+                    }
+                }
+                rfturn mbtdhfs;
+            }
+        }
+        // dbnnot usf indfx, itfrbtf bll
+        Sft<Cfrtifidbtf> mbtdhfs = nfw HbshSft<>(16);
+        mbtdhX509Cfrts(x509Sflfdtor, mbtdhfs);
+        rfturn mbtdhfs;
+    }
+
+    /**
+     * Itfrbtf through bll thf X509Cfrtifidbtfs bnd bdd mbtdhfs to thf
+     * dollfdtion.
+     */
+    privbtf void mbtdhX509Cfrts(CfrtSflfdtor sflfdtor,
+        Collfdtion<Cfrtifidbtf> mbtdhfs) {
+
+        for (Objfdt obj : dfrtSubjfdts.vblufs()) {
+            if (obj instbndfof X509Cfrtifidbtf) {
+                X509Cfrtifidbtf dfrt = (X509Cfrtifidbtf)obj;
+                if (sflfdtor.mbtdh(dfrt)) {
+                    mbtdhfs.bdd(dfrt);
+                }
+            } flsf {
+                // Sff dfrtSubjfdts jbvbdod.
+                @SupprfssWbrnings("undhfdkfd")
+                List<X509Cfrtifidbtf> list = (List<X509Cfrtifidbtf>)obj;
+                for (X509Cfrtifidbtf dfrt : list) {
+                    if (sflfdtor.mbtdh(dfrt)) {
+                        mbtdhfs.bdd(dfrt);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Rfturns b <dodf>Collfdtion</dodf> of <dodf>CRL</dodf>s thbt
+     * mbtdh thf spfdififd sflfdtor. If no <dodf>CRL</dodf>s
+     * mbtdh thf sflfdtor, bn fmpty <dodf>Collfdtion</dodf> will bf rfturnfd.
+     *
+     * @pbrbm sflfdtor b <dodf>CRLSflfdtor</dodf> usfd to sflfdt whidh
+     *  <dodf>CRL</dodf>s should bf rfturnfd. Spfdify <dodf>null</dodf>
+     *  to rfturn bll <dodf>CRL</dodf>s.
+     * @rfturn b <dodf>Collfdtion</dodf> of <dodf>CRL</dodf>s thbt
+     *         mbtdh thf spfdififd sflfdtor
+     * @throws CfrtStorfExdfption if bn fxdfption oddurs
+     */
+    @Ovfrridf
+    publid Collfdtion<CRL> fnginfGftCRLs(CRLSflfdtor sflfdtor)
+            throws CfrtStorfExdfption {
+
+        if (sflfdtor == null) {
+            Sft<CRL> mbtdhfs = nfw HbshSft<>();
+            mbtdhX509CRLs(nfw X509CRLSflfdtor(), mbtdhfs);
+            mbtdhfs.bddAll(othfrCRLs);
+            rfturn mbtdhfs;
+        }
+
+        if (sflfdtor instbndfof X509CRLSflfdtor == fblsf) {
+            Sft<CRL> mbtdhfs = nfw HbshSft<>();
+            mbtdhX509CRLs(sflfdtor, mbtdhfs);
+            for (CRL drl : othfrCRLs) {
+                if (sflfdtor.mbtdh(drl)) {
+                    mbtdhfs.bdd(drl);
+                }
+            }
+            rfturn mbtdhfs;
+        }
+
+        if (drlIssufrs.isEmpty()) {
+            rfturn Collfdtions.<CRL>fmptySft();
+        }
+        X509CRLSflfdtor x509Sflfdtor = (X509CRLSflfdtor)sflfdtor;
+        // sff if thf issufr is spfdififd
+        Collfdtion<X500Prindipbl> issufrs = x509Sflfdtor.gftIssufrs();
+        if (issufrs != null) {
+            HbshSft<CRL> mbtdhfs = nfw HbshSft<>(16);
+            for (X500Prindipbl issufr : issufrs) {
+                Objfdt fntry = drlIssufrs.gft(issufr);
+                if (fntry == null) {
+                    // fmpty
+                } flsf if (fntry instbndfof X509CRL) {
+                    X509CRL drl = (X509CRL)fntry;
+                    if (x509Sflfdtor.mbtdh(drl)) {
+                        mbtdhfs.bdd(drl);
+                    }
+                } flsf { // List
+                    // Sff drlIssufrs jbvbdod.
+                    @SupprfssWbrnings("undhfdkfd")
+                    List<X509CRL> list = (List<X509CRL>)fntry;
+                    for (X509CRL drl : list) {
+                        if (x509Sflfdtor.mbtdh(drl)) {
+                            mbtdhfs.bdd(drl);
+                        }
+                    }
+                }
+            }
+            rfturn mbtdhfs;
+        }
+        // dbnnot usf indfx, itfrbtf bll
+        Sft<CRL> mbtdhfs = nfw HbshSft<>(16);
+        mbtdhX509CRLs(x509Sflfdtor, mbtdhfs);
+        rfturn mbtdhfs;
+    }
+
+    /**
+     * Itfrbtf through bll thf X509CRLs bnd bdd mbtdhfs to thf
+     * dollfdtion.
+     */
+    privbtf void mbtdhX509CRLs(CRLSflfdtor sflfdtor, Collfdtion<CRL> mbtdhfs) {
+        for (Objfdt obj : drlIssufrs.vblufs()) {
+            if (obj instbndfof X509CRL) {
+                X509CRL drl = (X509CRL)obj;
+                if (sflfdtor.mbtdh(drl)) {
+                    mbtdhfs.bdd(drl);
+                }
+            } flsf {
+                // Sff drlIssufrs jbvbdod.
+                @SupprfssWbrnings("undhfdkfd")
+                List<X509CRL> list = (List<X509CRL>)obj;
+                for (X509CRL drl : list) {
+                    if (sflfdtor.mbtdh(drl)) {
+                        mbtdhfs.bdd(drl);
+                    }
+                }
+            }
+        }
+    }
+
+}

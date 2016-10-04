@@ -1,98 +1,98 @@
 /*
- * Copyright (c) 1997, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.java.swing.plaf.windows;
+pbdkbgf dom.sun.jbvb.swing.plbf.windows;
 
-import java.awt.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.*;
-import javax.swing.*;
-import javax.swing.border.*;
+import jbvb.bwt.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsid.*;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.*;
 
 
 
 /**
- * Windows icon for a minimized window on the desktop.
+ * Windows idon for b minimizfd window on tif dfsktop.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases.  The current serialization support is appropriate
- * for short term storage or RMI between applications running the same
- * version of Swing.  A future release of Swing will provide support for
- * long term persistence.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs.  Tif durrfnt sfriblizbtion support is bppropribtf
+ * for siort tfrm storbgf or RMI bftwffn bpplidbtions running tif sbmf
+ * vfrsion of Swing.  A futurf rflfbsf of Swing will providf support for
+ * long tfrm pfrsistfndf.
  */
-public class WindowsDesktopIconUI extends BasicDesktopIconUI {
-    private int width;
+publid dlbss WindowsDfsktopIdonUI fxtfnds BbsidDfsktopIdonUI {
+    privbtf int widti;
 
-    public static ComponentUI createUI(JComponent c) {
-        return new WindowsDesktopIconUI();
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt d) {
+        rfturn nfw WindowsDfsktopIdonUI();
     }
 
-    public void installDefaults() {
-        super.installDefaults();
-        width = UIManager.getInt("DesktopIcon.width");
+    publid void instbllDffbults() {
+        supfr.instbllDffbults();
+        widti = UIMbnbgfr.gftInt("DfsktopIdon.widti");
     }
 
-    public void installUI(JComponent c)   {
-        super.installUI(c);
+    publid void instbllUI(JComponfnt d)   {
+        supfr.instbllUI(d);
 
-        c.setOpaque(XPStyle.getXP() == null);
+        d.sftOpbquf(XPStylf.gftXP() == null);
     }
 
-    // Uninstall the listeners added by the WindowsInternalFrameTitlePane
-    public void uninstallUI(JComponent c) {
-        WindowsInternalFrameTitlePane thePane =
-                                        (WindowsInternalFrameTitlePane)iconPane;
-        super.uninstallUI(c);
-        thePane.uninstallListeners();
+    // Uninstbll tif listfnfrs bddfd by tif WindowsIntfrnblFrbmfTitlfPbnf
+    publid void uninstbllUI(JComponfnt d) {
+        WindowsIntfrnblFrbmfTitlfPbnf tifPbnf =
+                                        (WindowsIntfrnblFrbmfTitlfPbnf)idonPbnf;
+        supfr.uninstbllUI(d);
+        tifPbnf.uninstbllListfnfrs();
     }
 
-    protected void installComponents() {
-        iconPane = new WindowsInternalFrameTitlePane(frame);
-        desktopIcon.setLayout(new BorderLayout());
-        desktopIcon.add(iconPane, BorderLayout.CENTER);
+    protfdtfd void instbllComponfnts() {
+        idonPbnf = nfw WindowsIntfrnblFrbmfTitlfPbnf(frbmf);
+        dfsktopIdon.sftLbyout(nfw BordfrLbyout());
+        dfsktopIdon.bdd(idonPbnf, BordfrLbyout.CENTER);
 
-        if (XPStyle.getXP() != null) {
-            desktopIcon.setBorder(null);
+        if (XPStylf.gftXP() != null) {
+            dfsktopIdon.sftBordfr(null);
         }
     }
 
-    public Dimension getPreferredSize(JComponent c) {
-        // Windows desktop icons can not be resized.  Therefore, we should
-        // always return the minimum size of the desktop icon. See
-        // getMinimumSize(JComponent c).
-        return getMinimumSize(c);
+    publid Dimfnsion gftPrfffrrfdSizf(JComponfnt d) {
+        // Windows dfsktop idons dbn not bf rfsizfd.  Tifrfforf, wf siould
+        // blwbys rfturn tif minimum sizf of tif dfsktop idon. Sff
+        // gftMinimumSizf(JComponfnt d).
+        rfturn gftMinimumSizf(d);
     }
 
     /**
-     * Windows desktop icons are restricted to a width of 160 pixels by
-     * default.  This value is retrieved by the DesktopIcon.width property.
+     * Windows dfsktop idons brf rfstridtfd to b widti of 160 pixfls by
+     * dffbult.  Tiis vbluf is rftrifvfd by tif DfsktopIdon.widti propfrty.
      */
-    public Dimension getMinimumSize(JComponent c) {
-        Dimension dim = super.getMinimumSize(c);
-        dim.width = width;
-        return dim;
+    publid Dimfnsion gftMinimumSizf(JComponfnt d) {
+        Dimfnsion dim = supfr.gftMinimumSizf(d);
+        dim.widti = widti;
+        rfturn dim;
     }
 }

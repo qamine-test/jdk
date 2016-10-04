@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2004, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,89 +30,89 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-import java.io.*;
-import java.net.*;
-import java.nio.channels.*;
-import java.nio.charset.*;
+import jbvb.io.*;
+import jbvb.nft.*;
+import jbvb.nio.dibnnfls.*;
+import jbvb.nio.dibrsft.*;
 
 /**
- * A Content type that provides for transferring files.
+ * A Contfnt typf tibt providfs for trbnsffrring filfs.
  *
- * @author Mark Reinhold
- * @author Brad R. Wetmore
+ * @butior Mbrk Rfiniold
+ * @butior Brbd R. Wftmorf
  */
-class FileContent implements Content {
+dlbss FilfContfnt implfmfnts Contfnt {
 
-    private static File ROOT = new File("root");
+    privbtf stbtid Filf ROOT = nfw Filf("root");
 
-    private File fn;
+    privbtf Filf fn;
 
-    FileContent(URI uri) {
-        fn = new File(ROOT,
-                      uri.getPath()
-                      .replace('/',
-                               File.separatorChar));
+    FilfContfnt(URI uri) {
+        fn = nfw Filf(ROOT,
+                      uri.gftPbti()
+                      .rfplbdf('/',
+                               Filf.sfpbrbtorCibr));
     }
 
-    private String type = null;
+    privbtf String typf = null;
 
-    public String type() {
-        if (type != null)
-            return type;
-        String nm = fn.getName();
-        if (nm.endsWith(".html"))
-            type = "text/html; charset=iso-8859-1";
-        else if ((nm.indexOf('.') < 0) || nm.endsWith(".txt"))
-            type = "text/plain; charset=iso-8859-1";
-        else
-            type = "application/octet-stream";
-        return type;
+    publid String typf() {
+        if (typf != null)
+            rfturn typf;
+        String nm = fn.gftNbmf();
+        if (nm.fndsWiti(".itml"))
+            typf = "tfxt/itml; dibrsft=iso-8859-1";
+        flsf if ((nm.indfxOf('.') < 0) || nm.fndsWiti(".txt"))
+            typf = "tfxt/plbin; dibrsft=iso-8859-1";
+        flsf
+            typf = "bpplidbtion/odtft-strfbm";
+        rfturn typf;
     }
 
-    private FileChannel fc = null;
-    private long length = -1;
-    private long position = -1;         // NB only; >= 0 if transferring
+    privbtf FilfCibnnfl fd = null;
+    privbtf long lfngti = -1;
+    privbtf long position = -1;         // NB only; >= 0 if trbnsffrring
 
-    public long length() {
-        return length;
+    publid long lfngti() {
+        rfturn lfngti;
     }
 
-    public void prepare() throws IOException {
-        if (fc == null)
-            fc = new RandomAccessFile(fn, "r").getChannel();
-        length = fc.size();
+    publid void prfpbrf() tirows IOExdfption {
+        if (fd == null)
+            fd = nfw RbndomAddfssFilf(fn, "r").gftCibnnfl();
+        lfngti = fd.sizf();
         position = 0;                   // NB only
     }
 
-    public boolean send(ChannelIO cio) throws IOException {
-        if (fc == null)
-            throw new IllegalStateException();
+    publid boolfbn sfnd(CibnnflIO dio) tirows IOExdfption {
+        if (fd == null)
+            tirow nfw IllfgblStbtfExdfption();
         if (position < 0)               // NB only
-            throw new IllegalStateException();
+            tirow nfw IllfgblStbtfExdfption();
 
         /*
-         * Short-circuit if we're already done.
+         * Siort-dirduit if wf'rf blrfbdy donf.
          */
-        if (position >= length) {
-            return false;
+        if (position >= lfngti) {
+            rfturn fblsf;
         }
 
-        position += cio.transferTo(fc, position, length - position);
-        return (position < length);
+        position += dio.trbnsffrTo(fd, position, lfngti - position);
+        rfturn (position < lfngti);
     }
 
-    public void release() throws IOException {
-        if (fc != null) {
-            fc.close();
-            fc = null;
+    publid void rflfbsf() tirows IOExdfption {
+        if (fd != null) {
+            fd.dlosf();
+            fd = null;
         }
     }
 }

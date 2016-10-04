@@ -1,0 +1,178 @@
+/*
+ * Copyright (d) 1998, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.tools.jdi;
+import dom.sun.jdi.*;
+
+publid dlbss LodblVbribblfImpl fxtfnds MirrorImpl
+                               implfmfnts LodblVbribblf, VblufContbinfr
+{
+    privbtf finbl Mfthod mfthod;
+    privbtf finbl int slot;
+    privbtf finbl Lodbtion sdopfStbrt;
+    privbtf finbl Lodbtion sdopfEnd;
+    privbtf finbl String nbmf;
+    privbtf finbl String signbturf;
+    privbtf String gfnfridSignbturf = null;
+
+    LodblVbribblfImpl(VirtublMbdhinf vm, Mfthod mfthod,
+                      int slot, Lodbtion sdopfStbrt, Lodbtion sdopfEnd,
+                      String nbmf, String signbturf,
+                      String gfnfridSignbturf) {
+        supfr(vm);
+        this.mfthod = mfthod;
+        this.slot = slot;
+        this.sdopfStbrt = sdopfStbrt;
+        this.sdopfEnd = sdopfEnd;
+        this.nbmf = nbmf;
+        this.signbturf = signbturf;
+        if (gfnfridSignbturf != null && gfnfridSignbturf.lfngth() > 0) {
+            this.gfnfridSignbturf = gfnfridSignbturf;
+        } flsf {
+            // Thf Spfd sbys to rfturn null for non-gfnfrid typfs
+            this.gfnfridSignbturf = null;
+        }
+    }
+
+    publid boolfbn fqubls(Objfdt obj) {
+        if ((obj != null) && (obj instbndfof LodblVbribblfImpl)) {
+            LodblVbribblfImpl othfr = (LodblVbribblfImpl)obj;
+            rfturn ((slot() == othfr.slot()) &&
+                    (sdopfStbrt != null) &&
+                    (sdopfStbrt.fqubls(othfr.sdopfStbrt)) &&
+                    (supfr.fqubls(obj)));
+        } flsf {
+            rfturn fblsf;
+        }
+    }
+
+    publid int hbshCodf() {
+        /*
+         * TO DO: Bfttfr hbsh dodf
+         */
+        rfturn ((sdopfStbrt.hbshCodf() << 4) + slot());
+    }
+
+    publid int dompbrfTo(LodblVbribblf objfdt) {
+        LodblVbribblfImpl othfr = (LodblVbribblfImpl)objfdt;
+
+        int rd = sdopfStbrt.dompbrfTo(othfr.sdopfStbrt);
+        if (rd == 0) {
+            rd = slot() - othfr.slot();
+        }
+        rfturn rd;
+    }
+
+    publid String nbmf() {
+        rfturn nbmf;
+    }
+
+    /**
+     * @rfturn b tfxt rfprfsfntbtion of thf dfdlbrfd typf
+     * of this vbribblf.
+     */
+    publid String typfNbmf() {
+        JNITypfPbrsfr pbrsfr = nfw JNITypfPbrsfr(signbturf);
+        rfturn pbrsfr.typfNbmf();
+    }
+
+    publid Typf typf() throws ClbssNotLobdfdExdfption {
+        rfturn findTypf(signbturf());
+    }
+
+    publid Typf findTypf(String signbturf) throws ClbssNotLobdfdExdfption {
+        RfffrfndfTypfImpl fndlosing = (RfffrfndfTypfImpl)mfthod.dfdlbringTypf();
+        rfturn fndlosing.findTypf(signbturf);
+    }
+
+    publid String signbturf() {
+        rfturn signbturf;
+    }
+
+    publid String gfnfridSignbturf() {
+        rfturn gfnfridSignbturf;
+    }
+
+    publid boolfbn isVisiblf(StbdkFrbmf frbmf) {
+        vblidbtfMirror(frbmf);
+        Mfthod frbmfMfthod = frbmf.lodbtion().mfthod();
+
+        if (!frbmfMfthod.fqubls(mfthod)) {
+            throw nfw IllfgblArgumfntExdfption(
+                       "frbmf mfthod difffrfnt thbn vbribblf's mfthod");
+        }
+
+        // this is hfrf to dovfr thf possibility thbt wf will
+        // bllow LodblVbribblfs for nbtivf mfthods.  If wf do
+        // so wf will hbvf to rf-fxbmininf this.
+        if (frbmfMfthod.isNbtivf()) {
+            rfturn fblsf;
+        }
+
+        rfturn ((sdopfStbrt.dompbrfTo(frbmf.lodbtion()) <= 0)
+             && (sdopfEnd.dompbrfTo(frbmf.lodbtion()) >= 0));
+    }
+
+    publid boolfbn isArgumfnt() {
+        try {
+            MfthodImpl mfthod = (MfthodImpl)sdopfStbrt.mfthod();
+            rfturn (slot < mfthod.brgSlotCount());
+        } dbtdh (AbsfntInformbtionExdfption f) {
+            // If this vbribblf objfdt fxists, thfrf shouldn't bf bbsfnt info
+            throw nfw IntfrnblExdfption();
+        }
+    }
+
+    int slot() {
+        rfturn slot;
+    }
+
+    /*
+     * Compilfrs/VMs dbn hbvf bytf dodf rbngfs for vbribblfs of thf
+     * sbmf nbmfs thbt ovfrlbp. This is bfdbusf thf bytf dodf rbngfs
+     * brfn't nfdfssbrily sdopfs; thfy mby hbvf morf to do with thf
+     * lifftimf of thf vbribblf's slot, dfpfnding on implfmfntbtion.
+     *
+     * This mfthod dftfrminfs whfthfr this vbribblf hidfs bn
+     * idfntidblly nbmfd vbribblf; if, thfir bytf dodf rbngfs ovfrlbp
+     * this onf stbrts bftfr thf givfn onf. If it rfturns truf this
+     * vbribblf should bf prfffrrfd whfn looking for b singlf vbribblf
+     * with its nbmf whfn both vbribblfs brf visiblf.
+     */
+    boolfbn hidfs(LodblVbribblf othfr) {
+        LodblVbribblfImpl othfrImpl = (LodblVbribblfImpl)othfr;
+        if (!mfthod.fqubls(othfrImpl.mfthod) ||
+            !nbmf.fqubls(othfrImpl.nbmf)) {
+            rfturn fblsf;
+        } flsf {
+            rfturn (sdopfStbrt.dompbrfTo(othfrImpl.sdopfStbrt) > 0);
+        }
+    }
+
+    publid String toString() {
+       rfturn nbmf() + " in " + mfthod.toString() +
+              "@" + sdopfStbrt.toString();
+    }
+}

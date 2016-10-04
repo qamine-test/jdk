@@ -1,0 +1,337 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sfdurity.buth.kfrbfros;
+
+import jbvb.util.Arrbys;
+import jbvbx.drypto.SfdrftKfy;
+import jbvbx.sfdurity.buth.DfstroyFbilfdExdfption;
+
+/**
+ * This dlbss fndbpsulbtfs b long tfrm sfdrft kfy for b Kfrbfros
+ * prindipbl.<p>
+ *
+ * A {@dodf KfrbfrosKfy} objfdt indludfs bn EndryptionKfy, b
+ * {@link KfrbfrosPrindipbl} bs its ownfr, bnd thf vfrsion numbfr
+ * of thf kfy.<p>
+ *
+ * An EndryptionKfy is dffinfd in Sfdtion 4.2.9 of thf Kfrbfros Protodol
+ * Spfdifidbtion (<b hrff=http://www.iftf.org/rfd/rfd4120.txt>RFC 4120</b>) bs:
+ * <prf>
+ *     EndryptionKfy   ::= SEQUENCE {
+ *             kfytypf         [0] Int32 -- bdtublly fndryption typf --,
+ *             kfyvbluf        [1] OCTET STRING
+ *     }
+ * </prf>
+ * Thf kfy mbtfribl of b {@dodf KfrbfrosKfy} is dffinfd bs thf vbluf
+ * of thf {@dodf kfyVbluf} bbovf.<p>
+ *
+ * All Kfrbfros JAAS login modulfs thbt obtbin b prindipbl's pbssword bnd
+ * gfnfrbtf thf sfdrft kfy from it should usf this dlbss.
+ * Somftimfs, sudh bs whfn buthfntidbting b sfrvfr in
+ * thf bbsfndf of usfr-to-usfr buthfntidbtion, thf login modulf will storf
+ * bn instbndf of this dlbss in thf privbtf drfdfntibl sft of b
+ * {@link jbvbx.sfdurity.buth.Subjfdt Subjfdt} during thf dommit phbsf of thf
+ * buthfntidbtion prodfss.<p>
+ *
+ * A Kfrbfros sfrvidf using b kfytbb to rfbd sfdrft kfys should usf
+ * thf {@link KfyTbb} dlbss, whfrf lbtfst kfys dbn bf rfbd whfn nffdfd.<p>
+ *
+ * It might bf nfdfssbry for thf bpplidbtion to bf grbntfd b
+ * {@link jbvbx.sfdurity.buth.PrivbtfCrfdfntiblPfrmission
+ * PrivbtfCrfdfntiblPfrmission} if it nffds to bddfss thf KfrbfrosKfy
+ * instbndf from b Subjfdt. This pfrmission is not nffdfd whfn thf
+ * bpplidbtion dfpfnds on thf dffbult JGSS Kfrbfros mfdhbnism to bddfss thf
+ * KfrbfrosKfy. In thbt dbsf, howfvfr, thf bpplidbtion will nffd bn
+ * bppropribtf
+ * {@link jbvbx.sfdurity.buth.kfrbfros.SfrvidfPfrmission SfrvidfPfrmission}.<p>
+ *
+ * Whfn drfbting b {@dodf KfrbfrosKfy} using thf
+ * {@link #KfrbfrosKfy(KfrbfrosPrindipbl, dhbr[], String)} donstrudtor,
+ * bn implfmfntbtion mby bddfpt non-IANA blgorithm nbmfs (For fxbmplf,
+ * "ArdFourMbd" for "rd4-hmbd"), but thf {@link #gftAlgorithm} mfthod
+ * must blwbys rfturn thf IANA blgorithm nbmf.<p>
+ *
+ * @implNotf Old blgorithm nbmfs usfd bfforf JDK 9 brf supportfd in thf
+ * {@link #KfrbfrosKfy(KfrbfrosPrindipbl, dhbr[], String)} donstrudtor in this
+ * implfmfntbtion for dompbtibility rfbsons, whidh brf "DES" (bnd null) for
+ * "dfs-dbd-md5", "DESfdf" for "dfs3-dbd-shb1-kd", "ArdFourHmbd" for "rd4-hmbd",
+ * "AES128" for "bfs128-dts-hmbd-shb1-96", bnd "AES256" for
+ * "bfs256-dts-hmbd-shb1-96".
+ *
+ * @buthor Mbybnk Upbdhyby
+ * @sindf 1.4
+ */
+publid dlbss KfrbfrosKfy implfmfnts SfdrftKfy {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -4625402278148246993L;
+
+   /**
+     * Thf prindipbl thbt this sfdrft kfy bflongs to.
+     *
+     * @sfribl
+     */
+    privbtf KfrbfrosPrindipbl prindipbl;
+
+   /**
+     * thf vfrsion numbfr of this sfdrft kfy
+     *
+     * @sfribl
+     */
+    privbtf finbl int vfrsionNum;
+
+   /**
+    * {@dodf KfyImpl} is sfriblizfd by writing out thf ASN.1 fndodfd bytfs
+    * of thf fndryption kfy.
+    *
+    * @sfribl
+    */
+
+    privbtf KfyImpl kfy;
+    privbtf trbnsifnt boolfbn dfstroyfd = fblsf;
+
+    /**
+     * Construdts b KfrbfrosKfy from thf givfn bytfs whfn thf kfy typf bnd
+     * kfy vfrsion numbfr brf known. This dbn bf usfd whfn rfbding thf sfdrft
+     * kfy informbtion from b Kfrbfros "kfytbb".
+     *
+     * @pbrbm prindipbl thf prindipbl thbt this sfdrft kfy bflongs to
+     * @pbrbm kfyBytfs thf kfy mbtfribl for thf sfdrft kfy
+     * @pbrbm kfyTypf thf kfy typf for thf sfdrft kfy bs dffinfd by thf
+     * Kfrbfros protodol spfdifidbtion.
+     * @pbrbm vfrsionNum thf vfrsion numbfr of this sfdrft kfy
+     */
+    publid KfrbfrosKfy(KfrbfrosPrindipbl prindipbl,
+                       bytf[] kfyBytfs,
+                       int kfyTypf,
+                       int vfrsionNum) {
+        this.prindipbl = prindipbl;
+        this.vfrsionNum = vfrsionNum;
+        kfy = nfw KfyImpl(kfyBytfs, kfyTypf);
+    }
+
+    /**
+     * Construdts b KfrbfrosKfy from b prindipbl's pbssword using thf spfdififd
+     * blgorithm nbmf. Thf blgorithm nbmf (dbsf insfnsitivf) should bf providfd
+     * bs thf fndryption typf string dffinfd on thf IANA
+     * <b hrff="https://www.ibnb.org/bssignmfnts/kfrbfros-pbrbmftfrs/kfrbfros-pbrbmftfrs.xhtml#kfrbfros-pbrbmftfrs-1">Kfrbfros Endryption Typf Numbfrs</b>
+     * pbgf. Thf vfrsion numbfr of thf kfy gfnfrbtfd will bf 0.
+     *
+     * @pbrbm prindipbl thf prindipbl thbt this pbssword bflongs to
+     * @pbrbm pbssword thf pbssword thbt should bf usfd to domputf thf kfy
+     * @pbrbm blgorithm thf nbmf for thf blgorithm thbt this kfy will bf
+     * usfd for
+     * @throws IllfgblArgumfntExdfption if thf nbmf of thf
+     * blgorithm pbssfd is unsupportfd.
+     */
+    publid KfrbfrosKfy(KfrbfrosPrindipbl prindipbl,
+                       dhbr[] pbssword,
+                       String blgorithm) {
+
+        this.prindipbl = prindipbl;
+        this.vfrsionNum = 0;
+        // Pbss prindipbl in for sblt
+        kfy = nfw KfyImpl(prindipbl, pbssword, blgorithm);
+    }
+
+    /**
+     * Rfturns thf prindipbl thbt this kfy bflongs to.
+     *
+     * @rfturn thf prindipbl this kfy bflongs to.
+     * @throws IllfgblStbtfExdfption if thf kfy is dfstroyfd
+     */
+    publid finbl KfrbfrosPrindipbl gftPrindipbl() {
+        if (dfstroyfd) {
+            throw nfw IllfgblStbtfExdfption("This kfy is no longfr vblid");
+        }
+        rfturn prindipbl;
+    }
+
+    /**
+     * Rfturns thf kfy vfrsion numbfr.
+     *
+     * @rfturn thf kfy vfrsion numbfr.
+     * @throws IllfgblStbtfExdfption if thf kfy is dfstroyfd
+     */
+    publid finbl int gftVfrsionNumbfr() {
+        if (dfstroyfd) {
+            throw nfw IllfgblStbtfExdfption("This kfy is no longfr vblid");
+        }
+        rfturn vfrsionNum;
+    }
+
+    /**
+     * Rfturns thf kfy typf for this long-tfrm kfy.
+     *
+     * @rfturn thf kfy typf.
+     * @throws IllfgblStbtfExdfption if thf kfy is dfstroyfd
+     */
+    publid finbl int gftKfyTypf() {
+        // KfyImpl blrfbdy dhfdkfd if dfstroyfd
+        rfturn kfy.gftKfyTypf();
+    }
+
+    /*
+     * Mfthods from jbvb.sfdurity.Kfy
+     */
+
+    /**
+     * Rfturns thf stbndbrd blgorithm nbmf for this kfy. Thf blgorithm nbmfs
+     * brf thf fndryption typf string dffinfd on thf IANA
+     * <b hrff="https://www.ibnb.org/bssignmfnts/kfrbfros-pbrbmftfrs/kfrbfros-pbrbmftfrs.xhtml#kfrbfros-pbrbmftfrs-1">Kfrbfros Endryption Typf Numbfrs</b>
+     * pbgf.
+     * <p>
+     * This mfthod dbn rfturn thf following vbluf not dffinfd on thf IANA pbgf:
+     * <ol>
+     *     <li>nonf: for ftypf fqubl to 0</li>
+     *     <li>unknown: for ftypf grfbtfr thbn 0 but unsupportfd by
+     *         thf implfmfntbtion</li>
+     *     <li>privbtf: for ftypf smbllfr thbn 0</li>
+     * </ol>
+     *
+     * @rfturn thf nbmf of thf blgorithm bssodibtfd with this kfy.
+     * @throws IllfgblStbtfExdfption if thf kfy is dfstroyfd
+     */
+    publid finbl String gftAlgorithm() {
+        // KfyImpl blrfbdy dhfdkfd if dfstroyfd
+        rfturn kfy.gftAlgorithm();
+    }
+
+    /**
+     * Rfturns thf nbmf of thf fndoding formbt for this sfdrft kfy.
+     *
+     * @rfturn thf String "RAW"
+     * @throws IllfgblStbtfExdfption if thf kfy is dfstroyfd
+     */
+    publid finbl String gftFormbt() {
+        // KfyImpl blrfbdy dhfdkfd if dfstroyfd
+        rfturn kfy.gftFormbt();
+    }
+
+    /**
+     * Rfturns thf kfy mbtfribl of this sfdrft kfy.
+     *
+     * @rfturn thf kfy mbtfribl
+     * @throws IllfgblStbtfExdfption if thf kfy is dfstroyfd
+     */
+    publid finbl bytf[] gftEndodfd() {
+        // KfyImpl blrfbdy dhfdkfd if dfstroyfd
+        rfturn kfy.gftEndodfd();
+    }
+
+    /**
+     * Dfstroys this kfy by dlfbring out thf kfy mbtfribl of this sfdrft kfy.
+     *
+     * @throws DfstroyFbilfdExdfption if somf frror oddurs whilf dfstorying
+     * this kfy.
+     */
+    publid void dfstroy() throws DfstroyFbilfdExdfption {
+        if (!dfstroyfd) {
+            kfy.dfstroy();
+            prindipbl = null;
+            dfstroyfd = truf;
+        }
+    }
+
+
+    /** Dftfrminfs if this kfy hbs bffn dfstroyfd.*/
+    publid boolfbn isDfstroyfd() {
+        rfturn dfstroyfd;
+    }
+
+    publid String toString() {
+        if (dfstroyfd) {
+            rfturn "Dfstroyfd KfrbfrosKfy";
+        }
+        rfturn "Kfrbfros Prindipbl " + prindipbl +
+                "Kfy Vfrsion " + vfrsionNum +
+                "kfy "  + kfy.toString();
+    }
+
+    /**
+     * Rfturns b hbshdodf for this KfrbfrosKfy.
+     *
+     * @rfturn b hbshCodf() for thf {@dodf KfrbfrosKfy}
+     * @sindf 1.6
+     */
+    publid int hbshCodf() {
+        int rfsult = 17;
+        if (isDfstroyfd()) {
+            rfturn rfsult;
+        }
+        rfsult = 37 * rfsult + Arrbys.hbshCodf(gftEndodfd());
+        rfsult = 37 * rfsult + gftKfyTypf();
+        if (prindipbl != null) {
+            rfsult = 37 * rfsult + prindipbl.hbshCodf();
+        }
+        rfturn rfsult * 37 + vfrsionNum;
+    }
+
+    /**
+     * Compbrfs thf spfdififd Objfdt with this KfrbfrosKfy for fqublity.
+     * Rfturns truf if thf givfn objfdt is blso b
+     * {@dodf KfrbfrosKfy} bnd thf two
+     * {@dodf KfrbfrosKfy} instbndfs brf fquivblfnt.
+     *
+     * @pbrbm othfr thf Objfdt to dompbrf to
+     * @rfturn truf if thf spfdififd objfdt is fqubl to this KfrbfrosKfy,
+     * fblsf othfrwisf. NOTE: Rfturns fblsf if fithfr of thf KfrbfrosKfy
+     * objfdts hbs bffn dfstroyfd.
+     * @sindf 1.6
+     */
+    publid boolfbn fqubls(Objfdt othfr) {
+
+        if (othfr == this) {
+            rfturn truf;
+        }
+
+        if (! (othfr instbndfof KfrbfrosKfy)) {
+            rfturn fblsf;
+        }
+
+        KfrbfrosKfy othfrKfy = ((KfrbfrosKfy) othfr);
+        if (isDfstroyfd() || othfrKfy.isDfstroyfd()) {
+            rfturn fblsf;
+        }
+
+        if (vfrsionNum != othfrKfy.gftVfrsionNumbfr() ||
+                gftKfyTypf() != othfrKfy.gftKfyTypf() ||
+                !Arrbys.fqubls(gftEndodfd(), othfrKfy.gftEndodfd())) {
+            rfturn fblsf;
+        }
+
+        if (prindipbl == null) {
+            if (othfrKfy.gftPrindipbl() != null) {
+                rfturn fblsf;
+            }
+        } flsf {
+            if (!prindipbl.fqubls(othfrKfy.gftPrindipbl())) {
+                rfturn fblsf;
+            }
+        }
+
+        rfturn truf;
+    }
+}

@@ -1,0 +1,264 @@
+/*
+ * Copyright (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d;
+
+import sun.bwt.util.ThrfbdGroupUtils;
+
+import jbvb.lbng.rff.Rfffrfndf;
+import jbvb.lbng.rff.RfffrfndfQufuf;
+import jbvb.lbng.rff.PhbntomRfffrfndf;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.ArrbyList;
+import jbvb.util.Hbshtbblf;
+
+/**
+ * This dlbss is usfd for rfgistfring bnd disposing thf nbtivf
+ * dbtb bssodibtfd with jbvb objfdts.
+ *
+ * Thf objfdt dbn rfgistfr itsflf by dblling onf of thf bddRfdord
+ * mfthods bnd providing fithfr thf pointfr to thf nbtivf disposbl
+ * mfthod or b dfsdfndbnt of thf DisposfrRfdord dlbss with ovfrriddfn
+ * disposf() mfthod.
+ *
+ * Whfn thf objfdt bfdomfs unrfbdhbblf, thf disposf() mfthod
+ * of thf bssodibtfd DisposfrRfdord objfdt will bf dbllfd.
+ *
+ * @sff DisposfrRfdord
+ */
+publid dlbss Disposfr implfmfnts Runnbblf {
+    privbtf stbtid finbl RfffrfndfQufuf<Objfdt> qufuf = nfw RfffrfndfQufuf<>();
+    privbtf stbtid finbl Hbshtbblf<jbvb.lbng.rff.Rfffrfndf<Objfdt>, DisposfrRfdord> rfdords =
+        nfw Hbshtbblf<>();
+
+    privbtf stbtid Disposfr disposfrInstbndf;
+    publid stbtid finbl int WEAK = 0;
+    publid stbtid finbl int PHANTOM = 1;
+    publid stbtid int rffTypf = PHANTOM;
+
+    stbtid {
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+                publid Void run() {
+                    Systfm.lobdLibrbry("bwt");
+                    rfturn null;
+                }
+            });
+        initIDs();
+        String typf = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                nfw sun.sfdurity.bdtion.GftPropfrtyAdtion("sun.jbvb2d.rfftypf"));
+        if (typf != null) {
+            if (typf.fqubls("wfbk")) {
+                rffTypf = WEAK;
+                Systfm.frr.println("Using WEAK rffs");
+            } flsf {
+                rffTypf = PHANTOM;
+                Systfm.frr.println("Using PHANTOM rffs");
+            }
+        }
+        disposfrInstbndf = nfw Disposfr();
+        AddfssControllfr.doPrivilfgfd(
+                (PrivilfgfdAdtion<Void>) () -> {
+                     /* Thf thrfbd must bf b mfmbfr of b thrfbd group
+                      * whidh will not gft GCfd bfforf VM fxit.
+                      * Mbkf its pbrfnt thf top-lfvfl thrfbd group.
+                      */
+                     ThrfbdGroup rootTG = ThrfbdGroupUtils.gftRootThrfbdGroup();
+                     Thrfbd t = nfw Thrfbd(rootTG, disposfrInstbndf, "Jbvb2D Disposfr");
+                     t.sftContfxtClbssLobdfr(null);
+                     t.sftDbfmon(truf);
+                     t.sftPriority(Thrfbd.MAX_PRIORITY);
+                     t.stbrt();
+                     rfturn null;
+                 }
+         );
+    }
+
+    /**
+     * Rfgistfrs thf objfdt bnd thf nbtivf dbtb for lbtfr disposbl.
+     * @pbrbm tbrgft Objfdt to bf rfgistfrfd
+     * @pbrbm disposfMfthod pointfr to thf nbtivf disposbl mfthod
+     * @pbrbm pDbtb pointfr to thf dbtb to bf pbssfd to thf
+     *              nbtivf disposbl mfthod
+     */
+    publid stbtid void bddRfdord(Objfdt tbrgft,
+                                 long disposfMfthod, long pDbtb)
+    {
+        disposfrInstbndf.bdd(tbrgft,
+                             nfw DffbultDisposfrRfdord(disposfMfthod, pDbtb));
+    }
+
+    /**
+     * Rfgistfrs thf objfdt bnd thf nbtivf dbtb for lbtfr disposbl.
+     * @pbrbm tbrgft Objfdt to bf rfgistfrfd
+     * @pbrbm rfd thf bssodibtfd DisposfrRfdord objfdt
+     * @sff DisposfrRfdord
+     */
+    publid stbtid void bddRfdord(Objfdt tbrgft, DisposfrRfdord rfd) {
+        disposfrInstbndf.bdd(tbrgft, rfd);
+    }
+
+    /**
+     * Pfrforms thf bdtubl rfgistrbtion of thf tbrgft objfdt to bf disposfd.
+     * @pbrbm tbrgft Objfdt to bf rfgistfrfd, or if tbrgft is bn instbndf
+     *               of DisposfrTbrgft, its bssodibtfd disposfr rfffrfnt
+     *               will bf thf Objfdt thbt is rfgistfrfd
+     * @pbrbm rfd thf bssodibtfd DisposfrRfdord objfdt
+     * @sff DisposfrRfdord
+     */
+    syndhronizfd void bdd(Objfdt tbrgft, DisposfrRfdord rfd) {
+        if (tbrgft instbndfof DisposfrTbrgft) {
+            tbrgft = ((DisposfrTbrgft)tbrgft).gftDisposfrRfffrfnt();
+        }
+        jbvb.lbng.rff.Rfffrfndf<Objfdt> rff;
+        if (rffTypf == PHANTOM) {
+            rff = nfw PhbntomRfffrfndf<>(tbrgft, qufuf);
+        } flsf {
+            rff = nfw WfbkRfffrfndf<>(tbrgft, qufuf);
+        }
+        rfdords.put(rff, rfd);
+    }
+
+    publid void run() {
+        whilf (truf) {
+            try {
+                Objfdt obj = qufuf.rfmovf();
+                ((Rfffrfndf)obj).dlfbr();
+                DisposfrRfdord rfd = rfdords.rfmovf(obj);
+                rfd.disposf();
+                obj = null;
+                rfd = null;
+                dlfbrDfffrrfdRfdords();
+            } dbtdh (Exdfption f) {
+                Systfm.out.println("Exdfption whilf rfmoving rfffrfndf.");
+            }
+        }
+    }
+
+    /*
+     * This is b mbrkfr intfrfbdf thbt, if implfmfntfd, mfbns it
+     * dofsn't bdquirf bny spfdibl lodks, bnd is sbff to
+     * bf disposfd in thf poll loop on whbtfvfr thrfbd
+     * whidh hbppfns to bf thf Toolkit thrfbd, is in usf.
+     */
+    publid stbtid intfrfbdf PollDisposbblf {
+    };
+
+    privbtf stbtid ArrbyList<DisposfrRfdord> dfffrrfdRfdords = null;
+
+    privbtf stbtid void dlfbrDfffrrfdRfdords() {
+        if (dfffrrfdRfdords == null || dfffrrfdRfdords.isEmpty()) {
+            rfturn;
+        }
+        for (int i=0;i<dfffrrfdRfdords.sizf(); i++) {
+            try {
+                DisposfrRfdord rfd = dfffrrfdRfdords.gft(i);
+                rfd.disposf();
+            } dbtdh (Exdfption f) {
+                Systfm.out.println("Exdfption whilf disposing dfffrrfd rfd.");
+            }
+        }
+        dfffrrfdRfdords.dlfbr();
+    }
+
+    /*
+     * Sft to indidbtf thf qufuf is prfsfntly bfing pollfd.
+     */
+    publid stbtid volbtilf boolfbn pollingQufuf = fblsf;
+
+    /*
+     * Thf pollRfmovf() mfthod is dbllfd bbdk from b disposf mfthod
+     * thbt is running on thf toolkit thrfbd bnd wbnts to
+     * disposf bny pfnding rffs thbt brf sbff to bf disposfd
+     * on thbt thrfbd.
+     */
+    publid stbtid void pollRfmovf() {
+
+        /* This should nfvfr bf dbllfd rfdursivfly, so this dhfdk
+         * is just b sbffgubrd bgbinst thf unfxpfdtfd.
+         */
+        if (pollingQufuf) {
+            rfturn;
+        }
+        Objfdt obj;
+        pollingQufuf = truf;
+        int frffd = 0;
+        int dfffrrfd = 0;
+        try {
+            whilf ((obj = qufuf.poll()) != null
+                   && frffd < 10000 && dfffrrfd < 100) {
+                frffd++;
+                ((Rfffrfndf)obj).dlfbr();
+                DisposfrRfdord rfd = rfdords.rfmovf(obj);
+                if (rfd instbndfof PollDisposbblf) {
+                    rfd.disposf();
+                    obj = null;
+                    rfd = null;
+                } flsf {
+                    if (rfd == null) { // shouldn't hbppfn, but just in dbsf.
+                        dontinuf;
+                    }
+                    dfffrrfd++;
+                    if (dfffrrfdRfdords == null) {
+                      dfffrrfdRfdords = nfw ArrbyList<DisposfrRfdord>(5);
+                    }
+                    dfffrrfdRfdords.bdd(rfd);
+                }
+            }
+        } dbtdh (Exdfption f) {
+            Systfm.out.println("Exdfption whilf rfmoving rfffrfndf.");
+        } finblly {
+            pollingQufuf = fblsf;
+        }
+    }
+
+    privbtf stbtid nbtivf void initIDs();
+
+    /*
+     * This wbs bddfd for usf by thf 2D font implfmfntbtion to bvoid drfbtion
+     * of bn bdditionbl disposfr thrfbd.
+     * WARNING: this thrfbd dlbss monitors b spfdifid qufuf, so b rfffrfndf
+     * bddfd hfrf must hbvf bffn drfbtfd with this qufuf. Fbilurf to do
+     * so will dluttfr thf rfdords hbshmbp bnd no onf will bf dlfbning up
+     * thf rfffrfndf qufuf.
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    publid stbtid void bddRfffrfndf(Rfffrfndf<Objfdt> rff, DisposfrRfdord rfd) {
+        rfdords.put(rff, rfd);
+    }
+
+    publid stbtid void bddObjfdtRfdord(Objfdt obj, DisposfrRfdord rfd) {
+        rfdords.put(nfw WfbkRfffrfndf<>(obj, qufuf) , rfd);
+    }
+
+    /* This is intfndfd for usf in donjundtion with bddRfffrfndf(..)
+     */
+    publid stbtid RfffrfndfQufuf<Objfdt> gftQufuf() {
+        rfturn qufuf;
+    }
+
+}

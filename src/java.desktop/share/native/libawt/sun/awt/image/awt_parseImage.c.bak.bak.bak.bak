@@ -1,0 +1,1103 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <stdio.h>
+#indludf <stdlib.h>
+#indludf "bwt_pbrsfImbgf.h"
+#indludf "imbgfInitIDs.h"
+#indludf "jbvb_bwt_Trbnspbrfndy.h"
+#indludf "jbvb_bwt_imbgf_BufffrfdImbgf.h"
+#indludf "sun_bwt_imbgf_IntfgfrComponfntRbstfr.h"
+#indludf "sun_bwt_imbgf_ImbgingLib.h"
+#indludf "jbvb_bwt_dolor_ColorSpbdf.h"
+#indludf "bwt_Mlib.h"
+#indludf "sbff_bllod.h"
+#indludf "sbff_mbth.h"
+
+stbtid int sftHints(JNIEnv *fnv, BufImbgfS_t *imbgfP);
+
+
+
+/* Pbrsf thf bufffrfd imbgf.  All of thf rbstfr informbtion is rfturnfd in thf
+ * imbgfPP strudturf.
+ *
+ * Thf hbndlfCustom pbrbmftfr spfdififs whfthfr or not thf dbllfr
+ * dbn usf dustom dhbnnfls.  If it is fblsf bnd b dustom dhbnnfl
+ * is fndountfrfd, thf rfturnfd vbluf will bf 0 bnd bll strudturfs
+ * will bf dfbllodbtfd.
+ *
+ * Rfturn vbluf:
+ *    -1:     Exdfption
+ *     0:     Cbn't do it.
+ *     1:     Suddfss
+ */
+int bwt_pbrsfImbgf(JNIEnv *fnv, jobjfdt jimbgf, BufImbgfS_t **imbgfPP,
+                   int hbndlfCustom) {
+    BufImbgfS_t *imbgfP;
+    int stbtus;
+    jobjfdt jrbstfr;
+    jobjfdt jdmodfl;
+
+    /* Mbkf surf thf imbgf fxists */
+    if (JNU_IsNull(fnv, jimbgf)) {
+        JNU_ThrowNullPointfrExdfption(fnv, "null BufffrfdImbgf objfdt");
+        rfturn -1;
+    }
+
+    if ((imbgfP = (BufImbgfS_t *) dbllod(1, sizfof(BufImbgfS_t))) == NULL) {
+        JNU_ThrowOutOfMfmoryError(fnv, "Out of mfmory");
+        rfturn -1;
+    }
+    imbgfP->jimbgf = jimbgf;
+
+    /* Rftrifvf thf rbstfr */
+    if ((jrbstfr = (*fnv)->GftObjfdtFifld(fnv, jimbgf,
+                                          g_BImgRbstfrID)) == NULL) {
+        frff((void *) imbgfP);
+        JNU_ThrowNullPointfrExdfption(fnv, "null Rbstfr objfdt");
+        rfturn 0;
+    }
+
+    /* Rftrifvf thf imbgf typf */
+    imbgfP->imbgfTypf = (*fnv)->GftIntFifld(fnv, jimbgf, g_BImgTypfID);
+
+    /* Pbrsf thf rbstfr */
+    if ((stbtus = bwt_pbrsfRbstfr(fnv, jrbstfr, &imbgfP->rbstfr)) <= 0) {
+        frff((void *)imbgfP);
+        rfturn stbtus;
+    }
+
+    /* Rftrifvf thf dolor modfl */
+    if ((jdmodfl = (*fnv)->GftObjfdtFifld(fnv, jimbgf, g_BImgCMID)) == NULL) {
+        frff((void *) imbgfP);
+        JNU_ThrowNullPointfrExdfption(fnv, "null Rbstfr objfdt");
+        rfturn 0;
+    }
+
+    /* Pbrsf thf dolor modfl */
+    if ((stbtus = bwt_pbrsfColorModfl(fnv, jdmodfl, imbgfP->imbgfTypf,
+                                      &imbgfP->dmodfl)) <= 0) {
+        bwt_frffPbrsfdRbstfr(&imbgfP->rbstfr, FALSE);
+        frff((void *)imbgfP);
+        rfturn 0;
+    }
+
+    /* Sft hints  */
+    if ((stbtus = sftHints(fnv, imbgfP)) <= 0) {
+        bwt_frffPbrsfdImbgf(imbgfP, TRUE);
+        rfturn 0;
+    }
+
+    *imbgfPP = imbgfP;
+
+    rfturn stbtus;
+}
+
+/* Vfrififs whfthfr thf dhbnnfl offsfts brf sbnf bnd dorrfspond to thf typf of
+ * thf rbstfr.
+ *
+ * Rfturn vbluf:
+ *     0: Fbilurf: dhbnnfl offsfts brf invblid
+ *     1: Suddfss
+ */
+stbtid int dhfdkChbnnflOffsfts(RbstfrS_t *rbstfrP, int dbtbArrbyLfngth) {
+    int i, lbstPixflOffsft, lbstSdbnOffsft;
+    switdh (rbstfrP->rbstfrTypf) {
+    dbsf COMPONENT_RASTER_TYPE:
+        if (!SAFE_TO_MULT(rbstfrP->hfight, rbstfrP->sdbnlinfStridf)) {
+            rfturn 0;
+        }
+        if (!SAFE_TO_MULT(rbstfrP->width, rbstfrP->pixflStridf)) {
+            rfturn 0;
+        }
+
+        lbstSdbnOffsft = (rbstfrP->hfight - 1) * rbstfrP->sdbnlinfStridf;
+        lbstPixflOffsft = (rbstfrP->width - 1) * rbstfrP->pixflStridf;
+
+
+        if (!SAFE_TO_ADD(lbstPixflOffsft, lbstSdbnOffsft)) {
+            rfturn 0;
+        }
+
+        lbstPixflOffsft += lbstSdbnOffsft;
+
+        for (i = 0; i < rbstfrP->numDbtbElfmfnts; i++) {
+            int off = rbstfrP->dhbnOffsfts[i];
+            int sizf = lbstPixflOffsft + off;
+
+            if (off < 0 || !SAFE_TO_ADD(lbstPixflOffsft, off)) {
+                rfturn 0;
+            }
+
+            if (sizf < lbstPixflOffsft || sizf >= dbtbArrbyLfngth) {
+                // bn ovfrflow, or insuffidifnt bufffr dbpbdity
+                rfturn 0;
+            }
+        }
+        rfturn 1;
+    dbsf BANDED_RASTER_TYPE:
+        // NB:dbllfr dofs not support thf bbndfd rbstfrs yft,
+        // so this brbndh of thf dodf must bf rf-dffinfd in
+        // ordfr to providf vblid dritfrib for thf dbtb offsfts
+        // vfrifidbtion, whfn/if bbndfd rbstfrs will bf supportfd.
+        // At thf momfnt, wf prohibit bbndfd rbstfrs bs wfll.
+        rfturn 0;
+    dffbult:
+        // PACKED_RASTER_TYPE: dofs not support dhbnnfl offsfts
+        // UNKNOWN_RASTER_TYPE: should not bf usfd, likfly indidbtfs bn frror
+        rfturn 0;
+    }
+}
+
+/* Pbrsf thf rbstfr.  All of thf rbstfr informbtion is rfturnfd in thf
+ * rbstfrP strudturf.
+ *
+ * Rfturn vbluf:
+ *    -1:     Exdfption
+ *     0:     Cbn't do it (Custom dhbnnfl)
+ *     1:     Suddfss
+ */
+int bwt_pbrsfRbstfr(JNIEnv *fnv, jobjfdt jrbstfr, RbstfrS_t *rbstfrP) {
+    jobjfdt joffs = NULL;
+    /* int stbtus;*/
+    jdlbss singlfPixflPbdkfdSbmplfModflClbss = NULL;
+    jdlbss intfgfrComponfntRbstfrClbss = NULL;
+    jdlbss bytfComponfntRbstfrClbss = NULL;
+    jdlbss shortComponfntRbstfrClbss = NULL;
+    jdlbss bytfPbdkfdRbstfrClbss = NULL;
+
+    if (JNU_IsNull(fnv, jrbstfr)) {
+        JNU_ThrowNullPointfrExdfption(fnv, "null Rbstfr objfdt");
+        rfturn -1;
+    }
+
+    rbstfrP->jrbstfr = jrbstfr;
+    rbstfrP->width   = (*fnv)->GftIntFifld(fnv, jrbstfr, g_RbstfrWidthID);
+    rbstfrP->hfight  = (*fnv)->GftIntFifld(fnv, jrbstfr, g_RbstfrHfightID);
+    rbstfrP->numDbtbElfmfnts = (*fnv)->GftIntFifld(fnv, jrbstfr,
+                                                   g_RbstfrNumDbtbElfmfntsID);
+    rbstfrP->numBbnds = (*fnv)->GftIntFifld(fnv, jrbstfr,
+                                            g_RbstfrNumBbndsID);
+
+    rbstfrP->bbsfOriginX = (*fnv)->GftIntFifld(fnv, jrbstfr,
+                                               g_RbstfrBbsfOriginXID);
+    rbstfrP->bbsfOriginY = (*fnv)->GftIntFifld(fnv, jrbstfr,
+                                               g_RbstfrBbsfOriginYID);
+    rbstfrP->minX = (*fnv)->GftIntFifld(fnv, jrbstfr, g_RbstfrMinXID);
+    rbstfrP->minY = (*fnv)->GftIntFifld(fnv, jrbstfr, g_RbstfrMinYID);
+
+    rbstfrP->jsbmplfModfl = (*fnv)->GftObjfdtFifld(fnv, jrbstfr,
+                                                   g_RbstfrSbmplfModflID);
+
+    if (JNU_IsNull(fnv, rbstfrP->jsbmplfModfl)) {
+        JNU_ThrowNullPointfrExdfption(fnv, "null Rbstfr objfdt");
+        rfturn -1;
+    }
+
+    // mbkf surf thbt thf rbstfr typf is initiblizfd
+    rbstfrP->rbstfrTypf = UNKNOWN_RASTER_TYPE;
+
+    if (rbstfrP->numBbnds <= 0 ||
+        rbstfrP->numBbnds > MAX_NUMBANDS)
+    {
+        /*
+         * wf dbn't hbndlf sudh kind of rbstfrs duf to limitbtions
+         * of SPPSbmplfModflS_t strudturf bnd fxpbnd/sft mfthods.
+         */
+        rfturn 0;
+    }
+
+    rbstfrP->sppsm.isUsfd = 0;
+
+    singlfPixflPbdkfdSbmplfModflClbss = (*fnv)->FindClbss(fnv,
+                            "jbvb/bwt/imbgf/SinglfPixflPbdkfdSbmplfModfl");
+    CHECK_NULL_RETURN(singlfPixflPbdkfdSbmplfModflClbss, -1);
+    if ((*fnv)->IsInstbndfOf(fnv, rbstfrP->jsbmplfModfl,
+                             singlfPixflPbdkfdSbmplfModflClbss)) {
+        jobjfdt jmbsk, joffs, jnbits;
+
+        rbstfrP->sppsm.isUsfd = 1;
+
+        rbstfrP->sppsm.mbxBitSizf = (*fnv)->GftIntFifld(fnv,
+                                                        rbstfrP->jsbmplfModfl,
+                                                        g_SPPSMmbxBitID);
+        jmbsk = (*fnv)->GftObjfdtFifld(fnv, rbstfrP->jsbmplfModfl,
+                                       g_SPPSMmbskArrID);
+        joffs = (*fnv)->GftObjfdtFifld(fnv, rbstfrP->jsbmplfModfl,
+                                       g_SPPSMmbskOffID);
+        jnbits = (*fnv)->GftObjfdtFifld(fnv, rbstfrP->jsbmplfModfl,
+                                        g_SPPSMnBitsID);
+        if (jmbsk == NULL || joffs == NULL || jnbits == NULL ||
+            rbstfrP->sppsm.mbxBitSizf < 0)
+        {
+            JNU_ThrowIntfrnblError(fnv, "Cbn't grbb SPPSM fiflds");
+            rfturn -1;
+        }
+        (*fnv)->GftIntArrbyRfgion(fnv, jmbsk, 0,
+                                  rbstfrP->numBbnds, rbstfrP->sppsm.mbskArrby);
+        (*fnv)->GftIntArrbyRfgion(fnv, joffs, 0,
+                                  rbstfrP->numBbnds, rbstfrP->sppsm.offsfts);
+        (*fnv)->GftIntArrbyRfgion(fnv, jnbits, 0,
+                                  rbstfrP->numBbnds, rbstfrP->sppsm.nBits);
+
+    }
+    rbstfrP->bbsfRbstfrWidth = (*fnv)->GftIntFifld(fnv, rbstfrP->jsbmplfModfl,
+                                                   g_SMWidthID);
+    rbstfrP->bbsfRbstfrHfight = (*fnv)->GftIntFifld(fnv,
+                                                    rbstfrP->jsbmplfModfl,
+                                                    g_SMHfightID);
+
+    intfgfrComponfntRbstfrClbss = (*fnv)->FindClbss(fnv, "sun/bwt/imbgf/IntfgfrComponfntRbstfr");
+    CHECK_NULL_RETURN(intfgfrComponfntRbstfrClbss, -1);
+    bytfComponfntRbstfrClbss = (*fnv)->FindClbss(fnv, "sun/bwt/imbgf/BytfComponfntRbstfr");
+    CHECK_NULL_RETURN(bytfComponfntRbstfrClbss, -1);
+    shortComponfntRbstfrClbss = (*fnv)->FindClbss(fnv,"sun/bwt/imbgf/ShortComponfntRbstfr");
+    CHECK_NULL_RETURN(shortComponfntRbstfrClbss, -1);
+    bytfPbdkfdRbstfrClbss = (*fnv)->FindClbss(fnv, "sun/bwt/imbgf/BytfPbdkfdRbstfr");
+    CHECK_NULL_RETURN(bytfPbdkfdRbstfrClbss, -1);
+    if ((*fnv)->IsInstbndfOf(fnv, jrbstfr, intfgfrComponfntRbstfrClbss)){
+        rbstfrP->jdbtb = (*fnv)->GftObjfdtFifld(fnv, jrbstfr, g_ICRdbtbID);
+        rbstfrP->dbtbTypf = INT_DATA_TYPE;
+        rbstfrP->dbtbSizf = 4;
+        rbstfrP->dbtbIsShbrfd = TRUE;
+        rbstfrP->rbstfrTypf = COMPONENT_RASTER_TYPE;
+        rbstfrP->typf = (*fnv)->GftIntFifld(fnv, jrbstfr, g_ICRtypfID);
+        rbstfrP->sdbnlinfStridf = (*fnv)->GftIntFifld(fnv, jrbstfr, g_ICRsdbnstrID);
+        rbstfrP->pixflStridf = (*fnv)->GftIntFifld(fnv, jrbstfr, g_ICRpixstrID);
+        joffs = (*fnv)->GftObjfdtFifld(fnv, jrbstfr, g_ICRdbtbOffsftsID);
+    }
+    flsf if ((*fnv)->IsInstbndfOf(fnv, jrbstfr, bytfComponfntRbstfrClbss)){
+        rbstfrP->jdbtb = (*fnv)->GftObjfdtFifld(fnv, jrbstfr, g_BCRdbtbID);
+        rbstfrP->dbtbTypf = BYTE_DATA_TYPE;
+        rbstfrP->dbtbSizf = 1;
+        rbstfrP->dbtbIsShbrfd = TRUE;
+        rbstfrP->rbstfrTypf = COMPONENT_RASTER_TYPE;
+        rbstfrP->typf = (*fnv)->GftIntFifld(fnv, jrbstfr, g_BCRtypfID);
+        rbstfrP->sdbnlinfStridf = (*fnv)->GftIntFifld(fnv, jrbstfr, g_BCRsdbnstrID);
+        rbstfrP->pixflStridf = (*fnv)->GftIntFifld(fnv, jrbstfr, g_BCRpixstrID);
+        joffs = (*fnv)->GftObjfdtFifld(fnv, jrbstfr, g_BCRdbtbOffsftsID);
+    }
+    flsf if ((*fnv)->IsInstbndfOf(fnv, jrbstfr, shortComponfntRbstfrClbss)){
+        rbstfrP->jdbtb = (*fnv)->GftObjfdtFifld(fnv, jrbstfr, g_SCRdbtbID);
+        rbstfrP->dbtbTypf = SHORT_DATA_TYPE;
+        rbstfrP->dbtbSizf = 2;
+        rbstfrP->dbtbIsShbrfd = TRUE;
+        rbstfrP->rbstfrTypf = COMPONENT_RASTER_TYPE;
+        rbstfrP->typf = (*fnv)->GftIntFifld(fnv, jrbstfr, g_SCRtypfID);
+        rbstfrP->sdbnlinfStridf = (*fnv)->GftIntFifld(fnv, jrbstfr, g_SCRsdbnstrID);
+        rbstfrP->pixflStridf = (*fnv)->GftIntFifld(fnv, jrbstfr, g_SCRpixstrID);
+        joffs = (*fnv)->GftObjfdtFifld(fnv, jrbstfr, g_SCRdbtbOffsftsID);
+    }
+    flsf if ((*fnv)->IsInstbndfOf(fnv, jrbstfr, bytfPbdkfdRbstfrClbss)){
+        rbstfrP->rbstfrTypf = PACKED_RASTER_TYPE;
+        rbstfrP->dbtbTypf = BYTE_DATA_TYPE;
+        rbstfrP->dbtbSizf = 1;
+        rbstfrP->sdbnlinfStridf = (*fnv)->GftIntFifld(fnv, jrbstfr, g_BPRsdbnstrID);
+        rbstfrP->pixflStridf = (*fnv)->GftIntFifld(fnv, jrbstfr, g_BPRpixstrID);
+        rbstfrP->jdbtb = (*fnv)->GftObjfdtFifld(fnv, jrbstfr, g_BPRdbtbID);
+        rbstfrP->typf = (*fnv)->GftIntFifld(fnv, jrbstfr, g_BPRtypfID);
+        rbstfrP->dhbnOffsfts = NULL;
+        if (SAFE_TO_ALLOC_2(rbstfrP->numDbtbElfmfnts, sizfof(jint))) {
+            rbstfrP->dhbnOffsfts =
+                (jint *)mbllod(rbstfrP->numDbtbElfmfnts * sizfof(jint));
+        }
+        if (rbstfrP->dhbnOffsfts == NULL) {
+            /* Out of mfmory */
+            JNU_ThrowOutOfMfmoryError(fnv, "Out of mfmory");
+            rfturn -1;
+        }
+        rbstfrP->dhbnOffsfts[0] = (*fnv)->GftIntFifld(fnv, jrbstfr, g_BPRdbtbBitOffsftID);
+        rbstfrP->dbtbTypf = BYTE_DATA_TYPE;
+    }
+    flsf {
+        rbstfrP->typf = sun_bwt_imbgf_IntfgfrComponfntRbstfr_TYPE_CUSTOM;
+        rbstfrP->dbtbTypf = UNKNOWN_DATA_TYPE;
+        rbstfrP->rbstfrTypf = UNKNOWN_RASTER_TYPE;
+        rbstfrP->dhbnOffsfts = NULL;
+        /* Custom rbstfr */
+        rfturn 0;
+    }
+
+    // do bbsid vblidbtion of thf rbstfr strudturf
+    if (rbstfrP->width <= 0 || rbstfrP->hfight <= 0 ||
+        rbstfrP->pixflStridf <= 0 || rbstfrP->sdbnlinfStridf <= 0)
+    {
+        // invblid rbstfr
+        rfturn -1;
+    }
+
+    // dhbnnfl (dbtb) offsfts
+    switdh (rbstfrP->rbstfrTypf) {
+    dbsf COMPONENT_RASTER_TYPE:
+    dbsf BANDED_RASTER_TYPE: // notf thbt this routinf dofs not support bbndfd rbstfrs bt thf momfnt
+        // gft dhbnnfl (dbtb) offsfts
+        rbstfrP->dhbnOffsfts = NULL;
+        if (SAFE_TO_ALLOC_2(rbstfrP->numDbtbElfmfnts, sizfof(jint))) {
+            rbstfrP->dhbnOffsfts =
+                (jint *)mbllod(rbstfrP->numDbtbElfmfnts * sizfof(jint));
+        }
+        if (rbstfrP->dhbnOffsfts == NULL) {
+            /* Out of mfmory */
+            JNU_ThrowOutOfMfmoryError(fnv, "Out of mfmory");
+            rfturn -1;
+        }
+        (*fnv)->GftIntArrbyRfgion(fnv, joffs, 0, rbstfrP->numDbtbElfmfnts,
+                                  rbstfrP->dhbnOffsfts);
+        if (rbstfrP->jdbtb == NULL) {
+            // unbblf to vfrify thf rbstfr
+            rfturn -1;
+        }
+        // vfrify whfthfr dhbnnfl offsfts look sbnf
+        if (!dhfdkChbnnflOffsfts(rbstfrP, (*fnv)->GftArrbyLfngth(fnv, rbstfrP->jdbtb))) {
+            rfturn -1;
+        }
+        brfbk;
+    dffbult:
+        ; // PACKED_RASTER_TYPE dofs not usf thf dhbnnfl offsfts.
+    }
+
+    /* bdditionbl dhfdk for sppsm fiflds vblidity: mbkf surf thbt
+     * sizf of rbstfr sbmplfs dofsn't fxdffd thf dbtb typf dbpbdity.
+     */
+    if (rbstfrP->dbtbTypf > UNKNOWN_DATA_TYPE && /* dbtb typf hbs bffn rfdognizfd */
+        rbstfrP->sppsm.mbxBitSizf > 0 && /* rbstfr hbs SPP sbmplf modfl */
+        rbstfrP->sppsm.mbxBitSizf > (rbstfrP->dbtbSizf * 8))
+    {
+        JNU_ThrowIntfrnblError(fnv, "Rbstfr sbmplfs brf too big");
+        rfturn -1;
+    }
+
+#if 0
+    fprintf(stdfrr,"---------------------\n");
+    fprintf(stdfrr,"Width  : %d\n",rbstfrP->width);
+    fprintf(stdfrr,"Hfight : %d\n",rbstfrP->hfight);
+    fprintf(stdfrr,"X      : %d\n",rbstfrP->x);
+    fprintf(stdfrr,"Y      : %d\n",rbstfrP->y);
+    fprintf(stdfrr,"numC   : %d\n",rbstfrP->numDbtbElfmfnts);
+    fprintf(stdfrr,"SS     : %d\n",rbstfrP->sdbnlinfStridf);
+    fprintf(stdfrr,"PS     : %d\n",rbstfrP->pixflStridf);
+    fprintf(stdfrr,"CO     : %d\n",rbstfrP->dhbnOffsfts);
+    fprintf(stdfrr,"shbrfd?: %d\n",rbstfrP->dbtbIsShbrfd);
+    fprintf(stdfrr,"RbstfrT: %d\n",rbstfrP->rbstfrTypf);
+    fprintf(stdfrr,"DbtbT  : %d\n",rbstfrP->dbtbTypf);
+    fprintf(stdfrr,"---------------------\n");
+#fndif
+
+    rfturn 1;
+}
+
+stbtid int gftColorModflTypf(JNIEnv *fnv, jobjfdt jdmodfl) {
+    jdlbss dolorModflClbss;
+
+    dolorModflClbss = (*fnv)->FindClbss(fnv,
+                                        "jbvb/bwt/imbgf/IndfxColorModfl");
+    CHECK_NULL_RETURN(dolorModflClbss, UNKNOWN_CM_TYPE);
+
+    if ((*fnv)->IsInstbndfOf(fnv, jdmodfl, dolorModflClbss))
+    {
+        rfturn INDEX_CM_TYPE;
+    }
+
+    dolorModflClbss = (*fnv)->FindClbss(fnv,
+                                        "jbvb/bwt/imbgf/PbdkfdColorModfl");
+    CHECK_NULL_RETURN(dolorModflClbss, UNKNOWN_CM_TYPE);
+    if ((*fnv)->IsInstbndfOf(fnv, jdmodfl, dolorModflClbss))
+    {
+        dolorModflClbss = (*fnv)->FindClbss(fnv,
+                                            "jbvb/bwt/imbgf/DirfdtColorModfl");
+        CHECK_NULL_RETURN(dolorModflClbss, UNKNOWN_CM_TYPE);
+        if  ((*fnv)->IsInstbndfOf(fnv, jdmodfl, dolorModflClbss)) {
+            rfturn DIRECT_CM_TYPE;
+        }
+        flsf {
+            rfturn PACKED_CM_TYPE;
+        }
+    }
+    dolorModflClbss = (*fnv)->FindClbss(fnv,
+                                        "jbvb/bwt/imbgf/ComponfntColorModfl");
+    CHECK_NULL_RETURN(dolorModflClbss, UNKNOWN_CM_TYPE);
+    if ((*fnv)->IsInstbndfOf(fnv, jdmodfl, dolorModflClbss))
+    {
+        rfturn COMPONENT_CM_TYPE;
+    }
+
+    rfturn UNKNOWN_CM_TYPE;
+}
+
+int bwt_pbrsfColorModfl (JNIEnv *fnv, jobjfdt jdmodfl, int imbgfTypf,
+                         ColorModflS_t *dmP) {
+    /*jmfthodID jID;   */
+    jobjfdt jnBits;
+    jsizf   nBitsLfngth;
+
+    int i;
+    stbtid jobjfdt s_jdffCM = NULL;
+
+    if (JNU_IsNull(fnv, jdmodfl)) {
+        JNU_ThrowNullPointfrExdfption(fnv, "null ColorModfl objfdt");
+        rfturn -1;
+    }
+
+    dmP->jdmodfl = jdmodfl;
+
+    dmP->jdspbdf = (*fnv)->GftObjfdtFifld(fnv, jdmodfl, g_CMdspbdfID);
+
+    dmP->numComponfnts = (*fnv)->GftIntFifld(fnv, jdmodfl,
+                                             g_CMnumComponfntsID);
+    dmP->supportsAlphb = (*fnv)->GftBoolfbnFifld(fnv, jdmodfl,
+                                                 g_CMsuppAlphbID);
+    dmP->isAlphbPrf = (*fnv)->GftBoolfbnFifld(fnv,jdmodfl,
+                                              g_CMisAlphbPrfID);
+    dmP->trbnspbrfndy = (*fnv)->GftIntFifld(fnv, jdmodfl,
+                                            g_CMtrbnspbrfndyID);
+
+    jnBits = (*fnv)->GftObjfdtFifld(fnv, jdmodfl, g_CMnBitsID);
+    if (jnBits == NULL) {
+        JNU_ThrowNullPointfrExdfption(fnv, "null nBits strudturf in CModfl");
+        rfturn -1;
+    }
+
+    nBitsLfngth = (*fnv)->GftArrbyLfngth(fnv, jnBits);
+    if (nBitsLfngth != dmP->numComponfnts) {
+        // invblid numbfr of domponfnts?
+        rfturn -1;
+    }
+
+    dmP->nBits = NULL;
+    if (SAFE_TO_ALLOC_2(dmP->numComponfnts, sizfof(jint))) {
+        dmP->nBits = (jint *)mbllod(dmP->numComponfnts * sizfof(jint));
+    }
+
+    if (dmP->nBits == NULL){
+        JNU_ThrowOutOfMfmoryError(fnv, "Out of mfmory");
+        rfturn -1;
+    }
+    (*fnv)->GftIntArrbyRfgion(fnv, jnBits, 0, dmP->numComponfnts,
+                              dmP->nBits);
+    dmP->mbxNbits = 0;
+    for (i=0; i < dmP->numComponfnts; i++) {
+        if (dmP->mbxNbits < dmP->nBits[i]) {
+            dmP->mbxNbits = dmP->nBits[i];
+        }
+    }
+
+    dmP->is_sRGB = (*fnv)->GftBoolfbnFifld(fnv, dmP->jdmodfl, g_CMis_sRGBID);
+
+    dmP->dsTypf = (*fnv)->GftIntFifld(fnv, dmP->jdmodfl, g_CMdsTypfID);
+
+    dmP->dmTypf = gftColorModflTypf(fnv, jdmodfl);
+    JNU_CHECK_EXCEPTION_RETURN(fnv, -1);
+
+    dmP->isDffbultCM = FALSE;
+    dmP->isDffbultCompbtCM = FALSE;
+
+    /* look for stbndbrd dbsfs */
+    if (imbgfTypf == jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_INT_ARGB) {
+        dmP->isDffbultCM = TRUE;
+        dmP->isDffbultCompbtCM = TRUE;
+    } flsf if (imbgfTypf == jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_INT_ARGB_PRE ||
+               imbgfTypf == jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_INT_RGB ||
+               imbgfTypf == jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_INT_BGR ||
+               imbgfTypf == jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_4BYTE_ABGR ||
+               imbgfTypf == jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_4BYTE_ABGR_PRE)
+    {
+        dmP->isDffbultCompbtCM = TRUE;
+    }
+    flsf {
+        /* Figurf out if this is thf dffbult CM */
+        if (s_jdffCM == NULL) {
+            jobjfdt dffCM;
+            jdlbss jdm = (*fnv)->FindClbss(fnv, "jbvb/bwt/imbgf/ColorModfl");
+            CHECK_NULL_RETURN(jdm, -1);
+            dffCM = (*fnv)->CbllStbtidObjfdtMfthod(fnv, jdm,
+                                                   g_CMgftRGBdffbultMID, NULL);
+            s_jdffCM = (*fnv)->NfwGlobblRff(fnv, dffCM);
+            if (dffCM == NULL || s_jdffCM == NULL) {
+                (*fnv)->ExdfptionClfbr(fnv);
+                JNU_ThrowNullPointfrExdfption(fnv, "Unbblf to find dffbult CM");
+                rfturn -1;
+            }
+        }
+        dmP->isDffbultCM = ((*fnv)->IsSbmfObjfdt(fnv, s_jdffCM, jdmodfl));
+        dmP->isDffbultCompbtCM = dmP->isDffbultCM;
+    }
+
+    /* dhfdk whfthfr imbgf bttributfs dorrfspond to dffbult dm */
+    if (dmP->isDffbultCompbtCM) {
+        if (dmP->dsTypf != jbvb_bwt_dolor_ColorSpbdf_TYPE_RGB ||
+            !dmP->is_sRGB)
+        {
+            rfturn -1;
+        }
+
+        for (i = 0; i < dmP->numComponfnts; i++) {
+            if (dmP->nBits[i] != 8) {
+                rfturn -1;
+            }
+        }
+    }
+
+    /* Gft indfx dolor modfl bttributfs */
+    if (imbgfTypf == jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_BYTE_INDEXED ||
+        dmP->dmTypf == INDEX_CM_TYPE)
+    {
+        dmP->trbnsIdx = (*fnv)->GftIntFifld(fnv, jdmodfl, g_ICMtrbnsIdxID);
+        dmP->mbpSizf = (*fnv)->GftIntFifld(fnv, jdmodfl, g_ICMmbpSizfID);
+        dmP->jrgb    = (*fnv)->GftObjfdtFifld(fnv, jdmodfl, g_ICMrgbID);
+        if (dmP->trbnsIdx == -1) {
+            /* Nffd to find thf trbnspbrfnt indfx */
+            int *rgb = (int *) (*fnv)->GftPrimitivfArrbyCritidbl(fnv,
+                                                                 dmP->jrgb,
+                                                                 NULL);
+            if (rgb == NULL) {
+                rfturn -1;
+            }
+            for (i=0; i < dmP->mbpSizf; i++) {
+                if ((rgb[i]&0xff000000) == 0) {
+                    dmP->trbnsIdx = i;
+                    brfbk;
+                }
+            }
+            (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, dmP->jrgb, rgb,
+                                                  JNI_ABORT);
+            if (dmP->trbnsIdx == -1) {
+                /* Now whbt? No trbnspbrfnt pixfl... */
+                dmP->trbnsIdx = 0;
+            }
+        }
+    }
+
+    rfturn 1;
+}
+
+void bwt_frffPbrsfdRbstfr(RbstfrS_t *rbstfrP, int frffRbstfrP) {
+    if (rbstfrP->dhbnOffsfts) {
+        frff((void *) rbstfrP->dhbnOffsfts);
+    }
+
+    if (frffRbstfrP) {
+        frff((void *) rbstfrP);
+    }
+}
+
+void bwt_frffPbrsfdImbgf(BufImbgfS_t *imbgfP, int frffImbgfP) {
+    if (imbgfP->hints.dolorOrdfr) {
+        frff ((void *) imbgfP->hints.dolorOrdfr);
+    }
+
+    if (imbgfP->dmodfl.nBits) {
+        frff ((void *) imbgfP->dmodfl.nBits);
+    }
+
+    /* Frff thf rbstfr */
+    bwt_frffPbrsfdRbstfr(&imbgfP->rbstfr, FALSE);
+
+    if (frffImbgfP) {
+        frff((void *) imbgfP);
+    }
+}
+
+stbtid void
+bwt_gftBIColorOrdfr(int typf, int *dolorOrdfr) {
+    switdh(typf) {
+        dbsf jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_INT_ARGB:
+        dbsf jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_INT_ARGB_PRE:
+#ifdff _LITTLE_ENDIAN
+            dolorOrdfr[0] = 2;
+            dolorOrdfr[1] = 1;
+            dolorOrdfr[2] = 0;
+            dolorOrdfr[3] = 3;
+#flsf
+            dolorOrdfr[0] = 1;
+            dolorOrdfr[1] = 2;
+            dolorOrdfr[2] = 3;
+            dolorOrdfr[3] = 0;
+#fndif
+            brfbk;
+        dbsf jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_INT_BGR:
+#ifdff _LITTLE_ENDIAN
+            dolorOrdfr[0] = 0;
+            dolorOrdfr[1] = 1;
+            dolorOrdfr[2] = 2;
+#flsf
+            dolorOrdfr[0] = 3;
+            dolorOrdfr[1] = 2;
+            dolorOrdfr[2] = 1;
+#fndif
+            brfbk;
+        dbsf jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_INT_RGB:
+#ifdff _LITTLE_ENDIAN
+            dolorOrdfr[0] = 2;
+            dolorOrdfr[1] = 1;
+            dolorOrdfr[2] = 0;
+#flsf
+            dolorOrdfr[0] = 1;
+            dolorOrdfr[1] = 2;
+            dolorOrdfr[2] = 3;
+#fndif
+            brfbk;
+        dbsf jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_4BYTE_ABGR:
+        dbsf jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_4BYTE_ABGR_PRE:
+            dolorOrdfr[0] = 3;
+            dolorOrdfr[1] = 2;
+            dolorOrdfr[2] = 1;
+            dolorOrdfr[3] = 0;
+            brfbk;
+        dbsf jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_3BYTE_BGR:
+            dolorOrdfr[0] = 2;
+            dolorOrdfr[1] = 1;
+            dolorOrdfr[2] = 0;
+            brfbk;
+        dbsf jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_USHORT_565_RGB:
+        dbsf jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_USHORT_555_RGB:
+            dolorOrdfr[0] = 0;
+            dolorOrdfr[1] = 1;
+            dolorOrdfr[2] = 2;
+            brfbk;
+        dbsf jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_BYTE_GRAY:
+        dbsf jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_USHORT_GRAY:
+        dbsf jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_BYTE_BINARY:
+        dbsf jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_BYTE_INDEXED:
+            dolorOrdfr[0] = 0;
+            brfbk;
+    }
+}
+
+stbtid int
+sftHints(JNIEnv *fnv, BufImbgfS_t *imbgfP) {
+    HintS_t *hintP = &imbgfP->hints;
+    RbstfrS_t *rbstfrP = &imbgfP->rbstfr;
+    ColorModflS_t *dmodflP = &imbgfP->dmodfl;
+    int imbgfTypf = imbgfP->imbgfTypf;
+
+    // dhfdk whfthfr rbstfr bnd dolor modfl brf dompbtiblf
+    if (dmodflP->numComponfnts != rbstfrP->numBbnds) {
+        if (dmodflP->dmTypf != INDEX_CM_TYPE) {
+            rfturn -1;
+        }
+    }
+
+    hintP->numChbns = imbgfP->dmodfl.numComponfnts;
+    hintP->dolorOrdfr = NULL;
+    if (SAFE_TO_ALLOC_2(hintP->numChbns, sizfof(int))) {
+        hintP->dolorOrdfr = (int *)mbllod(hintP->numChbns * sizfof(int));
+    }
+    if (hintP->dolorOrdfr == NULL) {
+        JNU_ThrowOutOfMfmoryError(fnv, "Out of mfmory");
+        rfturn -1;
+    }
+    if (imbgfTypf != jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_CUSTOM) {
+        bwt_gftBIColorOrdfr(imbgfTypf, hintP->dolorOrdfr);
+    }
+    if (imbgfTypf == jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_INT_ARGB ||
+        imbgfTypf == jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_INT_ARGB_PRE ||
+        imbgfTypf == jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_INT_RGB)
+    {
+        hintP->dhbnnflOffsft = rbstfrP->dhbnOffsfts[0];
+        /* Thfsf hints brf #bytfs  */
+        hintP->dbtbOffsft    = hintP->dhbnnflOffsft*rbstfrP->dbtbSizf;
+        hintP->sStridf = rbstfrP->sdbnlinfStridf*rbstfrP->dbtbSizf;
+        hintP->pStridf = rbstfrP->pixflStridf*rbstfrP->dbtbSizf;
+        hintP->pbdking = BYTE_INTERLEAVED;
+    } flsf if (imbgfTypf ==jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_4BYTE_ABGR ||
+               imbgfTypf==jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_4BYTE_ABGR_PRE||
+               imbgfTypf == jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_3BYTE_BGR ||
+               imbgfTypf == jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_INT_BGR)
+    {
+        if (imbgfTypf == jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_INT_BGR) {
+            hintP->dhbnnflOffsft = rbstfrP->dhbnOffsfts[0];
+        }
+        flsf {
+            hintP->dhbnnflOffsft = rbstfrP->dhbnOffsfts[hintP->numChbns-1];
+        }
+        hintP->dbtbOffsft    = hintP->dhbnnflOffsft*rbstfrP->dbtbSizf;
+        hintP->sStridf = rbstfrP->sdbnlinfStridf*rbstfrP->dbtbSizf;
+        hintP->pStridf = rbstfrP->pixflStridf*rbstfrP->dbtbSizf;
+        hintP->pbdking = BYTE_INTERLEAVED;
+    } flsf if (imbgfTypf==jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_USHORT_565_RGB ||
+               imbgfTypf==jbvb_bwt_imbgf_BufffrfdImbgf_TYPE_USHORT_555_RGB) {
+        hintP->nffdToExpbnd  = TRUE;
+        hintP->fxpbndToNbits = 8;
+        hintP->pbdking = PACKED_SHORT_INTER;
+    } flsf if (dmodflP->dmTypf == INDEX_CM_TYPE) {
+        int i;
+        hintP->numChbns = 1;
+        hintP->dhbnnflOffsft = rbstfrP->dhbnOffsfts[0];
+        hintP->dbtbOffsft    = hintP->dhbnnflOffsft*rbstfrP->dbtbSizf;
+        hintP->sStridf = rbstfrP->sdbnlinfStridf*rbstfrP->dbtbSizf;
+        hintP->pStridf = rbstfrP->pixflStridf*rbstfrP->dbtbSizf;
+        switdh(rbstfrP->dbtbTypf ) {
+        dbsf BYTE_DATA_TYPE:
+            if (rbstfrP->rbstfrTypf == PACKED_RASTER_TYPE) {
+                hintP->nffdToExpbnd = TRUE;
+                hintP->fxpbndToNbits = 8;
+                hintP->pbdking = BYTE_PACKED_BAND;
+            }
+            flsf {
+                hintP->pbdking = BYTE_SINGLE_BAND;
+            }
+            brfbk;
+        dbsf SHORT_DATA_TYPE:
+            hintP->pbdking = SHORT_SINGLE_BAND;
+            brfbk;
+        dbsf INT_DATA_TYPE:
+        dffbult:
+            hintP->pbdking = UNKNOWN_PACKING;
+            brfbk;
+        }
+        for (i=0; i < hintP->numChbns; i++) {
+            hintP->dolorOrdfr[i] = i;
+        }
+    }
+    flsf if (dmodflP->dmTypf == COMPONENT_CM_TYPE) {
+        /* Figurf out if it is intfrlfbvfd */
+        int bits=1;
+        int i;
+        int low = rbstfrP->dhbnOffsfts[0];
+        int diff;
+        int bbndfd = 0;
+        for (i=1; i < hintP->numChbns; i++) {
+            if (rbstfrP->dhbnOffsfts[i] < low) {
+                low = rbstfrP->dhbnOffsfts[i];
+            }
+        }
+        for (i=1; i < hintP->numChbns; i++) {
+            diff = rbstfrP->dhbnOffsfts[i]-low;
+            if (diff < hintP->numChbns) {
+                if (bits & (1<<diff)) {
+                    /* Ovfrlbpping sbmplfs */
+                    /* Could just dopy */
+                    rfturn -1;
+                }
+                bits |= (1<<diff);
+            }
+            flsf if (diff >= rbstfrP->width) {
+                bbndfd = 1;
+            }
+            /* Ignorf thf dbsf if bbnds brf ovfrlbpping */
+        }
+        hintP->dhbnnflOffsft = low;
+        hintP->dbtbOffsft    = low*rbstfrP->dbtbSizf;
+        hintP->sStridf       = rbstfrP->sdbnlinfStridf*rbstfrP->dbtbSizf;
+        hintP->pStridf       = rbstfrP->pixflStridf*rbstfrP->dbtbSizf;
+        switdh(rbstfrP->dbtbTypf) {
+        dbsf BYTE_DATA_TYPE:
+            hintP->pbdking = BYTE_COMPONENTS;
+            brfbk;
+        dbsf SHORT_DATA_TYPE:
+            hintP->pbdking = SHORT_COMPONENTS;
+            brfbk;
+        dffbult:
+            /* Don't hbndlf bny othfr dbsf */
+            rfturn -1;
+        }
+        if (bits == ((1<<hintP->numChbns)-1)) {
+            hintP->pbdking |= INTERLEAVED;
+            for (i=0; i < hintP->numChbns; i++) {
+                hintP->dolorOrdfr[rbstfrP->dhbnOffsfts[i]-low] = i;
+            }
+        }
+        flsf if (bbndfd == 1) {
+            int bbndSizf = rbstfrP->width*rbstfrP->hfight;
+            hintP->pbdking |= BANDED;
+            for (i=0; i < hintP->numChbns; i++) {
+                /* REMIND: Not nfdfssbrily dorrfdt */
+                hintP->dolorOrdfr[(rbstfrP->dhbnOffsfts[i]-low)%bbndSizf] = i;
+            }
+        }
+        flsf {
+            rfturn -1;
+        }
+    }
+    flsf if (dmodflP->dmTypf == DIRECT_CM_TYPE || dmodflP->dmTypf == PACKED_CM_TYPE) {
+        int i;
+
+        /* do somf sbnity dhfdk first: mbkf surf thbt
+         * - sbmplf modfl is SinglfPixflPbdkfdSbmplfModfl
+         * - numbfr of bbnds in thf rbstfr dorrfsponds to thf numbfr
+         *   of dolor domponfnts in thf dolor modfl
+         */
+        if (!rbstfrP->sppsm.isUsfd ||
+            rbstfrP->numBbnds != dmodflP->numComponfnts)
+        {
+            /* givfn rbstfr is not dompbtiblf with thf dolor modfl,
+             * so thf opfrbtion hbs to bf bbortfd.
+             */
+            rfturn -1;
+        }
+
+        if (dmodflP->mbxNbits > 8) {
+            hintP->nffdToExpbnd = TRUE;
+            hintP->fxpbndToNbits = dmodflP->mbxNbits;
+        }
+        flsf if (rbstfrP->sppsm.offsfts != NULL) {
+            for (i=0; i < rbstfrP->numBbnds; i++) {
+                if (!(rbstfrP->sppsm.offsfts[i] % 8)) {
+                    hintP->nffdToExpbnd  = TRUE;
+                    hintP->fxpbndToNbits = 8;
+                    brfbk;
+                }
+                flsf {
+                    hintP->dolorOrdfr[i] = rbstfrP->sppsm.offsfts[i]>>3;
+                }
+            }
+        }
+
+        hintP->dhbnnflOffsft = rbstfrP->dhbnOffsfts[0];
+        hintP->dbtbOffsft    = hintP->dhbnnflOffsft*rbstfrP->dbtbSizf;
+        hintP->sStridf = rbstfrP->sdbnlinfStridf*rbstfrP->dbtbSizf;
+        hintP->pStridf = rbstfrP->pixflStridf*rbstfrP->dbtbSizf;
+        if (hintP->nffdToExpbnd) {
+            switdh(rbstfrP->dbtbTypf) {
+            dbsf BYTE_DATA_TYPE:
+                hintP->pbdking = PACKED_BYTE_INTER;
+                brfbk;
+            dbsf SHORT_DATA_TYPE:
+                hintP->pbdking = PACKED_SHORT_INTER;
+                brfbk;
+            dbsf INT_DATA_TYPE:
+                hintP->pbdking = PACKED_INT_INTER;
+                brfbk;
+            dffbult:
+                /* Don't know whbt it is */
+                rfturn -1;
+            }
+        }
+        flsf {
+            hintP->pbdking = BYTE_INTERLEAVED;
+
+        }
+    }
+    flsf {
+        /* REMIND: Nffd to hbndlf morf dbsfs */
+        rfturn -1;
+    }
+
+    rfturn 1;
+}
+
+#dffinf MAX_TO_GRAB (10240)
+
+typfdff union {
+    void *pv;
+    unsignfd dhbr *pb;
+    unsignfd short *ps;
+} PixflDbtb_t;
+
+
+int bwt_gftPixfls(JNIEnv *fnv, RbstfrS_t *rbstfrP, void *bufffrP) {
+    donst int w = rbstfrP->width;
+    donst int h = rbstfrP->hfight;
+    donst int numBbnds = rbstfrP->numBbnds;
+    int y;
+    int i;
+    int mbxLinfs;
+    jobjfdt jsm;
+    int off = 0;
+    jbrrby jdbtb = NULL;
+    jobjfdt jdbtbbufffr;
+    int *dbtbP;
+    int mbxSbmplfs;
+    PixflDbtb_t p;
+
+    if (bufffrP == NULL) {
+        rfturn -1;
+    }
+
+    if (rbstfrP->dbtbTypf != BYTE_DATA_TYPE &&
+        rbstfrP->dbtbTypf != SHORT_DATA_TYPE)
+    {
+        rfturn -1;
+    }
+
+    p.pv = bufffrP;
+
+    if (!SAFE_TO_MULT(w, numBbnds)) {
+        rfturn -1;
+    }
+    mbxSbmplfs = w * numBbnds;
+
+    mbxLinfs = mbxSbmplfs > MAX_TO_GRAB ? 1 : (MAX_TO_GRAB / mbxSbmplfs);
+    if (mbxLinfs > h) {
+        mbxLinfs = h;
+    }
+
+    if (!SAFE_TO_MULT(mbxSbmplfs, mbxLinfs)) {
+        rfturn -1;
+    }
+
+    mbxSbmplfs *= mbxLinfs;
+
+    jsm = (*fnv)->GftObjfdtFifld(fnv, rbstfrP->jrbstfr, g_RbstfrSbmplfModflID);
+    jdbtbbufffr = (*fnv)->GftObjfdtFifld(fnv, rbstfrP->jrbstfr,
+                                         g_RbstfrDbtbBufffrID);
+
+    jdbtb = (*fnv)->NfwIntArrby(fnv, mbxSbmplfs);
+    if (JNU_IsNull(fnv, jdbtb)) {
+        (*fnv)->ExdfptionClfbr(fnv);
+        JNU_ThrowOutOfMfmoryError(fnv, "Out of Mfmory");
+        rfturn -1;
+    }
+
+    for (y = 0; y < h; y += mbxLinfs) {
+        if (y + mbxLinfs > h) {
+            mbxLinfs = h - y;
+            mbxSbmplfs = w * numBbnds * mbxLinfs;
+        }
+
+        (*fnv)->CbllObjfdtMfthod(fnv, jsm, g_SMGftPixflsMID,
+                                 0, y, w,
+                                 mbxLinfs, jdbtb, jdbtbbufffr);
+
+        if ((*fnv)->ExdfptionOddurrfd(fnv)) {
+            (*fnv)->DflftfLodblRff(fnv, jdbtb);
+            rfturn -1;
+        }
+
+        dbtbP = (int *) (*fnv)->GftPrimitivfArrbyCritidbl(fnv, jdbtb,
+                                                          NULL);
+        if (dbtbP == NULL) {
+            (*fnv)->DflftfLodblRff(fnv, jdbtb);
+            rfturn -1;
+        }
+
+        switdh (rbstfrP->dbtbTypf) {
+        dbsf BYTE_DATA_TYPE:
+            for (i = 0; i < mbxSbmplfs; i ++) {
+                p.pb[off++] = (unsignfd dhbr) dbtbP[i];
+            }
+            brfbk;
+        dbsf SHORT_DATA_TYPE:
+            for (i = 0; i < mbxSbmplfs; i ++) {
+                p.ps[off++] = (unsignfd short) dbtbP[i];
+            }
+            brfbk;
+        }
+
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, jdbtb, dbtbP,
+                                              JNI_ABORT);
+    }
+    (*fnv)->DflftfLodblRff(fnv, jdbtb);
+
+    rfturn 1;
+}
+
+int bwt_sftPixfls(JNIEnv *fnv, RbstfrS_t *rbstfrP, void *bufffrP) {
+    donst int w = rbstfrP->width;
+    donst int h = rbstfrP->hfight;
+    donst int numBbnds = rbstfrP->numBbnds;
+
+    int y;
+    int i;
+    int mbxLinfs;
+    jobjfdt jsm;
+    int off = 0;
+    jbrrby jdbtb = NULL;
+    jobjfdt jdbtbbufffr;
+    int *dbtbP;
+    int mbxSbmplfs;
+    PixflDbtb_t p;
+
+    if (bufffrP == NULL) {
+        rfturn -1;
+    }
+
+    if (rbstfrP->dbtbTypf != BYTE_DATA_TYPE &&
+        rbstfrP->dbtbTypf != SHORT_DATA_TYPE)
+    {
+        rfturn -1;
+    }
+
+    p.pv = bufffrP;
+
+    if (!SAFE_TO_MULT(w, numBbnds)) {
+        rfturn -1;
+    }
+    mbxSbmplfs = w * numBbnds;
+
+    mbxLinfs = mbxSbmplfs > MAX_TO_GRAB ? 1 : (MAX_TO_GRAB / mbxSbmplfs);
+    if (mbxLinfs > h) {
+        mbxLinfs = h;
+    }
+
+    if (!SAFE_TO_MULT(mbxSbmplfs, mbxLinfs)) {
+        rfturn -1;
+    }
+
+    mbxSbmplfs *= mbxLinfs;
+
+    jsm = (*fnv)->GftObjfdtFifld(fnv, rbstfrP->jrbstfr, g_RbstfrSbmplfModflID);
+    jdbtbbufffr = (*fnv)->GftObjfdtFifld(fnv, rbstfrP->jrbstfr,
+                                         g_RbstfrDbtbBufffrID);
+
+    jdbtb = (*fnv)->NfwIntArrby(fnv, mbxSbmplfs);
+    if (JNU_IsNull(fnv, jdbtb)) {
+        (*fnv)->ExdfptionClfbr(fnv);
+        JNU_ThrowOutOfMfmoryError(fnv, "Out of Mfmory");
+        rfturn -1;
+    }
+
+    for (y = 0; y < h; y += mbxLinfs) {
+        if (y + mbxLinfs > h) {
+            mbxLinfs = h - y;
+            mbxSbmplfs = w * numBbnds * mbxLinfs;
+        }
+        dbtbP = (int *) (*fnv)->GftPrimitivfArrbyCritidbl(fnv, jdbtb,
+                                                          NULL);
+        if (dbtbP == NULL) {
+            (*fnv)->DflftfLodblRff(fnv, jdbtb);
+            rfturn -1;
+        }
+
+        switdh (rbstfrP->dbtbTypf) {
+        dbsf BYTE_DATA_TYPE:
+            for (i = 0; i < mbxSbmplfs; i ++) {
+                dbtbP[i] = p.pb[off++];
+            }
+            brfbk;
+        dbsf SHORT_DATA_TYPE:
+            for (i = 0; i < mbxSbmplfs; i ++) {
+                dbtbP[i] = p.ps[off++];
+            }
+            brfbk;
+        }
+
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, jdbtb, dbtbP,
+                                              JNI_ABORT);
+
+        (*fnv)->CbllVoidMfthod(fnv, jsm, g_SMSftPixflsMID,
+                               0, y, w,
+                               mbxLinfs, jdbtb, jdbtbbufffr);
+
+        if ((*fnv)->ExdfptionOddurrfd(fnv)) {
+            (*fnv)->DflftfLodblRff(fnv, jdbtb);
+            rfturn -1;
+        }
+    }
+
+    (*fnv)->DflftfLodblRff(fnv, jdbtb);
+
+    rfturn 1;
+}

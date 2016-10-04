@@ -1,91 +1,91 @@
 /*
- * Copyright (c) 1997, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /**
- * An EventQueue subclass which adds selective tracing of events as they
- * are posted to an EventQueue.  Tracing is globally enabled and disabled
- * by the AWT.TraceEventPosting property in awt.properties.  <P>
+ * An EvfntQufuf subdlbss wiidi bdds sflfdtivf trbding of fvfnts bs tify
+ * brf postfd to bn EvfntQufuf.  Trbding is globblly fnbblfd bnd disbblfd
+ * by tif AWT.TrbdfEvfntPosting propfrty in bwt.propfrtifs.  <P>
  *
- * The optional AWT.NoTraceIDs property defines a list of AWTEvent IDs
- * which should not be traced, such as MouseEvent.MOUSE_MOVED or PaintEvents.
- * This list is declared by specifying the decimal value of each event's ID,
- * separated by commas.
+ * Tif optionbl AWT.NoTrbdfIDs propfrty dffinfs b list of AWTEvfnt IDs
+ * wiidi siould not bf trbdfd, sudi bs MousfEvfnt.MOUSE_MOVED or PbintEvfnts.
+ * Tiis list is dfdlbrfd by spfdifying tif dfdimbl vbluf of fbdi fvfnt's ID,
+ * sfpbrbtfd by dommbs.
  *
- * @author  Thomas Ball
+ * @butior  Tiombs Bbll
  */
 
-package sun.awt;
+pbdkbgf sun.bwt;
 
-import java.awt.EventQueue;
-import java.awt.AWTEvent;
-import java.awt.Toolkit;
-import java.util.StringTokenizer;
+import jbvb.bwt.EvfntQufuf;
+import jbvb.bwt.AWTEvfnt;
+import jbvb.bwt.Toolkit;
+import jbvb.util.StringTokfnizfr;
 
-public class TracedEventQueue extends EventQueue {
+publid dlbss TrbdfdEvfntQufuf fxtfnds EvfntQufuf {
 
-    // Determines whether any event tracing is enabled.
-    static boolean trace = false;
+    // Dftfrminfs wiftifr bny fvfnt trbding is fnbblfd.
+    stbtid boolfbn trbdf = fblsf;
 
-    // The list of event IDs to ignore when tracing.
-    static int suppressedIDs[] = null;
+    // Tif list of fvfnt IDs to ignorf wifn trbding.
+    stbtid int supprfssfdIDs[] = null;
 
-    static {
-        String s = Toolkit.getProperty("AWT.IgnoreEventIDs", "");
-        if (s.length() > 0) {
-            StringTokenizer st = new StringTokenizer(s, ",");
-            int nIDs = st.countTokens();
-            suppressedIDs = new int[nIDs];
+    stbtid {
+        String s = Toolkit.gftPropfrty("AWT.IgnorfEvfntIDs", "");
+        if (s.lfngti() > 0) {
+            StringTokfnizfr st = nfw StringTokfnizfr(s, ",");
+            int nIDs = st.dountTokfns();
+            supprfssfdIDs = nfw int[nIDs];
             for (int i = 0; i < nIDs; i++) {
-                String idString = st.nextToken();
+                String idString = st.nfxtTokfn();
                 try {
-                    suppressedIDs[i] = Integer.parseInt(idString);
-                } catch (NumberFormatException e) {
-                    System.err.println("Bad ID listed in AWT.IgnoreEventIDs " +
-                                       "in awt.properties: \"" +
-                                       idString + "\" -- skipped");
-                    suppressedIDs[i] = 0;
+                    supprfssfdIDs[i] = Intfgfr.pbrsfInt(idString);
+                } dbtdi (NumbfrFormbtExdfption f) {
+                    Systfm.frr.println("Bbd ID listfd in AWT.IgnorfEvfntIDs " +
+                                       "in bwt.propfrtifs: \"" +
+                                       idString + "\" -- skippfd");
+                    supprfssfdIDs[i] = 0;
                 }
             }
-        } else {
-            suppressedIDs = new int[0];
+        } flsf {
+            supprfssfdIDs = nfw int[0];
         }
     }
 
-    public void postEvent(AWTEvent theEvent) {
-        boolean printEvent = true;
-        int id = theEvent.getID();
-        for (int i = 0; i < suppressedIDs.length; i++) {
-            if (id == suppressedIDs[i]) {
-                printEvent = false;
-                break;
+    publid void postEvfnt(AWTEvfnt tifEvfnt) {
+        boolfbn printEvfnt = truf;
+        int id = tifEvfnt.gftID();
+        for (int i = 0; i < supprfssfdIDs.lfngti; i++) {
+            if (id == supprfssfdIDs[i]) {
+                printEvfnt = fblsf;
+                brfbk;
             }
         }
-        if (printEvent) {
-            System.out.println(Thread.currentThread().getName() +
-                               ": " + theEvent);
+        if (printEvfnt) {
+            Systfm.out.println(Tirfbd.durrfntTirfbd().gftNbmf() +
+                               ": " + tifEvfnt);
         }
-        super.postEvent(theEvent);
+        supfr.postEvfnt(tifEvfnt);
     }
 }

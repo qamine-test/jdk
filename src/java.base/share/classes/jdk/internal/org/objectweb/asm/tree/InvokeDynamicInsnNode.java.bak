@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
- * All rights reserved.
+ * ASM: b vfry smbll bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork
+ * Copyrigit (d) 2000-2011 INRIA, Frbndf Tflfdom
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
+ * 1. Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr.
+ * 2. Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *    dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+ * 3. Nfitifr tif nbmf of tif dopyrigit ioldfrs nor tif nbmfs of its
+ *    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,76 +56,76 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm.tree;
+pbdkbgf jdk.intfrnbl.org.objfdtwfb.bsm.trff;
 
-import java.util.Map;
+import jbvb.util.Mbp;
 
-import jdk.internal.org.objectweb.asm.Handle;
-import jdk.internal.org.objectweb.asm.MethodVisitor;
-import jdk.internal.org.objectweb.asm.Opcodes;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Hbndlf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.MftiodVisitor;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Opdodfs;
 
 /**
- * A node that represents an invokedynamic instruction.
+ * A nodf tibt rfprfsfnts bn invokfdynbmid instrudtion.
  *
- * @author Remi Forax
+ * @butior Rfmi Forbx
  */
-public class InvokeDynamicInsnNode extends AbstractInsnNode {
+publid dlbss InvokfDynbmidInsnNodf fxtfnds AbstrbdtInsnNodf {
 
     /**
-     * Invokedynamic name.
+     * Invokfdynbmid nbmf.
      */
-    public String name;
+    publid String nbmf;
 
     /**
-     * Invokedynamic descriptor.
+     * Invokfdynbmid dfsdriptor.
      */
-    public String desc;
+    publid String dfsd;
 
     /**
-     * Bootstrap method
+     * Bootstrbp mftiod
      */
-    public Handle bsm;
+    publid Hbndlf bsm;
 
     /**
-     * Bootstrap constant arguments
+     * Bootstrbp donstbnt brgumfnts
      */
-    public Object[] bsmArgs;
+    publid Objfdt[] bsmArgs;
 
     /**
-     * Constructs a new {@link InvokeDynamicInsnNode}.
+     * Construdts b nfw {@link InvokfDynbmidInsnNodf}.
      *
-     * @param name
-     *            invokedynamic name.
-     * @param desc
-     *            invokedynamic descriptor (see {@link jdk.internal.org.objectweb.asm.Type}).
-     * @param bsm
-     *            the bootstrap method.
-     * @param bsmArgs
-     *            the boostrap constant arguments.
+     * @pbrbm nbmf
+     *            invokfdynbmid nbmf.
+     * @pbrbm dfsd
+     *            invokfdynbmid dfsdriptor (sff {@link jdk.intfrnbl.org.objfdtwfb.bsm.Typf}).
+     * @pbrbm bsm
+     *            tif bootstrbp mftiod.
+     * @pbrbm bsmArgs
+     *            tif boostrbp donstbnt brgumfnts.
      */
-    public InvokeDynamicInsnNode(final String name, final String desc,
-            final Handle bsm, final Object... bsmArgs) {
-        super(Opcodes.INVOKEDYNAMIC);
-        this.name = name;
-        this.desc = desc;
-        this.bsm = bsm;
-        this.bsmArgs = bsmArgs;
+    publid InvokfDynbmidInsnNodf(finbl String nbmf, finbl String dfsd,
+            finbl Hbndlf bsm, finbl Objfdt... bsmArgs) {
+        supfr(Opdodfs.INVOKEDYNAMIC);
+        tiis.nbmf = nbmf;
+        tiis.dfsd = dfsd;
+        tiis.bsm = bsm;
+        tiis.bsmArgs = bsmArgs;
     }
 
-    @Override
-    public int getType() {
-        return INVOKE_DYNAMIC_INSN;
+    @Ovfrridf
+    publid int gftTypf() {
+        rfturn INVOKE_DYNAMIC_INSN;
     }
 
-    @Override
-    public void accept(final MethodVisitor mv) {
-        mv.visitInvokeDynamicInsn(name, desc, bsm, bsmArgs);
-        acceptAnnotations(mv);
+    @Ovfrridf
+    publid void bddfpt(finbl MftiodVisitor mv) {
+        mv.visitInvokfDynbmidInsn(nbmf, dfsd, bsm, bsmArgs);
+        bddfptAnnotbtions(mv);
     }
 
-    @Override
-    public AbstractInsnNode clone(final Map<LabelNode, LabelNode> labels) {
-        return new InvokeDynamicInsnNode(name, desc, bsm, bsmArgs)
-                .cloneAnnotations(this);
+    @Ovfrridf
+    publid AbstrbdtInsnNodf dlonf(finbl Mbp<LbbflNodf, LbbflNodf> lbbfls) {
+        rfturn nfw InvokfDynbmidInsnNodf(nbmf, dfsd, bsm, bsmArgs)
+                .dlonfAnnotbtions(tiis);
     }
 }

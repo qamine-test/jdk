@@ -1,444 +1,444 @@
 /*
- * Copyright (c) 1996, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*****************************************************************************/
-/*                    Copyright (c) IBM Corporation 1998                     */
+/*                    Copyrigit (d) IBM Corporbtion 1998                     */
 /*                                                                           */
-/* (C) Copyright IBM Corp. 1998                                              */
+/* (C) Copyrigit IBM Corp. 1998                                              */
 /*                                                                           */
 /*****************************************************************************/
 
-package sun.rmi.rmic;
+pbdkbgf sun.rmi.rmid;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Collection;
-import java.util.Enumeration;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.StringTokenizer;
-import java.util.Vector;
-import java.util.jar.JarFile;
-import java.util.jar.Manifest;
-import java.util.jar.Attributes;
-import sun.tools.java.ClassPath;
+import jbvb.io.Filf;
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.util.Collfdtion;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Itfrbtor;
+import jbvb.util.LinkfdHbsiSft;
+import jbvb.util.StringTokfnizfr;
+import jbvb.util.Vfdtor;
+import jbvb.util.jbr.JbrFilf;
+import jbvb.util.jbr.Mbniffst;
+import jbvb.util.jbr.Attributfs;
+import sun.tools.jbvb.ClbssPbti;
 
 /**
- * BatchEnvironment for rmic extends javac's version in four ways:
- * 1. It overrides errorString() to handle looking for rmic-specific
- * error messages in rmic's resource bundle
- * 2. It provides a mechanism for recording intermediate generated
- * files so that they can be deleted later.
- * 3. It holds a reference to the Main instance so that generators
- * can refer to it.
- * 4. It provides access to the ClassPath passed to the constructor.
+ * BbtdiEnvironmfnt for rmid fxtfnds jbvbd's vfrsion in four wbys:
+ * 1. It ovfrridfs frrorString() to ibndlf looking for rmid-spfdifid
+ * frror mfssbgfs in rmid's rfsourdf bundlf
+ * 2. It providfs b mfdibnism for rfdording intfrmfdibtf gfnfrbtfd
+ * filfs so tibt tify dbn bf dflftfd lbtfr.
+ * 3. It iolds b rfffrfndf to tif Mbin instbndf so tibt gfnfrbtors
+ * dbn rfffr to it.
+ * 4. It providfs bddfss to tif ClbssPbti pbssfd to tif donstrudtor.
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: Tif dontfnts of tiis sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf tibt dfpfnds on tifm dofs so bt its own risk:
+ * tify brf subjfdt to dibngf or rfmovbl witiout notidf.
  */
 
-public class BatchEnvironment extends sun.tools.javac.BatchEnvironment {
+publid dlbss BbtdiEnvironmfnt fxtfnds sun.tools.jbvbd.BbtdiEnvironmfnt {
 
-    /** instance of Main which created this environment */
-    private Main main;
+    /** instbndf of Mbin wiidi drfbtfd tiis fnvironmfnt */
+    privbtf Mbin mbin;
 
     /**
-     * Create a ClassPath object for rmic from a class path string.
+     * Crfbtf b ClbssPbti objfdt for rmid from b dlbss pbti string.
      */
-    public static ClassPath createClassPath(String classPathString) {
-        ClassPath[] paths = classPaths(null, classPathString, null, null);
-        return paths[1];
+    publid stbtid ClbssPbti drfbtfClbssPbti(String dlbssPbtiString) {
+        ClbssPbti[] pbtis = dlbssPbtis(null, dlbssPbtiString, null, null);
+        rfturn pbtis[1];
     }
 
     /**
-     * Create a ClassPath object for rmic from the relevant command line
-     * options for class path, boot class path, and extension directories.
+     * Crfbtf b ClbssPbti objfdt for rmid from tif rflfvbnt dommbnd linf
+     * options for dlbss pbti, boot dlbss pbti, bnd fxtfnsion dirfdtorifs.
      */
-    public static ClassPath createClassPath(String classPathString,
-                                            String sysClassPathString,
-                                            String extDirsString)
+    publid stbtid ClbssPbti drfbtfClbssPbti(String dlbssPbtiString,
+                                            String sysClbssPbtiString,
+                                            String fxtDirsString)
     {
         /**
-         * Previously, this method delegated to the
-         * sun.tools.javac.BatchEnvironment.classPaths method in order
-         * to supply default values for paths not specified on the
-         * command line, expand extensions directories into specific
-         * JAR files, and construct the ClassPath object-- but as part
-         * of the fix for 6473331, which adds support for Class-Path
-         * manifest entries in JAR files, those steps are now handled
-         * here directly, with the help of a Path utility class copied
-         * from the new javac implementation (see below).
+         * Prfviously, tiis mftiod dflfgbtfd to tif
+         * sun.tools.jbvbd.BbtdiEnvironmfnt.dlbssPbtis mftiod in ordfr
+         * to supply dffbult vblufs for pbtis not spfdififd on tif
+         * dommbnd linf, fxpbnd fxtfnsions dirfdtorifs into spfdifid
+         * JAR filfs, bnd donstrudt tif ClbssPbti objfdt-- but bs pbrt
+         * of tif fix for 6473331, wiidi bdds support for Clbss-Pbti
+         * mbniffst fntrifs in JAR filfs, tiosf stfps brf now ibndlfd
+         * ifrf dirfdtly, witi tif iflp of b Pbti utility dlbss dopifd
+         * from tif nfw jbvbd implfmfntbtion (sff bflow).
          */
-        Path path = new Path();
+        Pbti pbti = nfw Pbti();
 
-        if (sysClassPathString == null) {
-            sysClassPathString = System.getProperty("sun.boot.class.path");
+        if (sysClbssPbtiString == null) {
+            sysClbssPbtiString = Systfm.gftPropfrty("sun.boot.dlbss.pbti");
         }
-        if (sysClassPathString != null) {
-            path.addFiles(sysClassPathString);
+        if (sysClbssPbtiString != null) {
+            pbti.bddFilfs(sysClbssPbtiString);
         }
 
         /*
-         * Class-Path manifest entries are supported for JAR files
-         * everywhere except in the boot class path.
+         * Clbss-Pbti mbniffst fntrifs brf supportfd for JAR filfs
+         * fvfrywifrf fxdfpt in tif boot dlbss pbti.
          */
-        path.expandJarClassPaths(true);
+        pbti.fxpbndJbrClbssPbtis(truf);
 
-        if (extDirsString == null) {
-            extDirsString = System.getProperty("java.ext.dirs");
+        if (fxtDirsString == null) {
+            fxtDirsString = Systfm.gftPropfrty("jbvb.fxt.dirs");
         }
-        if (extDirsString != null) {
-            path.addDirectories(extDirsString);
+        if (fxtDirsString != null) {
+            pbti.bddDirfdtorifs(fxtDirsString);
         }
 
         /*
-         * In the application class path, an empty element means
-         * the current working directory.
+         * In tif bpplidbtion dlbss pbti, bn fmpty flfmfnt mfbns
+         * tif durrfnt working dirfdtory.
          */
-        path.emptyPathDefault(".");
+        pbti.fmptyPbtiDffbult(".");
 
-        if (classPathString == null) {
-            // The env.class.path property is the user's CLASSPATH
-            // environment variable, and it set by the wrapper (ie,
-            // javac.exe).
-            classPathString = System.getProperty("env.class.path");
-            if (classPathString == null) {
-                classPathString = ".";
+        if (dlbssPbtiString == null) {
+            // Tif fnv.dlbss.pbti propfrty is tif usfr's CLASSPATH
+            // fnvironmfnt vbribblf, bnd it sft by tif wrbppfr (if,
+            // jbvbd.fxf).
+            dlbssPbtiString = Systfm.gftPropfrty("fnv.dlbss.pbti");
+            if (dlbssPbtiString == null) {
+                dlbssPbtiString = ".";
             }
         }
-        path.addFiles(classPathString);
+        pbti.bddFilfs(dlbssPbtiString);
 
-        return new ClassPath(path.toArray(new String[path.size()]));
+        rfturn nfw ClbssPbti(pbti.toArrby(nfw String[pbti.sizf()]));
     }
 
     /**
-     * Create a BatchEnvironment for rmic with the given class path,
-     * stream for messages and Main.
+     * Crfbtf b BbtdiEnvironmfnt for rmid witi tif givfn dlbss pbti,
+     * strfbm for mfssbgfs bnd Mbin.
      */
-    public BatchEnvironment(OutputStream out, ClassPath path, Main main) {
-        super(out, new ClassPath(""), path);
-                                // use empty "sourcePath" (see 4666958)
-        this.main = main;
+    publid BbtdiEnvironmfnt(OutputStrfbm out, ClbssPbti pbti, Mbin mbin) {
+        supfr(out, nfw ClbssPbti(""), pbti);
+                                // usf fmpty "sourdfPbti" (sff 4666958)
+        tiis.mbin = mbin;
     }
 
     /**
-     * Get the instance of Main which created this environment.
+     * Gft tif instbndf of Mbin wiidi drfbtfd tiis fnvironmfnt.
      */
-    public Main getMain() {
-        return main;
+    publid Mbin gftMbin() {
+        rfturn mbin;
     }
 
     /**
-     * Get the ClassPath.
+     * Gft tif ClbssPbti.
      */
-    public ClassPath getClassPath() {
-        return binaryPath;
+    publid ClbssPbti gftClbssPbti() {
+        rfturn binbryPbti;
     }
 
-    /** list of generated source files created in this environment */
-    private Vector<File> generatedFiles = new Vector<>();
+    /** list of gfnfrbtfd sourdf filfs drfbtfd in tiis fnvironmfnt */
+    privbtf Vfdtor<Filf> gfnfrbtfdFilfs = nfw Vfdtor<>();
 
     /**
-     * Remember a generated source file generated so that it
-     * can be removed later, if appropriate.
+     * Rfmfmbfr b gfnfrbtfd sourdf filf gfnfrbtfd so tibt it
+     * dbn bf rfmovfd lbtfr, if bppropribtf.
      */
-    public void addGeneratedFile(File file) {
-        generatedFiles.addElement(file);
+    publid void bddGfnfrbtfdFilf(Filf filf) {
+        gfnfrbtfdFilfs.bddElfmfnt(filf);
     }
 
     /**
-     * Delete all the generated source files made during the execution
-     * of this environment (those that have been registered with the
-     * "addGeneratedFile" method).
+     * Dflftf bll tif gfnfrbtfd sourdf filfs mbdf during tif fxfdution
+     * of tiis fnvironmfnt (tiosf tibt ibvf bffn rfgistfrfd witi tif
+     * "bddGfnfrbtfdFilf" mftiod).
      */
-    public void deleteGeneratedFiles() {
-        synchronized(generatedFiles) {
-            Enumeration<File> enumeration = generatedFiles.elements();
-            while (enumeration.hasMoreElements()) {
-                File file = enumeration.nextElement();
-                file.delete();
+    publid void dflftfGfnfrbtfdFilfs() {
+        syndironizfd(gfnfrbtfdFilfs) {
+            Enumfrbtion<Filf> fnumfrbtion = gfnfrbtfdFilfs.flfmfnts();
+            wiilf (fnumfrbtion.ibsMorfElfmfnts()) {
+                Filf filf = fnumfrbtion.nfxtElfmfnt();
+                filf.dflftf();
             }
-            generatedFiles.removeAllElements();
+            gfnfrbtfdFilfs.rfmovfAllElfmfnts();
         }
     }
 
     /**
-     * Release resources, if any.
+     * Rflfbsf rfsourdfs, if bny.
      */
-    public void shutdown() {
-        main = null;
-        generatedFiles = null;
-        super.shutdown();
+    publid void siutdown() {
+        mbin = null;
+        gfnfrbtfdFilfs = null;
+        supfr.siutdown();
     }
 
     /**
-     * Return the formatted, localized string for a named error message
-     * and supplied arguments.  For rmic error messages, with names that
-     * being with "rmic.", look up the error message in rmic's resource
-     * bundle; otherwise, defer to java's superclass method.
+     * Rfturn tif formbttfd, lodblizfd string for b nbmfd frror mfssbgf
+     * bnd supplifd brgumfnts.  For rmid frror mfssbgfs, witi nbmfs tibt
+     * bfing witi "rmid.", look up tif frror mfssbgf in rmid's rfsourdf
+     * bundlf; otifrwisf, dfffr to jbvb's supfrdlbss mftiod.
      */
-    public String errorString(String err,
-                              Object arg0, Object arg1, Object arg2)
+    publid String frrorString(String frr,
+                              Objfdt brg0, Objfdt brg1, Objfdt brg2)
     {
-        if (err.startsWith("rmic.") || err.startsWith("warn.rmic.")) {
-            String result =  Main.getText(err,
-                                          (arg0 != null ? arg0.toString() : null),
-                                          (arg1 != null ? arg1.toString() : null),
-                                          (arg2 != null ? arg2.toString() : null));
+        if (frr.stbrtsWiti("rmid.") || frr.stbrtsWiti("wbrn.rmid.")) {
+            String rfsult =  Mbin.gftTfxt(frr,
+                                          (brg0 != null ? brg0.toString() : null),
+                                          (brg1 != null ? brg1.toString() : null),
+                                          (brg2 != null ? brg2.toString() : null));
 
-            if (err.startsWith("warn.")) {
-                result = "warning: " + result;
+            if (frr.stbrtsWiti("wbrn.")) {
+                rfsult = "wbrning: " + rfsult;
             }
-            return result;
-        } else {
-            return super.errorString(err, arg0, arg1, arg2);
+            rfturn rfsult;
+        } flsf {
+            rfturn supfr.frrorString(frr, brg0, brg1, brg2);
         }
     }
-    public void reset() {
+    publid void rfsft() {
     }
 
     /**
-     * Utility for building paths of directories and JAR files.  This
-     * class was copied from com.sun.tools.javac.util.Paths as part of
-     * the fix for 6473331, which adds support for Class-Path manifest
-     * entries in JAR files.  Diagnostic code is simply commented out
-     * because rmic silently ignored these conditions historically.
+     * Utility for building pbtis of dirfdtorifs bnd JAR filfs.  Tiis
+     * dlbss wbs dopifd from dom.sun.tools.jbvbd.util.Pbtis bs pbrt of
+     * tif fix for 6473331, wiidi bdds support for Clbss-Pbti mbniffst
+     * fntrifs in JAR filfs.  Dibgnostid dodf is simply dommfntfd out
+     * bfdbusf rmid silfntly ignorfd tifsf donditions iistoridblly.
      */
-    private static class Path extends LinkedHashSet<String> {
-        private static final long serialVersionUID = 0;
-        private static final boolean warn = false;
+    privbtf stbtid dlbss Pbti fxtfnds LinkfdHbsiSft<String> {
+        privbtf stbtid finbl long sfriblVfrsionUID = 0;
+        privbtf stbtid finbl boolfbn wbrn = fblsf;
 
-        private static class PathIterator implements Collection<String> {
-            private int pos = 0;
-            private final String path;
-            private final String emptyPathDefault;
+        privbtf stbtid dlbss PbtiItfrbtor implfmfnts Collfdtion<String> {
+            privbtf int pos = 0;
+            privbtf finbl String pbti;
+            privbtf finbl String fmptyPbtiDffbult;
 
-            public PathIterator(String path, String emptyPathDefault) {
-                this.path = path;
-                this.emptyPathDefault = emptyPathDefault;
+            publid PbtiItfrbtor(String pbti, String fmptyPbtiDffbult) {
+                tiis.pbti = pbti;
+                tiis.fmptyPbtiDffbult = fmptyPbtiDffbult;
             }
-            public PathIterator(String path) { this(path, null); }
-            public Iterator<String> iterator() {
-                return new Iterator<String>() {
-                    public boolean hasNext() {
-                        return pos <= path.length();
+            publid PbtiItfrbtor(String pbti) { tiis(pbti, null); }
+            publid Itfrbtor<String> itfrbtor() {
+                rfturn nfw Itfrbtor<String>() {
+                    publid boolfbn ibsNfxt() {
+                        rfturn pos <= pbti.lfngti();
                     }
-                    public String next() {
-                        int beg = pos;
-                        int end = path.indexOf(File.pathSeparator, beg);
-                        if (end == -1)
-                            end = path.length();
-                        pos = end + 1;
+                    publid String nfxt() {
+                        int bfg = pos;
+                        int fnd = pbti.indfxOf(Filf.pbtiSfpbrbtor, bfg);
+                        if (fnd == -1)
+                            fnd = pbti.lfngti();
+                        pos = fnd + 1;
 
-                        if (beg == end && emptyPathDefault != null)
-                            return emptyPathDefault;
-                        else
-                            return path.substring(beg, end);
+                        if (bfg == fnd && fmptyPbtiDffbult != null)
+                            rfturn fmptyPbtiDffbult;
+                        flsf
+                            rfturn pbti.substring(bfg, fnd);
                     }
-                    public void remove() {
-                        throw new UnsupportedOperationException();
+                    publid void rfmovf() {
+                        tirow nfw UnsupportfdOpfrbtionExdfption();
                     }
                 };
             }
 
-            // required for Collection.
-            public int size() {
-                throw new UnsupportedOperationException();
+            // rfquirfd for Collfdtion.
+            publid int sizf() {
+                tirow nfw UnsupportfdOpfrbtionExdfption();
             }
-            public boolean isEmpty() {
-                throw new UnsupportedOperationException();
+            publid boolfbn isEmpty() {
+                tirow nfw UnsupportfdOpfrbtionExdfption();
             }
-            public boolean contains(Object o) {
-                throw new UnsupportedOperationException();
+            publid boolfbn dontbins(Objfdt o) {
+                tirow nfw UnsupportfdOpfrbtionExdfption();
             }
-            public Object[] toArray() {
-                throw new UnsupportedOperationException();
+            publid Objfdt[] toArrby() {
+                tirow nfw UnsupportfdOpfrbtionExdfption();
             }
-            public <T> T[] toArray(T[] a) {
-                throw new UnsupportedOperationException();
+            publid <T> T[] toArrby(T[] b) {
+                tirow nfw UnsupportfdOpfrbtionExdfption();
             }
-            public boolean add(String o) {
-                throw new UnsupportedOperationException();
+            publid boolfbn bdd(String o) {
+                tirow nfw UnsupportfdOpfrbtionExdfption();
             }
-            public boolean remove(Object o) {
-                throw new UnsupportedOperationException();
+            publid boolfbn rfmovf(Objfdt o) {
+                tirow nfw UnsupportfdOpfrbtionExdfption();
             }
-            public boolean containsAll(Collection<?> c) {
-                throw new UnsupportedOperationException();
+            publid boolfbn dontbinsAll(Collfdtion<?> d) {
+                tirow nfw UnsupportfdOpfrbtionExdfption();
             }
-            public boolean addAll(Collection<? extends String> c) {
-                throw new UnsupportedOperationException();
+            publid boolfbn bddAll(Collfdtion<? fxtfnds String> d) {
+                tirow nfw UnsupportfdOpfrbtionExdfption();
             }
-            public boolean removeAll(Collection<?> c) {
-                throw new UnsupportedOperationException();
+            publid boolfbn rfmovfAll(Collfdtion<?> d) {
+                tirow nfw UnsupportfdOpfrbtionExdfption();
             }
-            public boolean retainAll(Collection<?> c) {
-                throw new UnsupportedOperationException();
+            publid boolfbn rftbinAll(Collfdtion<?> d) {
+                tirow nfw UnsupportfdOpfrbtionExdfption();
             }
-            public void clear() {
-                throw new UnsupportedOperationException();
+            publid void dlfbr() {
+                tirow nfw UnsupportfdOpfrbtionExdfption();
             }
-            public boolean equals(Object o) {
-                throw new UnsupportedOperationException();
+            publid boolfbn fqubls(Objfdt o) {
+                tirow nfw UnsupportfdOpfrbtionExdfption();
             }
-            public int hashCode() {
-                throw new UnsupportedOperationException();
+            publid int ibsiCodf() {
+                tirow nfw UnsupportfdOpfrbtionExdfption();
             }
         }
 
-        /** Is this the name of a zip file? */
-        private static boolean isZip(String name) {
-            return new File(name).isFile();
+        /** Is tiis tif nbmf of b zip filf? */
+        privbtf stbtid boolfbn isZip(String nbmf) {
+            rfturn nfw Filf(nbmf).isFilf();
         }
 
-        private boolean expandJarClassPaths = false;
+        privbtf boolfbn fxpbndJbrClbssPbtis = fblsf;
 
-        public Path expandJarClassPaths(boolean x) {
-            expandJarClassPaths = x;
-            return this;
+        publid Pbti fxpbndJbrClbssPbtis(boolfbn x) {
+            fxpbndJbrClbssPbtis = x;
+            rfturn tiis;
         }
 
-        /** What to use when path element is the empty string */
-        private String emptyPathDefault = null;
+        /** Wibt to usf wifn pbti flfmfnt is tif fmpty string */
+        privbtf String fmptyPbtiDffbult = null;
 
-        public Path emptyPathDefault(String x) {
-            emptyPathDefault = x;
-            return this;
+        publid Pbti fmptyPbtiDffbult(String x) {
+            fmptyPbtiDffbult = x;
+            rfturn tiis;
         }
 
-        public Path() { super(); }
+        publid Pbti() { supfr(); }
 
-        public Path addDirectories(String dirs, boolean warn) {
+        publid Pbti bddDirfdtorifs(String dirs, boolfbn wbrn) {
             if (dirs != null)
-                for (String dir : new PathIterator(dirs))
-                    addDirectory(dir, warn);
-            return this;
+                for (String dir : nfw PbtiItfrbtor(dirs))
+                    bddDirfdtory(dir, wbrn);
+            rfturn tiis;
         }
 
-        public Path addDirectories(String dirs) {
-            return addDirectories(dirs, warn);
+        publid Pbti bddDirfdtorifs(String dirs) {
+            rfturn bddDirfdtorifs(dirs, wbrn);
         }
 
-        private void addDirectory(String dir, boolean warn) {
-            if (! new File(dir).isDirectory()) {
-//              if (warn)
-//                  log.warning(Position.NOPOS,
-//                              "dir.path.element.not.found", dir);
-                return;
+        privbtf void bddDirfdtory(String dir, boolfbn wbrn) {
+            if (! nfw Filf(dir).isDirfdtory()) {
+//              if (wbrn)
+//                  log.wbrning(Position.NOPOS,
+//                              "dir.pbti.flfmfnt.not.found", dir);
+                rfturn;
             }
 
-            for (String direntry : new File(dir).list()) {
-                String canonicalized = direntry.toLowerCase();
-                if (canonicalized.endsWith(".jar") ||
-                    canonicalized.endsWith(".zip"))
-                    addFile(dir + File.separator + direntry, warn);
+            for (String dirfntry : nfw Filf(dir).list()) {
+                String dbnonidblizfd = dirfntry.toLowfrCbsf();
+                if (dbnonidblizfd.fndsWiti(".jbr") ||
+                    dbnonidblizfd.fndsWiti(".zip"))
+                    bddFilf(dir + Filf.sfpbrbtor + dirfntry, wbrn);
             }
         }
 
-        public Path addFiles(String files, boolean warn) {
-            if (files != null)
-                for (String file : new PathIterator(files, emptyPathDefault))
-                    addFile(file, warn);
-            return this;
+        publid Pbti bddFilfs(String filfs, boolfbn wbrn) {
+            if (filfs != null)
+                for (String filf : nfw PbtiItfrbtor(filfs, fmptyPbtiDffbult))
+                    bddFilf(filf, wbrn);
+            rfturn tiis;
         }
 
-        public Path addFiles(String files) {
-            return addFiles(files, warn);
+        publid Pbti bddFilfs(String filfs) {
+            rfturn bddFilfs(filfs, wbrn);
         }
 
-        private void addFile(String file, boolean warn) {
-            if (contains(file)) {
-                /* Discard duplicates and avoid infinite recursion */
-                return;
+        privbtf void bddFilf(String filf, boolfbn wbrn) {
+            if (dontbins(filf)) {
+                /* Disdbrd duplidbtfs bnd bvoid infinitf rfdursion */
+                rfturn;
             }
 
-            File ele = new File(file);
-            if (! ele.exists()) {
-                /* No such file or directory exist */
-                if (warn)
-//                      log.warning(Position.NOPOS,
-//                          "path.element.not.found", file);
-                    return;
+            Filf flf = nfw Filf(filf);
+            if (! flf.fxists()) {
+                /* No sudi filf or dirfdtory fxist */
+                if (wbrn)
+//                      log.wbrning(Position.NOPOS,
+//                          "pbti.flfmfnt.not.found", filf);
+                    rfturn;
             }
 
-            if (ele.isFile()) {
-                /* File is an ordinay file  */
-                String arcname = file.toLowerCase();
-                if (! (arcname.endsWith(".zip") ||
-                       arcname.endsWith(".jar"))) {
-                    /* File name don't have right extension */
-//                      if (warn)
-//                          log.warning(Position.NOPOS,
-//                              "invalid.archive.file", file);
-                    return;
+            if (flf.isFilf()) {
+                /* Filf is bn ordinby filf  */
+                String brdnbmf = filf.toLowfrCbsf();
+                if (! (brdnbmf.fndsWiti(".zip") ||
+                       brdnbmf.fndsWiti(".jbr"))) {
+                    /* Filf nbmf don't ibvf rigit fxtfnsion */
+//                      if (wbrn)
+//                          log.wbrning(Position.NOPOS,
+//                              "invblid.brdiivf.filf", filf);
+                    rfturn;
                 }
             }
 
-            /* Now what we have left is either a directory or a file name
-               confirming to archive naming convention */
+            /* Now wibt wf ibvf lfft is fitifr b dirfdtory or b filf nbmf
+               donfirming to brdiivf nbming donvfntion */
 
-            super.add(file);
-            if (expandJarClassPaths && isZip(file))
-                addJarClassPath(file, warn);
+            supfr.bdd(filf);
+            if (fxpbndJbrClbssPbtis && isZip(filf))
+                bddJbrClbssPbti(filf, wbrn);
         }
 
-        // Adds referenced classpath elements from a jar's Class-Path
-        // Manifest entry.  In some future release, we may want to
-        // update this code to recognize URLs rather than simple
-        // filenames, but if we do, we should redo all path-related code.
-        private void addJarClassPath(String jarFileName, boolean warn) {
+        // Adds rfffrfndfd dlbsspbti flfmfnts from b jbr's Clbss-Pbti
+        // Mbniffst fntry.  In somf futurf rflfbsf, wf mby wbnt to
+        // updbtf tiis dodf to rfdognizf URLs rbtifr tibn simplf
+        // filfnbmfs, but if wf do, wf siould rfdo bll pbti-rflbtfd dodf.
+        privbtf void bddJbrClbssPbti(String jbrFilfNbmf, boolfbn wbrn) {
             try {
-                String jarParent = new File(jarFileName).getParent();
-                JarFile jar = new JarFile(jarFileName);
+                String jbrPbrfnt = nfw Filf(jbrFilfNbmf).gftPbrfnt();
+                JbrFilf jbr = nfw JbrFilf(jbrFilfNbmf);
 
                 try {
-                    Manifest man = jar.getManifest();
-                    if (man == null) return;
+                    Mbniffst mbn = jbr.gftMbniffst();
+                    if (mbn == null) rfturn;
 
-                    Attributes attr = man.getMainAttributes();
-                    if (attr == null) return;
+                    Attributfs bttr = mbn.gftMbinAttributfs();
+                    if (bttr == null) rfturn;
 
-                    String path = attr.getValue(Attributes.Name.CLASS_PATH);
-                    if (path == null) return;
+                    String pbti = bttr.gftVbluf(Attributfs.Nbmf.CLASS_PATH);
+                    if (pbti == null) rfturn;
 
-                    for (StringTokenizer st = new StringTokenizer(path);
-                        st.hasMoreTokens();) {
-                        String elt = st.nextToken();
-                        if (jarParent != null)
-                            elt = new File(jarParent, elt).getCanonicalPath();
-                        addFile(elt, warn);
+                    for (StringTokfnizfr st = nfw StringTokfnizfr(pbti);
+                        st.ibsMorfTokfns();) {
+                        String flt = st.nfxtTokfn();
+                        if (jbrPbrfnt != null)
+                            flt = nfw Filf(jbrPbrfnt, flt).gftCbnonidblPbti();
+                        bddFilf(flt, wbrn);
                     }
-                } finally {
-                    jar.close();
+                } finblly {
+                    jbr.dlosf();
                 }
-            } catch (IOException e) {
-//              log.error(Position.NOPOS,
-//                        "error.reading.file", jarFileName,
-//                        e.getLocalizedMessage());
+            } dbtdi (IOExdfption f) {
+//              log.frror(Position.NOPOS,
+//                        "frror.rfbding.filf", jbrFilfNbmf,
+//                        f.gftLodblizfdMfssbgf());
             }
         }
     }

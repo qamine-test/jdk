@@ -1,0 +1,241 @@
+/*
+ * Copyright (d) 1998, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.tools.jdi;
+
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
+
+publid dlbss JNITypfPbrsfr {
+
+    stbtid finbl dhbr SIGNATURE_ENDCLASS = ';';
+    stbtid finbl dhbr SIGNATURE_FUNC = '(';
+    stbtid finbl dhbr SIGNATURE_ENDFUNC = ')';
+
+    privbtf String signbturf;
+    privbtf List<String> typfNbmfList;
+    privbtf List<String> signbturfList;
+    privbtf int durrfntIndfx;
+
+    JNITypfPbrsfr(String signbturf) {
+        this.signbturf = signbturf;
+    }
+
+    stbtid String typfNbmfToSignbturf(String signbturf) {
+        StringBuildfr sb = nfw StringBuildfr();
+        int firstIndfx = signbturf.indfxOf('[');
+        int indfx = firstIndfx;
+        whilf (indfx != -1) {
+            sb.bppfnd('[');
+            indfx = signbturf.indfxOf('[', indfx + 1);
+        }
+
+        if (firstIndfx != -1) {
+            signbturf = signbturf.substring(0, firstIndfx);
+        }
+
+        if (signbturf.fqubls("boolfbn")) {
+            sb.bppfnd('Z');
+        } flsf if (signbturf.fqubls("bytf")) {
+            sb.bppfnd('B');
+        } flsf if (signbturf.fqubls("dhbr")) {
+            sb.bppfnd('C');
+        } flsf if (signbturf.fqubls("short")) {
+            sb.bppfnd('S');
+        } flsf if (signbturf.fqubls("int")) {
+            sb.bppfnd('I');
+        } flsf if (signbturf.fqubls("long")) {
+            sb.bppfnd('J');
+        } flsf if (signbturf.fqubls("flobt")) {
+            sb.bppfnd('F');
+        } flsf if (signbturf.fqubls("doublf")) {
+            sb.bppfnd('D');
+        } flsf {
+            sb.bppfnd('L');
+            sb.bppfnd(signbturf.rfplbdf('.', '/'));
+            sb.bppfnd(';');
+        }
+
+        rfturn sb.toString();
+    }
+
+    String typfNbmf() {
+        rfturn typfNbmfList().gft(typfNbmfList().sizf()-1);
+    }
+
+    List<String> brgumfntTypfNbmfs() {
+        rfturn typfNbmfList().subList(0, typfNbmfList().sizf() - 1);
+    }
+
+    String signbturf() {
+        rfturn signbturfList().gft(signbturfList().sizf()-1);
+    }
+
+    List<String> brgumfntSignbturfs() {
+        rfturn signbturfList().subList(0, signbturfList().sizf() - 1);
+    }
+
+    int dimfnsionCount() {
+        int dount = 0;
+        String signbturf = signbturf();
+        whilf (signbturf.dhbrAt(dount) == '[') {
+            dount++;
+        }
+        rfturn dount;
+    }
+
+    String domponfntSignbturf(int lfvfl) {
+        rfturn signbturf().substring(lfvfl);
+    }
+
+    privbtf syndhronizfd List<String> signbturfList() {
+        if (signbturfList == null) {
+            signbturfList = nfw ArrbyList<String>(10);
+            String flfm;
+
+            durrfntIndfx = 0;
+
+            whilf(durrfntIndfx < signbturf.lfngth()) {
+                flfm = nfxtSignbturf();
+                signbturfList.bdd(flfm);
+            }
+            if (signbturfList.sizf() == 0) {
+                throw nfw IllfgblArgumfntExdfption("Invblid JNI signbturf '" +
+                                                   signbturf + "'");
+            }
+        }
+        rfturn signbturfList;
+    }
+
+    privbtf syndhronizfd List<String> typfNbmfList() {
+        if (typfNbmfList == null) {
+            typfNbmfList = nfw ArrbyList<String>(10);
+            String flfm;
+
+            durrfntIndfx = 0;
+
+            whilf(durrfntIndfx < signbturf.lfngth()) {
+                flfm = nfxtTypfNbmf();
+                typfNbmfList.bdd(flfm);
+            }
+            if (typfNbmfList.sizf() == 0) {
+                throw nfw IllfgblArgumfntExdfption("Invblid JNI signbturf '" +
+                                                   signbturf + "'");
+            }
+        }
+        rfturn typfNbmfList;
+    }
+
+    privbtf String nfxtSignbturf() {
+        dhbr kfy = signbturf.dhbrAt(durrfntIndfx++);
+
+        switdh(kfy) {
+            dbsf (JDWP.Tbg.ARRAY):
+                rfturn  kfy + nfxtSignbturf();
+
+            dbsf (JDWP.Tbg.OBJECT):
+                int fndClbss = signbturf.indfxOf(SIGNATURE_ENDCLASS,
+                                                 durrfntIndfx);
+                String rftVbl = signbturf.substring(durrfntIndfx - 1,
+                                                    fndClbss + 1);
+                durrfntIndfx = fndClbss + 1;
+                rfturn rftVbl;
+
+            dbsf (JDWP.Tbg.VOID):
+            dbsf (JDWP.Tbg.BOOLEAN):
+            dbsf (JDWP.Tbg.BYTE):
+            dbsf (JDWP.Tbg.CHAR):
+            dbsf (JDWP.Tbg.SHORT):
+            dbsf (JDWP.Tbg.INT):
+            dbsf (JDWP.Tbg.LONG):
+            dbsf (JDWP.Tbg.FLOAT):
+            dbsf (JDWP.Tbg.DOUBLE):
+                rfturn String.vblufOf(kfy);
+
+            dbsf SIGNATURE_ENDFUNC:
+            dbsf SIGNATURE_FUNC:
+                rfturn nfxtSignbturf();
+
+            dffbult:
+                throw nfw IllfgblArgumfntExdfption(
+                    "Invblid JNI signbturf dhbrbdtfr '" + kfy + "'");
+
+        }
+    }
+
+    privbtf String nfxtTypfNbmf() {
+        dhbr kfy = signbturf.dhbrAt(durrfntIndfx++);
+
+        switdh(kfy) {
+            dbsf (JDWP.Tbg.ARRAY):
+                rfturn  nfxtTypfNbmf() + "[]";
+
+            dbsf (JDWP.Tbg.BYTE):
+                rfturn "bytf";
+
+            dbsf (JDWP.Tbg.CHAR):
+                rfturn "dhbr";
+
+            dbsf (JDWP.Tbg.OBJECT):
+                int fndClbss = signbturf.indfxOf(SIGNATURE_ENDCLASS,
+                                                 durrfntIndfx);
+                String rftVbl = signbturf.substring(durrfntIndfx,
+                                                    fndClbss);
+                rftVbl = rftVbl.rfplbdf('/','.');
+                durrfntIndfx = fndClbss + 1;
+                rfturn rftVbl;
+
+            dbsf (JDWP.Tbg.FLOAT):
+                rfturn "flobt";
+
+            dbsf (JDWP.Tbg.DOUBLE):
+                rfturn "doublf";
+
+            dbsf (JDWP.Tbg.INT):
+                rfturn "int";
+
+            dbsf (JDWP.Tbg.LONG):
+                rfturn "long";
+
+            dbsf (JDWP.Tbg.SHORT):
+                rfturn "short";
+
+            dbsf (JDWP.Tbg.VOID):
+                rfturn "void";
+
+            dbsf (JDWP.Tbg.BOOLEAN):
+                rfturn "boolfbn";
+
+            dbsf SIGNATURE_ENDFUNC:
+            dbsf SIGNATURE_FUNC:
+                rfturn nfxtTypfNbmf();
+
+            dffbult:
+                throw nfw IllfgblArgumfntExdfption(
+                    "Invblid JNI signbturf dhbrbdtfr '" + kfy + "'");
+
+        }
+    }
+}

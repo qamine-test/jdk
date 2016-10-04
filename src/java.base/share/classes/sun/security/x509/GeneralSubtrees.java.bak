@@ -1,525 +1,525 @@
 /*
- * Copyright (c) 1997, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.x509;
+pbdkbgf sun.sfdurity.x509;
 
-import java.io.*;
-import java.util.*;
+import jbvb.io.*;
+import jbvb.util.*;
 
-import sun.security.util.*;
+import sun.sfdurity.util.*;
 
 /**
- * Represent the GeneralSubtrees ASN.1 object.
+ * Rfprfsfnt tif GfnfrblSubtrffs ASN.1 objfdt.
  * <p>
- * The ASN.1 for this is
- * <pre>
- * GeneralSubtrees ::= SEQUENCE SIZE (1..MAX) OF GeneralSubtree
- * </pre>
+ * Tif ASN.1 for tiis is
+ * <prf>
+ * GfnfrblSubtrffs ::= SEQUENCE SIZE (1..MAX) OF GfnfrblSubtrff
+ * </prf>
  * </p>
  *
  *
- * @author Amit Kapoor
- * @author Hemma Prafullchandra
- * @author Andreas Sterbenz
+ * @butior Amit Kbpoor
+ * @butior Hfmmb Prbfulldibndrb
+ * @butior Andrfbs Stfrbfnz
  */
-public class GeneralSubtrees implements Cloneable {
+publid dlbss GfnfrblSubtrffs implfmfnts Clonfbblf {
 
-    private final List<GeneralSubtree> trees;
+    privbtf finbl List<GfnfrblSubtrff> trffs;
 
-    // Private variables
-    private static final int NAME_DIFF_TYPE = GeneralNameInterface.NAME_DIFF_TYPE;
-    private static final int NAME_MATCH = GeneralNameInterface.NAME_MATCH;
-    private static final int NAME_NARROWS = GeneralNameInterface.NAME_NARROWS;
-    private static final int NAME_WIDENS = GeneralNameInterface.NAME_WIDENS;
-    private static final int NAME_SAME_TYPE = GeneralNameInterface.NAME_SAME_TYPE;
+    // Privbtf vbribblfs
+    privbtf stbtid finbl int NAME_DIFF_TYPE = GfnfrblNbmfIntfrfbdf.NAME_DIFF_TYPE;
+    privbtf stbtid finbl int NAME_MATCH = GfnfrblNbmfIntfrfbdf.NAME_MATCH;
+    privbtf stbtid finbl int NAME_NARROWS = GfnfrblNbmfIntfrfbdf.NAME_NARROWS;
+    privbtf stbtid finbl int NAME_WIDENS = GfnfrblNbmfIntfrfbdf.NAME_WIDENS;
+    privbtf stbtid finbl int NAME_SAME_TYPE = GfnfrblNbmfIntfrfbdf.NAME_SAME_TYPE;
 
     /**
-     * The default constructor for the class.
+     * Tif dffbult donstrudtor for tif dlbss.
      */
-    public GeneralSubtrees() {
-        trees = new ArrayList<GeneralSubtree>();
+    publid GfnfrblSubtrffs() {
+        trffs = nfw ArrbyList<GfnfrblSubtrff>();
     }
 
-    private GeneralSubtrees(GeneralSubtrees source) {
-        trees = new ArrayList<GeneralSubtree>(source.trees);
+    privbtf GfnfrblSubtrffs(GfnfrblSubtrffs sourdf) {
+        trffs = nfw ArrbyList<GfnfrblSubtrff>(sourdf.trffs);
     }
 
     /**
-     * Create the object from the passed DER encoded form.
+     * Crfbtf tif objfdt from tif pbssfd DER fndodfd form.
      *
-     * @param val the DER encoded form of the same.
+     * @pbrbm vbl tif DER fndodfd form of tif sbmf.
      */
-    public GeneralSubtrees(DerValue val) throws IOException {
-        this();
-        if (val.tag != DerValue.tag_Sequence) {
-            throw new IOException("Invalid encoding of GeneralSubtrees.");
+    publid GfnfrblSubtrffs(DfrVbluf vbl) tirows IOExdfption {
+        tiis();
+        if (vbl.tbg != DfrVbluf.tbg_Sfqufndf) {
+            tirow nfw IOExdfption("Invblid fndoding of GfnfrblSubtrffs.");
         }
-        while (val.data.available() != 0) {
-            DerValue opt = val.data.getDerValue();
-            GeneralSubtree tree = new GeneralSubtree(opt);
-            add(tree);
+        wiilf (vbl.dbtb.bvbilbblf() != 0) {
+            DfrVbluf opt = vbl.dbtb.gftDfrVbluf();
+            GfnfrblSubtrff trff = nfw GfnfrblSubtrff(opt);
+            bdd(trff);
         }
     }
 
-    public GeneralSubtree get(int index) {
-        return trees.get(index);
+    publid GfnfrblSubtrff gft(int indfx) {
+        rfturn trffs.gft(indfx);
     }
 
-    public void remove(int index) {
-        trees.remove(index);
+    publid void rfmovf(int indfx) {
+        trffs.rfmovf(indfx);
     }
 
-    public void add(GeneralSubtree tree) {
-        if (tree == null) {
-            throw new NullPointerException();
+    publid void bdd(GfnfrblSubtrff trff) {
+        if (trff == null) {
+            tirow nfw NullPointfrExdfption();
         }
-        trees.add(tree);
+        trffs.bdd(trff);
     }
 
-    public boolean contains(GeneralSubtree tree) {
-        if (tree == null) {
-            throw new NullPointerException();
+    publid boolfbn dontbins(GfnfrblSubtrff trff) {
+        if (trff == null) {
+            tirow nfw NullPointfrExdfption();
         }
-        return trees.contains(tree);
+        rfturn trffs.dontbins(trff);
     }
 
-    public int size() {
-        return trees.size();
+    publid int sizf() {
+        rfturn trffs.sizf();
     }
 
-    public Iterator<GeneralSubtree> iterator() {
-        return trees.iterator();
+    publid Itfrbtor<GfnfrblSubtrff> itfrbtor() {
+        rfturn trffs.itfrbtor();
     }
 
-    public List<GeneralSubtree> trees() {
-        return trees;
+    publid List<GfnfrblSubtrff> trffs() {
+        rfturn trffs;
     }
 
-    public Object clone() {
-        return new GeneralSubtrees(this);
+    publid Objfdt dlonf() {
+        rfturn nfw GfnfrblSubtrffs(tiis);
     }
 
     /**
-     * Return a printable string of the GeneralSubtree.
+     * Rfturn b printbblf string of tif GfnfrblSubtrff.
      */
-    public String toString() {
-        String s = "   GeneralSubtrees:\n" + trees.toString() + "\n";
-        return s;
+    publid String toString() {
+        String s = "   GfnfrblSubtrffs:\n" + trffs.toString() + "\n";
+        rfturn s;
     }
 
     /**
-     * Encode the GeneralSubtrees.
+     * Endodf tif GfnfrblSubtrffs.
      *
-     * @params out the DerOutputStrean to encode this object to.
+     * @pbrbms out tif DfrOutputStrfbn to fndodf tiis objfdt to.
      */
-    public void encode(DerOutputStream out) throws IOException {
-        DerOutputStream seq = new DerOutputStream();
+    publid void fndodf(DfrOutputStrfbm out) tirows IOExdfption {
+        DfrOutputStrfbm sfq = nfw DfrOutputStrfbm();
 
-        for (int i = 0, n = size(); i < n; i++) {
-            get(i).encode(seq);
+        for (int i = 0, n = sizf(); i < n; i++) {
+            gft(i).fndodf(sfq);
         }
-        out.write(DerValue.tag_Sequence, seq);
+        out.writf(DfrVbluf.tbg_Sfqufndf, sfq);
     }
 
     /**
-     * Compare two general subtrees by comparing the subtrees
-     * of each.
+     * Compbrf two gfnfrbl subtrffs by dompbring tif subtrffs
+     * of fbdi.
      *
-     * @param other GeneralSubtrees to compare to this
-     * @returns true if match
+     * @pbrbm otifr GfnfrblSubtrffs to dompbrf to tiis
+     * @rfturns truf if mbtdi
      */
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
+    publid boolfbn fqubls(Objfdt obj) {
+        if (tiis == obj) {
+            rfturn truf;
         }
-        if (obj instanceof GeneralSubtrees == false) {
-            return false;
+        if (obj instbndfof GfnfrblSubtrffs == fblsf) {
+            rfturn fblsf;
         }
-        GeneralSubtrees other = (GeneralSubtrees)obj;
-        return this.trees.equals(other.trees);
+        GfnfrblSubtrffs otifr = (GfnfrblSubtrffs)obj;
+        rfturn tiis.trffs.fqubls(otifr.trffs);
     }
 
-    public int hashCode() {
-        return trees.hashCode();
+    publid int ibsiCodf() {
+        rfturn trffs.ibsiCodf();
     }
 
     /**
-     * Return the GeneralNameInterface form of the GeneralName in one of
-     * the GeneralSubtrees.
+     * Rfturn tif GfnfrblNbmfIntfrfbdf form of tif GfnfrblNbmf in onf of
+     * tif GfnfrblSubtrffs.
      *
-     * @param ndx index of the GeneralSubtree from which to obtain the name
+     * @pbrbm ndx indfx of tif GfnfrblSubtrff from wiidi to obtbin tif nbmf
      */
-    private GeneralNameInterface getGeneralNameInterface(int ndx) {
-        return getGeneralNameInterface(get(ndx));
+    privbtf GfnfrblNbmfIntfrfbdf gftGfnfrblNbmfIntfrfbdf(int ndx) {
+        rfturn gftGfnfrblNbmfIntfrfbdf(gft(ndx));
     }
 
-    private static GeneralNameInterface getGeneralNameInterface(GeneralSubtree gs) {
-        GeneralName gn = gs.getName();
-        GeneralNameInterface gni = gn.getName();
-        return gni;
+    privbtf stbtid GfnfrblNbmfIntfrfbdf gftGfnfrblNbmfIntfrfbdf(GfnfrblSubtrff gs) {
+        GfnfrblNbmf gn = gs.gftNbmf();
+        GfnfrblNbmfIntfrfbdf gni = gn.gftNbmf();
+        rfturn gni;
     }
 
     /**
-     * minimize this GeneralSubtrees by removing all redundant entries.
-     * Internal method used by intersect and reduce.
+     * minimizf tiis GfnfrblSubtrffs by rfmoving bll rfdundbnt fntrifs.
+     * Intfrnbl mftiod usfd by intfrsfdt bnd rfdudf.
      */
-    private void minimize() {
+    privbtf void minimizf() {
 
-        // Algorithm: compare each entry n to all subsequent entries in
-        // the list: if any subsequent entry matches or widens entry n,
-        // remove entry n. If any subsequent entries narrow entry n, remove
-        // the subsequent entries.
-        for (int i = 0; i < size(); i++) {
-            GeneralNameInterface current = getGeneralNameInterface(i);
-            boolean remove1 = false;
+        // Algoritim: dompbrf fbdi fntry n to bll subsfqufnt fntrifs in
+        // tif list: if bny subsfqufnt fntry mbtdifs or widfns fntry n,
+        // rfmovf fntry n. If bny subsfqufnt fntrifs nbrrow fntry n, rfmovf
+        // tif subsfqufnt fntrifs.
+        for (int i = 0; i < sizf(); i++) {
+            GfnfrblNbmfIntfrfbdf durrfnt = gftGfnfrblNbmfIntfrfbdf(i);
+            boolfbn rfmovf1 = fblsf;
 
-            /* compare current to subsequent elements */
-            for (int j = i + 1; j < size(); j++) {
-                GeneralNameInterface subsequent = getGeneralNameInterface(j);
-                switch (current.constrains(subsequent)) {
-                    case GeneralNameInterface.NAME_DIFF_TYPE:
-                        /* not comparable; different name types; keep checking */
-                        continue;
-                    case GeneralNameInterface.NAME_MATCH:
-                        /* delete one of the duplicates */
-                        remove1 = true;
-                        break;
-                    case GeneralNameInterface.NAME_NARROWS:
-                        /* subsequent narrows current */
-                        /* remove narrower name (subsequent) */
-                        remove(j);
-                        j--; /* continue check with new subsequent */
-                        continue;
-                    case GeneralNameInterface.NAME_WIDENS:
-                        /* subsequent widens current */
-                        /* remove narrower name current */
-                        remove1 = true;
-                        break;
-                    case GeneralNameInterface.NAME_SAME_TYPE:
-                        /* keep both for now; keep checking */
-                        continue;
+            /* dompbrf durrfnt to subsfqufnt flfmfnts */
+            for (int j = i + 1; j < sizf(); j++) {
+                GfnfrblNbmfIntfrfbdf subsfqufnt = gftGfnfrblNbmfIntfrfbdf(j);
+                switdi (durrfnt.donstrbins(subsfqufnt)) {
+                    dbsf GfnfrblNbmfIntfrfbdf.NAME_DIFF_TYPE:
+                        /* not dompbrbblf; difffrfnt nbmf typfs; kffp difdking */
+                        dontinuf;
+                    dbsf GfnfrblNbmfIntfrfbdf.NAME_MATCH:
+                        /* dflftf onf of tif duplidbtfs */
+                        rfmovf1 = truf;
+                        brfbk;
+                    dbsf GfnfrblNbmfIntfrfbdf.NAME_NARROWS:
+                        /* subsfqufnt nbrrows durrfnt */
+                        /* rfmovf nbrrowfr nbmf (subsfqufnt) */
+                        rfmovf(j);
+                        j--; /* dontinuf difdk witi nfw subsfqufnt */
+                        dontinuf;
+                    dbsf GfnfrblNbmfIntfrfbdf.NAME_WIDENS:
+                        /* subsfqufnt widfns durrfnt */
+                        /* rfmovf nbrrowfr nbmf durrfnt */
+                        rfmovf1 = truf;
+                        brfbk;
+                    dbsf GfnfrblNbmfIntfrfbdf.NAME_SAME_TYPE:
+                        /* kffp boti for now; kffp difdking */
+                        dontinuf;
                 }
-                break;
-            } /* end of this pass of subsequent elements */
+                brfbk;
+            } /* fnd of tiis pbss of subsfqufnt flfmfnts */
 
-            if (remove1) {
-                remove(i);
-                i--; /* check the new i value */
+            if (rfmovf1) {
+                rfmovf(i);
+                i--; /* difdk tif nfw i vbluf */
             }
 
         }
     }
 
     /**
-     * create a subtree containing an instance of the input
-     * name type that widens all other names of that type.
+     * drfbtf b subtrff dontbining bn instbndf of tif input
+     * nbmf typf tibt widfns bll otifr nbmfs of tibt typf.
      *
-     * @params name GeneralNameInterface name
-     * @returns GeneralSubtree containing widest name of that type
-     * @throws RuntimeException on error (should not occur)
+     * @pbrbms nbmf GfnfrblNbmfIntfrfbdf nbmf
+     * @rfturns GfnfrblSubtrff dontbining widfst nbmf of tibt typf
+     * @tirows RuntimfExdfption on frror (siould not oddur)
      */
-    private GeneralSubtree createWidestSubtree(GeneralNameInterface name) {
+    privbtf GfnfrblSubtrff drfbtfWidfstSubtrff(GfnfrblNbmfIntfrfbdf nbmf) {
         try {
-            GeneralName newName;
-            switch (name.getType()) {
-            case GeneralNameInterface.NAME_ANY:
-                // Create new OtherName with same OID as baseName, but
-                // empty value
-                ObjectIdentifier otherOID = ((OtherName)name).getOID();
-                newName = new GeneralName(new OtherName(otherOID, null));
-                break;
-            case GeneralNameInterface.NAME_RFC822:
-                newName = new GeneralName(new RFC822Name(""));
-                break;
-            case GeneralNameInterface.NAME_DNS:
-                newName = new GeneralName(new DNSName(""));
-                break;
-            case GeneralNameInterface.NAME_X400:
-                newName = new GeneralName(new X400Address((byte[])null));
-                break;
-            case GeneralNameInterface.NAME_DIRECTORY:
-                newName = new GeneralName(new X500Name(""));
-                break;
-            case GeneralNameInterface.NAME_EDI:
-                newName = new GeneralName(new EDIPartyName(""));
-                break;
-            case GeneralNameInterface.NAME_URI:
-                newName = new GeneralName(new URIName(""));
-                break;
-            case GeneralNameInterface.NAME_IP:
-                newName = new GeneralName(new IPAddressName((byte[])null));
-                break;
-            case GeneralNameInterface.NAME_OID:
-                newName = new GeneralName
-                    (new OIDName(new ObjectIdentifier((int[])null)));
-                break;
-            default:
-                throw new IOException
-                    ("Unsupported GeneralNameInterface type: " + name.getType());
+            GfnfrblNbmf nfwNbmf;
+            switdi (nbmf.gftTypf()) {
+            dbsf GfnfrblNbmfIntfrfbdf.NAME_ANY:
+                // Crfbtf nfw OtifrNbmf witi sbmf OID bs bbsfNbmf, but
+                // fmpty vbluf
+                ObjfdtIdfntififr otifrOID = ((OtifrNbmf)nbmf).gftOID();
+                nfwNbmf = nfw GfnfrblNbmf(nfw OtifrNbmf(otifrOID, null));
+                brfbk;
+            dbsf GfnfrblNbmfIntfrfbdf.NAME_RFC822:
+                nfwNbmf = nfw GfnfrblNbmf(nfw RFC822Nbmf(""));
+                brfbk;
+            dbsf GfnfrblNbmfIntfrfbdf.NAME_DNS:
+                nfwNbmf = nfw GfnfrblNbmf(nfw DNSNbmf(""));
+                brfbk;
+            dbsf GfnfrblNbmfIntfrfbdf.NAME_X400:
+                nfwNbmf = nfw GfnfrblNbmf(nfw X400Addrfss((bytf[])null));
+                brfbk;
+            dbsf GfnfrblNbmfIntfrfbdf.NAME_DIRECTORY:
+                nfwNbmf = nfw GfnfrblNbmf(nfw X500Nbmf(""));
+                brfbk;
+            dbsf GfnfrblNbmfIntfrfbdf.NAME_EDI:
+                nfwNbmf = nfw GfnfrblNbmf(nfw EDIPbrtyNbmf(""));
+                brfbk;
+            dbsf GfnfrblNbmfIntfrfbdf.NAME_URI:
+                nfwNbmf = nfw GfnfrblNbmf(nfw URINbmf(""));
+                brfbk;
+            dbsf GfnfrblNbmfIntfrfbdf.NAME_IP:
+                nfwNbmf = nfw GfnfrblNbmf(nfw IPAddrfssNbmf((bytf[])null));
+                brfbk;
+            dbsf GfnfrblNbmfIntfrfbdf.NAME_OID:
+                nfwNbmf = nfw GfnfrblNbmf
+                    (nfw OIDNbmf(nfw ObjfdtIdfntififr((int[])null)));
+                brfbk;
+            dffbult:
+                tirow nfw IOExdfption
+                    ("Unsupportfd GfnfrblNbmfIntfrfbdf typf: " + nbmf.gftTypf());
             }
-            return new GeneralSubtree(newName, 0, -1);
-        } catch (IOException e) {
-            throw new RuntimeException("Unexpected error: " + e, e);
+            rfturn nfw GfnfrblSubtrff(nfwNbmf, 0, -1);
+        } dbtdi (IOExdfption f) {
+            tirow nfw RuntimfExdfption("Unfxpfdtfd frror: " + f, f);
         }
     }
 
     /**
-     * intersect this GeneralSubtrees with other.  This function
-     * is used in merging permitted NameConstraints.  The operation
-     * is performed as follows:
+     * intfrsfdt tiis GfnfrblSubtrffs witi otifr.  Tiis fundtion
+     * is usfd in mfrging pfrmittfd NbmfConstrbints.  Tif opfrbtion
+     * is pfrformfd bs follows:
      * <ul>
-     * <li>If a name in other narrows all names of the same type in this,
-     *     the result will contain the narrower name and none of the
-     *     names it narrows.
-     * <li>If a name in other widens all names of the same type in this,
-     *     the result will not contain the wider name.
-     * <li>If a name in other does not share the same subtree with any name
-     *     of the same type in this, then the name is added to the list
-     *     of GeneralSubtrees returned.  These names should be added to
-     *     the list of names that are specifically excluded.  The reason
-     *     is that, if the intersection is empty, then no names of that
-     *     type are permitted, and the only way to express this in
-     *     NameConstraints is to include the name in excludedNames.
-     * <li>If a name in this has no name of the same type in other, then
-     *     the result contains the name in this.  No name of a given type
-     *     means the name type is completely permitted.
-     * <li>If a name in other has no name of the same type in this, then
-     *     the result contains the name in other.  This means that
-     *     the name is now constrained in some way, whereas before it was
-     *     completely permitted.
+     * <li>If b nbmf in otifr nbrrows bll nbmfs of tif sbmf typf in tiis,
+     *     tif rfsult will dontbin tif nbrrowfr nbmf bnd nonf of tif
+     *     nbmfs it nbrrows.
+     * <li>If b nbmf in otifr widfns bll nbmfs of tif sbmf typf in tiis,
+     *     tif rfsult will not dontbin tif widfr nbmf.
+     * <li>If b nbmf in otifr dofs not sibrf tif sbmf subtrff witi bny nbmf
+     *     of tif sbmf typf in tiis, tifn tif nbmf is bddfd to tif list
+     *     of GfnfrblSubtrffs rfturnfd.  Tifsf nbmfs siould bf bddfd to
+     *     tif list of nbmfs tibt brf spfdifidblly fxdludfd.  Tif rfbson
+     *     is tibt, if tif intfrsfdtion is fmpty, tifn no nbmfs of tibt
+     *     typf brf pfrmittfd, bnd tif only wby to fxprfss tiis in
+     *     NbmfConstrbints is to indludf tif nbmf in fxdludfdNbmfs.
+     * <li>If b nbmf in tiis ibs no nbmf of tif sbmf typf in otifr, tifn
+     *     tif rfsult dontbins tif nbmf in tiis.  No nbmf of b givfn typf
+     *     mfbns tif nbmf typf is domplftfly pfrmittfd.
+     * <li>If b nbmf in otifr ibs no nbmf of tif sbmf typf in tiis, tifn
+     *     tif rfsult dontbins tif nbmf in otifr.  Tiis mfbns tibt
+     *     tif nbmf is now donstrbinfd in somf wby, wifrfbs bfforf it wbs
+     *     domplftfly pfrmittfd.
      * <ul>
      *
-     * @param other GeneralSubtrees to be intersected with this
-     * @returns GeneralSubtrees to be merged with excluded; these are
-     *          empty-valued name types corresponding to entries that were
-     *          of the same type but did not share the same subtree between
-     *          this and other. Returns null if no such.
+     * @pbrbm otifr GfnfrblSubtrffs to bf intfrsfdtfd witi tiis
+     * @rfturns GfnfrblSubtrffs to bf mfrgfd witi fxdludfd; tifsf brf
+     *          fmpty-vblufd nbmf typfs dorrfsponding to fntrifs tibt wfrf
+     *          of tif sbmf typf but did not sibrf tif sbmf subtrff bftwffn
+     *          tiis bnd otifr. Rfturns null if no sudi.
      */
-    public GeneralSubtrees intersect(GeneralSubtrees other) {
+    publid GfnfrblSubtrffs intfrsfdt(GfnfrblSubtrffs otifr) {
 
-        if (other == null) {
-            throw new NullPointerException("other GeneralSubtrees must not be null");
+        if (otifr == null) {
+            tirow nfw NullPointfrExdfption("otifr GfnfrblSubtrffs must not bf null");
         }
 
-        GeneralSubtrees newThis = new GeneralSubtrees();
-        GeneralSubtrees newExcluded = null;
+        GfnfrblSubtrffs nfwTiis = nfw GfnfrblSubtrffs();
+        GfnfrblSubtrffs nfwExdludfd = null;
 
-        // Step 1: If this is empty, just add everything in other to this and
-        // return no new excluded entries
-        if (size() == 0) {
-            union(other);
-            return null;
+        // Stfp 1: If tiis is fmpty, just bdd fvfrytiing in otifr to tiis bnd
+        // rfturn no nfw fxdludfd fntrifs
+        if (sizf() == 0) {
+            union(otifr);
+            rfturn null;
         }
 
-        // Step 2: For ease of checking the subtrees, minimize them by
-        // constructing versions that contain only the widest instance of
-        // each type
-        this.minimize();
-        other.minimize();
+        // Stfp 2: For fbsf of difdking tif subtrffs, minimizf tifm by
+        // donstrudting vfrsions tibt dontbin only tif widfst instbndf of
+        // fbdi typf
+        tiis.minimizf();
+        otifr.minimizf();
 
-        // Step 3: Check each entry in this to see whether we keep it or
-        // remove it, and whether we add anything to newExcluded or newThis.
-        // We keep an entry in this unless it is narrowed by all entries in
-        // other.  We add an entry to newExcluded if there is at least one
-        // entry of the same nameType in other, but this entry does
-        // not share the same subtree with any of the entries in other.
-        // We add an entry from other to newThis if there is no name of the
-        // same type in this.
-        for (int i = 0; i < size(); i++) {
-            GeneralNameInterface thisEntry = getGeneralNameInterface(i);
-            boolean removeThisEntry = false;
+        // Stfp 3: Cifdk fbdi fntry in tiis to sff wiftifr wf kffp it or
+        // rfmovf it, bnd wiftifr wf bdd bnytiing to nfwExdludfd or nfwTiis.
+        // Wf kffp bn fntry in tiis unlfss it is nbrrowfd by bll fntrifs in
+        // otifr.  Wf bdd bn fntry to nfwExdludfd if tifrf is bt lfbst onf
+        // fntry of tif sbmf nbmfTypf in otifr, but tiis fntry dofs
+        // not sibrf tif sbmf subtrff witi bny of tif fntrifs in otifr.
+        // Wf bdd bn fntry from otifr to nfwTiis if tifrf is no nbmf of tif
+        // sbmf typf in tiis.
+        for (int i = 0; i < sizf(); i++) {
+            GfnfrblNbmfIntfrfbdf tiisEntry = gftGfnfrblNbmfIntfrfbdf(i);
+            boolfbn rfmovfTiisEntry = fblsf;
 
-            // Step 3a: If the widest name of this type in other narrows
-            // thisEntry, remove thisEntry and add widest other to newThis.
-            // Simultaneously, check for situation where there is a name of
-            // this type in other, but no name in other matches, narrows,
-            // or widens thisEntry.
-            boolean sameType = false;
-            for (int j = 0; j < other.size(); j++) {
-                GeneralSubtree otherEntryGS = other.get(j);
-                GeneralNameInterface otherEntry =
-                    getGeneralNameInterface(otherEntryGS);
-                switch (thisEntry.constrains(otherEntry)) {
-                    case NAME_NARROWS:
-                        remove(i);
+            // Stfp 3b: If tif widfst nbmf of tiis typf in otifr nbrrows
+            // tiisEntry, rfmovf tiisEntry bnd bdd widfst otifr to nfwTiis.
+            // Simultbnfously, difdk for situbtion wifrf tifrf is b nbmf of
+            // tiis typf in otifr, but no nbmf in otifr mbtdifs, nbrrows,
+            // or widfns tiisEntry.
+            boolfbn sbmfTypf = fblsf;
+            for (int j = 0; j < otifr.sizf(); j++) {
+                GfnfrblSubtrff otifrEntryGS = otifr.gft(j);
+                GfnfrblNbmfIntfrfbdf otifrEntry =
+                    gftGfnfrblNbmfIntfrfbdf(otifrEntryGS);
+                switdi (tiisEntry.donstrbins(otifrEntry)) {
+                    dbsf NAME_NARROWS:
+                        rfmovf(i);
                         i--;
-                        newThis.add(otherEntryGS);
-                        sameType = false;
-                        break;
-                    case NAME_SAME_TYPE:
-                        sameType = true;
-                        continue;
-                    case NAME_MATCH:
-                    case NAME_WIDENS:
-                        sameType = false;
-                        break;
-                    case NAME_DIFF_TYPE:
-                    default:
-                        continue;
+                        nfwTiis.bdd(otifrEntryGS);
+                        sbmfTypf = fblsf;
+                        brfbk;
+                    dbsf NAME_SAME_TYPE:
+                        sbmfTypf = truf;
+                        dontinuf;
+                    dbsf NAME_MATCH:
+                    dbsf NAME_WIDENS:
+                        sbmfTypf = fblsf;
+                        brfbk;
+                    dbsf NAME_DIFF_TYPE:
+                    dffbult:
+                        dontinuf;
                 }
-                break;
+                brfbk;
             }
 
-            // Step 3b: If sameType is still true, we have the situation
-            // where there was a name of the same type as thisEntry in
-            // other, but no name in other widened, matched, or narrowed
-            // thisEntry.
-            if (sameType) {
+            // Stfp 3b: If sbmfTypf is still truf, wf ibvf tif situbtion
+            // wifrf tifrf wbs b nbmf of tif sbmf typf bs tiisEntry in
+            // otifr, but no nbmf in otifr widfnfd, mbtdifd, or nbrrowfd
+            // tiisEntry.
+            if (sbmfTypf) {
 
-                // Step 3b.1: See if there are any entries in this and other
-                // with this type that match, widen, or narrow each other.
-                // If not, then we need to add a "widest subtree" of this
-                // type to excluded.
-                boolean intersection = false;
-                for (int j = 0; j < size(); j++) {
-                    GeneralNameInterface thisAltEntry = getGeneralNameInterface(j);
+                // Stfp 3b.1: Sff if tifrf brf bny fntrifs in tiis bnd otifr
+                // witi tiis typf tibt mbtdi, widfn, or nbrrow fbdi otifr.
+                // If not, tifn wf nffd to bdd b "widfst subtrff" of tiis
+                // typf to fxdludfd.
+                boolfbn intfrsfdtion = fblsf;
+                for (int j = 0; j < sizf(); j++) {
+                    GfnfrblNbmfIntfrfbdf tiisAltEntry = gftGfnfrblNbmfIntfrfbdf(j);
 
-                    if (thisAltEntry.getType() == thisEntry.getType()) {
-                        for (int k = 0; k < other.size(); k++) {
-                            GeneralNameInterface othAltEntry =
-                                other.getGeneralNameInterface(k);
+                    if (tiisAltEntry.gftTypf() == tiisEntry.gftTypf()) {
+                        for (int k = 0; k < otifr.sizf(); k++) {
+                            GfnfrblNbmfIntfrfbdf otiAltEntry =
+                                otifr.gftGfnfrblNbmfIntfrfbdf(k);
 
-                            int constraintType =
-                                thisAltEntry.constrains(othAltEntry);
-                            if (constraintType == NAME_MATCH ||
-                                constraintType == NAME_WIDENS ||
-                                constraintType == NAME_NARROWS) {
-                                intersection = true;
-                                break;
+                            int donstrbintTypf =
+                                tiisAltEntry.donstrbins(otiAltEntry);
+                            if (donstrbintTypf == NAME_MATCH ||
+                                donstrbintTypf == NAME_WIDENS ||
+                                donstrbintTypf == NAME_NARROWS) {
+                                intfrsfdtion = truf;
+                                brfbk;
                             }
                         }
                     }
                 }
-                if (intersection == false) {
-                    if (newExcluded == null) {
-                        newExcluded = new GeneralSubtrees();
+                if (intfrsfdtion == fblsf) {
+                    if (nfwExdludfd == null) {
+                        nfwExdludfd = nfw GfnfrblSubtrffs();
                     }
-                    GeneralSubtree widestSubtree =
-                         createWidestSubtree(thisEntry);
-                    if (!newExcluded.contains(widestSubtree)) {
-                        newExcluded.add(widestSubtree);
+                    GfnfrblSubtrff widfstSubtrff =
+                         drfbtfWidfstSubtrff(tiisEntry);
+                    if (!nfwExdludfd.dontbins(widfstSubtrff)) {
+                        nfwExdludfd.bdd(widfstSubtrff);
                     }
                 }
 
-                // Step 3b.2: Remove thisEntry from this
-                remove(i);
+                // Stfp 3b.2: Rfmovf tiisEntry from tiis
+                rfmovf(i);
                 i--;
             }
         }
 
-        // Step 4: Add all entries in newThis to this
-        if (newThis.size() > 0) {
-            union(newThis);
+        // Stfp 4: Add bll fntrifs in nfwTiis to tiis
+        if (nfwTiis.sizf() > 0) {
+            union(nfwTiis);
         }
 
-        // Step 5: Add all entries in other that do not have any entry of the
-        // same type in this to this
-        for (int i = 0; i < other.size(); i++) {
-            GeneralSubtree otherEntryGS = other.get(i);
-            GeneralNameInterface otherEntry = getGeneralNameInterface(otherEntryGS);
-            boolean diffType = false;
-            for (int j = 0; j < size(); j++) {
-                GeneralNameInterface thisEntry = getGeneralNameInterface(j);
-                switch (thisEntry.constrains(otherEntry)) {
-                    case NAME_DIFF_TYPE:
-                        diffType = true;
-                        // continue to see if we find something later of the
-                        // same type
-                        continue;
-                    case NAME_NARROWS:
-                    case NAME_SAME_TYPE:
-                    case NAME_MATCH:
-                    case NAME_WIDENS:
-                        diffType = false; // we found an entry of the same type
-                        // break because we know we won't be adding it to
-                        // this now
-                        break;
-                    default:
-                        continue;
+        // Stfp 5: Add bll fntrifs in otifr tibt do not ibvf bny fntry of tif
+        // sbmf typf in tiis to tiis
+        for (int i = 0; i < otifr.sizf(); i++) {
+            GfnfrblSubtrff otifrEntryGS = otifr.gft(i);
+            GfnfrblNbmfIntfrfbdf otifrEntry = gftGfnfrblNbmfIntfrfbdf(otifrEntryGS);
+            boolfbn diffTypf = fblsf;
+            for (int j = 0; j < sizf(); j++) {
+                GfnfrblNbmfIntfrfbdf tiisEntry = gftGfnfrblNbmfIntfrfbdf(j);
+                switdi (tiisEntry.donstrbins(otifrEntry)) {
+                    dbsf NAME_DIFF_TYPE:
+                        diffTypf = truf;
+                        // dontinuf to sff if wf find somftiing lbtfr of tif
+                        // sbmf typf
+                        dontinuf;
+                    dbsf NAME_NARROWS:
+                    dbsf NAME_SAME_TYPE:
+                    dbsf NAME_MATCH:
+                    dbsf NAME_WIDENS:
+                        diffTypf = fblsf; // wf found bn fntry of tif sbmf typf
+                        // brfbk bfdbusf wf know wf won't bf bdding it to
+                        // tiis now
+                        brfbk;
+                    dffbult:
+                        dontinuf;
                 }
-                break;
+                brfbk;
             }
-            if (diffType) {
-                add(otherEntryGS);
+            if (diffTypf) {
+                bdd(otifrEntryGS);
             }
         }
 
-        // Step 6: Return the newExcluded GeneralSubtrees
-        return newExcluded;
+        // Stfp 6: Rfturn tif nfwExdludfd GfnfrblSubtrffs
+        rfturn nfwExdludfd;
     }
 
     /**
-     * construct union of this GeneralSubtrees with other.
+     * donstrudt union of tiis GfnfrblSubtrffs witi otifr.
      *
-     * @param other GeneralSubtrees to be united with this
+     * @pbrbm otifr GfnfrblSubtrffs to bf unitfd witi tiis
      */
-    public void union(GeneralSubtrees other) {
-        if (other != null) {
-            for (int i = 0, n = other.size(); i < n; i++) {
-                add(other.get(i));
+    publid void union(GfnfrblSubtrffs otifr) {
+        if (otifr != null) {
+            for (int i = 0, n = otifr.sizf(); i < n; i++) {
+                bdd(otifr.gft(i));
             }
-            // Minimize this
-            minimize();
+            // Minimizf tiis
+            minimizf();
         }
     }
 
     /**
-     * reduce this GeneralSubtrees by contents of another.  This function
-     * is used in merging excluded NameConstraints with permitted NameConstraints
-     * to obtain a minimal form of permitted NameConstraints.  It is an
-     * optimization, and does not affect correctness of the results.
+     * rfdudf tiis GfnfrblSubtrffs by dontfnts of bnotifr.  Tiis fundtion
+     * is usfd in mfrging fxdludfd NbmfConstrbints witi pfrmittfd NbmfConstrbints
+     * to obtbin b minimbl form of pfrmittfd NbmfConstrbints.  It is bn
+     * optimizbtion, bnd dofs not bfffdt dorrfdtnfss of tif rfsults.
      *
-     * @param excluded GeneralSubtrees
+     * @pbrbm fxdludfd GfnfrblSubtrffs
      */
-    public void reduce(GeneralSubtrees excluded) {
-        if (excluded == null) {
-            return;
+    publid void rfdudf(GfnfrblSubtrffs fxdludfd) {
+        if (fxdludfd == null) {
+            rfturn;
         }
-        for (int i = 0, n = excluded.size(); i < n; i++) {
-            GeneralNameInterface excludedName = excluded.getGeneralNameInterface(i);
-            for (int j = 0; j < size(); j++) {
-                GeneralNameInterface permitted = getGeneralNameInterface(j);
-                switch (excludedName.constrains(permitted)) {
-                case GeneralNameInterface.NAME_DIFF_TYPE:
-                    break;
-                case GeneralNameInterface.NAME_MATCH:
-                    remove(j);
+        for (int i = 0, n = fxdludfd.sizf(); i < n; i++) {
+            GfnfrblNbmfIntfrfbdf fxdludfdNbmf = fxdludfd.gftGfnfrblNbmfIntfrfbdf(i);
+            for (int j = 0; j < sizf(); j++) {
+                GfnfrblNbmfIntfrfbdf pfrmittfd = gftGfnfrblNbmfIntfrfbdf(j);
+                switdi (fxdludfdNbmf.donstrbins(pfrmittfd)) {
+                dbsf GfnfrblNbmfIntfrfbdf.NAME_DIFF_TYPE:
+                    brfbk;
+                dbsf GfnfrblNbmfIntfrfbdf.NAME_MATCH:
+                    rfmovf(j);
                     j--;
-                    break;
-                case GeneralNameInterface.NAME_NARROWS:
-                    /* permitted narrows excluded */
-                    remove(j);
+                    brfbk;
+                dbsf GfnfrblNbmfIntfrfbdf.NAME_NARROWS:
+                    /* pfrmittfd nbrrows fxdludfd */
+                    rfmovf(j);
                     j--;
-                    break;
-                case GeneralNameInterface.NAME_WIDENS:
-                    /* permitted widens excluded */
-                    break;
-                case GeneralNameInterface.NAME_SAME_TYPE:
-                    break;
+                    brfbk;
+                dbsf GfnfrblNbmfIntfrfbdf.NAME_WIDENS:
+                    /* pfrmittfd widfns fxdludfd */
+                    brfbk;
+                dbsf GfnfrblNbmfIntfrfbdf.NAME_SAME_TYPE:
+                    brfbk;
                 }
-            } /* end of this pass of permitted */
-        } /* end of pass of excluded */
+            } /* fnd of tiis pbss of pfrmittfd */
+        } /* fnd of pbss of fxdludfd */
     }
 }

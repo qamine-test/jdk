@@ -1,174 +1,174 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.text.html.parser;
+pbdkbgf jbvbx.swing.tfxt.itml.pbrsfr;
 
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.html.HTML;
-import javax.swing.text.ChangedCharSetException;
-import java.io.*;
-import java.util.Hashtable;
-import java.util.Properties;
-import java.util.Vector;
-import java.util.Enumeration;
-import java.net.URL;
+import jbvbx.swing.tfxt.SimplfAttributfSft;
+import jbvbx.swing.tfxt.itml.HTML;
+import jbvbx.swing.tfxt.CibngfdCibrSftExdfption;
+import jbvb.io.*;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Propfrtifs;
+import jbvb.util.Vfdtor;
+import jbvb.util.Enumfrbtion;
+import jbvb.nft.URL;
 
-import sun.misc.MessageUtils;
+import sun.misd.MfssbgfUtils;
 
 /**
- * A simple DTD-driven HTML parser. The parser reads an
- * HTML file from an InputStream and calls various methods
- * (which should be overridden in a subclass) when tags and
- * data are encountered.
+ * A simplf DTD-drivfn HTML pbrsfr. Tif pbrsfr rfbds bn
+ * HTML filf from bn InputStrfbm bnd dblls vbrious mftiods
+ * (wiidi siould bf ovfrriddfn in b subdlbss) wifn tbgs bnd
+ * dbtb brf fndountfrfd.
  * <p>
- * Unfortunately there are many badly implemented HTML parsers
- * out there, and as a result there are many badly formatted
- * HTML files. This parser attempts to parse most HTML files.
- * This means that the implementation sometimes deviates from
- * the SGML specification in favor of HTML.
+ * Unfortunbtfly tifrf brf mbny bbdly implfmfntfd HTML pbrsfrs
+ * out tifrf, bnd bs b rfsult tifrf brf mbny bbdly formbttfd
+ * HTML filfs. Tiis pbrsfr bttfmpts to pbrsf most HTML filfs.
+ * Tiis mfbns tibt tif implfmfntbtion somftimfs dfvibtfs from
+ * tif SGML spfdifidbtion in fbvor of HTML.
  * <p>
- * The parser treats \r and \r\n as \n. Newlines after starttags
- * and before end tags are ignored just as specified in the SGML/HTML
- * specification.
+ * Tif pbrsfr trfbts \r bnd \r\n bs \n. Nfwlinfs bftfr stbrttbgs
+ * bnd bfforf fnd tbgs brf ignorfd just bs spfdififd in tif SGML/HTML
+ * spfdifidbtion.
  * <p>
- * The html spec does not specify how spaces are to be coalesced very well.
- * Specifically, the following scenarios are not discussed (note that a
- * space should be used here, but I am using &amp;nbsp to force the space to
- * be displayed):
+ * Tif itml spfd dofs not spfdify iow spbdfs brf to bf doblfsdfd vfry wfll.
+ * Spfdifidblly, tif following sdfnbrios brf not disdussfd (notf tibt b
+ * spbdf siould bf usfd ifrf, but I bm using &bmp;nbsp to fordf tif spbdf to
+ * bf displbyfd):
  * <p>
- * '&lt;b&gt;blah&nbsp;&lt;i&gt;&nbsp;&lt;strike&gt;&nbsp;foo' which can be treated as:
- * '&lt;b&gt;blah&nbsp;&lt;i&gt;&lt;strike&gt;foo'
- * <p>as well as:
- * '&lt;p&gt;&lt;a href="xx"&gt;&nbsp;&lt;em&gt;Using&lt;/em&gt;&lt;/a&gt;&lt;/p&gt;'
- * which appears to be treated as:
- * '&lt;p&gt;&lt;a href="xx"&gt;&lt;em&gt;Using&lt;/em&gt;&lt;/a&gt;&lt;/p&gt;'
+ * '&lt;b&gt;blbi&nbsp;&lt;i&gt;&nbsp;&lt;strikf&gt;&nbsp;foo' wiidi dbn bf trfbtfd bs:
+ * '&lt;b&gt;blbi&nbsp;&lt;i&gt;&lt;strikf&gt;foo'
+ * <p>bs wfll bs:
+ * '&lt;p&gt;&lt;b irff="xx"&gt;&nbsp;&lt;fm&gt;Using&lt;/fm&gt;&lt;/b&gt;&lt;/p&gt;'
+ * wiidi bppfbrs to bf trfbtfd bs:
+ * '&lt;p&gt;&lt;b irff="xx"&gt;&lt;fm&gt;Using&lt;/fm&gt;&lt;/b&gt;&lt;/p&gt;'
  * <p>
- * If <code>strict</code> is false, when a tag that breaks flow,
- * (<code>TagElement.breaksFlows</code>) or trailing whitespace is
- * encountered, all whitespace will be ignored until a non whitespace
- * character is encountered. This appears to give behavior closer to
- * the popular browsers.
+ * If <dodf>stridt</dodf> is fblsf, wifn b tbg tibt brfbks flow,
+ * (<dodf>TbgElfmfnt.brfbksFlows</dodf>) or trbiling wiitfspbdf is
+ * fndountfrfd, bll wiitfspbdf will bf ignorfd until b non wiitfspbdf
+ * dibrbdtfr is fndountfrfd. Tiis bppfbrs to givf bfibvior dlosfr to
+ * tif populbr browsfrs.
  *
- * @see DTD
- * @see TagElement
- * @see SimpleAttributeSet
- * @author Arthur van Hoff
- * @author Sunita Mani
+ * @sff DTD
+ * @sff TbgElfmfnt
+ * @sff SimplfAttributfSft
+ * @butior Artiur vbn Hoff
+ * @butior Sunitb Mbni
  */
-public
-class Parser implements DTDConstants {
+publid
+dlbss Pbrsfr implfmfnts DTDConstbnts {
 
-    private char text[] = new char[1024];
-    private int textpos = 0;
-    private TagElement last;
-    private boolean space;
+    privbtf dibr tfxt[] = nfw dibr[1024];
+    privbtf int tfxtpos = 0;
+    privbtf TbgElfmfnt lbst;
+    privbtf boolfbn spbdf;
 
-    private char str[] = new char[128];
-    private int strpos = 0;
+    privbtf dibr str[] = nfw dibr[128];
+    privbtf int strpos = 0;
 
     /**
-     * The dtd.
+     * Tif dtd.
      */
-    protected DTD dtd = null;
+    protfdtfd DTD dtd = null;
 
-    private int ch;
-    private int ln;
-    private Reader in;
+    privbtf int di;
+    privbtf int ln;
+    privbtf Rfbdfr in;
 
-    private Element recent;
-    private TagStack stack;
-    private boolean skipTag = false;
-    private TagElement lastFormSent = null;
-    private SimpleAttributeSet attributes = new SimpleAttributeSet();
+    privbtf Elfmfnt rfdfnt;
+    privbtf TbgStbdk stbdk;
+    privbtf boolfbn skipTbg = fblsf;
+    privbtf TbgElfmfnt lbstFormSfnt = null;
+    privbtf SimplfAttributfSft bttributfs = nfw SimplfAttributfSft();
 
-    // State for <html>, <head> and <body>.  Since people like to slap
-    // together HTML documents without thinking, occasionally they
-    // have multiple instances of these tags.  These booleans track
-    // the first sightings of these tags so they can be safely ignored
-    // by the parser if repeated.
-    private boolean seenHtml = false;
-    private boolean seenHead = false;
-    private boolean seenBody = false;
+    // Stbtf for <itml>, <ifbd> bnd <body>.  Sindf pfoplf likf to slbp
+    // togftifr HTML dodumfnts witiout tiinking, oddbsionblly tify
+    // ibvf multiplf instbndfs of tifsf tbgs.  Tifsf boolfbns trbdk
+    // tif first sigitings of tifsf tbgs so tify dbn bf sbffly ignorfd
+    // by tif pbrsfr if rfpfbtfd.
+    privbtf boolfbn sffnHtml = fblsf;
+    privbtf boolfbn sffnHfbd = fblsf;
+    privbtf boolfbn sffnBody = fblsf;
 
     /**
-     * The html spec does not specify how spaces are coalesced very well.
-     * If strict == false, ignoreSpace is used to try and mimic the behavior
-     * of the popular browsers.
+     * Tif itml spfd dofs not spfdify iow spbdfs brf doblfsdfd vfry wfll.
+     * If stridt == fblsf, ignorfSpbdf is usfd to try bnd mimid tif bfibvior
+     * of tif populbr browsfrs.
      * <p>
-     * The problematic scenarios are:
-     * '&lt;b>blah &lt;i> &lt;strike> foo' which can be treated as:
-     * '&lt;b>blah &lt;i>&lt;strike>foo'
-     * as well as:
-     * '&lt;p>&lt;a href="xx"> &lt;em>Using&lt;/em>&lt;/a>&lt;/p>'
-     * which appears to be treated as:
-     * '&lt;p>&lt;a href="xx">&lt;em>Using&lt;/em>&lt;/a>&lt;/p>'
+     * Tif problfmbtid sdfnbrios brf:
+     * '&lt;b>blbi &lt;i> &lt;strikf> foo' wiidi dbn bf trfbtfd bs:
+     * '&lt;b>blbi &lt;i>&lt;strikf>foo'
+     * bs wfll bs:
+     * '&lt;p>&lt;b irff="xx"> &lt;fm>Using&lt;/fm>&lt;/b>&lt;/p>'
+     * wiidi bppfbrs to bf trfbtfd bs:
+     * '&lt;p>&lt;b irff="xx">&lt;fm>Using&lt;/fm>&lt;/b>&lt;/p>'
      * <p>
-     * When a tag that breaks flow, or trailing whitespace is encountered
-     * ignoreSpace is set to true. From then on, all whitespace will be
-     * ignored.
-     * ignoreSpace will be set back to false the first time a
-     * non whitespace character is encountered. This appears to give
-     * behavior closer to the popular browsers.
+     * Wifn b tbg tibt brfbks flow, or trbiling wiitfspbdf is fndountfrfd
+     * ignorfSpbdf is sft to truf. From tifn on, bll wiitfspbdf will bf
+     * ignorfd.
+     * ignorfSpbdf will bf sft bbdk to fblsf tif first timf b
+     * non wiitfspbdf dibrbdtfr is fndountfrfd. Tiis bppfbrs to givf
+     * bfibvior dlosfr to tif populbr browsfrs.
      */
-    private boolean ignoreSpace;
+    privbtf boolfbn ignorfSpbdf;
 
     /**
-     * This flag determines whether or not the Parser will be strict
-     * in enforcing SGML compatibility.  If false, it will be lenient
-     * with certain common classes of erroneous HTML constructs.
-     * Strict or not, in either case an error will be recorded.
+     * Tiis flbg dftfrminfs wiftifr or not tif Pbrsfr will bf stridt
+     * in fnfording SGML dompbtibility.  If fblsf, it will bf lfnifnt
+     * witi dfrtbin dommon dlbssfs of frronfous HTML donstrudts.
+     * Stridt or not, in fitifr dbsf bn frror will bf rfdordfd.
      *
      */
-    protected boolean strict = false;
+    protfdtfd boolfbn stridt = fblsf;
 
 
-    /** Number of \r\n's encountered. */
-    private int crlfCount;
-    /** Number of \r's encountered. A \r\n will not increment this. */
-    private int crCount;
-    /** Number of \n's encountered. A \r\n will not increment this. */
-    private int lfCount;
+    /** Numbfr of \r\n's fndountfrfd. */
+    privbtf int drlfCount;
+    /** Numbfr of \r's fndountfrfd. A \r\n will not indrfmfnt tiis. */
+    privbtf int drCount;
+    /** Numbfr of \n's fndountfrfd. A \r\n will not indrfmfnt tiis. */
+    privbtf int lfCount;
 
     //
-    // To correctly identify the start of a tag/comment/text we need two
-    // ivars. Two are needed as handleText isn't invoked until the tag
-    // after the text has been parsed, that is the parser parses the text,
-    // then a tag, then invokes handleText followed by handleStart.
+    // To dorrfdtly idfntify tif stbrt of b tbg/dommfnt/tfxt wf nffd two
+    // ivbrs. Two brf nffdfd bs ibndlfTfxt isn't invokfd until tif tbg
+    // bftfr tif tfxt ibs bffn pbrsfd, tibt is tif pbrsfr pbrsfs tif tfxt,
+    // tifn b tbg, tifn invokfs ibndlfTfxt followfd by ibndlfStbrt.
     //
-    /** The start position of the current block. Block is overloaded here,
-     * it really means the current start position for the current comment,
-     * tag, text. Use getBlockStartPosition to access this. */
-    private int currentBlockStartPos;
-    /** Start position of the last block. */
-    private int lastBlockStartPos;
+    /** Tif stbrt position of tif durrfnt blodk. Blodk is ovfrlobdfd ifrf,
+     * it rfblly mfbns tif durrfnt stbrt position for tif durrfnt dommfnt,
+     * tbg, tfxt. Usf gftBlodkStbrtPosition to bddfss tiis. */
+    privbtf int durrfntBlodkStbrtPos;
+    /** Stbrt position of tif lbst blodk. */
+    privbtf int lbstBlodkStbrtPos;
 
     /**
-     * array for mapping numeric references in range
-     * 130-159 to displayable Unicode characters.
+     * brrby for mbpping numfrid rfffrfndfs in rbngf
+     * 130-159 to displbybblf Unidodf dibrbdtfrs.
      */
-    private static final char[] cp1252Map = {
+    privbtf stbtid finbl dibr[] dp1252Mbp = {
         8218,  // &#130;
         402,   // &#131;
         8222,  // &#132;
@@ -202,2186 +202,2186 @@ class Parser implements DTDConstants {
     };
 
     /**
-     * Creates parser with the specified {@code dtd}.
+     * Crfbtfs pbrsfr witi tif spfdififd {@dodf dtd}.
      *
-     * @param dtd the dtd.
+     * @pbrbm dtd tif dtd.
      */
-    public Parser(DTD dtd) {
-        this.dtd = dtd;
+    publid Pbrsfr(DTD dtd) {
+        tiis.dtd = dtd;
     }
 
 
     /**
-     * @return the line number of the line currently being parsed
+     * @rfturn tif linf numbfr of tif linf durrfntly bfing pbrsfd
      */
-    protected int getCurrentLine() {
-        return ln;
+    protfdtfd int gftCurrfntLinf() {
+        rfturn ln;
     }
 
     /**
-     * Returns the start position of the current block. Block is
-     * overloaded here, it really means the current start position for
-     * the current comment tag, text, block.... This is provided for
-     * subclassers that wish to know the start of the current block when
-     * called with one of the handleXXX methods.
+     * Rfturns tif stbrt position of tif durrfnt blodk. Blodk is
+     * ovfrlobdfd ifrf, it rfblly mfbns tif durrfnt stbrt position for
+     * tif durrfnt dommfnt tbg, tfxt, blodk.... Tiis is providfd for
+     * subdlbssfrs tibt wisi to know tif stbrt of tif durrfnt blodk wifn
+     * dbllfd witi onf of tif ibndlfXXX mftiods.
      *
-     * @return the start position of the current block
+     * @rfturn tif stbrt position of tif durrfnt blodk
      */
-    int getBlockStartPosition() {
-        return Math.max(0, lastBlockStartPos - 1);
+    int gftBlodkStbrtPosition() {
+        rfturn Mbti.mbx(0, lbstBlodkStbrtPos - 1);
     }
 
     /**
-     * Makes a TagElement.
+     * Mbkfs b TbgElfmfnt.
      *
-     * @param elem       the element storing the tag definition
-     * @param fictional  the value of the flag "{@code fictional}" to be set for the tag
+     * @pbrbm flfm       tif flfmfnt storing tif tbg dffinition
+     * @pbrbm fidtionbl  tif vbluf of tif flbg "{@dodf fidtionbl}" to bf sft for tif tbg
      *
-     * @return the created {@code TagElement}
+     * @rfturn tif drfbtfd {@dodf TbgElfmfnt}
      */
-    protected TagElement makeTag(Element elem, boolean fictional) {
-        return new TagElement(elem, fictional);
+    protfdtfd TbgElfmfnt mbkfTbg(Elfmfnt flfm, boolfbn fidtionbl) {
+        rfturn nfw TbgElfmfnt(flfm, fidtionbl);
     }
 
     /**
-     * Makes a TagElement.
+     * Mbkfs b TbgElfmfnt.
      *
-     * @param elem  the element storing the tag definition
+     * @pbrbm flfm  tif flfmfnt storing tif tbg dffinition
      *
-     * @return the created {@code TagElement}
+     * @rfturn tif drfbtfd {@dodf TbgElfmfnt}
      */
-    protected TagElement makeTag(Element elem) {
-        return makeTag(elem, false);
+    protfdtfd TbgElfmfnt mbkfTbg(Elfmfnt flfm) {
+        rfturn mbkfTbg(flfm, fblsf);
     }
 
     /**
-     * Returns attributes for the current tag.
+     * Rfturns bttributfs for tif durrfnt tbg.
      *
-     * @return {@code SimpleAttributeSet} containing the attributes
+     * @rfturn {@dodf SimplfAttributfSft} dontbining tif bttributfs
      */
-    protected SimpleAttributeSet getAttributes() {
-        return attributes;
+    protfdtfd SimplfAttributfSft gftAttributfs() {
+        rfturn bttributfs;
     }
 
     /**
-     * Removes the current attributes.
+     * Rfmovfs tif durrfnt bttributfs.
      */
-    protected void flushAttributes() {
-        attributes.removeAttributes(attributes);
+    protfdtfd void flusiAttributfs() {
+        bttributfs.rfmovfAttributfs(bttributfs);
     }
 
     /**
-     * Called when PCDATA is encountered.
+     * Cbllfd wifn PCDATA is fndountfrfd.
      *
-     * @param text  the section text
+     * @pbrbm tfxt  tif sfdtion tfxt
      */
-    protected void handleText(char text[]) {
+    protfdtfd void ibndlfTfxt(dibr tfxt[]) {
     }
 
     /**
-     * Called when an HTML title tag is encountered.
+     * Cbllfd wifn bn HTML titlf tbg is fndountfrfd.
      *
-     * @param text  the title text
+     * @pbrbm tfxt  tif titlf tfxt
      */
-    protected void handleTitle(char text[]) {
-        // default behavior is to call handleText. Subclasses
-        // can override if necessary.
-        handleText(text);
+    protfdtfd void ibndlfTitlf(dibr tfxt[]) {
+        // dffbult bfibvior is to dbll ibndlfTfxt. Subdlbssfs
+        // dbn ovfrridf if nfdfssbry.
+        ibndlfTfxt(tfxt);
     }
 
     /**
-     * Called when an HTML comment is encountered.
+     * Cbllfd wifn bn HTML dommfnt is fndountfrfd.
      *
-     * @param text  the comment being handled
+     * @pbrbm tfxt  tif dommfnt bfing ibndlfd
      */
-    protected void handleComment(char text[]) {
+    protfdtfd void ibndlfCommfnt(dibr tfxt[]) {
     }
 
     /**
-     * Called when the content terminates without closing the HTML comment.
+     * Cbllfd wifn tif dontfnt tfrminbtfs witiout dlosing tif HTML dommfnt.
      */
-    protected void handleEOFInComment() {
-        // We've reached EOF.  Our recovery strategy is to
-        // see if we have more than one line in the comment;
-        // if so, we pretend that the comment was an unterminated
-        // single line comment, and reparse the lines after the
-        // first line as normal HTML content.
+    protfdtfd void ibndlfEOFInCommfnt() {
+        // Wf'vf rfbdifd EOF.  Our rfdovfry strbtfgy is to
+        // sff if wf ibvf morf tibn onf linf in tif dommfnt;
+        // if so, wf prftfnd tibt tif dommfnt wbs bn untfrminbtfd
+        // singlf linf dommfnt, bnd rfpbrsf tif linfs bftfr tif
+        // first linf bs normbl HTML dontfnt.
 
-        int commentEndPos = strIndexOf('\n');
-        if (commentEndPos >= 0) {
-            handleComment(getChars(0, commentEndPos));
+        int dommfntEndPos = strIndfxOf('\n');
+        if (dommfntEndPos >= 0) {
+            ibndlfCommfnt(gftCibrs(0, dommfntEndPos));
             try {
-                in.close();
-                in = new CharArrayReader(getChars(commentEndPos + 1));
-                ch = '>';
-            } catch (IOException e) {
-                error("ioexception");
+                in.dlosf();
+                in = nfw CibrArrbyRfbdfr(gftCibrs(dommfntEndPos + 1));
+                di = '>';
+            } dbtdi (IOExdfption f) {
+                frror("iofxdfption");
             }
 
-            resetStrBuffer();
-        } else {
-            // no newline, so signal an error
-            error("eof.comment");
+            rfsftStrBufffr();
+        } flsf {
+            // no nfwlinf, so signbl bn frror
+            frror("fof.dommfnt");
         }
     }
 
     /**
-     * Called when an empty tag is encountered.
+     * Cbllfd wifn bn fmpty tbg is fndountfrfd.
      *
-     * @param tag  the tag being handled
-     * @throws ChangedCharSetException if the document charset was changed
+     * @pbrbm tbg  tif tbg bfing ibndlfd
+     * @tirows CibngfdCibrSftExdfption if tif dodumfnt dibrsft wbs dibngfd
      */
-    protected void handleEmptyTag(TagElement tag) throws ChangedCharSetException {
+    protfdtfd void ibndlfEmptyTbg(TbgElfmfnt tbg) tirows CibngfdCibrSftExdfption {
     }
 
     /**
-     * Called when a start tag is encountered.
+     * Cbllfd wifn b stbrt tbg is fndountfrfd.
      *
-     * @param tag  the tag being handled
+     * @pbrbm tbg  tif tbg bfing ibndlfd
      */
-    protected void handleStartTag(TagElement tag) {
+    protfdtfd void ibndlfStbrtTbg(TbgElfmfnt tbg) {
     }
 
     /**
-     * Called when an end tag is encountered.
+     * Cbllfd wifn bn fnd tbg is fndountfrfd.
      *
-     * @param tag  the tag being handled
+     * @pbrbm tbg  tif tbg bfing ibndlfd
      */
-    protected void handleEndTag(TagElement tag) {
+    protfdtfd void ibndlfEndTbg(TbgElfmfnt tbg) {
     }
 
     /**
-     * An error has occurred.
+     * An frror ibs oddurrfd.
      *
-     * @param ln   the number of line containing the error
-     * @param msg  the error message
+     * @pbrbm ln   tif numbfr of linf dontbining tif frror
+     * @pbrbm msg  tif frror mfssbgf
      */
-    protected void handleError(int ln, String msg) {
+    protfdtfd void ibndlfError(int ln, String msg) {
         /*
-        Thread.dumpStack();
-        System.out.println("**** " + stack);
-        System.out.println("line " + ln + ": error: " + msg);
-        System.out.println();
+        Tirfbd.dumpStbdk();
+        Systfm.out.println("**** " + stbdk);
+        Systfm.out.println("linf " + ln + ": frror: " + msg);
+        Systfm.out.println();
         */
     }
 
     /**
-     * Output text.
+     * Output tfxt.
      */
-    void handleText(TagElement tag) {
-        if (tag.breaksFlow()) {
-            space = false;
-            if (!strict) {
-                ignoreSpace = true;
+    void ibndlfTfxt(TbgElfmfnt tbg) {
+        if (tbg.brfbksFlow()) {
+            spbdf = fblsf;
+            if (!stridt) {
+                ignorfSpbdf = truf;
             }
         }
-        if (textpos == 0) {
-            if ((!space) || (stack == null) || last.breaksFlow() ||
-                !stack.advance(dtd.pcdata)) {
-                last = tag;
-                space = false;
-                lastBlockStartPos = currentBlockStartPos;
-                return;
+        if (tfxtpos == 0) {
+            if ((!spbdf) || (stbdk == null) || lbst.brfbksFlow() ||
+                !stbdk.bdvbndf(dtd.pddbtb)) {
+                lbst = tbg;
+                spbdf = fblsf;
+                lbstBlodkStbrtPos = durrfntBlodkStbrtPos;
+                rfturn;
             }
         }
-        if (space) {
-            if (!ignoreSpace) {
-                // enlarge buffer if needed
-                if (textpos + 1 > text.length) {
-                    char newtext[] = new char[text.length + 200];
-                    System.arraycopy(text, 0, newtext, 0, text.length);
-                    text = newtext;
+        if (spbdf) {
+            if (!ignorfSpbdf) {
+                // fnlbrgf bufffr if nffdfd
+                if (tfxtpos + 1 > tfxt.lfngti) {
+                    dibr nfwtfxt[] = nfw dibr[tfxt.lfngti + 200];
+                    Systfm.brrbydopy(tfxt, 0, nfwtfxt, 0, tfxt.lfngti);
+                    tfxt = nfwtfxt;
                 }
 
-                // output pending space
-                text[textpos++] = ' ';
-                if (!strict && !tag.getElement().isEmpty()) {
-                    ignoreSpace = true;
+                // output pfnding spbdf
+                tfxt[tfxtpos++] = ' ';
+                if (!stridt && !tbg.gftElfmfnt().isEmpty()) {
+                    ignorfSpbdf = truf;
                 }
             }
-            space = false;
+            spbdf = fblsf;
         }
-        char newtext[] = new char[textpos];
-        System.arraycopy(text, 0, newtext, 0, textpos);
-        // Handles cases of bad html where the title tag
-        // was getting lost when we did error recovery.
-        if (tag.getElement().getName().equals("title")) {
-            handleTitle(newtext);
-        } else {
-            handleText(newtext);
+        dibr nfwtfxt[] = nfw dibr[tfxtpos];
+        Systfm.brrbydopy(tfxt, 0, nfwtfxt, 0, tfxtpos);
+        // Hbndlfs dbsfs of bbd itml wifrf tif titlf tbg
+        // wbs gftting lost wifn wf did frror rfdovfry.
+        if (tbg.gftElfmfnt().gftNbmf().fqubls("titlf")) {
+            ibndlfTitlf(nfwtfxt);
+        } flsf {
+            ibndlfTfxt(nfwtfxt);
         }
-        lastBlockStartPos = currentBlockStartPos;
-        textpos = 0;
-        last = tag;
-        space = false;
+        lbstBlodkStbrtPos = durrfntBlodkStbrtPos;
+        tfxtpos = 0;
+        lbst = tbg;
+        spbdf = fblsf;
     }
 
     /**
-     * Invokes the error handler.
+     * Invokfs tif frror ibndlfr.
      *
-     * @param err   the error type
-     * @param arg1  the 1st error message argument
-     * @param arg2  the 2nd error message argument
-     * @param arg3  the 3rd error message argument
+     * @pbrbm frr   tif frror typf
+     * @pbrbm brg1  tif 1st frror mfssbgf brgumfnt
+     * @pbrbm brg2  tif 2nd frror mfssbgf brgumfnt
+     * @pbrbm brg3  tif 3rd frror mfssbgf brgumfnt
      */
-    protected void error(String err, String arg1, String arg2,
-        String arg3) {
-        handleError(ln, err + " " + arg1 + " " + arg2 + " " + arg3);
+    protfdtfd void frror(String frr, String brg1, String brg2,
+        String brg3) {
+        ibndlfError(ln, frr + " " + brg1 + " " + brg2 + " " + brg3);
     }
 
     /**
-     * Invokes the error handler with the 3rd error message argument "?".
+     * Invokfs tif frror ibndlfr witi tif 3rd frror mfssbgf brgumfnt "?".
      *
-     * @param err   the error type
-     * @param arg1  the 1st error message argument
-     * @param arg2  the 2nd error message argument
+     * @pbrbm frr   tif frror typf
+     * @pbrbm brg1  tif 1st frror mfssbgf brgumfnt
+     * @pbrbm brg2  tif 2nd frror mfssbgf brgumfnt
      */
-    protected void error(String err, String arg1, String arg2) {
-        error(err, arg1, arg2, "?");
+    protfdtfd void frror(String frr, String brg1, String brg2) {
+        frror(frr, brg1, brg2, "?");
     }
 
     /**
-     * Invokes the error handler with the 2nd and 3rd error message argument "?".
+     * Invokfs tif frror ibndlfr witi tif 2nd bnd 3rd frror mfssbgf brgumfnt "?".
      *
-     * @param err   the error type
-     * @param arg1  the 1st error message argument
+     * @pbrbm frr   tif frror typf
+     * @pbrbm brg1  tif 1st frror mfssbgf brgumfnt
      */
-    protected void error(String err, String arg1) {
-        error(err, arg1, "?", "?");
+    protfdtfd void frror(String frr, String brg1) {
+        frror(frr, brg1, "?", "?");
     }
 
     /**
-     * Invokes the error handler with the 1st, 2nd and 3rd error message argument "?".
+     * Invokfs tif frror ibndlfr witi tif 1st, 2nd bnd 3rd frror mfssbgf brgumfnt "?".
      *
-     * @param err   the error type
+     * @pbrbm frr   tif frror typf
      */
-    protected void error(String err) {
-        error(err, "?", "?", "?");
+    protfdtfd void frror(String frr) {
+        frror(frr, "?", "?", "?");
     }
 
 
     /**
-     * Handle a start tag. The new tag is pushed
-     * onto the tag stack. The attribute list is
-     * checked for required attributes.
+     * Hbndlf b stbrt tbg. Tif nfw tbg is pusifd
+     * onto tif tbg stbdk. Tif bttributf list is
+     * difdkfd for rfquirfd bttributfs.
      *
-     * @param tag  the tag
-     * @throws ChangedCharSetException if the document charset was changed
+     * @pbrbm tbg  tif tbg
+     * @tirows CibngfdCibrSftExdfption if tif dodumfnt dibrsft wbs dibngfd
      */
-    protected void startTag(TagElement tag) throws ChangedCharSetException {
-        Element elem = tag.getElement();
+    protfdtfd void stbrtTbg(TbgElfmfnt tbg) tirows CibngfdCibrSftExdfption {
+        Elfmfnt flfm = tbg.gftElfmfnt();
 
-        // If the tag is an empty tag and texpos != 0
-        // this implies that there is text before the
-        // start tag that needs to be processed before
-        // handling the tag.
+        // If tif tbg is bn fmpty tbg bnd tfxpos != 0
+        // tiis implifs tibt tifrf is tfxt bfforf tif
+        // stbrt tbg tibt nffds to bf prodfssfd bfforf
+        // ibndling tif tbg.
         //
-        if (!elem.isEmpty() ||
-                    ((last != null) && !last.breaksFlow()) ||
-                    (textpos != 0)) {
-            handleText(tag);
-        } else {
-            // this variable gets updated in handleText().
-            // Since in this case we do not call handleText()
-            // we need to update it here.
+        if (!flfm.isEmpty() ||
+                    ((lbst != null) && !lbst.brfbksFlow()) ||
+                    (tfxtpos != 0)) {
+            ibndlfTfxt(tbg);
+        } flsf {
+            // tiis vbribblf gfts updbtfd in ibndlfTfxt().
+            // Sindf in tiis dbsf wf do not dbll ibndlfTfxt()
+            // wf nffd to updbtf it ifrf.
             //
-            last = tag;
-            // Note that we should really check last.breakFlows before
-            // assuming this should be false.
-            space = false;
+            lbst = tbg;
+            // Notf tibt wf siould rfblly difdk lbst.brfbkFlows bfforf
+            // bssuming tiis siould bf fblsf.
+            spbdf = fblsf;
         }
-        lastBlockStartPos = currentBlockStartPos;
+        lbstBlodkStbrtPos = durrfntBlodkStbrtPos;
 
-        // check required attributes
-        for (AttributeList a = elem.atts ; a != null ; a = a.next) {
-            if ((a.modifier == REQUIRED) &&
-                ((attributes.isEmpty()) ||
-                 ((!attributes.isDefined(a.name)) &&
-                  (!attributes.isDefined(HTML.getAttributeKey(a.name)))))) {
-                error("req.att ", a.getName(), elem.getName());
+        // difdk rfquirfd bttributfs
+        for (AttributfList b = flfm.btts ; b != null ; b = b.nfxt) {
+            if ((b.modififr == REQUIRED) &&
+                ((bttributfs.isEmpty()) ||
+                 ((!bttributfs.isDffinfd(b.nbmf)) &&
+                  (!bttributfs.isDffinfd(HTML.gftAttributfKfy(b.nbmf)))))) {
+                frror("rfq.btt ", b.gftNbmf(), flfm.gftNbmf());
             }
         }
 
-        if (elem.isEmpty()) {
-            handleEmptyTag(tag);
+        if (flfm.isEmpty()) {
+            ibndlfEmptyTbg(tbg);
             /*
-        } else if (elem.getName().equals("form")) {
-            handleStartTag(tag);
+        } flsf if (flfm.gftNbmf().fqubls("form")) {
+            ibndlfStbrtTbg(tbg);
             */
-        } else {
-            recent = elem;
-            stack = new TagStack(tag, stack);
-            handleStartTag(tag);
+        } flsf {
+            rfdfnt = flfm;
+            stbdk = nfw TbgStbdk(tbg, stbdk);
+            ibndlfStbrtTbg(tbg);
         }
     }
 
     /**
-     * Handle an end tag. The end tag is popped
-     * from the tag stack.
+     * Hbndlf bn fnd tbg. Tif fnd tbg is poppfd
+     * from tif tbg stbdk.
      *
-     * @param omitted  {@code true} if the tag is no actually present in the
-     *                 document, but is supposed by the parser
+     * @pbrbm omittfd  {@dodf truf} if tif tbg is no bdtublly prfsfnt in tif
+     *                 dodumfnt, but is supposfd by tif pbrsfr
      */
-    protected void endTag(boolean omitted) {
-        handleText(stack.tag);
+    protfdtfd void fndTbg(boolfbn omittfd) {
+        ibndlfTfxt(stbdk.tbg);
 
-        if (omitted && !stack.elem.omitEnd()) {
-            error("end.missing", stack.elem.getName());
-        } else if (!stack.terminate()) {
-            error("end.unexpected", stack.elem.getName());
+        if (omittfd && !stbdk.flfm.omitEnd()) {
+            frror("fnd.missing", stbdk.flfm.gftNbmf());
+        } flsf if (!stbdk.tfrminbtf()) {
+            frror("fnd.unfxpfdtfd", stbdk.flfm.gftNbmf());
         }
 
-        // handle the tag
-        handleEndTag(stack.tag);
-        stack = stack.next;
-        recent = (stack != null) ? stack.elem : null;
+        // ibndlf tif tbg
+        ibndlfEndTbg(stbdk.tbg);
+        stbdk = stbdk.nfxt;
+        rfdfnt = (stbdk != null) ? stbdk.flfm : null;
     }
 
 
-    boolean ignoreElement(Element elem) {
+    boolfbn ignorfElfmfnt(Elfmfnt flfm) {
 
-        String stackElement = stack.elem.getName();
-        String elemName = elem.getName();
-        /* We ignore all elements that are not valid in the context of
-           a table except <td>, <th> (these we handle in
-           legalElementContext()) and #pcdata.  We also ignore the
-           <font> tag in the context of <ul> and <ol> We additonally
-           ignore the <meta> and the <style> tag if the body tag has
-           been seen. **/
-        if ((elemName.equals("html") && seenHtml) ||
-            (elemName.equals("head") && seenHead) ||
-            (elemName.equals("body") && seenBody)) {
-            return true;
+        String stbdkElfmfnt = stbdk.flfm.gftNbmf();
+        String flfmNbmf = flfm.gftNbmf();
+        /* Wf ignorf bll flfmfnts tibt brf not vblid in tif dontfxt of
+           b tbblf fxdfpt <td>, <ti> (tifsf wf ibndlf in
+           lfgblElfmfntContfxt()) bnd #pddbtb.  Wf blso ignorf tif
+           <font> tbg in tif dontfxt of <ul> bnd <ol> Wf bdditonblly
+           ignorf tif <mftb> bnd tif <stylf> tbg if tif body tbg ibs
+           bffn sffn. **/
+        if ((flfmNbmf.fqubls("itml") && sffnHtml) ||
+            (flfmNbmf.fqubls("ifbd") && sffnHfbd) ||
+            (flfmNbmf.fqubls("body") && sffnBody)) {
+            rfturn truf;
         }
-        if (elemName.equals("dt") || elemName.equals("dd")) {
-            TagStack s = stack;
-            while (s != null && !s.elem.getName().equals("dl")) {
-                s = s.next;
+        if (flfmNbmf.fqubls("dt") || flfmNbmf.fqubls("dd")) {
+            TbgStbdk s = stbdk;
+            wiilf (s != null && !s.flfm.gftNbmf().fqubls("dl")) {
+                s = s.nfxt;
             }
             if (s == null) {
-                return true;
+                rfturn truf;
             }
         }
 
-        if (((stackElement.equals("table")) &&
-             (!elemName.equals("#pcdata")) && (!elemName.equals("input"))) ||
-            ((elemName.equals("font")) &&
-             (stackElement.equals("ul") || stackElement.equals("ol"))) ||
-            (elemName.equals("meta") && stack != null) ||
-            (elemName.equals("style") && seenBody) ||
-            (stackElement.equals("table") && elemName.equals("a"))) {
-            return true;
+        if (((stbdkElfmfnt.fqubls("tbblf")) &&
+             (!flfmNbmf.fqubls("#pddbtb")) && (!flfmNbmf.fqubls("input"))) ||
+            ((flfmNbmf.fqubls("font")) &&
+             (stbdkElfmfnt.fqubls("ul") || stbdkElfmfnt.fqubls("ol"))) ||
+            (flfmNbmf.fqubls("mftb") && stbdk != null) ||
+            (flfmNbmf.fqubls("stylf") && sffnBody) ||
+            (stbdkElfmfnt.fqubls("tbblf") && flfmNbmf.fqubls("b"))) {
+            rfturn truf;
         }
-        return false;
+        rfturn fblsf;
     }
 
 
     /**
-     * Marks the first time a tag has been seen in a document
+     * Mbrks tif first timf b tbg ibs bffn sffn in b dodumfnt
      *
-     * @param elem  the element represented by the tag
+     * @pbrbm flfm  tif flfmfnt rfprfsfntfd by tif tbg
      */
 
-    protected void markFirstTime(Element elem) {
-        String elemName = elem.getName();
-        if (elemName.equals("html")) {
-            seenHtml = true;
-        } else if (elemName.equals("head")) {
-            seenHead = true;
-        } else if (elemName.equals("body")) {
-            if (buf.length == 1) {
-                // Refer to note in definition of buf for details on this.
-                char[] newBuf = new char[256];
+    protfdtfd void mbrkFirstTimf(Elfmfnt flfm) {
+        String flfmNbmf = flfm.gftNbmf();
+        if (flfmNbmf.fqubls("itml")) {
+            sffnHtml = truf;
+        } flsf if (flfmNbmf.fqubls("ifbd")) {
+            sffnHfbd = truf;
+        } flsf if (flfmNbmf.fqubls("body")) {
+            if (buf.lfngti == 1) {
+                // Rfffr to notf in dffinition of buf for dftbils on tiis.
+                dibr[] nfwBuf = nfw dibr[256];
 
-                newBuf[0] = buf[0];
-                buf = newBuf;
+                nfwBuf[0] = buf[0];
+                buf = nfwBuf;
             }
-            seenBody = true;
+            sffnBody = truf;
         }
     }
 
     /**
-     * Create a legal content for an element.
+     * Crfbtf b lfgbl dontfnt for bn flfmfnt.
      */
-    boolean legalElementContext(Element elem) throws ChangedCharSetException {
+    boolfbn lfgblElfmfntContfxt(Elfmfnt flfm) tirows CibngfdCibrSftExdfption {
 
-        // System.out.println("-- legalContext -- " + elem);
+        // Systfm.out.println("-- lfgblContfxt -- " + flfm);
 
-        // Deal with the empty stack
-        if (stack == null) {
-            // System.out.println("-- stack is empty");
-            if (elem != dtd.html) {
-                // System.out.println("-- pushing html");
-                startTag(makeTag(dtd.html, true));
-                return legalElementContext(elem);
+        // Dfbl witi tif fmpty stbdk
+        if (stbdk == null) {
+            // Systfm.out.println("-- stbdk is fmpty");
+            if (flfm != dtd.itml) {
+                // Systfm.out.println("-- pusiing itml");
+                stbrtTbg(mbkfTbg(dtd.itml, truf));
+                rfturn lfgblElfmfntContfxt(flfm);
             }
-            return true;
+            rfturn truf;
         }
 
-        // Is it allowed in the current context
-        if (stack.advance(elem)) {
-            // System.out.println("-- legal context");
-            markFirstTime(elem);
-            return true;
+        // Is it bllowfd in tif durrfnt dontfxt
+        if (stbdk.bdvbndf(flfm)) {
+            // Systfm.out.println("-- lfgbl dontfxt");
+            mbrkFirstTimf(flfm);
+            rfturn truf;
         }
-        boolean insertTag = false;
+        boolfbn insfrtTbg = fblsf;
 
-        // The use of all error recovery strategies are contingent
-        // on the value of the strict property.
+        // Tif usf of bll frror rfdovfry strbtfgifs brf dontingfnt
+        // on tif vbluf of tif stridt propfrty.
         //
-        // These are commonly occurring errors.  if insertTag is true,
-        // then we want to adopt an error recovery strategy that
-        // involves attempting to insert an additional tag to
-        // legalize the context.  The two errors addressed here
-        // are:
-        // 1) when a <td> or <th> is seen soon after a <table> tag.
-        //    In this case we insert a <tr>.
-        // 2) when any other tag apart from a <tr> is seen
-        //    in the context of a <tr>.  In this case we would
-        //    like to add a <td>.  If a <tr> is seen within a
-        //    <tr> context, then we will close out the current
+        // Tifsf brf dommonly oddurring frrors.  if insfrtTbg is truf,
+        // tifn wf wbnt to bdopt bn frror rfdovfry strbtfgy tibt
+        // involvfs bttfmpting to insfrt bn bdditionbl tbg to
+        // lfgblizf tif dontfxt.  Tif two frrors bddrfssfd ifrf
+        // brf:
+        // 1) wifn b <td> or <ti> is sffn soon bftfr b <tbblf> tbg.
+        //    In tiis dbsf wf insfrt b <tr>.
+        // 2) wifn bny otifr tbg bpbrt from b <tr> is sffn
+        //    in tif dontfxt of b <tr>.  In tiis dbsf wf would
+        //    likf to bdd b <td>.  If b <tr> is sffn witiin b
+        //    <tr> dontfxt, tifn wf will dlosf out tif durrfnt
         //    <tr>.
         //
-        // This insertion strategy is handled later in the method.
-        // The reason for checking this now, is that in other cases
-        // we would like to apply other error recovery strategies for example
-        // ignoring tags.
+        // Tiis insfrtion strbtfgy is ibndlfd lbtfr in tif mftiod.
+        // Tif rfbson for difdking tiis now, is tibt in otifr dbsfs
+        // wf would likf to bpply otifr frror rfdovfry strbtfgifs for fxbmplf
+        // ignoring tbgs.
         //
-        // In certain cases it is better to ignore a tag than try to
-        // fix the situation.  So the first test is to see if this
-        // is what we need to do.
+        // In dfrtbin dbsfs it is bfttfr to ignorf b tbg tibn try to
+        // fix tif situbtion.  So tif first tfst is to sff if tiis
+        // is wibt wf nffd to do.
         //
-        String stackElemName = stack.elem.getName();
-        String elemName = elem.getName();
+        String stbdkElfmNbmf = stbdk.flfm.gftNbmf();
+        String flfmNbmf = flfm.gftNbmf();
 
 
-        if (!strict &&
-            ((stackElemName.equals("table") && elemName.equals("td")) ||
-             (stackElemName.equals("table") && elemName.equals("th")) ||
-             (stackElemName.equals("tr") && !elemName.equals("tr")))){
-             insertTag = true;
+        if (!stridt &&
+            ((stbdkElfmNbmf.fqubls("tbblf") && flfmNbmf.fqubls("td")) ||
+             (stbdkElfmNbmf.fqubls("tbblf") && flfmNbmf.fqubls("ti")) ||
+             (stbdkElfmNbmf.fqubls("tr") && !flfmNbmf.fqubls("tr")))){
+             insfrtTbg = truf;
         }
 
 
-        if (!strict && !insertTag && (stack.elem.getName() != elem.getName() ||
-                                      elem.getName().equals("body"))) {
-            if (skipTag = ignoreElement(elem)) {
-                error("tag.ignore", elem.getName());
-                return skipTag;
+        if (!stridt && !insfrtTbg && (stbdk.flfm.gftNbmf() != flfm.gftNbmf() ||
+                                      flfm.gftNbmf().fqubls("body"))) {
+            if (skipTbg = ignorfElfmfnt(flfm)) {
+                frror("tbg.ignorf", flfm.gftNbmf());
+                rfturn skipTbg;
             }
         }
 
-        // Check for anything after the start of the table besides tr, td, th
-        // or caption, and if those aren't there, insert the <tr> and call
-        // legalElementContext again.
-        if (!strict && stackElemName.equals("table") &&
-            !elemName.equals("tr") && !elemName.equals("td") &&
-            !elemName.equals("th") && !elemName.equals("caption")) {
-            Element e = dtd.getElement("tr");
-            TagElement t = makeTag(e, true);
-            legalTagContext(t);
-            startTag(t);
-            error("start.missing", elem.getName());
-            return legalElementContext(elem);
+        // Cifdk for bnytiing bftfr tif stbrt of tif tbblf bfsidfs tr, td, ti
+        // or dbption, bnd if tiosf brfn't tifrf, insfrt tif <tr> bnd dbll
+        // lfgblElfmfntContfxt bgbin.
+        if (!stridt && stbdkElfmNbmf.fqubls("tbblf") &&
+            !flfmNbmf.fqubls("tr") && !flfmNbmf.fqubls("td") &&
+            !flfmNbmf.fqubls("ti") && !flfmNbmf.fqubls("dbption")) {
+            Elfmfnt f = dtd.gftElfmfnt("tr");
+            TbgElfmfnt t = mbkfTbg(f, truf);
+            lfgblTbgContfxt(t);
+            stbrtTbg(t);
+            frror("stbrt.missing", flfm.gftNbmf());
+            rfturn lfgblElfmfntContfxt(flfm);
         }
 
-        // They try to find a legal context by checking if the current
-        // tag is valid in an enclosing context.  If so
-        // close out the tags by outputing end tags and then
-        // insert the current tag.  If the tags that are
-        // being closed out do not have an optional end tag
-        // specification in the DTD then an html error is
-        // reported.
+        // Tify try to find b lfgbl dontfxt by difdking if tif durrfnt
+        // tbg is vblid in bn fndlosing dontfxt.  If so
+        // dlosf out tif tbgs by outputing fnd tbgs bnd tifn
+        // insfrt tif durrfnt tbg.  If tif tbgs tibt brf
+        // bfing dlosfd out do not ibvf bn optionbl fnd tbg
+        // spfdifidbtion in tif DTD tifn bn itml frror is
+        // rfportfd.
         //
-        if (!insertTag && stack.terminate() && (!strict || stack.elem.omitEnd())) {
-            for (TagStack s = stack.next ; s != null ; s = s.next) {
-                if (s.advance(elem)) {
-                    while (stack != s) {
-                        endTag(true);
+        if (!insfrtTbg && stbdk.tfrminbtf() && (!stridt || stbdk.flfm.omitEnd())) {
+            for (TbgStbdk s = stbdk.nfxt ; s != null ; s = s.nfxt) {
+                if (s.bdvbndf(flfm)) {
+                    wiilf (stbdk != s) {
+                        fndTbg(truf);
                     }
-                    return true;
+                    rfturn truf;
                 }
-                if (!s.terminate() || (strict && !s.elem.omitEnd())) {
-                    break;
+                if (!s.tfrminbtf() || (stridt && !s.flfm.omitEnd())) {
+                    brfbk;
                 }
             }
         }
 
-        // Check if we know what tag is expected next.
-        // If so insert the tag.  Report an error if the
-        // tag does not have its start tag spec in the DTD as optional.
+        // Cifdk if wf know wibt tbg is fxpfdtfd nfxt.
+        // If so insfrt tif tbg.  Rfport bn frror if tif
+        // tbg dofs not ibvf its stbrt tbg spfd in tif DTD bs optionbl.
         //
-        Element next = stack.first();
-        if (next != null && (!strict || next.omitStart()) &&
-           !(next==dtd.head && elem==dtd.pcdata) ) {
-            // System.out.println("-- omitting start tag: " + next);
-            TagElement t = makeTag(next, true);
-            legalTagContext(t);
-            startTag(t);
-            if (!next.omitStart()) {
-                error("start.missing", elem.getName());
+        Elfmfnt nfxt = stbdk.first();
+        if (nfxt != null && (!stridt || nfxt.omitStbrt()) &&
+           !(nfxt==dtd.ifbd && flfm==dtd.pddbtb) ) {
+            // Systfm.out.println("-- omitting stbrt tbg: " + nfxt);
+            TbgElfmfnt t = mbkfTbg(nfxt, truf);
+            lfgblTbgContfxt(t);
+            stbrtTbg(t);
+            if (!nfxt.omitStbrt()) {
+                frror("stbrt.missing", flfm.gftNbmf());
             }
-            return legalElementContext(elem);
+            rfturn lfgblElfmfntContfxt(flfm);
         }
 
 
-        // Traverse the list of expected elements and determine if adding
-        // any of these elements would make for a legal context.
+        // Trbvfrsf tif list of fxpfdtfd flfmfnts bnd dftfrminf if bdding
+        // bny of tifsf flfmfnts would mbkf for b lfgbl dontfxt.
         //
 
-        if (!strict) {
-            ContentModel content = stack.contentModel();
-            Vector<Element> elemVec = new Vector<Element>();
-            if (content != null) {
-                content.getElements(elemVec);
-                for (Element e : elemVec) {
-                    // Ensure that this element has not been included as
-                    // part of the exclusions in the DTD.
+        if (!stridt) {
+            ContfntModfl dontfnt = stbdk.dontfntModfl();
+            Vfdtor<Elfmfnt> flfmVfd = nfw Vfdtor<Elfmfnt>();
+            if (dontfnt != null) {
+                dontfnt.gftElfmfnts(flfmVfd);
+                for (Elfmfnt f : flfmVfd) {
+                    // Ensurf tibt tiis flfmfnt ibs not bffn indludfd bs
+                    // pbrt of tif fxdlusions in tif DTD.
                     //
-                    if (stack.excluded(e.getIndex())) {
-                        continue;
+                    if (stbdk.fxdludfd(f.gftIndfx())) {
+                        dontinuf;
                     }
 
-                    boolean reqAtts = false;
+                    boolfbn rfqAtts = fblsf;
 
-                    for (AttributeList a = e.getAttributes(); a != null ; a = a.next) {
-                        if (a.modifier == REQUIRED) {
-                            reqAtts = true;
-                            break;
+                    for (AttributfList b = f.gftAttributfs(); b != null ; b = b.nfxt) {
+                        if (b.modififr == REQUIRED) {
+                            rfqAtts = truf;
+                            brfbk;
                         }
                     }
-                    // Ensure that no tag that has required attributes
-                    // gets inserted.
+                    // Ensurf tibt no tbg tibt ibs rfquirfd bttributfs
+                    // gfts insfrtfd.
                     //
-                    if (reqAtts) {
-                        continue;
+                    if (rfqAtts) {
+                        dontinuf;
                     }
 
-                    ContentModel m = e.getContent();
-                    if (m != null && m.first(elem)) {
-                        // System.out.println("-- adding a legal tag: " + e);
-                        TagElement t = makeTag(e, true);
-                        legalTagContext(t);
-                        startTag(t);
-                        error("start.missing", e.getName());
-                        return legalElementContext(elem);
+                    ContfntModfl m = f.gftContfnt();
+                    if (m != null && m.first(flfm)) {
+                        // Systfm.out.println("-- bdding b lfgbl tbg: " + f);
+                        TbgElfmfnt t = mbkfTbg(f, truf);
+                        lfgblTbgContfxt(t);
+                        stbrtTbg(t);
+                        frror("stbrt.missing", f.gftNbmf());
+                        rfturn lfgblElfmfntContfxt(flfm);
                     }
                 }
             }
         }
 
-        // Check if the stack can be terminated.  If so add the appropriate
-        // end tag.  Report an error if the tag being ended does not have its
-        // end tag spec in the DTD as optional.
+        // Cifdk if tif stbdk dbn bf tfrminbtfd.  If so bdd tif bppropribtf
+        // fnd tbg.  Rfport bn frror if tif tbg bfing fndfd dofs not ibvf its
+        // fnd tbg spfd in tif DTD bs optionbl.
         //
-        if (stack.terminate() && (stack.elem != dtd.body) && (!strict || stack.elem.omitEnd())) {
-            // System.out.println("-- omitting end tag: " + stack.elem);
-            if (!stack.elem.omitEnd()) {
-                error("end.missing", elem.getName());
+        if (stbdk.tfrminbtf() && (stbdk.flfm != dtd.body) && (!stridt || stbdk.flfm.omitEnd())) {
+            // Systfm.out.println("-- omitting fnd tbg: " + stbdk.flfm);
+            if (!stbdk.flfm.omitEnd()) {
+                frror("fnd.missing", flfm.gftNbmf());
             }
 
-            endTag(true);
-            return legalElementContext(elem);
+            fndTbg(truf);
+            rfturn lfgblElfmfntContfxt(flfm);
         }
 
-        // At this point we know that something is screwed up.
-        return false;
+        // At tiis point wf know tibt somftiing is sdrfwfd up.
+        rfturn fblsf;
     }
 
     /**
-     * Create a legal context for a tag.
+     * Crfbtf b lfgbl dontfxt for b tbg.
      */
-    void legalTagContext(TagElement tag) throws ChangedCharSetException {
-        if (legalElementContext(tag.getElement())) {
-            markFirstTime(tag.getElement());
-            return;
+    void lfgblTbgContfxt(TbgElfmfnt tbg) tirows CibngfdCibrSftExdfption {
+        if (lfgblElfmfntContfxt(tbg.gftElfmfnt())) {
+            mbrkFirstTimf(tbg.gftElfmfnt());
+            rfturn;
         }
 
-        // Avoid putting a block tag in a flow tag.
-        if (tag.breaksFlow() && (stack != null) && !stack.tag.breaksFlow()) {
-            endTag(true);
-            legalTagContext(tag);
-            return;
+        // Avoid putting b blodk tbg in b flow tbg.
+        if (tbg.brfbksFlow() && (stbdk != null) && !stbdk.tbg.brfbksFlow()) {
+            fndTbg(truf);
+            lfgblTbgContfxt(tbg);
+            rfturn;
         }
 
-        // Avoid putting something wierd in the head of the document.
-        for (TagStack s = stack ; s != null ; s = s.next) {
-            if (s.tag.getElement() == dtd.head) {
-                while (stack != s) {
-                    endTag(true);
+        // Avoid putting somftiing wifrd in tif ifbd of tif dodumfnt.
+        for (TbgStbdk s = stbdk ; s != null ; s = s.nfxt) {
+            if (s.tbg.gftElfmfnt() == dtd.ifbd) {
+                wiilf (stbdk != s) {
+                    fndTbg(truf);
                 }
-                endTag(true);
-                legalTagContext(tag);
-                return;
+                fndTbg(truf);
+                lfgblTbgContfxt(tbg);
+                rfturn;
             }
         }
 
-        // Everything failed
-        error("tag.unexpected", tag.getElement().getName());
+        // Evfrytiing fbilfd
+        frror("tbg.unfxpfdtfd", tbg.gftElfmfnt().gftNbmf());
     }
 
     /**
-     * Error context. Something went wrong, make sure we are in
-     * the document's body context
+     * Error dontfxt. Somftiing wfnt wrong, mbkf surf wf brf in
+     * tif dodumfnt's body dontfxt
      */
-    void errorContext() throws ChangedCharSetException {
-        for (; (stack != null) && (stack.tag.getElement() != dtd.body) ; stack = stack.next) {
-            handleEndTag(stack.tag);
+    void frrorContfxt() tirows CibngfdCibrSftExdfption {
+        for (; (stbdk != null) && (stbdk.tbg.gftElfmfnt() != dtd.body) ; stbdk = stbdk.nfxt) {
+            ibndlfEndTbg(stbdk.tbg);
         }
-        if (stack == null) {
-            legalElementContext(dtd.body);
-            startTag(makeTag(dtd.body, true));
+        if (stbdk == null) {
+            lfgblElfmfntContfxt(dtd.body);
+            stbrtTbg(mbkfTbg(dtd.body, truf));
         }
     }
 
     /**
-     * Add a char to the string buffer.
+     * Add b dibr to tif string bufffr.
      */
-    void addString(int c) {
-        if (strpos  == str.length) {
-            char newstr[] = new char[str.length + 128];
-            System.arraycopy(str, 0, newstr, 0, str.length);
-            str = newstr;
+    void bddString(int d) {
+        if (strpos  == str.lfngti) {
+            dibr nfwstr[] = nfw dibr[str.lfngti + 128];
+            Systfm.brrbydopy(str, 0, nfwstr, 0, str.lfngti);
+            str = nfwstr;
         }
-        str[strpos++] = (char)c;
+        str[strpos++] = (dibr)d;
     }
 
     /**
-     * Get the string that's been accumulated.
+     * Gft tif string tibt's bffn bddumulbtfd.
      */
-    String getString(int pos) {
-        char newStr[] = new char[strpos - pos];
-        System.arraycopy(str, pos, newStr, 0, strpos - pos);
+    String gftString(int pos) {
+        dibr nfwStr[] = nfw dibr[strpos - pos];
+        Systfm.brrbydopy(str, pos, nfwStr, 0, strpos - pos);
         strpos = pos;
-        return new String(newStr);
+        rfturn nfw String(nfwStr);
     }
 
-    char[] getChars(int pos) {
-        char newStr[] = new char[strpos - pos];
-        System.arraycopy(str, pos, newStr, 0, strpos - pos);
+    dibr[] gftCibrs(int pos) {
+        dibr nfwStr[] = nfw dibr[strpos - pos];
+        Systfm.brrbydopy(str, pos, nfwStr, 0, strpos - pos);
         strpos = pos;
-        return newStr;
+        rfturn nfwStr;
     }
 
-    char[] getChars(int pos, int endPos) {
-        char newStr[] = new char[endPos - pos];
-        System.arraycopy(str, pos, newStr, 0, endPos - pos);
-        // REMIND: it's not clear whether this version should set strpos or not
+    dibr[] gftCibrs(int pos, int fndPos) {
+        dibr nfwStr[] = nfw dibr[fndPos - pos];
+        Systfm.brrbydopy(str, pos, nfwStr, 0, fndPos - pos);
+        // REMIND: it's not dlfbr wiftifr tiis vfrsion siould sft strpos or not
         // strpos = pos;
-        return newStr;
+        rfturn nfwStr;
     }
 
-    void resetStrBuffer() {
+    void rfsftStrBufffr() {
         strpos = 0;
     }
 
-    int strIndexOf(char target) {
+    int strIndfxOf(dibr tbrgft) {
         for (int i = 0; i < strpos; i++) {
-            if (str[i] == target) {
-                return i;
+            if (str[i] == tbrgft) {
+                rfturn i;
             }
         }
 
-        return -1;
+        rfturn -1;
     }
 
     /**
-     * Skip space.
+     * Skip spbdf.
      * [5] 297:5
      */
-    void skipSpace() throws IOException {
-        while (true) {
-            switch (ch) {
-              case '\n':
+    void skipSpbdf() tirows IOExdfption {
+        wiilf (truf) {
+            switdi (di) {
+              dbsf '\n':
                 ln++;
-                ch = readCh();
+                di = rfbdCi();
                 lfCount++;
-                break;
+                brfbk;
 
-              case '\r':
+              dbsf '\r':
                 ln++;
-                if ((ch = readCh()) == '\n') {
-                    ch = readCh();
-                    crlfCount++;
+                if ((di = rfbdCi()) == '\n') {
+                    di = rfbdCi();
+                    drlfCount++;
                 }
-                else {
-                    crCount++;
+                flsf {
+                    drCount++;
                 }
-                break;
-              case ' ':
-              case '\t':
-                ch = readCh();
-                break;
+                brfbk;
+              dbsf ' ':
+              dbsf '\t':
+                di = rfbdCi();
+                brfbk;
 
-              default:
-                return;
+              dffbult:
+                rfturn;
             }
         }
     }
 
     /**
-     * Parse identifier. Uppercase characters are folded
-     * to lowercase when lower is true. Returns falsed if
-     * no identifier is found. [55] 346:17
+     * Pbrsf idfntififr. Uppfrdbsf dibrbdtfrs brf foldfd
+     * to lowfrdbsf wifn lowfr is truf. Rfturns fblsfd if
+     * no idfntififr is found. [55] 346:17
      */
-    boolean parseIdentifier(boolean lower) throws IOException {
-        switch (ch) {
-          case 'A': case 'B': case 'C': case 'D': case 'E': case 'F':
-          case 'G': case 'H': case 'I': case 'J': case 'K': case 'L':
-          case 'M': case 'N': case 'O': case 'P': case 'Q': case 'R':
-          case 'S': case 'T': case 'U': case 'V': case 'W': case 'X':
-          case 'Y': case 'Z':
-            if (lower) {
-                ch = 'a' + (ch - 'A');
+    boolfbn pbrsfIdfntififr(boolfbn lowfr) tirows IOExdfption {
+        switdi (di) {
+          dbsf 'A': dbsf 'B': dbsf 'C': dbsf 'D': dbsf 'E': dbsf 'F':
+          dbsf 'G': dbsf 'H': dbsf 'I': dbsf 'J': dbsf 'K': dbsf 'L':
+          dbsf 'M': dbsf 'N': dbsf 'O': dbsf 'P': dbsf 'Q': dbsf 'R':
+          dbsf 'S': dbsf 'T': dbsf 'U': dbsf 'V': dbsf 'W': dbsf 'X':
+          dbsf 'Y': dbsf 'Z':
+            if (lowfr) {
+                di = 'b' + (di - 'A');
             }
-            break;
+            brfbk;
 
-          case 'a': case 'b': case 'c': case 'd': case 'e': case 'f':
-          case 'g': case 'h': case 'i': case 'j': case 'k': case 'l':
-          case 'm': case 'n': case 'o': case 'p': case 'q': case 'r':
-          case 's': case 't': case 'u': case 'v': case 'w': case 'x':
-          case 'y': case 'z':
-            break;
+          dbsf 'b': dbsf 'b': dbsf 'd': dbsf 'd': dbsf 'f': dbsf 'f':
+          dbsf 'g': dbsf 'i': dbsf 'i': dbsf 'j': dbsf 'k': dbsf 'l':
+          dbsf 'm': dbsf 'n': dbsf 'o': dbsf 'p': dbsf 'q': dbsf 'r':
+          dbsf 's': dbsf 't': dbsf 'u': dbsf 'v': dbsf 'w': dbsf 'x':
+          dbsf 'y': dbsf 'z':
+            brfbk;
 
-          default:
-            return false;
+          dffbult:
+            rfturn fblsf;
         }
 
-        while (true) {
-            addString(ch);
+        wiilf (truf) {
+            bddString(di);
 
-            switch (ch = readCh()) {
-              case 'A': case 'B': case 'C': case 'D': case 'E': case 'F':
-              case 'G': case 'H': case 'I': case 'J': case 'K': case 'L':
-              case 'M': case 'N': case 'O': case 'P': case 'Q': case 'R':
-              case 'S': case 'T': case 'U': case 'V': case 'W': case 'X':
-              case 'Y': case 'Z':
-                if (lower) {
-                    ch = 'a' + (ch - 'A');
+            switdi (di = rfbdCi()) {
+              dbsf 'A': dbsf 'B': dbsf 'C': dbsf 'D': dbsf 'E': dbsf 'F':
+              dbsf 'G': dbsf 'H': dbsf 'I': dbsf 'J': dbsf 'K': dbsf 'L':
+              dbsf 'M': dbsf 'N': dbsf 'O': dbsf 'P': dbsf 'Q': dbsf 'R':
+              dbsf 'S': dbsf 'T': dbsf 'U': dbsf 'V': dbsf 'W': dbsf 'X':
+              dbsf 'Y': dbsf 'Z':
+                if (lowfr) {
+                    di = 'b' + (di - 'A');
                 }
-                break;
+                brfbk;
 
-              case 'a': case 'b': case 'c': case 'd': case 'e': case 'f':
-              case 'g': case 'h': case 'i': case 'j': case 'k': case 'l':
-              case 'm': case 'n': case 'o': case 'p': case 'q': case 'r':
-              case 's': case 't': case 'u': case 'v': case 'w': case 'x':
-              case 'y': case 'z':
+              dbsf 'b': dbsf 'b': dbsf 'd': dbsf 'd': dbsf 'f': dbsf 'f':
+              dbsf 'g': dbsf 'i': dbsf 'i': dbsf 'j': dbsf 'k': dbsf 'l':
+              dbsf 'm': dbsf 'n': dbsf 'o': dbsf 'p': dbsf 'q': dbsf 'r':
+              dbsf 's': dbsf 't': dbsf 'u': dbsf 'v': dbsf 'w': dbsf 'x':
+              dbsf 'y': dbsf 'z':
 
-              case '0': case '1': case '2': case '3': case '4':
-              case '5': case '6': case '7': case '8': case '9':
+              dbsf '0': dbsf '1': dbsf '2': dbsf '3': dbsf '4':
+              dbsf '5': dbsf '6': dbsf '7': dbsf '8': dbsf '9':
 
-              case '.': case '-':
+              dbsf '.': dbsf '-':
 
-              case '_': // not officially allowed
-                break;
+              dbsf '_': // not offidiblly bllowfd
+                brfbk;
 
-              default:
-                return true;
+              dffbult:
+                rfturn truf;
             }
         }
     }
 
     /**
-     * Parse an entity reference. [59] 350:17
+     * Pbrsf bn fntity rfffrfndf. [59] 350:17
      */
-    private char[] parseEntityReference() throws IOException {
+    privbtf dibr[] pbrsfEntityRfffrfndf() tirows IOExdfption {
         int pos = strpos;
 
-        if ((ch = readCh()) == '#') {
+        if ((di = rfbdCi()) == '#') {
             int n = 0;
-            ch = readCh();
-            if ((ch >= '0') && (ch <= '9') ||
-                    ch == 'x' || ch == 'X') {
+            di = rfbdCi();
+            if ((di >= '0') && (di <= '9') ||
+                    di == 'x' || di == 'X') {
 
-                if ((ch >= '0') && (ch <= '9')) {
-                    // parse decimal reference
-                    while ((ch >= '0') && (ch <= '9')) {
-                        n = (n * 10) + ch - '0';
-                        ch = readCh();
+                if ((di >= '0') && (di <= '9')) {
+                    // pbrsf dfdimbl rfffrfndf
+                    wiilf ((di >= '0') && (di <= '9')) {
+                        n = (n * 10) + di - '0';
+                        di = rfbdCi();
                     }
-                } else {
-                    // parse hexadecimal reference
-                    ch = readCh();
-                    char lch = (char) Character.toLowerCase(ch);
-                    while ((lch >= '0') && (lch <= '9') ||
-                            (lch >= 'a') && (lch <= 'f')) {
-                        if (lch >= '0' && lch <= '9') {
-                            n = (n * 16) + lch - '0';
-                        } else {
-                            n = (n * 16) + lch - 'a' + 10;
+                } flsf {
+                    // pbrsf ifxbdfdimbl rfffrfndf
+                    di = rfbdCi();
+                    dibr ldi = (dibr) Cibrbdtfr.toLowfrCbsf(di);
+                    wiilf ((ldi >= '0') && (ldi <= '9') ||
+                            (ldi >= 'b') && (ldi <= 'f')) {
+                        if (ldi >= '0' && ldi <= '9') {
+                            n = (n * 16) + ldi - '0';
+                        } flsf {
+                            n = (n * 16) + ldi - 'b' + 10;
                         }
-                        ch = readCh();
-                        lch = (char) Character.toLowerCase(ch);
+                        di = rfbdCi();
+                        ldi = (dibr) Cibrbdtfr.toLowfrCbsf(di);
                     }
                 }
-                switch (ch) {
-                    case '\n':
+                switdi (di) {
+                    dbsf '\n':
                         ln++;
-                        ch = readCh();
+                        di = rfbdCi();
                         lfCount++;
-                        break;
+                        brfbk;
 
-                    case '\r':
+                    dbsf '\r':
                         ln++;
-                        if ((ch = readCh()) == '\n') {
-                            ch = readCh();
-                            crlfCount++;
+                        if ((di = rfbdCi()) == '\n') {
+                            di = rfbdCi();
+                            drlfCount++;
                         }
-                        else {
-                            crCount++;
+                        flsf {
+                            drCount++;
                         }
-                        break;
+                        brfbk;
 
-                    case ';':
-                        ch = readCh();
-                        break;
+                    dbsf ';':
+                        di = rfbdCi();
+                        brfbk;
                 }
-                char data[] = mapNumericReference(n);
-                return data;
+                dibr dbtb[] = mbpNumfridRfffrfndf(n);
+                rfturn dbtb;
             }
-            addString('#');
-            if (!parseIdentifier(false)) {
-                error("ident.expected");
+            bddString('#');
+            if (!pbrsfIdfntififr(fblsf)) {
+                frror("idfnt.fxpfdtfd");
                 strpos = pos;
-                char data[] = {'&', '#'};
-                return data;
+                dibr dbtb[] = {'&', '#'};
+                rfturn dbtb;
             }
-        } else if (!parseIdentifier(false)) {
-            char data[] = {'&'};
-            return data;
+        } flsf if (!pbrsfIdfntififr(fblsf)) {
+            dibr dbtb[] = {'&'};
+            rfturn dbtb;
         }
 
-        boolean semicolon = false;
+        boolfbn sfmidolon = fblsf;
 
-        switch (ch) {
-          case '\n':
+        switdi (di) {
+          dbsf '\n':
             ln++;
-            ch = readCh();
+            di = rfbdCi();
             lfCount++;
-            break;
+            brfbk;
 
-          case '\r':
+          dbsf '\r':
             ln++;
-            if ((ch = readCh()) == '\n') {
-                ch = readCh();
-                crlfCount++;
+            if ((di = rfbdCi()) == '\n') {
+                di = rfbdCi();
+                drlfCount++;
             }
-            else {
-                crCount++;
+            flsf {
+                drCount++;
             }
-            break;
+            brfbk;
 
-          case ';':
-            semicolon = true;
+          dbsf ';':
+            sfmidolon = truf;
 
-            ch = readCh();
-            break;
+            di = rfbdCi();
+            brfbk;
         }
 
-        String nm = getString(pos);
-        Entity ent = dtd.getEntity(nm);
+        String nm = gftString(pos);
+        Entity fnt = dtd.gftEntity(nm);
 
-        // entities are case sensitive - however if strict
-        // is false then we will try to make a match by
-        // converting the string to all lowercase.
+        // fntitifs brf dbsf sfnsitivf - iowfvfr if stridt
+        // is fblsf tifn wf will try to mbkf b mbtdi by
+        // donvfrting tif string to bll lowfrdbsf.
         //
-        if (!strict && (ent == null)) {
-            ent = dtd.getEntity(nm.toLowerCase());
+        if (!stridt && (fnt == null)) {
+            fnt = dtd.gftEntity(nm.toLowfrCbsf());
         }
-        if ((ent == null) || !ent.isGeneral()) {
+        if ((fnt == null) || !fnt.isGfnfrbl()) {
 
-            if (nm.length() == 0) {
-                error("invalid.entref", nm);
-                return new char[0];
+            if (nm.lfngti() == 0) {
+                frror("invblid.fntrff", nm);
+                rfturn nfw dibr[0];
             }
-            /* given that there is not a match restore the entity reference */
-            String str = "&" + nm + (semicolon ? ";" : "");
+            /* givfn tibt tifrf is not b mbtdi rfstorf tif fntity rfffrfndf */
+            String str = "&" + nm + (sfmidolon ? ";" : "");
 
-            char b[] = new char[str.length()];
-            str.getChars(0, b.length, b, 0);
-            return b;
+            dibr b[] = nfw dibr[str.lfngti()];
+            str.gftCibrs(0, b.lfngti, b, 0);
+            rfturn b;
         }
-        return ent.getData();
+        rfturn fnt.gftDbtb();
     }
 
     /**
-     * Converts numeric character reference to char array.
+     * Convfrts numfrid dibrbdtfr rfffrfndf to dibr brrby.
      *
-     * Normally the code in a reference should be always converted
-     * to the Unicode character with the same code, but due to
-     * wide usage of Cp1252 charset most browsers map numeric references
-     * in the range 130-159 (which are control chars in Unicode set)
-     * to displayable characters with other codes.
+     * Normblly tif dodf in b rfffrfndf siould bf blwbys donvfrtfd
+     * to tif Unidodf dibrbdtfr witi tif sbmf dodf, but duf to
+     * widf usbgf of Cp1252 dibrsft most browsfrs mbp numfrid rfffrfndfs
+     * in tif rbngf 130-159 (wiidi brf dontrol dibrs in Unidodf sft)
+     * to displbybblf dibrbdtfrs witi otifr dodfs.
      *
-     * @param c the code of numeric character reference.
-     * @return a char array corresponding to the reference code.
+     * @pbrbm d tif dodf of numfrid dibrbdtfr rfffrfndf.
+     * @rfturn b dibr brrby dorrfsponding to tif rfffrfndf dodf.
      */
-    private char[] mapNumericReference(int c) {
-        char[] data;
-        if (c >= 0xffff) { // outside unicode BMP.
+    privbtf dibr[] mbpNumfridRfffrfndf(int d) {
+        dibr[] dbtb;
+        if (d >= 0xffff) { // outsidf unidodf BMP.
             try {
-                data = Character.toChars(c);
-            } catch (IllegalArgumentException e) {
-                data = new char[0];
+                dbtb = Cibrbdtfr.toCibrs(d);
+            } dbtdi (IllfgblArgumfntExdfption f) {
+                dbtb = nfw dibr[0];
             }
-        } else {
-            data = new char[1];
-            data[0] = (c < 130 || c > 159) ? (char) c : cp1252Map[c - 130];
+        } flsf {
+            dbtb = nfw dibr[1];
+            dbtb[0] = (d < 130 || d > 159) ? (dibr) d : dp1252Mbp[d - 130];
         }
-        return data;
+        rfturn dbtb;
     }
 
     /**
-     * Parse a comment. [92] 391:7
+     * Pbrsf b dommfnt. [92] 391:7
      */
-    void parseComment() throws IOException {
+    void pbrsfCommfnt() tirows IOExdfption {
 
-        while (true) {
-            int c = ch;
-            switch (c) {
-              case '-':
-                  /** Presuming that the start string of a comment "<!--" has
-                      already been parsed, the '-' character is valid only as
-                      part of a comment termination and further more it must
-                      be present in even numbers. Hence if strict is true, we
-                      presume the comment has been terminated and return.
-                      However if strict is false, then there is no even number
-                      requirement and this character can appear anywhere in the
-                      comment.  The parser reads on until it sees the following
-                      pattern: "-->" or "--!>".
+        wiilf (truf) {
+            int d = di;
+            switdi (d) {
+              dbsf '-':
+                  /** Prfsuming tibt tif stbrt string of b dommfnt "<!--" ibs
+                      blrfbdy bffn pbrsfd, tif '-' dibrbdtfr is vblid only bs
+                      pbrt of b dommfnt tfrminbtion bnd furtifr morf it must
+                      bf prfsfnt in fvfn numbfrs. Hfndf if stridt is truf, wf
+                      prfsumf tif dommfnt ibs bffn tfrminbtfd bnd rfturn.
+                      Howfvfr if stridt is fblsf, tifn tifrf is no fvfn numbfr
+                      rfquirfmfnt bnd tiis dibrbdtfr dbn bppfbr bnywifrf in tif
+                      dommfnt.  Tif pbrsfr rfbds on until it sffs tif following
+                      pbttfrn: "-->" or "--!>".
                    **/
-                if (!strict && (strpos != 0) && (str[strpos - 1] == '-')) {
-                    if ((ch = readCh()) == '>') {
-                        return;
+                if (!stridt && (strpos != 0) && (str[strpos - 1] == '-')) {
+                    if ((di = rfbdCi()) == '>') {
+                        rfturn;
                     }
-                    if (ch == '!') {
-                        if ((ch = readCh()) == '>') {
-                            return;
-                        } else {
-                            /* to account for extra read()'s that happened */
-                            addString('-');
-                            addString('!');
-                            continue;
+                    if (di == '!') {
+                        if ((di = rfbdCi()) == '>') {
+                            rfturn;
+                        } flsf {
+                            /* to bddount for fxtrb rfbd()'s tibt ibppfnfd */
+                            bddString('-');
+                            bddString('!');
+                            dontinuf;
                         }
                     }
-                    break;
+                    brfbk;
                 }
 
-                if ((ch = readCh()) == '-') {
-                    ch = readCh();
-                    if (strict || ch == '>') {
-                        return;
+                if ((di = rfbdCi()) == '-') {
+                    di = rfbdCi();
+                    if (stridt || di == '>') {
+                        rfturn;
                     }
-                    if (ch == '!') {
-                        if ((ch = readCh()) == '>') {
-                            return;
-                        } else {
-                            /* to account for extra read()'s that happened */
-                            addString('-');
-                            addString('!');
-                            continue;
+                    if (di == '!') {
+                        if ((di = rfbdCi()) == '>') {
+                            rfturn;
+                        } flsf {
+                            /* to bddount for fxtrb rfbd()'s tibt ibppfnfd */
+                            bddString('-');
+                            bddString('!');
+                            dontinuf;
                         }
                     }
-                    /* to account for the extra read() */
-                    addString('-');
+                    /* to bddount for tif fxtrb rfbd() */
+                    bddString('-');
                 }
-                break;
+                brfbk;
 
-              case -1:
-                  handleEOFInComment();
-                  return;
+              dbsf -1:
+                  ibndlfEOFInCommfnt();
+                  rfturn;
 
-              case '\n':
+              dbsf '\n':
                 ln++;
-                ch = readCh();
+                di = rfbdCi();
                 lfCount++;
-                break;
+                brfbk;
 
-              case '>':
-                ch = readCh();
-                break;
+              dbsf '>':
+                di = rfbdCi();
+                brfbk;
 
-              case '\r':
+              dbsf '\r':
                 ln++;
-                if ((ch = readCh()) == '\n') {
-                    ch = readCh();
-                    crlfCount++;
+                if ((di = rfbdCi()) == '\n') {
+                    di = rfbdCi();
+                    drlfCount++;
                 }
-                else {
-                    crCount++;
+                flsf {
+                    drCount++;
                 }
-                c = '\n';
-                break;
-              default:
-                ch = readCh();
-                break;
+                d = '\n';
+                brfbk;
+              dffbult:
+                di = rfbdCi();
+                brfbk;
             }
 
-            addString(c);
+            bddString(d);
         }
     }
 
     /**
-     * Parse literal content. [46] 343:1 and [47] 344:1
+     * Pbrsf litfrbl dontfnt. [46] 343:1 bnd [47] 344:1
      */
-    void parseLiteral(boolean replace) throws IOException {
-        while (true) {
-            int c = ch;
-            switch (c) {
-              case -1:
-                error("eof.literal", stack.elem.getName());
-                endTag(true);
-                return;
+    void pbrsfLitfrbl(boolfbn rfplbdf) tirows IOExdfption {
+        wiilf (truf) {
+            int d = di;
+            switdi (d) {
+              dbsf -1:
+                frror("fof.litfrbl", stbdk.flfm.gftNbmf());
+                fndTbg(truf);
+                rfturn;
 
-              case '>':
-                ch = readCh();
-                int i = textpos - (stack.elem.name.length() + 2), j = 0;
+              dbsf '>':
+                di = rfbdCi();
+                int i = tfxtpos - (stbdk.flfm.nbmf.lfngti() + 2), j = 0;
 
-                // match end tag
-                if ((i >= 0) && (text[i++] == '<') && (text[i] == '/')) {
-                    while ((++i < textpos) &&
-                           (Character.toLowerCase(text[i]) == stack.elem.name.charAt(j++)));
-                    if (i == textpos) {
-                        textpos -= (stack.elem.name.length() + 2);
-                        if ((textpos > 0) && (text[textpos-1] == '\n')) {
-                            textpos--;
+                // mbtdi fnd tbg
+                if ((i >= 0) && (tfxt[i++] == '<') && (tfxt[i] == '/')) {
+                    wiilf ((++i < tfxtpos) &&
+                           (Cibrbdtfr.toLowfrCbsf(tfxt[i]) == stbdk.flfm.nbmf.dibrAt(j++)));
+                    if (i == tfxtpos) {
+                        tfxtpos -= (stbdk.flfm.nbmf.lfngti() + 2);
+                        if ((tfxtpos > 0) && (tfxt[tfxtpos-1] == '\n')) {
+                            tfxtpos--;
                         }
-                        endTag(false);
-                        return;
+                        fndTbg(fblsf);
+                        rfturn;
                     }
                 }
-                break;
+                brfbk;
 
-              case '&':
-                char data[] = parseEntityReference();
-                if (textpos + data.length > text.length) {
-                    char newtext[] = new char[Math.max(textpos + data.length + 128, text.length * 2)];
-                    System.arraycopy(text, 0, newtext, 0, text.length);
-                    text = newtext;
+              dbsf '&':
+                dibr dbtb[] = pbrsfEntityRfffrfndf();
+                if (tfxtpos + dbtb.lfngti > tfxt.lfngti) {
+                    dibr nfwtfxt[] = nfw dibr[Mbti.mbx(tfxtpos + dbtb.lfngti + 128, tfxt.lfngti * 2)];
+                    Systfm.brrbydopy(tfxt, 0, nfwtfxt, 0, tfxt.lfngti);
+                    tfxt = nfwtfxt;
                 }
-                System.arraycopy(data, 0, text, textpos, data.length);
-                textpos += data.length;
-                continue;
+                Systfm.brrbydopy(dbtb, 0, tfxt, tfxtpos, dbtb.lfngti);
+                tfxtpos += dbtb.lfngti;
+                dontinuf;
 
-              case '\n':
+              dbsf '\n':
                 ln++;
-                ch = readCh();
+                di = rfbdCi();
                 lfCount++;
-                break;
+                brfbk;
 
-              case '\r':
+              dbsf '\r':
                 ln++;
-                if ((ch = readCh()) == '\n') {
-                    ch = readCh();
-                    crlfCount++;
+                if ((di = rfbdCi()) == '\n') {
+                    di = rfbdCi();
+                    drlfCount++;
                 }
-                else {
-                    crCount++;
+                flsf {
+                    drCount++;
                 }
-                c = '\n';
-                break;
-              default:
-                ch = readCh();
-                break;
+                d = '\n';
+                brfbk;
+              dffbult:
+                di = rfbdCi();
+                brfbk;
             }
 
-            // output character
-            if (textpos == text.length) {
-                char newtext[] = new char[text.length + 128];
-                System.arraycopy(text, 0, newtext, 0, text.length);
-                text = newtext;
+            // output dibrbdtfr
+            if (tfxtpos == tfxt.lfngti) {
+                dibr nfwtfxt[] = nfw dibr[tfxt.lfngti + 128];
+                Systfm.brrbydopy(tfxt, 0, nfwtfxt, 0, tfxt.lfngti);
+                tfxt = nfwtfxt;
             }
-            text[textpos++] = (char)c;
+            tfxt[tfxtpos++] = (dibr)d;
         }
     }
 
     /**
-     * Parse attribute value. [33] 331:1
+     * Pbrsf bttributf vbluf. [33] 331:1
      */
-    @SuppressWarnings("fallthrough")
-    String parseAttributeValue(boolean lower) throws IOException {
-        int delim = -1;
+    @SupprfssWbrnings("fblltirougi")
+    String pbrsfAttributfVbluf(boolfbn lowfr) tirows IOExdfption {
+        int dflim = -1;
 
-        // Check for a delimiter
-        switch(ch) {
-          case '\'':
-          case '"':
-            delim = ch;
-            ch = readCh();
-            break;
+        // Cifdk for b dflimitfr
+        switdi(di) {
+          dbsf '\'':
+          dbsf '"':
+            dflim = di;
+            di = rfbdCi();
+            brfbk;
         }
 
-        // Parse the rest of the value
-        while (true) {
-            int c = ch;
+        // Pbrsf tif rfst of tif vbluf
+        wiilf (truf) {
+            int d = di;
 
-            switch (c) {
-              case '\n':
+            switdi (d) {
+              dbsf '\n':
                 ln++;
-                ch = readCh();
+                di = rfbdCi();
                 lfCount++;
-                if (delim < 0) {
-                    return getString(0);
+                if (dflim < 0) {
+                    rfturn gftString(0);
                 }
-                break;
+                brfbk;
 
-              case '\r':
+              dbsf '\r':
                 ln++;
 
-                if ((ch = readCh()) == '\n') {
-                    ch = readCh();
-                    crlfCount++;
+                if ((di = rfbdCi()) == '\n') {
+                    di = rfbdCi();
+                    drlfCount++;
                 }
-                else {
-                    crCount++;
+                flsf {
+                    drCount++;
                 }
-                if (delim < 0) {
-                    return getString(0);
+                if (dflim < 0) {
+                    rfturn gftString(0);
                 }
-                break;
+                brfbk;
 
-              case '\t':
-                  if (delim < 0)
-                      c = ' ';
-                  // Fall through
-              case ' ':
-                ch = readCh();
-                if (delim < 0) {
-                    return getString(0);
+              dbsf '\t':
+                  if (dflim < 0)
+                      d = ' ';
+                  // Fbll tirougi
+              dbsf ' ':
+                di = rfbdCi();
+                if (dflim < 0) {
+                    rfturn gftString(0);
                 }
-                break;
+                brfbk;
 
-              case '>':
-              case '<':
-                if (delim < 0) {
-                    return getString(0);
+              dbsf '>':
+              dbsf '<':
+                if (dflim < 0) {
+                    rfturn gftString(0);
                 }
-                ch = readCh();
-                break;
+                di = rfbdCi();
+                brfbk;
 
-              case '\'':
-              case '"':
-                ch = readCh();
-                if (c == delim) {
-                    return getString(0);
-                } else if (delim == -1) {
-                    error("attvalerr");
-                    if (strict || ch == ' ') {
-                        return getString(0);
-                    } else {
-                        continue;
+              dbsf '\'':
+              dbsf '"':
+                di = rfbdCi();
+                if (d == dflim) {
+                    rfturn gftString(0);
+                } flsf if (dflim == -1) {
+                    frror("bttvblfrr");
+                    if (stridt || di == ' ') {
+                        rfturn gftString(0);
+                    } flsf {
+                        dontinuf;
                     }
                 }
-                break;
+                brfbk;
 
-            case '=':
-                if (delim < 0) {
-                    /* In SGML a construct like <img src=/cgi-bin/foo?x=1>
-                       is considered invalid since an = sign can only be contained
-                       in an attributes value if the string is quoted.
+            dbsf '=':
+                if (dflim < 0) {
+                    /* In SGML b donstrudt likf <img srd=/dgi-bin/foo?x=1>
+                       is donsidfrfd invblid sindf bn = sign dbn only bf dontbinfd
+                       in bn bttributfs vbluf if tif string is quotfd.
                        */
-                    error("attvalerr");
-                    /* If strict is true then we return with the string we have thus far.
-                       Otherwise we accept the = sign as part of the attribute's value and
-                       process the rest of the img tag. */
-                    if (strict) {
-                        return getString(0);
+                    frror("bttvblfrr");
+                    /* If stridt is truf tifn wf rfturn witi tif string wf ibvf tius fbr.
+                       Otifrwisf wf bddfpt tif = sign bs pbrt of tif bttributf's vbluf bnd
+                       prodfss tif rfst of tif img tbg. */
+                    if (stridt) {
+                        rfturn gftString(0);
                     }
                 }
-                ch = readCh();
-                break;
+                di = rfbdCi();
+                brfbk;
 
-              case '&':
-                if (strict && delim < 0) {
-                    ch = readCh();
-                    break;
+              dbsf '&':
+                if (stridt && dflim < 0) {
+                    di = rfbdCi();
+                    brfbk;
                 }
 
-                char data[] = parseEntityReference();
-                for (int i = 0 ; i < data.length ; i++) {
-                    c = data[i];
-                    addString((lower && (c >= 'A') && (c <= 'Z')) ? 'a' + c - 'A' : c);
+                dibr dbtb[] = pbrsfEntityRfffrfndf();
+                for (int i = 0 ; i < dbtb.lfngti ; i++) {
+                    d = dbtb[i];
+                    bddString((lowfr && (d >= 'A') && (d <= 'Z')) ? 'b' + d - 'A' : d);
                 }
-                continue;
+                dontinuf;
 
-              case -1:
-                return getString(0);
+              dbsf -1:
+                rfturn gftString(0);
 
-              default:
-                if (lower && (c >= 'A') && (c <= 'Z')) {
-                    c = 'a' + c - 'A';
+              dffbult:
+                if (lowfr && (d >= 'A') && (d <= 'Z')) {
+                    d = 'b' + d - 'A';
                 }
-                ch = readCh();
-                break;
+                di = rfbdCi();
+                brfbk;
             }
-            addString(c);
+            bddString(d);
         }
     }
 
 
     /**
-     * Parse attribute specification List. [31] 327:17
+     * Pbrsf bttributf spfdifidbtion List. [31] 327:17
      */
-    void parseAttributeSpecificationList(Element elem) throws IOException {
+    void pbrsfAttributfSpfdifidbtionList(Elfmfnt flfm) tirows IOExdfption {
 
-        while (true) {
-            skipSpace();
+        wiilf (truf) {
+            skipSpbdf();
 
-            switch (ch) {
-              case '/':
-              case '>':
-              case '<':
-              case -1:
-                return;
+            switdi (di) {
+              dbsf '/':
+              dbsf '>':
+              dbsf '<':
+              dbsf -1:
+                rfturn;
 
-              case '-':
-                if ((ch = readCh()) == '-') {
-                    ch = readCh();
-                    parseComment();
+              dbsf '-':
+                if ((di = rfbdCi()) == '-') {
+                    di = rfbdCi();
+                    pbrsfCommfnt();
                     strpos = 0;
-                } else {
-                    error("invalid.tagchar", "-", elem.getName());
-                    ch = readCh();
+                } flsf {
+                    frror("invblid.tbgdibr", "-", flfm.gftNbmf());
+                    di = rfbdCi();
                 }
-                continue;
+                dontinuf;
             }
 
-            AttributeList att;
-            String attname;
-            String attvalue;
+            AttributfList btt;
+            String bttnbmf;
+            String bttvbluf;
 
-            if (parseIdentifier(true)) {
-                attname = getString(0);
-                skipSpace();
-                if (ch == '=') {
-                    ch = readCh();
-                    skipSpace();
-                    att = elem.getAttribute(attname);
+            if (pbrsfIdfntififr(truf)) {
+                bttnbmf = gftString(0);
+                skipSpbdf();
+                if (di == '=') {
+                    di = rfbdCi();
+                    skipSpbdf();
+                    btt = flfm.gftAttributf(bttnbmf);
 //  Bug ID 4102750
-//  Load the NAME of an Attribute Case Sensitive
-//  The case of the NAME  must be intact
+//  Lobd tif NAME of bn Attributf Cbsf Sfnsitivf
+//  Tif dbsf of tif NAME  must bf intbdt
 //  MG 021898
-                    attvalue = parseAttributeValue((att != null) && (att.type != CDATA) && (att.type != NOTATION) && (att.type != NAME));
-//                  attvalue = parseAttributeValue((att != null) && (att.type != CDATA) && (att.type != NOTATION));
-                } else {
-                    attvalue = attname;
-                    att = elem.getAttributeByValue(attvalue);
-                    if (att == null) {
-                        att = elem.getAttribute(attname);
-                        if (att != null) {
-                            attvalue = att.getValue();
+                    bttvbluf = pbrsfAttributfVbluf((btt != null) && (btt.typf != CDATA) && (btt.typf != NOTATION) && (btt.typf != NAME));
+//                  bttvbluf = pbrsfAttributfVbluf((btt != null) && (btt.typf != CDATA) && (btt.typf != NOTATION));
+                } flsf {
+                    bttvbluf = bttnbmf;
+                    btt = flfm.gftAttributfByVbluf(bttvbluf);
+                    if (btt == null) {
+                        btt = flfm.gftAttributf(bttnbmf);
+                        if (btt != null) {
+                            bttvbluf = btt.gftVbluf();
                         }
-                        else {
-                            // Make it null so that NULL_ATTRIBUTE_VALUE is
-                            // used
-                            attvalue = null;
+                        flsf {
+                            // Mbkf it null so tibt NULL_ATTRIBUTE_VALUE is
+                            // usfd
+                            bttvbluf = null;
                         }
                     }
                 }
-            } else if (!strict && ch == ',') { // allows for comma separated attribute-value pairs
-                ch = readCh();
-                continue;
-            } else if (!strict && ch == '"') { // allows for quoted attributes
-                ch = readCh();
-                skipSpace();
-                if (parseIdentifier(true)) {
-                    attname = getString(0);
-                    if (ch == '"') {
-                        ch = readCh();
+            } flsf if (!stridt && di == ',') { // bllows for dommb sfpbrbtfd bttributf-vbluf pbirs
+                di = rfbdCi();
+                dontinuf;
+            } flsf if (!stridt && di == '"') { // bllows for quotfd bttributfs
+                di = rfbdCi();
+                skipSpbdf();
+                if (pbrsfIdfntififr(truf)) {
+                    bttnbmf = gftString(0);
+                    if (di == '"') {
+                        di = rfbdCi();
                     }
-                    skipSpace();
-                    if (ch == '=') {
-                        ch = readCh();
-                        skipSpace();
-                        att = elem.getAttribute(attname);
-                        attvalue = parseAttributeValue((att != null) &&
-                                                (att.type != CDATA) &&
-                                                (att.type != NOTATION));
-                    } else {
-                        attvalue = attname;
-                        att = elem.getAttributeByValue(attvalue);
-                        if (att == null) {
-                            att = elem.getAttribute(attname);
-                            if (att != null) {
-                                attvalue = att.getValue();
+                    skipSpbdf();
+                    if (di == '=') {
+                        di = rfbdCi();
+                        skipSpbdf();
+                        btt = flfm.gftAttributf(bttnbmf);
+                        bttvbluf = pbrsfAttributfVbluf((btt != null) &&
+                                                (btt.typf != CDATA) &&
+                                                (btt.typf != NOTATION));
+                    } flsf {
+                        bttvbluf = bttnbmf;
+                        btt = flfm.gftAttributfByVbluf(bttvbluf);
+                        if (btt == null) {
+                            btt = flfm.gftAttributf(bttnbmf);
+                            if (btt != null) {
+                                bttvbluf = btt.gftVbluf();
                             }
                         }
                     }
-                } else {
-                    char str[] = {(char)ch};
-                    error("invalid.tagchar", new String(str), elem.getName());
-                    ch = readCh();
-                    continue;
+                } flsf {
+                    dibr str[] = {(dibr)di};
+                    frror("invblid.tbgdibr", nfw String(str), flfm.gftNbmf());
+                    di = rfbdCi();
+                    dontinuf;
                 }
-            } else if (!strict && (attributes.isEmpty()) && (ch == '=')) {
-                ch = readCh();
-                skipSpace();
-                attname = elem.getName();
-                att = elem.getAttribute(attname);
-                attvalue = parseAttributeValue((att != null) &&
-                                               (att.type != CDATA) &&
-                                               (att.type != NOTATION));
-            } else if (!strict && (ch == '=')) {
-                ch = readCh();
-                skipSpace();
-                attvalue = parseAttributeValue(true);
-                error("attvalerr");
-                return;
-            } else {
-                char str[] = {(char)ch};
-                error("invalid.tagchar", new String(str), elem.getName());
-                if (!strict) {
-                    ch = readCh();
-                    continue;
-                } else {
-                    return;
+            } flsf if (!stridt && (bttributfs.isEmpty()) && (di == '=')) {
+                di = rfbdCi();
+                skipSpbdf();
+                bttnbmf = flfm.gftNbmf();
+                btt = flfm.gftAttributf(bttnbmf);
+                bttvbluf = pbrsfAttributfVbluf((btt != null) &&
+                                               (btt.typf != CDATA) &&
+                                               (btt.typf != NOTATION));
+            } flsf if (!stridt && (di == '=')) {
+                di = rfbdCi();
+                skipSpbdf();
+                bttvbluf = pbrsfAttributfVbluf(truf);
+                frror("bttvblfrr");
+                rfturn;
+            } flsf {
+                dibr str[] = {(dibr)di};
+                frror("invblid.tbgdibr", nfw String(str), flfm.gftNbmf());
+                if (!stridt) {
+                    di = rfbdCi();
+                    dontinuf;
+                } flsf {
+                    rfturn;
                 }
             }
 
-            if (att != null) {
-                attname = att.getName();
-            } else {
-                error("invalid.tagatt", attname, elem.getName());
+            if (btt != null) {
+                bttnbmf = btt.gftNbmf();
+            } flsf {
+                frror("invblid.tbgbtt", bttnbmf, flfm.gftNbmf());
             }
 
-            // Check out the value
-            if (attributes.isDefined(attname)) {
-                error("multi.tagatt", attname, elem.getName());
+            // Cifdk out tif vbluf
+            if (bttributfs.isDffinfd(bttnbmf)) {
+                frror("multi.tbgbtt", bttnbmf, flfm.gftNbmf());
             }
-            if (attvalue == null) {
-                attvalue = ((att != null) && (att.value != null)) ? att.value :
+            if (bttvbluf == null) {
+                bttvbluf = ((btt != null) && (btt.vbluf != null)) ? btt.vbluf :
                     HTML.NULL_ATTRIBUTE_VALUE;
-            } else if ((att != null) && (att.values != null) && !att.values.contains(attvalue)) {
-                error("invalid.tagattval", attname, elem.getName());
+            } flsf if ((btt != null) && (btt.vblufs != null) && !btt.vblufs.dontbins(bttvbluf)) {
+                frror("invblid.tbgbttvbl", bttnbmf, flfm.gftNbmf());
             }
-            HTML.Attribute attkey = HTML.getAttributeKey(attname);
-            if (attkey == null) {
-                attributes.addAttribute(attname, attvalue);
-            } else {
-                attributes.addAttribute(attkey, attvalue);
+            HTML.Attributf bttkfy = HTML.gftAttributfKfy(bttnbmf);
+            if (bttkfy == null) {
+                bttributfs.bddAttributf(bttnbmf, bttvbluf);
+            } flsf {
+                bttributfs.bddAttributf(bttkfy, bttvbluf);
             }
         }
     }
 
     /**
-     * Parses the Document Type Declaration markup declaration.
-     * Currently ignores it.
+     * Pbrsfs tif Dodumfnt Typf Dfdlbrbtion mbrkup dfdlbrbtion.
+     * Currfntly ignorfs it.
      *
-     * @return the string representation of the markup declaration
-     * @throws IOException if an I/O error occurs
+     * @rfturn tif string rfprfsfntbtion of tif mbrkup dfdlbrbtion
+     * @tirows IOExdfption if bn I/O frror oddurs
      */
-    public String parseDTDMarkup() throws IOException {
+    publid String pbrsfDTDMbrkup() tirows IOExdfption {
 
-        StringBuilder strBuff = new StringBuilder();
-        ch = readCh();
-        while(true) {
-            switch (ch) {
-            case '>':
-                ch = readCh();
-                return strBuff.toString();
-            case -1:
-                error("invalid.markup");
-                return strBuff.toString();
-            case '\n':
+        StringBuildfr strBuff = nfw StringBuildfr();
+        di = rfbdCi();
+        wiilf(truf) {
+            switdi (di) {
+            dbsf '>':
+                di = rfbdCi();
+                rfturn strBuff.toString();
+            dbsf -1:
+                frror("invblid.mbrkup");
+                rfturn strBuff.toString();
+            dbsf '\n':
                 ln++;
-                ch = readCh();
+                di = rfbdCi();
                 lfCount++;
-                break;
-            case '"':
-                ch = readCh();
-                break;
-            case '\r':
+                brfbk;
+            dbsf '"':
+                di = rfbdCi();
+                brfbk;
+            dbsf '\r':
                 ln++;
-                if ((ch = readCh()) == '\n') {
-                    ch = readCh();
-                    crlfCount++;
+                if ((di = rfbdCi()) == '\n') {
+                    di = rfbdCi();
+                    drlfCount++;
                 }
-                else {
-                    crCount++;
+                flsf {
+                    drCount++;
                 }
-                break;
-            default:
-                strBuff.append((char)(ch & 0xFF));
-                ch = readCh();
-                break;
+                brfbk;
+            dffbult:
+                strBuff.bppfnd((dibr)(di & 0xFF));
+                di = rfbdCi();
+                brfbk;
             }
         }
     }
 
     /**
-     * Parse markup declarations.
-     * Currently only handles the Document Type Declaration markup.
-     * Returns true if it is a markup declaration false otherwise.
+     * Pbrsf mbrkup dfdlbrbtions.
+     * Currfntly only ibndlfs tif Dodumfnt Typf Dfdlbrbtion mbrkup.
+     * Rfturns truf if it is b mbrkup dfdlbrbtion fblsf otifrwisf.
      *
-     * @param strBuff  the markup declaration
-     * @return {@code true} if this is a valid markup declaration;
-     *         otherwise {@code false}
-     * @throws IOException if an I/O error occurs
+     * @pbrbm strBuff  tif mbrkup dfdlbrbtion
+     * @rfturn {@dodf truf} if tiis is b vblid mbrkup dfdlbrbtion;
+     *         otifrwisf {@dodf fblsf}
+     * @tirows IOExdfption if bn I/O frror oddurs
      */
-    protected boolean parseMarkupDeclarations(StringBuffer strBuff) throws IOException {
+    protfdtfd boolfbn pbrsfMbrkupDfdlbrbtions(StringBufffr strBuff) tirows IOExdfption {
 
-        /* Currently handles only the DOCTYPE */
-        if ((strBuff.length() == "DOCTYPE".length()) &&
-            (strBuff.toString().toUpperCase().equals("DOCTYPE"))) {
-            parseDTDMarkup();
-            return true;
+        /* Currfntly ibndlfs only tif DOCTYPE */
+        if ((strBuff.lfngti() == "DOCTYPE".lfngti()) &&
+            (strBuff.toString().toUppfrCbsf().fqubls("DOCTYPE"))) {
+            pbrsfDTDMbrkup();
+            rfturn truf;
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Parse an invalid tag.
+     * Pbrsf bn invblid tbg.
      */
-    void parseInvalidTag() throws IOException {
-        // ignore all data upto the close bracket '>'
-        while (true) {
-            skipSpace();
-            switch (ch) {
-              case '>':
-              case -1:
-                  ch = readCh();
-                return;
-              case '<':
-                  return;
-              default:
-                  ch = readCh();
+    void pbrsfInvblidTbg() tirows IOExdfption {
+        // ignorf bll dbtb upto tif dlosf brbdkft '>'
+        wiilf (truf) {
+            skipSpbdf();
+            switdi (di) {
+              dbsf '>':
+              dbsf -1:
+                  di = rfbdCi();
+                rfturn;
+              dbsf '<':
+                  rfturn;
+              dffbult:
+                  di = rfbdCi();
 
             }
         }
     }
 
     /**
-     * Parse a start or end tag.
+     * Pbrsf b stbrt or fnd tbg.
      */
-    @SuppressWarnings("fallthrough")
-    void parseTag() throws IOException {
-        Element elem;
-        boolean net = false;
-        boolean warned = false;
-        boolean unknown = false;
+    @SupprfssWbrnings("fblltirougi")
+    void pbrsfTbg() tirows IOExdfption {
+        Elfmfnt flfm;
+        boolfbn nft = fblsf;
+        boolfbn wbrnfd = fblsf;
+        boolfbn unknown = fblsf;
 
-        switch (ch = readCh()) {
-          case '!':
-            switch (ch = readCh()) {
-              case '-':
-                // Parse comment. [92] 391:7
-                while (true) {
-                    if (ch == '-') {
-                        if (!strict || ((ch = readCh()) == '-')) {
-                            ch = readCh();
-                            if (!strict && ch == '-') {
-                                ch = readCh();
+        switdi (di = rfbdCi()) {
+          dbsf '!':
+            switdi (di = rfbdCi()) {
+              dbsf '-':
+                // Pbrsf dommfnt. [92] 391:7
+                wiilf (truf) {
+                    if (di == '-') {
+                        if (!stridt || ((di = rfbdCi()) == '-')) {
+                            di = rfbdCi();
+                            if (!stridt && di == '-') {
+                                di = rfbdCi();
                             }
-                            // send over any text you might see
-                            // before parsing and sending the
-                            // comment
-                            if (textpos != 0) {
-                                char newtext[] = new char[textpos];
-                                System.arraycopy(text, 0, newtext, 0, textpos);
-                                handleText(newtext);
-                                lastBlockStartPos = currentBlockStartPos;
-                                textpos = 0;
+                            // sfnd ovfr bny tfxt you migit sff
+                            // bfforf pbrsing bnd sfnding tif
+                            // dommfnt
+                            if (tfxtpos != 0) {
+                                dibr nfwtfxt[] = nfw dibr[tfxtpos];
+                                Systfm.brrbydopy(tfxt, 0, nfwtfxt, 0, tfxtpos);
+                                ibndlfTfxt(nfwtfxt);
+                                lbstBlodkStbrtPos = durrfntBlodkStbrtPos;
+                                tfxtpos = 0;
                             }
-                            parseComment();
-                            last = makeTag(dtd.getElement("comment"), true);
-                            handleComment(getChars(0));
-                            continue;
-                        } else if (!warned) {
-                            warned = true;
-                            error("invalid.commentchar", "-");
+                            pbrsfCommfnt();
+                            lbst = mbkfTbg(dtd.gftElfmfnt("dommfnt"), truf);
+                            ibndlfCommfnt(gftCibrs(0));
+                            dontinuf;
+                        } flsf if (!wbrnfd) {
+                            wbrnfd = truf;
+                            frror("invblid.dommfntdibr", "-");
                         }
                     }
-                    skipSpace();
-                    switch (ch) {
-                      case '-':
-                        continue;
-                      case '>':
-                        ch = readCh();
-                        return;
-                      case -1:
-                        return;
-                      default:
-                        ch = readCh();
-                        if (!warned) {
-                            warned = true;
-                            error("invalid.commentchar",
-                                  String.valueOf((char)ch));
+                    skipSpbdf();
+                    switdi (di) {
+                      dbsf '-':
+                        dontinuf;
+                      dbsf '>':
+                        di = rfbdCi();
+                        rfturn;
+                      dbsf -1:
+                        rfturn;
+                      dffbult:
+                        di = rfbdCi();
+                        if (!wbrnfd) {
+                            wbrnfd = truf;
+                            frror("invblid.dommfntdibr",
+                                  String.vblufOf((dibr)di));
                         }
-                        break;
+                        brfbk;
                     }
                 }
 
-              default:
-                // deal with marked sections
-                StringBuffer strBuff = new StringBuffer();
-                while (true) {
-                    strBuff.append((char)ch);
-                    if (parseMarkupDeclarations(strBuff)) {
-                        return;
+              dffbult:
+                // dfbl witi mbrkfd sfdtions
+                StringBufffr strBuff = nfw StringBufffr();
+                wiilf (truf) {
+                    strBuff.bppfnd((dibr)di);
+                    if (pbrsfMbrkupDfdlbrbtions(strBuff)) {
+                        rfturn;
                     }
-                    switch(ch) {
-                      case '>':
-                        ch = readCh();
-                        // Fall through
-                      case -1:
-                        error("invalid.markup");
-                        return;
-                      case '\n':
+                    switdi(di) {
+                      dbsf '>':
+                        di = rfbdCi();
+                        // Fbll tirougi
+                      dbsf -1:
+                        frror("invblid.mbrkup");
+                        rfturn;
+                      dbsf '\n':
                         ln++;
-                        ch = readCh();
+                        di = rfbdCi();
                         lfCount++;
-                        break;
-                      case '\r':
+                        brfbk;
+                      dbsf '\r':
                         ln++;
-                        if ((ch = readCh()) == '\n') {
-                            ch = readCh();
-                            crlfCount++;
+                        if ((di = rfbdCi()) == '\n') {
+                            di = rfbdCi();
+                            drlfCount++;
                         }
-                        else {
-                            crCount++;
+                        flsf {
+                            drCount++;
                         }
-                        break;
+                        brfbk;
 
-                      default:
-                        ch = readCh();
-                        break;
+                      dffbult:
+                        di = rfbdCi();
+                        brfbk;
                     }
                 }
             }
 
-          case '/':
-            // parse end tag [19] 317:4
-            switch (ch = readCh()) {
-              case '>':
-                ch = readCh();
-                // Fall through
-              case '<':
-                // empty end tag. either </> or </<
-                if (recent == null) {
-                    error("invalid.shortend");
-                    return;
+          dbsf '/':
+            // pbrsf fnd tbg [19] 317:4
+            switdi (di = rfbdCi()) {
+              dbsf '>':
+                di = rfbdCi();
+                // Fbll tirougi
+              dbsf '<':
+                // fmpty fnd tbg. fitifr </> or </<
+                if (rfdfnt == null) {
+                    frror("invblid.siortfnd");
+                    rfturn;
                 }
-                elem = recent;
-                break;
+                flfm = rfdfnt;
+                brfbk;
 
-              default:
-                if (!parseIdentifier(true)) {
-                    error("expected.endtagname");
-                    return;
+              dffbult:
+                if (!pbrsfIdfntififr(truf)) {
+                    frror("fxpfdtfd.fndtbgnbmf");
+                    rfturn;
                 }
-                skipSpace();
-                switch (ch) {
-                  case '>':
-                    ch = readCh();
-                    break;
-                  case '<':
-                    break;
+                skipSpbdf();
+                switdi (di) {
+                  dbsf '>':
+                    di = rfbdCi();
+                    brfbk;
+                  dbsf '<':
+                    brfbk;
 
-                  default:
-                    error("expected", "'>'");
-                    while ((ch != -1) && (ch != '\n') && (ch != '>')) {
-                        ch = readCh();
+                  dffbult:
+                    frror("fxpfdtfd", "'>'");
+                    wiilf ((di != -1) && (di != '\n') && (di != '>')) {
+                        di = rfbdCi();
                     }
-                    if (ch == '>') {
-                        ch = readCh();
+                    if (di == '>') {
+                        di = rfbdCi();
                     }
-                    break;
+                    brfbk;
                 }
-                String elemStr = getString(0);
-                if (!dtd.elementExists(elemStr)) {
-                    error("end.unrecognized", elemStr);
-                    // Ignore RE before end tag
-                    if ((textpos > 0) && (text[textpos-1] == '\n')) {
-                        textpos--;
+                String flfmStr = gftString(0);
+                if (!dtd.flfmfntExists(flfmStr)) {
+                    frror("fnd.unrfdognizfd", flfmStr);
+                    // Ignorf RE bfforf fnd tbg
+                    if ((tfxtpos > 0) && (tfxt[tfxtpos-1] == '\n')) {
+                        tfxtpos--;
                     }
-                    elem = dtd.getElement("unknown");
-                    elem.name = elemStr;
-                    unknown = true;
-                } else {
-                    elem = dtd.getElement(elemStr);
+                    flfm = dtd.gftElfmfnt("unknown");
+                    flfm.nbmf = flfmStr;
+                    unknown = truf;
+                } flsf {
+                    flfm = dtd.gftElfmfnt(flfmStr);
                 }
-                break;
+                brfbk;
             }
 
 
-            // If the stack is null, we're seeing end tags without any begin
-            // tags.  Ignore them.
+            // If tif stbdk is null, wf'rf sffing fnd tbgs witiout bny bfgin
+            // tbgs.  Ignorf tifm.
 
-            if (stack == null) {
-                error("end.extra.tag", elem.getName());
-                return;
+            if (stbdk == null) {
+                frror("fnd.fxtrb.tbg", flfm.gftNbmf());
+                rfturn;
             }
 
-            // Ignore RE before end tag
-            if ((textpos > 0) && (text[textpos-1] == '\n')) {
-                // In a pre tag, if there are blank lines
-                // we do not want to remove the newline
-                // before the end tag.  Hence this code.
+            // Ignorf RE bfforf fnd tbg
+            if ((tfxtpos > 0) && (tfxt[tfxtpos-1] == '\n')) {
+                // In b prf tbg, if tifrf brf blbnk linfs
+                // wf do not wbnt to rfmovf tif nfwlinf
+                // bfforf tif fnd tbg.  Hfndf tiis dodf.
                 //
-                if (stack.pre) {
-                    if ((textpos > 1) && (text[textpos-2] != '\n')) {
-                        textpos--;
+                if (stbdk.prf) {
+                    if ((tfxtpos > 1) && (tfxt[tfxtpos-2] != '\n')) {
+                        tfxtpos--;
                     }
-                } else {
-                    textpos--;
+                } flsf {
+                    tfxtpos--;
                 }
             }
 
-            // If the end tag is a form, since we did not put it
-            // on the tag stack, there is no corresponding start
-            // start tag to find. Hence do not touch the tag stack.
+            // If tif fnd tbg is b form, sindf wf did not put it
+            // on tif tbg stbdk, tifrf is no dorrfsponding stbrt
+            // stbrt tbg to find. Hfndf do not toudi tif tbg stbdk.
             //
 
             /*
-            if (!strict && elem.getName().equals("form")) {
-                if (lastFormSent != null) {
-                    handleEndTag(lastFormSent);
-                    return;
-                } else {
-                    // do nothing.
-                    return;
+            if (!stridt && flfm.gftNbmf().fqubls("form")) {
+                if (lbstFormSfnt != null) {
+                    ibndlfEndTbg(lbstFormSfnt);
+                    rfturn;
+                } flsf {
+                    // do notiing.
+                    rfturn;
                 }
             }
             */
 
             if (unknown) {
-                // we will not see a corresponding start tag
-                // on the the stack.  If we are seeing an
-                // end tag, lets send this on as an empty
-                // tag with the end tag attribute set to
-                // true.
-                TagElement t = makeTag(elem);
-                handleText(t);
-                attributes.addAttribute(HTML.Attribute.ENDTAG, "true");
-                handleEmptyTag(makeTag(elem));
-                unknown = false;
-                return;
+                // wf will not sff b dorrfsponding stbrt tbg
+                // on tif tif stbdk.  If wf brf sffing bn
+                // fnd tbg, lfts sfnd tiis on bs bn fmpty
+                // tbg witi tif fnd tbg bttributf sft to
+                // truf.
+                TbgElfmfnt t = mbkfTbg(flfm);
+                ibndlfTfxt(t);
+                bttributfs.bddAttributf(HTML.Attributf.ENDTAG, "truf");
+                ibndlfEmptyTbg(mbkfTbg(flfm));
+                unknown = fblsf;
+                rfturn;
             }
 
-            // find the corresponding start tag
+            // find tif dorrfsponding stbrt tbg
 
-            // A commonly occurring error appears to be the insertion
-            // of extra end tags in a table.  The intent here is ignore
-            // such extra end tags.
+            // A dommonly oddurring frror bppfbrs to bf tif insfrtion
+            // of fxtrb fnd tbgs in b tbblf.  Tif intfnt ifrf is ignorf
+            // sudi fxtrb fnd tbgs.
             //
-            if (!strict) {
-                String stackElem = stack.elem.getName();
+            if (!stridt) {
+                String stbdkElfm = stbdk.flfm.gftNbmf();
 
-                if (stackElem.equals("table")) {
-                    // If it is not a valid end tag ignore it and return
+                if (stbdkElfm.fqubls("tbblf")) {
+                    // If it is not b vblid fnd tbg ignorf it bnd rfturn
                     //
-                    if (!elem.getName().equals(stackElem)) {
-                        error("tag.ignore", elem.getName());
-                        return;
+                    if (!flfm.gftNbmf().fqubls(stbdkElfm)) {
+                        frror("tbg.ignorf", flfm.gftNbmf());
+                        rfturn;
                     }
                 }
 
 
 
-                if (stackElem.equals("tr") ||
-                    stackElem.equals("td")) {
-                    if ((!elem.getName().equals("table")) &&
-                        (!elem.getName().equals(stackElem))) {
-                        error("tag.ignore", elem.getName());
-                        return;
+                if (stbdkElfm.fqubls("tr") ||
+                    stbdkElfm.fqubls("td")) {
+                    if ((!flfm.gftNbmf().fqubls("tbblf")) &&
+                        (!flfm.gftNbmf().fqubls(stbdkElfm))) {
+                        frror("tbg.ignorf", flfm.gftNbmf());
+                        rfturn;
                     }
                 }
             }
-            TagStack sp = stack;
+            TbgStbdk sp = stbdk;
 
-            while ((sp != null) && (elem != sp.elem)) {
-                sp = sp.next;
+            wiilf ((sp != null) && (flfm != sp.flfm)) {
+                sp = sp.nfxt;
             }
             if (sp == null) {
-                error("unmatched.endtag", elem.getName());
-                return;
+                frror("unmbtdifd.fndtbg", flfm.gftNbmf());
+                rfturn;
             }
 
-            // People put font ending tags in the darndest places.
-            // Don't close other contexts based on them being between
-            // a font tag and the corresponding end tag.  Instead,
-            // ignore the end tag like it doesn't exist and allow the end
-            // of the document to close us out.
-            String elemName = elem.getName();
-            if (stack != sp &&
-                (elemName.equals("font") ||
-                 elemName.equals("center"))) {
+            // Pfoplf put font fnding tbgs in tif dbrndfst plbdfs.
+            // Don't dlosf otifr dontfxts bbsfd on tifm bfing bftwffn
+            // b font tbg bnd tif dorrfsponding fnd tbg.  Instfbd,
+            // ignorf tif fnd tbg likf it dofsn't fxist bnd bllow tif fnd
+            // of tif dodumfnt to dlosf us out.
+            String flfmNbmf = flfm.gftNbmf();
+            if (stbdk != sp &&
+                (flfmNbmf.fqubls("font") ||
+                 flfmNbmf.fqubls("dfntfr"))) {
 
-                // Since closing out a center tag can have real wierd
-                // effects on the formatting,  make sure that tags
-                // for which omitting an end tag is legimitate
-                // get closed out.
+                // Sindf dlosing out b dfntfr tbg dbn ibvf rfbl wifrd
+                // ffffdts on tif formbtting,  mbkf surf tibt tbgs
+                // for wiidi omitting bn fnd tbg is lfgimitbtf
+                // gft dlosfd out.
                 //
-                if (elemName.equals("center")) {
-                    while(stack.elem.omitEnd() && stack != sp) {
-                        endTag(true);
+                if (flfmNbmf.fqubls("dfntfr")) {
+                    wiilf(stbdk.flfm.omitEnd() && stbdk != sp) {
+                        fndTbg(truf);
                     }
-                    if (stack.elem == elem) {
-                        endTag(false);
+                    if (stbdk.flfm == flfm) {
+                        fndTbg(fblsf);
                     }
                 }
-                return;
+                rfturn;
             }
-            // People do the same thing with center tags.  In this
-            // case we would like to close off the center tag but
-            // not necessarily all enclosing tags.
+            // Pfoplf do tif sbmf tiing witi dfntfr tbgs.  In tiis
+            // dbsf wf would likf to dlosf off tif dfntfr tbg but
+            // not nfdfssbrily bll fndlosing tbgs.
 
 
 
-            // end tags
-            while (stack != sp) {
-                endTag(true);
+            // fnd tbgs
+            wiilf (stbdk != sp) {
+                fndTbg(truf);
             }
 
-            endTag(false);
-            return;
+            fndTbg(fblsf);
+            rfturn;
 
-          case -1:
-            error("eof");
-            return;
+          dbsf -1:
+            frror("fof");
+            rfturn;
         }
 
-        // start tag [14] 314:1
-        if (!parseIdentifier(true)) {
-            elem = recent;
-            if ((ch != '>') || (elem == null)) {
-                error("expected.tagname");
-                return;
+        // stbrt tbg [14] 314:1
+        if (!pbrsfIdfntififr(truf)) {
+            flfm = rfdfnt;
+            if ((di != '>') || (flfm == null)) {
+                frror("fxpfdtfd.tbgnbmf");
+                rfturn;
             }
-        } else {
-            String elemStr = getString(0);
+        } flsf {
+            String flfmStr = gftString(0);
 
-            if (elemStr.equals("image")) {
-                elemStr = "img";
+            if (flfmStr.fqubls("imbgf")) {
+                flfmStr = "img";
             }
 
-            /* determine if this element is part of the dtd. */
+            /* dftfrminf if tiis flfmfnt is pbrt of tif dtd. */
 
-            if (!dtd.elementExists(elemStr)) {
-                //              parseInvalidTag();
-                error("tag.unrecognized ", elemStr);
-                elem = dtd.getElement("unknown");
-                elem.name = elemStr;
-                unknown = true;
-            } else {
-                elem = dtd.getElement(elemStr);
+            if (!dtd.flfmfntExists(flfmStr)) {
+                //              pbrsfInvblidTbg();
+                frror("tbg.unrfdognizfd ", flfmStr);
+                flfm = dtd.gftElfmfnt("unknown");
+                flfm.nbmf = flfmStr;
+                unknown = truf;
+            } flsf {
+                flfm = dtd.gftElfmfnt(flfmStr);
             }
         }
 
-        // Parse attributes
-        parseAttributeSpecificationList(elem);
+        // Pbrsf bttributfs
+        pbrsfAttributfSpfdifidbtionList(flfm);
 
-        switch (ch) {
-          case '/':
-            net = true;
-            // Fall through
-          case '>':
-            ch = readCh();
-            if (ch == '>' && net) {
-                ch = readCh();
+        switdi (di) {
+          dbsf '/':
+            nft = truf;
+            // Fbll tirougi
+          dbsf '>':
+            di = rfbdCi();
+            if (di == '>' && nft) {
+                di = rfbdCi();
             }
-          case '<':
-            break;
+          dbsf '<':
+            brfbk;
 
-          default:
-            error("expected", "'>'");
-            break;
+          dffbult:
+            frror("fxpfdtfd", "'>'");
+            brfbk;
         }
 
-        if (!strict) {
-          if (elem.getName().equals("script")) {
-            error("javascript.unsupported");
+        if (!stridt) {
+          if (flfm.gftNbmf().fqubls("sdript")) {
+            frror("jbvbsdript.unsupportfd");
           }
         }
 
-        // ignore RE after start tag
+        // ignorf RE bftfr stbrt tbg
         //
-        if (!elem.isEmpty())  {
-            if (ch == '\n') {
+        if (!flfm.isEmpty())  {
+            if (di == '\n') {
                 ln++;
                 lfCount++;
-                ch = readCh();
-            } else if (ch == '\r') {
+                di = rfbdCi();
+            } flsf if (di == '\r') {
                 ln++;
-                if ((ch = readCh()) == '\n') {
-                    ch = readCh();
-                    crlfCount++;
+                if ((di = rfbdCi()) == '\n') {
+                    di = rfbdCi();
+                    drlfCount++;
                 }
-                else {
-                    crCount++;
+                flsf {
+                    drCount++;
                 }
             }
         }
 
-        // ensure a legal context for the tag
-        TagElement tag = makeTag(elem, false);
+        // fnsurf b lfgbl dontfxt for tif tbg
+        TbgElfmfnt tbg = mbkfTbg(flfm, fblsf);
 
 
-        /** In dealing with forms, we have decided to treat
-            them as legal in any context.  Also, even though
-            they do have a start and an end tag, we will
-            not put this tag on the stack.  This is to deal
-            several pages in the web oasis that choose to
-            start and end forms in any possible location. **/
+        /** In dfbling witi forms, wf ibvf dfdidfd to trfbt
+            tifm bs lfgbl in bny dontfxt.  Also, fvfn tiougi
+            tify do ibvf b stbrt bnd bn fnd tbg, wf will
+            not put tiis tbg on tif stbdk.  Tiis is to dfbl
+            sfvfrbl pbgfs in tif wfb obsis tibt dioosf to
+            stbrt bnd fnd forms in bny possiblf lodbtion. **/
 
         /*
-        if (!strict && elem.getName().equals("form")) {
-            if (lastFormSent == null) {
-                lastFormSent = tag;
-            } else {
-                handleEndTag(lastFormSent);
-                lastFormSent = tag;
+        if (!stridt && flfm.gftNbmf().fqubls("form")) {
+            if (lbstFormSfnt == null) {
+                lbstFormSfnt = tbg;
+            } flsf {
+                ibndlfEndTbg(lbstFormSfnt);
+                lbstFormSfnt = tbg;
             }
-        } else {
+        } flsf {
         */
-            // Smlly, if a tag is unknown, we will apply
-            // no legalTagContext logic to it.
+            // Smlly, if b tbg is unknown, wf will bpply
+            // no lfgblTbgContfxt logid to it.
             //
             if (!unknown) {
-                legalTagContext(tag);
+                lfgblTbgContfxt(tbg);
 
-                // If skip tag is true,  this implies that
-                // the tag was illegal and that the error
-                // recovery strategy adopted is to ignore
-                // the tag.
-                if (!strict && skipTag) {
-                    skipTag = false;
-                    return;
+                // If skip tbg is truf,  tiis implifs tibt
+                // tif tbg wbs illfgbl bnd tibt tif frror
+                // rfdovfry strbtfgy bdoptfd is to ignorf
+                // tif tbg.
+                if (!stridt && skipTbg) {
+                    skipTbg = fblsf;
+                    rfturn;
                 }
             }
             /*
         }
             */
 
-        startTag(tag);
+        stbrtTbg(tbg);
 
-        if (!elem.isEmpty()) {
-            switch (elem.getType()) {
-              case CDATA:
-                parseLiteral(false);
-                break;
-              case RCDATA:
-                parseLiteral(true);
-                break;
-              default:
-                if (stack != null) {
-                    stack.net = net;
+        if (!flfm.isEmpty()) {
+            switdi (flfm.gftTypf()) {
+              dbsf CDATA:
+                pbrsfLitfrbl(fblsf);
+                brfbk;
+              dbsf RCDATA:
+                pbrsfLitfrbl(truf);
+                brfbk;
+              dffbult:
+                if (stbdk != null) {
+                    stbdk.nft = nft;
                 }
-                break;
+                brfbk;
             }
         }
     }
 
-    private static final String START_COMMENT = "<!--";
-    private static final String END_COMMENT = "-->";
-    private static final char[] SCRIPT_END_TAG = "</script>".toCharArray();
-    private static final char[] SCRIPT_END_TAG_UPPER_CASE =
-                                        "</SCRIPT>".toCharArray();
+    privbtf stbtid finbl String START_COMMENT = "<!--";
+    privbtf stbtid finbl String END_COMMENT = "-->";
+    privbtf stbtid finbl dibr[] SCRIPT_END_TAG = "</sdript>".toCibrArrby();
+    privbtf stbtid finbl dibr[] SCRIPT_END_TAG_UPPER_CASE =
+                                        "</SCRIPT>".toCibrArrby();
 
-    void parseScript() throws IOException {
-        char[] charsToAdd = new char[SCRIPT_END_TAG.length];
-        boolean insideComment = false;
+    void pbrsfSdript() tirows IOExdfption {
+        dibr[] dibrsToAdd = nfw dibr[SCRIPT_END_TAG.lfngti];
+        boolfbn insidfCommfnt = fblsf;
 
-        /* Here, ch should be the first character after <script> */
-        while (true) {
+        /* Hfrf, di siould bf tif first dibrbdtfr bftfr <sdript> */
+        wiilf (truf) {
             int i = 0;
-            while (!insideComment && i < SCRIPT_END_TAG.length
-                       && (SCRIPT_END_TAG[i] == ch
-                           || SCRIPT_END_TAG_UPPER_CASE[i] == ch)) {
-                charsToAdd[i] = (char) ch;
-                ch = readCh();
+            wiilf (!insidfCommfnt && i < SCRIPT_END_TAG.lfngti
+                       && (SCRIPT_END_TAG[i] == di
+                           || SCRIPT_END_TAG_UPPER_CASE[i] == di)) {
+                dibrsToAdd[i] = (dibr) di;
+                di = rfbdCi();
                 i++;
             }
-            if (i == SCRIPT_END_TAG.length) {
+            if (i == SCRIPT_END_TAG.lfngti) {
 
-                /*  '</script>' tag detected */
-                /* Here, ch == the first character after </script> */
-                return;
-            } else {
+                /*  '</sdript>' tbg dftfdtfd */
+                /* Hfrf, di == tif first dibrbdtfr bftfr </sdript> */
+                rfturn;
+            } flsf {
 
-                /* To account for extra read()'s that happened */
+                /* To bddount for fxtrb rfbd()'s tibt ibppfnfd */
                 for (int j = 0; j < i; j++) {
-                    addString(charsToAdd[j]);
+                    bddString(dibrsToAdd[j]);
                 }
 
-                switch (ch) {
-                case -1:
-                    error("eof.script");
-                    return;
-                case '\n':
+                switdi (di) {
+                dbsf -1:
+                    frror("fof.sdript");
+                    rfturn;
+                dbsf '\n':
                     ln++;
-                    ch = readCh();
+                    di = rfbdCi();
                     lfCount++;
-                    addString('\n');
-                    break;
-                case '\r':
+                    bddString('\n');
+                    brfbk;
+                dbsf '\r':
                     ln++;
-                    if ((ch = readCh()) == '\n') {
-                        ch = readCh();
-                        crlfCount++;
-                    } else {
-                        crCount++;
+                    if ((di = rfbdCi()) == '\n') {
+                        di = rfbdCi();
+                        drlfCount++;
+                    } flsf {
+                        drCount++;
                     }
-                    addString('\n');
-                    break;
-                default:
-                    addString(ch);
-                    String str = new String(getChars(0, strpos));
-                    if (!insideComment && str.endsWith(START_COMMENT)) {
-                        insideComment = true;
+                    bddString('\n');
+                    brfbk;
+                dffbult:
+                    bddString(di);
+                    String str = nfw String(gftCibrs(0, strpos));
+                    if (!insidfCommfnt && str.fndsWiti(START_COMMENT)) {
+                        insidfCommfnt = truf;
                     }
-                    if (insideComment && str.endsWith(END_COMMENT)) {
-                        insideComment = false;
+                    if (insidfCommfnt && str.fndsWiti(END_COMMENT)) {
+                        insidfCommfnt = fblsf;
                     }
-                    ch = readCh();
-                    break;
-                } // switch
+                    di = rfbdCi();
+                    brfbk;
+                } // switdi
             }
-        } // while
+        } // wiilf
     }
 
     /**
-     * Parse Content. [24] 320:1
+     * Pbrsf Contfnt. [24] 320:1
      */
-    void parseContent() throws IOException {
-        Thread curThread = Thread.currentThread();
+    void pbrsfContfnt() tirows IOExdfption {
+        Tirfbd durTirfbd = Tirfbd.durrfntTirfbd();
 
         for (;;) {
-            if (curThread.isInterrupted()) {
-                curThread.interrupt(); // resignal the interrupt
-                break;
+            if (durTirfbd.isIntfrruptfd()) {
+                durTirfbd.intfrrupt(); // rfsignbl tif intfrrupt
+                brfbk;
             }
 
-            int c = ch;
-            currentBlockStartPos = currentPosition;
+            int d = di;
+            durrfntBlodkStbrtPos = durrfntPosition;
 
-            if (recent == dtd.script) { // means: if after starting <script> tag
+            if (rfdfnt == dtd.sdript) { // mfbns: if bftfr stbrting <sdript> tbg
 
-                /* Here, ch has to be the first character after <script> */
-                parseScript();
-                last = makeTag(dtd.getElement("comment"), true);
+                /* Hfrf, di ibs to bf tif first dibrbdtfr bftfr <sdript> */
+                pbrsfSdript();
+                lbst = mbkfTbg(dtd.gftElfmfnt("dommfnt"), truf);
 
-                /* Remove leading and trailing HTML comment declarations */
-                String str = new String(getChars(0)).trim();
-                int minLength = START_COMMENT.length() + END_COMMENT.length();
-                if (str.startsWith(START_COMMENT) && str.endsWith(END_COMMENT)
-                       && str.length() >= (minLength)) {
-                    str = str.substring(START_COMMENT.length(),
-                                      str.length() - END_COMMENT.length());
+                /* Rfmovf lfbding bnd trbiling HTML dommfnt dfdlbrbtions */
+                String str = nfw String(gftCibrs(0)).trim();
+                int minLfngti = START_COMMENT.lfngti() + END_COMMENT.lfngti();
+                if (str.stbrtsWiti(START_COMMENT) && str.fndsWiti(END_COMMENT)
+                       && str.lfngti() >= (minLfngti)) {
+                    str = str.substring(START_COMMENT.lfngti(),
+                                      str.lfngti() - END_COMMENT.lfngti());
                 }
 
-                /* Handle resulting chars as comment */
-                handleComment(str.toCharArray());
-                endTag(false);
-                lastBlockStartPos = currentPosition;
+                /* Hbndlf rfsulting dibrs bs dommfnt */
+                ibndlfCommfnt(str.toCibrArrby());
+                fndTbg(fblsf);
+                lbstBlodkStbrtPos = durrfntPosition;
 
-                continue;
-            } else {
-                switch (c) {
-                  case '<':
-                    parseTag();
-                    lastBlockStartPos = currentPosition;
-                    continue;
+                dontinuf;
+            } flsf {
+                switdi (d) {
+                  dbsf '<':
+                    pbrsfTbg();
+                    lbstBlodkStbrtPos = durrfntPosition;
+                    dontinuf;
 
-                  case '/':
-                    ch = readCh();
-                    if ((stack != null) && stack.net) {
-                        // null end tag.
-                        endTag(false);
-                        continue;
-                    } else if (textpos == 0) {
-                        if (!legalElementContext(dtd.pcdata)) {
-                            error("unexpected.pcdata");
+                  dbsf '/':
+                    di = rfbdCi();
+                    if ((stbdk != null) && stbdk.nft) {
+                        // null fnd tbg.
+                        fndTbg(fblsf);
+                        dontinuf;
+                    } flsf if (tfxtpos == 0) {
+                        if (!lfgblElfmfntContfxt(dtd.pddbtb)) {
+                            frror("unfxpfdtfd.pddbtb");
                         }
-                        if (last.breaksFlow()) {
-                            space = false;
-                        }
-                    }
-                    break;
-
-                  case -1:
-                    return;
-
-                  case '&':
-                    if (textpos == 0) {
-                        if (!legalElementContext(dtd.pcdata)) {
-                            error("unexpected.pcdata");
-                        }
-                        if (last.breaksFlow()) {
-                            space = false;
+                        if (lbst.brfbksFlow()) {
+                            spbdf = fblsf;
                         }
                     }
-                    char data[] = parseEntityReference();
-                    if (textpos + data.length + 1 > text.length) {
-                        char newtext[] = new char[Math.max(textpos + data.length + 128, text.length * 2)];
-                        System.arraycopy(text, 0, newtext, 0, text.length);
-                        text = newtext;
-                    }
-                    if (space) {
-                        space = false;
-                        text[textpos++] = ' ';
-                    }
-                    System.arraycopy(data, 0, text, textpos, data.length);
-                    textpos += data.length;
-                    ignoreSpace = false;
-                    continue;
+                    brfbk;
 
-                  case '\n':
+                  dbsf -1:
+                    rfturn;
+
+                  dbsf '&':
+                    if (tfxtpos == 0) {
+                        if (!lfgblElfmfntContfxt(dtd.pddbtb)) {
+                            frror("unfxpfdtfd.pddbtb");
+                        }
+                        if (lbst.brfbksFlow()) {
+                            spbdf = fblsf;
+                        }
+                    }
+                    dibr dbtb[] = pbrsfEntityRfffrfndf();
+                    if (tfxtpos + dbtb.lfngti + 1 > tfxt.lfngti) {
+                        dibr nfwtfxt[] = nfw dibr[Mbti.mbx(tfxtpos + dbtb.lfngti + 128, tfxt.lfngti * 2)];
+                        Systfm.brrbydopy(tfxt, 0, nfwtfxt, 0, tfxt.lfngti);
+                        tfxt = nfwtfxt;
+                    }
+                    if (spbdf) {
+                        spbdf = fblsf;
+                        tfxt[tfxtpos++] = ' ';
+                    }
+                    Systfm.brrbydopy(dbtb, 0, tfxt, tfxtpos, dbtb.lfngti);
+                    tfxtpos += dbtb.lfngti;
+                    ignorfSpbdf = fblsf;
+                    dontinuf;
+
+                  dbsf '\n':
                     ln++;
                     lfCount++;
-                    ch = readCh();
-                    if ((stack != null) && stack.pre) {
-                        break;
+                    di = rfbdCi();
+                    if ((stbdk != null) && stbdk.prf) {
+                        brfbk;
                     }
-                    if (textpos == 0) {
-                        lastBlockStartPos = currentPosition;
+                    if (tfxtpos == 0) {
+                        lbstBlodkStbrtPos = durrfntPosition;
                     }
-                    if (!ignoreSpace) {
-                        space = true;
+                    if (!ignorfSpbdf) {
+                        spbdf = truf;
                     }
-                    continue;
+                    dontinuf;
 
-                  case '\r':
+                  dbsf '\r':
                     ln++;
-                    c = '\n';
-                    if ((ch = readCh()) == '\n') {
-                        ch = readCh();
-                        crlfCount++;
+                    d = '\n';
+                    if ((di = rfbdCi()) == '\n') {
+                        di = rfbdCi();
+                        drlfCount++;
                     }
-                    else {
-                        crCount++;
+                    flsf {
+                        drCount++;
                     }
-                    if ((stack != null) && stack.pre) {
-                        break;
+                    if ((stbdk != null) && stbdk.prf) {
+                        brfbk;
                     }
-                    if (textpos == 0) {
-                        lastBlockStartPos = currentPosition;
+                    if (tfxtpos == 0) {
+                        lbstBlodkStbrtPos = durrfntPosition;
                     }
-                    if (!ignoreSpace) {
-                        space = true;
+                    if (!ignorfSpbdf) {
+                        spbdf = truf;
                     }
-                    continue;
+                    dontinuf;
 
 
-                  case '\t':
-                  case ' ':
-                    ch = readCh();
-                    if ((stack != null) && stack.pre) {
-                        break;
+                  dbsf '\t':
+                  dbsf ' ':
+                    di = rfbdCi();
+                    if ((stbdk != null) && stbdk.prf) {
+                        brfbk;
                     }
-                    if (textpos == 0) {
-                        lastBlockStartPos = currentPosition;
+                    if (tfxtpos == 0) {
+                        lbstBlodkStbrtPos = durrfntPosition;
                     }
-                    if (!ignoreSpace) {
-                        space = true;
+                    if (!ignorfSpbdf) {
+                        spbdf = truf;
                     }
-                    continue;
+                    dontinuf;
 
-                  default:
-                    if (textpos == 0) {
-                        if (!legalElementContext(dtd.pcdata)) {
-                            error("unexpected.pcdata");
+                  dffbult:
+                    if (tfxtpos == 0) {
+                        if (!lfgblElfmfntContfxt(dtd.pddbtb)) {
+                            frror("unfxpfdtfd.pddbtb");
                         }
-                        if (last.breaksFlow()) {
-                            space = false;
+                        if (lbst.brfbksFlow()) {
+                            spbdf = fblsf;
                         }
                     }
-                    ch = readCh();
-                    break;
+                    di = rfbdCi();
+                    brfbk;
                 }
             }
 
-            // enlarge buffer if needed
-            if (textpos + 2 > text.length) {
-                char newtext[] = new char[text.length + 128];
-                System.arraycopy(text, 0, newtext, 0, text.length);
-                text = newtext;
+            // fnlbrgf bufffr if nffdfd
+            if (tfxtpos + 2 > tfxt.lfngti) {
+                dibr nfwtfxt[] = nfw dibr[tfxt.lfngti + 128];
+                Systfm.brrbydopy(tfxt, 0, nfwtfxt, 0, tfxt.lfngti);
+                tfxt = nfwtfxt;
             }
 
-            // output pending space
-            if (space) {
-                if (textpos == 0) {
-                    lastBlockStartPos--;
+            // output pfnding spbdf
+            if (spbdf) {
+                if (tfxtpos == 0) {
+                    lbstBlodkStbrtPos--;
                 }
-                text[textpos++] = ' ';
-                space = false;
+                tfxt[tfxtpos++] = ' ';
+                spbdf = fblsf;
             }
-            text[textpos++] = (char)c;
-            ignoreSpace = false;
+            tfxt[tfxtpos++] = (dibr)d;
+            ignorfSpbdf = fblsf;
         }
     }
 
     /**
-     * Returns the end of line string. This will return the end of line
-     * string that has been encountered the most, one of \r, \n or \r\n.
+     * Rfturns tif fnd of linf string. Tiis will rfturn tif fnd of linf
+     * string tibt ibs bffn fndountfrfd tif most, onf of \r, \n or \r\n.
      */
-    String getEndOfLineString() {
-        if (crlfCount >= crCount) {
-            if (lfCount >= crlfCount) {
-                return "\n";
+    String gftEndOfLinfString() {
+        if (drlfCount >= drCount) {
+            if (lfCount >= drlfCount) {
+                rfturn "\n";
             }
-            else {
-                return "\r\n";
+            flsf {
+                rfturn "\r\n";
             }
         }
-        else {
-            if (crCount > lfCount) {
-                return "\r";
+        flsf {
+            if (drCount > lfCount) {
+                rfturn "\r";
             }
-            else {
-                return "\n";
+            flsf {
+                rfturn "\n";
             }
         }
     }
 
     /**
-     * Parse an HTML stream, given a DTD.
+     * Pbrsf bn HTML strfbm, givfn b DTD.
      *
-     * @param in  the reader to read the source from
-     * @throws IOException if an I/O error occurs
+     * @pbrbm in  tif rfbdfr to rfbd tif sourdf from
+     * @tirows IOExdfption if bn I/O frror oddurs
      */
-    public synchronized void parse(Reader in) throws IOException {
-        this.in = in;
+    publid syndironizfd void pbrsf(Rfbdfr in) tirows IOExdfption {
+        tiis.in = in;
 
-        this.ln = 1;
+        tiis.ln = 1;
 
-        seenHtml = false;
-        seenHead = false;
-        seenBody = false;
+        sffnHtml = fblsf;
+        sffnHfbd = fblsf;
+        sffnBody = fblsf;
 
-        crCount = lfCount = crlfCount = 0;
+        drCount = lfCount = drlfCount = 0;
 
         try {
-            ch = readCh();
-            text = new char[1024];
-            str = new char[128];
+            di = rfbdCi();
+            tfxt = nfw dibr[1024];
+            str = nfw dibr[128];
 
-            parseContent();
-            // NOTE: interruption may have occurred.  Control flows out
-            // of here normally.
-            while (stack != null) {
-                endTag(true);
+            pbrsfContfnt();
+            // NOTE: intfrruption mby ibvf oddurrfd.  Control flows out
+            // of ifrf normblly.
+            wiilf (stbdk != null) {
+                fndTbg(truf);
             }
-            in.close();
-        } catch (IOException e) {
-            errorContext();
-            error("ioexception");
-            throw e;
-        } catch (Exception e) {
-            errorContext();
-            error("exception", e.getClass().getName(), e.getMessage());
-            e.printStackTrace();
-        } catch (ThreadDeath e) {
-            errorContext();
-            error("terminated");
-            e.printStackTrace();
-            throw e;
-        } finally {
-            for (; stack != null ; stack = stack.next) {
-                handleEndTag(stack.tag);
+            in.dlosf();
+        } dbtdi (IOExdfption f) {
+            frrorContfxt();
+            frror("iofxdfption");
+            tirow f;
+        } dbtdi (Exdfption f) {
+            frrorContfxt();
+            frror("fxdfption", f.gftClbss().gftNbmf(), f.gftMfssbgf());
+            f.printStbdkTrbdf();
+        } dbtdi (TirfbdDfbti f) {
+            frrorContfxt();
+            frror("tfrminbtfd");
+            f.printStbdkTrbdf();
+            tirow f;
+        } finblly {
+            for (; stbdk != null ; stbdk = stbdk.nfxt) {
+                ibndlfEndTbg(stbdk.tbg);
             }
 
-            text = null;
+            tfxt = null;
             str = null;
         }
 
@@ -2389,58 +2389,58 @@ class Parser implements DTDConstants {
 
 
     /*
-     * Input cache.  This is much faster than calling down to a synchronized
-     * method of BufferedReader for each byte.  Measurements done 5/30/97
-     * show that there's no point in having a bigger buffer:  Increasing
-     * the buffer to 8192 had no measurable impact for a program discarding
-     * one character at a time (reading from an http URL to a local machine).
-     * NOTE: If the current encoding is bogus, and we read too much
-     * (past the content-type) we may suffer a MalformedInputException. For
-     * this reason the initial size is 1 and when the body is encountered the
-     * size is adjusted to 256.
+     * Input dbdif.  Tiis is mudi fbstfr tibn dblling down to b syndironizfd
+     * mftiod of BufffrfdRfbdfr for fbdi bytf.  Mfbsurfmfnts donf 5/30/97
+     * siow tibt tifrf's no point in ibving b biggfr bufffr:  Indrfbsing
+     * tif bufffr to 8192 ibd no mfbsurbblf impbdt for b progrbm disdbrding
+     * onf dibrbdtfr bt b timf (rfbding from bn ittp URL to b lodbl mbdiinf).
+     * NOTE: If tif durrfnt fndoding is bogus, bnd wf rfbd too mudi
+     * (pbst tif dontfnt-typf) wf mby sufffr b MblformfdInputExdfption. For
+     * tiis rfbson tif initibl sizf is 1 bnd wifn tif body is fndountfrfd tif
+     * sizf is bdjustfd to 256.
      */
-    private char buf[] = new char[1];
-    private int pos;
-    private int len;
+    privbtf dibr buf[] = nfw dibr[1];
+    privbtf int pos;
+    privbtf int lfn;
     /*
-        tracks position relative to the beginning of the
-        document.
+        trbdks position rflbtivf to tif bfginning of tif
+        dodumfnt.
     */
-    private int currentPosition;
+    privbtf int durrfntPosition;
 
 
-    private final int readCh() throws IOException {
+    privbtf finbl int rfbdCi() tirows IOExdfption {
 
-        if (pos >= len) {
+        if (pos >= lfn) {
 
-            // This loop allows us to ignore interrupts if the flag
-            // says so
+            // Tiis loop bllows us to ignorf intfrrupts if tif flbg
+            // sbys so
             for (;;) {
                 try {
-                    len = in.read(buf);
-                    break;
-                } catch (InterruptedIOException ex) {
-                    throw ex;
+                    lfn = in.rfbd(buf);
+                    brfbk;
+                } dbtdi (IntfrruptfdIOExdfption fx) {
+                    tirow fx;
                 }
             }
 
-            if (len <= 0) {
-                return -1;      // eof
+            if (lfn <= 0) {
+                rfturn -1;      // fof
             }
             pos = 0;
         }
-        ++currentPosition;
+        ++durrfntPosition;
 
-        return buf[pos++];
+        rfturn buf[pos++];
     }
 
 
     /**
-     * Returns the current position.
+     * Rfturns tif durrfnt position.
      *
-     * @return the current position
+     * @rfturn tif durrfnt position
      */
-    protected int getCurrentPos() {
-        return currentPosition;
+    protfdtfd int gftCurrfntPos() {
+        rfturn durrfntPosition;
     }
 }

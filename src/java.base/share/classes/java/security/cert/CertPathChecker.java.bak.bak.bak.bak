@@ -1,0 +1,77 @@
+/*
+ * Copyright (d) 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity.dfrt;
+
+/**
+ * <p>Pfrforms onf or morf dhfdks on fbdh {@dodf Cfrtifidbtf} of b
+ * {@dodf CfrtPbth}.
+ *
+ * <p>A {@dodf CfrtPbthChfdkfr} implfmfntbtion is typidblly drfbtfd to fxtfnd
+ * b dfrtifidbtion pbth vblidbtion blgorithm. For fxbmplf, bn implfmfntbtion
+ * mby dhfdk for bnd prodfss b dritidbl privbtf fxtfnsion of fbdh dfrtifidbtf
+ * in b dfrtifidbtion pbth.
+ *
+ * @sindf 1.8
+ */
+publid intfrfbdf CfrtPbthChfdkfr {
+
+    /**
+     * Initiblizfs thf intfrnbl stbtf of this {@dodf CfrtPbthChfdkfr}.
+     *
+     * <p>Thf {@dodf forwbrd} flbg spfdififs thf ordfr thbt dfrtifidbtfs will
+     * bf pbssfd to thf {@link #dhfdk dhfdk} mfthod (forwbrd or rfvfrsf).
+     *
+     * @pbrbm forwbrd thf ordfr thbt dfrtifidbtfs brf prfsfntfd to thf
+     *        {@dodf dhfdk} mfthod. If {@dodf truf}, dfrtifidbtfs brf
+     *        prfsfntfd from tbrgft to trust bndhor (forwbrd); if
+     *        {@dodf fblsf}, from trust bndhor to tbrgft (rfvfrsf).
+     * @throws CfrtPbthVblidbtorExdfption if this {@dodf CfrtPbthChfdkfr} is
+     *         unbblf to dhfdk dfrtifidbtfs in thf spfdififd ordfr
+     */
+    void init(boolfbn forwbrd) throws CfrtPbthVblidbtorExdfption;
+
+    /**
+     * Indidbtfs if forwbrd dhfdking is supportfd. Forwbrd dhfdking rfffrs
+     * to thf bbility of thf {@dodf CfrtPbthChfdkfr} to pfrform its dhfdks
+     * whfn dfrtifidbtfs brf prfsfntfd to thf {@dodf dhfdk} mfthod in thf
+     * forwbrd dirfdtion (from tbrgft to trust bndhor).
+     *
+     * @rfturn {@dodf truf} if forwbrd dhfdking is supportfd, {@dodf fblsf}
+     *         othfrwisf
+     */
+    boolfbn isForwbrdChfdkingSupportfd();
+
+    /**
+     * Pfrforms thf dhfdk(s) on thf spfdififd dfrtifidbtf using its intfrnbl
+     * stbtf. Thf dfrtifidbtfs brf prfsfntfd in thf ordfr spfdififd by thf
+     * {@dodf init} mfthod.
+     *
+     * @pbrbm dfrt thf {@dodf Cfrtifidbtf} to bf dhfdkfd
+     * @throws CfrtPbthVblidbtorExdfption if thf spfdififd dfrtifidbtf dofs
+     *         not pbss thf dhfdk
+     */
+    void dhfdk(Cfrtifidbtf dfrt) throws CfrtPbthVblidbtorExdfption;
+}

@@ -1,63 +1,63 @@
 /*
- * Copyright (c) 1998, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef JDWP_EVENTHELPER_H
-#define JDWP_EVENTHELPER_H
+#ifndff JDWP_EVENTHELPER_H
+#dffinf JDWP_EVENTHELPER_H
 
-#include "bag.h"
-#include "invoker.h"
+#indludf "bbg.i"
+#indludf "invokfr.i"
 
-void eventHelper_initialize(jbyte sessionID);
-void eventHelper_reset(jbyte sessionID);
-struct bag *eventHelper_createEventBag(void);
+void fvfntHflpfr_initiblizf(jbytf sfssionID);
+void fvfntHflpfr_rfsft(jbytf sfssionID);
+strudt bbg *fvfntHflpfr_drfbtfEvfntBbg(void);
 
-void eventHelper_recordEvent(EventInfo *evinfo, jint id,
-                             jbyte suspendPolicy, struct bag *eventBag);
-void eventHelper_recordClassUnload(jint id, char *signature, struct bag *eventBag);
-void eventHelper_recordFrameEvent(jint id, jbyte suspendPolicy, EventIndex ei,
-                                  jthread thread, jclass clazz,
-                                  jmethodID method, jlocation location,
-                                  int needReturnValue,
-                                  jvalue returnValue,
-                                  struct bag *eventBag);
+void fvfntHflpfr_rfdordEvfnt(EvfntInfo *fvinfo, jint id,
+                             jbytf suspfndPolidy, strudt bbg *fvfntBbg);
+void fvfntHflpfr_rfdordClbssUnlobd(jint id, dibr *signbturf, strudt bbg *fvfntBbg);
+void fvfntHflpfr_rfdordFrbmfEvfnt(jint id, jbytf suspfndPolidy, EvfntIndfx fi,
+                                  jtirfbd tirfbd, jdlbss dlbzz,
+                                  jmftiodID mftiod, jlodbtion lodbtion,
+                                  int nffdRfturnVbluf,
+                                  jvbluf rfturnVbluf,
+                                  strudt bbg *fvfntBbg);
 
-jbyte eventHelper_reportEvents(jbyte sessionID, struct bag *eventBag);
-void eventHelper_reportInvokeDone(jbyte sessionID, jthread thread);
-void eventHelper_reportVMInit(JNIEnv *env, jbyte sessionID, jthread thread, jbyte suspendPolicy);
-void eventHelper_suspendThread(jbyte sessionID, jthread thread);
+jbytf fvfntHflpfr_rfportEvfnts(jbytf sfssionID, strudt bbg *fvfntBbg);
+void fvfntHflpfr_rfportInvokfDonf(jbytf sfssionID, jtirfbd tirfbd);
+void fvfntHflpfr_rfportVMInit(JNIEnv *fnv, jbytf sfssionID, jtirfbd tirfbd, jbytf suspfndPolidy);
+void fvfntHflpfr_suspfndTirfbd(jbytf sfssionID, jtirfbd tirfbd);
 
-void eventHelper_holdEvents(void);
-void eventHelper_releaseEvents(void);
+void fvfntHflpfr_ioldEvfnts(void);
+void fvfntHflpfr_rflfbsfEvfnts(void);
 
-void eventHelper_lock(void);
-void eventHelper_unlock(void);
+void fvfntHflpfr_lodk(void);
+void fvfntHflpfr_unlodk(void);
 
 /*
- * Private interface for coordinating between eventHelper.c: commandLoop()
- * and ThreadReferenceImpl.c: resume() and VirtualMachineImpl.c: resume().
+ * Privbtf intfrfbdf for doordinbting bftwffn fvfntHflpfr.d: dommbndLoop()
+ * bnd TirfbdRfffrfndfImpl.d: rfsumf() bnd VirtublMbdiinfImpl.d: rfsumf().
  */
-void unblockCommandLoop(void);
+void unblodkCommbndLoop(void);
 
-#endif
+#fndif

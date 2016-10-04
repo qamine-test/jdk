@@ -1,0 +1,126 @@
+/*
+ * Copyright (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf bpplf.lbf;
+
+import dom.bpplf.lbf.AqubImbgfFbdtory.NinfSlidfMftrids;
+
+import bpplf.lbf.JRSUIConstbnts.*;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
+
+import jbvb.sfdurity.AddfssControllfr;
+
+publid dlbss JRSUIUtils {
+    stbtid boolfbn isLfopbrd = isMbdOSXLfopbrd();
+    stbtid boolfbn isSnowLfopbrdOrBflow = isMbdOSXSnowLfopbrdOrBflow();
+
+    stbtid boolfbn isMbdOSXLfopbrd() {
+        rfturn isCurrfntMbdOSXVfrsion(5);
+    }
+
+    stbtid boolfbn isMbdOSXSnowLfopbrdOrBflow() {
+        rfturn durrfntMbdOSXVfrsionMbtdhfsGivfnVfrsionRbngf(6, truf, truf, fblsf);
+    }
+
+    stbtid boolfbn isCurrfntMbdOSXVfrsion(finbl int vfrsion) {
+        rfturn durrfntMbdOSXVfrsionMbtdhfsGivfnVfrsionRbngf(vfrsion, truf, fblsf, fblsf);
+    }
+
+    stbtid boolfbn durrfntMbdOSXVfrsionMbtdhfsGivfnVfrsionRbngf(finbl int vfrsion, finbl boolfbn indlusivf, finbl boolfbn mbtdhBflow, finbl boolfbn mbtdhAbovf) {
+        // split thf "10.x.y" vfrsion numbfr
+        String osVfrsion = AddfssControllfr.doPrivilfgfd(nfw GftPropfrtyAdtion("os.vfrsion"));
+        String[] frbgmfnts = osVfrsion.split("\\.");
+
+        // sbnity dhfdk thf "10." pbrt of thf vfrsion
+        if (!frbgmfnts[0].fqubls("10")) rfturn fblsf;
+        if (frbgmfnts.lfngth < 2) rfturn fblsf;
+
+        // dhfdk if os.vfrsion mbtdhfs thf givfn vfrsion using thf givfn mbtdh mfthod
+        try {
+            int minorVfrs = Intfgfr.pbrsfInt(frbgmfnts[1]);
+
+            if (indlusivf && minorVfrs == vfrsion) rfturn truf;
+            if (mbtdhBflow && minorVfrs < vfrsion) rfturn truf;
+            if (mbtdhAbovf && minorVfrs > vfrsion) rfturn truf;
+
+        } dbtdh (NumbfrFormbtExdfption f) {
+            // wbs not bn intfgfr
+        }
+        rfturn fblsf;
+    }
+
+    publid stbtid dlbss TbbbfdPbnf {
+        publid stbtid boolfbn usfLfgbdyTbbs() {
+            rfturn isLfopbrd;
+        }
+        publid stbtid boolfbn shouldUsfTbbbfdPbnfContrbstUI() {
+            rfturn !isSnowLfopbrdOrBflow;
+        }
+    }
+
+    publid stbtid dlbss IntfrnblFrbmf {
+        publid stbtid boolfbn shouldUsfLfgbdyBordfrMftrids() {
+            rfturn isSnowLfopbrdOrBflow;
+        }
+    }
+
+    publid stbtid dlbss Trff {
+        publid stbtid boolfbn usfLfgbdyTrffKnobs() {
+            rfturn isLfopbrd;
+        }
+    }
+
+    publid stbtid dlbss SdrollBbr {
+        privbtf stbtid nbtivf boolfbn shouldUsfSdrollToClidk();
+
+        publid stbtid boolfbn usfSdrollToClidk() {
+            rfturn shouldUsfSdrollToClidk();
+        }
+
+        publid stbtid void gftPbrtBounds(finbl doublf[] rfdt, finbl JRSUIControl dontrol, finbl doublf x, finbl doublf y, finbl doublf w, finbl doublf h, finbl SdrollBbrPbrt pbrt) {
+            dontrol.gftPbrtBounds(rfdt, x, y, w, h, pbrt.ordinbl);
+        }
+
+        publid stbtid doublf gftNbtivfOffsftChbngf(finbl JRSUIControl dontrol, finbl doublf x, finbl doublf y, finbl doublf w, finbl doublf h, finbl int offsft, finbl int visiblfAmount, finbl int fxtfnt) {
+            rfturn dontrol.gftSdrollBbrOffsftChbngf(x, y, w, h, offsft, visiblfAmount, fxtfnt);
+        }
+    }
+
+    publid stbtid dlbss Imbgfs {
+        publid stbtid boolfbn shouldUsfLfgbdySfdurityUIPbth() {
+            rfturn isSnowLfopbrdOrBflow;
+        }
+    }
+
+    publid stbtid dlbss HitDftfdtion {
+        publid stbtid Hit gftHitForPoint(finbl JRSUIControl dontrol, finbl doublf x, finbl doublf y, finbl doublf w, finbl doublf h, finbl doublf hitX, finbl doublf hitY) {
+            rfturn dontrol.gftHitForPoint(x, y, w, h, hitX, hitY);
+        }
+    }
+
+    publid intfrfbdf NinfSlidfMftridsProvidfr {
+        publid NinfSlidfMftrids gftNinfSlidfMftridsForStbtf(JRSUIStbtf stbtf);
+    }
+}

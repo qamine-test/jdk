@@ -1,939 +1,939 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.X11;
+pbdkbgf sun.bwt.X11;
 
-import java.awt.*;
-import javax.swing.*;
-import java.awt.event.*;
-import java.awt.peer.*;
-import java.io.*;
-import java.util.Locale;
-import java.util.Arrays;
-import com.sun.java.swing.plaf.motif.*;
-import javax.swing.plaf.ComponentUI;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import sun.util.logging.PlatformLogger;
-import sun.awt.AWTAccessor;
+import jbvb.bwt.*;
+import jbvbx.swing.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bwt.pffr.*;
+import jbvb.io.*;
+import jbvb.util.Lodblf;
+import jbvb.util.Arrbys;
+import dom.sun.jbvb.swing.plbf.motif.*;
+import jbvbx.swing.plbf.ComponfntUI;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import sun.util.logging.PlbtformLoggfr;
+import sun.bwt.AWTAddfssor;
 
-class XFileDialogPeer extends XDialogPeer implements FileDialogPeer, ActionListener, ItemListener, KeyEventDispatcher, XChoicePeerListener {
-    private static final PlatformLogger log = PlatformLogger.getLogger("sun.awt.X11.XFileDialogPeer");
+dlbss XFilfDiblogPffr fxtfnds XDiblogPffr implfmfnts FilfDiblogPffr, AdtionListfnfr, ItfmListfnfr, KfyEvfntDispbtdifr, XCioidfPffrListfnfr {
+    privbtf stbtid finbl PlbtformLoggfr log = PlbtformLoggfr.gftLoggfr("sun.bwt.X11.XFilfDiblogPffr");
 
-    FileDialog  target;
+    FilfDiblog  tbrgft;
 
-    // This variable holds value exactly the same as value of the 'target.file' variable except:
-    // 1) is changed to null after quit (see handleQuitButton())
-    // 2) keep the same value if 'target.file' is incorrect (see setFile())
-    // It's not clear HOW we used it
-    // We should think about existence of this variable
-    String      file;
+    // Tiis vbribblf iolds vbluf fxbdtly tif sbmf bs vbluf of tif 'tbrgft.filf' vbribblf fxdfpt:
+    // 1) is dibngfd to null bftfr quit (sff ibndlfQuitButton())
+    // 2) kffp tif sbmf vbluf if 'tbrgft.filf' is indorrfdt (sff sftFilf())
+    // It's not dlfbr HOW wf usfd it
+    // Wf siould tiink bbout fxistfndf of tiis vbribblf
+    String      filf;
 
     String      dir;
 
-    String      title;
-    int         mode;
-    FilenameFilter  filter;
+    String      titlf;
+    int         modf;
+    FilfnbmfFiltfr  filtfr;
 
-    private static final int PATH_CHOICE_WIDTH = 20;
+    privbtf stbtid finbl int PATH_CHOICE_WIDTH = 20;
 
-    // Seems that the purpose of this variable is cashing of 'target.file' variable in order to help method show()
-    // We should think about using 'target.file' instead of 'savedFile'
-    // Perhaps, 'target.file' just more correct (see target.setFile())
-    String      savedFile;
+    // Sffms tibt tif purposf of tiis vbribblf is dbsiing of 'tbrgft.filf' vbribblf in ordfr to iflp mftiod siow()
+    // Wf siould tiink bbout using 'tbrgft.filf' instfbd of 'sbvfdFilf'
+    // Pfribps, 'tbrgft.filf' just morf dorrfdt (sff tbrgft.sftFilf())
+    String      sbvfdFilf;
 
-    // Holds value of the directory which was chosen before
-    // We use it in order to restore previously selected directory
-    // at the time of the next showing of the file dialog
-    String      savedDir;
-    // Holds value of the system property 'user.dir'
-    // in order to init current directory
-    String      userDir;
+    // Holds vbluf of tif dirfdtory wiidi wbs diosfn bfforf
+    // Wf usf it in ordfr to rfstorf prfviously sflfdtfd dirfdtory
+    // bt tif timf of tif nfxt siowing of tif filf diblog
+    String      sbvfdDir;
+    // Holds vbluf of tif systfm propfrty 'usfr.dir'
+    // in ordfr to init durrfnt dirfdtory
+    String      usfrDir;
 
-    Dialog      fileDialog;
+    Diblog      filfDiblog;
 
-    GridBagLayout       gbl;
-    GridBagLayout       gblButtons;
-    GridBagConstraints  gbc;
+    GridBbgLbyout       gbl;
+    GridBbgLbyout       gblButtons;
+    GridBbgConstrbints  gbd;
 
-    // ************** Components in the fileDialogWindow ***************
+    // ************** Componfnts in tif filfDiblogWindow ***************
 
-    TextField   filterField;
+    TfxtFifld   filtfrFifld;
 
-    // This variable holds the current text of the file which user select through the navigation
-    // It's important that updating of this variable must be correct
-    // since this value is used at the time of the file dialog closing
-    // Namely, we invoke target.setFile() and then user can get this value
-    // We update this field in cases:
-    // - ITEM_STATE_CHANGED was triggered on the file list component: set to the current selected item
-    // - at the time of the 'show': set to savedFile
-    // - at the time of the programmatically setting: set to new value
-    TextField   selectionField;
+    // Tiis vbribblf iolds tif durrfnt tfxt of tif filf wiidi usfr sflfdt tirougi tif nbvigbtion
+    // It's importbnt tibt updbting of tiis vbribblf must bf dorrfdt
+    // sindf tiis vbluf is usfd bt tif timf of tif filf diblog dlosing
+    // Nbmfly, wf invokf tbrgft.sftFilf() bnd tifn usfr dbn gft tiis vbluf
+    // Wf updbtf tiis fifld in dbsfs:
+    // - ITEM_STATE_CHANGED wbs triggfrfd on tif filf list domponfnt: sft to tif durrfnt sflfdtfd itfm
+    // - bt tif timf of tif 'siow': sft to sbvfdFilf
+    // - bt tif timf of tif progrbmmbtidblly sftting: sft to nfw vbluf
+    TfxtFifld   sflfdtionFifld;
 
-    List        directoryList;
+    List        dirfdtoryList;
 
-    // This is the list component which is used for the showing of the file list of the current directory
-    List        fileList;
+    // Tiis is tif list domponfnt wiidi is usfd for tif siowing of tif filf list of tif durrfnt dirfdtory
+    List        filfList;
 
-    Panel       buttons;
-    Button      openButton;
-    Button      filterButton;
-    Button      cancelButton;
-    Choice      pathChoice;
-    TextField   pathField;
-    Panel       pathPanel;
+    Pbnfl       buttons;
+    Button      opfnButton;
+    Button      filtfrButton;
+    Button      dbndflButton;
+    Cioidf      pbtiCioidf;
+    TfxtFifld   pbtiFifld;
+    Pbnfl       pbtiPbnfl;
 
-    String cancelButtonText = null;
-    String enterFileNameLabelText = null;
-    String filesLabelText= null;
-    String foldersLabelText= null;
-    String pathLabelText= null;
-    String filterLabelText= null;
-    String openButtonText= null;
-    String saveButtonText= null;
-    String actionButtonText= null;
+    String dbndflButtonTfxt = null;
+    String fntfrFilfNbmfLbbflTfxt = null;
+    String filfsLbbflTfxt= null;
+    String foldfrsLbbflTfxt= null;
+    String pbtiLbbflTfxt= null;
+    String filtfrLbbflTfxt= null;
+    String opfnButtonTfxt= null;
+    String sbvfButtonTfxt= null;
+    String bdtionButtonTfxt= null;
 
 
-    void installStrings() {
-        Locale l = target.getLocale();
-        UIDefaults uid = XToolkit.getUIDefaults();
-        cancelButtonText = uid.getString("FileChooser.cancelButtonText",l);
-        enterFileNameLabelText = uid.getString("FileChooser.enterFileNameLabelText",l);
-        filesLabelText = uid.getString("FileChooser.filesLabelText",l);
-        foldersLabelText = uid.getString("FileChooser.foldersLabelText",l);
-        pathLabelText = uid.getString("FileChooser.pathLabelText",l);
-        filterLabelText = uid.getString("FileChooser.filterLabelText",l);
-        openButtonText = uid.getString("FileChooser.openButtonText",l);
-        saveButtonText  = uid.getString("FileChooser.saveButtonText",l);
+    void instbllStrings() {
+        Lodblf l = tbrgft.gftLodblf();
+        UIDffbults uid = XToolkit.gftUIDffbults();
+        dbndflButtonTfxt = uid.gftString("FilfCioosfr.dbndflButtonTfxt",l);
+        fntfrFilfNbmfLbbflTfxt = uid.gftString("FilfCioosfr.fntfrFilfNbmfLbbflTfxt",l);
+        filfsLbbflTfxt = uid.gftString("FilfCioosfr.filfsLbbflTfxt",l);
+        foldfrsLbbflTfxt = uid.gftString("FilfCioosfr.foldfrsLbbflTfxt",l);
+        pbtiLbbflTfxt = uid.gftString("FilfCioosfr.pbtiLbbflTfxt",l);
+        filtfrLbbflTfxt = uid.gftString("FilfCioosfr.filtfrLbbflTfxt",l);
+        opfnButtonTfxt = uid.gftString("FilfCioosfr.opfnButtonTfxt",l);
+        sbvfButtonTfxt  = uid.gftString("FilfCioosfr.sbvfButtonTfxt",l);
 
     }
 
-    XFileDialogPeer(FileDialog target) {
-        super((Dialog)target);
-        this.target = target;
+    XFilfDiblogPffr(FilfDiblog tbrgft) {
+        supfr((Diblog)tbrgft);
+        tiis.tbrgft = tbrgft;
     }
 
-    private void init(FileDialog target) {
-        fileDialog = target; //new Dialog(target, target.getTitle(), false);
-        this.title = target.getTitle();
-        this.mode = target.getMode();
-        this.target = target;
-        this.filter = target.getFilenameFilter();
+    privbtf void init(FilfDiblog tbrgft) {
+        filfDiblog = tbrgft; //nfw Diblog(tbrgft, tbrgft.gftTitlf(), fblsf);
+        tiis.titlf = tbrgft.gftTitlf();
+        tiis.modf = tbrgft.gftModf();
+        tiis.tbrgft = tbrgft;
+        tiis.filtfr = tbrgft.gftFilfnbmfFiltfr();
 
-        savedFile = target.getFile();
-        savedDir = target.getDirectory();
-        // Shouldn't save 'user.dir' to 'savedDir'
-        // since getDirectory() will be incorrect after handleCancel
-        userDir = AccessController.doPrivileged(
-            new PrivilegedAction<String>() {
-                public String run() {
-                    return System.getProperty("user.dir");
+        sbvfdFilf = tbrgft.gftFilf();
+        sbvfdDir = tbrgft.gftDirfdtory();
+        // Siouldn't sbvf 'usfr.dir' to 'sbvfdDir'
+        // sindf gftDirfdtory() will bf indorrfdt bftfr ibndlfCbndfl
+        usfrDir = AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<String>() {
+                publid String run() {
+                    rfturn Systfm.gftPropfrty("usfr.dir");
                 }
             });
 
-        installStrings();
-        gbl = new GridBagLayout();
-        gblButtons = new GridBagLayout();
-        gbc = new GridBagConstraints();
-        fileDialog.setLayout(gbl);
+        instbllStrings();
+        gbl = nfw GridBbgLbyout();
+        gblButtons = nfw GridBbgLbyout();
+        gbd = nfw GridBbgConstrbints();
+        filfDiblog.sftLbyout(gbl);
 
-        // create components
-        buttons = new Panel();
-        buttons.setLayout(gblButtons);
-        actionButtonText = (target.getMode() == FileDialog.SAVE) ? saveButtonText : openButtonText;
-        openButton = new Button(actionButtonText);
+        // drfbtf domponfnts
+        buttons = nfw Pbnfl();
+        buttons.sftLbyout(gblButtons);
+        bdtionButtonTfxt = (tbrgft.gftModf() == FilfDiblog.SAVE) ? sbvfButtonTfxt : opfnButtonTfxt;
+        opfnButton = nfw Button(bdtionButtonTfxt);
 
-        filterButton = new Button(filterLabelText);
-        cancelButton = new Button(cancelButtonText);
-        directoryList = new List();
-        fileList = new List();
-        filterField = new TextField();
-        selectionField = new TextField();
+        filtfrButton = nfw Button(filtfrLbbflTfxt);
+        dbndflButton = nfw Button(dbndflButtonTfxt);
+        dirfdtoryList = nfw List();
+        filfList = nfw List();
+        filtfrFifld = nfw TfxtFifld();
+        sflfdtionFifld = nfw TfxtFifld();
 
-        boolean isMultipleMode =
-            AWTAccessor.getFileDialogAccessor().isMultipleMode(target);
-        fileList.setMultipleMode(isMultipleMode);
+        boolfbn isMultiplfModf =
+            AWTAddfssor.gftFilfDiblogAddfssor().isMultiplfModf(tbrgft);
+        filfList.sftMultiplfModf(isMultiplfModf);
 
-        // the insets used by the components in the fileDialog
-        Insets noInset = new Insets(0, 0, 0, 0);
-        Insets textFieldInset = new Insets(0, 8, 0, 8);
-        Insets leftListInset = new Insets(0, 8, 0, 4);
-        Insets rightListInset = new Insets(0, 4, 0, 8);
-        Insets separatorInset = new Insets(8, 0, 0, 0);
-        Insets labelInset = new Insets(0, 8, 0, 0);
-        Insets buttonsInset = new Insets(10, 8, 10, 8);
+        // tif insfts usfd by tif domponfnts in tif filfDiblog
+        Insfts noInsft = nfw Insfts(0, 0, 0, 0);
+        Insfts tfxtFifldInsft = nfw Insfts(0, 8, 0, 8);
+        Insfts lfftListInsft = nfw Insfts(0, 8, 0, 4);
+        Insfts rigitListInsft = nfw Insfts(0, 4, 0, 8);
+        Insfts sfpbrbtorInsft = nfw Insfts(8, 0, 0, 0);
+        Insfts lbbflInsft = nfw Insfts(0, 8, 0, 0);
+        Insfts buttonsInsft = nfw Insfts(10, 8, 10, 8);
 
-        // add components to GridBagLayout "gbl"
+        // bdd domponfnts to GridBbgLbyout "gbl"
 
-        Font f = new Font(Font.DIALOG, Font.PLAIN, 12);
+        Font f = nfw Font(Font.DIALOG, Font.PLAIN, 12);
 
-        Label label = new Label(pathLabelText);
-        label.setFont(f);
-        addComponent(label, gbl, gbc, 0, 0, 1,
-                     GridBagConstraints.WEST, (Container)fileDialog,
-                     1, 0, GridBagConstraints.NONE, labelInset);
+        Lbbfl lbbfl = nfw Lbbfl(pbtiLbbflTfxt);
+        lbbfl.sftFont(f);
+        bddComponfnt(lbbfl, gbl, gbd, 0, 0, 1,
+                     GridBbgConstrbints.WEST, (Contbinfr)filfDiblog,
+                     1, 0, GridBbgConstrbints.NONE, lbbflInsft);
 
-        // Fixed 6260650: FileDialog.getDirectory() does not return null when file dialog is cancelled
-        // After showing we should display 'user.dir' as current directory
-        // if user didn't set directory programatically
-        pathField = new TextField(savedDir != null ? savedDir : userDir);
-        @SuppressWarnings("serial") // Anonymous class
-        Choice tmp = new Choice() {
-                public Dimension getPreferredSize() {
-                    return new Dimension(PATH_CHOICE_WIDTH, pathField.getPreferredSize().height);
+        // Fixfd 6260650: FilfDiblog.gftDirfdtory() dofs not rfturn null wifn filf diblog is dbndfllfd
+        // Aftfr siowing wf siould displby 'usfr.dir' bs durrfnt dirfdtory
+        // if usfr didn't sft dirfdtory progrbmbtidblly
+        pbtiFifld = nfw TfxtFifld(sbvfdDir != null ? sbvfdDir : usfrDir);
+        @SupprfssWbrnings("sfribl") // Anonymous dlbss
+        Cioidf tmp = nfw Cioidf() {
+                publid Dimfnsion gftPrfffrrfdSizf() {
+                    rfturn nfw Dimfnsion(PATH_CHOICE_WIDTH, pbtiFifld.gftPrfffrrfdSizf().ifigit);
                 }
             };
-        pathChoice = tmp;
-        pathPanel = new Panel();
-        pathPanel.setLayout(new BorderLayout());
+        pbtiCioidf = tmp;
+        pbtiPbnfl = nfw Pbnfl();
+        pbtiPbnfl.sftLbyout(nfw BordfrLbyout());
 
-        pathPanel.add(pathField,BorderLayout.CENTER);
-        pathPanel.add(pathChoice,BorderLayout.EAST);
-        //addComponent(pathField, gbl, gbc, 0, 1, 2,
-        //             GridBagConstraints.WEST, (Container)fileDialog,
-        //             1, 0, GridBagConstraints.HORIZONTAL, textFieldInset);
-        //addComponent(pathChoice, gbl, gbc, 1, 1, GridBagConstraints.RELATIVE,
-         //            GridBagConstraints.WEST, (Container)fileDialog,
-          //           1, 0, GridBagConstraints.HORIZONTAL, textFieldInset);
-        addComponent(pathPanel, gbl, gbc, 0, 1, 2,
-                    GridBagConstraints.WEST, (Container)fileDialog,
-                   1, 0, GridBagConstraints.HORIZONTAL, textFieldInset);
+        pbtiPbnfl.bdd(pbtiFifld,BordfrLbyout.CENTER);
+        pbtiPbnfl.bdd(pbtiCioidf,BordfrLbyout.EAST);
+        //bddComponfnt(pbtiFifld, gbl, gbd, 0, 1, 2,
+        //             GridBbgConstrbints.WEST, (Contbinfr)filfDiblog,
+        //             1, 0, GridBbgConstrbints.HORIZONTAL, tfxtFifldInsft);
+        //bddComponfnt(pbtiCioidf, gbl, gbd, 1, 1, GridBbgConstrbints.RELATIVE,
+         //            GridBbgConstrbints.WEST, (Contbinfr)filfDiblog,
+          //           1, 0, GridBbgConstrbints.HORIZONTAL, tfxtFifldInsft);
+        bddComponfnt(pbtiPbnfl, gbl, gbd, 0, 1, 2,
+                    GridBbgConstrbints.WEST, (Contbinfr)filfDiblog,
+                   1, 0, GridBbgConstrbints.HORIZONTAL, tfxtFifldInsft);
 
 
 
-        label = new Label(filterLabelText);
+        lbbfl = nfw Lbbfl(filtfrLbbflTfxt);
 
-        label.setFont(f);
-        addComponent(label, gbl, gbc, 0, 2, 1,
-                     GridBagConstraints.WEST, (Container)fileDialog,
-                     1, 0, GridBagConstraints.NONE, labelInset);
-        addComponent(filterField, gbl, gbc, 0, 3, 2,
-                     GridBagConstraints.WEST, (Container)fileDialog,
-                     1, 0, GridBagConstraints.HORIZONTAL, textFieldInset);
+        lbbfl.sftFont(f);
+        bddComponfnt(lbbfl, gbl, gbd, 0, 2, 1,
+                     GridBbgConstrbints.WEST, (Contbinfr)filfDiblog,
+                     1, 0, GridBbgConstrbints.NONE, lbbflInsft);
+        bddComponfnt(filtfrFifld, gbl, gbd, 0, 3, 2,
+                     GridBbgConstrbints.WEST, (Contbinfr)filfDiblog,
+                     1, 0, GridBbgConstrbints.HORIZONTAL, tfxtFifldInsft);
 
-        label = new Label(foldersLabelText);
+        lbbfl = nfw Lbbfl(foldfrsLbbflTfxt);
 
-        label.setFont(f);
-        addComponent(label, gbl, gbc, 0, 4, 1,
-                     GridBagConstraints.WEST, (Container)fileDialog,
-                     1, 0, GridBagConstraints.NONE, labelInset);
+        lbbfl.sftFont(f);
+        bddComponfnt(lbbfl, gbl, gbd, 0, 4, 1,
+                     GridBbgConstrbints.WEST, (Contbinfr)filfDiblog,
+                     1, 0, GridBbgConstrbints.NONE, lbbflInsft);
 
-        label = new Label(filesLabelText);
+        lbbfl = nfw Lbbfl(filfsLbbflTfxt);
 
-        label.setFont(f);
-        addComponent(label, gbl, gbc, 1, 4, 1,
-                     GridBagConstraints.WEST, (Container)fileDialog,
-                     1, 0, GridBagConstraints.NONE, labelInset);
-        addComponent(directoryList, gbl, gbc, 0, 5, 1,
-                     GridBagConstraints.WEST, (Container)fileDialog,
-                     1, 1, GridBagConstraints.BOTH, leftListInset);
-        addComponent(fileList, gbl, gbc, 1, 5, 1,
-                     GridBagConstraints.WEST, (Container)fileDialog,
-                     1, 1, GridBagConstraints.BOTH, rightListInset);
+        lbbfl.sftFont(f);
+        bddComponfnt(lbbfl, gbl, gbd, 1, 4, 1,
+                     GridBbgConstrbints.WEST, (Contbinfr)filfDiblog,
+                     1, 0, GridBbgConstrbints.NONE, lbbflInsft);
+        bddComponfnt(dirfdtoryList, gbl, gbd, 0, 5, 1,
+                     GridBbgConstrbints.WEST, (Contbinfr)filfDiblog,
+                     1, 1, GridBbgConstrbints.BOTH, lfftListInsft);
+        bddComponfnt(filfList, gbl, gbd, 1, 5, 1,
+                     GridBbgConstrbints.WEST, (Contbinfr)filfDiblog,
+                     1, 1, GridBbgConstrbints.BOTH, rigitListInsft);
 
-        label = new Label(enterFileNameLabelText);
+        lbbfl = nfw Lbbfl(fntfrFilfNbmfLbbflTfxt);
 
-        label.setFont(f);
-        addComponent(label, gbl, gbc, 0, 6, 1,
-                     GridBagConstraints.WEST, (Container)fileDialog,
-                     1, 0, GridBagConstraints.NONE, labelInset);
-        addComponent(selectionField, gbl, gbc, 0, 7, 2,
-                     GridBagConstraints.WEST, (Container)fileDialog,
-                     1, 0, GridBagConstraints.HORIZONTAL, textFieldInset);
-        addComponent(new Separator(fileDialog.size().width, 2, Separator.HORIZONTAL), gbl, gbc, 0, 8, 15,
-                     GridBagConstraints.WEST, (Container)fileDialog,
-                     1, 0, GridBagConstraints.HORIZONTAL, separatorInset);
+        lbbfl.sftFont(f);
+        bddComponfnt(lbbfl, gbl, gbd, 0, 6, 1,
+                     GridBbgConstrbints.WEST, (Contbinfr)filfDiblog,
+                     1, 0, GridBbgConstrbints.NONE, lbbflInsft);
+        bddComponfnt(sflfdtionFifld, gbl, gbd, 0, 7, 2,
+                     GridBbgConstrbints.WEST, (Contbinfr)filfDiblog,
+                     1, 0, GridBbgConstrbints.HORIZONTAL, tfxtFifldInsft);
+        bddComponfnt(nfw Sfpbrbtor(filfDiblog.sizf().widti, 2, Sfpbrbtor.HORIZONTAL), gbl, gbd, 0, 8, 15,
+                     GridBbgConstrbints.WEST, (Contbinfr)filfDiblog,
+                     1, 0, GridBbgConstrbints.HORIZONTAL, sfpbrbtorInsft);
 
-        // add buttons to GridBagLayout Buttons
-        addComponent(openButton, gblButtons, gbc, 0, 0, 1,
-                     GridBagConstraints.WEST, (Container)buttons,
-                     1, 0, GridBagConstraints.NONE, noInset);
-        addComponent(filterButton, gblButtons, gbc, 1, 0, 1,
-                     GridBagConstraints.CENTER, (Container)buttons,
-                     1, 0, GridBagConstraints.NONE, noInset);
-        addComponent(cancelButton, gblButtons, gbc, 2, 0, 1,
-                     GridBagConstraints.EAST, (Container)buttons,
-                     1, 0, GridBagConstraints.NONE, noInset);
+        // bdd buttons to GridBbgLbyout Buttons
+        bddComponfnt(opfnButton, gblButtons, gbd, 0, 0, 1,
+                     GridBbgConstrbints.WEST, (Contbinfr)buttons,
+                     1, 0, GridBbgConstrbints.NONE, noInsft);
+        bddComponfnt(filtfrButton, gblButtons, gbd, 1, 0, 1,
+                     GridBbgConstrbints.CENTER, (Contbinfr)buttons,
+                     1, 0, GridBbgConstrbints.NONE, noInsft);
+        bddComponfnt(dbndflButton, gblButtons, gbd, 2, 0, 1,
+                     GridBbgConstrbints.EAST, (Contbinfr)buttons,
+                     1, 0, GridBbgConstrbints.NONE, noInsft);
 
-        // add ButtonPanel to the GridBagLayout of this class
-        addComponent(buttons, gbl, gbc, 0, 9, 2,
-                     GridBagConstraints.WEST, (Container)fileDialog,
-                     1, 0, GridBagConstraints.HORIZONTAL, buttonsInset);
+        // bdd ButtonPbnfl to tif GridBbgLbyout of tiis dlbss
+        bddComponfnt(buttons, gbl, gbd, 0, 9, 2,
+                     GridBbgConstrbints.WEST, (Contbinfr)filfDiblog,
+                     1, 0, GridBbgConstrbints.HORIZONTAL, buttonsInsft);
 
-        fileDialog.setSize(400, 400);
+        filfDiblog.sftSizf(400, 400);
 
-        // Update choice's popup width
-        XChoicePeer choicePeer = (XChoicePeer)pathChoice.getPeer();
-        choicePeer.setDrawSelectedItem(false);
-        choicePeer.setAlignUnder(pathField);
+        // Updbtf dioidf's popup widti
+        XCioidfPffr dioidfPffr = (XCioidfPffr)pbtiCioidf.gftPffr();
+        dioidfPffr.sftDrbwSflfdtfdItfm(fblsf);
+        dioidfPffr.sftAlignUndfr(pbtiFifld);
 
-        filterField.addActionListener(this);
-        selectionField.addActionListener(this);
-        directoryList.addActionListener(this);
-        directoryList.addItemListener(this);
-        fileList.addItemListener(this);
-        fileList.addActionListener(this);
-        openButton.addActionListener(this);
-        filterButton.addActionListener(this);
-        cancelButton.addActionListener(this);
-        pathChoice.addItemListener(this);
-        pathField.addActionListener(this);
+        filtfrFifld.bddAdtionListfnfr(tiis);
+        sflfdtionFifld.bddAdtionListfnfr(tiis);
+        dirfdtoryList.bddAdtionListfnfr(tiis);
+        dirfdtoryList.bddItfmListfnfr(tiis);
+        filfList.bddItfmListfnfr(tiis);
+        filfList.bddAdtionListfnfr(tiis);
+        opfnButton.bddAdtionListfnfr(tiis);
+        filtfrButton.bddAdtionListfnfr(tiis);
+        dbndflButton.bddAdtionListfnfr(tiis);
+        pbtiCioidf.bddItfmListfnfr(tiis);
+        pbtiFifld.bddAdtionListfnfr(tiis);
 
-        // b6227750 FileDialog is not disposed when clicking the 'close' (X) button on the top right corner, XToolkit
-        target.addWindowListener(
-            new WindowAdapter(){
-                public void windowClosing(WindowEvent e){
-                    handleCancel();
+        // b6227750 FilfDiblog is not disposfd wifn dlidking tif 'dlosf' (X) button on tif top rigit dornfr, XToolkit
+        tbrgft.bddWindowListfnfr(
+            nfw WindowAdbptfr(){
+                publid void windowClosing(WindowEvfnt f){
+                    ibndlfCbndfl();
                 }
             }
         );
 
-        // 6259434 PIT: Choice in FileDialog is not responding to keyboard interactions, XToolkit
-        pathChoice.addItemListener(this);
+        // 6259434 PIT: Cioidf in FilfDiblog is not rfsponding to kfybobrd intfrbdtions, XToolkit
+        pbtiCioidf.bddItfmListfnfr(tiis);
 
     }
 
-    public void updateMinimumSize() {
+    publid void updbtfMinimumSizf() {
     }
 
-    public void updateIconImages() {
-        if (winAttr.icons == null){
-            winAttr.iconsInherited = false;
-            winAttr.icons = getDefaultIconInfo();
-            setIconHints(winAttr.icons);
+    publid void updbtfIdonImbgfs() {
+        if (winAttr.idons == null){
+            winAttr.idonsInifritfd = fblsf;
+            winAttr.idons = gftDffbultIdonInfo();
+            sftIdonHints(winAttr.idons);
         }
     }
 
     /**
-     * add Component comp to the container cont.
-     * add the component to the correct GridBagLayout
+     * bdd Componfnt domp to tif dontbinfr dont.
+     * bdd tif domponfnt to tif dorrfdt GridBbgLbyout
      */
-    void addComponent(Component comp, GridBagLayout gb, GridBagConstraints c, int gridx,
-                      int gridy, int gridwidth, int anchor, Container cont, int weightx, int weighty,
-                      int fill, Insets in) {
-        c.gridx = gridx;
-        c.gridy = gridy;
-        c.gridwidth = gridwidth;
-        c.anchor = anchor;
-        c.weightx = weightx;
-        c.weighty = weighty;
-        c.fill = fill;
-        c.insets = in;
-        gb.setConstraints(comp, c);
-        cont.add(comp);
+    void bddComponfnt(Componfnt domp, GridBbgLbyout gb, GridBbgConstrbints d, int gridx,
+                      int gridy, int gridwidti, int bndior, Contbinfr dont, int wfigitx, int wfigity,
+                      int fill, Insfts in) {
+        d.gridx = gridx;
+        d.gridy = gridy;
+        d.gridwidti = gridwidti;
+        d.bndior = bndior;
+        d.wfigitx = wfigitx;
+        d.wfigity = wfigity;
+        d.fill = fill;
+        d.insfts = in;
+        gb.sftConstrbints(domp, d);
+        dont.bdd(domp);
     }
 
     /**
-     * get fileName
+     * gft filfNbmf
      */
-    String getFileName(String str) {
+    String gftFilfNbmf(String str) {
         if (str == null) {
-            return "";
+            rfturn "";
         }
 
-        int index = str.lastIndexOf('/');
+        int indfx = str.lbstIndfxOf('/');
 
-        if (index == -1) {
-            return str;
-        } else {
-            return str.substring(index + 1);
+        if (indfx == -1) {
+            rfturn str;
+        } flsf {
+            rfturn str.substring(indfx + 1);
         }
     }
 
-    /** handleFilter
+    /** ibndlfFiltfr
      *
      */
-    void handleFilter(String f) {
+    void ibndlfFiltfr(String f) {
 
         if (f == null) {
-            return;
+            rfturn;
         }
-        setFilterEntry(dir,f);
+        sftFiltfrEntry(dir,f);
 
-        // Fixed within 6259434: PIT: Choice in FileDialog is not responding to keyboard interactions, XToolkit
-        // Here we restoring Motif behaviour
-        directoryList.select(0);
-        if (fileList.getItemCount() != 0) {
-            fileList.requestFocus();
-        } else {
-            directoryList.requestFocus();
+        // Fixfd witiin 6259434: PIT: Cioidf in FilfDiblog is not rfsponding to kfybobrd intfrbdtions, XToolkit
+        // Hfrf wf rfstoring Motif bfibviour
+        dirfdtoryList.sflfdt(0);
+        if (filfList.gftItfmCount() != 0) {
+            filfList.rfqufstFodus();
+        } flsf {
+            dirfdtoryList.rfqufstFodus();
         }
     }
 
     /**
-     * handle the selection event
+     * ibndlf tif sflfdtion fvfnt
      */
-    void handleSelection(String file) {
+    void ibndlfSflfdtion(String filf) {
 
-        int index = file.lastIndexOf(java.io.File.separatorChar);
+        int indfx = filf.lbstIndfxOf(jbvb.io.Filf.sfpbrbtorCibr);
 
-        if (index == -1) {
-            savedDir = this.dir;
-            savedFile = file;
-        } else {
-            savedDir = file.substring(0, index+1);
-            savedFile = file.substring(index+1);
+        if (indfx == -1) {
+            sbvfdDir = tiis.dir;
+            sbvfdFilf = filf;
+        } flsf {
+            sbvfdDir = filf.substring(0, indfx+1);
+            sbvfdFilf = filf.substring(indfx+1);
         }
 
-        String[] fileNames = fileList.getSelectedItems();
-        int filesNumber = (fileNames != null) ? fileNames.length : 0;
-        File[] files = new File[filesNumber];
-        for (int i = 0; i < filesNumber; i++) {
-            files[i] = new File(savedDir, fileNames[i]);
+        String[] filfNbmfs = filfList.gftSflfdtfdItfms();
+        int filfsNumbfr = (filfNbmfs != null) ? filfNbmfs.lfngti : 0;
+        Filf[] filfs = nfw Filf[filfsNumbfr];
+        for (int i = 0; i < filfsNumbfr; i++) {
+            filfs[i] = nfw Filf(sbvfdDir, filfNbmfs[i]);
         }
 
-        AWTAccessor.FileDialogAccessor fileDialogAccessor = AWTAccessor.getFileDialogAccessor();
+        AWTAddfssor.FilfDiblogAddfssor filfDiblogAddfssor = AWTAddfssor.gftFilfDiblogAddfssor();
 
-        fileDialogAccessor.setDirectory(target, savedDir);
-        fileDialogAccessor.setFile(target, savedFile);
-        fileDialogAccessor.setFiles(target, files);
+        filfDiblogAddfssor.sftDirfdtory(tbrgft, sbvfdDir);
+        filfDiblogAddfssor.sftFilf(tbrgft, sbvfdFilf);
+        filfDiblogAddfssor.sftFilfs(tbrgft, filfs);
     }
 
     /**
-     * handle the cancel event
+     * ibndlf tif dbndfl fvfnt
      */
-    void handleCancel() {
-        KeyboardFocusManager.getCurrentKeyboardFocusManager()
-            .removeKeyEventDispatcher(this);
+    void ibndlfCbndfl() {
+        KfybobrdFodusMbnbgfr.gftCurrfntKfybobrdFodusMbnbgfr()
+            .rfmovfKfyEvfntDispbtdifr(tiis);
 
-        setSelectionField(null);
-        setFilterField(null);
-        directoryList.clear();
-        fileList.clear();
+        sftSflfdtionFifld(null);
+        sftFiltfrFifld(null);
+        dirfdtoryList.dlfbr();
+        filfList.dlfbr();
 
-        AWTAccessor.FileDialogAccessor fileDialogAccessor = AWTAccessor.getFileDialogAccessor();
+        AWTAddfssor.FilfDiblogAddfssor filfDiblogAddfssor = AWTAddfssor.gftFilfDiblogAddfssor();
 
-        fileDialogAccessor.setDirectory(target, null);
-        fileDialogAccessor.setFile(target, null);
-        fileDialogAccessor.setFiles(target, null);
+        filfDiblogAddfssor.sftDirfdtory(tbrgft, null);
+        filfDiblogAddfssor.sftFilf(tbrgft, null);
+        filfDiblogAddfssor.sftFilfs(tbrgft, null);
 
-        handleQuitButton();
+        ibndlfQuitButton();
     }
 
     /**
-     * handle the quit event
+     * ibndlf tif quit fvfnt
      */
-    void handleQuitButton() {
+    void ibndlfQuitButton() {
         dir = null;
-        file = null;
-        target.hide();
+        filf = null;
+        tbrgft.iidf();
     }
 
     /**
-     * set the entry of the new dir with f
+     * sft tif fntry of tif nfw dir witi f
      */
-    void setFilterEntry(String d, String f) {
-        File fe = new File(d);
+    void sftFiltfrEntry(String d, String f) {
+        Filf ff = nfw Filf(d);
 
-        if (fe.isDirectory() && fe.canRead()) {
-            // Fixed 6260659: File Name set programmatically in FileDialog is overridden during navigation, XToolkit
-            // Here we restoring Motif behaviour
-            setSelectionField(target.getFile());
+        if (ff.isDirfdtory() && ff.dbnRfbd()) {
+            // Fixfd 6260659: Filf Nbmf sft progrbmmbtidblly in FilfDiblog is ovfrriddfn during nbvigbtion, XToolkit
+            // Hfrf wf rfstoring Motif bfibviour
+            sftSflfdtionFifld(tbrgft.gftFilf());
 
-            if (f.equals("")) {
+            if (f.fqubls("")) {
                 f = "*";
-                setFilterField(f);
-            } else {
-                setFilterField(f);
+                sftFiltfrFifld(f);
+            } flsf {
+                sftFiltfrFifld(f);
             }
             String l[];
 
-            if (f.equals("*")) {
-                l = fe.list();
-            } else {
-                // REMIND: fileDialogFilter is not implemented yet
-                FileDialogFilter ff = new FileDialogFilter(f);
-                l = fe.list(ff);
+            if (f.fqubls("*")) {
+                l = ff.list();
+            } flsf {
+                // REMIND: filfDiblogFiltfr is not implfmfntfd yft
+                FilfDiblogFiltfr ff = nfw FilfDiblogFiltfr(f);
+                l = ff.list(ff);
             }
-            // Fixed 6358953: handling was added in case of I/O error happens
+            // Fixfd 6358953: ibndling wbs bddfd in dbsf of I/O frror ibppfns
             if (l == null) {
-                this.dir = getParentDirectory();
-                return;
+                tiis.dir = gftPbrfntDirfdtory();
+                rfturn;
             }
-            directoryList.clear();
-            fileList.clear();
-            directoryList.setVisible(false);
-            fileList.setVisible(false);
+            dirfdtoryList.dlfbr();
+            filfList.dlfbr();
+            dirfdtoryList.sftVisiblf(fblsf);
+            filfList.sftVisiblf(fblsf);
 
-            directoryList.addItem("..");
-            Arrays.sort(l);
-            for (int i = 0 ; i < l.length ; i++) {
-                File file = new File(d + l[i]);
-                if (file.isDirectory()) {
-                    directoryList.addItem(l[i] + "/");
-                } else {
-                    if (filter != null) {
-                        if (filter.accept(new File(l[i]),l[i]))  fileList.addItem(l[i]);
+            dirfdtoryList.bddItfm("..");
+            Arrbys.sort(l);
+            for (int i = 0 ; i < l.lfngti ; i++) {
+                Filf filf = nfw Filf(d + l[i]);
+                if (filf.isDirfdtory()) {
+                    dirfdtoryList.bddItfm(l[i] + "/");
+                } flsf {
+                    if (filtfr != null) {
+                        if (filtfr.bddfpt(nfw Filf(l[i]),l[i]))  filfList.bddItfm(l[i]);
                     }
-                    else fileList.addItem(l[i]);
+                    flsf filfList.bddItfm(l[i]);
                 }
             }
-            this.dir = d;
+            tiis.dir = d;
 
-            pathField.setText(dir);
+            pbtiFifld.sftTfxt(dir);
 
-            // Some code was removed
-            // Now we do updating of the pathChoice at the time of the choice opening
+            // Somf dodf wbs rfmovfd
+            // Now wf do updbting of tif pbtiCioidf bt tif timf of tif dioidf opfning
 
-            target.setDirectory(this.dir);
-            directoryList.setVisible(true);
-            fileList.setVisible(true);
+            tbrgft.sftDirfdtory(tiis.dir);
+            dirfdtoryList.sftVisiblf(truf);
+            filfList.sftVisiblf(truf);
         }
     }
 
 
-    String[] getDirList(String dir) {
-        if (!dir.endsWith("/"))
+    String[] gftDirList(String dir) {
+        if (!dir.fndsWiti("/"))
             dir = dir + "/";
-        char[] charr = dir.toCharArray();
-        int numSlashes = 0;
-        for (int i=0;i<charr.length;i++) {
-           if (charr[i] == '/')
-               numSlashes++;
+        dibr[] dibrr = dir.toCibrArrby();
+        int numSlbsifs = 0;
+        for (int i=0;i<dibrr.lfngti;i++) {
+           if (dibrr[i] == '/')
+               numSlbsifs++;
         }
-        String[] starr =  new String[numSlashes];
+        String[] stbrr =  nfw String[numSlbsifs];
         int j=0;
-        for (int i=charr.length-1;i>=0;i--) {
-            if (charr[i] == '/')
+        for (int i=dibrr.lfngti-1;i>=0;i--) {
+            if (dibrr[i] == '/')
             {
-                starr[j++] = new String(charr,0,i+1);
+                stbrr[j++] = nfw String(dibrr,0,i+1);
             }
         }
-        return starr;
+        rfturn stbrr;
     }
 
     /**
-     * set the text in the selectionField
+     * sft tif tfxt in tif sflfdtionFifld
      */
-    void setSelectionField(String str) {
-        selectionField.setText(str);
+    void sftSflfdtionFifld(String str) {
+        sflfdtionFifld.sftTfxt(str);
     }
 
     /**
-     * set the text in the filterField
+     * sft tif tfxt in tif filtfrFifld
      */
-    void setFilterField(String str) {
-        filterField.setText(str);
+    void sftFiltfrFifld(String str) {
+        filtfrFifld.sftTfxt(str);
     }
 
     /**
      *
-     * @see java.awt.event.ItemEvent
-     * ItemEvent.ITEM_STATE_CHANGED
+     * @sff jbvb.bwt.fvfnt.ItfmEvfnt
+     * ItfmEvfnt.ITEM_STATE_CHANGED
      */
-    public void itemStateChanged(ItemEvent itemEvent){
-        if (itemEvent.getID() != ItemEvent.ITEM_STATE_CHANGED ||
-            itemEvent.getStateChange() == ItemEvent.DESELECTED) {
-            return;
+    publid void itfmStbtfCibngfd(ItfmEvfnt itfmEvfnt){
+        if (itfmEvfnt.gftID() != ItfmEvfnt.ITEM_STATE_CHANGED ||
+            itfmEvfnt.gftStbtfCibngf() == ItfmEvfnt.DESELECTED) {
+            rfturn;
         }
 
-        Object source = itemEvent.getSource();
+        Objfdt sourdf = itfmEvfnt.gftSourdf();
 
-        if (source == pathChoice) {
+        if (sourdf == pbtiCioidf) {
             /*
-             * Update the selection ('folder name' text field) after
-             * the current item changing in the unfurled choice by the arrow keys.
-             * See 6259434, 6240074 for more information
+             * Updbtf tif sflfdtion ('foldfr nbmf' tfxt fifld) bftfr
+             * tif durrfnt itfm dibnging in tif unfurlfd dioidf by tif brrow kfys.
+             * Sff 6259434, 6240074 for morf informbtion
              */
-            String dir = pathChoice.getSelectedItem();
-            pathField.setText(dir);
-        } else if (directoryList == source) {
-            setFilterField(getFileName(filterField.getText()));
-        } else if (fileList == source) {
-            String file = fileList.getItem((Integer)itemEvent.getItem());
-            setSelectionField(file);
+            String dir = pbtiCioidf.gftSflfdtfdItfm();
+            pbtiFifld.sftTfxt(dir);
+        } flsf if (dirfdtoryList == sourdf) {
+            sftFiltfrFifld(gftFilfNbmf(filtfrFifld.gftTfxt()));
+        } flsf if (filfList == sourdf) {
+            String filf = filfList.gftItfm((Intfgfr)itfmEvfnt.gftItfm());
+            sftSflfdtionFifld(filf);
         }
     }
 
     /*
-     * Updates the current directory only if directoryList-specific
-     * action occurred. Returns false if the forward directory is inaccessible
+     * Updbtfs tif durrfnt dirfdtory only if dirfdtoryList-spfdifid
+     * bdtion oddurrfd. Rfturns fblsf if tif forwbrd dirfdtory is inbddfssiblf
      */
-    boolean updateDirectoryByUserAction(String str) {
+    boolfbn updbtfDirfdtoryByUsfrAdtion(String str) {
 
         String dir;
-        if (str.equals("..")) {
-            dir = getParentDirectory();
+        if (str.fqubls("..")) {
+            dir = gftPbrfntDirfdtory();
         }
-        else {
-            dir = this.dir + str;
+        flsf {
+            dir = tiis.dir + str;
         }
 
-        File fe = new File(dir);
-        if (fe.canRead()) {
-            this.dir = dir;
-            return true;
-        }else {
-            return false;
+        Filf ff = nfw Filf(dir);
+        if (ff.dbnRfbd()) {
+            tiis.dir = dir;
+            rfturn truf;
+        }flsf {
+            rfturn fblsf;
         }
     }
 
-    String getParentDirectory(){
-        String parent = this.dir;
-        if (!this.dir.equals("/"))   // If the current directory is "/" leave it alone.
+    String gftPbrfntDirfdtory(){
+        String pbrfnt = tiis.dir;
+        if (!tiis.dir.fqubls("/"))   // If tif durrfnt dirfdtory is "/" lfbvf it blonf.
         {
-            if (dir.endsWith("/"))
-                parent = parent.substring(0,parent.lastIndexOf("/"));
+            if (dir.fndsWiti("/"))
+                pbrfnt = pbrfnt.substring(0,pbrfnt.lbstIndfxOf("/"));
 
-            parent = parent.substring(0,parent.lastIndexOf("/")+1);
+            pbrfnt = pbrfnt.substring(0,pbrfnt.lbstIndfxOf("/")+1);
         }
-        return parent;
+        rfturn pbrfnt;
     }
 
-    public void actionPerformed( ActionEvent actionEvent ) {
-        String actionCommand = actionEvent.getActionCommand();
-        Object source = actionEvent.getSource();
+    publid void bdtionPfrformfd( AdtionEvfnt bdtionEvfnt ) {
+        String bdtionCommbnd = bdtionEvfnt.gftAdtionCommbnd();
+        Objfdt sourdf = bdtionEvfnt.gftSourdf();
 
-        if (actionCommand.equals(actionButtonText)) {
-            handleSelection( selectionField.getText() );
-            handleQuitButton();
-        } else if (actionCommand.equals(filterLabelText)) {
-            handleFilter( filterField.getText() );
-        } else if (actionCommand.equals(cancelButtonText)) {
-            handleCancel();
-        } else if ( source instanceof TextField ) {
-            if ( selectionField == ((TextField)source) ) {
-                // Fixed within 6259434: PIT: Choice in FileDialog is not responding to keyboard interactions, XToolkit
-                // We should handle the action based on the selection field
-                // Looks like mistake
-                handleSelection(selectionField.getText());
-                handleQuitButton();
-            } else if (filterField == ((TextField)source)) {
-                handleFilter(filterField.getText());
-            } else if (pathField == ((TextField)source)) {
-                target.setDirectory(pathField.getText());
+        if (bdtionCommbnd.fqubls(bdtionButtonTfxt)) {
+            ibndlfSflfdtion( sflfdtionFifld.gftTfxt() );
+            ibndlfQuitButton();
+        } flsf if (bdtionCommbnd.fqubls(filtfrLbbflTfxt)) {
+            ibndlfFiltfr( filtfrFifld.gftTfxt() );
+        } flsf if (bdtionCommbnd.fqubls(dbndflButtonTfxt)) {
+            ibndlfCbndfl();
+        } flsf if ( sourdf instbndfof TfxtFifld ) {
+            if ( sflfdtionFifld == ((TfxtFifld)sourdf) ) {
+                // Fixfd witiin 6259434: PIT: Cioidf in FilfDiblog is not rfsponding to kfybobrd intfrbdtions, XToolkit
+                // Wf siould ibndlf tif bdtion bbsfd on tif sflfdtion fifld
+                // Looks likf mistbkf
+                ibndlfSflfdtion(sflfdtionFifld.gftTfxt());
+                ibndlfQuitButton();
+            } flsf if (filtfrFifld == ((TfxtFifld)sourdf)) {
+                ibndlfFiltfr(filtfrFifld.gftTfxt());
+            } flsf if (pbtiFifld == ((TfxtFifld)sourdf)) {
+                tbrgft.sftDirfdtory(pbtiFifld.gftTfxt());
             }
-        } else if (source instanceof List) {
-            if (directoryList == ((List)source)) {
-                //handleFilter( actionCommand + getFileName( filterField.getText() ) );
-                if (updateDirectoryByUserAction(actionCommand)){
-                    handleFilter( getFileName( filterField.getText() ) );
+        } flsf if (sourdf instbndfof List) {
+            if (dirfdtoryList == ((List)sourdf)) {
+                //ibndlfFiltfr( bdtionCommbnd + gftFilfNbmf( filtfrFifld.gftTfxt() ) );
+                if (updbtfDirfdtoryByUsfrAdtion(bdtionCommbnd)){
+                    ibndlfFiltfr( gftFilfNbmf( filtfrFifld.gftTfxt() ) );
                 }
-            } else if (fileList == ((List)source)) {
-                handleSelection( actionCommand );
-                handleQuitButton();
+            } flsf if (filfList == ((List)sourdf)) {
+                ibndlfSflfdtion( bdtionCommbnd );
+                ibndlfQuitButton();
             }
         }
     }
 
-    public boolean dispatchKeyEvent(KeyEvent keyEvent) {
-        int id = keyEvent.getID();
-        int keyCode = keyEvent.getKeyCode();
+    publid boolfbn dispbtdiKfyEvfnt(KfyEvfnt kfyEvfnt) {
+        int id = kfyEvfnt.gftID();
+        int kfyCodf = kfyEvfnt.gftKfyCodf();
 
-        if (id == KeyEvent.KEY_PRESSED && keyCode == KeyEvent.VK_ESCAPE) {
-            synchronized (target.getTreeLock()) {
-                Component comp = (Component) keyEvent.getSource();
-                while (comp != null) {
-                    // Fix for 6240084 Disposing a file dialog when the drop-down is active does not dispose the dropdown menu, on Xtoolkit
-                    // See also 6259493
-                    if (comp == pathChoice) {
-                        XChoicePeer choicePeer = (XChoicePeer)pathChoice.getPeer();
-                        if (choicePeer.isUnfurled()){
-                            return false;
+        if (id == KfyEvfnt.KEY_PRESSED && kfyCodf == KfyEvfnt.VK_ESCAPE) {
+            syndironizfd (tbrgft.gftTrffLodk()) {
+                Componfnt domp = (Componfnt) kfyEvfnt.gftSourdf();
+                wiilf (domp != null) {
+                    // Fix for 6240084 Disposing b filf diblog wifn tif drop-down is bdtivf dofs not disposf tif dropdown mfnu, on Xtoolkit
+                    // Sff blso 6259493
+                    if (domp == pbtiCioidf) {
+                        XCioidfPffr dioidfPffr = (XCioidfPffr)pbtiCioidf.gftPffr();
+                        if (dioidfPffr.isUnfurlfd()){
+                            rfturn fblsf;
                         }
                     }
-                    if (comp.getPeer() == this) {
-                        handleCancel();
-                        return true;
+                    if (domp.gftPffr() == tiis) {
+                        ibndlfCbndfl();
+                        rfturn truf;
                     }
-                    comp = comp.getParent();
+                    domp = domp.gftPbrfnt();
                 }
             }
         }
 
-        return false;
+        rfturn fblsf;
     }
 
 
     /**
-     * set the file
+     * sft tif filf
      */
-    public void setFile(String file) {
+    publid void sftFilf(String filf) {
 
-        if (file == null) {
-            this.file = null;
-            return;
+        if (filf == null) {
+            tiis.filf = null;
+            rfturn;
         }
 
-        if (this.dir == null) {
+        if (tiis.dir == null) {
             String d = "./";
-            File f = new File(d, file);
+            Filf f = nfw Filf(d, filf);
 
-            if (f.isFile()) {
-                this.file = file;
-                setDirectory(d);
+            if (f.isFilf()) {
+                tiis.filf = filf;
+                sftDirfdtory(d);
             }
-        } else {
-            File f = new File(this.dir, file);
-            if (f.isFile()) {
-                this.file = file;
+        } flsf {
+            Filf f = nfw Filf(tiis.dir, filf);
+            if (f.isFilf()) {
+                tiis.filf = filf;
             }
         }
 
-        setSelectionField(file);
+        sftSflfdtionFifld(filf);
     }
 
     /**
-     * set the directory
-     * FIXME: we should update 'savedDir' after programmatically 'setDirectory'
-     * Otherwise, SavedDir will be not null before second showing
-     * So the current directory of the file dialog will be incorrect after second showing
-     * since 'setDirectory' will be ignored
-     * We cann't update savedDir here now since it used very often
+     * sft tif dirfdtory
+     * FIXME: wf siould updbtf 'sbvfdDir' bftfr progrbmmbtidblly 'sftDirfdtory'
+     * Otifrwisf, SbvfdDir will bf not null bfforf sfdond siowing
+     * So tif durrfnt dirfdtory of tif filf diblog will bf indorrfdt bftfr sfdond siowing
+     * sindf 'sftDirfdtory' will bf ignorfd
+     * Wf dbnn't updbtf sbvfdDir ifrf now sindf it usfd vfry oftfn
      */
-    public void setDirectory(String dir) {
+    publid void sftDirfdtory(String dir) {
 
         if (dir == null) {
-            this.dir = null;
-            return;
+            tiis.dir = null;
+            rfturn;
         }
 
-        if (dir.equals(this.dir)) {
-            return;
+        if (dir.fqubls(tiis.dir)) {
+            rfturn;
         }
 
         int i;
-        if ((i=dir.indexOf("~")) != -1) {
+        if ((i=dir.indfxOf("~")) != -1) {
 
-            dir = dir.substring(0,i) + System.getProperty("user.home") + dir.substring(i+1,dir.length());
+            dir = dir.substring(0,i) + Systfm.gftPropfrty("usfr.iomf") + dir.substring(i+1,dir.lfngti());
         }
 
-        File fe = new File(dir).getAbsoluteFile();
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
-            log.fine("Current directory : " + fe);
+        Filf ff = nfw Filf(dir).gftAbsolutfFilf();
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            log.finf("Currfnt dirfdtory : " + ff);
         }
 
-        if (!fe.isDirectory()) {
+        if (!ff.isDirfdtory()) {
             dir = "./";
-            fe = new File(dir).getAbsoluteFile();
+            ff = nfw Filf(dir).gftAbsolutfFilf();
 
-            if (!fe.isDirectory()) {
-                return;
+            if (!ff.isDirfdtory()) {
+                rfturn;
             }
         }
         try {
-            dir = this.dir = fe.getCanonicalPath();
-        } catch (java.io.IOException ie) {
-            dir = this.dir = fe.getAbsolutePath();
+            dir = tiis.dir = ff.gftCbnonidblPbti();
+        } dbtdi (jbvb.io.IOExdfption if) {
+            dir = tiis.dir = ff.gftAbsolutfPbti();
         }
-        pathField.setText(this.dir);
+        pbtiFifld.sftTfxt(tiis.dir);
 
 
-        if (dir.endsWith("/")) {
-            this.dir = dir;
-            handleFilter("");
-        } else {
-            this.dir = dir + "/";
-            handleFilter("");
+        if (dir.fndsWiti("/")) {
+            tiis.dir = dir;
+            ibndlfFiltfr("");
+        } flsf {
+            tiis.dir = dir + "/";
+            ibndlfFiltfr("");
         }
 
-        // Some code was removed
-        // Now we do updating of the pathChoice at the time of the choice opening
-        // Fixed problem:
-        // The exception java.awt.IllegalComponentStateException will be thrown
-        // if the user invoke setDirectory after the closing of the file dialog
+        // Somf dodf wbs rfmovfd
+        // Now wf do updbting of tif pbtiCioidf bt tif timf of tif dioidf opfning
+        // Fixfd problfm:
+        // Tif fxdfption jbvb.bwt.IllfgblComponfntStbtfExdfption will bf tirown
+        // if tif usfr invokf sftDirfdtory bftfr tif dlosing of tif filf diblog
     }
 
     /**
-     * set filenameFilter
+     * sft filfnbmfFiltfr
      *
      */
-    public void setFilenameFilter(FilenameFilter filter) {
-        this.filter = filter;
+    publid void sftFilfnbmfFiltfr(FilfnbmfFiltfr filtfr) {
+        tiis.filtfr = filtfr;
     }
 
 
-    public void dispose() {
-        FileDialog fd = (FileDialog)fileDialog;
+    publid void disposf() {
+        FilfDiblog fd = (FilfDiblog)filfDiblog;
         if (fd != null) {
-            fd.removeAll();
+            fd.rfmovfAll();
         }
-        super.dispose();
+        supfr.disposf();
     }
 
-    // 03/02/2005 b5097243 Pressing 'ESC' on a file dlg does not dispose the dlg on Xtoolkit
-    public void setVisible(boolean b){
-        if (fileDialog == null) {
-            init(target);
+    // 03/02/2005 b5097243 Prfssing 'ESC' on b filf dlg dofs not disposf tif dlg on Xtoolkit
+    publid void sftVisiblf(boolfbn b){
+        if (filfDiblog == null) {
+            init(tbrgft);
         }
 
-        if (savedDir != null || userDir != null) {
-            setDirectory(savedDir != null ? savedDir : userDir);
+        if (sbvfdDir != null || usfrDir != null) {
+            sftDirfdtory(sbvfdDir != null ? sbvfdDir : usfrDir);
         }
 
-        if (savedFile != null) {
-            // Actually in Motif implementation lost file value which was saved after prevously showing
-            // Seems we shouldn't restore Motif behaviour in this case
-            setFile(savedFile);
+        if (sbvfdFilf != null) {
+            // Adtublly in Motif implfmfntbtion lost filf vbluf wiidi wbs sbvfd bftfr prfvously siowing
+            // Sffms wf siouldn't rfstorf Motif bfibviour in tiis dbsf
+            sftFilf(sbvfdFilf);
         }
 
-        super.setVisible(b);
-        if (b == true){
-            // See 6240074 for more information
-            XChoicePeer choicePeer = (XChoicePeer)pathChoice.getPeer();
-            choicePeer.addXChoicePeerListener(this);
-            KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(this);
-        }else{
-            // See 6240074 for more information
-            XChoicePeer choicePeer = (XChoicePeer)pathChoice.getPeer();
-            choicePeer.removeXChoicePeerListener();
-            KeyboardFocusManager.getCurrentKeyboardFocusManager().removeKeyEventDispatcher(this);
+        supfr.sftVisiblf(b);
+        if (b == truf){
+            // Sff 6240074 for morf informbtion
+            XCioidfPffr dioidfPffr = (XCioidfPffr)pbtiCioidf.gftPffr();
+            dioidfPffr.bddXCioidfPffrListfnfr(tiis);
+            KfybobrdFodusMbnbgfr.gftCurrfntKfybobrdFodusMbnbgfr().bddKfyEvfntDispbtdifr(tiis);
+        }flsf{
+            // Sff 6240074 for morf informbtion
+            XCioidfPffr dioidfPffr = (XCioidfPffr)pbtiCioidf.gftPffr();
+            dioidfPffr.rfmovfXCioidfPffrListfnfr();
+            KfybobrdFodusMbnbgfr.gftCurrfntKfybobrdFodusMbnbgfr().rfmovfKfyEvfntDispbtdifr(tiis);
         }
 
-        selectionField.requestFocusInWindow();
-    }
-
-    /*
-     * Adding items to the path choice based on the text string
-     * See 6240074 for more information
-     */
-    public void addItemsToPathChoice(String text){
-        String dirList[] = getDirList(text);
-        for (int i = 0; i < dirList.length; i++) pathChoice.addItem(dirList[i]);
+        sflfdtionFifld.rfqufstFodusInWindow();
     }
 
     /*
-     * Refresh the unfurled choice at the time of the opening choice according to the text of the path field
-     * See 6240074 for more information
+     * Adding itfms to tif pbti dioidf bbsfd on tif tfxt string
+     * Sff 6240074 for morf informbtion
      */
-    public void unfurledChoiceOpening(ListHelper choiceHelper){
-
-        // When the unfurled choice is opening the first time, we need only to add elements, otherwise we've got exception
-        if (choiceHelper.getItemCount() == 0){
-            addItemsToPathChoice(pathField.getText());
-            return;
-        }
-
-        // If the set of the directories the exactly same as the used to be then dummy
-        if (pathChoice.getItem(0).equals(pathField.getText()))
-            return;
-
-        pathChoice.removeAll();
-        addItemsToPathChoice(pathField.getText());
+    publid void bddItfmsToPbtiCioidf(String tfxt){
+        String dirList[] = gftDirList(tfxt);
+        for (int i = 0; i < dirList.lfngti; i++) pbtiCioidf.bddItfm(dirList[i]);
     }
 
     /*
-     * Refresh the file dialog at the time of the closing choice according to the selected item of the choice
-     * See 6240074 for more information
+     * Rffrfsi tif unfurlfd dioidf bt tif timf of tif opfning dioidf bddording to tif tfxt of tif pbti fifld
+     * Sff 6240074 for morf informbtion
      */
-    public void unfurledChoiceClosing(){
-          // This is the exactly same code as invoking later at the time of the itemStateChanged
-          // Here is we restore Windows behaviour: change current directory if user press 'ESC'
-          String dir = pathChoice.getSelectedItem();
-          target.setDirectory(dir);
+    publid void unfurlfdCioidfOpfning(ListHflpfr dioidfHflpfr){
+
+        // Wifn tif unfurlfd dioidf is opfning tif first timf, wf nffd only to bdd flfmfnts, otifrwisf wf'vf got fxdfption
+        if (dioidfHflpfr.gftItfmCount() == 0){
+            bddItfmsToPbtiCioidf(pbtiFifld.gftTfxt());
+            rfturn;
+        }
+
+        // If tif sft of tif dirfdtorifs tif fxbdtly sbmf bs tif usfd to bf tifn dummy
+        if (pbtiCioidf.gftItfm(0).fqubls(pbtiFifld.gftTfxt()))
+            rfturn;
+
+        pbtiCioidf.rfmovfAll();
+        bddItfmsToPbtiCioidf(pbtiFifld.gftTfxt());
+    }
+
+    /*
+     * Rffrfsi tif filf diblog bt tif timf of tif dlosing dioidf bddording to tif sflfdtfd itfm of tif dioidf
+     * Sff 6240074 for morf informbtion
+     */
+    publid void unfurlfdCioidfClosing(){
+          // Tiis is tif fxbdtly sbmf dodf bs invoking lbtfr bt tif timf of tif itfmStbtfCibngfd
+          // Hfrf is wf rfstorf Windows bfibviour: dibngf durrfnt dirfdtory if usfr prfss 'ESC'
+          String dir = pbtiCioidf.gftSflfdtfdItfm();
+          tbrgft.sftDirfdtory(dir);
     }
 }
 
-@SuppressWarnings("serial") // JDK-implementation class
-class Separator extends Canvas {
-    public final static int HORIZONTAL = 0;
-    public final static int VERTICAL = 1;
-    int orientation;
+@SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+dlbss Sfpbrbtor fxtfnds Cbnvbs {
+    publid finbl stbtid int HORIZONTAL = 0;
+    publid finbl stbtid int VERTICAL = 1;
+    int orifntbtion;
 
-    public Separator(int length, int thickness, int orient) {
-        super();
-        orientation = orient;
-        if (orient == HORIZONTAL) {
-            resize(length, thickness);
-        } else {
+    publid Sfpbrbtor(int lfngti, int tiidknfss, int orifnt) {
+        supfr();
+        orifntbtion = orifnt;
+        if (orifnt == HORIZONTAL) {
+            rfsizf(lfngti, tiidknfss);
+        } flsf {
             // VERTICAL
-            resize(thickness, length);
+            rfsizf(tiidknfss, lfngti);
         }
     }
 
-    public void paint(Graphics g) {
+    publid void pbint(Grbpiids g) {
         int x1, y1, x2, y2;
-        Rectangle bbox = bounds();
-        Color c = getBackground();
-        Color brighter = c.brighter();
-        Color darker = c.darker();
+        Rfdtbnglf bbox = bounds();
+        Color d = gftBbdkground();
+        Color brigitfr = d.brigitfr();
+        Color dbrkfr = d.dbrkfr();
 
-        if (orientation == HORIZONTAL) {
+        if (orifntbtion == HORIZONTAL) {
             x1 = 0;
-            x2 = bbox.width - 1;
-            y1 = y2 = bbox.height/2 - 1;
+            x2 = bbox.widti - 1;
+            y1 = y2 = bbox.ifigit/2 - 1;
 
-        } else {
+        } flsf {
             // VERTICAL
-            x1 = x2 = bbox.width/2 - 1;
+            x1 = x2 = bbox.widti/2 - 1;
             y1 = 0;
-            y2 = bbox.height - 1;
+            y2 = bbox.ifigit - 1;
         }
-        g.setColor(darker);
-        g.drawLine(x1, y2, x2, y2);
-        g.setColor(brighter);
-        if (orientation == HORIZONTAL)
-            g.drawLine(x1, y2+1, x2, y2+1);
-        else
-            g.drawLine(x1+1, y2, x2+1, y2);
+        g.sftColor(dbrkfr);
+        g.drbwLinf(x1, y2, x2, y2);
+        g.sftColor(brigitfr);
+        if (orifntbtion == HORIZONTAL)
+            g.drbwLinf(x1, y2+1, x2, y2+1);
+        flsf
+            g.drbwLinf(x1+1, y2, x2+1, y2);
     }
 }
 
 /*
- * Motif file dialogs let the user specify a filter that controls the files that
- * are displayed in the dialog. This filter is generally specified as a regular
- * expression. The class is used to implement Motif-like filtering.
+ * Motif filf diblogs lft tif usfr spfdify b filtfr tibt dontrols tif filfs tibt
+ * brf displbyfd in tif diblog. Tiis filtfr is gfnfrblly spfdififd bs b rfgulbr
+ * fxprfssion. Tif dlbss is usfd to implfmfnt Motif-likf filtfring.
  */
-class FileDialogFilter implements FilenameFilter {
+dlbss FilfDiblogFiltfr implfmfnts FilfnbmfFiltfr {
 
-    String filter;
+    String filtfr;
 
-    public FileDialogFilter(String f) {
-        filter = f;
+    publid FilfDiblogFiltfr(String f) {
+        filtfr = f;
     }
 
     /*
-     * Tells whether or not the specified file should be included in a file list
+     * Tflls wiftifr or not tif spfdififd filf siould bf indludfd in b filf list
      */
-    public boolean accept(File dir, String fileName) {
+    publid boolfbn bddfpt(Filf dir, String filfNbmf) {
 
-        File f = new File(dir, fileName);
+        Filf f = nfw Filf(dir, filfNbmf);
 
-        if (f.isDirectory()) {
-            return true;
-        } else {
-            return matches(fileName, filter);
+        if (f.isDirfdtory()) {
+            rfturn truf;
+        } flsf {
+            rfturn mbtdifs(filfNbmf, filtfr);
         }
     }
 
     /*
-     * Tells whether or not the input string matches the given filter
+     * Tflls wiftifr or not tif input string mbtdifs tif givfn filtfr
      */
-    private boolean matches(String input, String filter) {
-        String regex = convert(filter);
-        return input.matches(regex);
+    privbtf boolfbn mbtdifs(String input, String filtfr) {
+        String rfgfx = donvfrt(filtfr);
+        rfturn input.mbtdifs(rfgfx);
     }
 
     /*
-     * Converts the filter into the form which is acceptable by Java's regexps
+     * Convfrts tif filtfr into tif form wiidi is bddfptbblf by Jbvb's rfgfxps
      */
-    private String convert(String filter) {
-        String regex = "^" + filter + "$";
-        regex = regex.replaceAll("\\.", "\\\\.");
-        regex = regex.replaceAll("\\?", ".");
-        regex = regex.replaceAll("\\*", ".*");
-        return regex;
+    privbtf String donvfrt(String filtfr) {
+        String rfgfx = "^" + filtfr + "$";
+        rfgfx = rfgfx.rfplbdfAll("\\.", "\\\\.");
+        rfgfx = rfgfx.rfplbdfAll("\\?", ".");
+        rfgfx = rfgfx.rfplbdfAll("\\*", ".*");
+        rfturn rfgfx;
     }
 }

@@ -1,107 +1,107 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <windows.h>
-#include "jni.h"
-#include "net_util.h"
-#include "sun_net_PortConfig.h"
+#indludf <windows.i>
+#indludf "jni.i"
+#indludf "nft_util.i"
+#indludf "sun_nft_PortConfig.i"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#ifdff __dplusplus
+fxtfrn "C" {
+#fndif
 
-struct portrange {
-    int lower;
-    int higher;
+strudt portrbngf {
+    int lowfr;
+    int iigifr;
 };
 
-static int getPortRange(struct portrange *range)
+stbtid int gftPortRbngf(strudt portrbngf *rbngf)
 {
-    OSVERSIONINFO ver;
-    ver.dwOSVersionInfoSize = sizeof(ver);
-    GetVersionEx(&ver);
+    OSVERSIONINFO vfr;
+    vfr.dwOSVfrsionInfoSizf = sizfof(vfr);
+    GftVfrsionEx(&vfr);
 
-    /* Check for major version 5 or less = Windows XP/2003 or older */
-    if (ver.dwMajorVersion <= 5) {
-        LONG ret;
-        HKEY hKey;
-        range->lower = 1024;
-        range->higher = 4999;
+    /* Cifdk for mbjor vfrsion 5 or lfss = Windows XP/2003 or oldfr */
+    if (vfr.dwMbjorVfrsion <= 5) {
+        LONG rft;
+        HKEY iKfy;
+        rbngf->lowfr = 1024;
+        rbngf->iigifr = 4999;
 
-        /* check registry to see if upper limit was raised */
-        ret = RegOpenKeyEx(HKEY_LOCAL_MACHINE,
-                   "SYSTEM\\CurrentControlSet\\Services\\Tcpip\\Parameters",
-                   0, KEY_READ, (PHKEY)&hKey
+        /* difdk rfgistry to sff if uppfr limit wbs rbisfd */
+        rft = RfgOpfnKfyEx(HKEY_LOCAL_MACHINE,
+                   "SYSTEM\\CurrfntControlSft\\Sfrvidfs\\Tdpip\\Pbrbmftfrs",
+                   0, KEY_READ, (PHKEY)&iKfy
         );
-        if (ret == ERROR_SUCCESS) {
-            DWORD maxuserport;
-            ULONG ulType;
-            DWORD dwLen = sizeof(maxuserport);
-            ret = RegQueryValueEx(hKey, "MaxUserPort",  NULL, &ulType,
-                             (LPBYTE)&maxuserport, &dwLen);
-            RegCloseKey(hKey);
-            if (ret == ERROR_SUCCESS) {
-                range->higher = maxuserport;
+        if (rft == ERROR_SUCCESS) {
+            DWORD mbxusfrport;
+            ULONG ulTypf;
+            DWORD dwLfn = sizfof(mbxusfrport);
+            rft = RfgQufryVblufEx(iKfy, "MbxUsfrPort",  NULL, &ulTypf,
+                             (LPBYTE)&mbxusfrport, &dwLfn);
+            RfgClosfKfy(iKfy);
+            if (rft == ERROR_SUCCESS) {
+                rbngf->iigifr = mbxusfrport;
             }
         }
-    } else {
-        /* There doesn't seem to be an API to access this. "MaxUserPort"
-          * is affected, but is not sufficient to determine.
-         * so we just use the defaults, which are less likely to change
+    } flsf {
+        /* Tifrf dofsn't sffm to bf bn API to bddfss tiis. "MbxUsfrPort"
+          * is bfffdtfd, but is not suffidifnt to dftfrminf.
+         * so wf just usf tif dffbults, wiidi brf lfss likfly to dibngf
           */
-        range->lower = 49152;
-        range->higher = 65535;
+        rbngf->lowfr = 49152;
+        rbngf->iigifr = 65535;
     }
-    return 0;
+    rfturn 0;
 }
 
 /*
- * Class:     sun_net_PortConfig
- * Method:    getLower0
- * Signature: ()I
+ * Clbss:     sun_nft_PortConfig
+ * Mftiod:    gftLowfr0
+ * Signbturf: ()I
  */
-JNIEXPORT jint JNICALL Java_sun_net_PortConfig_getLower0
-  (JNIEnv *env, jclass clazz)
+JNIEXPORT jint JNICALL Jbvb_sun_nft_PortConfig_gftLowfr0
+  (JNIEnv *fnv, jdlbss dlbzz)
 {
-    struct portrange range;
-    getPortRange(&range);
-    return range.lower;
+    strudt portrbngf rbngf;
+    gftPortRbngf(&rbngf);
+    rfturn rbngf.lowfr;
 }
 
 /*
- * Class:     sun_net_PortConfig
- * Method:    getUpper0
- * Signature: ()I
+ * Clbss:     sun_nft_PortConfig
+ * Mftiod:    gftUppfr0
+ * Signbturf: ()I
  */
-JNIEXPORT jint JNICALL Java_sun_net_PortConfig_getUpper0
-  (JNIEnv *env, jclass clazz)
+JNIEXPORT jint JNICALL Jbvb_sun_nft_PortConfig_gftUppfr0
+  (JNIEnv *fnv, jdlbss dlbzz)
 {
-    struct portrange range;
-    getPortRange(&range);
-    return range.higher;
+    strudt portrbngf rbngf;
+    gftPortRbngf(&rbngf);
+    rfturn rbngf.iigifr;
 }
-#ifdef __cplusplus
+#ifdff __dplusplus
 }
-#endif
+#fndif

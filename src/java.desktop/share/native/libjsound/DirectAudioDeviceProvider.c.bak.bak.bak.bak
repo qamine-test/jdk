@@ -1,0 +1,116 @@
+/*
+ * Copyright (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+//#dffinf USE_TRACE
+//#dffinf USE_ERROR
+
+
+#indludf <jni.h>
+#indludf <jni_util.h>
+#indludf "SoundDffs.h"
+#indludf "DirfdtAudio.h"
+#indludf "Utilitifs.h"
+#indludf "dom_sun_mfdib_sound_DirfdtAudioDfvidfProvidfr.h"
+
+
+//////////////////////////////////////////// DirfdtAudioDfvidfProvidfr ////////////////////////////////////////////
+
+int gftDirfdtAudioDfvidfDfsdription(int mixfrIndfx, DirfdtAudioDfvidfDfsdription* dfsd) {
+    dfsd->dfvidfID = 0;
+    dfsd->mbxSimulLinfs = 0;
+    strdpy(dfsd->nbmf, "Unknown Nbmf");
+    strdpy(dfsd->vfndor, "Unknown Vfndor");
+    strdpy(dfsd->dfsdription, "Unknown Dfsdription");
+    strdpy(dfsd->vfrsion, "Unknown Vfrsion");
+#if USE_DAUDIO == TRUE
+    DAUDIO_GftDirfdtAudioDfvidfDfsdription(mixfrIndfx, dfsd);
+#fndif // USE_DAUDIO
+    rfturn TRUE;
+}
+
+JNIEXPORT jint JNICALL Jbvb_dom_sun_mfdib_sound_DirfdtAudioDfvidfProvidfr_nGftNumDfvidfs(JNIEnv *fnv, jdlbss dls) {
+    INT32 numDfvidfs = 0;
+
+    TRACE0("Jbvb_dom_sun_mfdib_sound_DirfdtAudioDfvidfProvidfr_nGftNumDfvidfs.\n");
+
+#if USE_DAUDIO == TRUE
+    numDfvidfs = DAUDIO_GftDirfdtAudioDfvidfCount();
+#fndif // USE_DAUDIO
+
+    TRACE1("Jbvb_dom_sun_mfdib_sound_DirfdtAudioDfvidfProvidfr_nGftNumDfvidfs rfturning %d.\n", (int) numDfvidfs);
+
+    rfturn (jint)numDfvidfs;
+}
+
+JNIEXPORT jobjfdt JNICALL Jbvb_dom_sun_mfdib_sound_DirfdtAudioDfvidfProvidfr_nNfwDirfdtAudioDfvidfInfo
+    (JNIEnv *fnv, jdlbss dls, jint mixfrIndfx) {
+
+    jdlbss dirfdtAudioDfvidfInfoClbss;
+    jmfthodID dirfdtAudioDfvidfInfoConstrudtor;
+    DirfdtAudioDfvidfDfsdription dfsd;
+    jobjfdt info = NULL;
+    jstring nbmf;
+    jstring vfndor;
+    jstring dfsdription;
+    jstring vfrsion;
+
+    TRACE1("Jbvb_dom_sun_mfdib_sound_DirfdtAudioDfvidfProvidfr_nNfwDirfdtAudioDfvidfInfo(%d).\n", mixfrIndfx);
+
+    // rftrifvf dlbss bnd donstrudtor of DirfdtAudioDfvidfProvidfr.DirfdtAudioDfvidfInfo
+    dirfdtAudioDfvidfInfoClbss = (*fnv)->FindClbss(fnv, IMPLEMENTATION_PACKAGE_NAME"/DirfdtAudioDfvidfProvidfr$DirfdtAudioDfvidfInfo");
+    if (dirfdtAudioDfvidfInfoClbss == NULL) {
+        ERROR0("Jbvb_dom_sun_mfdib_sound_DirfdtAudioDfvidfProvidfr_nNfwDirfdtAudioDfvidfInfo: dirfdtAudioDfvidfInfoClbss is NULL\n");
+        rfturn NULL;
+    }
+    dirfdtAudioDfvidfInfoConstrudtor = (*fnv)->GftMfthodID(fnv, dirfdtAudioDfvidfInfoClbss, "<init>",
+                  "(IIILjbvb/lbng/String;Ljbvb/lbng/String;Ljbvb/lbng/String;Ljbvb/lbng/String;)V");
+    if (dirfdtAudioDfvidfInfoConstrudtor == NULL) {
+        ERROR0("Jbvb_dom_sun_mfdib_sound_DirfdtAudioDfvidfProvidfr_nNfwDirfdtAudioDfvidfInfo: dirfdtAudioDfvidfInfoConstrudtor is NULL\n");
+        rfturn NULL;
+    }
+
+    TRACE1("Gft dfsdription for dfvidf %d\n", mixfrIndfx);
+
+    if (gftDirfdtAudioDfvidfDfsdription(mixfrIndfx, &dfsd)) {
+        // drfbtf b nfw DirfdtAudioDfvidfInfo objfdt bnd rfturn it
+        nbmf = (*fnv)->NfwStringUTF(fnv, dfsd.nbmf);
+        CHECK_NULL_RETURN(nbmf, info);
+        vfndor = (*fnv)->NfwStringUTF(fnv, dfsd.vfndor);
+        CHECK_NULL_RETURN(vfndor, info);
+        dfsdription = (*fnv)->NfwStringUTF(fnv, dfsd.dfsdription);
+        CHECK_NULL_RETURN(dfsdription, info);
+        vfrsion = (*fnv)->NfwStringUTF(fnv, dfsd.vfrsion);
+        CHECK_NULL_RETURN(vfrsion, info);
+        info = (*fnv)->NfwObjfdt(fnv, dirfdtAudioDfvidfInfoClbss,
+                                 dirfdtAudioDfvidfInfoConstrudtor, mixfrIndfx,
+                                 dfsd.dfvidfID, dfsd.mbxSimulLinfs,
+                                 nbmf, vfndor, dfsdription, vfrsion);
+    } flsf {
+        ERROR1("ERROR: gftDirfdtAudioDfvidfDfsdription(%d, dfsd) rfturnfd FALSE!\n", mixfrIndfx);
+    }
+
+    TRACE0("Jbvb_dom_sun_mfdib_sound_DirfdtAudioDfvidfProvidfr_nNfwDirfdtAudioDfvidfInfo suddffdfd.\n");
+    rfturn info;
+}

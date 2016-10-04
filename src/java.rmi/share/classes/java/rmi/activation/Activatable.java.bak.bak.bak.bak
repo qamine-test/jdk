@@ -1,0 +1,579 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.rmi.bdtivbtion;
+
+import jbvb.rmi.MbrshbllfdObjfdt;
+import jbvb.rmi.NoSudhObjfdtExdfption;
+import jbvb.rmi.Rfmotf;
+import jbvb.rmi.RfmotfExdfption;
+import jbvb.rmi.bdtivbtion.UnknownGroupExdfption;
+import jbvb.rmi.bdtivbtion.UnknownObjfdtExdfption;
+import jbvb.rmi.sfrvfr.RMIClifntSodkftFbdtory;
+import jbvb.rmi.sfrvfr.RMISfrvfrSodkftFbdtory;
+import jbvb.rmi.sfrvfr.RfmotfSfrvfr;
+import sun.rmi.sfrvfr.AdtivbtbblfSfrvfrRff;
+
+/**
+ * Thf <dodf>Adtivbtbblf</dodf> dlbss providfs support for rfmotf
+ * objfdts thbt rfquirf pfrsistfnt bddfss ovfr timf bnd thbt
+ * dbn bf bdtivbtfd by thf systfm.
+ *
+ * <p>For thf donstrudtors bnd stbtid <dodf>fxportObjfdt</dodf> mfthods,
+ * thf stub for b rfmotf objfdt bfing fxportfd is obtbinfd bs dfsdribfd in
+ * {@link jbvb.rmi.sfrvfr.UnidbstRfmotfObjfdt}.
+ *
+ * <p>An bttfmpt to sfriblizf fxpliditly bn instbndf of this dlbss will
+ * fbil.
+ *
+ * @buthor      Ann Wollrbth
+ * @sindf       1.2
+ * @sfribl      fxdludf
+ */
+publid bbstrbdt dlbss Adtivbtbblf fxtfnds RfmotfSfrvfr {
+
+    privbtf AdtivbtionID id;
+    /** indidbtf dompbtibility with thf Jbvb 2 SDK v1.2 vfrsion of dlbss */
+    privbtf stbtid finbl long sfriblVfrsionUID = -3120617863591563455L;
+
+    /**
+     * Construdts bn bdtivbtbblf rfmotf objfdt by rfgistfring
+     * bn bdtivbtion dfsdriptor (with thf spfdififd lodbtion, dbtb, bnd
+     * rfstbrt modf) for this objfdt, bnd fxporting thf objfdt with thf
+     * spfdififd port.
+     *
+     * <p><strong>Notf:</strong> Using thf <dodf>Adtivbtbblf</dodf>
+     * donstrudtors thbt both rfgistfr bnd fxport bn bdtivbtbblf rfmotf
+     * objfdt is strongly disdourbgfd bfdbusf thf bdtions of rfgistfring
+     * bnd fxporting thf rfmotf objfdt brf <i>not</i> gubrbntffd to bf
+     * btomid.  Instfbd, bn bpplidbtion should rfgistfr bn bdtivbtion
+     * dfsdriptor bnd fxport b rfmotf objfdt sfpbrbtfly, so thbt fxdfptions
+     * dbn bf hbndlfd propfrly.
+     *
+     * <p>This mfthod invokfs thf {@link
+     * #fxportObjfdt(Rfmotf,String,MbrshbllfdObjfdt,boolfbn,int)
+     * fxportObjfdt} mfthod with this objfdt, bnd thf spfdififd lodbtion,
+     * dbtb, rfstbrt modf, bnd port.  Subsfqufnt dblls to {@link #gftID}
+     * will rfturn thf bdtivbtion idfntififr rfturnfd from thf dbll to
+     * <dodf>fxportObjfdt</dodf>.
+     *
+     * @pbrbm lodbtion thf lodbtion for dlbssfs for this objfdt
+     * @pbrbm dbtb thf objfdt's initiblizbtion dbtb
+     * @pbrbm port thf port on whidh thf objfdt is fxportfd (bn bnonymous
+     * port is usfd if port=0)
+     * @pbrbm rfstbrt if truf, thf objfdt is rfstbrtfd (rfbdtivbtfd) whfn
+     * fithfr thf bdtivbtor is rfstbrtfd or thf objfdt's bdtivbtion group
+     * is rfstbrtfd bftfr bn unfxpfdtfd drbsh; if fblsf, thf objfdt is only
+     * bdtivbtfd on dfmbnd.  Spfdifying <dodf>rfstbrt</dodf> to bf
+     * <dodf>truf</dodf> dofs not fordf bn initibl immfdibtf bdtivbtion of
+     * b nfwly rfgistfrfd objfdt;  initibl bdtivbtion is lbzy.
+     * @fxdfption AdtivbtionExdfption if objfdt rfgistrbtion fbils.
+     * @fxdfption RfmotfExdfption if fithfr of thf following fbils:
+     * b) rfgistfring thf objfdt with thf bdtivbtion systfm or b) fxporting
+     * thf objfdt to thf RMI runtimf.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if bnd only if bdtivbtion is
+     * not supportfd by this implfmfntbtion.
+     * @sindf 1.2
+     **/
+    protfdtfd Adtivbtbblf(String lodbtion,
+                          MbrshbllfdObjfdt<?> dbtb,
+                          boolfbn rfstbrt,
+                          int port)
+        throws AdtivbtionExdfption, RfmotfExdfption
+    {
+        supfr();
+        id = fxportObjfdt(this, lodbtion, dbtb, rfstbrt, port);
+    }
+
+    /**
+     * Construdts bn bdtivbtbblf rfmotf objfdt by rfgistfring
+     * bn bdtivbtion dfsdriptor (with thf spfdififd lodbtion, dbtb, bnd
+     * rfstbrt modf) for this objfdt, bnd fxporting thf objfdt with thf
+     * spfdififd port, bnd spfdififd dlifnt bnd sfrvfr sodkft fbdtorifs.
+     *
+     * <p><strong>Notf:</strong> Using thf <dodf>Adtivbtbblf</dodf>
+     * donstrudtors thbt both rfgistfr bnd fxport bn bdtivbtbblf rfmotf
+     * objfdt is strongly disdourbgfd bfdbusf thf bdtions of rfgistfring
+     * bnd fxporting thf rfmotf objfdt brf <i>not</i> gubrbntffd to bf
+     * btomid.  Instfbd, bn bpplidbtion should rfgistfr bn bdtivbtion
+     * dfsdriptor bnd fxport b rfmotf objfdt sfpbrbtfly, so thbt fxdfptions
+     * dbn bf hbndlfd propfrly.
+     *
+     * <p>This mfthod invokfs thf {@link
+     * #fxportObjfdt(Rfmotf,String,MbrshbllfdObjfdt,boolfbn,int,RMIClifntSodkftFbdtory,RMISfrvfrSodkftFbdtory)
+     * fxportObjfdt} mfthod with this objfdt, bnd thf spfdififd lodbtion,
+     * dbtb, rfstbrt modf, port, bnd dlifnt bnd sfrvfr sodkft fbdtorifs.
+     * Subsfqufnt dblls to {@link #gftID} will rfturn thf bdtivbtion
+     * idfntififr rfturnfd from thf dbll to <dodf>fxportObjfdt</dodf>.
+     *
+     * @pbrbm lodbtion thf lodbtion for dlbssfs for this objfdt
+     * @pbrbm dbtb thf objfdt's initiblizbtion dbtb
+     * @pbrbm rfstbrt if truf, thf objfdt is rfstbrtfd (rfbdtivbtfd) whfn
+     * fithfr thf bdtivbtor is rfstbrtfd or thf objfdt's bdtivbtion group
+     * is rfstbrtfd bftfr bn unfxpfdtfd drbsh; if fblsf, thf objfdt is only
+     * bdtivbtfd on dfmbnd.  Spfdifying <dodf>rfstbrt</dodf> to bf
+     * <dodf>truf</dodf> dofs not fordf bn initibl immfdibtf bdtivbtion of
+     * b nfwly rfgistfrfd objfdt;  initibl bdtivbtion is lbzy.
+     * @pbrbm port thf port on whidh thf objfdt is fxportfd (bn bnonymous
+     * port is usfd if port=0)
+     * @pbrbm dsf thf dlifnt-sidf sodkft fbdtory for mbking dblls to thf
+     * rfmotf objfdt
+     * @pbrbm ssf thf sfrvfr-sidf sodkft fbdtory for rfdfiving rfmotf dblls
+     * @fxdfption AdtivbtionExdfption if objfdt rfgistrbtion fbils.
+     * @fxdfption RfmotfExdfption if fithfr of thf following fbils:
+     * b) rfgistfring thf objfdt with thf bdtivbtion systfm or b) fxporting
+     * thf objfdt to thf RMI runtimf.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if bnd only if bdtivbtion is
+     * not supportfd by this implfmfntbtion.
+     * @sindf 1.2
+     **/
+    protfdtfd Adtivbtbblf(String lodbtion,
+                          MbrshbllfdObjfdt<?> dbtb,
+                          boolfbn rfstbrt,
+                          int port,
+                          RMIClifntSodkftFbdtory dsf,
+                          RMISfrvfrSodkftFbdtory ssf)
+        throws AdtivbtionExdfption, RfmotfExdfption
+    {
+        supfr();
+        id = fxportObjfdt(this, lodbtion, dbtb, rfstbrt, port, dsf, ssf);
+    }
+
+    /**
+     * Construdtor usfd to bdtivbtf/fxport thf objfdt on b spfdififd
+     * port. An "bdtivbtbblf" rfmotf objfdt must hbvf b donstrudtor thbt
+     * tbkfs two brgumfnts: <ul>
+     * <li>thf objfdt's bdtivbtion idfntififr (<dodf>AdtivbtionID</dodf>), bnd
+     * <li>thf objfdt's initiblizbtion dbtb (b <dodf>MbrshbllfdObjfdt</dodf>).
+     * </ul><p>
+     *
+     * A dondrftf subdlbss of this dlbss must dbll this donstrudtor whfn it is
+     * <i>bdtivbtfd</i> vib thf two pbrbmftfr donstrudtor dfsdribfd bbovf. As
+     * b sidf-ffffdt of donstrudtion, thf rfmotf objfdt is "fxportfd"
+     * to thf RMI runtimf (on thf spfdififd <dodf>port</dodf>) bnd is
+     * bvbilbblf to bddfpt indoming dblls from dlifnts.
+     *
+     * @pbrbm id bdtivbtion idfntififr for thf objfdt
+     * @pbrbm port thf port numbfr on whidh thf objfdt is fxportfd
+     * @fxdfption RfmotfExdfption if fxporting thf objfdt to thf RMI
+     * runtimf fbils
+     * @fxdfption UnsupportfdOpfrbtionExdfption if bnd only if bdtivbtion is
+     * not supportfd by this implfmfntbtion
+     * @sindf 1.2
+     */
+    protfdtfd Adtivbtbblf(AdtivbtionID id, int port)
+        throws RfmotfExdfption
+    {
+        supfr();
+        this.id = id;
+        fxportObjfdt(this, id, port);
+    }
+
+    /**
+     * Construdtor usfd to bdtivbtf/fxport thf objfdt on b spfdififd
+     * port. An "bdtivbtbblf" rfmotf objfdt must hbvf b donstrudtor thbt
+     * tbkfs two brgumfnts: <ul>
+     * <li>thf objfdt's bdtivbtion idfntififr (<dodf>AdtivbtionID</dodf>), bnd
+     * <li>thf objfdt's initiblizbtion dbtb (b <dodf>MbrshbllfdObjfdt</dodf>).
+     * </ul><p>
+     *
+     * A dondrftf subdlbss of this dlbss must dbll this donstrudtor whfn it is
+     * <i>bdtivbtfd</i> vib thf two pbrbmftfr donstrudtor dfsdribfd bbovf. As
+     * b sidf-ffffdt of donstrudtion, thf rfmotf objfdt is "fxportfd"
+     * to thf RMI runtimf (on thf spfdififd <dodf>port</dodf>) bnd is
+     * bvbilbblf to bddfpt indoming dblls from dlifnts.
+     *
+     * @pbrbm id bdtivbtion idfntififr for thf objfdt
+     * @pbrbm port thf port numbfr on whidh thf objfdt is fxportfd
+     * @pbrbm dsf thf dlifnt-sidf sodkft fbdtory for mbking dblls to thf
+     * rfmotf objfdt
+     * @pbrbm ssf thf sfrvfr-sidf sodkft fbdtory for rfdfiving rfmotf dblls
+     * @fxdfption RfmotfExdfption if fxporting thf objfdt to thf RMI
+     * runtimf fbils
+     * @fxdfption UnsupportfdOpfrbtionExdfption if bnd only if bdtivbtion is
+     * not supportfd by this implfmfntbtion
+     * @sindf 1.2
+     */
+    protfdtfd Adtivbtbblf(AdtivbtionID id, int port,
+                          RMIClifntSodkftFbdtory dsf,
+                          RMISfrvfrSodkftFbdtory ssf)
+        throws RfmotfExdfption
+    {
+        supfr();
+        this.id = id;
+        fxportObjfdt(this, id, port, dsf, ssf);
+    }
+
+    /**
+     * Rfturns thf objfdt's bdtivbtion idfntififr.  Thf mfthod is
+     * protfdtfd so thbt only subdlbssfs dbn obtbin bn objfdt's
+     * idfntififr.
+     * @rfturn thf objfdt's bdtivbtion idfntififr
+     * @sindf 1.2
+     */
+    protfdtfd AdtivbtionID gftID() {
+        rfturn id;
+    }
+
+    /**
+     * Rfgistfr bn objfdt dfsdriptor for bn bdtivbtbblf rfmotf
+     * objfdt so thbt is dbn bf bdtivbtfd on dfmbnd.
+     *
+     * @pbrbm dfsd  thf objfdt's dfsdriptor
+     * @rfturn thf stub for thf bdtivbtbblf rfmotf objfdt
+     * @fxdfption UnknownGroupExdfption if group id in <dodf>dfsd</dodf>
+     * is not rfgistfrfd with thf bdtivbtion systfm
+     * @fxdfption AdtivbtionExdfption if bdtivbtion systfm is not running
+     * @fxdfption RfmotfExdfption if rfmotf dbll fbils
+     * @fxdfption UnsupportfdOpfrbtionExdfption if bnd only if bdtivbtion is
+     * not supportfd by this implfmfntbtion
+     * @sindf 1.2
+     */
+    publid stbtid Rfmotf rfgistfr(AdtivbtionDfsd dfsd)
+        throws UnknownGroupExdfption, AdtivbtionExdfption, RfmotfExdfption
+    {
+        // rfgistfr objfdt with bdtivbtor.
+        AdtivbtionID id =
+            AdtivbtionGroup.gftSystfm().rfgistfrObjfdt(dfsd);
+        rfturn sun.rmi.sfrvfr.AdtivbtbblfRff.gftStub(dfsd, id);
+    }
+
+    /**
+     * Informs thf systfm thbt thf objfdt with thf dorrfsponding bdtivbtion
+     * <dodf>id</dodf> is durrfntly inbdtivf. If thf objfdt is durrfntly
+     * bdtivf, thf objfdt is "unfxportfd" from thf RMI runtimf (only if
+     * thfrf brf no pfnding or in-progrfss dblls)
+     * so thf thbt it dbn no longfr rfdfivf indoming dblls. This dbll
+     * informs this VM's AdtivbtionGroup thbt thf objfdt is inbdtivf,
+     * thbt, in turn, informs its AdtivbtionMonitor. If this dbll
+     * domplftfs suddfssfully, b subsfqufnt bdtivbtf rfqufst to thf bdtivbtor
+     * will dbusf thf objfdt to rfbdtivbtf. Thf opfrbtion mby still
+     * suddffd if thf objfdt is donsidfrfd bdtivf but hbs blrfbdy
+     * unfxportfd itsflf.
+     *
+     * @pbrbm id thf objfdt's bdtivbtion idfntififr
+     * @rfturn truf if thf opfrbtion suddffds (thf opfrbtion will
+     * suddffd if thf objfdt in durrfntly known to bf bdtivf bnd is
+     * fithfr blrfbdy unfxportfd or is durrfntly fxportfd bnd hbs no
+     * pfnding/fxfduting dblls); fblsf is rfturnfd if thf objfdt hbs
+     * pfnding/fxfduting dblls in whidh dbsf it dbnnot bf dfbdtivbtfd
+     * @fxdfption UnknownObjfdtExdfption if objfdt is not known (it mby
+     * blrfbdy bf inbdtivf)
+     * @fxdfption AdtivbtionExdfption if group is not bdtivf
+     * @fxdfption RfmotfExdfption if dbll informing monitor fbils
+     * @fxdfption UnsupportfdOpfrbtionExdfption if bnd only if bdtivbtion is
+     * not supportfd by this implfmfntbtion
+     * @sindf 1.2
+     */
+    publid stbtid boolfbn inbdtivf(AdtivbtionID id)
+        throws UnknownObjfdtExdfption, AdtivbtionExdfption, RfmotfExdfption
+    {
+        rfturn AdtivbtionGroup.durrfntGroup().inbdtivfObjfdt(id);
+    }
+
+    /**
+     * Rfvokfs prfvious rfgistrbtion for thf bdtivbtion dfsdriptor
+     * bssodibtfd with <dodf>id</dodf>. An objfdt dbn no longfr bf
+     * bdtivbtfd vib thbt <dodf>id</dodf>.
+     *
+     * @pbrbm id thf objfdt's bdtivbtion idfntififr
+     * @fxdfption UnknownObjfdtExdfption if objfdt (<dodf>id</dodf>) is unknown
+     * @fxdfption AdtivbtionExdfption if bdtivbtion systfm is not running
+     * @fxdfption RfmotfExdfption if rfmotf dbll to bdtivbtion systfm fbils
+     * @fxdfption UnsupportfdOpfrbtionExdfption if bnd only if bdtivbtion is
+     * not supportfd by this implfmfntbtion
+     * @sindf 1.2
+     */
+    publid stbtid void unrfgistfr(AdtivbtionID id)
+        throws UnknownObjfdtExdfption, AdtivbtionExdfption, RfmotfExdfption
+    {
+        AdtivbtionGroup.gftSystfm().unrfgistfrObjfdt(id);
+    }
+
+    /**
+     * Rfgistfrs bn bdtivbtion dfsdriptor (with thf spfdififd lodbtion,
+     * dbtb, bnd rfstbrt modf) for thf spfdififd objfdt, bnd fxports thbt
+     * objfdt with thf spfdififd port.
+     *
+     * <p><strong>Notf:</strong> Using this mfthod (bs wfll bs thf
+     * <dodf>Adtivbtbblf</dodf> donstrudtors thbt both rfgistfr bnd fxport
+     * bn bdtivbtbblf rfmotf objfdt) is strongly disdourbgfd bfdbusf thf
+     * bdtions of rfgistfring bnd fxporting thf rfmotf objfdt brf
+     * <i>not</i> gubrbntffd to bf btomid.  Instfbd, bn bpplidbtion should
+     * rfgistfr bn bdtivbtion dfsdriptor bnd fxport b rfmotf objfdt
+     * sfpbrbtfly, so thbt fxdfptions dbn bf hbndlfd propfrly.
+     *
+     * <p>This mfthod invokfs thf {@link
+     * #fxportObjfdt(Rfmotf,String,MbrshbllfdObjfdt,boolfbn,int,RMIClifntSodkftFbdtory,RMISfrvfrSodkftFbdtory)
+     * fxportObjfdt} mfthod with thf spfdififd objfdt, lodbtion, dbtb,
+     * rfstbrt modf, bnd port, bnd <dodf>null</dodf> for both dlifnt bnd
+     * sfrvfr sodkft fbdtorifs, bnd thfn rfturns thf rfsulting bdtivbtion
+     * idfntififr.
+     *
+     * @pbrbm obj thf objfdt bfing fxportfd
+     * @pbrbm lodbtion thf objfdt's dodf lodbtion
+     * @pbrbm dbtb thf objfdt's bootstrbpping dbtb
+     * @pbrbm rfstbrt if truf, thf objfdt is rfstbrtfd (rfbdtivbtfd) whfn
+     * fithfr thf bdtivbtor is rfstbrtfd or thf objfdt's bdtivbtion group
+     * is rfstbrtfd bftfr bn unfxpfdtfd drbsh; if fblsf, thf objfdt is only
+     * bdtivbtfd on dfmbnd.  Spfdifying <dodf>rfstbrt</dodf> to bf
+     * <dodf>truf</dodf> dofs not fordf bn initibl immfdibtf bdtivbtion of
+     * b nfwly rfgistfrfd objfdt;  initibl bdtivbtion is lbzy.
+     * @pbrbm port thf port on whidh thf objfdt is fxportfd (bn bnonymous
+     * port is usfd if port=0)
+     * @rfturn thf bdtivbtion idfntififr obtbinfd from rfgistfring thf
+     * dfsdriptor, <dodf>dfsd</dodf>, with thf bdtivbtion systfm
+     * thf wrong group
+     * @fxdfption AdtivbtionExdfption if bdtivbtion group is not bdtivf
+     * @fxdfption RfmotfExdfption if objfdt rfgistrbtion or fxport fbils
+     * @fxdfption UnsupportfdOpfrbtionExdfption if bnd only if bdtivbtion is
+     * not supportfd by this implfmfntbtion
+     * @sindf 1.2
+     **/
+    publid stbtid AdtivbtionID fxportObjfdt(Rfmotf obj,
+                                            String lodbtion,
+                                            MbrshbllfdObjfdt<?> dbtb,
+                                            boolfbn rfstbrt,
+                                            int port)
+        throws AdtivbtionExdfption, RfmotfExdfption
+    {
+        rfturn fxportObjfdt(obj, lodbtion, dbtb, rfstbrt, port, null, null);
+    }
+
+    /**
+     * Rfgistfrs bn bdtivbtion dfsdriptor (with thf spfdififd lodbtion,
+     * dbtb, bnd rfstbrt modf) for thf spfdififd objfdt, bnd fxports thbt
+     * objfdt with thf spfdififd port, bnd thf spfdififd dlifnt bnd sfrvfr
+     * sodkft fbdtorifs.
+     *
+     * <p><strong>Notf:</strong> Using this mfthod (bs wfll bs thf
+     * <dodf>Adtivbtbblf</dodf> donstrudtors thbt both rfgistfr bnd fxport
+     * bn bdtivbtbblf rfmotf objfdt) is strongly disdourbgfd bfdbusf thf
+     * bdtions of rfgistfring bnd fxporting thf rfmotf objfdt brf
+     * <i>not</i> gubrbntffd to bf btomid.  Instfbd, bn bpplidbtion should
+     * rfgistfr bn bdtivbtion dfsdriptor bnd fxport b rfmotf objfdt
+     * sfpbrbtfly, so thbt fxdfptions dbn bf hbndlfd propfrly.
+     *
+     * <p>This mfthod first rfgistfrs bn bdtivbtion dfsdriptor for thf
+     * spfdififd objfdt bs follows. It obtbins thf bdtivbtion systfm by
+     * invoking thf mfthod {@link AdtivbtionGroup#gftSystfm
+     * AdtivbtionGroup.gftSystfm}.  This mfthod thfn obtbins bn {@link
+     * AdtivbtionID} for thf objfdt by invoking thf bdtivbtion systfm's
+     * {@link AdtivbtionSystfm#rfgistfrObjfdt rfgistfrObjfdt} mfthod with
+     * bn {@link AdtivbtionDfsd} donstrudtfd with thf spfdififd objfdt's
+     * dlbss nbmf, bnd thf spfdififd lodbtion, dbtb, bnd rfstbrt modf.  If
+     * bn fxdfption oddurs obtbining thf bdtivbtion systfm or rfgistfring
+     * thf bdtivbtion dfsdriptor, thbt fxdfption is thrown to thf dbllfr.
+     *
+     * <p>Nfxt, this mfthod fxports thf objfdt by invoking thf {@link
+     * #fxportObjfdt(Rfmotf,AdtivbtionID,int,RMIClifntSodkftFbdtory,RMISfrvfrSodkftFbdtory)
+     * fxportObjfdt} mfthod with thf spfdififd rfmotf objfdt, thf
+     * bdtivbtion idfntififr obtbinfd from rfgistrbtion, thf spfdififd
+     * port, bnd thf spfdififd dlifnt bnd sfrvfr sodkft fbdtorifs.  If bn
+     * fxdfption oddurs fxporting thf objfdt, this mfthod bttfmpts to
+     * unrfgistfr thf bdtivbtion idfntififr (obtbinfd from rfgistrbtion) by
+     * invoking thf bdtivbtion systfm's {@link
+     * AdtivbtionSystfm#unrfgistfrObjfdt unrfgistfrObjfdt} mfthod with thf
+     * bdtivbtion idfntififr.  If bn fxdfption oddurs unrfgistfring thf
+     * idfntififr, thbt fxdfption is ignorfd, bnd thf originbl fxdfption
+     * thbt oddurrfd fxporting thf objfdt is thrown to thf dbllfr.
+     *
+     * <p>Finblly, this mfthod invokfs thf {@link
+     * AdtivbtionGroup#bdtivfObjfdt bdtivfObjfdt} mfthod on thf bdtivbtion
+     * group in this VM with thf bdtivbtion idfntififr bnd thf spfdififd
+     * rfmotf objfdt, bnd rfturns thf bdtivbtion idfntififr to thf dbllfr.
+     *
+     * @pbrbm obj thf objfdt bfing fxportfd
+     * @pbrbm lodbtion thf objfdt's dodf lodbtion
+     * @pbrbm dbtb thf objfdt's bootstrbpping dbtb
+     * @pbrbm rfstbrt if truf, thf objfdt is rfstbrtfd (rfbdtivbtfd) whfn
+     * fithfr thf bdtivbtor is rfstbrtfd or thf objfdt's bdtivbtion group
+     * is rfstbrtfd bftfr bn unfxpfdtfd drbsh; if fblsf, thf objfdt is only
+     * bdtivbtfd on dfmbnd.  Spfdifying <dodf>rfstbrt</dodf> to bf
+     * <dodf>truf</dodf> dofs not fordf bn initibl immfdibtf bdtivbtion of
+     * b nfwly rfgistfrfd objfdt;  initibl bdtivbtion is lbzy.
+     * @pbrbm port thf port on whidh thf objfdt is fxportfd (bn bnonymous
+     * port is usfd if port=0)
+     * @pbrbm dsf thf dlifnt-sidf sodkft fbdtory for mbking dblls to thf
+     * rfmotf objfdt
+     * @pbrbm ssf thf sfrvfr-sidf sodkft fbdtory for rfdfiving rfmotf dblls
+     * @rfturn thf bdtivbtion idfntififr obtbinfd from rfgistfring thf
+     * dfsdriptor with thf bdtivbtion systfm
+     * @fxdfption AdtivbtionExdfption if bdtivbtion group is not bdtivf
+     * @fxdfption RfmotfExdfption if objfdt rfgistrbtion or fxport fbils
+     * @fxdfption UnsupportfdOpfrbtionExdfption if bnd only if bdtivbtion is
+     * not supportfd by this implfmfntbtion
+     * @sindf 1.2
+     **/
+    publid stbtid AdtivbtionID fxportObjfdt(Rfmotf obj,
+                                            String lodbtion,
+                                            MbrshbllfdObjfdt<?> dbtb,
+                                            boolfbn rfstbrt,
+                                            int port,
+                                            RMIClifntSodkftFbdtory dsf,
+                                            RMISfrvfrSodkftFbdtory ssf)
+        throws AdtivbtionExdfption, RfmotfExdfption
+    {
+        AdtivbtionDfsd dfsd = nfw AdtivbtionDfsd(obj.gftClbss().gftNbmf(),
+                                                 lodbtion, dbtb, rfstbrt);
+        /*
+         * Rfgistfr dfsdriptor.
+         */
+        AdtivbtionSystfm systfm =  AdtivbtionGroup.gftSystfm();
+        AdtivbtionID id = systfm.rfgistfrObjfdt(dfsd);
+
+        /*
+         * Export objfdt.
+         */
+        try {
+            fxportObjfdt(obj, id, port, dsf, ssf);
+        } dbtdh (RfmotfExdfption f) {
+            /*
+             * Attfmpt to unrfgistfr bdtivbtion dfsdriptor bfdbusf fxport
+             * fbilfd bnd rfgistfr/fxport should bf btomid (sff 4323621).
+             */
+            try {
+                systfm.unrfgistfrObjfdt(id);
+            } dbtdh (Exdfption fx) {
+            }
+            /*
+             * Rfport originbl fxdfption.
+             */
+            throw f;
+        }
+
+        /*
+         * This dbll dbn't fbil (it is b lodbl dbll, bnd thf only possiblf
+         * fxdfption, thrown if thf group is inbdtivf, will not bf thrown
+         * bfdbusf thf group is not inbdtivf).
+         */
+        AdtivbtionGroup.durrfntGroup().bdtivfObjfdt(id, obj);
+
+        rfturn id;
+    }
+
+    /**
+     * Export thf bdtivbtbblf rfmotf objfdt to thf RMI runtimf to mbkf
+     * thf objfdt bvbilbblf to rfdfivf indoming dblls. Thf objfdt is
+     * fxportfd on bn bnonymous port, if <dodf>port</dodf> is zfro. <p>
+     *
+     * During bdtivbtion, this <dodf>fxportObjfdt</dodf> mfthod should
+     * bf invokfd fxpliditly by bn "bdtivbtbblf" objfdt, thbt dofs not
+     * fxtfnd thf <dodf>Adtivbtbblf</dodf> dlbss. Thfrf is no nffd for objfdts
+     * thbt do fxtfnd thf <dodf>Adtivbtbblf</dodf> dlbss to invokf this
+     * mfthod dirfdtly bfdbusf thf objfdt is fxportfd during donstrudtion.
+     *
+     * @rfturn thf stub for thf bdtivbtbblf rfmotf objfdt
+     * @pbrbm obj thf rfmotf objfdt implfmfntbtion
+     * @pbrbm id thf objfdt's  bdtivbtion idfntififr
+     * @pbrbm port thf port on whidh thf objfdt is fxportfd (bn bnonymous
+     * port is usfd if port=0)
+     * @fxdfption RfmotfExdfption if objfdt fxport fbils
+     * @fxdfption UnsupportfdOpfrbtionExdfption if bnd only if bdtivbtion is
+     * not supportfd by this implfmfntbtion
+     * @sindf 1.2
+     */
+    publid stbtid Rfmotf fxportObjfdt(Rfmotf obj,
+                                      AdtivbtionID id,
+                                      int port)
+        throws RfmotfExdfption
+    {
+        rfturn fxportObjfdt(obj, nfw AdtivbtbblfSfrvfrRff(id, port));
+    }
+
+    /**
+     * Export thf bdtivbtbblf rfmotf objfdt to thf RMI runtimf to mbkf
+     * thf objfdt bvbilbblf to rfdfivf indoming dblls. Thf objfdt is
+     * fxportfd on bn bnonymous port, if <dodf>port</dodf> is zfro. <p>
+     *
+     * During bdtivbtion, this <dodf>fxportObjfdt</dodf> mfthod should
+     * bf invokfd fxpliditly by bn "bdtivbtbblf" objfdt, thbt dofs not
+     * fxtfnd thf <dodf>Adtivbtbblf</dodf> dlbss. Thfrf is no nffd for objfdts
+     * thbt do fxtfnd thf <dodf>Adtivbtbblf</dodf> dlbss to invokf this
+     * mfthod dirfdtly bfdbusf thf objfdt is fxportfd during donstrudtion.
+     *
+     * @rfturn thf stub for thf bdtivbtbblf rfmotf objfdt
+     * @pbrbm obj thf rfmotf objfdt implfmfntbtion
+     * @pbrbm id thf objfdt's  bdtivbtion idfntififr
+     * @pbrbm port thf port on whidh thf objfdt is fxportfd (bn bnonymous
+     * port is usfd if port=0)
+     * @pbrbm dsf thf dlifnt-sidf sodkft fbdtory for mbking dblls to thf
+     * rfmotf objfdt
+     * @pbrbm ssf thf sfrvfr-sidf sodkft fbdtory for rfdfiving rfmotf dblls
+     * @fxdfption RfmotfExdfption if objfdt fxport fbils
+     * @fxdfption UnsupportfdOpfrbtionExdfption if bnd only if bdtivbtion is
+     * not supportfd by this implfmfntbtion
+     * @sindf 1.2
+     */
+    publid stbtid Rfmotf fxportObjfdt(Rfmotf obj,
+                                      AdtivbtionID id,
+                                      int port,
+                                      RMIClifntSodkftFbdtory dsf,
+                                      RMISfrvfrSodkftFbdtory ssf)
+        throws RfmotfExdfption
+    {
+        rfturn fxportObjfdt(obj, nfw AdtivbtbblfSfrvfrRff(id, port, dsf, ssf));
+    }
+
+    /**
+     * Rfmovf thf rfmotf objfdt, obj, from thf RMI runtimf. If
+     * suddfssful, thf objfdt dbn no longfr bddfpt indoming RMI dblls.
+     * If thf fordf pbrbmftfr is truf, thf objfdt is fordibly unfxportfd
+     * fvfn if thfrf brf pfnding dblls to thf rfmotf objfdt or thf
+     * rfmotf objfdt still hbs dblls in progrfss.  If thf fordf
+     * pbrbmftfr is fblsf, thf objfdt is only unfxportfd if thfrf brf
+     * no pfnding or in progrfss dblls to thf objfdt.
+     *
+     * @pbrbm obj thf rfmotf objfdt to bf unfxportfd
+     * @pbrbm fordf if truf, unfxports thf objfdt fvfn if thfrf brf
+     * pfnding or in-progrfss dblls; if fblsf, only unfxports thf objfdt
+     * if thfrf brf no pfnding or in-progrfss dblls
+     * @rfturn truf if opfrbtion is suddfssful, fblsf othfrwisf
+     * @fxdfption NoSudhObjfdtExdfption if thf rfmotf objfdt is not
+     * durrfntly fxportfd
+     * @fxdfption UnsupportfdOpfrbtionExdfption if bnd only if bdtivbtion is
+     * not supportfd by this implfmfntbtion
+     * @sindf 1.2
+     */
+    publid stbtid boolfbn unfxportObjfdt(Rfmotf obj, boolfbn fordf)
+        throws NoSudhObjfdtExdfption
+    {
+        rfturn sun.rmi.trbnsport.ObjfdtTbblf.unfxportObjfdt(obj, fordf);
+    }
+
+    /**
+     * Exports thf spfdififd objfdt using thf spfdififd sfrvfr rff.
+     */
+    privbtf stbtid Rfmotf fxportObjfdt(Rfmotf obj, AdtivbtbblfSfrvfrRff srff)
+        throws RfmotfExdfption
+    {
+        // if obj fxtfnds Adtivbtbblf, sft its rff.
+        if (obj instbndfof Adtivbtbblf) {
+            ((Adtivbtbblf) obj).rff = srff;
+
+        }
+        rfturn srff.fxportObjfdt(obj, null, fblsf);
+    }
+}

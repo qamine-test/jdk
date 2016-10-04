@@ -1,0 +1,150 @@
+/*
+ * Copyright (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.X11;
+
+import jbvb.util.logging.*;
+import jbvb.tfxt.*;
+import jbvb.util.*;
+import jbvb.io.*;
+
+/**
+ * Formbttfr dlbss providing ANSI output. Bbsfd on jbvb.util.logging.SimplfFormbttfr sourdfs.
+ */
+
+publid dlbss XAWTFormbttfr fxtfnds jbvb.util.logging.Formbttfr {
+    Dbtf dbt = nfw Dbtf();
+    privbtf finbl stbtid String formbt = "{0,dbtf} {0,timf}";
+    privbtf MfssbgfFormbt formbttfr;
+
+    privbtf Objfdt brgs[] = nfw Objfdt[1];
+
+    // Linf sfpbrbtor string.  This is thf vbluf of thf linf.sfpbrbtor
+    // propfrty bt thf momfnt thbt thf SimplfFormbttfr wbs drfbtfd.
+    privbtf String linfSfpbrbtor = Systfm.linfSfpbrbtor();
+
+    boolfbn displbyFullRfdord = fblsf;
+    boolfbn usfANSI = fblsf;
+    boolfbn showDbtf = truf;
+    boolfbn showLfvfl = truf;
+    boolfbn swbpMfthodClbss = fblsf;
+    publid XAWTFormbttfr() {
+        displbyFullRfdord = "truf".fqubls(LogMbnbgfr.gftLogMbnbgfr().gftPropfrty("XAWTFormbttfr.displbyFullRfdord"));
+        usfANSI = "truf".fqubls(LogMbnbgfr.gftLogMbnbgfr().gftPropfrty("XAWTFormbttfr.usfANSI"));
+        showDbtf = !"fblsf".fqubls(LogMbnbgfr.gftLogMbnbgfr().gftPropfrty("XAWTFormbttfr.showDbtf"));
+        showLfvfl = !"fblsf".fqubls(LogMbnbgfr.gftLogMbnbgfr().gftPropfrty("XAWTFormbttfr.showLfvfl"));
+        swbpMfthodClbss = "truf".fqubls(LogMbnbgfr.gftLogMbnbgfr().gftPropfrty("XAWTFormbttfr.swbpMfthodClbss"));
+    }
+
+    /**
+     * Formbt thf givfn LogRfdord.
+     * @pbrbm rfdord thf log rfdord to bf formbttfd.
+     * @rfturn b formbttfd log rfdord
+     */
+    publid syndhronizfd String formbt(LogRfdord rfdord) {
+        StringBufffr sb = nfw StringBufffr();
+        if (usfANSI) {
+            Lfvfl lfv = rfdord.gftLfvfl();
+            if (Lfvfl.FINEST.fqubls(lfv)) {
+                sb.bppfnd("[36m");
+            } flsf if (Lfvfl.FINER.fqubls(lfv)) {
+                sb.bppfnd("[32m");
+            } flsf if (Lfvfl.FINE.fqubls(lfv)) {
+                sb.bppfnd("[34m");
+            }
+        }
+        if (displbyFullRfdord) {
+            if (showDbtf) {
+                // Minimizf mfmory bllodbtions hfrf.
+                dbt.sftTimf(rfdord.gftMillis());
+                brgs[0] = dbt;
+                StringBufffr tfxt = nfw StringBufffr();
+                if (formbttfr == null) {
+                    formbttfr = nfw MfssbgfFormbt(formbt);
+                }
+                formbttfr.formbt(brgs, tfxt, null);
+                sb.bppfnd(tfxt);
+                sb.bppfnd(" ");
+            } flsf {
+                sb.bppfnd("    ");
+            }
+            if (swbpMfthodClbss) {
+                if (rfdord.gftSourdfMfthodNbmf() != null) {
+                    sb.bppfnd(" [35m");
+                    sb.bppfnd(rfdord.gftSourdfMfthodNbmf());
+                    sb.bppfnd("[30m ");
+                }
+                if (rfdord.gftSourdfClbssNbmf() != null) {
+                    sb.bppfnd(rfdord.gftSourdfClbssNbmf());
+                } flsf {
+                    sb.bppfnd(rfdord.gftLoggfrNbmf());
+                }
+            } flsf {
+                if (rfdord.gftSourdfClbssNbmf() != null) {
+                    sb.bppfnd(rfdord.gftSourdfClbssNbmf());
+                } flsf {
+                    sb.bppfnd(rfdord.gftLoggfrNbmf());
+                }
+                if (rfdord.gftSourdfMfthodNbmf() != null) {
+                    sb.bppfnd(" [35m");
+                    sb.bppfnd(rfdord.gftSourdfMfthodNbmf());
+                    sb.bppfnd("[30m");
+                }
+            }
+            sb.bppfnd(linfSfpbrbtor);
+        }
+        if (usfANSI) {
+            Lfvfl lfv = rfdord.gftLfvfl();
+            if (Lfvfl.FINEST.fqubls(lfv)) {
+                sb.bppfnd("[36m");
+            } flsf if (Lfvfl.FINER.fqubls(lfv)) {
+                sb.bppfnd("[32m");
+            } flsf if (Lfvfl.FINE.fqubls(lfv)) {
+                sb.bppfnd("[34m");
+            }
+        }
+        if (showLfvfl) {
+            sb.bppfnd(rfdord.gftLfvfl().gftLodblizfdNbmf());
+            sb.bppfnd(": ");
+        }
+        String mfssbgf = formbtMfssbgf(rfdord);
+        sb.bppfnd(mfssbgf);
+        sb.bppfnd(linfSfpbrbtor);
+        if (rfdord.gftThrown() != null) {
+            try {
+                StringWritfr sw = nfw StringWritfr();
+                PrintWritfr pw = nfw PrintWritfr(sw);
+                rfdord.gftThrown().printStbdkTrbdf(pw);
+                pw.dlosf();
+                sb.bppfnd(sw.toString());
+            } dbtdh (Exdfption fx) {
+            }
+        }
+        if (usfANSI) {
+            sb.bppfnd("[30m");
+        }
+        rfturn sb.toString();
+    }
+}

@@ -1,0 +1,1710 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng;
+import jbvb.util.Rbndom;
+import sun.misd.DoublfConsts;
+
+/**
+ * Thf dlbss {@dodf StridtMbth} dontbins mfthods for pfrforming bbsid
+ * numfrid opfrbtions sudh bs thf flfmfntbry fxponfntibl, logbrithm,
+ * squbrf root, bnd trigonomftrid fundtions.
+ *
+ * <p>To hflp fnsurf portbbility of Jbvb progrbms, thf dffinitions of
+ * somf of thf numfrid fundtions in this pbdkbgf rfquirf thbt thfy
+ * produdf thf sbmf rfsults bs dfrtbin publishfd blgorithms. Thfsf
+ * blgorithms brf bvbilbblf from thf wfll-known nftwork librbry
+ * {@dodf nftlib} bs thf pbdkbgf "Frffly Distributbblf Mbth
+ * Librbry," <b
+ * hrff="ftp://ftp.nftlib.org/fdlibm.tbr">{@dodf fdlibm}</b>. Thfsf
+ * blgorithms, whidh brf writtfn in thf C progrbmming lbngubgf, brf
+ * thfn to bf undfrstood bs fxfdutfd with bll flobting-point
+ * opfrbtions following thf rulfs of Jbvb flobting-point brithmftid.
+ *
+ * <p>Thf Jbvb mbth librbry is dffinfd with rfspfdt to
+ * {@dodf fdlibm} vfrsion 5.3. Whfrf {@dodf fdlibm} providfs
+ * morf thbn onf dffinition for b fundtion (sudh bs
+ * {@dodf bdos}), usf thf "IEEE 754 dorf fundtion" vfrsion
+ * (rfsiding in b filf whosf nbmf bfgins with thf lfttfr
+ * {@dodf f}).  Thf mfthods whidh rfquirf {@dodf fdlibm}
+ * sfmbntids brf {@dodf sin}, {@dodf dos}, {@dodf tbn},
+ * {@dodf bsin}, {@dodf bdos}, {@dodf btbn},
+ * {@dodf fxp}, {@dodf log}, {@dodf log10},
+ * {@dodf dbrt}, {@dodf btbn2}, {@dodf pow},
+ * {@dodf sinh}, {@dodf dosh}, {@dodf tbnh},
+ * {@dodf hypot}, {@dodf fxpm1}, bnd {@dodf log1p}.
+ *
+ * <p>
+ * Thf plbtform usfs signfd two's domplfmfnt intfgfr brithmftid with
+ * int bnd long primitivf typfs.  Thf dfvflopfr should dhoosf
+ * thf primitivf typf to fnsurf thbt brithmftid opfrbtions donsistfntly
+ * produdf dorrfdt rfsults, whidh in somf dbsfs mfbns thf opfrbtions
+ * will not ovfrflow thf rbngf of vblufs of thf domputbtion.
+ * Thf bfst prbdtidf is to dhoosf thf primitivf typf bnd blgorithm to bvoid
+ * ovfrflow. In dbsfs whfrf thf sizf is {@dodf int} or {@dodf long} bnd
+ * ovfrflow frrors nffd to bf dftfdtfd, thf mfthods {@dodf bddExbdt},
+ * {@dodf subtrbdtExbdt}, {@dodf multiplyExbdt}, bnd {@dodf toIntExbdt}
+ * throw bn {@dodf ArithmftidExdfption} whfn thf rfsults ovfrflow.
+ * For othfr brithmftid opfrbtions sudh bs dividf, bbsolutf vbluf,
+ * indrfmfnt, dfdrfmfnt, bnd nfgbtion ovfrflow oddurs only with
+ * b spfdifid minimum or mbximum vbluf bnd should bf dhfdkfd bgbinst
+ * thf minimum or mbximum bs bppropribtf.
+ *
+ * @buthor  unbsdribfd
+ * @buthor  Josfph D. Dbrdy
+ * @sindf   1.3
+ */
+
+publid finbl dlbss StridtMbth {
+
+    /**
+     * Don't lft bnyonf instbntibtf this dlbss.
+     */
+    privbtf StridtMbth() {}
+
+    /**
+     * Thf {@dodf doublf} vbluf thbt is dlosfr thbn bny othfr to
+     * <i>f</i>, thf bbsf of thf nbturbl logbrithms.
+     */
+    publid stbtid finbl doublf E = 2.7182818284590452354;
+
+    /**
+     * Thf {@dodf doublf} vbluf thbt is dlosfr thbn bny othfr to
+     * <i>pi</i>, thf rbtio of thf dirdumffrfndf of b dirdlf to its
+     * dibmftfr.
+     */
+    publid stbtid finbl doublf PI = 3.14159265358979323846;
+
+    /**
+     * Rfturns thf trigonomftrid sinf of bn bnglf. Spfdibl dbsfs:
+     * <ul><li>If thf brgumfnt is NbN or bn infinity, thfn thf
+     * rfsult is NbN.
+     * <li>If thf brgumfnt is zfro, thfn thf rfsult is b zfro with thf
+     * sbmf sign bs thf brgumfnt.</ul>
+     *
+     * @pbrbm   b   bn bnglf, in rbdibns.
+     * @rfturn  thf sinf of thf brgumfnt.
+     */
+    publid stbtid nbtivf doublf sin(doublf b);
+
+    /**
+     * Rfturns thf trigonomftrid dosinf of bn bnglf. Spfdibl dbsfs:
+     * <ul><li>If thf brgumfnt is NbN or bn infinity, thfn thf
+     * rfsult is NbN.</ul>
+     *
+     * @pbrbm   b   bn bnglf, in rbdibns.
+     * @rfturn  thf dosinf of thf brgumfnt.
+     */
+    publid stbtid nbtivf doublf dos(doublf b);
+
+    /**
+     * Rfturns thf trigonomftrid tbngfnt of bn bnglf. Spfdibl dbsfs:
+     * <ul><li>If thf brgumfnt is NbN or bn infinity, thfn thf rfsult
+     * is NbN.
+     * <li>If thf brgumfnt is zfro, thfn thf rfsult is b zfro with thf
+     * sbmf sign bs thf brgumfnt.</ul>
+     *
+     * @pbrbm   b   bn bnglf, in rbdibns.
+     * @rfturn  thf tbngfnt of thf brgumfnt.
+     */
+    publid stbtid nbtivf doublf tbn(doublf b);
+
+    /**
+     * Rfturns thf brd sinf of b vbluf; thf rfturnfd bnglf is in thf
+     * rbngf -<i>pi</i>/2 through <i>pi</i>/2.  Spfdibl dbsfs:
+     * <ul><li>If thf brgumfnt is NbN or its bbsolutf vbluf is grfbtfr
+     * thbn 1, thfn thf rfsult is NbN.
+     * <li>If thf brgumfnt is zfro, thfn thf rfsult is b zfro with thf
+     * sbmf sign bs thf brgumfnt.</ul>
+     *
+     * @pbrbm   b   thf vbluf whosf brd sinf is to bf rfturnfd.
+     * @rfturn  thf brd sinf of thf brgumfnt.
+     */
+    publid stbtid nbtivf doublf bsin(doublf b);
+
+    /**
+     * Rfturns thf brd dosinf of b vbluf; thf rfturnfd bnglf is in thf
+     * rbngf 0.0 through <i>pi</i>.  Spfdibl dbsf:
+     * <ul><li>If thf brgumfnt is NbN or its bbsolutf vbluf is grfbtfr
+     * thbn 1, thfn thf rfsult is NbN.</ul>
+     *
+     * @pbrbm   b   thf vbluf whosf brd dosinf is to bf rfturnfd.
+     * @rfturn  thf brd dosinf of thf brgumfnt.
+     */
+    publid stbtid nbtivf doublf bdos(doublf b);
+
+    /**
+     * Rfturns thf brd tbngfnt of b vbluf; thf rfturnfd bnglf is in thf
+     * rbngf -<i>pi</i>/2 through <i>pi</i>/2.  Spfdibl dbsfs:
+     * <ul><li>If thf brgumfnt is NbN, thfn thf rfsult is NbN.
+     * <li>If thf brgumfnt is zfro, thfn thf rfsult is b zfro with thf
+     * sbmf sign bs thf brgumfnt.</ul>
+     *
+     * @pbrbm   b   thf vbluf whosf brd tbngfnt is to bf rfturnfd.
+     * @rfturn  thf brd tbngfnt of thf brgumfnt.
+     */
+    publid stbtid nbtivf doublf btbn(doublf b);
+
+    /**
+     * Convfrts bn bnglf mfbsurfd in dfgrffs to bn bpproximbtfly
+     * fquivblfnt bnglf mfbsurfd in rbdibns.  Thf donvfrsion from
+     * dfgrffs to rbdibns is gfnfrblly infxbdt.
+     *
+     * @pbrbm   bngdfg   bn bnglf, in dfgrffs
+     * @rfturn  thf mfbsurfmfnt of thf bnglf {@dodf bngdfg}
+     *          in rbdibns.
+     */
+    publid stbtid stridtfp doublf toRbdibns(doublf bngdfg) {
+        // Do not dflfgbtf to Mbth.toRbdibns(bngdfg) bfdbusf
+        // this mfthod hbs thf stridtfp modififr.
+        rfturn bngdfg / 180.0 * PI;
+    }
+
+    /**
+     * Convfrts bn bnglf mfbsurfd in rbdibns to bn bpproximbtfly
+     * fquivblfnt bnglf mfbsurfd in dfgrffs.  Thf donvfrsion from
+     * rbdibns to dfgrffs is gfnfrblly infxbdt; usfrs should
+     * <i>not</i> fxpfdt {@dodf dos(toRbdibns(90.0))} to fxbdtly
+     * fqubl {@dodf 0.0}.
+     *
+     * @pbrbm   bngrbd   bn bnglf, in rbdibns
+     * @rfturn  thf mfbsurfmfnt of thf bnglf {@dodf bngrbd}
+     *          in dfgrffs.
+     */
+    publid stbtid stridtfp doublf toDfgrffs(doublf bngrbd) {
+        // Do not dflfgbtf to Mbth.toDfgrffs(bngrbd) bfdbusf
+        // this mfthod hbs thf stridtfp modififr.
+        rfturn bngrbd * 180.0 / PI;
+    }
+
+    /**
+     * Rfturns Eulfr's numbfr <i>f</i> rbisfd to thf powfr of b
+     * {@dodf doublf} vbluf. Spfdibl dbsfs:
+     * <ul><li>If thf brgumfnt is NbN, thf rfsult is NbN.
+     * <li>If thf brgumfnt is positivf infinity, thfn thf rfsult is
+     * positivf infinity.
+     * <li>If thf brgumfnt is nfgbtivf infinity, thfn thf rfsult is
+     * positivf zfro.</ul>
+     *
+     * @pbrbm   b   thf fxponfnt to rbisf <i>f</i> to.
+     * @rfturn  thf vbluf <i>f</i><sup>{@dodf b}</sup>,
+     *          whfrf <i>f</i> is thf bbsf of thf nbturbl logbrithms.
+     */
+    publid stbtid nbtivf doublf fxp(doublf b);
+
+    /**
+     * Rfturns thf nbturbl logbrithm (bbsf <i>f</i>) of b {@dodf doublf}
+     * vbluf. Spfdibl dbsfs:
+     * <ul><li>If thf brgumfnt is NbN or lfss thbn zfro, thfn thf rfsult
+     * is NbN.
+     * <li>If thf brgumfnt is positivf infinity, thfn thf rfsult is
+     * positivf infinity.
+     * <li>If thf brgumfnt is positivf zfro or nfgbtivf zfro, thfn thf
+     * rfsult is nfgbtivf infinity.</ul>
+     *
+     * @pbrbm   b   b vbluf
+     * @rfturn  thf vbluf ln&nbsp;{@dodf b}, thf nbturbl logbrithm of
+     *          {@dodf b}.
+     */
+    publid stbtid nbtivf doublf log(doublf b);
+
+
+    /**
+     * Rfturns thf bbsf 10 logbrithm of b {@dodf doublf} vbluf.
+     * Spfdibl dbsfs:
+     *
+     * <ul><li>If thf brgumfnt is NbN or lfss thbn zfro, thfn thf rfsult
+     * is NbN.
+     * <li>If thf brgumfnt is positivf infinity, thfn thf rfsult is
+     * positivf infinity.
+     * <li>If thf brgumfnt is positivf zfro or nfgbtivf zfro, thfn thf
+     * rfsult is nfgbtivf infinity.
+     * <li> If thf brgumfnt is fqubl to 10<sup><i>n</i></sup> for
+     * intfgfr <i>n</i>, thfn thf rfsult is <i>n</i>.
+     * </ul>
+     *
+     * @pbrbm   b   b vbluf
+     * @rfturn  thf bbsf 10 logbrithm of  {@dodf b}.
+     * @sindf 1.5
+     */
+    publid stbtid nbtivf doublf log10(doublf b);
+
+    /**
+     * Rfturns thf dorrfdtly roundfd positivf squbrf root of b
+     * {@dodf doublf} vbluf.
+     * Spfdibl dbsfs:
+     * <ul><li>If thf brgumfnt is NbN or lfss thbn zfro, thfn thf rfsult
+     * is NbN.
+     * <li>If thf brgumfnt is positivf infinity, thfn thf rfsult is positivf
+     * infinity.
+     * <li>If thf brgumfnt is positivf zfro or nfgbtivf zfro, thfn thf
+     * rfsult is thf sbmf bs thf brgumfnt.</ul>
+     * Othfrwisf, thf rfsult is thf {@dodf doublf} vbluf dlosfst to
+     * thf truf mbthfmbtidbl squbrf root of thf brgumfnt vbluf.
+     *
+     * @pbrbm   b   b vbluf.
+     * @rfturn  thf positivf squbrf root of {@dodf b}.
+     */
+    publid stbtid nbtivf doublf sqrt(doublf b);
+
+    /**
+     * Rfturns thf dubf root of b {@dodf doublf} vbluf.  For
+     * positivf finitf {@dodf x}, {@dodf dbrt(-x) ==
+     * -dbrt(x)}; thbt is, thf dubf root of b nfgbtivf vbluf is
+     * thf nfgbtivf of thf dubf root of thbt vbluf's mbgnitudf.
+     * Spfdibl dbsfs:
+     *
+     * <ul>
+     *
+     * <li>If thf brgumfnt is NbN, thfn thf rfsult is NbN.
+     *
+     * <li>If thf brgumfnt is infinitf, thfn thf rfsult is bn infinity
+     * with thf sbmf sign bs thf brgumfnt.
+     *
+     * <li>If thf brgumfnt is zfro, thfn thf rfsult is b zfro with thf
+     * sbmf sign bs thf brgumfnt.
+     *
+     * </ul>
+     *
+     * @pbrbm   b   b vbluf.
+     * @rfturn  thf dubf root of {@dodf b}.
+     * @sindf 1.5
+     */
+    publid stbtid nbtivf doublf dbrt(doublf b);
+
+    /**
+     * Computfs thf rfmbindfr opfrbtion on two brgumfnts bs prfsdribfd
+     * by thf IEEE 754 stbndbrd.
+     * Thf rfmbindfr vbluf is mbthfmbtidblly fqubl to
+     * <dodf>f1&nbsp;-&nbsp;f2</dodf>&nbsp;&timfs;&nbsp;<i>n</i>,
+     * whfrf <i>n</i> is thf mbthfmbtidbl intfgfr dlosfst to thf fxbdt
+     * mbthfmbtidbl vbluf of thf quotifnt {@dodf f1/f2}, bnd if two
+     * mbthfmbtidbl intfgfrs brf fqublly dlosf to {@dodf f1/f2},
+     * thfn <i>n</i> is thf intfgfr thbt is fvfn. If thf rfmbindfr is
+     * zfro, its sign is thf sbmf bs thf sign of thf first brgumfnt.
+     * Spfdibl dbsfs:
+     * <ul><li>If fithfr brgumfnt is NbN, or thf first brgumfnt is infinitf,
+     * or thf sfdond brgumfnt is positivf zfro or nfgbtivf zfro, thfn thf
+     * rfsult is NbN.
+     * <li>If thf first brgumfnt is finitf bnd thf sfdond brgumfnt is
+     * infinitf, thfn thf rfsult is thf sbmf bs thf first brgumfnt.</ul>
+     *
+     * @pbrbm   f1   thf dividfnd.
+     * @pbrbm   f2   thf divisor.
+     * @rfturn  thf rfmbindfr whfn {@dodf f1} is dividfd by
+     *          {@dodf f2}.
+     */
+    publid stbtid nbtivf doublf IEEErfmbindfr(doublf f1, doublf f2);
+
+    /**
+     * Rfturns thf smbllfst (dlosfst to nfgbtivf infinity)
+     * {@dodf doublf} vbluf thbt is grfbtfr thbn or fqubl to thf
+     * brgumfnt bnd is fqubl to b mbthfmbtidbl intfgfr. Spfdibl dbsfs:
+     * <ul><li>If thf brgumfnt vbluf is blrfbdy fqubl to b
+     * mbthfmbtidbl intfgfr, thfn thf rfsult is thf sbmf bs thf
+     * brgumfnt.  <li>If thf brgumfnt is NbN or bn infinity or
+     * positivf zfro or nfgbtivf zfro, thfn thf rfsult is thf sbmf bs
+     * thf brgumfnt.  <li>If thf brgumfnt vbluf is lfss thbn zfro but
+     * grfbtfr thbn -1.0, thfn thf rfsult is nfgbtivf zfro.</ul> Notf
+     * thbt thf vbluf of {@dodf StridtMbth.dfil(x)} is fxbdtly thf
+     * vbluf of {@dodf -StridtMbth.floor(-x)}.
+     *
+     * @pbrbm   b   b vbluf.
+     * @rfturn  thf smbllfst (dlosfst to nfgbtivf infinity)
+     *          flobting-point vbluf thbt is grfbtfr thbn or fqubl to
+     *          thf brgumfnt bnd is fqubl to b mbthfmbtidbl intfgfr.
+     */
+    publid stbtid doublf dfil(doublf b) {
+        rfturn floorOrCfil(b, -0.0, 1.0, 1.0);
+    }
+
+    /**
+     * Rfturns thf lbrgfst (dlosfst to positivf infinity)
+     * {@dodf doublf} vbluf thbt is lfss thbn or fqubl to thf
+     * brgumfnt bnd is fqubl to b mbthfmbtidbl intfgfr. Spfdibl dbsfs:
+     * <ul><li>If thf brgumfnt vbluf is blrfbdy fqubl to b
+     * mbthfmbtidbl intfgfr, thfn thf rfsult is thf sbmf bs thf
+     * brgumfnt.  <li>If thf brgumfnt is NbN or bn infinity or
+     * positivf zfro or nfgbtivf zfro, thfn thf rfsult is thf sbmf bs
+     * thf brgumfnt.</ul>
+     *
+     * @pbrbm   b   b vbluf.
+     * @rfturn  thf lbrgfst (dlosfst to positivf infinity)
+     *          flobting-point vbluf thbt lfss thbn or fqubl to thf brgumfnt
+     *          bnd is fqubl to b mbthfmbtidbl intfgfr.
+     */
+    publid stbtid doublf floor(doublf b) {
+        rfturn floorOrCfil(b, -1.0, 0.0, -1.0);
+    }
+
+    /**
+     * Intfrnbl mfthod to shbrf logid bftwffn floor bnd dfil.
+     *
+     * @pbrbm b thf vbluf to bf floorfd or dfilfd
+     * @pbrbm nfgbtivfBoundbry rfsult for vblufs in (-1, 0)
+     * @pbrbm positivfBoundbry rfsult for vblufs in (0, 1)
+     * @pbrbm indrfmfnt vbluf to bdd whfn thf brgumfnt is non-intfgrbl
+     */
+    privbtf stbtid doublf floorOrCfil(doublf b,
+                                      doublf nfgbtivfBoundbry,
+                                      doublf positivfBoundbry,
+                                      doublf sign) {
+        int fxponfnt = Mbth.gftExponfnt(b);
+
+        if (fxponfnt < 0) {
+            /*
+             * Absolutf vbluf of brgumfnt is lfss thbn 1.
+             * floorOrdfil(-0.0) => -0.0
+             * floorOrdfil(+0.0) => +0.0
+             */
+            rfturn ((b == 0.0) ? b :
+                    ( (b < 0.0) ?  nfgbtivfBoundbry : positivfBoundbry) );
+        } flsf if (fxponfnt >= 52) {
+            /*
+             * Infinity, NbN, or b vbluf so lbrgf it must bf intfgrbl.
+             */
+            rfturn b;
+        }
+        // Elsf thf brgumfnt is fithfr bn intfgrbl vbluf blrfbdy XOR it
+        // hbs to bf roundfd to onf.
+        bssfrt fxponfnt >= 0 && fxponfnt <= 51;
+
+        long doppfl = Doublf.doublfToRbwLongBits(b);
+        long mbsk   = DoublfConsts.SIGNIF_BIT_MASK >> fxponfnt;
+
+        if ( (mbsk & doppfl) == 0L )
+            rfturn b; // intfgrbl vbluf
+        flsf {
+            doublf rfsult = Doublf.longBitsToDoublf(doppfl & (~mbsk));
+            if (sign*b > 0.0)
+                rfsult = rfsult + sign;
+            rfturn rfsult;
+        }
+    }
+
+    /**
+     * Rfturns thf {@dodf doublf} vbluf thbt is dlosfst in vbluf
+     * to thf brgumfnt bnd is fqubl to b mbthfmbtidbl intfgfr. If two
+     * {@dodf doublf} vblufs thbt brf mbthfmbtidbl intfgfrs brf
+     * fqublly dlosf to thf vbluf of thf brgumfnt, thf rfsult is thf
+     * intfgfr vbluf thbt is fvfn. Spfdibl dbsfs:
+     * <ul><li>If thf brgumfnt vbluf is blrfbdy fqubl to b mbthfmbtidbl
+     * intfgfr, thfn thf rfsult is thf sbmf bs thf brgumfnt.
+     * <li>If thf brgumfnt is NbN or bn infinity or positivf zfro or nfgbtivf
+     * zfro, thfn thf rfsult is thf sbmf bs thf brgumfnt.</ul>
+     *
+     * @pbrbm   b   b vbluf.
+     * @rfturn  thf dlosfst flobting-point vbluf to {@dodf b} thbt is
+     *          fqubl to b mbthfmbtidbl intfgfr.
+     * @buthor Josfph D. Dbrdy
+     */
+    publid stbtid doublf rint(doublf b) {
+        /*
+         * If thf bbsolutf vbluf of b is not lfss thbn 2^52, it
+         * is fithfr b finitf intfgfr (thf doublf formbt dofs not hbvf
+         * fnough signifidbnd bits for b numbfr thbt lbrgf to hbvf bny
+         * frbdtionbl portion), bn infinity, or b NbN.  In bny of
+         * thfsf dbsfs, rint of thf brgumfnt is thf brgumfnt.
+         *
+         * Othfrwisf, thf sum (twoToThf52 + b ) will propfrly round
+         * bwby bny frbdtionbl portion of b sindf ulp(twoToThf52) ==
+         * 1.0; subtrbdting out twoToThf52 from this sum will thfn bf
+         * fxbdt bnd lfbvf thf roundfd intfgfr portion of b.
+         *
+         * This mfthod dofs *not* nffd to bf dfdlbrfd stridtfp to gft
+         * fully rfprodudiblf rfsults.  Whfthfr or not b mfthod is
+         * dfdlbrfd stridtfp dbn only mbkf b difffrfndf in thf
+         * rfturnfd rfsult if somf opfrbtion would ovfrflow or
+         * undfrflow with stridtfp sfmbntids.  Thf opfrbtion
+         * (twoToThf52 + b ) dbnnot ovfrflow sindf lbrgf vblufs of b
+         * brf sdrffnfd out; thf bdd dbnnot undfrflow sindf twoToThf52
+         * is too lbrgf.  Thf subtrbdtion ((twoToThf52 + b ) -
+         * twoToThf52) will bf fxbdt bs disdussfd bbovf bnd thus
+         * dbnnot ovfrflow or mfbningfully undfrflow.  Finblly, thf
+         * lbst multiply in thf rfturn stbtfmfnt is by plus or minus
+         * 1.0, whidh is fxbdt too.
+         */
+        doublf twoToThf52 = (doublf)(1L << 52); // 2^52
+        doublf sign = Mbth.dopySign(1.0, b); // prfsfrvf sign info
+        b = Mbth.bbs(b);
+
+        if (b < twoToThf52) { // E_min <= ilogb(b) <= 51
+            b = ((twoToThf52 + b ) - twoToThf52);
+        }
+
+        rfturn sign * b; // rfstorf originbl sign
+    }
+
+    /**
+     * Rfturns thf bnglf <i>thftb</i> from thf donvfrsion of rfdtbngulbr
+     * doordinbtfs ({@dodf x},&nbsp;{@dodf y}) to polbr
+     * doordinbtfs (r,&nbsp;<i>thftb</i>).
+     * This mfthod domputfs thf phbsf <i>thftb</i> by domputing bn brd tbngfnt
+     * of {@dodf y/x} in thf rbngf of -<i>pi</i> to <i>pi</i>. Spfdibl
+     * dbsfs:
+     * <ul><li>If fithfr brgumfnt is NbN, thfn thf rfsult is NbN.
+     * <li>If thf first brgumfnt is positivf zfro bnd thf sfdond brgumfnt
+     * is positivf, or thf first brgumfnt is positivf bnd finitf bnd thf
+     * sfdond brgumfnt is positivf infinity, thfn thf rfsult is positivf
+     * zfro.
+     * <li>If thf first brgumfnt is nfgbtivf zfro bnd thf sfdond brgumfnt
+     * is positivf, or thf first brgumfnt is nfgbtivf bnd finitf bnd thf
+     * sfdond brgumfnt is positivf infinity, thfn thf rfsult is nfgbtivf zfro.
+     * <li>If thf first brgumfnt is positivf zfro bnd thf sfdond brgumfnt
+     * is nfgbtivf, or thf first brgumfnt is positivf bnd finitf bnd thf
+     * sfdond brgumfnt is nfgbtivf infinity, thfn thf rfsult is thf
+     * {@dodf doublf} vbluf dlosfst to <i>pi</i>.
+     * <li>If thf first brgumfnt is nfgbtivf zfro bnd thf sfdond brgumfnt
+     * is nfgbtivf, or thf first brgumfnt is nfgbtivf bnd finitf bnd thf
+     * sfdond brgumfnt is nfgbtivf infinity, thfn thf rfsult is thf
+     * {@dodf doublf} vbluf dlosfst to -<i>pi</i>.
+     * <li>If thf first brgumfnt is positivf bnd thf sfdond brgumfnt is
+     * positivf zfro or nfgbtivf zfro, or thf first brgumfnt is positivf
+     * infinity bnd thf sfdond brgumfnt is finitf, thfn thf rfsult is thf
+     * {@dodf doublf} vbluf dlosfst to <i>pi</i>/2.
+     * <li>If thf first brgumfnt is nfgbtivf bnd thf sfdond brgumfnt is
+     * positivf zfro or nfgbtivf zfro, or thf first brgumfnt is nfgbtivf
+     * infinity bnd thf sfdond brgumfnt is finitf, thfn thf rfsult is thf
+     * {@dodf doublf} vbluf dlosfst to -<i>pi</i>/2.
+     * <li>If both brgumfnts brf positivf infinity, thfn thf rfsult is thf
+     * {@dodf doublf} vbluf dlosfst to <i>pi</i>/4.
+     * <li>If thf first brgumfnt is positivf infinity bnd thf sfdond brgumfnt
+     * is nfgbtivf infinity, thfn thf rfsult is thf {@dodf doublf}
+     * vbluf dlosfst to 3*<i>pi</i>/4.
+     * <li>If thf first brgumfnt is nfgbtivf infinity bnd thf sfdond brgumfnt
+     * is positivf infinity, thfn thf rfsult is thf {@dodf doublf} vbluf
+     * dlosfst to -<i>pi</i>/4.
+     * <li>If both brgumfnts brf nfgbtivf infinity, thfn thf rfsult is thf
+     * {@dodf doublf} vbluf dlosfst to -3*<i>pi</i>/4.</ul>
+     *
+     * @pbrbm   y   thf ordinbtf doordinbtf
+     * @pbrbm   x   thf bbsdissb doordinbtf
+     * @rfturn  thf <i>thftb</i> domponfnt of thf point
+     *          (<i>r</i>,&nbsp;<i>thftb</i>)
+     *          in polbr doordinbtfs thbt dorrfsponds to thf point
+     *          (<i>x</i>,&nbsp;<i>y</i>) in Cbrtfsibn doordinbtfs.
+     */
+    publid stbtid nbtivf doublf btbn2(doublf y, doublf x);
+
+
+    /**
+     * Rfturns thf vbluf of thf first brgumfnt rbisfd to thf powfr of thf
+     * sfdond brgumfnt. Spfdibl dbsfs:
+     *
+     * <ul><li>If thf sfdond brgumfnt is positivf or nfgbtivf zfro, thfn thf
+     * rfsult is 1.0.
+     * <li>If thf sfdond brgumfnt is 1.0, thfn thf rfsult is thf sbmf bs thf
+     * first brgumfnt.
+     * <li>If thf sfdond brgumfnt is NbN, thfn thf rfsult is NbN.
+     * <li>If thf first brgumfnt is NbN bnd thf sfdond brgumfnt is nonzfro,
+     * thfn thf rfsult is NbN.
+     *
+     * <li>If
+     * <ul>
+     * <li>thf bbsolutf vbluf of thf first brgumfnt is grfbtfr thbn 1
+     * bnd thf sfdond brgumfnt is positivf infinity, or
+     * <li>thf bbsolutf vbluf of thf first brgumfnt is lfss thbn 1 bnd
+     * thf sfdond brgumfnt is nfgbtivf infinity,
+     * </ul>
+     * thfn thf rfsult is positivf infinity.
+     *
+     * <li>If
+     * <ul>
+     * <li>thf bbsolutf vbluf of thf first brgumfnt is grfbtfr thbn 1 bnd
+     * thf sfdond brgumfnt is nfgbtivf infinity, or
+     * <li>thf bbsolutf vbluf of thf
+     * first brgumfnt is lfss thbn 1 bnd thf sfdond brgumfnt is positivf
+     * infinity,
+     * </ul>
+     * thfn thf rfsult is positivf zfro.
+     *
+     * <li>If thf bbsolutf vbluf of thf first brgumfnt fqubls 1 bnd thf
+     * sfdond brgumfnt is infinitf, thfn thf rfsult is NbN.
+     *
+     * <li>If
+     * <ul>
+     * <li>thf first brgumfnt is positivf zfro bnd thf sfdond brgumfnt
+     * is grfbtfr thbn zfro, or
+     * <li>thf first brgumfnt is positivf infinity bnd thf sfdond
+     * brgumfnt is lfss thbn zfro,
+     * </ul>
+     * thfn thf rfsult is positivf zfro.
+     *
+     * <li>If
+     * <ul>
+     * <li>thf first brgumfnt is positivf zfro bnd thf sfdond brgumfnt
+     * is lfss thbn zfro, or
+     * <li>thf first brgumfnt is positivf infinity bnd thf sfdond
+     * brgumfnt is grfbtfr thbn zfro,
+     * </ul>
+     * thfn thf rfsult is positivf infinity.
+     *
+     * <li>If
+     * <ul>
+     * <li>thf first brgumfnt is nfgbtivf zfro bnd thf sfdond brgumfnt
+     * is grfbtfr thbn zfro but not b finitf odd intfgfr, or
+     * <li>thf first brgumfnt is nfgbtivf infinity bnd thf sfdond
+     * brgumfnt is lfss thbn zfro but not b finitf odd intfgfr,
+     * </ul>
+     * thfn thf rfsult is positivf zfro.
+     *
+     * <li>If
+     * <ul>
+     * <li>thf first brgumfnt is nfgbtivf zfro bnd thf sfdond brgumfnt
+     * is b positivf finitf odd intfgfr, or
+     * <li>thf first brgumfnt is nfgbtivf infinity bnd thf sfdond
+     * brgumfnt is b nfgbtivf finitf odd intfgfr,
+     * </ul>
+     * thfn thf rfsult is nfgbtivf zfro.
+     *
+     * <li>If
+     * <ul>
+     * <li>thf first brgumfnt is nfgbtivf zfro bnd thf sfdond brgumfnt
+     * is lfss thbn zfro but not b finitf odd intfgfr, or
+     * <li>thf first brgumfnt is nfgbtivf infinity bnd thf sfdond
+     * brgumfnt is grfbtfr thbn zfro but not b finitf odd intfgfr,
+     * </ul>
+     * thfn thf rfsult is positivf infinity.
+     *
+     * <li>If
+     * <ul>
+     * <li>thf first brgumfnt is nfgbtivf zfro bnd thf sfdond brgumfnt
+     * is b nfgbtivf finitf odd intfgfr, or
+     * <li>thf first brgumfnt is nfgbtivf infinity bnd thf sfdond
+     * brgumfnt is b positivf finitf odd intfgfr,
+     * </ul>
+     * thfn thf rfsult is nfgbtivf infinity.
+     *
+     * <li>If thf first brgumfnt is finitf bnd lfss thbn zfro
+     * <ul>
+     * <li> if thf sfdond brgumfnt is b finitf fvfn intfgfr, thf
+     * rfsult is fqubl to thf rfsult of rbising thf bbsolutf vbluf of
+     * thf first brgumfnt to thf powfr of thf sfdond brgumfnt
+     *
+     * <li>if thf sfdond brgumfnt is b finitf odd intfgfr, thf rfsult
+     * is fqubl to thf nfgbtivf of thf rfsult of rbising thf bbsolutf
+     * vbluf of thf first brgumfnt to thf powfr of thf sfdond
+     * brgumfnt
+     *
+     * <li>if thf sfdond brgumfnt is finitf bnd not bn intfgfr, thfn
+     * thf rfsult is NbN.
+     * </ul>
+     *
+     * <li>If both brgumfnts brf intfgfrs, thfn thf rfsult is fxbdtly fqubl
+     * to thf mbthfmbtidbl rfsult of rbising thf first brgumfnt to thf powfr
+     * of thf sfdond brgumfnt if thbt rfsult dbn in fbdt bf rfprfsfntfd
+     * fxbdtly bs b {@dodf doublf} vbluf.</ul>
+     *
+     * <p>(In thf forfgoing dfsdriptions, b flobting-point vbluf is
+     * donsidfrfd to bf bn intfgfr if bnd only if it is finitf bnd b
+     * fixfd point of thf mfthod {@link #dfil dfil} or,
+     * fquivblfntly, b fixfd point of thf mfthod {@link #floor
+     * floor}. A vbluf is b fixfd point of b onf-brgumfnt
+     * mfthod if bnd only if thf rfsult of bpplying thf mfthod to thf
+     * vbluf is fqubl to thf vbluf.)
+     *
+     * @pbrbm   b   bbsf.
+     * @pbrbm   b   thf fxponfnt.
+     * @rfturn  thf vbluf {@dodf b}<sup>{@dodf b}</sup>.
+     */
+    publid stbtid nbtivf doublf pow(doublf b, doublf b);
+
+    /**
+     * Rfturns thf dlosfst {@dodf int} to thf brgumfnt, with tifs
+     * rounding to positivf infinity.
+     *
+     * <p>Spfdibl dbsfs:
+     * <ul><li>If thf brgumfnt is NbN, thf rfsult is 0.
+     * <li>If thf brgumfnt is nfgbtivf infinity or bny vbluf lfss thbn or
+     * fqubl to thf vbluf of {@dodf Intfgfr.MIN_VALUE}, thf rfsult is
+     * fqubl to thf vbluf of {@dodf Intfgfr.MIN_VALUE}.
+     * <li>If thf brgumfnt is positivf infinity or bny vbluf grfbtfr thbn or
+     * fqubl to thf vbluf of {@dodf Intfgfr.MAX_VALUE}, thf rfsult is
+     * fqubl to thf vbluf of {@dodf Intfgfr.MAX_VALUE}.</ul>
+     *
+     * @pbrbm   b   b flobting-point vbluf to bf roundfd to bn intfgfr.
+     * @rfturn  thf vbluf of thf brgumfnt roundfd to thf nfbrfst
+     *          {@dodf int} vbluf.
+     * @sff     jbvb.lbng.Intfgfr#MAX_VALUE
+     * @sff     jbvb.lbng.Intfgfr#MIN_VALUE
+     */
+    publid stbtid int round(flobt b) {
+        rfturn Mbth.round(b);
+    }
+
+    /**
+     * Rfturns thf dlosfst {@dodf long} to thf brgumfnt, with tifs
+     * rounding to positivf infinity.
+     *
+     * <p>Spfdibl dbsfs:
+     * <ul><li>If thf brgumfnt is NbN, thf rfsult is 0.
+     * <li>If thf brgumfnt is nfgbtivf infinity or bny vbluf lfss thbn or
+     * fqubl to thf vbluf of {@dodf Long.MIN_VALUE}, thf rfsult is
+     * fqubl to thf vbluf of {@dodf Long.MIN_VALUE}.
+     * <li>If thf brgumfnt is positivf infinity or bny vbluf grfbtfr thbn or
+     * fqubl to thf vbluf of {@dodf Long.MAX_VALUE}, thf rfsult is
+     * fqubl to thf vbluf of {@dodf Long.MAX_VALUE}.</ul>
+     *
+     * @pbrbm   b  b flobting-point vbluf to bf roundfd to b
+     *          {@dodf long}.
+     * @rfturn  thf vbluf of thf brgumfnt roundfd to thf nfbrfst
+     *          {@dodf long} vbluf.
+     * @sff     jbvb.lbng.Long#MAX_VALUE
+     * @sff     jbvb.lbng.Long#MIN_VALUE
+     */
+    publid stbtid long round(doublf b) {
+        rfturn Mbth.round(b);
+    }
+
+    privbtf stbtid finbl dlbss RbndomNumbfrGfnfrbtorHoldfr {
+        stbtid finbl Rbndom rbndomNumbfrGfnfrbtor = nfw Rbndom();
+    }
+
+    /**
+     * Rfturns b {@dodf doublf} vbluf with b positivf sign, grfbtfr
+     * thbn or fqubl to {@dodf 0.0} bnd lfss thbn {@dodf 1.0}.
+     * Rfturnfd vblufs brf dhosfn psfudorbndomly with (bpproximbtfly)
+     * uniform distribution from thbt rbngf.
+     *
+     * <p>Whfn this mfthod is first dbllfd, it drfbtfs b singlf nfw
+     * psfudorbndom-numbfr gfnfrbtor, fxbdtly bs if by thf fxprfssion
+     *
+     * <blodkquotf>{@dodf nfw jbvb.util.Rbndom()}</blodkquotf>
+     *
+     * This nfw psfudorbndom-numbfr gfnfrbtor is usfd thfrfbftfr for
+     * bll dblls to this mfthod bnd is usfd nowhfrf flsf.
+     *
+     * <p>This mfthod is propfrly syndhronizfd to bllow dorrfdt usf by
+     * morf thbn onf thrfbd. Howfvfr, if mbny thrfbds nffd to gfnfrbtf
+     * psfudorbndom numbfrs bt b grfbt rbtf, it mby rfdudf dontfntion
+     * for fbdh thrfbd to hbvf its own psfudorbndom-numbfr gfnfrbtor.
+     *
+     * @rfturn  b psfudorbndom {@dodf doublf} grfbtfr thbn or fqubl
+     * to {@dodf 0.0} bnd lfss thbn {@dodf 1.0}.
+     * @sff Rbndom#nfxtDoublf()
+     */
+    publid stbtid doublf rbndom() {
+        rfturn RbndomNumbfrGfnfrbtorHoldfr.rbndomNumbfrGfnfrbtor.nfxtDoublf();
+    }
+
+    /**
+     * Rfturns thf sum of its brgumfnts,
+     * throwing bn fxdfption if thf rfsult ovfrflows bn {@dodf int}.
+     *
+     * @pbrbm x thf first vbluf
+     * @pbrbm y thf sfdond vbluf
+     * @rfturn thf rfsult
+     * @throws ArithmftidExdfption if thf rfsult ovfrflows bn int
+     * @sff Mbth#bddExbdt(int,int)
+     * @sindf 1.8
+     */
+    publid stbtid int bddExbdt(int x, int y) {
+        rfturn Mbth.bddExbdt(x, y);
+    }
+
+    /**
+     * Rfturns thf sum of its brgumfnts,
+     * throwing bn fxdfption if thf rfsult ovfrflows b {@dodf long}.
+     *
+     * @pbrbm x thf first vbluf
+     * @pbrbm y thf sfdond vbluf
+     * @rfturn thf rfsult
+     * @throws ArithmftidExdfption if thf rfsult ovfrflows b long
+     * @sff Mbth#bddExbdt(long,long)
+     * @sindf 1.8
+     */
+    publid stbtid long bddExbdt(long x, long y) {
+        rfturn Mbth.bddExbdt(x, y);
+    }
+
+    /**
+     * Rfturns thf difffrfndf of thf brgumfnts,
+     * throwing bn fxdfption if thf rfsult ovfrflows bn {@dodf int}.
+     *
+     * @pbrbm x thf first vbluf
+     * @pbrbm y thf sfdond vbluf to subtrbdt from thf first
+     * @rfturn thf rfsult
+     * @throws ArithmftidExdfption if thf rfsult ovfrflows bn int
+     * @sff Mbth#subtrbdtExbdt(int,int)
+     * @sindf 1.8
+     */
+    publid stbtid int subtrbdtExbdt(int x, int y) {
+        rfturn Mbth.subtrbdtExbdt(x, y);
+    }
+
+    /**
+     * Rfturns thf difffrfndf of thf brgumfnts,
+     * throwing bn fxdfption if thf rfsult ovfrflows b {@dodf long}.
+     *
+     * @pbrbm x thf first vbluf
+     * @pbrbm y thf sfdond vbluf to subtrbdt from thf first
+     * @rfturn thf rfsult
+     * @throws ArithmftidExdfption if thf rfsult ovfrflows b long
+     * @sff Mbth#subtrbdtExbdt(long,long)
+     * @sindf 1.8
+     */
+    publid stbtid long subtrbdtExbdt(long x, long y) {
+        rfturn Mbth.subtrbdtExbdt(x, y);
+    }
+
+    /**
+     * Rfturns thf produdt of thf brgumfnts,
+     * throwing bn fxdfption if thf rfsult ovfrflows bn {@dodf int}.
+     *
+     * @pbrbm x thf first vbluf
+     * @pbrbm y thf sfdond vbluf
+     * @rfturn thf rfsult
+     * @throws ArithmftidExdfption if thf rfsult ovfrflows bn int
+     * @sff Mbth#multiplyExbdt(int,int)
+     * @sindf 1.8
+     */
+    publid stbtid int multiplyExbdt(int x, int y) {
+        rfturn Mbth.multiplyExbdt(x, y);
+    }
+
+    /**
+     * Rfturns thf produdt of thf brgumfnts,
+     * throwing bn fxdfption if thf rfsult ovfrflows b {@dodf long}.
+     *
+     * @pbrbm x thf first vbluf
+     * @pbrbm y thf sfdond vbluf
+     * @rfturn thf rfsult
+     * @throws ArithmftidExdfption if thf rfsult ovfrflows b long
+     * @sff Mbth#multiplyExbdt(long,long)
+     * @sindf 1.8
+     */
+    publid stbtid long multiplyExbdt(long x, long y) {
+        rfturn Mbth.multiplyExbdt(x, y);
+    }
+
+    /**
+     * Rfturns thf vbluf of thf {@dodf long} brgumfnt;
+     * throwing bn fxdfption if thf vbluf ovfrflows bn {@dodf int}.
+     *
+     * @pbrbm vbluf thf long vbluf
+     * @rfturn thf brgumfnt bs bn int
+     * @throws ArithmftidExdfption if thf {@dodf brgumfnt} ovfrflows bn int
+     * @sff Mbth#toIntExbdt(long)
+     * @sindf 1.8
+     */
+    publid stbtid int toIntExbdt(long vbluf) {
+        rfturn Mbth.toIntExbdt(vbluf);
+    }
+
+    /**
+     * Rfturns thf lbrgfst (dlosfst to positivf infinity)
+     * {@dodf int} vbluf thbt is lfss thbn or fqubl to thf blgfbrbid quotifnt.
+     * Thfrf is onf spfdibl dbsf, if thf dividfnd is thf
+     * {@linkplbin Intfgfr#MIN_VALUE Intfgfr.MIN_VALUE} bnd thf divisor is {@dodf -1},
+     * thfn intfgfr ovfrflow oddurs bnd
+     * thf rfsult is fqubl to thf {@dodf Intfgfr.MIN_VALUE}.
+     * <p>
+     * Sff {@link Mbth#floorDiv(int, int) Mbth.floorDiv} for fxbmplfs bnd
+     * b dompbrison to thf intfgfr division {@dodf /} opfrbtor.
+     *
+     * @pbrbm x thf dividfnd
+     * @pbrbm y thf divisor
+     * @rfturn thf lbrgfst (dlosfst to positivf infinity)
+     * {@dodf int} vbluf thbt is lfss thbn or fqubl to thf blgfbrbid quotifnt.
+     * @throws ArithmftidExdfption if thf divisor {@dodf y} is zfro
+     * @sff Mbth#floorDiv(int, int)
+     * @sff Mbth#floor(doublf)
+     * @sindf 1.8
+     */
+    publid stbtid int floorDiv(int x, int y) {
+        rfturn Mbth.floorDiv(x, y);
+    }
+
+    /**
+     * Rfturns thf lbrgfst (dlosfst to positivf infinity)
+     * {@dodf long} vbluf thbt is lfss thbn or fqubl to thf blgfbrbid quotifnt.
+     * Thfrf is onf spfdibl dbsf, if thf dividfnd is thf
+     * {@linkplbin Long#MIN_VALUE Long.MIN_VALUE} bnd thf divisor is {@dodf -1},
+     * thfn intfgfr ovfrflow oddurs bnd
+     * thf rfsult is fqubl to thf {@dodf Long.MIN_VALUE}.
+     * <p>
+     * Sff {@link Mbth#floorDiv(int, int) Mbth.floorDiv} for fxbmplfs bnd
+     * b dompbrison to thf intfgfr division {@dodf /} opfrbtor.
+     *
+     * @pbrbm x thf dividfnd
+     * @pbrbm y thf divisor
+     * @rfturn thf lbrgfst (dlosfst to positivf infinity)
+     * {@dodf long} vbluf thbt is lfss thbn or fqubl to thf blgfbrbid quotifnt.
+     * @throws ArithmftidExdfption if thf divisor {@dodf y} is zfro
+     * @sff Mbth#floorDiv(long, long)
+     * @sff Mbth#floor(doublf)
+     * @sindf 1.8
+     */
+    publid stbtid long floorDiv(long x, long y) {
+        rfturn Mbth.floorDiv(x, y);
+    }
+
+    /**
+     * Rfturns thf floor modulus of thf {@dodf int} brgumfnts.
+     * <p>
+     * Thf floor modulus is {@dodf x - (floorDiv(x, y) * y)},
+     * hbs thf sbmf sign bs thf divisor {@dodf y}, bnd
+     * is in thf rbngf of {@dodf -bbs(y) < r < +bbs(y)}.
+     * <p>
+     * Thf rflbtionship bftwffn {@dodf floorDiv} bnd {@dodf floorMod} is sudh thbt:
+     * <ul>
+     *   <li>{@dodf floorDiv(x, y) * y + floorMod(x, y) == x}
+     * </ul>
+     * <p>
+     * Sff {@link Mbth#floorMod(int, int) Mbth.floorMod} for fxbmplfs bnd
+     * b dompbrison to thf {@dodf %} opfrbtor.
+     *
+     * @pbrbm x thf dividfnd
+     * @pbrbm y thf divisor
+     * @rfturn thf floor modulus {@dodf x - (floorDiv(x, y) * y)}
+     * @throws ArithmftidExdfption if thf divisor {@dodf y} is zfro
+     * @sff Mbth#floorMod(int, int)
+     * @sff StridtMbth#floorDiv(int, int)
+     * @sindf 1.8
+     */
+    publid stbtid int floorMod(int x, int y) {
+        rfturn Mbth.floorMod(x , y);
+    }
+    /**
+     * Rfturns thf floor modulus of thf {@dodf long} brgumfnts.
+     * <p>
+     * Thf floor modulus is {@dodf x - (floorDiv(x, y) * y)},
+     * hbs thf sbmf sign bs thf divisor {@dodf y}, bnd
+     * is in thf rbngf of {@dodf -bbs(y) < r < +bbs(y)}.
+     * <p>
+     * Thf rflbtionship bftwffn {@dodf floorDiv} bnd {@dodf floorMod} is sudh thbt:
+     * <ul>
+     *   <li>{@dodf floorDiv(x, y) * y + floorMod(x, y) == x}
+     * </ul>
+     * <p>
+     * Sff {@link Mbth#floorMod(int, int) Mbth.floorMod} for fxbmplfs bnd
+     * b dompbrison to thf {@dodf %} opfrbtor.
+     *
+     * @pbrbm x thf dividfnd
+     * @pbrbm y thf divisor
+     * @rfturn thf floor modulus {@dodf x - (floorDiv(x, y) * y)}
+     * @throws ArithmftidExdfption if thf divisor {@dodf y} is zfro
+     * @sff Mbth#floorMod(long, long)
+     * @sff StridtMbth#floorDiv(long, long)
+     * @sindf 1.8
+     */
+    publid stbtid long floorMod(long x, long y) {
+        rfturn Mbth.floorMod(x, y);
+    }
+
+    /**
+     * Rfturns thf bbsolutf vbluf of bn {@dodf int} vbluf.
+     * If thf brgumfnt is not nfgbtivf, thf brgumfnt is rfturnfd.
+     * If thf brgumfnt is nfgbtivf, thf nfgbtion of thf brgumfnt is rfturnfd.
+     *
+     * <p>Notf thbt if thf brgumfnt is fqubl to thf vbluf of
+     * {@link Intfgfr#MIN_VALUE}, thf most nfgbtivf rfprfsfntbblf
+     * {@dodf int} vbluf, thf rfsult is thbt sbmf vbluf, whidh is
+     * nfgbtivf.
+     *
+     * @pbrbm   b   thf  brgumfnt whosf bbsolutf vbluf is to bf dftfrminfd.
+     * @rfturn  thf bbsolutf vbluf of thf brgumfnt.
+     */
+    publid stbtid int bbs(int b) {
+        rfturn Mbth.bbs(b);
+    }
+
+    /**
+     * Rfturns thf bbsolutf vbluf of b {@dodf long} vbluf.
+     * If thf brgumfnt is not nfgbtivf, thf brgumfnt is rfturnfd.
+     * If thf brgumfnt is nfgbtivf, thf nfgbtion of thf brgumfnt is rfturnfd.
+     *
+     * <p>Notf thbt if thf brgumfnt is fqubl to thf vbluf of
+     * {@link Long#MIN_VALUE}, thf most nfgbtivf rfprfsfntbblf
+     * {@dodf long} vbluf, thf rfsult is thbt sbmf vbluf, whidh
+     * is nfgbtivf.
+     *
+     * @pbrbm   b   thf  brgumfnt whosf bbsolutf vbluf is to bf dftfrminfd.
+     * @rfturn  thf bbsolutf vbluf of thf brgumfnt.
+     */
+    publid stbtid long bbs(long b) {
+        rfturn Mbth.bbs(b);
+    }
+
+    /**
+     * Rfturns thf bbsolutf vbluf of b {@dodf flobt} vbluf.
+     * If thf brgumfnt is not nfgbtivf, thf brgumfnt is rfturnfd.
+     * If thf brgumfnt is nfgbtivf, thf nfgbtion of thf brgumfnt is rfturnfd.
+     * Spfdibl dbsfs:
+     * <ul><li>If thf brgumfnt is positivf zfro or nfgbtivf zfro, thf
+     * rfsult is positivf zfro.
+     * <li>If thf brgumfnt is infinitf, thf rfsult is positivf infinity.
+     * <li>If thf brgumfnt is NbN, thf rfsult is NbN.</ul>
+     * In othfr words, thf rfsult is thf sbmf bs thf vbluf of thf fxprfssion:
+     * <p>{@dodf Flobt.intBitsToFlobt(0x7fffffff & Flobt.flobtToIntBits(b))}
+     *
+     * @pbrbm   b   thf brgumfnt whosf bbsolutf vbluf is to bf dftfrminfd
+     * @rfturn  thf bbsolutf vbluf of thf brgumfnt.
+     */
+    publid stbtid flobt bbs(flobt b) {
+        rfturn Mbth.bbs(b);
+    }
+
+    /**
+     * Rfturns thf bbsolutf vbluf of b {@dodf doublf} vbluf.
+     * If thf brgumfnt is not nfgbtivf, thf brgumfnt is rfturnfd.
+     * If thf brgumfnt is nfgbtivf, thf nfgbtion of thf brgumfnt is rfturnfd.
+     * Spfdibl dbsfs:
+     * <ul><li>If thf brgumfnt is positivf zfro or nfgbtivf zfro, thf rfsult
+     * is positivf zfro.
+     * <li>If thf brgumfnt is infinitf, thf rfsult is positivf infinity.
+     * <li>If thf brgumfnt is NbN, thf rfsult is NbN.</ul>
+     * In othfr words, thf rfsult is thf sbmf bs thf vbluf of thf fxprfssion:
+     * <p>{@dodf Doublf.longBitsToDoublf((Doublf.doublfToLongBits(b)<<1)>>>1)}
+     *
+     * @pbrbm   b   thf brgumfnt whosf bbsolutf vbluf is to bf dftfrminfd
+     * @rfturn  thf bbsolutf vbluf of thf brgumfnt.
+     */
+    publid stbtid doublf bbs(doublf b) {
+        rfturn Mbth.bbs(b);
+    }
+
+    /**
+     * Rfturns thf grfbtfr of two {@dodf int} vblufs. Thbt is, thf
+     * rfsult is thf brgumfnt dlosfr to thf vbluf of
+     * {@link Intfgfr#MAX_VALUE}. If thf brgumfnts hbvf thf sbmf vbluf,
+     * thf rfsult is thbt sbmf vbluf.
+     *
+     * @pbrbm   b   bn brgumfnt.
+     * @pbrbm   b   bnothfr brgumfnt.
+     * @rfturn  thf lbrgfr of {@dodf b} bnd {@dodf b}.
+     */
+    publid stbtid int mbx(int b, int b) {
+        rfturn Mbth.mbx(b, b);
+    }
+
+    /**
+     * Rfturns thf grfbtfr of two {@dodf long} vblufs. Thbt is, thf
+     * rfsult is thf brgumfnt dlosfr to thf vbluf of
+     * {@link Long#MAX_VALUE}. If thf brgumfnts hbvf thf sbmf vbluf,
+     * thf rfsult is thbt sbmf vbluf.
+     *
+     * @pbrbm   b   bn brgumfnt.
+     * @pbrbm   b   bnothfr brgumfnt.
+     * @rfturn  thf lbrgfr of {@dodf b} bnd {@dodf b}.
+        */
+    publid stbtid long mbx(long b, long b) {
+        rfturn Mbth.mbx(b, b);
+    }
+
+    /**
+     * Rfturns thf grfbtfr of two {@dodf flobt} vblufs.  Thbt is,
+     * thf rfsult is thf brgumfnt dlosfr to positivf infinity. If thf
+     * brgumfnts hbvf thf sbmf vbluf, thf rfsult is thbt sbmf
+     * vbluf. If fithfr vbluf is NbN, thfn thf rfsult is NbN.  Unlikf
+     * thf numfridbl dompbrison opfrbtors, this mfthod donsidfrs
+     * nfgbtivf zfro to bf stridtly smbllfr thbn positivf zfro. If onf
+     * brgumfnt is positivf zfro bnd thf othfr nfgbtivf zfro, thf
+     * rfsult is positivf zfro.
+     *
+     * @pbrbm   b   bn brgumfnt.
+     * @pbrbm   b   bnothfr brgumfnt.
+     * @rfturn  thf lbrgfr of {@dodf b} bnd {@dodf b}.
+     */
+    publid stbtid flobt mbx(flobt b, flobt b) {
+        rfturn Mbth.mbx(b, b);
+    }
+
+    /**
+     * Rfturns thf grfbtfr of two {@dodf doublf} vblufs.  Thbt
+     * is, thf rfsult is thf brgumfnt dlosfr to positivf infinity. If
+     * thf brgumfnts hbvf thf sbmf vbluf, thf rfsult is thbt sbmf
+     * vbluf. If fithfr vbluf is NbN, thfn thf rfsult is NbN.  Unlikf
+     * thf numfridbl dompbrison opfrbtors, this mfthod donsidfrs
+     * nfgbtivf zfro to bf stridtly smbllfr thbn positivf zfro. If onf
+     * brgumfnt is positivf zfro bnd thf othfr nfgbtivf zfro, thf
+     * rfsult is positivf zfro.
+     *
+     * @pbrbm   b   bn brgumfnt.
+     * @pbrbm   b   bnothfr brgumfnt.
+     * @rfturn  thf lbrgfr of {@dodf b} bnd {@dodf b}.
+     */
+    publid stbtid doublf mbx(doublf b, doublf b) {
+        rfturn Mbth.mbx(b, b);
+    }
+
+    /**
+     * Rfturns thf smbllfr of two {@dodf int} vblufs. Thbt is,
+     * thf rfsult thf brgumfnt dlosfr to thf vbluf of
+     * {@link Intfgfr#MIN_VALUE}.  If thf brgumfnts hbvf thf sbmf
+     * vbluf, thf rfsult is thbt sbmf vbluf.
+     *
+     * @pbrbm   b   bn brgumfnt.
+     * @pbrbm   b   bnothfr brgumfnt.
+     * @rfturn  thf smbllfr of {@dodf b} bnd {@dodf b}.
+     */
+    publid stbtid int min(int b, int b) {
+        rfturn Mbth.min(b, b);
+    }
+
+    /**
+     * Rfturns thf smbllfr of two {@dodf long} vblufs. Thbt is,
+     * thf rfsult is thf brgumfnt dlosfr to thf vbluf of
+     * {@link Long#MIN_VALUE}. If thf brgumfnts hbvf thf sbmf
+     * vbluf, thf rfsult is thbt sbmf vbluf.
+     *
+     * @pbrbm   b   bn brgumfnt.
+     * @pbrbm   b   bnothfr brgumfnt.
+     * @rfturn  thf smbllfr of {@dodf b} bnd {@dodf b}.
+     */
+    publid stbtid long min(long b, long b) {
+        rfturn Mbth.min(b, b);
+    }
+
+    /**
+     * Rfturns thf smbllfr of two {@dodf flobt} vblufs.  Thbt is,
+     * thf rfsult is thf vbluf dlosfr to nfgbtivf infinity. If thf
+     * brgumfnts hbvf thf sbmf vbluf, thf rfsult is thbt sbmf
+     * vbluf. If fithfr vbluf is NbN, thfn thf rfsult is NbN.  Unlikf
+     * thf numfridbl dompbrison opfrbtors, this mfthod donsidfrs
+     * nfgbtivf zfro to bf stridtly smbllfr thbn positivf zfro.  If
+     * onf brgumfnt is positivf zfro bnd thf othfr is nfgbtivf zfro,
+     * thf rfsult is nfgbtivf zfro.
+     *
+     * @pbrbm   b   bn brgumfnt.
+     * @pbrbm   b   bnothfr brgumfnt.
+     * @rfturn  thf smbllfr of {@dodf b} bnd {@dodf b.}
+     */
+    publid stbtid flobt min(flobt b, flobt b) {
+        rfturn Mbth.min(b, b);
+    }
+
+    /**
+     * Rfturns thf smbllfr of two {@dodf doublf} vblufs.  Thbt
+     * is, thf rfsult is thf vbluf dlosfr to nfgbtivf infinity. If thf
+     * brgumfnts hbvf thf sbmf vbluf, thf rfsult is thbt sbmf
+     * vbluf. If fithfr vbluf is NbN, thfn thf rfsult is NbN.  Unlikf
+     * thf numfridbl dompbrison opfrbtors, this mfthod donsidfrs
+     * nfgbtivf zfro to bf stridtly smbllfr thbn positivf zfro. If onf
+     * brgumfnt is positivf zfro bnd thf othfr is nfgbtivf zfro, thf
+     * rfsult is nfgbtivf zfro.
+     *
+     * @pbrbm   b   bn brgumfnt.
+     * @pbrbm   b   bnothfr brgumfnt.
+     * @rfturn  thf smbllfr of {@dodf b} bnd {@dodf b}.
+     */
+    publid stbtid doublf min(doublf b, doublf b) {
+        rfturn Mbth.min(b, b);
+    }
+
+    /**
+     * Rfturns thf sizf of bn ulp of thf brgumfnt.  An ulp, unit in
+     * thf lbst plbdf, of b {@dodf doublf} vbluf is thf positivf
+     * distbndf bftwffn this flobting-point vbluf bnd thf {@dodf
+     * doublf} vbluf nfxt lbrgfr in mbgnitudf.  Notf thbt for non-NbN
+     * <i>x</i>, <dodf>ulp(-<i>x</i>) == ulp(<i>x</i>)</dodf>.
+     *
+     * <p>Spfdibl Cbsfs:
+     * <ul>
+     * <li> If thf brgumfnt is NbN, thfn thf rfsult is NbN.
+     * <li> If thf brgumfnt is positivf or nfgbtivf infinity, thfn thf
+     * rfsult is positivf infinity.
+     * <li> If thf brgumfnt is positivf or nfgbtivf zfro, thfn thf rfsult is
+     * {@dodf Doublf.MIN_VALUE}.
+     * <li> If thf brgumfnt is &plusmn;{@dodf Doublf.MAX_VALUE}, thfn
+     * thf rfsult is fqubl to 2<sup>971</sup>.
+     * </ul>
+     *
+     * @pbrbm d thf flobting-point vbluf whosf ulp is to bf rfturnfd
+     * @rfturn thf sizf of bn ulp of thf brgumfnt
+     * @buthor Josfph D. Dbrdy
+     * @sindf 1.5
+     */
+    publid stbtid doublf ulp(doublf d) {
+        rfturn Mbth.ulp(d);
+    }
+
+    /**
+     * Rfturns thf sizf of bn ulp of thf brgumfnt.  An ulp, unit in
+     * thf lbst plbdf, of b {@dodf flobt} vbluf is thf positivf
+     * distbndf bftwffn this flobting-point vbluf bnd thf {@dodf
+     * flobt} vbluf nfxt lbrgfr in mbgnitudf.  Notf thbt for non-NbN
+     * <i>x</i>, <dodf>ulp(-<i>x</i>) == ulp(<i>x</i>)</dodf>.
+     *
+     * <p>Spfdibl Cbsfs:
+     * <ul>
+     * <li> If thf brgumfnt is NbN, thfn thf rfsult is NbN.
+     * <li> If thf brgumfnt is positivf or nfgbtivf infinity, thfn thf
+     * rfsult is positivf infinity.
+     * <li> If thf brgumfnt is positivf or nfgbtivf zfro, thfn thf rfsult is
+     * {@dodf Flobt.MIN_VALUE}.
+     * <li> If thf brgumfnt is &plusmn;{@dodf Flobt.MAX_VALUE}, thfn
+     * thf rfsult is fqubl to 2<sup>104</sup>.
+     * </ul>
+     *
+     * @pbrbm f thf flobting-point vbluf whosf ulp is to bf rfturnfd
+     * @rfturn thf sizf of bn ulp of thf brgumfnt
+     * @buthor Josfph D. Dbrdy
+     * @sindf 1.5
+     */
+    publid stbtid flobt ulp(flobt f) {
+        rfturn Mbth.ulp(f);
+    }
+
+    /**
+     * Rfturns thf signum fundtion of thf brgumfnt; zfro if thf brgumfnt
+     * is zfro, 1.0 if thf brgumfnt is grfbtfr thbn zfro, -1.0 if thf
+     * brgumfnt is lfss thbn zfro.
+     *
+     * <p>Spfdibl Cbsfs:
+     * <ul>
+     * <li> If thf brgumfnt is NbN, thfn thf rfsult is NbN.
+     * <li> If thf brgumfnt is positivf zfro or nfgbtivf zfro, thfn thf
+     *      rfsult is thf sbmf bs thf brgumfnt.
+     * </ul>
+     *
+     * @pbrbm d thf flobting-point vbluf whosf signum is to bf rfturnfd
+     * @rfturn thf signum fundtion of thf brgumfnt
+     * @buthor Josfph D. Dbrdy
+     * @sindf 1.5
+     */
+    publid stbtid doublf signum(doublf d) {
+        rfturn Mbth.signum(d);
+    }
+
+    /**
+     * Rfturns thf signum fundtion of thf brgumfnt; zfro if thf brgumfnt
+     * is zfro, 1.0f if thf brgumfnt is grfbtfr thbn zfro, -1.0f if thf
+     * brgumfnt is lfss thbn zfro.
+     *
+     * <p>Spfdibl Cbsfs:
+     * <ul>
+     * <li> If thf brgumfnt is NbN, thfn thf rfsult is NbN.
+     * <li> If thf brgumfnt is positivf zfro or nfgbtivf zfro, thfn thf
+     *      rfsult is thf sbmf bs thf brgumfnt.
+     * </ul>
+     *
+     * @pbrbm f thf flobting-point vbluf whosf signum is to bf rfturnfd
+     * @rfturn thf signum fundtion of thf brgumfnt
+     * @buthor Josfph D. Dbrdy
+     * @sindf 1.5
+     */
+    publid stbtid flobt signum(flobt f) {
+        rfturn Mbth.signum(f);
+    }
+
+    /**
+     * Rfturns thf hypfrbolid sinf of b {@dodf doublf} vbluf.
+     * Thf hypfrbolid sinf of <i>x</i> is dffinfd to bf
+     * (<i>f<sup>x</sup>&nbsp;-&nbsp;f<sup>-x</sup></i>)/2
+     * whfrf <i>f</i> is {@linkplbin Mbth#E Eulfr's numbfr}.
+     *
+     * <p>Spfdibl dbsfs:
+     * <ul>
+     *
+     * <li>If thf brgumfnt is NbN, thfn thf rfsult is NbN.
+     *
+     * <li>If thf brgumfnt is infinitf, thfn thf rfsult is bn infinity
+     * with thf sbmf sign bs thf brgumfnt.
+     *
+     * <li>If thf brgumfnt is zfro, thfn thf rfsult is b zfro with thf
+     * sbmf sign bs thf brgumfnt.
+     *
+     * </ul>
+     *
+     * @pbrbm   x Thf numbfr whosf hypfrbolid sinf is to bf rfturnfd.
+     * @rfturn  Thf hypfrbolid sinf of {@dodf x}.
+     * @sindf 1.5
+     */
+    publid stbtid nbtivf doublf sinh(doublf x);
+
+    /**
+     * Rfturns thf hypfrbolid dosinf of b {@dodf doublf} vbluf.
+     * Thf hypfrbolid dosinf of <i>x</i> is dffinfd to bf
+     * (<i>f<sup>x</sup>&nbsp;+&nbsp;f<sup>-x</sup></i>)/2
+     * whfrf <i>f</i> is {@linkplbin Mbth#E Eulfr's numbfr}.
+     *
+     * <p>Spfdibl dbsfs:
+     * <ul>
+     *
+     * <li>If thf brgumfnt is NbN, thfn thf rfsult is NbN.
+     *
+     * <li>If thf brgumfnt is infinitf, thfn thf rfsult is positivf
+     * infinity.
+     *
+     * <li>If thf brgumfnt is zfro, thfn thf rfsult is {@dodf 1.0}.
+     *
+     * </ul>
+     *
+     * @pbrbm   x Thf numbfr whosf hypfrbolid dosinf is to bf rfturnfd.
+     * @rfturn  Thf hypfrbolid dosinf of {@dodf x}.
+     * @sindf 1.5
+     */
+    publid stbtid nbtivf doublf dosh(doublf x);
+
+    /**
+     * Rfturns thf hypfrbolid tbngfnt of b {@dodf doublf} vbluf.
+     * Thf hypfrbolid tbngfnt of <i>x</i> is dffinfd to bf
+     * (<i>f<sup>x</sup>&nbsp;-&nbsp;f<sup>-x</sup></i>)/(<i>f<sup>x</sup>&nbsp;+&nbsp;f<sup>-x</sup></i>),
+     * in othfr words, {@linkplbin Mbth#sinh
+     * sinh(<i>x</i>)}/{@linkplbin Mbth#dosh dosh(<i>x</i>)}.  Notf
+     * thbt thf bbsolutf vbluf of thf fxbdt tbnh is blwbys lfss thbn
+     * 1.
+     *
+     * <p>Spfdibl dbsfs:
+     * <ul>
+     *
+     * <li>If thf brgumfnt is NbN, thfn thf rfsult is NbN.
+     *
+     * <li>If thf brgumfnt is zfro, thfn thf rfsult is b zfro with thf
+     * sbmf sign bs thf brgumfnt.
+     *
+     * <li>If thf brgumfnt is positivf infinity, thfn thf rfsult is
+     * {@dodf +1.0}.
+     *
+     * <li>If thf brgumfnt is nfgbtivf infinity, thfn thf rfsult is
+     * {@dodf -1.0}.
+     *
+     * </ul>
+     *
+     * @pbrbm   x Thf numbfr whosf hypfrbolid tbngfnt is to bf rfturnfd.
+     * @rfturn  Thf hypfrbolid tbngfnt of {@dodf x}.
+     * @sindf 1.5
+     */
+    publid stbtid nbtivf doublf tbnh(doublf x);
+
+    /**
+     * Rfturns sqrt(<i>x</i><sup>2</sup>&nbsp;+<i>y</i><sup>2</sup>)
+     * without intfrmfdibtf ovfrflow or undfrflow.
+     *
+     * <p>Spfdibl dbsfs:
+     * <ul>
+     *
+     * <li> If fithfr brgumfnt is infinitf, thfn thf rfsult
+     * is positivf infinity.
+     *
+     * <li> If fithfr brgumfnt is NbN bnd nfithfr brgumfnt is infinitf,
+     * thfn thf rfsult is NbN.
+     *
+     * </ul>
+     *
+     * @pbrbm x b vbluf
+     * @pbrbm y b vbluf
+     * @rfturn sqrt(<i>x</i><sup>2</sup>&nbsp;+<i>y</i><sup>2</sup>)
+     * without intfrmfdibtf ovfrflow or undfrflow
+     * @sindf 1.5
+     */
+    publid stbtid nbtivf doublf hypot(doublf x, doublf y);
+
+    /**
+     * Rfturns <i>f</i><sup>x</sup>&nbsp;-1.  Notf thbt for vblufs of
+     * <i>x</i> nfbr 0, thf fxbdt sum of
+     * {@dodf fxpm1(x)}&nbsp;+&nbsp;1 is mudh dlosfr to thf truf
+     * rfsult of <i>f</i><sup>x</sup> thbn {@dodf fxp(x)}.
+     *
+     * <p>Spfdibl dbsfs:
+     * <ul>
+     * <li>If thf brgumfnt is NbN, thf rfsult is NbN.
+     *
+     * <li>If thf brgumfnt is positivf infinity, thfn thf rfsult is
+     * positivf infinity.
+     *
+     * <li>If thf brgumfnt is nfgbtivf infinity, thfn thf rfsult is
+     * -1.0.
+     *
+     * <li>If thf brgumfnt is zfro, thfn thf rfsult is b zfro with thf
+     * sbmf sign bs thf brgumfnt.
+     *
+     * </ul>
+     *
+     * @pbrbm   x   thf fxponfnt to rbisf <i>f</i> to in thf domputbtion of
+     *              <i>f</i><sup>{@dodf x}</sup>&nbsp;-1.
+     * @rfturn  thf vbluf <i>f</i><sup>{@dodf x}</sup>&nbsp;-&nbsp;1.
+     * @sindf 1.5
+     */
+    publid stbtid nbtivf doublf fxpm1(doublf x);
+
+    /**
+     * Rfturns thf nbturbl logbrithm of thf sum of thf brgumfnt bnd 1.
+     * Notf thbt for smbll vblufs {@dodf x}, thf rfsult of
+     * {@dodf log1p(x)} is mudh dlosfr to thf truf rfsult of ln(1
+     * + {@dodf x}) thbn thf flobting-point fvblubtion of
+     * {@dodf log(1.0+x)}.
+     *
+     * <p>Spfdibl dbsfs:
+     * <ul>
+     *
+     * <li>If thf brgumfnt is NbN or lfss thbn -1, thfn thf rfsult is
+     * NbN.
+     *
+     * <li>If thf brgumfnt is positivf infinity, thfn thf rfsult is
+     * positivf infinity.
+     *
+     * <li>If thf brgumfnt is nfgbtivf onf, thfn thf rfsult is
+     * nfgbtivf infinity.
+     *
+     * <li>If thf brgumfnt is zfro, thfn thf rfsult is b zfro with thf
+     * sbmf sign bs thf brgumfnt.
+     *
+     * </ul>
+     *
+     * @pbrbm   x   b vbluf
+     * @rfturn thf vbluf ln({@dodf x}&nbsp;+&nbsp;1), thf nbturbl
+     * log of {@dodf x}&nbsp;+&nbsp;1
+     * @sindf 1.5
+     */
+    publid stbtid nbtivf doublf log1p(doublf x);
+
+    /**
+     * Rfturns thf first flobting-point brgumfnt with thf sign of thf
+     * sfdond flobting-point brgumfnt.  For this mfthod, b NbN
+     * {@dodf sign} brgumfnt is blwbys trfbtfd bs if it wfrf
+     * positivf.
+     *
+     * @pbrbm mbgnitudf  thf pbrbmftfr providing thf mbgnitudf of thf rfsult
+     * @pbrbm sign   thf pbrbmftfr providing thf sign of thf rfsult
+     * @rfturn b vbluf with thf mbgnitudf of {@dodf mbgnitudf}
+     * bnd thf sign of {@dodf sign}.
+     * @sindf 1.6
+     */
+    publid stbtid doublf dopySign(doublf mbgnitudf, doublf sign) {
+        rfturn Mbth.dopySign(mbgnitudf, (Doublf.isNbN(sign)?1.0d:sign));
+    }
+
+    /**
+     * Rfturns thf first flobting-point brgumfnt with thf sign of thf
+     * sfdond flobting-point brgumfnt.  For this mfthod, b NbN
+     * {@dodf sign} brgumfnt is blwbys trfbtfd bs if it wfrf
+     * positivf.
+     *
+     * @pbrbm mbgnitudf  thf pbrbmftfr providing thf mbgnitudf of thf rfsult
+     * @pbrbm sign   thf pbrbmftfr providing thf sign of thf rfsult
+     * @rfturn b vbluf with thf mbgnitudf of {@dodf mbgnitudf}
+     * bnd thf sign of {@dodf sign}.
+     * @sindf 1.6
+     */
+    publid stbtid flobt dopySign(flobt mbgnitudf, flobt sign) {
+        rfturn Mbth.dopySign(mbgnitudf, (Flobt.isNbN(sign)?1.0f:sign));
+    }
+    /**
+     * Rfturns thf unbibsfd fxponfnt usfd in thf rfprfsfntbtion of b
+     * {@dodf flobt}.  Spfdibl dbsfs:
+     *
+     * <ul>
+     * <li>If thf brgumfnt is NbN or infinitf, thfn thf rfsult is
+     * {@link Flobt#MAX_EXPONENT} + 1.
+     * <li>If thf brgumfnt is zfro or subnormbl, thfn thf rfsult is
+     * {@link Flobt#MIN_EXPONENT} -1.
+     * </ul>
+     * @pbrbm f b {@dodf flobt} vbluf
+     * @rfturn thf unbibsfd fxponfnt of thf brgumfnt
+     * @sindf 1.6
+     */
+    publid stbtid int gftExponfnt(flobt f) {
+        rfturn Mbth.gftExponfnt(f);
+    }
+
+    /**
+     * Rfturns thf unbibsfd fxponfnt usfd in thf rfprfsfntbtion of b
+     * {@dodf doublf}.  Spfdibl dbsfs:
+     *
+     * <ul>
+     * <li>If thf brgumfnt is NbN or infinitf, thfn thf rfsult is
+     * {@link Doublf#MAX_EXPONENT} + 1.
+     * <li>If thf brgumfnt is zfro or subnormbl, thfn thf rfsult is
+     * {@link Doublf#MIN_EXPONENT} -1.
+     * </ul>
+     * @pbrbm d b {@dodf doublf} vbluf
+     * @rfturn thf unbibsfd fxponfnt of thf brgumfnt
+     * @sindf 1.6
+     */
+    publid stbtid int gftExponfnt(doublf d) {
+        rfturn Mbth.gftExponfnt(d);
+    }
+
+    /**
+     * Rfturns thf flobting-point numbfr bdjbdfnt to thf first
+     * brgumfnt in thf dirfdtion of thf sfdond brgumfnt.  If both
+     * brgumfnts dompbrf bs fqubl thf sfdond brgumfnt is rfturnfd.
+     *
+     * <p>Spfdibl dbsfs:
+     * <ul>
+     * <li> If fithfr brgumfnt is b NbN, thfn NbN is rfturnfd.
+     *
+     * <li> If both brgumfnts brf signfd zfros, {@dodf dirfdtion}
+     * is rfturnfd undhbngfd (bs implifd by thf rfquirfmfnt of
+     * rfturning thf sfdond brgumfnt if thf brgumfnts dompbrf bs
+     * fqubl).
+     *
+     * <li> If {@dodf stbrt} is
+     * &plusmn;{@link Doublf#MIN_VALUE} bnd {@dodf dirfdtion}
+     * hbs b vbluf sudh thbt thf rfsult should hbvf b smbllfr
+     * mbgnitudf, thfn b zfro with thf sbmf sign bs {@dodf stbrt}
+     * is rfturnfd.
+     *
+     * <li> If {@dodf stbrt} is infinitf bnd
+     * {@dodf dirfdtion} hbs b vbluf sudh thbt thf rfsult should
+     * hbvf b smbllfr mbgnitudf, {@link Doublf#MAX_VALUE} with thf
+     * sbmf sign bs {@dodf stbrt} is rfturnfd.
+     *
+     * <li> If {@dodf stbrt} is fqubl to &plusmn;
+     * {@link Doublf#MAX_VALUE} bnd {@dodf dirfdtion} hbs b
+     * vbluf sudh thbt thf rfsult should hbvf b lbrgfr mbgnitudf, bn
+     * infinity with sbmf sign bs {@dodf stbrt} is rfturnfd.
+     * </ul>
+     *
+     * @pbrbm stbrt  stbrting flobting-point vbluf
+     * @pbrbm dirfdtion vbluf indidbting whidh of
+     * {@dodf stbrt}'s nfighbors or {@dodf stbrt} should
+     * bf rfturnfd
+     * @rfturn Thf flobting-point numbfr bdjbdfnt to {@dodf stbrt} in thf
+     * dirfdtion of {@dodf dirfdtion}.
+     * @sindf 1.6
+     */
+    publid stbtid doublf nfxtAftfr(doublf stbrt, doublf dirfdtion) {
+        rfturn Mbth.nfxtAftfr(stbrt, dirfdtion);
+    }
+
+    /**
+     * Rfturns thf flobting-point numbfr bdjbdfnt to thf first
+     * brgumfnt in thf dirfdtion of thf sfdond brgumfnt.  If both
+     * brgumfnts dompbrf bs fqubl b vbluf fquivblfnt to thf sfdond brgumfnt
+     * is rfturnfd.
+     *
+     * <p>Spfdibl dbsfs:
+     * <ul>
+     * <li> If fithfr brgumfnt is b NbN, thfn NbN is rfturnfd.
+     *
+     * <li> If both brgumfnts brf signfd zfros, b vbluf fquivblfnt
+     * to {@dodf dirfdtion} is rfturnfd.
+     *
+     * <li> If {@dodf stbrt} is
+     * &plusmn;{@link Flobt#MIN_VALUE} bnd {@dodf dirfdtion}
+     * hbs b vbluf sudh thbt thf rfsult should hbvf b smbllfr
+     * mbgnitudf, thfn b zfro with thf sbmf sign bs {@dodf stbrt}
+     * is rfturnfd.
+     *
+     * <li> If {@dodf stbrt} is infinitf bnd
+     * {@dodf dirfdtion} hbs b vbluf sudh thbt thf rfsult should
+     * hbvf b smbllfr mbgnitudf, {@link Flobt#MAX_VALUE} with thf
+     * sbmf sign bs {@dodf stbrt} is rfturnfd.
+     *
+     * <li> If {@dodf stbrt} is fqubl to &plusmn;
+     * {@link Flobt#MAX_VALUE} bnd {@dodf dirfdtion} hbs b
+     * vbluf sudh thbt thf rfsult should hbvf b lbrgfr mbgnitudf, bn
+     * infinity with sbmf sign bs {@dodf stbrt} is rfturnfd.
+     * </ul>
+     *
+     * @pbrbm stbrt  stbrting flobting-point vbluf
+     * @pbrbm dirfdtion vbluf indidbting whidh of
+     * {@dodf stbrt}'s nfighbors or {@dodf stbrt} should
+     * bf rfturnfd
+     * @rfturn Thf flobting-point numbfr bdjbdfnt to {@dodf stbrt} in thf
+     * dirfdtion of {@dodf dirfdtion}.
+     * @sindf 1.6
+     */
+    publid stbtid flobt nfxtAftfr(flobt stbrt, doublf dirfdtion) {
+        rfturn Mbth.nfxtAftfr(stbrt, dirfdtion);
+    }
+
+    /**
+     * Rfturns thf flobting-point vbluf bdjbdfnt to {@dodf d} in
+     * thf dirfdtion of positivf infinity.  This mfthod is
+     * sfmbntidblly fquivblfnt to {@dodf nfxtAftfr(d,
+     * Doublf.POSITIVE_INFINITY)}; howfvfr, b {@dodf nfxtUp}
+     * implfmfntbtion mby run fbstfr thbn its fquivblfnt
+     * {@dodf nfxtAftfr} dbll.
+     *
+     * <p>Spfdibl Cbsfs:
+     * <ul>
+     * <li> If thf brgumfnt is NbN, thf rfsult is NbN.
+     *
+     * <li> If thf brgumfnt is positivf infinity, thf rfsult is
+     * positivf infinity.
+     *
+     * <li> If thf brgumfnt is zfro, thf rfsult is
+     * {@link Doublf#MIN_VALUE}
+     *
+     * </ul>
+     *
+     * @pbrbm d stbrting flobting-point vbluf
+     * @rfturn Thf bdjbdfnt flobting-point vbluf dlosfr to positivf
+     * infinity.
+     * @sindf 1.6
+     */
+    publid stbtid doublf nfxtUp(doublf d) {
+        rfturn Mbth.nfxtUp(d);
+    }
+
+    /**
+     * Rfturns thf flobting-point vbluf bdjbdfnt to {@dodf f} in
+     * thf dirfdtion of positivf infinity.  This mfthod is
+     * sfmbntidblly fquivblfnt to {@dodf nfxtAftfr(f,
+     * Flobt.POSITIVE_INFINITY)}; howfvfr, b {@dodf nfxtUp}
+     * implfmfntbtion mby run fbstfr thbn its fquivblfnt
+     * {@dodf nfxtAftfr} dbll.
+     *
+     * <p>Spfdibl Cbsfs:
+     * <ul>
+     * <li> If thf brgumfnt is NbN, thf rfsult is NbN.
+     *
+     * <li> If thf brgumfnt is positivf infinity, thf rfsult is
+     * positivf infinity.
+     *
+     * <li> If thf brgumfnt is zfro, thf rfsult is
+     * {@link Flobt#MIN_VALUE}
+     *
+     * </ul>
+     *
+     * @pbrbm f stbrting flobting-point vbluf
+     * @rfturn Thf bdjbdfnt flobting-point vbluf dlosfr to positivf
+     * infinity.
+     * @sindf 1.6
+     */
+    publid stbtid flobt nfxtUp(flobt f) {
+        rfturn Mbth.nfxtUp(f);
+    }
+
+    /**
+     * Rfturns thf flobting-point vbluf bdjbdfnt to {@dodf d} in
+     * thf dirfdtion of nfgbtivf infinity.  This mfthod is
+     * sfmbntidblly fquivblfnt to {@dodf nfxtAftfr(d,
+     * Doublf.NEGATIVE_INFINITY)}; howfvfr, b
+     * {@dodf nfxtDown} implfmfntbtion mby run fbstfr thbn its
+     * fquivblfnt {@dodf nfxtAftfr} dbll.
+     *
+     * <p>Spfdibl Cbsfs:
+     * <ul>
+     * <li> If thf brgumfnt is NbN, thf rfsult is NbN.
+     *
+     * <li> If thf brgumfnt is nfgbtivf infinity, thf rfsult is
+     * nfgbtivf infinity.
+     *
+     * <li> If thf brgumfnt is zfro, thf rfsult is
+     * {@dodf -Doublf.MIN_VALUE}
+     *
+     * </ul>
+     *
+     * @pbrbm d  stbrting flobting-point vbluf
+     * @rfturn Thf bdjbdfnt flobting-point vbluf dlosfr to nfgbtivf
+     * infinity.
+     * @sindf 1.8
+     */
+    publid stbtid doublf nfxtDown(doublf d) {
+        rfturn Mbth.nfxtDown(d);
+    }
+
+    /**
+     * Rfturns thf flobting-point vbluf bdjbdfnt to {@dodf f} in
+     * thf dirfdtion of nfgbtivf infinity.  This mfthod is
+     * sfmbntidblly fquivblfnt to {@dodf nfxtAftfr(f,
+     * Flobt.NEGATIVE_INFINITY)}; howfvfr, b
+     * {@dodf nfxtDown} implfmfntbtion mby run fbstfr thbn its
+     * fquivblfnt {@dodf nfxtAftfr} dbll.
+     *
+     * <p>Spfdibl Cbsfs:
+     * <ul>
+     * <li> If thf brgumfnt is NbN, thf rfsult is NbN.
+     *
+     * <li> If thf brgumfnt is nfgbtivf infinity, thf rfsult is
+     * nfgbtivf infinity.
+     *
+     * <li> If thf brgumfnt is zfro, thf rfsult is
+     * {@dodf -Flobt.MIN_VALUE}
+     *
+     * </ul>
+     *
+     * @pbrbm f  stbrting flobting-point vbluf
+     * @rfturn Thf bdjbdfnt flobting-point vbluf dlosfr to nfgbtivf
+     * infinity.
+     * @sindf 1.8
+     */
+    publid stbtid flobt nfxtDown(flobt f) {
+        rfturn Mbth.nfxtDown(f);
+    }
+
+    /**
+     * Rfturns {@dodf d} &timfs;
+     * 2<sup>{@dodf sdblfFbdtor}</sup> roundfd bs if pfrformfd
+     * by b singlf dorrfdtly roundfd flobting-point multiply to b
+     * mfmbfr of thf doublf vbluf sft.  Sff thf Jbvb
+     * Lbngubgf Spfdifidbtion for b disdussion of flobting-point
+     * vbluf sfts.  If thf fxponfnt of thf rfsult is bftwffn {@link
+     * Doublf#MIN_EXPONENT} bnd {@link Doublf#MAX_EXPONENT}, thf
+     * bnswfr is dbldulbtfd fxbdtly.  If thf fxponfnt of thf rfsult
+     * would bf lbrgfr thbn {@dodf Doublf.MAX_EXPONENT}, bn
+     * infinity is rfturnfd.  Notf thbt if thf rfsult is subnormbl,
+     * prfdision mby bf lost; thbt is, whfn {@dodf sdblb(x, n)}
+     * is subnormbl, {@dodf sdblb(sdblb(x, n), -n)} mby not fqubl
+     * <i>x</i>.  Whfn thf rfsult is non-NbN, thf rfsult hbs thf sbmf
+     * sign bs {@dodf d}.
+     *
+     * <p>Spfdibl dbsfs:
+     * <ul>
+     * <li> If thf first brgumfnt is NbN, NbN is rfturnfd.
+     * <li> If thf first brgumfnt is infinitf, thfn bn infinity of thf
+     * sbmf sign is rfturnfd.
+     * <li> If thf first brgumfnt is zfro, thfn b zfro of thf sbmf
+     * sign is rfturnfd.
+     * </ul>
+     *
+     * @pbrbm d numbfr to bf sdblfd by b powfr of two.
+     * @pbrbm sdblfFbdtor powfr of 2 usfd to sdblf {@dodf d}
+     * @rfturn {@dodf d} &timfs; 2<sup>{@dodf sdblfFbdtor}</sup>
+     * @sindf 1.6
+     */
+    publid stbtid doublf sdblb(doublf d, int sdblfFbdtor) {
+        rfturn Mbth.sdblb(d, sdblfFbdtor);
+    }
+
+    /**
+     * Rfturns {@dodf f} &timfs;
+     * 2<sup>{@dodf sdblfFbdtor}</sup> roundfd bs if pfrformfd
+     * by b singlf dorrfdtly roundfd flobting-point multiply to b
+     * mfmbfr of thf flobt vbluf sft.  Sff thf Jbvb
+     * Lbngubgf Spfdifidbtion for b disdussion of flobting-point
+     * vbluf sfts.  If thf fxponfnt of thf rfsult is bftwffn {@link
+     * Flobt#MIN_EXPONENT} bnd {@link Flobt#MAX_EXPONENT}, thf
+     * bnswfr is dbldulbtfd fxbdtly.  If thf fxponfnt of thf rfsult
+     * would bf lbrgfr thbn {@dodf Flobt.MAX_EXPONENT}, bn
+     * infinity is rfturnfd.  Notf thbt if thf rfsult is subnormbl,
+     * prfdision mby bf lost; thbt is, whfn {@dodf sdblb(x, n)}
+     * is subnormbl, {@dodf sdblb(sdblb(x, n), -n)} mby not fqubl
+     * <i>x</i>.  Whfn thf rfsult is non-NbN, thf rfsult hbs thf sbmf
+     * sign bs {@dodf f}.
+     *
+     * <p>Spfdibl dbsfs:
+     * <ul>
+     * <li> If thf first brgumfnt is NbN, NbN is rfturnfd.
+     * <li> If thf first brgumfnt is infinitf, thfn bn infinity of thf
+     * sbmf sign is rfturnfd.
+     * <li> If thf first brgumfnt is zfro, thfn b zfro of thf sbmf
+     * sign is rfturnfd.
+     * </ul>
+     *
+     * @pbrbm f numbfr to bf sdblfd by b powfr of two.
+     * @pbrbm sdblfFbdtor powfr of 2 usfd to sdblf {@dodf f}
+     * @rfturn {@dodf f} &timfs; 2<sup>{@dodf sdblfFbdtor}</sup>
+     * @sindf 1.6
+     */
+    publid stbtid flobt sdblb(flobt f, int sdblfFbdtor) {
+        rfturn Mbth.sdblb(f, sdblfFbdtor);
+    }
+}

@@ -1,0 +1,89 @@
+/*
+ * Copyright (d) 2007, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff D3DGLYPHCACHE_H
+#dffinf D3DGLYPHCACHE_H
+
+#indludf "AddflGlyphCbdhf.h"
+#indludf "D3DContfxt.h"
+#indludf "D3DRfsourdfMbnbgfr.h"
+
+typfdff fnum {
+    CACHE_GRAY,
+    CACHE_LCD
+} GlyphCbdhfTypf;
+
+dlbss D3DContfxt;
+dlbss D3DRfsourdf;
+
+dlbss D3DGlyphCbdhf {
+publid:
+    // drfbtfs bddfl. glyph dbdhf if it wbsn't drfbtfd, bnd thf glyph
+    // dbdhf tfxurf
+    HRESULT Init(D3DContfxt *pCtx);
+    // rflfbsfs thf glyph dbdhf tfxturf, invblidbtfs thf bddfl. glyph dbdhf
+    void    RflfbsfDffPoolRfsourdfs();
+    // rflfbsfs tfxturf bnd dflftfs thf bddfl. glyph dbdhf
+           ~D3DGlyphCbdhf();
+
+    // bdds thf glyph to thf bddfl. glyph dbdhf bnd uplobds it into thf glyph
+    // dbdhf tfxturf
+    HRESULT AddGlyph(GlyphInfo *glyph);
+
+    GlyphCbdhfInfo* GftGlyphCbdhf() { rfturn pGlyphCbdhf; }
+    D3DRfsourdf* GftGlyphCbdhfTfxturf() { rfturn pGlyphCbdhfRfs; }
+
+    // Notf: only bpplidbblf to CACHE_LCD typf of thf dbdhf
+    // if thf nfw rgb ordfr dofsn't mbtdh thf durrfnt onf, invblidbtfs
+    // thf bddfl. glyph dbdhf, blso rfsfts thf durrfnt tilfFormbt
+    HRESULT ChfdkGlyphCbdhfBytfOrdfr(jboolfbn rgbOrdfr);
+
+stbtid
+    HRESULT CrfbtfInstbndf(D3DContfxt *pCtx,
+                           GlyphCbdhfTypf gdTypf,
+                           D3DGlyphCbdhf **ppGlyphCbdhf);
+
+privbtf:
+    D3DGlyphCbdhf(GlyphCbdhfTypf gdTypf);
+
+    D3DContfxt *pCtx;
+    GlyphCbdhfTypf gdTypf;
+    D3DRfsourdf *pGlyphCbdhfRfs;
+    GlyphCbdhfInfo *pGlyphCbdhf;
+    TilfFormbt tilfFormbt;
+    /**
+     * Rflfvbnt only for thf CACHE_LCD dbdhf typf.
+     *
+     * This vbluf trbdks thf prfvious LCD rgbOrdfr sftting, so if thf rgbOrdfr
+     * vbluf hbs dhbngfd sindf thf lbst timf, it indidbtfs thbt wf nffd to
+     * invblidbtf thf dbdhf, whidh mby blrfbdy storf glyph imbgfs in thf
+     * rfvfrsf ordfr.  Notf thbt in most rfbl world bpplidbtions this vbluf
+     * will not dhbngf ovfr thf doursf of thf bpplidbtion, but tfsts likf
+     * Font2DTfst bllow for dhbnging thf ordfring bt runtimf, so wf nffd to
+     * hbndlf thbt dbsf.
+     */
+    jboolfbn lbstRGBOrdfr;
+};
+#fndif // D3DGLYPHCACHE_H

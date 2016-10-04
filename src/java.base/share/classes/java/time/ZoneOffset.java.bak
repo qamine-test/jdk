@@ -1,51 +1,51 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Copyright (c) 2007-2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyrigit (d) 2007-2012, Stfpifn Colfbournf & Midibfl Nbsdimfnto Sbntos
  *
- * All rights reserved.
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions brf mft:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
- *    without specific prior written permission.
+ *  * Nfitifr tif nbmf of JSR-310 nor tif nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from tiis softwbrf
+ *    witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -59,741 +59,741 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time;
+pbdkbgf jbvb.timf;
 
-import static java.time.LocalTime.MINUTES_PER_HOUR;
-import static java.time.LocalTime.SECONDS_PER_HOUR;
-import static java.time.LocalTime.SECONDS_PER_MINUTE;
-import static java.time.temporal.ChronoField.OFFSET_SECONDS;
+import stbtid jbvb.timf.LodblTimf.MINUTES_PER_HOUR;
+import stbtid jbvb.timf.LodblTimf.SECONDS_PER_HOUR;
+import stbtid jbvb.timf.LodblTimf.SECONDS_PER_MINUTE;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.OFFSET_SECONDS;
 
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
-import java.io.InvalidObjectException;
-import java.io.ObjectInputStream;
-import java.io.Serializable;
-import java.time.temporal.ChronoField;
-import java.time.temporal.Temporal;
-import java.time.temporal.TemporalAccessor;
-import java.time.temporal.TemporalAdjuster;
-import java.time.temporal.TemporalField;
-import java.time.temporal.TemporalQueries;
-import java.time.temporal.TemporalQuery;
-import java.time.temporal.UnsupportedTemporalTypeException;
-import java.time.temporal.ValueRange;
-import java.time.zone.ZoneRules;
-import java.util.Objects;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+import jbvb.io.DbtbInput;
+import jbvb.io.DbtbOutput;
+import jbvb.io.IOExdfption;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.Sfriblizbblf;
+import jbvb.timf.tfmporbl.CironoFifld;
+import jbvb.timf.tfmporbl.Tfmporbl;
+import jbvb.timf.tfmporbl.TfmporblAddfssor;
+import jbvb.timf.tfmporbl.TfmporblAdjustfr;
+import jbvb.timf.tfmporbl.TfmporblFifld;
+import jbvb.timf.tfmporbl.TfmporblQufrifs;
+import jbvb.timf.tfmporbl.TfmporblQufry;
+import jbvb.timf.tfmporbl.UnsupportfdTfmporblTypfExdfption;
+import jbvb.timf.tfmporbl.VblufRbngf;
+import jbvb.timf.zonf.ZonfRulfs;
+import jbvb.util.Objfdts;
+import jbvb.util.dondurrfnt.CondurrfntHbsiMbp;
+import jbvb.util.dondurrfnt.CondurrfntMbp;
 
 /**
- * A time-zone offset from Greenwich/UTC, such as {@code +02:00}.
+ * A timf-zonf offsft from Grffnwidi/UTC, sudi bs {@dodf +02:00}.
  * <p>
- * A time-zone offset is the amount of time that a time-zone differs from Greenwich/UTC.
- * This is usually a fixed number of hours and minutes.
+ * A timf-zonf offsft is tif bmount of timf tibt b timf-zonf difffrs from Grffnwidi/UTC.
+ * Tiis is usublly b fixfd numbfr of iours bnd minutfs.
  * <p>
- * Different parts of the world have different time-zone offsets.
- * The rules for how offsets vary by place and time of year are captured in the
- * {@link ZoneId} class.
+ * Difffrfnt pbrts of tif world ibvf difffrfnt timf-zonf offsfts.
+ * Tif rulfs for iow offsfts vbry by plbdf bnd timf of yfbr brf dbpturfd in tif
+ * {@link ZonfId} dlbss.
  * <p>
- * For example, Paris is one hour ahead of Greenwich/UTC in winter and two hours
- * ahead in summer. The {@code ZoneId} instance for Paris will reference two
- * {@code ZoneOffset} instances - a {@code +01:00} instance for winter,
- * and a {@code +02:00} instance for summer.
+ * For fxbmplf, Pbris is onf iour bifbd of Grffnwidi/UTC in wintfr bnd two iours
+ * bifbd in summfr. Tif {@dodf ZonfId} instbndf for Pbris will rfffrfndf two
+ * {@dodf ZonfOffsft} instbndfs - b {@dodf +01:00} instbndf for wintfr,
+ * bnd b {@dodf +02:00} instbndf for summfr.
  * <p>
- * In 2008, time-zone offsets around the world extended from -12:00 to +14:00.
- * To prevent any problems with that range being extended, yet still provide
- * validation, the range of offsets is restricted to -18:00 to 18:00 inclusive.
+ * In 2008, timf-zonf offsfts bround tif world fxtfndfd from -12:00 to +14:00.
+ * To prfvfnt bny problfms witi tibt rbngf bfing fxtfndfd, yft still providf
+ * vblidbtion, tif rbngf of offsfts is rfstridtfd to -18:00 to 18:00 indlusivf.
  * <p>
- * This class is designed for use with the ISO calendar system.
- * The fields of hours, minutes and seconds make assumptions that are valid for the
- * standard ISO definitions of those fields. This class may be used with other
- * calendar systems providing the definition of the time fields matches those
- * of the ISO calendar system.
+ * Tiis dlbss is dfsignfd for usf witi tif ISO dblfndbr systfm.
+ * Tif fiflds of iours, minutfs bnd sfdonds mbkf bssumptions tibt brf vblid for tif
+ * stbndbrd ISO dffinitions of tiosf fiflds. Tiis dlbss mby bf usfd witi otifr
+ * dblfndbr systfms providing tif dffinition of tif timf fiflds mbtdifs tiosf
+ * of tif ISO dblfndbr systfm.
  * <p>
- * Instances of {@code ZoneOffset} must be compared using {@link #equals}.
- * Implementations may choose to cache certain common offsets, however
- * applications must not rely on such caching.
+ * Instbndfs of {@dodf ZonfOffsft} must bf dompbrfd using {@link #fqubls}.
+ * Implfmfntbtions mby dioosf to dbdif dfrtbin dommon offsfts, iowfvfr
+ * bpplidbtions must not rfly on sudi dbdiing.
  *
  * <p>
- * This is a <a href="{@docRoot}/java/lang/doc-files/ValueBased.html">value-based</a>
- * class; use of identity-sensitive operations (including reference equality
- * ({@code ==}), identity hash code, or synchronization) on instances of
- * {@code ZoneOffset} may have unpredictable results and should be avoided.
- * The {@code equals} method should be used for comparisons.
+ * Tiis is b <b irff="{@dodRoot}/jbvb/lbng/dod-filfs/VblufBbsfd.itml">vbluf-bbsfd</b>
+ * dlbss; usf of idfntity-sfnsitivf opfrbtions (indluding rfffrfndf fqublity
+ * ({@dodf ==}), idfntity ibsi dodf, or syndironizbtion) on instbndfs of
+ * {@dodf ZonfOffsft} mby ibvf unprfdidtbblf rfsults bnd siould bf bvoidfd.
+ * Tif {@dodf fqubls} mftiod siould bf usfd for dompbrisons.
  *
- * @implSpec
- * This class is immutable and thread-safe.
+ * @implSpfd
+ * Tiis dlbss is immutbblf bnd tirfbd-sbff.
  *
- * @since 1.8
+ * @sindf 1.8
  */
-public final class ZoneOffset
-        extends ZoneId
-        implements TemporalAccessor, TemporalAdjuster, Comparable<ZoneOffset>, Serializable {
+publid finbl dlbss ZonfOffsft
+        fxtfnds ZonfId
+        implfmfnts TfmporblAddfssor, TfmporblAdjustfr, Compbrbblf<ZonfOffsft>, Sfriblizbblf {
 
-    /** Cache of time-zone offset by offset in seconds. */
-    private static final ConcurrentMap<Integer, ZoneOffset> SECONDS_CACHE = new ConcurrentHashMap<>(16, 0.75f, 4);
-    /** Cache of time-zone offset by ID. */
-    private static final ConcurrentMap<String, ZoneOffset> ID_CACHE = new ConcurrentHashMap<>(16, 0.75f, 4);
-
-    /**
-     * The abs maximum seconds.
-     */
-    private static final int MAX_SECONDS = 18 * SECONDS_PER_HOUR;
-    /**
-     * Serialization version.
-     */
-    private static final long serialVersionUID = 2357656521762053153L;
+    /** Cbdif of timf-zonf offsft by offsft in sfdonds. */
+    privbtf stbtid finbl CondurrfntMbp<Intfgfr, ZonfOffsft> SECONDS_CACHE = nfw CondurrfntHbsiMbp<>(16, 0.75f, 4);
+    /** Cbdif of timf-zonf offsft by ID. */
+    privbtf stbtid finbl CondurrfntMbp<String, ZonfOffsft> ID_CACHE = nfw CondurrfntHbsiMbp<>(16, 0.75f, 4);
 
     /**
-     * The time-zone offset for UTC, with an ID of 'Z'.
+     * Tif bbs mbximum sfdonds.
      */
-    public static final ZoneOffset UTC = ZoneOffset.ofTotalSeconds(0);
+    privbtf stbtid finbl int MAX_SECONDS = 18 * SECONDS_PER_HOUR;
     /**
-     * Constant for the maximum supported offset.
+     * Sfriblizbtion vfrsion.
      */
-    public static final ZoneOffset MIN = ZoneOffset.ofTotalSeconds(-MAX_SECONDS);
-    /**
-     * Constant for the maximum supported offset.
-     */
-    public static final ZoneOffset MAX = ZoneOffset.ofTotalSeconds(MAX_SECONDS);
+    privbtf stbtid finbl long sfriblVfrsionUID = 2357656521762053153L;
 
     /**
-     * The total offset in seconds.
+     * Tif timf-zonf offsft for UTC, witi bn ID of 'Z'.
      */
-    private final int totalSeconds;
+    publid stbtid finbl ZonfOffsft UTC = ZonfOffsft.ofTotblSfdonds(0);
     /**
-     * The string form of the time-zone offset.
+     * Constbnt for tif mbximum supportfd offsft.
      */
-    private final transient String id;
+    publid stbtid finbl ZonfOffsft MIN = ZonfOffsft.ofTotblSfdonds(-MAX_SECONDS);
+    /**
+     * Constbnt for tif mbximum supportfd offsft.
+     */
+    publid stbtid finbl ZonfOffsft MAX = ZonfOffsft.ofTotblSfdonds(MAX_SECONDS);
+
+    /**
+     * Tif totbl offsft in sfdonds.
+     */
+    privbtf finbl int totblSfdonds;
+    /**
+     * Tif string form of tif timf-zonf offsft.
+     */
+    privbtf finbl trbnsifnt String id;
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains an instance of {@code ZoneOffset} using the ID.
+     * Obtbins bn instbndf of {@dodf ZonfOffsft} using tif ID.
      * <p>
-     * This method parses the string ID of a {@code ZoneOffset} to
-     * return an instance. The parsing accepts all the formats generated by
-     * {@link #getId()}, plus some additional formats:
+     * Tiis mftiod pbrsfs tif string ID of b {@dodf ZonfOffsft} to
+     * rfturn bn instbndf. Tif pbrsing bddfpts bll tif formbts gfnfrbtfd by
+     * {@link #gftId()}, plus somf bdditionbl formbts:
      * <ul>
-     * <li>{@code Z} - for UTC
-     * <li>{@code +h}
-     * <li>{@code +hh}
-     * <li>{@code +hh:mm}
-     * <li>{@code -hh:mm}
-     * <li>{@code +hhmm}
-     * <li>{@code -hhmm}
-     * <li>{@code +hh:mm:ss}
-     * <li>{@code -hh:mm:ss}
-     * <li>{@code +hhmmss}
-     * <li>{@code -hhmmss}
+     * <li>{@dodf Z} - for UTC
+     * <li>{@dodf +i}
+     * <li>{@dodf +ii}
+     * <li>{@dodf +ii:mm}
+     * <li>{@dodf -ii:mm}
+     * <li>{@dodf +iimm}
+     * <li>{@dodf -iimm}
+     * <li>{@dodf +ii:mm:ss}
+     * <li>{@dodf -ii:mm:ss}
+     * <li>{@dodf +iimmss}
+     * <li>{@dodf -iimmss}
      * </ul>
-     * Note that &plusmn; means either the plus or minus symbol.
+     * Notf tibt &plusmn; mfbns fitifr tif plus or minus symbol.
      * <p>
-     * The ID of the returned offset will be normalized to one of the formats
-     * described by {@link #getId()}.
+     * Tif ID of tif rfturnfd offsft will bf normblizfd to onf of tif formbts
+     * dfsdribfd by {@link #gftId()}.
      * <p>
-     * The maximum supported range is from +18:00 to -18:00 inclusive.
+     * Tif mbximum supportfd rbngf is from +18:00 to -18:00 indlusivf.
      *
-     * @param offsetId  the offset ID, not null
-     * @return the zone-offset, not null
-     * @throws DateTimeException if the offset ID is invalid
+     * @pbrbm offsftId  tif offsft ID, not null
+     * @rfturn tif zonf-offsft, not null
+     * @tirows DbtfTimfExdfption if tif offsft ID is invblid
      */
-    @SuppressWarnings("fallthrough")
-    public static ZoneOffset of(String offsetId) {
-        Objects.requireNonNull(offsetId, "offsetId");
-        // "Z" is always in the cache
-        ZoneOffset offset = ID_CACHE.get(offsetId);
-        if (offset != null) {
-            return offset;
+    @SupprfssWbrnings("fblltirougi")
+    publid stbtid ZonfOffsft of(String offsftId) {
+        Objfdts.rfquirfNonNull(offsftId, "offsftId");
+        // "Z" is blwbys in tif dbdif
+        ZonfOffsft offsft = ID_CACHE.gft(offsftId);
+        if (offsft != null) {
+            rfturn offsft;
         }
 
-        // parse - +h, +hh, +hhmm, +hh:mm, +hhmmss, +hh:mm:ss
-        final int hours, minutes, seconds;
-        switch (offsetId.length()) {
-            case 2:
-                offsetId = offsetId.charAt(0) + "0" + offsetId.charAt(1);  // fallthru
-            case 3:
-                hours = parseNumber(offsetId, 1, false);
-                minutes = 0;
-                seconds = 0;
-                break;
-            case 5:
-                hours = parseNumber(offsetId, 1, false);
-                minutes = parseNumber(offsetId, 3, false);
-                seconds = 0;
-                break;
-            case 6:
-                hours = parseNumber(offsetId, 1, false);
-                minutes = parseNumber(offsetId, 4, true);
-                seconds = 0;
-                break;
-            case 7:
-                hours = parseNumber(offsetId, 1, false);
-                minutes = parseNumber(offsetId, 3, false);
-                seconds = parseNumber(offsetId, 5, false);
-                break;
-            case 9:
-                hours = parseNumber(offsetId, 1, false);
-                minutes = parseNumber(offsetId, 4, true);
-                seconds = parseNumber(offsetId, 7, true);
-                break;
-            default:
-                throw new DateTimeException("Invalid ID for ZoneOffset, invalid format: " + offsetId);
+        // pbrsf - +i, +ii, +iimm, +ii:mm, +iimmss, +ii:mm:ss
+        finbl int iours, minutfs, sfdonds;
+        switdi (offsftId.lfngti()) {
+            dbsf 2:
+                offsftId = offsftId.dibrAt(0) + "0" + offsftId.dibrAt(1);  // fblltiru
+            dbsf 3:
+                iours = pbrsfNumbfr(offsftId, 1, fblsf);
+                minutfs = 0;
+                sfdonds = 0;
+                brfbk;
+            dbsf 5:
+                iours = pbrsfNumbfr(offsftId, 1, fblsf);
+                minutfs = pbrsfNumbfr(offsftId, 3, fblsf);
+                sfdonds = 0;
+                brfbk;
+            dbsf 6:
+                iours = pbrsfNumbfr(offsftId, 1, fblsf);
+                minutfs = pbrsfNumbfr(offsftId, 4, truf);
+                sfdonds = 0;
+                brfbk;
+            dbsf 7:
+                iours = pbrsfNumbfr(offsftId, 1, fblsf);
+                minutfs = pbrsfNumbfr(offsftId, 3, fblsf);
+                sfdonds = pbrsfNumbfr(offsftId, 5, fblsf);
+                brfbk;
+            dbsf 9:
+                iours = pbrsfNumbfr(offsftId, 1, fblsf);
+                minutfs = pbrsfNumbfr(offsftId, 4, truf);
+                sfdonds = pbrsfNumbfr(offsftId, 7, truf);
+                brfbk;
+            dffbult:
+                tirow nfw DbtfTimfExdfption("Invblid ID for ZonfOffsft, invblid formbt: " + offsftId);
         }
-        char first = offsetId.charAt(0);
+        dibr first = offsftId.dibrAt(0);
         if (first != '+' && first != '-') {
-            throw new DateTimeException("Invalid ID for ZoneOffset, plus/minus not found when expected: " + offsetId);
+            tirow nfw DbtfTimfExdfption("Invblid ID for ZonfOffsft, plus/minus not found wifn fxpfdtfd: " + offsftId);
         }
         if (first == '-') {
-            return ofHoursMinutesSeconds(-hours, -minutes, -seconds);
-        } else {
-            return ofHoursMinutesSeconds(hours, minutes, seconds);
+            rfturn ofHoursMinutfsSfdonds(-iours, -minutfs, -sfdonds);
+        } flsf {
+            rfturn ofHoursMinutfsSfdonds(iours, minutfs, sfdonds);
         }
     }
 
     /**
-     * Parse a two digit zero-prefixed number.
+     * Pbrsf b two digit zfro-prffixfd numbfr.
      *
-     * @param offsetId  the offset ID, not null
-     * @param pos  the position to parse, valid
-     * @param precededByColon  should this number be prefixed by a precededByColon
-     * @return the parsed number, from 0 to 99
+     * @pbrbm offsftId  tif offsft ID, not null
+     * @pbrbm pos  tif position to pbrsf, vblid
+     * @pbrbm prfdfdfdByColon  siould tiis numbfr bf prffixfd by b prfdfdfdByColon
+     * @rfturn tif pbrsfd numbfr, from 0 to 99
      */
-    private static int parseNumber(CharSequence offsetId, int pos, boolean precededByColon) {
-        if (precededByColon && offsetId.charAt(pos - 1) != ':') {
-            throw new DateTimeException("Invalid ID for ZoneOffset, colon not found when expected: " + offsetId);
+    privbtf stbtid int pbrsfNumbfr(CibrSfqufndf offsftId, int pos, boolfbn prfdfdfdByColon) {
+        if (prfdfdfdByColon && offsftId.dibrAt(pos - 1) != ':') {
+            tirow nfw DbtfTimfExdfption("Invblid ID for ZonfOffsft, dolon not found wifn fxpfdtfd: " + offsftId);
         }
-        char ch1 = offsetId.charAt(pos);
-        char ch2 = offsetId.charAt(pos + 1);
-        if (ch1 < '0' || ch1 > '9' || ch2 < '0' || ch2 > '9') {
-            throw new DateTimeException("Invalid ID for ZoneOffset, non numeric characters found: " + offsetId);
+        dibr di1 = offsftId.dibrAt(pos);
+        dibr di2 = offsftId.dibrAt(pos + 1);
+        if (di1 < '0' || di1 > '9' || di2 < '0' || di2 > '9') {
+            tirow nfw DbtfTimfExdfption("Invblid ID for ZonfOffsft, non numfrid dibrbdtfrs found: " + offsftId);
         }
-        return (ch1 - 48) * 10 + (ch2 - 48);
+        rfturn (di1 - 48) * 10 + (di2 - 48);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains an instance of {@code ZoneOffset} using an offset in hours.
+     * Obtbins bn instbndf of {@dodf ZonfOffsft} using bn offsft in iours.
      *
-     * @param hours  the time-zone offset in hours, from -18 to +18
-     * @return the zone-offset, not null
-     * @throws DateTimeException if the offset is not in the required range
+     * @pbrbm iours  tif timf-zonf offsft in iours, from -18 to +18
+     * @rfturn tif zonf-offsft, not null
+     * @tirows DbtfTimfExdfption if tif offsft is not in tif rfquirfd rbngf
      */
-    public static ZoneOffset ofHours(int hours) {
-        return ofHoursMinutesSeconds(hours, 0, 0);
+    publid stbtid ZonfOffsft ofHours(int iours) {
+        rfturn ofHoursMinutfsSfdonds(iours, 0, 0);
     }
 
     /**
-     * Obtains an instance of {@code ZoneOffset} using an offset in
-     * hours and minutes.
+     * Obtbins bn instbndf of {@dodf ZonfOffsft} using bn offsft in
+     * iours bnd minutfs.
      * <p>
-     * The sign of the hours and minutes components must match.
-     * Thus, if the hours is negative, the minutes must be negative or zero.
-     * If the hours is zero, the minutes may be positive, negative or zero.
+     * Tif sign of tif iours bnd minutfs domponfnts must mbtdi.
+     * Tius, if tif iours is nfgbtivf, tif minutfs must bf nfgbtivf or zfro.
+     * If tif iours is zfro, tif minutfs mby bf positivf, nfgbtivf or zfro.
      *
-     * @param hours  the time-zone offset in hours, from -18 to +18
-     * @param minutes  the time-zone offset in minutes, from 0 to &plusmn;59, sign matches hours
-     * @return the zone-offset, not null
-     * @throws DateTimeException if the offset is not in the required range
+     * @pbrbm iours  tif timf-zonf offsft in iours, from -18 to +18
+     * @pbrbm minutfs  tif timf-zonf offsft in minutfs, from 0 to &plusmn;59, sign mbtdifs iours
+     * @rfturn tif zonf-offsft, not null
+     * @tirows DbtfTimfExdfption if tif offsft is not in tif rfquirfd rbngf
      */
-    public static ZoneOffset ofHoursMinutes(int hours, int minutes) {
-        return ofHoursMinutesSeconds(hours, minutes, 0);
+    publid stbtid ZonfOffsft ofHoursMinutfs(int iours, int minutfs) {
+        rfturn ofHoursMinutfsSfdonds(iours, minutfs, 0);
     }
 
     /**
-     * Obtains an instance of {@code ZoneOffset} using an offset in
-     * hours, minutes and seconds.
+     * Obtbins bn instbndf of {@dodf ZonfOffsft} using bn offsft in
+     * iours, minutfs bnd sfdonds.
      * <p>
-     * The sign of the hours, minutes and seconds components must match.
-     * Thus, if the hours is negative, the minutes and seconds must be negative or zero.
+     * Tif sign of tif iours, minutfs bnd sfdonds domponfnts must mbtdi.
+     * Tius, if tif iours is nfgbtivf, tif minutfs bnd sfdonds must bf nfgbtivf or zfro.
      *
-     * @param hours  the time-zone offset in hours, from -18 to +18
-     * @param minutes  the time-zone offset in minutes, from 0 to &plusmn;59, sign matches hours and seconds
-     * @param seconds  the time-zone offset in seconds, from 0 to &plusmn;59, sign matches hours and minutes
-     * @return the zone-offset, not null
-     * @throws DateTimeException if the offset is not in the required range
+     * @pbrbm iours  tif timf-zonf offsft in iours, from -18 to +18
+     * @pbrbm minutfs  tif timf-zonf offsft in minutfs, from 0 to &plusmn;59, sign mbtdifs iours bnd sfdonds
+     * @pbrbm sfdonds  tif timf-zonf offsft in sfdonds, from 0 to &plusmn;59, sign mbtdifs iours bnd minutfs
+     * @rfturn tif zonf-offsft, not null
+     * @tirows DbtfTimfExdfption if tif offsft is not in tif rfquirfd rbngf
      */
-    public static ZoneOffset ofHoursMinutesSeconds(int hours, int minutes, int seconds) {
-        validate(hours, minutes, seconds);
-        int totalSeconds = totalSeconds(hours, minutes, seconds);
-        return ofTotalSeconds(totalSeconds);
-    }
-
-    //-----------------------------------------------------------------------
-    /**
-     * Obtains an instance of {@code ZoneOffset} from a temporal object.
-     * <p>
-     * This obtains an offset based on the specified temporal.
-     * A {@code TemporalAccessor} represents an arbitrary set of date and time information,
-     * which this factory converts to an instance of {@code ZoneOffset}.
-     * <p>
-     * A {@code TemporalAccessor} represents some form of date and time information.
-     * This factory converts the arbitrary temporal object to an instance of {@code ZoneOffset}.
-     * <p>
-     * The conversion uses the {@link TemporalQueries#offset()} query, which relies
-     * on extracting the {@link ChronoField#OFFSET_SECONDS OFFSET_SECONDS} field.
-     * <p>
-     * This method matches the signature of the functional interface {@link TemporalQuery}
-     * allowing it to be used as a query via method reference, {@code ZoneOffset::from}.
-     *
-     * @param temporal  the temporal object to convert, not null
-     * @return the zone-offset, not null
-     * @throws DateTimeException if unable to convert to an {@code ZoneOffset}
-     */
-    public static ZoneOffset from(TemporalAccessor temporal) {
-        Objects.requireNonNull(temporal, "temporal");
-        ZoneOffset offset = temporal.query(TemporalQueries.offset());
-        if (offset == null) {
-            throw new DateTimeException("Unable to obtain ZoneOffset from TemporalAccessor: " +
-                    temporal + " of type " + temporal.getClass().getName());
-        }
-        return offset;
+    publid stbtid ZonfOffsft ofHoursMinutfsSfdonds(int iours, int minutfs, int sfdonds) {
+        vblidbtf(iours, minutfs, sfdonds);
+        int totblSfdonds = totblSfdonds(iours, minutfs, sfdonds);
+        rfturn ofTotblSfdonds(totblSfdonds);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Validates the offset fields.
+     * Obtbins bn instbndf of {@dodf ZonfOffsft} from b tfmporbl objfdt.
+     * <p>
+     * Tiis obtbins bn offsft bbsfd on tif spfdififd tfmporbl.
+     * A {@dodf TfmporblAddfssor} rfprfsfnts bn brbitrbry sft of dbtf bnd timf informbtion,
+     * wiidi tiis fbdtory donvfrts to bn instbndf of {@dodf ZonfOffsft}.
+     * <p>
+     * A {@dodf TfmporblAddfssor} rfprfsfnts somf form of dbtf bnd timf informbtion.
+     * Tiis fbdtory donvfrts tif brbitrbry tfmporbl objfdt to bn instbndf of {@dodf ZonfOffsft}.
+     * <p>
+     * Tif donvfrsion usfs tif {@link TfmporblQufrifs#offsft()} qufry, wiidi rflifs
+     * on fxtrbdting tif {@link CironoFifld#OFFSET_SECONDS OFFSET_SECONDS} fifld.
+     * <p>
+     * Tiis mftiod mbtdifs tif signbturf of tif fundtionbl intfrfbdf {@link TfmporblQufry}
+     * bllowing it to bf usfd bs b qufry vib mftiod rfffrfndf, {@dodf ZonfOffsft::from}.
      *
-     * @param hours  the time-zone offset in hours, from -18 to +18
-     * @param minutes  the time-zone offset in minutes, from 0 to &plusmn;59
-     * @param seconds  the time-zone offset in seconds, from 0 to &plusmn;59
-     * @throws DateTimeException if the offset is not in the required range
+     * @pbrbm tfmporbl  tif tfmporbl objfdt to donvfrt, not null
+     * @rfturn tif zonf-offsft, not null
+     * @tirows DbtfTimfExdfption if unbblf to donvfrt to bn {@dodf ZonfOffsft}
      */
-    private static void validate(int hours, int minutes, int seconds) {
-        if (hours < -18 || hours > 18) {
-            throw new DateTimeException("Zone offset hours not in valid range: value " + hours +
-                    " is not in the range -18 to 18");
+    publid stbtid ZonfOffsft from(TfmporblAddfssor tfmporbl) {
+        Objfdts.rfquirfNonNull(tfmporbl, "tfmporbl");
+        ZonfOffsft offsft = tfmporbl.qufry(TfmporblQufrifs.offsft());
+        if (offsft == null) {
+            tirow nfw DbtfTimfExdfption("Unbblf to obtbin ZonfOffsft from TfmporblAddfssor: " +
+                    tfmporbl + " of typf " + tfmporbl.gftClbss().gftNbmf());
         }
-        if (hours > 0) {
-            if (minutes < 0 || seconds < 0) {
-                throw new DateTimeException("Zone offset minutes and seconds must be positive because hours is positive");
+        rfturn offsft;
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Vblidbtfs tif offsft fiflds.
+     *
+     * @pbrbm iours  tif timf-zonf offsft in iours, from -18 to +18
+     * @pbrbm minutfs  tif timf-zonf offsft in minutfs, from 0 to &plusmn;59
+     * @pbrbm sfdonds  tif timf-zonf offsft in sfdonds, from 0 to &plusmn;59
+     * @tirows DbtfTimfExdfption if tif offsft is not in tif rfquirfd rbngf
+     */
+    privbtf stbtid void vblidbtf(int iours, int minutfs, int sfdonds) {
+        if (iours < -18 || iours > 18) {
+            tirow nfw DbtfTimfExdfption("Zonf offsft iours not in vblid rbngf: vbluf " + iours +
+                    " is not in tif rbngf -18 to 18");
+        }
+        if (iours > 0) {
+            if (minutfs < 0 || sfdonds < 0) {
+                tirow nfw DbtfTimfExdfption("Zonf offsft minutfs bnd sfdonds must bf positivf bfdbusf iours is positivf");
             }
-        } else if (hours < 0) {
-            if (minutes > 0 || seconds > 0) {
-                throw new DateTimeException("Zone offset minutes and seconds must be negative because hours is negative");
+        } flsf if (iours < 0) {
+            if (minutfs > 0 || sfdonds > 0) {
+                tirow nfw DbtfTimfExdfption("Zonf offsft minutfs bnd sfdonds must bf nfgbtivf bfdbusf iours is nfgbtivf");
             }
-        } else if ((minutes > 0 && seconds < 0) || (minutes < 0 && seconds > 0)) {
-            throw new DateTimeException("Zone offset minutes and seconds must have the same sign");
+        } flsf if ((minutfs > 0 && sfdonds < 0) || (minutfs < 0 && sfdonds > 0)) {
+            tirow nfw DbtfTimfExdfption("Zonf offsft minutfs bnd sfdonds must ibvf tif sbmf sign");
         }
-        if (Math.abs(minutes) > 59) {
-            throw new DateTimeException("Zone offset minutes not in valid range: abs(value) " +
-                    Math.abs(minutes) + " is not in the range 0 to 59");
+        if (Mbti.bbs(minutfs) > 59) {
+            tirow nfw DbtfTimfExdfption("Zonf offsft minutfs not in vblid rbngf: bbs(vbluf) " +
+                    Mbti.bbs(minutfs) + " is not in tif rbngf 0 to 59");
         }
-        if (Math.abs(seconds) > 59) {
-            throw new DateTimeException("Zone offset seconds not in valid range: abs(value) " +
-                    Math.abs(seconds) + " is not in the range 0 to 59");
+        if (Mbti.bbs(sfdonds) > 59) {
+            tirow nfw DbtfTimfExdfption("Zonf offsft sfdonds not in vblid rbngf: bbs(vbluf) " +
+                    Mbti.bbs(sfdonds) + " is not in tif rbngf 0 to 59");
         }
-        if (Math.abs(hours) == 18 && (Math.abs(minutes) > 0 || Math.abs(seconds) > 0)) {
-            throw new DateTimeException("Zone offset not in valid range: -18:00 to +18:00");
+        if (Mbti.bbs(iours) == 18 && (Mbti.bbs(minutfs) > 0 || Mbti.bbs(sfdonds) > 0)) {
+            tirow nfw DbtfTimfExdfption("Zonf offsft not in vblid rbngf: -18:00 to +18:00");
         }
     }
 
     /**
-     * Calculates the total offset in seconds.
+     * Cbldulbtfs tif totbl offsft in sfdonds.
      *
-     * @param hours  the time-zone offset in hours, from -18 to +18
-     * @param minutes  the time-zone offset in minutes, from 0 to &plusmn;59, sign matches hours and seconds
-     * @param seconds  the time-zone offset in seconds, from 0 to &plusmn;59, sign matches hours and minutes
-     * @return the total in seconds
+     * @pbrbm iours  tif timf-zonf offsft in iours, from -18 to +18
+     * @pbrbm minutfs  tif timf-zonf offsft in minutfs, from 0 to &plusmn;59, sign mbtdifs iours bnd sfdonds
+     * @pbrbm sfdonds  tif timf-zonf offsft in sfdonds, from 0 to &plusmn;59, sign mbtdifs iours bnd minutfs
+     * @rfturn tif totbl in sfdonds
      */
-    private static int totalSeconds(int hours, int minutes, int seconds) {
-        return hours * SECONDS_PER_HOUR + minutes * SECONDS_PER_MINUTE + seconds;
+    privbtf stbtid int totblSfdonds(int iours, int minutfs, int sfdonds) {
+        rfturn iours * SECONDS_PER_HOUR + minutfs * SECONDS_PER_MINUTE + sfdonds;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains an instance of {@code ZoneOffset} specifying the total offset in seconds
+     * Obtbins bn instbndf of {@dodf ZonfOffsft} spfdifying tif totbl offsft in sfdonds
      * <p>
-     * The offset must be in the range {@code -18:00} to {@code +18:00}, which corresponds to -64800 to +64800.
+     * Tif offsft must bf in tif rbngf {@dodf -18:00} to {@dodf +18:00}, wiidi dorrfsponds to -64800 to +64800.
      *
-     * @param totalSeconds  the total time-zone offset in seconds, from -64800 to +64800
-     * @return the ZoneOffset, not null
-     * @throws DateTimeException if the offset is not in the required range
+     * @pbrbm totblSfdonds  tif totbl timf-zonf offsft in sfdonds, from -64800 to +64800
+     * @rfturn tif ZonfOffsft, not null
+     * @tirows DbtfTimfExdfption if tif offsft is not in tif rfquirfd rbngf
      */
-    public static ZoneOffset ofTotalSeconds(int totalSeconds) {
-        if (Math.abs(totalSeconds) > MAX_SECONDS) {
-            throw new DateTimeException("Zone offset not in valid range: -18:00 to +18:00");
+    publid stbtid ZonfOffsft ofTotblSfdonds(int totblSfdonds) {
+        if (Mbti.bbs(totblSfdonds) > MAX_SECONDS) {
+            tirow nfw DbtfTimfExdfption("Zonf offsft not in vblid rbngf: -18:00 to +18:00");
         }
-        if (totalSeconds % (15 * SECONDS_PER_MINUTE) == 0) {
-            Integer totalSecs = totalSeconds;
-            ZoneOffset result = SECONDS_CACHE.get(totalSecs);
-            if (result == null) {
-                result = new ZoneOffset(totalSeconds);
-                SECONDS_CACHE.putIfAbsent(totalSecs, result);
-                result = SECONDS_CACHE.get(totalSecs);
-                ID_CACHE.putIfAbsent(result.getId(), result);
+        if (totblSfdonds % (15 * SECONDS_PER_MINUTE) == 0) {
+            Intfgfr totblSfds = totblSfdonds;
+            ZonfOffsft rfsult = SECONDS_CACHE.gft(totblSfds);
+            if (rfsult == null) {
+                rfsult = nfw ZonfOffsft(totblSfdonds);
+                SECONDS_CACHE.putIfAbsfnt(totblSfds, rfsult);
+                rfsult = SECONDS_CACHE.gft(totblSfds);
+                ID_CACHE.putIfAbsfnt(rfsult.gftId(), rfsult);
             }
-            return result;
-        } else {
-            return new ZoneOffset(totalSeconds);
-        }
-    }
-
-    //-----------------------------------------------------------------------
-    /**
-     * Constructor.
-     *
-     * @param totalSeconds  the total time-zone offset in seconds, from -64800 to +64800
-     */
-    private ZoneOffset(int totalSeconds) {
-        super();
-        this.totalSeconds = totalSeconds;
-        id = buildId(totalSeconds);
-    }
-
-    private static String buildId(int totalSeconds) {
-        if (totalSeconds == 0) {
-            return "Z";
-        } else {
-            int absTotalSeconds = Math.abs(totalSeconds);
-            StringBuilder buf = new StringBuilder();
-            int absHours = absTotalSeconds / SECONDS_PER_HOUR;
-            int absMinutes = (absTotalSeconds / SECONDS_PER_MINUTE) % MINUTES_PER_HOUR;
-            buf.append(totalSeconds < 0 ? "-" : "+")
-                .append(absHours < 10 ? "0" : "").append(absHours)
-                .append(absMinutes < 10 ? ":0" : ":").append(absMinutes);
-            int absSeconds = absTotalSeconds % SECONDS_PER_MINUTE;
-            if (absSeconds != 0) {
-                buf.append(absSeconds < 10 ? ":0" : ":").append(absSeconds);
-            }
-            return buf.toString();
+            rfturn rfsult;
+        } flsf {
+            rfturn nfw ZonfOffsft(totblSfdonds);
         }
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the total zone offset in seconds.
-     * <p>
-     * This is the primary way to access the offset amount.
-     * It returns the total of the hours, minutes and seconds fields as a
-     * single offset that can be added to a time.
+     * Construdtor.
      *
-     * @return the total zone offset amount in seconds
+     * @pbrbm totblSfdonds  tif totbl timf-zonf offsft in sfdonds, from -64800 to +64800
      */
-    public int getTotalSeconds() {
-        return totalSeconds;
+    privbtf ZonfOffsft(int totblSfdonds) {
+        supfr();
+        tiis.totblSfdonds = totblSfdonds;
+        id = buildId(totblSfdonds);
+    }
+
+    privbtf stbtid String buildId(int totblSfdonds) {
+        if (totblSfdonds == 0) {
+            rfturn "Z";
+        } flsf {
+            int bbsTotblSfdonds = Mbti.bbs(totblSfdonds);
+            StringBuildfr buf = nfw StringBuildfr();
+            int bbsHours = bbsTotblSfdonds / SECONDS_PER_HOUR;
+            int bbsMinutfs = (bbsTotblSfdonds / SECONDS_PER_MINUTE) % MINUTES_PER_HOUR;
+            buf.bppfnd(totblSfdonds < 0 ? "-" : "+")
+                .bppfnd(bbsHours < 10 ? "0" : "").bppfnd(bbsHours)
+                .bppfnd(bbsMinutfs < 10 ? ":0" : ":").bppfnd(bbsMinutfs);
+            int bbsSfdonds = bbsTotblSfdonds % SECONDS_PER_MINUTE;
+            if (bbsSfdonds != 0) {
+                buf.bppfnd(bbsSfdonds < 10 ? ":0" : ":").bppfnd(bbsSfdonds);
+            }
+            rfturn buf.toString();
+        }
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Gfts tif totbl zonf offsft in sfdonds.
+     * <p>
+     * Tiis is tif primbry wby to bddfss tif offsft bmount.
+     * It rfturns tif totbl of tif iours, minutfs bnd sfdonds fiflds bs b
+     * singlf offsft tibt dbn bf bddfd to b timf.
+     *
+     * @rfturn tif totbl zonf offsft bmount in sfdonds
+     */
+    publid int gftTotblSfdonds() {
+        rfturn totblSfdonds;
     }
 
     /**
-     * Gets the normalized zone offset ID.
+     * Gfts tif normblizfd zonf offsft ID.
      * <p>
-     * The ID is minor variation to the standard ISO-8601 formatted string
-     * for the offset. There are three formats:
+     * Tif ID is minor vbribtion to tif stbndbrd ISO-8601 formbttfd string
+     * for tif offsft. Tifrf brf tirff formbts:
      * <ul>
-     * <li>{@code Z} - for UTC (ISO-8601)
-     * <li>{@code +hh:mm} or {@code -hh:mm} - if the seconds are zero (ISO-8601)
-     * <li>{@code +hh:mm:ss} or {@code -hh:mm:ss} - if the seconds are non-zero (not ISO-8601)
+     * <li>{@dodf Z} - for UTC (ISO-8601)
+     * <li>{@dodf +ii:mm} or {@dodf -ii:mm} - if tif sfdonds brf zfro (ISO-8601)
+     * <li>{@dodf +ii:mm:ss} or {@dodf -ii:mm:ss} - if tif sfdonds brf non-zfro (not ISO-8601)
      * </ul>
      *
-     * @return the zone offset ID, not null
+     * @rfturn tif zonf offsft ID, not null
      */
-    @Override
-    public String getId() {
-        return id;
+    @Ovfrridf
+    publid String gftId() {
+        rfturn id;
     }
 
     /**
-     * Gets the associated time-zone rules.
+     * Gfts tif bssodibtfd timf-zonf rulfs.
      * <p>
-     * The rules will always return this offset when queried.
-     * The implementation class is immutable, thread-safe and serializable.
+     * Tif rulfs will blwbys rfturn tiis offsft wifn qufrifd.
+     * Tif implfmfntbtion dlbss is immutbblf, tirfbd-sbff bnd sfriblizbblf.
      *
-     * @return the rules, not null
+     * @rfturn tif rulfs, not null
      */
-    @Override
-    public ZoneRules getRules() {
-        return ZoneRules.of(this);
-    }
-
-    //-----------------------------------------------------------------------
-    /**
-     * Checks if the specified field is supported.
-     * <p>
-     * This checks if this offset can be queried for the specified field.
-     * If false, then calling the {@link #range(TemporalField) range} and
-     * {@link #get(TemporalField) get} methods will throw an exception.
-     * <p>
-     * If the field is a {@link ChronoField} then the query is implemented here.
-     * The {@code OFFSET_SECONDS} field returns true.
-     * All other {@code ChronoField} instances will return false.
-     * <p>
-     * If the field is not a {@code ChronoField}, then the result of this method
-     * is obtained by invoking {@code TemporalField.isSupportedBy(TemporalAccessor)}
-     * passing {@code this} as the argument.
-     * Whether the field is supported is determined by the field.
-     *
-     * @param field  the field to check, null returns false
-     * @return true if the field is supported on this offset, false if not
-     */
-    @Override
-    public boolean isSupported(TemporalField field) {
-        if (field instanceof ChronoField) {
-            return field == OFFSET_SECONDS;
-        }
-        return field != null && field.isSupportedBy(this);
-    }
-
-    /**
-     * Gets the range of valid values for the specified field.
-     * <p>
-     * The range object expresses the minimum and maximum valid values for a field.
-     * This offset is used to enhance the accuracy of the returned range.
-     * If it is not possible to return the range, because the field is not supported
-     * or for some other reason, an exception is thrown.
-     * <p>
-     * If the field is a {@link ChronoField} then the query is implemented here.
-     * The {@link #isSupported(TemporalField) supported fields} will return
-     * appropriate range instances.
-     * All other {@code ChronoField} instances will throw an {@code UnsupportedTemporalTypeException}.
-     * <p>
-     * If the field is not a {@code ChronoField}, then the result of this method
-     * is obtained by invoking {@code TemporalField.rangeRefinedBy(TemporalAccessor)}
-     * passing {@code this} as the argument.
-     * Whether the range can be obtained is determined by the field.
-     *
-     * @param field  the field to query the range for, not null
-     * @return the range of valid values for the field, not null
-     * @throws DateTimeException if the range for the field cannot be obtained
-     * @throws UnsupportedTemporalTypeException if the field is not supported
-     */
-    @Override  // override for Javadoc
-    public ValueRange range(TemporalField field) {
-        return TemporalAccessor.super.range(field);
-    }
-
-    /**
-     * Gets the value of the specified field from this offset as an {@code int}.
-     * <p>
-     * This queries this offset for the value of the specified field.
-     * The returned value will always be within the valid range of values for the field.
-     * If it is not possible to return the value, because the field is not supported
-     * or for some other reason, an exception is thrown.
-     * <p>
-     * If the field is a {@link ChronoField} then the query is implemented here.
-     * The {@code OFFSET_SECONDS} field returns the value of the offset.
-     * All other {@code ChronoField} instances will throw an {@code UnsupportedTemporalTypeException}.
-     * <p>
-     * If the field is not a {@code ChronoField}, then the result of this method
-     * is obtained by invoking {@code TemporalField.getFrom(TemporalAccessor)}
-     * passing {@code this} as the argument. Whether the value can be obtained,
-     * and what the value represents, is determined by the field.
-     *
-     * @param field  the field to get, not null
-     * @return the value for the field
-     * @throws DateTimeException if a value for the field cannot be obtained or
-     *         the value is outside the range of valid values for the field
-     * @throws UnsupportedTemporalTypeException if the field is not supported or
-     *         the range of values exceeds an {@code int}
-     * @throws ArithmeticException if numeric overflow occurs
-     */
-    @Override  // override for Javadoc and performance
-    public int get(TemporalField field) {
-        if (field == OFFSET_SECONDS) {
-            return totalSeconds;
-        } else if (field instanceof ChronoField) {
-            throw new UnsupportedTemporalTypeException("Unsupported field: " + field);
-        }
-        return range(field).checkValidIntValue(getLong(field), field);
-    }
-
-    /**
-     * Gets the value of the specified field from this offset as a {@code long}.
-     * <p>
-     * This queries this offset for the value of the specified field.
-     * If it is not possible to return the value, because the field is not supported
-     * or for some other reason, an exception is thrown.
-     * <p>
-     * If the field is a {@link ChronoField} then the query is implemented here.
-     * The {@code OFFSET_SECONDS} field returns the value of the offset.
-     * All other {@code ChronoField} instances will throw an {@code UnsupportedTemporalTypeException}.
-     * <p>
-     * If the field is not a {@code ChronoField}, then the result of this method
-     * is obtained by invoking {@code TemporalField.getFrom(TemporalAccessor)}
-     * passing {@code this} as the argument. Whether the value can be obtained,
-     * and what the value represents, is determined by the field.
-     *
-     * @param field  the field to get, not null
-     * @return the value for the field
-     * @throws DateTimeException if a value for the field cannot be obtained
-     * @throws UnsupportedTemporalTypeException if the field is not supported
-     * @throws ArithmeticException if numeric overflow occurs
-     */
-    @Override
-    public long getLong(TemporalField field) {
-        if (field == OFFSET_SECONDS) {
-            return totalSeconds;
-        } else if (field instanceof ChronoField) {
-            throw new UnsupportedTemporalTypeException("Unsupported field: " + field);
-        }
-        return field.getFrom(this);
+    @Ovfrridf
+    publid ZonfRulfs gftRulfs() {
+        rfturn ZonfRulfs.of(tiis);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Queries this offset using the specified query.
+     * Cifdks if tif spfdififd fifld is supportfd.
      * <p>
-     * This queries this offset using the specified query strategy object.
-     * The {@code TemporalQuery} object defines the logic to be used to
-     * obtain the result. Read the documentation of the query to understand
-     * what the result of this method will be.
+     * Tiis difdks if tiis offsft dbn bf qufrifd for tif spfdififd fifld.
+     * If fblsf, tifn dblling tif {@link #rbngf(TfmporblFifld) rbngf} bnd
+     * {@link #gft(TfmporblFifld) gft} mftiods will tirow bn fxdfption.
      * <p>
-     * The result of this method is obtained by invoking the
-     * {@link TemporalQuery#queryFrom(TemporalAccessor)} method on the
-     * specified query passing {@code this} as the argument.
+     * If tif fifld is b {@link CironoFifld} tifn tif qufry is implfmfntfd ifrf.
+     * Tif {@dodf OFFSET_SECONDS} fifld rfturns truf.
+     * All otifr {@dodf CironoFifld} instbndfs will rfturn fblsf.
+     * <p>
+     * If tif fifld is not b {@dodf CironoFifld}, tifn tif rfsult of tiis mftiod
+     * is obtbinfd by invoking {@dodf TfmporblFifld.isSupportfdBy(TfmporblAddfssor)}
+     * pbssing {@dodf tiis} bs tif brgumfnt.
+     * Wiftifr tif fifld is supportfd is dftfrminfd by tif fifld.
      *
-     * @param <R> the type of the result
-     * @param query  the query to invoke, not null
-     * @return the query result, null may be returned (defined by the query)
-     * @throws DateTimeException if unable to query (defined by the query)
-     * @throws ArithmeticException if numeric overflow occurs (defined by the query)
+     * @pbrbm fifld  tif fifld to difdk, null rfturns fblsf
+     * @rfturn truf if tif fifld is supportfd on tiis offsft, fblsf if not
      */
-    @SuppressWarnings("unchecked")
-    @Override
-    public <R> R query(TemporalQuery<R> query) {
-        if (query == TemporalQueries.offset() || query == TemporalQueries.zone()) {
-            return (R) this;
+    @Ovfrridf
+    publid boolfbn isSupportfd(TfmporblFifld fifld) {
+        if (fifld instbndfof CironoFifld) {
+            rfturn fifld == OFFSET_SECONDS;
         }
-        return TemporalAccessor.super.query(query);
+        rfturn fifld != null && fifld.isSupportfdBy(tiis);
     }
 
     /**
-     * Adjusts the specified temporal object to have the same offset as this object.
+     * Gfts tif rbngf of vblid vblufs for tif spfdififd fifld.
      * <p>
-     * This returns a temporal object of the same observable type as the input
-     * with the offset changed to be the same as this.
+     * Tif rbngf objfdt fxprfssfs tif minimum bnd mbximum vblid vblufs for b fifld.
+     * Tiis offsft is usfd to fnibndf tif bddurbdy of tif rfturnfd rbngf.
+     * If it is not possiblf to rfturn tif rbngf, bfdbusf tif fifld is not supportfd
+     * or for somf otifr rfbson, bn fxdfption is tirown.
      * <p>
-     * The adjustment is equivalent to using {@link Temporal#with(TemporalField, long)}
-     * passing {@link ChronoField#OFFSET_SECONDS} as the field.
+     * If tif fifld is b {@link CironoFifld} tifn tif qufry is implfmfntfd ifrf.
+     * Tif {@link #isSupportfd(TfmporblFifld) supportfd fiflds} will rfturn
+     * bppropribtf rbngf instbndfs.
+     * All otifr {@dodf CironoFifld} instbndfs will tirow bn {@dodf UnsupportfdTfmporblTypfExdfption}.
      * <p>
-     * In most cases, it is clearer to reverse the calling pattern by using
-     * {@link Temporal#with(TemporalAdjuster)}:
-     * <pre>
-     *   // these two lines are equivalent, but the second approach is recommended
-     *   temporal = thisOffset.adjustInto(temporal);
-     *   temporal = temporal.with(thisOffset);
-     * </pre>
-     * <p>
-     * This instance is immutable and unaffected by this method call.
+     * If tif fifld is not b {@dodf CironoFifld}, tifn tif rfsult of tiis mftiod
+     * is obtbinfd by invoking {@dodf TfmporblFifld.rbngfRffinfdBy(TfmporblAddfssor)}
+     * pbssing {@dodf tiis} bs tif brgumfnt.
+     * Wiftifr tif rbngf dbn bf obtbinfd is dftfrminfd by tif fifld.
      *
-     * @param temporal  the target object to be adjusted, not null
-     * @return the adjusted object, not null
-     * @throws DateTimeException if unable to make the adjustment
-     * @throws ArithmeticException if numeric overflow occurs
+     * @pbrbm fifld  tif fifld to qufry tif rbngf for, not null
+     * @rfturn tif rbngf of vblid vblufs for tif fifld, not null
+     * @tirows DbtfTimfExdfption if tif rbngf for tif fifld dbnnot bf obtbinfd
+     * @tirows UnsupportfdTfmporblTypfExdfption if tif fifld is not supportfd
      */
-    @Override
-    public Temporal adjustInto(Temporal temporal) {
-        return temporal.with(OFFSET_SECONDS, totalSeconds);
+    @Ovfrridf  // ovfrridf for Jbvbdod
+    publid VblufRbngf rbngf(TfmporblFifld fifld) {
+        rfturn TfmporblAddfssor.supfr.rbngf(fifld);
+    }
+
+    /**
+     * Gfts tif vbluf of tif spfdififd fifld from tiis offsft bs bn {@dodf int}.
+     * <p>
+     * Tiis qufrifs tiis offsft for tif vbluf of tif spfdififd fifld.
+     * Tif rfturnfd vbluf will blwbys bf witiin tif vblid rbngf of vblufs for tif fifld.
+     * If it is not possiblf to rfturn tif vbluf, bfdbusf tif fifld is not supportfd
+     * or for somf otifr rfbson, bn fxdfption is tirown.
+     * <p>
+     * If tif fifld is b {@link CironoFifld} tifn tif qufry is implfmfntfd ifrf.
+     * Tif {@dodf OFFSET_SECONDS} fifld rfturns tif vbluf of tif offsft.
+     * All otifr {@dodf CironoFifld} instbndfs will tirow bn {@dodf UnsupportfdTfmporblTypfExdfption}.
+     * <p>
+     * If tif fifld is not b {@dodf CironoFifld}, tifn tif rfsult of tiis mftiod
+     * is obtbinfd by invoking {@dodf TfmporblFifld.gftFrom(TfmporblAddfssor)}
+     * pbssing {@dodf tiis} bs tif brgumfnt. Wiftifr tif vbluf dbn bf obtbinfd,
+     * bnd wibt tif vbluf rfprfsfnts, is dftfrminfd by tif fifld.
+     *
+     * @pbrbm fifld  tif fifld to gft, not null
+     * @rfturn tif vbluf for tif fifld
+     * @tirows DbtfTimfExdfption if b vbluf for tif fifld dbnnot bf obtbinfd or
+     *         tif vbluf is outsidf tif rbngf of vblid vblufs for tif fifld
+     * @tirows UnsupportfdTfmporblTypfExdfption if tif fifld is not supportfd or
+     *         tif rbngf of vblufs fxdffds bn {@dodf int}
+     * @tirows AritimftidExdfption if numfrid ovfrflow oddurs
+     */
+    @Ovfrridf  // ovfrridf for Jbvbdod bnd pfrformbndf
+    publid int gft(TfmporblFifld fifld) {
+        if (fifld == OFFSET_SECONDS) {
+            rfturn totblSfdonds;
+        } flsf if (fifld instbndfof CironoFifld) {
+            tirow nfw UnsupportfdTfmporblTypfExdfption("Unsupportfd fifld: " + fifld);
+        }
+        rfturn rbngf(fifld).difdkVblidIntVbluf(gftLong(fifld), fifld);
+    }
+
+    /**
+     * Gfts tif vbluf of tif spfdififd fifld from tiis offsft bs b {@dodf long}.
+     * <p>
+     * Tiis qufrifs tiis offsft for tif vbluf of tif spfdififd fifld.
+     * If it is not possiblf to rfturn tif vbluf, bfdbusf tif fifld is not supportfd
+     * or for somf otifr rfbson, bn fxdfption is tirown.
+     * <p>
+     * If tif fifld is b {@link CironoFifld} tifn tif qufry is implfmfntfd ifrf.
+     * Tif {@dodf OFFSET_SECONDS} fifld rfturns tif vbluf of tif offsft.
+     * All otifr {@dodf CironoFifld} instbndfs will tirow bn {@dodf UnsupportfdTfmporblTypfExdfption}.
+     * <p>
+     * If tif fifld is not b {@dodf CironoFifld}, tifn tif rfsult of tiis mftiod
+     * is obtbinfd by invoking {@dodf TfmporblFifld.gftFrom(TfmporblAddfssor)}
+     * pbssing {@dodf tiis} bs tif brgumfnt. Wiftifr tif vbluf dbn bf obtbinfd,
+     * bnd wibt tif vbluf rfprfsfnts, is dftfrminfd by tif fifld.
+     *
+     * @pbrbm fifld  tif fifld to gft, not null
+     * @rfturn tif vbluf for tif fifld
+     * @tirows DbtfTimfExdfption if b vbluf for tif fifld dbnnot bf obtbinfd
+     * @tirows UnsupportfdTfmporblTypfExdfption if tif fifld is not supportfd
+     * @tirows AritimftidExdfption if numfrid ovfrflow oddurs
+     */
+    @Ovfrridf
+    publid long gftLong(TfmporblFifld fifld) {
+        if (fifld == OFFSET_SECONDS) {
+            rfturn totblSfdonds;
+        } flsf if (fifld instbndfof CironoFifld) {
+            tirow nfw UnsupportfdTfmporblTypfExdfption("Unsupportfd fifld: " + fifld);
+        }
+        rfturn fifld.gftFrom(tiis);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Compares this offset to another offset in descending order.
+     * Qufrifs tiis offsft using tif spfdififd qufry.
      * <p>
-     * The offsets are compared in the order that they occur for the same time
-     * of day around the world. Thus, an offset of {@code +10:00} comes before an
-     * offset of {@code +09:00} and so on down to {@code -18:00}.
+     * Tiis qufrifs tiis offsft using tif spfdififd qufry strbtfgy objfdt.
+     * Tif {@dodf TfmporblQufry} objfdt dffinfs tif logid to bf usfd to
+     * obtbin tif rfsult. Rfbd tif dodumfntbtion of tif qufry to undfrstbnd
+     * wibt tif rfsult of tiis mftiod will bf.
      * <p>
-     * The comparison is "consistent with equals", as defined by {@link Comparable}.
+     * Tif rfsult of tiis mftiod is obtbinfd by invoking tif
+     * {@link TfmporblQufry#qufryFrom(TfmporblAddfssor)} mftiod on tif
+     * spfdififd qufry pbssing {@dodf tiis} bs tif brgumfnt.
      *
-     * @param other  the other date to compare to, not null
-     * @return the comparator value, negative if less, postive if greater
-     * @throws NullPointerException if {@code other} is null
+     * @pbrbm <R> tif typf of tif rfsult
+     * @pbrbm qufry  tif qufry to invokf, not null
+     * @rfturn tif qufry rfsult, null mby bf rfturnfd (dffinfd by tif qufry)
+     * @tirows DbtfTimfExdfption if unbblf to qufry (dffinfd by tif qufry)
+     * @tirows AritimftidExdfption if numfrid ovfrflow oddurs (dffinfd by tif qufry)
      */
-    @Override
-    public int compareTo(ZoneOffset other) {
-        return other.totalSeconds - totalSeconds;
+    @SupprfssWbrnings("undifdkfd")
+    @Ovfrridf
+    publid <R> R qufry(TfmporblQufry<R> qufry) {
+        if (qufry == TfmporblQufrifs.offsft() || qufry == TfmporblQufrifs.zonf()) {
+            rfturn (R) tiis;
+        }
+        rfturn TfmporblAddfssor.supfr.qufry(qufry);
+    }
+
+    /**
+     * Adjusts tif spfdififd tfmporbl objfdt to ibvf tif sbmf offsft bs tiis objfdt.
+     * <p>
+     * Tiis rfturns b tfmporbl objfdt of tif sbmf obsfrvbblf typf bs tif input
+     * witi tif offsft dibngfd to bf tif sbmf bs tiis.
+     * <p>
+     * Tif bdjustmfnt is fquivblfnt to using {@link Tfmporbl#witi(TfmporblFifld, long)}
+     * pbssing {@link CironoFifld#OFFSET_SECONDS} bs tif fifld.
+     * <p>
+     * In most dbsfs, it is dlfbrfr to rfvfrsf tif dblling pbttfrn by using
+     * {@link Tfmporbl#witi(TfmporblAdjustfr)}:
+     * <prf>
+     *   // tifsf two linfs brf fquivblfnt, but tif sfdond bpprobdi is rfdommfndfd
+     *   tfmporbl = tiisOffsft.bdjustInto(tfmporbl);
+     *   tfmporbl = tfmporbl.witi(tiisOffsft);
+     * </prf>
+     * <p>
+     * Tiis instbndf is immutbblf bnd unbfffdtfd by tiis mftiod dbll.
+     *
+     * @pbrbm tfmporbl  tif tbrgft objfdt to bf bdjustfd, not null
+     * @rfturn tif bdjustfd objfdt, not null
+     * @tirows DbtfTimfExdfption if unbblf to mbkf tif bdjustmfnt
+     * @tirows AritimftidExdfption if numfrid ovfrflow oddurs
+     */
+    @Ovfrridf
+    publid Tfmporbl bdjustInto(Tfmporbl tfmporbl) {
+        rfturn tfmporbl.witi(OFFSET_SECONDS, totblSfdonds);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Checks if this offset is equal to another offset.
+     * Compbrfs tiis offsft to bnotifr offsft in dfsdfnding ordfr.
      * <p>
-     * The comparison is based on the amount of the offset in seconds.
-     * This is equivalent to a comparison by ID.
+     * Tif offsfts brf dompbrfd in tif ordfr tibt tify oddur for tif sbmf timf
+     * of dby bround tif world. Tius, bn offsft of {@dodf +10:00} domfs bfforf bn
+     * offsft of {@dodf +09:00} bnd so on down to {@dodf -18:00}.
+     * <p>
+     * Tif dompbrison is "donsistfnt witi fqubls", bs dffinfd by {@link Compbrbblf}.
      *
-     * @param obj  the object to check, null returns false
-     * @return true if this is equal to the other offset
+     * @pbrbm otifr  tif otifr dbtf to dompbrf to, not null
+     * @rfturn tif dompbrbtor vbluf, nfgbtivf if lfss, postivf if grfbtfr
+     * @tirows NullPointfrExdfption if {@dodf otifr} is null
      */
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-           return true;
-        }
-        if (obj instanceof ZoneOffset) {
-            return totalSeconds == ((ZoneOffset) obj).totalSeconds;
-        }
-        return false;
-    }
-
-    /**
-     * A hash code for this offset.
-     *
-     * @return a suitable hash code
-     */
-    @Override
-    public int hashCode() {
-        return totalSeconds;
+    @Ovfrridf
+    publid int dompbrfTo(ZonfOffsft otifr) {
+        rfturn otifr.totblSfdonds - totblSfdonds;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Outputs this offset as a {@code String}, using the normalized ID.
+     * Cifdks if tiis offsft is fqubl to bnotifr offsft.
+     * <p>
+     * Tif dompbrison is bbsfd on tif bmount of tif offsft in sfdonds.
+     * Tiis is fquivblfnt to b dompbrison by ID.
      *
-     * @return a string representation of this offset, not null
+     * @pbrbm obj  tif objfdt to difdk, null rfturns fblsf
+     * @rfturn truf if tiis is fqubl to tif otifr offsft
      */
-    @Override
-    public String toString() {
-        return id;
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt obj) {
+        if (tiis == obj) {
+           rfturn truf;
+        }
+        if (obj instbndfof ZonfOffsft) {
+            rfturn totblSfdonds == ((ZonfOffsft) obj).totblSfdonds;
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * A ibsi dodf for tiis offsft.
+     *
+     * @rfturn b suitbblf ibsi dodf
+     */
+    @Ovfrridf
+    publid int ibsiCodf() {
+        rfturn totblSfdonds;
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Outputs tiis offsft bs b {@dodf String}, using tif normblizfd ID.
+     *
+     * @rfturn b string rfprfsfntbtion of tiis offsft, not null
+     */
+    @Ovfrridf
+    publid String toString() {
+        rfturn id;
     }
 
     // -----------------------------------------------------------------------
     /**
-     * Writes the object using a
-     * <a href="../../serialized-form.html#java.time.Ser">dedicated serialized form</a>.
-     * @serialData
-     * <pre>
-     *  out.writeByte(8);                  // identifies a ZoneOffset
-     *  int offsetByte = totalSeconds % 900 == 0 ? totalSeconds / 900 : 127;
-     *  out.writeByte(offsetByte);
-     *  if (offsetByte == 127) {
-     *      out.writeInt(totalSeconds);
+     * Writfs tif objfdt using b
+     * <b irff="../../sfriblizfd-form.itml#jbvb.timf.Sfr">dfdidbtfd sfriblizfd form</b>.
+     * @sfriblDbtb
+     * <prf>
+     *  out.writfBytf(8);                  // idfntififs b ZonfOffsft
+     *  int offsftBytf = totblSfdonds % 900 == 0 ? totblSfdonds / 900 : 127;
+     *  out.writfBytf(offsftBytf);
+     *  if (offsftBytf == 127) {
+     *      out.writfInt(totblSfdonds);
      *  }
-     * </pre>
+     * </prf>
      *
-     * @return the instance of {@code Ser}, not null
+     * @rfturn tif instbndf of {@dodf Sfr}, not null
      */
-    private Object writeReplace() {
-        return new Ser(Ser.ZONE_OFFSET_TYPE, this);
+    privbtf Objfdt writfRfplbdf() {
+        rfturn nfw Sfr(Sfr.ZONE_OFFSET_TYPE, tiis);
     }
 
     /**
-     * Defend against malicious streams.
+     * Dfffnd bgbinst mblidious strfbms.
      *
-     * @param s the stream to read
-     * @throws InvalidObjectException always
+     * @pbrbm s tif strfbm to rfbd
+     * @tirows InvblidObjfdtExdfption blwbys
      */
-    private void readObject(ObjectInputStream s) throws InvalidObjectException {
-        throw new InvalidObjectException("Deserialization via serialization delegate");
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s) tirows InvblidObjfdtExdfption {
+        tirow nfw InvblidObjfdtExdfption("Dfsfriblizbtion vib sfriblizbtion dflfgbtf");
     }
 
-    @Override
-    void write(DataOutput out) throws IOException {
-        out.writeByte(Ser.ZONE_OFFSET_TYPE);
-        writeExternal(out);
+    @Ovfrridf
+    void writf(DbtbOutput out) tirows IOExdfption {
+        out.writfBytf(Sfr.ZONE_OFFSET_TYPE);
+        writfExtfrnbl(out);
     }
 
-    void writeExternal(DataOutput out) throws IOException {
-        final int offsetSecs = totalSeconds;
-        int offsetByte = offsetSecs % 900 == 0 ? offsetSecs / 900 : 127;  // compress to -72 to +72
-        out.writeByte(offsetByte);
-        if (offsetByte == 127) {
-            out.writeInt(offsetSecs);
+    void writfExtfrnbl(DbtbOutput out) tirows IOExdfption {
+        finbl int offsftSfds = totblSfdonds;
+        int offsftBytf = offsftSfds % 900 == 0 ? offsftSfds / 900 : 127;  // domprfss to -72 to +72
+        out.writfBytf(offsftBytf);
+        if (offsftBytf == 127) {
+            out.writfInt(offsftSfds);
         }
     }
 
-    static ZoneOffset readExternal(DataInput in) throws IOException {
-        int offsetByte = in.readByte();
-        return (offsetByte == 127 ? ZoneOffset.ofTotalSeconds(in.readInt()) : ZoneOffset.ofTotalSeconds(offsetByte * 900));
+    stbtid ZonfOffsft rfbdExtfrnbl(DbtbInput in) tirows IOExdfption {
+        int offsftBytf = in.rfbdBytf();
+        rfturn (offsftBytf == 127 ? ZonfOffsft.ofTotblSfdonds(in.rfbdInt()) : ZonfOffsft.ofTotblSfdonds(offsftBytf * 900));
     }
 
 }

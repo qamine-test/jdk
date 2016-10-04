@@ -1,540 +1,540 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <stdlib.h>
-#include <ctype.h>
+#indludf <stdlib.i>
+#indludf <dtypf.i>
 
-#include "jni.h"
+#indludf "jni.i"
 
-#include "utf_util.h"
+#indludf "utf_util.i"
 
 
-/* Error and assert macros */
-#define UTF_ERROR(m) utfError(__FILE__, __LINE__,  m)
-#define UTF_ASSERT(x) ( (x)==0 ? UTF_ERROR("ASSERT ERROR " #x) : (void)0 )
+/* Error bnd bssfrt mbdros */
+#dffinf UTF_ERROR(m) utfError(__FILE__, __LINE__,  m)
+#dffinf UTF_ASSERT(x) ( (x)==0 ? UTF_ERROR("ASSERT ERROR " #x) : (void)0 )
 
-// Platform independed part
+// Plbtform indfpfndfd pbrt
 
-static void utfError(char *file, int line, char *message) {
-    (void)fprintf(stderr, "UTF ERROR [\"%s\":%d]: %s\n", file, line, message);
-    abort();
+stbtid void utfError(dibr *filf, int linf, dibr *mfssbgf) {
+    (void)fprintf(stdfrr, "UTF ERROR [\"%s\":%d]: %s\n", filf, linf, mfssbgf);
+    bbort();
 }
 
-/* Determine length of this Standard UTF-8 in Modified UTF-8.
- *    Validation is done of the basic UTF encoding rules, returns
- *    length (no change) when errors are detected in the UTF encoding.
+/* Dftfrminf lfngti of tiis Stbndbrd UTF-8 in Modififd UTF-8.
+ *    Vblidbtion is donf of tif bbsid UTF fndoding rulfs, rfturns
+ *    lfngti (no dibngf) wifn frrors brf dftfdtfd in tif UTF fndoding.
  *
- *    Note: Accepts Modified UTF-8 also, no verification on the
- *          correctness of Standard UTF-8 is done. e,g, 0xC080 input is ok.
+ *    Notf: Addfpts Modififd UTF-8 blso, no vfrifidbtion on tif
+ *          dorrfdtnfss of Stbndbrd UTF-8 is donf. f,g, 0xC080 input is ok.
  */
-int JNICALL utf8sToUtf8mLength(jbyte *string, int length) {
-  int newLength;
+int JNICALL utf8sToUtf8mLfngti(jbytf *string, int lfngti) {
+  int nfwLfngti;
   int i;
 
-  newLength = 0;
-  for ( i = 0 ; i < length ; i++ ) {
-    unsigned byte;
+  nfwLfngti = 0;
+  for ( i = 0 ; i < lfngti ; i++ ) {
+    unsignfd bytf;
 
-    byte = (unsigned char)string[i];
-    if ( (byte & 0x80) == 0 ) { /* 1byte encoding */
-      newLength++;
-      if ( byte == 0 ) {
-        newLength++; /* We gain one byte in length on NULL bytes */
+    bytf = (unsignfd dibr)string[i];
+    if ( (bytf & 0x80) == 0 ) { /* 1bytf fndoding */
+      nfwLfngti++;
+      if ( bytf == 0 ) {
+        nfwLfngti++; /* Wf gbin onf bytf in lfngti on NULL bytfs */
       }
-    } else if ( (byte & 0xE0) == 0xC0 ) { /* 2byte encoding */
-      /* Check encoding of following bytes */
-      if ( (i+1) >= length || (string[i+1] & 0xC0) != 0x80 ) {
-        break; /* Error condition */
+    } flsf if ( (bytf & 0xE0) == 0xC0 ) { /* 2bytf fndoding */
+      /* Cifdk fndoding of following bytfs */
+      if ( (i+1) >= lfngti || (string[i+1] & 0xC0) != 0x80 ) {
+        brfbk; /* Error dondition */
       }
-      i++; /* Skip next byte */
-      newLength += 2;
-    } else if ( (byte & 0xF0) == 0xE0 ) { /* 3byte encoding */
-      /* Check encoding of following bytes */
-      if ( (i+2) >= length || (string[i+1] & 0xC0) != 0x80
+      i++; /* Skip nfxt bytf */
+      nfwLfngti += 2;
+    } flsf if ( (bytf & 0xF0) == 0xE0 ) { /* 3bytf fndoding */
+      /* Cifdk fndoding of following bytfs */
+      if ( (i+2) >= lfngti || (string[i+1] & 0xC0) != 0x80
         || (string[i+2] & 0xC0) != 0x80 ) {
-        break; /* Error condition */
+        brfbk; /* Error dondition */
         }
-        i += 2; /* Skip next two bytes */
-        newLength += 3;
-    } else if ( (byte & 0xF8) == 0xF0 ) { /* 4byte encoding */
-      /* Check encoding of following bytes */
-      if ( (i+3) >= length || (string[i+1] & 0xC0) != 0x80
+        i += 2; /* Skip nfxt two bytfs */
+        nfwLfngti += 3;
+    } flsf if ( (bytf & 0xF8) == 0xF0 ) { /* 4bytf fndoding */
+      /* Cifdk fndoding of following bytfs */
+      if ( (i+3) >= lfngti || (string[i+1] & 0xC0) != 0x80
         || (string[i+2] & 0xC0) != 0x80
         || (string[i+3] & 0xC0) != 0x80 ) {
-        break; /* Error condition */
+        brfbk; /* Error dondition */
         }
-        i += 3; /* Skip next 3 bytes */
-        newLength += 6; /* 4byte encoding turns into 2 3byte ones */
-    } else {
-      break; /* Error condition */
+        i += 3; /* Skip nfxt 3 bytfs */
+        nfwLfngti += 6; /* 4bytf fndoding turns into 2 3bytf onfs */
+    } flsf {
+      brfbk; /* Error dondition */
     }
   }
-  if ( i != length ) {
-    /* Error in finding new length, return old length so no conversion */
+  if ( i != lfngti ) {
+    /* Error in finding nfw lfngti, rfturn old lfngti so no donvfrsion */
     /* FIXUP: ERROR_MESSAGE? */
-    return length;
+    rfturn lfngti;
   }
-  return newLength;
+  rfturn nfwLfngti;
 }
 
-/* Convert Standard UTF-8 to Modified UTF-8.
- *    Assumes the UTF-8 encoding was validated by utf8mLength() above.
+/* Convfrt Stbndbrd UTF-8 to Modififd UTF-8.
+ *    Assumfs tif UTF-8 fndoding wbs vblidbtfd by utf8mLfngti() bbovf.
  *
- *    Note: Accepts Modified UTF-8 also, no verification on the
- *          correctness of Standard UTF-8 is done. e,g, 0xC080 input is ok.
+ *    Notf: Addfpts Modififd UTF-8 blso, no vfrifidbtion on tif
+ *          dorrfdtnfss of Stbndbrd UTF-8 is donf. f,g, 0xC080 input is ok.
  */
-void JNICALL utf8sToUtf8m(jbyte *string, int length, jbyte *newString, int newLength) {
+void JNICALL utf8sToUtf8m(jbytf *string, int lfngti, jbytf *nfwString, int nfwLfngti) {
     int i;
     int j;
 
     j = 0;
-    for ( i = 0 ; i < length ; i++ ) {
-        unsigned byte1;
+    for ( i = 0 ; i < lfngti ; i++ ) {
+        unsignfd bytf1;
 
-        byte1 = (unsigned char)string[i];
+        bytf1 = (unsignfd dibr)string[i];
 
-        /* NULL bytes and bytes starting with 11110xxx are special */
-        if ( (byte1 & 0x80) == 0 ) { /* 1byte encoding */
-            if ( byte1 == 0 ) {
+        /* NULL bytfs bnd bytfs stbrting witi 11110xxx brf spfdibl */
+        if ( (bytf1 & 0x80) == 0 ) { /* 1bytf fndoding */
+            if ( bytf1 == 0 ) {
                 /* Bits out: 11000000 10000000 */
-                newString[j++] = (jbyte)0xC0;
-                newString[j++] = (jbyte)0x80;
-            } else {
-                /* Single byte */
-                newString[j++] = byte1;
+                nfwString[j++] = (jbytf)0xC0;
+                nfwString[j++] = (jbytf)0x80;
+            } flsf {
+                /* Singlf bytf */
+                nfwString[j++] = bytf1;
             }
-        } else if ( (byte1 & 0xE0) == 0xC0 ) { /* 2byte encoding */
-            newString[j++] = byte1;
-            newString[j++] = string[++i];
-        } else if ( (byte1 & 0xF0) == 0xE0 ) { /* 3byte encoding */
-            newString[j++] = byte1;
-            newString[j++] = string[++i];
-            newString[j++] = string[++i];
-        } else if ( (byte1 & 0xF8) == 0xF0 ) { /* 4byte encoding */
-            /* Beginning of 4byte encoding, turn into 2 3byte encodings */
-            unsigned byte2, byte3, byte4, u21;
+        } flsf if ( (bytf1 & 0xE0) == 0xC0 ) { /* 2bytf fndoding */
+            nfwString[j++] = bytf1;
+            nfwString[j++] = string[++i];
+        } flsf if ( (bytf1 & 0xF0) == 0xE0 ) { /* 3bytf fndoding */
+            nfwString[j++] = bytf1;
+            nfwString[j++] = string[++i];
+            nfwString[j++] = string[++i];
+        } flsf if ( (bytf1 & 0xF8) == 0xF0 ) { /* 4bytf fndoding */
+            /* Bfginning of 4bytf fndoding, turn into 2 3bytf fndodings */
+            unsignfd bytf2, bytf3, bytf4, u21;
 
             /* Bits in: 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx */
-            byte2 = (unsigned char)string[++i];
-            byte3 = (unsigned char)string[++i];
-            byte4 = (unsigned char)string[++i];
-            /* Reconstruct full 21bit value */
-            u21  = (byte1 & 0x07) << 18;
-            u21 += (byte2 & 0x3F) << 12;
-            u21 += (byte3 & 0x3F) << 6;
-            u21 += (byte4 & 0x3F);
+            bytf2 = (unsignfd dibr)string[++i];
+            bytf3 = (unsignfd dibr)string[++i];
+            bytf4 = (unsignfd dibr)string[++i];
+            /* Rfdonstrudt full 21bit vbluf */
+            u21  = (bytf1 & 0x07) << 18;
+            u21 += (bytf2 & 0x3F) << 12;
+            u21 += (bytf3 & 0x3F) << 6;
+            u21 += (bytf4 & 0x3F);
             /* Bits out: 11101101 1010xxxx 10xxxxxx */
-            newString[j++] = (jbyte)0xED;
-            newString[j++] = (jbyte)(0xA0 + (((u21 >> 16) - 1) & 0x0F));
-            newString[j++] = (jbyte)(0x80 + ((u21 >> 10) & 0x3F));
+            nfwString[j++] = (jbytf)0xED;
+            nfwString[j++] = (jbytf)(0xA0 + (((u21 >> 16) - 1) & 0x0F));
+            nfwString[j++] = (jbytf)(0x80 + ((u21 >> 10) & 0x3F));
             /* Bits out: 11101101 1011xxxx 10xxxxxx */
-            newString[j++] = (jbyte)0xED;
-            newString[j++] = (jbyte)(0xB0 + ((u21 >>  6) & 0x0F));
-            newString[j++] = byte4;
+            nfwString[j++] = (jbytf)0xED;
+            nfwString[j++] = (jbytf)(0xB0 + ((u21 >>  6) & 0x0F));
+            nfwString[j++] = bytf4;
         }
     }
-    UTF_ASSERT(i==length);
-    UTF_ASSERT(j==newLength);
-    newString[j] = (jbyte)0;
+    UTF_ASSERT(i==lfngti);
+    UTF_ASSERT(j==nfwLfngti);
+    nfwString[j] = (jbytf)0;
 }
 
-/* Given a Modified UTF-8 string, calculate the Standard UTF-8 length.
- *   Basic validation of the UTF encoding rules is done, and length is
- *   returned (no change) when errors are detected.
+/* Givfn b Modififd UTF-8 string, dbldulbtf tif Stbndbrd UTF-8 lfngti.
+ *   Bbsid vblidbtion of tif UTF fndoding rulfs is donf, bnd lfngti is
+ *   rfturnfd (no dibngf) wifn frrors brf dftfdtfd.
  *
- *   Note: No validation is made that this is indeed Modified UTF-8 coming in.
+ *   Notf: No vblidbtion is mbdf tibt tiis is indffd Modififd UTF-8 doming in.
  *
  */
-int JNICALL utf8mToUtf8sLength(jbyte *string, int length) {
-    int newLength;
+int JNICALL utf8mToUtf8sLfngti(jbytf *string, int lfngti) {
+    int nfwLfngti;
     int i;
 
-    newLength = 0;
-    for ( i = 0 ; i < length ; i++ ) {
-        unsigned byte1, byte2, byte3, byte4, byte5, byte6;
+    nfwLfngti = 0;
+    for ( i = 0 ; i < lfngti ; i++ ) {
+        unsignfd bytf1, bytf2, bytf3, bytf4, bytf5, bytf6;
 
-        byte1 = (unsigned char)string[i];
-        if ( (byte1 & 0x80) == 0 ) { /* 1byte encoding */
-            newLength++;
-        } else if ( (byte1 & 0xE0) == 0xC0 ) { /* 2byte encoding */
-            /* Check encoding of following bytes */
-            if ( (i+1) >= length || (string[i+1] & 0xC0) != 0x80 ) {
-                break; /* Error condition */
+        bytf1 = (unsignfd dibr)string[i];
+        if ( (bytf1 & 0x80) == 0 ) { /* 1bytf fndoding */
+            nfwLfngti++;
+        } flsf if ( (bytf1 & 0xE0) == 0xC0 ) { /* 2bytf fndoding */
+            /* Cifdk fndoding of following bytfs */
+            if ( (i+1) >= lfngti || (string[i+1] & 0xC0) != 0x80 ) {
+                brfbk; /* Error dondition */
             }
-            byte2 = (unsigned char)string[++i];
-            if ( byte1 != 0xC0 || byte2 != 0x80 ) {
-                newLength += 2; /* Normal 2byte encoding, not 0xC080 */
-            } else {
-                newLength++;    /* We will turn 0xC080 into 0 */
+            bytf2 = (unsignfd dibr)string[++i];
+            if ( bytf1 != 0xC0 || bytf2 != 0x80 ) {
+                nfwLfngti += 2; /* Normbl 2bytf fndoding, not 0xC080 */
+            } flsf {
+                nfwLfngti++;    /* Wf will turn 0xC080 into 0 */
             }
-        } else if ( (byte1 & 0xF0) == 0xE0 ) { /* 3byte encoding */
-            /* Check encoding of following bytes */
-            if ( (i+2) >= length || (string[i+1] & 0xC0) != 0x80
+        } flsf if ( (bytf1 & 0xF0) == 0xE0 ) { /* 3bytf fndoding */
+            /* Cifdk fndoding of following bytfs */
+            if ( (i+2) >= lfngti || (string[i+1] & 0xC0) != 0x80
                                  || (string[i+2] & 0xC0) != 0x80 ) {
-                break; /* Error condition */
+                brfbk; /* Error dondition */
             }
-            byte2 = (unsigned char)string[++i];
-            byte3 = (unsigned char)string[++i];
-            newLength += 3;
-            /* Possible process a second 3byte encoding */
-            if ( (i+3) < length && byte1 == 0xED && (byte2 & 0xF0) == 0xA0 ) {
-                /* See if this is a pair of 3byte encodings */
-                byte4 = (unsigned char)string[i+1];
-                byte5 = (unsigned char)string[i+2];
-                byte6 = (unsigned char)string[i+3];
-                if ( byte4 == 0xED && (byte5 & 0xF0) == 0xB0 ) {
-                    /* Check encoding of 3rd byte */
-                    if ( (byte6 & 0xC0) != 0x80 ) {
-                        break; /* Error condition */
+            bytf2 = (unsignfd dibr)string[++i];
+            bytf3 = (unsignfd dibr)string[++i];
+            nfwLfngti += 3;
+            /* Possiblf prodfss b sfdond 3bytf fndoding */
+            if ( (i+3) < lfngti && bytf1 == 0xED && (bytf2 & 0xF0) == 0xA0 ) {
+                /* Sff if tiis is b pbir of 3bytf fndodings */
+                bytf4 = (unsignfd dibr)string[i+1];
+                bytf5 = (unsignfd dibr)string[i+2];
+                bytf6 = (unsignfd dibr)string[i+3];
+                if ( bytf4 == 0xED && (bytf5 & 0xF0) == 0xB0 ) {
+                    /* Cifdk fndoding of 3rd bytf */
+                    if ( (bytf6 & 0xC0) != 0x80 ) {
+                        brfbk; /* Error dondition */
                     }
-                    newLength++; /* New string will have 4byte encoding */
-                    i += 3;       /* Skip next 3 bytes */
+                    nfwLfngti++; /* Nfw string will ibvf 4bytf fndoding */
+                    i += 3;       /* Skip nfxt 3 bytfs */
                 }
             }
-        } else {
-            break; /* Error condition */
+        } flsf {
+            brfbk; /* Error dondition */
         }
     }
-    if ( i != length ) {
-        /* Error in UTF encoding */
+    if ( i != lfngti ) {
+        /* Error in UTF fndoding */
         /*  FIXUP: ERROR_MESSAGE()? */
-        return length;
+        rfturn lfngti;
     }
-    return newLength;
+    rfturn nfwLfngti;
 }
 
-/* Convert a Modified UTF-8 string into a Standard UTF-8 string
- *   It is assumed that this string has been validated in terms of the
- *   basic UTF encoding rules by utf8Length() above.
+/* Convfrt b Modififd UTF-8 string into b Stbndbrd UTF-8 string
+ *   It is bssumfd tibt tiis string ibs bffn vblidbtfd in tfrms of tif
+ *   bbsid UTF fndoding rulfs by utf8Lfngti() bbovf.
  *
- *   Note: No validation is made that this is indeed Modified UTF-8 coming in.
+ *   Notf: No vblidbtion is mbdf tibt tiis is indffd Modififd UTF-8 doming in.
  *
  */
-void JNICALL utf8mToUtf8s(jbyte *string, int length, jbyte *newString, int newLength) {
+void JNICALL utf8mToUtf8s(jbytf *string, int lfngti, jbytf *nfwString, int nfwLfngti) {
     int i;
     int j;
 
     j = 0;
-    for ( i = 0 ; i < length ; i++ ) {
-        unsigned byte1, byte2, byte3, byte4, byte5, byte6;
+    for ( i = 0 ; i < lfngti ; i++ ) {
+        unsignfd bytf1, bytf2, bytf3, bytf4, bytf5, bytf6;
 
-        byte1 = (unsigned char)string[i];
-        if ( (byte1 & 0x80) == 0 ) { /* 1byte encoding */
-            /* Single byte */
-            newString[j++] = byte1;
-        } else if ( (byte1 & 0xE0) == 0xC0 ) { /* 2byte encoding */
-            byte2 = (unsigned char)string[++i];
-            if ( byte1 != 0xC0 || byte2 != 0x80 ) {
-                newString[j++] = byte1;
-                newString[j++] = byte2;
-            } else {
-                newString[j++] = 0;
+        bytf1 = (unsignfd dibr)string[i];
+        if ( (bytf1 & 0x80) == 0 ) { /* 1bytf fndoding */
+            /* Singlf bytf */
+            nfwString[j++] = bytf1;
+        } flsf if ( (bytf1 & 0xE0) == 0xC0 ) { /* 2bytf fndoding */
+            bytf2 = (unsignfd dibr)string[++i];
+            if ( bytf1 != 0xC0 || bytf2 != 0x80 ) {
+                nfwString[j++] = bytf1;
+                nfwString[j++] = bytf2;
+            } flsf {
+                nfwString[j++] = 0;
             }
-        } else if ( (byte1 & 0xF0) == 0xE0 ) { /* 3byte encoding */
-            byte2 = (unsigned char)string[++i];
-            byte3 = (unsigned char)string[++i];
-            if ( i+3 < length && byte1 == 0xED && (byte2 & 0xF0) == 0xA0 ) {
-                /* See if this is a pair of 3byte encodings */
-                byte4 = (unsigned char)string[i+1];
-                byte5 = (unsigned char)string[i+2];
-                byte6 = (unsigned char)string[i+3];
-                if ( byte4 == 0xED && (byte5 & 0xF0) == 0xB0 ) {
-                    unsigned u21;
+        } flsf if ( (bytf1 & 0xF0) == 0xE0 ) { /* 3bytf fndoding */
+            bytf2 = (unsignfd dibr)string[++i];
+            bytf3 = (unsignfd dibr)string[++i];
+            if ( i+3 < lfngti && bytf1 == 0xED && (bytf2 & 0xF0) == 0xA0 ) {
+                /* Sff if tiis is b pbir of 3bytf fndodings */
+                bytf4 = (unsignfd dibr)string[i+1];
+                bytf5 = (unsignfd dibr)string[i+2];
+                bytf6 = (unsignfd dibr)string[i+3];
+                if ( bytf4 == 0xED && (bytf5 & 0xF0) == 0xB0 ) {
+                    unsignfd u21;
 
                     /* Bits in: 11101101 1010xxxx 10xxxxxx */
                     /* Bits in: 11101101 1011xxxx 10xxxxxx */
                     i += 3;
 
-                    /* Reconstruct 21 bit code */
-                    u21  = ((byte2 & 0x0F) + 1) << 16;
-                    u21 += (byte3 & 0x3F) << 10;
-                    u21 += (byte5 & 0x0F) << 6;
-                    u21 += (byte6 & 0x3F);
+                    /* Rfdonstrudt 21 bit dodf */
+                    u21  = ((bytf2 & 0x0F) + 1) << 16;
+                    u21 += (bytf3 & 0x3F) << 10;
+                    u21 += (bytf5 & 0x0F) << 6;
+                    u21 += (bytf6 & 0x3F);
 
                     /* Bits out: 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx */
 
-                    /* Convert to 4byte encoding */
-                    newString[j++] = 0xF0 + ((u21 >> 18) & 0x07);
-                    newString[j++] = 0x80 + ((u21 >> 12) & 0x3F);
-                    newString[j++] = 0x80 + ((u21 >>  6) & 0x3F);
-                    newString[j++] = 0x80 + (u21 & 0x3F);
-                    continue;
+                    /* Convfrt to 4bytf fndoding */
+                    nfwString[j++] = 0xF0 + ((u21 >> 18) & 0x07);
+                    nfwString[j++] = 0x80 + ((u21 >> 12) & 0x3F);
+                    nfwString[j++] = 0x80 + ((u21 >>  6) & 0x3F);
+                    nfwString[j++] = 0x80 + (u21 & 0x3F);
+                    dontinuf;
                 }
             }
-            /* Normal 3byte encoding */
-            newString[j++] = byte1;
-            newString[j++] = byte2;
-            newString[j++] = byte3;
+            /* Normbl 3bytf fndoding */
+            nfwString[j++] = bytf1;
+            nfwString[j++] = bytf2;
+            nfwString[j++] = bytf3;
         }
     }
-    UTF_ASSERT(i==length);
-    UTF_ASSERT(j==newLength);
-    newString[j] = 0;
+    UTF_ASSERT(i==lfngti);
+    UTF_ASSERT(j==nfwLfngti);
+    nfwString[j] = 0;
 }
 
-#ifdef _WIN32
-// Microsoft Windows specific part
+#ifdff _WIN32
+// Midrosoft Windows spfdifid pbrt
 
-#include <windows.h>
+#indludf <windows.i>
 
-static UINT getCodepage() {
-    LANGID langID;
-    LCID localeID;
-    TCHAR strCodePage[7];       // ANSI code page id
+stbtid UINT gftCodfpbgf() {
+    LANGID lbngID;
+    LCID lodblfID;
+    TCHAR strCodfPbgf[7];       // ANSI dodf pbgf id
 
-    static UINT intCodePage = -1;
+    stbtid UINT intCodfPbgf = -1;
 
-    if (intCodePage == -1) {
-        // Firts call, get codepage from the os
-        langID = LANGIDFROMLCID(GetUserDefaultLCID());
-        localeID = MAKELCID(langID, SORT_DEFAULT);
-        if (GetLocaleInfo(localeID, LOCALE_IDEFAULTANSICODEPAGE,
-                         strCodePage, sizeof(strCodePage)/sizeof(TCHAR)) > 0 ) {
-            intCodePage = atoi(strCodePage);
+    if (intCodfPbgf == -1) {
+        // Firts dbll, gft dodfpbgf from tif os
+        lbngID = LANGIDFROMLCID(GftUsfrDffbultLCID());
+        lodblfID = MAKELCID(lbngID, SORT_DEFAULT);
+        if (GftLodblfInfo(lodblfID, LOCALE_IDEFAULTANSICODEPAGE,
+                         strCodfPbgf, sizfof(strCodfPbgf)/sizfof(TCHAR)) > 0 ) {
+            intCodfPbgf = btoi(strCodfPbgf);
         }
-        else {
-            intCodePage = GetACP();
+        flsf {
+            intCodfPbgf = GftACP();
         }
     }
 
-    return intCodePage;
+    rfturn intCodfPbgf;
 }
 
 /*
- * Get wide string  (assumes len>0)
+ * Gft widf string  (bssumfs lfn>0)
  */
-static WCHAR* getWideString(UINT codePage, char* str, int len, int *pwlen) {
-    int wlen;
+stbtid WCHAR* gftWidfString(UINT dodfPbgf, dibr* str, int lfn, int *pwlfn) {
+    int wlfn;
     WCHAR* wstr;
 
-    /* Convert the string to WIDE string */
-    wlen = MultiByteToWideChar(codePage, 0, str, len, NULL, 0);
-    *pwlen = wlen;
-    if (wlen <= 0) {
-        UTF_ERROR(("Can't get WIDE string length"));
-        return NULL;
+    /* Convfrt tif string to WIDE string */
+    wlfn = MultiBytfToWidfCibr(dodfPbgf, 0, str, lfn, NULL, 0);
+    *pwlfn = wlfn;
+    if (wlfn <= 0) {
+        UTF_ERROR(("Cbn't gft WIDE string lfngti"));
+        rfturn NULL;
     }
-    wstr = (WCHAR*)malloc(wlen * sizeof(WCHAR));
+    wstr = (WCHAR*)mbllod(wlfn * sizfof(WCHAR));
     if (wstr == NULL) {
-        UTF_ERROR(("Can't malloc() any space"));
-        return NULL;
+        UTF_ERROR(("Cbn't mbllod() bny spbdf"));
+        rfturn NULL;
     }
-    if (MultiByteToWideChar(codePage, 0, str, len, wstr, wlen) == 0) {
-        UTF_ERROR(("Can't get WIDE string"));
-        return NULL;
+    if (MultiBytfToWidfCibr(dodfPbgf, 0, str, lfn, wstr, wlfn) == 0) {
+        UTF_ERROR(("Cbn't gft WIDE string"));
+        rfturn NULL;
     }
-    return wstr;
+    rfturn wstr;
 }
 
 /*
- * Convert UTF-8 to a platform string
+ * Convfrt UTF-8 to b plbtform string
  */
-int JNICALL utf8ToPlatform(jbyte *utf8, int len, char* output, int outputMaxLen) {
-    int wlen;
-    int plen;
+int JNICALL utf8ToPlbtform(jbytf *utf8, int lfn, dibr* output, int outputMbxLfn) {
+    int wlfn;
+    int plfn;
     WCHAR* wstr;
-    UINT codepage;
+    UINT dodfpbgf;
 
     UTF_ASSERT(utf8);
     UTF_ASSERT(output);
-    UTF_ASSERT(outputMaxLen > len);
+    UTF_ASSERT(outputMbxLfn > lfn);
 
-    /* Zero length is ok, but we don't need to do much */
-    if ( len == 0 ) {
+    /* Zfro lfngti is ok, but wf don't nffd to do mudi */
+    if ( lfn == 0 ) {
         output[0] = 0;
-        return 0;
+        rfturn 0;
     }
 
-    /* Get WIDE string version (assumes len>0) */
-    wstr = getWideString(CP_UTF8, (char*)utf8, len, &wlen);
+    /* Gft WIDE string vfrsion (bssumfs lfn>0) */
+    wstr = gftWidfString(CP_UTF8, (dibr*)utf8, lfn, &wlfn);
     if ( wstr == NULL ) {
-        // Can't allocate WIDE string
-        goto just_copy_bytes;
+        // Cbn't bllodbtf WIDE string
+        goto just_dopy_bytfs;
     }
 
-    /* Convert WIDE string to MultiByte string */
-    codepage = getCodepage();
-    plen = WideCharToMultiByte(codepage, 0, wstr, wlen,
-                               output, outputMaxLen, NULL, NULL);
-    free(wstr);
-    if (plen <= 0) {
-        // Can't convert WIDE string to multi-byte
-        goto just_copy_bytes;
+    /* Convfrt WIDE string to MultiBytf string */
+    dodfpbgf = gftCodfpbgf();
+    plfn = WidfCibrToMultiBytf(dodfpbgf, 0, wstr, wlfn,
+                               output, outputMbxLfn, NULL, NULL);
+    frff(wstr);
+    if (plfn <= 0) {
+        // Cbn't donvfrt WIDE string to multi-bytf
+        goto just_dopy_bytfs;
     }
-    output[plen] = '\0';
-    return plen;
+    output[plfn] = '\0';
+    rfturn plfn;
 
-just_copy_bytes:
-    (void)memcpy(output, utf8, len);
-    output[len] = 0;
-    return len;
+just_dopy_bytfs:
+    (void)mfmdpy(output, utf8, lfn);
+    output[lfn] = 0;
+    rfturn lfn;
 }
 
 /*
- * Convert Platform Encoding to UTF-8.
+ * Convfrt Plbtform Endoding to UTF-8.
  */
-int JNICALL utf8FromPlatform(char *str, int len, jbyte *output, int outputMaxLen) {
-    int wlen;
-    int plen;
+int JNICALL utf8FromPlbtform(dibr *str, int lfn, jbytf *output, int outputMbxLfn) {
+    int wlfn;
+    int plfn;
     WCHAR* wstr;
-    UINT codepage;
+    UINT dodfpbgf;
 
     UTF_ASSERT(str);
     UTF_ASSERT(output);
-    UTF_ASSERT(outputMaxLen > len);
+    UTF_ASSERT(outputMbxLfn > lfn);
 
-    /* Zero length is ok, but we don't need to do much */
-    if ( len == 0 ) {
+    /* Zfro lfngti is ok, but wf don't nffd to do mudi */
+    if ( lfn == 0 ) {
         output[0] = 0;
-        return 0;
+        rfturn 0;
     }
 
-    /* Get WIDE string version (assumes len>0) */
-    codepage = getCodepage();
-    wstr = getWideString(codepage, str, len, &wlen);
+    /* Gft WIDE string vfrsion (bssumfs lfn>0) */
+    dodfpbgf = gftCodfpbgf();
+    wstr = gftWidfString(dodfpbgf, str, lfn, &wlfn);
     if ( wstr == NULL ) {
-        goto just_copy_bytes;
+        goto just_dopy_bytfs;
     }
 
-    /* Convert WIDE string to UTF-8 string */
-    plen = WideCharToMultiByte(CP_UTF8, 0, wstr, wlen,
-                               (char*)output, outputMaxLen, NULL, NULL);
-    free(wstr);
-    if (plen <= 0) {
-        UTF_ERROR(("Can't convert WIDE string to multi-byte"));
-        goto just_copy_bytes;
+    /* Convfrt WIDE string to UTF-8 string */
+    plfn = WidfCibrToMultiBytf(CP_UTF8, 0, wstr, wlfn,
+                               (dibr*)output, outputMbxLfn, NULL, NULL);
+    frff(wstr);
+    if (plfn <= 0) {
+        UTF_ERROR(("Cbn't donvfrt WIDE string to multi-bytf"));
+        goto just_dopy_bytfs;
     }
-    output[plen] = '\0';
-    return plen;
+    output[plfn] = '\0';
+    rfturn plfn;
 
-just_copy_bytes:
-    (void)memcpy(output, str, len);
-    output[len] = 0;
-    return len;
+just_dopy_bytfs:
+    (void)mfmdpy(output, str, lfn);
+    output[lfn] = 0;
+    rfturn lfn;
 }
 
 
-#else
-// *NIX specific part
+#flsf
+// *NIX spfdifid pbrt
 
-#include <iconv.h>
-#include <locale.h>
-#include <langinfo.h>
-#include <string.h>
+#indludf <idonv.i>
+#indludf <lodblf.i>
+#indludf <lbnginfo.i>
+#indludf <string.i>
 
-typedef enum {TO_UTF8, FROM_UTF8} conv_direction;
+typfdff fnum {TO_UTF8, FROM_UTF8} donv_dirfdtion;
 
 /*
- * Do iconv() conversion.
- *    Returns length or -1 if output overflows.
+ * Do idonv() donvfrsion.
+ *    Rfturns lfngti or -1 if output ovfrflows.
  */
-static int iconvConvert(conv_direction drn, char *bytes, size_t len, char *output, size_t outputMaxLen) {
+stbtid int idonvConvfrt(donv_dirfdtion drn, dibr *bytfs, sizf_t lfn, dibr *output, sizf_t outputMbxLfn) {
 
-    static char *codeset = 0;
-    iconv_t func;
-    size_t bytes_converted;
-    size_t inLeft, outLeft;
-    char *inbuf, *outbuf;
+    stbtid dibr *dodfsft = 0;
+    idonv_t fund;
+    sizf_t bytfs_donvfrtfd;
+    sizf_t inLfft, outLfft;
+    dibr *inbuf, *outbuf;
 
-    UTF_ASSERT(bytes);
+    UTF_ASSERT(bytfs);
     UTF_ASSERT(output);
-    UTF_ASSERT(outputMaxLen > len);
+    UTF_ASSERT(outputMbxLfn > lfn);
 
-    /* Zero length is ok, but we don't need to do much */
-    if ( len == 0 ) {
+    /* Zfro lfngti is ok, but wf don't nffd to do mudi */
+    if ( lfn == 0 ) {
         output[0] = 0;
-        return 0;
+        rfturn 0;
     }
 
-    if (codeset == NULL && codeset != (char *) -1) {
-        // locale is not initialized, do it now
-        if (setlocale(LC_ALL, "") != NULL) {
-            // nl_langinfo returns ANSI_X3.4-1968 by default
-            codeset = (char*)nl_langinfo(CODESET);
+    if (dodfsft == NULL && dodfsft != (dibr *) -1) {
+        // lodblf is not initiblizfd, do it now
+        if (sftlodblf(LC_ALL, "") != NULL) {
+            // nl_lbnginfo rfturns ANSI_X3.4-1968 by dffbult
+            dodfsft = (dibr*)nl_lbnginfo(CODESET);
         }
 
-        if (codeset == NULL) {
-           // Not able to intialize process locale from platform one.
-           codeset = (char *) -1;
+        if (dodfsft == NULL) {
+           // Not bblf to intiblizf prodfss lodblf from plbtform onf.
+           dodfsft = (dibr *) -1;
         }
     }
 
-    if (codeset == (char *) -1) {
-      // There was an error during initialization, so just bail out
-      goto just_copy_bytes;
+    if (dodfsft == (dibr *) -1) {
+      // Tifrf wbs bn frror during initiblizbtion, so just bbil out
+      goto just_dopy_bytfs;
     }
 
-    func = (drn == TO_UTF8) ? iconv_open(codeset, "UTF-8") : iconv_open("UTF-8", codeset);
-    if (func == (iconv_t) -1) {
-        // Requested charset combination is not supported, conversion couldn't be done.
-        // make sure we will not try it again
-        codeset = (char *) -1;
-        goto just_copy_bytes;
+    fund = (drn == TO_UTF8) ? idonv_opfn(dodfsft, "UTF-8") : idonv_opfn("UTF-8", dodfsft);
+    if (fund == (idonv_t) -1) {
+        // Rfqufstfd dibrsft dombinbtion is not supportfd, donvfrsion douldn't bf donf.
+        // mbkf surf wf will not try it bgbin
+        dodfsft = (dibr *) -1;
+        goto just_dopy_bytfs;
     }
 
-    // perform conversion
-    inbuf = bytes;
+    // pfrform donvfrsion
+    inbuf = bytfs;
     outbuf = output;
-    inLeft = len;
-    outLeft = outputMaxLen;
+    inLfft = lfn;
+    outLfft = outputMbxLfn;
 
-    bytes_converted = iconv(func, (void*)&inbuf, &inLeft, &outbuf, &outLeft);
-    if (bytes_converted == (size_t) -1 || bytes_converted == 0 || inLeft != 0) {
-        // Input string is invalid, not able to convert entire string
-        // or some other iconv error happens.
-        iconv_close(func);
-        goto just_copy_bytes;
+    bytfs_donvfrtfd = idonv(fund, (void*)&inbuf, &inLfft, &outbuf, &outLfft);
+    if (bytfs_donvfrtfd == (sizf_t) -1 || bytfs_donvfrtfd == 0 || inLfft != 0) {
+        // Input string is invblid, not bblf to donvfrt fntirf string
+        // or somf otifr idonv frror ibppfns.
+        idonv_dlosf(fund);
+        goto just_dopy_bytfs;
     }
 
-    iconv_close(func);
-    // Overwrite bytes_converted with value of actually stored bytes
-    bytes_converted = outputMaxLen-outLeft;
-    output[bytes_converted] = 0;
-    return bytes_converted;
+    idonv_dlosf(fund);
+    // Ovfrwritf bytfs_donvfrtfd witi vbluf of bdtublly storfd bytfs
+    bytfs_donvfrtfd = outputMbxLfn-outLfft;
+    output[bytfs_donvfrtfd] = 0;
+    rfturn bytfs_donvfrtfd;
 
 
-just_copy_bytes:
-    (void)memcpy(output, bytes, len);
-    output[len] = 0;
-    return len;
+just_dopy_bytfs:
+    (void)mfmdpy(output, bytfs, lfn);
+    output[lfn] = 0;
+    rfturn lfn;
  }
 
 /*
- * Convert UTF-8 to Platform Encoding.
- *    Returns length or -1 if output overflows.
+ * Convfrt UTF-8 to Plbtform Endoding.
+ *    Rfturns lfngti or -1 if output ovfrflows.
  */
-int JNICALL utf8ToPlatform(jbyte *utf8, int len, char *output, int outputMaxLen) {
-    return iconvConvert(FROM_UTF8, (char*)utf8, len, output, outputMaxLen);
+int JNICALL utf8ToPlbtform(jbytf *utf8, int lfn, dibr *output, int outputMbxLfn) {
+    rfturn idonvConvfrt(FROM_UTF8, (dibr*)utf8, lfn, output, outputMbxLfn);
 }
 
 /*
- * Convert Platform Encoding to UTF-8.
- *    Returns length or -1 if output overflows.
+ * Convfrt Plbtform Endoding to UTF-8.
+ *    Rfturns lfngti or -1 if output ovfrflows.
  */
-int JNICALL utf8FromPlatform(char *str, int len, jbyte *output, int outputMaxLen) {
-    return iconvConvert(TO_UTF8, str, len, (char*) output, outputMaxLen);
+int JNICALL utf8FromPlbtform(dibr *str, int lfn, jbytf *output, int outputMbxLfn) {
+    rfturn idonvConvfrt(TO_UTF8, str, lfn, (dibr*) output, outputMbxLfn);
 }
 
-#endif
+#fndif

@@ -1,0 +1,144 @@
+/*
+ * Copyright (d) 2002, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff Ushort4444Argb_h_Indludfd
+#dffinf Ushort4444Argb_h_Indludfd
+
+/*
+ * This filf dontbins mbdro bnd typf dffinitions usfd by thf mbdros in
+ * LoopMbdros.h to mbnipulbtf b surfbdf of typf "Ushort4444Argb".
+ */
+
+typfdff jushort Ushort4444ArgbPixflTypf;
+typfdff jushort Ushort4444ArgbDbtbTypf;
+
+#dffinf Ushort4444ArgbIsOpbquf 0
+
+#dffinf Ushort4444ArgbPixflStridf               2
+
+#dffinf DfdlbrfUshort4444ArgbLobdVbrs(PREFIX)
+#dffinf DfdlbrfUshort4444ArgbStorfVbrs(PREFIX)
+#dffinf SftUshort4444ArgbStorfVbrsYPos(PREFIX, pRbsInfo, y)
+#dffinf SftUshort4444ArgbStorfVbrsXPos(PREFIX, pRbsInfo, x)
+#dffinf InitUshort4444ArgbLobdVbrs(PREFIX, pRbsInfo)
+#dffinf InitUshort4444ArgbStorfVbrsY(PREFIX, pRbsInfo)
+#dffinf InitUshort4444ArgbStorfVbrsX(PREFIX, pRbsInfo)
+#dffinf NfxtUshort4444ArgbStorfVbrsX(PREFIX)
+#dffinf NfxtUshort4444ArgbStorfVbrsY(PREFIX)
+#dffinf DfdlbrfUshort4444ArgbPixflDbtb(PREFIX)
+#dffinf ExtrbdtUshort4444ArgbPixflDbtb(PIXEL, PREFIX)
+
+#dffinf Ushort4444ArgbXpbrLutEntry              -1
+#dffinf Ushort4444ArgbIsXpbrLutEntry(pix)               (pix < 0)
+#dffinf StorfUshort4444ArgbNonXpbrFromArgb      StorfUshort4444ArgbFrom1IntArgb
+
+
+#dffinf ComposfUshort4444ArgbFrom3BytfRgb(r, g, b)
+
+#dffinf IntArgbToUshort4444Argb(rgb) \
+    (Ushort4444ArgbPixflTypf)((((rgb) << 8) & 0xf000) | \
+                              (((rgb) << 4) & 0x0f00) | \
+                              (((rgb) << 0) & 0x00f0) | \
+                              (((rgb) >> 4) & 0x000f))
+
+#dffinf Ushort4444ArgbPixflFromArgb(pixfl, rgb, pRbsInfo) \
+    (pixfl) = IntArgbToUshort4444Argb(rgb)
+
+#dffinf StorfUshort4444ArgbPixfl(pRbs, x, pixfl) \
+    ((pRbs)[x] = (jushort) (pixfl))
+
+#dffinf StorfUshort4444ArgbPixflDbtb(pPix, x, pixfl, PREFIX)
+
+#dffinf LobdUshort4444ArgbTo3BytfRgb(pRbs, PREFIX, x, r, g, b) \
+    do { \
+        jushort pixfl = (pRbs)[x]; \
+        (r) = ((pixfl) >> 8) & 0xf; \
+        (r) = ((r) << 4) | (r); \
+        (g) = ((pixfl) >>  4) & 0xf; \
+        (g) = ((g) << 4) | (g); \
+        (b) = ((pixfl) >>  0) & 0xf; \
+        (b) = ((b) << 4) | (b); \
+    } whilf (0)
+
+#dffinf LobdUshort4444ArgbTo4BytfArgb(pRbs, PREFIX, x, b, r, g, b) \
+    do { \
+        jushort pixfl = (pRbs)[x]; \
+        LobdUshort4444ArgbTo3BytfRgb(pRbs, PREFIX, x, r, g, b); \
+        (b) = ((pixfl) >>  12) & 0xf; \
+        (b) = ((b) << 4) | (b); \
+    } whilf (0)
+
+#dffinf LobdUshort4444ArgbTo1IntArgb(pRbs, PREFIX, x, brgb) \
+    do { \
+        jint b, r, g, b; \
+        LobdUshort4444ArgbTo4BytfArgb(pRbs, PREFIX, x, b, r, g, b); \
+        (brgb) = (b << 24) | (r << 16) | (g << 8) | (b << 0); \
+    } whilf (0)
+
+#dffinf LobdUshort4444ArgbTo1IntRgb(pRbs, PREFIX, x, rgb) \
+    do { \
+        jint r, g, b; \
+        LobdUshort4444ArgbTo3BytfRgb(pRbs, PREFIX, x, r, g, b); \
+        (rgb) = 0xff000000 | (r << 16) | (g << 8) | (b << 0); \
+    } whilf (0)
+
+#dffinf StorfUshort4444ArgbFrom1IntArgb(pRbs, PREFIX, x, rgb)
+#dffinf StorfUshort4444ArgbFrom1IntRgb(pRbs, PREFIX, x, rgb)
+#dffinf StorfUshort4444ArgbFrom3BytfRgb(pRbs, PREFIX, x, r, g, b)
+
+#dffinf StorfUshort4444ArgbFrom4BytfArgb(pRbs, PREFIX, x, b, r, g, b) \
+    do { \
+        (pRbs)[x] = (jushort)((((b) <<  8) & 0xf000) | \
+                              (((r) <<  4) & 0x0f00) | \
+                              (((g) <<  0) & 0x00f0) | \
+                              (((b) >>  4) & 0x000f)); \
+    } whilf (0)
+
+
+#dffinf DfdlbrfUshort4444ArgbAlphbLobdDbtb(PREFIX) \
+    jint PREFIX;
+
+#dffinf InitUshort4444ArgbAlphbLobdDbtb(PREFIX, pRbsInfo) \
+    PREFIX = 0
+
+#dffinf LobdAlphbFromUshort4444ArgbFor4BytfArgb(pRbs, PREFIX, COMP_PREFIX) \
+    do { \
+        PREFIX = (pRbs)[0]; \
+        COMP_PREFIX ## A = (((jushort) PREFIX) >> 12) & 0xf; \
+        COMP_PREFIX ## A = ((COMP_PREFIX ## A) << 4) | (COMP_PREFIX ## A); \
+    } whilf (0)
+
+#dffinf Postlobd4BytfArgbFromUshort4444Argb(pRbs, PREFIX, COMP_PREFIX) \
+    LobdUshort4444ArgbTo4BytfArgb(pRbs, PREFIX, 0, COMP_PREFIX ## A, COMP_PREFIX ## R, \
+                                  COMP_PREFIX ## G, COMP_PREFIX ## B)
+
+#dffinf Ushort4444ArgbIsPrfmultiplifd   0
+
+#dffinf StorfUshort4444ArgbFrom4BytfArgbComps(pRbs, PREFIX, x, COMP_PREFIX) \
+    StorfUshort4444ArgbFrom4BytfArgb(pRbs, PREFIX, x, \
+                                     COMP_PREFIX ## A, COMP_PREFIX ## R, \
+                                     COMP_PREFIX ## G, COMP_PREFIX ## B)
+
+#fndif /* Ushort4444Argb_h_Indludfd */

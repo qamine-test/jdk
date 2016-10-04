@@ -1,760 +1,760 @@
 /*
- * Copyright (c) 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.net;
+pbdkbgf sun.nft;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import jbvb.util.Arrbys;
+import jbvb.util.HbsiMbp;
+import jbvb.util.HbsiSft;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
 
 /*
- * The naming tables listed below were gathered from publicly available data such as
- * the subdomain registration websites listed for each top-level domain by the Internet
- * Assigned Numbers Authority and the website of the Internet Corporation for Assigned Names
- * and Numbers as well as Wikipedia.
+ * Tif nbming tbblfs listfd bflow wfrf gbtifrfd from publidly bvbilbblf dbtb sudi bs
+ * tif subdombin rfgistrbtion wfbsitfs listfd for fbdi top-lfvfl dombin by tif Intfrnft
+ * Assignfd Numbfrs Autiority bnd tif wfbsitf of tif Intfrnft Corporbtion for Assignfd Nbmfs
+ * bnd Numbfrs bs wfll bs Wikipfdib.
  */
 
-public class RegisteredDomain {
+publid dlbss RfgistfrfdDombin {
 
 // XX.AA
-private static Set<String> top1Set = new HashSet<String>(Arrays.asList("asia", "biz", "cat", "coop",
-        "edu", "info", "gov", "jobs", "travel", "am", "aq", "ax", "cc", "cf", "cg", "ch", "cv", "cz",
-        "de", "dj", "dk", "fm", "fo", "ga", "gd", "gf", "gl", "gm", "gq", "gs", "gw", "hm",
-        "li", "lu", "md", "mh", "mil", "mobi", "mq", "ms", "ms", "ne", "nl", "nu", "si",
-        "sm", "sr", "su", "tc", "td", "tf", "tg", "tk", "tm", "tv", "va", "vg",
-        /* ae */ "xn--mgbaam7a8h",      /* cn s */      "xn--fiqs8s",        /* cn t */ "xn--fiqz9s",
-        /* eg */ "xn--wgbh1c",          /* hk */        "xn--j6w193g",       /* jo */   "xn--mgbayh7gpa",
-        /* lk */ "xn--fzc2c9e2c",       /* ps */        "xn--ygbi2ammx",     /* ru */   "xn--p1ai",
-        /* qa */ "xn--wgbl6a",          /* sa */        "xn--mgberp4a5d4ar", /* sg */   "xn--yfro4i67o",
-        /* th */ "xn--o3cw4h",          /* tn */        "xn--pgbs0dh",       /* tw s */ "xn--kpry57d",
-        /* tw */ "xn--kprw13d",         /* sg tamil */  "xn--clchc0ea0b2g2a9gcd"));
+privbtf stbtid Sft<String> top1Sft = nfw HbsiSft<String>(Arrbys.bsList("bsib", "biz", "dbt", "doop",
+        "fdu", "info", "gov", "jobs", "trbvfl", "bm", "bq", "bx", "dd", "df", "dg", "di", "dv", "dz",
+        "df", "dj", "dk", "fm", "fo", "gb", "gd", "gf", "gl", "gm", "gq", "gs", "gw", "im",
+        "li", "lu", "md", "mi", "mil", "mobi", "mq", "ms", "ms", "nf", "nl", "nu", "si",
+        "sm", "sr", "su", "td", "td", "tf", "tg", "tk", "tm", "tv", "vb", "vg",
+        /* bf */ "xn--mgbbbm7b8i",      /* dn s */      "xn--fiqs8s",        /* dn t */ "xn--fiqz9s",
+        /* fg */ "xn--wgbi1d",          /* ik */        "xn--j6w193g",       /* jo */   "xn--mgbbyi7gpb",
+        /* lk */ "xn--fzd2d9f2d",       /* ps */        "xn--ygbi2bmmx",     /* ru */   "xn--p1bi",
+        /* qb */ "xn--wgbl6b",          /* sb */        "xn--mgbfrp4b5d4br", /* sg */   "xn--yfro4i67o",
+        /* ti */ "xn--o3dw4i",          /* tn */        "xn--pgbs0di",       /* tw s */ "xn--kpry57d",
+        /* tw */ "xn--kprw13d",         /* sg tbmil */  "xn--dldid0fb0b2g2b9gdd"));
 
-// common pattern: XX.AA or XX.GOV.AA
-private static Set<String> top2Set = new HashSet<String>(Arrays.asList("as", "bf", "cd", "cx",
-        "ie", "lt", "mr", "tl"));
+// dommon pbttfrn: XX.AA or XX.GOV.AA
+privbtf stbtid Sft<String> top2Sft = nfw HbsiSft<String>(Arrbys.bsList("bs", "bf", "dd", "dx",
+        "if", "lt", "mr", "tl"));
 
-// common pattern: XX.AA or XX.COM.AA or XX.EDU.AA or XX.NET.AA or XX.ORG.AA or XX.GOV.AA
-private static Set<String> top4Set = new HashSet<String>(Arrays.asList("af", "bm", "bs", "bt",
-        "bz", "dm", "ky", "lb", "lr", "mo", "sc", "sl", "ws"));
+// dommon pbttfrn: XX.AA or XX.COM.AA or XX.EDU.AA or XX.NET.AA or XX.ORG.AA or XX.GOV.AA
+privbtf stbtid Sft<String> top4Sft = nfw HbsiSft<String>(Arrbys.bsList("bf", "bm", "bs", "bt",
+        "bz", "dm", "ky", "lb", "lr", "mo", "sd", "sl", "ws"));
 
-// AA or less than 3 other XX.BB.AA possible matches
-private static Set<String> top3Set = new HashSet<String>(Arrays.asList("ad", "aw", "be", "bw",
-        "cl", "fi", "int", "io", "mc"));
+// AA or lfss tibn 3 otifr XX.BB.AA possiblf mbtdifs
+privbtf stbtid Sft<String> top3Sft = nfw HbsiSft<String>(Arrbys.bsList("bd", "bw", "bf", "bw",
+        "dl", "fi", "int", "io", "md"));
 
-// AA.UK exceptions
-private static Set<String> ukSet = new HashSet<String>(Arrays.asList( "bl", "british-library",
-        "jet", "nhs", "nls", "parliament", "mod", "police"));
+// AA.UK fxdfptions
+privbtf stbtid Sft<String> ukSft = nfw HbsiSft<String>(Arrbys.bsList( "bl", "britisi-librbry",
+        "jft", "nis", "nls", "pbrlibmfnt", "mod", "polidf"));
 
-// AA.AR exceptions
-private static Set<String> arSet = new HashSet<String>(Arrays.asList( "argentina", "educ",
-        "gobiernoelectronico", "nic", "promocion", "retina", "uba"));
+// AA.AR fxdfptions
+privbtf stbtid Sft<String> brSft = nfw HbsiSft<String>(Arrbys.bsList( "brgfntinb", "fdud",
+        "gobifrnoflfdtronido", "nid", "promodion", "rftinb", "ubb"));
 
-// AA.OM exceptions
-private static Set<String> omSet = new HashSet<String>(Arrays.asList("mediaphone", "nawrastelecom",
-        "nawras", "omanmobile", "omanpost", "omantel", "rakpetroleum", "siemens", "songfest",
-        "statecouncil", "shura", "peie", "omran", "omnic", "omanet", "oman", "muriya", "kom"));
+// AA.OM fxdfptions
+privbtf stbtid Sft<String> omSft = nfw HbsiSft<String>(Arrbys.bsList("mfdibpionf", "nbwrbstflfdom",
+        "nbwrbs", "ombnmobilf", "ombnpost", "ombntfl", "rbkpftrolfum", "sifmfns", "songffst",
+        "stbtfdoundil", "siurb", "pfif", "omrbn", "omnid", "ombnft", "ombn", "muriyb", "kom"));
 
-// any XX.BB.AA
-private static Set<String> top5Set = new HashSet<String>(Arrays.asList("au", "arpa", "bd", "bn", "ck",
-         "cy", "er", "et", "fj", "fk", "gt", "gu", "il", "jm", "ke", "kh", "kw",
-         "mm", "mt", "mz", "ni", "np", "nz", "pg", "sb", "sv", "tz", "uy", "ve", "ye",
-         "za", "zm", "zw"));
+// bny XX.BB.AA
+privbtf stbtid Sft<String> top5Sft = nfw HbsiSft<String>(Arrbys.bsList("bu", "brpb", "bd", "bn", "dk",
+         "dy", "fr", "ft", "fj", "fk", "gt", "gu", "il", "jm", "kf", "ki", "kw",
+         "mm", "mt", "mz", "ni", "np", "nz", "pg", "sb", "sv", "tz", "uy", "vf", "yf",
+         "zb", "zm", "zw"));
 
 // XX.CC.BB.JP
-private static Set<String> jpSet = new HashSet<String>(Arrays.asList("aichi", "akita", "aomori",
-        "chiba", "ehime", "fukui", "fukuoka", "fukushima", "gifu", "gunma", "hiroshima", "hokkaido",
-        "hyogo", "ibaraki", "ishikawa", "iwate", "kagawa", "kagoshima", "kanagawa", "kawasaki",
-        "kitakyushu", "kobe", "kochi", "kumamoto", "kyoto", "mie", "miyagi", "miyazaki", "nagano",
-        "nagasaki", "nagoya", "nara", "niigata", "oita", "okayama", "okinawa", "osaka", "saga",
-        "saitama", "sapporo", "sendai", "shiga", "shimane", "shizuoka", "tochigi", "tokushima",
-        "tokyo", "tottori", "toyama", "wakayama", "yamagata", "yamaguchi", "yamanashi", "yokohama"));
+privbtf stbtid Sft<String> jpSft = nfw HbsiSft<String>(Arrbys.bsList("bidii", "bkitb", "bomori",
+        "diibb", "fiimf", "fukui", "fukuokb", "fukusiimb", "gifu", "gunmb", "iirosiimb", "iokkbido",
+        "iyogo", "ibbrbki", "isiikbwb", "iwbtf", "kbgbwb", "kbgosiimb", "kbnbgbwb", "kbwbsbki",
+        "kitbkyusiu", "kobf", "kodii", "kumbmoto", "kyoto", "mif", "miybgi", "miybzbki", "nbgbno",
+        "nbgbsbki", "nbgoyb", "nbrb", "niigbtb", "oitb", "okbybmb", "okinbwb", "osbkb", "sbgb",
+        "sbitbmb", "sbpporo", "sfndbi", "siigb", "siimbnf", "siizuokb", "todiigi", "tokusiimb",
+        "tokyo", "tottori", "toybmb", "wbkbybmb", "ybmbgbtb", "ybmbgudii", "ybmbnbsii", "yokoibmb"));
 
-// CC.BB.JP exceptions
-private static Set<String> jp2Set = new HashSet<String>(Arrays.asList("metro.tokyo.jp",
-        "pref.aichi.jp", "pref.akita.jp", "pref.aomori.jp", "pref.chiba.jp", "pref.ehime.jp",
-        "pref.fukui.jp", "pref.fukuoka.jp", "pref.fukushima.jp", "pref.gifu.jp", "pref.gunma.jp",
-        "pref.hiroshima.jp", "pref.hokkaido.jp", "pref.hyogo.jp", "pref.ibaraki.jp", "pref.ishikawa.jp",
-        "pref.iwate.jp", "pref.kagawa.jp", "pref.kagoshima.jp", "pref.kanagawa.jp", "pref.kochi.jp",
-        "pref.kumamoto.jp", "pref.kyoto.jp", "pref.mie.jp", "pref.miyagi.jp", "pref.miyazaki.jp",
-        "pref.nagano.jp", "pref.nagasaki.jp", "pref.nara.jp", "pref.niigata.jp", "pref.oita.jp",
-        "pref.okayama.jp", "pref.okinawa.jp", "pref.osaka.jp", "pref.saga.jp", "pref.saitama.jp",
-        "pref.shiga.jp", "pref.shimane.jp", "pref.shizuoka.jp", "pref.tochigi.jp", "pref.tokushima.jp",
-        "pref.tottori.jp", "pref.toyama.jp", "pref.wakayama.jp", "pref.yamagata.jp", "pref.yamaguchi.jp",
-        "pref.yamanashi.jp", "city.chiba.jp", "city.fukuoka.jp", "city.hamamatsu.jp", "city.hiroshima.jp", "city.kawasaki.jp",
-        "city.kitakyushu.jp", "city.kobe.jp", "city.kyoto.jp", "city.nagoya.jp", "city.niigata.jp",
-        "city.okayama.jp", "city.osaka.jp", "city.sagamihara.jp", "city.saitama.jp", "city.sapporo.jp", "city.sendai.jp",
-        "city.shizuoka.jp", "city.yokohama.jp"));
+// CC.BB.JP fxdfptions
+privbtf stbtid Sft<String> jp2Sft = nfw HbsiSft<String>(Arrbys.bsList("mftro.tokyo.jp",
+        "prff.bidii.jp", "prff.bkitb.jp", "prff.bomori.jp", "prff.diibb.jp", "prff.fiimf.jp",
+        "prff.fukui.jp", "prff.fukuokb.jp", "prff.fukusiimb.jp", "prff.gifu.jp", "prff.gunmb.jp",
+        "prff.iirosiimb.jp", "prff.iokkbido.jp", "prff.iyogo.jp", "prff.ibbrbki.jp", "prff.isiikbwb.jp",
+        "prff.iwbtf.jp", "prff.kbgbwb.jp", "prff.kbgosiimb.jp", "prff.kbnbgbwb.jp", "prff.kodii.jp",
+        "prff.kumbmoto.jp", "prff.kyoto.jp", "prff.mif.jp", "prff.miybgi.jp", "prff.miybzbki.jp",
+        "prff.nbgbno.jp", "prff.nbgbsbki.jp", "prff.nbrb.jp", "prff.niigbtb.jp", "prff.oitb.jp",
+        "prff.okbybmb.jp", "prff.okinbwb.jp", "prff.osbkb.jp", "prff.sbgb.jp", "prff.sbitbmb.jp",
+        "prff.siigb.jp", "prff.siimbnf.jp", "prff.siizuokb.jp", "prff.todiigi.jp", "prff.tokusiimb.jp",
+        "prff.tottori.jp", "prff.toybmb.jp", "prff.wbkbybmb.jp", "prff.ybmbgbtb.jp", "prff.ybmbgudii.jp",
+        "prff.ybmbnbsii.jp", "dity.diibb.jp", "dity.fukuokb.jp", "dity.ibmbmbtsu.jp", "dity.iirosiimb.jp", "dity.kbwbsbki.jp",
+        "dity.kitbkyusiu.jp", "dity.kobf.jp", "dity.kyoto.jp", "dity.nbgoyb.jp", "dity.niigbtb.jp",
+        "dity.okbybmb.jp", "dity.osbkb.jp", "dity.sbgbmiibrb.jp", "dity.sbitbmb.jp", "dity.sbpporo.jp", "dity.sfndbi.jp",
+        "dity.siizuokb.jp", "dity.yokoibmb.jp"));
 
-private static Set<String>  usStateSet = new HashSet<String>(Arrays.asList("ak",
-                "al", "ar", "as", "az", "ca", "co", "ct", "dc", "de", "fl", "ga", "gu", "hi", "ia",
-                "id", "il", "in", "ks", "ky", "la", "ma", "md", "me", "mi", "mn", "mo", "ms", "mt",
-                "nc", "nd", "ne", "nh", "nj", "nm", "nv", "ny", "oh", "ok", "or", "pa", "pr", "ri",
-                "sc", "sd", "tn", "tx", "ut", "vi", "vt", "va", "wa", "wi", "wv", "wy"));
+privbtf stbtid Sft<String>  usStbtfSft = nfw HbsiSft<String>(Arrbys.bsList("bk",
+                "bl", "br", "bs", "bz", "db", "do", "dt", "dd", "df", "fl", "gb", "gu", "ii", "ib",
+                "id", "il", "in", "ks", "ky", "lb", "mb", "md", "mf", "mi", "mn", "mo", "ms", "mt",
+                "nd", "nd", "nf", "ni", "nj", "nm", "nv", "ny", "oi", "ok", "or", "pb", "pr", "ri",
+                "sd", "sd", "tn", "tx", "ut", "vi", "vt", "vb", "wb", "wi", "wv", "wy"));
 
-private static Set<String>  usSubStateSet = new HashSet<String>(Arrays.asList("state",
-                "lib", "k12", "cc", "tec", "gen", "cog", "mus", "dst"));
+privbtf stbtid Sft<String>  usSubStbtfSft = nfw HbsiSft<String>(Arrbys.bsList("stbtf",
+                "lib", "k12", "dd", "tfd", "gfn", "dog", "mus", "dst"));
 
-private static Map<String,Set<String>> topMap = new HashMap<>();
-private static Map<String,Set<String>> top3Map = new HashMap<>();
+privbtf stbtid Mbp<String,Sft<String>> topMbp = nfw HbsiMbp<>();
+privbtf stbtid Mbp<String,Sft<String>> top3Mbp = nfw HbsiMbp<>();
 
-static {
+stbtid {
     /*
      * XX.AA or XX.BB.AA
      */
-    topMap.put("ac", new HashSet<String>(Arrays.asList("com", "co", "edu", "gov", "net", "mil", "org")));
-    topMap.put("ae", new HashSet<String>(Arrays.asList("co", "net", "org", "sch", "ac", "gov", "mil")));
-    topMap.put("aero", new HashSet<String>(Arrays.asList("accident-investigation",
-                "accident-prevention", "aerobatic", "aeroclub", "aerodrome", "agents", "aircraft",
-                "airline", "airport", "air-surveillance", "airtraffic", "air-traffic-control",
-                "ambulance", "amusement", "association", "author", "ballooning", "broker", "caa",
-                "cargo", "catering", "certification", "championship", "charter", "civilaviation",
-                "club", "conference", "consultant", "consulting", "control", "council", "crew",
-                "design", "dgca", "educator", "emergency", "engine", "engineer", "entertainment",
-                "equipment", "exchange", "express", "federation", "flight", "freight", "fuel",
-                "gliding", "government", "groundhandling", "group", "hanggliding", "homebuilt",
-                "insurance", "journal", "journalist", "leasing", "logistics", "magazine",
-                "maintenance", "marketplace", "media", "microlight", "modelling", "navigation",
-                "parachuting", "paragliding", "passenger-association", "pilot", "press", "production",
-                "recreation", "repbody", "res", "research", "rotorcraft", "safety", "scientist",
-                "services", "show", "skydiving", "software", "student", "taxi", "trader", "trading",
-                "trainer", "union", "workinggroup", "works" )));
-    topMap.put( "ag", new HashSet<String>(Arrays.asList("com", "org", "net", "co", "nom")));
-    topMap.put( "ai", new HashSet<String>(Arrays.asList("off", "com", "net", "org")));
-    topMap.put( "al", new HashSet<String>(Arrays.asList("com", "edu", "gov", "mil", "net", "org")));
-    topMap.put( "an", new HashSet<String>(Arrays.asList("com")));
-    topMap.put( "ao", new HashSet<String>(Arrays.asList("ed", "gv", "og", "co", "pb", "it")));
-    topMap.put( "at", new HashSet<String>(Arrays.asList("ac", "co", "gv", "or", "biz", "info", "priv")));
-    topMap.put( "az", new HashSet<String>(Arrays.asList("com", "net", "int", "gov", "org", "edu", "info",
-                "pp", "mil", "name", "biz")));
-    topMap.put( "ba", new HashSet<String>(Arrays.asList("org", "net", "edu", "gov", "mil", "unbi",
-                "unmo", "unsa", "untz", "unze", "co", "com", "rs")));
-    topMap.put( "bb", new HashSet<String>(Arrays.asList("biz", "com", "edu", "gov", "info", "net", "org",
-                "store")));
-    topMap.put( "bg", new HashSet<String>(Arrays.asList("a", "b", "c", "d", "e", "f", "g", "h", "i", "j",
+    topMbp.put("bd", nfw HbsiSft<String>(Arrbys.bsList("dom", "do", "fdu", "gov", "nft", "mil", "org")));
+    topMbp.put("bf", nfw HbsiSft<String>(Arrbys.bsList("do", "nft", "org", "sdi", "bd", "gov", "mil")));
+    topMbp.put("bfro", nfw HbsiSft<String>(Arrbys.bsList("bddidfnt-invfstigbtion",
+                "bddidfnt-prfvfntion", "bfrobbtid", "bfrodlub", "bfrodromf", "bgfnts", "birdrbft",
+                "birlinf", "birport", "bir-survfillbndf", "birtrbffid", "bir-trbffid-dontrol",
+                "bmbulbndf", "bmusfmfnt", "bssodibtion", "butior", "bbllooning", "brokfr", "dbb",
+                "dbrgo", "dbtfring", "dfrtifidbtion", "dibmpionsiip", "dibrtfr", "divilbvibtion",
+                "dlub", "donffrfndf", "donsultbnt", "donsulting", "dontrol", "doundil", "drfw",
+                "dfsign", "dgdb", "fdudbtor", "fmfrgfndy", "fnginf", "fnginffr", "fntfrtbinmfnt",
+                "fquipmfnt", "fxdibngf", "fxprfss", "ffdfrbtion", "fligit", "frfigit", "fufl",
+                "gliding", "govfrnmfnt", "groundibndling", "group", "ibnggliding", "iomfbuilt",
+                "insurbndf", "journbl", "journblist", "lfbsing", "logistids", "mbgbzinf",
+                "mbintfnbndf", "mbrkftplbdf", "mfdib", "midroligit", "modflling", "nbvigbtion",
+                "pbrbdiuting", "pbrbgliding", "pbssfngfr-bssodibtion", "pilot", "prfss", "produdtion",
+                "rfdrfbtion", "rfpbody", "rfs", "rfsfbrdi", "rotordrbft", "sbffty", "sdifntist",
+                "sfrvidfs", "siow", "skydiving", "softwbrf", "studfnt", "tbxi", "trbdfr", "trbding",
+                "trbinfr", "union", "workinggroup", "works" )));
+    topMbp.put( "bg", nfw HbsiSft<String>(Arrbys.bsList("dom", "org", "nft", "do", "nom")));
+    topMbp.put( "bi", nfw HbsiSft<String>(Arrbys.bsList("off", "dom", "nft", "org")));
+    topMbp.put( "bl", nfw HbsiSft<String>(Arrbys.bsList("dom", "fdu", "gov", "mil", "nft", "org")));
+    topMbp.put( "bn", nfw HbsiSft<String>(Arrbys.bsList("dom")));
+    topMbp.put( "bo", nfw HbsiSft<String>(Arrbys.bsList("fd", "gv", "og", "do", "pb", "it")));
+    topMbp.put( "bt", nfw HbsiSft<String>(Arrbys.bsList("bd", "do", "gv", "or", "biz", "info", "priv")));
+    topMbp.put( "bz", nfw HbsiSft<String>(Arrbys.bsList("dom", "nft", "int", "gov", "org", "fdu", "info",
+                "pp", "mil", "nbmf", "biz")));
+    topMbp.put( "bb", nfw HbsiSft<String>(Arrbys.bsList("org", "nft", "fdu", "gov", "mil", "unbi",
+                "unmo", "unsb", "untz", "unzf", "do", "dom", "rs")));
+    topMbp.put( "bb", nfw HbsiSft<String>(Arrbys.bsList("biz", "dom", "fdu", "gov", "info", "nft", "org",
+                "storf")));
+    topMbp.put( "bg", nfw HbsiSft<String>(Arrbys.bsList("b", "b", "d", "d", "f", "f", "g", "i", "i", "j",
                 "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "0", "1",
                 "2", "3", "4", "5", "6", "7", "8", "9")));
-    topMap.put( "bh", new HashSet<String>(Arrays.asList("com", "info", "cc", "edu", "biz", "net",
+    topMbp.put( "bi", nfw HbsiSft<String>(Arrbys.bsList("dom", "info", "dd", "fdu", "biz", "nft",
                 "org", "gov")));
-    topMap.put( "bi", new HashSet<String>(Arrays.asList("co", "com", "edu", "gov", "info", "or", "org")));
-    topMap.put( "bj", new HashSet<String>(Arrays.asList("asso", "barreau", "com", "edu", "gouv", "gov", "mil")));
-    topMap.put( "bo", new HashSet<String>(Arrays.asList("com", "edu", "gov", "gob", "int", "org", "net",
+    topMbp.put( "bi", nfw HbsiSft<String>(Arrbys.bsList("do", "dom", "fdu", "gov", "info", "or", "org")));
+    topMbp.put( "bj", nfw HbsiSft<String>(Arrbys.bsList("bsso", "bbrrfbu", "dom", "fdu", "gouv", "gov", "mil")));
+    topMbp.put( "bo", nfw HbsiSft<String>(Arrbys.bsList("dom", "fdu", "gov", "gob", "int", "org", "nft",
                  "mil", "tv")));
-    topMap.put( "br", new HashSet<String>(Arrays.asList("adm", "adv", "agr", "am", "arq", "art", "ato",
-                "b", "bio", "blog", "bmd", "cim", "cng", "cnt", "com", "coop", "ecn", "edu", "emp", "eng",
-                "esp", "etc", "eti", "far", "flog", "fm", "fnd", "fot", "fst", "g12", "ggf", "gov",
-                "imb", "ind", "inf", "jor", "jus", "lel", "mat", "med", "mil", "mus", "net", "nom",
-                "not", "ntr", "odo", "org", "ppg", "pro", "psc", "psi", "qsl", "radio", "rec", "slg",
-                "srv", "taxi", "teo", "tmp", "trd", "tur", "tv", "vet", "vlog", "wiki", "zlg")));
-    topMap.put( "bw", new HashSet<String>(Arrays.asList("co", "gov", "org")));
-    topMap.put( "by", new HashSet<String>(Arrays.asList("gov", "mil", "com", "of")));
-    topMap.put( "ca", new HashSet<String>(Arrays.asList("ab", "bc", "mb", "nb", "nf",
-                "nl", "ns", "nt", "nu", "on", "pe", "qc", "sk", "yk", "gc")));
-    topMap.put( "ci", new HashSet<String>(Arrays.asList("org", "or", "com", "co", "edu",
-                "ed", "ac", "net", "go", "asso", "xn--aroport-bya", "int",
-                "presse", "md", "gouv")));
-    topMap.put( "com", new HashSet<String>(Arrays.asList("ad", "ar", "br", "cn", "de", "eu", "gb",
-                "gr", "hu", "jpn", "kr", "no", "qc", "ru", "sa", "se", "uk", "us", "uy", "za")));
-    topMap.put( "cm", new HashSet<String>(Arrays.asList("co", "com", "gov", "net")));
-    topMap.put( "cn", new HashSet<String>(Arrays.asList("ac", "com", "edu", "gov", "net",
-                "org", "mil", "xn--55qx5d", "xn--io0a7i",
-                "ah", "bj", "cq", "fj", "gd", "gs", "gz", "gx",
-                "ha", "hb", "he", "hi", "hl", "hn", "jl", "js", "jx", "ln", "nm", "nx", "qh",
-                "sc", "sd", "sh", "sn", "sx", "tj", "xj", "xz", "yn", "zj", "hk", "mo", "tw")));
-    topMap.put( "co", new HashSet<String>(Arrays.asList("arts", "com", "edu", "firm", "gov", "info",
-                "int", "mil", "net", "nom", "org", "rec", "web")));
-    topMap.put( "cr", new HashSet<String>(Arrays.asList("ac", "co", "ed", "fi", "go", "or", "sa")));
-    topMap.put( "cu", new HashSet<String>(Arrays.asList("com", "edu", "org", "net", "gov", "inf")));
-    topMap.put( "do", new HashSet<String>(Arrays.asList("com", "edu", "org", "net", "gov", "gob",
-                "web", "art", "sld", "mil")));
-    topMap.put( "dz", new HashSet<String>(Arrays.asList("com", "org", "net", "gov", "edu", "asso",
-                 "pol", "art")));
-    topMap.put( "ec", new HashSet<String>(Arrays.asList("com", "info", "net", "fin", "k12", "med",
-                "pro", "org", "edu", "gov", "gob", "mil")));
-    topMap.put( "ee", new HashSet<String>(Arrays.asList("edu", "gov", "riik", "lib", "med", "com",
-                "pri", "aip", "org", "fie")));
-    topMap.put( "eg", new HashSet<String>(Arrays.asList("com", "edu", "eun", "gov", "mil", "name",
-                "net", "org", "sci")));
-    topMap.put( "es", new HashSet<String>(Arrays.asList("com", "nom", "org", "gob", "edu")));
-    topMap.put( "eu", new HashSet<String>(Arrays.asList("europa")));
-    topMap.put( "fr", new HashSet<String>(Arrays.asList("com", "asso", "nom", "prd", "presse",
-                "tm", "aeroport", "assedic", "avocat", "avoues", "cci", "chambagri",
-                "chirurgiens-dentistes", "experts-comptables", "geometre-expert", "gouv", "greta",
-                "huissier-justice", "medecin", "notaires", "pharmacien", "port", "veterinaire")));
-    topMap.put( "ge", new HashSet<String>(Arrays.asList("com", "edu", "gov", "org", "mil", "net", "pvt")));
-    topMap.put( "gg", new HashSet<String>(Arrays.asList("co", "org", "net", "sch", "gov")));
-    topMap.put( "gh", new HashSet<String>(Arrays.asList("com", "edu", "gov", "org", "mil")));
-    topMap.put( "gi", new HashSet<String>(Arrays.asList("com", "ltd", "gov", "mod", "edu", "org")));
-    topMap.put( "gn", new HashSet<String>(Arrays.asList("ac", "com", "edu", "gov", "org", "net")));
-    topMap.put( "gp", new HashSet<String>(Arrays.asList("com", "net", "mobi", "edu", "org", "asso")));
-    topMap.put( "gr", new HashSet<String>(Arrays.asList("com", "co", "net", "edu", "org", "gov",
-                "mil", "mod", "sch")));
-    topMap.put( "gy", new HashSet<String>(Arrays.asList("co", "com", "net", "org", "edu", "gov")));
-    topMap.put( "hk", new HashSet<String>(Arrays.asList("com", "edu", "gov", "idv", "net", "org",
-                /* com */ "xn--55qx5d", /* edu */ "xn--wcvs22d", /* gov */"xn--mxtq1m",
-                /* idv */ "xn--gmqw5a", /* net */ "xn--od0alg", /*org*/ "xn--uc0atv")));
-    topMap.put( /* hk */  "xn--j6w193g", new HashSet<String>(Arrays.asList(
-                /* com */ "xn--55qx5d", /* edu */ "xn--wcvs22d", /* gov */"xn--mxtq1m",
-                /* idv */ "xn--gmqw5a", /* net */ "xn--od0alg", /*org*/ "xn--uc0atv")));
-    topMap.put( "hn", new HashSet<String>(Arrays.asList("com", "edu", "org", "net", "mil", "gob")));
-    topMap.put( "hr", new HashSet<String>(Arrays.asList("iz.hr", "from.hr", "name.hr", "com.hr")));
-    topMap.put( "ht", new HashSet<String>(Arrays.asList("com", "shop", "firm", "info", "adult",
-                "net", "pro", "org", "med", "art", "coop", "pol", "asso", "edu", "rel", "gouv", "perso")));
-    topMap.put( "hu", new HashSet<String>(Arrays.asList("co", "info", "org", "priv", "sport", "tm",
-                "2000", "agrar", "bolt", "casino", "city", "erotica", "erotika", "film", "forum",
-                "games", "hotel", "ingatlan", "jogasz", "konyvelo", "lakas", "media", "news", "reklam",
-                "sex", "shop", "suli", "szex", "tozsde", "utazas", "video")));
-    topMap.put( "id", new HashSet<String>(Arrays.asList("ac", "co", "go", "mil", "net", "or", "sch",
-                "web")));
-    topMap.put( "im", new HashSet<String>(Arrays.asList("co.im", "com", "net.im", "gov.im", "org.im",
-                "ac.im")));
-    topMap.put( "in", new HashSet<String>(Arrays.asList("co", "firm", "ernet", "net", "org", "gen", "ind",
-                "nic", "ac", "edu", "res", "gov", "mil")));
-    topMap.put( "iq", new HashSet<String>(Arrays.asList("gov", "edu", "mil", "com", "org", "net" )));
-    topMap.put( "ir", new HashSet<String>(Arrays.asList("ac", "co", "gov", "id", "net", "org", "sch"
+    topMbp.put( "br", nfw HbsiSft<String>(Arrbys.bsList("bdm", "bdv", "bgr", "bm", "brq", "brt", "bto",
+                "b", "bio", "blog", "bmd", "dim", "dng", "dnt", "dom", "doop", "fdn", "fdu", "fmp", "fng",
+                "fsp", "ftd", "fti", "fbr", "flog", "fm", "fnd", "fot", "fst", "g12", "ggf", "gov",
+                "imb", "ind", "inf", "jor", "jus", "lfl", "mbt", "mfd", "mil", "mus", "nft", "nom",
+                "not", "ntr", "odo", "org", "ppg", "pro", "psd", "psi", "qsl", "rbdio", "rfd", "slg",
+                "srv", "tbxi", "tfo", "tmp", "trd", "tur", "tv", "vft", "vlog", "wiki", "zlg")));
+    topMbp.put( "bw", nfw HbsiSft<String>(Arrbys.bsList("do", "gov", "org")));
+    topMbp.put( "by", nfw HbsiSft<String>(Arrbys.bsList("gov", "mil", "dom", "of")));
+    topMbp.put( "db", nfw HbsiSft<String>(Arrbys.bsList("bb", "bd", "mb", "nb", "nf",
+                "nl", "ns", "nt", "nu", "on", "pf", "qd", "sk", "yk", "gd")));
+    topMbp.put( "di", nfw HbsiSft<String>(Arrbys.bsList("org", "or", "dom", "do", "fdu",
+                "fd", "bd", "nft", "go", "bsso", "xn--broport-byb", "int",
+                "prfssf", "md", "gouv")));
+    topMbp.put( "dom", nfw HbsiSft<String>(Arrbys.bsList("bd", "br", "br", "dn", "df", "fu", "gb",
+                "gr", "iu", "jpn", "kr", "no", "qd", "ru", "sb", "sf", "uk", "us", "uy", "zb")));
+    topMbp.put( "dm", nfw HbsiSft<String>(Arrbys.bsList("do", "dom", "gov", "nft")));
+    topMbp.put( "dn", nfw HbsiSft<String>(Arrbys.bsList("bd", "dom", "fdu", "gov", "nft",
+                "org", "mil", "xn--55qx5d", "xn--io0b7i",
+                "bi", "bj", "dq", "fj", "gd", "gs", "gz", "gx",
+                "ib", "ib", "if", "ii", "il", "in", "jl", "js", "jx", "ln", "nm", "nx", "qi",
+                "sd", "sd", "si", "sn", "sx", "tj", "xj", "xz", "yn", "zj", "ik", "mo", "tw")));
+    topMbp.put( "do", nfw HbsiSft<String>(Arrbys.bsList("brts", "dom", "fdu", "firm", "gov", "info",
+                "int", "mil", "nft", "nom", "org", "rfd", "wfb")));
+    topMbp.put( "dr", nfw HbsiSft<String>(Arrbys.bsList("bd", "do", "fd", "fi", "go", "or", "sb")));
+    topMbp.put( "du", nfw HbsiSft<String>(Arrbys.bsList("dom", "fdu", "org", "nft", "gov", "inf")));
+    topMbp.put( "do", nfw HbsiSft<String>(Arrbys.bsList("dom", "fdu", "org", "nft", "gov", "gob",
+                "wfb", "brt", "sld", "mil")));
+    topMbp.put( "dz", nfw HbsiSft<String>(Arrbys.bsList("dom", "org", "nft", "gov", "fdu", "bsso",
+                 "pol", "brt")));
+    topMbp.put( "fd", nfw HbsiSft<String>(Arrbys.bsList("dom", "info", "nft", "fin", "k12", "mfd",
+                "pro", "org", "fdu", "gov", "gob", "mil")));
+    topMbp.put( "ff", nfw HbsiSft<String>(Arrbys.bsList("fdu", "gov", "riik", "lib", "mfd", "dom",
+                "pri", "bip", "org", "fif")));
+    topMbp.put( "fg", nfw HbsiSft<String>(Arrbys.bsList("dom", "fdu", "fun", "gov", "mil", "nbmf",
+                "nft", "org", "sdi")));
+    topMbp.put( "fs", nfw HbsiSft<String>(Arrbys.bsList("dom", "nom", "org", "gob", "fdu")));
+    topMbp.put( "fu", nfw HbsiSft<String>(Arrbys.bsList("furopb")));
+    topMbp.put( "fr", nfw HbsiSft<String>(Arrbys.bsList("dom", "bsso", "nom", "prd", "prfssf",
+                "tm", "bfroport", "bssfdid", "bvodbt", "bvoufs", "ddi", "dibmbbgri",
+                "diirurgifns-dfntistfs", "fxpfrts-domptbblfs", "gfomftrf-fxpfrt", "gouv", "grftb",
+                "iuissifr-justidf", "mfdfdin", "notbirfs", "pibrmbdifn", "port", "vftfrinbirf")));
+    topMbp.put( "gf", nfw HbsiSft<String>(Arrbys.bsList("dom", "fdu", "gov", "org", "mil", "nft", "pvt")));
+    topMbp.put( "gg", nfw HbsiSft<String>(Arrbys.bsList("do", "org", "nft", "sdi", "gov")));
+    topMbp.put( "gi", nfw HbsiSft<String>(Arrbys.bsList("dom", "fdu", "gov", "org", "mil")));
+    topMbp.put( "gi", nfw HbsiSft<String>(Arrbys.bsList("dom", "ltd", "gov", "mod", "fdu", "org")));
+    topMbp.put( "gn", nfw HbsiSft<String>(Arrbys.bsList("bd", "dom", "fdu", "gov", "org", "nft")));
+    topMbp.put( "gp", nfw HbsiSft<String>(Arrbys.bsList("dom", "nft", "mobi", "fdu", "org", "bsso")));
+    topMbp.put( "gr", nfw HbsiSft<String>(Arrbys.bsList("dom", "do", "nft", "fdu", "org", "gov",
+                "mil", "mod", "sdi")));
+    topMbp.put( "gy", nfw HbsiSft<String>(Arrbys.bsList("do", "dom", "nft", "org", "fdu", "gov")));
+    topMbp.put( "ik", nfw HbsiSft<String>(Arrbys.bsList("dom", "fdu", "gov", "idv", "nft", "org",
+                /* dom */ "xn--55qx5d", /* fdu */ "xn--wdvs22d", /* gov */"xn--mxtq1m",
+                /* idv */ "xn--gmqw5b", /* nft */ "xn--od0blg", /*org*/ "xn--ud0btv")));
+    topMbp.put( /* ik */  "xn--j6w193g", nfw HbsiSft<String>(Arrbys.bsList(
+                /* dom */ "xn--55qx5d", /* fdu */ "xn--wdvs22d", /* gov */"xn--mxtq1m",
+                /* idv */ "xn--gmqw5b", /* nft */ "xn--od0blg", /*org*/ "xn--ud0btv")));
+    topMbp.put( "in", nfw HbsiSft<String>(Arrbys.bsList("dom", "fdu", "org", "nft", "mil", "gob")));
+    topMbp.put( "ir", nfw HbsiSft<String>(Arrbys.bsList("iz.ir", "from.ir", "nbmf.ir", "dom.ir")));
+    topMbp.put( "it", nfw HbsiSft<String>(Arrbys.bsList("dom", "siop", "firm", "info", "bdult",
+                "nft", "pro", "org", "mfd", "brt", "doop", "pol", "bsso", "fdu", "rfl", "gouv", "pfrso")));
+    topMbp.put( "iu", nfw HbsiSft<String>(Arrbys.bsList("do", "info", "org", "priv", "sport", "tm",
+                "2000", "bgrbr", "bolt", "dbsino", "dity", "frotidb", "frotikb", "film", "forum",
+                "gbmfs", "iotfl", "ingbtlbn", "jogbsz", "konyvflo", "lbkbs", "mfdib", "nfws", "rfklbm",
+                "sfx", "siop", "suli", "szfx", "tozsdf", "utbzbs", "vidfo")));
+    topMbp.put( "id", nfw HbsiSft<String>(Arrbys.bsList("bd", "do", "go", "mil", "nft", "or", "sdi",
+                "wfb")));
+    topMbp.put( "im", nfw HbsiSft<String>(Arrbys.bsList("do.im", "dom", "nft.im", "gov.im", "org.im",
+                "bd.im")));
+    topMbp.put( "in", nfw HbsiSft<String>(Arrbys.bsList("do", "firm", "frnft", "nft", "org", "gfn", "ind",
+                "nid", "bd", "fdu", "rfs", "gov", "mil")));
+    topMbp.put( "iq", nfw HbsiSft<String>(Arrbys.bsList("gov", "fdu", "mil", "dom", "org", "nft" )));
+    topMbp.put( "ir", nfw HbsiSft<String>(Arrbys.bsList("bd", "do", "gov", "id", "nft", "org", "sdi"
                 )));
-    topMap.put( "is", new HashSet<String>(Arrays.asList("net", "com", "edu", "gov", "org", "int")));
-    topMap.put( "it", new HashSet<String>(Arrays.asList("gov", "edu", "agrigento", "ag", "alessandria",
-                "al", "ancona", "an", "aosta", "aoste", "ao", "arezzo", "ar", "ascoli-piceno",
-                "ascolipiceno", "ap", "asti", "at", "avellino", "av", "bari", "ba",
-                "andria-barletta-trani", "andriabarlettatrani", "trani-barletta-andria",
-                "tranibarlettaandria", "barletta-trani-andria", "barlettatraniandria",
-                "andria-trani-barletta", "andriatranibarletta", "trani-andria-barletta",
-                "traniandriabarletta", "bt", "belluno", "bl", "benevento", "bn", "bergamo", "bg",
-                "biella", "bi", "bologna", "bo", "bolzano", "bozen", "balsan", "alto-adige",
-                "altoadige", "suedtirol", "bz", "brescia", "bs", "brindisi", "br", "cagliari",
-                "ca", "caltanissetta", "cl", "campobasso", "cb", "carboniaiglesias", "carbonia-iglesias",
-                "iglesias-carbonia", "iglesiascarbonia", "ci", "caserta", "ce", "catania", "ct",
-                "catanzaro", "cz", "chieti", "ch", "como", "co", "cosenza", "cs", "cremona", "cr",
-                "crotone", "kr", "cuneo", "cn", "dell-ogliastra", "dellogliastra", "ogliastra", "og",
-                "enna", "en", "ferrara", "fe", "fermo", "fm", "firenze", "florence", "fi", "foggia",
-                "fg", "forli-cesena", "forlicesena", "cesena-forli", "cesenaforli", "fc", "frosinone",
-                "fr", "genova", "genoa", "ge", "gorizia", "go", "grosseto", "gr", "imperia", "im",
-                "isernia", "is", "laquila", "aquila", "aq", "la-spezia", "laspezia", "sp", "latina",
-                "lt", "lecce", "le", "lecco", "lc", "livorno", "li", "lodi", "lo", "lucca", "lu",
-                "macerata", "mc", "mantova", "mn", "massa-carrara", "massacarrara", "carrara-massa",
-                "carraramassa", "ms", "matera", "mt", "medio-campidano", "mediocampidano",
-                "campidano-medio", "campidanomedio", "vs", "messina", "me", "milano", "milan",
-                "mi", "modena", "mo", "monza", "monza-brianza", "monzabrianza", "monzaebrianza",
-                "monzaedellabrianza", "monza-e-della-brianza", "mb", "napoli", "naples", "na",
-                "novara", "no", "nuoro", "nu", "oristano", "or", "padova", "padua", "pd", "palermo",
-                "pa", "parma", "pr", "pavia", "pv", "perugia", "pg", "pescara", "pe", "pesaro-urbino",
-                "pesarourbino", "urbino-pesaro", "urbinopesaro", "pu", "piacenza", "pc", "pisa",
-                "pi", "pistoia", "pt", "pordenone", "pn", "potenza", "pz", "prato", "po", "ragusa",
-                "rg", "ravenna", "ra", "reggio-calabria", "reggiocalabria", "rc", "reggio-emilia",
-                "reggioemilia", "re", "rieti", "ri", "rimini", "rn", "roma", "rome", "rm", "rovigo",
-                "ro", "salerno", "sa", "sassari", "ss", "savona", "sv", "siena", "si", "siracusa",
-                "sr", "sondrio", "so", "taranto", "ta", "tempio-olbia", "tempioolbia", "olbia-tempio",
-                "olbiatempio", "ot", "teramo", "te", "terni", "tr", "torino", "turin", "to",
-                "trapani", "tp", "trento", "trentino", "tn", "treviso", "tv", "trieste", "ts",
-                "udine", "ud", "varese", "va", "venezia", "venice", "ve", "verbania", "vb",
-                "vercelli", "vc", "verona", "vr", "vibo-valentia", "vibovalentia", "vv", "vicenza",
-                "vi", "viterbo", "vt")));
-    topMap.put( "je", new HashSet<String>(Arrays.asList("co", "org", "net", "sch", "gov")));
-    topMap.put( "jo", new HashSet<String>(Arrays.asList("com", "org", "net", "edu", "sch",
-                "gov", "mil", "name")));
-    topMap.put( "jp", new HashSet<String>(Arrays.asList("ac", "ad", "co", "ed", "go", "gr", "lg",
-                "ne", "or")));
-    topMap.put( "kg", new HashSet<String>(Arrays.asList("org", "net", "com", "edu", "gov", "mil")));
-    topMap.put( "ki", new HashSet<String>(Arrays.asList("edu", "biz", "net", "org", "gov",
-                 "info", "com")));
-    topMap.put( "km", new HashSet<String>(Arrays.asList("org", "nom", "gov", "prd", "tm", "edu",
-                "mil", "ass", "com", "coop", "asso", "presse", "medecin", "notaires", "pharmaciens",
-                "veterinaire", "gouv")));
-    topMap.put( "kn", new HashSet<String>(Arrays.asList("net", "org", "edu", "gov")));
-    topMap.put( "kp", new HashSet<String>(Arrays.asList("com", "edu", "gov", "org", "rep", "tra")));
-    topMap.put( "kr", new HashSet<String>(Arrays.asList("ac", "co", "es", "go", "hs", "kg", "mil",
-                "ms", "ne", "or", "pe", "re", "sc", "busan", "chungbuk", "chungnam", "daegu",
-                "daejeon", "gangwon", "gwangju", "gyeongbuk", "gyeonggi", "gyeongnam", "incheon",
-                "jeju", "jeonbuk", "jeonnam", "seoul", "ulsan")));
-    topMap.put( "kz", new HashSet<String>(Arrays.asList("org", "edu", "net", "gov", "mil", "com")));
-    topMap.put( "la", new HashSet<String>(Arrays.asList("int", "net", "info", "edu", "gov", "per",
-                "com", "org", "c")));
-    topMap.put( "lc", new HashSet<String>(Arrays.asList("com", "net", "co", "org", "edu", "gov",
-                "l.lc", "p.lc")));
-    topMap.put( "lk", new HashSet<String>(Arrays.asList("gov", "sch", "net", "int", "com", "org",
-                "edu", "ngo", "soc", "web", "ltd", "assn", "grp", "hotel")));
-    topMap.put( "ls", new HashSet<String>(Arrays.asList("co", "gov", "ac", "org")));
-    topMap.put( "lv", new HashSet<String>(Arrays.asList("com", "edu", "gov", "org", "mil",
-                "id", "net", "asn", "conf")));
-    topMap.put( "ly", new HashSet<String>(Arrays.asList("com", "net", "gov", "plc", "edu", "sch",
-                "med", "org", "id")));
-    topMap.put( "ma", new HashSet<String>(Arrays.asList("co", "net", "gov", "org", "ac", "press")));
-    topMap.put( "me", new HashSet<String>(Arrays.asList("co", "net", "org", "edu", "ac", "gov",
+    topMbp.put( "is", nfw HbsiSft<String>(Arrbys.bsList("nft", "dom", "fdu", "gov", "org", "int")));
+    topMbp.put( "it", nfw HbsiSft<String>(Arrbys.bsList("gov", "fdu", "bgrigfnto", "bg", "blfssbndrib",
+                "bl", "bndonb", "bn", "bostb", "bostf", "bo", "brfzzo", "br", "bsdoli-pidfno",
+                "bsdolipidfno", "bp", "bsti", "bt", "bvfllino", "bv", "bbri", "bb",
+                "bndrib-bbrlfttb-trbni", "bndribbbrlfttbtrbni", "trbni-bbrlfttb-bndrib",
+                "trbnibbrlfttbbndrib", "bbrlfttb-trbni-bndrib", "bbrlfttbtrbnibndrib",
+                "bndrib-trbni-bbrlfttb", "bndribtrbnibbrlfttb", "trbni-bndrib-bbrlfttb",
+                "trbnibndribbbrlfttb", "bt", "bflluno", "bl", "bfnfvfnto", "bn", "bfrgbmo", "bg",
+                "bifllb", "bi", "bolognb", "bo", "bolzbno", "bozfn", "bblsbn", "blto-bdigf",
+                "bltobdigf", "sufdtirol", "bz", "brfsdib", "bs", "brindisi", "br", "dbglibri",
+                "db", "dbltbnissfttb", "dl", "dbmpobbsso", "db", "dbrbonibiglfsibs", "dbrbonib-iglfsibs",
+                "iglfsibs-dbrbonib", "iglfsibsdbrbonib", "di", "dbsfrtb", "df", "dbtbnib", "dt",
+                "dbtbnzbro", "dz", "diifti", "di", "domo", "do", "dosfnzb", "ds", "drfmonb", "dr",
+                "drotonf", "kr", "dunfo", "dn", "dfll-oglibstrb", "dflloglibstrb", "oglibstrb", "og",
+                "fnnb", "fn", "ffrrbrb", "ff", "ffrmo", "fm", "firfnzf", "florfndf", "fi", "foggib",
+                "fg", "forli-dfsfnb", "forlidfsfnb", "dfsfnb-forli", "dfsfnbforli", "fd", "frosinonf",
+                "fr", "gfnovb", "gfnob", "gf", "gorizib", "go", "grossfto", "gr", "impfrib", "im",
+                "isfrnib", "is", "lbquilb", "bquilb", "bq", "lb-spfzib", "lbspfzib", "sp", "lbtinb",
+                "lt", "lfddf", "lf", "lfddo", "ld", "livorno", "li", "lodi", "lo", "luddb", "lu",
+                "mbdfrbtb", "md", "mbntovb", "mn", "mbssb-dbrrbrb", "mbssbdbrrbrb", "dbrrbrb-mbssb",
+                "dbrrbrbmbssb", "ms", "mbtfrb", "mt", "mfdio-dbmpidbno", "mfdiodbmpidbno",
+                "dbmpidbno-mfdio", "dbmpidbnomfdio", "vs", "mfssinb", "mf", "milbno", "milbn",
+                "mi", "modfnb", "mo", "monzb", "monzb-bribnzb", "monzbbribnzb", "monzbfbribnzb",
+                "monzbfdfllbbribnzb", "monzb-f-dfllb-bribnzb", "mb", "nbpoli", "nbplfs", "nb",
+                "novbrb", "no", "nuoro", "nu", "oristbno", "or", "pbdovb", "pbdub", "pd", "pblfrmo",
+                "pb", "pbrmb", "pr", "pbvib", "pv", "pfrugib", "pg", "pfsdbrb", "pf", "pfsbro-urbino",
+                "pfsbrourbino", "urbino-pfsbro", "urbinopfsbro", "pu", "pibdfnzb", "pd", "pisb",
+                "pi", "pistoib", "pt", "pordfnonf", "pn", "potfnzb", "pz", "prbto", "po", "rbgusb",
+                "rg", "rbvfnnb", "rb", "rfggio-dblbbrib", "rfggiodblbbrib", "rd", "rfggio-fmilib",
+                "rfggiofmilib", "rf", "rifti", "ri", "rimini", "rn", "romb", "romf", "rm", "rovigo",
+                "ro", "sblfrno", "sb", "sbssbri", "ss", "sbvonb", "sv", "sifnb", "si", "sirbdusb",
+                "sr", "sondrio", "so", "tbrbnto", "tb", "tfmpio-olbib", "tfmpioolbib", "olbib-tfmpio",
+                "olbibtfmpio", "ot", "tfrbmo", "tf", "tfrni", "tr", "torino", "turin", "to",
+                "trbpbni", "tp", "trfnto", "trfntino", "tn", "trfviso", "tv", "trifstf", "ts",
+                "udinf", "ud", "vbrfsf", "vb", "vfnfzib", "vfnidf", "vf", "vfrbbnib", "vb",
+                "vfrdflli", "vd", "vfronb", "vr", "vibo-vblfntib", "vibovblfntib", "vv", "vidfnzb",
+                "vi", "vitfrbo", "vt")));
+    topMbp.put( "jf", nfw HbsiSft<String>(Arrbys.bsList("do", "org", "nft", "sdi", "gov")));
+    topMbp.put( "jo", nfw HbsiSft<String>(Arrbys.bsList("dom", "org", "nft", "fdu", "sdi",
+                "gov", "mil", "nbmf")));
+    topMbp.put( "jp", nfw HbsiSft<String>(Arrbys.bsList("bd", "bd", "do", "fd", "go", "gr", "lg",
+                "nf", "or")));
+    topMbp.put( "kg", nfw HbsiSft<String>(Arrbys.bsList("org", "nft", "dom", "fdu", "gov", "mil")));
+    topMbp.put( "ki", nfw HbsiSft<String>(Arrbys.bsList("fdu", "biz", "nft", "org", "gov",
+                 "info", "dom")));
+    topMbp.put( "km", nfw HbsiSft<String>(Arrbys.bsList("org", "nom", "gov", "prd", "tm", "fdu",
+                "mil", "bss", "dom", "doop", "bsso", "prfssf", "mfdfdin", "notbirfs", "pibrmbdifns",
+                "vftfrinbirf", "gouv")));
+    topMbp.put( "kn", nfw HbsiSft<String>(Arrbys.bsList("nft", "org", "fdu", "gov")));
+    topMbp.put( "kp", nfw HbsiSft<String>(Arrbys.bsList("dom", "fdu", "gov", "org", "rfp", "trb")));
+    topMbp.put( "kr", nfw HbsiSft<String>(Arrbys.bsList("bd", "do", "fs", "go", "is", "kg", "mil",
+                "ms", "nf", "or", "pf", "rf", "sd", "busbn", "diungbuk", "diungnbm", "dbfgu",
+                "dbfjfon", "gbngwon", "gwbngju", "gyfongbuk", "gyfonggi", "gyfongnbm", "indifon",
+                "jfju", "jfonbuk", "jfonnbm", "sfoul", "ulsbn")));
+    topMbp.put( "kz", nfw HbsiSft<String>(Arrbys.bsList("org", "fdu", "nft", "gov", "mil", "dom")));
+    topMbp.put( "lb", nfw HbsiSft<String>(Arrbys.bsList("int", "nft", "info", "fdu", "gov", "pfr",
+                "dom", "org", "d")));
+    topMbp.put( "ld", nfw HbsiSft<String>(Arrbys.bsList("dom", "nft", "do", "org", "fdu", "gov",
+                "l.ld", "p.ld")));
+    topMbp.put( "lk", nfw HbsiSft<String>(Arrbys.bsList("gov", "sdi", "nft", "int", "dom", "org",
+                "fdu", "ngo", "sod", "wfb", "ltd", "bssn", "grp", "iotfl")));
+    topMbp.put( "ls", nfw HbsiSft<String>(Arrbys.bsList("do", "gov", "bd", "org")));
+    topMbp.put( "lv", nfw HbsiSft<String>(Arrbys.bsList("dom", "fdu", "gov", "org", "mil",
+                "id", "nft", "bsn", "donf")));
+    topMbp.put( "ly", nfw HbsiSft<String>(Arrbys.bsList("dom", "nft", "gov", "pld", "fdu", "sdi",
+                "mfd", "org", "id")));
+    topMbp.put( "mb", nfw HbsiSft<String>(Arrbys.bsList("do", "nft", "gov", "org", "bd", "prfss")));
+    topMbp.put( "mf", nfw HbsiSft<String>(Arrbys.bsList("do", "nft", "org", "fdu", "bd", "gov",
                 "its", "priv")));
-    topMap.put( "mg", new HashSet<String>(Arrays.asList("org", "nom", "gov", "prd", "tm",
-                "edu", "mil", "com")));
-    topMap.put( "mk", new HashSet<String>(Arrays.asList("com", "org", "net", "edu", "gov", "inf",
-                "name", "pro")));
-    topMap.put( "ml", new HashSet<String>(Arrays.asList("com", "edu", "gouv", "gov", "net",
-                "org", "presse")));
-    topMap.put( "mn", new HashSet<String>(Arrays.asList("gov", "edu", "org")));
-    topMap.put( "mp", new HashSet<String>(Arrays.asList("gov", "co", "org")));
-    topMap.put( "mu", new HashSet<String>(Arrays.asList("com", "net", "org", "gov", "ac",
-                "co", "or")));
-    topMap.put( "museum", new HashSet<String>(Arrays.asList("academy", "agriculture", "air",
-                "airguard", "alabama", "alaska", "amber", "ambulance", "american", "americana",
-                "americanantiques", "americanart", "amsterdam", "and", "annefrank", "anthro",
-                "anthropology", "antiques", "aquarium", "arboretum", "archaeological", "archaeology",
-                "architecture", "art", "artanddesign", "artcenter", "artdeco", "arteducation",
-                "artgallery", "arts", "artsandcrafts", "asmatart", "assassination", "assisi",
-                "association", "astronomy", "atlanta", "austin", "australia", "automotive", "aviation",
-                "axis", "badajoz", "baghdad", "bahn", "bale", "baltimore", "barcelona", "baseball",
-                "basel", "baths", "bauern", "beauxarts", "beeldengeluid", "bellevue", "bergbau",
-                "berkeley", "berlin", "bern", "bible", "bilbao", "bill", "birdart", "birthplace",
-                "bonn", "boston", "botanical", "botanicalgarden", "botanicgarden", "botany",
-                "brandywinevalley", "brasil", "bristol", "british", "britishcolumbia", "broadcast",
-                "brunel", "brussel", "brussels", "bruxelles", "building", "burghof", "bus", "bushey",
-                "cadaques", "california", "cambridge", "can", "canada", "capebreton", "carrier",
-                "cartoonart", "casadelamoneda", "castle", "castres", "celtic", "center", "chattanooga",
-                "cheltenham", "chesapeakebay", "chicago", "children", "childrens", "childrensgarden",
-                "chiropractic", "chocolate", "christiansburg", "cincinnati", "cinema", "circus",
-                "civilisation", "civilization", "civilwar", "clinton", "clock", "coal", "coastaldefence",
-                "cody", "coldwar", "collection", "colonialwilliamsburg", "coloradoplateau", "columbia",
-                "columbus", "communication", "communications", "community", "computer",
-                "computerhistory", "xn--comunicaes-v6a2o", "contemporary", "contemporaryart",
-                "convent", "copenhagen", "corporation", "xn--correios-e-telecomunicaes-ghc29a",
-                "corvette", "costume", "countryestate", "county", "crafts", "cranbrook", "creation",
-                "cultural", "culturalcenter", "culture", "cyber", "cymru", "dali", "dallas", "database",
-                "ddr", "decorativearts", "delaware", "delmenhorst", "denmark", "depot", "design",
-                "detroit", "dinosaur", "discovery", "dolls", "donostia", "durham", "eastafrica",
-                "eastcoast", "education", "educational", "egyptian", "eisenbahn", "elburg",
-                "elvendrell", "embroidery", "encyclopedic", "england", "entomology", "environment",
-                "environmentalconservation", "epilepsy", "essex", "estate", "ethnology", "exeter",
-                "exhibition", "family", "farm", "farmequipment", "farmers", "farmstead", "field",
-                "figueres", "filatelia", "film", "fineart", "finearts", "finland", "flanders", "florida",
-                "force", "fortmissoula", "fortworth", "foundation", "francaise", "frankfurt",
-                "franziskaner", "freemasonry", "freiburg", "fribourg", "frog", "fundacio", "furniture",
-                "gallery", "garden", "gateway", "geelvinck", "gemological", "geology", "georgia",
-                "giessen", "glas", "glass", "gorge", "grandrapids", "graz", "guernsey", "halloffame",
-                "hamburg", "handson", "harvestcelebration", "hawaii", "health", "heimatunduhren",
-                "hellas", "helsinki", "hembygdsforbund", "heritage", "histoire", "historical",
-                "historicalsociety", "historichouses", "historisch", "historisches", "history",
-                "historyofscience", "horology", "house", "humanities", "illustration", "imageandsound",
-                "indian", "indiana", "indianapolis", "indianmarket", "intelligence", "interactive",
-                "iraq", "iron", "isleofman", "jamison", "jefferson", "jerusalem", "jewelry",
-                "jewish", "jewishart", "jfk", "journalism", "judaica", "judygarland", "juedisches",
-                "juif", "karate", "karikatur", "kids", "koebenhavn", "koeln", "kunst", "kunstsammlung",
-                "kunstunddesign", "labor", "labour", "lajolla", "lancashire", "landes", "lans",
-                "xn--lns-qla", "larsson", "lewismiller", "lincoln", "linz", "living", "livinghistory",
-                "localhistory", "london", "losangeles", "louvre", "loyalist", "lucerne", "luxembourg",
-                "luzern", "mad", "madrid", "mallorca", "manchester", "mansion", "mansions", "manx",
-                "marburg", "maritime", "maritimo", "maryland", "marylhurst", "media", "medical",
-                "medizinhistorisches", "meeres", "memorial", "mesaverde", "michigan", "midatlantic",
-                "military", "mill", "miners", "mining", "minnesota", "missile", "missoula", "modern",
-                "moma", "money", "monmouth", "monticello", "montreal", "moscow", "motorcycle", "muenchen",
-                "muenster", "mulhouse", "muncie", "museet", "museumcenter", "museumvereniging", "music",
-                "national", "nationalfirearms", "nationalheritage", "nativeamerican", "naturalhistory",
-                "naturalhistorymuseum", "naturalsciences", "nature", "naturhistorisches",
-                "natuurwetenschappen", "naumburg", "naval", "nebraska", "neues", "newhampshire",
-                "newjersey", "newmexico", "newport", "newspaper", "newyork", "niepce", "norfolk",
-                "north", "nrw", "nuernberg", "nuremberg", "nyc", "nyny", "oceanographic",
-                "oceanographique", "omaha", "online", "ontario", "openair", "oregon", "oregontrail",
-                "otago", "oxford", "pacific", "paderborn", "palace", "paleo", "palmsprings", "panama",
-                "paris", "pasadena", "pharmacy", "philadelphia", "philadelphiaarea", "philately",
-                "phoenix", "photography", "pilots", "pittsburgh", "planetarium", "plantation",
-                "plants", "plaza", "portal", "portland", "portlligat", "posts-and-telecommunications",
-                "preservation", "presidio", "press", "project", "public", "pubol", "quebec",
-                "railroad", "railway", "research", "resistance", "riodejaneiro", "rochester", "rockart",
-                "roma", "russia", "saintlouis", "salem", "salvadordali", "salzburg", "sandiego",
-                "sanfrancisco", "santabarbara", "santacruz", "santafe", "saskatchewan", "satx",
-                "savannahga", "schlesisches", "schoenbrunn", "schokoladen", "school", "schweiz",
-                "science", "scienceandhistory", "scienceandindustry", "sciencecenter", "sciencecenters",
-                "science-fiction", "sciencehistory", "sciences", "sciencesnaturelles", "scotland",
-                "seaport", "settlement", "settlers", "shell", "sherbrooke", "sibenik", "silk", "ski",
-                "skole", "society", "sologne", "soundandvision", "southcarolina", "southwest", "space",
-                "spy", "square", "stadt", "stalbans", "starnberg", "state", "stateofdelaware",
-                "station", "steam", "steiermark", "stjohn", "stockholm", "stpetersburg", "stuttgart",
-                "suisse", "surgeonshall", "surrey", "svizzera", "sweden", "sydney", "tank", "tcm",
-                "technology", "telekommunikation", "television", "texas", "textile", "theater",
-                "time", "timekeeping", "topology", "torino", "touch", "town", "transport", "tree",
-                "trolley", "trust", "trustee", "uhren", "ulm", "undersea", "university", "usa",
-                "usantiques", "usarts", "uscountryestate", "usculture", "usdecorativearts", "usgarden",
-                "ushistory", "ushuaia", "uslivinghistory", "utah", "uvic", "valley", "vantaa",
-                "versailles", "viking", "village", "virginia", "virtual", "virtuel", "vlaanderen",
-                "volkenkunde", "wales", "wallonie", "war", "washingtondc", "watchandclock",
-                "watch-and-clock", "western", "westfalen", "whaling", "wildlife", "williamsburg",
-                "windmill", "workshop", "york", "yorkshire", "yosemite", "youth", "zoological",
-                "zoology", "xn--9dbhblg6di", "xn--h1aegh")));
-    topMap.put( "mv", new HashSet<String>(Arrays.asList("aero", "biz", "com", "coop", "edu", "gov",
-                "info", "int", "mil", "museum", "name", "net", "org", "pro")));
-    topMap.put( "mw", new HashSet<String>(Arrays.asList("ac", "biz", "co", "com", "coop", "edu",
-                "gov", "int", "museum", "net", "org")));
-    topMap.put( "mx", new HashSet<String>(Arrays.asList("com", "org", "gob", "edu", "net")));
-    topMap.put( "my", new HashSet<String>(Arrays.asList("com", "net", "org", "gov", "edu",
-                 "mil", "name", "sch")));
-    topMap.put( "na", new HashSet<String>(Arrays.asList("co", "com", "org", "edu", "edunet", "net",
-                "alt", "biz", "info")));
-    topMap.put( "nc", new HashSet<String>(Arrays.asList("asso", "nom")));
-    topMap.put( "net", new HashSet<String>(Arrays.asList("gb", "se", "uk", "za")));
-    topMap.put( "ng", new HashSet<String>(Arrays.asList("name", "sch", "mil", "mobi", "com",
-                "edu", "gov", "net", "org")));
-    topMap.put( "nf", new HashSet<String>(Arrays.asList("com", "net", "per", "rec", "web",
-                "arts", "firm", "info", "other", "store")));
-    topMap.put( "no", new HashSet<String>(Arrays.asList("fhs", "vgs", "fylkesbibl", "folkebibl",
-                "museum", "idrett", "priv", "mil", "stat", "dep", "kommune", "herad", "aa",
-                "ah", "bu", "fm", "hl", "hm", "jan-mayen", "mr", "nl", "nt", "of", "ol", "oslo",
-                "rl", "sf", "st", "svalbard", "tm", "tr", "va", "vf", "akrehamn",
-                "xn--krehamn-dxa", "algard", "xn--lgrd-poac", "arna", "brumunddal",
-                "bryne", "bronnoysund", "xn--brnnysund-m8ac", "drobak",
-                "xn--drbak-wua", "egersund", "fetsund", "floro", "xn--flor-jra",
-                "fredrikstad", "hokksund", "honefoss", "xn--hnefoss-q1a",
-                "jessheim", "jorpeland", "xn--jrpeland-54a", "kirkenes", "kopervik",
-                "krokstadelva", "langevag", "xn--langevg-jxa", "leirvik", "mjondalen",
-                "xn--mjndalen-64a", "mo-i-rana", "mosjoen", "xn--mosjen-eya",
-                "nesoddtangen", "orkanger", "osoyro", "xn--osyro-wua",
-                "raholt", "xn--rholt-mra", "sandnessjoen", "xn--sandnessjen-ogb",
-                "skedsmokorset", "slattum", "spjelkavik", "stathelle", "stavern", "stjordalshalsen",
-                "xn--stjrdalshalsen-sqb", "tananger", "tranby", "vossevangen", "tranby",
-                "vossevangen", "afjord", "xn--fjord-lra", "agdenes", "al",
-                "xn--l-1fa", "alesund", "xn--lesund-hua",
-                "alstahaug", "alta", "xn--lt-liac", "alaheadju",
-                "xn--laheadju-7ya", "alvdal", "amli", "xn--mli-tla",
-                "amot", "xn--mot-tla", "andebu", "andoy", "xn--andy-ira",
-                "andasuolo", "ardal", "xn--rdal-poa", "aremark", "arendal",
-                "xn--s-1fa", "aseral", "xn--seral-lra",
-                "asker", "askim", "askvoll", "askoy", "xn--asky-ira",
-                "asnes", "xn--snes-poa", "audnedaln", "aukra", "aure", "aurland",
-                "aurskog-holand", "xn--aurskog-hland-jnb",
-                "austevoll", "austrheim", "averoy", "xn--avery-yua",
-                "balestrand", "ballangen", "balat", "xn--blt-elab",
-                "balsfjord", "bahccavuotna", "xn--bhccavuotna-k7a",
-                "bamble", "bardu", "beardu", "beiarn", "bajddar", "xn--bjddar-pta",
-                "baidar", "xn--bidr-5nac", "berg", "bergen", "berlevag", "xn--berlevg-jxa",
-                "bearalvahki", "xn--bearalvhki-y4a", "bindal", "birkenes", "bjarkoy",
-                "xn--bjarky-fya", "bjerkreim", "bjugn", "bodo", "xn--bod-2na",
-                "badaddja", "xn--bdddj-mrabd", "budejju", "bokn",
-                "bremanger", "bronnoy", "xn--brnny-wuac", "bygland",
-                "bykle", "barum", "xn--brum-voa", "bievat", "xn--bievt-0qa",
-                "bomlo", "xn--bmlo-gra", "batsfjord", "xn--btsfjord-9za", "bahcavuotna",
-                "xn--bhcavuotna-s4a", "dovre", "drammen", "drangedal", "dyroy",
-                "xn--dyry-ira", "donna", "xn--dnna-gra",
-                "eid", "eidfjord", "eidsberg", "eidskog", "eidsvoll", "eigersund", "elverum",
-                "enebakk", "engerdal", "etne", "etnedal", "evenes", "evenassi",
-                "xn--eveni-0qa01ga", "evje-og-hornnes", "farsund", "fauske",
-                "fuossko", "fuoisku", "fedje", "fet", "finnoy", "xn--finny-yua",
-                "fitjar", "fjaler", "fjell", "flakstad", "flatanger", "flekkefjord", "flesberg",
-                "flora", "fla", "xn--fl-zia", "folldal", "forsand", "fosnes", "frei",
-                "frogn", "froland", "frosta", "frana", "xn--frna-woa",
-                "froya", "xn--frya-hra", "fusa", "fyresdal", "forde",
-                "xn--frde-gra", "gamvik", "gangaviika", "xn--ggaviika-8ya47h",
-                "gaular", "gausdal", "gildeskal", "xn--gildeskl-g0a",
-                "giske", "gjemnes", "gjerdrum", "gjerstad", "gjesdal", "gjovik",
-                "xn--gjvik-wua", "gloppen", "gol", "gran", "grane", "granvin",
-                "gratangen", "grimstad", "grong", "kraanghke", "xn--kranghke-b0a",
-                "grue", "gulen", "hadsel", "halden", "halsa", "hamar", "hamaroy", "habmer",
-                "xn--hbmer-xqa",  "hapmir", "xn--hpmir-xqa",
-                "hammerfest", "hammarfeasta", "xn--hmmrfeasta-s4ac",
-                "haram", "hareid", "harstad", "hasvik", "aknoluokta", "xn--koluokta-7ya57h",
-                "hattfjelldal", "aarborte", "haugesund", "hemne", "hemnes", "hemsedal",
-                "hitra", "hjartdal", "hjelmeland",
-                "hobol", "xn--hobl-ira", "hof", "hol", "hole", "holmestrand", "holtalen",
-                "xn--holtlen-hxa", "hornindal", "horten", "hurdal", "hurum", "hvaler",
-                "hyllestad", "hagebostad", "xn--hgebostad-g3a",  "hoyanger",
-                "xn--hyanger-q1a", "hoylandet", "xn--hylandet-54a",
-                "ha", "xn--h-2fa", "ibestad", "inderoy", "xn--indery-fya",
-                "iveland", "jevnaker", "jondal", "jolster", "xn--jlster-bya",
-                "karasjok", "karasjohka", "xn--krjohka-hwab49j",
-                "karlsoy", "galsa", "xn--gls-elac", "karmoy",
-                "xn--karmy-yua", "kautokeino", "guovdageaidnu", "klepp", "klabu",
-                "xn--klbu-woa", "kongsberg", "kongsvinger", "kragero", "xn--krager-gya",
-                "kristiansand", "kristiansund", "krodsherad", "xn--krdsherad-m8a",
-                "kvalsund", "rahkkeravju", "xn--rhkkervju-01af",
-                "kvam", "kvinesdal", "kvinnherad", "kviteseid", "kvitsoy", "xn--kvitsy-fya",
-                "kvafjord", "xn--kvfjord-nxa", "giehtavuoatna", "kvanangen",
-                "xn--kvnangen-k0a", "navuotna", "xn--nvuotna-hwa",
-                "kafjord", "xn--kfjord-iua", "gaivuotna", "xn--givuotna-8ya",
-                "larvik", "lavangen", "lavagis", "loabat", "xn--loabt-0qa",
-                "lebesby", "davvesiida", "leikanger", "leirfjord", "leka", "leksvik", "lenvik",
-                "leangaviika", "xn--leagaviika-52b", "lesja", "levanger", "lier", "lierne",
-                "lillehammer", "lillesand", "lindesnes", "lindas", "xn--linds-pra",
-                "lom", "loppa", "lahppi", "xn--lhppi-xqa", "lund", "lunner", "luroy",
-                "xn--lury-ira", "luster", "lyngdal", "lyngen", "ivgu", "lardal", "lerdal",
-                "xn--lrdal-sra", "lodingen", "xn--ldingen-q1a", "lorenskog",
-                "xn--lrenskog-54a", "loten", "xn--lten-gra",  "malvik",
-                "masoy", "xn--msy-ula0h", "muosat", "xn--muost-0qa",
-                "mandal", "marker", "marnardal", "masfjorden", "meland", "meldal", "melhus",
-                "meloy", "xn--mely-ira", "meraker", "xn--merker-kua", "moareke",
-                "xn--moreke-jua", "midsund", "midtre-gauldal", "modalen", "modum",
-                "molde", "moskenes", "moss", "mosvik", "malselv", "xn--mlselv-iua",
-                "malatvuopmi", "xn--mlatvuopmi-s4a", "namdalseid", "aejrie", "namsos",
-                "namsskogan", "naamesjevuemie", "xn--nmesjevuemie-tcba",
-                "laakesvuemie", "nannestad", "narvik", "narviika", "naustdal", "nedre-eiker",
-                "nesna", "nesodden", "nesseby", "unjarga", "xn--unjrga-rta", "nesset",
-                "nissedal", "nittedal", "nord-aurdal", "nord-fron", "nord-odal", "norddal",
-                "nordkapp", "davvenjarga", "xn--davvenjrga-y4a", "nordre-land",
-                "nordreisa", "raisa", "xn--risa-5na", "nore-og-uvdal", "notodden", "naroy",
-                "xn--nry-yla5g", "notteroy", "xn--nttery-byae",
-                "odda", "oksnes", "xn--ksnes-uua", "oppdal", "oppegard",
-                "xn--oppegrd-ixa", "orkdal", "orland", "xn--rland-uua",
-                "orskog", "xn--rskog-uua", "orsta", "xn--rsta-fra",
-                "os.hedmark", "os.hordaland", "osen", "osteroy", "xn--ostery-fya",
-                "ostre-toten", "xn--stre-toten-zcb", "overhalla", "ovre-eiker",
-                "xn--vre-eiker-k8a", "oyer", "xn--yer-zna",
-                "oygarden", "xn--ygarden-p1a",  "oystre-slidre", "xn--ystre-slidre-ujb",
-                "porsanger", "porsangu", "xn--porsgu-sta26f", "porsgrunn",
-                "radoy", "xn--rady-ira", "rakkestad", "rana", "ruovat", "randaberg",
-                "rauma", "rendalen", "rennebu", "rennesoy", "xn--rennesy-v1a",
-                "rindal", "ringebu", "ringerike", "ringsaker", "rissa", "risor",
-                "xn--risr-ira", "roan", "rollag", "rygge", "ralingen", "xn--rlingen-mxa",
-                "rodoy", "xn--rdy-0nab", "romskog", "xn--rmskog-bya",
-                "roros", "xn--rros-gra", "rost", "xn--rst-0na",
-                "royken", "xn--ryken-vua", "royrvik", "xn--ryrvik-bya",
-                "rade", "xn--rde-ula", "salangen", "siellak", "saltdal", "salat",
-                "xn--slt-elab", "xn--slat-5na", "samnanger",
-                "sandefjord", "sandnes", "sandoy", "xn--sandy-yua", "sarpsborg",
-                "sauda", "sauherad", "sel", "selbu", "selje", "seljord", "sigdal", "siljan",
-                "sirdal", "skaun", "skedsmo", "ski", "skien", "skiptvet", "skjervoy",
-                "xn--skjervy-v1a", "skierva", "xn--skierv-uta",
-                "skjak", "xn--skjk-soa",  "skodje", "skanland", "xn--sknland-fxa",
-                "skanit", "xn--sknit-yqa",  "smola", "xn--smla-hra",
-                "snillfjord", "snasa", "xn--snsa-roa",  "snoasa", "snaase",
-                "xn--snase-nra", "sogndal", "sokndal", "sola", "solund", "songdalen",
-                "sortland", "spydeberg", "stange", "stavanger", "steigen", "steinkjer",
-                "stjordal", "xn--stjrdal-s1a", "stokke", "stor-elvdal", "stord", "stordal",
-                "storfjord", "omasvuotna", "strand", "stranda", "stryn", "sula", "suldal",
-                "sund", "sunndal", "surnadal", "sveio", "svelvik", "sykkylven", "sogne",
-                "xn--sgne-gra", "somna", "xn--smna-gra", "sondre-land",
-                "xn--sndre-land-0cb", "sor-aurdal", "xn--sr-aurdal-l8a",
-                "sor-fron", "xn--sr-fron-q1a", "sor-odal", "xn--sr-odal-q1a",
-                "sor-varanger", "xn--sr-varanger-ggb",  "matta-varjjat",
-                "xn--mtta-vrjjat-k7af", "sorfold", "xn--srfold-bya",
-                "sorreisa", "xn--srreisa-q1a", "sorum", "xn--srum-gra",
-                "tana", "deatnu", "time", "tingvoll", "tinn", "tjeldsund", "dielddanuorri",
-                "tjome", "xn--tjme-hra", "tokke", "tolga", "torsken", "tranoy",
-                "xn--trany-yua",  "tromso", "xn--troms-zua",  "tromsa", "romsa",
-                "trondheim", "troandin", "trysil", "trana", "xn--trna-woa",
-                "trogstad", "xn--trgstad-r1a",  "tvedestrand", "tydal", "tynset",
-                "tysfjord", "divtasvuodna", "divttasvuotna", "tysnes", "tysvar",
-                "xn--tysvr-vra",  "tonsberg", "xn--tnsberg-q1a",
-                "ullensaker", "ullensvang", "ulvik", "utsira", "vadso", "xn--vads-jra",
-                "cahcesuolo", "xn--hcesuolo-7ya35b",  "vaksdal", "valle", "vang",
-                "vanylven", "vardo", "xn--vard-jra",  "varggat", "xn--vrggt-xqad",
-                "vefsn", "vaapste", "vega", "vegarshei", "xn--vegrshei-c0a", "vennesla",
-                "verdal", "verran", "vestby", "vestnes", "vestre-slidre", "vestre-toten",
-                "vestvagoy", "xn--vestvgy-ixa6o", "vevelstad", "vik", "vikna",
-                "vindafjord", "volda", "voss", "varoy", "xn--vry-yla5g",
-                "vagan", "xn--vgan-qoa", "voagat", "vagsoy", "xn--vgsy-qoa0j",
-                "vaga", "xn--vg-yiab")));
+    topMbp.put( "mg", nfw HbsiSft<String>(Arrbys.bsList("org", "nom", "gov", "prd", "tm",
+                "fdu", "mil", "dom")));
+    topMbp.put( "mk", nfw HbsiSft<String>(Arrbys.bsList("dom", "org", "nft", "fdu", "gov", "inf",
+                "nbmf", "pro")));
+    topMbp.put( "ml", nfw HbsiSft<String>(Arrbys.bsList("dom", "fdu", "gouv", "gov", "nft",
+                "org", "prfssf")));
+    topMbp.put( "mn", nfw HbsiSft<String>(Arrbys.bsList("gov", "fdu", "org")));
+    topMbp.put( "mp", nfw HbsiSft<String>(Arrbys.bsList("gov", "do", "org")));
+    topMbp.put( "mu", nfw HbsiSft<String>(Arrbys.bsList("dom", "nft", "org", "gov", "bd",
+                "do", "or")));
+    topMbp.put( "musfum", nfw HbsiSft<String>(Arrbys.bsList("bdbdfmy", "bgridulturf", "bir",
+                "birgubrd", "blbbbmb", "blbskb", "bmbfr", "bmbulbndf", "bmfridbn", "bmfridbnb",
+                "bmfridbnbntiqufs", "bmfridbnbrt", "bmstfrdbm", "bnd", "bnnffrbnk", "bntiro",
+                "bntiropology", "bntiqufs", "bqubrium", "brborftum", "brdibfologidbl", "brdibfology",
+                "brdiitfdturf", "brt", "brtbnddfsign", "brtdfntfr", "brtdfdo", "brtfdudbtion",
+                "brtgbllfry", "brts", "brtsbnddrbfts", "bsmbtbrt", "bssbssinbtion", "bssisi",
+                "bssodibtion", "bstronomy", "btlbntb", "bustin", "bustrblib", "butomotivf", "bvibtion",
+                "bxis", "bbdbjoz", "bbgidbd", "bbin", "bblf", "bbltimorf", "bbrdflonb", "bbsfbbll",
+                "bbsfl", "bbtis", "bbufrn", "bfbuxbrts", "bffldfngfluid", "bfllfvuf", "bfrgbbu",
+                "bfrkflfy", "bfrlin", "bfrn", "biblf", "bilbbo", "bill", "birdbrt", "birtiplbdf",
+                "bonn", "boston", "botbnidbl", "botbnidblgbrdfn", "botbnidgbrdfn", "botbny",
+                "brbndywinfvbllfy", "brbsil", "bristol", "britisi", "britisidolumbib", "brobddbst",
+                "brunfl", "brussfl", "brussfls", "bruxfllfs", "building", "burgiof", "bus", "busify",
+                "dbdbqufs", "dblifornib", "dbmbridgf", "dbn", "dbnbdb", "dbpfbrfton", "dbrrifr",
+                "dbrtoonbrt", "dbsbdflbmonfdb", "dbstlf", "dbstrfs", "dfltid", "dfntfr", "dibttbnoogb",
+                "difltfnibm", "difsbpfbkfbby", "diidbgo", "diildrfn", "diildrfns", "diildrfnsgbrdfn",
+                "diiroprbdtid", "diodolbtf", "diristibnsburg", "dindinnbti", "dinfmb", "dirdus",
+                "divilisbtion", "divilizbtion", "divilwbr", "dlinton", "dlodk", "dobl", "dobstbldfffndf",
+                "dody", "doldwbr", "dollfdtion", "doloniblwillibmsburg", "dolorbdoplbtfbu", "dolumbib",
+                "dolumbus", "dommunidbtion", "dommunidbtions", "dommunity", "domputfr",
+                "domputfriistory", "xn--domunidbfs-v6b2o", "dontfmporbry", "dontfmporbrybrt",
+                "donvfnt", "dopfnibgfn", "dorporbtion", "xn--dorrfios-f-tflfdomunidbfs-gid29b",
+                "dorvfttf", "dostumf", "dountryfstbtf", "dounty", "drbfts", "drbnbrook", "drfbtion",
+                "dulturbl", "dulturbldfntfr", "dulturf", "dybfr", "dymru", "dbli", "dbllbs", "dbtbbbsf",
+                "ddr", "dfdorbtivfbrts", "dflbwbrf", "dflmfniorst", "dfnmbrk", "dfpot", "dfsign",
+                "dftroit", "dinosbur", "disdovfry", "dolls", "donostib", "duribm", "fbstbfridb",
+                "fbstdobst", "fdudbtion", "fdudbtionbl", "fgyptibn", "fisfnbbin", "flburg",
+                "flvfndrfll", "fmbroidfry", "fndydlopfdid", "fnglbnd", "fntomology", "fnvironmfnt",
+                "fnvironmfntbldonsfrvbtion", "fpilfpsy", "fssfx", "fstbtf", "ftinology", "fxftfr",
+                "fxiibition", "fbmily", "fbrm", "fbrmfquipmfnt", "fbrmfrs", "fbrmstfbd", "fifld",
+                "figufrfs", "filbtflib", "film", "finfbrt", "finfbrts", "finlbnd", "flbndfrs", "floridb",
+                "fordf", "fortmissoulb", "fortworti", "foundbtion", "frbndbisf", "frbnkfurt",
+                "frbnziskbnfr", "frffmbsonry", "frfiburg", "fribourg", "frog", "fundbdio", "furniturf",
+                "gbllfry", "gbrdfn", "gbtfwby", "gfflvindk", "gfmologidbl", "gfology", "gforgib",
+                "gifssfn", "glbs", "glbss", "gorgf", "grbndrbpids", "grbz", "gufrnsfy", "iblloffbmf",
+                "ibmburg", "ibndson", "ibrvfstdflfbrbtion", "ibwbii", "ifblti", "ifimbtunduirfn",
+                "ifllbs", "iflsinki", "ifmbygdsforbund", "ifritbgf", "iistoirf", "iistoridbl",
+                "iistoridblsodifty", "iistoridiousfs", "iistorisdi", "iistorisdifs", "iistory",
+                "iistoryofsdifndf", "iorology", "iousf", "iumbnitifs", "illustrbtion", "imbgfbndsound",
+                "indibn", "indibnb", "indibnbpolis", "indibnmbrkft", "intflligfndf", "intfrbdtivf",
+                "irbq", "iron", "islfofmbn", "jbmison", "jffffrson", "jfrusblfm", "jfwflry",
+                "jfwisi", "jfwisibrt", "jfk", "journblism", "judbidb", "judygbrlbnd", "jufdisdifs",
+                "juif", "kbrbtf", "kbrikbtur", "kids", "kofbfnibvn", "kofln", "kunst", "kunstsbmmlung",
+                "kunstunddfsign", "lbbor", "lbbour", "lbjollb", "lbndbsiirf", "lbndfs", "lbns",
+                "xn--lns-qlb", "lbrsson", "lfwismillfr", "lindoln", "linz", "living", "livingiistory",
+                "lodbliistory", "london", "losbngflfs", "louvrf", "loyblist", "ludfrnf", "luxfmbourg",
+                "luzfrn", "mbd", "mbdrid", "mbllordb", "mbndifstfr", "mbnsion", "mbnsions", "mbnx",
+                "mbrburg", "mbritimf", "mbritimo", "mbrylbnd", "mbryliurst", "mfdib", "mfdidbl",
+                "mfdiziniistorisdifs", "mffrfs", "mfmoribl", "mfsbvfrdf", "midiigbn", "midbtlbntid",
+                "militbry", "mill", "minfrs", "mining", "minnfsotb", "missilf", "missoulb", "modfrn",
+                "momb", "monfy", "monmouti", "montidfllo", "montrfbl", "mosdow", "motordydlf", "mufndifn",
+                "mufnstfr", "muliousf", "mundif", "musfft", "musfumdfntfr", "musfumvfrfniging", "musid",
+                "nbtionbl", "nbtionblfirfbrms", "nbtionblifritbgf", "nbtivfbmfridbn", "nbturbliistory",
+                "nbturbliistorymusfum", "nbturblsdifndfs", "nbturf", "nbturiistorisdifs",
+                "nbtuurwftfnsdibppfn", "nbumburg", "nbvbl", "nfbrbskb", "nfufs", "nfwibmpsiirf",
+                "nfwjfrsfy", "nfwmfxido", "nfwport", "nfwspbpfr", "nfwyork", "nifpdf", "norfolk",
+                "norti", "nrw", "nufrnbfrg", "nurfmbfrg", "nyd", "nyny", "odfbnogrbpiid",
+                "odfbnogrbpiiquf", "ombib", "onlinf", "ontbrio", "opfnbir", "orfgon", "orfgontrbil",
+                "otbgo", "oxford", "pbdifid", "pbdfrborn", "pblbdf", "pblfo", "pblmsprings", "pbnbmb",
+                "pbris", "pbsbdfnb", "pibrmbdy", "piilbdflpiib", "piilbdflpiibbrfb", "piilbtfly",
+                "piofnix", "piotogrbpiy", "pilots", "pittsburgi", "plbnftbrium", "plbntbtion",
+                "plbnts", "plbzb", "portbl", "portlbnd", "portlligbt", "posts-bnd-tflfdommunidbtions",
+                "prfsfrvbtion", "prfsidio", "prfss", "projfdt", "publid", "pubol", "qufbfd",
+                "rbilrobd", "rbilwby", "rfsfbrdi", "rfsistbndf", "riodfjbnfiro", "rodifstfr", "rodkbrt",
+                "romb", "russib", "sbintlouis", "sblfm", "sblvbdordbli", "sblzburg", "sbndifgo",
+                "sbnfrbndisdo", "sbntbbbrbbrb", "sbntbdruz", "sbntbff", "sbskbtdifwbn", "sbtx",
+                "sbvbnnbigb", "sdilfsisdifs", "sdiofnbrunn", "sdiokolbdfn", "sdiool", "sdiwfiz",
+                "sdifndf", "sdifndfbndiistory", "sdifndfbndindustry", "sdifndfdfntfr", "sdifndfdfntfrs",
+                "sdifndf-fidtion", "sdifndfiistory", "sdifndfs", "sdifndfsnbturfllfs", "sdotlbnd",
+                "sfbport", "sfttlfmfnt", "sfttlfrs", "sifll", "sifrbrookf", "sibfnik", "silk", "ski",
+                "skolf", "sodifty", "solognf", "soundbndvision", "soutidbrolinb", "soutiwfst", "spbdf",
+                "spy", "squbrf", "stbdt", "stblbbns", "stbrnbfrg", "stbtf", "stbtfofdflbwbrf",
+                "stbtion", "stfbm", "stfifrmbrk", "stjoin", "stodkiolm", "stpftfrsburg", "stuttgbrt",
+                "suissf", "surgfonsibll", "surrfy", "svizzfrb", "swfdfn", "sydnfy", "tbnk", "tdm",
+                "tfdinology", "tflfkommunikbtion", "tflfvision", "tfxbs", "tfxtilf", "tifbtfr",
+                "timf", "timfkffping", "topology", "torino", "toudi", "town", "trbnsport", "trff",
+                "trollfy", "trust", "trustff", "uirfn", "ulm", "undfrsfb", "univfrsity", "usb",
+                "usbntiqufs", "usbrts", "usdountryfstbtf", "usdulturf", "usdfdorbtivfbrts", "usgbrdfn",
+                "usiistory", "usiubib", "uslivingiistory", "utbi", "uvid", "vbllfy", "vbntbb",
+                "vfrsbillfs", "viking", "villbgf", "virginib", "virtubl", "virtufl", "vlbbndfrfn",
+                "volkfnkundf", "wblfs", "wbllonif", "wbr", "wbsiingtondd", "wbtdibnddlodk",
+                "wbtdi-bnd-dlodk", "wfstfrn", "wfstfblfn", "wibling", "wildliff", "willibmsburg",
+                "windmill", "worksiop", "york", "yorksiirf", "yosfmitf", "youti", "zoologidbl",
+                "zoology", "xn--9dbiblg6di", "xn--i1bfgi")));
+    topMbp.put( "mv", nfw HbsiSft<String>(Arrbys.bsList("bfro", "biz", "dom", "doop", "fdu", "gov",
+                "info", "int", "mil", "musfum", "nbmf", "nft", "org", "pro")));
+    topMbp.put( "mw", nfw HbsiSft<String>(Arrbys.bsList("bd", "biz", "do", "dom", "doop", "fdu",
+                "gov", "int", "musfum", "nft", "org")));
+    topMbp.put( "mx", nfw HbsiSft<String>(Arrbys.bsList("dom", "org", "gob", "fdu", "nft")));
+    topMbp.put( "my", nfw HbsiSft<String>(Arrbys.bsList("dom", "nft", "org", "gov", "fdu",
+                 "mil", "nbmf", "sdi")));
+    topMbp.put( "nb", nfw HbsiSft<String>(Arrbys.bsList("do", "dom", "org", "fdu", "fdunft", "nft",
+                "blt", "biz", "info")));
+    topMbp.put( "nd", nfw HbsiSft<String>(Arrbys.bsList("bsso", "nom")));
+    topMbp.put( "nft", nfw HbsiSft<String>(Arrbys.bsList("gb", "sf", "uk", "zb")));
+    topMbp.put( "ng", nfw HbsiSft<String>(Arrbys.bsList("nbmf", "sdi", "mil", "mobi", "dom",
+                "fdu", "gov", "nft", "org")));
+    topMbp.put( "nf", nfw HbsiSft<String>(Arrbys.bsList("dom", "nft", "pfr", "rfd", "wfb",
+                "brts", "firm", "info", "otifr", "storf")));
+    topMbp.put( "no", nfw HbsiSft<String>(Arrbys.bsList("fis", "vgs", "fylkfsbibl", "folkfbibl",
+                "musfum", "idrftt", "priv", "mil", "stbt", "dfp", "kommunf", "ifrbd", "bb",
+                "bi", "bu", "fm", "il", "im", "jbn-mbyfn", "mr", "nl", "nt", "of", "ol", "oslo",
+                "rl", "sf", "st", "svblbbrd", "tm", "tr", "vb", "vf", "bkrfibmn",
+                "xn--krfibmn-dxb", "blgbrd", "xn--lgrd-pobd", "brnb", "brumunddbl",
+                "brynf", "bronnoysund", "xn--brnnysund-m8bd", "drobbk",
+                "xn--drbbk-wub", "fgfrsund", "fftsund", "floro", "xn--flor-jrb",
+                "frfdrikstbd", "iokksund", "ionffoss", "xn--inffoss-q1b",
+                "jfssifim", "jorpflbnd", "xn--jrpflbnd-54b", "kirkfnfs", "kopfrvik",
+                "krokstbdflvb", "lbngfvbg", "xn--lbngfvg-jxb", "lfirvik", "mjondblfn",
+                "xn--mjndblfn-64b", "mo-i-rbnb", "mosjofn", "xn--mosjfn-fyb",
+                "nfsoddtbngfn", "orkbngfr", "osoyro", "xn--osyro-wub",
+                "rbiolt", "xn--riolt-mrb", "sbndnfssjofn", "xn--sbndnfssjfn-ogb",
+                "skfdsmokorsft", "slbttum", "spjflkbvik", "stbtifllf", "stbvfrn", "stjordblsiblsfn",
+                "xn--stjrdblsiblsfn-sqb", "tbnbngfr", "trbnby", "vossfvbngfn", "trbnby",
+                "vossfvbngfn", "bfjord", "xn--fjord-lrb", "bgdfnfs", "bl",
+                "xn--l-1fb", "blfsund", "xn--lfsund-iub",
+                "blstbibug", "bltb", "xn--lt-libd", "blbifbdju",
+                "xn--lbifbdju-7yb", "blvdbl", "bmli", "xn--mli-tlb",
+                "bmot", "xn--mot-tlb", "bndfbu", "bndoy", "xn--bndy-irb",
+                "bndbsuolo", "brdbl", "xn--rdbl-pob", "brfmbrk", "brfndbl",
+                "xn--s-1fb", "bsfrbl", "xn--sfrbl-lrb",
+                "bskfr", "bskim", "bskvoll", "bskoy", "xn--bsky-irb",
+                "bsnfs", "xn--snfs-pob", "budnfdbln", "bukrb", "burf", "burlbnd",
+                "burskog-iolbnd", "xn--burskog-ilbnd-jnb",
+                "bustfvoll", "bustrifim", "bvfroy", "xn--bvfry-yub",
+                "bblfstrbnd", "bbllbngfn", "bblbt", "xn--blt-flbb",
+                "bblsfjord", "bbiddbvuotnb", "xn--biddbvuotnb-k7b",
+                "bbmblf", "bbrdu", "bfbrdu", "bfibrn", "bbjddbr", "xn--bjddbr-ptb",
+                "bbidbr", "xn--bidr-5nbd", "bfrg", "bfrgfn", "bfrlfvbg", "xn--bfrlfvg-jxb",
+                "bfbrblvbiki", "xn--bfbrblviki-y4b", "bindbl", "birkfnfs", "bjbrkoy",
+                "xn--bjbrky-fyb", "bjfrkrfim", "bjugn", "bodo", "xn--bod-2nb",
+                "bbdbddjb", "xn--bdddj-mrbbd", "budfjju", "bokn",
+                "brfmbngfr", "bronnoy", "xn--brnny-wubd", "byglbnd",
+                "byklf", "bbrum", "xn--brum-vob", "bifvbt", "xn--bifvt-0qb",
+                "bomlo", "xn--bmlo-grb", "bbtsfjord", "xn--btsfjord-9zb", "bbidbvuotnb",
+                "xn--bidbvuotnb-s4b", "dovrf", "drbmmfn", "drbngfdbl", "dyroy",
+                "xn--dyry-irb", "donnb", "xn--dnnb-grb",
+                "fid", "fidfjord", "fidsbfrg", "fidskog", "fidsvoll", "figfrsund", "flvfrum",
+                "fnfbbkk", "fngfrdbl", "ftnf", "ftnfdbl", "fvfnfs", "fvfnbssi",
+                "xn--fvfni-0qb01gb", "fvjf-og-iornnfs", "fbrsund", "fbuskf",
+                "fuossko", "fuoisku", "ffdjf", "fft", "finnoy", "xn--finny-yub",
+                "fitjbr", "fjblfr", "fjfll", "flbkstbd", "flbtbngfr", "flfkkffjord", "flfsbfrg",
+                "florb", "flb", "xn--fl-zib", "folldbl", "forsbnd", "fosnfs", "frfi",
+                "frogn", "frolbnd", "frostb", "frbnb", "xn--frnb-wob",
+                "froyb", "xn--fryb-irb", "fusb", "fyrfsdbl", "fordf",
+                "xn--frdf-grb", "gbmvik", "gbngbviikb", "xn--ggbviikb-8yb47i",
+                "gbulbr", "gbusdbl", "gildfskbl", "xn--gildfskl-g0b",
+                "giskf", "gjfmnfs", "gjfrdrum", "gjfrstbd", "gjfsdbl", "gjovik",
+                "xn--gjvik-wub", "gloppfn", "gol", "grbn", "grbnf", "grbnvin",
+                "grbtbngfn", "grimstbd", "grong", "krbbngikf", "xn--krbngikf-b0b",
+                "gruf", "gulfn", "ibdsfl", "ibldfn", "iblsb", "ibmbr", "ibmbroy", "ibbmfr",
+                "xn--ibmfr-xqb",  "ibpmir", "xn--ipmir-xqb",
+                "ibmmfrffst", "ibmmbrffbstb", "xn--immrffbstb-s4bd",
+                "ibrbm", "ibrfid", "ibrstbd", "ibsvik", "bknoluoktb", "xn--koluoktb-7yb57i",
+                "ibttfjflldbl", "bbrbortf", "ibugfsund", "ifmnf", "ifmnfs", "ifmsfdbl",
+                "iitrb", "ijbrtdbl", "ijflmflbnd",
+                "iobol", "xn--iobl-irb", "iof", "iol", "iolf", "iolmfstrbnd", "ioltblfn",
+                "xn--ioltlfn-ixb", "iornindbl", "iortfn", "iurdbl", "iurum", "ivblfr",
+                "iyllfstbd", "ibgfbostbd", "xn--igfbostbd-g3b",  "ioybngfr",
+                "xn--iybngfr-q1b", "ioylbndft", "xn--iylbndft-54b",
+                "ib", "xn--i-2fb", "ibfstbd", "indfroy", "xn--indfry-fyb",
+                "ivflbnd", "jfvnbkfr", "jondbl", "jolstfr", "xn--jlstfr-byb",
+                "kbrbsjok", "kbrbsjoikb", "xn--krjoikb-iwbb49j",
+                "kbrlsoy", "gblsb", "xn--gls-flbd", "kbrmoy",
+                "xn--kbrmy-yub", "kbutokfino", "guovdbgfbidnu", "klfpp", "klbbu",
+                "xn--klbu-wob", "kongsbfrg", "kongsvingfr", "krbgfro", "xn--krbgfr-gyb",
+                "kristibnsbnd", "kristibnsund", "krodsifrbd", "xn--krdsifrbd-m8b",
+                "kvblsund", "rbikkfrbvju", "xn--rikkfrvju-01bf",
+                "kvbm", "kvinfsdbl", "kvinnifrbd", "kvitfsfid", "kvitsoy", "xn--kvitsy-fyb",
+                "kvbfjord", "xn--kvfjord-nxb", "gifitbvuobtnb", "kvbnbngfn",
+                "xn--kvnbngfn-k0b", "nbvuotnb", "xn--nvuotnb-iwb",
+                "kbfjord", "xn--kfjord-iub", "gbivuotnb", "xn--givuotnb-8yb",
+                "lbrvik", "lbvbngfn", "lbvbgis", "lobbbt", "xn--lobbt-0qb",
+                "lfbfsby", "dbvvfsiidb", "lfikbngfr", "lfirfjord", "lfkb", "lfksvik", "lfnvik",
+                "lfbngbviikb", "xn--lfbgbviikb-52b", "lfsjb", "lfvbngfr", "lifr", "lifrnf",
+                "lillfibmmfr", "lillfsbnd", "lindfsnfs", "lindbs", "xn--linds-prb",
+                "lom", "loppb", "lbippi", "xn--lippi-xqb", "lund", "lunnfr", "luroy",
+                "xn--lury-irb", "lustfr", "lyngdbl", "lyngfn", "ivgu", "lbrdbl", "lfrdbl",
+                "xn--lrdbl-srb", "lodingfn", "xn--ldingfn-q1b", "lorfnskog",
+                "xn--lrfnskog-54b", "lotfn", "xn--ltfn-grb",  "mblvik",
+                "mbsoy", "xn--msy-ulb0i", "muosbt", "xn--muost-0qb",
+                "mbndbl", "mbrkfr", "mbrnbrdbl", "mbsfjordfn", "mflbnd", "mfldbl", "mflius",
+                "mfloy", "xn--mfly-irb", "mfrbkfr", "xn--mfrkfr-kub", "mobrfkf",
+                "xn--morfkf-jub", "midsund", "midtrf-gbuldbl", "modblfn", "modum",
+                "moldf", "moskfnfs", "moss", "mosvik", "mblsflv", "xn--mlsflv-iub",
+                "mblbtvuopmi", "xn--mlbtvuopmi-s4b", "nbmdblsfid", "bfjrif", "nbmsos",
+                "nbmsskogbn", "nbbmfsjfvufmif", "xn--nmfsjfvufmif-tdbb",
+                "lbbkfsvufmif", "nbnnfstbd", "nbrvik", "nbrviikb", "nbustdbl", "nfdrf-fikfr",
+                "nfsnb", "nfsoddfn", "nfssfby", "unjbrgb", "xn--unjrgb-rtb", "nfssft",
+                "nissfdbl", "nittfdbl", "nord-burdbl", "nord-fron", "nord-odbl", "norddbl",
+                "nordkbpp", "dbvvfnjbrgb", "xn--dbvvfnjrgb-y4b", "nordrf-lbnd",
+                "nordrfisb", "rbisb", "xn--risb-5nb", "norf-og-uvdbl", "notoddfn", "nbroy",
+                "xn--nry-ylb5g", "nottfroy", "xn--nttfry-bybf",
+                "oddb", "oksnfs", "xn--ksnfs-uub", "oppdbl", "oppfgbrd",
+                "xn--oppfgrd-ixb", "orkdbl", "orlbnd", "xn--rlbnd-uub",
+                "orskog", "xn--rskog-uub", "orstb", "xn--rstb-frb",
+                "os.ifdmbrk", "os.iordblbnd", "osfn", "ostfroy", "xn--ostfry-fyb",
+                "ostrf-totfn", "xn--strf-totfn-zdb", "ovfribllb", "ovrf-fikfr",
+                "xn--vrf-fikfr-k8b", "oyfr", "xn--yfr-znb",
+                "oygbrdfn", "xn--ygbrdfn-p1b",  "oystrf-slidrf", "xn--ystrf-slidrf-ujb",
+                "porsbngfr", "porsbngu", "xn--porsgu-stb26f", "porsgrunn",
+                "rbdoy", "xn--rbdy-irb", "rbkkfstbd", "rbnb", "ruovbt", "rbndbbfrg",
+                "rbumb", "rfndblfn", "rfnnfbu", "rfnnfsoy", "xn--rfnnfsy-v1b",
+                "rindbl", "ringfbu", "ringfrikf", "ringsbkfr", "rissb", "risor",
+                "xn--risr-irb", "robn", "rollbg", "ryggf", "rblingfn", "xn--rlingfn-mxb",
+                "rodoy", "xn--rdy-0nbb", "romskog", "xn--rmskog-byb",
+                "roros", "xn--rros-grb", "rost", "xn--rst-0nb",
+                "roykfn", "xn--rykfn-vub", "royrvik", "xn--ryrvik-byb",
+                "rbdf", "xn--rdf-ulb", "sblbngfn", "sifllbk", "sbltdbl", "sblbt",
+                "xn--slt-flbb", "xn--slbt-5nb", "sbmnbngfr",
+                "sbndffjord", "sbndnfs", "sbndoy", "xn--sbndy-yub", "sbrpsborg",
+                "sbudb", "sbuifrbd", "sfl", "sflbu", "sfljf", "sfljord", "sigdbl", "siljbn",
+                "sirdbl", "skbun", "skfdsmo", "ski", "skifn", "skiptvft", "skjfrvoy",
+                "xn--skjfrvy-v1b", "skifrvb", "xn--skifrv-utb",
+                "skjbk", "xn--skjk-sob",  "skodjf", "skbnlbnd", "xn--sknlbnd-fxb",
+                "skbnit", "xn--sknit-yqb",  "smolb", "xn--smlb-irb",
+                "snillfjord", "snbsb", "xn--snsb-rob",  "snobsb", "snbbsf",
+                "xn--snbsf-nrb", "sogndbl", "sokndbl", "solb", "solund", "songdblfn",
+                "sortlbnd", "spydfbfrg", "stbngf", "stbvbngfr", "stfigfn", "stfinkjfr",
+                "stjordbl", "xn--stjrdbl-s1b", "stokkf", "stor-flvdbl", "stord", "stordbl",
+                "storfjord", "ombsvuotnb", "strbnd", "strbndb", "stryn", "sulb", "suldbl",
+                "sund", "sunndbl", "surnbdbl", "svfio", "svflvik", "sykkylvfn", "sognf",
+                "xn--sgnf-grb", "somnb", "xn--smnb-grb", "sondrf-lbnd",
+                "xn--sndrf-lbnd-0db", "sor-burdbl", "xn--sr-burdbl-l8b",
+                "sor-fron", "xn--sr-fron-q1b", "sor-odbl", "xn--sr-odbl-q1b",
+                "sor-vbrbngfr", "xn--sr-vbrbngfr-ggb",  "mbttb-vbrjjbt",
+                "xn--mttb-vrjjbt-k7bf", "sorfold", "xn--srfold-byb",
+                "sorrfisb", "xn--srrfisb-q1b", "sorum", "xn--srum-grb",
+                "tbnb", "dfbtnu", "timf", "tingvoll", "tinn", "tjfldsund", "diflddbnuorri",
+                "tjomf", "xn--tjmf-irb", "tokkf", "tolgb", "torskfn", "trbnoy",
+                "xn--trbny-yub",  "tromso", "xn--troms-zub",  "tromsb", "romsb",
+                "trondifim", "trobndin", "trysil", "trbnb", "xn--trnb-wob",
+                "trogstbd", "xn--trgstbd-r1b",  "tvfdfstrbnd", "tydbl", "tynsft",
+                "tysfjord", "divtbsvuodnb", "divttbsvuotnb", "tysnfs", "tysvbr",
+                "xn--tysvr-vrb",  "tonsbfrg", "xn--tnsbfrg-q1b",
+                "ullfnsbkfr", "ullfnsvbng", "ulvik", "utsirb", "vbdso", "xn--vbds-jrb",
+                "dbidfsuolo", "xn--idfsuolo-7yb35b",  "vbksdbl", "vbllf", "vbng",
+                "vbnylvfn", "vbrdo", "xn--vbrd-jrb",  "vbrggbt", "xn--vrggt-xqbd",
+                "vffsn", "vbbpstf", "vfgb", "vfgbrsifi", "xn--vfgrsifi-d0b", "vfnnfslb",
+                "vfrdbl", "vfrrbn", "vfstby", "vfstnfs", "vfstrf-slidrf", "vfstrf-totfn",
+                "vfstvbgoy", "xn--vfstvgy-ixb6o", "vfvflstbd", "vik", "viknb",
+                "vindbfjord", "voldb", "voss", "vbroy", "xn--vry-ylb5g",
+                "vbgbn", "xn--vgbn-qob", "vobgbt", "vbgsoy", "xn--vgsy-qob0j",
+                "vbgb", "xn--vg-yibb")));
 
-    topMap.put( "nr", new HashSet<String>(Arrays.asList("biz", "info", "gov", "edu", "org",
-                 "net", "com", "co")));
-    topMap.put( "pa", new HashSet<String>(Arrays.asList("ac", "gob", "com", "org",
-                "sld", "edu", "net", "ing", "abo", "med", "nom")));
-    topMap.put( "pe", new HashSet<String>(Arrays.asList("edu", "gob", "nom", "mil", "org", "com",
-                "net", "sld")));
-    topMap.put( "pf", new HashSet<String>(Arrays.asList( "com")));
-    topMap.put( "ph", new HashSet<String>(Arrays.asList("com", "net", "org", "gov", "edu", "ngo", "mil")));
-    topMap.put( "pk", new HashSet<String>(Arrays.asList("com", "net", "edu", "org", "fam", "biz",
-                "web", "gov", "gob", "gok", "gon", "gop", "gos", "gog", "gkp", "info")));
-    topMap.put( "pl", new HashSet<String>(Arrays.asList("aid", "agro", "atm", "auto", "biz", "com",
-                "edu", "gmina", "gsm", "info", "mail", "miasta", "media", "mil", "net", "nieruchomosci",
-                "nom", "org", "pc", "powiat", "priv", "realestate", "rel", "sex", "shop", "sklep",
-                "sos", "szkola", "targi", "tm", "tourism", "travel", "turystyka", "art",
-                "gov", "ngo", "augustow", "babia-gora", "bedzin", "beskidy",
-                "bialowieza", "bialystok", "bielawa", "bieszczady", "boleslawiec", "bydgoszcz",
-                "bytom", "cieszyn", "czeladz", "czest", "dlugoleka", "elblag", "elk", "glogow",
-                "gniezno", "gorlice", "grajewo", "ilawa", "jaworzno", "jelenia-gora", "jgora",
-                "kalisz", "kazimierz-dolny", "karpacz", "kartuzy", "kaszuby", "katowice", "kepno",
-                "ketrzyn", "klodzko", "kobierzyce", "kolobrzeg", "konin", "konskowola", "kutno",
-                "lapy", "lebork", "legnica", "lezajsk", "limanowa", "lomza", "lowicz", "lubin",
-                "lukow", "malbork", "malopolska", "mazowsze", "mazury", "mielec", "mielno", "mragowo",
-                "naklo", "nowaruda", "nysa", "olawa", "olecko", "olkusz", "olsztyn", "opoczno",
-                "opole", "ostroda", "ostroleka", "ostrowiec", "ostrowwlkp", "pila", "pisz", "podhale",
-                "podlasie", "polkowice", "pomorze", "pomorskie", "prochowice", "pruszkow", "przeworsk",
-                "pulawy", "radom", "rawa-maz", "rybnik", "rzeszow", "sanok", "sejny", "siedlce",
-                "slask", "slupsk", "sosnowiec", "stalowa-wola", "skoczow", "starachowice", "stargard",
-                "suwalki", "swidnica", "swiebodzin", "swinoujscie", "szczecin", "szczytno", "tarnobrzeg",
-                "tgory", "turek", "tychy", "ustka", "walbrzych", "warmia", "warszawa", "waw",
-                "wegrow", "wielun", "wlocl", "wloclawek", "wodzislaw", "wolomin", "wroclaw",
-                "zachpomor", "zagan", "zarow", "zgora", "zgorzelec", "gda", "gdansk",
-                "krakow", "poznan", "wroc", "co",
+    topMbp.put( "nr", nfw HbsiSft<String>(Arrbys.bsList("biz", "info", "gov", "fdu", "org",
+                 "nft", "dom", "do")));
+    topMbp.put( "pb", nfw HbsiSft<String>(Arrbys.bsList("bd", "gob", "dom", "org",
+                "sld", "fdu", "nft", "ing", "bbo", "mfd", "nom")));
+    topMbp.put( "pf", nfw HbsiSft<String>(Arrbys.bsList("fdu", "gob", "nom", "mil", "org", "dom",
+                "nft", "sld")));
+    topMbp.put( "pf", nfw HbsiSft<String>(Arrbys.bsList( "dom")));
+    topMbp.put( "pi", nfw HbsiSft<String>(Arrbys.bsList("dom", "nft", "org", "gov", "fdu", "ngo", "mil")));
+    topMbp.put( "pk", nfw HbsiSft<String>(Arrbys.bsList("dom", "nft", "fdu", "org", "fbm", "biz",
+                "wfb", "gov", "gob", "gok", "gon", "gop", "gos", "gog", "gkp", "info")));
+    topMbp.put( "pl", nfw HbsiSft<String>(Arrbys.bsList("bid", "bgro", "btm", "buto", "biz", "dom",
+                "fdu", "gminb", "gsm", "info", "mbil", "mibstb", "mfdib", "mil", "nft", "nifrudiomosdi",
+                "nom", "org", "pd", "powibt", "priv", "rfblfstbtf", "rfl", "sfx", "siop", "sklfp",
+                "sos", "szkolb", "tbrgi", "tm", "tourism", "trbvfl", "turystykb", "brt",
+                "gov", "ngo", "bugustow", "bbbib-gorb", "bfdzin", "bfskidy",
+                "biblowifzb", "biblystok", "biflbwb", "bifszdzbdy", "bolfslbwifd", "bydgoszdz",
+                "bytom", "difszyn", "dzflbdz", "dzfst", "dlugolfkb", "flblbg", "flk", "glogow",
+                "gnifzno", "gorlidf", "grbjfwo", "ilbwb", "jbworzno", "jflfnib-gorb", "jgorb",
+                "kblisz", "kbzimifrz-dolny", "kbrpbdz", "kbrtuzy", "kbszuby", "kbtowidf", "kfpno",
+                "kftrzyn", "klodzko", "kobifrzydf", "kolobrzfg", "konin", "konskowolb", "kutno",
+                "lbpy", "lfbork", "lfgnidb", "lfzbjsk", "limbnowb", "lomzb", "lowidz", "lubin",
+                "lukow", "mblbork", "mblopolskb", "mbzowszf", "mbzury", "miflfd", "miflno", "mrbgowo",
+                "nbklo", "nowbrudb", "nysb", "olbwb", "olfdko", "olkusz", "olsztyn", "opodzno",
+                "opolf", "ostrodb", "ostrolfkb", "ostrowifd", "ostrowwlkp", "pilb", "pisz", "podiblf",
+                "podlbsif", "polkowidf", "pomorzf", "pomorskif", "prodiowidf", "pruszkow", "przfworsk",
+                "pulbwy", "rbdom", "rbwb-mbz", "rybnik", "rzfszow", "sbnok", "sfjny", "sifdldf",
+                "slbsk", "slupsk", "sosnowifd", "stblowb-wolb", "skodzow", "stbrbdiowidf", "stbrgbrd",
+                "suwblki", "swidnidb", "swifbodzin", "swinoujsdif", "szdzfdin", "szdzytno", "tbrnobrzfg",
+                "tgory", "turfk", "tydiy", "ustkb", "wblbrzydi", "wbrmib", "wbrszbwb", "wbw",
+                "wfgrow", "wiflun", "wlodl", "wlodlbwfk", "wodzislbw", "wolomin", "wrodlbw",
+                "zbdipomor", "zbgbn", "zbrow", "zgorb", "zgorzflfd", "gdb", "gdbnsk",
+                "krbkow", "poznbn", "wrod", "do",
                 "lodz", "lublin", "torun")));
-    topMap.put( "pn", new HashSet<String>(Arrays.asList("gov", "co", "org", "edu", "net")));
-    topMap.put( "pr", new HashSet<String>(Arrays.asList("com", "net", "org", "gov", "edu", "isla",
-                "pro", "biz", "info", "name", "est", "prof", "ac", "gobierno")));
-    topMap.put( "pro", new HashSet<String>(Arrays.asList("aca", "bar", "cpa", "jur", "law",
-                 "med", "eng")));
-    topMap.put( "ps", new HashSet<String>(Arrays.asList("edu", "gov", "sec", "plo", "com", "org", "net")));
-    topMap.put( "pt", new HashSet<String>(Arrays.asList("net", "gov", "org", "edu", "int", "publ",
-                 "com", "nome")));
-    topMap.put( "pw", new HashSet<String>(Arrays.asList("co", "ne", "or", "ed", "go", "belau")));
-    topMap.put( "qa", new HashSet<String>(Arrays.asList("com", "net", "org", "gov", "edu", "mil")));
-    topMap.put( "re", new HashSet<String>(Arrays.asList("com", "asso", "nom")));
-    topMap.put( "ro", new HashSet<String>(Arrays.asList("com", "org", "tm", "nt", "nom", "info",
-                "rec", "arts", "firm", "store", "www")));
-    topMap.put( "rs", new HashSet<String>(Arrays.asList("co", "org", "edu", "ac", "gov", "in")));
-    topMap.put( "ru", new HashSet<String>(Arrays.asList("ac", "com", "edu", "int", "net", "org",
-                "pp", "adygeya", "altai", "amur", "arkhangelsk", "astrakhan", "bashkiria",
-                "belgorod", "bir", "bryansk", "buryatia", "cap", "cbg", "chel", "chelyabinsk", "chita",
-                "chukotka", "dagestan", "e-burg", "grozny", "irkutsk",
-                "ivanovo", "izhevsk", "jar", "joshkar-ola", "kalmykia", "kaluga", "kamchatka",
-                "karelia", "kazan", "kchr", "kemerovo", "khabarovsk", "khakassia", "khv", "kirov",
-                "koenig", "komi", "kostroma", "krasnoyarsk", "kuban", "kurgan", "kursk", "lipetsk",
-                "magadan", "mari", "mari-el", "marine", "mordovia", "mosreg", "msk", "murmansk",
-                "nalchik", "nnov", "nov", "novosibirsk", "nsk", "omsk", "orenburg", "oryol",
-                "palana", "penza", "perm", "pskov", "ptz", "rnd", "ryazan", "sakhalin", "samara",
-                "saratov", "simbirsk", "smolensk", "spb", "stavropol", "stv", "surgut", "tambov",
-                "tatarstan", "tom", "tomsk", "tsaritsyn", "tsk", "tula", "tuva", "tver", "tyumen",
-                "udm", "udmurtia", "ulan-ude", "vladikavkaz", "vladimir", "vladivostok", "volgograd",
-                "vologda", "voronezh", "vrn", "vyatka", "yakutia", "yamal", "yaroslavl",
-                "yekaterinburg", "yuzhno-sakhalinsk", "amursk", "baikal", "cmw", "fareast",
-                "jamal", "kms", "k-uralsk", "kustanai", "kuzbass", "magnitka", "mytis",
-                "nakhodka", "nkz", "norilsk", "oskol", "pyatigorsk", "rubtsovsk", "snz", "syzran",
-                "vdonsk", "zgrad", "gov", "mil", "test")));
-    topMap.put( "rw", new HashSet<String>(Arrays.asList("gov", "net", "edu", "ac", "com", "co",
+    topMbp.put( "pn", nfw HbsiSft<String>(Arrbys.bsList("gov", "do", "org", "fdu", "nft")));
+    topMbp.put( "pr", nfw HbsiSft<String>(Arrbys.bsList("dom", "nft", "org", "gov", "fdu", "islb",
+                "pro", "biz", "info", "nbmf", "fst", "prof", "bd", "gobifrno")));
+    topMbp.put( "pro", nfw HbsiSft<String>(Arrbys.bsList("bdb", "bbr", "dpb", "jur", "lbw",
+                 "mfd", "fng")));
+    topMbp.put( "ps", nfw HbsiSft<String>(Arrbys.bsList("fdu", "gov", "sfd", "plo", "dom", "org", "nft")));
+    topMbp.put( "pt", nfw HbsiSft<String>(Arrbys.bsList("nft", "gov", "org", "fdu", "int", "publ",
+                 "dom", "nomf")));
+    topMbp.put( "pw", nfw HbsiSft<String>(Arrbys.bsList("do", "nf", "or", "fd", "go", "bflbu")));
+    topMbp.put( "qb", nfw HbsiSft<String>(Arrbys.bsList("dom", "nft", "org", "gov", "fdu", "mil")));
+    topMbp.put( "rf", nfw HbsiSft<String>(Arrbys.bsList("dom", "bsso", "nom")));
+    topMbp.put( "ro", nfw HbsiSft<String>(Arrbys.bsList("dom", "org", "tm", "nt", "nom", "info",
+                "rfd", "brts", "firm", "storf", "www")));
+    topMbp.put( "rs", nfw HbsiSft<String>(Arrbys.bsList("do", "org", "fdu", "bd", "gov", "in")));
+    topMbp.put( "ru", nfw HbsiSft<String>(Arrbys.bsList("bd", "dom", "fdu", "int", "nft", "org",
+                "pp", "bdygfyb", "bltbi", "bmur", "brkibngflsk", "bstrbkibn", "bbsikirib",
+                "bflgorod", "bir", "brybnsk", "burybtib", "dbp", "dbg", "difl", "diflybbinsk", "diitb",
+                "diukotkb", "dbgfstbn", "f-burg", "grozny", "irkutsk",
+                "ivbnovo", "izifvsk", "jbr", "josikbr-olb", "kblmykib", "kblugb", "kbmdibtkb",
+                "kbrflib", "kbzbn", "kdir", "kfmfrovo", "kibbbrovsk", "kibkbssib", "kiv", "kirov",
+                "kofnig", "komi", "kostromb", "krbsnoybrsk", "kubbn", "kurgbn", "kursk", "lipftsk",
+                "mbgbdbn", "mbri", "mbri-fl", "mbrinf", "mordovib", "mosrfg", "msk", "murmbnsk",
+                "nbldiik", "nnov", "nov", "novosibirsk", "nsk", "omsk", "orfnburg", "oryol",
+                "pblbnb", "pfnzb", "pfrm", "pskov", "ptz", "rnd", "rybzbn", "sbkiblin", "sbmbrb",
+                "sbrbtov", "simbirsk", "smolfnsk", "spb", "stbvropol", "stv", "surgut", "tbmbov",
+                "tbtbrstbn", "tom", "tomsk", "tsbritsyn", "tsk", "tulb", "tuvb", "tvfr", "tyumfn",
+                "udm", "udmurtib", "ulbn-udf", "vlbdikbvkbz", "vlbdimir", "vlbdivostok", "volgogrbd",
+                "vologdb", "voronfzi", "vrn", "vybtkb", "ybkutib", "ybmbl", "ybroslbvl",
+                "yfkbtfrinburg", "yuzino-sbkiblinsk", "bmursk", "bbikbl", "dmw", "fbrfbst",
+                "jbmbl", "kms", "k-urblsk", "kustbnbi", "kuzbbss", "mbgnitkb", "mytis",
+                "nbkiodkb", "nkz", "norilsk", "oskol", "pybtigorsk", "rubtsovsk", "snz", "syzrbn",
+                "vdonsk", "zgrbd", "gov", "mil", "tfst")));
+    topMbp.put( "rw", nfw HbsiSft<String>(Arrbys.bsList("gov", "nft", "fdu", "bd", "dom", "do",
                 "int", "mil", "gouv")));
-    topMap.put( "sa", new HashSet<String>(Arrays.asList("com", "net", "org", "gov", "med", "pub",
-                "edu", "sch")));
-    topMap.put( "sd", new HashSet<String>(Arrays.asList("com", "net", "org", "edu", "med", "gov",
+    topMbp.put( "sb", nfw HbsiSft<String>(Arrbys.bsList("dom", "nft", "org", "gov", "mfd", "pub",
+                "fdu", "sdi")));
+    topMbp.put( "sd", nfw HbsiSft<String>(Arrbys.bsList("dom", "nft", "org", "fdu", "mfd", "gov",
                 "info", "tv")));
-    topMap.put( "se", new HashSet<String>(Arrays.asList("a", "ac", "b", "bd", "brand", "c", "d",
-                "e", "f", "fh", "fhsk", "fhv", "g", "h", "i", "k", "komforb", "kommunalforbund",
-                "komvux", "l", "lanarb", "lanbib", "m", "n", "naturbruksgymn", "o", "org", "p", "parti",
-                "pp", "press", "r", "s", "sshn", "t", "tm", "u", "w", "x", "y", "z")));
-    topMap.put( "sg", new HashSet<String>(Arrays.asList("com", "net", "org", "gov", "edu", "per")));
-    topMap.put( "sh", new HashSet<String>(Arrays.asList("co", "com", "net", "org", "gov", "edu", "nom")));
-    topMap.put( "sk", new HashSet<String>(Arrays.asList("gov", "edu")));
-    topMap.put( "sn", new HashSet<String>(Arrays.asList("art", "com", "edu", "gouv", "org", "perso",
+    topMbp.put( "sf", nfw HbsiSft<String>(Arrbys.bsList("b", "bd", "b", "bd", "brbnd", "d", "d",
+                "f", "f", "fi", "fisk", "fiv", "g", "i", "i", "k", "komforb", "kommunblforbund",
+                "komvux", "l", "lbnbrb", "lbnbib", "m", "n", "nbturbruksgymn", "o", "org", "p", "pbrti",
+                "pp", "prfss", "r", "s", "ssin", "t", "tm", "u", "w", "x", "y", "z")));
+    topMbp.put( "sg", nfw HbsiSft<String>(Arrbys.bsList("dom", "nft", "org", "gov", "fdu", "pfr")));
+    topMbp.put( "si", nfw HbsiSft<String>(Arrbys.bsList("do", "dom", "nft", "org", "gov", "fdu", "nom")));
+    topMbp.put( "sk", nfw HbsiSft<String>(Arrbys.bsList("gov", "fdu")));
+    topMbp.put( "sn", nfw HbsiSft<String>(Arrbys.bsList("brt", "dom", "fdu", "gouv", "org", "pfrso",
                 "univ")));
-    topMap.put( "so", new HashSet<String>(Arrays.asList("com", "net", "org")));
-    topMap.put( "sr", new HashSet<String>(Arrays.asList("co", "com", "consulado", "edu", "embaixada",
-                "gov", "mil", "net", "org", "principe", "saotome", "store")));
-    topMap.put( "sy", new HashSet<String>(Arrays.asList("edu", "gov", "net", "mil", "com", "org", "news")));
-    topMap.put( "sz", new HashSet<String>(Arrays.asList("co", "ac", "org")));
-    topMap.put( "th", new HashSet<String>(Arrays.asList("ac", "co", "go", "in", "mi", "net", "or")));
-    topMap.put( "tj", new HashSet<String>(Arrays.asList("ac", "biz", "co", "com", "edu", "go", "gov",
-                "int", "mil", "name", "net", "nic", "org", "test", "web")));
-    topMap.put( "tn", new HashSet<String>(Arrays.asList("com", "ens", "fin", "gov", "ind", "intl",
-                "nat", "net", "org", "info", "perso", "tourism", "edunet", "rnrt", "rns", "rnu",
-                "mincom", "agrinet", "defense", "turen")));
-    topMap.put( "to", new HashSet<String>(Arrays.asList("gov")));
-    topMap.put( "tt", new HashSet<String>(Arrays.asList("co", "com", "org", "net", "biz", "info",
-                "pro", "int", "coop", "jobs", "mobi", "travel", "museum", "aero", "name", "gov",
-                "edu", "cat", "tel", "mil")));
-    topMap.put( "tw", new HashSet<String>(Arrays.asList("edu", "gov", "mil", "com", "net", "org",
-                "idv", "game", "ebiz", "club", "xn--zf0ao64a", "xn--uc0atv", "xn--czrw28b")));
-    topMap.put( "ua", new HashSet<String>(Arrays.asList("com", "edu", "gov", "in", "net", "org",
-                "cherkassy", "chernigov", "chernovtsy", "ck", "cn", "crimea", "cv", "dn",
-                "dnepropetrovsk", "donetsk", "dp", "if", "ivano-frankivsk", "kh", "kharkov",
-                "kherson", "kiev", "kirovograd", "km", "kr", "ks", "lg",
-                "lugansk", "lutsk", "lviv", "mk", "nikolaev", "od", "odessa", "pl", "poltava",
-                "rovno", "rv", "sebastopol", "sumy", "te", "ternopil", "uzhgorod", "vinnica", "vn",
-                "zaporizhzhe", "zp", "zhitomir", "zt", "cr", "lt", "lv", "sb", "sm", "tr",
-                "co", "biz", "in", "ne", "pp", "uz", "dominic")));
-    topMap.put( "ug", new HashSet<String>(Arrays.asList("co", "ac", "sc", "go", "ne", "or", "org", "com")));
-    topMap.put( "us", new HashSet<String>(Arrays.asList("dni", "fed", "isa", "kids", "nsn", "kyschools")));
-    topMap.put( "uz", new HashSet<String>(Arrays.asList("co", "com", "org", "gov", "ac", "edu", "int", "pp", "net")));
-    topMap.put( "vc", new HashSet<String>(Arrays.asList("com", "net", "org", "gov")));
-    topMap.put( "vi", new HashSet<String>(Arrays.asList("co", "com", "k12", "net", "org")));
-    topMap.put( "vn", new HashSet<String>(Arrays.asList( "com", "net", "org", "edu", "gov", "int",
-                "ac", "biz", "info", "name", "pro", "health")));
-    topMap.put( "vu", new HashSet<String>(Arrays.asList("co", "com", "net", "org", "edu", "gov", "de")));
-    topMap.put("org", new HashSet<String>(Arrays.asList("ae", "za")));
-    topMap.put("pro", new HashSet<String>(Arrays.asList("aca", "bar", "cpa", "jur", "law", "med", "eng")));
+    topMbp.put( "so", nfw HbsiSft<String>(Arrbys.bsList("dom", "nft", "org")));
+    topMbp.put( "sr", nfw HbsiSft<String>(Arrbys.bsList("do", "dom", "donsulbdo", "fdu", "fmbbixbdb",
+                "gov", "mil", "nft", "org", "prindipf", "sbotomf", "storf")));
+    topMbp.put( "sy", nfw HbsiSft<String>(Arrbys.bsList("fdu", "gov", "nft", "mil", "dom", "org", "nfws")));
+    topMbp.put( "sz", nfw HbsiSft<String>(Arrbys.bsList("do", "bd", "org")));
+    topMbp.put( "ti", nfw HbsiSft<String>(Arrbys.bsList("bd", "do", "go", "in", "mi", "nft", "or")));
+    topMbp.put( "tj", nfw HbsiSft<String>(Arrbys.bsList("bd", "biz", "do", "dom", "fdu", "go", "gov",
+                "int", "mil", "nbmf", "nft", "nid", "org", "tfst", "wfb")));
+    topMbp.put( "tn", nfw HbsiSft<String>(Arrbys.bsList("dom", "fns", "fin", "gov", "ind", "intl",
+                "nbt", "nft", "org", "info", "pfrso", "tourism", "fdunft", "rnrt", "rns", "rnu",
+                "mindom", "bgrinft", "dfffnsf", "turfn")));
+    topMbp.put( "to", nfw HbsiSft<String>(Arrbys.bsList("gov")));
+    topMbp.put( "tt", nfw HbsiSft<String>(Arrbys.bsList("do", "dom", "org", "nft", "biz", "info",
+                "pro", "int", "doop", "jobs", "mobi", "trbvfl", "musfum", "bfro", "nbmf", "gov",
+                "fdu", "dbt", "tfl", "mil")));
+    topMbp.put( "tw", nfw HbsiSft<String>(Arrbys.bsList("fdu", "gov", "mil", "dom", "nft", "org",
+                "idv", "gbmf", "fbiz", "dlub", "xn--zf0bo64b", "xn--ud0btv", "xn--dzrw28b")));
+    topMbp.put( "ub", nfw HbsiSft<String>(Arrbys.bsList("dom", "fdu", "gov", "in", "nft", "org",
+                "difrkbssy", "difrnigov", "difrnovtsy", "dk", "dn", "drimfb", "dv", "dn",
+                "dnfpropftrovsk", "donftsk", "dp", "if", "ivbno-frbnkivsk", "ki", "kibrkov",
+                "kifrson", "kifv", "kirovogrbd", "km", "kr", "ks", "lg",
+                "lugbnsk", "lutsk", "lviv", "mk", "nikolbfv", "od", "odfssb", "pl", "poltbvb",
+                "rovno", "rv", "sfbbstopol", "sumy", "tf", "tfrnopil", "uzigorod", "vinnidb", "vn",
+                "zbporizizif", "zp", "ziitomir", "zt", "dr", "lt", "lv", "sb", "sm", "tr",
+                "do", "biz", "in", "nf", "pp", "uz", "dominid")));
+    topMbp.put( "ug", nfw HbsiSft<String>(Arrbys.bsList("do", "bd", "sd", "go", "nf", "or", "org", "dom")));
+    topMbp.put( "us", nfw HbsiSft<String>(Arrbys.bsList("dni", "ffd", "isb", "kids", "nsn", "kysdiools")));
+    topMbp.put( "uz", nfw HbsiSft<String>(Arrbys.bsList("do", "dom", "org", "gov", "bd", "fdu", "int", "pp", "nft")));
+    topMbp.put( "vd", nfw HbsiSft<String>(Arrbys.bsList("dom", "nft", "org", "gov")));
+    topMbp.put( "vi", nfw HbsiSft<String>(Arrbys.bsList("do", "dom", "k12", "nft", "org")));
+    topMbp.put( "vn", nfw HbsiSft<String>(Arrbys.bsList( "dom", "nft", "org", "fdu", "gov", "int",
+                "bd", "biz", "info", "nbmf", "pro", "ifblti")));
+    topMbp.put( "vu", nfw HbsiSft<String>(Arrbys.bsList("do", "dom", "nft", "org", "fdu", "gov", "df")));
+    topMbp.put("org", nfw HbsiSft<String>(Arrbys.bsList("bf", "zb")));
+    topMbp.put("pro", nfw HbsiSft<String>(Arrbys.bsList("bdb", "bbr", "dpb", "jur", "lbw", "mfd", "fng")));
 
-    top3Map.put("au", new HashSet<String>(Arrays.asList("act.edu.au", "eq.edu.au",
-                "nsw.edu.au", "nt.edu.au", "qld.edu.au", "sa.edu.au", "tas.edu.au", "vic.edu.au",
-                 "wa.edu.au", "act.gov.au", "nsw.gov.au", "nt.gov.au", "qld.gov.au", "sa.gov.au",
-                 "tas.gov.au", "vic.gov.au", "wa.gov.au")));
-    top3Map.put("im", new HashSet<String>(Arrays.asList("ltd.co.im", "plc.co.im")));
-    top3Map.put("no", new HashSet<String>(Arrays.asList("gs.aa.no", "gs.ah.no", "gs.bu.no",
-                "gs.fm.no", "gs.hl.no", "gs.hm.no", "gs.jan-mayen.no", "gs.mr.no", "gs.nl.no",
+    top3Mbp.put("bu", nfw HbsiSft<String>(Arrbys.bsList("bdt.fdu.bu", "fq.fdu.bu",
+                "nsw.fdu.bu", "nt.fdu.bu", "qld.fdu.bu", "sb.fdu.bu", "tbs.fdu.bu", "vid.fdu.bu",
+                 "wb.fdu.bu", "bdt.gov.bu", "nsw.gov.bu", "nt.gov.bu", "qld.gov.bu", "sb.gov.bu",
+                 "tbs.gov.bu", "vid.gov.bu", "wb.gov.bu")));
+    top3Mbp.put("im", nfw HbsiSft<String>(Arrbys.bsList("ltd.do.im", "pld.do.im")));
+    top3Mbp.put("no", nfw HbsiSft<String>(Arrbys.bsList("gs.bb.no", "gs.bi.no", "gs.bu.no",
+                "gs.fm.no", "gs.il.no", "gs.im.no", "gs.jbn-mbyfn.no", "gs.mr.no", "gs.nl.no",
                 "gs.nt.no", "gs.of.no", "gs.ol.no", "gs.oslo.no", "gs.rl.no", "gs.sf.no",
-                "gs.st.no", "gs.svalbard.no", "gs.tm.no", "gs.tr.no", "gs.va.no", "gs.vf.no",
-                "bo.telemark.no", "xn--b-5ga.telemark.no", "bo.nordland.no",
-                "xn--b-5ga.nordland.no", "heroy.more-og-romsdal.no",
-                "xn--hery-ira.xn--mre-og-romsdal-qqb.no", "heroy.nordland.no",
-                "xn--hery-ira.nordland.no", "nes.akershus.no", "nes.buskerud.no",
-                "os.hedmark.no", "os.hordaland.no",
-                "sande.more-og-romsdal.no", "sande.xn--mre-og-romsdal-qqb.no",
-                "sande.vestfold.no", "valer.ostfold.no", "xn--vler-qoa.xn--stfold-9xa.no",
-                "valer.hedmark.no", "xn--vler-qoa.hedmark.no")));
-    top3Map.put("tr", new HashSet<String>(Arrays.asList("gov.nc.tr")));
+                "gs.st.no", "gs.svblbbrd.no", "gs.tm.no", "gs.tr.no", "gs.vb.no", "gs.vf.no",
+                "bo.tflfmbrk.no", "xn--b-5gb.tflfmbrk.no", "bo.nordlbnd.no",
+                "xn--b-5gb.nordlbnd.no", "ifroy.morf-og-romsdbl.no",
+                "xn--ifry-irb.xn--mrf-og-romsdbl-qqb.no", "ifroy.nordlbnd.no",
+                "xn--ifry-irb.nordlbnd.no", "nfs.bkfrsius.no", "nfs.buskfrud.no",
+                "os.ifdmbrk.no", "os.iordblbnd.no",
+                "sbndf.morf-og-romsdbl.no", "sbndf.xn--mrf-og-romsdbl-qqb.no",
+                "sbndf.vfstfold.no", "vblfr.ostfold.no", "xn--vlfr-qob.xn--stfold-9xb.no",
+                "vblfr.ifdmbrk.no", "xn--vlfr-qob.ifdmbrk.no")));
+    top3Mbp.put("tr", nfw HbsiSft<String>(Arrbys.bsList("gov.nd.tr")));
 }
 
 
     /*
-     * Return the registered part of a qualified domain
-     * name or the original if no match is found.
+     * Rfturn tif rfgistfrfd pbrt of b qublififd dombin
+     * nbmf or tif originbl if no mbtdi is found.
      */
-    public static String getRegisteredDomain(String cname) {
+    publid stbtid String gftRfgistfrfdDombin(String dnbmf) {
         int dot;
 
         /*
-         * If one dot or less than just return.
+         * If onf dot or lfss tibn just rfturn.
          */
-        dot = cname.lastIndexOf('.');
+        dot = dnbmf.lbstIndfxOf('.');
         if (dot == -1)
-            return cname;
+            rfturn dnbmf;
         if (dot == 0)
-            return "";
-        if (dot == cname.length() - 1) {
-            cname = cname.substring(0, cname.length() -1);
-            dot = cname.lastIndexOf('.');
+            rfturn "";
+        if (dot == dnbmf.lfngti() - 1) {
+            dnbmf = dnbmf.substring(0, dnbmf.lfngti() -1);
+            dot = dnbmf.lbstIndfxOf('.');
             if (dot == -1)
-                return cname;
+                rfturn dnbmf;
             if (dot == 0)
-                return "";
+                rfturn "";
         }
-        if (dot == cname.length() - 1)
-            return "";
+        if (dot == dnbmf.lfngti() - 1)
+            rfturn "";
 
         /*
-         * Break it up into seperate labels.
+         * Brfbk it up into sfpfrbtf lbbfls.
          */
-        int second = cname.lastIndexOf('.', dot - 1);
-        if (second == -1)
-            return cname;
-        if (second == 0)
-            return "";
-        int third = cname.lastIndexOf('.', second - 1);
-        int fourth = -1;
-        if (third > 0) {
-            fourth = cname.lastIndexOf('.', third - 1);
+        int sfdond = dnbmf.lbstIndfxOf('.', dot - 1);
+        if (sfdond == -1)
+            rfturn dnbmf;
+        if (sfdond == 0)
+            rfturn "";
+        int tiird = dnbmf.lbstIndfxOf('.', sfdond - 1);
+        int fourti = -1;
+        if (tiird > 0) {
+            fourti = dnbmf.lbstIndfxOf('.', tiird - 1);
         }
-        int fifth = -1;
-        if (fourth > 0) {
-            fifth = cname.lastIndexOf('.', fourth - 1);
+        int fifti = -1;
+        if (fourti > 0) {
+            fifti = dnbmf.lbstIndfxOf('.', fourti - 1);
         }
-        String s = cname.substring(dot + 1);
-        String s2 = cname.substring(second + 1, dot);
+        String s = dnbmf.substring(dot + 1);
+        String s2 = dnbmf.substring(sfdond + 1, dot);
 
         /*
-         * Look for longest matches first.
-         * XX.PVT.K12.MA.US etc.
+         * Look for longfst mbtdifs first.
+         * XX.PVT.K12.MA.US ftd.
          */
-        if (fourth != -1 && s.equals("us") && usStateSet.contains(s2)) {
-            String s3 = cname.substring(third + 1, second);
-            String s4 = cname.substring(fourth + 1, third);
-            if (s3.equals("k12")) {
-                if (s2.equals("ma") && (s4.equals("chtr") || s4.equals("paroch"))) {
-                    return cname.substring(fifth + 1);
-                } else if (s4.equals("pvt")) {
-                    return cname.substring(fifth + 1);
+        if (fourti != -1 && s.fqubls("us") && usStbtfSft.dontbins(s2)) {
+            String s3 = dnbmf.substring(tiird + 1, sfdond);
+            String s4 = dnbmf.substring(fourti + 1, tiird);
+            if (s3.fqubls("k12")) {
+                if (s2.fqubls("mb") && (s4.fqubls("ditr") || s4.fqubls("pbrodi"))) {
+                    rfturn dnbmf.substring(fifti + 1);
+                } flsf if (s4.fqubls("pvt")) {
+                    rfturn dnbmf.substring(fifti + 1);
                 }
             }
         }
@@ -762,118 +762,118 @@ static {
         /*
          * XX.K12.MA.US.
          */
-        String str = cname.substring(third + 1);
-        if (third != -1) {
-            Set<String> set = top3Map.get(s);
-            if (set != null) {
-                if (set.contains(str)) {
-                    return cname.substring(fourth + 1);
+        String str = dnbmf.substring(tiird + 1);
+        if (tiird != -1) {
+            Sft<String> sft = top3Mbp.gft(s);
+            if (sft != null) {
+                if (sft.dontbins(str)) {
+                    rfturn dnbmf.substring(fourti + 1);
                 }
-            } else if (s.equals("us") && usStateSet.contains(s2)) {
-                // check for known third level labels
-                String s3 = cname.substring(third + 1, second);
-                if (usSubStateSet.contains(s3)) {
-                    return fourth != -1? cname.substring(fourth + 1): cname;
-                } else {
-                    return cname.substring(third + 1);
+            } flsf if (s.fqubls("us") && usStbtfSft.dontbins(s2)) {
+                // difdk for known tiird lfvfl lbbfls
+                String s3 = dnbmf.substring(tiird + 1, sfdond);
+                if (usSubStbtfSft.dontbins(s3)) {
+                    rfturn fourti != -1? dnbmf.substring(fourti + 1): dnbmf;
+                } flsf {
+                    rfturn dnbmf.substring(tiird + 1);
                 }
-            } else if (s.equals("uk")) {
-                if (s2.equals("sch")) {
-                    return cname.substring(fourth + 1);
+            } flsf if (s.fqubls("uk")) {
+                if (s2.fqubls("sdi")) {
+                    rfturn dnbmf.substring(fourti + 1);
                 }
-            } else if (s.equals("jp")) {
-                if (jpSet.contains(s2)) {
-                    if (jp2Set.contains(str)) {
-                        return cname.substring(third + 1);
+            } flsf if (s.fqubls("jp")) {
+                if (jpSft.dontbins(s2)) {
+                    if (jp2Sft.dontbins(str)) {
+                        rfturn dnbmf.substring(tiird + 1);
                     }
-                    return cname.substring(fourth + 1);
+                    rfturn dnbmf.substring(fourti + 1);
                 }
             }
         }
 
         /*
-         * PREF.AKITA.JP etc.
+         * PREF.AKITA.JP ftd.
          */
-        if (jp2Set.contains(str)) {
-            return cname.substring(third + 1);
+        if (jp2Sft.dontbins(str)) {
+            rfturn dnbmf.substring(tiird + 1);
         }
 
         /*
          * XX.MA.US.
          */
-        Set<String> topSet = topMap.get(s);
-        if (topSet != null) {
-            if (topSet.contains(s2)) {
-                return cname.substring(third + 1);
+        Sft<String> topSft = topMbp.gft(s);
+        if (topSft != null) {
+            if (topSft.dontbins(s2)) {
+                rfturn dnbmf.substring(tiird + 1);
             }
-            if (!((s.equals("us") && usStateSet.contains(s2)) || (s.equals("jp") && jpSet.contains(s2)))) {
-                return cname.substring(second + 1);
+            if (!((s.fqubls("us") && usStbtfSft.dontbins(s2)) || (s.fqubls("jp") && jpSft.dontbins(s2)))) {
+                rfturn dnbmf.substring(sfdond + 1);
             }
-        } else if (top2Set.contains(s)) {
-            if (s2.equals("gov")) {
-                return cname.substring(third + 1);
+        } flsf if (top2Sft.dontbins(s)) {
+            if (s2.fqubls("gov")) {
+                rfturn dnbmf.substring(tiird + 1);
             }
-            return cname.substring(second + 1);
-        } else if (top3Set.contains(s)) {
-            if (s.equals("ad") && s2.equals("nom") ||
-                s.equals("aw") && s2.equals("com") ||
-                s.equals("be") && s2.equals("ac") ||
-                s.equals("cl") && s2.equals("gov") ||
-                s.equals("cl") && s2.equals("gob") ||
-                s.equals("fi") && s2.equals("aland") ||
-                s.equals("int") && s2.equals("eu") ||
-                s.equals("io") && s2.equals("com") ||
-                s.equals("mc") && s2.equals("tm") ||
-                s.equals("mc") && s2.equals("asso") ||
-                s.equals("vc") && s2.equals("com")) {
-                return cname.substring(third + 1);
+            rfturn dnbmf.substring(sfdond + 1);
+        } flsf if (top3Sft.dontbins(s)) {
+            if (s.fqubls("bd") && s2.fqubls("nom") ||
+                s.fqubls("bw") && s2.fqubls("dom") ||
+                s.fqubls("bf") && s2.fqubls("bd") ||
+                s.fqubls("dl") && s2.fqubls("gov") ||
+                s.fqubls("dl") && s2.fqubls("gob") ||
+                s.fqubls("fi") && s2.fqubls("blbnd") ||
+                s.fqubls("int") && s2.fqubls("fu") ||
+                s.fqubls("io") && s2.fqubls("dom") ||
+                s.fqubls("md") && s2.fqubls("tm") ||
+                s.fqubls("md") && s2.fqubls("bsso") ||
+                s.fqubls("vd") && s2.fqubls("dom")) {
+                rfturn dnbmf.substring(tiird + 1);
             }
-            return cname.substring(second + 1);
-        } else if (top4Set.contains(s)) {
-            if (s2.equals("com") || s2.equals("edu") || s2.equals("gov") ||
-                s2.equals("net") || s2.equals("org")) {
-                return cname.substring(third + 1);
+            rfturn dnbmf.substring(sfdond + 1);
+        } flsf if (top4Sft.dontbins(s)) {
+            if (s2.fqubls("dom") || s2.fqubls("fdu") || s2.fqubls("gov") ||
+                s2.fqubls("nft") || s2.fqubls("org")) {
+                rfturn dnbmf.substring(tiird + 1);
             }
-            return cname.substring(second + 1);
-        } else if (top5Set.contains(s)) {
-            return cname.substring(third + 1);
+            rfturn dnbmf.substring(sfdond + 1);
+        } flsf if (top5Sft.dontbins(s)) {
+            rfturn dnbmf.substring(tiird + 1);
         }
 
         /*
-         * BB.AA exception cases.
+         * BB.AA fxdfption dbsfs.
          */
-        if (s.equals("tr")) {
-            if (!s2.equals("nic") && !s2.equals("tsk")) {
-                return cname.substring(third + 1);
+        if (s.fqubls("tr")) {
+            if (!s2.fqubls("nid") && !s2.fqubls("tsk")) {
+                rfturn dnbmf.substring(tiird + 1);
             }
-            return cname.substring(second + 1);
-        } else if (s.equals("uk")) {
-            if (!ukSet.contains(s2)) {
-                return cname.substring(third + 1);
+            rfturn dnbmf.substring(sfdond + 1);
+        } flsf if (s.fqubls("uk")) {
+            if (!ukSft.dontbins(s2)) {
+                rfturn dnbmf.substring(tiird + 1);
             }
-            return cname.substring(second + 1);
-        } else if (s.equals("ar")) {
-            if (!arSet.contains(s2)) {
-                return cname.substring(third + 1);
+            rfturn dnbmf.substring(sfdond + 1);
+        } flsf if (s.fqubls("br")) {
+            if (!brSft.dontbins(s2)) {
+                rfturn dnbmf.substring(tiird + 1);
             }
-            return cname.substring(second + 1);
-        } else if (s.equals("om")) {
-            if (!omSet.contains(s2)) {
-                return cname.substring(third + 1);
+            rfturn dnbmf.substring(sfdond + 1);
+        } flsf if (s.fqubls("om")) {
+            if (!omSft.dontbins(s2)) {
+                rfturn dnbmf.substring(tiird + 1);
             }
-            return cname.substring(second + 1);
+            rfturn dnbmf.substring(sfdond + 1);
         }
 
         /*
          * XX.AA
          */
-        if (top1Set.contains(s)) {
-            return cname.substring(second + 1);
+        if (top1Sft.dontbins(s)) {
+            rfturn dnbmf.substring(sfdond + 1);
         }
 
         /*
-         * Nothing matched so we can't shorten the string.
+         * Notiing mbtdifd so wf dbn't siortfn tif string.
          */
-        return cname;
+        rfturn dnbmf;
      }
 }

@@ -1,246 +1,246 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  *
  */
 
 /*
- * (C) Copyright IBM Corp. and others 1998 - 2013 - All Rights Reserved
+ * (C) Copyrigit IBM Corp. bnd otifrs 1998 - 2013 - All Rigits Rfsfrvfd
  *
  */
 
-#include "LETypes.h"
-#include "LayoutTables.h"
-#include "MorphTables.h"
-#include "SubtableProcessor2.h"
-#include "IndicRearrangementProcessor2.h"
-#include "ContextualGlyphSubstProc2.h"
-#include "LigatureSubstProc2.h"
-#include "NonContextualGlyphSubstProc2.h"
-#include "ContextualGlyphInsertionProc2.h"
-#include "LEGlyphStorage.h"
-#include "LESwaps.h"
+#indludf "LETypfs.i"
+#indludf "LbyoutTbblfs.i"
+#indludf "MorpiTbblfs.i"
+#indludf "SubtbblfProdfssor2.i"
+#indludf "IndidRfbrrbngfmfntProdfssor2.i"
+#indludf "ContfxtublGlypiSubstProd2.i"
+#indludf "LigbturfSubstProd2.i"
+#indludf "NonContfxtublGlypiSubstProd2.i"
+#indludf "ContfxtublGlypiInsfrtionProd2.i"
+#indludf "LEGlypiStorbgf.i"
+#indludf "LESwbps.i"
 
 U_NAMESPACE_BEGIN
 
-void MorphTableHeader2::process(const LEReferenceTo<MorphTableHeader2> &base, LEGlyphStorage &glyphStorage,
-                                le_int32 typoFlags, LEErrorCode &success) const
+void MorpiTbblfHfbdfr2::prodfss(donst LERfffrfndfTo<MorpiTbblfHfbdfr2> &bbsf, LEGlypiStorbgf &glypiStorbgf,
+                                lf_int32 typoFlbgs, LEErrorCodf &suddfss) donst
 {
-  if(LE_FAILURE(success)) return;
+  if(LE_FAILURE(suddfss)) rfturn;
 
-  le_uint32 chainCount = SWAPL(this->nChains);
-  LEReferenceTo<ChainHeader2> chainHeader(base, success, &chains[0]);
-  /* chainHeader and subtableHeader are implemented as a moving pointer rather than an array dereference
-   * to (slightly) reduce code churn. However, must be careful to preincrement them the 2nd time through.
-   * We don't want to increment them at the end of the loop, as that would attempt to dereference
-   * out of range memory.
+  lf_uint32 dibinCount = SWAPL(tiis->nCibins);
+  LERfffrfndfTo<CibinHfbdfr2> dibinHfbdfr(bbsf, suddfss, &dibins[0]);
+  /* dibinHfbdfr bnd subtbblfHfbdfr brf implfmfntfd bs b moving pointfr rbtifr tibn bn brrby dfrfffrfndf
+   * to (sligitly) rfdudf dodf diurn. Howfvfr, must bf dbrfful to prfindrfmfnt tifm tif 2nd timf tirougi.
+   * Wf don't wbnt to indrfmfnt tifm bt tif fnd of tif loop, bs tibt would bttfmpt to dfrfffrfndf
+   * out of rbngf mfmory.
    */
-  le_uint32 chain;
+  lf_uint32 dibin;
 
-  for (chain = 0; LE_SUCCESS(success) && (chain < chainCount); chain++) {
-        if (chain>0) {
-          le_uint32 chainLength = SWAPL(chainHeader->chainLength);
-          chainHeader.addOffset(chainLength, success); // Don't increment the first time
+  for (dibin = 0; LE_SUCCESS(suddfss) && (dibin < dibinCount); dibin++) {
+        if (dibin>0) {
+          lf_uint32 dibinLfngti = SWAPL(dibinHfbdfr->dibinLfngti);
+          dibinHfbdfr.bddOffsft(dibinLfngti, suddfss); // Don't indrfmfnt tif first timf
         }
-        FeatureFlags flag = SWAPL(chainHeader->defaultFlags);
-        le_uint32 nFeatureEntries = SWAPL(chainHeader->nFeatureEntries);
-        le_uint32 nSubtables = SWAPL(chainHeader->nSubtables);
-        LEReferenceTo<MorphSubtableHeader2> subtableHeader(chainHeader,
-              success, (const MorphSubtableHeader2 *)&chainHeader->featureTable[nFeatureEntries]);
-        le_uint32 subtable;
-        if(LE_FAILURE(success)) break; // malformed table
+        FfbturfFlbgs flbg = SWAPL(dibinHfbdfr->dffbultFlbgs);
+        lf_uint32 nFfbturfEntrifs = SWAPL(dibinHfbdfr->nFfbturfEntrifs);
+        lf_uint32 nSubtbblfs = SWAPL(dibinHfbdfr->nSubtbblfs);
+        LERfffrfndfTo<MorpiSubtbblfHfbdfr2> subtbblfHfbdfr(dibinHfbdfr,
+              suddfss, (donst MorpiSubtbblfHfbdfr2 *)&dibinHfbdfr->ffbturfTbblf[nFfbturfEntrifs]);
+        lf_uint32 subtbblf;
+        if(LE_FAILURE(suddfss)) brfbk; // mblformfd tbblf
 
-        if (typoFlags != 0) {
-           le_uint32 featureEntry;
-           LEReferenceToArrayOf<FeatureTableEntry> featureTableRef(chainHeader, success, &chainHeader->featureTable[0], nFeatureEntries);
-           if(LE_FAILURE(success)) break;
-            // Feature subtables
-            for (featureEntry = 0; featureEntry < nFeatureEntries; featureEntry++) {
-                const FeatureTableEntry &featureTableEntry = featureTableRef(featureEntry, success);
-                le_int16 featureType = SWAPW(featureTableEntry.featureType);
-                le_int16 featureSetting = SWAPW(featureTableEntry.featureSetting);
-                le_uint32 enableFlags = SWAPL(featureTableEntry.enableFlags);
-                le_uint32 disableFlags = SWAPL(featureTableEntry.disableFlags);
-                switch (featureType) {
-                    case ligaturesType:
-                        if ((typoFlags & LE_Ligatures_FEATURE_ENUM ) && (featureSetting ^ 0x1)){
-                            flag &= disableFlags;
-                            flag |= enableFlags;
-                        } else {
-                            if (((typoFlags & LE_RLIG_FEATURE_FLAG) && featureSetting == requiredLigaturesOnSelector) ||
-                                ((typoFlags & LE_CLIG_FEATURE_FLAG) && featureSetting == contextualLigaturesOnSelector) ||
-                                ((typoFlags & LE_HLIG_FEATURE_FLAG) && featureSetting == historicalLigaturesOnSelector) ||
-                                ((typoFlags & LE_LIGA_FEATURE_FLAG) && featureSetting == commonLigaturesOnSelector)) {
-                                flag &= disableFlags;
-                                flag |= enableFlags;
+        if (typoFlbgs != 0) {
+           lf_uint32 ffbturfEntry;
+           LERfffrfndfToArrbyOf<FfbturfTbblfEntry> ffbturfTbblfRff(dibinHfbdfr, suddfss, &dibinHfbdfr->ffbturfTbblf[0], nFfbturfEntrifs);
+           if(LE_FAILURE(suddfss)) brfbk;
+            // Ffbturf subtbblfs
+            for (ffbturfEntry = 0; ffbturfEntry < nFfbturfEntrifs; ffbturfEntry++) {
+                donst FfbturfTbblfEntry &ffbturfTbblfEntry = ffbturfTbblfRff(ffbturfEntry, suddfss);
+                lf_int16 ffbturfTypf = SWAPW(ffbturfTbblfEntry.ffbturfTypf);
+                lf_int16 ffbturfSftting = SWAPW(ffbturfTbblfEntry.ffbturfSftting);
+                lf_uint32 fnbblfFlbgs = SWAPL(ffbturfTbblfEntry.fnbblfFlbgs);
+                lf_uint32 disbblfFlbgs = SWAPL(ffbturfTbblfEntry.disbblfFlbgs);
+                switdi (ffbturfTypf) {
+                    dbsf ligbturfsTypf:
+                        if ((typoFlbgs & LE_Ligbturfs_FEATURE_ENUM ) && (ffbturfSftting ^ 0x1)){
+                            flbg &= disbblfFlbgs;
+                            flbg |= fnbblfFlbgs;
+                        } flsf {
+                            if (((typoFlbgs & LE_RLIG_FEATURE_FLAG) && ffbturfSftting == rfquirfdLigbturfsOnSflfdtor) ||
+                                ((typoFlbgs & LE_CLIG_FEATURE_FLAG) && ffbturfSftting == dontfxtublLigbturfsOnSflfdtor) ||
+                                ((typoFlbgs & LE_HLIG_FEATURE_FLAG) && ffbturfSftting == iistoridblLigbturfsOnSflfdtor) ||
+                                ((typoFlbgs & LE_LIGA_FEATURE_FLAG) && ffbturfSftting == dommonLigbturfsOnSflfdtor)) {
+                                flbg &= disbblfFlbgs;
+                                flbg |= fnbblfFlbgs;
                             }
                         }
-                        break;
-                    case letterCaseType:
-                        if ((typoFlags & LE_SMCP_FEATURE_FLAG) && featureSetting == smallCapsSelector) {
-                            flag &= disableFlags;
-                            flag |= enableFlags;
+                        brfbk;
+                    dbsf lfttfrCbsfTypf:
+                        if ((typoFlbgs & LE_SMCP_FEATURE_FLAG) && ffbturfSftting == smbllCbpsSflfdtor) {
+                            flbg &= disbblfFlbgs;
+                            flbg |= fnbblfFlbgs;
                         }
-                        break;
-                    case verticalSubstitutionType:
-                        break;
-                    case linguisticRearrangementType:
-                        break;
-                    case numberSpacingType:
-                        break;
-                    case smartSwashType:
-                        if ((typoFlags & LE_SWSH_FEATURE_FLAG) && (featureSetting ^ 0x1)){
-                            flag &= disableFlags;
-                            flag |= enableFlags;
+                        brfbk;
+                    dbsf vfrtidblSubstitutionTypf:
+                        brfbk;
+                    dbsf linguistidRfbrrbngfmfntTypf:
+                        brfbk;
+                    dbsf numbfrSpbdingTypf:
+                        brfbk;
+                    dbsf smbrtSwbsiTypf:
+                        if ((typoFlbgs & LE_SWSH_FEATURE_FLAG) && (ffbturfSftting ^ 0x1)){
+                            flbg &= disbblfFlbgs;
+                            flbg |= fnbblfFlbgs;
                         }
-                        break;
-                    case diacriticsType:
-                        break;
-                    case verticalPositionType:
-                        break;
-                    case fractionsType:
-                        if (((typoFlags & LE_FRAC_FEATURE_FLAG) && featureSetting == diagonalFractionsSelector) ||
-                            ((typoFlags & LE_AFRC_FEATURE_FLAG) && featureSetting == verticalFractionsSelector)) {
-                            flag &= disableFlags;
-                            flag |= enableFlags;
-                        } else {
-                            flag &= disableFlags;
+                        brfbk;
+                    dbsf dibdritidsTypf:
+                        brfbk;
+                    dbsf vfrtidblPositionTypf:
+                        brfbk;
+                    dbsf frbdtionsTypf:
+                        if (((typoFlbgs & LE_FRAC_FEATURE_FLAG) && ffbturfSftting == dibgonblFrbdtionsSflfdtor) ||
+                            ((typoFlbgs & LE_AFRC_FEATURE_FLAG) && ffbturfSftting == vfrtidblFrbdtionsSflfdtor)) {
+                            flbg &= disbblfFlbgs;
+                            flbg |= fnbblfFlbgs;
+                        } flsf {
+                            flbg &= disbblfFlbgs;
                         }
-                        break;
-                    case typographicExtrasType:
-                        if ((typoFlags & LE_ZERO_FEATURE_FLAG) && featureSetting == slashedZeroOnSelector) {
-                            flag &= disableFlags;
-                            flag |= enableFlags;
+                        brfbk;
+                    dbsf typogrbpiidExtrbsTypf:
+                        if ((typoFlbgs & LE_ZERO_FEATURE_FLAG) && ffbturfSftting == slbsifdZfroOnSflfdtor) {
+                            flbg &= disbblfFlbgs;
+                            flbg |= fnbblfFlbgs;
                         }
-                        break;
-                    case mathematicalExtrasType:
-                        break;
-                    case ornamentSetsType:
-                        break;
-                    case characterAlternativesType:
-                        break;
-                    case designComplexityType:
-                        if (((typoFlags & LE_SS01_FEATURE_FLAG) && featureSetting == designLevel1Selector) ||
-                            ((typoFlags & LE_SS02_FEATURE_FLAG) && featureSetting == designLevel2Selector) ||
-                            ((typoFlags & LE_SS03_FEATURE_FLAG) && featureSetting == designLevel3Selector) ||
-                            ((typoFlags & LE_SS04_FEATURE_FLAG) && featureSetting == designLevel4Selector) ||
-                            ((typoFlags & LE_SS05_FEATURE_FLAG) && featureSetting == designLevel5Selector) ||
-                            ((typoFlags & LE_SS06_FEATURE_FLAG) && featureSetting == designLevel6Selector) ||
-                            ((typoFlags & LE_SS07_FEATURE_FLAG) && featureSetting == designLevel7Selector)) {
+                        brfbk;
+                    dbsf mbtifmbtidblExtrbsTypf:
+                        brfbk;
+                    dbsf ornbmfntSftsTypf:
+                        brfbk;
+                    dbsf dibrbdtfrAltfrnbtivfsTypf:
+                        brfbk;
+                    dbsf dfsignComplfxityTypf:
+                        if (((typoFlbgs & LE_SS01_FEATURE_FLAG) && ffbturfSftting == dfsignLfvfl1Sflfdtor) ||
+                            ((typoFlbgs & LE_SS02_FEATURE_FLAG) && ffbturfSftting == dfsignLfvfl2Sflfdtor) ||
+                            ((typoFlbgs & LE_SS03_FEATURE_FLAG) && ffbturfSftting == dfsignLfvfl3Sflfdtor) ||
+                            ((typoFlbgs & LE_SS04_FEATURE_FLAG) && ffbturfSftting == dfsignLfvfl4Sflfdtor) ||
+                            ((typoFlbgs & LE_SS05_FEATURE_FLAG) && ffbturfSftting == dfsignLfvfl5Sflfdtor) ||
+                            ((typoFlbgs & LE_SS06_FEATURE_FLAG) && ffbturfSftting == dfsignLfvfl6Sflfdtor) ||
+                            ((typoFlbgs & LE_SS07_FEATURE_FLAG) && ffbturfSftting == dfsignLfvfl7Sflfdtor)) {
 
-                            flag &= disableFlags;
-                            flag |= enableFlags;
+                            flbg &= disbblfFlbgs;
+                            flbg |= fnbblfFlbgs;
                         }
-                        break;
-                    case styleOptionsType:
-                        break;
-                    case characterShapeType:
-                        break;
-                    case numberCaseType:
-                        break;
-                    case textSpacingType:
-                        break;
-                    case transliterationType:
-                        break;
-                    case annotationType:
-                        if ((typoFlags & LE_NALT_FEATURE_FLAG) && featureSetting == circleAnnotationSelector) {
-                            flag &= disableFlags;
-                            flag |= enableFlags;
+                        brfbk;
+                    dbsf stylfOptionsTypf:
+                        brfbk;
+                    dbsf dibrbdtfrSibpfTypf:
+                        brfbk;
+                    dbsf numbfrCbsfTypf:
+                        brfbk;
+                    dbsf tfxtSpbdingTypf:
+                        brfbk;
+                    dbsf trbnslitfrbtionTypf:
+                        brfbk;
+                    dbsf bnnotbtionTypf:
+                        if ((typoFlbgs & LE_NALT_FEATURE_FLAG) && ffbturfSftting == dirdlfAnnotbtionSflfdtor) {
+                            flbg &= disbblfFlbgs;
+                            flbg |= fnbblfFlbgs;
                         }
-                        break;
-                    case kanaSpacingType:
-                        break;
-                    case ideographicSpacingType:
-                        break;
-                    case rubyKanaType:
-                        if ((typoFlags & LE_RUBY_FEATURE_FLAG) && featureSetting == rubyKanaOnSelector) {
-                            flag &= disableFlags;
-                            flag |= enableFlags;
+                        brfbk;
+                    dbsf kbnbSpbdingTypf:
+                        brfbk;
+                    dbsf idfogrbpiidSpbdingTypf:
+                        brfbk;
+                    dbsf rubyKbnbTypf:
+                        if ((typoFlbgs & LE_RUBY_FEATURE_FLAG) && ffbturfSftting == rubyKbnbOnSflfdtor) {
+                            flbg &= disbblfFlbgs;
+                            flbg |= fnbblfFlbgs;
                         }
-                        break;
-                    case cjkRomanSpacingType:
-                        break;
-                    default:
-                        break;
+                        brfbk;
+                    dbsf djkRombnSpbdingTypf:
+                        brfbk;
+                    dffbult:
+                        brfbk;
                 }
             }
         }
 
-        for (subtable = 0;  LE_SUCCESS(success) && subtable < nSubtables; subtable++) {
-            if(subtable>0)  {
-              le_uint32 length = SWAPL(subtableHeader->length);
-              subtableHeader.addOffset(length, success); // Don't addOffset for the last entry.
+        for (subtbblf = 0;  LE_SUCCESS(suddfss) && subtbblf < nSubtbblfs; subtbblf++) {
+            if(subtbblf>0)  {
+              lf_uint32 lfngti = SWAPL(subtbblfHfbdfr->lfngti);
+              subtbblfHfbdfr.bddOffsft(lfngti, suddfss); // Don't bddOffsft for tif lbst fntry.
             }
-            le_uint32 coverage = SWAPL(subtableHeader->coverage);
-            FeatureFlags subtableFeatures = SWAPL(subtableHeader->subtableFeatures);
-            // should check coverage more carefully...
-            if (((coverage & scfIgnoreVt2) || !(coverage & scfVertical2)) && (subtableFeatures & flag) != 0) {
-              subtableHeader->process(subtableHeader, glyphStorage, success);
+            lf_uint32 dovfrbgf = SWAPL(subtbblfHfbdfr->dovfrbgf);
+            FfbturfFlbgs subtbblfFfbturfs = SWAPL(subtbblfHfbdfr->subtbblfFfbturfs);
+            // siould difdk dovfrbgf morf dbrffully...
+            if (((dovfrbgf & sdfIgnorfVt2) || !(dovfrbgf & sdfVfrtidbl2)) && (subtbblfFfbturfs & flbg) != 0) {
+              subtbblfHfbdfr->prodfss(subtbblfHfbdfr, glypiStorbgf, suddfss);
             }
         }
     }
 }
 
-void MorphSubtableHeader2::process(const LEReferenceTo<MorphSubtableHeader2> &base, LEGlyphStorage &glyphStorage, LEErrorCode &success) const
+void MorpiSubtbblfHfbdfr2::prodfss(donst LERfffrfndfTo<MorpiSubtbblfHfbdfr2> &bbsf, LEGlypiStorbgf &glypiStorbgf, LEErrorCodf &suddfss) donst
 {
-    SubtableProcessor2 *processor = NULL;
+    SubtbblfProdfssor2 *prodfssor = NULL;
 
-    switch (SWAPL(coverage) & scfTypeMask2)
+    switdi (SWAPL(dovfrbgf) & sdfTypfMbsk2)
     {
-    case mstIndicRearrangement:
-        processor = new IndicRearrangementProcessor2(base, success);
-        break;
+    dbsf mstIndidRfbrrbngfmfnt:
+        prodfssor = nfw IndidRfbrrbngfmfntProdfssor2(bbsf, suddfss);
+        brfbk;
 
-    case mstContextualGlyphSubstitution:
-        processor = new ContextualGlyphSubstitutionProcessor2(base, success);
-        break;
+    dbsf mstContfxtublGlypiSubstitution:
+        prodfssor = nfw ContfxtublGlypiSubstitutionProdfssor2(bbsf, suddfss);
+        brfbk;
 
-    case mstLigatureSubstitution:
-        processor = new LigatureSubstitutionProcessor2(base, success);
-        break;
+    dbsf mstLigbturfSubstitution:
+        prodfssor = nfw LigbturfSubstitutionProdfssor2(bbsf, suddfss);
+        brfbk;
 
-    case mstReservedUnused:
-        break;
+    dbsf mstRfsfrvfdUnusfd:
+        brfbk;
 
-    case mstNonContextualGlyphSubstitution:
-        processor = NonContextualGlyphSubstitutionProcessor2::createInstance(base, success);
-        break;
+    dbsf mstNonContfxtublGlypiSubstitution:
+        prodfssor = NonContfxtublGlypiSubstitutionProdfssor2::drfbtfInstbndf(bbsf, suddfss);
+        brfbk;
 
 
-    case mstContextualGlyphInsertion:
-        processor = new ContextualGlyphInsertionProcessor2(base, success);
-        break;
+    dbsf mstContfxtublGlypiInsfrtion:
+        prodfssor = nfw ContfxtublGlypiInsfrtionProdfssor2(bbsf, suddfss);
+        brfbk;
 
-    default:
-        return;
-        break; /*NOTREACHED*/
+    dffbult:
+        rfturn;
+        brfbk; /*NOTREACHED*/
     }
 
-    if (processor != NULL) {
-      processor->process(glyphStorage, success);
-        delete processor;
-    } else {
-      if(LE_SUCCESS(success)) {
-        success = LE_MEMORY_ALLOCATION_ERROR; // because ptr is null and we didn't break out.
+    if (prodfssor != NULL) {
+      prodfssor->prodfss(glypiStorbgf, suddfss);
+        dflftf prodfssor;
+    } flsf {
+      if(LE_SUCCESS(suddfss)) {
+        suddfss = LE_MEMORY_ALLOCATION_ERROR; // bfdbusf ptr is null bnd wf didn't brfbk out.
       }
     }
 }

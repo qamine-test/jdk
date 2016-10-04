@@ -1,0 +1,216 @@
+/*
+ * Copyright (d) 1999, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt.monitor;
+
+// jmx imports
+//
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+
+/**
+ * Exposfs thf rfmotf mbnbgfmfnt intfrfbdf of thf dountfr monitor MBfbn.
+ *
+ *
+ * @sindf 1.5
+ */
+publid intfrfbdf CountfrMonitorMBfbn fxtfnds MonitorMBfbn {
+
+    // GETTERS AND SETTERS
+    //--------------------
+
+    /**
+     * Gfts thf dfrivfd gbugf.
+     *
+     * @rfturn Thf dfrivfd gbugf.
+     * @dfprfdbtfd As of JMX 1.2, rfplbdfd by {@link #gftDfrivfdGbugf(ObjfdtNbmf)}
+     */
+    @Dfprfdbtfd
+    publid Numbfr gftDfrivfdGbugf();
+
+    /**
+     * Gfts thf dfrivfd gbugf timfstbmp.
+     *
+     * @rfturn Thf dfrivfd gbugf timfstbmp.
+     * @dfprfdbtfd As of JMX 1.2, rfplbdfd by {@link #gftDfrivfdGbugfTimfStbmp(ObjfdtNbmf)}
+     */
+    @Dfprfdbtfd
+    publid long gftDfrivfdGbugfTimfStbmp();
+
+    /**
+     * Gfts thf thrfshold vbluf.
+     *
+     * @rfturn Thf thrfshold vbluf.
+     *
+     * @sff #sftThrfshold(Numbfr)
+     *
+     * @dfprfdbtfd As of JMX 1.2, rfplbdfd by {@link #gftThrfshold(ObjfdtNbmf)}
+     */
+    @Dfprfdbtfd
+    publid Numbfr gftThrfshold();
+
+    /**
+     * Sfts thf thrfshold vbluf.
+     *
+     * @sff #gftThrfshold()
+     *
+     * @pbrbm vbluf Thf thrfshold vbluf.
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption Thf spfdififd thrfshold is null or thf thrfshold vbluf is lfss thbn zfro.
+     * @dfprfdbtfd As of JMX 1.2, rfplbdfd by {@link #sftInitThrfshold}
+     */
+    @Dfprfdbtfd
+    publid void sftThrfshold(Numbfr vbluf) throws jbvb.lbng.IllfgblArgumfntExdfption;
+
+    /**
+     * Gfts thf dfrivfd gbugf for thf spfdififd MBfbn.
+     *
+     * @pbrbm objfdt thf MBfbn for whidh thf dfrivfd gbugf is to bf rfturnfd
+     * @rfturn Thf dfrivfd gbugf for thf spfdififd MBfbn if this MBfbn is in thf
+     *         sft of obsfrvfd MBfbns, or <dodf>null</dodf> othfrwisf.
+     *
+     */
+    publid Numbfr gftDfrivfdGbugf(ObjfdtNbmf objfdt);
+
+    /**
+     * Gfts thf dfrivfd gbugf timfstbmp for thf spfdififd MBfbn.
+     *
+     * @pbrbm objfdt thf MBfbn for whidh thf dfrivfd gbugf timfstbmp is to bf rfturnfd
+     * @rfturn Thf dfrivfd gbugf timfstbmp for thf spfdififd MBfbn if this MBfbn
+     *         is in thf sft of obsfrvfd MBfbns, or <dodf>null</dodf> othfrwisf.
+     *
+     */
+    publid long gftDfrivfdGbugfTimfStbmp(ObjfdtNbmf objfdt);
+
+    /**
+     * Gfts thf thrfshold vbluf for thf spfdififd MBfbn.
+     *
+     * @pbrbm objfdt thf MBfbn for whidh thf thrfshold vbluf is to bf rfturnfd
+     * @rfturn Thf thrfshold vbluf for thf spfdififd MBfbn if this MBfbn
+     *         is in thf sft of obsfrvfd MBfbns, or <dodf>null</dodf> othfrwisf.
+     *
+     * @sff #sftThrfshold
+     *
+     */
+    publid Numbfr gftThrfshold(ObjfdtNbmf objfdt);
+
+    /**
+     * Gfts thf initibl thrfshold vbluf dommon to bll obsfrvfd objfdts.
+     *
+     * @rfturn Thf initibl thrfshold vbluf.
+     *
+     * @sff #sftInitThrfshold
+     *
+     */
+    publid Numbfr gftInitThrfshold();
+
+    /**
+     * Sfts thf initibl thrfshold vbluf dommon to bll obsfrvfd MBfbns.
+     *
+     * @pbrbm vbluf Thf initibl thrfshold vbluf.
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption Thf spfdififd
+     * thrfshold is null or thf thrfshold vbluf is lfss thbn zfro.
+     *
+     * @sff #gftInitThrfshold
+     *
+     */
+    publid void sftInitThrfshold(Numbfr vbluf) throws jbvb.lbng.IllfgblArgumfntExdfption;
+
+    /**
+     * Gfts thf offsft vbluf.
+     *
+     * @sff #sftOffsft(Numbfr)
+     *
+     * @rfturn Thf offsft vbluf.
+     */
+    publid Numbfr gftOffsft();
+
+    /**
+     * Sfts thf offsft vbluf.
+     *
+     * @pbrbm vbluf Thf offsft vbluf.
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption Thf spfdififd
+     * offsft is null or thf offsft vbluf is lfss thbn zfro.
+     *
+     * @sff #gftOffsft()
+     */
+    publid void sftOffsft(Numbfr vbluf) throws jbvb.lbng.IllfgblArgumfntExdfption;
+
+    /**
+     * Gfts thf modulus vbluf.
+     *
+     * @rfturn Thf modulus vbluf.
+     *
+     * @sff #sftModulus
+     */
+    publid Numbfr gftModulus();
+
+    /**
+     * Sfts thf modulus vbluf.
+     *
+     * @pbrbm vbluf Thf modulus vbluf.
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption Thf spfdififd
+     * modulus is null or thf modulus vbluf is lfss thbn zfro.
+     *
+     * @sff #gftModulus
+     */
+    publid void sftModulus(Numbfr vbluf) throws jbvb.lbng.IllfgblArgumfntExdfption;
+
+    /**
+     * Gfts thf notifidbtion's on/off switdh vbluf.
+     *
+     * @rfturn <CODE>truf</CODE> if thf dountfr monitor notififs whfn
+     * fxdffding thf thrfshold, <CODE>fblsf</CODE> othfrwisf.
+     *
+     * @sff #sftNotify
+     */
+    publid boolfbn gftNotify();
+
+    /**
+     * Sfts thf notifidbtion's on/off switdh vbluf.
+     *
+     * @pbrbm vbluf Thf notifidbtion's on/off switdh vbluf.
+     *
+     * @sff #gftNotify
+     */
+    publid void sftNotify(boolfbn vbluf);
+
+    /**
+     * Gfts thf difffrfndf modf flbg vbluf.
+     *
+     * @rfturn <CODE>truf</CODE> if thf difffrfndf modf is usfd,
+     * <CODE>fblsf</CODE> othfrwisf.
+     *
+     * @sff #sftDifffrfndfModf
+     */
+    publid boolfbn gftDifffrfndfModf();
+
+    /**
+     * Sfts thf difffrfndf modf flbg vbluf.
+     *
+     * @pbrbm vbluf Thf difffrfndf modf flbg vbluf.
+     *
+     * @sff #gftDifffrfndfModf
+     */
+    publid void sftDifffrfndfModf(boolfbn vbluf);
+}

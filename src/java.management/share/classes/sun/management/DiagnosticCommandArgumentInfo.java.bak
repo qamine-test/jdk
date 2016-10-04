@@ -1,159 +1,159 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.management;
+pbdkbgf sun.mbnbgfmfnt;
 
 /**
- * Diagnostic Command Argument information. It contains the description
- * of one parameter of the diagnostic command. A parameter can either be an
- * option or an argument. Options are identified by the option name while
- * arguments are identified by their position in the command line. The generic
- * syntax of a diagnostic command is:
- *  <blockquote>
- *    &lt;command name&gt; [&lt;option&gt;=&lt;value&gt;] [&lt;argument_value&gt;]
- * </blockquote>
- * Example:
- * <blockquote>
- * command_name option1=value1 option2=value argumentA argumentB argumentC
- * </blockquote>
- * In this command line, the diagnostic command receives five parameters, two
- * options named {@code option1} and {@code option2}, and three arguments.
- * argumentA's position is 0, argumentB's position is 1 and argumentC's
+ * Dibgnostid Commbnd Argumfnt informbtion. It dontbins tif dfsdription
+ * of onf pbrbmftfr of tif dibgnostid dommbnd. A pbrbmftfr dbn fitifr bf bn
+ * option or bn brgumfnt. Options brf idfntififd by tif option nbmf wiilf
+ * brgumfnts brf idfntififd by tifir position in tif dommbnd linf. Tif gfnfrid
+ * syntbx of b dibgnostid dommbnd is:
+ *  <blodkquotf>
+ *    &lt;dommbnd nbmf&gt; [&lt;option&gt;=&lt;vbluf&gt;] [&lt;brgumfnt_vbluf&gt;]
+ * </blodkquotf>
+ * Exbmplf:
+ * <blodkquotf>
+ * dommbnd_nbmf option1=vbluf1 option2=vbluf brgumfntA brgumfntB brgumfntC
+ * </blodkquotf>
+ * In tiis dommbnd linf, tif dibgnostid dommbnd rfdfivfs fivf pbrbmftfrs, two
+ * options nbmfd {@dodf option1} bnd {@dodf option2}, bnd tirff brgumfnts.
+ * brgumfntA's position is 0, brgumfntB's position is 1 bnd brgumfntC's
  * position is 2.
  *
- * @since 1.8
+ * @sindf 1.8
  */
 
-class DiagnosticCommandArgumentInfo {
-    private final String name;
-    private final String description;
-    private final String type;
-    private final String defaultValue;
-    private final boolean mandatory;
-    private final boolean option;
-    private final boolean multiple;
-    private final int position;
+dlbss DibgnostidCommbndArgumfntInfo {
+    privbtf finbl String nbmf;
+    privbtf finbl String dfsdription;
+    privbtf finbl String typf;
+    privbtf finbl String dffbultVbluf;
+    privbtf finbl boolfbn mbndbtory;
+    privbtf finbl boolfbn option;
+    privbtf finbl boolfbn multiplf;
+    privbtf finbl int position;
 
     /**
-     * Returns the argument name.
+     * Rfturns tif brgumfnt nbmf.
      *
-     * @return the argument name
+     * @rfturn tif brgumfnt nbmf
      */
-    String getName() {
-        return name;
+    String gftNbmf() {
+        rfturn nbmf;
     }
 
    /**
-     * Returns the argument description.
+     * Rfturns tif brgumfnt dfsdription.
      *
-     * @return the argument description
+     * @rfturn tif brgumfnt dfsdription
      */
-    String getDescription() {
-        return description;
+    String gftDfsdription() {
+        rfturn dfsdription;
     }
 
     /**
-     * Returns the argument type.
+     * Rfturns tif brgumfnt typf.
      *
-     * @return the argument type
+     * @rfturn tif brgumfnt typf
      */
-    String getType() {
-        return type;
+    String gftTypf() {
+        rfturn typf;
     }
 
     /**
-     * Returns the default value as a String if a default value
-     * is defined, null otherwise.
+     * Rfturns tif dffbult vbluf bs b String if b dffbult vbluf
+     * is dffinfd, null otifrwisf.
      *
-     * @return the default value as a String if a default value
-     * is defined, null otherwise.
+     * @rfturn tif dffbult vbluf bs b String if b dffbult vbluf
+     * is dffinfd, null otifrwisf.
      */
-    String getDefault() {
-        return defaultValue;
+    String gftDffbult() {
+        rfturn dffbultVbluf;
     }
 
     /**
-     * Returns {@code true} if the argument is mandatory,
-     *         {@code false} otherwise.
+     * Rfturns {@dodf truf} if tif brgumfnt is mbndbtory,
+     *         {@dodf fblsf} otifrwisf.
      *
-     * @return {@code true} if the argument is mandatory,
-     *         {@code false} otherwise
+     * @rfturn {@dodf truf} if tif brgumfnt is mbndbtory,
+     *         {@dodf fblsf} otifrwisf
      */
-    boolean isMandatory() {
-        return mandatory;
+    boolfbn isMbndbtory() {
+        rfturn mbndbtory;
     }
 
     /**
-     * Returns {@code true} if the argument is an option,
-     *         {@code false} otherwise. Options have to be specified using the
-     *         &lt;key&gt;=&lt;value&gt; syntax on the command line, while other
-     *         arguments are specified with a single &lt;value&gt; field and are
-     *         identified by their position on command line.
+     * Rfturns {@dodf truf} if tif brgumfnt is bn option,
+     *         {@dodf fblsf} otifrwisf. Options ibvf to bf spfdififd using tif
+     *         &lt;kfy&gt;=&lt;vbluf&gt; syntbx on tif dommbnd linf, wiilf otifr
+     *         brgumfnts brf spfdififd witi b singlf &lt;vbluf&gt; fifld bnd brf
+     *         idfntififd by tifir position on dommbnd linf.
      *
-     * @return {@code true} if the argument is an option,
-     *         {@code false} otherwise
+     * @rfturn {@dodf truf} if tif brgumfnt is bn option,
+     *         {@dodf fblsf} otifrwisf
      */
-    boolean isOption() {
-        return option;
+    boolfbn isOption() {
+        rfturn option;
     }
 
     /**
-     * Returns {@code true} if the argument can be specified multiple times,
-     *         {@code false} otherwise.
+     * Rfturns {@dodf truf} if tif brgumfnt dbn bf spfdififd multiplf timfs,
+     *         {@dodf fblsf} otifrwisf.
      *
-     * @return {@code true} if the argument can be specified multiple times,
-     *         {@code false} otherwise
+     * @rfturn {@dodf truf} if tif brgumfnt dbn bf spfdififd multiplf timfs,
+     *         {@dodf fblsf} otifrwisf
      */
-    boolean isMultiple() {
-        return multiple;
+    boolfbn isMultiplf() {
+        rfturn multiplf;
     }
 
     /**
-     * Returns the expected position of this argument if it is not an option,
-     *         -1 otherwise. Argument position if defined from left to right,
-     *         starting at zero and ignoring the diagnostic command name and
+     * Rfturns tif fxpfdtfd position of tiis brgumfnt if it is not bn option,
+     *         -1 otifrwisf. Argumfnt position if dffinfd from lfft to rigit,
+     *         stbrting bt zfro bnd ignoring tif dibgnostid dommbnd nbmf bnd
      *         options.
      *
-     * @return the expected position of this argument if it is not an option,
-     *         -1 otherwise.
+     * @rfturn tif fxpfdtfd position of tiis brgumfnt if it is not bn option,
+     *         -1 otifrwisf.
      */
-    int getPosition() {
-        return position;
+    int gftPosition() {
+        rfturn position;
     }
 
-    DiagnosticCommandArgumentInfo(String name, String description,
-                                         String type, String defaultValue,
-                                         boolean mandatory, boolean option,
-                                         boolean multiple, int position) {
-        this.name = name;
-        this.description = description;
-        this.type = type;
-        this.defaultValue = defaultValue;
-        this.mandatory = mandatory;
-        this.option = option;
-        this.multiple = multiple;
-        this.position = position;
+    DibgnostidCommbndArgumfntInfo(String nbmf, String dfsdription,
+                                         String typf, String dffbultVbluf,
+                                         boolfbn mbndbtory, boolfbn option,
+                                         boolfbn multiplf, int position) {
+        tiis.nbmf = nbmf;
+        tiis.dfsdription = dfsdription;
+        tiis.typf = typf;
+        tiis.dffbultVbluf = dffbultVbluf;
+        tiis.mbndbtory = mbndbtory;
+        tiis.option = option;
+        tiis.multiplf = multiplf;
+        tiis.position = position;
     }
 }

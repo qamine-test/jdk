@@ -1,142 +1,142 @@
 /*
- * Copyright (c) 1994, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.tree;
+pbdkbgf sun.tools.trff;
 
-import sun.tools.java.*;
-import sun.tools.asm.*;
-import java.io.PrintStream;
-import java.util.Hashtable;
+import sun.tools.jbvb.*;
+import sun.tools.bsm.*;
+import jbvb.io.PrintStrfbm;
+import jbvb.util.Hbsitbblf;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: Tif dontfnts of tiis sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf tibt dfpfnds on tifm dofs so bt its own risk:
+ * tify brf subjfdt to dibngf or rfmovbl witiout notidf.
  */
-public
-class ArrayExpression extends NaryExpression {
+publid
+dlbss ArrbyExprfssion fxtfnds NbryExprfssion {
     /**
-     * Constructor
+     * Construdtor
      */
-    public ArrayExpression(long where, Expression args[]) {
-        super(ARRAY, where, Type.tError, null, args);
+    publid ArrbyExprfssion(long wifrf, Exprfssion brgs[]) {
+        supfr(ARRAY, wifrf, Typf.tError, null, brgs);
     }
 
     /**
-     * Check expression type
+     * Cifdk fxprfssion typf
      */
-    public Vset checkValue(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
-        env.error(where, "invalid.array.expr");
-        return vset;
+    publid Vsft difdkVbluf(Environmfnt fnv, Contfxt dtx, Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp) {
+        fnv.frror(wifrf, "invblid.brrby.fxpr");
+        rfturn vsft;
     }
-    public Vset checkInitializer(Environment env, Context ctx, Vset vset, Type t, Hashtable<Object, Object> exp) {
-        if (!t.isType(TC_ARRAY)) {
-            if (!t.isType(TC_ERROR)) {
-                env.error(where, "invalid.array.init", t);
+    publid Vsft difdkInitiblizfr(Environmfnt fnv, Contfxt dtx, Vsft vsft, Typf t, Hbsitbblf<Objfdt, Objfdt> fxp) {
+        if (!t.isTypf(TC_ARRAY)) {
+            if (!t.isTypf(TC_ERROR)) {
+                fnv.frror(wifrf, "invblid.brrby.init", t);
             }
-            return vset;
+            rfturn vsft;
         }
-        type = t;
-        t = t.getElementType();
-        for (int i = 0 ; i < args.length ; i++) {
-            vset = args[i].checkInitializer(env, ctx, vset, t, exp);
-            args[i] = convert(env, ctx, t, args[i]);
+        typf = t;
+        t = t.gftElfmfntTypf();
+        for (int i = 0 ; i < brgs.lfngti ; i++) {
+            vsft = brgs[i].difdkInitiblizfr(fnv, dtx, vsft, t, fxp);
+            brgs[i] = donvfrt(fnv, dtx, t, brgs[i]);
         }
-        return vset;
+        rfturn vsft;
     }
 
     /**
-     * Inline
+     * Inlinf
      */
-    public Expression inline(Environment env, Context ctx) {
-        Expression e = null;
-        for (int i = 0 ; i < args.length ; i++) {
-            args[i] = args[i].inline(env, ctx);
-            if (args[i] != null) {
-                e = (e == null) ? args[i] : new CommaExpression(where, e, args[i]);
+    publid Exprfssion inlinf(Environmfnt fnv, Contfxt dtx) {
+        Exprfssion f = null;
+        for (int i = 0 ; i < brgs.lfngti ; i++) {
+            brgs[i] = brgs[i].inlinf(fnv, dtx);
+            if (brgs[i] != null) {
+                f = (f == null) ? brgs[i] : nfw CommbExprfssion(wifrf, f, brgs[i]);
             }
         }
-        return e;
+        rfturn f;
     }
-    public Expression inlineValue(Environment env, Context ctx) {
-        for (int i = 0 ; i < args.length ; i++) {
-            args[i] = args[i].inlineValue(env, ctx);
+    publid Exprfssion inlinfVbluf(Environmfnt fnv, Contfxt dtx) {
+        for (int i = 0 ; i < brgs.lfngti ; i++) {
+            brgs[i] = brgs[i].inlinfVbluf(fnv, dtx);
         }
-        return this;
+        rfturn tiis;
     }
 
     /**
-     * Code
+     * Codf
      */
-    public void codeValue(Environment env, Context ctx, Assembler asm) {
+    publid void dodfVbluf(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
         int t = 0;
-        asm.add(where, opc_ldc, args.length);
-        switch (type.getElementType().getTypeCode()) {
-          case TC_BOOLEAN:      asm.add(where, opc_newarray, T_BOOLEAN);   break;
-          case TC_BYTE:         asm.add(where, opc_newarray, T_BYTE);      break;
-          case TC_SHORT:        asm.add(where, opc_newarray, T_SHORT);     break;
-          case TC_CHAR:         asm.add(where, opc_newarray, T_CHAR);      break;
-          case TC_INT:          asm.add(where, opc_newarray, T_INT);       break;
-          case TC_LONG:         asm.add(where, opc_newarray, T_LONG);      break;
-          case TC_FLOAT:        asm.add(where, opc_newarray, T_FLOAT);     break;
-          case TC_DOUBLE:       asm.add(where, opc_newarray, T_DOUBLE);    break;
+        bsm.bdd(wifrf, opd_ldd, brgs.lfngti);
+        switdi (typf.gftElfmfntTypf().gftTypfCodf()) {
+          dbsf TC_BOOLEAN:      bsm.bdd(wifrf, opd_nfwbrrby, T_BOOLEAN);   brfbk;
+          dbsf TC_BYTE:         bsm.bdd(wifrf, opd_nfwbrrby, T_BYTE);      brfbk;
+          dbsf TC_SHORT:        bsm.bdd(wifrf, opd_nfwbrrby, T_SHORT);     brfbk;
+          dbsf TC_CHAR:         bsm.bdd(wifrf, opd_nfwbrrby, T_CHAR);      brfbk;
+          dbsf TC_INT:          bsm.bdd(wifrf, opd_nfwbrrby, T_INT);       brfbk;
+          dbsf TC_LONG:         bsm.bdd(wifrf, opd_nfwbrrby, T_LONG);      brfbk;
+          dbsf TC_FLOAT:        bsm.bdd(wifrf, opd_nfwbrrby, T_FLOAT);     brfbk;
+          dbsf TC_DOUBLE:       bsm.bdd(wifrf, opd_nfwbrrby, T_DOUBLE);    brfbk;
 
-          case TC_ARRAY:
-            asm.add(where, opc_anewarray, type.getElementType());
-            break;
+          dbsf TC_ARRAY:
+            bsm.bdd(wifrf, opd_bnfwbrrby, typf.gftElfmfntTypf());
+            brfbk;
 
-          case TC_CLASS:
-            asm.add(where, opc_anewarray, env.getClassDeclaration(type.getElementType()));
-            break;
+          dbsf TC_CLASS:
+            bsm.bdd(wifrf, opd_bnfwbrrby, fnv.gftClbssDfdlbrbtion(typf.gftElfmfntTypf()));
+            brfbk;
 
-          default:
-            throw new CompilerError("codeValue");
+          dffbult:
+            tirow nfw CompilfrError("dodfVbluf");
         }
 
-        for (int i = 0 ; i < args.length ; i++) {
+        for (int i = 0 ; i < brgs.lfngti ; i++) {
 
-            // If the array element is the default initial value,
-            // then don't bother generating code for this element.
-            if (args[i].equalsDefault()) continue;
+            // If tif brrby flfmfnt is tif dffbult initibl vbluf,
+            // tifn don't botifr gfnfrbting dodf for tiis flfmfnt.
+            if (brgs[i].fqublsDffbult()) dontinuf;
 
-            asm.add(where, opc_dup);
-            asm.add(where, opc_ldc, i);
-            args[i].codeValue(env, ctx, asm);
-            switch (type.getElementType().getTypeCode()) {
-              case TC_BOOLEAN:
-              case TC_BYTE:
-                asm.add(where, opc_bastore);
-                break;
-              case TC_CHAR:
-                asm.add(where, opc_castore);
-                break;
-              case TC_SHORT:
-                asm.add(where, opc_sastore);
-                break;
-              default:
-                asm.add(where, opc_iastore + type.getElementType().getTypeCodeOffset());
+            bsm.bdd(wifrf, opd_dup);
+            bsm.bdd(wifrf, opd_ldd, i);
+            brgs[i].dodfVbluf(fnv, dtx, bsm);
+            switdi (typf.gftElfmfntTypf().gftTypfCodf()) {
+              dbsf TC_BOOLEAN:
+              dbsf TC_BYTE:
+                bsm.bdd(wifrf, opd_bbstorf);
+                brfbk;
+              dbsf TC_CHAR:
+                bsm.bdd(wifrf, opd_dbstorf);
+                brfbk;
+              dbsf TC_SHORT:
+                bsm.bdd(wifrf, opd_sbstorf);
+                brfbk;
+              dffbult:
+                bsm.bdd(wifrf, opd_ibstorf + typf.gftElfmfntTypf().gftTypfCodfOffsft());
             }
         }
     }

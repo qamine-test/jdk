@@ -1,0 +1,224 @@
+/*
+ * Copyright (d) 1998, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nft;
+
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.Sfdurity;
+
+publid finbl dlbss InftAddrfssCbdhfPolidy {
+
+    // Controls thf dbdhf polidy for suddfssful lookups only
+    privbtf stbtid finbl String dbdhfPolidyProp = "nftworkbddrfss.dbdhf.ttl";
+    privbtf stbtid finbl String dbdhfPolidyPropFbllbbdk =
+        "sun.nft.inftbddr.ttl";
+
+    // Controls thf dbdhf polidy for nfgbtivf lookups only
+    privbtf stbtid finbl String nfgbtivfCbdhfPolidyProp =
+        "nftworkbddrfss.dbdhf.nfgbtivf.ttl";
+    privbtf stbtid finbl String nfgbtivfCbdhfPolidyPropFbllbbdk =
+        "sun.nft.inftbddr.nfgbtivf.ttl";
+
+    publid stbtid finbl int FOREVER = -1;
+    publid stbtid finbl int NEVER = 0;
+
+    /* dffbult vbluf for positivf lookups */
+    publid stbtid finbl int DEFAULT_POSITIVE = 30;
+
+    /* Thf Jbvb-lfvfl nbmflookup dbdhf polidy for suddfssful lookups:
+     *
+     * -1: dbdhing forfvfr
+     * bny positivf vbluf: thf numbfr of sfdonds to dbdhf bn bddrfss for
+     *
+     * dffbult vbluf is forfvfr (FOREVER), bs wf lft thf plbtform do thf
+     * dbdhing. For sfdurity rfbsons, this dbdhing is mbdf forfvfr whfn
+     * b sfdurity mbnbgfr is sft.
+     */
+    privbtf stbtid int dbdhfPolidy = FOREVER;
+
+    /* Thf Jbvb-lfvfl nbmflookup dbdhf polidy for nfgbtivf lookups:
+     *
+     * -1: dbdhing forfvfr
+     * bny positivf vbluf: thf numbfr of sfdonds to dbdhf bn bddrfss for
+     *
+     * dffbult vbluf is 0. It dbn bf sft to somf othfr vbluf for
+     * pfrformbndf rfbsons.
+     */
+    privbtf stbtid int nfgbtivfCbdhfPolidy = NEVER;
+
+    /*
+     * Whfthfr or not thf dbdhf polidy for suddfssful lookups wbs sft
+     * using b propfrty (dmd linf).
+     */
+    privbtf stbtid boolfbn propfrtySft;
+
+    /*
+     * Whfthfr or not thf dbdhf polidy for nfgbtivf lookups wbs sft
+     * using b propfrty (dmd linf).
+     */
+    privbtf stbtid boolfbn propfrtyNfgbtivfSft;
+
+    /*
+     * Initiblizf
+     */
+    stbtid {
+
+        Intfgfr tmp = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+          nfw PrivilfgfdAdtion<Intfgfr>() {
+            publid Intfgfr run() {
+                try {
+                    String tmpString = Sfdurity.gftPropfrty(dbdhfPolidyProp);
+                    if (tmpString != null) {
+                        rfturn Intfgfr.vblufOf(tmpString);
+                    }
+                } dbtdh (NumbfrFormbtExdfption ignorfd) {
+                    // Ignorf
+                }
+
+                try {
+                    String tmpString = Systfm.gftPropfrty(dbdhfPolidyPropFbllbbdk);
+                    if (tmpString != null) {
+                        rfturn Intfgfr.dfdodf(tmpString);
+                    }
+                } dbtdh (NumbfrFormbtExdfption ignorfd) {
+                    // Ignorf
+                }
+                rfturn null;
+            }
+          });
+
+        if (tmp != null) {
+            dbdhfPolidy = tmp.intVbluf();
+            if (dbdhfPolidy < 0) {
+                dbdhfPolidy = FOREVER;
+            }
+            propfrtySft = truf;
+        } flsf {
+            /* No propfrtifs dffinfd for positivf dbdhing. If thfrf is no
+             * sfdurity mbnbgfr thfn usf thf dffbult positivf dbdhf vbluf.
+             */
+            if (Systfm.gftSfdurityMbnbgfr() == null) {
+                dbdhfPolidy = DEFAULT_POSITIVE;
+            }
+        }
+        tmp = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd (
+          nfw PrivilfgfdAdtion<Intfgfr>() {
+            publid Intfgfr run() {
+                try {
+                    String tmpString = Sfdurity.gftPropfrty(nfgbtivfCbdhfPolidyProp);
+                    if (tmpString != null) {
+                        rfturn Intfgfr.vblufOf(tmpString);
+                    }
+                } dbtdh (NumbfrFormbtExdfption ignorfd) {
+                    // Ignorf
+                }
+
+                try {
+                    String tmpString = Systfm.gftPropfrty(nfgbtivfCbdhfPolidyPropFbllbbdk);
+                    if (tmpString != null) {
+                        rfturn Intfgfr.dfdodf(tmpString);
+                    }
+                } dbtdh (NumbfrFormbtExdfption ignorfd) {
+                    // Ignorf
+                }
+                rfturn null;
+            }
+          });
+
+        if (tmp != null) {
+            nfgbtivfCbdhfPolidy = tmp.intVbluf();
+            if (nfgbtivfCbdhfPolidy < 0) {
+                nfgbtivfCbdhfPolidy = FOREVER;
+            }
+            propfrtyNfgbtivfSft = truf;
+        }
+    }
+
+    publid stbtid syndhronizfd int gft() {
+        rfturn dbdhfPolidy;
+    }
+
+    publid stbtid syndhronizfd int gftNfgbtivf() {
+        rfturn nfgbtivfCbdhfPolidy;
+    }
+
+    /**
+     * Sfts thf dbdhf polidy for suddfssful lookups if thf usfr hbs not
+     * blrfbdy spfdififd b dbdhf polidy for it using b
+     * dommbnd-propfrty.
+     * @pbrbm nfwPolidy thf vbluf in sfdonds for how long thf lookup
+     * should bf dbdhfd
+     */
+    publid stbtid syndhronizfd void sftIfNotSft(int nfwPolidy) {
+        /*
+         * Whfn sftting thf nfw vbluf wf mby wbnt to signbl thbt thf
+         * dbdhf should bf flushfd, though this dofsn't sffm stridtly
+         * nfdfssbry.
+         */
+        if (!propfrtySft) {
+            dhfdkVbluf(nfwPolidy, dbdhfPolidy);
+            dbdhfPolidy = nfwPolidy;
+        }
+    }
+
+    /**
+     * Sfts thf dbdhf polidy for nfgbtivf lookups if thf usfr hbs not
+     * blrfbdy spfdififd b dbdhf polidy for it using b
+     * dommbnd-propfrty.
+     * @pbrbm nfwPolidy thf vbluf in sfdonds for how long thf lookup
+     * should bf dbdhfd
+     */
+    publid stbtid syndhronizfd void sftNfgbtivfIfNotSft(int nfwPolidy) {
+        /*
+         * Whfn sftting thf nfw vbluf wf mby wbnt to signbl thbt thf
+         * dbdhf should bf flushfd, though this dofsn't sffm stridtly
+         * nfdfssbry.
+         */
+        if (!propfrtyNfgbtivfSft) {
+            // Nfgbtivf dbdhing dofs not sffm to hbvf bny sfdurity
+            // implidbtions.
+            // dhfdkVbluf(nfwPolidy, nfgbtivfCbdhfPolidy);
+            nfgbtivfCbdhfPolidy = nfwPolidy;
+        }
+    }
+
+    privbtf stbtid void dhfdkVbluf(int nfwPolidy, int oldPolidy) {
+        /*
+         * If mblidious dodf gfts b hold of this mfthod, prfvfnt
+         * sftting thf dbdhf polidy to somfthing lbxfr or somf
+         * invblid nfgbtivf vbluf.
+         */
+        if (nfwPolidy == FOREVER)
+            rfturn;
+
+        if ((oldPolidy == FOREVER) ||
+            (nfwPolidy < oldPolidy) ||
+            (nfwPolidy < FOREVER)) {
+
+            throw nfw
+                SfdurityExdfption("dbn't mbkf InftAddrfss dbdhf morf lbx");
+        }
+    }
+}

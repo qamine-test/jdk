@@ -1,672 +1,672 @@
 /*
- * Copyright (c) 2003, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <stdlib.h>
-#include <string.h>
+#indludf <stdlib.i>
+#indludf <string.i>
 
-#include "sun_java2d_opengl_GLXGraphicsConfig.h"
+#indludf "sun_jbvb2d_opfngl_GLXGrbpiidsConfig.i"
 
-#include "jni.h"
-#include "jlong.h"
-#include "GLXGraphicsConfig.h"
-#include "GLXSurfaceData.h"
-#include "awt_GraphicsEnv.h"
-#include "awt_util.h"
+#indludf "jni.i"
+#indludf "jlong.i"
+#indludf "GLXGrbpiidsConfig.i"
+#indludf "GLXSurfbdfDbtb.i"
+#indludf "bwt_GrbpiidsEnv.i"
+#indludf "bwt_util.i"
 
-#ifndef HEADLESS
+#ifndff HEADLESS
 
-extern Bool usingXinerama;
+fxtfrn Bool usingXinfrbmb;
 
 /**
- * This is a globally shared context used when creating textures.  When any
- * new contexts are created, they specify this context as the "share list"
- * context, which means any texture objects created when this shared context
- * is current will be available to any other context.
+ * Tiis is b globblly sibrfd dontfxt usfd wifn drfbting tfxturfs.  Wifn bny
+ * nfw dontfxts brf drfbtfd, tify spfdify tiis dontfxt bs tif "sibrf list"
+ * dontfxt, wiidi mfbns bny tfxturf objfdts drfbtfd wifn tiis sibrfd dontfxt
+ * is durrfnt will bf bvbilbblf to bny otifr dontfxt.
  */
-static GLXContext sharedContext = 0;
+stbtid GLXContfxt sibrfdContfxt = 0;
 
 /**
- * Attempts to initialize GLX and the core OpenGL library.  For this method
- * to return JNI_TRUE, the following must be true:
- *     - libGL must be loaded successfully (via dlopen)
- *     - all function symbols from libGL must be available and loaded properly
- *     - the GLX extension must be available through X11
- *     - client GLX version must be >= 1.3
- * If any of these requirements are not met, this method will return
- * JNI_FALSE, indicating there is no hope of using GLX/OpenGL for any
- * GraphicsConfig in the environment.
+ * Attfmpts to initiblizf GLX bnd tif dorf OpfnGL librbry.  For tiis mftiod
+ * to rfturn JNI_TRUE, tif following must bf truf:
+ *     - libGL must bf lobdfd suddfssfully (vib dlopfn)
+ *     - bll fundtion symbols from libGL must bf bvbilbblf bnd lobdfd propfrly
+ *     - tif GLX fxtfnsion must bf bvbilbblf tirougi X11
+ *     - dlifnt GLX vfrsion must bf >= 1.3
+ * If bny of tifsf rfquirfmfnts brf not mft, tiis mftiod will rfturn
+ * JNI_FALSE, indidbting tifrf is no iopf of using GLX/OpfnGL for bny
+ * GrbpiidsConfig in tif fnvironmfnt.
  */
-static jboolean
+stbtid jboolfbn
 GLXGC_InitGLX()
 {
-    int errorbase, eventbase;
-    const char *version;
+    int frrorbbsf, fvfntbbsf;
+    donst dibr *vfrsion;
 
-    J2dRlsTraceLn(J2D_TRACE_INFO, "GLXGC_InitGLX");
+    J2dRlsTrbdfLn(J2D_TRACE_INFO, "GLXGC_InitGLX");
 
-    if (!OGLFuncs_OpenLibrary()) {
-        return JNI_FALSE;
+    if (!OGLFunds_OpfnLibrbry()) {
+        rfturn JNI_FALSE;
     }
 
-    if (!OGLFuncs_InitPlatformFuncs() ||
-        !OGLFuncs_InitBaseFuncs() ||
-        !OGLFuncs_InitExtFuncs())
+    if (!OGLFunds_InitPlbtformFunds() ||
+        !OGLFunds_InitBbsfFunds() ||
+        !OGLFunds_InitExtFunds())
     {
-        OGLFuncs_CloseLibrary();
-        return JNI_FALSE;
+        OGLFunds_ClosfLibrbry();
+        rfturn JNI_FALSE;
     }
 
-    if (!j2d_glXQueryExtension(awt_display, &errorbase, &eventbase)) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-                      "GLXGC_InitGLX: GLX extension is not present");
-        OGLFuncs_CloseLibrary();
-        return JNI_FALSE;
+    if (!j2d_glXQufryExtfnsion(bwt_displby, &frrorbbsf, &fvfntbbsf)) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                      "GLXGC_InitGLX: GLX fxtfnsion is not prfsfnt");
+        OGLFunds_ClosfLibrbry();
+        rfturn JNI_FALSE;
     }
 
-    version = j2d_glXGetClientString(awt_display, GLX_VERSION);
-    if (version == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-                      "GLXGC_InitGLX: could not query GLX version");
-        OGLFuncs_CloseLibrary();
-        return JNI_FALSE;
+    vfrsion = j2d_glXGftClifntString(bwt_displby, GLX_VERSION);
+    if (vfrsion == NULL) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                      "GLXGC_InitGLX: dould not qufry GLX vfrsion");
+        OGLFunds_ClosfLibrbry();
+        rfturn JNI_FALSE;
     }
 
-    // we now only verify that the client GLX version is >= 1.3 (if the
-    // server does not support GLX 1.3, then we will find that out later
-    // when we attempt to create a GLXFBConfig)
-    J2dRlsTraceLn1(J2D_TRACE_INFO,
-                   "GLXGC_InitGLX: client GLX version=%s", version);
-    if (!((version[0] == '1' && version[2] >= '3') || (version[0] > '1'))) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-                      "GLXGC_InitGLX: invalid GLX version; 1.3 is required");
-        OGLFuncs_CloseLibrary();
-        return JNI_FALSE;
+    // wf now only vfrify tibt tif dlifnt GLX vfrsion is >= 1.3 (if tif
+    // sfrvfr dofs not support GLX 1.3, tifn wf will find tibt out lbtfr
+    // wifn wf bttfmpt to drfbtf b GLXFBConfig)
+    J2dRlsTrbdfLn1(J2D_TRACE_INFO,
+                   "GLXGC_InitGLX: dlifnt GLX vfrsion=%s", vfrsion);
+    if (!((vfrsion[0] == '1' && vfrsion[2] >= '3') || (vfrsion[0] > '1'))) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                      "GLXGC_InitGLX: invblid GLX vfrsion; 1.3 is rfquirfd");
+        OGLFunds_ClosfLibrbry();
+        rfturn JNI_FALSE;
     }
 
-    return JNI_TRUE;
+    rfturn JNI_TRUE;
 }
 
 /**
- * Returns JNI_TRUE if GLX is available for the current display.  Note that
- * this method will attempt to initialize GLX (and all the necessary function
- * symbols) if it has not been already.  The AWT_LOCK must be acquired before
- * calling this method.
+ * Rfturns JNI_TRUE if GLX is bvbilbblf for tif durrfnt displby.  Notf tibt
+ * tiis mftiod will bttfmpt to initiblizf GLX (bnd bll tif nfdfssbry fundtion
+ * symbols) if it ibs not bffn blrfbdy.  Tif AWT_LOCK must bf bdquirfd bfforf
+ * dblling tiis mftiod.
  */
-jboolean
-GLXGC_IsGLXAvailable()
+jboolfbn
+GLXGC_IsGLXAvbilbblf()
 {
-    static jboolean glxAvailable = JNI_FALSE;
-    static jboolean firstTime = JNI_TRUE;
+    stbtid jboolfbn glxAvbilbblf = JNI_FALSE;
+    stbtid jboolfbn firstTimf = JNI_TRUE;
 
-    J2dTraceLn(J2D_TRACE_INFO, "GLXGC_IsGLXAvailable");
+    J2dTrbdfLn(J2D_TRACE_INFO, "GLXGC_IsGLXAvbilbblf");
 
-    if (firstTime) {
-        glxAvailable = GLXGC_InitGLX();
-        firstTime = JNI_FALSE;
+    if (firstTimf) {
+        glxAvbilbblf = GLXGC_InitGLX();
+        firstTimf = JNI_FALSE;
     }
 
-    return glxAvailable;
+    rfturn glxAvbilbblf;
 }
 
 /**
- * Disposes all memory and resources allocated for the given OGLContext.
+ * Disposfs bll mfmory bnd rfsourdfs bllodbtfd for tif givfn OGLContfxt.
  */
-static void
-GLXGC_DestroyOGLContext(OGLContext *oglc)
+stbtid void
+GLXGC_DfstroyOGLContfxt(OGLContfxt *ogld)
 {
-    GLXCtxInfo *ctxinfo;
+    GLXCtxInfo *dtxinfo;
 
-    J2dTraceLn(J2D_TRACE_INFO, "GLXGC_DestroyOGLContext");
+    J2dTrbdfLn(J2D_TRACE_INFO, "GLXGC_DfstroyOGLContfxt");
 
-    if (oglc == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-                      "GLXGC_DestroyOGLContext: context is null");
-        return;
+    if (ogld == NULL) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                      "GLXGC_DfstroyOGLContfxt: dontfxt is null");
+        rfturn;
     }
 
-    // at this point, this context will be current to its scratch surface
-    // so the following GL/GLX operations should be safe...
+    // bt tiis point, tiis dontfxt will bf durrfnt to its sdrbtdi surfbdf
+    // so tif following GL/GLX opfrbtions siould bf sbff...
 
-    OGLContext_DestroyContextResources(oglc);
+    OGLContfxt_DfstroyContfxtRfsourdfs(ogld);
 
-    ctxinfo = (GLXCtxInfo *)oglc->ctxInfo;
-    if (ctxinfo != NULL) {
-        // release the current context before we continue
-        j2d_glXMakeContextCurrent(awt_display, None, None, NULL);
+    dtxinfo = (GLXCtxInfo *)ogld->dtxInfo;
+    if (dtxinfo != NULL) {
+        // rflfbsf tif durrfnt dontfxt bfforf wf dontinuf
+        j2d_glXMbkfContfxtCurrfnt(bwt_displby, Nonf, Nonf, NULL);
 
-        if (ctxinfo->context != 0) {
-            j2d_glXDestroyContext(awt_display, ctxinfo->context);
+        if (dtxinfo->dontfxt != 0) {
+            j2d_glXDfstroyContfxt(bwt_displby, dtxinfo->dontfxt);
         }
-        if (ctxinfo->scratchSurface != 0) {
-            j2d_glXDestroyPbuffer(awt_display, ctxinfo->scratchSurface);
+        if (dtxinfo->sdrbtdiSurfbdf != 0) {
+            j2d_glXDfstroyPbufffr(bwt_displby, dtxinfo->sdrbtdiSurfbdf);
         }
 
-        free(ctxinfo);
+        frff(dtxinfo);
     }
 
-    free(oglc);
+    frff(ogld);
 }
 
 /**
- * Disposes all memory and resources associated with the given
- * GLXGraphicsConfigInfo (including its native OGLContext data).
+ * Disposfs bll mfmory bnd rfsourdfs bssodibtfd witi tif givfn
+ * GLXGrbpiidsConfigInfo (indluding its nbtivf OGLContfxt dbtb).
  */
 void
-OGLGC_DestroyOGLGraphicsConfig(jlong pConfigInfo)
+OGLGC_DfstroyOGLGrbpiidsConfig(jlong pConfigInfo)
 {
-    GLXGraphicsConfigInfo *glxinfo =
-        (GLXGraphicsConfigInfo *)jlong_to_ptr(pConfigInfo);
+    GLXGrbpiidsConfigInfo *glxinfo =
+        (GLXGrbpiidsConfigInfo *)jlong_to_ptr(pConfigInfo);
 
-    J2dTraceLn(J2D_TRACE_INFO, "OGLGC_DestroyOGLGraphicsConfig");
+    J2dTrbdfLn(J2D_TRACE_INFO, "OGLGC_DfstroyOGLGrbpiidsConfig");
 
     if (glxinfo == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-                      "OGLGC_DestroyOGLGraphicsConfig: info is null");
-        return;
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                      "OGLGC_DfstroyOGLGrbpiidsConfig: info is null");
+        rfturn;
     }
 
-    if (glxinfo->context != NULL) {
-        GLXGC_DestroyOGLContext(glxinfo->context);
+    if (glxinfo->dontfxt != NULL) {
+        GLXGC_DfstroyOGLContfxt(glxinfo->dontfxt);
     }
 
-    free(glxinfo);
+    frff(glxinfo);
 }
 
 /**
- * Attempts to create a new GLXFBConfig for the requested screen and visual.
- * If visualid is 0, this method will iterate through all GLXFBConfigs (if
- * any) that match the requested attributes and will attempt to find an
- * fbconfig with a minimal combined depth+stencil buffer.  Note that we
- * currently only need depth capabilities (for shape clipping purposes), but
- * glXChooseFBConfig() will often return a list of fbconfigs with the largest
- * depth buffer (and stencil) sizes at the top of the list.  Therefore, we
- * scan through the whole list to find the most VRAM-efficient fbconfig.
- * If visualid is non-zero, the GLXFBConfig associated with the given visual
- * is chosen (assuming it meets the requested attributes).  If there are no
- * valid GLXFBConfigs available, this method returns 0.
+ * Attfmpts to drfbtf b nfw GLXFBConfig for tif rfqufstfd sdrffn bnd visubl.
+ * If visublid is 0, tiis mftiod will itfrbtf tirougi bll GLXFBConfigs (if
+ * bny) tibt mbtdi tif rfqufstfd bttributfs bnd will bttfmpt to find bn
+ * fbdonfig witi b minimbl dombinfd dfpti+stfndil bufffr.  Notf tibt wf
+ * durrfntly only nffd dfpti dbpbbilitifs (for sibpf dlipping purposfs), but
+ * glXCioosfFBConfig() will oftfn rfturn b list of fbdonfigs witi tif lbrgfst
+ * dfpti bufffr (bnd stfndil) sizfs bt tif top of tif list.  Tifrfforf, wf
+ * sdbn tirougi tif wiolf list to find tif most VRAM-fffidifnt fbdonfig.
+ * If visublid is non-zfro, tif GLXFBConfig bssodibtfd witi tif givfn visubl
+ * is diosfn (bssuming it mffts tif rfqufstfd bttributfs).  If tifrf brf no
+ * vblid GLXFBConfigs bvbilbblf, tiis mftiod rfturns 0.
  */
-static GLXFBConfig
-GLXGC_InitFBConfig(JNIEnv *env, jint screennum, VisualID visualid)
+stbtid GLXFBConfig
+GLXGC_InitFBConfig(JNIEnv *fnv, jint sdrffnnum, VisublID visublid)
 {
-    GLXFBConfig *fbconfigs;
-    GLXFBConfig chosenConfig = 0;
-    int nconfs, i;
-    int attrlist[] = {GLX_DRAWABLE_TYPE, GLX_WINDOW_BIT | GLX_PBUFFER_BIT,
+    GLXFBConfig *fbdonfigs;
+    GLXFBConfig diosfnConfig = 0;
+    int ndonfs, i;
+    int bttrlist[] = {GLX_DRAWABLE_TYPE, GLX_WINDOW_BIT | GLX_PBUFFER_BIT,
                       GLX_RENDER_TYPE, GLX_RGBA_BIT,
-                      GLX_CONFIG_CAVEAT, GLX_NONE, // avoid "slow" configs
-                      GLX_DEPTH_SIZE, 16, // anything >= 16 will work for us
+                      GLX_CONFIG_CAVEAT, GLX_NONE, // bvoid "slow" donfigs
+                      GLX_DEPTH_SIZE, 16, // bnytiing >= 16 will work for us
                       0};
 
-    // this is the initial minimum value for the combined depth+stencil size
-    // (we initialize it to some absurdly high value; realistic values will
-    // be much less than this number)
-    int minDepthPlusStencil = 512;
+    // tiis is tif initibl minimum vbluf for tif dombinfd dfpti+stfndil sizf
+    // (wf initiblizf it to somf bbsurdly iigi vbluf; rfblistid vblufs will
+    // bf mudi lfss tibn tiis numbfr)
+    int minDfptiPlusStfndil = 512;
 
-    J2dRlsTraceLn2(J2D_TRACE_INFO, "GLXGC_InitFBConfig: scn=%d vis=0x%x",
-                   screennum, visualid);
+    J2dRlsTrbdfLn2(J2D_TRACE_INFO, "GLXGC_InitFBConfig: sdn=%d vis=0x%x",
+                   sdrffnnum, visublid);
 
-    // find all fbconfigs for this screen with the provided attributes
-    fbconfigs = j2d_glXChooseFBConfig(awt_display, screennum,
-                                      attrlist, &nconfs);
+    // find bll fbdonfigs for tiis sdrffn witi tif providfd bttributfs
+    fbdonfigs = j2d_glXCioosfFBConfig(bwt_displby, sdrffnnum,
+                                      bttrlist, &ndonfs);
 
-    if ((fbconfigs == NULL) || (nconfs <= 0)) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "GLXGC_InitFBConfig: could not find any valid fbconfigs");
-        return 0;
+    if ((fbdonfigs == NULL) || (ndonfs <= 0)) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "GLXGC_InitFBConfig: dould not find bny vblid fbdonfigs");
+        rfturn 0;
     }
 
-    J2dRlsTraceLn(J2D_TRACE_VERBOSE, "  candidate fbconfigs:");
+    J2dRlsTrbdfLn(J2D_TRACE_VERBOSE, "  dbndidbtf fbdonfigs:");
 
-    // iterate through the list of fbconfigs, looking for the one that matches
-    // the requested VisualID and supports RGBA rendering as well as the
-    // creation of windows and pbuffers
-    for (i = 0; i < nconfs; i++) {
-        XVisualInfo *xvi;
-        VisualID fbvisualid;
-        GLXFBConfig fbc = fbconfigs[i];
+    // itfrbtf tirougi tif list of fbdonfigs, looking for tif onf tibt mbtdifs
+    // tif rfqufstfd VisublID bnd supports RGBA rfndfring bs wfll bs tif
+    // drfbtion of windows bnd pbufffrs
+    for (i = 0; i < ndonfs; i++) {
+        XVisublInfo *xvi;
+        VisublID fbvisublid;
+        GLXFBConfig fbd = fbdonfigs[i];
 
-        // get VisualID from GLXFBConfig
-        xvi = j2d_glXGetVisualFromFBConfig(awt_display, fbc);
+        // gft VisublID from GLXFBConfig
+        xvi = j2d_glXGftVisublFromFBConfig(bwt_displby, fbd);
         if (xvi == NULL) {
-            continue;
+            dontinuf;
         }
-        fbvisualid = xvi->visualid;
-        XFree(xvi);
+        fbvisublid = xvi->visublid;
+        XFrff(xvi);
 
-        if (visualid == 0 || visualid == fbvisualid) {
-            int dtype, rtype, depth, stencil, db, alpha, gamma;
+        if (visublid == 0 || visublid == fbvisublid) {
+            int dtypf, rtypf, dfpti, stfndil, db, blpib, gbmmb;
 
-            // get GLX-specific attributes from GLXFBConfig
-            j2d_glXGetFBConfigAttrib(awt_display, fbc,
-                                     GLX_DRAWABLE_TYPE, &dtype);
-            j2d_glXGetFBConfigAttrib(awt_display, fbc,
-                                     GLX_RENDER_TYPE, &rtype);
-            j2d_glXGetFBConfigAttrib(awt_display, fbc,
-                                     GLX_DEPTH_SIZE, &depth);
-            j2d_glXGetFBConfigAttrib(awt_display, fbc,
-                                     GLX_STENCIL_SIZE, &stencil);
+            // gft GLX-spfdifid bttributfs from GLXFBConfig
+            j2d_glXGftFBConfigAttrib(bwt_displby, fbd,
+                                     GLX_DRAWABLE_TYPE, &dtypf);
+            j2d_glXGftFBConfigAttrib(bwt_displby, fbd,
+                                     GLX_RENDER_TYPE, &rtypf);
+            j2d_glXGftFBConfigAttrib(bwt_displby, fbd,
+                                     GLX_DEPTH_SIZE, &dfpti);
+            j2d_glXGftFBConfigAttrib(bwt_displby, fbd,
+                                     GLX_STENCIL_SIZE, &stfndil);
 
-            // these attributes don't affect our decision, but they are
-            // interesting for trace logs, so we will query them anyway
-            j2d_glXGetFBConfigAttrib(awt_display, fbc,
+            // tifsf bttributfs don't bfffdt our dfdision, but tify brf
+            // intfrfsting for trbdf logs, so wf will qufry tifm bnywby
+            j2d_glXGftFBConfigAttrib(bwt_displby, fbd,
                                      GLX_DOUBLEBUFFER, &db);
-            j2d_glXGetFBConfigAttrib(awt_display, fbc,
-                                     GLX_ALPHA_SIZE, &alpha);
+            j2d_glXGftFBConfigAttrib(bwt_displby, fbd,
+                                     GLX_ALPHA_SIZE, &blpib);
 
-            J2dRlsTrace5(J2D_TRACE_VERBOSE,
-                "[V]     id=0x%x db=%d alpha=%d depth=%d stencil=%d valid=",
-                         fbvisualid, db, alpha, depth, stencil);
+            J2dRlsTrbdf5(J2D_TRACE_VERBOSE,
+                "[V]     id=0x%x db=%d blpib=%d dfpti=%d stfndil=%d vblid=",
+                         fbvisublid, db, blpib, dfpti, stfndil);
 
-#ifdef __sparc
+#ifdff __spbrd
             /*
-             * Sun's OpenGL implementation will always
-             * return at least two GLXFBConfigs (visuals) from
-             * glXChooseFBConfig().  The first will be a linear (gamma
-             * corrected) visual; the second will have the same capabilities
-             * as the first, except it will be a non-linear (non-gamma
-             * corrected) visual, which is the one we want, otherwise
-             * everything will look "washed out".  So we will reject any
-             * visuals that have gamma values other than 1.0 (the value
-             * returned by glXGetFBConfigAttrib() will be scaled
-             * by 100, so 100 corresponds to a gamma value of 1.0, 220
-             * corresponds to 2.2, and so on).
+             * Sun's OpfnGL implfmfntbtion will blwbys
+             * rfturn bt lfbst two GLXFBConfigs (visubls) from
+             * glXCioosfFBConfig().  Tif first will bf b linfbr (gbmmb
+             * dorrfdtfd) visubl; tif sfdond will ibvf tif sbmf dbpbbilitifs
+             * bs tif first, fxdfpt it will bf b non-linfbr (non-gbmmb
+             * dorrfdtfd) visubl, wiidi is tif onf wf wbnt, otifrwisf
+             * fvfrytiing will look "wbsifd out".  So wf will rfjfdt bny
+             * visubls tibt ibvf gbmmb vblufs otifr tibn 1.0 (tif vbluf
+             * rfturnfd by glXGftFBConfigAttrib() will bf sdblfd
+             * by 100, so 100 dorrfsponds to b gbmmb vbluf of 1.0, 220
+             * dorrfsponds to 2.2, bnd so on).
              */
-            j2d_glXGetFBConfigAttrib(awt_display, fbc,
-                                     GLX_GAMMA_VALUE_SUN, &gamma);
-            if (gamma != 100) {
-                J2dRlsTrace(J2D_TRACE_VERBOSE, "false (linear visual)\n");
-                continue;
+            j2d_glXGftFBConfigAttrib(bwt_displby, fbd,
+                                     GLX_GAMMA_VALUE_SUN, &gbmmb);
+            if (gbmmb != 100) {
+                J2dRlsTrbdf(J2D_TRACE_VERBOSE, "fblsf (linfbr visubl)\n");
+                dontinuf;
             }
-#endif /* __sparc */
+#fndif /* __spbrd */
 
-            if ((dtype & GLX_WINDOW_BIT) &&
-                (dtype & GLX_PBUFFER_BIT) &&
-                (rtype & GLX_RGBA_BIT) &&
-                (depth >= 16))
+            if ((dtypf & GLX_WINDOW_BIT) &&
+                (dtypf & GLX_PBUFFER_BIT) &&
+                (rtypf & GLX_RGBA_BIT) &&
+                (dfpti >= 16))
             {
-                if (visualid == 0) {
-                    // when visualid == 0, we loop through all configs
-                    // looking for an fbconfig that has the smallest combined
-                    // depth+stencil size (this keeps VRAM usage to a minimum)
-                    if ((depth + stencil) < minDepthPlusStencil) {
-                        J2dRlsTrace(J2D_TRACE_VERBOSE, "true\n");
-                        minDepthPlusStencil = depth + stencil;
-                        chosenConfig = fbc;
-                    } else {
-                        J2dRlsTrace(J2D_TRACE_VERBOSE,
-                                    "false (large depth)\n");
+                if (visublid == 0) {
+                    // wifn visublid == 0, wf loop tirougi bll donfigs
+                    // looking for bn fbdonfig tibt ibs tif smbllfst dombinfd
+                    // dfpti+stfndil sizf (tiis kffps VRAM usbgf to b minimum)
+                    if ((dfpti + stfndil) < minDfptiPlusStfndil) {
+                        J2dRlsTrbdf(J2D_TRACE_VERBOSE, "truf\n");
+                        minDfptiPlusStfndil = dfpti + stfndil;
+                        diosfnConfig = fbd;
+                    } flsf {
+                        J2dRlsTrbdf(J2D_TRACE_VERBOSE,
+                                    "fblsf (lbrgf dfpti)\n");
                     }
-                    continue;
-                } else {
-                    // in this case, visualid == fbvisualid, which means
-                    // we've found a valid fbconfig corresponding to the
-                    // requested VisualID, so break out of the loop
-                    J2dRlsTrace(J2D_TRACE_VERBOSE, "true\n");
-                    chosenConfig = fbc;
-                    break;
+                    dontinuf;
+                } flsf {
+                    // in tiis dbsf, visublid == fbvisublid, wiidi mfbns
+                    // wf'vf found b vblid fbdonfig dorrfsponding to tif
+                    // rfqufstfd VisublID, so brfbk out of tif loop
+                    J2dRlsTrbdf(J2D_TRACE_VERBOSE, "truf\n");
+                    diosfnConfig = fbd;
+                    brfbk;
                 }
-            } else {
-                J2dRlsTrace(J2D_TRACE_VERBOSE, "false (bad match)\n");
+            } flsf {
+                J2dRlsTrbdf(J2D_TRACE_VERBOSE, "fblsf (bbd mbtdi)\n");
             }
         }
     }
 
-    // free the list of fbconfigs
-    XFree(fbconfigs);
+    // frff tif list of fbdonfigs
+    XFrff(fbdonfigs);
 
-    if (chosenConfig == 0) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "GLXGC_InitFBConfig: could not find an appropriate fbconfig");
-        return 0;
+    if (diosfnConfig == 0) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "GLXGC_InitFBConfig: dould not find bn bppropribtf fbdonfig");
+        rfturn 0;
     }
 
-    return chosenConfig;
+    rfturn diosfnConfig;
 }
 
 /**
- * Returns the X11 VisualID that corresponds to the best GLXFBConfig for the
- * given screen.  If no valid visual could be found, this method returns zero.
- * Note that this method will attempt to initialize GLX (and all the
- * necessary function symbols) if it has not been already.  The AWT_LOCK
- * must be acquired before calling this method.
+ * Rfturns tif X11 VisublID tibt dorrfsponds to tif bfst GLXFBConfig for tif
+ * givfn sdrffn.  If no vblid visubl dould bf found, tiis mftiod rfturns zfro.
+ * Notf tibt tiis mftiod will bttfmpt to initiblizf GLX (bnd bll tif
+ * nfdfssbry fundtion symbols) if it ibs not bffn blrfbdy.  Tif AWT_LOCK
+ * must bf bdquirfd bfforf dblling tiis mftiod.
  */
-VisualID
-GLXGC_FindBestVisual(JNIEnv *env, jint screen)
+VisublID
+GLXGC_FindBfstVisubl(JNIEnv *fnv, jint sdrffn)
 {
-    GLXFBConfig fbc;
-    XVisualInfo *xvi;
-    VisualID visualid;
+    GLXFBConfig fbd;
+    XVisublInfo *xvi;
+    VisublID visublid;
 
-    J2dRlsTraceLn1(J2D_TRACE_INFO, "GLXGC_FindBestVisual: scn=%d", screen);
+    J2dRlsTrbdfLn1(J2D_TRACE_INFO, "GLXGC_FindBfstVisubl: sdn=%d", sdrffn);
 
-    if (!GLXGC_IsGLXAvailable()) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "GLXGC_FindBestVisual: could not initialize GLX");
-        return 0;
+    if (!GLXGC_IsGLXAvbilbblf()) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "GLXGC_FindBfstVisubl: dould not initiblizf GLX");
+        rfturn 0;
     }
 
-    fbc = GLXGC_InitFBConfig(env, screen, 0);
-    if (fbc == 0) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "GLXGC_FindBestVisual: could not find best visual");
-        return 0;
+    fbd = GLXGC_InitFBConfig(fnv, sdrffn, 0);
+    if (fbd == 0) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "GLXGC_FindBfstVisubl: dould not find bfst visubl");
+        rfturn 0;
     }
 
-    xvi = j2d_glXGetVisualFromFBConfig(awt_display, fbc);
+    xvi = j2d_glXGftVisublFromFBConfig(bwt_displby, fbd);
     if (xvi == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "GLXGC_FindBestVisual: could not get visual for fbconfig");
-        return 0;
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "GLXGC_FindBfstVisubl: dould not gft visubl for fbdonfig");
+        rfturn 0;
     }
 
-    visualid = xvi->visualid;
-    XFree(xvi);
+    visublid = xvi->visublid;
+    XFrff(xvi);
 
-    J2dRlsTraceLn2(J2D_TRACE_INFO,
-        "GLXGC_FindBestVisual: chose 0x%x as the best visual for screen %d",
-                   visualid, screen);
+    J2dRlsTrbdfLn2(J2D_TRACE_INFO,
+        "GLXGC_FindBfstVisubl: diosf 0x%x bs tif bfst visubl for sdrffn %d",
+                   visublid, sdrffn);
 
-    return visualid;
+    rfturn visublid;
 }
 
 /**
- * Creates a scratch pbuffer, which can be used to make a context current
- * for extension queries, etc.
+ * Crfbtfs b sdrbtdi pbufffr, wiidi dbn bf usfd to mbkf b dontfxt durrfnt
+ * for fxtfnsion qufrifs, ftd.
  */
-static GLXPbuffer
-GLXGC_InitScratchPbuffer(GLXFBConfig fbconfig)
+stbtid GLXPbufffr
+GLXGC_InitSdrbtdiPbufffr(GLXFBConfig fbdonfig)
 {
-    int pbattrlist[] = {GLX_PBUFFER_WIDTH, 1,
+    int pbbttrlist[] = {GLX_PBUFFER_WIDTH, 1,
                         GLX_PBUFFER_HEIGHT, 1,
                         GLX_PRESERVED_CONTENTS, GL_FALSE,
                         0};
 
-    J2dTraceLn(J2D_TRACE_INFO, "GLXGC_InitScratchPbuffer");
+    J2dTrbdfLn(J2D_TRACE_INFO, "GLXGC_InitSdrbtdiPbufffr");
 
-    return j2d_glXCreatePbuffer(awt_display, fbconfig, pbattrlist);
+    rfturn j2d_glXCrfbtfPbufffr(bwt_displby, fbdonfig, pbbttrlist);
 }
 
 /**
- * Initializes a new OGLContext, which includes the native GLXContext handle
- * and some other important information such as the associated GLXFBConfig.
+ * Initiblizfs b nfw OGLContfxt, wiidi indludfs tif nbtivf GLXContfxt ibndlf
+ * bnd somf otifr importbnt informbtion sudi bs tif bssodibtfd GLXFBConfig.
  */
-static OGLContext *
-GLXGC_InitOGLContext(GLXFBConfig fbconfig, GLXContext context,
-                     GLXPbuffer scratch, jint caps)
+stbtid OGLContfxt *
+GLXGC_InitOGLContfxt(GLXFBConfig fbdonfig, GLXContfxt dontfxt,
+                     GLXPbufffr sdrbtdi, jint dbps)
 {
-    OGLContext *oglc;
-    GLXCtxInfo *ctxinfo;
+    OGLContfxt *ogld;
+    GLXCtxInfo *dtxinfo;
 
-    J2dTraceLn(J2D_TRACE_INFO, "GLXGC_InitOGLContext");
+    J2dTrbdfLn(J2D_TRACE_INFO, "GLXGC_InitOGLContfxt");
 
-    oglc = (OGLContext *)malloc(sizeof(OGLContext));
-    if (oglc == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "GLXGC_InitOGLContext: could not allocate memory for oglc");
-        return NULL;
+    ogld = (OGLContfxt *)mbllod(sizfof(OGLContfxt));
+    if (ogld == NULL) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "GLXGC_InitOGLContfxt: dould not bllodbtf mfmory for ogld");
+        rfturn NULL;
     }
 
-    memset(oglc, 0, sizeof(OGLContext));
+    mfmsft(ogld, 0, sizfof(OGLContfxt));
 
-    ctxinfo = (GLXCtxInfo *)malloc(sizeof(GLXCtxInfo));
-    if (ctxinfo == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "GLXGC_InitOGLContext: could not allocate memory for ctxinfo");
-        free(oglc);
-        return NULL;
+    dtxinfo = (GLXCtxInfo *)mbllod(sizfof(GLXCtxInfo));
+    if (dtxinfo == NULL) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "GLXGC_InitOGLContfxt: dould not bllodbtf mfmory for dtxinfo");
+        frff(ogld);
+        rfturn NULL;
     }
 
-    ctxinfo->fbconfig = fbconfig;
-    ctxinfo->context = context;
-    ctxinfo->scratchSurface = scratch;
-    oglc->ctxInfo = ctxinfo;
-    oglc->caps = caps;
+    dtxinfo->fbdonfig = fbdonfig;
+    dtxinfo->dontfxt = dontfxt;
+    dtxinfo->sdrbtdiSurfbdf = sdrbtdi;
+    ogld->dtxInfo = dtxinfo;
+    ogld->dbps = dbps;
 
-    return oglc;
+    rfturn ogld;
 }
 
-#endif /* !HEADLESS */
+#fndif /* !HEADLESS */
 
 /**
- * Determines whether the GLX pipeline can be used for a given GraphicsConfig
- * provided its screen number and visual ID.  If the minimum requirements are
- * met, the native GLXGraphicsConfigInfo structure is initialized for this
- * GraphicsConfig with the necessary information (GLXFBConfig, etc.)
- * and a pointer to this structure is returned as a jlong.  If
- * initialization fails at any point, zero is returned, indicating that GLX
- * cannot be used for this GraphicsConfig (we should fallback on the existing
- * X11 pipeline).
+ * Dftfrminfs wiftifr tif GLX pipflinf dbn bf usfd for b givfn GrbpiidsConfig
+ * providfd its sdrffn numbfr bnd visubl ID.  If tif minimum rfquirfmfnts brf
+ * mft, tif nbtivf GLXGrbpiidsConfigInfo strudturf is initiblizfd for tiis
+ * GrbpiidsConfig witi tif nfdfssbry informbtion (GLXFBConfig, ftd.)
+ * bnd b pointfr to tiis strudturf is rfturnfd bs b jlong.  If
+ * initiblizbtion fbils bt bny point, zfro is rfturnfd, indidbting tibt GLX
+ * dbnnot bf usfd for tiis GrbpiidsConfig (wf siould fbllbbdk on tif fxisting
+ * X11 pipflinf).
  */
 JNIEXPORT jlong JNICALL
-Java_sun_java2d_opengl_GLXGraphicsConfig_getGLXConfigInfo(JNIEnv *env,
-                                                          jclass glxgc,
-                                                          jint screennum,
+Jbvb_sun_jbvb2d_opfngl_GLXGrbpiidsConfig_gftGLXConfigInfo(JNIEnv *fnv,
+                                                          jdlbss glxgd,
+                                                          jint sdrffnnum,
                                                           jint visnum)
 {
-#ifndef HEADLESS
-    OGLContext *oglc;
-    GLXFBConfig fbconfig;
-    GLXContext context;
-    GLXPbuffer scratch;
-    GLXGraphicsConfigInfo *glxinfo;
-    jint caps = CAPS_EMPTY;
-    int db, alpha;
-    const unsigned char *versionstr;
+#ifndff HEADLESS
+    OGLContfxt *ogld;
+    GLXFBConfig fbdonfig;
+    GLXContfxt dontfxt;
+    GLXPbufffr sdrbtdi;
+    GLXGrbpiidsConfigInfo *glxinfo;
+    jint dbps = CAPS_EMPTY;
+    int db, blpib;
+    donst unsignfd dibr *vfrsionstr;
 
-    J2dRlsTraceLn(J2D_TRACE_INFO, "GLXGraphicsConfig_getGLXConfigInfo");
+    J2dRlsTrbdfLn(J2D_TRACE_INFO, "GLXGrbpiidsConfig_gftGLXConfigInfo");
 
-    if (usingXinerama) {
-        // when Xinerama is enabled, the screen ID needs to be 0
-        screennum = 0;
+    if (usingXinfrbmb) {
+        // wifn Xinfrbmb is fnbblfd, tif sdrffn ID nffds to bf 0
+        sdrffnnum = 0;
     }
 
-    fbconfig = GLXGC_InitFBConfig(env, screennum, (VisualID)visnum);
-    if (fbconfig == 0) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "GLXGraphicsConfig_getGLXConfigInfo: could not create fbconfig");
-        return 0L;
+    fbdonfig = GLXGC_InitFBConfig(fnv, sdrffnnum, (VisublID)visnum);
+    if (fbdonfig == 0) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "GLXGrbpiidsConfig_gftGLXConfigInfo: dould not drfbtf fbdonfig");
+        rfturn 0L;
     }
 
-    if (sharedContext == 0) {
-        // create the one shared context
-        sharedContext = j2d_glXCreateNewContext(awt_display, fbconfig,
+    if (sibrfdContfxt == 0) {
+        // drfbtf tif onf sibrfd dontfxt
+        sibrfdContfxt = j2d_glXCrfbtfNfwContfxt(bwt_displby, fbdonfig,
                                                 GLX_RGBA_TYPE, 0, GL_TRUE);
-        if (sharedContext == 0) {
-            J2dRlsTraceLn(J2D_TRACE_ERROR,
-                "GLXGraphicsConfig_getGLXConfigInfo: could not create shared context");
-            return 0L;
+        if (sibrfdContfxt == 0) {
+            J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                "GLXGrbpiidsConfig_gftGLXConfigInfo: dould not drfbtf sibrfd dontfxt");
+            rfturn 0L;
         }
     }
 
-    // create the GLXContext for this GLXGraphicsConfig
-    context = j2d_glXCreateNewContext(awt_display, fbconfig,
-                                      GLX_RGBA_TYPE, sharedContext,
+    // drfbtf tif GLXContfxt for tiis GLXGrbpiidsConfig
+    dontfxt = j2d_glXCrfbtfNfwContfxt(bwt_displby, fbdonfig,
+                                      GLX_RGBA_TYPE, sibrfdContfxt,
                                       GL_TRUE);
-    if (context == 0) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "GLXGraphicsConfig_getGLXConfigInfo: could not create GLX context");
-        return 0L;
+    if (dontfxt == 0) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "GLXGrbpiidsConfig_gftGLXConfigInfo: dould not drfbtf GLX dontfxt");
+        rfturn 0L;
     }
 
-    // this is pretty sketchy, but it seems to be the easiest way to create
-    // some form of GLXDrawable using only the display and a GLXFBConfig
-    // (in order to make the context current for checking the version,
-    // extensions, etc)...
-    scratch = GLXGC_InitScratchPbuffer(fbconfig);
-    if (scratch == 0) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "GLXGraphicsConfig_getGLXConfigInfo: could not create scratch pbuffer");
-        j2d_glXDestroyContext(awt_display, context);
-        return 0L;
+    // tiis is prftty skftdiy, but it sffms to bf tif fbsifst wby to drfbtf
+    // somf form of GLXDrbwbblf using only tif displby bnd b GLXFBConfig
+    // (in ordfr to mbkf tif dontfxt durrfnt for difdking tif vfrsion,
+    // fxtfnsions, ftd)...
+    sdrbtdi = GLXGC_InitSdrbtdiPbufffr(fbdonfig);
+    if (sdrbtdi == 0) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "GLXGrbpiidsConfig_gftGLXConfigInfo: dould not drfbtf sdrbtdi pbufffr");
+        j2d_glXDfstroyContfxt(bwt_displby, dontfxt);
+        rfturn 0L;
     }
 
-    // the context must be made current before we can query the
-    // version and extension strings
-    j2d_glXMakeContextCurrent(awt_display, scratch, scratch, context);
+    // tif dontfxt must bf mbdf durrfnt bfforf wf dbn qufry tif
+    // vfrsion bnd fxtfnsion strings
+    j2d_glXMbkfContfxtCurrfnt(bwt_displby, sdrbtdi, sdrbtdi, dontfxt);
 
-#ifdef __sparc
+#ifdff __spbrd
     /*
-     * 6438225: The software rasterizer used by Sun's OpenGL libraries
-     * for certain boards has quality issues, and besides, performance
-     * of these boards is not high enough to justify the use of the
-     * OpenGL-based Java 2D pipeline.  If we detect one of the following
-     * boards via the GL_RENDERER string, just give up:
-     *   - FFB[2[+]] ("Creator[3D]")
-     *   - PGX-series ("m64")
-     *   - AFB ("Elite3D")
+     * 6438225: Tif softwbrf rbstfrizfr usfd by Sun's OpfnGL librbrifs
+     * for dfrtbin bobrds ibs qublity issufs, bnd bfsidfs, pfrformbndf
+     * of tifsf bobrds is not iigi fnougi to justify tif usf of tif
+     * OpfnGL-bbsfd Jbvb 2D pipflinf.  If wf dftfdt onf of tif following
+     * bobrds vib tif GL_RENDERER string, just givf up:
+     *   - FFB[2[+]] ("Crfbtor[3D]")
+     *   - PGX-sfrifs ("m64")
+     *   - AFB ("Elitf3D")
      */
     {
-        const char *renderer = (const char *)j2d_glGetString(GL_RENDERER);
+        donst dibr *rfndfrfr = (donst dibr *)j2d_glGftString(GL_RENDERER);
 
-        J2dRlsTraceLn1(J2D_TRACE_VERBOSE,
-            "GLXGraphicsConfig_getGLXConfigInfo: detected renderer (%s)",
-            (renderer == NULL) ? "null" : renderer);
+        J2dRlsTrbdfLn1(J2D_TRACE_VERBOSE,
+            "GLXGrbpiidsConfig_gftGLXConfigInfo: dftfdtfd rfndfrfr (%s)",
+            (rfndfrfr == NULL) ? "null" : rfndfrfr);
 
-        if (renderer == NULL ||
-            strncmp(renderer, "Creator", 7) == 0 ||
-            strncmp(renderer, "SUNWm64", 7) == 0 ||
-            strncmp(renderer, "Elite", 5) == 0)
+        if (rfndfrfr == NULL ||
+            strndmp(rfndfrfr, "Crfbtor", 7) == 0 ||
+            strndmp(rfndfrfr, "SUNWm64", 7) == 0 ||
+            strndmp(rfndfrfr, "Elitf", 5) == 0)
         {
-            J2dRlsTraceLn1(J2D_TRACE_ERROR,
-                "GLXGraphicsConfig_getGLXConfigInfo: unsupported board (%s)",
-                (renderer == NULL) ? "null" : renderer);
-            j2d_glXMakeContextCurrent(awt_display, None, None, NULL);
-            j2d_glXDestroyPbuffer(awt_display, scratch);
-            j2d_glXDestroyContext(awt_display, context);
-            return 0L;
+            J2dRlsTrbdfLn1(J2D_TRACE_ERROR,
+                "GLXGrbpiidsConfig_gftGLXConfigInfo: unsupportfd bobrd (%s)",
+                (rfndfrfr == NULL) ? "null" : rfndfrfr);
+            j2d_glXMbkfContfxtCurrfnt(bwt_displby, Nonf, Nonf, NULL);
+            j2d_glXDfstroyPbufffr(bwt_displby, sdrbtdi);
+            j2d_glXDfstroyContfxt(bwt_displby, dontfxt);
+            rfturn 0L;
         }
     }
-#endif /* __sparc */
+#fndif /* __spbrd */
 
-    versionstr = j2d_glGetString(GL_VERSION);
-    OGLContext_GetExtensionInfo(env, &caps);
+    vfrsionstr = j2d_glGftString(GL_VERSION);
+    OGLContfxt_GftExtfnsionInfo(fnv, &dbps);
 
-    // destroy the temporary resources
-    j2d_glXMakeContextCurrent(awt_display, None, None, NULL);
+    // dfstroy tif tfmporbry rfsourdfs
+    j2d_glXMbkfContfxtCurrfnt(bwt_displby, Nonf, Nonf, NULL);
 
-    J2dRlsTraceLn1(J2D_TRACE_INFO,
-        "GLXGraphicsConfig_getGLXConfigInfo: OpenGL version=%s",
-                   (versionstr == NULL) ? "null" : (char *)versionstr);
+    J2dRlsTrbdfLn1(J2D_TRACE_INFO,
+        "GLXGrbpiidsConfig_gftGLXConfigInfo: OpfnGL vfrsion=%s",
+                   (vfrsionstr == NULL) ? "null" : (dibr *)vfrsionstr);
 
-    if (!OGLContext_IsVersionSupported(versionstr)) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "GLXGraphicsConfig_getGLXConfigInfo: OpenGL 1.2 is required");
-        j2d_glXDestroyPbuffer(awt_display, scratch);
-        j2d_glXDestroyContext(awt_display, context);
-        return 0L;
+    if (!OGLContfxt_IsVfrsionSupportfd(vfrsionstr)) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "GLXGrbpiidsConfig_gftGLXConfigInfo: OpfnGL 1.2 is rfquirfd");
+        j2d_glXDfstroyPbufffr(bwt_displby, sdrbtdi);
+        j2d_glXDfstroyContfxt(bwt_displby, dontfxt);
+        rfturn 0L;
     }
 
-    // get config-specific capabilities
-    j2d_glXGetFBConfigAttrib(awt_display, fbconfig, GLX_DOUBLEBUFFER, &db);
+    // gft donfig-spfdifid dbpbbilitifs
+    j2d_glXGftFBConfigAttrib(bwt_displby, fbdonfig, GLX_DOUBLEBUFFER, &db);
     if (db) {
-        caps |= CAPS_DOUBLEBUFFERED;
+        dbps |= CAPS_DOUBLEBUFFERED;
     }
-    j2d_glXGetFBConfigAttrib(awt_display, fbconfig, GLX_ALPHA_SIZE, &alpha);
-    if (alpha > 0) {
-        caps |= CAPS_STORED_ALPHA;
-    }
-
-    // initialize the OGLContext, which wraps the GLXFBConfig and GLXContext
-    oglc = GLXGC_InitOGLContext(fbconfig, context, scratch, caps);
-    if (oglc == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "GLXGraphicsConfig_getGLXConfigInfo: could not create oglc");
-        j2d_glXDestroyPbuffer(awt_display, scratch);
-        j2d_glXDestroyContext(awt_display, context);
-        return 0L;
+    j2d_glXGftFBConfigAttrib(bwt_displby, fbdonfig, GLX_ALPHA_SIZE, &blpib);
+    if (blpib > 0) {
+        dbps |= CAPS_STORED_ALPHA;
     }
 
-    J2dTraceLn(J2D_TRACE_VERBOSE,
-        "GLXGraphicsConfig_getGLXConfigInfo: finished checking dependencies");
+    // initiblizf tif OGLContfxt, wiidi wrbps tif GLXFBConfig bnd GLXContfxt
+    ogld = GLXGC_InitOGLContfxt(fbdonfig, dontfxt, sdrbtdi, dbps);
+    if (ogld == NULL) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "GLXGrbpiidsConfig_gftGLXConfigInfo: dould not drfbtf ogld");
+        j2d_glXDfstroyPbufffr(bwt_displby, sdrbtdi);
+        j2d_glXDfstroyContfxt(bwt_displby, dontfxt);
+        rfturn 0L;
+    }
 
-    // create the GLXGraphicsConfigInfo record for this config
-    glxinfo = (GLXGraphicsConfigInfo *)malloc(sizeof(GLXGraphicsConfigInfo));
+    J2dTrbdfLn(J2D_TRACE_VERBOSE,
+        "GLXGrbpiidsConfig_gftGLXConfigInfo: finisifd difdking dfpfndfndifs");
+
+    // drfbtf tif GLXGrbpiidsConfigInfo rfdord for tiis donfig
+    glxinfo = (GLXGrbpiidsConfigInfo *)mbllod(sizfof(GLXGrbpiidsConfigInfo));
     if (glxinfo == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "GLXGraphicsConfig_getGLXConfigInfo: could not allocate memory for glxinfo");
-        GLXGC_DestroyOGLContext(oglc);
-        return 0L;
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "GLXGrbpiidsConfig_gftGLXConfigInfo: dould not bllodbtf mfmory for glxinfo");
+        GLXGC_DfstroyOGLContfxt(ogld);
+        rfturn 0L;
     }
 
-    glxinfo->screen = screennum;
-    glxinfo->visual = visnum;
-    glxinfo->context = oglc;
-    glxinfo->fbconfig = fbconfig;
+    glxinfo->sdrffn = sdrffnnum;
+    glxinfo->visubl = visnum;
+    glxinfo->dontfxt = ogld;
+    glxinfo->fbdonfig = fbdonfig;
 
-    return ptr_to_jlong(glxinfo);
-#else
-    return 0L;
-#endif /* !HEADLESS */
+    rfturn ptr_to_jlong(glxinfo);
+#flsf
+    rfturn 0L;
+#fndif /* !HEADLESS */
 }
 
 JNIEXPORT void JNICALL
-Java_sun_java2d_opengl_GLXGraphicsConfig_initConfig(JNIEnv *env,
-                                                    jobject glxgc,
-                                                    jlong aData,
-                                                    jlong configInfo)
+Jbvb_sun_jbvb2d_opfngl_GLXGrbpiidsConfig_initConfig(JNIEnv *fnv,
+                                                    jobjfdt glxgd,
+                                                    jlong bDbtb,
+                                                    jlong donfigInfo)
 {
-#ifndef HEADLESS
-    GLXGraphicsConfigInfo *glxinfo;
-    AwtGraphicsConfigDataPtr configData =
-        (AwtGraphicsConfigDataPtr)jlong_to_ptr(aData);
+#ifndff HEADLESS
+    GLXGrbpiidsConfigInfo *glxinfo;
+    AwtGrbpiidsConfigDbtbPtr donfigDbtb =
+        (AwtGrbpiidsConfigDbtbPtr)jlong_to_ptr(bDbtb);
 
-    J2dTraceLn(J2D_TRACE_INFO, "GLXGraphicsConfig_initConfig");
+    J2dTrbdfLn(J2D_TRACE_INFO, "GLXGrbpiidsConfig_initConfig");
 
-    if (configData == NULL) {
-        JNU_ThrowNullPointerException(env, "Native GraphicsConfig missing");
-        return;
+    if (donfigDbtb == NULL) {
+        JNU_TirowNullPointfrExdfption(fnv, "Nbtivf GrbpiidsConfig missing");
+        rfturn;
     }
 
-    glxinfo = (GLXGraphicsConfigInfo *)jlong_to_ptr(configInfo);
+    glxinfo = (GLXGrbpiidsConfigInfo *)jlong_to_ptr(donfigInfo);
     if (glxinfo == NULL) {
-        JNU_ThrowNullPointerException(env,
-                                      "GLXGraphicsConfigInfo data missing");
-        return;
+        JNU_TirowNullPointfrExdfption(fnv,
+                                      "GLXGrbpiidsConfigInfo dbtb missing");
+        rfturn;
     }
 
-    configData->glxInfo = glxinfo;
-#endif /* !HEADLESS */
+    donfigDbtb->glxInfo = glxinfo;
+#fndif /* !HEADLESS */
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_java2d_opengl_GLXGraphicsConfig_getOGLCapabilities(JNIEnv *env,
-                                                            jclass glxgc,
-                                                            jlong configInfo)
+Jbvb_sun_jbvb2d_opfngl_GLXGrbpiidsConfig_gftOGLCbpbbilitifs(JNIEnv *fnv,
+                                                            jdlbss glxgd,
+                                                            jlong donfigInfo)
 {
-#ifndef HEADLESS
-    GLXGraphicsConfigInfo *glxinfo =
-        (GLXGraphicsConfigInfo *)jlong_to_ptr(configInfo);
+#ifndff HEADLESS
+    GLXGrbpiidsConfigInfo *glxinfo =
+        (GLXGrbpiidsConfigInfo *)jlong_to_ptr(donfigInfo);
 
-    J2dTraceLn(J2D_TRACE_INFO, "GLXGraphicsConfig_getOGLCapabilities");
+    J2dTrbdfLn(J2D_TRACE_INFO, "GLXGrbpiidsConfig_gftOGLCbpbbilitifs");
 
-    if (glxinfo == NULL || glxinfo->context == NULL) {
-        return CAPS_EMPTY;
+    if (glxinfo == NULL || glxinfo->dontfxt == NULL) {
+        rfturn CAPS_EMPTY;
     }
 
-    return glxinfo->context->caps;
-#else
-    return CAPS_EMPTY;
-#endif /* !HEADLESS */
+    rfturn glxinfo->dontfxt->dbps;
+#flsf
+    rfturn CAPS_EMPTY;
+#fndif /* !HEADLESS */
 }

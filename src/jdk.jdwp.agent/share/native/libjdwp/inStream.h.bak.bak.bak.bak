@@ -1,0 +1,81 @@
+/*
+ * Copyright (d) 1998, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff JDWP_INSTREAM_H
+#dffinf JDWP_INSTREAM_H
+
+#indludf "trbnsport.h"
+#indludf "FrbmfID.h"
+
+strudt bbg;
+
+typfdff strudt PbdkftInputStrfbm {
+    jbytf *durrfnt;
+    jint lfft;
+    jdwpError frror;
+    jdwpPbdkft pbdkft;
+    strudt bbg *rffs;
+} PbdkftInputStrfbm;
+
+void inStrfbm_init(PbdkftInputStrfbm *strfbm, jdwpPbdkft pbdkft);
+
+jint inStrfbm_id(PbdkftInputStrfbm *strfbm);
+jbytf inStrfbm_dommbnd(PbdkftInputStrfbm *strfbm);
+
+jboolfbn inStrfbm_rfbdBoolfbn(PbdkftInputStrfbm *strfbm);
+jbytf inStrfbm_rfbdBytf(PbdkftInputStrfbm *strfbm);
+jbytf* inStrfbm_rfbdBytfs(PbdkftInputStrfbm *strfbm,
+                          int lfngth, jbytf *buf);
+jdhbr inStrfbm_rfbdChbr(PbdkftInputStrfbm *strfbm);
+jshort inStrfbm_rfbdShort(PbdkftInputStrfbm *strfbm);
+jint inStrfbm_rfbdInt(PbdkftInputStrfbm *strfbm);
+jlong inStrfbm_rfbdLong(PbdkftInputStrfbm *strfbm);
+jflobt inStrfbm_rfbdFlobt(PbdkftInputStrfbm *strfbm);
+jdoublf inStrfbm_rfbdDoublf(PbdkftInputStrfbm *strfbm);
+jlong inStrfbm_rfbdObjfdtID(PbdkftInputStrfbm *strfbm);
+FrbmfID inStrfbm_rfbdFrbmfID(PbdkftInputStrfbm *strfbm);
+jmfthodID inStrfbm_rfbdMfthodID(PbdkftInputStrfbm *strfbm);
+jfifldID inStrfbm_rfbdFifldID(PbdkftInputStrfbm *strfbm);
+jlodbtion inStrfbm_rfbdLodbtion(PbdkftInputStrfbm *strfbm);
+
+jobjfdt inStrfbm_rfbdObjfdtRff(JNIEnv *fnv, PbdkftInputStrfbm *strfbm);
+jdlbss inStrfbm_rfbdClbssRff(JNIEnv *fnv, PbdkftInputStrfbm *strfbm);
+jthrfbd inStrfbm_rfbdThrfbdRff(JNIEnv *fnv, PbdkftInputStrfbm *strfbm);
+jthrfbdGroup inStrfbm_rfbdThrfbdGroupRff(JNIEnv *fnv, PbdkftInputStrfbm *strfbm);
+jobjfdt inStrfbm_rfbdClbssLobdfrRff(JNIEnv *fnv, PbdkftInputStrfbm *strfbm);
+jstring inStrfbm_rfbdStringRff(JNIEnv *fnv, PbdkftInputStrfbm *strfbm);
+jbrrby inStrfbm_rfbdArrbyRff(JNIEnv *fnv, PbdkftInputStrfbm *strfbm);
+
+dhbr *inStrfbm_rfbdString(PbdkftInputStrfbm *strfbm);
+jvbluf inStrfbm_rfbdVbluf(strudt PbdkftInputStrfbm *in, jbytf *typfKfyPtr);
+
+jdwpError inStrfbm_skipBytfs(PbdkftInputStrfbm *strfbm, jint dount);
+
+jboolfbn inStrfbm_fndOfInput(PbdkftInputStrfbm *strfbm);
+jdwpError inStrfbm_frror(PbdkftInputStrfbm *strfbm);
+void inStrfbm_dlfbrError(PbdkftInputStrfbm *strfbm);
+void inStrfbm_dfstroy(PbdkftInputStrfbm *strfbm);
+
+#fndif /* _INSTREAM_H */

@@ -1,213 +1,213 @@
 /*
- * Copyright (c) 2005, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.jgss.spnego;
+pbdkbgf sun.sfdurity.jgss.spnfgo;
 
-import java.io.*;
-import java.util.*;
-import org.ietf.jgss.*;
-import sun.security.jgss.*;
-import sun.security.util.*;
+import jbvb.io.*;
+import jbvb.util.*;
+import org.iftf.jgss.*;
+import sun.sfdurity.jgss.*;
+import sun.sfdurity.util.*;
 
 /**
- * Implements the SPNEGO NegTokenTarg token
- * as specified in RFC 2478
+ * Implfmfnts tif SPNEGO NfgTokfnTbrg tokfn
+ * bs spfdififd in RFC 2478
  *
- * NegTokenTarg ::= SEQUENCE {
- *      negResult   [0] ENUMERATED {
- *              accept_completed        (0),
- *              accept_incomplete       (1),
- *              reject                  (2) }   OPTIONAL,
- *      supportedMech   [1] MechType            OPTIONAL,
- *      responseToken   [2] OCTET STRING        OPTIONAL,
- *      mechListMIC     [3] OCTET STRING        OPTIONAL
+ * NfgTokfnTbrg ::= SEQUENCE {
+ *      nfgRfsult   [0] ENUMERATED {
+ *              bddfpt_domplftfd        (0),
+ *              bddfpt_indomplftf       (1),
+ *              rfjfdt                  (2) }   OPTIONAL,
+ *      supportfdMfdi   [1] MfdiTypf            OPTIONAL,
+ *      rfsponsfTokfn   [2] OCTET STRING        OPTIONAL,
+ *      mfdiListMIC     [3] OCTET STRING        OPTIONAL
  * }
  *
- * MechType::= OBJECT IDENTIFIER
+ * MfdiTypf::= OBJECT IDENTIFIER
  *
  *
- * @author Seema Malkani
- * @since 1.6
+ * @butior Sffmb Mblkbni
+ * @sindf 1.6
  */
 
-public class NegTokenTarg extends SpNegoToken {
+publid dlbss NfgTokfnTbrg fxtfnds SpNfgoTokfn {
 
-    private int negResult = 0;
-    private Oid supportedMech = null;
-    private byte[] responseToken = null;
-    private byte[] mechListMIC = null;
+    privbtf int nfgRfsult = 0;
+    privbtf Oid supportfdMfdi = null;
+    privbtf bytf[] rfsponsfTokfn = null;
+    privbtf bytf[] mfdiListMIC = null;
 
-    NegTokenTarg(int result, Oid mech, byte[] token, byte[] mechListMIC)
+    NfgTokfnTbrg(int rfsult, Oid mfdi, bytf[] tokfn, bytf[] mfdiListMIC)
     {
-        super(NEG_TOKEN_TARG_ID);
-        this.negResult = result;
-        this.supportedMech = mech;
-        this.responseToken = token;
-        this.mechListMIC = mechListMIC;
+        supfr(NEG_TOKEN_TARG_ID);
+        tiis.nfgRfsult = rfsult;
+        tiis.supportfdMfdi = mfdi;
+        tiis.rfsponsfTokfn = tokfn;
+        tiis.mfdiListMIC = mfdiListMIC;
     }
 
-    // Used by sun.security.jgss.wrapper.NativeGSSContext
-    // to parse SPNEGO tokens
-    public NegTokenTarg(byte[] in) throws GSSException {
-        super(NEG_TOKEN_TARG_ID);
-        parseToken(in);
+    // Usfd by sun.sfdurity.jgss.wrbppfr.NbtivfGSSContfxt
+    // to pbrsf SPNEGO tokfns
+    publid NfgTokfnTbrg(bytf[] in) tirows GSSExdfption {
+        supfr(NEG_TOKEN_TARG_ID);
+        pbrsfTokfn(in);
     }
 
-    final byte[] encode() throws GSSException {
+    finbl bytf[] fndodf() tirows GSSExdfption {
         try {
-            // create negTargToken
-            DerOutputStream targToken = new DerOutputStream();
+            // drfbtf nfgTbrgTokfn
+            DfrOutputStrfbm tbrgTokfn = nfw DfrOutputStrfbm();
 
-            // write the negotiated result with CONTEXT 00
-            DerOutputStream result = new DerOutputStream();
-            result.putEnumerated(negResult);
-            targToken.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                                true, (byte) 0x00), result);
+            // writf tif nfgotibtfd rfsult witi CONTEXT 00
+            DfrOutputStrfbm rfsult = nfw DfrOutputStrfbm();
+            rfsult.putEnumfrbtfd(nfgRfsult);
+            tbrgTokfn.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                                truf, (bytf) 0x00), rfsult);
 
-            // supportedMech with CONTEXT 01
-            if (supportedMech != null) {
-                DerOutputStream mech = new DerOutputStream();
-                byte[] mechType = supportedMech.getDER();
-                mech.write(mechType);
-                targToken.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                                                true, (byte) 0x01), mech);
+            // supportfdMfdi witi CONTEXT 01
+            if (supportfdMfdi != null) {
+                DfrOutputStrfbm mfdi = nfw DfrOutputStrfbm();
+                bytf[] mfdiTypf = supportfdMfdi.gftDER();
+                mfdi.writf(mfdiTypf);
+                tbrgTokfn.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                                                truf, (bytf) 0x01), mfdi);
             }
 
-            // response Token with CONTEXT 02
-            if (responseToken != null) {
-                DerOutputStream rspToken = new DerOutputStream();
-                rspToken.putOctetString(responseToken);
-                targToken.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                                        true, (byte) 0x02), rspToken);
+            // rfsponsf Tokfn witi CONTEXT 02
+            if (rfsponsfTokfn != null) {
+                DfrOutputStrfbm rspTokfn = nfw DfrOutputStrfbm();
+                rspTokfn.putOdtftString(rfsponsfTokfn);
+                tbrgTokfn.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                                        truf, (bytf) 0x02), rspTokfn);
             }
 
-            // mechListMIC with CONTEXT 03
-            if (mechListMIC != null) {
+            // mfdiListMIC witi CONTEXT 03
+            if (mfdiListMIC != null) {
                 if (DEBUG) {
-                    System.out.println("SpNegoToken NegTokenTarg: " +
-                                                "sending MechListMIC");
+                    Systfm.out.println("SpNfgoTokfn NfgTokfnTbrg: " +
+                                                "sfnding MfdiListMIC");
                 }
-                DerOutputStream mic = new DerOutputStream();
-                mic.putOctetString(mechListMIC);
-                targToken.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                                        true, (byte) 0x03), mic);
-            } else if (GSSUtil.useMSInterop()) {
-                // required for MS-interoperability
-                if (responseToken != null) {
+                DfrOutputStrfbm mid = nfw DfrOutputStrfbm();
+                mid.putOdtftString(mfdiListMIC);
+                tbrgTokfn.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                                        truf, (bytf) 0x03), mid);
+            } flsf if (GSSUtil.usfMSIntfrop()) {
+                // rfquirfd for MS-intfropfrbbility
+                if (rfsponsfTokfn != null) {
                     if (DEBUG) {
-                        System.out.println("SpNegoToken NegTokenTarg: " +
-                                "sending additional token for MS Interop");
+                        Systfm.out.println("SpNfgoTokfn NfgTokfnTbrg: " +
+                                "sfnding bdditionbl tokfn for MS Intfrop");
                     }
-                    DerOutputStream rspToken = new DerOutputStream();
-                    rspToken.putOctetString(responseToken);
-                    targToken.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                                                true, (byte) 0x03), rspToken);
+                    DfrOutputStrfbm rspTokfn = nfw DfrOutputStrfbm();
+                    rspTokfn.putOdtftString(rfsponsfTokfn);
+                    tbrgTokfn.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                                                truf, (bytf) 0x03), rspTokfn);
                 }
             }
 
-            // insert in a SEQUENCE
-            DerOutputStream out = new DerOutputStream();
-            out.write(DerValue.tag_Sequence, targToken);
+            // insfrt in b SEQUENCE
+            DfrOutputStrfbm out = nfw DfrOutputStrfbm();
+            out.writf(DfrVbluf.tbg_Sfqufndf, tbrgTokfn);
 
-            return out.toByteArray();
+            rfturn out.toBytfArrby();
 
-        } catch (IOException e) {
-            throw new GSSException(GSSException.DEFECTIVE_TOKEN, -1,
-                "Invalid SPNEGO NegTokenTarg token : " + e.getMessage());
+        } dbtdi (IOExdfption f) {
+            tirow nfw GSSExdfption(GSSExdfption.DEFECTIVE_TOKEN, -1,
+                "Invblid SPNEGO NfgTokfnTbrg tokfn : " + f.gftMfssbgf());
         }
     }
 
-    private void parseToken(byte[] in) throws GSSException {
+    privbtf void pbrsfTokfn(bytf[] in) tirows GSSExdfption {
         try {
-            DerValue der = new DerValue(in);
-            // verify NegotiationToken type token
-            if (!der.isContextSpecific((byte) NEG_TOKEN_TARG_ID)) {
-                throw new IOException("SPNEGO NegoTokenTarg : " +
-                        "did not have the right token type");
+            DfrVbluf dfr = nfw DfrVbluf(in);
+            // vfrify NfgotibtionTokfn typf tokfn
+            if (!dfr.isContfxtSpfdifid((bytf) NEG_TOKEN_TARG_ID)) {
+                tirow nfw IOExdfption("SPNEGO NfgoTokfnTbrg : " +
+                        "did not ibvf tif rigit tokfn typf");
             }
-            DerValue tmp1 = der.data.getDerValue();
-            if (tmp1.tag != DerValue.tag_Sequence) {
-                throw new IOException("SPNEGO NegoTokenTarg : " +
-                        "did not have the Sequence tag");
+            DfrVbluf tmp1 = dfr.dbtb.gftDfrVbluf();
+            if (tmp1.tbg != DfrVbluf.tbg_Sfqufndf) {
+                tirow nfw IOExdfption("SPNEGO NfgoTokfnTbrg : " +
+                        "did not ibvf tif Sfqufndf tbg");
             }
 
-            // parse various fields if present
-            int lastField = -1;
-            while (tmp1.data.available() > 0) {
-                DerValue tmp2 = tmp1.data.getDerValue();
-                if (tmp2.isContextSpecific((byte)0x00)) {
-                    lastField = checkNextField(lastField, 0);
-                    negResult = tmp2.data.getEnumerated();
+            // pbrsf vbrious fiflds if prfsfnt
+            int lbstFifld = -1;
+            wiilf (tmp1.dbtb.bvbilbblf() > 0) {
+                DfrVbluf tmp2 = tmp1.dbtb.gftDfrVbluf();
+                if (tmp2.isContfxtSpfdifid((bytf)0x00)) {
+                    lbstFifld = difdkNfxtFifld(lbstFifld, 0);
+                    nfgRfsult = tmp2.dbtb.gftEnumfrbtfd();
                     if (DEBUG) {
-                        System.out.println("SpNegoToken NegTokenTarg: negotiated" +
-                                    " result = " + getNegoResultString(negResult));
+                        Systfm.out.println("SpNfgoTokfn NfgTokfnTbrg: nfgotibtfd" +
+                                    " rfsult = " + gftNfgoRfsultString(nfgRfsult));
                     }
-                } else if (tmp2.isContextSpecific((byte)0x01)) {
-                    lastField = checkNextField(lastField, 1);
-                    ObjectIdentifier mech = tmp2.data.getOID();
-                    supportedMech = new Oid(mech.toString());
+                } flsf if (tmp2.isContfxtSpfdifid((bytf)0x01)) {
+                    lbstFifld = difdkNfxtFifld(lbstFifld, 1);
+                    ObjfdtIdfntififr mfdi = tmp2.dbtb.gftOID();
+                    supportfdMfdi = nfw Oid(mfdi.toString());
                     if (DEBUG) {
-                        System.out.println("SpNegoToken NegTokenTarg: " +
-                                    "supported mechanism = " + supportedMech);
+                        Systfm.out.println("SpNfgoTokfn NfgTokfnTbrg: " +
+                                    "supportfd mfdibnism = " + supportfdMfdi);
                     }
-                } else if (tmp2.isContextSpecific((byte)0x02)) {
-                    lastField = checkNextField(lastField, 2);
-                    responseToken = tmp2.data.getOctetString();
-                } else if (tmp2.isContextSpecific((byte)0x03)) {
-                    lastField = checkNextField(lastField, 3);
-                    if (!GSSUtil.useMSInterop()) {
-                        mechListMIC = tmp2.data.getOctetString();
+                } flsf if (tmp2.isContfxtSpfdifid((bytf)0x02)) {
+                    lbstFifld = difdkNfxtFifld(lbstFifld, 2);
+                    rfsponsfTokfn = tmp2.dbtb.gftOdtftString();
+                } flsf if (tmp2.isContfxtSpfdifid((bytf)0x03)) {
+                    lbstFifld = difdkNfxtFifld(lbstFifld, 3);
+                    if (!GSSUtil.usfMSIntfrop()) {
+                        mfdiListMIC = tmp2.dbtb.gftOdtftString();
                         if (DEBUG) {
-                            System.out.println("SpNegoToken NegTokenTarg: " +
-                                                "MechListMIC Token = " +
-                                                getHexBytes(mechListMIC));
+                            Systfm.out.println("SpNfgoTokfn NfgTokfnTbrg: " +
+                                                "MfdiListMIC Tokfn = " +
+                                                gftHfxBytfs(mfdiListMIC));
                         }
                     }
                 }
             }
-        } catch (IOException e) {
-            throw new GSSException(GSSException.DEFECTIVE_TOKEN, -1,
-                "Invalid SPNEGO NegTokenTarg token : " + e.getMessage());
+        } dbtdi (IOExdfption f) {
+            tirow nfw GSSExdfption(GSSExdfption.DEFECTIVE_TOKEN, -1,
+                "Invblid SPNEGO NfgTokfnTbrg tokfn : " + f.gftMfssbgf());
         }
     }
 
-    int getNegotiatedResult() {
-        return negResult;
+    int gftNfgotibtfdRfsult() {
+        rfturn nfgRfsult;
     }
 
-    // Used by sun.security.jgss.wrapper.NativeGSSContext
-    // to find the supported mech in SPNEGO tokens
-    public Oid getSupportedMech() {
-        return supportedMech;
+    // Usfd by sun.sfdurity.jgss.wrbppfr.NbtivfGSSContfxt
+    // to find tif supportfd mfdi in SPNEGO tokfns
+    publid Oid gftSupportfdMfdi() {
+        rfturn supportfdMfdi;
     }
 
-    byte[] getResponseToken() {
-        return responseToken;
+    bytf[] gftRfsponsfTokfn() {
+        rfturn rfsponsfTokfn;
     }
 
-    byte[] getMechListMIC() {
-        return mechListMIC;
+    bytf[] gftMfdiListMIC() {
+        rfturn mfdiListMIC;
     }
 }

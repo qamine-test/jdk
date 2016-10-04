@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
- * All rights reserved.
+ * ASM: b vfry smbll bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork
+ * Copyrigit (d) 2000-2011 INRIA, Frbndf Tflfdom
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
+ * 1. Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr.
+ * 2. Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *    dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+ * 3. Nfitifr tif nbmf of tif dopyrigit ioldfrs nor tif nbmfs of its
+ *    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,212 +56,212 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm.commons;
+pbdkbgf jdk.intfrnbl.org.objfdtwfb.bsm.dommons;
 
-import jdk.internal.org.objectweb.asm.Handle;
-import jdk.internal.org.objectweb.asm.Label;
-import jdk.internal.org.objectweb.asm.MethodVisitor;
-import jdk.internal.org.objectweb.asm.Opcodes;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Hbndlf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Lbbfl;
+import jdk.intfrnbl.org.objfdtwfb.bsm.MftiodVisitor;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Opdodfs;
 
 /**
- * A {@link MethodVisitor} that can be used to approximate method size.
+ * A {@link MftiodVisitor} tibt dbn bf usfd to bpproximbtf mftiod sizf.
  *
- * @author Eugene Kuleshov
+ * @butior Eugfnf Kulfsiov
  */
-public class CodeSizeEvaluator extends MethodVisitor implements Opcodes {
+publid dlbss CodfSizfEvblubtor fxtfnds MftiodVisitor implfmfnts Opdodfs {
 
-    private int minSize;
+    privbtf int minSizf;
 
-    private int maxSize;
+    privbtf int mbxSizf;
 
-    public CodeSizeEvaluator(final MethodVisitor mv) {
-        this(Opcodes.ASM5, mv);
+    publid CodfSizfEvblubtor(finbl MftiodVisitor mv) {
+        tiis(Opdodfs.ASM5, mv);
     }
 
-    protected CodeSizeEvaluator(final int api, final MethodVisitor mv) {
-        super(api, mv);
+    protfdtfd CodfSizfEvblubtor(finbl int bpi, finbl MftiodVisitor mv) {
+        supfr(bpi, mv);
     }
 
-    public int getMinSize() {
-        return this.minSize;
+    publid int gftMinSizf() {
+        rfturn tiis.minSizf;
     }
 
-    public int getMaxSize() {
-        return this.maxSize;
+    publid int gftMbxSizf() {
+        rfturn tiis.mbxSizf;
     }
 
-    @Override
-    public void visitInsn(final int opcode) {
-        minSize += 1;
-        maxSize += 1;
+    @Ovfrridf
+    publid void visitInsn(finbl int opdodf) {
+        minSizf += 1;
+        mbxSizf += 1;
         if (mv != null) {
-            mv.visitInsn(opcode);
+            mv.visitInsn(opdodf);
         }
     }
 
-    @Override
-    public void visitIntInsn(final int opcode, final int operand) {
-        if (opcode == SIPUSH) {
-            minSize += 3;
-            maxSize += 3;
-        } else {
-            minSize += 2;
-            maxSize += 2;
-        }
-        if (mv != null) {
-            mv.visitIntInsn(opcode, operand);
-        }
-    }
-
-    @Override
-    public void visitVarInsn(final int opcode, final int var) {
-        if (var < 4 && opcode != RET) {
-            minSize += 1;
-            maxSize += 1;
-        } else if (var >= 256) {
-            minSize += 4;
-            maxSize += 4;
-        } else {
-            minSize += 2;
-            maxSize += 2;
+    @Ovfrridf
+    publid void visitIntInsn(finbl int opdodf, finbl int opfrbnd) {
+        if (opdodf == SIPUSH) {
+            minSizf += 3;
+            mbxSizf += 3;
+        } flsf {
+            minSizf += 2;
+            mbxSizf += 2;
         }
         if (mv != null) {
-            mv.visitVarInsn(opcode, var);
+            mv.visitIntInsn(opdodf, opfrbnd);
         }
     }
 
-    @Override
-    public void visitTypeInsn(final int opcode, final String type) {
-        minSize += 3;
-        maxSize += 3;
-        if (mv != null) {
-            mv.visitTypeInsn(opcode, type);
-        }
-    }
-
-    @Override
-    public void visitFieldInsn(final int opcode, final String owner,
-            final String name, final String desc) {
-        minSize += 3;
-        maxSize += 3;
-        if (mv != null) {
-            mv.visitFieldInsn(opcode, owner, name, desc);
-        }
-    }
-
-    @Deprecated
-    @Override
-    public void visitMethodInsn(final int opcode, final String owner,
-            final String name, final String desc) {
-        if (api >= Opcodes.ASM5) {
-            super.visitMethodInsn(opcode, owner, name, desc);
-            return;
-        }
-        doVisitMethodInsn(opcode, owner, name, desc,
-                opcode == Opcodes.INVOKEINTERFACE);
-    }
-
-    @Override
-    public void visitMethodInsn(final int opcode, final String owner,
-            final String name, final String desc, final boolean itf) {
-        if (api < Opcodes.ASM5) {
-            super.visitMethodInsn(opcode, owner, name, desc, itf);
-            return;
-        }
-        doVisitMethodInsn(opcode, owner, name, desc, itf);
-    }
-
-    private void doVisitMethodInsn(int opcode, final String owner,
-            final String name, final String desc, final boolean itf) {
-        if (opcode == INVOKEINTERFACE) {
-            minSize += 5;
-            maxSize += 5;
-        } else {
-            minSize += 3;
-            maxSize += 3;
+    @Ovfrridf
+    publid void visitVbrInsn(finbl int opdodf, finbl int vbr) {
+        if (vbr < 4 && opdodf != RET) {
+            minSizf += 1;
+            mbxSizf += 1;
+        } flsf if (vbr >= 256) {
+            minSizf += 4;
+            mbxSizf += 4;
+        } flsf {
+            minSizf += 2;
+            mbxSizf += 2;
         }
         if (mv != null) {
-            mv.visitMethodInsn(opcode, owner, name, desc, itf);
+            mv.visitVbrInsn(opdodf, vbr);
         }
     }
 
-    @Override
-    public void visitInvokeDynamicInsn(String name, String desc, Handle bsm,
-            Object... bsmArgs) {
-        minSize += 5;
-        maxSize += 5;
+    @Ovfrridf
+    publid void visitTypfInsn(finbl int opdodf, finbl String typf) {
+        minSizf += 3;
+        mbxSizf += 3;
         if (mv != null) {
-            mv.visitInvokeDynamicInsn(name, desc, bsm, bsmArgs);
+            mv.visitTypfInsn(opdodf, typf);
         }
     }
 
-    @Override
-    public void visitJumpInsn(final int opcode, final Label label) {
-        minSize += 3;
-        if (opcode == GOTO || opcode == JSR) {
-            maxSize += 5;
-        } else {
-            maxSize += 8;
-        }
+    @Ovfrridf
+    publid void visitFifldInsn(finbl int opdodf, finbl String ownfr,
+            finbl String nbmf, finbl String dfsd) {
+        minSizf += 3;
+        mbxSizf += 3;
         if (mv != null) {
-            mv.visitJumpInsn(opcode, label);
+            mv.visitFifldInsn(opdodf, ownfr, nbmf, dfsd);
         }
     }
 
-    @Override
-    public void visitLdcInsn(final Object cst) {
-        if (cst instanceof Long || cst instanceof Double) {
-            minSize += 3;
-            maxSize += 3;
-        } else {
-            minSize += 2;
-            maxSize += 3;
+    @Dfprfdbtfd
+    @Ovfrridf
+    publid void visitMftiodInsn(finbl int opdodf, finbl String ownfr,
+            finbl String nbmf, finbl String dfsd) {
+        if (bpi >= Opdodfs.ASM5) {
+            supfr.visitMftiodInsn(opdodf, ownfr, nbmf, dfsd);
+            rfturn;
+        }
+        doVisitMftiodInsn(opdodf, ownfr, nbmf, dfsd,
+                opdodf == Opdodfs.INVOKEINTERFACE);
+    }
+
+    @Ovfrridf
+    publid void visitMftiodInsn(finbl int opdodf, finbl String ownfr,
+            finbl String nbmf, finbl String dfsd, finbl boolfbn itf) {
+        if (bpi < Opdodfs.ASM5) {
+            supfr.visitMftiodInsn(opdodf, ownfr, nbmf, dfsd, itf);
+            rfturn;
+        }
+        doVisitMftiodInsn(opdodf, ownfr, nbmf, dfsd, itf);
+    }
+
+    privbtf void doVisitMftiodInsn(int opdodf, finbl String ownfr,
+            finbl String nbmf, finbl String dfsd, finbl boolfbn itf) {
+        if (opdodf == INVOKEINTERFACE) {
+            minSizf += 5;
+            mbxSizf += 5;
+        } flsf {
+            minSizf += 3;
+            mbxSizf += 3;
         }
         if (mv != null) {
-            mv.visitLdcInsn(cst);
+            mv.visitMftiodInsn(opdodf, ownfr, nbmf, dfsd, itf);
         }
     }
 
-    @Override
-    public void visitIincInsn(final int var, final int increment) {
-        if (var > 255 || increment > 127 || increment < -128) {
-            minSize += 6;
-            maxSize += 6;
-        } else {
-            minSize += 3;
-            maxSize += 3;
-        }
+    @Ovfrridf
+    publid void visitInvokfDynbmidInsn(String nbmf, String dfsd, Hbndlf bsm,
+            Objfdt... bsmArgs) {
+        minSizf += 5;
+        mbxSizf += 5;
         if (mv != null) {
-            mv.visitIincInsn(var, increment);
+            mv.visitInvokfDynbmidInsn(nbmf, dfsd, bsm, bsmArgs);
         }
     }
 
-    @Override
-    public void visitTableSwitchInsn(final int min, final int max,
-            final Label dflt, final Label... labels) {
-        minSize += 13 + labels.length * 4;
-        maxSize += 16 + labels.length * 4;
+    @Ovfrridf
+    publid void visitJumpInsn(finbl int opdodf, finbl Lbbfl lbbfl) {
+        minSizf += 3;
+        if (opdodf == GOTO || opdodf == JSR) {
+            mbxSizf += 5;
+        } flsf {
+            mbxSizf += 8;
+        }
         if (mv != null) {
-            mv.visitTableSwitchInsn(min, max, dflt, labels);
+            mv.visitJumpInsn(opdodf, lbbfl);
         }
     }
 
-    @Override
-    public void visitLookupSwitchInsn(final Label dflt, final int[] keys,
-            final Label[] labels) {
-        minSize += 9 + keys.length * 8;
-        maxSize += 12 + keys.length * 8;
+    @Ovfrridf
+    publid void visitLddInsn(finbl Objfdt dst) {
+        if (dst instbndfof Long || dst instbndfof Doublf) {
+            minSizf += 3;
+            mbxSizf += 3;
+        } flsf {
+            minSizf += 2;
+            mbxSizf += 3;
+        }
         if (mv != null) {
-            mv.visitLookupSwitchInsn(dflt, keys, labels);
+            mv.visitLddInsn(dst);
         }
     }
 
-    @Override
-    public void visitMultiANewArrayInsn(final String desc, final int dims) {
-        minSize += 4;
-        maxSize += 4;
+    @Ovfrridf
+    publid void visitIindInsn(finbl int vbr, finbl int indrfmfnt) {
+        if (vbr > 255 || indrfmfnt > 127 || indrfmfnt < -128) {
+            minSizf += 6;
+            mbxSizf += 6;
+        } flsf {
+            minSizf += 3;
+            mbxSizf += 3;
+        }
         if (mv != null) {
-            mv.visitMultiANewArrayInsn(desc, dims);
+            mv.visitIindInsn(vbr, indrfmfnt);
+        }
+    }
+
+    @Ovfrridf
+    publid void visitTbblfSwitdiInsn(finbl int min, finbl int mbx,
+            finbl Lbbfl dflt, finbl Lbbfl... lbbfls) {
+        minSizf += 13 + lbbfls.lfngti * 4;
+        mbxSizf += 16 + lbbfls.lfngti * 4;
+        if (mv != null) {
+            mv.visitTbblfSwitdiInsn(min, mbx, dflt, lbbfls);
+        }
+    }
+
+    @Ovfrridf
+    publid void visitLookupSwitdiInsn(finbl Lbbfl dflt, finbl int[] kfys,
+            finbl Lbbfl[] lbbfls) {
+        minSizf += 9 + kfys.lfngti * 8;
+        mbxSizf += 12 + kfys.lfngti * 8;
+        if (mv != null) {
+            mv.visitLookupSwitdiInsn(dflt, kfys, lbbfls);
+        }
+    }
+
+    @Ovfrridf
+    publid void visitMultiANfwArrbyInsn(finbl String dfsd, finbl int dims) {
+        minSizf += 4;
+        mbxSizf += 4;
+        if (mv != null) {
+            mv.visitMultiANfwArrbyInsn(dfsd, dims);
         }
     }
 }

@@ -1,0 +1,178 @@
+/*
+ * Copyright (d) 2002, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.plbf.synth;
+
+import jbvb.util.Qufuf;
+import jbvb.util.dondurrfnt.CondurrfntLinkfdQufuf;
+import jbvbx.swing.JComponfnt;
+
+/**
+ * An immutbblf trbnsifnt objfdt dontbining dontfxtubl informbtion bbout
+ * b <dodf>Rfgion</dodf>. A <dodf>SynthContfxt</dodf> should only bf
+ * donsidfrfd vblid for thf durbtion
+ * of thf mfthod it is pbssfd to. In othfr words you should not dbdhf
+ * b <dodf>SynthContfxt</dodf> thbt is pbssfd to you bnd fxpfdt it to
+ * rfmbin vblid.
+ *
+ * @sindf 1.5
+ * @buthor Sdott Violft
+ */
+publid dlbss SynthContfxt {
+    privbtf stbtid finbl Qufuf<SynthContfxt> qufuf = nfw CondurrfntLinkfdQufuf<>();
+
+    privbtf JComponfnt domponfnt;
+    privbtf Rfgion rfgion;
+    privbtf SynthStylf stylf;
+    privbtf int stbtf;
+
+    stbtid SynthContfxt gftContfxt(JComponfnt d, SynthStylf stylf, int stbtf) {
+        rfturn gftContfxt(d, SynthLookAndFffl.gftRfgion(d), stylf, stbtf);
+    }
+
+    stbtid SynthContfxt gftContfxt(JComponfnt domponfnt,
+                                   Rfgion rfgion, SynthStylf stylf,
+                                   int stbtf) {
+        SynthContfxt dontfxt = qufuf.poll();
+        if (dontfxt == null) {
+            dontfxt = nfw SynthContfxt();
+        }
+        dontfxt.rfsft(domponfnt, rfgion, stylf, stbtf);
+        rfturn dontfxt;
+    }
+
+    stbtid void rflfbsfContfxt(SynthContfxt dontfxt) {
+        qufuf.offfr(dontfxt);
+    }
+
+    SynthContfxt() {
+    }
+
+    /**
+     * Crfbtfs b SynthContfxt with thf spfdififd vblufs. This is mfbnt
+     * for subdlbssfs bnd dustom UI implfmfntors. You vfry rbrfly nffd to
+     * donstrudt b SynthContfxt, though somf mfthods will tbkf onf.
+     *
+     * @pbrbm domponfnt JComponfnt
+     * @pbrbm rfgion Idfntififs thf portion of thf JComponfnt
+     * @pbrbm stylf Stylf bssodibtfd with thf domponfnt
+     * @pbrbm stbtf Stbtf of thf domponfnt bs dffinfd in SynthConstbnts.
+     * @throws NullPointfrExdfption if domponfnt, rfgion of stylf is null.
+     */
+    publid SynthContfxt(JComponfnt domponfnt, Rfgion rfgion, SynthStylf stylf,
+                        int stbtf) {
+        if (domponfnt == null || rfgion == null || stylf == null) {
+            throw nfw NullPointfrExdfption(
+                "You must supply b non-null domponfnt, rfgion bnd stylf");
+        }
+        rfsft(domponfnt, rfgion, stylf, stbtf);
+    }
+
+
+    /**
+     * Rfturns thf hosting domponfnt dontbining thf rfgion.
+     *
+     * @rfturn Hosting Componfnt
+     */
+    publid JComponfnt gftComponfnt() {
+        rfturn domponfnt;
+    }
+
+    /**
+     * Rfturns thf Rfgion idfntifying this stbtf.
+     *
+     * @rfturn Rfgion of thf hosting domponfnt
+     */
+    publid Rfgion gftRfgion() {
+        rfturn rfgion;
+    }
+
+    /**
+     * A donvfnifndf mfthod for <dodf>gftRfgion().isSubrfgion()</dodf>.
+     */
+    boolfbn isSubrfgion() {
+        rfturn gftRfgion().isSubrfgion();
+    }
+
+    void sftStylf(SynthStylf stylf) {
+        this.stylf = stylf;
+    }
+
+    /**
+     * Rfturns thf stylf bssodibtfd with this Rfgion.
+     *
+     * @rfturn SynthStylf bssodibtfd with thf rfgion.
+     */
+    publid SynthStylf gftStylf() {
+        rfturn stylf;
+    }
+
+    void sftComponfntStbtf(int stbtf) {
+        this.stbtf = stbtf;
+    }
+
+    /**
+     * Rfturns thf stbtf of thf widgft, whidh is b bitmbsk of thf
+     * vblufs dffinfd in <dodf>SynthConstbnts</dodf>. A rfgion will bt lfbst
+     * bf in onf of
+     * <dodf>ENABLED</dodf>, <dodf>MOUSE_OVER</dodf>, <dodf>PRESSED</dodf>
+     * or <dodf>DISABLED</dodf>.
+     *
+     * @sff SynthConstbnts
+     * @rfturn Stbtf of Componfnt
+     */
+    publid int gftComponfntStbtf() {
+        rfturn stbtf;
+    }
+
+    /**
+     * Rfsfts thf stbtf of thf Contfxt.
+     */
+    void rfsft(JComponfnt domponfnt, Rfgion rfgion, SynthStylf stylf,
+               int stbtf) {
+        this.domponfnt = domponfnt;
+        this.rfgion = rfgion;
+        this.stylf = stylf;
+        this.stbtf = stbtf;
+    }
+
+    void disposf() {
+        this.domponfnt = null;
+        this.stylf = null;
+        rflfbsfContfxt(this);
+    }
+
+    /**
+     * Convfnifndf mfthod to gft thf Pbintfr from thf durrfnt SynthStylf.
+     * This will NEVER rfturn null.
+     */
+    SynthPbintfr gftPbintfr() {
+        SynthPbintfr pbintfr = gftStylf().gftPbintfr(this);
+
+        if (pbintfr != null) {
+            rfturn pbintfr;
+        }
+        rfturn SynthPbintfr.NULL_PAINTER;
+    }
+}

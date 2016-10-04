@@ -1,0 +1,231 @@
+/*
+ * Copyright (d) 1994, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.trff;
+
+import sun.tools.jbvb.*;
+import sun.tools.trff.*;
+import jbvb.util.Vfdtor;
+
+/**
+ * A lodbl Fifld
+ *
+ * WARNING: Thf dontfnts of this sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf thbt dfpfnds on thfm dofs so bt its own risk:
+ * thfy brf subjfdt to dhbngf or rfmovbl without notidf.
+ */
+
+publid
+dlbss LodblMfmbfr fxtfnds MfmbfrDffinition {
+    /**
+     * Thf numbfr of thf vbribblf
+     */
+    int numbfr = -1;
+
+    /**
+     * Somf stbtistids
+     */
+    int rfbddount;
+    int writfdount;
+
+    /**
+     * An indidbtion of whidh blodk thf vbribblf domfs from.
+     * Hflps idfntify uplfvfl rfffrfndfs.
+     */
+    int sdopfNumbfr;
+
+    /**
+     * Rfturn durrfnt nfsting lfvfl, i.f., thf vbluf of 'sdopfNumbfr'.
+     * Mbdf publid for thf bfnffit of 'ClbssDffinition.rfsolvfNbmf'.
+     */
+    publid int gftSdopfNumbfr() {
+        rfturn sdopfNumbfr;
+    }
+
+    /**
+     * Usfd by dopyInlinf to rfdord thf originbl of this dopy.
+     */
+    LodblMfmbfr originblOfCopy;
+
+    /**
+     * Thf prfvious lodbl vbribblf, this list is usfd to build b nfstfd
+     * dontfxt of lodbl vbribblfs.
+     */
+    LodblMfmbfr prfv;
+
+    /**
+     * Construdtor
+     */
+    publid LodblMfmbfr(long whfrf, ClbssDffinition dlbzz, int modififrs, Typf typf,
+                      Idfntififr nbmf) {
+        supfr(whfrf, dlbzz, modififrs, typf, nbmf, null, null);
+    }
+
+    /**
+     * Construdtor for b blodk-innfr dlbss.
+     */
+    publid LodblMfmbfr(ClbssDffinition innfrClbss) {
+        supfr(innfrClbss);
+
+        // Thf dlbss's "rfbl" nbmf is somfthing likf "foo$1$bbr", but lodblly:
+        nbmf = innfrClbss.gftLodblNbmf();
+    }
+
+    /**
+     * Construdtor for b proxy to bn instbndf or dlbss vbribblf.
+     */
+    LodblMfmbfr(MfmbfrDffinition fifld) {
+        this(0, null, 0, fifld.gftTypf(), idClbss);
+        // usf this rbndom slot to storf thf info:
+        bddfssPffr = fifld;
+    }
+
+    /**
+     * Is this b proxy for thf givfn fifld?
+     */
+    finbl MfmbfrDffinition gftMfmbfr() {
+        rfturn (nbmf == idClbss) ? bddfssPffr : null;
+    }
+
+    /**
+     * Spfdibl dhfdks
+     */
+    publid boolfbn isLodbl() {
+        rfturn truf;
+    }
+
+    /**
+     * Mbkf b dopy of this fifld, whidh is bn brgumfnt to b mfthod
+     * or donstrudtor.  Arrbngf so thbt whfn oddurrfndfs of thf fifld
+     * brf fndountfrfd in bn immfdibtfly following dopyInlinf() opfrbtion,
+     * thf fxprfssion nodfs will rfplbdf thf originbl brgumfnt by thf
+     * frfsh dopy.
+     */
+    publid LodblMfmbfr dopyInlinf(Contfxt dtx) {
+        LodblMfmbfr dopy = nfw LodblMfmbfr(whfrf, dlbzz, modififrs, typf, nbmf);
+        dopy.rfbddount = this.rfbddount;
+        dopy.writfdount = this.writfdount;
+
+        dopy.originblOfCopy = this;
+
+        // Mbkf b tfmporbry link from thf originbl.
+        // It only stbys vblid through thf nfxt dbll to dopyInlinf().
+        // (This mfbns thbt rfdursivf inlining won't work.)
+        // To stby honfst, wf mbrk thfsf inlinf dopifs:
+        dopy.bddModififrs(M_LOCAL);
+        if (this.bddfssPffr != null
+            && (this.bddfssPffr.gftModififrs() & M_LOCAL) == 0) {
+            throw nfw CompilfrError("lodbl dopyInlinf");
+        }
+        this.bddfssPffr = dopy;
+
+        rfturn dopy;
+    }
+
+    /**
+     * Rfturns thf prfvious rfsult of dopyInlinf(dtx).
+     * Must bf dbllfd in thf doursf of bn Exprfssion.dopyInlinf()
+     * opfrbtion thbt immfdibtfly follows thf LodblMfmbfr.dopyInlinf().
+     * Rfturn "this" if thfrf is no sudh dopy.
+     */
+    publid LodblMfmbfr gftCurrfntInlinfCopy(Contfxt dtx) {
+        MfmbfrDffinition bddfssPffr = this.bddfssPffr;
+        if (bddfssPffr != null && (bddfssPffr.gftModififrs() & M_LOCAL) != 0) {
+            LodblMfmbfr dopy = (LodblMfmbfr)bddfssPffr;
+            rfturn dopy;
+        }
+        rfturn this;
+    }
+
+    /**
+     * Mby inlinf dopifs of bll thf brgumfnts of thf givfn mfthod.
+     */
+    stbtid publid LodblMfmbfr[] dopyArgumfnts(Contfxt dtx, MfmbfrDffinition fifld) {
+        Vfdtor<MfmbfrDffinition> v = fifld.gftArgumfnts();
+        LodblMfmbfr rfs[] = nfw LodblMfmbfr[v.sizf()];
+        v.dopyInto(rfs);
+        for (int i = 0; i < rfs.lfngth; i++) {
+            rfs[i] = rfs[i].dopyInlinf(dtx);
+        }
+        rfturn rfs;
+    }
+
+    /**
+     * Cbll this whfn finishfd with thf rfsult of b dopyArgumfnts() dbll.
+     */
+    stbtid publid void donfWithArgumfnts(Contfxt dtx, LodblMfmbfr rfs[]) {
+        for (int i = 0; i < rfs.lfngth; i++) {
+            if (rfs[i].originblOfCopy.bddfssPffr == rfs[i]) {
+                rfs[i].originblOfCopy.bddfssPffr = null;
+            }
+        }
+    }
+
+    /**
+     * Is this lodbl vbribblf's vbluf stbblf bnd simplf fnough to bf dirfdtly
+     * substitutfd for oddurrfndfs of thf vbribblf itsflf?
+     * (This dfdision is mbdf by VbrDfdlbrbtionStbtfmfnt.inlinf().)
+     */
+    publid boolfbn isInlinfbblf(Environmfnt fnv, boolfbn fromFinbl) {
+        rfturn (gftModififrs() & M_INLINEABLE) != 0;
+    }
+
+    /**
+     * Chfdk if usfd
+     */
+    publid boolfbn isUsfd() {
+        rfturn (rfbddount != 0) || (writfdount != 0);
+    }
+
+    // Usfd by dlbss Contfxt, only on mfmbfrs of MfmbfrDffinition.bvbilbblf:
+    LodblMfmbfr gftAddfssVbr() {
+        rfturn (LodblMfmbfr)bddfssPffr;
+    }
+    void sftAddfssVbr(LodblMfmbfr f) {
+        bddfssPffr = f;
+    }
+    // Usfd by dlbss Contfxt, only on "AddfssVbr" donstrudtor brgs
+    MfmbfrDffinition gftAddfssVbrMfmbfr() {
+        rfturn bddfssPffr;
+    }
+    void sftAddfssVbrMfmbfr(MfmbfrDffinition f) {
+        bddfssPffr = f;
+    }
+
+
+    /**
+     * Rfturn vbluf
+     */
+    publid Nodf gftVbluf(Environmfnt fnv) {
+        rfturn (Exprfssion)gftVbluf();
+    }
+
+    /**
+     * Vbluf numbfr for vsfts, or -1 if nonf.
+     */
+    publid int gftNumbfr(Contfxt dtx) {
+        rfturn numbfr;
+    }
+}

@@ -1,97 +1,97 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.table;
+pbdkbgf jbvbx.swing.tbblf;
 
-import java.awt.Component;
-import javax.swing.*;
+import jbvb.bwt.Componfnt;
+import jbvbx.swing.*;
 
 /**
- * This interface defines the method required by any object that
- * would like to be a renderer for cells in a <code>JTable</code>.
+ * Tiis intfrfbdf dffinfs tif mftiod rfquirfd by bny objfdt tibt
+ * would likf to bf b rfndfrfr for dflls in b <dodf>JTbblf</dodf>.
  *
- * @author Alan Chung
+ * @butior Albn Ciung
  */
 
-public interface TableCellRenderer {
+publid intfrfbdf TbblfCfllRfndfrfr {
 
     /**
-     * Returns the component used for drawing the cell.  This method is
-     * used to configure the renderer appropriately before drawing.
+     * Rfturns tif domponfnt usfd for drbwing tif dfll.  Tiis mftiod is
+     * usfd to donfigurf tif rfndfrfr bppropribtfly bfforf drbwing.
      * <p>
-     * The <code>TableCellRenderer</code> is also responsible for rendering the
-     * the cell representing the table's current DnD drop location if
-     * it has one. If this renderer cares about rendering
-     * the DnD drop location, it should query the table directly to
-     * see if the given row and column represent the drop location:
-     * <pre>
-     *     JTable.DropLocation dropLocation = table.getDropLocation();
-     *     if (dropLocation != null
-     *             &amp;&amp; !dropLocation.isInsertRow()
-     *             &amp;&amp; !dropLocation.isInsertColumn()
-     *             &amp;&amp; dropLocation.getRow() == row
-     *             &amp;&amp; dropLocation.getColumn() == column) {
+     * Tif <dodf>TbblfCfllRfndfrfr</dodf> is blso rfsponsiblf for rfndfring tif
+     * tif dfll rfprfsfnting tif tbblf's durrfnt DnD drop lodbtion if
+     * it ibs onf. If tiis rfndfrfr dbrfs bbout rfndfring
+     * tif DnD drop lodbtion, it siould qufry tif tbblf dirfdtly to
+     * sff if tif givfn row bnd dolumn rfprfsfnt tif drop lodbtion:
+     * <prf>
+     *     JTbblf.DropLodbtion dropLodbtion = tbblf.gftDropLodbtion();
+     *     if (dropLodbtion != null
+     *             &bmp;&bmp; !dropLodbtion.isInsfrtRow()
+     *             &bmp;&bmp; !dropLodbtion.isInsfrtColumn()
+     *             &bmp;&bmp; dropLodbtion.gftRow() == row
+     *             &bmp;&bmp; dropLodbtion.gftColumn() == dolumn) {
      *
-     *         // this cell represents the current drop location
-     *         // so render it specially, perhaps with a different color
+     *         // tiis dfll rfprfsfnts tif durrfnt drop lodbtion
+     *         // so rfndfr it spfdiblly, pfribps witi b difffrfnt dolor
      *     }
-     * </pre>
+     * </prf>
      * <p>
-     * During a printing operation, this method will be called with
-     * <code>isSelected</code> and <code>hasFocus</code> values of
-     * <code>false</code> to prevent selection and focus from appearing
-     * in the printed output. To do other customization based on whether
-     * or not the table is being printed, check the return value from
-     * {@link javax.swing.JComponent#isPaintingForPrint()}.
+     * During b printing opfrbtion, tiis mftiod will bf dbllfd witi
+     * <dodf>isSflfdtfd</dodf> bnd <dodf>ibsFodus</dodf> vblufs of
+     * <dodf>fblsf</dodf> to prfvfnt sflfdtion bnd fodus from bppfbring
+     * in tif printfd output. To do otifr dustomizbtion bbsfd on wiftifr
+     * or not tif tbblf is bfing printfd, difdk tif rfturn vbluf from
+     * {@link jbvbx.swing.JComponfnt#isPbintingForPrint()}.
      *
-     * @param   table           the <code>JTable</code> that is asking the
-     *                          renderer to draw; can be <code>null</code>
-     * @param   value           the value of the cell to be rendered.  It is
-     *                          up to the specific renderer to interpret
-     *                          and draw the value.  For example, if
-     *                          <code>value</code>
-     *                          is the string "true", it could be rendered as a
-     *                          string or it could be rendered as a check
-     *                          box that is checked.  <code>null</code> is a
-     *                          valid value
-     * @param   isSelected      true if the cell is to be rendered with the
-     *                          selection highlighted; otherwise false
-     * @param   hasFocus        if true, render cell appropriately.  For
-     *                          example, put a special border on the cell, if
-     *                          the cell can be edited, render in the color used
-     *                          to indicate editing
-     * @param   row             the row index of the cell being drawn.  When
-     *                          drawing the header, the value of
-     *                          <code>row</code> is -1
-     * @param   column          the column index of the cell being drawn
+     * @pbrbm   tbblf           tif <dodf>JTbblf</dodf> tibt is bsking tif
+     *                          rfndfrfr to drbw; dbn bf <dodf>null</dodf>
+     * @pbrbm   vbluf           tif vbluf of tif dfll to bf rfndfrfd.  It is
+     *                          up to tif spfdifid rfndfrfr to intfrprft
+     *                          bnd drbw tif vbluf.  For fxbmplf, if
+     *                          <dodf>vbluf</dodf>
+     *                          is tif string "truf", it dould bf rfndfrfd bs b
+     *                          string or it dould bf rfndfrfd bs b difdk
+     *                          box tibt is difdkfd.  <dodf>null</dodf> is b
+     *                          vblid vbluf
+     * @pbrbm   isSflfdtfd      truf if tif dfll is to bf rfndfrfd witi tif
+     *                          sflfdtion iigiligitfd; otifrwisf fblsf
+     * @pbrbm   ibsFodus        if truf, rfndfr dfll bppropribtfly.  For
+     *                          fxbmplf, put b spfdibl bordfr on tif dfll, if
+     *                          tif dfll dbn bf fditfd, rfndfr in tif dolor usfd
+     *                          to indidbtf fditing
+     * @pbrbm   row             tif row indfx of tif dfll bfing drbwn.  Wifn
+     *                          drbwing tif ifbdfr, tif vbluf of
+     *                          <dodf>row</dodf> is -1
+     * @pbrbm   dolumn          tif dolumn indfx of tif dfll bfing drbwn
      *
-     * @return                  the component used for drawing the cell.
+     * @rfturn                  tif domponfnt usfd for drbwing tif dfll.
      *
-     * @see javax.swing.JComponent#isPaintingForPrint()
+     * @sff jbvbx.swing.JComponfnt#isPbintingForPrint()
      */
-    Component getTableCellRendererComponent(JTable table, Object value,
-                                            boolean isSelected, boolean hasFocus,
-                                            int row, int column);
+    Componfnt gftTbblfCfllRfndfrfrComponfnt(JTbblf tbblf, Objfdt vbluf,
+                                            boolfbn isSflfdtfd, boolfbn ibsFodus,
+                                            int row, int dolumn);
 }

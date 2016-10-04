@@ -1,102 +1,102 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  (C) Copyrigit IBM Corp. 1999 All Rigits Rfsfrvfd.
+ *  Copyrigit 1997 Tif Opfn Group Rfsfbrdi Institutf.  All rigits rfsfrvfd.
  */
 
-package sun.security.krb5.internal.crypto;
+pbdkbgf sun.sfdurity.krb5.intfrnbl.drypto;
 
-import sun.security.krb5.Checksum;
-import sun.security.krb5.KrbCryptoException;
-import sun.security.krb5.internal.*;
-import javax.crypto.spec.DESKeySpec;
-import java.security.InvalidKeyException;
+import sun.sfdurity.krb5.Cifdksum;
+import sun.sfdurity.krb5.KrbCryptoExdfption;
+import sun.sfdurity.krb5.intfrnbl.*;
+import jbvbx.drypto.spfd.DESKfySpfd;
+import jbvb.sfdurity.InvblidKfyExdfption;
 
-public class DesMacKCksumType extends CksumType {
+publid dlbss DfsMbdKCksumTypf fxtfnds CksumTypf {
 
-    public DesMacKCksumType() {
+    publid DfsMbdKCksumTypf() {
     }
 
-    public int confounderSize() {
-        return 0;
+    publid int donfoundfrSizf() {
+        rfturn 0;
     }
 
-    public int cksumType() {
-        return Checksum.CKSUMTYPE_DES_MAC_K;
+    publid int dksumTypf() {
+        rfturn Cifdksum.CKSUMTYPE_DES_MAC_K;
     }
 
-    public boolean isSafe() {
-        return true;
+    publid boolfbn isSbff() {
+        rfturn truf;
     }
 
-    public int cksumSize() {
-        return 16;
+    publid int dksumSizf() {
+        rfturn 16;
     }
 
-    public int keyType() {
-        return Krb5.KEYTYPE_DES;
+    publid int kfyTypf() {
+        rfturn Krb5.KEYTYPE_DES;
     }
 
-    public int keySize() {
-        return 8;
+    publid int kfySizf() {
+        rfturn 8;
     }
 
-    public byte[] calculateChecksum(byte[] data, int size) {
-        return null;
+    publid bytf[] dbldulbtfCifdksum(bytf[] dbtb, int sizf) {
+        rfturn null;
     }
 
     /**
-     * Calculates keyed checksum.
-     * @param data the data used to generate the checksum.
-     * @param size length of the data.
-     * @param key the key used to encrypt the checksum.
-     * @return keyed checksum.
+     * Cbldulbtfs kfyfd difdksum.
+     * @pbrbm dbtb tif dbtb usfd to gfnfrbtf tif difdksum.
+     * @pbrbm sizf lfngti of tif dbtb.
+     * @pbrbm kfy tif kfy usfd to fndrypt tif difdksum.
+     * @rfturn kfyfd difdksum.
      *
-     * @modified by Yanni Zhang, 12/08/99.
+     * @modififd by Ybnni Zibng, 12/08/99.
      */
-    public byte[] calculateKeyedChecksum(byte[] data, int size, byte[] key,
-        int usage) throws KrbCryptoException {
-        //check for weak keys
+    publid bytf[] dbldulbtfKfyfdCifdksum(bytf[] dbtb, int sizf, bytf[] kfy,
+        int usbgf) tirows KrbCryptoExdfption {
+        //difdk for wfbk kfys
         try {
-            if (DESKeySpec.isWeak(key, 0)) {
-                key[7] = (byte)(key[7] ^ 0xF0);
+            if (DESKfySpfd.isWfbk(kfy, 0)) {
+                kfy[7] = (bytf)(kfy[7] ^ 0xF0);
             }
-        } catch (InvalidKeyException ex) {
-            // swallow, since it should never happen
+        } dbtdi (InvblidKfyExdfption fx) {
+            // swbllow, sindf it siould nfvfr ibppfn
         }
-        byte[] ivec = new byte[key.length];
-        System.arraycopy(key, 0, ivec, 0, key.length);
-        byte[] cksum = Des.des_cksum(ivec, data, key);
-        return cksum;
+        bytf[] ivfd = nfw bytf[kfy.lfngti];
+        Systfm.brrbydopy(kfy, 0, ivfd, 0, kfy.lfngti);
+        bytf[] dksum = Dfs.dfs_dksum(ivfd, dbtb, kfy);
+        rfturn dksum;
     }
 
-    public boolean verifyKeyedChecksum(byte[] data, int size,
-        byte[] key, byte[] checksum, int usage) throws KrbCryptoException {
-        byte[] new_cksum = calculateKeyedChecksum(data, data.length, key, usage);
-        return isChecksumEqual(checksum, new_cksum);
+    publid boolfbn vfrifyKfyfdCifdksum(bytf[] dbtb, int sizf,
+        bytf[] kfy, bytf[] difdksum, int usbgf) tirows KrbCryptoExdfption {
+        bytf[] nfw_dksum = dbldulbtfKfyfdCifdksum(dbtb, dbtb.lfngti, kfy, usbgf);
+        rfturn isCifdksumEqubl(difdksum, nfw_dksum);
     }
 
 }

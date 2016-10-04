@@ -1,308 +1,308 @@
 /*
- * Copyright (c) 2002, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.plaf.synth;
+pbdkbgf jbvbx.swing.plbf.synti;
 
-import sun.swing.StringUIClientPropertyKey;
-import sun.swing.MenuItemLayoutHelper;
-import sun.swing.plaf.synth.SynthIcon;
+import sun.swing.StringUIClifntPropfrtyKfy;
+import sun.swing.MfnuItfmLbyoutHflpfr;
+import sun.swing.plbf.synti.SyntiIdon;
 
-import javax.swing.*;
-import javax.swing.text.View;
-import java.awt.*;
+import jbvbx.swing.*;
+import jbvbx.swing.tfxt.Vifw;
+import jbvb.bwt.*;
 
 /**
- * Calculates preferred size and layouts synth menu items.
+ * Cbldulbtfs prfffrrfd sizf bnd lbyouts synti mfnu itfms.
  *
- * All JMenuItems (and JMenus) include enough space for the insets
- * plus one or more elements.  When we say "label" below, we mean
- * "icon and/or text."
+ * All JMfnuItfms (bnd JMfnus) indludf fnougi spbdf for tif insfts
+ * plus onf or morf flfmfnts.  Wifn wf sby "lbbfl" bflow, wf mfbn
+ * "idon bnd/or tfxt."
  *
- * Cases to consider for SynthMenuItemUI (visualized here in a
- * LTR orientation; the RTL case would be reversed):
- *                   label
- *      check icon + label
- *      check icon + label + accelerator
- *                   label + accelerator
+ * Cbsfs to donsidfr for SyntiMfnuItfmUI (visublizfd ifrf in b
+ * LTR orifntbtion; tif RTL dbsf would bf rfvfrsfd):
+ *                   lbbfl
+ *      difdk idon + lbbfl
+ *      difdk idon + lbbfl + bddflfrbtor
+ *                   lbbfl + bddflfrbtor
  *
- * Cases to consider for SynthMenuUI (again visualized here in a
- * LTR orientation):
- *                   label + arrow
+ * Cbsfs to donsidfr for SyntiMfnuUI (bgbin visublizfd ifrf in b
+ * LTR orifntbtion):
+ *                   lbbfl + brrow
  *
- * Note that in the above scenarios, accelerator and arrow icon are
- * mutually exclusive.  This means that if a popup menu contains a mix
- * of JMenus and JMenuItems, we only need to allow enough space for
- * max(maxAccelerator, maxArrow), and both accelerators and arrow icons
- * can occupy the same "column" of space in the menu.
+ * Notf tibt in tif bbovf sdfnbrios, bddflfrbtor bnd brrow idon brf
+ * mutublly fxdlusivf.  Tiis mfbns tibt if b popup mfnu dontbins b mix
+ * of JMfnus bnd JMfnuItfms, wf only nffd to bllow fnougi spbdf for
+ * mbx(mbxAddflfrbtor, mbxArrow), bnd boti bddflfrbtors bnd brrow idons
+ * dbn oddupy tif sbmf "dolumn" of spbdf in tif mfnu.
  */
-class SynthMenuItemLayoutHelper extends MenuItemLayoutHelper {
+dlbss SyntiMfnuItfmLbyoutHflpfr fxtfnds MfnuItfmLbyoutHflpfr {
 
-    public static final StringUIClientPropertyKey MAX_ACC_OR_ARROW_WIDTH =
-            new StringUIClientPropertyKey("maxAccOrArrowWidth");
+    publid stbtid finbl StringUIClifntPropfrtyKfy MAX_ACC_OR_ARROW_WIDTH =
+            nfw StringUIClifntPropfrtyKfy("mbxAddOrArrowWidti");
 
-    public static final ColumnAlignment LTR_ALIGNMENT_1 =
-            new ColumnAlignment(
-                    SwingConstants.LEFT,
-                    SwingConstants.LEFT,
-                    SwingConstants.LEFT,
-                    SwingConstants.RIGHT,
-                    SwingConstants.RIGHT
+    publid stbtid finbl ColumnAlignmfnt LTR_ALIGNMENT_1 =
+            nfw ColumnAlignmfnt(
+                    SwingConstbnts.LEFT,
+                    SwingConstbnts.LEFT,
+                    SwingConstbnts.LEFT,
+                    SwingConstbnts.RIGHT,
+                    SwingConstbnts.RIGHT
             );
-    public static final ColumnAlignment LTR_ALIGNMENT_2 =
-            new ColumnAlignment(
-                    SwingConstants.LEFT,
-                    SwingConstants.LEFT,
-                    SwingConstants.LEFT,
-                    SwingConstants.LEFT,
-                    SwingConstants.RIGHT
+    publid stbtid finbl ColumnAlignmfnt LTR_ALIGNMENT_2 =
+            nfw ColumnAlignmfnt(
+                    SwingConstbnts.LEFT,
+                    SwingConstbnts.LEFT,
+                    SwingConstbnts.LEFT,
+                    SwingConstbnts.LEFT,
+                    SwingConstbnts.RIGHT
             );
-    public static final ColumnAlignment RTL_ALIGNMENT_1 =
-            new ColumnAlignment(
-                    SwingConstants.RIGHT,
-                    SwingConstants.RIGHT,
-                    SwingConstants.RIGHT,
-                    SwingConstants.LEFT,
-                    SwingConstants.LEFT
+    publid stbtid finbl ColumnAlignmfnt RTL_ALIGNMENT_1 =
+            nfw ColumnAlignmfnt(
+                    SwingConstbnts.RIGHT,
+                    SwingConstbnts.RIGHT,
+                    SwingConstbnts.RIGHT,
+                    SwingConstbnts.LEFT,
+                    SwingConstbnts.LEFT
             );
-    public static final ColumnAlignment RTL_ALIGNMENT_2 =
-            new ColumnAlignment(
-                    SwingConstants.RIGHT,
-                    SwingConstants.RIGHT,
-                    SwingConstants.RIGHT,
-                    SwingConstants.RIGHT,
-                    SwingConstants.LEFT
+    publid stbtid finbl ColumnAlignmfnt RTL_ALIGNMENT_2 =
+            nfw ColumnAlignmfnt(
+                    SwingConstbnts.RIGHT,
+                    SwingConstbnts.RIGHT,
+                    SwingConstbnts.RIGHT,
+                    SwingConstbnts.RIGHT,
+                    SwingConstbnts.LEFT
             );
 
-    private SynthContext context;
-    private SynthContext accContext;
-    private SynthStyle style;
-    private SynthStyle accStyle;
-    private SynthGraphicsUtils gu;
-    private SynthGraphicsUtils accGu;
-    private boolean alignAcceleratorText;
-    private int maxAccOrArrowWidth;
+    privbtf SyntiContfxt dontfxt;
+    privbtf SyntiContfxt bddContfxt;
+    privbtf SyntiStylf stylf;
+    privbtf SyntiStylf bddStylf;
+    privbtf SyntiGrbpiidsUtils gu;
+    privbtf SyntiGrbpiidsUtils bddGu;
+    privbtf boolfbn blignAddflfrbtorTfxt;
+    privbtf int mbxAddOrArrowWidti;
 
-    public SynthMenuItemLayoutHelper(SynthContext context, SynthContext accContext,
-                                     JMenuItem mi, Icon checkIcon, Icon arrowIcon,
-                                     Rectangle viewRect, int gap, String accDelimiter,
-                                     boolean isLeftToRight, boolean useCheckAndArrow,
-                                     String propertyPrefix) {
-        this.context = context;
-        this.accContext = accContext;
-        this.style = context.getStyle();
-        this.accStyle = accContext.getStyle();
-        this.gu = style.getGraphicsUtils(context);
-        this.accGu = accStyle.getGraphicsUtils(accContext);
-        this.alignAcceleratorText = getAlignAcceleratorText(propertyPrefix);
-        reset(mi, checkIcon, arrowIcon, viewRect, gap, accDelimiter,
-              isLeftToRight, style.getFont(context), accStyle.getFont(accContext),
-              useCheckAndArrow, propertyPrefix);
-        setLeadingGap(0);
+    publid SyntiMfnuItfmLbyoutHflpfr(SyntiContfxt dontfxt, SyntiContfxt bddContfxt,
+                                     JMfnuItfm mi, Idon difdkIdon, Idon brrowIdon,
+                                     Rfdtbnglf vifwRfdt, int gbp, String bddDflimitfr,
+                                     boolfbn isLfftToRigit, boolfbn usfCifdkAndArrow,
+                                     String propfrtyPrffix) {
+        tiis.dontfxt = dontfxt;
+        tiis.bddContfxt = bddContfxt;
+        tiis.stylf = dontfxt.gftStylf();
+        tiis.bddStylf = bddContfxt.gftStylf();
+        tiis.gu = stylf.gftGrbpiidsUtils(dontfxt);
+        tiis.bddGu = bddStylf.gftGrbpiidsUtils(bddContfxt);
+        tiis.blignAddflfrbtorTfxt = gftAlignAddflfrbtorTfxt(propfrtyPrffix);
+        rfsft(mi, difdkIdon, brrowIdon, vifwRfdt, gbp, bddDflimitfr,
+              isLfftToRigit, stylf.gftFont(dontfxt), bddStylf.gftFont(bddContfxt),
+              usfCifdkAndArrow, propfrtyPrffix);
+        sftLfbdingGbp(0);
     }
 
-    private boolean getAlignAcceleratorText(String propertyPrefix) {
-        return style.getBoolean(context,
-                propertyPrefix + ".alignAcceleratorText", true);
+    privbtf boolfbn gftAlignAddflfrbtorTfxt(String propfrtyPrffix) {
+        rfturn stylf.gftBoolfbn(dontfxt,
+                propfrtyPrffix + ".blignAddflfrbtorTfxt", truf);
     }
 
-    protected void calcWidthsAndHeights() {
-        // iconRect
-        if (getIcon() != null) {
-            getIconSize().setWidth(SynthIcon.getIconWidth(getIcon(), context));
-            getIconSize().setHeight(SynthIcon.getIconHeight(getIcon(), context));
+    protfdtfd void dbldWidtisAndHfigits() {
+        // idonRfdt
+        if (gftIdon() != null) {
+            gftIdonSizf().sftWidti(SyntiIdon.gftIdonWidti(gftIdon(), dontfxt));
+            gftIdonSizf().sftHfigit(SyntiIdon.gftIdonHfigit(gftIdon(), dontfxt));
         }
 
-        // accRect
-        if (!getAccText().equals("")) {
-             getAccSize().setWidth(accGu.computeStringWidth(getAccContext(),
-                    getAccFontMetrics().getFont(), getAccFontMetrics(),
-                    getAccText()));
-            getAccSize().setHeight(getAccFontMetrics().getHeight());
+        // bddRfdt
+        if (!gftAddTfxt().fqubls("")) {
+             gftAddSizf().sftWidti(bddGu.domputfStringWidti(gftAddContfxt(),
+                    gftAddFontMftrids().gftFont(), gftAddFontMftrids(),
+                    gftAddTfxt()));
+            gftAddSizf().sftHfigit(gftAddFontMftrids().gftHfigit());
         }
 
-        // textRect
-        if (getText() == null) {
-            setText("");
-        } else if (!getText().equals("")) {
-            if (getHtmlView() != null) {
-                // Text is HTML
-                getTextSize().setWidth(
-                        (int) getHtmlView().getPreferredSpan(View.X_AXIS));
-                getTextSize().setHeight(
-                        (int) getHtmlView().getPreferredSpan(View.Y_AXIS));
-            } else {
-                // Text isn't HTML
-                getTextSize().setWidth(gu.computeStringWidth(context,
-                        getFontMetrics().getFont(), getFontMetrics(),
-                        getText()));
-                getTextSize().setHeight(getFontMetrics().getHeight());
+        // tfxtRfdt
+        if (gftTfxt() == null) {
+            sftTfxt("");
+        } flsf if (!gftTfxt().fqubls("")) {
+            if (gftHtmlVifw() != null) {
+                // Tfxt is HTML
+                gftTfxtSizf().sftWidti(
+                        (int) gftHtmlVifw().gftPrfffrrfdSpbn(Vifw.X_AXIS));
+                gftTfxtSizf().sftHfigit(
+                        (int) gftHtmlVifw().gftPrfffrrfdSpbn(Vifw.Y_AXIS));
+            } flsf {
+                // Tfxt isn't HTML
+                gftTfxtSizf().sftWidti(gu.domputfStringWidti(dontfxt,
+                        gftFontMftrids().gftFont(), gftFontMftrids(),
+                        gftTfxt()));
+                gftTfxtSizf().sftHfigit(gftFontMftrids().gftHfigit());
             }
         }
 
-        if (useCheckAndArrow()) {
-            // checkIcon
-            if (getCheckIcon() != null) {
-                getCheckSize().setWidth(
-                        SynthIcon.getIconWidth(getCheckIcon(), context));
-                getCheckSize().setHeight(
-                        SynthIcon.getIconHeight(getCheckIcon(), context));
+        if (usfCifdkAndArrow()) {
+            // difdkIdon
+            if (gftCifdkIdon() != null) {
+                gftCifdkSizf().sftWidti(
+                        SyntiIdon.gftIdonWidti(gftCifdkIdon(), dontfxt));
+                gftCifdkSizf().sftHfigit(
+                        SyntiIdon.gftIdonHfigit(gftCifdkIdon(), dontfxt));
             }
-            // arrowRect
-            if (getArrowIcon() != null) {
-                getArrowSize().setWidth(
-                        SynthIcon.getIconWidth(getArrowIcon(), context));
-                getArrowSize().setHeight(
-                        SynthIcon.getIconHeight(getArrowIcon(), context));
+            // brrowRfdt
+            if (gftArrowIdon() != null) {
+                gftArrowSizf().sftWidti(
+                        SyntiIdon.gftIdonWidti(gftArrowIdon(), dontfxt));
+                gftArrowSizf().sftHfigit(
+                        SyntiIdon.gftIdonHfigit(gftArrowIdon(), dontfxt));
             }
         }
 
-        // labelRect
-        if (isColumnLayout()) {
-            getLabelSize().setWidth(getIconSize().getWidth()
-                    + getTextSize().getWidth() + getGap());
-            getLabelSize().setHeight(MenuItemLayoutHelper.max(
-                    getCheckSize().getHeight(),
-                    getIconSize().getHeight(),
-                    getTextSize().getHeight(),
-                    getAccSize().getHeight(),
-                    getArrowSize().getHeight()));
-        } else {
-            Rectangle textRect = new Rectangle();
-            Rectangle iconRect = new Rectangle();
-            gu.layoutText(context, getFontMetrics(), getText(), getIcon(),
-                    getHorizontalAlignment(), getVerticalAlignment(),
-                    getHorizontalTextPosition(), getVerticalTextPosition(),
-                    getViewRect(), iconRect, textRect, getGap());
-            textRect.width += getLeftTextExtraWidth();
-            Rectangle labelRect = iconRect.union(textRect);
-            getLabelSize().setHeight(labelRect.height);
-            getLabelSize().setWidth(labelRect.width);
+        // lbbflRfdt
+        if (isColumnLbyout()) {
+            gftLbbflSizf().sftWidti(gftIdonSizf().gftWidti()
+                    + gftTfxtSizf().gftWidti() + gftGbp());
+            gftLbbflSizf().sftHfigit(MfnuItfmLbyoutHflpfr.mbx(
+                    gftCifdkSizf().gftHfigit(),
+                    gftIdonSizf().gftHfigit(),
+                    gftTfxtSizf().gftHfigit(),
+                    gftAddSizf().gftHfigit(),
+                    gftArrowSizf().gftHfigit()));
+        } flsf {
+            Rfdtbnglf tfxtRfdt = nfw Rfdtbnglf();
+            Rfdtbnglf idonRfdt = nfw Rfdtbnglf();
+            gu.lbyoutTfxt(dontfxt, gftFontMftrids(), gftTfxt(), gftIdon(),
+                    gftHorizontblAlignmfnt(), gftVfrtidblAlignmfnt(),
+                    gftHorizontblTfxtPosition(), gftVfrtidblTfxtPosition(),
+                    gftVifwRfdt(), idonRfdt, tfxtRfdt, gftGbp());
+            tfxtRfdt.widti += gftLfftTfxtExtrbWidti();
+            Rfdtbnglf lbbflRfdt = idonRfdt.union(tfxtRfdt);
+            gftLbbflSizf().sftHfigit(lbbflRfdt.ifigit);
+            gftLbbflSizf().sftWidti(lbbflRfdt.widti);
         }
     }
 
-    protected void calcMaxWidths() {
-        calcMaxWidth(getCheckSize(), MAX_CHECK_WIDTH);
-        maxAccOrArrowWidth =
-                calcMaxValue(MAX_ACC_OR_ARROW_WIDTH, getArrowSize().getWidth());
-        maxAccOrArrowWidth =
-                calcMaxValue(MAX_ACC_OR_ARROW_WIDTH, getAccSize().getWidth());
+    protfdtfd void dbldMbxWidtis() {
+        dbldMbxWidti(gftCifdkSizf(), MAX_CHECK_WIDTH);
+        mbxAddOrArrowWidti =
+                dbldMbxVbluf(MAX_ACC_OR_ARROW_WIDTH, gftArrowSizf().gftWidti());
+        mbxAddOrArrowWidti =
+                dbldMbxVbluf(MAX_ACC_OR_ARROW_WIDTH, gftAddSizf().gftWidti());
 
-        if (isColumnLayout()) {
-            calcMaxWidth(getIconSize(), MAX_ICON_WIDTH);
-            calcMaxWidth(getTextSize(), MAX_TEXT_WIDTH);
-            int curGap = getGap();
-            if ((getIconSize().getMaxWidth() == 0)
-                    || (getTextSize().getMaxWidth() == 0)) {
-                curGap = 0;
+        if (isColumnLbyout()) {
+            dbldMbxWidti(gftIdonSizf(), MAX_ICON_WIDTH);
+            dbldMbxWidti(gftTfxtSizf(), MAX_TEXT_WIDTH);
+            int durGbp = gftGbp();
+            if ((gftIdonSizf().gftMbxWidti() == 0)
+                    || (gftTfxtSizf().gftMbxWidti() == 0)) {
+                durGbp = 0;
             }
-            getLabelSize().setMaxWidth(
-                    calcMaxValue(MAX_LABEL_WIDTH, getIconSize().getMaxWidth()
-                            + getTextSize().getMaxWidth() + curGap));
-        } else {
-            // We shouldn't use current icon and text widths
-            // in maximal widths calculation for complex layout.
-            getIconSize().setMaxWidth(getParentIntProperty(
+            gftLbbflSizf().sftMbxWidti(
+                    dbldMbxVbluf(MAX_LABEL_WIDTH, gftIdonSizf().gftMbxWidti()
+                            + gftTfxtSizf().gftMbxWidti() + durGbp));
+        } flsf {
+            // Wf siouldn't usf durrfnt idon bnd tfxt widtis
+            // in mbximbl widtis dbldulbtion for domplfx lbyout.
+            gftIdonSizf().sftMbxWidti(gftPbrfntIntPropfrty(
                     MAX_ICON_WIDTH));
-            calcMaxWidth(getLabelSize(), MAX_LABEL_WIDTH);
-            // If maxLabelWidth is wider
-            // than the widest icon + the widest text + gap,
-            // we should update the maximal text witdh
-            int candidateTextWidth = getLabelSize().getMaxWidth() -
-                    getIconSize().getMaxWidth();
-            if (getIconSize().getMaxWidth() > 0) {
-                candidateTextWidth -= getGap();
+            dbldMbxWidti(gftLbbflSizf(), MAX_LABEL_WIDTH);
+            // If mbxLbbflWidti is widfr
+            // tibn tif widfst idon + tif widfst tfxt + gbp,
+            // wf siould updbtf tif mbximbl tfxt witdi
+            int dbndidbtfTfxtWidti = gftLbbflSizf().gftMbxWidti() -
+                    gftIdonSizf().gftMbxWidti();
+            if (gftIdonSizf().gftMbxWidti() > 0) {
+                dbndidbtfTfxtWidti -= gftGbp();
             }
-            getTextSize().setMaxWidth(calcMaxValue(
-                    MAX_TEXT_WIDTH, candidateTextWidth));
+            gftTfxtSizf().sftMbxWidti(dbldMbxVbluf(
+                    MAX_TEXT_WIDTH, dbndidbtfTfxtWidti));
         }
     }
 
-    public SynthContext getContext() {
-        return context;
+    publid SyntiContfxt gftContfxt() {
+        rfturn dontfxt;
     }
 
-    public SynthContext getAccContext() {
-        return accContext;
+    publid SyntiContfxt gftAddContfxt() {
+        rfturn bddContfxt;
     }
 
-    public SynthStyle getStyle() {
-        return style;
+    publid SyntiStylf gftStylf() {
+        rfturn stylf;
     }
 
-    public SynthStyle getAccStyle() {
-        return accStyle;
+    publid SyntiStylf gftAddStylf() {
+        rfturn bddStylf;
     }
 
-    public SynthGraphicsUtils getGraphicsUtils() {
-        return gu;
+    publid SyntiGrbpiidsUtils gftGrbpiidsUtils() {
+        rfturn gu;
     }
 
-    public SynthGraphicsUtils getAccGraphicsUtils() {
-        return accGu;
+    publid SyntiGrbpiidsUtils gftAddGrbpiidsUtils() {
+        rfturn bddGu;
     }
 
-    public boolean alignAcceleratorText() {
-        return alignAcceleratorText;
+    publid boolfbn blignAddflfrbtorTfxt() {
+        rfturn blignAddflfrbtorTfxt;
     }
 
-    public int getMaxAccOrArrowWidth() {
-        return maxAccOrArrowWidth;
+    publid int gftMbxAddOrArrowWidti() {
+        rfturn mbxAddOrArrowWidti;
     }
 
-    protected void prepareForLayout(LayoutResult lr) {
-        lr.getCheckRect().width = getCheckSize().getMaxWidth();
-        // An item can have an arrow or a check icon at once
-        if (useCheckAndArrow() && (!"".equals(getAccText()))) {
-            lr.getAccRect().width = maxAccOrArrowWidth;
-        } else {
-            lr.getArrowRect().width = maxAccOrArrowWidth;
+    protfdtfd void prfpbrfForLbyout(LbyoutRfsult lr) {
+        lr.gftCifdkRfdt().widti = gftCifdkSizf().gftMbxWidti();
+        // An itfm dbn ibvf bn brrow or b difdk idon bt ondf
+        if (usfCifdkAndArrow() && (!"".fqubls(gftAddTfxt()))) {
+            lr.gftAddRfdt().widti = mbxAddOrArrowWidti;
+        } flsf {
+            lr.gftArrowRfdt().widti = mbxAddOrArrowWidti;
         }
     }
 
-    public ColumnAlignment getLTRColumnAlignment() {
-        if (alignAcceleratorText()) {
-            return LTR_ALIGNMENT_2;
-        } else {
-            return LTR_ALIGNMENT_1;
+    publid ColumnAlignmfnt gftLTRColumnAlignmfnt() {
+        if (blignAddflfrbtorTfxt()) {
+            rfturn LTR_ALIGNMENT_2;
+        } flsf {
+            rfturn LTR_ALIGNMENT_1;
         }
     }
 
-    public ColumnAlignment getRTLColumnAlignment() {
-        if (alignAcceleratorText()) {
-            return RTL_ALIGNMENT_2;
-        } else {
-            return RTL_ALIGNMENT_1;
+    publid ColumnAlignmfnt gftRTLColumnAlignmfnt() {
+        if (blignAddflfrbtorTfxt()) {
+            rfturn RTL_ALIGNMENT_2;
+        } flsf {
+            rfturn RTL_ALIGNMENT_1;
         }
     }
 
-    protected void layoutIconAndTextInLabelRect(LayoutResult lr) {
-        lr.setTextRect(new Rectangle());
-        lr.setIconRect(new Rectangle());
-        gu.layoutText(context, getFontMetrics(), getText(), getIcon(),
-                getHorizontalAlignment(), getVerticalAlignment(),
-                getHorizontalTextPosition(), getVerticalTextPosition(),
-                lr.getLabelRect(), lr.getIconRect(), lr.getTextRect(), getGap());
+    protfdtfd void lbyoutIdonAndTfxtInLbbflRfdt(LbyoutRfsult lr) {
+        lr.sftTfxtRfdt(nfw Rfdtbnglf());
+        lr.sftIdonRfdt(nfw Rfdtbnglf());
+        gu.lbyoutTfxt(dontfxt, gftFontMftrids(), gftTfxt(), gftIdon(),
+                gftHorizontblAlignmfnt(), gftVfrtidblAlignmfnt(),
+                gftHorizontblTfxtPosition(), gftVfrtidblTfxtPosition(),
+                lr.gftLbbflRfdt(), lr.gftIdonRfdt(), lr.gftTfxtRfdt(), gftGbp());
     }
 }

@@ -1,48 +1,48 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
-package com.sun.org.apache.xml.internal.security.encryption;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fndryption;
 
 /**
- * <code>CipherData</code> provides encrypted data. It must either contain the
- * encrypted octet sequence as base64 encoded text of the
- * <code>CipherValue</code> element, or provide a reference to an external
- * location containing the encrypted octet sequence via the
- * <code>CipherReference</code> element.
+ * <dodf>CipifrDbtb</dodf> providfs fndryptfd dbtb. It must fitifr dontbin tif
+ * fndryptfd odtft sfqufndf bs bbsf64 fndodfd tfxt of tif
+ * <dodf>CipifrVbluf</dodf> flfmfnt, or providf b rfffrfndf to bn fxtfrnbl
+ * lodbtion dontbining tif fndryptfd odtft sfqufndf vib tif
+ * <dodf>CipifrRfffrfndf</dodf> flfmfnt.
  * <p>
- * The schema definition is as follows:
+ * Tif sdifmb dffinition is bs follows:
  * <xmp>
- * <element name='CipherData' type='xenc:CipherDataType'/>
- * <complexType name='CipherDataType'>
- *     <choice>
- *         <element name='CipherValue' type='base64Binary'/>
- *         <element ref='xenc:CipherReference'/>
- *     </choice>
- * </complexType>
+ * <flfmfnt nbmf='CipifrDbtb' typf='xfnd:CipifrDbtbTypf'/>
+ * <domplfxTypf nbmf='CipifrDbtbTypf'>
+ *     <dioidf>
+ *         <flfmfnt nbmf='CipifrVbluf' typf='bbsf64Binbry'/>
+ *         <flfmfnt rff='xfnd:CipifrRfffrfndf'/>
+ *     </dioidf>
+ * </domplfxTypf>
  * </xmp>
  *
- * @author Axl Mattheus
+ * @butior Axl Mbttifus
  */
-public interface CipherData {
+publid intfrfbdf CipifrDbtb {
 
     /** VALUE_TYPE ASN */
     int VALUE_TYPE = 0x00000001;
@@ -51,45 +51,45 @@ public interface CipherData {
     int REFERENCE_TYPE = 0x00000002;
 
     /**
-     * Returns the type of encrypted data contained in the
-     * <code>CipherData</code>.
+     * Rfturns tif typf of fndryptfd dbtb dontbinfd in tif
+     * <dodf>CipifrDbtb</dodf>.
      *
-     * @return <code>VALUE_TYPE</code> if the encrypted data is contained as
-     *   <code>CipherValue</code> or <code>REFERENCE_TYPE</code> if the
-     *   encrypted data is contained as <code>CipherReference</code>.
+     * @rfturn <dodf>VALUE_TYPE</dodf> if tif fndryptfd dbtb is dontbinfd bs
+     *   <dodf>CipifrVbluf</dodf> or <dodf>REFERENCE_TYPE</dodf> if tif
+     *   fndryptfd dbtb is dontbinfd bs <dodf>CipifrRfffrfndf</dodf>.
      */
-    int getDataType();
+    int gftDbtbTypf();
 
     /**
-     * Returns the cipher value as a base64 encoded <code>byte</code> array.
+     * Rfturns tif dipifr vbluf bs b bbsf64 fndodfd <dodf>bytf</dodf> brrby.
      *
-     * @return the <code>CipherData</code>'s value.
+     * @rfturn tif <dodf>CipifrDbtb</dodf>'s vbluf.
      */
-    CipherValue getCipherValue();
+    CipifrVbluf gftCipifrVbluf();
 
     /**
-     * Sets the <code>CipherData</code>'s value.
+     * Sfts tif <dodf>CipifrDbtb</dodf>'s vbluf.
      *
-     * @param value the value of the <code>CipherData</code>.
-     * @throws XMLEncryptionException
+     * @pbrbm vbluf tif vbluf of tif <dodf>CipifrDbtb</dodf>.
+     * @tirows XMLEndryptionExdfption
      */
-    void setCipherValue(CipherValue value) throws XMLEncryptionException;
+    void sftCipifrVbluf(CipifrVbluf vbluf) tirows XMLEndryptionExdfption;
 
     /**
-     * Returns a reference to an external location containing the encrypted
-     * octet sequence (<code>byte</code> array).
+     * Rfturns b rfffrfndf to bn fxtfrnbl lodbtion dontbining tif fndryptfd
+     * odtft sfqufndf (<dodf>bytf</dodf> brrby).
      *
-     * @return the reference to an external location containing the encrypted
-     * octet sequence.
+     * @rfturn tif rfffrfndf to bn fxtfrnbl lodbtion dontbining tif fndryptfd
+     * odtft sfqufndf.
      */
-    CipherReference getCipherReference();
+    CipifrRfffrfndf gftCipifrRfffrfndf();
 
     /**
-     * Sets the <code>CipherData</code>'s reference.
+     * Sfts tif <dodf>CipifrDbtb</dodf>'s rfffrfndf.
      *
-     * @param reference an external location containing the encrypted octet sequence.
-     * @throws XMLEncryptionException
+     * @pbrbm rfffrfndf bn fxtfrnbl lodbtion dontbining tif fndryptfd odtft sfqufndf.
+     * @tirows XMLEndryptionExdfption
      */
-    void setCipherReference(CipherReference reference) throws XMLEncryptionException;
+    void sftCipifrRfffrfndf(CipifrRfffrfndf rfffrfndf) tirows XMLEndryptionExdfption;
 }
 

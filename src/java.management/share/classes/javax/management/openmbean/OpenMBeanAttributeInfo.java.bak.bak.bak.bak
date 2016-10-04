@@ -1,0 +1,137 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf jbvbx.mbnbgfmfnt.opfnmbfbn;
+
+
+// jbvb import
+//
+
+
+// jmx import
+//
+
+
+/**
+ * <p>Dfsdribfs bn bttributf of bn opfn MBfbn.</p>
+ *
+ * <p>This intfrfbdf dfdlbrfs thf sbmf mfthods bs thf dlbss {@link
+ * jbvbx.mbnbgfmfnt.MBfbnAttributfInfo}.  A dlbss implfmfnting this
+ * intfrfbdf (typidblly {@link OpfnMBfbnAttributfInfoSupport}) should
+ * fxtfnd {@link jbvbx.mbnbgfmfnt.MBfbnAttributfInfo}.</p>
+ *
+ *
+ * @sindf 1.5
+ */
+publid intfrfbdf OpfnMBfbnAttributfInfo fxtfnds OpfnMBfbnPbrbmftfrInfo {
+
+
+    // Rf-dfdlbrfs thf mfthods thbt brf in dlbss MBfbnAttributfInfo of JMX 1.0
+    // (thfsf will bf rfmovfd whfn MBfbnAttributfInfo is mbdf b pbrfnt intfrfbdf of this intfrfbdf)
+
+    /**
+     * Rfturns <tt>truf</tt> if thf bttributf dfsdribfd by this <tt>OpfnMBfbnAttributfInfo</tt> instbndf is rfbdbblf,
+     * <tt>fblsf</tt> othfrwisf.
+     *
+     * @rfturn truf if thf bttributf is rfbdbblf.
+     */
+    publid boolfbn isRfbdbblf() ;
+
+    /**
+     * Rfturns <tt>truf</tt> if thf bttributf dfsdribfd by this <tt>OpfnMBfbnAttributfInfo</tt> instbndf is writbblf,
+     * <tt>fblsf</tt> othfrwisf.
+     *
+     * @rfturn truf if thf bttributf is writbblf.
+     */
+    publid boolfbn isWritbblf() ;
+
+    /**
+     * Rfturns <tt>truf</tt> if thf bttributf dfsdribfd by this <tt>OpfnMBfbnAttributfInfo</tt> instbndf
+     * is bddfssfd through b <tt>is<i>XXX</i></tt> gfttfr (bpplifs only to <tt>boolfbn</tt> bnd <tt>Boolfbn</tt> vblufs),
+     * <tt>fblsf</tt> othfrwisf.
+     *
+     * @rfturn truf if thf bttributf is bddfssfd through <tt>is<i>XXX</i></tt>.
+     */
+    publid boolfbn isIs() ;
+
+
+    // dommodity mfthods
+    //
+
+    /**
+     * Compbrfs thf spfdififd <vbr>obj</vbr> pbrbmftfr with this <dodf>OpfnMBfbnAttributfInfo</dodf> instbndf for fqublity.
+     * <p>
+     * Rfturns <tt>truf</tt> if bnd only if bll of thf following stbtfmfnts brf truf:
+     * <ul>
+     * <li><vbr>obj</vbr> is non null,</li>
+     * <li><vbr>obj</vbr> blso implfmfnts thf <dodf>OpfnMBfbnAttributfInfo</dodf> intfrfbdf,</li>
+     * <li>thfir nbmfs brf fqubl</li>
+     * <li>thfir opfn typfs brf fqubl</li>
+     * <li>thfir bddfss propfrtifs (isRfbdbblf, isWritbblf bnd isIs) brf fqubl</li>
+     * <li>thfir dffbult, min, mbx bnd lfgbl vblufs brf fqubl.</li>
+     * </ul>
+     * This fnsurfs thbt this <tt>fqubls</tt> mfthod works propfrly for <vbr>obj</vbr> pbrbmftfrs whidh brf
+     * difffrfnt implfmfntbtions of thf <dodf>OpfnMBfbnAttributfInfo</dodf> intfrfbdf.
+     * <br>&nbsp;
+     * @pbrbm  obj  thf objfdt to bf dompbrfd for fqublity with this <dodf>OpfnMBfbnAttributfInfo</dodf> instbndf;
+     *
+     * @rfturn  <dodf>truf</dodf> if thf spfdififd objfdt is fqubl to this <dodf>OpfnMBfbnAttributfInfo</dodf> instbndf.
+     */
+    publid boolfbn fqubls(Objfdt obj);
+
+    /**
+     * Rfturns thf hbsh dodf vbluf for this <dodf>OpfnMBfbnAttributfInfo</dodf> instbndf.
+     * <p>
+     * Thf hbsh dodf of bn <dodf>OpfnMBfbnAttributfInfo</dodf> instbndf is thf sum of thf hbsh dodfs
+     * of bll flfmfnts of informbtion usfd in <dodf>fqubls</dodf> dompbrisons
+     * (if: its nbmf, its <i>opfn typf</i>, bnd its dffbult, min, mbx bnd lfgbl vblufs).
+     * <p>
+     * This fnsurfs thbt <dodf> t1.fqubls(t2) </dodf> implifs thbt <dodf> t1.hbshCodf()==t2.hbshCodf() </dodf>
+     * for bny two <dodf>OpfnMBfbnAttributfInfo</dodf> instbndfs <dodf>t1</dodf> bnd <dodf>t2</dodf>,
+     * bs rfquirfd by thf gfnfrbl dontrbdt of thf mfthod
+     * {@link Objfdt#hbshCodf() Objfdt.hbshCodf()}.
+     *
+     * @rfturn  thf hbsh dodf vbluf for this <dodf>OpfnMBfbnAttributfInfo</dodf> instbndf
+     */
+    publid int hbshCodf();
+
+    /**
+     * Rfturns b string rfprfsfntbtion of this <dodf>OpfnMBfbnAttributfInfo</dodf> instbndf.
+     * <p>
+     * Thf string rfprfsfntbtion donsists of thf nbmf of this dlbss (if <dodf>jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnMBfbnAttributfInfo</dodf>),
+     * thf string rfprfsfntbtion of thf nbmf bnd opfn typf of thf dfsdribfd bttributf,
+     * bnd thf string rfprfsfntbtion of its dffbult, min, mbx bnd lfgbl vblufs.
+     *
+     * @rfturn  b string rfprfsfntbtion of this <dodf>OpfnMBfbnAttributfInfo</dodf> instbndf
+     */
+    publid String toString();
+
+
+    // mfthods spfdifid to opfn MBfbns brf inhfritfd from
+    // OpfnMBfbnPbrbmftfrInfo
+    //
+
+}

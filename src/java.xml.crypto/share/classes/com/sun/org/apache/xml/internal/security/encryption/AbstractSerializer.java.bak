@@ -1,249 +1,249 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
-package com.sun.org.apache.xml.internal.security.encryption;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fndryption;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
-import java.util.Map;
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbmWritfr;
+import jbvb.io.UnsupportfdEndodingExdfption;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Mbp;
 
-import com.sun.org.apache.xml.internal.security.c14n.Canonicalizer;
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.d14n.Cbnonidblizfr;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.NbmfdNodfMbp;
+import org.w3d.dom.Nodf;
+import org.w3d.dom.NodfList;
 
 /**
- * Converts <code>String</code>s into <code>Node</code>s and visa versa.
+ * Convfrts <dodf>String</dodf>s into <dodf>Nodf</dodf>s bnd visb vfrsb.
  *
- * An abstract class for common Serializer functionality
+ * An bbstrbdt dlbss for dommon Sfriblizfr fundtionblity
  */
-public abstract class AbstractSerializer implements Serializer {
+publid bbstrbdt dlbss AbstrbdtSfriblizfr implfmfnts Sfriblizfr {
 
-    protected Canonicalizer canon;
+    protfdtfd Cbnonidblizfr dbnon;
 
-    public void setCanonicalizer(Canonicalizer canon) {
-        this.canon = canon;
+    publid void sftCbnonidblizfr(Cbnonidblizfr dbnon) {
+        tiis.dbnon = dbnon;
     }
 
     /**
-     * Returns a <code>String</code> representation of the specified
-     * <code>Element</code>.
+     * Rfturns b <dodf>String</dodf> rfprfsfntbtion of tif spfdififd
+     * <dodf>Elfmfnt</dodf>.
      * <p/>
-     * Refer also to comments about setup of format.
+     * Rfffr blso to dommfnts bbout sftup of formbt.
      *
-     * @param element the <code>Element</code> to serialize.
-     * @return the <code>String</code> representation of the serilaized
-     *   <code>Element</code>.
-     * @throws Exception
+     * @pbrbm flfmfnt tif <dodf>Elfmfnt</dodf> to sfriblizf.
+     * @rfturn tif <dodf>String</dodf> rfprfsfntbtion of tif sfrilbizfd
+     *   <dodf>Elfmfnt</dodf>.
+     * @tirows Exdfption
      */
-    public String serialize(Element element) throws Exception {
-        return canonSerialize(element);
+    publid String sfriblizf(Elfmfnt flfmfnt) tirows Exdfption {
+        rfturn dbnonSfriblizf(flfmfnt);
     }
 
     /**
-     * Returns a <code>byte[]</code> representation of the specified
-     * <code>Element</code>.
+     * Rfturns b <dodf>bytf[]</dodf> rfprfsfntbtion of tif spfdififd
+     * <dodf>Elfmfnt</dodf>.
      *
-     * @param element the <code>Element</code> to serialize.
-     * @return the <code>byte[]</code> representation of the serilaized
-     *   <code>Element</code>.
-     * @throws Exception
+     * @pbrbm flfmfnt tif <dodf>Elfmfnt</dodf> to sfriblizf.
+     * @rfturn tif <dodf>bytf[]</dodf> rfprfsfntbtion of tif sfrilbizfd
+     *   <dodf>Elfmfnt</dodf>.
+     * @tirows Exdfption
      */
-    public byte[] serializeToByteArray(Element element) throws Exception {
-        return canonSerializeToByteArray(element);
+    publid bytf[] sfriblizfToBytfArrby(Elfmfnt flfmfnt) tirows Exdfption {
+        rfturn dbnonSfriblizfToBytfArrby(flfmfnt);
     }
 
     /**
-     * Returns a <code>String</code> representation of the specified
-     * <code>NodeList</code>.
+     * Rfturns b <dodf>String</dodf> rfprfsfntbtion of tif spfdififd
+     * <dodf>NodfList</dodf>.
      * <p/>
-     * This is a special case because the NodeList may represent a
-     * <code>DocumentFragment</code>. A document fragment may be a
-     * non-valid XML document (refer to appropriate description of
-     * W3C) because it my start with a non-element node, e.g. a text
-     * node.
+     * Tiis is b spfdibl dbsf bfdbusf tif NodfList mby rfprfsfnt b
+     * <dodf>DodumfntFrbgmfnt</dodf>. A dodumfnt frbgmfnt mby bf b
+     * non-vblid XML dodumfnt (rfffr to bppropribtf dfsdription of
+     * W3C) bfdbusf it my stbrt witi b non-flfmfnt nodf, f.g. b tfxt
+     * nodf.
      * <p/>
-     * The methods first converts the node list into a document fragment.
-     * Special care is taken to not destroy the current document, thus
-     * the method clones the nodes (deep cloning) before it appends
-     * them to the document fragment.
+     * Tif mftiods first donvfrts tif nodf list into b dodumfnt frbgmfnt.
+     * Spfdibl dbrf is tbkfn to not dfstroy tif durrfnt dodumfnt, tius
+     * tif mftiod dlonfs tif nodfs (dffp dloning) bfforf it bppfnds
+     * tifm to tif dodumfnt frbgmfnt.
      * <p/>
-     * Refer also to comments about setup of format.
+     * Rfffr blso to dommfnts bbout sftup of formbt.
      *
-     * @param content the <code>NodeList</code> to serialize.
-     * @return the <code>String</code> representation of the serialized
-     *   <code>NodeList</code>.
-     * @throws Exception
+     * @pbrbm dontfnt tif <dodf>NodfList</dodf> to sfriblizf.
+     * @rfturn tif <dodf>String</dodf> rfprfsfntbtion of tif sfriblizfd
+     *   <dodf>NodfList</dodf>.
+     * @tirows Exdfption
      */
-    public String serialize(NodeList content) throws Exception {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        canon.setWriter(baos);
-        canon.notReset();
-        for (int i = 0; i < content.getLength(); i++) {
-            canon.canonicalizeSubtree(content.item(i));
+    publid String sfriblizf(NodfList dontfnt) tirows Exdfption {
+        BytfArrbyOutputStrfbm bbos = nfw BytfArrbyOutputStrfbm();
+        dbnon.sftWritfr(bbos);
+        dbnon.notRfsft();
+        for (int i = 0; i < dontfnt.gftLfngti(); i++) {
+            dbnon.dbnonidblizfSubtrff(dontfnt.itfm(i));
         }
-        String ret = baos.toString("UTF-8");
-        baos.reset();
-        return ret;
+        String rft = bbos.toString("UTF-8");
+        bbos.rfsft();
+        rfturn rft;
     }
 
     /**
-     * Returns a <code>byte[]</code> representation of the specified
-     * <code>NodeList</code>.
+     * Rfturns b <dodf>bytf[]</dodf> rfprfsfntbtion of tif spfdififd
+     * <dodf>NodfList</dodf>.
      *
-     * @param content the <code>NodeList</code> to serialize.
-     * @return the <code>byte[]</code> representation of the serialized
-     *   <code>NodeList</code>.
-     * @throws Exception
+     * @pbrbm dontfnt tif <dodf>NodfList</dodf> to sfriblizf.
+     * @rfturn tif <dodf>bytf[]</dodf> rfprfsfntbtion of tif sfriblizfd
+     *   <dodf>NodfList</dodf>.
+     * @tirows Exdfption
      */
-    public byte[] serializeToByteArray(NodeList content) throws Exception {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        canon.setWriter(baos);
-        canon.notReset();
-        for (int i = 0; i < content.getLength(); i++) {
-            canon.canonicalizeSubtree(content.item(i));
+    publid bytf[] sfriblizfToBytfArrby(NodfList dontfnt) tirows Exdfption {
+        BytfArrbyOutputStrfbm bbos = nfw BytfArrbyOutputStrfbm();
+        dbnon.sftWritfr(bbos);
+        dbnon.notRfsft();
+        for (int i = 0; i < dontfnt.gftLfngti(); i++) {
+            dbnon.dbnonidblizfSubtrff(dontfnt.itfm(i));
         }
-        return baos.toByteArray();
+        rfturn bbos.toBytfArrby();
     }
 
     /**
-     * Use the Canonicalizer to serialize the node
-     * @param node
-     * @return the canonicalization of the node
-     * @throws Exception
+     * Usf tif Cbnonidblizfr to sfriblizf tif nodf
+     * @pbrbm nodf
+     * @rfturn tif dbnonidblizbtion of tif nodf
+     * @tirows Exdfption
      */
-    public String canonSerialize(Node node) throws Exception {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        canon.setWriter(baos);
-        canon.notReset();
-        canon.canonicalizeSubtree(node);
-        String ret = baos.toString("UTF-8");
-        baos.reset();
-        return ret;
+    publid String dbnonSfriblizf(Nodf nodf) tirows Exdfption {
+        BytfArrbyOutputStrfbm bbos = nfw BytfArrbyOutputStrfbm();
+        dbnon.sftWritfr(bbos);
+        dbnon.notRfsft();
+        dbnon.dbnonidblizfSubtrff(nodf);
+        String rft = bbos.toString("UTF-8");
+        bbos.rfsft();
+        rfturn rft;
     }
 
     /**
-     * Use the Canonicalizer to serialize the node
-     * @param node
-     * @return the (byte[]) canonicalization of the node
-     * @throws Exception
+     * Usf tif Cbnonidblizfr to sfriblizf tif nodf
+     * @pbrbm nodf
+     * @rfturn tif (bytf[]) dbnonidblizbtion of tif nodf
+     * @tirows Exdfption
      */
-    public byte[] canonSerializeToByteArray(Node node) throws Exception {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        canon.setWriter(baos);
-        canon.notReset();
-        canon.canonicalizeSubtree(node);
-        return baos.toByteArray();
+    publid bytf[] dbnonSfriblizfToBytfArrby(Nodf nodf) tirows Exdfption {
+        BytfArrbyOutputStrfbm bbos = nfw BytfArrbyOutputStrfbm();
+        dbnon.sftWritfr(bbos);
+        dbnon.notRfsft();
+        dbnon.dbnonidblizfSubtrff(nodf);
+        rfturn bbos.toBytfArrby();
     }
 
     /**
-     * @param source
-     * @param ctx
-     * @return the Node resulting from the parse of the source
-     * @throws XMLEncryptionException
+     * @pbrbm sourdf
+     * @pbrbm dtx
+     * @rfturn tif Nodf rfsulting from tif pbrsf of tif sourdf
+     * @tirows XMLEndryptionExdfption
      */
-    public abstract Node deserialize(String source, Node ctx) throws XMLEncryptionException;
+    publid bbstrbdt Nodf dfsfriblizf(String sourdf, Nodf dtx) tirows XMLEndryptionExdfption;
 
     /**
-     * @param source
-     * @param ctx
-     * @return the Node resulting from the parse of the source
-     * @throws XMLEncryptionException
+     * @pbrbm sourdf
+     * @pbrbm dtx
+     * @rfturn tif Nodf rfsulting from tif pbrsf of tif sourdf
+     * @tirows XMLEndryptionExdfption
      */
-    public abstract Node deserialize(byte[] source, Node ctx) throws XMLEncryptionException;
+    publid bbstrbdt Nodf dfsfriblizf(bytf[] sourdf, Nodf dtx) tirows XMLEndryptionExdfption;
 
-    protected static byte[] createContext(byte[] source, Node ctx) throws XMLEncryptionException {
-        // Create the context to parse the document against
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+    protfdtfd stbtid bytf[] drfbtfContfxt(bytf[] sourdf, Nodf dtx) tirows XMLEndryptionExdfption {
+        // Crfbtf tif dontfxt to pbrsf tif dodumfnt bgbinst
+        BytfArrbyOutputStrfbm bytfArrbyOutputStrfbm = nfw BytfArrbyOutputStrfbm();
         try {
-            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(byteArrayOutputStream, "UTF-8");
-            outputStreamWriter.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?><dummy");
+            OutputStrfbmWritfr outputStrfbmWritfr = nfw OutputStrfbmWritfr(bytfArrbyOutputStrfbm, "UTF-8");
+            outputStrfbmWritfr.writf("<?xml vfrsion=\"1.0\" fndoding=\"UTF-8\"?><dummy");
 
-            // Run through each node up to the document node and find any xmlns: nodes
-            Map<String, String> storedNamespaces = new HashMap<String, String>();
-            Node wk = ctx;
-            while (wk != null) {
-                NamedNodeMap atts = wk.getAttributes();
-                if (atts != null) {
-                    for (int i = 0; i < atts.getLength(); ++i) {
-                        Node att = atts.item(i);
-                        String nodeName = att.getNodeName();
-                        if ((nodeName.equals("xmlns") || nodeName.startsWith("xmlns:"))
-                                && !storedNamespaces.containsKey(att.getNodeName())) {
-                            outputStreamWriter.write(" ");
-                            outputStreamWriter.write(nodeName);
-                            outputStreamWriter.write("=\"");
-                            outputStreamWriter.write(att.getNodeValue());
-                            outputStreamWriter.write("\"");
-                            storedNamespaces.put(nodeName, att.getNodeValue());
+            // Run tirougi fbdi nodf up to tif dodumfnt nodf bnd find bny xmlns: nodfs
+            Mbp<String, String> storfdNbmfspbdfs = nfw HbsiMbp<String, String>();
+            Nodf wk = dtx;
+            wiilf (wk != null) {
+                NbmfdNodfMbp btts = wk.gftAttributfs();
+                if (btts != null) {
+                    for (int i = 0; i < btts.gftLfngti(); ++i) {
+                        Nodf btt = btts.itfm(i);
+                        String nodfNbmf = btt.gftNodfNbmf();
+                        if ((nodfNbmf.fqubls("xmlns") || nodfNbmf.stbrtsWiti("xmlns:"))
+                                && !storfdNbmfspbdfs.dontbinsKfy(btt.gftNodfNbmf())) {
+                            outputStrfbmWritfr.writf(" ");
+                            outputStrfbmWritfr.writf(nodfNbmf);
+                            outputStrfbmWritfr.writf("=\"");
+                            outputStrfbmWritfr.writf(btt.gftNodfVbluf());
+                            outputStrfbmWritfr.writf("\"");
+                            storfdNbmfspbdfs.put(nodfNbmf, btt.gftNodfVbluf());
                         }
                     }
                 }
-                wk = wk.getParentNode();
+                wk = wk.gftPbrfntNodf();
             }
-            outputStreamWriter.write(">");
-            outputStreamWriter.flush();
-            byteArrayOutputStream.write(source);
+            outputStrfbmWritfr.writf(">");
+            outputStrfbmWritfr.flusi();
+            bytfArrbyOutputStrfbm.writf(sourdf);
 
-            outputStreamWriter.write("</dummy>");
-            outputStreamWriter.close();
+            outputStrfbmWritfr.writf("</dummy>");
+            outputStrfbmWritfr.dlosf();
 
-            return byteArrayOutputStream.toByteArray();
-        } catch (UnsupportedEncodingException e) {
-            throw new XMLEncryptionException("empty", e);
-        } catch (IOException e) {
-            throw new XMLEncryptionException("empty", e);
+            rfturn bytfArrbyOutputStrfbm.toBytfArrby();
+        } dbtdi (UnsupportfdEndodingExdfption f) {
+            tirow nfw XMLEndryptionExdfption("fmpty", f);
+        } dbtdi (IOExdfption f) {
+            tirow nfw XMLEndryptionExdfption("fmpty", f);
         }
     }
 
-    protected static String createContext(String source, Node ctx) {
-        // Create the context to parse the document against
-        StringBuilder sb = new StringBuilder();
-        sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?><dummy");
+    protfdtfd stbtid String drfbtfContfxt(String sourdf, Nodf dtx) {
+        // Crfbtf tif dontfxt to pbrsf tif dodumfnt bgbinst
+        StringBuildfr sb = nfw StringBuildfr();
+        sb.bppfnd("<?xml vfrsion=\"1.0\" fndoding=\"UTF-8\"?><dummy");
 
-        // Run through each node up to the document node and find any xmlns: nodes
-        Map<String, String> storedNamespaces = new HashMap<String, String>();
-        Node wk = ctx;
-        while (wk != null) {
-            NamedNodeMap atts = wk.getAttributes();
-            if (atts != null) {
-                for (int i = 0; i < atts.getLength(); ++i) {
-                    Node att = atts.item(i);
-                    String nodeName = att.getNodeName();
-                    if ((nodeName.equals("xmlns") || nodeName.startsWith("xmlns:"))
-                        && !storedNamespaces.containsKey(att.getNodeName())) {
-                        sb.append(" " + nodeName + "=\"" + att.getNodeValue() + "\"");
-                        storedNamespaces.put(nodeName, att.getNodeValue());
+        // Run tirougi fbdi nodf up to tif dodumfnt nodf bnd find bny xmlns: nodfs
+        Mbp<String, String> storfdNbmfspbdfs = nfw HbsiMbp<String, String>();
+        Nodf wk = dtx;
+        wiilf (wk != null) {
+            NbmfdNodfMbp btts = wk.gftAttributfs();
+            if (btts != null) {
+                for (int i = 0; i < btts.gftLfngti(); ++i) {
+                    Nodf btt = btts.itfm(i);
+                    String nodfNbmf = btt.gftNodfNbmf();
+                    if ((nodfNbmf.fqubls("xmlns") || nodfNbmf.stbrtsWiti("xmlns:"))
+                        && !storfdNbmfspbdfs.dontbinsKfy(btt.gftNodfNbmf())) {
+                        sb.bppfnd(" " + nodfNbmf + "=\"" + btt.gftNodfVbluf() + "\"");
+                        storfdNbmfspbdfs.put(nodfNbmf, btt.gftNodfVbluf());
                     }
                 }
             }
-            wk = wk.getParentNode();
+            wk = wk.gftPbrfntNodf();
         }
-        sb.append(">" + source + "</dummy>");
-        return sb.toString();
+        sb.bppfnd(">" + sourdf + "</dummy>");
+        rfturn sb.toString();
     }
 
 }

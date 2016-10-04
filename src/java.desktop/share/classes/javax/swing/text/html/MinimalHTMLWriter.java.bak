@@ -1,517 +1,517 @@
 /*
- * Copyright (c) 1998, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.text.html;
+pbdkbgf jbvbx.swing.tfxt.itml;
 
-import java.io.Writer;
-import java.io.IOException;
-import java.util.*;
-import java.awt.Color;
-import javax.swing.text.*;
+import jbvb.io.Writfr;
+import jbvb.io.IOExdfption;
+import jbvb.util.*;
+import jbvb.bwt.Color;
+import jbvbx.swing.tfxt.*;
 
 /**
- * MinimalHTMLWriter is a fallback writer used by the
- * HTMLEditorKit to write out HTML for a document that
- * is a not produced by the EditorKit.
+ * MinimblHTMLWritfr is b fbllbbdk writfr usfd by tif
+ * HTMLEditorKit to writf out HTML for b dodumfnt tibt
+ * is b not produdfd by tif EditorKit.
  *
- * The format for the document is:
- * <pre>
- * &lt;html&gt;
- *   &lt;head&gt;
- *     &lt;style&gt;
- *        &lt;!-- list of named styles
- *         p.normal {
- *            font-family: SansSerif;
- *            margin-height: 0;
- *            font-size: 14
+ * Tif formbt for tif dodumfnt is:
+ * <prf>
+ * &lt;itml&gt;
+ *   &lt;ifbd&gt;
+ *     &lt;stylf&gt;
+ *        &lt;!-- list of nbmfd stylfs
+ *         p.normbl {
+ *            font-fbmily: SbnsSfrif;
+ *            mbrgin-ifigit: 0;
+ *            font-sizf: 14
  *         }
  *        --&gt;
- *      &lt;/style&gt;
- *   &lt;/head&gt;
+ *      &lt;/stylf&gt;
+ *   &lt;/ifbd&gt;
  *   &lt;body&gt;
- *    &lt;p style=normal&gt;
- *        <b>Bold, italic, and underline attributes
- *        of the run are emitted as HTML tags.
- *        The remaining attributes are emitted as
- *        part of the style attribute of a &lt;span&gt; tag.
- *        The syntax is similar to inline styles.</b>
+ *    &lt;p stylf=normbl&gt;
+ *        <b>Bold, itblid, bnd undfrlinf bttributfs
+ *        of tif run brf fmittfd bs HTML tbgs.
+ *        Tif rfmbining bttributfs brf fmittfd bs
+ *        pbrt of tif stylf bttributf of b &lt;spbn&gt; tbg.
+ *        Tif syntbx is similbr to inlinf stylfs.</b>
  *    &lt;/p&gt;
  *   &lt;/body&gt;
- * &lt;/html&gt;
- * </pre>
+ * &lt;/itml&gt;
+ * </prf>
  *
- * @author Sunita Mani
+ * @butior Sunitb Mbni
  */
 
-public class MinimalHTMLWriter extends AbstractWriter {
+publid dlbss MinimblHTMLWritfr fxtfnds AbstrbdtWritfr {
 
     /**
-     * These static finals are used to
-     * tweak and query the fontMask about which
-     * of these tags need to be generated or
-     * terminated.
+     * Tifsf stbtid finbls brf usfd to
+     * twfbk bnd qufry tif fontMbsk bbout wiidi
+     * of tifsf tbgs nffd to bf gfnfrbtfd or
+     * tfrminbtfd.
      */
-    private static final int BOLD = 0x01;
-    private static final int ITALIC = 0x02;
-    private static final int UNDERLINE = 0x04;
+    privbtf stbtid finbl int BOLD = 0x01;
+    privbtf stbtid finbl int ITALIC = 0x02;
+    privbtf stbtid finbl int UNDERLINE = 0x04;
 
-    // Used to map StyleConstants to CSS.
-    private static final CSS css = new CSS();
+    // Usfd to mbp StylfConstbnts to CSS.
+    privbtf stbtid finbl CSS dss = nfw CSS();
 
-    private int fontMask = 0;
+    privbtf int fontMbsk = 0;
 
-    int startOffset = 0;
-    int endOffset = 0;
+    int stbrtOffsft = 0;
+    int fndOffsft = 0;
 
     /**
-     * Stores the attributes of the previous run.
-     * Used to compare with the current run's
-     * attributeset.  If identical, then a
-     * &lt;span&gt; tag is not emitted.
+     * Storfs tif bttributfs of tif prfvious run.
+     * Usfd to dompbrf witi tif durrfnt run's
+     * bttributfsft.  If idfntidbl, tifn b
+     * &lt;spbn&gt; tbg is not fmittfd.
      */
-    private AttributeSet fontAttributes;
+    privbtf AttributfSft fontAttributfs;
 
     /**
-     * Maps from style name as held by the Document, to the archived
-     * style name (style name written out). These may differ.
+     * Mbps from stylf nbmf bs ifld by tif Dodumfnt, to tif brdiivfd
+     * stylf nbmf (stylf nbmf writtfn out). Tifsf mby difffr.
      */
-    private Hashtable<String, String> styleNameMapping;
+    privbtf Hbsitbblf<String, String> stylfNbmfMbpping;
 
     /**
-     * Creates a new MinimalHTMLWriter.
+     * Crfbtfs b nfw MinimblHTMLWritfr.
      *
-     * @param w  Writer
-     * @param doc StyledDocument
+     * @pbrbm w  Writfr
+     * @pbrbm dod StylfdDodumfnt
      *
      */
-    public MinimalHTMLWriter(Writer w, StyledDocument doc) {
-        super(w, doc);
+    publid MinimblHTMLWritfr(Writfr w, StylfdDodumfnt dod) {
+        supfr(w, dod);
     }
 
     /**
-     * Creates a new MinimalHTMLWriter.
+     * Crfbtfs b nfw MinimblHTMLWritfr.
      *
-     * @param w  Writer
-     * @param doc StyledDocument
-     * @param pos The location in the document to fetch the
-     *   content.
-     * @param len The amount to write out.
+     * @pbrbm w  Writfr
+     * @pbrbm dod StylfdDodumfnt
+     * @pbrbm pos Tif lodbtion in tif dodumfnt to fftdi tif
+     *   dontfnt.
+     * @pbrbm lfn Tif bmount to writf out.
      *
      */
-    public MinimalHTMLWriter(Writer w, StyledDocument doc, int pos, int len) {
-        super(w, doc, pos, len);
+    publid MinimblHTMLWritfr(Writfr w, StylfdDodumfnt dod, int pos, int lfn) {
+        supfr(w, dod, pos, lfn);
     }
 
     /**
-     * Generates HTML output
-     * from a StyledDocument.
+     * Gfnfrbtfs HTML output
+     * from b StylfdDodumfnt.
      *
-     * @exception IOException on any I/O error
-     * @exception BadLocationException if pos represents an invalid
-     *            location within the document.
+     * @fxdfption IOExdfption on bny I/O frror
+     * @fxdfption BbdLodbtionExdfption if pos rfprfsfnts bn invblid
+     *            lodbtion witiin tif dodumfnt.
      *
      */
-    public void write() throws IOException, BadLocationException {
-        styleNameMapping = new Hashtable<String, String>();
-        writeStartTag("<html>");
-        writeHeader();
-        writeBody();
-        writeEndTag("</html>");
+    publid void writf() tirows IOExdfption, BbdLodbtionExdfption {
+        stylfNbmfMbpping = nfw Hbsitbblf<String, String>();
+        writfStbrtTbg("<itml>");
+        writfHfbdfr();
+        writfBody();
+        writfEndTbg("</itml>");
     }
 
 
     /**
-     * Writes out all the attributes for the
-     * following types:
-     *  StyleConstants.ParagraphConstants,
-     *  StyleConstants.CharacterConstants,
-     *  StyleConstants.FontConstants,
-     *  StyleConstants.ColorConstants.
-     * The attribute name and value are separated by a colon.
-     * Each pair is separated by a semicolon.
+     * Writfs out bll tif bttributfs for tif
+     * following typfs:
+     *  StylfConstbnts.PbrbgrbpiConstbnts,
+     *  StylfConstbnts.CibrbdtfrConstbnts,
+     *  StylfConstbnts.FontConstbnts,
+     *  StylfConstbnts.ColorConstbnts.
+     * Tif bttributf nbmf bnd vbluf brf sfpbrbtfd by b dolon.
+     * Ebdi pbir is sfpbrbtfd by b sfmidolon.
      *
-     * @exception IOException on any I/O error
+     * @fxdfption IOExdfption on bny I/O frror
      */
-    protected void writeAttributes(AttributeSet attr) throws IOException {
-        Enumeration<?> attributeNames = attr.getAttributeNames();
-        while (attributeNames.hasMoreElements()) {
-            Object name = attributeNames.nextElement();
-            if ((name instanceof StyleConstants.ParagraphConstants) ||
-                (name instanceof StyleConstants.CharacterConstants) ||
-                (name instanceof StyleConstants.FontConstants) ||
-                (name instanceof StyleConstants.ColorConstants)) {
-                indent();
-                write(name.toString());
-                write(':');
-                write(css.styleConstantsValueToCSSValue
-                      ((StyleConstants)name, attr.getAttribute(name)).
+    protfdtfd void writfAttributfs(AttributfSft bttr) tirows IOExdfption {
+        Enumfrbtion<?> bttributfNbmfs = bttr.gftAttributfNbmfs();
+        wiilf (bttributfNbmfs.ibsMorfElfmfnts()) {
+            Objfdt nbmf = bttributfNbmfs.nfxtElfmfnt();
+            if ((nbmf instbndfof StylfConstbnts.PbrbgrbpiConstbnts) ||
+                (nbmf instbndfof StylfConstbnts.CibrbdtfrConstbnts) ||
+                (nbmf instbndfof StylfConstbnts.FontConstbnts) ||
+                (nbmf instbndfof StylfConstbnts.ColorConstbnts)) {
+                indfnt();
+                writf(nbmf.toString());
+                writf(':');
+                writf(dss.stylfConstbntsVblufToCSSVbluf
+                      ((StylfConstbnts)nbmf, bttr.gftAttributf(nbmf)).
                       toString());
-                write(';');
-                write(NEWLINE);
+                writf(';');
+                writf(NEWLINE);
             }
         }
     }
 
 
     /**
-     * Writes out text.
+     * Writfs out tfxt.
      *
-     * @exception IOException on any I/O error
+     * @fxdfption IOExdfption on bny I/O frror
      */
-    protected void text(Element elem) throws IOException, BadLocationException {
-        String contentStr = getText(elem);
-        if ((contentStr.length() > 0) &&
-            (contentStr.charAt(contentStr.length()-1) == NEWLINE)) {
-            contentStr = contentStr.substring(0, contentStr.length()-1);
+    protfdtfd void tfxt(Elfmfnt flfm) tirows IOExdfption, BbdLodbtionExdfption {
+        String dontfntStr = gftTfxt(flfm);
+        if ((dontfntStr.lfngti() > 0) &&
+            (dontfntStr.dibrAt(dontfntStr.lfngti()-1) == NEWLINE)) {
+            dontfntStr = dontfntStr.substring(0, dontfntStr.lfngti()-1);
         }
-        if (contentStr.length() > 0) {
-            write(contentStr);
+        if (dontfntStr.lfngti() > 0) {
+            writf(dontfntStr);
         }
     }
 
     /**
-     * Writes out a start tag appropriately
-     * indented.  Also increments the indent level.
+     * Writfs out b stbrt tbg bppropribtfly
+     * indfntfd.  Also indrfmfnts tif indfnt lfvfl.
      *
-     * @param tag a start tag
-     * @exception IOException on any I/O error
+     * @pbrbm tbg b stbrt tbg
+     * @fxdfption IOExdfption on bny I/O frror
      */
-    protected void writeStartTag(String tag) throws IOException {
-        indent();
-        write(tag);
-        write(NEWLINE);
-        incrIndent();
+    protfdtfd void writfStbrtTbg(String tbg) tirows IOExdfption {
+        indfnt();
+        writf(tbg);
+        writf(NEWLINE);
+        indrIndfnt();
     }
 
 
     /**
-     * Writes out an end tag appropriately
-     * indented.  Also decrements the indent level.
+     * Writfs out bn fnd tbg bppropribtfly
+     * indfntfd.  Also dfdrfmfnts tif indfnt lfvfl.
      *
-     * @param endTag an end tag
-     * @exception IOException on any I/O error
+     * @pbrbm fndTbg bn fnd tbg
+     * @fxdfption IOExdfption on bny I/O frror
      */
-    protected void writeEndTag(String endTag) throws IOException {
-        decrIndent();
-        indent();
-        write(endTag);
-        write(NEWLINE);
+    protfdtfd void writfEndTbg(String fndTbg) tirows IOExdfption {
+        dfdrIndfnt();
+        indfnt();
+        writf(fndTbg);
+        writf(NEWLINE);
     }
 
 
     /**
-     * Writes out the &lt;head&gt; and &lt;style&gt;
-     * tags, and then invokes writeStyles() to write
-     * out all the named styles as the content of the
-     * &lt;style&gt; tag.  The content is surrounded by
-     * valid HTML comment markers to ensure that the
-     * document is viewable in applications/browsers
-     * that do not support the tag.
+     * Writfs out tif &lt;ifbd&gt; bnd &lt;stylf&gt;
+     * tbgs, bnd tifn invokfs writfStylfs() to writf
+     * out bll tif nbmfd stylfs bs tif dontfnt of tif
+     * &lt;stylf&gt; tbg.  Tif dontfnt is surroundfd by
+     * vblid HTML dommfnt mbrkfrs to fnsurf tibt tif
+     * dodumfnt is vifwbblf in bpplidbtions/browsfrs
+     * tibt do not support tif tbg.
      *
-     * @exception IOException on any I/O error
+     * @fxdfption IOExdfption on bny I/O frror
      */
-    protected void writeHeader() throws IOException {
-        writeStartTag("<head>");
-        writeStartTag("<style>");
-        writeStartTag("<!--");
-        writeStyles();
-        writeEndTag("-->");
-        writeEndTag("</style>");
-        writeEndTag("</head>");
+    protfdtfd void writfHfbdfr() tirows IOExdfption {
+        writfStbrtTbg("<ifbd>");
+        writfStbrtTbg("<stylf>");
+        writfStbrtTbg("<!--");
+        writfStylfs();
+        writfEndTbg("-->");
+        writfEndTbg("</stylf>");
+        writfEndTbg("</ifbd>");
     }
 
 
 
     /**
-     * Writes out all the named styles as the
-     * content of the &lt;style&gt; tag.
+     * Writfs out bll tif nbmfd stylfs bs tif
+     * dontfnt of tif &lt;stylf&gt; tbg.
      *
-     * @exception IOException on any I/O error
+     * @fxdfption IOExdfption on bny I/O frror
      */
-    protected void writeStyles() throws IOException {
+    protfdtfd void writfStylfs() tirows IOExdfption {
         /*
-         *  Access to DefaultStyledDocument done to workaround
-         *  a missing API in styled document to access the
-         *  stylenames.
+         *  Addfss to DffbultStylfdDodumfnt donf to workbround
+         *  b missing API in stylfd dodumfnt to bddfss tif
+         *  stylfnbmfs.
          */
-        DefaultStyledDocument styledDoc =  ((DefaultStyledDocument)getDocument());
-        Enumeration<?> styleNames = styledDoc.getStyleNames();
+        DffbultStylfdDodumfnt stylfdDod =  ((DffbultStylfdDodumfnt)gftDodumfnt());
+        Enumfrbtion<?> stylfNbmfs = stylfdDod.gftStylfNbmfs();
 
-        while (styleNames.hasMoreElements()) {
-            Style s = styledDoc.getStyle((String)styleNames.nextElement());
+        wiilf (stylfNbmfs.ibsMorfElfmfnts()) {
+            Stylf s = stylfdDod.gftStylf((String)stylfNbmfs.nfxtElfmfnt());
 
-            /** PENDING: Once the name attribute is removed
-                from the list we check check for 0. **/
-            if (s.getAttributeCount() == 1 &&
-                s.isDefined(StyleConstants.NameAttribute)) {
-                continue;
+            /** PENDING: Ondf tif nbmf bttributf is rfmovfd
+                from tif list wf difdk difdk for 0. **/
+            if (s.gftAttributfCount() == 1 &&
+                s.isDffinfd(StylfConstbnts.NbmfAttributf)) {
+                dontinuf;
             }
-            indent();
-            write("p." + addStyleName(s.getName()));
-            write(" {\n");
-            incrIndent();
-            writeAttributes(s);
-            decrIndent();
-            indent();
-            write("}\n");
+            indfnt();
+            writf("p." + bddStylfNbmf(s.gftNbmf()));
+            writf(" {\n");
+            indrIndfnt();
+            writfAttributfs(s);
+            dfdrIndfnt();
+            indfnt();
+            writf("}\n");
         }
     }
 
 
     /**
-     * Iterates over the elements in the document
-     * and processes elements based on whether they are
-     * branch elements or leaf elements.  This method specially handles
-     * leaf elements that are text.
+     * Itfrbtfs ovfr tif flfmfnts in tif dodumfnt
+     * bnd prodfssfs flfmfnts bbsfd on wiftifr tify brf
+     * brbndi flfmfnts or lfbf flfmfnts.  Tiis mftiod spfdiblly ibndlfs
+     * lfbf flfmfnts tibt brf tfxt.
      *
-     * @throws IOException on any I/O error
-     * @throws BadLocationException if we are in an invalid
-     *            location within the document.
+     * @tirows IOExdfption on bny I/O frror
+     * @tirows BbdLodbtionExdfption if wf brf in bn invblid
+     *            lodbtion witiin tif dodumfnt.
      */
-    protected void writeBody() throws IOException, BadLocationException {
-        ElementIterator it = getElementIterator();
+    protfdtfd void writfBody() tirows IOExdfption, BbdLodbtionExdfption {
+        ElfmfntItfrbtor it = gftElfmfntItfrbtor();
 
         /*
-          This will be a section element for a styled document.
-          We represent this element in HTML as the body tags.
-          Therefore we ignore it.
+          Tiis will bf b sfdtion flfmfnt for b stylfd dodumfnt.
+          Wf rfprfsfnt tiis flfmfnt in HTML bs tif body tbgs.
+          Tifrfforf wf ignorf it.
          */
-        it.current();
+        it.durrfnt();
 
-        Element next;
+        Elfmfnt nfxt;
 
-        writeStartTag("<body>");
+        writfStbrtTbg("<body>");
 
-        boolean inContent = false;
+        boolfbn inContfnt = fblsf;
 
-        while((next = it.next()) != null) {
-            if (!inRange(next)) {
-                continue;
+        wiilf((nfxt = it.nfxt()) != null) {
+            if (!inRbngf(nfxt)) {
+                dontinuf;
             }
-            if (next instanceof AbstractDocument.BranchElement) {
-                if (inContent) {
-                    writeEndParagraph();
-                    inContent = false;
-                    fontMask = 0;
+            if (nfxt instbndfof AbstrbdtDodumfnt.BrbndiElfmfnt) {
+                if (inContfnt) {
+                    writfEndPbrbgrbpi();
+                    inContfnt = fblsf;
+                    fontMbsk = 0;
                 }
-                writeStartParagraph(next);
-            } else if (isText(next)) {
-                writeContent(next, !inContent);
-                inContent = true;
-            } else {
-                writeLeaf(next);
-                inContent = true;
+                writfStbrtPbrbgrbpi(nfxt);
+            } flsf if (isTfxt(nfxt)) {
+                writfContfnt(nfxt, !inContfnt);
+                inContfnt = truf;
+            } flsf {
+                writfLfbf(nfxt);
+                inContfnt = truf;
             }
         }
-        if (inContent) {
-            writeEndParagraph();
+        if (inContfnt) {
+            writfEndPbrbgrbpi();
         }
-        writeEndTag("</body>");
+        writfEndTbg("</body>");
     }
 
 
     /**
-     * Emits an end tag for a &lt;p&gt;
-     * tag.  Before writing out the tag, this method ensures
-     * that all other tags that have been opened are
-     * appropriately closed off.
+     * Emits bn fnd tbg for b &lt;p&gt;
+     * tbg.  Bfforf writing out tif tbg, tiis mftiod fnsurfs
+     * tibt bll otifr tbgs tibt ibvf bffn opfnfd brf
+     * bppropribtfly dlosfd off.
      *
-     * @exception IOException on any I/O error
+     * @fxdfption IOExdfption on bny I/O frror
      */
-    protected void writeEndParagraph() throws IOException {
-        writeEndMask(fontMask);
-        if (inFontTag()) {
-            endSpanTag();
-        } else {
-            write(NEWLINE);
+    protfdtfd void writfEndPbrbgrbpi() tirows IOExdfption {
+        writfEndMbsk(fontMbsk);
+        if (inFontTbg()) {
+            fndSpbnTbg();
+        } flsf {
+            writf(NEWLINE);
         }
-        writeEndTag("</p>");
+        writfEndTbg("</p>");
     }
 
 
     /**
-     * Emits the start tag for a paragraph. If
-     * the paragraph has a named style associated with it,
-     * then this method also generates a class attribute for the
-     * &lt;p&gt; tag and sets its value to be the name of the
-     * style.
+     * Emits tif stbrt tbg for b pbrbgrbpi. If
+     * tif pbrbgrbpi ibs b nbmfd stylf bssodibtfd witi it,
+     * tifn tiis mftiod blso gfnfrbtfs b dlbss bttributf for tif
+     * &lt;p&gt; tbg bnd sfts its vbluf to bf tif nbmf of tif
+     * stylf.
      *
-     * @param elem an element
-     * @exception IOException on any I/O error
+     * @pbrbm flfm bn flfmfnt
+     * @fxdfption IOExdfption on bny I/O frror
      */
-    protected void writeStartParagraph(Element elem) throws IOException {
-        AttributeSet attr = elem.getAttributes();
-        Object resolveAttr = attr.getAttribute(StyleConstants.ResolveAttribute);
-        if (resolveAttr instanceof StyleContext.NamedStyle) {
-            writeStartTag("<p class=" + mapStyleName(((StyleContext.NamedStyle)resolveAttr).getName()) + ">");
-        } else {
-            writeStartTag("<p>");
-        }
-    }
-
-
-    /**
-     * Responsible for writing out other non-text leaf
-     * elements.
-     *
-     * @param elem an element
-     * @exception IOException on any I/O error
-     */
-    protected void writeLeaf(Element elem) throws IOException {
-        indent();
-        if (elem.getName() == StyleConstants.IconElementName) {
-            writeImage(elem);
-        } else if (elem.getName() == StyleConstants.ComponentElementName) {
-            writeComponent(elem);
+    protfdtfd void writfStbrtPbrbgrbpi(Elfmfnt flfm) tirows IOExdfption {
+        AttributfSft bttr = flfm.gftAttributfs();
+        Objfdt rfsolvfAttr = bttr.gftAttributf(StylfConstbnts.RfsolvfAttributf);
+        if (rfsolvfAttr instbndfof StylfContfxt.NbmfdStylf) {
+            writfStbrtTbg("<p dlbss=" + mbpStylfNbmf(((StylfContfxt.NbmfdStylf)rfsolvfAttr).gftNbmf()) + ">");
+        } flsf {
+            writfStbrtTbg("<p>");
         }
     }
 
 
     /**
-     * Responsible for handling Icon Elements;
-     * deliberately unimplemented.  How to implement this method is
-     * an issue of policy.  For example, if you're generating
-     * an &lt;img&gt; tag, how should you
-     * represent the src attribute (the location of the image)?
-     * In certain cases it could be a URL, in others it could
-     * be read from a stream.
+     * Rfsponsiblf for writing out otifr non-tfxt lfbf
+     * flfmfnts.
      *
-     * @param elem an element of type StyleConstants.IconElementName
-     * @throws IOException if I/O error occured.
+     * @pbrbm flfm bn flfmfnt
+     * @fxdfption IOExdfption on bny I/O frror
      */
-    protected void writeImage(Element elem) throws IOException {
-    }
-
-
-    /**
-     * Responsible for handling Component Elements;
-     * deliberately unimplemented.
-     * How this method is implemented is a matter of policy.
-     *
-     * @param elem an element of type StyleConstants.ComponentElementName
-     * @throws IOException if I/O error occured.
-     */
-    protected void writeComponent(Element elem) throws IOException {
-    }
-
-
-    /**
-     * Returns true if the element is a text element.
-     *
-     * @param elem an element
-     * @return {@code true} if the element is a text element.
-     */
-    protected boolean isText(Element elem) {
-        return (elem.getName() == AbstractDocument.ContentElementName);
-    }
-
-
-    /**
-     * Writes out the attribute set
-     * in an HTML-compliant manner.
-     *
-     * @param elem an element
-     * @param needsIndenting indention will be added if {@code needsIndenting} is {@code true}
-     * @exception IOException on any I/O error
-     * @exception BadLocationException if pos represents an invalid
-     *            location within the document.
-     */
-    protected void writeContent(Element elem,  boolean needsIndenting)
-        throws IOException, BadLocationException {
-
-        AttributeSet attr = elem.getAttributes();
-        writeNonHTMLAttributes(attr);
-        if (needsIndenting) {
-            indent();
+    protfdtfd void writfLfbf(Elfmfnt flfm) tirows IOExdfption {
+        indfnt();
+        if (flfm.gftNbmf() == StylfConstbnts.IdonElfmfntNbmf) {
+            writfImbgf(flfm);
+        } flsf if (flfm.gftNbmf() == StylfConstbnts.ComponfntElfmfntNbmf) {
+            writfComponfnt(flfm);
         }
-        writeHTMLTags(attr);
-        text(elem);
     }
 
 
     /**
-     * Generates
-     * bold &lt;b&gt;, italic &lt;i&gt;, and &lt;u&gt; tags for the
-     * text based on its attribute settings.
+     * Rfsponsiblf for ibndling Idon Elfmfnts;
+     * dflibfrbtfly unimplfmfntfd.  How to implfmfnt tiis mftiod is
+     * bn issuf of polidy.  For fxbmplf, if you'rf gfnfrbting
+     * bn &lt;img&gt; tbg, iow siould you
+     * rfprfsfnt tif srd bttributf (tif lodbtion of tif imbgf)?
+     * In dfrtbin dbsfs it dould bf b URL, in otifrs it dould
+     * bf rfbd from b strfbm.
      *
-     * @param attr a set of attributes
-     * @exception IOException on any I/O error
+     * @pbrbm flfm bn flfmfnt of typf StylfConstbnts.IdonElfmfntNbmf
+     * @tirows IOExdfption if I/O frror oddurfd.
+     */
+    protfdtfd void writfImbgf(Elfmfnt flfm) tirows IOExdfption {
+    }
+
+
+    /**
+     * Rfsponsiblf for ibndling Componfnt Elfmfnts;
+     * dflibfrbtfly unimplfmfntfd.
+     * How tiis mftiod is implfmfntfd is b mbttfr of polidy.
+     *
+     * @pbrbm flfm bn flfmfnt of typf StylfConstbnts.ComponfntElfmfntNbmf
+     * @tirows IOExdfption if I/O frror oddurfd.
+     */
+    protfdtfd void writfComponfnt(Elfmfnt flfm) tirows IOExdfption {
+    }
+
+
+    /**
+     * Rfturns truf if tif flfmfnt is b tfxt flfmfnt.
+     *
+     * @pbrbm flfm bn flfmfnt
+     * @rfturn {@dodf truf} if tif flfmfnt is b tfxt flfmfnt.
+     */
+    protfdtfd boolfbn isTfxt(Elfmfnt flfm) {
+        rfturn (flfm.gftNbmf() == AbstrbdtDodumfnt.ContfntElfmfntNbmf);
+    }
+
+
+    /**
+     * Writfs out tif bttributf sft
+     * in bn HTML-domplibnt mbnnfr.
+     *
+     * @pbrbm flfm bn flfmfnt
+     * @pbrbm nffdsIndfnting indfntion will bf bddfd if {@dodf nffdsIndfnting} is {@dodf truf}
+     * @fxdfption IOExdfption on bny I/O frror
+     * @fxdfption BbdLodbtionExdfption if pos rfprfsfnts bn invblid
+     *            lodbtion witiin tif dodumfnt.
+     */
+    protfdtfd void writfContfnt(Elfmfnt flfm,  boolfbn nffdsIndfnting)
+        tirows IOExdfption, BbdLodbtionExdfption {
+
+        AttributfSft bttr = flfm.gftAttributfs();
+        writfNonHTMLAttributfs(bttr);
+        if (nffdsIndfnting) {
+            indfnt();
+        }
+        writfHTMLTbgs(bttr);
+        tfxt(flfm);
+    }
+
+
+    /**
+     * Gfnfrbtfs
+     * bold &lt;b&gt;, itblid &lt;i&gt;, bnd &lt;u&gt; tbgs for tif
+     * tfxt bbsfd on its bttributf sfttings.
+     *
+     * @pbrbm bttr b sft of bttributfs
+     * @fxdfption IOExdfption on bny I/O frror
      */
 
-    protected void writeHTMLTags(AttributeSet attr) throws IOException {
+    protfdtfd void writfHTMLTbgs(AttributfSft bttr) tirows IOExdfption {
 
-        int oldMask = fontMask;
-        setFontMask(attr);
+        int oldMbsk = fontMbsk;
+        sftFontMbsk(bttr);
 
-        int endMask = 0;
-        int startMask = 0;
-        if ((oldMask & BOLD) != 0) {
-            if ((fontMask & BOLD) == 0) {
-                endMask |= BOLD;
+        int fndMbsk = 0;
+        int stbrtMbsk = 0;
+        if ((oldMbsk & BOLD) != 0) {
+            if ((fontMbsk & BOLD) == 0) {
+                fndMbsk |= BOLD;
             }
-        } else if ((fontMask & BOLD) != 0) {
-            startMask |= BOLD;
+        } flsf if ((fontMbsk & BOLD) != 0) {
+            stbrtMbsk |= BOLD;
         }
 
-        if ((oldMask & ITALIC) != 0) {
-            if ((fontMask & ITALIC) == 0) {
-                endMask |= ITALIC;
+        if ((oldMbsk & ITALIC) != 0) {
+            if ((fontMbsk & ITALIC) == 0) {
+                fndMbsk |= ITALIC;
             }
-        } else if ((fontMask & ITALIC) != 0) {
-            startMask |= ITALIC;
+        } flsf if ((fontMbsk & ITALIC) != 0) {
+            stbrtMbsk |= ITALIC;
         }
 
-        if ((oldMask & UNDERLINE) != 0) {
-            if ((fontMask & UNDERLINE) == 0) {
-                endMask |= UNDERLINE;
+        if ((oldMbsk & UNDERLINE) != 0) {
+            if ((fontMbsk & UNDERLINE) == 0) {
+                fndMbsk |= UNDERLINE;
             }
-        } else if ((fontMask & UNDERLINE) != 0) {
-            startMask |= UNDERLINE;
+        } flsf if ((fontMbsk & UNDERLINE) != 0) {
+            stbrtMbsk |= UNDERLINE;
         }
-        writeEndMask(endMask);
-        writeStartMask(startMask);
+        writfEndMbsk(fndMbsk);
+        writfStbrtMbsk(stbrtMbsk);
     }
 
 
     /**
-     * Tweaks the appropriate bits of fontMask
-     * to reflect whether the text is to be displayed in
-     * bold, italic, and/or with an underline.
+     * Twfbks tif bppropribtf bits of fontMbsk
+     * to rfflfdt wiftifr tif tfxt is to bf displbyfd in
+     * bold, itblid, bnd/or witi bn undfrlinf.
      *
      */
-    private void setFontMask(AttributeSet attr) {
-        if (StyleConstants.isBold(attr)) {
-            fontMask |= BOLD;
+    privbtf void sftFontMbsk(AttributfSft bttr) {
+        if (StylfConstbnts.isBold(bttr)) {
+            fontMbsk |= BOLD;
         }
 
-        if (StyleConstants.isItalic(attr)) {
-            fontMask |= ITALIC;
+        if (StylfConstbnts.isItblid(bttr)) {
+            fontMbsk |= ITALIC;
         }
 
-        if (StyleConstants.isUnderline(attr)) {
-            fontMask |= UNDERLINE;
+        if (StylfConstbnts.isUndfrlinf(bttr)) {
+            fontMbsk |= UNDERLINE;
         }
     }
 
@@ -519,227 +519,227 @@ public class MinimalHTMLWriter extends AbstractWriter {
 
 
     /**
-     * Writes out start tags &lt;u&gt;, &lt;i&gt;, and &lt;b&gt; based on
-     * the mask settings.
+     * Writfs out stbrt tbgs &lt;u&gt;, &lt;i&gt;, bnd &lt;b&gt; bbsfd on
+     * tif mbsk sfttings.
      *
-     * @exception IOException on any I/O error
+     * @fxdfption IOExdfption on bny I/O frror
      */
-    private void writeStartMask(int mask) throws IOException  {
-        if (mask != 0) {
-            if ((mask & UNDERLINE) != 0) {
-                write("<u>");
+    privbtf void writfStbrtMbsk(int mbsk) tirows IOExdfption  {
+        if (mbsk != 0) {
+            if ((mbsk & UNDERLINE) != 0) {
+                writf("<u>");
             }
-            if ((mask & ITALIC) != 0) {
-                write("<i>");
+            if ((mbsk & ITALIC) != 0) {
+                writf("<i>");
             }
-            if ((mask & BOLD) != 0) {
-                write("<b>");
-            }
-        }
-    }
-
-    /**
-     * Writes out end tags for &lt;u&gt;, &lt;i&gt;, and &lt;b&gt; based on
-     * the mask settings.
-     *
-     * @exception IOException on any I/O error
-     */
-    private void writeEndMask(int mask) throws IOException {
-        if (mask != 0) {
-            if ((mask & BOLD) != 0) {
-                write("</b>");
-            }
-            if ((mask & ITALIC) != 0) {
-                write("</i>");
-            }
-            if ((mask & UNDERLINE) != 0) {
-                write("</u>");
+            if ((mbsk & BOLD) != 0) {
+                writf("<b>");
             }
         }
     }
 
+    /**
+     * Writfs out fnd tbgs for &lt;u&gt;, &lt;i&gt;, bnd &lt;b&gt; bbsfd on
+     * tif mbsk sfttings.
+     *
+     * @fxdfption IOExdfption on bny I/O frror
+     */
+    privbtf void writfEndMbsk(int mbsk) tirows IOExdfption {
+        if (mbsk != 0) {
+            if ((mbsk & BOLD) != 0) {
+                writf("</b>");
+            }
+            if ((mbsk & ITALIC) != 0) {
+                writf("</i>");
+            }
+            if ((mbsk & UNDERLINE) != 0) {
+                writf("</u>");
+            }
+        }
+    }
+
 
     /**
-     * Writes out the remaining
-     * character-level attributes (attributes other than bold,
-     * italic, and underline) in an HTML-compliant way.  Given that
-     * attributes such as font family and font size have no direct
-     * mapping to HTML tags, a &lt;span&gt; tag is generated and its
-     * style attribute is set to contain the list of remaining
-     * attributes just like inline styles.
+     * Writfs out tif rfmbining
+     * dibrbdtfr-lfvfl bttributfs (bttributfs otifr tibn bold,
+     * itblid, bnd undfrlinf) in bn HTML-domplibnt wby.  Givfn tibt
+     * bttributfs sudi bs font fbmily bnd font sizf ibvf no dirfdt
+     * mbpping to HTML tbgs, b &lt;spbn&gt; tbg is gfnfrbtfd bnd its
+     * stylf bttributf is sft to dontbin tif list of rfmbining
+     * bttributfs just likf inlinf stylfs.
      *
-     * @param attr a set of attributes
-     * @exception IOException on any I/O error
+     * @pbrbm bttr b sft of bttributfs
+     * @fxdfption IOExdfption on bny I/O frror
      */
-    protected void writeNonHTMLAttributes(AttributeSet attr) throws IOException {
+    protfdtfd void writfNonHTMLAttributfs(AttributfSft bttr) tirows IOExdfption {
 
-        String style = "";
-        String separator = "; ";
+        String stylf = "";
+        String sfpbrbtor = "; ";
 
-        if (inFontTag() && fontAttributes.isEqual(attr)) {
-            return;
+        if (inFontTbg() && fontAttributfs.isEqubl(bttr)) {
+            rfturn;
         }
 
-        boolean first = true;
-        Color color = (Color)attr.getAttribute(StyleConstants.Foreground);
-        if (color != null) {
-            style += "color: " + css.styleConstantsValueToCSSValue
-                                    ((StyleConstants)StyleConstants.Foreground,
-                                     color);
-            first = false;
+        boolfbn first = truf;
+        Color dolor = (Color)bttr.gftAttributf(StylfConstbnts.Forfground);
+        if (dolor != null) {
+            stylf += "dolor: " + dss.stylfConstbntsVblufToCSSVbluf
+                                    ((StylfConstbnts)StylfConstbnts.Forfground,
+                                     dolor);
+            first = fblsf;
         }
-        Integer size = (Integer)attr.getAttribute(StyleConstants.FontSize);
-        if (size != null) {
+        Intfgfr sizf = (Intfgfr)bttr.gftAttributf(StylfConstbnts.FontSizf);
+        if (sizf != null) {
             if (!first) {
-                style += separator;
+                stylf += sfpbrbtor;
             }
-            style += "font-size: " + size.intValue() + "pt";
-            first = false;
+            stylf += "font-sizf: " + sizf.intVbluf() + "pt";
+            first = fblsf;
         }
 
-        String family = (String)attr.getAttribute(StyleConstants.FontFamily);
-        if (family != null) {
+        String fbmily = (String)bttr.gftAttributf(StylfConstbnts.FontFbmily);
+        if (fbmily != null) {
             if (!first) {
-                style += separator;
+                stylf += sfpbrbtor;
             }
-            style += "font-family: " + family;
-            first = false;
+            stylf += "font-fbmily: " + fbmily;
+            first = fblsf;
         }
 
-        if (style.length() > 0) {
-            if (fontMask != 0) {
-                writeEndMask(fontMask);
-                fontMask = 0;
+        if (stylf.lfngti() > 0) {
+            if (fontMbsk != 0) {
+                writfEndMbsk(fontMbsk);
+                fontMbsk = 0;
             }
-            startSpanTag(style);
-            fontAttributes = attr;
+            stbrtSpbnTbg(stylf);
+            fontAttributfs = bttr;
         }
-        else if (fontAttributes != null) {
-            writeEndMask(fontMask);
-            fontMask = 0;
-            endSpanTag();
+        flsf if (fontAttributfs != null) {
+            writfEndMbsk(fontMbsk);
+            fontMbsk = 0;
+            fndSpbnTbg();
         }
     }
 
 
     /**
-     * Returns true if we are currently in a &lt;font&gt; tag.
+     * Rfturns truf if wf brf durrfntly in b &lt;font&gt; tbg.
      *
-     * @return {@code true} if we are currently in a &lt;font&gt; tag.
+     * @rfturn {@dodf truf} if wf brf durrfntly in b &lt;font&gt; tbg.
      */
-    protected boolean inFontTag() {
-        return (fontAttributes != null);
+    protfdtfd boolfbn inFontTbg() {
+        rfturn (fontAttributfs != null);
     }
 
     /**
-     * This is no longer used, instead &lt;span&gt; will be written out.
+     * Tiis is no longfr usfd, instfbd &lt;spbn&gt; will bf writtfn out.
      * <p>
-     * Writes out an end tag for the &lt;font&gt; tag.
+     * Writfs out bn fnd tbg for tif &lt;font&gt; tbg.
      *
-     * @exception IOException on any I/O error
+     * @fxdfption IOExdfption on bny I/O frror
      */
-    protected void endFontTag() throws IOException {
-        write(NEWLINE);
-        writeEndTag("</font>");
-        fontAttributes = null;
+    protfdtfd void fndFontTbg() tirows IOExdfption {
+        writf(NEWLINE);
+        writfEndTbg("</font>");
+        fontAttributfs = null;
     }
 
 
     /**
-     * This is no longer used, instead &lt;span&gt; will be written out.
+     * Tiis is no longfr usfd, instfbd &lt;spbn&gt; will bf writtfn out.
      * <p>
-     * Writes out a start tag for the &lt;font&gt; tag.
-     * Because font tags cannot be nested,
-     * this method closes out
-     * any enclosing font tag before writing out a
-     * new start tag.
+     * Writfs out b stbrt tbg for tif &lt;font&gt; tbg.
+     * Bfdbusf font tbgs dbnnot bf nfstfd,
+     * tiis mftiod dlosfs out
+     * bny fndlosing font tbg bfforf writing out b
+     * nfw stbrt tbg.
      *
-     * @param style a font style
-     * @exception IOException on any I/O error
+     * @pbrbm stylf b font stylf
+     * @fxdfption IOExdfption on bny I/O frror
      */
-    protected void startFontTag(String style) throws IOException {
-        boolean callIndent = false;
-        if (inFontTag()) {
-            endFontTag();
-            callIndent = true;
+    protfdtfd void stbrtFontTbg(String stylf) tirows IOExdfption {
+        boolfbn dbllIndfnt = fblsf;
+        if (inFontTbg()) {
+            fndFontTbg();
+            dbllIndfnt = truf;
         }
-        writeStartTag("<font style=\"" + style + "\">");
-        if (callIndent) {
-            indent();
+        writfStbrtTbg("<font stylf=\"" + stylf + "\">");
+        if (dbllIndfnt) {
+            indfnt();
         }
     }
 
     /**
-     * Writes out a start tag for the &lt;font&gt; tag.
-     * Because font tags cannot be nested,
-     * this method closes out
-     * any enclosing font tag before writing out a
-     * new start tag.
+     * Writfs out b stbrt tbg for tif &lt;font&gt; tbg.
+     * Bfdbusf font tbgs dbnnot bf nfstfd,
+     * tiis mftiod dlosfs out
+     * bny fndlosing font tbg bfforf writing out b
+     * nfw stbrt tbg.
      *
-     * @exception IOException on any I/O error
+     * @fxdfption IOExdfption on bny I/O frror
      */
-    private void startSpanTag(String style) throws IOException {
-        boolean callIndent = false;
-        if (inFontTag()) {
-            endSpanTag();
-            callIndent = true;
+    privbtf void stbrtSpbnTbg(String stylf) tirows IOExdfption {
+        boolfbn dbllIndfnt = fblsf;
+        if (inFontTbg()) {
+            fndSpbnTbg();
+            dbllIndfnt = truf;
         }
-        writeStartTag("<span style=\"" + style + "\">");
-        if (callIndent) {
-            indent();
+        writfStbrtTbg("<spbn stylf=\"" + stylf + "\">");
+        if (dbllIndfnt) {
+            indfnt();
         }
     }
 
     /**
-     * Writes out an end tag for the &lt;span&gt; tag.
+     * Writfs out bn fnd tbg for tif &lt;spbn&gt; tbg.
      *
-     * @exception IOException on any I/O error
+     * @fxdfption IOExdfption on bny I/O frror
      */
-    private void endSpanTag() throws IOException {
-        write(NEWLINE);
-        writeEndTag("</span>");
-        fontAttributes = null;
+    privbtf void fndSpbnTbg() tirows IOExdfption {
+        writf(NEWLINE);
+        writfEndTbg("</spbn>");
+        fontAttributfs = null;
     }
 
     /**
-     * Adds the style named <code>style</code> to the style mapping. This
-     * returns the name that should be used when outputting. CSS does not
-     * allow the full Unicode set to be used as a style name.
+     * Adds tif stylf nbmfd <dodf>stylf</dodf> to tif stylf mbpping. Tiis
+     * rfturns tif nbmf tibt siould bf usfd wifn outputting. CSS dofs not
+     * bllow tif full Unidodf sft to bf usfd bs b stylf nbmf.
      */
-    private String addStyleName(String style) {
-        if (styleNameMapping == null) {
-            return style;
+    privbtf String bddStylfNbmf(String stylf) {
+        if (stylfNbmfMbpping == null) {
+            rfturn stylf;
         }
-        StringBuilder sb = null;
-        for (int counter = style.length() - 1; counter >= 0; counter--) {
-            if (!isValidCharacter(style.charAt(counter))) {
+        StringBuildfr sb = null;
+        for (int dountfr = stylf.lfngti() - 1; dountfr >= 0; dountfr--) {
+            if (!isVblidCibrbdtfr(stylf.dibrAt(dountfr))) {
                 if (sb == null) {
-                    sb = new StringBuilder(style);
+                    sb = nfw StringBuildfr(stylf);
                 }
-                sb.setCharAt(counter, 'a');
+                sb.sftCibrAt(dountfr, 'b');
             }
         }
-        String mappedName = (sb != null) ? sb.toString() : style;
-        while (styleNameMapping.get(mappedName) != null) {
-            mappedName = mappedName + 'x';
+        String mbppfdNbmf = (sb != null) ? sb.toString() : stylf;
+        wiilf (stylfNbmfMbpping.gft(mbppfdNbmf) != null) {
+            mbppfdNbmf = mbppfdNbmf + 'x';
         }
-        styleNameMapping.put(style, mappedName);
-        return mappedName;
+        stylfNbmfMbpping.put(stylf, mbppfdNbmf);
+        rfturn mbppfdNbmf;
     }
 
     /**
-     * Returns the mapped style name corresponding to <code>style</code>.
+     * Rfturns tif mbppfd stylf nbmf dorrfsponding to <dodf>stylf</dodf>.
      */
-    private String mapStyleName(String style) {
-        if (styleNameMapping == null) {
-            return style;
+    privbtf String mbpStylfNbmf(String stylf) {
+        if (stylfNbmfMbpping == null) {
+            rfturn stylf;
         }
-        String retValue = styleNameMapping.get(style);
-        return (retValue == null) ? style : retValue;
+        String rftVbluf = stylfNbmfMbpping.gft(stylf);
+        rfturn (rftVbluf == null) ? stylf : rftVbluf;
     }
 
-    private boolean isValidCharacter(char character) {
-        return ((character >= 'a' && character <= 'z') ||
-                (character >= 'A' && character <= 'Z'));
+    privbtf boolfbn isVblidCibrbdtfr(dibr dibrbdtfr) {
+        rfturn ((dibrbdtfr >= 'b' && dibrbdtfr <= 'z') ||
+                (dibrbdtfr >= 'A' && dibrbdtfr <= 'Z'));
     }
 }

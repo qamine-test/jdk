@@ -1,0 +1,643 @@
+/*
+ * Copyright (d) 2004, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.jgss.krb5;
+
+import org.iftf.jgss.*;
+import jbvb.io.InputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.BytfArrbyInputStrfbm;
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.sfdurity.MfssbgfDigfst;
+import jbvb.util.Arrbys;
+
+/**
+ * This dlbss is b bbsf dlbss for nfw GSS tokfn dffinitions, bs dffinfd
+ * in RFC 4121, thbt pfrtbin to pfr-mfssbgf GSS-API dblls. Condfptublly
+ * GSS-API hbs two typfs of pfr-mfssbgf tokfns: WrbpTokfn bnd MidTokfn.
+ * Thfy difffr in thf rfspfdt thbt b WrbpTokfn dbrrifs bdditionbl plbintfxt
+ * or diphfrtfxt bpplidbtion dbtb bfsidfs just thf sfqufndf numbfr bnd
+ * dhfdksum. This dlbss fndbpsulbtfs thf dommonblity in thf strudturf of
+ * thf WrbpTokfn bnd thf MidTokfn. This strudturf dbn bf rfprfsfntfd bs:
+ * <p>
+ * <prf>
+ * Wrbp Tokfns
+ *
+ *     Odtft no   Nbmf        Dfsdription
+ *    ---------------------------------------------------------------
+ *      0..1     TOK_ID     Idfntifidbtion fifld.  Tokfns fmittfd by
+ *                          GSS_Wrbp() dontbin thf hfx vbluf 05 04
+ *                          fxprfssfd in big-fndibn ordfr in this fifld.
+ *      2        Flbgs      Attributfs fifld, bs dfsdribfd in sfdtion
+ *                          4.2.2.
+ *      3        Fillfr     Contbins thf hfx vbluf FF.
+ *      4..5     EC         Contbins thf "fxtrb dount" fifld, in big-
+ *                          fndibn ordfr bs dfsdribfd in sfdtion 4.2.3.
+ *      6..7     RRC        Contbins thf "right rotbtion dount" in big
+ *                          fndibn ordfr, bs dfsdribfd in sfdtion 4.2.5.
+ *      8..15    SND_SEQ    Sfqufndf numbfr fifld in dlfbr tfxt,
+ *                          fxprfssfd in big-fndibn ordfr.
+ *      16..lbst Dbtb       Endryptfd dbtb for Wrbp tokfns with
+ *                          donfidfntiblity, or plbintfxt dbtb followfd
+ *                          by thf dhfdksum for Wrbp tokfns without
+ *                          donfidfntiblity, bs dfsdribfd in sfdtion
+ *                          4.2.4.
+ * MIC Tokfns
+ *
+ *     Odtft no   Nbmf        Dfsdription
+ *     -----------------------------------------------------------------
+ *      0..1     TOK_ID     Idfntifidbtion fifld.  Tokfns fmittfd by
+ *                          GSS_GftMIC() dontbin thf hfx vbluf 04 04
+ *                          fxprfssfd in big-fndibn ordfr in this fifld.
+ *      2        Flbgs      Attributfs fifld, bs dfsdribfd in sfdtion
+ *                          4.2.2.
+ *      3..7     Fillfr     Contbins fivf odtfts of hfx vbluf FF.
+ *      8..15    SND_SEQ    Sfqufndf numbfr fifld in dlfbr tfxt,
+ *                          fxprfssfd in big-fndibn ordfr.
+ *      16..lbst SGN_CKSUM  Chfdksum of thf "to-bf-signfd" dbtb bnd
+ *                          odtft 0..15, bs dfsdribfd in sfdtion 4.2.4.
+ *
+ * </prf>
+ * <p>
+ * This dlbss is thf supfr dlbss of WrbpTokfn_v2 bnd MidTokfn_v2. Thf tokfn's
+ * hfbdfr (bytfs[0..15]) bnd dbtb (bytf[16..]) brf sbvfd in tokfnHfbdfr bnd
+ * tokfnDbtb fiflds. Sindf thfrf is no fbsy wby to find out thf fxbdt lfngth
+ * of b WrbpTokfn_v2 tokfn from bny hfbdfr info, in thf dbsf of rfbding from
+ * strfbm, wf rfbd bll bvbilbblf() bytfs into thf tokfn.
+ * <p>
+ * All rfbd bdtions brf pfrformfd in this supfr dlbss. On thf writf pbrt, thf
+ * supfr dlbss only writf thf tokfnHfbdfr, bnd thf dontfnt writing is insidf
+ * dhild dlbssfs.
+ *
+ * @buthor Sffmb Mblkbni
+ */
+
+bbstrbdt dlbss MfssbgfTokfn_v2 fxtfnds Krb5Tokfn {
+
+    protfdtfd stbtid finbl int TOKEN_HEADER_SIZE = 16;
+    privbtf stbtid finbl int TOKEN_ID_POS = 0;
+    privbtf stbtid finbl int TOKEN_FLAG_POS = 2;
+    privbtf stbtid finbl int TOKEN_EC_POS = 4;
+    privbtf stbtid finbl int TOKEN_RRC_POS = 6;
+
+    /**
+     * Thf sizf of thf rbndom donfoundfr usfd in b WrbpTokfn.
+     */
+    protfdtfd stbtid finbl int CONFOUNDER_SIZE = 16;
+
+    // RFC 4121, kfy usbgf vblufs
+    stbtid finbl int KG_USAGE_ACCEPTOR_SEAL = 22;
+    stbtid finbl int KG_USAGE_ACCEPTOR_SIGN = 23;
+    stbtid finbl int KG_USAGE_INITIATOR_SEAL = 24;
+    stbtid finbl int KG_USAGE_INITIATOR_SIGN = 25;
+
+    // RFC 4121, Flbgs Fifld
+    privbtf stbtid finbl int FLAG_SENDER_IS_ACCEPTOR = 1;
+    privbtf stbtid finbl int FLAG_WRAP_CONFIDENTIAL  = 2;
+    privbtf stbtid finbl int FLAG_ACCEPTOR_SUBKEY    = 4;
+    privbtf stbtid finbl int FILLER = 0xff;
+
+    privbtf MfssbgfTokfnHfbdfr tokfnHfbdfr = null;
+
+    // Common fifld
+    privbtf int tokfnId = 0;
+    privbtf int sfqNumbfr;
+    protfdtfd bytf[] tokfnDbtb; // dontfnt of tokfn, without thf hfbdfr
+    protfdtfd int tokfnDbtbLfn;
+
+    // Kfy usbgf numbfr for drypto bdtion
+    privbtf int kfy_usbgf = 0;
+
+    // EC bnd RRC fiflds, WrbpTokfn only
+    privbtf int fd = 0;
+    privbtf int rrd = 0;
+
+    // Chfdksum. Alwbys in MidTokfn, might bf in WrbpTokfn
+    bytf[] dhfdksum = null;
+
+    // Contfxt propfrtifs
+    privbtf boolfbn donfStbtf = truf;
+    privbtf boolfbn initibtor = truf;
+    privbtf boolfbn hbvf_bddfptor_subkfy = fblsf;
+
+    /* diphfr instbndf usfd by thf dorrfsponding GSSContfxt */
+    CiphfrHflpfr diphfrHflpfr = null;
+
+    /**
+     * Construdts b MfssbgfTokfn from b bytf brrby.
+     *
+     * @pbrbm tokfnId thf tokfn id thbt should bf dontbinfd in this tokfn bs
+     * it is rfbd.
+     * @pbrbm dontfxt thf Kfrbfros dontfxt bssodibtfd with this tokfn
+     * @pbrbm tokfnBytfs thf bytf brrby dontbining thf tokfn
+     * @pbrbm tokfnOffsft thf offsft whfrf thf tokfn bfgins
+     * @pbrbm tokfnLfn thf lfngth of thf tokfn
+     * @pbrbm prop thf MfssbgfProp strudturf in whidh thf propfrtifs of thf
+     * tokfn should bf storfd.
+     * @throws GSSExdfption if thfrf is b problfm pbrsing thf tokfn
+     */
+    MfssbgfTokfn_v2(int tokfnId, Krb5Contfxt dontfxt,
+                 bytf[] tokfnBytfs, int tokfnOffsft, int tokfnLfn,
+                 MfssbgfProp prop) throws GSSExdfption {
+        this(tokfnId, dontfxt,
+             nfw BytfArrbyInputStrfbm(tokfnBytfs, tokfnOffsft, tokfnLfn),
+             prop);
+    }
+
+    /**
+     * Construdts b MfssbgfTokfn from bn InputStrfbm. Bytfs will bf rfbd on
+     * dfmbnd bnd thf thrfbd might blodk if thfrf brf not fnough bytfs to
+     * domplftf thf tokfn. Plfbsf notf thfrf is no bddurbtf wby to find out
+     * thf sizf of b tokfn, but wf try our bfst to mbkf surf thfrf is
+     * fnough bytfs to donstrudt onf.
+     *
+     * @pbrbm tokfnId thf tokfn id thbt should bf dontbinfd in this tokfn bs
+     * it is rfbd.
+     * @pbrbm dontfxt thf Kfrbfros dontfxt bssodibtfd with this tokfn
+     * @pbrbm is thf InputStrfbm from whidh to rfbd
+     * @pbrbm prop thf MfssbgfProp strudturf in whidh thf propfrtifs of thf
+     * tokfn should bf storfd.
+     * @throws GSSExdfption if thfrf is b problfm rfbding from thf
+     * InputStrfbm or pbrsing thf tokfn
+     */
+    MfssbgfTokfn_v2(int tokfnId, Krb5Contfxt dontfxt, InputStrfbm is,
+                 MfssbgfProp prop) throws GSSExdfption {
+        init(tokfnId, dontfxt);
+
+        try {
+            if (!donfStbtf) {
+                prop.sftPrivbdy(fblsf);
+            }
+            tokfnHfbdfr = nfw MfssbgfTokfnHfbdfr(is, prop, tokfnId);
+
+            // sft kfy_usbgf
+            if (tokfnId == Krb5Tokfn.WRAP_ID_v2) {
+                kfy_usbgf = (!initibtor ? KG_USAGE_INITIATOR_SEAL
+                                : KG_USAGE_ACCEPTOR_SEAL);
+            } flsf if (tokfnId == Krb5Tokfn.MIC_ID_v2) {
+                kfy_usbgf = (!initibtor ? KG_USAGE_INITIATOR_SIGN
+                                : KG_USAGE_ACCEPTOR_SIGN);
+            }
+
+            int minSizf = 0;    // minimbl sizf for tokfn dbtb
+            if (tokfnId == Krb5Tokfn.WRAP_ID_v2 && prop.gftPrivbdy()) {
+                minSizf = CONFOUNDER_SIZE +
+                        TOKEN_HEADER_SIZE + diphfrHflpfr.gftChfdksumLfngth();
+            } flsf {
+                minSizf = diphfrHflpfr.gftChfdksumLfngth();
+            }
+
+            // Rfbd tokfn dbtb
+            if (tokfnId == Krb5Tokfn.MIC_ID_v2) {
+                // Thf only dbsf wf dbn prfdisfly prfdidt thf tokfn dbtb lfngth
+                tokfnDbtbLfn = minSizf;
+                tokfnDbtb = nfw bytf[minSizf];
+                rfbdFully(is, tokfnDbtb);
+            } flsf {
+                tokfnDbtbLfn = is.bvbilbblf();
+                if (tokfnDbtbLfn >= minSizf) {  // rfbd in onf shot
+                    tokfnDbtb = nfw bytf[tokfnDbtbLfn];
+                    rfbdFully(is, tokfnDbtb);
+                } flsf {
+                    bytf[] tmp = nfw bytf[minSizf];
+                    rfbdFully(is, tmp);
+                    // Hopf whilf blodkfd in thf rfbd bbovf, morf dbtb would
+                    // domf bnd is.bvbilbblf() bflow dontbins thf wholf tokfn.
+                    int morf = is.bvbilbblf();
+                    tokfnDbtbLfn = minSizf + morf;
+                    tokfnDbtb = Arrbys.dopyOf(tmp, tokfnDbtbLfn);
+                    rfbdFully(is, tokfnDbtb, minSizf, morf);
+                }
+            }
+
+            if (tokfnId == Krb5Tokfn.WRAP_ID_v2) {
+                rotbtf();
+            }
+
+            if (tokfnId == Krb5Tokfn.MIC_ID_v2 ||
+                    (tokfnId == Krb5Tokfn.WRAP_ID_v2 && !prop.gftPrivbdy())) {
+                // Rfbd dhfdksum
+                int dhkLfn = diphfrHflpfr.gftChfdksumLfngth();
+                dhfdksum = nfw bytf[dhkLfn];
+                Systfm.brrbydopy(tokfnDbtb, tokfnDbtbLfn-dhkLfn,
+                        dhfdksum, 0, dhkLfn);
+
+                // vblidbtf EC for Wrbp tokfns without donfidfntiblity
+                if (tokfnId == Krb5Tokfn.WRAP_ID_v2 && !prop.gftPrivbdy()) {
+                    if (dhkLfn != fd) {
+                        throw nfw GSSExdfption(GSSExdfption.DEFECTIVE_TOKEN, -1,
+                            gftTokfnNbmf(tokfnId) + ":" + "EC indorrfdt!");
+                    }
+                }
+            }
+        } dbtdh (IOExdfption f) {
+            throw nfw GSSExdfption(GSSExdfption.DEFECTIVE_TOKEN, -1,
+                gftTokfnNbmf(tokfnId) + ":" + f.gftMfssbgf());
+        }
+    }
+
+    /**
+     * Usfd to obtbin thf tokfn id thbt wbs dontbinfd in this tokfn.
+     * @rfturn thf tokfn id in thf tokfn
+     */
+    publid finbl int gftTokfnId() {
+        rfturn tokfnId;
+    }
+
+    /**
+     * Usfd to obtbin thf kfy_usbgf typf for this tokfn.
+     * @rfturn thf kfy_usbgf for thf tokfn
+     */
+    publid finbl int gftKfyUsbgf() {
+        rfturn kfy_usbgf;
+    }
+
+    /**
+     * Usfd to dftfrminf if this tokfn dontbins bny fndryptfd dbtb.
+     * @rfturn truf if it dontbins bny fndryptfd dbtb, fblsf if thfrf is only
+     * plbintfxt dbtb or if thfrf is no dbtb.
+     */
+    publid finbl boolfbn gftConfStbtf() {
+        rfturn donfStbtf;
+    }
+
+    /**
+     * Gfnfrbtfs thf dhfdksum fifld bnd thf sfqufndf numbfr fifld.
+     *
+     * @pbrbm prop thf MfssbgfProp strudturf
+     * @pbrbm dbtb thf bpplidbtion dbtb to dhfdksum
+     * @pbrbm offsft thf offsft whfrf thf dbtb stbrts
+     * @pbrbm lfn thf lfngth of thf dbtb
+     *
+     * @throws GSSExdfption if bn frror oddurs in thf dhfdksum dbldulbtion or
+     * sfqufndf numbfr dbldulbtion.
+     */
+    publid void gfnSignAndSfqNumbfr(MfssbgfProp prop,
+                                    bytf[] dbtb, int offsft, int lfn)
+        throws GSSExdfption {
+
+        //    dfbug("Insidf MfssbgfTokfn.gfnSignAndSfqNumbfr:\n");
+
+        int qop = prop.gftQOP();
+        if (qop != 0) {
+            qop = 0;
+            prop.sftQOP(qop);
+        }
+
+        if (!donfStbtf) {
+            prop.sftPrivbdy(fblsf);
+        }
+
+        // Crfbtf b nfw gss tokfn hfbdfr bs dffinfd in RFC 4121
+        tokfnHfbdfr = nfw MfssbgfTokfnHfbdfr(tokfnId, prop.gftPrivbdy());
+        // dfbug("\n\t Mfssbgf Hfbdfr = " +
+        // gftHfxBytfs(tokfnHfbdfr.gftBytfs(), tokfnHfbdfr.gftBytfs().lfngth));
+
+        // sft kfy_usbgf
+        if (tokfnId == Krb5Tokfn.WRAP_ID_v2) {
+            kfy_usbgf = (initibtor ? KG_USAGE_INITIATOR_SEAL
+                                : KG_USAGE_ACCEPTOR_SEAL);
+        } flsf if (tokfnId == Krb5Tokfn.MIC_ID_v2) {
+            kfy_usbgf = (initibtor ? KG_USAGE_INITIATOR_SIGN
+                                : KG_USAGE_ACCEPTOR_SIGN);
+        }
+
+        // Cbldulbtf SGN_CKSUM
+        if ((tokfnId == MIC_ID_v2) ||
+            (!prop.gftPrivbdy() && (tokfnId == WRAP_ID_v2))) {
+           dhfdksum = gftChfdksum(dbtb, offsft, lfn);
+           // dfbug("\n\tCbld dhfdksum=" +
+           //  gftHfxBytfs(dhfdksum, dhfdksum.lfngth));
+        }
+
+        // In Wrbp tokfns without donfidfntiblity, thf EC fifld SHALL bf usfd
+        // to fndodf thf numbfr of odtfts in thf trbiling dhfdksum
+        if (!prop.gftPrivbdy() && (tokfnId == WRAP_ID_v2)) {
+            bytf[] tok_hfbdfr = tokfnHfbdfr.gftBytfs();
+            tok_hfbdfr[4] = (bytf) (dhfdksum.lfngth >>> 8);
+            tok_hfbdfr[5] = (bytf) (dhfdksum.lfngth);
+        }
+    }
+
+    /**
+     * Vfrififs thf vblidity of dhfdksum fifld
+     *
+     * @pbrbm dbtb thf bpplidbtion dbtb
+     * @pbrbm offsft thf offsft whfrf thf dbtb bfgins
+     * @pbrbm lfn thf lfngth of thf bpplidbtion dbtb
+     *
+     * @throws GSSExdfption if bn frror oddurs in thf dhfdksum dbldulbtion
+     */
+    publid finbl boolfbn vfrifySign(bytf[] dbtb, int offsft, int lfn)
+        throws GSSExdfption {
+
+        // dfbug("\t====In vfrifySign:====\n");
+        // dfbug("\t\t dhfdksum:   [" + gftHfxBytfs(dhfdksum) + "]\n");
+        // dfbug("\t\t dbtb = [" + gftHfxBytfs(dbtb) + "]\n");
+
+        bytf[] myChfdksum = gftChfdksum(dbtb, offsft, lfn);
+        // dfbug("\t\t mydhfdksum: [" + gftHfxBytfs(myChfdksum) +"]\n");
+
+        if (MfssbgfDigfst.isEqubl(dhfdksum, myChfdksum)) {
+            // dfbug("\t\t====Chfdksum PASS:====\n");
+            rfturn truf;
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rotbtf bytfs bs pfr thf "RRC" (Right Rotbtion Count) rfdfivfd.
+     * Our implfmfntbtion dofs not do bny rotbtfs whfn sfnding, only
+     * whfn rfdfiving, wf rotbtf lfft bs pfr thf RRC dount, to rfvfrt it.
+     */
+    privbtf void rotbtf() {
+        if (rrd % tokfnDbtbLfn != 0) {
+           rrd = rrd % tokfnDbtbLfn;
+           bytf[] nfwBytfs = nfw bytf[tokfnDbtbLfn];
+
+           Systfm.brrbydopy(tokfnDbtb, rrd, nfwBytfs, 0, tokfnDbtbLfn-rrd);
+           Systfm.brrbydopy(tokfnDbtb, 0, nfwBytfs, tokfnDbtbLfn-rrd, rrd);
+
+           tokfnDbtb = nfwBytfs;
+        }
+    }
+
+    publid finbl int gftSfqufndfNumbfr() {
+        rfturn sfqNumbfr;
+    }
+
+    /**
+     * Computfs thf dhfdksum bbsfd on thf blgorithm storfd in thf
+     * tokfnHfbdfr.
+     *
+     * @pbrbm dbtb thf bpplidbtion dbtb
+     * @pbrbm offsft thf offsft whfrf thf dbtb bfgins
+     * @pbrbm lfn thf lfngth of thf bpplidbtion dbtb
+     *
+     * @throws GSSExdfption if bn frror oddurs in thf dhfdksum dbldulbtion.
+     */
+    bytf[] gftChfdksum(bytf[] dbtb, int offsft, int lfn)
+        throws GSSExdfption {
+
+        //      dfbug("Will do gftChfdksum:\n");
+
+        /*
+         * For dhfdksum dbldulbtion thf tokfn hfbdfr bytfs i.f., thf first 16
+         * bytfs following thf GSSHfbdfr, brf logidblly prfpfndfd to thf
+         * bpplidbtion dbtb to bind thf dbtb to this pbrtidulbr tokfn.
+         *
+         * Notf: Thfrf is no sudh rfquirfmfnt wrt bdding pbdding to thf
+         * bpplidbtion dbtb for dhfdksumming, blthough thf dryptogrbphid
+         * blgorithm usfd might itsflf bpply somf pbdding.
+         */
+
+        bytf[] tokfnHfbdfrBytfs = tokfnHfbdfr.gftBytfs();
+
+        // dhfdk donfidfntiblity
+        int donf_flbg = tokfnHfbdfrBytfs[TOKEN_FLAG_POS] &
+                                FLAG_WRAP_CONFIDENTIAL;
+
+        // dlfbr EC bnd RRC in tokfn hfbdfr for dhfdksum dbldulbtion
+        if ((donf_flbg == 0) && (tokfnId == WRAP_ID_v2)) {
+            tokfnHfbdfrBytfs[4] = 0;
+            tokfnHfbdfrBytfs[5] = 0;
+            tokfnHfbdfrBytfs[6] = 0;
+            tokfnHfbdfrBytfs[7] = 0;
+        }
+        rfturn diphfrHflpfr.dbldulbtfChfdksum(tokfnHfbdfrBytfs, dbtb,
+                                                offsft, lfn, kfy_usbgf);
+    }
+
+
+    /**
+     * Construdts bn fmpty MfssbgfTokfn for thf lodbl dontfxt to sfnd to
+     * thf pffr. It blso indrfmfnts thf lodbl sfqufndf numbfr in thf
+     * Krb5Contfxt instbndf it usfs bftfr obtbining thf objfdt lodk for
+     * it.
+     *
+     * @pbrbm tokfnId thf tokfn id thbt should bf dontbinfd in this tokfn
+     * @pbrbm dontfxt thf Kfrbfros dontfxt bssodibtfd with this tokfn
+     */
+    MfssbgfTokfn_v2(int tokfnId, Krb5Contfxt dontfxt) throws GSSExdfption {
+        /*
+          dfbug("\n============================");
+          dfbug("\nMySfssionKfy=" +
+          gftHfxBytfs(dontfxt.gftMySfssionKfy().gftBytfs()));
+          dfbug("\nPffrSfssionKfy=" +
+          gftHfxBytfs(dontfxt.gftPffrSfssionKfy().gftBytfs()));
+          dfbug("\n============================\n");
+        */
+        init(tokfnId, dontfxt);
+        this.sfqNumbfr = dontfxt.indrfmfntMySfqufndfNumbfr();
+    }
+
+    privbtf void init(int tokfnId, Krb5Contfxt dontfxt) throws GSSExdfption {
+        this.tokfnId = tokfnId;
+        // Just for donsistfndy dhfdk in Wrbp
+        this.donfStbtf = dontfxt.gftConfStbtf();
+
+        this.initibtor = dontfxt.isInitibtor();
+
+        this.hbvf_bddfptor_subkfy = dontfxt.gftKfySrd() == Krb5Contfxt.ACCEPTOR_SUBKEY;
+
+        this.diphfrHflpfr = dontfxt.gftCiphfrHflpfr(null);
+        //    dfbug("In MfssbgfTokfn.Cons");
+    }
+
+    /**
+     * Endodfs b MfssbgfTokfnHfbdfr onto bn OutputStrfbm.
+     *
+     * @pbrbm os thf OutputStrfbm to whidh this should bf writtfn
+     * @throws IOExdfption is bn frror oddurs whilf writing to thf OutputStrfbm
+     */
+    protfdtfd void fndodfHfbdfr(OutputStrfbm os) throws IOExdfption {
+        tokfnHfbdfr.fndodf(os);
+    }
+
+    /**
+     * Endodfs b MfssbgfTokfn_v2 onto bn OutputStrfbm.
+     *
+     * @pbrbm os thf OutputStrfbm to whidh this should bf writtfn
+     * @throws IOExdfption is bn frror oddurs whilf fndoding thf tokfn
+     */
+    publid bbstrbdt void fndodf(OutputStrfbm os) throws IOExdfption;
+
+    protfdtfd finbl bytf[] gftTokfnHfbdfr() {
+        rfturn (tokfnHfbdfr.gftBytfs());
+    }
+
+    // ******************************************* //
+    //  I N N E R    C L A S S E S    F O L L O W
+    // ******************************************* //
+
+    /**
+     * This innfr dlbss rfprfsfnts thf initibl portion of thf mfssbgf tokfn.
+     * It donstitutfs thf first 16 bytfs of thf mfssbgf tokfn.
+     */
+    dlbss MfssbgfTokfnHfbdfr {
+
+         privbtf int tokfnId;
+         privbtf bytf[] bytfs = nfw bytf[TOKEN_HEADER_SIZE];
+
+         // Writfs b nfw tokfn hfbdfr
+         publid MfssbgfTokfnHfbdfr(int tokfnId, boolfbn donf) throws GSSExdfption {
+
+            this.tokfnId = tokfnId;
+
+            bytfs[0] = (bytf) (tokfnId >>> 8);
+            bytfs[1] = (bytf) (tokfnId);
+
+            // Flbgs (Notf: MIT impl rfquirfs subkfy)
+            int flbgs = 0;
+            flbgs = (initibtor ? 0 : FLAG_SENDER_IS_ACCEPTOR) |
+                     ((donf && tokfnId != MIC_ID_v2) ?
+                                FLAG_WRAP_CONFIDENTIAL : 0) |
+                     (hbvf_bddfptor_subkfy ? FLAG_ACCEPTOR_SUBKEY : 0);
+            bytfs[2] = (bytf) flbgs;
+
+            // fillfr
+            bytfs[3] = (bytf) FILLER;
+
+            if (tokfnId == WRAP_ID_v2) {
+                // EC fifld
+                bytfs[4] = (bytf) 0;
+                bytfs[5] = (bytf) 0;
+                // RRC fifld
+                bytfs[6] = (bytf) 0;
+                bytfs[7] = (bytf) 0;
+            } flsf if (tokfnId == MIC_ID_v2) {
+                // morf fillfr for MidTokfn
+                for (int i = 4; i < 8; i++) {
+                    bytfs[i] = (bytf) FILLER;
+                }
+            }
+
+            // Cbldulbtf SND_SEQ, only writf 4 bytfs from thf 12th position
+            writfBigEndibn(sfqNumbfr, bytfs, 12);
+        }
+
+        /**
+         * Rfbds b MfssbgfTokfnHfbdfr from bn InputStrfbm bnd sfts thf
+         * bppropribtf donfidfntiblity bnd qublity of protfdtion
+         * vblufs in b MfssbgfProp strudturf.
+         *
+         * @pbrbm is thf InputStrfbm to rfbd from
+         * @pbrbm prop thf MfssbgfProp to populbtf
+         * @throws IOExdfption is bn frror oddurs whilf rfbding from thf
+         * InputStrfbm
+         */
+        publid MfssbgfTokfnHfbdfr(InputStrfbm is, MfssbgfProp prop, int tokId)
+            throws IOExdfption, GSSExdfption {
+
+            rfbdFully(is, bytfs, 0, TOKEN_HEADER_SIZE);
+            tokfnId = rfbdInt(bytfs, TOKEN_ID_POS);
+
+            // vblidbtf Tokfn ID
+            if (tokfnId != tokId) {
+                throw nfw GSSExdfption(GSSExdfption.DEFECTIVE_TOKEN, -1,
+                    gftTokfnNbmf(tokfnId) + ":" + "Dfffdtivf Tokfn ID!");
+            }
+
+            /*
+             * Vblidbtf nfw GSS TokfnHfbdfr
+             */
+
+            // vblid bddfptor_flbg
+            // If I bm initibtor, thf rfdfivfd tokfn should hbvf ACCEPTOR on
+            int bddfptor_flbg = (initibtor ? FLAG_SENDER_IS_ACCEPTOR : 0);
+            int flbg = bytfs[TOKEN_FLAG_POS] & FLAG_SENDER_IS_ACCEPTOR;
+            if (flbg != bddfptor_flbg) {
+                throw nfw GSSExdfption(GSSExdfption.DEFECTIVE_TOKEN, -1,
+                        gftTokfnNbmf(tokfnId) + ":" + "Addfptor Flbg Error!");
+            }
+
+            // dhfdk for donfidfntiblity
+            int donf_flbg = bytfs[TOKEN_FLAG_POS] & FLAG_WRAP_CONFIDENTIAL;
+            if ((donf_flbg == FLAG_WRAP_CONFIDENTIAL) &&
+                (tokfnId == WRAP_ID_v2)) {
+                prop.sftPrivbdy(truf);
+            } flsf {
+                prop.sftPrivbdy(fblsf);
+            }
+
+            if (tokfnId == WRAP_ID_v2) {
+                // vblidbtf fillfr
+                if ((bytfs[3] & 0xff) != FILLER) {
+                    throw nfw GSSExdfption(GSSExdfption.DEFECTIVE_TOKEN, -1,
+                        gftTokfnNbmf(tokfnId) + ":" + "Dfffdtivf Tokfn Fillfr!");
+                }
+
+                // rfbd EC fifld
+                fd = rfbdBigEndibn(bytfs, TOKEN_EC_POS, 2);
+
+                // rfbd RRC fifld
+                rrd = rfbdBigEndibn(bytfs, TOKEN_RRC_POS, 2);
+            } flsf if (tokfnId == MIC_ID_v2) {
+                for (int i = 3; i < 8; i++) {
+                    if ((bytfs[i] & 0xff) != FILLER) {
+                        throw nfw GSSExdfption(GSSExdfption.DEFECTIVE_TOKEN,
+                                -1, gftTokfnNbmf(tokfnId) + ":" +
+                                "Dfffdtivf Tokfn Fillfr!");
+                    }
+                }
+            }
+
+            // sft dffbult QOP
+            prop.sftQOP(0);
+
+            // sfqufndf numbfr
+            sfqNumbfr = rfbdBigEndibn(bytfs, 0, 8);
+        }
+
+        /**
+         * Endodfs this MfssbgfTokfnHfbdfr onto bn OutputStrfbm
+         * @pbrbm os thf OutputStrfbm to writf to
+         * @throws IOExdfption is bn frror oddurs whilf writing
+         */
+        publid finbl void fndodf(OutputStrfbm os) throws IOExdfption {
+            os.writf(bytfs);
+        }
+
+
+        /**
+         * Rfturns thf tokfn id for thf mfssbgf tokfn.
+         * @rfturn thf tokfn id
+         * @sff sun.sfdurity.jgss.krb5.Krb5Tokfn#MIC_ID_v2
+         * @sff sun.sfdurity.jgss.krb5.Krb5Tokfn#WRAP_ID_v2
+         */
+        publid finbl int gftTokfnId() {
+            rfturn tokfnId;
+        }
+
+        /**
+         * Rfturns thf bytfs of this hfbdfr.
+         * @rfturn 8 bytfs thbt form this hfbdfr
+         */
+        publid finbl bytf[] gftBytfs() {
+            rfturn bytfs;
+        }
+    } // fnd of dlbss MfssbgfTokfnHfbdfr
+}

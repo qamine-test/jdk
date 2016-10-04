@@ -1,0 +1,632 @@
+/*
+ * Copyright (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.X11;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bwt.pffr.TrbyIdonPffr;
+import sun.bwt.*;
+import jbvb.bwt.imbgf.*;
+import jbvb.tfxt.BrfbkItfrbtor;
+import jbvb.util.dondurrfnt.ArrbyBlodkingQufuf;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+import sun.util.logging.PlbtformLoggfr;
+
+publid dlbss XTrbyIdonPffr implfmfnts TrbyIdonPffr,
+       InfoWindow.Bblloon.LivfArgumfnts,
+       InfoWindow.Tooltip.LivfArgumfnts
+{
+    privbtf stbtid finbl PlbtformLoggfr dtrLog = PlbtformLoggfr.gftLoggfr("sun.bwt.X11.XTrbyIdonPffr.dfntfring");
+
+    TrbyIdon tbrgft;
+    TrbyIdonEvfntProxy fvfntProxy;
+    XTrbyIdonEmbfddfdFrbmf ffrbmf;
+    TrbyIdonCbnvbs dbnvbs;
+    InfoWindow.Bblloon bblloon;
+    InfoWindow.Tooltip tooltip;
+    PopupMfnu popup;
+    String tooltipString;
+    boolfbn isTrbyIdonDisplbyfd;
+    long ffrbmfPbrfntID;
+    finbl XEvfntDispbtdhfr pbrfntXED, ffrbmfXED;
+
+    stbtid finbl XEvfntDispbtdhfr dummyXED = nfw XEvfntDispbtdhfr() {
+            publid void dispbtdhEvfnt(XEvfnt fv) {}
+        };
+
+    volbtilf boolfbn isDisposfd;
+
+    boolfbn isPbrfntWindowLodbtfd;
+    int old_x, old_y;
+    int fx_width, fx_hfight;
+
+    finbl stbtid int TRAY_ICON_WIDTH = 24;
+    finbl stbtid int TRAY_ICON_HEIGHT = 24;
+
+    XTrbyIdonPffr(TrbyIdon tbrgft)
+      throws AWTExdfption
+    {
+        this.tbrgft = tbrgft;
+
+        fvfntProxy = nfw TrbyIdonEvfntProxy(this);
+
+        dbnvbs = nfw TrbyIdonCbnvbs(tbrgft, TRAY_ICON_WIDTH, TRAY_ICON_HEIGHT);
+
+        ffrbmf = nfw XTrbyIdonEmbfddfdFrbmf();
+
+        ffrbmf.sftSizf(TRAY_ICON_WIDTH, TRAY_ICON_HEIGHT);
+        ffrbmf.bdd(dbnvbs);
+
+        // Fix for 6317038: bs EmbfddfdFrbmf is instbndf of Frbmf, it is blodkfd
+        // by modbl diblogs, but in thf dbsf of TrbyIdon it shouldn't. So wf
+        // sft ModblExdlusion propfrty on it.
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Objfdt>() {
+            publid Objfdt run() {
+                ffrbmf.sftModblExdlusionTypf(Diblog.ModblExdlusionTypf.TOOLKIT_EXCLUDE);
+                rfturn null;
+            }
+        });
+
+
+        if (XWM.gftWMID() != XWM.METACITY_WM) {
+            pbrfntXED = dummyXED; // Wf don't likf to lfbvf it 'null'.
+
+        } flsf {
+            pbrfntXED = nfw XEvfntDispbtdhfr() {
+                // It's fxfdutfd undfr AWTLodk.
+                publid void dispbtdhEvfnt(XEvfnt fv) {
+                    if (isDisposfd() || fv.gft_typf() != XConstbnts.ConfigurfNotify) {
+                        rfturn;
+                    }
+
+                    XConfigurfEvfnt df = fv.gft_xdonfigurf();
+
+                    if (dtrLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                        dtrLog.finf("ConfigurfNotify on pbrfnt of {0}: {1}x{2}+{3}+{4} (old: {5}+{6})",
+                                XTrbyIdonPffr.this, df.gft_width(), df.gft_hfight(),
+                                df.gft_x(), df.gft_y(), old_x, old_y);
+                    }
+
+                    // A workbround for Gnomf/Mftbdity (it dofsn't bfffdt thf bfhbviour on KDE).
+                    // On Mftbdity thf EmbfddfdFrbmf's pbrfnt window bounds brf lbrgfr
+                    // thbn TrbyIdon sizf rfquirfd (thbt is wf nffd b squbrf but b rfdtbnglf
+                    // is providfd by thf Pbnfl Notifidbtion Arfb). Thf pbrfnt's bbdkground dolor
+                    // difffrs from thf Pbnfl's onf. To hidf thf bbdkground wf rfsizf pbrfnt
+                    // window so thbt it fits thf EmbfddfdFrbmf.
+                    // Howfvfr duf to rfsizing thf pbrfnt window it losfs dfntfring in thf Pbnfl.
+                    // Wf dfntfr it whfn disdovfring thbt somf of its sidf is of sizf grfbtfr
+                    // thbn thf fixfd vbluf. Cfntfring is bfing donf by "X" (whfn thf pbrfnt's width
+                    // is grfbtfr) bnd by "Y" (whfn thf pbrfnt's hfight is grfbtfr).
+
+                    // Adtublly wf nffd this workbround until wf dould dftfdt tbskbbr dolor.
+
+                    if (df.gft_hfight() != TRAY_ICON_HEIGHT && df.gft_width() != TRAY_ICON_WIDTH) {
+
+                        // If both thf hfight bnd thf width difffr from thf fixfd sizf thfn WM
+                        // must lfvfl bt lfbst onf sidf to thf fixfd sizf. For somf rfbson it mby tbkf
+                        // b ffw hops (fvfn bftfr rfpbrfnting) bnd wf hbvf to skip thf intfrmfdibtf onfs.
+                        if (dtrLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                            dtrLog.finf("ConfigurfNotify on pbrfnt of {0}. Skipping bs intfrmfdibtf rfsizing.",
+                                    XTrbyIdonPffr.this);
+                        }
+                        rfturn;
+
+                    } flsf if (df.gft_hfight() > TRAY_ICON_HEIGHT) {
+
+                        if (dtrLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                            dtrLog.finf("ConfigurfNotify on pbrfnt of {0}. Cfntfring by \"Y\".",
+                                    XTrbyIdonPffr.this);
+                        }
+
+                        XlibWrbppfr.XMovfRfsizfWindow(XToolkit.gftDisplby(), ffrbmfPbrfntID,
+                                                      df.gft_x(),
+                                                      df.gft_y()+df.gft_hfight()/2-TRAY_ICON_HEIGHT/2,
+                                                      TRAY_ICON_WIDTH,
+                                                      TRAY_ICON_HEIGHT);
+                        fx_hfight = df.gft_hfight();
+                        fx_width = 0;
+
+                    } flsf if (df.gft_width() > TRAY_ICON_WIDTH) {
+
+                        if (dtrLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                            dtrLog.finf("ConfigurfNotify on pbrfnt of {0}. Cfntfring by \"X\".",
+                                    XTrbyIdonPffr.this);
+                        }
+
+                        XlibWrbppfr.XMovfRfsizfWindow(XToolkit.gftDisplby(), ffrbmfPbrfntID,
+                                                      df.gft_x()+df.gft_width()/2 - TRAY_ICON_WIDTH/2,
+                                                      df.gft_y(),
+                                                      TRAY_ICON_WIDTH,
+                                                      TRAY_ICON_HEIGHT);
+                        fx_width = df.gft_width();
+                        fx_hfight = 0;
+
+                    } flsf if (isPbrfntWindowLodbtfd && df.gft_x() != old_x && df.gft_y() != old_y) {
+                        // If moving by both "X" bnd "Y".
+                        // Whfn somf trby idon gfts rfmovfd from thf trby, b Jbvb idon mby bf rfpositionfd.
+                        // In this dbsf thf pbrfnt window blso losf dfntfring. Wf hbvf to rfstorf it.
+
+                        if (fx_hfight != 0) {
+
+                            if (dtrLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                                dtrLog.finf("ConfigurfNotify on pbrfnt of {0}. Movf dftfdtfd. Cfntfring by \"Y\".",
+                                        XTrbyIdonPffr.this);
+                            }
+
+                            XlibWrbppfr.XMovfWindow(XToolkit.gftDisplby(), ffrbmfPbrfntID,
+                                                    df.gft_x(),
+                                                    df.gft_y() + fx_hfight/2 - TRAY_ICON_HEIGHT/2);
+
+                        } flsf if (fx_width != 0) {
+
+                            if (dtrLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                                dtrLog.finf("ConfigurfNotify on pbrfnt of {0}. Movf dftfdtfd. Cfntfring by \"X\".",
+                                        XTrbyIdonPffr.this);
+                            }
+
+                            XlibWrbppfr.XMovfWindow(XToolkit.gftDisplby(), ffrbmfPbrfntID,
+                                                    df.gft_x() + fx_width/2 - TRAY_ICON_WIDTH/2,
+                                                    df.gft_y());
+                        } flsf {
+                            if (dtrLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                                dtrLog.finf("ConfigurfNotify on pbrfnt of {0}. Movf dftfdtfd. Skipping.",
+                                        XTrbyIdonPffr.this);
+                            }
+                        }
+                    }
+                    old_x = df.gft_x();
+                    old_y = df.gft_y();
+                    isPbrfntWindowLodbtfd = truf;
+                }
+            };
+        }
+        ffrbmfXED = nfw XEvfntDispbtdhfr() {
+                // It's fxfdutfd undfr AWTLodk.
+                XTrbyIdonPffr xtiPffr = XTrbyIdonPffr.this;
+
+                publid void dispbtdhEvfnt(XEvfnt fv) {
+                    if (isDisposfd() || fv.gft_typf() != XConstbnts.RfpbrfntNotify) {
+                        rfturn;
+                    }
+
+                    XRfpbrfntEvfnt rf = fv.gft_xrfpbrfnt();
+                    ffrbmfPbrfntID = rf.gft_pbrfnt();
+
+                    if (ffrbmfPbrfntID == XToolkit.gftDffbultRootWindow()) {
+
+                        if (isTrbyIdonDisplbyfd) { // most likfly Notifidbtion Arfb wbs rfmovfd
+                            SunToolkit.fxfdutfOnEvfntHbndlfrThrfbd(xtiPffr.tbrgft, nfw Runnbblf() {
+                                    publid void run() {
+                                        SystfmTrby.gftSystfmTrby().rfmovf(xtiPffr.tbrgft);
+                                    }
+                                });
+                        }
+                        rfturn;
+                    }
+
+                    if (!isTrbyIdonDisplbyfd) {
+                        bddXED(ffrbmfPbrfntID, pbrfntXED, XConstbnts.StrudturfNotifyMbsk);
+
+                        isTrbyIdonDisplbyfd = truf;
+                        XToolkit.bwtLodkNotifyAll();
+                    }
+                }
+            };
+
+        bddXED(gftWindow(), ffrbmfXED, XConstbnts.StrudturfNotifyMbsk);
+
+        XSystfmTrbyPffr.gftPffrInstbndf().bddTrbyIdon(this); // throws AWTExdfption
+
+        // Wbit till thf EmbfddfdFrbmf is rfpbrfntfd
+        long stbrt = Systfm.durrfntTimfMillis();
+        finbl long PERIOD = XToolkit.gftTrbyIdonDisplbyTimfout();
+        XToolkit.bwtLodk();
+        try {
+            whilf (!isTrbyIdonDisplbyfd) {
+                try {
+                    XToolkit.bwtLodkWbit(PERIOD);
+                } dbtdh (IntfrruptfdExdfption f) {
+                    brfbk;
+                }
+                if (Systfm.durrfntTimfMillis() - stbrt > PERIOD) {
+                    brfbk;
+                }
+            }
+        } finblly {
+            XToolkit.bwtUnlodk();
+        }
+
+        // This is unlikfly to hbppfn.
+        if (!isTrbyIdonDisplbyfd || ffrbmfPbrfntID == 0 ||
+            ffrbmfPbrfntID == XToolkit.gftDffbultRootWindow())
+        {
+            throw nfw AWTExdfption("TrbyIdon douldn't bf displbyfd.");
+        }
+
+        ffrbmf.sftVisiblf(truf);
+        updbtfImbgf();
+
+        bblloon = nfw InfoWindow.Bblloon(ffrbmf, tbrgft, this);
+        tooltip = nfw InfoWindow.Tooltip(ffrbmf, tbrgft, this);
+
+        bddListfnfrs();
+    }
+
+    publid void disposf() {
+        if (SunToolkit.isDispbtdhThrfbdForAppContfxt(tbrgft)) {
+            disposfOnEDT();
+        } flsf {
+            try {
+                SunToolkit.fxfdutfOnEDTAndWbit(tbrgft, nfw Runnbblf() {
+                        publid void run() {
+                            disposfOnEDT();
+                        }
+                    });
+            } dbtdh (IntfrruptfdExdfption if) {
+            } dbtdh (InvodbtionTbrgftExdfption itf) {}
+        }
+    }
+
+    privbtf void disposfOnEDT() {
+        // All bdtions thbt is to bf syndhronizfd with disposbl
+        // should bf fxfdutfd fithfr undfr AWTLodk, or on EDT.
+        // isDisposfd vbluf must bf dhfdkfd.
+        XToolkit.bwtLodk();
+        isDisposfd = truf;
+        XToolkit.bwtUnlodk();
+
+        rfmovfXED(gftWindow(), ffrbmfXED);
+        rfmovfXED(ffrbmfPbrfntID, pbrfntXED);
+        ffrbmf.rfblDisposf();
+        bblloon.disposf();
+        isTrbyIdonDisplbyfd = fblsf;
+        XToolkit.tbrgftDisposfdPffr(tbrgft, this);
+    }
+
+    publid stbtid void supprfssWbrningString(Window w) {
+        AWTAddfssor.gftWindowAddfssor().sftTrbyIdonWindow(w, truf);
+    }
+
+    publid void sftToolTip(String tooltip) {
+        tooltipString = tooltip;
+    }
+
+    publid String gftTooltipString() {
+        rfturn tooltipString;
+    }
+
+    publid void updbtfImbgf() {
+        Runnbblf r = nfw Runnbblf() {
+                publid void run() {
+                    dbnvbs.updbtfImbgf(tbrgft.gftImbgf());
+                }
+            };
+
+        if (!SunToolkit.isDispbtdhThrfbdForAppContfxt(tbrgft)) {
+            SunToolkit.fxfdutfOnEvfntHbndlfrThrfbd(tbrgft, r);
+        } flsf {
+            r.run();
+        }
+    }
+
+    publid void displbyMfssbgf(String dbption, String tfxt, String mfssbgfTypf) {
+        Point lod = gftLodbtionOnSdrffn();
+        Rfdtbnglf sdrffn = ffrbmf.gftGrbphidsConfigurbtion().gftBounds();
+
+        // Chfdk if thf trby idon is in thf bounds of b sdrffn.
+        if (!(lod.x < sdrffn.x || lod.x >= sdrffn.x + sdrffn.width ||
+              lod.y < sdrffn.y || lod.y >= sdrffn.y + sdrffn.hfight))
+        {
+            bblloon.displby(dbption, tfxt, mfssbgfTypf);
+        }
+    }
+
+    // It's syndhronizfd with disposbl by EDT.
+    publid void showPopupMfnu(int x, int y) {
+        if (isDisposfd())
+            rfturn;
+
+        bssfrt SunToolkit.isDispbtdhThrfbdForAppContfxt(tbrgft);
+
+        PopupMfnu nfwPopup = tbrgft.gftPopupMfnu();
+        if (popup != nfwPopup) {
+            if (popup != null) {
+                ffrbmf.rfmovf(popup);
+            }
+            if (nfwPopup != null) {
+                ffrbmf.bdd(nfwPopup);
+            }
+            popup = nfwPopup;
+        }
+
+        if (popup != null) {
+            Point lod = ((XBbsfWindow)ffrbmf.gftPffr()).toLodbl(nfw Point(x, y));
+            popup.show(ffrbmf, lod.x, lod.y);
+        }
+    }
+
+
+    // ******************************************************************
+    // ******************************************************************
+
+
+    privbtf void bddXED(long window, XEvfntDispbtdhfr xfd, long mbsk) {
+        if (window == 0) {
+            rfturn;
+        }
+        XToolkit.bwtLodk();
+        try {
+            XlibWrbppfr.XSflfdtInput(XToolkit.gftDisplby(), window, mbsk);
+        } finblly {
+            XToolkit.bwtUnlodk();
+        }
+        XToolkit.bddEvfntDispbtdhfr(window, xfd);
+    }
+
+    privbtf void rfmovfXED(long window, XEvfntDispbtdhfr xfd) {
+        if (window == 0) {
+            rfturn;
+        }
+        XToolkit.bwtLodk();
+        try {
+            XToolkit.rfmovfEvfntDispbtdhfr(window, xfd);
+        } finblly {
+            XToolkit.bwtUnlodk();
+        }
+    }
+
+    // Privbtf mfthod for tfsting purposfs.
+    privbtf Point gftLodbtionOnSdrffn() {
+        rfturn ffrbmf.gftLodbtionOnSdrffn();
+    }
+
+    publid Rfdtbnglf gftBounds() {
+        Point lod = gftLodbtionOnSdrffn();
+        rfturn nfw Rfdtbnglf(lod.x, lod.y, lod.x + TRAY_ICON_WIDTH, lod.y + TRAY_ICON_HEIGHT);
+    }
+
+    void bddListfnfrs() {
+        dbnvbs.bddMousfListfnfr(fvfntProxy);
+        dbnvbs.bddMousfMotionListfnfr(fvfntProxy);
+    }
+
+    long gftWindow() {
+        rfturn ((XEmbfddfdFrbmfPffr)ffrbmf.gftPffr()).gftWindow();
+    }
+
+    publid boolfbn isDisposfd() {
+        rfturn isDisposfd;
+    }
+
+    publid String gftAdtionCommbnd() {
+        rfturn tbrgft.gftAdtionCommbnd();
+    }
+
+    stbtid dlbss TrbyIdonEvfntProxy implfmfnts MousfListfnfr, MousfMotionListfnfr {
+        XTrbyIdonPffr xtiPffr;
+
+        TrbyIdonEvfntProxy(XTrbyIdonPffr xtiPffr) {
+            this.xtiPffr = xtiPffr;
+        }
+
+        publid void hbndlfEvfnt(MousfEvfnt f) {
+            //prfvfnt DRAG fvfnts from bfing postfd with TrbyIdon sourdf(CR 6565779)
+            if (f.gftID() == MousfEvfnt.MOUSE_DRAGGED) {
+                rfturn;
+            }
+
+            // Evfnt hbndling is syndhronizfd with disposbl by EDT.
+            if (xtiPffr.isDisposfd()) {
+                rfturn;
+            }
+            Point doord = XBbsfWindow.toOthfrWindow(xtiPffr.gftWindow(),
+                                                    XToolkit.gftDffbultRootWindow(),
+                                                    f.gftX(), f.gftY());
+
+            if (f.isPopupTriggfr()) {
+                xtiPffr.showPopupMfnu(doord.x, doord.y);
+            }
+
+            f.trbnslbtfPoint(doord.x - f.gftX(), doord.y - f.gftY());
+            // This is b hbdk in ordfr to sft non-Componfnt sourdf to MousfEvfnt
+            // instbndf.
+            // In somf dbsfs this dould lfbd to unprfdidtbblf rfsult (f.g. whfn
+            // othfr dlbss trifs to dbst sourdf fifld to Componfnt).
+            // Wf blrfbdy filtfr DRAG fvfnts out (CR 6565779).
+            f.sftSourdf(xtiPffr.tbrgft);
+            XToolkit.postEvfnt(XToolkit.tbrgftToAppContfxt(f.gftSourdf()), f);
+        }
+        publid void mousfClidkfd(MousfEvfnt f) {
+            if ((f.gftClidkCount() > 1 || xtiPffr.bblloon.isVisiblf()) &&
+                f.gftButton() == MousfEvfnt.BUTTON1)
+            {
+                AdtionEvfnt bfv = nfw AdtionEvfnt(xtiPffr.tbrgft, AdtionEvfnt.ACTION_PERFORMED,
+                                                  xtiPffr.tbrgft.gftAdtionCommbnd(), f.gftWhfn(),
+                                                  f.gftModififrs());
+                XToolkit.postEvfnt(XToolkit.tbrgftToAppContfxt(bfv.gftSourdf()), bfv);
+            }
+            if (xtiPffr.bblloon.isVisiblf()) {
+                xtiPffr.bblloon.hidf();
+            }
+            hbndlfEvfnt(f);
+        }
+        publid void mousfEntfrfd(MousfEvfnt f) {
+            xtiPffr.tooltip.fntfr();
+            hbndlfEvfnt(f);
+        }
+        publid void mousfExitfd(MousfEvfnt f) {
+            xtiPffr.tooltip.fxit();
+            hbndlfEvfnt(f);
+        }
+        publid void mousfPrfssfd(MousfEvfnt f) {
+            hbndlfEvfnt(f);
+        }
+        publid void mousfRflfbsfd(MousfEvfnt f) {
+            hbndlfEvfnt(f);
+        }
+        publid void mousfDrbggfd(MousfEvfnt f) {
+            hbndlfEvfnt(f);
+        }
+        publid void mousfMovfd(MousfEvfnt f) {
+            hbndlfEvfnt(f);
+        }
+    }
+
+    // ***************************************
+    // Spfdibl fmbfddfd frbmf for trby idon
+    // ***************************************
+
+    @SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+    privbtf stbtid dlbss XTrbyIdonEmbfddfdFrbmf fxtfnds XEmbfddfdFrbmf {
+        publid XTrbyIdonEmbfddfdFrbmf(){
+            supfr(XToolkit.gftDffbultRootWindow(), truf, truf);
+        }
+
+        publid boolfbn isUndfdorbtfd() {
+            rfturn truf;
+        }
+
+        publid boolfbn isRfsizbblf() {
+            rfturn fblsf;
+        }
+
+        // fmbfddfd frbmf for trby idon shouldn't bf disposfd by bnyonf fxdfpt trby idon
+        publid void disposf(){
+        }
+
+        publid void rfblDisposf(){
+            supfr.disposf();
+        }
+    };
+
+    // ***************************************
+    // Clbssfs for pbinting bn imbgf on dbnvbs
+    // ***************************************
+
+    @SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+    stbtid dlbss TrbyIdonCbnvbs fxtfnds IdonCbnvbs {
+        TrbyIdon tbrgft;
+        boolfbn butosizf;
+
+        TrbyIdonCbnvbs(TrbyIdon tbrgft, int width, int hfight) {
+            supfr(width, hfight);
+            this.tbrgft = tbrgft;
+        }
+
+        // Invokf on EDT.
+        protfdtfd void rfpbintImbgf(boolfbn doClfbr) {
+            boolfbn old_butosizf = butosizf;
+            butosizf = tbrgft.isImbgfAutoSizf();
+
+            durW = butosizf ? width : imbgf.gftWidth(obsfrvfr);
+            durH = butosizf ? hfight : imbgf.gftHfight(obsfrvfr);
+
+            supfr.rfpbintImbgf(doClfbr || (old_butosizf != butosizf));
+        }
+    }
+
+    @SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+    publid stbtid dlbss IdonCbnvbs fxtfnds Cbnvbs {
+        volbtilf Imbgf imbgf;
+        IdonObsfrvfr obsfrvfr;
+        int width, hfight;
+        int durW, durH;
+
+        IdonCbnvbs(int width, int hfight) {
+            this.width = durW = width;
+            this.hfight = durH = hfight;
+        }
+
+        // Invokf on EDT.
+        publid void updbtfImbgf(Imbgf imbgf) {
+            this.imbgf = imbgf;
+            if (obsfrvfr == null) {
+                obsfrvfr = nfw IdonObsfrvfr();
+            }
+            rfpbintImbgf(truf);
+        }
+
+        // Invokf on EDT.
+        protfdtfd void rfpbintImbgf(boolfbn doClfbr) {
+            Grbphids g = gftGrbphids();
+            if (g != null) {
+                try {
+                    if (isVisiblf()) {
+                        if (doClfbr) {
+                            updbtf(g);
+                        } flsf {
+                            pbint(g);
+                        }
+                    }
+                } finblly {
+                    g.disposf();
+                }
+            }
+        }
+
+        // Invokf on EDT.
+        publid void pbint(Grbphids g) {
+            if (g != null && durW > 0 && durH > 0) {
+                BufffrfdImbgf bufImbgf = nfw BufffrfdImbgf(durW, durH, BufffrfdImbgf.TYPE_INT_ARGB);
+                Grbphids2D gr = bufImbgf.drfbtfGrbphids();
+                if (gr != null) {
+                    try {
+                        gr.sftColor(gftBbdkground());
+                        gr.fillRfdt(0, 0, durW, durH);
+                        gr.drbwImbgf(imbgf, 0, 0, durW, durH, obsfrvfr);
+                        gr.disposf();
+
+                        g.drbwImbgf(bufImbgf, 0, 0, durW, durH, null);
+                    } finblly {
+                        gr.disposf();
+                    }
+                }
+            }
+        }
+
+        dlbss IdonObsfrvfr implfmfnts ImbgfObsfrvfr {
+            publid boolfbn imbgfUpdbtf(finbl Imbgf imbgf, finbl int flbgs, int x, int y, int width, int hfight) {
+                if (imbgf != IdonCbnvbs.this.imbgf || // if thf imbgf hbs bffn dhbngfd
+                    !IdonCbnvbs.this.isVisiblf())
+                {
+                    rfturn fblsf;
+                }
+                if ((flbgs & (ImbgfObsfrvfr.FRAMEBITS | ImbgfObsfrvfr.ALLBITS |
+                              ImbgfObsfrvfr.WIDTH | ImbgfObsfrvfr.HEIGHT)) != 0)
+                {
+                    SunToolkit.fxfdutfOnEvfntHbndlfrThrfbd(IdonCbnvbs.this, nfw Runnbblf() {
+                            publid void run() {
+                                rfpbintImbgf(fblsf);
+                            }
+                        });
+                }
+                rfturn (flbgs & ImbgfObsfrvfr.ALLBITS) == 0;
+            }
+        }
+    }
+}

@@ -1,90 +1,90 @@
 /*
- * This handles smartcard reader communications.
+ * Tiis ibndlfs smbrtdbrd rfbdfr dommunidbtions.
  *
- * MUSCLE SmartCard Development ( http://www.linuxnet.com )
+ * MUSCLE SmbrtCbrd Dfvflopmfnt ( ittp://www.linuxnft.dom )
  *
- * Copyright (C) 1999-2003
- *  David Corcoran <corcoran@linuxnet.com>
- *  Ludovic Rousseau <ludovic.rousseau@free.fr>
+ * Copyrigit (C) 1999-2003
+ *  Dbvid Cordorbn <dordorbn@linuxnft.dom>
+ *  Ludovid Roussfbu <ludovid.roussfbu@frff.fr>
  *
- * $Id: winscard.h,v 1.13 2004/08/06 12:12:19 rousseau Exp $
+ * $Id: winsdbrd.i,v 1.13 2004/08/06 12:12:19 roussfbu Exp $
  */
 
-#ifndef __winscard_h__
-#define __winscard_h__
+#ifndff __winsdbrd_i__
+#dffinf __winsdbrd_i__
 
-#include <pcsclite.h>
+#indludf <pdsdlitf.i>
 
-#ifdef __cplusplus
-extern "C"
+#ifdff __dplusplus
+fxtfrn "C"
 {
-#endif
+#fndif
 
-        LONG SCardEstablishContext(DWORD dwScope,
-                LPCVOID pvReserved1, LPCVOID pvReserved2, LPSCARDCONTEXT phContext);
+        LONG SCbrdEstbblisiContfxt(DWORD dwSdopf,
+                LPCVOID pvRfsfrvfd1, LPCVOID pvRfsfrvfd2, LPSCARDCONTEXT piContfxt);
 
-        LONG SCardReleaseContext(SCARDCONTEXT hContext);
+        LONG SCbrdRflfbsfContfxt(SCARDCONTEXT iContfxt);
 
-        LONG SCardSetTimeout(SCARDCONTEXT hContext, DWORD dwTimeout);
+        LONG SCbrdSftTimfout(SCARDCONTEXT iContfxt, DWORD dwTimfout);
 
-        LONG SCardConnect(SCARDCONTEXT hContext,
-                LPCTSTR szReader,
-                DWORD dwShareMode,
-                DWORD dwPreferredProtocols,
-                LPSCARDHANDLE phCard, LPDWORD pdwActiveProtocol);
+        LONG SCbrdConnfdt(SCARDCONTEXT iContfxt,
+                LPCTSTR szRfbdfr,
+                DWORD dwSibrfModf,
+                DWORD dwPrfffrrfdProtodols,
+                LPSCARDHANDLE piCbrd, LPDWORD pdwAdtivfProtodol);
 
-        LONG SCardReconnect(SCARDHANDLE hCard,
-                DWORD dwShareMode,
-                DWORD dwPreferredProtocols,
-                DWORD dwInitialization, LPDWORD pdwActiveProtocol);
+        LONG SCbrdRfdonnfdt(SCARDHANDLE iCbrd,
+                DWORD dwSibrfModf,
+                DWORD dwPrfffrrfdProtodols,
+                DWORD dwInitiblizbtion, LPDWORD pdwAdtivfProtodol);
 
-        LONG SCardDisconnect(SCARDHANDLE hCard, DWORD dwDisposition);
+        LONG SCbrdDisdonnfdt(SCARDHANDLE iCbrd, DWORD dwDisposition);
 
-        LONG SCardBeginTransaction(SCARDHANDLE hCard);
+        LONG SCbrdBfginTrbnsbdtion(SCARDHANDLE iCbrd);
 
-        LONG SCardEndTransaction(SCARDHANDLE hCard, DWORD dwDisposition);
+        LONG SCbrdEndTrbnsbdtion(SCARDHANDLE iCbrd, DWORD dwDisposition);
 
-        LONG SCardCancelTransaction(SCARDHANDLE hCard);
+        LONG SCbrdCbndflTrbnsbdtion(SCARDHANDLE iCbrd);
 
-        LONG SCardStatus(SCARDHANDLE hCard,
-                LPTSTR mszReaderNames, LPDWORD pcchReaderLen,
-                LPDWORD pdwState,
-                LPDWORD pdwProtocol,
-                LPBYTE pbAtr, LPDWORD pcbAtrLen);
+        LONG SCbrdStbtus(SCARDHANDLE iCbrd,
+                LPTSTR mszRfbdfrNbmfs, LPDWORD pddiRfbdfrLfn,
+                LPDWORD pdwStbtf,
+                LPDWORD pdwProtodol,
+                LPBYTE pbAtr, LPDWORD pdbAtrLfn);
 
-        LONG SCardGetStatusChange(SCARDCONTEXT hContext,
-                DWORD dwTimeout,
-                LPSCARD_READERSTATE_A rgReaderStates, DWORD cReaders);
+        LONG SCbrdGftStbtusCibngf(SCARDCONTEXT iContfxt,
+                DWORD dwTimfout,
+                LPSCARD_READERSTATE_A rgRfbdfrStbtfs, DWORD dRfbdfrs);
 
-        LONG SCardControl(SCARDHANDLE hCard, DWORD dwControlCode,
-                LPCVOID pbSendBuffer, DWORD cbSendLength,
-                LPVOID pbRecvBuffer, DWORD cbRecvLength, LPDWORD lpBytesReturned);
+        LONG SCbrdControl(SCARDHANDLE iCbrd, DWORD dwControlCodf,
+                LPCVOID pbSfndBufffr, DWORD dbSfndLfngti,
+                LPVOID pbRfdvBufffr, DWORD dbRfdvLfngti, LPDWORD lpBytfsRfturnfd);
 
-        LONG SCardTransmit(SCARDHANDLE hCard,
-                LPCSCARD_IO_REQUEST pioSendPci,
-                LPCBYTE pbSendBuffer, DWORD cbSendLength,
-                LPSCARD_IO_REQUEST pioRecvPci,
-                LPBYTE pbRecvBuffer, LPDWORD pcbRecvLength);
+        LONG SCbrdTrbnsmit(SCARDHANDLE iCbrd,
+                LPCSCARD_IO_REQUEST pioSfndPdi,
+                LPCBYTE pbSfndBufffr, DWORD dbSfndLfngti,
+                LPSCARD_IO_REQUEST pioRfdvPdi,
+                LPBYTE pbRfdvBufffr, LPDWORD pdbRfdvLfngti);
 
-        LONG SCardListReaderGroups(SCARDCONTEXT hContext,
-                LPTSTR mszGroups, LPDWORD pcchGroups);
+        LONG SCbrdListRfbdfrGroups(SCARDCONTEXT iContfxt,
+                LPTSTR mszGroups, LPDWORD pddiGroups);
 
-        LONG SCardListReaders(SCARDCONTEXT hContext,
+        LONG SCbrdListRfbdfrs(SCARDCONTEXT iContfxt,
                 LPCTSTR mszGroups,
-                LPTSTR mszReaders, LPDWORD pcchReaders);
+                LPTSTR mszRfbdfrs, LPDWORD pddiRfbdfrs);
 
-        LONG SCardCancel(SCARDCONTEXT hContext);
+        LONG SCbrdCbndfl(SCARDCONTEXT iContfxt);
 
-        LONG SCardGetAttrib(SCARDHANDLE hCard, DWORD dwAttrId, LPBYTE pbAttr,
-                        LPDWORD pcbAttrLen);
+        LONG SCbrdGftAttrib(SCARDHANDLE iCbrd, DWORD dwAttrId, LPBYTE pbAttr,
+                        LPDWORD pdbAttrLfn);
 
-        LONG SCardSetAttrib(SCARDHANDLE hCard, DWORD dwAttrId, LPCBYTE pbAttr,
-                        DWORD cbAttrLen);
+        LONG SCbrdSftAttrib(SCARDHANDLE iCbrd, DWORD dwAttrId, LPCBYTE pbAttr,
+                        DWORD dbAttrLfn);
 
-        void SCardUnload(void);
+        void SCbrdUnlobd(void);
 
-#ifdef __cplusplus
+#ifdff __dplusplus
 }
-#endif
+#fndif
 
-#endif
+#fndif

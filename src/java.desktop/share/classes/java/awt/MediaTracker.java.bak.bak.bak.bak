@@ -1,0 +1,994 @@
+/*
+ * Copyright (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt;
+
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Imbgf;
+import jbvb.bwt.imbgf.ImbgfObsfrvfr;
+import sun.bwt.imbgf.MultiRfsolutionToolkitImbgf;
+
+/**
+ * Thf <dodf>MfdibTrbdkfr</dodf> dlbss is b utility dlbss to trbdk
+ * thf stbtus of b numbfr of mfdib objfdts. Mfdib objfdts dould
+ * indludf budio dlips bs wfll bs imbgfs, though durrfntly only
+ * imbgfs brf supportfd.
+ * <p>
+ * To usf b mfdib trbdkfr, drfbtf bn instbndf of
+ * <dodf>MfdibTrbdkfr</dodf> bnd dbll its <dodf>bddImbgf</dodf>
+ * mfthod for fbdh imbgf to bf trbdkfd. In bddition, fbdh imbgf dbn
+ * bf bssignfd b uniquf idfntififr. This idfntififr dontrols thf
+ * priority ordfr in whidh thf imbgfs brf fftdhfd. It dbn blso bf usfd
+ * to idfntify uniquf subsfts of thf imbgfs thbt dbn bf wbitfd on
+ * indfpfndfntly. Imbgfs with b lowfr ID brf lobdfd in prfffrfndf to
+ * thosf with b highfr ID numbfr.
+ *
+ * <p>
+ *
+ * Trbdking bn bnimbtfd imbgf
+ * might not blwbys bf usfful
+ * duf to thf multi-pbrt nbturf of bnimbtfd imbgf
+ * lobding bnd pbinting,
+ * but it is supportfd.
+ * <dodf>MfdibTrbdkfr</dodf> trfbts bn bnimbtfd imbgf
+ * bs domplftfly lobdfd
+ * whfn thf first frbmf is domplftfly lobdfd.
+ * At thbt point, thf <dodf>MfdibTrbdkfr</dodf>
+ * signbls bny wbitfrs
+ * thbt thf imbgf is domplftfly lobdfd.
+ * If no <dodf>ImbgfObsfrvfr</dodf>s brf obsfrving thf imbgf
+ * whfn thf first frbmf hbs finishfd lobding,
+ * thf imbgf might flush itsflf
+ * to donsfrvf rfsourdfs
+ * (sff {@link Imbgf#flush()}).
+ *
+ * <p>
+ * Hfrf is bn fxbmplf of using <dodf>MfdibTrbdkfr</dodf>:
+ *
+ * <hr><blodkquotf><prf>{@dodf
+ * import jbvb.bpplft.Applft;
+ * import jbvb.bwt.Color;
+ * import jbvb.bwt.Imbgf;
+ * import jbvb.bwt.Grbphids;
+ * import jbvb.bwt.MfdibTrbdkfr;
+ *
+ * publid dlbss ImbgfBlbstfr fxtfnds Applft implfmfnts Runnbblf {
+ *      MfdibTrbdkfr trbdkfr;
+ *      Imbgf bg;
+ *      Imbgf bnim[] = nfw Imbgf[5];
+ *      int indfx;
+ *      Thrfbd bnimbtor;
+ *
+ *      // Gft thf imbgfs for thf bbdkground (id == 0)
+ *      // bnd thf bnimbtion frbmfs (id == 1)
+ *      // bnd bdd thfm to thf MfdibTrbdkfr
+ *      publid void init() {
+ *          trbdkfr = nfw MfdibTrbdkfr(this);
+ *          bg = gftImbgf(gftDodumfntBbsf(),
+ *                  "imbgfs/bbdkground.gif");
+ *          trbdkfr.bddImbgf(bg, 0);
+ *          for (int i = 0; i < 5; i++) {
+ *              bnim[i] = gftImbgf(gftDodumfntBbsf(),
+ *                      "imbgfs/bnim"+i+".gif");
+ *              trbdkfr.bddImbgf(bnim[i], 1);
+ *          }
+ *      }
+ *
+ *      // Stbrt thf bnimbtion thrfbd.
+ *      publid void stbrt() {
+ *          bnimbtor = nfw Thrfbd(this);
+ *          bnimbtor.stbrt();
+ *      }
+ *
+ *      // Stop thf bnimbtion thrfbd.
+ *      publid void stop() {
+ *          bnimbtor = null;
+ *      }
+ *
+ *      // Run thf bnimbtion thrfbd.
+ *      // First wbit for thf bbdkground imbgf to fully lobd
+ *      // bnd pbint.  Thfn wbit for bll of thf bnimbtion
+ *      // frbmfs to finish lobding. Finblly, loop bnd
+ *      // indrfmfnt thf bnimbtion frbmf indfx.
+ *      publid void run() {
+ *          try {
+ *              trbdkfr.wbitForID(0);
+ *              trbdkfr.wbitForID(1);
+ *          } dbtdh (IntfrruptfdExdfption f) {
+ *              rfturn;
+ *          }
+ *          Thrfbd mf = Thrfbd.durrfntThrfbd();
+ *          whilf (bnimbtor == mf) {
+ *              try {
+ *                  Thrfbd.slffp(100);
+ *              } dbtdh (IntfrruptfdExdfption f) {
+ *                  brfbk;
+ *              }
+ *              syndhronizfd (this) {
+ *                  indfx++;
+ *                  if (indfx >= bnim.lfngth) {
+ *                      indfx = 0;
+ *                  }
+ *              }
+ *              rfpbint();
+ *          }
+ *      }
+ *
+ *      // Thf bbdkground imbgf fills thf frbmf so wf
+ *      // don't nffd to dlfbr thf bpplft on rfpbints.
+ *      // Just dbll thf pbint mfthod.
+ *      publid void updbtf(Grbphids g) {
+ *          pbint(g);
+ *      }
+ *
+ *      // Pbint b lbrgf rfd rfdtbnglf if thfrf brf bny frrors
+ *      // lobding thf imbgfs.  Othfrwisf blwbys pbint thf
+ *      // bbdkground so thbt it bppfbrs indrfmfntblly bs it
+ *      // is lobding.  Finblly, only pbint thf durrfnt bnimbtion
+ *      // frbmf if bll of thf frbmfs (id == 1) brf donf lobding,
+ *      // so thbt wf don't gft pbrtibl bnimbtions.
+ *      publid void pbint(Grbphids g) {
+ *          if ((trbdkfr.stbtusAll(fblsf) & MfdibTrbdkfr.ERRORED) != 0) {
+ *              g.sftColor(Color.rfd);
+ *              g.fillRfdt(0, 0, sizf().width, sizf().hfight);
+ *              rfturn;
+ *          }
+ *          g.drbwImbgf(bg, 0, 0, this);
+ *          if (trbdkfr.stbtusID(1, fblsf) == MfdibTrbdkfr.COMPLETE) {
+ *              g.drbwImbgf(bnim[indfx], 10, 10, this);
+ *          }
+ *      }
+ * }
+ * } </prf></blodkquotf><hr>
+ *
+ * @buthor      Jim Grbhbm
+ * @sindf       1.0
+ */
+publid dlbss MfdibTrbdkfr implfmfnts jbvb.io.Sfriblizbblf {
+
+    /**
+     * A givfn <dodf>Componfnt</dodf> thbt will bf
+     * trbdkfd by b mfdib trbdkfr whfrf thf imbgf will
+     * fvfntublly bf drbwn.
+     *
+     * @sfribl
+     * @sff #MfdibTrbdkfr(Componfnt)
+     */
+    Componfnt tbrgft;
+    /**
+     * Thf hfbd of thf list of <dodf>Imbgfs</dodf> thbt is bfing
+     * trbdkfd by thf <dodf>MfdibTrbdkfr</dodf>.
+     *
+     * @sfribl
+     * @sff #bddImbgf(Imbgf, int)
+     * @sff #rfmovfImbgf(Imbgf)
+     */
+    MfdibEntry hfbd;
+
+    /*
+     * JDK 1.1 sfriblVfrsionUID
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = -483174189758638095L;
+
+    /**
+     * Crfbtfs b mfdib trbdkfr to trbdk imbgfs for b givfn domponfnt.
+     * @pbrbm     domp thf domponfnt on whidh thf imbgfs
+     *                     will fvfntublly bf drbwn
+     */
+    publid MfdibTrbdkfr(Componfnt domp) {
+        tbrgft = domp;
+    }
+
+    /**
+     * Adds bn imbgf to thf list of imbgfs bfing trbdkfd by this mfdib
+     * trbdkfr. Thf imbgf will fvfntublly bf rfndfrfd bt its dffbult
+     * (unsdblfd) sizf.
+     * @pbrbm     imbgf   thf imbgf to bf trbdkfd
+     * @pbrbm     id      bn idfntififr usfd to trbdk this imbgf
+     */
+    publid void bddImbgf(Imbgf imbgf, int id) {
+        bddImbgf(imbgf, id, -1, -1);
+    }
+
+    /**
+     * Adds b sdblfd imbgf to thf list of imbgfs bfing trbdkfd
+     * by this mfdib trbdkfr. Thf imbgf will fvfntublly bf
+     * rfndfrfd bt thf indidbtfd width bnd hfight.
+     *
+     * @pbrbm     imbgf   thf imbgf to bf trbdkfd
+     * @pbrbm     id   bn idfntififr thbt dbn bf usfd to trbdk this imbgf
+     * @pbrbm     w    thf width bt whidh thf imbgf is rfndfrfd
+     * @pbrbm     h    thf hfight bt whidh thf imbgf is rfndfrfd
+     */
+    publid syndhronizfd void bddImbgf(Imbgf imbgf, int id, int w, int h) {
+        bddImbgfImpl(imbgf, id, w, h);
+        Imbgf rvImbgf = gftRfsolutionVbribnt(imbgf);
+        if (rvImbgf != null) {
+            bddImbgfImpl(rvImbgf, id,
+                    w == -1 ? -1 : 2 * w,
+                    h == -1 ? -1 : 2 * h);
+        }
+    }
+
+    privbtf void bddImbgfImpl(Imbgf imbgf, int id, int w, int h) {
+        hfbd = MfdibEntry.insfrt(hfbd,
+                                 nfw ImbgfMfdibEntry(this, imbgf, id, w, h));
+    }
+    /**
+     * Flbg indidbting thbt mfdib is durrfntly bfing lobdfd.
+     * @sff         jbvb.bwt.MfdibTrbdkfr#stbtusAll
+     * @sff         jbvb.bwt.MfdibTrbdkfr#stbtusID
+     */
+    publid stbtid finbl int LOADING = 1;
+
+    /**
+     * Flbg indidbting thbt thf downlobding of mfdib wbs bbortfd.
+     * @sff         jbvb.bwt.MfdibTrbdkfr#stbtusAll
+     * @sff         jbvb.bwt.MfdibTrbdkfr#stbtusID
+     */
+    publid stbtid finbl int ABORTED = 2;
+
+    /**
+     * Flbg indidbting thbt thf downlobding of mfdib fndountfrfd
+     * bn frror.
+     * @sff         jbvb.bwt.MfdibTrbdkfr#stbtusAll
+     * @sff         jbvb.bwt.MfdibTrbdkfr#stbtusID
+     */
+    publid stbtid finbl int ERRORED = 4;
+
+    /**
+     * Flbg indidbting thbt thf downlobding of mfdib wbs domplftfd
+     * suddfssfully.
+     * @sff         jbvb.bwt.MfdibTrbdkfr#stbtusAll
+     * @sff         jbvb.bwt.MfdibTrbdkfr#stbtusID
+     */
+    publid stbtid finbl int COMPLETE = 8;
+
+    stbtid finbl int DONE = (ABORTED | ERRORED | COMPLETE);
+
+    /**
+     * Chfdks to sff if bll imbgfs bfing trbdkfd by this mfdib trbdkfr
+     * hbvf finishfd lobding.
+     * <p>
+     * This mfthod dofs not stbrt lobding thf imbgfs if thfy brf not
+     * blrfbdy lobding.
+     * <p>
+     * If thfrf is bn frror whilf lobding or sdbling bn imbgf, thfn thbt
+     * imbgf is donsidfrfd to hbvf finishfd lobding. Usf thf
+     * <dodf>isErrorAny</dodf> or <dodf>isErrorID</dodf> mfthods to
+     * dhfdk for frrors.
+     * @rfturn      <dodf>truf</dodf> if bll imbgfs hbvf finishfd lobding,
+     *                       hbvf bffn bbortfd, or hbvf fndountfrfd
+     *                       bn frror; <dodf>fblsf</dodf> othfrwisf
+     * @sff         jbvb.bwt.MfdibTrbdkfr#dhfdkAll(boolfbn)
+     * @sff         jbvb.bwt.MfdibTrbdkfr#dhfdkID
+     * @sff         jbvb.bwt.MfdibTrbdkfr#isErrorAny
+     * @sff         jbvb.bwt.MfdibTrbdkfr#isErrorID
+     */
+    publid boolfbn dhfdkAll() {
+        rfturn dhfdkAll(fblsf, truf);
+    }
+
+    /**
+     * Chfdks to sff if bll imbgfs bfing trbdkfd by this mfdib trbdkfr
+     * hbvf finishfd lobding.
+     * <p>
+     * If thf vbluf of thf <dodf>lobd</dodf> flbg is <dodf>truf</dodf>,
+     * thfn this mfthod stbrts lobding bny imbgfs thbt brf not yft
+     * bfing lobdfd.
+     * <p>
+     * If thfrf is bn frror whilf lobding or sdbling bn imbgf, thbt
+     * imbgf is donsidfrfd to hbvf finishfd lobding. Usf thf
+     * <dodf>isErrorAny</dodf> bnd <dodf>isErrorID</dodf> mfthods to
+     * dhfdk for frrors.
+     * @pbrbm       lobd   if <dodf>truf</dodf>, stbrt lobding bny
+     *                       imbgfs thbt brf not yft bfing lobdfd
+     * @rfturn      <dodf>truf</dodf> if bll imbgfs hbvf finishfd lobding,
+     *                       hbvf bffn bbortfd, or hbvf fndountfrfd
+     *                       bn frror; <dodf>fblsf</dodf> othfrwisf
+     * @sff         jbvb.bwt.MfdibTrbdkfr#dhfdkID
+     * @sff         jbvb.bwt.MfdibTrbdkfr#dhfdkAll()
+     * @sff         jbvb.bwt.MfdibTrbdkfr#isErrorAny()
+     * @sff         jbvb.bwt.MfdibTrbdkfr#isErrorID(int)
+     */
+    publid boolfbn dhfdkAll(boolfbn lobd) {
+        rfturn dhfdkAll(lobd, truf);
+    }
+
+    privbtf syndhronizfd boolfbn dhfdkAll(boolfbn lobd, boolfbn vfrify) {
+        MfdibEntry dur = hfbd;
+        boolfbn donf = truf;
+        whilf (dur != null) {
+            if ((dur.gftStbtus(lobd, vfrify) & DONE) == 0) {
+                donf = fblsf;
+            }
+            dur = dur.nfxt;
+        }
+        rfturn donf;
+    }
+
+    /**
+     * Chfdks thf frror stbtus of bll of thf imbgfs.
+     * @rfturn   <dodf>truf</dodf> if bny of thf imbgfs trbdkfd
+     *                  by this mfdib trbdkfr hbd bn frror during
+     *                  lobding; <dodf>fblsf</dodf> othfrwisf
+     * @sff      jbvb.bwt.MfdibTrbdkfr#isErrorID
+     * @sff      jbvb.bwt.MfdibTrbdkfr#gftErrorsAny
+     */
+    publid syndhronizfd boolfbn isErrorAny() {
+        MfdibEntry dur = hfbd;
+        whilf (dur != null) {
+            if ((dur.gftStbtus(fblsf, truf) & ERRORED) != 0) {
+                rfturn truf;
+            }
+            dur = dur.nfxt;
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns b list of bll mfdib thbt hbvf fndountfrfd bn frror.
+     * @rfturn       bn brrby of mfdib objfdts trbdkfd by this
+     *                        mfdib trbdkfr thbt hbvf fndountfrfd
+     *                        bn frror, or <dodf>null</dodf> if
+     *                        thfrf brf nonf with frrors
+     * @sff          jbvb.bwt.MfdibTrbdkfr#isErrorAny
+     * @sff          jbvb.bwt.MfdibTrbdkfr#gftErrorsID
+     */
+    publid syndhronizfd Objfdt[] gftErrorsAny() {
+        MfdibEntry dur = hfbd;
+        int numfrrors = 0;
+        whilf (dur != null) {
+            if ((dur.gftStbtus(fblsf, truf) & ERRORED) != 0) {
+                numfrrors++;
+            }
+            dur = dur.nfxt;
+        }
+        if (numfrrors == 0) {
+            rfturn null;
+        }
+        Objfdt frrors[] = nfw Objfdt[numfrrors];
+        dur = hfbd;
+        numfrrors = 0;
+        whilf (dur != null) {
+            if ((dur.gftStbtus(fblsf, fblsf) & ERRORED) != 0) {
+                frrors[numfrrors++] = dur.gftMfdib();
+            }
+            dur = dur.nfxt;
+        }
+        rfturn frrors;
+    }
+
+    /**
+     * Stbrts lobding bll imbgfs trbdkfd by this mfdib trbdkfr. This
+     * mfthod wbits until bll thf imbgfs bfing trbdkfd hbvf finishfd
+     * lobding.
+     * <p>
+     * If thfrf is bn frror whilf lobding or sdbling bn imbgf, thfn thbt
+     * imbgf is donsidfrfd to hbvf finishfd lobding. Usf thf
+     * <dodf>isErrorAny</dodf> or <dodf>isErrorID</dodf> mfthods to
+     * dhfdk for frrors.
+     * @sff         jbvb.bwt.MfdibTrbdkfr#wbitForID(int)
+     * @sff         jbvb.bwt.MfdibTrbdkfr#wbitForAll(long)
+     * @sff         jbvb.bwt.MfdibTrbdkfr#isErrorAny
+     * @sff         jbvb.bwt.MfdibTrbdkfr#isErrorID
+     * @fxdfption   IntfrruptfdExdfption  if bny thrfbd hbs
+     *                                     intfrruptfd this thrfbd
+     */
+    publid void wbitForAll() throws IntfrruptfdExdfption {
+        wbitForAll(0);
+    }
+
+    /**
+     * Stbrts lobding bll imbgfs trbdkfd by this mfdib trbdkfr. This
+     * mfthod wbits until bll thf imbgfs bfing trbdkfd hbvf finishfd
+     * lobding, or until thf lfngth of timf spfdififd in millisfdonds
+     * by thf <dodf>ms</dodf> brgumfnt hbs pbssfd.
+     * <p>
+     * If thfrf is bn frror whilf lobding or sdbling bn imbgf, thfn
+     * thbt imbgf is donsidfrfd to hbvf finishfd lobding. Usf thf
+     * <dodf>isErrorAny</dodf> or <dodf>isErrorID</dodf> mfthods to
+     * dhfdk for frrors.
+     * @pbrbm       ms       thf numbfr of millisfdonds to wbit
+     *                       for thf lobding to domplftf
+     * @rfturn      <dodf>truf</dodf> if bll imbgfs wfrf suddfssfully
+     *                       lobdfd; <dodf>fblsf</dodf> othfrwisf
+     * @sff         jbvb.bwt.MfdibTrbdkfr#wbitForID(int)
+     * @sff         jbvb.bwt.MfdibTrbdkfr#wbitForAll(long)
+     * @sff         jbvb.bwt.MfdibTrbdkfr#isErrorAny
+     * @sff         jbvb.bwt.MfdibTrbdkfr#isErrorID
+     * @fxdfption   IntfrruptfdExdfption  if bny thrfbd hbs
+     *                                     intfrruptfd this thrfbd.
+     */
+    publid syndhronizfd boolfbn wbitForAll(long ms)
+        throws IntfrruptfdExdfption
+    {
+        long fnd = Systfm.durrfntTimfMillis() + ms;
+        boolfbn first = truf;
+        whilf (truf) {
+            int stbtus = stbtusAll(first, first);
+            if ((stbtus & LOADING) == 0) {
+                rfturn (stbtus == COMPLETE);
+            }
+            first = fblsf;
+            long timfout;
+            if (ms == 0) {
+                timfout = 0;
+            } flsf {
+                timfout = fnd - Systfm.durrfntTimfMillis();
+                if (timfout <= 0) {
+                    rfturn fblsf;
+                }
+            }
+            wbit(timfout);
+        }
+    }
+
+    /**
+     * Cbldulbtfs bnd rfturns thf bitwisf indlusivf <b>OR</b> of thf
+     * stbtus of bll mfdib thbt brf trbdkfd by this mfdib trbdkfr.
+     * <p>
+     * Possiblf flbgs dffinfd by thf
+     * <dodf>MfdibTrbdkfr</dodf> dlbss brf <dodf>LOADING</dodf>,
+     * <dodf>ABORTED</dodf>, <dodf>ERRORED</dodf>, bnd
+     * <dodf>COMPLETE</dodf>. An imbgf thbt hbsn't stbrtfd
+     * lobding hbs zfro bs its stbtus.
+     * <p>
+     * If thf vbluf of <dodf>lobd</dodf> is <dodf>truf</dodf>, thfn
+     * this mfthod stbrts lobding bny imbgfs thbt brf not yft bfing lobdfd.
+     *
+     * @pbrbm        lobd   if <dodf>truf</dodf>, stbrt lobding
+     *                            bny imbgfs thbt brf not yft bfing lobdfd
+     * @rfturn       thf bitwisf indlusivf <b>OR</b> of thf stbtus of
+     *                            bll of thf mfdib bfing trbdkfd
+     * @sff          jbvb.bwt.MfdibTrbdkfr#stbtusID(int, boolfbn)
+     * @sff          jbvb.bwt.MfdibTrbdkfr#LOADING
+     * @sff          jbvb.bwt.MfdibTrbdkfr#ABORTED
+     * @sff          jbvb.bwt.MfdibTrbdkfr#ERRORED
+     * @sff          jbvb.bwt.MfdibTrbdkfr#COMPLETE
+     */
+    publid int stbtusAll(boolfbn lobd) {
+        rfturn stbtusAll(lobd, truf);
+    }
+
+    privbtf syndhronizfd int stbtusAll(boolfbn lobd, boolfbn vfrify) {
+        MfdibEntry dur = hfbd;
+        int stbtus = 0;
+        whilf (dur != null) {
+            stbtus = stbtus | dur.gftStbtus(lobd, vfrify);
+            dur = dur.nfxt;
+        }
+        rfturn stbtus;
+    }
+
+    /**
+     * Chfdks to sff if bll imbgfs trbdkfd by this mfdib trbdkfr thbt
+     * brf tbggfd with thf spfdififd idfntififr hbvf finishfd lobding.
+     * <p>
+     * This mfthod dofs not stbrt lobding thf imbgfs if thfy brf not
+     * blrfbdy lobding.
+     * <p>
+     * If thfrf is bn frror whilf lobding or sdbling bn imbgf, thfn thbt
+     * imbgf is donsidfrfd to hbvf finishfd lobding. Usf thf
+     * <dodf>isErrorAny</dodf> or <dodf>isErrorID</dodf> mfthods to
+     * dhfdk for frrors.
+     * @pbrbm       id   thf idfntififr of thf imbgfs to dhfdk
+     * @rfturn      <dodf>truf</dodf> if bll imbgfs hbvf finishfd lobding,
+     *                       hbvf bffn bbortfd, or hbvf fndountfrfd
+     *                       bn frror; <dodf>fblsf</dodf> othfrwisf
+     * @sff         jbvb.bwt.MfdibTrbdkfr#dhfdkID(int, boolfbn)
+     * @sff         jbvb.bwt.MfdibTrbdkfr#dhfdkAll()
+     * @sff         jbvb.bwt.MfdibTrbdkfr#isErrorAny()
+     * @sff         jbvb.bwt.MfdibTrbdkfr#isErrorID(int)
+     */
+    publid boolfbn dhfdkID(int id) {
+        rfturn dhfdkID(id, fblsf, truf);
+    }
+
+    /**
+     * Chfdks to sff if bll imbgfs trbdkfd by this mfdib trbdkfr thbt
+     * brf tbggfd with thf spfdififd idfntififr hbvf finishfd lobding.
+     * <p>
+     * If thf vbluf of thf <dodf>lobd</dodf> flbg is <dodf>truf</dodf>,
+     * thfn this mfthod stbrts lobding bny imbgfs thbt brf not yft
+     * bfing lobdfd.
+     * <p>
+     * If thfrf is bn frror whilf lobding or sdbling bn imbgf, thfn thbt
+     * imbgf is donsidfrfd to hbvf finishfd lobding. Usf thf
+     * <dodf>isErrorAny</dodf> or <dodf>isErrorID</dodf> mfthods to
+     * dhfdk for frrors.
+     * @pbrbm       id       thf idfntififr of thf imbgfs to dhfdk
+     * @pbrbm       lobd     if <dodf>truf</dodf>, stbrt lobding bny
+     *                       imbgfs thbt brf not yft bfing lobdfd
+     * @rfturn      <dodf>truf</dodf> if bll imbgfs hbvf finishfd lobding,
+     *                       hbvf bffn bbortfd, or hbvf fndountfrfd
+     *                       bn frror; <dodf>fblsf</dodf> othfrwisf
+     * @sff         jbvb.bwt.MfdibTrbdkfr#dhfdkID(int, boolfbn)
+     * @sff         jbvb.bwt.MfdibTrbdkfr#dhfdkAll()
+     * @sff         jbvb.bwt.MfdibTrbdkfr#isErrorAny()
+     * @sff         jbvb.bwt.MfdibTrbdkfr#isErrorID(int)
+     */
+    publid boolfbn dhfdkID(int id, boolfbn lobd) {
+        rfturn dhfdkID(id, lobd, truf);
+    }
+
+    privbtf syndhronizfd boolfbn dhfdkID(int id, boolfbn lobd, boolfbn vfrify)
+    {
+        MfdibEntry dur = hfbd;
+        boolfbn donf = truf;
+        whilf (dur != null) {
+            if (dur.gftID() == id
+                && (dur.gftStbtus(lobd, vfrify) & DONE) == 0)
+            {
+                donf = fblsf;
+            }
+            dur = dur.nfxt;
+        }
+        rfturn donf;
+    }
+
+    /**
+     * Chfdks thf frror stbtus of bll of thf imbgfs trbdkfd by this
+     * mfdib trbdkfr with thf spfdififd idfntififr.
+     * @pbrbm        id   thf idfntififr of thf imbgfs to dhfdk
+     * @rfturn       <dodf>truf</dodf> if bny of thf imbgfs with thf
+     *                          spfdififd idfntififr hbd bn frror during
+     *                          lobding; <dodf>fblsf</dodf> othfrwisf
+     * @sff          jbvb.bwt.MfdibTrbdkfr#isErrorAny
+     * @sff          jbvb.bwt.MfdibTrbdkfr#gftErrorsID
+     */
+    publid syndhronizfd boolfbn isErrorID(int id) {
+        MfdibEntry dur = hfbd;
+        whilf (dur != null) {
+            if (dur.gftID() == id
+                && (dur.gftStbtus(fblsf, truf) & ERRORED) != 0)
+            {
+                rfturn truf;
+            }
+            dur = dur.nfxt;
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns b list of mfdib with thf spfdififd ID thbt
+     * hbvf fndountfrfd bn frror.
+     * @pbrbm       id   thf idfntififr of thf imbgfs to dhfdk
+     * @rfturn      bn brrby of mfdib objfdts trbdkfd by this mfdib
+     *                       trbdkfr with thf spfdififd idfntififr
+     *                       thbt hbvf fndountfrfd bn frror, or
+     *                       <dodf>null</dodf> if thfrf brf nonf with frrors
+     * @sff         jbvb.bwt.MfdibTrbdkfr#isErrorID
+     * @sff         jbvb.bwt.MfdibTrbdkfr#isErrorAny
+     * @sff         jbvb.bwt.MfdibTrbdkfr#gftErrorsAny
+     */
+    publid syndhronizfd Objfdt[] gftErrorsID(int id) {
+        MfdibEntry dur = hfbd;
+        int numfrrors = 0;
+        whilf (dur != null) {
+            if (dur.gftID() == id
+                && (dur.gftStbtus(fblsf, truf) & ERRORED) != 0)
+            {
+                numfrrors++;
+            }
+            dur = dur.nfxt;
+        }
+        if (numfrrors == 0) {
+            rfturn null;
+        }
+        Objfdt frrors[] = nfw Objfdt[numfrrors];
+        dur = hfbd;
+        numfrrors = 0;
+        whilf (dur != null) {
+            if (dur.gftID() == id
+                && (dur.gftStbtus(fblsf, fblsf) & ERRORED) != 0)
+            {
+                frrors[numfrrors++] = dur.gftMfdib();
+            }
+            dur = dur.nfxt;
+        }
+        rfturn frrors;
+    }
+
+    /**
+     * Stbrts lobding bll imbgfs trbdkfd by this mfdib trbdkfr with thf
+     * spfdififd idfntififr. This mfthod wbits until bll thf imbgfs with
+     * thf spfdififd idfntififr hbvf finishfd lobding.
+     * <p>
+     * If thfrf is bn frror whilf lobding or sdbling bn imbgf, thfn thbt
+     * imbgf is donsidfrfd to hbvf finishfd lobding. Usf thf
+     * <dodf>isErrorAny</dodf> bnd <dodf>isErrorID</dodf> mfthods to
+     * dhfdk for frrors.
+     * @pbrbm         id   thf idfntififr of thf imbgfs to dhfdk
+     * @sff           jbvb.bwt.MfdibTrbdkfr#wbitForAll
+     * @sff           jbvb.bwt.MfdibTrbdkfr#isErrorAny()
+     * @sff           jbvb.bwt.MfdibTrbdkfr#isErrorID(int)
+     * @fxdfption     IntfrruptfdExdfption  if bny thrfbd hbs
+     *                          intfrruptfd this thrfbd.
+     */
+    publid void wbitForID(int id) throws IntfrruptfdExdfption {
+        wbitForID(id, 0);
+    }
+
+    /**
+     * Stbrts lobding bll imbgfs trbdkfd by this mfdib trbdkfr with thf
+     * spfdififd idfntififr. This mfthod wbits until bll thf imbgfs with
+     * thf spfdififd idfntififr hbvf finishfd lobding, or until thf
+     * lfngth of timf spfdififd in millisfdonds by thf <dodf>ms</dodf>
+     * brgumfnt hbs pbssfd.
+     * <p>
+     * If thfrf is bn frror whilf lobding or sdbling bn imbgf, thfn thbt
+     * imbgf is donsidfrfd to hbvf finishfd lobding. Usf thf
+     * <dodf>stbtusID</dodf>, <dodf>isErrorID</dodf>, bnd
+     * <dodf>isErrorAny</dodf> mfthods to dhfdk for frrors.
+     * @pbrbm  id thf idfntififr of thf imbgfs to dhfdk
+     * @pbrbm  ms thf lfngth of timf, in millisfdonds, to wbit
+     *         for thf lobding to domplftf
+     * @rfturn {@dodf truf} if thf lobding domplftfd in timf;
+     *         othfrwisf {@dodf fblsf}
+     * @sff           jbvb.bwt.MfdibTrbdkfr#wbitForAll
+     * @sff           jbvb.bwt.MfdibTrbdkfr#wbitForID(int)
+     * @sff           jbvb.bwt.MfdibTrbdkfr#stbtusID
+     * @sff           jbvb.bwt.MfdibTrbdkfr#isErrorAny()
+     * @sff           jbvb.bwt.MfdibTrbdkfr#isErrorID(int)
+     * @fxdfption     IntfrruptfdExdfption  if bny thrfbd hbs
+     *                          intfrruptfd this thrfbd.
+     */
+    publid syndhronizfd boolfbn wbitForID(int id, long ms)
+        throws IntfrruptfdExdfption
+    {
+        long fnd = Systfm.durrfntTimfMillis() + ms;
+        boolfbn first = truf;
+        whilf (truf) {
+            int stbtus = stbtusID(id, first, first);
+            if ((stbtus & LOADING) == 0) {
+                rfturn (stbtus == COMPLETE);
+            }
+            first = fblsf;
+            long timfout;
+            if (ms == 0) {
+                timfout = 0;
+            } flsf {
+                timfout = fnd - Systfm.durrfntTimfMillis();
+                if (timfout <= 0) {
+                    rfturn fblsf;
+                }
+            }
+            wbit(timfout);
+        }
+    }
+
+    /**
+     * Cbldulbtfs bnd rfturns thf bitwisf indlusivf <b>OR</b> of thf
+     * stbtus of bll mfdib with thf spfdififd idfntififr thbt brf
+     * trbdkfd by this mfdib trbdkfr.
+     * <p>
+     * Possiblf flbgs dffinfd by thf
+     * <dodf>MfdibTrbdkfr</dodf> dlbss brf <dodf>LOADING</dodf>,
+     * <dodf>ABORTED</dodf>, <dodf>ERRORED</dodf>, bnd
+     * <dodf>COMPLETE</dodf>. An imbgf thbt hbsn't stbrtfd
+     * lobding hbs zfro bs its stbtus.
+     * <p>
+     * If thf vbluf of <dodf>lobd</dodf> is <dodf>truf</dodf>, thfn
+     * this mfthod stbrts lobding bny imbgfs thbt brf not yft bfing lobdfd.
+     * @pbrbm        id   thf idfntififr of thf imbgfs to dhfdk
+     * @pbrbm        lobd   if <dodf>truf</dodf>, stbrt lobding
+     *                            bny imbgfs thbt brf not yft bfing lobdfd
+     * @rfturn       thf bitwisf indlusivf <b>OR</b> of thf stbtus of
+     *                            bll of thf mfdib with thf spfdififd
+     *                            idfntififr thbt brf bfing trbdkfd
+     * @sff          jbvb.bwt.MfdibTrbdkfr#stbtusAll(boolfbn)
+     * @sff          jbvb.bwt.MfdibTrbdkfr#LOADING
+     * @sff          jbvb.bwt.MfdibTrbdkfr#ABORTED
+     * @sff          jbvb.bwt.MfdibTrbdkfr#ERRORED
+     * @sff          jbvb.bwt.MfdibTrbdkfr#COMPLETE
+     */
+    publid int stbtusID(int id, boolfbn lobd) {
+        rfturn stbtusID(id, lobd, truf);
+    }
+
+    privbtf syndhronizfd int stbtusID(int id, boolfbn lobd, boolfbn vfrify) {
+        MfdibEntry dur = hfbd;
+        int stbtus = 0;
+        whilf (dur != null) {
+            if (dur.gftID() == id) {
+                stbtus = stbtus | dur.gftStbtus(lobd, vfrify);
+            }
+            dur = dur.nfxt;
+        }
+        rfturn stbtus;
+    }
+
+    /**
+     * Rfmovfs thf spfdififd imbgf from this mfdib trbdkfr.
+     * All instbndfs of thf spfdififd imbgf brf rfmovfd,
+     * rfgbrdlfss of sdblf or ID.
+     * @pbrbm   imbgf     thf imbgf to bf rfmovfd
+     * @sff     jbvb.bwt.MfdibTrbdkfr#rfmovfImbgf(jbvb.bwt.Imbgf, int)
+     * @sff     jbvb.bwt.MfdibTrbdkfr#rfmovfImbgf(jbvb.bwt.Imbgf, int, int, int)
+     * @sindf   1.1
+     */
+    publid syndhronizfd void rfmovfImbgf(Imbgf imbgf) {
+        rfmovfImbgfImpl(imbgf);
+        Imbgf rvImbgf = gftRfsolutionVbribnt(imbgf);
+        if (rvImbgf != null) {
+            rfmovfImbgfImpl(rvImbgf);
+        }
+        notifyAll();    // Notify in dbsf rfmbining imbgfs brf "donf".
+    }
+
+    privbtf void rfmovfImbgfImpl(Imbgf imbgf) {
+        MfdibEntry dur = hfbd;
+        MfdibEntry prfv = null;
+        whilf (dur != null) {
+            MfdibEntry nfxt = dur.nfxt;
+            if (dur.gftMfdib() == imbgf) {
+                if (prfv == null) {
+                    hfbd = nfxt;
+                } flsf {
+                    prfv.nfxt = nfxt;
+                }
+                dur.dbndfl();
+            } flsf {
+                prfv = dur;
+            }
+            dur = nfxt;
+        }
+    }
+
+    /**
+     * Rfmovfs thf spfdififd imbgf from thf spfdififd trbdking
+     * ID of this mfdib trbdkfr.
+     * All instbndfs of <dodf>Imbgf</dodf> bfing trbdkfd
+     * undfr thf spfdififd ID brf rfmovfd rfgbrdlfss of sdblf.
+     * @pbrbm      imbgf thf imbgf to bf rfmovfd
+     * @pbrbm      id thf trbdking ID from whidh to rfmovf thf imbgf
+     * @sff        jbvb.bwt.MfdibTrbdkfr#rfmovfImbgf(jbvb.bwt.Imbgf)
+     * @sff        jbvb.bwt.MfdibTrbdkfr#rfmovfImbgf(jbvb.bwt.Imbgf, int, int, int)
+     * @sindf      1.1
+     */
+    publid syndhronizfd void rfmovfImbgf(Imbgf imbgf, int id) {
+        rfmovfImbgfImpl(imbgf, id);
+        Imbgf rvImbgf = gftRfsolutionVbribnt(imbgf);
+        if (rvImbgf != null) {
+            rfmovfImbgfImpl(rvImbgf, id);
+        }
+        notifyAll();    // Notify in dbsf rfmbining imbgfs brf "donf".
+    }
+
+    privbtf void rfmovfImbgfImpl(Imbgf imbgf, int id) {
+        MfdibEntry dur = hfbd;
+        MfdibEntry prfv = null;
+        whilf (dur != null) {
+            MfdibEntry nfxt = dur.nfxt;
+            if (dur.gftID() == id && dur.gftMfdib() == imbgf) {
+                if (prfv == null) {
+                    hfbd = nfxt;
+                } flsf {
+                    prfv.nfxt = nfxt;
+                }
+                dur.dbndfl();
+            } flsf {
+                prfv = dur;
+            }
+            dur = nfxt;
+        }
+    }
+
+    /**
+     * Rfmovfs thf spfdififd imbgf with thf spfdififd
+     * width, hfight, bnd ID from this mfdib trbdkfr.
+     * Only thf spfdififd instbndf (with bny duplidbtfs) is rfmovfd.
+     * @pbrbm   imbgf thf imbgf to bf rfmovfd
+     * @pbrbm   id thf trbdking ID from whidh to rfmovf thf imbgf
+     * @pbrbm   width thf width to rfmovf (-1 for unsdblfd)
+     * @pbrbm   hfight thf hfight to rfmovf (-1 for unsdblfd)
+     * @sff     jbvb.bwt.MfdibTrbdkfr#rfmovfImbgf(jbvb.bwt.Imbgf)
+     * @sff     jbvb.bwt.MfdibTrbdkfr#rfmovfImbgf(jbvb.bwt.Imbgf, int)
+     * @sindf   1.1
+     */
+    publid syndhronizfd void rfmovfImbgf(Imbgf imbgf, int id,
+                                         int width, int hfight) {
+        rfmovfImbgfImpl(imbgf, id, width, hfight);
+        Imbgf rvImbgf = gftRfsolutionVbribnt(imbgf);
+        if (rvImbgf != null) {
+            rfmovfImbgfImpl(rvImbgf, id,
+                    width == -1 ? -1 : 2 * width,
+                    hfight == -1 ? -1 : 2 * hfight);
+        }
+        notifyAll();    // Notify in dbsf rfmbining imbgfs brf "donf".
+    }
+
+    privbtf void rfmovfImbgfImpl(Imbgf imbgf, int id, int width, int hfight) {
+        MfdibEntry dur = hfbd;
+        MfdibEntry prfv = null;
+        whilf (dur != null) {
+            MfdibEntry nfxt = dur.nfxt;
+            if (dur.gftID() == id && dur instbndfof ImbgfMfdibEntry
+                && ((ImbgfMfdibEntry) dur).mbtdhfs(imbgf, width, hfight))
+            {
+                if (prfv == null) {
+                    hfbd = nfxt;
+                } flsf {
+                    prfv.nfxt = nfxt;
+                }
+                dur.dbndfl();
+            } flsf {
+                prfv = dur;
+            }
+            dur = nfxt;
+        }
+    }
+
+    syndhronizfd void sftDonf() {
+        notifyAll();
+    }
+
+    privbtf stbtid Imbgf gftRfsolutionVbribnt(Imbgf imbgf) {
+        if (imbgf instbndfof MultiRfsolutionToolkitImbgf) {
+            rfturn ((MultiRfsolutionToolkitImbgf) imbgf).gftRfsolutionVbribnt();
+        }
+        rfturn null;
+    }
+}
+
+bbstrbdt dlbss MfdibEntry {
+    MfdibTrbdkfr trbdkfr;
+    int ID;
+    MfdibEntry nfxt;
+
+    int stbtus;
+    boolfbn dbndfllfd;
+
+    MfdibEntry(MfdibTrbdkfr mt, int id) {
+        trbdkfr = mt;
+        ID = id;
+    }
+
+    bbstrbdt Objfdt gftMfdib();
+
+    stbtid MfdibEntry insfrt(MfdibEntry hfbd, MfdibEntry mf) {
+        MfdibEntry dur = hfbd;
+        MfdibEntry prfv = null;
+        whilf (dur != null) {
+            if (dur.ID > mf.ID) {
+                brfbk;
+            }
+            prfv = dur;
+            dur = dur.nfxt;
+        }
+        mf.nfxt = dur;
+        if (prfv == null) {
+            hfbd = mf;
+        } flsf {
+            prfv.nfxt = mf;
+        }
+        rfturn hfbd;
+    }
+
+    int gftID() {
+        rfturn ID;
+    }
+
+    bbstrbdt void stbrtLobd();
+
+    void dbndfl() {
+        dbndfllfd = truf;
+    }
+
+    stbtid finbl int LOADING = MfdibTrbdkfr.LOADING;
+    stbtid finbl int ABORTED = MfdibTrbdkfr.ABORTED;
+    stbtid finbl int ERRORED = MfdibTrbdkfr.ERRORED;
+    stbtid finbl int COMPLETE = MfdibTrbdkfr.COMPLETE;
+
+    stbtid finbl int LOADSTARTED = (LOADING | ERRORED | COMPLETE);
+    stbtid finbl int DONE = (ABORTED | ERRORED | COMPLETE);
+
+    syndhronizfd int gftStbtus(boolfbn doLobd, boolfbn doVfrify) {
+        if (doLobd && ((stbtus & LOADSTARTED) == 0)) {
+            stbtus = (stbtus & ~ABORTED) | LOADING;
+            stbrtLobd();
+        }
+        rfturn stbtus;
+    }
+
+    void sftStbtus(int flbg) {
+        syndhronizfd (this) {
+            stbtus = flbg;
+        }
+        trbdkfr.sftDonf();
+    }
+}
+
+dlbss ImbgfMfdibEntry fxtfnds MfdibEntry implfmfnts ImbgfObsfrvfr,
+jbvb.io.Sfriblizbblf {
+    Imbgf imbgf;
+    int width;
+    int hfight;
+
+    /*
+     * JDK 1.1 sfriblVfrsionUID
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = 4739377000350280650L;
+
+    ImbgfMfdibEntry(MfdibTrbdkfr mt, Imbgf img, int d, int w, int h) {
+        supfr(mt, d);
+        imbgf = img;
+        width = w;
+        hfight = h;
+    }
+
+    boolfbn mbtdhfs(Imbgf img, int w, int h) {
+        rfturn (imbgf == img && width == w && hfight == h);
+    }
+
+    Objfdt gftMfdib() {
+        rfturn imbgf;
+    }
+
+    syndhronizfd int gftStbtus(boolfbn doLobd, boolfbn doVfrify) {
+        if (doVfrify) {
+            int flbgs = trbdkfr.tbrgft.dhfdkImbgf(imbgf, width, hfight, null);
+            int s = pbrsfflbgs(flbgs);
+            if (s == 0) {
+                if ((stbtus & (ERRORED | COMPLETE)) != 0) {
+                    sftStbtus(ABORTED);
+                }
+            } flsf if (s != stbtus) {
+                sftStbtus(s);
+            }
+        }
+        rfturn supfr.gftStbtus(doLobd, doVfrify);
+    }
+
+    void stbrtLobd() {
+        if (trbdkfr.tbrgft.prfpbrfImbgf(imbgf, width, hfight, this)) {
+            sftStbtus(COMPLETE);
+        }
+    }
+
+    int pbrsfflbgs(int infoflbgs) {
+        if ((infoflbgs & ERROR) != 0) {
+            rfturn ERRORED;
+        } flsf if ((infoflbgs & ABORT) != 0) {
+            rfturn ABORTED;
+        } flsf if ((infoflbgs & (ALLBITS | FRAMEBITS)) != 0) {
+            rfturn COMPLETE;
+        }
+        rfturn 0;
+    }
+
+    publid boolfbn imbgfUpdbtf(Imbgf img, int infoflbgs,
+                               int x, int y, int w, int h) {
+        if (dbndfllfd) {
+            rfturn fblsf;
+        }
+        int s = pbrsfflbgs(infoflbgs);
+        if (s != 0 && s != stbtus) {
+            sftStbtus(s);
+        }
+        rfturn ((stbtus & LOADING) != 0);
+    }
+}

@@ -1,959 +1,959 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.text;
+pbdkbgf jbvbx.swing.tfxt;
 
-import java.util.Vector;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.Serializable;
-import javax.swing.undo.AbstractUndoableEdit;
-import javax.swing.undo.CannotRedoException;
-import javax.swing.undo.CannotUndoException;
-import javax.swing.undo.UndoableEdit;
-import javax.swing.SwingUtilities;
-import java.lang.ref.WeakReference;
-import java.lang.ref.ReferenceQueue;
+import jbvb.util.Vfdtor;
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.Sfriblizbblf;
+import jbvbx.swing.undo.AbstrbdtUndobblfEdit;
+import jbvbx.swing.undo.CbnnotRfdoExdfption;
+import jbvbx.swing.undo.CbnnotUndoExdfption;
+import jbvbx.swing.undo.UndobblfEdit;
+import jbvbx.swing.SwingUtilitifs;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.lbng.rff.RfffrfndfQufuf;
 
 /**
- * An implementation of the AbstractDocument.Content interface
- * implemented using a gapped buffer similar to that used by emacs.
- * The underlying storage is a array of unicode characters with
- * a gap somewhere.  The gap is moved to the location of changes
- * to take advantage of common behavior where most changes are
- * in the same location.  Changes that occur at a gap boundary are
- * generally cheap and moving the gap is generally cheaper than
- * moving the array contents directly to accommodate the change.
+ * An implfmfntbtion of tif AbstrbdtDodumfnt.Contfnt intfrfbdf
+ * implfmfntfd using b gbppfd bufffr similbr to tibt usfd by fmbds.
+ * Tif undfrlying storbgf is b brrby of unidodf dibrbdtfrs witi
+ * b gbp somfwifrf.  Tif gbp is movfd to tif lodbtion of dibngfs
+ * to tbkf bdvbntbgf of dommon bfibvior wifrf most dibngfs brf
+ * in tif sbmf lodbtion.  Cibngfs tibt oddur bt b gbp boundbry brf
+ * gfnfrblly difbp bnd moving tif gbp is gfnfrblly difbpfr tibn
+ * moving tif brrby dontfnts dirfdtly to bddommodbtf tif dibngf.
  * <p>
- * The positions tracking change are also generally cheap to
- * maintain.  The Position implementations (marks) store the array
- * index and can easily calculate the sequential position from
- * the current gap location.  Changes only require update to the
- * the marks between the old and new gap boundaries when the gap
- * is moved, so generally updating the marks is pretty cheap.
- * The marks are stored sorted so they can be located quickly
- * with a binary search.  This increases the cost of adding a
- * mark, and decreases the cost of keeping the mark updated.
+ * Tif positions trbdking dibngf brf blso gfnfrblly difbp to
+ * mbintbin.  Tif Position implfmfntbtions (mbrks) storf tif brrby
+ * indfx bnd dbn fbsily dbldulbtf tif sfqufntibl position from
+ * tif durrfnt gbp lodbtion.  Cibngfs only rfquirf updbtf to tif
+ * tif mbrks bftwffn tif old bnd nfw gbp boundbrifs wifn tif gbp
+ * is movfd, so gfnfrblly updbting tif mbrks is prftty difbp.
+ * Tif mbrks brf storfd sortfd so tify dbn bf lodbtfd quidkly
+ * witi b binbry sfbrdi.  Tiis indrfbsfs tif dost of bdding b
+ * mbrk, bnd dfdrfbsfs tif dost of kffping tif mbrk updbtfd.
  *
- * @author  Timothy Prinzing
+ * @butior  Timotiy Prinzing
  */
-@SuppressWarnings("serial") // Superclass is not serializable across versions
-public class GapContent extends GapVector implements AbstractDocument.Content, Serializable {
+@SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+publid dlbss GbpContfnt fxtfnds GbpVfdtor implfmfnts AbstrbdtDodumfnt.Contfnt, Sfriblizbblf {
 
     /**
-     * Creates a new GapContent object.  Initial size defaults to 10.
+     * Crfbtfs b nfw GbpContfnt objfdt.  Initibl sizf dffbults to 10.
      */
-    public GapContent() {
-        this(10);
+    publid GbpContfnt() {
+        tiis(10);
     }
 
     /**
-     * Creates a new GapContent object, with the initial
-     * size specified.  The initial size will not be allowed
-     * to go below 2, to give room for the implied break and
-     * the gap.
+     * Crfbtfs b nfw GbpContfnt objfdt, witi tif initibl
+     * sizf spfdififd.  Tif initibl sizf will not bf bllowfd
+     * to go bflow 2, to givf room for tif implifd brfbk bnd
+     * tif gbp.
      *
-     * @param initialLength the initial size
+     * @pbrbm initiblLfngti tif initibl sizf
      */
-    public GapContent(int initialLength) {
-        super(Math.max(initialLength,2));
-        char[] implied = new char[1];
-        implied[0] = '\n';
-        replace(0, 0, implied, implied.length);
+    publid GbpContfnt(int initiblLfngti) {
+        supfr(Mbti.mbx(initiblLfngti,2));
+        dibr[] implifd = nfw dibr[1];
+        implifd[0] = '\n';
+        rfplbdf(0, 0, implifd, implifd.lfngti);
 
-        marks = new MarkVector();
-        search = new MarkData(0);
-        queue = new ReferenceQueue<StickyPosition>();
+        mbrks = nfw MbrkVfdtor();
+        sfbrdi = nfw MbrkDbtb(0);
+        qufuf = nfw RfffrfndfQufuf<StidkyPosition>();
     }
 
     /**
-     * Allocate an array to store items of the type
-     * appropriate (which is determined by the subclass).
+     * Allodbtf bn brrby to storf itfms of tif typf
+     * bppropribtf (wiidi is dftfrminfd by tif subdlbss).
      */
-    protected Object allocateArray(int len) {
-        return new char[len];
+    protfdtfd Objfdt bllodbtfArrby(int lfn) {
+        rfturn nfw dibr[lfn];
     }
 
     /**
-     * Get the length of the allocated array.
+     * Gft tif lfngti of tif bllodbtfd brrby.
      */
-    protected int getArrayLength() {
-        char[] carray = (char[]) getArray();
-        return carray.length;
+    protfdtfd int gftArrbyLfngti() {
+        dibr[] dbrrby = (dibr[]) gftArrby();
+        rfturn dbrrby.lfngti;
     }
 
-    // --- AbstractDocument.Content methods -------------------------
+    // --- AbstrbdtDodumfnt.Contfnt mftiods -------------------------
 
     /**
-     * Returns the length of the content.
+     * Rfturns tif lfngti of tif dontfnt.
      *
-     * @return the length &gt;= 1
-     * @see AbstractDocument.Content#length
+     * @rfturn tif lfngti &gt;= 1
+     * @sff AbstrbdtDodumfnt.Contfnt#lfngti
      */
-    public int length() {
-        int len = getArrayLength() - (getGapEnd() - getGapStart());
-        return len;
+    publid int lfngti() {
+        int lfn = gftArrbyLfngti() - (gftGbpEnd() - gftGbpStbrt());
+        rfturn lfn;
     }
 
     /**
-     * Inserts a string into the content.
+     * Insfrts b string into tif dontfnt.
      *
-     * @param where the starting position &gt;= 0, &lt; length()
-     * @param str the non-null string to insert
-     * @return an UndoableEdit object for undoing
-     * @exception BadLocationException if the specified position is invalid
-     * @see AbstractDocument.Content#insertString
+     * @pbrbm wifrf tif stbrting position &gt;= 0, &lt; lfngti()
+     * @pbrbm str tif non-null string to insfrt
+     * @rfturn bn UndobblfEdit objfdt for undoing
+     * @fxdfption BbdLodbtionExdfption if tif spfdififd position is invblid
+     * @sff AbstrbdtDodumfnt.Contfnt#insfrtString
      */
-    public UndoableEdit insertString(int where, String str) throws BadLocationException {
-        if (where > length() || where < 0) {
-            throw new BadLocationException("Invalid insert", length());
+    publid UndobblfEdit insfrtString(int wifrf, String str) tirows BbdLodbtionExdfption {
+        if (wifrf > lfngti() || wifrf < 0) {
+            tirow nfw BbdLodbtionExdfption("Invblid insfrt", lfngti());
         }
-        char[] chars = str.toCharArray();
-        replace(where, 0, chars, chars.length);
-        return new InsertUndo(where, str.length());
+        dibr[] dibrs = str.toCibrArrby();
+        rfplbdf(wifrf, 0, dibrs, dibrs.lfngti);
+        rfturn nfw InsfrtUndo(wifrf, str.lfngti());
     }
 
     /**
-     * Removes part of the content.
+     * Rfmovfs pbrt of tif dontfnt.
      *
-     * @param where the starting position &gt;= 0, where + nitems &lt; length()
-     * @param nitems the number of characters to remove &gt;= 0
-     * @return an UndoableEdit object for undoing
-     * @exception BadLocationException if the specified position is invalid
-     * @see AbstractDocument.Content#remove
+     * @pbrbm wifrf tif stbrting position &gt;= 0, wifrf + nitfms &lt; lfngti()
+     * @pbrbm nitfms tif numbfr of dibrbdtfrs to rfmovf &gt;= 0
+     * @rfturn bn UndobblfEdit objfdt for undoing
+     * @fxdfption BbdLodbtionExdfption if tif spfdififd position is invblid
+     * @sff AbstrbdtDodumfnt.Contfnt#rfmovf
      */
-    public UndoableEdit remove(int where, int nitems) throws BadLocationException {
-        if (where + nitems >= length()) {
-            throw new BadLocationException("Invalid remove", length() + 1);
+    publid UndobblfEdit rfmovf(int wifrf, int nitfms) tirows BbdLodbtionExdfption {
+        if (wifrf + nitfms >= lfngti()) {
+            tirow nfw BbdLodbtionExdfption("Invblid rfmovf", lfngti() + 1);
         }
-        String removedString = getString(where, nitems);
-        UndoableEdit edit = new RemoveUndo(where, removedString);
-        replace(where, nitems, empty, 0);
-        return edit;
+        String rfmovfdString = gftString(wifrf, nitfms);
+        UndobblfEdit fdit = nfw RfmovfUndo(wifrf, rfmovfdString);
+        rfplbdf(wifrf, nitfms, fmpty, 0);
+        rfturn fdit;
 
     }
 
     /**
-     * Retrieves a portion of the content.
+     * Rftrifvfs b portion of tif dontfnt.
      *
-     * @param where the starting position &gt;= 0
-     * @param len the length to retrieve &gt;= 0
-     * @return a string representing the content
-     * @exception BadLocationException if the specified position is invalid
-     * @see AbstractDocument.Content#getString
+     * @pbrbm wifrf tif stbrting position &gt;= 0
+     * @pbrbm lfn tif lfngti to rftrifvf &gt;= 0
+     * @rfturn b string rfprfsfnting tif dontfnt
+     * @fxdfption BbdLodbtionExdfption if tif spfdififd position is invblid
+     * @sff AbstrbdtDodumfnt.Contfnt#gftString
      */
-    public String getString(int where, int len) throws BadLocationException {
-        Segment s = new Segment();
-        getChars(where, len, s);
-        return new String(s.array, s.offset, s.count);
+    publid String gftString(int wifrf, int lfn) tirows BbdLodbtionExdfption {
+        Sfgmfnt s = nfw Sfgmfnt();
+        gftCibrs(wifrf, lfn, s);
+        rfturn nfw String(s.brrby, s.offsft, s.dount);
     }
 
     /**
-     * Retrieves a portion of the content.  If the desired content spans
-     * the gap, we copy the content.  If the desired content does not
-     * span the gap, the actual store is returned to avoid the copy since
-     * it is contiguous.
+     * Rftrifvfs b portion of tif dontfnt.  If tif dfsirfd dontfnt spbns
+     * tif gbp, wf dopy tif dontfnt.  If tif dfsirfd dontfnt dofs not
+     * spbn tif gbp, tif bdtubl storf is rfturnfd to bvoid tif dopy sindf
+     * it is dontiguous.
      *
-     * @param where the starting position &gt;= 0, where + len &lt;= length()
-     * @param len the number of characters to retrieve &gt;= 0
-     * @param chars the Segment object to return the characters in
-     * @exception BadLocationException if the specified position is invalid
-     * @see AbstractDocument.Content#getChars
+     * @pbrbm wifrf tif stbrting position &gt;= 0, wifrf + lfn &lt;= lfngti()
+     * @pbrbm lfn tif numbfr of dibrbdtfrs to rftrifvf &gt;= 0
+     * @pbrbm dibrs tif Sfgmfnt objfdt to rfturn tif dibrbdtfrs in
+     * @fxdfption BbdLodbtionExdfption if tif spfdififd position is invblid
+     * @sff AbstrbdtDodumfnt.Contfnt#gftCibrs
      */
-    public void getChars(int where, int len, Segment chars) throws BadLocationException {
-        int end = where + len;
-        if (where < 0 || end < 0) {
-            throw new BadLocationException("Invalid location", -1);
+    publid void gftCibrs(int wifrf, int lfn, Sfgmfnt dibrs) tirows BbdLodbtionExdfption {
+        int fnd = wifrf + lfn;
+        if (wifrf < 0 || fnd < 0) {
+            tirow nfw BbdLodbtionExdfption("Invblid lodbtion", -1);
         }
-        if (end > length() || where > length()) {
-            throw new BadLocationException("Invalid location", length() + 1);
+        if (fnd > lfngti() || wifrf > lfngti()) {
+            tirow nfw BbdLodbtionExdfption("Invblid lodbtion", lfngti() + 1);
         }
-        int g0 = getGapStart();
-        int g1 = getGapEnd();
-        char[] array = (char[]) getArray();
-        if ((where + len) <= g0) {
-            // below gap
-            chars.array = array;
-            chars.offset = where;
-        } else if (where >= g0) {
-            // above gap
-            chars.array = array;
-            chars.offset = g1 + where - g0;
-        } else {
-            // spans the gap
-            int before = g0 - where;
-            if (chars.isPartialReturn()) {
-                // partial return allowed, return amount before the gap
-                chars.array = array;
-                chars.offset = where;
-                chars.count = before;
-                return;
+        int g0 = gftGbpStbrt();
+        int g1 = gftGbpEnd();
+        dibr[] brrby = (dibr[]) gftArrby();
+        if ((wifrf + lfn) <= g0) {
+            // bflow gbp
+            dibrs.brrby = brrby;
+            dibrs.offsft = wifrf;
+        } flsf if (wifrf >= g0) {
+            // bbovf gbp
+            dibrs.brrby = brrby;
+            dibrs.offsft = g1 + wifrf - g0;
+        } flsf {
+            // spbns tif gbp
+            int bfforf = g0 - wifrf;
+            if (dibrs.isPbrtiblRfturn()) {
+                // pbrtibl rfturn bllowfd, rfturn bmount bfforf tif gbp
+                dibrs.brrby = brrby;
+                dibrs.offsft = wifrf;
+                dibrs.dount = bfforf;
+                rfturn;
             }
-            // partial return not allowed, must copy
-            chars.array = new char[len];
-            chars.offset = 0;
-            System.arraycopy(array, where, chars.array, 0, before);
-            System.arraycopy(array, g1, chars.array, before, len - before);
+            // pbrtibl rfturn not bllowfd, must dopy
+            dibrs.brrby = nfw dibr[lfn];
+            dibrs.offsft = 0;
+            Systfm.brrbydopy(brrby, wifrf, dibrs.brrby, 0, bfforf);
+            Systfm.brrbydopy(brrby, g1, dibrs.brrby, bfforf, lfn - bfforf);
         }
-        chars.count = len;
+        dibrs.dount = lfn;
     }
 
     /**
-     * Creates a position within the content that will
-     * track change as the content is mutated.
+     * Crfbtfs b position witiin tif dontfnt tibt will
+     * trbdk dibngf bs tif dontfnt is mutbtfd.
      *
-     * @param offset the offset to track &gt;= 0
-     * @return the position
-     * @exception BadLocationException if the specified position is invalid
+     * @pbrbm offsft tif offsft to trbdk &gt;= 0
+     * @rfturn tif position
+     * @fxdfption BbdLodbtionExdfption if tif spfdififd position is invblid
      */
-    public Position createPosition(int offset) throws BadLocationException {
-        while ( queue.poll() != null ) {
-            unusedMarks++;
+    publid Position drfbtfPosition(int offsft) tirows BbdLodbtionExdfption {
+        wiilf ( qufuf.poll() != null ) {
+            unusfdMbrks++;
         }
-        if (unusedMarks > Math.max(5, (marks.size() / 10))) {
-            removeUnusedMarks();
+        if (unusfdMbrks > Mbti.mbx(5, (mbrks.sizf() / 10))) {
+            rfmovfUnusfdMbrks();
         }
-        int g0 = getGapStart();
-        int g1 = getGapEnd();
-        int index = (offset < g0) ? offset : offset + (g1 - g0);
-        search.index = index;
-        int sortIndex = findSortIndex(search);
-        MarkData m;
-        StickyPosition position;
-        if (sortIndex < marks.size()
-            && (m = marks.elementAt(sortIndex)).index == index
-            && (position = m.getPosition()) != null) {
-            //position references the correct StickyPostition
-        } else {
-            position = new StickyPosition();
-            m = new MarkData(index,position,queue);
-            position.setMark(m);
-            marks.insertElementAt(m, sortIndex);
+        int g0 = gftGbpStbrt();
+        int g1 = gftGbpEnd();
+        int indfx = (offsft < g0) ? offsft : offsft + (g1 - g0);
+        sfbrdi.indfx = indfx;
+        int sortIndfx = findSortIndfx(sfbrdi);
+        MbrkDbtb m;
+        StidkyPosition position;
+        if (sortIndfx < mbrks.sizf()
+            && (m = mbrks.flfmfntAt(sortIndfx)).indfx == indfx
+            && (position = m.gftPosition()) != null) {
+            //position rfffrfndfs tif dorrfdt StidkyPostition
+        } flsf {
+            position = nfw StidkyPosition();
+            m = nfw MbrkDbtb(indfx,position,qufuf);
+            position.sftMbrk(m);
+            mbrks.insfrtElfmfntAt(m, sortIndfx);
         }
 
-        return position;
+        rfturn position;
     }
 
     /**
-     * Holds the data for a mark... separately from
-     * the real mark so that the real mark (Position
-     * that the caller of createPosition holds) can be
-     * collected if there are no more references to
-     * it.  The update table holds only a reference
-     * to this data.
+     * Holds tif dbtb for b mbrk... sfpbrbtfly from
+     * tif rfbl mbrk so tibt tif rfbl mbrk (Position
+     * tibt tif dbllfr of drfbtfPosition iolds) dbn bf
+     * dollfdtfd if tifrf brf no morf rfffrfndfs to
+     * it.  Tif updbtf tbblf iolds only b rfffrfndf
+     * to tiis dbtb.
      */
-    final class MarkData extends WeakReference<StickyPosition> {
+    finbl dlbss MbrkDbtb fxtfnds WfbkRfffrfndf<StidkyPosition> {
 
-        MarkData(int index) {
-            super(null);
-            this.index = index;
+        MbrkDbtb(int indfx) {
+            supfr(null);
+            tiis.indfx = indfx;
         }
-        MarkData(int index, StickyPosition position, ReferenceQueue<? super StickyPosition> queue) {
-            super(position, queue);
-            this.index = index;
+        MbrkDbtb(int indfx, StidkyPosition position, RfffrfndfQufuf<? supfr StidkyPosition> qufuf) {
+            supfr(position, qufuf);
+            tiis.indfx = indfx;
         }
 
         /**
-         * Fetch the location in the contiguous sequence
-         * being modeled.  The index in the gap array
-         * is held by the mark, so it is adjusted according
-         * to it's relationship to the gap.
+         * Fftdi tif lodbtion in tif dontiguous sfqufndf
+         * bfing modflfd.  Tif indfx in tif gbp brrby
+         * is ifld by tif mbrk, so it is bdjustfd bddording
+         * to it's rflbtionsiip to tif gbp.
          */
-        public final int getOffset() {
-            int g0 = getGapStart();
-            int g1 = getGapEnd();
-            int offs = (index < g0) ? index : index - (g1 - g0);
-            return Math.max(offs, 0);
+        publid finbl int gftOffsft() {
+            int g0 = gftGbpStbrt();
+            int g1 = gftGbpEnd();
+            int offs = (indfx < g0) ? indfx : indfx - (g1 - g0);
+            rfturn Mbti.mbx(offs, 0);
         }
 
-        StickyPosition getPosition() {
-            return get();
+        StidkyPosition gftPosition() {
+            rfturn gft();
         }
-        int index;
+        int indfx;
     }
 
-    final class StickyPosition implements Position {
+    finbl dlbss StidkyPosition implfmfnts Position {
 
-        StickyPosition() {
+        StidkyPosition() {
         }
 
-        void setMark(MarkData mark) {
-            this.mark = mark;
+        void sftMbrk(MbrkDbtb mbrk) {
+            tiis.mbrk = mbrk;
         }
 
-        public final int getOffset() {
-            return mark.getOffset();
+        publid finbl int gftOffsft() {
+            rfturn mbrk.gftOffsft();
         }
 
-        public String toString() {
-            return Integer.toString(getOffset());
+        publid String toString() {
+            rfturn Intfgfr.toString(gftOffsft());
         }
 
-        MarkData mark;
+        MbrkDbtb mbrk;
     }
 
-    // --- variables --------------------------------------
+    // --- vbribblfs --------------------------------------
 
-    private static final char[] empty = new char[0];
-    private transient MarkVector marks;
-
-    /**
-     * Record used for searching for the place to
-     * start updating mark indexs when the gap
-     * boundaries are moved.
-     */
-    private transient MarkData search;
+    privbtf stbtid finbl dibr[] fmpty = nfw dibr[0];
+    privbtf trbnsifnt MbrkVfdtor mbrks;
 
     /**
-     * The number of unused mark entries
+     * Rfdord usfd for sfbrdiing for tif plbdf to
+     * stbrt updbting mbrk indfxs wifn tif gbp
+     * boundbrifs brf movfd.
      */
-    private transient int unusedMarks = 0;
-
-    private transient ReferenceQueue<StickyPosition> queue;
-
-    final static int GROWTH_SIZE = 1024 * 512;
-
-    // --- gap management -------------------------------
+    privbtf trbnsifnt MbrkDbtb sfbrdi;
 
     /**
-     * Make the gap bigger, moving any necessary data and updating
-     * the appropriate marks
+     * Tif numbfr of unusfd mbrk fntrifs
      */
-    protected void shiftEnd(int newSize) {
-        int oldGapEnd = getGapEnd();
+    privbtf trbnsifnt int unusfdMbrks = 0;
 
-        super.shiftEnd(newSize);
+    privbtf trbnsifnt RfffrfndfQufuf<StidkyPosition> qufuf;
 
-        // Adjust marks.
-        int dg = getGapEnd() - oldGapEnd;
-        int adjustIndex = findMarkAdjustIndex(oldGapEnd);
-        int n = marks.size();
-        for (int i = adjustIndex; i < n; i++) {
-            MarkData mark = marks.elementAt(i);
-            mark.index += dg;
-        }
-    }
+    finbl stbtid int GROWTH_SIZE = 1024 * 512;
+
+    // --- gbp mbnbgfmfnt -------------------------------
 
     /**
-     * Overridden to make growth policy less agressive for large
-     * text amount.
+     * Mbkf tif gbp biggfr, moving bny nfdfssbry dbtb bnd updbting
+     * tif bppropribtf mbrks
      */
-    int getNewArraySize(int reqSize) {
-        if (reqSize < GROWTH_SIZE) {
-            return super.getNewArraySize(reqSize);
-        } else {
-            return reqSize + GROWTH_SIZE;
+    protfdtfd void siiftEnd(int nfwSizf) {
+        int oldGbpEnd = gftGbpEnd();
+
+        supfr.siiftEnd(nfwSizf);
+
+        // Adjust mbrks.
+        int dg = gftGbpEnd() - oldGbpEnd;
+        int bdjustIndfx = findMbrkAdjustIndfx(oldGbpEnd);
+        int n = mbrks.sizf();
+        for (int i = bdjustIndfx; i < n; i++) {
+            MbrkDbtb mbrk = mbrks.flfmfntAt(i);
+            mbrk.indfx += dg;
         }
     }
 
     /**
-     * Move the start of the gap to a new location,
-     * without changing the size of the gap.  This
-     * moves the data in the array and updates the
-     * marks accordingly.
+     * Ovfrriddfn to mbkf growti polidy lfss bgrfssivf for lbrgf
+     * tfxt bmount.
      */
-    protected void shiftGap(int newGapStart) {
-        int oldGapStart = getGapStart();
-        int dg = newGapStart - oldGapStart;
-        int oldGapEnd = getGapEnd();
-        int newGapEnd = oldGapEnd + dg;
-        int gapSize = oldGapEnd - oldGapStart;
+    int gftNfwArrbySizf(int rfqSizf) {
+        if (rfqSizf < GROWTH_SIZE) {
+            rfturn supfr.gftNfwArrbySizf(rfqSizf);
+        } flsf {
+            rfturn rfqSizf + GROWTH_SIZE;
+        }
+    }
 
-        // shift gap in the character array
-        super.shiftGap(newGapStart);
+    /**
+     * Movf tif stbrt of tif gbp to b nfw lodbtion,
+     * witiout dibnging tif sizf of tif gbp.  Tiis
+     * movfs tif dbtb in tif brrby bnd updbtfs tif
+     * mbrks bddordingly.
+     */
+    protfdtfd void siiftGbp(int nfwGbpStbrt) {
+        int oldGbpStbrt = gftGbpStbrt();
+        int dg = nfwGbpStbrt - oldGbpStbrt;
+        int oldGbpEnd = gftGbpEnd();
+        int nfwGbpEnd = oldGbpEnd + dg;
+        int gbpSizf = oldGbpEnd - oldGbpStbrt;
 
-        // update the marks
+        // siift gbp in tif dibrbdtfr brrby
+        supfr.siiftGbp(nfwGbpStbrt);
+
+        // updbtf tif mbrks
         if (dg > 0) {
-            // Move gap up, move data and marks down.
-            int adjustIndex = findMarkAdjustIndex(oldGapStart);
-            int n = marks.size();
-            for (int i = adjustIndex; i < n; i++) {
-                MarkData mark = marks.elementAt(i);
-                if (mark.index >= newGapEnd) {
-                    break;
+            // Movf gbp up, movf dbtb bnd mbrks down.
+            int bdjustIndfx = findMbrkAdjustIndfx(oldGbpStbrt);
+            int n = mbrks.sizf();
+            for (int i = bdjustIndfx; i < n; i++) {
+                MbrkDbtb mbrk = mbrks.flfmfntAt(i);
+                if (mbrk.indfx >= nfwGbpEnd) {
+                    brfbk;
                 }
-                mark.index -= gapSize;
+                mbrk.indfx -= gbpSizf;
             }
-        } else if (dg < 0) {
-            // Move gap down, move data and marks up.
-            int adjustIndex = findMarkAdjustIndex(newGapStart);
-            int n = marks.size();
-            for (int i = adjustIndex; i < n; i++) {
-                MarkData mark = marks.elementAt(i);
-                if (mark.index >= oldGapEnd) {
-                    break;
+        } flsf if (dg < 0) {
+            // Movf gbp down, movf dbtb bnd mbrks up.
+            int bdjustIndfx = findMbrkAdjustIndfx(nfwGbpStbrt);
+            int n = mbrks.sizf();
+            for (int i = bdjustIndfx; i < n; i++) {
+                MbrkDbtb mbrk = mbrks.flfmfntAt(i);
+                if (mbrk.indfx >= oldGbpEnd) {
+                    brfbk;
                 }
-                mark.index += gapSize;
+                mbrk.indfx += gbpSizf;
             }
         }
-        resetMarksAtZero();
+        rfsftMbrksAtZfro();
     }
 
     /**
-     * Resets all the marks that have an offset of 0 to have an index of
-     * zero as well.
+     * Rfsfts bll tif mbrks tibt ibvf bn offsft of 0 to ibvf bn indfx of
+     * zfro bs wfll.
      */
-    protected void resetMarksAtZero() {
-        if (marks != null && getGapStart() == 0) {
-            int g1 = getGapEnd();
-            for (int counter = 0, maxCounter = marks.size();
-                 counter < maxCounter; counter++) {
-                MarkData mark = marks.elementAt(counter);
-                if (mark.index <= g1) {
-                    mark.index = 0;
+    protfdtfd void rfsftMbrksAtZfro() {
+        if (mbrks != null && gftGbpStbrt() == 0) {
+            int g1 = gftGbpEnd();
+            for (int dountfr = 0, mbxCountfr = mbrks.sizf();
+                 dountfr < mbxCountfr; dountfr++) {
+                MbrkDbtb mbrk = mbrks.flfmfntAt(dountfr);
+                if (mbrk.indfx <= g1) {
+                    mbrk.indfx = 0;
                 }
-                else {
-                    break;
+                flsf {
+                    brfbk;
                 }
             }
         }
     }
 
     /**
-     * Adjust the gap end downward.  This doesn't move
-     * any data, but it does update any marks affected
-     * by the boundary change.  All marks from the old
-     * gap start down to the new gap start are squeezed
-     * to the end of the gap (their location has been
-     * removed).
+     * Adjust tif gbp fnd downwbrd.  Tiis dofsn't movf
+     * bny dbtb, but it dofs updbtf bny mbrks bfffdtfd
+     * by tif boundbry dibngf.  All mbrks from tif old
+     * gbp stbrt down to tif nfw gbp stbrt brf squffzfd
+     * to tif fnd of tif gbp (tifir lodbtion ibs bffn
+     * rfmovfd).
      */
-    protected void shiftGapStartDown(int newGapStart) {
-        // Push aside all marks from oldGapStart down to newGapStart.
-        int adjustIndex = findMarkAdjustIndex(newGapStart);
-        int n = marks.size();
-        int g0 = getGapStart();
-        int g1 = getGapEnd();
-        for (int i = adjustIndex; i < n; i++) {
-            MarkData mark = marks.elementAt(i);
-            if (mark.index > g0) {
-                // no more marks to adjust
-                break;
+    protfdtfd void siiftGbpStbrtDown(int nfwGbpStbrt) {
+        // Pusi bsidf bll mbrks from oldGbpStbrt down to nfwGbpStbrt.
+        int bdjustIndfx = findMbrkAdjustIndfx(nfwGbpStbrt);
+        int n = mbrks.sizf();
+        int g0 = gftGbpStbrt();
+        int g1 = gftGbpEnd();
+        for (int i = bdjustIndfx; i < n; i++) {
+            MbrkDbtb mbrk = mbrks.flfmfntAt(i);
+            if (mbrk.indfx > g0) {
+                // no morf mbrks to bdjust
+                brfbk;
             }
-            mark.index = g1;
+            mbrk.indfx = g1;
         }
 
-        // shift the gap in the character array
-        super.shiftGapStartDown(newGapStart);
+        // siift tif gbp in tif dibrbdtfr brrby
+        supfr.siiftGbpStbrtDown(nfwGbpStbrt);
 
-        resetMarksAtZero();
+        rfsftMbrksAtZfro();
     }
 
     /**
-     * Adjust the gap end upward.  This doesn't move
-     * any data, but it does update any marks affected
-     * by the boundary change. All marks from the old
-     * gap end up to the new gap end are squeezed
-     * to the end of the gap (their location has been
-     * removed).
+     * Adjust tif gbp fnd upwbrd.  Tiis dofsn't movf
+     * bny dbtb, but it dofs updbtf bny mbrks bfffdtfd
+     * by tif boundbry dibngf. All mbrks from tif old
+     * gbp fnd up to tif nfw gbp fnd brf squffzfd
+     * to tif fnd of tif gbp (tifir lodbtion ibs bffn
+     * rfmovfd).
      */
-    protected void shiftGapEndUp(int newGapEnd) {
-        int adjustIndex = findMarkAdjustIndex(getGapEnd());
-        int n = marks.size();
-        for (int i = adjustIndex; i < n; i++) {
-            MarkData mark = marks.elementAt(i);
-            if (mark.index >= newGapEnd) {
-                break;
+    protfdtfd void siiftGbpEndUp(int nfwGbpEnd) {
+        int bdjustIndfx = findMbrkAdjustIndfx(gftGbpEnd());
+        int n = mbrks.sizf();
+        for (int i = bdjustIndfx; i < n; i++) {
+            MbrkDbtb mbrk = mbrks.flfmfntAt(i);
+            if (mbrk.indfx >= nfwGbpEnd) {
+                brfbk;
             }
-            mark.index = newGapEnd;
+            mbrk.indfx = nfwGbpEnd;
         }
 
-        // shift the gap in the character array
-        super.shiftGapEndUp(newGapEnd);
+        // siift tif gbp in tif dibrbdtfr brrby
+        supfr.siiftGbpEndUp(nfwGbpEnd);
 
-        resetMarksAtZero();
+        rfsftMbrksAtZfro();
     }
 
     /**
-     * Compares two marks.
+     * Compbrfs two mbrks.
      *
-     * @param o1 the first object
-     * @param o2 the second object
-     * @return < 0 if o1 < o2, 0 if the same, > 0 if o1 > o2
+     * @pbrbm o1 tif first objfdt
+     * @pbrbm o2 tif sfdond objfdt
+     * @rfturn < 0 if o1 < o2, 0 if tif sbmf, > 0 if o1 > o2
      */
-    final int compare(MarkData o1, MarkData o2) {
-        if (o1.index < o2.index) {
-            return -1;
-        } else if (o1.index > o2.index) {
-            return 1;
-        } else {
-            return 0;
+    finbl int dompbrf(MbrkDbtb o1, MbrkDbtb o2) {
+        if (o1.indfx < o2.indfx) {
+            rfturn -1;
+        } flsf if (o1.indfx > o2.indfx) {
+            rfturn 1;
+        } flsf {
+            rfturn 0;
         }
     }
 
     /**
-     * Finds the index to start mark adjustments given
-     * some search index.
+     * Finds tif indfx to stbrt mbrk bdjustmfnts givfn
+     * somf sfbrdi indfx.
      */
-    final int findMarkAdjustIndex(int searchIndex) {
-        search.index = Math.max(searchIndex, 1);
-        int index = findSortIndex(search);
+    finbl int findMbrkAdjustIndfx(int sfbrdiIndfx) {
+        sfbrdi.indfx = Mbti.mbx(sfbrdiIndfx, 1);
+        int indfx = findSortIndfx(sfbrdi);
 
-        // return the first in the series
-        // (ie. there may be duplicates).
-        for (int i = index - 1; i >= 0; i--) {
-            MarkData d = marks.elementAt(i);
-            if (d.index != search.index) {
-                break;
+        // rfturn tif first in tif sfrifs
+        // (if. tifrf mby bf duplidbtfs).
+        for (int i = indfx - 1; i >= 0; i--) {
+            MbrkDbtb d = mbrks.flfmfntAt(i);
+            if (d.indfx != sfbrdi.indfx) {
+                brfbk;
             }
-            index -= 1;
+            indfx -= 1;
         }
-        return index;
+        rfturn indfx;
     }
 
     /**
-     * Finds the index of where to insert a new mark.
+     * Finds tif indfx of wifrf to insfrt b nfw mbrk.
      *
-     * @param o the mark to insert
-     * @return the index
+     * @pbrbm o tif mbrk to insfrt
+     * @rfturn tif indfx
      */
-    final int findSortIndex(MarkData o) {
-        int lower = 0;
-        int upper = marks.size() - 1;
+    finbl int findSortIndfx(MbrkDbtb o) {
+        int lowfr = 0;
+        int uppfr = mbrks.sizf() - 1;
         int mid = 0;
 
-        if (upper == -1) {
-            return 0;
+        if (uppfr == -1) {
+            rfturn 0;
         }
 
-        int cmp;
-        MarkData last = marks.elementAt(upper);
-        cmp = compare(o, last);
-        if (cmp > 0)
-            return upper + 1;
+        int dmp;
+        MbrkDbtb lbst = mbrks.flfmfntAt(uppfr);
+        dmp = dompbrf(o, lbst);
+        if (dmp > 0)
+            rfturn uppfr + 1;
 
-        while (lower <= upper) {
-            mid = lower + ((upper - lower) / 2);
-            MarkData entry = marks.elementAt(mid);
-            cmp = compare(o, entry);
+        wiilf (lowfr <= uppfr) {
+            mid = lowfr + ((uppfr - lowfr) / 2);
+            MbrkDbtb fntry = mbrks.flfmfntAt(mid);
+            dmp = dompbrf(o, fntry);
 
-            if (cmp == 0) {
-                // found a match
-                return mid;
-            } else if (cmp < 0) {
-                upper = mid - 1;
-            } else {
-                lower = mid + 1;
+            if (dmp == 0) {
+                // found b mbtdi
+                rfturn mid;
+            } flsf if (dmp < 0) {
+                uppfr = mid - 1;
+            } flsf {
+                lowfr = mid + 1;
             }
         }
 
-        // didn't find it, but we indicate the index of where it would belong.
-        return (cmp < 0) ? mid : mid + 1;
+        // didn't find it, but wf indidbtf tif indfx of wifrf it would bflong.
+        rfturn (dmp < 0) ? mid : mid + 1;
     }
 
     /**
-     * Remove all unused marks out of the sorted collection
-     * of marks.
+     * Rfmovf bll unusfd mbrks out of tif sortfd dollfdtion
+     * of mbrks.
      */
-    final void removeUnusedMarks() {
-        int n = marks.size();
-        MarkVector cleaned = new MarkVector(n);
+    finbl void rfmovfUnusfdMbrks() {
+        int n = mbrks.sizf();
+        MbrkVfdtor dlfbnfd = nfw MbrkVfdtor(n);
         for (int i = 0; i < n; i++) {
-            MarkData mark = marks.elementAt(i);
-            if (mark.get() != null) {
-                cleaned.addElement(mark);
+            MbrkDbtb mbrk = mbrks.flfmfntAt(i);
+            if (mbrk.gft() != null) {
+                dlfbnfd.bddElfmfnt(mbrk);
             }
         }
-        marks = cleaned;
-        unusedMarks = 0;
+        mbrks = dlfbnfd;
+        unusfdMbrks = 0;
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    static class MarkVector extends GapVector {
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    stbtid dlbss MbrkVfdtor fxtfnds GbpVfdtor {
 
-        MarkVector() {
-            super();
+        MbrkVfdtor() {
+            supfr();
         }
 
-        MarkVector(int size) {
-            super(size);
-        }
-
-        /**
-         * Allocate an array to store items of the type
-         * appropriate (which is determined by the subclass).
-         */
-        protected Object allocateArray(int len) {
-            return new MarkData[len];
+        MbrkVfdtor(int sizf) {
+            supfr(sizf);
         }
 
         /**
-         * Get the length of the allocated array
+         * Allodbtf bn brrby to storf itfms of tif typf
+         * bppropribtf (wiidi is dftfrminfd by tif subdlbss).
          */
-        protected int getArrayLength() {
-            MarkData[] marks = (MarkData[]) getArray();
-            return marks.length;
+        protfdtfd Objfdt bllodbtfArrby(int lfn) {
+            rfturn nfw MbrkDbtb[lfn];
         }
 
         /**
-         * Returns the number of marks currently held
+         * Gft tif lfngti of tif bllodbtfd brrby
          */
-        public int size() {
-            int len = getArrayLength() - (getGapEnd() - getGapStart());
-            return len;
+        protfdtfd int gftArrbyLfngti() {
+            MbrkDbtb[] mbrks = (MbrkDbtb[]) gftArrby();
+            rfturn mbrks.lfngti;
         }
 
         /**
-         * Inserts a mark into the vector
+         * Rfturns tif numbfr of mbrks durrfntly ifld
          */
-        public void insertElementAt(MarkData m, int index) {
-            oneMark[0] = m;
-            replace(index, 0, oneMark, 1);
+        publid int sizf() {
+            int lfn = gftArrbyLfngti() - (gftGbpEnd() - gftGbpStbrt());
+            rfturn lfn;
         }
 
         /**
-         * Add a mark to the end
+         * Insfrts b mbrk into tif vfdtor
          */
-        public void addElement(MarkData m) {
-            insertElementAt(m, size());
+        publid void insfrtElfmfntAt(MbrkDbtb m, int indfx) {
+            onfMbrk[0] = m;
+            rfplbdf(indfx, 0, onfMbrk, 1);
         }
 
         /**
-         * Fetches the mark at the given index
+         * Add b mbrk to tif fnd
          */
-        public MarkData elementAt(int index) {
-            int g0 = getGapStart();
-            int g1 = getGapEnd();
-            MarkData[] array = (MarkData[]) getArray();
-            if (index < g0) {
-                // below gap
-                return array[index];
-            } else {
-                // above gap
-                index += g1 - g0;
-                return array[index];
+        publid void bddElfmfnt(MbrkDbtb m) {
+            insfrtElfmfntAt(m, sizf());
+        }
+
+        /**
+         * Fftdifs tif mbrk bt tif givfn indfx
+         */
+        publid MbrkDbtb flfmfntAt(int indfx) {
+            int g0 = gftGbpStbrt();
+            int g1 = gftGbpEnd();
+            MbrkDbtb[] brrby = (MbrkDbtb[]) gftArrby();
+            if (indfx < g0) {
+                // bflow gbp
+                rfturn brrby[indfx];
+            } flsf {
+                // bbovf gbp
+                indfx += g1 - g0;
+                rfturn brrby[indfx];
             }
         }
 
         /**
-         * Replaces the elements in the specified range with the passed
-         * in objects. This will NOT adjust the gap. The passed in indices
-         * do not account for the gap, they are the same as would be used
-         * int <code>elementAt</code>.
+         * Rfplbdfs tif flfmfnts in tif spfdififd rbngf witi tif pbssfd
+         * in objfdts. Tiis will NOT bdjust tif gbp. Tif pbssfd in indidfs
+         * do not bddount for tif gbp, tify brf tif sbmf bs would bf usfd
+         * int <dodf>flfmfntAt</dodf>.
          */
-        protected void replaceRange(int start, int end, Object[] marks) {
-            int g0 = getGapStart();
-            int g1 = getGapEnd();
-            int index = start;
-            int newIndex = 0;
-            Object[] array = (Object[]) getArray();
-            if (start >= g0) {
-                // Completely passed gap
-                index += (g1 - g0);
-                end += (g1 - g0);
+        protfdtfd void rfplbdfRbngf(int stbrt, int fnd, Objfdt[] mbrks) {
+            int g0 = gftGbpStbrt();
+            int g1 = gftGbpEnd();
+            int indfx = stbrt;
+            int nfwIndfx = 0;
+            Objfdt[] brrby = (Objfdt[]) gftArrby();
+            if (stbrt >= g0) {
+                // Complftfly pbssfd gbp
+                indfx += (g1 - g0);
+                fnd += (g1 - g0);
             }
-            else if (end >= g0) {
-                // straddles gap
-                end += (g1 - g0);
-                while (index < g0) {
-                    array[index++] = marks[newIndex++];
+            flsf if (fnd >= g0) {
+                // strbddlfs gbp
+                fnd += (g1 - g0);
+                wiilf (indfx < g0) {
+                    brrby[indfx++] = mbrks[nfwIndfx++];
                 }
-                index = g1;
+                indfx = g1;
             }
-            else {
-                // below gap
-                while (index < end) {
-                    array[index++] = marks[newIndex++];
+            flsf {
+                // bflow gbp
+                wiilf (indfx < fnd) {
+                    brrby[indfx++] = mbrks[nfwIndfx++];
                 }
             }
-            while (index < end) {
-                array[index++] = marks[newIndex++];
+            wiilf (indfx < fnd) {
+                brrby[indfx++] = mbrks[nfwIndfx++];
             }
         }
 
-        MarkData[] oneMark = new MarkData[1];
+        MbrkDbtb[] onfMbrk = nfw MbrkDbtb[1];
 
     }
 
-    // --- serialization -------------------------------------
+    // --- sfriblizbtion -------------------------------------
 
-    private void readObject(ObjectInputStream s)
-      throws ClassNotFoundException, IOException {
-        s.defaultReadObject();
-        marks = new MarkVector();
-        search = new MarkData(0);
-        queue = new ReferenceQueue<StickyPosition>();
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+      tirows ClbssNotFoundExdfption, IOExdfption {
+        s.dffbultRfbdObjfdt();
+        mbrks = nfw MbrkVfdtor();
+        sfbrdi = nfw MbrkDbtb(0);
+        qufuf = nfw RfffrfndfQufuf<StidkyPosition>();
     }
 
 
     // --- undo support --------------------------------------
 
     /**
-     * Returns a Vector containing instances of UndoPosRef for the
-     * Positions in the range
-     * <code>offset</code> to <code>offset</code> + <code>length</code>.
-     * If <code>v</code> is not null the matching Positions are placed in
-     * there. The vector with the resulting Positions are returned.
+     * Rfturns b Vfdtor dontbining instbndfs of UndoPosRff for tif
+     * Positions in tif rbngf
+     * <dodf>offsft</dodf> to <dodf>offsft</dodf> + <dodf>lfngti</dodf>.
+     * If <dodf>v</dodf> is not null tif mbtdiing Positions brf plbdfd in
+     * tifrf. Tif vfdtor witi tif rfsulting Positions brf rfturnfd.
      *
-     * @param v the Vector to use, with a new one created on null
-     * @param offset the starting offset &gt;= 0
-     * @param length the length &gt;= 0
-     * @return the set of instances
+     * @pbrbm v tif Vfdtor to usf, witi b nfw onf drfbtfd on null
+     * @pbrbm offsft tif stbrting offsft &gt;= 0
+     * @pbrbm lfngti tif lfngti &gt;= 0
+     * @rfturn tif sft of instbndfs
      */
-    protected Vector<UndoPosRef> getPositionsInRange(Vector<UndoPosRef> v,
-                                                     int offset, int length) {
-        int endOffset = offset + length;
-        int startIndex;
-        int endIndex;
-        int g0 = getGapStart();
-        int g1 = getGapEnd();
+    protfdtfd Vfdtor<UndoPosRff> gftPositionsInRbngf(Vfdtor<UndoPosRff> v,
+                                                     int offsft, int lfngti) {
+        int fndOffsft = offsft + lfngti;
+        int stbrtIndfx;
+        int fndIndfx;
+        int g0 = gftGbpStbrt();
+        int g1 = gftGbpEnd();
 
-        // Find the index of the marks.
-        if (offset < g0) {
-            if (offset == 0) {
-                // findMarkAdjustIndex start at 1!
-                startIndex = 0;
+        // Find tif indfx of tif mbrks.
+        if (offsft < g0) {
+            if (offsft == 0) {
+                // findMbrkAdjustIndfx stbrt bt 1!
+                stbrtIndfx = 0;
             }
-            else {
-                startIndex = findMarkAdjustIndex(offset);
+            flsf {
+                stbrtIndfx = findMbrkAdjustIndfx(offsft);
             }
-            if (endOffset >= g0) {
-                endIndex = findMarkAdjustIndex(endOffset + (g1 - g0) + 1);
+            if (fndOffsft >= g0) {
+                fndIndfx = findMbrkAdjustIndfx(fndOffsft + (g1 - g0) + 1);
             }
-            else {
-                endIndex = findMarkAdjustIndex(endOffset + 1);
+            flsf {
+                fndIndfx = findMbrkAdjustIndfx(fndOffsft + 1);
             }
         }
-        else {
-            startIndex = findMarkAdjustIndex(offset + (g1 - g0));
-            endIndex = findMarkAdjustIndex(endOffset + (g1 - g0) + 1);
+        flsf {
+            stbrtIndfx = findMbrkAdjustIndfx(offsft + (g1 - g0));
+            fndIndfx = findMbrkAdjustIndfx(fndOffsft + (g1 - g0) + 1);
         }
 
-        Vector<UndoPosRef> placeIn = (v == null) ?
-            new Vector<>(Math.max(1, endIndex - startIndex)) :
+        Vfdtor<UndoPosRff> plbdfIn = (v == null) ?
+            nfw Vfdtor<>(Mbti.mbx(1, fndIndfx - stbrtIndfx)) :
             v;
 
-        for (int counter = startIndex; counter < endIndex; counter++) {
-            placeIn.addElement(new UndoPosRef(marks.elementAt(counter)));
+        for (int dountfr = stbrtIndfx; dountfr < fndIndfx; dountfr++) {
+            plbdfIn.bddElfmfnt(nfw UndoPosRff(mbrks.flfmfntAt(dountfr)));
         }
-        return placeIn;
+        rfturn plbdfIn;
     }
 
     /**
-     * Resets the location for all the UndoPosRef instances
-     * in <code>positions</code>.
+     * Rfsfts tif lodbtion for bll tif UndoPosRff instbndfs
+     * in <dodf>positions</dodf>.
      * <p>
-     * This is meant for internal usage, and is generally not of interest
-     * to subclasses.
+     * Tiis is mfbnt for intfrnbl usbgf, bnd is gfnfrblly not of intfrfst
+     * to subdlbssfs.
      *
-     * @param positions the UndoPosRef instances to reset
+     * @pbrbm positions tif UndoPosRff instbndfs to rfsft
      */
-    protected void updateUndoPositions(Vector<UndoPosRef> positions, int offset,
-                                       int length) {
-        // Find the indexs of the end points.
-        int endOffset = offset + length;
-        int g1 = getGapEnd();
-        int startIndex;
-        int endIndex = findMarkAdjustIndex(g1 + 1);
+    protfdtfd void updbtfUndoPositions(Vfdtor<UndoPosRff> positions, int offsft,
+                                       int lfngti) {
+        // Find tif indfxs of tif fnd points.
+        int fndOffsft = offsft + lfngti;
+        int g1 = gftGbpEnd();
+        int stbrtIndfx;
+        int fndIndfx = findMbrkAdjustIndfx(g1 + 1);
 
-        if (offset != 0) {
-            startIndex = findMarkAdjustIndex(g1);
+        if (offsft != 0) {
+            stbrtIndfx = findMbrkAdjustIndfx(g1);
         }
-        else {
-            startIndex = 0;
+        flsf {
+            stbrtIndfx = 0;
         }
 
-        // Reset the location of the refenences.
-        for(int counter = positions.size() - 1; counter >= 0; counter--) {
-            UndoPosRef ref = positions.elementAt(counter);
-            ref.resetLocation(endOffset, g1);
+        // Rfsft tif lodbtion of tif rfffnfndfs.
+        for(int dountfr = positions.sizf() - 1; dountfr >= 0; dountfr--) {
+            UndoPosRff rff = positions.flfmfntAt(dountfr);
+            rff.rfsftLodbtion(fndOffsft, g1);
         }
-        // We have to resort the marks in the range startIndex to endIndex.
-        // We can take advantage of the fact that it will be in
-        // increasing order, accept there will be a bunch of MarkData's with
-        // the index g1 (or 0 if offset == 0) interspersed throughout.
-        if (startIndex < endIndex) {
-            Object[] sorted = new Object[endIndex - startIndex];
-            int addIndex = 0;
-            int counter;
-            if (offset == 0) {
-                // If the offset is 0, the positions won't have incremented,
-                // have to do the reverse thing.
-                // Find the elements in startIndex whose index is 0
-                for (counter = startIndex; counter < endIndex; counter++) {
-                    MarkData mark = marks.elementAt(counter);
-                    if (mark.index == 0) {
-                        sorted[addIndex++] = mark;
+        // Wf ibvf to rfsort tif mbrks in tif rbngf stbrtIndfx to fndIndfx.
+        // Wf dbn tbkf bdvbntbgf of tif fbdt tibt it will bf in
+        // indrfbsing ordfr, bddfpt tifrf will bf b bundi of MbrkDbtb's witi
+        // tif indfx g1 (or 0 if offsft == 0) intfrspfrsfd tirougiout.
+        if (stbrtIndfx < fndIndfx) {
+            Objfdt[] sortfd = nfw Objfdt[fndIndfx - stbrtIndfx];
+            int bddIndfx = 0;
+            int dountfr;
+            if (offsft == 0) {
+                // If tif offsft is 0, tif positions won't ibvf indrfmfntfd,
+                // ibvf to do tif rfvfrsf tiing.
+                // Find tif flfmfnts in stbrtIndfx wiosf indfx is 0
+                for (dountfr = stbrtIndfx; dountfr < fndIndfx; dountfr++) {
+                    MbrkDbtb mbrk = mbrks.flfmfntAt(dountfr);
+                    if (mbrk.indfx == 0) {
+                        sortfd[bddIndfx++] = mbrk;
                     }
                 }
-                for (counter = startIndex; counter < endIndex; counter++) {
-                    MarkData mark = marks.elementAt(counter);
-                    if (mark.index != 0) {
-                        sorted[addIndex++] = mark;
+                for (dountfr = stbrtIndfx; dountfr < fndIndfx; dountfr++) {
+                    MbrkDbtb mbrk = mbrks.flfmfntAt(dountfr);
+                    if (mbrk.indfx != 0) {
+                        sortfd[bddIndfx++] = mbrk;
                     }
                 }
             }
-            else {
-                for (counter = startIndex; counter < endIndex; counter++) {
-                    MarkData mark = marks.elementAt(counter);
-                    if (mark.index != g1) {
-                        sorted[addIndex++] = mark;
+            flsf {
+                for (dountfr = stbrtIndfx; dountfr < fndIndfx; dountfr++) {
+                    MbrkDbtb mbrk = mbrks.flfmfntAt(dountfr);
+                    if (mbrk.indfx != g1) {
+                        sortfd[bddIndfx++] = mbrk;
                     }
                 }
-                for (counter = startIndex; counter < endIndex; counter++) {
-                    MarkData mark = marks.elementAt(counter);
-                    if (mark.index == g1) {
-                        sorted[addIndex++] = mark;
+                for (dountfr = stbrtIndfx; dountfr < fndIndfx; dountfr++) {
+                    MbrkDbtb mbrk = mbrks.flfmfntAt(dountfr);
+                    if (mbrk.indfx == g1) {
+                        sortfd[bddIndfx++] = mbrk;
                     }
                 }
             }
-            // And replace
-            marks.replaceRange(startIndex, endIndex, sorted);
+            // And rfplbdf
+            mbrks.rfplbdfRbngf(stbrtIndfx, fndIndfx, sortfd);
         }
     }
 
     /**
-     * Used to hold a reference to a Mark that is being reset as the
-     * result of removing from the content.
+     * Usfd to iold b rfffrfndf to b Mbrk tibt is bfing rfsft bs tif
+     * rfsult of rfmoving from tif dontfnt.
      */
-    final class UndoPosRef {
-        UndoPosRef(MarkData rec) {
-            this.rec = rec;
-            this.undoLocation = rec.getOffset();
+    finbl dlbss UndoPosRff {
+        UndoPosRff(MbrkDbtb rfd) {
+            tiis.rfd = rfd;
+            tiis.undoLodbtion = rfd.gftOffsft();
         }
 
         /**
-         * Resets the location of the Position to the offset when the
-         * receiver was instantiated.
+         * Rfsfts tif lodbtion of tif Position to tif offsft wifn tif
+         * rfdfivfr wbs instbntibtfd.
          *
-         * @param endOffset end location of inserted string.
-         * @param g1 resulting end of gap.
+         * @pbrbm fndOffsft fnd lodbtion of insfrtfd string.
+         * @pbrbm g1 rfsulting fnd of gbp.
          */
-        protected void resetLocation(int endOffset, int g1) {
-            if (undoLocation != endOffset) {
-                this.rec.index = undoLocation;
+        protfdtfd void rfsftLodbtion(int fndOffsft, int g1) {
+            if (undoLodbtion != fndOffsft) {
+                tiis.rfd.indfx = undoLodbtion;
             }
-            else {
-                this.rec.index = g1;
+            flsf {
+                tiis.rfd.indfx = g1;
             }
         }
 
-        /** Previous Offset of rec. */
-        protected int undoLocation;
-        /** Mark to reset offset. */
-        protected MarkData rec;
-    } // End of GapContent.UndoPosRef
+        /** Prfvious Offsft of rfd. */
+        protfdtfd int undoLodbtion;
+        /** Mbrk to rfsft offsft. */
+        protfdtfd MbrkDbtb rfd;
+    } // End of GbpContfnt.UndoPosRff
 
 
     /**
-     * UnoableEdit created for inserts.
+     * UnobblfEdit drfbtfd for insfrts.
      */
-    @SuppressWarnings("serial") // Superclass is a JDK-implementation class
-    class InsertUndo extends AbstractUndoableEdit {
-        protected InsertUndo(int offset, int length) {
-            super();
-            this.offset = offset;
-            this.length = length;
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is b JDK-implfmfntbtion dlbss
+    dlbss InsfrtUndo fxtfnds AbstrbdtUndobblfEdit {
+        protfdtfd InsfrtUndo(int offsft, int lfngti) {
+            supfr();
+            tiis.offsft = offsft;
+            tiis.lfngti = lfngti;
         }
 
-        public void undo() throws CannotUndoException {
-            super.undo();
+        publid void undo() tirows CbnnotUndoExdfption {
+            supfr.undo();
             try {
-                // Get the Positions in the range being removed.
-                posRefs = getPositionsInRange(null, offset, length);
-                string = getString(offset, length);
-                remove(offset, length);
-            } catch (BadLocationException bl) {
-              throw new CannotUndoException();
+                // Gft tif Positions in tif rbngf bfing rfmovfd.
+                posRffs = gftPositionsInRbngf(null, offsft, lfngti);
+                string = gftString(offsft, lfngti);
+                rfmovf(offsft, lfngti);
+            } dbtdi (BbdLodbtionExdfption bl) {
+              tirow nfw CbnnotUndoExdfption();
             }
         }
 
-        public void redo() throws CannotRedoException {
-            super.redo();
+        publid void rfdo() tirows CbnnotRfdoExdfption {
+            supfr.rfdo();
             try {
-                insertString(offset, string);
+                insfrtString(offsft, string);
                 string = null;
-                // Update the Positions that were in the range removed.
-                if(posRefs != null) {
-                    updateUndoPositions(posRefs, offset, length);
-                    posRefs = null;
+                // Updbtf tif Positions tibt wfrf in tif rbngf rfmovfd.
+                if(posRffs != null) {
+                    updbtfUndoPositions(posRffs, offsft, lfngti);
+                    posRffs = null;
                 }
-            } catch (BadLocationException bl) {
-                throw new CannotRedoException();
+            } dbtdi (BbdLodbtionExdfption bl) {
+                tirow nfw CbnnotRfdoExdfption();
             }
         }
 
-        /** Where string was inserted. */
-        protected int offset;
-        /** Length of string inserted. */
-        protected int length;
-        /** The string that was inserted. This will only be valid after an
+        /** Wifrf string wbs insfrtfd. */
+        protfdtfd int offsft;
+        /** Lfngti of string insfrtfd. */
+        protfdtfd int lfngti;
+        /** Tif string tibt wbs insfrtfd. Tiis will only bf vblid bftfr bn
          * undo. */
-        protected String string;
-        /** An array of instances of UndoPosRef for the Positions in the
-         * range that was removed, valid after undo. */
-        protected Vector<UndoPosRef> posRefs;
-    } // GapContent.InsertUndo
+        protfdtfd String string;
+        /** An brrby of instbndfs of UndoPosRff for tif Positions in tif
+         * rbngf tibt wbs rfmovfd, vblid bftfr undo. */
+        protfdtfd Vfdtor<UndoPosRff> posRffs;
+    } // GbpContfnt.InsfrtUndo
 
 
     /**
-     * UndoableEdit created for removes.
+     * UndobblfEdit drfbtfd for rfmovfs.
      */
-    @SuppressWarnings("serial") // JDK-implementation class
-    class RemoveUndo extends AbstractUndoableEdit {
-        protected RemoveUndo(int offset, String string) {
-            super();
-            this.offset = offset;
-            this.string = string;
-            this.length = string.length();
-            posRefs = getPositionsInRange(null, offset, length);
+    @SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+    dlbss RfmovfUndo fxtfnds AbstrbdtUndobblfEdit {
+        protfdtfd RfmovfUndo(int offsft, String string) {
+            supfr();
+            tiis.offsft = offsft;
+            tiis.string = string;
+            tiis.lfngti = string.lfngti();
+            posRffs = gftPositionsInRbngf(null, offsft, lfngti);
         }
 
-        public void undo() throws CannotUndoException {
-            super.undo();
+        publid void undo() tirows CbnnotUndoExdfption {
+            supfr.undo();
             try {
-                insertString(offset, string);
-                // Update the Positions that were in the range removed.
-                if(posRefs != null) {
-                    updateUndoPositions(posRefs, offset, length);
-                    posRefs = null;
+                insfrtString(offsft, string);
+                // Updbtf tif Positions tibt wfrf in tif rbngf rfmovfd.
+                if(posRffs != null) {
+                    updbtfUndoPositions(posRffs, offsft, lfngti);
+                    posRffs = null;
                 }
                 string = null;
-            } catch (BadLocationException bl) {
-              throw new CannotUndoException();
+            } dbtdi (BbdLodbtionExdfption bl) {
+              tirow nfw CbnnotUndoExdfption();
             }
         }
 
-        public void redo() throws CannotRedoException {
-            super.redo();
+        publid void rfdo() tirows CbnnotRfdoExdfption {
+            supfr.rfdo();
             try {
-                string = getString(offset, length);
-                // Get the Positions in the range being removed.
-                posRefs = getPositionsInRange(null, offset, length);
-                remove(offset, length);
-            } catch (BadLocationException bl) {
-              throw new CannotRedoException();
+                string = gftString(offsft, lfngti);
+                // Gft tif Positions in tif rbngf bfing rfmovfd.
+                posRffs = gftPositionsInRbngf(null, offsft, lfngti);
+                rfmovf(offsft, lfngti);
+            } dbtdi (BbdLodbtionExdfption bl) {
+              tirow nfw CbnnotRfdoExdfption();
             }
         }
 
-        /** Where the string was removed from. */
-        protected int offset;
-        /** Length of string removed. */
-        protected int length;
-        /** The string that was removed. This is valid when redo is valid. */
-        protected String string;
-        /** An array of instances of UndoPosRef for the Positions in the
-         * range that was removed, valid before undo. */
-        protected Vector<UndoPosRef> posRefs;
-    } // GapContent.RemoveUndo
+        /** Wifrf tif string wbs rfmovfd from. */
+        protfdtfd int offsft;
+        /** Lfngti of string rfmovfd. */
+        protfdtfd int lfngti;
+        /** Tif string tibt wbs rfmovfd. Tiis is vblid wifn rfdo is vblid. */
+        protfdtfd String string;
+        /** An brrby of instbndfs of UndoPosRff for tif Positions in tif
+         * rbngf tibt wbs rfmovfd, vblid bfforf undo. */
+        protfdtfd Vfdtor<UndoPosRff> posRffs;
+    } // GbpContfnt.RfmovfUndo
 }

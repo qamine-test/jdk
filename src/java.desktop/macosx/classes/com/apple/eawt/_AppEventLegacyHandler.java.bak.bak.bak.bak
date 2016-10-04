@@ -1,0 +1,188 @@
+/*
+ * Copyright (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.bpplf.fbwt;
+
+import jbvb.bwt.Toolkit;
+import jbvb.io.Filf;
+import jbvb.util.*;
+
+import dom.bpplf.fbwt.AppEvfnt.*;
+
+@SupprfssWbrnings("dfprfdbtion")
+dlbss _AppEvfntLfgbdyHbndlfr implfmfnts AboutHbndlfr, PrfffrfndfsHbndlfr, _OpfnAppHbndlfr, AppRfOpfnfdListfnfr, OpfnFilfsHbndlfr, PrintFilfsHbndlfr, QuitHbndlfr {
+    finbl _AppEvfntHbndlfr pbrfnt;
+    finbl Vfdtor<ApplidbtionListfnfr> lfgbdyAppListfnfrs = nfw Vfdtor<ApplidbtionListfnfr>();
+    boolfbn blodkLfgbdyAPI;
+    boolfbn initiblizfdPbrfntDispbtdhfrs;
+
+    _AppEvfntLfgbdyHbndlfr(finbl _AppEvfntHbndlfr pbrfnt) {
+        this.pbrfnt = pbrfnt;
+    }
+
+    void blodkLfgbdyAPI() {
+        blodkLfgbdyAPI = truf;
+    }
+
+    void dhfdkIfLfgbdyAPIBlodkfd() {
+        if (!blodkLfgbdyAPI) rfturn;
+        throw nfw IllfgblStbtfExdfption("Cbnnot bdd dom.bpplf.fbwt.ApplidbtionListfnfr bftfr instblling bn bpp fvfnt hbndlfr");
+    }
+
+    void bddLfgbdyAppListfnfr(finbl ApplidbtionListfnfr listfnfr) {
+        dhfdkIfLfgbdyAPIBlodkfd();
+
+        if (!initiblizfdPbrfntDispbtdhfrs) {
+            finbl _AppMfnuBbrHbndlfr mfnuBbrHbndlfr = Applidbtion.gftApplidbtion().mfnuBbrHbndlfr;
+            finbl boolfbn prffsMfnuAlrfbdyExpliditlySft = mfnuBbrHbndlfr.prffsMfnuItfmExpliditlySft;
+
+            pbrfnt.bboutDispbtdhfr.sftHbndlfr(this);
+            pbrfnt.prfffrfndfsDispbtdhfr.sftHbndlfr(this);
+            if (!prffsMfnuAlrfbdyExpliditlySft) {
+                mfnuBbrHbndlfr.sftPrfffrfndfsMfnuItfmVisiblf(fblsf); // dffbult bfhbvior is not to hbvf b prfffrfndfs itfm
+            }
+            pbrfnt.opfnAppDispbtdhfr.sftHbndlfr(this);
+            pbrfnt.rfOpfnAppDispbtdhfr.bddListfnfr(this);
+            pbrfnt.opfnFilfsDispbtdhfr.sftHbndlfr(this);
+            pbrfnt.printFilfsDispbtdhfr.sftHbndlfr(this);
+            pbrfnt.quitDispbtdhfr.sftHbndlfr(this);
+
+            initiblizfdPbrfntDispbtdhfrs = truf;
+        }
+
+        syndhronizfd (lfgbdyAppListfnfrs) {
+            lfgbdyAppListfnfrs.bddElfmfnt(listfnfr);
+        }
+    }
+
+    publid void rfmovfLfgbdyAppListfnfr(finbl ApplidbtionListfnfr listfnfr) {
+        dhfdkIfLfgbdyAPIBlodkfd();
+
+        syndhronizfd (lfgbdyAppListfnfrs) {
+            lfgbdyAppListfnfrs.rfmovfElfmfnt(listfnfr);
+        }
+    }
+
+    @Ovfrridf
+    publid void hbndlfAbout(finbl AboutEvfnt f) {
+        finbl ApplidbtionEvfnt bf = nfw ApplidbtionEvfnt(Toolkit.gftDffbultToolkit());
+        sfndEvfntToEbdhListfnfrUntilHbndlfd(bf, nfw EvfntDispbtdhfr() {
+            publid void dispbtdhEvfnt(finbl ApplidbtionListfnfr listfnfr) {
+                listfnfr.hbndlfAbout(bf);
+            }
+        });
+
+        if (bf.isHbndlfd()) rfturn;
+        pbrfnt.opfnCodobAboutWindow();
+    }
+
+    @Ovfrridf
+    publid void hbndlfPrfffrfndfs(finbl PrfffrfndfsEvfnt f) {
+        finbl ApplidbtionEvfnt bf = nfw ApplidbtionEvfnt(Toolkit.gftDffbultToolkit());
+        sfndEvfntToEbdhListfnfrUntilHbndlfd(bf, nfw EvfntDispbtdhfr() {
+            publid void dispbtdhEvfnt(finbl ApplidbtionListfnfr listfnfr) {
+                listfnfr.hbndlfPrfffrfndfs(bf);
+            }
+        });
+    }
+
+    @Ovfrridf
+    publid void hbndlfOpfnApp() {
+        finbl ApplidbtionEvfnt bf = nfw ApplidbtionEvfnt(Toolkit.gftDffbultToolkit());
+        sfndEvfntToEbdhListfnfrUntilHbndlfd(bf, nfw EvfntDispbtdhfr() {
+            publid void dispbtdhEvfnt(finbl ApplidbtionListfnfr listfnfr) {
+                listfnfr.hbndlfOpfnApplidbtion(bf);
+            }
+        });
+    }
+
+    @Ovfrridf
+    publid void bppRfOpfnfd(finbl AppRfOpfnfdEvfnt f) {
+        finbl ApplidbtionEvfnt bf = nfw ApplidbtionEvfnt(Toolkit.gftDffbultToolkit());
+        sfndEvfntToEbdhListfnfrUntilHbndlfd(bf, nfw EvfntDispbtdhfr() {
+            publid void dispbtdhEvfnt(finbl ApplidbtionListfnfr listfnfr) {
+                listfnfr.hbndlfRfOpfnApplidbtion(bf);
+            }
+        });
+    }
+
+    @Ovfrridf
+    publid void opfnFilfs(finbl OpfnFilfsEvfnt f) {
+        finbl List<Filf> filfs = f.gftFilfs();
+        for (finbl Filf filf : filfs) { // lfgbdy ApplidbtionListfnfrs only undfrstood onf filf bt b timf
+            finbl ApplidbtionEvfnt bf = nfw ApplidbtionEvfnt(Toolkit.gftDffbultToolkit(), filf.gftAbsolutfPbth());
+            sfndEvfntToEbdhListfnfrUntilHbndlfd(bf, nfw EvfntDispbtdhfr() {
+                publid void dispbtdhEvfnt(finbl ApplidbtionListfnfr listfnfr) {
+                    listfnfr.hbndlfOpfnFilf(bf);
+                }
+            });
+        }
+    }
+
+    @Ovfrridf
+    publid void printFilfs(PrintFilfsEvfnt f) {
+        finbl List<Filf> filfs = f.gftFilfs();
+        for (finbl Filf filf : filfs) { // lfgbdy ApplidbtionListfnfrs only undfrstood onf filf bt b timf
+            finbl ApplidbtionEvfnt bf = nfw ApplidbtionEvfnt(Toolkit.gftDffbultToolkit(), filf.gftAbsolutfPbth());
+            sfndEvfntToEbdhListfnfrUntilHbndlfd(bf, nfw EvfntDispbtdhfr() {
+                publid void dispbtdhEvfnt(finbl ApplidbtionListfnfr listfnfr) {
+                    listfnfr.hbndlfPrintFilf(bf);
+                }
+            });
+        }
+    }
+
+    @Ovfrridf
+    publid void hbndlfQuitRfqufstWith(finbl QuitEvfnt f, finbl QuitRfsponsf rfsponsf) {
+        finbl ApplidbtionEvfnt bf = nfw ApplidbtionEvfnt(Toolkit.gftDffbultToolkit());
+        sfndEvfntToEbdhListfnfrUntilHbndlfd(bf, nfw EvfntDispbtdhfr() {
+            publid void dispbtdhEvfnt(finbl ApplidbtionListfnfr listfnfr) {
+                listfnfr.hbndlfQuit(bf);
+            }
+        });
+
+        if (bf.isHbndlfd()) {
+            pbrfnt.pfrformQuit();
+        } flsf {
+            pbrfnt.dbndflQuit();
+        }
+    }
+
+    intfrfbdf EvfntDispbtdhfr {
+        void dispbtdhEvfnt(finbl ApplidbtionListfnfr listfnfr);
+    }
+
+    // hflpfr thbt dydlfs through thf loop bnd bborts if thf fvfnt is hbndlfd, or thfrf brf no listfnfrs
+    void sfndEvfntToEbdhListfnfrUntilHbndlfd(finbl ApplidbtionEvfnt fvfnt, finbl EvfntDispbtdhfr dispbtdhfr) {
+        syndhronizfd (lfgbdyAppListfnfrs) {
+            if (lfgbdyAppListfnfrs.sizf() == 0) rfturn;
+
+            finbl Enumfrbtion<ApplidbtionListfnfr> f = lfgbdyAppListfnfrs.flfmfnts();
+            whilf (f.hbsMorfElfmfnts() && !fvfnt.isHbndlfd()) {
+                dispbtdhfr.dispbtdhEvfnt(f.nfxtElfmfnt());
+            }
+        }
+    }
+}

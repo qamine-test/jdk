@@ -1,315 +1,315 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.event;
+pbdkbgf jbvbx.swing.fvfnt;
 
-import java.util.EventObject;
-import javax.swing.tree.TreePath;
+import jbvb.util.EvfntObjfdt;
+import jbvbx.swing.trff.TrffPbti;
 
 
 /**
- * Encapsulates information describing changes to a tree model, and
- * used to notify tree model listeners of the change.
- * For more information and examples see
- * <a
- href="http://docs.oracle.com/javase/tutorial/uiswing/events/treemodellistener.html">How to Write a Tree Model Listener</a>,
- * a section in <em>The Java Tutorial.</em>
+ * Endbpsulbtfs informbtion dfsdribing dibngfs to b trff modfl, bnd
+ * usfd to notify trff modfl listfnfrs of tif dibngf.
+ * For morf informbtion bnd fxbmplfs sff
+ * <b
+ irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/fvfnts/trffmodfllistfnfr.itml">How to Writf b Trff Modfl Listfnfr</b>,
+ * b sfdtion in <fm>Tif Jbvb Tutoribl.</fm>
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @author Rob Davis
- * @author Ray Ryan
- * @author Scott Violet
+ * @butior Rob Dbvis
+ * @butior Rby Rybn
+ * @butior Sdott Violft
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class TreeModelEvent extends EventObject {
-    /** Path to the parent of the nodes that have changed. */
-    protected TreePath  path;
-    /** Indices identifying the position of where the children were. */
-    protected int[]     childIndices;
-    /** Children that have been removed. */
-    protected Object[]  children;
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss TrffModflEvfnt fxtfnds EvfntObjfdt {
+    /** Pbti to tif pbrfnt of tif nodfs tibt ibvf dibngfd. */
+    protfdtfd TrffPbti  pbti;
+    /** Indidfs idfntifying tif position of wifrf tif diildrfn wfrf. */
+    protfdtfd int[]     diildIndidfs;
+    /** Ciildrfn tibt ibvf bffn rfmovfd. */
+    protfdtfd Objfdt[]  diildrfn;
 
     /**
-     * Used to create an event when nodes have been changed, inserted, or
-     * removed, identifying the path to the parent of the modified items as
-     * an array of Objects. All of the modified objects are siblings which are
-     * direct descendents (not grandchildren) of the specified parent.
-     * The positions at which the inserts, deletes, or changes occurred are
-     * specified by an array of <code>int</code>. The indexes in that array
-     * must be in order, from lowest to highest.
+     * Usfd to drfbtf bn fvfnt wifn nodfs ibvf bffn dibngfd, insfrtfd, or
+     * rfmovfd, idfntifying tif pbti to tif pbrfnt of tif modififd itfms bs
+     * bn brrby of Objfdts. All of tif modififd objfdts brf siblings wiidi brf
+     * dirfdt dfsdfndfnts (not grbnddiildrfn) of tif spfdififd pbrfnt.
+     * Tif positions bt wiidi tif insfrts, dflftfs, or dibngfs oddurrfd brf
+     * spfdififd by bn brrby of <dodf>int</dodf>. Tif indfxfs in tibt brrby
+     * must bf in ordfr, from lowfst to iigifst.
      * <p>
-     * For changes, the indexes in the model correspond exactly to the indexes
-     * of items currently displayed in the UI. As a result, it is not really
-     * critical if the indexes are not in their exact order. But after multiple
-     * inserts or deletes, the items currently in the UI no longer correspond
-     * to the items in the model. It is therefore critical to specify the
-     * indexes properly for inserts and deletes.
+     * For dibngfs, tif indfxfs in tif modfl dorrfspond fxbdtly to tif indfxfs
+     * of itfms durrfntly displbyfd in tif UI. As b rfsult, it is not rfblly
+     * dritidbl if tif indfxfs brf not in tifir fxbdt ordfr. But bftfr multiplf
+     * insfrts or dflftfs, tif itfms durrfntly in tif UI no longfr dorrfspond
+     * to tif itfms in tif modfl. It is tifrfforf dritidbl to spfdify tif
+     * indfxfs propfrly for insfrts bnd dflftfs.
      * <p>
-     * For inserts, the indexes represent the <i>final</i> state of the tree,
-     * after the inserts have occurred. Since the indexes must be specified in
-     * order, the most natural processing methodology is to do the inserts
-     * starting at the lowest index and working towards the highest. Accumulate
-     * a Vector of <code>Integer</code> objects that specify the
-     * insert-locations as you go, then convert the Vector to an
-     * array of <code>int</code> to create the event. When the postition-index
-     * equals zero, the node is inserted at the beginning of the list. When the
-     * position index equals the size of the list, the node is "inserted" at
-     * (appended to) the end of the list.
+     * For insfrts, tif indfxfs rfprfsfnt tif <i>finbl</i> stbtf of tif trff,
+     * bftfr tif insfrts ibvf oddurrfd. Sindf tif indfxfs must bf spfdififd in
+     * ordfr, tif most nbturbl prodfssing mftiodology is to do tif insfrts
+     * stbrting bt tif lowfst indfx bnd working towbrds tif iigifst. Addumulbtf
+     * b Vfdtor of <dodf>Intfgfr</dodf> objfdts tibt spfdify tif
+     * insfrt-lodbtions bs you go, tifn donvfrt tif Vfdtor to bn
+     * brrby of <dodf>int</dodf> to drfbtf tif fvfnt. Wifn tif postition-indfx
+     * fqubls zfro, tif nodf is insfrtfd bt tif bfginning of tif list. Wifn tif
+     * position indfx fqubls tif sizf of tif list, tif nodf is "insfrtfd" bt
+     * (bppfndfd to) tif fnd of tif list.
      * <p>
-     * For deletes, the indexes represent the <i>initial</i> state of the tree,
-     * before the deletes have occurred. Since the indexes must be specified in
-     * order, the most natural processing methodology is to use a delete-counter.
-     * Start by initializing the counter to zero and start work through the
-     * list from lowest to highest. Every time you do a delete, add the current
-     * value of the delete-counter to the index-position where the delete occurred,
-     * and append the result to a Vector of delete-locations, using
-     * <code>addElement()</code>. Then increment the delete-counter. The index
-     * positions stored in the Vector therefore reflect the effects of all previous
-     * deletes, so they represent each object's position in the initial tree.
-     * (You could also start at the highest index and working back towards the
-     * lowest, accumulating a Vector of delete-locations as you go using the
-     * <code>insertElementAt(Integer, 0)</code>.) However you produce the Vector
-     * of initial-positions, you then need to convert the Vector of <code>Integer</code>
-     * objects to an array of <code>int</code> to create the event.
+     * For dflftfs, tif indfxfs rfprfsfnt tif <i>initibl</i> stbtf of tif trff,
+     * bfforf tif dflftfs ibvf oddurrfd. Sindf tif indfxfs must bf spfdififd in
+     * ordfr, tif most nbturbl prodfssing mftiodology is to usf b dflftf-dountfr.
+     * Stbrt by initiblizing tif dountfr to zfro bnd stbrt work tirougi tif
+     * list from lowfst to iigifst. Evfry timf you do b dflftf, bdd tif durrfnt
+     * vbluf of tif dflftf-dountfr to tif indfx-position wifrf tif dflftf oddurrfd,
+     * bnd bppfnd tif rfsult to b Vfdtor of dflftf-lodbtions, using
+     * <dodf>bddElfmfnt()</dodf>. Tifn indrfmfnt tif dflftf-dountfr. Tif indfx
+     * positions storfd in tif Vfdtor tifrfforf rfflfdt tif ffffdts of bll prfvious
+     * dflftfs, so tify rfprfsfnt fbdi objfdt's position in tif initibl trff.
+     * (You dould blso stbrt bt tif iigifst indfx bnd working bbdk towbrds tif
+     * lowfst, bddumulbting b Vfdtor of dflftf-lodbtions bs you go using tif
+     * <dodf>insfrtElfmfntAt(Intfgfr, 0)</dodf>.) Howfvfr you produdf tif Vfdtor
+     * of initibl-positions, you tifn nffd to donvfrt tif Vfdtor of <dodf>Intfgfr</dodf>
+     * objfdts to bn brrby of <dodf>int</dodf> to drfbtf tif fvfnt.
      * <p>
-     * <b>Notes:</b><ul style="list-style-type:none">
-     * <li>Like the <code>insertNodeInto</code> method in the
-     *    <code>DefaultTreeModel</code> class, <code>insertElementAt</code>
-     *    appends to the <code>Vector</code> when the index matches the size
-     *    of the vector. So you can use <code>insertElementAt(Integer, 0)</code>
-     *    even when the vector is empty.</li>
-     * <li>To create a node changed event for the root node, specify the parent
-     *     and the child indices as <code>null</code>.</li>
+     * <b>Notfs:</b><ul stylf="list-stylf-typf:nonf">
+     * <li>Likf tif <dodf>insfrtNodfInto</dodf> mftiod in tif
+     *    <dodf>DffbultTrffModfl</dodf> dlbss, <dodf>insfrtElfmfntAt</dodf>
+     *    bppfnds to tif <dodf>Vfdtor</dodf> wifn tif indfx mbtdifs tif sizf
+     *    of tif vfdtor. So you dbn usf <dodf>insfrtElfmfntAt(Intfgfr, 0)</dodf>
+     *    fvfn wifn tif vfdtor is fmpty.</li>
+     * <li>To drfbtf b nodf dibngfd fvfnt for tif root nodf, spfdify tif pbrfnt
+     *     bnd tif diild indidfs bs <dodf>null</dodf>.</li>
      * </ul>
      *
-     * @param source the Object responsible for generating the event (typically
-     *               the creator of the event object passes <code>this</code>
-     *               for its value)
-     * @param path   an array of Object identifying the path to the
-     *               parent of the modified item(s), where the first element
-     *               of the array is the Object stored at the root node and
-     *               the last element is the Object stored at the parent node
-     * @param childIndices an array of <code>int</code> that specifies the
-     *               index values of the removed items. The indices must be
-     *               in sorted order, from lowest to highest
-     * @param children an array of Object containing the inserted, removed, or
-     *                 changed objects
-     * @see TreePath
+     * @pbrbm sourdf tif Objfdt rfsponsiblf for gfnfrbting tif fvfnt (typidblly
+     *               tif drfbtor of tif fvfnt objfdt pbssfs <dodf>tiis</dodf>
+     *               for its vbluf)
+     * @pbrbm pbti   bn brrby of Objfdt idfntifying tif pbti to tif
+     *               pbrfnt of tif modififd itfm(s), wifrf tif first flfmfnt
+     *               of tif brrby is tif Objfdt storfd bt tif root nodf bnd
+     *               tif lbst flfmfnt is tif Objfdt storfd bt tif pbrfnt nodf
+     * @pbrbm diildIndidfs bn brrby of <dodf>int</dodf> tibt spfdififs tif
+     *               indfx vblufs of tif rfmovfd itfms. Tif indidfs must bf
+     *               in sortfd ordfr, from lowfst to iigifst
+     * @pbrbm diildrfn bn brrby of Objfdt dontbining tif insfrtfd, rfmovfd, or
+     *                 dibngfd objfdts
+     * @sff TrffPbti
      */
-    public TreeModelEvent(Object source, Object[] path, int[] childIndices,
-                          Object[] children)
+    publid TrffModflEvfnt(Objfdt sourdf, Objfdt[] pbti, int[] diildIndidfs,
+                          Objfdt[] diildrfn)
     {
-        this(source, (path == null) ? null : new TreePath(path), childIndices, children);
+        tiis(sourdf, (pbti == null) ? null : nfw TrffPbti(pbti), diildIndidfs, diildrfn);
     }
 
     /**
-     * Used to create an event when nodes have been changed, inserted, or
-     * removed, identifying the path to the parent of the modified items as
-     * a TreePath object. For more information on how to specify the indexes
-     * and objects, see
-     * <code>TreeModelEvent(Object,Object[],int[],Object[])</code>.
+     * Usfd to drfbtf bn fvfnt wifn nodfs ibvf bffn dibngfd, insfrtfd, or
+     * rfmovfd, idfntifying tif pbti to tif pbrfnt of tif modififd itfms bs
+     * b TrffPbti objfdt. For morf informbtion on iow to spfdify tif indfxfs
+     * bnd objfdts, sff
+     * <dodf>TrffModflEvfnt(Objfdt,Objfdt[],int[],Objfdt[])</dodf>.
      *
-     * @param source the Object responsible for generating the event (typically
-     *               the creator of the event object passes <code>this</code>
-     *               for its value)
-     * @param path   a TreePath object that identifies the path to the
-     *               parent of the modified item(s)
-     * @param childIndices an array of <code>int</code> that specifies the
-     *               index values of the modified items
-     * @param children an array of Object containing the inserted, removed, or
-     *                 changed objects
+     * @pbrbm sourdf tif Objfdt rfsponsiblf for gfnfrbting tif fvfnt (typidblly
+     *               tif drfbtor of tif fvfnt objfdt pbssfs <dodf>tiis</dodf>
+     *               for its vbluf)
+     * @pbrbm pbti   b TrffPbti objfdt tibt idfntififs tif pbti to tif
+     *               pbrfnt of tif modififd itfm(s)
+     * @pbrbm diildIndidfs bn brrby of <dodf>int</dodf> tibt spfdififs tif
+     *               indfx vblufs of tif modififd itfms
+     * @pbrbm diildrfn bn brrby of Objfdt dontbining tif insfrtfd, rfmovfd, or
+     *                 dibngfd objfdts
      *
-     * @see #TreeModelEvent(Object,Object[],int[],Object[])
+     * @sff #TrffModflEvfnt(Objfdt,Objfdt[],int[],Objfdt[])
      */
-    public TreeModelEvent(Object source, TreePath path, int[] childIndices,
-                          Object[] children)
+    publid TrffModflEvfnt(Objfdt sourdf, TrffPbti pbti, int[] diildIndidfs,
+                          Objfdt[] diildrfn)
     {
-        super(source);
-        this.path = path;
-        this.childIndices = childIndices;
-        this.children = children;
+        supfr(sourdf);
+        tiis.pbti = pbti;
+        tiis.diildIndidfs = diildIndidfs;
+        tiis.diildrfn = diildrfn;
     }
 
     /**
-     * Used to create an event when the node structure has changed in some way,
-     * identifying the path to the root of a modified subtree as an array of
-     * Objects. A structure change event might involve nodes swapping position,
-     * for example, or it might encapsulate multiple inserts and deletes in the
-     * subtree stemming from the node, where the changes may have taken place at
-     * different levels of the subtree.
-     * <blockquote>
-     *   <b>Note:</b><br>
-     *   JTree collapses all nodes under the specified node, so that only its
-     *   immediate children are visible.
-     * </blockquote>
+     * Usfd to drfbtf bn fvfnt wifn tif nodf strudturf ibs dibngfd in somf wby,
+     * idfntifying tif pbti to tif root of b modififd subtrff bs bn brrby of
+     * Objfdts. A strudturf dibngf fvfnt migit involvf nodfs swbpping position,
+     * for fxbmplf, or it migit fndbpsulbtf multiplf insfrts bnd dflftfs in tif
+     * subtrff stfmming from tif nodf, wifrf tif dibngfs mby ibvf tbkfn plbdf bt
+     * difffrfnt lfvfls of tif subtrff.
+     * <blodkquotf>
+     *   <b>Notf:</b><br>
+     *   JTrff dollbpsfs bll nodfs undfr tif spfdififd nodf, so tibt only its
+     *   immfdibtf diildrfn brf visiblf.
+     * </blodkquotf>
      *
-     * @param source the Object responsible for generating the event (typically
-     *               the creator of the event object passes <code>this</code>
-     *               for its value)
-     * @param path   an array of Object identifying the path to the root of the
-     *               modified subtree, where the first element of the array is
-     *               the object stored at the root node and the last element
-     *               is the object stored at the changed node
-     * @see TreePath
+     * @pbrbm sourdf tif Objfdt rfsponsiblf for gfnfrbting tif fvfnt (typidblly
+     *               tif drfbtor of tif fvfnt objfdt pbssfs <dodf>tiis</dodf>
+     *               for its vbluf)
+     * @pbrbm pbti   bn brrby of Objfdt idfntifying tif pbti to tif root of tif
+     *               modififd subtrff, wifrf tif first flfmfnt of tif brrby is
+     *               tif objfdt storfd bt tif root nodf bnd tif lbst flfmfnt
+     *               is tif objfdt storfd bt tif dibngfd nodf
+     * @sff TrffPbti
      */
-    public TreeModelEvent(Object source, Object[] path)
+    publid TrffModflEvfnt(Objfdt sourdf, Objfdt[] pbti)
     {
-        this(source, (path == null) ? null : new TreePath(path));
+        tiis(sourdf, (pbti == null) ? null : nfw TrffPbti(pbti));
     }
 
     /**
-     * Used to create an event when the node structure has changed in some way,
-     * identifying the path to the root of the modified subtree as a TreePath
-     * object. For more information on this event specification, see
-     * <code>TreeModelEvent(Object,Object[])</code>.
+     * Usfd to drfbtf bn fvfnt wifn tif nodf strudturf ibs dibngfd in somf wby,
+     * idfntifying tif pbti to tif root of tif modififd subtrff bs b TrffPbti
+     * objfdt. For morf informbtion on tiis fvfnt spfdifidbtion, sff
+     * <dodf>TrffModflEvfnt(Objfdt,Objfdt[])</dodf>.
      *
-     * @param source the Object responsible for generating the event (typically
-     *               the creator of the event object passes <code>this</code>
-     *               for its value)
-     * @param path   a TreePath object that identifies the path to the
-     *               change. In the DefaultTreeModel,
-     *               this object contains an array of user-data objects,
-     *               but a subclass of TreePath could use some totally
-     *               different mechanism -- for example, a node ID number
+     * @pbrbm sourdf tif Objfdt rfsponsiblf for gfnfrbting tif fvfnt (typidblly
+     *               tif drfbtor of tif fvfnt objfdt pbssfs <dodf>tiis</dodf>
+     *               for its vbluf)
+     * @pbrbm pbti   b TrffPbti objfdt tibt idfntififs tif pbti to tif
+     *               dibngf. In tif DffbultTrffModfl,
+     *               tiis objfdt dontbins bn brrby of usfr-dbtb objfdts,
+     *               but b subdlbss of TrffPbti dould usf somf totblly
+     *               difffrfnt mfdibnism -- for fxbmplf, b nodf ID numbfr
      *
-     * @see #TreeModelEvent(Object,Object[])
+     * @sff #TrffModflEvfnt(Objfdt,Objfdt[])
      */
-    public TreeModelEvent(Object source, TreePath path)
+    publid TrffModflEvfnt(Objfdt sourdf, TrffPbti pbti)
     {
-        super(source);
-        this.path = path;
-        this.childIndices = new int[0];
+        supfr(sourdf);
+        tiis.pbti = pbti;
+        tiis.diildIndidfs = nfw int[0];
     }
 
     /**
-     * For all events, except treeStructureChanged,
-     * returns the parent of the changed nodes.
-     * For treeStructureChanged events, returns the ancestor of the
-     * structure that has changed. This and
-     * <code>getChildIndices</code> are used to get a list of the effected
-     * nodes.
+     * For bll fvfnts, fxdfpt trffStrudturfCibngfd,
+     * rfturns tif pbrfnt of tif dibngfd nodfs.
+     * For trffStrudturfCibngfd fvfnts, rfturns tif bndfstor of tif
+     * strudturf tibt ibs dibngfd. Tiis bnd
+     * <dodf>gftCiildIndidfs</dodf> brf usfd to gft b list of tif ffffdtfd
+     * nodfs.
      * <p>
-     * The one exception to this is a treeNodesChanged event that is to
-     * identify the root, in which case this will return the root
-     * and <code>getChildIndices</code> will return null.
+     * Tif onf fxdfption to tiis is b trffNodfsCibngfd fvfnt tibt is to
+     * idfntify tif root, in wiidi dbsf tiis will rfturn tif root
+     * bnd <dodf>gftCiildIndidfs</dodf> will rfturn null.
      *
-     * @return the TreePath used in identifying the changed nodes.
-     * @see TreePath#getLastPathComponent
+     * @rfturn tif TrffPbti usfd in idfntifying tif dibngfd nodfs.
+     * @sff TrffPbti#gftLbstPbtiComponfnt
      */
-    public TreePath getTreePath() { return path; }
+    publid TrffPbti gftTrffPbti() { rfturn pbti; }
 
     /**
-     * Convenience method to get the array of objects from the TreePath
-     * instance that this event wraps.
+     * Convfnifndf mftiod to gft tif brrby of objfdts from tif TrffPbti
+     * instbndf tibt tiis fvfnt wrbps.
      *
-     * @return an array of Objects, where the first Object is the one
-     *         stored at the root and the last object is the one
-     *         stored at the node identified by the path
+     * @rfturn bn brrby of Objfdts, wifrf tif first Objfdt is tif onf
+     *         storfd bt tif root bnd tif lbst objfdt is tif onf
+     *         storfd bt tif nodf idfntififd by tif pbti
      */
-    public Object[] getPath() {
-        if(path != null)
-            return path.getPath();
-        return null;
+    publid Objfdt[] gftPbti() {
+        if(pbti != null)
+            rfturn pbti.gftPbti();
+        rfturn null;
     }
 
     /**
-     * Returns the objects that are children of the node identified by
-     * <code>getPath</code> at the locations specified by
-     * <code>getChildIndices</code>. If this is a removal event the
-     * returned objects are no longer children of the parent node.
+     * Rfturns tif objfdts tibt brf diildrfn of tif nodf idfntififd by
+     * <dodf>gftPbti</dodf> bt tif lodbtions spfdififd by
+     * <dodf>gftCiildIndidfs</dodf>. If tiis is b rfmovbl fvfnt tif
+     * rfturnfd objfdts brf no longfr diildrfn of tif pbrfnt nodf.
      *
-     * @return an array of Object containing the children specified by
-     *         the event
-     * @see #getPath
-     * @see #getChildIndices
+     * @rfturn bn brrby of Objfdt dontbining tif diildrfn spfdififd by
+     *         tif fvfnt
+     * @sff #gftPbti
+     * @sff #gftCiildIndidfs
      */
-    public Object[] getChildren() {
-        if(children != null) {
-            int            cCount = children.length;
-            Object[]       retChildren = new Object[cCount];
+    publid Objfdt[] gftCiildrfn() {
+        if(diildrfn != null) {
+            int            dCount = diildrfn.lfngti;
+            Objfdt[]       rftCiildrfn = nfw Objfdt[dCount];
 
-            System.arraycopy(children, 0, retChildren, 0, cCount);
-            return retChildren;
+            Systfm.brrbydopy(diildrfn, 0, rftCiildrfn, 0, dCount);
+            rfturn rftCiildrfn;
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Returns the values of the child indexes. If this is a removal event
-     * the indexes point to locations in the initial list where items
-     * were removed. If it is an insert, the indices point to locations
-     * in the final list where the items were added. For node changes,
-     * the indices point to the locations of the modified nodes.
+     * Rfturns tif vblufs of tif diild indfxfs. If tiis is b rfmovbl fvfnt
+     * tif indfxfs point to lodbtions in tif initibl list wifrf itfms
+     * wfrf rfmovfd. If it is bn insfrt, tif indidfs point to lodbtions
+     * in tif finbl list wifrf tif itfms wfrf bddfd. For nodf dibngfs,
+     * tif indidfs point to tif lodbtions of tif modififd nodfs.
      *
-     * @return an array of <code>int</code> containing index locations for
-     *         the children specified by the event
+     * @rfturn bn brrby of <dodf>int</dodf> dontbining indfx lodbtions for
+     *         tif diildrfn spfdififd by tif fvfnt
      */
-    public int[] getChildIndices() {
-        if(childIndices != null) {
-            int            cCount = childIndices.length;
-            int[]          retArray = new int[cCount];
+    publid int[] gftCiildIndidfs() {
+        if(diildIndidfs != null) {
+            int            dCount = diildIndidfs.lfngti;
+            int[]          rftArrby = nfw int[dCount];
 
-            System.arraycopy(childIndices, 0, retArray, 0, cCount);
-            return retArray;
+            Systfm.brrbydopy(diildIndidfs, 0, rftArrby, 0, dCount);
+            rfturn rftArrby;
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Returns a string that displays and identifies this object's
-     * properties.
+     * Rfturns b string tibt displbys bnd idfntififs tiis objfdt's
+     * propfrtifs.
      *
-     * @return a String representation of this object
+     * @rfturn b String rfprfsfntbtion of tiis objfdt
      */
-    public String toString() {
-        StringBuilder   sb = new StringBuilder();
+    publid String toString() {
+        StringBuildfr   sb = nfw StringBuildfr();
 
-        sb.append(getClass().getName() + " " +
-                  Integer.toString(hashCode()));
-        if(path != null)
-            sb.append(" path " + path);
-        if(childIndices != null) {
-            sb.append(" indices [ ");
-            for(int counter = 0; counter < childIndices.length; counter++)
-                sb.append(Integer.toString(childIndices[counter])+ " ");
-            sb.append("]");
+        sb.bppfnd(gftClbss().gftNbmf() + " " +
+                  Intfgfr.toString(ibsiCodf()));
+        if(pbti != null)
+            sb.bppfnd(" pbti " + pbti);
+        if(diildIndidfs != null) {
+            sb.bppfnd(" indidfs [ ");
+            for(int dountfr = 0; dountfr < diildIndidfs.lfngti; dountfr++)
+                sb.bppfnd(Intfgfr.toString(diildIndidfs[dountfr])+ " ");
+            sb.bppfnd("]");
         }
-        if(children != null) {
-            sb.append(" children [ ");
-            for(int counter = 0; counter < children.length; counter++)
-                sb.append(children[counter] + " ");
-            sb.append("]");
+        if(diildrfn != null) {
+            sb.bppfnd(" diildrfn [ ");
+            for(int dountfr = 0; dountfr < diildrfn.lfngti; dountfr++)
+                sb.bppfnd(diildrfn[dountfr] + " ");
+            sb.bppfnd("]");
         }
-        return sb.toString();
+        rfturn sb.toString();
     }
 }

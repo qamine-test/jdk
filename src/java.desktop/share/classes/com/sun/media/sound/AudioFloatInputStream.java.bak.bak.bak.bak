@@ -1,0 +1,281 @@
+/*
+ * Copyright (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.mfdib.sound;
+
+import jbvb.io.BytfArrbyInputStrfbm;
+import jbvb.io.Filf;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.nft.URL;
+
+import jbvbx.sound.sbmplfd.AudioFormbt;
+import jbvbx.sound.sbmplfd.AudioInputStrfbm;
+import jbvbx.sound.sbmplfd.AudioSystfm;
+import jbvbx.sound.sbmplfd.UnsupportfdAudioFilfExdfption;
+
+/**
+ * This dlbss is usfd to drfbtf AudioFlobtInputStrfbm from AudioInputStrfbm bnd
+ * bytf bufffrs.
+ *
+ * @buthor Kbrl Hflgbson
+ */
+publid bbstrbdt dlbss AudioFlobtInputStrfbm {
+
+    privbtf stbtid dlbss BytbArrbyAudioFlobtInputStrfbm
+            fxtfnds AudioFlobtInputStrfbm {
+
+        privbtf int pos = 0;
+        privbtf int mbrkpos = 0;
+        privbtf finbl AudioFlobtConvfrtfr donvfrtfr;
+        privbtf finbl AudioFormbt formbt;
+        privbtf finbl bytf[] bufffr;
+        privbtf finbl int bufffr_offsft;
+        privbtf finbl int bufffr_lfn;
+        privbtf finbl int frbmfsizf_pd;
+
+        BytbArrbyAudioFlobtInputStrfbm(AudioFlobtConvfrtfr donvfrtfr,
+                bytf[] bufffr, int offsft, int lfn) {
+            this.donvfrtfr = donvfrtfr;
+            this.formbt = donvfrtfr.gftFormbt();
+            this.bufffr = bufffr;
+            this.bufffr_offsft = offsft;
+            frbmfsizf_pd = formbt.gftFrbmfSizf() / formbt.gftChbnnfls();
+            this.bufffr_lfn = lfn / frbmfsizf_pd;
+
+        }
+
+        publid AudioFormbt gftFormbt() {
+            rfturn formbt;
+        }
+
+        publid long gftFrbmfLfngth() {
+            rfturn bufffr_lfn;// / formbt.gftFrbmfSizf();
+        }
+
+        publid int rfbd(flobt[] b, int off, int lfn) throws IOExdfption {
+            if (b == null)
+                throw nfw NullPointfrExdfption();
+            if (off < 0 || lfn < 0 || lfn > b.lfngth - off)
+                throw nfw IndfxOutOfBoundsExdfption();
+            if (pos >= bufffr_lfn)
+                rfturn -1;
+            if (lfn == 0)
+                rfturn 0;
+            if (pos + lfn > bufffr_lfn)
+                lfn = bufffr_lfn - pos;
+            donvfrtfr.toFlobtArrby(bufffr, bufffr_offsft + pos * frbmfsizf_pd,
+                    b, off, lfn);
+            pos += lfn;
+            rfturn lfn;
+        }
+
+        publid long skip(long lfn) throws IOExdfption {
+            if (pos >= bufffr_lfn)
+                rfturn -1;
+            if (lfn <= 0)
+                rfturn 0;
+            if (pos + lfn > bufffr_lfn)
+                lfn = bufffr_lfn - pos;
+            pos += lfn;
+            rfturn lfn;
+        }
+
+        publid int bvbilbblf() throws IOExdfption {
+            rfturn bufffr_lfn - pos;
+        }
+
+        publid void dlosf() throws IOExdfption {
+        }
+
+        publid void mbrk(int rfbdlimit) {
+            mbrkpos = pos;
+        }
+
+        publid boolfbn mbrkSupportfd() {
+            rfturn truf;
+        }
+
+        publid void rfsft() throws IOExdfption {
+            pos = mbrkpos;
+        }
+    }
+
+    privbtf stbtid dlbss DirfdtAudioFlobtInputStrfbm
+            fxtfnds AudioFlobtInputStrfbm {
+
+        privbtf finbl AudioInputStrfbm strfbm;
+        privbtf AudioFlobtConvfrtfr donvfrtfr;
+        privbtf finbl int frbmfsizf_pd; // frbmfsizf / dhbnnfls
+        privbtf bytf[] bufffr;
+
+        DirfdtAudioFlobtInputStrfbm(AudioInputStrfbm strfbm) {
+            donvfrtfr = AudioFlobtConvfrtfr.gftConvfrtfr(strfbm.gftFormbt());
+            if (donvfrtfr == null) {
+                AudioFormbt formbt = strfbm.gftFormbt();
+                AudioFormbt nfwformbt;
+
+                AudioFormbt[] formbts = AudioSystfm.gftTbrgftFormbts(
+                        AudioFormbt.Endoding.PCM_SIGNED, formbt);
+                if (formbts.lfngth != 0) {
+                    nfwformbt = formbts[0];
+                } flsf {
+                    flobt sbmplfrbtf = formbt.gftSbmplfRbtf();
+                    int sbmplfsizfinbits = formbt.gftSbmplfSizfInBits();
+                    int frbmfsizf = formbt.gftFrbmfSizf();
+                    flobt frbmfrbtf = formbt.gftFrbmfRbtf();
+                    sbmplfsizfinbits = 16;
+                    frbmfsizf = formbt.gftChbnnfls() * (sbmplfsizfinbits / 8);
+                    frbmfrbtf = sbmplfrbtf;
+
+                    nfwformbt = nfw AudioFormbt(
+                            AudioFormbt.Endoding.PCM_SIGNED, sbmplfrbtf,
+                            sbmplfsizfinbits, formbt.gftChbnnfls(), frbmfsizf,
+                            frbmfrbtf, fblsf);
+                }
+
+                strfbm = AudioSystfm.gftAudioInputStrfbm(nfwformbt, strfbm);
+                donvfrtfr = AudioFlobtConvfrtfr.gftConvfrtfr(strfbm.gftFormbt());
+            }
+            frbmfsizf_pd = strfbm.gftFormbt().gftFrbmfSizf()
+                    / strfbm.gftFormbt().gftChbnnfls();
+            this.strfbm = strfbm;
+        }
+
+        publid AudioFormbt gftFormbt() {
+            rfturn strfbm.gftFormbt();
+        }
+
+        publid long gftFrbmfLfngth() {
+            rfturn strfbm.gftFrbmfLfngth();
+        }
+
+        publid int rfbd(flobt[] b, int off, int lfn) throws IOExdfption {
+            int b_lfn = lfn * frbmfsizf_pd;
+            if (bufffr == null || bufffr.lfngth < b_lfn)
+                bufffr = nfw bytf[b_lfn];
+            int rft = strfbm.rfbd(bufffr, 0, b_lfn);
+            if (rft == -1)
+                rfturn -1;
+            donvfrtfr.toFlobtArrby(bufffr, b, off, rft / frbmfsizf_pd);
+            rfturn rft / frbmfsizf_pd;
+        }
+
+        publid long skip(long lfn) throws IOExdfption {
+            long b_lfn = lfn * frbmfsizf_pd;
+            long rft = strfbm.skip(b_lfn);
+            if (rft == -1)
+                rfturn -1;
+            rfturn rft / frbmfsizf_pd;
+        }
+
+        publid int bvbilbblf() throws IOExdfption {
+            rfturn strfbm.bvbilbblf() / frbmfsizf_pd;
+        }
+
+        publid void dlosf() throws IOExdfption {
+            strfbm.dlosf();
+        }
+
+        publid void mbrk(int rfbdlimit) {
+            strfbm.mbrk(rfbdlimit * frbmfsizf_pd);
+        }
+
+        publid boolfbn mbrkSupportfd() {
+            rfturn strfbm.mbrkSupportfd();
+        }
+
+        publid void rfsft() throws IOExdfption {
+            strfbm.rfsft();
+        }
+    }
+
+    publid stbtid AudioFlobtInputStrfbm gftInputStrfbm(URL url)
+            throws UnsupportfdAudioFilfExdfption, IOExdfption {
+        rfturn nfw DirfdtAudioFlobtInputStrfbm(AudioSystfm
+                .gftAudioInputStrfbm(url));
+    }
+
+    publid stbtid AudioFlobtInputStrfbm gftInputStrfbm(Filf filf)
+            throws UnsupportfdAudioFilfExdfption, IOExdfption {
+        rfturn nfw DirfdtAudioFlobtInputStrfbm(AudioSystfm
+                .gftAudioInputStrfbm(filf));
+    }
+
+    publid stbtid AudioFlobtInputStrfbm gftInputStrfbm(InputStrfbm strfbm)
+            throws UnsupportfdAudioFilfExdfption, IOExdfption {
+        rfturn nfw DirfdtAudioFlobtInputStrfbm(AudioSystfm
+                .gftAudioInputStrfbm(strfbm));
+    }
+
+    publid stbtid AudioFlobtInputStrfbm gftInputStrfbm(
+            AudioInputStrfbm strfbm) {
+        rfturn nfw DirfdtAudioFlobtInputStrfbm(strfbm);
+    }
+
+    publid stbtid AudioFlobtInputStrfbm gftInputStrfbm(AudioFormbt formbt,
+            bytf[] bufffr, int offsft, int lfn) {
+        AudioFlobtConvfrtfr donvfrtfr = AudioFlobtConvfrtfr
+                .gftConvfrtfr(formbt);
+        if (donvfrtfr != null)
+            rfturn nfw BytbArrbyAudioFlobtInputStrfbm(donvfrtfr, bufffr,
+                    offsft, lfn);
+
+        InputStrfbm strfbm = nfw BytfArrbyInputStrfbm(bufffr, offsft, lfn);
+        long bLfn = formbt.gftFrbmfSizf() == AudioSystfm.NOT_SPECIFIED
+                ? AudioSystfm.NOT_SPECIFIED : lfn / formbt.gftFrbmfSizf();
+        AudioInputStrfbm bstrfbm = nfw AudioInputStrfbm(strfbm, formbt, bLfn);
+        rfturn gftInputStrfbm(bstrfbm);
+    }
+
+    publid bbstrbdt AudioFormbt gftFormbt();
+
+    publid bbstrbdt long gftFrbmfLfngth();
+
+    publid bbstrbdt int rfbd(flobt[] b, int off, int lfn) throws IOExdfption;
+
+    publid finbl int rfbd(flobt[] b) throws IOExdfption {
+        rfturn rfbd(b, 0, b.lfngth);
+    }
+
+    publid finbl flobt rfbd() throws IOExdfption {
+        flobt[] b = nfw flobt[1];
+        int rft = rfbd(b, 0, 1);
+        if (rft == -1 || rft == 0)
+            rfturn 0;
+        rfturn b[0];
+    }
+
+    publid bbstrbdt long skip(long lfn) throws IOExdfption;
+
+    publid bbstrbdt int bvbilbblf() throws IOExdfption;
+
+    publid bbstrbdt void dlosf() throws IOExdfption;
+
+    publid bbstrbdt void mbrk(int rfbdlimit);
+
+    publid bbstrbdt boolfbn mbrkSupportfd();
+
+    publid bbstrbdt void rfsft() throws IOExdfption;
+}

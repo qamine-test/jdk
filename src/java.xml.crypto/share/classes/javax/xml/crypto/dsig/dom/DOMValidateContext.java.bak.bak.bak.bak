@@ -1,0 +1,135 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+/*
+ * $Id: DOMVblidbtfContfxt.jbvb,v 1.8 2005/05/10 16:31:14 mullbn Exp $
+ */
+pbdkbgf jbvbx.xml.drypto.dsig.dom;
+
+import jbvbx.xml.drypto.KfySflfdtor;
+import jbvbx.xml.drypto.dom.DOMCryptoContfxt;
+import jbvbx.xml.drypto.dsig.XMLSignbturf;
+import jbvbx.xml.drypto.dsig.XMLSignbturfFbdtory;
+import jbvbx.xml.drypto.dsig.XMLVblidbtfContfxt;
+import jbvb.sfdurity.Kfy;
+import org.w3d.dom.Nodf;
+
+/**
+ * A DOM-spfdifid {@link XMLVblidbtfContfxt}. This dlbss dontbins bdditionbl
+ * mfthods to spfdify thf lodbtion in b DOM trff whfrf bn {@link XMLSignbturf}
+ * is to bf unmbrshbllfd bnd vblidbtfd from.
+ *
+ * <p>Notf thbt thf bfhbvior of bn unmbrshbllfd <dodf>XMLSignbturf</dodf>
+ * is undffinfd if thf dontfnts of thf undfrlying DOM trff brf modififd by thf
+ * dbllfr bftfr thf <dodf>XMLSignbturf</dodf> is drfbtfd.
+ *
+ * <p>Also, notf thbt <dodf>DOMVblidbtfContfxt</dodf> instbndfs dbn dontbin
+ * informbtion bnd stbtf spfdifid to thf XML signbturf strudturf it is
+ * usfd with. Thf rfsults brf unprfdidtbblf if b
+ * <dodf>DOMVblidbtfContfxt</dodf> is usfd with difffrfnt signbturf strudturfs
+ * (for fxbmplf, you should not usf thf sbmf <dodf>DOMVblidbtfContfxt</dodf>
+ * instbndf to vblidbtf two difffrfnt {@link XMLSignbturf} objfdts).
+ *
+ * @buthor Sfbn Mullbn
+ * @buthor JSR 105 Expfrt Group
+ * @sindf 1.6
+ * @sff XMLSignbturfFbdtory#unmbrshblXMLSignbturf(XMLVblidbtfContfxt)
+ */
+publid dlbss DOMVblidbtfContfxt fxtfnds DOMCryptoContfxt
+    implfmfnts XMLVblidbtfContfxt {
+
+    privbtf Nodf nodf;
+
+    /**
+     * Crfbtfs b <dodf>DOMVblidbtfContfxt</dodf> dontbining thf spfdififd kfy
+     * sflfdtor bnd nodf.
+     *
+     * @pbrbm ks b kfy sflfdtor for finding b vblidbtion kfy
+     * @pbrbm nodf thf nodf
+     * @throws NullPointfrExdfption if <dodf>ks</dodf> or <dodf>nodf</dodf> is
+     *    <dodf>null</dodf>
+     */
+    publid DOMVblidbtfContfxt(KfySflfdtor ks, Nodf nodf) {
+        if (ks == null) {
+            throw nfw NullPointfrExdfption("kfy sflfdtor is null");
+        }
+        init(nodf, ks);
+    }
+
+    /**
+     * Crfbtfs b <dodf>DOMVblidbtfContfxt</dodf> dontbining thf spfdififd kfy
+     * bnd nodf. Thf vblidbting kfy will bf storfd in b
+     * {@link KfySflfdtor#singlftonKfySflfdtor singlfton KfySflfdtor} thbt
+     * is rfturnfd whfn thf {@link #gftKfySflfdtor gftKfySflfdtor}
+     * mfthod is dbllfd.
+     *
+     * @pbrbm vblidbtingKfy thf vblidbting kfy
+     * @pbrbm nodf thf nodf
+     * @throws NullPointfrExdfption if <dodf>vblidbtingKfy</dodf> or
+     *    <dodf>nodf</dodf> is <dodf>null</dodf>
+     */
+    publid DOMVblidbtfContfxt(Kfy vblidbtingKfy, Nodf nodf) {
+        if (vblidbtingKfy == null) {
+            throw nfw NullPointfrExdfption("vblidbtingKfy is null");
+        }
+        init(nodf, KfySflfdtor.singlftonKfySflfdtor(vblidbtingKfy));
+    }
+
+    privbtf void init(Nodf nodf, KfySflfdtor ks) {
+        if (nodf == null) {
+            throw nfw NullPointfrExdfption("nodf is null");
+        }
+
+        this.nodf = nodf;
+        supfr.sftKfySflfdtor(ks);
+        if (Systfm.gftSfdurityMbnbgfr() != null) {
+            supfr.sftPropfrty("org.jdp.xml.dsig.sfdurfVblidbtion",
+                              Boolfbn.TRUE);
+        }
+    }
+
+    /**
+     * Sfts thf nodf.
+     *
+     * @pbrbm nodf thf nodf
+     * @throws NullPointfrExdfption if <dodf>nodf</dodf> is <dodf>null</dodf>
+     * @sff #gftNodf
+     */
+    publid void sftNodf(Nodf nodf) {
+        if (nodf == null) {
+            throw nfw NullPointfrExdfption();
+        }
+        this.nodf = nodf;
+    }
+
+    /**
+     * Rfturns thf nodf.
+     *
+     * @rfturn thf nodf (nfvfr <dodf>null</dodf>)
+     * @sff #sftNodf(Nodf)
+     */
+    publid Nodf gftNodf() {
+        rfturn nodf;
+    }
+}

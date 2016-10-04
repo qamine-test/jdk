@@ -1,767 +1,767 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * <p>These classes are designed to be used while the
- * corresponding <code>LookAndFeel</code> class has been installed
- * (<code>UIManager.setLookAndFeel(new <i>XXX</i>LookAndFeel())</code>).
- * Using them while a different <code>LookAndFeel</code> is installed
- * may produce unexpected results, including exceptions.
- * Additionally, changing the <code>LookAndFeel</code>
- * maintained by the <code>UIManager</code> without updating the
- * corresponding <code>ComponentUI</code> of any
- * <code>JComponent</code>s may also produce unexpected results,
- * such as the wrong colors showing up, and is generally not
- * encouraged.
+ * <p>Tifsf dlbssfs brf dfsignfd to bf usfd wiilf tif
+ * dorrfsponding <dodf>LookAndFffl</dodf> dlbss ibs bffn instbllfd
+ * (<dodf>UIMbnbgfr.sftLookAndFffl(nfw <i>XXX</i>LookAndFffl())</dodf>).
+ * Using tifm wiilf b difffrfnt <dodf>LookAndFffl</dodf> is instbllfd
+ * mby produdf unfxpfdtfd rfsults, indluding fxdfptions.
+ * Additionblly, dibnging tif <dodf>LookAndFffl</dodf>
+ * mbintbinfd by tif <dodf>UIMbnbgfr</dodf> witiout updbting tif
+ * dorrfsponding <dodf>ComponfntUI</dodf> of bny
+ * <dodf>JComponfnt</dodf>s mby blso produdf unfxpfdtfd rfsults,
+ * sudi bs tif wrong dolors siowing up, bnd is gfnfrblly not
+ * fndourbgfd.
  *
  */
 
-package com.sun.java.swing.plaf.windows;
+pbdkbgf dom.sun.jbvb.swing.plbf.windows;
 
-import java.awt.*;
-import java.awt.image.*;
-import java.security.AccessController;
-import java.util.*;
+import jbvb.bwt.*;
+import jbvb.bwt.imbgf.*;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.util.*;
 
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.plaf.*;
-import javax.swing.text.JTextComponent;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.tfxt.JTfxtComponfnt;
 
-import sun.awt.image.SunWritableRaster;
-import sun.awt.windows.ThemeReader;
-import sun.security.action.GetPropertyAction;
-import sun.swing.CachedPainter;
+import sun.bwt.imbgf.SunWritbblfRbstfr;
+import sun.bwt.windows.TifmfRfbdfr;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
+import sun.swing.CbdifdPbintfr;
 
-import static com.sun.java.swing.plaf.windows.TMSchema.*;
+import stbtid dom.sun.jbvb.swing.plbf.windows.TMSdifmb.*;
 
 
 /**
- * Implements Windows XP Styles for the Windows Look and Feel.
+ * Implfmfnts Windows XP Stylfs for tif Windows Look bnd Fffl.
  *
- * @author Leif Samuelsson
+ * @butior Lfif Sbmuflsson
  */
-class XPStyle {
-    // Singleton instance of this class
-    private static XPStyle xp;
+dlbss XPStylf {
+    // Singlfton instbndf of tiis dlbss
+    privbtf stbtid XPStylf xp;
 
-    // Singleton instance of SkinPainter
-    private static SkinPainter skinPainter = new SkinPainter();
+    // Singlfton instbndf of SkinPbintfr
+    privbtf stbtid SkinPbintfr skinPbintfr = nfw SkinPbintfr();
 
-    private static Boolean themeActive = null;
+    privbtf stbtid Boolfbn tifmfAdtivf = null;
 
-    private HashMap<String, Border> borderMap;
-    private HashMap<String, Color>  colorMap;
+    privbtf HbsiMbp<String, Bordfr> bordfrMbp;
+    privbtf HbsiMbp<String, Color>  dolorMbp;
 
-    private boolean flatMenus;
+    privbtf boolfbn flbtMfnus;
 
-    static {
-        invalidateStyle();
+    stbtid {
+        invblidbtfStylf();
     }
 
-    /** Static method for clearing the hashmap and loading the
-     * current XP style and theme
+    /** Stbtid mftiod for dlfbring tif ibsimbp bnd lobding tif
+     * durrfnt XP stylf bnd tifmf
      */
-    static synchronized void invalidateStyle() {
+    stbtid syndironizfd void invblidbtfStylf() {
         xp = null;
-        themeActive = null;
-        skinPainter.flush();
+        tifmfAdtivf = null;
+        skinPbintfr.flusi();
     }
 
-    /** Get the singleton instance of this class
+    /** Gft tif singlfton instbndf of tiis dlbss
      *
-     * @return the singleton instance of this class or null if XP styles
-     * are not active or if this is not Windows XP
+     * @rfturn tif singlfton instbndf of tiis dlbss or null if XP stylfs
+     * brf not bdtivf or if tiis is not Windows XP
      */
-    static synchronized XPStyle getXP() {
-        if (themeActive == null) {
-            Toolkit toolkit = Toolkit.getDefaultToolkit();
-            themeActive =
-                (Boolean)toolkit.getDesktopProperty("win.xpstyle.themeActive");
-            if (themeActive == null) {
-                themeActive = Boolean.FALSE;
+    stbtid syndironizfd XPStylf gftXP() {
+        if (tifmfAdtivf == null) {
+            Toolkit toolkit = Toolkit.gftDffbultToolkit();
+            tifmfAdtivf =
+                (Boolfbn)toolkit.gftDfsktopPropfrty("win.xpstylf.tifmfAdtivf");
+            if (tifmfAdtivf == null) {
+                tifmfAdtivf = Boolfbn.FALSE;
             }
-            if (themeActive.booleanValue()) {
-                GetPropertyAction propertyAction =
-                    new GetPropertyAction("swing.noxp");
-                if (AccessController.doPrivileged(propertyAction) == null &&
-                    ThemeReader.isThemed() &&
-                    !(UIManager.getLookAndFeel()
-                      instanceof WindowsClassicLookAndFeel)) {
+            if (tifmfAdtivf.boolfbnVbluf()) {
+                GftPropfrtyAdtion propfrtyAdtion =
+                    nfw GftPropfrtyAdtion("swing.noxp");
+                if (AddfssControllfr.doPrivilfgfd(propfrtyAdtion) == null &&
+                    TifmfRfbdfr.isTifmfd() &&
+                    !(UIMbnbgfr.gftLookAndFffl()
+                      instbndfof WindowsClbssidLookAndFffl)) {
 
-                    xp = new XPStyle();
+                    xp = nfw XPStylf();
                 }
             }
         }
-        return ThemeReader.isXPStyleEnabled() ? xp : null;
+        rfturn TifmfRfbdfr.isXPStylfEnbblfd() ? xp : null;
     }
 
-    static boolean isVista() {
-        XPStyle xp = XPStyle.getXP();
-        return (xp != null && xp.isSkinDefined(null, Part.CP_DROPDOWNBUTTONRIGHT));
+    stbtid boolfbn isVistb() {
+        XPStylf xp = XPStylf.gftXP();
+        rfturn (xp != null && xp.isSkinDffinfd(null, Pbrt.CP_DROPDOWNBUTTONRIGHT));
     }
 
-    /** Get a named <code>String</code> value from the current style
+    /** Gft b nbmfd <dodf>String</dodf> vbluf from tif durrfnt stylf
      *
-     * @param part a <code>Part</code>
-     * @param state a <code>String</code>
-     * @param attributeKey a <code>String</code>
-     * @return a <code>String</code> or null if key is not found
-     *    in the current style
+     * @pbrbm pbrt b <dodf>Pbrt</dodf>
+     * @pbrbm stbtf b <dodf>String</dodf>
+     * @pbrbm bttributfKfy b <dodf>String</dodf>
+     * @rfturn b <dodf>String</dodf> or null if kfy is not found
+     *    in tif durrfnt stylf
      *
-     * This is currently only used by WindowsInternalFrameTitlePane for painting
-     * title foregound and can be removed when no longer needed
+     * Tiis is durrfntly only usfd by WindowsIntfrnblFrbmfTitlfPbnf for pbinting
+     * titlf forfgound bnd dbn bf rfmovfd wifn no longfr nffdfd
      */
-    String getString(Component c, Part part, State state, Prop prop) {
-        return getTypeEnumName(c, part, state, prop);
+    String gftString(Componfnt d, Pbrt pbrt, Stbtf stbtf, Prop prop) {
+        rfturn gftTypfEnumNbmf(d, pbrt, stbtf, prop);
     }
 
-    TypeEnum getTypeEnum(Component c, Part part, State state, Prop prop) {
-        int enumValue = ThemeReader.getEnum(part.getControlName(c), part.getValue(),
-                                            State.getValue(part, state),
-                                            prop.getValue());
-        return TypeEnum.getTypeEnum(prop, enumValue);
+    TypfEnum gftTypfEnum(Componfnt d, Pbrt pbrt, Stbtf stbtf, Prop prop) {
+        int fnumVbluf = TifmfRfbdfr.gftEnum(pbrt.gftControlNbmf(d), pbrt.gftVbluf(),
+                                            Stbtf.gftVbluf(pbrt, stbtf),
+                                            prop.gftVbluf());
+        rfturn TypfEnum.gftTypfEnum(prop, fnumVbluf);
     }
 
-    private static String getTypeEnumName(Component c, Part part, State state, Prop prop) {
-        int enumValue = ThemeReader.getEnum(part.getControlName(c), part.getValue(),
-                                            State.getValue(part, state),
-                                            prop.getValue());
-        if (enumValue == -1) {
-            return null;
+    privbtf stbtid String gftTypfEnumNbmf(Componfnt d, Pbrt pbrt, Stbtf stbtf, Prop prop) {
+        int fnumVbluf = TifmfRfbdfr.gftEnum(pbrt.gftControlNbmf(d), pbrt.gftVbluf(),
+                                            Stbtf.gftVbluf(pbrt, stbtf),
+                                            prop.gftVbluf());
+        if (fnumVbluf == -1) {
+            rfturn null;
         }
-        return TypeEnum.getTypeEnum(prop, enumValue).getName();
+        rfturn TypfEnum.gftTypfEnum(prop, fnumVbluf).gftNbmf();
     }
 
 
 
 
-    /** Get a named <code>int</code> value from the current style
+    /** Gft b nbmfd <dodf>int</dodf> vbluf from tif durrfnt stylf
      *
-     * @param part a <code>Part</code>
-     * @return an <code>int</code> or null if key is not found
-     *    in the current style
+     * @pbrbm pbrt b <dodf>Pbrt</dodf>
+     * @rfturn bn <dodf>int</dodf> or null if kfy is not found
+     *    in tif durrfnt stylf
      */
-    int getInt(Component c, Part part, State state, Prop prop, int fallback) {
-        return ThemeReader.getInt(part.getControlName(c), part.getValue(),
-                                  State.getValue(part, state),
-                                  prop.getValue());
+    int gftInt(Componfnt d, Pbrt pbrt, Stbtf stbtf, Prop prop, int fbllbbdk) {
+        rfturn TifmfRfbdfr.gftInt(pbrt.gftControlNbmf(d), pbrt.gftVbluf(),
+                                  Stbtf.gftVbluf(pbrt, stbtf),
+                                  prop.gftVbluf());
     }
 
-    /** Get a named <code>Dimension</code> value from the current style
+    /** Gft b nbmfd <dodf>Dimfnsion</dodf> vbluf from tif durrfnt stylf
      *
-     * @param key a <code>String</code>
-     * @return a <code>Dimension</code> or null if key is not found
-     *    in the current style
+     * @pbrbm kfy b <dodf>String</dodf>
+     * @rfturn b <dodf>Dimfnsion</dodf> or null if kfy is not found
+     *    in tif durrfnt stylf
      *
-     * This is currently only used by WindowsProgressBarUI and the value
-     * should probably be cached there instead of here.
+     * Tiis is durrfntly only usfd by WindowsProgrfssBbrUI bnd tif vbluf
+     * siould probbbly bf dbdifd tifrf instfbd of ifrf.
      */
-    Dimension getDimension(Component c, Part part, State state, Prop prop) {
-        Dimension d = ThemeReader.getPosition(part.getControlName(c), part.getValue(),
-                                              State.getValue(part, state),
-                                              prop.getValue());
-        return (d != null) ? d : new Dimension();
+    Dimfnsion gftDimfnsion(Componfnt d, Pbrt pbrt, Stbtf stbtf, Prop prop) {
+        Dimfnsion d = TifmfRfbdfr.gftPosition(pbrt.gftControlNbmf(d), pbrt.gftVbluf(),
+                                              Stbtf.gftVbluf(pbrt, stbtf),
+                                              prop.gftVbluf());
+        rfturn (d != null) ? d : nfw Dimfnsion();
     }
 
-    /** Get a named <code>Point</code> (e.g. a location or an offset) value
-     *  from the current style
+    /** Gft b nbmfd <dodf>Point</dodf> (f.g. b lodbtion or bn offsft) vbluf
+     *  from tif durrfnt stylf
      *
-     * @param key a <code>String</code>
-     * @return a <code>Point</code> or null if key is not found
-     *    in the current style
+     * @pbrbm kfy b <dodf>String</dodf>
+     * @rfturn b <dodf>Point</dodf> or null if kfy is not found
+     *    in tif durrfnt stylf
      *
-     * This is currently only used by WindowsInternalFrameTitlePane for painting
-     * title foregound and can be removed when no longer needed
+     * Tiis is durrfntly only usfd by WindowsIntfrnblFrbmfTitlfPbnf for pbinting
+     * titlf forfgound bnd dbn bf rfmovfd wifn no longfr nffdfd
      */
-    Point getPoint(Component c, Part part, State state, Prop prop) {
-        Dimension d = ThemeReader.getPosition(part.getControlName(c), part.getValue(),
-                                              State.getValue(part, state),
-                                              prop.getValue());
-        return (d != null) ? new Point(d.width, d.height) : new Point();
+    Point gftPoint(Componfnt d, Pbrt pbrt, Stbtf stbtf, Prop prop) {
+        Dimfnsion d = TifmfRfbdfr.gftPosition(pbrt.gftControlNbmf(d), pbrt.gftVbluf(),
+                                              Stbtf.gftVbluf(pbrt, stbtf),
+                                              prop.gftVbluf());
+        rfturn (d != null) ? nfw Point(d.widti, d.ifigit) : nfw Point();
     }
 
-    /** Get a named <code>Insets</code> value from the current style
+    /** Gft b nbmfd <dodf>Insfts</dodf> vbluf from tif durrfnt stylf
      *
-     * @param key a <code>String</code>
-     * @return an <code>Insets</code> object or null if key is not found
-     *    in the current style
+     * @pbrbm kfy b <dodf>String</dodf>
+     * @rfturn bn <dodf>Insfts</dodf> objfdt or null if kfy is not found
+     *    in tif durrfnt stylf
      *
-     * This is currently only used to create borders and by
-     * WindowsInternalFrameTitlePane for painting title foregound.
-     * The return value is already cached in those places.
+     * Tiis is durrfntly only usfd to drfbtf bordfrs bnd by
+     * WindowsIntfrnblFrbmfTitlfPbnf for pbinting titlf forfgound.
+     * Tif rfturn vbluf is blrfbdy dbdifd in tiosf plbdfs.
      */
-    Insets getMargin(Component c, Part part, State state, Prop prop) {
-        Insets insets = ThemeReader.getThemeMargins(part.getControlName(c), part.getValue(),
-                                                    State.getValue(part, state),
-                                                    prop.getValue());
-        return (insets != null) ? insets : new Insets(0, 0, 0, 0);
+    Insfts gftMbrgin(Componfnt d, Pbrt pbrt, Stbtf stbtf, Prop prop) {
+        Insfts insfts = TifmfRfbdfr.gftTifmfMbrgins(pbrt.gftControlNbmf(d), pbrt.gftVbluf(),
+                                                    Stbtf.gftVbluf(pbrt, stbtf),
+                                                    prop.gftVbluf());
+        rfturn (insfts != null) ? insfts : nfw Insfts(0, 0, 0, 0);
     }
 
 
-    /** Get a named <code>Color</code> value from the current style
+    /** Gft b nbmfd <dodf>Color</dodf> vbluf from tif durrfnt stylf
      *
-     * @param part a <code>Part</code>
-     * @return a <code>Color</code> or null if key is not found
-     *    in the current style
+     * @pbrbm pbrt b <dodf>Pbrt</dodf>
+     * @rfturn b <dodf>Color</dodf> or null if kfy is not found
+     *    in tif durrfnt stylf
      */
-    synchronized Color getColor(Skin skin, Prop prop, Color fallback) {
-        String key = skin.toString() + "." + prop.name();
-        Part part = skin.part;
-        Color color = colorMap.get(key);
-        if (color == null) {
-            color = ThemeReader.getColor(part.getControlName(null), part.getValue(),
-                                         State.getValue(part, skin.state),
-                                         prop.getValue());
-            if (color != null) {
-                color = new ColorUIResource(color);
-                colorMap.put(key, color);
+    syndironizfd Color gftColor(Skin skin, Prop prop, Color fbllbbdk) {
+        String kfy = skin.toString() + "." + prop.nbmf();
+        Pbrt pbrt = skin.pbrt;
+        Color dolor = dolorMbp.gft(kfy);
+        if (dolor == null) {
+            dolor = TifmfRfbdfr.gftColor(pbrt.gftControlNbmf(null), pbrt.gftVbluf(),
+                                         Stbtf.gftVbluf(pbrt, skin.stbtf),
+                                         prop.gftVbluf());
+            if (dolor != null) {
+                dolor = nfw ColorUIRfsourdf(dolor);
+                dolorMbp.put(kfy, dolor);
             }
         }
-        return (color != null) ? color : fallback;
+        rfturn (dolor != null) ? dolor : fbllbbdk;
     }
 
-    Color getColor(Component c, Part part, State state, Prop prop, Color fallback) {
-        return getColor(new Skin(c, part, state), prop, fallback);
+    Color gftColor(Componfnt d, Pbrt pbrt, Stbtf stbtf, Prop prop, Color fbllbbdk) {
+        rfturn gftColor(nfw Skin(d, pbrt, stbtf), prop, fbllbbdk);
     }
 
 
 
-    /** Get a named <code>Border</code> value from the current style
+    /** Gft b nbmfd <dodf>Bordfr</dodf> vbluf from tif durrfnt stylf
      *
-     * @param part a <code>Part</code>
-     * @return a <code>Border</code> or null if key is not found
-     *    in the current style or if the style for the particular
-     *    part is not defined as "borderfill".
+     * @pbrbm pbrt b <dodf>Pbrt</dodf>
+     * @rfturn b <dodf>Bordfr</dodf> or null if kfy is not found
+     *    in tif durrfnt stylf or if tif stylf for tif pbrtidulbr
+     *    pbrt is not dffinfd bs "bordfrfill".
      */
-    synchronized Border getBorder(Component c, Part part) {
-        if (part == Part.MENU) {
-            // Special case because XP has no skin for menus
-            if (flatMenus) {
-                // TODO: The classic border uses this color, but we should
-                // create a new UI property called "PopupMenu.borderColor"
-                // instead.
-                return new XPFillBorder(UIManager.getColor("InternalFrame.borderShadow"),
+    syndironizfd Bordfr gftBordfr(Componfnt d, Pbrt pbrt) {
+        if (pbrt == Pbrt.MENU) {
+            // Spfdibl dbsf bfdbusf XP ibs no skin for mfnus
+            if (flbtMfnus) {
+                // TODO: Tif dlbssid bordfr usfs tiis dolor, but wf siould
+                // drfbtf b nfw UI propfrty dbllfd "PopupMfnu.bordfrColor"
+                // instfbd.
+                rfturn nfw XPFillBordfr(UIMbnbgfr.gftColor("IntfrnblFrbmf.bordfrSibdow"),
                                         1);
-            } else {
-                return null;    // Will cause L&F to use classic border
+            } flsf {
+                rfturn null;    // Will dbusf L&F to usf dlbssid bordfr
             }
         }
-        Skin skin = new Skin(c, part, null);
-        Border border = borderMap.get(skin.string);
-        if (border == null) {
-            String bgType = getTypeEnumName(c, part, null, Prop.BGTYPE);
-            if ("borderfill".equalsIgnoreCase(bgType)) {
-                int thickness = getInt(c, part, null, Prop.BORDERSIZE, 1);
-                Color color = getColor(skin, Prop.BORDERCOLOR, Color.black);
-                border = new XPFillBorder(color, thickness);
-                if (part == Part.CP_COMBOBOX) {
-                    border = new XPStatefulFillBorder(color, thickness, part, Prop.BORDERCOLOR);
+        Skin skin = nfw Skin(d, pbrt, null);
+        Bordfr bordfr = bordfrMbp.gft(skin.string);
+        if (bordfr == null) {
+            String bgTypf = gftTypfEnumNbmf(d, pbrt, null, Prop.BGTYPE);
+            if ("bordfrfill".fqublsIgnorfCbsf(bgTypf)) {
+                int tiidknfss = gftInt(d, pbrt, null, Prop.BORDERSIZE, 1);
+                Color dolor = gftColor(skin, Prop.BORDERCOLOR, Color.blbdk);
+                bordfr = nfw XPFillBordfr(dolor, tiidknfss);
+                if (pbrt == Pbrt.CP_COMBOBOX) {
+                    bordfr = nfw XPStbtffulFillBordfr(dolor, tiidknfss, pbrt, Prop.BORDERCOLOR);
                 }
-            } else if ("imagefile".equalsIgnoreCase(bgType)) {
-                Insets m = getMargin(c, part, null, Prop.SIZINGMARGINS);
+            } flsf if ("imbgffilf".fqublsIgnorfCbsf(bgTypf)) {
+                Insfts m = gftMbrgin(d, pbrt, null, Prop.SIZINGMARGINS);
                 if (m != null) {
-                    if (getBoolean(c, part, null, Prop.BORDERONLY)) {
-                        border = new XPImageBorder(c, part);
-                    } else if (part == Part.CP_COMBOBOX) {
-                        border = new EmptyBorder(1, 1, 1, 1);
-                    } else {
-                        if(part == Part.TP_BUTTON) {
-                            border = new XPEmptyBorder(new Insets(3,3,3,3));
-                        } else {
-                            border = new XPEmptyBorder(m);
+                    if (gftBoolfbn(d, pbrt, null, Prop.BORDERONLY)) {
+                        bordfr = nfw XPImbgfBordfr(d, pbrt);
+                    } flsf if (pbrt == Pbrt.CP_COMBOBOX) {
+                        bordfr = nfw EmptyBordfr(1, 1, 1, 1);
+                    } flsf {
+                        if(pbrt == Pbrt.TP_BUTTON) {
+                            bordfr = nfw XPEmptyBordfr(nfw Insfts(3,3,3,3));
+                        } flsf {
+                            bordfr = nfw XPEmptyBordfr(m);
                         }
                     }
                 }
             }
-            if (border != null) {
-                borderMap.put(skin.string, border);
+            if (bordfr != null) {
+                bordfrMbp.put(skin.string, bordfr);
             }
         }
-        return border;
+        rfturn bordfr;
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private class XPFillBorder extends LineBorder implements UIResource {
-        XPFillBorder(Color color, int thickness) {
-            super(color, thickness);
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    privbtf dlbss XPFillBordfr fxtfnds LinfBordfr implfmfnts UIRfsourdf {
+        XPFillBordfr(Color dolor, int tiidknfss) {
+            supfr(dolor, tiidknfss);
         }
 
-        public Insets getBorderInsets(Component c, Insets insets)       {
-            Insets margin = null;
+        publid Insfts gftBordfrInsfts(Componfnt d, Insfts insfts)       {
+            Insfts mbrgin = null;
             //
-            // Ideally we'd have an interface defined for classes which
-            // support margins (to avoid this hackery), but we've
-            // decided against it for simplicity
+            // Idfblly wf'd ibvf bn intfrfbdf dffinfd for dlbssfs wiidi
+            // support mbrgins (to bvoid tiis ibdkfry), but wf'vf
+            // dfdidfd bgbinst it for simplidity
             //
-           if (c instanceof AbstractButton) {
-               margin = ((AbstractButton)c).getMargin();
-           } else if (c instanceof JToolBar) {
-               margin = ((JToolBar)c).getMargin();
-           } else if (c instanceof JTextComponent) {
-               margin = ((JTextComponent)c).getMargin();
+           if (d instbndfof AbstrbdtButton) {
+               mbrgin = ((AbstrbdtButton)d).gftMbrgin();
+           } flsf if (d instbndfof JToolBbr) {
+               mbrgin = ((JToolBbr)d).gftMbrgin();
+           } flsf if (d instbndfof JTfxtComponfnt) {
+               mbrgin = ((JTfxtComponfnt)d).gftMbrgin();
            }
-           insets.top    = (margin != null? margin.top : 0)    + thickness;
-           insets.left   = (margin != null? margin.left : 0)   + thickness;
-           insets.bottom = (margin != null? margin.bottom : 0) + thickness;
-           insets.right =  (margin != null? margin.right : 0)  + thickness;
+           insfts.top    = (mbrgin != null? mbrgin.top : 0)    + tiidknfss;
+           insfts.lfft   = (mbrgin != null? mbrgin.lfft : 0)   + tiidknfss;
+           insfts.bottom = (mbrgin != null? mbrgin.bottom : 0) + tiidknfss;
+           insfts.rigit =  (mbrgin != null? mbrgin.rigit : 0)  + tiidknfss;
 
-           return insets;
+           rfturn insfts;
         }
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private class XPStatefulFillBorder extends XPFillBorder {
-        private final Part part;
-        private final Prop prop;
-        XPStatefulFillBorder(Color color, int thickness, Part part, Prop prop) {
-            super(color, thickness);
-            this.part = part;
-            this.prop = prop;
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    privbtf dlbss XPStbtffulFillBordfr fxtfnds XPFillBordfr {
+        privbtf finbl Pbrt pbrt;
+        privbtf finbl Prop prop;
+        XPStbtffulFillBordfr(Color dolor, int tiidknfss, Pbrt pbrt, Prop prop) {
+            supfr(dolor, tiidknfss);
+            tiis.pbrt = pbrt;
+            tiis.prop = prop;
         }
 
-        public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-            State state = State.NORMAL;
-            // special casing for comboboxes.
-            // there may be more special cases in the future
-            if(c instanceof JComboBox) {
-                JComboBox<?> cb = (JComboBox)c;
-                // note. in the future this should be replaced with a call
-                // to BasicLookAndFeel.getUIOfType()
-                if(cb.getUI() instanceof WindowsComboBoxUI) {
-                    WindowsComboBoxUI wcb = (WindowsComboBoxUI)cb.getUI();
-                    state = wcb.getXPComboBoxState(cb);
+        publid void pbintBordfr(Componfnt d, Grbpiids g, int x, int y, int widti, int ifigit) {
+            Stbtf stbtf = Stbtf.NORMAL;
+            // spfdibl dbsing for domboboxfs.
+            // tifrf mby bf morf spfdibl dbsfs in tif futurf
+            if(d instbndfof JComboBox) {
+                JComboBox<?> db = (JComboBox)d;
+                // notf. in tif futurf tiis siould bf rfplbdfd witi b dbll
+                // to BbsidLookAndFffl.gftUIOfTypf()
+                if(db.gftUI() instbndfof WindowsComboBoxUI) {
+                    WindowsComboBoxUI wdb = (WindowsComboBoxUI)db.gftUI();
+                    stbtf = wdb.gftXPComboBoxStbtf(db);
                 }
             }
-            lineColor = getColor(c, part, state, prop, Color.black);
-            super.paintBorder(c, g, x, y, width, height);
+            linfColor = gftColor(d, pbrt, stbtf, prop, Color.blbdk);
+            supfr.pbintBordfr(d, g, x, y, widti, ifigit);
         }
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private class XPImageBorder extends AbstractBorder implements UIResource {
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    privbtf dlbss XPImbgfBordfr fxtfnds AbstrbdtBordfr implfmfnts UIRfsourdf {
         Skin skin;
 
-        XPImageBorder(Component c, Part part) {
-            this.skin = getSkin(c, part);
+        XPImbgfBordfr(Componfnt d, Pbrt pbrt) {
+            tiis.skin = gftSkin(d, pbrt);
         }
 
-        public void paintBorder(Component c, Graphics g,
-                                int x, int y, int width, int height) {
-            skin.paintSkin(g, x, y, width, height, null);
+        publid void pbintBordfr(Componfnt d, Grbpiids g,
+                                int x, int y, int widti, int ifigit) {
+            skin.pbintSkin(g, x, y, widti, ifigit, null);
         }
 
-        public Insets getBorderInsets(Component c, Insets insets)       {
-            Insets margin = null;
-            Insets borderInsets = skin.getContentMargin();
-            if(borderInsets == null) {
-                borderInsets = new Insets(0, 0, 0, 0);
+        publid Insfts gftBordfrInsfts(Componfnt d, Insfts insfts)       {
+            Insfts mbrgin = null;
+            Insfts bordfrInsfts = skin.gftContfntMbrgin();
+            if(bordfrInsfts == null) {
+                bordfrInsfts = nfw Insfts(0, 0, 0, 0);
             }
             //
-            // Ideally we'd have an interface defined for classes which
-            // support margins (to avoid this hackery), but we've
-            // decided against it for simplicity
+            // Idfblly wf'd ibvf bn intfrfbdf dffinfd for dlbssfs wiidi
+            // support mbrgins (to bvoid tiis ibdkfry), but wf'vf
+            // dfdidfd bgbinst it for simplidity
             //
-           if (c instanceof AbstractButton) {
-               margin = ((AbstractButton)c).getMargin();
-           } else if (c instanceof JToolBar) {
-               margin = ((JToolBar)c).getMargin();
-           } else if (c instanceof JTextComponent) {
-               margin = ((JTextComponent)c).getMargin();
+           if (d instbndfof AbstrbdtButton) {
+               mbrgin = ((AbstrbdtButton)d).gftMbrgin();
+           } flsf if (d instbndfof JToolBbr) {
+               mbrgin = ((JToolBbr)d).gftMbrgin();
+           } flsf if (d instbndfof JTfxtComponfnt) {
+               mbrgin = ((JTfxtComponfnt)d).gftMbrgin();
            }
-           insets.top    = (margin != null? margin.top : 0)    + borderInsets.top;
-           insets.left   = (margin != null? margin.left : 0)   + borderInsets.left;
-           insets.bottom = (margin != null? margin.bottom : 0) + borderInsets.bottom;
-           insets.right  = (margin != null? margin.right : 0)  + borderInsets.right;
+           insfts.top    = (mbrgin != null? mbrgin.top : 0)    + bordfrInsfts.top;
+           insfts.lfft   = (mbrgin != null? mbrgin.lfft : 0)   + bordfrInsfts.lfft;
+           insfts.bottom = (mbrgin != null? mbrgin.bottom : 0) + bordfrInsfts.bottom;
+           insfts.rigit  = (mbrgin != null? mbrgin.rigit : 0)  + bordfrInsfts.rigit;
 
-           return insets;
+           rfturn insfts;
         }
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private class XPEmptyBorder extends EmptyBorder implements UIResource {
-        XPEmptyBorder(Insets m) {
-            super(m.top+2, m.left+2, m.bottom+2, m.right+2);
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    privbtf dlbss XPEmptyBordfr fxtfnds EmptyBordfr implfmfnts UIRfsourdf {
+        XPEmptyBordfr(Insfts m) {
+            supfr(m.top+2, m.lfft+2, m.bottom+2, m.rigit+2);
         }
 
-        public Insets getBorderInsets(Component c, Insets insets)       {
-            insets = super.getBorderInsets(c, insets);
+        publid Insfts gftBordfrInsfts(Componfnt d, Insfts insfts)       {
+            insfts = supfr.gftBordfrInsfts(d, insfts);
 
-            Insets margin = null;
-            if (c instanceof AbstractButton) {
-                Insets m = ((AbstractButton)c).getMargin();
-                // if this is a toolbar button then ignore getMargin()
-                // and subtract the padding added by the constructor
-                if(c.getParent() instanceof JToolBar
-                   && ! (c instanceof JRadioButton)
-                   && ! (c instanceof JCheckBox)
-                   && m instanceof InsetsUIResource) {
-                    insets.top -= 2;
-                    insets.left -= 2;
-                    insets.bottom -= 2;
-                    insets.right -= 2;
-                } else {
-                    margin = m;
+            Insfts mbrgin = null;
+            if (d instbndfof AbstrbdtButton) {
+                Insfts m = ((AbstrbdtButton)d).gftMbrgin();
+                // if tiis is b toolbbr button tifn ignorf gftMbrgin()
+                // bnd subtrbdt tif pbdding bddfd by tif donstrudtor
+                if(d.gftPbrfnt() instbndfof JToolBbr
+                   && ! (d instbndfof JRbdioButton)
+                   && ! (d instbndfof JCifdkBox)
+                   && m instbndfof InsftsUIRfsourdf) {
+                    insfts.top -= 2;
+                    insfts.lfft -= 2;
+                    insfts.bottom -= 2;
+                    insfts.rigit -= 2;
+                } flsf {
+                    mbrgin = m;
                 }
-            } else if (c instanceof JToolBar) {
-                margin = ((JToolBar)c).getMargin();
-            } else if (c instanceof JTextComponent) {
-                margin = ((JTextComponent)c).getMargin();
+            } flsf if (d instbndfof JToolBbr) {
+                mbrgin = ((JToolBbr)d).gftMbrgin();
+            } flsf if (d instbndfof JTfxtComponfnt) {
+                mbrgin = ((JTfxtComponfnt)d).gftMbrgin();
             }
-            if (margin != null) {
-                insets.top    = margin.top + 2;
-                insets.left   = margin.left + 2;
-                insets.bottom = margin.bottom + 2;
-                insets.right  = margin.right + 2;
+            if (mbrgin != null) {
+                insfts.top    = mbrgin.top + 2;
+                insfts.lfft   = mbrgin.lfft + 2;
+                insfts.bottom = mbrgin.bottom + 2;
+                insfts.rigit  = mbrgin.rigit + 2;
             }
-            return insets;
+            rfturn insfts;
         }
     }
-    boolean isSkinDefined(Component c, Part part) {
-        return (part.getValue() == 0)
-            || ThemeReader.isThemePartDefined(
-                   part.getControlName(c), part.getValue(), 0);
+    boolfbn isSkinDffinfd(Componfnt d, Pbrt pbrt) {
+        rfturn (pbrt.gftVbluf() == 0)
+            || TifmfRfbdfr.isTifmfPbrtDffinfd(
+                   pbrt.gftControlNbmf(d), pbrt.gftVbluf(), 0);
     }
 
 
-    /** Get a <code>Skin</code> object from the current style
-     * for a named part (component type)
+    /** Gft b <dodf>Skin</dodf> objfdt from tif durrfnt stylf
+     * for b nbmfd pbrt (domponfnt typf)
      *
-     * @param part a <code>Part</code>
-     * @return a <code>Skin</code> object
+     * @pbrbm pbrt b <dodf>Pbrt</dodf>
+     * @rfturn b <dodf>Skin</dodf> objfdt
      */
-    synchronized Skin getSkin(Component c, Part part) {
-        assert isSkinDefined(c, part) : "part " + part + " is not defined";
-        return new Skin(c, part, null);
+    syndironizfd Skin gftSkin(Componfnt d, Pbrt pbrt) {
+        bssfrt isSkinDffinfd(d, pbrt) : "pbrt " + pbrt + " is not dffinfd";
+        rfturn nfw Skin(d, pbrt, null);
     }
 
 
-    long getThemeTransitionDuration(Component c, Part part, State stateFrom,
-                                    State stateTo, Prop prop) {
-         return ThemeReader.getThemeTransitionDuration(part.getControlName(c),
-                                          part.getValue(),
-                                          State.getValue(part, stateFrom),
-                                          State.getValue(part, stateTo),
-                                          (prop != null) ? prop.getValue() : 0);
+    long gftTifmfTrbnsitionDurbtion(Componfnt d, Pbrt pbrt, Stbtf stbtfFrom,
+                                    Stbtf stbtfTo, Prop prop) {
+         rfturn TifmfRfbdfr.gftTifmfTrbnsitionDurbtion(pbrt.gftControlNbmf(d),
+                                          pbrt.gftVbluf(),
+                                          Stbtf.gftVbluf(pbrt, stbtfFrom),
+                                          Stbtf.gftVbluf(pbrt, stbtfTo),
+                                          (prop != null) ? prop.gftVbluf() : 0);
     }
 
 
-    /** A class which encapsulates attributes for a given part
-     * (component type) and which provides methods for painting backgrounds
-     * and glyphs
+    /** A dlbss wiidi fndbpsulbtfs bttributfs for b givfn pbrt
+     * (domponfnt typf) bnd wiidi providfs mftiods for pbinting bbdkgrounds
+     * bnd glypis
      */
-    static class Skin {
-        final Component component;
-        final Part part;
-        final State state;
+    stbtid dlbss Skin {
+        finbl Componfnt domponfnt;
+        finbl Pbrt pbrt;
+        finbl Stbtf stbtf;
 
-        private final String string;
-        private Dimension size = null;
+        privbtf finbl String string;
+        privbtf Dimfnsion sizf = null;
 
-        Skin(Component component, Part part) {
-            this(component, part, null);
+        Skin(Componfnt domponfnt, Pbrt pbrt) {
+            tiis(domponfnt, pbrt, null);
         }
 
-        Skin(Part part, State state) {
-            this(null, part, state);
+        Skin(Pbrt pbrt, Stbtf stbtf) {
+            tiis(null, pbrt, stbtf);
         }
 
-        Skin(Component component, Part part, State state) {
-            this.component = component;
-            this.part  = part;
-            this.state = state;
+        Skin(Componfnt domponfnt, Pbrt pbrt, Stbtf stbtf) {
+            tiis.domponfnt = domponfnt;
+            tiis.pbrt  = pbrt;
+            tiis.stbtf = stbtf;
 
-            String str = part.getControlName(component) +"." + part.name();
-            if (state != null) {
-                str += "("+state.name()+")";
+            String str = pbrt.gftControlNbmf(domponfnt) +"." + pbrt.nbmf();
+            if (stbtf != null) {
+                str += "("+stbtf.nbmf()+")";
             }
             string = str;
         }
 
-        Insets getContentMargin() {
-            /* idk: it seems margins are the same for all 'big enough'
-             * bounding rectangles.
+        Insfts gftContfntMbrgin() {
+            /* idk: it sffms mbrgins brf tif sbmf for bll 'big fnougi'
+             * bounding rfdtbnglfs.
              */
-            int boundingWidth = 100;
-            int boundingHeight = 100;
+            int boundingWidti = 100;
+            int boundingHfigit = 100;
 
-            Insets insets = ThemeReader.getThemeBackgroundContentMargins(
-                part.getControlName(null), part.getValue(),
-                0, boundingWidth, boundingHeight);
-            return (insets != null) ? insets : new Insets(0, 0, 0, 0);
+            Insfts insfts = TifmfRfbdfr.gftTifmfBbdkgroundContfntMbrgins(
+                pbrt.gftControlNbmf(null), pbrt.gftVbluf(),
+                0, boundingWidti, boundingHfigit);
+            rfturn (insfts != null) ? insfts : nfw Insfts(0, 0, 0, 0);
         }
 
-        private int getWidth(State state) {
-            if (size == null) {
-                size = getPartSize(part, state);
+        privbtf int gftWidti(Stbtf stbtf) {
+            if (sizf == null) {
+                sizf = gftPbrtSizf(pbrt, stbtf);
             }
-            return (size != null) ? size.width : 0;
+            rfturn (sizf != null) ? sizf.widti : 0;
         }
 
-        int getWidth() {
-            return getWidth((state != null) ? state : State.NORMAL);
+        int gftWidti() {
+            rfturn gftWidti((stbtf != null) ? stbtf : Stbtf.NORMAL);
         }
 
-        private int getHeight(State state) {
-            if (size == null) {
-                size = getPartSize(part, state);
+        privbtf int gftHfigit(Stbtf stbtf) {
+            if (sizf == null) {
+                sizf = gftPbrtSizf(pbrt, stbtf);
             }
-            return (size != null) ? size.height : 0;
+            rfturn (sizf != null) ? sizf.ifigit : 0;
         }
 
-        int getHeight() {
-            return getHeight((state != null) ? state : State.NORMAL);
+        int gftHfigit() {
+            rfturn gftHfigit((stbtf != null) ? stbtf : Stbtf.NORMAL);
         }
 
-        public String toString() {
-            return string;
+        publid String toString() {
+            rfturn string;
         }
 
-        public boolean equals(Object obj) {
-            return (obj instanceof Skin && ((Skin)obj).string.equals(string));
+        publid boolfbn fqubls(Objfdt obj) {
+            rfturn (obj instbndfof Skin && ((Skin)obj).string.fqubls(string));
         }
 
-        public int hashCode() {
-            return string.hashCode();
+        publid int ibsiCodf() {
+            rfturn string.ibsiCodf();
         }
 
-        /** Paint a skin at x, y.
+        /** Pbint b skin bt x, y.
          *
-         * @param g   the graphics context to use for painting
-         * @param dx  the destination <i>x</i> coordinate
-         * @param dy  the destination <i>y</i> coordinate
-         * @param state which state to paint
+         * @pbrbm g   tif grbpiids dontfxt to usf for pbinting
+         * @pbrbm dx  tif dfstinbtion <i>x</i> doordinbtf
+         * @pbrbm dy  tif dfstinbtion <i>y</i> doordinbtf
+         * @pbrbm stbtf wiidi stbtf to pbint
          */
-        void paintSkin(Graphics g, int dx, int dy, State state) {
-            if (state == null) {
-                state = this.state;
+        void pbintSkin(Grbpiids g, int dx, int dy, Stbtf stbtf) {
+            if (stbtf == null) {
+                stbtf = tiis.stbtf;
             }
-            paintSkin(g, dx, dy, getWidth(state), getHeight(state), state);
+            pbintSkin(g, dx, dy, gftWidti(stbtf), gftHfigit(stbtf), stbtf);
         }
 
-        /** Paint a skin in an area defined by a rectangle.
+        /** Pbint b skin in bn brfb dffinfd by b rfdtbnglf.
          *
-         * @param g the graphics context to use for painting
-         * @param r     a <code>Rectangle</code> defining the area to fill,
-         *                     may cause the image to be stretched or tiled
-         * @param state which state to paint
+         * @pbrbm g tif grbpiids dontfxt to usf for pbinting
+         * @pbrbm r     b <dodf>Rfdtbnglf</dodf> dffining tif brfb to fill,
+         *                     mby dbusf tif imbgf to bf strftdifd or tilfd
+         * @pbrbm stbtf wiidi stbtf to pbint
          */
-        void paintSkin(Graphics g, Rectangle r, State state) {
-            paintSkin(g, r.x, r.y, r.width, r.height, state);
+        void pbintSkin(Grbpiids g, Rfdtbnglf r, Stbtf stbtf) {
+            pbintSkin(g, r.x, r.y, r.widti, r.ifigit, stbtf);
         }
 
-        /** Paint a skin at a defined position and size
-         *  This method supports animation.
+        /** Pbint b skin bt b dffinfd position bnd sizf
+         *  Tiis mftiod supports bnimbtion.
          *
-         * @param g   the graphics context to use for painting
-         * @param dx  the destination <i>x</i> coordinate
-         * @param dy  the destination <i>y</i> coordinate
-         * @param dw  the width of the area to fill, may cause
-         *                  the image to be stretched or tiled
-         * @param dh  the height of the area to fill, may cause
-         *                  the image to be stretched or tiled
-         * @param state which state to paint
+         * @pbrbm g   tif grbpiids dontfxt to usf for pbinting
+         * @pbrbm dx  tif dfstinbtion <i>x</i> doordinbtf
+         * @pbrbm dy  tif dfstinbtion <i>y</i> doordinbtf
+         * @pbrbm dw  tif widti of tif brfb to fill, mby dbusf
+         *                  tif imbgf to bf strftdifd or tilfd
+         * @pbrbm di  tif ifigit of tif brfb to fill, mby dbusf
+         *                  tif imbgf to bf strftdifd or tilfd
+         * @pbrbm stbtf wiidi stbtf to pbint
          */
-        void paintSkin(Graphics g, int dx, int dy, int dw, int dh, State state) {
-            if (XPStyle.getXP() == null) {
-                return;
+        void pbintSkin(Grbpiids g, int dx, int dy, int dw, int di, Stbtf stbtf) {
+            if (XPStylf.gftXP() == null) {
+                rfturn;
             }
-            if (ThemeReader.isGetThemeTransitionDurationDefined()
-                  && component instanceof JComponent
-                  && SwingUtilities.getAncestorOfClass(CellRendererPane.class,
-                                                       component) == null) {
-                AnimationController.paintSkin((JComponent) component, this,
-                                              g, dx, dy, dw, dh, state);
-            } else {
-                paintSkinRaw(g, dx, dy, dw, dh, state);
+            if (TifmfRfbdfr.isGftTifmfTrbnsitionDurbtionDffinfd()
+                  && domponfnt instbndfof JComponfnt
+                  && SwingUtilitifs.gftAndfstorOfClbss(CfllRfndfrfrPbnf.dlbss,
+                                                       domponfnt) == null) {
+                AnimbtionControllfr.pbintSkin((JComponfnt) domponfnt, tiis,
+                                              g, dx, dy, dw, di, stbtf);
+            } flsf {
+                pbintSkinRbw(g, dx, dy, dw, di, stbtf);
             }
         }
 
-        /** Paint a skin at a defined position and size. This method
-         *  does not trigger animation. It is needed for the animation
+        /** Pbint b skin bt b dffinfd position bnd sizf. Tiis mftiod
+         *  dofs not triggfr bnimbtion. It is nffdfd for tif bnimbtion
          *  support.
          *
-         * @param g   the graphics context to use for painting
-         * @param dx  the destination <i>x</i> coordinate.
-         * @param dy  the destination <i>y</i> coordinate.
-         * @param dw  the width of the area to fill, may cause
-         *                  the image to be stretched or tiled
-         * @param dh  the height of the area to fill, may cause
-         *                  the image to be stretched or tiled
-         * @param state which state to paint
+         * @pbrbm g   tif grbpiids dontfxt to usf for pbinting
+         * @pbrbm dx  tif dfstinbtion <i>x</i> doordinbtf.
+         * @pbrbm dy  tif dfstinbtion <i>y</i> doordinbtf.
+         * @pbrbm dw  tif widti of tif brfb to fill, mby dbusf
+         *                  tif imbgf to bf strftdifd or tilfd
+         * @pbrbm di  tif ifigit of tif brfb to fill, mby dbusf
+         *                  tif imbgf to bf strftdifd or tilfd
+         * @pbrbm stbtf wiidi stbtf to pbint
          */
-        void paintSkinRaw(Graphics g, int dx, int dy, int dw, int dh, State state) {
-            if (XPStyle.getXP() == null) {
-                return;
+        void pbintSkinRbw(Grbpiids g, int dx, int dy, int dw, int di, Stbtf stbtf) {
+            if (XPStylf.gftXP() == null) {
+                rfturn;
             }
-            skinPainter.paint(null, g, dx, dy, dw, dh, this, state);
+            skinPbintfr.pbint(null, g, dx, dy, dw, di, tiis, stbtf);
         }
 
-        /** Paint a skin at a defined position and size
+        /** Pbint b skin bt b dffinfd position bnd sizf
          *
-         * @param g   the graphics context to use for painting
-         * @param dx  the destination <i>x</i> coordinate
-         * @param dy  the destination <i>y</i> coordinate
-         * @param dw  the width of the area to fill, may cause
-         *                  the image to be stretched or tiled
-         * @param dh  the height of the area to fill, may cause
-         *                  the image to be stretched or tiled
-         * @param state which state to paint
-         * @param borderFill should test if the component uses a border fill
-                            and skip painting if it is
+         * @pbrbm g   tif grbpiids dontfxt to usf for pbinting
+         * @pbrbm dx  tif dfstinbtion <i>x</i> doordinbtf
+         * @pbrbm dy  tif dfstinbtion <i>y</i> doordinbtf
+         * @pbrbm dw  tif widti of tif brfb to fill, mby dbusf
+         *                  tif imbgf to bf strftdifd or tilfd
+         * @pbrbm di  tif ifigit of tif brfb to fill, mby dbusf
+         *                  tif imbgf to bf strftdifd or tilfd
+         * @pbrbm stbtf wiidi stbtf to pbint
+         * @pbrbm bordfrFill siould tfst if tif domponfnt usfs b bordfr fill
+                            bnd skip pbinting if it is
          */
-        void paintSkin(Graphics g, int dx, int dy, int dw, int dh, State state,
-                boolean borderFill) {
-            if (XPStyle.getXP() == null) {
-                return;
+        void pbintSkin(Grbpiids g, int dx, int dy, int dw, int di, Stbtf stbtf,
+                boolfbn bordfrFill) {
+            if (XPStylf.gftXP() == null) {
+                rfturn;
             }
-            if(borderFill && "borderfill".equals(getTypeEnumName(component, part,
-                    state, Prop.BGTYPE))) {
-                return;
+            if(bordfrFill && "bordfrfill".fqubls(gftTypfEnumNbmf(domponfnt, pbrt,
+                    stbtf, Prop.BGTYPE))) {
+                rfturn;
             }
-            skinPainter.paint(null, g, dx, dy, dw, dh, this, state);
+            skinPbintfr.pbint(null, g, dx, dy, dw, di, tiis, stbtf);
         }
     }
 
-    private static class SkinPainter extends CachedPainter {
-        SkinPainter() {
-            super(30);
-            flush();
+    privbtf stbtid dlbss SkinPbintfr fxtfnds CbdifdPbintfr {
+        SkinPbintfr() {
+            supfr(30);
+            flusi();
         }
 
-        public void flush() {
-            super.flush();
+        publid void flusi() {
+            supfr.flusi();
         }
 
-        protected void paintToImage(Component c, Image image, Graphics g,
-                                    int w, int h, Object[] args) {
-            boolean accEnabled = false;
-            Skin skin = (Skin)args[0];
-            Part part = skin.part;
-            State state = (State)args[1];
-            if (state == null) {
-                state = skin.state;
+        protfdtfd void pbintToImbgf(Componfnt d, Imbgf imbgf, Grbpiids g,
+                                    int w, int i, Objfdt[] brgs) {
+            boolfbn bddEnbblfd = fblsf;
+            Skin skin = (Skin)brgs[0];
+            Pbrt pbrt = skin.pbrt;
+            Stbtf stbtf = (Stbtf)brgs[1];
+            if (stbtf == null) {
+                stbtf = skin.stbtf;
             }
-            if (c == null) {
-                c = skin.component;
+            if (d == null) {
+                d = skin.domponfnt;
             }
-            BufferedImage bi = (BufferedImage)image;
+            BufffrfdImbgf bi = (BufffrfdImbgf)imbgf;
 
-            WritableRaster raster = bi.getRaster();
-            DataBufferInt dbi = (DataBufferInt)raster.getDataBuffer();
-            // Note that stealData() requires a markDirty() afterwards
-            // since we modify the data in it.
-            ThemeReader.paintBackground(SunWritableRaster.stealData(dbi, 0),
-                                        part.getControlName(c), part.getValue(),
-                                        State.getValue(part, state),
-                                        0, 0, w, h, w);
-            SunWritableRaster.markDirty(dbi);
+            WritbblfRbstfr rbstfr = bi.gftRbstfr();
+            DbtbBufffrInt dbi = (DbtbBufffrInt)rbstfr.gftDbtbBufffr();
+            // Notf tibt stfblDbtb() rfquirfs b mbrkDirty() bftfrwbrds
+            // sindf wf modify tif dbtb in it.
+            TifmfRfbdfr.pbintBbdkground(SunWritbblfRbstfr.stfblDbtb(dbi, 0),
+                                        pbrt.gftControlNbmf(d), pbrt.gftVbluf(),
+                                        Stbtf.gftVbluf(pbrt, stbtf),
+                                        0, 0, w, i, w);
+            SunWritbblfRbstfr.mbrkDirty(dbi);
         }
 
-        protected Image createImage(Component c, int w, int h,
-                                    GraphicsConfiguration config, Object[] args) {
-            return new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+        protfdtfd Imbgf drfbtfImbgf(Componfnt d, int w, int i,
+                                    GrbpiidsConfigurbtion donfig, Objfdt[] brgs) {
+            rfturn nfw BufffrfdImbgf(w, i, BufffrfdImbgf.TYPE_INT_ARGB);
         }
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    static class GlyphButton extends JButton {
-        private Skin skin;
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    stbtid dlbss GlypiButton fxtfnds JButton {
+        privbtf Skin skin;
 
-        public GlyphButton(Component parent, Part part) {
-            XPStyle xp = getXP();
-            skin = xp != null ? xp.getSkin(parent, part) : null;
-            setBorder(null);
-            setContentAreaFilled(false);
-            setMinimumSize(new Dimension(5, 5));
-            setPreferredSize(new Dimension(16, 16));
-            setMaximumSize(new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));
+        publid GlypiButton(Componfnt pbrfnt, Pbrt pbrt) {
+            XPStylf xp = gftXP();
+            skin = xp != null ? xp.gftSkin(pbrfnt, pbrt) : null;
+            sftBordfr(null);
+            sftContfntArfbFillfd(fblsf);
+            sftMinimumSizf(nfw Dimfnsion(5, 5));
+            sftPrfffrrfdSizf(nfw Dimfnsion(16, 16));
+            sftMbximumSizf(nfw Dimfnsion(Intfgfr.MAX_VALUE, Intfgfr.MAX_VALUE));
         }
 
-        public boolean isFocusTraversable() {
-            return false;
+        publid boolfbn isFodusTrbvfrsbblf() {
+            rfturn fblsf;
         }
 
-        protected State getState() {
-            State state = State.NORMAL;
-            if (!isEnabled()) {
-                state = State.DISABLED;
-            } else if (getModel().isPressed()) {
-                state = State.PRESSED;
-            } else if (getModel().isRollover()) {
-                state = State.HOT;
+        protfdtfd Stbtf gftStbtf() {
+            Stbtf stbtf = Stbtf.NORMAL;
+            if (!isEnbblfd()) {
+                stbtf = Stbtf.DISABLED;
+            } flsf if (gftModfl().isPrfssfd()) {
+                stbtf = Stbtf.PRESSED;
+            } flsf if (gftModfl().isRollovfr()) {
+                stbtf = Stbtf.HOT;
             }
-            return state;
+            rfturn stbtf;
         }
 
-        public void paintComponent(Graphics g) {
-            if (XPStyle.getXP() == null || skin == null) {
-                return;
+        publid void pbintComponfnt(Grbpiids g) {
+            if (XPStylf.gftXP() == null || skin == null) {
+                rfturn;
             }
-            Dimension d = getSize();
-            skin.paintSkin(g, 0, 0, d.width, d.height, getState());
+            Dimfnsion d = gftSizf();
+            skin.pbintSkin(g, 0, 0, d.widti, d.ifigit, gftStbtf());
         }
 
-        public void setPart(Component parent, Part part) {
-            XPStyle xp = getXP();
-            skin = xp != null ? xp.getSkin(parent, part) : null;
-            revalidate();
-            repaint();
+        publid void sftPbrt(Componfnt pbrfnt, Pbrt pbrt) {
+            XPStylf xp = gftXP();
+            skin = xp != null ? xp.gftSkin(pbrfnt, pbrt) : null;
+            rfvblidbtf();
+            rfpbint();
         }
 
-        protected void paintBorder(Graphics g) {
+        protfdtfd void pbintBordfr(Grbpiids g) {
         }
 
 
     }
 
-    // Private constructor
-    private XPStyle() {
-        flatMenus = getSysBoolean(Prop.FLATMENUS);
+    // Privbtf donstrudtor
+    privbtf XPStylf() {
+        flbtMfnus = gftSysBoolfbn(Prop.FLATMENUS);
 
-        colorMap  = new HashMap<String, Color>();
-        borderMap = new HashMap<String, Border>();
-        // Note: All further access to the maps must be synchronized
+        dolorMbp  = nfw HbsiMbp<String, Color>();
+        bordfrMbp = nfw HbsiMbp<String, Bordfr>();
+        // Notf: All furtifr bddfss to tif mbps must bf syndironizfd
     }
 
 
-    private boolean getBoolean(Component c, Part part, State state, Prop prop) {
-        return ThemeReader.getBoolean(part.getControlName(c), part.getValue(),
-                                      State.getValue(part, state),
-                                      prop.getValue());
+    privbtf boolfbn gftBoolfbn(Componfnt d, Pbrt pbrt, Stbtf stbtf, Prop prop) {
+        rfturn TifmfRfbdfr.gftBoolfbn(pbrt.gftControlNbmf(d), pbrt.gftVbluf(),
+                                      Stbtf.gftVbluf(pbrt, stbtf),
+                                      prop.gftVbluf());
     }
 
 
 
-    static Dimension getPartSize(Part part, State state) {
-        return ThemeReader.getPartSize(part.getControlName(null), part.getValue(),
-                                       State.getValue(part, state));
+    stbtid Dimfnsion gftPbrtSizf(Pbrt pbrt, Stbtf stbtf) {
+        rfturn TifmfRfbdfr.gftPbrtSizf(pbrt.gftControlNbmf(null), pbrt.gftVbluf(),
+                                       Stbtf.gftVbluf(pbrt, stbtf));
     }
 
-    private static boolean getSysBoolean(Prop prop) {
-        // We can use any widget name here, I guess.
-        return ThemeReader.getSysBoolean("window", prop.getValue());
+    privbtf stbtid boolfbn gftSysBoolfbn(Prop prop) {
+        // Wf dbn usf bny widgft nbmf ifrf, I gufss.
+        rfturn TifmfRfbdfr.gftSysBoolfbn("window", prop.gftVbluf());
     }
 }

@@ -1,152 +1,152 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.plaf.synth;
+pbdkbgf jbvbx.swing.plbf.synti;
 
-import java.awt.*;
-import java.beans.*;
-import javax.swing.*;
-import javax.swing.plaf.basic.*;
-import sun.swing.DefaultLookup;
+import jbvb.bwt.*;
+import jbvb.bfbns.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.bbsid.*;
+import sun.swing.DffbultLookup;
 
 /**
- * Synth's SplitPaneDivider.
+ * Synti's SplitPbnfDividfr.
  *
- * @author Scott Violet
+ * @butior Sdott Violft
  */
-@SuppressWarnings("serial") // Superclass is not serializable across versions
-class SynthSplitPaneDivider extends BasicSplitPaneDivider {
-    public SynthSplitPaneDivider(BasicSplitPaneUI ui) {
-        super(ui);
+@SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+dlbss SyntiSplitPbnfDividfr fxtfnds BbsidSplitPbnfDividfr {
+    publid SyntiSplitPbnfDividfr(BbsidSplitPbnfUI ui) {
+        supfr(ui);
     }
 
-    protected void setMouseOver(boolean mouseOver) {
-        if (isMouseOver() != mouseOver) {
-            repaint();
+    protfdtfd void sftMousfOvfr(boolfbn mousfOvfr) {
+        if (isMousfOvfr() != mousfOvfr) {
+            rfpbint();
         }
-        super.setMouseOver(mouseOver);
+        supfr.sftMousfOvfr(mousfOvfr);
     }
 
-    public void propertyChange(PropertyChangeEvent e) {
-        super.propertyChange(e);
-        if (e.getSource() == splitPane) {
-            if (e.getPropertyName() == JSplitPane.ORIENTATION_PROPERTY) {
-                if (leftButton instanceof SynthArrowButton) {
-                    ((SynthArrowButton)leftButton).setDirection(
-                                       mapDirection(true));
+    publid void propfrtyCibngf(PropfrtyCibngfEvfnt f) {
+        supfr.propfrtyCibngf(f);
+        if (f.gftSourdf() == splitPbnf) {
+            if (f.gftPropfrtyNbmf() == JSplitPbnf.ORIENTATION_PROPERTY) {
+                if (lfftButton instbndfof SyntiArrowButton) {
+                    ((SyntiArrowButton)lfftButton).sftDirfdtion(
+                                       mbpDirfdtion(truf));
                 }
-                if (rightButton instanceof SynthArrowButton) {
-                    ((SynthArrowButton)rightButton).setDirection(
-                                       mapDirection(false));
+                if (rigitButton instbndfof SyntiArrowButton) {
+                    ((SyntiArrowButton)rigitButton).sftDirfdtion(
+                                       mbpDirfdtion(fblsf));
                 }
             }
         }
     }
 
-    public void paint(Graphics g) {
-        Graphics g2 = g.create();
+    publid void pbint(Grbpiids g) {
+        Grbpiids g2 = g.drfbtf();
 
-        SynthContext context = ((SynthSplitPaneUI)splitPaneUI).getContext(
-                               splitPane, Region.SPLIT_PANE_DIVIDER);
-        Rectangle bounds = getBounds();
+        SyntiContfxt dontfxt = ((SyntiSplitPbnfUI)splitPbnfUI).gftContfxt(
+                               splitPbnf, Rfgion.SPLIT_PANE_DIVIDER);
+        Rfdtbnglf bounds = gftBounds();
         bounds.x = bounds.y = 0;
-        SynthLookAndFeel.updateSubregion(context, g, bounds);
-        context.getPainter().paintSplitPaneDividerBackground(context,
-                          g, 0, 0, bounds.width, bounds.height,
-                          splitPane.getOrientation());
+        SyntiLookAndFffl.updbtfSubrfgion(dontfxt, g, bounds);
+        dontfxt.gftPbintfr().pbintSplitPbnfDividfrBbdkground(dontfxt,
+                          g, 0, 0, bounds.widti, bounds.ifigit,
+                          splitPbnf.gftOrifntbtion());
 
-        SynthPainter foreground = null;
+        SyntiPbintfr forfground = null;
 
-        context.getPainter().paintSplitPaneDividerForeground(context, g, 0, 0,
-                getWidth(), getHeight(), splitPane.getOrientation());
-        context.dispose();
+        dontfxt.gftPbintfr().pbintSplitPbnfDividfrForfground(dontfxt, g, 0, 0,
+                gftWidti(), gftHfigit(), splitPbnf.gftOrifntbtion());
+        dontfxt.disposf();
 
-        // super.paint(g2);
-        for (int counter = 0; counter < getComponentCount(); counter++) {
-            Component child = getComponent(counter);
-            Rectangle childBounds = child.getBounds();
-            Graphics childG = g.create(childBounds.x, childBounds.y,
-                                       childBounds.width, childBounds.height);
-            child.paint(childG);
-            childG.dispose();
+        // supfr.pbint(g2);
+        for (int dountfr = 0; dountfr < gftComponfntCount(); dountfr++) {
+            Componfnt diild = gftComponfnt(dountfr);
+            Rfdtbnglf diildBounds = diild.gftBounds();
+            Grbpiids diildG = g.drfbtf(diildBounds.x, diildBounds.y,
+                                       diildBounds.widti, diildBounds.ifigit);
+            diild.pbint(diildG);
+            diildG.disposf();
         }
-        g2.dispose();
+        g2.disposf();
     }
 
-    private int mapDirection(boolean isLeft) {
-        if (isLeft) {
-            if (splitPane.getOrientation() == JSplitPane.HORIZONTAL_SPLIT){
-                return SwingConstants.WEST;
+    privbtf int mbpDirfdtion(boolfbn isLfft) {
+        if (isLfft) {
+            if (splitPbnf.gftOrifntbtion() == JSplitPbnf.HORIZONTAL_SPLIT){
+                rfturn SwingConstbnts.WEST;
             }
-            return SwingConstants.NORTH;
+            rfturn SwingConstbnts.NORTH;
         }
-        if (splitPane.getOrientation() == JSplitPane.HORIZONTAL_SPLIT){
-            return SwingConstants.EAST;
+        if (splitPbnf.gftOrifntbtion() == JSplitPbnf.HORIZONTAL_SPLIT){
+            rfturn SwingConstbnts.EAST;
         }
-        return SwingConstants.SOUTH;
+        rfturn SwingConstbnts.SOUTH;
     }
 
 
     /**
-     * Creates and return an instance of JButton that can be used to
-     * collapse the left component in the split pane.
+     * Crfbtfs bnd rfturn bn instbndf of JButton tibt dbn bf usfd to
+     * dollbpsf tif lfft domponfnt in tif split pbnf.
      */
-    protected JButton createLeftOneTouchButton() {
-        SynthArrowButton b = new SynthArrowButton(SwingConstants.NORTH);
-        int oneTouchSize = lookupOneTouchSize();
+    protfdtfd JButton drfbtfLfftOnfToudiButton() {
+        SyntiArrowButton b = nfw SyntiArrowButton(SwingConstbnts.NORTH);
+        int onfToudiSizf = lookupOnfToudiSizf();
 
-        b.setName("SplitPaneDivider.leftOneTouchButton");
-        b.setMinimumSize(new Dimension(oneTouchSize, oneTouchSize));
-        b.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-        b.setFocusPainted(false);
-        b.setBorderPainted(false);
-        b.setRequestFocusEnabled(false);
-        b.setDirection(mapDirection(true));
-        return b;
+        b.sftNbmf("SplitPbnfDividfr.lfftOnfToudiButton");
+        b.sftMinimumSizf(nfw Dimfnsion(onfToudiSizf, onfToudiSizf));
+        b.sftCursor(Cursor.gftPrfdffinfdCursor(Cursor.DEFAULT_CURSOR));
+        b.sftFodusPbintfd(fblsf);
+        b.sftBordfrPbintfd(fblsf);
+        b.sftRfqufstFodusEnbblfd(fblsf);
+        b.sftDirfdtion(mbpDirfdtion(truf));
+        rfturn b;
     }
 
-    private int lookupOneTouchSize() {
-        return DefaultLookup.getInt(splitPaneUI.getSplitPane(), splitPaneUI,
-              "SplitPaneDivider.oneTouchButtonSize", ONE_TOUCH_SIZE);
+    privbtf int lookupOnfToudiSizf() {
+        rfturn DffbultLookup.gftInt(splitPbnfUI.gftSplitPbnf(), splitPbnfUI,
+              "SplitPbnfDividfr.onfToudiButtonSizf", ONE_TOUCH_SIZE);
     }
 
     /**
-     * Creates and return an instance of JButton that can be used to
-     * collapse the right component in the split pane.
+     * Crfbtfs bnd rfturn bn instbndf of JButton tibt dbn bf usfd to
+     * dollbpsf tif rigit domponfnt in tif split pbnf.
      */
-    protected JButton createRightOneTouchButton() {
-        SynthArrowButton b = new SynthArrowButton(SwingConstants.NORTH);
-        int oneTouchSize = lookupOneTouchSize();
+    protfdtfd JButton drfbtfRigitOnfToudiButton() {
+        SyntiArrowButton b = nfw SyntiArrowButton(SwingConstbnts.NORTH);
+        int onfToudiSizf = lookupOnfToudiSizf();
 
-        b.setName("SplitPaneDivider.rightOneTouchButton");
-        b.setMinimumSize(new Dimension(oneTouchSize, oneTouchSize));
-        b.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-        b.setFocusPainted(false);
-        b.setBorderPainted(false);
-        b.setRequestFocusEnabled(false);
-        b.setDirection(mapDirection(false));
-        return b;
+        b.sftNbmf("SplitPbnfDividfr.rigitOnfToudiButton");
+        b.sftMinimumSizf(nfw Dimfnsion(onfToudiSizf, onfToudiSizf));
+        b.sftCursor(Cursor.gftPrfdffinfdCursor(Cursor.DEFAULT_CURSOR));
+        b.sftFodusPbintfd(fblsf);
+        b.sftBordfrPbintfd(fblsf);
+        b.sftRfqufstFodusEnbblfd(fblsf);
+        b.sftDirfdtion(mbpDirfdtion(fblsf));
+        rfturn b;
     }
 }

@@ -1,401 +1,401 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "sun_awt_windows_ThemeReader.h"
-#include <string.h>
+#indludf "sun_bwt_windows_TifmfRfbdfr.i"
+#indludf <string.i>
 
-#include "awt.h"
-#include "awt_Toolkit.h"
-#include "awt_Object.h"
-#include "awt_Component.h"
+#indludf "bwt.i"
+#indludf "bwt_Toolkit.i"
+#indludf "bwt_Objfdt.i"
+#indludf "bwt_Componfnt.i"
 
-// Important note about VC6 and VC7 (or XP Platform SDK)   !
+// Importbnt notf bbout VC6 bnd VC7 (or XP Plbtform SDK)   !
 //
-// These type definitions have been imported from UxTheme.h
-// They have been imported instead of including them, because
-// currently we don't require Platform SDK for building J2SE and
-// VC6 includes do not have UxTheme.h. When we move to VC7
-// we should remove these imports and just include
+// Tifsf typf dffinitions ibvf bffn importfd from UxTifmf.i
+// Tify ibvf bffn importfd instfbd of indluding tifm, bfdbusf
+// durrfntly wf don't rfquirf Plbtform SDK for building J2SE bnd
+// VC6 indludfs do not ibvf UxTifmf.i. Wifn wf movf to VC7
+// wf siould rfmovf tifsf imports bnd just indludf
 //
-//  Uncomment these when we start using VC 7 (or XP Platform SDK)
+//  Undommfnt tifsf wifn wf stbrt using VC 7 (or XP Plbtform SDK)
 //
-//  #include <uxtheme.h>
-//  #incldue <tmschema.h>
+//  #indludf <uxtifmf.i>
+//  #indlduf <tmsdifmb.i>
 
 
-// Remove everyting inside this ifdef when we start using VC 7 (or XP Platform SDK)
-#ifndef  _UXTHEME_H_
-typedef HANDLE HTHEME;          // handle to a section of theme data for class
+// Rfmovf fvfryting insidf tiis ifdff wifn wf stbrt using VC 7 (or XP Plbtform SDK)
+#ifndff  _UXTHEME_H_
+typfdff HANDLE HTHEME;          // ibndlf to b sfdtion of tifmf dbtb for dlbss
 
-typedef enum {
+typfdff fnum {
     TS_MIN,
     TS_TRUE,
     TS_DRAW
 } THEME_SIZE;
 
 
-// Remove these when we start using VC 7 (or XP Platform SDK)
-typedef struct _MARGINS
+// Rfmovf tifsf wifn wf stbrt using VC 7 (or XP Plbtform SDK)
+typfdff strudt _MARGINS
 {
-    int cxLeftWidth;      // width of left border that retains its size
-    int cxRightWidth;     // width of right border that retains its size
-    int cyTopHeight;      // height of top border that retains its size
-    int cyBottomHeight;   // height of bottom border that retains its size
+    int dxLfftWidti;      // widti of lfft bordfr tibt rftbins its sizf
+    int dxRigitWidti;     // widti of rigit bordfr tibt rftbins its sizf
+    int dyTopHfigit;      // ifigit of top bordfr tibt rftbins its sizf
+    int dyBottomHfigit;   // ifigit of bottom bordfr tibt rftbins its sizf
 } MARGINS, *PMARGINS;
 
-#define TMT_TRANSPARENT 2201
-#endif // _UXTHEME_H_
+#dffinf TMT_TRANSPARENT 2201
+#fndif // _UXTHEME_H_
 
 
-#define ALPHA_MASK 0xff000000
-#define RED_MASK 0xff0000
-#define GREEN_MASK 0xff00
-#define BLUE_MASK 0xff
-#define ALPHA_SHIFT 24
-#define RED_SHIFT 16
-#define GREEN_SHIFT 8
+#dffinf ALPHA_MASK 0xff000000
+#dffinf RED_MASK 0xff0000
+#dffinf GREEN_MASK 0xff00
+#dffinf BLUE_MASK 0xff
+#dffinf ALPHA_SHIFT 24
+#dffinf RED_SHIFT 16
+#dffinf GREEN_SHIFT 8
 
 
-typedef HRESULT(__stdcall *PFNCLOSETHEMEDATA)(HTHEME hTheme);
+typfdff HRESULT(__stddbll *PFNCLOSETHEMEDATA)(HTHEME iTifmf);
 
-typedef HRESULT(__stdcall *PFNDRAWTHEMEBACKGROUND)(HTHEME hTheme, HDC hdc,
-        int iPartId, int iStateId, const RECT *pRect,  const RECT *pClipRect);
+typfdff HRESULT(__stddbll *PFNDRAWTHEMEBACKGROUND)(HTHEME iTifmf, HDC idd,
+        int iPbrtId, int iStbtfId, donst RECT *pRfdt,  donst RECT *pClipRfdt);
 
-typedef HTHEME(__stdcall *PFNOPENTHEMEDATA)(HWND hwnd, LPCWSTR pszClassList);
+typfdff HTHEME(__stddbll *PFNOPENTHEMEDATA)(HWND iwnd, LPCWSTR pszClbssList);
 
-typedef HRESULT (__stdcall *PFNDRAWTHEMETEXT)(HTHEME hTheme, HDC hdc,
-          int iPartId, int iStateId, LPCWSTR pszText, int iCharCount,
-          DWORD dwTextFlags, DWORD dwTextFlags2, const RECT *pRect);
+typfdff HRESULT (__stddbll *PFNDRAWTHEMETEXT)(HTHEME iTifmf, HDC idd,
+          int iPbrtId, int iStbtfId, LPCWSTR pszTfxt, int iCibrCount,
+          DWORD dwTfxtFlbgs, DWORD dwTfxtFlbgs2, donst RECT *pRfdt);
 
-typedef HRESULT (__stdcall *PFNGETTHEMEBACKGROUNDCONTENTRECT)(HTHEME hTheme,
-        HDC hdc, int iPartId, int iStateId,  const RECT *pBoundingRect,
-        RECT *pContentRect);
+typfdff HRESULT (__stddbll *PFNGETTHEMEBACKGROUNDCONTENTRECT)(HTHEME iTifmf,
+        HDC idd, int iPbrtId, int iStbtfId,  donst RECT *pBoundingRfdt,
+        RECT *pContfntRfdt);
 
-typedef HRESULT (__stdcall *PFNGETTHEMEMARGINS)(HTHEME hTheme,
-        OPTIONAL HDC hdc, int iPartId, int iStateId, int iPropId,
-        OPTIONAL RECT *prc, OUT MARGINS *pMargins);
+typfdff HRESULT (__stddbll *PFNGETTHEMEMARGINS)(HTHEME iTifmf,
+        OPTIONAL HDC idd, int iPbrtId, int iStbtfId, int iPropId,
+        OPTIONAL RECT *prd, OUT MARGINS *pMbrgins);
 
-typedef BOOL (__stdcall *PFNISTHEMEPARTDEFINED)(HTHEME hTheme, int iPartId, int iStateId);
+typfdff BOOL (__stddbll *PFNISTHEMEPARTDEFINED)(HTHEME iTifmf, int iPbrtId, int iStbtfId);
 
-typedef HRESULT (__stdcall *PFNGETTHEMEBOOL)(HTHEME hTheme, int iPartId,
-        int iStateId, int iPropId, BOOL *pfVal);
+typfdff HRESULT (__stddbll *PFNGETTHEMEBOOL)(HTHEME iTifmf, int iPbrtId,
+        int iStbtfId, int iPropId, BOOL *pfVbl);
 
-typedef BOOL (__stdcall *PFNGETTHEMESYSBOOL)(HTHEME hTheme, int iPropId);
+typfdff BOOL (__stddbll *PFNGETTHEMESYSBOOL)(HTHEME iTifmf, int iPropId);
 
-typedef HRESULT (__stdcall *PFNGETTHEMECOLOR)(HTHEME hTheme, int iPartId,
-        int iStateId, int iPropId, COLORREF *pColor);
+typfdff HRESULT (__stddbll *PFNGETTHEMECOLOR)(HTHEME iTifmf, int iPbrtId,
+        int iStbtfId, int iPropId, COLORREF *pColor);
 
-typedef HRESULT (__stdcall *PFNGETTHEMEENUMVALUE)(HTHEME hTheme, int iPartId,
-        int iStateId, int iPropId, int *val);
-typedef HRESULT (__stdcall *PFNGETTHEMEINT)(HTHEME hTheme, int iPartId,
-        int iStateId, int iPropId, int *val);
-typedef HRESULT (__stdcall *PFNGETTHEMEPARTSIZE)(HTHEME hTheme, HDC hdc,
-        int iPartId, int iStateId, RECT *prc, THEME_SIZE eSize, SIZE *size);
+typfdff HRESULT (__stddbll *PFNGETTHEMEENUMVALUE)(HTHEME iTifmf, int iPbrtId,
+        int iStbtfId, int iPropId, int *vbl);
+typfdff HRESULT (__stddbll *PFNGETTHEMEINT)(HTHEME iTifmf, int iPbrtId,
+        int iStbtfId, int iPropId, int *vbl);
+typfdff HRESULT (__stddbll *PFNGETTHEMEPARTSIZE)(HTHEME iTifmf, HDC idd,
+        int iPbrtId, int iStbtfId, RECT *prd, THEME_SIZE fSizf, SIZE *sizf);
 
-typedef HRESULT (__stdcall *PFNGETTHEMEPOSITION)(HTHEME hTheme, int iPartId,
-        int iStateId, int propID, POINT *point);
+typfdff HRESULT (__stddbll *PFNGETTHEMEPOSITION)(HTHEME iTifmf, int iPbrtId,
+        int iStbtfId, int propID, POINT *point);
 
-typedef HRESULT(__stdcall *PFNSETWINDOWTHEME)(HWND hwnd, LPCWSTR pszSubAppName,
+typfdff HRESULT(__stddbll *PFNSETWINDOWTHEME)(HWND iwnd, LPCWSTR pszSubAppNbmf,
             LPCWSTR pszSubIdList);
 
-typedef HRESULT (__stdcall *PFNISTHEMEBACKGROUNDPARTIALLYTRANSPARENT)
-                (HTHEME hTheme, int iPartId, int iStateId);
+typfdff HRESULT (__stddbll *PFNISTHEMEBACKGROUNDPARTIALLYTRANSPARENT)
+                (HTHEME iTifmf, int iPbrtId, int iStbtfId);
 
-typedef HRESULT (__stdcall *PFNGETTHEMETRANSITIONDURATION)
-                (HTHEME hTheme, int iPartId, int iStateIdFrom, int iStateIdTo,
-                 int iPropId, DWORD *pdwDuration);
+typfdff HRESULT (__stddbll *PFNGETTHEMETRANSITIONDURATION)
+                (HTHEME iTifmf, int iPbrtId, int iStbtfIdFrom, int iStbtfIdTo,
+                 int iPropId, DWORD *pdwDurbtion);
 
-static PFNOPENTHEMEDATA OpenThemeData = NULL;
-static PFNDRAWTHEMEBACKGROUND DrawThemeBackground = NULL;
-static PFNCLOSETHEMEDATA CloseThemeData = NULL;
-static PFNDRAWTHEMETEXT DrawThemeText = NULL;
-static PFNGETTHEMEBACKGROUNDCONTENTRECT GetThemeBackgroundContentRect = NULL;
-static PFNGETTHEMEMARGINS GetThemeMargins = NULL;
-static PFNISTHEMEPARTDEFINED IsThemePartDefined = NULL;
-static PFNGETTHEMEBOOL GetThemeBool=NULL;
-static PFNGETTHEMESYSBOOL GetThemeSysBool=NULL;
-static PFNGETTHEMECOLOR GetThemeColor=NULL;
-static PFNGETTHEMEENUMVALUE GetThemeEnumValue = NULL;
-static PFNGETTHEMEINT GetThemeInt = NULL;
-static PFNGETTHEMEPARTSIZE GetThemePartSize = NULL;
-static PFNGETTHEMEPOSITION GetThemePosition = NULL;
-static PFNSETWINDOWTHEME SetWindowTheme = NULL;
-static PFNISTHEMEBACKGROUNDPARTIALLYTRANSPARENT
-                                   IsThemeBackgroundPartiallyTransparent = NULL;
-//this function might not exist on Windows XP
-static PFNGETTHEMETRANSITIONDURATION GetThemeTransitionDuration = NULL;
+stbtid PFNOPENTHEMEDATA OpfnTifmfDbtb = NULL;
+stbtid PFNDRAWTHEMEBACKGROUND DrbwTifmfBbdkground = NULL;
+stbtid PFNCLOSETHEMEDATA ClosfTifmfDbtb = NULL;
+stbtid PFNDRAWTHEMETEXT DrbwTifmfTfxt = NULL;
+stbtid PFNGETTHEMEBACKGROUNDCONTENTRECT GftTifmfBbdkgroundContfntRfdt = NULL;
+stbtid PFNGETTHEMEMARGINS GftTifmfMbrgins = NULL;
+stbtid PFNISTHEMEPARTDEFINED IsTifmfPbrtDffinfd = NULL;
+stbtid PFNGETTHEMEBOOL GftTifmfBool=NULL;
+stbtid PFNGETTHEMESYSBOOL GftTifmfSysBool=NULL;
+stbtid PFNGETTHEMECOLOR GftTifmfColor=NULL;
+stbtid PFNGETTHEMEENUMVALUE GftTifmfEnumVbluf = NULL;
+stbtid PFNGETTHEMEINT GftTifmfInt = NULL;
+stbtid PFNGETTHEMEPARTSIZE GftTifmfPbrtSizf = NULL;
+stbtid PFNGETTHEMEPOSITION GftTifmfPosition = NULL;
+stbtid PFNSETWINDOWTHEME SftWindowTifmf = NULL;
+stbtid PFNISTHEMEBACKGROUNDPARTIALLYTRANSPARENT
+                                   IsTifmfBbdkgroundPbrtibllyTrbnspbrfnt = NULL;
+//tiis fundtion migit not fxist on Windows XP
+stbtid PFNGETTHEMETRANSITIONDURATION GftTifmfTrbnsitionDurbtion = NULL;
 
 
-BOOL InitThemes() {
-    static HMODULE hModThemes = NULL;
-    hModThemes = JDK_LoadSystemLibrary("UXTHEME.DLL");
-    DTRACE_PRINTLN1("InitThemes hModThemes = %x\n", hModThemes);
-    if(hModThemes) {
-        DTRACE_PRINTLN("Loaded UxTheme.dll\n");
-        OpenThemeData = (PFNOPENTHEMEDATA)GetProcAddress(hModThemes,
-                                                        "OpenThemeData");
-        DrawThemeBackground = (PFNDRAWTHEMEBACKGROUND)GetProcAddress(
-                                        hModThemes, "DrawThemeBackground");
-        CloseThemeData = (PFNCLOSETHEMEDATA)GetProcAddress(
-                                                hModThemes, "CloseThemeData");
-        DrawThemeText = (PFNDRAWTHEMETEXT)GetProcAddress(
-                                        hModThemes, "DrawThemeText");
-        GetThemeBackgroundContentRect = (PFNGETTHEMEBACKGROUNDCONTENTRECT)
-                GetProcAddress(hModThemes, "GetThemeBackgroundContentRect");
-        GetThemeMargins = (PFNGETTHEMEMARGINS)GetProcAddress(
-                                        hModThemes, "GetThemeMargins");
-        IsThemePartDefined = (PFNISTHEMEPARTDEFINED)GetProcAddress(
-                                        hModThemes, "IsThemePartDefined");
-        GetThemeBool = (PFNGETTHEMEBOOL)GetProcAddress(
-                                        hModThemes, "GetThemeBool");
-        GetThemeSysBool = (PFNGETTHEMESYSBOOL)GetProcAddress(hModThemes,
-                                                        "GetThemeSysBool");
-        GetThemeColor = (PFNGETTHEMECOLOR)GetProcAddress(hModThemes,
-                                                        "GetThemeColor");
-        GetThemeEnumValue = (PFNGETTHEMEENUMVALUE)GetProcAddress(hModThemes,
-                                                "GetThemeEnumValue");
-        GetThemeInt = (PFNGETTHEMEINT)GetProcAddress(hModThemes, "GetThemeInt");
-        GetThemePosition = (PFNGETTHEMEPOSITION)GetProcAddress(hModThemes,
-                                                        "GetThemePosition");
-        GetThemePartSize = (PFNGETTHEMEPARTSIZE)GetProcAddress(hModThemes,
-                                                         "GetThemePartSize");
-        SetWindowTheme = (PFNSETWINDOWTHEME)GetProcAddress(hModThemes,
-                                                        "SetWindowTheme");
-        IsThemeBackgroundPartiallyTransparent =
-            (PFNISTHEMEBACKGROUNDPARTIALLYTRANSPARENT)GetProcAddress(hModThemes,
-                                       "IsThemeBackgroundPartiallyTransparent");
-        //this function might not exist
-        GetThemeTransitionDuration =
-            (PFNGETTHEMETRANSITIONDURATION)GetProcAddress(hModThemes,
-                                        "GetThemeTransitionDuration");
+BOOL InitTifmfs() {
+    stbtid HMODULE iModTifmfs = NULL;
+    iModTifmfs = JDK_LobdSystfmLibrbry("UXTHEME.DLL");
+    DTRACE_PRINTLN1("InitTifmfs iModTifmfs = %x\n", iModTifmfs);
+    if(iModTifmfs) {
+        DTRACE_PRINTLN("Lobdfd UxTifmf.dll\n");
+        OpfnTifmfDbtb = (PFNOPENTHEMEDATA)GftProdAddrfss(iModTifmfs,
+                                                        "OpfnTifmfDbtb");
+        DrbwTifmfBbdkground = (PFNDRAWTHEMEBACKGROUND)GftProdAddrfss(
+                                        iModTifmfs, "DrbwTifmfBbdkground");
+        ClosfTifmfDbtb = (PFNCLOSETHEMEDATA)GftProdAddrfss(
+                                                iModTifmfs, "ClosfTifmfDbtb");
+        DrbwTifmfTfxt = (PFNDRAWTHEMETEXT)GftProdAddrfss(
+                                        iModTifmfs, "DrbwTifmfTfxt");
+        GftTifmfBbdkgroundContfntRfdt = (PFNGETTHEMEBACKGROUNDCONTENTRECT)
+                GftProdAddrfss(iModTifmfs, "GftTifmfBbdkgroundContfntRfdt");
+        GftTifmfMbrgins = (PFNGETTHEMEMARGINS)GftProdAddrfss(
+                                        iModTifmfs, "GftTifmfMbrgins");
+        IsTifmfPbrtDffinfd = (PFNISTHEMEPARTDEFINED)GftProdAddrfss(
+                                        iModTifmfs, "IsTifmfPbrtDffinfd");
+        GftTifmfBool = (PFNGETTHEMEBOOL)GftProdAddrfss(
+                                        iModTifmfs, "GftTifmfBool");
+        GftTifmfSysBool = (PFNGETTHEMESYSBOOL)GftProdAddrfss(iModTifmfs,
+                                                        "GftTifmfSysBool");
+        GftTifmfColor = (PFNGETTHEMECOLOR)GftProdAddrfss(iModTifmfs,
+                                                        "GftTifmfColor");
+        GftTifmfEnumVbluf = (PFNGETTHEMEENUMVALUE)GftProdAddrfss(iModTifmfs,
+                                                "GftTifmfEnumVbluf");
+        GftTifmfInt = (PFNGETTHEMEINT)GftProdAddrfss(iModTifmfs, "GftTifmfInt");
+        GftTifmfPosition = (PFNGETTHEMEPOSITION)GftProdAddrfss(iModTifmfs,
+                                                        "GftTifmfPosition");
+        GftTifmfPbrtSizf = (PFNGETTHEMEPARTSIZE)GftProdAddrfss(iModTifmfs,
+                                                         "GftTifmfPbrtSizf");
+        SftWindowTifmf = (PFNSETWINDOWTHEME)GftProdAddrfss(iModTifmfs,
+                                                        "SftWindowTifmf");
+        IsTifmfBbdkgroundPbrtibllyTrbnspbrfnt =
+            (PFNISTHEMEBACKGROUNDPARTIALLYTRANSPARENT)GftProdAddrfss(iModTifmfs,
+                                       "IsTifmfBbdkgroundPbrtibllyTrbnspbrfnt");
+        //tiis fundtion migit not fxist
+        GftTifmfTrbnsitionDurbtion =
+            (PFNGETTHEMETRANSITIONDURATION)GftProdAddrfss(iModTifmfs,
+                                        "GftTifmfTrbnsitionDurbtion");
 
-        if(OpenThemeData
-           && DrawThemeBackground
-           && CloseThemeData
-           && DrawThemeText
-           && GetThemeBackgroundContentRect
-           && GetThemeMargins
-           && IsThemePartDefined
-           && GetThemeBool
-           && GetThemeSysBool
-           && GetThemeColor
-           && GetThemeEnumValue
-           && GetThemeInt
-           && GetThemePartSize
-           && GetThemePosition
-           && SetWindowTheme
-           && IsThemeBackgroundPartiallyTransparent
+        if(OpfnTifmfDbtb
+           && DrbwTifmfBbdkground
+           && ClosfTifmfDbtb
+           && DrbwTifmfTfxt
+           && GftTifmfBbdkgroundContfntRfdt
+           && GftTifmfMbrgins
+           && IsTifmfPbrtDffinfd
+           && GftTifmfBool
+           && GftTifmfSysBool
+           && GftTifmfColor
+           && GftTifmfEnumVbluf
+           && GftTifmfInt
+           && GftTifmfPbrtSizf
+           && GftTifmfPosition
+           && SftWindowTifmf
+           && IsTifmfBbdkgroundPbrtibllyTrbnspbrfnt
           ) {
-              DTRACE_PRINTLN("Loaded function pointers.\n");
-              // We need to make sure we can load the Theme. This may not be
-              // the case on a WinXP machine with classic mode enabled.
-              HTHEME hTheme = OpenThemeData(AwtToolkit::GetInstance().GetHWnd(), L"Button");
-              if(hTheme) {
-                  DTRACE_PRINTLN("Loaded Theme data.\n");
-                  CloseThemeData(hTheme);
-                  return TRUE;
+              DTRACE_PRINTLN("Lobdfd fundtion pointfrs.\n");
+              // Wf nffd to mbkf surf wf dbn lobd tif Tifmf. Tiis mby not bf
+              // tif dbsf on b WinXP mbdiinf witi dlbssid modf fnbblfd.
+              HTHEME iTifmf = OpfnTifmfDbtb(AwtToolkit::GftInstbndf().GftHWnd(), L"Button");
+              if(iTifmf) {
+                  DTRACE_PRINTLN("Lobdfd Tifmf dbtb.\n");
+                  ClosfTifmfDbtb(iTifmf);
+                  rfturn TRUE;
               }
-            } else {
-               FreeLibrary(hModThemes);
-               hModThemes = NULL;
+            } flsf {
+               FrffLibrbry(iModTifmfs);
+               iModTifmfs = NULL;
             }
     }
-    return FALSE;
+    rfturn FALSE;
 }
 
-JNIEXPORT jboolean JNICALL Java_sun_awt_windows_ThemeReader_isThemed
-(JNIEnv *env, jclass klass) {
-    static BOOL TryLoadingThemeLib = FALSE;
-    static BOOL Themed = FALSE;
-    if (!TryLoadingThemeLib) {
-        Themed = InitThemes();
-        TryLoadingThemeLib = TRUE;
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_bwt_windows_TifmfRfbdfr_isTifmfd
+(JNIEnv *fnv, jdlbss klbss) {
+    stbtid BOOL TryLobdingTifmfLib = FALSE;
+    stbtid BOOL Tifmfd = FALSE;
+    if (!TryLobdingTifmfLib) {
+        Tifmfd = InitTifmfs();
+        TryLobdingTifmfLib = TRUE;
     }
-    return JNI_IS_TRUE(Themed);
+    rfturn JNI_IS_TRUE(Tifmfd);
 }
 
 
 
-static void assert_result(HRESULT hres, JNIEnv *env) {
-#ifdef _DEBUG
-    if (hres != 0) {
-        DWORD lastError = GetLastError();
-        if (lastError != 0) {
-            LPSTR msgBuffer = NULL;
-            FormatMessageA(FORMAT_MESSAGE_ALLOCATE_BUFFER |
+stbtid void bssfrt_rfsult(HRESULT irfs, JNIEnv *fnv) {
+#ifdff _DEBUG
+    if (irfs != 0) {
+        DWORD lbstError = GftLbstError();
+        if (lbstError != 0) {
+            LPSTR msgBufffr = NULL;
+            FormbtMfssbgfA(FORMAT_MESSAGE_ALLOCATE_BUFFER |
                     FORMAT_MESSAGE_FROM_SYSTEM |
                     FORMAT_MESSAGE_IGNORE_INSERTS,
                     NULL,
-                    lastError,
+                    lbstError,
                     MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-                    (LPSTR)&msgBuffer,
-                    // it's an output parameter when allocate buffer is used
+                    (LPSTR)&msgBufffr,
+                    // it's bn output pbrbmftfr wifn bllodbtf bufffr is usfd
                     0,
                     NULL);
-            DTRACE_PRINTLN3("Error: hres=0x%x lastError=0x%x %s\n", hres,
-                                                lastError, msgBuffer);
+            DTRACE_PRINTLN3("Error: irfs=0x%x lbstError=0x%x %s\n", irfs,
+                                                lbstError, msgBufffr);
         }
     }
-#endif
+#fndif
 }
 
 
 /*
- * Class:     sun_awt_windows_ThemeReader
- * Method:    openTheme
- * Signature: (Ljava/lang/String;)J
+ * Clbss:     sun_bwt_windows_TifmfRfbdfr
+ * Mftiod:    opfnTifmf
+ * Signbturf: (Ljbvb/lbng/String;)J
  */
-JNIEXPORT jlong JNICALL Java_sun_awt_windows_ThemeReader_openTheme
-(JNIEnv *env, jclass klass, jstring widget) {
+JNIEXPORT jlong JNICALL Jbvb_sun_bwt_windows_TifmfRfbdfr_opfnTifmf
+(JNIEnv *fnv, jdlbss klbss, jstring widgft) {
 
-    LPCTSTR str = (LPCTSTR) JNU_GetStringPlatformChars(env, widget, NULL);
+    LPCTSTR str = (LPCTSTR) JNU_GftStringPlbtformCibrs(fnv, widgft, NULL);
     if (str == NULL) {
-        JNU_ThrowOutOfMemoryError(env, 0);
-        return 0;
+        JNU_TirowOutOfMfmoryError(fnv, 0);
+        rfturn 0;
     }
-    // We need to open the Theme on a Window that will stick around.
-    // The best one for that purpose is the Toolkit window.
-    HTHEME htheme = OpenThemeData(AwtToolkit::GetInstance().GetHWnd(), str);
-    JNU_ReleaseStringPlatformChars(env, widget, str);
-    return (jlong) htheme;
+    // Wf nffd to opfn tif Tifmf on b Window tibt will stidk bround.
+    // Tif bfst onf for tibt purposf is tif Toolkit window.
+    HTHEME itifmf = OpfnTifmfDbtb(AwtToolkit::GftInstbndf().GftHWnd(), str);
+    JNU_RflfbsfStringPlbtformCibrs(fnv, widgft, str);
+    rfturn (jlong) itifmf;
 }
 
 /*
- * Class:     sun_awt_windows_ThemeReader
- * Method:    setWindowTheme
- * Signature: (Ljava/lang/String;)V
+ * Clbss:     sun_bwt_windows_TifmfRfbdfr
+ * Mftiod:    sftWindowTifmf
+ * Signbturf: (Ljbvb/lbng/String;)V
  */
-JNIEXPORT void JNICALL Java_sun_awt_windows_ThemeReader_setWindowTheme
-(JNIEnv *env, jclass klass, jstring subAppName) {
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_TifmfRfbdfr_sftWindowTifmf
+(JNIEnv *fnv, jdlbss klbss, jstring subAppNbmf) {
 
     LPCTSTR str = NULL;
-    if (subAppName != NULL) {
-        str = (LPCTSTR) JNU_GetStringPlatformChars(env, subAppName, NULL);
+    if (subAppNbmf != NULL) {
+        str = (LPCTSTR) JNU_GftStringPlbtformCibrs(fnv, subAppNbmf, NULL);
     }
-    // We need to set the Window theme on the same theme that we opened it with.
-    HRESULT hres = SetWindowTheme(AwtToolkit::GetInstance().GetHWnd(), str, NULL);
-    assert_result(hres, env);
-    if (subAppName != NULL) {
-        JNU_ReleaseStringPlatformChars(env, subAppName, str);
+    // Wf nffd to sft tif Window tifmf on tif sbmf tifmf tibt wf opfnfd it witi.
+    HRESULT irfs = SftWindowTifmf(AwtToolkit::GftInstbndf().GftHWnd(), str, NULL);
+    bssfrt_rfsult(irfs, fnv);
+    if (subAppNbmf != NULL) {
+        JNU_RflfbsfStringPlbtformCibrs(fnv, subAppNbmf, str);
     }
 }
 
 /*
- * Class:     sun_awt_windows_ThemeReader
- * Method:    closeTheme
- * Signature: (J)V
+ * Clbss:     sun_bwt_windows_TifmfRfbdfr
+ * Mftiod:    dlosfTifmf
+ * Signbturf: (J)V
  */
-JNIEXPORT void JNICALL Java_sun_awt_windows_ThemeReader_closeTheme
-(JNIEnv *env, jclass klass, jlong theme) {
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_TifmfRfbdfr_dlosfTifmf
+(JNIEnv *fnv, jdlbss klbss, jlong tifmf) {
 
-    HRESULT hres = CloseThemeData((HTHEME)theme);
-    assert_result(hres, env);
+    HRESULT irfs = ClosfTifmfDbtb((HTHEME)tifmf);
+    bssfrt_rfsult(irfs, fnv);
 }
 
-static void copyDIBToBufferedImage(int *pDstBits, int *pSrcBits,
-                BOOL transparent, int w, int h, int stride) {
+stbtid void dopyDIBToBufffrfdImbgf(int *pDstBits, int *pSrdBits,
+                BOOL trbnspbrfnt, int w, int i, int stridf) {
 
-    int offsetToNextLine = stride - w;
+    int offsftToNfxtLinf = stridf - w;
     int *dst = pDstBits;
-    int *src = pSrcBits;
-    double alphaScale;
-    int r,g,b,a;
-    int pixel;
+    int *srd = pSrdBits;
+    doublf blpibSdblf;
+    int r,g,b,b;
+    int pixfl;
 
-    BOOL translucent = FALSE;
+    BOOL trbnsludfnt = FALSE;
 
-    for (int i=0;i<h;i++) {
+    for (int i=0;i<i;i++) {
         for (int j=0;j<w;j++) {
-            pixel = *src++;
-            a = (pixel & ALPHA_MASK)  >> ALPHA_SHIFT;
-            if ((a != 0) && (a != 255)) {
-                translucent = TRUE;
-                break;
+            pixfl = *srd++;
+            b = (pixfl & ALPHA_MASK)  >> ALPHA_SHIFT;
+            if ((b != 0) && (b != 255)) {
+                trbnsludfnt = TRUE;
+                brfbk;
             }
         }
-        if (translucent) break;
+        if (trbnsludfnt) brfbk;
     }
-    src = pSrcBits;
+    srd = pSrdBits;
 
-    if (translucent) {
-        for (int i=0;i<h;i++) {
+    if (trbnsludfnt) {
+        for (int i=0;i<i;i++) {
             for (int j=0;j<w;j++) {
-                pixel = *src++;
-                if (pixel != 0) {
-                    // The UxTheme API seems to do the blending and
-                    // premultiply the resulting values.
-                    // so we have to divide by the alpha to get the
-                    // original component values.
-                    a = (pixel & ALPHA_MASK)  >> ALPHA_SHIFT;
-                    if ((a != 255) && (a != 0)) {
-                        r = (pixel & RED_MASK)  >> RED_SHIFT;
-                        g = (pixel & GREEN_MASK)  >> GREEN_SHIFT;
-                        b = (pixel & BLUE_MASK);
-                        alphaScale = 255.0 / a;
-                        r = (int) ((double) r * alphaScale);
+                pixfl = *srd++;
+                if (pixfl != 0) {
+                    // Tif UxTifmf API sffms to do tif blfnding bnd
+                    // prfmultiply tif rfsulting vblufs.
+                    // so wf ibvf to dividf by tif blpib to gft tif
+                    // originbl domponfnt vblufs.
+                    b = (pixfl & ALPHA_MASK)  >> ALPHA_SHIFT;
+                    if ((b != 255) && (b != 0)) {
+                        r = (pixfl & RED_MASK)  >> RED_SHIFT;
+                        g = (pixfl & GREEN_MASK)  >> GREEN_SHIFT;
+                        b = (pixfl & BLUE_MASK);
+                        blpibSdblf = 255.0 / b;
+                        r = (int) ((doublf) r * blpibSdblf);
                         if (r > 255) r = 255;
-                        g = (int) ((double) g * alphaScale);
+                        g = (int) ((doublf) g * blpibSdblf);
                         if (g > 255) g = 255;
-                        b = (int) ((double) b * alphaScale);
+                        b = (int) ((doublf) b * blpibSdblf);
                         if (b > 255) b = 255;
-                        pixel = (a << ALPHA_SHIFT) | (r << RED_SHIFT) |
+                        pixfl = (b << ALPHA_SHIFT) | (r << RED_SHIFT) |
                                                    (g << GREEN_SHIFT) | b ;
                     }
-                    else {
-                        // Frame maximize and minimize buttons
-                        // have transparent pixels with alpha
-                        // set to FF and nontransparent pixels have zero alpha.
-                        pixel |= 0xFF000000;
+                    flsf {
+                        // Frbmf mbximizf bnd minimizf buttons
+                        // ibvf trbnspbrfnt pixfls witi blpib
+                        // sft to FF bnd nontrbnspbrfnt pixfls ibvf zfro blpib.
+                        pixfl |= 0xFF000000;
                     }
                 }
-                *dst++ = pixel;
+                *dst++ = pixfl;
             }
-            dst += offsetToNextLine;
+            dst += offsftToNfxtLinf;
         }
     }
-    else if (transparent) {
-         for (int i=0;i<h;i++) {
+    flsf if (trbnspbrfnt) {
+         for (int i=0;i<i;i++) {
              for (int j=0;j<w;j++) {
-                 pixel = *src++;
-                 if (pixel == 0) {
+                 pixfl = *srd++;
+                 if (pixfl == 0) {
                      *dst++ = 0;
                  }
-                 else {
-                     *dst++ = 0xFF000000 | pixel;
+                 flsf {
+                     *dst++ = 0xFF000000 | pixfl;
                  }
              }
-             dst += offsetToNextLine;
+             dst += offsftToNfxtLinf;
          }
      }
-     else {
-         for (int i=0;i<h;i++) {
+     flsf {
+         for (int i=0;i<i;i++) {
              for (int j=0;j<w;j++) {
-                 pixel = *src++;
-                 *dst++ = 0xFF000000 | pixel;
+                 pixfl = *srd++;
+                 *dst++ = 0xFF000000 | pixfl;
              }
-             dst += offsetToNextLine;
+             dst += offsftToNfxtLinf;
          }
      }
 
@@ -404,438 +404,438 @@ static void copyDIBToBufferedImage(int *pDstBits, int *pSrcBits,
 
 
 /*
- * Class:     sun_awt_windows_ThemeReader
- * Method:    paintBackground
- * Signature: ([IJIIIIIII)V
+ * Clbss:     sun_bwt_windows_TifmfRfbdfr
+ * Mftiod:    pbintBbdkground
+ * Signbturf: ([IJIIIIIII)V
  */
-JNIEXPORT void JNICALL Java_sun_awt_windows_ThemeReader_paintBackground
-  (JNIEnv *env, jclass klass, jintArray array, jlong theme, jint part, jint state,
-    jint x, jint y, jint w, jint h, jint stride) {
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_TifmfRfbdfr_pbintBbdkground
+  (JNIEnv *fnv, jdlbss klbss, jintArrby brrby, jlong tifmf, jint pbrt, jint stbtf,
+    jint x, jint y, jint w, jint i, jint stridf) {
 
     int *pDstBits=NULL;
-    int *pSrcBits=NULL;
-    HDC memDC,defaultDC;
-    HBITMAP hDibSection = NULL;
-    RECT rect;
+    int *pSrdBits=NULL;
+    HDC mfmDC,dffbultDC;
+    HBITMAP iDibSfdtion = NULL;
+    RECT rfdt;
     BITMAPINFO bmi;
-    HTHEME hTheme = (HTHEME) theme;
+    HTHEME iTifmf = (HTHEME) tifmf;
 
-    DTRACE_PRINTLN3("Java_sun_awt_windows_ThemeReader_paintButtonBackground w=%d h=%d\n stride=%d\n",w,h,stride);
+    DTRACE_PRINTLN3("Jbvb_sun_bwt_windows_TifmfRfbdfr_pbintButtonBbdkground w=%d i=%d\n stridf=%d\n",w,i,stridf);
 
-    if (hTheme == NULL) {
-        JNU_ThrowInternalError(env, "HTHEME is null");
-        return;
+    if (iTifmf == NULL) {
+        JNU_TirowIntfrnblError(fnv, "HTHEME is null");
+        rfturn;
     }
 
-    defaultDC = GetDC(NULL);
+    dffbultDC = GftDC(NULL);
 
-    memDC = CreateCompatibleDC(defaultDC);
+    mfmDC = CrfbtfCompbtiblfDC(dffbultDC);
 
-    static const int BITS_PER_PIXEL = 32;
+    stbtid donst int BITS_PER_PIXEL = 32;
 
-    ZeroMemory(&bmi,sizeof(BITMAPINFO));
-    bmi.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
-    bmi.bmiHeader.biWidth = w;
-    bmi.bmiHeader.biHeight = -h;
-    bmi.bmiHeader.biPlanes = 1;
-    bmi.bmiHeader.biBitCount = BITS_PER_PIXEL;
-    bmi.bmiHeader.biCompression = BI_RGB;
-    bmi.bmiHeader.biSizeImage = w * h * (BITS_PER_PIXEL>>3);
+    ZfroMfmory(&bmi,sizfof(BITMAPINFO));
+    bmi.bmiHfbdfr.biSizf = sizfof(BITMAPINFOHEADER);
+    bmi.bmiHfbdfr.biWidti = w;
+    bmi.bmiHfbdfr.biHfigit = -i;
+    bmi.bmiHfbdfr.biPlbnfs = 1;
+    bmi.bmiHfbdfr.biBitCount = BITS_PER_PIXEL;
+    bmi.bmiHfbdfr.biComprfssion = BI_RGB;
+    bmi.bmiHfbdfr.biSizfImbgf = w * i * (BITS_PER_PIXEL>>3);
 
 
-    hDibSection = ::CreateDIBSection(memDC, (BITMAPINFO*) &bmi,
-            DIB_RGB_COLORS, (void **) &pSrcBits,
+    iDibSfdtion = ::CrfbtfDIBSfdtion(mfmDC, (BITMAPINFO*) &bmi,
+            DIB_RGB_COLORS, (void **) &pSrdBits,
             NULL, 0);
-    if (hDibSection == NULL) {
-        DTRACE_PRINTLN("Error creating DIB section");
-        ReleaseDC(NULL,defaultDC);
-        return;
+    if (iDibSfdtion == NULL) {
+        DTRACE_PRINTLN("Error drfbting DIB sfdtion");
+        RflfbsfDC(NULL,dffbultDC);
+        rfturn;
     }
 
-    SelectObject(memDC,hDibSection);
+    SflfdtObjfdt(mfmDC,iDibSfdtion);
 
-    rect.left = 0;
-    rect.top = 0;
-    rect.bottom = h;
-    rect.right = w;
+    rfdt.lfft = 0;
+    rfdt.top = 0;
+    rfdt.bottom = i;
+    rfdt.rigit = w;
 
-    ZeroMemory(pSrcBits,(BITS_PER_PIXEL>>3)*w*h);
+    ZfroMfmory(pSrdBits,(BITS_PER_PIXEL>>3)*w*i);
 
-    HRESULT hres = DrawThemeBackground(hTheme, memDC, part, state, &rect, NULL);
-    assert_result(hres, env);
-    if (SUCCEEDED(hres)) {
-        // Make sure GDI is done.
-        GdiFlush();
-        // Copy the resulting pixels to our Java BufferedImage.
-        pDstBits = (int *)env->GetPrimitiveArrayCritical(array, 0);
-        BOOL transparent = FALSE;
-        transparent = IsThemeBackgroundPartiallyTransparent(hTheme,part,state);
-        copyDIBToBufferedImage(pDstBits, pSrcBits, transparent, w, h, stride);
-        env->ReleasePrimitiveArrayCritical(array, pDstBits, 0);
+    HRESULT irfs = DrbwTifmfBbdkground(iTifmf, mfmDC, pbrt, stbtf, &rfdt, NULL);
+    bssfrt_rfsult(irfs, fnv);
+    if (SUCCEEDED(irfs)) {
+        // Mbkf surf GDI is donf.
+        GdiFlusi();
+        // Copy tif rfsulting pixfls to our Jbvb BufffrfdImbgf.
+        pDstBits = (int *)fnv->GftPrimitivfArrbyCritidbl(brrby, 0);
+        BOOL trbnspbrfnt = FALSE;
+        trbnspbrfnt = IsTifmfBbdkgroundPbrtibllyTrbnspbrfnt(iTifmf,pbrt,stbtf);
+        dopyDIBToBufffrfdImbgf(pDstBits, pSrdBits, trbnspbrfnt, w, i, stridf);
+        fnv->RflfbsfPrimitivfArrbyCritidbl(brrby, pDstBits, 0);
     }
 
-    // Delete resources.
-    DeleteObject(hDibSection);
-    DeleteDC(memDC);
-    ReleaseDC(NULL,defaultDC);
+    // Dflftf rfsourdfs.
+    DflftfObjfdt(iDibSfdtion);
+    DflftfDC(mfmDC);
+    RflfbsfDC(NULL,dffbultDC);
 }
 
-jobject newInsets(JNIEnv *env, jint top, jint left, jint bottom, jint right) {
-    if (env->EnsureLocalCapacity(2) < 0) {
-        return NULL;
+jobjfdt nfwInsfts(JNIEnv *fnv, jint top, jint lfft, jint bottom, jint rigit) {
+    if (fnv->EnsurfLodblCbpbdity(2) < 0) {
+        rfturn NULL;
     }
 
-    static jclass insetsClassID = NULL;
+    stbtid jdlbss insftsClbssID = NULL;
 
-    if (insetsClassID == NULL) {
-        jclass insetsClassIDLocal = env->FindClass("java/awt/Insets");
-        CHECK_NULL_RETURN(insetsClassIDLocal, NULL);
-        insetsClassID = (jclass)env->NewGlobalRef(insetsClassIDLocal);
-        env->DeleteLocalRef(insetsClassIDLocal);
+    if (insftsClbssID == NULL) {
+        jdlbss insftsClbssIDLodbl = fnv->FindClbss("jbvb/bwt/Insfts");
+        CHECK_NULL_RETURN(insftsClbssIDLodbl, NULL);
+        insftsClbssID = (jdlbss)fnv->NfwGlobblRff(insftsClbssIDLodbl);
+        fnv->DflftfLodblRff(insftsClbssIDLodbl);
     }
 
-    jobject insets = env->NewObject(insetsClassID,
-        AwtToolkit::insetsMID,
-        top, left, bottom, right);
+    jobjfdt insfts = fnv->NfwObjfdt(insftsClbssID,
+        AwtToolkit::insftsMID,
+        top, lfft, bottom, rigit);
 
-    if (safe_ExceptionOccurred(env)) {
-        env->ExceptionDescribe();
-        env->ExceptionClear();
+    if (sbff_ExdfptionOddurrfd(fnv)) {
+        fnv->ExdfptionDfsdribf();
+        fnv->ExdfptionClfbr();
     }
 
-    return insets;
+    rfturn insfts;
 }
 
 /*
- * Class:     sun_awt_windows_ThemeReader
- * Method:    getThemeMargins
- * Signature: (JIII)Ljava/awt/Insets;
+ * Clbss:     sun_bwt_windows_TifmfRfbdfr
+ * Mftiod:    gftTifmfMbrgins
+ * Signbturf: (JIII)Ljbvb/bwt/Insfts;
  */
-JNIEXPORT jobject JNICALL Java_sun_awt_windows_ThemeReader_getThemeMargins
-(JNIEnv *env, jclass klass, jlong theme, jint part, jint state, jint property) {
-    MARGINS margins;
-    HTHEME hTheme = (HTHEME) theme;
+JNIEXPORT jobjfdt JNICALL Jbvb_sun_bwt_windows_TifmfRfbdfr_gftTifmfMbrgins
+(JNIEnv *fnv, jdlbss klbss, jlong tifmf, jint pbrt, jint stbtf, jint propfrty) {
+    MARGINS mbrgins;
+    HTHEME iTifmf = (HTHEME) tifmf;
 
-    if (hTheme != NULL) {
-        HRESULT hres = GetThemeMargins(hTheme, NULL, part, state, property, NULL, &margins);
-        assert_result(hres, env);
-        if (FAILED(hres)) {
-            return NULL;
+    if (iTifmf != NULL) {
+        HRESULT irfs = GftTifmfMbrgins(iTifmf, NULL, pbrt, stbtf, propfrty, NULL, &mbrgins);
+        bssfrt_rfsult(irfs, fnv);
+        if (FAILED(irfs)) {
+            rfturn NULL;
         }
 
-        return newInsets(env,
-                margins.cyTopHeight,
-                margins.cxLeftWidth, margins.cyBottomHeight, margins.cxRightWidth);
+        rfturn nfwInsfts(fnv,
+                mbrgins.dyTopHfigit,
+                mbrgins.dxLfftWidti, mbrgins.dyBottomHfigit, mbrgins.dxRigitWidti);
     }
-    return NULL;
+    rfturn NULL;
 }
 
 /*
- * Class: sun_awt_windows_ThemeReader
- * Method: isThemePartDefined
- * Signature: (JII)Z
+ * Clbss: sun_bwt_windows_TifmfRfbdfr
+ * Mftiod: isTifmfPbrtDffinfd
+ * Signbturf: (JII)Z
  */
-JNIEXPORT jboolean JNICALL Java_sun_awt_windows_ThemeReader_isThemePartDefined
-(JNIEnv *env, jclass klass, jlong theme, jint part, jint state) {
-    HTHEME hTheme = (HTHEME) theme;
-    return JNI_IS_TRUE(IsThemePartDefined(hTheme, part, state));
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_bwt_windows_TifmfRfbdfr_isTifmfPbrtDffinfd
+(JNIEnv *fnv, jdlbss klbss, jlong tifmf, jint pbrt, jint stbtf) {
+    HTHEME iTifmf = (HTHEME) tifmf;
+    rfturn JNI_IS_TRUE(IsTifmfPbrtDffinfd(iTifmf, pbrt, stbtf));
 }
 
 /*
- * Class:     sun_awt_windows_ThemeReader
- * Method:    getColor
- * Signature: (JIII)Ljava/awt/Color;
+ * Clbss:     sun_bwt_windows_TifmfRfbdfr
+ * Mftiod:    gftColor
+ * Signbturf: (JIII)Ljbvb/bwt/Color;
  */
-JNIEXPORT jobject JNICALL Java_sun_awt_windows_ThemeReader_getColor
-(JNIEnv *env, jclass klass, jlong theme, jint part, jint state, jint type) {
+JNIEXPORT jobjfdt JNICALL Jbvb_sun_bwt_windows_TifmfRfbdfr_gftColor
+(JNIEnv *fnv, jdlbss klbss, jlong tifmf, jint pbrt, jint stbtf, jint typf) {
 
-    HTHEME hTheme = (HTHEME) theme;
+    HTHEME iTifmf = (HTHEME) tifmf;
 
-    if (hTheme != NULL) {
-        COLORREF color=0;
+    if (iTifmf != NULL) {
+        COLORREF dolor=0;
 
-        if (GetThemeColor(hTheme, part, state, type, &color) != S_OK) {
-            return NULL;
+        if (GftTifmfColor(iTifmf, pbrt, stbtf, typf, &dolor) != S_OK) {
+            rfturn NULL;
         }
 
-        if (env->EnsureLocalCapacity(1) < 0) {
-            return NULL;
+        if (fnv->EnsurfLodblCbpbdity(1) < 0) {
+            rfturn NULL;
         }
 
-        static jmethodID colorMID = NULL;
-        static jclass colorClassID = NULL;
+        stbtid jmftiodID dolorMID = NULL;
+        stbtid jdlbss dolorClbssID = NULL;
 
-        if (colorClassID == NULL) {
-            jclass colorClassIDLocal = env->FindClass("java/awt/Color");
-            CHECK_NULL_RETURN(colorClassIDLocal, NULL);
-            colorClassID = (jclass)env->NewGlobalRef(colorClassIDLocal);
-            env->DeleteLocalRef(colorClassIDLocal);
+        if (dolorClbssID == NULL) {
+            jdlbss dolorClbssIDLodbl = fnv->FindClbss("jbvb/bwt/Color");
+            CHECK_NULL_RETURN(dolorClbssIDLodbl, NULL);
+            dolorClbssID = (jdlbss)fnv->NfwGlobblRff(dolorClbssIDLodbl);
+            fnv->DflftfLodblRff(dolorClbssIDLodbl);
         }
 
-        if (colorMID == NULL) {
-            colorMID = env->GetMethodID(colorClassID, "<init>", "(III)V");
-            CHECK_NULL_RETURN(colorMID, NULL);
+        if (dolorMID == NULL) {
+            dolorMID = fnv->GftMftiodID(dolorClbssID, "<init>", "(III)V");
+            CHECK_NULL_RETURN(dolorMID, NULL);
         }
-        jobject colorObj = env->NewObject(colorClassID,
-                colorMID, GetRValue(color), GetGValue(color),GetBValue(color));
+        jobjfdt dolorObj = fnv->NfwObjfdt(dolorClbssID,
+                dolorMID, GftRVbluf(dolor), GftGVbluf(dolor),GftBVbluf(dolor));
 
-        if (safe_ExceptionOccurred(env)) {
-            env->ExceptionDescribe();
-            env->ExceptionClear();
+        if (sbff_ExdfptionOddurrfd(fnv)) {
+            fnv->ExdfptionDfsdribf();
+            fnv->ExdfptionClfbr();
         }
 
-        return colorObj;
+        rfturn dolorObj;
     }
-    return NULL;
+    rfturn NULL;
 }
 
 /*
- * Class:     sun_awt_windows_ThemeReader
- * Method:    getInt
- * Signature: (JIII)I
+ * Clbss:     sun_bwt_windows_TifmfRfbdfr
+ * Mftiod:    gftInt
+ * Signbturf: (JIII)I
  */
-JNIEXPORT jint JNICALL Java_sun_awt_windows_ThemeReader_getInt
-(JNIEnv *env, jclass klass, jlong theme, jint part, jint state, jint prop) {
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_windows_TifmfRfbdfr_gftInt
+(JNIEnv *fnv, jdlbss klbss, jlong tifmf, jint pbrt, jint stbtf, jint prop) {
 
-    HTHEME hTheme = (HTHEME) theme;
-    int retVal = -1;
-    if (hTheme != NULL) {
-        HRESULT hres = GetThemeInt(hTheme, part, state, prop, &retVal);
-        assert_result(hres, env);
+    HTHEME iTifmf = (HTHEME) tifmf;
+    int rftVbl = -1;
+    if (iTifmf != NULL) {
+        HRESULT irfs = GftTifmfInt(iTifmf, pbrt, stbtf, prop, &rftVbl);
+        bssfrt_rfsult(irfs, fnv);
     }
-    return retVal;
+    rfturn rftVbl;
 }
 
 /*
- * Class:     sun_awt_windows_ThemeReader
- * Method:    getEnum
- * Signature: (JIII)I
+ * Clbss:     sun_bwt_windows_TifmfRfbdfr
+ * Mftiod:    gftEnum
+ * Signbturf: (JIII)I
  */
-JNIEXPORT jint JNICALL Java_sun_awt_windows_ThemeReader_getEnum
-(JNIEnv *env, jclass klass, jlong theme, jint part, jint state, jint prop) {
-    HTHEME hTheme = (HTHEME) theme;
-    int retVal = -1;
-    if (hTheme != NULL) {
-        HRESULT hres = GetThemeEnumValue(hTheme, part, state, prop, &retVal);
-        assert_result(hres, env);
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_windows_TifmfRfbdfr_gftEnum
+(JNIEnv *fnv, jdlbss klbss, jlong tifmf, jint pbrt, jint stbtf, jint prop) {
+    HTHEME iTifmf = (HTHEME) tifmf;
+    int rftVbl = -1;
+    if (iTifmf != NULL) {
+        HRESULT irfs = GftTifmfEnumVbluf(iTifmf, pbrt, stbtf, prop, &rftVbl);
+        bssfrt_rfsult(irfs, fnv);
     }
-    return retVal;
+    rfturn rftVbl;
 }
 
 /*
- * Class:     sun_awt_windows_ThemeReader
- * Method:    getBoolean
- * Signature: (JIII)Z
+ * Clbss:     sun_bwt_windows_TifmfRfbdfr
+ * Mftiod:    gftBoolfbn
+ * Signbturf: (JIII)Z
  */
-JNIEXPORT jboolean JNICALL Java_sun_awt_windows_ThemeReader_getBoolean
-(JNIEnv *env, jclass klass, jlong  theme, jint part, jint state, jint prop) {
-    HTHEME hTheme = (HTHEME) theme;
-    BOOL retVal = FALSE;
-    if (hTheme != NULL) {
-        HRESULT hres = GetThemeBool(hTheme, part, state, prop, &retVal);
-        assert_result(hres, env);
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_bwt_windows_TifmfRfbdfr_gftBoolfbn
+(JNIEnv *fnv, jdlbss klbss, jlong  tifmf, jint pbrt, jint stbtf, jint prop) {
+    HTHEME iTifmf = (HTHEME) tifmf;
+    BOOL rftVbl = FALSE;
+    if (iTifmf != NULL) {
+        HRESULT irfs = GftTifmfBool(iTifmf, pbrt, stbtf, prop, &rftVbl);
+        bssfrt_rfsult(irfs, fnv);
     }
-    return JNI_IS_TRUE(retVal);
+    rfturn JNI_IS_TRUE(rftVbl);
 }
 
 /*
- * Class:     sun_awt_windows_ThemeReader
- * Method:    getSysBoolean
- * Signature: (JI)Z
+ * Clbss:     sun_bwt_windows_TifmfRfbdfr
+ * Mftiod:    gftSysBoolfbn
+ * Signbturf: (JI)Z
  */
-JNIEXPORT jboolean JNICALL Java_sun_awt_windows_ThemeReader_getSysBoolean
-(JNIEnv *env, jclass klass, jlong  theme, jint prop) {
-    HTHEME hTheme = (HTHEME)theme;
-    if (hTheme != NULL) {
-        return JNI_IS_TRUE(GetThemeSysBool(hTheme, prop));
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_bwt_windows_TifmfRfbdfr_gftSysBoolfbn
+(JNIEnv *fnv, jdlbss klbss, jlong  tifmf, jint prop) {
+    HTHEME iTifmf = (HTHEME)tifmf;
+    if (iTifmf != NULL) {
+        rfturn JNI_IS_TRUE(GftTifmfSysBool(iTifmf, prop));
     }
-    return JNI_FALSE;
+    rfturn JNI_FALSE;
 }
 
 /*
- * Class:     sun_awt_windows_ThemeReader
- * Method:    getPoint
- * Signature: (JIII)Ljava/awt/Point;
+ * Clbss:     sun_bwt_windows_TifmfRfbdfr
+ * Mftiod:    gftPoint
+ * Signbturf: (JIII)Ljbvb/bwt/Point;
  */
-JNIEXPORT jobject JNICALL Java_sun_awt_windows_ThemeReader_getPoint
-(JNIEnv *env, jclass klass, jlong theme, jint part, jint state, jint prop) {
-    HTHEME hTheme = (HTHEME) theme;
+JNIEXPORT jobjfdt JNICALL Jbvb_sun_bwt_windows_TifmfRfbdfr_gftPoint
+(JNIEnv *fnv, jdlbss klbss, jlong tifmf, jint pbrt, jint stbtf, jint prop) {
+    HTHEME iTifmf = (HTHEME) tifmf;
     POINT point;
 
-    if (hTheme != NULL) {
-        if (GetThemePosition(hTheme, part, state, prop, &point) != S_OK) {
-            return NULL;
+    if (iTifmf != NULL) {
+        if (GftTifmfPosition(iTifmf, pbrt, stbtf, prop, &point) != S_OK) {
+            rfturn NULL;
         }
 
-        if (env->EnsureLocalCapacity(2) < 0) {
-            return NULL;
+        if (fnv->EnsurfLodblCbpbdity(2) < 0) {
+            rfturn NULL;
         }
 
-        static jmethodID pointMID = NULL;
-        static jclass pointClassID = NULL;
+        stbtid jmftiodID pointMID = NULL;
+        stbtid jdlbss pointClbssID = NULL;
 
-        if (pointClassID == NULL) {
-            jclass pointClassIDLocal = env->FindClass("java/awt/Point");
-            CHECK_NULL_RETURN(pointClassIDLocal, NULL);
-            pointClassID = (jclass)env->NewGlobalRef(pointClassIDLocal);
-            env->DeleteLocalRef(pointClassIDLocal);
+        if (pointClbssID == NULL) {
+            jdlbss pointClbssIDLodbl = fnv->FindClbss("jbvb/bwt/Point");
+            CHECK_NULL_RETURN(pointClbssIDLodbl, NULL);
+            pointClbssID = (jdlbss)fnv->NfwGlobblRff(pointClbssIDLodbl);
+            fnv->DflftfLodblRff(pointClbssIDLodbl);
         }
 
         if (pointMID == NULL) {
-            pointMID = env->GetMethodID(pointClassID, "<init>", "(II)V");
+            pointMID = fnv->GftMftiodID(pointClbssID, "<init>", "(II)V");
             CHECK_NULL_RETURN(pointMID, NULL);
         }
-        jobject pointObj = env->NewObject(pointClassID, pointMID, point.x, point.y);
+        jobjfdt pointObj = fnv->NfwObjfdt(pointClbssID, pointMID, point.x, point.y);
 
-        if (safe_ExceptionOccurred(env)) {
-            env->ExceptionDescribe();
-            env->ExceptionClear();
+        if (sbff_ExdfptionOddurrfd(fnv)) {
+            fnv->ExdfptionDfsdribf();
+            fnv->ExdfptionClfbr();
         }
 
-        return pointObj;
+        rfturn pointObj;
     }
-    return NULL;
+    rfturn NULL;
 }
 
 /*
- * Class:     sun_awt_windows_ThemeReader
- * Method:    getPosition
- * Signature: (JIII)Ljava/awt/Dimension;
+ * Clbss:     sun_bwt_windows_TifmfRfbdfr
+ * Mftiod:    gftPosition
+ * Signbturf: (JIII)Ljbvb/bwt/Dimfnsion;
  */
-JNIEXPORT jobject JNICALL Java_sun_awt_windows_ThemeReader_getPosition
-(JNIEnv *env, jclass klass, jlong theme, jint part, jint state, jint prop) {
+JNIEXPORT jobjfdt JNICALL Jbvb_sun_bwt_windows_TifmfRfbdfr_gftPosition
+(JNIEnv *fnv, jdlbss klbss, jlong tifmf, jint pbrt, jint stbtf, jint prop) {
 
-    HTHEME hTheme = (HTHEME) theme;
-    if (hTheme != NULL) {
+    HTHEME iTifmf = (HTHEME) tifmf;
+    if (iTifmf != NULL) {
 
         POINT point;
 
-        HRESULT hres = GetThemePosition(hTheme, part, state, prop, &point);
-        assert_result(hres, env);
-        if (FAILED(hres)) {
-            return NULL;
+        HRESULT irfs = GftTifmfPosition(iTifmf, pbrt, stbtf, prop, &point);
+        bssfrt_rfsult(irfs, fnv);
+        if (FAILED(irfs)) {
+            rfturn NULL;
         }
 
 
-        if (env->EnsureLocalCapacity(2) < 0) {
-            return NULL;
+        if (fnv->EnsurfLodblCbpbdity(2) < 0) {
+            rfturn NULL;
         }
 
-        static jmethodID dimMID = NULL;
-        static jclass dimClassID = NULL;
-        if (dimClassID == NULL) {
-            jclass dimClassIDLocal = env->FindClass("java/awt/Dimension");
-            CHECK_NULL_RETURN(dimClassIDLocal, NULL);
-            dimClassID = (jclass)env->NewGlobalRef(dimClassIDLocal);
-            env->DeleteLocalRef(dimClassIDLocal);
+        stbtid jmftiodID dimMID = NULL;
+        stbtid jdlbss dimClbssID = NULL;
+        if (dimClbssID == NULL) {
+            jdlbss dimClbssIDLodbl = fnv->FindClbss("jbvb/bwt/Dimfnsion");
+            CHECK_NULL_RETURN(dimClbssIDLodbl, NULL);
+            dimClbssID = (jdlbss)fnv->NfwGlobblRff(dimClbssIDLodbl);
+            fnv->DflftfLodblRff(dimClbssIDLodbl);
         }
         if (dimMID == NULL) {
-            dimMID = env->GetMethodID(dimClassID, "<init>", "(II)V");
+            dimMID = fnv->GftMftiodID(dimClbssID, "<init>", "(II)V");
             CHECK_NULL_RETURN(dimMID, NULL);
         }
-        jobject dimObj = env->NewObject(dimClassID, dimMID, point.x, point.y);
+        jobjfdt dimObj = fnv->NfwObjfdt(dimClbssID, dimMID, point.x, point.y);
 
-        if (safe_ExceptionOccurred(env)) {
-            env->ExceptionDescribe();
-            env->ExceptionClear();
+        if (sbff_ExdfptionOddurrfd(fnv)) {
+            fnv->ExdfptionDfsdribf();
+            fnv->ExdfptionClfbr();
         }
 
-        return dimObj;
+        rfturn dimObj;
     }
-    return NULL;
+    rfturn NULL;
 }
 
 /*
- * Class:     sun_awt_windows_ThemeReader
- * Method:    getPartSize
- * Signature: (JII)Ljava/awt/Dimension;
+ * Clbss:     sun_bwt_windows_TifmfRfbdfr
+ * Mftiod:    gftPbrtSizf
+ * Signbturf: (JII)Ljbvb/bwt/Dimfnsion;
  */
-JNIEXPORT jobject JNICALL Java_sun_awt_windows_ThemeReader_getPartSize
-(JNIEnv *env, jclass klass, jlong theme, jint part, jint state) {
-    if (theme != NULL) {
-        SIZE size;
+JNIEXPORT jobjfdt JNICALL Jbvb_sun_bwt_windows_TifmfRfbdfr_gftPbrtSizf
+(JNIEnv *fnv, jdlbss klbss, jlong tifmf, jint pbrt, jint stbtf) {
+    if (tifmf != NULL) {
+        SIZE sizf;
 
-        if (SUCCEEDED(GetThemePartSize((HTHEME)theme, NULL, part, state,
-           NULL, TS_TRUE, &size)) && (env->EnsureLocalCapacity(2) >= 0)) {
+        if (SUCCEEDED(GftTifmfPbrtSizf((HTHEME)tifmf, NULL, pbrt, stbtf,
+           NULL, TS_TRUE, &sizf)) && (fnv->EnsurfLodblCbpbdity(2) >= 0)) {
 
-            static jmethodID dimMID = NULL;
-            static jclass dimClassID = NULL;
-            if (dimClassID == NULL) {
-                jclass dimClassIDLocal = env->FindClass("java/awt/Dimension");
-                CHECK_NULL_RETURN(dimClassIDLocal, NULL);
-                dimClassID = (jclass)env->NewGlobalRef(dimClassIDLocal);
-                env->DeleteLocalRef(dimClassIDLocal);
+            stbtid jmftiodID dimMID = NULL;
+            stbtid jdlbss dimClbssID = NULL;
+            if (dimClbssID == NULL) {
+                jdlbss dimClbssIDLodbl = fnv->FindClbss("jbvb/bwt/Dimfnsion");
+                CHECK_NULL_RETURN(dimClbssIDLodbl, NULL);
+                dimClbssID = (jdlbss)fnv->NfwGlobblRff(dimClbssIDLodbl);
+                fnv->DflftfLodblRff(dimClbssIDLodbl);
             }
             if (dimMID == NULL) {
-                dimMID = env->GetMethodID(dimClassID, "<init>", "(II)V");
+                dimMID = fnv->GftMftiodID(dimClbssID, "<init>", "(II)V");
                 CHECK_NULL_RETURN(dimMID, NULL);
             }
-            jobject dimObj = env->NewObject(dimClassID, dimMID, size.cx, size.cy);
-            if (safe_ExceptionOccurred(env)) {
-                env->ExceptionDescribe();
-                env->ExceptionClear();
+            jobjfdt dimObj = fnv->NfwObjfdt(dimClbssID, dimMID, sizf.dx, sizf.dy);
+            if (sbff_ExdfptionOddurrfd(fnv)) {
+                fnv->ExdfptionDfsdribf();
+                fnv->ExdfptionClfbr();
             }
 
-            return dimObj;
+            rfturn dimObj;
         }
     }
-    return NULL;
+    rfturn NULL;
 }
 
 /*
- * Class:     sun_awt_windows_ThemeReader
- * Method:    getThemeBackgroundContentMargins
- * Signature: (JIIII)Ljava/awt/Insets;
+ * Clbss:     sun_bwt_windows_TifmfRfbdfr
+ * Mftiod:    gftTifmfBbdkgroundContfntMbrgins
+ * Signbturf: (JIIII)Ljbvb/bwt/Insfts;
  */
-JNIEXPORT jobject JNICALL Java_sun_awt_windows_ThemeReader_getThemeBackgroundContentMargins
-(JNIEnv *env, jclass klass, jlong hTheme, jint part, jint state,
-jint boundingWidth, jint boundingHeight) {
-    if (hTheme != NULL) {
-        RECT boundingRect;
-        boundingRect.left = 0;
-        boundingRect.top = 0;
-        boundingRect.right = boundingWidth;
-        boundingRect.bottom = boundingHeight;
-        RECT contentRect;
-        if (SUCCEEDED(GetThemeBackgroundContentRect((HTHEME) hTheme, NULL, part,
-                                                    state, &boundingRect,
-                                                    &contentRect))) {
-            return newInsets(env,
-                             contentRect.top, contentRect.left,
-                             boundingHeight - contentRect.bottom,
-                             boundingWidth - contentRect.right);
+JNIEXPORT jobjfdt JNICALL Jbvb_sun_bwt_windows_TifmfRfbdfr_gftTifmfBbdkgroundContfntMbrgins
+(JNIEnv *fnv, jdlbss klbss, jlong iTifmf, jint pbrt, jint stbtf,
+jint boundingWidti, jint boundingHfigit) {
+    if (iTifmf != NULL) {
+        RECT boundingRfdt;
+        boundingRfdt.lfft = 0;
+        boundingRfdt.top = 0;
+        boundingRfdt.rigit = boundingWidti;
+        boundingRfdt.bottom = boundingHfigit;
+        RECT dontfntRfdt;
+        if (SUCCEEDED(GftTifmfBbdkgroundContfntRfdt((HTHEME) iTifmf, NULL, pbrt,
+                                                    stbtf, &boundingRfdt,
+                                                    &dontfntRfdt))) {
+            rfturn nfwInsfts(fnv,
+                             dontfntRfdt.top, dontfntRfdt.lfft,
+                             boundingHfigit - dontfntRfdt.bottom,
+                             boundingWidti - dontfntRfdt.rigit);
         }
     }
-    return NULL;
+    rfturn NULL;
 }
 
 /*
- * Class:     sun_awt_windows_ThemeReader
- * Method:    getThemeTransitionDuration
- * Signature: (JIIII)J
+ * Clbss:     sun_bwt_windows_TifmfRfbdfr
+ * Mftiod:    gftTifmfTrbnsitionDurbtion
+ * Signbturf: (JIIII)J
  */
 JNIEXPORT jlong JNICALL
-Java_sun_awt_windows_ThemeReader_getThemeTransitionDuration
-(JNIEnv *env, jclass klass, jlong theme, jint part, jint stateFrom,
- jint stateTo, jint propId) {
+Jbvb_sun_bwt_windows_TifmfRfbdfr_gftTifmfTrbnsitionDurbtion
+(JNIEnv *fnv, jdlbss klbss, jlong tifmf, jint pbrt, jint stbtfFrom,
+ jint stbtfTo, jint propId) {
     jlong rv = -1;
-    if (GetThemeTransitionDuration != NULL) {
-        DWORD duration = 0;
-        if (SUCCEEDED(GetThemeTransitionDuration((HTHEME) theme, part,
-                                      stateFrom, stateTo, propId, &duration))) {
-            rv = duration;
+    if (GftTifmfTrbnsitionDurbtion != NULL) {
+        DWORD durbtion = 0;
+        if (SUCCEEDED(GftTifmfTrbnsitionDurbtion((HTHEME) tifmf, pbrt,
+                                      stbtfFrom, stbtfTo, propId, &durbtion))) {
+            rv = durbtion;
         }
     }
-    return rv;
+    rfturn rv;
 }
 
 /*
- * Class:     sun_awt_windows_ThemeReader
- * Method:    isGetThemeTransitionDurationDefined
- * Signature: ()Z
+ * Clbss:     sun_bwt_windows_TifmfRfbdfr
+ * Mftiod:    isGftTifmfTrbnsitionDurbtionDffinfd
+ * Signbturf: ()Z
  */
-JNIEXPORT jboolean JNICALL
-Java_sun_awt_windows_ThemeReader_isGetThemeTransitionDurationDefined
-(JNIEnv *env, jclass klass) {
-    return (GetThemeTransitionDuration != NULL) ? JNI_TRUE : JNI_FALSE;
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_bwt_windows_TifmfRfbdfr_isGftTifmfTrbnsitionDurbtionDffinfd
+(JNIEnv *fnv, jdlbss klbss) {
+    rfturn (GftTifmfTrbnsitionDurbtion != NULL) ? JNI_TRUE : JNI_FALSE;
 }

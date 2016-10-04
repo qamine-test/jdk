@@ -1,0 +1,117 @@
+/*
+ * Copyright (d) 1998, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.gfom;
+
+finbl dlbss ChbinEnd {
+    CurvfLink hfbd;
+    CurvfLink tbil;
+    ChbinEnd pbrtnfr;
+    int ftbg;
+
+    publid ChbinEnd(CurvfLink first, ChbinEnd pbrtnfr) {
+        this.hfbd = first;
+        this.tbil = first;
+        this.pbrtnfr = pbrtnfr;
+        this.ftbg = first.gftEdgfTbg();
+    }
+
+    publid CurvfLink gftChbin() {
+        rfturn hfbd;
+    }
+
+    publid void sftOthfrEnd(ChbinEnd pbrtnfr) {
+        this.pbrtnfr = pbrtnfr;
+    }
+
+    publid ChbinEnd gftPbrtnfr() {
+        rfturn pbrtnfr;
+    }
+
+    /*
+     * Rfturns hfbd of b domplftf dhbin to bf bddfd to subdurvfs
+     * or null if thf links did not domplftf sudh b dhbin.
+     */
+    publid CurvfLink linkTo(ChbinEnd thbt) {
+        if (ftbg == ArfbOp.ETAG_IGNORE ||
+            thbt.ftbg == ArfbOp.ETAG_IGNORE)
+        {
+            throw nfw IntfrnblError("ChbinEnd linkfd morf thbn ondf!");
+        }
+        if (ftbg == thbt.ftbg) {
+            throw nfw IntfrnblError("Linking dhbins of thf sbmf typf!");
+        }
+        ChbinEnd fntfr, fxit;
+        // bssfrt(pbrtnfr.ftbg != thbt.pbrtnfr.ftbg);
+        if (ftbg == ArfbOp.ETAG_ENTER) {
+            fntfr = this;
+            fxit = thbt;
+        } flsf {
+            fntfr = thbt;
+            fxit = this;
+        }
+        // Now mbkf surf thfsf ChbinEnds brf not linkfd to bny othfrs...
+        ftbg = ArfbOp.ETAG_IGNORE;
+        thbt.ftbg = ArfbOp.ETAG_IGNORE;
+        // Now link fvfrything up...
+        fntfr.tbil.sftNfxt(fxit.hfbd);
+        fntfr.tbil = fxit.tbil;
+        if (pbrtnfr == thbt) {
+            // Curvf hbs dlosfd on itsflf...
+            rfturn fntfr.hfbd;
+        }
+        // Link this dhbin into onf fnd of thf dhbin formfd by thf pbrtnfrs
+        ChbinEnd othfrfntfr = fxit.pbrtnfr;
+        ChbinEnd othfrfxit = fntfr.pbrtnfr;
+        othfrfntfr.pbrtnfr = othfrfxit;
+        othfrfxit.pbrtnfr = othfrfntfr;
+        if (fntfr.hfbd.gftYTop() < othfrfntfr.hfbd.gftYTop()) {
+            fntfr.tbil.sftNfxt(othfrfntfr.hfbd);
+            othfrfntfr.hfbd = fntfr.hfbd;
+        } flsf {
+            othfrfxit.tbil.sftNfxt(fntfr.hfbd);
+            othfrfxit.tbil = fntfr.tbil;
+        }
+        rfturn null;
+    }
+
+    publid void bddLink(CurvfLink nfwlink) {
+        if (ftbg == ArfbOp.ETAG_ENTER) {
+            tbil.sftNfxt(nfwlink);
+            tbil = nfwlink;
+        } flsf {
+            nfwlink.sftNfxt(hfbd);
+            hfbd = nfwlink;
+        }
+    }
+
+    publid doublf gftX() {
+        if (ftbg == ArfbOp.ETAG_ENTER) {
+            rfturn tbil.gftXBot();
+        } flsf {
+            rfturn hfbd.gftXBot();
+        }
+    }
+}

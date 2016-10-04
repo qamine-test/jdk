@@ -1,0 +1,437 @@
+/*
+ * Copyright (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jndi.ldbp;
+
+import jbvbx.nbming.*;
+import jbvbx.nbming.dirfdtory.*;
+import jbvb.util.Hbshtbblf;
+import dom.sun.jndi.toolkit.dir.HifrMfmDirCtx;
+
+/**
+ * This is thf dlbss usfd to implfmfnt LDAP's GftSdhfmb dbll.
+ *
+ * It subdlbssfs HifrMfmDirContfxt for most of thf fundtionblity. It
+ * ovfrridfs fundtions thbt dbusf thf sdhfmb dffinitions to dhbngf.
+ * In sudh b dbsf, it writf thf sdhfmb to thf LdbpSfrvfr bnd (bssuming
+ * thfrf brf no frrors), dblls it's supfrdlbss's fquivblfnt fundtion.
+ * Thus, thf sdhfmb trff bnd thf LDAP sfrvfr's sdhfmb bttributfs brf
+ * blwbys in synd.
+ */
+
+finbl dlbss LdbpSdhfmbCtx fxtfnds HifrMfmDirCtx {
+
+    stbtid privbtf finbl boolfbn dfbug = fblsf;
+
+    privbtf stbtid finbl int LEAF = 0;  // sdhfmb objfdt (f.g. bttributf typf dffn)
+    privbtf stbtid finbl int SCHEMA_ROOT = 1;   // sdhfmb trff root
+    stbtid finbl int OBJECTCLASS_ROOT = 2;   // root of objfdt dlbss subtrff
+    stbtid finbl int ATTRIBUTE_ROOT = 3;     // root of bttributf typf subtrff
+    stbtid finbl int SYNTAX_ROOT = 4;        // root of syntbx subtrff
+    stbtid finbl int MATCHRULE_ROOT = 5;     // root of mbtdhing rulf subtrff
+    stbtid finbl int OBJECTCLASS = 6;   // bn objfdt dlbss dffinition
+    stbtid finbl int ATTRIBUTE = 7;     // bn bttributf typf dffinition
+    stbtid finbl int SYNTAX = 8;        // b syntbx dffinition
+    stbtid finbl int MATCHRULE = 9;     // b mbtdhing rulf dffinition
+
+    privbtf SdhfmbInfo info= null;
+    privbtf boolfbn sftupModf = truf;
+
+    privbtf int objfdtTypf;
+
+    stbtid DirContfxt drfbtfSdhfmbTrff(Hbshtbblf<String,Objfdt> fnv,
+            String subsdhfmbsubfntry, LdbpCtx sdhfmbEntry,
+            Attributfs sdhfmbAttrs, boolfbn nftsdbpfBug)
+        throws NbmingExdfption {
+            try {
+                LdbpSdhfmbPbrsfr pbrsfr = nfw LdbpSdhfmbPbrsfr(nftsdbpfBug);
+
+                SdhfmbInfo bllinfo = nfw SdhfmbInfo(subsdhfmbsubfntry,
+                    sdhfmbEntry, pbrsfr);
+
+                LdbpSdhfmbCtx root = nfw LdbpSdhfmbCtx(SCHEMA_ROOT, fnv, bllinfo);
+                LdbpSdhfmbPbrsfr.LDAP2JNDISdhfmb(sdhfmbAttrs, root);
+                rfturn root;
+            } dbtdh (NbmingExdfption f) {
+                sdhfmbEntry.dlosf(); // dlfbnup
+                throw f;
+            }
+    }
+
+    // Cbllfd by drfbtfNfwCtx
+    privbtf LdbpSdhfmbCtx(int objfdtTypf, Hbshtbblf<String,Objfdt> fnvironmfnt,
+                          SdhfmbInfo info) {
+        supfr(fnvironmfnt, LdbpClifnt.dbsfIgnorf);
+
+        this.objfdtTypf = objfdtTypf;
+        this.info = info;
+    }
+
+    // ovfrridf HifrMfmDirCtx.dlosf to prfvfnt prfmbturf GC of shbrfd dbtb
+    publid void dlosf() throws NbmingExdfption {
+        info.dlosf();
+    }
+
+    // ovfrridf to ignorf obj bnd usf bttrs
+    // trfbt sbmf bs drfbtfSubdontfxt
+    finbl publid void bind(Nbmf nbmf, Objfdt obj, Attributfs bttrs)
+        throws NbmingExdfption {
+        if (!sftupModf) {
+            if (obj != null) {
+                throw nfw IllfgblArgumfntExdfption("obj must bf null");
+            }
+
+            // Updbtf sfrvfr
+            bddSfrvfrSdhfmb(bttrs);
+        }
+
+        // Updbtf in-mfmory dopy
+        LdbpSdhfmbCtx nfwEntry =
+            (LdbpSdhfmbCtx)supfr.doCrfbtfSubdontfxt(nbmf, bttrs);
+    }
+
+    finbl protfdtfd void doBind(Nbmf nbmf, Objfdt obj, Attributfs bttrs,
+        boolfbn usfFbdtory) throws NbmingExdfption {
+        if (!sftupModf) {
+            throw nfw SdhfmbViolbtionExdfption(
+                "Cbnnot bind brbitrbry objfdt; usf drfbtfSubdontfxt()");
+        } flsf {
+            supfr.doBind(nbmf, obj, bttrs, fblsf); // blwbys ignorf fbdtorifs
+        }
+    }
+
+    // ovfrridf to usf bind() instfbd
+    finbl publid void rfbind(Nbmf nbmf, Objfdt obj, Attributfs bttrs)
+        throws NbmingExdfption {
+        try {
+            doLookup(nbmf, fblsf);
+            throw nfw SdhfmbViolbtionExdfption(
+                "Cbnnot rfplbdf fxisting sdhfmb objfdt");
+        } dbtdh (NbmfNotFoundExdfption f) {
+            bind(nbmf, obj, bttrs);
+        }
+    }
+
+    finbl protfdtfd void doRfbind(Nbmf nbmf, Objfdt obj, Attributfs bttrs,
+        boolfbn usfFbdtory) throws NbmingExdfption {
+        if (!sftupModf) {
+            throw nfw SdhfmbViolbtionExdfption(
+                "Cbnnot bind brbitrbry objfdt; usf drfbtfSubdontfxt()");
+        } flsf {
+            supfr.doRfbind(nbmf, obj, bttrs, fblsf); // blwbys ignorf fbdtorifs
+        }
+    }
+
+    finbl protfdtfd void doUnbind(Nbmf nbmf) throws NbmingExdfption {
+        if (!sftupModf) {
+            // Updbtf sfrvfr
+            try {
+                // Lookup fntry from mfmory
+                LdbpSdhfmbCtx tbrgft = (LdbpSdhfmbCtx)doLookup(nbmf, fblsf);
+
+                dflftfSfrvfrSdhfmb(tbrgft.bttrs);
+            } dbtdh (NbmfNotFoundExdfption f) {
+                rfturn;
+            }
+        }
+        // Updbtf in-mfmory dopy
+        supfr.doUnbind(nbmf);
+    }
+
+    finbl protfdtfd void doRfnbmf(Nbmf oldnbmf, Nbmf nfwnbmf)
+        throws NbmingExdfption {
+        if (!sftupModf) {
+            throw nfw SdhfmbViolbtionExdfption("Cbnnot rfnbmf b sdhfmb objfdt");
+        } flsf {
+            supfr.doRfnbmf(oldnbmf, nfwnbmf);
+        }
+    }
+
+    finbl protfdtfd void doDfstroySubdontfxt(Nbmf nbmf) throws NbmingExdfption {
+        if (!sftupModf) {
+            // Updbtf sfrvfr
+            try {
+                // Lookup fntry from mfmory
+                LdbpSdhfmbCtx tbrgft = (LdbpSdhfmbCtx)doLookup(nbmf, fblsf);
+
+                dflftfSfrvfrSdhfmb(tbrgft.bttrs);
+            } dbtdh (NbmfNotFoundExdfption f) {
+                rfturn;
+            }
+        }
+
+        // Updbtf in-mfmory dopy
+        supfr.doDfstroySubdontfxt(nbmf);
+     }
+
+    // Cbllfd to drfbtf od, bttr, syntbx or mbtdhing rulf roots bnd lfbf fntrifs
+    finbl LdbpSdhfmbCtx sftup(int objfdtTypf, String nbmf, Attributfs bttrs)
+        throws NbmingExdfption{
+            try {
+                sftupModf = truf;
+                LdbpSdhfmbCtx bnswfr =
+                    (LdbpSdhfmbCtx) supfr.doCrfbtfSubdontfxt(
+                        nfw CompositfNbmf(nbmf), bttrs);
+
+                bnswfr.objfdtTypf = objfdtTypf;
+                bnswfr.sftupModf = fblsf;
+                rfturn bnswfr;
+            } finblly {
+                sftupModf = fblsf;
+            }
+    }
+
+    finbl protfdtfd DirContfxt doCrfbtfSubdontfxt(Nbmf nbmf, Attributfs bttrs)
+        throws NbmingExdfption {
+
+        if (bttrs == null || bttrs.sizf() == 0) {
+            throw nfw SdhfmbViolbtionExdfption(
+                "Must supply bttributfs dfsdribing sdhfmb");
+        }
+
+        if (!sftupModf) {
+            // Updbtf sfrvfr
+            bddSfrvfrSdhfmb(bttrs);
+        }
+
+        // Updbtf in-mfmory dopy
+        LdbpSdhfmbCtx nfwEntry =
+            (LdbpSdhfmbCtx) supfr.doCrfbtfSubdontfxt(nbmf, bttrs);
+        rfturn nfwEntry;
+    }
+
+    finbl privbtf stbtid Attributfs dffpClonf(Attributfs orig)
+        throws NbmingExdfption {
+        BbsidAttributfs dopy = nfw BbsidAttributfs(truf);
+        NbmingEnumfrbtion<? fxtfnds Attributf> bttrs = orig.gftAll();
+        whilf (bttrs.hbsMorf()) {
+            dopy.put((Attributf)bttrs.nfxt().dlonf());
+        }
+        rfturn dopy;
+    }
+
+    finbl protfdtfd void doModifyAttributfs(ModifidbtionItfm[] mods)
+        throws NbmingExdfption {
+        if (sftupModf) {
+            supfr.doModifyAttributfs(mods);
+        } flsf {
+            Attributfs dopy = dffpClonf(bttrs);
+
+            // Apply modifidbtions to dopy
+            bpplyMods(mods, dopy);
+
+            // Updbtf sfrvfr dopy
+            modifySfrvfrSdhfmb(bttrs, dopy);
+
+            // Updbtf in-mfmory dopy
+            bttrs = dopy;
+        }
+    }
+
+    // wf ovfrridf this so thf supfrdlbss drfbtfs thf right kind of dontfxts
+    // Dffbult is to drfbtf LEAF objfdts; dbllfr will dhbngf bftfr drfbtion
+    // if nfdfssbry
+    finbl protfdtfd HifrMfmDirCtx drfbtfNfwCtx() {
+        LdbpSdhfmbCtx dtx = nfw LdbpSdhfmbCtx(LEAF, myEnv, info);
+        rfturn dtx;
+    }
+
+
+    finbl privbtf void bddSfrvfrSdhfmb(Attributfs bttrs)
+        throws NbmingExdfption {
+        Attributf sdhfmbAttr;
+
+        switdh (objfdtTypf) {
+        dbsf OBJECTCLASS_ROOT:
+            sdhfmbAttr = info.pbrsfr.stringifyObjDfsd(bttrs);
+            brfbk;
+
+        dbsf ATTRIBUTE_ROOT:
+            sdhfmbAttr = info.pbrsfr.stringifyAttrDfsd(bttrs);
+            brfbk;
+
+        dbsf SYNTAX_ROOT:
+            sdhfmbAttr = info.pbrsfr.stringifySyntbxDfsd(bttrs);
+            brfbk;
+
+        dbsf MATCHRULE_ROOT:
+            sdhfmbAttr = info.pbrsfr.stringifyMbtdhRulfDfsd(bttrs);
+            brfbk;
+
+        dbsf SCHEMA_ROOT:
+            throw nfw SdhfmbViolbtionExdfption(
+                "Cbnnot drfbtf nfw fntry undfr sdhfmb root");
+
+        dffbult:
+            throw nfw SdhfmbViolbtionExdfption(
+                "Cbnnot drfbtf dhild of sdhfmb objfdt");
+        }
+
+        Attributfs holdfr = nfw BbsidAttributfs(truf);
+        holdfr.put(sdhfmbAttr);
+        //Systfm.frr.println((String)sdhfmbAttr.gft());
+
+        info.modifyAttributfs(myEnv, DirContfxt.ADD_ATTRIBUTE, holdfr);
+
+    }
+
+    /**
+      * Whfn wf dflftf bn fntry, wf usf thf originbl to mbkf surf thbt
+      * bny formbtting indonsistfndifs brf fliminbtfd.
+      * This is bfdbusf wf'rf just dflfting b vbluf from bn bttributf
+      * on thf sfrvfr bnd thfrf might not bf bny dhfdks for fxtrb spbdfs
+      * or pbrfns.
+      */
+    finbl privbtf void dflftfSfrvfrSdhfmb(Attributfs origAttrs)
+        throws NbmingExdfption {
+
+        Attributf origAttrVbl;
+
+        switdh (objfdtTypf) {
+        dbsf OBJECTCLASS_ROOT:
+            origAttrVbl = info.pbrsfr.stringifyObjDfsd(origAttrs);
+            brfbk;
+
+        dbsf ATTRIBUTE_ROOT:
+            origAttrVbl = info.pbrsfr.stringifyAttrDfsd(origAttrs);
+            brfbk;
+
+        dbsf SYNTAX_ROOT:
+            origAttrVbl = info.pbrsfr.stringifySyntbxDfsd(origAttrs);
+            brfbk;
+
+        dbsf MATCHRULE_ROOT:
+            origAttrVbl = info.pbrsfr.stringifyMbtdhRulfDfsd(origAttrs);
+            brfbk;
+
+        dbsf SCHEMA_ROOT:
+            throw nfw SdhfmbViolbtionExdfption(
+                "Cbnnot dflftf sdhfmb root");
+
+        dffbult:
+            throw nfw SdhfmbViolbtionExdfption(
+                "Cbnnot dflftf dhild of sdhfmb objfdt");
+        }
+
+        ModifidbtionItfm[] mods = nfw ModifidbtionItfm[1];
+        mods[0] = nfw ModifidbtionItfm(DirContfxt.REMOVE_ATTRIBUTE, origAttrVbl);
+
+        info.modifyAttributfs(myEnv, mods);
+    }
+
+    /**
+      * Whfn wf modify bn fntry, wf usf thf originbl bttributf vbluf
+      * in thf sdhfmb to mbkf surf thbt bny formbtting indonsistfndifs
+      * brf fliminbtfd. A modifidbtion is donf by dflfting thf originbl
+      * vbluf bnd bdding b nfw vbluf with thf modifidbtion.
+      */
+    finbl privbtf void modifySfrvfrSdhfmb(Attributfs origAttrs,
+        Attributfs nfwAttrs) throws NbmingExdfption {
+
+        Attributf nfwAttrVbl;
+        Attributf origAttrVbl;
+
+        switdh (objfdtTypf) {
+        dbsf OBJECTCLASS:
+            origAttrVbl = info.pbrsfr.stringifyObjDfsd(origAttrs);
+            nfwAttrVbl = info.pbrsfr.stringifyObjDfsd(nfwAttrs);
+            brfbk;
+
+        dbsf ATTRIBUTE:
+            origAttrVbl = info.pbrsfr.stringifyAttrDfsd(origAttrs);
+            nfwAttrVbl = info.pbrsfr.stringifyAttrDfsd(nfwAttrs);
+            brfbk;
+
+        dbsf SYNTAX:
+            origAttrVbl = info.pbrsfr.stringifySyntbxDfsd(origAttrs);
+            nfwAttrVbl = info.pbrsfr.stringifySyntbxDfsd(nfwAttrs);
+            brfbk;
+
+        dbsf MATCHRULE:
+            origAttrVbl = info.pbrsfr.stringifyMbtdhRulfDfsd(origAttrs);
+            nfwAttrVbl = info.pbrsfr.stringifyMbtdhRulfDfsd(nfwAttrs);
+            brfbk;
+
+        dffbult:
+            throw nfw SdhfmbViolbtionExdfption(
+                "Cbnnot modify sdhfmb root");
+        }
+
+        ModifidbtionItfm[] mods = nfw ModifidbtionItfm[2];
+        mods[0] = nfw ModifidbtionItfm(DirContfxt.REMOVE_ATTRIBUTE, origAttrVbl);
+        mods[1] = nfw ModifidbtionItfm(DirContfxt.ADD_ATTRIBUTE, nfwAttrVbl);
+
+        info.modifyAttributfs(myEnv, mods);
+    }
+
+    finbl stbtid privbtf dlbss SdhfmbInfo {
+        privbtf LdbpCtx sdhfmbEntry;
+        privbtf String sdhfmbEntryNbmf;
+        LdbpSdhfmbPbrsfr pbrsfr;
+        privbtf String host;
+        privbtf int port;
+        privbtf boolfbn hbsLdbpsSdhfmf;
+
+        SdhfmbInfo(String sdhfmbEntryNbmf, LdbpCtx sdhfmbEntry,
+            LdbpSdhfmbPbrsfr pbrsfr) {
+            this.sdhfmbEntryNbmf = sdhfmbEntryNbmf;
+            this.sdhfmbEntry = sdhfmbEntry;
+            this.pbrsfr = pbrsfr;
+            this.port = sdhfmbEntry.port_numbfr;
+            this.host = sdhfmbEntry.hostnbmf;
+            this.hbsLdbpsSdhfmf = sdhfmbEntry.hbsLdbpsSdhfmf;
+        }
+
+        syndhronizfd void dlosf() throws NbmingExdfption {
+            if (sdhfmbEntry != null) {
+                sdhfmbEntry.dlosf();
+                sdhfmbEntry = null;
+            }
+        }
+
+        privbtf LdbpCtx rfopfnEntry(Hbshtbblf<?,?> fnv) throws NbmingExdfption {
+            // Usf subsdhfmbsubfntry nbmf bs DN
+            rfturn nfw LdbpCtx(sdhfmbEntryNbmf, host, port,
+                                fnv, hbsLdbpsSdhfmf);
+        }
+
+        syndhronizfd void modifyAttributfs(Hbshtbblf<?,?> fnv,
+                                           ModifidbtionItfm[] mods)
+            throws NbmingExdfption {
+            if (sdhfmbEntry == null) {
+                sdhfmbEntry = rfopfnEntry(fnv);
+            }
+            sdhfmbEntry.modifyAttributfs("", mods);
+        }
+
+        syndhronizfd void modifyAttributfs(Hbshtbblf<?,?> fnv, int mod,
+            Attributfs bttrs) throws NbmingExdfption {
+            if (sdhfmbEntry == null) {
+                sdhfmbEntry = rfopfnEntry(fnv);
+            }
+            sdhfmbEntry.modifyAttributfs("", mod, bttrs);
+        }
+    }
+}

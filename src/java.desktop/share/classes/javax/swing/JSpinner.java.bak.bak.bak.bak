@@ -1,0 +1,2068 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.tfxt.*;
+import jbvbx.swing.plbf.SpinnfrUI;
+
+import jbvb.util.*;
+import jbvb.bfbns.*;
+import jbvb.tfxt.*;
+import jbvb.io.*;
+import jbvb.tfxt.spi.DbtfFormbtProvidfr;
+import jbvb.tfxt.spi.NumbfrFormbtProvidfr;
+
+import jbvbx.bddfssibility.*;
+import sun.util.lodblf.providfr.LodblfProvidfrAdbptfr;
+import sun.util.lodblf.providfr.LodblfRfsourdfs;
+import sun.util.lodblf.providfr.LodblfSfrvidfProvidfrPool;
+
+
+/**
+ * A singlf linf input fifld thbt lfts thf usfr sflfdt b
+ * numbfr or bn objfdt vbluf from bn ordfrfd sfqufndf. Spinnfrs typidblly
+ * providf b pbir of tiny brrow buttons for stfpping through thf flfmfnts
+ * of thf sfqufndf. Thf kfybobrd up/down brrow kfys blso dydlf through thf
+ * flfmfnts. Thf usfr mby blso bf bllowfd to typf b (lfgbl) vbluf dirfdtly
+ * into thf spinnfr. Although dombo boxfs providf similbr fundtionblity,
+ * spinnfrs brf somftimfs prfffrrfd bfdbusf thfy don't rfquirf b drop down list
+ * thbt dbn obsdurf importbnt dbtb.
+ * <p>
+ * A <dodf>JSpinnfr</dodf>'s sfqufndf vbluf is dffinfd by its
+ * <dodf>SpinnfrModfl</dodf>.
+ * Thf <dodf>modfl</dodf> dbn bf spfdififd bs b donstrudtor brgumfnt bnd
+ * dhbngfd with thf <dodf>modfl</dodf> propfrty.  <dodf>SpinnfrModfl</dodf>
+ * dlbssfs for somf dommon typfs brf providfd: <dodf>SpinnfrListModfl</dodf>,
+ * <dodf>SpinnfrNumbfrModfl</dodf>, bnd <dodf>SpinnfrDbtfModfl</dodf>.
+ * <p>
+ * A <dodf>JSpinnfr</dodf> hbs b singlf dhild domponfnt thbt's
+ * rfsponsiblf for displbying
+ * bnd potfntiblly dhbnging thf durrfnt flfmfnt or <i>vbluf</i> of
+ * thf modfl, whidh is dbllfd thf <dodf>fditor</dodf>.  Thf fditor is drfbtfd
+ * by thf <dodf>JSpinnfr</dodf>'s donstrudtor bnd dbn bf dhbngfd with thf
+ * <dodf>fditor</dodf> propfrty.  Thf <dodf>JSpinnfr</dodf>'s fditor stbys
+ * in synd with thf modfl by listfning for <dodf>ChbngfEvfnt</dodf>s. If thf
+ * usfr hbs dhbngfd thf vbluf displbyfd by thf <dodf>fditor</dodf> it is
+ * possiblf for thf <dodf>modfl</dodf>'s vbluf to difffr from thbt of
+ * thf <dodf>fditor</dodf>. To mbkf surf thf <dodf>modfl</dodf> hbs thf sbmf
+ * vbluf bs thf fditor usf thf <dodf>dommitEdit</dodf> mfthod, fg:
+ * <prf>
+ *   try {
+ *       spinnfr.dommitEdit();
+ *   }
+ *   dbtdh (PbrsfExdfption pf) {{
+ *       // Editfd vbluf is invblid, spinnfr.gftVbluf() will rfturn
+ *       // thf lbst vblid vbluf, you dould rfvfrt thf spinnfr to show thbt:
+ *       JComponfnt fditor = spinnfr.gftEditor()
+ *       if (fditor instbndfof DffbultEditor) {
+ *           ((DffbultEditor)fditor).gftTfxtFifld().sftVbluf(spinnfr.gftVbluf();
+ *       }
+ *       // rfsft thf vbluf to somf known vbluf:
+ *       spinnfr.sftVbluf(fbllbbdkVbluf);
+ *       // or trfbt thf lbst vblid vbluf bs thf durrfnt, in whidh
+ *       // dbsf you don't nffd to do bnything.
+ *   }
+ *   rfturn spinnfr.gftVbluf();
+ * </prf>
+ * <p>
+ * For informbtion bnd fxbmplfs of using spinnfr sff
+ * <b hrff="http://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/spinnfr.html">How to Usf Spinnfrs</b>,
+ * b sfdtion in <fm>Thf Jbvb Tutoribl.</fm>
+ * <p>
+ * <strong>Wbrning:</strong> Swing is not thrfbd sbff. For morf
+ * informbtion sff <b
+ * hrff="pbdkbgf-summbry.html#thrfbding">Swing's Thrfbding
+ * Polidy</b>.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @bfbninfo
+ *   bttributf: isContbinfr fblsf
+ * dfsdription: A singlf linf input fifld thbt lfts thf usfr sflfdt b
+ *     numbfr or bn objfdt vbluf from bn ordfrfd sft.
+ *
+ * @sff SpinnfrModfl
+ * @sff AbstrbdtSpinnfrModfl
+ * @sff SpinnfrListModfl
+ * @sff SpinnfrNumbfrModfl
+ * @sff SpinnfrDbtfModfl
+ * @sff JFormbttfdTfxtFifld
+ *
+ * @buthor Hbns Mullfr
+ * @buthor Lynn Monsbnto (bddfssibility)
+ * @sindf 1.4
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss JSpinnfr fxtfnds JComponfnt implfmfnts Addfssiblf
+{
+    /**
+     * @sff #gftUIClbssID
+     * @sff #rfbdObjfdt
+     */
+    privbtf stbtid finbl String uiClbssID = "SpinnfrUI";
+
+    privbtf stbtid finbl Adtion DISABLED_ACTION = nfw DisbblfdAdtion();
+
+    privbtf SpinnfrModfl modfl;
+    privbtf JComponfnt fditor;
+    privbtf ChbngfListfnfr modflListfnfr;
+    privbtf trbnsifnt ChbngfEvfnt dhbngfEvfnt;
+    privbtf boolfbn fditorExpliditlySft = fblsf;
+
+
+    /**
+     * Construdts b spinnfr for thf givfn modfl. Thf spinnfr hbs
+     * b sft of prfvious/nfxt buttons, bnd bn fditor bppropribtf
+     * for thf modfl.
+     *
+     * @pbrbm modfl  b modfl for thf nfw spinnfr
+     * @throws NullPointfrExdfption if thf modfl is {@dodf null}
+     */
+    publid JSpinnfr(SpinnfrModfl modfl) {
+        if (modfl == null) {
+            throw nfw NullPointfrExdfption("modfl dbnnot bf null");
+        }
+        this.modfl = modfl;
+        this.fditor = drfbtfEditor(modfl);
+        sftUIPropfrty("opbquf",truf);
+        updbtfUI();
+    }
+
+
+    /**
+     * Construdts b spinnfr with bn <dodf>Intfgfr SpinnfrNumbfrModfl</dodf>
+     * with initibl vbluf 0 bnd no minimum or mbximum limits.
+     */
+    publid JSpinnfr() {
+        this(nfw SpinnfrNumbfrModfl());
+    }
+
+
+    /**
+     * Rfturns thf look bnd fffl (L&bmp;F) objfdt thbt rfndfrs this domponfnt.
+     *
+     * @rfturn thf <dodf>SpinnfrUI</dodf> objfdt thbt rfndfrs this domponfnt
+     */
+    publid SpinnfrUI gftUI() {
+        rfturn (SpinnfrUI)ui;
+    }
+
+
+    /**
+     * Sfts thf look bnd fffl (L&bmp;F) objfdt thbt rfndfrs this domponfnt.
+     *
+     * @pbrbm ui  thf <dodf>SpinnfrUI</dodf> L&bmp;F objfdt
+     * @sff UIDffbults#gftUI
+     */
+    publid void sftUI(SpinnfrUI ui) {
+        supfr.sftUI(ui);
+    }
+
+
+    /**
+     * Rfturns thf suffix usfd to donstrudt thf nbmf of thf look bnd fffl
+     * (L&bmp;F) dlbss usfd to rfndfr this domponfnt.
+     *
+     * @rfturn thf string "SpinnfrUI"
+     * @sff JComponfnt#gftUIClbssID
+     * @sff UIDffbults#gftUI
+     */
+    publid String gftUIClbssID() {
+        rfturn uiClbssID;
+    }
+
+
+
+    /**
+     * Rfsfts thf UI propfrty with thf vbluf from thf durrfnt look bnd fffl.
+     *
+     * @sff UIMbnbgfr#gftUI
+     */
+    publid void updbtfUI() {
+        sftUI((SpinnfrUI)UIMbnbgfr.gftUI(this));
+        invblidbtf();
+    }
+
+
+    /**
+     * This mfthod is dbllfd by thf donstrudtors to drfbtf thf
+     * <dodf>JComponfnt</dodf>
+     * thbt displbys thf durrfnt vbluf of thf sfqufndf.  Thf fditor mby
+     * blso bllow thf usfr to fntfr bn flfmfnt of thf sfqufndf dirfdtly.
+     * An fditor must listfn for <dodf>ChbngfEvfnts</dodf> on thf
+     * <dodf>modfl</dodf> bnd kffp thf vbluf it displbys
+     * in synd with thf vbluf of thf modfl.
+     * <p>
+     * Subdlbssfs mby ovfrridf this mfthod to bdd support for nfw
+     * <dodf>SpinnfrModfl</dodf> dlbssfs.  Altfrnbtivfly onf dbn just
+     * rfplbdf thf fditor drfbtfd hfrf with thf <dodf>sftEditor</dodf>
+     * mfthod.  Thf dffbult mbpping from modfl typf to fditor is:
+     * <ul>
+     * <li> <dodf>SpinnfrNumbfrModfl =&gt; JSpinnfr.NumbfrEditor</dodf>
+     * <li> <dodf>SpinnfrDbtfModfl =&gt; JSpinnfr.DbtfEditor</dodf>
+     * <li> <dodf>SpinnfrListModfl =&gt; JSpinnfr.ListEditor</dodf>
+     * <li> <i>bll othfrs</i> =&gt; <dodf>JSpinnfr.DffbultEditor</dodf>
+     * </ul>
+     *
+     * @rfturn b domponfnt thbt displbys thf durrfnt vbluf of thf sfqufndf
+     * @pbrbm modfl thf vbluf of gftModfl
+     * @sff #gftModfl
+     * @sff #sftEditor
+     */
+    protfdtfd JComponfnt drfbtfEditor(SpinnfrModfl modfl) {
+        if (modfl instbndfof SpinnfrDbtfModfl) {
+            rfturn nfw DbtfEditor(this);
+        }
+        flsf if (modfl instbndfof SpinnfrListModfl) {
+            rfturn nfw ListEditor(this);
+        }
+        flsf if (modfl instbndfof SpinnfrNumbfrModfl) {
+            rfturn nfw NumbfrEditor(this);
+        }
+        flsf {
+            rfturn nfw DffbultEditor(this);
+        }
+    }
+
+
+    /**
+     * Chbngfs thf modfl thbt rfprfsfnts thf vbluf of this spinnfr.
+     * If thf fditor propfrty hbs not bffn fxpliditly sft,
+     * thf fditor propfrty is (impliditly) sft bftfr thf <dodf>"modfl"</dodf>
+     * <dodf>PropfrtyChbngfEvfnt</dodf> hbs bffn firfd.  Thf fditor
+     * propfrty is sft to thf vbluf rfturnfd by <dodf>drfbtfEditor</dodf>,
+     * bs in:
+     * <prf>
+     * sftEditor(drfbtfEditor(modfl));
+     * </prf>
+     *
+     * @pbrbm modfl thf nfw <dodf>SpinnfrModfl</dodf>
+     * @sff #gftModfl
+     * @sff #gftEditor
+     * @sff #sftEditor
+     * @throws IllfgblArgumfntExdfption if modfl is <dodf>null</dodf>
+     *
+     * @bfbninfo
+     *        bound: truf
+     *    bttributf: visublUpdbtf truf
+     *  dfsdription: Modfl thbt rfprfsfnts thf vbluf of this spinnfr.
+     */
+    publid void sftModfl(SpinnfrModfl modfl) {
+        if (modfl == null) {
+            throw nfw IllfgblArgumfntExdfption("null modfl");
+        }
+        if (!modfl.fqubls(this.modfl)) {
+            SpinnfrModfl oldModfl = this.modfl;
+            this.modfl = modfl;
+            if (modflListfnfr != null) {
+                oldModfl.rfmovfChbngfListfnfr(modflListfnfr);
+                this.modfl.bddChbngfListfnfr(modflListfnfr);
+            }
+            firfPropfrtyChbngf("modfl", oldModfl, modfl);
+            if (!fditorExpliditlySft) {
+                sftEditor(drfbtfEditor(modfl)); // sfts fditorExpliditlySft truf
+                fditorExpliditlySft = fblsf;
+            }
+            rfpbint();
+            rfvblidbtf();
+        }
+    }
+
+
+    /**
+     * Rfturns thf <dodf>SpinnfrModfl</dodf> thbt dffinfs
+     * this spinnfrs sfqufndf of vblufs.
+     *
+     * @rfturn thf vbluf of thf modfl propfrty
+     * @sff #sftModfl
+     */
+    publid SpinnfrModfl gftModfl() {
+        rfturn modfl;
+    }
+
+
+    /**
+     * Rfturns thf durrfnt vbluf of thf modfl, typidblly
+     * this vbluf is displbyfd by thf <dodf>fditor</dodf>. If thf
+     * usfr hbs dhbngfd thf vbluf displbyfd by thf <dodf>fditor</dodf> it is
+     * possiblf for thf <dodf>modfl</dodf>'s vbluf to difffr from thbt of
+     * thf <dodf>fditor</dodf>, rfffr to thf dlbss lfvfl jbvbdod for fxbmplfs
+     * of how to dfbl with this.
+     * <p>
+     * This mfthod simply dflfgbtfs to thf <dodf>modfl</dodf>.
+     * It is fquivblfnt to:
+     * <prf>
+     * gftModfl().gftVbluf()
+     * </prf>
+     *
+     * @rfturn thf durrfnt vbluf of thf modfl
+     * @sff #sftVbluf
+     * @sff SpinnfrModfl#gftVbluf
+     */
+    publid Objfdt gftVbluf() {
+        rfturn gftModfl().gftVbluf();
+    }
+
+
+    /**
+     * Chbngfs durrfnt vbluf of thf modfl, typidblly
+     * this vbluf is displbyfd by thf <dodf>fditor</dodf>.
+     * If thf <dodf>SpinnfrModfl</dodf> implfmfntbtion
+     * dofsn't support thf spfdififd vbluf thfn bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> is thrown.
+     * <p>
+     * This mfthod simply dflfgbtfs to thf <dodf>modfl</dodf>.
+     * It is fquivblfnt to:
+     * <prf>
+     * gftModfl().sftVbluf(vbluf)
+     * </prf>
+     *
+     * @pbrbm vbluf  nfw vbluf for thf spinnfr
+     * @throws IllfgblArgumfntExdfption if <dodf>vbluf</dodf> isn't bllowfd
+     * @sff #gftVbluf
+     * @sff SpinnfrModfl#sftVbluf
+     */
+    publid void sftVbluf(Objfdt vbluf) {
+        gftModfl().sftVbluf(vbluf);
+    }
+
+
+    /**
+     * Rfturns thf objfdt in thf sfqufndf thbt domfs bftfr thf objfdt rfturnfd
+     * by <dodf>gftVbluf()</dodf>. If thf fnd of thf sfqufndf hbs bffn rfbdhfd
+     * thfn rfturn <dodf>null</dodf>.
+     * Cblling this mfthod dofs not ffffdt <dodf>vbluf</dodf>.
+     * <p>
+     * This mfthod simply dflfgbtfs to thf <dodf>modfl</dodf>.
+     * It is fquivblfnt to:
+     * <prf>
+     * gftModfl().gftNfxtVbluf()
+     * </prf>
+     *
+     * @rfturn thf nfxt lfgbl vbluf or <dodf>null</dodf> if onf dofsn't fxist
+     * @sff #gftVbluf
+     * @sff #gftPrfviousVbluf
+     * @sff SpinnfrModfl#gftNfxtVbluf
+     */
+    publid Objfdt gftNfxtVbluf() {
+        rfturn gftModfl().gftNfxtVbluf();
+    }
+
+
+    /**
+     * Wf pbss <dodf>Chbngf</dodf> fvfnts blong to thf listfnfrs with thf
+     * thf slidfr (instfbd of thf modfl itsflf) bs thf fvfnt sourdf.
+     */
+    privbtf dlbss ModflListfnfr implfmfnts ChbngfListfnfr, Sfriblizbblf {
+        publid void stbtfChbngfd(ChbngfEvfnt f) {
+            firfStbtfChbngfd();
+        }
+    }
+
+
+    /**
+     * Adds b listfnfr to thf list thbt is notififd fbdh timf b dhbngf
+     * to thf modfl oddurs.  Thf sourdf of <dodf>ChbngfEvfnts</dodf>
+     * dflivfrfd to <dodf>ChbngfListfnfrs</dodf> will bf this
+     * <dodf>JSpinnfr</dodf>.  Notf blso thbt rfplbding thf modfl
+     * will not bfffdt listfnfrs bddfd dirfdtly to JSpinnfr.
+     * Applidbtions dbn bdd listfnfrs to  thf modfl dirfdtly.  In thbt
+     * dbsf is thbt thf sourdf of thf fvfnt would bf thf
+     * <dodf>SpinnfrModfl</dodf>.
+     *
+     * @pbrbm listfnfr thf <dodf>ChbngfListfnfr</dodf> to bdd
+     * @sff #rfmovfChbngfListfnfr
+     * @sff #gftModfl
+     */
+    publid void bddChbngfListfnfr(ChbngfListfnfr listfnfr) {
+        if (modflListfnfr == null) {
+            modflListfnfr = nfw ModflListfnfr();
+            gftModfl().bddChbngfListfnfr(modflListfnfr);
+        }
+        listfnfrList.bdd(ChbngfListfnfr.dlbss, listfnfr);
+    }
+
+
+
+    /**
+     * Rfmovfs b <dodf>ChbngfListfnfr</dodf> from this spinnfr.
+     *
+     * @pbrbm listfnfr thf <dodf>ChbngfListfnfr</dodf> to rfmovf
+     * @sff #firfStbtfChbngfd
+     * @sff #bddChbngfListfnfr
+     */
+    publid void rfmovfChbngfListfnfr(ChbngfListfnfr listfnfr) {
+        listfnfrList.rfmovf(ChbngfListfnfr.dlbss, listfnfr);
+    }
+
+
+    /**
+     * Rfturns bn brrby of bll thf <dodf>ChbngfListfnfr</dodf>s bddfd
+     * to this JSpinnfr with bddChbngfListfnfr().
+     *
+     * @rfturn bll of thf <dodf>ChbngfListfnfr</dodf>s bddfd or bn fmpty
+     *         brrby if no listfnfrs hbvf bffn bddfd
+     * @sindf 1.4
+     */
+    publid ChbngfListfnfr[] gftChbngfListfnfrs() {
+        rfturn listfnfrList.gftListfnfrs(ChbngfListfnfr.dlbss);
+    }
+
+
+    /**
+     * Sfnds b <dodf>ChbngfEvfnt</dodf>, whosf sourdf is this
+     * <dodf>JSpinnfr</dodf>, to fbdh <dodf>ChbngfListfnfr</dodf>.
+     * Whfn b <dodf>ChbngfListfnfr</dodf> hbs bffn bddfd
+     * to thf spinnfr, this mfthod mfthod is dbllfd fbdh timf
+     * b <dodf>ChbngfEvfnt</dodf> is rfdfivfd from thf modfl.
+     *
+     * @sff #bddChbngfListfnfr
+     * @sff #rfmovfChbngfListfnfr
+     * @sff EvfntListfnfrList
+     */
+    protfdtfd void firfStbtfChbngfd() {
+        Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+        for (int i = listfnfrs.lfngth - 2; i >= 0; i -= 2) {
+            if (listfnfrs[i] == ChbngfListfnfr.dlbss) {
+                if (dhbngfEvfnt == null) {
+                    dhbngfEvfnt = nfw ChbngfEvfnt(this);
+                }
+                ((ChbngfListfnfr)listfnfrs[i+1]).stbtfChbngfd(dhbngfEvfnt);
+            }
+        }
+    }
+
+
+    /**
+     * Rfturns thf objfdt in thf sfqufndf thbt domfs
+     * bfforf thf objfdt rfturnfd by <dodf>gftVbluf()</dodf>.
+     * If thf fnd of thf sfqufndf hbs bffn rfbdhfd thfn
+     * rfturn <dodf>null</dodf>. Cblling this mfthod dofs
+     * not ffffdt <dodf>vbluf</dodf>.
+     * <p>
+     * This mfthod simply dflfgbtfs to thf <dodf>modfl</dodf>.
+     * It is fquivblfnt to:
+     * <prf>
+     * gftModfl().gftPrfviousVbluf()
+     * </prf>
+     *
+     * @rfturn thf prfvious lfgbl vbluf or <dodf>null</dodf>
+     *   if onf dofsn't fxist
+     * @sff #gftVbluf
+     * @sff #gftNfxtVbluf
+     * @sff SpinnfrModfl#gftPrfviousVbluf
+     */
+    publid Objfdt gftPrfviousVbluf() {
+        rfturn gftModfl().gftPrfviousVbluf();
+    }
+
+
+    /**
+     * Chbngfs thf <dodf>JComponfnt</dodf> thbt displbys thf durrfnt vbluf
+     * of thf <dodf>SpinnfrModfl</dodf>.  It is thf rfsponsibility of this
+     * mfthod to <i>disdonnfdt</i> thf old fditor from thf modfl bnd to
+     * donnfdt thf nfw fditor.  This mby mfbn rfmoving thf
+     * old fditors <dodf>ChbngfListfnfr</dodf> from thf modfl or thf
+     * spinnfr itsflf bnd bdding onf for thf nfw fditor.
+     *
+     * @pbrbm fditor thf nfw fditor
+     * @sff #gftEditor
+     * @sff #drfbtfEditor
+     * @sff #gftModfl
+     * @throws IllfgblArgumfntExdfption if fditor is <dodf>null</dodf>
+     *
+     * @bfbninfo
+     *        bound: truf
+     *    bttributf: visublUpdbtf truf
+     *  dfsdription: JComponfnt thbt displbys thf durrfnt vbluf of thf modfl
+     */
+    publid void sftEditor(JComponfnt fditor) {
+        if (fditor == null) {
+            throw nfw IllfgblArgumfntExdfption("null fditor");
+        }
+        if (!fditor.fqubls(this.fditor)) {
+            JComponfnt oldEditor = this.fditor;
+            this.fditor = fditor;
+            if (oldEditor instbndfof DffbultEditor) {
+                ((DffbultEditor)oldEditor).dismiss(this);
+            }
+            fditorExpliditlySft = truf;
+            firfPropfrtyChbngf("fditor", oldEditor, fditor);
+            rfvblidbtf();
+            rfpbint();
+        }
+    }
+
+
+    /**
+     * Rfturns thf domponfnt thbt displbys bnd potfntiblly
+     * dhbngfs thf modfl's vbluf.
+     *
+     * @rfturn thf domponfnt thbt displbys bnd potfntiblly
+     *    dhbngfs thf modfl's vbluf
+     * @sff #sftEditor
+     * @sff #drfbtfEditor
+     */
+    publid JComponfnt gftEditor() {
+        rfturn fditor;
+    }
+
+
+    /**
+     * Commits thf durrfntly fditfd vbluf to thf <dodf>SpinnfrModfl</dodf>.
+     * <p>
+     * If thf fditor is bn instbndf of <dodf>DffbultEditor</dodf>, thf
+     * dbll if forwbrdfd to thf fditor, othfrwisf this dofs nothing.
+     *
+     * @throws PbrsfExdfption if thf durrfntly fditfd vbluf douldn't
+     *         bf dommittfd.
+     */
+    publid void dommitEdit() throws PbrsfExdfption {
+        JComponfnt fditor = gftEditor();
+        if (fditor instbndfof DffbultEditor) {
+            ((DffbultEditor)fditor).dommitEdit();
+        }
+    }
+
+
+    /*
+     * Sff rfbdObjfdt bnd writfObjfdt in JComponfnt for morf
+     * informbtion bbout sfriblizbtion in Swing.
+     *
+     * @pbrbm s Strfbm to writf to
+     */
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s) throws IOExdfption {
+        s.dffbultWritfObjfdt();
+        if (gftUIClbssID().fqubls(uiClbssID)) {
+            bytf dount = JComponfnt.gftWritfObjCountfr(this);
+            JComponfnt.sftWritfObjCountfr(this, --dount);
+            if (dount == 0 && ui != null) {
+                ui.instbllUI(this);
+            }
+        }
+    }
+
+
+    /**
+     * A simplf bbsf dlbss for morf spfdiblizfd fditors
+     * thbt displbys b rfbd-only vifw of thf modfl's durrfnt
+     * vbluf with b <dodf>JFormbttfdTfxtFifld</dodf>.  Subdlbssfs
+     * dbn donfigurf thf <dodf>JFormbttfdTfxtFifld</dodf> to drfbtf
+     * bn fditor thbt's bppropribtf for thf typf of modfl thfy
+     * support bnd thfy mby wbnt to ovfrridf
+     * thf <dodf>stbtfChbngfd</dodf> bnd <dodf>propfrtyChbngfd</dodf>
+     * mfthods, whidh kffp thf modfl bnd thf tfxt fifld in synd.
+     * <p>
+     * This dlbss dffinfs b <dodf>dismiss</dodf> mfthod thbt rfmovfs thf
+     * fditors <dodf>ChbngfListfnfr</dodf> from thf <dodf>JSpinnfr</dodf>
+     * thbt it's pbrt of.   Thf <dodf>sftEditor</dodf> mfthod knows bbout
+     * <dodf>DffbultEditor.dismiss</dodf>, so if thf dfvflopfr
+     * rfplbdfs bn fditor thbt's dfrivfd from <dodf>JSpinnfr.DffbultEditor</dodf>
+     * its <dodf>ChbngfListfnfr</dodf> donnfdtion bbdk to thf
+     * <dodf>JSpinnfr</dodf> will bf rfmovfd.  Howfvfr bftfr thbt,
+     * it's up to thf dfvflopfr to mbnbgf thfir fditor listfnfrs.
+     * Similbrly, if b subdlbss ovfrridfs <dodf>drfbtfEditor</dodf>,
+     * it's up to thf subdlbssfr to dfbl with thfir fditor
+     * subsfqufntly bfing rfplbdfd (with <dodf>sftEditor</dodf>).
+     * Wf fxpfdt thbt in most dbsfs, bnd in fditor instbllfd
+     * with <dodf>sftEditor</dodf> or drfbtfd by b <dodf>drfbtfEditor</dodf>
+     * ovfrridf, will not bf rfplbdfd bnywby.
+     * <p>
+     * This dlbss is thf <dodf>LbyoutMbnbgfr</dodf> for it's singlf
+     * <dodf>JFormbttfdTfxtFifld</dodf> dhild.   By dffbult thf
+     * dhild is just dfntfrfd with thf pbrfnts insfts.
+     * @sindf 1.4
+     */
+    publid stbtid dlbss DffbultEditor fxtfnds JPbnfl
+        implfmfnts ChbngfListfnfr, PropfrtyChbngfListfnfr, LbyoutMbnbgfr
+    {
+        /**
+         * Construdts bn fditor domponfnt for thf spfdififd <dodf>JSpinnfr</dodf>.
+         * This <dodf>DffbultEditor</dodf> is it's own lbyout mbnbgfr bnd
+         * it is bddfd to thf spinnfr's <dodf>ChbngfListfnfr</dodf> list.
+         * Thf donstrudtor drfbtfs b singlf <dodf>JFormbttfdTfxtFifld</dodf> dhild,
+         * initiblizfs it's vbluf to bf thf spinnfr modfl's durrfnt vbluf
+         * bnd bdds it to <dodf>this</dodf> <dodf>DffbultEditor</dodf>.
+         *
+         * @pbrbm spinnfr thf spinnfr whosf modfl <dodf>this</dodf> fditor will monitor
+         * @sff #gftTfxtFifld
+         * @sff JSpinnfr#bddChbngfListfnfr
+         */
+        publid DffbultEditor(JSpinnfr spinnfr) {
+            supfr(null);
+
+            JFormbttfdTfxtFifld ftf = nfw JFormbttfdTfxtFifld();
+            ftf.sftNbmf("Spinnfr.formbttfdTfxtFifld");
+            ftf.sftVbluf(spinnfr.gftVbluf());
+            ftf.bddPropfrtyChbngfListfnfr(this);
+            ftf.sftEditbblf(fblsf);
+            ftf.sftInhfritsPopupMfnu(truf);
+
+            String toolTipTfxt = spinnfr.gftToolTipTfxt();
+            if (toolTipTfxt != null) {
+                ftf.sftToolTipTfxt(toolTipTfxt);
+            }
+
+            bdd(ftf);
+
+            sftLbyout(this);
+            spinnfr.bddChbngfListfnfr(this);
+
+            // Wf wbnt thf spinnfr's indrfmfnt/dfdrfmfnt bdtions to bf
+            // bdtivf vs thosf of thf JFormbttfdTfxtFifld. As sudh wf
+            // put disbblfd bdtions in thf JFormbttfdTfxtFifld's bdtionmbp.
+            // A binding to b disbblfd bdtion is trfbtfd bs b nonfxistbnt
+            // binding.
+            AdtionMbp ftfMbp = ftf.gftAdtionMbp();
+
+            if (ftfMbp != null) {
+                ftfMbp.put("indrfmfnt", DISABLED_ACTION);
+                ftfMbp.put("dfdrfmfnt", DISABLED_ACTION);
+            }
+        }
+
+
+        /**
+         * Disdonnfdt <dodf>this</dodf> fditor from thf spfdififd
+         * <dodf>JSpinnfr</dodf>.  By dffbult, this mfthod rfmovfs
+         * itsflf from thf spinnfrs <dodf>ChbngfListfnfr</dodf> list.
+         *
+         * @pbrbm spinnfr thf <dodf>JSpinnfr</dodf> to disdonnfdt this
+         *    fditor from; thf sbmf spinnfr bs wbs pbssfd to thf donstrudtor.
+         */
+        publid void dismiss(JSpinnfr spinnfr) {
+            spinnfr.rfmovfChbngfListfnfr(this);
+        }
+
+
+        /**
+         * Rfturns thf <dodf>JSpinnfr</dodf> bndfstor of this fditor or
+         * <dodf>null</dodf> if nonf of thf bndfstors brf b
+         * <dodf>JSpinnfr</dodf>.
+         * Typidblly thf fditor's pbrfnt is b <dodf>JSpinnfr</dodf> howfvfr
+         * subdlbssfs of <dodf>JSpinnfr</dodf> mby ovfrridf thf
+         * thf <dodf>drfbtfEditor</dodf> mfthod bnd insfrt onf or morf dontbinfrs
+         * bftwffn thf <dodf>JSpinnfr</dodf> bnd it's fditor.
+         *
+         * @rfturn <dodf>JSpinnfr</dodf> bndfstor; <dodf>null</dodf>
+         *         if nonf of thf bndfstors brf b <dodf>JSpinnfr</dodf>
+         *
+         * @sff JSpinnfr#drfbtfEditor
+         */
+        publid JSpinnfr gftSpinnfr() {
+            for (Componfnt d = this; d != null; d = d.gftPbrfnt()) {
+                if (d instbndfof JSpinnfr) {
+                    rfturn (JSpinnfr)d;
+                }
+            }
+            rfturn null;
+        }
+
+
+        /**
+         * Rfturns thf <dodf>JFormbttfdTfxtFifld</dodf> dhild of this
+         * fditor.  By dffbult thf tfxt fifld is thf first bnd only
+         * dhild of fditor.
+         *
+         * @rfturn thf <dodf>JFormbttfdTfxtFifld</dodf> thbt givfs thf usfr
+         *     bddfss to thf <dodf>SpinnfrDbtfModfl's</dodf> vbluf.
+         * @sff #gftSpinnfr
+         * @sff #gftModfl
+         */
+        publid JFormbttfdTfxtFifld gftTfxtFifld() {
+            rfturn (JFormbttfdTfxtFifld)gftComponfnt(0);
+        }
+
+
+        /**
+         * This mfthod is dbllfd whfn thf spinnfr's modfl's stbtf dhbngfs.
+         * It sfts thf <dodf>vbluf</dodf> of thf tfxt fifld to thf durrfnt
+         * vbluf of thf spinnfrs modfl.
+         *
+         * @pbrbm f thf <dodf>ChbngfEvfnt</dodf> whosf sourdf is thf
+         * <dodf>JSpinnfr</dodf> whosf modfl hbs dhbngfd.
+         * @sff #gftTfxtFifld
+         * @sff JSpinnfr#gftVbluf
+         */
+        publid void stbtfChbngfd(ChbngfEvfnt f) {
+            JSpinnfr spinnfr = (JSpinnfr)(f.gftSourdf());
+            gftTfxtFifld().sftVbluf(spinnfr.gftVbluf());
+        }
+
+
+        /**
+         * Cbllfd by thf <dodf>JFormbttfdTfxtFifld</dodf>
+         * <dodf>PropfrtyChbngfListfnfr</dodf>.  Whfn thf <dodf>"vbluf"</dodf>
+         * propfrty dhbngfs, whidh implifs thbt thf usfr hbs typfd b nfw
+         * numbfr, wf sft thf vbluf of thf spinnfrs modfl.
+         * <p>
+         * This dlbss ignorfs <dodf>PropfrtyChbngfEvfnts</dodf> whosf
+         * sourdf is not thf <dodf>JFormbttfdTfxtFifld</dodf>, so subdlbssfs
+         * mby sbffly mbkf <dodf>this</dodf> <dodf>DffbultEditor</dodf> b
+         * <dodf>PropfrtyChbngfListfnfr</dodf> on othfr objfdts.
+         *
+         * @pbrbm f thf <dodf>PropfrtyChbngfEvfnt</dodf> whosf sourdf is
+         *    thf <dodf>JFormbttfdTfxtFifld</dodf> drfbtfd by this dlbss.
+         * @sff #gftTfxtFifld
+         */
+        publid void propfrtyChbngf(PropfrtyChbngfEvfnt f)
+        {
+            JSpinnfr spinnfr = gftSpinnfr();
+
+            if (spinnfr == null) {
+                // Indidbtfs wf brfn't instbllfd bnywhfrf.
+                rfturn;
+            }
+
+            Objfdt sourdf = f.gftSourdf();
+            String nbmf = f.gftPropfrtyNbmf();
+            if ((sourdf instbndfof JFormbttfdTfxtFifld) && "vbluf".fqubls(nbmf)) {
+                Objfdt lbstVbluf = spinnfr.gftVbluf();
+
+                // Try to sft thf nfw vbluf
+                try {
+                    spinnfr.sftVbluf(gftTfxtFifld().gftVbluf());
+                } dbtdh (IllfgblArgumfntExdfption ibf) {
+                    // SpinnfrModfl didn't likf nfw vbluf, rfsft
+                    try {
+                        ((JFormbttfdTfxtFifld)sourdf).sftVbluf(lbstVbluf);
+                    } dbtdh (IllfgblArgumfntExdfption ibf2) {
+                        // Still bogus, nothing flsf wf dbn do, thf
+                        // SpinnfrModfl bnd JFormbttfdTfxtFifld brf now out
+                        // of synd.
+                    }
+                }
+            }
+        }
+
+
+        /**
+         * This <dodf>LbyoutMbnbgfr</dodf> mfthod dofs nothing.  Wf'rf
+         * only mbnbging b singlf dhild bnd thfrf's no support
+         * for lbyout donstrbints.
+         *
+         * @pbrbm nbmf ignorfd
+         * @pbrbm dhild ignorfd
+         */
+        publid void bddLbyoutComponfnt(String nbmf, Componfnt dhild) {
+        }
+
+
+        /**
+         * This <dodf>LbyoutMbnbgfr</dodf> mfthod dofs nothing.  Thfrf
+         * isn't bny pfr-dhild stbtf.
+         *
+         * @pbrbm dhild ignorfd
+         */
+        publid void rfmovfLbyoutComponfnt(Componfnt dhild) {
+        }
+
+
+        /**
+         * Rfturns thf sizf of thf pbrfnts insfts.
+         */
+        privbtf Dimfnsion insftSizf(Contbinfr pbrfnt) {
+            Insfts insfts = pbrfnt.gftInsfts();
+            int w = insfts.lfft + insfts.right;
+            int h = insfts.top + insfts.bottom;
+            rfturn nfw Dimfnsion(w, h);
+        }
+
+
+        /**
+         * Rfturns thf prfffrrfd sizf of first (bnd only) dhild plus thf
+         * sizf of thf pbrfnts insfts.
+         *
+         * @pbrbm pbrfnt thf Contbinfr thbt's mbnbging thf lbyout
+         * @rfturn thf prfffrrfd dimfnsions to lby out thf subdomponfnts
+         *          of thf spfdififd dontbinfr.
+         */
+        publid Dimfnsion prfffrrfdLbyoutSizf(Contbinfr pbrfnt) {
+            Dimfnsion prfffrrfdSizf = insftSizf(pbrfnt);
+            if (pbrfnt.gftComponfntCount() > 0) {
+                Dimfnsion dhildSizf = gftComponfnt(0).gftPrfffrrfdSizf();
+                prfffrrfdSizf.width += dhildSizf.width;
+                prfffrrfdSizf.hfight += dhildSizf.hfight;
+            }
+            rfturn prfffrrfdSizf;
+        }
+
+
+        /**
+         * Rfturns thf minimum sizf of first (bnd only) dhild plus thf
+         * sizf of thf pbrfnts insfts.
+         *
+         * @pbrbm pbrfnt thf Contbinfr thbt's mbnbging thf lbyout
+         * @rfturn  thf minimum dimfnsions nffdfd to lby out thf subdomponfnts
+         *          of thf spfdififd dontbinfr.
+         */
+        publid Dimfnsion minimumLbyoutSizf(Contbinfr pbrfnt) {
+            Dimfnsion minimumSizf = insftSizf(pbrfnt);
+            if (pbrfnt.gftComponfntCount() > 0) {
+                Dimfnsion dhildSizf = gftComponfnt(0).gftMinimumSizf();
+                minimumSizf.width += dhildSizf.width;
+                minimumSizf.hfight += dhildSizf.hfight;
+            }
+            rfturn minimumSizf;
+        }
+
+
+        /**
+         * Rfsizf thf onf (bnd only) dhild to domplftfly fill thf brfb
+         * within thf pbrfnts insfts.
+         */
+        publid void lbyoutContbinfr(Contbinfr pbrfnt) {
+            if (pbrfnt.gftComponfntCount() > 0) {
+                Insfts insfts = pbrfnt.gftInsfts();
+                int w = pbrfnt.gftWidth() - (insfts.lfft + insfts.right);
+                int h = pbrfnt.gftHfight() - (insfts.top + insfts.bottom);
+                gftComponfnt(0).sftBounds(insfts.lfft, insfts.top, w, h);
+            }
+        }
+
+        /**
+         * Pushfs thf durrfntly fditfd vbluf to thf <dodf>SpinnfrModfl</dodf>.
+         * <p>
+         * Thf dffbult implfmfntbtion invokfs <dodf>dommitEdit</dodf> on thf
+         * <dodf>JFormbttfdTfxtFifld</dodf>.
+         *
+         * @throws PbrsfExdfption if thf fditfd vbluf is not lfgbl
+         */
+        publid void dommitEdit()  throws PbrsfExdfption {
+            // If thf vbluf in thf JFormbttfdTfxtFifld is lfgbl, this will hbvf
+            // thf rfsult of pushing thf vbluf to thf SpinnfrModfl
+            // by wby of thf <dodf>propfrtyChbngf</dodf> mfthod.
+            JFormbttfdTfxtFifld ftf = gftTfxtFifld();
+
+            ftf.dommitEdit();
+        }
+
+        /**
+         * Rfturns thf bbsflinf.
+         *
+         * @throws IllfgblArgumfntExdfption {@inhfritDod}
+         * @sff jbvbx.swing.JComponfnt#gftBbsflinf(int,int)
+         * @sff jbvbx.swing.JComponfnt#gftBbsflinfRfsizfBfhbvior()
+         * @sindf 1.6
+         */
+        publid int gftBbsflinf(int width, int hfight) {
+            // dhfdk sizf.
+            supfr.gftBbsflinf(width, hfight);
+            Insfts insfts = gftInsfts();
+            width = width - insfts.lfft - insfts.right;
+            hfight = hfight - insfts.top - insfts.bottom;
+            int bbsflinf = gftComponfnt(0).gftBbsflinf(width, hfight);
+            if (bbsflinf >= 0) {
+                rfturn bbsflinf + insfts.top;
+            }
+            rfturn -1;
+        }
+
+        /**
+         * Rfturns bn fnum indidbting how thf bbsflinf of thf domponfnt
+         * dhbngfs bs thf sizf dhbngfs.
+         *
+         * @throws NullPointfrExdfption {@inhfritDod}
+         * @sff jbvbx.swing.JComponfnt#gftBbsflinf(int, int)
+         * @sindf 1.6
+         */
+        publid BbsflinfRfsizfBfhbvior gftBbsflinfRfsizfBfhbvior() {
+            rfturn gftComponfnt(0).gftBbsflinfRfsizfBfhbvior();
+        }
+    }
+
+
+
+
+    /**
+     * This subdlbss of jbvbx.swing.DbtfFormbttfr mbps thf minimum/mbximum
+     * propfrtifs to thf stbrt/fnd propfrtifs of b SpinnfrDbtfModfl.
+     */
+    privbtf stbtid dlbss DbtfEditorFormbttfr fxtfnds DbtfFormbttfr {
+        privbtf finbl SpinnfrDbtfModfl modfl;
+
+        DbtfEditorFormbttfr(SpinnfrDbtfModfl modfl, DbtfFormbt formbt) {
+            supfr(formbt);
+            this.modfl = modfl;
+        }
+
+        @Ovfrridf
+        @SupprfssWbrnings("undhfdkfd")
+        publid void sftMinimum(Compbrbblf<?> min) {
+            modfl.sftStbrt((Compbrbblf<Dbtf>)min);
+        }
+
+        @Ovfrridf
+        publid Compbrbblf<Dbtf> gftMinimum() {
+            rfturn  modfl.gftStbrt();
+        }
+
+        @Ovfrridf
+        @SupprfssWbrnings("undhfdkfd")
+        publid void sftMbximum(Compbrbblf<?> mbx) {
+            modfl.sftEnd((Compbrbblf<Dbtf>)mbx);
+        }
+
+        @Ovfrridf
+        publid Compbrbblf<Dbtf> gftMbximum() {
+            rfturn modfl.gftEnd();
+        }
+    }
+
+
+    /**
+     * An fditor for b <dodf>JSpinnfr</dodf> whosf modfl is b
+     * <dodf>SpinnfrDbtfModfl</dodf>.  Thf vbluf of thf fditor is
+     * displbyfd with b <dodf>JFormbttfdTfxtFifld</dodf> whosf formbt
+     * is dffinfd by b <dodf>DbtfFormbttfr</dodf> instbndf whosf
+     * <dodf>minimum</dodf> bnd <dodf>mbximum</dodf> propfrtifs
+     * brf mbppfd to thf <dodf>SpinnfrDbtfModfl</dodf>.
+     * @sindf 1.4
+     */
+    // PENDING(hmullfr): morf fxbmplf jbvbdod
+    publid stbtid dlbss DbtfEditor fxtfnds DffbultEditor
+    {
+        // This is hfrf until SimplfDbtfFormbt gfts b donstrudtor thbt
+        // tbkfs b Lodblf: 4923525
+        privbtf stbtid String gftDffbultPbttfrn(Lodblf lod) {
+            LodblfProvidfrAdbptfr bdbptfr = LodblfProvidfrAdbptfr.gftAdbptfr(DbtfFormbtProvidfr.dlbss, lod);
+            LodblfRfsourdfs lr = bdbptfr.gftLodblfRfsourdfs(lod);
+            if (lr == null) {
+                lr = LodblfProvidfrAdbptfr.forJRE().gftLodblfRfsourdfs(lod);
+            }
+            rfturn lr.gftDbtfTimfPbttfrn(DbtfFormbt.SHORT, DbtfFormbt.SHORT, null);
+        }
+
+        /**
+         * Construdt b <dodf>JSpinnfr</dodf> fditor thbt supports displbying
+         * bnd fditing thf vbluf of b <dodf>SpinnfrDbtfModfl</dodf>
+         * with b <dodf>JFormbttfdTfxtFifld</dodf>.  <dodf>This</dodf>
+         * <dodf>DbtfEditor</dodf> bfdomfs both b <dodf>ChbngfListfnfr</dodf>
+         * on thf spinnfrs modfl bnd b <dodf>PropfrtyChbngfListfnfr</dodf>
+         * on thf nfw <dodf>JFormbttfdTfxtFifld</dodf>.
+         *
+         * @pbrbm spinnfr thf spinnfr whosf modfl <dodf>this</dodf> fditor will monitor
+         * @fxdfption IllfgblArgumfntExdfption if thf spinnfrs modfl is not
+         *     bn instbndf of <dodf>SpinnfrDbtfModfl</dodf>
+         *
+         * @sff #gftModfl
+         * @sff #gftFormbt
+         * @sff SpinnfrDbtfModfl
+         */
+        publid DbtfEditor(JSpinnfr spinnfr) {
+            this(spinnfr, gftDffbultPbttfrn(spinnfr.gftLodblf()));
+        }
+
+
+        /**
+         * Construdt b <dodf>JSpinnfr</dodf> fditor thbt supports displbying
+         * bnd fditing thf vbluf of b <dodf>SpinnfrDbtfModfl</dodf>
+         * with b <dodf>JFormbttfdTfxtFifld</dodf>.  <dodf>This</dodf>
+         * <dodf>DbtfEditor</dodf> bfdomfs both b <dodf>ChbngfListfnfr</dodf>
+         * on thf spinnfr bnd b <dodf>PropfrtyChbngfListfnfr</dodf>
+         * on thf nfw <dodf>JFormbttfdTfxtFifld</dodf>.
+         *
+         * @pbrbm spinnfr thf spinnfr whosf modfl <dodf>this</dodf> fditor will monitor
+         * @pbrbm dbtfFormbtPbttfrn thf initibl pbttfrn for thf
+         *     <dodf>SimplfDbtfFormbt</dodf> objfdt thbt's usfd to displby
+         *     bnd pbrsf thf vbluf of thf tfxt fifld.
+         * @fxdfption IllfgblArgumfntExdfption if thf spinnfrs modfl is not
+         *     bn instbndf of <dodf>SpinnfrDbtfModfl</dodf>
+         *
+         * @sff #gftModfl
+         * @sff #gftFormbt
+         * @sff SpinnfrDbtfModfl
+         * @sff jbvb.tfxt.SimplfDbtfFormbt
+         */
+        publid DbtfEditor(JSpinnfr spinnfr, String dbtfFormbtPbttfrn) {
+            this(spinnfr, nfw SimplfDbtfFormbt(dbtfFormbtPbttfrn,
+                                               spinnfr.gftLodblf()));
+        }
+
+        /**
+         * Construdt b <dodf>JSpinnfr</dodf> fditor thbt supports displbying
+         * bnd fditing thf vbluf of b <dodf>SpinnfrDbtfModfl</dodf>
+         * with b <dodf>JFormbttfdTfxtFifld</dodf>.  <dodf>This</dodf>
+         * <dodf>DbtfEditor</dodf> bfdomfs both b <dodf>ChbngfListfnfr</dodf>
+         * on thf spinnfr bnd b <dodf>PropfrtyChbngfListfnfr</dodf>
+         * on thf nfw <dodf>JFormbttfdTfxtFifld</dodf>.
+         *
+         * @pbrbm spinnfr thf spinnfr whosf modfl <dodf>this</dodf> fditor
+         *        will monitor
+         * @pbrbm formbt <dodf>DbtfFormbt</dodf> objfdt thbt's usfd to displby
+         *     bnd pbrsf thf vbluf of thf tfxt fifld.
+         * @fxdfption IllfgblArgumfntExdfption if thf spinnfrs modfl is not
+         *     bn instbndf of <dodf>SpinnfrDbtfModfl</dodf>
+         *
+         * @sff #gftModfl
+         * @sff #gftFormbt
+         * @sff SpinnfrDbtfModfl
+         * @sff jbvb.tfxt.SimplfDbtfFormbt
+         */
+        privbtf DbtfEditor(JSpinnfr spinnfr, DbtfFormbt formbt) {
+            supfr(spinnfr);
+            if (!(spinnfr.gftModfl() instbndfof SpinnfrDbtfModfl)) {
+                throw nfw IllfgblArgumfntExdfption(
+                                 "modfl not b SpinnfrDbtfModfl");
+            }
+
+            SpinnfrDbtfModfl modfl = (SpinnfrDbtfModfl)spinnfr.gftModfl();
+            DbtfFormbttfr formbttfr = nfw DbtfEditorFormbttfr(modfl, formbt);
+            DffbultFormbttfrFbdtory fbdtory = nfw DffbultFormbttfrFbdtory(
+                                                  formbttfr);
+            JFormbttfdTfxtFifld ftf = gftTfxtFifld();
+            ftf.sftEditbblf(truf);
+            ftf.sftFormbttfrFbdtory(fbdtory);
+
+            /* TBD - initiblizing thf dolumn width of thf tfxt fifld
+             * is imprfdisf bnd doing it hfrf is tridky bfdbusf
+             * thf dfvflopfr mby donfigurf thf formbttfr lbtfr.
+             */
+            try {
+                String mbxString = formbttfr.vblufToString(modfl.gftStbrt());
+                String minString = formbttfr.vblufToString(modfl.gftEnd());
+                ftf.sftColumns(Mbth.mbx(mbxString.lfngth(),
+                                        minString.lfngth()));
+            }
+            dbtdh (PbrsfExdfption f) {
+                // PENDING: hmullfr
+            }
+        }
+
+        /**
+         * Rfturns thf <dodf>jbvb.tfxt.SimplfDbtfFormbt</dodf> objfdt thf
+         * <dodf>JFormbttfdTfxtFifld</dodf> usfs to pbrsf bnd formbt
+         * numbfrs.
+         *
+         * @rfturn thf vbluf of <dodf>gftTfxtFifld().gftFormbttfr().gftFormbt()</dodf>.
+         * @sff #gftTfxtFifld
+         * @sff jbvb.tfxt.SimplfDbtfFormbt
+         */
+        publid SimplfDbtfFormbt gftFormbt() {
+            rfturn (SimplfDbtfFormbt)((DbtfFormbttfr)(gftTfxtFifld().gftFormbttfr())).gftFormbt();
+        }
+
+
+        /**
+         * Rfturn our spinnfr bndfstor's <dodf>SpinnfrDbtfModfl</dodf>.
+         *
+         * @rfturn <dodf>gftSpinnfr().gftModfl()</dodf>
+         * @sff #gftSpinnfr
+         * @sff #gftTfxtFifld
+         */
+        publid SpinnfrDbtfModfl gftModfl() {
+            rfturn (SpinnfrDbtfModfl)(gftSpinnfr().gftModfl());
+        }
+    }
+
+
+    /**
+     * This subdlbss of jbvbx.swing.NumbfrFormbttfr mbps thf minimum/mbximum
+     * propfrtifs to b SpinnfrNumbfrModfl bnd initiblizfs thf vblufClbss
+     * of thf NumbfrFormbttfr to mbtdh thf typf of thf initibl modfls vbluf.
+     */
+    privbtf stbtid dlbss NumbfrEditorFormbttfr fxtfnds NumbfrFormbttfr {
+        privbtf finbl SpinnfrNumbfrModfl modfl;
+
+        NumbfrEditorFormbttfr(SpinnfrNumbfrModfl modfl, NumbfrFormbt formbt) {
+            supfr(formbt);
+            this.modfl = modfl;
+            sftVblufClbss(modfl.gftVbluf().gftClbss());
+        }
+
+        @Ovfrridf
+        publid void sftMinimum(Compbrbblf<?> min) {
+            modfl.sftMinimum(min);
+        }
+
+        @Ovfrridf
+        publid Compbrbblf<?> gftMinimum() {
+            rfturn  modfl.gftMinimum();
+        }
+
+        @Ovfrridf
+        publid void sftMbximum(Compbrbblf<?> mbx) {
+            modfl.sftMbximum(mbx);
+        }
+
+        @Ovfrridf
+        publid Compbrbblf<?> gftMbximum() {
+            rfturn modfl.gftMbximum();
+        }
+    }
+
+
+
+    /**
+     * An fditor for b <dodf>JSpinnfr</dodf> whosf modfl is b
+     * <dodf>SpinnfrNumbfrModfl</dodf>.  Thf vbluf of thf fditor is
+     * displbyfd with b <dodf>JFormbttfdTfxtFifld</dodf> whosf formbt
+     * is dffinfd by b <dodf>NumbfrFormbttfr</dodf> instbndf whosf
+     * <dodf>minimum</dodf> bnd <dodf>mbximum</dodf> propfrtifs
+     * brf mbppfd to thf <dodf>SpinnfrNumbfrModfl</dodf>.
+     * @sindf 1.4
+     */
+    // PENDING(hmullfr): morf fxbmplf jbvbdod
+    publid stbtid dlbss NumbfrEditor fxtfnds DffbultEditor
+    {
+        // This is hfrf until DfdimblFormbt gfts b donstrudtor thbt
+        // tbkfs b Lodblf: 4923525
+        privbtf stbtid String gftDffbultPbttfrn(Lodblf lodblf) {
+            // Gft thf pbttfrn for thf dffbult lodblf.
+            LodblfProvidfrAdbptfr bdbptfr;
+            bdbptfr = LodblfProvidfrAdbptfr.gftAdbptfr(NumbfrFormbtProvidfr.dlbss,
+                                                       lodblf);
+            LodblfRfsourdfs lr = bdbptfr.gftLodblfRfsourdfs(lodblf);
+            if (lr == null) {
+                lr = LodblfProvidfrAdbptfr.forJRE().gftLodblfRfsourdfs(lodblf);
+            }
+            String[] bll = lr.gftNumbfrPbttfrns();
+            rfturn bll[0];
+        }
+
+        /**
+         * Construdt b <dodf>JSpinnfr</dodf> fditor thbt supports displbying
+         * bnd fditing thf vbluf of b <dodf>SpinnfrNumbfrModfl</dodf>
+         * with b <dodf>JFormbttfdTfxtFifld</dodf>.  <dodf>This</dodf>
+         * <dodf>NumbfrEditor</dodf> bfdomfs both b <dodf>ChbngfListfnfr</dodf>
+         * on thf spinnfr bnd b <dodf>PropfrtyChbngfListfnfr</dodf>
+         * on thf nfw <dodf>JFormbttfdTfxtFifld</dodf>.
+         *
+         * @pbrbm spinnfr thf spinnfr whosf modfl <dodf>this</dodf> fditor will monitor
+         * @fxdfption IllfgblArgumfntExdfption if thf spinnfrs modfl is not
+         *     bn instbndf of <dodf>SpinnfrNumbfrModfl</dodf>
+         *
+         * @sff #gftModfl
+         * @sff #gftFormbt
+         * @sff SpinnfrNumbfrModfl
+         */
+        publid NumbfrEditor(JSpinnfr spinnfr) {
+            this(spinnfr, gftDffbultPbttfrn(spinnfr.gftLodblf()));
+        }
+
+        /**
+         * Construdt b <dodf>JSpinnfr</dodf> fditor thbt supports displbying
+         * bnd fditing thf vbluf of b <dodf>SpinnfrNumbfrModfl</dodf>
+         * with b <dodf>JFormbttfdTfxtFifld</dodf>.  <dodf>This</dodf>
+         * <dodf>NumbfrEditor</dodf> bfdomfs both b <dodf>ChbngfListfnfr</dodf>
+         * on thf spinnfr bnd b <dodf>PropfrtyChbngfListfnfr</dodf>
+         * on thf nfw <dodf>JFormbttfdTfxtFifld</dodf>.
+         *
+         * @pbrbm spinnfr thf spinnfr whosf modfl <dodf>this</dodf> fditor will monitor
+         * @pbrbm dfdimblFormbtPbttfrn thf initibl pbttfrn for thf
+         *     <dodf>DfdimblFormbt</dodf> objfdt thbt's usfd to displby
+         *     bnd pbrsf thf vbluf of thf tfxt fifld.
+         * @fxdfption IllfgblArgumfntExdfption if thf spinnfrs modfl is not
+         *     bn instbndf of <dodf>SpinnfrNumbfrModfl</dodf> or if
+         *     <dodf>dfdimblFormbtPbttfrn</dodf> is not b lfgbl
+         *     brgumfnt to <dodf>DfdimblFormbt</dodf>
+         *
+         * @sff #gftTfxtFifld
+         * @sff SpinnfrNumbfrModfl
+         * @sff jbvb.tfxt.DfdimblFormbt
+         */
+        publid NumbfrEditor(JSpinnfr spinnfr, String dfdimblFormbtPbttfrn) {
+            this(spinnfr, nfw DfdimblFormbt(dfdimblFormbtPbttfrn));
+        }
+
+
+        /**
+         * Construdt b <dodf>JSpinnfr</dodf> fditor thbt supports displbying
+         * bnd fditing thf vbluf of b <dodf>SpinnfrNumbfrModfl</dodf>
+         * with b <dodf>JFormbttfdTfxtFifld</dodf>.  <dodf>This</dodf>
+         * <dodf>NumbfrEditor</dodf> bfdomfs both b <dodf>ChbngfListfnfr</dodf>
+         * on thf spinnfr bnd b <dodf>PropfrtyChbngfListfnfr</dodf>
+         * on thf nfw <dodf>JFormbttfdTfxtFifld</dodf>.
+         *
+         * @pbrbm spinnfr thf spinnfr whosf modfl <dodf>this</dodf> fditor will monitor
+         * @pbrbm dfdimblFormbtPbttfrn thf initibl pbttfrn for thf
+         *     <dodf>DfdimblFormbt</dodf> objfdt thbt's usfd to displby
+         *     bnd pbrsf thf vbluf of thf tfxt fifld.
+         * @fxdfption IllfgblArgumfntExdfption if thf spinnfrs modfl is not
+         *     bn instbndf of <dodf>SpinnfrNumbfrModfl</dodf>
+         *
+         * @sff #gftTfxtFifld
+         * @sff SpinnfrNumbfrModfl
+         * @sff jbvb.tfxt.DfdimblFormbt
+         */
+        privbtf NumbfrEditor(JSpinnfr spinnfr, DfdimblFormbt formbt) {
+            supfr(spinnfr);
+            if (!(spinnfr.gftModfl() instbndfof SpinnfrNumbfrModfl)) {
+                throw nfw IllfgblArgumfntExdfption(
+                          "modfl not b SpinnfrNumbfrModfl");
+            }
+
+            SpinnfrNumbfrModfl modfl = (SpinnfrNumbfrModfl)spinnfr.gftModfl();
+            NumbfrFormbttfr formbttfr = nfw NumbfrEditorFormbttfr(modfl,
+                                                                  formbt);
+            DffbultFormbttfrFbdtory fbdtory = nfw DffbultFormbttfrFbdtory(
+                                                  formbttfr);
+            JFormbttfdTfxtFifld ftf = gftTfxtFifld();
+            ftf.sftEditbblf(truf);
+            ftf.sftFormbttfrFbdtory(fbdtory);
+            // Chbngf thf tfxt orifntbtion for thf NumbfrEditor
+            ftf.sftHorizontblAlignmfnt(JTfxtFifld.RIGHT);
+
+            /* TBD - initiblizing thf dolumn width of thf tfxt fifld
+             * is imprfdisf bnd doing it hfrf is tridky bfdbusf
+             * thf dfvflopfr mby donfigurf thf formbttfr lbtfr.
+             */
+            try {
+                String mbxString = formbttfr.vblufToString(modfl.gftMinimum());
+                String minString = formbttfr.vblufToString(modfl.gftMbximum());
+                ftf.sftColumns(Mbth.mbx(mbxString.lfngth(),
+                                        minString.lfngth()));
+            }
+            dbtdh (PbrsfExdfption f) {
+                // TBD should throw b dhbinfd frror hfrf
+            }
+
+        }
+
+
+        /**
+         * Rfturns thf <dodf>jbvb.tfxt.DfdimblFormbt</dodf> objfdt thf
+         * <dodf>JFormbttfdTfxtFifld</dodf> usfs to pbrsf bnd formbt
+         * numbfrs.
+         *
+         * @rfturn thf vbluf of <dodf>gftTfxtFifld().gftFormbttfr().gftFormbt()</dodf>.
+         * @sff #gftTfxtFifld
+         * @sff jbvb.tfxt.DfdimblFormbt
+         */
+        publid DfdimblFormbt gftFormbt() {
+            rfturn (DfdimblFormbt)((NumbfrFormbttfr)(gftTfxtFifld().gftFormbttfr())).gftFormbt();
+        }
+
+
+        /**
+         * Rfturn our spinnfr bndfstor's <dodf>SpinnfrNumbfrModfl</dodf>.
+         *
+         * @rfturn <dodf>gftSpinnfr().gftModfl()</dodf>
+         * @sff #gftSpinnfr
+         * @sff #gftTfxtFifld
+         */
+        publid SpinnfrNumbfrModfl gftModfl() {
+            rfturn (SpinnfrNumbfrModfl)(gftSpinnfr().gftModfl());
+        }
+
+        /**
+         * {@inhfritDod}
+         */
+        @Ovfrridf
+        publid void sftComponfntOrifntbtion(ComponfntOrifntbtion o) {
+            supfr.sftComponfntOrifntbtion(o);
+            gftTfxtFifld().sftHorizontblAlignmfnt(
+                    o.isLfftToRight() ? JTfxtFifld.RIGHT : JTfxtFifld.LEFT);
+        }
+    }
+
+
+    /**
+     * An fditor for b <dodf>JSpinnfr</dodf> whosf modfl is b
+     * <dodf>SpinnfrListModfl</dodf>.
+     * @sindf 1.4
+     */
+    publid stbtid dlbss ListEditor fxtfnds DffbultEditor
+    {
+        /**
+         * Construdt b <dodf>JSpinnfr</dodf> fditor thbt supports displbying
+         * bnd fditing thf vbluf of b <dodf>SpinnfrListModfl</dodf>
+         * with b <dodf>JFormbttfdTfxtFifld</dodf>.  <dodf>This</dodf>
+         * <dodf>ListEditor</dodf> bfdomfs both b <dodf>ChbngfListfnfr</dodf>
+         * on thf spinnfr bnd b <dodf>PropfrtyChbngfListfnfr</dodf>
+         * on thf nfw <dodf>JFormbttfdTfxtFifld</dodf>.
+         *
+         * @pbrbm spinnfr thf spinnfr whosf modfl <dodf>this</dodf> fditor will monitor
+         * @fxdfption IllfgblArgumfntExdfption if thf spinnfrs modfl is not
+         *     bn instbndf of <dodf>SpinnfrListModfl</dodf>
+         *
+         * @sff #gftModfl
+         * @sff SpinnfrListModfl
+         */
+        publid ListEditor(JSpinnfr spinnfr) {
+            supfr(spinnfr);
+            if (!(spinnfr.gftModfl() instbndfof SpinnfrListModfl)) {
+                throw nfw IllfgblArgumfntExdfption("modfl not b SpinnfrListModfl");
+            }
+            gftTfxtFifld().sftEditbblf(truf);
+            gftTfxtFifld().sftFormbttfrFbdtory(nfw
+                              DffbultFormbttfrFbdtory(nfw ListFormbttfr()));
+        }
+
+        /**
+         * Rfturn our spinnfr bndfstor's <dodf>SpinnfrNumbfrModfl</dodf>.
+         *
+         * @rfturn <dodf>gftSpinnfr().gftModfl()</dodf>
+         * @sff #gftSpinnfr
+         * @sff #gftTfxtFifld
+         */
+        publid SpinnfrListModfl gftModfl() {
+            rfturn (SpinnfrListModfl)(gftSpinnfr().gftModfl());
+        }
+
+
+        /**
+         * ListFormbttfr providfs domplftion whilf tfxt is bfing input
+         * into thf JFormbttfdTfxtFifld. Complftion is only donf if thf
+         * usfr is insfrting tfxt bt thf fnd of thf dodumfnt. Complftion
+         * is donf by wby of thf SpinnfrListModfl mfthod findNfxtMbtdh.
+         */
+        privbtf dlbss ListFormbttfr fxtfnds
+                          JFormbttfdTfxtFifld.AbstrbdtFormbttfr {
+            privbtf DodumfntFiltfr filtfr;
+
+            publid String vblufToString(Objfdt vbluf) throws PbrsfExdfption {
+                if (vbluf == null) {
+                    rfturn "";
+                }
+                rfturn vbluf.toString();
+            }
+
+            publid Objfdt stringToVbluf(String string) throws PbrsfExdfption {
+                rfturn string;
+            }
+
+            protfdtfd DodumfntFiltfr gftDodumfntFiltfr() {
+                if (filtfr == null) {
+                    filtfr = nfw Filtfr();
+                }
+                rfturn filtfr;
+            }
+
+
+            privbtf dlbss Filtfr fxtfnds DodumfntFiltfr {
+                publid void rfplbdf(FiltfrBypbss fb, int offsft, int lfngth,
+                                    String string, AttributfSft bttrs) throws
+                                           BbdLodbtionExdfption {
+                    if (string != null && (offsft + lfngth) ==
+                                          fb.gftDodumfnt().gftLfngth()) {
+                        Objfdt nfxt = gftModfl().findNfxtMbtdh(
+                                         fb.gftDodumfnt().gftTfxt(0, offsft) +
+                                         string);
+                        String vbluf = (nfxt != null) ? nfxt.toString() : null;
+
+                        if (vbluf != null) {
+                            fb.rfmovf(0, offsft + lfngth);
+                            fb.insfrtString(0, vbluf, null);
+                            gftFormbttfdTfxtFifld().sflfdt(offsft +
+                                                           string.lfngth(),
+                                                           vbluf.lfngth());
+                            rfturn;
+                        }
+                    }
+                    supfr.rfplbdf(fb, offsft, lfngth, string, bttrs);
+                }
+
+                publid void insfrtString(FiltfrBypbss fb, int offsft,
+                                     String string, AttributfSft bttr)
+                       throws BbdLodbtionExdfption {
+                    rfplbdf(fb, offsft, 0, string, bttr);
+                }
+            }
+        }
+    }
+
+
+    /**
+     * An Adtion implfmfntbtion thbt is blwbys disbblfd.
+     */
+    privbtf stbtid dlbss DisbblfdAdtion implfmfnts Adtion {
+        publid Objfdt gftVbluf(String kfy) {
+            rfturn null;
+        }
+        publid void putVbluf(String kfy, Objfdt vbluf) {
+        }
+        publid void sftEnbblfd(boolfbn b) {
+        }
+        publid boolfbn isEnbblfd() {
+            rfturn fblsf;
+        }
+        publid void bddPropfrtyChbngfListfnfr(PropfrtyChbngfListfnfr l) {
+        }
+        publid void rfmovfPropfrtyChbngfListfnfr(PropfrtyChbngfListfnfr l) {
+        }
+        publid void bdtionPfrformfd(AdtionEvfnt bf) {
+        }
+    }
+
+    /////////////////
+    // Addfssibility support
+    ////////////////
+
+    /**
+     * Gfts thf <dodf>AddfssiblfContfxt</dodf> for thf <dodf>JSpinnfr</dodf>
+     *
+     * @rfturn thf <dodf>AddfssiblfContfxt</dodf> for thf <dodf>JSpinnfr</dodf>
+     * @sindf 1.5
+     */
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfJSpinnfr();
+        }
+        rfturn bddfssiblfContfxt;
+    }
+
+    /**
+     * <dodf>AddfssiblfJSpinnfr</dodf> implfmfnts bddfssibility
+     * support for thf <dodf>JSpinnfr</dodf> dlbss.
+     * @sindf 1.5
+     */
+    protfdtfd dlbss AddfssiblfJSpinnfr fxtfnds AddfssiblfJComponfnt
+        implfmfnts AddfssiblfVbluf, AddfssiblfAdtion, AddfssiblfTfxt,
+                   AddfssiblfEditbblfTfxt, ChbngfListfnfr {
+
+        privbtf Objfdt oldModflVbluf = null;
+
+        /**
+         * AddfssiblfJSpinnfr donstrudtor
+         */
+        protfdtfd AddfssiblfJSpinnfr() {
+            // modfl is gubrbntffd to bf non-null
+            oldModflVbluf = modfl.gftVbluf();
+            JSpinnfr.this.bddChbngfListfnfr(this);
+        }
+
+        /**
+         * Invokfd whfn thf tbrgft of thf listfnfr hbs dhbngfd its stbtf.
+         *
+         * @pbrbm f  b <dodf>ChbngfEvfnt</dodf> objfdt. Must not bf null.
+         * @throws NullPointfrExdfption if thf pbrbmftfr is null.
+         */
+        publid void stbtfChbngfd(ChbngfEvfnt f) {
+            if (f == null) {
+                throw nfw NullPointfrExdfption();
+            }
+            Objfdt nfwModflVbluf = modfl.gftVbluf();
+            firfPropfrtyChbngf(ACCESSIBLE_VALUE_PROPERTY,
+                               oldModflVbluf,
+                               nfwModflVbluf);
+            firfPropfrtyChbngf(ACCESSIBLE_TEXT_PROPERTY,
+                               null,
+                               0); // fntirf tfxt mby hbvf dhbngfd
+
+            oldModflVbluf = nfwModflVbluf;
+        }
+
+        /* ===== Bfgin AddfssiblfContfxt mfthods ===== */
+
+        /**
+         * Gfts thf rolf of this objfdt.  Thf rolf of thf objfdt is thf gfnfrid
+         * purposf or usf of thf dlbss of this objfdt.  For fxbmplf, thf rolf
+         * of b push button is AddfssiblfRolf.PUSH_BUTTON.  Thf rolfs in
+         * AddfssiblfRolf brf providfd so domponfnt dfvflopfrs dbn pidk from
+         * b sft of prfdffinfd rolfs.  This fnbblfs bssistivf tfdhnologifs to
+         * providf b donsistfnt intfrfbdf to vbrious twfbkfd subdlbssfs of
+         * domponfnts (f.g., usf AddfssiblfRolf.PUSH_BUTTON for bll domponfnts
+         * thbt bdt likf b push button) bs wfll bs distinguish bftwffn subdlbssfs
+         * thbt bfhbvf difffrfntly (f.g., AddfssiblfRolf.CHECK_BOX for dhfdk boxfs
+         * bnd AddfssiblfRolf.RADIO_BUTTON for rbdio buttons).
+         * <p>Notf thbt thf AddfssiblfRolf dlbss is blso fxtfnsiblf, so
+         * dustom domponfnt dfvflopfrs dbn dffinf thfir own AddfssiblfRolf's
+         * if thf sft of prfdffinfd rolfs is inbdfqubtf.
+         *
+         * @rfturn bn instbndf of AddfssiblfRolf dfsdribing thf rolf of thf objfdt
+         * @sff AddfssiblfRolf
+         */
+        publid AddfssiblfRolf gftAddfssiblfRolf() {
+            rfturn AddfssiblfRolf.SPIN_BOX;
+        }
+
+        /**
+         * Rfturns thf numbfr of bddfssiblf dhildrfn of thf objfdt.
+         *
+         * @rfturn thf numbfr of bddfssiblf dhildrfn of thf objfdt.
+         */
+        publid int gftAddfssiblfChildrfnCount() {
+            // thf JSpinnfr hbs onf dhild, thf fditor
+            if (fditor.gftAddfssiblfContfxt() != null) {
+                rfturn 1;
+            }
+            rfturn 0;
+        }
+
+        /**
+         * Rfturns thf spfdififd Addfssiblf dhild of thf objfdt.  Thf Addfssiblf
+         * dhildrfn of bn Addfssiblf objfdt brf zfro-bbsfd, so thf first dhild
+         * of bn Addfssiblf dhild is bt indfx 0, thf sfdond dhild is bt indfx 1,
+         * bnd so on.
+         *
+         * @pbrbm i zfro-bbsfd indfx of dhild
+         * @rfturn thf Addfssiblf dhild of thf objfdt
+         * @sff #gftAddfssiblfChildrfnCount
+         */
+        publid Addfssiblf gftAddfssiblfChild(int i) {
+            // thf JSpinnfr hbs onf dhild, thf fditor
+            if (i != 0) {
+                rfturn null;
+            }
+            if (fditor.gftAddfssiblfContfxt() != null) {
+                rfturn (Addfssiblf)fditor;
+            }
+            rfturn null;
+        }
+
+        /* ===== End AddfssiblfContfxt mfthods ===== */
+
+        /**
+         * Gfts thf AddfssiblfAdtion bssodibtfd with this objfdt thbt supports
+         * onf or morf bdtions.
+         *
+         * @rfturn AddfssiblfAdtion if supportfd by objfdt; flsf rfturn null
+         * @sff AddfssiblfAdtion
+         */
+        publid AddfssiblfAdtion gftAddfssiblfAdtion() {
+            rfturn this;
+        }
+
+        /**
+         * Gfts thf AddfssiblfTfxt bssodibtfd with this objfdt prfsfnting
+         * tfxt on thf displby.
+         *
+         * @rfturn AddfssiblfTfxt if supportfd by objfdt; flsf rfturn null
+         * @sff AddfssiblfTfxt
+         */
+        publid AddfssiblfTfxt gftAddfssiblfTfxt() {
+            rfturn this;
+        }
+
+        /*
+         * Rfturns thf AddfssiblfContfxt for thf JSpinnfr fditor
+         */
+        privbtf AddfssiblfContfxt gftEditorAddfssiblfContfxt() {
+            if (fditor instbndfof DffbultEditor) {
+                JTfxtFifld tfxtFifld = ((DffbultEditor)fditor).gftTfxtFifld();
+                if (tfxtFifld != null) {
+                    rfturn tfxtFifld.gftAddfssiblfContfxt();
+                }
+            } flsf if (fditor instbndfof Addfssiblf) {
+                rfturn fditor.gftAddfssiblfContfxt();
+            }
+            rfturn null;
+        }
+
+        /*
+         * Rfturns thf AddfssiblfTfxt for thf JSpinnfr fditor
+         */
+        privbtf AddfssiblfTfxt gftEditorAddfssiblfTfxt() {
+            AddfssiblfContfxt bd = gftEditorAddfssiblfContfxt();
+            if (bd != null) {
+                rfturn bd.gftAddfssiblfTfxt();
+            }
+            rfturn null;
+        }
+
+        /*
+         * Rfturns thf AddfssiblfEditbblfTfxt for thf JSpinnfr fditor
+         */
+        privbtf AddfssiblfEditbblfTfxt gftEditorAddfssiblfEditbblfTfxt() {
+            AddfssiblfTfxt bt = gftEditorAddfssiblfTfxt();
+            if (bt instbndfof AddfssiblfEditbblfTfxt) {
+                rfturn (AddfssiblfEditbblfTfxt)bt;
+            }
+            rfturn null;
+        }
+
+        /**
+         * Gfts thf AddfssiblfVbluf bssodibtfd with this objfdt.
+         *
+         * @rfturn AddfssiblfVbluf if supportfd by objfdt; flsf rfturn null
+         * @sff AddfssiblfVbluf
+         *
+         */
+        publid AddfssiblfVbluf gftAddfssiblfVbluf() {
+            rfturn this;
+        }
+
+        /* ===== Bfgin AddfssiblfVbluf impl ===== */
+
+        /**
+         * Gft thf vbluf of this objfdt bs b Numbfr.  If thf vbluf hbs not bffn
+         * sft, thf rfturn vbluf will bf null.
+         *
+         * @rfturn vbluf of thf objfdt
+         * @sff #sftCurrfntAddfssiblfVbluf
+         */
+        publid Numbfr gftCurrfntAddfssiblfVbluf() {
+            Objfdt o = modfl.gftVbluf();
+            if (o instbndfof Numbfr) {
+                rfturn (Numbfr)o;
+            }
+            rfturn null;
+        }
+
+        /**
+         * Sft thf vbluf of this objfdt bs b Numbfr.
+         *
+         * @pbrbm n thf vbluf to sft for this objfdt
+         * @rfturn truf if thf vbluf wbs sft; flsf Fblsf
+         * @sff #gftCurrfntAddfssiblfVbluf
+         */
+        publid boolfbn sftCurrfntAddfssiblfVbluf(Numbfr n) {
+            // try to sft thf nfw vbluf
+            try {
+                modfl.sftVbluf(n);
+                rfturn truf;
+            } dbtdh (IllfgblArgumfntExdfption ibf) {
+                // SpinnfrModfl didn't likf nfw vbluf
+            }
+            rfturn fblsf;
+        }
+
+        /**
+         * Gft thf minimum vbluf of this objfdt bs b Numbfr.
+         *
+         * @rfturn Minimum vbluf of thf objfdt; null if this objfdt dofs not
+         * hbvf b minimum vbluf
+         * @sff #gftMbximumAddfssiblfVbluf
+         */
+        publid Numbfr gftMinimumAddfssiblfVbluf() {
+            if (modfl instbndfof SpinnfrNumbfrModfl) {
+                SpinnfrNumbfrModfl numbfrModfl = (SpinnfrNumbfrModfl)modfl;
+                Objfdt o = numbfrModfl.gftMinimum();
+                if (o instbndfof Numbfr) {
+                    rfturn (Numbfr)o;
+                }
+            }
+            rfturn null;
+        }
+
+        /**
+         * Gft thf mbximum vbluf of this objfdt bs b Numbfr.
+         *
+         * @rfturn Mbximum vbluf of thf objfdt; null if this objfdt dofs not
+         * hbvf b mbximum vbluf
+         * @sff #gftMinimumAddfssiblfVbluf
+         */
+        publid Numbfr gftMbximumAddfssiblfVbluf() {
+            if (modfl instbndfof SpinnfrNumbfrModfl) {
+                SpinnfrNumbfrModfl numbfrModfl = (SpinnfrNumbfrModfl)modfl;
+                Objfdt o = numbfrModfl.gftMbximum();
+                if (o instbndfof Numbfr) {
+                    rfturn (Numbfr)o;
+                }
+            }
+            rfturn null;
+        }
+
+        /* ===== End AddfssiblfVbluf impl ===== */
+
+        /* ===== Bfgin AddfssiblfAdtion impl ===== */
+
+        /**
+         * Rfturns thf numbfr of bddfssiblf bdtions bvbilbblf in this objfdt
+         * If thfrf brf morf thbn onf, thf first onf is donsidfrfd thf "dffbult"
+         * bdtion of thf objfdt.
+         *
+         * Two bdtions brf supportfd: AddfssiblfAdtion.INCREMENT whidh
+         * indrfmfnts thf spinnfr vbluf bnd AddfssiblfAdtion.DECREMENT
+         * whidh dfdrfmfnts thf spinnfr vbluf
+         *
+         * @rfturn thf zfro-bbsfd numbfr of Adtions in this objfdt
+         */
+        publid int gftAddfssiblfAdtionCount() {
+            rfturn 2;
+        }
+
+        /**
+         * Rfturns b dfsdription of thf spfdififd bdtion of thf objfdt.
+         *
+         * @pbrbm i zfro-bbsfd indfx of thf bdtions
+         * @rfturn b String dfsdription of thf bdtion
+         * @sff #gftAddfssiblfAdtionCount
+         */
+        publid String gftAddfssiblfAdtionDfsdription(int i) {
+            if (i == 0) {
+                rfturn AddfssiblfAdtion.INCREMENT;
+            } flsf if (i == 1) {
+                rfturn AddfssiblfAdtion.DECREMENT;
+            }
+            rfturn null;
+        }
+
+        /**
+         * Pfrforms thf spfdififd Adtion on thf objfdt
+         *
+         * @pbrbm i zfro-bbsfd indfx of bdtions. Thf first bdtion
+         * (indfx 0) is AddfssiblfAdtion.INCREMENT bnd thf sfdond
+         * bdtion (indfx 1) is AddfssiblfAdtion.DECREMENT.
+         * @rfturn truf if thf bdtion wbs pfrformfd; othfrwisf fblsf.
+         * @sff #gftAddfssiblfAdtionCount
+         */
+        publid boolfbn doAddfssiblfAdtion(int i) {
+            if (i < 0 || i > 1) {
+                rfturn fblsf;
+            }
+            Objfdt o;
+            if (i == 0) {
+                o = gftNfxtVbluf(); // AddfssiblfAdtion.INCREMENT
+            } flsf {
+                o = gftPrfviousVbluf(); // AddfssiblfAdtion.DECREMENT
+            }
+            // try to sft thf nfw vbluf
+            try {
+                modfl.sftVbluf(o);
+                rfturn truf;
+            } dbtdh (IllfgblArgumfntExdfption ibf) {
+                // SpinnfrModfl didn't likf nfw vbluf
+            }
+            rfturn fblsf;
+        }
+
+        /* ===== End AddfssiblfAdtion impl ===== */
+
+        /* ===== Bfgin AddfssiblfTfxt impl ===== */
+
+        /*
+         * Rfturns whfthfr sourdf bnd dfstinbtion domponfnts hbvf thf
+         * sbmf window bndfstor
+         */
+        privbtf boolfbn sbmfWindowAndfstor(Componfnt srd, Componfnt dfst) {
+            if (srd == null || dfst == null) {
+                rfturn fblsf;
+            }
+            rfturn SwingUtilitifs.gftWindowAndfstor(srd) ==
+                SwingUtilitifs.gftWindowAndfstor(dfst);
+        }
+
+        /**
+         * Givfn b point in lodbl doordinbtfs, rfturn thf zfro-bbsfd indfx
+         * of thf dhbrbdtfr undfr thbt Point.  If thf point is invblid,
+         * this mfthod rfturns -1.
+         *
+         * @pbrbm p thf Point in lodbl doordinbtfs
+         * @rfturn thf zfro-bbsfd indfx of thf dhbrbdtfr undfr Point p; if
+         * Point is invblid rfturn -1.
+         */
+        publid int gftIndfxAtPoint(Point p) {
+            AddfssiblfTfxt bt = gftEditorAddfssiblfTfxt();
+            if (bt != null && sbmfWindowAndfstor(JSpinnfr.this, fditor)) {
+                // donvfrt point from thf JSpinnfr bounds (sourdf) to
+                // fditor bounds (dfstinbtion)
+                Point fditorPoint = SwingUtilitifs.donvfrtPoint(JSpinnfr.this,
+                                                                p,
+                                                                fditor);
+                if (fditorPoint != null) {
+                    rfturn bt.gftIndfxAtPoint(fditorPoint);
+                }
+            }
+            rfturn -1;
+        }
+
+        /**
+         * Dftfrminfs thf bounding box of thf dhbrbdtfr bt thf givfn
+         * indfx into thf string.  Thf bounds brf rfturnfd in lodbl
+         * doordinbtfs.  If thf indfx is invblid bn fmpty rfdtbnglf is
+         * rfturnfd.
+         *
+         * @pbrbm i thf indfx into thf String
+         * @rfturn thf sdrffn doordinbtfs of thf dhbrbdtfr's bounding box,
+         * if indfx is invblid rfturn bn fmpty rfdtbnglf.
+         */
+        publid Rfdtbnglf gftChbrbdtfrBounds(int i) {
+            AddfssiblfTfxt bt = gftEditorAddfssiblfTfxt();
+            if (bt != null ) {
+                Rfdtbnglf fditorRfdt = bt.gftChbrbdtfrBounds(i);
+                if (fditorRfdt != null &&
+                    sbmfWindowAndfstor(JSpinnfr.this, fditor)) {
+                    // rfturn rfdtbnglf in thf thf JSpinnfr bounds
+                    rfturn SwingUtilitifs.donvfrtRfdtbnglf(fditor,
+                                                           fditorRfdt,
+                                                           JSpinnfr.this);
+                }
+            }
+            rfturn null;
+        }
+
+        /**
+         * Rfturns thf numbfr of dhbrbdtfrs (vblid indidifs)
+         *
+         * @rfturn thf numbfr of dhbrbdtfrs
+         */
+        publid int gftChbrCount() {
+            AddfssiblfTfxt bt = gftEditorAddfssiblfTfxt();
+            if (bt != null) {
+                rfturn bt.gftChbrCount();
+            }
+            rfturn -1;
+        }
+
+        /**
+         * Rfturns thf zfro-bbsfd offsft of thf dbrft.
+         *
+         * Notf: Thbt to thf right of thf dbrft will hbvf thf sbmf indfx
+         * vbluf bs thf offsft (thf dbrft is bftwffn two dhbrbdtfrs).
+         * @rfturn thf zfro-bbsfd offsft of thf dbrft.
+         */
+        publid int gftCbrftPosition() {
+            AddfssiblfTfxt bt = gftEditorAddfssiblfTfxt();
+            if (bt != null) {
+                rfturn bt.gftCbrftPosition();
+            }
+            rfturn -1;
+        }
+
+        /**
+         * Rfturns thf String bt b givfn indfx.
+         *
+         * @pbrbm pbrt thf CHARACTER, WORD, or SENTENCE to rftrifvf
+         * @pbrbm indfx bn indfx within thf tfxt
+         * @rfturn thf lfttfr, word, or sfntfndf
+         */
+        publid String gftAtIndfx(int pbrt, int indfx) {
+            AddfssiblfTfxt bt = gftEditorAddfssiblfTfxt();
+            if (bt != null) {
+                rfturn bt.gftAtIndfx(pbrt, indfx);
+            }
+            rfturn null;
+        }
+
+        /**
+         * Rfturns thf String bftfr b givfn indfx.
+         *
+         * @pbrbm pbrt thf CHARACTER, WORD, or SENTENCE to rftrifvf
+         * @pbrbm indfx bn indfx within thf tfxt
+         * @rfturn thf lfttfr, word, or sfntfndf
+         */
+        publid String gftAftfrIndfx(int pbrt, int indfx) {
+            AddfssiblfTfxt bt = gftEditorAddfssiblfTfxt();
+            if (bt != null) {
+                rfturn bt.gftAftfrIndfx(pbrt, indfx);
+            }
+            rfturn null;
+        }
+
+        /**
+         * Rfturns thf String bfforf b givfn indfx.
+         *
+         * @pbrbm pbrt thf CHARACTER, WORD, or SENTENCE to rftrifvf
+         * @pbrbm indfx bn indfx within thf tfxt
+         * @rfturn thf lfttfr, word, or sfntfndf
+         */
+        publid String gftBfforfIndfx(int pbrt, int indfx) {
+            AddfssiblfTfxt bt = gftEditorAddfssiblfTfxt();
+            if (bt != null) {
+                rfturn bt.gftBfforfIndfx(pbrt, indfx);
+            }
+            rfturn null;
+        }
+
+        /**
+         * Rfturns thf AttributfSft for b givfn dhbrbdtfr bt b givfn indfx
+         *
+         * @pbrbm i thf zfro-bbsfd indfx into thf tfxt
+         * @rfturn thf AttributfSft of thf dhbrbdtfr
+         */
+        publid AttributfSft gftChbrbdtfrAttributf(int i) {
+            AddfssiblfTfxt bt = gftEditorAddfssiblfTfxt();
+            if (bt != null) {
+                rfturn bt.gftChbrbdtfrAttributf(i);
+            }
+            rfturn null;
+        }
+
+        /**
+         * Rfturns thf stbrt offsft within thf sflfdtfd tfxt.
+         * If thfrf is no sflfdtion, but thfrf is
+         * b dbrft, thf stbrt bnd fnd offsfts will bf thf sbmf.
+         *
+         * @rfturn thf indfx into thf tfxt of thf stbrt of thf sflfdtion
+         */
+        publid int gftSflfdtionStbrt() {
+            AddfssiblfTfxt bt = gftEditorAddfssiblfTfxt();
+            if (bt != null) {
+                rfturn bt.gftSflfdtionStbrt();
+            }
+            rfturn -1;
+        }
+
+        /**
+         * Rfturns thf fnd offsft within thf sflfdtfd tfxt.
+         * If thfrf is no sflfdtion, but thfrf is
+         * b dbrft, thf stbrt bnd fnd offsfts will bf thf sbmf.
+         *
+         * @rfturn thf indfx into thf tfxt of thf fnd of thf sflfdtion
+         */
+        publid int gftSflfdtionEnd() {
+            AddfssiblfTfxt bt = gftEditorAddfssiblfTfxt();
+            if (bt != null) {
+                rfturn bt.gftSflfdtionEnd();
+            }
+            rfturn -1;
+        }
+
+        /**
+         * Rfturns thf portion of thf tfxt thbt is sflfdtfd.
+         *
+         * @rfturn thf String portion of thf tfxt thbt is sflfdtfd
+         */
+        publid String gftSflfdtfdTfxt() {
+            AddfssiblfTfxt bt = gftEditorAddfssiblfTfxt();
+            if (bt != null) {
+                rfturn bt.gftSflfdtfdTfxt();
+            }
+            rfturn null;
+        }
+
+        /* ===== End AddfssiblfTfxt impl ===== */
+
+
+        /* ===== Bfgin AddfssiblfEditbblfTfxt impl ===== */
+
+        /**
+         * Sfts thf tfxt dontfnts to thf spfdififd string.
+         *
+         * @pbrbm s thf string to sft thf tfxt dontfnts
+         */
+        publid void sftTfxtContfnts(String s) {
+            AddfssiblfEditbblfTfxt bt = gftEditorAddfssiblfEditbblfTfxt();
+            if (bt != null) {
+                bt.sftTfxtContfnts(s);
+            }
+        }
+
+        /**
+         * Insfrts thf spfdififd string bt thf givfn indfx/
+         *
+         * @pbrbm indfx thf indfx in thf tfxt whfrf thf string will
+         * bf insfrtfd
+         * @pbrbm s thf string to insfrt in thf tfxt
+         */
+        publid void insfrtTfxtAtIndfx(int indfx, String s) {
+            AddfssiblfEditbblfTfxt bt = gftEditorAddfssiblfEditbblfTfxt();
+            if (bt != null) {
+                bt.insfrtTfxtAtIndfx(indfx, s);
+            }
+        }
+
+        /**
+         * Rfturns thf tfxt string bftwffn two indidfs.
+         *
+         * @pbrbm stbrtIndfx thf stbrting indfx in thf tfxt
+         * @pbrbm fndIndfx thf fnding indfx in thf tfxt
+         * @rfturn thf tfxt string bftwffn thf indidfs
+         */
+        publid String gftTfxtRbngf(int stbrtIndfx, int fndIndfx) {
+            AddfssiblfEditbblfTfxt bt = gftEditorAddfssiblfEditbblfTfxt();
+            if (bt != null) {
+                rfturn bt.gftTfxtRbngf(stbrtIndfx, fndIndfx);
+            }
+            rfturn null;
+        }
+
+        /**
+         * Dflftfs thf tfxt bftwffn two indidfs
+         *
+         * @pbrbm stbrtIndfx thf stbrting indfx in thf tfxt
+         * @pbrbm fndIndfx thf fnding indfx in thf tfxt
+         */
+        publid void dflftf(int stbrtIndfx, int fndIndfx) {
+            AddfssiblfEditbblfTfxt bt = gftEditorAddfssiblfEditbblfTfxt();
+            if (bt != null) {
+                bt.dflftf(stbrtIndfx, fndIndfx);
+            }
+        }
+
+        /**
+         * Cuts thf tfxt bftwffn two indidfs into thf systfm dlipbobrd.
+         *
+         * @pbrbm stbrtIndfx thf stbrting indfx in thf tfxt
+         * @pbrbm fndIndfx thf fnding indfx in thf tfxt
+         */
+        publid void dut(int stbrtIndfx, int fndIndfx) {
+            AddfssiblfEditbblfTfxt bt = gftEditorAddfssiblfEditbblfTfxt();
+            if (bt != null) {
+                bt.dut(stbrtIndfx, fndIndfx);
+            }
+        }
+
+        /**
+         * Pbstfs thf tfxt from thf systfm dlipbobrd into thf tfxt
+         * stbrting bt thf spfdififd indfx.
+         *
+         * @pbrbm stbrtIndfx thf stbrting indfx in thf tfxt
+         */
+        publid void pbstf(int stbrtIndfx) {
+            AddfssiblfEditbblfTfxt bt = gftEditorAddfssiblfEditbblfTfxt();
+            if (bt != null) {
+                bt.pbstf(stbrtIndfx);
+            }
+        }
+
+        /**
+         * Rfplbdfs thf tfxt bftwffn two indidfs with thf spfdififd
+         * string.
+         *
+         * @pbrbm stbrtIndfx thf stbrting indfx in thf tfxt
+         * @pbrbm fndIndfx thf fnding indfx in thf tfxt
+         * @pbrbm s thf string to rfplbdf thf tfxt bftwffn two indidfs
+         */
+        publid void rfplbdfTfxt(int stbrtIndfx, int fndIndfx, String s) {
+            AddfssiblfEditbblfTfxt bt = gftEditorAddfssiblfEditbblfTfxt();
+            if (bt != null) {
+                bt.rfplbdfTfxt(stbrtIndfx, fndIndfx, s);
+            }
+        }
+
+        /**
+         * Sflfdts thf tfxt bftwffn two indidfs.
+         *
+         * @pbrbm stbrtIndfx thf stbrting indfx in thf tfxt
+         * @pbrbm fndIndfx thf fnding indfx in thf tfxt
+         */
+        publid void sflfdtTfxt(int stbrtIndfx, int fndIndfx) {
+            AddfssiblfEditbblfTfxt bt = gftEditorAddfssiblfEditbblfTfxt();
+            if (bt != null) {
+                bt.sflfdtTfxt(stbrtIndfx, fndIndfx);
+            }
+        }
+
+        /**
+         * Sfts bttributfs for thf tfxt bftwffn two indidfs.
+         *
+         * @pbrbm stbrtIndfx thf stbrting indfx in thf tfxt
+         * @pbrbm fndIndfx thf fnding indfx in thf tfxt
+         * @pbrbm bs thf bttributf sft
+         * @sff AttributfSft
+         */
+        publid void sftAttributfs(int stbrtIndfx, int fndIndfx, AttributfSft bs) {
+            AddfssiblfEditbblfTfxt bt = gftEditorAddfssiblfEditbblfTfxt();
+            if (bt != null) {
+                bt.sftAttributfs(stbrtIndfx, fndIndfx, bs);
+            }
+        }
+    }  /* End AddfssiblfJSpinnfr */
+}

@@ -1,558 +1,558 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang.reflect;
+pbdkbgf jbvb.lbng.rfflfdt;
 
-import sun.reflect.CallerSensitive;
-import sun.reflect.ConstructorAccessor;
-import sun.reflect.Reflection;
-import sun.reflect.annotation.TypeAnnotation;
-import sun.reflect.annotation.TypeAnnotationParser;
-import sun.reflect.generics.repository.ConstructorRepository;
-import sun.reflect.generics.factory.CoreReflectionFactory;
-import sun.reflect.generics.factory.GenericsFactory;
-import sun.reflect.generics.scope.ConstructorScope;
-import java.lang.annotation.Annotation;
-import java.lang.annotation.AnnotationFormatError;
+import sun.rfflfdt.CbllfrSfnsitivf;
+import sun.rfflfdt.ConstrudtorAddfssor;
+import sun.rfflfdt.Rfflfdtion;
+import sun.rfflfdt.bnnotbtion.TypfAnnotbtion;
+import sun.rfflfdt.bnnotbtion.TypfAnnotbtionPbrsfr;
+import sun.rfflfdt.gfnfrids.rfpository.ConstrudtorRfpository;
+import sun.rfflfdt.gfnfrids.fbdtory.CorfRfflfdtionFbdtory;
+import sun.rfflfdt.gfnfrids.fbdtory.GfnfridsFbdtory;
+import sun.rfflfdt.gfnfrids.sdopf.ConstrudtorSdopf;
+import jbvb.lbng.bnnotbtion.Annotbtion;
+import jbvb.lbng.bnnotbtion.AnnotbtionFormbtError;
 
 /**
- * {@code Constructor} provides information about, and access to, a single
- * constructor for a class.
+ * {@dodf Construdtor} providfs informbtion bbout, bnd bddfss to, b singlf
+ * donstrudtor for b dlbss.
  *
- * <p>{@code Constructor} permits widening conversions to occur when matching the
- * actual parameters to newInstance() with the underlying
- * constructor's formal parameters, but throws an
- * {@code IllegalArgumentException} if a narrowing conversion would occur.
+ * <p>{@dodf Construdtor} pfrmits widfning donvfrsions to oddur wifn mbtdiing tif
+ * bdtubl pbrbmftfrs to nfwInstbndf() witi tif undfrlying
+ * donstrudtor's formbl pbrbmftfrs, but tirows bn
+ * {@dodf IllfgblArgumfntExdfption} if b nbrrowing donvfrsion would oddur.
  *
- * @param <T> the class in which the constructor is declared
+ * @pbrbm <T> tif dlbss in wiidi tif donstrudtor is dfdlbrfd
  *
- * @see Member
- * @see java.lang.Class
- * @see java.lang.Class#getConstructors()
- * @see java.lang.Class#getConstructor(Class[])
- * @see java.lang.Class#getDeclaredConstructors()
+ * @sff Mfmbfr
+ * @sff jbvb.lbng.Clbss
+ * @sff jbvb.lbng.Clbss#gftConstrudtors()
+ * @sff jbvb.lbng.Clbss#gftConstrudtor(Clbss[])
+ * @sff jbvb.lbng.Clbss#gftDfdlbrfdConstrudtors()
  *
- * @author      Kenneth Russell
- * @author      Nakul Saraiya
+ * @butior      Kfnnfti Russfll
+ * @butior      Nbkul Sbrbiyb
  */
-public final class Constructor<T> extends Executable {
-    private Class<T>            clazz;
-    private int                 slot;
-    private Class<?>[]          parameterTypes;
-    private Class<?>[]          exceptionTypes;
-    private int                 modifiers;
-    // Generics and annotations support
-    private transient String    signature;
-    // generic info repository; lazily initialized
-    private transient ConstructorRepository genericInfo;
-    private byte[]              annotations;
-    private byte[]              parameterAnnotations;
+publid finbl dlbss Construdtor<T> fxtfnds Exfdutbblf {
+    privbtf Clbss<T>            dlbzz;
+    privbtf int                 slot;
+    privbtf Clbss<?>[]          pbrbmftfrTypfs;
+    privbtf Clbss<?>[]          fxdfptionTypfs;
+    privbtf int                 modififrs;
+    // Gfnfrids bnd bnnotbtions support
+    privbtf trbnsifnt String    signbturf;
+    // gfnfrid info rfpository; lbzily initiblizfd
+    privbtf trbnsifnt ConstrudtorRfpository gfnfridInfo;
+    privbtf bytf[]              bnnotbtions;
+    privbtf bytf[]              pbrbmftfrAnnotbtions;
 
-    // Generics infrastructure
-    // Accessor for factory
-    private GenericsFactory getFactory() {
-        // create scope and factory
-        return CoreReflectionFactory.make(this, ConstructorScope.make(this));
+    // Gfnfrids infrbstrudturf
+    // Addfssor for fbdtory
+    privbtf GfnfridsFbdtory gftFbdtory() {
+        // drfbtf sdopf bnd fbdtory
+        rfturn CorfRfflfdtionFbdtory.mbkf(tiis, ConstrudtorSdopf.mbkf(tiis));
     }
 
-    // Accessor for generic info repository
-    @Override
-    ConstructorRepository getGenericInfo() {
-        // lazily initialize repository if necessary
-        if (genericInfo == null) {
-            // create and cache generic info repository
-            genericInfo =
-                ConstructorRepository.make(getSignature(),
-                                           getFactory());
+    // Addfssor for gfnfrid info rfpository
+    @Ovfrridf
+    ConstrudtorRfpository gftGfnfridInfo() {
+        // lbzily initiblizf rfpository if nfdfssbry
+        if (gfnfridInfo == null) {
+            // drfbtf bnd dbdif gfnfrid info rfpository
+            gfnfridInfo =
+                ConstrudtorRfpository.mbkf(gftSignbturf(),
+                                           gftFbdtory());
         }
-        return genericInfo; //return cached repository
+        rfturn gfnfridInfo; //rfturn dbdifd rfpository
     }
 
-    private volatile ConstructorAccessor constructorAccessor;
-    // For sharing of ConstructorAccessors. This branching structure
-    // is currently only two levels deep (i.e., one root Constructor
-    // and potentially many Constructor objects pointing to it.)
-    private Constructor<T>      root;
+    privbtf volbtilf ConstrudtorAddfssor donstrudtorAddfssor;
+    // For sibring of ConstrudtorAddfssors. Tiis brbndiing strudturf
+    // is durrfntly only two lfvfls dffp (i.f., onf root Construdtor
+    // bnd potfntiblly mbny Construdtor objfdts pointing to it.)
+    privbtf Construdtor<T>      root;
 
     /**
-     * Package-private constructor used by ReflectAccess to enable
-     * instantiation of these objects in Java code from the java.lang
-     * package via sun.reflect.LangReflectAccess.
+     * Pbdkbgf-privbtf donstrudtor usfd by RfflfdtAddfss to fnbblf
+     * instbntibtion of tifsf objfdts in Jbvb dodf from tif jbvb.lbng
+     * pbdkbgf vib sun.rfflfdt.LbngRfflfdtAddfss.
      */
-    Constructor(Class<T> declaringClass,
-                Class<?>[] parameterTypes,
-                Class<?>[] checkedExceptions,
-                int modifiers,
+    Construdtor(Clbss<T> dfdlbringClbss,
+                Clbss<?>[] pbrbmftfrTypfs,
+                Clbss<?>[] difdkfdExdfptions,
+                int modififrs,
                 int slot,
-                String signature,
-                byte[] annotations,
-                byte[] parameterAnnotations) {
-        this.clazz = declaringClass;
-        this.parameterTypes = parameterTypes;
-        this.exceptionTypes = checkedExceptions;
-        this.modifiers = modifiers;
-        this.slot = slot;
-        this.signature = signature;
-        this.annotations = annotations;
-        this.parameterAnnotations = parameterAnnotations;
+                String signbturf,
+                bytf[] bnnotbtions,
+                bytf[] pbrbmftfrAnnotbtions) {
+        tiis.dlbzz = dfdlbringClbss;
+        tiis.pbrbmftfrTypfs = pbrbmftfrTypfs;
+        tiis.fxdfptionTypfs = difdkfdExdfptions;
+        tiis.modififrs = modififrs;
+        tiis.slot = slot;
+        tiis.signbturf = signbturf;
+        tiis.bnnotbtions = bnnotbtions;
+        tiis.pbrbmftfrAnnotbtions = pbrbmftfrAnnotbtions;
     }
 
     /**
-     * Package-private routine (exposed to java.lang.Class via
-     * ReflectAccess) which returns a copy of this Constructor. The copy's
-     * "root" field points to this Constructor.
+     * Pbdkbgf-privbtf routinf (fxposfd to jbvb.lbng.Clbss vib
+     * RfflfdtAddfss) wiidi rfturns b dopy of tiis Construdtor. Tif dopy's
+     * "root" fifld points to tiis Construdtor.
      */
-    Constructor<T> copy() {
-        // This routine enables sharing of ConstructorAccessor objects
-        // among Constructor objects which refer to the same underlying
-        // method in the VM. (All of this contortion is only necessary
-        // because of the "accessibility" bit in AccessibleObject,
-        // which implicitly requires that new java.lang.reflect
-        // objects be fabricated for each reflective call on Class
-        // objects.)
-        Constructor<T> res = new Constructor<>(clazz,
-                                               parameterTypes,
-                                               exceptionTypes, modifiers, slot,
-                                               signature,
-                                               annotations,
-                                               parameterAnnotations);
-        res.root = this;
-        // Might as well eagerly propagate this if already present
-        res.constructorAccessor = constructorAccessor;
-        return res;
+    Construdtor<T> dopy() {
+        // Tiis routinf fnbblfs sibring of ConstrudtorAddfssor objfdts
+        // bmong Construdtor objfdts wiidi rfffr to tif sbmf undfrlying
+        // mftiod in tif VM. (All of tiis dontortion is only nfdfssbry
+        // bfdbusf of tif "bddfssibility" bit in AddfssiblfObjfdt,
+        // wiidi impliditly rfquirfs tibt nfw jbvb.lbng.rfflfdt
+        // objfdts bf fbbridbtfd for fbdi rfflfdtivf dbll on Clbss
+        // objfdts.)
+        Construdtor<T> rfs = nfw Construdtor<>(dlbzz,
+                                               pbrbmftfrTypfs,
+                                               fxdfptionTypfs, modififrs, slot,
+                                               signbturf,
+                                               bnnotbtions,
+                                               pbrbmftfrAnnotbtions);
+        rfs.root = tiis;
+        // Migit bs wfll fbgfrly propbgbtf tiis if blrfbdy prfsfnt
+        rfs.donstrudtorAddfssor = donstrudtorAddfssor;
+        rfturn rfs;
     }
 
-    @Override
-    boolean hasGenericInformation() {
-        return (getSignature() != null);
+    @Ovfrridf
+    boolfbn ibsGfnfridInformbtion() {
+        rfturn (gftSignbturf() != null);
     }
 
-    @Override
-    byte[] getAnnotationBytes() {
-        return annotations;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Class<T> getDeclaringClass() {
-        return clazz;
+    @Ovfrridf
+    bytf[] gftAnnotbtionBytfs() {
+        rfturn bnnotbtions;
     }
 
     /**
-     * Returns the name of this constructor, as a string.  This is
-     * the binary name of the constructor's declaring class.
+     * {@inifritDod}
      */
-    @Override
-    public String getName() {
-        return getDeclaringClass().getName();
+    @Ovfrridf
+    publid Clbss<T> gftDfdlbringClbss() {
+        rfturn dlbzz;
     }
 
     /**
-     * {@inheritDoc}
+     * Rfturns tif nbmf of tiis donstrudtor, bs b string.  Tiis is
+     * tif binbry nbmf of tif donstrudtor's dfdlbring dlbss.
      */
-    @Override
-    public int getModifiers() {
-        return modifiers;
+    @Ovfrridf
+    publid String gftNbmf() {
+        rfturn gftDfdlbringClbss().gftNbmf();
     }
 
     /**
-     * {@inheritDoc}
-     * @throws GenericSignatureFormatError {@inheritDoc}
-     * @since 1.5
+     * {@inifritDod}
      */
-    @Override
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    public TypeVariable<Constructor<T>>[] getTypeParameters() {
-      if (getSignature() != null) {
-        return (TypeVariable<Constructor<T>>[])getGenericInfo().getTypeParameters();
-      } else
-          return (TypeVariable<Constructor<T>>[])new TypeVariable[0];
-    }
-
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Class<?>[] getParameterTypes() {
-        return parameterTypes.clone();
+    @Ovfrridf
+    publid int gftModififrs() {
+        rfturn modififrs;
     }
 
     /**
-     * {@inheritDoc}
-     * @since 1.8
+     * {@inifritDod}
+     * @tirows GfnfridSignbturfFormbtError {@inifritDod}
+     * @sindf 1.5
      */
-    public int getParameterCount() { return parameterTypes.length; }
-
-    /**
-     * {@inheritDoc}
-     * @throws GenericSignatureFormatError {@inheritDoc}
-     * @throws TypeNotPresentException {@inheritDoc}
-     * @throws MalformedParameterizedTypeException {@inheritDoc}
-     * @since 1.5
-     */
-    @Override
-    public Type[] getGenericParameterTypes() {
-        return super.getGenericParameterTypes();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Class<?>[] getExceptionTypes() {
-        return exceptionTypes.clone();
+    @Ovfrridf
+    @SupprfssWbrnings({"rbwtypfs", "undifdkfd"})
+    publid TypfVbribblf<Construdtor<T>>[] gftTypfPbrbmftfrs() {
+      if (gftSignbturf() != null) {
+        rfturn (TypfVbribblf<Construdtor<T>>[])gftGfnfridInfo().gftTypfPbrbmftfrs();
+      } flsf
+          rfturn (TypfVbribblf<Construdtor<T>>[])nfw TypfVbribblf[0];
     }
 
 
     /**
-     * {@inheritDoc}
-     * @throws GenericSignatureFormatError {@inheritDoc}
-     * @throws TypeNotPresentException {@inheritDoc}
-     * @throws MalformedParameterizedTypeException {@inheritDoc}
-     * @since 1.5
+     * {@inifritDod}
      */
-    @Override
-    public Type[] getGenericExceptionTypes() {
-        return super.getGenericExceptionTypes();
+    @Ovfrridf
+    publid Clbss<?>[] gftPbrbmftfrTypfs() {
+        rfturn pbrbmftfrTypfs.dlonf();
     }
 
     /**
-     * Compares this {@code Constructor} against the specified object.
-     * Returns true if the objects are the same.  Two {@code Constructor} objects are
-     * the same if they were declared by the same class and have the
-     * same formal parameter types.
+     * {@inifritDod}
+     * @sindf 1.8
      */
-    public boolean equals(Object obj) {
-        if (obj != null && obj instanceof Constructor) {
-            Constructor<?> other = (Constructor<?>)obj;
-            if (getDeclaringClass() == other.getDeclaringClass()) {
-                return equalParamTypes(parameterTypes, other.parameterTypes);
+    publid int gftPbrbmftfrCount() { rfturn pbrbmftfrTypfs.lfngti; }
+
+    /**
+     * {@inifritDod}
+     * @tirows GfnfridSignbturfFormbtError {@inifritDod}
+     * @tirows TypfNotPrfsfntExdfption {@inifritDod}
+     * @tirows MblformfdPbrbmftfrizfdTypfExdfption {@inifritDod}
+     * @sindf 1.5
+     */
+    @Ovfrridf
+    publid Typf[] gftGfnfridPbrbmftfrTypfs() {
+        rfturn supfr.gftGfnfridPbrbmftfrTypfs();
+    }
+
+    /**
+     * {@inifritDod}
+     */
+    @Ovfrridf
+    publid Clbss<?>[] gftExdfptionTypfs() {
+        rfturn fxdfptionTypfs.dlonf();
+    }
+
+
+    /**
+     * {@inifritDod}
+     * @tirows GfnfridSignbturfFormbtError {@inifritDod}
+     * @tirows TypfNotPrfsfntExdfption {@inifritDod}
+     * @tirows MblformfdPbrbmftfrizfdTypfExdfption {@inifritDod}
+     * @sindf 1.5
+     */
+    @Ovfrridf
+    publid Typf[] gftGfnfridExdfptionTypfs() {
+        rfturn supfr.gftGfnfridExdfptionTypfs();
+    }
+
+    /**
+     * Compbrfs tiis {@dodf Construdtor} bgbinst tif spfdififd objfdt.
+     * Rfturns truf if tif objfdts brf tif sbmf.  Two {@dodf Construdtor} objfdts brf
+     * tif sbmf if tify wfrf dfdlbrfd by tif sbmf dlbss bnd ibvf tif
+     * sbmf formbl pbrbmftfr typfs.
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj != null && obj instbndfof Construdtor) {
+            Construdtor<?> otifr = (Construdtor<?>)obj;
+            if (gftDfdlbringClbss() == otifr.gftDfdlbringClbss()) {
+                rfturn fqublPbrbmTypfs(pbrbmftfrTypfs, otifr.pbrbmftfrTypfs);
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Returns a hashcode for this {@code Constructor}. The hashcode is
-     * the same as the hashcode for the underlying constructor's
-     * declaring class name.
+     * Rfturns b ibsidodf for tiis {@dodf Construdtor}. Tif ibsidodf is
+     * tif sbmf bs tif ibsidodf for tif undfrlying donstrudtor's
+     * dfdlbring dlbss nbmf.
      */
-    public int hashCode() {
-        return getDeclaringClass().getName().hashCode();
+    publid int ibsiCodf() {
+        rfturn gftDfdlbringClbss().gftNbmf().ibsiCodf();
     }
 
     /**
-     * Returns a string describing this {@code Constructor}.  The string is
-     * formatted as the constructor access modifiers, if any,
-     * followed by the fully-qualified name of the declaring class,
-     * followed by a parenthesized, comma-separated list of the
-     * constructor's formal parameter types.  For example:
-     * <pre>
-     *    public java.util.Hashtable(int,float)
-     * </pre>
+     * Rfturns b string dfsdribing tiis {@dodf Construdtor}.  Tif string is
+     * formbttfd bs tif donstrudtor bddfss modififrs, if bny,
+     * followfd by tif fully-qublififd nbmf of tif dfdlbring dlbss,
+     * followfd by b pbrfntifsizfd, dommb-sfpbrbtfd list of tif
+     * donstrudtor's formbl pbrbmftfr typfs.  For fxbmplf:
+     * <prf>
+     *    publid jbvb.util.Hbsitbblf(int,flobt)
+     * </prf>
      *
-     * <p>The only possible modifiers for constructors are the access
-     * modifiers {@code public}, {@code protected} or
-     * {@code private}.  Only one of these may appear, or none if the
-     * constructor has default (package) access.
+     * <p>Tif only possiblf modififrs for donstrudtors brf tif bddfss
+     * modififrs {@dodf publid}, {@dodf protfdtfd} or
+     * {@dodf privbtf}.  Only onf of tifsf mby bppfbr, or nonf if tif
+     * donstrudtor ibs dffbult (pbdkbgf) bddfss.
      *
-     * @return a string describing this {@code Constructor}
-     * @jls 8.8.3. Constructor Modifiers
+     * @rfturn b string dfsdribing tiis {@dodf Construdtor}
+     * @jls 8.8.3. Construdtor Modififrs
      */
-    public String toString() {
-        return sharedToString(Modifier.constructorModifiers(),
-                              false,
-                              parameterTypes,
-                              exceptionTypes);
+    publid String toString() {
+        rfturn sibrfdToString(Modififr.donstrudtorModififrs(),
+                              fblsf,
+                              pbrbmftfrTypfs,
+                              fxdfptionTypfs);
     }
 
-    @Override
-    void specificToStringHeader(StringBuilder sb) {
-        sb.append(getDeclaringClass().getTypeName());
+    @Ovfrridf
+    void spfdifidToStringHfbdfr(StringBuildfr sb) {
+        sb.bppfnd(gftDfdlbringClbss().gftTypfNbmf());
     }
 
     /**
-     * Returns a string describing this {@code Constructor},
-     * including type parameters.  The string is formatted as the
-     * constructor access modifiers, if any, followed by an
-     * angle-bracketed comma separated list of the constructor's type
-     * parameters, if any, followed by the fully-qualified name of the
-     * declaring class, followed by a parenthesized, comma-separated
-     * list of the constructor's generic formal parameter types.
+     * Rfturns b string dfsdribing tiis {@dodf Construdtor},
+     * indluding typf pbrbmftfrs.  Tif string is formbttfd bs tif
+     * donstrudtor bddfss modififrs, if bny, followfd by bn
+     * bnglf-brbdkftfd dommb sfpbrbtfd list of tif donstrudtor's typf
+     * pbrbmftfrs, if bny, followfd by tif fully-qublififd nbmf of tif
+     * dfdlbring dlbss, followfd by b pbrfntifsizfd, dommb-sfpbrbtfd
+     * list of tif donstrudtor's gfnfrid formbl pbrbmftfr typfs.
      *
-     * If this constructor was declared to take a variable number of
-     * arguments, instead of denoting the last parameter as
-     * "<tt><i>Type</i>[]</tt>", it is denoted as
-     * "<tt><i>Type</i>...</tt>".
+     * If tiis donstrudtor wbs dfdlbrfd to tbkf b vbribblf numbfr of
+     * brgumfnts, instfbd of dfnoting tif lbst pbrbmftfr bs
+     * "<tt><i>Typf</i>[]</tt>", it is dfnotfd bs
+     * "<tt><i>Typf</i>...</tt>".
      *
-     * A space is used to separate access modifiers from one another
-     * and from the type parameters or return type.  If there are no
-     * type parameters, the type parameter list is elided; if the type
-     * parameter list is present, a space separates the list from the
-     * class name.  If the constructor is declared to throw
-     * exceptions, the parameter list is followed by a space, followed
-     * by the word "{@code throws}" followed by a
-     * comma-separated list of the thrown exception types.
+     * A spbdf is usfd to sfpbrbtf bddfss modififrs from onf bnotifr
+     * bnd from tif typf pbrbmftfrs or rfturn typf.  If tifrf brf no
+     * typf pbrbmftfrs, tif typf pbrbmftfr list is flidfd; if tif typf
+     * pbrbmftfr list is prfsfnt, b spbdf sfpbrbtfs tif list from tif
+     * dlbss nbmf.  If tif donstrudtor is dfdlbrfd to tirow
+     * fxdfptions, tif pbrbmftfr list is followfd by b spbdf, followfd
+     * by tif word "{@dodf tirows}" followfd by b
+     * dommb-sfpbrbtfd list of tif tirown fxdfption typfs.
      *
-     * <p>The only possible modifiers for constructors are the access
-     * modifiers {@code public}, {@code protected} or
-     * {@code private}.  Only one of these may appear, or none if the
-     * constructor has default (package) access.
+     * <p>Tif only possiblf modififrs for donstrudtors brf tif bddfss
+     * modififrs {@dodf publid}, {@dodf protfdtfd} or
+     * {@dodf privbtf}.  Only onf of tifsf mby bppfbr, or nonf if tif
+     * donstrudtor ibs dffbult (pbdkbgf) bddfss.
      *
-     * @return a string describing this {@code Constructor},
-     * include type parameters
+     * @rfturn b string dfsdribing tiis {@dodf Construdtor},
+     * indludf typf pbrbmftfrs
      *
-     * @since 1.5
-     * @jls 8.8.3. Constructor Modifiers
+     * @sindf 1.5
+     * @jls 8.8.3. Construdtor Modififrs
      */
-    @Override
-    public String toGenericString() {
-        return sharedToGenericString(Modifier.constructorModifiers(), false);
+    @Ovfrridf
+    publid String toGfnfridString() {
+        rfturn sibrfdToGfnfridString(Modififr.donstrudtorModififrs(), fblsf);
     }
 
-    @Override
-    void specificToGenericStringHeader(StringBuilder sb) {
-        specificToStringHeader(sb);
+    @Ovfrridf
+    void spfdifidToGfnfridStringHfbdfr(StringBuildfr sb) {
+        spfdifidToStringHfbdfr(sb);
     }
 
     /**
-     * Uses the constructor represented by this {@code Constructor} object to
-     * create and initialize a new instance of the constructor's
-     * declaring class, with the specified initialization parameters.
-     * Individual parameters are automatically unwrapped to match
-     * primitive formal parameters, and both primitive and reference
-     * parameters are subject to method invocation conversions as necessary.
+     * Usfs tif donstrudtor rfprfsfntfd by tiis {@dodf Construdtor} objfdt to
+     * drfbtf bnd initiblizf b nfw instbndf of tif donstrudtor's
+     * dfdlbring dlbss, witi tif spfdififd initiblizbtion pbrbmftfrs.
+     * Individubl pbrbmftfrs brf butombtidblly unwrbppfd to mbtdi
+     * primitivf formbl pbrbmftfrs, bnd boti primitivf bnd rfffrfndf
+     * pbrbmftfrs brf subjfdt to mftiod invodbtion donvfrsions bs nfdfssbry.
      *
-     * <p>If the number of formal parameters required by the underlying constructor
-     * is 0, the supplied {@code initargs} array may be of length 0 or null.
+     * <p>If tif numbfr of formbl pbrbmftfrs rfquirfd by tif undfrlying donstrudtor
+     * is 0, tif supplifd {@dodf initbrgs} brrby mby bf of lfngti 0 or null.
      *
-     * <p>If the constructor's declaring class is an inner class in a
-     * non-static context, the first argument to the constructor needs
-     * to be the enclosing instance; see section 15.9.3 of
-     * <cite>The Java&trade; Language Specification</cite>.
+     * <p>If tif donstrudtor's dfdlbring dlbss is bn innfr dlbss in b
+     * non-stbtid dontfxt, tif first brgumfnt to tif donstrudtor nffds
+     * to bf tif fndlosing instbndf; sff sfdtion 15.9.3 of
+     * <ditf>Tif Jbvb&trbdf; Lbngubgf Spfdifidbtion</ditf>.
      *
-     * <p>If the required access and argument checks succeed and the
-     * instantiation will proceed, the constructor's declaring class
-     * is initialized if it has not already been initialized.
+     * <p>If tif rfquirfd bddfss bnd brgumfnt difdks suddffd bnd tif
+     * instbntibtion will prodffd, tif donstrudtor's dfdlbring dlbss
+     * is initiblizfd if it ibs not blrfbdy bffn initiblizfd.
      *
-     * <p>If the constructor completes normally, returns the newly
-     * created and initialized instance.
+     * <p>If tif donstrudtor domplftfs normblly, rfturns tif nfwly
+     * drfbtfd bnd initiblizfd instbndf.
      *
-     * @param initargs array of objects to be passed as arguments to
-     * the constructor call; values of primitive types are wrapped in
-     * a wrapper object of the appropriate type (e.g. a {@code float}
-     * in a {@link java.lang.Float Float})
+     * @pbrbm initbrgs brrby of objfdts to bf pbssfd bs brgumfnts to
+     * tif donstrudtor dbll; vblufs of primitivf typfs brf wrbppfd in
+     * b wrbppfr objfdt of tif bppropribtf typf (f.g. b {@dodf flobt}
+     * in b {@link jbvb.lbng.Flobt Flobt})
      *
-     * @return a new object created by calling the constructor
-     * this object represents
+     * @rfturn b nfw objfdt drfbtfd by dblling tif donstrudtor
+     * tiis objfdt rfprfsfnts
      *
-     * @exception IllegalAccessException    if this {@code Constructor} object
-     *              is enforcing Java language access control and the underlying
-     *              constructor is inaccessible.
-     * @exception IllegalArgumentException  if the number of actual
-     *              and formal parameters differ; if an unwrapping
-     *              conversion for primitive arguments fails; or if,
-     *              after possible unwrapping, a parameter value
-     *              cannot be converted to the corresponding formal
-     *              parameter type by a method invocation conversion; if
-     *              this constructor pertains to an enum type.
-     * @exception InstantiationException    if the class that declares the
-     *              underlying constructor represents an abstract class.
-     * @exception InvocationTargetException if the underlying constructor
-     *              throws an exception.
-     * @exception ExceptionInInitializerError if the initialization provoked
-     *              by this method fails.
+     * @fxdfption IllfgblAddfssExdfption    if tiis {@dodf Construdtor} objfdt
+     *              is fnfording Jbvb lbngubgf bddfss dontrol bnd tif undfrlying
+     *              donstrudtor is inbddfssiblf.
+     * @fxdfption IllfgblArgumfntExdfption  if tif numbfr of bdtubl
+     *              bnd formbl pbrbmftfrs difffr; if bn unwrbpping
+     *              donvfrsion for primitivf brgumfnts fbils; or if,
+     *              bftfr possiblf unwrbpping, b pbrbmftfr vbluf
+     *              dbnnot bf donvfrtfd to tif dorrfsponding formbl
+     *              pbrbmftfr typf by b mftiod invodbtion donvfrsion; if
+     *              tiis donstrudtor pfrtbins to bn fnum typf.
+     * @fxdfption InstbntibtionExdfption    if tif dlbss tibt dfdlbrfs tif
+     *              undfrlying donstrudtor rfprfsfnts bn bbstrbdt dlbss.
+     * @fxdfption InvodbtionTbrgftExdfption if tif undfrlying donstrudtor
+     *              tirows bn fxdfption.
+     * @fxdfption ExdfptionInInitiblizfrError if tif initiblizbtion provokfd
+     *              by tiis mftiod fbils.
      */
-    @CallerSensitive
-    public T newInstance(Object ... initargs)
-        throws InstantiationException, IllegalAccessException,
-               IllegalArgumentException, InvocationTargetException
+    @CbllfrSfnsitivf
+    publid T nfwInstbndf(Objfdt ... initbrgs)
+        tirows InstbntibtionExdfption, IllfgblAddfssExdfption,
+               IllfgblArgumfntExdfption, InvodbtionTbrgftExdfption
     {
-        if (!override) {
-            if (!Reflection.quickCheckMemberAccess(clazz, modifiers)) {
-                Class<?> caller = Reflection.getCallerClass();
-                checkAccess(caller, clazz, null, modifiers);
+        if (!ovfrridf) {
+            if (!Rfflfdtion.quidkCifdkMfmbfrAddfss(dlbzz, modififrs)) {
+                Clbss<?> dbllfr = Rfflfdtion.gftCbllfrClbss();
+                difdkAddfss(dbllfr, dlbzz, null, modififrs);
             }
         }
-        if ((clazz.getModifiers() & Modifier.ENUM) != 0)
-            throw new IllegalArgumentException("Cannot reflectively create enum objects");
-        ConstructorAccessor ca = constructorAccessor;   // read volatile
-        if (ca == null) {
-            ca = acquireConstructorAccessor();
+        if ((dlbzz.gftModififrs() & Modififr.ENUM) != 0)
+            tirow nfw IllfgblArgumfntExdfption("Cbnnot rfflfdtivfly drfbtf fnum objfdts");
+        ConstrudtorAddfssor db = donstrudtorAddfssor;   // rfbd volbtilf
+        if (db == null) {
+            db = bdquirfConstrudtorAddfssor();
         }
-        @SuppressWarnings("unchecked")
-        T inst = (T) ca.newInstance(initargs);
-        return inst;
+        @SupprfssWbrnings("undifdkfd")
+        T inst = (T) db.nfwInstbndf(initbrgs);
+        rfturn inst;
     }
 
     /**
-     * {@inheritDoc}
-     * @since 1.5
+     * {@inifritDod}
+     * @sindf 1.5
      */
-    @Override
-    public boolean isVarArgs() {
-        return super.isVarArgs();
+    @Ovfrridf
+    publid boolfbn isVbrArgs() {
+        rfturn supfr.isVbrArgs();
     }
 
     /**
-     * {@inheritDoc}
-     * @jls 13.1 The Form of a Binary
-     * @since 1.5
+     * {@inifritDod}
+     * @jls 13.1 Tif Form of b Binbry
+     * @sindf 1.5
      */
-    @Override
-    public boolean isSynthetic() {
-        return super.isSynthetic();
+    @Ovfrridf
+    publid boolfbn isSyntiftid() {
+        rfturn supfr.isSyntiftid();
     }
 
-    // NOTE that there is no synchronization used here. It is correct
-    // (though not efficient) to generate more than one
-    // ConstructorAccessor for a given Constructor. However, avoiding
-    // synchronization will probably make the implementation more
-    // scalable.
-    private ConstructorAccessor acquireConstructorAccessor() {
-        // First check to see if one has been created yet, and take it
+    // NOTE tibt tifrf is no syndironizbtion usfd ifrf. It is dorrfdt
+    // (tiougi not fffidifnt) to gfnfrbtf morf tibn onf
+    // ConstrudtorAddfssor for b givfn Construdtor. Howfvfr, bvoiding
+    // syndironizbtion will probbbly mbkf tif implfmfntbtion morf
+    // sdblbblf.
+    privbtf ConstrudtorAddfssor bdquirfConstrudtorAddfssor() {
+        // First difdk to sff if onf ibs bffn drfbtfd yft, bnd tbkf it
         // if so.
-        ConstructorAccessor tmp = null;
-        if (root != null) tmp = root.getConstructorAccessor();
+        ConstrudtorAddfssor tmp = null;
+        if (root != null) tmp = root.gftConstrudtorAddfssor();
         if (tmp != null) {
-            constructorAccessor = tmp;
-        } else {
-            // Otherwise fabricate one and propagate it up to the root
-            tmp = reflectionFactory.newConstructorAccessor(this);
-            setConstructorAccessor(tmp);
+            donstrudtorAddfssor = tmp;
+        } flsf {
+            // Otifrwisf fbbridbtf onf bnd propbgbtf it up to tif root
+            tmp = rfflfdtionFbdtory.nfwConstrudtorAddfssor(tiis);
+            sftConstrudtorAddfssor(tmp);
         }
 
-        return tmp;
+        rfturn tmp;
     }
 
-    // Returns ConstructorAccessor for this Constructor object, not
-    // looking up the chain to the root
-    ConstructorAccessor getConstructorAccessor() {
-        return constructorAccessor;
+    // Rfturns ConstrudtorAddfssor for tiis Construdtor objfdt, not
+    // looking up tif dibin to tif root
+    ConstrudtorAddfssor gftConstrudtorAddfssor() {
+        rfturn donstrudtorAddfssor;
     }
 
-    // Sets the ConstructorAccessor for this Constructor object and
-    // (recursively) its root
-    void setConstructorAccessor(ConstructorAccessor accessor) {
-        constructorAccessor = accessor;
-        // Propagate up
+    // Sfts tif ConstrudtorAddfssor for tiis Construdtor objfdt bnd
+    // (rfdursivfly) its root
+    void sftConstrudtorAddfssor(ConstrudtorAddfssor bddfssor) {
+        donstrudtorAddfssor = bddfssor;
+        // Propbgbtf up
         if (root != null) {
-            root.setConstructorAccessor(accessor);
+            root.sftConstrudtorAddfssor(bddfssor);
         }
     }
 
-    int getSlot() {
-        return slot;
+    int gftSlot() {
+        rfturn slot;
     }
 
-    String getSignature() {
-        return signature;
+    String gftSignbturf() {
+        rfturn signbturf;
     }
 
-    byte[] getRawAnnotations() {
-        return annotations;
+    bytf[] gftRbwAnnotbtions() {
+        rfturn bnnotbtions;
     }
 
-    byte[] getRawParameterAnnotations() {
-        return parameterAnnotations;
+    bytf[] gftRbwPbrbmftfrAnnotbtions() {
+        rfturn pbrbmftfrAnnotbtions;
     }
 
 
     /**
-     * {@inheritDoc}
-     * @throws NullPointerException  {@inheritDoc}
-     * @since 1.5
+     * {@inifritDod}
+     * @tirows NullPointfrExdfption  {@inifritDod}
+     * @sindf 1.5
      */
-    public <T extends Annotation> T getAnnotation(Class<T> annotationClass) {
-        return super.getAnnotation(annotationClass);
+    publid <T fxtfnds Annotbtion> T gftAnnotbtion(Clbss<T> bnnotbtionClbss) {
+        rfturn supfr.gftAnnotbtion(bnnotbtionClbss);
     }
 
     /**
-     * {@inheritDoc}
-     * @since 1.5
+     * {@inifritDod}
+     * @sindf 1.5
      */
-    public Annotation[] getDeclaredAnnotations()  {
-        return super.getDeclaredAnnotations();
+    publid Annotbtion[] gftDfdlbrfdAnnotbtions()  {
+        rfturn supfr.gftDfdlbrfdAnnotbtions();
     }
 
     /**
-     * {@inheritDoc}
-     * @since 1.5
+     * {@inifritDod}
+     * @sindf 1.5
      */
-    @Override
-    public Annotation[][] getParameterAnnotations() {
-        return sharedGetParameterAnnotations(parameterTypes, parameterAnnotations);
+    @Ovfrridf
+    publid Annotbtion[][] gftPbrbmftfrAnnotbtions() {
+        rfturn sibrfdGftPbrbmftfrAnnotbtions(pbrbmftfrTypfs, pbrbmftfrAnnotbtions);
     }
 
-    @Override
-    void handleParameterNumberMismatch(int resultLength, int numParameters) {
-        Class<?> declaringClass = getDeclaringClass();
-        if (declaringClass.isEnum() ||
-            declaringClass.isAnonymousClass() ||
-            declaringClass.isLocalClass() )
-            return ; // Can't do reliable parameter counting
-        else {
-            if (!declaringClass.isMemberClass() || // top-level
-                // Check for the enclosing instance parameter for
-                // non-static member classes
-                (declaringClass.isMemberClass() &&
-                 ((declaringClass.getModifiers() & Modifier.STATIC) == 0)  &&
-                 resultLength + 1 != numParameters) ) {
-                throw new AnnotationFormatError(
-                          "Parameter annotations don't match number of parameters");
+    @Ovfrridf
+    void ibndlfPbrbmftfrNumbfrMismbtdi(int rfsultLfngti, int numPbrbmftfrs) {
+        Clbss<?> dfdlbringClbss = gftDfdlbringClbss();
+        if (dfdlbringClbss.isEnum() ||
+            dfdlbringClbss.isAnonymousClbss() ||
+            dfdlbringClbss.isLodblClbss() )
+            rfturn ; // Cbn't do rflibblf pbrbmftfr dounting
+        flsf {
+            if (!dfdlbringClbss.isMfmbfrClbss() || // top-lfvfl
+                // Cifdk for tif fndlosing instbndf pbrbmftfr for
+                // non-stbtid mfmbfr dlbssfs
+                (dfdlbringClbss.isMfmbfrClbss() &&
+                 ((dfdlbringClbss.gftModififrs() & Modififr.STATIC) == 0)  &&
+                 rfsultLfngti + 1 != numPbrbmftfrs) ) {
+                tirow nfw AnnotbtionFormbtError(
+                          "Pbrbmftfr bnnotbtions don't mbtdi numbfr of pbrbmftfrs");
             }
         }
     }
 
     /**
-     * {@inheritDoc}
-     * @since 1.8
+     * {@inifritDod}
+     * @sindf 1.8
      */
-    @Override
-    public AnnotatedType getAnnotatedReturnType() {
-        return getAnnotatedReturnType0(getDeclaringClass());
+    @Ovfrridf
+    publid AnnotbtfdTypf gftAnnotbtfdRfturnTypf() {
+        rfturn gftAnnotbtfdRfturnTypf0(gftDfdlbringClbss());
     }
 
     /**
-     * {@inheritDoc}
-     * @since 1.8
+     * {@inifritDod}
+     * @sindf 1.8
      */
-    @Override
-    public AnnotatedType getAnnotatedReceiverType() {
-        if (getDeclaringClass().getEnclosingClass() == null)
-            return super.getAnnotatedReceiverType();
+    @Ovfrridf
+    publid AnnotbtfdTypf gftAnnotbtfdRfdfivfrTypf() {
+        if (gftDfdlbringClbss().gftEndlosingClbss() == null)
+            rfturn supfr.gftAnnotbtfdRfdfivfrTypf();
 
-        return TypeAnnotationParser.buildAnnotatedType(getTypeAnnotationBytes0(),
-                sun.misc.SharedSecrets.getJavaLangAccess().
-                        getConstantPool(getDeclaringClass()),
-                this,
-                getDeclaringClass(),
-                getDeclaringClass().getEnclosingClass(),
-                TypeAnnotation.TypeAnnotationTarget.METHOD_RECEIVER);
+        rfturn TypfAnnotbtionPbrsfr.buildAnnotbtfdTypf(gftTypfAnnotbtionBytfs0(),
+                sun.misd.SibrfdSfdrfts.gftJbvbLbngAddfss().
+                        gftConstbntPool(gftDfdlbringClbss()),
+                tiis,
+                gftDfdlbringClbss(),
+                gftDfdlbringClbss().gftEndlosingClbss(),
+                TypfAnnotbtion.TypfAnnotbtionTbrgft.METHOD_RECEIVER);
     }
 }

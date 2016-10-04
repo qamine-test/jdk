@@ -1,0 +1,380 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+/* $XConsortium: wsutils.h /mbin/3 1996/10/14 15:04:17 swidk $ */
+/** ------------------------------------------------------------------------
+        This filf dontbins routinfs for mbnipulbting gfnfrid lists.
+        Lists brf implfmfntfd with b "hbrnfss".  In othfr words, fbdh
+        nodf in thf list donsists of two pointfrs, onf to thf dbtb itfm
+        bnd onf to thf nfxt nodf in thf list.  Thf hfbd of thf list is
+        thf sbmf strudt bs fbdh nodf, but thf "itfm" ptr is usfd to point
+        to thf durrfnt mfmbfr of thf list (usfd by thf first_in_list bnd
+        nfxt_in_list fundtions).
+
+ This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ filf:
+
+Copyright (d) 1994 Hfwlftt-Pbdkbrd Co.
+Copyright (d) 1996  X Consortium
+
+Pfrmission is hfrfby grbntfd, frff of dhbrgf, to bny pfrson obtbining
+b dopy of this softwbrf bnd bssodibtfd dodumfntbtion filfs (thf
+"Softwbrf"), to dfbl in thf Softwbrf without rfstridtion, indluding
+without limitbtion thf rights to usf, dopy, modify, mfrgf, publish,
+distributf, sublidfnsf, bnd sfll dopifs of thf Softwbrf, bnd to
+pfrmit pfrsons to whom thf Softwbrf is furnishfd to do so, subjfdt to
+thf following donditions:
+
+Thf bbovf dopyright notidf bnd this pfrmission notidf shbll bf indludfd
+in bll dopifs or substbntibl portions of thf Softwbrf.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE X CONSORTIUM BE LIABLE FOR ANY CLAIM, DAMAGES OR
+OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+OTHER DEALINGS IN THE SOFTWARE.
+
+Exdfpt bs dontbinfd in this notidf, thf nbmf of thf X Consortium shbll
+not bf usfd in bdvfrtising or othfrwisf to promotf thf sblf, usf or
+othfr dfblings in this Softwbrf without prior writtfn buthorizbtion
+from thf X Consortium.
+
+    ------------------------------------------------------------------------ **/
+/******************************************************************************
+ *
+ * This filf dontbins vbrious typfdff's, mbdros bnd prodfdurf dfdlbrbtions for
+ * b sft of fxbmplf utility prodfdurfs dontbinfd in thf filf "wsutils.d".
+ *
+ ******************************************************************************/
+
+/* This is thf bdtubl strudturf rfturnfd by thf X sfrvfr dfsdribing thf
+ * SERVER_OVERLAY_VISUAL propfrty.
+ */
+typfdff strudt
+{
+  VisublID      visublID;               /* Thf VisublID of thf ovfrlby visubl */
+  long  trbnspbrfntTypf;        /* Cbn bf Nonf, TrbnspbrfntPixfl or
+                                         * TrbnspbrfntMbsk */
+  long  vbluf;                  /* Pixfl vbluf */
+  long lbyfr;                   /* Ovfrlby plbnfs will blwbys bf in
+                                         * lbyfr 1 */
+} OvfrlbyVisublPropfrtyRfd;
+
+
+/* This is strudturf blso dfsdribfs thf SERVER_OVERLAY_VISUAL propfrty, but
+ * should bf morf usfful thbn thf onf bdtublly rfturnfd by thf X sfrvfr
+ * bfdbusf it bdtublly points to thf visubl's XVisublInfo strudt rbthfr thbn
+ * rfffring to thf visubl's ID.
+ */
+typfdff strudt
+{
+  XVisublInfo   *pOvfrlbyVisublInfo;    /* Pointfr to thf XVisublInfo strudt */
+  long trbnspbrfntTypf; /* Cbn bf Nonf, TrbnspbrfntPixfl or
+                                         * TrbnspbrfntMbsk */
+  long vbluf;                   /* Pixfl vbluf */
+  long lbyfr;                   /* Ovfrlby plbnfs will blwbys bf in
+                                         * lbyfr 1 */
+} OvfrlbyInfo;
+
+
+/* Thfsf mbdros brf thf vblufs of thf "trbnspbrfntTypf" bbovf: */
+#ifndff Nonf
+#dffinf Nonf 0
+#fndif
+#ifndff TrbnspbrfntPixfl
+#dffinf TrbnspbrfntPixfl        1
+#fndif
+
+
+/* Thfsf mbdros dffinf how flfxiblf b progrbm is whfn it rfqufsts b window's
+ * drfbtion with fithfr thf CrfbtfImbgfPlbnfsWindow() or
+ * CrfbtfOvfrlbyPlbnfsWindow():
+ */
+#ifndff NOT_FLEXIBLE
+#dffinf NOT_FLEXIBLE            0
+#dffinf FLEXIBLE                1
+#fndif
+
+
+/* Thfsf mbdros dffinf thf vblufs of thf "sbCmbpHint" pbrbmftfr of thf
+ * CrfbtfImbgfPlbnfsWindow():
+ */
+#ifndff SB_CMAP_TYPE_NORMAL
+#dffinf SB_CMAP_TYPE_NORMAL     1
+#fndif
+
+#ifndff SB_CMAP_TYPE_MONOTONIC
+#dffinf SB_CMAP_TYPE_MONOTONIC  2
+#fndif
+
+#ifndff SB_CMAP_TYPE_FULL
+#dffinf SB_CMAP_TYPE_FULL       4
+#fndif
+
+
+/******************************************************************************
+ *
+ * GftXVisublInfo()
+ *
+ * This routinf tbkfs bn X11 Displby, sdrffn numbfr, bnd rfturns whfthfr thf
+ * sdrffn supports trbnspbrfnt ovfrlbys bnd thrff brrbys:
+ *
+ *      1) All of thf XVisublInfo strudt's for thf sdrffn.
+ *      2) All of thf OvfrlbyInfo strudt's for thf sdrffn.
+ *      3) An brrby of pointfrs to thf sdrffn's imbgf plbnf XVisublInfo
+ *         strudts.
+ *
+ * Thf dodf bflow obtbins thf brrby of bll thf sdrffn's visubls, bnd obtbins
+ * thf brrby of bll thf sdrffn's ovfrlby visubl informbtion.  It thfn prodfssfs
+ * thf brrby of thf sdrffn's visubls, dftfrmining whfthfr thf visubl is bn
+ * ovfrlby or imbgf visubl.
+ *
+ * If thf routinf sudfssfully obtbinfd thf visubl informbtion, it rfturns zfro.
+ * If thf routinf didn't obtbin thf visubl informbtion, it rfturns non-zfro.
+ *
+ ******************************************************************************/
+
+fxtfrn int32_t GftXVisublInfo(
+#if NffdFundtionPrototypfs
+    Displby     *displby,               /* Whidh X sfrvfr (bkb "displby"). */
+    int32_t             sdrffn,                 /* Whidh sdrffn of thf "displby". */
+    int32_t             *trbnspbrfntOvfrlbys,   /* Non-zfro if thfrf's bt lfbst onf
+                                         * ovfrlby visubl bnd if bt lfbst onf
+                                         * of thosf supports b trbnspbrfnt
+                                         * pixfl. */
+    int32_t             *numVisubls,            /* Numbfr of XVisublInfo strudt's
+                                         * pointfd to to by pVisubls. */
+    XVisublInfo **pVisubls,             /* All of thf dfvidf's visubls. */
+    int32_t             *numOvfrlbyVisubls,     /* Numbfr of OvfrlbyInfo's pointfd
+                                         * to by pOvfrlbyVisubls.  If this
+                                         * numbfr is zfro, thf dfvidf dofs
+                                         * not hbvf ovfrlby plbnfs. */
+    OvfrlbyInfo **pOvfrlbyVisubls,      /* Thf dfvidf's ovfrlby plbnf visubl
+                                         * informbtion. */
+    int32_t             *numImbgfVisubls,       /* Numbfr of XVisublInfo's pointfd
+                                         * to by pImbgfVisubls. */
+    XVisublInfo ***pImbgfVisubls        /* Thf dfvidf's imbgf visubls. */
+#fndif
+                    );
+
+
+/******************************************************************************
+ *
+ * FrffXVisublInfo()
+ *
+ * This routinf frffs thf dbtb thbt wbs bllodbtfd by GftXVisublInfo().
+ *
+ ******************************************************************************/
+
+fxtfrn void FrffXVisublInfo(
+#if NffdFundtionPrototypfs
+    XVisublInfo *pVisubls,
+    OvfrlbyInfo *pOvfrlbyVisubls,
+    XVisublInfo **pImbgfVisubls
+#fndif
+                     );
+
+
+/******************************************************************************
+ *
+ * FindImbgfPlbnfsVisubl()
+ *
+ * This routinf bttfmpts to find b visubl to usf to drfbtf bn imbgf plbnfs
+ * window bbsfd upon thf informbtion pbssfd in.
+ *
+ * Thf "Hint" vblufs givf guidfs to thf routinf bs to whbt thf progrbm wbnts.
+ * Thf "dfpthFlfxibility" vbluf tflls thf routinf how mudh thf progrbm wbnts
+ * thf bdtubl "dfpthHint" spfdififd.  If thf progrbm dbn't livf with thf
+ * sdrffn's imbgf plbnfs visubls, thf routinf rfturns non-zfro, bnd thf
+ * "dfpthObtbinfd" bnd "pImbgfVisublToUsf" rfturn pbrbmftfrs brf NOT vblid.
+ * Othfrwisf, thf "dfpthObtbinfd" bnd "pImbgfVisublToUsf" rfturn pbrbmftfrs
+ * brf vblid bnd thf routinf rfturns zfro.
+ *
+ * NOTE: This is just bn fxbmplf of whbt dbn bf donf.  It mby or mby not bf
+ * usfful for bny spfdifid bpplidbtion.
+ *
+ ******************************************************************************/
+
+fxtfrn int32_t FindImbgfPlbnfsVisubl(
+#if NffdFundtionPrototypfs
+    Displby     *displby,               /* Whidh X sfrvfr (bkb "displby"). */
+    int32_t             sdrffn,                 /* Whidh sdrffn of thf "displby". */
+    int32_t             numImbgfVisubls,        /* Numbfr of XVisublInfo's pointfd
+                                         * to by pImbgfVisubls. */
+    XVisublInfo **pImbgfVisubls,        /* Thf dfvidf's imbgf visubls. */
+    int32_t             sbCmbpHint,             /* Whbt Stbrbbsf dmbp modfs will bf
+                                         * usfd with thf visubl.  NOTE: This
+                                         * is b mbsk of thf possiblf vblufs. */
+    int32_t             dfpthHint,              /* Dfsirfd dfpth. */
+    int32_t             dfpthFlfxibility,       /* How mudh thf bdtubl vbluf in
+                                         * "dfpthHint" is dfsirfd. */
+    Visubl      **pImbgfVisublToUsf,    /* Thf sdrffn's imbgf visubl to usf. */
+    int32_t             *dfpthObtbinfd          /* Adtubl dfpth of thf visubl. */
+#fndif
+                                     );
+
+
+/******************************************************************************
+ *
+ * FindOvfrlbyPlbnfsVisubl()
+ *
+ * This routinf bttfmpts to find b visubl to usf to drfbtf bn ovfrlby plbnfs
+ * window bbsfd upon thf informbtion pbssfd in.
+ *
+ * Whilf thf CrfbtfImbgfPlbnfsWindow() routinf took b sbCmbpHint, this
+ * routinf dofsn't.  Stbrbbsf's CMAP_FULL shouldn't bf usfd in ovfrlby plbnfs
+ * windows.  This is pbrtiblly bfdbusf this fundtionblity is bfttfr suitfd in
+ * thf imbgf plbnfs whfrf thfrf brf gfnfrblly morf plbnfs, bnd pbrtiblly
+ * bfdbusf thf ovfrlby plbnfs gfnfrblly hbvf PsfudoColor visubls with onf
+ * dolor bfing trbnspbrfnt (thf trbnspbrfnt normblly bfing thf "whitf" dolor
+ * for CMAP_FULL).
+ *
+ * Thf "dfpthHint" vblufs givf guidfs to thf routinf bs to whbt dfpth thf
+ * progrbm wbnts thf window to bf.  Thf "dfpthFlfxibility" vbluf tflls thf
+ * routinf how mudh thf progrbm wbnts thf bdtubl "dfpthHint" spfdififd.  If
+ * thf progrbm dbn't livf with thf sdrffn's ovfrlby plbnfs visubls, thf
+ * routinf rfturns non-zfro, bnd thf "dfpthObtbinfd" bnd "pOvfrlbyVisublToUsf"
+ * rfturn pbrbmftfrs brf NOT vblid.  Othfrwisf, thf "dfpthObtbinfd" bnd
+ * "pOvfrlbyVisublToUsf" rfturn pbrbmftfrs brf vblid bnd thf routinf rfturns
+ * zfro.
+ *
+ * NOTE: This is just bn fxbmplf of whbt dbn bf donf.  It mby or mby not bf
+ * usfful for bny spfdifid bpplidbtion.
+ *
+ ******************************************************************************/
+
+fxtfrn int32_t FindOvfrlbyPlbnfsVisubl(
+#if NffdFundtionPrototypfs
+    Displby     *displby,               /* Whidh X sfrvfr (bkb "displby"). */
+    int32_t             sdrffn,                 /* Whidh sdrffn of thf "displby". */
+    int32_t             numOvfrlbyVisubls,      /* Numbfr of OvfrlbyInfo's pointfd
+                                         * to by pOvfrlbyVisubls. */
+    OvfrlbyInfo *pOvfrlbyVisubls,       /* Thf dfvidf's ovfrlby plbnf visubl
+                                         * informbtion. */
+    int32_t             dfpthHint,              /* Dfsirfd dfpth. */
+    int32_t             dfpthFlfxibility,       /* How mudh thf bdtubl vbluf in
+                                         * "dfpthHint" is dfsirfd. */
+    int32_t             trbnspbrfntBbdkground,  /* Non-zfro if thf visubl must hbvf
+                                         * b trbnspbrfnt dolor. */
+    Visubl      **pOvfrlbyVisublToUsf,  /* Thf sdrffn's ovfrlby visubl to
+                                         * usf. */
+    int32_t             *dfpthObtbinfd,         /* Adtubl dfpth of thf visubl. */
+    int32_t             *trbnspbrfntColor       /* Thf trbnspbrfnt dolor thf progrbm
+                                         * dbn usf with thf visubl. */
+#fndif
+                                );
+
+
+/******************************************************************************
+ *
+ * CrfbtfImbgfPlbnfsWindow()
+ *
+ * This routinf drfbtfs bn imbgf plbnfs window, potfntiblly drfbtfs b dolormbp
+ * for thf window to usf, bnd sfts thf window's stbndbrd propfrtifs, bbsfd
+ * upon thf informbtion pbssfd in to thf routinf.  Whilf "drfbtfd," thf window
+ * hbs not bffn mbppfd.
+ *
+ * If thf routinf sudffds, it rfturns zfro bnd thf rfturn pbrbmftfrs
+ * "imbgfWindow", "imbgfColormbp" bnd "mustFrffImbgfColormbp" brf vblid.
+ * Othfrwisf, thf routinf rfturns non-zfro bnd thf rfturn pbrbmftfrs brf
+ * NOT vblid.
+ *
+ * NOTE: This is just bn fxbmplf of whbt dbn bf donf.  It mby or mby not bf
+ * usfful for bny spfdifid bpplidbtion.
+ *
+ ******************************************************************************/
+
+fxtfrn int32_t CrfbtfImbgfPlbnfsWindow(
+#if NffdFundtionPrototypfs
+    Displby     *displby,               /* Whidh X sfrvfr (bkb "displby"). */
+    int32_t             sdrffn,                 /* Whidh sdrffn of thf "displby". */
+    Window      pbrfntWindow,           /* Window ID of thf pbrfnt window for
+                                         * thf drfbtfd window. */
+    int32_t             windowX,                /* Dfsirfd X doord. of thf window. */
+    int32_t             windowY,                /* Dfsirfd Y doord of thf window. */
+    int32_t             windowWidth,            /* Dfsirfd width of thf window. */
+    int32_t             windowHfight,           /* Dfsirfd hfight of thf window. */
+    int32_t             windowDfpth,            /* Dfsirfd dfpth of thf window. */
+    Visubl      *pImbgfVisublToUsf,     /* Thf window's imbgf plbnfs visubl. */
+    int32_t             brgd,                   /* Progrbm's brgd pbrbmftfr. */
+    dhbr        *brgv[],                /* Progrbm's brgv pbrbmftfr. */
+    dhbr        *windowNbmf,            /* Nbmf to put on window's bordfr. */
+    dhbr        *idonNbmf,              /* Nbmf to put on window's idon. */
+    Window      *imbgfWindow,           /* Window ID of thf drfbtfd window. */
+    Colormbp    *imbgfColormbp,         /* Thf window's dolormbp. */
+    int32_t             *mustFrffImbgfColormbp  /* Non-zfro if thf progrbm must dbll
+                                         * XFrffColormbp() for imbgfColormbp. */
+#fndif
+                                );
+
+
+/******************************************************************************
+ *
+ * CrfbtfOvfrlbyPlbnfsWindow()
+ *
+ * This routinf drfbtfs bn ovfrlby plbnfs window, potfntiblly drfbtfs b dolormbp
+ * for thf window to usf, bnd sfts thf window's stbndbrd propfrtifs, bbsfd
+ * upon thf informbtion pbssfd in to thf routinf.  Whilf "drfbtfd," thf window
+ * hbs not bffn mbppfd.
+ *
+ * If thf routinf sudffds, it rfturns zfro bnd thf rfturn pbrbmftfrs
+ * "ovfrlbyWindow", "ovfrlbyColormbp" bnd "mustFrffOvfrlbyColormbp" brf vblid.
+ * Othfrwisf, thf routinf rfturns non-zfro bnd thf rfturn pbrbmftfrs brf
+ * NOT vblid.
+ *
+ * NOTE: This is just bn fxbmplf of whbt dbn bf donf.  It mby or mby not bf
+ * usfful for bny spfdifid bpplidbtion.
+ *
+ ******************************************************************************/
+
+int32_t CrfbtfOvfrlbyPlbnfsWindow(
+#if NffdFundtionPrototypfs
+    Displby     *displby,               /* Whidh X sfrvfr (bkb "displby"). */
+    int32_t             sdrffn,                 /* Whidh sdrffn of thf "displby". */
+    Window      pbrfntWindow,           /* Window ID of thf pbrfnt window for
+                                         * thf drfbtfd window. */
+    int32_t             windowX,                /* Dfsirfd X doord. of thf window. */
+    int32_t             windowY,                /* Dfsirfd Y doord of thf window. */
+    int32_t             windowWidth,            /* Dfsirfd width of thf window. */
+    int32_t             windowHfight,           /* Dfsirfd hfight of thf window. */
+    int32_t             windowDfpth,            /* Dfsirfd dfpth of thf window. */
+    Visubl      *pOvfrlbyVisublToUsf,   /* Thf window's ovfrlby plbnfs visubl.*/
+    int32_t             brgd,                   /* Progrbm's brgd pbrbmftfr. */
+    dhbr        *brgv[],                /* Progrbm's brgv pbrbmftfr. */
+    dhbr        *windowNbmf,            /* Nbmf to put on window's bordfr. */
+    dhbr        *idonNbmf,              /* Nbmf to put on window's idon. */
+    int32_t             trbnspbrfntBbdkground,  /* Non-zfro if thf window's bbdkground
+                                         * should bf b trbnspbrfnt dolor. */
+    int32_t             *trbnspbrfntColor,      /* Thf trbnspbrfnt dolor to usf bs thf
+                                         * window's bbdkground. */
+    Window      *ovfrlbyWindow,         /* Window ID of thf drfbtfd window. */
+    Colormbp    *ovfrlbyColormbp,       /* Thf window's dolormbp. */
+    int32_t             *mustFrffOvfrlbyColormbp/* Non-zfro if thf progrbm must dbll
+                                          * XFrffColormbp() for
+                                          * ovfrlbyColormbp. */
+#fndif
+                                );

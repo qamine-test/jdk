@@ -1,1237 +1,1237 @@
 /*
- * Copyright (c) 2002, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management;
+pbdkbgf jbvbx.mbnbgfmfnt;
 
-import static com.sun.jmx.defaults.JmxProperties.MISC_LOGGER;
-import com.sun.jmx.mbeanserver.DescriptorCache;
-import com.sun.jmx.mbeanserver.Introspector;
-import com.sun.jmx.mbeanserver.MBeanSupport;
-import com.sun.jmx.mbeanserver.MXBeanSupport;
-import com.sun.jmx.mbeanserver.StandardMBeanSupport;
-import com.sun.jmx.mbeanserver.Util;
+import stbtid dom.sun.jmx.dffbults.JmxPropfrtifs.MISC_LOGGER;
+import dom.sun.jmx.mbfbnsfrvfr.DfsdriptorCbdif;
+import dom.sun.jmx.mbfbnsfrvfr.Introspfdtor;
+import dom.sun.jmx.mbfbnsfrvfr.MBfbnSupport;
+import dom.sun.jmx.mbfbnsfrvfr.MXBfbnSupport;
+import dom.sun.jmx.mbfbnsfrvfr.StbndbrdMBfbnSupport;
+import dom.sun.jmx.mbfbnsfrvfr.Util;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.WeakHashMap;
-import java.util.logging.Level;
-import javax.management.openmbean.OpenMBeanAttributeInfo;
-import javax.management.openmbean.OpenMBeanAttributeInfoSupport;
-import javax.management.openmbean.OpenMBeanConstructorInfo;
-import javax.management.openmbean.OpenMBeanConstructorInfoSupport;
-import javax.management.openmbean.OpenMBeanOperationInfo;
-import javax.management.openmbean.OpenMBeanOperationInfoSupport;
-import javax.management.openmbean.OpenMBeanParameterInfo;
-import javax.management.openmbean.OpenMBeanParameterInfoSupport;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Mbp;
+import jbvb.util.WfbkHbsiMbp;
+import jbvb.util.logging.Lfvfl;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnMBfbnAttributfInfo;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnMBfbnAttributfInfoSupport;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnMBfbnConstrudtorInfo;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnMBfbnConstrudtorInfoSupport;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnMBfbnOpfrbtionInfo;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnMBfbnOpfrbtionInfoSupport;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnMBfbnPbrbmftfrInfo;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnMBfbnPbrbmftfrInfoSupport;
 
 /**
- * <p>An MBean whose management interface is determined by reflection
- * on a Java interface.</p>
+ * <p>An MBfbn wiosf mbnbgfmfnt intfrfbdf is dftfrminfd by rfflfdtion
+ * on b Jbvb intfrfbdf.</p>
  *
- * <p>This class brings more flexibility to the notion of Management
- * Interface in the use of Standard MBeans.  Straightforward use of
- * the patterns for Standard MBeans described in the JMX Specification
- * means that there is a fixed relationship between the implementation
- * class of an MBean and its management interface (i.e., if the
- * implementation class is Thing, the management interface must be
- * ThingMBean).  This class makes it possible to keep the convenience
- * of specifying the management interface with a Java interface,
- * without requiring that there be any naming relationship between the
- * implementation and interface classes.</p>
+ * <p>Tiis dlbss brings morf flfxibility to tif notion of Mbnbgfmfnt
+ * Intfrfbdf in tif usf of Stbndbrd MBfbns.  Strbigitforwbrd usf of
+ * tif pbttfrns for Stbndbrd MBfbns dfsdribfd in tif JMX Spfdifidbtion
+ * mfbns tibt tifrf is b fixfd rflbtionsiip bftwffn tif implfmfntbtion
+ * dlbss of bn MBfbn bnd its mbnbgfmfnt intfrfbdf (i.f., if tif
+ * implfmfntbtion dlbss is Tiing, tif mbnbgfmfnt intfrfbdf must bf
+ * TiingMBfbn).  Tiis dlbss mbkfs it possiblf to kffp tif donvfnifndf
+ * of spfdifying tif mbnbgfmfnt intfrfbdf witi b Jbvb intfrfbdf,
+ * witiout rfquiring tibt tifrf bf bny nbming rflbtionsiip bftwffn tif
+ * implfmfntbtion bnd intfrfbdf dlbssfs.</p>
  *
- * <p>By making a DynamicMBean out of an MBean, this class makes
- * it possible to select any interface implemented by the MBean as its
- * management interface, provided that it complies with JMX patterns
- * (i.e., attributes defined by getter/setter etc...).</p>
+ * <p>By mbking b DynbmidMBfbn out of bn MBfbn, tiis dlbss mbkfs
+ * it possiblf to sflfdt bny intfrfbdf implfmfntfd by tif MBfbn bs its
+ * mbnbgfmfnt intfrfbdf, providfd tibt it domplifs witi JMX pbttfrns
+ * (i.f., bttributfs dffinfd by gfttfr/sfttfr ftd...).</p>
  *
- * <p> This class also provides hooks that make it possible to supply
- * custom descriptions and names for the {@link MBeanInfo} returned by
- * the DynamicMBean interface.</p>
+ * <p> Tiis dlbss blso providfs iooks tibt mbkf it possiblf to supply
+ * dustom dfsdriptions bnd nbmfs for tif {@link MBfbnInfo} rfturnfd by
+ * tif DynbmidMBfbn intfrfbdf.</p>
  *
- * <p>Using this class, an MBean can be created with any
- * implementation class name <i>Impl</i> and with a management
- * interface defined (as for current Standard MBeans) by any interface
- * <i>Intf</i>, in one of two general ways:</p>
+ * <p>Using tiis dlbss, bn MBfbn dbn bf drfbtfd witi bny
+ * implfmfntbtion dlbss nbmf <i>Impl</i> bnd witi b mbnbgfmfnt
+ * intfrfbdf dffinfd (bs for durrfnt Stbndbrd MBfbns) by bny intfrfbdf
+ * <i>Intf</i>, in onf of two gfnfrbl wbys:</p>
  *
  * <ul>
  *
- * <li>Using the public constructor
- *     {@link #StandardMBean(java.lang.Object, java.lang.Class, boolean)
- *     StandardMBean(impl,interface)}:
- *     <pre>
- *     MBeanServer mbs;
+ * <li>Using tif publid donstrudtor
+ *     {@link #StbndbrdMBfbn(jbvb.lbng.Objfdt, jbvb.lbng.Clbss, boolfbn)
+ *     StbndbrdMBfbn(impl,intfrfbdf)}:
+ *     <prf>
+ *     MBfbnSfrvfr mbs;
  *     ...
- *     Impl impl = new Impl(...);
- *     StandardMBean mbean = new StandardMBean(impl, Intf.class, false);
- *     mbs.registerMBean(mbean, objectName);
- *     </pre></li>
+ *     Impl impl = nfw Impl(...);
+ *     StbndbrdMBfbn mbfbn = nfw StbndbrdMBfbn(impl, Intf.dlbss, fblsf);
+ *     mbs.rfgistfrMBfbn(mbfbn, objfdtNbmf);
+ *     </prf></li>
  *
- * <li>Subclassing StandardMBean:
- *     <pre>
- *     public class Impl extends StandardMBean implements Intf {
- *        public Impl() {
- *          super(Intf.class, false);
+ * <li>Subdlbssing StbndbrdMBfbn:
+ *     <prf>
+ *     publid dlbss Impl fxtfnds StbndbrdMBfbn implfmfnts Intf {
+ *        publid Impl() {
+ *          supfr(Intf.dlbss, fblsf);
  *       }
- *       // implement methods of Intf
+ *       // implfmfnt mftiods of Intf
  *     }
  *
  *     [...]
  *
- *     MBeanServer mbs;
+ *     MBfbnSfrvfr mbs;
  *     ....
- *     Impl impl = new Impl();
- *     mbs.registerMBean(impl, objectName);
- *     </pre></li>
+ *     Impl impl = nfw Impl();
+ *     mbs.rfgistfrMBfbn(impl, objfdtNbmf);
+ *     </prf></li>
  *
  * </ul>
  *
- * <p>In either case, the class <i>Impl</i> must implement the
- * interface <i>Intf</i>.</p>
+ * <p>In fitifr dbsf, tif dlbss <i>Impl</i> must implfmfnt tif
+ * intfrfbdf <i>Intf</i>.</p>
  *
- * <p>Standard MBeans based on the naming relationship between
- * implementation and interface classes are of course still
- * available.</p>
+ * <p>Stbndbrd MBfbns bbsfd on tif nbming rflbtionsiip bftwffn
+ * implfmfntbtion bnd intfrfbdf dlbssfs brf of doursf still
+ * bvbilbblf.</p>
  *
- * <p>This class may also be used to construct MXBeans.  The usage
- * is exactly the same as for Standard MBeans except that in the
- * examples above, the {@code false} parameter to the constructor or
- * {@code super(...)} invocation is instead {@code true}.</p>
+ * <p>Tiis dlbss mby blso bf usfd to donstrudt MXBfbns.  Tif usbgf
+ * is fxbdtly tif sbmf bs for Stbndbrd MBfbns fxdfpt tibt in tif
+ * fxbmplfs bbovf, tif {@dodf fblsf} pbrbmftfr to tif donstrudtor or
+ * {@dodf supfr(...)} invodbtion is instfbd {@dodf truf}.</p>
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public class StandardMBean implements DynamicMBean, MBeanRegistration {
+publid dlbss StbndbrdMBfbn implfmfnts DynbmidMBfbn, MBfbnRfgistrbtion {
 
-    private final static DescriptorCache descriptors =
-        DescriptorCache.getInstance(JMX.proof);
-
-    /**
-     * The DynamicMBean that wraps the MXBean or Standard MBean implementation.
-     **/
-    private volatile MBeanSupport<?> mbean;
+    privbtf finbl stbtid DfsdriptorCbdif dfsdriptors =
+        DfsdriptorCbdif.gftInstbndf(JMX.proof);
 
     /**
-     * The cached MBeanInfo.
+     * Tif DynbmidMBfbn tibt wrbps tif MXBfbn or Stbndbrd MBfbn implfmfntbtion.
      **/
-    private volatile MBeanInfo cachedMBeanInfo;
+    privbtf volbtilf MBfbnSupport<?> mbfbn;
 
     /**
-     * Make a DynamicMBean out of <var>implementation</var>, using the
-     * specified <var>mbeanInterface</var> class.
-     * @param implementation The implementation of this MBean.
-     *        If <code>null</code>, and null implementation is allowed,
-     *        then the implementation is assumed to be <var>this</var>.
-     * @param mbeanInterface The Management Interface exported by this
-     *        MBean's implementation. If <code>null</code>, then this
-     *        object will use standard JMX design pattern to determine
-     *        the management interface associated with the given
-     *        implementation.
-     * @param nullImplementationAllowed <code>true</code> if a null
-     *        implementation is allowed. If null implementation is allowed,
-     *        and a null implementation is passed, then the implementation
-     *        is assumed to be <var>this</var>.
-     * @exception IllegalArgumentException if the given
-     *    <var>implementation</var> is null, and null is not allowed.
+     * Tif dbdifd MBfbnInfo.
      **/
-    private <T> void construct(T implementation, Class<T> mbeanInterface,
-                               boolean nullImplementationAllowed,
-                               boolean isMXBean)
-                               throws NotCompliantMBeanException {
-        if (implementation == null) {
-            // Have to use (T)this rather than mbeanInterface.cast(this)
-            // because mbeanInterface might be null.
-            if (nullImplementationAllowed)
-                implementation = Util.<T>cast(this);
-            else throw new IllegalArgumentException("implementation is null");
+    privbtf volbtilf MBfbnInfo dbdifdMBfbnInfo;
+
+    /**
+     * Mbkf b DynbmidMBfbn out of <vbr>implfmfntbtion</vbr>, using tif
+     * spfdififd <vbr>mbfbnIntfrfbdf</vbr> dlbss.
+     * @pbrbm implfmfntbtion Tif implfmfntbtion of tiis MBfbn.
+     *        If <dodf>null</dodf>, bnd null implfmfntbtion is bllowfd,
+     *        tifn tif implfmfntbtion is bssumfd to bf <vbr>tiis</vbr>.
+     * @pbrbm mbfbnIntfrfbdf Tif Mbnbgfmfnt Intfrfbdf fxportfd by tiis
+     *        MBfbn's implfmfntbtion. If <dodf>null</dodf>, tifn tiis
+     *        objfdt will usf stbndbrd JMX dfsign pbttfrn to dftfrminf
+     *        tif mbnbgfmfnt intfrfbdf bssodibtfd witi tif givfn
+     *        implfmfntbtion.
+     * @pbrbm nullImplfmfntbtionAllowfd <dodf>truf</dodf> if b null
+     *        implfmfntbtion is bllowfd. If null implfmfntbtion is bllowfd,
+     *        bnd b null implfmfntbtion is pbssfd, tifn tif implfmfntbtion
+     *        is bssumfd to bf <vbr>tiis</vbr>.
+     * @fxdfption IllfgblArgumfntExdfption if tif givfn
+     *    <vbr>implfmfntbtion</vbr> is null, bnd null is not bllowfd.
+     **/
+    privbtf <T> void donstrudt(T implfmfntbtion, Clbss<T> mbfbnIntfrfbdf,
+                               boolfbn nullImplfmfntbtionAllowfd,
+                               boolfbn isMXBfbn)
+                               tirows NotComplibntMBfbnExdfption {
+        if (implfmfntbtion == null) {
+            // Hbvf to usf (T)tiis rbtifr tibn mbfbnIntfrfbdf.dbst(tiis)
+            // bfdbusf mbfbnIntfrfbdf migit bf null.
+            if (nullImplfmfntbtionAllowfd)
+                implfmfntbtion = Util.<T>dbst(tiis);
+            flsf tirow nfw IllfgblArgumfntExdfption("implfmfntbtion is null");
         }
-        if (isMXBean) {
-            if (mbeanInterface == null) {
-                mbeanInterface = Util.cast(Introspector.getMXBeanInterface(
-                        implementation.getClass()));
+        if (isMXBfbn) {
+            if (mbfbnIntfrfbdf == null) {
+                mbfbnIntfrfbdf = Util.dbst(Introspfdtor.gftMXBfbnIntfrfbdf(
+                        implfmfntbtion.gftClbss()));
             }
-            this.mbean = new MXBeanSupport(implementation, mbeanInterface);
-        } else {
-            if (mbeanInterface == null) {
-                mbeanInterface = Util.cast(Introspector.getStandardMBeanInterface(
-                        implementation.getClass()));
+            tiis.mbfbn = nfw MXBfbnSupport(implfmfntbtion, mbfbnIntfrfbdf);
+        } flsf {
+            if (mbfbnIntfrfbdf == null) {
+                mbfbnIntfrfbdf = Util.dbst(Introspfdtor.gftStbndbrdMBfbnIntfrfbdf(
+                        implfmfntbtion.gftClbss()));
             }
-            this.mbean =
-                    new StandardMBeanSupport(implementation, mbeanInterface);
+            tiis.mbfbn =
+                    nfw StbndbrdMBfbnSupport(implfmfntbtion, mbfbnIntfrfbdf);
         }
     }
 
     /**
-     * <p>Make a DynamicMBean out of the object
-     * <var>implementation</var>, using the specified
-     * <var>mbeanInterface</var> class.</p>
+     * <p>Mbkf b DynbmidMBfbn out of tif objfdt
+     * <vbr>implfmfntbtion</vbr>, using tif spfdififd
+     * <vbr>mbfbnIntfrfbdf</vbr> dlbss.</p>
      *
-     * @param implementation The implementation of this MBean.
-     * @param mbeanInterface The Management Interface exported by this
-     *        MBean's implementation. If <code>null</code>, then this
-     *        object will use standard JMX design pattern to determine
-     *        the management interface associated with the given
-     *        implementation.
-     * @param <T> Allows the compiler to check
-     * that {@code implementation} does indeed implement the class
-     * described by {@code mbeanInterface}.  The compiler can only
-     * check this if {@code mbeanInterface} is a class literal such
-     * as {@code MyMBean.class}.
+     * @pbrbm implfmfntbtion Tif implfmfntbtion of tiis MBfbn.
+     * @pbrbm mbfbnIntfrfbdf Tif Mbnbgfmfnt Intfrfbdf fxportfd by tiis
+     *        MBfbn's implfmfntbtion. If <dodf>null</dodf>, tifn tiis
+     *        objfdt will usf stbndbrd JMX dfsign pbttfrn to dftfrminf
+     *        tif mbnbgfmfnt intfrfbdf bssodibtfd witi tif givfn
+     *        implfmfntbtion.
+     * @pbrbm <T> Allows tif dompilfr to difdk
+     * tibt {@dodf implfmfntbtion} dofs indffd implfmfnt tif dlbss
+     * dfsdribfd by {@dodf mbfbnIntfrfbdf}.  Tif dompilfr dbn only
+     * difdk tiis if {@dodf mbfbnIntfrfbdf} is b dlbss litfrbl sudi
+     * bs {@dodf MyMBfbn.dlbss}.
      *
-     * @exception IllegalArgumentException if the given
-     *    <var>implementation</var> is null.
-     * @exception NotCompliantMBeanException if the <var>mbeanInterface</var>
-     *    does not follow JMX design patterns for Management Interfaces, or
-     *    if the given <var>implementation</var> does not implement the
-     *    specified interface.
+     * @fxdfption IllfgblArgumfntExdfption if tif givfn
+     *    <vbr>implfmfntbtion</vbr> is null.
+     * @fxdfption NotComplibntMBfbnExdfption if tif <vbr>mbfbnIntfrfbdf</vbr>
+     *    dofs not follow JMX dfsign pbttfrns for Mbnbgfmfnt Intfrfbdfs, or
+     *    if tif givfn <vbr>implfmfntbtion</vbr> dofs not implfmfnt tif
+     *    spfdififd intfrfbdf.
      **/
-    public <T> StandardMBean(T implementation, Class<T> mbeanInterface)
-        throws NotCompliantMBeanException {
-        construct(implementation, mbeanInterface, false, false);
+    publid <T> StbndbrdMBfbn(T implfmfntbtion, Clbss<T> mbfbnIntfrfbdf)
+        tirows NotComplibntMBfbnExdfption {
+        donstrudt(implfmfntbtion, mbfbnIntfrfbdf, fblsf, fblsf);
     }
 
     /**
-     * <p>Make a DynamicMBean out of <var>this</var>, using the specified
-     * <var>mbeanInterface</var> class.</p>
+     * <p>Mbkf b DynbmidMBfbn out of <vbr>tiis</vbr>, using tif spfdififd
+     * <vbr>mbfbnIntfrfbdf</vbr> dlbss.</p>
      *
-     * <p>Calls {@link #StandardMBean(java.lang.Object, java.lang.Class)
-     *       this(this,mbeanInterface)}.
-     * This constructor is reserved to subclasses.</p>
+     * <p>Cblls {@link #StbndbrdMBfbn(jbvb.lbng.Objfdt, jbvb.lbng.Clbss)
+     *       tiis(tiis,mbfbnIntfrfbdf)}.
+     * Tiis donstrudtor is rfsfrvfd to subdlbssfs.</p>
      *
-     * @param mbeanInterface The Management Interface exported by this
-     *        MBean.
+     * @pbrbm mbfbnIntfrfbdf Tif Mbnbgfmfnt Intfrfbdf fxportfd by tiis
+     *        MBfbn.
      *
-     * @exception NotCompliantMBeanException if the <var>mbeanInterface</var>
-     *    does not follow JMX design patterns for Management Interfaces, or
-     *    if <var>this</var> does not implement the specified interface.
+     * @fxdfption NotComplibntMBfbnExdfption if tif <vbr>mbfbnIntfrfbdf</vbr>
+     *    dofs not follow JMX dfsign pbttfrns for Mbnbgfmfnt Intfrfbdfs, or
+     *    if <vbr>tiis</vbr> dofs not implfmfnt tif spfdififd intfrfbdf.
      **/
-    protected StandardMBean(Class<?> mbeanInterface)
-        throws NotCompliantMBeanException {
-        construct(null, mbeanInterface, true, false);
+    protfdtfd StbndbrdMBfbn(Clbss<?> mbfbnIntfrfbdf)
+        tirows NotComplibntMBfbnExdfption {
+        donstrudt(null, mbfbnIntfrfbdf, truf, fblsf);
     }
 
     /**
-     * <p>Make a DynamicMBean out of the object
-     * <var>implementation</var>, using the specified
-     * <var>mbeanInterface</var> class, and choosing whether the
-     * resultant MBean is an MXBean.  This constructor can be used
-     * to make either Standard MBeans or MXBeans.  Unlike the
-     * constructor {@link #StandardMBean(Object, Class)}, it
-     * does not throw NotCompliantMBeanException.</p>
+     * <p>Mbkf b DynbmidMBfbn out of tif objfdt
+     * <vbr>implfmfntbtion</vbr>, using tif spfdififd
+     * <vbr>mbfbnIntfrfbdf</vbr> dlbss, bnd dioosing wiftifr tif
+     * rfsultbnt MBfbn is bn MXBfbn.  Tiis donstrudtor dbn bf usfd
+     * to mbkf fitifr Stbndbrd MBfbns or MXBfbns.  Unlikf tif
+     * donstrudtor {@link #StbndbrdMBfbn(Objfdt, Clbss)}, it
+     * dofs not tirow NotComplibntMBfbnExdfption.</p>
      *
-     * @param implementation The implementation of this MBean.
-     * @param mbeanInterface The Management Interface exported by this
-     *        MBean's implementation. If <code>null</code>, then this
-     *        object will use standard JMX design pattern to determine
-     *        the management interface associated with the given
-     *        implementation.
-     * @param isMXBean If true, the {@code mbeanInterface} parameter
-     * names an MXBean interface and the resultant MBean is an MXBean.
-     * @param <T> Allows the compiler to check
-     * that {@code implementation} does indeed implement the class
-     * described by {@code mbeanInterface}.  The compiler can only
-     * check this if {@code mbeanInterface} is a class literal such
-     * as {@code MyMBean.class}.
+     * @pbrbm implfmfntbtion Tif implfmfntbtion of tiis MBfbn.
+     * @pbrbm mbfbnIntfrfbdf Tif Mbnbgfmfnt Intfrfbdf fxportfd by tiis
+     *        MBfbn's implfmfntbtion. If <dodf>null</dodf>, tifn tiis
+     *        objfdt will usf stbndbrd JMX dfsign pbttfrn to dftfrminf
+     *        tif mbnbgfmfnt intfrfbdf bssodibtfd witi tif givfn
+     *        implfmfntbtion.
+     * @pbrbm isMXBfbn If truf, tif {@dodf mbfbnIntfrfbdf} pbrbmftfr
+     * nbmfs bn MXBfbn intfrfbdf bnd tif rfsultbnt MBfbn is bn MXBfbn.
+     * @pbrbm <T> Allows tif dompilfr to difdk
+     * tibt {@dodf implfmfntbtion} dofs indffd implfmfnt tif dlbss
+     * dfsdribfd by {@dodf mbfbnIntfrfbdf}.  Tif dompilfr dbn only
+     * difdk tiis if {@dodf mbfbnIntfrfbdf} is b dlbss litfrbl sudi
+     * bs {@dodf MyMBfbn.dlbss}.
      *
-     * @exception IllegalArgumentException if the given
-     *    <var>implementation</var> is null, or if the <var>mbeanInterface</var>
-     *    does not follow JMX design patterns for Management Interfaces, or
-     *    if the given <var>implementation</var> does not implement the
-     *    specified interface.
+     * @fxdfption IllfgblArgumfntExdfption if tif givfn
+     *    <vbr>implfmfntbtion</vbr> is null, or if tif <vbr>mbfbnIntfrfbdf</vbr>
+     *    dofs not follow JMX dfsign pbttfrns for Mbnbgfmfnt Intfrfbdfs, or
+     *    if tif givfn <vbr>implfmfntbtion</vbr> dofs not implfmfnt tif
+     *    spfdififd intfrfbdf.
      *
-     * @since 1.6
+     * @sindf 1.6
      **/
-    public <T> StandardMBean(T implementation, Class<T> mbeanInterface,
-                             boolean isMXBean) {
+    publid <T> StbndbrdMBfbn(T implfmfntbtion, Clbss<T> mbfbnIntfrfbdf,
+                             boolfbn isMXBfbn) {
         try {
-            construct(implementation, mbeanInterface, false, isMXBean);
-        } catch (NotCompliantMBeanException e) {
-            throw new IllegalArgumentException(e);
+            donstrudt(implfmfntbtion, mbfbnIntfrfbdf, fblsf, isMXBfbn);
+        } dbtdi (NotComplibntMBfbnExdfption f) {
+            tirow nfw IllfgblArgumfntExdfption(f);
         }
     }
 
     /**
-     * <p>Make a DynamicMBean out of <var>this</var>, using the specified
-     * <var>mbeanInterface</var> class, and choosing whether the resulting
-     * MBean is an MXBean.  This constructor can be used
-     * to make either Standard MBeans or MXBeans.  Unlike the
-     * constructor {@link #StandardMBean(Object, Class)}, it
-     * does not throw NotCompliantMBeanException.</p>
+     * <p>Mbkf b DynbmidMBfbn out of <vbr>tiis</vbr>, using tif spfdififd
+     * <vbr>mbfbnIntfrfbdf</vbr> dlbss, bnd dioosing wiftifr tif rfsulting
+     * MBfbn is bn MXBfbn.  Tiis donstrudtor dbn bf usfd
+     * to mbkf fitifr Stbndbrd MBfbns or MXBfbns.  Unlikf tif
+     * donstrudtor {@link #StbndbrdMBfbn(Objfdt, Clbss)}, it
+     * dofs not tirow NotComplibntMBfbnExdfption.</p>
      *
-     * <p>Calls {@link #StandardMBean(java.lang.Object, java.lang.Class, boolean)
-     *       this(this, mbeanInterface, isMXBean)}.
-     * This constructor is reserved to subclasses.</p>
+     * <p>Cblls {@link #StbndbrdMBfbn(jbvb.lbng.Objfdt, jbvb.lbng.Clbss, boolfbn)
+     *       tiis(tiis, mbfbnIntfrfbdf, isMXBfbn)}.
+     * Tiis donstrudtor is rfsfrvfd to subdlbssfs.</p>
      *
-     * @param mbeanInterface The Management Interface exported by this
-     *        MBean.
-     * @param isMXBean If true, the {@code mbeanInterface} parameter
-     * names an MXBean interface and the resultant MBean is an MXBean.
+     * @pbrbm mbfbnIntfrfbdf Tif Mbnbgfmfnt Intfrfbdf fxportfd by tiis
+     *        MBfbn.
+     * @pbrbm isMXBfbn If truf, tif {@dodf mbfbnIntfrfbdf} pbrbmftfr
+     * nbmfs bn MXBfbn intfrfbdf bnd tif rfsultbnt MBfbn is bn MXBfbn.
      *
-     * @exception IllegalArgumentException if the <var>mbeanInterface</var>
-     *    does not follow JMX design patterns for Management Interfaces, or
-     *    if <var>this</var> does not implement the specified interface.
+     * @fxdfption IllfgblArgumfntExdfption if tif <vbr>mbfbnIntfrfbdf</vbr>
+     *    dofs not follow JMX dfsign pbttfrns for Mbnbgfmfnt Intfrfbdfs, or
+     *    if <vbr>tiis</vbr> dofs not implfmfnt tif spfdififd intfrfbdf.
      *
-     * @since 1.6
+     * @sindf 1.6
      **/
-    protected StandardMBean(Class<?> mbeanInterface, boolean isMXBean) {
+    protfdtfd StbndbrdMBfbn(Clbss<?> mbfbnIntfrfbdf, boolfbn isMXBfbn) {
         try {
-            construct(null, mbeanInterface, true, isMXBean);
-        } catch (NotCompliantMBeanException e) {
-            throw new IllegalArgumentException(e);
+            donstrudt(null, mbfbnIntfrfbdf, truf, isMXBfbn);
+        } dbtdi (NotComplibntMBfbnExdfption f) {
+            tirow nfw IllfgblArgumfntExdfption(f);
         }
     }
 
     /**
-     * <p>Replace the implementation object wrapped in this object.</p>
+     * <p>Rfplbdf tif implfmfntbtion objfdt wrbppfd in tiis objfdt.</p>
      *
-     * @param implementation The new implementation of this Standard MBean
-     * (or MXBean). The <code>implementation</code> object must implement
-     * the Standard MBean (or MXBean) interface that was supplied when this
-     * <code>StandardMBean</code> was constructed.
+     * @pbrbm implfmfntbtion Tif nfw implfmfntbtion of tiis Stbndbrd MBfbn
+     * (or MXBfbn). Tif <dodf>implfmfntbtion</dodf> objfdt must implfmfnt
+     * tif Stbndbrd MBfbn (or MXBfbn) intfrfbdf tibt wbs supplifd wifn tiis
+     * <dodf>StbndbrdMBfbn</dodf> wbs donstrudtfd.
      *
-     * @exception IllegalArgumentException if the given
-     * <var>implementation</var> is null.
+     * @fxdfption IllfgblArgumfntExdfption if tif givfn
+     * <vbr>implfmfntbtion</vbr> is null.
      *
-     * @exception NotCompliantMBeanException if the given
-     * <var>implementation</var> does not implement the
-     * Standard MBean (or MXBean) interface that was
-     * supplied at construction.
+     * @fxdfption NotComplibntMBfbnExdfption if tif givfn
+     * <vbr>implfmfntbtion</vbr> dofs not implfmfnt tif
+     * Stbndbrd MBfbn (or MXBfbn) intfrfbdf tibt wbs
+     * supplifd bt donstrudtion.
      *
-     * @see #getImplementation
+     * @sff #gftImplfmfntbtion
      **/
-    public void setImplementation(Object implementation)
-        throws NotCompliantMBeanException {
+    publid void sftImplfmfntbtion(Objfdt implfmfntbtion)
+        tirows NotComplibntMBfbnExdfption {
 
-        if (implementation == null)
-            throw new IllegalArgumentException("implementation is null");
+        if (implfmfntbtion == null)
+            tirow nfw IllfgblArgumfntExdfption("implfmfntbtion is null");
 
-        if (isMXBean()) {
-            this.mbean = new MXBeanSupport(implementation,
-                    Util.<Class<Object>>cast(getMBeanInterface()));
-        } else {
-            this.mbean = new StandardMBeanSupport(implementation,
-                    Util.<Class<Object>>cast(getMBeanInterface()));
+        if (isMXBfbn()) {
+            tiis.mbfbn = nfw MXBfbnSupport(implfmfntbtion,
+                    Util.<Clbss<Objfdt>>dbst(gftMBfbnIntfrfbdf()));
+        } flsf {
+            tiis.mbfbn = nfw StbndbrdMBfbnSupport(implfmfntbtion,
+                    Util.<Clbss<Objfdt>>dbst(gftMBfbnIntfrfbdf()));
         }
     }
 
     /**
-     * Get the implementation of this Standard MBean (or MXBean).
-     * @return The implementation of this Standard MBean (or MXBean).
+     * Gft tif implfmfntbtion of tiis Stbndbrd MBfbn (or MXBfbn).
+     * @rfturn Tif implfmfntbtion of tiis Stbndbrd MBfbn (or MXBfbn).
      *
-     * @see #setImplementation
+     * @sff #sftImplfmfntbtion
      **/
-    public Object getImplementation() {
-        return mbean.getResource();
+    publid Objfdt gftImplfmfntbtion() {
+        rfturn mbfbn.gftRfsourdf();
     }
 
     /**
-     * Get the Management Interface of this Standard MBean (or MXBean).
-     * @return The management interface of this Standard MBean (or MXBean).
+     * Gft tif Mbnbgfmfnt Intfrfbdf of tiis Stbndbrd MBfbn (or MXBfbn).
+     * @rfturn Tif mbnbgfmfnt intfrfbdf of tiis Stbndbrd MBfbn (or MXBfbn).
      **/
-    public final Class<?> getMBeanInterface() {
-        return mbean.getMBeanInterface();
+    publid finbl Clbss<?> gftMBfbnIntfrfbdf() {
+        rfturn mbfbn.gftMBfbnIntfrfbdf();
     }
 
     /**
-     * Get the class of the implementation of this Standard MBean (or MXBean).
-     * @return The class of the implementation of this Standard MBean (or MXBean).
+     * Gft tif dlbss of tif implfmfntbtion of tiis Stbndbrd MBfbn (or MXBfbn).
+     * @rfturn Tif dlbss of tif implfmfntbtion of tiis Stbndbrd MBfbn (or MXBfbn).
      **/
-    public Class<?> getImplementationClass() {
-        return mbean.getResource().getClass();
+    publid Clbss<?> gftImplfmfntbtionClbss() {
+        rfturn mbfbn.gftRfsourdf().gftClbss();
     }
 
     // ------------------------------------------------------------------
-    // From the DynamicMBean interface.
+    // From tif DynbmidMBfbn intfrfbdf.
     // ------------------------------------------------------------------
-    public Object getAttribute(String attribute)
-        throws AttributeNotFoundException,
-               MBeanException,
-               ReflectionException {
-        return mbean.getAttribute(attribute);
+    publid Objfdt gftAttributf(String bttributf)
+        tirows AttributfNotFoundExdfption,
+               MBfbnExdfption,
+               RfflfdtionExdfption {
+        rfturn mbfbn.gftAttributf(bttributf);
     }
 
     // ------------------------------------------------------------------
-    // From the DynamicMBean interface.
+    // From tif DynbmidMBfbn intfrfbdf.
     // ------------------------------------------------------------------
-    public void setAttribute(Attribute attribute)
-        throws AttributeNotFoundException,
-               InvalidAttributeValueException,
-               MBeanException,
-               ReflectionException {
-        mbean.setAttribute(attribute);
+    publid void sftAttributf(Attributf bttributf)
+        tirows AttributfNotFoundExdfption,
+               InvblidAttributfVblufExdfption,
+               MBfbnExdfption,
+               RfflfdtionExdfption {
+        mbfbn.sftAttributf(bttributf);
     }
 
     // ------------------------------------------------------------------
-    // From the DynamicMBean interface.
+    // From tif DynbmidMBfbn intfrfbdf.
     // ------------------------------------------------------------------
-    public AttributeList getAttributes(String[] attributes) {
-        return mbean.getAttributes(attributes);
+    publid AttributfList gftAttributfs(String[] bttributfs) {
+        rfturn mbfbn.gftAttributfs(bttributfs);
     }
 
     // ------------------------------------------------------------------
-    // From the DynamicMBean interface.
+    // From tif DynbmidMBfbn intfrfbdf.
     // ------------------------------------------------------------------
-    public AttributeList setAttributes(AttributeList attributes) {
-        return mbean.setAttributes(attributes);
+    publid AttributfList sftAttributfs(AttributfList bttributfs) {
+        rfturn mbfbn.sftAttributfs(bttributfs);
     }
 
     // ------------------------------------------------------------------
-    // From the DynamicMBean interface.
+    // From tif DynbmidMBfbn intfrfbdf.
     // ------------------------------------------------------------------
-    public Object invoke(String actionName, Object params[], String signature[])
-            throws MBeanException, ReflectionException {
-        return mbean.invoke(actionName, params, signature);
+    publid Objfdt invokf(String bdtionNbmf, Objfdt pbrbms[], String signbturf[])
+            tirows MBfbnExdfption, RfflfdtionExdfption {
+        rfturn mbfbn.invokf(bdtionNbmf, pbrbms, signbturf);
     }
 
     /**
-     * Get the {@link MBeanInfo} for this MBean.
+     * Gft tif {@link MBfbnInfo} for tiis MBfbn.
      * <p>
-     * This method implements
-     * {@link javax.management.DynamicMBean#getMBeanInfo()
-     *   DynamicMBean.getMBeanInfo()}.
+     * Tiis mftiod implfmfnts
+     * {@link jbvbx.mbnbgfmfnt.DynbmidMBfbn#gftMBfbnInfo()
+     *   DynbmidMBfbn.gftMBfbnInfo()}.
      * <p>
-     * This method first calls {@link #getCachedMBeanInfo()} in order to
-     * retrieve the cached MBeanInfo for this MBean, if any. If the
-     * MBeanInfo returned by {@link #getCachedMBeanInfo()} is not null,
-     * then it is returned.<br>
-     * Otherwise, this method builds a default MBeanInfo for this MBean,
-     * using the Management Interface specified for this MBean.
+     * Tiis mftiod first dblls {@link #gftCbdifdMBfbnInfo()} in ordfr to
+     * rftrifvf tif dbdifd MBfbnInfo for tiis MBfbn, if bny. If tif
+     * MBfbnInfo rfturnfd by {@link #gftCbdifdMBfbnInfo()} is not null,
+     * tifn it is rfturnfd.<br>
+     * Otifrwisf, tiis mftiod builds b dffbult MBfbnInfo for tiis MBfbn,
+     * using tif Mbnbgfmfnt Intfrfbdf spfdififd for tiis MBfbn.
      * <p>
-     * While building the MBeanInfo, this method calls the customization
-     * hooks that make it possible for subclasses to supply their custom
-     * descriptions, parameter names, etc...<br>
-     * Finally, it calls {@link #cacheMBeanInfo(javax.management.MBeanInfo)
-     * cacheMBeanInfo()} in order to cache the new MBeanInfo.
-     * @return The cached MBeanInfo for that MBean, if not null, or a
-     *         newly built MBeanInfo if none was cached.
+     * Wiilf building tif MBfbnInfo, tiis mftiod dblls tif dustomizbtion
+     * iooks tibt mbkf it possiblf for subdlbssfs to supply tifir dustom
+     * dfsdriptions, pbrbmftfr nbmfs, ftd...<br>
+     * Finblly, it dblls {@link #dbdifMBfbnInfo(jbvbx.mbnbgfmfnt.MBfbnInfo)
+     * dbdifMBfbnInfo()} in ordfr to dbdif tif nfw MBfbnInfo.
+     * @rfturn Tif dbdifd MBfbnInfo for tibt MBfbn, if not null, or b
+     *         nfwly built MBfbnInfo if nonf wbs dbdifd.
      **/
-    public MBeanInfo getMBeanInfo() {
+    publid MBfbnInfo gftMBfbnInfo() {
         try {
-            final MBeanInfo cached = getCachedMBeanInfo();
-            if (cached != null) return cached;
-        } catch (RuntimeException x) {
-            if (MISC_LOGGER.isLoggable(Level.FINEST)) {
-                MISC_LOGGER.logp(Level.FINEST,
-                        MBeanServerFactory.class.getName(), "getMBeanInfo",
-                        "Failed to get cached MBeanInfo", x);
+            finbl MBfbnInfo dbdifd = gftCbdifdMBfbnInfo();
+            if (dbdifd != null) rfturn dbdifd;
+        } dbtdi (RuntimfExdfption x) {
+            if (MISC_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                MISC_LOGGER.logp(Lfvfl.FINEST,
+                        MBfbnSfrvfrFbdtory.dlbss.gftNbmf(), "gftMBfbnInfo",
+                        "Fbilfd to gft dbdifd MBfbnInfo", x);
             }
         }
 
-        if (MISC_LOGGER.isLoggable(Level.FINER)) {
-            MISC_LOGGER.logp(Level.FINER,
-                    MBeanServerFactory.class.getName(), "getMBeanInfo",
-                    "Building MBeanInfo for " +
-                    getImplementationClass().getName());
+        if (MISC_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MISC_LOGGER.logp(Lfvfl.FINER,
+                    MBfbnSfrvfrFbdtory.dlbss.gftNbmf(), "gftMBfbnInfo",
+                    "Building MBfbnInfo for " +
+                    gftImplfmfntbtionClbss().gftNbmf());
         }
 
-        MBeanSupport<?> msupport = mbean;
-        final MBeanInfo bi = msupport.getMBeanInfo();
-        final Object impl = msupport.getResource();
+        MBfbnSupport<?> msupport = mbfbn;
+        finbl MBfbnInfo bi = msupport.gftMBfbnInfo();
+        finbl Objfdt impl = msupport.gftRfsourdf();
 
-        final boolean immutableInfo = immutableInfo(this.getClass());
+        finbl boolfbn immutbblfInfo = immutbblfInfo(tiis.gftClbss());
 
-        final String                  cname = getClassName(bi);
-        final String                  text  = getDescription(bi);
-        final MBeanConstructorInfo[]  ctors = getConstructors(bi,impl);
-        final MBeanAttributeInfo[]    attrs = getAttributes(bi);
-        final MBeanOperationInfo[]    ops   = getOperations(bi);
-        final MBeanNotificationInfo[] ntfs  = getNotifications(bi);
-        final Descriptor              desc  = getDescriptor(bi, immutableInfo);
+        finbl String                  dnbmf = gftClbssNbmf(bi);
+        finbl String                  tfxt  = gftDfsdription(bi);
+        finbl MBfbnConstrudtorInfo[]  dtors = gftConstrudtors(bi,impl);
+        finbl MBfbnAttributfInfo[]    bttrs = gftAttributfs(bi);
+        finbl MBfbnOpfrbtionInfo[]    ops   = gftOpfrbtions(bi);
+        finbl MBfbnNotifidbtionInfo[] ntfs  = gftNotifidbtions(bi);
+        finbl Dfsdriptor              dfsd  = gftDfsdriptor(bi, immutbblfInfo);
 
-        final MBeanInfo nmbi = new MBeanInfo(
-                cname, text, attrs, ctors, ops, ntfs, desc);
+        finbl MBfbnInfo nmbi = nfw MBfbnInfo(
+                dnbmf, tfxt, bttrs, dtors, ops, ntfs, dfsd);
         try {
-            cacheMBeanInfo(nmbi);
-        } catch (RuntimeException x) {
-            if (MISC_LOGGER.isLoggable(Level.FINEST)) {
-                MISC_LOGGER.logp(Level.FINEST,
-                        MBeanServerFactory.class.getName(), "getMBeanInfo",
-                        "Failed to cache MBeanInfo", x);
+            dbdifMBfbnInfo(nmbi);
+        } dbtdi (RuntimfExdfption x) {
+            if (MISC_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                MISC_LOGGER.logp(Lfvfl.FINEST,
+                        MBfbnSfrvfrFbdtory.dlbss.gftNbmf(), "gftMBfbnInfo",
+                        "Fbilfd to dbdif MBfbnInfo", x);
             }
         }
 
-        return nmbi;
+        rfturn nmbi;
     }
 
     /**
-     * Customization hook:
-     * Get the className that will be used in the MBeanInfo returned by
-     * this MBean.
+     * Customizbtion iook:
+     * Gft tif dlbssNbmf tibt will bf usfd in tif MBfbnInfo rfturnfd by
+     * tiis MBfbn.
      * <br>
-     * Subclasses may redefine this method in order to supply their
-     * custom class name.  The default implementation returns
-     * {@link MBeanInfo#getClassName() info.getClassName()}.
-     * @param info The default MBeanInfo derived by reflection.
-     * @return the class name for the new MBeanInfo.
+     * Subdlbssfs mby rfdffinf tiis mftiod in ordfr to supply tifir
+     * dustom dlbss nbmf.  Tif dffbult implfmfntbtion rfturns
+     * {@link MBfbnInfo#gftClbssNbmf() info.gftClbssNbmf()}.
+     * @pbrbm info Tif dffbult MBfbnInfo dfrivfd by rfflfdtion.
+     * @rfturn tif dlbss nbmf for tif nfw MBfbnInfo.
      **/
-    protected String getClassName(MBeanInfo info) {
-        if (info == null) return getImplementationClass().getName();
-        return info.getClassName();
+    protfdtfd String gftClbssNbmf(MBfbnInfo info) {
+        if (info == null) rfturn gftImplfmfntbtionClbss().gftNbmf();
+        rfturn info.gftClbssNbmf();
     }
 
     /**
-     * Customization hook:
-     * Get the description that will be used in the MBeanInfo returned by
-     * this MBean.
+     * Customizbtion iook:
+     * Gft tif dfsdription tibt will bf usfd in tif MBfbnInfo rfturnfd by
+     * tiis MBfbn.
      * <br>
-     * Subclasses may redefine this method in order to supply their
-     * custom MBean description.  The default implementation returns
-     * {@link MBeanInfo#getDescription() info.getDescription()}.
-     * @param info The default MBeanInfo derived by reflection.
-     * @return the description for the new MBeanInfo.
+     * Subdlbssfs mby rfdffinf tiis mftiod in ordfr to supply tifir
+     * dustom MBfbn dfsdription.  Tif dffbult implfmfntbtion rfturns
+     * {@link MBfbnInfo#gftDfsdription() info.gftDfsdription()}.
+     * @pbrbm info Tif dffbult MBfbnInfo dfrivfd by rfflfdtion.
+     * @rfturn tif dfsdription for tif nfw MBfbnInfo.
      **/
-    protected String getDescription(MBeanInfo info) {
-        if (info == null) return null;
-        return info.getDescription();
+    protfdtfd String gftDfsdription(MBfbnInfo info) {
+        if (info == null) rfturn null;
+        rfturn info.gftDfsdription();
     }
 
     /**
-     * <p>Customization hook:
-     * Get the description that will be used in the MBeanFeatureInfo
-     * returned by this MBean.</p>
+     * <p>Customizbtion iook:
+     * Gft tif dfsdription tibt will bf usfd in tif MBfbnFfbturfInfo
+     * rfturnfd by tiis MBfbn.</p>
      *
-     * <p>Subclasses may redefine this method in order to supply
-     * their custom description.  The default implementation returns
-     * {@link MBeanFeatureInfo#getDescription()
-     * info.getDescription()}.</p>
+     * <p>Subdlbssfs mby rfdffinf tiis mftiod in ordfr to supply
+     * tifir dustom dfsdription.  Tif dffbult implfmfntbtion rfturns
+     * {@link MBfbnFfbturfInfo#gftDfsdription()
+     * info.gftDfsdription()}.</p>
      *
-     * <p>This method is called by
-     *      {@link #getDescription(MBeanAttributeInfo)},
-     *      {@link #getDescription(MBeanOperationInfo)},
-     *      {@link #getDescription(MBeanConstructorInfo)}.</p>
+     * <p>Tiis mftiod is dbllfd by
+     *      {@link #gftDfsdription(MBfbnAttributfInfo)},
+     *      {@link #gftDfsdription(MBfbnOpfrbtionInfo)},
+     *      {@link #gftDfsdription(MBfbnConstrudtorInfo)}.</p>
      *
-     * @param info The default MBeanFeatureInfo derived by reflection.
-     * @return the description for the given MBeanFeatureInfo.
+     * @pbrbm info Tif dffbult MBfbnFfbturfInfo dfrivfd by rfflfdtion.
+     * @rfturn tif dfsdription for tif givfn MBfbnFfbturfInfo.
      **/
-    protected String getDescription(MBeanFeatureInfo info) {
-        if (info == null) return null;
-        return info.getDescription();
+    protfdtfd String gftDfsdription(MBfbnFfbturfInfo info) {
+        if (info == null) rfturn null;
+        rfturn info.gftDfsdription();
     }
 
     /**
-     * Customization hook:
-     * Get the description that will be used in the MBeanAttributeInfo
-     * returned by this MBean.
+     * Customizbtion iook:
+     * Gft tif dfsdription tibt will bf usfd in tif MBfbnAttributfInfo
+     * rfturnfd by tiis MBfbn.
      *
-     * <p>Subclasses may redefine this method in order to supply their
-     * custom description.  The default implementation returns {@link
-     * #getDescription(MBeanFeatureInfo)
-     * getDescription((MBeanFeatureInfo) info)}.
-     * @param info The default MBeanAttributeInfo derived by reflection.
-     * @return the description for the given MBeanAttributeInfo.
+     * <p>Subdlbssfs mby rfdffinf tiis mftiod in ordfr to supply tifir
+     * dustom dfsdription.  Tif dffbult implfmfntbtion rfturns {@link
+     * #gftDfsdription(MBfbnFfbturfInfo)
+     * gftDfsdription((MBfbnFfbturfInfo) info)}.
+     * @pbrbm info Tif dffbult MBfbnAttributfInfo dfrivfd by rfflfdtion.
+     * @rfturn tif dfsdription for tif givfn MBfbnAttributfInfo.
      **/
-    protected String getDescription(MBeanAttributeInfo info) {
-        return getDescription((MBeanFeatureInfo)info);
+    protfdtfd String gftDfsdription(MBfbnAttributfInfo info) {
+        rfturn gftDfsdription((MBfbnFfbturfInfo)info);
     }
 
     /**
-     * Customization hook:
-     * Get the description that will be used in the MBeanConstructorInfo
-     * returned by this MBean.
+     * Customizbtion iook:
+     * Gft tif dfsdription tibt will bf usfd in tif MBfbnConstrudtorInfo
+     * rfturnfd by tiis MBfbn.
      * <br>
-     * Subclasses may redefine this method in order to supply their
-     * custom description.
-     * The default implementation returns {@link
-     * #getDescription(MBeanFeatureInfo)
-     * getDescription((MBeanFeatureInfo) info)}.
-     * @param info The default MBeanConstructorInfo derived by reflection.
-     * @return the description for the given MBeanConstructorInfo.
+     * Subdlbssfs mby rfdffinf tiis mftiod in ordfr to supply tifir
+     * dustom dfsdription.
+     * Tif dffbult implfmfntbtion rfturns {@link
+     * #gftDfsdription(MBfbnFfbturfInfo)
+     * gftDfsdription((MBfbnFfbturfInfo) info)}.
+     * @pbrbm info Tif dffbult MBfbnConstrudtorInfo dfrivfd by rfflfdtion.
+     * @rfturn tif dfsdription for tif givfn MBfbnConstrudtorInfo.
      **/
-    protected String getDescription(MBeanConstructorInfo info) {
-        return getDescription((MBeanFeatureInfo)info);
+    protfdtfd String gftDfsdription(MBfbnConstrudtorInfo info) {
+        rfturn gftDfsdription((MBfbnFfbturfInfo)info);
     }
 
     /**
-     * Customization hook:
-     * Get the description that will be used for the  <var>sequence</var>
-     * MBeanParameterInfo of the MBeanConstructorInfo returned by this MBean.
+     * Customizbtion iook:
+     * Gft tif dfsdription tibt will bf usfd for tif  <vbr>sfqufndf</vbr>
+     * MBfbnPbrbmftfrInfo of tif MBfbnConstrudtorInfo rfturnfd by tiis MBfbn.
      * <br>
-     * Subclasses may redefine this method in order to supply their
-     * custom description.  The default implementation returns
-     * {@link MBeanParameterInfo#getDescription() param.getDescription()}.
+     * Subdlbssfs mby rfdffinf tiis mftiod in ordfr to supply tifir
+     * dustom dfsdription.  Tif dffbult implfmfntbtion rfturns
+     * {@link MBfbnPbrbmftfrInfo#gftDfsdription() pbrbm.gftDfsdription()}.
      *
-     * @param ctor  The default MBeanConstructorInfo derived by reflection.
-     * @param param The default MBeanParameterInfo derived by reflection.
-     * @param sequence The sequence number of the parameter considered
-     *        ("0" for the first parameter, "1" for the second parameter,
-     *        etc...).
-     * @return the description for the given MBeanParameterInfo.
+     * @pbrbm dtor  Tif dffbult MBfbnConstrudtorInfo dfrivfd by rfflfdtion.
+     * @pbrbm pbrbm Tif dffbult MBfbnPbrbmftfrInfo dfrivfd by rfflfdtion.
+     * @pbrbm sfqufndf Tif sfqufndf numbfr of tif pbrbmftfr donsidfrfd
+     *        ("0" for tif first pbrbmftfr, "1" for tif sfdond pbrbmftfr,
+     *        ftd...).
+     * @rfturn tif dfsdription for tif givfn MBfbnPbrbmftfrInfo.
      **/
-    protected String getDescription(MBeanConstructorInfo ctor,
-                                    MBeanParameterInfo   param,
-                                    int sequence) {
-        if (param == null) return null;
-        return param.getDescription();
+    protfdtfd String gftDfsdription(MBfbnConstrudtorInfo dtor,
+                                    MBfbnPbrbmftfrInfo   pbrbm,
+                                    int sfqufndf) {
+        if (pbrbm == null) rfturn null;
+        rfturn pbrbm.gftDfsdription();
     }
 
     /**
-     * Customization hook:
-     * Get the name that will be used for the <var>sequence</var>
-     * MBeanParameterInfo of the MBeanConstructorInfo returned by this MBean.
+     * Customizbtion iook:
+     * Gft tif nbmf tibt will bf usfd for tif <vbr>sfqufndf</vbr>
+     * MBfbnPbrbmftfrInfo of tif MBfbnConstrudtorInfo rfturnfd by tiis MBfbn.
      * <br>
-     * Subclasses may redefine this method in order to supply their
-     * custom parameter name.  The default implementation returns
-     * {@link MBeanParameterInfo#getName() param.getName()}.
+     * Subdlbssfs mby rfdffinf tiis mftiod in ordfr to supply tifir
+     * dustom pbrbmftfr nbmf.  Tif dffbult implfmfntbtion rfturns
+     * {@link MBfbnPbrbmftfrInfo#gftNbmf() pbrbm.gftNbmf()}.
      *
-     * @param ctor  The default MBeanConstructorInfo derived by reflection.
-     * @param param The default MBeanParameterInfo derived by reflection.
-     * @param sequence The sequence number of the parameter considered
-     *        ("0" for the first parameter, "1" for the second parameter,
-     *        etc...).
-     * @return the name for the given MBeanParameterInfo.
+     * @pbrbm dtor  Tif dffbult MBfbnConstrudtorInfo dfrivfd by rfflfdtion.
+     * @pbrbm pbrbm Tif dffbult MBfbnPbrbmftfrInfo dfrivfd by rfflfdtion.
+     * @pbrbm sfqufndf Tif sfqufndf numbfr of tif pbrbmftfr donsidfrfd
+     *        ("0" for tif first pbrbmftfr, "1" for tif sfdond pbrbmftfr,
+     *        ftd...).
+     * @rfturn tif nbmf for tif givfn MBfbnPbrbmftfrInfo.
      **/
-    protected String getParameterName(MBeanConstructorInfo ctor,
-                                      MBeanParameterInfo param,
-                                      int sequence) {
-        if (param == null) return null;
-        return param.getName();
+    protfdtfd String gftPbrbmftfrNbmf(MBfbnConstrudtorInfo dtor,
+                                      MBfbnPbrbmftfrInfo pbrbm,
+                                      int sfqufndf) {
+        if (pbrbm == null) rfturn null;
+        rfturn pbrbm.gftNbmf();
     }
 
     /**
-     * Customization hook:
-     * Get the description that will be used in the MBeanOperationInfo
-     * returned by this MBean.
+     * Customizbtion iook:
+     * Gft tif dfsdription tibt will bf usfd in tif MBfbnOpfrbtionInfo
+     * rfturnfd by tiis MBfbn.
      * <br>
-     * Subclasses may redefine this method in order to supply their
-     * custom description.  The default implementation returns
-     * {@link #getDescription(MBeanFeatureInfo)
-     * getDescription((MBeanFeatureInfo) info)}.
-     * @param info The default MBeanOperationInfo derived by reflection.
-     * @return the description for the given MBeanOperationInfo.
+     * Subdlbssfs mby rfdffinf tiis mftiod in ordfr to supply tifir
+     * dustom dfsdription.  Tif dffbult implfmfntbtion rfturns
+     * {@link #gftDfsdription(MBfbnFfbturfInfo)
+     * gftDfsdription((MBfbnFfbturfInfo) info)}.
+     * @pbrbm info Tif dffbult MBfbnOpfrbtionInfo dfrivfd by rfflfdtion.
+     * @rfturn tif dfsdription for tif givfn MBfbnOpfrbtionInfo.
      **/
-    protected String getDescription(MBeanOperationInfo info) {
-        return getDescription((MBeanFeatureInfo)info);
+    protfdtfd String gftDfsdription(MBfbnOpfrbtionInfo info) {
+        rfturn gftDfsdription((MBfbnFfbturfInfo)info);
     }
 
     /**
-     * Customization hook:
-     * Get the <var>impact</var> flag of the operation that will be used in
-     * the MBeanOperationInfo returned by this MBean.
+     * Customizbtion iook:
+     * Gft tif <vbr>impbdt</vbr> flbg of tif opfrbtion tibt will bf usfd in
+     * tif MBfbnOpfrbtionInfo rfturnfd by tiis MBfbn.
      * <br>
-     * Subclasses may redefine this method in order to supply their
-     * custom impact flag.  The default implementation returns
-     * {@link MBeanOperationInfo#getImpact() info.getImpact()}.
-     * @param info The default MBeanOperationInfo derived by reflection.
-     * @return the impact flag for the given MBeanOperationInfo.
+     * Subdlbssfs mby rfdffinf tiis mftiod in ordfr to supply tifir
+     * dustom impbdt flbg.  Tif dffbult implfmfntbtion rfturns
+     * {@link MBfbnOpfrbtionInfo#gftImpbdt() info.gftImpbdt()}.
+     * @pbrbm info Tif dffbult MBfbnOpfrbtionInfo dfrivfd by rfflfdtion.
+     * @rfturn tif impbdt flbg for tif givfn MBfbnOpfrbtionInfo.
      **/
-    protected int getImpact(MBeanOperationInfo info) {
-        if (info == null) return MBeanOperationInfo.UNKNOWN;
-        return info.getImpact();
+    protfdtfd int gftImpbdt(MBfbnOpfrbtionInfo info) {
+        if (info == null) rfturn MBfbnOpfrbtionInfo.UNKNOWN;
+        rfturn info.gftImpbdt();
     }
 
     /**
-     * Customization hook:
-     * Get the name that will be used for the <var>sequence</var>
-     * MBeanParameterInfo of the MBeanOperationInfo returned by this MBean.
+     * Customizbtion iook:
+     * Gft tif nbmf tibt will bf usfd for tif <vbr>sfqufndf</vbr>
+     * MBfbnPbrbmftfrInfo of tif MBfbnOpfrbtionInfo rfturnfd by tiis MBfbn.
      * <br>
-     * Subclasses may redefine this method in order to supply their
-     * custom parameter name.  The default implementation returns
-     * {@link MBeanParameterInfo#getName() param.getName()}.
+     * Subdlbssfs mby rfdffinf tiis mftiod in ordfr to supply tifir
+     * dustom pbrbmftfr nbmf.  Tif dffbult implfmfntbtion rfturns
+     * {@link MBfbnPbrbmftfrInfo#gftNbmf() pbrbm.gftNbmf()}.
      *
-     * @param op    The default MBeanOperationInfo derived by reflection.
-     * @param param The default MBeanParameterInfo derived by reflection.
-     * @param sequence The sequence number of the parameter considered
-     *        ("0" for the first parameter, "1" for the second parameter,
-     *        etc...).
-     * @return the name to use for the given MBeanParameterInfo.
+     * @pbrbm op    Tif dffbult MBfbnOpfrbtionInfo dfrivfd by rfflfdtion.
+     * @pbrbm pbrbm Tif dffbult MBfbnPbrbmftfrInfo dfrivfd by rfflfdtion.
+     * @pbrbm sfqufndf Tif sfqufndf numbfr of tif pbrbmftfr donsidfrfd
+     *        ("0" for tif first pbrbmftfr, "1" for tif sfdond pbrbmftfr,
+     *        ftd...).
+     * @rfturn tif nbmf to usf for tif givfn MBfbnPbrbmftfrInfo.
      **/
-    protected String getParameterName(MBeanOperationInfo op,
-                                      MBeanParameterInfo param,
-                                      int sequence) {
-        if (param == null) return null;
-        return param.getName();
+    protfdtfd String gftPbrbmftfrNbmf(MBfbnOpfrbtionInfo op,
+                                      MBfbnPbrbmftfrInfo pbrbm,
+                                      int sfqufndf) {
+        if (pbrbm == null) rfturn null;
+        rfturn pbrbm.gftNbmf();
     }
 
     /**
-     * Customization hook:
-     * Get the description that will be used for the  <var>sequence</var>
-     * MBeanParameterInfo of the MBeanOperationInfo returned by this MBean.
+     * Customizbtion iook:
+     * Gft tif dfsdription tibt will bf usfd for tif  <vbr>sfqufndf</vbr>
+     * MBfbnPbrbmftfrInfo of tif MBfbnOpfrbtionInfo rfturnfd by tiis MBfbn.
      * <br>
-     * Subclasses may redefine this method in order to supply their
-     * custom description.  The default implementation returns
-     * {@link MBeanParameterInfo#getDescription() param.getDescription()}.
+     * Subdlbssfs mby rfdffinf tiis mftiod in ordfr to supply tifir
+     * dustom dfsdription.  Tif dffbult implfmfntbtion rfturns
+     * {@link MBfbnPbrbmftfrInfo#gftDfsdription() pbrbm.gftDfsdription()}.
      *
-     * @param op    The default MBeanOperationInfo derived by reflection.
-     * @param param The default MBeanParameterInfo derived by reflection.
-     * @param sequence The sequence number of the parameter considered
-     *        ("0" for the first parameter, "1" for the second parameter,
-     *        etc...).
-     * @return the description for the given MBeanParameterInfo.
+     * @pbrbm op    Tif dffbult MBfbnOpfrbtionInfo dfrivfd by rfflfdtion.
+     * @pbrbm pbrbm Tif dffbult MBfbnPbrbmftfrInfo dfrivfd by rfflfdtion.
+     * @pbrbm sfqufndf Tif sfqufndf numbfr of tif pbrbmftfr donsidfrfd
+     *        ("0" for tif first pbrbmftfr, "1" for tif sfdond pbrbmftfr,
+     *        ftd...).
+     * @rfturn tif dfsdription for tif givfn MBfbnPbrbmftfrInfo.
      **/
-    protected String getDescription(MBeanOperationInfo op,
-                                    MBeanParameterInfo param,
-                                    int sequence) {
-        if (param == null) return null;
-        return param.getDescription();
+    protfdtfd String gftDfsdription(MBfbnOpfrbtionInfo op,
+                                    MBfbnPbrbmftfrInfo pbrbm,
+                                    int sfqufndf) {
+        if (pbrbm == null) rfturn null;
+        rfturn pbrbm.gftDfsdription();
     }
 
     /**
-     * Customization hook:
-     * Get the MBeanConstructorInfo[] that will be used in the MBeanInfo
-     * returned by this MBean.
+     * Customizbtion iook:
+     * Gft tif MBfbnConstrudtorInfo[] tibt will bf usfd in tif MBfbnInfo
+     * rfturnfd by tiis MBfbn.
      * <br>
-     * By default, this method returns <code>null</code> if the wrapped
-     * implementation is not <var>this</var>. Indeed, if the wrapped
-     * implementation is not this object itself, it will not be possible
-     * to recreate a wrapped implementation by calling the implementation
-     * constructors through <code>MBeanServer.createMBean(...)</code>.<br>
-     * Otherwise, if the wrapped implementation is <var>this</var>,
-     * <var>ctors</var> is returned.
+     * By dffbult, tiis mftiod rfturns <dodf>null</dodf> if tif wrbppfd
+     * implfmfntbtion is not <vbr>tiis</vbr>. Indffd, if tif wrbppfd
+     * implfmfntbtion is not tiis objfdt itsflf, it will not bf possiblf
+     * to rfdrfbtf b wrbppfd implfmfntbtion by dblling tif implfmfntbtion
+     * donstrudtors tirougi <dodf>MBfbnSfrvfr.drfbtfMBfbn(...)</dodf>.<br>
+     * Otifrwisf, if tif wrbppfd implfmfntbtion is <vbr>tiis</vbr>,
+     * <vbr>dtors</vbr> is rfturnfd.
      * <br>
-     * Subclasses may redefine this method in order to modify this
-     * behavior, if needed.
-     * @param ctors The default MBeanConstructorInfo[] derived by reflection.
-     * @param impl  The wrapped implementation. If <code>null</code> is
-     *        passed, the wrapped implementation is ignored and
-     *        <var>ctors</var> is returned.
-     * @return the MBeanConstructorInfo[] for the new MBeanInfo.
+     * Subdlbssfs mby rfdffinf tiis mftiod in ordfr to modify tiis
+     * bfibvior, if nffdfd.
+     * @pbrbm dtors Tif dffbult MBfbnConstrudtorInfo[] dfrivfd by rfflfdtion.
+     * @pbrbm impl  Tif wrbppfd implfmfntbtion. If <dodf>null</dodf> is
+     *        pbssfd, tif wrbppfd implfmfntbtion is ignorfd bnd
+     *        <vbr>dtors</vbr> is rfturnfd.
+     * @rfturn tif MBfbnConstrudtorInfo[] for tif nfw MBfbnInfo.
      **/
-    protected MBeanConstructorInfo[]
-        getConstructors(MBeanConstructorInfo[] ctors, Object impl) {
-            if (ctors == null) return null;
-            if (impl != null && impl != this) return null;
-            return ctors;
+    protfdtfd MBfbnConstrudtorInfo[]
+        gftConstrudtors(MBfbnConstrudtorInfo[] dtors, Objfdt impl) {
+            if (dtors == null) rfturn null;
+            if (impl != null && impl != tiis) rfturn null;
+            rfturn dtors;
     }
 
     /**
-     * Customization hook:
-     * Get the MBeanNotificationInfo[] that will be used in the MBeanInfo
-     * returned by this MBean.
+     * Customizbtion iook:
+     * Gft tif MBfbnNotifidbtionInfo[] tibt will bf usfd in tif MBfbnInfo
+     * rfturnfd by tiis MBfbn.
      * <br>
-     * Subclasses may redefine this method in order to supply their
-     * custom notifications.
-     * @param info The default MBeanInfo derived by reflection.
-     * @return the MBeanNotificationInfo[] for the new MBeanInfo.
+     * Subdlbssfs mby rfdffinf tiis mftiod in ordfr to supply tifir
+     * dustom notifidbtions.
+     * @pbrbm info Tif dffbult MBfbnInfo dfrivfd by rfflfdtion.
+     * @rfturn tif MBfbnNotifidbtionInfo[] for tif nfw MBfbnInfo.
      **/
-    MBeanNotificationInfo[] getNotifications(MBeanInfo info) {
-        return null;
+    MBfbnNotifidbtionInfo[] gftNotifidbtions(MBfbnInfo info) {
+        rfturn null;
     }
 
     /**
-     * <p>Get the Descriptor that will be used in the MBeanInfo
-     * returned by this MBean.</p>
+     * <p>Gft tif Dfsdriptor tibt will bf usfd in tif MBfbnInfo
+     * rfturnfd by tiis MBfbn.</p>
      *
-     * <p>Subclasses may redefine this method in order to supply
-     * their custom descriptor.</p>
+     * <p>Subdlbssfs mby rfdffinf tiis mftiod in ordfr to supply
+     * tifir dustom dfsdriptor.</p>
      *
-     * <p>The default implementation of this method returns a Descriptor
-     * that contains at least the field {@code interfaceClassName}, with
-     * value {@link #getMBeanInterface()}.getName(). It may also contain
-     * the field {@code immutableInfo}, with a value that is the string
-     * {@code "true"} if the implementation can determine that the
-     * {@code MBeanInfo} returned by {@link #getMBeanInfo()} will always
-     * be the same. It may contain other fields: fields defined by the
-     * JMX specification must have appropriate values, and other fields
-     * must follow the conventions for non-standard field names.</p>
+     * <p>Tif dffbult implfmfntbtion of tiis mftiod rfturns b Dfsdriptor
+     * tibt dontbins bt lfbst tif fifld {@dodf intfrfbdfClbssNbmf}, witi
+     * vbluf {@link #gftMBfbnIntfrfbdf()}.gftNbmf(). It mby blso dontbin
+     * tif fifld {@dodf immutbblfInfo}, witi b vbluf tibt is tif string
+     * {@dodf "truf"} if tif implfmfntbtion dbn dftfrminf tibt tif
+     * {@dodf MBfbnInfo} rfturnfd by {@link #gftMBfbnInfo()} will blwbys
+     * bf tif sbmf. It mby dontbin otifr fiflds: fiflds dffinfd by tif
+     * JMX spfdifidbtion must ibvf bppropribtf vblufs, bnd otifr fiflds
+     * must follow tif donvfntions for non-stbndbrd fifld nbmfs.</p>
      *
-     * @param info The default MBeanInfo derived by reflection.
-     * @return the Descriptor for the new MBeanInfo.
+     * @pbrbm info Tif dffbult MBfbnInfo dfrivfd by rfflfdtion.
+     * @rfturn tif Dfsdriptor for tif nfw MBfbnInfo.
      */
-    Descriptor getDescriptor(MBeanInfo info, boolean immutableInfo) {
-        ImmutableDescriptor desc;
+    Dfsdriptor gftDfsdriptor(MBfbnInfo info, boolfbn immutbblfInfo) {
+        ImmutbblfDfsdriptor dfsd;
         if (info == null ||
-            info.getDescriptor() == null ||
-            info.getDescriptor().getFieldNames().length == 0) {
-            final String interfaceClassNameS =
-                "interfaceClassName=" + getMBeanInterface().getName();
-            final String immutableInfoS =
-                "immutableInfo=" + immutableInfo;
-            desc = new ImmutableDescriptor(interfaceClassNameS, immutableInfoS);
-            desc = descriptors.get(desc);
-        } else {
-            Descriptor d = info.getDescriptor();
-            Map<String,Object> fields = new HashMap<String,Object>();
-            for (String fieldName : d.getFieldNames()) {
-                if (fieldName.equals("immutableInfo")) {
-                    // Replace immutableInfo as the underlying MBean/MXBean
-                    // could already implement NotificationBroadcaster and
-                    // return immutableInfo=true in its MBeanInfo.
-                    fields.put(fieldName, Boolean.toString(immutableInfo));
-                } else {
-                    fields.put(fieldName, d.getFieldValue(fieldName));
+            info.gftDfsdriptor() == null ||
+            info.gftDfsdriptor().gftFifldNbmfs().lfngti == 0) {
+            finbl String intfrfbdfClbssNbmfS =
+                "intfrfbdfClbssNbmf=" + gftMBfbnIntfrfbdf().gftNbmf();
+            finbl String immutbblfInfoS =
+                "immutbblfInfo=" + immutbblfInfo;
+            dfsd = nfw ImmutbblfDfsdriptor(intfrfbdfClbssNbmfS, immutbblfInfoS);
+            dfsd = dfsdriptors.gft(dfsd);
+        } flsf {
+            Dfsdriptor d = info.gftDfsdriptor();
+            Mbp<String,Objfdt> fiflds = nfw HbsiMbp<String,Objfdt>();
+            for (String fifldNbmf : d.gftFifldNbmfs()) {
+                if (fifldNbmf.fqubls("immutbblfInfo")) {
+                    // Rfplbdf immutbblfInfo bs tif undfrlying MBfbn/MXBfbn
+                    // dould blrfbdy implfmfnt NotifidbtionBrobddbstfr bnd
+                    // rfturn immutbblfInfo=truf in its MBfbnInfo.
+                    fiflds.put(fifldNbmf, Boolfbn.toString(immutbblfInfo));
+                } flsf {
+                    fiflds.put(fifldNbmf, d.gftFifldVbluf(fifldNbmf));
                 }
             }
-            desc = new ImmutableDescriptor(fields);
+            dfsd = nfw ImmutbblfDfsdriptor(fiflds);
         }
-        return desc;
+        rfturn dfsd;
     }
 
     /**
-     * Customization hook:
-     * Return the MBeanInfo cached for this object.
+     * Customizbtion iook:
+     * Rfturn tif MBfbnInfo dbdifd for tiis objfdt.
      *
-     * <p>Subclasses may redefine this method in order to implement their
-     * own caching policy.  The default implementation stores one
-     * {@link MBeanInfo} object per instance.
+     * <p>Subdlbssfs mby rfdffinf tiis mftiod in ordfr to implfmfnt tifir
+     * own dbdiing polidy.  Tif dffbult implfmfntbtion storfs onf
+     * {@link MBfbnInfo} objfdt pfr instbndf.
      *
-     * @return The cached MBeanInfo, or null if no MBeanInfo is cached.
+     * @rfturn Tif dbdifd MBfbnInfo, or null if no MBfbnInfo is dbdifd.
      *
-     * @see #cacheMBeanInfo(MBeanInfo)
+     * @sff #dbdifMBfbnInfo(MBfbnInfo)
      **/
-    protected MBeanInfo getCachedMBeanInfo() {
-        return cachedMBeanInfo;
+    protfdtfd MBfbnInfo gftCbdifdMBfbnInfo() {
+        rfturn dbdifdMBfbnInfo;
     }
 
     /**
-     * Customization hook:
-     * cache the MBeanInfo built for this object.
+     * Customizbtion iook:
+     * dbdif tif MBfbnInfo built for tiis objfdt.
      *
-     * <p>Subclasses may redefine this method in order to implement
-     * their own caching policy.  The default implementation stores
-     * <code>info</code> in this instance.  A subclass can define
-     * other policies, such as not saving <code>info</code> (so it is
-     * reconstructed every time {@link #getMBeanInfo()} is called) or
-     * sharing a unique {@link MBeanInfo} object when several
-     * <code>StandardMBean</code> instances have equal {@link
-     * MBeanInfo} values.
+     * <p>Subdlbssfs mby rfdffinf tiis mftiod in ordfr to implfmfnt
+     * tifir own dbdiing polidy.  Tif dffbult implfmfntbtion storfs
+     * <dodf>info</dodf> in tiis instbndf.  A subdlbss dbn dffinf
+     * otifr polidifs, sudi bs not sbving <dodf>info</dodf> (so it is
+     * rfdonstrudtfd fvfry timf {@link #gftMBfbnInfo()} is dbllfd) or
+     * sibring b uniquf {@link MBfbnInfo} objfdt wifn sfvfrbl
+     * <dodf>StbndbrdMBfbn</dodf> instbndfs ibvf fqubl {@link
+     * MBfbnInfo} vblufs.
      *
-     * @param info the new <code>MBeanInfo</code> to cache.  Any
-     * previously cached value is discarded.  This parameter may be
-     * null, in which case there is no new cached value.
+     * @pbrbm info tif nfw <dodf>MBfbnInfo</dodf> to dbdif.  Any
+     * prfviously dbdifd vbluf is disdbrdfd.  Tiis pbrbmftfr mby bf
+     * null, in wiidi dbsf tifrf is no nfw dbdifd vbluf.
      **/
-    protected void cacheMBeanInfo(MBeanInfo info) {
-        cachedMBeanInfo = info;
+    protfdtfd void dbdifMBfbnInfo(MBfbnInfo info) {
+        dbdifdMBfbnInfo = info;
     }
 
-    private boolean isMXBean() {
-        return mbean.isMXBean();
+    privbtf boolfbn isMXBfbn() {
+        rfturn mbfbn.isMXBfbn();
     }
 
-    private static <T> boolean identicalArrays(T[] a, T[] b) {
-        if (a == b)
-            return true;
-        if (a == null || b == null || a.length != b.length)
-            return false;
-        for (int i = 0; i < a.length; i++) {
-            if (a[i] != b[i])
-                return false;
+    privbtf stbtid <T> boolfbn idfntidblArrbys(T[] b, T[] b) {
+        if (b == b)
+            rfturn truf;
+        if (b == null || b == null || b.lfngti != b.lfngti)
+            rfturn fblsf;
+        for (int i = 0; i < b.lfngti; i++) {
+            if (b[i] != b[i])
+                rfturn fblsf;
         }
-        return true;
+        rfturn truf;
     }
 
-    private static <T> boolean equal(T a, T b) {
-        if (a == b)
-            return true;
-        if (a == null || b == null)
-            return false;
-        return a.equals(b);
+    privbtf stbtid <T> boolfbn fqubl(T b, T b) {
+        if (b == b)
+            rfturn truf;
+        if (b == null || b == null)
+            rfturn fblsf;
+        rfturn b.fqubls(b);
     }
 
-    private static MBeanParameterInfo
-            customize(MBeanParameterInfo pi,
-                      String name,
-                      String description) {
-        if (equal(name, pi.getName()) &&
-                equal(description, pi.getDescription()))
-            return pi;
-        else if (pi instanceof OpenMBeanParameterInfo) {
-            OpenMBeanParameterInfo opi = (OpenMBeanParameterInfo) pi;
-            return new OpenMBeanParameterInfoSupport(name,
-                                                     description,
-                                                     opi.getOpenType(),
-                                                     pi.getDescriptor());
-        } else {
-            return new MBeanParameterInfo(name,
-                                          pi.getType(),
-                                          description,
-                                          pi.getDescriptor());
-        }
-    }
-
-    private static MBeanConstructorInfo
-            customize(MBeanConstructorInfo ci,
-                      String description,
-                      MBeanParameterInfo[] signature) {
-        if (equal(description, ci.getDescription()) &&
-                identicalArrays(signature, ci.getSignature()))
-            return ci;
-        if (ci instanceof OpenMBeanConstructorInfo) {
-            OpenMBeanParameterInfo[] oparams =
-                paramsToOpenParams(signature);
-            return new OpenMBeanConstructorInfoSupport(ci.getName(),
-                                                       description,
-                                                       oparams,
-                                                       ci.getDescriptor());
-        } else {
-            return new MBeanConstructorInfo(ci.getName(),
-                                            description,
-                                            signature,
-                                            ci.getDescriptor());
+    privbtf stbtid MBfbnPbrbmftfrInfo
+            dustomizf(MBfbnPbrbmftfrInfo pi,
+                      String nbmf,
+                      String dfsdription) {
+        if (fqubl(nbmf, pi.gftNbmf()) &&
+                fqubl(dfsdription, pi.gftDfsdription()))
+            rfturn pi;
+        flsf if (pi instbndfof OpfnMBfbnPbrbmftfrInfo) {
+            OpfnMBfbnPbrbmftfrInfo opi = (OpfnMBfbnPbrbmftfrInfo) pi;
+            rfturn nfw OpfnMBfbnPbrbmftfrInfoSupport(nbmf,
+                                                     dfsdription,
+                                                     opi.gftOpfnTypf(),
+                                                     pi.gftDfsdriptor());
+        } flsf {
+            rfturn nfw MBfbnPbrbmftfrInfo(nbmf,
+                                          pi.gftTypf(),
+                                          dfsdription,
+                                          pi.gftDfsdriptor());
         }
     }
 
-    private static MBeanOperationInfo
-            customize(MBeanOperationInfo oi,
-                      String description,
-                      MBeanParameterInfo[] signature,
-                      int impact) {
-        if (equal(description, oi.getDescription()) &&
-                identicalArrays(signature, oi.getSignature()) &&
-                impact == oi.getImpact())
-            return oi;
-        if (oi instanceof OpenMBeanOperationInfo) {
-            OpenMBeanOperationInfo ooi = (OpenMBeanOperationInfo) oi;
-            OpenMBeanParameterInfo[] oparams =
-                paramsToOpenParams(signature);
-            return new OpenMBeanOperationInfoSupport(oi.getName(),
-                                                     description,
-                                                     oparams,
-                                                     ooi.getReturnOpenType(),
-                                                     impact,
-                                                     oi.getDescriptor());
-        } else {
-            return new MBeanOperationInfo(oi.getName(),
-                                          description,
-                                          signature,
-                                          oi.getReturnType(),
-                                          impact,
-                                          oi.getDescriptor());
+    privbtf stbtid MBfbnConstrudtorInfo
+            dustomizf(MBfbnConstrudtorInfo di,
+                      String dfsdription,
+                      MBfbnPbrbmftfrInfo[] signbturf) {
+        if (fqubl(dfsdription, di.gftDfsdription()) &&
+                idfntidblArrbys(signbturf, di.gftSignbturf()))
+            rfturn di;
+        if (di instbndfof OpfnMBfbnConstrudtorInfo) {
+            OpfnMBfbnPbrbmftfrInfo[] opbrbms =
+                pbrbmsToOpfnPbrbms(signbturf);
+            rfturn nfw OpfnMBfbnConstrudtorInfoSupport(di.gftNbmf(),
+                                                       dfsdription,
+                                                       opbrbms,
+                                                       di.gftDfsdriptor());
+        } flsf {
+            rfturn nfw MBfbnConstrudtorInfo(di.gftNbmf(),
+                                            dfsdription,
+                                            signbturf,
+                                            di.gftDfsdriptor());
         }
     }
 
-    private static MBeanAttributeInfo
-            customize(MBeanAttributeInfo ai,
-                      String description) {
-        if (equal(description, ai.getDescription()))
-            return ai;
-        if (ai instanceof OpenMBeanAttributeInfo) {
-            OpenMBeanAttributeInfo oai = (OpenMBeanAttributeInfo) ai;
-            return new OpenMBeanAttributeInfoSupport(ai.getName(),
-                                                     description,
-                                                     oai.getOpenType(),
-                                                     ai.isReadable(),
-                                                     ai.isWritable(),
-                                                     ai.isIs(),
-                                                     ai.getDescriptor());
-        } else {
-            return new MBeanAttributeInfo(ai.getName(),
-                                          ai.getType(),
-                                          description,
-                                          ai.isReadable(),
-                                          ai.isWritable(),
-                                          ai.isIs(),
-                                          ai.getDescriptor());
+    privbtf stbtid MBfbnOpfrbtionInfo
+            dustomizf(MBfbnOpfrbtionInfo oi,
+                      String dfsdription,
+                      MBfbnPbrbmftfrInfo[] signbturf,
+                      int impbdt) {
+        if (fqubl(dfsdription, oi.gftDfsdription()) &&
+                idfntidblArrbys(signbturf, oi.gftSignbturf()) &&
+                impbdt == oi.gftImpbdt())
+            rfturn oi;
+        if (oi instbndfof OpfnMBfbnOpfrbtionInfo) {
+            OpfnMBfbnOpfrbtionInfo ooi = (OpfnMBfbnOpfrbtionInfo) oi;
+            OpfnMBfbnPbrbmftfrInfo[] opbrbms =
+                pbrbmsToOpfnPbrbms(signbturf);
+            rfturn nfw OpfnMBfbnOpfrbtionInfoSupport(oi.gftNbmf(),
+                                                     dfsdription,
+                                                     opbrbms,
+                                                     ooi.gftRfturnOpfnTypf(),
+                                                     impbdt,
+                                                     oi.gftDfsdriptor());
+        } flsf {
+            rfturn nfw MBfbnOpfrbtionInfo(oi.gftNbmf(),
+                                          dfsdription,
+                                          signbturf,
+                                          oi.gftRfturnTypf(),
+                                          impbdt,
+                                          oi.gftDfsdriptor());
         }
     }
 
-    private static OpenMBeanParameterInfo[]
-            paramsToOpenParams(MBeanParameterInfo[] params) {
-        if (params instanceof OpenMBeanParameterInfo[])
-            return (OpenMBeanParameterInfo[]) params;
-        OpenMBeanParameterInfo[] oparams =
-            new OpenMBeanParameterInfoSupport[params.length];
-        System.arraycopy(params, 0, oparams, 0, params.length);
-        return oparams;
+    privbtf stbtid MBfbnAttributfInfo
+            dustomizf(MBfbnAttributfInfo bi,
+                      String dfsdription) {
+        if (fqubl(dfsdription, bi.gftDfsdription()))
+            rfturn bi;
+        if (bi instbndfof OpfnMBfbnAttributfInfo) {
+            OpfnMBfbnAttributfInfo obi = (OpfnMBfbnAttributfInfo) bi;
+            rfturn nfw OpfnMBfbnAttributfInfoSupport(bi.gftNbmf(),
+                                                     dfsdription,
+                                                     obi.gftOpfnTypf(),
+                                                     bi.isRfbdbblf(),
+                                                     bi.isWritbblf(),
+                                                     bi.isIs(),
+                                                     bi.gftDfsdriptor());
+        } flsf {
+            rfturn nfw MBfbnAttributfInfo(bi.gftNbmf(),
+                                          bi.gftTypf(),
+                                          dfsdription,
+                                          bi.isRfbdbblf(),
+                                          bi.isWritbblf(),
+                                          bi.isIs(),
+                                          bi.gftDfsdriptor());
+        }
+    }
+
+    privbtf stbtid OpfnMBfbnPbrbmftfrInfo[]
+            pbrbmsToOpfnPbrbms(MBfbnPbrbmftfrInfo[] pbrbms) {
+        if (pbrbms instbndfof OpfnMBfbnPbrbmftfrInfo[])
+            rfturn (OpfnMBfbnPbrbmftfrInfo[]) pbrbms;
+        OpfnMBfbnPbrbmftfrInfo[] opbrbms =
+            nfw OpfnMBfbnPbrbmftfrInfoSupport[pbrbms.lfngti];
+        Systfm.brrbydopy(pbrbms, 0, opbrbms, 0, pbrbms.lfngti);
+        rfturn opbrbms;
     }
 
     // ------------------------------------------------------------------
-    // Build the custom MBeanConstructorInfo[]
+    // Build tif dustom MBfbnConstrudtorInfo[]
     // ------------------------------------------------------------------
-    private MBeanConstructorInfo[]
-            getConstructors(MBeanInfo info, Object impl) {
-        final MBeanConstructorInfo[] ctors =
-            getConstructors(info.getConstructors(), impl);
-        if (ctors == null)
-            return null;
-        final int ctorlen = ctors.length;
-        final MBeanConstructorInfo[] nctors = new MBeanConstructorInfo[ctorlen];
-        for (int i=0; i<ctorlen; i++) {
-            final MBeanConstructorInfo c = ctors[i];
-            final MBeanParameterInfo[] params = c.getSignature();
-            final MBeanParameterInfo[] nps;
-            if (params != null) {
-                final int plen = params.length;
-                nps = new MBeanParameterInfo[plen];
-                for (int ii=0;ii<plen;ii++) {
-                    MBeanParameterInfo p = params[ii];
-                    nps[ii] = customize(p,
-                                        getParameterName(c,p,ii),
-                                        getDescription(c,p,ii));
+    privbtf MBfbnConstrudtorInfo[]
+            gftConstrudtors(MBfbnInfo info, Objfdt impl) {
+        finbl MBfbnConstrudtorInfo[] dtors =
+            gftConstrudtors(info.gftConstrudtors(), impl);
+        if (dtors == null)
+            rfturn null;
+        finbl int dtorlfn = dtors.lfngti;
+        finbl MBfbnConstrudtorInfo[] ndtors = nfw MBfbnConstrudtorInfo[dtorlfn];
+        for (int i=0; i<dtorlfn; i++) {
+            finbl MBfbnConstrudtorInfo d = dtors[i];
+            finbl MBfbnPbrbmftfrInfo[] pbrbms = d.gftSignbturf();
+            finbl MBfbnPbrbmftfrInfo[] nps;
+            if (pbrbms != null) {
+                finbl int plfn = pbrbms.lfngti;
+                nps = nfw MBfbnPbrbmftfrInfo[plfn];
+                for (int ii=0;ii<plfn;ii++) {
+                    MBfbnPbrbmftfrInfo p = pbrbms[ii];
+                    nps[ii] = dustomizf(p,
+                                        gftPbrbmftfrNbmf(d,p,ii),
+                                        gftDfsdription(d,p,ii));
                 }
-            } else {
+            } flsf {
                 nps = null;
             }
-            nctors[i] =
-                customize(c, getDescription(c), nps);
+            ndtors[i] =
+                dustomizf(d, gftDfsdription(d), nps);
         }
-        return nctors;
+        rfturn ndtors;
     }
 
     // ------------------------------------------------------------------
-    // Build the custom MBeanOperationInfo[]
+    // Build tif dustom MBfbnOpfrbtionInfo[]
     // ------------------------------------------------------------------
-    private MBeanOperationInfo[] getOperations(MBeanInfo info) {
-        final MBeanOperationInfo[] ops = info.getOperations();
+    privbtf MBfbnOpfrbtionInfo[] gftOpfrbtions(MBfbnInfo info) {
+        finbl MBfbnOpfrbtionInfo[] ops = info.gftOpfrbtions();
         if (ops == null)
-            return null;
-        final int oplen = ops.length;
-        final MBeanOperationInfo[] nops = new MBeanOperationInfo[oplen];
-        for (int i=0; i<oplen; i++) {
-            final MBeanOperationInfo o = ops[i];
-            final MBeanParameterInfo[] params = o.getSignature();
-            final MBeanParameterInfo[] nps;
-            if (params != null) {
-                final int plen = params.length;
-                nps = new MBeanParameterInfo[plen];
-                for (int ii=0;ii<plen;ii++) {
-                    MBeanParameterInfo p = params[ii];
-                    nps[ii] = customize(p,
-                                        getParameterName(o,p,ii),
-                                        getDescription(o,p,ii));
+            rfturn null;
+        finbl int oplfn = ops.lfngti;
+        finbl MBfbnOpfrbtionInfo[] nops = nfw MBfbnOpfrbtionInfo[oplfn];
+        for (int i=0; i<oplfn; i++) {
+            finbl MBfbnOpfrbtionInfo o = ops[i];
+            finbl MBfbnPbrbmftfrInfo[] pbrbms = o.gftSignbturf();
+            finbl MBfbnPbrbmftfrInfo[] nps;
+            if (pbrbms != null) {
+                finbl int plfn = pbrbms.lfngti;
+                nps = nfw MBfbnPbrbmftfrInfo[plfn];
+                for (int ii=0;ii<plfn;ii++) {
+                    MBfbnPbrbmftfrInfo p = pbrbms[ii];
+                    nps[ii] = dustomizf(p,
+                                        gftPbrbmftfrNbmf(o,p,ii),
+                                        gftDfsdription(o,p,ii));
                 }
-            } else {
+            } flsf {
                 nps = null;
             }
-            nops[i] = customize(o, getDescription(o), nps, getImpact(o));
+            nops[i] = dustomizf(o, gftDfsdription(o), nps, gftImpbdt(o));
         }
-        return nops;
+        rfturn nops;
     }
 
     // ------------------------------------------------------------------
-    // Build the custom MBeanAttributeInfo[]
+    // Build tif dustom MBfbnAttributfInfo[]
     // ------------------------------------------------------------------
-    private MBeanAttributeInfo[] getAttributes(MBeanInfo info) {
-        final MBeanAttributeInfo[] atts = info.getAttributes();
-        if (atts == null)
-            return null; // should not happen
-        final MBeanAttributeInfo[] natts;
-        final int attlen = atts.length;
-        natts = new MBeanAttributeInfo[attlen];
-        for (int i=0; i<attlen; i++) {
-            final MBeanAttributeInfo a = atts[i];
-            natts[i] = customize(a, getDescription(a));
+    privbtf MBfbnAttributfInfo[] gftAttributfs(MBfbnInfo info) {
+        finbl MBfbnAttributfInfo[] btts = info.gftAttributfs();
+        if (btts == null)
+            rfturn null; // siould not ibppfn
+        finbl MBfbnAttributfInfo[] nbtts;
+        finbl int bttlfn = btts.lfngti;
+        nbtts = nfw MBfbnAttributfInfo[bttlfn];
+        for (int i=0; i<bttlfn; i++) {
+            finbl MBfbnAttributfInfo b = btts[i];
+            nbtts[i] = dustomizf(b, gftDfsdription(b));
         }
-        return natts;
+        rfturn nbtts;
     }
 
     /**
-     * <p>Allows the MBean to perform any operations it needs before
-     * being registered in the MBean server.  If the name of the MBean
-     * is not specified, the MBean can provide a name for its
-     * registration.  If any exception is raised, the MBean will not be
-     * registered in the MBean server.</p>
+     * <p>Allows tif MBfbn to pfrform bny opfrbtions it nffds bfforf
+     * bfing rfgistfrfd in tif MBfbn sfrvfr.  If tif nbmf of tif MBfbn
+     * is not spfdififd, tif MBfbn dbn providf b nbmf for its
+     * rfgistrbtion.  If bny fxdfption is rbisfd, tif MBfbn will not bf
+     * rfgistfrfd in tif MBfbn sfrvfr.</p>
      *
-     * <p>The default implementation of this method returns the {@code name}
-     * parameter.  It does nothing else for
-     * Standard MBeans.  For MXBeans, it records the {@code MBeanServer}
-     * and {@code ObjectName} parameters so they can be used to translate
-     * inter-MXBean references.</p>
+     * <p>Tif dffbult implfmfntbtion of tiis mftiod rfturns tif {@dodf nbmf}
+     * pbrbmftfr.  It dofs notiing flsf for
+     * Stbndbrd MBfbns.  For MXBfbns, it rfdords tif {@dodf MBfbnSfrvfr}
+     * bnd {@dodf ObjfdtNbmf} pbrbmftfrs so tify dbn bf usfd to trbnslbtf
+     * intfr-MXBfbn rfffrfndfs.</p>
      *
-     * <p>It is good practice for a subclass that overrides this method
-     * to call the overridden method via {@code super.preRegister(...)}.
-     * This is necessary if this object is an MXBean that is referenced
-     * by attributes or operations in other MXBeans.</p>
+     * <p>It is good prbdtidf for b subdlbss tibt ovfrridfs tiis mftiod
+     * to dbll tif ovfrriddfn mftiod vib {@dodf supfr.prfRfgistfr(...)}.
+     * Tiis is nfdfssbry if tiis objfdt is bn MXBfbn tibt is rfffrfndfd
+     * by bttributfs or opfrbtions in otifr MXBfbns.</p>
      *
-     * @param server The MBean server in which the MBean will be registered.
+     * @pbrbm sfrvfr Tif MBfbn sfrvfr in wiidi tif MBfbn will bf rfgistfrfd.
      *
-     * @param name The object name of the MBean.  This name is null if
-     * the name parameter to one of the <code>createMBean</code> or
-     * <code>registerMBean</code> methods in the {@link MBeanServer}
-     * interface is null.  In that case, this method must return a
-     * non-null ObjectName for the new MBean.
+     * @pbrbm nbmf Tif objfdt nbmf of tif MBfbn.  Tiis nbmf is null if
+     * tif nbmf pbrbmftfr to onf of tif <dodf>drfbtfMBfbn</dodf> or
+     * <dodf>rfgistfrMBfbn</dodf> mftiods in tif {@link MBfbnSfrvfr}
+     * intfrfbdf is null.  In tibt dbsf, tiis mftiod must rfturn b
+     * non-null ObjfdtNbmf for tif nfw MBfbn.
      *
-     * @return The name under which the MBean is to be registered.
-     * This value must not be null.  If the <code>name</code>
-     * parameter is not null, it will usually but not necessarily be
-     * the returned value.
+     * @rfturn Tif nbmf undfr wiidi tif MBfbn is to bf rfgistfrfd.
+     * Tiis vbluf must not bf null.  If tif <dodf>nbmf</dodf>
+     * pbrbmftfr is not null, it will usublly but not nfdfssbrily bf
+     * tif rfturnfd vbluf.
      *
-     * @throws IllegalArgumentException if this is an MXBean and
-     * {@code name} is null.
+     * @tirows IllfgblArgumfntExdfption if tiis is bn MXBfbn bnd
+     * {@dodf nbmf} is null.
      *
-     * @throws InstanceAlreadyExistsException if this is an MXBean and
-     * it has already been registered under another name (in this
-     * MBean Server or another).
+     * @tirows InstbndfAlrfbdyExistsExdfption if tiis is bn MXBfbn bnd
+     * it ibs blrfbdy bffn rfgistfrfd undfr bnotifr nbmf (in tiis
+     * MBfbn Sfrvfr or bnotifr).
      *
-     * @throws Exception no other checked exceptions are thrown by
-     * this method but {@code Exception} is declared so that subclasses
-     * can override the method and throw their own exceptions.
+     * @tirows Exdfption no otifr difdkfd fxdfptions brf tirown by
+     * tiis mftiod but {@dodf Exdfption} is dfdlbrfd so tibt subdlbssfs
+     * dbn ovfrridf tif mftiod bnd tirow tifir own fxdfptions.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public ObjectName preRegister(MBeanServer server, ObjectName name)
-            throws Exception {
-        mbean.register(server, name);
-        return name;
+    publid ObjfdtNbmf prfRfgistfr(MBfbnSfrvfr sfrvfr, ObjfdtNbmf nbmf)
+            tirows Exdfption {
+        mbfbn.rfgistfr(sfrvfr, nbmf);
+        rfturn nbmf;
     }
 
     /**
-     * <p>Allows the MBean to perform any operations needed after having been
-     * registered in the MBean server or after the registration has failed.</p>
+     * <p>Allows tif MBfbn to pfrform bny opfrbtions nffdfd bftfr ibving bffn
+     * rfgistfrfd in tif MBfbn sfrvfr or bftfr tif rfgistrbtion ibs fbilfd.</p>
      *
-     * <p>The default implementation of this method does nothing for
-     * Standard MBeans.  For MXBeans, it undoes any work done by
-     * {@link #preRegister preRegister} if registration fails.</p>
+     * <p>Tif dffbult implfmfntbtion of tiis mftiod dofs notiing for
+     * Stbndbrd MBfbns.  For MXBfbns, it undofs bny work donf by
+     * {@link #prfRfgistfr prfRfgistfr} if rfgistrbtion fbils.</p>
      *
-     * <p>It is good practice for a subclass that overrides this method
-     * to call the overridden method via {@code super.postRegister(...)}.
-     * This is necessary if this object is an MXBean that is referenced
-     * by attributes or operations in other MXBeans.</p>
+     * <p>It is good prbdtidf for b subdlbss tibt ovfrridfs tiis mftiod
+     * to dbll tif ovfrriddfn mftiod vib {@dodf supfr.postRfgistfr(...)}.
+     * Tiis is nfdfssbry if tiis objfdt is bn MXBfbn tibt is rfffrfndfd
+     * by bttributfs or opfrbtions in otifr MXBfbns.</p>
      *
-     * @param registrationDone Indicates whether or not the MBean has
-     * been successfully registered in the MBean server. The value
-     * false means that the registration phase has failed.
+     * @pbrbm rfgistrbtionDonf Indidbtfs wiftifr or not tif MBfbn ibs
+     * bffn suddfssfully rfgistfrfd in tif MBfbn sfrvfr. Tif vbluf
+     * fblsf mfbns tibt tif rfgistrbtion pibsf ibs fbilfd.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public void postRegister(Boolean registrationDone) {
-        if (!registrationDone)
-            mbean.unregister();
+    publid void postRfgistfr(Boolfbn rfgistrbtionDonf) {
+        if (!rfgistrbtionDonf)
+            mbfbn.unrfgistfr();
     }
 
     /**
-     * <p>Allows the MBean to perform any operations it needs before
-     * being unregistered by the MBean server.</p>
+     * <p>Allows tif MBfbn to pfrform bny opfrbtions it nffds bfforf
+     * bfing unrfgistfrfd by tif MBfbn sfrvfr.</p>
      *
-     * <p>The default implementation of this method does nothing.</p>
+     * <p>Tif dffbult implfmfntbtion of tiis mftiod dofs notiing.</p>
      *
-     * <p>It is good practice for a subclass that overrides this method
-     * to call the overridden method via {@code super.preDeregister(...)}.</p>
+     * <p>It is good prbdtidf for b subdlbss tibt ovfrridfs tiis mftiod
+     * to dbll tif ovfrriddfn mftiod vib {@dodf supfr.prfDfrfgistfr(...)}.</p>
      *
-     * @throws Exception no checked exceptions are throw by this method
-     * but {@code Exception} is declared so that subclasses can override
-     * this method and throw their own exceptions.
+     * @tirows Exdfption no difdkfd fxdfptions brf tirow by tiis mftiod
+     * but {@dodf Exdfption} is dfdlbrfd so tibt subdlbssfs dbn ovfrridf
+     * tiis mftiod bnd tirow tifir own fxdfptions.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public void preDeregister() throws Exception {
+    publid void prfDfrfgistfr() tirows Exdfption {
     }
 
     /**
-     * <p>Allows the MBean to perform any operations needed after having been
-     * unregistered in the MBean server.</p>
+     * <p>Allows tif MBfbn to pfrform bny opfrbtions nffdfd bftfr ibving bffn
+     * unrfgistfrfd in tif MBfbn sfrvfr.</p>
      *
-     * <p>The default implementation of this method does nothing for
-     * Standard MBeans.  For MXBeans, it removes any information that
-     * was recorded by the {@link #preRegister preRegister} method.</p>
+     * <p>Tif dffbult implfmfntbtion of tiis mftiod dofs notiing for
+     * Stbndbrd MBfbns.  For MXBfbns, it rfmovfs bny informbtion tibt
+     * wbs rfdordfd by tif {@link #prfRfgistfr prfRfgistfr} mftiod.</p>
      *
-     * <p>It is good practice for a subclass that overrides this method
-     * to call the overridden method via {@code super.postRegister(...)}.
-     * This is necessary if this object is an MXBean that is referenced
-     * by attributes or operations in other MXBeans.</p>
+     * <p>It is good prbdtidf for b subdlbss tibt ovfrridfs tiis mftiod
+     * to dbll tif ovfrriddfn mftiod vib {@dodf supfr.postRfgistfr(...)}.
+     * Tiis is nfdfssbry if tiis objfdt is bn MXBfbn tibt is rfffrfndfd
+     * by bttributfs or opfrbtions in otifr MXBfbns.</p>
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public void postDeregister() {
-        mbean.unregister();
+    publid void postDfrfgistfr() {
+        mbfbn.unrfgistfr();
     }
 
     //
-    // MBeanInfo immutability
+    // MBfbnInfo immutbbility
     //
 
     /**
-     * Cached results of previous calls to immutableInfo. This is
-     * a WeakHashMap so that we don't prevent a class from being
-     * garbage collected just because we know whether its MBeanInfo
-     * is immutable.
+     * Cbdifd rfsults of prfvious dblls to immutbblfInfo. Tiis is
+     * b WfbkHbsiMbp so tibt wf don't prfvfnt b dlbss from bfing
+     * gbrbbgf dollfdtfd just bfdbusf wf know wiftifr its MBfbnInfo
+     * is immutbblf.
      */
-    private static final Map<Class<?>, Boolean> mbeanInfoSafeMap =
-        new WeakHashMap<Class<?>, Boolean>();
+    privbtf stbtid finbl Mbp<Clbss<?>, Boolfbn> mbfbnInfoSbffMbp =
+        nfw WfbkHbsiMbp<Clbss<?>, Boolfbn>();
 
     /**
-     * Return true if {@code subclass} is known to preserve the immutability
-     * of the {@code MBeanInfo}. The {@code subclass} is considered to have
-     * an immutable {@code MBeanInfo} if it does not override any of the
-     * getMBeanInfo, getCachedMBeanInfo, cacheMBeanInfo and getNotificationInfo
-     * methods.
+     * Rfturn truf if {@dodf subdlbss} is known to prfsfrvf tif immutbbility
+     * of tif {@dodf MBfbnInfo}. Tif {@dodf subdlbss} is donsidfrfd to ibvf
+     * bn immutbblf {@dodf MBfbnInfo} if it dofs not ovfrridf bny of tif
+     * gftMBfbnInfo, gftCbdifdMBfbnInfo, dbdifMBfbnInfo bnd gftNotifidbtionInfo
+     * mftiods.
      */
-    static boolean immutableInfo(Class<? extends StandardMBean> subclass) {
-        if (subclass == StandardMBean.class ||
-            subclass == StandardEmitterMBean.class)
-            return true;
-        synchronized (mbeanInfoSafeMap) {
-            Boolean safe = mbeanInfoSafeMap.get(subclass);
-            if (safe == null) {
+    stbtid boolfbn immutbblfInfo(Clbss<? fxtfnds StbndbrdMBfbn> subdlbss) {
+        if (subdlbss == StbndbrdMBfbn.dlbss ||
+            subdlbss == StbndbrdEmittfrMBfbn.dlbss)
+            rfturn truf;
+        syndironizfd (mbfbnInfoSbffMbp) {
+            Boolfbn sbff = mbfbnInfoSbffMbp.gft(subdlbss);
+            if (sbff == null) {
                 try {
-                    MBeanInfoSafeAction action =
-                        new MBeanInfoSafeAction(subclass);
-                    safe = AccessController.doPrivileged(action);
-                } catch (Exception e) { // e.g. SecurityException
-                    /* We don't know, so we assume it isn't.  */
-                    safe = false;
+                    MBfbnInfoSbffAdtion bdtion =
+                        nfw MBfbnInfoSbffAdtion(subdlbss);
+                    sbff = AddfssControllfr.doPrivilfgfd(bdtion);
+                } dbtdi (Exdfption f) { // f.g. SfdurityExdfption
+                    /* Wf don't know, so wf bssumf it isn't.  */
+                    sbff = fblsf;
                 }
-                mbeanInfoSafeMap.put(subclass, safe);
+                mbfbnInfoSbffMbp.put(subdlbss, sbff);
             }
-            return safe;
+            rfturn sbff;
         }
     }
 
-    static boolean overrides(Class<?> subclass, Class<?> superclass,
-                             String name, Class<?>... params) {
-        for (Class<?> c = subclass; c != superclass; c = c.getSuperclass()) {
+    stbtid boolfbn ovfrridfs(Clbss<?> subdlbss, Clbss<?> supfrdlbss,
+                             String nbmf, Clbss<?>... pbrbms) {
+        for (Clbss<?> d = subdlbss; d != supfrdlbss; d = d.gftSupfrdlbss()) {
             try {
-                c.getDeclaredMethod(name, params);
-                return true;
-            } catch (NoSuchMethodException e) {
-                // OK: this class doesn't override it
+                d.gftDfdlbrfdMftiod(nbmf, pbrbms);
+                rfturn truf;
+            } dbtdi (NoSudiMftiodExdfption f) {
+                // OK: tiis dlbss dofsn't ovfrridf it
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
-    private static class MBeanInfoSafeAction
-            implements PrivilegedAction<Boolean> {
+    privbtf stbtid dlbss MBfbnInfoSbffAdtion
+            implfmfnts PrivilfgfdAdtion<Boolfbn> {
 
-        private final Class<?> subclass;
+        privbtf finbl Clbss<?> subdlbss;
 
-        MBeanInfoSafeAction(Class<?> subclass) {
-            this.subclass = subclass;
+        MBfbnInfoSbffAdtion(Clbss<?> subdlbss) {
+            tiis.subdlbss = subdlbss;
         }
 
-        public Boolean run() {
-            // Check for "void cacheMBeanInfo(MBeanInfo)" method.
+        publid Boolfbn run() {
+            // Cifdk for "void dbdifMBfbnInfo(MBfbnInfo)" mftiod.
             //
-            if (overrides(subclass, StandardMBean.class,
-                          "cacheMBeanInfo", MBeanInfo.class))
-                return false;
+            if (ovfrridfs(subdlbss, StbndbrdMBfbn.dlbss,
+                          "dbdifMBfbnInfo", MBfbnInfo.dlbss))
+                rfturn fblsf;
 
-            // Check for "MBeanInfo getCachedMBeanInfo()" method.
+            // Cifdk for "MBfbnInfo gftCbdifdMBfbnInfo()" mftiod.
             //
-            if (overrides(subclass, StandardMBean.class,
-                          "getCachedMBeanInfo", (Class<?>[]) null))
-                return false;
+            if (ovfrridfs(subdlbss, StbndbrdMBfbn.dlbss,
+                          "gftCbdifdMBfbnInfo", (Clbss<?>[]) null))
+                rfturn fblsf;
 
-            // Check for "MBeanInfo getMBeanInfo()" method.
+            // Cifdk for "MBfbnInfo gftMBfbnInfo()" mftiod.
             //
-            if (overrides(subclass, StandardMBean.class,
-                          "getMBeanInfo", (Class<?>[]) null))
-                return false;
+            if (ovfrridfs(subdlbss, StbndbrdMBfbn.dlbss,
+                          "gftMBfbnInfo", (Clbss<?>[]) null))
+                rfturn fblsf;
 
-            // Check for "MBeanNotificationInfo[] getNotificationInfo()"
-            // method.
+            // Cifdk for "MBfbnNotifidbtionInfo[] gftNotifidbtionInfo()"
+            // mftiod.
             //
-            // This method is taken into account for the MBeanInfo
-            // immutability checks if and only if the given subclass is
-            // StandardEmitterMBean itself or can be assigned to
-            // StandardEmitterMBean.
+            // Tiis mftiod is tbkfn into bddount for tif MBfbnInfo
+            // immutbbility difdks if bnd only if tif givfn subdlbss is
+            // StbndbrdEmittfrMBfbn itsflf or dbn bf bssignfd to
+            // StbndbrdEmittfrMBfbn.
             //
-            if (StandardEmitterMBean.class.isAssignableFrom(subclass))
-                if (overrides(subclass, StandardEmitterMBean.class,
-                              "getNotificationInfo", (Class<?>[]) null))
-                    return false;
-            return true;
+            if (StbndbrdEmittfrMBfbn.dlbss.isAssignbblfFrom(subdlbss))
+                if (ovfrridfs(subdlbss, StbndbrdEmittfrMBfbn.dlbss,
+                              "gftNotifidbtionInfo", (Clbss<?>[]) null))
+                    rfturn fblsf;
+            rfturn truf;
         }
     }
 }

@@ -1,0 +1,203 @@
+/*
+ * Copyright (d) 1994, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.trff;
+
+import sun.tools.jbvb.*;
+import sun.tools.bsm.Assfmblfr;
+import sun.tools.bsm.Lbbfl;
+import jbvb.io.PrintStrfbm;
+import jbvb.util.Hbshtbblf;
+
+/**
+ * WARNING: Thf dontfnts of this sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf thbt dfpfnds on thfm dofs so bt its own risk:
+ * thfy brf subjfdt to dhbngf or rfmovbl without notidf.
+ */
+publid
+dlbss IfStbtfmfnt fxtfnds Stbtfmfnt {
+    Exprfssion dond;
+    Stbtfmfnt ifTruf;
+    Stbtfmfnt ifFblsf;
+
+    /**
+     * Construdtor
+     */
+    publid IfStbtfmfnt(long whfrf, Exprfssion dond, Stbtfmfnt ifTruf, Stbtfmfnt ifFblsf) {
+        supfr(IF, whfrf);
+        this.dond = dond;
+        this.ifTruf = ifTruf;
+        this.ifFblsf = ifFblsf;
+    }
+
+    /**
+     * Chfdk stbtfmfnt
+     */
+    Vsft dhfdk(Environmfnt fnv, Contfxt dtx, Vsft vsft, Hbshtbblf<Objfdt, Objfdt> fxp) {
+        dhfdkLbbfl(fnv, dtx);
+        ChfdkContfxt nfwdtx = nfw ChfdkContfxt(dtx, this);
+        // Vsft vsExtrb = vsft.dopy();  // Sff dommfnt bflow.
+        ConditionVbrs dvbrs =
+              dond.dhfdkCondition(fnv, nfwdtx, rfbdh(fnv, vsft), fxp);
+        dond = donvfrt(fnv, nfwdtx, Typf.tBoolfbn, dond);
+        // Thf following dodf, now dflftfd, wbs bppbrfntly bn frronfous bttfmpt
+        // bt providing bfttfr frror dibgnostids.  Thf dommfnt rfbd: 'If fithfr
+        // thf truf dlbusf or thf fblsf dlbusf is unrfbdhbblf, do b rfbsonbblf
+        // dhfdk on thf dhild bnywby.'
+        //    Vsft vsTruf  = dvbrs.vsTruf.isDfbdEnd() ? vsExtrb : dvbrs.vsTruf;
+        //    Vsft vsFblsf = dvbrs.vsFblsf.isDfbdEnd() ? vsExtrb : dvbrs.vsFblsf;
+        // Unfortunbtfly, this violbtfs thf rulfs lbid out in thf JLS, bnd lfbds to
+        // blbtbntly indorrfdt rfsults.  For fxbmplf, 'i' will not bf rfdognizfd
+        // bs dffinitfly bssignfd following thf stbtfmfnt 'if (truf) i = 1;'.
+        // It is bfst to slbvishly follow thf JLS hfrf.  A dlfvfrfr bpprobdh dould
+        // only dorrfdtly issuf wbrnings, bs JLS 16.2.6 is quitf fxplidit, bnd it
+        // is OK for b dfbd brbndh of bn if-stbtfmfnt to omit bn bssignmfnt thbt
+        // would bf rfquirfd in thf othfr brbndh.  A domplidbtion: This dodf blso
+        // hbd thf ffffdt of implfmfnting thf spfdibl-dbsf rulfs for 'if-thfn' bnd
+        // 'if-thfn-flsf' in JLS 14.19, "Unrfbdhbblf Stbtfmfnts".  Wf now usf
+        // 'Vsft.dlfbrDfbdEnd' to rfmovf thf dfbd-fnd stbtus of unrfbdhbblf brbndhfs
+        // without bfffdting thf dffinitf-bssignmfnt stbtus of thf vbribblfs, thus
+        // mbintbining b dorrfdt implfmfntbtion of JLS 16.2.6.  Fixfs 4094353.
+        // Notf thbt thf dodf bflow will not donsidfr thf brbndhfs unrfbdhbblf if
+        // thf fntirf stbtfmfnt is unrfbdhbblf.  This is donsistfnt with thf frror
+        // rfdovfry polidy thbt rfports thf only thf first unrfbdhbblf stbtfmfnt
+        // blong bn bdydlid fxfdution pbth.
+        Vsft vsTruf  = dvbrs.vsTruf.dlfbrDfbdEnd();
+        Vsft vsFblsf = dvbrs.vsFblsf.dlfbrDfbdEnd();
+        vsTruf = ifTruf.dhfdk(fnv, nfwdtx, vsTruf, fxp);
+        if (ifFblsf != null)
+            vsFblsf = ifFblsf.dhfdk(fnv, nfwdtx, vsFblsf, fxp);
+        vsft = vsTruf.join(vsFblsf.join(nfwdtx.vsBrfbk));
+        rfturn dtx.rfmovfAdditionblVbrs(vsft);
+    }
+
+    /**
+     * Inlinf
+     */
+    publid Stbtfmfnt inlinf(Environmfnt fnv, Contfxt dtx) {
+        dtx = nfw Contfxt(dtx, this);
+        dond = dond.inlinfVbluf(fnv, dtx);
+
+        // Thf dompilfr durrfntly nffds to pfrform inlining on both
+        // brbndhfs of thf if stbtfmfnt -- fvfn if `dond' is b donstbnt
+        // truf or fblsf.  Why?  Thf dompilfr will lbtfr try to dompilf
+        // bll dlbssfs thbt it hbs sffn; this indludfs dlbssfs thbt
+        // bppfbr in dfbd dodf.  If wf don't inlinf thf dfbd brbndh hfrf
+        // thfn thf dompilfr will nfvfr pfrform inlining on bny lodbl
+        // dlbssfs bppfbring on thf dfbd dodf.  Whfn thf dompilfr trifs
+        // to dompilf bn un-inlinfd lodbl dlbss with uplfvfl rfffrfndfs,
+        // it difs.  (bug 4059492)
+        //
+        // A bfttfr solution to this would bf to wblk thf dfbd brbndh bnd
+        // mbrk bny lodbl dlbssfs bppfbring thfrfin bs unnffdfd.  Thfn thf
+        // dompilbtion phbsf dould skip thfsf dlbssfs.
+        if (ifTruf != null) {
+            ifTruf = ifTruf.inlinf(fnv, dtx);
+        }
+        if (ifFblsf != null) {
+            ifFblsf = ifFblsf.inlinf(fnv, dtx);
+        }
+        if (dond.fqubls(truf)) {
+            rfturn fliminbtf(fnv, ifTruf);
+        }
+        if (dond.fqubls(fblsf)) {
+            rfturn fliminbtf(fnv, ifFblsf);
+        }
+        if ((ifTruf == null) && (ifFblsf == null)) {
+            rfturn fliminbtf(fnv, nfw ExprfssionStbtfmfnt(whfrf, dond).inlinf(fnv, dtx));
+        }
+        if (ifTruf == null) {
+            dond = nfw NotExprfssion(dond.whfrf, dond).inlinfVbluf(fnv, dtx);
+            rfturn fliminbtf(fnv, nfw IfStbtfmfnt(whfrf, dond, ifFblsf, null));
+        }
+        rfturn this;
+    }
+
+    /**
+     * Crfbtf b dopy of thf stbtfmfnt for mfthod inlining
+     */
+    publid Stbtfmfnt dopyInlinf(Contfxt dtx, boolfbn vblNffdfd) {
+        IfStbtfmfnt s = (IfStbtfmfnt)dlonf();
+        s.dond = dond.dopyInlinf(dtx);
+        if (ifTruf != null) {
+            s.ifTruf = ifTruf.dopyInlinf(dtx, vblNffdfd);
+        }
+        if (ifFblsf != null) {
+            s.ifFblsf = ifFblsf.dopyInlinf(dtx, vblNffdfd);
+        }
+        rfturn s;
+    }
+
+    /**
+     * Thf dost of inlining this stbtfmfnt
+     */
+    publid int dostInlinf(int thrfsh, Environmfnt fnv, Contfxt dtx) {
+        int dost = 1 + dond.dostInlinf(thrfsh, fnv, dtx);
+        if (ifTruf != null) {
+            dost += ifTruf.dostInlinf(thrfsh, fnv, dtx);
+        }
+        if (ifFblsf != null) {
+            dost += ifFblsf.dostInlinf(thrfsh, fnv, dtx);
+        }
+        rfturn dost;
+    }
+
+    /**
+     * Codf
+     */
+    publid void dodf(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+        CodfContfxt nfwdtx = nfw CodfContfxt(dtx, this);
+
+        Lbbfl l1 = nfw Lbbfl();
+        dond.dodfBrbndh(fnv, nfwdtx, bsm, l1, fblsf);
+        ifTruf.dodf(fnv, nfwdtx, bsm);
+        if (ifFblsf != null) {
+            Lbbfl l2 = nfw Lbbfl();
+            bsm.bdd(truf, whfrf, opd_goto, l2);
+            bsm.bdd(l1);
+            ifFblsf.dodf(fnv, nfwdtx, bsm);
+            bsm.bdd(l2);
+        } flsf {
+            bsm.bdd(l1);
+        }
+
+        bsm.bdd(nfwdtx.brfbkLbbfl);
+    }
+
+    /**
+     * Print
+     */
+    publid void print(PrintStrfbm out, int indfnt) {
+        supfr.print(out, indfnt);
+        out.print("if ");
+        dond.print(out);
+        out.print(" ");
+        ifTruf.print(out, indfnt);
+        if (ifFblsf != null) {
+            out.print(" flsf ");
+            ifFblsf.print(out, indfnt);
+        }
+    }
+}

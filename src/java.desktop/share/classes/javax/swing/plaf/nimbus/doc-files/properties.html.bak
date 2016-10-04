@@ -1,208 +1,208 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
-<head>
-<title></title>
-</head>
+<!DOCTYPE itml PUBLIC "-//W3C//DTD HTML 4.01 Trbnsitionbl//EN">
+<itml>
+<ifbd>
+<titlf></titlf>
+</ifbd>
 <body>
-<h1 id="primaryColors">Primary Colors</h1>
-<table summary="Nimbus primary colors">
-<tr><th>Key</th><th>Value</th><th>Preview</th></tr>
+<i1 id="primbryColors">Primbry Colors</i1>
+<tbblf summbry="Nimbus primbry dolors">
+<tr><ti>Kfy</ti><ti>Vbluf</ti><ti>Prfvifw</ti></tr>
 <tr>
-<td width="250"><code>control</code></td>
-<td><pre>#d6d9df (214,217,223)</pre></td>
+<td widti="250"><dodf>dontrol</dodf></td>
+<td><prf>#d6d9df (214,217,223)</prf></td>
 
-<td width="100" bgcolor="#d6d9df">&nbsp;</td>
+<td widti="100" bgdolor="#d6d9df">&nbsp;</td>
 </tr>
 <tr>
-<td width="250"><code>info</code></td>
-<td><pre>#f2f2bd (242,242,189)</pre></td>
-<td width="100" bgcolor="#f2f2bd">&nbsp;</td>
+<td widti="250"><dodf>info</dodf></td>
+<td><prf>#f2f2bd (242,242,189)</prf></td>
+<td widti="100" bgdolor="#f2f2bd">&nbsp;</td>
 </tr>
 <tr>
-<td width="250"><code>nimbusAlertYellow</code></td>
-<td><pre>#ffdc23 (255,220,35)</pre></td>
-<td width="100" bgcolor="#ffdc23">&nbsp;</td>
-</tr>
-<tr>
-
-<td width="250"><code>nimbusBase</code></td>
-<td><pre>#33628c (51,98,140)</pre></td>
-<td width="100" bgcolor="#33628c">&nbsp;</td>
-</tr>
-<tr>
-<td width="250"><code>nimbusDisabledText</code></td>
-<td><pre>#8e8f91 (142,143,145)</pre></td>
-<td width="100" bgcolor="#8e8f91">&nbsp;</td>
-</tr>
-<tr>
-<td width="250"><code>nimbusFocus</code></td>
-<td><pre>#73a4d1 (115,164,209)</pre></td>
-
-<td width="100" bgcolor="#73a4d1">&nbsp;</td>
-</tr>
-<tr>
-<td width="250"><code>nimbusGreen</code></td>
-<td><pre>#b0b332 (176,179,50)</pre></td>
-<td width="100" bgcolor="#b0b332">&nbsp;</td>
-</tr>
-<tr>
-<td width="250"><code>nimbusInfoBlue</code></td>
-<td><pre>#2f5cb4 (47,92,180)</pre></td>
-<td width="100" bgcolor="#2f5cb4">&nbsp;</td>
+<td widti="250"><dodf>nimbusAlfrtYfllow</dodf></td>
+<td><prf>#ffdd23 (255,220,35)</prf></td>
+<td widti="100" bgdolor="#ffdd23">&nbsp;</td>
 </tr>
 <tr>
 
-<td width="250"><code>nimbusLightBackground</code></td>
-<td><pre>#ffffff (255,255,255)</pre></td>
-<td width="100" bgcolor="#ffffff">&nbsp;</td>
+<td widti="250"><dodf>nimbusBbsf</dodf></td>
+<td><prf>#33628d (51,98,140)</prf></td>
+<td widti="100" bgdolor="#33628d">&nbsp;</td>
 </tr>
 <tr>
-<td width="250"><code>nimbusOrange</code></td>
-<td><pre>#bf6204 (191,98,4)</pre></td>
-<td width="100" bgcolor="#bf6204">&nbsp;</td>
+<td widti="250"><dodf>nimbusDisbblfdTfxt</dodf></td>
+<td><prf>#8f8f91 (142,143,145)</prf></td>
+<td widti="100" bgdolor="#8f8f91">&nbsp;</td>
 </tr>
 <tr>
-<td width="250"><code>nimbusRed</code></td>
-<td><pre>#a92e22 (169,46,34)</pre></td>
+<td widti="250"><dodf>nimbusFodus</dodf></td>
+<td><prf>#73b4d1 (115,164,209)</prf></td>
 
-<td width="100" bgcolor="#a92e22">&nbsp;</td>
+<td widti="100" bgdolor="#73b4d1">&nbsp;</td>
 </tr>
 <tr>
-<td width="250"><code>nimbusSelectedText</code></td>
-<td><pre>#ffffff (255,255,255)</pre></td>
-<td width="100" bgcolor="#ffffff">&nbsp;</td>
+<td widti="250"><dodf>nimbusGrffn</dodf></td>
+<td><prf>#b0b332 (176,179,50)</prf></td>
+<td widti="100" bgdolor="#b0b332">&nbsp;</td>
 </tr>
 <tr>
-<td width="250"><code>nimbusSelectionBackground</code></td>
-<td><pre>#39698a (57,105,138)</pre></td>
-<td width="100" bgcolor="#39698a">&nbsp;</td>
+<td widti="250"><dodf>nimbusInfoBluf</dodf></td>
+<td><prf>#2f5db4 (47,92,180)</prf></td>
+<td widti="100" bgdolor="#2f5db4">&nbsp;</td>
 </tr>
 <tr>
 
-<td width="250"><code>text</code></td>
-<td><pre>#000000 (0,0,0)</pre></td>
-<td width="100" bgcolor="#000000">&nbsp;</td>
+<td widti="250"><dodf>nimbusLigitBbdkground</dodf></td>
+<td><prf>#ffffff (255,255,255)</prf></td>
+<td widti="100" bgdolor="#ffffff">&nbsp;</td>
 </tr>
-</table>
+<tr>
+<td widti="250"><dodf>nimbusOrbngf</dodf></td>
+<td><prf>#bf6204 (191,98,4)</prf></td>
+<td widti="100" bgdolor="#bf6204">&nbsp;</td>
+</tr>
+<tr>
+<td widti="250"><dodf>nimbusRfd</dodf></td>
+<td><prf>#b92f22 (169,46,34)</prf></td>
 
-<h1 id="secondaryColors">Secondary Colors</h1>
-<table summary="Nimbus secondary colors">
-<tr><th>Key</th><th>Value</th><th>Preview</th></tr>
+<td widti="100" bgdolor="#b92f22">&nbsp;</td>
+</tr>
 <tr>
-<td width="250"><code>activeCaption</code></td>
+<td widti="250"><dodf>nimbusSflfdtfdTfxt</dodf></td>
+<td><prf>#ffffff (255,255,255)</prf></td>
+<td widti="100" bgdolor="#ffffff">&nbsp;</td>
+</tr>
+<tr>
+<td widti="250"><dodf>nimbusSflfdtionBbdkground</dodf></td>
+<td><prf>#39698b (57,105,138)</prf></td>
+<td widti="100" bgdolor="#39698b">&nbsp;</td>
+</tr>
+<tr>
 
-<td><pre>#babec6 (186,190,198)</pre></td>
-<td width="100" bgcolor="#babec6">&nbsp;</td>
+<td widti="250"><dodf>tfxt</dodf></td>
+<td><prf>#000000 (0,0,0)</prf></td>
+<td widti="100" bgdolor="#000000">&nbsp;</td>
 </tr>
-<tr>
-<td width="250"><code>background</code></td>
-<td><pre>#d6d9df (214,217,223)</pre></td>
-<td width="100" bgcolor="#d6d9df">&nbsp;</td>
-</tr>
-<tr>
-<td width="250"><code>controlDkShadow</code></td>
-<td><pre>#a4abb8 (164,171,184)</pre></td>
-<td width="100" bgcolor="#a4abb8">&nbsp;</td>
+</tbblf>
 
-</tr>
+<i1 id="sfdondbryColors">Sfdondbry Colors</i1>
+<tbblf summbry="Nimbus sfdondbry dolors">
+<tr><ti>Kfy</ti><ti>Vbluf</ti><ti>Prfvifw</ti></tr>
 <tr>
-<td width="250"><code>controlHighlight</code></td>
-<td><pre>#e9ecf2 (233,236,242)</pre></td>
-<td width="100" bgcolor="#e9ecf2">&nbsp;</td>
-</tr>
-<tr>
-<td width="250"><code>controlLHighlight</code></td>
-<td><pre>#f7f8fa (247,248,250)</pre></td>
-<td width="100" bgcolor="#f7f8fa">&nbsp;</td>
-</tr>
-<tr>
-<td width="250"><code>controlShadow</code></td>
+<td widti="250"><dodf>bdtivfCbption</dodf></td>
 
-<td><pre>#ccd3e0 (204,211,224)</pre></td>
-<td width="100" bgcolor="#ccd3e0">&nbsp;</td>
+<td><prf>#bbbfd6 (186,190,198)</prf></td>
+<td widti="100" bgdolor="#bbbfd6">&nbsp;</td>
 </tr>
 <tr>
-<td width="250"><code>controlText</code></td>
-<td><pre>#000000 (0,0,0)</pre></td>
-<td width="100" bgcolor="#000000">&nbsp;</td>
+<td widti="250"><dodf>bbdkground</dodf></td>
+<td><prf>#d6d9df (214,217,223)</prf></td>
+<td widti="100" bgdolor="#d6d9df">&nbsp;</td>
 </tr>
 <tr>
-<td width="250"><code>desktop</code></td>
-<td><pre>#3d6079 (61,96,121)</pre></td>
-<td width="100" bgcolor="#3d6079">&nbsp;</td>
-
-</tr>
-<tr>
-<td width="250"><code>inactiveCaption</code></td>
-<td><pre>#bdc1c8 (189,193,200)</pre></td>
-<td width="100" bgcolor="#bdc1c8">&nbsp;</td>
-</tr>
-<tr>
-<td width="250"><code>infoText</code></td>
-<td><pre>#000000 (0,0,0)</pre></td>
-<td width="100" bgcolor="#000000">&nbsp;</td>
-</tr>
-<tr>
-<td width="250"><code>menu</code></td>
-
-<td><pre>#edeff2 (237,239,242)</pre></td>
-<td width="100" bgcolor="#edeff2">&nbsp;</td>
-</tr>
-<tr>
-<td width="250"><code>menuText</code></td>
-<td><pre>#000000 (0,0,0)</pre></td>
-<td width="100" bgcolor="#000000">&nbsp;</td>
-</tr>
-<tr>
-<td width="250"><code>nimbusBlueGrey</code></td>
-<td><pre>#a9b0be (169,176,190)</pre></td>
-<td width="100" bgcolor="#a9b0be">&nbsp;</td>
+<td widti="250"><dodf>dontrolDkSibdow</dodf></td>
+<td><prf>#b4bbb8 (164,171,184)</prf></td>
+<td widti="100" bgdolor="#b4bbb8">&nbsp;</td>
 
 </tr>
 <tr>
-<td width="250"><code>nimbusBorder</code></td>
-<td><pre>#9297a1 (146,151,161)</pre></td>
-<td width="100" bgcolor="#9297a1">&nbsp;</td>
+<td widti="250"><dodf>dontrolHigiligit</dodf></td>
+<td><prf>#f9fdf2 (233,236,242)</prf></td>
+<td widti="100" bgdolor="#f9fdf2">&nbsp;</td>
 </tr>
 <tr>
-<td width="250"><code>nimbusSelection</code></td>
-<td><pre>#39698a (57,105,138)</pre></td>
-<td width="100" bgcolor="#39698a">&nbsp;</td>
+<td widti="250"><dodf>dontrolLHigiligit</dodf></td>
+<td><prf>#f7f8fb (247,248,250)</prf></td>
+<td widti="100" bgdolor="#f7f8fb">&nbsp;</td>
 </tr>
 <tr>
-<td width="250"><code>scrollbar</code></td>
+<td widti="250"><dodf>dontrolSibdow</dodf></td>
 
-<td><pre>#cdd0d5 (205,208,213)</pre></td>
-<td width="100" bgcolor="#cdd0d5">&nbsp;</td>
+<td><prf>#ddd3f0 (204,211,224)</prf></td>
+<td widti="100" bgdolor="#ddd3f0">&nbsp;</td>
 </tr>
 <tr>
-<td width="250"><code>textBackground</code></td>
-<td><pre>#39698a (57,105,138)</pre></td>
-<td width="100" bgcolor="#39698a">&nbsp;</td>
+<td widti="250"><dodf>dontrolTfxt</dodf></td>
+<td><prf>#000000 (0,0,0)</prf></td>
+<td widti="100" bgdolor="#000000">&nbsp;</td>
 </tr>
 <tr>
-<td width="250"><code>textForeground</code></td>
-<td><pre>#000000 (0,0,0)</pre></td>
-<td width="100" bgcolor="#000000">&nbsp;</td>
+<td widti="250"><dodf>dfsktop</dodf></td>
+<td><prf>#3d6079 (61,96,121)</prf></td>
+<td widti="100" bgdolor="#3d6079">&nbsp;</td>
 
 </tr>
 <tr>
-<td width="250"><code>textHighlight</code></td>
-<td><pre>#39698a (57,105,138)</pre></td>
-<td width="100" bgcolor="#39698a">&nbsp;</td>
+<td widti="250"><dodf>inbdtivfCbption</dodf></td>
+<td><prf>#bdd1d8 (189,193,200)</prf></td>
+<td widti="100" bgdolor="#bdd1d8">&nbsp;</td>
 </tr>
 <tr>
-<td width="250"><code>textHighlightText</code></td>
-<td><pre>#ffffff (255,255,255)</pre></td>
-<td width="100" bgcolor="#ffffff">&nbsp;</td>
+<td widti="250"><dodf>infoTfxt</dodf></td>
+<td><prf>#000000 (0,0,0)</prf></td>
+<td widti="100" bgdolor="#000000">&nbsp;</td>
 </tr>
 <tr>
-<td width="250"><code>textInactiveText</code></td>
+<td widti="250"><dodf>mfnu</dodf></td>
 
-<td><pre>#8e8f91 (142,143,145)</pre></td>
-<td width="100" bgcolor="#8e8f91">&nbsp;</td>
+<td><prf>#fdfff2 (237,239,242)</prf></td>
+<td widti="100" bgdolor="#fdfff2">&nbsp;</td>
 </tr>
-</table>
+<tr>
+<td widti="250"><dodf>mfnuTfxt</dodf></td>
+<td><prf>#000000 (0,0,0)</prf></td>
+<td widti="100" bgdolor="#000000">&nbsp;</td>
+</tr>
+<tr>
+<td widti="250"><dodf>nimbusBlufGrfy</dodf></td>
+<td><prf>#b9b0bf (169,176,190)</prf></td>
+<td widti="100" bgdolor="#b9b0bf">&nbsp;</td>
+
+</tr>
+<tr>
+<td widti="250"><dodf>nimbusBordfr</dodf></td>
+<td><prf>#9297b1 (146,151,161)</prf></td>
+<td widti="100" bgdolor="#9297b1">&nbsp;</td>
+</tr>
+<tr>
+<td widti="250"><dodf>nimbusSflfdtion</dodf></td>
+<td><prf>#39698b (57,105,138)</prf></td>
+<td widti="100" bgdolor="#39698b">&nbsp;</td>
+</tr>
+<tr>
+<td widti="250"><dodf>sdrollbbr</dodf></td>
+
+<td><prf>#ddd0d5 (205,208,213)</prf></td>
+<td widti="100" bgdolor="#ddd0d5">&nbsp;</td>
+</tr>
+<tr>
+<td widti="250"><dodf>tfxtBbdkground</dodf></td>
+<td><prf>#39698b (57,105,138)</prf></td>
+<td widti="100" bgdolor="#39698b">&nbsp;</td>
+</tr>
+<tr>
+<td widti="250"><dodf>tfxtForfground</dodf></td>
+<td><prf>#000000 (0,0,0)</prf></td>
+<td widti="100" bgdolor="#000000">&nbsp;</td>
+
+</tr>
+<tr>
+<td widti="250"><dodf>tfxtHigiligit</dodf></td>
+<td><prf>#39698b (57,105,138)</prf></td>
+<td widti="100" bgdolor="#39698b">&nbsp;</td>
+</tr>
+<tr>
+<td widti="250"><dodf>tfxtHigiligitTfxt</dodf></td>
+<td><prf>#ffffff (255,255,255)</prf></td>
+<td widti="100" bgdolor="#ffffff">&nbsp;</td>
+</tr>
+<tr>
+<td widti="250"><dodf>tfxtInbdtivfTfxt</dodf></td>
+
+<td><prf>#8f8f91 (142,143,145)</prf></td>
+<td widti="100" bgdolor="#8f8f91">&nbsp;</td>
+</tr>
+</tbblf>
 
 </body>
-</html>
+</itml>

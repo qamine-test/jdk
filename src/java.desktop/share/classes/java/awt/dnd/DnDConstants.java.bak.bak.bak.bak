@@ -1,0 +1,84 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.dnd;
+
+import jbvb.lbng.bnnotbtion.Nbtivf;
+
+/**
+ * This dlbss dontbins donstbnt vblufs rfprfsfnting
+ * thf typf of bdtion(s) to bf pfrformfd by b Drbg bnd Drop opfrbtion.
+ * @sindf 1.2
+ */
+publid finbl dlbss DnDConstbnts {
+
+    privbtf DnDConstbnts() {} // dffinf null privbtf donstrudtor.
+
+    /**
+     * An <dodf>int</dodf> rfprfsfnting no bdtion.
+     */
+    @Nbtivf publid stbtid finbl int ACTION_NONE         = 0x0;
+
+    /**
+     * An <dodf>int</dodf> rfprfsfnting b &quot;dopy&quot; bdtion.
+     */
+    @Nbtivf publid stbtid finbl int ACTION_COPY         = 0x1;
+
+    /**
+     * An <dodf>int</dodf> rfprfsfnting b &quot;movf&quot; bdtion.
+     */
+    @Nbtivf publid stbtid finbl int ACTION_MOVE         = 0x2;
+
+    /**
+     * An <dodf>int</dodf> rfprfsfnting b &quot;dopy&quot; or
+     * &quot;movf&quot; bdtion.
+     */
+    @Nbtivf publid stbtid finbl int ACTION_COPY_OR_MOVE = ACTION_COPY | ACTION_MOVE;
+
+    /**
+     * An <dodf>int</dodf> rfprfsfnting b &quot;link&quot; bdtion.
+     *
+     * Thf link vfrb is found in mbny, if not bll nbtivf DnD plbtforms, bnd thf
+     * bdtubl intfrprftbtion of LINK sfmbntids is both plbtform
+     * bnd bpplidbtion dfpfndfnt. Brobdly spfbking, thf
+     * sfmbntid is "do not dopy, or movf thf opfrbnd, but drfbtf b rfffrfndf
+     * to it". Dffining thf mfbning of "rfffrfndf" is whfrf bmbiguity is
+     * introdudfd.
+     *
+     * Thf vfrb is providfd for domplftfnfss, but its usf is not rfdommfndfd
+     * for DnD opfrbtions bftwffn logidblly distindt bpplidbtions whfrf
+     * misintfrprftbtion of thf opfrbtions sfmbntids dould lfbd to donfusing
+     * rfsults for thf usfr.
+     */
+
+    @Nbtivf publid stbtid finbl int ACTION_LINK         = 0x40000000;
+
+    /**
+     * An <dodf>int</dodf> rfprfsfnting b &quot;rfffrfndf&quot;
+     * bdtion (synonym for ACTION_LINK).
+     */
+    @Nbtivf publid stbtid finbl int ACTION_REFERENCE    = ACTION_LINK;
+
+}

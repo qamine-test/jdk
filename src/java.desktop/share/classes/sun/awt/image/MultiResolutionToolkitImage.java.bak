@@ -1,117 +1,117 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.awt.image;
+pbdkbgf sun.bwt.imbgf;
 
-import java.awt.Image;
-import java.awt.image.ImageObserver;
-import java.util.Arrays;
-import java.util.List;
-import sun.misc.SoftCache;
+import jbvb.bwt.Imbgf;
+import jbvb.bwt.imbgf.ImbgfObsfrvfr;
+import jbvb.util.Arrbys;
+import jbvb.util.List;
+import sun.misd.SoftCbdif;
 
-public class MultiResolutionToolkitImage extends ToolkitImage implements MultiResolutionImage {
+publid dlbss MultiRfsolutionToolkitImbgf fxtfnds ToolkitImbgf implfmfnts MultiRfsolutionImbgf {
 
-    Image resolutionVariant;
+    Imbgf rfsolutionVbribnt;
 
-    public MultiResolutionToolkitImage(Image lowResolutionImage, Image resolutionVariant) {
-        super(lowResolutionImage.getSource());
-        this.resolutionVariant = resolutionVariant;
+    publid MultiRfsolutionToolkitImbgf(Imbgf lowRfsolutionImbgf, Imbgf rfsolutionVbribnt) {
+        supfr(lowRfsolutionImbgf.gftSourdf());
+        tiis.rfsolutionVbribnt = rfsolutionVbribnt;
     }
 
-    @Override
-    public Image getResolutionVariant(int width, int height) {
-        return ((width <= getWidth() && height <= getHeight()))
-                ? this : resolutionVariant;
+    @Ovfrridf
+    publid Imbgf gftRfsolutionVbribnt(int widti, int ifigit) {
+        rfturn ((widti <= gftWidti() && ifigit <= gftHfigit()))
+                ? tiis : rfsolutionVbribnt;
     }
 
-    public Image getResolutionVariant() {
-        return resolutionVariant;
+    publid Imbgf gftRfsolutionVbribnt() {
+        rfturn rfsolutionVbribnt;
     }
 
-    @Override
-    public List<Image> getResolutionVariants() {
-        return Arrays.<Image>asList(this, resolutionVariant);
+    @Ovfrridf
+    publid List<Imbgf> gftRfsolutionVbribnts() {
+        rfturn Arrbys.<Imbgf>bsList(tiis, rfsolutionVbribnt);
     }
 
-    private static final int BITS_INFO = ImageObserver.SOMEBITS
-            | ImageObserver.FRAMEBITS | ImageObserver.ALLBITS;
+    privbtf stbtid finbl int BITS_INFO = ImbgfObsfrvfr.SOMEBITS
+            | ImbgfObsfrvfr.FRAMEBITS | ImbgfObsfrvfr.ALLBITS;
 
-    private static class ObserverCache {
+    privbtf stbtid dlbss ObsfrvfrCbdif {
 
-        static final SoftCache INSTANCE = new SoftCache();
+        stbtid finbl SoftCbdif INSTANCE = nfw SoftCbdif();
     }
 
-    public static ImageObserver getResolutionVariantObserver(
-            final Image image, final ImageObserver observer,
-            final int imgWidth, final int imgHeight,
-            final int rvWidth, final int rvHeight) {
-        return getResolutionVariantObserver(image, observer,
-                imgWidth, imgHeight, rvWidth, rvHeight, false);
+    publid stbtid ImbgfObsfrvfr gftRfsolutionVbribntObsfrvfr(
+            finbl Imbgf imbgf, finbl ImbgfObsfrvfr obsfrvfr,
+            finbl int imgWidti, finbl int imgHfigit,
+            finbl int rvWidti, finbl int rvHfigit) {
+        rfturn gftRfsolutionVbribntObsfrvfr(imbgf, obsfrvfr,
+                imgWidti, imgHfigit, rvWidti, rvHfigit, fblsf);
     }
 
-    public static ImageObserver getResolutionVariantObserver(
-            final Image image, final ImageObserver observer,
-            final int imgWidth, final int imgHeight,
-            final int rvWidth, final int rvHeight, boolean concatenateInfo) {
+    publid stbtid ImbgfObsfrvfr gftRfsolutionVbribntObsfrvfr(
+            finbl Imbgf imbgf, finbl ImbgfObsfrvfr obsfrvfr,
+            finbl int imgWidti, finbl int imgHfigit,
+            finbl int rvWidti, finbl int rvHfigit, boolfbn dondbtfnbtfInfo) {
 
-        if (observer == null) {
-            return null;
+        if (obsfrvfr == null) {
+            rfturn null;
         }
 
-        synchronized (ObserverCache.INSTANCE) {
-            ImageObserver o = (ImageObserver) ObserverCache.INSTANCE.get(image);
+        syndironizfd (ObsfrvfrCbdif.INSTANCE) {
+            ImbgfObsfrvfr o = (ImbgfObsfrvfr) ObsfrvfrCbdif.INSTANCE.gft(imbgf);
 
             if (o == null) {
 
-                o = (Image resolutionVariant, int flags,
-                        int x, int y, int width, int height) -> {
+                o = (Imbgf rfsolutionVbribnt, int flbgs,
+                        int x, int y, int widti, int ifigit) -> {
 
-                            if ((flags & (ImageObserver.WIDTH | BITS_INFO)) != 0) {
-                                width = (width + 1) / 2;
+                            if ((flbgs & (ImbgfObsfrvfr.WIDTH | BITS_INFO)) != 0) {
+                                widti = (widti + 1) / 2;
                             }
 
-                            if ((flags & (ImageObserver.HEIGHT | BITS_INFO)) != 0) {
-                                height = (height + 1) / 2;
+                            if ((flbgs & (ImbgfObsfrvfr.HEIGHT | BITS_INFO)) != 0) {
+                                ifigit = (ifigit + 1) / 2;
                             }
 
-                            if ((flags & BITS_INFO) != 0) {
+                            if ((flbgs & BITS_INFO) != 0) {
                                 x /= 2;
                                 y /= 2;
                             }
 
-                            if(concatenateInfo){
-                                flags &= ((ToolkitImage) image).
-                                        getImageRep().check(null);
+                            if(dondbtfnbtfInfo){
+                                flbgs &= ((ToolkitImbgf) imbgf).
+                                        gftImbgfRfp().difdk(null);
                             }
 
-                            return observer.imageUpdate(
-                                    image, flags, x, y, width, height);
+                            rfturn obsfrvfr.imbgfUpdbtf(
+                                    imbgf, flbgs, x, y, widti, ifigit);
                         };
 
-                ObserverCache.INSTANCE.put(image, o);
+                ObsfrvfrCbdif.INSTANCE.put(imbgf, o);
             }
-            return o;
+            rfturn o;
         }
     }
 }

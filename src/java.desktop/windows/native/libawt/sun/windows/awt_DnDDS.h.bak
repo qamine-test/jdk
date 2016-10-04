@@ -1,283 +1,283 @@
 /*
- * Copyright (c) 1997, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2009, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef AWT_DND_DS_H
-#define AWT_DND_DS_H
+#ifndff AWT_DND_DS_H
+#dffinf AWT_DND_DS_H
 
-#include <Ole2.h>
+#indludf <Olf2.i>
 
-#include <jni.h>
-#include <jvm.h>
-#include <jni_util.h>
+#indludf <jni.i>
+#indludf <jvm.i>
+#indludf <jni_util.i>
 
-#include "awt_Object.h"
-#include "awt_Component.h"
-#include "awt_Window.h"
+#indludf "bwt_Objfdt.i"
+#indludf "bwt_Componfnt.i"
+#indludf "bwt_Window.i"
 
-class AwtCursor;
+dlbss AwtCursor;
 
 /**
- * Drag Source code
+ * Drbg Sourdf dodf
  */
 
-class AwtDragSource : virtual public IDropSource, virtual public IDataObject {
-    public:
+dlbss AwtDrbgSourdf : virtubl publid IDropSourdf, virtubl publid IDbtbObjfdt {
+    publid:
 
-        AwtDragSource(JNIEnv* env, jobject peer, jobject component,
-                      jobject transferable, jobject trigger,
-                      jint actions, jlongArray formats, jobject formatMap);
+        AwtDrbgSourdf(JNIEnv* fnv, jobjfdt pffr, jobjfdt domponfnt,
+                      jobjfdt trbnsffrbblf, jobjfdt triggfr,
+                      jint bdtions, jlongArrby formbts, jobjfdt formbtMbp);
 
-        virtual ~AwtDragSource();
+        virtubl ~AwtDrbgSourdf();
 
         // IUnknown
 
-        virtual HRESULT __stdcall QueryInterface(REFIID riid, void __RPC_FAR *__RPC_FAR *ppvObject);
+        virtubl HRESULT __stddbll QufryIntfrfbdf(REFIID riid, void __RPC_FAR *__RPC_FAR *ppvObjfdt);
 
-        virtual ULONG   __stdcall AddRef(void);
-        virtual ULONG   __stdcall Release(void);
+        virtubl ULONG   __stddbll AddRff(void);
+        virtubl ULONG   __stddbll Rflfbsf(void);
 
-        // IDropSource
+        // IDropSourdf
 
-        virtual HRESULT __stdcall QueryContinueDrag(BOOL fEscapeKeyPressed, DWORD grfKeyState);
+        virtubl HRESULT __stddbll QufryContinufDrbg(BOOL fEsdbpfKfyPrfssfd, DWORD grfKfyStbtf);
 
-        virtual HRESULT __stdcall GiveFeedback(DWORD dwEffect);
+        virtubl HRESULT __stddbll GivfFffdbbdk(DWORD dwEfffdt);
 
-        // IDataObject
+        // IDbtbObjfdt
 
-        virtual HRESULT __stdcall GetData(FORMATETC __RPC_FAR *pFormatEtc, STGMEDIUM __RPC_FAR *pmedium);
-        virtual HRESULT __stdcall GetDataHere(FORMATETC __RPC_FAR *pFormatEtc, STGMEDIUM __RPC_FAR *pmedium);
+        virtubl HRESULT __stddbll GftDbtb(FORMATETC __RPC_FAR *pFormbtEtd, STGMEDIUM __RPC_FAR *pmfdium);
+        virtubl HRESULT __stddbll GftDbtbHfrf(FORMATETC __RPC_FAR *pFormbtEtd, STGMEDIUM __RPC_FAR *pmfdium);
 
-        virtual HRESULT __stdcall QueryGetData(FORMATETC __RPC_FAR *pFormatEtc);
+        virtubl HRESULT __stddbll QufryGftDbtb(FORMATETC __RPC_FAR *pFormbtEtd);
 
-        virtual HRESULT __stdcall GetCanonicalFormatEtc(FORMATETC __RPC_FAR *pFormatEtcIn, FORMATETC __RPC_FAR *pFormatEtcOut);
+        virtubl HRESULT __stddbll GftCbnonidblFormbtEtd(FORMATETC __RPC_FAR *pFormbtEtdIn, FORMATETC __RPC_FAR *pFormbtEtdOut);
 
-        virtual HRESULT __stdcall SetData(FORMATETC __RPC_FAR *pFormatEtc, STGMEDIUM __RPC_FAR *pmedium, BOOL fRelease);
+        virtubl HRESULT __stddbll SftDbtb(FORMATETC __RPC_FAR *pFormbtEtd, STGMEDIUM __RPC_FAR *pmfdium, BOOL fRflfbsf);
 
-        virtual HRESULT __stdcall EnumFormatEtc(DWORD dwDirection, IEnumFORMATETC *__RPC_FAR *ppenumFormatEtc);
+        virtubl HRESULT __stddbll EnumFormbtEtd(DWORD dwDirfdtion, IEnumFORMATETC *__RPC_FAR *ppfnumFormbtEtd);
 
-        virtual HRESULT __stdcall DAdvise(FORMATETC __RPC_FAR *pFormatEtc, DWORD advf, IAdviseSink __RPC_FAR *pAdvSink, DWORD __RPC_FAR *pdwConnection);
-        virtual HRESULT __stdcall DUnadvise(DWORD dwConnection);
-        virtual HRESULT __stdcall EnumDAdvise(IEnumSTATDATA __RPC_FAR *__RPC_FAR *ppenumAdvise);
+        virtubl HRESULT __stddbll DAdvisf(FORMATETC __RPC_FAR *pFormbtEtd, DWORD bdvf, IAdvisfSink __RPC_FAR *pAdvSink, DWORD __RPC_FAR *pdwConnfdtion);
+        virtubl HRESULT __stddbll DUnbdvisf(DWORD dwConnfdtion);
+        virtubl HRESULT __stddbll EnumDAdvisf(IEnumSTATDATA __RPC_FAR *__RPC_FAR *ppfnumAdvisf);
 
 
-        // AwtDragSource
+        // AwtDrbgSourdf
 
-        static void StartDrag(
-            AwtDragSource* self,
-            jobject cursor,
-            jintArray imageData,
-            jint imageWidth,
-            jint imageHeight,
+        stbtid void StbrtDrbg(
+            AwtDrbgSourdf* sflf,
+            jobjfdt dursor,
+            jintArrby imbgfDbtb,
+            jint imbgfWidti,
+            jint imbgfHfigit,
             jint x,
             jint y);
 
-        HRESULT ChangeCursor();
-        void SetCursor(jobject cursor);
+        HRESULT CibngfCursor();
+        void SftCursor(jobjfdt dursor);
 
-        INLINE unsigned int getNTypes() { return m_ntypes; }
+        INLINE unsignfd int gftNTypfs() { rfturn m_ntypfs; }
 
-        INLINE FORMATETC getType(unsigned int i) { return m_types[i]; }
+        INLINE FORMATETC gftTypf(unsignfd int i) { rfturn m_typfs[i]; }
 
-        INLINE jobject GetPeer() { return m_peer; }
+        INLINE jobjfdt GftPffr() { rfturn m_pffr; }
 
-        INLINE void Signal() { ::ReleaseMutex(m_mutex); }
+        INLINE void Signbl() { ::RflfbsfMutfx(m_mutfx); }
 
-        virtual HRESULT __stdcall GetProcessId(FORMATETC __RPC_FAR *pFormatEtc, STGMEDIUM __RPC_FAR *pmedium);
+        virtubl HRESULT __stddbll GftProdfssId(FORMATETC __RPC_FAR *pFormbtEtd, STGMEDIUM __RPC_FAR *pmfdium);
 
-    protected:
-        INLINE void WaitUntilSignalled(BOOL retain) {
+    protfdtfd:
+        INLINE void WbitUntilSignbllfd(BOOL rftbin) {
             do {
-                // nothing ...
-            } while(::WaitForSingleObject(m_mutex, INFINITE) == WAIT_FAILED);
+                // notiing ...
+            } wiilf(::WbitForSinglfObjfdt(m_mutfx, INFINITE) == WAIT_FAILED);
 
-            if (!retain) ::ReleaseMutex(m_mutex);
+            if (!rftbin) ::RflfbsfMutfx(m_mutfx);
         }
 
-        static void _DoDragDrop(void* param);
+        stbtid void _DoDrbgDrop(void* pbrbm);
 
-        HRESULT __stdcall MatchFormatEtc(FORMATETC __RPC_FAR *pFormatEtcIn, FORMATETC *cacheEnt);
+        HRESULT __stddbll MbtdiFormbtEtd(FORMATETC __RPC_FAR *pFormbtEtdIn, FORMATETC *dbdifEnt);
 
-   private:
+   privbtf:
 
-        void LoadCache(jlongArray formats);
-        void UnloadCache();
+        void LobdCbdif(jlongArrby formbts);
+        void UnlobdCbdif();
 
-        static int __cdecl _compar(const void *, const void *);
+        stbtid int __ddfdl _dompbr(donst void *, donst void *);
 
-        static void call_dSCenter(JNIEnv* env, jobject self, jint targetActions,
-                                  jint modifiers, jint x, jint y);
-        static void call_dSCmotion(JNIEnv* env, jobject self,
-                                   jint targetActions, jint modifiers,
+        stbtid void dbll_dSCfntfr(JNIEnv* fnv, jobjfdt sflf, jint tbrgftAdtions,
+                                  jint modififrs, jint x, jint y);
+        stbtid void dbll_dSCmotion(JNIEnv* fnv, jobjfdt sflf,
+                                   jint tbrgftAdtions, jint modififrs,
                                    jint x, jint y);
-        static void call_dSCchanged(JNIEnv* env, jobject self,
-                                    jint targetActions, jint modifiers,
+        stbtid void dbll_dSCdibngfd(JNIEnv* fnv, jobjfdt sflf,
+                                    jint tbrgftAdtions, jint modififrs,
                                     jint x, jint y);
-        static void call_dSCmouseMoved(JNIEnv* env, jobject self,
-                                       jint targetActions, jint modifiers,
+        stbtid void dbll_dSCmousfMovfd(JNIEnv* fnv, jobjfdt sflf,
+                                       jint tbrgftAdtions, jint modififrs,
                                        jint x, jint y);
-        static void call_dSCexit(JNIEnv* env, jobject self, jint x, jint y);
-        static void call_dSCddfinished(JNIEnv* env, jobject self,
-                                       jboolean success, jint operations,
+        stbtid void dbll_dSCfxit(JNIEnv* fnv, jobjfdt sflf, jint x, jint y);
+        stbtid void dbll_dSCddfinisifd(JNIEnv* fnv, jobjfdt sflf,
+                                       jboolfbn suddfss, jint opfrbtions,
                                        jint x, jint y);
-    protected:
+    protfdtfd:
 
-        class ADSIEnumFormatEtc : public virtual IEnumFORMATETC {
-            public:
-                ADSIEnumFormatEtc(AwtDragSource* parent);
+        dlbss ADSIEnumFormbtEtd : publid virtubl IEnumFORMATETC {
+            publid:
+                ADSIEnumFormbtEtd(AwtDrbgSourdf* pbrfnt);
 
-                virtual ~ADSIEnumFormatEtc();
+                virtubl ~ADSIEnumFormbtEtd();
 
                 // IUnknown
 
-                virtual HRESULT __stdcall QueryInterface(REFIID riid, void __RPC_FAR *__RPC_FAR *ppvObject);
+                virtubl HRESULT __stddbll QufryIntfrfbdf(REFIID riid, void __RPC_FAR *__RPC_FAR *ppvObjfdt);
 
-                virtual ULONG   __stdcall AddRef(void);
-                virtual ULONG   __stdcall Release(void);
+                virtubl ULONG   __stddbll AddRff(void);
+                virtubl ULONG   __stddbll Rflfbsf(void);
 
                 // IEnumFORMATETC
 
-                virtual HRESULT _stdcall Next(ULONG celt, FORMATETC __RPC_FAR *rgelt, ULONG __RPC_FAR *pceltFetched);
-                virtual HRESULT _stdcall Skip(ULONG celt);
-                virtual HRESULT _stdcall Reset();
-                virtual HRESULT _stdcall Clone(IEnumFORMATETC __RPC_FAR *__RPC_FAR *ppenum);
+                virtubl HRESULT _stddbll Nfxt(ULONG dflt, FORMATETC __RPC_FAR *rgflt, ULONG __RPC_FAR *pdfltFftdifd);
+                virtubl HRESULT _stddbll Skip(ULONG dflt);
+                virtubl HRESULT _stddbll Rfsft();
+                virtubl HRESULT _stddbll Clonf(IEnumFORMATETC __RPC_FAR *__RPC_FAR *ppfnum);
 
-            private:
-                AwtDragSource*  m_parent;
-                ULONG           m_refs;
+            privbtf:
+                AwtDrbgSourdf*  m_pbrfnt;
+                ULONG           m_rffs;
 
-                unsigned int    m_idx;
+                unsignfd int    m_idx;
         };
 
-        class ADSIStreamProxy : public virtual IStream {
-            private:
-                ADSIStreamProxy(ADSIStreamProxy* cloneof);
+        dlbss ADSIStrfbmProxy : publid virtubl IStrfbm {
+            privbtf:
+                ADSIStrfbmProxy(ADSIStrfbmProxy* dlonfof);
 
-            public:
-                ADSIStreamProxy(AwtDragSource* parent, jbyteArray buffer, jint len);
+            publid:
+                ADSIStrfbmProxy(AwtDrbgSourdf* pbrfnt, jbytfArrby bufffr, jint lfn);
 
-                virtual ~ADSIStreamProxy();
+                virtubl ~ADSIStrfbmProxy();
 
                 // IUnknown
 
-                virtual HRESULT __stdcall QueryInterface(REFIID riid, void __RPC_FAR *__RPC_FAR *ppvObject);
+                virtubl HRESULT __stddbll QufryIntfrfbdf(REFIID riid, void __RPC_FAR *__RPC_FAR *ppvObjfdt);
 
-                virtual ULONG   __stdcall AddRef(void);
-                virtual ULONG   __stdcall Release(void);
+                virtubl ULONG   __stddbll AddRff(void);
+                virtubl ULONG   __stddbll Rflfbsf(void);
 
-                // IStream
+                // IStrfbm
 
 
-                virtual  HRESULT __stdcall Read(void __RPC_FAR *pv, ULONG cb, ULONG __RPC_FAR *pcbRead);
+                virtubl  HRESULT __stddbll Rfbd(void __RPC_FAR *pv, ULONG db, ULONG __RPC_FAR *pdbRfbd);
 
-                virtual  HRESULT __stdcall Write(const void __RPC_FAR *pv, ULONG cb, ULONG __RPC_FAR *pcbWritten);
+                virtubl  HRESULT __stddbll Writf(donst void __RPC_FAR *pv, ULONG db, ULONG __RPC_FAR *pdbWrittfn);
 
-                virtual  HRESULT __stdcall Seek(LARGE_INTEGER dlibMove, DWORD dwOrigin, ULARGE_INTEGER __RPC_FAR *plibNewPosition);
+                virtubl  HRESULT __stddbll Sffk(LARGE_INTEGER dlibMovf, DWORD dwOrigin, ULARGE_INTEGER __RPC_FAR *plibNfwPosition);
 
-                virtual HRESULT __stdcall SetSize(ULARGE_INTEGER libNewSize);
+                virtubl HRESULT __stddbll SftSizf(ULARGE_INTEGER libNfwSizf);
 
-                virtual  HRESULT __stdcall CopyTo(IStream __RPC_FAR *pstm, ULARGE_INTEGER cb, ULARGE_INTEGER __RPC_FAR *pcbRead, ULARGE_INTEGER __RPC_FAR *pcbWritten);
+                virtubl  HRESULT __stddbll CopyTo(IStrfbm __RPC_FAR *pstm, ULARGE_INTEGER db, ULARGE_INTEGER __RPC_FAR *pdbRfbd, ULARGE_INTEGER __RPC_FAR *pdbWrittfn);
 
-                virtual HRESULT __stdcall Commit(DWORD grfCommitFlags);
+                virtubl HRESULT __stddbll Commit(DWORD grfCommitFlbgs);
 
-                virtual HRESULT __stdcall Revert();
+                virtubl HRESULT __stddbll Rfvfrt();
 
-                virtual HRESULT __stdcall LockRegion(ULARGE_INTEGER libOffset, ULARGE_INTEGER cb, DWORD dwLockType);
+                virtubl HRESULT __stddbll LodkRfgion(ULARGE_INTEGER libOffsft, ULARGE_INTEGER db, DWORD dwLodkTypf);
 
-                virtual HRESULT __stdcall UnlockRegion(ULARGE_INTEGER libOffset, ULARGE_INTEGER cb, DWORD dwLockType);
+                virtubl HRESULT __stddbll UnlodkRfgion(ULARGE_INTEGER libOffsft, ULARGE_INTEGER db, DWORD dwLodkTypf);
 
-                virtual HRESULT __stdcall Stat(STATSTG __RPC_FAR *pstatstg, DWORD grfStatFlag);
+                virtubl HRESULT __stddbll Stbt(STATSTG __RPC_FAR *pstbtstg, DWORD grfStbtFlbg);
 
-                virtual HRESULT __stdcall Clone(IStream __RPC_FAR *__RPC_FAR *ppstm);
-            protected:
-                AwtDragSource*   m_parent;
+                virtubl HRESULT __stddbll Clonf(IStrfbm __RPC_FAR *__RPC_FAR *ppstm);
+            protfdtfd:
+                AwtDrbgSourdf*   m_pbrfnt;
 
-                signed   char*   m_buffer;
-                unsigned int     m_off;
-                unsigned int     m_blen;
+                signfd   dibr*   m_bufffr;
+                unsignfd int     m_off;
+                unsignfd int     m_blfn;
 
-                STATSTG          m_statstg;
+                STATSTG          m_stbtstg;
 
-                ADSIStreamProxy* m_cloneof;
+                ADSIStrfbmProxy* m_dlonfof;
 
-                ULONG            m_refs;
+                ULONG            m_rffs;
         };
 
-    public:
-        static const UINT PROCESS_ID_FORMAT;
+    publid:
+        stbtid donst UINT PROCESS_ID_FORMAT;
 
-    private:
+    privbtf:
 
-        // instance vars ...
+        // instbndf vbrs ...
 
-        jobject         m_peer;
+        jobjfdt         m_pffr;
 
         jint            m_initmods;
-        jint            m_lastmods;
+        jint            m_lbstmods;
 
-        HWND            m_droptarget;
-        int             m_enterpending;
+        HWND            m_droptbrgft;
+        int             m_fntfrpfnding;
 
-        jint            m_actions;
+        jint            m_bdtions;
 
-        FORMATETC*      m_types;
-        unsigned int    m_ntypes;
+        FORMATETC*      m_typfs;
+        unsignfd int    m_ntypfs;
 
-        ULONG           m_refs;
+        ULONG           m_rffs;
 
-        AwtCursor*      m_cursor;
+        AwtCursor*      m_dursor;
 
-        HANDLE          m_mutex;
+        HANDLE          m_mutfx;
 
-        jobject         m_component;
-        jobject         m_transferable;
-        jobject         m_formatMap;
+        jobjfdt         m_domponfnt;
+        jobjfdt         m_trbnsffrbblf;
+        jobjfdt         m_formbtMbp;
 
-        POINT           m_dragPoint;
+        POINT           m_drbgPoint;
         POINT           m_dropPoint;
         BOOL            m_fNC;
-        BOOL            m_bRestoreNodropCustomCursor;//CR 6480706 - MS Bug on hold
+        BOOL            m_bRfstorfNodropCustomCursor;//CR 6480706 - MS Bug on iold
 
-        DWORD           m_dwPerformedDropEffect;
+        DWORD           m_dwPfrformfdDropEfffdt;
 
-        // static's ...
+        // stbtid's ...
 
-        static jclass           dSCClazz;
-        static jclass           awtIEClazz;
+        stbtid jdlbss           dSCClbzz;
+        stbtid jdlbss           bwtIEClbzz;
 
-        static jmethodID        dSCdragenter;
-        static jmethodID        dSCdragmotion;
-        static jmethodID        dSCopschanged;
-        static jmethodID        dSCdragexit;
-        static jmethodID        dSCddfinish;
+        stbtid jmftiodID        dSCdrbgfntfr;
+        stbtid jmftiodID        dSCdrbgmotion;
+        stbtid jmftiodID        dSCopsdibngfd;
+        stbtid jmftiodID        dSCdrbgfxit;
+        stbtid jmftiodID        dSCddfinisi;
 
-        static jfieldID         awtIEmods;
+        stbtid jfifldID         bwtIEmods;
 };
 
-extern const CLIPFORMAT CF_PERFORMEDDROPEFFECT;
-extern const CLIPFORMAT CF_FILEGROUPDESCRIPTORA;
-extern const CLIPFORMAT CF_FILEGROUPDESCRIPTORW;
-extern const CLIPFORMAT CF_FILECONTENTS;
+fxtfrn donst CLIPFORMAT CF_PERFORMEDDROPEFFECT;
+fxtfrn donst CLIPFORMAT CF_FILEGROUPDESCRIPTORA;
+fxtfrn donst CLIPFORMAT CF_FILEGROUPDESCRIPTORW;
+fxtfrn donst CLIPFORMAT CF_FILECONTENTS;
 
-#endif /* AWT_DND_DS_H */
+#fndif /* AWT_DND_DS_H */

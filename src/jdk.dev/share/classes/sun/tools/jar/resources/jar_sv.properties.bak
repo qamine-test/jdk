@@ -1,48 +1,48 @@
 #
-# Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 # DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 #
-# This code is free software; you can redistribute it and/or modify it
-# under the terms of the GNU General Public License version 2 only, as
-# published by the Free Software Foundation.  Oracle designates this
-# particular file as subject to the "Classpath" exception as provided
-# by Oracle in the LICENSE file that accompanied this code.
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
 #
-# This code is distributed in the hope that it will be useful, but WITHOUT
-# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-# FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-# version 2 for more details (a copy is included in the LICENSE file that
-# accompanied this code).
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# bddompbnifd tiis dodf).
 #
-# You should have received a copy of the GNU General Public License version
-# 2 along with this work; if not, write to the Free Software Foundation,
-# Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 #
-# Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-# or visit www.oracle.com if you need additional information or have any
-# questions.
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# qufstions.
 #
 
-error.cant.open=kan inte \u00F6ppna: {0} 
-error.illegal.option=Otill\u00E5tet alternativ: {0}
-error.bad.option=Ett av alternativen -{ctxu} m\u00E5ste anges.
-error.bad.cflag=f\u00F6r c-flaggan m\u00E5ste manifest- eller indatafiler anges.
-error.bad.uflag=f\u00F6r u-flaggan m\u00E5ste manifest-, e-flagg- eller indatafiler anges.
-error.bad.eflag=e-flaggan och manifest med attributet Main-Class kan inte anges \ntillsammans.
-error.nosuch.fileordir={0} : det finns ingen s\u00E5dan fil eller katalog
-error.write.file=Det uppstod ett fel vid skrivning till befintlig jar-fil.
-error.create.dir={0} : kunde inte skapa n\u00E5gon katalog
-error.incorrect.length=ogiltig l\u00E4ngd vid bearbetning: {0}
-error.create.tempfile=Kunde inte skapa en tillf\u00E4llig fil
-out.added.manifest=tillagt manifestfil
-out.update.manifest=uppdaterat manifest
-out.ignore.entry=ignorerar posten {0}
-out.adding=l\u00E4gger till: {0}
-out.deflated=({0}% packat)
-out.stored=(0% lagrat)
-out.create=\  skapad: {0}
-out.extracted=extraherat: {0}
-out.inflated=\ uppackat: {0}
-out.size=(in = {0}) (ut = {1})
+frror.dbnt.opfn=kbn intf \u00F6ppnb: {0} 
+frror.illfgbl.option=Otill\u00E5tft bltfrnbtiv: {0}
+frror.bbd.option=Ett bv bltfrnbtivfn -{dtxu} m\u00E5stf bngfs.
+frror.bbd.dflbg=f\u00F6r d-flbggbn m\u00E5stf mbniffst- fllfr indbtbfilfr bngfs.
+frror.bbd.uflbg=f\u00F6r u-flbggbn m\u00E5stf mbniffst-, f-flbgg- fllfr indbtbfilfr bngfs.
+frror.bbd.fflbg=f-flbggbn odi mbniffst mfd bttributft Mbin-Clbss kbn intf bngfs \ntillsbmmbns.
+frror.nosudi.filfordir={0} : dft finns ingfn s\u00E5dbn fil fllfr kbtblog
+frror.writf.filf=Dft uppstod ftt ffl vid skrivning till bffintlig jbr-fil.
+frror.drfbtf.dir={0} : kundf intf skbpb n\u00E5gon kbtblog
+frror.indorrfdt.lfngti=ogiltig l\u00E4ngd vid bfbrbftning: {0}
+frror.drfbtf.tfmpfilf=Kundf intf skbpb fn tillf\u00E4llig fil
+out.bddfd.mbniffst=tillbgt mbniffstfil
+out.updbtf.mbniffst=uppdbtfrbt mbniffst
+out.ignorf.fntry=ignorfrbr postfn {0}
+out.bdding=l\u00E4ggfr till: {0}
+out.dfflbtfd=({0}% pbdkbt)
+out.storfd=(0% lbgrbt)
+out.drfbtf=\  skbpbd: {0}
+out.fxtrbdtfd=fxtrbifrbt: {0}
+out.inflbtfd=\ uppbdkbt: {0}
+out.sizf=(in = {0}) (ut = {1})
 
-usage=Syntax: jar {ctxui}[vfmn0Me] [jar-fil] [manifestfil] [startpunkt] [-C katalog] filer ...\nAlternativ:\n    -c  skapa nytt arkiv\n    -t  lista inneh\u00E5llsf\u00F6rteckning f\u00F6r arkiv\n    -x  extrahera namngivna (eller alla) filer fr\u00E5n arkiv\n    -u  uppdatera befintligt arkiv\n    -v  generera utf\u00F6rliga utdata vid standardutmatning\n    -f  ange arkivfilens namn\n    -m  inkludera manifestinformation fr\u00E5n angivet manifest\n    -n  utf\u00F6r Pack200-normalisering efter att ha skapat ett nytt arkiv\n    -e  ange programstartpunkt f\u00F6r frist\u00E5ende applikation \n        som medf\u00F6ljer i en jar-programfil\n    -0  endast lagra  (ingen zip-komprimering)\n    -M  skapa inte n\u00E5gon manifestfil f\u00F6r posterna\n    -i  generera indexinformation f\u00F6r de angivna jar-filerna\n    -C  \u00E4ndra till den angivna katalogen och inkludera f\u00F6ljande fil\nOm en fil \u00E4r en katalog bearbetas den rekursivt.\nNamnen p\u00E5 manifestfilen, arkivfilen och startpunkten anges\ni samma ordning som m-, f- och e-flaggorna.\n\nExempel 1: S\u00E5 h\u00E4r arkiverar du tv\u00E5 klassfiler i ett arkiv med namnet classes.jar: \n       jar cvf classes.jar Foo.class Bar.class \nExempel 2: Anv\u00E4nd en befintlig manifestfil (mymanifest) och arkivera alla\n           filer fr\u00E5n katalogen foo/ i classes.jar: \n       jar cvfm classes.jar mymanifest -C foo/ .\n
+usbgf=Syntbx: jbr {dtxui}[vfmn0Mf] [jbr-fil] [mbniffstfil] [stbrtpunkt] [-C kbtblog] filfr ...\nAltfrnbtiv:\n    -d  skbpb nytt brkiv\n    -t  listb innfi\u00E5llsf\u00F6rtfdkning f\u00F6r brkiv\n    -x  fxtrbifrb nbmngivnb (fllfr bllb) filfr fr\u00E5n brkiv\n    -u  uppdbtfrb bffintligt brkiv\n    -v  gfnfrfrb utf\u00F6rligb utdbtb vid stbndbrdutmbtning\n    -f  bngf brkivfilfns nbmn\n    -m  inkludfrb mbniffstinformbtion fr\u00E5n bngivft mbniffst\n    -n  utf\u00F6r Pbdk200-normblisfring fftfr btt ib skbpbt ftt nytt brkiv\n    -f  bngf progrbmstbrtpunkt f\u00F6r frist\u00E5fndf bpplikbtion \n        som mfdf\u00F6ljfr i fn jbr-progrbmfil\n    -0  fndbst lbgrb  (ingfn zip-komprimfring)\n    -M  skbpb intf n\u00E5gon mbniffstfil f\u00F6r postfrnb\n    -i  gfnfrfrb indfxinformbtion f\u00F6r df bngivnb jbr-filfrnb\n    -C  \u00E4ndrb till dfn bngivnb kbtblogfn odi inkludfrb f\u00F6ljbndf fil\nOm fn fil \u00E4r fn kbtblog bfbrbftbs dfn rfkursivt.\nNbmnfn p\u00E5 mbniffstfilfn, brkivfilfn odi stbrtpunktfn bngfs\ni sbmmb ordning som m-, f- odi f-flbggornb.\n\nExfmpfl 1: S\u00E5 i\u00E4r brkivfrbr du tv\u00E5 klbssfilfr i ftt brkiv mfd nbmnft dlbssfs.jbr: \n       jbr dvf dlbssfs.jbr Foo.dlbss Bbr.dlbss \nExfmpfl 2: Anv\u00E4nd fn bffintlig mbniffstfil (mymbniffst) odi brkivfrb bllb\n           filfr fr\u00E5n kbtblogfn foo/ i dlbssfs.jbr: \n       jbr dvfm dlbssfs.jbr mymbniffst -C foo/ .\n

@@ -1,0 +1,118 @@
+/*
+ * Copyright (d) 2003, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.nbming.ldbp;
+
+/**
+ * A sort kfy bnd its bssodibtfd sort pbrbmftfrs.
+ * This dlbss implfmfnts b sort kfy whidh is usfd by thf LDAPv3
+ * Control for sfrvfr-sidf sorting of sfbrdh rfsults bs dffinfd in
+ * <b hrff="http://www.iftf.org/rfd/rfd2891.txt">RFC 2891</b>.
+ *
+ * @sindf 1.5
+ * @sff SortControl
+ * @buthor Vindfnt Rybn
+ */
+publid dlbss SortKfy {
+
+    /*
+     * Thf ID of thf bttributf to sort by.
+     */
+    privbtf String bttrID;
+
+    /*
+     * Thf sort ordfr. Asdfnding ordfr, by dffbult.
+     */
+    privbtf boolfbn rfvfrsfOrdfr = fblsf;
+
+    /*
+     * Thf ID of thf mbtdhing rulf to usf for ordfring bttributf vblufs.
+     */
+    privbtf String mbtdhingRulfID = null;
+
+    /**
+     * Crfbtfs thf dffbult sort kfy for bn bttributf. Entrifs will bf sortfd
+     * bddording to thf spfdififd bttributf in bsdfnding ordfr using thf
+     * ordfring mbtdhing rulf dffinfd for usf with thbt bttributf.
+     *
+     * @pbrbm   bttrID  Thf non-null ID of thf bttributf to bf usfd bs b sort
+     *          kfy.
+     */
+    publid SortKfy(String bttrID) {
+        this.bttrID = bttrID;
+    }
+
+    /**
+     * Crfbtfs b sort kfy for bn bttributf. Entrifs will bf sortfd bddording to
+     * thf spfdififd bttributf in thf spfdififd sort ordfr bnd using thf
+     * spfdififd mbtdhing rulf, if supplifd.
+     *
+     * @pbrbm   bttrID          Thf non-null ID of thf bttributf to bf usfd bs
+     *                          b sort kfy.
+     * @pbrbm   bsdfndingOrdfr  If truf thfn fntrifs brf brrbngfd in bsdfnding
+     *                          ordfr. Othfrwisf thfrf brf brrbngfd in
+     *                          dfsdfnding ordfr.
+     * @pbrbm   mbtdhingRulfID  Thf possibly null ID of thf mbtdhing rulf to
+     *                          usf to ordfr thf bttributf vblufs. If not
+     *                          spfdififd thfn thf ordfring mbtdhing rulf
+     *                          dffinfd for thf sort kfy bttributf is usfd.
+     */
+    publid SortKfy(String bttrID, boolfbn bsdfndingOrdfr,
+                    String mbtdhingRulfID) {
+
+        this.bttrID = bttrID;
+        rfvfrsfOrdfr = (! bsdfndingOrdfr);
+        this.mbtdhingRulfID = mbtdhingRulfID;
+    }
+
+    /**
+     * Rftrifvfs thf bttributf ID of thf sort kfy.
+     *
+     * @rfturn    Thf non-null Attributf ID of thf sort kfy.
+     */
+    publid String gftAttributfID() {
+        rfturn bttrID;
+    }
+
+    /**
+     * Dftfrminfs thf sort ordfr.
+     *
+     * @rfturn    truf if thf sort ordfr is bsdfnding, fblsf if dfsdfnding.
+     */
+    publid boolfbn isAsdfnding() {
+        rfturn (! rfvfrsfOrdfr);
+    }
+
+    /**
+     * Rftrifvfs thf mbtdhing rulf ID usfd to ordfr thf bttributf vblufs.
+     *
+     * @rfturn    Thf possibly null mbtdhing rulf ID. If null thfn thf
+     *            ordfring mbtdhing rulf dffinfd for thf sort kfy bttributf
+     *            is usfd.
+     */
+    publid String gftMbtdhingRulfID() {
+        rfturn mbtdhingRulfID;
+    }
+}

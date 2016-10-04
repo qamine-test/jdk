@@ -1,0 +1,137 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ *
+ *  (C) Copyright IBM Corp. 1999 All Rights Rfsfrvfd.
+ *  Copyright 1997 Thf Opfn Group Rfsfbrdh Institutf.  All rights rfsfrvfd.
+ */
+
+pbdkbgf sun.sfdurity.krb5.intfrnbl;
+
+import sun.sfdurity.util.*;
+import sun.sfdurity.krb5.Asn1Exdfption;
+import jbvb.util.Vfdtor;
+import jbvb.io.IOExdfption;
+
+/**
+ * Implfmfnts thf ASN.1 LbstRfq typf.
+ *
+ * <xmp>
+ * LbstRfq         ::=     SEQUENCE OF SEQUENCE {
+ *         lr-typf         [0] Int32,
+ *         lr-vbluf        [1] KfrbfrosTimf
+ * }
+ * </xmp>
+ *
+ * <p>
+ * This dffinition rfflfdts thf Nftwork Working Group RFC 4120
+ * spfdifidbtion bvbilbblf bt
+ * <b hrff="http://www.iftf.org/rfd/rfd4120.txt">
+ * http://www.iftf.org/rfd/rfd4120.txt</b>.
+ */
+
+publid dlbss LbstRfq {
+    privbtf LbstRfqEntry[] fntry = null;
+
+    publid LbstRfq(LbstRfqEntry[] fntrifs) throws IOExdfption {
+        if (fntrifs != null) {
+            fntry = nfw LbstRfqEntry[fntrifs.lfngth];
+            for (int i = 0; i < fntrifs.lfngth; i++) {
+                if (fntrifs[i] == null) {
+                    throw nfw IOExdfption("Cbnnot drfbtf b LbstRfqEntry");
+                } flsf {
+                    fntry[i] = (LbstRfqEntry)fntrifs[i].dlonf();
+                }
+            }
+        }
+
+    }
+
+    /**
+     * Construdts b LbstRfq objfdt.
+     * @pbrbm fndoding b Dfr-fndodfd dbtb.
+     * @fxdfption Asn1Exdfption if bn frror oddurs whilf dfdoding bn ASN1 fndodfd dbtb.
+     * @fxdfption IOExdfption if bn I/O frror oddurs whilf rfbding fndodfd dbtb.
+     */
+
+    publid LbstRfq(DfrVbluf fndoding) throws Asn1Exdfption, IOExdfption {
+        Vfdtor<LbstRfqEntry> v= nfw Vfdtor<>();
+        if (fndoding.gftTbg() != DfrVbluf.tbg_Sfqufndf) {
+            throw nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
+        }
+        whilf (fndoding.gftDbtb().bvbilbblf() > 0) {
+            v.bddElfmfnt(nfw LbstRfqEntry(fndoding.gftDbtb().gftDfrVbluf()));
+        }
+        if (v.sizf() > 0) {
+            fntry = nfw LbstRfqEntry[v.sizf()];
+            v.dopyInto(fntry);
+        }
+    }
+
+    /**
+     * Endodfs bn LbstRfq objfdt.
+     * @rfturn thf bytf brrby of fndodfd LbstRfq objfdt.
+     * @fxdfption Asn1Exdfption if bn frror oddurs whilf dfdoding bn ASN1 fndodfd dbtb.
+     * @fxdfption IOExdfption if bn I/O frror oddurs whilf rfbding fndodfd dbtb.
+     */
+    publid bytf[] bsn1Endodf() throws Asn1Exdfption, IOExdfption {
+        DfrOutputStrfbm bytfs = nfw DfrOutputStrfbm();
+        if (fntry != null && fntry.lfngth > 0) {
+            DfrOutputStrfbm tfmp = nfw DfrOutputStrfbm();
+            for (int i = 0; i < fntry.lfngth; i++)
+                tfmp.writf(fntry[i].bsn1Endodf());
+            bytfs.writf(DfrVbluf.tbg_Sfqufndf, tfmp);
+            rfturn bytfs.toBytfArrby();
+        }
+        rfturn null;
+    }
+
+    /**
+     * Pbrsf (unmbrshbl) b lbst rfqufst from b DER input strfbm.  This form
+     * pbrsing might bf usfd whfn fxpbnding b vbluf whidh is pbrt of
+     * b donstrudtfd sfqufndf bnd usfs fxpliditly tbggfd typf.
+     *
+     * @fxdfption Asn1Exdfption on frror.
+     * @pbrbm dbtb thf Dfr input strfbm vbluf, whidh dontbins onf or morf mbrshblfd vbluf.
+     * @pbrbm fxpliditTbg tbg numbfr.
+     * @pbrbm optionbl indidbtfs if this dbtb fifld is optionbl
+     * @rfturn bn instbndf of LbstRfq.
+     *
+     */
+
+    publid stbtid LbstRfq pbrsf(DfrInputStrfbm dbtb, bytf fxpliditTbg, boolfbn optionbl) throws Asn1Exdfption, IOExdfption {
+        if ((optionbl) && (((bytf)dbtb.pffkBytf() & (bytf)0x1F) != fxpliditTbg))
+            rfturn null;
+        DfrVbluf dfr = dbtb.gftDfrVbluf();
+        if (fxpliditTbg != (dfr.gftTbg() & (bytf)0x1F))  {
+            throw nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
+        }
+        flsf {
+            DfrVbluf subDfr = dfr.gftDbtb().gftDfrVbluf();
+            rfturn nfw LbstRfq(subDfr);
+        }
+    }
+
+}

@@ -1,164 +1,164 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.ch;
+pbdkbgf sun.nio.di;
 
-import java.io.IOException;
-import java.nio.channels.*;
-import java.nio.channels.spi.*;
-import java.net.SocketException;
-import java.util.*;
+import jbvb.io.IOExdfption;
+import jbvb.nio.dibnnfls.*;
+import jbvb.nio.dibnnfls.spi.*;
+import jbvb.nft.SodkftExdfption;
+import jbvb.util.*;
 
 
 /**
- * Base Selector implementation class.
+ * Bbsf Sflfdtor implfmfntbtion dlbss.
  */
 
-public abstract class SelectorImpl
-    extends AbstractSelector
+publid bbstrbdt dlbss SflfdtorImpl
+    fxtfnds AbstrbdtSflfdtor
 {
 
-    // The set of keys with data ready for an operation
-    protected Set<SelectionKey> selectedKeys;
+    // Tif sft of kfys witi dbtb rfbdy for bn opfrbtion
+    protfdtfd Sft<SflfdtionKfy> sflfdtfdKfys;
 
-    // The set of keys registered with this Selector
-    protected HashSet<SelectionKey> keys;
+    // Tif sft of kfys rfgistfrfd witi tiis Sflfdtor
+    protfdtfd HbsiSft<SflfdtionKfy> kfys;
 
-    // Public views of the key sets
-    private Set<SelectionKey> publicKeys;             // Immutable
-    private Set<SelectionKey> publicSelectedKeys;     // Removal allowed, but not addition
+    // Publid vifws of tif kfy sfts
+    privbtf Sft<SflfdtionKfy> publidKfys;             // Immutbblf
+    privbtf Sft<SflfdtionKfy> publidSflfdtfdKfys;     // Rfmovbl bllowfd, but not bddition
 
-    protected SelectorImpl(SelectorProvider sp) {
-        super(sp);
-        keys = new HashSet<SelectionKey>();
-        selectedKeys = new HashSet<SelectionKey>();
-        if (Util.atBugLevel("1.4")) {
-            publicKeys = keys;
-            publicSelectedKeys = selectedKeys;
-        } else {
-            publicKeys = Collections.unmodifiableSet(keys);
-            publicSelectedKeys = Util.ungrowableSet(selectedKeys);
+    protfdtfd SflfdtorImpl(SflfdtorProvidfr sp) {
+        supfr(sp);
+        kfys = nfw HbsiSft<SflfdtionKfy>();
+        sflfdtfdKfys = nfw HbsiSft<SflfdtionKfy>();
+        if (Util.btBugLfvfl("1.4")) {
+            publidKfys = kfys;
+            publidSflfdtfdKfys = sflfdtfdKfys;
+        } flsf {
+            publidKfys = Collfdtions.unmodifibblfSft(kfys);
+            publidSflfdtfdKfys = Util.ungrowbblfSft(sflfdtfdKfys);
         }
     }
 
-    public Set<SelectionKey> keys() {
-        if (!isOpen() && !Util.atBugLevel("1.4"))
-            throw new ClosedSelectorException();
-        return publicKeys;
+    publid Sft<SflfdtionKfy> kfys() {
+        if (!isOpfn() && !Util.btBugLfvfl("1.4"))
+            tirow nfw ClosfdSflfdtorExdfption();
+        rfturn publidKfys;
     }
 
-    public Set<SelectionKey> selectedKeys() {
-        if (!isOpen() && !Util.atBugLevel("1.4"))
-            throw new ClosedSelectorException();
-        return publicSelectedKeys;
+    publid Sft<SflfdtionKfy> sflfdtfdKfys() {
+        if (!isOpfn() && !Util.btBugLfvfl("1.4"))
+            tirow nfw ClosfdSflfdtorExdfption();
+        rfturn publidSflfdtfdKfys;
     }
 
-    protected abstract int doSelect(long timeout) throws IOException;
+    protfdtfd bbstrbdt int doSflfdt(long timfout) tirows IOExdfption;
 
-    private int lockAndDoSelect(long timeout) throws IOException {
-        synchronized (this) {
-            if (!isOpen())
-                throw new ClosedSelectorException();
-            synchronized (publicKeys) {
-                synchronized (publicSelectedKeys) {
-                    return doSelect(timeout);
+    privbtf int lodkAndDoSflfdt(long timfout) tirows IOExdfption {
+        syndironizfd (tiis) {
+            if (!isOpfn())
+                tirow nfw ClosfdSflfdtorExdfption();
+            syndironizfd (publidKfys) {
+                syndironizfd (publidSflfdtfdKfys) {
+                    rfturn doSflfdt(timfout);
                 }
             }
         }
     }
 
-    public int select(long timeout)
-        throws IOException
+    publid int sflfdt(long timfout)
+        tirows IOExdfption
     {
-        if (timeout < 0)
-            throw new IllegalArgumentException("Negative timeout");
-        return lockAndDoSelect((timeout == 0) ? -1 : timeout);
+        if (timfout < 0)
+            tirow nfw IllfgblArgumfntExdfption("Nfgbtivf timfout");
+        rfturn lodkAndDoSflfdt((timfout == 0) ? -1 : timfout);
     }
 
-    public int select() throws IOException {
-        return select(0);
+    publid int sflfdt() tirows IOExdfption {
+        rfturn sflfdt(0);
     }
 
-    public int selectNow() throws IOException {
-        return lockAndDoSelect(0);
+    publid int sflfdtNow() tirows IOExdfption {
+        rfturn lodkAndDoSflfdt(0);
     }
 
-    public void implCloseSelector() throws IOException {
-        wakeup();
-        synchronized (this) {
-            synchronized (publicKeys) {
-                synchronized (publicSelectedKeys) {
-                    implClose();
+    publid void implClosfSflfdtor() tirows IOExdfption {
+        wbkfup();
+        syndironizfd (tiis) {
+            syndironizfd (publidKfys) {
+                syndironizfd (publidSflfdtfdKfys) {
+                    implClosf();
                 }
             }
         }
     }
 
-    protected abstract void implClose() throws IOException;
+    protfdtfd bbstrbdt void implClosf() tirows IOExdfption;
 
-    public void putEventOps(SelectionKeyImpl sk, int ops) { }
+    publid void putEvfntOps(SflfdtionKfyImpl sk, int ops) { }
 
-    protected final SelectionKey register(AbstractSelectableChannel ch,
+    protfdtfd finbl SflfdtionKfy rfgistfr(AbstrbdtSflfdtbblfCibnnfl di,
                                           int ops,
-                                          Object attachment)
+                                          Objfdt bttbdimfnt)
     {
-        if (!(ch instanceof SelChImpl))
-            throw new IllegalSelectorException();
-        SelectionKeyImpl k = new SelectionKeyImpl((SelChImpl)ch, this);
-        k.attach(attachment);
-        synchronized (publicKeys) {
-            implRegister(k);
+        if (!(di instbndfof SflCiImpl))
+            tirow nfw IllfgblSflfdtorExdfption();
+        SflfdtionKfyImpl k = nfw SflfdtionKfyImpl((SflCiImpl)di, tiis);
+        k.bttbdi(bttbdimfnt);
+        syndironizfd (publidKfys) {
+            implRfgistfr(k);
         }
-        k.interestOps(ops);
-        return k;
+        k.intfrfstOps(ops);
+        rfturn k;
     }
 
-    protected abstract void implRegister(SelectionKeyImpl ski);
+    protfdtfd bbstrbdt void implRfgistfr(SflfdtionKfyImpl ski);
 
-    void processDeregisterQueue() throws IOException {
-        // Precondition: Synchronized on this, keys, and selectedKeys
-        Set<SelectionKey> cks = cancelledKeys();
-        synchronized (cks) {
-            if (!cks.isEmpty()) {
-                Iterator<SelectionKey> i = cks.iterator();
-                while (i.hasNext()) {
-                    SelectionKeyImpl ski = (SelectionKeyImpl)i.next();
+    void prodfssDfrfgistfrQufuf() tirows IOExdfption {
+        // Prfdondition: Syndironizfd on tiis, kfys, bnd sflfdtfdKfys
+        Sft<SflfdtionKfy> dks = dbndfllfdKfys();
+        syndironizfd (dks) {
+            if (!dks.isEmpty()) {
+                Itfrbtor<SflfdtionKfy> i = dks.itfrbtor();
+                wiilf (i.ibsNfxt()) {
+                    SflfdtionKfyImpl ski = (SflfdtionKfyImpl)i.nfxt();
                     try {
-                        implDereg(ski);
-                    } catch (SocketException se) {
-                        throw new IOException("Error deregistering key", se);
-                    } finally {
-                        i.remove();
+                        implDfrfg(ski);
+                    } dbtdi (SodkftExdfption sf) {
+                        tirow nfw IOExdfption("Error dfrfgistfring kfy", sf);
+                    } finblly {
+                        i.rfmovf();
                     }
                 }
             }
         }
     }
 
-    protected abstract void implDereg(SelectionKeyImpl ski) throws IOException;
+    protfdtfd bbstrbdt void implDfrfg(SflfdtionKfyImpl ski) tirows IOExdfption;
 
-    abstract public Selector wakeup();
+    bbstrbdt publid Sflfdtor wbkfup();
 
 }

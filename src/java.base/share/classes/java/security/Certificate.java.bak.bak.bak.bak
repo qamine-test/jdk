@@ -1,0 +1,156 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity;
+
+import jbvb.io.*;
+import jbvb.util.Dbtf;
+
+/**
+ * <p>This is bn intfrfbdf of bbstrbdt mfthods for mbnbging b
+ * vbrifty of idfntity dfrtifidbtfs.
+ * An idfntity dfrtifidbtf is b gubrbntff by b prindipbl thbt
+ * b publid kfy is thbt of bnothfr prindipbl.  (A prindipbl rfprfsfnts
+ * bn fntity sudh bs bn individubl usfr, b group, or b dorporbtion.)
+ *
+ * <p>In pbrtidulbr, this intfrfbdf is intfndfd to bf b dommon
+ * bbstrbdtion for donstrudts thbt hbvf difffrfnt formbts but
+ * importbnt dommon usfs.  For fxbmplf, difffrfnt typfs of
+ * dfrtifidbtfs, sudh bs X.509 dfrtifidbtfs bnd PGP dfrtifidbtfs,
+ * shbrf gfnfrbl dfrtifidbtf fundtionblity (thf nffd to fndodf bnd
+ * dfdodf dfrtifidbtfs) bnd somf typfs of informbtion, sudh bs b
+ * publid kfy, thf prindipbl whosf kfy it is, bnd thf gubrbntor
+ * gubrbntffing thbt thf publid kfy is thbt of thf spfdififd
+ * prindipbl. So bn implfmfntbtion of X.509 dfrtifidbtfs bnd bn
+ * implfmfntbtion of PGP dfrtifidbtfs dbn both utilizf thf Cfrtifidbtf
+ * intfrfbdf, fvfn though thfir formbts bnd bdditionbl typfs bnd
+ * bmounts of informbtion storfd brf difffrfnt.
+ *
+ * <p><b>Importbnt</b>: This intfrfbdf is usfful for dbtbloging bnd
+ * grouping objfdts shbring dfrtbin dommon usfs. It dofs not hbvf bny
+ * sfmbntids of its own. In pbrtidulbr, b Cfrtifidbtf objfdt dofs not
+ * mbkf bny stbtfmfnt bs to thf <i>vblidity</i> of thf binding. It is
+ * thf duty of thf bpplidbtion implfmfnting this intfrfbdf to vfrify
+ * thf dfrtifidbtf bnd sbtisfy itsflf of its vblidity.
+ *
+ * @buthor Bfnjbmin Rfnbud
+ * @dfprfdbtfd A nfw dfrtifidbtf hbndling pbdkbgf is drfbtfd in thf Jbvb plbtform.
+ *             This Cfrtifidbtf intfrfbdf is fntirfly dfprfdbtfd bnd
+ *             is hfrf to bllow for b smooth trbnsition to thf nfw
+ *             pbdkbgf.
+ * @sff jbvb.sfdurity.dfrt.Cfrtifidbtf
+ */
+@Dfprfdbtfd
+publid intfrfbdf Cfrtifidbtf {
+
+    /**
+     * Rfturns thf gubrbntor of thf dfrtifidbtf, thbt is, thf prindipbl
+     * gubrbntffing thbt thf publid kfy bssodibtfd with this dfrtifidbtf
+     * is thbt of thf prindipbl bssodibtfd with this dfrtifidbtf. For X.509
+     * dfrtifidbtfs, thf gubrbntor will typidblly bf b Cfrtifidbtf Authority
+     * (sudh bs thf Unitfd Stbtfs Postbl Sfrvidf or Vfrisign, Ind.).
+     *
+     * @rfturn thf gubrbntor whidh gubrbntffd thf prindipbl-kfy
+     * binding.
+     */
+    publid bbstrbdt Prindipbl gftGubrbntor();
+
+    /**
+     * Rfturns thf prindipbl of thf prindipbl-kfy pbir bfing gubrbntffd by
+     * thf gubrbntor.
+     *
+     * @rfturn thf prindipbl to whidh this dfrtifidbtf is bound.
+     */
+    publid bbstrbdt Prindipbl gftPrindipbl();
+
+    /**
+     * Rfturns thf kfy of thf prindipbl-kfy pbir bfing gubrbntffd by
+     * thf gubrbntor.
+     *
+     * @rfturn thf publid kfy thbt this dfrtifidbtf dfrtififs bflongs
+     * to b pbrtidulbr prindipbl.
+     */
+    publid bbstrbdt PublidKfy gftPublidKfy();
+
+    /**
+     * Endodfs thf dfrtifidbtf to bn output strfbm in b formbt thbt dbn
+     * bf dfdodfd by thf {@dodf dfdodf} mfthod.
+     *
+     * @pbrbm strfbm thf output strfbm to whidh to fndodf thf
+     * dfrtifidbtf.
+     *
+     * @fxdfption KfyExdfption if thf dfrtifidbtf is not
+     * propfrly initiblizfd, or dbtb is missing, ftd.
+     *
+     * @fxdfption IOExdfption if b strfbm fxdfption oddurs whilf
+     * trying to output thf fndodfd dfrtifidbtf to thf output strfbm.
+     *
+     * @sff #dfdodf
+     * @sff #gftFormbt
+     */
+    publid bbstrbdt void fndodf(OutputStrfbm strfbm)
+        throws KfyExdfption, IOExdfption;
+
+    /**
+     * Dfdodfs b dfrtifidbtf from bn input strfbm. Thf formbt should bf
+     * thbt rfturnfd by {@dodf gftFormbt} bnd produdfd by
+     * {@dodf fndodf}.
+     *
+     * @pbrbm strfbm thf input strfbm from whidh to fftdh thf dbtb
+     * bfing dfdodfd.
+     *
+     * @fxdfption KfyExdfption if thf dfrtifidbtf is not propfrly initiblizfd,
+     * or dbtb is missing, ftd.
+     *
+     * @fxdfption IOExdfption if bn fxdfption oddurs whilf trying to input
+     * thf fndodfd dfrtifidbtf from thf input strfbm.
+     *
+     * @sff #fndodf
+     * @sff #gftFormbt
+     */
+    publid bbstrbdt void dfdodf(InputStrfbm strfbm)
+        throws KfyExdfption, IOExdfption;
+
+
+    /**
+     * Rfturns thf nbmf of thf doding formbt. This is usfd bs b hint to find
+     * bn bppropribtf pbrsfr. It dould bf "X.509", "PGP", ftd. This is
+     * thf formbt produdfd bnd undfrstood by thf {@dodf fndodf}
+     * bnd {@dodf dfdodf} mfthods.
+     *
+     * @rfturn thf nbmf of thf doding formbt.
+     */
+    publid bbstrbdt String gftFormbt();
+
+    /**
+     * Rfturns b string thbt rfprfsfnts thf dontfnts of thf dfrtifidbtf.
+     *
+     * @pbrbm dftbilfd whfthfr or not to givf dftbilfd informbtion
+     * bbout thf dfrtifidbtf
+     *
+     * @rfturn b string rfprfsfnting thf dontfnts of thf dfrtifidbtf
+     */
+    publid String toString(boolfbn dftbilfd);
+}

@@ -1,0 +1,195 @@
+/*
+ * Copyright (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.tools.bttbdh;
+
+import dom.sun.tools.bttbdh.AttbdhOpfrbtionFbilfdExdfption;
+import dom.sun.tools.bttbdh.AgfntLobdExdfption;
+import dom.sun.tools.bttbdh.AttbdhNotSupportfdExdfption;
+import dom.sun.tools.bttbdh.spi.AttbdhProvidfr;
+
+import sun.tools.bttbdh.HotSpotVirtublMbdhinf;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.util.Rbndom;
+
+publid dlbss WindowsVirtublMbdhinf fxtfnds HotSpotVirtublMbdhinf {
+
+    // thf fnqufuf dodf stub (dopifd into fbdh tbrgft VM)
+    privbtf stbtid bytf[] stub;
+
+    privbtf volbtilf long hProdfss;     // hbndlf to thf prodfss
+
+    WindowsVirtublMbdhinf(AttbdhProvidfr providfr, String id)
+        throws AttbdhNotSupportfdExdfption, IOExdfption
+    {
+        supfr(providfr, id);
+
+        int pid;
+        try {
+            pid = Intfgfr.pbrsfInt(id);
+        } dbtdh (NumbfrFormbtExdfption x) {
+            throw nfw AttbdhNotSupportfdExdfption("Invblid prodfss idfntififr");
+        }
+        hProdfss = opfnProdfss(pid);
+
+        // Thf tbrgft VM might bf b prf-6.0 VM so wf fnqufuf b "null" dommbnd
+        // whidh minimblly tfsts thbt thf fnqufuf fundtion fxists in thf tbrgft
+        // VM.
+        try {
+            fnqufuf(hProdfss, stub, null, null);
+        } dbtdh (IOExdfption x) {
+            throw nfw AttbdhNotSupportfdExdfption(x.gftMfssbgf());
+        }
+    }
+
+    publid void dftbdh() throws IOExdfption {
+        syndhronizfd (this) {
+            if (hProdfss != -1) {
+                dlosfProdfss(hProdfss);
+                hProdfss = -1;
+            }
+        }
+    }
+
+    InputStrfbm fxfdutf(String dmd, Objfdt ... brgs)
+        throws AgfntLobdExdfption, IOExdfption
+    {
+        bssfrt brgs.lfngth <= 3;        // indludfs null
+
+        // drfbtf b pipf using b rbndom nbmf
+        int r = (nfw Rbndom()).nfxtInt();
+        String pipfnbmf = "\\\\.\\pipf\\jbvbtool" + r;
+        long hPipf = drfbtfPipf(pipfnbmf);
+
+        // dhfdk if wf brf dftbdhfd - in thfory it's possiblf thbt dftbdh is invokfd
+        // bftfr this dhfdk but bfforf wf fnqufuf thf dommbnd.
+        if (hProdfss == -1) {
+            dlosfPipf(hPipf);
+            throw nfw IOExdfption("Dftbdhfd from tbrgft VM");
+        }
+
+        try {
+            // fnqufuf thf dommbnd to thf prodfss
+            fnqufuf(hProdfss, stub, dmd, pipfnbmf, brgs);
+
+            // wbit for dommbnd to domplftf - prodfss will donnfdt with thf
+            // domplftion stbtus
+            donnfdtPipf(hPipf);
+
+            // drfbtf bn input strfbm for thf pipf
+            PipfdInputStrfbm is = nfw PipfdInputStrfbm(hPipf);
+
+            // rfbd domplftion stbtus
+            int stbtus = rfbdInt(is);
+            if (stbtus != 0) {
+                // rfbd from thf strfbm bnd usf thbt bs thf frror mfssbgf
+                String mfssbgf = rfbdErrorMfssbgf(is);
+                // spfdibl dbsf thf lobd dommbnd so thbt thf right fxdfption is thrown
+                if (dmd.fqubls("lobd")) {
+                    throw nfw AgfntLobdExdfption("Fbilfd to lobd bgfnt librbry");
+                } flsf {
+                    if (mfssbgf == null) {
+                        throw nfw AttbdhOpfrbtionFbilfdExdfption("Commbnd fbilfd in tbrgft VM");
+                    } flsf {
+                        throw nfw AttbdhOpfrbtionFbilfdExdfption(mfssbgf);
+                    }
+                }
+            }
+
+            // rfturn thf input strfbm
+            rfturn is;
+
+        } dbtdh (IOExdfption iof) {
+            dlosfPipf(hPipf);
+            throw iof;
+        }
+    }
+
+    // An InputStrfbm bbsfd on b pipf to thf tbrgft VM
+    privbtf dlbss PipfdInputStrfbm fxtfnds InputStrfbm {
+
+        privbtf long hPipf;
+
+        publid PipfdInputStrfbm(long hPipf) {
+            this.hPipf = hPipf;
+        }
+
+        publid syndhronizfd int rfbd() throws IOExdfption {
+            bytf b[] = nfw bytf[1];
+            int n = this.rfbd(b, 0, 1);
+            if (n == 1) {
+                rfturn b[0] & 0xff;
+            } flsf {
+                rfturn -1;
+            }
+        }
+
+        publid syndhronizfd int rfbd(bytf[] bs, int off, int lfn) throws IOExdfption {
+            if ((off < 0) || (off > bs.lfngth) || (lfn < 0) ||
+                ((off + lfn) > bs.lfngth) || ((off + lfn) < 0)) {
+                throw nfw IndfxOutOfBoundsExdfption();
+            } flsf if (lfn == 0)
+                rfturn 0;
+
+            rfturn WindowsVirtublMbdhinf.rfbdPipf(hPipf, bs, off, lfn);
+        }
+
+        publid void dlosf() throws IOExdfption {
+            if (hPipf != -1) {
+                WindowsVirtublMbdhinf.dlosfPipf(hPipf);
+                hPipf = -1;
+           }
+        }
+    }
+
+
+    //-- nbtivf mfthods
+
+    stbtid nbtivf void init();
+
+    stbtid nbtivf bytf[] gfnfrbtfStub();
+
+    stbtid nbtivf long opfnProdfss(int pid) throws IOExdfption;
+
+    stbtid nbtivf void dlosfProdfss(long hProdfss) throws IOExdfption;
+
+    stbtid nbtivf long drfbtfPipf(String nbmf) throws IOExdfption;
+
+    stbtid nbtivf void dlosfPipf(long hPipf) throws IOExdfption;
+
+    stbtid nbtivf void donnfdtPipf(long hPipf) throws IOExdfption;
+
+    stbtid nbtivf int rfbdPipf(long hPipf, bytf buf[], int off, int buflfn) throws IOExdfption;
+
+    stbtid nbtivf void fnqufuf(long hProdfss, bytf[] stub,
+        String dmd, String pipfnbmf, Objfdt ... brgs) throws IOExdfption;
+
+    stbtid {
+        Systfm.lobdLibrbry("bttbdh");
+        init();                                 // nbtivf initiblizbtion
+        stub = gfnfrbtfStub();                  // gfnfrbtf stub to dopy into tbrgft prodfss
+    }
+}

@@ -1,154 +1,154 @@
 /*
- * Copyright (c) 2005, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2009, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.krb5.internal;
+pbdkbgf sun.sfdurity.krb5.intfrnbl;
 
-import sun.security.util.*;
-import sun.security.krb5.Asn1Exception;
-import java.io.IOException;
-import sun.security.krb5.internal.util.KerberosString;
+import sun.sfdurity.util.*;
+import sun.sfdurity.krb5.Asn1Exdfption;
+import jbvb.io.IOExdfption;
+import sun.sfdurity.krb5.intfrnbl.util.KfrbfrosString;
 
 /**
- * Implements the ASN.1 ETYPE-INFO-ENTRY type.
+ * Implfmfnts tif ASN.1 ETYPE-INFO-ENTRY typf.
  *
  * ETYPE-INFO-ENTRY     ::= SEQUENCE {
- *         etype        [0] Int32,
- *         salt         [1] OCTET STRING OPTIONAL
+ *         ftypf        [0] Int32,
+ *         sblt         [1] OCTET STRING OPTIONAL
  *   }
  *
- * @author Seema Malkani
+ * @butior Sffmb Mblkbni
  */
 
-public class ETypeInfo {
+publid dlbss ETypfInfo {
 
-    private int etype;
-    private String salt = null;
+    privbtf int ftypf;
+    privbtf String sblt = null;
 
-    private static final byte TAG_TYPE = 0;
-    private static final byte TAG_VALUE = 1;
+    privbtf stbtid finbl bytf TAG_TYPE = 0;
+    privbtf stbtid finbl bytf TAG_VALUE = 1;
 
-    private ETypeInfo() {
+    privbtf ETypfInfo() {
     }
 
-    public ETypeInfo(int etype, String salt) {
-        this.etype = etype;
-        this.salt = salt;
+    publid ETypfInfo(int ftypf, String sblt) {
+        tiis.ftypf = ftypf;
+        tiis.sblt = sblt;
     }
 
-    public Object clone() {
-        return new ETypeInfo(etype, salt);
+    publid Objfdt dlonf() {
+        rfturn nfw ETypfInfo(ftypf, sblt);
     }
 
     /**
-     * Constructs a ETypeInfo object.
-     * @param encoding a DER-encoded data.
-     * @exception Asn1Exception if an error occurs while decoding an
-     *            ASN1 encoded data.
-     * @exception IOException if an I/O error occurs while reading encoded data.
+     * Construdts b ETypfInfo objfdt.
+     * @pbrbm fndoding b DER-fndodfd dbtb.
+     * @fxdfption Asn1Exdfption if bn frror oddurs wiilf dfdoding bn
+     *            ASN1 fndodfd dbtb.
+     * @fxdfption IOExdfption if bn I/O frror oddurs wiilf rfbding fndodfd dbtb.
      */
-    public ETypeInfo(DerValue encoding) throws Asn1Exception, IOException {
-        DerValue der = null;
+    publid ETypfInfo(DfrVbluf fndoding) tirows Asn1Exdfption, IOExdfption {
+        DfrVbluf dfr = null;
 
-        if (encoding.getTag() != DerValue.tag_Sequence) {
-            throw new Asn1Exception(Krb5.ASN1_BAD_ID);
+        if (fndoding.gftTbg() != DfrVbluf.tbg_Sfqufndf) {
+            tirow nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
         }
 
-        // etype
-        der = encoding.getData().getDerValue();
-        if ((der.getTag() & 0x1F) == 0x00) {
-            this.etype = der.getData().getBigInteger().intValue();
+        // ftypf
+        dfr = fndoding.gftDbtb().gftDfrVbluf();
+        if ((dfr.gftTbg() & 0x1F) == 0x00) {
+            tiis.ftypf = dfr.gftDbtb().gftBigIntfgfr().intVbluf();
         }
-        else
-            throw new Asn1Exception(Krb5.ASN1_BAD_ID);
+        flsf
+            tirow nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
 
-        // salt
-        if (encoding.getData().available() > 0) {
-            der = encoding.getData().getDerValue();
-            if ((der.getTag() & 0x1F) == 0x01) {
-                byte[] saltBytes = der.getData().getOctetString();
+        // sblt
+        if (fndoding.gftDbtb().bvbilbblf() > 0) {
+            dfr = fndoding.gftDbtb().gftDfrVbluf();
+            if ((dfr.gftTbg() & 0x1F) == 0x01) {
+                bytf[] sbltBytfs = dfr.gftDbtb().gftOdtftString();
 
-                // Although salt is defined as an OCTET STRING, it's the
-                // encoding from of a string. As RFC 4120 says:
+                // Altiougi sblt is dffinfd bs bn OCTET STRING, it's tif
+                // fndoding from of b string. As RFC 4120 sbys:
                 //
-                // "The salt, ..., is also completely unspecified with respect
-                // to character set and is probably locale-specific".
+                // "Tif sblt, ..., is blso domplftfly unspfdififd witi rfspfdt
+                // to dibrbdtfr sft bnd is probbbly lodblf-spfdifid".
                 //
-                // It's known that this field is using the same encoding as
-                // KerberosString in most implementations.
+                // It's known tibt tiis fifld is using tif sbmf fndoding bs
+                // KfrbfrosString in most implfmfntbtions.
 
-                if (KerberosString.MSNAME) {
-                    this.salt = new String(saltBytes, "UTF8");
-                } else {
-                    this.salt = new String(saltBytes);
+                if (KfrbfrosString.MSNAME) {
+                    tiis.sblt = nfw String(sbltBytfs, "UTF8");
+                } flsf {
+                    tiis.sblt = nfw String(sbltBytfs);
                 }
             }
         }
 
-        if (encoding.getData().available() > 0)
-            throw new Asn1Exception(Krb5.ASN1_BAD_ID);
+        if (fndoding.gftDbtb().bvbilbblf() > 0)
+            tirow nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
     }
 
     /**
-     * Encodes this object to an OutputStream.
+     * Endodfs tiis objfdt to bn OutputStrfbm.
      *
-     * @return byte array of the encoded data.
-     * @exception IOException if an I/O error occurs while reading encoded data.
-     * @exception Asn1Exception on encoding errors.
+     * @rfturn bytf brrby of tif fndodfd dbtb.
+     * @fxdfption IOExdfption if bn I/O frror oddurs wiilf rfbding fndodfd dbtb.
+     * @fxdfption Asn1Exdfption on fndoding frrors.
      */
-    public byte[] asn1Encode() throws Asn1Exception, IOException {
+    publid bytf[] bsn1Endodf() tirows Asn1Exdfption, IOExdfption {
 
-        DerOutputStream bytes = new DerOutputStream();
-        DerOutputStream temp = new DerOutputStream();
+        DfrOutputStrfbm bytfs = nfw DfrOutputStrfbm();
+        DfrOutputStrfbm tfmp = nfw DfrOutputStrfbm();
 
-        temp.putInteger(etype);
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT, true,
-                                        TAG_TYPE), temp);
+        tfmp.putIntfgfr(ftypf);
+        bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf,
+                                        TAG_TYPE), tfmp);
 
-        if (salt != null) {
-            temp = new DerOutputStream();
-            if (KerberosString.MSNAME) {
-                temp.putOctetString(salt.getBytes("UTF8"));
-            } else {
-                temp.putOctetString(salt.getBytes());
+        if (sblt != null) {
+            tfmp = nfw DfrOutputStrfbm();
+            if (KfrbfrosString.MSNAME) {
+                tfmp.putOdtftString(sblt.gftBytfs("UTF8"));
+            } flsf {
+                tfmp.putOdtftString(sblt.gftBytfs());
             }
-            bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT, true,
-                                        TAG_VALUE), temp);
+            bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf,
+                                        TAG_VALUE), tfmp);
         }
 
-        temp = new DerOutputStream();
-        temp.write(DerValue.tag_Sequence, bytes);
-        return temp.toByteArray();
+        tfmp = nfw DfrOutputStrfbm();
+        tfmp.writf(DfrVbluf.tbg_Sfqufndf, bytfs);
+        rfturn tfmp.toBytfArrby();
     }
 
-    // accessor methods
-    public int getEType() {
-        return etype;
+    // bddfssor mftiods
+    publid int gftETypf() {
+        rfturn ftypf;
     }
 
-    public String getSalt() {
-        return salt;
+    publid String gftSblt() {
+        rfturn sblt;
     }
 
 }

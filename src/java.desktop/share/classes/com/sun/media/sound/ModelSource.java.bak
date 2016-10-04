@@ -1,109 +1,109 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.media.sound;
+pbdkbgf dom.sun.mfdib.sound;
 
 /**
- * This class is used to identify sources in connection blocks,
- * see ModelConnectionBlock.
+ * Tiis dlbss is usfd to idfntify sourdfs in donnfdtion blodks,
+ * sff ModflConnfdtionBlodk.
  *
- * @author Karl Helgason
+ * @butior Kbrl Hflgbson
  */
-public final class ModelSource {
+publid finbl dlbss ModflSourdf {
 
-    public static final ModelIdentifier SOURCE_NONE = null;
-    public static final ModelIdentifier SOURCE_NOTEON_KEYNUMBER =
-            new ModelIdentifier("noteon", "keynumber");     // midi keynumber
-    public static final ModelIdentifier SOURCE_NOTEON_VELOCITY =
-            new ModelIdentifier("noteon", "velocity");      // midi velocity
-    public static final ModelIdentifier SOURCE_EG1 =
-            new ModelIdentifier("eg", null, 0);
-    public static final ModelIdentifier SOURCE_EG2 =
-            new ModelIdentifier("eg", null, 1);
-    public static final ModelIdentifier SOURCE_LFO1 =
-            new ModelIdentifier("lfo", null, 0);
-    public static final ModelIdentifier SOURCE_LFO2 =
-            new ModelIdentifier("lfo", null, 1);
-    public static final ModelIdentifier SOURCE_MIDI_PITCH =
-            new ModelIdentifier("midi", "pitch", 0);            // (0..16383)
-    public static final ModelIdentifier SOURCE_MIDI_CHANNEL_PRESSURE =
-            new ModelIdentifier("midi", "channel_pressure", 0); // (0..127)
-//    public static final ModelIdentifier SOURCE_MIDI_MONO_PRESSURE =
-//            new ModelIdentifier("midi","mono_pressure",0);    // (0..127)
-    public static final ModelIdentifier SOURCE_MIDI_POLY_PRESSURE =
-            new ModelIdentifier("midi", "poly_pressure", 0);    // (0..127)
-    public static final ModelIdentifier SOURCE_MIDI_CC_0 =
-            new ModelIdentifier("midi_cc", "0", 0);             // (0..127)
-    public static final ModelIdentifier SOURCE_MIDI_RPN_0 =
-            new ModelIdentifier("midi_rpn", "0", 0);            // (0..16383)
-    private ModelIdentifier source = SOURCE_NONE;
-    private ModelTransform transform;
+    publid stbtid finbl ModflIdfntififr SOURCE_NONE = null;
+    publid stbtid finbl ModflIdfntififr SOURCE_NOTEON_KEYNUMBER =
+            nfw ModflIdfntififr("notfon", "kfynumbfr");     // midi kfynumbfr
+    publid stbtid finbl ModflIdfntififr SOURCE_NOTEON_VELOCITY =
+            nfw ModflIdfntififr("notfon", "vflodity");      // midi vflodity
+    publid stbtid finbl ModflIdfntififr SOURCE_EG1 =
+            nfw ModflIdfntififr("fg", null, 0);
+    publid stbtid finbl ModflIdfntififr SOURCE_EG2 =
+            nfw ModflIdfntififr("fg", null, 1);
+    publid stbtid finbl ModflIdfntififr SOURCE_LFO1 =
+            nfw ModflIdfntififr("lfo", null, 0);
+    publid stbtid finbl ModflIdfntififr SOURCE_LFO2 =
+            nfw ModflIdfntififr("lfo", null, 1);
+    publid stbtid finbl ModflIdfntififr SOURCE_MIDI_PITCH =
+            nfw ModflIdfntififr("midi", "pitdi", 0);            // (0..16383)
+    publid stbtid finbl ModflIdfntififr SOURCE_MIDI_CHANNEL_PRESSURE =
+            nfw ModflIdfntififr("midi", "dibnnfl_prfssurf", 0); // (0..127)
+//    publid stbtid finbl ModflIdfntififr SOURCE_MIDI_MONO_PRESSURE =
+//            nfw ModflIdfntififr("midi","mono_prfssurf",0);    // (0..127)
+    publid stbtid finbl ModflIdfntififr SOURCE_MIDI_POLY_PRESSURE =
+            nfw ModflIdfntififr("midi", "poly_prfssurf", 0);    // (0..127)
+    publid stbtid finbl ModflIdfntififr SOURCE_MIDI_CC_0 =
+            nfw ModflIdfntififr("midi_dd", "0", 0);             // (0..127)
+    publid stbtid finbl ModflIdfntififr SOURCE_MIDI_RPN_0 =
+            nfw ModflIdfntififr("midi_rpn", "0", 0);            // (0..16383)
+    privbtf ModflIdfntififr sourdf = SOURCE_NONE;
+    privbtf ModflTrbnsform trbnsform;
 
-    public ModelSource() {
-        this.transform = new ModelStandardTransform();
+    publid ModflSourdf() {
+        tiis.trbnsform = nfw ModflStbndbrdTrbnsform();
     }
 
-    public ModelSource(ModelIdentifier id) {
-        source = id;
-        this.transform = new ModelStandardTransform();
+    publid ModflSourdf(ModflIdfntififr id) {
+        sourdf = id;
+        tiis.trbnsform = nfw ModflStbndbrdTrbnsform();
     }
 
-    public ModelSource(ModelIdentifier id, boolean direction) {
-        source = id;
-        this.transform = new ModelStandardTransform(direction);
+    publid ModflSourdf(ModflIdfntififr id, boolfbn dirfdtion) {
+        sourdf = id;
+        tiis.trbnsform = nfw ModflStbndbrdTrbnsform(dirfdtion);
     }
 
-    public ModelSource(ModelIdentifier id, boolean direction, boolean polarity) {
-        source = id;
-        this.transform = new ModelStandardTransform(direction, polarity);
+    publid ModflSourdf(ModflIdfntififr id, boolfbn dirfdtion, boolfbn polbrity) {
+        sourdf = id;
+        tiis.trbnsform = nfw ModflStbndbrdTrbnsform(dirfdtion, polbrity);
     }
 
-    public ModelSource(ModelIdentifier id, boolean direction, boolean polarity,
-            int transform) {
-        source = id;
-        this.transform =
-                new ModelStandardTransform(direction, polarity, transform);
+    publid ModflSourdf(ModflIdfntififr id, boolfbn dirfdtion, boolfbn polbrity,
+            int trbnsform) {
+        sourdf = id;
+        tiis.trbnsform =
+                nfw ModflStbndbrdTrbnsform(dirfdtion, polbrity, trbnsform);
     }
 
-    public ModelSource(ModelIdentifier id, ModelTransform transform) {
-        source = id;
-        this.transform = transform;
+    publid ModflSourdf(ModflIdfntififr id, ModflTrbnsform trbnsform) {
+        sourdf = id;
+        tiis.trbnsform = trbnsform;
     }
 
-    public ModelIdentifier getIdentifier() {
-        return source;
+    publid ModflIdfntififr gftIdfntififr() {
+        rfturn sourdf;
     }
 
-    public void setIdentifier(ModelIdentifier source) {
-        this.source = source;
+    publid void sftIdfntififr(ModflIdfntififr sourdf) {
+        tiis.sourdf = sourdf;
     }
 
-    public ModelTransform getTransform() {
-        return transform;
+    publid ModflTrbnsform gftTrbnsform() {
+        rfturn trbnsform;
     }
 
-    public void setTransform(ModelTransform transform) {
-        this.transform = transform;
+    publid void sftTrbnsform(ModflTrbnsform trbnsform) {
+        tiis.trbnsform = trbnsform;
     }
 }

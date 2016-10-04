@@ -1,53 +1,53 @@
 /*
- * Copyright (c) 2002, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jndi.ldap.pool;
+pbdkbgf dom.sun.jndi.ldbp.pool;
 
 /**
- * Represents a connection that is managed in a pool. The connection
- * may be reused by multiple clients.
+ * Rfprfsfnts b donnfdtion tibt is mbnbgfd in b pool. Tif donnfdtion
+ * mby bf rfusfd by multiplf dlifnts.
  *
- * A pooled connection typically has a close method that its clients
- * use to indicate that they no longer need the connection. This close
- * method would interact with the connection pool to return the connection
- * to the pool (see PoolCallback).
+ * A poolfd donnfdtion typidblly ibs b dlosf mftiod tibt its dlifnts
+ * usf to indidbtf tibt tify no longfr nffd tif donnfdtion. Tiis dlosf
+ * mftiod would intfrbdt witi tif donnfdtion pool to rfturn tif donnfdtion
+ * to tif pool (sff PoolCbllbbdk).
  *<p>
- * The pooled connection also needs to provide a close method that the
- * connection pool can use to physically close the connection.
- * The pool might need to physically close the connection as determined
- * by the pool's policy (for example, to manage the pool size or idle
- * connections). This second close method should *not* use PoolCallback
- * methods. It should only do what is required to close the physical
- * connection.
+ * Tif poolfd donnfdtion blso nffds to providf b dlosf mftiod tibt tif
+ * donnfdtion pool dbn usf to piysidblly dlosf tif donnfdtion.
+ * Tif pool migit nffd to piysidblly dlosf tif donnfdtion bs dftfrminfd
+ * by tif pool's polidy (for fxbmplf, to mbnbgf tif pool sizf or idlf
+ * donnfdtions). Tiis sfdond dlosf mftiod siould *not* usf PoolCbllbbdk
+ * mftiods. It siould only do wibt is rfquirfd to dlosf tif piysidbl
+ * donnfdtion.
  *
- * @author Rosanna Lee
+ * @butior Rosbnnb Lff
  */
-public interface PooledConnection {
+publid intfrfbdf PoolfdConnfdtion {
 
     /**
-     * Closes the physical connection.
+     * Closfs tif piysidbl donnfdtion.
      */
-    public abstract void closeConnection();
+    publid bbstrbdt void dlosfConnfdtion();
 }

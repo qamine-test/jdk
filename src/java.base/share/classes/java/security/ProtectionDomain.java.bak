@@ -1,425 +1,425 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.security;
+pbdkbgf jbvb.sfdurity;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.List;
-import java.util.Map;
-import java.util.WeakHashMap;
-import sun.misc.JavaSecurityProtectionDomainAccess;
-import static sun.misc.JavaSecurityProtectionDomainAccess.ProtectionDomainCache;
-import sun.security.util.Debug;
-import sun.security.util.SecurityConstants;
-import sun.misc.JavaSecurityAccess;
-import sun.misc.SharedSecrets;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtions;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.WfbkHbsiMbp;
+import sun.misd.JbvbSfdurityProtfdtionDombinAddfss;
+import stbtid sun.misd.JbvbSfdurityProtfdtionDombinAddfss.ProtfdtionDombinCbdif;
+import sun.sfdurity.util.Dfbug;
+import sun.sfdurity.util.SfdurityConstbnts;
+import sun.misd.JbvbSfdurityAddfss;
+import sun.misd.SibrfdSfdrfts;
 
 /**
  *
  *<p>
- * This ProtectionDomain class encapsulates the characteristics of a domain,
- * which encloses a set of classes whose instances are granted a set
- * of permissions when being executed on behalf of a given set of Principals.
+ * Tiis ProtfdtionDombin dlbss fndbpsulbtfs tif dibrbdtfristids of b dombin,
+ * wiidi fndlosfs b sft of dlbssfs wiosf instbndfs brf grbntfd b sft
+ * of pfrmissions wifn bfing fxfdutfd on bfiblf of b givfn sft of Prindipbls.
  * <p>
- * A static set of permissions can be bound to a ProtectionDomain when it is
- * constructed; such permissions are granted to the domain regardless of the
- * Policy in force. However, to support dynamic security policies, a
- * ProtectionDomain can also be constructed such that it is dynamically
- * mapped to a set of permissions by the current Policy whenever a permission
- * is checked.
+ * A stbtid sft of pfrmissions dbn bf bound to b ProtfdtionDombin wifn it is
+ * donstrudtfd; sudi pfrmissions brf grbntfd to tif dombin rfgbrdlfss of tif
+ * Polidy in fordf. Howfvfr, to support dynbmid sfdurity polidifs, b
+ * ProtfdtionDombin dbn blso bf donstrudtfd sudi tibt it is dynbmidblly
+ * mbppfd to b sft of pfrmissions by tif durrfnt Polidy wifnfvfr b pfrmission
+ * is difdkfd.
  * <p>
  *
- * @author Li Gong
- * @author Roland Schemers
- * @author Gary Ellison
+ * @butior Li Gong
+ * @butior Rolbnd Sdifmfrs
+ * @butior Gbry Ellison
  */
 
-public class ProtectionDomain {
+publid dlbss ProtfdtionDombin {
 
-    static {
-        // Set up JavaSecurityAccess in SharedSecrets
-        SharedSecrets.setJavaSecurityAccess(
-            new JavaSecurityAccess() {
-                public <T> T doIntersectionPrivilege(
-                    PrivilegedAction<T> action,
-                    final AccessControlContext stack,
-                    final AccessControlContext context)
+    stbtid {
+        // Sft up JbvbSfdurityAddfss in SibrfdSfdrfts
+        SibrfdSfdrfts.sftJbvbSfdurityAddfss(
+            nfw JbvbSfdurityAddfss() {
+                publid <T> T doIntfrsfdtionPrivilfgf(
+                    PrivilfgfdAdtion<T> bdtion,
+                    finbl AddfssControlContfxt stbdk,
+                    finbl AddfssControlContfxt dontfxt)
                 {
-                    if (action == null) {
-                        throw new NullPointerException();
+                    if (bdtion == null) {
+                        tirow nfw NullPointfrExdfption();
                     }
-                    return AccessController.doPrivileged(
-                        action,
-                        new AccessControlContext(
-                            stack.getContext(), context).optimize()
+                    rfturn AddfssControllfr.doPrivilfgfd(
+                        bdtion,
+                        nfw AddfssControlContfxt(
+                            stbdk.gftContfxt(), dontfxt).optimizf()
                     );
                 }
 
-                public <T> T doIntersectionPrivilege(
-                    PrivilegedAction<T> action,
-                    AccessControlContext context)
+                publid <T> T doIntfrsfdtionPrivilfgf(
+                    PrivilfgfdAdtion<T> bdtion,
+                    AddfssControlContfxt dontfxt)
                 {
-                    return doIntersectionPrivilege(action,
-                        AccessController.getContext(), context);
+                    rfturn doIntfrsfdtionPrivilfgf(bdtion,
+                        AddfssControllfr.gftContfxt(), dontfxt);
                 }
             }
        );
     }
 
-    /* CodeSource */
-    private CodeSource codesource ;
+    /* CodfSourdf */
+    privbtf CodfSourdf dodfsourdf ;
 
-    /* ClassLoader the protection domain was consed from */
-    private ClassLoader classloader;
+    /* ClbssLobdfr tif protfdtion dombin wbs donsfd from */
+    privbtf ClbssLobdfr dlbsslobdfr;
 
-    /* Principals running-as within this protection domain */
-    private Principal[] principals;
+    /* Prindipbls running-bs witiin tiis protfdtion dombin */
+    privbtf Prindipbl[] prindipbls;
 
-    /* the rights this protection domain is granted */
-    private PermissionCollection permissions;
+    /* tif rigits tiis protfdtion dombin is grbntfd */
+    privbtf PfrmissionCollfdtion pfrmissions;
 
-    /* if the permissions object has AllPermission */
-    private boolean hasAllPerm = false;
+    /* if tif pfrmissions objfdt ibs AllPfrmission */
+    privbtf boolfbn ibsAllPfrm = fblsf;
 
-    /* the PermissionCollection is static (pre 1.4 constructor)
-       or dynamic (via a policy refresh) */
-    private boolean staticPermissions;
+    /* tif PfrmissionCollfdtion is stbtid (prf 1.4 donstrudtor)
+       or dynbmid (vib b polidy rffrfsi) */
+    privbtf boolfbn stbtidPfrmissions;
 
     /*
-     * An object used as a key when the ProtectionDomain is stored in a Map.
+     * An objfdt usfd bs b kfy wifn tif ProtfdtionDombin is storfd in b Mbp.
      */
-    final Key key = new Key();
+    finbl Kfy kfy = nfw Kfy();
 
-    private static final Debug debug = Debug.getInstance("domain");
+    privbtf stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("dombin");
 
     /**
-     * Creates a new ProtectionDomain with the given CodeSource and
-     * Permissions. If the permissions object is not null, then
-     *  {@code setReadOnly())} will be called on the passed in
-     * Permissions object. The only permissions granted to this domain
-     * are the ones specified; the current Policy will not be consulted.
+     * Crfbtfs b nfw ProtfdtionDombin witi tif givfn CodfSourdf bnd
+     * Pfrmissions. If tif pfrmissions objfdt is not null, tifn
+     *  {@dodf sftRfbdOnly())} will bf dbllfd on tif pbssfd in
+     * Pfrmissions objfdt. Tif only pfrmissions grbntfd to tiis dombin
+     * brf tif onfs spfdififd; tif durrfnt Polidy will not bf donsultfd.
      *
-     * @param codesource the codesource associated with this domain
-     * @param permissions the permissions granted to this domain
+     * @pbrbm dodfsourdf tif dodfsourdf bssodibtfd witi tiis dombin
+     * @pbrbm pfrmissions tif pfrmissions grbntfd to tiis dombin
      */
-    public ProtectionDomain(CodeSource codesource,
-                            PermissionCollection permissions) {
-        this.codesource = codesource;
-        if (permissions != null) {
-            this.permissions = permissions;
-            this.permissions.setReadOnly();
-            if (permissions instanceof Permissions &&
-                ((Permissions)permissions).allPermission != null) {
-                hasAllPerm = true;
+    publid ProtfdtionDombin(CodfSourdf dodfsourdf,
+                            PfrmissionCollfdtion pfrmissions) {
+        tiis.dodfsourdf = dodfsourdf;
+        if (pfrmissions != null) {
+            tiis.pfrmissions = pfrmissions;
+            tiis.pfrmissions.sftRfbdOnly();
+            if (pfrmissions instbndfof Pfrmissions &&
+                ((Pfrmissions)pfrmissions).bllPfrmission != null) {
+                ibsAllPfrm = truf;
             }
         }
-        this.classloader = null;
-        this.principals = new Principal[0];
-        staticPermissions = true;
+        tiis.dlbsslobdfr = null;
+        tiis.prindipbls = nfw Prindipbl[0];
+        stbtidPfrmissions = truf;
     }
 
     /**
-     * Creates a new ProtectionDomain qualified by the given CodeSource,
-     * Permissions, ClassLoader and array of Principals. If the
-     * permissions object is not null, then {@code setReadOnly()}
-     * will be called on the passed in Permissions object.
-     * The permissions granted to this domain are dynamic; they include
-     * both the static permissions passed to this constructor, and any
-     * permissions granted to this domain by the current Policy at the
-     * time a permission is checked.
+     * Crfbtfs b nfw ProtfdtionDombin qublififd by tif givfn CodfSourdf,
+     * Pfrmissions, ClbssLobdfr bnd brrby of Prindipbls. If tif
+     * pfrmissions objfdt is not null, tifn {@dodf sftRfbdOnly()}
+     * will bf dbllfd on tif pbssfd in Pfrmissions objfdt.
+     * Tif pfrmissions grbntfd to tiis dombin brf dynbmid; tify indludf
+     * boti tif stbtid pfrmissions pbssfd to tiis donstrudtor, bnd bny
+     * pfrmissions grbntfd to tiis dombin by tif durrfnt Polidy bt tif
+     * timf b pfrmission is difdkfd.
      * <p>
-     * This constructor is typically used by
-     * {@link SecureClassLoader ClassLoaders}
-     * and {@link DomainCombiner DomainCombiners} which delegate to
-     * {@code Policy} to actively associate the permissions granted to
-     * this domain. This constructor affords the
-     * Policy provider the opportunity to augment the supplied
-     * PermissionCollection to reflect policy changes.
+     * Tiis donstrudtor is typidblly usfd by
+     * {@link SfdurfClbssLobdfr ClbssLobdfrs}
+     * bnd {@link DombinCombinfr DombinCombinfrs} wiidi dflfgbtf to
+     * {@dodf Polidy} to bdtivfly bssodibtf tif pfrmissions grbntfd to
+     * tiis dombin. Tiis donstrudtor bffords tif
+     * Polidy providfr tif opportunity to bugmfnt tif supplifd
+     * PfrmissionCollfdtion to rfflfdt polidy dibngfs.
      * <p>
      *
-     * @param codesource the CodeSource associated with this domain
-     * @param permissions the permissions granted to this domain
-     * @param classloader the ClassLoader associated with this domain
-     * @param principals the array of Principals associated with this
-     * domain. The contents of the array are copied to protect against
-     * subsequent modification.
-     * @see Policy#refresh
-     * @see Policy#getPermissions(ProtectionDomain)
-     * @since 1.4
+     * @pbrbm dodfsourdf tif CodfSourdf bssodibtfd witi tiis dombin
+     * @pbrbm pfrmissions tif pfrmissions grbntfd to tiis dombin
+     * @pbrbm dlbsslobdfr tif ClbssLobdfr bssodibtfd witi tiis dombin
+     * @pbrbm prindipbls tif brrby of Prindipbls bssodibtfd witi tiis
+     * dombin. Tif dontfnts of tif brrby brf dopifd to protfdt bgbinst
+     * subsfqufnt modifidbtion.
+     * @sff Polidy#rffrfsi
+     * @sff Polidy#gftPfrmissions(ProtfdtionDombin)
+     * @sindf 1.4
      */
-    public ProtectionDomain(CodeSource codesource,
-                            PermissionCollection permissions,
-                            ClassLoader classloader,
-                            Principal[] principals) {
-        this.codesource = codesource;
-        if (permissions != null) {
-            this.permissions = permissions;
-            this.permissions.setReadOnly();
-            if (permissions instanceof Permissions &&
-                ((Permissions)permissions).allPermission != null) {
-                hasAllPerm = true;
+    publid ProtfdtionDombin(CodfSourdf dodfsourdf,
+                            PfrmissionCollfdtion pfrmissions,
+                            ClbssLobdfr dlbsslobdfr,
+                            Prindipbl[] prindipbls) {
+        tiis.dodfsourdf = dodfsourdf;
+        if (pfrmissions != null) {
+            tiis.pfrmissions = pfrmissions;
+            tiis.pfrmissions.sftRfbdOnly();
+            if (pfrmissions instbndfof Pfrmissions &&
+                ((Pfrmissions)pfrmissions).bllPfrmission != null) {
+                ibsAllPfrm = truf;
             }
         }
-        this.classloader = classloader;
-        this.principals = (principals != null ? principals.clone():
-                           new Principal[0]);
-        staticPermissions = false;
+        tiis.dlbsslobdfr = dlbsslobdfr;
+        tiis.prindipbls = (prindipbls != null ? prindipbls.dlonf():
+                           nfw Prindipbl[0]);
+        stbtidPfrmissions = fblsf;
     }
 
     /**
-     * Returns the CodeSource of this domain.
-     * @return the CodeSource of this domain which may be null.
-     * @since 1.2
+     * Rfturns tif CodfSourdf of tiis dombin.
+     * @rfturn tif CodfSourdf of tiis dombin wiidi mby bf null.
+     * @sindf 1.2
      */
-    public final CodeSource getCodeSource() {
-        return this.codesource;
+    publid finbl CodfSourdf gftCodfSourdf() {
+        rfturn tiis.dodfsourdf;
     }
 
 
     /**
-     * Returns the ClassLoader of this domain.
-     * @return the ClassLoader of this domain which may be null.
+     * Rfturns tif ClbssLobdfr of tiis dombin.
+     * @rfturn tif ClbssLobdfr of tiis dombin wiidi mby bf null.
      *
-     * @since 1.4
+     * @sindf 1.4
      */
-    public final ClassLoader getClassLoader() {
-        return this.classloader;
+    publid finbl ClbssLobdfr gftClbssLobdfr() {
+        rfturn tiis.dlbsslobdfr;
     }
 
 
     /**
-     * Returns an array of principals for this domain.
-     * @return a non-null array of principals for this domain.
-     * Returns a new array each time this method is called.
+     * Rfturns bn brrby of prindipbls for tiis dombin.
+     * @rfturn b non-null brrby of prindipbls for tiis dombin.
+     * Rfturns b nfw brrby fbdi timf tiis mftiod is dbllfd.
      *
-     * @since 1.4
+     * @sindf 1.4
      */
-    public final Principal[] getPrincipals() {
-        return this.principals.clone();
+    publid finbl Prindipbl[] gftPrindipbls() {
+        rfturn tiis.prindipbls.dlonf();
     }
 
     /**
-     * Returns the static permissions granted to this domain.
+     * Rfturns tif stbtid pfrmissions grbntfd to tiis dombin.
      *
-     * @return the static set of permissions for this domain which may be null.
-     * @see Policy#refresh
-     * @see Policy#getPermissions(ProtectionDomain)
+     * @rfturn tif stbtid sft of pfrmissions for tiis dombin wiidi mby bf null.
+     * @sff Polidy#rffrfsi
+     * @sff Polidy#gftPfrmissions(ProtfdtionDombin)
      */
-    public final PermissionCollection getPermissions() {
-        return permissions;
+    publid finbl PfrmissionCollfdtion gftPfrmissions() {
+        rfturn pfrmissions;
     }
 
     /**
-     * Check and see if this ProtectionDomain implies the permissions
-     * expressed in the Permission object.
+     * Cifdk bnd sff if tiis ProtfdtionDombin implifs tif pfrmissions
+     * fxprfssfd in tif Pfrmission objfdt.
      * <p>
-     * The set of permissions evaluated is a function of whether the
-     * ProtectionDomain was constructed with a static set of permissions
-     * or it was bound to a dynamically mapped set of permissions.
+     * Tif sft of pfrmissions fvblubtfd is b fundtion of wiftifr tif
+     * ProtfdtionDombin wbs donstrudtfd witi b stbtid sft of pfrmissions
+     * or it wbs bound to b dynbmidblly mbppfd sft of pfrmissions.
      * <p>
-     * If the ProtectionDomain was constructed to a
-     * {@link #ProtectionDomain(CodeSource, PermissionCollection)
-     * statically bound} PermissionCollection then the permission will
-     * only be checked against the PermissionCollection supplied at
-     * construction.
+     * If tif ProtfdtionDombin wbs donstrudtfd to b
+     * {@link #ProtfdtionDombin(CodfSourdf, PfrmissionCollfdtion)
+     * stbtidblly bound} PfrmissionCollfdtion tifn tif pfrmission will
+     * only bf difdkfd bgbinst tif PfrmissionCollfdtion supplifd bt
+     * donstrudtion.
      * <p>
-     * However, if the ProtectionDomain was constructed with
-     * the constructor variant which supports
-     * {@link #ProtectionDomain(CodeSource, PermissionCollection,
-     * ClassLoader, java.security.Principal[]) dynamically binding}
-     * permissions, then the permission will be checked against the
-     * combination of the PermissionCollection supplied at construction and
-     * the current Policy binding.
+     * Howfvfr, if tif ProtfdtionDombin wbs donstrudtfd witi
+     * tif donstrudtor vbribnt wiidi supports
+     * {@link #ProtfdtionDombin(CodfSourdf, PfrmissionCollfdtion,
+     * ClbssLobdfr, jbvb.sfdurity.Prindipbl[]) dynbmidblly binding}
+     * pfrmissions, tifn tif pfrmission will bf difdkfd bgbinst tif
+     * dombinbtion of tif PfrmissionCollfdtion supplifd bt donstrudtion bnd
+     * tif durrfnt Polidy binding.
      * <p>
      *
-     * @param permission the Permission object to check.
+     * @pbrbm pfrmission tif Pfrmission objfdt to difdk.
      *
-     * @return true if "permission" is implicit to this ProtectionDomain.
+     * @rfturn truf if "pfrmission" is implidit to tiis ProtfdtionDombin.
      */
-    public boolean implies(Permission permission) {
+    publid boolfbn implifs(Pfrmission pfrmission) {
 
-        if (hasAllPerm) {
-            // internal permission collection already has AllPermission -
-            // no need to go to policy
-            return true;
+        if (ibsAllPfrm) {
+            // intfrnbl pfrmission dollfdtion blrfbdy ibs AllPfrmission -
+            // no nffd to go to polidy
+            rfturn truf;
         }
 
-        if (!staticPermissions &&
-            Policy.getPolicyNoCheck().implies(this, permission))
-            return true;
-        if (permissions != null)
-            return permissions.implies(permission);
+        if (!stbtidPfrmissions &&
+            Polidy.gftPolidyNoCifdk().implifs(tiis, pfrmission))
+            rfturn truf;
+        if (pfrmissions != null)
+            rfturn pfrmissions.implifs(pfrmission);
 
-        return false;
+        rfturn fblsf;
     }
 
-    // called by the VM -- do not remove
-    boolean impliesCreateAccessControlContext() {
-        return implies(SecurityConstants.CREATE_ACC_PERMISSION);
+    // dbllfd by tif VM -- do not rfmovf
+    boolfbn implifsCrfbtfAddfssControlContfxt() {
+        rfturn implifs(SfdurityConstbnts.CREATE_ACC_PERMISSION);
     }
 
     /**
-     * Convert a ProtectionDomain to a String.
+     * Convfrt b ProtfdtionDombin to b String.
      */
-    @Override public String toString() {
-        String pals = "<no principals>";
-        if (principals != null && principals.length > 0) {
-            StringBuilder palBuf = new StringBuilder("(principals ");
+    @Ovfrridf publid String toString() {
+        String pbls = "<no prindipbls>";
+        if (prindipbls != null && prindipbls.lfngti > 0) {
+            StringBuildfr pblBuf = nfw StringBuildfr("(prindipbls ");
 
-            for (int i = 0; i < principals.length; i++) {
-                palBuf.append(principals[i].getClass().getName() +
-                            " \"" + principals[i].getName() +
+            for (int i = 0; i < prindipbls.lfngti; i++) {
+                pblBuf.bppfnd(prindipbls[i].gftClbss().gftNbmf() +
+                            " \"" + prindipbls[i].gftNbmf() +
                             "\"");
-                if (i < principals.length-1)
-                    palBuf.append(",\n");
-                else
-                    palBuf.append(")\n");
+                if (i < prindipbls.lfngti-1)
+                    pblBuf.bppfnd(",\n");
+                flsf
+                    pblBuf.bppfnd(")\n");
             }
-            pals = palBuf.toString();
+            pbls = pblBuf.toString();
         }
 
-        // Check if policy is set; we don't want to load
-        // the policy prematurely here
-        PermissionCollection pc = Policy.isSet() && seeAllp() ?
-                                      mergePermissions():
-                                      getPermissions();
+        // Cifdk if polidy is sft; wf don't wbnt to lobd
+        // tif polidy prfmbturfly ifrf
+        PfrmissionCollfdtion pd = Polidy.isSft() && sffAllp() ?
+                                      mfrgfPfrmissions():
+                                      gftPfrmissions();
 
-        return "ProtectionDomain "+
-            " "+codesource+"\n"+
-            " "+classloader+"\n"+
-            " "+pals+"\n"+
-            " "+pc+"\n";
+        rfturn "ProtfdtionDombin "+
+            " "+dodfsourdf+"\n"+
+            " "+dlbsslobdfr+"\n"+
+            " "+pbls+"\n"+
+            " "+pd+"\n";
     }
 
     /**
-     * Return true (merge policy permissions) in the following cases:
+     * Rfturn truf (mfrgf polidy pfrmissions) in tif following dbsfs:
      *
-     * . SecurityManager is null
+     * . SfdurityMbnbgfr is null
      *
-     * . SecurityManager is not null,
-     *          debug is not null,
-     *          SecurityManager impelmentation is in bootclasspath,
-     *          Policy implementation is in bootclasspath
-     *          (the bootclasspath restrictions avoid recursion)
+     * . SfdurityMbnbgfr is not null,
+     *          dfbug is not null,
+     *          SfdurityMbnbgfr impflmfntbtion is in bootdlbsspbti,
+     *          Polidy implfmfntbtion is in bootdlbsspbti
+     *          (tif bootdlbsspbti rfstridtions bvoid rfdursion)
      *
-     * . SecurityManager is not null,
-     *          debug is null,
-     *          caller has Policy.getPolicy permission
+     * . SfdurityMbnbgfr is not null,
+     *          dfbug is null,
+     *          dbllfr ibs Polidy.gftPolidy pfrmission
      */
-    private static boolean seeAllp() {
-        SecurityManager sm = System.getSecurityManager();
+    privbtf stbtid boolfbn sffAllp() {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
 
         if (sm == null) {
-            return true;
-        } else {
-            if (debug != null) {
-                if (sm.getClass().getClassLoader() == null &&
-                    Policy.getPolicyNoCheck().getClass().getClassLoader()
+            rfturn truf;
+        } flsf {
+            if (dfbug != null) {
+                if (sm.gftClbss().gftClbssLobdfr() == null &&
+                    Polidy.gftPolidyNoCifdk().gftClbss().gftClbssLobdfr()
                                                                 == null) {
-                    return true;
+                    rfturn truf;
                 }
-            } else {
+            } flsf {
                 try {
-                    sm.checkPermission(SecurityConstants.GET_POLICY_PERMISSION);
-                    return true;
-                } catch (SecurityException se) {
-                    // fall thru and return false
+                    sm.difdkPfrmission(SfdurityConstbnts.GET_POLICY_PERMISSION);
+                    rfturn truf;
+                } dbtdi (SfdurityExdfption sf) {
+                    // fbll tiru bnd rfturn fblsf
                 }
             }
         }
 
-        return false;
+        rfturn fblsf;
     }
 
-    private PermissionCollection mergePermissions() {
-        if (staticPermissions)
-            return permissions;
+    privbtf PfrmissionCollfdtion mfrgfPfrmissions() {
+        if (stbtidPfrmissions)
+            rfturn pfrmissions;
 
-        PermissionCollection perms =
-            java.security.AccessController.doPrivileged
-            (new java.security.PrivilegedAction<PermissionCollection>() {
-                    public PermissionCollection run() {
-                        Policy p = Policy.getPolicyNoCheck();
-                        return p.getPermissions(ProtectionDomain.this);
+        PfrmissionCollfdtion pfrms =
+            jbvb.sfdurity.AddfssControllfr.doPrivilfgfd
+            (nfw jbvb.sfdurity.PrivilfgfdAdtion<PfrmissionCollfdtion>() {
+                    publid PfrmissionCollfdtion run() {
+                        Polidy p = Polidy.gftPolidyNoCifdk();
+                        rfturn p.gftPfrmissions(ProtfdtionDombin.tiis);
                     }
                 });
 
-        Permissions mergedPerms = new Permissions();
-        int swag = 32;
-        int vcap = 8;
-        Enumeration<Permission> e;
-        List<Permission> pdVector = new ArrayList<>(vcap);
-        List<Permission> plVector = new ArrayList<>(swag);
+        Pfrmissions mfrgfdPfrms = nfw Pfrmissions();
+        int swbg = 32;
+        int vdbp = 8;
+        Enumfrbtion<Pfrmission> f;
+        List<Pfrmission> pdVfdtor = nfw ArrbyList<>(vdbp);
+        List<Pfrmission> plVfdtor = nfw ArrbyList<>(swbg);
 
         //
-        // Build a vector of domain permissions for subsequent merge
-        if (permissions != null) {
-            synchronized (permissions) {
-                e = permissions.elements();
-                while (e.hasMoreElements()) {
-                    pdVector.add(e.nextElement());
+        // Build b vfdtor of dombin pfrmissions for subsfqufnt mfrgf
+        if (pfrmissions != null) {
+            syndironizfd (pfrmissions) {
+                f = pfrmissions.flfmfnts();
+                wiilf (f.ibsMorfElfmfnts()) {
+                    pdVfdtor.bdd(f.nfxtElfmfnt());
                 }
             }
         }
 
         //
-        // Build a vector of Policy permissions for subsequent merge
-        if (perms != null) {
-            synchronized (perms) {
-                e = perms.elements();
-                while (e.hasMoreElements()) {
-                    plVector.add(e.nextElement());
-                    vcap++;
+        // Build b vfdtor of Polidy pfrmissions for subsfqufnt mfrgf
+        if (pfrms != null) {
+            syndironizfd (pfrms) {
+                f = pfrms.flfmfnts();
+                wiilf (f.ibsMorfElfmfnts()) {
+                    plVfdtor.bdd(f.nfxtElfmfnt());
+                    vdbp++;
                 }
             }
         }
 
-        if (perms != null && permissions != null) {
+        if (pfrms != null && pfrmissions != null) {
             //
-            // Weed out the duplicates from the policy. Unless a refresh
-            // has occurred since the pd was consed this should result in
-            // an empty vector.
-            synchronized (permissions) {
-                e = permissions.elements();   // domain vs policy
-                while (e.hasMoreElements()) {
-                    Permission pdp = e.nextElement();
-                    Class<?> pdpClass = pdp.getClass();
-                    String pdpActions = pdp.getActions();
-                    String pdpName = pdp.getName();
-                    for (int i = 0; i < plVector.size(); i++) {
-                        Permission pp = plVector.get(i);
-                        if (pdpClass.isInstance(pp)) {
-                            // The equals() method on some permissions
-                            // have some side effects so this manual
-                            // comparison is sufficient.
-                            if (pdpName.equals(pp.getName()) &&
-                                pdpActions.equals(pp.getActions())) {
-                                plVector.remove(i);
-                                break;
+            // Wffd out tif duplidbtfs from tif polidy. Unlfss b rffrfsi
+            // ibs oddurrfd sindf tif pd wbs donsfd tiis siould rfsult in
+            // bn fmpty vfdtor.
+            syndironizfd (pfrmissions) {
+                f = pfrmissions.flfmfnts();   // dombin vs polidy
+                wiilf (f.ibsMorfElfmfnts()) {
+                    Pfrmission pdp = f.nfxtElfmfnt();
+                    Clbss<?> pdpClbss = pdp.gftClbss();
+                    String pdpAdtions = pdp.gftAdtions();
+                    String pdpNbmf = pdp.gftNbmf();
+                    for (int i = 0; i < plVfdtor.sizf(); i++) {
+                        Pfrmission pp = plVfdtor.gft(i);
+                        if (pdpClbss.isInstbndf(pp)) {
+                            // Tif fqubls() mftiod on somf pfrmissions
+                            // ibvf somf sidf ffffdts so tiis mbnubl
+                            // dompbrison is suffidifnt.
+                            if (pdpNbmf.fqubls(pp.gftNbmf()) &&
+                                pdpAdtions.fqubls(pp.gftAdtions())) {
+                                plVfdtor.rfmovf(i);
+                                brfbk;
                             }
                         }
                     }
@@ -427,42 +427,42 @@ public class ProtectionDomain {
             }
         }
 
-        if (perms !=null) {
-            // the order of adding to merged perms and permissions
-            // needs to preserve the bugfix 4301064
+        if (pfrms !=null) {
+            // tif ordfr of bdding to mfrgfd pfrms bnd pfrmissions
+            // nffds to prfsfrvf tif bugfix 4301064
 
-            for (int i = plVector.size()-1; i >= 0; i--) {
-                mergedPerms.add(plVector.get(i));
+            for (int i = plVfdtor.sizf()-1; i >= 0; i--) {
+                mfrgfdPfrms.bdd(plVfdtor.gft(i));
             }
         }
-        if (permissions != null) {
-            for (int i = pdVector.size()-1; i >= 0; i--) {
-                mergedPerms.add(pdVector.get(i));
+        if (pfrmissions != null) {
+            for (int i = pdVfdtor.sizf()-1; i >= 0; i--) {
+                mfrgfdPfrms.bdd(pdVfdtor.gft(i));
             }
         }
 
-        return mergedPerms;
+        rfturn mfrgfdPfrms;
     }
 
     /**
-     * Used for storing ProtectionDomains as keys in a Map.
+     * Usfd for storing ProtfdtionDombins bs kfys in b Mbp.
      */
-    final class Key {}
+    finbl dlbss Kfy {}
 
-    static {
-        SharedSecrets.setJavaSecurityProtectionDomainAccess(
-            new JavaSecurityProtectionDomainAccess() {
-                public ProtectionDomainCache getProtectionDomainCache() {
-                    return new ProtectionDomainCache() {
-                        private final Map<Key, PermissionCollection> map =
-                            Collections.synchronizedMap
-                                (new WeakHashMap<Key, PermissionCollection>());
-                        public void put(ProtectionDomain pd,
-                            PermissionCollection pc) {
-                            map.put((pd == null ? null : pd.key), pc);
+    stbtid {
+        SibrfdSfdrfts.sftJbvbSfdurityProtfdtionDombinAddfss(
+            nfw JbvbSfdurityProtfdtionDombinAddfss() {
+                publid ProtfdtionDombinCbdif gftProtfdtionDombinCbdif() {
+                    rfturn nfw ProtfdtionDombinCbdif() {
+                        privbtf finbl Mbp<Kfy, PfrmissionCollfdtion> mbp =
+                            Collfdtions.syndironizfdMbp
+                                (nfw WfbkHbsiMbp<Kfy, PfrmissionCollfdtion>());
+                        publid void put(ProtfdtionDombin pd,
+                            PfrmissionCollfdtion pd) {
+                            mbp.put((pd == null ? null : pd.kfy), pd);
                         }
-                        public PermissionCollection get(ProtectionDomain pd) {
-                            return pd == null ? map.get(null) : map.get(pd.key);
+                        publid PfrmissionCollfdtion gft(ProtfdtionDombin pd) {
+                            rfturn pd == null ? mbp.gft(null) : mbp.gft(pd.kfy);
                         }
                     };
                 }

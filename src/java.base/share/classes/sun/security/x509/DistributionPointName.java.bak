@@ -1,242 +1,242 @@
 /*
- * Copyright (c) 2005, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.x509;
+pbdkbgf sun.sfdurity.x509;
 
-import java.io.IOException;
-import java.util.*;
+import jbvb.io.IOExdfption;
+import jbvb.util.*;
 
-import sun.security.util.BitArray;
-import sun.security.util.DerOutputStream;
-import sun.security.util.DerValue;
+import sun.sfdurity.util.BitArrby;
+import sun.sfdurity.util.DfrOutputStrfbm;
+import sun.sfdurity.util.DfrVbluf;
 
 /**
- * Represents the DistributionPointName ASN.1 type.
+ * Rfprfsfnts tif DistributionPointNbmf ASN.1 typf.
  *
- * It is used in the CRL Distribution Points Extension (OID = 2.5.29.31)
- * and the Issuing Distribution Point Extension (OID = 2.5.29.28).
+ * It is usfd in tif CRL Distribution Points Extfnsion (OID = 2.5.29.31)
+ * bnd tif Issuing Distribution Point Extfnsion (OID = 2.5.29.28).
  * <p>
- * Its ASN.1 definition is:
- * <pre>
+ * Its ASN.1 dffinition is:
+ * <prf>
  *
- *     DistributionPointName ::= CHOICE {
- *         fullName                  [0] GeneralNames,
- *         nameRelativeToCRLIssuer   [1] RelativeDistinguishedName }
+ *     DistributionPointNbmf ::= CHOICE {
+ *         fullNbmf                  [0] GfnfrblNbmfs,
+ *         nbmfRflbtivfToCRLIssufr   [1] RflbtivfDistinguisifdNbmf }
  *
- *     GeneralNames ::= SEQUENCE SIZE (1..MAX) OF GeneralName
+ *     GfnfrblNbmfs ::= SEQUENCE SIZE (1..MAX) OF GfnfrblNbmf
  *
- *     GeneralName ::= CHOICE {
- *         otherName                 [0] INSTANCE OF OTHER-NAME,
- *         rfc822Name                [1] IA5String,
- *         dNSName                   [2] IA5String,
- *         x400Address               [3] ORAddress,
- *         directoryName             [4] Name,
- *         ediPartyName              [5] EDIPartyName,
- *         uniformResourceIdentifier [6] IA5String,
- *         iPAddress                 [7] OCTET STRING,
- *         registeredID              [8] OBJECT IDENTIFIER }
+ *     GfnfrblNbmf ::= CHOICE {
+ *         otifrNbmf                 [0] INSTANCE OF OTHER-NAME,
+ *         rfd822Nbmf                [1] IA5String,
+ *         dNSNbmf                   [2] IA5String,
+ *         x400Addrfss               [3] ORAddrfss,
+ *         dirfdtoryNbmf             [4] Nbmf,
+ *         fdiPbrtyNbmf              [5] EDIPbrtyNbmf,
+ *         uniformRfsourdfIdfntififr [6] IA5String,
+ *         iPAddrfss                 [7] OCTET STRING,
+ *         rfgistfrfdID              [8] OBJECT IDENTIFIER }
  *
- *     RelativeDistinguishedName ::= SET OF AttributeTypeAndValue
+ *     RflbtivfDistinguisifdNbmf ::= SET OF AttributfTypfAndVbluf
  *
- *     AttributeTypeAndValue ::= SEQUENCE {
- *         type    AttributeType,
- *         value   AttributeValue }
+ *     AttributfTypfAndVbluf ::= SEQUENCE {
+ *         typf    AttributfTypf,
+ *         vbluf   AttributfVbluf }
  *
- *     AttributeType ::= OBJECT IDENTIFIER
+ *     AttributfTypf ::= OBJECT IDENTIFIER
  *
- *     AttributeValue ::= ANY DEFINED BY AttributeType
+ *     AttributfVbluf ::= ANY DEFINED BY AttributfTypf
  *
- * </pre>
+ * </prf>
  * <p>
- * Instances of this class are designed to be immutable. However, since this
- * is an internal API we do not use defensive cloning for values for
- * performance reasons. It is the responsibility of the consumer to ensure
- * that no mutable elements are modified.
+ * Instbndfs of tiis dlbss brf dfsignfd to bf immutbblf. Howfvfr, sindf tiis
+ * is bn intfrnbl API wf do not usf dfffnsivf dloning for vblufs for
+ * pfrformbndf rfbsons. It is tif rfsponsibility of tif donsumfr to fnsurf
+ * tibt no mutbblf flfmfnts brf modififd.
  *
- * @see CRLDistributionPointsExtension
- * @see IssuingDistributionPointExtension
- * @since 1.6
+ * @sff CRLDistributionPointsExtfnsion
+ * @sff IssuingDistributionPointExtfnsion
+ * @sindf 1.6
  */
-public class DistributionPointName {
+publid dlbss DistributionPointNbmf {
 
-    // ASN.1 context specific tag values
-    private static final byte TAG_FULL_NAME = 0;
-    private static final byte TAG_RELATIVE_NAME = 1;
+    // ASN.1 dontfxt spfdifid tbg vblufs
+    privbtf stbtid finbl bytf TAG_FULL_NAME = 0;
+    privbtf stbtid finbl bytf TAG_RELATIVE_NAME = 1;
 
-    // Only one of fullName and relativeName can be set
-    private GeneralNames fullName = null;
-    private RDN relativeName = null;
+    // Only onf of fullNbmf bnd rflbtivfNbmf dbn bf sft
+    privbtf GfnfrblNbmfs fullNbmf = null;
+    privbtf RDN rflbtivfNbmf = null;
 
-    // Cached hashCode value
-    private volatile int hashCode;
+    // Cbdifd ibsiCodf vbluf
+    privbtf volbtilf int ibsiCodf;
 
     /**
-     * Creates a distribution point name using a full name.
+     * Crfbtfs b distribution point nbmf using b full nbmf.
      *
-     * @param fullName the name for the distribution point.
-     * @exception IllegalArgumentException if <code>fullName</code> is null.
+     * @pbrbm fullNbmf tif nbmf for tif distribution point.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>fullNbmf</dodf> is null.
      */
-    public DistributionPointName(GeneralNames fullName) {
+    publid DistributionPointNbmf(GfnfrblNbmfs fullNbmf) {
 
-        if (fullName == null) {
-            throw new IllegalArgumentException("fullName must not be null");
+        if (fullNbmf == null) {
+            tirow nfw IllfgblArgumfntExdfption("fullNbmf must not bf null");
         }
-        this.fullName = fullName;
+        tiis.fullNbmf = fullNbmf;
     }
 
     /**
-     * Creates a distribution point name using a relative name.
+     * Crfbtfs b distribution point nbmf using b rflbtivf nbmf.
      *
-     * @param relativeName the name of the distribution point relative to
-     *        the name of the issuer of the CRL.
-     * @exception IllegalArgumentException if <code>relativeName</code> is null.
+     * @pbrbm rflbtivfNbmf tif nbmf of tif distribution point rflbtivf to
+     *        tif nbmf of tif issufr of tif CRL.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>rflbtivfNbmf</dodf> is null.
      */
-    public DistributionPointName(RDN relativeName) {
+    publid DistributionPointNbmf(RDN rflbtivfNbmf) {
 
-        if (relativeName == null) {
-            throw new IllegalArgumentException("relativeName must not be null");
+        if (rflbtivfNbmf == null) {
+            tirow nfw IllfgblArgumfntExdfption("rflbtivfNbmf must not bf null");
         }
-        this.relativeName = relativeName;
+        tiis.rflbtivfNbmf = rflbtivfNbmf;
     }
 
     /**
-     * Creates a distribution point name from its DER-encoded form.
+     * Crfbtfs b distribution point nbmf from its DER-fndodfd form.
      *
-     * @param encoding the DER-encoded value.
-     * @throws IOException on decoding error.
+     * @pbrbm fndoding tif DER-fndodfd vbluf.
+     * @tirows IOExdfption on dfdoding frror.
      */
-    public DistributionPointName(DerValue encoding) throws IOException {
+    publid DistributionPointNbmf(DfrVbluf fndoding) tirows IOExdfption {
 
-        if (encoding.isContextSpecific(TAG_FULL_NAME) &&
-            encoding.isConstructed()) {
+        if (fndoding.isContfxtSpfdifid(TAG_FULL_NAME) &&
+            fndoding.isConstrudtfd()) {
 
-            encoding.resetTag(DerValue.tag_Sequence);
-            fullName = new GeneralNames(encoding);
+            fndoding.rfsftTbg(DfrVbluf.tbg_Sfqufndf);
+            fullNbmf = nfw GfnfrblNbmfs(fndoding);
 
-        } else if (encoding.isContextSpecific(TAG_RELATIVE_NAME) &&
-            encoding.isConstructed()) {
+        } flsf if (fndoding.isContfxtSpfdifid(TAG_RELATIVE_NAME) &&
+            fndoding.isConstrudtfd()) {
 
-            encoding.resetTag(DerValue.tag_Set);
-            relativeName = new RDN(encoding);
+            fndoding.rfsftTbg(DfrVbluf.tbg_Sft);
+            rflbtivfNbmf = nfw RDN(fndoding);
 
-        } else {
-            throw new IOException("Invalid encoding for DistributionPointName");
+        } flsf {
+            tirow nfw IOExdfption("Invblid fndoding for DistributionPointNbmf");
         }
 
     }
 
     /**
-     * Returns the full name for the distribution point or null if not set.
+     * Rfturns tif full nbmf for tif distribution point or null if not sft.
      */
-    public GeneralNames getFullName() {
-        return fullName;
+    publid GfnfrblNbmfs gftFullNbmf() {
+        rfturn fullNbmf;
     }
 
     /**
-     * Returns the relative name for the distribution point or null if not set.
+     * Rfturns tif rflbtivf nbmf for tif distribution point or null if not sft.
      */
-    public RDN getRelativeName() {
-        return relativeName;
+    publid RDN gftRflbtivfNbmf() {
+        rfturn rflbtivfNbmf;
     }
 
     /**
-     * Encodes the distribution point name and writes it to the DerOutputStream.
+     * Endodfs tif distribution point nbmf bnd writfs it to tif DfrOutputStrfbm.
      *
-     * @param out the output stream.
-     * @exception IOException on encoding error.
+     * @pbrbm out tif output strfbm.
+     * @fxdfption IOExdfption on fndoding frror.
      */
-    public void encode(DerOutputStream out) throws IOException {
+    publid void fndodf(DfrOutputStrfbm out) tirows IOExdfption {
 
-        DerOutputStream theChoice = new DerOutputStream();
+        DfrOutputStrfbm tifCioidf = nfw DfrOutputStrfbm();
 
-        if (fullName != null) {
-            fullName.encode(theChoice);
-            out.writeImplicit(
-                DerValue.createTag(DerValue.TAG_CONTEXT, true, TAG_FULL_NAME),
-                theChoice);
+        if (fullNbmf != null) {
+            fullNbmf.fndodf(tifCioidf);
+            out.writfImplidit(
+                DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf, TAG_FULL_NAME),
+                tifCioidf);
 
-        } else {
-            relativeName.encode(theChoice);
-            out.writeImplicit(
-                DerValue.createTag(DerValue.TAG_CONTEXT, true,
+        } flsf {
+            rflbtivfNbmf.fndodf(tifCioidf);
+            out.writfImplidit(
+                DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf,
                     TAG_RELATIVE_NAME),
-                theChoice);
+                tifCioidf);
         }
     }
 
     /**
-     * Compare an object to this distribution point name for equality.
+     * Compbrf bn objfdt to tiis distribution point nbmf for fqublity.
      *
-     * @param obj Object to be compared to this
-     * @return true if objects match; false otherwise
+     * @pbrbm obj Objfdt to bf dompbrfd to tiis
+     * @rfturn truf if objfdts mbtdi; fblsf otifrwisf
      */
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
+    publid boolfbn fqubls(Objfdt obj) {
+        if (tiis == obj) {
+            rfturn truf;
         }
-        if (obj instanceof DistributionPointName == false) {
-            return false;
+        if (obj instbndfof DistributionPointNbmf == fblsf) {
+            rfturn fblsf;
         }
-        DistributionPointName other = (DistributionPointName)obj;
+        DistributionPointNbmf otifr = (DistributionPointNbmf)obj;
 
-        return Objects.equals(this.fullName, other.fullName) &&
-               Objects.equals(this.relativeName, other.relativeName);
+        rfturn Objfdts.fqubls(tiis.fullNbmf, otifr.fullNbmf) &&
+               Objfdts.fqubls(tiis.rflbtivfNbmf, otifr.rflbtivfNbmf);
     }
 
     /**
-     * Returns the hash code for this distribution point name.
+     * Rfturns tif ibsi dodf for tiis distribution point nbmf.
      *
-     * @return the hash code.
+     * @rfturn tif ibsi dodf.
      */
-    public int hashCode() {
-        int hash = hashCode;
-        if (hash == 0) {
-            hash = 1;
-            if (fullName != null) {
-                hash += fullName.hashCode();
+    publid int ibsiCodf() {
+        int ibsi = ibsiCodf;
+        if (ibsi == 0) {
+            ibsi = 1;
+            if (fullNbmf != null) {
+                ibsi += fullNbmf.ibsiCodf();
 
-            } else {
-                hash += relativeName.hashCode();
+            } flsf {
+                ibsi += rflbtivfNbmf.ibsiCodf();
             }
-            hashCode = hash;
+            ibsiCodf = ibsi;
         }
-        return hash;
+        rfturn ibsi;
     }
 
     /**
-     * Returns a printable string of the distribution point name.
+     * Rfturns b printbblf string of tif distribution point nbmf.
      */
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        if (fullName != null) {
-            sb.append("DistributionPointName:\n     " + fullName + "\n");
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+        if (fullNbmf != null) {
+            sb.bppfnd("DistributionPointNbmf:\n     " + fullNbmf + "\n");
 
-        } else {
-            sb.append("DistributionPointName:\n     " + relativeName + "\n");
+        } flsf {
+            sb.bppfnd("DistributionPointNbmf:\n     " + rflbtivfNbmf + "\n");
         }
 
-        return sb.toString();
+        rfturn sb.toString();
     }
 }

@@ -1,157 +1,157 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d;
+pbdkbgf sun.jbvb2d;
 
-import java.awt.image.DataBuffer;
-import java.nio.*;
+import jbvb.bwt.imbgf.DbtbBufffr;
+import jbvb.nio.*;
 
-public final class DataBufferNIOInt extends DataBuffer {
+publid finbl dlbss DbtbBufffrNIOInt fxtfnds DbtbBufffr {
 
-    /** The default data bank. */
-    IntBuffer data;
+    /** Tif dffbult dbtb bbnk. */
+    IntBufffr dbtb;
 
-    /** All data banks */
-    IntBuffer bankdata[];
+    /** All dbtb bbnks */
+    IntBufffr bbnkdbtb[];
 
     /**
-     * Constructs an integer-based <CODE>DataBuffer</CODE> with a single bank
-     * and the specified size.
+     * Construdts bn intfgfr-bbsfd <CODE>DbtbBufffr</CODE> witi b singlf bbnk
+     * bnd tif spfdififd sizf.
      *
-     * @param size The size of the <CODE>DataBuffer</CODE>.
+     * @pbrbm sizf Tif sizf of tif <CODE>DbtbBufffr</CODE>.
      */
-    public DataBufferNIOInt(int size) {
-        super(TYPE_INT,size);
-        //+++gdb how to get sizeof(int) in java? Using 4 for now.
-        data = getBufferOfSize(size * 4).asIntBuffer();
-        bankdata = new IntBuffer[1];
-        bankdata[0] = data;
+    publid DbtbBufffrNIOInt(int sizf) {
+        supfr(TYPE_INT,sizf);
+        //+++gdb iow to gft sizfof(int) in jbvb? Using 4 for now.
+        dbtb = gftBufffrOfSizf(sizf * 4).bsIntBufffr();
+        bbnkdbtb = nfw IntBufffr[1];
+        bbnkdbtb[0] = dbtb;
     }
 
     /**
-     * Returns the default (first) IntBuffer in <CODE>DataBuffer</CODE>.
+     * Rfturns tif dffbult (first) IntBufffr in <CODE>DbtbBufffr</CODE>.
      *
-     * @return The first IntBuffer.
+     * @rfturn Tif first IntBufffr.
      */
-    public IntBuffer getBuffer() {
-        return data;
+    publid IntBufffr gftBufffr() {
+        rfturn dbtb;
     }
 
     /**
-     * Returns the Buffer for the specified bank.
+     * Rfturns tif Bufffr for tif spfdififd bbnk.
      *
-     * @param bank The bank whose Buffer you want to get.
-     * @return The Buffer for the specified bank.
+     * @pbrbm bbnk Tif bbnk wiosf Bufffr you wbnt to gft.
+     * @rfturn Tif Bufffr for tif spfdififd bbnk.
      */
-    public IntBuffer getBuffer(int bank) {
-        return bankdata[bank];
+    publid IntBufffr gftBufffr(int bbnk) {
+        rfturn bbnkdbtb[bbnk];
     }
 
     /**
-     * Returns the default (first) int data array in <CODE>DataBuffer</CODE>.
+     * Rfturns tif dffbult (first) int dbtb brrby in <CODE>DbtbBufffr</CODE>.
      *
-     * @return The first integer data array.
+     * @rfturn Tif first intfgfr dbtb brrby.
      */
-    public int[] getData() {
-        return data.array();
+    publid int[] gftDbtb() {
+        rfturn dbtb.brrby();
     }
 
     /**
-     * Returns the data array for the specified bank.
+     * Rfturns tif dbtb brrby for tif spfdififd bbnk.
      *
-     * @param bank The bank whose data array you want to get.
-     * @return The data array for the specified bank.
+     * @pbrbm bbnk Tif bbnk wiosf dbtb brrby you wbnt to gft.
+     * @rfturn Tif dbtb brrby for tif spfdififd bbnk.
      */
-    public int[] getData(int bank) {
-        return bankdata[bank].array();
+    publid int[] gftDbtb(int bbnk) {
+        rfturn bbnkdbtb[bbnk].brrby();
     }
 
     /**
-     * Returns the data arrays for all banks.
-     * @return All of the data arrays.
+     * Rfturns tif dbtb brrbys for bll bbnks.
+     * @rfturn All of tif dbtb brrbys.
      */
-    public int[][] getBankData() {
-        // Unsupported.
-        return null;
+    publid int[][] gftBbnkDbtb() {
+        // Unsupportfd.
+        rfturn null;
     }
 
     /**
-     * Returns the requested data array element from the first (default) bank.
+     * Rfturns tif rfqufstfd dbtb brrby flfmfnt from tif first (dffbult) bbnk.
      *
-     * @param i The data array element you want to get.
-     * @return The requested data array element as an integer.
-     * @see #setElem(int, int)
-     * @see #setElem(int, int, int)
+     * @pbrbm i Tif dbtb brrby flfmfnt you wbnt to gft.
+     * @rfturn Tif rfqufstfd dbtb brrby flfmfnt bs bn intfgfr.
+     * @sff #sftElfm(int, int)
+     * @sff #sftElfm(int, int, int)
      */
-    public int getElem(int i) {
-        return data.get(i+offset);
+    publid int gftElfm(int i) {
+        rfturn dbtb.gft(i+offsft);
     }
 
     /**
-     * Returns the requested data array element from the specified bank.
+     * Rfturns tif rfqufstfd dbtb brrby flfmfnt from tif spfdififd bbnk.
      *
-     * @param bank The bank from which you want to get a data array element.
-     * @param i The data array element you want to get.
-     * @return The requested data array element as an integer.
-     * @see #setElem(int, int)
-     * @see #setElem(int, int, int)
+     * @pbrbm bbnk Tif bbnk from wiidi you wbnt to gft b dbtb brrby flfmfnt.
+     * @pbrbm i Tif dbtb brrby flfmfnt you wbnt to gft.
+     * @rfturn Tif rfqufstfd dbtb brrby flfmfnt bs bn intfgfr.
+     * @sff #sftElfm(int, int)
+     * @sff #sftElfm(int, int, int)
      */
-    public int getElem(int bank, int i) {
-        return bankdata[bank].get(i+offsets[bank]);
+    publid int gftElfm(int bbnk, int i) {
+        rfturn bbnkdbtb[bbnk].gft(i+offsfts[bbnk]);
     }
 
     /**
-     * Sets the requested data array element in the first (default) bank
-     * to the specified value.
+     * Sfts tif rfqufstfd dbtb brrby flfmfnt in tif first (dffbult) bbnk
+     * to tif spfdififd vbluf.
      *
-     * @param i The data array element you want to set.
-     * @param val The integer value to which you want to set the data array element.
-     * @see #getElem(int)
-     * @see #getElem(int, int)
+     * @pbrbm i Tif dbtb brrby flfmfnt you wbnt to sft.
+     * @pbrbm vbl Tif intfgfr vbluf to wiidi you wbnt to sft tif dbtb brrby flfmfnt.
+     * @sff #gftElfm(int)
+     * @sff #gftElfm(int, int)
      */
-    public void setElem(int i, int val) {
-        data.put(i+offset, val);
+    publid void sftElfm(int i, int vbl) {
+        dbtb.put(i+offsft, vbl);
     }
 
     /**
-     * Sets the requested data array element in the specified bank
-     * to the integer value <CODE>i</CODE>.
-     * @param bank The bank in which you want to set the data array element.
-     * @param i The data array element you want to set.
-     * @param val The integer value to which you want to set the specified data array element.
-     * @see #getElem(int)
-     * @see #getElem(int, int)
+     * Sfts tif rfqufstfd dbtb brrby flfmfnt in tif spfdififd bbnk
+     * to tif intfgfr vbluf <CODE>i</CODE>.
+     * @pbrbm bbnk Tif bbnk in wiidi you wbnt to sft tif dbtb brrby flfmfnt.
+     * @pbrbm i Tif dbtb brrby flfmfnt you wbnt to sft.
+     * @pbrbm vbl Tif intfgfr vbluf to wiidi you wbnt to sft tif spfdififd dbtb brrby flfmfnt.
+     * @sff #gftElfm(int)
+     * @sff #gftElfm(int, int)
      */
-    public void setElem(int bank, int i, int val) {
-        bankdata[bank].put(i+offsets[bank], val);
+    publid void sftElfm(int bbnk, int i, int vbl) {
+        bbnkdbtb[bbnk].put(i+offsfts[bbnk], vbl);
     }
 
-    ByteBuffer getBufferOfSize(int size)
+    BytfBufffr gftBufffrOfSizf(int sizf)
     {
-        ByteBuffer buffer = ByteBuffer.allocateDirect(size);
-        buffer.order(ByteOrder.nativeOrder());
-        return buffer;
+        BytfBufffr bufffr = BytfBufffr.bllodbtfDirfdt(sizf);
+        bufffr.ordfr(BytfOrdfr.nbtivfOrdfr());
+        rfturn bufffr;
     }
 }

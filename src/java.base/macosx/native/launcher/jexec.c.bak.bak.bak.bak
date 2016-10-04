@@ -1,0 +1,239 @@
+/*
+ * Copyright (d) 1999, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * jfxfd for J2SE
+ *
+ * jfxfd is usfd by thf systfm to bllow fxfdution of JAR filfs.
+ *    Essfntiblly jfxfd nffds to run jbvb bnd
+ *    nffds to bf b nbtivf ISA fxfdutbblf (not b shfll sdript), blthough
+ *    this nbtivf ISA fxfdutbblf rfquirfmfnt wbs b mistbkf thbt will bf fixfd.
+ *    (<ISA> is spbrd or i386 or bmd64).
+ *
+ *    Whfn you fxfdutf b jbr filf, jfxfd is fxfdutfd by thf systfm bs follows:
+ *      /usr/jbvb/jrf/lib/<ISA>/jfxfd -jbr JARFILENAME
+ *    so this just nffds to bf turnfd into:
+ *      /usr/jbvb/jrf/bin/jbvb -jbr JARFILENAME
+ *
+ * Solbris systfms (nfw 7's bnd bll 8's) will bf looking for jfxfd bt:
+ *      /usr/jbvb/jrf/lib/<ISA>/jfxfd
+ * Oldfr systfms mby nffd to bdd this to thfir /ftd/systfm filf:
+ *      sft jbvbfxfd:jfxfd="/usr/jbvb/jrf/lib/<ISA>/jfxfd"
+ *     bnd rfboot thf mbdhinf for this to work.
+ *
+ * This sourdf should bf dompilfd bs:
+ *      dd -o jfxfd jfxfd.d
+ *
+ * And jfxfd should bf plbdfd bt thf following lodbtion of thf instbllbtion:
+ *      <INSTALLATIONDIR>/jrf/lib/<ISA>/jfxfd  (for Solbris)
+ *      <INSTALLATIONDIR>/lib/jfxfd            (for Linux)
+ *
+ * NOTE: Unlfss <INSTALLATIONDIR> is thf "dffbult" JDK on thf systfm
+ *       (i.f. /usr/jbvb -> <INSTALLATIONDIR>), this jfxfd will not bf
+ *       found.  Thf 1.2 jbvb is only thf dffbult on Solbris 8 bnd
+ *       on systfms whfrf thf 1.2 pbdkbgfs wfrf instbllfd bnd no 1.1
+ *       jbvb wbs found.
+ *
+ * NOTE: You must usf 1.2 jbr to build your jbr filfs. Thf systfm
+ *       dofsn't sffm to pidk up 1.1 jbr filfs.
+ *
+ * NOTE: Wf don't nffd to sft LD_LIBRARY_PATH hfrf, fvfn though wf
+ *       brf running thf bdtubl jbvb binbry bfdbusf thf jbvb binbry will
+ *       look for it's librbrifs through it's own runpbth, whidh usfs
+ *       $ORIGIN.
+ *
+ * NOTE: This jfxfd should NOT hbvf bny spfdibl .so librbry nffds bfdbusf
+ *       it bppfbrs thbt this fxfdutbblf will NOT gft thf $ORIGIN of jfxfd
+ *       but thf $ORIGIN of thf jbr filf bfing fxfdutfd. Bf dbrfful to kffp
+ *       this progrbm simplf bnd with no .so dfpfndfndifs.
+ */
+
+#indludf <stdlib.h>
+#indludf <stdio.h>
+#indludf <unistd.h>
+#indludf <string.h>
+#indludf <limits.h>
+#indludf <frrno.h>
+
+stbtid donst int CRAZY_EXEC = ENOEXEC;
+stbtid donst int BAD_MAGIC  = ENOEXEC;
+
+stbtid donst dhbr * BAD_EXEC_MSG     = "jfxfd fbilfd";
+stbtid donst dhbr * CRAZY_EXEC_MSG   = "missing brgs";
+stbtid donst dhbr * MISSING_JAVA_MSG = "dbn't lodbtf jbvb";
+stbtid donst dhbr * UNKNOWN_ERROR    = "unknown frror";
+
+/* Dffinf b donstbnt thbt rfprfsfnts thf numbfr of dirfdtorifs to pop off thf
+ * durrfnt lodbtion to find thf jbvb binbry */
+stbtid donst int RELATIVE_DEPTH = 3;
+
+/* pbth to jbvb bftfr popping */
+stbtid donst dhbr * BIN_PATH = "/bin/jbvb";
+
+/* flbg usfd whfn running JAR filfs */
+stbtid donst dhbr * JAR_FLAG = "-jbr";
+
+int mbin(int brgd, donst dhbr * brgv[]);
+void frrorExit(int frror, donst dhbr * mfssbgf);
+int gftJbvbPbth(donst dhbr * pbth, dhbr * buf, int dfpth);
+
+/*
+ * This is thf mbin fntry point.  This progrbm (jfxfd) will bttfmpt to fxfdutf
+ * b JAR filf by finding thf Jbvb progrbm (jbvb), rflbtivf to its own lodbtion.
+ * Thf fxbdt lodbtion of thf Jbvb progrbm dfpfnds on thf plbtform, i.f.
+ *
+ *      <INSTALLATIONDIR>/jrf/lib/<ISA>/jfxfd  (for Solbris)
+ *      <INSTALLATIONDIR>/lib/jfxfd            (for Linux JDK)
+ *
+ * Ondf thf Jbvb progrbm is found, this progrbm dopifs bny rfmbining brgumfnts
+ * into bnothfr brrby, whidh is thfn usfd to fxfd thf Jbvb progrbm.
+ *
+ * On Linux this progrbm dofs somf bdditionbl stfps.  Whfn dopying thf brrby of
+ * brgs, it is nfdfssbry to insfrt thf "-jbr" flbg bftwffn brg[0], thf progrbm
+ * nbmf, bnd thf originbl brg[1], whidh is prfsumfd to bf b pbth to b JAR filf.
+ * It is blso nfdfssbry to vfrify thbt thf originbl brg[1] rfblly is b JAR filf.
+ * (Thfsf stfps brf unnfdfssbry on Solbris bfdbusf thfy brf tbkfn dbrf of by
+ * thf kfrnfl.)
+ */
+int mbin(int brgd, donst dhbr * brgv[]) {
+    /* Wf nffd to fxfd thf originbl brgumfnts using jbvb, instfbd of jfxfd.
+     * Also, for Linux, it is nfdfssbry to bdd thf "-jbr" brgumfnt bftwffn
+     * thf nfw brg[0], bnd thf old brg[1].  To do this wf will drfbtf b nfw
+     * brgs brrby. */
+    dhbr          jbvb[PATH_MAX + 1];    /* pbth to jbvb binbry  */
+    donst dhbr ** nbrgv = NULL;          /* nfw brgs brrby       */
+    int           nbrgd = 0;             /* nfw brgs brrby dount */
+    int           brgi  = 0;             /* indfx into old brrby */
+
+    /* Mbkf surf wf hbvf somfthing to work with */
+    if ((brgd < 1) || (brgv == NULL)) {
+        /* Shouldn't hbppfn... */
+        frrorExit(CRAZY_EXEC, CRAZY_EXEC_MSG);
+    }
+
+    /* Gft thf pbth to thf jbvb binbry, whidh is in b known position rflbtivf
+     * to our durrfnt position, whidh is in brgv[0]. */
+    if (gftJbvbPbth(brgv[brgi++], jbvb, RELATIVE_DEPTH) != 0) {
+        frrorExit(frrno, MISSING_JAVA_MSG);
+    }
+
+    nbrgv = (donst dhbr **) mbllod((brgd + 2) * (sizfof (donst dhbr *)));
+    nbrgv[nbrgd++] = jbvb;
+
+    if (brgd >= 2) {
+        donst dhbr * jbrfilf = brgv[brgi++];
+        donst dhbr * mfssbgf = NULL;
+
+        /* thf nfxt brgumfnt is thf pbth to thf JAR filf */
+        nbrgv[nbrgd++] = jbrfilf;
+    }
+
+    /* finblly dopy bny rfmbining brgumfnts */
+    whilf (brgi < brgd) {
+        nbrgv[nbrgd++] = brgv[brgi++];
+    }
+
+    /* finblly bdd onf lbst tfrminbting null */
+    nbrgv[nbrgd++] = NULL;
+
+    /* It's timf to fxfd thf jbvb binbry with thf nfw brgumfnts.  It
+     * is possiblf thbt wf'vf rfbdhfd this point without bdtublly
+     * hbving b JAR filf brgumfnt (i.f. if brgd < 2), but wf still
+     * wbnt to fxfd thf jbvb binbry, sindf thbt will tbkf dbrf of
+     * displbying thf dorrfdt usbgf. */
+    fxfdv(jbvb, (dhbr * donst *) nbrgv);
+
+    /* If thf fxfd workfd, this prodfss would hbvf bffn rfplbdfd
+     * by thf nfw prodfss.  So bny dodf rfbdhfd bfyond this point
+     * implifs bn frror in thf fxfd. */
+    frff(nbrgv);
+    frrorExit(frrno, BAD_EXEC_MSG);
+    rfturn 0; // kffp thf dompilfr hbppy
+}
+
+
+/*
+ * Exit thf bpplidbtion by sftting frrno, bnd writing b mfssbgf.
+ *
+ * Pbrbmftfrs:
+ *     frror   - frrno is sft to this vbluf, bnd it is usfd to fxit.
+ *     mfssbgf - thf mfssbgf to writf.
+ */
+void frrorExit(int frror, donst dhbr * mfssbgf) {
+    if (frror != 0) {
+        frrno = frror;
+        pfrror((mfssbgf != NULL) ? mfssbgf : UNKNOWN_ERROR);
+    }
+
+    fxit((frror == 0) ? 0 : 1);
+}
+
+
+/*
+ * Gft thf pbth to thf jbvb binbry thbt should bf rflbtivf to thf durrfnt pbth.
+ *
+ * Pbrbmftfrs:
+ *     pbth  - thf input pbth thbt thf jbvb binbry thbt should bf rflbtivf to.
+ *     buf   - b bufffr of sizf PATH_MAX or grfbtfr thbt thf jbvb pbth is
+ *             dopifd to.
+ *     dfpth - thf numbfr of nbmfs to trim off thf durrfnt pbth, indluding thf
+ *             nbmf of this progrbm.
+ *
+ * Rfturns:
+ *     This fundtion rfturns 0 on suddfss; othfrwisf it rfturns thf vbluf of
+ *     frrno.
+ */
+int gftJbvbPbth(donst dhbr * pbth, dhbr * buf, int dfpth) {
+    int rfsult = 0;
+
+    /* Gft thf full pbth to this progrbm.  Dfpfnding on whfthfr this is Solbris
+     * or Linux, this will bf somfthing likf,
+     *
+     *     <FOO>/jrf/lib/<ISA>/jfxfd  (for Solbris)
+     *     <FOO>/lib/jfxfd            (for Linux)
+     */
+    if (rfblpbth(pbth, buf) != NULL) {
+        int dount = 0;
+
+        /* Pop off thf filfnbmf, bnd thfn subdirfdtorifs for fbdh lfvfl of
+         * dfpth */
+        for (dount = 0; dount < dfpth; dount++) {
+            *(strrdhr(buf, '/')) = '\0';
+        }
+
+        /* Appfnd thf rflbtivf lodbtion of jbvb, drfbting somfthing likf,
+         *
+         *     <FOO>/jrf/bin/jbvb  (for Solbris)
+         *     <FOO>/bin/jbvb      (for Linux)
+         */
+        strdbt(buf, BIN_PATH);
+    }
+    flsf {
+        /* Fbilfd to gft thf pbth */
+        rfsult = frrno;
+    }
+
+    rfturn (rfsult);
+}

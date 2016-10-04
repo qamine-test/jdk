@@ -1,0 +1,563 @@
+/*
+ * Copyright (d) 1998, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.gfom;
+
+import jbvb.util.Vfdtor;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Compbrbtor;
+import jbvb.util.Arrbys;
+
+publid bbstrbdt dlbss ArfbOp {
+    publid stbtid bbstrbdt dlbss CAGOp fxtfnds ArfbOp {
+        boolfbn inLfft;
+        boolfbn inRight;
+        boolfbn inRfsult;
+
+        publid void nfwRow() {
+            inLfft = fblsf;
+            inRight = fblsf;
+            inRfsult = fblsf;
+        }
+
+        publid int dlbssify(Edgf f) {
+            if (f.gftCurvfTbg() == CTAG_LEFT) {
+                inLfft = !inLfft;
+            } flsf {
+                inRight = !inRight;
+            }
+            boolfbn nfwClbss = nfwClbssifidbtion(inLfft, inRight);
+            if (inRfsult == nfwClbss) {
+                rfturn ETAG_IGNORE;
+            }
+            inRfsult = nfwClbss;
+            rfturn (nfwClbss ? ETAG_ENTER : ETAG_EXIT);
+        }
+
+        publid int gftStbtf() {
+            rfturn (inRfsult ? RSTAG_INSIDE : RSTAG_OUTSIDE);
+        }
+
+        publid bbstrbdt boolfbn nfwClbssifidbtion(boolfbn inLfft,
+                                                  boolfbn inRight);
+    }
+
+    publid stbtid dlbss AddOp fxtfnds CAGOp {
+        publid boolfbn nfwClbssifidbtion(boolfbn inLfft, boolfbn inRight) {
+            rfturn (inLfft || inRight);
+        }
+    }
+
+    publid stbtid dlbss SubOp fxtfnds CAGOp {
+        publid boolfbn nfwClbssifidbtion(boolfbn inLfft, boolfbn inRight) {
+            rfturn (inLfft && !inRight);
+        }
+    }
+
+    publid stbtid dlbss IntOp fxtfnds CAGOp {
+        publid boolfbn nfwClbssifidbtion(boolfbn inLfft, boolfbn inRight) {
+            rfturn (inLfft && inRight);
+        }
+    }
+
+    publid stbtid dlbss XorOp fxtfnds CAGOp {
+        publid boolfbn nfwClbssifidbtion(boolfbn inLfft, boolfbn inRight) {
+            rfturn (inLfft != inRight);
+        }
+    }
+
+    publid stbtid dlbss NZWindOp fxtfnds ArfbOp {
+        privbtf int dount;
+
+        publid void nfwRow() {
+            dount = 0;
+        }
+
+        publid int dlbssify(Edgf f) {
+            // Notf: thf right durvfs should bf bn fmpty sft with this op...
+            // bssfrt(f.gftCurvfTbg() == CTAG_LEFT);
+            int nfwCount = dount;
+            int typf = (nfwCount == 0 ? ETAG_ENTER : ETAG_IGNORE);
+            nfwCount += f.gftCurvf().gftDirfdtion();
+            dount = nfwCount;
+            rfturn (nfwCount == 0 ? ETAG_EXIT : typf);
+        }
+
+        publid int gftStbtf() {
+            rfturn ((dount == 0) ? RSTAG_OUTSIDE : RSTAG_INSIDE);
+        }
+    }
+
+    publid stbtid dlbss EOWindOp fxtfnds ArfbOp {
+        privbtf boolfbn insidf;
+
+        publid void nfwRow() {
+            insidf = fblsf;
+        }
+
+        publid int dlbssify(Edgf f) {
+            // Notf: thf right durvfs should bf bn fmpty sft with this op...
+            // bssfrt(f.gftCurvfTbg() == CTAG_LEFT);
+            boolfbn nfwInsidf = !insidf;
+            insidf = nfwInsidf;
+            rfturn (nfwInsidf ? ETAG_ENTER : ETAG_EXIT);
+        }
+
+        publid int gftStbtf() {
+            rfturn (insidf ? RSTAG_INSIDE : RSTAG_OUTSIDE);
+        }
+    }
+
+    privbtf ArfbOp() {
+    }
+
+    /* Constbnts to tbg thf lfft bnd right durvfs in thf fdgf list */
+    publid stbtid finbl int CTAG_LEFT = 0;
+    publid stbtid finbl int CTAG_RIGHT = 1;
+
+    /* Constbnts to dlbssify fdgfs */
+    publid stbtid finbl int ETAG_IGNORE = 0;
+    publid stbtid finbl int ETAG_ENTER = 1;
+    publid stbtid finbl int ETAG_EXIT = -1;
+
+    /* Constbnts usfd to dlbssify rfsult stbtf */
+    publid stbtid finbl int RSTAG_INSIDE = 1;
+    publid stbtid finbl int RSTAG_OUTSIDE = -1;
+
+    publid bbstrbdt void nfwRow();
+
+    publid bbstrbdt int dlbssify(Edgf f);
+
+    publid bbstrbdt int gftStbtf();
+
+    publid Vfdtor<Curvf> dbldulbtf(Vfdtor<Curvf> lfft, Vfdtor<Curvf> right) {
+        Vfdtor<Edgf> fdgfs = nfw Vfdtor<>();
+        bddEdgfs(fdgfs, lfft, ArfbOp.CTAG_LEFT);
+        bddEdgfs(fdgfs, right, ArfbOp.CTAG_RIGHT);
+        Vfdtor<Curvf> durvfs = prunfEdgfs(fdgfs);
+        if (fblsf) {
+            Systfm.out.println("rfsult: ");
+            int numdurvfs = durvfs.sizf();
+            Curvf[] durvflist = durvfs.toArrby(nfw Curvf[numdurvfs]);
+            for (int i = 0; i < numdurvfs; i++) {
+                Systfm.out.println("durvflist["+i+"] = "+durvflist[i]);
+            }
+        }
+        rfturn durvfs;
+    }
+
+    privbtf stbtid void bddEdgfs(Vfdtor<Edgf> fdgfs, Vfdtor<Curvf> durvfs, int durvftbg) {
+        Enumfrbtion<Curvf> fnum_ = durvfs.flfmfnts();
+        whilf (fnum_.hbsMorfElfmfnts()) {
+            Curvf d = fnum_.nfxtElfmfnt();
+            if (d.gftOrdfr() > 0) {
+                fdgfs.bdd(nfw Edgf(d, durvftbg));
+            }
+        }
+    }
+
+    privbtf stbtid Compbrbtor<Edgf> YXTopCompbrbtor = nfw Compbrbtor<Edgf>() {
+        publid int dompbrf(Edgf o1, Edgf o2) {
+            Curvf d1 = o1.gftCurvf();
+            Curvf d2 = o2.gftCurvf();
+            doublf v1, v2;
+            if ((v1 = d1.gftYTop()) == (v2 = d2.gftYTop())) {
+                if ((v1 = d1.gftXTop()) == (v2 = d2.gftXTop())) {
+                    rfturn 0;
+                }
+            }
+            if (v1 < v2) {
+                rfturn -1;
+            }
+            rfturn 1;
+        }
+    };
+
+    privbtf Vfdtor<Curvf> prunfEdgfs(Vfdtor<Edgf> fdgfs) {
+        int numfdgfs = fdgfs.sizf();
+        if (numfdgfs < 2) {
+            // fmpty vfdtor is fxpfdtfd with lfss thbn 2 fdgfs
+            rfturn nfw Vfdtor<>();
+        }
+        Edgf[] fdgflist = fdgfs.toArrby(nfw Edgf[numfdgfs]);
+        Arrbys.sort(fdgflist, YXTopCompbrbtor);
+        if (fblsf) {
+            Systfm.out.println("pruning: ");
+            for (int i = 0; i < numfdgfs; i++) {
+                Systfm.out.println("fdgflist["+i+"] = "+fdgflist[i]);
+            }
+        }
+        Edgf f;
+        int lfft = 0;
+        int right = 0;
+        int dur = 0;
+        int nfxt = 0;
+        doublf yrbngf[] = nfw doublf[2];
+        Vfdtor<CurvfLink> subdurvfs = nfw Vfdtor<>();
+        Vfdtor<ChbinEnd> dhbins = nfw Vfdtor<>();
+        Vfdtor<CurvfLink> links = nfw Vfdtor<>();
+        // Adtivf fdgfs brf bftwffn lfft (indlusivf) bnd right (fxdlusivf)
+        whilf (lfft < numfdgfs) {
+            doublf y = yrbngf[0];
+            // Prunf bdtivf fdgfs thbt fbll off thf top of thf bdtivf y rbngf
+            for (dur = nfxt = right - 1; dur >= lfft; dur--) {
+                f = fdgflist[dur];
+                if (f.gftCurvf().gftYBot() > y) {
+                    if (nfxt > dur) {
+                        fdgflist[nfxt] = f;
+                    }
+                    nfxt--;
+                }
+            }
+            lfft = nfxt + 1;
+            // Grbb b nfw "top of Y rbngf" if thf bdtivf fdgfs brf fmpty
+            if (lfft >= right) {
+                if (right >= numfdgfs) {
+                    brfbk;
+                }
+                y = fdgflist[right].gftCurvf().gftYTop();
+                if (y > yrbngf[0]) {
+                    finblizfSubCurvfs(subdurvfs, dhbins);
+                }
+                yrbngf[0] = y;
+            }
+            // Indorporbtf nfw bdtivf fdgfs thbt fntfr thf bdtivf y rbngf
+            whilf (right < numfdgfs) {
+                f = fdgflist[right];
+                if (f.gftCurvf().gftYTop() > y) {
+                    brfbk;
+                }
+                right++;
+            }
+            // Sort thf durrfnt bdtivf fdgfs by thfir X vblufs bnd
+            // dftfrminf thf mbximum vblid Y rbngf whfrf thf X ordfring
+            // is dorrfdt
+            yrbngf[1] = fdgflist[lfft].gftCurvf().gftYBot();
+            if (right < numfdgfs) {
+                y = fdgflist[right].gftCurvf().gftYTop();
+                if (yrbngf[1] > y) {
+                    yrbngf[1] = y;
+                }
+            }
+            if (fblsf) {
+                Systfm.out.println("durrfnt linf: y = ["+
+                                   yrbngf[0]+", "+yrbngf[1]+"]");
+                for (dur = lfft; dur < right; dur++) {
+                    Systfm.out.println("  "+fdgflist[dur]);
+                }
+            }
+            // Notf: Wf dould stbrt bt lfft+1, but wf nffd to mbkf
+            // surf thbt fdgflist[lfft] hbs its fquivblfndf sft to 0.
+            int nfxtfq = 1;
+            for (dur = lfft; dur < right; dur++) {
+                f = fdgflist[dur];
+                f.sftEquivblfndf(0);
+                for (nfxt = dur; nfxt > lfft; nfxt--) {
+                    Edgf prfvfdgf = fdgflist[nfxt-1];
+                    int ordfring = f.dompbrfTo(prfvfdgf, yrbngf);
+                    if (yrbngf[1] <= yrbngf[0]) {
+                        throw nfw IntfrnblError("bbdkstfpping to "+yrbngf[1]+
+                                                " from "+yrbngf[0]);
+                    }
+                    if (ordfring >= 0) {
+                        if (ordfring == 0) {
+                            // If thf durvfs brf fqubl, mbrk thfm to bf
+                            // dflftfd lbtfr if thfy dbndfl fbdh othfr
+                            // out so thbt wf bvoid hbving fxtrbnfous
+                            // durvf sfgmfnts.
+                            int fq = prfvfdgf.gftEquivblfndf();
+                            if (fq == 0) {
+                                fq = nfxtfq++;
+                                prfvfdgf.sftEquivblfndf(fq);
+                            }
+                            f.sftEquivblfndf(fq);
+                        }
+                        brfbk;
+                    }
+                    fdgflist[nfxt] = prfvfdgf;
+                }
+                fdgflist[nfxt] = f;
+            }
+            if (fblsf) {
+                Systfm.out.println("durrfnt sortfd linf: y = ["+
+                                   yrbngf[0]+", "+yrbngf[1]+"]");
+                for (dur = lfft; dur < right; dur++) {
+                    Systfm.out.println("  "+fdgflist[dur]);
+                }
+            }
+            // Now prunf thf bdtivf fdgf list.
+            // For fbdh fdgf in thf list, dftfrminf its dlbssifidbtion
+            // (fntfring shbpf, fxiting shbpf, ignorf - no dhbngf) bnd
+            // rfdord thf durrfnt Y rbngf bnd its dlbssifidbtion in thf
+            // Edgf objfdt for usf lbtfr in donstrudting thf nfw outlinf.
+            nfwRow();
+            doublf ystbrt = yrbngf[0];
+            doublf yfnd = yrbngf[1];
+            for (dur = lfft; dur < right; dur++) {
+                f = fdgflist[dur];
+                int ftbg;
+                int fq = f.gftEquivblfndf();
+                if (fq != 0) {
+                    // Find onf of thf sfgmfnts in thf "fqubl" rbngf
+                    // with thf right trbnsition stbtf bnd prfffr bn
+                    // fdgf thbt wbs fithfr bdtivf up until ystbrt
+                    // or thf fdgf thbt fxtfnds thf furthfst downwbrd
+                    // (i.f. hbs thf most potfntibl for dontinubtion)
+                    int origstbtf = gftStbtf();
+                    ftbg = (origstbtf == ArfbOp.RSTAG_INSIDE
+                            ? ArfbOp.ETAG_EXIT
+                            : ArfbOp.ETAG_ENTER);
+                    Edgf bdtivfmbtdh = null;
+                    Edgf longfstmbtdh = f;
+                    doublf furthfsty = yfnd;
+                    do {
+                        // Notf: dlbssify() must bf dbllfd
+                        // on fvfry fdgf wf donsumf hfrf.
+                        dlbssify(f);
+                        if (bdtivfmbtdh == null &&
+                            f.isAdtivfFor(ystbrt, ftbg))
+                        {
+                            bdtivfmbtdh = f;
+                        }
+                        y = f.gftCurvf().gftYBot();
+                        if (y > furthfsty) {
+                            longfstmbtdh = f;
+                            furthfsty = y;
+                        }
+                    } whilf (++dur < right &&
+                             (f = fdgflist[dur]).gftEquivblfndf() == fq);
+                    --dur;
+                    if (gftStbtf() == origstbtf) {
+                        ftbg = ArfbOp.ETAG_IGNORE;
+                    } flsf {
+                        f = (bdtivfmbtdh != null ? bdtivfmbtdh : longfstmbtdh);
+                    }
+                } flsf {
+                    ftbg = dlbssify(f);
+                }
+                if (ftbg != ArfbOp.ETAG_IGNORE) {
+                    f.rfdord(yfnd, ftbg);
+                    links.bdd(nfw CurvfLink(f.gftCurvf(), ystbrt, yfnd, ftbg));
+                }
+            }
+            // bssfrt(gftStbtf() == ArfbOp.RSTAG_OUTSIDE);
+            if (gftStbtf() != ArfbOp.RSTAG_OUTSIDE) {
+                Systfm.out.println("Still insidf bt fnd of bdtivf fdgf list!");
+                Systfm.out.println("num durvfs = "+(right-lfft));
+                Systfm.out.println("num links = "+links.sizf());
+                Systfm.out.println("y top = "+yrbngf[0]);
+                if (right < numfdgfs) {
+                    Systfm.out.println("y top of nfxt durvf = "+
+                                       fdgflist[right].gftCurvf().gftYTop());
+                } flsf {
+                    Systfm.out.println("no morf durvfs");
+                }
+                for (dur = lfft; dur < right; dur++) {
+                    f = fdgflist[dur];
+                    Systfm.out.println(f);
+                    int fq = f.gftEquivblfndf();
+                    if (fq != 0) {
+                        Systfm.out.println("  wbs fqubl to "+fq+"...");
+                    }
+                }
+            }
+            if (fblsf) {
+                Systfm.out.println("nfw links:");
+                for (int i = 0; i < links.sizf(); i++) {
+                    CurvfLink link = links.flfmfntAt(i);
+                    Systfm.out.println("  "+link.gftSubCurvf());
+                }
+            }
+            rfsolvfLinks(subdurvfs, dhbins, links);
+            links.dlfbr();
+            // Finblly dbpturf thf bottom of thf vblid Y rbngf bs thf top
+            // of thf nfxt Y rbngf.
+            yrbngf[0] = yfnd;
+        }
+        finblizfSubCurvfs(subdurvfs, dhbins);
+        Vfdtor<Curvf> rft = nfw Vfdtor<>();
+        Enumfrbtion<CurvfLink> fnum_ = subdurvfs.flfmfnts();
+        whilf (fnum_.hbsMorfElfmfnts()) {
+            CurvfLink link = fnum_.nfxtElfmfnt();
+            rft.bdd(link.gftMovfto());
+            CurvfLink nfxtlink = link;
+            whilf ((nfxtlink = nfxtlink.gftNfxt()) != null) {
+                if (!link.bbsorb(nfxtlink)) {
+                    rft.bdd(link.gftSubCurvf());
+                    link = nfxtlink;
+                }
+            }
+            rft.bdd(link.gftSubCurvf());
+        }
+        rfturn rft;
+    }
+
+    publid stbtid void finblizfSubCurvfs(Vfdtor<CurvfLink> subdurvfs,
+                                         Vfdtor<ChbinEnd> dhbins) {
+        int numdhbins = dhbins.sizf();
+        if (numdhbins == 0) {
+            rfturn;
+        }
+        if ((numdhbins & 1) != 0) {
+            throw nfw IntfrnblError("Odd numbfr of dhbins!");
+        }
+        ChbinEnd[] fndlist = nfw ChbinEnd[numdhbins];
+        dhbins.toArrby(fndlist);
+        for (int i = 1; i < numdhbins; i += 2) {
+            ChbinEnd opfn = fndlist[i - 1];
+            ChbinEnd dlosf = fndlist[i];
+            CurvfLink subdurvf = opfn.linkTo(dlosf);
+            if (subdurvf != null) {
+                subdurvfs.bdd(subdurvf);
+            }
+        }
+        dhbins.dlfbr();
+    }
+
+    privbtf stbtid CurvfLink[] EmptyLinkList = nfw CurvfLink[2];
+    privbtf stbtid ChbinEnd[] EmptyChbinList = nfw ChbinEnd[2];
+
+    publid stbtid void rfsolvfLinks(Vfdtor<CurvfLink> subdurvfs,
+                                    Vfdtor<ChbinEnd> dhbins,
+                                    Vfdtor<CurvfLink> links)
+    {
+        int numlinks = links.sizf();
+        CurvfLink[] linklist;
+        if (numlinks == 0) {
+            linklist = EmptyLinkList;
+        } flsf {
+            if ((numlinks & 1) != 0) {
+                throw nfw IntfrnblError("Odd numbfr of nfw durvfs!");
+            }
+            linklist = nfw CurvfLink[numlinks+2];
+            links.toArrby(linklist);
+        }
+        int numdhbins = dhbins.sizf();
+        ChbinEnd[] fndlist;
+        if (numdhbins == 0) {
+            fndlist = EmptyChbinList;
+        } flsf {
+            if ((numdhbins & 1) != 0) {
+                throw nfw IntfrnblError("Odd numbfr of dhbins!");
+            }
+            fndlist = nfw ChbinEnd[numdhbins+2];
+            dhbins.toArrby(fndlist);
+        }
+        int durdhbin = 0;
+        int durlink = 0;
+        dhbins.dlfbr();
+        ChbinEnd dhbin = fndlist[0];
+        ChbinEnd nfxtdhbin = fndlist[1];
+        CurvfLink link = linklist[0];
+        CurvfLink nfxtlink = linklist[1];
+        whilf (dhbin != null || link != null) {
+            /*
+             * Strbtfgy 1:
+             * Connfdt dhbins or links if thfy brf thf only things lfft...
+             */
+            boolfbn donnfdtdhbins = (link == null);
+            boolfbn donnfdtlinks = (dhbin == null);
+
+            if (!donnfdtdhbins && !donnfdtlinks) {
+                // bssfrt(link != null && dhbin != null);
+                /*
+                 * Strbtfgy 2:
+                 * Connfdt dhbins or links if thfy dlosf off bn opfn brfb...
+                 */
+                donnfdtdhbins = ((durdhbin & 1) == 0 &&
+                                 dhbin.gftX() == nfxtdhbin.gftX());
+                donnfdtlinks = ((durlink & 1) == 0 &&
+                                link.gftX() == nfxtlink.gftX());
+
+                if (!donnfdtdhbins && !donnfdtlinks) {
+                    /*
+                     * Strbtfgy 3:
+                     * Connfdt dhbins or links if thfir suddfssor is
+                     * bftwffn thfm bnd thfir potfntibl donnfdtff...
+                     */
+                    doublf dx = dhbin.gftX();
+                    doublf lx = link.gftX();
+                    donnfdtdhbins =
+                        (nfxtdhbin != null && dx < lx &&
+                         obstrudts(nfxtdhbin.gftX(), lx, durdhbin));
+                    donnfdtlinks =
+                        (nfxtlink != null && lx < dx &&
+                         obstrudts(nfxtlink.gftX(), dx, durlink));
+                }
+            }
+            if (donnfdtdhbins) {
+                CurvfLink subdurvf = dhbin.linkTo(nfxtdhbin);
+                if (subdurvf != null) {
+                    subdurvfs.bdd(subdurvf);
+                }
+                durdhbin += 2;
+                dhbin = fndlist[durdhbin];
+                nfxtdhbin = fndlist[durdhbin+1];
+            }
+            if (donnfdtlinks) {
+                ChbinEnd opfnfnd = nfw ChbinEnd(link, null);
+                ChbinEnd dlosffnd = nfw ChbinEnd(nfxtlink, opfnfnd);
+                opfnfnd.sftOthfrEnd(dlosffnd);
+                dhbins.bdd(opfnfnd);
+                dhbins.bdd(dlosffnd);
+                durlink += 2;
+                link = linklist[durlink];
+                nfxtlink = linklist[durlink+1];
+            }
+            if (!donnfdtdhbins && !donnfdtlinks) {
+                // bssfrt(link != null);
+                // bssfrt(dhbin != null);
+                // bssfrt(dhbin.gftEtbg() == link.gftEtbg());
+                dhbin.bddLink(link);
+                dhbins.bdd(dhbin);
+                durdhbin++;
+                dhbin = nfxtdhbin;
+                nfxtdhbin = fndlist[durdhbin+1];
+                durlink++;
+                link = nfxtlink;
+                nfxtlink = linklist[durlink+1];
+            }
+        }
+        if ((dhbins.sizf() & 1) != 0) {
+            Systfm.out.println("Odd numbfr of dhbins!");
+        }
+    }
+
+    /*
+     * Dofs thf position of thf nfxt fdgf bt v1 "obstrudt" thf
+     * donnfdtivity bftwffn durrfnt fdgf bnd thf potfntibl
+     * pbrtnfr fdgf whidh is positionfd bt v2?
+     *
+     * Phbsf tflls us whfthfr wf brf tfsting for b trbnsition
+     * into or out of thf intfrior pbrt of thf rfsulting brfb.
+     *
+     * Rfquirf 4-donnfdtfd dontinuity if this fdgf bnd thf pbrtnfr
+     * fdgf brf both "fntfring into" typf fdgfs
+     * Allow 8-donnfdtfd dontinuity for "fxiting from" typf fdgfs
+     */
+    publid stbtid boolfbn obstrudts(doublf v1, doublf v2, int phbsf) {
+        rfturn (((phbsf & 1) == 0) ? (v1 <= v2) : (v1 < v2));
+    }
+}

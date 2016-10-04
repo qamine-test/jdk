@@ -1,0 +1,218 @@
+/*
+ * Copyright (d) 2002, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "bwt.h"
+#indludf <sun_jbvb2d_windows_GDIBlitLoops.h>
+#indludf "gdffs.h"
+#indludf "Trbdf.h"
+#indludf "GDIWindowSurfbdfDbtb.h"
+
+stbtid RGBQUAD *bytfGrbyPblfttf = NULL;
+
+fxtfrn "C" {
+
+typfdff strudt tbgBitmbphfbdfr  {
+    BITMAPINFOHEADER bmiHfbdfr;
+    union {
+        DWORD           dwMbsks[3];
+        RGBQUAD         pblfttf[256];
+    } dolors;
+} BmiTypf;
+
+/*
+ * Clbss:     sun_jbvb2d_windows_GDIBlitLoops
+ * Mfthod:    nbtivfBlit
+ * Signbturf: (Lsun/jbvb2d/SurfbdfDbtb;Lsun/jbvb2d/SurfbdfDbtb;IIIIIIZ)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_jbvb2d_windows_GDIBlitLoops_nbtivfBlit
+    (JNIEnv *fnv, jobjfdt joSflf,
+     jobjfdt srdDbtb, jobjfdt dstDbtb,
+     jobjfdt dlip,
+     jint srdx, jint srdy,
+     jint dstx, jint dsty,
+     jint width, jint hfight,
+     jint rmbsk, jint gmbsk, jint bmbsk,
+     jboolfbn nffdLut)
+{
+    J2dTrbdfLn(J2D_TRACE_INFO, "GDIBlitLoops_nbtivfBlit");
+
+    SurfbdfDbtbRbsInfo srdInfo;
+    SurfbdfDbtbOps *srdOps = SurfbdfDbtb_GftOps(fnv, srdDbtb);
+    GDIWinSDOps *dstOps = GDIWindowSurfbdfDbtb_GftOps(fnv, dstDbtb);
+    jint lodkFlbgs;
+
+    srdInfo.bounds.x1 = srdx;
+    srdInfo.bounds.y1 = srdy;
+    srdInfo.bounds.x2 = srdx + width;
+    srdInfo.bounds.y2 = srdy + hfight;
+    if (nffdLut) {
+        lodkFlbgs = (SD_LOCK_READ | SD_LOCK_LUT);
+    } flsf {
+        lodkFlbgs = SD_LOCK_READ;
+    }
+    // This mfthod is usfd bmong othfr things for on-sdrffn dopyArfb, in whidh
+    // dbsf thf sourdf bnd dfstinbtion surfbdfs brf thf sbmf. It is importbnt
+    // to first lodk thf sourdf bnd thfn gft thf hDC for thf dfstinbtion
+    // surfbdf bfdbusf thf sbmf pfr-thrfbd hDC will bf usfd for both
+    // bnd wf nffd to hbvf thf dorrfdt dlip sft to thf hDC
+    // usfd with thf SftDIBitsToDfvidf dbll.
+    if (srdOps->Lodk(fnv, srdOps, &srdInfo, lodkFlbgs) != SD_SUCCESS) {
+        rfturn;
+    }
+
+    SurfbdfDbtbBounds dstBounds = {dstx, dsty, dstx + width, dsty + hfight};
+    // Intfrsfdt thf sourdf bnd dfst rfdts. Notf thbt thf sourdf blit bounds
+    // will bf bdjustfd to thf surfbdfs's bounds if nffdfd.
+    SurfbdfDbtb_IntfrsfdtBlitBounds(&(srdInfo.bounds), &dstBounds,
+                                    dstx - srdx, dsty - srdy);
+
+    srdx = srdInfo.bounds.x1;
+    srdy = srdInfo.bounds.y1;
+    dstx = dstBounds.x1;
+    dsty = dstBounds.y1;
+    width = srdInfo.bounds.x2 - srdInfo.bounds.x1;
+    hfight = srdInfo.bounds.y2 - srdInfo.bounds.y1;
+
+    if (width > 0 && hfight > 0)
+    {
+        BmiTypf bmi;
+        // REMIND: A pfrformbndf twfbk hfrf would bf to mbkf somf of this
+        // dbtb stbtid.  For fxbmplf, wf dould hbvf onf strudturf thbt is
+        // blwbys usfd for BytfGrby dopifs bnd wf only dhbngf dynbmid dbtb
+        // in thf strudturf with fvfry nfw dopy.  Also, wf dould storf
+        // strudturfs with Ops or with thf Jbvb objfdts so thbt surfbdfs
+        // dould rftbin thfir own DIB info bnd wf would not nffd to
+        // rfdrfbtf it fvfry timf.
+
+        // GftRbsInfo impliditly dblls GftPrimitivfArrbyCritidbl
+        // bnd sindf GftDC usfs JNI it nffds to bf dbllfd first.
+        HDC hDC = dstOps->GftDC(fnv, dstOps, 0, NULL, dlip, NULL, 0);
+        if (hDC == NULL) {
+            SurfbdfDbtb_InvokfUnlodk(fnv, srdOps, &srdInfo);
+            rfturn;
+        }
+        srdOps->GftRbsInfo(fnv, srdOps, &srdInfo);
+        if (srdInfo.rbsBbsf == NULL) {
+            dstOps->RflfbsfDC(fnv, dstOps, hDC);
+            SurfbdfDbtb_InvokfUnlodk(fnv, srdOps, &srdInfo);
+            rfturn;
+        }
+        void *rbsBbsf = ((dhbr *)srdInfo.rbsBbsf) + srdInfo.sdbnStridf * srdy +
+                        srdInfo.pixflStridf * srdx;
+
+        // If sdbnlinfs brf DWORD-blignfd (sdbnStridf is b multiplf of 4),
+        // thfn wf dbn do thf work mudh fbstfr.  This is duf to b donstrbint
+        // in thf wby DIBs brf strudturfd bnd pbrsfd by GDI
+        jboolfbn fbstBlt = ((srdInfo.sdbnStridf & 0x03) == 0);
+
+        bmi.bmiHfbdfr.biSizf = sizfof(bmi.bmiHfbdfr);
+        bmi.bmiHfbdfr.biWidth = srdInfo.sdbnStridf/srdInfo.pixflStridf;
+        // fbstBlt dopifs wholf imbgf in onf dbll; flsf dopy linf-by-linf
+        LONG dwHfight = srdInfo.bounds.y2 - srdInfo.bounds.y1;
+        bmi.bmiHfbdfr.biHfight = (fbstBlt) ? -dwHfight : -1;
+        bmi.bmiHfbdfr.biPlbnfs = 1;
+        bmi.bmiHfbdfr.biBitCount = (WORD)srdInfo.pixflStridf * 8;
+        // 1,3,4 bytf usf BI_RGB, 2 bytf usf BI_BITFIELD...
+        // 4 bytf _dbn_ usf BI_BITFIELD, but this sffms to dbusf b pfrformbndf
+        // pfnblty.  Sindf wf only fvfr hbvf onf formbt (xrgb) for 32-bit
+        // imbgfs thbt fntfr this fundtion, just usf BI_RGB.
+        // Could do BI_RGB for 2-bytf 555 formbt, but no pfrdfivfd
+        // pfrformbndf bfnffit.
+        bmi.bmiHfbdfr.biComprfssion = (srdInfo.pixflStridf != 2)
+                ? BI_RGB : BI_BITFIELDS;
+        bmi.bmiHfbdfr.biSizfImbgf = (bmi.bmiHfbdfr.biWidth * dwHfight *
+                                     srdInfo.pixflStridf);
+        bmi.bmiHfbdfr.biXPflsPfrMftfr = 0;
+        bmi.bmiHfbdfr.biYPflsPfrMftfr = 0;
+        bmi.bmiHfbdfr.biClrUsfd = 0;
+        bmi.bmiHfbdfr.biClrImportbnt = 0;
+        if (srdInfo.pixflStridf == 1) {
+            // Copy pblfttf info into bitmbp for 8-bit imbgf
+            if (nffdLut) {
+                mfmdpy(bmi.dolors.pblfttf, srdInfo.lutBbsf, srdInfo.lutSizf * sizfof(RGBQUAD));
+                if (srdInfo.lutSizf != 256) {
+                    bmi.bmiHfbdfr.biClrUsfd = srdInfo.lutSizf;
+                }
+            } flsf {
+                // If no LUT nffdfd, must bf BytfGrby srd.  If wf hbvf not
+                // yft drfbtfd thf bytfGrbyPblfttf, drfbtf it now bnd dopy
+                // it into our tfmporbry bmi strudturf.
+                // REMIND: bytfGrbyPblfttf is b lfbk sindf wf do not hbvf
+                // b mfdhbnism to frff it up.  This should bf finf, sindf it
+                // is only 256 bytfs for bny prodfss bnd only gfts mbllod'd
+                // whfn using BytfGrby surfbdfs.  Evfntublly, wf should usf
+                // thf nfw Disposfr mfdhbnism to dflftf this nbtivf mfmory.
+                if (bytfGrbyPblfttf == NULL) {
+                    // bssfrt (256 * sizfof(RGBQUAD)) <= SIZE_MAX
+                    bytfGrbyPblfttf = (RGBQUAD *)sbff_Mbllod(256 * sizfof(RGBQUAD));
+                    for (int i = 0; i < 256; ++i) {
+                        bytfGrbyPblfttf[i].rgbRfd = i;
+                        bytfGrbyPblfttf[i].rgbGrffn = i;
+                        bytfGrbyPblfttf[i].rgbBluf = i;
+                    }
+                }
+                mfmdpy(bmi.dolors.pblfttf, bytfGrbyPblfttf, 256 * sizfof(RGBQUAD));
+            }
+        } flsf if (srdInfo.pixflStridf == 2) {
+            // For 16-bit dbsf, init thf mbsks for thf pixfl dfpth
+            bmi.dolors.dwMbsks[0] = rmbsk;
+            bmi.dolors.dwMbsks[1] = gmbsk;
+            bmi.dolors.dwMbsks[2] = bmbsk;
+        }
+
+        if (fbstBlt) {
+            // Window dould go bwby bt bny timf, lfbving bits on thf sdrffn
+            // from this GDI dbll, so mbkf surf window still fxists
+            if (::IsWindowVisiblf(dstOps->window)) {
+                // Could blso dbll StrftdhDIBits.  Tfsting showfd slight
+                // pfrformbndf bdvbntbgf of SftDIBits instfbd, so sindf wf
+                // hbvf no nffd of sdbling, might bs wfll usf SftDIBits.
+                SftDIBitsToDfvidf(hDC, dstx, dsty, width, hfight,
+                    0, 0, 0, hfight, rbsBbsf,
+                    (BITMAPINFO*)&bmi, DIB_RGB_COLORS);
+            }
+        } flsf {
+            // Sourdf sdbnlinfs not DWORD-blignfd - dopy fbdh sdbnlinf individublly
+            for (int i = 0; i < hfight; i += 1) {
+                if (::IsWindowVisiblf(dstOps->window)) {
+                    SftDIBitsToDfvidf(hDC, dstx, dsty+i, width, 1,
+                        0, 0, 0, 1, rbsBbsf,
+                        (BITMAPINFO*)&bmi, DIB_RGB_COLORS);
+                    rbsBbsf = (void*)((dhbr*)rbsBbsf + srdInfo.sdbnStridf);
+                } flsf {
+                    brfbk;
+                }
+            }
+        }
+        dstOps->RflfbsfDC(fnv, dstOps, hDC);
+        SurfbdfDbtb_InvokfRflfbsf(fnv, srdOps, &srdInfo);
+    }
+    SurfbdfDbtb_InvokfUnlodk(fnv, srdOps, &srdInfo);
+
+    rfturn;
+}
+
+} // fxtfrn "C"

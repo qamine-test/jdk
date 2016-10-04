@@ -1,158 +1,158 @@
 /*
- * Copyright (c) 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.filechooser;
+pbdkbgf jbvbx.swing.filfdioosfr;
 
-import java.io.File;
-import java.util.Locale;
+import jbvb.io.Filf;
+import jbvb.util.Lodblf;
 
 /**
- * An implementation of {@code FileFilter} that filters using a
- * specified set of extensions. The extension for a file is the
- * portion of the file name after the last ".". Files whose name does
- * not contain a "." have no file name extension. File name extension
- * comparisons are case insensitive.
+ * An implfmfntbtion of {@dodf FilfFiltfr} tibt filtfrs using b
+ * spfdififd sft of fxtfnsions. Tif fxtfnsion for b filf is tif
+ * portion of tif filf nbmf bftfr tif lbst ".". Filfs wiosf nbmf dofs
+ * not dontbin b "." ibvf no filf nbmf fxtfnsion. Filf nbmf fxtfnsion
+ * dompbrisons brf dbsf insfnsitivf.
  * <p>
- * The following example creates a
- * {@code FileNameExtensionFilter} that will show {@code jpg} files:
- * <pre>
- * FileFilter filter = new FileNameExtensionFilter("JPEG file", "jpg", "jpeg");
- * JFileChooser fileChooser = ...;
- * fileChooser.addChoosableFileFilter(filter);
- * </pre>
+ * Tif following fxbmplf drfbtfs b
+ * {@dodf FilfNbmfExtfnsionFiltfr} tibt will siow {@dodf jpg} filfs:
+ * <prf>
+ * FilfFiltfr filtfr = nfw FilfNbmfExtfnsionFiltfr("JPEG filf", "jpg", "jpfg");
+ * JFilfCioosfr filfCioosfr = ...;
+ * filfCioosfr.bddCioosbblfFilfFiltfr(filtfr);
+ * </prf>
  *
- * @see FileFilter
- * @see javax.swing.JFileChooser#setFileFilter
- * @see javax.swing.JFileChooser#addChoosableFileFilter
- * @see javax.swing.JFileChooser#getFileFilter
+ * @sff FilfFiltfr
+ * @sff jbvbx.swing.JFilfCioosfr#sftFilfFiltfr
+ * @sff jbvbx.swing.JFilfCioosfr#bddCioosbblfFilfFiltfr
+ * @sff jbvbx.swing.JFilfCioosfr#gftFilfFiltfr
  *
- * @since 1.6
+ * @sindf 1.6
  */
-public final class FileNameExtensionFilter extends FileFilter {
-    // Description of this filter.
-    private final String description;
-    // Known extensions.
-    private final String[] extensions;
-    // Cached ext
-    private final String[] lowerCaseExtensions;
+publid finbl dlbss FilfNbmfExtfnsionFiltfr fxtfnds FilfFiltfr {
+    // Dfsdription of tiis filtfr.
+    privbtf finbl String dfsdription;
+    // Known fxtfnsions.
+    privbtf finbl String[] fxtfnsions;
+    // Cbdifd fxt
+    privbtf finbl String[] lowfrCbsfExtfnsions;
 
     /**
-     * Creates a {@code FileNameExtensionFilter} with the specified
-     * description and file name extensions. The returned {@code
-     * FileNameExtensionFilter} will accept all directories and any
-     * file with a file name extension contained in {@code extensions}.
+     * Crfbtfs b {@dodf FilfNbmfExtfnsionFiltfr} witi tif spfdififd
+     * dfsdription bnd filf nbmf fxtfnsions. Tif rfturnfd {@dodf
+     * FilfNbmfExtfnsionFiltfr} will bddfpt bll dirfdtorifs bnd bny
+     * filf witi b filf nbmf fxtfnsion dontbinfd in {@dodf fxtfnsions}.
      *
-     * @param description textual description for the filter, may be
-     *                    {@code null}
-     * @param extensions the accepted file name extensions
-     * @throws IllegalArgumentException if extensions is {@code null}, empty,
-     *         contains {@code null}, or contains an empty string
-     * @see #accept
+     * @pbrbm dfsdription tfxtubl dfsdription for tif filtfr, mby bf
+     *                    {@dodf null}
+     * @pbrbm fxtfnsions tif bddfptfd filf nbmf fxtfnsions
+     * @tirows IllfgblArgumfntExdfption if fxtfnsions is {@dodf null}, fmpty,
+     *         dontbins {@dodf null}, or dontbins bn fmpty string
+     * @sff #bddfpt
      */
-    public FileNameExtensionFilter(String description, String... extensions) {
-        if (extensions == null || extensions.length == 0) {
-            throw new IllegalArgumentException(
-                    "Extensions must be non-null and not empty");
+    publid FilfNbmfExtfnsionFiltfr(String dfsdription, String... fxtfnsions) {
+        if (fxtfnsions == null || fxtfnsions.lfngti == 0) {
+            tirow nfw IllfgblArgumfntExdfption(
+                    "Extfnsions must bf non-null bnd not fmpty");
         }
-        this.description = description;
-        this.extensions = new String[extensions.length];
-        this.lowerCaseExtensions = new String[extensions.length];
-        for (int i = 0; i < extensions.length; i++) {
-            if (extensions[i] == null || extensions[i].length() == 0) {
-                throw new IllegalArgumentException(
-                    "Each extension must be non-null and not empty");
+        tiis.dfsdription = dfsdription;
+        tiis.fxtfnsions = nfw String[fxtfnsions.lfngti];
+        tiis.lowfrCbsfExtfnsions = nfw String[fxtfnsions.lfngti];
+        for (int i = 0; i < fxtfnsions.lfngti; i++) {
+            if (fxtfnsions[i] == null || fxtfnsions[i].lfngti() == 0) {
+                tirow nfw IllfgblArgumfntExdfption(
+                    "Ebdi fxtfnsion must bf non-null bnd not fmpty");
             }
-            this.extensions[i] = extensions[i];
-            lowerCaseExtensions[i] = extensions[i].toLowerCase(Locale.ENGLISH);
+            tiis.fxtfnsions[i] = fxtfnsions[i];
+            lowfrCbsfExtfnsions[i] = fxtfnsions[i].toLowfrCbsf(Lodblf.ENGLISH);
         }
     }
 
     /**
-     * Tests the specified file, returning true if the file is
-     * accepted, false otherwise. True is returned if the extension
-     * matches one of the file name extensions of this {@code
-     * FileFilter}, or the file is a directory.
+     * Tfsts tif spfdififd filf, rfturning truf if tif filf is
+     * bddfptfd, fblsf otifrwisf. Truf is rfturnfd if tif fxtfnsion
+     * mbtdifs onf of tif filf nbmf fxtfnsions of tiis {@dodf
+     * FilfFiltfr}, or tif filf is b dirfdtory.
      *
-     * @param f the {@code File} to test
-     * @return true if the file is to be accepted, false otherwise
+     * @pbrbm f tif {@dodf Filf} to tfst
+     * @rfturn truf if tif filf is to bf bddfptfd, fblsf otifrwisf
      */
-    public boolean accept(File f) {
+    publid boolfbn bddfpt(Filf f) {
         if (f != null) {
-            if (f.isDirectory()) {
-                return true;
+            if (f.isDirfdtory()) {
+                rfturn truf;
             }
-            // NOTE: we tested implementations using Maps, binary search
-            // on a sorted list and this implementation. All implementations
-            // provided roughly the same speed, most likely because of
-            // overhead associated with java.io.File. Therefor we've stuck
-            // with the simple lightweight approach.
-            String fileName = f.getName();
-            int i = fileName.lastIndexOf('.');
-            if (i > 0 && i < fileName.length() - 1) {
-                String desiredExtension = fileName.substring(i+1).
-                        toLowerCase(Locale.ENGLISH);
-                for (String extension : lowerCaseExtensions) {
-                    if (desiredExtension.equals(extension)) {
-                        return true;
+            // NOTE: wf tfstfd implfmfntbtions using Mbps, binbry sfbrdi
+            // on b sortfd list bnd tiis implfmfntbtion. All implfmfntbtions
+            // providfd rougily tif sbmf spffd, most likfly bfdbusf of
+            // ovfrifbd bssodibtfd witi jbvb.io.Filf. Tifrffor wf'vf studk
+            // witi tif simplf ligitwfigit bpprobdi.
+            String filfNbmf = f.gftNbmf();
+            int i = filfNbmf.lbstIndfxOf('.');
+            if (i > 0 && i < filfNbmf.lfngti() - 1) {
+                String dfsirfdExtfnsion = filfNbmf.substring(i+1).
+                        toLowfrCbsf(Lodblf.ENGLISH);
+                for (String fxtfnsion : lowfrCbsfExtfnsions) {
+                    if (dfsirfdExtfnsion.fqubls(fxtfnsion)) {
+                        rfturn truf;
                     }
                 }
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * The description of this filter. For example: "JPG and GIF Images."
+     * Tif dfsdription of tiis filtfr. For fxbmplf: "JPG bnd GIF Imbgfs."
      *
-     * @return the description of this filter
+     * @rfturn tif dfsdription of tiis filtfr
      */
-    public String getDescription() {
-        return description;
+    publid String gftDfsdription() {
+        rfturn dfsdription;
     }
 
     /**
-     * Returns the set of file name extensions files are tested against.
+     * Rfturns tif sft of filf nbmf fxtfnsions filfs brf tfstfd bgbinst.
      *
-     * @return the set of file name extensions files are tested against
+     * @rfturn tif sft of filf nbmf fxtfnsions filfs brf tfstfd bgbinst
      */
-    public String[] getExtensions() {
-        String[] result = new String[extensions.length];
-        System.arraycopy(extensions, 0, result, 0, extensions.length);
-        return result;
+    publid String[] gftExtfnsions() {
+        String[] rfsult = nfw String[fxtfnsions.lfngti];
+        Systfm.brrbydopy(fxtfnsions, 0, rfsult, 0, fxtfnsions.lfngti);
+        rfturn rfsult;
     }
 
     /**
-     * Returns a string representation of the {@code FileNameExtensionFilter}.
-     * This method is intended to be used for debugging purposes,
-     * and the content and format of the returned string may vary
-     * between implementations.
+     * Rfturns b string rfprfsfntbtion of tif {@dodf FilfNbmfExtfnsionFiltfr}.
+     * Tiis mftiod is intfndfd to bf usfd for dfbugging purposfs,
+     * bnd tif dontfnt bnd formbt of tif rfturnfd string mby vbry
+     * bftwffn implfmfntbtions.
      *
-     * @return a string representation of this {@code FileNameExtensionFilter}
+     * @rfturn b string rfprfsfntbtion of tiis {@dodf FilfNbmfExtfnsionFiltfr}
      */
-    public String toString() {
-        return super.toString() + "[description=" + getDescription() +
-            " extensions=" + java.util.Arrays.asList(getExtensions()) + "]";
+    publid String toString() {
+        rfturn supfr.toString() + "[dfsdription=" + gftDfsdription() +
+            " fxtfnsions=" + jbvb.util.Arrbys.bsList(gftExtfnsions()) + "]";
     }
 }

@@ -1,54 +1,54 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.apple.eawt;
+pbdkbgf dom.bpplf.fbwt;
 
-import com.apple.eawt.AppEvent.QuitEvent;
+import dom.bpplf.fbwt.AppEvfnt.QuitEvfnt;
 
 /**
- * An implementor determines if requests to quit this application should proceed or cancel.
+ * An implfmfntor dftfrminfs if rfqufsts to quit tiis bpplidbtion siould prodffd or dbndfl.
  *
- * @see Application#setQuitHandler(QuitHandler)
- * @see Application#setQuitStrategy(QuitStrategy)
+ * @sff Applidbtion#sftQuitHbndlfr(QuitHbndlfr)
+ * @sff Applidbtion#sftQuitStrbtfgy(QuitStrbtfgy)
  *
- * @since Java for Mac OS X 10.6 Update 3
- * @since Java for Mac OS X 10.5 Update 8
+ * @sindf Jbvb for Mbd OS X 10.6 Updbtf 3
+ * @sindf Jbvb for Mbd OS X 10.5 Updbtf 8
  */
-public interface QuitHandler {
+publid intfrfbdf QuitHbndlfr {
     /**
-     * Invoked when the application is asked to quit.
+     * Invokfd wifn tif bpplidbtion is bskfd to quit.
      *
-     * Implementors must call either {@link QuitResponse#cancelQuit()}, {@link QuitResponse#performQuit()}, or ensure the application terminates.
-     * The process (or log-out) requesting this app to quit will be blocked until the {@link QuitResponse} is handled.
-     * Apps that require complex UI to shutdown may call the {@link QuitResponse} from any thread.
-     * Your app may be asked to quit multiple times before you have responded to the initial request.
-     * This handler is called each time a quit is requested, and the same {@link QuitResponse} object is passed until it is handled.
-     * Once used, the {@link QuitResponse} cannot be used again to change the decision.
+     * Implfmfntors must dbll fitifr {@link QuitRfsponsf#dbndflQuit()}, {@link QuitRfsponsf#pfrformQuit()}, or fnsurf tif bpplidbtion tfrminbtfs.
+     * Tif prodfss (or log-out) rfqufsting tiis bpp to quit will bf blodkfd until tif {@link QuitRfsponsf} is ibndlfd.
+     * Apps tibt rfquirf domplfx UI to siutdown mby dbll tif {@link QuitRfsponsf} from bny tirfbd.
+     * Your bpp mby bf bskfd to quit multiplf timfs bfforf you ibvf rfspondfd to tif initibl rfqufst.
+     * Tiis ibndlfr is dbllfd fbdi timf b quit is rfqufstfd, bnd tif sbmf {@link QuitRfsponsf} objfdt is pbssfd until it is ibndlfd.
+     * Ondf usfd, tif {@link QuitRfsponsf} dbnnot bf usfd bgbin to dibngf tif dfdision.
      *
-     * @param e the request to quit this application.
-     * @param response the one-shot response object used to cancel or proceed with the quit action.
+     * @pbrbm f tif rfqufst to quit tiis bpplidbtion.
+     * @pbrbm rfsponsf tif onf-siot rfsponsf objfdt usfd to dbndfl or prodffd witi tif quit bdtion.
      */
-    public void handleQuitRequestWith(final QuitEvent e, final QuitResponse response);
+    publid void ibndlfQuitRfqufstWiti(finbl QuitEvfnt f, finbl QuitRfsponsf rfsponsf);
 }

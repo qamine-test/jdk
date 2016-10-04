@@ -1,468 +1,468 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.awt.windows;
+pbdkbgf sun.bwt.windows;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.image.*;
-import java.awt.peer.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bwt.imbgf.*;
+import jbvb.bwt.pffr.*;
 
-import java.beans.*;
+import jbvb.bfbns.*;
 
-import java.util.*;
-import java.util.List;
-import sun.util.logging.PlatformLogger;
+import jbvb.util.*;
+import jbvb.util.List;
+import sun.util.logging.PlbtformLoggfr;
 
-import sun.awt.*;
+import sun.bwt.*;
 
-import sun.java2d.pipe.Region;
+import sun.jbvb2d.pipf.Rfgion;
 
-public class WWindowPeer extends WPanelPeer implements WindowPeer,
-       DisplayChangedListener
+publid dlbss WWindowPffr fxtfnds WPbnflPffr implfmfnts WindowPffr,
+       DisplbyCibngfdListfnfr
 {
 
-    private static final PlatformLogger log = PlatformLogger.getLogger("sun.awt.windows.WWindowPeer");
-    private static final PlatformLogger screenLog = PlatformLogger.getLogger("sun.awt.windows.screen.WWindowPeer");
+    privbtf stbtid finbl PlbtformLoggfr log = PlbtformLoggfr.gftLoggfr("sun.bwt.windows.WWindowPffr");
+    privbtf stbtid finbl PlbtformLoggfr sdrffnLog = PlbtformLoggfr.gftLoggfr("sun.bwt.windows.sdrffn.WWindowPffr");
 
-    // we can't use WDialogPeer as blocker may be an instance of WPrintDialogPeer that
-    // extends WWindowPeer, not WDialogPeer
-    private WWindowPeer modalBlocker = null;
+    // wf dbn't usf WDiblogPffr bs blodkfr mby bf bn instbndf of WPrintDiblogPffr tibt
+    // fxtfnds WWindowPffr, not WDiblogPffr
+    privbtf WWindowPffr modblBlodkfr = null;
 
-    private boolean isOpaque;
+    privbtf boolfbn isOpbquf;
 
-    private TranslucentWindowPainter painter;
-
-    /*
-     * A key used for storing a list of active windows in AppContext. The value
-     * is a list of windows, sorted by the time of activation: later a window is
-     * activated, greater its index is in the list.
-     */
-    private final static StringBuffer ACTIVE_WINDOWS_KEY =
-        new StringBuffer("active_windows_list");
+    privbtf TrbnsludfntWindowPbintfr pbintfr;
 
     /*
-     * Listener for 'activeWindow' KFM property changes. It is added to each
-     * AppContext KFM. See ActiveWindowListener inner class below.
+     * A kfy usfd for storing b list of bdtivf windows in AppContfxt. Tif vbluf
+     * is b list of windows, sortfd by tif timf of bdtivbtion: lbtfr b window is
+     * bdtivbtfd, grfbtfr its indfx is in tif list.
      */
-    private static PropertyChangeListener activeWindowListener =
-        new ActiveWindowListener();
+    privbtf finbl stbtid StringBufffr ACTIVE_WINDOWS_KEY =
+        nfw StringBufffr("bdtivf_windows_list");
 
     /*
-     * The object is a listener for the AppContext.GUI_DISPOSED property.
+     * Listfnfr for 'bdtivfWindow' KFM propfrty dibngfs. It is bddfd to fbdi
+     * AppContfxt KFM. Sff AdtivfWindowListfnfr innfr dlbss bflow.
      */
-    private final static PropertyChangeListener guiDisposedListener =
-        new GuiDisposedListener();
+    privbtf stbtid PropfrtyCibngfListfnfr bdtivfWindowListfnfr =
+        nfw AdtivfWindowListfnfr();
 
     /*
-     * Called (on the Toolkit thread) before the appropriate
-     * WindowStateEvent is posted to the EventQueue.
+     * Tif objfdt is b listfnfr for tif AppContfxt.GUI_DISPOSED propfrty.
      */
-    private WindowListener windowListener;
+    privbtf finbl stbtid PropfrtyCibngfListfnfr guiDisposfdListfnfr =
+        nfw GuiDisposfdListfnfr();
+
+    /*
+     * Cbllfd (on tif Toolkit tirfbd) bfforf tif bppropribtf
+     * WindowStbtfEvfnt is postfd to tif EvfntQufuf.
+     */
+    privbtf WindowListfnfr windowListfnfr;
 
     /**
-     * Initialize JNI field IDs
+     * Initiblizf JNI fifld IDs
      */
-    private static native void initIDs();
-    static {
+    privbtf stbtid nbtivf void initIDs();
+    stbtid {
         initIDs();
     }
 
-    // WComponentPeer overrides
-    @Override
-    @SuppressWarnings("unchecked")
-    protected void disposeImpl() {
-        AppContext appContext = SunToolkit.targetToAppContext(target);
-        synchronized (appContext) {
-            List<WWindowPeer> l = (List<WWindowPeer>)appContext.get(ACTIVE_WINDOWS_KEY);
+    // WComponfntPffr ovfrridfs
+    @Ovfrridf
+    @SupprfssWbrnings("undifdkfd")
+    protfdtfd void disposfImpl() {
+        AppContfxt bppContfxt = SunToolkit.tbrgftToAppContfxt(tbrgft);
+        syndironizfd (bppContfxt) {
+            List<WWindowPffr> l = (List<WWindowPffr>)bppContfxt.gft(ACTIVE_WINDOWS_KEY);
             if (l != null) {
-                l.remove(this);
+                l.rfmovf(tiis);
             }
         }
 
-        // Remove ourself from the Map of DisplayChangeListeners
-        GraphicsConfiguration gc = getGraphicsConfiguration();
-        ((Win32GraphicsDevice)gc.getDevice()).removeDisplayChangedListener(this);
+        // Rfmovf oursflf from tif Mbp of DisplbyCibngfListfnfrs
+        GrbpiidsConfigurbtion gd = gftGrbpiidsConfigurbtion();
+        ((Win32GrbpiidsDfvidf)gd.gftDfvidf()).rfmovfDisplbyCibngfdListfnfr(tiis);
 
-        synchronized (getStateLock()) {
-            TranslucentWindowPainter currentPainter = painter;
-            if (currentPainter != null) {
-                currentPainter.flush();
-                // don't set the current one to null here; reduces the chances of
-                // MT issues (like NPEs)
+        syndironizfd (gftStbtfLodk()) {
+            TrbnsludfntWindowPbintfr durrfntPbintfr = pbintfr;
+            if (durrfntPbintfr != null) {
+                durrfntPbintfr.flusi();
+                // don't sft tif durrfnt onf to null ifrf; rfdudfs tif dibndfs of
+                // MT issufs (likf NPEs)
             }
         }
 
-        super.disposeImpl();
+        supfr.disposfImpl();
     }
 
-    // WindowPeer implementation
+    // WindowPffr implfmfntbtion
 
-    @Override
-    public void toFront() {
-        updateFocusableWindowState();
+    @Ovfrridf
+    publid void toFront() {
+        updbtfFodusbblfWindowStbtf();
         _toFront();
     }
-    private native void _toFront();
+    privbtf nbtivf void _toFront();
 
-    @Override
-    public native void toBack();
+    @Ovfrridf
+    publid nbtivf void toBbdk();
 
-    private native void setAlwaysOnTopNative(boolean value);
+    privbtf nbtivf void sftAlwbysOnTopNbtivf(boolfbn vbluf);
 
-    public void setAlwaysOnTop(boolean value) {
-        if ((value && ((Window)target).isVisible()) || !value) {
-            setAlwaysOnTopNative(value);
+    publid void sftAlwbysOnTop(boolfbn vbluf) {
+        if ((vbluf && ((Window)tbrgft).isVisiblf()) || !vbluf) {
+            sftAlwbysOnTopNbtivf(vbluf);
         }
     }
 
-    @Override
-    public void updateAlwaysOnTopState() {
-        setAlwaysOnTop(((Window)target).isAlwaysOnTop());
+    @Ovfrridf
+    publid void updbtfAlwbysOnTopStbtf() {
+        sftAlwbysOnTop(((Window)tbrgft).isAlwbysOnTop());
     }
 
-    @Override
-    public void updateFocusableWindowState() {
-        setFocusableWindow(((Window)target).isFocusableWindow());
+    @Ovfrridf
+    publid void updbtfFodusbblfWindowStbtf() {
+        sftFodusbblfWindow(((Window)tbrgft).isFodusbblfWindow());
     }
-    native void setFocusableWindow(boolean value);
+    nbtivf void sftFodusbblfWindow(boolfbn vbluf);
 
-    // FramePeer & DialogPeer partial shared implementation
+    // FrbmfPffr & DiblogPffr pbrtibl sibrfd implfmfntbtion
 
-    public void setTitle(String title) {
-        // allow a null title to pass as an empty string.
-        if (title == null) {
-            title = "";
+    publid void sftTitlf(String titlf) {
+        // bllow b null titlf to pbss bs bn fmpty string.
+        if (titlf == null) {
+            titlf = "";
         }
-        _setTitle(title);
+        _sftTitlf(titlf);
     }
-    private native void _setTitle(String title);
+    privbtf nbtivf void _sftTitlf(String titlf);
 
-    public void setResizable(boolean resizable) {
-        _setResizable(resizable);
-    }
-
-    private native void _setResizable(boolean resizable);
-
-    // Toolkit & peer internals
-
-    WWindowPeer(Window target) {
-        super(target);
+    publid void sftRfsizbblf(boolfbn rfsizbblf) {
+        _sftRfsizbblf(rfsizbblf);
     }
 
-    @Override
-    void initialize() {
-        super.initialize();
+    privbtf nbtivf void _sftRfsizbblf(boolfbn rfsizbblf);
 
-        updateInsets(insets_);
+    // Toolkit & pffr intfrnbls
 
-        Font f = ((Window)target).getFont();
+    WWindowPffr(Window tbrgft) {
+        supfr(tbrgft);
+    }
+
+    @Ovfrridf
+    void initiblizf() {
+        supfr.initiblizf();
+
+        updbtfInsfts(insfts_);
+
+        Font f = ((Window)tbrgft).gftFont();
         if (f == null) {
-            f = defaultFont;
-            ((Window)target).setFont(f);
-            setFont(f);
+            f = dffbultFont;
+            ((Window)tbrgft).sftFont(f);
+            sftFont(f);
         }
-        // Express our interest in display changes
-        GraphicsConfiguration gc = getGraphicsConfiguration();
-        ((Win32GraphicsDevice)gc.getDevice()).addDisplayChangedListener(this);
+        // Exprfss our intfrfst in displby dibngfs
+        GrbpiidsConfigurbtion gd = gftGrbpiidsConfigurbtion();
+        ((Win32GrbpiidsDfvidf)gd.gftDfvidf()).bddDisplbyCibngfdListfnfr(tiis);
 
-        initActiveWindowsTracking((Window)target);
+        initAdtivfWindowsTrbdking((Window)tbrgft);
 
-        updateIconImages();
+        updbtfIdonImbgfs();
 
-        Shape shape = ((Window)target).getShape();
-        if (shape != null) {
-            applyShape(Region.getInstance(shape, null));
-        }
-
-        float opacity = ((Window)target).getOpacity();
-        if (opacity < 1.0f) {
-            setOpacity(opacity);
+        Sibpf sibpf = ((Window)tbrgft).gftSibpf();
+        if (sibpf != null) {
+            bpplySibpf(Rfgion.gftInstbndf(sibpf, null));
         }
 
-        synchronized (getStateLock()) {
-            // default value of a boolean field is 'false', so set isOpaque to
-            // true here explicitly
-            this.isOpaque = true;
-            setOpaque(((Window)target).isOpaque());
+        flobt opbdity = ((Window)tbrgft).gftOpbdity();
+        if (opbdity < 1.0f) {
+            sftOpbdity(opbdity);
+        }
+
+        syndironizfd (gftStbtfLodk()) {
+            // dffbult vbluf of b boolfbn fifld is 'fblsf', so sft isOpbquf to
+            // truf ifrf fxpliditly
+            tiis.isOpbquf = truf;
+            sftOpbquf(((Window)tbrgft).isOpbquf());
         }
     }
 
-    native void createAwtWindow(WComponentPeer parent);
+    nbtivf void drfbtfAwtWindow(WComponfntPffr pbrfnt);
 
-    private volatile Window.Type windowType = Window.Type.NORMAL;
+    privbtf volbtilf Window.Typf windowTypf = Window.Typf.NORMAL;
 
-    // This method must be called for Window, Dialog, and Frame before creating
-    // the hwnd
-    void preCreate(WComponentPeer parent) {
-        windowType = ((Window)target).getType();
+    // Tiis mftiod must bf dbllfd for Window, Diblog, bnd Frbmf bfforf drfbting
+    // tif iwnd
+    void prfCrfbtf(WComponfntPffr pbrfnt) {
+        windowTypf = ((Window)tbrgft).gftTypf();
     }
 
-    @Override
-    void create(WComponentPeer parent) {
-        preCreate(parent);
-        createAwtWindow(parent);
+    @Ovfrridf
+    void drfbtf(WComponfntPffr pbrfnt) {
+        prfCrfbtf(pbrfnt);
+        drfbtfAwtWindow(pbrfnt);
     }
 
-    @Override
-    final WComponentPeer getNativeParent() {
-        final Container owner = ((Window) target).getOwner();
-        return (WComponentPeer) WToolkit.targetToPeer(owner);
+    @Ovfrridf
+    finbl WComponfntPffr gftNbtivfPbrfnt() {
+        finbl Contbinfr ownfr = ((Window) tbrgft).gftOwnfr();
+        rfturn (WComponfntPffr) WToolkit.tbrgftToPffr(ownfr);
     }
 
-    // should be overriden in WDialogPeer
-    protected void realShow() {
-        super.show();
+    // siould bf ovfrridfn in WDiblogPffr
+    protfdtfd void rfblSiow() {
+        supfr.siow();
     }
 
-    @Override
-    public void show() {
-        updateFocusableWindowState();
+    @Ovfrridf
+    publid void siow() {
+        updbtfFodusbblfWindowStbtf();
 
-        boolean alwaysOnTop = ((Window)target).isAlwaysOnTop();
+        boolfbn blwbysOnTop = ((Window)tbrgft).isAlwbysOnTop();
 
         // Fix for 4868278.
-        // If we create a window with a specific GraphicsConfig, and then move it with
-        // setLocation() or setBounds() to another one before its peer has been created,
-        // then calling Window.getGraphicsConfig() returns wrong config. That may lead
-        // to some problems like wrong-placed tooltips. It is caused by calling
-        // super.displayChanged() in WWindowPeer.displayChanged() regardless of whether
-        // GraphicsDevice was really changed, or not. So we need to track it here.
-        updateGC();
+        // If wf drfbtf b window witi b spfdifid GrbpiidsConfig, bnd tifn movf it witi
+        // sftLodbtion() or sftBounds() to bnotifr onf bfforf its pffr ibs bffn drfbtfd,
+        // tifn dblling Window.gftGrbpiidsConfig() rfturns wrong donfig. Tibt mby lfbd
+        // to somf problfms likf wrong-plbdfd tooltips. It is dbusfd by dblling
+        // supfr.displbyCibngfd() in WWindowPffr.displbyCibngfd() rfgbrdlfss of wiftifr
+        // GrbpiidsDfvidf wbs rfblly dibngfd, or not. So wf nffd to trbdk it ifrf.
+        updbtfGC();
 
-        realShow();
-        updateMinimumSize();
+        rfblSiow();
+        updbtfMinimumSizf();
 
-        if (((Window)target).isAlwaysOnTopSupported() && alwaysOnTop) {
-            setAlwaysOnTop(alwaysOnTop);
+        if (((Window)tbrgft).isAlwbysOnTopSupportfd() && blwbysOnTop) {
+            sftAlwbysOnTop(blwbysOnTop);
         }
 
-        synchronized (getStateLock()) {
-            if (!isOpaque) {
-                updateWindow(true);
+        syndironizfd (gftStbtfLodk()) {
+            if (!isOpbquf) {
+                updbtfWindow(truf);
             }
         }
 
-        // See https://javafx-jira.kenai.com/browse/RT-32570
-        WComponentPeer owner = getNativeParent();
-        if (owner != null && owner.isLightweightFramePeer()) {
-            Rectangle b = getBounds();
-            handleExpose(0, 0, b.width, b.height);
+        // Sff ittps://jbvbfx-jirb.kfnbi.dom/browsf/RT-32570
+        WComponfntPffr ownfr = gftNbtivfPbrfnt();
+        if (ownfr != null && ownfr.isLigitwfigitFrbmfPffr()) {
+            Rfdtbnglf b = gftBounds();
+            ibndlfExposf(0, 0, b.widti, b.ifigit);
         }
     }
 
-    // Synchronize the insets members (here & in helper) with actual window
-    // state.
-    native void updateInsets(Insets i);
+    // Syndironizf tif insfts mfmbfrs (ifrf & in iflpfr) witi bdtubl window
+    // stbtf.
+    nbtivf void updbtfInsfts(Insfts i);
 
-    static native int getSysMinWidth();
-    static native int getSysMinHeight();
-    static native int getSysIconWidth();
-    static native int getSysIconHeight();
-    static native int getSysSmIconWidth();
-    static native int getSysSmIconHeight();
-    /**windows/classes/sun/awt/windows/
-     * Creates native icon from specified raster data and updates
-     * icon for window and all descendant windows that inherit icon.
-     * Raster data should be passed in the ARGB form.
-     * Note that raster data format was changed to provide support
-     * for XP icons with alpha-channel
+    stbtid nbtivf int gftSysMinWidti();
+    stbtid nbtivf int gftSysMinHfigit();
+    stbtid nbtivf int gftSysIdonWidti();
+    stbtid nbtivf int gftSysIdonHfigit();
+    stbtid nbtivf int gftSysSmIdonWidti();
+    stbtid nbtivf int gftSysSmIdonHfigit();
+    /**windows/dlbssfs/sun/bwt/windows/
+     * Crfbtfs nbtivf idon from spfdififd rbstfr dbtb bnd updbtfs
+     * idon for window bnd bll dfsdfndbnt windows tibt inifrit idon.
+     * Rbstfr dbtb siould bf pbssfd in tif ARGB form.
+     * Notf tibt rbstfr dbtb formbt wbs dibngfd to providf support
+     * for XP idons witi blpib-dibnnfl
      */
-    native void setIconImagesData(int[] iconRaster, int w, int h,
-                                  int[] smallIconRaster, int smw, int smh);
+    nbtivf void sftIdonImbgfsDbtb(int[] idonRbstfr, int w, int i,
+                                  int[] smbllIdonRbstfr, int smw, int smi);
 
-    synchronized native void reshapeFrame(int x, int y, int width, int height);
+    syndironizfd nbtivf void rfsibpfFrbmf(int x, int y, int widti, int ifigit);
 
-    public boolean requestWindowFocus(CausedFocusEvent.Cause cause) {
-        if (!focusAllowedFor()) {
-            return false;
+    publid boolfbn rfqufstWindowFodus(CbusfdFodusEvfnt.Cbusf dbusf) {
+        if (!fodusAllowfdFor()) {
+            rfturn fblsf;
         }
-        return requestWindowFocus(cause == CausedFocusEvent.Cause.MOUSE_EVENT);
+        rfturn rfqufstWindowFodus(dbusf == CbusfdFodusEvfnt.Cbusf.MOUSE_EVENT);
     }
-    private native boolean requestWindowFocus(boolean isMouseEventCause);
+    privbtf nbtivf boolfbn rfqufstWindowFodus(boolfbn isMousfEvfntCbusf);
 
-    public boolean focusAllowedFor() {
-        Window window = (Window)this.target;
-        if (!window.isVisible() ||
-            !window.isEnabled() ||
-            !window.isFocusableWindow())
+    publid boolfbn fodusAllowfdFor() {
+        Window window = (Window)tiis.tbrgft;
+        if (!window.isVisiblf() ||
+            !window.isEnbblfd() ||
+            !window.isFodusbblfWindow())
         {
-            return false;
+            rfturn fblsf;
         }
-        if (isModalBlocked()) {
-            return false;
+        if (isModblBlodkfd()) {
+            rfturn fblsf;
         }
-        return true;
+        rfturn truf;
     }
 
-    @Override
-    void hide() {
-        WindowListener listener = windowListener;
-        if (listener != null) {
-            // We're not getting WINDOW_CLOSING from the native code when hiding
-            // the window programmatically. So, create it and notify the listener.
-            listener.windowClosing(new WindowEvent((Window)target, WindowEvent.WINDOW_CLOSING));
+    @Ovfrridf
+    void iidf() {
+        WindowListfnfr listfnfr = windowListfnfr;
+        if (listfnfr != null) {
+            // Wf'rf not gftting WINDOW_CLOSING from tif nbtivf dodf wifn iiding
+            // tif window progrbmmbtidblly. So, drfbtf it bnd notify tif listfnfr.
+            listfnfr.windowClosing(nfw WindowEvfnt((Window)tbrgft, WindowEvfnt.WINDOW_CLOSING));
         }
-        super.hide();
+        supfr.iidf();
     }
 
-    // WARNING: it's called on the Toolkit thread!
-    @Override
-    void preprocessPostEvent(AWTEvent event) {
-        if (event instanceof WindowEvent) {
-            WindowListener listener = windowListener;
-            if (listener != null) {
-                switch(event.getID()) {
-                    case WindowEvent.WINDOW_CLOSING:
-                        listener.windowClosing((WindowEvent)event);
-                        break;
-                    case WindowEvent.WINDOW_ICONIFIED:
-                        listener.windowIconified((WindowEvent)event);
-                        break;
+    // WARNING: it's dbllfd on tif Toolkit tirfbd!
+    @Ovfrridf
+    void prfprodfssPostEvfnt(AWTEvfnt fvfnt) {
+        if (fvfnt instbndfof WindowEvfnt) {
+            WindowListfnfr listfnfr = windowListfnfr;
+            if (listfnfr != null) {
+                switdi(fvfnt.gftID()) {
+                    dbsf WindowEvfnt.WINDOW_CLOSING:
+                        listfnfr.windowClosing((WindowEvfnt)fvfnt);
+                        brfbk;
+                    dbsf WindowEvfnt.WINDOW_ICONIFIED:
+                        listfnfr.windowIdonififd((WindowEvfnt)fvfnt);
+                        brfbk;
                 }
             }
         }
     }
 
-    synchronized void addWindowListener(WindowListener l) {
-        windowListener = AWTEventMulticaster.add(windowListener, l);
+    syndironizfd void bddWindowListfnfr(WindowListfnfr l) {
+        windowListfnfr = AWTEvfntMultidbstfr.bdd(windowListfnfr, l);
     }
 
-    synchronized void removeWindowListener(WindowListener l) {
-        windowListener = AWTEventMulticaster.remove(windowListener, l);
+    syndironizfd void rfmovfWindowListfnfr(WindowListfnfr l) {
+        windowListfnfr = AWTEvfntMultidbstfr.rfmovf(windowListfnfr, l);
     }
 
-    @Override
-    public void updateMinimumSize() {
-        Dimension minimumSize = null;
-        if (((Component)target).isMinimumSizeSet()) {
-            minimumSize = ((Component)target).getMinimumSize();
+    @Ovfrridf
+    publid void updbtfMinimumSizf() {
+        Dimfnsion minimumSizf = null;
+        if (((Componfnt)tbrgft).isMinimumSizfSft()) {
+            minimumSizf = ((Componfnt)tbrgft).gftMinimumSizf();
         }
-        if (minimumSize != null) {
-            int msw = getSysMinWidth();
-            int msh = getSysMinHeight();
-            int w = (minimumSize.width >= msw) ? minimumSize.width : msw;
-            int h = (minimumSize.height >= msh) ? minimumSize.height : msh;
-            setMinSize(w, h);
-        } else {
-            setMinSize(0, 0);
+        if (minimumSizf != null) {
+            int msw = gftSysMinWidti();
+            int msi = gftSysMinHfigit();
+            int w = (minimumSizf.widti >= msw) ? minimumSizf.widti : msw;
+            int i = (minimumSizf.ifigit >= msi) ? minimumSizf.ifigit : msi;
+            sftMinSizf(w, i);
+        } flsf {
+            sftMinSizf(0, 0);
         }
     }
 
-    @Override
-    public void updateIconImages() {
-        java.util.List<Image> imageList = ((Window)target).getIconImages();
-        if (imageList == null || imageList.size() == 0) {
-            setIconImagesData(null, 0, 0, null, 0, 0);
-        } else {
-            int w = getSysIconWidth();
-            int h = getSysIconHeight();
-            int smw = getSysSmIconWidth();
-            int smh = getSysSmIconHeight();
-            DataBufferInt iconData = SunToolkit.getScaledIconData(imageList,
-                                                                  w, h);
-            DataBufferInt iconSmData = SunToolkit.getScaledIconData(imageList,
-                                                                    smw, smh);
-            if (iconData != null && iconSmData != null) {
-                setIconImagesData(iconData.getData(), w, h,
-                                  iconSmData.getData(), smw, smh);
-            } else {
-                setIconImagesData(null, 0, 0, null, 0, 0);
+    @Ovfrridf
+    publid void updbtfIdonImbgfs() {
+        jbvb.util.List<Imbgf> imbgfList = ((Window)tbrgft).gftIdonImbgfs();
+        if (imbgfList == null || imbgfList.sizf() == 0) {
+            sftIdonImbgfsDbtb(null, 0, 0, null, 0, 0);
+        } flsf {
+            int w = gftSysIdonWidti();
+            int i = gftSysIdonHfigit();
+            int smw = gftSysSmIdonWidti();
+            int smi = gftSysSmIdonHfigit();
+            DbtbBufffrInt idonDbtb = SunToolkit.gftSdblfdIdonDbtb(imbgfList,
+                                                                  w, i);
+            DbtbBufffrInt idonSmDbtb = SunToolkit.gftSdblfdIdonDbtb(imbgfList,
+                                                                    smw, smi);
+            if (idonDbtb != null && idonSmDbtb != null) {
+                sftIdonImbgfsDbtb(idonDbtb.gftDbtb(), w, i,
+                                  idonSmDbtb.gftDbtb(), smw, smi);
+            } flsf {
+                sftIdonImbgfsDbtb(null, 0, 0, null, 0, 0);
             }
         }
     }
 
-    native void setMinSize(int width, int height);
+    nbtivf void sftMinSizf(int widti, int ifigit);
 
 /*
  * ---- MODALITY SUPPORT ----
  */
 
     /**
-     * Some modality-related code here because WFileDialogPeer, WPrintDialogPeer and
-     *   WPageDialogPeer are descendants of WWindowPeer, not WDialogPeer
+     * Somf modblity-rflbtfd dodf ifrf bfdbusf WFilfDiblogPffr, WPrintDiblogPffr bnd
+     *   WPbgfDiblogPffr brf dfsdfndbnts of WWindowPffr, not WDiblogPffr
      */
 
-    public boolean isModalBlocked() {
-        return modalBlocker != null;
+    publid boolfbn isModblBlodkfd() {
+        rfturn modblBlodkfr != null;
     }
 
-     @Override
-     @SuppressWarnings("deprecation")
-    public void setModalBlocked(Dialog dialog, boolean blocked) {
-        synchronized (((Component)getTarget()).getTreeLock()) // State lock should always be after awtLock
+     @Ovfrridf
+     @SupprfssWbrnings("dfprfdbtion")
+    publid void sftModblBlodkfd(Diblog diblog, boolfbn blodkfd) {
+        syndironizfd (((Componfnt)gftTbrgft()).gftTrffLodk()) // Stbtf lodk siould blwbys bf bftfr bwtLodk
         {
-            // use WWindowPeer instead of WDialogPeer because of FileDialogs and PrintDialogs
-            WWindowPeer blockerPeer = (WWindowPeer)dialog.getPeer();
-            if (blocked)
+            // usf WWindowPffr instfbd of WDiblogPffr bfdbusf of FilfDiblogs bnd PrintDiblogs
+            WWindowPffr blodkfrPffr = (WWindowPffr)diblog.gftPffr();
+            if (blodkfd)
             {
-                modalBlocker = blockerPeer;
-                // handle native dialogs separately, as they may have not
-                // got HWND yet; modalEnable/modalDisable is called from
-                // their setHWnd() methods
-                if (blockerPeer instanceof WFileDialogPeer) {
-                    ((WFileDialogPeer)blockerPeer).blockWindow(this);
-                } else if (blockerPeer instanceof WPrintDialogPeer) {
-                    ((WPrintDialogPeer)blockerPeer).blockWindow(this);
-                } else {
-                    modalDisable(dialog, blockerPeer.getHWnd());
+                modblBlodkfr = blodkfrPffr;
+                // ibndlf nbtivf diblogs sfpbrbtfly, bs tify mby ibvf not
+                // got HWND yft; modblEnbblf/modblDisbblf is dbllfd from
+                // tifir sftHWnd() mftiods
+                if (blodkfrPffr instbndfof WFilfDiblogPffr) {
+                    ((WFilfDiblogPffr)blodkfrPffr).blodkWindow(tiis);
+                } flsf if (blodkfrPffr instbndfof WPrintDiblogPffr) {
+                    ((WPrintDiblogPffr)blodkfrPffr).blodkWindow(tiis);
+                } flsf {
+                    modblDisbblf(diblog, blodkfrPffr.gftHWnd());
                 }
-            } else {
-                modalBlocker = null;
-                if (blockerPeer instanceof WFileDialogPeer) {
-                    ((WFileDialogPeer)blockerPeer).unblockWindow(this);
-                } else if (blockerPeer instanceof WPrintDialogPeer) {
-                    ((WPrintDialogPeer)blockerPeer).unblockWindow(this);
-                } else {
-                    modalEnable(dialog);
+            } flsf {
+                modblBlodkfr = null;
+                if (blodkfrPffr instbndfof WFilfDiblogPffr) {
+                    ((WFilfDiblogPffr)blodkfrPffr).unblodkWindow(tiis);
+                } flsf if (blodkfrPffr instbndfof WPrintDiblogPffr) {
+                    ((WPrintDiblogPffr)blodkfrPffr).unblodkWindow(tiis);
+                } flsf {
+                    modblEnbblf(diblog);
                 }
             }
         }
     }
 
-    native void modalDisable(Dialog blocker, long blockerHWnd);
-    native void modalEnable(Dialog blocker);
+    nbtivf void modblDisbblf(Diblog blodkfr, long blodkfrHWnd);
+    nbtivf void modblEnbblf(Diblog blodkfr);
 
     /*
-     * Returns all the ever active windows from the current AppContext.
-     * The list is sorted by the time of activation, so the latest
-     * active window is always at the end.
+     * Rfturns bll tif fvfr bdtivf windows from tif durrfnt AppContfxt.
+     * Tif list is sortfd by tif timf of bdtivbtion, so tif lbtfst
+     * bdtivf window is blwbys bt tif fnd.
      */
-    @SuppressWarnings("unchecked")
-    public static long[] getActiveWindowHandles(Component target) {
-        AppContext appContext = SunToolkit.targetToAppContext(target);
-        if (appContext == null) return null;
-        synchronized (appContext) {
-            List<WWindowPeer> l = (List<WWindowPeer>)appContext.get(ACTIVE_WINDOWS_KEY);
+    @SupprfssWbrnings("undifdkfd")
+    publid stbtid long[] gftAdtivfWindowHbndlfs(Componfnt tbrgft) {
+        AppContfxt bppContfxt = SunToolkit.tbrgftToAppContfxt(tbrgft);
+        if (bppContfxt == null) rfturn null;
+        syndironizfd (bppContfxt) {
+            List<WWindowPffr> l = (List<WWindowPffr>)bppContfxt.gft(ACTIVE_WINDOWS_KEY);
             if (l == null) {
-                return null;
+                rfturn null;
             }
-            long[] result = new long[l.size()];
-            for (int j = 0; j < l.size(); j++) {
-                result[j] = l.get(j).getHWnd();
+            long[] rfsult = nfw long[l.sizf()];
+            for (int j = 0; j < l.sizf(); j++) {
+                rfsult[j] = l.gft(j).gftHWnd();
             }
-            return result;
+            rfturn rfsult;
         }
     }
 
@@ -471,369 +471,369 @@ public class WWindowPeer extends WPanelPeer implements WindowPeer,
  */
 
     /*
-     * Called from native code when we have been dragged onto another screen.
+     * Cbllfd from nbtivf dodf wifn wf ibvf bffn drbggfd onto bnotifr sdrffn.
      */
-    void draggedToNewScreen() {
-        SunToolkit.executeOnEventHandlerThread((Component)target,new Runnable()
+    void drbggfdToNfwSdrffn() {
+        SunToolkit.fxfdutfOnEvfntHbndlfrTirfbd((Componfnt)tbrgft,nfw Runnbblf()
         {
-            @Override
-            public void run() {
-                displayChanged();
+            @Ovfrridf
+            publid void run() {
+                displbyCibngfd();
             }
         });
     }
 
-    public void updateGC() {
-        int scrn = getScreenImOn();
-        if (screenLog.isLoggable(PlatformLogger.Level.FINER)) {
-            log.finer("Screen number: " + scrn);
+    publid void updbtfGC() {
+        int sdrn = gftSdrffnImOn();
+        if (sdrffnLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+            log.finfr("Sdrffn numbfr: " + sdrn);
         }
 
-        // get current GD
-        Win32GraphicsDevice oldDev = (Win32GraphicsDevice)winGraphicsConfig
-                                     .getDevice();
+        // gft durrfnt GD
+        Win32GrbpiidsDfvidf oldDfv = (Win32GrbpiidsDfvidf)winGrbpiidsConfig
+                                     .gftDfvidf();
 
-        Win32GraphicsDevice newDev;
-        GraphicsDevice devs[] = GraphicsEnvironment
-            .getLocalGraphicsEnvironment()
-            .getScreenDevices();
-        // Occasionally during device addition/removal getScreenImOn can return
-        // a non-existing screen number. Use the default device in this case.
-        if (scrn >= devs.length) {
-            newDev = (Win32GraphicsDevice)GraphicsEnvironment
-                .getLocalGraphicsEnvironment().getDefaultScreenDevice();
-        } else {
-            newDev = (Win32GraphicsDevice)devs[scrn];
+        Win32GrbpiidsDfvidf nfwDfv;
+        GrbpiidsDfvidf dfvs[] = GrbpiidsEnvironmfnt
+            .gftLodblGrbpiidsEnvironmfnt()
+            .gftSdrffnDfvidfs();
+        // Oddbsionblly during dfvidf bddition/rfmovbl gftSdrffnImOn dbn rfturn
+        // b non-fxisting sdrffn numbfr. Usf tif dffbult dfvidf in tiis dbsf.
+        if (sdrn >= dfvs.lfngti) {
+            nfwDfv = (Win32GrbpiidsDfvidf)GrbpiidsEnvironmfnt
+                .gftLodblGrbpiidsEnvironmfnt().gftDffbultSdrffnDfvidf();
+        } flsf {
+            nfwDfv = (Win32GrbpiidsDfvidf)dfvs[sdrn];
         }
 
-        // Set winGraphicsConfig to the default GC for the monitor this Window
+        // Sft winGrbpiidsConfig to tif dffbult GC for tif monitor tiis Window
         // is now mostly on.
-        winGraphicsConfig = (Win32GraphicsConfig)newDev
-                            .getDefaultConfiguration();
-        if (screenLog.isLoggable(PlatformLogger.Level.FINE)) {
-            if (winGraphicsConfig == null) {
-                screenLog.fine("Assertion (winGraphicsConfig != null) failed");
+        winGrbpiidsConfig = (Win32GrbpiidsConfig)nfwDfv
+                            .gftDffbultConfigurbtion();
+        if (sdrffnLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            if (winGrbpiidsConfig == null) {
+                sdrffnLog.finf("Assfrtion (winGrbpiidsConfig != null) fbilfd");
             }
         }
 
-        // if on a different display, take off old GD and put on new GD
-        if (oldDev != newDev) {
-            oldDev.removeDisplayChangedListener(this);
-            newDev.addDisplayChangedListener(this);
+        // if on b difffrfnt displby, tbkf off old GD bnd put on nfw GD
+        if (oldDfv != nfwDfv) {
+            oldDfv.rfmovfDisplbyCibngfdListfnfr(tiis);
+            nfwDfv.bddDisplbyCibngfdListfnfr(tiis);
         }
 
-        AWTAccessor.getComponentAccessor().
-            setGraphicsConfiguration((Component)target, winGraphicsConfig);
+        AWTAddfssor.gftComponfntAddfssor().
+            sftGrbpiidsConfigurbtion((Componfnt)tbrgft, winGrbpiidsConfig);
     }
 
     /**
-     * From the DisplayChangedListener interface.
+     * From tif DisplbyCibngfdListfnfr intfrfbdf.
      *
-     * This method handles a display change - either when the display settings
-     * are changed, or when the window has been dragged onto a different
-     * display.
-     * Called after a change in the display mode.  This event
-     * triggers replacing the surfaceData object (since that object
-     * reflects the current display depth information, which has
-     * just changed).
+     * Tiis mftiod ibndlfs b displby dibngf - fitifr wifn tif displby sfttings
+     * brf dibngfd, or wifn tif window ibs bffn drbggfd onto b difffrfnt
+     * displby.
+     * Cbllfd bftfr b dibngf in tif displby modf.  Tiis fvfnt
+     * triggfrs rfplbding tif surfbdfDbtb objfdt (sindf tibt objfdt
+     * rfflfdts tif durrfnt displby dfpti informbtion, wiidi ibs
+     * just dibngfd).
      */
-    @Override
-    public void displayChanged() {
-        updateGC();
+    @Ovfrridf
+    publid void displbyCibngfd() {
+        updbtfGC();
     }
 
     /**
-     * Part of the DisplayChangedListener interface: components
-     * do not need to react to this event
+     * Pbrt of tif DisplbyCibngfdListfnfr intfrfbdf: domponfnts
+     * do not nffd to rfbdt to tiis fvfnt
      */
-    @Override
-    public void paletteChanged() {
+    @Ovfrridf
+    publid void pblfttfCibngfd() {
     }
 
-    private native int getScreenImOn();
+    privbtf nbtivf int gftSdrffnImOn();
 
-    // Used in Win32GraphicsDevice.
-    public final native void setFullScreenExclusiveModeState(boolean state);
+    // Usfd in Win32GrbpiidsDfvidf.
+    publid finbl nbtivf void sftFullSdrffnExdlusivfModfStbtf(boolfbn stbtf);
 
 /*
  * ----END DISPLAY CHANGE SUPPORT----
  */
 
-     public void grab() {
-         nativeGrab();
+     publid void grbb() {
+         nbtivfGrbb();
      }
 
-     public void ungrab() {
-         nativeUngrab();
+     publid void ungrbb() {
+         nbtivfUngrbb();
      }
-     private native void nativeGrab();
-     private native void nativeUngrab();
+     privbtf nbtivf void nbtivfGrbb();
+     privbtf nbtivf void nbtivfUngrbb();
 
-     private final boolean hasWarningWindow() {
-         return ((Window)target).getWarningString() != null;
-     }
-
-     boolean isTargetUndecorated() {
-         return true;
+     privbtf finbl boolfbn ibsWbrningWindow() {
+         rfturn ((Window)tbrgft).gftWbrningString() != null;
      }
 
-     // These are the peer bounds. They get updated at:
-     //    1. the WWindowPeer.setBounds() method.
-     //    2. the native code (on WM_SIZE/WM_MOVE)
-     private volatile int sysX = 0;
-     private volatile int sysY = 0;
-     private volatile int sysW = 0;
-     private volatile int sysH = 0;
+     boolfbn isTbrgftUndfdorbtfd() {
+         rfturn truf;
+     }
 
-     @Override
-     public native void repositionSecurityWarning();
+     // Tifsf brf tif pffr bounds. Tify gft updbtfd bt:
+     //    1. tif WWindowPffr.sftBounds() mftiod.
+     //    2. tif nbtivf dodf (on WM_SIZE/WM_MOVE)
+     privbtf volbtilf int sysX = 0;
+     privbtf volbtilf int sysY = 0;
+     privbtf volbtilf int sysW = 0;
+     privbtf volbtilf int sysH = 0;
 
-     @Override
-     public void setBounds(int x, int y, int width, int height, int op) {
+     @Ovfrridf
+     publid nbtivf void rfpositionSfdurityWbrning();
+
+     @Ovfrridf
+     publid void sftBounds(int x, int y, int widti, int ifigit, int op) {
          sysX = x;
          sysY = y;
-         sysW = width;
-         sysH = height;
+         sysW = widti;
+         sysH = ifigit;
 
-         super.setBounds(x, y, width, height, op);
+         supfr.sftBounds(x, y, widti, ifigit, op);
      }
 
-    @Override
-    public void print(Graphics g) {
-        // We assume we print the whole frame,
-        // so we expect no clip was set previously
-        Shape shape = AWTAccessor.getWindowAccessor().getShape((Window)target);
-        if (shape != null) {
-            g.setClip(shape);
+    @Ovfrridf
+    publid void print(Grbpiids g) {
+        // Wf bssumf wf print tif wiolf frbmf,
+        // so wf fxpfdt no dlip wbs sft prfviously
+        Sibpf sibpf = AWTAddfssor.gftWindowAddfssor().gftSibpf((Window)tbrgft);
+        if (sibpf != null) {
+            g.sftClip(sibpf);
         }
-        super.print(g);
+        supfr.print(g);
     }
 
-    @SuppressWarnings("deprecation")
-    private void replaceSurfaceDataRecursively(Component c) {
-        if (c instanceof Container) {
-            for (Component child : ((Container)c).getComponents()) {
-                replaceSurfaceDataRecursively(child);
+    @SupprfssWbrnings("dfprfdbtion")
+    privbtf void rfplbdfSurfbdfDbtbRfdursivfly(Componfnt d) {
+        if (d instbndfof Contbinfr) {
+            for (Componfnt diild : ((Contbinfr)d).gftComponfnts()) {
+                rfplbdfSurfbdfDbtbRfdursivfly(diild);
             }
         }
-        ComponentPeer cp = c.getPeer();
-        if (cp instanceof WComponentPeer) {
-            ((WComponentPeer)cp).replaceSurfaceDataLater();
+        ComponfntPffr dp = d.gftPffr();
+        if (dp instbndfof WComponfntPffr) {
+            ((WComponfntPffr)dp).rfplbdfSurfbdfDbtbLbtfr();
         }
     }
 
-    public final Graphics getTranslucentGraphics() {
-        synchronized (getStateLock()) {
-            return isOpaque ? null : painter.getBackBuffer(false).getGraphics();
+    publid finbl Grbpiids gftTrbnsludfntGrbpiids() {
+        syndironizfd (gftStbtfLodk()) {
+            rfturn isOpbquf ? null : pbintfr.gftBbdkBufffr(fblsf).gftGrbpiids();
         }
     }
 
-    @Override
-    public void setBackground(Color c) {
-        super.setBackground(c);
-        synchronized (getStateLock()) {
-            if (!isOpaque && ((Window)target).isVisible()) {
-                updateWindow(true);
+    @Ovfrridf
+    publid void sftBbdkground(Color d) {
+        supfr.sftBbdkground(d);
+        syndironizfd (gftStbtfLodk()) {
+            if (!isOpbquf && ((Window)tbrgft).isVisiblf()) {
+                updbtfWindow(truf);
             }
         }
     }
 
-    private native void setOpacity(int iOpacity);
-    private float opacity = 1.0f;
+    privbtf nbtivf void sftOpbdity(int iOpbdity);
+    privbtf flobt opbdity = 1.0f;
 
-    @Override
-    public void setOpacity(float opacity) {
-        if (!((SunToolkit)((Window)target).getToolkit()).
-            isWindowOpacitySupported())
+    @Ovfrridf
+    publid void sftOpbdity(flobt opbdity) {
+        if (!((SunToolkit)((Window)tbrgft).gftToolkit()).
+            isWindowOpbditySupportfd())
         {
-            return;
+            rfturn;
         }
 
-        if (opacity < 0.0f || opacity > 1.0f) {
-            throw new IllegalArgumentException(
-                "The value of opacity should be in the range [0.0f .. 1.0f].");
+        if (opbdity < 0.0f || opbdity > 1.0f) {
+            tirow nfw IllfgblArgumfntExdfption(
+                "Tif vbluf of opbdity siould bf in tif rbngf [0.0f .. 1.0f].");
         }
 
-        if (((this.opacity == 1.0f && opacity <  1.0f) ||
-             (this.opacity <  1.0f && opacity == 1.0f)) &&
-            !Win32GraphicsEnvironment.isVistaOS())
+        if (((tiis.opbdity == 1.0f && opbdity <  1.0f) ||
+             (tiis.opbdity <  1.0f && opbdity == 1.0f)) &&
+            !Win32GrbpiidsEnvironmfnt.isVistbOS())
         {
-            // non-Vista OS: only replace the surface data if opacity status
-            // changed (see WComponentPeer.isAccelCapable() for more)
-            replaceSurfaceDataRecursively((Component)getTarget());
+            // non-Vistb OS: only rfplbdf tif surfbdf dbtb if opbdity stbtus
+            // dibngfd (sff WComponfntPffr.isAddflCbpbblf() for morf)
+            rfplbdfSurfbdfDbtbRfdursivfly((Componfnt)gftTbrgft());
         }
 
-        this.opacity = opacity;
+        tiis.opbdity = opbdity;
 
-        final int maxOpacity = 0xff;
-        int iOpacity = (int)(opacity * maxOpacity);
-        if (iOpacity < 0) {
-            iOpacity = 0;
+        finbl int mbxOpbdity = 0xff;
+        int iOpbdity = (int)(opbdity * mbxOpbdity);
+        if (iOpbdity < 0) {
+            iOpbdity = 0;
         }
-        if (iOpacity > maxOpacity) {
-            iOpacity = maxOpacity;
+        if (iOpbdity > mbxOpbdity) {
+            iOpbdity = mbxOpbdity;
         }
 
-        setOpacity(iOpacity);
+        sftOpbdity(iOpbdity);
 
-        synchronized (getStateLock()) {
-            if (!isOpaque && ((Window)target).isVisible()) {
-                updateWindow(true);
+        syndironizfd (gftStbtfLodk()) {
+            if (!isOpbquf && ((Window)tbrgft).isVisiblf()) {
+                updbtfWindow(truf);
             }
         }
     }
 
-    private native void setOpaqueImpl(boolean isOpaque);
+    privbtf nbtivf void sftOpbqufImpl(boolfbn isOpbquf);
 
-    @Override
-    public void setOpaque(boolean isOpaque) {
-        synchronized (getStateLock()) {
-            if (this.isOpaque == isOpaque) {
-                return;
+    @Ovfrridf
+    publid void sftOpbquf(boolfbn isOpbquf) {
+        syndironizfd (gftStbtfLodk()) {
+            if (tiis.isOpbquf == isOpbquf) {
+                rfturn;
             }
         }
 
-        Window target = (Window)getTarget();
+        Window tbrgft = (Window)gftTbrgft();
 
-        if (!isOpaque) {
-            SunToolkit sunToolkit = (SunToolkit)target.getToolkit();
-            if (!sunToolkit.isWindowTranslucencySupported() ||
-                !sunToolkit.isTranslucencyCapable(target.getGraphicsConfiguration()))
+        if (!isOpbquf) {
+            SunToolkit sunToolkit = (SunToolkit)tbrgft.gftToolkit();
+            if (!sunToolkit.isWindowTrbnsludfndySupportfd() ||
+                !sunToolkit.isTrbnsludfndyCbpbblf(tbrgft.gftGrbpiidsConfigurbtion()))
             {
-                return;
+                rfturn;
             }
         }
 
-        boolean isVistaOS = Win32GraphicsEnvironment.isVistaOS();
+        boolfbn isVistbOS = Win32GrbpiidsEnvironmfnt.isVistbOS();
 
-        if (this.isOpaque != isOpaque && !isVistaOS) {
-            // non-Vista OS: only replace the surface data if the opacity
-            // status changed (see WComponentPeer.isAccelCapable() for more)
-            replaceSurfaceDataRecursively(target);
+        if (tiis.isOpbquf != isOpbquf && !isVistbOS) {
+            // non-Vistb OS: only rfplbdf tif surfbdf dbtb if tif opbdity
+            // stbtus dibngfd (sff WComponfntPffr.isAddflCbpbblf() for morf)
+            rfplbdfSurfbdfDbtbRfdursivfly(tbrgft);
         }
 
-        synchronized (getStateLock()) {
-            this.isOpaque = isOpaque;
-            setOpaqueImpl(isOpaque);
-            if (isOpaque) {
-                TranslucentWindowPainter currentPainter = painter;
-                if (currentPainter != null) {
-                    currentPainter.flush();
-                    painter = null;
+        syndironizfd (gftStbtfLodk()) {
+            tiis.isOpbquf = isOpbquf;
+            sftOpbqufImpl(isOpbquf);
+            if (isOpbquf) {
+                TrbnsludfntWindowPbintfr durrfntPbintfr = pbintfr;
+                if (durrfntPbintfr != null) {
+                    durrfntPbintfr.flusi();
+                    pbintfr = null;
                 }
-            } else {
-                painter = TranslucentWindowPainter.createInstance(this);
+            } flsf {
+                pbintfr = TrbnsludfntWindowPbintfr.drfbtfInstbndf(tiis);
             }
         }
 
-        if (isVistaOS) {
-            // On Vista: setting the window non-opaque makes the window look
-            // rectangular, though still catching the mouse clicks within
-            // its shape only. To restore the correct visual appearance
-            // of the window (i.e. w/ the correct shape) we have to reset
-            // the shape.
-            Shape shape = target.getShape();
-            if (shape != null) {
-                target.setShape(shape);
+        if (isVistbOS) {
+            // On Vistb: sftting tif window non-opbquf mbkfs tif window look
+            // rfdtbngulbr, tiougi still dbtdiing tif mousf dlidks witiin
+            // its sibpf only. To rfstorf tif dorrfdt visubl bppfbrbndf
+            // of tif window (i.f. w/ tif dorrfdt sibpf) wf ibvf to rfsft
+            // tif sibpf.
+            Sibpf sibpf = tbrgft.gftSibpf();
+            if (sibpf != null) {
+                tbrgft.sftSibpf(sibpf);
             }
         }
 
-        if (target.isVisible()) {
-            updateWindow(true);
+        if (tbrgft.isVisiblf()) {
+            updbtfWindow(truf);
         }
     }
 
-    native void updateWindowImpl(int[] data, int width, int height);
+    nbtivf void updbtfWindowImpl(int[] dbtb, int widti, int ifigit);
 
-    @Override
-    public void updateWindow() {
-        updateWindow(false);
+    @Ovfrridf
+    publid void updbtfWindow() {
+        updbtfWindow(fblsf);
     }
 
-    private void updateWindow(boolean repaint) {
-        Window w = (Window)target;
-        synchronized (getStateLock()) {
-            if (isOpaque || !w.isVisible() ||
-                (w.getWidth() <= 0) || (w.getHeight() <= 0))
+    privbtf void updbtfWindow(boolfbn rfpbint) {
+        Window w = (Window)tbrgft;
+        syndironizfd (gftStbtfLodk()) {
+            if (isOpbquf || !w.isVisiblf() ||
+                (w.gftWidti() <= 0) || (w.gftHfigit() <= 0))
             {
-                return;
+                rfturn;
             }
-            TranslucentWindowPainter currentPainter = painter;
-            if (currentPainter != null) {
-                currentPainter.updateWindow(repaint);
-            } else if (log.isLoggable(PlatformLogger.Level.FINER)) {
-                log.finer("Translucent window painter is null in updateWindow");
+            TrbnsludfntWindowPbintfr durrfntPbintfr = pbintfr;
+            if (durrfntPbintfr != null) {
+                durrfntPbintfr.updbtfWindow(rfpbint);
+            } flsf if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                log.finfr("Trbnsludfnt window pbintfr is null in updbtfWindow");
             }
         }
     }
 
     /*
-     * The method maps the list of the active windows to the window's AppContext,
-     * then the method registers ActiveWindowListener, GuiDisposedListener listeners;
-     * it executes the initilialization only once per AppContext.
+     * Tif mftiod mbps tif list of tif bdtivf windows to tif window's AppContfxt,
+     * tifn tif mftiod rfgistfrs AdtivfWindowListfnfr, GuiDisposfdListfnfr listfnfrs;
+     * it fxfdutfs tif initiliblizbtion only ondf pfr AppContfxt.
      */
-    @SuppressWarnings("unchecked")
-    private static void initActiveWindowsTracking(Window w) {
-        AppContext appContext = AppContext.getAppContext();
-        synchronized (appContext) {
-            List<WWindowPeer> l = (List<WWindowPeer>)appContext.get(ACTIVE_WINDOWS_KEY);
+    @SupprfssWbrnings("undifdkfd")
+    privbtf stbtid void initAdtivfWindowsTrbdking(Window w) {
+        AppContfxt bppContfxt = AppContfxt.gftAppContfxt();
+        syndironizfd (bppContfxt) {
+            List<WWindowPffr> l = (List<WWindowPffr>)bppContfxt.gft(ACTIVE_WINDOWS_KEY);
             if (l == null) {
-                l = new LinkedList<WWindowPeer>();
-                appContext.put(ACTIVE_WINDOWS_KEY, l);
-                appContext.addPropertyChangeListener(AppContext.GUI_DISPOSED, guiDisposedListener);
+                l = nfw LinkfdList<WWindowPffr>();
+                bppContfxt.put(ACTIVE_WINDOWS_KEY, l);
+                bppContfxt.bddPropfrtyCibngfListfnfr(AppContfxt.GUI_DISPOSED, guiDisposfdListfnfr);
 
-                KeyboardFocusManager kfm = KeyboardFocusManager.getCurrentKeyboardFocusManager();
-                kfm.addPropertyChangeListener("activeWindow", activeWindowListener);
+                KfybobrdFodusMbnbgfr kfm = KfybobrdFodusMbnbgfr.gftCurrfntKfybobrdFodusMbnbgfr();
+                kfm.bddPropfrtyCibngfListfnfr("bdtivfWindow", bdtivfWindowListfnfr);
             }
         }
     }
 
     /*
-     * The GuiDisposedListener class listens for the AppContext.GUI_DISPOSED property,
-     * it removes the list of the active windows from the disposed AppContext and
-     * unregisters ActiveWindowListener listener.
+     * Tif GuiDisposfdListfnfr dlbss listfns for tif AppContfxt.GUI_DISPOSED propfrty,
+     * it rfmovfs tif list of tif bdtivf windows from tif disposfd AppContfxt bnd
+     * unrfgistfrs AdtivfWindowListfnfr listfnfr.
      */
-    private static class GuiDisposedListener implements PropertyChangeListener {
-        @Override
-        public void propertyChange(PropertyChangeEvent e) {
-            boolean isDisposed = (Boolean)e.getNewValue();
-            if (isDisposed != true) {
-                if (log.isLoggable(PlatformLogger.Level.FINE)) {
-                    log.fine(" Assertion (newValue != true) failed for AppContext.GUI_DISPOSED ");
+    privbtf stbtid dlbss GuiDisposfdListfnfr implfmfnts PropfrtyCibngfListfnfr {
+        @Ovfrridf
+        publid void propfrtyCibngf(PropfrtyCibngfEvfnt f) {
+            boolfbn isDisposfd = (Boolfbn)f.gftNfwVbluf();
+            if (isDisposfd != truf) {
+                if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                    log.finf(" Assfrtion (nfwVbluf != truf) fbilfd for AppContfxt.GUI_DISPOSED ");
                 }
             }
-            AppContext appContext = AppContext.getAppContext();
-            synchronized (appContext) {
-                appContext.remove(ACTIVE_WINDOWS_KEY);
-                appContext.removePropertyChangeListener(AppContext.GUI_DISPOSED, this);
+            AppContfxt bppContfxt = AppContfxt.gftAppContfxt();
+            syndironizfd (bppContfxt) {
+                bppContfxt.rfmovf(ACTIVE_WINDOWS_KEY);
+                bppContfxt.rfmovfPropfrtyCibngfListfnfr(AppContfxt.GUI_DISPOSED, tiis);
 
-                KeyboardFocusManager kfm = KeyboardFocusManager.getCurrentKeyboardFocusManager();
-                kfm.removePropertyChangeListener("activeWindow", activeWindowListener);
+                KfybobrdFodusMbnbgfr kfm = KfybobrdFodusMbnbgfr.gftCurrfntKfybobrdFodusMbnbgfr();
+                kfm.rfmovfPropfrtyCibngfListfnfr("bdtivfWindow", bdtivfWindowListfnfr);
             }
         }
     }
 
     /*
-     * Static inner class, listens for 'activeWindow' KFM property changes and
-     * updates the list of active windows per AppContext, so the latest active
-     * window is always at the end of the list. The list is stored in AppContext.
+     * Stbtid innfr dlbss, listfns for 'bdtivfWindow' KFM propfrty dibngfs bnd
+     * updbtfs tif list of bdtivf windows pfr AppContfxt, so tif lbtfst bdtivf
+     * window is blwbys bt tif fnd of tif list. Tif list is storfd in AppContfxt.
      */
-    @SuppressWarnings( value = {"deprecation", "unchecked"})
-    private static class ActiveWindowListener implements PropertyChangeListener {
-        @Override
-        public void propertyChange(PropertyChangeEvent e) {
-            Window w = (Window)e.getNewValue();
+    @SupprfssWbrnings( vbluf = {"dfprfdbtion", "undifdkfd"})
+    privbtf stbtid dlbss AdtivfWindowListfnfr implfmfnts PropfrtyCibngfListfnfr {
+        @Ovfrridf
+        publid void propfrtyCibngf(PropfrtyCibngfEvfnt f) {
+            Window w = (Window)f.gftNfwVbluf();
             if (w == null) {
-                return;
+                rfturn;
             }
-            AppContext appContext = SunToolkit.targetToAppContext(w);
-            synchronized (appContext) {
-                WWindowPeer wp = (WWindowPeer)w.getPeer();
-                // add/move wp to the end of the list
-                List<WWindowPeer> l = (List<WWindowPeer>)appContext.get(ACTIVE_WINDOWS_KEY);
+            AppContfxt bppContfxt = SunToolkit.tbrgftToAppContfxt(w);
+            syndironizfd (bppContfxt) {
+                WWindowPffr wp = (WWindowPffr)w.gftPffr();
+                // bdd/movf wp to tif fnd of tif list
+                List<WWindowPffr> l = (List<WWindowPffr>)bppContfxt.gft(ACTIVE_WINDOWS_KEY);
                 if (l != null) {
-                    l.remove(wp);
-                    l.add(wp);
+                    l.rfmovf(wp);
+                    l.bdd(wp);
                 }
             }
         }

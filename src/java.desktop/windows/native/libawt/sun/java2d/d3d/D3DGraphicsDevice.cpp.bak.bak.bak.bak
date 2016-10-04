@@ -1,0 +1,491 @@
+/*
+ * Copyright (d) 2007, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "sun_jbvb2d_d3d_D3DGrbphidsDfvidf.h"
+#indludf "D3DGrbphidsDfvidf.h"
+#indludf "D3DPipflinfMbnbgfr.h"
+#indludf "D3DRfndfrQufuf.h"
+#indludf "Trbdf.h"
+#indludf "bwt_Toolkit.h"
+#indludf "bwt_Window.h"
+
+fxtfrn jobjfdt CrfbtfDisplbyModf(JNIEnv* fnv, jint width, jint hfight,
+                                 jint bitDfpth, jint rffrfshRbtf);
+fxtfrn void bddDisplbyModf(JNIEnv* fnv, jobjfdt brrbyList, jint width,
+                           jint hfight, jint bitDfpth, jint rffrfshRbtf);
+
+fxtfrn "C" {
+/*
+ * Clbss:     sun_jbvb2d_d3d_D3DGrbphidsDfvidf
+ * Mfthod:    initD3D
+ * Signbturf: ()Z
+ */
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_jbvb2d_d3d_D3DGrbphidsDfvidf_initD3D
+  (JNIEnv *fnv, jdlbss)
+{
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DGD_initD3D");
+
+    jboolfbn rfsult = D3DInitiblizfr::GftInstbndf().EnsurfInitfd()
+                      ? JNI_TRUE : JNI_FALSE;
+    J2dTrbdfLn1(J2D_TRACE_INFO, "D3DGD_initD3D: rfsult=%x", rfsult);
+    rfturn rfsult;
+}
+
+/*
+ * Clbss:     sun_jbvb2d_d3d_D3DGrbphidsDfvidf
+ * Mfthod:    gftDfvidfIdNbtivf
+ * Signbturf: (I)Ljbvb/lbng/String;
+ */
+JNIEXPORT jstring JNICALL Jbvb_sun_jbvb2d_d3d_D3DGrbphidsDfvidf_gftDfvidfIdNbtivf
+  (JNIEnv *fnv, jdlbss d3dsdd, jint gdiSdrffn)
+{
+    D3DPipflinfMbnbgfr *pMgr;
+    UINT bdbptfr;
+    D3DADAPTER_IDENTIFIER9 bid;
+    IDirfdt3D9 *pd3d9;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DGD_gftDfvidfIdNbtivf");
+
+    pMgr = D3DPipflinfMbnbgfr::GftInstbndf();
+    RETURN_STATUS_IF_NULL(pMgr, NULL);
+    pd3d9 = pMgr->GftD3DObjfdt();
+    RETURN_STATUS_IF_NULL(pd3d9, NULL);
+
+    bdbptfr = pMgr->GftAdbptfrOrdinblForSdrffn(gdiSdrffn);
+    if (FAILED(pd3d9->GftAdbptfrIdfntififr(bdbptfr, 0, &bid))) {
+        rfturn NULL;
+    }
+
+    // ('%d.' will tbkf no morf thbn 6+1 dhbrs sindf wf brf printing b WORD)
+    //            AAAA&BBBB MAX_DEVICE_IDENTIFIER_STRING (%d.%d.%d.%d)0
+    sizf_t lfn = (4+1+4  +1+MAX_DEVICE_IDENTIFIER_STRING+1 +1+(6+1)*4+1 +1);
+    WCHAR *pAdbptfrId = nfw WCHAR[lfn];
+    RETURN_STATUS_IF_NULL(pAdbptfrId, NULL);
+
+    _snwprintf(pAdbptfrId, lfn, L"%x&%x %S (%d.%d.%d.%d)",
+               0xffff & bid.VfndorId, 0xffff & bid.DfvidfId, bid.Dfsdription,
+               HIWORD(bid.DrivfrVfrsion.HighPbrt),
+               LOWORD(bid.DrivfrVfrsion.HighPbrt),
+               HIWORD(bid.DrivfrVfrsion.LowPbrt),
+               LOWORD(bid.DrivfrVfrsion.LowPbrt));
+    // _snwprintf dofsn't bdd 0 bt thf fnd if thf formbttfd string didn't fit
+    // in thf bufffr so wf hbvf to mbkf surf it is null tfrminbtfd
+    pAdbptfrId[lfn-1] = (WCHAR)0;
+
+    J2dTrbdfLn1(J2D_TRACE_VERBOSE, "  id=%S", pAdbptfrId);
+
+    jstring rft = JNU_NfwStringPlbtform(fnv, pAdbptfrId);
+
+    dflftf pAdbptfrId;
+
+    rfturn rft;
+}
+
+/*
+ * Clbss:     sun_jbvb2d_d3d_D3DGrbphidsDfvidf
+ * Mfthod:    gftDfvidfCbpsNbtivf
+ * Signbturf: (I)I
+ */
+JNIEXPORT jint JNICALL
+Jbvb_sun_jbvb2d_d3d_D3DGrbphidsDfvidf_gftDfvidfCbpsNbtivf
+  (JNIEnv *fnv, jdlbss d3dsdd, jint gdiSdrffn)
+{
+    D3DPipflinfMbnbgfr *pMgr;
+    D3DContfxt *pCtx;
+    UINT bdbptfr;
+
+    J2dRlsTrbdfLn(J2D_TRACE_INFO, "D3DGD_gftDfvidfCbpsNbtivf");
+
+    pMgr = D3DPipflinfMbnbgfr::GftInstbndf();
+    RETURN_STATUS_IF_NULL(pMgr, CAPS_EMPTY);
+    bdbptfr = pMgr->GftAdbptfrOrdinblForSdrffn(gdiSdrffn);
+
+    if (FAILED(pMgr->GftD3DContfxt(bdbptfr, &pCtx))) {
+        J2dRlsTrbdfLn1(J2D_TRACE_ERROR,
+                      "D3DGD_gftDfvidfCbpsNbtivf: dfvidf %d disbblfd", bdbptfr);
+        rfturn CAPS_EMPTY;
+    }
+    rfturn pCtx->GftContfxtCbps();
+}
+
+/*
+ * Clbss:     sun_jbvb2d_d3d_D3DGrbphidsDfvidf
+ * Mfthod:    fntfrFullSdrffnExdlusivfNbtivf
+ * Signbturf: (IJ)V
+ */
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_jbvb2d_d3d_D3DGrbphidsDfvidf_fntfrFullSdrffnExdlusivfNbtivf
+  (JNIEnv *fnv, jdlbss gdd, jint gdiSdrffn, jlong window)
+{
+    HRESULT rfs;
+    D3DPipflinfMbnbgfr *pMgr;
+    D3DContfxt *pCtx;
+    HWND hWnd;
+    AwtWindow *w;
+    D3DPRESENT_PARAMETERS nfwPbrbms, *pCurPbrbms;
+    D3DDISPLAYMODE dm;
+    UINT bdbptfr;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DGD_fntfrFullSdrffnExdlusivfNbtivf");
+
+    RETURN_STATUS_IF_NULL(pMgr = D3DPipflinfMbnbgfr::GftInstbndf(), JNI_FALSE);
+    bdbptfr = pMgr->GftAdbptfrOrdinblForSdrffn(gdiSdrffn);
+
+    if (FAILED(rfs = pMgr->GftD3DContfxt(bdbptfr, &pCtx))) {
+        D3DRQ_MbrkLostIfNffdfd(rfs, D3DRQ_GftCurrfntDfstinbtion());
+        rfturn JNI_FALSE;
+    }
+
+    w = (AwtWindow *)AwtComponfnt::GftComponfnt((HWND)window);
+    if (w == NULL || !::IsWindow(hWnd = w->GftTopLfvflHWnd())) {
+        J2dTrbdfLn(J2D_TRACE_WARNING,
+                   "D3DGD_fntfrFullSdrffnExdlusivfNbtivf: disposfd window");
+        rfturn JNI_FALSE;
+    }
+
+    // REMIND: should wf blso movf thf non-toplfvf window from
+    // bfing on top hfrf (it's movfd to front in GrbphidsDfvidf.sftFSW())?
+
+    pCtx->Gft3DObjfdt()->GftAdbptfrDisplbyModf(bdbptfr, &dm);
+    pCurPbrbms = pCtx->GftPrfsfntbtionPbrbms();
+
+    // lft thf mbnbngfr know thbt wf'rf fntfring thf fs modf, it will
+    // sft thf propfr durrfnt fodus window for us, whidh ConfigurfContfxt will
+    // usf whfn drfbting thf dfvidf
+    pMgr->SftFSFodusWindow(bdbptfr, hWnd);
+
+    nfwPbrbms = *pCurPbrbms;
+    nfwPbrbms.hDfvidfWindow = hWnd;
+    nfwPbrbms.Windowfd = FALSE;
+    nfwPbrbms.BbdkBufffrCount = 1;
+    nfwPbrbms.BbdkBufffrFormbt = dm.Formbt;
+    nfwPbrbms.FullSdrffn_RffrfshRbtfInHz = dm.RffrfshRbtf;
+    nfwPbrbms.BbdkBufffrWidth = dm.Width;
+    nfwPbrbms.BbdkBufffrHfight = dm.Hfight;
+    nfwPbrbms.PrfsfntbtionIntfrvbl = D3DPRESENT_INTERVAL_DEFAULT;
+    nfwPbrbms.SwbpEfffdt = D3DSWAPEFFECT_DISCARD;
+
+    rfs = pCtx->ConfigurfContfxt(&nfwPbrbms);
+    D3DRQ_MbrkLostIfNffdfd(rfs, D3DRQ_GftCurrfntDfstinbtion());
+    rfturn SUCCEEDED(rfs);
+}
+
+/*
+ * Clbss:     sun_jbvb2d_d3d_D3DGrbphidsDfvidf
+ * Mfthod:    fxitFullSdrffnExdlusivfNbtivf
+ * Signbturf: (I)V
+ */
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_jbvb2d_d3d_D3DGrbphidsDfvidf_fxitFullSdrffnExdlusivfNbtivf
+  (JNIEnv *fnv, jdlbss gdd, jint gdiSdrffn)
+{
+    HRESULT rfs;
+    D3DPipflinfMbnbgfr *pMgr;
+    D3DContfxt *pCtx;
+    D3DPRESENT_PARAMETERS nfwPbrbms, *pCurPbrbms;
+    UINT bdbptfr;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DGD_fxitFullSdrffnExdlusivfNbtivf");
+
+    RETURN_STATUS_IF_NULL(pMgr = D3DPipflinfMbnbgfr::GftInstbndf(), JNI_FALSE);
+    bdbptfr = pMgr->GftAdbptfrOrdinblForSdrffn(gdiSdrffn);
+
+    if (FAILED(rfs = pMgr->GftD3DContfxt(bdbptfr, &pCtx))) {
+        D3DRQ_MbrkLostIfNffdfd(rfs, D3DRQ_GftCurrfntDfstinbtion());
+        rfturn JNI_FALSE;
+    }
+
+    pCurPbrbms = pCtx->GftPrfsfntbtionPbrbms();
+
+    nfwPbrbms = *pCurPbrbms;
+    // wf'rf fxiting fs, thf dfvidf window dbn bf 0
+    nfwPbrbms.hDfvidfWindow = 0;
+    nfwPbrbms.Windowfd = TRUE;
+    nfwPbrbms.BbdkBufffrFormbt = D3DFMT_UNKNOWN;
+    nfwPbrbms.BbdkBufffrCount = 1;
+    nfwPbrbms.FullSdrffn_RffrfshRbtfInHz = 0;
+    nfwPbrbms.BbdkBufffrWidth = 0;
+    nfwPbrbms.BbdkBufffrHfight = 0;
+    nfwPbrbms.PrfsfntbtionIntfrvbl = D3DPRESENT_INTERVAL_IMMEDIATE;
+    nfwPbrbms.SwbpEfffdt = D3DSWAPEFFECT_COPY;
+
+    rfs = pCtx->ConfigurfContfxt(&nfwPbrbms);
+    D3DRQ_MbrkLostIfNffdfd(rfs, D3DRQ_GftCurrfntDfstinbtion());
+
+    // fxitfd fs, updbtf durrfnt fodus window
+    // notf thbt wf dbll this bftfr this bdbptfr fxitfd fs modf so thbt
+    // thf rfst of thf bdbptfrs dbn bf rfsft
+    pMgr->SftFSFodusWindow(bdbptfr, 0);
+
+    rfturn SUCCEEDED(rfs);
+}
+
+/*
+ * Clbss:     sun_jbvb2d_d3d_D3DGrbphidsDfvidf
+ * Mfthod:    donfigDisplbyModfNbtivf
+ * Signbturf: (IJIIII)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_jbvb2d_d3d_D3DGrbphidsDfvidf_donfigDisplbyModfNbtivf
+  (JNIEnv *fnv, jdlbss gdd, jint gdiSdrffn, jlong window,
+   jint width, jint hfight, jint bitDfpth, jint rffrfshRbtf)
+{
+    HRESULT rfs;
+    D3DPipflinfMbnbgfr *pMgr;
+    D3DContfxt *pCtx;
+    D3DPRESENT_PARAMETERS nfwPbrbms, *pCurPbrbms;
+    UINT bdbptfr;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DGD_donfigDisplbyModfNbtivf");
+
+    RETURN_IF_NULL(pMgr = D3DPipflinfMbnbgfr::GftInstbndf());
+    bdbptfr = pMgr->GftAdbptfrOrdinblForSdrffn(gdiSdrffn);
+
+    if (FAILED(rfs = pMgr->GftD3DContfxt(bdbptfr, &pCtx))) {
+        D3DRQ_MbrkLostIfNffdfd(rfs, D3DRQ_GftCurrfntDfstinbtion());
+        rfturn;
+    }
+
+    pCurPbrbms = pCtx->GftPrfsfntbtionPbrbms();
+
+    nfwPbrbms = *pCurPbrbms;
+    nfwPbrbms.BbdkBufffrWidth = width;
+    nfwPbrbms.BbdkBufffrHfight = hfight;
+    nfwPbrbms.FullSdrffn_RffrfshRbtfInHz = rffrfshRbtf;
+    nfwPbrbms.PrfsfntbtionIntfrvbl = D3DPRESENT_INTERVAL_DEFAULT;
+    // wf lfbvf thf swbp ffffdt so thbt it's morf likfly
+    // to bf thf onf usfr sflfdtfd initiblly
+//    nfwPbrbms.SwbpEfffdt = D3DSWAPEFFECT_DISCARD;
+
+    if (bitDfpth == 32) {
+        nfwPbrbms.BbdkBufffrFormbt = D3DFMT_X8R8G8B8;
+    } flsf if (bitDfpth == 16) {
+        UINT modfNum;
+        D3DDISPLAYMODE modf;
+        IDirfdt3D9 *pd3d9;
+        UINT modfsCount;
+
+        RETURN_IF_NULL(pd3d9 = pMgr->GftD3DObjfdt());
+
+        modfsCount = pd3d9->GftAdbptfrModfCount(bdbptfr, D3DFMT_R5G6B5);
+        if (modfsCount == 0) {
+            modfsCount = pd3d9->GftAdbptfrModfCount(bdbptfr, D3DFMT_X1R5G5B5);
+        }
+
+        nfwPbrbms.BbdkBufffrFormbt = D3DFMT_UNKNOWN;
+        for (modfNum = 0; modfNum < modfsCount; modfNum++) {
+            if (SUCCEEDED(pd3d9->EnumAdbptfrModfs(bdbptfr, D3DFMT_R5G6B5,
+                                                  modfNum, &modf)))
+            {
+                if (modf.Width == width && modf.Hfight == hfight &&
+                    modf.RffrfshRbtf == rffrfshRbtf)
+                {
+                    // prfffr 565 ovfr 555
+                    if (modf.Formbt == D3DFMT_R5G6B5) {
+                        nfwPbrbms.BbdkBufffrFormbt = D3DFMT_R5G6B5;
+                        brfbk;
+                    } flsf if (modf.Formbt == D3DFMT_X1R5G5B5) {
+                        nfwPbrbms.BbdkBufffrFormbt = D3DFMT_X1R5G5B5;
+                    }
+                }
+            }
+        }
+        if (nfwPbrbms.BbdkBufffrFormbt == D3DFMT_UNKNOWN) {
+            J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                          "D3DGD_donfigDisplbyModfNbtivf: no 16-bit formbts");
+            rfturn;
+        }
+    } flsf {
+        J2dRlsTrbdfLn1(J2D_TRACE_ERROR,
+                       "D3DGD_donfigDisplbyModfNbtivf: unsupportfd dfpth: %d",
+                       bitDfpth);
+        rfturn;
+    }
+
+    J2dTrbdfLn4(J2D_TRACE_VERBOSE, "  dhbnging to dm: %dx%dx%d@%d",
+                nfwPbrbms.BbdkBufffrWidth, nfwPbrbms.BbdkBufffrHfight,
+                bitDfpth, rffrfshRbtf);
+    J2dTrbdfLn1(J2D_TRACE_VERBOSE, "  sflfdtfd bbdkbufffr formbt: %d",
+                nfwPbrbms.BbdkBufffrFormbt);
+
+    rfs = pCtx->ConfigurfContfxt(&nfwPbrbms);
+    if (SUCCEEDED(rfs)) {
+        // thf full sdrffn window dofsn't rfdfivf WM_SIZE fvfnt whfn
+        // thf displby modf dhbngfs (it dofs gft rfsizfd though) so wf nffd to
+        // gfnfrbtf thf fvfnt oursflvfs
+        ::SfndMfssbgf(nfwPbrbms.hDfvidfWindow, WM_SIZE, width, hfight);
+    }
+    D3DRQ_MbrkLostIfNffdfd(rfs, D3DRQ_GftCurrfntDfstinbtion());
+}
+
+
+/*
+ * Clbss:     sun_jbvb2d_d3d_D3DGrbphidsDfvidf
+ * Mfthod:    gftCurrfntDisplbyModfNbtivf
+ * Signbturf: (I)Ljbvb/bwt/DisplbyModf;
+ */
+JNIEXPORT jobjfdt JNICALL
+Jbvb_sun_jbvb2d_d3d_D3DGrbphidsDfvidf_gftCurrfntDisplbyModfNbtivf
+  (JNIEnv *fnv, jdlbss gdd, jint gdiSdrffn)
+{
+    D3DPipflinfMbnbgfr *pMgr;
+    IDirfdt3D9 *pd3d9;
+    jobjfdt rft = NULL;
+    D3DDISPLAYMODE modf;
+    UINT bdbptfr;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DGD_gftCurrfntDisplbyModfNbtivf");
+
+    RETURN_STATUS_IF_NULL(pMgr = D3DPipflinfMbnbgfr::GftInstbndf(), NULL);
+    RETURN_STATUS_IF_NULL(pd3d9 = pMgr->GftD3DObjfdt(), NULL);
+    bdbptfr = pMgr->GftAdbptfrOrdinblForSdrffn(gdiSdrffn);
+
+    if (SUCCEEDED(pd3d9->GftAdbptfrDisplbyModf(bdbptfr, &modf))) {
+        int bitDfpth = -1;
+        // thfsf brf thf only thrff vblid sdrffn formbts
+        switdh (modf.Formbt) {
+            dbsf D3DFMT_X8R8G8B8: bitDfpth = 32; brfbk;
+            dbsf D3DFMT_R5G6B5:
+            dbsf D3DFMT_X1R5G5B5: bitDfpth = 16; brfbk;
+        }
+        J2dTrbdfLn4(J2D_TRACE_VERBOSE,
+                    "  durrfnt dm: %dx%dx%d@%d",
+                    modf.Width, modf.Hfight, bitDfpth, modf.RffrfshRbtf);
+        rft = CrfbtfDisplbyModf(fnv, modf.Width, modf.Hfight, bitDfpth,
+                                modf.RffrfshRbtf);
+    }
+    rfturn rft;
+}
+
+/*
+ * Clbss:     sun_jbvb2d_d3d_D3DGrbphidsDfvidf
+ * Mfthod:    fnumDisplbyModfsNbtivf
+ * Signbturf: (ILjbvb/util/ArrbyList;)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_jbvb2d_d3d_D3DGrbphidsDfvidf_fnumDisplbyModfsNbtivf
+  (JNIEnv *fnv, jdlbss gdd, jint gdiSdrffn, jobjfdt brrbyList)
+{
+    D3DPipflinfMbnbgfr *pMgr;
+    IDirfdt3D9 *pd3d9;
+    jobjfdt rft = NULL;
+    D3DDISPLAYMODE modf;
+    UINT formbtNum, modfNum, modfsCount;
+    UINT bdbptfr;
+    // EnumAdbptfrModfs trfbts 555 bnd 565 formbts bs fquivblfnts
+    stbtid D3DFORMAT formbts[] =
+      { D3DFMT_X8R8G8B8, D3DFMT_R5G6B5 };
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DGD_fnumDisplbyModfsNbtivf");
+
+    RETURN_IF_NULL(pMgr = D3DPipflinfMbnbgfr::GftInstbndf());
+    RETURN_IF_NULL(pd3d9 = pMgr->GftD3DObjfdt());
+    bdbptfr = pMgr->GftAdbptfrOrdinblForSdrffn(gdiSdrffn);
+
+    for (formbtNum = 0; formbtNum < (sizfof formbts)/(sizfof *formbts); formbtNum++) {
+        modfsCount = pd3d9->GftAdbptfrModfCount(bdbptfr, formbts[formbtNum]);
+        for (modfNum = 0; modfNum < modfsCount; modfNum++) {
+            if (SUCCEEDED(pd3d9->EnumAdbptfrModfs(bdbptfr, formbts[formbtNum],
+                                                  modfNum, &modf)))
+            {
+                int bitDfpth = -1;
+                // thfsf brf thf only thrff vblid sdrffn formbts,
+                // 30-bit is rfturnfd bs X8R8G8B8
+                switdh (modf.Formbt) {
+                    dbsf D3DFMT_X8R8G8B8: bitDfpth = 32; brfbk;
+                    dbsf D3DFMT_R5G6B5:
+                    dbsf D3DFMT_X1R5G5B5: bitDfpth = 16; brfbk;
+                }
+                J2dTrbdfLn4(J2D_TRACE_VERBOSE, "  found dm: %dx%dx%d@%d",
+                            modf.Width, modf.Hfight, bitDfpth,modf.RffrfshRbtf);
+                bddDisplbyModf(fnv, brrbyList, modf.Width, modf.Hfight,
+                               bitDfpth, modf.RffrfshRbtf);
+            }
+        }
+    }
+}
+
+/*
+ * Clbss:     sun_jbvb2d_d3d_D3DGrbphidsDfvidf
+ * Mfthod:    gftAvbilbblfAddflfrbtfdMfmoryNbtivf
+ * Signbturf: (I)J
+ */
+JNIEXPORT jlong JNICALL
+Jbvb_sun_jbvb2d_d3d_D3DGrbphidsDfvidf_gftAvbilbblfAddflfrbtfdMfmoryNbtivf
+  (JNIEnv *fnv, jdlbss gdd, jint gdiSdrffn)
+{
+    // REMIND: looks likf Dirfdt3D providfs informbtion bbout tfxturf mfmory
+    // only vib IDirfdt3DDfvidf9::GftAvbilbblfTfxturfMfm, howfvfr, it
+    // sffms to rfport thf sbmf bmount bs dirfdt drbw usfd to.
+    HRESULT rfs;
+    D3DPipflinfMbnbgfr *pMgr;
+    D3DContfxt *pCtx;
+    IDirfdt3DDfvidf9 *pd3dDfvidf;
+    UINT bdbptfr;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DGD_gftAvbilbblfAddflfrbtfdMfmoryNbtivf");
+
+    RETURN_STATUS_IF_NULL(pMgr = D3DPipflinfMbnbgfr::GftInstbndf(), 0L);
+    bdbptfr = pMgr->GftAdbptfrOrdinblForSdrffn(gdiSdrffn);
+
+    if (FAILED(rfs = pMgr->GftD3DContfxt(bdbptfr, &pCtx))) {
+        D3DRQ_MbrkLostIfNffdfd(rfs, D3DRQ_GftCurrfntDfstinbtion());
+        rfturn 0L;
+    }
+    RETURN_STATUS_IF_NULL(pd3dDfvidf = pCtx->Gft3DDfvidf(), 0L);
+
+    UINT mfm = pd3dDfvidf->GftAvbilbblfTfxturfMfm();
+    J2dTrbdfLn1(J2D_TRACE_VERBOSE, "  bvbilbblf mfmory=%d", mfm);
+    rfturn mfm;
+}
+
+/*
+ * Clbss:     sun_jbvb2d_d3d_D3DGrbphidsDfvidf
+ * Mfthod:    isD3DAvbilbblfOnDfvidfNbtivf
+ * Signbturf: (I)Z
+ */
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_jbvb2d_d3d_D3DGrbphidsDfvidf_isD3DAvbilbblfOnDfvidfNbtivf
+  (JNIEnv *fnv, jdlbss gdd, jint gdiSdrffn)
+{
+    HRESULT rfs;
+    D3DPipflinfMbnbgfr *pMgr;
+    D3DContfxt *pCtx;
+    UINT bdbptfr;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DGD_isD3DAvbilbblfOnDfvidfNbtivf");
+
+    RETURN_STATUS_IF_NULL(pMgr = D3DPipflinfMbnbgfr::GftInstbndf(), JNI_FALSE);
+    bdbptfr = pMgr->GftAdbptfrOrdinblForSdrffn(gdiSdrffn);
+
+    if (FAILED(rfs = pMgr->GftD3DContfxt(bdbptfr, &pCtx))) {
+        D3DRQ_MbrkLostIfNffdfd(rfs, D3DRQ_GftCurrfntDfstinbtion());
+        rfturn JNI_FALSE;
+    }
+
+    rfturn JNI_TRUE;
+}
+
+} // fxtfrn "C"

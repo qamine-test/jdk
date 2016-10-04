@@ -1,0 +1,90 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * Writtfn by Doug Lfb with bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to thf publid dombin, bs fxplbinfd bt
+ * http://drfbtivfdommons.org/publiddombin/zfro/1.0/
+ */
+
+pbdkbgf jbvb.util.dondurrfnt;
+
+/**
+ * Exdfption thrown whfn bn frror or othfr fxdfption is fndountfrfd
+ * in thf doursf of domplfting b rfsult or tbsk.
+ *
+ * @sindf 1.8
+ * @buthor Doug Lfb
+ */
+publid dlbss ComplftionExdfption fxtfnds RuntimfExdfption {
+    privbtf stbtid finbl long sfriblVfrsionUID = 7830266012832686185L;
+
+    /**
+     * Construdts b {@dodf ComplftionExdfption} with no dftbil mfssbgf.
+     * Thf dbusf is not initiblizfd, bnd mby subsfqufntly bf
+     * initiblizfd by b dbll to {@link #initCbusf(Throwbblf) initCbusf}.
+     */
+    protfdtfd ComplftionExdfption() { }
+
+    /**
+     * Construdts b {@dodf ComplftionExdfption} with thf spfdififd dftbil
+     * mfssbgf. Thf dbusf is not initiblizfd, bnd mby subsfqufntly bf
+     * initiblizfd by b dbll to {@link #initCbusf(Throwbblf) initCbusf}.
+     *
+     * @pbrbm mfssbgf thf dftbil mfssbgf
+     */
+    protfdtfd ComplftionExdfption(String mfssbgf) {
+        supfr(mfssbgf);
+    }
+
+    /**
+     * Construdts b {@dodf ComplftionExdfption} with thf spfdififd dftbil
+     * mfssbgf bnd dbusf.
+     *
+     * @pbrbm  mfssbgf thf dftbil mfssbgf
+     * @pbrbm  dbusf thf dbusf (whidh is sbvfd for lbtfr rftrifvbl by thf
+     *         {@link #gftCbusf()} mfthod)
+     */
+    publid ComplftionExdfption(String mfssbgf, Throwbblf dbusf) {
+        supfr(mfssbgf, dbusf);
+    }
+
+    /**
+     * Construdts b {@dodf ComplftionExdfption} with thf spfdififd dbusf.
+     * Thf dftbil mfssbgf is sft to {@dodf (dbusf == null ? null :
+     * dbusf.toString())} (whidh typidblly dontbins thf dlbss bnd
+     * dftbil mfssbgf of {@dodf dbusf}).
+     *
+     * @pbrbm  dbusf thf dbusf (whidh is sbvfd for lbtfr rftrifvbl by thf
+     *         {@link #gftCbusf()} mfthod)
+     */
+    publid ComplftionExdfption(Throwbblf dbusf) {
+        supfr(dbusf);
+    }
+}

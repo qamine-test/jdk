@@ -1,221 +1,221 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d.cmm.lcms;
+pbdkbgf sun.jbvb2d.dmm.ldms;
 
-import java.awt.color.CMMException;
-import java.awt.color.ICC_Profile;
-import sun.java2d.cmm.ColorTransform;
-import sun.java2d.cmm.PCMM;
-import sun.java2d.cmm.Profile;
-import sun.java2d.cmm.lcms.LCMSProfile.TagData;
+import jbvb.bwt.dolor.CMMExdfption;
+import jbvb.bwt.dolor.ICC_Profilf;
+import sun.jbvb2d.dmm.ColorTrbnsform;
+import sun.jbvb2d.dmm.PCMM;
+import sun.jbvb2d.dmm.Profilf;
+import sun.jbvb2d.dmm.ldms.LCMSProfilf.TbgDbtb;
 
-public class LCMS implements PCMM {
+publid dlbss LCMS implfmfnts PCMM {
 
-    /* methods invoked from ICC_Profile */
-    @Override
-    public Profile loadProfile(byte[] data) {
-        final Object disposerRef = new Object();
+    /* mftiods invokfd from ICC_Profilf */
+    @Ovfrridf
+    publid Profilf lobdProfilf(bytf[] dbtb) {
+        finbl Objfdt disposfrRff = nfw Objfdt();
 
-        final long ptr = loadProfileNative(data, disposerRef);
+        finbl long ptr = lobdProfilfNbtivf(dbtb, disposfrRff);
 
         if (ptr != 0L) {
-            return new LCMSProfile(ptr, disposerRef);
+            rfturn nfw LCMSProfilf(ptr, disposfrRff);
         }
-        return null;
+        rfturn null;
     }
 
-    private native long loadProfileNative(byte[] data, Object ref);
+    privbtf nbtivf long lobdProfilfNbtivf(bytf[] dbtb, Objfdt rff);
 
-    private LCMSProfile getLcmsProfile(Profile p) {
-        if (p instanceof LCMSProfile) {
-            return (LCMSProfile)p;
+    privbtf LCMSProfilf gftLdmsProfilf(Profilf p) {
+        if (p instbndfof LCMSProfilf) {
+            rfturn (LCMSProfilf)p;
         }
-        throw new CMMException("Invalid profile: " + p);
+        tirow nfw CMMExdfption("Invblid profilf: " + p);
     }
 
 
-    @Override
-    public void freeProfile(Profile p) {
-        // we use disposer, so this method does nothing
+    @Ovfrridf
+    publid void frffProfilf(Profilf p) {
+        // wf usf disposfr, so tiis mftiod dofs notiing
     }
 
-    @Override
-    public int getProfileSize(final Profile p) {
-        synchronized (p) {
-            return getProfileSizeNative(getLcmsProfile(p).getLcmsPtr());
-        }
-    }
-
-    private native int getProfileSizeNative(long ptr);
-
-    @Override
-    public void getProfileData(final Profile p, byte[] data) {
-        synchronized (p) {
-            getProfileDataNative(getLcmsProfile(p).getLcmsPtr(), data);
+    @Ovfrridf
+    publid int gftProfilfSizf(finbl Profilf p) {
+        syndironizfd (p) {
+            rfturn gftProfilfSizfNbtivf(gftLdmsProfilf(p).gftLdmsPtr());
         }
     }
 
-    private native void getProfileDataNative(long ptr, byte[] data);
+    privbtf nbtivf int gftProfilfSizfNbtivf(long ptr);
 
-    @Override
-    public int getTagSize(Profile p, int tagSignature) {
-        final LCMSProfile profile = getLcmsProfile(p);
-
-        synchronized (profile) {
-            TagData t = profile.getTag(tagSignature);
-            return t == null ? 0 : t.getSize();
+    @Ovfrridf
+    publid void gftProfilfDbtb(finbl Profilf p, bytf[] dbtb) {
+        syndironizfd (p) {
+            gftProfilfDbtbNbtivf(gftLdmsProfilf(p).gftLdmsPtr(), dbtb);
         }
     }
 
-    static native byte[] getTagNative(long profileID, int signature);
+    privbtf nbtivf void gftProfilfDbtbNbtivf(long ptr, bytf[] dbtb);
 
-    @Override
-    public void getTagData(Profile p, int tagSignature, byte[] data)
+    @Ovfrridf
+    publid int gftTbgSizf(Profilf p, int tbgSignbturf) {
+        finbl LCMSProfilf profilf = gftLdmsProfilf(p);
+
+        syndironizfd (profilf) {
+            TbgDbtb t = profilf.gftTbg(tbgSignbturf);
+            rfturn t == null ? 0 : t.gftSizf();
+        }
+    }
+
+    stbtid nbtivf bytf[] gftTbgNbtivf(long profilfID, int signbturf);
+
+    @Ovfrridf
+    publid void gftTbgDbtb(Profilf p, int tbgSignbturf, bytf[] dbtb)
     {
-        final LCMSProfile profile = getLcmsProfile(p);
+        finbl LCMSProfilf profilf = gftLdmsProfilf(p);
 
-        synchronized (profile) {
-            TagData t = profile.getTag(tagSignature);
+        syndironizfd (profilf) {
+            TbgDbtb t = profilf.gftTbg(tbgSignbturf);
             if (t != null) {
-                t.copyDataTo(data);
+                t.dopyDbtbTo(dbtb);
             }
         }
     }
 
-    @Override
-    public synchronized void setTagData(Profile p, int tagSignature, byte[] data) {
-        final LCMSProfile profile = getLcmsProfile(p);
+    @Ovfrridf
+    publid syndironizfd void sftTbgDbtb(Profilf p, int tbgSignbturf, bytf[] dbtb) {
+        finbl LCMSProfilf profilf = gftLdmsProfilf(p);
 
-        synchronized (profile) {
-            profile.clearTagCache();
+        syndironizfd (profilf) {
+            profilf.dlfbrTbgCbdif();
 
-            // Now we are going to update the profile with new tag data
-            // In some cases, we may change the pointer to the native
-            // profile.
+            // Now wf brf going to updbtf tif profilf witi nfw tbg dbtb
+            // In somf dbsfs, wf mby dibngf tif pointfr to tif nbtivf
+            // profilf.
             //
-            // If we fail to write tag data for any reason, the old pointer
-            // should be used.
-            setTagDataNative(profile.getLcmsPtr(),
-                    tagSignature, data);
+            // If wf fbil to writf tbg dbtb for bny rfbson, tif old pointfr
+            // siould bf usfd.
+            sftTbgDbtbNbtivf(profilf.gftLdmsPtr(),
+                    tbgSignbturf, dbtb);
         }
     }
 
     /**
-     * Writes supplied data as a tag into the profile.
-     * Destroys old profile, if new one was successfully
-     * created.
+     * Writfs supplifd dbtb bs b tbg into tif profilf.
+     * Dfstroys old profilf, if nfw onf wbs suddfssfully
+     * drfbtfd.
      *
-     * Returns valid pointer to new profile.
+     * Rfturns vblid pointfr to nfw profilf.
      *
-     * Throws CMMException if operation fails, preserve old profile from
-     * destruction.
+     * Tirows CMMExdfption if opfrbtion fbils, prfsfrvf old profilf from
+     * dfstrudtion.
      */
-    private native void setTagDataNative(long ptr, int tagSignature,
-                                               byte[] data);
+    privbtf nbtivf void sftTbgDbtbNbtivf(long ptr, int tbgSignbturf,
+                                               bytf[] dbtb);
 
-    public synchronized static native LCMSProfile getProfileID(ICC_Profile profile);
+    publid syndironizfd stbtid nbtivf LCMSProfilf gftProfilfID(ICC_Profilf profilf);
 
-    /* Helper method used from LCMSColorTransfrom */
-    static long createTransform(
-        LCMSProfile[] profiles, int renderType,
-        int inFormatter, boolean isInIntPacked,
-        int outFormatter, boolean isOutIntPacked,
-        Object disposerRef)
+    /* Hflpfr mftiod usfd from LCMSColorTrbnsfrom */
+    stbtid long drfbtfTrbnsform(
+        LCMSProfilf[] profilfs, int rfndfrTypf,
+        int inFormbttfr, boolfbn isInIntPbdkfd,
+        int outFormbttfr, boolfbn isOutIntPbdkfd,
+        Objfdt disposfrRff)
     {
-        long[] ptrs = new long[profiles.length];
+        long[] ptrs = nfw long[profilfs.lfngti];
 
-        for (int i = 0; i < profiles.length; i++) {
-            if (profiles[i] == null) throw new CMMException("Unknown profile ID");
+        for (int i = 0; i < profilfs.lfngti; i++) {
+            if (profilfs[i] == null) tirow nfw CMMExdfption("Unknown profilf ID");
 
-            ptrs[i] = profiles[i].getLcmsPtr();
+            ptrs[i] = profilfs[i].gftLdmsPtr();
         }
 
-        return createNativeTransform(ptrs, renderType, inFormatter,
-                isInIntPacked, outFormatter, isOutIntPacked, disposerRef);
+        rfturn drfbtfNbtivfTrbnsform(ptrs, rfndfrTypf, inFormbttfr,
+                isInIntPbdkfd, outFormbttfr, isOutIntPbdkfd, disposfrRff);
     }
 
-    private static native long createNativeTransform(
-        long[] profileIDs, int renderType,
-        int inFormatter, boolean isInIntPacked,
-        int outFormatter, boolean isOutIntPacked,
-        Object disposerRef);
+    privbtf stbtid nbtivf long drfbtfNbtivfTrbnsform(
+        long[] profilfIDs, int rfndfrTypf,
+        int inFormbttfr, boolfbn isInIntPbdkfd,
+        int outFormbttfr, boolfbn isOutIntPbdkfd,
+        Objfdt disposfrRff);
 
    /**
-     * Constructs ColorTransform object corresponding to an ICC_profile
+     * Construdts ColorTrbnsform objfdt dorrfsponding to bn ICC_profilf
      */
-    public ColorTransform createTransform(ICC_Profile profile,
-                                                       int renderType,
-                                                       int transformType)
+    publid ColorTrbnsform drfbtfTrbnsform(ICC_Profilf profilf,
+                                                       int rfndfrTypf,
+                                                       int trbnsformTypf)
     {
-        return new LCMSTransform(profile, renderType, renderType);
+        rfturn nfw LCMSTrbnsform(profilf, rfndfrTypf, rfndfrTypf);
     }
 
     /**
-     * Constructs an ColorTransform object from a list of ColorTransform
-     * objects
+     * Construdts bn ColorTrbnsform objfdt from b list of ColorTrbnsform
+     * objfdts
      */
-    public synchronized ColorTransform createTransform(
-        ColorTransform[] transforms)
+    publid syndironizfd ColorTrbnsform drfbtfTrbnsform(
+        ColorTrbnsform[] trbnsforms)
     {
-        return new LCMSTransform(transforms);
+        rfturn nfw LCMSTrbnsform(trbnsforms);
     }
 
-    /* methods invoked from LCMSTransform */
-    public static native void colorConvert(LCMSTransform trans,
-                                           LCMSImageLayout src,
-                                           LCMSImageLayout dest);
-    public static native void freeTransform(long ID);
+    /* mftiods invokfd from LCMSTrbnsform */
+    publid stbtid nbtivf void dolorConvfrt(LCMSTrbnsform trbns,
+                                           LCMSImbgfLbyout srd,
+                                           LCMSImbgfLbyout dfst);
+    publid stbtid nbtivf void frffTrbnsform(long ID);
 
-    public static native void initLCMS(Class<?> Trans, Class<?> IL, Class<?> Pf);
+    publid stbtid nbtivf void initLCMS(Clbss<?> Trbns, Clbss<?> IL, Clbss<?> Pf);
 
-    private LCMS() {};
+    privbtf LCMS() {};
 
-    private static LCMS theLcms = null;
+    privbtf stbtid LCMS tifLdms = null;
 
-    static synchronized PCMM getModule() {
-        if (theLcms != null) {
-            return theLcms;
+    stbtid syndironizfd PCMM gftModulf() {
+        if (tifLdms != null) {
+            rfturn tifLdms;
         }
 
-        java.security.AccessController.doPrivileged(
-                new java.security.PrivilegedAction<Object>() {
-                    public Object run() {
-                        /* We need to load awt here because of usage trace and
-                         * disposer frameworks
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                nfw jbvb.sfdurity.PrivilfgfdAdtion<Objfdt>() {
+                    publid Objfdt run() {
+                        /* Wf nffd to lobd bwt ifrf bfdbusf of usbgf trbdf bnd
+                         * disposfr frbmfworks
                          */
-                        System.loadLibrary("awt");
-                        System.loadLibrary("lcms");
-                        return null;
+                        Systfm.lobdLibrbry("bwt");
+                        Systfm.lobdLibrbry("ldms");
+                        rfturn null;
                     }
                 });
 
-        initLCMS(LCMSTransform.class, LCMSImageLayout.class, ICC_Profile.class);
+        initLCMS(LCMSTrbnsform.dlbss, LCMSImbgfLbyout.dlbss, ICC_Profilf.dlbss);
 
-        theLcms = new LCMS();
+        tifLdms = nfw LCMS();
 
-        return theLcms;
+        rfturn tifLdms;
     }
 }

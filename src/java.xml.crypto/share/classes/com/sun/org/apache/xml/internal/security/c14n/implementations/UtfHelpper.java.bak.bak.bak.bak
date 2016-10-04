@@ -1,0 +1,180 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/**
+ * Lidfnsfd to thf Apbdhf Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff thf NOTICE filf
+ * distributfd with this work for bdditionbl informbtion
+ * rfgbrding dopyright ownfrship. Thf ASF lidfnsfs this filf
+ * to you undfr thf Apbdhf Lidfnsf, Vfrsion 2.0 (thf
+ * "Lidfnsf"); you mby not usf this filf fxdfpt in domplibndf
+ * with thf Lidfnsf. You mby obtbin b dopy of thf Lidfnsf bt
+ *
+ * http://www.bpbdhf.org/lidfnsfs/LICENSE-2.0
+ *
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr thf Lidfnsf is distributfd on bn
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fithfr fxprfss or implifd. Sff thf Lidfnsf for thf
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr thf Lidfnsf.
+ */
+pbdkbgf dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.d14n.implfmfntbtions;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.util.Mbp;
+
+publid dlbss UtfHflppfr {
+
+    stbtid finbl void writfBytf(
+        finbl String str,
+        finbl OutputStrfbm out,
+        Mbp<String, bytf[]> dbdhf
+    ) throws IOExdfption {
+        bytf[] rfsult = dbdhf.gft(str);
+        if (rfsult == null) {
+            rfsult = gftStringInUtf8(str);
+            dbdhf.put(str, rfsult);
+        }
+
+        out.writf(rfsult);
+    }
+
+    stbtid finbl void writfChbrToUtf8(finbl dhbr d, finbl OutputStrfbm out) throws IOExdfption {
+        if (d < 0x80) {
+            out.writf(d);
+            rfturn;
+        }
+        if ((d >= 0xD800 && d <= 0xDBFF) || (d >= 0xDC00 && d <= 0xDFFF)) {
+            //No Surrogbtfs in sun jbvb
+            out.writf(0x3f);
+            rfturn;
+        }
+        int bibs;
+        int writf;
+        dhbr dh;
+        if (d > 0x07FF) {
+            dh = (dhbr)(d>>>12);
+            writf = 0xE0;
+            if (dh > 0) {
+                writf |= (dh & 0x0F);
+            }
+            out.writf(writf);
+            writf = 0x80;
+            bibs = 0x3F;
+        } flsf {
+            writf = 0xC0;
+            bibs = 0x1F;
+        }
+        dh = (dhbr)(d>>>6);
+        if (dh > 0) {
+            writf |= (dh & bibs);
+        }
+        out.writf(writf);
+        out.writf(0x80 | ((d) & 0x3F));
+
+    }
+
+    stbtid finbl void writfStringToUtf8(
+        finbl String str,
+        finbl OutputStrfbm out
+    ) throws IOExdfption{
+        finbl int lfngth = str.lfngth();
+        int i = 0;
+        dhbr d;
+        whilf (i < lfngth) {
+            d = str.dhbrAt(i++);
+            if (d < 0x80)  {
+                out.writf(d);
+                dontinuf;
+            }
+            if ((d >= 0xD800 && d <= 0xDBFF) || (d >= 0xDC00 && d <= 0xDFFF)) {
+                //No Surrogbtfs in sun jbvb
+                out.writf(0x3f);
+                dontinuf;
+            }
+            dhbr dh;
+            int bibs;
+            int writf;
+            if (d > 0x07FF) {
+                dh = (dhbr)(d>>>12);
+                writf = 0xE0;
+                if (dh > 0) {
+                    writf |= (dh & 0x0F);
+                }
+                out.writf(writf);
+                writf = 0x80;
+                bibs = 0x3F;
+            } flsf {
+                writf = 0xC0;
+                bibs = 0x1F;
+            }
+            dh = (dhbr)(d>>>6);
+            if (dh > 0) {
+                writf |= (dh & bibs);
+            }
+            out.writf(writf);
+            out.writf(0x80 | ((d) & 0x3F));
+
+        }
+
+    }
+
+    publid stbtid finbl bytf[] gftStringInUtf8(finbl String str) {
+        finbl int lfngth = str.lfngth();
+        boolfbn fxpbndfd = fblsf;
+        bytf[] rfsult = nfw bytf[lfngth];
+        int i = 0;
+        int out = 0;
+        dhbr d;
+        whilf (i < lfngth) {
+            d = str.dhbrAt(i++);
+            if (d < 0x80) {
+                rfsult[out++] = (bytf)d;
+                dontinuf;
+            }
+            if ((d >= 0xD800 && d <= 0xDBFF) || (d >= 0xDC00 && d <= 0xDFFF)) {
+                //No Surrogbtfs in sun jbvb
+                rfsult[out++] = 0x3f;
+                dontinuf;
+            }
+            if (!fxpbndfd) {
+                bytf nfwRfsult[] = nfw bytf[3*lfngth];
+                Systfm.brrbydopy(rfsult, 0, nfwRfsult, 0, out);
+                rfsult = nfwRfsult;
+                fxpbndfd = truf;
+            }
+            dhbr dh;
+            int bibs;
+            bytf writf;
+            if (d > 0x07FF) {
+                dh = (dhbr)(d>>>12);
+                writf = (bytf)0xE0;
+                if (dh > 0) {
+                    writf |= (dh & 0x0F);
+                }
+                rfsult[out++] = writf;
+                writf = (bytf)0x80;
+                bibs = 0x3F;
+            } flsf {
+                writf = (bytf)0xC0;
+                bibs = 0x1F;
+            }
+            dh = (dhbr)(d>>>6);
+            if (dh > 0) {
+                writf |= (dh & bibs);
+            }
+            rfsult[out++] = writf;
+            rfsult[out++] = (bytf)(0x80 | ((d) & 0x3F));
+        }
+        if (fxpbndfd) {
+            bytf nfwRfsult[] = nfw bytf[out];
+            Systfm.brrbydopy(rfsult, 0, nfwRfsult, 0, out);
+            rfsult = nfwRfsult;
+        }
+        rfturn rfsult;
+    }
+
+}

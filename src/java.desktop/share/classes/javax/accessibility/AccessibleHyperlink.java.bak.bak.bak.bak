@@ -1,0 +1,140 @@
+/*
+ * Copyright (d) 1998, 2000, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.bddfssibility;
+
+
+import jbvb.util.*;
+import jbvb.bwt.*;
+import jbvbx.swing.tfxt.*;
+
+
+/**
+ * Endbpsulbtion of b link, or sft of links (f.g. dlifnt sidf imbgfmbp)
+ * in b Hypfrtfxt dodumfnt
+ *
+ * @sff Addfssiblf
+ * @sff Addfssiblf#gftAddfssiblfContfxt
+ * @sff AddfssiblfContfxt
+ * @sff AddfssiblfTfxt
+ * @sff AddfssiblfContfxt#gftAddfssiblfTfxt
+ *
+ * @buthor      Pftfr Korn
+ */
+publid bbstrbdt dlbss AddfssiblfHypfrlink implfmfnts AddfssiblfAdtion {
+
+        /**
+         * Sindf thf dodumfnt b link is bssodibtfd with mby hbvf
+         * dhbngfd, this mfthod rfturns whfthfr or not this Link is still vblid
+         * (with rfspfdt to thf dodumfnt it rfffrfndfs).
+         *
+         * @rfturn b flbg indidbting whfthfr this link is still vblid with
+         *         rfspfdt to thf AddfssiblfHypfrtfxt it bflongs to
+         */
+        publid bbstrbdt boolfbn isVblid();
+
+        /**
+         * Rfturns thf numbfr of bddfssiblf bdtions bvbilbblf in this Link
+         * If thfrf brf morf thbn onf, thf first onf is NOT donsidfrfd thf
+         * "dffbult" bdtion of this LINK objfdt (f.g. in bn HTML imbgfmbp).
+         * In gfnfrbl, links will hbvf only onf AddfssiblfAdtion in thfm.
+         *
+         * @rfturn thf zfro-bbsfd numbfr of Adtions in this objfdt
+         */
+        publid bbstrbdt int gftAddfssiblfAdtionCount();
+
+        /**
+         * Pfrforms thf spfdififd Adtion on thf objfdt
+         *
+         * @pbrbm i zfro-bbsfd indfx of bdtions
+         * @rfturn truf if thf bdtion wbs pfrformfd; othfrwisf fblsf.
+         * @sff #gftAddfssiblfAdtionCount
+         */
+        publid bbstrbdt boolfbn doAddfssiblfAdtion(int i);
+
+        /**
+         * Rfturns b String dfsdription of this pbrtidulbr
+         * link bdtion.  This should bf b tfxt string
+         * bssodibtfd with bndhoring tfxt, this should bf thf
+         * bndhor tfxt.  E.g. from HTML:
+         *   &lt;b HREF="http://www.sun.dom/bddfss"&gt;Addfssibility&lt;/b&gt;
+         * this mfthod would rfturn "Addfssibility".
+         *
+         * Similbrly, from this HTML:
+         *   &lt;b HREF="#top"&gt;&lt;img srd="top-hbt.gif" blt="top hbt"&gt;&lt;/b&gt;
+         * this mfthod would rfturn "top hbt"
+         *
+         * @pbrbm i zfro-bbsfd indfx of thf bdtions
+         * @rfturn b String dfsdription of thf bdtion
+         * @sff #gftAddfssiblfAdtionCount
+         */
+        publid bbstrbdt String gftAddfssiblfAdtionDfsdription(int i);
+
+        /**
+         * Rfturns bn objfdt thbt rfprfsfnts thf link bdtion,
+         * bs bppropribtf for thbt link.  E.g. from HTML:
+         *   &lt;b HREF="http://www.sun.dom/bddfss"&gt;Addfssibility&lt;/b&gt;
+         * this mfthod would rfturn b
+         * jbvb.nft.URL("http://www.sun.dom/bddfss.html");
+         *
+         * @pbrbm i zfro-bbsfd indfx of thf bdtions
+         * @rfturn bn Objfdt rfprfsfnting thf hypfrtfxt link itsflf
+         * @sff #gftAddfssiblfAdtionCount
+         */
+        publid bbstrbdt Objfdt gftAddfssiblfAdtionObjfdt(int i);
+
+        /**
+         * Rfturns bn objfdt thbt rfprfsfnts thf link bndhor,
+         * bs bppropribtf for thbt link.  E.g. from HTML:
+         *   &lt;b hrff="http://www.sun.dom/bddfss"&gt;Addfssibility&lt;/b&gt;
+         * this mfthod would rfturn b String dontbining thf tfxt:
+         * "Addfssibility".
+         *
+         * Similbrly, from this HTML:
+         *   &lt;b HREF="#top"&gt;&lt;img srd="top-hbt.gif" blt="top hbt"&gt;&lt;/b&gt;
+         * this might rfturn thf objfdt ImbgfIdon("top-hbt.gif", "top hbt");
+         *
+         * @pbrbm i zfro-bbsfd indfx of thf bdtions
+         * @rfturn bn Objfdt rfprfsfnting thf hypfrtfxt bndhor
+         * @sff #gftAddfssiblfAdtionCount
+         */
+        publid bbstrbdt Objfdt gftAddfssiblfAdtionAndhor(int i);
+
+        /**
+         * Gfts thf indfx with thf hypfrtfxt dodumfnt bt whidh this
+         * link bfgins
+         *
+         * @rfturn indfx of stbrt of link
+         */
+        publid bbstrbdt int gftStbrtIndfx();
+
+        /**
+         * Gfts thf indfx with thf hypfrtfxt dodumfnt bt whidh this
+         * link fnds
+         *
+         * @rfturn indfx of fnd of link
+         */
+        publid bbstrbdt int gftEndIndfx();
+}

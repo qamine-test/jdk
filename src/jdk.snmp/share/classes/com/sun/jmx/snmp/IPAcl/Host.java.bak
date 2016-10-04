@@ -1,179 +1,179 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package com.sun.jmx.snmp.IPAcl;
+pbdkbgf dom.sun.jmx.snmp.IPAdl;
 
 
 
-// java import
+// jbvb import
 //
-import java.io.Serializable;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.Hashtable;
-import java.util.logging.Level;
-import java.util.Vector;
-import java.security.acl.NotOwnerException;
+import jbvb.io.Sfriblizbblf;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.UnknownHostExdfption;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.logging.Lfvfl;
+import jbvb.util.Vfdtor;
+import jbvb.sfdurity.bdl.NotOwnfrExdfption;
 
-import static com.sun.jmx.defaults.JmxProperties.SNMP_LOGGER;
+import stbtid dom.sun.jmx.dffbults.JmxPropfrtifs.SNMP_LOGGER;
 
 /**
- * The class defines an abstract representation of a host.
+ * Tif dlbss dffinfs bn bbstrbdt rfprfsfntbtion of b iost.
  *
  */
-@SuppressWarnings("serial") // JDK implementation class
-abstract class Host extends SimpleNode implements Serializable {
+@SupprfssWbrnings("sfribl") // JDK implfmfntbtion dlbss
+bbstrbdt dlbss Host fxtfnds SimplfNodf implfmfnts Sfriblizbblf {
 
-    public Host(int id) {
-        super(id);
+    publid Host(int id) {
+        supfr(id);
     }
 
-    public Host(Parser p, int id) {
-        super(p, id);
+    publid Host(Pbrsfr p, int id) {
+        supfr(p, id);
     }
 
-    protected abstract PrincipalImpl createAssociatedPrincipal()
-        throws UnknownHostException;
+    protfdtfd bbstrbdt PrindipblImpl drfbtfAssodibtfdPrindipbl()
+        tirows UnknownHostExdfption;
 
-    protected abstract String getHname();
+    protfdtfd bbstrbdt String gftHnbmf();
 
-    public void buildAclEntries(PrincipalImpl owner, AclImpl acl) {
-        // Create a principal
+    publid void buildAdlEntrifs(PrindipblImpl ownfr, AdlImpl bdl) {
+        // Crfbtf b prindipbl
         //
-        PrincipalImpl p=null;
+        PrindipblImpl p=null;
         try {
-            p = createAssociatedPrincipal();
-        } catch(UnknownHostException e) {
-            if (SNMP_LOGGER.isLoggable(Level.FINEST)) {
-                SNMP_LOGGER.logp(Level.FINEST, Host.class.getName(),
-                        "buildAclEntries",
-                        "Cannot create ACL entry; got exception", e);
+            p = drfbtfAssodibtfdPrindipbl();
+        } dbtdi(UnknownHostExdfption f) {
+            if (SNMP_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                SNMP_LOGGER.logp(Lfvfl.FINEST, Host.dlbss.gftNbmf(),
+                        "buildAdlEntrifs",
+                        "Cbnnot drfbtf ACL fntry; got fxdfption", f);
             }
-            throw new IllegalArgumentException("Cannot create ACL entry for " + e.getMessage());
+            tirow nfw IllfgblArgumfntExdfption("Cbnnot drfbtf ACL fntry for " + f.gftMfssbgf());
         }
 
-        // Create an AclEntry
+        // Crfbtf bn AdlEntry
         //
-        AclEntryImpl entry= null;
+        AdlEntryImpl fntry= null;
         try {
-            entry = new AclEntryImpl(p);
-            // Add permission
+            fntry = nfw AdlEntryImpl(p);
+            // Add pfrmission
             //
-            registerPermission(entry);
-            acl.addEntry(owner, entry);
-        } catch(UnknownHostException e) {
-            if (SNMP_LOGGER.isLoggable(Level.FINEST)) {
-                SNMP_LOGGER.logp(Level.FINEST, Host.class.getName(),
-                        "buildAclEntries",
-                        "Cannot create ACL entry; got exception", e);
+            rfgistfrPfrmission(fntry);
+            bdl.bddEntry(ownfr, fntry);
+        } dbtdi(UnknownHostExdfption f) {
+            if (SNMP_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                SNMP_LOGGER.logp(Lfvfl.FINEST, Host.dlbss.gftNbmf(),
+                        "buildAdlEntrifs",
+                        "Cbnnot drfbtf ACL fntry; got fxdfption", f);
             }
-            return;
-        } catch(NotOwnerException a) {
-            if (SNMP_LOGGER.isLoggable(Level.FINEST)) {
-                SNMP_LOGGER.logp(Level.FINEST, Host.class.getName(),
-                        "buildAclEntries",
-                        "Cannot create ACL entry; got exception", a);
+            rfturn;
+        } dbtdi(NotOwnfrExdfption b) {
+            if (SNMP_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                SNMP_LOGGER.logp(Lfvfl.FINEST, Host.dlbss.gftNbmf(),
+                        "buildAdlEntrifs",
+                        "Cbnnot drfbtf ACL fntry; got fxdfption", b);
             }
-            return;
+            rfturn;
         }
     }
 
-    private void registerPermission(AclEntryImpl entry) {
-        JDMHost host= (JDMHost) jjtGetParent();
-        JDMManagers manager= (JDMManagers) host.jjtGetParent();
-        JDMAclItem acl= (JDMAclItem) manager.jjtGetParent();
-        JDMAccess access= acl.getAccess();
-        access.putPermission(entry);
-        JDMCommunities comm= acl.getCommunities();
-        comm.buildCommunities(entry);
+    privbtf void rfgistfrPfrmission(AdlEntryImpl fntry) {
+        JDMHost iost= (JDMHost) jjtGftPbrfnt();
+        JDMMbnbgfrs mbnbgfr= (JDMMbnbgfrs) iost.jjtGftPbrfnt();
+        JDMAdlItfm bdl= (JDMAdlItfm) mbnbgfr.jjtGftPbrfnt();
+        JDMAddfss bddfss= bdl.gftAddfss();
+        bddfss.putPfrmission(fntry);
+        JDMCommunitifs domm= bdl.gftCommunitifs();
+        domm.buildCommunitifs(fntry);
     }
 
-    public void buildTrapEntries(Hashtable<InetAddress, Vector<String>> dest) {
+    publid void buildTrbpEntrifs(Hbsitbblf<InftAddrfss, Vfdtor<String>> dfst) {
 
-        JDMHostTrap host= (JDMHostTrap) jjtGetParent();
-        JDMTrapInterestedHost hosts= (JDMTrapInterestedHost) host.jjtGetParent();
-        JDMTrapItem trap = (JDMTrapItem) hosts.jjtGetParent();
-        JDMTrapCommunity community = trap.getCommunity();
-        String comm = community.getCommunity();
+        JDMHostTrbp iost= (JDMHostTrbp) jjtGftPbrfnt();
+        JDMTrbpIntfrfstfdHost iosts= (JDMTrbpIntfrfstfdHost) iost.jjtGftPbrfnt();
+        JDMTrbpItfm trbp = (JDMTrbpItfm) iosts.jjtGftPbrfnt();
+        JDMTrbpCommunity dommunity = trbp.gftCommunity();
+        String domm = dommunity.gftCommunity();
 
-        InetAddress add = null;
+        InftAddrfss bdd = null;
         try {
-            add = java.net.InetAddress.getByName(getHname());
-        } catch(UnknownHostException e) {
-            if (SNMP_LOGGER.isLoggable(Level.FINEST)) {
-                SNMP_LOGGER.logp(Level.FINEST, Host.class.getName(),
-                        "buildTrapEntries",
-                        "Cannot create TRAP entry; got exception", e);
+            bdd = jbvb.nft.InftAddrfss.gftByNbmf(gftHnbmf());
+        } dbtdi(UnknownHostExdfption f) {
+            if (SNMP_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                SNMP_LOGGER.logp(Lfvfl.FINEST, Host.dlbss.gftNbmf(),
+                        "buildTrbpEntrifs",
+                        "Cbnnot drfbtf TRAP fntry; got fxdfption", f);
             }
-            return;
+            rfturn;
         }
 
-        Vector<String> list = null;
-        if (dest.containsKey(add)){
-            list = dest.get(add);
-            if (!list.contains(comm)){
-                list.addElement(comm);
+        Vfdtor<String> list = null;
+        if (dfst.dontbinsKfy(bdd)){
+            list = dfst.gft(bdd);
+            if (!list.dontbins(domm)){
+                list.bddElfmfnt(domm);
             }
-        } else {
-            list = new Vector<String>();
-            list.addElement(comm);
-            dest.put(add,list);
+        } flsf {
+            list = nfw Vfdtor<String>();
+            list.bddElfmfnt(domm);
+            dfst.put(bdd,list);
         }
     }
 
-    public void buildInformEntries(Hashtable<InetAddress, Vector<String>> dest) {
+    publid void buildInformEntrifs(Hbsitbblf<InftAddrfss, Vfdtor<String>> dfst) {
 
-        JDMHostInform host= (JDMHostInform) jjtGetParent();
-        JDMInformInterestedHost hosts= (JDMInformInterestedHost) host.jjtGetParent();
-        JDMInformItem inform = (JDMInformItem) hosts.jjtGetParent();
-        JDMInformCommunity community = inform.getCommunity();
-        String comm = community.getCommunity();
+        JDMHostInform iost= (JDMHostInform) jjtGftPbrfnt();
+        JDMInformIntfrfstfdHost iosts= (JDMInformIntfrfstfdHost) iost.jjtGftPbrfnt();
+        JDMInformItfm inform = (JDMInformItfm) iosts.jjtGftPbrfnt();
+        JDMInformCommunity dommunity = inform.gftCommunity();
+        String domm = dommunity.gftCommunity();
 
-        InetAddress add = null;
+        InftAddrfss bdd = null;
         try {
-            add = java.net.InetAddress.getByName(getHname());
-        } catch(UnknownHostException e) {
-            if (SNMP_LOGGER.isLoggable(Level.FINEST)) {
-                SNMP_LOGGER.logp(Level.FINEST, Host.class.getName(),
-                        "buildTrapEntries",
-                        "Cannot create INFORM entry; got exception", e);
+            bdd = jbvb.nft.InftAddrfss.gftByNbmf(gftHnbmf());
+        } dbtdi(UnknownHostExdfption f) {
+            if (SNMP_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                SNMP_LOGGER.logp(Lfvfl.FINEST, Host.dlbss.gftNbmf(),
+                        "buildTrbpEntrifs",
+                        "Cbnnot drfbtf INFORM fntry; got fxdfption", f);
             }
-            return;
+            rfturn;
         }
 
-        Vector<String> list = null;
-        if (dest.containsKey(add)){
-            list = dest.get(add);
-            if (!list.contains(comm)){
-                list.addElement(comm);
+        Vfdtor<String> list = null;
+        if (dfst.dontbinsKfy(bdd)){
+            list = dfst.gft(bdd);
+            if (!list.dontbins(domm)){
+                list.bddElfmfnt(domm);
             }
-        } else {
-            list = new Vector<String>();
-            list.addElement(comm);
-            dest.put(add,list);
+        } flsf {
+            list = nfw Vfdtor<String>();
+            list.bddElfmfnt(domm);
+            dfst.put(bdd,list);
         }
     }
 

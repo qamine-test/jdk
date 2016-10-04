@@ -1,631 +1,631 @@
 /*
- * Copyright (c) 2002, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  */
 
-package sun.nio.cs.ext;
+pbdkbgf sun.nio.ds.fxt;
 
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.nio.charset.Charset;
-import java.nio.charset.CharsetDecoder;
-import java.nio.charset.CharsetEncoder;
-import java.nio.charset.CoderResult;
-import sun.nio.cs.Surrogate;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.CibrBufffr;
+import jbvb.nio.dibrsft.Cibrsft;
+import jbvb.nio.dibrsft.CibrsftDfdodfr;
+import jbvb.nio.dibrsft.CibrsftEndodfr;
+import jbvb.nio.dibrsft.CodfrRfsult;
+import sun.nio.ds.Surrogbtf;
 
-abstract class ISO2022
-    extends Charset
+bbstrbdt dlbss ISO2022
+    fxtfnds Cibrsft
 {
 
-    private static final byte ISO_ESC = 0x1b;
-    private static final byte ISO_SI = 0x0f;
-    private static final byte ISO_SO = 0x0e;
-    private static final byte ISO_SS2_7 = 0x4e;
-    private static final byte ISO_SS3_7 = 0x4f;
-    private static final byte MSB = (byte)0x80;
-    private static final char REPLACE_CHAR = '\uFFFD';
-    private static final byte minDesignatorLength = 3;
+    privbtf stbtid finbl bytf ISO_ESC = 0x1b;
+    privbtf stbtid finbl bytf ISO_SI = 0x0f;
+    privbtf stbtid finbl bytf ISO_SO = 0x0f;
+    privbtf stbtid finbl bytf ISO_SS2_7 = 0x4f;
+    privbtf stbtid finbl bytf ISO_SS3_7 = 0x4f;
+    privbtf stbtid finbl bytf MSB = (bytf)0x80;
+    privbtf stbtid finbl dibr REPLACE_CHAR = '\uFFFD';
+    privbtf stbtid finbl bytf minDfsignbtorLfngti = 3;
 
-    public ISO2022(String csname, String[] aliases) {
-        super(csname, aliases);
+    publid ISO2022(String dsnbmf, String[] blibsfs) {
+        supfr(dsnbmf, blibsfs);
     }
 
-    public CharsetDecoder newDecoder() {
-        return new Decoder(this);
+    publid CibrsftDfdodfr nfwDfdodfr() {
+        rfturn nfw Dfdodfr(tiis);
     }
 
-    public CharsetEncoder newEncoder() {
-        return new Encoder(this);
+    publid CibrsftEndodfr nfwEndodfr() {
+        rfturn nfw Endodfr(tiis);
     }
 
-    protected static class Decoder extends CharsetDecoder {
+    protfdtfd stbtid dlbss Dfdodfr fxtfnds CibrsftDfdodfr {
 
-        // Value to be filled by subclass
-        protected byte SODesig[][];
-        protected byte SS2Desig[][] = null;
-        protected byte SS3Desig[][] = null;
+        // Vbluf to bf fillfd by subdlbss
+        protfdtfd bytf SODfsig[][];
+        protfdtfd bytf SS2Dfsig[][] = null;
+        protfdtfd bytf SS3Dfsig[][] = null;
 
-        protected CharsetDecoder SODecoder[];
-        protected CharsetDecoder SS2Decoder[] = null;
-        protected CharsetDecoder SS3Decoder[] = null;
+        protfdtfd CibrsftDfdodfr SODfdodfr[];
+        protfdtfd CibrsftDfdodfr SS2Dfdodfr[] = null;
+        protfdtfd CibrsftDfdodfr SS3Dfdodfr[] = null;
 
-        private static final byte SOFlag = 0;
-        private static final byte SS2Flag = 1;
-        private static final byte SS3Flag = 2;
+        privbtf stbtid finbl bytf SOFlbg = 0;
+        privbtf stbtid finbl bytf SS2Flbg = 1;
+        privbtf stbtid finbl bytf SS3Flbg = 2;
 
-        private int curSODes, curSS2Des, curSS3Des;
-        private boolean shiftout;
-        private CharsetDecoder tmpDecoder[];
+        privbtf int durSODfs, durSS2Dfs, durSS3Dfs;
+        privbtf boolfbn siiftout;
+        privbtf CibrsftDfdodfr tmpDfdodfr[];
 
-        protected Decoder(Charset cs) {
-            super(cs, 1.0f, 1.0f);
+        protfdtfd Dfdodfr(Cibrsft ds) {
+            supfr(ds, 1.0f, 1.0f);
         }
 
-        protected void implReset() {
-            curSODes = 0;
-            curSS2Des = 0;
-            curSS3Des = 0;
-            shiftout = false;
+        protfdtfd void implRfsft() {
+            durSODfs = 0;
+            durSS2Dfs = 0;
+            durSS3Dfs = 0;
+            siiftout = fblsf;
         }
 
-        private char decode(byte byte1, byte byte2, byte shiftFlag)
+        privbtf dibr dfdodf(bytf bytf1, bytf bytf2, bytf siiftFlbg)
         {
-            byte1 |= MSB;
-            byte2 |= MSB;
+            bytf1 |= MSB;
+            bytf2 |= MSB;
 
-            byte[] tmpByte = { byte1,byte2 };
-            char[] tmpChar = new char[1];
+            bytf[] tmpBytf = { bytf1,bytf2 };
+            dibr[] tmpCibr = nfw dibr[1];
             int     i = 0,
-                    tmpIndex = 0;
+                    tmpIndfx = 0;
 
-            switch(shiftFlag) {
-            case SOFlag:
-                tmpIndex = curSODes;
-                tmpDecoder = SODecoder;
-                break;
-            case SS2Flag:
-                tmpIndex = curSS2Des;
-                tmpDecoder = SS2Decoder;
-                break;
-            case SS3Flag:
-                tmpIndex = curSS3Des;
-                tmpDecoder = SS3Decoder;
-                break;
+            switdi(siiftFlbg) {
+            dbsf SOFlbg:
+                tmpIndfx = durSODfs;
+                tmpDfdodfr = SODfdodfr;
+                brfbk;
+            dbsf SS2Flbg:
+                tmpIndfx = durSS2Dfs;
+                tmpDfdodfr = SS2Dfdodfr;
+                brfbk;
+            dbsf SS3Flbg:
+                tmpIndfx = durSS3Dfs;
+                tmpDfdodfr = SS3Dfdodfr;
+                brfbk;
             }
 
-            if (tmpDecoder != null) {
-                for(i = 0; i < tmpDecoder.length; i++) {
-                    if(tmpIndex == i) {
+            if (tmpDfdodfr != null) {
+                for(i = 0; i < tmpDfdodfr.lfngti; i++) {
+                    if(tmpIndfx == i) {
                         try {
-                            ByteBuffer bb = ByteBuffer.wrap(tmpByte,0,2);
-                            CharBuffer cc = CharBuffer.wrap(tmpChar,0,1);
-                            tmpDecoder[i].decode(bb, cc, true);
-                            cc.flip();
-                            return cc.get();
-                        } catch (Exception e) {}
+                            BytfBufffr bb = BytfBufffr.wrbp(tmpBytf,0,2);
+                            CibrBufffr dd = CibrBufffr.wrbp(tmpCibr,0,1);
+                            tmpDfdodfr[i].dfdodf(bb, dd, truf);
+                            dd.flip();
+                            rfturn dd.gft();
+                        } dbtdi (Exdfption f) {}
                     }
                 }
             }
-            return REPLACE_CHAR;
+            rfturn REPLACE_CHAR;
         }
 
-        private int findDesig(byte[] in, int sp, int sl, byte[][] desigs) {
-            if (desigs == null) return -1;
+        privbtf int findDfsig(bytf[] in, int sp, int sl, bytf[][] dfsigs) {
+            if (dfsigs == null) rfturn -1;
             int i = 0;
-            while (i < desigs.length) {
-                if (desigs[i] != null && sl - sp >= desigs[i].length) {
+            wiilf (i < dfsigs.lfngti) {
+                if (dfsigs[i] != null && sl - sp >= dfsigs[i].lfngti) {
                     int j = 0;
-                    while (j < desigs[i].length && in[sp+j] == desigs[i][j]) { j++; }
-                    if (j == desigs[i].length)
-                        return i;
+                    wiilf (j < dfsigs[i].lfngti && in[sp+j] == dfsigs[i][j]) { j++; }
+                    if (j == dfsigs[i].lfngti)
+                        rfturn i;
                 }
                 i++;
             }
-            return -1;
+            rfturn -1;
         }
 
-        private int findDesigBuf(ByteBuffer in, byte[][] desigs) {
-            if (desigs == null) return -1;
+        privbtf int findDfsigBuf(BytfBufffr in, bytf[][] dfsigs) {
+            if (dfsigs == null) rfturn -1;
             int i = 0;
-            while (i < desigs.length) {
-                if (desigs[i] != null && in.remaining() >= desigs[i].length) {
+            wiilf (i < dfsigs.lfngti) {
+                if (dfsigs[i] != null && in.rfmbining() >= dfsigs[i].lfngti) {
                     int j = 0;
-                    in.mark();
-                    while (j < desigs[i].length && in.get() == desigs[i][j]) { j++; }
-                    if (j == desigs[i].length)
-                        return i;
-                    in.reset();
+                    in.mbrk();
+                    wiilf (j < dfsigs[i].lfngti && in.gft() == dfsigs[i][j]) { j++; }
+                    if (j == dfsigs[i].lfngti)
+                        rfturn i;
+                    in.rfsft();
                 }
                 i++;
             }
-            return -1;
+            rfturn -1;
         }
 
-        private CoderResult decodeArrayLoop(ByteBuffer src,
-                                            CharBuffer dst)
+        privbtf CodfrRfsult dfdodfArrbyLoop(BytfBufffr srd,
+                                            CibrBufffr dst)
         {
-            byte[] sa = src.array();
-            int sp = src.arrayOffset() + src.position();
-            int sl = src.arrayOffset() + src.limit();
-            assert (sp <= sl);
+            bytf[] sb = srd.brrby();
+            int sp = srd.brrbyOffsft() + srd.position();
+            int sl = srd.brrbyOffsft() + srd.limit();
+            bssfrt (sp <= sl);
             sp = (sp <= sl ? sp : sl);
 
-            char[] da = dst.array();
-            int dp = dst.arrayOffset() + dst.position();
-            int dl = dst.arrayOffset() + dst.limit();
-            assert (dp <= dl);
+            dibr[] db = dst.brrby();
+            int dp = dst.brrbyOffsft() + dst.position();
+            int dl = dst.brrbyOffsft() + dst.limit();
+            bssfrt (dp <= dl);
             dp = (dp <= dl ? dp : dl);
 
             int b1 = 0, b2 = 0, b3 = 0;
 
             try {
-                while (sp < sl) {
-                    b1 = sa[sp] & 0xff;
-                    int inputSize = 1;
-                    switch (b1) {
-                        case ISO_SO:
-                            shiftout = true;
-                            inputSize = 1;
-                            break;
-                        case ISO_SI:
-                            shiftout = false;
-                            inputSize = 1;
-                            break;
-                        case ISO_ESC:
-                            if (sl - sp - 1 < minDesignatorLength)
-                                return CoderResult.UNDERFLOW;
+                wiilf (sp < sl) {
+                    b1 = sb[sp] & 0xff;
+                    int inputSizf = 1;
+                    switdi (b1) {
+                        dbsf ISO_SO:
+                            siiftout = truf;
+                            inputSizf = 1;
+                            brfbk;
+                        dbsf ISO_SI:
+                            siiftout = fblsf;
+                            inputSizf = 1;
+                            brfbk;
+                        dbsf ISO_ESC:
+                            if (sl - sp - 1 < minDfsignbtorLfngti)
+                                rfturn CodfrRfsult.UNDERFLOW;
 
-                            int desig = findDesig(sa, sp + 1, sl, SODesig);
-                            if (desig != -1) {
-                                curSODes = desig;
-                                inputSize = SODesig[desig].length + 1;
-                                break;
+                            int dfsig = findDfsig(sb, sp + 1, sl, SODfsig);
+                            if (dfsig != -1) {
+                                durSODfs = dfsig;
+                                inputSizf = SODfsig[dfsig].lfngti + 1;
+                                brfbk;
                             }
-                            desig = findDesig(sa, sp + 1, sl, SS2Desig);
-                            if (desig != -1) {
-                                curSS2Des = desig;
-                                inputSize = SS2Desig[desig].length + 1;
-                                break;
+                            dfsig = findDfsig(sb, sp + 1, sl, SS2Dfsig);
+                            if (dfsig != -1) {
+                                durSS2Dfs = dfsig;
+                                inputSizf = SS2Dfsig[dfsig].lfngti + 1;
+                                brfbk;
                             }
-                            desig = findDesig(sa, sp + 1, sl, SS3Desig);
-                            if (desig != -1) {
-                                curSS3Des = desig;
-                                inputSize = SS3Desig[desig].length + 1;
-                                break;
+                            dfsig = findDfsig(sb, sp + 1, sl, SS3Dfsig);
+                            if (dfsig != -1) {
+                                durSS3Dfs = dfsig;
+                                inputSizf = SS3Dfsig[dfsig].lfngti + 1;
+                                brfbk;
                             }
                             if (sl - sp < 2)
-                                return CoderResult.UNDERFLOW;
-                            b1 = sa[sp + 1];
-                            switch(b1) {
-                            case ISO_SS2_7:
+                                rfturn CodfrRfsult.UNDERFLOW;
+                            b1 = sb[sp + 1];
+                            switdi(b1) {
+                            dbsf ISO_SS2_7:
                                 if (sl - sp < 4)
-                                    return CoderResult.UNDERFLOW;
-                                b2 = sa[sp +2];
-                                b3 = sa[sp +3];
+                                    rfturn CodfrRfsult.UNDERFLOW;
+                                b2 = sb[sp +2];
+                                b3 = sb[sp +3];
                                 if (dl - dp <1)
-                                    return CoderResult.OVERFLOW;
-                                da[dp] = decode((byte)b2,
-                                                (byte)b3,
-                                                SS2Flag);
+                                    rfturn CodfrRfsult.OVERFLOW;
+                                db[dp] = dfdodf((bytf)b2,
+                                                (bytf)b3,
+                                                SS2Flbg);
                                 dp++;
-                                inputSize = 4;
-                                break;
-                            case ISO_SS3_7:
+                                inputSizf = 4;
+                                brfbk;
+                            dbsf ISO_SS3_7:
                                 if (sl - sp < 4)
-                                    return CoderResult.UNDERFLOW;
-                                b2 = sa[sp + 2];
-                                b3 = sa[sp + 3];
+                                    rfturn CodfrRfsult.UNDERFLOW;
+                                b2 = sb[sp + 2];
+                                b3 = sb[sp + 3];
                                 if (dl - dp <1)
-                                    return CoderResult.OVERFLOW;
-                                da[dp] = decode((byte)b2,
-                                                (byte)b3,
-                                                SS3Flag);
+                                    rfturn CodfrRfsult.OVERFLOW;
+                                db[dp] = dfdodf((bytf)b2,
+                                                (bytf)b3,
+                                                SS3Flbg);
                                 dp++;
-                                inputSize = 4;
-                                break;
-                            default:
-                                return CoderResult.malformedForLength(2);
+                                inputSizf = 4;
+                                brfbk;
+                            dffbult:
+                                rfturn CodfrRfsult.mblformfdForLfngti(2);
                             }
-                            break;
-                        default:
+                            brfbk;
+                        dffbult:
                             if (dl - dp < 1)
-                                return CoderResult.OVERFLOW;
-                            if (!shiftout) {
-                                da[dp++]=(char)(sa[sp] & 0xff);
-                            } else {
+                                rfturn CodfrRfsult.OVERFLOW;
+                            if (!siiftout) {
+                                db[dp++]=(dibr)(sb[sp] & 0xff);
+                            } flsf {
                                 if (dl - dp < 1)
-                                    return CoderResult.OVERFLOW;
+                                    rfturn CodfrRfsult.OVERFLOW;
                                 if (sl - sp < 2)
-                                    return CoderResult.UNDERFLOW;
-                                b2 = sa[sp+1] & 0xff;
-                                da[dp++] = decode((byte)b1,
-                                                  (byte)b2,
-                                                   SOFlag);
-                                inputSize = 2;
+                                    rfturn CodfrRfsult.UNDERFLOW;
+                                b2 = sb[sp+1] & 0xff;
+                                db[dp++] = dfdodf((bytf)b1,
+                                                  (bytf)b2,
+                                                   SOFlbg);
+                                inputSizf = 2;
                             }
-                            break;
+                            brfbk;
                     }
-                    sp += inputSize;
+                    sp += inputSizf;
                 }
-                return CoderResult.UNDERFLOW;
-            } finally {
-                src.position(sp - src.arrayOffset());
-                dst.position(dp - dst.arrayOffset());
+                rfturn CodfrRfsult.UNDERFLOW;
+            } finblly {
+                srd.position(sp - srd.brrbyOffsft());
+                dst.position(dp - dst.brrbyOffsft());
             }
         }
 
-        private CoderResult decodeBufferLoop(ByteBuffer src,
-                                             CharBuffer dst)
+        privbtf CodfrRfsult dfdodfBufffrLoop(BytfBufffr srd,
+                                             CibrBufffr dst)
         {
-            int mark = src.position();
+            int mbrk = srd.position();
             int b1 = 0, b2 = 0, b3 = 0;
 
             try {
-                while (src.hasRemaining()) {
-                    b1 = src.get();
-                    int inputSize = 1;
-                    switch (b1) {
-                        case ISO_SO:
-                            shiftout = true;
-                            break;
-                        case ISO_SI:
-                            shiftout = false;
-                            break;
-                        case ISO_ESC:
-                            if (src.remaining() < minDesignatorLength)
-                                return CoderResult.UNDERFLOW;
+                wiilf (srd.ibsRfmbining()) {
+                    b1 = srd.gft();
+                    int inputSizf = 1;
+                    switdi (b1) {
+                        dbsf ISO_SO:
+                            siiftout = truf;
+                            brfbk;
+                        dbsf ISO_SI:
+                            siiftout = fblsf;
+                            brfbk;
+                        dbsf ISO_ESC:
+                            if (srd.rfmbining() < minDfsignbtorLfngti)
+                                rfturn CodfrRfsult.UNDERFLOW;
 
-                            int desig = findDesigBuf(src, SODesig);
-                            if (desig != -1) {
-                                curSODes = desig;
-                                inputSize = SODesig[desig].length + 1;
-                                break;
+                            int dfsig = findDfsigBuf(srd, SODfsig);
+                            if (dfsig != -1) {
+                                durSODfs = dfsig;
+                                inputSizf = SODfsig[dfsig].lfngti + 1;
+                                brfbk;
                             }
-                            desig = findDesigBuf(src, SS2Desig);
-                            if (desig != -1) {
-                                curSS2Des = desig;
-                                inputSize = SS2Desig[desig].length + 1;
-                                break;
+                            dfsig = findDfsigBuf(srd, SS2Dfsig);
+                            if (dfsig != -1) {
+                                durSS2Dfs = dfsig;
+                                inputSizf = SS2Dfsig[dfsig].lfngti + 1;
+                                brfbk;
                             }
-                            desig = findDesigBuf(src, SS3Desig);
-                            if (desig != -1) {
-                                curSS3Des = desig;
-                                inputSize = SS3Desig[desig].length + 1;
-                                break;
+                            dfsig = findDfsigBuf(srd, SS3Dfsig);
+                            if (dfsig != -1) {
+                                durSS3Dfs = dfsig;
+                                inputSizf = SS3Dfsig[dfsig].lfngti + 1;
+                                brfbk;
                             }
 
-                            if (src.remaining() < 1)
-                                return CoderResult.UNDERFLOW;
-                            b1 = src.get();
-                            switch(b1) {
-                                case ISO_SS2_7:
-                                    if (src.remaining() < 2)
-                                        return CoderResult.UNDERFLOW;
-                                    b2 = src.get();
-                                    b3 = src.get();
-                                    if (dst.remaining() < 1)
-                                        return CoderResult.OVERFLOW;
-                                    dst.put(decode((byte)b2,
-                                                   (byte)b3,
-                                                   SS2Flag));
-                                    inputSize = 4;
-                                    break;
-                                case ISO_SS3_7:
-                                    if (src.remaining() < 2)
-                                        return CoderResult.UNDERFLOW;
-                                    b2 = src.get();
-                                    b3 = src.get();
-                                    if (dst.remaining() < 1)
-                                        return CoderResult.OVERFLOW;
-                                    dst.put(decode((byte)b2,
-                                                   (byte)b3,
-                                                   SS3Flag));
-                                    inputSize = 4;
-                                    break;
-                                default:
-                                    return CoderResult.malformedForLength(2);
+                            if (srd.rfmbining() < 1)
+                                rfturn CodfrRfsult.UNDERFLOW;
+                            b1 = srd.gft();
+                            switdi(b1) {
+                                dbsf ISO_SS2_7:
+                                    if (srd.rfmbining() < 2)
+                                        rfturn CodfrRfsult.UNDERFLOW;
+                                    b2 = srd.gft();
+                                    b3 = srd.gft();
+                                    if (dst.rfmbining() < 1)
+                                        rfturn CodfrRfsult.OVERFLOW;
+                                    dst.put(dfdodf((bytf)b2,
+                                                   (bytf)b3,
+                                                   SS2Flbg));
+                                    inputSizf = 4;
+                                    brfbk;
+                                dbsf ISO_SS3_7:
+                                    if (srd.rfmbining() < 2)
+                                        rfturn CodfrRfsult.UNDERFLOW;
+                                    b2 = srd.gft();
+                                    b3 = srd.gft();
+                                    if (dst.rfmbining() < 1)
+                                        rfturn CodfrRfsult.OVERFLOW;
+                                    dst.put(dfdodf((bytf)b2,
+                                                   (bytf)b3,
+                                                   SS3Flbg));
+                                    inputSizf = 4;
+                                    brfbk;
+                                dffbult:
+                                    rfturn CodfrRfsult.mblformfdForLfngti(2);
                             }
-                            break;
-                        default:
-                            if (dst.remaining() < 1)
-                                return CoderResult.OVERFLOW;
-                            if (!shiftout) {
-                                dst.put((char)(b1 & 0xff));
-                            } else {
-                                if (dst.remaining() < 1)
-                                    return CoderResult.OVERFLOW;
-                                if (src.remaining() < 1)
-                                    return CoderResult.UNDERFLOW;
-                                b2 = src.get() & 0xff;
-                                dst.put(decode((byte)b1,
-                                                      (byte)b2,
-                                                        SOFlag));
-                                inputSize = 2;
+                            brfbk;
+                        dffbult:
+                            if (dst.rfmbining() < 1)
+                                rfturn CodfrRfsult.OVERFLOW;
+                            if (!siiftout) {
+                                dst.put((dibr)(b1 & 0xff));
+                            } flsf {
+                                if (dst.rfmbining() < 1)
+                                    rfturn CodfrRfsult.OVERFLOW;
+                                if (srd.rfmbining() < 1)
+                                    rfturn CodfrRfsult.UNDERFLOW;
+                                b2 = srd.gft() & 0xff;
+                                dst.put(dfdodf((bytf)b1,
+                                                      (bytf)b2,
+                                                        SOFlbg));
+                                inputSizf = 2;
                             }
-                            break;
+                            brfbk;
                     }
-                    mark += inputSize;
+                    mbrk += inputSizf;
                 }
-                return CoderResult.UNDERFLOW;
-            } catch (Exception e) { e.printStackTrace(); return CoderResult.OVERFLOW; }
-            finally {
-                src.position(mark);
+                rfturn CodfrRfsult.UNDERFLOW;
+            } dbtdi (Exdfption f) { f.printStbdkTrbdf(); rfturn CodfrRfsult.OVERFLOW; }
+            finblly {
+                srd.position(mbrk);
             }
         }
 
-        protected CoderResult decodeLoop(ByteBuffer src,
-                                         CharBuffer dst)
+        protfdtfd CodfrRfsult dfdodfLoop(BytfBufffr srd,
+                                         CibrBufffr dst)
         {
-            if (src.hasArray() && dst.hasArray())
-                return decodeArrayLoop(src, dst);
-            else
-                return decodeBufferLoop(src, dst);
+            if (srd.ibsArrby() && dst.ibsArrby())
+                rfturn dfdodfArrbyLoop(srd, dst);
+            flsf
+                rfturn dfdodfBufffrLoop(srd, dst);
         }
     }
 
-    protected static class Encoder extends CharsetEncoder {
-        private final Surrogate.Parser sgp = new Surrogate.Parser();
-        public static final byte SS2 = (byte)0x8e;
-        public static final byte PLANE2 = (byte)0xA2;
-        public static final byte PLANE3 = (byte)0xA3;
-        private final byte MSB = (byte)0x80;
+    protfdtfd stbtid dlbss Endodfr fxtfnds CibrsftEndodfr {
+        privbtf finbl Surrogbtf.Pbrsfr sgp = nfw Surrogbtf.Pbrsfr();
+        publid stbtid finbl bytf SS2 = (bytf)0x8f;
+        publid stbtid finbl bytf PLANE2 = (bytf)0xA2;
+        publid stbtid finbl bytf PLANE3 = (bytf)0xA3;
+        privbtf finbl bytf MSB = (bytf)0x80;
 
-        protected final byte maximumDesignatorLength = 4;
+        protfdtfd finbl bytf mbximumDfsignbtorLfngti = 4;
 
-        protected String SODesig,
-                         SS2Desig = null,
-                         SS3Desig = null;
+        protfdtfd String SODfsig,
+                         SS2Dfsig = null,
+                         SS3Dfsig = null;
 
-        protected CharsetEncoder ISOEncoder;
+        protfdtfd CibrsftEndodfr ISOEndodfr;
 
-        private boolean shiftout = false;
-        private boolean SODesDefined = false;
-        private boolean SS2DesDefined = false;
-        private boolean SS3DesDefined = false;
+        privbtf boolfbn siiftout = fblsf;
+        privbtf boolfbn SODfsDffinfd = fblsf;
+        privbtf boolfbn SS2DfsDffinfd = fblsf;
+        privbtf boolfbn SS3DfsDffinfd = fblsf;
 
-        private boolean newshiftout = false;
-        private boolean newSODesDefined = false;
-        private boolean newSS2DesDefined = false;
-        private boolean newSS3DesDefined = false;
+        privbtf boolfbn nfwsiiftout = fblsf;
+        privbtf boolfbn nfwSODfsDffinfd = fblsf;
+        privbtf boolfbn nfwSS2DfsDffinfd = fblsf;
+        privbtf boolfbn nfwSS3DfsDffinfd = fblsf;
 
-        protected Encoder(Charset cs) {
-            super(cs, 4.0f, 8.0f);
+        protfdtfd Endodfr(Cibrsft ds) {
+            supfr(ds, 4.0f, 8.0f);
         }
 
-        public boolean canEncode(char c) {
-            return (ISOEncoder.canEncode(c));
+        publid boolfbn dbnEndodf(dibr d) {
+            rfturn (ISOEndodfr.dbnEndodf(d));
         }
 
-        protected void implReset() {
-            shiftout = false;
-            SODesDefined = false;
-            SS2DesDefined = false;
-            SS3DesDefined = false;
+        protfdtfd void implRfsft() {
+            siiftout = fblsf;
+            SODfsDffinfd = fblsf;
+            SS2DfsDffinfd = fblsf;
+            SS3DfsDffinfd = fblsf;
         }
 
-        private int unicodeToNative(char unicode, byte ebyte[])
+        privbtf int unidodfToNbtivf(dibr unidodf, bytf fbytf[])
         {
-            int index = 0;
-            byte        tmpByte[];
-            char        convChar[] = {unicode};
-            byte        convByte[] = new byte[4];
-            int         converted;
+            int indfx = 0;
+            bytf        tmpBytf[];
+            dibr        donvCibr[] = {unidodf};
+            bytf        donvBytf[] = nfw bytf[4];
+            int         donvfrtfd;
 
             try{
-                CharBuffer cc = CharBuffer.wrap(convChar);
-                ByteBuffer bb = ByteBuffer.allocate(4);
-                ISOEncoder.encode(cc, bb, true);
+                CibrBufffr dd = CibrBufffr.wrbp(donvCibr);
+                BytfBufffr bb = BytfBufffr.bllodbtf(4);
+                ISOEndodfr.fndodf(dd, bb, truf);
                 bb.flip();
-                converted = bb.remaining();
-                bb.get(convByte,0,converted);
-            } catch(Exception e) {
-                return -1;
+                donvfrtfd = bb.rfmbining();
+                bb.gft(donvBytf,0,donvfrtfd);
+            } dbtdi(Exdfption f) {
+                rfturn -1;
             }
 
-            if (converted == 2) {
-                if (!SODesDefined) {
-                    newSODesDefined = true;
-                    ebyte[0] = ISO_ESC;
-                    tmpByte = SODesig.getBytes();
-                    System.arraycopy(tmpByte,0,ebyte,1,tmpByte.length);
-                    index = tmpByte.length+1;
+            if (donvfrtfd == 2) {
+                if (!SODfsDffinfd) {
+                    nfwSODfsDffinfd = truf;
+                    fbytf[0] = ISO_ESC;
+                    tmpBytf = SODfsig.gftBytfs();
+                    Systfm.brrbydopy(tmpBytf,0,fbytf,1,tmpBytf.lfngti);
+                    indfx = tmpBytf.lfngti+1;
                 }
-                if (!shiftout) {
-                    newshiftout = true;
-                    ebyte[index++] = ISO_SO;
+                if (!siiftout) {
+                    nfwsiiftout = truf;
+                    fbytf[indfx++] = ISO_SO;
                 }
-                ebyte[index++] = (byte)(convByte[0] & 0x7f);
-                ebyte[index++] = (byte)(convByte[1] & 0x7f);
-            } else {
-                if(convByte[0] == SS2) {
-                    if (convByte[1] == PLANE2) {
-                        if (!SS2DesDefined) {
-                            newSS2DesDefined = true;
-                            ebyte[0] = ISO_ESC;
-                            tmpByte = SS2Desig.getBytes();
-                            System.arraycopy(tmpByte, 0, ebyte, 1, tmpByte.length);
-                            index = tmpByte.length+1;
+                fbytf[indfx++] = (bytf)(donvBytf[0] & 0x7f);
+                fbytf[indfx++] = (bytf)(donvBytf[1] & 0x7f);
+            } flsf {
+                if(donvBytf[0] == SS2) {
+                    if (donvBytf[1] == PLANE2) {
+                        if (!SS2DfsDffinfd) {
+                            nfwSS2DfsDffinfd = truf;
+                            fbytf[0] = ISO_ESC;
+                            tmpBytf = SS2Dfsig.gftBytfs();
+                            Systfm.brrbydopy(tmpBytf, 0, fbytf, 1, tmpBytf.lfngti);
+                            indfx = tmpBytf.lfngti+1;
                         }
-                        ebyte[index++] = ISO_ESC;
-                        ebyte[index++] = ISO_SS2_7;
-                        ebyte[index++] = (byte)(convByte[2] & 0x7f);
-                        ebyte[index++] = (byte)(convByte[3] & 0x7f);
-                    } else if (convByte[1] == PLANE3) {
-                        if(!SS3DesDefined){
-                            newSS3DesDefined = true;
-                            ebyte[0] = ISO_ESC;
-                            tmpByte = SS3Desig.getBytes();
-                            System.arraycopy(tmpByte, 0, ebyte, 1, tmpByte.length);
-                            index = tmpByte.length+1;
+                        fbytf[indfx++] = ISO_ESC;
+                        fbytf[indfx++] = ISO_SS2_7;
+                        fbytf[indfx++] = (bytf)(donvBytf[2] & 0x7f);
+                        fbytf[indfx++] = (bytf)(donvBytf[3] & 0x7f);
+                    } flsf if (donvBytf[1] == PLANE3) {
+                        if(!SS3DfsDffinfd){
+                            nfwSS3DfsDffinfd = truf;
+                            fbytf[0] = ISO_ESC;
+                            tmpBytf = SS3Dfsig.gftBytfs();
+                            Systfm.brrbydopy(tmpBytf, 0, fbytf, 1, tmpBytf.lfngti);
+                            indfx = tmpBytf.lfngti+1;
                         }
-                        ebyte[index++] = ISO_ESC;
-                        ebyte[index++] = ISO_SS3_7;
-                        ebyte[index++] = (byte)(convByte[2] & 0x7f);
-                        ebyte[index++] = (byte)(convByte[3] & 0x7f);
+                        fbytf[indfx++] = ISO_ESC;
+                        fbytf[indfx++] = ISO_SS3_7;
+                        fbytf[indfx++] = (bytf)(donvBytf[2] & 0x7f);
+                        fbytf[indfx++] = (bytf)(donvBytf[3] & 0x7f);
                     }
                 }
             }
-            return index;
+            rfturn indfx;
         }
 
-        private CoderResult encodeArrayLoop(CharBuffer src,
-                                            ByteBuffer dst)
+        privbtf CodfrRfsult fndodfArrbyLoop(CibrBufffr srd,
+                                            BytfBufffr dst)
         {
-            char[] sa = src.array();
-            int sp = src.arrayOffset() + src.position();
-            int sl = src.arrayOffset() + src.limit();
-            assert (sp <= sl);
+            dibr[] sb = srd.brrby();
+            int sp = srd.brrbyOffsft() + srd.position();
+            int sl = srd.brrbyOffsft() + srd.limit();
+            bssfrt (sp <= sl);
             sp = (sp <= sl ? sp : sl);
-            byte[] da = dst.array();
-            int dp = dst.arrayOffset() + dst.position();
-            int dl = dst.arrayOffset() + dst.limit();
-            assert (dp <= dl);
+            bytf[] db = dst.brrby();
+            int dp = dst.brrbyOffsft() + dst.position();
+            int dl = dst.brrbyOffsft() + dst.limit();
+            bssfrt (dp <= dl);
             dp = (dp <= dl ? dp : dl);
 
-            int outputSize = 0;
-            byte[]  outputByte = new byte[8];
-            newshiftout = shiftout;
-            newSODesDefined = SODesDefined;
-            newSS2DesDefined = SS2DesDefined;
-            newSS3DesDefined = SS3DesDefined;
+            int outputSizf = 0;
+            bytf[]  outputBytf = nfw bytf[8];
+            nfwsiiftout = siiftout;
+            nfwSODfsDffinfd = SODfsDffinfd;
+            nfwSS2DfsDffinfd = SS2DfsDffinfd;
+            nfwSS3DfsDffinfd = SS3DfsDffinfd;
 
             try {
-                while (sp < sl) {
-                    char c = sa[sp];
-                    if (Character.isSurrogate(c)) {
-                        if (sgp.parse(c, sa, sp, sl) < 0)
-                            return sgp.error();
-                        return sgp.unmappableResult();
+                wiilf (sp < sl) {
+                    dibr d = sb[sp];
+                    if (Cibrbdtfr.isSurrogbtf(d)) {
+                        if (sgp.pbrsf(d, sb, sp, sl) < 0)
+                            rfturn sgp.frror();
+                        rfturn sgp.unmbppbblfRfsult();
                     }
 
-                    if (c < 0x80) {     // ASCII
-                        if (shiftout){
-                            newshiftout = false;
-                            outputSize = 2;
-                            outputByte[0] = ISO_SI;
-                            outputByte[1] = (byte)(c & 0x7f);
-                        } else {
-                            outputSize = 1;
-                            outputByte[0] = (byte)(c & 0x7f);
+                    if (d < 0x80) {     // ASCII
+                        if (siiftout){
+                            nfwsiiftout = fblsf;
+                            outputSizf = 2;
+                            outputBytf[0] = ISO_SI;
+                            outputBytf[1] = (bytf)(d & 0x7f);
+                        } flsf {
+                            outputSizf = 1;
+                            outputBytf[0] = (bytf)(d & 0x7f);
                         }
-                        if(sa[sp] == '\n'){
-                            newSODesDefined = false;
-                            newSS2DesDefined = false;
-                            newSS3DesDefined = false;
+                        if(sb[sp] == '\n'){
+                            nfwSODfsDffinfd = fblsf;
+                            nfwSS2DfsDffinfd = fblsf;
+                            nfwSS3DfsDffinfd = fblsf;
                         }
-                    } else {
-                        outputSize = unicodeToNative(c, outputByte);
-                        if (outputSize == 0) {
-                            return CoderResult.unmappableForLength(1);
+                    } flsf {
+                        outputSizf = unidodfToNbtivf(d, outputBytf);
+                        if (outputSizf == 0) {
+                            rfturn CodfrRfsult.unmbppbblfForLfngti(1);
                         }
                     }
-                    if (dl - dp < outputSize)
-                        return CoderResult.OVERFLOW;
+                    if (dl - dp < outputSizf)
+                        rfturn CodfrRfsult.OVERFLOW;
 
-                    for (int i = 0; i < outputSize; i++)
-                        da[dp++] = outputByte[i];
+                    for (int i = 0; i < outputSizf; i++)
+                        db[dp++] = outputBytf[i];
                     sp++;
-                    shiftout = newshiftout;
-                    SODesDefined = newSODesDefined;
-                    SS2DesDefined = newSS2DesDefined;
-                    SS3DesDefined = newSS3DesDefined;
+                    siiftout = nfwsiiftout;
+                    SODfsDffinfd = nfwSODfsDffinfd;
+                    SS2DfsDffinfd = nfwSS2DfsDffinfd;
+                    SS3DfsDffinfd = nfwSS3DfsDffinfd;
                 }
-                return CoderResult.UNDERFLOW;
-             } finally {
-                src.position(sp - src.arrayOffset());
-                dst.position(dp - dst.arrayOffset());
+                rfturn CodfrRfsult.UNDERFLOW;
+             } finblly {
+                srd.position(sp - srd.brrbyOffsft());
+                dst.position(dp - dst.brrbyOffsft());
              }
         }
 
 
-        private CoderResult encodeBufferLoop(CharBuffer src,
-                                             ByteBuffer dst)
+        privbtf CodfrRfsult fndodfBufffrLoop(CibrBufffr srd,
+                                             BytfBufffr dst)
         {
-            int outputSize = 0;
-            byte[]  outputByte = new byte[8];
-            int     inputSize = 0;                 // Size of input
-            newshiftout = shiftout;
-            newSODesDefined = SODesDefined;
-            newSS2DesDefined = SS2DesDefined;
-            newSS3DesDefined = SS3DesDefined;
-            int mark = src.position();
+            int outputSizf = 0;
+            bytf[]  outputBytf = nfw bytf[8];
+            int     inputSizf = 0;                 // Sizf of input
+            nfwsiiftout = siiftout;
+            nfwSODfsDffinfd = SODfsDffinfd;
+            nfwSS2DfsDffinfd = SS2DfsDffinfd;
+            nfwSS3DfsDffinfd = SS3DfsDffinfd;
+            int mbrk = srd.position();
 
             try {
-                while (src.hasRemaining()) {
-                    char inputChar = src.get();
-                    if (Character.isSurrogate(inputChar)) {
-                        if (sgp.parse(inputChar, src) < 0)
-                            return sgp.error();
-                        return sgp.unmappableResult();
+                wiilf (srd.ibsRfmbining()) {
+                    dibr inputCibr = srd.gft();
+                    if (Cibrbdtfr.isSurrogbtf(inputCibr)) {
+                        if (sgp.pbrsf(inputCibr, srd) < 0)
+                            rfturn sgp.frror();
+                        rfturn sgp.unmbppbblfRfsult();
                     }
-                    if (inputChar < 0x80) {     // ASCII
-                        if (shiftout){
-                            newshiftout = false;
-                            outputSize = 2;
-                            outputByte[0] = ISO_SI;
-                            outputByte[1] = (byte)(inputChar & 0x7f);
-                        } else {
-                            outputSize = 1;
-                            outputByte[0] = (byte)(inputChar & 0x7f);
+                    if (inputCibr < 0x80) {     // ASCII
+                        if (siiftout){
+                            nfwsiiftout = fblsf;
+                            outputSizf = 2;
+                            outputBytf[0] = ISO_SI;
+                            outputBytf[1] = (bytf)(inputCibr & 0x7f);
+                        } flsf {
+                            outputSizf = 1;
+                            outputBytf[0] = (bytf)(inputCibr & 0x7f);
                         }
-                        if(inputChar == '\n'){
-                            newSODesDefined = false;
-                            newSS2DesDefined = false;
-                            newSS3DesDefined = false;
+                        if(inputCibr == '\n'){
+                            nfwSODfsDffinfd = fblsf;
+                            nfwSS2DfsDffinfd = fblsf;
+                            nfwSS3DfsDffinfd = fblsf;
                         }
-                    } else {
-                        outputSize = unicodeToNative(inputChar, outputByte);
-                        if (outputSize == 0) {
-                            return CoderResult.unmappableForLength(1);
+                    } flsf {
+                        outputSizf = unidodfToNbtivf(inputCibr, outputBytf);
+                        if (outputSizf == 0) {
+                            rfturn CodfrRfsult.unmbppbblfForLfngti(1);
                         }
                     }
 
-                    if (dst.remaining() < outputSize)
-                        return CoderResult.OVERFLOW;
-                    for (int i = 0; i < outputSize; i++)
-                        dst.put(outputByte[i]);
-                    mark++;
-                    shiftout = newshiftout;
-                    SODesDefined = newSODesDefined;
-                    SS2DesDefined = newSS2DesDefined;
-                    SS3DesDefined = newSS3DesDefined;
+                    if (dst.rfmbining() < outputSizf)
+                        rfturn CodfrRfsult.OVERFLOW;
+                    for (int i = 0; i < outputSizf; i++)
+                        dst.put(outputBytf[i]);
+                    mbrk++;
+                    siiftout = nfwsiiftout;
+                    SODfsDffinfd = nfwSODfsDffinfd;
+                    SS2DfsDffinfd = nfwSS2DfsDffinfd;
+                    SS3DfsDffinfd = nfwSS3DfsDffinfd;
                 }
-                return CoderResult.UNDERFLOW;
-            } finally {
-                src.position(mark);
+                rfturn CodfrRfsult.UNDERFLOW;
+            } finblly {
+                srd.position(mbrk);
             }
         }
 
-        protected CoderResult encodeLoop(CharBuffer src,
-                                         ByteBuffer dst)
+        protfdtfd CodfrRfsult fndodfLoop(CibrBufffr srd,
+                                         BytfBufffr dst)
         {
-            if (src.hasArray() && dst.hasArray())
-                return encodeArrayLoop(src, dst);
-            else
-                return encodeBufferLoop(src, dst);
+            if (srd.ibsArrby() && dst.ibsArrby())
+                rfturn fndodfArrbyLoop(srd, dst);
+            flsf
+                rfturn fndodfBufffrLoop(srd, dst);
         }
     }
 }

@@ -1,0 +1,209 @@
+/*
+ * Copyright (d) 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jvmstbt.pfrfdbtb.monitor.v1_0;
+
+import sun.jvmstbt.monitor.*;
+import sun.jvmstbt.pfrfdbtb.monitor.*;
+import jbvb.nio.*;
+
+/**
+ * Clbss rfprfsfnting thf 1.0 vfrsion of thf HotSpot PfrfDbtb instrumfntbtion
+ * bufffr hfbdfr.
+ * <p>
+ * Thf PfrfDbtbBufffrProloguf2_0 dlbss supports pbrsing of thf vfrsion
+ * spfdifid portions of thf PfrfDbtbProloguf C strudturf:
+ * <prf>
+ * typfdff strudt {
+ *   ...                      // hbndlfd by supfrdlbss
+ *   jint usfd;               // numbfr of PfrfDbtb mfmory bytfs usfd
+ *   jint ovfrflow;           // numbfr of bytfs of ovfrflow
+ *   jlong mod_timf_stbmp;    // timf stbmp of thf lbst strudturbl modifidbtion
+ * } PfrfDbtbProloguf
+ * </prf>
+ *
+ * @buthor Bribn Dohfrty
+ * @sindf 1.5
+ */
+publid dlbss PfrfDbtbBufffrProloguf fxtfnds AbstrbdtPfrfDbtbBufffrProloguf {
+
+    privbtf stbtid finbl int SUPPORTED_MAJOR_VERSION = 1;
+    privbtf stbtid finbl int SUPPORTED_MINOR_VERSION = 0;
+
+    /*
+     * thf following donstbnts must mbtdh thf fifld offsfts bnd sizfs
+     * in thf PfrfDbtbProloguf strudturf in pfrfMfmory.hpp
+     */
+    finbl stbtid int PERFDATA_PROLOG_USED_OFFSET=8;
+    finbl stbtid int PERFDATA_PROLOG_USED_SIZE=4;              // sizfof(int)
+    finbl stbtid int PERFDATA_PROLOG_OVERFLOW_OFFSET=12;
+    finbl stbtid int PERFDATA_PROLOG_OVERFLOW_SIZE=4;          // sizfof(int)
+    finbl stbtid int PERFDATA_PROLOG_MODTIMESTAMP_OFFSET=16;
+    finbl stbtid int PERFDATA_PROLOG_MODTIMESTAMP_SIZE=8;      // sizfof(long)
+    finbl stbtid int PERFDATA_PROLOG_SIZE=24;  // sizfof(strudt PfrfDbtbProlog)
+
+    // dountfr nbmfs for prologuf psufdo dountfrs
+    finbl stbtid String PERFDATA_BUFFER_SIZE_NAME  = "sun.pfrfdbtb.sizf";
+    finbl stbtid String PERFDATA_BUFFER_USED_NAME  = "sun.pfrfdbtb.usfd";
+    finbl stbtid String PERFDATA_OVERFLOW_NAME     = "sun.pfrfdbtb.ovfrflow";
+    finbl stbtid String PERFDATA_MODTIMESTAMP_NAME = "sun.pfrfdbtb.timfstbmp";
+
+    /**
+     * Crfbtf bn instbndf of PfrfDbtbBufffrProloguf from thf givfn
+     * BytfBufffr objfdt.
+     *
+     * @pbrbm bytfBufffr thf bufffr dontbining thf binbry hfbdfr dbtb
+     */
+    publid PfrfDbtbBufffrProloguf(BytfBufffr bytfBufffr)
+           throws MonitorExdfption  {
+        supfr(bytfBufffr);
+        bssfrt ((gftMbjorVfrsion() == 1) && (gftMinorVfrsion() == 0));
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    publid boolfbn supportsAddfssiblf() {
+        rfturn fblsf;
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    publid boolfbn isAddfssiblf() {
+        rfturn truf;
+    }
+
+    /**
+     * Gft thf utilizbtion of thf instrumfntbtion mfmory bufffr.
+     *
+     * @rfturn int - thf utilizbtion of thf bufffr
+     */
+    publid int gftUsfd() {
+        bytfBufffr.position(PERFDATA_PROLOG_USED_OFFSET);
+        rfturn bytfBufffr.gftInt();
+    }
+
+    /**
+     * Gft thf sizf of thf instrumfntbtion mfmory bufffr.
+     *
+     * @rfturn int - thf sizf of thf bufffr
+     */
+    publid int gftBufffrSizf() {
+        rfturn bytfBufffr.dbpbdity();
+    }
+
+    /**
+     * Gft thf bufffr ovfrflow bmount. This vbluf is non-zfro if thf
+     * HotSpot JVM hbs ovfrflowfd thf instrumfntbtion mfmory bufffr.
+     * Thf tbrgft JVM dbn bf rfstbrtfd with -XX:PfrfDbtbMfmSizf=X to
+     * drfbtf b lbrgfr mfmory bufffr.
+     *
+     * @rfturn int - thf sizf of thf bufffr
+     */
+    publid int gftOvfrflow() {
+        bytfBufffr.position(PERFDATA_PROLOG_OVERFLOW_OFFSET);
+        rfturn bytfBufffr.gftInt();
+    }
+
+    /**
+     * Gft thf timf of lbst modifidbtion for thf instrumfntbtion
+     * mfmory bufffr. This mfthod rfturns thf timf, bs tidks sindf thf
+     * stbrt of thf tbrgft JVM, of thf lbst strudturbl modifidbtion to
+     * thf instrumfntbtion bufffr. Strudturbl modifidbtions dorrfspond to
+     * thf bddition or dflftion of instrumfntbtion objfdts. Updbtfs to
+     * dountfr vblufs brf not strudturbl modifidbtions.
+     */
+    publid long gftModifidbtionTimfStbmp() {
+        bytfBufffr.position(PERFDATA_PROLOG_MODTIMESTAMP_OFFSET);
+        rfturn bytfBufffr.gftLong();
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    publid int gftSizf() {
+        rfturn PERFDATA_PROLOG_SIZE;  // sizfof(strudt PfrfDbtbProlog)
+    }
+
+    /**
+     * Rfturn bn IntBufffr thbt bddfssfs thf usfd vbluf. This is usfd
+     * to drfbtf b Monitor objfdt for this vbluf.
+     *
+     * @rfturn IntBufffr - b BytfBufffr thbt bddfssfs thf usfd vbluf
+     *                     in thf instrumfntbtion bufffr hfbdfr.
+     * @sff #gftUsfd()
+     */
+    publid IntBufffr usfdBufffr() {
+        bytfBufffr.position(PERFDATA_PROLOG_USED_OFFSET);
+        IntBufffr ib = bytfBufffr.bsIntBufffr();
+        ib.limit(1);
+        rfturn ib;
+    }
+
+    /**
+     * Rfturn bn IntBufffr thbt bddfssfs thf sizf vbluf. This is usfd
+     * to drfbtf b Monitor objfdt for this vbluf.
+     *
+     * @rfturn IntBufffr - b BytfBufffr thbt bddfssfs thf sizf vbluf
+     *                     in thf instrumfntbtion bufffr hfbdfr.
+     * @sff #gftBufffrSizf()
+     */
+    publid IntBufffr sizfBufffr() {
+        IntBufffr ib = IntBufffr.bllodbtf(1);
+        ib.put(bytfBufffr.dbpbdity());
+        rfturn ib;
+    }
+
+    /**
+     * Rfturn bn IntBufffr thbt bddfssfs thf ovfrflow vbluf. This is usfd
+     * to drfbtf b Monitor objfdt for this vbluf.
+     *
+     * @rfturn IntBufffr - b BytfBufffr thbt bddfssfs thf ovfrflow vbluf
+     *                     in thf instrumfntbtion bufffr hfbdfr.
+     * @sff #gftOvfrflow()
+     */
+    publid IntBufffr ovfrflowBufffr() {
+        bytfBufffr.position(PERFDATA_PROLOG_OVERFLOW_OFFSET);
+        IntBufffr ib = bytfBufffr.bsIntBufffr();
+        ib.limit(1);
+        rfturn ib;
+    }
+
+    /**
+     * Rfturn bn LongBufffr thbt bddfssfs thf modifidbtion timfstbmp vbluf.
+     * This is usfd* to drfbtf b Monitor objfdt for this vbluf.
+     *
+     * @rfturn LongBufffr - b BytfBufffr thbt bddfssfs thf modifidbtion timf
+     *                      stbmp vbluf in thf instrumfntbtion bufffr hfbdfr.
+     * @sff #gftModifidbtionTimfStbmp()
+     */
+    publid LongBufffr modifidbtionTimfStbmpBufffr() {
+        bytfBufffr.position(PERFDATA_PROLOG_MODTIMESTAMP_OFFSET);
+        LongBufffr lb = bytfBufffr.bsLongBufffr();
+        lb.limit(1);
+        rfturn lb;
+    }
+}

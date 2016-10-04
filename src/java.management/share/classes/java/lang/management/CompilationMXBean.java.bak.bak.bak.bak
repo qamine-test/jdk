@@ -1,0 +1,101 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng.mbnbgfmfnt;
+
+/**
+ * Thf mbnbgfmfnt intfrfbdf for thf dompilbtion systfm of
+ * thf Jbvb virtubl mbdhinf.
+ *
+ * <p> A Jbvb virtubl mbdhinf hbs b singlf instbndf of thf implfmfntbtion
+ * dlbss of this intfrfbdf.  This instbndf implfmfnting this intfrfbdf is
+ * bn <b hrff="MbnbgfmfntFbdtory.html#MXBfbn">MXBfbn</b>
+ * thbt dbn bf obtbinfd by dblling
+ * thf {@link MbnbgfmfntFbdtory#gftCompilbtionMXBfbn} mfthod or
+ * from thf {@link MbnbgfmfntFbdtory#gftPlbtformMBfbnSfrvfr
+ * plbtform <tt>MBfbnSfrvfr</tt>} mfthod.
+ *
+ * <p>Thf <tt>ObjfdtNbmf</tt> for uniqufly idfntifying thf MXBfbn for
+ * thf dompilbtion systfm within bn MBfbnSfrvfr is:
+ * <blodkquotf>
+ *  {@link MbnbgfmfntFbdtory#COMPILATION_MXBEAN_NAME
+ *         <tt>jbvb.lbng:typf=Compilbtion</tt>}
+ * </blodkquotf>
+ *
+ * It dbn bf obtbinfd by dblling thf
+ * {@link PlbtformMbnbgfdObjfdt#gftObjfdtNbmf} mfthod.
+ *
+ * @sff MbnbgfmfntFbdtory#gftPlbtformMXBfbns(Clbss)
+ * @sff <b hrff="../../../jbvbx/mbnbgfmfnt/pbdkbgf-summbry.html">
+ *      JMX Spfdifidbtion.</b>
+ * @sff <b hrff="pbdkbgf-summbry.html#fxbmplfs">
+ *      Wbys to Addfss MXBfbns</b>
+ *
+ * @buthor  Mbndy Chung
+ * @sindf   1.5
+ */
+publid intfrfbdf CompilbtionMXBfbn fxtfnds PlbtformMbnbgfdObjfdt {
+    /**
+     * Rfturns thf nbmf of thf Just-in-timf (JIT) dompilfr.
+     *
+     * @rfturn thf nbmf of thf JIT dompilfr.
+     */
+    publid jbvb.lbng.String    gftNbmf();
+
+    /**
+     * Tfsts if thf Jbvb virtubl mbdhinf supports thf monitoring of
+     * dompilbtion timf.
+     *
+     * @rfturn <tt>truf</tt> if thf monitoring of dompilbtion timf is
+     * supportfd ; <tt>fblsf</tt> othfrwisf.
+     */
+    publid boolfbn isCompilbtionTimfMonitoringSupportfd();
+
+    /**
+     * Rfturns thf bpproximbtf bddumulbtfd flbpsfd timf (in millisfdonds)
+     * spfnt in dompilbtion.
+     * If multiplf thrfbds brf usfd for dompilbtion, this vbluf is
+     * summbtion of thf bpproximbtf timf thbt fbdh thrfbd spfnt in dompilbtion.
+     *
+     * <p>This mfthod is optionblly supportfd by thf plbtform.
+     * A Jbvb virtubl mbdhinf implfmfntbtion mby not support thf dompilbtion
+     * timf monitoring. Thf {@link #isCompilbtionTimfMonitoringSupportfd}
+     * mfthod dbn bf usfd to dftfrminf if thf Jbvb virtubl mbdhinf
+     * supports this opfrbtion.
+     *
+     * <p> This vbluf dofs not indidbtf thf lfvfl of pfrformbndf of
+     * thf Jbvb virtubl mbdhinf bnd is not intfndfd for pfrformbndf dompbrisons
+     * of difffrfnt virtubl mbdhinf implfmfntbtions.
+     * Thf implfmfntbtions mby hbvf difffrfnt dffinitions bnd difffrfnt
+     * mfbsurfmfnts of thf dompilbtion timf.
+     *
+     * @rfturn Compilbtion timf in millisfdonds
+     * @throws jbvb.lbng.UnsupportfdOpfrbtionExdfption if thf Jbvb
+     * virtubl mbdhinf dofs not support
+     * this opfrbtion.
+     *
+     */
+    publid long                gftTotblCompilbtionTimf();
+}

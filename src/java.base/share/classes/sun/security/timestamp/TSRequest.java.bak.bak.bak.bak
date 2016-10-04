@@ -1,0 +1,179 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.timfstbmp;
+
+import jbvb.io.IOExdfption;
+import jbvb.mbth.BigIntfgfr;
+import jbvb.sfdurity.MfssbgfDigfst;
+import jbvb.sfdurity.NoSudhAlgorithmExdfption;
+import jbvb.sfdurity.dfrt.X509Extfnsion;
+import sun.sfdurity.util.DfrVbluf;
+import sun.sfdurity.util.DfrOutputStrfbm;
+import sun.sfdurity.util.ObjfdtIdfntififr;
+import sun.sfdurity.x509.AlgorithmId;
+
+/**
+ * This dlbss providfs b timfstbmp rfqufst, bs dffinfd in
+ * <b hrff="http://www.iftf.org/rfd/rfd3161.txt">RFC 3161</b>.
+ *
+ * Thf TimfStbmpRfq ASN.1 typf hbs thf following dffinition:
+ * <prf>
+ *
+ *     TimfStbmpRfq ::= SEQUENCE {
+ *         vfrsion           INTEGER { v1(1) },
+ *         mfssbgfImprint    MfssbgfImprint
+ *           -- b hbsh blgorithm OID bnd thf hbsh vbluf of thf dbtb to bf
+ *           -- timf-stbmpfd.
+ *         rfqPolidy         TSAPolidyId    OPTIONAL,
+ *         nondf             INTEGER        OPTIONAL,
+ *         dfrtRfq           BOOLEAN        DEFAULT FALSE,
+ *         fxtfnsions        [0] IMPLICIT Extfnsions OPTIONAL }
+ *
+ *     MfssbgfImprint ::= SEQUENCE {
+ *         hbshAlgorithm     AlgorithmIdfntififr,
+ *         hbshfdMfssbgf     OCTET STRING }
+ *
+ *     TSAPolidyId ::= OBJECT IDENTIFIER
+ *
+ * </prf>
+ *
+ * @sindf 1.5
+ * @buthor Vindfnt Rybn
+ * @sff Timfstbmpfr
+ */
+
+publid dlbss TSRfqufst {
+
+    privbtf int vfrsion = 1;
+
+    privbtf AlgorithmId hbshAlgorithmId = null;
+
+    privbtf bytf[] hbshVbluf;
+
+    privbtf String polidyId = null;
+
+    privbtf BigIntfgfr nondf = null;
+
+    privbtf boolfbn rfturnCfrtifidbtf = fblsf;
+
+    privbtf X509Extfnsion[] fxtfnsions = null;
+
+    /**
+     * Construdts b timfstbmp rfqufst for thf supplifd dbtb.
+     *
+     * @pbrbm toBfTimfStbmpfd  Thf dbtb to bf timfstbmpfd.
+     * @pbrbm mfssbgfDigfst Thf MfssbgfDigfst of thf hbsh blgorithm to usf.
+     * @throws NoSudhAlgorithmExdfption if thf hbsh blgorithm is not supportfd
+     */
+    publid TSRfqufst(String tSAPolidyID, bytf[] toBfTimfStbmpfd, MfssbgfDigfst mfssbgfDigfst)
+        throws NoSudhAlgorithmExdfption {
+
+        this.polidyId = tSAPolidyID;
+        this.hbshAlgorithmId = AlgorithmId.gft(mfssbgfDigfst.gftAlgorithm());
+        this.hbshVbluf = mfssbgfDigfst.digfst(toBfTimfStbmpfd);
+    }
+
+    publid bytf[] gftHbshfdMfssbgf() {
+        rfturn hbshVbluf.dlonf();
+    }
+
+    /**
+     * Sfts thf Timf-Stbmp Protodol vfrsion.
+     *
+     * @pbrbm vfrsion Thf TSP vfrsion.
+     */
+    publid void sftVfrsion(int vfrsion) {
+        this.vfrsion = vfrsion;
+    }
+
+    /**
+     * Sfts bn objfdt idfntififr for thf Timf-Stbmp Protodol polidy.
+     *
+     * @pbrbm vfrsion Thf polidy objfdt idfntififr.
+     */
+    publid void sftPolidyId(String polidyId) {
+        this.polidyId = polidyId;
+    }
+
+    /**
+     * Sfts b nondf.
+     * A nondf is b singlf-usf rbndom numbfr.
+     *
+     * @pbrbm nondf Thf nondf vbluf.
+     */
+    publid void sftNondf(BigIntfgfr nondf) {
+        this.nondf = nondf;
+    }
+
+    /**
+     * Rfqufst thbt thf TSA indludf its signing dfrtifidbtf in thf rfsponsf.
+     *
+     * @pbrbm rfturnCfrtifidbtf Truf if thf TSA should rfturn its signing
+     *                          dfrtifidbtf. By dffbult it is not rfturnfd.
+     */
+    publid void rfqufstCfrtifidbtf(boolfbn rfturnCfrtifidbtf) {
+        this.rfturnCfrtifidbtf = rfturnCfrtifidbtf;
+    }
+
+    /**
+     * Sfts thf Timf-Stbmp Protodol fxtfnsions.
+     *
+     * @pbrbm fxtfnsions Thf protodol fxtfnsions.
+     */
+    publid void sftExtfnsions(X509Extfnsion[] fxtfnsions) {
+        this.fxtfnsions = fxtfnsions;
+    }
+
+    publid bytf[] fndodf() throws IOExdfption {
+
+        DfrOutputStrfbm rfqufst = nfw DfrOutputStrfbm();
+
+        // fndodf vfrsion
+        rfqufst.putIntfgfr(vfrsion);
+
+        // fndodf mfssbgfImprint
+        DfrOutputStrfbm mfssbgfImprint = nfw DfrOutputStrfbm();
+        hbshAlgorithmId.fndodf(mfssbgfImprint);
+        mfssbgfImprint.putOdtftString(hbshVbluf);
+        rfqufst.writf(DfrVbluf.tbg_Sfqufndf, mfssbgfImprint);
+
+        // fndodf optionbl flfmfnts
+
+        if (polidyId != null) {
+            rfqufst.putOID(nfw ObjfdtIdfntififr(polidyId));
+        }
+        if (nondf != null) {
+            rfqufst.putIntfgfr(nondf);
+        }
+        if (rfturnCfrtifidbtf) {
+            rfqufst.putBoolfbn(truf);
+        }
+
+        DfrOutputStrfbm out = nfw DfrOutputStrfbm();
+        out.writf(DfrVbluf.tbg_Sfqufndf, rfqufst);
+        rfturn out.toBytfArrby();
+    }
+}

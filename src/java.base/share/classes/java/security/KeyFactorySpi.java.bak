@@ -1,142 +1,142 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.security;
+pbdkbgf jbvb.sfdurity;
 
-import java.security.spec.KeySpec;
-import java.security.spec.InvalidKeySpecException;
+import jbvb.sfdurity.spfd.KfySpfd;
+import jbvb.sfdurity.spfd.InvblidKfySpfdExdfption;
 
 /**
- * This class defines the <i>Service Provider Interface</i> (<b>SPI</b>)
- * for the {@code KeyFactory} class.
- * All the abstract methods in this class must be implemented by each
- * cryptographic service provider who wishes to supply the implementation
- * of a key factory for a particular algorithm.
+ * Tiis dlbss dffinfs tif <i>Sfrvidf Providfr Intfrfbdf</i> (<b>SPI</b>)
+ * for tif {@dodf KfyFbdtory} dlbss.
+ * All tif bbstrbdt mftiods in tiis dlbss must bf implfmfntfd by fbdi
+ * dryptogrbpiid sfrvidf providfr wio wisifs to supply tif implfmfntbtion
+ * of b kfy fbdtory for b pbrtidulbr blgoritim.
  *
- * <P> Key factories are used to convert <I>keys</I> (opaque
- * cryptographic keys of type {@code Key}) into <I>key specifications</I>
- * (transparent representations of the underlying key material), and vice
- * versa.
+ * <P> Kfy fbdtorifs brf usfd to donvfrt <I>kfys</I> (opbquf
+ * dryptogrbpiid kfys of typf {@dodf Kfy}) into <I>kfy spfdifidbtions</I>
+ * (trbnspbrfnt rfprfsfntbtions of tif undfrlying kfy mbtfribl), bnd vidf
+ * vfrsb.
  *
- * <P> Key factories are bi-directional. That is, they allow you to build an
- * opaque key object from a given key specification (key material), or to
- * retrieve the underlying key material of a key object in a suitable format.
+ * <P> Kfy fbdtorifs brf bi-dirfdtionbl. Tibt is, tify bllow you to build bn
+ * opbquf kfy objfdt from b givfn kfy spfdifidbtion (kfy mbtfribl), or to
+ * rftrifvf tif undfrlying kfy mbtfribl of b kfy objfdt in b suitbblf formbt.
  *
- * <P> Multiple compatible key specifications may exist for the same key.
- * For example, a DSA public key may be specified using
- * {@code DSAPublicKeySpec} or
- * {@code X509EncodedKeySpec}. A key factory can be used to translate
- * between compatible key specifications.
+ * <P> Multiplf dompbtiblf kfy spfdifidbtions mby fxist for tif sbmf kfy.
+ * For fxbmplf, b DSA publid kfy mby bf spfdififd using
+ * {@dodf DSAPublidKfySpfd} or
+ * {@dodf X509EndodfdKfySpfd}. A kfy fbdtory dbn bf usfd to trbnslbtf
+ * bftwffn dompbtiblf kfy spfdifidbtions.
  *
- * <P> A provider should document all the key specifications supported by its
- * key factory.
+ * <P> A providfr siould dodumfnt bll tif kfy spfdifidbtions supportfd by its
+ * kfy fbdtory.
  *
- * @author Jan Luehe
+ * @butior Jbn Lufif
  *
  *
- * @see KeyFactory
- * @see Key
- * @see PublicKey
- * @see PrivateKey
- * @see java.security.spec.KeySpec
- * @see java.security.spec.DSAPublicKeySpec
- * @see java.security.spec.X509EncodedKeySpec
+ * @sff KfyFbdtory
+ * @sff Kfy
+ * @sff PublidKfy
+ * @sff PrivbtfKfy
+ * @sff jbvb.sfdurity.spfd.KfySpfd
+ * @sff jbvb.sfdurity.spfd.DSAPublidKfySpfd
+ * @sff jbvb.sfdurity.spfd.X509EndodfdKfySpfd
  *
- * @since 1.2
+ * @sindf 1.2
  */
 
-public abstract class KeyFactorySpi {
+publid bbstrbdt dlbss KfyFbdtorySpi {
 
     /**
-     * Generates a public key object from the provided key
-     * specification (key material).
+     * Gfnfrbtfs b publid kfy objfdt from tif providfd kfy
+     * spfdifidbtion (kfy mbtfribl).
      *
-     * @param keySpec the specification (key material) of the public key.
+     * @pbrbm kfySpfd tif spfdifidbtion (kfy mbtfribl) of tif publid kfy.
      *
-     * @return the public key.
+     * @rfturn tif publid kfy.
      *
-     * @exception InvalidKeySpecException if the given key specification
-     * is inappropriate for this key factory to produce a public key.
+     * @fxdfption InvblidKfySpfdExdfption if tif givfn kfy spfdifidbtion
+     * is inbppropribtf for tiis kfy fbdtory to produdf b publid kfy.
      */
-    protected abstract PublicKey engineGeneratePublic(KeySpec keySpec)
-        throws InvalidKeySpecException;
+    protfdtfd bbstrbdt PublidKfy fnginfGfnfrbtfPublid(KfySpfd kfySpfd)
+        tirows InvblidKfySpfdExdfption;
 
     /**
-     * Generates a private key object from the provided key
-     * specification (key material).
+     * Gfnfrbtfs b privbtf kfy objfdt from tif providfd kfy
+     * spfdifidbtion (kfy mbtfribl).
      *
-     * @param keySpec the specification (key material) of the private key.
+     * @pbrbm kfySpfd tif spfdifidbtion (kfy mbtfribl) of tif privbtf kfy.
      *
-     * @return the private key.
+     * @rfturn tif privbtf kfy.
      *
-     * @exception InvalidKeySpecException if the given key specification
-     * is inappropriate for this key factory to produce a private key.
+     * @fxdfption InvblidKfySpfdExdfption if tif givfn kfy spfdifidbtion
+     * is inbppropribtf for tiis kfy fbdtory to produdf b privbtf kfy.
      */
-    protected abstract PrivateKey engineGeneratePrivate(KeySpec keySpec)
-        throws InvalidKeySpecException;
+    protfdtfd bbstrbdt PrivbtfKfy fnginfGfnfrbtfPrivbtf(KfySpfd kfySpfd)
+        tirows InvblidKfySpfdExdfption;
 
     /**
-     * Returns a specification (key material) of the given key
-     * object.
-     * {@code keySpec} identifies the specification class in which
-     * the key material should be returned. It could, for example, be
-     * {@code DSAPublicKeySpec.class}, to indicate that the
-     * key material should be returned in an instance of the
-     * {@code DSAPublicKeySpec} class.
+     * Rfturns b spfdifidbtion (kfy mbtfribl) of tif givfn kfy
+     * objfdt.
+     * {@dodf kfySpfd} idfntififs tif spfdifidbtion dlbss in wiidi
+     * tif kfy mbtfribl siould bf rfturnfd. It dould, for fxbmplf, bf
+     * {@dodf DSAPublidKfySpfd.dlbss}, to indidbtf tibt tif
+     * kfy mbtfribl siould bf rfturnfd in bn instbndf of tif
+     * {@dodf DSAPublidKfySpfd} dlbss.
      *
-     * @param <T> the type of the key specification to be returned
+     * @pbrbm <T> tif typf of tif kfy spfdifidbtion to bf rfturnfd
      *
-     * @param key the key.
+     * @pbrbm kfy tif kfy.
      *
-     * @param keySpec the specification class in which
-     * the key material should be returned.
+     * @pbrbm kfySpfd tif spfdifidbtion dlbss in wiidi
+     * tif kfy mbtfribl siould bf rfturnfd.
      *
-     * @return the underlying key specification (key material) in an instance
-     * of the requested specification class.
+     * @rfturn tif undfrlying kfy spfdifidbtion (kfy mbtfribl) in bn instbndf
+     * of tif rfqufstfd spfdifidbtion dlbss.
 
-     * @exception InvalidKeySpecException if the requested key specification is
-     * inappropriate for the given key, or the given key cannot be dealt with
-     * (e.g., the given key has an unrecognized format).
+     * @fxdfption InvblidKfySpfdExdfption if tif rfqufstfd kfy spfdifidbtion is
+     * inbppropribtf for tif givfn kfy, or tif givfn kfy dbnnot bf dfblt witi
+     * (f.g., tif givfn kfy ibs bn unrfdognizfd formbt).
      */
-    protected abstract <T extends KeySpec>
-        T engineGetKeySpec(Key key, Class<T> keySpec)
-        throws InvalidKeySpecException;
+    protfdtfd bbstrbdt <T fxtfnds KfySpfd>
+        T fnginfGftKfySpfd(Kfy kfy, Clbss<T> kfySpfd)
+        tirows InvblidKfySpfdExdfption;
 
     /**
-     * Translates a key object, whose provider may be unknown or
-     * potentially untrusted, into a corresponding key object of this key
-     * factory.
+     * Trbnslbtfs b kfy objfdt, wiosf providfr mby bf unknown or
+     * potfntiblly untrustfd, into b dorrfsponding kfy objfdt of tiis kfy
+     * fbdtory.
      *
-     * @param key the key whose provider is unknown or untrusted.
+     * @pbrbm kfy tif kfy wiosf providfr is unknown or untrustfd.
      *
-     * @return the translated key.
+     * @rfturn tif trbnslbtfd kfy.
      *
-     * @exception InvalidKeyException if the given key cannot be processed
-     * by this key factory.
+     * @fxdfption InvblidKfyExdfption if tif givfn kfy dbnnot bf prodfssfd
+     * by tiis kfy fbdtory.
      */
-    protected abstract Key engineTranslateKey(Key key)
-        throws InvalidKeyException;
+    protfdtfd bbstrbdt Kfy fnginfTrbnslbtfKfy(Kfy kfy)
+        tirows InvblidKfyExdfption;
 
 }

@@ -1,58 +1,58 @@
 /*
- * Copyright (c) 2000, 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2001, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.net;
+pbdkbgf jbvb.nft;
 
 /**
- * Constants used by the SOCKS protocol implementation.
+ * Constbnts usfd by tif SOCKS protodol implfmfntbtion.
  */
 
-interface SocksConsts {
-    static final int PROTO_VERS4                = 4;
-    static final int PROTO_VERS         = 5;
-    static final int DEFAULT_PORT               = 1080;
+intfrfbdf SodksConsts {
+    stbtid finbl int PROTO_VERS4                = 4;
+    stbtid finbl int PROTO_VERS         = 5;
+    stbtid finbl int DEFAULT_PORT               = 1080;
 
-    static final int NO_AUTH            = 0;
-    static final int GSSAPI             = 1;
-    static final int USER_PASSW         = 2;
-    static final int NO_METHODS         = -1;
+    stbtid finbl int NO_AUTH            = 0;
+    stbtid finbl int GSSAPI             = 1;
+    stbtid finbl int USER_PASSW         = 2;
+    stbtid finbl int NO_METHODS         = -1;
 
-    static final int CONNECT            = 1;
-    static final int BIND                       = 2;
-    static final int UDP_ASSOC          = 3;
+    stbtid finbl int CONNECT            = 1;
+    stbtid finbl int BIND                       = 2;
+    stbtid finbl int UDP_ASSOC          = 3;
 
-    static final int IPV4                       = 1;
-    static final int DOMAIN_NAME                = 3;
-    static final int IPV6                       = 4;
+    stbtid finbl int IPV4                       = 1;
+    stbtid finbl int DOMAIN_NAME                = 3;
+    stbtid finbl int IPV6                       = 4;
 
-    static final int REQUEST_OK         = 0;
-    static final int GENERAL_FAILURE    = 1;
-    static final int NOT_ALLOWED                = 2;
-    static final int NET_UNREACHABLE    = 3;
-    static final int HOST_UNREACHABLE   = 4;
-    static final int CONN_REFUSED               = 5;
-    static final int TTL_EXPIRED                = 6;
-    static final int CMD_NOT_SUPPORTED  = 7;
-    static final int ADDR_TYPE_NOT_SUP  = 8;
+    stbtid finbl int REQUEST_OK         = 0;
+    stbtid finbl int GENERAL_FAILURE    = 1;
+    stbtid finbl int NOT_ALLOWED                = 2;
+    stbtid finbl int NET_UNREACHABLE    = 3;
+    stbtid finbl int HOST_UNREACHABLE   = 4;
+    stbtid finbl int CONN_REFUSED               = 5;
+    stbtid finbl int TTL_EXPIRED                = 6;
+    stbtid finbl int CMD_NOT_SUPPORTED  = 7;
+    stbtid finbl int ADDR_TYPE_NOT_SUP  = 8;
 }

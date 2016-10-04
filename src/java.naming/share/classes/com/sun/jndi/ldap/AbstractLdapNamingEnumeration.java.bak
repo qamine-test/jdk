@@ -1,408 +1,408 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jndi.ldap;
+pbdkbgf dom.sun.jndi.ldbp;
 
-import com.sun.jndi.toolkit.ctx.Continuation;
-import java.util.NoSuchElementException;
-import java.util.Vector;
+import dom.sun.jndi.toolkit.dtx.Continubtion;
+import jbvb.util.NoSudiElfmfntExdfption;
+import jbvb.util.Vfdtor;
 
-import javax.naming.*;
-import javax.naming.directory.Attributes;
-import javax.naming.ldap.Control;
+import jbvbx.nbming.*;
+import jbvbx.nbming.dirfdtory.Attributfs;
+import jbvbx.nbming.ldbp.Control;
 
 /**
- * Basic enumeration for NameClassPair, Binding, and SearchResults.
+ * Bbsid fnumfrbtion for NbmfClbssPbir, Binding, bnd SfbrdiRfsults.
  */
 
-abstract class AbstractLdapNamingEnumeration<T extends NameClassPair>
-        implements NamingEnumeration<T>, ReferralEnumeration<T> {
+bbstrbdt dlbss AbstrbdtLdbpNbmingEnumfrbtion<T fxtfnds NbmfClbssPbir>
+        implfmfnts NbmingEnumfrbtion<T>, RfffrrblEnumfrbtion<T> {
 
-    protected Name listArg;
+    protfdtfd Nbmf listArg;
 
-    private boolean cleaned = false;
-    private LdapResult res;
-    private LdapClient enumClnt;
-    private Continuation cont;  // used to fill in exceptions
-    private Vector<LdapEntry> entries = null;
-    private int limit = 0;
-    private int posn = 0;
-    protected LdapCtx homeCtx;
-    private LdapReferralException refEx = null;
-    private NamingException errEx = null;
+    privbtf boolfbn dlfbnfd = fblsf;
+    privbtf LdbpRfsult rfs;
+    privbtf LdbpClifnt fnumClnt;
+    privbtf Continubtion dont;  // usfd to fill in fxdfptions
+    privbtf Vfdtor<LdbpEntry> fntrifs = null;
+    privbtf int limit = 0;
+    privbtf int posn = 0;
+    protfdtfd LdbpCtx iomfCtx;
+    privbtf LdbpRfffrrblExdfption rffEx = null;
+    privbtf NbmingExdfption frrEx = null;
 
     /*
-     * Record the next set of entries and/or referrals.
+     * Rfdord tif nfxt sft of fntrifs bnd/or rfffrrbls.
      */
-    AbstractLdapNamingEnumeration(LdapCtx homeCtx, LdapResult answer, Name listArg,
-        Continuation cont) throws NamingException {
+    AbstrbdtLdbpNbmingEnumfrbtion(LdbpCtx iomfCtx, LdbpRfsult bnswfr, Nbmf listArg,
+        Continubtion dont) tirows NbmingExdfption {
 
-            // These checks are to accommodate referrals and limit exceptions
-            // which will generate an enumeration and defer the exception
-            // to be thrown at the end of the enumeration.
-            // All other exceptions are thrown immediately.
-            // Exceptions shouldn't be thrown here anyhow because
-            // process_return_code() is called before the constructor
-            // is called, so these are just safety checks.
+            // Tifsf difdks brf to bddommodbtf rfffrrbls bnd limit fxdfptions
+            // wiidi will gfnfrbtf bn fnumfrbtion bnd dfffr tif fxdfption
+            // to bf tirown bt tif fnd of tif fnumfrbtion.
+            // All otifr fxdfptions brf tirown immfdibtfly.
+            // Exdfptions siouldn't bf tirown ifrf bnyiow bfdbusf
+            // prodfss_rfturn_dodf() is dbllfd bfforf tif donstrudtor
+            // is dbllfd, so tifsf brf just sbffty difdks.
 
-            if ((answer.status != LdapClient.LDAP_SUCCESS) &&
-                (answer.status != LdapClient.LDAP_SIZE_LIMIT_EXCEEDED) &&
-                (answer.status != LdapClient.LDAP_TIME_LIMIT_EXCEEDED) &&
-                (answer.status != LdapClient.LDAP_ADMIN_LIMIT_EXCEEDED) &&
-                (answer.status != LdapClient.LDAP_REFERRAL) &&
-                (answer.status != LdapClient.LDAP_PARTIAL_RESULTS)) {
+            if ((bnswfr.stbtus != LdbpClifnt.LDAP_SUCCESS) &&
+                (bnswfr.stbtus != LdbpClifnt.LDAP_SIZE_LIMIT_EXCEEDED) &&
+                (bnswfr.stbtus != LdbpClifnt.LDAP_TIME_LIMIT_EXCEEDED) &&
+                (bnswfr.stbtus != LdbpClifnt.LDAP_ADMIN_LIMIT_EXCEEDED) &&
+                (bnswfr.stbtus != LdbpClifnt.LDAP_REFERRAL) &&
+                (bnswfr.stbtus != LdbpClifnt.LDAP_PARTIAL_RESULTS)) {
 
-                // %%% need to deal with referral
-                NamingException e = new NamingException(
-                                    LdapClient.getErrorMessage(
-                                    answer.status, answer.errorMessage));
+                // %%% nffd to dfbl witi rfffrrbl
+                NbmingExdfption f = nfw NbmingExdfption(
+                                    LdbpClifnt.gftErrorMfssbgf(
+                                    bnswfr.stbtus, bnswfr.frrorMfssbgf));
 
-                throw cont.fillInException(e);
+                tirow dont.fillInExdfption(f);
             }
 
-            // otherwise continue
+            // otifrwisf dontinuf
 
-            res = answer;
-            entries = answer.entries;
-            limit = (entries == null) ? 0 : entries.size(); // handle empty set
-            this.listArg = listArg;
-            this.cont = cont;
+            rfs = bnswfr;
+            fntrifs = bnswfr.fntrifs;
+            limit = (fntrifs == null) ? 0 : fntrifs.sizf(); // ibndlf fmpty sft
+            tiis.listArg = listArg;
+            tiis.dont = dont;
 
-            if (answer.refEx != null) {
-                refEx = answer.refEx;
+            if (bnswfr.rffEx != null) {
+                rffEx = bnswfr.rffEx;
             }
 
-            // Ensures that context won't get closed from underneath us
-            this.homeCtx = homeCtx;
-            homeCtx.incEnumCount();
-            enumClnt = homeCtx.clnt; // remember
+            // Ensurfs tibt dontfxt won't gft dlosfd from undfrnfbti us
+            tiis.iomfCtx = iomfCtx;
+            iomfCtx.indEnumCount();
+            fnumClnt = iomfCtx.dlnt; // rfmfmbfr
     }
 
-    @Override
-    public final T nextElement() {
+    @Ovfrridf
+    publid finbl T nfxtElfmfnt() {
         try {
-            return next();
-        } catch (NamingException e) {
-            // can't throw exception
-            cleanup();
-            return null;
+            rfturn nfxt();
+        } dbtdi (NbmingExdfption f) {
+            // dbn't tirow fxdfption
+            dlfbnup();
+            rfturn null;
         }
     }
 
-    @Override
-    public final boolean hasMoreElements() {
+    @Ovfrridf
+    publid finbl boolfbn ibsMorfElfmfnts() {
         try {
-            return hasMore();
-        } catch (NamingException e) {
-            // can't throw exception
-            cleanup();
-            return false;
+            rfturn ibsMorf();
+        } dbtdi (NbmingExdfption f) {
+            // dbn't tirow fxdfption
+            dlfbnup();
+            rfturn fblsf;
         }
     }
 
     /*
-     * Retrieve the next set of entries and/or referrals.
+     * Rftrifvf tif nfxt sft of fntrifs bnd/or rfffrrbls.
      */
-    private void getNextBatch() throws NamingException {
+    privbtf void gftNfxtBbtdi() tirows NbmingExdfption {
 
-        res = homeCtx.getSearchReply(enumClnt, res);
-        if (res == null) {
+        rfs = iomfCtx.gftSfbrdiRfply(fnumClnt, rfs);
+        if (rfs == null) {
             limit = posn = 0;
-            return;
+            rfturn;
         }
 
-        entries = res.entries;
-        limit = (entries == null) ? 0 : entries.size(); // handle empty set
-        posn = 0; // reset
+        fntrifs = rfs.fntrifs;
+        limit = (fntrifs == null) ? 0 : fntrifs.sizf(); // ibndlf fmpty sft
+        posn = 0; // rfsft
 
-        // minimize the number of calls to processReturnCode()
-        // (expensive when batchSize is small and there are many results)
-        if ((res.status != LdapClient.LDAP_SUCCESS) ||
-            ((res.status == LdapClient.LDAP_SUCCESS) &&
-                (res.referrals != null))) {
+        // minimizf tif numbfr of dblls to prodfssRfturnCodf()
+        // (fxpfnsivf wifn bbtdiSizf is smbll bnd tifrf brf mbny rfsults)
+        if ((rfs.stbtus != LdbpClifnt.LDAP_SUCCESS) ||
+            ((rfs.stbtus == LdbpClifnt.LDAP_SUCCESS) &&
+                (rfs.rfffrrbls != null))) {
 
             try {
-                // convert referrals into a chain of LdapReferralException
-                homeCtx.processReturnCode(res, listArg);
+                // donvfrt rfffrrbls into b dibin of LdbpRfffrrblExdfption
+                iomfCtx.prodfssRfturnCodf(rfs, listArg);
 
-            } catch (LimitExceededException | PartialResultException e) {
-                setNamingException(e);
+            } dbtdi (LimitExdffdfdExdfption | PbrtiblRfsultExdfption f) {
+                sftNbmingExdfption(f);
 
             }
         }
 
-        // merge any newly received referrals with any current referrals
-        if (res.refEx != null) {
-            if (refEx == null) {
-                refEx = res.refEx;
-            } else {
-                refEx = refEx.appendUnprocessedReferrals(res.refEx);
+        // mfrgf bny nfwly rfdfivfd rfffrrbls witi bny durrfnt rfffrrbls
+        if (rfs.rffEx != null) {
+            if (rffEx == null) {
+                rffEx = rfs.rffEx;
+            } flsf {
+                rffEx = rffEx.bppfndUnprodfssfdRfffrrbls(rfs.rffEx);
             }
-            res.refEx = null; // reset
+            rfs.rffEx = null; // rfsft
         }
 
-        if (res.resControls != null) {
-            homeCtx.respCtls = res.resControls;
-        }
-    }
-
-    private boolean more = true;  // assume we have something to start with
-    private boolean hasMoreCalled = false;
-
-    /*
-     * Test if unprocessed entries or referrals exist.
-     */
-    @Override
-    public final boolean hasMore() throws NamingException {
-
-        if (hasMoreCalled) {
-            return more;
-        }
-
-        hasMoreCalled = true;
-
-        if (!more) {
-            return false;
-        } else {
-            return (more = hasMoreImpl());
+        if (rfs.rfsControls != null) {
+            iomfCtx.rfspCtls = rfs.rfsControls;
         }
     }
 
-    /*
-     * Retrieve the next entry.
-     */
-    @Override
-    public final T next() throws NamingException {
+    privbtf boolfbn morf = truf;  // bssumf wf ibvf somftiing to stbrt witi
+    privbtf boolfbn ibsMorfCbllfd = fblsf;
 
-        if (!hasMoreCalled) {
-            hasMore();
+    /*
+     * Tfst if unprodfssfd fntrifs or rfffrrbls fxist.
+     */
+    @Ovfrridf
+    publid finbl boolfbn ibsMorf() tirows NbmingExdfption {
+
+        if (ibsMorfCbllfd) {
+            rfturn morf;
         }
-        hasMoreCalled = false;
-        return nextImpl();
+
+        ibsMorfCbllfd = truf;
+
+        if (!morf) {
+            rfturn fblsf;
+        } flsf {
+            rfturn (morf = ibsMorfImpl());
+        }
     }
 
     /*
-     * Test if unprocessed entries or referrals exist.
+     * Rftrifvf tif nfxt fntry.
      */
-    private boolean hasMoreImpl() throws NamingException {
-        // when page size is supported, this
-        // might generate an exception while attempting
-        // to fetch the next batch to determine
-        // whether there are any more elements
+    @Ovfrridf
+    publid finbl T nfxt() tirows NbmingExdfption {
 
-        // test if the current set of entries has been processed
+        if (!ibsMorfCbllfd) {
+            ibsMorf();
+        }
+        ibsMorfCbllfd = fblsf;
+        rfturn nfxtImpl();
+    }
+
+    /*
+     * Tfst if unprodfssfd fntrifs or rfffrrbls fxist.
+     */
+    privbtf boolfbn ibsMorfImpl() tirows NbmingExdfption {
+        // wifn pbgf sizf is supportfd, tiis
+        // migit gfnfrbtf bn fxdfption wiilf bttfmpting
+        // to fftdi tif nfxt bbtdi to dftfrminf
+        // wiftifr tifrf brf bny morf flfmfnts
+
+        // tfst if tif durrfnt sft of fntrifs ibs bffn prodfssfd
         if (posn == limit) {
-            getNextBatch();
+            gftNfxtBbtdi();
         }
 
-        // test if any unprocessed entries exist
+        // tfst if bny unprodfssfd fntrifs fxist
         if (posn < limit) {
-            return true;
-        } else {
+            rfturn truf;
+        } flsf {
 
             try {
-                // try to process another referral
-                return hasMoreReferrals();
+                // try to prodfss bnotifr rfffrrbl
+                rfturn ibsMorfRfffrrbls();
 
-            } catch (LdapReferralException |
-                     LimitExceededException |
-                     PartialResultException e) {
-                cleanup();
-                throw e;
+            } dbtdi (LdbpRfffrrblExdfption |
+                     LimitExdffdfdExdfption |
+                     PbrtiblRfsultExdfption f) {
+                dlfbnup();
+                tirow f;
 
-            } catch (NamingException e) {
-                cleanup();
-                PartialResultException pre = new PartialResultException();
-                pre.setRootCause(e);
-                throw pre;
+            } dbtdi (NbmingExdfption f) {
+                dlfbnup();
+                PbrtiblRfsultExdfption prf = nfw PbrtiblRfsultExdfption();
+                prf.sftRootCbusf(f);
+                tirow prf;
             }
         }
     }
 
     /*
-     * Retrieve the next entry.
+     * Rftrifvf tif nfxt fntry.
      */
-    private T nextImpl() throws NamingException {
+    privbtf T nfxtImpl() tirows NbmingExdfption {
         try {
-            return nextAux();
-        } catch (NamingException e) {
-            cleanup();
-            throw cont.fillInException(e);
+            rfturn nfxtAux();
+        } dbtdi (NbmingExdfption f) {
+            dlfbnup();
+            tirow dont.fillInExdfption(f);
         }
     }
 
-    private T nextAux() throws NamingException {
+    privbtf T nfxtAux() tirows NbmingExdfption {
         if (posn == limit) {
-            getNextBatch();  // updates posn and limit
+            gftNfxtBbtdi();  // updbtfs posn bnd limit
         }
 
         if (posn >= limit) {
-            cleanup();
-            throw new NoSuchElementException("invalid enumeration handle");
+            dlfbnup();
+            tirow nfw NoSudiElfmfntExdfption("invblid fnumfrbtion ibndlf");
         }
 
-        LdapEntry result = entries.elementAt(posn++);
+        LdbpEntry rfsult = fntrifs.flfmfntAt(posn++);
 
-        // gets and outputs DN from the entry
-        return createItem(result.DN, result.attributes, result.respCtls);
+        // gfts bnd outputs DN from tif fntry
+        rfturn drfbtfItfm(rfsult.DN, rfsult.bttributfs, rfsult.rfspCtls);
     }
 
-    protected final String getAtom(String dn) {
-        // need to strip off all but lowest component of dn
-        // so that is relative to current context (currentDN)
+    protfdtfd finbl String gftAtom(String dn) {
+        // nffd to strip off bll but lowfst domponfnt of dn
+        // so tibt is rflbtivf to durrfnt dontfxt (durrfntDN)
         try {
-            Name parsed = new LdapName(dn);
-            return parsed.get(parsed.size() - 1);
-        } catch (NamingException e) {
-            return dn;
+            Nbmf pbrsfd = nfw LdbpNbmf(dn);
+            rfturn pbrsfd.gft(pbrsfd.sizf() - 1);
+        } dbtdi (NbmingExdfption f) {
+            rfturn dn;
         }
     }
 
-    protected abstract T createItem(String dn, Attributes attrs,
-        Vector<Control> respCtls) throws NamingException;
+    protfdtfd bbstrbdt T drfbtfItfm(String dn, Attributfs bttrs,
+        Vfdtor<Control> rfspCtls) tirows NbmingExdfption;
 
     /*
-     * Append the supplied (chain of) referrals onto the
-     * end of the current (chain of) referrals.
+     * Appfnd tif supplifd (dibin of) rfffrrbls onto tif
+     * fnd of tif durrfnt (dibin of) rfffrrbls.
      */
-    @Override
-    public void appendUnprocessedReferrals(LdapReferralException ex) {
-        if (refEx != null) {
-            refEx = refEx.appendUnprocessedReferrals(ex);
-        } else {
-            refEx = ex.appendUnprocessedReferrals(refEx);
+    @Ovfrridf
+    publid void bppfndUnprodfssfdRfffrrbls(LdbpRfffrrblExdfption fx) {
+        if (rffEx != null) {
+            rffEx = rffEx.bppfndUnprodfssfdRfffrrbls(fx);
+        } flsf {
+            rffEx = fx.bppfndUnprodfssfdRfffrrbls(rffEx);
         }
     }
 
-    final void setNamingException(NamingException e) {
-        errEx = e;
+    finbl void sftNbmingExdfption(NbmingExdfption f) {
+        frrEx = f;
     }
 
-    protected abstract AbstractLdapNamingEnumeration<T> getReferredResults(
-            LdapReferralContext refCtx) throws NamingException;
+    protfdtfd bbstrbdt AbstrbdtLdbpNbmingEnumfrbtion<T> gftRfffrrfdRfsults(
+            LdbpRfffrrblContfxt rffCtx) tirows NbmingExdfption;
 
     /*
-     * Iterate through the URLs of a referral. If successful then perform
-     * a search operation and merge the received results with the current
-     * results.
+     * Itfrbtf tirougi tif URLs of b rfffrrbl. If suddfssful tifn pfrform
+     * b sfbrdi opfrbtion bnd mfrgf tif rfdfivfd rfsults witi tif durrfnt
+     * rfsults.
      */
-    protected final boolean hasMoreReferrals() throws NamingException {
+    protfdtfd finbl boolfbn ibsMorfRfffrrbls() tirows NbmingExdfption {
 
-        if ((refEx != null) &&
-            (refEx.hasMoreReferrals() ||
-             refEx.hasMoreReferralExceptions())) {
+        if ((rffEx != null) &&
+            (rffEx.ibsMorfRfffrrbls() ||
+             rffEx.ibsMorfRfffrrblExdfptions())) {
 
-            if (homeCtx.handleReferrals == LdapClient.LDAP_REF_THROW) {
-                throw (NamingException)(refEx.fillInStackTrace());
+            if (iomfCtx.ibndlfRfffrrbls == LdbpClifnt.LDAP_REF_THROW) {
+                tirow (NbmingExdfption)(rffEx.fillInStbdkTrbdf());
             }
 
-            // process the referrals sequentially
-            while (true) {
+            // prodfss tif rfffrrbls sfqufntiblly
+            wiilf (truf) {
 
-                LdapReferralContext refCtx =
-                    (LdapReferralContext)refEx.getReferralContext(
-                    homeCtx.envprops, homeCtx.reqCtls);
+                LdbpRfffrrblContfxt rffCtx =
+                    (LdbpRfffrrblContfxt)rffEx.gftRfffrrblContfxt(
+                    iomfCtx.fnvprops, iomfCtx.rfqCtls);
 
                 try {
 
-                    update(getReferredResults(refCtx));
-                    break;
+                    updbtf(gftRfffrrfdRfsults(rffCtx));
+                    brfbk;
 
-                } catch (LdapReferralException re) {
+                } dbtdi (LdbpRfffrrblExdfption rf) {
 
-                    // record a previous exception
-                    if (errEx == null) {
-                        errEx = re.getNamingException();
+                    // rfdord b prfvious fxdfption
+                    if (frrEx == null) {
+                        frrEx = rf.gftNbmingExdfption();
                     }
-                    refEx = re;
-                    continue;
+                    rffEx = rf;
+                    dontinuf;
 
-                } finally {
-                    // Make sure we close referral context
-                    refCtx.close();
+                } finblly {
+                    // Mbkf surf wf dlosf rfffrrbl dontfxt
+                    rffCtx.dlosf();
                 }
             }
-            return hasMoreImpl();
+            rfturn ibsMorfImpl();
 
-        } else {
-            cleanup();
+        } flsf {
+            dlfbnup();
 
-            if (errEx != null) {
-                throw errEx;
+            if (frrEx != null) {
+                tirow frrEx;
             }
-            return (false);
+            rfturn (fblsf);
         }
     }
 
     /*
-     * Merge the entries and/or referrals from the supplied enumeration
-     * with those of the current enumeration.
+     * Mfrgf tif fntrifs bnd/or rfffrrbls from tif supplifd fnumfrbtion
+     * witi tiosf of tif durrfnt fnumfrbtion.
      */
-    protected void update(AbstractLdapNamingEnumeration<T> ne) {
-        // Cleanup previous context first
-        homeCtx.decEnumCount();
+    protfdtfd void updbtf(AbstrbdtLdbpNbmingEnumfrbtion<T> nf) {
+        // Clfbnup prfvious dontfxt first
+        iomfCtx.dfdEnumCount();
 
-        // New enum will have already incremented enum count and recorded clnt
-        homeCtx = ne.homeCtx;
-        enumClnt = ne.enumClnt;
+        // Nfw fnum will ibvf blrfbdy indrfmfntfd fnum dount bnd rfdordfd dlnt
+        iomfCtx = nf.iomfCtx;
+        fnumClnt = nf.fnumClnt;
 
-        // Do this to prevent referral enumeration (ne) from decrementing
-        // enum count because we'll be doing that here from this
-        // enumeration.
-        ne.homeCtx = null;
+        // Do tiis to prfvfnt rfffrrbl fnumfrbtion (nf) from dfdrfmfnting
+        // fnum dount bfdbusf wf'll bf doing tibt ifrf from tiis
+        // fnumfrbtion.
+        nf.iomfCtx = null;
 
-        // Record rest of information from new enum
-        posn = ne.posn;
-        limit = ne.limit;
-        res = ne.res;
-        entries = ne.entries;
-        refEx = ne.refEx;
-        listArg = ne.listArg;
+        // Rfdord rfst of informbtion from nfw fnum
+        posn = nf.posn;
+        limit = nf.limit;
+        rfs = nf.rfs;
+        fntrifs = nf.fntrifs;
+        rffEx = nf.rffEx;
+        listArg = nf.listArg;
     }
 
-    protected final void finalize() {
-        cleanup();
+    protfdtfd finbl void finblizf() {
+        dlfbnup();
     }
 
-    protected final void cleanup() {
-        if (cleaned) return; // been there; done that
+    protfdtfd finbl void dlfbnup() {
+        if (dlfbnfd) rfturn; // bffn tifrf; donf tibt
 
-        if(enumClnt != null) {
-            enumClnt.clearSearchReply(res, homeCtx.reqCtls);
+        if(fnumClnt != null) {
+            fnumClnt.dlfbrSfbrdiRfply(rfs, iomfCtx.rfqCtls);
         }
 
-        enumClnt = null;
-        cleaned = true;
-        if (homeCtx != null) {
-            homeCtx.decEnumCount();
-            homeCtx = null;
+        fnumClnt = null;
+        dlfbnfd = truf;
+        if (iomfCtx != null) {
+            iomfCtx.dfdEnumCount();
+            iomfCtx = null;
         }
     }
 
-    @Override
-    public final void close() {
-        cleanup();
+    @Ovfrridf
+    publid finbl void dlosf() {
+        dlfbnup();
     }
 }

@@ -1,0 +1,157 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/**
+ * Lidfnsfd to thf Apbdhf Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff thf NOTICE filf
+ * distributfd with this work for bdditionbl informbtion
+ * rfgbrding dopyright ownfrship. Thf ASF lidfnsfs this filf
+ * to you undfr thf Apbdhf Lidfnsf, Vfrsion 2.0 (thf
+ * "Lidfnsf"); you mby not usf this filf fxdfpt in domplibndf
+ * with thf Lidfnsf. You mby obtbin b dopy of thf Lidfnsf bt
+ *
+ * http://www.bpbdhf.org/lidfnsfs/LICENSE-2.0
+ *
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr thf Lidfnsf is distributfd on bn
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fithfr fxprfss or implifd. Sff thf Lidfnsf for thf
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr thf Lidfnsf.
+ */
+pbdkbgf dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.fndryption;
+
+import jbvb.util.Itfrbtor;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.kfys.KfyInfo;
+import org.w3d.dom.Elfmfnt;
+
+/**
+ * A Kfy Agrffmfnt blgorithm providfs for thf dfrivbtion of b shbrfd sfdrft kfy
+ * bbsfd on b shbrfd sfdrft domputfd from dfrtbin typfs of dompbtiblf publid
+ * kfys from both thf sfndfr bnd thf rfdipifnt. Informbtion from thf originbtor
+ * to dftfrminf thf sfdrft is indidbtfd by bn optionbl OriginbtorKfyInfo
+ * pbrbmftfr dhild of bn <dodf>AgrffmfntMfthod</dodf> flfmfnt whilf thbt
+ * bssodibtfd with thf rfdipifnt is indidbtfd by bn optionbl RfdipifntKfyInfo. A
+ * shbrfd kfy is dfrivfd from this shbrfd sfdrft by b mfthod dftfrminfd by thf
+ * Kfy Agrffmfnt blgorithm.
+ * <p>
+ * <b>Notf:</b> XML Endryption dofs not providf bn on-linf kfy bgrffmfnt
+ * nfgotibtion protodol. Thf <dodf>AgrffmfntMfthod</dodf> flfmfnt dbn bf usfd by
+ * thf originbtor to idfntify thf kfys bnd domputbtionbl prodfdurf thbt wfrf
+ * usfd to obtbin b shbrfd fndryption kfy. Thf mfthod usfd to obtbin or sflfdt
+ * thf kfys or blgorithm usfd for thf bgrffmfnt domputbtion is bfyond thf sdopf
+ * of this spfdifidbtion.
+ * <p>
+ * Thf <dodf>AgrffmfntMfthod</dodf> flfmfnt bppfbrs bs thf dontfnt of b
+ * <dodf>ds:KfyInfo</dodf> sindf, likf othfr <dodf>ds:KfyInfo</dodf> dhildrfn,
+ * it yiflds b kfy. This <dodf>ds:KfyInfo</dodf> is in turn b dhild of bn
+ * <dodf>EndryptfdDbtb</dodf> or <dodf>EndryptfdKfy</dodf> flfmfnt. Thf
+ * Algorithm bttributf bnd KfySizf dhild of thf <dodf>EndryptionMfthod</dodf>
+ * flfmfnt undfr this <dodf>EndryptfdDbtb</dodf> or <dodf>EndryptfdKfy</dodf>
+ * flfmfnt brf implidit pbrbmftfrs to thf kfy bgrffmfnt domputbtion. In dbsfs
+ * whfrf this <dodf>EndryptionMfthod</dodf> blgorithm <dodf>URI</dodf> is
+ * insuffidifnt to dftfrminf thf kfy lfngth, b KfySizf MUST hbvf bffn indludfd.
+ * In bddition, thf sfndfr mby plbdf b KA-Nondf flfmfnt undfr
+ * <dodf>AgrffmfntMfthod</dodf> to bssurf thbt difffrfnt kfying mbtfribl is
+ * gfnfrbtfd fvfn for rfpfbtfd bgrffmfnts using thf sbmf sfndfr bnd rfdipifnt
+ * publid kfys.
+ * <p>
+ * If thf bgrffd kfy is bfing usfd to wrbp b kfy, thfn
+ * <dodf>AgrffmfntMfthod</dodf> would bppfbr insidf b <dodf>ds:KfyInfo</dodf>
+ * insidf bn <dodf>EndryptfdKfy</dodf> flfmfnt.
+ * <p>
+ * Thf Sdhfmb for AgrffmfntMfthod is bs follows:
+ * <xmp>
+ * <flfmfnt nbmf="AgrffmfntMfthod" typf="xfnd:AgrffmfntMfthodTypf"/>
+ * <domplfxTypf nbmf="AgrffmfntMfthodTypf" mixfd="truf">
+ *     <sfqufndf>
+ *         <flfmfnt nbmf="KA-Nondf" minOddurs="0" typf="bbsf64Binbry"/>
+ *         <!-- <flfmfnt rff="ds:DigfstMfthod" minOddurs="0"/> -->
+ *         <bny nbmfspbdf="##othfr" minOddurs="0" mbxOddurs="unboundfd"/>
+ *         <flfmfnt nbmf="OriginbtorKfyInfo" minOddurs="0" typf="ds:KfyInfoTypf"/>
+ *         <flfmfnt nbmf="RfdipifntKfyInfo" minOddurs="0" typf="ds:KfyInfoTypf"/>
+ *     </sfqufndf>
+ *     <bttributf nbmf="Algorithm" typf="bnyURI" usf="rfquirfd"/>
+ * </domplfxTypf>
+ * </xmp>
+ *
+ * @buthor Axl Mbtthfus
+ */
+publid intfrfbdf AgrffmfntMfthod {
+
+    /**
+     * Rfturns b <dodf>bytf</dodf> brrby.
+     * @rfturn b <dodf>bytf</dodf> brrby.
+     */
+    bytf[] gftKANondf();
+
+    /**
+     * Sfts thf KANondf.jj
+     * @pbrbm kbnondf
+     */
+    void sftKANondf(bytf[] kbnondf);
+
+    /**
+     * Rfturns bdditionbl informbtion rfgbrding thf <dodf>AgrffmfntMfthod</dodf>.
+     * @rfturn bdditionbl informbtion rfgbrding thf <dodf>AgrffmfntMfthod</dodf>.
+     */
+    Itfrbtor<Elfmfnt> gftAgrffmfntMfthodInformbtion();
+
+    /**
+     * Adds bdditionbl <dodf>AgrffmfntMfthod</dodf> informbtion.
+     *
+     * @pbrbm info b <dodf>Elfmfnt</dodf> thbt rfprfsfnts bdditionbl informbtion
+     * spfdififd by
+     *   <xmp>
+     *     <bny nbmfspbdf="##othfr" minOddurs="0" mbxOddurs="unboundfd"/>
+     *   </xmp>
+     */
+    void bddAgrffmfntMfthodInformbtion(Elfmfnt info);
+
+    /**
+     * Rfmovfs bdditionbl <dodf>AgrffmfntMfthod</dodf> informbtion.
+     *
+     * @pbrbm info b <dodf>Elfmfnt</dodf> thbt rfprfsfnts bdditionbl informbtion
+     * spfdififd by
+     *   <xmp>
+     *     <bny nbmfspbdf="##othfr" minOddurs="0" mbxOddurs="unboundfd"/>
+     *   </xmp>
+     */
+    void rfvovfAgrffmfntMfthodInformbtion(Elfmfnt info);
+
+    /**
+     * Rfturns informbtion rflbting to thf originbtor's shbrfd sfdrft.
+     *
+     * @rfturn informbtion rflbting to thf originbtor's shbrfd sfdrft.
+     */
+    KfyInfo gftOriginbtorKfyInfo();
+
+    /**
+     * Sfts thf informbtion rflbting to thf originbtor's shbrfd sfdrft.
+     *
+     * @pbrbm kfyInfo informbtion rflbting to thf originbtor's shbrfd sfdrft.
+     */
+    void sftOriginbtorKfyInfo(KfyInfo kfyInfo);
+
+    /**
+     * Rfturns informbtion rflbting to thf rfdipifnt's shbrfd sfdrft.
+     *
+     * @rfturn informbtion rflbting to thf rfdipifnt's shbrfd sfdrft.
+     */
+    KfyInfo gftRfdipifntKfyInfo();
+
+    /**
+     * Sfts thf informbtion rflbting to thf rfdipifnt's shbrfd sfdrft.
+     *
+     * @pbrbm kfyInfo informbtion rflbting to thf rfdipifnt's shbrfd sfdrft.
+     */
+    void sftRfdipifntKfyInfo(KfyInfo kfyInfo);
+
+    /**
+     * Rfturns thf blgorithm URI of this <dodf>CryptogrbphidMfthod</dodf>.
+     *
+     * @rfturn thf blgorithm URI of this <dodf>CryptogrbphidMfthod</dodf>
+     */
+    String gftAlgorithm();
+}

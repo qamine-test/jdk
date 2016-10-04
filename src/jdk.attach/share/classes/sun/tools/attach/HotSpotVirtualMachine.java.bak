@@ -1,347 +1,347 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.attach;
+pbdkbgf sun.tools.bttbdi;
 
-import com.sun.tools.attach.VirtualMachine;
-import com.sun.tools.attach.AgentLoadException;
-import com.sun.tools.attach.AgentInitializationException;
-import com.sun.tools.attach.spi.AttachProvider;
+import dom.sun.tools.bttbdi.VirtublMbdiinf;
+import dom.sun.tools.bttbdi.AgfntLobdExdfption;
+import dom.sun.tools.bttbdi.AgfntInitiblizbtionExdfption;
+import dom.sun.tools.bttbdi.spi.AttbdiProvidfr;
 
-import java.io.InputStream;
-import java.io.IOException;
-import java.util.Properties;
-import java.util.stream.Collectors;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.util.Propfrtifs;
+import jbvb.util.strfbm.Collfdtors;
 
 /*
- * The HotSpot implementation of com.sun.tools.attach.VirtualMachine.
+ * Tif HotSpot implfmfntbtion of dom.sun.tools.bttbdi.VirtublMbdiinf.
  */
 
-public abstract class HotSpotVirtualMachine extends VirtualMachine {
+publid bbstrbdt dlbss HotSpotVirtublMbdiinf fxtfnds VirtublMbdiinf {
 
-    HotSpotVirtualMachine(AttachProvider provider, String id) {
-        super(provider, id);
+    HotSpotVirtublMbdiinf(AttbdiProvidfr providfr, String id) {
+        supfr(providfr, id);
     }
 
     /*
-     * Load agent library
-     * If isAbsolute is true then the agent library is the absolute path
-     * to the library and thus will not be expanded in the target VM.
-     * if isAbsolute is false then the agent library is just a library
-     * name and it will be expended in the target VM.
+     * Lobd bgfnt librbry
+     * If isAbsolutf is truf tifn tif bgfnt librbry is tif bbsolutf pbti
+     * to tif librbry bnd tius will not bf fxpbndfd in tif tbrgft VM.
+     * if isAbsolutf is fblsf tifn tif bgfnt librbry is just b librbry
+     * nbmf bnd it will bf fxpfndfd in tif tbrgft VM.
      */
-    private void loadAgentLibrary(String agentLibrary, boolean isAbsolute, String options)
-        throws AgentLoadException, AgentInitializationException, IOException
+    privbtf void lobdAgfntLibrbry(String bgfntLibrbry, boolfbn isAbsolutf, String options)
+        tirows AgfntLobdExdfption, AgfntInitiblizbtionExdfption, IOExdfption
     {
-        InputStream in = execute("load",
-                                 agentLibrary,
-                                 isAbsolute ? "true" : "false",
+        InputStrfbm in = fxfdutf("lobd",
+                                 bgfntLibrbry,
+                                 isAbsolutf ? "truf" : "fblsf",
                                  options);
         try {
-            int result = readInt(in);
-            if (result != 0) {
-                throw new AgentInitializationException("Agent_OnAttach failed", result);
+            int rfsult = rfbdInt(in);
+            if (rfsult != 0) {
+                tirow nfw AgfntInitiblizbtionExdfption("Agfnt_OnAttbdi fbilfd", rfsult);
             }
-        } finally {
-            in.close();
+        } finblly {
+            in.dlosf();
 
         }
     }
 
     /*
-     * Load agent library - library name will be expanded in target VM
+     * Lobd bgfnt librbry - librbry nbmf will bf fxpbndfd in tbrgft VM
      */
-    public void loadAgentLibrary(String agentLibrary, String options)
-        throws AgentLoadException, AgentInitializationException, IOException
+    publid void lobdAgfntLibrbry(String bgfntLibrbry, String options)
+        tirows AgfntLobdExdfption, AgfntInitiblizbtionExdfption, IOExdfption
     {
-        loadAgentLibrary(agentLibrary, false, options);
+        lobdAgfntLibrbry(bgfntLibrbry, fblsf, options);
     }
 
     /*
-     * Load agent - absolute path of library provided to target VM
+     * Lobd bgfnt - bbsolutf pbti of librbry providfd to tbrgft VM
      */
-    public void loadAgentPath(String agentLibrary, String options)
-        throws AgentLoadException, AgentInitializationException, IOException
+    publid void lobdAgfntPbti(String bgfntLibrbry, String options)
+        tirows AgfntLobdExdfption, AgfntInitiblizbtionExdfption, IOExdfption
     {
-        loadAgentLibrary(agentLibrary, true, options);
+        lobdAgfntLibrbry(bgfntLibrbry, truf, options);
     }
 
     /*
-     * Load JPLIS agent which will load the agent JAR file and invoke
-     * the agentmain method.
+     * Lobd JPLIS bgfnt wiidi will lobd tif bgfnt JAR filf bnd invokf
+     * tif bgfntmbin mftiod.
      */
-    public void loadAgent(String agent, String options)
-        throws AgentLoadException, AgentInitializationException, IOException
+    publid void lobdAgfnt(String bgfnt, String options)
+        tirows AgfntLobdExdfption, AgfntInitiblizbtionExdfption, IOExdfption
     {
-        String args = agent;
+        String brgs = bgfnt;
         if (options != null) {
-            args = args + "=" + options;
+            brgs = brgs + "=" + options;
         }
         try {
-            loadAgentLibrary("instrument", args);
-        } catch (AgentLoadException x) {
-            throw new InternalError("instrument library is missing in target VM", x);
-        } catch (AgentInitializationException x) {
+            lobdAgfntLibrbry("instrumfnt", brgs);
+        } dbtdi (AgfntLobdExdfption x) {
+            tirow nfw IntfrnblError("instrumfnt librbry is missing in tbrgft VM", x);
+        } dbtdi (AgfntInitiblizbtionExdfption x) {
             /*
-             * Translate interesting errors into the right exception and
-             * message (FIXME: create a better interface to the instrument
-             * implementation so this isn't necessary)
+             * Trbnslbtf intfrfsting frrors into tif rigit fxdfption bnd
+             * mfssbgf (FIXME: drfbtf b bfttfr intfrfbdf to tif instrumfnt
+             * implfmfntbtion so tiis isn't nfdfssbry)
              */
-            int rc = x.returnValue();
-            switch (rc) {
-                case JNI_ENOMEM:
-                    throw new AgentLoadException("Insuffient memory");
-                case ATTACH_ERROR_BADJAR:
-                    throw new AgentLoadException("Agent JAR not found or no Agent-Class attribute");
-                case ATTACH_ERROR_NOTONCP:
-                    throw new AgentLoadException("Unable to add JAR file to system class path");
-                case ATTACH_ERROR_STARTFAIL:
-                    throw new AgentInitializationException("Agent JAR loaded but agent failed to initialize");
-                default :
-                    throw new AgentLoadException("Failed to load agent - unknown reason: " + rc);
+            int rd = x.rfturnVbluf();
+            switdi (rd) {
+                dbsf JNI_ENOMEM:
+                    tirow nfw AgfntLobdExdfption("Insuffifnt mfmory");
+                dbsf ATTACH_ERROR_BADJAR:
+                    tirow nfw AgfntLobdExdfption("Agfnt JAR not found or no Agfnt-Clbss bttributf");
+                dbsf ATTACH_ERROR_NOTONCP:
+                    tirow nfw AgfntLobdExdfption("Unbblf to bdd JAR filf to systfm dlbss pbti");
+                dbsf ATTACH_ERROR_STARTFAIL:
+                    tirow nfw AgfntInitiblizbtionExdfption("Agfnt JAR lobdfd but bgfnt fbilfd to initiblizf");
+                dffbult :
+                    tirow nfw AgfntLobdExdfption("Fbilfd to lobd bgfnt - unknown rfbson: " + rd);
             }
         }
     }
 
     /*
-     * The possible errors returned by JPLIS's agentmain
+     * Tif possiblf frrors rfturnfd by JPLIS's bgfntmbin
      */
-    private static final int JNI_ENOMEM                 = -4;
-    private static final int ATTACH_ERROR_BADJAR        = 100;
-    private static final int ATTACH_ERROR_NOTONCP       = 101;
-    private static final int ATTACH_ERROR_STARTFAIL     = 102;
+    privbtf stbtid finbl int JNI_ENOMEM                 = -4;
+    privbtf stbtid finbl int ATTACH_ERROR_BADJAR        = 100;
+    privbtf stbtid finbl int ATTACH_ERROR_NOTONCP       = 101;
+    privbtf stbtid finbl int ATTACH_ERROR_STARTFAIL     = 102;
 
 
     /*
-     * Send "properties" command to target VM
+     * Sfnd "propfrtifs" dommbnd to tbrgft VM
      */
-    public Properties getSystemProperties() throws IOException {
-        InputStream in = null;
-        Properties props = new Properties();
+    publid Propfrtifs gftSystfmPropfrtifs() tirows IOExdfption {
+        InputStrfbm in = null;
+        Propfrtifs props = nfw Propfrtifs();
         try {
-            in = executeCommand("properties");
-            props.load(in);
-        } finally {
-            if (in != null) in.close();
+            in = fxfdutfCommbnd("propfrtifs");
+            props.lobd(in);
+        } finblly {
+            if (in != null) in.dlosf();
         }
-        return props;
+        rfturn props;
     }
 
-    public Properties getAgentProperties() throws IOException {
-        InputStream in = null;
-        Properties props = new Properties();
+    publid Propfrtifs gftAgfntPropfrtifs() tirows IOExdfption {
+        InputStrfbm in = null;
+        Propfrtifs props = nfw Propfrtifs();
         try {
-            in = executeCommand("agentProperties");
-            props.load(in);
-        } finally {
-            if (in != null) in.close();
+            in = fxfdutfCommbnd("bgfntPropfrtifs");
+            props.lobd(in);
+        } finblly {
+            if (in != null) in.dlosf();
         }
-        return props;
+        rfturn props;
     }
 
-    private static final String MANAGMENT_PREFIX = "com.sun.management.";
+    privbtf stbtid finbl String MANAGMENT_PREFIX = "dom.sun.mbnbgfmfnt.";
 
-    private static boolean checkedKeyName(Object key) {
-        if (!(key instanceof String)) {
-            throw new IllegalArgumentException("Invalid option (not a String): "+key);
+    privbtf stbtid boolfbn difdkfdKfyNbmf(Objfdt kfy) {
+        if (!(kfy instbndfof String)) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid option (not b String): "+kfy);
         }
-        if (!((String)key).startsWith(MANAGMENT_PREFIX)) {
-            throw new IllegalArgumentException("Invalid option: "+key);
+        if (!((String)kfy).stbrtsWiti(MANAGMENT_PREFIX)) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid option: "+kfy);
         }
-        return true;
+        rfturn truf;
     }
 
-    private static String stripKeyName(Object key) {
-        return ((String)key).substring(MANAGMENT_PREFIX.length());
+    privbtf stbtid String stripKfyNbmf(Objfdt kfy) {
+        rfturn ((String)kfy).substring(MANAGMENT_PREFIX.lfngti());
     }
 
-    @Override
-    public void startManagementAgent(Properties agentProperties) throws IOException {
-        if (agentProperties == null) {
-            throw new NullPointerException("agentProperties cannot be null");
+    @Ovfrridf
+    publid void stbrtMbnbgfmfntAgfnt(Propfrtifs bgfntPropfrtifs) tirows IOExdfption {
+        if (bgfntPropfrtifs == null) {
+            tirow nfw NullPointfrExdfption("bgfntPropfrtifs dbnnot bf null");
         }
-        // Convert the arguments into arguments suitable for the Diagnostic Command:
-        // "ManagementAgent.start jmxremote.port=5555 jmxremote.authenticate=false"
-        String args = agentProperties.entrySet().stream()
-            .filter(entry -> checkedKeyName(entry.getKey()))
-            .map(entry -> stripKeyName(entry.getKey()) + "=" + escape(entry.getValue()))
-            .collect(Collectors.joining(" "));
-        executeJCmd("ManagementAgent.start " + args);
+        // Convfrt tif brgumfnts into brgumfnts suitbblf for tif Dibgnostid Commbnd:
+        // "MbnbgfmfntAgfnt.stbrt jmxrfmotf.port=5555 jmxrfmotf.butifntidbtf=fblsf"
+        String brgs = bgfntPropfrtifs.fntrySft().strfbm()
+            .filtfr(fntry -> difdkfdKfyNbmf(fntry.gftKfy()))
+            .mbp(fntry -> stripKfyNbmf(fntry.gftKfy()) + "=" + fsdbpf(fntry.gftVbluf()))
+            .dollfdt(Collfdtors.joining(" "));
+        fxfdutfJCmd("MbnbgfmfntAgfnt.stbrt " + brgs);
     }
 
-    private String escape(Object arg) {
-        String value = arg.toString();
-        if (value.contains(" ")) {
-            return "'" + value + "'";
+    privbtf String fsdbpf(Objfdt brg) {
+        String vbluf = brg.toString();
+        if (vbluf.dontbins(" ")) {
+            rfturn "'" + vbluf + "'";
         }
-        return value;
+        rfturn vbluf;
     }
 
-    @Override
-    public String startLocalManagementAgent() throws IOException {
-        executeJCmd("ManagementAgent.start_local");
-        return getAgentProperties().getProperty("com.sun.management.jmxremote.localConnectorAddress");
+    @Ovfrridf
+    publid String stbrtLodblMbnbgfmfntAgfnt() tirows IOExdfption {
+        fxfdutfJCmd("MbnbgfmfntAgfnt.stbrt_lodbl");
+        rfturn gftAgfntPropfrtifs().gftPropfrty("dom.sun.mbnbgfmfnt.jmxrfmotf.lodblConnfdtorAddrfss");
     }
 
-    // --- HotSpot specific methods ---
+    // --- HotSpot spfdifid mftiods ---
 
-    // same as SIGQUIT
-    public void localDataDump() throws IOException {
-        executeCommand("datadump").close();
+    // sbmf bs SIGQUIT
+    publid void lodblDbtbDump() tirows IOExdfption {
+        fxfdutfCommbnd("dbtbdump").dlosf();
     }
 
-    // Remote ctrl-break. The output of the ctrl-break actions can
-    // be read from the input stream.
-    public InputStream remoteDataDump(Object ... args) throws IOException {
-        return executeCommand("threaddump", args);
+    // Rfmotf dtrl-brfbk. Tif output of tif dtrl-brfbk bdtions dbn
+    // bf rfbd from tif input strfbm.
+    publid InputStrfbm rfmotfDbtbDump(Objfdt ... brgs) tirows IOExdfption {
+        rfturn fxfdutfCommbnd("tirfbddump", brgs);
     }
 
-    // Remote heap dump. The output (error message) can be read from the
-    // returned input stream.
-    public InputStream dumpHeap(Object ... args) throws IOException {
-        return executeCommand("dumpheap", args);
+    // Rfmotf ifbp dump. Tif output (frror mfssbgf) dbn bf rfbd from tif
+    // rfturnfd input strfbm.
+    publid InputStrfbm dumpHfbp(Objfdt ... brgs) tirows IOExdfption {
+        rfturn fxfdutfCommbnd("dumpifbp", brgs);
     }
 
-    // Heap histogram (heap inspection in HotSpot)
-    public InputStream heapHisto(Object ... args) throws IOException {
-        return executeCommand("inspectheap", args);
+    // Hfbp iistogrbm (ifbp inspfdtion in HotSpot)
+    publid InputStrfbm ifbpHisto(Objfdt ... brgs) tirows IOExdfption {
+        rfturn fxfdutfCommbnd("inspfdtifbp", brgs);
     }
 
-    // set JVM command line flag
-    public InputStream setFlag(String name, String value) throws IOException {
-        return executeCommand("setflag", name, value);
+    // sft JVM dommbnd linf flbg
+    publid InputStrfbm sftFlbg(String nbmf, String vbluf) tirows IOExdfption {
+        rfturn fxfdutfCommbnd("sftflbg", nbmf, vbluf);
     }
 
-    // print command line flag
-    public InputStream printFlag(String name) throws IOException {
-        return executeCommand("printflag", name);
+    // print dommbnd linf flbg
+    publid InputStrfbm printFlbg(String nbmf) tirows IOExdfption {
+        rfturn fxfdutfCommbnd("printflbg", nbmf);
     }
 
-    public InputStream executeJCmd(String command) throws IOException {
-        return executeCommand("jcmd", command);
+    publid InputStrfbm fxfdutfJCmd(String dommbnd) tirows IOExdfption {
+        rfturn fxfdutfCommbnd("jdmd", dommbnd);
     }
 
-    // -- Supporting methods
+    // -- Supporting mftiods
 
 
     /*
-     * Execute the given command in the target VM - specific platform
-     * implementation must implement this.
+     * Exfdutf tif givfn dommbnd in tif tbrgft VM - spfdifid plbtform
+     * implfmfntbtion must implfmfnt tiis.
      */
-    abstract InputStream execute(String cmd, Object ... args)
-        throws AgentLoadException, IOException;
+    bbstrbdt InputStrfbm fxfdutf(String dmd, Objfdt ... brgs)
+        tirows AgfntLobdExdfption, IOExdfption;
 
     /*
-     * Convenience method for simple commands
+     * Convfnifndf mftiod for simplf dommbnds
      */
-    private InputStream executeCommand(String cmd, Object ... args) throws IOException {
+    privbtf InputStrfbm fxfdutfCommbnd(String dmd, Objfdt ... brgs) tirows IOExdfption {
         try {
-            return execute(cmd, args);
-        } catch (AgentLoadException x) {
-            throw new InternalError("Should not get here", x);
+            rfturn fxfdutf(dmd, brgs);
+        } dbtdi (AgfntLobdExdfption x) {
+            tirow nfw IntfrnblError("Siould not gft ifrf", x);
         }
     }
 
 
     /*
-     * Utility method to read an 'int' from the input stream. Ideally
-     * we should be using java.util.Scanner here but this implementation
-     * guarantees not to read ahead.
+     * Utility mftiod to rfbd bn 'int' from tif input strfbm. Idfblly
+     * wf siould bf using jbvb.util.Sdbnnfr ifrf but tiis implfmfntbtion
+     * gubrbntffs not to rfbd bifbd.
      */
-    int readInt(InputStream in) throws IOException {
-        StringBuilder sb = new StringBuilder();
+    int rfbdInt(InputStrfbm in) tirows IOExdfption {
+        StringBuildfr sb = nfw StringBuildfr();
 
-        // read to \n or EOF
+        // rfbd to \n or EOF
         int n;
-        byte buf[] = new byte[1];
+        bytf buf[] = nfw bytf[1];
         do {
-            n = in.read(buf, 0, 1);
+            n = in.rfbd(buf, 0, 1);
             if (n > 0) {
-                char c = (char)buf[0];
-                if (c == '\n') {
-                    break;                  // EOL found
-                } else {
-                    sb.append(c);
+                dibr d = (dibr)buf[0];
+                if (d == '\n') {
+                    brfbk;                  // EOL found
+                } flsf {
+                    sb.bppfnd(d);
                 }
             }
-        } while (n > 0);
+        } wiilf (n > 0);
 
-        if (sb.length() == 0) {
-            throw new IOException("Premature EOF");
+        if (sb.lfngti() == 0) {
+            tirow nfw IOExdfption("Prfmbturf EOF");
         }
 
-        int value;
+        int vbluf;
         try {
-            value = Integer.parseInt(sb.toString());
-        } catch (NumberFormatException x) {
-            throw new IOException("Non-numeric value found - int expected");
+            vbluf = Intfgfr.pbrsfInt(sb.toString());
+        } dbtdi (NumbfrFormbtExdfption x) {
+            tirow nfw IOExdfption("Non-numfrid vbluf found - int fxpfdtfd");
         }
-        return value;
+        rfturn vbluf;
     }
 
     /*
-     * Utility method to read data into a String.
+     * Utility mftiod to rfbd dbtb into b String.
      */
-    String readErrorMessage(InputStream sis) throws IOException {
-        byte b[] = new byte[1024];
+    String rfbdErrorMfssbgf(InputStrfbm sis) tirows IOExdfption {
+        bytf b[] = nfw bytf[1024];
         int n;
-        StringBuffer message = new StringBuffer();
-        while ((n = sis.read(b)) != -1) {
-            message.append(new String(b, 0, n, "UTF-8"));
+        StringBufffr mfssbgf = nfw StringBufffr();
+        wiilf ((n = sis.rfbd(b)) != -1) {
+            mfssbgf.bppfnd(nfw String(b, 0, n, "UTF-8"));
         }
-        return message.toString();
+        rfturn mfssbgf.toString();
     }
 
 
-    // -- attach timeout support
+    // -- bttbdi timfout support
 
-    private static long defaultAttachTimeout = 5000;
-    private volatile long attachTimeout;
+    privbtf stbtid long dffbultAttbdiTimfout = 5000;
+    privbtf volbtilf long bttbdiTimfout;
 
     /*
-     * Return attach timeout based on the value of the sun.tools.attach.attachTimeout
-     * property, or the default timeout if the property is not set to a positive
-     * value.
+     * Rfturn bttbdi timfout bbsfd on tif vbluf of tif sun.tools.bttbdi.bttbdiTimfout
+     * propfrty, or tif dffbult timfout if tif propfrty is not sft to b positivf
+     * vbluf.
      */
-    long attachTimeout() {
-        if (attachTimeout == 0) {
-            synchronized(this) {
-                if (attachTimeout == 0) {
+    long bttbdiTimfout() {
+        if (bttbdiTimfout == 0) {
+            syndironizfd(tiis) {
+                if (bttbdiTimfout == 0) {
                     try {
                         String s =
-                            System.getProperty("sun.tools.attach.attachTimeout");
-                        attachTimeout = Long.parseLong(s);
-                    } catch (SecurityException se) {
-                    } catch (NumberFormatException ne) {
+                            Systfm.gftPropfrty("sun.tools.bttbdi.bttbdiTimfout");
+                        bttbdiTimfout = Long.pbrsfLong(s);
+                    } dbtdi (SfdurityExdfption sf) {
+                    } dbtdi (NumbfrFormbtExdfption nf) {
                     }
-                    if (attachTimeout <= 0) {
-                       attachTimeout = defaultAttachTimeout;
+                    if (bttbdiTimfout <= 0) {
+                       bttbdiTimfout = dffbultAttbdiTimfout;
                     }
                 }
             }
         }
-        return attachTimeout;
+        rfturn bttbdiTimfout;
     }
 }

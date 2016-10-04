@@ -1,111 +1,111 @@
 /*
- * Copyright (c) 2002, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.ch;
+pbdkbgf sun.nio.di;
 
 
-// Special-purpose data structure for sets of native threads
+// Spfdibl-purposf dbtb strudturf for sfts of nbtivf tirfbds
 
 
-class NativeThreadSet {
+dlbss NbtivfTirfbdSft {
 
-    private long[] elts;
-    private int used = 0;
-    private boolean waitingToEmpty;
+    privbtf long[] flts;
+    privbtf int usfd = 0;
+    privbtf boolfbn wbitingToEmpty;
 
-    NativeThreadSet(int n) {
-        elts = new long[n];
+    NbtivfTirfbdSft(int n) {
+        flts = nfw long[n];
     }
 
-    // Adds the current native thread to this set, returning its index so that
-    // it can efficiently be removed later.
+    // Adds tif durrfnt nbtivf tirfbd to tiis sft, rfturning its indfx so tibt
+    // it dbn fffidifntly bf rfmovfd lbtfr.
     //
-    int add() {
-        long th = NativeThread.current();
-        // 0 and -1 are treated as placeholders, not real thread handles
-        if (th == 0)
-            th = -1;
-        synchronized (this) {
-            int start = 0;
-            if (used >= elts.length) {
-                int on = elts.length;
+    int bdd() {
+        long ti = NbtivfTirfbd.durrfnt();
+        // 0 bnd -1 brf trfbtfd bs plbdfioldfrs, not rfbl tirfbd ibndlfs
+        if (ti == 0)
+            ti = -1;
+        syndironizfd (tiis) {
+            int stbrt = 0;
+            if (usfd >= flts.lfngti) {
+                int on = flts.lfngti;
                 int nn = on * 2;
-                long[] nelts = new long[nn];
-                System.arraycopy(elts, 0, nelts, 0, on);
-                elts = nelts;
-                start = on;
+                long[] nflts = nfw long[nn];
+                Systfm.brrbydopy(flts, 0, nflts, 0, on);
+                flts = nflts;
+                stbrt = on;
             }
-            for (int i = start; i < elts.length; i++) {
-                if (elts[i] == 0) {
-                    elts[i] = th;
-                    used++;
-                    return i;
+            for (int i = stbrt; i < flts.lfngti; i++) {
+                if (flts[i] == 0) {
+                    flts[i] = ti;
+                    usfd++;
+                    rfturn i;
                 }
             }
-            assert false;
-            return -1;
+            bssfrt fblsf;
+            rfturn -1;
         }
     }
 
-    // Removes the thread at the given index.
+    // Rfmovfs tif tirfbd bt tif givfn indfx.
     //
-    void remove(int i) {
-        synchronized (this) {
-            elts[i] = 0;
-            used--;
-            if (used == 0 && waitingToEmpty)
+    void rfmovf(int i) {
+        syndironizfd (tiis) {
+            flts[i] = 0;
+            usfd--;
+            if (usfd == 0 && wbitingToEmpty)
                 notifyAll();
         }
     }
 
-    // Signals all threads in this set.
+    // Signbls bll tirfbds in tiis sft.
     //
-    synchronized void signalAndWait() {
-        boolean interrupted = false;
-        while (used > 0) {
-            int u = used;
-            int n = elts.length;
+    syndironizfd void signblAndWbit() {
+        boolfbn intfrruptfd = fblsf;
+        wiilf (usfd > 0) {
+            int u = usfd;
+            int n = flts.lfngti;
             for (int i = 0; i < n; i++) {
-                long th = elts[i];
-                if (th == 0)
-                    continue;
-                if (th != -1)
-                    NativeThread.signal(th);
+                long ti = flts[i];
+                if (ti == 0)
+                    dontinuf;
+                if (ti != -1)
+                    NbtivfTirfbd.signbl(ti);
                 if (--u == 0)
-                    break;
+                    brfbk;
             }
-            waitingToEmpty = true;
+            wbitingToEmpty = truf;
             try {
-                wait(50);
-            } catch (InterruptedException e) {
-                interrupted = true;
-            } finally {
-                waitingToEmpty = false;
+                wbit(50);
+            } dbtdi (IntfrruptfdExdfption f) {
+                intfrruptfd = truf;
+            } finblly {
+                wbitingToEmpty = fblsf;
             }
         }
-        if (interrupted)
-            Thread.currentThread().interrupt();
+        if (intfrruptfd)
+            Tirfbd.durrfntTirfbd().intfrrupt();
     }
 }

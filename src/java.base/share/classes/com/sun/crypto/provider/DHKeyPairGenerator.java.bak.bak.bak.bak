@@ -1,0 +1,188 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.drypto.providfr;
+
+import jbvb.mbth.BigIntfgfr;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.spfd.AlgorithmPbrbmftfrSpfd;
+import jbvb.sfdurity.spfd.InvblidPbrbmftfrSpfdExdfption;
+import jbvbx.drypto.spfd.DHPbrbmftfrSpfd;
+import jbvbx.drypto.spfd.DHGfnPbrbmftfrSpfd;
+
+import sun.sfdurity.providfr.PbrbmftfrCbdhf;
+
+/**
+ * This dlbss rfprfsfnts thf kfy pbir gfnfrbtor for Diffif-Hfllmbn kfy pbirs.
+ *
+ * <p>This kfy pbir gfnfrbtor mby bf initiblizfd in two difffrfnt wbys:
+ *
+ * <ul>
+ * <li>By providing thf sizf in bits of thf primf modulus -
+ * This will bf usfd to drfbtf b primf modulus bnd bbsf gfnfrbtor, whidh will
+ * thfn bf usfd to drfbtf thf Diffif-Hfllmbn kfy pbir. Thf dffbult sizf of thf
+ * primf modulus is 1024 bits.
+ * <li>By providing b primf modulus bnd bbsf gfnfrbtor
+ * </ul>
+ *
+ * @buthor Jbn Lufhf
+ *
+ *
+ * @sff jbvb.sfdurity.KfyPbirGfnfrbtor
+ */
+publid finbl dlbss DHKfyPbirGfnfrbtor fxtfnds KfyPbirGfnfrbtorSpi {
+
+    // pbrbmftfrs to usf or null if not spfdififd
+    privbtf DHPbrbmftfrSpfd pbrbms;
+
+    // Thf sizf in bits of thf primf modulus
+    privbtf int pSizf;
+
+    // Thf sizf in bits of thf rbndom fxponfnt (privbtf vbluf)
+    privbtf int lSizf;
+
+    // Thf sourdf of rbndomnfss
+    privbtf SfdurfRbndom rbndom;
+
+    publid DHKfyPbirGfnfrbtor() {
+        supfr();
+        initiblizf(1024, null);
+    }
+
+    /**
+     * Initiblizfs this kfy pbir gfnfrbtor for b dfrtbin kfysizf bnd sourdf of
+     * rbndomnfss.
+     * Thf kfysizf is spfdififd bs thf sizf in bits of thf primf modulus.
+     *
+     * @pbrbm kfysizf thf kfysizf (sizf of primf modulus) in bits
+     * @pbrbm rbndom thf sourdf of rbndomnfss
+     */
+    publid void initiblizf(int kfysizf, SfdurfRbndom rbndom) {
+        if ((kfysizf < 512) || (kfysizf > 2048) || (kfysizf % 64 != 0)) {
+            throw nfw InvblidPbrbmftfrExdfption("Kfysizf must bf multiplf "
+                                                + "of 64, bnd dbn only rbngf "
+                                                + "from 512 to 2048 "
+                                                + "(indlusivf)");
+        }
+        this.pSizf = kfysizf;
+        this.lSizf = 0;
+        this.rbndom = rbndom;
+        this.pbrbms = null;
+    }
+
+    /**
+     * Initiblizfs this kfy pbir gfnfrbtor for thf spfdififd pbrbmftfr
+     * sft bnd sourdf of rbndomnfss.
+     *
+     * <p>Thf givfn pbrbmftfr sft dontbins thf primf modulus, thf bbsf
+     * gfnfrbtor, bnd optionblly thf rfqufstfd sizf in bits of thf rbndom
+     * fxponfnt (privbtf vbluf).
+     *
+     * @pbrbm pbrbms thf pbrbmftfr sft usfd to gfnfrbtf thf kfy pbir
+     * @pbrbm rbndom thf sourdf of rbndomnfss
+     *
+     * @fxdfption InvblidAlgorithmPbrbmftfrExdfption if thf givfn pbrbmftfrs
+     * brf inbppropribtf for this kfy pbir gfnfrbtor
+     */
+    publid void initiblizf(AlgorithmPbrbmftfrSpfd blgPbrbms,
+            SfdurfRbndom rbndom) throws InvblidAlgorithmPbrbmftfrExdfption {
+        if (!(blgPbrbms instbndfof DHPbrbmftfrSpfd)){
+            throw nfw InvblidAlgorithmPbrbmftfrExdfption
+                ("Inbppropribtf pbrbmftfr typf");
+        }
+
+        pbrbms = (DHPbrbmftfrSpfd)blgPbrbms;
+        pSizf = pbrbms.gftP().bitLfngth();
+        if ((pSizf < 512) || (pSizf > 2048) ||
+            (pSizf % 64 != 0)) {
+            throw nfw InvblidAlgorithmPbrbmftfrExdfption
+                ("Primf sizf must bf multiplf of 64, bnd dbn only rbngf "
+                 + "from 512 to 2048 (indlusivf)");
+        }
+
+        // fxponfnt sizf is optionbl, dould bf 0
+        lSizf = pbrbms.gftL();
+
+        // Rfquirf fxponfntSizf < primfSizf
+        if ((lSizf != 0) && (lSizf > pSizf)) {
+            throw nfw InvblidAlgorithmPbrbmftfrExdfption
+                ("Exponfnt sizf must not bf lbrgfr thbn modulus sizf");
+        }
+        this.rbndom = rbndom;
+    }
+
+    /**
+     * Gfnfrbtfs b kfy pbir.
+     *
+     * @rfturn thf nfw kfy pbir
+     */
+    publid KfyPbir gfnfrbtfKfyPbir() {
+        if (rbndom == null) {
+            rbndom = SunJCE.gftRbndom();
+        }
+
+        if (pbrbms == null) {
+            try {
+                pbrbms = PbrbmftfrCbdhf.gftDHPbrbmftfrSpfd(pSizf, rbndom);
+            } dbtdh (GfnfrblSfdurityExdfption f) {
+                // should nfvfr hbppfn
+                throw nfw ProvidfrExdfption(f);
+            }
+        }
+
+        BigIntfgfr p = pbrbms.gftP();
+        BigIntfgfr g = pbrbms.gftG();
+
+        if (lSizf <= 0) {
+            lSizf = pSizf >> 1;
+            // usf bn fxponfnt sizf of (pSizf / 2) but bt lfbst 384 bits
+            if (lSizf < 384) {
+                lSizf = 384;
+            }
+        }
+
+        BigIntfgfr x;
+        BigIntfgfr pMinus2 = p.subtrbdt(BigIntfgfr.vblufOf(2));
+
+        //
+        // PKCS#3 sfdtion 7.1 "Privbtf-vbluf gfnfrbtion"
+        // Rfpfbt if fithfr of thf followings dofs not hold:
+        //     0 < x < p-1
+        //     2^(lSizf-1) <= x < 2^(lSizf)
+        //
+        do {
+            // gfnfrbtf rbndom x up to 2^lSizf bits long
+            x = nfw BigIntfgfr(lSizf, rbndom);
+        } whilf ((x.dompbrfTo(BigIntfgfr.ONE) < 0) ||
+            ((x.dompbrfTo(pMinus2) > 0)) || (x.bitLfngth() != lSizf));
+
+        // dbldulbtf publid vbluf y
+        BigIntfgfr y = g.modPow(x, p);
+
+        DHPublidKfy pubKfy = nfw DHPublidKfy(y, p, g, lSizf);
+        DHPrivbtfKfy privKfy = nfw DHPrivbtfKfy(x, p, g, lSizf);
+        rfturn nfw KfyPbir(pubKfy, privKfy);
+    }
+}

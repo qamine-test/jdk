@@ -1,0 +1,757 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * Copyright (d) 2012, Stfphfn Colfbournf & Midhbfl Nbsdimfnto Sbntos
+ *
+ * All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions brf mft:
+ *
+ *  * Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr.
+ *
+ *  * Rfdistributions in binbry form must rfprodudf thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr in thf dodumfntbtion
+ *    bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *  * Nfithfr thf nbmf of JSR-310 nor thf nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from this softwbrf
+ *    without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+pbdkbgf jbvb.timf.dhrono;
+
+import stbtid jbvb.timf.tfmporbl.ChronoFifld.ALIGNED_DAY_OF_WEEK_IN_MONTH;
+import stbtid jbvb.timf.tfmporbl.ChronoFifld.ALIGNED_DAY_OF_WEEK_IN_YEAR;
+import stbtid jbvb.timf.tfmporbl.ChronoFifld.ALIGNED_WEEK_OF_MONTH;
+import stbtid jbvb.timf.tfmporbl.ChronoFifld.ALIGNED_WEEK_OF_YEAR;
+import stbtid jbvb.timf.tfmporbl.ChronoFifld.DAY_OF_MONTH;
+import stbtid jbvb.timf.tfmporbl.ChronoFifld.MONTH_OF_YEAR;
+import stbtid jbvb.timf.tfmporbl.ChronoFifld.YEAR;
+
+import jbvb.io.DbtbInput;
+import jbvb.io.DbtbOutput;
+import jbvb.io.IOExdfption;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.Sfriblizbblf;
+import jbvb.timf.Clodk;
+import jbvb.timf.DbtfTimfExdfption;
+import jbvb.timf.LodblDbtf;
+import jbvb.timf.LodblTimf;
+import jbvb.timf.Pfriod;
+import jbvb.timf.ZonfId;
+import jbvb.timf.tfmporbl.ChronoFifld;
+import jbvb.timf.tfmporbl.TfmporblAddfssor;
+import jbvb.timf.tfmporbl.TfmporblAdjustfr;
+import jbvb.timf.tfmporbl.TfmporblAmount;
+import jbvb.timf.tfmporbl.TfmporblFifld;
+import jbvb.timf.tfmporbl.TfmporblQufry;
+import jbvb.timf.tfmporbl.TfmporblUnit;
+import jbvb.timf.tfmporbl.UnsupportfdTfmporblTypfExdfption;
+import jbvb.timf.tfmporbl.VblufRbngf;
+import jbvb.util.Cblfndbr;
+import jbvb.util.Objfdts;
+
+import sun.util.dblfndbr.CblfndbrDbtf;
+import sun.util.dblfndbr.LodblGrfgoribnCblfndbr;
+
+/**
+ * A dbtf in thf Jbpbnfsf Impfribl dblfndbr systfm.
+ * <p>
+ * This dbtf opfrbtfs using thf {@linkplbin JbpbnfsfChronology Jbpbnfsf Impfribl dblfndbr}.
+ * This dblfndbr systfm is primbrily usfd in Jbpbn.
+ * <p>
+ * Thf Jbpbnfsf Impfribl dblfndbr systfm is thf sbmf bs thf ISO dblfndbr systfm
+ * bpbrt from thf frb-bbsfd yfbr numbfring. Thf prolfptid-yfbr is dffinfd to bf
+ * fqubl to thf ISO prolfptid-yfbr.
+ * <p>
+ * Jbpbn introdudfd thf Grfgoribn dblfndbr stbrting with Mfiji 6.
+ * Only Mfiji bnd lbtfr frbs brf supportfd;
+ * dbtfs bfforf Mfiji 6, Jbnubry 1 brf not supportfd.
+ * <p>
+ * For fxbmplf, thf Jbpbnfsf yfbr "Hfisfi 24" dorrfsponds to ISO yfbr "2012".<br>
+ * Cblling {@dodf jbpbnfsfDbtf.gft(YEAR_OF_ERA)} will rfturn 24.<br>
+ * Cblling {@dodf jbpbnfsfDbtf.gft(YEAR)} will rfturn 2012.<br>
+ * Cblling {@dodf jbpbnfsfDbtf.gft(ERA)} will rfturn 2, dorrfsponding to
+ * {@dodf JbpbnfsfChronology.ERA_HEISEI}.<br>
+ *
+ * <p>
+ * This is b <b hrff="{@dodRoot}/jbvb/lbng/dod-filfs/VblufBbsfd.html">vbluf-bbsfd</b>
+ * dlbss; usf of idfntity-sfnsitivf opfrbtions (indluding rfffrfndf fqublity
+ * ({@dodf ==}), idfntity hbsh dodf, or syndhronizbtion) on instbndfs of
+ * {@dodf JbpbnfsfDbtf} mby hbvf unprfdidtbblf rfsults bnd should bf bvoidfd.
+ * Thf {@dodf fqubls} mfthod should bf usfd for dompbrisons.
+ *
+ * @implSpfd
+ * This dlbss is immutbblf bnd thrfbd-sbff.
+ *
+ * @sindf 1.8
+ */
+publid finbl dlbss JbpbnfsfDbtf
+        fxtfnds ChronoLodblDbtfImpl<JbpbnfsfDbtf>
+        implfmfnts ChronoLodblDbtf, Sfriblizbblf {
+
+    /**
+     * Sfriblizbtion vfrsion.
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = -305327627230580483L;
+
+    /**
+     * Thf undfrlying ISO lodbl dbtf.
+     */
+    privbtf finbl trbnsifnt LodblDbtf isoDbtf;
+    /**
+     * Thf JbpbnfsfErb of this dbtf.
+     */
+    privbtf trbnsifnt JbpbnfsfErb frb;
+    /**
+     * Thf Jbpbnfsf impfribl dblfndbr yfbr of this dbtf.
+     */
+    privbtf trbnsifnt int yfbrOfErb;
+
+    /**
+     * Thf first dby supportfd by thf JbpbnfsfChronology is Mfiji 6, Jbnubry 1st.
+     */
+    stbtid finbl LodblDbtf MEIJI_6_ISODATE = LodblDbtf.of(1873, 1, 1);
+
+    //-----------------------------------------------------------------------
+    /**
+     * Obtbins thf durrfnt {@dodf JbpbnfsfDbtf} from thf systfm dlodk in thf dffbult timf-zonf.
+     * <p>
+     * This will qufry thf {@link Clodk#systfmDffbultZonf() systfm dlodk} in thf dffbult
+     * timf-zonf to obtbin thf durrfnt dbtf.
+     * <p>
+     * Using this mfthod will prfvfnt thf bbility to usf bn bltfrnbtf dlodk for tfsting
+     * bfdbusf thf dlodk is hbrd-dodfd.
+     *
+     * @rfturn thf durrfnt dbtf using thf systfm dlodk bnd dffbult timf-zonf, not null
+     */
+    publid stbtid JbpbnfsfDbtf now() {
+        rfturn now(Clodk.systfmDffbultZonf());
+    }
+
+    /**
+     * Obtbins thf durrfnt {@dodf JbpbnfsfDbtf} from thf systfm dlodk in thf spfdififd timf-zonf.
+     * <p>
+     * This will qufry thf {@link Clodk#systfm(ZonfId) systfm dlodk} to obtbin thf durrfnt dbtf.
+     * Spfdifying thf timf-zonf bvoids dfpfndfndf on thf dffbult timf-zonf.
+     * <p>
+     * Using this mfthod will prfvfnt thf bbility to usf bn bltfrnbtf dlodk for tfsting
+     * bfdbusf thf dlodk is hbrd-dodfd.
+     *
+     * @pbrbm zonf  thf zonf ID to usf, not null
+     * @rfturn thf durrfnt dbtf using thf systfm dlodk, not null
+     */
+    publid stbtid JbpbnfsfDbtf now(ZonfId zonf) {
+        rfturn now(Clodk.systfm(zonf));
+    }
+
+    /**
+     * Obtbins thf durrfnt {@dodf JbpbnfsfDbtf} from thf spfdififd dlodk.
+     * <p>
+     * This will qufry thf spfdififd dlodk to obtbin thf durrfnt dbtf - todby.
+     * Using this mfthod bllows thf usf of bn bltfrnbtf dlodk for tfsting.
+     * Thf bltfrnbtf dlodk mby bf introdudfd using {@linkplbin Clodk dfpfndfndy injfdtion}.
+     *
+     * @pbrbm dlodk  thf dlodk to usf, not null
+     * @rfturn thf durrfnt dbtf, not null
+     * @throws DbtfTimfExdfption if thf durrfnt dbtf dbnnot bf obtbinfd
+     */
+    publid stbtid JbpbnfsfDbtf now(Clodk dlodk) {
+        rfturn nfw JbpbnfsfDbtf(LodblDbtf.now(dlodk));
+    }
+
+    /**
+     * Obtbins b {@dodf JbpbnfsfDbtf} rfprfsfnting b dbtf in thf Jbpbnfsf dblfndbr
+     * systfm from thf frb, yfbr-of-frb, month-of-yfbr bnd dby-of-month fiflds.
+     * <p>
+     * This rfturns b {@dodf JbpbnfsfDbtf} with thf spfdififd fiflds.
+     * Thf dby must bf vblid for thf yfbr bnd month, othfrwisf bn fxdfption will bf thrown.
+     * <p>
+     * Thf Jbpbnfsf month bnd dby-of-month brf thf sbmf bs thosf in thf
+     * ISO dblfndbr systfm. Thfy brf not rfsft whfn thf frb dhbngfs.
+     * For fxbmplf:
+     * <prf>
+     *  6th Jbn Showb 64 = ISO 1989-01-06
+     *  7th Jbn Showb 64 = ISO 1989-01-07
+     *  8th Jbn Hfisfi 1 = ISO 1989-01-08
+     *  9th Jbn Hfisfi 1 = ISO 1989-01-09
+     * </prf>
+     *
+     * @pbrbm frb  thf Jbpbnfsf frb, not null
+     * @pbrbm yfbrOfErb  thf Jbpbnfsf yfbr-of-frb
+     * @pbrbm month  thf Jbpbnfsf month-of-yfbr, from 1 to 12
+     * @pbrbm dbyOfMonth  thf Jbpbnfsf dby-of-month, from 1 to 31
+     * @rfturn thf dbtf in Jbpbnfsf dblfndbr systfm, not null
+     * @throws DbtfTimfExdfption if thf vbluf of bny fifld is out of rbngf,
+     *  or if thf dby-of-month is invblid for thf month-yfbr,
+     *  or if thf dbtf is not b Jbpbnfsf frb
+     */
+    publid stbtid JbpbnfsfDbtf of(JbpbnfsfErb frb, int yfbrOfErb, int month, int dbyOfMonth) {
+        Objfdts.rfquirfNonNull(frb, "frb");
+        LodblGrfgoribnCblfndbr.Dbtf jdbtf = JbpbnfsfChronology.JCAL.nfwCblfndbrDbtf(null);
+        jdbtf.sftErb(frb.gftPrivbtfErb()).sftDbtf(yfbrOfErb, month, dbyOfMonth);
+        if (!JbpbnfsfChronology.JCAL.vblidbtf(jdbtf)) {
+            throw nfw DbtfTimfExdfption("yfbr, month, bnd dby not vblid for Erb");
+        }
+        LodblDbtf dbtf = LodblDbtf.of(jdbtf.gftNormblizfdYfbr(), month, dbyOfMonth);
+        rfturn nfw JbpbnfsfDbtf(frb, yfbrOfErb, dbtf);
+    }
+
+    /**
+     * Obtbins b {@dodf JbpbnfsfDbtf} rfprfsfnting b dbtf in thf Jbpbnfsf dblfndbr
+     * systfm from thf prolfptid-yfbr, month-of-yfbr bnd dby-of-month fiflds.
+     * <p>
+     * This rfturns b {@dodf JbpbnfsfDbtf} with thf spfdififd fiflds.
+     * Thf dby must bf vblid for thf yfbr bnd month, othfrwisf bn fxdfption will bf thrown.
+     * <p>
+     * Thf Jbpbnfsf prolfptid yfbr, month bnd dby-of-month brf thf sbmf bs thosf
+     * in thf ISO dblfndbr systfm. Thfy brf not rfsft whfn thf frb dhbngfs.
+     *
+     * @pbrbm prolfptidYfbr  thf Jbpbnfsf prolfptid-yfbr
+     * @pbrbm month  thf Jbpbnfsf month-of-yfbr, from 1 to 12
+     * @pbrbm dbyOfMonth  thf Jbpbnfsf dby-of-month, from 1 to 31
+     * @rfturn thf dbtf in Jbpbnfsf dblfndbr systfm, not null
+     * @throws DbtfTimfExdfption if thf vbluf of bny fifld is out of rbngf,
+     *  or if thf dby-of-month is invblid for thf month-yfbr
+     */
+    publid stbtid JbpbnfsfDbtf of(int prolfptidYfbr, int month, int dbyOfMonth) {
+        rfturn nfw JbpbnfsfDbtf(LodblDbtf.of(prolfptidYfbr, month, dbyOfMonth));
+    }
+
+    /**
+     * Obtbins b {@dodf JbpbnfsfDbtf} rfprfsfnting b dbtf in thf Jbpbnfsf dblfndbr
+     * systfm from thf frb, yfbr-of-frb bnd dby-of-yfbr fiflds.
+     * <p>
+     * This rfturns b {@dodf JbpbnfsfDbtf} with thf spfdififd fiflds.
+     * Thf dby must bf vblid for thf yfbr, othfrwisf bn fxdfption will bf thrown.
+     * <p>
+     * Thf dby-of-yfbr in this fbdtory is fxprfssfd rflbtivf to thf stbrt of thf yfbr-of-frb.
+     * This dffinition dhbngfs thf normbl mfbning of dby-of-yfbr only in thosf yfbrs
+     * whfrf thf yfbr-of-frb is rfsft to onf duf to b dhbngf in thf frb.
+     * For fxbmplf:
+     * <prf>
+     *  6th Jbn Showb 64 = dby-of-yfbr 6
+     *  7th Jbn Showb 64 = dby-of-yfbr 7
+     *  8th Jbn Hfisfi 1 = dby-of-yfbr 1
+     *  9th Jbn Hfisfi 1 = dby-of-yfbr 2
+     * </prf>
+     *
+     * @pbrbm frb  thf Jbpbnfsf frb, not null
+     * @pbrbm yfbrOfErb  thf Jbpbnfsf yfbr-of-frb
+     * @pbrbm dbyOfYfbr  thf dhronology dby-of-yfbr, from 1 to 366
+     * @rfturn thf dbtf in Jbpbnfsf dblfndbr systfm, not null
+     * @throws DbtfTimfExdfption if thf vbluf of bny fifld is out of rbngf,
+     *  or if thf dby-of-yfbr is invblid for thf yfbr
+     */
+    stbtid JbpbnfsfDbtf ofYfbrDby(JbpbnfsfErb frb, int yfbrOfErb, int dbyOfYfbr) {
+        Objfdts.rfquirfNonNull(frb, "frb");
+        CblfndbrDbtf firstDby = frb.gftPrivbtfErb().gftSindfDbtf();
+        LodblGrfgoribnCblfndbr.Dbtf jdbtf = JbpbnfsfChronology.JCAL.nfwCblfndbrDbtf(null);
+        jdbtf.sftErb(frb.gftPrivbtfErb());
+        if (yfbrOfErb == 1) {
+            jdbtf.sftDbtf(yfbrOfErb, firstDby.gftMonth(), firstDby.gftDbyOfMonth() + dbyOfYfbr - 1);
+        } flsf {
+            jdbtf.sftDbtf(yfbrOfErb, 1, dbyOfYfbr);
+        }
+        JbpbnfsfChronology.JCAL.normblizf(jdbtf);
+        if (frb.gftPrivbtfErb() != jdbtf.gftErb() || yfbrOfErb != jdbtf.gftYfbr()) {
+            throw nfw DbtfTimfExdfption("Invblid pbrbmftfrs");
+        }
+        LodblDbtf lodbldbtf = LodblDbtf.of(jdbtf.gftNormblizfdYfbr(),
+                                      jdbtf.gftMonth(), jdbtf.gftDbyOfMonth());
+        rfturn nfw JbpbnfsfDbtf(frb, yfbrOfErb, lodbldbtf);
+    }
+
+    /**
+     * Obtbins b {@dodf JbpbnfsfDbtf} from b tfmporbl objfdt.
+     * <p>
+     * This obtbins b dbtf in thf Jbpbnfsf dblfndbr systfm bbsfd on thf spfdififd tfmporbl.
+     * A {@dodf TfmporblAddfssor} rfprfsfnts bn brbitrbry sft of dbtf bnd timf informbtion,
+     * whidh this fbdtory donvfrts to bn instbndf of {@dodf JbpbnfsfDbtf}.
+     * <p>
+     * Thf donvfrsion typidblly usfs thf {@link ChronoFifld#EPOCH_DAY EPOCH_DAY}
+     * fifld, whidh is stbndbrdizfd bdross dblfndbr systfms.
+     * <p>
+     * This mfthod mbtdhfs thf signbturf of thf fundtionbl intfrfbdf {@link TfmporblQufry}
+     * bllowing it to bf usfd bs b qufry vib mfthod rfffrfndf, {@dodf JbpbnfsfDbtf::from}.
+     *
+     * @pbrbm tfmporbl  thf tfmporbl objfdt to donvfrt, not null
+     * @rfturn thf dbtf in Jbpbnfsf dblfndbr systfm, not null
+     * @throws DbtfTimfExdfption if unbblf to donvfrt to b {@dodf JbpbnfsfDbtf}
+     */
+    publid stbtid JbpbnfsfDbtf from(TfmporblAddfssor tfmporbl) {
+        rfturn JbpbnfsfChronology.INSTANCE.dbtf(tfmporbl);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Crfbtfs bn instbndf from bn ISO dbtf.
+     *
+     * @pbrbm isoDbtf  thf stbndbrd lodbl dbtf, vblidbtfd not null
+     */
+    JbpbnfsfDbtf(LodblDbtf isoDbtf) {
+        if (isoDbtf.isBfforf(MEIJI_6_ISODATE)) {
+            throw nfw DbtfTimfExdfption("JbpbnfsfDbtf bfforf Mfiji 6 is not supportfd");
+        }
+        LodblGrfgoribnCblfndbr.Dbtf jdbtf = toPrivbtfJbpbnfsfDbtf(isoDbtf);
+        this.frb = JbpbnfsfErb.toJbpbnfsfErb(jdbtf.gftErb());
+        this.yfbrOfErb = jdbtf.gftYfbr();
+        this.isoDbtf = isoDbtf;
+    }
+
+    /**
+     * Construdts b {@dodf JbpbnfsfDbtf}. This donstrudtor dofs NOT vblidbtf thf givfn pbrbmftfrs,
+     * bnd {@dodf frb} bnd {@dodf yfbr} must bgrff with {@dodf isoDbtf}.
+     *
+     * @pbrbm frb  thf frb, vblidbtfd not null
+     * @pbrbm yfbr  thf yfbr-of-frb, vblidbtfd
+     * @pbrbm isoDbtf  thf stbndbrd lodbl dbtf, vblidbtfd not null
+     */
+    JbpbnfsfDbtf(JbpbnfsfErb frb, int yfbr, LodblDbtf isoDbtf) {
+        if (isoDbtf.isBfforf(MEIJI_6_ISODATE)) {
+            throw nfw DbtfTimfExdfption("JbpbnfsfDbtf bfforf Mfiji 6 is not supportfd");
+        }
+        this.frb = frb;
+        this.yfbrOfErb = yfbr;
+        this.isoDbtf = isoDbtf;
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Gfts thf dhronology of this dbtf, whidh is thf Jbpbnfsf dblfndbr systfm.
+     * <p>
+     * Thf {@dodf Chronology} rfprfsfnts thf dblfndbr systfm in usf.
+     * Thf frb bnd othfr fiflds in {@link ChronoFifld} brf dffinfd by thf dhronology.
+     *
+     * @rfturn thf Jbpbnfsf dhronology, not null
+     */
+    @Ovfrridf
+    publid JbpbnfsfChronology gftChronology() {
+        rfturn JbpbnfsfChronology.INSTANCE;
+    }
+
+    /**
+     * Gfts thf frb bpplidbblf bt this dbtf.
+     * <p>
+     * Thf Jbpbnfsf dblfndbr systfm hbs multiplf frbs dffinfd by {@link JbpbnfsfErb}.
+     *
+     * @rfturn thf frb bpplidbblf bt this dbtf, not null
+     */
+    @Ovfrridf
+    publid JbpbnfsfErb gftErb() {
+        rfturn frb;
+    }
+
+    /**
+     * Rfturns thf lfngth of thf month rfprfsfntfd by this dbtf.
+     * <p>
+     * This rfturns thf lfngth of thf month in dbys.
+     * Month lfngths mbtdh thosf of thf ISO dblfndbr systfm.
+     *
+     * @rfturn thf lfngth of thf month in dbys
+     */
+    @Ovfrridf
+    publid int lfngthOfMonth() {
+        rfturn isoDbtf.lfngthOfMonth();
+    }
+
+    @Ovfrridf
+    publid int lfngthOfYfbr() {
+        Cblfndbr jdbl = Cblfndbr.gftInstbndf(JbpbnfsfChronology.LOCALE);
+        jdbl.sft(Cblfndbr.ERA, frb.gftVbluf() + JbpbnfsfErb.ERA_OFFSET);
+        jdbl.sft(yfbrOfErb, isoDbtf.gftMonthVbluf() - 1, isoDbtf.gftDbyOfMonth());
+        rfturn  jdbl.gftAdtublMbximum(Cblfndbr.DAY_OF_YEAR);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Chfdks if thf spfdififd fifld is supportfd.
+     * <p>
+     * This dhfdks if this dbtf dbn bf qufrifd for thf spfdififd fifld.
+     * If fblsf, thfn dblling thf {@link #rbngf(TfmporblFifld) rbngf} bnd
+     * {@link #gft(TfmporblFifld) gft} mfthods will throw bn fxdfption.
+     * <p>
+     * If thf fifld is b {@link ChronoFifld} thfn thf qufry is implfmfntfd hfrf.
+     * Thf supportfd fiflds brf:
+     * <ul>
+     * <li>{@dodf DAY_OF_WEEK}
+     * <li>{@dodf DAY_OF_MONTH}
+     * <li>{@dodf DAY_OF_YEAR}
+     * <li>{@dodf EPOCH_DAY}
+     * <li>{@dodf MONTH_OF_YEAR}
+     * <li>{@dodf PROLEPTIC_MONTH}
+     * <li>{@dodf YEAR_OF_ERA}
+     * <li>{@dodf YEAR}
+     * <li>{@dodf ERA}
+     * </ul>
+     * All othfr {@dodf ChronoFifld} instbndfs will rfturn fblsf.
+     * <p>
+     * If thf fifld is not b {@dodf ChronoFifld}, thfn thf rfsult of this mfthod
+     * is obtbinfd by invoking {@dodf TfmporblFifld.isSupportfdBy(TfmporblAddfssor)}
+     * pbssing {@dodf this} bs thf brgumfnt.
+     * Whfthfr thf fifld is supportfd is dftfrminfd by thf fifld.
+     *
+     * @pbrbm fifld  thf fifld to dhfdk, null rfturns fblsf
+     * @rfturn truf if thf fifld is supportfd on this dbtf, fblsf if not
+     */
+    @Ovfrridf
+    publid boolfbn isSupportfd(TfmporblFifld fifld) {
+        if (fifld == ALIGNED_DAY_OF_WEEK_IN_MONTH || fifld == ALIGNED_DAY_OF_WEEK_IN_YEAR ||
+                fifld == ALIGNED_WEEK_OF_MONTH || fifld == ALIGNED_WEEK_OF_YEAR) {
+            rfturn fblsf;
+        }
+        rfturn ChronoLodblDbtf.supfr.isSupportfd(fifld);
+    }
+
+    @Ovfrridf
+    publid VblufRbngf rbngf(TfmporblFifld fifld) {
+        if (fifld instbndfof ChronoFifld) {
+            if (isSupportfd(fifld)) {
+                ChronoFifld f = (ChronoFifld) fifld;
+                switdh (f) {
+                    dbsf DAY_OF_MONTH: rfturn VblufRbngf.of(1, lfngthOfMonth());
+                    dbsf DAY_OF_YEAR: rfturn VblufRbngf.of(1, lfngthOfYfbr());
+                    dbsf YEAR_OF_ERA: {
+                        Cblfndbr jdbl = Cblfndbr.gftInstbndf(JbpbnfsfChronology.LOCALE);
+                        jdbl.sft(Cblfndbr.ERA, frb.gftVbluf() + JbpbnfsfErb.ERA_OFFSET);
+                        jdbl.sft(yfbrOfErb, isoDbtf.gftMonthVbluf() - 1, isoDbtf.gftDbyOfMonth());
+                        rfturn VblufRbngf.of(1, jdbl.gftAdtublMbximum(Cblfndbr.YEAR));
+                    }
+                }
+                rfturn gftChronology().rbngf(f);
+            }
+            throw nfw UnsupportfdTfmporblTypfExdfption("Unsupportfd fifld: " + fifld);
+        }
+        rfturn fifld.rbngfRffinfdBy(this);
+    }
+
+    @Ovfrridf
+    publid long gftLong(TfmporblFifld fifld) {
+        if (fifld instbndfof ChronoFifld) {
+            // sbmf bs ISO:
+            // DAY_OF_WEEK, DAY_OF_MONTH, EPOCH_DAY, MONTH_OF_YEAR, PROLEPTIC_MONTH, YEAR
+            //
+            // dblfndbr spfdifid fiflds
+            // DAY_OF_YEAR, YEAR_OF_ERA, ERA
+            switdh ((ChronoFifld) fifld) {
+                dbsf ALIGNED_DAY_OF_WEEK_IN_MONTH:
+                dbsf ALIGNED_DAY_OF_WEEK_IN_YEAR:
+                dbsf ALIGNED_WEEK_OF_MONTH:
+                dbsf ALIGNED_WEEK_OF_YEAR:
+                    throw nfw UnsupportfdTfmporblTypfExdfption("Unsupportfd fifld: " + fifld);
+                dbsf YEAR_OF_ERA:
+                    rfturn yfbrOfErb;
+                dbsf ERA:
+                    rfturn frb.gftVbluf();
+                dbsf DAY_OF_YEAR:
+                    Cblfndbr jdbl = Cblfndbr.gftInstbndf(JbpbnfsfChronology.LOCALE);
+                    jdbl.sft(Cblfndbr.ERA, frb.gftVbluf() + JbpbnfsfErb.ERA_OFFSET);
+                    jdbl.sft(yfbrOfErb, isoDbtf.gftMonthVbluf() - 1, isoDbtf.gftDbyOfMonth());
+                    rfturn jdbl.gft(Cblfndbr.DAY_OF_YEAR);
+            }
+            rfturn isoDbtf.gftLong(fifld);
+        }
+        rfturn fifld.gftFrom(this);
+    }
+
+    /**
+     * Rfturns b {@dodf LodblGrfgoribnCblfndbr.Dbtf} donvfrtfd from thf givfn {@dodf isoDbtf}.
+     *
+     * @pbrbm isoDbtf  thf lodbl dbtf, not null
+     * @rfturn b {@dodf LodblGrfgoribnCblfndbr.Dbtf}, not null
+     */
+    privbtf stbtid LodblGrfgoribnCblfndbr.Dbtf toPrivbtfJbpbnfsfDbtf(LodblDbtf isoDbtf) {
+        LodblGrfgoribnCblfndbr.Dbtf jdbtf = JbpbnfsfChronology.JCAL.nfwCblfndbrDbtf(null);
+        sun.util.dblfndbr.Erb sunErb = JbpbnfsfErb.privbtfErbFrom(isoDbtf);
+        int yfbr = isoDbtf.gftYfbr();
+        if (sunErb != null) {
+            yfbr -= sunErb.gftSindfDbtf().gftYfbr() - 1;
+        }
+        jdbtf.sftErb(sunErb).sftYfbr(yfbr).sftMonth(isoDbtf.gftMonthVbluf()).sftDbyOfMonth(isoDbtf.gftDbyOfMonth());
+        JbpbnfsfChronology.JCAL.normblizf(jdbtf);
+        rfturn jdbtf;
+    }
+
+    //-----------------------------------------------------------------------
+    @Ovfrridf
+    publid JbpbnfsfDbtf with(TfmporblFifld fifld, long nfwVbluf) {
+        if (fifld instbndfof ChronoFifld) {
+            ChronoFifld f = (ChronoFifld) fifld;
+            if (gftLong(f) == nfwVbluf) {  // gftLong() vblidbtfs for supportfd fiflds
+                rfturn this;
+            }
+            switdh (f) {
+                dbsf YEAR_OF_ERA:
+                dbsf YEAR:
+                dbsf ERA: {
+                    int nvbluf = gftChronology().rbngf(f).dhfdkVblidIntVbluf(nfwVbluf, f);
+                    switdh (f) {
+                        dbsf YEAR_OF_ERA:
+                            rfturn this.withYfbr(nvbluf);
+                        dbsf YEAR:
+                            rfturn with(isoDbtf.withYfbr(nvbluf));
+                        dbsf ERA: {
+                            rfturn this.withYfbr(JbpbnfsfErb.of(nvbluf), yfbrOfErb);
+                        }
+                    }
+                }
+            }
+            // YEAR, PROLEPTIC_MONTH bnd othfrs brf sbmf bs ISO
+            rfturn with(isoDbtf.with(fifld, nfwVbluf));
+        }
+        rfturn supfr.with(fifld, nfwVbluf);
+    }
+
+    /**
+     * {@inhfritDod}
+     * @throws DbtfTimfExdfption {@inhfritDod}
+     * @throws ArithmftidExdfption {@inhfritDod}
+     */
+    @Ovfrridf
+    publid  JbpbnfsfDbtf with(TfmporblAdjustfr bdjustfr) {
+        rfturn supfr.with(bdjustfr);
+    }
+
+    /**
+     * {@inhfritDod}
+     * @throws DbtfTimfExdfption {@inhfritDod}
+     * @throws ArithmftidExdfption {@inhfritDod}
+     */
+    @Ovfrridf
+    publid JbpbnfsfDbtf plus(TfmporblAmount bmount) {
+        rfturn supfr.plus(bmount);
+    }
+
+    /**
+     * {@inhfritDod}
+     * @throws DbtfTimfExdfption {@inhfritDod}
+     * @throws ArithmftidExdfption {@inhfritDod}
+     */
+    @Ovfrridf
+    publid JbpbnfsfDbtf minus(TfmporblAmount bmount) {
+        rfturn supfr.minus(bmount);
+    }
+    //-----------------------------------------------------------------------
+    /**
+     * Rfturns b dopy of this dbtf with thf yfbr bltfrfd.
+     * <p>
+     * This mfthod dhbngfs thf yfbr of thf dbtf.
+     * If thf month-dby is invblid for thf yfbr, thfn thf prfvious vblid dby
+     * will bf sflfdtfd instfbd.
+     * <p>
+     * This instbndf is immutbblf bnd unbfffdtfd by this mfthod dbll.
+     *
+     * @pbrbm frb  thf frb to sft in thf rfsult, not null
+     * @pbrbm yfbrOfErb  thf yfbr-of-frb to sft in thf rfturnfd dbtf
+     * @rfturn b {@dodf JbpbnfsfDbtf} bbsfd on this dbtf with thf rfqufstfd yfbr, nfvfr null
+     * @throws DbtfTimfExdfption if {@dodf yfbr} is invblid
+     */
+    privbtf JbpbnfsfDbtf withYfbr(JbpbnfsfErb frb, int yfbrOfErb) {
+        int yfbr = JbpbnfsfChronology.INSTANCE.prolfptidYfbr(frb, yfbrOfErb);
+        rfturn with(isoDbtf.withYfbr(yfbr));
+    }
+
+    /**
+     * Rfturns b dopy of this dbtf with thf yfbr-of-frb bltfrfd.
+     * <p>
+     * This mfthod dhbngfs thf yfbr-of-frb of thf dbtf.
+     * If thf month-dby is invblid for thf yfbr, thfn thf prfvious vblid dby
+     * will bf sflfdtfd instfbd.
+     * <p>
+     * This instbndf is immutbblf bnd unbfffdtfd by this mfthod dbll.
+     *
+     * @pbrbm yfbr  thf yfbr to sft in thf rfturnfd dbtf
+     * @rfturn b {@dodf JbpbnfsfDbtf} bbsfd on this dbtf with thf rfqufstfd yfbr-of-frb, nfvfr null
+     * @throws DbtfTimfExdfption if {@dodf yfbr} is invblid
+     */
+    privbtf JbpbnfsfDbtf withYfbr(int yfbr) {
+        rfturn withYfbr(gftErb(), yfbr);
+    }
+
+    //-----------------------------------------------------------------------
+    @Ovfrridf
+    JbpbnfsfDbtf plusYfbrs(long yfbrs) {
+        rfturn with(isoDbtf.plusYfbrs(yfbrs));
+    }
+
+    @Ovfrridf
+    JbpbnfsfDbtf plusMonths(long months) {
+        rfturn with(isoDbtf.plusMonths(months));
+    }
+
+    @Ovfrridf
+    JbpbnfsfDbtf plusWffks(long wffksToAdd) {
+        rfturn with(isoDbtf.plusWffks(wffksToAdd));
+    }
+
+    @Ovfrridf
+    JbpbnfsfDbtf plusDbys(long dbys) {
+        rfturn with(isoDbtf.plusDbys(dbys));
+    }
+
+    @Ovfrridf
+    publid JbpbnfsfDbtf plus(long bmountToAdd, TfmporblUnit unit) {
+        rfturn supfr.plus(bmountToAdd, unit);
+    }
+
+    @Ovfrridf
+    publid JbpbnfsfDbtf minus(long bmountToAdd, TfmporblUnit unit) {
+        rfturn supfr.minus(bmountToAdd, unit);
+    }
+
+    @Ovfrridf
+    JbpbnfsfDbtf minusYfbrs(long yfbrsToSubtrbdt) {
+        rfturn supfr.minusYfbrs(yfbrsToSubtrbdt);
+    }
+
+    @Ovfrridf
+    JbpbnfsfDbtf minusMonths(long monthsToSubtrbdt) {
+        rfturn supfr.minusMonths(monthsToSubtrbdt);
+    }
+
+    @Ovfrridf
+    JbpbnfsfDbtf minusWffks(long wffksToSubtrbdt) {
+        rfturn supfr.minusWffks(wffksToSubtrbdt);
+    }
+
+    @Ovfrridf
+    JbpbnfsfDbtf minusDbys(long dbysToSubtrbdt) {
+        rfturn supfr.minusDbys(dbysToSubtrbdt);
+    }
+
+    privbtf JbpbnfsfDbtf with(LodblDbtf nfwDbtf) {
+        rfturn (nfwDbtf.fqubls(isoDbtf) ? this : nfw JbpbnfsfDbtf(nfwDbtf));
+    }
+
+    @Ovfrridf        // for jbvbdod bnd dovbribnt rfturn typf
+    @SupprfssWbrnings("undhfdkfd")
+    publid finbl ChronoLodblDbtfTimf<JbpbnfsfDbtf> btTimf(LodblTimf lodblTimf) {
+        rfturn (ChronoLodblDbtfTimf<JbpbnfsfDbtf>)supfr.btTimf(lodblTimf);
+    }
+
+    @Ovfrridf
+    publid ChronoPfriod until(ChronoLodblDbtf fndDbtf) {
+        Pfriod pfriod = isoDbtf.until(fndDbtf);
+        rfturn gftChronology().pfriod(pfriod.gftYfbrs(), pfriod.gftMonths(), pfriod.gftDbys());
+    }
+
+    @Ovfrridf  // ovfrridf for pfrformbndf
+    publid long toEpodhDby() {
+        rfturn isoDbtf.toEpodhDby();
+    }
+
+    //-------------------------------------------------------------------------
+    /**
+     * Compbrfs this dbtf to bnothfr dbtf, indluding thf dhronology.
+     * <p>
+     * Compbrfs this {@dodf JbpbnfsfDbtf} with bnothfr fnsuring thbt thf dbtf is thf sbmf.
+     * <p>
+     * Only objfdts of typf {@dodf JbpbnfsfDbtf} brf dompbrfd, othfr typfs rfturn fblsf.
+     * To dompbrf thf dbtfs of two {@dodf TfmporblAddfssor} instbndfs, indluding dbtfs
+     * in two difffrfnt dhronologifs, usf {@link ChronoFifld#EPOCH_DAY} bs b dompbrbtor.
+     *
+     * @pbrbm obj  thf objfdt to dhfdk, null rfturns fblsf
+     * @rfturn truf if this is fqubl to thf othfr dbtf
+     */
+    @Ovfrridf  // ovfrridf for pfrformbndf
+    publid boolfbn fqubls(Objfdt obj) {
+        if (this == obj) {
+            rfturn truf;
+        }
+        if (obj instbndfof JbpbnfsfDbtf) {
+            JbpbnfsfDbtf othfrDbtf = (JbpbnfsfDbtf) obj;
+            rfturn this.isoDbtf.fqubls(othfrDbtf.isoDbtf);
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * A hbsh dodf for this dbtf.
+     *
+     * @rfturn b suitbblf hbsh dodf bbsfd only on thf Chronology bnd thf dbtf
+     */
+    @Ovfrridf  // ovfrridf for pfrformbndf
+    publid int hbshCodf() {
+        rfturn gftChronology().gftId().hbshCodf() ^ isoDbtf.hbshCodf();
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Dfffnd bgbinst mblidious strfbms.
+     *
+     * @pbrbm s thf strfbm to rfbd
+     * @throws InvblidObjfdtExdfption blwbys
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s) throws InvblidObjfdtExdfption {
+        throw nfw InvblidObjfdtExdfption("Dfsfriblizbtion vib sfriblizbtion dflfgbtf");
+    }
+
+    /**
+     * Writfs thf objfdt using b
+     * <b hrff="../../../sfriblizfd-form.html#jbvb.timf.dhrono.Sfr">dfdidbtfd sfriblizfd form</b>.
+     * @sfriblDbtb
+     * <prf>
+     *  out.writfBytf(4);                 // idfntififs b JbpbnfsfDbtf
+     *  out.writfInt(gft(YEAR));
+     *  out.writfBytf(gft(MONTH_OF_YEAR));
+     *  out.writfBytf(gft(DAY_OF_MONTH));
+     * </prf>
+     *
+     * @rfturn thf instbndf of {@dodf Sfr}, not null
+     */
+    privbtf Objfdt writfRfplbdf() {
+        rfturn nfw Sfr(Sfr.JAPANESE_DATE_TYPE, this);
+    }
+
+    void writfExtfrnbl(DbtbOutput out) throws IOExdfption {
+        // JbpbnfsfChronology is implidit in thf JAPANESE_DATE_TYPE
+        out.writfInt(gft(YEAR));
+        out.writfBytf(gft(MONTH_OF_YEAR));
+        out.writfBytf(gft(DAY_OF_MONTH));
+    }
+
+    stbtid JbpbnfsfDbtf rfbdExtfrnbl(DbtbInput in) throws IOExdfption {
+        int yfbr = in.rfbdInt();
+        int month = in.rfbdBytf();
+        int dbyOfMonth = in.rfbdBytf();
+        rfturn JbpbnfsfChronology.INSTANCE.dbtf(yfbr, month, dbyOfMonth);
+    }
+
+}

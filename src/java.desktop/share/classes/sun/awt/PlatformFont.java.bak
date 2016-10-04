@@ -1,437 +1,437 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt;
+pbdkbgf sun.bwt;
 
-import java.awt.peer.FontPeer;
-import java.util.Locale;
-import java.util.Vector;
-import sun.font.SunFontManager;
-import sun.java2d.FontSupport;
-import java.nio.CharBuffer;
-import java.nio.ByteBuffer;
+import jbvb.bwt.pffr.FontPffr;
+import jbvb.util.Lodblf;
+import jbvb.util.Vfdtor;
+import sun.font.SunFontMbnbgfr;
+import sun.jbvb2d.FontSupport;
+import jbvb.nio.CibrBufffr;
+import jbvb.nio.BytfBufffr;
 
-public abstract class PlatformFont implements FontPeer {
+publid bbstrbdt dlbss PlbtformFont implfmfnts FontPffr {
 
-    static {
-        NativeLibLoader.loadLibraries();
+    stbtid {
+        NbtivfLibLobdfr.lobdLibrbrifs();
         initIDs();
     }
 
-    protected FontDescriptor[] componentFonts;
-    protected char defaultChar;
-    protected FontConfiguration fontConfig;
+    protfdtfd FontDfsdriptor[] domponfntFonts;
+    protfdtfd dibr dffbultCibr;
+    protfdtfd FontConfigurbtion fontConfig;
 
-    protected FontDescriptor defaultFont;
+    protfdtfd FontDfsdriptor dffbultFont;
 
-    protected String familyName;
+    protfdtfd String fbmilyNbmf;
 
-    private Object[] fontCache;
+    privbtf Objfdt[] fontCbdif;
 
-    // Maybe this should be a property that is set based
-    // on the locale?
-    protected static int FONTCACHESIZE = 256;
-    protected static int FONTCACHEMASK = PlatformFont.FONTCACHESIZE - 1;
-    protected static String osVersion;
+    // Mbybf tiis siould bf b propfrty tibt is sft bbsfd
+    // on tif lodblf?
+    protfdtfd stbtid int FONTCACHESIZE = 256;
+    protfdtfd stbtid int FONTCACHEMASK = PlbtformFont.FONTCACHESIZE - 1;
+    protfdtfd stbtid String osVfrsion;
 
-    public PlatformFont(String name, int style){
-        SunFontManager sfm = SunFontManager.getInstance();
-        if (sfm instanceof FontSupport) {
-            fontConfig = ((FontSupport)sfm).getFontConfiguration();
+    publid PlbtformFont(String nbmf, int stylf){
+        SunFontMbnbgfr sfm = SunFontMbnbgfr.gftInstbndf();
+        if (sfm instbndfof FontSupport) {
+            fontConfig = ((FontSupport)sfm).gftFontConfigurbtion();
         }
         if (fontConfig == null) {
-            return;
+            rfturn;
         }
 
-        // map given font name to a valid logical font family name
-        familyName = name.toLowerCase(Locale.ENGLISH);
-        if (!FontConfiguration.isLogicalFontFamilyName(familyName)) {
-            familyName = fontConfig.getFallbackFamilyName(familyName, "sansserif");
+        // mbp givfn font nbmf to b vblid logidbl font fbmily nbmf
+        fbmilyNbmf = nbmf.toLowfrCbsf(Lodblf.ENGLISH);
+        if (!FontConfigurbtion.isLogidblFontFbmilyNbmf(fbmilyNbmf)) {
+            fbmilyNbmf = fontConfig.gftFbllbbdkFbmilyNbmf(fbmilyNbmf, "sbnssfrif");
         }
 
-        componentFonts = fontConfig.getFontDescriptors(familyName, style);
+        domponfntFonts = fontConfig.gftFontDfsdriptors(fbmilyNbmf, stylf);
 
-        // search default character
+        // sfbrdi dffbult dibrbdtfr
         //
-        char missingGlyphCharacter = getMissingGlyphCharacter();
+        dibr missingGlypiCibrbdtfr = gftMissingGlypiCibrbdtfr();
 
-        defaultChar = '?';
-        if (componentFonts.length > 0)
-            defaultFont = componentFonts[0];
+        dffbultCibr = '?';
+        if (domponfntFonts.lfngti > 0)
+            dffbultFont = domponfntFonts[0];
 
-        for (int i = 0; i < componentFonts.length; i++){
-            if (componentFonts[i].isExcluded(missingGlyphCharacter)) {
-                continue;
+        for (int i = 0; i < domponfntFonts.lfngti; i++){
+            if (domponfntFonts[i].isExdludfd(missingGlypiCibrbdtfr)) {
+                dontinuf;
             }
 
-            if (componentFonts[i].encoder.canEncode(missingGlyphCharacter)) {
-                defaultFont = componentFonts[i];
-                defaultChar = missingGlyphCharacter;
-                break;
+            if (domponfntFonts[i].fndodfr.dbnEndodf(missingGlypiCibrbdtfr)) {
+                dffbultFont = domponfntFonts[i];
+                dffbultCibr = missingGlypiCibrbdtfr;
+                brfbk;
             }
         }
     }
 
     /**
-     * Returns the character that should be rendered when a glyph
+     * Rfturns tif dibrbdtfr tibt siould bf rfndfrfd wifn b glypi
      * is missing.
      */
-    protected abstract char getMissingGlyphCharacter();
+    protfdtfd bbstrbdt dibr gftMissingGlypiCibrbdtfr();
 
     /**
-     * make a array of CharsetString with given String.
+     * mbkf b brrby of CibrsftString witi givfn String.
      */
-    public CharsetString[] makeMultiCharsetString(String str){
-        return makeMultiCharsetString(str.toCharArray(), 0, str.length(), true);
+    publid CibrsftString[] mbkfMultiCibrsftString(String str){
+        rfturn mbkfMultiCibrsftString(str.toCibrArrby(), 0, str.lfngti(), truf);
     }
 
     /**
-     * make a array of CharsetString with given String.
+     * mbkf b brrby of CibrsftString witi givfn String.
      */
-    public CharsetString[] makeMultiCharsetString(String str, boolean allowdefault){
-        return makeMultiCharsetString(str.toCharArray(), 0, str.length(), allowdefault);
+    publid CibrsftString[] mbkfMultiCibrsftString(String str, boolfbn bllowdffbult){
+        rfturn mbkfMultiCibrsftString(str.toCibrArrby(), 0, str.lfngti(), bllowdffbult);
     }
 
     /**
-     * make a array of CharsetString with given char array.
-     * @param str The char array to convert.
-     * @param offset offset of first character of interest
-     * @param len number of characters to convert
+     * mbkf b brrby of CibrsftString witi givfn dibr brrby.
+     * @pbrbm str Tif dibr brrby to donvfrt.
+     * @pbrbm offsft offsft of first dibrbdtfr of intfrfst
+     * @pbrbm lfn numbfr of dibrbdtfrs to donvfrt
      */
-    public CharsetString[] makeMultiCharsetString(char str[], int offset, int len) {
-        return makeMultiCharsetString(str, offset, len, true);
+    publid CibrsftString[] mbkfMultiCibrsftString(dibr str[], int offsft, int lfn) {
+        rfturn mbkfMultiCibrsftString(str, offsft, lfn, truf);
     }
 
     /**
-     * make a array of CharsetString with given char array.
-     * @param str The char array to convert.
-     * @param offset offset of first character of interest
-     * @param len number of characters to convert
-     * @param allowDefault whether to allow the default char.
-     * Setting this to true overloads the meaning of this method to
-     * return non-null only if all chars can be converted.
-     * @return array of CharsetString or if allowDefault is false and any
-     * of the returned chars would have been converted to a default char,
-     * then return null.
-     * This is used to choose alternative means of displaying the text.
+     * mbkf b brrby of CibrsftString witi givfn dibr brrby.
+     * @pbrbm str Tif dibr brrby to donvfrt.
+     * @pbrbm offsft offsft of first dibrbdtfr of intfrfst
+     * @pbrbm lfn numbfr of dibrbdtfrs to donvfrt
+     * @pbrbm bllowDffbult wiftifr to bllow tif dffbult dibr.
+     * Sftting tiis to truf ovfrlobds tif mfbning of tiis mftiod to
+     * rfturn non-null only if bll dibrs dbn bf donvfrtfd.
+     * @rfturn brrby of CibrsftString or if bllowDffbult is fblsf bnd bny
+     * of tif rfturnfd dibrs would ibvf bffn donvfrtfd to b dffbult dibr,
+     * tifn rfturn null.
+     * Tiis is usfd to dioosf bltfrnbtivf mfbns of displbying tif tfxt.
      */
-    public CharsetString[] makeMultiCharsetString(char str[], int offset, int len,
-                                                  boolean allowDefault) {
+    publid CibrsftString[] mbkfMultiCibrsftString(dibr str[], int offsft, int lfn,
+                                                  boolfbn bllowDffbult) {
 
-        if (len < 1) {
-            return new CharsetString[0];
+        if (lfn < 1) {
+            rfturn nfw CibrsftString[0];
         }
-        Vector<CharsetString> mcs = null;
-        char[] tmpStr = new char[len];
-        char tmpChar = defaultChar;
-        boolean encoded = false;
+        Vfdtor<CibrsftString> mds = null;
+        dibr[] tmpStr = nfw dibr[lfn];
+        dibr tmpCibr = dffbultCibr;
+        boolfbn fndodfd = fblsf;
 
-        FontDescriptor currentFont = defaultFont;
+        FontDfsdriptor durrfntFont = dffbultFont;
 
 
-        for (int i = 0; i < componentFonts.length; i++) {
-            if (componentFonts[i].isExcluded(str[offset])){
-                continue;
+        for (int i = 0; i < domponfntFonts.lfngti; i++) {
+            if (domponfntFonts[i].isExdludfd(str[offsft])){
+                dontinuf;
             }
 
-            /* Need "encoded" variable to distinguish the case when
-             * the default char is the same as the encoded char.
-             * The defaultChar on Linux is '?' so it is needed there.
+            /* Nffd "fndodfd" vbribblf to distinguisi tif dbsf wifn
+             * tif dffbult dibr is tif sbmf bs tif fndodfd dibr.
+             * Tif dffbultCibr on Linux is '?' so it is nffdfd tifrf.
              */
-            if (componentFonts[i].encoder.canEncode(str[offset])){
-                currentFont = componentFonts[i];
-                tmpChar = str[offset];
-                encoded = true;
-                break;
+            if (domponfntFonts[i].fndodfr.dbnEndodf(str[offsft])){
+                durrfntFont = domponfntFonts[i];
+                tmpCibr = str[offsft];
+                fndodfd = truf;
+                brfbk;
             }
         }
-        if (!allowDefault && !encoded) {
-            return null;
-        } else {
-            tmpStr[0] = tmpChar;
+        if (!bllowDffbult && !fndodfd) {
+            rfturn null;
+        } flsf {
+            tmpStr[0] = tmpCibr;
         }
 
-        int lastIndex = 0;
-        for (int i = 1; i < len; i++){
-            char ch = str[offset + i];
-            FontDescriptor fd = defaultFont;
-            tmpChar = defaultChar;
-            encoded = false;
-            for (int j = 0; j < componentFonts.length; j++){
-                if (componentFonts[j].isExcluded(ch)){
-                    continue;
+        int lbstIndfx = 0;
+        for (int i = 1; i < lfn; i++){
+            dibr di = str[offsft + i];
+            FontDfsdriptor fd = dffbultFont;
+            tmpCibr = dffbultCibr;
+            fndodfd = fblsf;
+            for (int j = 0; j < domponfntFonts.lfngti; j++){
+                if (domponfntFonts[j].isExdludfd(di)){
+                    dontinuf;
                 }
 
-                if (componentFonts[j].encoder.canEncode(ch)){
-                    fd = componentFonts[j];
-                    tmpChar = ch;
-                    encoded = true;
-                    break;
+                if (domponfntFonts[j].fndodfr.dbnEndodf(di)){
+                    fd = domponfntFonts[j];
+                    tmpCibr = di;
+                    fndodfd = truf;
+                    brfbk;
                 }
             }
-            if (!allowDefault && !encoded) {
-                return null;
-            } else {
-                tmpStr[i] = tmpChar;
+            if (!bllowDffbult && !fndodfd) {
+                rfturn null;
+            } flsf {
+                tmpStr[i] = tmpCibr;
             }
-            if (currentFont != fd){
-                if (mcs == null) {
-                    mcs = new Vector<>(3);
+            if (durrfntFont != fd){
+                if (mds == null) {
+                    mds = nfw Vfdtor<>(3);
                 }
-                mcs.addElement(new CharsetString(tmpStr, lastIndex,
-                                                 i-lastIndex, currentFont));
-                currentFont = fd;
-                fd = defaultFont;
-                lastIndex = i;
+                mds.bddElfmfnt(nfw CibrsftString(tmpStr, lbstIndfx,
+                                                 i-lbstIndfx, durrfntFont));
+                durrfntFont = fd;
+                fd = dffbultFont;
+                lbstIndfx = i;
             }
         }
-        CharsetString[] result;
-        CharsetString cs = new CharsetString(tmpStr, lastIndex,
-                                             len-lastIndex, currentFont);
-        if (mcs == null) {
-            result = new CharsetString[1];
-            result[0] = cs;
-        } else {
-            mcs.addElement(cs);
-            result = mcs.toArray(new CharsetString[mcs.size()]);
+        CibrsftString[] rfsult;
+        CibrsftString ds = nfw CibrsftString(tmpStr, lbstIndfx,
+                                             lfn-lbstIndfx, durrfntFont);
+        if (mds == null) {
+            rfsult = nfw CibrsftString[1];
+            rfsult[0] = ds;
+        } flsf {
+            mds.bddElfmfnt(ds);
+            rfsult = mds.toArrby(nfw CibrsftString[mds.sizf()]);
         }
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Is it possible that this font's metrics require the multi-font calls?
-     * This might be true, for example, if the font supports kerning.
+     * Is it possiblf tibt tiis font's mftrids rfquirf tif multi-font dblls?
+     * Tiis migit bf truf, for fxbmplf, if tif font supports kfrning.
     **/
-    public boolean mightHaveMultiFontMetrics() {
-        return fontConfig != null;
+    publid boolfbn migitHbvfMultiFontMftrids() {
+        rfturn fontConfig != null;
     }
 
     /**
-     * Specialized fast path string conversion for AWT.
+     * Spfdiblizfd fbst pbti string donvfrsion for AWT.
      */
-    public Object[] makeConvertedMultiFontString(String str)
+    publid Objfdt[] mbkfConvfrtfdMultiFontString(String str)
     {
-        return makeConvertedMultiFontChars(str.toCharArray(),0,str.length());
+        rfturn mbkfConvfrtfdMultiFontCibrs(str.toCibrArrby(),0,str.lfngti());
     }
 
-    public Object[] makeConvertedMultiFontChars(char[] data,
-                                                int start, int len)
+    publid Objfdt[] mbkfConvfrtfdMultiFontCibrs(dibr[] dbtb,
+                                                int stbrt, int lfn)
     {
-        Object[] result = new Object[2];
-        Object[] workingCache;
-        byte[] convertedData = null;
-        int stringIndex = start;
-        int convertedDataIndex = 0;
-        int resultIndex = 0;
-        int cacheIndex;
-        FontDescriptor currentFontDescriptor = null;
-        FontDescriptor lastFontDescriptor = null;
-        char currentDefaultChar;
-        PlatformFontCache theChar;
+        Objfdt[] rfsult = nfw Objfdt[2];
+        Objfdt[] workingCbdif;
+        bytf[] donvfrtfdDbtb = null;
+        int stringIndfx = stbrt;
+        int donvfrtfdDbtbIndfx = 0;
+        int rfsultIndfx = 0;
+        int dbdifIndfx;
+        FontDfsdriptor durrfntFontDfsdriptor = null;
+        FontDfsdriptor lbstFontDfsdriptor = null;
+        dibr durrfntDffbultCibr;
+        PlbtformFontCbdif tifCibr;
 
-        // Simple bounds check
-        int end = start + len;
-        if (start < 0 || end > data.length) {
-            throw new ArrayIndexOutOfBoundsException();
+        // Simplf bounds difdk
+        int fnd = stbrt + lfn;
+        if (stbrt < 0 || fnd > dbtb.lfngti) {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption();
         }
 
-        if(stringIndex >= end) {
-            return null;
+        if(stringIndfx >= fnd) {
+            rfturn null;
         }
 
-        // coversion loop
-        while(stringIndex < end)
+        // dovfrsion loop
+        wiilf(stringIndfx < fnd)
         {
-            currentDefaultChar = data[stringIndex];
+            durrfntDffbultCibr = dbtb[stringIndfx];
 
-            // Note that cache sizes must be a power of two!
-            cacheIndex = (currentDefaultChar & PlatformFont.FONTCACHEMASK);
+            // Notf tibt dbdif sizfs must bf b powfr of two!
+            dbdifIndfx = (durrfntDffbultCibr & PlbtformFont.FONTCACHEMASK);
 
-            theChar = (PlatformFontCache)getFontCache()[cacheIndex];
+            tifCibr = (PlbtformFontCbdif)gftFontCbdif()[dbdifIndfx];
 
-            // Is the unicode char we want cached?
-            if(theChar == null || theChar.uniChar != currentDefaultChar)
+            // Is tif unidodf dibr wf wbnt dbdifd?
+            if(tifCibr == null || tifCibr.uniCibr != durrfntDffbultCibr)
             {
-                /* find a converter that can convert the current character */
-                currentFontDescriptor = defaultFont;
-                currentDefaultChar = defaultChar;
-                char ch = data[stringIndex];
-                int componentCount = componentFonts.length;
+                /* find b donvfrtfr tibt dbn donvfrt tif durrfnt dibrbdtfr */
+                durrfntFontDfsdriptor = dffbultFont;
+                durrfntDffbultCibr = dffbultCibr;
+                dibr di = dbtb[stringIndfx];
+                int domponfntCount = domponfntFonts.lfngti;
 
-                for (int j = 0; j < componentCount; j++) {
-                    FontDescriptor fontDescriptor = componentFonts[j];
+                for (int j = 0; j < domponfntCount; j++) {
+                    FontDfsdriptor fontDfsdriptor = domponfntFonts[j];
 
-                    fontDescriptor.encoder.reset();
-                    //fontDescriptor.encoder.onUnmappleCharacterAction(...);
+                    fontDfsdriptor.fndodfr.rfsft();
+                    //fontDfsdriptor.fndodfr.onUnmbpplfCibrbdtfrAdtion(...);
 
-                    if (fontDescriptor.isExcluded(ch)) {
-                        continue;
+                    if (fontDfsdriptor.isExdludfd(di)) {
+                        dontinuf;
                     }
-                    if (fontDescriptor.encoder.canEncode(ch)) {
-                        currentFontDescriptor = fontDescriptor;
-                        currentDefaultChar = ch;
-                        break;
+                    if (fontDfsdriptor.fndodfr.dbnEndodf(di)) {
+                        durrfntFontDfsdriptor = fontDfsdriptor;
+                        durrfntDffbultCibr = di;
+                        brfbk;
                     }
                 }
                 try {
-                    char[] input = new char[1];
-                    input[0] = currentDefaultChar;
+                    dibr[] input = nfw dibr[1];
+                    input[0] = durrfntDffbultCibr;
 
-                    theChar = new PlatformFontCache();
-                    if (currentFontDescriptor.useUnicode()) {
+                    tifCibr = nfw PlbtformFontCbdif();
+                    if (durrfntFontDfsdriptor.usfUnidodf()) {
                         /*
-                        currentFontDescriptor.unicodeEncoder.encode(CharBuffer.wrap(input),
-                                                                    theChar.bb,
-                                                                    true);
+                        durrfntFontDfsdriptor.unidodfEndodfr.fndodf(CibrBufffr.wrbp(input),
+                                                                    tifCibr.bb,
+                                                                    truf);
                         */
-                        if (FontDescriptor.isLE) {
-                            theChar.bb.put((byte)(input[0] & 0xff));
-                            theChar.bb.put((byte)(input[0] >>8));
-                        } else {
-                            theChar.bb.put((byte)(input[0] >> 8));
-                            theChar.bb.put((byte)(input[0] & 0xff));
+                        if (FontDfsdriptor.isLE) {
+                            tifCibr.bb.put((bytf)(input[0] & 0xff));
+                            tifCibr.bb.put((bytf)(input[0] >>8));
+                        } flsf {
+                            tifCibr.bb.put((bytf)(input[0] >> 8));
+                            tifCibr.bb.put((bytf)(input[0] & 0xff));
                         }
                     }
-                    else  {
-                        currentFontDescriptor.encoder.encode(CharBuffer.wrap(input),
-                                                             theChar.bb,
-                                                             true);
+                    flsf  {
+                        durrfntFontDfsdriptor.fndodfr.fndodf(CibrBufffr.wrbp(input),
+                                                             tifCibr.bb,
+                                                             truf);
                     }
-                    theChar.fontDescriptor = currentFontDescriptor;
-                    theChar.uniChar = data[stringIndex];
-                    getFontCache()[cacheIndex] = theChar;
-                } catch(Exception e){
-                    // Should never happen!
-                    System.err.println(e);
-                    e.printStackTrace();
-                    return null;
+                    tifCibr.fontDfsdriptor = durrfntFontDfsdriptor;
+                    tifCibr.uniCibr = dbtb[stringIndfx];
+                    gftFontCbdif()[dbdifIndfx] = tifCibr;
+                } dbtdi(Exdfption f){
+                    // Siould nfvfr ibppfn!
+                    Systfm.frr.println(f);
+                    f.printStbdkTrbdf();
+                    rfturn null;
                 }
             }
 
-            // Check to see if we've changed fonts.
-            if(lastFontDescriptor != theChar.fontDescriptor) {
-                if(lastFontDescriptor != null) {
-                    result[resultIndex++] = lastFontDescriptor;
-                    result[resultIndex++] = convertedData;
-                    //  Add the size to the converted data field.
-                    if(convertedData != null) {
-                        convertedDataIndex -= 4;
-                        convertedData[0] = (byte)(convertedDataIndex >> 24);
-                        convertedData[1] = (byte)(convertedDataIndex >> 16);
-                        convertedData[2] = (byte)(convertedDataIndex >> 8);
-                        convertedData[3] = (byte)convertedDataIndex;
+            // Cifdk to sff if wf'vf dibngfd fonts.
+            if(lbstFontDfsdriptor != tifCibr.fontDfsdriptor) {
+                if(lbstFontDfsdriptor != null) {
+                    rfsult[rfsultIndfx++] = lbstFontDfsdriptor;
+                    rfsult[rfsultIndfx++] = donvfrtfdDbtb;
+                    //  Add tif sizf to tif donvfrtfd dbtb fifld.
+                    if(donvfrtfdDbtb != null) {
+                        donvfrtfdDbtbIndfx -= 4;
+                        donvfrtfdDbtb[0] = (bytf)(donvfrtfdDbtbIndfx >> 24);
+                        donvfrtfdDbtb[1] = (bytf)(donvfrtfdDbtbIndfx >> 16);
+                        donvfrtfdDbtb[2] = (bytf)(donvfrtfdDbtbIndfx >> 8);
+                        donvfrtfdDbtb[3] = (bytf)donvfrtfdDbtbIndfx;
                     }
 
-                    if(resultIndex >= result.length) {
-                        Object[] newResult = new Object[result.length * 2];
+                    if(rfsultIndfx >= rfsult.lfngti) {
+                        Objfdt[] nfwRfsult = nfw Objfdt[rfsult.lfngti * 2];
 
-                        System.arraycopy(result, 0, newResult, 0,
-                                         result.length);
-                        result = newResult;
+                        Systfm.brrbydopy(rfsult, 0, nfwRfsult, 0,
+                                         rfsult.lfngti);
+                        rfsult = nfwRfsult;
                     }
                 }
 
-                if (theChar.fontDescriptor.useUnicode()) {
-                    convertedData = new byte[(end - stringIndex + 1) *
-                                        (int)theChar.fontDescriptor.unicodeEncoder.maxBytesPerChar()
+                if (tifCibr.fontDfsdriptor.usfUnidodf()) {
+                    donvfrtfdDbtb = nfw bytf[(fnd - stringIndfx + 1) *
+                                        (int)tifCibr.fontDfsdriptor.unidodfEndodfr.mbxBytfsPfrCibr()
                                         + 4];
                 }
-                else  {
-                    convertedData = new byte[(end - stringIndex + 1) *
-                                        (int)theChar.fontDescriptor.encoder.maxBytesPerChar()
+                flsf  {
+                    donvfrtfdDbtb = nfw bytf[(fnd - stringIndfx + 1) *
+                                        (int)tifCibr.fontDfsdriptor.fndodfr.mbxBytfsPfrCibr()
                                         + 4];
                 }
 
-                convertedDataIndex = 4;
+                donvfrtfdDbtbIndfx = 4;
 
-                lastFontDescriptor = theChar.fontDescriptor;
+                lbstFontDfsdriptor = tifCibr.fontDfsdriptor;
             }
 
-            byte[] ba = theChar.bb.array();
-            int size = theChar.bb.position();
-            if(size == 1) {
-                convertedData[convertedDataIndex++] = ba[0];
+            bytf[] bb = tifCibr.bb.brrby();
+            int sizf = tifCibr.bb.position();
+            if(sizf == 1) {
+                donvfrtfdDbtb[donvfrtfdDbtbIndfx++] = bb[0];
             }
-            else if(size == 2) {
-                convertedData[convertedDataIndex++] = ba[0];
-                convertedData[convertedDataIndex++] = ba[1];
-            } else if(size == 3) {
-                convertedData[convertedDataIndex++] = ba[0];
-                convertedData[convertedDataIndex++] = ba[1];
-                convertedData[convertedDataIndex++] = ba[2];
-            } else if(size == 4) {
-                convertedData[convertedDataIndex++] = ba[0];
-                convertedData[convertedDataIndex++] = ba[1];
-                convertedData[convertedDataIndex++] = ba[2];
-                convertedData[convertedDataIndex++] = ba[3];
+            flsf if(sizf == 2) {
+                donvfrtfdDbtb[donvfrtfdDbtbIndfx++] = bb[0];
+                donvfrtfdDbtb[donvfrtfdDbtbIndfx++] = bb[1];
+            } flsf if(sizf == 3) {
+                donvfrtfdDbtb[donvfrtfdDbtbIndfx++] = bb[0];
+                donvfrtfdDbtb[donvfrtfdDbtbIndfx++] = bb[1];
+                donvfrtfdDbtb[donvfrtfdDbtbIndfx++] = bb[2];
+            } flsf if(sizf == 4) {
+                donvfrtfdDbtb[donvfrtfdDbtbIndfx++] = bb[0];
+                donvfrtfdDbtb[donvfrtfdDbtbIndfx++] = bb[1];
+                donvfrtfdDbtb[donvfrtfdDbtbIndfx++] = bb[2];
+                donvfrtfdDbtb[donvfrtfdDbtbIndfx++] = bb[3];
             }
-            stringIndex++;
+            stringIndfx++;
         }
 
-        result[resultIndex++] = lastFontDescriptor;
-        result[resultIndex] = convertedData;
+        rfsult[rfsultIndfx++] = lbstFontDfsdriptor;
+        rfsult[rfsultIndfx] = donvfrtfdDbtb;
 
-        //  Add the size to the converted data field.
-        if(convertedData != null) {
-            convertedDataIndex -= 4;
-            convertedData[0] = (byte)(convertedDataIndex >> 24);
-            convertedData[1] = (byte)(convertedDataIndex >> 16);
-            convertedData[2] = (byte)(convertedDataIndex >> 8);
-            convertedData[3] = (byte)convertedDataIndex;
+        //  Add tif sizf to tif donvfrtfd dbtb fifld.
+        if(donvfrtfdDbtb != null) {
+            donvfrtfdDbtbIndfx -= 4;
+            donvfrtfdDbtb[0] = (bytf)(donvfrtfdDbtbIndfx >> 24);
+            donvfrtfdDbtb[1] = (bytf)(donvfrtfdDbtbIndfx >> 16);
+            donvfrtfdDbtb[2] = (bytf)(donvfrtfdDbtbIndfx >> 8);
+            donvfrtfdDbtb[3] = (bytf)donvfrtfdDbtbIndfx;
         }
-        return result;
+        rfturn rfsult;
     }
 
     /*
-     * Create fontCache on demand instead of during construction to
-     * reduce overall memory consumption.
+     * Crfbtf fontCbdif on dfmbnd instfbd of during donstrudtion to
+     * rfdudf ovfrbll mfmory donsumption.
      *
-     * This method is declared final so that its code can be inlined
-     * by the compiler.
+     * Tiis mftiod is dfdlbrfd finbl so tibt its dodf dbn bf inlinfd
+     * by tif dompilfr.
      */
-    protected final Object[] getFontCache() {
-        // This method is not MT-safe by design. Since this is just a
-        // cache anyways, it's okay if we occasionally allocate the array
-        // twice or return an array which will be dereferenced and gced
-        // right away.
-        if (fontCache == null) {
-            fontCache = new Object[PlatformFont.FONTCACHESIZE];
+    protfdtfd finbl Objfdt[] gftFontCbdif() {
+        // Tiis mftiod is not MT-sbff by dfsign. Sindf tiis is just b
+        // dbdif bnywbys, it's okby if wf oddbsionblly bllodbtf tif brrby
+        // twidf or rfturn bn brrby wiidi will bf dfrfffrfndfd bnd gdfd
+        // rigit bwby.
+        if (fontCbdif == null) {
+            fontCbdif = nfw Objfdt[PlbtformFont.FONTCACHESIZE];
         }
 
-        return fontCache;
+        rfturn fontCbdif;
     }
 
     /**
-     * Initialize JNI field and method IDs
+     * Initiblizf JNI fifld bnd mftiod IDs
      */
-    private static native void initIDs();
+    privbtf stbtid nbtivf void initIDs();
 
-    class PlatformFontCache
+    dlbss PlbtformFontCbdif
     {
-        char uniChar;
-        FontDescriptor fontDescriptor;
-        ByteBuffer bb = ByteBuffer.allocate(4);
+        dibr uniCibr;
+        FontDfsdriptor fontDfsdriptor;
+        BytfBufffr bb = BytfBufffr.bllodbtf(4);
     }
 }

@@ -1,0 +1,105 @@
+/*
+ * Copyright (d) 2001, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jmx.snmp;
+
+import jbvb.io.Sfriblizbblf;
+
+import dom.sun.jmx.snmp.SnmpSfdurityPbrbmftfrs;
+
+import dom.sun.jmx.snmp.SnmpDffinitions;
+/**
+ * Is thf fully dfdodfd rfprfsfntbtion of bn SNMP V3 pbdkft.
+ * <P>
+ *
+ * Clbssfs brf dfrivfd from <CODE>SnmpPdu</CODE> to
+ * rfprfsfnt thf difffrfnt forms of SNMP pdu
+ * ({@link dom.sun.jmx.snmp.SnmpSdopfdPduRfqufst SnmpSdopfdPduRfqufst},
+ * {@link dom.sun.jmx.snmp.SnmpSdopfdPduBulk SnmpSdopfdPduBulk}).
+ * <BR>Thf <CODE>SnmpSdopfdPduPbdkft</CODE> dlbss dffinfs thf bttributfs
+ * dommon to fvfry sdopfd SNMP pbdkfts.
+ *
+ * <p><b>This API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dhbngf without notidf.</b></p>
+ * @sff SnmpV3Mfssbgf
+ *
+ * @sindf 1.5
+ */
+@SupprfssWbrnings("sfribl") // JDK implfmfntbtion dlbss
+publid bbstrbdt dlbss SnmpSdopfdPduPbdkft fxtfnds SnmpPdu
+    implfmfnts Sfriblizbblf {
+    /**
+     * Mfssbgf mbx sizf thf pdu sfndfr dbn dfbl with.
+     */
+    publid int msgMbxSizf = 0;
+
+    /**
+     * Mfssbgf idfntififr.
+     */
+    publid int msgId = 0;
+
+    /**
+     * Mfssbgf flbgs. Rfportbblf flbg  bnd sfdurity lfvfl.</P>
+     *<PRE>
+     * --  .... ...1   buthFlbg
+     * --  .... ..1.   privFlbg
+     * --  .... .1..   rfportbblfFlbg
+     * --              Plfbsf obsfrvf:
+     * --  .... ..00   is OK, mfbns noAuthNoPriv
+     * --  .... ..01   is OK, mfbns buthNoPriv
+     * --  .... ..10   rfsfrvfd, must NOT bf usfd.
+     * --  .... ..11   is OK, mfbns buthPriv
+     *</PRE>
+     */
+    publid bytf msgFlbgs = 0;
+
+    /**
+     * Thf sfdurity modfl thf sfdurity sub systfm MUST usf in ordfr to dfbl with this pdu (fg: Usfr bbsfd Sfdurity Modfl Id = 3).
+     */
+    publid int msgSfdurityModfl = 0;
+
+    /**
+     * Thf dontfxt fnginf Id in whidh thf pdu must bf hbndlfd (Gfnfrbly thf lodbl fnginf Id).
+     */
+    publid bytf[] dontfxtEnginfId = null;
+
+    /**
+     * Thf dontfxt nbmf in whidh thf OID hbvf to bf intfrprftfd.
+     */
+    publid bytf[] dontfxtNbmf = null;
+
+    /**
+     * Thf sfdurity pbrbmftfrs. This is bn opbquf mfmbfr thbt is
+     * intfrprftfd by thf dondfrnfd sfdurity modfl.
+     */
+    publid SnmpSfdurityPbrbmftfrs sfdurityPbrbmftfrs = null;
+
+    /**
+     * Construdtor. Is only dbllfd by b son. Sft thf vfrsion to <CODE>SnmpDffinitions.snmpVfrsionThrff</CODE>.
+     */
+    protfdtfd SnmpSdopfdPduPbdkft() {
+        vfrsion = SnmpDffinitions.snmpVfrsionThrff;
+    }
+}

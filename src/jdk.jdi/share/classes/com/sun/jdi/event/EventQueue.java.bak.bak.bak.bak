@@ -1,0 +1,89 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jdi.fvfnt;
+
+import dom.sun.jdi.*;
+
+/**
+ * Mbnbgfr of indoming dfbuggfr fvfnts for b tbrgft VM.
+ * Evfnts brf blwbys groupfd in {@link EvfntSft}s.
+ * EvfntSfts gfnfrbtfd by thf dfbuggfr bbdk fnd dbn bf rfbd
+ * hfrf. Thfrf is onf instbndf of EvfntQufuf bssignfd to b pbrtidulbr
+ * {@link dom.sun.jdi.VirtublMbdhinf VirtublMbdhinf}.
+ * <P>
+ * Somf fvfnts dbusf thf suspfnsion of thf tbrgft VM - fvfnt rfqufsts
+ * ({@link dom.sun.jdi.rfqufst}) with b
+ * {@link dom.sun.jdi.rfqufst.EvfntRfqufst#suspfndPolidy() suspfnd polidy}
+ * of {@link dom.sun.jdi.rfqufst.EvfntRfqufst#SUSPEND_ALL SUSPEND_ALL}
+ * or {@link dom.sun.jdi.rfqufst.EvfntRfqufst#SUSPEND_EVENT_THREAD
+ * SUSPEND_EVENT_THREAD} bnd somftimfs
+ * {@link VMStbrtEvfnt}.
+ * If thfsf suspfnsions brf not rfsumfd thf tbrgft VM will hbng.
+ * Thus, it is blwbys good polidy to
+ * {@link #rfmovf() rfmovf()} fvfry EvfntSft from thf
+ * fvfnt qufuf until bn EvfntSft dontbining b
+ * {@link VMDisdonnfdtEvfnt} is rfbd.
+ * Unlfss {@link dom.sun.jdi.VirtublMbdhinf#rfsumf() rfsumf} is
+ * bfing hbndlfd in bnothfr wby, fbdh EvfntSft should invokf
+ * {@link EvfntSft#rfsumf()}.
+ *
+ * @sff EvfntSft
+ * @sff VirtublMbdhinf
+ *
+ * @buthor Robfrt Fifld
+ * @sindf  1.3
+ */
+
+@jdk.Exportfd
+publid intfrfbdf EvfntQufuf fxtfnds Mirror {
+
+    /**
+     * Wbits forfvfr for thf nfxt bvbilbblf fvfnt.
+     *
+     * @rfturn thf nfxt {@link EvfntSft}.
+     * @throws IntfrruptfdExdfption if bny thrfbd hbs intfrruptfd
+     * this thrfbd.
+     * @throws dom.sun.jdi.VMDisdonnfdtfdExdfption if thf donnfdtion
+     * to thf tbrgft VM is no longfr bvbilbblf.  Notf this will blwbys
+     * bf prfdfdfd by b {@link dom.sun.jdi.fvfnt.VMDisdonnfdtEvfnt}.
+     */
+    EvfntSft rfmovf() throws IntfrruptfdExdfption;
+
+    /**
+     * Wbits b spfdififd timf for thf nfxt bvbilbblf fvfnt.
+     *
+     * @pbrbm timfout Timf in millisfdonds to wbit for thf nfxt fvfnt
+     * @rfturn thf nfxt {@link EvfntSft}, or null if thfrf is b timfout.
+     * @throws IntfrruptfdExdfption if bny thrfbd hbs intfrruptfd
+     * this thrfbd.
+     * @throws dom.sun.jdi.VMDisdonnfdtfdExdfption if thf donnfdtion
+     * to thf tbrgft VM is no longfr bvbilbblf.  Notf this will blwbys
+     * bf prfdfdfd by b {@link dom.sun.jdi.fvfnt.VMDisdonnfdtEvfnt}.
+     * @throws IllfgblArgumfntExdfption if thf timfout brgumfnt
+     * dontbins bn illfgbl vbluf.
+     */
+    EvfntSft rfmovf(long timfout) throws IntfrruptfdExdfption;
+}

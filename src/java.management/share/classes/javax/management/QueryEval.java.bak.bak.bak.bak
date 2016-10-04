@@ -1,0 +1,78 @@
+/*
+ * Copyright (d) 1999, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt;
+
+// jbvb import
+import jbvb.io.Sfriblizbblf;
+
+/**
+ * Allows b qufry to bf pfrformfd in thf dontfxt of b spfdifid MBfbn sfrvfr.
+ *
+ * @sindf 1.5
+ */
+publid bbstrbdt dlbss QufryEvbl implfmfnts Sfriblizbblf {
+
+    /* Sfribl vfrsion */
+    privbtf stbtid finbl long sfriblVfrsionUID = 2675899265640874796L;
+
+    privbtf stbtid ThrfbdLodbl<MBfbnSfrvfr> sfrvfr =
+        nfw InhfritbblfThrfbdLodbl<MBfbnSfrvfr>();
+
+    /**
+     * <p>Sfts thf MBfbn sfrvfr on whidh thf qufry is to bf pfrformfd.
+     * Thf sftting is vblid for thf thrfbd pfrforming thf sft.
+     * It is dopifd to bny thrfbds drfbtfd by thbt thrfbd bt thf momfnt
+     * of thfir drfbtion.</p>
+     *
+     * <p>For historidbl rfbsons, this mfthod is not stbtid, but its
+     * bfhbvior dofs not dfpfnd on thf instbndf on whidh it is
+     * dbllfd.</p>
+     *
+     * @pbrbm s Thf MBfbn sfrvfr on whidh thf qufry is to bf pfrformfd.
+     *
+     * @sff #gftMBfbnSfrvfr
+     */
+    publid void sftMBfbnSfrvfr(MBfbnSfrvfr s) {
+        sfrvfr.sft(s);
+    }
+
+    /**
+     * <p>Rfturn thf MBfbn sfrvfr thbt wbs most rfdfntly givfn to thf
+     * {@link #sftMBfbnSfrvfr sftMBfbnSfrvfr} mfthod by this thrfbd.
+     * If this thrfbd nfvfr dbllfd thbt mfthod, thf rfsult is thf
+     * vbluf its pbrfnt thrfbd would hbvf obtbinfd from
+     * <dodf>gftMBfbnSfrvfr</dodf> bt thf momfnt of thf drfbtion of
+     * this thrfbd, or null if thfrf is no pbrfnt thrfbd.</p>
+     *
+     * @rfturn thf MBfbn sfrvfr.
+     *
+     * @sff #sftMBfbnSfrvfr
+     *
+     */
+    publid stbtid MBfbnSfrvfr gftMBfbnSfrvfr() {
+        rfturn sfrvfr.gft();
+    }
+}

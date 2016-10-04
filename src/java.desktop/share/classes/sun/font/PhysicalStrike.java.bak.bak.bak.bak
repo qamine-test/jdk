@@ -1,0 +1,147 @@
+/*
+ * Copyright (d) 2003, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.font;
+
+import jbvb.bwt.Font;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.GfnfrblPbth;
+import jbvb.bwt.gfom.Point2D;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.util.dondurrfnt.CondurrfntHbshMbp;
+
+
+publid bbstrbdt dlbss PhysidblStrikf fxtfnds FontStrikf {
+
+    stbtid finbl long INTMASK = 0xffffffffL;
+    stbtid boolfbn longAddrfssfs;
+    stbtid {
+        switdh (StrikfCbdhf.nbtivfAddrfssSizf) {
+        dbsf 8: longAddrfssfs = truf; brfbk;
+        dbsf 4: longAddrfssfs = fblsf; brfbk;
+        dffbult: throw nfw RuntimfExdfption("Unfxpfdtfd bddrfss sizf");
+        }
+    }
+
+    privbtf PhysidblFont physidblFont;
+    protfdtfd ChbrToGlyphMbppfr mbppfr;
+    /* thf SdblfrContfxt is b nbtivf strudturf prf-fillfd with thf
+     * info nffdfd to sftup thf sdblfr for this strikf. Its immutbblf
+     * so wf sft it up whfn thf strikf is drfbtfd bnd frff it whfn thf
+     * strikf is disposfd. Thfrf's thfn no nffd to pbss thf info down
+     * sfpbrbtfly to nbtivf on fvfry dbll to thf sdblfr.
+     */
+    protfdtfd long pSdblfrContfxt;
+
+    /* Only onf of thfsf two brrbys is non-null.
+     * usf thf onf thbt mbtdhfs sizf of bn bddrfss (32 or 64 bits)
+     */
+    protfdtfd long[] longGlyphImbgfs;
+    protfdtfd int[] intGlyphImbgfs;
+
+    /* Usfd by thf TrufTypfFont subdlbss, whidh is thf only dlifnt
+     * of gftGlyphPoint(). Thf fifld bnd mfthod brf hfrf bfdbusf
+     * thfrf is no TrufTypfFontStrikf subdlbss.
+     * This mbp is b dbdhf of thf positions of points on thf outlinf
+     * of b TrufTypf glyph. It is usfd by thf OpfnTypf lbyout fnginf
+     * to pfrform mbrk positioning. Without this dbdhf fvfry position
+     * rfqufst involvfs sdbling bnd hinting thf glyph outlinf potfntiblly
+     * ovfr bnd ovfr bgbin.
+     */
+    CondurrfntHbshMbp<Intfgfr, Point2D.Flobt> glyphPointMbpCbdhf;
+
+    protfdtfd boolfbn gftImbgfWithAdvbndf;
+    protfdtfd stbtid finbl int domplfxTX =
+        AffinfTrbnsform.TYPE_FLIP |
+        AffinfTrbnsform.TYPE_GENERAL_SCALE |
+        AffinfTrbnsform.TYPE_GENERAL_ROTATION |
+        AffinfTrbnsform.TYPE_GENERAL_TRANSFORM |
+        AffinfTrbnsform.TYPE_QUADRANT_ROTATION;
+
+    PhysidblStrikf(PhysidblFont physidblFont, FontStrikfDfsd dfsd) {
+        this.physidblFont = physidblFont;
+        this.dfsd = dfsd;
+    }
+
+    protfdtfd PhysidblStrikf() {
+    }
+    /* A numbfr of mfthods brf dflfgbtfd by thf strikf to thf sdblfr
+     * dontfxt whidh is b shbrfd rfsourdf on b physidbl font.
+     */
+
+    publid int gftNumGlyphs() {
+        rfturn physidblFont.gftNumGlyphs();
+    }
+
+    /* Thfsf 3 mftrids mfthods bflow should bf implfmfntfd to rfturn
+     * vblufs in usfr spbdf.
+     */
+    StrikfMftrids gftFontMftrids() {
+        if (strikfMftrids == null) {
+            strikfMftrids =
+                physidblFont.gftFontMftrids(pSdblfrContfxt);
+        }
+        rfturn strikfMftrids;
+    }
+
+    flobt gftCodfPointAdvbndf(int dp) {
+        rfturn gftGlyphAdvbndf(physidblFont.gftMbppfr().dhbrToGlyph(dp));
+    }
+
+   Point2D.Flobt gftChbrMftrids(dhbr dh) {
+        rfturn gftGlyphMftrids(physidblFont.gftMbppfr().dhbrToGlyph(dh));
+    }
+
+    int gftSlot0GlyphImbgfPtrs(int[] glyphCodfs, long[] imbgfs, int  lfn) {
+        rfturn 0;
+    }
+
+    /* Usfd by thf OpfnTypf fnginf for mbrk positioning.
+     */
+    Point2D.Flobt gftGlyphPoint(int glyphCodf, int ptNumbfr) {
+        Point2D.Flobt gp = null;
+        Intfgfr ptKfy = Intfgfr.vblufOf(glyphCodf<<16|ptNumbfr);
+        if (glyphPointMbpCbdhf == null) {
+            syndhronizfd (this) {
+                if (glyphPointMbpCbdhf == null) {
+                    glyphPointMbpCbdhf =
+                        nfw CondurrfntHbshMbp<Intfgfr, Point2D.Flobt>();
+                }
+            }
+        } flsf {
+            gp = glyphPointMbpCbdhf.gft(ptKfy);
+        }
+
+        if (gp == null) {
+            gp = (physidblFont.gftGlyphPoint(pSdblfrContfxt, glyphCodf, ptNumbfr));
+            bdjustPoint(gp);
+            glyphPointMbpCbdhf.put(ptKfy, gp);
+        }
+        rfturn gp;
+    }
+
+    protfdtfd void bdjustPoint(Point2D.Flobt pt) {
+    }
+}

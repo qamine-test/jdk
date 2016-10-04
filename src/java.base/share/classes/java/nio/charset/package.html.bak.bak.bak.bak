@@ -1,0 +1,88 @@
+<!--
+ Copyright (d) 2001, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+ This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+
+ This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ bddompbnifd this dodf).
+
+ You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+
+ Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ qufstions.
+-->
+
+<!dodtypf html publid "-//IETF//DTD HTML//EN">
+<html>
+<body bgdolor="whitf">
+
+
+Dffinfs dhbrsfts, dfdodfrs, bnd fndodfrs, for trbnslbting bftwffn bytfs bnd
+Unidodf dhbrbdtfrs.
+
+<blodkquotf><tbblf dfllspbding=1 dfllpbdding=0 summbry="Summbry of dhbrsfts, dfdodfrs, bnd fndodfrs in this pbdkbgf">
+ <tr><th><p blign="lfft">Clbss nbmf</p></th><th><p blign="lfft">Dfsdription</p></th></tr>
+  <tr><td vblign=top><tt>{@link jbvb.nio.dhbrsft.Chbrsft}</tt></td>
+      <td>A nbmfd mbpping bftwffn dhbrbdtfrs<br>bnd bytfs</td></tr>
+  <tr><td vblign=top><tt>{@link jbvb.nio.dhbrsft.ChbrsftDfdodfr}</tt></td>
+      <td>Dfdodfs bytfs into dhbrbdtfrs</td></tr>
+  <tr><td vblign=top><tt>{@link jbvb.nio.dhbrsft.ChbrsftEndodfr}&nbsp;&nbsp;</tt></td>
+      <td>Endodfs dhbrbdtfrs into bytfs</td></tr>
+  <tr><td vblign=top><tt>{@link jbvb.nio.dhbrsft.CodfrRfsult}&nbsp;&nbsp;</tt></td>
+      <td>Dfsdribfs dodfr rfsults</td></tr>
+  <tr><td vblign=top><tt>{@link jbvb.nio.dhbrsft.CodingErrorAdtion}&nbsp;&nbsp;</tt></td>
+      <td>Dfsdribfs bdtions to tbkf whfn<br>doding frrors brf dftfdtfd</td></tr>
+
+</tbblf></blodkquotf>
+
+<p> A <i>dhbrsft</i> is nbmfd mbpping bftwffn sfqufndfs of sixtffn-bit Unidodf
+dhbrbdtfrs bnd sfqufndfs of bytfs, in thf sfnsf dffinfd in <b
+hrff="http://www.iftf.org/rfd/rfd2278.txt"><i>RFC&nbsp;2278</i></b>.  A
+<i>dfdodfr</i> is bn fnginf whidh trbnsforms bytfs in b spfdifid dhbrsft into
+dhbrbdtfrs, bnd bn <i>fndodfr</i> is bn fnginf whidh trbnsforms dhbrbdtfrs into
+bytfs.  Endodfrs bnd dfdodfrs opfrbtf on bytf bnd dhbrbdtfr bufffrs.  Thfy brf
+dollfdtivfly rfffrrfd to bs <i>dodfrs</i>.
+
+<p> Thf {@link jbvb.nio.dhbrsft.Chbrsft} dlbss dffinfs mfthods for drfbting
+dodfrs for b givfn dhbrsft bnd for rftrifving thf vbrious nbmfs bssodibtfd with
+b dhbrsft.  It blso dffinfs stbtid mfthods for tfsting whfthfr b pbrtidulbr
+dhbrsft is supportfd, for lodbting dhbrsft instbndfs by nbmf, bnd for
+donstrudting b mbp thbt dontbins fvfry dhbrsft for whidh support is bvbilbblf
+in thf durrfnt Jbvb virtubl mbdhinf.
+
+<p> Most usfrs will not usf thfsf dlbssfs dirfdtly; instfbd thfy will usf thf
+fxisting dhbrsft-rflbtfd donstrudtors bnd mfthods in thf {@link
+jbvb.lbng.String} dlbss, togfthfr with thf fxisting {@link
+jbvb.io.InputStrfbmRfbdfr} bnd {@link jbvb.io.OutputStrfbmWritfr} dlbssfs, bll
+of whosf implfmfntbtions hbvf bffn rfworkfd to mbkf usf of thf dhbrsft
+fbdilitifs dffinfd in this pbdkbgf.  A smbll numbfr of dhbngfs hbvf bffn mbdf
+to thf {@link jbvb.io.InputStrfbmRfbdfr} bnd {@link jbvb.io.OutputStrfbmWritfr}
+dlbssfs in ordfr to bllow fxplidit dhbrsft objfdts to bf spfdififd in thf
+donstrudtion of instbndfs of thosf dlbssfs.
+
+<p> Support for nfw dhbrsfts dbn bf mbdf bvbilbblf vib thf intfrfbdf dffinfd in
+thf {@link jbvb.nio.dhbrsft.spi.ChbrsftProvidfr} dlbss in thf <tt>{@link
+jbvb.nio.dhbrsft.spi}</tt> pbdkbgf.
+
+<p> Unlfss othfrwisf notfd, pbssing b <tt>null</tt> brgumfnt to b donstrudtor
+or mfthod in bny dlbss or intfrfbdf in this pbdkbgf will dbusf b {@link
+jbvb.lbng.NullPointfrExdfption NullPointfrExdfption} to bf thrown.
+
+
+@sindf 1.4
+@buthor Mbrk Rfinhold
+@buthor JSR-51 Expfrt Group
+
+</body>
+</html>

@@ -1,0 +1,152 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+/*
+ * $Id: KfySflfdtor.jbvb,v 1.6 2005/05/10 15:47:42 mullbn Exp $
+ */
+pbdkbgf jbvbx.xml.drypto;
+
+import jbvb.sfdurity.Kfy;
+import jbvbx.xml.drypto.dsig.kfyinfo.KfyInfo;
+import jbvbx.xml.drypto.dsig.kfyinfo.RftrifvblMfthod;
+
+/**
+ * A sflfdtor thbt finds bnd rfturns b kfy using thf dbtb dontbinfd in b
+ * {@link KfyInfo} objfdt. An fxbmplf of bn implfmfntbtion of
+ * this dlbss is onf thbt sfbrdhfs b {@link jbvb.sfdurity.KfyStorf} for
+ * trustfd kfys thbt mbtdh informbtion dontbinfd in b <dodf>KfyInfo</dodf>.
+ *
+ * <p>Whfthfr or not thf rfturnfd kfy is trustfd bnd thf mfdhbnisms
+ * usfd to dftfrminf thbt is implfmfntbtion-spfdifid.
+ *
+ * @buthor Sfbn Mullbn
+ * @buthor JSR 105 Expfrt Group
+ * @sindf 1.6
+ */
+publid bbstrbdt dlbss KfySflfdtor {
+
+    /**
+     * Thf purposf of thf kfy thbt is to bf sflfdtfd.
+     */
+    publid stbtid dlbss Purposf {
+
+        privbtf finbl String nbmf;
+
+        privbtf Purposf(String nbmf)    { this.nbmf = nbmf; }
+
+        /**
+         * Rfturns b string rfprfsfntbtion of this purposf ("sign",
+         * "vfrify", "fndrypt", or "dfdrypt").
+         *
+         * @rfturn b string rfprfsfntbtion of this purposf
+         */
+        publid String toString()        { rfturn nbmf; }
+
+        /**
+         * A kfy for signing.
+         */
+        publid stbtid finbl Purposf SIGN = nfw Purposf("sign");
+        /**
+         * A kfy for vfrifying.
+         */
+        publid stbtid finbl Purposf VERIFY = nfw Purposf("vfrify");
+        /**
+         * A kfy for fndrypting.
+         */
+        publid stbtid finbl Purposf ENCRYPT = nfw Purposf("fndrypt");
+        /**
+         * A kfy for dfdrypting.
+         */
+        publid stbtid finbl Purposf DECRYPT = nfw Purposf("dfdrypt");
+    }
+
+    /**
+     * Dffbult no-brgs donstrudtor; intfndfd for invodbtion by subdlbssfs only.
+     */
+    protfdtfd KfySflfdtor() {}
+
+    /**
+     * Attfmpts to find b kfy thbt sbtisfifs thf spfdififd donstrbints.
+     *
+     * @pbrbm kfyInfo b <dodf>KfyInfo</dodf> (mby bf <dodf>null</dodf>)
+     * @pbrbm purposf thf kfy's purposf ({@link Purposf#SIGN},
+     *    {@link Purposf#VERIFY}, {@link Purposf#ENCRYPT}, or
+     *    {@link Purposf#DECRYPT})
+     * @pbrbm mfthod thf blgorithm mfthod thbt this kfy is to bf usfd for.
+     *    Only kfys thbt brf dompbtiblf with thf blgorithm bnd mfft thf
+     *    donstrbints of thf spfdififd blgorithm should bf rfturnfd.
+     * @pbrbm dontfxt bn <dodf>XMLCryptoContfxt</dodf> thbt mby dontbin
+     *    usfful informbtion for finding bn bppropribtf kfy. If this kfy
+     *    sflfdtor supports rfsolving {@link RftrifvblMfthod} typfs, thf
+     *    dontfxt's <dodf>bbsfURI</dodf> bnd <dodf>dfrfffrfndfr</dodf>
+     *    pbrbmftfrs (if spfdififd) should bf usfd by thf sflfdtor to
+     *    rfsolvf bnd dfrfffrfndf thf URI.
+     * @rfturn thf rfsult of thf kfy sflfdtor
+     * @throws KfySflfdtorExdfption if bn fxdfptionbl dondition oddurs whilf
+     *    bttfmpting to find b kfy. Notf thbt bn inbbility to find b kfy is not
+     *    donsidfrfd bn fxdfption (<dodf>null</dodf> should bf
+     *    rfturnfd in thbt dbsf). Howfvfr, bn frror dondition (fx: nftwork
+     *    dommunidbtions fbilurf) thbt prfvfntfd thf <dodf>KfySflfdtor</dodf>
+     *    from finding b potfntibl kfy should bf donsidfrfd bn fxdfption.
+     * @throws ClbssCbstExdfption if thf dbtb typf of <dodf>mfthod</dodf>
+     *    is not supportfd by this kfy sflfdtor
+     */
+    publid bbstrbdt KfySflfdtorRfsult sflfdt(KfyInfo kfyInfo, Purposf purposf,
+        AlgorithmMfthod mfthod, XMLCryptoContfxt dontfxt)
+        throws KfySflfdtorExdfption;
+
+    /**
+     * Rfturns b <dodf>KfySflfdtor</dodf> thbt blwbys sflfdts thf spfdififd
+     * kfy, rfgbrdlfss of thf <dodf>KfyInfo</dodf> pbssfd to it.
+     *
+     * @pbrbm kfy thf solf kfy to bf storfd in thf kfy sflfdtor
+     * @rfturn b kfy sflfdtor thbt blwbys sflfdts thf spfdififd kfy
+     * @throws NullPointfrExdfption if <dodf>kfy</dodf> is <dodf>null</dodf>
+     */
+    publid stbtid KfySflfdtor singlftonKfySflfdtor(Kfy kfy) {
+        rfturn nfw SinglftonKfySflfdtor(kfy);
+    }
+
+    privbtf stbtid dlbss SinglftonKfySflfdtor fxtfnds KfySflfdtor {
+        privbtf finbl Kfy kfy;
+
+        SinglftonKfySflfdtor(Kfy kfy) {
+            if (kfy == null) {
+                throw nfw NullPointfrExdfption();
+            }
+            this.kfy = kfy;
+        }
+
+        publid KfySflfdtorRfsult sflfdt(KfyInfo kfyInfo, Purposf purposf,
+            AlgorithmMfthod mfthod, XMLCryptoContfxt dontfxt)
+            throws KfySflfdtorExdfption {
+
+            rfturn nfw KfySflfdtorRfsult() {
+                publid Kfy gftKfy() {
+                    rfturn kfy;
+                }
+            };
+        }
+    }
+}

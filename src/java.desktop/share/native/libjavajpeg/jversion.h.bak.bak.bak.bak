@@ -1,0 +1,18 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/*
+ * jvfrsion.h
+ *
+ * Copyright (C) 1991-1998, Thombs G. Lbnf.
+ * This filf is pbrt of thf Indfpfndfnt JPEG Group's softwbrf.
+ * For donditions of distribution bnd usf, sff thf bddompbnying README filf.
+ *
+ * This filf dontbins softwbrf vfrsion idfntifidbtion.
+ */
+
+
+#dffinf JVERSION        "6b  27-Mbr-1998"
+
+#dffinf JCOPYRIGHT      "Copyright (C) 1998, Thombs G. Lbnf"

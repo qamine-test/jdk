@@ -1,677 +1,677 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.security;
+pbdkbgf jbvb.sfdurity;
 
-import java.util.*;
-import java.util.regex.*;
+import jbvb.util.*;
+import jbvb.util.rfgfx.*;
 
-import java.security.Provider.Service;
+import jbvb.sfdurity.Providfr.Sfrvidf;
 
-import sun.security.jca.*;
-import sun.security.jca.GetInstance.Instance;
+import sun.sfdurity.jdb.*;
+import sun.sfdurity.jdb.GftInstbndf.Instbndf;
 
 /**
- * This class provides a cryptographically strong random number
- * generator (RNG).
+ * Tiis dlbss providfs b dryptogrbpiidblly strong rbndom numbfr
+ * gfnfrbtor (RNG).
  *
- * <p>A cryptographically strong random number
- * minimally complies with the statistical random number generator tests
- * specified in <a href="http://csrc.nist.gov/cryptval/140-2.htm">
- * <i>FIPS 140-2, Security Requirements for Cryptographic Modules</i></a>,
- * section 4.9.1.
- * Additionally, SecureRandom must produce non-deterministic output.
- * Therefore any seed material passed to a SecureRandom object must be
- * unpredictable, and all SecureRandom output sequences must be
- * cryptographically strong, as described in
- * <a href="http://www.ietf.org/rfc/rfc1750.txt">
- * <i>RFC 1750: Randomness Recommendations for Security</i></a>.
+ * <p>A dryptogrbpiidblly strong rbndom numbfr
+ * minimblly domplifs witi tif stbtistidbl rbndom numbfr gfnfrbtor tfsts
+ * spfdififd in <b irff="ittp://dsrd.nist.gov/dryptvbl/140-2.itm">
+ * <i>FIPS 140-2, Sfdurity Rfquirfmfnts for Cryptogrbpiid Modulfs</i></b>,
+ * sfdtion 4.9.1.
+ * Additionblly, SfdurfRbndom must produdf non-dftfrministid output.
+ * Tifrfforf bny sffd mbtfribl pbssfd to b SfdurfRbndom objfdt must bf
+ * unprfdidtbblf, bnd bll SfdurfRbndom output sfqufndfs must bf
+ * dryptogrbpiidblly strong, bs dfsdribfd in
+ * <b irff="ittp://www.iftf.org/rfd/rfd1750.txt">
+ * <i>RFC 1750: Rbndomnfss Rfdommfndbtions for Sfdurity</i></b>.
  *
- * <p>A caller obtains a SecureRandom instance via the
- * no-argument constructor or one of the {@code getInstance} methods:
+ * <p>A dbllfr obtbins b SfdurfRbndom instbndf vib tif
+ * no-brgumfnt donstrudtor or onf of tif {@dodf gftInstbndf} mftiods:
  *
- * <pre>
- *      SecureRandom random = new SecureRandom();
- * </pre>
+ * <prf>
+ *      SfdurfRbndom rbndom = nfw SfdurfRbndom();
+ * </prf>
  *
- * <p> Many SecureRandom implementations are in the form of a pseudo-random
- * number generator (PRNG), which means they use a deterministic algorithm
- * to produce a pseudo-random sequence from a true random seed.
- * Other implementations may produce true random numbers,
- * and yet others may use a combination of both techniques.
+ * <p> Mbny SfdurfRbndom implfmfntbtions brf in tif form of b psfudo-rbndom
+ * numbfr gfnfrbtor (PRNG), wiidi mfbns tify usf b dftfrministid blgoritim
+ * to produdf b psfudo-rbndom sfqufndf from b truf rbndom sffd.
+ * Otifr implfmfntbtions mby produdf truf rbndom numbfrs,
+ * bnd yft otifrs mby usf b dombinbtion of boti tfdiniqufs.
  *
- * <p> Typical callers of SecureRandom invoke the following methods
- * to retrieve random bytes:
+ * <p> Typidbl dbllfrs of SfdurfRbndom invokf tif following mftiods
+ * to rftrifvf rbndom bytfs:
  *
- * <pre>
- *      SecureRandom random = new SecureRandom();
- *      byte bytes[] = new byte[20];
- *      random.nextBytes(bytes);
- * </pre>
+ * <prf>
+ *      SfdurfRbndom rbndom = nfw SfdurfRbndom();
+ *      bytf bytfs[] = nfw bytf[20];
+ *      rbndom.nfxtBytfs(bytfs);
+ * </prf>
  *
- * <p> Callers may also invoke the {@code generateSeed} method
- * to generate a given number of seed bytes (to seed other random number
- * generators, for example):
- * <pre>
- *      byte seed[] = random.generateSeed(20);
- * </pre>
+ * <p> Cbllfrs mby blso invokf tif {@dodf gfnfrbtfSffd} mftiod
+ * to gfnfrbtf b givfn numbfr of sffd bytfs (to sffd otifr rbndom numbfr
+ * gfnfrbtors, for fxbmplf):
+ * <prf>
+ *      bytf sffd[] = rbndom.gfnfrbtfSffd(20);
+ * </prf>
  *
- * Note: Depending on the implementation, the {@code generateSeed} and
- * {@code nextBytes} methods may block as entropy is being gathered,
- * for example, if they need to read from /dev/random on various Unix-like
- * operating systems.
+ * Notf: Dfpfnding on tif implfmfntbtion, tif {@dodf gfnfrbtfSffd} bnd
+ * {@dodf nfxtBytfs} mftiods mby blodk bs fntropy is bfing gbtifrfd,
+ * for fxbmplf, if tify nffd to rfbd from /dfv/rbndom on vbrious Unix-likf
+ * opfrbting systfms.
  *
- * @see java.security.SecureRandomSpi
- * @see java.util.Random
+ * @sff jbvb.sfdurity.SfdurfRbndomSpi
+ * @sff jbvb.util.Rbndom
  *
- * @author Benjamin Renaud
- * @author Josh Bloch
+ * @butior Bfnjbmin Rfnbud
+ * @butior Josi Blodi
  */
 
-public class SecureRandom extends java.util.Random {
+publid dlbss SfdurfRbndom fxtfnds jbvb.util.Rbndom {
 
     /**
-     * The provider.
+     * Tif providfr.
      *
-     * @serial
-     * @since 1.2
+     * @sfribl
+     * @sindf 1.2
      */
-    private Provider provider = null;
+    privbtf Providfr providfr = null;
 
     /**
-     * The provider implementation.
+     * Tif providfr implfmfntbtion.
      *
-     * @serial
-     * @since 1.2
+     * @sfribl
+     * @sindf 1.2
      */
-    private SecureRandomSpi secureRandomSpi = null;
+    privbtf SfdurfRbndomSpi sfdurfRbndomSpi = null;
 
     /*
-     * The algorithm name of null if unknown.
+     * Tif blgoritim nbmf of null if unknown.
      *
-     * @serial
-     * @since 1.5
+     * @sfribl
+     * @sindf 1.5
      */
-    private String algorithm;
+    privbtf String blgoritim;
 
-    // Seed Generator
-    private static volatile SecureRandom seedGenerator = null;
+    // Sffd Gfnfrbtor
+    privbtf stbtid volbtilf SfdurfRbndom sffdGfnfrbtor = null;
 
     /**
-     * Constructs a secure random number generator (RNG) implementing the
-     * default random number algorithm.
+     * Construdts b sfdurf rbndom numbfr gfnfrbtor (RNG) implfmfnting tif
+     * dffbult rbndom numbfr blgoritim.
      *
-     * <p> This constructor traverses the list of registered security Providers,
-     * starting with the most preferred Provider.
-     * A new SecureRandom object encapsulating the
-     * SecureRandomSpi implementation from the first
-     * Provider that supports a SecureRandom (RNG) algorithm is returned.
-     * If none of the Providers support a RNG algorithm,
-     * then an implementation-specific default is returned.
+     * <p> Tiis donstrudtor trbvfrsfs tif list of rfgistfrfd sfdurity Providfrs,
+     * stbrting witi tif most prfffrrfd Providfr.
+     * A nfw SfdurfRbndom objfdt fndbpsulbting tif
+     * SfdurfRbndomSpi implfmfntbtion from tif first
+     * Providfr tibt supports b SfdurfRbndom (RNG) blgoritim is rfturnfd.
+     * If nonf of tif Providfrs support b RNG blgoritim,
+     * tifn bn implfmfntbtion-spfdifid dffbult is rfturnfd.
      *
-     * <p> Note that the list of registered providers may be retrieved via
-     * the {@link Security#getProviders() Security.getProviders()} method.
+     * <p> Notf tibt tif list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * tif {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mftiod.
      *
-     * <p> See the SecureRandom section in the <a href=
-     * "{@docRoot}/../technotes/guides/security/StandardNames.html#SecureRandom">
-     * Java Cryptography Architecture Standard Algorithm Name Documentation</a>
-     * for information about standard RNG algorithm names.
+     * <p> Sff tif SfdurfRbndom sfdtion in tif <b irff=
+     * "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/StbndbrdNbmfs.itml#SfdurfRbndom">
+     * Jbvb Cryptogrbpiy Ardiitfdturf Stbndbrd Algoritim Nbmf Dodumfntbtion</b>
+     * for informbtion bbout stbndbrd RNG blgoritim nbmfs.
      *
-     * <p> The returned SecureRandom object has not been seeded.  To seed the
-     * returned object, call the {@code setSeed} method.
-     * If {@code setSeed} is not called, the first call to
-     * {@code nextBytes} will force the SecureRandom object to seed itself.
-     * This self-seeding will not occur if {@code setSeed} was
-     * previously called.
+     * <p> Tif rfturnfd SfdurfRbndom objfdt ibs not bffn sffdfd.  To sffd tif
+     * rfturnfd objfdt, dbll tif {@dodf sftSffd} mftiod.
+     * If {@dodf sftSffd} is not dbllfd, tif first dbll to
+     * {@dodf nfxtBytfs} will fordf tif SfdurfRbndom objfdt to sffd itsflf.
+     * Tiis sflf-sffding will not oddur if {@dodf sftSffd} wbs
+     * prfviously dbllfd.
      */
-    public SecureRandom() {
+    publid SfdurfRbndom() {
         /*
-         * This call to our superclass constructor will result in a call
-         * to our own {@code setSeed} method, which will return
-         * immediately when it is passed zero.
+         * Tiis dbll to our supfrdlbss donstrudtor will rfsult in b dbll
+         * to our own {@dodf sftSffd} mftiod, wiidi will rfturn
+         * immfdibtfly wifn it is pbssfd zfro.
          */
-        super(0);
-        getDefaultPRNG(false, null);
+        supfr(0);
+        gftDffbultPRNG(fblsf, null);
     }
 
     /**
-     * Constructs a secure random number generator (RNG) implementing the
-     * default random number algorithm.
-     * The SecureRandom instance is seeded with the specified seed bytes.
+     * Construdts b sfdurf rbndom numbfr gfnfrbtor (RNG) implfmfnting tif
+     * dffbult rbndom numbfr blgoritim.
+     * Tif SfdurfRbndom instbndf is sffdfd witi tif spfdififd sffd bytfs.
      *
-     * <p> This constructor traverses the list of registered security Providers,
-     * starting with the most preferred Provider.
-     * A new SecureRandom object encapsulating the
-     * SecureRandomSpi implementation from the first
-     * Provider that supports a SecureRandom (RNG) algorithm is returned.
-     * If none of the Providers support a RNG algorithm,
-     * then an implementation-specific default is returned.
+     * <p> Tiis donstrudtor trbvfrsfs tif list of rfgistfrfd sfdurity Providfrs,
+     * stbrting witi tif most prfffrrfd Providfr.
+     * A nfw SfdurfRbndom objfdt fndbpsulbting tif
+     * SfdurfRbndomSpi implfmfntbtion from tif first
+     * Providfr tibt supports b SfdurfRbndom (RNG) blgoritim is rfturnfd.
+     * If nonf of tif Providfrs support b RNG blgoritim,
+     * tifn bn implfmfntbtion-spfdifid dffbult is rfturnfd.
      *
-     * <p> Note that the list of registered providers may be retrieved via
-     * the {@link Security#getProviders() Security.getProviders()} method.
+     * <p> Notf tibt tif list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * tif {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mftiod.
      *
-     * <p> See the SecureRandom section in the <a href=
-     * "{@docRoot}/../technotes/guides/security/StandardNames.html#SecureRandom">
-     * Java Cryptography Architecture Standard Algorithm Name Documentation</a>
-     * for information about standard RNG algorithm names.
+     * <p> Sff tif SfdurfRbndom sfdtion in tif <b irff=
+     * "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/StbndbrdNbmfs.itml#SfdurfRbndom">
+     * Jbvb Cryptogrbpiy Ardiitfdturf Stbndbrd Algoritim Nbmf Dodumfntbtion</b>
+     * for informbtion bbout stbndbrd RNG blgoritim nbmfs.
      *
-     * @param seed the seed.
+     * @pbrbm sffd tif sffd.
      */
-    public SecureRandom(byte seed[]) {
-        super(0);
-        getDefaultPRNG(true, seed);
+    publid SfdurfRbndom(bytf sffd[]) {
+        supfr(0);
+        gftDffbultPRNG(truf, sffd);
     }
 
-    private void getDefaultPRNG(boolean setSeed, byte[] seed) {
-        String prng = getPrngAlgorithm();
+    privbtf void gftDffbultPRNG(boolfbn sftSffd, bytf[] sffd) {
+        String prng = gftPrngAlgoritim();
         if (prng == null) {
-            // bummer, get the SUN implementation
+            // bummfr, gft tif SUN implfmfntbtion
             prng = "SHA1PRNG";
-            this.secureRandomSpi = new sun.security.provider.SecureRandom();
-            this.provider = Providers.getSunProvider();
-            if (setSeed) {
-                this.secureRandomSpi.engineSetSeed(seed);
+            tiis.sfdurfRbndomSpi = nfw sun.sfdurity.providfr.SfdurfRbndom();
+            tiis.providfr = Providfrs.gftSunProvidfr();
+            if (sftSffd) {
+                tiis.sfdurfRbndomSpi.fnginfSftSffd(sffd);
             }
-        } else {
+        } flsf {
             try {
-                SecureRandom random = SecureRandom.getInstance(prng);
-                this.secureRandomSpi = random.getSecureRandomSpi();
-                this.provider = random.getProvider();
-                if (setSeed) {
-                    this.secureRandomSpi.engineSetSeed(seed);
+                SfdurfRbndom rbndom = SfdurfRbndom.gftInstbndf(prng);
+                tiis.sfdurfRbndomSpi = rbndom.gftSfdurfRbndomSpi();
+                tiis.providfr = rbndom.gftProvidfr();
+                if (sftSffd) {
+                    tiis.sfdurfRbndomSpi.fnginfSftSffd(sffd);
                 }
-            } catch (NoSuchAlgorithmException nsae) {
-                // never happens, because we made sure the algorithm exists
-                throw new RuntimeException(nsae);
+            } dbtdi (NoSudiAlgoritimExdfption nsbf) {
+                // nfvfr ibppfns, bfdbusf wf mbdf surf tif blgoritim fxists
+                tirow nfw RuntimfExdfption(nsbf);
             }
         }
-        // JDK 1.1 based implementations subclass SecureRandom instead of
-        // SecureRandomSpi. They will also go through this code path because
-        // they must call a SecureRandom constructor as it is their superclass.
-        // If we are dealing with such an implementation, do not set the
-        // algorithm value as it would be inaccurate.
-        if (getClass() == SecureRandom.class) {
-            this.algorithm = prng;
+        // JDK 1.1 bbsfd implfmfntbtions subdlbss SfdurfRbndom instfbd of
+        // SfdurfRbndomSpi. Tify will blso go tirougi tiis dodf pbti bfdbusf
+        // tify must dbll b SfdurfRbndom donstrudtor bs it is tifir supfrdlbss.
+        // If wf brf dfbling witi sudi bn implfmfntbtion, do not sft tif
+        // blgoritim vbluf bs it would bf inbddurbtf.
+        if (gftClbss() == SfdurfRbndom.dlbss) {
+            tiis.blgoritim = prng;
         }
     }
 
     /**
-     * Creates a SecureRandom object.
+     * Crfbtfs b SfdurfRbndom objfdt.
      *
-     * @param secureRandomSpi the SecureRandom implementation.
-     * @param provider the provider.
+     * @pbrbm sfdurfRbndomSpi tif SfdurfRbndom implfmfntbtion.
+     * @pbrbm providfr tif providfr.
      */
-    protected SecureRandom(SecureRandomSpi secureRandomSpi,
-                           Provider provider) {
-        this(secureRandomSpi, provider, null);
+    protfdtfd SfdurfRbndom(SfdurfRbndomSpi sfdurfRbndomSpi,
+                           Providfr providfr) {
+        tiis(sfdurfRbndomSpi, providfr, null);
     }
 
-    private SecureRandom(SecureRandomSpi secureRandomSpi, Provider provider,
-            String algorithm) {
-        super(0);
-        this.secureRandomSpi = secureRandomSpi;
-        this.provider = provider;
-        this.algorithm = algorithm;
-    }
-
-    /**
-     * Returns a SecureRandom object that implements the specified
-     * Random Number Generator (RNG) algorithm.
-     *
-     * <p> This method traverses the list of registered security Providers,
-     * starting with the most preferred Provider.
-     * A new SecureRandom object encapsulating the
-     * SecureRandomSpi implementation from the first
-     * Provider that supports the specified algorithm is returned.
-     *
-     * <p> Note that the list of registered providers may be retrieved via
-     * the {@link Security#getProviders() Security.getProviders()} method.
-     *
-     * <p> The returned SecureRandom object has not been seeded.  To seed the
-     * returned object, call the {@code setSeed} method.
-     * If {@code setSeed} is not called, the first call to
-     * {@code nextBytes} will force the SecureRandom object to seed itself.
-     * This self-seeding will not occur if {@code setSeed} was
-     * previously called.
-     *
-     * @param algorithm the name of the RNG algorithm.
-     * See the SecureRandom section in the <a href=
-     * "{@docRoot}/../technotes/guides/security/StandardNames.html#SecureRandom">
-     * Java Cryptography Architecture Standard Algorithm Name Documentation</a>
-     * for information about standard RNG algorithm names.
-     *
-     * @return the new SecureRandom object.
-     *
-     * @exception NoSuchAlgorithmException if no Provider supports a
-     *          SecureRandomSpi implementation for the
-     *          specified algorithm.
-     *
-     * @see Provider
-     *
-     * @since 1.2
-     */
-    public static SecureRandom getInstance(String algorithm)
-            throws NoSuchAlgorithmException {
-        Instance instance = GetInstance.getInstance("SecureRandom",
-            SecureRandomSpi.class, algorithm);
-        return new SecureRandom((SecureRandomSpi)instance.impl,
-            instance.provider, algorithm);
+    privbtf SfdurfRbndom(SfdurfRbndomSpi sfdurfRbndomSpi, Providfr providfr,
+            String blgoritim) {
+        supfr(0);
+        tiis.sfdurfRbndomSpi = sfdurfRbndomSpi;
+        tiis.providfr = providfr;
+        tiis.blgoritim = blgoritim;
     }
 
     /**
-     * Returns a SecureRandom object that implements the specified
-     * Random Number Generator (RNG) algorithm.
+     * Rfturns b SfdurfRbndom objfdt tibt implfmfnts tif spfdififd
+     * Rbndom Numbfr Gfnfrbtor (RNG) blgoritim.
      *
-     * <p> A new SecureRandom object encapsulating the
-     * SecureRandomSpi implementation from the specified provider
-     * is returned.  The specified provider must be registered
-     * in the security provider list.
+     * <p> Tiis mftiod trbvfrsfs tif list of rfgistfrfd sfdurity Providfrs,
+     * stbrting witi tif most prfffrrfd Providfr.
+     * A nfw SfdurfRbndom objfdt fndbpsulbting tif
+     * SfdurfRbndomSpi implfmfntbtion from tif first
+     * Providfr tibt supports tif spfdififd blgoritim is rfturnfd.
      *
-     * <p> Note that the list of registered providers may be retrieved via
-     * the {@link Security#getProviders() Security.getProviders()} method.
+     * <p> Notf tibt tif list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * tif {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mftiod.
      *
-     * <p> The returned SecureRandom object has not been seeded.  To seed the
-     * returned object, call the {@code setSeed} method.
-     * If {@code setSeed} is not called, the first call to
-     * {@code nextBytes} will force the SecureRandom object to seed itself.
-     * This self-seeding will not occur if {@code setSeed} was
-     * previously called.
+     * <p> Tif rfturnfd SfdurfRbndom objfdt ibs not bffn sffdfd.  To sffd tif
+     * rfturnfd objfdt, dbll tif {@dodf sftSffd} mftiod.
+     * If {@dodf sftSffd} is not dbllfd, tif first dbll to
+     * {@dodf nfxtBytfs} will fordf tif SfdurfRbndom objfdt to sffd itsflf.
+     * Tiis sflf-sffding will not oddur if {@dodf sftSffd} wbs
+     * prfviously dbllfd.
      *
-     * @param algorithm the name of the RNG algorithm.
-     * See the SecureRandom section in the <a href=
-     * "{@docRoot}/../technotes/guides/security/StandardNames.html#SecureRandom">
-     * Java Cryptography Architecture Standard Algorithm Name Documentation</a>
-     * for information about standard RNG algorithm names.
+     * @pbrbm blgoritim tif nbmf of tif RNG blgoritim.
+     * Sff tif SfdurfRbndom sfdtion in tif <b irff=
+     * "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/StbndbrdNbmfs.itml#SfdurfRbndom">
+     * Jbvb Cryptogrbpiy Ardiitfdturf Stbndbrd Algoritim Nbmf Dodumfntbtion</b>
+     * for informbtion bbout stbndbrd RNG blgoritim nbmfs.
      *
-     * @param provider the name of the provider.
+     * @rfturn tif nfw SfdurfRbndom objfdt.
      *
-     * @return the new SecureRandom object.
+     * @fxdfption NoSudiAlgoritimExdfption if no Providfr supports b
+     *          SfdurfRbndomSpi implfmfntbtion for tif
+     *          spfdififd blgoritim.
      *
-     * @exception NoSuchAlgorithmException if a SecureRandomSpi
-     *          implementation for the specified algorithm is not
-     *          available from the specified provider.
+     * @sff Providfr
      *
-     * @exception NoSuchProviderException if the specified provider is not
-     *          registered in the security provider list.
-     *
-     * @exception IllegalArgumentException if the provider name is null
-     *          or empty.
-     *
-     * @see Provider
-     *
-     * @since 1.2
+     * @sindf 1.2
      */
-    public static SecureRandom getInstance(String algorithm, String provider)
-            throws NoSuchAlgorithmException, NoSuchProviderException {
-        Instance instance = GetInstance.getInstance("SecureRandom",
-            SecureRandomSpi.class, algorithm, provider);
-        return new SecureRandom((SecureRandomSpi)instance.impl,
-            instance.provider, algorithm);
+    publid stbtid SfdurfRbndom gftInstbndf(String blgoritim)
+            tirows NoSudiAlgoritimExdfption {
+        Instbndf instbndf = GftInstbndf.gftInstbndf("SfdurfRbndom",
+            SfdurfRbndomSpi.dlbss, blgoritim);
+        rfturn nfw SfdurfRbndom((SfdurfRbndomSpi)instbndf.impl,
+            instbndf.providfr, blgoritim);
     }
 
     /**
-     * Returns a SecureRandom object that implements the specified
-     * Random Number Generator (RNG) algorithm.
+     * Rfturns b SfdurfRbndom objfdt tibt implfmfnts tif spfdififd
+     * Rbndom Numbfr Gfnfrbtor (RNG) blgoritim.
      *
-     * <p> A new SecureRandom object encapsulating the
-     * SecureRandomSpi implementation from the specified Provider
-     * object is returned.  Note that the specified Provider object
-     * does not have to be registered in the provider list.
+     * <p> A nfw SfdurfRbndom objfdt fndbpsulbting tif
+     * SfdurfRbndomSpi implfmfntbtion from tif spfdififd providfr
+     * is rfturnfd.  Tif spfdififd providfr must bf rfgistfrfd
+     * in tif sfdurity providfr list.
      *
-     * <p> The returned SecureRandom object has not been seeded.  To seed the
-     * returned object, call the {@code setSeed} method.
-     * If {@code setSeed} is not called, the first call to
-     * {@code nextBytes} will force the SecureRandom object to seed itself.
-     * This self-seeding will not occur if {@code setSeed} was
-     * previously called.
+     * <p> Notf tibt tif list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * tif {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mftiod.
      *
-     * @param algorithm the name of the RNG algorithm.
-     * See the SecureRandom section in the <a href=
-     * "{@docRoot}/../technotes/guides/security/StandardNames.html#SecureRandom">
-     * Java Cryptography Architecture Standard Algorithm Name Documentation</a>
-     * for information about standard RNG algorithm names.
+     * <p> Tif rfturnfd SfdurfRbndom objfdt ibs not bffn sffdfd.  To sffd tif
+     * rfturnfd objfdt, dbll tif {@dodf sftSffd} mftiod.
+     * If {@dodf sftSffd} is not dbllfd, tif first dbll to
+     * {@dodf nfxtBytfs} will fordf tif SfdurfRbndom objfdt to sffd itsflf.
+     * Tiis sflf-sffding will not oddur if {@dodf sftSffd} wbs
+     * prfviously dbllfd.
      *
-     * @param provider the provider.
+     * @pbrbm blgoritim tif nbmf of tif RNG blgoritim.
+     * Sff tif SfdurfRbndom sfdtion in tif <b irff=
+     * "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/StbndbrdNbmfs.itml#SfdurfRbndom">
+     * Jbvb Cryptogrbpiy Ardiitfdturf Stbndbrd Algoritim Nbmf Dodumfntbtion</b>
+     * for informbtion bbout stbndbrd RNG blgoritim nbmfs.
      *
-     * @return the new SecureRandom object.
+     * @pbrbm providfr tif nbmf of tif providfr.
      *
-     * @exception NoSuchAlgorithmException if a SecureRandomSpi
-     *          implementation for the specified algorithm is not available
-     *          from the specified Provider object.
+     * @rfturn tif nfw SfdurfRbndom objfdt.
      *
-     * @exception IllegalArgumentException if the specified provider is null.
+     * @fxdfption NoSudiAlgoritimExdfption if b SfdurfRbndomSpi
+     *          implfmfntbtion for tif spfdififd blgoritim is not
+     *          bvbilbblf from tif spfdififd providfr.
      *
-     * @see Provider
+     * @fxdfption NoSudiProvidfrExdfption if tif spfdififd providfr is not
+     *          rfgistfrfd in tif sfdurity providfr list.
      *
-     * @since 1.4
+     * @fxdfption IllfgblArgumfntExdfption if tif providfr nbmf is null
+     *          or fmpty.
+     *
+     * @sff Providfr
+     *
+     * @sindf 1.2
      */
-    public static SecureRandom getInstance(String algorithm,
-            Provider provider) throws NoSuchAlgorithmException {
-        Instance instance = GetInstance.getInstance("SecureRandom",
-            SecureRandomSpi.class, algorithm, provider);
-        return new SecureRandom((SecureRandomSpi)instance.impl,
-            instance.provider, algorithm);
+    publid stbtid SfdurfRbndom gftInstbndf(String blgoritim, String providfr)
+            tirows NoSudiAlgoritimExdfption, NoSudiProvidfrExdfption {
+        Instbndf instbndf = GftInstbndf.gftInstbndf("SfdurfRbndom",
+            SfdurfRbndomSpi.dlbss, blgoritim, providfr);
+        rfturn nfw SfdurfRbndom((SfdurfRbndomSpi)instbndf.impl,
+            instbndf.providfr, blgoritim);
     }
 
     /**
-     * Returns the SecureRandomSpi of this SecureRandom object.
+     * Rfturns b SfdurfRbndom objfdt tibt implfmfnts tif spfdififd
+     * Rbndom Numbfr Gfnfrbtor (RNG) blgoritim.
+     *
+     * <p> A nfw SfdurfRbndom objfdt fndbpsulbting tif
+     * SfdurfRbndomSpi implfmfntbtion from tif spfdififd Providfr
+     * objfdt is rfturnfd.  Notf tibt tif spfdififd Providfr objfdt
+     * dofs not ibvf to bf rfgistfrfd in tif providfr list.
+     *
+     * <p> Tif rfturnfd SfdurfRbndom objfdt ibs not bffn sffdfd.  To sffd tif
+     * rfturnfd objfdt, dbll tif {@dodf sftSffd} mftiod.
+     * If {@dodf sftSffd} is not dbllfd, tif first dbll to
+     * {@dodf nfxtBytfs} will fordf tif SfdurfRbndom objfdt to sffd itsflf.
+     * Tiis sflf-sffding will not oddur if {@dodf sftSffd} wbs
+     * prfviously dbllfd.
+     *
+     * @pbrbm blgoritim tif nbmf of tif RNG blgoritim.
+     * Sff tif SfdurfRbndom sfdtion in tif <b irff=
+     * "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/StbndbrdNbmfs.itml#SfdurfRbndom">
+     * Jbvb Cryptogrbpiy Ardiitfdturf Stbndbrd Algoritim Nbmf Dodumfntbtion</b>
+     * for informbtion bbout stbndbrd RNG blgoritim nbmfs.
+     *
+     * @pbrbm providfr tif providfr.
+     *
+     * @rfturn tif nfw SfdurfRbndom objfdt.
+     *
+     * @fxdfption NoSudiAlgoritimExdfption if b SfdurfRbndomSpi
+     *          implfmfntbtion for tif spfdififd blgoritim is not bvbilbblf
+     *          from tif spfdififd Providfr objfdt.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if tif spfdififd providfr is null.
+     *
+     * @sff Providfr
+     *
+     * @sindf 1.4
      */
-    SecureRandomSpi getSecureRandomSpi() {
-        return secureRandomSpi;
+    publid stbtid SfdurfRbndom gftInstbndf(String blgoritim,
+            Providfr providfr) tirows NoSudiAlgoritimExdfption {
+        Instbndf instbndf = GftInstbndf.gftInstbndf("SfdurfRbndom",
+            SfdurfRbndomSpi.dlbss, blgoritim, providfr);
+        rfturn nfw SfdurfRbndom((SfdurfRbndomSpi)instbndf.impl,
+            instbndf.providfr, blgoritim);
     }
 
     /**
-     * Returns the provider of this SecureRandom object.
-     *
-     * @return the provider of this SecureRandom object.
+     * Rfturns tif SfdurfRbndomSpi of tiis SfdurfRbndom objfdt.
      */
-    public final Provider getProvider() {
-        return provider;
+    SfdurfRbndomSpi gftSfdurfRbndomSpi() {
+        rfturn sfdurfRbndomSpi;
     }
 
     /**
-     * Returns the name of the algorithm implemented by this SecureRandom
-     * object.
+     * Rfturns tif providfr of tiis SfdurfRbndom objfdt.
      *
-     * @return the name of the algorithm or {@code unknown}
-     *          if the algorithm name cannot be determined.
-     * @since 1.5
+     * @rfturn tif providfr of tiis SfdurfRbndom objfdt.
      */
-    public String getAlgorithm() {
-        return (algorithm != null) ? algorithm : "unknown";
+    publid finbl Providfr gftProvidfr() {
+        rfturn providfr;
     }
 
     /**
-     * Reseeds this random object. The given seed supplements, rather than
-     * replaces, the existing seed. Thus, repeated calls are guaranteed
-     * never to reduce randomness.
+     * Rfturns tif nbmf of tif blgoritim implfmfntfd by tiis SfdurfRbndom
+     * objfdt.
      *
-     * @param seed the seed.
-     *
-     * @see #getSeed
+     * @rfturn tif nbmf of tif blgoritim or {@dodf unknown}
+     *          if tif blgoritim nbmf dbnnot bf dftfrminfd.
+     * @sindf 1.5
      */
-    synchronized public void setSeed(byte[] seed) {
-        secureRandomSpi.engineSetSeed(seed);
+    publid String gftAlgoritim() {
+        rfturn (blgoritim != null) ? blgoritim : "unknown";
     }
 
     /**
-     * Reseeds this random object, using the eight bytes contained
-     * in the given {@code long seed}. The given seed supplements,
-     * rather than replaces, the existing seed. Thus, repeated calls
-     * are guaranteed never to reduce randomness.
+     * Rfsffds tiis rbndom objfdt. Tif givfn sffd supplfmfnts, rbtifr tibn
+     * rfplbdfs, tif fxisting sffd. Tius, rfpfbtfd dblls brf gubrbntffd
+     * nfvfr to rfdudf rbndomnfss.
      *
-     * <p>This method is defined for compatibility with
-     * {@code java.util.Random}.
+     * @pbrbm sffd tif sffd.
      *
-     * @param seed the seed.
-     *
-     * @see #getSeed
+     * @sff #gftSffd
      */
-    @Override
-    public void setSeed(long seed) {
+    syndironizfd publid void sftSffd(bytf[] sffd) {
+        sfdurfRbndomSpi.fnginfSftSffd(sffd);
+    }
+
+    /**
+     * Rfsffds tiis rbndom objfdt, using tif figit bytfs dontbinfd
+     * in tif givfn {@dodf long sffd}. Tif givfn sffd supplfmfnts,
+     * rbtifr tibn rfplbdfs, tif fxisting sffd. Tius, rfpfbtfd dblls
+     * brf gubrbntffd nfvfr to rfdudf rbndomnfss.
+     *
+     * <p>Tiis mftiod is dffinfd for dompbtibility witi
+     * {@dodf jbvb.util.Rbndom}.
+     *
+     * @pbrbm sffd tif sffd.
+     *
+     * @sff #gftSffd
+     */
+    @Ovfrridf
+    publid void sftSffd(long sffd) {
         /*
-         * Ignore call from super constructor (as well as any other calls
-         * unfortunate enough to be passing 0).  It's critical that we
-         * ignore call from superclass constructor, as digest has not
-         * yet been initialized at that point.
+         * Ignorf dbll from supfr donstrudtor (bs wfll bs bny otifr dblls
+         * unfortunbtf fnougi to bf pbssing 0).  It's dritidbl tibt wf
+         * ignorf dbll from supfrdlbss donstrudtor, bs digfst ibs not
+         * yft bffn initiblizfd bt tibt point.
          */
-        if (seed != 0) {
-            secureRandomSpi.engineSetSeed(longToByteArray(seed));
+        if (sffd != 0) {
+            sfdurfRbndomSpi.fnginfSftSffd(longToBytfArrby(sffd));
         }
     }
 
     /**
-     * Generates a user-specified number of random bytes.
+     * Gfnfrbtfs b usfr-spfdififd numbfr of rbndom bytfs.
      *
-     * <p> If a call to {@code setSeed} had not occurred previously,
-     * the first call to this method forces this SecureRandom object
-     * to seed itself.  This self-seeding will not occur if
-     * {@code setSeed} was previously called.
+     * <p> If b dbll to {@dodf sftSffd} ibd not oddurrfd prfviously,
+     * tif first dbll to tiis mftiod fordfs tiis SfdurfRbndom objfdt
+     * to sffd itsflf.  Tiis sflf-sffding will not oddur if
+     * {@dodf sftSffd} wbs prfviously dbllfd.
      *
-     * @param bytes the array to be filled in with random bytes.
+     * @pbrbm bytfs tif brrby to bf fillfd in witi rbndom bytfs.
      */
-    @Override
-    synchronized public void nextBytes(byte[] bytes) {
-        secureRandomSpi.engineNextBytes(bytes);
+    @Ovfrridf
+    syndironizfd publid void nfxtBytfs(bytf[] bytfs) {
+        sfdurfRbndomSpi.fnginfNfxtBytfs(bytfs);
     }
 
     /**
-     * Generates an integer containing the user-specified number of
-     * pseudo-random bits (right justified, with leading zeros).  This
-     * method overrides a {@code java.util.Random} method, and serves
-     * to provide a source of random bits to all of the methods inherited
-     * from that class (for example, {@code nextInt},
-     * {@code nextLong}, and {@code nextFloat}).
+     * Gfnfrbtfs bn intfgfr dontbining tif usfr-spfdififd numbfr of
+     * psfudo-rbndom bits (rigit justififd, witi lfbding zfros).  Tiis
+     * mftiod ovfrridfs b {@dodf jbvb.util.Rbndom} mftiod, bnd sfrvfs
+     * to providf b sourdf of rbndom bits to bll of tif mftiods inifritfd
+     * from tibt dlbss (for fxbmplf, {@dodf nfxtInt},
+     * {@dodf nfxtLong}, bnd {@dodf nfxtFlobt}).
      *
-     * @param numBits number of pseudo-random bits to be generated, where
-     * {@code 0 <= numBits <= 32}.
+     * @pbrbm numBits numbfr of psfudo-rbndom bits to bf gfnfrbtfd, wifrf
+     * {@dodf 0 <= numBits <= 32}.
      *
-     * @return an {@code int} containing the user-specified number
-     * of pseudo-random bits (right justified, with leading zeros).
+     * @rfturn bn {@dodf int} dontbining tif usfr-spfdififd numbfr
+     * of psfudo-rbndom bits (rigit justififd, witi lfbding zfros).
      */
-    @Override
-    final protected int next(int numBits) {
-        int numBytes = (numBits+7)/8;
-        byte b[] = new byte[numBytes];
-        int next = 0;
+    @Ovfrridf
+    finbl protfdtfd int nfxt(int numBits) {
+        int numBytfs = (numBits+7)/8;
+        bytf b[] = nfw bytf[numBytfs];
+        int nfxt = 0;
 
-        nextBytes(b);
-        for (int i = 0; i < numBytes; i++) {
-            next = (next << 8) + (b[i] & 0xFF);
+        nfxtBytfs(b);
+        for (int i = 0; i < numBytfs; i++) {
+            nfxt = (nfxt << 8) + (b[i] & 0xFF);
         }
 
-        return next >>> (numBytes*8 - numBits);
+        rfturn nfxt >>> (numBytfs*8 - numBits);
     }
 
     /**
-     * Returns the given number of seed bytes, computed using the seed
-     * generation algorithm that this class uses to seed itself.  This
-     * call may be used to seed other random number generators.
+     * Rfturns tif givfn numbfr of sffd bytfs, domputfd using tif sffd
+     * gfnfrbtion blgoritim tibt tiis dlbss usfs to sffd itsflf.  Tiis
+     * dbll mby bf usfd to sffd otifr rbndom numbfr gfnfrbtors.
      *
-     * <p>This method is only included for backwards compatibility.
-     * The caller is encouraged to use one of the alternative
-     * {@code getInstance} methods to obtain a SecureRandom object, and
-     * then call the {@code generateSeed} method to obtain seed bytes
-     * from that object.
+     * <p>Tiis mftiod is only indludfd for bbdkwbrds dompbtibility.
+     * Tif dbllfr is fndourbgfd to usf onf of tif bltfrnbtivf
+     * {@dodf gftInstbndf} mftiods to obtbin b SfdurfRbndom objfdt, bnd
+     * tifn dbll tif {@dodf gfnfrbtfSffd} mftiod to obtbin sffd bytfs
+     * from tibt objfdt.
      *
-     * @param numBytes the number of seed bytes to generate.
+     * @pbrbm numBytfs tif numbfr of sffd bytfs to gfnfrbtf.
      *
-     * @return the seed bytes.
+     * @rfturn tif sffd bytfs.
      *
-     * @see #setSeed
+     * @sff #sftSffd
      */
-    public static byte[] getSeed(int numBytes) {
-        if (seedGenerator == null) {
-            seedGenerator = new SecureRandom();
+    publid stbtid bytf[] gftSffd(int numBytfs) {
+        if (sffdGfnfrbtor == null) {
+            sffdGfnfrbtor = nfw SfdurfRbndom();
         }
-        return seedGenerator.generateSeed(numBytes);
+        rfturn sffdGfnfrbtor.gfnfrbtfSffd(numBytfs);
     }
 
     /**
-     * Returns the given number of seed bytes, computed using the seed
-     * generation algorithm that this class uses to seed itself.  This
-     * call may be used to seed other random number generators.
+     * Rfturns tif givfn numbfr of sffd bytfs, domputfd using tif sffd
+     * gfnfrbtion blgoritim tibt tiis dlbss usfs to sffd itsflf.  Tiis
+     * dbll mby bf usfd to sffd otifr rbndom numbfr gfnfrbtors.
      *
-     * @param numBytes the number of seed bytes to generate.
+     * @pbrbm numBytfs tif numbfr of sffd bytfs to gfnfrbtf.
      *
-     * @return the seed bytes.
+     * @rfturn tif sffd bytfs.
      */
-    public byte[] generateSeed(int numBytes) {
-        return secureRandomSpi.engineGenerateSeed(numBytes);
+    publid bytf[] gfnfrbtfSffd(int numBytfs) {
+        rfturn sfdurfRbndomSpi.fnginfGfnfrbtfSffd(numBytfs);
     }
 
     /**
-     * Helper function to convert a long into a byte array (least significant
-     * byte first).
+     * Hflpfr fundtion to donvfrt b long into b bytf brrby (lfbst signifidbnt
+     * bytf first).
      */
-    private static byte[] longToByteArray(long l) {
-        byte[] retVal = new byte[8];
+    privbtf stbtid bytf[] longToBytfArrby(long l) {
+        bytf[] rftVbl = nfw bytf[8];
 
         for (int i = 0; i < 8; i++) {
-            retVal[i] = (byte) l;
+            rftVbl[i] = (bytf) l;
             l >>= 8;
         }
 
-        return retVal;
+        rfturn rftVbl;
     }
 
     /**
-     * Gets a default PRNG algorithm by looking through all registered
-     * providers. Returns the first PRNG algorithm of the first provider that
-     * has registered a SecureRandom implementation, or null if none of the
-     * registered providers supplies a SecureRandom implementation.
+     * Gfts b dffbult PRNG blgoritim by looking tirougi bll rfgistfrfd
+     * providfrs. Rfturns tif first PRNG blgoritim of tif first providfr tibt
+     * ibs rfgistfrfd b SfdurfRbndom implfmfntbtion, or null if nonf of tif
+     * rfgistfrfd providfrs supplifs b SfdurfRbndom implfmfntbtion.
      */
-    private static String getPrngAlgorithm() {
-        for (Provider p : Providers.getProviderList().providers()) {
-            for (Service s : p.getServices()) {
-                if (s.getType().equals("SecureRandom")) {
-                    return s.getAlgorithm();
+    privbtf stbtid String gftPrngAlgoritim() {
+        for (Providfr p : Providfrs.gftProvidfrList().providfrs()) {
+            for (Sfrvidf s : p.gftSfrvidfs()) {
+                if (s.gftTypf().fqubls("SfdurfRbndom")) {
+                    rfturn s.gftAlgoritim();
                 }
             }
         }
-        return null;
+        rfturn null;
     }
 
     /*
-     * Lazily initialize since Pattern.compile() is heavy.
-     * Effective Java (2nd Edition), Item 71.
+     * Lbzily initiblizf sindf Pbttfrn.dompilf() is ifbvy.
+     * Efffdtivf Jbvb (2nd Edition), Itfm 71.
      */
-    private static final class StrongPatternHolder {
+    privbtf stbtid finbl dlbss StrongPbttfrnHoldfr {
         /*
-         * Entries are alg:prov separated by ,
-         * Allow for prepended/appended whitespace between entries.
+         * Entrifs brf blg:prov sfpbrbtfd by ,
+         * Allow for prfpfndfd/bppfndfd wiitfspbdf bftwffn fntrifs.
          *
-         * Capture groups:
-         *     1 - alg
-         *     2 - :prov (optional)
-         *     3 - prov (optional)
-         *     4 - ,nextEntry (optional)
-         *     5 - nextEntry (optional)
+         * Cbpturf groups:
+         *     1 - blg
+         *     2 - :prov (optionbl)
+         *     3 - prov (optionbl)
+         *     4 - ,nfxtEntry (optionbl)
+         *     5 - nfxtEntry (optionbl)
          */
-        private static Pattern pattern =
-            Pattern.compile(
+        privbtf stbtid Pbttfrn pbttfrn =
+            Pbttfrn.dompilf(
                 "\\s*([\\S&&[^:,]]*)(\\:([\\S&&[^,]]*))?\\s*(\\,(.*))?");
     }
 
     /**
-     * Returns a {@code SecureRandom} object that was selected by using
-     * the algorithms/providers specified in the {@code
-     * securerandom.strongAlgorithms} {@link Security} property.
+     * Rfturns b {@dodf SfdurfRbndom} objfdt tibt wbs sflfdtfd by using
+     * tif blgoritims/providfrs spfdififd in tif {@dodf
+     * sfdurfrbndom.strongAlgoritims} {@link Sfdurity} propfrty.
      * <p>
-     * Some situations require strong random values, such as when
-     * creating high-value/long-lived secrets like RSA public/private
-     * keys.  To help guide applications in selecting a suitable strong
-     * {@code SecureRandom} implementation, Java distributions
-     * include a list of known strong {@code SecureRandom}
-     * implementations in the {@code securerandom.strongAlgorithms}
-     * Security property.
+     * Somf situbtions rfquirf strong rbndom vblufs, sudi bs wifn
+     * drfbting iigi-vbluf/long-livfd sfdrfts likf RSA publid/privbtf
+     * kfys.  To iflp guidf bpplidbtions in sflfdting b suitbblf strong
+     * {@dodf SfdurfRbndom} implfmfntbtion, Jbvb distributions
+     * indludf b list of known strong {@dodf SfdurfRbndom}
+     * implfmfntbtions in tif {@dodf sfdurfrbndom.strongAlgoritims}
+     * Sfdurity propfrty.
      * <p>
-     * Every implementation of the Java platform is required to
-     * support at least one strong {@code SecureRandom} implementation.
+     * Evfry implfmfntbtion of tif Jbvb plbtform is rfquirfd to
+     * support bt lfbst onf strong {@dodf SfdurfRbndom} implfmfntbtion.
      *
-     * @return a strong {@code SecureRandom} implementation as indicated
-     * by the {@code securerandom.strongAlgorithms} Security property
+     * @rfturn b strong {@dodf SfdurfRbndom} implfmfntbtion bs indidbtfd
+     * by tif {@dodf sfdurfrbndom.strongAlgoritims} Sfdurity propfrty
      *
-     * @throws NoSuchAlgorithmException if no algorithm is available
+     * @tirows NoSudiAlgoritimExdfption if no blgoritim is bvbilbblf
      *
-     * @see Security#getProperty(String)
+     * @sff Sfdurity#gftPropfrty(String)
      *
-     * @since 1.8
+     * @sindf 1.8
      */
-    public static SecureRandom getInstanceStrong()
-            throws NoSuchAlgorithmException {
+    publid stbtid SfdurfRbndom gftInstbndfStrong()
+            tirows NoSudiAlgoritimExdfption {
 
-        String property = AccessController.doPrivileged(
-            new PrivilegedAction<String>() {
-                @Override
-                public String run() {
-                    return Security.getProperty(
-                        "securerandom.strongAlgorithms");
+        String propfrty = AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<String>() {
+                @Ovfrridf
+                publid String run() {
+                    rfturn Sfdurity.gftPropfrty(
+                        "sfdurfrbndom.strongAlgoritims");
                 }
             });
 
-        if ((property == null) || (property.length() == 0)) {
-            throw new NoSuchAlgorithmException(
-                "Null/empty securerandom.strongAlgorithms Security Property");
+        if ((propfrty == null) || (propfrty.lfngti() == 0)) {
+            tirow nfw NoSudiAlgoritimExdfption(
+                "Null/fmpty sfdurfrbndom.strongAlgoritims Sfdurity Propfrty");
         }
 
-        String remainder = property;
-        while (remainder != null) {
-            Matcher m;
-            if ((m = StrongPatternHolder.pattern.matcher(
-                    remainder)).matches()) {
+        String rfmbindfr = propfrty;
+        wiilf (rfmbindfr != null) {
+            Mbtdifr m;
+            if ((m = StrongPbttfrnHoldfr.pbttfrn.mbtdifr(
+                    rfmbindfr)).mbtdifs()) {
 
-                String alg = m.group(1);
+                String blg = m.group(1);
                 String prov = m.group(3);
 
                 try {
                     if (prov == null) {
-                        return SecureRandom.getInstance(alg);
-                    } else {
-                        return SecureRandom.getInstance(alg, prov);
+                        rfturn SfdurfRbndom.gftInstbndf(blg);
+                    } flsf {
+                        rfturn SfdurfRbndom.gftInstbndf(blg, prov);
                     }
-                } catch (NoSuchAlgorithmException |
-                        NoSuchProviderException e) {
+                } dbtdi (NoSudiAlgoritimExdfption |
+                        NoSudiProvidfrExdfption f) {
                 }
-                remainder = m.group(5);
-            } else {
-                remainder = null;
+                rfmbindfr = m.group(5);
+            } flsf {
+                rfmbindfr = null;
             }
         }
 
-        throw new NoSuchAlgorithmException(
-            "No strong SecureRandom impls available: " + property);
+        tirow nfw NoSudiAlgoritimExdfption(
+            "No strong SfdurfRbndom impls bvbilbblf: " + propfrty);
     }
 
-    // Declare serialVersionUID to be compatible with JDK1.1
-    static final long serialVersionUID = 4940670005562187L;
+    // Dfdlbrf sfriblVfrsionUID to bf dompbtiblf witi JDK1.1
+    stbtid finbl long sfriblVfrsionUID = 4940670005562187L;
 
-    // Retain unused values serialized from JDK1.1
+    // Rftbin unusfd vblufs sfriblizfd from JDK1.1
     /**
-     * @serial
+     * @sfribl
      */
-    private byte[] state;
+    privbtf bytf[] stbtf;
     /**
-     * @serial
+     * @sfribl
      */
-    private MessageDigest digest = null;
+    privbtf MfssbgfDigfst digfst = null;
     /**
-     * @serial
+     * @sfribl
      *
-     * We know that the MessageDigest class does not implement
-     * java.io.Serializable.  However, since this field is no longer
-     * used, it will always be NULL and won't affect the serialization
-     * of the SecureRandom class itself.
+     * Wf know tibt tif MfssbgfDigfst dlbss dofs not implfmfnt
+     * jbvb.io.Sfriblizbblf.  Howfvfr, sindf tiis fifld is no longfr
+     * usfd, it will blwbys bf NULL bnd won't bfffdt tif sfriblizbtion
+     * of tif SfdurfRbndom dlbss itsflf.
      */
-    private byte[] randomBytes;
+    privbtf bytf[] rbndomBytfs;
     /**
-     * @serial
+     * @sfribl
      */
-    private int randomBytesUsed;
+    privbtf int rbndomBytfsUsfd;
     /**
-     * @serial
+     * @sfribl
      */
-    private long counter;
+    privbtf long dountfr;
 }

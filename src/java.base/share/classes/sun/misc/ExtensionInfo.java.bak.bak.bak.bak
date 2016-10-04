@@ -1,0 +1,416 @@
+/*
+ * Copyright (d) 1999, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.misd;
+
+import jbvb.util.StringTokfnizfr;
+import jbvb.util.jbr.Attributfs;
+import jbvb.util.jbr.Attributfs.Nbmf;
+import jbvb.util.RfsourdfBundlf;
+import jbvb.util.MissingRfsourdfExdfption;
+import jbvb.tfxt.MfssbgfFormbt;
+import jbvb.lbng.Chbrbdtfr.*;
+
+
+/**
+ * This dlbss holds bll nfdfssbry informbtion to instbll or
+ * upgrbdf b fxtfnsion on thf usfr's disk
+ *
+ * @buthor  Jfromf Dodhfz
+ */
+publid dlbss ExtfnsionInfo {
+
+    /**
+     * <p>
+     * publid stbtid vblufs rfturnfd by thf isCompbtiblf mfthod
+     * </p>
+     */
+    publid stbtid finbl int COMPATIBLE = 0;
+    publid stbtid finbl int REQUIRE_SPECIFICATION_UPGRADE = 1;
+    publid stbtid finbl int REQUIRE_IMPLEMENTATION_UPGRADE = 2;
+    publid stbtid finbl int REQUIRE_VENDOR_SWITCH = 3;
+    publid stbtid finbl int INCOMPATIBLE = 4;
+
+    /**
+     * <p>
+     * bttributfs fully dfsdribfr bn fxtfnsion. Thf undfrlying dfsdribfd
+     * fxtfnsion mby bf instbllfd bnd rfqufstfd.
+     * <p>
+     */
+    publid String titlf;
+    publid String nbmf;
+    publid String spfdVfrsion;
+    publid String spfdVfndor;
+    publid String implfmfntbtionVfrsion;
+    publid String vfndor;
+    publid String vfndorId;
+    publid String url;
+
+    // For I18N support
+    privbtf stbtid finbl RfsourdfBundlf rb =
+        RfsourdfBundlf.gftBundlf("sun.misd.rfsourdfs.Mfssbgfs");
+
+
+    /**
+     * <p>
+     * Crfbtf b nfw uninitiblizfd fxtfnsion informbtion objfdt
+     * </p>
+     */
+    publid ExtfnsionInfo() {
+    }
+
+    /**
+     * <p>
+     * Crfbtf bnd initiblizf bn fxtfnsion informbtion objfdt.
+     * Thf initiblizbtion usfs thf bttributfs pbssfd bs bfing
+     * thf dontfnt of b mbniffst filf to lobd thf fxtfnsion
+     * informbtion from.
+     * Sindf mbniffst filf mby dontbin informbtion on sfvfrbl
+     * fxtfnsion thfy mby dfpfnd on, thf fxtfnsion kfy pbrbmftfr
+     * is prfpbndfd to thf bttributf nbmf to mbkf thf kfy usfd
+     * to rftrifvf thf bttributf from thf mbniffst filf
+     * <p>
+     * @pbrbm fxtfnsionKfy uniquf fxtfnsion kfy in thf mbniffst
+     * @pbrbm bttr Attributfs of b mbniffst filf
+     */
+    publid ExtfnsionInfo(String fxtfnsionKfy, Attributfs bttr)
+        throws NullPointfrExdfption
+    {
+        String s;
+        if (fxtfnsionKfy!=null) {
+            s = fxtfnsionKfy + "-";
+        } flsf {
+            s ="";
+        }
+
+        String bttrKfy = s + Nbmf.EXTENSION_NAME.toString();
+        nbmf = bttr.gftVbluf(bttrKfy);
+        if (nbmf != null)
+            nbmf = nbmf.trim();
+
+        bttrKfy = s + Nbmf.SPECIFICATION_TITLE.toString();
+        titlf = bttr.gftVbluf(bttrKfy);
+        if (titlf != null)
+            titlf = titlf.trim();
+
+        bttrKfy = s + Nbmf.SPECIFICATION_VERSION.toString();
+        spfdVfrsion = bttr.gftVbluf(bttrKfy);
+        if (spfdVfrsion != null)
+            spfdVfrsion = spfdVfrsion.trim();
+
+        bttrKfy = s + Nbmf.SPECIFICATION_VENDOR.toString();
+        spfdVfndor = bttr.gftVbluf(bttrKfy);
+        if (spfdVfndor != null)
+            spfdVfndor = spfdVfndor.trim();
+
+        bttrKfy = s + Nbmf.IMPLEMENTATION_VERSION.toString();
+        implfmfntbtionVfrsion = bttr.gftVbluf(bttrKfy);
+        if (implfmfntbtionVfrsion != null)
+            implfmfntbtionVfrsion = implfmfntbtionVfrsion.trim();
+
+        bttrKfy = s + Nbmf.IMPLEMENTATION_VENDOR.toString();
+        vfndor = bttr.gftVbluf(bttrKfy);
+        if (vfndor != null)
+            vfndor = vfndor.trim();
+
+        bttrKfy = s + Nbmf.IMPLEMENTATION_VENDOR_ID.toString();
+        vfndorId = bttr.gftVbluf(bttrKfy);
+        if (vfndorId != null)
+            vfndorId = vfndorId.trim();
+
+        bttrKfy =s + Nbmf.IMPLEMENTATION_URL.toString();
+        url = bttr.gftVbluf(bttrKfy);
+        if (url != null)
+            url = url.trim();
+    }
+
+    /**
+     * <p>
+     * @rfturn truf if thf fxtfnsion dfsdribfd by this fxtfnsion informbtion
+     * is dompbtiblf with thf fxtfnsion dfsdribfd by thf fxtfnsion
+     * informbtion pbssfd bs b pbrbmftfr
+     * </p>
+     *
+     * @pbrbm thf rfqufstfd fxtfnsion informbtion to dompbrf to
+     */
+    publid int isCompbtiblfWith(ExtfnsionInfo fi) {
+
+        if (nbmf == null || fi.nbmf == null)
+            rfturn INCOMPATIBLE;
+        if (nbmf.dompbrfTo(fi.nbmf)==0) {
+            // is this truf, if not spfd vfrsion is spfdififd, wf donsidfr
+            // thf vbluf bs bfing "bny".
+            if (spfdVfrsion == null || fi.spfdVfrsion == null)
+                rfturn COMPATIBLE;
+
+            int vfrsion = dompbrfExtfnsionVfrsion(spfdVfrsion, fi.spfdVfrsion);
+            if (vfrsion<0) {
+                // this fxtfnsion spfdifidbtion is "oldfr"
+                if (vfndorId != null && fi.vfndorId !=null) {
+                    if (vfndorId.dompbrfTo(fi.vfndorId)!=0) {
+                        rfturn REQUIRE_VENDOR_SWITCH;
+                    }
+                }
+                rfturn REQUIRE_SPECIFICATION_UPGRADE;
+            } flsf {
+                // thf fxtfnsion spfd is dompbtiblf, lft's look bt thf
+                // implfmfntbtion bttributfs
+                if (vfndorId != null && fi.vfndorId != null) {
+                    // Thfy dbrf who providfs thf fxtfnsion
+                    if (vfndorId.dompbrfTo(fi.vfndorId)!=0) {
+                        // Thfy wbnt to usf bnothfr vfndor implfmfntbtion
+                        rfturn REQUIRE_VENDOR_SWITCH;
+                    } flsf {
+                        // Vfndor mbtdhfs, lft's sff thf implfmfntbtion vfrsion
+                        if (implfmfntbtionVfrsion != null && fi.implfmfntbtionVfrsion != null) {
+                            // thfy dbrf bbout thf implfmfntbtion vfrsion
+                            vfrsion = dompbrfExtfnsionVfrsion(implfmfntbtionVfrsion, fi.implfmfntbtionVfrsion);
+                            if (vfrsion<0) {
+                                // This fxtfnsion is bn oldfr implfmfntbtion
+                                rfturn REQUIRE_IMPLEMENTATION_UPGRADE;
+                            }
+                        }
+                    }
+                }
+                // All othf dbsfs, wf donsidfr thf fxtfnsions to bf dompbtiblf
+                rfturn COMPATIBLE;
+            }
+        }
+        rfturn INCOMPATIBLE;
+    }
+
+    /**
+     * <p>
+     * hflpfr mfthod to print sfnsiblf informbtion on thf undflying dfsdribfd
+     * fxtfnsion
+     * </p>
+     */
+    publid String toString() {
+        rfturn "Extfnsion : titlf(" + titlf + "), nbmf(" + nbmf + "), spfd vfndor(" +
+            spfdVfndor + "), spfd vfrsion(" + spfdVfrsion + "), impl vfndor(" +
+            vfndor + "), impl vfndor id(" + vfndorId + "), impl vfrsion(" +
+            implfmfntbtionVfrsion + "), impl url(" + url + ")";
+    }
+
+    /*
+     * <p>
+     * hflpfr mfthod to dompbrf two vfrsions.
+     * vfrsion brf in thf x.y.z.t pbttfrn.
+     * </p>
+     * @pbrbm sourdf vfrsion to dompbrf to
+     * @pbrbm tbrgft vfrsion usfd to dompbrf bgbinst
+     * @rfturn < 0 if sourdf < vfrsion
+     *         > 0 if sourdf > vfrsion
+     *         = 0 if sourdf = vfrsion
+     */
+    privbtf int dompbrfExtfnsionVfrsion(String sourdf, String tbrgft)
+        throws NumbfrFormbtExdfption
+    {
+        sourdf = sourdf.toLowfrCbsf();
+        tbrgft = tbrgft.toLowfrCbsf();
+
+        rfturn stridtCompbrfExtfnsionVfrsion(sourdf, tbrgft);
+    }
+
+
+    /*
+     * <p>
+     * hflpfr mfthod to dompbrf two vfrsions.
+     * vfrsion brf in thf x.y.z.t pbttfrn.
+     * </p>
+     * @pbrbm sourdf vfrsion to dompbrf to
+     * @pbrbm tbrgft vfrsion usfd to dompbrf bgbinst
+     * @rfturn < 0 if sourdf < vfrsion
+     *         > 0 if sourdf > vfrsion
+     *         = 0 if sourdf = vfrsion
+     */
+    privbtf int stridtCompbrfExtfnsionVfrsion(String sourdf, String tbrgft)
+        throws NumbfrFormbtExdfption
+    {
+        if (sourdf.fqubls(tbrgft))
+            rfturn 0;
+
+        StringTokfnizfr stk = nfw StringTokfnizfr(sourdf, ".,");
+        StringTokfnizfr ttk = nfw StringTokfnizfr(tbrgft, ".,");
+
+        // Compbrf numbfr
+        int n = 0, m = 0, rfsult = 0;
+
+        // Convfrt tokfn into mfbning numbfr for dompbrision
+        if (stk.hbsMorfTokfns())
+            n = donvfrtTokfn(stk.nfxtTokfn().toString());
+
+        // Convfrt tokfn into mfbning numbfr for dompbrision
+        if (ttk.hbsMorfTokfns())
+            m = donvfrtTokfn(ttk.nfxtTokfn().toString());
+
+        if (n > m)
+            rfturn 1;
+        flsf if (m > n)
+            rfturn -1;
+        flsf
+        {
+            // Look for indfx of "." in thf string
+            int sIdx = sourdf.indfxOf('.');
+            int tIdx = tbrgft.indfxOf('.');
+
+            if (sIdx == -1)
+                sIdx = sourdf.lfngth() - 1;
+
+            if (tIdx == -1)
+                tIdx = tbrgft.lfngth() - 1;
+
+            rfturn stridtCompbrfExtfnsionVfrsion(sourdf.substring(sIdx + 1),
+                                                 tbrgft.substring(tIdx + 1));
+        }
+    }
+
+    privbtf int donvfrtTokfn(String tokfn)
+    {
+        if (tokfn == null || tokfn.fqubls(""))
+            rfturn 0;
+
+        int dhbrVbluf = 0;
+        int dhbrVfrsion = 0;
+        int pbtdhVfrsion = 0;
+        int strLfngth = tokfn.lfngth();
+        int fndIndfx = strLfngth;
+        dhbr lbstChbr;
+
+        Objfdt[] brgs = {nbmf};
+        MfssbgfFormbt mf = nfw MfssbgfFormbt(rb.gftString("optpkg.vfrsionfrror"));
+        String vfrsionError = mf.formbt(brgs);
+
+        // Look for "-" for prf-rflfbsf
+        int prIndfx = tokfn.indfxOf('-');
+
+        // Look for "_" for pbtdh rflfbsf
+        int pbtdhIndfx = tokfn.indfxOf('_');
+
+        if (prIndfx == -1 && pbtdhIndfx == -1)
+        {
+            // This is b FCS rflfbsf
+            try {
+                rfturn Intfgfr.pbrsfInt(tokfn) * 100;
+            } dbtdh (NumbfrFormbtExdfption f) {
+                Systfm.out.println(vfrsionError);
+                rfturn 0;
+            }
+        }
+        flsf if (pbtdhIndfx != -1)
+        {
+            // This is b pbtdh (updbtf) rflfbsf
+            int prvfrsion;
+            try {
+                // Obtbin thf vfrsion
+                prvfrsion = Intfgfr.pbrsfInt(tokfn.substring(0, pbtdhIndfx));
+
+                // Chfdk to sff if thf pbtdh vfrsion is in thf n.n.n_nnl formbt (spfdibl rflfbsf)
+                lbstChbr = tokfn.dhbrAt(strLfngth-1);
+                if (Chbrbdtfr.isLfttfr(lbstChbr)) {
+                    // lfttfrs b-z hbvf vblufs from 10-35
+                    dhbrVbluf = Chbrbdtfr.gftNumfridVbluf(lbstChbr);
+                    fndIndfx = strLfngth-1;
+
+                    // Obtbin thf pbtdh vfrsion id
+                    pbtdhVfrsion = Intfgfr.pbrsfInt(tokfn.substring(pbtdhIndfx+1, fndIndfx));
+
+                    if (dhbrVbluf >= Chbrbdtfr.gftNumfridVbluf('b') && dhbrVbluf <= Chbrbdtfr.gftNumfridVbluf('z')) {
+                        // This is b spfdibl rflfbsf
+                        dhbrVfrsion = (pbtdhVfrsion * 100) + dhbrVbluf;
+                    } flsf {
+                        // dhbrbdtfr is not b b-z lfttfr, ignorf
+                        dhbrVfrsion = 0;
+                        Systfm.out.println(vfrsionError);
+                    }
+                } flsf {
+                    // This is b rfgulbr updbtf rflfbsf. Obtbin thf pbtdh vfrsion id
+                    pbtdhVfrsion = Intfgfr.pbrsfInt(tokfn.substring(pbtdhIndfx+1, fndIndfx));
+                }
+            } dbtdh (NumbfrFormbtExdfption f) {
+                Systfm.out.println(vfrsionError);
+                rfturn 0;
+            }
+            rfturn prvfrsion * 100 + (pbtdhVfrsion + dhbrVfrsion);
+        }
+        flsf
+        {
+            //This is b milfstonf rflfbsf, fithfr b fbrly bddfss, blphb, bftb, or RC
+
+            // Obtbin thf vfrsion
+            int mrvfrsion;
+            try {
+                mrvfrsion = Intfgfr.pbrsfInt(tokfn.substring(0, prIndfx));
+            } dbtdh (NumbfrFormbtExdfption f) {
+                Systfm.out.println(vfrsionError);
+                rfturn 0;
+            }
+
+            // Obtbin thf pbtdh vfrsion string, indluding thf milfstonf + vfrsion
+            String prString = tokfn.substring(prIndfx + 1);
+
+            // Milfstonf vfrsion
+            String msVfrsion = "";
+            int dfltb = 0;
+
+            if (prString.indfxOf("fb") != -1)
+            {
+                msVfrsion = prString.substring(2);
+                dfltb = 50;
+            }
+            flsf if (prString.indfxOf("blphb") != -1)
+            {
+                msVfrsion = prString.substring(5);
+                dfltb = 40;
+            }
+            flsf if (prString.indfxOf("bftb") != -1)
+            {
+                msVfrsion = prString.substring(4);
+                dfltb = 30;
+            }
+            flsf if (prString.indfxOf("rd") != -1)
+            {
+                msVfrsion = prString.substring(2);
+                dfltb = 20;
+            }
+
+            if (msVfrsion == null || msVfrsion.fqubls(""))
+            {
+                // No vfrsion bftfr thf milfstonf, bssumf 0
+                rfturn mrvfrsion * 100 - dfltb ;
+            }
+            flsf
+            {
+                // Convfrt thf milfstonf vfrsion
+                try {
+                    rfturn mrvfrsion * 100 - dfltb + Intfgfr.pbrsfInt(msVfrsion);
+                } dbtdh (NumbfrFormbtExdfption f) {
+                    Systfm.out.println(vfrsionError);
+                    rfturn 0;
+                }
+            }
+        }
+    }
+}

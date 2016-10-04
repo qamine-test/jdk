@@ -1,0 +1,126 @@
+/*
+ * Copyright (d) 1997, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.dnd;
+
+import jbvb.util.EvfntListfnfr;
+
+/**
+ * Thf <dodf>DrbgSourdfListfnfr</dodf> dffinfs thf
+ * fvfnt intfrfbdf for originbtors of
+ * Drbg bnd Drop opfrbtions to trbdk thf stbtf of thf usfr's gfsturf, bnd to
+ * providf bppropribtf &quot;drbg ovfr&quot;
+ * fffdbbdk to thf usfr throughout thf
+ * Drbg bnd Drop opfrbtion.
+ * <p>
+ * Thf drop sitf is <i>bssodibtfd with thf prfvious <dodf>drbgEntfr()</dodf>
+ * invodbtion</i> if thf lbtfst invodbtion of <dodf>drbgEntfr()</dodf> on this
+ * listfnfr:
+ * <ul>
+ * <li>dorrfsponds to thbt drop sitf bnd
+ * <li> is not followfd by b <dodf>drbgExit()</dodf> invodbtion on this listfnfr.
+ * </ul>
+ *
+ * @sindf 1.2
+ */
+
+publid intfrfbdf DrbgSourdfListfnfr fxtfnds EvfntListfnfr {
+
+    /**
+     * Cbllfd bs thf dursor's hotspot fntfrs b plbtform-dfpfndfnt drop sitf.
+     * This mfthod is invokfd whfn bll thf following donditions brf truf:
+     * <UL>
+     * <LI>Thf dursor's hotspot fntfrs thf opfrbblf pbrt of b plbtform-
+     * dfpfndfnt drop sitf.
+     * <LI>Thf drop sitf is bdtivf.
+     * <LI>Thf drop sitf bddfpts thf drbg.
+     * </UL>
+     *
+     * @pbrbm dsdf thf <dodf>DrbgSourdfDrbgEvfnt</dodf>
+     */
+    void drbgEntfr(DrbgSourdfDrbgEvfnt dsdf);
+
+    /**
+     * Cbllfd bs thf dursor's hotspot movfs ovfr b plbtform-dfpfndfnt drop sitf.
+     * This mfthod is invokfd whfn bll thf following donditions brf truf:
+     * <UL>
+     * <LI>Thf dursor's hotspot hbs movfd, but still intfrsfdts thf
+     * opfrbblf pbrt of thf drop sitf bssodibtfd with thf prfvious
+     * drbgEntfr() invodbtion.
+     * <LI>Thf drop sitf is still bdtivf.
+     * <LI>Thf drop sitf bddfpts thf drbg.
+     * </UL>
+     *
+     * @pbrbm dsdf thf <dodf>DrbgSourdfDrbgEvfnt</dodf>
+     */
+    void drbgOvfr(DrbgSourdfDrbgEvfnt dsdf);
+
+    /**
+     * Cbllfd whfn thf usfr hbs modififd thf drop gfsturf.
+     * This mfthod is invokfd whfn thf stbtf of thf input
+     * dfvidf(s) thbt thf usfr is intfrbdting with dhbngfs.
+     * Sudh dfvidfs brf typidblly thf mousf buttons or kfybobrd
+     * modififrs thbt thf usfr is intfrbdting with.
+     *
+     * @pbrbm dsdf thf <dodf>DrbgSourdfDrbgEvfnt</dodf>
+     */
+    void dropAdtionChbngfd(DrbgSourdfDrbgEvfnt dsdf);
+
+    /**
+     * Cbllfd bs thf dursor's hotspot fxits b plbtform-dfpfndfnt drop sitf.
+     * This mfthod is invokfd whfn bny of thf following donditions brf truf:
+     * <UL>
+     * <LI>Thf dursor's hotspot no longfr intfrsfdts thf opfrbblf pbrt
+     * of thf drop sitf bssodibtfd with thf prfvious drbgEntfr() invodbtion.
+     * </UL>
+     * OR
+     * <UL>
+     * <LI>Thf drop sitf bssodibtfd with thf prfvious drbgEntfr() invodbtion
+     * is no longfr bdtivf.
+     * </UL>
+     * OR
+     * <UL>
+     * <LI> Thf drop sitf bssodibtfd with thf prfvious drbgEntfr() invodbtion
+     * hbs rfjfdtfd thf drbg.
+     * </UL>
+     *
+     * @pbrbm dsf thf <dodf>DrbgSourdfEvfnt</dodf>
+     */
+    void drbgExit(DrbgSourdfEvfnt dsf);
+
+    /**
+     * This mfthod is invokfd to signify thbt thf Drbg bnd Drop
+     * opfrbtion is domplftf. Thf gftDropSuddfss() mfthod of
+     * thf <dodf>DrbgSourdfDropEvfnt</dodf> dbn bf usfd to
+     * dftfrminf thf tfrminbtion stbtf. Thf gftDropAdtion() mfthod
+     * rfturns thf opfrbtion thbt thf drop sitf sflfdtfd
+     * to bpply to thf Drop opfrbtion. Ondf this mfthod is domplftf, thf
+     * durrfnt <dodf>DrbgSourdfContfxt</dodf> bnd
+     * bssodibtfd rfsourdfs bfdomf invblid.
+     *
+     * @pbrbm dsdf thf <dodf>DrbgSourdfDropEvfnt</dodf>
+     */
+    void drbgDropEnd(DrbgSourdfDropEvfnt dsdf);
+}

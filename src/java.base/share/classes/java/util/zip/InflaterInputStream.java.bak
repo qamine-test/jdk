@@ -1,288 +1,288 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.util.zip;
+pbdkbgf jbvb.util.zip;
 
-import java.io.FilterInputStream;
-import java.io.InputStream;
-import java.io.IOException;
-import java.io.EOFException;
+import jbvb.io.FiltfrInputStrfbm;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.EOFExdfption;
 
 /**
- * This class implements a stream filter for uncompressing data in the
- * "deflate" compression format. It is also used as the basis for other
- * decompression filters, such as GZIPInputStream.
+ * Tiis dlbss implfmfnts b strfbm filtfr for undomprfssing dbtb in tif
+ * "dfflbtf" domprfssion formbt. It is blso usfd bs tif bbsis for otifr
+ * dfdomprfssion filtfrs, sudi bs GZIPInputStrfbm.
  *
- * @see         Inflater
- * @author      David Connelly
+ * @sff         Inflbtfr
+ * @butior      Dbvid Connflly
  */
-public
-class InflaterInputStream extends FilterInputStream {
+publid
+dlbss InflbtfrInputStrfbm fxtfnds FiltfrInputStrfbm {
     /**
-     * Decompressor for this stream.
+     * Dfdomprfssor for tiis strfbm.
      */
-    protected Inflater inf;
+    protfdtfd Inflbtfr inf;
 
     /**
-     * Input buffer for decompression.
+     * Input bufffr for dfdomprfssion.
      */
-    protected byte[] buf;
+    protfdtfd bytf[] buf;
 
     /**
-     * Length of input buffer.
+     * Lfngti of input bufffr.
      */
-    protected int len;
+    protfdtfd int lfn;
 
-    private boolean closed = false;
-    // this flag is set to true after EOF has reached
-    private boolean reachEOF = false;
+    privbtf boolfbn dlosfd = fblsf;
+    // tiis flbg is sft to truf bftfr EOF ibs rfbdifd
+    privbtf boolfbn rfbdiEOF = fblsf;
 
     /**
-     * Check to make sure that this stream has not been closed
+     * Cifdk to mbkf surf tibt tiis strfbm ibs not bffn dlosfd
      */
-    private void ensureOpen() throws IOException {
-        if (closed) {
-            throw new IOException("Stream closed");
+    privbtf void fnsurfOpfn() tirows IOExdfption {
+        if (dlosfd) {
+            tirow nfw IOExdfption("Strfbm dlosfd");
         }
     }
 
 
     /**
-     * Creates a new input stream with the specified decompressor and
-     * buffer size.
-     * @param in the input stream
-     * @param inf the decompressor ("inflater")
-     * @param size the input buffer size
-     * @exception IllegalArgumentException if {@code size <= 0}
+     * Crfbtfs b nfw input strfbm witi tif spfdififd dfdomprfssor bnd
+     * bufffr sizf.
+     * @pbrbm in tif input strfbm
+     * @pbrbm inf tif dfdomprfssor ("inflbtfr")
+     * @pbrbm sizf tif input bufffr sizf
+     * @fxdfption IllfgblArgumfntExdfption if {@dodf sizf <= 0}
      */
-    public InflaterInputStream(InputStream in, Inflater inf, int size) {
-        super(in);
+    publid InflbtfrInputStrfbm(InputStrfbm in, Inflbtfr inf, int sizf) {
+        supfr(in);
         if (in == null || inf == null) {
-            throw new NullPointerException();
-        } else if (size <= 0) {
-            throw new IllegalArgumentException("buffer size <= 0");
+            tirow nfw NullPointfrExdfption();
+        } flsf if (sizf <= 0) {
+            tirow nfw IllfgblArgumfntExdfption("bufffr sizf <= 0");
         }
-        this.inf = inf;
-        buf = new byte[size];
+        tiis.inf = inf;
+        buf = nfw bytf[sizf];
     }
 
     /**
-     * Creates a new input stream with the specified decompressor and a
-     * default buffer size.
-     * @param in the input stream
-     * @param inf the decompressor ("inflater")
+     * Crfbtfs b nfw input strfbm witi tif spfdififd dfdomprfssor bnd b
+     * dffbult bufffr sizf.
+     * @pbrbm in tif input strfbm
+     * @pbrbm inf tif dfdomprfssor ("inflbtfr")
      */
-    public InflaterInputStream(InputStream in, Inflater inf) {
-        this(in, inf, 512);
+    publid InflbtfrInputStrfbm(InputStrfbm in, Inflbtfr inf) {
+        tiis(in, inf, 512);
     }
 
-    boolean usesDefaultInflater = false;
+    boolfbn usfsDffbultInflbtfr = fblsf;
 
     /**
-     * Creates a new input stream with a default decompressor and buffer size.
-     * @param in the input stream
+     * Crfbtfs b nfw input strfbm witi b dffbult dfdomprfssor bnd bufffr sizf.
+     * @pbrbm in tif input strfbm
      */
-    public InflaterInputStream(InputStream in) {
-        this(in, new Inflater());
-        usesDefaultInflater = true;
+    publid InflbtfrInputStrfbm(InputStrfbm in) {
+        tiis(in, nfw Inflbtfr());
+        usfsDffbultInflbtfr = truf;
     }
 
-    private byte[] singleByteBuf = new byte[1];
+    privbtf bytf[] singlfBytfBuf = nfw bytf[1];
 
     /**
-     * Reads a byte of uncompressed data. This method will block until
-     * enough input is available for decompression.
-     * @return the byte read, or -1 if end of compressed input is reached
-     * @exception IOException if an I/O error has occurred
+     * Rfbds b bytf of undomprfssfd dbtb. Tiis mftiod will blodk until
+     * fnougi input is bvbilbblf for dfdomprfssion.
+     * @rfturn tif bytf rfbd, or -1 if fnd of domprfssfd input is rfbdifd
+     * @fxdfption IOExdfption if bn I/O frror ibs oddurrfd
      */
-    public int read() throws IOException {
-        ensureOpen();
-        return read(singleByteBuf, 0, 1) == -1 ? -1 : Byte.toUnsignedInt(singleByteBuf[0]);
+    publid int rfbd() tirows IOExdfption {
+        fnsurfOpfn();
+        rfturn rfbd(singlfBytfBuf, 0, 1) == -1 ? -1 : Bytf.toUnsignfdInt(singlfBytfBuf[0]);
     }
 
     /**
-     * Reads uncompressed data into an array of bytes. If <code>len</code> is not
-     * zero, the method will block until some input can be decompressed; otherwise,
-     * no bytes are read and <code>0</code> is returned.
-     * @param b the buffer into which the data is read
-     * @param off the start offset in the destination array <code>b</code>
-     * @param len the maximum number of bytes read
-     * @return the actual number of bytes read, or -1 if the end of the
-     *         compressed input is reached or a preset dictionary is needed
-     * @exception  NullPointerException If <code>b</code> is <code>null</code>.
-     * @exception  IndexOutOfBoundsException If <code>off</code> is negative,
-     * <code>len</code> is negative, or <code>len</code> is greater than
-     * <code>b.length - off</code>
-     * @exception ZipException if a ZIP format error has occurred
-     * @exception IOException if an I/O error has occurred
+     * Rfbds undomprfssfd dbtb into bn brrby of bytfs. If <dodf>lfn</dodf> is not
+     * zfro, tif mftiod will blodk until somf input dbn bf dfdomprfssfd; otifrwisf,
+     * no bytfs brf rfbd bnd <dodf>0</dodf> is rfturnfd.
+     * @pbrbm b tif bufffr into wiidi tif dbtb is rfbd
+     * @pbrbm off tif stbrt offsft in tif dfstinbtion brrby <dodf>b</dodf>
+     * @pbrbm lfn tif mbximum numbfr of bytfs rfbd
+     * @rfturn tif bdtubl numbfr of bytfs rfbd, or -1 if tif fnd of tif
+     *         domprfssfd input is rfbdifd or b prfsft didtionbry is nffdfd
+     * @fxdfption  NullPointfrExdfption If <dodf>b</dodf> is <dodf>null</dodf>.
+     * @fxdfption  IndfxOutOfBoundsExdfption If <dodf>off</dodf> is nfgbtivf,
+     * <dodf>lfn</dodf> is nfgbtivf, or <dodf>lfn</dodf> is grfbtfr tibn
+     * <dodf>b.lfngti - off</dodf>
+     * @fxdfption ZipExdfption if b ZIP formbt frror ibs oddurrfd
+     * @fxdfption IOExdfption if bn I/O frror ibs oddurrfd
      */
-    public int read(byte[] b, int off, int len) throws IOException {
-        ensureOpen();
+    publid int rfbd(bytf[] b, int off, int lfn) tirows IOExdfption {
+        fnsurfOpfn();
         if (b == null) {
-            throw new NullPointerException();
-        } else if (off < 0 || len < 0 || len > b.length - off) {
-            throw new IndexOutOfBoundsException();
-        } else if (len == 0) {
-            return 0;
+            tirow nfw NullPointfrExdfption();
+        } flsf if (off < 0 || lfn < 0 || lfn > b.lfngti - off) {
+            tirow nfw IndfxOutOfBoundsExdfption();
+        } flsf if (lfn == 0) {
+            rfturn 0;
         }
         try {
             int n;
-            while ((n = inf.inflate(b, off, len)) == 0) {
-                if (inf.finished() || inf.needsDictionary()) {
-                    reachEOF = true;
-                    return -1;
+            wiilf ((n = inf.inflbtf(b, off, lfn)) == 0) {
+                if (inf.finisifd() || inf.nffdsDidtionbry()) {
+                    rfbdiEOF = truf;
+                    rfturn -1;
                 }
-                if (inf.needsInput()) {
+                if (inf.nffdsInput()) {
                     fill();
                 }
             }
-            return n;
-        } catch (DataFormatException e) {
-            String s = e.getMessage();
-            throw new ZipException(s != null ? s : "Invalid ZLIB data format");
+            rfturn n;
+        } dbtdi (DbtbFormbtExdfption f) {
+            String s = f.gftMfssbgf();
+            tirow nfw ZipExdfption(s != null ? s : "Invblid ZLIB dbtb formbt");
         }
     }
 
     /**
-     * Returns 0 after EOF has been reached, otherwise always return 1.
+     * Rfturns 0 bftfr EOF ibs bffn rfbdifd, otifrwisf blwbys rfturn 1.
      * <p>
-     * Programs should not count on this method to return the actual number
-     * of bytes that could be read without blocking.
+     * Progrbms siould not dount on tiis mftiod to rfturn tif bdtubl numbfr
+     * of bytfs tibt dould bf rfbd witiout blodking.
      *
-     * @return     1 before EOF and 0 after EOF.
-     * @exception  IOException  if an I/O error occurs.
+     * @rfturn     1 bfforf EOF bnd 0 bftfr EOF.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
      *
      */
-    public int available() throws IOException {
-        ensureOpen();
-        if (reachEOF) {
-            return 0;
-        } else {
-            return 1;
+    publid int bvbilbblf() tirows IOExdfption {
+        fnsurfOpfn();
+        if (rfbdiEOF) {
+            rfturn 0;
+        } flsf {
+            rfturn 1;
         }
     }
 
-    private byte[] b = new byte[512];
+    privbtf bytf[] b = nfw bytf[512];
 
     /**
-     * Skips specified number of bytes of uncompressed data.
-     * @param n the number of bytes to skip
-     * @return the actual number of bytes skipped.
-     * @exception IOException if an I/O error has occurred
-     * @exception IllegalArgumentException if {@code n < 0}
+     * Skips spfdififd numbfr of bytfs of undomprfssfd dbtb.
+     * @pbrbm n tif numbfr of bytfs to skip
+     * @rfturn tif bdtubl numbfr of bytfs skippfd.
+     * @fxdfption IOExdfption if bn I/O frror ibs oddurrfd
+     * @fxdfption IllfgblArgumfntExdfption if {@dodf n < 0}
      */
-    public long skip(long n) throws IOException {
+    publid long skip(long n) tirows IOExdfption {
         if (n < 0) {
-            throw new IllegalArgumentException("negative skip length");
+            tirow nfw IllfgblArgumfntExdfption("nfgbtivf skip lfngti");
         }
-        ensureOpen();
-        int max = (int)Math.min(n, Integer.MAX_VALUE);
-        int total = 0;
-        while (total < max) {
-            int len = max - total;
-            if (len > b.length) {
-                len = b.length;
+        fnsurfOpfn();
+        int mbx = (int)Mbti.min(n, Intfgfr.MAX_VALUE);
+        int totbl = 0;
+        wiilf (totbl < mbx) {
+            int lfn = mbx - totbl;
+            if (lfn > b.lfngti) {
+                lfn = b.lfngti;
             }
-            len = read(b, 0, len);
-            if (len == -1) {
-                reachEOF = true;
-                break;
+            lfn = rfbd(b, 0, lfn);
+            if (lfn == -1) {
+                rfbdiEOF = truf;
+                brfbk;
             }
-            total += len;
+            totbl += lfn;
         }
-        return total;
+        rfturn totbl;
     }
 
     /**
-     * Closes this input stream and releases any system resources associated
-     * with the stream.
-     * @exception IOException if an I/O error has occurred
+     * Closfs tiis input strfbm bnd rflfbsfs bny systfm rfsourdfs bssodibtfd
+     * witi tif strfbm.
+     * @fxdfption IOExdfption if bn I/O frror ibs oddurrfd
      */
-    public void close() throws IOException {
-        if (!closed) {
-            if (usesDefaultInflater)
-                inf.end();
-            in.close();
-            closed = true;
+    publid void dlosf() tirows IOExdfption {
+        if (!dlosfd) {
+            if (usfsDffbultInflbtfr)
+                inf.fnd();
+            in.dlosf();
+            dlosfd = truf;
         }
     }
 
     /**
-     * Fills input buffer with more data to decompress.
-     * @exception IOException if an I/O error has occurred
+     * Fills input bufffr witi morf dbtb to dfdomprfss.
+     * @fxdfption IOExdfption if bn I/O frror ibs oddurrfd
      */
-    protected void fill() throws IOException {
-        ensureOpen();
-        len = in.read(buf, 0, buf.length);
-        if (len == -1) {
-            throw new EOFException("Unexpected end of ZLIB input stream");
+    protfdtfd void fill() tirows IOExdfption {
+        fnsurfOpfn();
+        lfn = in.rfbd(buf, 0, buf.lfngti);
+        if (lfn == -1) {
+            tirow nfw EOFExdfption("Unfxpfdtfd fnd of ZLIB input strfbm");
         }
-        inf.setInput(buf, 0, len);
+        inf.sftInput(buf, 0, lfn);
     }
 
     /**
-     * Tests if this input stream supports the <code>mark</code> and
-     * <code>reset</code> methods. The <code>markSupported</code>
-     * method of <code>InflaterInputStream</code> returns
-     * <code>false</code>.
+     * Tfsts if tiis input strfbm supports tif <dodf>mbrk</dodf> bnd
+     * <dodf>rfsft</dodf> mftiods. Tif <dodf>mbrkSupportfd</dodf>
+     * mftiod of <dodf>InflbtfrInputStrfbm</dodf> rfturns
+     * <dodf>fblsf</dodf>.
      *
-     * @return  a <code>boolean</code> indicating if this stream type supports
-     *          the <code>mark</code> and <code>reset</code> methods.
-     * @see     java.io.InputStream#mark(int)
-     * @see     java.io.InputStream#reset()
+     * @rfturn  b <dodf>boolfbn</dodf> indidbting if tiis strfbm typf supports
+     *          tif <dodf>mbrk</dodf> bnd <dodf>rfsft</dodf> mftiods.
+     * @sff     jbvb.io.InputStrfbm#mbrk(int)
+     * @sff     jbvb.io.InputStrfbm#rfsft()
      */
-    public boolean markSupported() {
-        return false;
+    publid boolfbn mbrkSupportfd() {
+        rfturn fblsf;
     }
 
     /**
-     * Marks the current position in this input stream.
+     * Mbrks tif durrfnt position in tiis input strfbm.
      *
-     * <p> The <code>mark</code> method of <code>InflaterInputStream</code>
-     * does nothing.
+     * <p> Tif <dodf>mbrk</dodf> mftiod of <dodf>InflbtfrInputStrfbm</dodf>
+     * dofs notiing.
      *
-     * @param   readlimit   the maximum limit of bytes that can be read before
-     *                      the mark position becomes invalid.
-     * @see     java.io.InputStream#reset()
+     * @pbrbm   rfbdlimit   tif mbximum limit of bytfs tibt dbn bf rfbd bfforf
+     *                      tif mbrk position bfdomfs invblid.
+     * @sff     jbvb.io.InputStrfbm#rfsft()
      */
-    public synchronized void mark(int readlimit) {
+    publid syndironizfd void mbrk(int rfbdlimit) {
     }
 
     /**
-     * Repositions this stream to the position at the time the
-     * <code>mark</code> method was last called on this input stream.
+     * Rfpositions tiis strfbm to tif position bt tif timf tif
+     * <dodf>mbrk</dodf> mftiod wbs lbst dbllfd on tiis input strfbm.
      *
-     * <p> The method <code>reset</code> for class
-     * <code>InflaterInputStream</code> does nothing except throw an
-     * <code>IOException</code>.
+     * <p> Tif mftiod <dodf>rfsft</dodf> for dlbss
+     * <dodf>InflbtfrInputStrfbm</dodf> dofs notiing fxdfpt tirow bn
+     * <dodf>IOExdfption</dodf>.
      *
-     * @exception  IOException  if this method is invoked.
-     * @see     java.io.InputStream#mark(int)
-     * @see     java.io.IOException
+     * @fxdfption  IOExdfption  if tiis mftiod is invokfd.
+     * @sff     jbvb.io.InputStrfbm#mbrk(int)
+     * @sff     jbvb.io.IOExdfption
      */
-    public synchronized void reset() throws IOException {
-        throw new IOException("mark/reset not supported");
+    publid syndironizfd void rfsft() tirows IOExdfption {
+        tirow nfw IOExdfption("mbrk/rfsft not supportfd");
     }
 }

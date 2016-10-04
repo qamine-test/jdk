@@ -1,1274 +1,1274 @@
 /*
- * Copyright (c) 2008, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt;
+pbdkbgf sun.bwt;
 
-import sun.misc.Unsafe;
+import sun.misd.Unsbff;
 
-import javax.accessibility.AccessibleContext;
-import java.awt.*;
-import java.awt.KeyboardFocusManager;
-import java.awt.DefaultKeyboardFocusManager;
-import java.awt.event.InputEvent;
-import java.awt.event.InvocationEvent;
-import java.awt.event.KeyEvent;
-import java.awt.geom.Point2D;
-import java.awt.image.BufferStrategy;
-import java.awt.peer.ComponentPeer;
+import jbvbx.bddfssibility.AddfssiblfContfxt;
+import jbvb.bwt.*;
+import jbvb.bwt.KfybobrdFodusMbnbgfr;
+import jbvb.bwt.DffbultKfybobrdFodusMbnbgfr;
+import jbvb.bwt.fvfnt.InputEvfnt;
+import jbvb.bwt.fvfnt.InvodbtionEvfnt;
+import jbvb.bwt.fvfnt.KfyEvfnt;
+import jbvb.bwt.gfom.Point2D;
+import jbvb.bwt.imbgf.BufffrStrbtfgy;
+import jbvb.bwt.pffr.ComponfntPffr;
 
-import java.lang.reflect.InvocationTargetException;
-import java.security.AccessControlContext;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+import jbvb.sfdurity.AddfssControlContfxt;
 
-import java.io.File;
-import java.util.ResourceBundle;
-import java.util.Vector;
+import jbvb.io.Filf;
+import jbvb.util.RfsourdfBundlf;
+import jbvb.util.Vfdtor;
 
 /**
- * The AWTAccessor utility class.
- * The main purpose of this class is to enable accessing
- * private and package-private fields of classes from
- * different classes/packages. See sun.misc.SharedSecretes
- * for another example.
+ * Tif AWTAddfssor utility dlbss.
+ * Tif mbin purposf of tiis dlbss is to fnbblf bddfssing
+ * privbtf bnd pbdkbgf-privbtf fiflds of dlbssfs from
+ * difffrfnt dlbssfs/pbdkbgfs. Sff sun.misd.SibrfdSfdrftfs
+ * for bnotifr fxbmplf.
  */
-public final class AWTAccessor {
+publid finbl dlbss AWTAddfssor {
 
-    private static final Unsafe unsafe = Unsafe.getUnsafe();
+    privbtf stbtid finbl Unsbff unsbff = Unsbff.gftUnsbff();
 
     /*
-     * We don't need any objects of this class.
-     * It's rather a collection of static methods
-     * and interfaces.
+     * Wf don't nffd bny objfdts of tiis dlbss.
+     * It's rbtifr b dollfdtion of stbtid mftiods
+     * bnd intfrfbdfs.
      */
-    private AWTAccessor() {
+    privbtf AWTAddfssor() {
     }
 
     /*
-     * An interface of accessor for the java.awt.Component class.
+     * An intfrfbdf of bddfssor for tif jbvb.bwt.Componfnt dlbss.
      */
-    public interface ComponentAccessor {
+    publid intfrfbdf ComponfntAddfssor {
         /*
-         * Sets whether the native background erase for a component
-         * has been disabled via SunToolkit.disableBackgroundErase().
+         * Sfts wiftifr tif nbtivf bbdkground frbsf for b domponfnt
+         * ibs bffn disbblfd vib SunToolkit.disbblfBbdkgroundErbsf().
          */
-        void setBackgroundEraseDisabled(Component comp, boolean disabled);
+        void sftBbdkgroundErbsfDisbblfd(Componfnt domp, boolfbn disbblfd);
         /*
-         * Indicates whether the native background erase for a
-         * component has been disabled via
-         * SunToolkit.disableBackgroundErase().
+         * Indidbtfs wiftifr tif nbtivf bbdkground frbsf for b
+         * domponfnt ibs bffn disbblfd vib
+         * SunToolkit.disbblfBbdkgroundErbsf().
          */
-        boolean getBackgroundEraseDisabled(Component comp);
+        boolfbn gftBbdkgroundErbsfDisbblfd(Componfnt domp);
         /*
          *
-         * Gets the bounds of this component in the form of a
-         * <code>Rectangle</code> object. The bounds specify this
-         * component's width, height, and location relative to
-         * its parent.
+         * Gfts tif bounds of tiis domponfnt in tif form of b
+         * <dodf>Rfdtbnglf</dodf> objfdt. Tif bounds spfdify tiis
+         * domponfnt's widti, ifigit, bnd lodbtion rflbtivf to
+         * its pbrfnt.
          */
-        Rectangle getBounds(Component comp);
+        Rfdtbnglf gftBounds(Componfnt domp);
         /*
-         * Sets the shape of a lw component to cut out from hw components.
+         * Sfts tif sibpf of b lw domponfnt to dut out from iw domponfnts.
          *
-         * See 6797587, 6776743, 6768307, and 6768332 for details
+         * Sff 6797587, 6776743, 6768307, bnd 6768332 for dftbils
          */
-        void setMixingCutoutShape(Component comp, Shape shape);
+        void sftMixingCutoutSibpf(Componfnt domp, Sibpf sibpf);
 
         /**
-         * Sets GraphicsConfiguration value for the component.
+         * Sfts GrbpiidsConfigurbtion vbluf for tif domponfnt.
          */
-        void setGraphicsConfiguration(Component comp, GraphicsConfiguration gc);
+        void sftGrbpiidsConfigurbtion(Componfnt domp, GrbpiidsConfigurbtion gd);
         /*
-         * Requests focus to the component.
+         * Rfqufsts fodus to tif domponfnt.
          */
-        boolean requestFocus(Component comp, CausedFocusEvent.Cause cause);
+        boolfbn rfqufstFodus(Componfnt domp, CbusfdFodusEvfnt.Cbusf dbusf);
         /*
-         * Determines if the component can gain focus.
+         * Dftfrminfs if tif domponfnt dbn gbin fodus.
          */
-        boolean canBeFocusOwner(Component comp);
+        boolfbn dbnBfFodusOwnfr(Componfnt domp);
 
         /**
-         * Returns whether the component is visible without invoking
-         * any client code.
+         * Rfturns wiftifr tif domponfnt is visiblf witiout invoking
+         * bny dlifnt dodf.
          */
-        boolean isVisible(Component comp);
+        boolfbn isVisiblf(Componfnt domp);
 
         /**
-         * Sets the RequestFocusController.
+         * Sfts tif RfqufstFodusControllfr.
          */
-        void setRequestFocusController(RequestFocusController requestController);
+        void sftRfqufstFodusControllfr(RfqufstFodusControllfr rfqufstControllfr);
 
         /**
-         * Returns the appContext of the component.
+         * Rfturns tif bppContfxt of tif domponfnt.
          */
-        AppContext getAppContext(Component comp);
+        AppContfxt gftAppContfxt(Componfnt domp);
 
         /**
-         * Sets the appContext of the component.
+         * Sfts tif bppContfxt of tif domponfnt.
          */
-        void setAppContext(Component comp, AppContext appContext);
+        void sftAppContfxt(Componfnt domp, AppContfxt bppContfxt);
 
         /**
-         * Returns the parent of the component.
+         * Rfturns tif pbrfnt of tif domponfnt.
          */
-        Container getParent(Component comp);
+        Contbinfr gftPbrfnt(Componfnt domp);
 
         /**
-         * Sets the parent of the component to the specified parent.
+         * Sfts tif pbrfnt of tif domponfnt to tif spfdififd pbrfnt.
          */
-        void setParent(Component comp, Container parent);
+        void sftPbrfnt(Componfnt domp, Contbinfr pbrfnt);
 
         /**
-         * Resizes the component to the specified width and height.
+         * Rfsizfs tif domponfnt to tif spfdififd widti bnd ifigit.
          */
-        void setSize(Component comp, int width, int height);
+        void sftSizf(Componfnt domp, int widti, int ifigit);
 
         /**
-         * Returns the location of the component.
+         * Rfturns tif lodbtion of tif domponfnt.
          */
-        Point getLocation(Component comp);
+        Point gftLodbtion(Componfnt domp);
 
         /**
-         * Moves the component to the new location.
+         * Movfs tif domponfnt to tif nfw lodbtion.
          */
-        void setLocation(Component comp, int x, int y);
+        void sftLodbtion(Componfnt domp, int x, int y);
 
         /**
-         * Determines whether this component is enabled.
+         * Dftfrminfs wiftifr tiis domponfnt is fnbblfd.
          */
-        boolean isEnabled(Component comp);
+        boolfbn isEnbblfd(Componfnt domp);
 
         /**
-         * Determines whether this component is displayable.
+         * Dftfrminfs wiftifr tiis domponfnt is displbybblf.
          */
-        boolean isDisplayable(Component comp);
+        boolfbn isDisplbybblf(Componfnt domp);
 
         /**
-         * Gets the cursor set in the component.
+         * Gfts tif dursor sft in tif domponfnt.
          */
-        Cursor getCursor(Component comp);
+        Cursor gftCursor(Componfnt domp);
 
         /**
-         * Returns the peer of the component.
+         * Rfturns tif pffr of tif domponfnt.
          */
-        ComponentPeer getPeer(Component comp);
+        ComponfntPffr gftPffr(Componfnt domp);
 
         /**
-         * Sets the peer of the component to the specified peer.
+         * Sfts tif pffr of tif domponfnt to tif spfdififd pffr.
          */
-        void setPeer(Component comp, ComponentPeer peer);
+        void sftPffr(Componfnt domp, ComponfntPffr pffr);
 
         /**
-         * Determines whether this component is lightweight.
+         * Dftfrminfs wiftifr tiis domponfnt is ligitwfigit.
          */
-        boolean isLightweight(Component comp);
+        boolfbn isLigitwfigit(Componfnt domp);
 
         /**
-         * Returns whether or not paint messages received from
-         * the operating system should be ignored.
+         * Rfturns wiftifr or not pbint mfssbgfs rfdfivfd from
+         * tif opfrbting systfm siould bf ignorfd.
          */
-        boolean getIgnoreRepaint(Component comp);
+        boolfbn gftIgnorfRfpbint(Componfnt domp);
 
         /**
-         * Returns the width of the component.
+         * Rfturns tif widti of tif domponfnt.
          */
-        int getWidth(Component comp);
+        int gftWidti(Componfnt domp);
 
         /**
-         * Returns the height of the component.
+         * Rfturns tif ifigit of tif domponfnt.
          */
-        int getHeight(Component comp);
+        int gftHfigit(Componfnt domp);
 
         /**
-         * Returns the x coordinate of the component.
+         * Rfturns tif x doordinbtf of tif domponfnt.
          */
-        int getX(Component comp);
+        int gftX(Componfnt domp);
 
         /**
-         * Returns the y coordinate of the component.
+         * Rfturns tif y doordinbtf of tif domponfnt.
          */
-        int getY(Component comp);
+        int gftY(Componfnt domp);
 
         /**
-         * Gets the foreground color of this component.
+         * Gfts tif forfground dolor of tiis domponfnt.
          */
-        Color getForeground(Component comp);
+        Color gftForfground(Componfnt domp);
 
         /**
-         * Gets the background color of this component.
+         * Gfts tif bbdkground dolor of tiis domponfnt.
          */
-        Color getBackground(Component comp);
+        Color gftBbdkground(Componfnt domp);
 
         /**
-         * Sets the background of this component to the specified color.
+         * Sfts tif bbdkground of tiis domponfnt to tif spfdififd dolor.
          */
-        void setBackground(Component comp, Color background);
+        void sftBbdkground(Componfnt domp, Color bbdkground);
 
         /**
-         * Gets the font of the component.
+         * Gfts tif font of tif domponfnt.
          */
-        Font getFont(Component comp);
+        Font gftFont(Componfnt domp);
 
         /**
-         * Processes events occurring on this component.
+         * Prodfssfs fvfnts oddurring on tiis domponfnt.
          */
-        void processEvent(Component comp, AWTEvent e);
+        void prodfssEvfnt(Componfnt domp, AWTEvfnt f);
 
 
         /*
-         * Returns the acc this component was constructed with.
+         * Rfturns tif bdd tiis domponfnt wbs donstrudtfd witi.
          */
-        AccessControlContext getAccessControlContext(Component comp);
+        AddfssControlContfxt gftAddfssControlContfxt(Componfnt domp);
 
         /**
-         * Revalidates the component synchronously.
+         * Rfvblidbtfs tif domponfnt syndironously.
          */
-        void revalidateSynchronously(Component comp);
+        void rfvblidbtfSyndironously(Componfnt domp);
 
         /**
-         * Creates a new strategy for multi-buffering on this component.
+         * Crfbtfs b nfw strbtfgy for multi-bufffring on tiis domponfnt.
          */
-        void createBufferStrategy(Component comp, int numBuffers,
-                BufferCapabilities caps) throws AWTException;
+        void drfbtfBufffrStrbtfgy(Componfnt domp, int numBufffrs,
+                BufffrCbpbbilitifs dbps) tirows AWTExdfption;
 
         /**
-         * returns the buffer strategy used by this component.
+         * rfturns tif bufffr strbtfgy usfd by tiis domponfnt.
          */
-        BufferStrategy getBufferStrategy(Component comp);
+        BufffrStrbtfgy gftBufffrStrbtfgy(Componfnt domp);
     }
 
     /*
-     * An interface of accessor for the java.awt.Container class.
+     * An intfrfbdf of bddfssor for tif jbvb.bwt.Contbinfr dlbss.
      */
-    public interface ContainerAccessor {
+    publid intfrfbdf ContbinfrAddfssor {
         /**
-         * Validates the container unconditionally.
+         * Vblidbtfs tif dontbinfr undonditionblly.
          */
-        void validateUnconditionally(Container cont);
+        void vblidbtfUndonditionblly(Contbinfr dont);
 
         /**
          *
-         * Access to the private version of findComponentAt method which has
-         * a controllable behavior. Setting 'ignoreEnabled' to 'false'
-         * bypasses disabled Components during the search.
+         * Addfss to tif privbtf vfrsion of findComponfntAt mftiod wiidi ibs
+         * b dontrollbblf bfibvior. Sftting 'ignorfEnbblfd' to 'fblsf'
+         * bypbssfs disbblfd Componfnts during tif sfbrdi.
          */
-        Component findComponentAt(Container cont, int x, int y, boolean ignoreEnabled);
+        Componfnt findComponfntAt(Contbinfr dont, int x, int y, boolfbn ignorfEnbblfd);
 
         /**
-         * Starts LW Modal.
+         * Stbrts LW Modbl.
          */
-        void startLWModal(Container cont);
+        void stbrtLWModbl(Contbinfr dont);
 
         /**
-         * Starts LW Modal.
+         * Stbrts LW Modbl.
          */
-        void stopLWModal(Container cont);
+        void stopLWModbl(Contbinfr dont);
     }
 
     /*
-     * An interface of accessor for java.awt.Window class.
+     * An intfrfbdf of bddfssor for jbvb.bwt.Window dlbss.
      */
-    public interface WindowAccessor {
+    publid intfrfbdf WindowAddfssor {
         /*
-         * Get opacity level of the given window.
+         * Gft opbdity lfvfl of tif givfn window.
          */
-        float getOpacity(Window window);
+        flobt gftOpbdity(Window window);
         /*
-         * Set opacity level to the given window.
+         * Sft opbdity lfvfl to tif givfn window.
          */
-        void setOpacity(Window window, float opacity);
+        void sftOpbdity(Window window, flobt opbdity);
         /*
-         * Get a shape assigned to the given window.
+         * Gft b sibpf bssignfd to tif givfn window.
          */
-        Shape getShape(Window window);
+        Sibpf gftSibpf(Window window);
         /*
-         * Set a shape to the given window.
+         * Sft b sibpf to tif givfn window.
          */
-        void setShape(Window window, Shape shape);
+        void sftSibpf(Window window, Sibpf sibpf);
         /*
-         * Set the opaque preoperty to the given window.
+         * Sft tif opbquf prfopfrty to tif givfn window.
          */
-        void setOpaque(Window window, boolean isOpaque);
+        void sftOpbquf(Window window, boolfbn isOpbquf);
         /*
-         * Update the image of a non-opaque (translucent) window.
+         * Updbtf tif imbgf of b non-opbquf (trbnsludfnt) window.
          */
-        void updateWindow(Window window);
+        void updbtfWindow(Window window);
 
-        /** Get the size of the security warning.
+        /** Gft tif sizf of tif sfdurity wbrning.
          */
-        Dimension getSecurityWarningSize(Window w);
+        Dimfnsion gftSfdurityWbrningSizf(Window w);
 
         /**
-         * Set the size of the security warning.
+         * Sft tif sizf of tif sfdurity wbrning.
          */
-        void setSecurityWarningSize(Window w, int width, int height);
+        void sftSfdurityWbrningSizf(Window w, int widti, int ifigit);
 
-        /** Set the position of the security warning.
+        /** Sft tif position of tif sfdurity wbrning.
          */
-        void setSecurityWarningPosition(Window w, Point2D point,
-                float alignmentX, float alignmentY);
+        void sftSfdurityWbrningPosition(Window w, Point2D point,
+                flobt blignmfntX, flobt blignmfntY);
 
-        /** Request to recalculate the new position of the security warning for
-         * the given window size/location as reported by the native system.
+        /** Rfqufst to rfdbldulbtf tif nfw position of tif sfdurity wbrning for
+         * tif givfn window sizf/lodbtion bs rfportfd by tif nbtivf systfm.
          */
-        Point2D calculateSecurityWarningPosition(Window window,
-                double x, double y, double w, double h);
+        Point2D dbldulbtfSfdurityWbrningPosition(Window window,
+                doublf x, doublf y, doublf w, doublf i);
 
-        /** Sets the synchronous status of focus requests on lightweight
-         * components in the specified window to the specified value.
+        /** Sfts tif syndironous stbtus of fodus rfqufsts on ligitwfigit
+         * domponfnts in tif spfdififd window to tif spfdififd vbluf.
          */
-        void setLWRequestStatus(Window changed, boolean status);
-
-        /**
-         * Indicates whether this window should receive focus on subsequently
-         * being shown, or being moved to the front.
-         */
-        boolean isAutoRequestFocus(Window w);
+        void sftLWRfqufstStbtus(Window dibngfd, boolfbn stbtus);
 
         /**
-         * Indicates whether the specified window is an utility window for TrayIcon.
+         * Indidbtfs wiftifr tiis window siould rfdfivf fodus on subsfqufntly
+         * bfing siown, or bfing movfd to tif front.
          */
-        boolean isTrayIconWindow(Window w);
+        boolfbn isAutoRfqufstFodus(Window w);
 
         /**
-         * Marks the specified window as an utility window for TrayIcon.
+         * Indidbtfs wiftifr tif spfdififd window is bn utility window for TrbyIdon.
          */
-        void setTrayIconWindow(Window w, boolean isTrayIconWindow);
+        boolfbn isTrbyIdonWindow(Window w);
+
+        /**
+         * Mbrks tif spfdififd window bs bn utility window for TrbyIdon.
+         */
+        void sftTrbyIdonWindow(Window w, boolfbn isTrbyIdonWindow);
     }
 
     /**
-     * An accessor for the AWTEvent class.
+     * An bddfssor for tif AWTEvfnt dlbss.
      */
-    public interface AWTEventAccessor {
+    publid intfrfbdf AWTEvfntAddfssor {
         /**
-         * Marks the event as posted.
+         * Mbrks tif fvfnt bs postfd.
          */
-        void setPosted(AWTEvent ev);
+        void sftPostfd(AWTEvfnt fv);
 
         /**
-         * Sets the flag on this AWTEvent indicating that it was
-         * generated by the system.
+         * Sfts tif flbg on tiis AWTEvfnt indidbting tibt it wbs
+         * gfnfrbtfd by tif systfm.
          */
-        void setSystemGenerated(AWTEvent ev);
+        void sftSystfmGfnfrbtfd(AWTEvfnt fv);
 
         /**
-         * Indicates whether this AWTEvent was generated by the system.
+         * Indidbtfs wiftifr tiis AWTEvfnt wbs gfnfrbtfd by tif systfm.
          */
-        boolean isSystemGenerated(AWTEvent ev);
+        boolfbn isSystfmGfnfrbtfd(AWTEvfnt fv);
 
         /**
-         * Returns the acc this event was constructed with.
+         * Rfturns tif bdd tiis fvfnt wbs donstrudtfd witi.
          */
-        AccessControlContext getAccessControlContext(AWTEvent ev);
+        AddfssControlContfxt gftAddfssControlContfxt(AWTEvfnt fv);
 
         /**
-         * Returns binary data associated with this event;
+         * Rfturns binbry dbtb bssodibtfd witi tiis fvfnt;
          */
-        byte[] getBData(AWTEvent ev);
+        bytf[] gftBDbtb(AWTEvfnt fv);
 
         /**
-         * Associates binary data with this event;
+         * Assodibtfs binbry dbtb witi tiis fvfnt;
          */
-        void setBData(AWTEvent ev, byte[] bdata);
+        void sftBDbtb(AWTEvfnt fv, bytf[] bdbtb);
     }
 
-    public interface InputEventAccessor {
+    publid intfrfbdf InputEvfntAddfssor {
         /*
-         * Accessor for InputEvent.getButtonDownMasks()
+         * Addfssor for InputEvfnt.gftButtonDownMbsks()
          */
-        int[] getButtonDownMasks();
-
-        /*
-         * Accessor for InputEvent.canAccessSystemClipboard field
-         */
-        boolean canAccessSystemClipboard(InputEvent event);
-    }
-
-    /*
-     * An accessor for the java.awt.Frame class.
-     */
-    public interface FrameAccessor {
-        /*
-         * Sets the state of this frame.
-         */
-        void setExtendedState(Frame frame, int state);
-        /*
-         * Gets the state of this frame.
-         */
-       int getExtendedState(Frame frame);
-        /*
-         * Gets the maximized bounds of this frame.
-         */
-       Rectangle getMaximizedBounds(Frame frame);
-    }
-
-    /**
-     * An interface of accessor for the java.awt.KeyboardFocusManager class.
-     */
-    public interface KeyboardFocusManagerAccessor {
-        /**
-         * Indicates whether the native implementation should
-         * proceed with a pending focus request for the heavyweight.
-         */
-        int shouldNativelyFocusHeavyweight(Component heavyweight,
-                                           Component descendant,
-                                           boolean temporary,
-                                           boolean focusedWindowChangeAllowed,
-                                           long time,
-                                           CausedFocusEvent.Cause cause);
-        /**
-         * Delivers focus for the lightweight descendant of the heavyweight
-         * synchronously.
-         */
-        boolean processSynchronousLightweightTransfer(Component heavyweight,
-                                                      Component descendant,
-                                                      boolean temporary,
-                                                      boolean focusedWindowChangeAllowed,
-                                                      long time);
-        /**
-         * Removes the last focus request for the heavyweight from the queue.
-         */
-        void removeLastFocusRequest(Component heavyweight);
-
-        /**
-         * Sets the most recent focus owner in the window.
-         */
-        void setMostRecentFocusOwner(Window window, Component component);
-
-        /**
-         * Returns current KFM of the specified AppContext.
-         */
-        KeyboardFocusManager getCurrentKeyboardFocusManager(AppContext ctx);
-
-        /**
-         * Return the current focus cycle root
-         */
-        Container getCurrentFocusCycleRoot();
-    }
-
-    /**
-     * An accessor for the MenuComponent class.
-     */
-    public interface MenuComponentAccessor {
-        /**
-         * Returns the appContext of the menu component.
-         */
-        AppContext getAppContext(MenuComponent menuComp);
-
-        /**
-         * Sets the appContext of the menu component.
-         */
-        void setAppContext(MenuComponent menuComp, AppContext appContext);
-
-        /**
-         * Returns the menu container of the menu component.
-         */
-        MenuContainer getParent(MenuComponent menuComp);
-
-        /**
-         * Sets the menu container of the menu component.
-         */
-        void  setParent(MenuComponent menuComp, MenuContainer menuContainer);
-
-        /**
-         * Gets the font used for this menu component.
-         */
-        Font getFont_NoClientCode(MenuComponent menuComp);
-    }
-
-    /**
-     * An accessor for the EventQueue class
-     */
-    public interface EventQueueAccessor {
-        /**
-         * Gets the event dispatch thread.
-         */
-        Thread getDispatchThread(EventQueue eventQueue);
-
-        /**
-         * Checks if the current thread is EDT for the given EQ.
-         */
-        public boolean isDispatchThreadImpl(EventQueue eventQueue);
-
-        /**
-         * Removes any pending events for the specified source object.
-         */
-        void removeSourceEvents(EventQueue eventQueue, Object source, boolean removeAllEvents);
-
-        /**
-         * Returns whether an event is pending on any of the separate Queues.
-         */
-        boolean noEvents(EventQueue eventQueue);
-
-        /**
-         * Called from PostEventQueue.postEvent to notify that a new event
-         * appeared.
-         */
-        void wakeup(EventQueue eventQueue, boolean isShutdown);
-
-        /**
-         * Static in EventQueue
-         */
-        void invokeAndWait(Object source, Runnable r)
-            throws InterruptedException, InvocationTargetException;
-
-        /**
-         * Sets the delegate for the EventQueue used by FX/AWT single threaded mode
-         */
-        void setFwDispatcher(EventQueue eventQueue, FwDispatcher dispatcher);
-
-        /**
-         * Gets most recent event time in the EventQueue
-         */
-        long getMostRecentEventTime(EventQueue eventQueue);
-    }
-
-    /*
-     * An accessor for the PopupMenu class
-     */
-    public interface PopupMenuAccessor {
-        /*
-         * Returns whether the popup menu is attached to a tray
-         */
-        boolean isTrayIconPopup(PopupMenu popupMenu);
-    }
-
-    /*
-     * An accessor for the FileDialog class
-     */
-    public interface FileDialogAccessor {
-        /*
-         * Sets the files the user selects
-         */
-        void setFiles(FileDialog fileDialog, File files[]);
+        int[] gftButtonDownMbsks();
 
         /*
-         * Sets the file the user selects
+         * Addfssor for InputEvfnt.dbnAddfssSystfmClipbobrd fifld
          */
-        void setFile(FileDialog fileDialog, String file);
+        boolfbn dbnAddfssSystfmClipbobrd(InputEvfnt fvfnt);
+    }
+
+    /*
+     * An bddfssor for tif jbvb.bwt.Frbmf dlbss.
+     */
+    publid intfrfbdf FrbmfAddfssor {
+        /*
+         * Sfts tif stbtf of tiis frbmf.
+         */
+        void sftExtfndfdStbtf(Frbmf frbmf, int stbtf);
+        /*
+         * Gfts tif stbtf of tiis frbmf.
+         */
+       int gftExtfndfdStbtf(Frbmf frbmf);
+        /*
+         * Gfts tif mbximizfd bounds of tiis frbmf.
+         */
+       Rfdtbnglf gftMbximizfdBounds(Frbmf frbmf);
+    }
+
+    /**
+     * An intfrfbdf of bddfssor for tif jbvb.bwt.KfybobrdFodusMbnbgfr dlbss.
+     */
+    publid intfrfbdf KfybobrdFodusMbnbgfrAddfssor {
+        /**
+         * Indidbtfs wiftifr tif nbtivf implfmfntbtion siould
+         * prodffd witi b pfnding fodus rfqufst for tif ifbvywfigit.
+         */
+        int siouldNbtivflyFodusHfbvywfigit(Componfnt ifbvywfigit,
+                                           Componfnt dfsdfndbnt,
+                                           boolfbn tfmporbry,
+                                           boolfbn fodusfdWindowCibngfAllowfd,
+                                           long timf,
+                                           CbusfdFodusEvfnt.Cbusf dbusf);
+        /**
+         * Dflivfrs fodus for tif ligitwfigit dfsdfndbnt of tif ifbvywfigit
+         * syndironously.
+         */
+        boolfbn prodfssSyndironousLigitwfigitTrbnsffr(Componfnt ifbvywfigit,
+                                                      Componfnt dfsdfndbnt,
+                                                      boolfbn tfmporbry,
+                                                      boolfbn fodusfdWindowCibngfAllowfd,
+                                                      long timf);
+        /**
+         * Rfmovfs tif lbst fodus rfqufst for tif ifbvywfigit from tif qufuf.
+         */
+        void rfmovfLbstFodusRfqufst(Componfnt ifbvywfigit);
+
+        /**
+         * Sfts tif most rfdfnt fodus ownfr in tif window.
+         */
+        void sftMostRfdfntFodusOwnfr(Window window, Componfnt domponfnt);
+
+        /**
+         * Rfturns durrfnt KFM of tif spfdififd AppContfxt.
+         */
+        KfybobrdFodusMbnbgfr gftCurrfntKfybobrdFodusMbnbgfr(AppContfxt dtx);
+
+        /**
+         * Rfturn tif durrfnt fodus dydlf root
+         */
+        Contbinfr gftCurrfntFodusCydlfRoot();
+    }
+
+    /**
+     * An bddfssor for tif MfnuComponfnt dlbss.
+     */
+    publid intfrfbdf MfnuComponfntAddfssor {
+        /**
+         * Rfturns tif bppContfxt of tif mfnu domponfnt.
+         */
+        AppContfxt gftAppContfxt(MfnuComponfnt mfnuComp);
+
+        /**
+         * Sfts tif bppContfxt of tif mfnu domponfnt.
+         */
+        void sftAppContfxt(MfnuComponfnt mfnuComp, AppContfxt bppContfxt);
+
+        /**
+         * Rfturns tif mfnu dontbinfr of tif mfnu domponfnt.
+         */
+        MfnuContbinfr gftPbrfnt(MfnuComponfnt mfnuComp);
+
+        /**
+         * Sfts tif mfnu dontbinfr of tif mfnu domponfnt.
+         */
+        void  sftPbrfnt(MfnuComponfnt mfnuComp, MfnuContbinfr mfnuContbinfr);
+
+        /**
+         * Gfts tif font usfd for tiis mfnu domponfnt.
+         */
+        Font gftFont_NoClifntCodf(MfnuComponfnt mfnuComp);
+    }
+
+    /**
+     * An bddfssor for tif EvfntQufuf dlbss
+     */
+    publid intfrfbdf EvfntQufufAddfssor {
+        /**
+         * Gfts tif fvfnt dispbtdi tirfbd.
+         */
+        Tirfbd gftDispbtdiTirfbd(EvfntQufuf fvfntQufuf);
+
+        /**
+         * Cifdks if tif durrfnt tirfbd is EDT for tif givfn EQ.
+         */
+        publid boolfbn isDispbtdiTirfbdImpl(EvfntQufuf fvfntQufuf);
+
+        /**
+         * Rfmovfs bny pfnding fvfnts for tif spfdififd sourdf objfdt.
+         */
+        void rfmovfSourdfEvfnts(EvfntQufuf fvfntQufuf, Objfdt sourdf, boolfbn rfmovfAllEvfnts);
+
+        /**
+         * Rfturns wiftifr bn fvfnt is pfnding on bny of tif sfpbrbtf Qufufs.
+         */
+        boolfbn noEvfnts(EvfntQufuf fvfntQufuf);
+
+        /**
+         * Cbllfd from PostEvfntQufuf.postEvfnt to notify tibt b nfw fvfnt
+         * bppfbrfd.
+         */
+        void wbkfup(EvfntQufuf fvfntQufuf, boolfbn isSiutdown);
+
+        /**
+         * Stbtid in EvfntQufuf
+         */
+        void invokfAndWbit(Objfdt sourdf, Runnbblf r)
+            tirows IntfrruptfdExdfption, InvodbtionTbrgftExdfption;
+
+        /**
+         * Sfts tif dflfgbtf for tif EvfntQufuf usfd by FX/AWT singlf tirfbdfd modf
+         */
+        void sftFwDispbtdifr(EvfntQufuf fvfntQufuf, FwDispbtdifr dispbtdifr);
+
+        /**
+         * Gfts most rfdfnt fvfnt timf in tif EvfntQufuf
+         */
+        long gftMostRfdfntEvfntTimf(EvfntQufuf fvfntQufuf);
+    }
+
+    /*
+     * An bddfssor for tif PopupMfnu dlbss
+     */
+    publid intfrfbdf PopupMfnuAddfssor {
+        /*
+         * Rfturns wiftifr tif popup mfnu is bttbdifd to b trby
+         */
+        boolfbn isTrbyIdonPopup(PopupMfnu popupMfnu);
+    }
+
+    /*
+     * An bddfssor for tif FilfDiblog dlbss
+     */
+    publid intfrfbdf FilfDiblogAddfssor {
+        /*
+         * Sfts tif filfs tif usfr sflfdts
+         */
+        void sftFilfs(FilfDiblog filfDiblog, Filf filfs[]);
 
         /*
-         * Sets the directory the user selects
+         * Sfts tif filf tif usfr sflfdts
          */
-        void setDirectory(FileDialog fileDialog, String directory);
+        void sftFilf(FilfDiblog filfDiblog, String filf);
 
         /*
-         * Returns whether the file dialog allows the multiple file selection.
+         * Sfts tif dirfdtory tif usfr sflfdts
          */
-        boolean isMultipleMode(FileDialog fileDialog);
-    }
-
-    /*
-     * An accessor for the ScrollPaneAdjustable class.
-     */
-    public interface ScrollPaneAdjustableAccessor {
-        /*
-         * Sets the value of this scrollbar to the specified value.
-         */
-        void setTypedValue(final ScrollPaneAdjustable adj, final int v,
-                           final int type);
-    }
-
-    /**
-     * An accessor for the CheckboxMenuItem class
-     */
-    public interface CheckboxMenuItemAccessor {
-        /**
-         * Returns whether menu item is checked
-         */
-        boolean getState(CheckboxMenuItem cmi);
-    }
-
-    /**
-     * An accessor for the Cursor class
-     */
-    public interface CursorAccessor {
-        /**
-         * Returns pData of the Cursor class
-         */
-        long getPData(Cursor cursor);
-
-        /**
-         * Sets pData to the Cursor class
-         */
-        void setPData(Cursor cursor, long pData);
-
-        /**
-         * Return type of the Cursor class
-         */
-        int getType(Cursor cursor);
-    }
-
-    /**
-     * An accessor for the MenuBar class
-     */
-    public interface MenuBarAccessor {
-        /**
-         * Returns help menu
-         */
-        Menu getHelpMenu(MenuBar menuBar);
-
-        /**
-         * Returns menus
-         */
-        Vector<Menu> getMenus(MenuBar menuBar);
-    }
-
-    /**
-     * An accessor for the MenuItem class
-     */
-    public interface MenuItemAccessor {
-        /**
-         * Returns whether menu item is enabled
-         */
-        boolean isEnabled(MenuItem item);
-
-        /**
-         * Gets the command name of the action event that is fired
-         * by this menu item.
-         */
-        String getActionCommandImpl(MenuItem item);
-
-        /**
-         * Returns true if the item and all its ancestors are
-         * enabled, false otherwise
-         */
-        boolean isItemEnabled(MenuItem item);
-
-        /**
-         * Returns label
-         */
-        String getLabel(MenuItem item);
-
-        /**
-         * Returns shortcut
-         */
-        MenuShortcut getShortcut(MenuItem item);
-    }
-
-    /**
-     * An accessor for the Menu class
-     */
-    public interface MenuAccessor {
-        /**
-         * Returns vector of the items that are part of the Menu
-         */
-        Vector<MenuItem> getItems(Menu menu);
-    }
-
-    /**
-     * An accessor for the KeyEvent class
-     */
-    public interface KeyEventAccessor {
-        /**
-         * Sets rawCode field for KeyEvent
-         */
-        void setRawCode(KeyEvent ev, long rawCode);
-
-        /**
-         * Sets primaryLevelUnicode field for KeyEvent
-         */
-        void setPrimaryLevelUnicode(KeyEvent ev, long primaryLevelUnicode);
-
-        /**
-         * Sets extendedKeyCode field for KeyEvent
-         */
-        void setExtendedKeyCode(KeyEvent ev, long extendedKeyCode);
-
-        /**
-         * Gets original source for KeyEvent
-         */
-        Component getOriginalSource(KeyEvent ev);
-    }
-
-    /**
-     * An accessor for the ClientPropertyKey class
-     */
-    public interface ClientPropertyKeyAccessor {
-        /**
-         * Retrieves JComponent_TRANSFER_HANDLER enum object
-         */
-        Object getJComponent_TRANSFER_HANDLER();
-    }
-
-    /**
-     * An accessor for the SystemTray class
-     */
-    public interface SystemTrayAccessor {
-        /**
-         * Support for reporting bound property changes for Object properties.
-         */
-        void firePropertyChange(SystemTray tray, String propertyName, Object oldValue, Object newValue);
-    }
-
-    /**
-     * An accessor for the TrayIcon class
-     */
-    public interface TrayIconAccessor {
-        void addNotify(TrayIcon trayIcon) throws AWTException;
-        void removeNotify(TrayIcon trayIcon);
-    }
-
-    /**
-     * An accessor for the DefaultKeyboardFocusManager class
-     */
-    public interface DefaultKeyboardFocusManagerAccessor {
-        public void consumeNextKeyTyped(DefaultKeyboardFocusManager dkfm, KeyEvent e);
-    }
-
-    /*
-     * An accessor for the SequencedEventAccessor class
-     */
-    public interface SequencedEventAccessor {
-        /*
-         * Returns the nested event.
-         */
-        AWTEvent getNested(AWTEvent sequencedEvent);
+        void sftDirfdtory(FilfDiblog filfDiblog, String dirfdtory);
 
         /*
-         * Returns true if the event is an instances of SequencedEvent.
+         * Rfturns wiftifr tif filf diblog bllows tif multiplf filf sflfdtion.
          */
-        boolean isSequencedEvent(AWTEvent event);
+        boolfbn isMultiplfModf(FilfDiblog filfDiblog);
     }
 
     /*
-     * An accessor for the Toolkit class
+     * An bddfssor for tif SdrollPbnfAdjustbblf dlbss.
      */
-    public interface ToolkitAccessor {
-        void setPlatformResources(ResourceBundle bundle);
-    }
-
-    /*
-     * An accessor object for the InvocationEvent class
-     */
-    public interface InvocationEventAccessor {
-        void dispose(InvocationEvent event);
-    }
-
-    /*
-     * An accessor object for the SystemColor class
-     */
-    public interface SystemColorAccessor {
-        void updateSystemColors();
-    }
-
-    /*
-     * An accessor object for the AccessibleContext class
-     */
-    public interface AccessibleContextAccessor {
-        void setAppContext(AccessibleContext accessibleContext, AppContext appContext);
-        AppContext getAppContext(AccessibleContext accessibleContext);
-    }
-
-    /*
-     * Accessor instances are initialized in the static initializers of
-     * corresponding AWT classes by using setters defined below.
-     */
-    private static ComponentAccessor componentAccessor;
-    private static ContainerAccessor containerAccessor;
-    private static WindowAccessor windowAccessor;
-    private static AWTEventAccessor awtEventAccessor;
-    private static InputEventAccessor inputEventAccessor;
-    private static FrameAccessor frameAccessor;
-    private static KeyboardFocusManagerAccessor kfmAccessor;
-    private static MenuComponentAccessor menuComponentAccessor;
-    private static EventQueueAccessor eventQueueAccessor;
-    private static PopupMenuAccessor popupMenuAccessor;
-    private static FileDialogAccessor fileDialogAccessor;
-    private static ScrollPaneAdjustableAccessor scrollPaneAdjustableAccessor;
-    private static CheckboxMenuItemAccessor checkboxMenuItemAccessor;
-    private static CursorAccessor cursorAccessor;
-    private static MenuBarAccessor menuBarAccessor;
-    private static MenuItemAccessor menuItemAccessor;
-    private static MenuAccessor menuAccessor;
-    private static KeyEventAccessor keyEventAccessor;
-    private static ClientPropertyKeyAccessor clientPropertyKeyAccessor;
-    private static SystemTrayAccessor systemTrayAccessor;
-    private static TrayIconAccessor trayIconAccessor;
-    private static DefaultKeyboardFocusManagerAccessor defaultKeyboardFocusManagerAccessor;
-    private static SequencedEventAccessor sequencedEventAccessor;
-    private static ToolkitAccessor toolkitAccessor;
-    private static InvocationEventAccessor invocationEventAccessor;
-    private static SystemColorAccessor systemColorAccessor;
-    private static AccessibleContextAccessor accessibleContextAccessor;
-
-    /*
-     * Set an accessor object for the java.awt.Component class.
-     */
-    public static void setComponentAccessor(ComponentAccessor ca) {
-        componentAccessor = ca;
-    }
-
-    /*
-     * Retrieve the accessor object for the java.awt.Component class.
-     */
-    public static ComponentAccessor getComponentAccessor() {
-        if (componentAccessor == null) {
-            unsafe.ensureClassInitialized(Component.class);
-        }
-
-        return componentAccessor;
-    }
-
-    /*
-     * Set an accessor object for the java.awt.Container class.
-     */
-    public static void setContainerAccessor(ContainerAccessor ca) {
-        containerAccessor = ca;
-    }
-
-    /*
-     * Retrieve the accessor object for the java.awt.Container class.
-     */
-    public static ContainerAccessor getContainerAccessor() {
-        if (containerAccessor == null) {
-            unsafe.ensureClassInitialized(Container.class);
-        }
-
-        return containerAccessor;
-    }
-
-    /*
-     * Set an accessor object for the java.awt.Window class.
-     */
-    public static void setWindowAccessor(WindowAccessor wa) {
-        windowAccessor = wa;
-    }
-
-    /*
-     * Retrieve the accessor object for the java.awt.Window class.
-     */
-    public static WindowAccessor getWindowAccessor() {
-        if (windowAccessor == null) {
-            unsafe.ensureClassInitialized(Window.class);
-        }
-        return windowAccessor;
-    }
-
-    /*
-     * Set an accessor object for the java.awt.AWTEvent class.
-     */
-    public static void setAWTEventAccessor(AWTEventAccessor aea) {
-        awtEventAccessor = aea;
-    }
-
-    /*
-     * Retrieve the accessor object for the java.awt.AWTEvent class.
-     */
-    public static AWTEventAccessor getAWTEventAccessor() {
-        if (awtEventAccessor == null) {
-            unsafe.ensureClassInitialized(AWTEvent.class);
-        }
-        return awtEventAccessor;
-    }
-
-    /*
-     * Set an accessor object for the java.awt.event.InputEvent class.
-     */
-    public static void setInputEventAccessor(InputEventAccessor iea) {
-        inputEventAccessor = iea;
-    }
-
-    /*
-     * Retrieve the accessor object for the java.awt.event.InputEvent class.
-     */
-    public static InputEventAccessor getInputEventAccessor() {
-        if (inputEventAccessor == null) {
-            unsafe.ensureClassInitialized(InputEvent.class);
-        }
-        return inputEventAccessor;
-    }
-
-    /*
-     * Set an accessor object for the java.awt.Frame class.
-     */
-    public static void setFrameAccessor(FrameAccessor fa) {
-        frameAccessor = fa;
-    }
-
-    /*
-     * Retrieve the accessor object for the java.awt.Frame class.
-     */
-    public static FrameAccessor getFrameAccessor() {
-        if (frameAccessor == null) {
-            unsafe.ensureClassInitialized(Frame.class);
-        }
-        return frameAccessor;
-    }
-
-    /*
-     * Set an accessor object for the java.awt.KeyboardFocusManager class.
-     */
-    public static void setKeyboardFocusManagerAccessor(KeyboardFocusManagerAccessor kfma) {
-        kfmAccessor = kfma;
-    }
-
-    /*
-     * Retrieve the accessor object for the java.awt.KeyboardFocusManager class.
-     */
-    public static KeyboardFocusManagerAccessor getKeyboardFocusManagerAccessor() {
-        if (kfmAccessor == null) {
-            unsafe.ensureClassInitialized(KeyboardFocusManager.class);
-        }
-        return kfmAccessor;
-    }
-
-    /*
-     * Set an accessor object for the java.awt.MenuComponent class.
-     */
-    public static void setMenuComponentAccessor(MenuComponentAccessor mca) {
-        menuComponentAccessor = mca;
-    }
-
-    /*
-     * Retrieve the accessor object for the java.awt.MenuComponent class.
-     */
-    public static MenuComponentAccessor getMenuComponentAccessor() {
-        if (menuComponentAccessor == null) {
-            unsafe.ensureClassInitialized(MenuComponent.class);
-        }
-        return menuComponentAccessor;
-    }
-
-    /*
-     * Set an accessor object for the java.awt.EventQueue class.
-     */
-    public static void setEventQueueAccessor(EventQueueAccessor eqa) {
-        eventQueueAccessor = eqa;
-    }
-
-    /*
-     * Retrieve the accessor object for the java.awt.EventQueue class.
-     */
-    public static EventQueueAccessor getEventQueueAccessor() {
-        if (eventQueueAccessor == null) {
-            unsafe.ensureClassInitialized(EventQueue.class);
-        }
-        return eventQueueAccessor;
-    }
-
-    /*
-     * Set an accessor object for the java.awt.PopupMenu class.
-     */
-    public static void setPopupMenuAccessor(PopupMenuAccessor pma) {
-        popupMenuAccessor = pma;
-    }
-
-    /*
-     * Retrieve the accessor object for the java.awt.PopupMenu class.
-     */
-    public static PopupMenuAccessor getPopupMenuAccessor() {
-        if (popupMenuAccessor == null) {
-            unsafe.ensureClassInitialized(PopupMenu.class);
-        }
-        return popupMenuAccessor;
-    }
-
-    /*
-     * Set an accessor object for the java.awt.FileDialog class.
-     */
-    public static void setFileDialogAccessor(FileDialogAccessor fda) {
-        fileDialogAccessor = fda;
-    }
-
-    /*
-     * Retrieve the accessor object for the java.awt.FileDialog class.
-     */
-    public static FileDialogAccessor getFileDialogAccessor() {
-        if (fileDialogAccessor == null) {
-            unsafe.ensureClassInitialized(FileDialog.class);
-        }
-        return fileDialogAccessor;
-    }
-
-    /*
-     * Set an accessor object for the java.awt.ScrollPaneAdjustable class.
-     */
-    public static void setScrollPaneAdjustableAccessor(ScrollPaneAdjustableAccessor adj) {
-        scrollPaneAdjustableAccessor = adj;
-    }
-
-    /*
-     * Retrieve the accessor object for the java.awt.ScrollPaneAdjustable
-     * class.
-     */
-    public static ScrollPaneAdjustableAccessor getScrollPaneAdjustableAccessor() {
-        if (scrollPaneAdjustableAccessor == null) {
-            unsafe.ensureClassInitialized(ScrollPaneAdjustable.class);
-        }
-        return scrollPaneAdjustableAccessor;
+    publid intfrfbdf SdrollPbnfAdjustbblfAddfssor {
+        /*
+         * Sfts tif vbluf of tiis sdrollbbr to tif spfdififd vbluf.
+         */
+        void sftTypfdVbluf(finbl SdrollPbnfAdjustbblf bdj, finbl int v,
+                           finbl int typf);
     }
 
     /**
-     * Set an accessor object for the java.awt.CheckboxMenuItem class.
+     * An bddfssor for tif CifdkboxMfnuItfm dlbss
      */
-    public static void setCheckboxMenuItemAccessor(CheckboxMenuItemAccessor cmia) {
-        checkboxMenuItemAccessor = cmia;
+    publid intfrfbdf CifdkboxMfnuItfmAddfssor {
+        /**
+         * Rfturns wiftifr mfnu itfm is difdkfd
+         */
+        boolfbn gftStbtf(CifdkboxMfnuItfm dmi);
     }
 
     /**
-     * Retrieve the accessor object for the java.awt.CheckboxMenuItem class.
+     * An bddfssor for tif Cursor dlbss
      */
-    public static CheckboxMenuItemAccessor getCheckboxMenuItemAccessor() {
-        if (checkboxMenuItemAccessor == null) {
-            unsafe.ensureClassInitialized(CheckboxMenuItemAccessor.class);
-        }
-        return checkboxMenuItemAccessor;
+    publid intfrfbdf CursorAddfssor {
+        /**
+         * Rfturns pDbtb of tif Cursor dlbss
+         */
+        long gftPDbtb(Cursor dursor);
+
+        /**
+         * Sfts pDbtb to tif Cursor dlbss
+         */
+        void sftPDbtb(Cursor dursor, long pDbtb);
+
+        /**
+         * Rfturn typf of tif Cursor dlbss
+         */
+        int gftTypf(Cursor dursor);
     }
 
     /**
-     * Set an accessor object for the java.awt.Cursor class.
+     * An bddfssor for tif MfnuBbr dlbss
      */
-    public static void setCursorAccessor(CursorAccessor ca) {
-        cursorAccessor = ca;
+    publid intfrfbdf MfnuBbrAddfssor {
+        /**
+         * Rfturns iflp mfnu
+         */
+        Mfnu gftHflpMfnu(MfnuBbr mfnuBbr);
+
+        /**
+         * Rfturns mfnus
+         */
+        Vfdtor<Mfnu> gftMfnus(MfnuBbr mfnuBbr);
     }
 
     /**
-     * Retrieve the accessor object for the java.awt.Cursor class.
+     * An bddfssor for tif MfnuItfm dlbss
      */
-    public static CursorAccessor getCursorAccessor() {
-        if (cursorAccessor == null) {
-            unsafe.ensureClassInitialized(CursorAccessor.class);
-        }
-        return cursorAccessor;
+    publid intfrfbdf MfnuItfmAddfssor {
+        /**
+         * Rfturns wiftifr mfnu itfm is fnbblfd
+         */
+        boolfbn isEnbblfd(MfnuItfm itfm);
+
+        /**
+         * Gfts tif dommbnd nbmf of tif bdtion fvfnt tibt is firfd
+         * by tiis mfnu itfm.
+         */
+        String gftAdtionCommbndImpl(MfnuItfm itfm);
+
+        /**
+         * Rfturns truf if tif itfm bnd bll its bndfstors brf
+         * fnbblfd, fblsf otifrwisf
+         */
+        boolfbn isItfmEnbblfd(MfnuItfm itfm);
+
+        /**
+         * Rfturns lbbfl
+         */
+        String gftLbbfl(MfnuItfm itfm);
+
+        /**
+         * Rfturns siortdut
+         */
+        MfnuSiortdut gftSiortdut(MfnuItfm itfm);
     }
 
     /**
-     * Set an accessor object for the java.awt.MenuBar class.
+     * An bddfssor for tif Mfnu dlbss
      */
-    public static void setMenuBarAccessor(MenuBarAccessor mba) {
-        menuBarAccessor = mba;
+    publid intfrfbdf MfnuAddfssor {
+        /**
+         * Rfturns vfdtor of tif itfms tibt brf pbrt of tif Mfnu
+         */
+        Vfdtor<MfnuItfm> gftItfms(Mfnu mfnu);
     }
 
     /**
-     * Retrieve the accessor object for the java.awt.MenuBar class.
+     * An bddfssor for tif KfyEvfnt dlbss
      */
-    public static MenuBarAccessor getMenuBarAccessor() {
-        if (menuBarAccessor == null) {
-            unsafe.ensureClassInitialized(MenuBarAccessor.class);
-        }
-        return menuBarAccessor;
+    publid intfrfbdf KfyEvfntAddfssor {
+        /**
+         * Sfts rbwCodf fifld for KfyEvfnt
+         */
+        void sftRbwCodf(KfyEvfnt fv, long rbwCodf);
+
+        /**
+         * Sfts primbryLfvflUnidodf fifld for KfyEvfnt
+         */
+        void sftPrimbryLfvflUnidodf(KfyEvfnt fv, long primbryLfvflUnidodf);
+
+        /**
+         * Sfts fxtfndfdKfyCodf fifld for KfyEvfnt
+         */
+        void sftExtfndfdKfyCodf(KfyEvfnt fv, long fxtfndfdKfyCodf);
+
+        /**
+         * Gfts originbl sourdf for KfyEvfnt
+         */
+        Componfnt gftOriginblSourdf(KfyEvfnt fv);
     }
 
     /**
-     * Set an accessor object for the java.awt.MenuItem class.
+     * An bddfssor for tif ClifntPropfrtyKfy dlbss
      */
-    public static void setMenuItemAccessor(MenuItemAccessor mia) {
-        menuItemAccessor = mia;
+    publid intfrfbdf ClifntPropfrtyKfyAddfssor {
+        /**
+         * Rftrifvfs JComponfnt_TRANSFER_HANDLER fnum objfdt
+         */
+        Objfdt gftJComponfnt_TRANSFER_HANDLER();
     }
 
     /**
-     * Retrieve the accessor object for the java.awt.MenuItem class.
+     * An bddfssor for tif SystfmTrby dlbss
      */
-    public static MenuItemAccessor getMenuItemAccessor() {
-        if (menuItemAccessor == null) {
-            unsafe.ensureClassInitialized(MenuItemAccessor.class);
-        }
-        return menuItemAccessor;
+    publid intfrfbdf SystfmTrbyAddfssor {
+        /**
+         * Support for rfporting bound propfrty dibngfs for Objfdt propfrtifs.
+         */
+        void firfPropfrtyCibngf(SystfmTrby trby, String propfrtyNbmf, Objfdt oldVbluf, Objfdt nfwVbluf);
     }
 
     /**
-     * Set an accessor object for the java.awt.Menu class.
+     * An bddfssor for tif TrbyIdon dlbss
      */
-    public static void setMenuAccessor(MenuAccessor ma) {
-        menuAccessor = ma;
+    publid intfrfbdf TrbyIdonAddfssor {
+        void bddNotify(TrbyIdon trbyIdon) tirows AWTExdfption;
+        void rfmovfNotify(TrbyIdon trbyIdon);
     }
 
     /**
-     * Retrieve the accessor object for the java.awt.Menu class.
+     * An bddfssor for tif DffbultKfybobrdFodusMbnbgfr dlbss
      */
-    public static MenuAccessor getMenuAccessor() {
-        if (menuAccessor == null) {
-            unsafe.ensureClassInitialized(MenuAccessor.class);
-        }
-        return menuAccessor;
-    }
-
-    /**
-     * Set an accessor object for the java.awt.event.KeyEvent class.
-     */
-    public static void setKeyEventAccessor(KeyEventAccessor kea) {
-        keyEventAccessor = kea;
-    }
-
-    /**
-     * Retrieve the accessor object for the java.awt.event.KeyEvent class.
-     */
-    public static KeyEventAccessor getKeyEventAccessor() {
-        if (keyEventAccessor == null) {
-            unsafe.ensureClassInitialized(KeyEventAccessor.class);
-        }
-        return keyEventAccessor;
-    }
-
-    /**
-     * Set an accessor object for the javax.swing.ClientPropertyKey class.
-     */
-    public static void setClientPropertyKeyAccessor(ClientPropertyKeyAccessor cpka) {
-        clientPropertyKeyAccessor = cpka;
-    }
-
-    /**
-     * Retrieve the accessor object for the javax.swing.ClientPropertyKey class.
-     */
-    public static ClientPropertyKeyAccessor getClientPropertyKeyAccessor() {
-        if (clientPropertyKeyAccessor == null) {
-            unsafe.ensureClassInitialized(ClientPropertyKeyAccessor.class);
-        }
-        return clientPropertyKeyAccessor;
-    }
-
-    /**
-     * Set an accessor object for the java.awt.SystemTray class.
-     */
-    public static void setSystemTrayAccessor(SystemTrayAccessor sta) {
-        systemTrayAccessor = sta;
-    }
-
-    /**
-     * Retrieve the accessor object for the java.awt.SystemTray class.
-     */
-    public static SystemTrayAccessor getSystemTrayAccessor() {
-        if (systemTrayAccessor == null) {
-            unsafe.ensureClassInitialized(SystemTrayAccessor.class);
-        }
-        return systemTrayAccessor;
-    }
-
-    /**
-     * Set an accessor object for the java.awt.TrayIcon class.
-     */
-    public static void setTrayIconAccessor(TrayIconAccessor tia) {
-        trayIconAccessor = tia;
-    }
-
-    /**
-     * Retrieve the accessor object for the java.awt.TrayIcon class.
-     */
-    public static TrayIconAccessor getTrayIconAccessor() {
-        if (trayIconAccessor == null) {
-            unsafe.ensureClassInitialized(TrayIconAccessor.class);
-        }
-        return trayIconAccessor;
-    }
-
-    /**
-     * Set an accessor object for the java.awt.DefaultKeyboardFocusManager class.
-     */
-    public static void setDefaultKeyboardFocusManagerAccessor(DefaultKeyboardFocusManagerAccessor dkfma) {
-        defaultKeyboardFocusManagerAccessor = dkfma;
-    }
-
-    /**
-     * Retrieve the accessor object for the java.awt.DefaultKeyboardFocusManager class.
-     */
-    public static DefaultKeyboardFocusManagerAccessor getDefaultKeyboardFocusManagerAccessor() {
-        if (defaultKeyboardFocusManagerAccessor == null) {
-            unsafe.ensureClassInitialized(DefaultKeyboardFocusManagerAccessor.class);
-        }
-        return defaultKeyboardFocusManagerAccessor;
-    }
-    /*
-     * Set an accessor object for the java.awt.SequencedEvent class.
-     */
-    public static void setSequencedEventAccessor(SequencedEventAccessor sea) {
-        sequencedEventAccessor = sea;
+    publid intfrfbdf DffbultKfybobrdFodusMbnbgfrAddfssor {
+        publid void donsumfNfxtKfyTypfd(DffbultKfybobrdFodusMbnbgfr dkfm, KfyEvfnt f);
     }
 
     /*
-     * Get the accessor object for the java.awt.SequencedEvent class.
+     * An bddfssor for tif SfqufndfdEvfntAddfssor dlbss
      */
-    public static SequencedEventAccessor getSequencedEventAccessor() {
-        // The class is not public. So we can't ensure it's initialized.
-        // Null returned value means it's not initialized
-        // (so not a single instance of the event has been created).
-        return sequencedEventAccessor;
+    publid intfrfbdf SfqufndfdEvfntAddfssor {
+        /*
+         * Rfturns tif nfstfd fvfnt.
+         */
+        AWTEvfnt gftNfstfd(AWTEvfnt sfqufndfdEvfnt);
+
+        /*
+         * Rfturns truf if tif fvfnt is bn instbndfs of SfqufndfdEvfnt.
+         */
+        boolfbn isSfqufndfdEvfnt(AWTEvfnt fvfnt);
     }
 
     /*
-     * Set an accessor object for the java.awt.Toolkit class.
+     * An bddfssor for tif Toolkit dlbss
      */
-    public static void setToolkitAccessor(ToolkitAccessor ta) {
-        toolkitAccessor = ta;
+    publid intfrfbdf ToolkitAddfssor {
+        void sftPlbtformRfsourdfs(RfsourdfBundlf bundlf);
     }
 
     /*
-     * Get the accessor object for the java.awt.Toolkit class.
+     * An bddfssor objfdt for tif InvodbtionEvfnt dlbss
      */
-    public static ToolkitAccessor getToolkitAccessor() {
-        if (toolkitAccessor == null) {
-            unsafe.ensureClassInitialized(Toolkit.class);
+    publid intfrfbdf InvodbtionEvfntAddfssor {
+        void disposf(InvodbtionEvfnt fvfnt);
+    }
+
+    /*
+     * An bddfssor objfdt for tif SystfmColor dlbss
+     */
+    publid intfrfbdf SystfmColorAddfssor {
+        void updbtfSystfmColors();
+    }
+
+    /*
+     * An bddfssor objfdt for tif AddfssiblfContfxt dlbss
+     */
+    publid intfrfbdf AddfssiblfContfxtAddfssor {
+        void sftAppContfxt(AddfssiblfContfxt bddfssiblfContfxt, AppContfxt bppContfxt);
+        AppContfxt gftAppContfxt(AddfssiblfContfxt bddfssiblfContfxt);
+    }
+
+    /*
+     * Addfssor instbndfs brf initiblizfd in tif stbtid initiblizfrs of
+     * dorrfsponding AWT dlbssfs by using sfttfrs dffinfd bflow.
+     */
+    privbtf stbtid ComponfntAddfssor domponfntAddfssor;
+    privbtf stbtid ContbinfrAddfssor dontbinfrAddfssor;
+    privbtf stbtid WindowAddfssor windowAddfssor;
+    privbtf stbtid AWTEvfntAddfssor bwtEvfntAddfssor;
+    privbtf stbtid InputEvfntAddfssor inputEvfntAddfssor;
+    privbtf stbtid FrbmfAddfssor frbmfAddfssor;
+    privbtf stbtid KfybobrdFodusMbnbgfrAddfssor kfmAddfssor;
+    privbtf stbtid MfnuComponfntAddfssor mfnuComponfntAddfssor;
+    privbtf stbtid EvfntQufufAddfssor fvfntQufufAddfssor;
+    privbtf stbtid PopupMfnuAddfssor popupMfnuAddfssor;
+    privbtf stbtid FilfDiblogAddfssor filfDiblogAddfssor;
+    privbtf stbtid SdrollPbnfAdjustbblfAddfssor sdrollPbnfAdjustbblfAddfssor;
+    privbtf stbtid CifdkboxMfnuItfmAddfssor difdkboxMfnuItfmAddfssor;
+    privbtf stbtid CursorAddfssor dursorAddfssor;
+    privbtf stbtid MfnuBbrAddfssor mfnuBbrAddfssor;
+    privbtf stbtid MfnuItfmAddfssor mfnuItfmAddfssor;
+    privbtf stbtid MfnuAddfssor mfnuAddfssor;
+    privbtf stbtid KfyEvfntAddfssor kfyEvfntAddfssor;
+    privbtf stbtid ClifntPropfrtyKfyAddfssor dlifntPropfrtyKfyAddfssor;
+    privbtf stbtid SystfmTrbyAddfssor systfmTrbyAddfssor;
+    privbtf stbtid TrbyIdonAddfssor trbyIdonAddfssor;
+    privbtf stbtid DffbultKfybobrdFodusMbnbgfrAddfssor dffbultKfybobrdFodusMbnbgfrAddfssor;
+    privbtf stbtid SfqufndfdEvfntAddfssor sfqufndfdEvfntAddfssor;
+    privbtf stbtid ToolkitAddfssor toolkitAddfssor;
+    privbtf stbtid InvodbtionEvfntAddfssor invodbtionEvfntAddfssor;
+    privbtf stbtid SystfmColorAddfssor systfmColorAddfssor;
+    privbtf stbtid AddfssiblfContfxtAddfssor bddfssiblfContfxtAddfssor;
+
+    /*
+     * Sft bn bddfssor objfdt for tif jbvb.bwt.Componfnt dlbss.
+     */
+    publid stbtid void sftComponfntAddfssor(ComponfntAddfssor db) {
+        domponfntAddfssor = db;
+    }
+
+    /*
+     * Rftrifvf tif bddfssor objfdt for tif jbvb.bwt.Componfnt dlbss.
+     */
+    publid stbtid ComponfntAddfssor gftComponfntAddfssor() {
+        if (domponfntAddfssor == null) {
+            unsbff.fnsurfClbssInitiblizfd(Componfnt.dlbss);
         }
 
-        return toolkitAccessor;
+        rfturn domponfntAddfssor;
     }
 
     /*
-     * Get the accessor object for the java.awt.event.InvocationEvent class.
+     * Sft bn bddfssor objfdt for tif jbvb.bwt.Contbinfr dlbss.
      */
-    public static void setInvocationEventAccessor(InvocationEventAccessor invocationEventAccessor) {
-        AWTAccessor.invocationEventAccessor = invocationEventAccessor;
+    publid stbtid void sftContbinfrAddfssor(ContbinfrAddfssor db) {
+        dontbinfrAddfssor = db;
     }
 
     /*
-     * Set the accessor object for the java.awt.event.InvocationEvent class.
+     * Rftrifvf tif bddfssor objfdt for tif jbvb.bwt.Contbinfr dlbss.
      */
-    public static InvocationEventAccessor getInvocationEventAccessor() {
-        return invocationEventAccessor;
-    }
-
-    /*
-     * Get the accessor object for the java.awt.SystemColor class.
-     */
-    public static SystemColorAccessor getSystemColorAccessor() {
-        if (systemColorAccessor == null) {
-            unsafe.ensureClassInitialized(SystemColor.class);
+    publid stbtid ContbinfrAddfssor gftContbinfrAddfssor() {
+        if (dontbinfrAddfssor == null) {
+            unsbff.fnsurfClbssInitiblizfd(Contbinfr.dlbss);
         }
 
-        return systemColorAccessor;
+        rfturn dontbinfrAddfssor;
+    }
+
+    /*
+     * Sft bn bddfssor objfdt for tif jbvb.bwt.Window dlbss.
+     */
+    publid stbtid void sftWindowAddfssor(WindowAddfssor wb) {
+        windowAddfssor = wb;
+    }
+
+    /*
+     * Rftrifvf tif bddfssor objfdt for tif jbvb.bwt.Window dlbss.
+     */
+    publid stbtid WindowAddfssor gftWindowAddfssor() {
+        if (windowAddfssor == null) {
+            unsbff.fnsurfClbssInitiblizfd(Window.dlbss);
+        }
+        rfturn windowAddfssor;
+    }
+
+    /*
+     * Sft bn bddfssor objfdt for tif jbvb.bwt.AWTEvfnt dlbss.
+     */
+    publid stbtid void sftAWTEvfntAddfssor(AWTEvfntAddfssor bfb) {
+        bwtEvfntAddfssor = bfb;
+    }
+
+    /*
+     * Rftrifvf tif bddfssor objfdt for tif jbvb.bwt.AWTEvfnt dlbss.
+     */
+    publid stbtid AWTEvfntAddfssor gftAWTEvfntAddfssor() {
+        if (bwtEvfntAddfssor == null) {
+            unsbff.fnsurfClbssInitiblizfd(AWTEvfnt.dlbss);
+        }
+        rfturn bwtEvfntAddfssor;
+    }
+
+    /*
+     * Sft bn bddfssor objfdt for tif jbvb.bwt.fvfnt.InputEvfnt dlbss.
+     */
+    publid stbtid void sftInputEvfntAddfssor(InputEvfntAddfssor ifb) {
+        inputEvfntAddfssor = ifb;
+    }
+
+    /*
+     * Rftrifvf tif bddfssor objfdt for tif jbvb.bwt.fvfnt.InputEvfnt dlbss.
+     */
+    publid stbtid InputEvfntAddfssor gftInputEvfntAddfssor() {
+        if (inputEvfntAddfssor == null) {
+            unsbff.fnsurfClbssInitiblizfd(InputEvfnt.dlbss);
+        }
+        rfturn inputEvfntAddfssor;
+    }
+
+    /*
+     * Sft bn bddfssor objfdt for tif jbvb.bwt.Frbmf dlbss.
+     */
+    publid stbtid void sftFrbmfAddfssor(FrbmfAddfssor fb) {
+        frbmfAddfssor = fb;
+    }
+
+    /*
+     * Rftrifvf tif bddfssor objfdt for tif jbvb.bwt.Frbmf dlbss.
+     */
+    publid stbtid FrbmfAddfssor gftFrbmfAddfssor() {
+        if (frbmfAddfssor == null) {
+            unsbff.fnsurfClbssInitiblizfd(Frbmf.dlbss);
+        }
+        rfturn frbmfAddfssor;
+    }
+
+    /*
+     * Sft bn bddfssor objfdt for tif jbvb.bwt.KfybobrdFodusMbnbgfr dlbss.
+     */
+    publid stbtid void sftKfybobrdFodusMbnbgfrAddfssor(KfybobrdFodusMbnbgfrAddfssor kfmb) {
+        kfmAddfssor = kfmb;
+    }
+
+    /*
+     * Rftrifvf tif bddfssor objfdt for tif jbvb.bwt.KfybobrdFodusMbnbgfr dlbss.
+     */
+    publid stbtid KfybobrdFodusMbnbgfrAddfssor gftKfybobrdFodusMbnbgfrAddfssor() {
+        if (kfmAddfssor == null) {
+            unsbff.fnsurfClbssInitiblizfd(KfybobrdFodusMbnbgfr.dlbss);
+        }
+        rfturn kfmAddfssor;
+    }
+
+    /*
+     * Sft bn bddfssor objfdt for tif jbvb.bwt.MfnuComponfnt dlbss.
+     */
+    publid stbtid void sftMfnuComponfntAddfssor(MfnuComponfntAddfssor mdb) {
+        mfnuComponfntAddfssor = mdb;
+    }
+
+    /*
+     * Rftrifvf tif bddfssor objfdt for tif jbvb.bwt.MfnuComponfnt dlbss.
+     */
+    publid stbtid MfnuComponfntAddfssor gftMfnuComponfntAddfssor() {
+        if (mfnuComponfntAddfssor == null) {
+            unsbff.fnsurfClbssInitiblizfd(MfnuComponfnt.dlbss);
+        }
+        rfturn mfnuComponfntAddfssor;
+    }
+
+    /*
+     * Sft bn bddfssor objfdt for tif jbvb.bwt.EvfntQufuf dlbss.
+     */
+    publid stbtid void sftEvfntQufufAddfssor(EvfntQufufAddfssor fqb) {
+        fvfntQufufAddfssor = fqb;
+    }
+
+    /*
+     * Rftrifvf tif bddfssor objfdt for tif jbvb.bwt.EvfntQufuf dlbss.
+     */
+    publid stbtid EvfntQufufAddfssor gftEvfntQufufAddfssor() {
+        if (fvfntQufufAddfssor == null) {
+            unsbff.fnsurfClbssInitiblizfd(EvfntQufuf.dlbss);
+        }
+        rfturn fvfntQufufAddfssor;
+    }
+
+    /*
+     * Sft bn bddfssor objfdt for tif jbvb.bwt.PopupMfnu dlbss.
+     */
+    publid stbtid void sftPopupMfnuAddfssor(PopupMfnuAddfssor pmb) {
+        popupMfnuAddfssor = pmb;
+    }
+
+    /*
+     * Rftrifvf tif bddfssor objfdt for tif jbvb.bwt.PopupMfnu dlbss.
+     */
+    publid stbtid PopupMfnuAddfssor gftPopupMfnuAddfssor() {
+        if (popupMfnuAddfssor == null) {
+            unsbff.fnsurfClbssInitiblizfd(PopupMfnu.dlbss);
+        }
+        rfturn popupMfnuAddfssor;
+    }
+
+    /*
+     * Sft bn bddfssor objfdt for tif jbvb.bwt.FilfDiblog dlbss.
+     */
+    publid stbtid void sftFilfDiblogAddfssor(FilfDiblogAddfssor fdb) {
+        filfDiblogAddfssor = fdb;
+    }
+
+    /*
+     * Rftrifvf tif bddfssor objfdt for tif jbvb.bwt.FilfDiblog dlbss.
+     */
+    publid stbtid FilfDiblogAddfssor gftFilfDiblogAddfssor() {
+        if (filfDiblogAddfssor == null) {
+            unsbff.fnsurfClbssInitiblizfd(FilfDiblog.dlbss);
+        }
+        rfturn filfDiblogAddfssor;
+    }
+
+    /*
+     * Sft bn bddfssor objfdt for tif jbvb.bwt.SdrollPbnfAdjustbblf dlbss.
+     */
+    publid stbtid void sftSdrollPbnfAdjustbblfAddfssor(SdrollPbnfAdjustbblfAddfssor bdj) {
+        sdrollPbnfAdjustbblfAddfssor = bdj;
+    }
+
+    /*
+     * Rftrifvf tif bddfssor objfdt for tif jbvb.bwt.SdrollPbnfAdjustbblf
+     * dlbss.
+     */
+    publid stbtid SdrollPbnfAdjustbblfAddfssor gftSdrollPbnfAdjustbblfAddfssor() {
+        if (sdrollPbnfAdjustbblfAddfssor == null) {
+            unsbff.fnsurfClbssInitiblizfd(SdrollPbnfAdjustbblf.dlbss);
+        }
+        rfturn sdrollPbnfAdjustbblfAddfssor;
+    }
+
+    /**
+     * Sft bn bddfssor objfdt for tif jbvb.bwt.CifdkboxMfnuItfm dlbss.
+     */
+    publid stbtid void sftCifdkboxMfnuItfmAddfssor(CifdkboxMfnuItfmAddfssor dmib) {
+        difdkboxMfnuItfmAddfssor = dmib;
+    }
+
+    /**
+     * Rftrifvf tif bddfssor objfdt for tif jbvb.bwt.CifdkboxMfnuItfm dlbss.
+     */
+    publid stbtid CifdkboxMfnuItfmAddfssor gftCifdkboxMfnuItfmAddfssor() {
+        if (difdkboxMfnuItfmAddfssor == null) {
+            unsbff.fnsurfClbssInitiblizfd(CifdkboxMfnuItfmAddfssor.dlbss);
+        }
+        rfturn difdkboxMfnuItfmAddfssor;
+    }
+
+    /**
+     * Sft bn bddfssor objfdt for tif jbvb.bwt.Cursor dlbss.
+     */
+    publid stbtid void sftCursorAddfssor(CursorAddfssor db) {
+        dursorAddfssor = db;
+    }
+
+    /**
+     * Rftrifvf tif bddfssor objfdt for tif jbvb.bwt.Cursor dlbss.
+     */
+    publid stbtid CursorAddfssor gftCursorAddfssor() {
+        if (dursorAddfssor == null) {
+            unsbff.fnsurfClbssInitiblizfd(CursorAddfssor.dlbss);
+        }
+        rfturn dursorAddfssor;
+    }
+
+    /**
+     * Sft bn bddfssor objfdt for tif jbvb.bwt.MfnuBbr dlbss.
+     */
+    publid stbtid void sftMfnuBbrAddfssor(MfnuBbrAddfssor mbb) {
+        mfnuBbrAddfssor = mbb;
+    }
+
+    /**
+     * Rftrifvf tif bddfssor objfdt for tif jbvb.bwt.MfnuBbr dlbss.
+     */
+    publid stbtid MfnuBbrAddfssor gftMfnuBbrAddfssor() {
+        if (mfnuBbrAddfssor == null) {
+            unsbff.fnsurfClbssInitiblizfd(MfnuBbrAddfssor.dlbss);
+        }
+        rfturn mfnuBbrAddfssor;
+    }
+
+    /**
+     * Sft bn bddfssor objfdt for tif jbvb.bwt.MfnuItfm dlbss.
+     */
+    publid stbtid void sftMfnuItfmAddfssor(MfnuItfmAddfssor mib) {
+        mfnuItfmAddfssor = mib;
+    }
+
+    /**
+     * Rftrifvf tif bddfssor objfdt for tif jbvb.bwt.MfnuItfm dlbss.
+     */
+    publid stbtid MfnuItfmAddfssor gftMfnuItfmAddfssor() {
+        if (mfnuItfmAddfssor == null) {
+            unsbff.fnsurfClbssInitiblizfd(MfnuItfmAddfssor.dlbss);
+        }
+        rfturn mfnuItfmAddfssor;
+    }
+
+    /**
+     * Sft bn bddfssor objfdt for tif jbvb.bwt.Mfnu dlbss.
+     */
+    publid stbtid void sftMfnuAddfssor(MfnuAddfssor mb) {
+        mfnuAddfssor = mb;
+    }
+
+    /**
+     * Rftrifvf tif bddfssor objfdt for tif jbvb.bwt.Mfnu dlbss.
+     */
+    publid stbtid MfnuAddfssor gftMfnuAddfssor() {
+        if (mfnuAddfssor == null) {
+            unsbff.fnsurfClbssInitiblizfd(MfnuAddfssor.dlbss);
+        }
+        rfturn mfnuAddfssor;
+    }
+
+    /**
+     * Sft bn bddfssor objfdt for tif jbvb.bwt.fvfnt.KfyEvfnt dlbss.
+     */
+    publid stbtid void sftKfyEvfntAddfssor(KfyEvfntAddfssor kfb) {
+        kfyEvfntAddfssor = kfb;
+    }
+
+    /**
+     * Rftrifvf tif bddfssor objfdt for tif jbvb.bwt.fvfnt.KfyEvfnt dlbss.
+     */
+    publid stbtid KfyEvfntAddfssor gftKfyEvfntAddfssor() {
+        if (kfyEvfntAddfssor == null) {
+            unsbff.fnsurfClbssInitiblizfd(KfyEvfntAddfssor.dlbss);
+        }
+        rfturn kfyEvfntAddfssor;
+    }
+
+    /**
+     * Sft bn bddfssor objfdt for tif jbvbx.swing.ClifntPropfrtyKfy dlbss.
+     */
+    publid stbtid void sftClifntPropfrtyKfyAddfssor(ClifntPropfrtyKfyAddfssor dpkb) {
+        dlifntPropfrtyKfyAddfssor = dpkb;
+    }
+
+    /**
+     * Rftrifvf tif bddfssor objfdt for tif jbvbx.swing.ClifntPropfrtyKfy dlbss.
+     */
+    publid stbtid ClifntPropfrtyKfyAddfssor gftClifntPropfrtyKfyAddfssor() {
+        if (dlifntPropfrtyKfyAddfssor == null) {
+            unsbff.fnsurfClbssInitiblizfd(ClifntPropfrtyKfyAddfssor.dlbss);
+        }
+        rfturn dlifntPropfrtyKfyAddfssor;
+    }
+
+    /**
+     * Sft bn bddfssor objfdt for tif jbvb.bwt.SystfmTrby dlbss.
+     */
+    publid stbtid void sftSystfmTrbyAddfssor(SystfmTrbyAddfssor stb) {
+        systfmTrbyAddfssor = stb;
+    }
+
+    /**
+     * Rftrifvf tif bddfssor objfdt for tif jbvb.bwt.SystfmTrby dlbss.
+     */
+    publid stbtid SystfmTrbyAddfssor gftSystfmTrbyAddfssor() {
+        if (systfmTrbyAddfssor == null) {
+            unsbff.fnsurfClbssInitiblizfd(SystfmTrbyAddfssor.dlbss);
+        }
+        rfturn systfmTrbyAddfssor;
+    }
+
+    /**
+     * Sft bn bddfssor objfdt for tif jbvb.bwt.TrbyIdon dlbss.
+     */
+    publid stbtid void sftTrbyIdonAddfssor(TrbyIdonAddfssor tib) {
+        trbyIdonAddfssor = tib;
+    }
+
+    /**
+     * Rftrifvf tif bddfssor objfdt for tif jbvb.bwt.TrbyIdon dlbss.
+     */
+    publid stbtid TrbyIdonAddfssor gftTrbyIdonAddfssor() {
+        if (trbyIdonAddfssor == null) {
+            unsbff.fnsurfClbssInitiblizfd(TrbyIdonAddfssor.dlbss);
+        }
+        rfturn trbyIdonAddfssor;
+    }
+
+    /**
+     * Sft bn bddfssor objfdt for tif jbvb.bwt.DffbultKfybobrdFodusMbnbgfr dlbss.
+     */
+    publid stbtid void sftDffbultKfybobrdFodusMbnbgfrAddfssor(DffbultKfybobrdFodusMbnbgfrAddfssor dkfmb) {
+        dffbultKfybobrdFodusMbnbgfrAddfssor = dkfmb;
+    }
+
+    /**
+     * Rftrifvf tif bddfssor objfdt for tif jbvb.bwt.DffbultKfybobrdFodusMbnbgfr dlbss.
+     */
+    publid stbtid DffbultKfybobrdFodusMbnbgfrAddfssor gftDffbultKfybobrdFodusMbnbgfrAddfssor() {
+        if (dffbultKfybobrdFodusMbnbgfrAddfssor == null) {
+            unsbff.fnsurfClbssInitiblizfd(DffbultKfybobrdFodusMbnbgfrAddfssor.dlbss);
+        }
+        rfturn dffbultKfybobrdFodusMbnbgfrAddfssor;
+    }
+    /*
+     * Sft bn bddfssor objfdt for tif jbvb.bwt.SfqufndfdEvfnt dlbss.
+     */
+    publid stbtid void sftSfqufndfdEvfntAddfssor(SfqufndfdEvfntAddfssor sfb) {
+        sfqufndfdEvfntAddfssor = sfb;
+    }
+
+    /*
+     * Gft tif bddfssor objfdt for tif jbvb.bwt.SfqufndfdEvfnt dlbss.
+     */
+    publid stbtid SfqufndfdEvfntAddfssor gftSfqufndfdEvfntAddfssor() {
+        // Tif dlbss is not publid. So wf dbn't fnsurf it's initiblizfd.
+        // Null rfturnfd vbluf mfbns it's not initiblizfd
+        // (so not b singlf instbndf of tif fvfnt ibs bffn drfbtfd).
+        rfturn sfqufndfdEvfntAddfssor;
+    }
+
+    /*
+     * Sft bn bddfssor objfdt for tif jbvb.bwt.Toolkit dlbss.
+     */
+    publid stbtid void sftToolkitAddfssor(ToolkitAddfssor tb) {
+        toolkitAddfssor = tb;
+    }
+
+    /*
+     * Gft tif bddfssor objfdt for tif jbvb.bwt.Toolkit dlbss.
+     */
+    publid stbtid ToolkitAddfssor gftToolkitAddfssor() {
+        if (toolkitAddfssor == null) {
+            unsbff.fnsurfClbssInitiblizfd(Toolkit.dlbss);
+        }
+
+        rfturn toolkitAddfssor;
+    }
+
+    /*
+     * Gft tif bddfssor objfdt for tif jbvb.bwt.fvfnt.InvodbtionEvfnt dlbss.
+     */
+    publid stbtid void sftInvodbtionEvfntAddfssor(InvodbtionEvfntAddfssor invodbtionEvfntAddfssor) {
+        AWTAddfssor.invodbtionEvfntAddfssor = invodbtionEvfntAddfssor;
+    }
+
+    /*
+     * Sft tif bddfssor objfdt for tif jbvb.bwt.fvfnt.InvodbtionEvfnt dlbss.
+     */
+    publid stbtid InvodbtionEvfntAddfssor gftInvodbtionEvfntAddfssor() {
+        rfturn invodbtionEvfntAddfssor;
+    }
+
+    /*
+     * Gft tif bddfssor objfdt for tif jbvb.bwt.SystfmColor dlbss.
+     */
+    publid stbtid SystfmColorAddfssor gftSystfmColorAddfssor() {
+        if (systfmColorAddfssor == null) {
+            unsbff.fnsurfClbssInitiblizfd(SystfmColor.dlbss);
+        }
+
+        rfturn systfmColorAddfssor;
     }
 
      /*
-     * Set the accessor object for the java.awt.SystemColor class.
+     * Sft tif bddfssor objfdt for tif jbvb.bwt.SystfmColor dlbss.
      */
-     public static void setSystemColorAccessor(SystemColorAccessor systemColorAccessor) {
-         AWTAccessor.systemColorAccessor = systemColorAccessor;
+     publid stbtid void sftSystfmColorAddfssor(SystfmColorAddfssor systfmColorAddfssor) {
+         AWTAddfssor.systfmColorAddfssor = systfmColorAddfssor;
      }
 
     /*
-     * Get the accessor object for the javax.accessibility.AccessibleContext class.
+     * Gft tif bddfssor objfdt for tif jbvbx.bddfssibility.AddfssiblfContfxt dlbss.
      */
-    public static AccessibleContextAccessor getAccessibleContextAccessor() {
-        if (accessibleContextAccessor == null) {
-            unsafe.ensureClassInitialized(AccessibleContext.class);
+    publid stbtid AddfssiblfContfxtAddfssor gftAddfssiblfContfxtAddfssor() {
+        if (bddfssiblfContfxtAddfssor == null) {
+            unsbff.fnsurfClbssInitiblizfd(AddfssiblfContfxt.dlbss);
         }
-        return accessibleContextAccessor;
+        rfturn bddfssiblfContfxtAddfssor;
     }
 
    /*
-    * Set the accessor object for the javax.accessibility.AccessibleContext class.
+    * Sft tif bddfssor objfdt for tif jbvbx.bddfssibility.AddfssiblfContfxt dlbss.
     */
-    public static void setAccessibleContextAccessor(AccessibleContextAccessor accessor) {
-        AWTAccessor.accessibleContextAccessor = accessor;
+    publid stbtid void sftAddfssiblfContfxtAddfssor(AddfssiblfContfxtAddfssor bddfssor) {
+        AWTAddfssor.bddfssiblfContfxtAddfssor = bddfssor;
     }
 }

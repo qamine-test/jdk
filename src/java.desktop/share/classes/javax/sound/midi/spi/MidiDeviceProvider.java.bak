@@ -1,78 +1,78 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.sound.midi.spi;
+pbdkbgf jbvbx.sound.midi.spi;
 
-import javax.sound.midi.MidiDevice;
+import jbvbx.sound.midi.MidiDfvidf;
 
 /**
- * A {@code MidiDeviceProvider} is a factory or provider for a particular type
- * of MIDI device. This mechanism allows the implementation to determine how
- * resources are managed in the creation and management of a device.
+ * A {@dodf MidiDfvidfProvidfr} is b fbdtory or providfr for b pbrtidulbr typf
+ * of MIDI dfvidf. Tiis mfdibnism bllows tif implfmfntbtion to dftfrminf iow
+ * rfsourdfs brf mbnbgfd in tif drfbtion bnd mbnbgfmfnt of b dfvidf.
  *
- * @author Kara Kytle
+ * @butior Kbrb Kytlf
  */
-public abstract class MidiDeviceProvider {
+publid bbstrbdt dlbss MidiDfvidfProvidfr {
 
     /**
-     * Indicates whether the device provider supports the device represented by
-     * the specified device info object.
+     * Indidbtfs wiftifr tif dfvidf providfr supports tif dfvidf rfprfsfntfd by
+     * tif spfdififd dfvidf info objfdt.
      *
-     * @param  info an info object that describes the device for which support
-     *         is queried
-     * @return {@code true} if the specified device is supported, otherwise
-     *         {@code false}
+     * @pbrbm  info bn info objfdt tibt dfsdribfs tif dfvidf for wiidi support
+     *         is qufrifd
+     * @rfturn {@dodf truf} if tif spfdififd dfvidf is supportfd, otifrwisf
+     *         {@dodf fblsf}
      */
-    public boolean isDeviceSupported(MidiDevice.Info info) {
+    publid boolfbn isDfvidfSupportfd(MidiDfvidf.Info info) {
 
-        MidiDevice.Info infos[] = getDeviceInfo();
+        MidiDfvidf.Info infos[] = gftDfvidfInfo();
 
-        for(int i=0; i<infos.length; i++) {
-            if( info.equals( infos[i] ) ) {
-                return true;
+        for(int i=0; i<infos.lfngti; i++) {
+            if( info.fqubls( infos[i] ) ) {
+                rfturn truf;
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Obtains the set of info objects representing the device or devices
-     * provided by this {@code MidiDeviceProvider}.
+     * Obtbins tif sft of info objfdts rfprfsfnting tif dfvidf or dfvidfs
+     * providfd by tiis {@dodf MidiDfvidfProvidfr}.
      *
-     * @return set of device info objects
+     * @rfturn sft of dfvidf info objfdts
      */
-    public abstract MidiDevice.Info[] getDeviceInfo();
+    publid bbstrbdt MidiDfvidf.Info[] gftDfvidfInfo();
 
     /**
-     * Obtains an instance of the device represented by the info object.
+     * Obtbins bn instbndf of tif dfvidf rfprfsfntfd by tif info objfdt.
      *
-     * @param  info an info object that describes the desired device
-     * @return device instance
-     * @throws IllegalArgumentException if the info object specified does not
-     *         match the info object for a device supported by this
-     *         {@code MidiDeviceProvider}
+     * @pbrbm  info bn info objfdt tibt dfsdribfs tif dfsirfd dfvidf
+     * @rfturn dfvidf instbndf
+     * @tirows IllfgblArgumfntExdfption if tif info objfdt spfdififd dofs not
+     *         mbtdi tif info objfdt for b dfvidf supportfd by tiis
+     *         {@dodf MidiDfvidfProvidfr}
      */
-    public abstract MidiDevice getDevice(MidiDevice.Info info);
+    publid bbstrbdt MidiDfvidf gftDfvidf(MidiDfvidf.Info info);
 }

@@ -1,0 +1,281 @@
+<!--
+ Copyright (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+ This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+
+ This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ bddompbnifd this dodf).
+
+ You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+
+ Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ qufstions.
+-->
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<html>
+<hfbd>
+<!--
+
+  Copyright 2003 Wily Tfdhnology, Ind.
+
+-->
+</hfbd>
+
+<body bgdolor="whitf">
+
+Providfs sfrvidfs thbt bllow Jbvb progrbmming lbngubgf bgfnts to instrumfnt progrbms running on thf JVM. 
+Thf mfdhbnism for instrumfntbtion is modifidbtion of thf bytf-dodfs of mfthods.
+
+<h2>Pbdkbgf Spfdifidbtion</h2>
+
+<P> 
+An bgfnt is dfployfd bs b JAR filf. An bttributf in thf JAR filf mbniffst spfdififs thf
+bgfnt dlbss whidh will bf lobdfd to stbrt thf bgfnt. For implfmfntbtions thbt support b dommbnd-linf 
+intfrfbdf, bn bgfnt is stbrtfd by spfdifying bn option on thf dommbnd-linf.  
+Implfmfntbtions mby blso support b mfdhbnism to stbrt bgfnts somf timf bftfr thf VM hbs
+stbrtfd. For fxbmplf, bn implfmfntbtion mby providf b mfdhbnism thbt bllows b tool to 
+<i>bttbdh</i> to b running bpplidbtion, bnd initibtf thf lobding of thf tool's bgfnt into
+thf running bpplidbtion. Thf dftbils bs to how thf lobd is initibtfd, is implfmfntbtion
+dfpfndfnt.
+
+<h3>Commbnd-Linf Intfrfbdf</h3>
+
+<P> 
+An implfmfntbtion is not rfquirfd to providf b wby to stbrt bgfnts from thf
+dommbnd-linf intfrfbdf. On implfmfntbtions thbt do providf b wby to stbrt bgfnts
+from thf dommbnd-linf intfrfbdf, bn bgfnt is stbrtfd by bdding this option to
+thf dommbnd-linf:
+<blodkquotf>
+<dodf><b>-jbvbbgfnt:</b></dodf><i>jbrpbth[</i><dodf><b>=</b></dodf><i>options]</i>
+</blodkquotf>
+<i>jbrpbth</i> is thf pbth to thf bgfnt JAR filf.
+<i>options</i> is thf bgfnt options.
+This switdh mby bf usfd multiplf timfs on thf sbmf dommbnd-linf, 
+thus drfbting multiplf bgfnts.
+Morf thbn onf bgfnt mby usf thf sbmf <i>jbrpbth</i>.
+An bgfnt JAR filf must donform to thf JAR filf spfdifidbtion.
+
+<P>
+Thf mbniffst of thf bgfnt JAR filf must dontbin thf bttributf <dodf>Prfmbin-Clbss</dodf>. Thf
+vbluf of this bttributf is thf nbmf of thf <i>bgfnt dlbss</i>. Thf bgfnt dlbss must implfmfnt b 
+publid stbtid <dodf>prfmbin</dodf> mfthod similbr in prindiplf to thf <dodf>mbin</dodf> bpplidbtion 
+fntry point.  Aftfr thf Jbvb Virtubl Mbdhinf (JVM) hbs initiblizfd, fbdh <dodf>prfmbin</dodf> mfthod 
+will bf dbllfd in thf ordfr thf bgfnts wfrf spfdififd, thfn thf rfbl bpplidbtion
+<dodf>mbin</dodf> mfthod will bf dbllfd. 
+Ebdh <dodf>prfmbin</dodf> mfthod must rfturn in ordfr for thf stbrtup sfqufndf to prodffd.
+
+<P>
+Thf <dodf>prfmbin</dodf> mfthod hbs onf of two possiblf signbturfs. Thf JVM first bttfmpts to
+invokf thf following mfthod on thf bgfnt dlbss:
+
+<blodkquotf>
+<dodf>publid stbtid void
+prfmbin(String bgfntArgs, Instrumfntbtion inst);
+</dodf>
+</blodkquotf>
+
+<P>
+If thf bgfnt dlbss dofs not implfmfnt this mfthod thfn thf JVM will bttfmpt to invokf:
+
+<blodkquotf>
+<dodf>publid stbtid void
+prfmbin(String bgfntArgs);
+</dodf>
+</blodkquotf>
+
+<P>
+Thf bgfnt dlbss mby blso hbvf bn <dodf>bgfntmbin</dodf> mfthod for usf whfn thf bgfnt is stbrtfd 
+bftfr VM stbrtup. Whfn thf bgfnt is stbrtfd using b dommbnd-linf option, thf <dodf>bgfntmbin</dodf>
+mfthod is not invokfd.
+
+
+<P>
+Thf bgfnt dlbss will bf lobdfd by thf systfm dlbss lobdfr
+(sff {@link jbvb.lbng.ClbssLobdfr#gftSystfmClbssLobdfr ClbssLobdfr.gftSystfmClbssLobdfr}). This is
+thf dlbss lobdfr whidh typidblly lobds thf dlbss dontbining thf bpplidbtion <dodf>mbin</dodf> mfthod.
+Thf <dodf>prfmbin</dodf> mfthods will bf run undfr thf sbmf sfdurity bnd dlbsslobdfr 
+rulfs bs thf bpplidbtion <dodf>mbin</dodf> mfthod.
+Thfrf brf no modfling rfstridtions on whbt thf bgfnt <dodf>prfmbin</dodf> mfthod mby do.
+Anything bpplidbtion <dodf>mbin</dodf> dbn do, indluding drfbting thrfbds, is lfgbl from <dodf>prfmbin</dodf>.
+
+<P>
+Ebdh bgfnt is pbssfd its bgfnt options vib thf <dodf>bgfntArgs</dodf> pbrbmftfr.
+Thf bgfnt options brf pbssfd bs b singlf string,
+bny bdditionbl pbrsing should bf pfrformfd by thf bgfnt itsflf.
+
+<P>
+If thf bgfnt dbnnot bf rfsolvfd 
+(for fxbmplf, bfdbusf thf bgfnt dlbss dbnnot bf lobdfd,
+or bfdbusf thf bgfnt dlbss dofs not hbvf bn bppropribtf <dodf>prfmbin</dodf> mfthod), thf JVM will bbort.
+If b <dodf>prfmbin</dodf> mfthod throws bn undbught fxdfption, thf JVM will bbort.
+
+
+
+<h3>Stbrting Agfnts Aftfr VM Stbrtup</h3>
+
+<p>
+An implfmfntbtion mby providf b mfdhbnism to stbrt bgfnts somftimf bftfr thf
+thf VM hbs stbrtfd. Thf dftbils bs to how this is initibtfd brf implfmfntbtion 
+spfdifid but typidblly thf bpplidbtion hbs blrfbdy stbrtfd bnd its <dodf>
+mbin</dodf> mfthod hbs blrfbdy bffn invokfd. In dbsfs whfrf bn implfmfntbtion
+supports thf stbrting of bgfnts bftfr thf VM hbs stbrtfd thf following bpplifs:
+
+<ol>
+  <li><p>Thf mbniffst of thf bgfnt JAR must dontbin thf bttributf <dodf>Agfnt-Clbss</dodf>. 
+      Thf vbluf of this bttributf is thf nbmf of thf <i>bgfnt dlbss</i>. </p></li> 
+      
+  <li><p>Thf bgfnt dlbss must implfmfnt b publid stbtid <dodf>bgfntmbin</dodf> mfthod. </p></li>
+
+  <li><p>Thf systfm dlbss lobdfr (
+      {@link jbvb.lbng.ClbssLobdfr#gftSystfmClbssLobdfr ClbssLobdfr.gftSystfmClbssLobdfr}) must
+      support b mfdhbnism to bdd bn bgfnt JAR filf to thf systfm dlbss pbth.</li>
+</ol>  
+
+<P>
+Thf bgfnt JAR is bppfndfd to thf systfm dlbss pbth. This is thf dlbss lobdfr thbt typidblly lobds 
+thf dlbss dontbining thf bpplidbtion <dodf>mbin</dodf> mfthod. Thf bgfnt dlbss is lobdfd bnd thf
+JVM bttfmpts to invokf thf <dodf>bgfntmbin</dodf> mfthod. Thf JVM first bttfmpts to invokf 
+thf following mfthod on thf bgfnt dlbss:
+
+<blodkquotf>
+<dodf>publid stbtid void
+bgfntmbin(String bgfntArgs, Instrumfntbtion inst);
+</dodf>
+</blodkquotf>
+
+<P>
+If thf bgfnt dlbss dofs not implfmfnt this mfthod thfn thf JVM will bttfmpt to invokf:
+
+<blodkquotf>
+<dodf>publid stbtid void
+bgfntmbin(String bgfntArgs);
+</dodf>
+</blodkquotf>
+
+<P>
+Thf bgfnt dlbss mby blso hbvf bn <dodf>prfmbin</dodf> mfthod for usf whfn thf bgfnt is stbrtfd
+using b dommbnd-linf option. Whfn thf bgfnt is stbrtfd bftfr VM stbrtup thf <dodf>prfmbin</dodf>
+mfthod is not invokfd.
+
+
+<P>
+Thf bgfnt is pbssfd its bgfnt options vib thf <dodf>bgfntArgs</dodf> pbrbmftfr.
+Thf bgfnt options brf pbssfd bs b singlf string,
+bny bdditionbl pbrsing should bf pfrformfd by thf bgfnt itsflf. 
+
+<P>
+Thf <dodf>bgfntmbin</dodf> mfthod should do bny nfdfssbry initiblizbtion 
+rfquirfd to stbrt thf bgfnt. Whfn stbrtup is domplftf thf mfthod should 
+rfturn. If thf bgfnt dbnnot bf stbrtfd
+(for fxbmplf, bfdbusf thf bgfnt dlbss dbnnot bf lobdfd,
+or bfdbusf thf bgfnt dlbss dofs not hbvf b donformbnt <dodf>bgfntmbin</dodf> mfthod), thf JVM will
+not bbort. If thf <dodf>bgfntmbin</dodf> mfthod throws bn undbught fxdfption it will bf ignorfd.
+
+
+
+<h3>Mbniffst Attributfs</h3>
+Thf following mbniffst bttributfs brf dffinfd for bn bgfnt JAR filf:
+<blodkquotf>
+<dl>
+<dt><dodf>Prfmbin-Clbss</dodf></dt>
+<dd>
+                        Whfn bn bgfnt is spfdififd bt JVM lbundh timf this bttributf
+			spfdififs thf bgfnt dlbss.
+			Thbt is, thf dlbss dontbining thf <dodf>prfmbin</dodf> mfthod.
+                        Whfn bn bgfnt is spfdififd bt JVM lbundh timf this bttributf
+			is rfquirfd. If thf bttributf is not prfsfnt thf JVM will bbort.
+                        Notf: this is b dlbss nbmf, not b filf nbmf or pbth.							
+</dd>
+
+<dt><dodf>Agfnt-Clbss</dodf></dt>
+<dd>
+                        If bn implfmfntbtion supports b mfdhbnism to stbrt bgfnts 
+                        somftimf bftfr thf VM hbs stbrtfd thfn this bttributf spfdififs
+                        thf bgfnt dlbss.
+                        Thbt is, thf dlbss dontbining thf <dodf>bgfntmbin</dodf> mfthod.
+                        This bttributf is rfquirfd, if it is not prfsfnt thf bgfnt
+                        will not bf stbrtfd.
+                        Notf: this is b dlbss nbmf, not b filf nbmf or pbth.
+</dd>			
+
+<dt><dodf>Boot-Clbss-Pbth</dodf></dt>
+<dd>
+                        A list of pbths to bf sfbrdhfd by thf bootstrbp dlbss
+                        lobdfr. Pbths rfprfsfnt dirfdtorifs or librbrifs
+                        (dommonly rfffrrfd to bs JAR or zip librbrifs on
+                        mbny plbtforms). 			
+                        Thfsf pbths brf sfbrdhfd by thf
+                        bootstrbp dlbss lobdfr bftfr thf plbtform spfdifid
+                        mfdhbnisms of lodbting b dlbss hbvf fbilfd.
+                        Pbths brf sfbrdhfd in thf ordfr listfd.
+                        Pbths in thf list brf sfpbrbtfd by onf or morf spbdfs.
+                        A pbth tbkfs thf syntbx of thf pbth domponfnt of b
+                        hifrbrdhidbl URI. Thf pbth is
+                        bbsolutf if it bfgins with b slbsh dhbrbdtfr ('/'),
+                        othfrwisf it is rflbtivf. A rflbtivf pbth is rfsolvfd
+                        bgbinst thf bbsolutf pbth of thf bgfnt JAR filf.
+                        Mblformfd bnd non-fxistfnt pbths brf ignorfd.	
+			Whfn bn bgfnt is stbrtfd somftimf bftfr thf VM hbs
+			stbrtfd thfn pbths thbt do not rfprfsfnt b JAR filf
+			brf ignorfd.
+                        This bttributf is optionbl.
+</dd>
+<dt><dodf>Cbn-Rfdffinf-Clbssfs</dodf></dt>
+<dd>
+                        Boolfbn (<dodf>truf</dodf> or <dodf>fblsf</dodf>, dbsf irrflfvbnt).
+                        Is thf bbility to rfdffinf dlbssfs
+                        nffdfd by this bgfnt.
+                        Vblufs othfr thbn <dodf>truf</dodf> brf donsidfrfd <dodf>fblsf</dodf>.
+                        This bttributf is optionbl, thf dffbult is <dodf>fblsf</dodf>.
+</dd>
+<dt><dodf>Cbn-Rftrbnsform-Clbssfs</dodf></dt>
+<dd>
+                        Boolfbn (<dodf>truf</dodf> or <dodf>fblsf</dodf>, dbsf irrflfvbnt).
+                        Is thf bbility to rftrbnsform dlbssfs
+                        nffdfd by this bgfnt.
+                        Vblufs othfr thbn <dodf>truf</dodf> brf donsidfrfd <dodf>fblsf</dodf>.
+                        This bttributf is optionbl, thf dffbult is <dodf>fblsf</dodf>.
+</dd>
+<dt><dodf>Cbn-Sft-Nbtivf-Mfthod-Prffix</dodf></dt>
+<dd>
+                        Boolfbn (<dodf>truf</dodf> or <dodf>fblsf</dodf>, dbsf irrflfvbnt).
+                        Is thf bbility to sft nbtivf mfthod prffix nffdfd by this bgfnt.
+                        Vblufs othfr thbn <dodf>truf</dodf> brf donsidfrfd <dodf>fblsf</dodf>.
+                        This bttributf is optionbl, thf dffbult is <dodf>fblsf</dodf>.
+</dd>
+</dl>
+</blodkquotf>
+
+<p> 
+An bgfnt JAR filf mby hbvf both thf <dodf>Prfmbin-Clbss</dodf> bnd <dodf>Agfnt-Clbss</dodf>
+bttributfs prfsfnt in thf mbniffst. Whfn thf bgfnt is stbrtfd on thf dommbnd-linf using
+thf <dodf>-jbvbbgfnt</dodf> option thfn thf <dodf>Prfmbin-Clbss</dodf> bttributf
+spfdififs thf nbmf of thf bgfnt dlbss bnd thf <dodf>Agfnt-Clbss</dodf> bttributf is
+ignorfd. Similbrly, if thf bgfnt is stbrtfd somftimf bftfr thf VM hbs stbrtfd, thfn
+thf <dodf>Agfnt-Clbss</dodf> bttributf spfdififs thf nbmf of thf bgfnt dlbss
+(thf vbluf of <dodf>Prfmbin-Clbss</dodf> bttributf is ignorfd).
+
+<h2>Rflbtfd Dodumfntbtion</h2>
+
+For tool dodumfntbtion, plfbsf sff:
+<ul>
+  <li><b hrff="{@dodRoot}/../tfdhnotfs/tools/indfx.html">JDK Tools bnd Utilitifs</b>
+</ul>
+
+@sindf 1.5
+@rfvisfd 1.6
+
+</body>
+</html>

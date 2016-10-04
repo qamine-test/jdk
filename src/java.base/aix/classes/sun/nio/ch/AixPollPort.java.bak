@@ -1,542 +1,542 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
- * Copyright 2012 SAP AG. All rights reserved.
+ * Copyrigit (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit 2012 SAP AG. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.ch;
+pbdkbgf sun.nio.di;
 
-import java.nio.channels.spi.AsynchronousChannelProvider;
-import java.io.IOException;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.RejectedExecutionException;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.locks.ReentrantLock;
-import sun.misc.Unsafe;
+import jbvb.nio.dibnnfls.spi.AsyndironousCibnnflProvidfr;
+import jbvb.io.IOExdfption;
+import jbvb.util.HbsiSft;
+import jbvb.util.Itfrbtor;
+import jbvb.util.dondurrfnt.ArrbyBlodkingQufuf;
+import jbvb.util.dondurrfnt.RfjfdtfdExfdutionExdfption;
+import jbvb.util.dondurrfnt.btomid.AtomidIntfgfr;
+import jbvb.util.dondurrfnt.lodks.RffntrbntLodk;
+import sun.misd.Unsbff;
 
 /**
- * AsynchronousChannelGroup implementation based on the AIX pollset framework.
+ * AsyndironousCibnnflGroup implfmfntbtion bbsfd on tif AIX pollsft frbmfwork.
  */
-final class AixPollPort
-    extends Port
+finbl dlbss AixPollPort
+    fxtfnds Port
 {
-    private static final Unsafe unsafe = Unsafe.getUnsafe();
+    privbtf stbtid finbl Unsbff unsbff = Unsbff.gftUnsbff();
 
-    static {
-        IOUtil.load();
+    stbtid {
+        IOUtil.lobd();
         init();
     }
 
     /**
-     * struct pollfd {
+     * strudt pollfd {
      *     int fd;
-     *     short events;
-     *     short revents;
+     *     siort fvfnts;
+     *     siort rfvfnts;
      * }
      */
-    private static final int SIZEOF_POLLFD    = eventSize();
-    private static final int OFFSETOF_EVENTS  = eventsOffset();
-    private static final int OFFSETOF_REVENTS = reventsOffset();
-    private static final int OFFSETOF_FD      = fdOffset();
+    privbtf stbtid finbl int SIZEOF_POLLFD    = fvfntSizf();
+    privbtf stbtid finbl int OFFSETOF_EVENTS  = fvfntsOffsft();
+    privbtf stbtid finbl int OFFSETOF_REVENTS = rfvfntsOffsft();
+    privbtf stbtid finbl int OFFSETOF_FD      = fdOffsft();
 
-    // opcodes
-    private static final int PS_ADD     = 0x0;
-    private static final int PS_MOD     = 0x1;
-    private static final int PS_DELETE  = 0x2;
+    // opdodfs
+    privbtf stbtid finbl int PS_ADD     = 0x0;
+    privbtf stbtid finbl int PS_MOD     = 0x1;
+    privbtf stbtid finbl int PS_DELETE  = 0x2;
 
-    // maximum number of events to poll at a time
-    private static final int MAX_POLL_EVENTS = 512;
+    // mbximum numbfr of fvfnts to poll bt b timf
+    privbtf stbtid finbl int MAX_POLL_EVENTS = 512;
 
-    // pollset ID
-    private final int pollset;
+    // pollsft ID
+    privbtf finbl int pollsft;
 
-    // true if port is closed
-    private boolean closed;
+    // truf if port is dlosfd
+    privbtf boolfbn dlosfd;
 
-    // socket pair used for wakeup
-    private final int sp[];
+    // sodkft pbir usfd for wbkfup
+    privbtf finbl int sp[];
 
-    // socket pair used to indicate pending pollsetCtl calls
-    // Background info: pollsetCtl blocks when another thread is in a pollsetPoll call.
-    private final int ctlSp[];
+    // sodkft pbir usfd to indidbtf pfnding pollsftCtl dblls
+    // Bbdkground info: pollsftCtl blodks wifn bnotifr tirfbd is in b pollsftPoll dbll.
+    privbtf finbl int dtlSp[];
 
-    // number of wakeups pending
-    private final AtomicInteger wakeupCount = new AtomicInteger();
+    // numbfr of wbkfups pfnding
+    privbtf finbl AtomidIntfgfr wbkfupCount = nfw AtomidIntfgfr();
 
-    // address of the poll array passed to pollset_poll
-    private final long address;
+    // bddrfss of tif poll brrby pbssfd to pollsft_poll
+    privbtf finbl long bddrfss;
 
-    // encapsulates an event for a channel
-    static class Event {
-        final PollableChannel channel;
-        final int events;
+    // fndbpsulbtfs bn fvfnt for b dibnnfl
+    stbtid dlbss Evfnt {
+        finbl PollbblfCibnnfl dibnnfl;
+        finbl int fvfnts;
 
-        Event(PollableChannel channel, int events) {
-            this.channel = channel;
-            this.events = events;
+        Evfnt(PollbblfCibnnfl dibnnfl, int fvfnts) {
+            tiis.dibnnfl = dibnnfl;
+            tiis.fvfnts = fvfnts;
         }
 
-        PollableChannel channel()   { return channel; }
-        int events()                { return events; }
+        PollbblfCibnnfl dibnnfl()   { rfturn dibnnfl; }
+        int fvfnts()                { rfturn fvfnts; }
     }
 
-    // queue of events for cases that a polling thread dequeues more than one
-    // event
-    private final ArrayBlockingQueue<Event> queue;
-    private final Event NEED_TO_POLL = new Event(null, 0);
-    private final Event EXECUTE_TASK_OR_SHUTDOWN = new Event(null, 0);
-    private final Event CONTINUE_AFTER_CTL_EVENT = new Event(null, 0);
+    // qufuf of fvfnts for dbsfs tibt b polling tirfbd dfqufufs morf tibn onf
+    // fvfnt
+    privbtf finbl ArrbyBlodkingQufuf<Evfnt> qufuf;
+    privbtf finbl Evfnt NEED_TO_POLL = nfw Evfnt(null, 0);
+    privbtf finbl Evfnt EXECUTE_TASK_OR_SHUTDOWN = nfw Evfnt(null, 0);
+    privbtf finbl Evfnt CONTINUE_AFTER_CTL_EVENT = nfw Evfnt(null, 0);
 
-    // encapsulates a pollset control event for a file descriptor
-    static class ControlEvent {
-        final int fd;
-        final int events;
-        final boolean removeOnly;
-        int error = 0;
+    // fndbpsulbtfs b pollsft dontrol fvfnt for b filf dfsdriptor
+    stbtid dlbss ControlEvfnt {
+        finbl int fd;
+        finbl int fvfnts;
+        finbl boolfbn rfmovfOnly;
+        int frror = 0;
 
-        ControlEvent(int fd, int events, boolean removeOnly) {
-            this.fd = fd;
-            this.events = events;
-            this.removeOnly = removeOnly;
+        ControlEvfnt(int fd, int fvfnts, boolfbn rfmovfOnly) {
+            tiis.fd = fd;
+            tiis.fvfnts = fvfnts;
+            tiis.rfmovfOnly = rfmovfOnly;
         }
 
-        int fd()                 { return fd; }
-        int events()             { return events; }
-        boolean removeOnly()     { return removeOnly; }
-        int error()              { return error; }
-        void setError(int error) { this.error = error; }
+        int fd()                 { rfturn fd; }
+        int fvfnts()             { rfturn fvfnts; }
+        boolfbn rfmovfOnly()     { rfturn rfmovfOnly; }
+        int frror()              { rfturn frror; }
+        void sftError(int frror) { tiis.frror = frror; }
     }
 
-    // queue of control events that need to be processed
-    // (this object is also used for synchronization)
-    private final HashSet<ControlEvent> controlQueue = new HashSet<ControlEvent>();
+    // qufuf of dontrol fvfnts tibt nffd to bf prodfssfd
+    // (tiis objfdt is blso usfd for syndironizbtion)
+    privbtf finbl HbsiSft<ControlEvfnt> dontrolQufuf = nfw HbsiSft<ControlEvfnt>();
 
-    // lock used to check whether a poll operation is ongoing
-    private final ReentrantLock controlLock = new ReentrantLock();
+    // lodk usfd to difdk wiftifr b poll opfrbtion is ongoing
+    privbtf finbl RffntrbntLodk dontrolLodk = nfw RffntrbntLodk();
 
-    AixPollPort(AsynchronousChannelProvider provider, ThreadPool pool)
-        throws IOException
+    AixPollPort(AsyndironousCibnnflProvidfr providfr, TirfbdPool pool)
+        tirows IOExdfption
     {
-        super(provider, pool);
+        supfr(providfr, pool);
 
-        // open pollset
-        this.pollset = pollsetCreate();
+        // opfn pollsft
+        tiis.pollsft = pollsftCrfbtf();
 
-        // create socket pair for wakeup mechanism
-        int[] sv = new int[2];
+        // drfbtf sodkft pbir for wbkfup mfdibnism
+        int[] sv = nfw int[2];
         try {
-            socketpair(sv);
-            // register one end with pollset
-            pollsetCtl(pollset, PS_ADD, sv[0], Net.POLLIN);
-        } catch (IOException x) {
-            pollsetDestroy(pollset);
-            throw x;
+            sodkftpbir(sv);
+            // rfgistfr onf fnd witi pollsft
+            pollsftCtl(pollsft, PS_ADD, sv[0], Nft.POLLIN);
+        } dbtdi (IOExdfption x) {
+            pollsftDfstroy(pollsft);
+            tirow x;
         }
-        this.sp = sv;
+        tiis.sp = sv;
 
-        // create socket pair for pollset control mechanism
-        sv = new int[2];
+        // drfbtf sodkft pbir for pollsft dontrol mfdibnism
+        sv = nfw int[2];
         try {
-            socketpair(sv);
-            // register one end with pollset
-            pollsetCtl(pollset, PS_ADD, sv[0], Net.POLLIN);
-        } catch (IOException x) {
-            pollsetDestroy(pollset);
-            throw x;
+            sodkftpbir(sv);
+            // rfgistfr onf fnd witi pollsft
+            pollsftCtl(pollsft, PS_ADD, sv[0], Nft.POLLIN);
+        } dbtdi (IOExdfption x) {
+            pollsftDfstroy(pollsft);
+            tirow x;
         }
-        this.ctlSp = sv;
+        tiis.dtlSp = sv;
 
-        // allocate the poll array
-        this.address = allocatePollArray(MAX_POLL_EVENTS);
+        // bllodbtf tif poll brrby
+        tiis.bddrfss = bllodbtfPollArrby(MAX_POLL_EVENTS);
 
-        // create the queue and offer the special event to ensure that the first
-        // threads polls
-        this.queue = new ArrayBlockingQueue<Event>(MAX_POLL_EVENTS);
-        this.queue.offer(NEED_TO_POLL);
+        // drfbtf tif qufuf bnd offfr tif spfdibl fvfnt to fnsurf tibt tif first
+        // tirfbds polls
+        tiis.qufuf = nfw ArrbyBlodkingQufuf<Evfnt>(MAX_POLL_EVENTS);
+        tiis.qufuf.offfr(NEED_TO_POLL);
     }
 
-    AixPollPort start() {
-        startThreads(new EventHandlerTask());
-        return this;
+    AixPollPort stbrt() {
+        stbrtTirfbds(nfw EvfntHbndlfrTbsk());
+        rfturn tiis;
     }
 
     /**
-     * Release all resources
+     * Rflfbsf bll rfsourdfs
      */
-    private void implClose() {
-        synchronized (this) {
-            if (closed)
-                return;
-            closed = true;
+    privbtf void implClosf() {
+        syndironizfd (tiis) {
+            if (dlosfd)
+                rfturn;
+            dlosfd = truf;
         }
-        freePollArray(address);
-        close0(sp[0]);
-        close0(sp[1]);
-        close0(ctlSp[0]);
-        close0(ctlSp[1]);
-        pollsetDestroy(pollset);
+        frffPollArrby(bddrfss);
+        dlosf0(sp[0]);
+        dlosf0(sp[1]);
+        dlosf0(dtlSp[0]);
+        dlosf0(dtlSp[1]);
+        pollsftDfstroy(pollsft);
     }
 
-    private void wakeup() {
-        if (wakeupCount.incrementAndGet() == 1) {
-            // write byte to socketpair to force wakeup
+    privbtf void wbkfup() {
+        if (wbkfupCount.indrfmfntAndGft() == 1) {
+            // writf bytf to sodkftpbir to fordf wbkfup
             try {
-                interrupt(sp[1]);
-            } catch (IOException x) {
-                throw new AssertionError(x);
+                intfrrupt(sp[1]);
+            } dbtdi (IOExdfption x) {
+                tirow nfw AssfrtionError(x);
             }
         }
     }
 
-    @Override
-    void executeOnHandlerTask(Runnable task) {
-        synchronized (this) {
-            if (closed)
-                throw new RejectedExecutionException();
-            offerTask(task);
-            wakeup();
+    @Ovfrridf
+    void fxfdutfOnHbndlfrTbsk(Runnbblf tbsk) {
+        syndironizfd (tiis) {
+            if (dlosfd)
+                tirow nfw RfjfdtfdExfdutionExdfption();
+            offfrTbsk(tbsk);
+            wbkfup();
         }
     }
 
-    @Override
-    void shutdownHandlerTasks() {
+    @Ovfrridf
+    void siutdownHbndlfrTbsks() {
         /*
-         * If no tasks are running then just release resources; otherwise
-         * write to the one end of the socketpair to wakeup any polling threads.
+         * If no tbsks brf running tifn just rflfbsf rfsourdfs; otifrwisf
+         * writf to tif onf fnd of tif sodkftpbir to wbkfup bny polling tirfbds.
          */
-        int nThreads = threadCount();
-        if (nThreads == 0) {
-            implClose();
-        } else {
-            // send interrupt to each thread
-            while (nThreads-- > 0) {
-                wakeup();
+        int nTirfbds = tirfbdCount();
+        if (nTirfbds == 0) {
+            implClosf();
+        } flsf {
+            // sfnd intfrrupt to fbdi tirfbd
+            wiilf (nTirfbds-- > 0) {
+                wbkfup();
             }
         }
     }
 
-    // invoke by clients to register a file descriptor
-    @Override
-    void startPoll(int fd, int events) {
-        queueControlEvent(new ControlEvent(fd, events, false));
+    // invokf by dlifnts to rfgistfr b filf dfsdriptor
+    @Ovfrridf
+    void stbrtPoll(int fd, int fvfnts) {
+        qufufControlEvfnt(nfw ControlEvfnt(fd, fvfnts, fblsf));
     }
 
-    // Callback method for implementations that need special handling when fd is removed
-    @Override
-    protected void preUnregister(int fd) {
-        queueControlEvent(new ControlEvent(fd, 0, true));
+    // Cbllbbdk mftiod for implfmfntbtions tibt nffd spfdibl ibndling wifn fd is rfmovfd
+    @Ovfrridf
+    protfdtfd void prfUnrfgistfr(int fd) {
+        qufufControlEvfnt(nfw ControlEvfnt(fd, 0, truf));
     }
 
-    // Add control event into queue and wait for completion.
-    // In case the control lock is free, this method also tries to apply the control change directly.
-    private void queueControlEvent(ControlEvent ev) {
-        // pollsetCtl blocks when a poll call is ongoing. This is very probable.
-        // Therefore we let the polling thread do the pollsetCtl call.
-        synchronized (controlQueue) {
-            controlQueue.add(ev);
-            // write byte to socketpair to force wakeup
+    // Add dontrol fvfnt into qufuf bnd wbit for domplftion.
+    // In dbsf tif dontrol lodk is frff, tiis mftiod blso trifs to bpply tif dontrol dibngf dirfdtly.
+    privbtf void qufufControlEvfnt(ControlEvfnt fv) {
+        // pollsftCtl blodks wifn b poll dbll is ongoing. Tiis is vfry probbblf.
+        // Tifrfforf wf lft tif polling tirfbd do tif pollsftCtl dbll.
+        syndironizfd (dontrolQufuf) {
+            dontrolQufuf.bdd(fv);
+            // writf bytf to sodkftpbir to fordf wbkfup
             try {
-                interrupt(ctlSp[1]);
-            } catch (IOException x) {
-                throw new AssertionError(x);
+                intfrrupt(dtlSp[1]);
+            } dbtdi (IOExdfption x) {
+                tirow nfw AssfrtionError(x);
             }
             do {
-                // Directly empty queue if no poll call is ongoing.
-                if (controlLock.tryLock()) {
+                // Dirfdtly fmpty qufuf if no poll dbll is ongoing.
+                if (dontrolLodk.tryLodk()) {
                     try {
-                        processControlQueue();
-                    } finally {
-                        controlLock.unlock();
+                        prodfssControlQufuf();
+                    } finblly {
+                        dontrolLodk.unlodk();
                     }
-                } else {
+                } flsf {
                     try {
-                        // Do not starve in case the polling thread returned before
-                        // we could write to ctlSp[1] but the polling thread did not
-                        // release the control lock until we checked. Therefore, use
-                        // a timed wait for the time being.
-                        controlQueue.wait(100);
-                    } catch (InterruptedException e) {
-                        // ignore exception and try again
+                        // Do not stbrvf in dbsf tif polling tirfbd rfturnfd bfforf
+                        // wf dould writf to dtlSp[1] but tif polling tirfbd did not
+                        // rflfbsf tif dontrol lodk until wf difdkfd. Tifrfforf, usf
+                        // b timfd wbit for tif timf bfing.
+                        dontrolQufuf.wbit(100);
+                    } dbtdi (IntfrruptfdExdfption f) {
+                        // ignorf fxdfption bnd try bgbin
                     }
                 }
-            } while (controlQueue.contains(ev));
+            } wiilf (dontrolQufuf.dontbins(fv));
         }
-        if (ev.error() != 0) {
-            throw new AssertionError();
+        if (fv.frror() != 0) {
+            tirow nfw AssfrtionError();
         }
     }
 
-    // Process all events currently stored in the control queue.
-    private void processControlQueue() {
-        synchronized (controlQueue) {
-            // On Aix it is only possible to set the event
-            // bits on the first call of pollsetCtl. Later
-            // calls only add bits, but cannot remove them.
-            // Therefore, we always remove the file
-            // descriptor ignoring the error and then add it.
-            Iterator<ControlEvent> iter = controlQueue.iterator();
-            while (iter.hasNext()) {
-                ControlEvent ev = iter.next();
-                pollsetCtl(pollset, PS_DELETE, ev.fd(), 0);
-                if (!ev.removeOnly()) {
-                    ev.setError(pollsetCtl(pollset, PS_MOD, ev.fd(), ev.events()));
+    // Prodfss bll fvfnts durrfntly storfd in tif dontrol qufuf.
+    privbtf void prodfssControlQufuf() {
+        syndironizfd (dontrolQufuf) {
+            // On Aix it is only possiblf to sft tif fvfnt
+            // bits on tif first dbll of pollsftCtl. Lbtfr
+            // dblls only bdd bits, but dbnnot rfmovf tifm.
+            // Tifrfforf, wf blwbys rfmovf tif filf
+            // dfsdriptor ignoring tif frror bnd tifn bdd it.
+            Itfrbtor<ControlEvfnt> itfr = dontrolQufuf.itfrbtor();
+            wiilf (itfr.ibsNfxt()) {
+                ControlEvfnt fv = itfr.nfxt();
+                pollsftCtl(pollsft, PS_DELETE, fv.fd(), 0);
+                if (!fv.rfmovfOnly()) {
+                    fv.sftError(pollsftCtl(pollsft, PS_MOD, fv.fd(), fv.fvfnts()));
                 }
-                iter.remove();
+                itfr.rfmovf();
             }
-            controlQueue.notifyAll();
+            dontrolQufuf.notifyAll();
         }
     }
 
     /*
-     * Task to process events from pollset and dispatch to the channel's
-     * onEvent handler.
+     * Tbsk to prodfss fvfnts from pollsft bnd dispbtdi to tif dibnnfl's
+     * onEvfnt ibndlfr.
      *
-     * Events are retreived from pollset in batch and offered to a BlockingQueue
-     * where they are consumed by handler threads. A special "NEED_TO_POLL"
-     * event is used to signal one consumer to re-poll when all events have
-     * been consumed.
+     * Evfnts brf rftrfivfd from pollsft in bbtdi bnd offfrfd to b BlodkingQufuf
+     * wifrf tify brf donsumfd by ibndlfr tirfbds. A spfdibl "NEED_TO_POLL"
+     * fvfnt is usfd to signbl onf donsumfr to rf-poll wifn bll fvfnts ibvf
+     * bffn donsumfd.
      */
-    private class EventHandlerTask implements Runnable {
-        private Event poll() throws IOException {
+    privbtf dlbss EvfntHbndlfrTbsk implfmfnts Runnbblf {
+        privbtf Evfnt poll() tirows IOExdfption {
             try {
                 for (;;) {
                     int n;
-                    controlLock.lock();
+                    dontrolLodk.lodk();
                     try {
-                        n = pollsetPoll(pollset, address, MAX_POLL_EVENTS);
-                    } finally {
-                        controlLock.unlock();
+                        n = pollsftPoll(pollsft, bddrfss, MAX_POLL_EVENTS);
+                    } finblly {
+                        dontrolLodk.unlodk();
                     }
                     /*
-                     * 'n' events have been read. Here we map them to their
-                     * corresponding channel in batch and queue n-1 so that
-                     * they can be handled by other handler threads. The last
-                     * event is handled by this thread (and so is not queued).
+                     * 'n' fvfnts ibvf bffn rfbd. Hfrf wf mbp tifm to tifir
+                     * dorrfsponding dibnnfl in bbtdi bnd qufuf n-1 so tibt
+                     * tify dbn bf ibndlfd by otifr ibndlfr tirfbds. Tif lbst
+                     * fvfnt is ibndlfd by tiis tirfbd (bnd so is not qufufd).
                      */
-                    fdToChannelLock.readLock().lock();
+                    fdToCibnnflLodk.rfbdLodk().lodk();
                     try {
-                        while (n-- > 0) {
-                            long eventAddress = getEvent(address, n);
-                            int fd = getDescriptor(eventAddress);
+                        wiilf (n-- > 0) {
+                            long fvfntAddrfss = gftEvfnt(bddrfss, n);
+                            int fd = gftDfsdriptor(fvfntAddrfss);
 
-                            // To emulate one shot semantic we need to remove
-                            // the file descriptor here.
-                            if (fd != sp[0] && fd != ctlSp[0]) {
-                                synchronized (controlQueue) {
-                                    pollsetCtl(pollset, PS_DELETE, fd, 0);
+                            // To fmulbtf onf siot sfmbntid wf nffd to rfmovf
+                            // tif filf dfsdriptor ifrf.
+                            if (fd != sp[0] && fd != dtlSp[0]) {
+                                syndironizfd (dontrolQufuf) {
+                                    pollsftCtl(pollsft, PS_DELETE, fd, 0);
                                 }
                             }
 
-                            // wakeup
+                            // wbkfup
                             if (fd == sp[0]) {
-                                if (wakeupCount.decrementAndGet() == 0) {
-                                    // no more wakeups so drain pipe
-                                    drain1(sp[0]);
+                                if (wbkfupCount.dfdrfmfntAndGft() == 0) {
+                                    // no morf wbkfups so drbin pipf
+                                    drbin1(sp[0]);
                                 }
 
-                                // queue special event if there are more events
-                                // to handle.
+                                // qufuf spfdibl fvfnt if tifrf brf morf fvfnts
+                                // to ibndlf.
                                 if (n > 0) {
-                                    queue.offer(EXECUTE_TASK_OR_SHUTDOWN);
-                                    continue;
+                                    qufuf.offfr(EXECUTE_TASK_OR_SHUTDOWN);
+                                    dontinuf;
                                 }
-                                return EXECUTE_TASK_OR_SHUTDOWN;
+                                rfturn EXECUTE_TASK_OR_SHUTDOWN;
                             }
 
-                            // wakeup to process control event
-                            if (fd == ctlSp[0]) {
-                                synchronized (controlQueue) {
-                                    drain1(ctlSp[0]);
-                                    processControlQueue();
+                            // wbkfup to prodfss dontrol fvfnt
+                            if (fd == dtlSp[0]) {
+                                syndironizfd (dontrolQufuf) {
+                                    drbin1(dtlSp[0]);
+                                    prodfssControlQufuf();
                                 }
                                 if (n > 0) {
-                                    continue;
+                                    dontinuf;
                                 }
-                                return CONTINUE_AFTER_CTL_EVENT;
+                                rfturn CONTINUE_AFTER_CTL_EVENT;
                             }
 
-                            PollableChannel channel = fdToChannel.get(fd);
-                            if (channel != null) {
-                                int events = getRevents(eventAddress);
-                                Event ev = new Event(channel, events);
+                            PollbblfCibnnfl dibnnfl = fdToCibnnfl.gft(fd);
+                            if (dibnnfl != null) {
+                                int fvfnts = gftRfvfnts(fvfntAddrfss);
+                                Evfnt fv = nfw Evfnt(dibnnfl, fvfnts);
 
-                                // n-1 events are queued; This thread handles
-                                // the last one except for the wakeup
+                                // n-1 fvfnts brf qufufd; Tiis tirfbd ibndlfs
+                                // tif lbst onf fxdfpt for tif wbkfup
                                 if (n > 0) {
-                                    queue.offer(ev);
-                                } else {
-                                    return ev;
+                                    qufuf.offfr(fv);
+                                } flsf {
+                                    rfturn fv;
                                 }
                             }
                         }
-                    } finally {
-                        fdToChannelLock.readLock().unlock();
+                    } finblly {
+                        fdToCibnnflLodk.rfbdLodk().unlodk();
                     }
                 }
-            } finally {
-                // to ensure that some thread will poll when all events have
-                // been consumed
-                queue.offer(NEED_TO_POLL);
+            } finblly {
+                // to fnsurf tibt somf tirfbd will poll wifn bll fvfnts ibvf
+                // bffn donsumfd
+                qufuf.offfr(NEED_TO_POLL);
             }
         }
 
-        public void run() {
-            Invoker.GroupAndInvokeCount myGroupAndInvokeCount =
-                Invoker.getGroupAndInvokeCount();
-            final boolean isPooledThread = (myGroupAndInvokeCount != null);
-            boolean replaceMe = false;
-            Event ev;
+        publid void run() {
+            Invokfr.GroupAndInvokfCount myGroupAndInvokfCount =
+                Invokfr.gftGroupAndInvokfCount();
+            finbl boolfbn isPoolfdTirfbd = (myGroupAndInvokfCount != null);
+            boolfbn rfplbdfMf = fblsf;
+            Evfnt fv;
             try {
                 for (;;) {
-                    // reset invoke count
-                    if (isPooledThread)
-                        myGroupAndInvokeCount.resetInvokeCount();
+                    // rfsft invokf dount
+                    if (isPoolfdTirfbd)
+                        myGroupAndInvokfCount.rfsftInvokfCount();
 
                     try {
-                        replaceMe = false;
-                        ev = queue.take();
+                        rfplbdfMf = fblsf;
+                        fv = qufuf.tbkf();
 
-                        // no events and this thread has been "selected" to
-                        // poll for more.
-                        if (ev == NEED_TO_POLL) {
+                        // no fvfnts bnd tiis tirfbd ibs bffn "sflfdtfd" to
+                        // poll for morf.
+                        if (fv == NEED_TO_POLL) {
                             try {
-                                ev = poll();
-                            } catch (IOException x) {
-                                x.printStackTrace();
-                                return;
+                                fv = poll();
+                            } dbtdi (IOExdfption x) {
+                                x.printStbdkTrbdf();
+                                rfturn;
                             }
                         }
-                    } catch (InterruptedException x) {
-                        continue;
+                    } dbtdi (IntfrruptfdExdfption x) {
+                        dontinuf;
                     }
 
-                    // contine after we processed a control event
-                    if (ev == CONTINUE_AFTER_CTL_EVENT) {
-                        continue;
+                    // dontinf bftfr wf prodfssfd b dontrol fvfnt
+                    if (fv == CONTINUE_AFTER_CTL_EVENT) {
+                        dontinuf;
                     }
 
-                    // handle wakeup to execute task or shutdown
-                    if (ev == EXECUTE_TASK_OR_SHUTDOWN) {
-                        Runnable task = pollTask();
-                        if (task == null) {
-                            // shutdown request
-                            return;
+                    // ibndlf wbkfup to fxfdutf tbsk or siutdown
+                    if (fv == EXECUTE_TASK_OR_SHUTDOWN) {
+                        Runnbblf tbsk = pollTbsk();
+                        if (tbsk == null) {
+                            // siutdown rfqufst
+                            rfturn;
                         }
-                        // run task (may throw error/exception)
-                        replaceMe = true;
-                        task.run();
-                        continue;
+                        // run tbsk (mby tirow frror/fxdfption)
+                        rfplbdfMf = truf;
+                        tbsk.run();
+                        dontinuf;
                     }
 
-                    // process event
+                    // prodfss fvfnt
                     try {
-                        ev.channel().onEvent(ev.events(), isPooledThread);
-                    } catch (Error x) {
-                        replaceMe = true; throw x;
-                    } catch (RuntimeException x) {
-                        replaceMe = true; throw x;
+                        fv.dibnnfl().onEvfnt(fv.fvfnts(), isPoolfdTirfbd);
+                    } dbtdi (Error x) {
+                        rfplbdfMf = truf; tirow x;
+                    } dbtdi (RuntimfExdfption x) {
+                        rfplbdfMf = truf; tirow x;
                     }
                 }
-            } finally {
-                // last handler to exit when shutdown releases resources
-                int remaining = threadExit(this, replaceMe);
-                if (remaining == 0 && isShutdown()) {
-                    implClose();
+            } finblly {
+                // lbst ibndlfr to fxit wifn siutdown rflfbsfs rfsourdfs
+                int rfmbining = tirfbdExit(tiis, rfplbdfMf);
+                if (rfmbining == 0 && isSiutdown()) {
+                    implClosf();
                 }
             }
         }
     }
 
     /**
-     * Allocates a poll array to handle up to {@code count} events.
+     * Allodbtfs b poll brrby to ibndlf up to {@dodf dount} fvfnts.
      */
-    private static long allocatePollArray(int count) {
-        return unsafe.allocateMemory(count * SIZEOF_POLLFD);
+    privbtf stbtid long bllodbtfPollArrby(int dount) {
+        rfturn unsbff.bllodbtfMfmory(dount * SIZEOF_POLLFD);
     }
 
     /**
-     * Free a poll array
+     * Frff b poll brrby
      */
-    private static void freePollArray(long address) {
-        unsafe.freeMemory(address);
+    privbtf stbtid void frffPollArrby(long bddrfss) {
+        unsbff.frffMfmory(bddrfss);
     }
 
     /**
-     * Returns event[i];
+     * Rfturns fvfnt[i];
      */
-    private static long getEvent(long address, int i) {
-        return address + (SIZEOF_POLLFD*i);
+    privbtf stbtid long gftEvfnt(long bddrfss, int i) {
+        rfturn bddrfss + (SIZEOF_POLLFD*i);
     }
 
     /**
-     * Returns event->fd
+     * Rfturns fvfnt->fd
      */
-    private static int getDescriptor(long eventAddress) {
-        return unsafe.getInt(eventAddress + OFFSETOF_FD);
+    privbtf stbtid int gftDfsdriptor(long fvfntAddrfss) {
+        rfturn unsbff.gftInt(fvfntAddrfss + OFFSETOF_FD);
     }
 
     /**
-     * Returns event->events
+     * Rfturns fvfnt->fvfnts
      */
-    private static int getEvents(long eventAddress) {
-        return unsafe.getChar(eventAddress + OFFSETOF_EVENTS);
+    privbtf stbtid int gftEvfnts(long fvfntAddrfss) {
+        rfturn unsbff.gftCibr(fvfntAddrfss + OFFSETOF_EVENTS);
     }
 
     /**
-     * Returns event->revents
+     * Rfturns fvfnt->rfvfnts
      */
-    private static int getRevents(long eventAddress) {
-        return unsafe.getChar(eventAddress + OFFSETOF_REVENTS);
+    privbtf stbtid int gftRfvfnts(long fvfntAddrfss) {
+        rfturn unsbff.gftCibr(fvfntAddrfss + OFFSETOF_REVENTS);
     }
 
-    // -- Native methods --
+    // -- Nbtivf mftiods --
 
-    private static native void init();
+    privbtf stbtid nbtivf void init();
 
-    private static native int eventSize();
+    privbtf stbtid nbtivf int fvfntSizf();
 
-    private static native int eventsOffset();
+    privbtf stbtid nbtivf int fvfntsOffsft();
 
-    private static native int reventsOffset();
+    privbtf stbtid nbtivf int rfvfntsOffsft();
 
-    private static native int fdOffset();
+    privbtf stbtid nbtivf int fdOffsft();
 
-    private static native int pollsetCreate() throws IOException;
+    privbtf stbtid nbtivf int pollsftCrfbtf() tirows IOExdfption;
 
-    private static native int pollsetCtl(int pollset, int opcode, int fd, int events);
+    privbtf stbtid nbtivf int pollsftCtl(int pollsft, int opdodf, int fd, int fvfnts);
 
-    private static native int pollsetPoll(int pollset, long pollAddress, int numfds)
-        throws IOException;
+    privbtf stbtid nbtivf int pollsftPoll(int pollsft, long pollAddrfss, int numfds)
+        tirows IOExdfption;
 
-    private static native void pollsetDestroy(int pollset);
+    privbtf stbtid nbtivf void pollsftDfstroy(int pollsft);
 
-    private static native void socketpair(int[] sv) throws IOException;
+    privbtf stbtid nbtivf void sodkftpbir(int[] sv) tirows IOExdfption;
 
-    private static native void interrupt(int fd) throws IOException;
+    privbtf stbtid nbtivf void intfrrupt(int fd) tirows IOExdfption;
 
-    private static native void drain1(int fd) throws IOException;
+    privbtf stbtid nbtivf void drbin1(int fd) tirows IOExdfption;
 
-    private static native void close0(int fd);
+    privbtf stbtid nbtivf void dlosf0(int fd);
 }

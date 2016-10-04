@@ -1,113 +1,113 @@
 /*
- * Copyright (c) 1995, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.asm;
+pbdkbgf sun.tools.bsm;
 
-import sun.tools.java.*;
-import java.io.IOException;
-import java.io.DataOutputStream;
+import sun.tools.jbvb.*;
+import jbvb.io.IOExdfption;
+import jbvb.io.DbtbOutputStrfbm;
 
 /**
- * This class is used to assemble the local variable table.
+ * Tiis dlbss is usfd to bssfmblf tif lodbl vbribblf tbblf.
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: Tif dontfnts of tiis sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf tibt dfpfnds on tifm dofs so bt its own risk:
+ * tify brf subjfdt to dibngf or rfmovbl witiout notidf.
  *
- * @author Arthur van Hoff
+ * @butior Artiur vbn Hoff
  */
-final
-class LocalVariableTable {
-    LocalVariable locals[] = new LocalVariable[8];
-    int len;
+finbl
+dlbss LodblVbribblfTbblf {
+    LodblVbribblf lodbls[] = nfw LodblVbribblf[8];
+    int lfn;
 
     /**
-     * Define a new local variable. Merge entries where possible.
+     * Dffinf b nfw lodbl vbribblf. Mfrgf fntrifs wifrf possiblf.
      */
-    void define(MemberDefinition field, int slot, int from, int to) {
+    void dffinf(MfmbfrDffinition fifld, int slot, int from, int to) {
         if (from >= to) {
-            return;
+            rfturn;
         }
-        for (int i = 0 ; i < len ; i++) {
-            if ((locals[i].field == field) && (locals[i].slot == slot) &&
-                (from <= locals[i].to) && (to >= locals[i].from)) {
-                locals[i].from = Math.min(locals[i].from, from);
-                locals[i].to = Math.max(locals[i].to, to);
-                return;
+        for (int i = 0 ; i < lfn ; i++) {
+            if ((lodbls[i].fifld == fifld) && (lodbls[i].slot == slot) &&
+                (from <= lodbls[i].to) && (to >= lodbls[i].from)) {
+                lodbls[i].from = Mbti.min(lodbls[i].from, from);
+                lodbls[i].to = Mbti.mbx(lodbls[i].to, to);
+                rfturn;
             }
         }
-        if (len == locals.length) {
-            LocalVariable newlocals[] = new LocalVariable[len * 2];
-            System.arraycopy(locals, 0, newlocals, 0, len);
-            locals = newlocals;
+        if (lfn == lodbls.lfngti) {
+            LodblVbribblf nfwlodbls[] = nfw LodblVbribblf[lfn * 2];
+            Systfm.brrbydopy(lodbls, 0, nfwlodbls, 0, lfn);
+            lodbls = nfwlodbls;
         }
-        locals[len++] = new LocalVariable(field, slot, from, to);
+        lodbls[lfn++] = nfw LodblVbribblf(fifld, slot, from, to);
     }
 
     /**
-     * Trim overlapping local ranges.  Java forbids shadowing of
-     * locals in nested scopes, but non-nested scopes may still declare
-     * locals with the same name.  Because local variable ranges are
-     * computed using flow analysis as part of assembly, it isn't
-     * possible to simply make sure variable ranges end where the
-     * enclosing lexical scope ends.  This method makes sure that
-     * variables with the same name don't overlap, giving priority to
-     * fields with higher slot numbers that should have appeared later
-     * in the source.
+     * Trim ovfrlbpping lodbl rbngfs.  Jbvb forbids sibdowing of
+     * lodbls in nfstfd sdopfs, but non-nfstfd sdopfs mby still dfdlbrf
+     * lodbls witi tif sbmf nbmf.  Bfdbusf lodbl vbribblf rbngfs brf
+     * domputfd using flow bnblysis bs pbrt of bssfmbly, it isn't
+     * possiblf to simply mbkf surf vbribblf rbngfs fnd wifrf tif
+     * fndlosing lfxidbl sdopf fnds.  Tiis mftiod mbkfs surf tibt
+     * vbribblfs witi tif sbmf nbmf don't ovfrlbp, giving priority to
+     * fiflds witi iigifr slot numbfrs tibt siould ibvf bppfbrfd lbtfr
+     * in tif sourdf.
      */
-    private void trim_ranges() {
-        for (int i=0; i<len; i++) {
-            for (int j=i+1; j<len; j++) {
-                if ((locals[i].field.getName()==locals[j].field.getName())
-                        && (locals[i].from <= locals[j].to)
-                        && (locals[i].to >= locals[j].from)) {
-                    // At this point we know that both ranges are
-                    // the same name and there is also overlap or they abut
-                    if (locals[i].slot < locals[j].slot) {
-                        if (locals[i].from < locals[j].from) {
-                          locals[i].to = Math.min(locals[i].to, locals[j].from);
-                        } else {
-                          // We've detected two local variables with the
-                          // same name, and the one with the greater slot
-                          // number starts before the other.  This order
-                          // reversal may happen with locals with the same
-                          // name declared in both a try body and an
-                          // associated catch clause.  This is rare, and
-                          // we give up.
+    privbtf void trim_rbngfs() {
+        for (int i=0; i<lfn; i++) {
+            for (int j=i+1; j<lfn; j++) {
+                if ((lodbls[i].fifld.gftNbmf()==lodbls[j].fifld.gftNbmf())
+                        && (lodbls[i].from <= lodbls[j].to)
+                        && (lodbls[i].to >= lodbls[j].from)) {
+                    // At tiis point wf know tibt boti rbngfs brf
+                    // tif sbmf nbmf bnd tifrf is blso ovfrlbp or tify bbut
+                    if (lodbls[i].slot < lodbls[j].slot) {
+                        if (lodbls[i].from < lodbls[j].from) {
+                          lodbls[i].to = Mbti.min(lodbls[i].to, lodbls[j].from);
+                        } flsf {
+                          // Wf'vf dftfdtfd two lodbl vbribblfs witi tif
+                          // sbmf nbmf, bnd tif onf witi tif grfbtfr slot
+                          // numbfr stbrts bfforf tif otifr.  Tiis ordfr
+                          // rfvfrsbl mby ibppfn witi lodbls witi tif sbmf
+                          // nbmf dfdlbrfd in boti b try body bnd bn
+                          // bssodibtfd dbtdi dlbusf.  Tiis is rbrf, bnd
+                          // wf givf up.
                         }
-                    } else if (locals[i].slot > locals[j].slot) {
-                        if (locals[i].from > locals[j].from) {
-                          locals[j].to = Math.min(locals[j].to, locals[i].from);
-                        } else {
-                          // Same situation as above; just give up.
+                    } flsf if (lodbls[i].slot > lodbls[j].slot) {
+                        if (lodbls[i].from > lodbls[j].from) {
+                          lodbls[j].to = Mbti.min(lodbls[j].to, lodbls[i].from);
+                        } flsf {
+                          // Sbmf situbtion bs bbovf; just givf up.
                         }
-                    } else {
-                        // This case can happen if there are two variables
-                        // with the same name and slot numbers, and ranges
-                        // that abut.  AFAIK the only way this can occur
-                        // is with multiple static initializers.  Punt.
+                    } flsf {
+                        // Tiis dbsf dbn ibppfn if tifrf brf two vbribblfs
+                        // witi tif sbmf nbmf bnd slot numbfrs, bnd rbngfs
+                        // tibt bbut.  AFAIK tif only wby tiis dbn oddur
+                        // is witi multiplf stbtid initiblizfrs.  Punt.
                     }
                 }
             }
@@ -115,18 +115,18 @@ class LocalVariableTable {
     }
 
     /**
-     * Write out the data.
+     * Writf out tif dbtb.
      */
-    void write(Environment env, DataOutputStream out, ConstantPool tab) throws IOException {
-        trim_ranges();
-        out.writeShort(len);
-        for (int i = 0 ; i < len ; i++) {
-            //System.out.println("pc=" + locals[i].from + ", len=" + (locals[i].to - locals[i].from) + ", nm=" + locals[i].field.getName() + ", slot=" + locals[i].slot);
-            out.writeShort(locals[i].from);
-            out.writeShort(locals[i].to - locals[i].from);
-            out.writeShort(tab.index(locals[i].field.getName().toString()));
-            out.writeShort(tab.index(locals[i].field.getType().getTypeSignature()));
-            out.writeShort(locals[i].slot);
+    void writf(Environmfnt fnv, DbtbOutputStrfbm out, ConstbntPool tbb) tirows IOExdfption {
+        trim_rbngfs();
+        out.writfSiort(lfn);
+        for (int i = 0 ; i < lfn ; i++) {
+            //Systfm.out.println("pd=" + lodbls[i].from + ", lfn=" + (lodbls[i].to - lodbls[i].from) + ", nm=" + lodbls[i].fifld.gftNbmf() + ", slot=" + lodbls[i].slot);
+            out.writfSiort(lodbls[i].from);
+            out.writfSiort(lodbls[i].to - lodbls[i].from);
+            out.writfSiort(tbb.indfx(lodbls[i].fifld.gftNbmf().toString()));
+            out.writfSiort(tbb.indfx(lodbls[i].fifld.gftTypf().gftTypfSignbturf()));
+            out.writfSiort(lodbls[i].slot);
         }
     }
 }

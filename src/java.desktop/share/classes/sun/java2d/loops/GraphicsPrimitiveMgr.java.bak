@@ -1,331 +1,331 @@
 /*
- * Copyright (c) 1997, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * @author Charlton Innovations, Inc.
+ * @butior Cibrlton Innovbtions, Ind.
  */
 
-package sun.java2d.loops;
+pbdkbgf sun.jbvb2d.loops;
 
-import java.util.Comparator;
-import java.util.Arrays;
-import sun.java2d.SunGraphics2D;
+import jbvb.util.Compbrbtor;
+import jbvb.util.Arrbys;
+import sun.jbvb2d.SunGrbpiids2D;
 
 /**
- *   GraphicsComponentMgr provides services to
- *   1. register primitives for later use
- *   2. locate an instance of a primitve based on characteristics
+ *   GrbpiidsComponfntMgr providfs sfrvidfs to
+ *   1. rfgistfr primitivfs for lbtfr usf
+ *   2. lodbtf bn instbndf of b primitvf bbsfd on dibrbdtfristids
  */
-public final class GraphicsPrimitiveMgr {
+publid finbl dlbss GrbpiidsPrimitivfMgr {
 
-    private static final boolean debugTrace = false;
-    private static GraphicsPrimitive primitives[];
-    private static GraphicsPrimitive generalPrimitives[];
-    private static boolean needssort = true;
+    privbtf stbtid finbl boolfbn dfbugTrbdf = fblsf;
+    privbtf stbtid GrbpiidsPrimitivf primitivfs[];
+    privbtf stbtid GrbpiidsPrimitivf gfnfrblPrimitivfs[];
+    privbtf stbtid boolfbn nffdssort = truf;
 
-    private static native void initIDs(Class<?> GP, Class<?> ST, Class<?> CT,
-                                       Class<?> SG2D, Class<?> Color, Class<?> AT,
-                                       Class<?> XORComp, Class<?> AlphaComp,
-                                       Class<?> Path2D, Class<?> Path2DFloat,
-                                       Class<?> SHints);
-    private static native void registerNativeLoops();
+    privbtf stbtid nbtivf void initIDs(Clbss<?> GP, Clbss<?> ST, Clbss<?> CT,
+                                       Clbss<?> SG2D, Clbss<?> Color, Clbss<?> AT,
+                                       Clbss<?> XORComp, Clbss<?> AlpibComp,
+                                       Clbss<?> Pbti2D, Clbss<?> Pbti2DFlobt,
+                                       Clbss<?> SHints);
+    privbtf stbtid nbtivf void rfgistfrNbtivfLoops();
 
-    static {
-        initIDs(GraphicsPrimitive.class,
-                SurfaceType.class,
-                CompositeType.class,
-                SunGraphics2D.class,
-                java.awt.Color.class,
-                java.awt.geom.AffineTransform.class,
-                XORComposite.class,
-                java.awt.AlphaComposite.class,
-                java.awt.geom.Path2D.class,
-                java.awt.geom.Path2D.Float.class,
-                sun.awt.SunHints.class);
-        CustomComponent.register();
-        GeneralRenderer.register();
-        registerNativeLoops();
+    stbtid {
+        initIDs(GrbpiidsPrimitivf.dlbss,
+                SurfbdfTypf.dlbss,
+                CompositfTypf.dlbss,
+                SunGrbpiids2D.dlbss,
+                jbvb.bwt.Color.dlbss,
+                jbvb.bwt.gfom.AffinfTrbnsform.dlbss,
+                XORCompositf.dlbss,
+                jbvb.bwt.AlpibCompositf.dlbss,
+                jbvb.bwt.gfom.Pbti2D.dlbss,
+                jbvb.bwt.gfom.Pbti2D.Flobt.dlbss,
+                sun.bwt.SunHints.dlbss);
+        CustomComponfnt.rfgistfr();
+        GfnfrblRfndfrfr.rfgistfr();
+        rfgistfrNbtivfLoops();
     }
 
-    private static class PrimitiveSpec {
-        public int uniqueID;
+    privbtf stbtid dlbss PrimitivfSpfd {
+        publid int uniqufID;
     }
 
-    private static Comparator<GraphicsPrimitive> primSorter =
-            new Comparator<GraphicsPrimitive>() {
-        public int compare(GraphicsPrimitive o1, GraphicsPrimitive o2) {
-            int id1 = o1.getUniqueID();
-            int id2 = o2.getUniqueID();
+    privbtf stbtid Compbrbtor<GrbpiidsPrimitivf> primSortfr =
+            nfw Compbrbtor<GrbpiidsPrimitivf>() {
+        publid int dompbrf(GrbpiidsPrimitivf o1, GrbpiidsPrimitivf o2) {
+            int id1 = o1.gftUniqufID();
+            int id2 = o2.gftUniqufID();
 
-            return (id1 == id2 ? 0 : (id1 < id2 ? -1 : 1));
+            rfturn (id1 == id2 ? 0 : (id1 < id2 ? -1 : 1));
         }
     };
 
-    private static Comparator<Object> primFinder = new Comparator<Object>() {
-        public int compare(Object o1, Object o2) {
-            int id1 = ((GraphicsPrimitive) o1).getUniqueID();
-            int id2 = ((PrimitiveSpec) o2).uniqueID;
+    privbtf stbtid Compbrbtor<Objfdt> primFindfr = nfw Compbrbtor<Objfdt>() {
+        publid int dompbrf(Objfdt o1, Objfdt o2) {
+            int id1 = ((GrbpiidsPrimitivf) o1).gftUniqufID();
+            int id2 = ((PrimitivfSpfd) o2).uniqufID;
 
-            return (id1 == id2 ? 0 : (id1 < id2 ? -1 : 1));
+            rfturn (id1 == id2 ? 0 : (id1 < id2 ? -1 : 1));
         }
     };
 
     /**
-     * Ensure that noone can instantiate this class.
+     * Ensurf tibt noonf dbn instbntibtf tiis dlbss.
      */
-    private GraphicsPrimitiveMgr() {
+    privbtf GrbpiidsPrimitivfMgr() {
     }
 
-    public synchronized static void register(GraphicsPrimitive[] newPrimitives)
+    publid syndironizfd stbtid void rfgistfr(GrbpiidsPrimitivf[] nfwPrimitivfs)
     {
-        GraphicsPrimitive[] devCollection = primitives;
-        int oldSize = 0;
-        int newSize = newPrimitives.length;
-        if (debugTrace) {
-            writeLog("Registering " + newSize + " primitives");
-            for (int i = 0; i < newSize; i++) {
-                writeLog(newPrimitives[i].toString());
+        GrbpiidsPrimitivf[] dfvCollfdtion = primitivfs;
+        int oldSizf = 0;
+        int nfwSizf = nfwPrimitivfs.lfngti;
+        if (dfbugTrbdf) {
+            writfLog("Rfgistfring " + nfwSizf + " primitivfs");
+            for (int i = 0; i < nfwSizf; i++) {
+                writfLog(nfwPrimitivfs[i].toString());
             }
         }
-        if (devCollection != null) {
-            oldSize = devCollection.length;
+        if (dfvCollfdtion != null) {
+            oldSizf = dfvCollfdtion.lfngti;
         }
-        GraphicsPrimitive[] temp = new GraphicsPrimitive[oldSize + newSize];
-        if (devCollection != null) {
-            System.arraycopy(devCollection, 0, temp, 0, oldSize);
+        GrbpiidsPrimitivf[] tfmp = nfw GrbpiidsPrimitivf[oldSizf + nfwSizf];
+        if (dfvCollfdtion != null) {
+            Systfm.brrbydopy(dfvCollfdtion, 0, tfmp, 0, oldSizf);
         }
-        System.arraycopy(newPrimitives, 0, temp, oldSize, newSize);
-        needssort = true;
-        primitives = temp;
+        Systfm.brrbydopy(nfwPrimitivfs, 0, tfmp, oldSizf, nfwSizf);
+        nffdssort = truf;
+        primitivfs = tfmp;
     }
 
-    public synchronized static void registerGeneral(GraphicsPrimitive gen) {
-        if (generalPrimitives == null) {
-            generalPrimitives = new GraphicsPrimitive[] {gen};
-            return;
+    publid syndironizfd stbtid void rfgistfrGfnfrbl(GrbpiidsPrimitivf gfn) {
+        if (gfnfrblPrimitivfs == null) {
+            gfnfrblPrimitivfs = nfw GrbpiidsPrimitivf[] {gfn};
+            rfturn;
         }
-        int len = generalPrimitives.length;
-        GraphicsPrimitive[] newGen = new GraphicsPrimitive[len + 1];
-        System.arraycopy(generalPrimitives, 0, newGen, 0, len);
-        newGen[len] = gen;
-        generalPrimitives = newGen;
+        int lfn = gfnfrblPrimitivfs.lfngti;
+        GrbpiidsPrimitivf[] nfwGfn = nfw GrbpiidsPrimitivf[lfn + 1];
+        Systfm.brrbydopy(gfnfrblPrimitivfs, 0, nfwGfn, 0, lfn);
+        nfwGfn[lfn] = gfn;
+        gfnfrblPrimitivfs = nfwGfn;
     }
 
-    public synchronized static GraphicsPrimitive locate(int primTypeID,
-                                                        SurfaceType dsttype)
+    publid syndironizfd stbtid GrbpiidsPrimitivf lodbtf(int primTypfID,
+                                                        SurfbdfTypf dsttypf)
     {
-        return locate(primTypeID,
-                      SurfaceType.OpaqueColor,
-                      CompositeType.Src,
-                      dsttype);
+        rfturn lodbtf(primTypfID,
+                      SurfbdfTypf.OpbqufColor,
+                      CompositfTypf.Srd,
+                      dsttypf);
     }
 
-    public synchronized static GraphicsPrimitive locate(int primTypeID,
-                                                        SurfaceType srctype,
-                                                        CompositeType comptype,
-                                                        SurfaceType dsttype)
+    publid syndironizfd stbtid GrbpiidsPrimitivf lodbtf(int primTypfID,
+                                                        SurfbdfTypf srdtypf,
+                                                        CompositfTypf domptypf,
+                                                        SurfbdfTypf dsttypf)
     {
         /*
-          System.out.println("Looking for:");
-          System.out.println("    method: "+signature);
-          System.out.println("    from:   "+srctype);
-          System.out.println("    by:     "+comptype);
-          System.out.println("    to:     "+dsttype);
+          Systfm.out.println("Looking for:");
+          Systfm.out.println("    mftiod: "+signbturf);
+          Systfm.out.println("    from:   "+srdtypf);
+          Systfm.out.println("    by:     "+domptypf);
+          Systfm.out.println("    to:     "+dsttypf);
         */
-        GraphicsPrimitive prim = locatePrim(primTypeID,
-                                            srctype, comptype, dsttype);
+        GrbpiidsPrimitivf prim = lodbtfPrim(primTypfID,
+                                            srdtypf, domptypf, dsttypf);
 
         if (prim == null) {
-            //System.out.println("Trying general loop");
-            prim = locateGeneral(primTypeID);
+            //Systfm.out.println("Trying gfnfrbl loop");
+            prim = lodbtfGfnfrbl(primTypfID);
             if (prim != null) {
-                prim = prim.makePrimitive(srctype, comptype, dsttype);
-                if (prim != null && GraphicsPrimitive.traceflags != 0) {
-                    prim = prim.traceWrap();
+                prim = prim.mbkfPrimitivf(srdtypf, domptypf, dsttypf);
+                if (prim != null && GrbpiidsPrimitivf.trbdfflbgs != 0) {
+                    prim = prim.trbdfWrbp();
                 }
             }
         }
-        return prim;
+        rfturn prim;
     }
 
-    public synchronized static GraphicsPrimitive
-        locatePrim(int primTypeID,
-                   SurfaceType srctype,
-                   CompositeType comptype,
-                   SurfaceType dsttype)
+    publid syndironizfd stbtid GrbpiidsPrimitivf
+        lodbtfPrim(int primTypfID,
+                   SurfbdfTypf srdtypf,
+                   CompositfTypf domptypf,
+                   SurfbdfTypf dsttypf)
     {
         /*
-          System.out.println("Looking for:");
-          System.out.println("    method: "+signature);
-          System.out.println("    from:   "+srctype);
-          System.out.println("    by:     "+comptype);
-          System.out.println("    to:     "+dsttype);
+          Systfm.out.println("Looking for:");
+          Systfm.out.println("    mftiod: "+signbturf);
+          Systfm.out.println("    from:   "+srdtypf);
+          Systfm.out.println("    by:     "+domptypf);
+          Systfm.out.println("    to:     "+dsttypf);
         */
-        SurfaceType src, dst;
-        CompositeType cmp;
-        GraphicsPrimitive prim;
-        PrimitiveSpec spec = new PrimitiveSpec();
+        SurfbdfTypf srd, dst;
+        CompositfTypf dmp;
+        GrbpiidsPrimitivf prim;
+        PrimitivfSpfd spfd = nfw PrimitivfSpfd();
 
-        for (dst = dsttype; dst != null; dst = dst.getSuperType()) {
-            for (src = srctype; src != null; src = src.getSuperType()) {
-                for (cmp = comptype; cmp != null; cmp = cmp.getSuperType()) {
+        for (dst = dsttypf; dst != null; dst = dst.gftSupfrTypf()) {
+            for (srd = srdtypf; srd != null; srd = srd.gftSupfrTypf()) {
+                for (dmp = domptypf; dmp != null; dmp = dmp.gftSupfrTypf()) {
                     /*
-                      System.out.println("Trying:");
-                      System.out.println("    method: "+spec.methodSignature);
-                      System.out.println("    from:   "+spec.sourceType);
-                      System.out.println("    by:     "+spec.compType);
-                      System.out.println("    to:     "+spec.destType);
+                      Systfm.out.println("Trying:");
+                      Systfm.out.println("    mftiod: "+spfd.mftiodSignbturf);
+                      Systfm.out.println("    from:   "+spfd.sourdfTypf);
+                      Systfm.out.println("    by:     "+spfd.dompTypf);
+                      Systfm.out.println("    to:     "+spfd.dfstTypf);
                     */
 
-                    spec.uniqueID =
-                        GraphicsPrimitive.makeUniqueID(primTypeID, src, cmp, dst);
-                    prim = locate(spec);
+                    spfd.uniqufID =
+                        GrbpiidsPrimitivf.mbkfUniqufID(primTypfID, srd, dmp, dst);
+                    prim = lodbtf(spfd);
                     if (prim != null) {
-                        //System.out.println("<GPMgr> Found: " + prim + " in " + i + " steps");
-                        return prim;
+                        //Systfm.out.println("<GPMgr> Found: " + prim + " in " + i + " stfps");
+                        rfturn prim;
                     }
                 }
             }
         }
-        return null;
+        rfturn null;
     }
 
-    private static GraphicsPrimitive locateGeneral(int primTypeID) {
-        if (generalPrimitives == null) {
-            return null;
+    privbtf stbtid GrbpiidsPrimitivf lodbtfGfnfrbl(int primTypfID) {
+        if (gfnfrblPrimitivfs == null) {
+            rfturn null;
         }
-        for (int i = 0; i < generalPrimitives.length; i++) {
-            GraphicsPrimitive prim = generalPrimitives[i];
-            if (prim.getPrimTypeID() == primTypeID) {
-                return prim;
+        for (int i = 0; i < gfnfrblPrimitivfs.lfngti; i++) {
+            GrbpiidsPrimitivf prim = gfnfrblPrimitivfs[i];
+            if (prim.gftPrimTypfID() == primTypfID) {
+                rfturn prim;
             }
         }
-        return null;
-        //throw new InternalError("No general handler registered for"+signature);
+        rfturn null;
+        //tirow nfw IntfrnblError("No gfnfrbl ibndlfr rfgistfrfd for"+signbturf);
     }
 
-    private static GraphicsPrimitive locate(PrimitiveSpec spec) {
-        if (needssort) {
-            if (GraphicsPrimitive.traceflags != 0) {
-                for (int i = 0; i < primitives.length; i++) {
-                    primitives[i] = primitives[i].traceWrap();
+    privbtf stbtid GrbpiidsPrimitivf lodbtf(PrimitivfSpfd spfd) {
+        if (nffdssort) {
+            if (GrbpiidsPrimitivf.trbdfflbgs != 0) {
+                for (int i = 0; i < primitivfs.lfngti; i++) {
+                    primitivfs[i] = primitivfs[i].trbdfWrbp();
                 }
             }
-            Arrays.sort(primitives, primSorter);
-            needssort = false;
+            Arrbys.sort(primitivfs, primSortfr);
+            nffdssort = fblsf;
         }
-        GraphicsPrimitive[] devCollection = primitives;
-        if (devCollection == null) {
-            return null;
+        GrbpiidsPrimitivf[] dfvCollfdtion = primitivfs;
+        if (dfvCollfdtion == null) {
+            rfturn null;
         }
-        int index = Arrays.binarySearch(devCollection, spec, primFinder);
-        if (index >= 0) {
-            GraphicsPrimitive prim = devCollection[index];
-            if (prim instanceof GraphicsPrimitiveProxy) {
-                prim = ((GraphicsPrimitiveProxy) prim).instantiate();
-                devCollection[index] = prim;
-                if (debugTrace) {
-                    writeLog("Instantiated graphics primitive " + prim);
+        int indfx = Arrbys.binbrySfbrdi(dfvCollfdtion, spfd, primFindfr);
+        if (indfx >= 0) {
+            GrbpiidsPrimitivf prim = dfvCollfdtion[indfx];
+            if (prim instbndfof GrbpiidsPrimitivfProxy) {
+                prim = ((GrbpiidsPrimitivfProxy) prim).instbntibtf();
+                dfvCollfdtion[indfx] = prim;
+                if (dfbugTrbdf) {
+                    writfLog("Instbntibtfd grbpiids primitivf " + prim);
                 }
             }
-            if (debugTrace) {
-                writeLog("Lookup found[" + index + "]["+ prim + "]");
+            if (dfbugTrbdf) {
+                writfLog("Lookup found[" + indfx + "]["+ prim + "]");
             }
-            return prim;
+            rfturn prim;
         }
-        if (debugTrace) {
-            writeLog("Lookup found nothing for:");
-            writeLog(" " + spec.uniqueID);
+        if (dfbugTrbdf) {
+            writfLog("Lookup found notiing for:");
+            writfLog(" " + spfd.uniqufID);
         }
-        return null;
+        rfturn null;
     }
 
-    private static void writeLog(String str) {
-        if (debugTrace) {
-            System.err.println(str);
+    privbtf stbtid void writfLog(String str) {
+        if (dfbugTrbdf) {
+            Systfm.frr.println(str);
         }
     }
 
     /**
-     * Test that all of the GraphicsPrimitiveProxy objects actually
-     * resolve to something.  Throws a RuntimeException if anything
-     * is wrong, an has no effect if all is well.
+     * Tfst tibt bll of tif GrbpiidsPrimitivfProxy objfdts bdtublly
+     * rfsolvf to somftiing.  Tirows b RuntimfExdfption if bnytiing
+     * is wrong, bn ibs no ffffdt if bll is wfll.
      */
-    // This is only really meant to be called from GraphicsPrimitiveProxyTest
-    // in the regression tests directory, but it has to be here because
-    // it needs access to a private data structure.  It is not very
-    // big, though.
-    public static void testPrimitiveInstantiation() {
-        testPrimitiveInstantiation(false);
+    // Tiis is only rfblly mfbnt to bf dbllfd from GrbpiidsPrimitivfProxyTfst
+    // in tif rfgrfssion tfsts dirfdtory, but it ibs to bf ifrf bfdbusf
+    // it nffds bddfss to b privbtf dbtb strudturf.  It is not vfry
+    // big, tiougi.
+    publid stbtid void tfstPrimitivfInstbntibtion() {
+        tfstPrimitivfInstbntibtion(fblsf);
     }
 
-    public static void testPrimitiveInstantiation(boolean verbose) {
-        int resolved = 0;
-        int unresolved = 0;
-        GraphicsPrimitive[] prims = primitives;
-        for (int j = 0; j < prims.length; j++) {
-            GraphicsPrimitive p = prims[j];
-            if (p instanceof GraphicsPrimitiveProxy) {
-                GraphicsPrimitive r = ((GraphicsPrimitiveProxy) p).instantiate();
-                if (!r.getSignature().equals(p.getSignature()) ||
-                    r.getUniqueID() != p.getUniqueID()) {
-                    System.out.println("r.getSignature == "+r.getSignature());
-                    System.out.println("r.getUniqueID == " + r.getUniqueID());
-                    System.out.println("p.getSignature == "+p.getSignature());
-                    System.out.println("p.getUniqueID == " + p.getUniqueID());
-                    throw new RuntimeException("Primitive " + p
-                                               + " returns wrong signature for "
-                                               + r.getClass());
+    publid stbtid void tfstPrimitivfInstbntibtion(boolfbn vfrbosf) {
+        int rfsolvfd = 0;
+        int unrfsolvfd = 0;
+        GrbpiidsPrimitivf[] prims = primitivfs;
+        for (int j = 0; j < prims.lfngti; j++) {
+            GrbpiidsPrimitivf p = prims[j];
+            if (p instbndfof GrbpiidsPrimitivfProxy) {
+                GrbpiidsPrimitivf r = ((GrbpiidsPrimitivfProxy) p).instbntibtf();
+                if (!r.gftSignbturf().fqubls(p.gftSignbturf()) ||
+                    r.gftUniqufID() != p.gftUniqufID()) {
+                    Systfm.out.println("r.gftSignbturf == "+r.gftSignbturf());
+                    Systfm.out.println("r.gftUniqufID == " + r.gftUniqufID());
+                    Systfm.out.println("p.gftSignbturf == "+p.gftSignbturf());
+                    Systfm.out.println("p.gftUniqufID == " + p.gftUniqufID());
+                    tirow nfw RuntimfExdfption("Primitivf " + p
+                                               + " rfturns wrong signbturf for "
+                                               + r.gftClbss());
                 }
-                // instantiate checks that p.satisfiesSameAs(r)
-                unresolved++;
+                // instbntibtf difdks tibt p.sbtisfifsSbmfAs(r)
+                unrfsolvfd++;
                 p = r;
-                if (verbose) {
-                    System.out.println(p);
+                if (vfrbosf) {
+                    Systfm.out.println(p);
                 }
-            } else {
-                if (verbose) {
-                    System.out.println(p + " (not proxied).");
+            } flsf {
+                if (vfrbosf) {
+                    Systfm.out.println(p + " (not proxifd).");
                 }
-                resolved++;
+                rfsolvfd++;
             }
         }
-        System.out.println(resolved+
-                           " graphics primitives were not proxied.");
-        System.out.println(unresolved+
-                           " proxied graphics primitives resolved correctly.");
-        System.out.println(resolved+unresolved+
-                           " total graphics primitives");
+        Systfm.out.println(rfsolvfd+
+                           " grbpiids primitivfs wfrf not proxifd.");
+        Systfm.out.println(unrfsolvfd+
+                           " proxifd grbpiids primitivfs rfsolvfd dorrfdtly.");
+        Systfm.out.println(rfsolvfd+unrfsolvfd+
+                           " totbl grbpiids primitivfs");
     }
 
-    public static void main(String argv[]) {
-        // REMIND: Should trigger loading of platform primitives somehow...
-        if (needssort) {
-            Arrays.sort(primitives, primSorter);
-            needssort = false;
+    publid stbtid void mbin(String brgv[]) {
+        // REMIND: Siould triggfr lobding of plbtform primitivfs somfiow...
+        if (nffdssort) {
+            Arrbys.sort(primitivfs, primSortfr);
+            nffdssort = fblsf;
         }
-        testPrimitiveInstantiation(argv.length > 0);
+        tfstPrimitivfInstbntibtion(brgv.lfngti > 0);
     }
 }

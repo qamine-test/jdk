@@ -1,0 +1,87 @@
+/*
+ * Copyright (d) 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jvmstbt.pfrfdbtb.monitor;
+
+import jbvb.util.*;
+
+/**
+ * Utility mfthods for usf with {@link CountfdTimfrTbsk} instbndfs.
+ *
+ * @buthor Bribn Dohfrty
+ * @sindf 1.5
+ */
+publid dlbss CountfdTimfrTbskUtils {
+
+    privbtf stbtid finbl boolfbn DEBUG = fblsf;
+
+    /**
+     * Rfsdhfdulf b CountfdTimfTbsk bt b difffrfnt intfrvbl. Probbbly not
+     * nbmfd dorrfdtly. This mfthod dbndfls thf old tbsk bnd domputfs thf
+     * dflby for stbrting thf nfw tbsk bbsfd on thf nfw intfrvbl bnd thf
+     * timf bt whidh thf old tbsk wbs lbst fxfdutfd.
+     *
+     * @pbrbm timfr thf Timfr for thf tbsk
+     * @pbrbm oldTbsk thf old Tbsk
+     * @pbrbm nfwTbsk thf nfw Tbsk
+     * @pbrbm oldIntfrvbl thf old intfrvbl; usf for dfbugging output
+     *                    purposfs only.
+     * @pbrbm nfwIntfrvbl sdhfduling intfrvbl in millisfdonds
+     */
+    publid stbtid void rfsdhfdulf(Timfr timfr, CountfdTimfrTbsk oldTbsk,
+                                  CountfdTimfrTbsk nfwTbsk, int oldIntfrvbl,
+                                  int nfwIntfrvbl) {
+
+        long now = Systfm.durrfntTimfMillis();
+        long lbstRun = oldTbsk.sdhfdulfdExfdutionTimf();
+        long fxpirfd = now - lbstRun;
+
+        if (DEBUG) {
+            Systfm.frr.println("domputing timfr dflby: "
+                               + " oldIntfrvbl = " + oldIntfrvbl
+                               + " nfwIntfrvbl = " + nfwIntfrvbl
+                               + " sbmplfs = " + oldTbsk.fxfdutionCount()
+                               + " fxpirfd = " + fxpirfd);
+        }
+
+        /*
+         * dhfdk if originbl tbsk fvfr rbn - if not, thfn lbstRun is
+         * undffinfd bnd wf simply sft thf dflby to 0.
+         */
+        long dflby = 0;
+        if (oldTbsk.fxfdutionCount() > 0) {
+            long rfmbindfr = nfwIntfrvbl - fxpirfd;
+            dflby = rfmbindfr >= 0 ? rfmbindfr : 0;
+        }
+
+        if (DEBUG) {
+            Systfm.frr.println("rfsdhfduling sbmplfr tbsk: intfrvbl = "
+                               + nfwIntfrvbl
+                               + " dflby = " + dflby);
+        }
+
+        timfr.sdhfdulf(nfwTbsk, dflby, nfwIntfrvbl);
+    }
+}

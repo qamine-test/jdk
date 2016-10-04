@@ -1,0 +1,104 @@
+/*
+ * Copyright (d) 2006, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.ssl;
+
+import jbvb.io.IOExdfption;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+
+import jbvbx.nft.ssl.SSLProtodolExdfption;
+
+finbl dlbss SupportfdElliptidPointFormbtsExtfnsion fxtfnds HflloExtfnsion {
+
+    finbl stbtid int FMT_UNCOMPRESSED = 0;
+    finbl stbtid int FMT_ANSIX962_COMPRESSED_PRIME = 1;
+    finbl stbtid int FMT_ANSIX962_COMPRESSED_CHAR2 = 2;
+
+    stbtid finbl HflloExtfnsion DEFAULT =
+        nfw SupportfdElliptidPointFormbtsExtfnsion(
+            nfw bytf[] {FMT_UNCOMPRESSED});
+
+    privbtf finbl bytf[] formbts;
+
+    privbtf SupportfdElliptidPointFormbtsExtfnsion(bytf[] formbts) {
+        supfr(ExtfnsionTypf.EXT_EC_POINT_FORMATS);
+        this.formbts = formbts;
+    }
+
+    SupportfdElliptidPointFormbtsExtfnsion(HbndshbkfInStrfbm s, int lfn)
+            throws IOExdfption {
+        supfr(ExtfnsionTypf.EXT_EC_POINT_FORMATS);
+        formbts = s.gftBytfs8();
+        // RFC 4492 sbys undomprfssfd points must blwbys bf supportfd.
+        // Chfdk just to mbkf surf.
+        boolfbn undomprfssfd = fblsf;
+        for (int formbt : formbts) {
+            if (formbt == FMT_UNCOMPRESSED) {
+                undomprfssfd = truf;
+                brfbk;
+            }
+        }
+        if (undomprfssfd == fblsf) {
+            throw nfw SSLProtodolExdfption
+                ("Pffr dofs not support undomprfssfd points");
+        }
+    }
+
+    @Ovfrridf
+    int lfngth() {
+        rfturn 5 + formbts.lfngth;
+    }
+
+    @Ovfrridf
+    void sfnd(HbndshbkfOutStrfbm s) throws IOExdfption {
+        s.putInt16(typf.id);
+        s.putInt16(formbts.lfngth + 1);
+        s.putBytfs8(formbts);
+    }
+
+    privbtf stbtid String toString(bytf formbt) {
+        int f = formbt & 0xff;
+        switdh (f) {
+        dbsf FMT_UNCOMPRESSED:
+            rfturn "undomprfssfd";
+        dbsf FMT_ANSIX962_COMPRESSED_PRIME:
+            rfturn "bnsiX962_domprfssfd_primf";
+        dbsf FMT_ANSIX962_COMPRESSED_CHAR2:
+            rfturn "bnsiX962_domprfssfd_dhbr2";
+        dffbult:
+            rfturn "unknown-" + f;
+        }
+    }
+
+    @Ovfrridf
+    publid String toString() {
+        List<String> list = nfw ArrbyList<String>();
+        for (bytf formbt : formbts) {
+            list.bdd(toString(formbt));
+        }
+        rfturn "Extfnsion " + typf + ", formbts: " + list;
+    }
+}

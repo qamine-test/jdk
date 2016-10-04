@@ -1,66 +1,66 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.print;
+pbdkbgf jbvbx.print;
 
-import javax.print.attribute.PrintRequestAttributeSet;
+import jbvbx.print.bttributf.PrintRfqufstAttributfSft;
 
 /**
  *
- * Obtained from a MultiDocPrintService, a MultiDocPrintJob can print a
- * specified collection of documents as a single print job with a set of
- * job attributes.
+ * Obtbinfd from b MultiDodPrintSfrvidf, b MultiDodPrintJob dbn print b
+ * spfdififd dollfdtion of dodumfnts bs b singlf print job witi b sft of
+ * job bttributfs.
  */
 
-public interface MultiDocPrintJob extends DocPrintJob {
+publid intfrfbdf MultiDodPrintJob fxtfnds DodPrintJob {
 
    /**
-     * Print a MultiDoc with the specified job attributes.
-     * This method should only be called once for a given print job.
-     * Calling it again will not result in a new job being spooled to
-     * the printer. The service implementation will define policy
-     * for service interruption and recovery. Application clients which
-     * want to monitor the success or failure should register a
-     * PrintJobListener.
+     * Print b MultiDod witi tif spfdififd job bttributfs.
+     * Tiis mftiod siould only bf dbllfd ondf for b givfn print job.
+     * Cblling it bgbin will not rfsult in b nfw job bfing spoolfd to
+     * tif printfr. Tif sfrvidf implfmfntbtion will dffinf polidy
+     * for sfrvidf intfrruption bnd rfdovfry. Applidbtion dlifnts wiidi
+     * wbnt to monitor tif suddfss or fbilurf siould rfgistfr b
+     * PrintJobListfnfr.
      *
-     * @param multiDoc The documents to be printed. ALL must be a flavor
-     *        supported by the PrintJob {@literal &} PrintService.
+     * @pbrbm multiDod Tif dodumfnts to bf printfd. ALL must bf b flbvor
+     *        supportfd by tif PrintJob {@litfrbl &} PrintSfrvidf.
      *
-     * @param attributes The job attributes to be applied to this print job.
-     *        If this parameter is null then the default attributes are used.
+     * @pbrbm bttributfs Tif job bttributfs to bf bpplifd to tiis print job.
+     *        If tiis pbrbmftfr is null tifn tif dffbult bttributfs brf usfd.
      *
-     * @throws PrintException The exception additionally may implement
-     * an interfaces which more precisely describes the cause of the exception
+     * @tirows PrintExdfption Tif fxdfption bdditionblly mby implfmfnt
+     * bn intfrfbdfs wiidi morf prfdisfly dfsdribfs tif dbusf of tif fxdfption
      * <ul>
-     * <li>FlavorException.
-     *  If the document has a flavor not supported by this print job.
-     * <li>AttributeException.
-     *  If one or more of the attributes are not valid for this print job.
+     * <li>FlbvorExdfption.
+     *  If tif dodumfnt ibs b flbvor not supportfd by tiis print job.
+     * <li>AttributfExdfption.
+     *  If onf or morf of tif bttributfs brf not vblid for tiis print job.
      * </ul>
      */
-    public void print(MultiDoc multiDoc, PrintRequestAttributeSet attributes)
-                throws PrintException;
+    publid void print(MultiDod multiDod, PrintRfqufstAttributfSft bttributfs)
+                tirows PrintExdfption;
 
 }

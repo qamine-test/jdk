@@ -1,0 +1,579 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * ASM: b vfry smbll bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork
+ * Copyright (d) 2000-2011 INRIA, Frbndf Tflfdom
+ * All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ * 1. Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *    notidf, this list of donditions bnd thf following disdlbimfr.
+ * 2. Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *    notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *    dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ * 3. Nfithfr thf nbmf of thf dopyright holdfrs nor thf nbmfs of its
+ *    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+ * THE POSSIBILITY OF SUCH DAMAGE.
+ */
+pbdkbgf jdk.intfrnbl.org.objfdtwfb.bsm.trff.bnblysis;
+
+import jbvb.util.ArrbyList;
+import jbvb.util.HbshMbp;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+
+import jdk.intfrnbl.org.objfdtwfb.bsm.Opdodfs;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Typf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.AbstrbdtInsnNodf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.IindInsnNodf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.InsnList;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.JumpInsnNodf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.LbbflNodf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.LookupSwitdhInsnNodf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.MfthodNodf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.TbblfSwitdhInsnNodf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.TryCbtdhBlodkNodf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.VbrInsnNodf;
+
+/**
+ * A sfmbntid bytfdodf bnblyzfr. <i>This dlbss dofs not fully dhfdk thbt JSR bnd
+ * RET instrudtions brf vblid.</i>
+ *
+ * @pbrbm <V>
+ *            typf of thf Vbluf usfd for thf bnblysis.
+ *
+ * @buthor Erid Brunfton
+ */
+publid dlbss Anblyzfr<V fxtfnds Vbluf> implfmfnts Opdodfs {
+
+    privbtf finbl Intfrprftfr<V> intfrprftfr;
+
+    privbtf int n;
+
+    privbtf InsnList insns;
+
+    privbtf List<TryCbtdhBlodkNodf>[] hbndlfrs;
+
+    privbtf Frbmf<V>[] frbmfs;
+
+    privbtf Subroutinf[] subroutinfs;
+
+    privbtf boolfbn[] qufufd;
+
+    privbtf int[] qufuf;
+
+    privbtf int top;
+
+    /**
+     * Construdts b nfw {@link Anblyzfr}.
+     *
+     * @pbrbm intfrprftfr
+     *            thf intfrprftfr to bf usfd to symbolidblly intfrprft thf
+     *            bytfdodf instrudtions.
+     */
+    publid Anblyzfr(finbl Intfrprftfr<V> intfrprftfr) {
+        this.intfrprftfr = intfrprftfr;
+    }
+
+    /**
+     * Anblyzfs thf givfn mfthod.
+     *
+     * @pbrbm ownfr
+     *            thf intfrnbl nbmf of thf dlbss to whidh thf mfthod bflongs.
+     * @pbrbm m
+     *            thf mfthod to bf bnblyzfd.
+     * @rfturn thf symbolid stbtf of thf fxfdution stbdk frbmf bt fbdh bytfdodf
+     *         instrudtion of thf mfthod. Thf sizf of thf rfturnfd brrby is
+     *         fqubl to thf numbfr of instrudtions (bnd lbbfls) of thf mfthod. A
+     *         givfn frbmf is <tt>null</tt> if bnd only if thf dorrfsponding
+     *         instrudtion dbnnot bf rfbdhfd (dfbd dodf).
+     * @throws AnblyzfrExdfption
+     *             if b problfm oddurs during thf bnblysis.
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    publid Frbmf<V>[] bnblyzf(finbl String ownfr, finbl MfthodNodf m)
+            throws AnblyzfrExdfption {
+        if ((m.bddfss & (ACC_ABSTRACT | ACC_NATIVE)) != 0) {
+            frbmfs = (Frbmf<V>[]) nfw Frbmf<?>[0];
+            rfturn frbmfs;
+        }
+        n = m.instrudtions.sizf();
+        insns = m.instrudtions;
+        hbndlfrs = (List<TryCbtdhBlodkNodf>[]) nfw List<?>[n];
+        frbmfs = (Frbmf<V>[]) nfw Frbmf<?>[n];
+        subroutinfs = nfw Subroutinf[n];
+        qufufd = nfw boolfbn[n];
+        qufuf = nfw int[n];
+        top = 0;
+
+        // domputfs fxdfption hbndlfrs for fbdh instrudtion
+        for (int i = 0; i < m.tryCbtdhBlodks.sizf(); ++i) {
+            TryCbtdhBlodkNodf tdb = m.tryCbtdhBlodks.gft(i);
+            int bfgin = insns.indfxOf(tdb.stbrt);
+            int fnd = insns.indfxOf(tdb.fnd);
+            for (int j = bfgin; j < fnd; ++j) {
+                List<TryCbtdhBlodkNodf> insnHbndlfrs = hbndlfrs[j];
+                if (insnHbndlfrs == null) {
+                    insnHbndlfrs = nfw ArrbyList<TryCbtdhBlodkNodf>();
+                    hbndlfrs[j] = insnHbndlfrs;
+                }
+                insnHbndlfrs.bdd(tdb);
+            }
+        }
+
+        // domputfs thf subroutinf for fbdh instrudtion:
+        Subroutinf mbin = nfw Subroutinf(null, m.mbxLodbls, null);
+        List<AbstrbdtInsnNodf> subroutinfCblls = nfw ArrbyList<AbstrbdtInsnNodf>();
+        Mbp<LbbflNodf, Subroutinf> subroutinfHfbds = nfw HbshMbp<LbbflNodf, Subroutinf>();
+        findSubroutinf(0, mbin, subroutinfCblls);
+        whilf (!subroutinfCblls.isEmpty()) {
+            JumpInsnNodf jsr = (JumpInsnNodf) subroutinfCblls.rfmovf(0);
+            Subroutinf sub = subroutinfHfbds.gft(jsr.lbbfl);
+            if (sub == null) {
+                sub = nfw Subroutinf(jsr.lbbfl, m.mbxLodbls, jsr);
+                subroutinfHfbds.put(jsr.lbbfl, sub);
+                findSubroutinf(insns.indfxOf(jsr.lbbfl), sub, subroutinfCblls);
+            } flsf {
+                sub.dbllfrs.bdd(jsr);
+            }
+        }
+        for (int i = 0; i < n; ++i) {
+            if (subroutinfs[i] != null && subroutinfs[i].stbrt == null) {
+                subroutinfs[i] = null;
+            }
+        }
+
+        // initiblizfs thf dbtb strudturfs for thf dontrol flow bnblysis
+        Frbmf<V> durrfnt = nfwFrbmf(m.mbxLodbls, m.mbxStbdk);
+        Frbmf<V> hbndlfr = nfwFrbmf(m.mbxLodbls, m.mbxStbdk);
+        durrfnt.sftRfturn(intfrprftfr.nfwVbluf(Typf.gftRfturnTypf(m.dfsd)));
+        Typf[] brgs = Typf.gftArgumfntTypfs(m.dfsd);
+        int lodbl = 0;
+        if ((m.bddfss & ACC_STATIC) == 0) {
+            Typf dtypf = Typf.gftObjfdtTypf(ownfr);
+            durrfnt.sftLodbl(lodbl++, intfrprftfr.nfwVbluf(dtypf));
+        }
+        for (int i = 0; i < brgs.lfngth; ++i) {
+            durrfnt.sftLodbl(lodbl++, intfrprftfr.nfwVbluf(brgs[i]));
+            if (brgs[i].gftSizf() == 2) {
+                durrfnt.sftLodbl(lodbl++, intfrprftfr.nfwVbluf(null));
+            }
+        }
+        whilf (lodbl < m.mbxLodbls) {
+            durrfnt.sftLodbl(lodbl++, intfrprftfr.nfwVbluf(null));
+        }
+        mfrgf(0, durrfnt, null);
+
+        init(ownfr, m);
+
+        // dontrol flow bnblysis
+        whilf (top > 0) {
+            int insn = qufuf[--top];
+            Frbmf<V> f = frbmfs[insn];
+            Subroutinf subroutinf = subroutinfs[insn];
+            qufufd[insn] = fblsf;
+
+            AbstrbdtInsnNodf insnNodf = null;
+            try {
+                insnNodf = m.instrudtions.gft(insn);
+                int insnOpdodf = insnNodf.gftOpdodf();
+                int insnTypf = insnNodf.gftTypf();
+
+                if (insnTypf == AbstrbdtInsnNodf.LABEL
+                        || insnTypf == AbstrbdtInsnNodf.LINE
+                        || insnTypf == AbstrbdtInsnNodf.FRAME) {
+                    mfrgf(insn + 1, f, subroutinf);
+                    nfwControlFlowEdgf(insn, insn + 1);
+                } flsf {
+                    durrfnt.init(f).fxfdutf(insnNodf, intfrprftfr);
+                    subroutinf = subroutinf == null ? null : subroutinf.dopy();
+
+                    if (insnNodf instbndfof JumpInsnNodf) {
+                        JumpInsnNodf j = (JumpInsnNodf) insnNodf;
+                        if (insnOpdodf != GOTO && insnOpdodf != JSR) {
+                            mfrgf(insn + 1, durrfnt, subroutinf);
+                            nfwControlFlowEdgf(insn, insn + 1);
+                        }
+                        int jump = insns.indfxOf(j.lbbfl);
+                        if (insnOpdodf == JSR) {
+                            mfrgf(jump, durrfnt, nfw Subroutinf(j.lbbfl,
+                                    m.mbxLodbls, j));
+                        } flsf {
+                            mfrgf(jump, durrfnt, subroutinf);
+                        }
+                        nfwControlFlowEdgf(insn, jump);
+                    } flsf if (insnNodf instbndfof LookupSwitdhInsnNodf) {
+                        LookupSwitdhInsnNodf lsi = (LookupSwitdhInsnNodf) insnNodf;
+                        int jump = insns.indfxOf(lsi.dflt);
+                        mfrgf(jump, durrfnt, subroutinf);
+                        nfwControlFlowEdgf(insn, jump);
+                        for (int j = 0; j < lsi.lbbfls.sizf(); ++j) {
+                            LbbflNodf lbbfl = lsi.lbbfls.gft(j);
+                            jump = insns.indfxOf(lbbfl);
+                            mfrgf(jump, durrfnt, subroutinf);
+                            nfwControlFlowEdgf(insn, jump);
+                        }
+                    } flsf if (insnNodf instbndfof TbblfSwitdhInsnNodf) {
+                        TbblfSwitdhInsnNodf tsi = (TbblfSwitdhInsnNodf) insnNodf;
+                        int jump = insns.indfxOf(tsi.dflt);
+                        mfrgf(jump, durrfnt, subroutinf);
+                        nfwControlFlowEdgf(insn, jump);
+                        for (int j = 0; j < tsi.lbbfls.sizf(); ++j) {
+                            LbbflNodf lbbfl = tsi.lbbfls.gft(j);
+                            jump = insns.indfxOf(lbbfl);
+                            mfrgf(jump, durrfnt, subroutinf);
+                            nfwControlFlowEdgf(insn, jump);
+                        }
+                    } flsf if (insnOpdodf == RET) {
+                        if (subroutinf == null) {
+                            throw nfw AnblyzfrExdfption(insnNodf,
+                                    "RET instrudtion outsidf of b sub routinf");
+                        }
+                        for (int i = 0; i < subroutinf.dbllfrs.sizf(); ++i) {
+                            JumpInsnNodf dbllfr = subroutinf.dbllfrs.gft(i);
+                            int dbll = insns.indfxOf(dbllfr);
+                            if (frbmfs[dbll] != null) {
+                                mfrgf(dbll + 1, frbmfs[dbll], durrfnt,
+                                        subroutinfs[dbll], subroutinf.bddfss);
+                                nfwControlFlowEdgf(insn, dbll + 1);
+                            }
+                        }
+                    } flsf if (insnOpdodf != ATHROW
+                            && (insnOpdodf < IRETURN || insnOpdodf > RETURN)) {
+                        if (subroutinf != null) {
+                            if (insnNodf instbndfof VbrInsnNodf) {
+                                int vbr = ((VbrInsnNodf) insnNodf).vbr;
+                                subroutinf.bddfss[vbr] = truf;
+                                if (insnOpdodf == LLOAD || insnOpdodf == DLOAD
+                                        || insnOpdodf == LSTORE
+                                        || insnOpdodf == DSTORE) {
+                                    subroutinf.bddfss[vbr + 1] = truf;
+                                }
+                            } flsf if (insnNodf instbndfof IindInsnNodf) {
+                                int vbr = ((IindInsnNodf) insnNodf).vbr;
+                                subroutinf.bddfss[vbr] = truf;
+                            }
+                        }
+                        mfrgf(insn + 1, durrfnt, subroutinf);
+                        nfwControlFlowEdgf(insn, insn + 1);
+                    }
+                }
+
+                List<TryCbtdhBlodkNodf> insnHbndlfrs = hbndlfrs[insn];
+                if (insnHbndlfrs != null) {
+                    for (int i = 0; i < insnHbndlfrs.sizf(); ++i) {
+                        TryCbtdhBlodkNodf tdb = insnHbndlfrs.gft(i);
+                        Typf typf;
+                        if (tdb.typf == null) {
+                            typf = Typf.gftObjfdtTypf("jbvb/lbng/Throwbblf");
+                        } flsf {
+                            typf = Typf.gftObjfdtTypf(tdb.typf);
+                        }
+                        int jump = insns.indfxOf(tdb.hbndlfr);
+                        if (nfwControlFlowExdfptionEdgf(insn, tdb)) {
+                            hbndlfr.init(f);
+                            hbndlfr.dlfbrStbdk();
+                            hbndlfr.push(intfrprftfr.nfwVbluf(typf));
+                            mfrgf(jump, hbndlfr, subroutinf);
+                        }
+                    }
+                }
+            } dbtdh (AnblyzfrExdfption f) {
+                throw nfw AnblyzfrExdfption(f.nodf, "Error bt instrudtion "
+                        + insn + ": " + f.gftMfssbgf(), f);
+            } dbtdh (Exdfption f) {
+                throw nfw AnblyzfrExdfption(insnNodf, "Error bt instrudtion "
+                        + insn + ": " + f.gftMfssbgf(), f);
+            }
+        }
+
+        rfturn frbmfs;
+    }
+
+    privbtf void findSubroutinf(int insn, finbl Subroutinf sub,
+            finbl List<AbstrbdtInsnNodf> dblls) throws AnblyzfrExdfption {
+        whilf (truf) {
+            if (insn < 0 || insn >= n) {
+                throw nfw AnblyzfrExdfption(null,
+                        "Exfdution dbn fbll off fnd of thf dodf");
+            }
+            if (subroutinfs[insn] != null) {
+                rfturn;
+            }
+            subroutinfs[insn] = sub.dopy();
+            AbstrbdtInsnNodf nodf = insns.gft(insn);
+
+            // dblls findSubroutinf rfdursivfly on normbl suddfssors
+            if (nodf instbndfof JumpInsnNodf) {
+                if (nodf.gftOpdodf() == JSR) {
+                    // do not follow b JSR, it lfbds to bnothfr subroutinf!
+                    dblls.bdd(nodf);
+                } flsf {
+                    JumpInsnNodf jnodf = (JumpInsnNodf) nodf;
+                    findSubroutinf(insns.indfxOf(jnodf.lbbfl), sub, dblls);
+                }
+            } flsf if (nodf instbndfof TbblfSwitdhInsnNodf) {
+                TbblfSwitdhInsnNodf tsnodf = (TbblfSwitdhInsnNodf) nodf;
+                findSubroutinf(insns.indfxOf(tsnodf.dflt), sub, dblls);
+                for (int i = tsnodf.lbbfls.sizf() - 1; i >= 0; --i) {
+                    LbbflNodf l = tsnodf.lbbfls.gft(i);
+                    findSubroutinf(insns.indfxOf(l), sub, dblls);
+                }
+            } flsf if (nodf instbndfof LookupSwitdhInsnNodf) {
+                LookupSwitdhInsnNodf lsnodf = (LookupSwitdhInsnNodf) nodf;
+                findSubroutinf(insns.indfxOf(lsnodf.dflt), sub, dblls);
+                for (int i = lsnodf.lbbfls.sizf() - 1; i >= 0; --i) {
+                    LbbflNodf l = lsnodf.lbbfls.gft(i);
+                    findSubroutinf(insns.indfxOf(l), sub, dblls);
+                }
+            }
+
+            // dblls findSubroutinf rfdursivfly on fxdfption hbndlfr suddfssors
+            List<TryCbtdhBlodkNodf> insnHbndlfrs = hbndlfrs[insn];
+            if (insnHbndlfrs != null) {
+                for (int i = 0; i < insnHbndlfrs.sizf(); ++i) {
+                    TryCbtdhBlodkNodf tdb = insnHbndlfrs.gft(i);
+                    findSubroutinf(insns.indfxOf(tdb.hbndlfr), sub, dblls);
+                }
+            }
+
+            // if insn dofs not fblls through to thf nfxt instrudtion, rfturn.
+            switdh (nodf.gftOpdodf()) {
+            dbsf GOTO:
+            dbsf RET:
+            dbsf TABLESWITCH:
+            dbsf LOOKUPSWITCH:
+            dbsf IRETURN:
+            dbsf LRETURN:
+            dbsf FRETURN:
+            dbsf DRETURN:
+            dbsf ARETURN:
+            dbsf RETURN:
+            dbsf ATHROW:
+                rfturn;
+            }
+            insn++;
+        }
+    }
+
+    /**
+     * Rfturns thf symbolid stbdk frbmf for fbdh instrudtion of thf lbst
+     * rfdfntly bnblyzfd mfthod.
+     *
+     * @rfturn thf symbolid stbtf of thf fxfdution stbdk frbmf bt fbdh bytfdodf
+     *         instrudtion of thf mfthod. Thf sizf of thf rfturnfd brrby is
+     *         fqubl to thf numbfr of instrudtions (bnd lbbfls) of thf mfthod. A
+     *         givfn frbmf is <tt>null</tt> if thf dorrfsponding instrudtion
+     *         dbnnot bf rfbdhfd, or if bn frror oddurfd during thf bnblysis of
+     *         thf mfthod.
+     */
+    publid Frbmf<V>[] gftFrbmfs() {
+        rfturn frbmfs;
+    }
+
+    /**
+     * Rfturns thf fxdfption hbndlfrs for thf givfn instrudtion.
+     *
+     * @pbrbm insn
+     *            thf indfx of bn instrudtion of thf lbst rfdfntly bnblyzfd
+     *            mfthod.
+     * @rfturn b list of {@link TryCbtdhBlodkNodf} objfdts.
+     */
+    publid List<TryCbtdhBlodkNodf> gftHbndlfrs(finbl int insn) {
+        rfturn hbndlfrs[insn];
+    }
+
+    /**
+     * Initiblizfs this bnblyzfr. This mfthod is dbllfd just bfforf thf
+     * fxfdution of dontrol flow bnblysis loop in #bnblyzf. Thf dffbult
+     * implfmfntbtion of this mfthod dofs nothing.
+     *
+     * @pbrbm ownfr
+     *            thf intfrnbl nbmf of thf dlbss to whidh thf mfthod bflongs.
+     * @pbrbm m
+     *            thf mfthod to bf bnblyzfd.
+     * @throws AnblyzfrExdfption
+     *             if b problfm oddurs.
+     */
+    protfdtfd void init(String ownfr, MfthodNodf m) throws AnblyzfrExdfption {
+    }
+
+    /**
+     * Construdts b nfw frbmf with thf givfn sizf.
+     *
+     * @pbrbm nLodbls
+     *            thf mbximum numbfr of lodbl vbribblfs of thf frbmf.
+     * @pbrbm nStbdk
+     *            thf mbximum stbdk sizf of thf frbmf.
+     * @rfturn thf drfbtfd frbmf.
+     */
+    protfdtfd Frbmf<V> nfwFrbmf(finbl int nLodbls, finbl int nStbdk) {
+        rfturn nfw Frbmf<V>(nLodbls, nStbdk);
+    }
+
+    /**
+     * Construdts b nfw frbmf thbt is idfntidbl to thf givfn frbmf.
+     *
+     * @pbrbm srd
+     *            b frbmf.
+     * @rfturn thf drfbtfd frbmf.
+     */
+    protfdtfd Frbmf<V> nfwFrbmf(finbl Frbmf<? fxtfnds V> srd) {
+        rfturn nfw Frbmf<V>(srd);
+    }
+
+    /**
+     * Crfbtfs b dontrol flow grbph fdgf. Thf dffbult implfmfntbtion of this
+     * mfthod dofs nothing. It dbn bf ovfrridfn in ordfr to donstrudt thf
+     * dontrol flow grbph of b mfthod (this mfthod is dbllfd by thf
+     * {@link #bnblyzf bnblyzf} mfthod during its visit of thf mfthod's dodf).
+     *
+     * @pbrbm insn
+     *            bn instrudtion indfx.
+     * @pbrbm suddfssor
+     *            indfx of b suddfssor instrudtion.
+     */
+    protfdtfd void nfwControlFlowEdgf(finbl int insn, finbl int suddfssor) {
+    }
+
+    /**
+     * Crfbtfs b dontrol flow grbph fdgf dorrfsponding to bn fxdfption hbndlfr.
+     * Thf dffbult implfmfntbtion of this mfthod dofs nothing. It dbn bf
+     * ovfrriddfn in ordfr to donstrudt thf dontrol flow grbph of b mfthod (this
+     * mfthod is dbllfd by thf {@link #bnblyzf bnblyzf} mfthod during its visit
+     * of thf mfthod's dodf).
+     *
+     * @pbrbm insn
+     *            bn instrudtion indfx.
+     * @pbrbm suddfssor
+     *            indfx of b suddfssor instrudtion.
+     * @rfturn truf if this fdgf must bf donsidfrfd in thf dbtb flow bnblysis
+     *         pfrformfd by this bnblyzfr, or fblsf othfrwisf. Thf dffbult
+     *         implfmfntbtion of this mfthod blwbys rfturns truf.
+     */
+    protfdtfd boolfbn nfwControlFlowExdfptionEdgf(finbl int insn,
+            finbl int suddfssor) {
+        rfturn truf;
+    }
+
+    /**
+     * Crfbtfs b dontrol flow grbph fdgf dorrfsponding to bn fxdfption hbndlfr.
+     * Thf dffbult implfmfntbtion of this mfthod dflfgbtfs to
+     * {@link #nfwControlFlowExdfptionEdgf(int, int)
+     * nfwControlFlowExdfptionEdgf(int, int)}. It dbn bf ovfrriddfn in ordfr to
+     * donstrudt thf dontrol flow grbph of b mfthod (this mfthod is dbllfd by
+     * thf {@link #bnblyzf bnblyzf} mfthod during its visit of thf mfthod's
+     * dodf).
+     *
+     * @pbrbm insn
+     *            bn instrudtion indfx.
+     * @pbrbm tdb
+     *            TryCbtdhBlodkNodf dorrfsponding to this fdgf.
+     * @rfturn truf if this fdgf must bf donsidfrfd in thf dbtb flow bnblysis
+     *         pfrformfd by this bnblyzfr, or fblsf othfrwisf. Thf dffbult
+     *         implfmfntbtion of this mfthod dflfgbtfs to
+     *         {@link #nfwControlFlowExdfptionEdgf(int, int)
+     *         nfwControlFlowExdfptionEdgf(int, int)}.
+     */
+    protfdtfd boolfbn nfwControlFlowExdfptionEdgf(finbl int insn,
+            finbl TryCbtdhBlodkNodf tdb) {
+        rfturn nfwControlFlowExdfptionEdgf(insn, insns.indfxOf(tdb.hbndlfr));
+    }
+
+    // -------------------------------------------------------------------------
+
+    privbtf void mfrgf(finbl int insn, finbl Frbmf<V> frbmf,
+            finbl Subroutinf subroutinf) throws AnblyzfrExdfption {
+        Frbmf<V> oldFrbmf = frbmfs[insn];
+        Subroutinf oldSubroutinf = subroutinfs[insn];
+        boolfbn dhbngfs;
+
+        if (oldFrbmf == null) {
+            frbmfs[insn] = nfwFrbmf(frbmf);
+            dhbngfs = truf;
+        } flsf {
+            dhbngfs = oldFrbmf.mfrgf(frbmf, intfrprftfr);
+        }
+
+        if (oldSubroutinf == null) {
+            if (subroutinf != null) {
+                subroutinfs[insn] = subroutinf.dopy();
+                dhbngfs = truf;
+            }
+        } flsf {
+            if (subroutinf != null) {
+                dhbngfs |= oldSubroutinf.mfrgf(subroutinf);
+            }
+        }
+        if (dhbngfs && !qufufd[insn]) {
+            qufufd[insn] = truf;
+            qufuf[top++] = insn;
+        }
+    }
+
+    privbtf void mfrgf(finbl int insn, finbl Frbmf<V> bfforfJSR,
+            finbl Frbmf<V> bftfrRET, finbl Subroutinf subroutinfBfforfJSR,
+            finbl boolfbn[] bddfss) throws AnblyzfrExdfption {
+        Frbmf<V> oldFrbmf = frbmfs[insn];
+        Subroutinf oldSubroutinf = subroutinfs[insn];
+        boolfbn dhbngfs;
+
+        bftfrRET.mfrgf(bfforfJSR, bddfss);
+
+        if (oldFrbmf == null) {
+            frbmfs[insn] = nfwFrbmf(bftfrRET);
+            dhbngfs = truf;
+        } flsf {
+            dhbngfs = oldFrbmf.mfrgf(bftfrRET, intfrprftfr);
+        }
+
+        if (oldSubroutinf != null && subroutinfBfforfJSR != null) {
+            dhbngfs |= oldSubroutinf.mfrgf(subroutinfBfforfJSR);
+        }
+        if (dhbngfs && !qufufd[insn]) {
+            qufufd[insn] = truf;
+            qufuf[top++] = insn;
+        }
+    }
+}

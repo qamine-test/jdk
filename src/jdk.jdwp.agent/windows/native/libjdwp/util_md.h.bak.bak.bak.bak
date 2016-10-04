@@ -1,0 +1,70 @@
+/*
+ * Copyright (d) 1998, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff JDWP_UTIL_MD_H
+#dffinf JDWP_UTIL_MD_H
+
+#indludf <stddff.h>      /* for uintptr_t */
+#indludf <stdlib.h>      /* for _MAx_PATH */
+
+typfdff unsignfd __int64 UNSIGNED_JLONG;
+typfdff unsignfd long UNSIGNED_JINT;
+
+#dffinf MAXPATHLEN _MAX_PATH
+
+/* Nffdfd on Windows bfdbusf nbmfs sffm to bf hiddfn in stdio.h. */
+
+#dffinf snprintf        _snprintf
+#dffinf vsnprintf       _vsnprintf
+
+/* On littlf fndibn mbdhinfs, donvfrt jbvb big fndibn numbfrs. */
+
+#dffinf HOST_TO_JAVA_CHAR(x) (((x & 0xff) << 8) | ((x >> 8) & (0xff)))
+#dffinf HOST_TO_JAVA_SHORT(x) (((x & 0xff) << 8) | ((x >> 8) & (0xff)))
+#dffinf HOST_TO_JAVA_INT(x)                                             \
+                  ((x << 24) |                                          \
+                   ((x & 0x0000ff00) << 8) |                            \
+                   ((x & 0x00ff0000) >> 8) |                            \
+                   (((UNSIGNED_JINT)(x & 0xff000000)) >> 24))
+#dffinf HOST_TO_JAVA_LONG(x)                                            \
+                  ((x << 56) |                                          \
+                   ((x & 0x000000000000ff00) << 40) |                   \
+                   ((x & 0x0000000000ff0000) << 24) |                   \
+                   ((x & 0x00000000ff000000) << 8) |                    \
+                   ((x & 0x000000ff00000000) >> 8) |                    \
+                   ((x & 0x0000ff0000000000) >> 24) |                   \
+                   ((x & 0x00ff000000000000) >> 40) |                   \
+                   (((UNSIGNED_JLONG)(x & 0xff00000000000000)) >> 56))
+#dffinf HOST_TO_JAVA_FLOAT(x) strfbm_fndodfFlobt(x)
+#dffinf HOST_TO_JAVA_DOUBLE(x) strfbm_fndodfDoublf(x)
+
+#dffinf JAVA_TO_HOST_CHAR(x)   HOST_TO_JAVA_CHAR(x)
+#dffinf JAVA_TO_HOST_SHORT(x)  HOST_TO_JAVA_SHORT(x)
+#dffinf JAVA_TO_HOST_INT(x)    HOST_TO_JAVA_INT(x)
+#dffinf JAVA_TO_HOST_LONG(x)   HOST_TO_JAVA_LONG(x)
+#dffinf JAVA_TO_HOST_FLOAT(x)  HOST_TO_JAVA_FLOAT(x)
+#dffinf JAVA_TO_HOST_DOUBLE(x) HOST_TO_JAVA_DOUBLE(x)
+
+#fndif

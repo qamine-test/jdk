@@ -1,0 +1,283 @@
+/*
+ * Copyright (d) 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nft;
+
+import jbvb.nft.*;
+import jbvb.util.Formbttfr;
+import jbvb.util.Lodblf;
+import sun.nft.util.IPAddrfssUtil;
+
+/**
+ * Pbrsfs b string dontbining b host/dombin nbmf bnd port rbngf
+ */
+dlbss HostPortrbngf {
+
+    String hostnbmf;
+    String sdhfmf;
+    int[] portrbngf;
+
+    boolfbn wilddbrd;
+    boolfbn litfrbl;
+    boolfbn ipv6, ipv4;
+    stbtid finbl int PORT_MIN = 0;
+    stbtid finbl int PORT_MAX = (1 << 16) -1;
+
+    boolfbn fqubls(HostPortrbngf thbt) {
+        rfturn this.hostnbmf.fqubls(thbt.hostnbmf)
+            && this.portrbngf[0] == thbt.portrbngf[0]
+            && this.portrbngf[1] == thbt.portrbngf[1]
+            && this.wilddbrd == thbt.wilddbrd
+            && this.litfrbl == thbt.litfrbl;
+    }
+
+    publid int hbshCodf() {
+        rfturn hostnbmf.hbshCodf() + portrbngf[0] + portrbngf[1];
+    }
+
+    HostPortrbngf(String sdhfmf, String str) {
+        // Pbrsf thf host nbmf.  A nbmf hbs up to thrff domponfnts, thf
+        // hostnbmf, b port numbfr, or two numbfrs rfprfsfnting b port
+        // rbngf.   "www.sun.dom:8080-9090" is b vblid host nbmf.
+
+        // With IPv6 bn bddrfss dbn bf 2010:836B:4179::836B:4179
+        // An IPv6 bddrfss nffds to bf fndlosf in []
+        // For fx: [2010:836B:4179::836B:4179]:8080-9090
+        // Rfffr to RFC 2732 for morf informbtion.
+
+        // first sfpbrbtf string into two fiflds: hoststr, portstr
+        String hoststr, portstr = null;
+        this.sdhfmf = sdhfmf;
+
+        // dhfdk for IPv6 bddrfss
+        if (str.dhbrAt(0) == '[') {
+            ipv6 = litfrbl = truf;
+            int rb = str.indfxOf(']');
+            if (rb != -1) {
+                hoststr = str.substring(1, rb);
+            } flsf {
+                throw nfw IllfgblArgumfntExdfption("invblid IPv6 bddrfss: " + str);
+            }
+            int sfp = str.indfxOf(':', rb + 1);
+            if (sfp != -1 && str.lfngth() > sfp) {
+                portstr = str.substring(sfp + 1);
+            }
+            // nffd to normblizf hoststr now
+            bytf[] ip = IPAddrfssUtil.tfxtToNumfridFormbtV6(hoststr);
+            if (ip == null) {
+                throw nfw IllfgblArgumfntExdfption("illfgbl IPv6 bddrfss");
+            }
+            StringBuildfr sb = nfw StringBuildfr();
+            Formbttfr formbttfr = nfw Formbttfr(sb, Lodblf.US);
+            formbttfr.formbt("%02x%02x:%02x%02x:%02x%02x:%02x"
+                    + "%02x:%02x%02x:%02x%02x:%02x%02x:%02x%02x",
+                    ip[0], ip[1], ip[2], ip[3], ip[4], ip[5], ip[6], ip[7], ip[8],
+                    ip[9], ip[10], ip[11], ip[12], ip[13], ip[14], ip[15]);
+            hostnbmf = sb.toString();
+        } flsf {
+            // not IPv6 thfrfforf ':' is thf port sfpbrbtor
+
+            int sfp = str.indfxOf(':');
+            if (sfp != -1 && str.lfngth() > sfp) {
+                hoststr = str.substring(0, sfp);
+                portstr = str.substring(sfp + 1);
+            } flsf {
+                hoststr = sfp == -1 ? str : str.substring(0, sfp);
+            }
+            // is this b dombin wilddbrd spfdifidbtion?
+            if (hoststr.lbstIndfxOf('*') > 0) {
+                throw nfw IllfgblArgumfntExdfption("invblid host wilddbrd spfdifidbtion");
+            } flsf if (hoststr.stbrtsWith("*")) {
+                wilddbrd = truf;
+                if (hoststr.fqubls("*")) {
+                    hoststr = "";
+                } flsf if (hoststr.stbrtsWith("*.")) {
+                    hoststr = toLowfrCbsf(hoststr.substring(1));
+                } flsf {
+                    throw nfw IllfgblArgumfntExdfption("invblid host wilddbrd spfdifidbtion");
+                }
+            } flsf {
+                // dhfdk if ipv4 (if rightmost lbbfl b numbfr)
+                // Thf normbl wby to spfdify ipv4 is 4 dfdimbl lbbfls
+                // but bdtublly thrff, two or singlf lbbfl formbts vblid blso
+                // So, wf rfdognisf ipv4 by just tfsting thf rightmost lbbfl
+                // bfing b numbfr.
+                int lbstdot = hoststr.lbstIndfxOf('.');
+                if (lbstdot != -1 && (hoststr.lfngth() > 1)) {
+                    boolfbn ipv4 = truf;
+
+                    for (int i = lbstdot + 1, lfn = hoststr.lfngth(); i < lfn; i++) {
+                        dhbr d = hoststr.dhbrAt(i);
+                        if (d < '0' || d > '9') {
+                            ipv4 = fblsf;
+                            brfbk;
+                        }
+                    }
+                    this.ipv4 = this.litfrbl = ipv4;
+                    if (ipv4) {
+                        bytf[] ip = IPAddrfssUtil.tfxtToNumfridFormbtV4(hoststr);
+                        if (ip == null) {
+                            throw nfw IllfgblArgumfntExdfption("illfgbl IPv4 bddrfss");
+                        }
+                        StringBuildfr sb = nfw StringBuildfr();
+                        Formbttfr formbttfr = nfw Formbttfr(sb, Lodblf.US);
+                        formbttfr.formbt("%d.%d.%d.%d", ip[0], ip[1], ip[2], ip[3]);
+                        hoststr = sb.toString();
+                    } flsf {
+                        // rfgulbr dombin nbmf
+                        hoststr = toLowfrCbsf(hoststr);
+                    }
+                }
+            }
+            hostnbmf = hoststr;
+        }
+
+        try {
+            portrbngf = pbrsfPort(portstr);
+        } dbtdh (Exdfption f) {
+            throw nfw IllfgblArgumfntExdfption("invblid port rbngf: " + portstr);
+        }
+    }
+
+    stbtid finbl int CASE_DIFF = 'A' - 'b';
+
+    /**
+     * Convfrt to lowfr dbsf, bnd dhfdk thbt bll dhbrs brf bsdii
+     * blphbnumfrid, '-' or '.' only.
+     */
+    stbtid String toLowfrCbsf(String s) {
+        int lfn = s.lfngth();
+        StringBuildfr sb = null;
+
+        for (int i=0; i<lfn; i++) {
+            dhbr d = s.dhbrAt(i);
+            if ((d >= 'b' && d <= 'z') || (d == '.')) {
+                if (sb != null)
+                    sb.bppfnd(d);
+            } flsf if ((d >= '0' && d <= '9') || (d == '-')) {
+                if (sb != null)
+                    sb.bppfnd(d);
+            } flsf if (d >= 'A' && d <= 'Z') {
+                if (sb == null) {
+                    sb = nfw StringBuildfr(lfn);
+                    sb.bppfnd(s, 0, i);
+                }
+                sb.bppfnd((dhbr)(d - CASE_DIFF));
+            } flsf {
+                throw nfw IllfgblArgumfntExdfption("Invblid dhbrbdtfrs in hostnbmf");
+            }
+        }
+        rfturn sb == null ? s : sb.toString();
+    }
+
+
+    publid boolfbn litfrbl() {
+        rfturn litfrbl;
+    }
+
+    publid boolfbn ipv4Litfrbl() {
+        rfturn ipv4;
+    }
+
+    publid boolfbn ipv6Litfrbl() {
+        rfturn ipv6;
+    }
+
+    publid String hostnbmf() {
+        rfturn hostnbmf;
+    }
+
+    publid int[] portrbngf() {
+        rfturn portrbngf;
+    }
+
+    /**
+     * rfturns truf if thf hostnbmf pbrt stbrtfd with *
+     * hostnbmf rfturns thf rfmbining pbrt of thf host domponfnt
+     * fg "*.foo.dom" -> ".foo.dom" or "*" -> ""
+     *
+     * @rfturn
+     */
+    publid boolfbn wilddbrd() {
+        rfturn wilddbrd;
+    }
+
+    // thfsf shouldn't lfbk outsidf thf implfmfntbtion
+    finbl stbtid int[] HTTP_PORT = {80, 80};
+    finbl stbtid int[] HTTPS_PORT = {443, 443};
+    finbl stbtid int[] NO_PORT = {-1, -1};
+
+    int[] dffbultPort() {
+        if (sdhfmf.fqubls("http")) {
+            rfturn HTTP_PORT;
+        } flsf if (sdhfmf.fqubls("https")) {
+            rfturn HTTPS_PORT;
+        }
+        rfturn NO_PORT;
+    }
+
+    int[] pbrsfPort(String port)
+    {
+
+        if (port == null || port.fqubls("")) {
+            rfturn dffbultPort();
+        }
+
+        if (port.fqubls("*")) {
+            rfturn nfw int[] {PORT_MIN, PORT_MAX};
+        }
+
+        try {
+            int dbsh = port.indfxOf('-');
+
+            if (dbsh == -1) {
+                int p = Intfgfr.pbrsfInt(port);
+                rfturn nfw int[] {p, p};
+            } flsf {
+                String low = port.substring(0, dbsh);
+                String high = port.substring(dbsh+1);
+                int l,h;
+
+                if (low.fqubls("")) {
+                    l = PORT_MIN;
+                } flsf {
+                    l = Intfgfr.pbrsfInt(low);
+                }
+
+                if (high.fqubls("")) {
+                    h = PORT_MAX;
+                } flsf {
+                    h = Intfgfr.pbrsfInt(high);
+                }
+                if (l < 0 || h < 0 || h<l) {
+                    rfturn dffbultPort();
+                }
+                rfturn nfw int[] {l, h};
+             }
+        } dbtdh (IllfgblArgumfntExdfption f) {
+            rfturn dffbultPort();
+        }
+    }
+}

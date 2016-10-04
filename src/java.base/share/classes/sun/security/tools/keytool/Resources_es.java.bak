@@ -1,444 +1,444 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.tools.keytool;
+pbdkbgf sun.sfdurity.tools.kfytool;
 
 /**
- * <p> This class represents the <code>ResourceBundle</code>
- * for the keytool.
+ * <p> Tiis dlbss rfprfsfnts tif <dodf>RfsourdfBundlf</dodf>
+ * for tif kfytool.
  *
  */
-public class Resources_es extends java.util.ListResourceBundle {
+publid dlbss Rfsourdfs_fs fxtfnds jbvb.util.ListRfsourdfBundlf {
 
-    private static final Object[][] contents = {
+    privbtf stbtid finbl Objfdt[][] dontfnts = {
         {"NEWLINE", "\n"},
         {"STAR",
                 "*******************************************"},
         {"STARNN",
                 "*******************************************\n\n"},
 
-        // keytool: Help part
+        // kfytool: Hflp pbrt
         {".OPTION.", " [OPTION]..."},
-        {"Options.", "Opciones:"},
-        {"Use.keytool.help.for.all.available.commands",
-                 "Utilice\"keytool -help\" para todos los comandos disponibles"},
-        {"Key.and.Certificate.Management.Tool",
-                 "Herramienta de Gesti\u00F3n de Certificados y Claves"},
-        {"Commands.", "Comandos:"},
-        {"Use.keytool.command.name.help.for.usage.of.command.name",
-                "Utilice \"keytool -command_name -help\" para la sintaxis de nombre_comando"},
-        // keytool: help: commands
-        {"Generates.a.certificate.request",
-                "Genera una solicitud de certificado"}, //-certreq
-        {"Changes.an.entry.s.alias",
-                "Cambia un alias de entrada"}, //-changealias
-        {"Deletes.an.entry",
-                "Suprime una entrada"}, //-delete
-        {"Exports.certificate",
-                "Exporta el certificado"}, //-exportcert
-        {"Generates.a.key.pair",
-                "Genera un par de claves"}, //-genkeypair
-        {"Generates.a.secret.key",
-                "Genera un clave secreta"}, //-genseckey
-        {"Generates.certificate.from.a.certificate.request",
-                "Genera un certificado a partir de una solicitud de certificado"}, //-gencert
-        {"Generates.CRL", "Genera CRL"}, //-gencrl
-        {"Generated.keyAlgName.secret.key",
-                "Clave secreta {0} generada"}, //-genseckey
-        {"Generated.keysize.bit.keyAlgName.secret.key",
-                "Clave secreta {1} de {0} bits generada"}, //-genseckey
-        {"Imports.entries.from.a.JDK.1.1.x.style.identity.database",
-                "Importa entradas desde una base de datos de identidades JDK 1.1.x-style"}, //-identitydb
-        {"Imports.a.certificate.or.a.certificate.chain",
-                "Importa un certificado o una cadena de certificados"}, //-importcert
-        {"Imports.a.password",
-                "Importa una contrase\u00F1a"}, //-importpass
-        {"Imports.one.or.all.entries.from.another.keystore",
-                "Importa una o todas las entradas desde otro almac\u00E9n de claves"}, //-importkeystore
-        {"Clones.a.key.entry",
-                "Clona una entrada de clave"}, //-keyclone
-        {"Changes.the.key.password.of.an.entry",
-                "Cambia la contrase\u00F1a de clave de una entrada"}, //-keypasswd
-        {"Lists.entries.in.a.keystore",
-                "Enumera las entradas de un almac\u00E9n de claves"}, //-list
-        {"Prints.the.content.of.a.certificate",
-                "Imprime el contenido de un certificado"}, //-printcert
-        {"Prints.the.content.of.a.certificate.request",
-                "Imprime el contenido de una solicitud de certificado"}, //-printcertreq
-        {"Prints.the.content.of.a.CRL.file",
-                "Imprime el contenido de un archivo CRL"}, //-printcrl
-        {"Generates.a.self.signed.certificate",
-                "Genera un certificado autofirmado"}, //-selfcert
-        {"Changes.the.store.password.of.a.keystore",
-                "Cambia la contrase\u00F1a de almac\u00E9n de un almac\u00E9n de claves"}, //-storepasswd
-        // keytool: help: options
-        {"alias.name.of.the.entry.to.process",
-                "nombre de alias de la entrada que se va a procesar"}, //-alias
-        {"destination.alias",
-                "alias de destino"}, //-destalias
-        {"destination.key.password",
-                "contrase\u00F1a de clave de destino"}, //-destkeypass
-        {"destination.keystore.name",
-                "nombre de almac\u00E9n de claves de destino"}, //-destkeystore
-        {"destination.keystore.password.protected",
-                "almac\u00E9n de claves de destino protegido por contrase\u00F1a"}, //-destprotected
-        {"destination.keystore.provider.name",
-                "nombre de proveedor de almac\u00E9n de claves de destino"}, //-destprovidername
-        {"destination.keystore.password",
-                "contrase\u00F1a de almac\u00E9n de claves de destino"}, //-deststorepass
-        {"destination.keystore.type",
-                "tipo de almac\u00E9n de claves de destino"}, //-deststoretype
-        {"distinguished.name",
-                "nombre distintivo"}, //-dname
-        {"X.509.extension",
-                "extensi\u00F3n X.509"}, //-ext
-        {"output.file.name",
-                "nombre de archivo de salida"}, //-file and -outfile
-        {"input.file.name",
-                "nombre de archivo de entrada"}, //-file and -infile
-        {"key.algorithm.name",
-                "nombre de algoritmo de clave"}, //-keyalg
-        {"key.password",
-                "contrase\u00F1a de clave"}, //-keypass
-        {"key.bit.size",
-                "tama\u00F1o de bit de clave"}, //-keysize
-        {"keystore.name",
-                "nombre de almac\u00E9n de claves"}, //-keystore
-        {"new.password",
-                "nueva contrase\u00F1a"}, //-new
+        {"Options.", "Opdionfs:"},
+        {"Usf.kfytool.iflp.for.bll.bvbilbblf.dommbnds",
+                 "Utilidf\"kfytool -iflp\" pbrb todos los dombndos disponiblfs"},
+        {"Kfy.bnd.Cfrtifidbtf.Mbnbgfmfnt.Tool",
+                 "Hfrrbmifntb df Gfsti\u00F3n df Cfrtifidbdos y Clbvfs"},
+        {"Commbnds.", "Combndos:"},
+        {"Usf.kfytool.dommbnd.nbmf.iflp.for.usbgf.of.dommbnd.nbmf",
+                "Utilidf \"kfytool -dommbnd_nbmf -iflp\" pbrb lb sintbxis df nombrf_dombndo"},
+        // kfytool: iflp: dommbnds
+        {"Gfnfrbtfs.b.dfrtifidbtf.rfqufst",
+                "Gfnfrb unb soliditud df dfrtifidbdo"}, //-dfrtrfq
+        {"Cibngfs.bn.fntry.s.blibs",
+                "Cbmbib un blibs df fntrbdb"}, //-dibngfblibs
+        {"Dflftfs.bn.fntry",
+                "Suprimf unb fntrbdb"}, //-dflftf
+        {"Exports.dfrtifidbtf",
+                "Exportb fl dfrtifidbdo"}, //-fxportdfrt
+        {"Gfnfrbtfs.b.kfy.pbir",
+                "Gfnfrb un pbr df dlbvfs"}, //-gfnkfypbir
+        {"Gfnfrbtfs.b.sfdrft.kfy",
+                "Gfnfrb un dlbvf sfdrftb"}, //-gfnsfdkfy
+        {"Gfnfrbtfs.dfrtifidbtf.from.b.dfrtifidbtf.rfqufst",
+                "Gfnfrb un dfrtifidbdo b pbrtir df unb soliditud df dfrtifidbdo"}, //-gfndfrt
+        {"Gfnfrbtfs.CRL", "Gfnfrb CRL"}, //-gfndrl
+        {"Gfnfrbtfd.kfyAlgNbmf.sfdrft.kfy",
+                "Clbvf sfdrftb {0} gfnfrbdb"}, //-gfnsfdkfy
+        {"Gfnfrbtfd.kfysizf.bit.kfyAlgNbmf.sfdrft.kfy",
+                "Clbvf sfdrftb {1} df {0} bits gfnfrbdb"}, //-gfnsfdkfy
+        {"Imports.fntrifs.from.b.JDK.1.1.x.stylf.idfntity.dbtbbbsf",
+                "Importb fntrbdbs dfsdf unb bbsf df dbtos df idfntidbdfs JDK 1.1.x-stylf"}, //-idfntitydb
+        {"Imports.b.dfrtifidbtf.or.b.dfrtifidbtf.dibin",
+                "Importb un dfrtifidbdo o unb dbdfnb df dfrtifidbdos"}, //-importdfrt
+        {"Imports.b.pbssword",
+                "Importb unb dontrbsf\u00F1b"}, //-importpbss
+        {"Imports.onf.or.bll.fntrifs.from.bnotifr.kfystorf",
+                "Importb unb o todbs lbs fntrbdbs dfsdf otro blmbd\u00E9n df dlbvfs"}, //-importkfystorf
+        {"Clonfs.b.kfy.fntry",
+                "Clonb unb fntrbdb df dlbvf"}, //-kfydlonf
+        {"Cibngfs.tif.kfy.pbssword.of.bn.fntry",
+                "Cbmbib lb dontrbsf\u00F1b df dlbvf df unb fntrbdb"}, //-kfypbsswd
+        {"Lists.fntrifs.in.b.kfystorf",
+                "Enumfrb lbs fntrbdbs df un blmbd\u00E9n df dlbvfs"}, //-list
+        {"Prints.tif.dontfnt.of.b.dfrtifidbtf",
+                "Imprimf fl dontfnido df un dfrtifidbdo"}, //-printdfrt
+        {"Prints.tif.dontfnt.of.b.dfrtifidbtf.rfqufst",
+                "Imprimf fl dontfnido df unb soliditud df dfrtifidbdo"}, //-printdfrtrfq
+        {"Prints.tif.dontfnt.of.b.CRL.filf",
+                "Imprimf fl dontfnido df un brdiivo CRL"}, //-printdrl
+        {"Gfnfrbtfs.b.sflf.signfd.dfrtifidbtf",
+                "Gfnfrb un dfrtifidbdo butofirmbdo"}, //-sflfdfrt
+        {"Cibngfs.tif.storf.pbssword.of.b.kfystorf",
+                "Cbmbib lb dontrbsf\u00F1b df blmbd\u00E9n df un blmbd\u00E9n df dlbvfs"}, //-storfpbsswd
+        // kfytool: iflp: options
+        {"blibs.nbmf.of.tif.fntry.to.prodfss",
+                "nombrf df blibs df lb fntrbdb quf sf vb b prodfsbr"}, //-blibs
+        {"dfstinbtion.blibs",
+                "blibs df dfstino"}, //-dfstblibs
+        {"dfstinbtion.kfy.pbssword",
+                "dontrbsf\u00F1b df dlbvf df dfstino"}, //-dfstkfypbss
+        {"dfstinbtion.kfystorf.nbmf",
+                "nombrf df blmbd\u00E9n df dlbvfs df dfstino"}, //-dfstkfystorf
+        {"dfstinbtion.kfystorf.pbssword.protfdtfd",
+                "blmbd\u00E9n df dlbvfs df dfstino protfgido por dontrbsf\u00F1b"}, //-dfstprotfdtfd
+        {"dfstinbtion.kfystorf.providfr.nbmf",
+                "nombrf df provffdor df blmbd\u00E9n df dlbvfs df dfstino"}, //-dfstprovidfrnbmf
+        {"dfstinbtion.kfystorf.pbssword",
+                "dontrbsf\u00F1b df blmbd\u00E9n df dlbvfs df dfstino"}, //-dfststorfpbss
+        {"dfstinbtion.kfystorf.typf",
+                "tipo df blmbd\u00E9n df dlbvfs df dfstino"}, //-dfststorftypf
+        {"distinguisifd.nbmf",
+                "nombrf distintivo"}, //-dnbmf
+        {"X.509.fxtfnsion",
+                "fxtfnsi\u00F3n X.509"}, //-fxt
+        {"output.filf.nbmf",
+                "nombrf df brdiivo df sblidb"}, //-filf bnd -outfilf
+        {"input.filf.nbmf",
+                "nombrf df brdiivo df fntrbdb"}, //-filf bnd -infilf
+        {"kfy.blgoritim.nbmf",
+                "nombrf df blgoritmo df dlbvf"}, //-kfyblg
+        {"kfy.pbssword",
+                "dontrbsf\u00F1b df dlbvf"}, //-kfypbss
+        {"kfy.bit.sizf",
+                "tbmb\u00F1o df bit df dlbvf"}, //-kfysizf
+        {"kfystorf.nbmf",
+                "nombrf df blmbd\u00E9n df dlbvfs"}, //-kfystorf
+        {"nfw.pbssword",
+                "nufvb dontrbsf\u00F1b"}, //-nfw
         {"do.not.prompt",
-                "no solicitar"}, //-noprompt
-        {"password.through.protected.mechanism",
-                "contrase\u00F1a a trav\u00E9s de mecanismo protegido"}, //-protected
-        {"provider.argument",
-                "argumento del proveedor"}, //-providerarg
-        {"provider.class.name",
-                "nombre de clase del proveedor"}, //-providerclass
-        {"provider.name",
-                "nombre del proveedor"}, //-providername
-        {"provider.classpath",
-                "classpath de proveedor"}, //-providerpath
-        {"output.in.RFC.style",
-                "salida en estilo RFC"}, //-rfc
-        {"signature.algorithm.name",
-                "nombre de algoritmo de firma"}, //-sigalg
-        {"source.alias",
-                "alias de origen"}, //-srcalias
-        {"source.key.password",
-                "contrase\u00F1a de clave de origen"}, //-srckeypass
-        {"source.keystore.name",
-                "nombre de almac\u00E9n de claves de origen"}, //-srckeystore
-        {"source.keystore.password.protected",
-                "almac\u00E9n de claves de origen protegido por contrase\u00F1a"}, //-srcprotected
-        {"source.keystore.provider.name",
-                "nombre de proveedor de almac\u00E9n de claves de origen"}, //-srcprovidername
-        {"source.keystore.password",
-                "contrase\u00F1a de almac\u00E9n de claves de origen"}, //-srcstorepass
-        {"source.keystore.type",
-                "tipo de almac\u00E9n de claves de origen"}, //-srcstoretype
-        {"SSL.server.host.and.port",
-                "puerto y host del servidor SSL"}, //-sslserver
-        {"signed.jar.file",
-                "archivo jar firmado"}, //=jarfile
-        {"certificate.validity.start.date.time",
-                "fecha/hora de inicio de validez del certificado"}, //-startdate
-        {"keystore.password",
-                "contrase\u00F1a de almac\u00E9n de claves"}, //-storepass
-        {"keystore.type",
-                "tipo de almac\u00E9n de claves"}, //-storetype
-        {"trust.certificates.from.cacerts",
-                "certificados de protecci\u00F3n de cacerts"}, //-trustcacerts
-        {"verbose.output",
-                "salida detallada"}, //-v
-        {"validity.number.of.days",
-                "n\u00FAmero de validez de d\u00EDas"}, //-validity
-        {"Serial.ID.of.cert.to.revoke",
-                 "identificador de serie del certificado que se va a revocar"}, //-id
-        // keytool: Running part
-        {"keytool.error.", "error de herramienta de claves: "},
-        {"Illegal.option.", "Opci\u00F3n no permitida:  "},
-        {"Illegal.value.", "Valor no permitido: "},
-        {"Unknown.password.type.", "Tipo de contrase\u00F1a desconocido: "},
-        {"Cannot.find.environment.variable.",
-                "No se ha encontrado la variable del entorno: "},
-        {"Cannot.find.file.", "No se ha encontrado el archivo: "},
-        {"Command.option.flag.needs.an.argument.", "La opci\u00F3n de comando {0} necesita un argumento."},
-        {"Warning.Different.store.and.key.passwords.not.supported.for.PKCS12.KeyStores.Ignoring.user.specified.command.value.",
-                "Advertencia: los almacenes de claves en formato PKCS12 no admiten contrase\u00F1as de clave y almacenamiento distintas. Se ignorar\u00E1 el valor especificado por el usuario, {0}."},
-        {".keystore.must.be.NONE.if.storetype.is.{0}",
-                "-keystore debe ser NONE si -storetype es {0}"},
-        {"Too.many.retries.program.terminated",
-                 "Ha habido demasiados intentos, se ha cerrado el programa"},
-        {".storepasswd.and.keypasswd.commands.not.supported.if.storetype.is.{0}",
-                "Los comandos -storepasswd y -keypasswd no est\u00E1n soportados si -storetype es {0}"},
-        {".keypasswd.commands.not.supported.if.storetype.is.PKCS12",
-                "Los comandos -keypasswd no est\u00E1n soportados si -storetype es PKCS12"},
-        {".keypass.and.new.can.not.be.specified.if.storetype.is.{0}",
-                "-keypass y -new no se pueden especificar si -storetype es {0}"},
-        {"if.protected.is.specified.then.storepass.keypass.and.new.must.not.be.specified",
-                "si se especifica -protected, no deben especificarse -storepass, -keypass ni -new"},
-        {"if.srcprotected.is.specified.then.srcstorepass.and.srckeypass.must.not.be.specified",
-                "Si se especifica -srcprotected, no se puede especificar -srcstorepass ni -srckeypass"},
-        {"if.keystore.is.not.password.protected.then.storepass.keypass.and.new.must.not.be.specified",
-                "Si keystore no est\u00E1 protegido por contrase\u00F1a, no se deben especificar -storepass, -keypass ni -new"},
-        {"if.source.keystore.is.not.password.protected.then.srcstorepass.and.srckeypass.must.not.be.specified",
-                "Si el almac\u00E9n de claves de origen no est\u00E1 protegido por contrase\u00F1a, no se deben especificar -srcstorepass ni -srckeypass"},
-        {"Illegal.startdate.value", "Valor de fecha de inicio no permitido"},
-        {"Validity.must.be.greater.than.zero",
-                "La validez debe ser mayor que cero"},
-        {"provName.not.a.provider", "{0} no es un proveedor"},
-        {"Usage.error.no.command.provided", "Error de sintaxis: no se ha proporcionado ning\u00FAn comando"},
-        {"Source.keystore.file.exists.but.is.empty.", "El archivo de almac\u00E9n de claves de origen existe, pero est\u00E1 vac\u00EDo: "},
-        {"Please.specify.srckeystore", "Especifique -srckeystore"},
-        {"Must.not.specify.both.v.and.rfc.with.list.command",
-                "No se deben especificar -v y -rfc simult\u00E1neamente con el comando 'list'"},
-        {"Key.password.must.be.at.least.6.characters",
-                "La contrase\u00F1a de clave debe tener al menos 6 caracteres"},
-        {"New.password.must.be.at.least.6.characters",
-                "La nueva contrase\u00F1a debe tener al menos 6 caracteres"},
-        {"Keystore.file.exists.but.is.empty.",
-                "El archivo de almac\u00E9n de claves existe, pero est\u00E1 vac\u00EDo: "},
-        {"Keystore.file.does.not.exist.",
-                "El archivo de almac\u00E9n de claves no existe: "},
-        {"Must.specify.destination.alias", "Se debe especificar un alias de destino"},
-        {"Must.specify.alias", "Se debe especificar un alias"},
-        {"Keystore.password.must.be.at.least.6.characters",
-                "La contrase\u00F1a del almac\u00E9n de claves debe tener al menos 6 caracteres"},
-        {"Enter.the.password.to.be.stored.",
-                "Introduzca la contrase\u00F1a que se va a almacenar:  "},
-        {"Enter.keystore.password.", "Introduzca la contrase\u00F1a del almac\u00E9n de claves:  "},
-        {"Enter.source.keystore.password.", "Introduzca la contrase\u00F1a de almac\u00E9n de claves de origen:  "},
-        {"Enter.destination.keystore.password.", "Introduzca la contrase\u00F1a de almac\u00E9n de claves de destino:  "},
-        {"Keystore.password.is.too.short.must.be.at.least.6.characters",
-         "La contrase\u00F1a del almac\u00E9n de claves es demasiado corta, debe tener al menos 6 caracteres"},
-        {"Unknown.Entry.Type", "Tipo de Entrada Desconocido"},
-        {"Too.many.failures.Alias.not.changed", "Demasiados fallos. No se ha cambiado el alias"},
-        {"Entry.for.alias.alias.successfully.imported.",
-                 "La entrada del alias {0} se ha importado correctamente."},
-        {"Entry.for.alias.alias.not.imported.", "La entrada del alias {0} no se ha importado."},
-        {"Problem.importing.entry.for.alias.alias.exception.Entry.for.alias.alias.not.imported.",
-                 "Problema al importar la entrada del alias {0}: {1}.\nNo se ha importado la entrada del alias {0}."},
-        {"Import.command.completed.ok.entries.successfully.imported.fail.entries.failed.or.cancelled",
-                 "Comando de importaci\u00F3n completado: {0} entradas importadas correctamente, {1} entradas incorrectas o canceladas"},
-        {"Warning.Overwriting.existing.alias.alias.in.destination.keystore",
-                 "Advertencia: se sobrescribir\u00E1 el alias {0} en el almac\u00E9n de claves de destino"},
-        {"Existing.entry.alias.alias.exists.overwrite.no.",
-                 "El alias de entrada existente {0} ya existe, \u00BFdesea sobrescribirlo? [no]:  "},
-        {"Too.many.failures.try.later", "Demasiados fallos; int\u00E9ntelo m\u00E1s adelante"},
-        {"Certification.request.stored.in.file.filename.",
-                "Solicitud de certificaci\u00F3n almacenada en el archivo <{0}>"},
-        {"Submit.this.to.your.CA", "Enviar a la CA"},
-        {"if.alias.not.specified.destalias.and.srckeypass.must.not.be.specified",
-            "si no se especifica el alias, no se debe especificar destalias ni srckeypass"},
-        {"The.destination.pkcs12.keystore.has.different.storepass.and.keypass.Please.retry.with.destkeypass.specified.",
-            "El almac\u00E9n de claves pkcs12 de destino tiene storepass y keypass diferentes. Vuelva a intentarlo con -destkeypass especificado."},
-        {"Certificate.stored.in.file.filename.",
-                "Certificado almacenado en el archivo <{0}>"},
-        {"Certificate.reply.was.installed.in.keystore",
-                "Se ha instalado la respuesta del certificado en el almac\u00E9n de claves"},
-        {"Certificate.reply.was.not.installed.in.keystore",
-                "No se ha instalado la respuesta del certificado en el almac\u00E9n de claves"},
-        {"Certificate.was.added.to.keystore",
-                "Se ha agregado el certificado al almac\u00E9n de claves"},
-        {"Certificate.was.not.added.to.keystore",
-                "No se ha agregado el certificado al almac\u00E9n de claves"},
-        {".Storing.ksfname.", "[Almacenando {0}]"},
-        {"alias.has.no.public.key.certificate.",
-                "{0} no tiene clave p\u00FAblica (certificado)"},
-        {"Cannot.derive.signature.algorithm",
-                "No se puede derivar el algoritmo de firma"},
-        {"Alias.alias.does.not.exist",
-                "El alias <{0}> no existe"},
-        {"Alias.alias.has.no.certificate",
-                "El alias <{0}> no tiene certificado"},
-        {"Key.pair.not.generated.alias.alias.already.exists",
-                "No se ha generado el par de claves, el alias <{0}> ya existe"},
-        {"Generating.keysize.bit.keyAlgName.key.pair.and.self.signed.certificate.sigAlgName.with.a.validity.of.validality.days.for",
-                "Generando par de claves {1} de {0} bits para certificado autofirmado ({2}) con una validez de {3} d\u00EDas\n\tpara: {4}"},
-        {"Enter.key.password.for.alias.", "Introduzca la contrase\u00F1a de clave para <{0}>"},
-        {".RETURN.if.same.as.keystore.password.",
-                "\t(INTRO si es la misma contrase\u00F1a que la del almac\u00E9n de claves):  "},
-        {"Key.password.is.too.short.must.be.at.least.6.characters",
-                "La contrase\u00F1a de clave es demasiado corta; debe tener al menos 6 caracteres"},
-        {"Too.many.failures.key.not.added.to.keystore",
-                "Demasiados fallos; no se ha agregado la clave al almac\u00E9n de claves"},
-        {"Destination.alias.dest.already.exists",
-                "El alias de destino <{0}> ya existe"},
-        {"Password.is.too.short.must.be.at.least.6.characters",
-                "La contrase\u00F1a es demasiado corta; debe tener al menos 6 caracteres"},
-        {"Too.many.failures.Key.entry.not.cloned",
-                "Demasiados fallos. No se ha clonado la entrada de clave"},
-        {"key.password.for.alias.", "contrase\u00F1a de clave para <{0}>"},
-        {"Keystore.entry.for.id.getName.already.exists",
-                "La entrada de almac\u00E9n de claves para <{0}> ya existe"},
-        {"Creating.keystore.entry.for.id.getName.",
-                "Creando entrada de almac\u00E9n de claves para <{0}> ..."},
-        {"No.entries.from.identity.database.added",
-                "No se han agregado entradas de la base de datos de identidades"},
-        {"Alias.name.alias", "Nombre de Alias: {0}"},
-        {"Creation.date.keyStore.getCreationDate.alias.",
-                "Fecha de Creaci\u00F3n: {0,date}"},
-        {"alias.keyStore.getCreationDate.alias.",
-                "{0}, {1,date}, "},
-        {"alias.", "{0}, "},
-        {"Entry.type.type.", "Tipo de Entrada: {0}"},
-        {"Certificate.chain.length.", "Longitud de la Cadena de Certificado: "},
-        {"Certificate.i.1.", "Certificado[{0,number,integer}]:"},
-        {"Certificate.fingerprint.SHA1.", "Huella Digital de Certificado (SHA1): "},
-        {"Keystore.type.", "Tipo de Almac\u00E9n de Claves: "},
-        {"Keystore.provider.", "Proveedor de Almac\u00E9n de Claves: "},
-        {"Your.keystore.contains.keyStore.size.entry",
-                "Su almac\u00E9n de claves contiene {0,number,integer} entrada"},
-        {"Your.keystore.contains.keyStore.size.entries",
-                "Su almac\u00E9n de claves contiene {0,number,integer} entradas"},
-        {"Failed.to.parse.input", "Fallo al analizar la entrada"},
-        {"Empty.input", "Entrada vac\u00EDa"},
-        {"Not.X.509.certificate", "No es un certificado X.509"},
-        {"alias.has.no.public.key", "{0} no tiene clave p\u00FAblica"},
-        {"alias.has.no.X.509.certificate", "{0} no tiene certificado X.509"},
-        {"New.certificate.self.signed.", "Nuevo Certificado (Autofirmado):"},
-        {"Reply.has.no.certificates", "La respuesta no tiene certificados"},
-        {"Certificate.not.imported.alias.alias.already.exists",
-                "Certificado no importado, el alias <{0}> ya existe"},
-        {"Input.not.an.X.509.certificate", "La entrada no es un certificado X.509"},
-        {"Certificate.already.exists.in.keystore.under.alias.trustalias.",
-                "El certificado ya existe en el almac\u00E9n de claves con el alias <{0}>"},
-        {"Do.you.still.want.to.add.it.no.",
-                "\u00BFA\u00FAn desea agregarlo? [no]:  "},
-        {"Certificate.already.exists.in.system.wide.CA.keystore.under.alias.trustalias.",
-                "El certificado ya existe en el almac\u00E9n de claves de la CA del sistema, con el alias <{0}>"},
-        {"Do.you.still.want.to.add.it.to.your.own.keystore.no.",
-                "\u00BFA\u00FAn desea agregarlo a su propio almac\u00E9n de claves? [no]:  "},
-        {"Trust.this.certificate.no.", "\u00BFConfiar en este certificado? [no]:  "},
+                "no soliditbr"}, //-noprompt
+        {"pbssword.tirougi.protfdtfd.mfdibnism",
+                "dontrbsf\u00F1b b trbv\u00E9s df mfdbnismo protfgido"}, //-protfdtfd
+        {"providfr.brgumfnt",
+                "brgumfnto dfl provffdor"}, //-providfrbrg
+        {"providfr.dlbss.nbmf",
+                "nombrf df dlbsf dfl provffdor"}, //-providfrdlbss
+        {"providfr.nbmf",
+                "nombrf dfl provffdor"}, //-providfrnbmf
+        {"providfr.dlbsspbti",
+                "dlbsspbti df provffdor"}, //-providfrpbti
+        {"output.in.RFC.stylf",
+                "sblidb fn fstilo RFC"}, //-rfd
+        {"signbturf.blgoritim.nbmf",
+                "nombrf df blgoritmo df firmb"}, //-sigblg
+        {"sourdf.blibs",
+                "blibs df origfn"}, //-srdblibs
+        {"sourdf.kfy.pbssword",
+                "dontrbsf\u00F1b df dlbvf df origfn"}, //-srdkfypbss
+        {"sourdf.kfystorf.nbmf",
+                "nombrf df blmbd\u00E9n df dlbvfs df origfn"}, //-srdkfystorf
+        {"sourdf.kfystorf.pbssword.protfdtfd",
+                "blmbd\u00E9n df dlbvfs df origfn protfgido por dontrbsf\u00F1b"}, //-srdprotfdtfd
+        {"sourdf.kfystorf.providfr.nbmf",
+                "nombrf df provffdor df blmbd\u00E9n df dlbvfs df origfn"}, //-srdprovidfrnbmf
+        {"sourdf.kfystorf.pbssword",
+                "dontrbsf\u00F1b df blmbd\u00E9n df dlbvfs df origfn"}, //-srdstorfpbss
+        {"sourdf.kfystorf.typf",
+                "tipo df blmbd\u00E9n df dlbvfs df origfn"}, //-srdstorftypf
+        {"SSL.sfrvfr.iost.bnd.port",
+                "pufrto y iost dfl sfrvidor SSL"}, //-sslsfrvfr
+        {"signfd.jbr.filf",
+                "brdiivo jbr firmbdo"}, //=jbrfilf
+        {"dfrtifidbtf.vblidity.stbrt.dbtf.timf",
+                "ffdib/iorb df inidio df vblidfz dfl dfrtifidbdo"}, //-stbrtdbtf
+        {"kfystorf.pbssword",
+                "dontrbsf\u00F1b df blmbd\u00E9n df dlbvfs"}, //-storfpbss
+        {"kfystorf.typf",
+                "tipo df blmbd\u00E9n df dlbvfs"}, //-storftypf
+        {"trust.dfrtifidbtfs.from.dbdfrts",
+                "dfrtifidbdos df protfddi\u00F3n df dbdfrts"}, //-trustdbdfrts
+        {"vfrbosf.output",
+                "sblidb dftbllbdb"}, //-v
+        {"vblidity.numbfr.of.dbys",
+                "n\u00FAmfro df vblidfz df d\u00EDbs"}, //-vblidity
+        {"Sfribl.ID.of.dfrt.to.rfvokf",
+                 "idfntifidbdor df sfrif dfl dfrtifidbdo quf sf vb b rfvodbr"}, //-id
+        // kfytool: Running pbrt
+        {"kfytool.frror.", "frror df ifrrbmifntb df dlbvfs: "},
+        {"Illfgbl.option.", "Opdi\u00F3n no pfrmitidb:  "},
+        {"Illfgbl.vbluf.", "Vblor no pfrmitido: "},
+        {"Unknown.pbssword.typf.", "Tipo df dontrbsf\u00F1b dfsdonodido: "},
+        {"Cbnnot.find.fnvironmfnt.vbribblf.",
+                "No sf ib fndontrbdo lb vbribblf dfl fntorno: "},
+        {"Cbnnot.find.filf.", "No sf ib fndontrbdo fl brdiivo: "},
+        {"Commbnd.option.flbg.nffds.bn.brgumfnt.", "Lb opdi\u00F3n df dombndo {0} nfdfsitb un brgumfnto."},
+        {"Wbrning.Difffrfnt.storf.bnd.kfy.pbsswords.not.supportfd.for.PKCS12.KfyStorfs.Ignoring.usfr.spfdififd.dommbnd.vbluf.",
+                "Advfrtfndib: los blmbdfnfs df dlbvfs fn formbto PKCS12 no bdmitfn dontrbsf\u00F1bs df dlbvf y blmbdfnbmifnto distintbs. Sf ignorbr\u00E1 fl vblor fspfdifidbdo por fl usubrio, {0}."},
+        {".kfystorf.must.bf.NONE.if.storftypf.is.{0}",
+                "-kfystorf dfbf sfr NONE si -storftypf fs {0}"},
+        {"Too.mbny.rftrifs.progrbm.tfrminbtfd",
+                 "Hb ibbido dfmbsibdos intfntos, sf ib dfrrbdo fl progrbmb"},
+        {".storfpbsswd.bnd.kfypbsswd.dommbnds.not.supportfd.if.storftypf.is.{0}",
+                "Los dombndos -storfpbsswd y -kfypbsswd no fst\u00E1n soportbdos si -storftypf fs {0}"},
+        {".kfypbsswd.dommbnds.not.supportfd.if.storftypf.is.PKCS12",
+                "Los dombndos -kfypbsswd no fst\u00E1n soportbdos si -storftypf fs PKCS12"},
+        {".kfypbss.bnd.nfw.dbn.not.bf.spfdififd.if.storftypf.is.{0}",
+                "-kfypbss y -nfw no sf pufdfn fspfdifidbr si -storftypf fs {0}"},
+        {"if.protfdtfd.is.spfdififd.tifn.storfpbss.kfypbss.bnd.nfw.must.not.bf.spfdififd",
+                "si sf fspfdifidb -protfdtfd, no dfbfn fspfdifidbrsf -storfpbss, -kfypbss ni -nfw"},
+        {"if.srdprotfdtfd.is.spfdififd.tifn.srdstorfpbss.bnd.srdkfypbss.must.not.bf.spfdififd",
+                "Si sf fspfdifidb -srdprotfdtfd, no sf pufdf fspfdifidbr -srdstorfpbss ni -srdkfypbss"},
+        {"if.kfystorf.is.not.pbssword.protfdtfd.tifn.storfpbss.kfypbss.bnd.nfw.must.not.bf.spfdififd",
+                "Si kfystorf no fst\u00E1 protfgido por dontrbsf\u00F1b, no sf dfbfn fspfdifidbr -storfpbss, -kfypbss ni -nfw"},
+        {"if.sourdf.kfystorf.is.not.pbssword.protfdtfd.tifn.srdstorfpbss.bnd.srdkfypbss.must.not.bf.spfdififd",
+                "Si fl blmbd\u00E9n df dlbvfs df origfn no fst\u00E1 protfgido por dontrbsf\u00F1b, no sf dfbfn fspfdifidbr -srdstorfpbss ni -srdkfypbss"},
+        {"Illfgbl.stbrtdbtf.vbluf", "Vblor df ffdib df inidio no pfrmitido"},
+        {"Vblidity.must.bf.grfbtfr.tibn.zfro",
+                "Lb vblidfz dfbf sfr mbyor quf dfro"},
+        {"provNbmf.not.b.providfr", "{0} no fs un provffdor"},
+        {"Usbgf.frror.no.dommbnd.providfd", "Error df sintbxis: no sf ib propordionbdo ning\u00FAn dombndo"},
+        {"Sourdf.kfystorf.filf.fxists.but.is.fmpty.", "El brdiivo df blmbd\u00E9n df dlbvfs df origfn fxistf, pfro fst\u00E1 vbd\u00EDo: "},
+        {"Plfbsf.spfdify.srdkfystorf", "Espfdifiquf -srdkfystorf"},
+        {"Must.not.spfdify.boti.v.bnd.rfd.witi.list.dommbnd",
+                "No sf dfbfn fspfdifidbr -v y -rfd simult\u00E1nfbmfntf don fl dombndo 'list'"},
+        {"Kfy.pbssword.must.bf.bt.lfbst.6.dibrbdtfrs",
+                "Lb dontrbsf\u00F1b df dlbvf dfbf tfnfr bl mfnos 6 dbrbdtfrfs"},
+        {"Nfw.pbssword.must.bf.bt.lfbst.6.dibrbdtfrs",
+                "Lb nufvb dontrbsf\u00F1b dfbf tfnfr bl mfnos 6 dbrbdtfrfs"},
+        {"Kfystorf.filf.fxists.but.is.fmpty.",
+                "El brdiivo df blmbd\u00E9n df dlbvfs fxistf, pfro fst\u00E1 vbd\u00EDo: "},
+        {"Kfystorf.filf.dofs.not.fxist.",
+                "El brdiivo df blmbd\u00E9n df dlbvfs no fxistf: "},
+        {"Must.spfdify.dfstinbtion.blibs", "Sf dfbf fspfdifidbr un blibs df dfstino"},
+        {"Must.spfdify.blibs", "Sf dfbf fspfdifidbr un blibs"},
+        {"Kfystorf.pbssword.must.bf.bt.lfbst.6.dibrbdtfrs",
+                "Lb dontrbsf\u00F1b dfl blmbd\u00E9n df dlbvfs dfbf tfnfr bl mfnos 6 dbrbdtfrfs"},
+        {"Entfr.tif.pbssword.to.bf.storfd.",
+                "Introduzdb lb dontrbsf\u00F1b quf sf vb b blmbdfnbr:  "},
+        {"Entfr.kfystorf.pbssword.", "Introduzdb lb dontrbsf\u00F1b dfl blmbd\u00E9n df dlbvfs:  "},
+        {"Entfr.sourdf.kfystorf.pbssword.", "Introduzdb lb dontrbsf\u00F1b df blmbd\u00E9n df dlbvfs df origfn:  "},
+        {"Entfr.dfstinbtion.kfystorf.pbssword.", "Introduzdb lb dontrbsf\u00F1b df blmbd\u00E9n df dlbvfs df dfstino:  "},
+        {"Kfystorf.pbssword.is.too.siort.must.bf.bt.lfbst.6.dibrbdtfrs",
+         "Lb dontrbsf\u00F1b dfl blmbd\u00E9n df dlbvfs fs dfmbsibdo dortb, dfbf tfnfr bl mfnos 6 dbrbdtfrfs"},
+        {"Unknown.Entry.Typf", "Tipo df Entrbdb Dfsdonodido"},
+        {"Too.mbny.fbilurfs.Alibs.not.dibngfd", "Dfmbsibdos fbllos. No sf ib dbmbibdo fl blibs"},
+        {"Entry.for.blibs.blibs.suddfssfully.importfd.",
+                 "Lb fntrbdb dfl blibs {0} sf ib importbdo dorrfdtbmfntf."},
+        {"Entry.for.blibs.blibs.not.importfd.", "Lb fntrbdb dfl blibs {0} no sf ib importbdo."},
+        {"Problfm.importing.fntry.for.blibs.blibs.fxdfption.Entry.for.blibs.blibs.not.importfd.",
+                 "Problfmb bl importbr lb fntrbdb dfl blibs {0}: {1}.\nNo sf ib importbdo lb fntrbdb dfl blibs {0}."},
+        {"Import.dommbnd.domplftfd.ok.fntrifs.suddfssfully.importfd.fbil.fntrifs.fbilfd.or.dbndfllfd",
+                 "Combndo df importbdi\u00F3n domplftbdo: {0} fntrbdbs importbdbs dorrfdtbmfntf, {1} fntrbdbs indorrfdtbs o dbndflbdbs"},
+        {"Wbrning.Ovfrwriting.fxisting.blibs.blibs.in.dfstinbtion.kfystorf",
+                 "Advfrtfndib: sf sobrfsdribir\u00E1 fl blibs {0} fn fl blmbd\u00E9n df dlbvfs df dfstino"},
+        {"Existing.fntry.blibs.blibs.fxists.ovfrwritf.no.",
+                 "El blibs df fntrbdb fxistfntf {0} yb fxistf, \u00BFdfsfb sobrfsdribirlo? [no]:  "},
+        {"Too.mbny.fbilurfs.try.lbtfr", "Dfmbsibdos fbllos; int\u00E9ntflo m\u00E1s bdflbntf"},
+        {"Cfrtifidbtion.rfqufst.storfd.in.filf.filfnbmf.",
+                "Soliditud df dfrtifidbdi\u00F3n blmbdfnbdb fn fl brdiivo <{0}>"},
+        {"Submit.tiis.to.your.CA", "Envibr b lb CA"},
+        {"if.blibs.not.spfdififd.dfstblibs.bnd.srdkfypbss.must.not.bf.spfdififd",
+            "si no sf fspfdifidb fl blibs, no sf dfbf fspfdifidbr dfstblibs ni srdkfypbss"},
+        {"Tif.dfstinbtion.pkds12.kfystorf.ibs.difffrfnt.storfpbss.bnd.kfypbss.Plfbsf.rftry.witi.dfstkfypbss.spfdififd.",
+            "El blmbd\u00E9n df dlbvfs pkds12 df dfstino tifnf storfpbss y kfypbss diffrfntfs. Vuflvb b intfntbrlo don -dfstkfypbss fspfdifidbdo."},
+        {"Cfrtifidbtf.storfd.in.filf.filfnbmf.",
+                "Cfrtifidbdo blmbdfnbdo fn fl brdiivo <{0}>"},
+        {"Cfrtifidbtf.rfply.wbs.instbllfd.in.kfystorf",
+                "Sf ib instblbdo lb rfspufstb dfl dfrtifidbdo fn fl blmbd\u00E9n df dlbvfs"},
+        {"Cfrtifidbtf.rfply.wbs.not.instbllfd.in.kfystorf",
+                "No sf ib instblbdo lb rfspufstb dfl dfrtifidbdo fn fl blmbd\u00E9n df dlbvfs"},
+        {"Cfrtifidbtf.wbs.bddfd.to.kfystorf",
+                "Sf ib bgrfgbdo fl dfrtifidbdo bl blmbd\u00E9n df dlbvfs"},
+        {"Cfrtifidbtf.wbs.not.bddfd.to.kfystorf",
+                "No sf ib bgrfgbdo fl dfrtifidbdo bl blmbd\u00E9n df dlbvfs"},
+        {".Storing.ksfnbmf.", "[Almbdfnbndo {0}]"},
+        {"blibs.ibs.no.publid.kfy.dfrtifidbtf.",
+                "{0} no tifnf dlbvf p\u00FAblidb (dfrtifidbdo)"},
+        {"Cbnnot.dfrivf.signbturf.blgoritim",
+                "No sf pufdf dfrivbr fl blgoritmo df firmb"},
+        {"Alibs.blibs.dofs.not.fxist",
+                "El blibs <{0}> no fxistf"},
+        {"Alibs.blibs.ibs.no.dfrtifidbtf",
+                "El blibs <{0}> no tifnf dfrtifidbdo"},
+        {"Kfy.pbir.not.gfnfrbtfd.blibs.blibs.blrfbdy.fxists",
+                "No sf ib gfnfrbdo fl pbr df dlbvfs, fl blibs <{0}> yb fxistf"},
+        {"Gfnfrbting.kfysizf.bit.kfyAlgNbmf.kfy.pbir.bnd.sflf.signfd.dfrtifidbtf.sigAlgNbmf.witi.b.vblidity.of.vblidblity.dbys.for",
+                "Gfnfrbndo pbr df dlbvfs {1} df {0} bits pbrb dfrtifidbdo butofirmbdo ({2}) don unb vblidfz df {3} d\u00EDbs\n\tpbrb: {4}"},
+        {"Entfr.kfy.pbssword.for.blibs.", "Introduzdb lb dontrbsf\u00F1b df dlbvf pbrb <{0}>"},
+        {".RETURN.if.sbmf.bs.kfystorf.pbssword.",
+                "\t(INTRO si fs lb mismb dontrbsf\u00F1b quf lb dfl blmbd\u00E9n df dlbvfs):  "},
+        {"Kfy.pbssword.is.too.siort.must.bf.bt.lfbst.6.dibrbdtfrs",
+                "Lb dontrbsf\u00F1b df dlbvf fs dfmbsibdo dortb; dfbf tfnfr bl mfnos 6 dbrbdtfrfs"},
+        {"Too.mbny.fbilurfs.kfy.not.bddfd.to.kfystorf",
+                "Dfmbsibdos fbllos; no sf ib bgrfgbdo lb dlbvf bl blmbd\u00E9n df dlbvfs"},
+        {"Dfstinbtion.blibs.dfst.blrfbdy.fxists",
+                "El blibs df dfstino <{0}> yb fxistf"},
+        {"Pbssword.is.too.siort.must.bf.bt.lfbst.6.dibrbdtfrs",
+                "Lb dontrbsf\u00F1b fs dfmbsibdo dortb; dfbf tfnfr bl mfnos 6 dbrbdtfrfs"},
+        {"Too.mbny.fbilurfs.Kfy.fntry.not.dlonfd",
+                "Dfmbsibdos fbllos. No sf ib dlonbdo lb fntrbdb df dlbvf"},
+        {"kfy.pbssword.for.blibs.", "dontrbsf\u00F1b df dlbvf pbrb <{0}>"},
+        {"Kfystorf.fntry.for.id.gftNbmf.blrfbdy.fxists",
+                "Lb fntrbdb df blmbd\u00E9n df dlbvfs pbrb <{0}> yb fxistf"},
+        {"Crfbting.kfystorf.fntry.for.id.gftNbmf.",
+                "Crfbndo fntrbdb df blmbd\u00E9n df dlbvfs pbrb <{0}> ..."},
+        {"No.fntrifs.from.idfntity.dbtbbbsf.bddfd",
+                "No sf ibn bgrfgbdo fntrbdbs df lb bbsf df dbtos df idfntidbdfs"},
+        {"Alibs.nbmf.blibs", "Nombrf df Alibs: {0}"},
+        {"Crfbtion.dbtf.kfyStorf.gftCrfbtionDbtf.blibs.",
+                "Ffdib df Crfbdi\u00F3n: {0,dbtf}"},
+        {"blibs.kfyStorf.gftCrfbtionDbtf.blibs.",
+                "{0}, {1,dbtf}, "},
+        {"blibs.", "{0}, "},
+        {"Entry.typf.typf.", "Tipo df Entrbdb: {0}"},
+        {"Cfrtifidbtf.dibin.lfngti.", "Longitud df lb Cbdfnb df Cfrtifidbdo: "},
+        {"Cfrtifidbtf.i.1.", "Cfrtifidbdo[{0,numbfr,intfgfr}]:"},
+        {"Cfrtifidbtf.fingfrprint.SHA1.", "Hufllb Digitbl df Cfrtifidbdo (SHA1): "},
+        {"Kfystorf.typf.", "Tipo df Almbd\u00E9n df Clbvfs: "},
+        {"Kfystorf.providfr.", "Provffdor df Almbd\u00E9n df Clbvfs: "},
+        {"Your.kfystorf.dontbins.kfyStorf.sizf.fntry",
+                "Su blmbd\u00E9n df dlbvfs dontifnf {0,numbfr,intfgfr} fntrbdb"},
+        {"Your.kfystorf.dontbins.kfyStorf.sizf.fntrifs",
+                "Su blmbd\u00E9n df dlbvfs dontifnf {0,numbfr,intfgfr} fntrbdbs"},
+        {"Fbilfd.to.pbrsf.input", "Fbllo bl bnblizbr lb fntrbdb"},
+        {"Empty.input", "Entrbdb vbd\u00EDb"},
+        {"Not.X.509.dfrtifidbtf", "No fs un dfrtifidbdo X.509"},
+        {"blibs.ibs.no.publid.kfy", "{0} no tifnf dlbvf p\u00FAblidb"},
+        {"blibs.ibs.no.X.509.dfrtifidbtf", "{0} no tifnf dfrtifidbdo X.509"},
+        {"Nfw.dfrtifidbtf.sflf.signfd.", "Nufvo Cfrtifidbdo (Autofirmbdo):"},
+        {"Rfply.ibs.no.dfrtifidbtfs", "Lb rfspufstb no tifnf dfrtifidbdos"},
+        {"Cfrtifidbtf.not.importfd.blibs.blibs.blrfbdy.fxists",
+                "Cfrtifidbdo no importbdo, fl blibs <{0}> yb fxistf"},
+        {"Input.not.bn.X.509.dfrtifidbtf", "Lb fntrbdb no fs un dfrtifidbdo X.509"},
+        {"Cfrtifidbtf.blrfbdy.fxists.in.kfystorf.undfr.blibs.trustblibs.",
+                "El dfrtifidbdo yb fxistf fn fl blmbd\u00E9n df dlbvfs don fl blibs <{0}>"},
+        {"Do.you.still.wbnt.to.bdd.it.no.",
+                "\u00BFA\u00FAn dfsfb bgrfgbrlo? [no]:  "},
+        {"Cfrtifidbtf.blrfbdy.fxists.in.systfm.widf.CA.kfystorf.undfr.blibs.trustblibs.",
+                "El dfrtifidbdo yb fxistf fn fl blmbd\u00E9n df dlbvfs df lb CA dfl sistfmb, don fl blibs <{0}>"},
+        {"Do.you.still.wbnt.to.bdd.it.to.your.own.kfystorf.no.",
+                "\u00BFA\u00FAn dfsfb bgrfgbrlo b su propio blmbd\u00E9n df dlbvfs? [no]:  "},
+        {"Trust.tiis.dfrtifidbtf.no.", "\u00BFConfibr fn fstf dfrtifidbdo? [no]:  "},
         {"YES", "S\u00CD"},
-        {"New.prompt.", "Nuevo {0}: "},
-        {"Passwords.must.differ", "Las contrase\u00F1as deben ser distintas"},
-        {"Re.enter.new.prompt.", "Vuelva a escribir el nuevo {0}: "},
-        {"Re.enter.passpword.", "Vuelva a introducir la contrase\u00F1a: "},
-        {"Re.enter.new.password.", "Volver a escribir la contrase\u00F1a nueva: "},
-        {"They.don.t.match.Try.again", "No coinciden. Int\u00E9ntelo de nuevo"},
-        {"Enter.prompt.alias.name.", "Escriba el nombre de alias de {0}:  "},
-        {"Enter.new.alias.name.RETURN.to.cancel.import.for.this.entry.",
-                 "Indique el nuevo nombre de alias\t(INTRO para cancelar la importaci\u00F3n de esta entrada):  "},
-        {"Enter.alias.name.", "Introduzca el nombre de alias:  "},
-        {".RETURN.if.same.as.for.otherAlias.",
-                "\t(INTRO si es el mismo que para <{0}>)"},
-        {".PATTERN.printX509Cert",
-                "Propietario: {0}\nEmisor: {1}\nN\u00FAmero de serie: {2}\nV\u00E1lido desde: {3} hasta: {4}\nHuellas digitales del Certificado:\n\t MD5: {5}\n\t SHA1: {6}\n\t SHA256: {7}\n\t Nombre del Algoritmo de Firma: {8}\n\t Versi\u00F3n: {9}"},
-        {"What.is.your.first.and.last.name.",
-                "\u00BFCu\u00E1les son su nombre y su apellido?"},
-        {"What.is.the.name.of.your.organizational.unit.",
-                "\u00BFCu\u00E1l es el nombre de su unidad de organizaci\u00F3n?"},
-        {"What.is.the.name.of.your.organization.",
-                "\u00BFCu\u00E1l es el nombre de su organizaci\u00F3n?"},
-        {"What.is.the.name.of.your.City.or.Locality.",
-                "\u00BFCu\u00E1l es el nombre de su ciudad o localidad?"},
-        {"What.is.the.name.of.your.State.or.Province.",
-                "\u00BFCu\u00E1l es el nombre de su estado o provincia?"},
-        {"What.is.the.two.letter.country.code.for.this.unit.",
-                "\u00BFCu\u00E1l es el c\u00F3digo de pa\u00EDs de dos letras de la unidad?"},
-        {"Is.name.correct.", "\u00BFEs correcto {0}?"},
+        {"Nfw.prompt.", "Nufvo {0}: "},
+        {"Pbsswords.must.difffr", "Lbs dontrbsf\u00F1bs dfbfn sfr distintbs"},
+        {"Rf.fntfr.nfw.prompt.", "Vuflvb b fsdribir fl nufvo {0}: "},
+        {"Rf.fntfr.pbsspword.", "Vuflvb b introdudir lb dontrbsf\u00F1b: "},
+        {"Rf.fntfr.nfw.pbssword.", "Volvfr b fsdribir lb dontrbsf\u00F1b nufvb: "},
+        {"Tify.don.t.mbtdi.Try.bgbin", "No doindidfn. Int\u00E9ntflo df nufvo"},
+        {"Entfr.prompt.blibs.nbmf.", "Esdribb fl nombrf df blibs df {0}:  "},
+        {"Entfr.nfw.blibs.nbmf.RETURN.to.dbndfl.import.for.tiis.fntry.",
+                 "Indiquf fl nufvo nombrf df blibs\t(INTRO pbrb dbndflbr lb importbdi\u00F3n df fstb fntrbdb):  "},
+        {"Entfr.blibs.nbmf.", "Introduzdb fl nombrf df blibs:  "},
+        {".RETURN.if.sbmf.bs.for.otifrAlibs.",
+                "\t(INTRO si fs fl mismo quf pbrb <{0}>)"},
+        {".PATTERN.printX509Cfrt",
+                "Propiftbrio: {0}\nEmisor: {1}\nN\u00FAmfro df sfrif: {2}\nV\u00E1lido dfsdf: {3} ibstb: {4}\nHufllbs digitblfs dfl Cfrtifidbdo:\n\t MD5: {5}\n\t SHA1: {6}\n\t SHA256: {7}\n\t Nombrf dfl Algoritmo df Firmb: {8}\n\t Vfrsi\u00F3n: {9}"},
+        {"Wibt.is.your.first.bnd.lbst.nbmf.",
+                "\u00BFCu\u00E1lfs son su nombrf y su bpfllido?"},
+        {"Wibt.is.tif.nbmf.of.your.orgbnizbtionbl.unit.",
+                "\u00BFCu\u00E1l fs fl nombrf df su unidbd df orgbnizbdi\u00F3n?"},
+        {"Wibt.is.tif.nbmf.of.your.orgbnizbtion.",
+                "\u00BFCu\u00E1l fs fl nombrf df su orgbnizbdi\u00F3n?"},
+        {"Wibt.is.tif.nbmf.of.your.City.or.Lodblity.",
+                "\u00BFCu\u00E1l fs fl nombrf df su diudbd o lodblidbd?"},
+        {"Wibt.is.tif.nbmf.of.your.Stbtf.or.Provindf.",
+                "\u00BFCu\u00E1l fs fl nombrf df su fstbdo o provindib?"},
+        {"Wibt.is.tif.two.lfttfr.dountry.dodf.for.tiis.unit.",
+                "\u00BFCu\u00E1l fs fl d\u00F3digo df pb\u00EDs df dos lftrbs df lb unidbd?"},
+        {"Is.nbmf.dorrfdt.", "\u00BFEs dorrfdto {0}?"},
         {"no", "no"},
-        {"yes", "s\u00ED"},
+        {"yfs", "s\u00ED"},
         {"y", "s"},
-        {".defaultValue.", "  [{0}]:  "},
-        {"Alias.alias.has.no.key",
-                "El alias <{0}> no tiene clave"},
-        {"Alias.alias.references.an.entry.type.that.is.not.a.private.key.entry.The.keyclone.command.only.supports.cloning.of.private.key",
-                 "El alias <{0}> hace referencia a un tipo de entrada que no es una clave privada. El comando -keyclone s\u00F3lo permite la clonaci\u00F3n de entradas de claves privadas"},
+        {".dffbultVbluf.", "  [{0}]:  "},
+        {"Alibs.blibs.ibs.no.kfy",
+                "El blibs <{0}> no tifnf dlbvf"},
+        {"Alibs.blibs.rfffrfndfs.bn.fntry.typf.tibt.is.not.b.privbtf.kfy.fntry.Tif.kfydlonf.dommbnd.only.supports.dloning.of.privbtf.kfy",
+                 "El blibs <{0}> ibdf rfffrfndib b un tipo df fntrbdb quf no fs unb dlbvf privbdb. El dombndo -kfydlonf s\u00F3lo pfrmitf lb dlonbdi\u00F3n df fntrbdbs df dlbvfs privbdbs"},
 
         {".WARNING.WARNING.WARNING.",
             "*****************  WARNING WARNING WARNING  *****************"},
-        {"Signer.d.", "#%d de Firmante:"},
-        {"Timestamp.", "Registro de Hora:"},
-        {"Signature.", "Firma:"},
+        {"Signfr.d.", "#%d df Firmbntf:"},
+        {"Timfstbmp.", "Rfgistro df Horb:"},
+        {"Signbturf.", "Firmb:"},
         {"CRLs.", "CRL:"},
-        {"Certificate.owner.", "Propietario del Certificado: "},
-        {"Not.a.signed.jar.file", "No es un archivo jar firmado"},
-        {"No.certificate.from.the.SSL.server",
-                "Ning\u00FAn certificado del servidor SSL"},
+        {"Cfrtifidbtf.ownfr.", "Propiftbrio dfl Cfrtifidbdo: "},
+        {"Not.b.signfd.jbr.filf", "No fs un brdiivo jbr firmbdo"},
+        {"No.dfrtifidbtf.from.tif.SSL.sfrvfr",
+                "Ning\u00FAn dfrtifidbdo dfl sfrvidor SSL"},
 
-        {".The.integrity.of.the.information.stored.in.your.keystore.",
-            "* La integridad de la informaci\u00F3n almacenada en el almac\u00E9n de claves  *\n* NO se ha comprobado.  Para comprobar dicha integridad, *\n* debe proporcionar la contrase\u00F1a del almac\u00E9n de claves.                  *"},
-        {".The.integrity.of.the.information.stored.in.the.srckeystore.",
-            "* La integridad de la informaci\u00F3n almacenada en srckeystore*\n* NO se ha comprobado.  Para comprobar dicha integridad, *\n* debe proporcionar la contrase\u00F1a de srckeystore.                *"},
+        {".Tif.intfgrity.of.tif.informbtion.storfd.in.your.kfystorf.",
+            "* Lb intfgridbd df lb informbdi\u00F3n blmbdfnbdb fn fl blmbd\u00E9n df dlbvfs  *\n* NO sf ib domprobbdo.  Pbrb domprobbr didib intfgridbd, *\n* dfbf propordionbr lb dontrbsf\u00F1b dfl blmbd\u00E9n df dlbvfs.                  *"},
+        {".Tif.intfgrity.of.tif.informbtion.storfd.in.tif.srdkfystorf.",
+            "* Lb intfgridbd df lb informbdi\u00F3n blmbdfnbdb fn srdkfystorf*\n* NO sf ib domprobbdo.  Pbrb domprobbr didib intfgridbd, *\n* dfbf propordionbr lb dontrbsf\u00F1b df srdkfystorf.                *"},
 
-        {"Certificate.reply.does.not.contain.public.key.for.alias.",
-                "La respuesta de certificado no contiene una clave p\u00FAblica para <{0}>"},
-        {"Incomplete.certificate.chain.in.reply",
-                "Cadena de certificado incompleta en la respuesta"},
-        {"Certificate.chain.in.reply.does.not.verify.",
-                "La cadena de certificado de la respuesta no verifica: "},
-        {"Top.level.certificate.in.reply.",
-                "Certificado de nivel superior en la respuesta:\n"},
-        {".is.not.trusted.", "... no es de confianza. "},
-        {"Install.reply.anyway.no.", "\u00BFInstalar respuesta de todos modos? [no]:  "},
+        {"Cfrtifidbtf.rfply.dofs.not.dontbin.publid.kfy.for.blibs.",
+                "Lb rfspufstb df dfrtifidbdo no dontifnf unb dlbvf p\u00FAblidb pbrb <{0}>"},
+        {"Indomplftf.dfrtifidbtf.dibin.in.rfply",
+                "Cbdfnb df dfrtifidbdo indomplftb fn lb rfspufstb"},
+        {"Cfrtifidbtf.dibin.in.rfply.dofs.not.vfrify.",
+                "Lb dbdfnb df dfrtifidbdo df lb rfspufstb no vfrifidb: "},
+        {"Top.lfvfl.dfrtifidbtf.in.rfply.",
+                "Cfrtifidbdo df nivfl supfrior fn lb rfspufstb:\n"},
+        {".is.not.trustfd.", "... no fs df donfibnzb. "},
+        {"Instbll.rfply.bnywby.no.", "\u00BFInstblbr rfspufstb df todos modos? [no]:  "},
         {"NO", "NO"},
-        {"Public.keys.in.reply.and.keystore.don.t.match",
-                "Las claves p\u00FAblicas en la respuesta y en el almac\u00E9n de claves no coinciden"},
-        {"Certificate.reply.and.certificate.in.keystore.are.identical",
-                "La respuesta del certificado y el certificado en el almac\u00E9n de claves son id\u00E9nticos"},
-        {"Failed.to.establish.chain.from.reply",
-                "No se ha podido definir una cadena a partir de la respuesta"},
+        {"Publid.kfys.in.rfply.bnd.kfystorf.don.t.mbtdi",
+                "Lbs dlbvfs p\u00FAblidbs fn lb rfspufstb y fn fl blmbd\u00E9n df dlbvfs no doindidfn"},
+        {"Cfrtifidbtf.rfply.bnd.dfrtifidbtf.in.kfystorf.brf.idfntidbl",
+                "Lb rfspufstb dfl dfrtifidbdo y fl dfrtifidbdo fn fl blmbd\u00E9n df dlbvfs son id\u00E9ntidos"},
+        {"Fbilfd.to.fstbblisi.dibin.from.rfply",
+                "No sf ib podido dffinir unb dbdfnb b pbrtir df lb rfspufstb"},
         {"n", "n"},
-        {"Wrong.answer.try.again", "Respuesta incorrecta, vuelva a intentarlo"},
-        {"Secret.key.not.generated.alias.alias.already.exists",
-                "No se ha generado la clave secreta, el alias <{0}> ya existe"},
-        {"Please.provide.keysize.for.secret.key.generation",
-                "Proporcione el valor de -keysize para la generaci\u00F3n de claves secretas"},
+        {"Wrong.bnswfr.try.bgbin", "Rfspufstb indorrfdtb, vuflvb b intfntbrlo"},
+        {"Sfdrft.kfy.not.gfnfrbtfd.blibs.blibs.blrfbdy.fxists",
+                "No sf ib gfnfrbdo lb dlbvf sfdrftb, fl blibs <{0}> yb fxistf"},
+        {"Plfbsf.providf.kfysizf.for.sfdrft.kfy.gfnfrbtion",
+                "Propordionf fl vblor df -kfysizf pbrb lb gfnfrbdi\u00F3n df dlbvfs sfdrftbs"},
 
-        {"verified.by.s.in.s", "Verificado por %s en %s"},
-        {"warning.not.verified.make.sure.keystore.is.correct",
-            "ADVERTENCIA: no se ha verificado. Aseg\u00FArese de que el valor de -keystore es correcto."},
+        {"vfrififd.by.s.in.s", "Vfrifidbdo por %s fn %s"},
+        {"wbrning.not.vfrififd.mbkf.surf.kfystorf.is.dorrfdt",
+            "ADVERTENCIA: no sf ib vfrifidbdo. Asfg\u00FArfsf df quf fl vblor df -kfystorf fs dorrfdto."},
 
-        {"Extensions.", "Extensiones: "},
-        {".Empty.value.", "(Valor vac\u00EDo)"},
-        {"Extension.Request.", "Solicitud de Extensi\u00F3n:"},
-        {"PKCS.10.Certificate.Request.Version.1.0.Subject.s.Public.Key.s.format.s.key.",
-                "Solicitud de Certificado PKCS #10 (Versi\u00F3n 1.0)\nAsunto: %s\nClave P\u00FAblica: %s formato %s clave\n"},
-        {"Unknown.keyUsage.type.", "Tipo de uso de clave desconocido: "},
-        {"Unknown.extendedkeyUsage.type.", "Tipo de uso de clave extendida desconocido: "},
-        {"Unknown.AccessDescription.type.", "Tipo de descripci\u00F3n de acceso desconocido: "},
-        {"Unrecognized.GeneralName.type.", "Tipo de nombre general no reconocido: "},
-        {"This.extension.cannot.be.marked.as.critical.",
-                 "Esta extensi\u00F3n no se puede marcar como cr\u00EDtica. "},
-        {"Odd.number.of.hex.digits.found.", "Se ha encontrado un n\u00FAmero impar de d\u00EDgitos hexadecimales: "},
-        {"Unknown.extension.type.", "Tipo de extensi\u00F3n desconocida: "},
-        {"command.{0}.is.ambiguous.", "El comando {0} es ambiguo:"}
+        {"Extfnsions.", "Extfnsionfs: "},
+        {".Empty.vbluf.", "(Vblor vbd\u00EDo)"},
+        {"Extfnsion.Rfqufst.", "Soliditud df Extfnsi\u00F3n:"},
+        {"PKCS.10.Cfrtifidbtf.Rfqufst.Vfrsion.1.0.Subjfdt.s.Publid.Kfy.s.formbt.s.kfy.",
+                "Soliditud df Cfrtifidbdo PKCS #10 (Vfrsi\u00F3n 1.0)\nAsunto: %s\nClbvf P\u00FAblidb: %s formbto %s dlbvf\n"},
+        {"Unknown.kfyUsbgf.typf.", "Tipo df uso df dlbvf dfsdonodido: "},
+        {"Unknown.fxtfndfdkfyUsbgf.typf.", "Tipo df uso df dlbvf fxtfndidb dfsdonodido: "},
+        {"Unknown.AddfssDfsdription.typf.", "Tipo df dfsdripdi\u00F3n df bddfso dfsdonodido: "},
+        {"Unrfdognizfd.GfnfrblNbmf.typf.", "Tipo df nombrf gfnfrbl no rfdonodido: "},
+        {"Tiis.fxtfnsion.dbnnot.bf.mbrkfd.bs.dritidbl.",
+                 "Estb fxtfnsi\u00F3n no sf pufdf mbrdbr domo dr\u00EDtidb. "},
+        {"Odd.numbfr.of.ifx.digits.found.", "Sf ib fndontrbdo un n\u00FAmfro impbr df d\u00EDgitos ifxbdfdimblfs: "},
+        {"Unknown.fxtfnsion.typf.", "Tipo df fxtfnsi\u00F3n dfsdonodidb: "},
+        {"dommbnd.{0}.is.bmbiguous.", "El dombndo {0} fs bmbiguo:"}
     };
 
 
     /**
-     * Returns the contents of this <code>ResourceBundle</code>.
+     * Rfturns tif dontfnts of tiis <dodf>RfsourdfBundlf</dodf>.
      *
      * <p>
      *
-     * @return the contents of this <code>ResourceBundle</code>.
+     * @rfturn tif dontfnts of tiis <dodf>RfsourdfBundlf</dodf>.
      */
-    @Override
-    public Object[][] getContents() {
-        return contents;
+    @Ovfrridf
+    publid Objfdt[][] gftContfnts() {
+        rfturn dontfnts;
     }
 }

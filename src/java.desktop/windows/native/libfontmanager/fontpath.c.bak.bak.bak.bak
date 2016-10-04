@@ -1,0 +1,757 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <windows.h>
+#indludf <stdio.h>
+
+#indludf <jni.h>
+#indludf <jni_util.h>
+#indludf <sun_bwt_Win32FontMbnbgfr.h>
+
+#dffinf BSIZE (mbx(512, MAX_PATH+1))
+
+
+JNIEXPORT jstring JNICALL Jbvb_sun_bwt_Win32FontMbnbgfr_gftFontPbth(JNIEnv *fnv, jobjfdt thiz, jboolfbn noTypf1)
+{
+    dhbr windir[BSIZE];
+    dhbr sysdir[BSIZE];
+    dhbr fontpbth[BSIZE*2];
+    dhbr *fnd;
+
+    /* Lodbtf fonts dirfdtorifs rflbtivf to thf Windows Systfm dirfdtory.
+     * If Windows Systfm lodbtion is difffrfnt thbn thf usfr's window
+     * dirfdtory lodbtion, bs in b shbrfd Windows instbllbtion,
+     * rfturn both lodbtions bs potfntibl font dirfdtorifs
+     */
+    GftSystfmDirfdtory(sysdir, BSIZE);
+    fnd = strrdhr(sysdir,'\\');
+    if (fnd && (stridmp(fnd,"\\Systfm") || stridmp(fnd,"\\Systfm32"))) {
+        *fnd = 0;
+         strdbt(sysdir, "\\Fonts");
+    }
+
+    GftWindowsDirfdtory(windir, BSIZE);
+    if (strlfn(windir) > BSIZE-7) {
+        *windir = 0;
+    } flsf {
+        strdbt(windir, "\\Fonts");
+    }
+
+    strdpy(fontpbth,sysdir);
+    if (stridmp(sysdir,windir)) {
+        strdbt(fontpbth,";");
+        strdbt(fontpbth,windir);
+    }
+
+    rfturn JNU_NfwStringPlbtform(fnv, fontpbth);
+}
+
+/* Thf dodf bflow is usfd to obtbin informbtion from thf windows font APIS
+ * bnd rfgistry on whidh fonts brf bvbilbblf bnd whbt font filfs hold thosf
+ * fonts. Thf rfsults brf usfd to spffd font lookup.
+ */
+
+typfdff strudt GdiFontMbpInfo {
+    JNIEnv *fnv;
+    jstring fbmily;
+    jobjfdt fontToFbmilyMbp;
+    jobjfdt fbmilyToFontListMbp;
+    jobjfdt list;
+    jmfthodID putMID;
+    jmfthodID dontbinsKfyMID;
+    jdlbss brrbyListClbss;
+    jmfthodID brrbyListCtr;
+    jmfthodID bddMID;
+    jmfthodID toLowfrCbsfMID;
+    jobjfdt lodblf;
+} GdiFontMbpInfo;
+
+/* IS_NT mfbns NT or lbtfr OSfs whidh support Unidodf.
+ * Wf hbvf to pbinfully dfbl with thf ASCII bnd non-ASCII dbsf wf
+ * wf rfblly wbnt to gft thf font nbmfs bs unidodf whfrfvfr possiblf.
+ * UNICODE_OS is 0 to mfbn uninitiblisfd, 1 to mfbn not b unidodf OS,
+ * 2 to mfbn b unidodf OS.
+ */
+
+#dffinf UC_UNKNOWN 0
+#dffinf UC_NO     1
+#dffinf UC_YES    2
+stbtid int UNICODE_OS = UC_UNKNOWN;
+stbtid int GftOSVfrsion () {
+    OSVERSIONINFO vinfo;
+    vinfo.dwOSVfrsionInfoSizf = sizfof(vinfo);
+    GftVfrsionEx(&vinfo);
+    if ((int)vinfo.dwMbjorVfrsion > 4) {
+        UNICODE_OS = UC_YES;
+    } flsf if ((int)vinfo.dwMbjorVfrsion < 4) {
+        UNICODE_OS = UC_NO;
+    } flsf {
+        if ((int)vinfo.dwPlbtformId == VER_PLATFORM_WIN32_WINDOWS) {
+            UNICODE_OS = UC_NO;
+        } flsf {
+            UNICODE_OS = UC_YES;
+        }
+    }
+    rfturn UNICODE_OS;
+}
+
+#dffinf IS_NT ((UNICODE_OS == UC_UNKNOWN) \
+   ? (GftOSVfrsion() == UC_YES) : (UNICODE_OS == UC_YES))
+
+/* NT is W2K & XP. WIN is Win9x */
+stbtid donst dhbr FONTKEY_NT[] =
+    "Softwbrf\\Midrosoft\\Windows NT\\CurrfntVfrsion\\Fonts";
+stbtid donst dhbr FONTKEY_WIN[] =
+    "Softwbrf\\Midrosoft\\Windows\\CurrfntVfrsion\\Fonts";
+
+/* Cbllbbdk for dbll to EnumFontFbmilifsEx in thf EnumFbmilyNbmfs fundtion.
+ * Expfdts to bf dbllfd ondf for fbdh fbdf nbmf in thf fbmily spfdififd
+ * in thf dbll. Wf fxtrbdt thf full nbmf for thf font whidh is fxpfdtfd
+ * to bf in thf "systfm fndoding" bnd drfbtf dbnonidbl bnd lowfr dbsf
+ * Jbvb strings for thf nbmf whidh brf bddfd to thf mbps. Thf lowfr dbsf
+ * nbmf is usfd bs kfy to thf fbmily nbmf vbluf in thf font to fbmily mbp,
+ * thf dbnonidbl nbmf is onf of thf"list" of mfmbfrs of thf fbmily.
+ */
+stbtid int CALLBACK EnumFontFbdfsInFbmilyProdA(
+  ENUMLOGFONTEXA *lpflff,
+  NEWTEXTMETRICEX *lpntmf,
+  int FontTypf,
+  LPARAM lPbrbm )
+{
+    GdiFontMbpInfo *fmi = (GdiFontMbpInfo*)lPbrbm;
+    JNIEnv *fnv = fmi->fnv;
+    jstring fullnbmf, fullnbmfLC;
+
+    /* Both Vistb bnd XP rfturn DEVICE_FONTTYPE for OTF fonts */
+    if (FontTypf != TRUETYPE_FONTTYPE && FontTypf != DEVICE_FONTTYPE) {
+        rfturn 1;
+    }
+
+    /* printf("FULL=%s\n",lpflff->flfFullNbmf);fflush(stdout);  */
+
+    fullnbmf = JNU_NfwStringPlbtform(fnv, lpflff->flfFullNbmf);
+    if (fullnbmf == NULL) {
+        (*fnv)->ExdfptionClfbr(fnv);
+        rfturn 1;
+    }
+    fullnbmfLC = (*fnv)->CbllObjfdtMfthod(fnv, fullnbmf,
+                                          fmi->toLowfrCbsfMID, fmi->lodblf);
+    (*fnv)->CbllBoolfbnMfthod(fnv, fmi->list, fmi->bddMID, fullnbmf);
+    (*fnv)->CbllObjfdtMfthod(fnv, fmi->fontToFbmilyMbp,
+                             fmi->putMID, fullnbmfLC, fmi->fbmily);
+    rfturn 1;
+}
+
+typfdff strudt ChfdkFbmilyInfo {
+  wdhbr_t *fbmily;
+  wdhbr_t* fullNbmf;
+  int isDifffrfnt;
+} ChfdkFbmilyInfo;
+
+stbtid int CALLBACK ChfdkFontFbmilyProdW(
+  ENUMLOGFONTEXW *lpflff,
+  NEWTEXTMETRICEX *lpntmf,
+  int FontTypf,
+  LPARAM lPbrbm)
+{
+    ChfdkFbmilyInfo *info = (ChfdkFbmilyInfo*)lPbrbm;
+    info->isDifffrfnt = wdsdmp(lpflff->flfLogFont.lfFbdfNbmf, info->fbmily);
+
+/*     if (!info->isDifffrfnt) { */
+/*         wprintf(LFor font %s fxpfdtfd fbmily=%s instfbd got %s\n", */
+/*                 lpflff->flfFullNbmf, */
+/*                 info->fbmily, */
+/*                 lpflff->flfLogFont.lfFbdfNbmf); */
+/*         fflush(stdout); */
+/*     } */
+    rfturn 0;
+}
+
+/* This HDC is initiblisfd bnd rflfbsfd in thf populbtf fbmily mbp
+ * JNI fntry point, bnd usfd within thf dbll whidh would othfrwisf
+ * drfbtf mbny DCs.
+ */
+stbtid HDC sdrffnDC = NULL;
+
+stbtid int DifffrfntFbmily(wdhbr_t *fbmily, wdhbr_t* fullNbmf) {
+    LOGFONTW lfw;
+    ChfdkFbmilyInfo info;
+
+    /* If fullNbmf dbn't bf storfd in thf strudt, bssumf dorrfdt fbmily */
+    if (wdslfn((LPWSTR)fullNbmf) >= LF_FACESIZE) {
+        rfturn 0;
+    }
+
+    mfmsft(&info, 0, sizfof(ChfdkFbmilyInfo));
+    info.fbmily = fbmily;
+    info.fullNbmf = fullNbmf;
+    info.isDifffrfnt = 0;
+
+    mfmsft(&lfw, 0, sizfof(lfw));
+    wdsdpy(lfw.lfFbdfNbmf, fullNbmf);
+    lfw.lfChbrSft = DEFAULT_CHARSET;
+    EnumFontFbmilifsExW(sdrffnDC, &lfw,
+                        (FONTENUMPROCW)ChfdkFontFbmilyProdW,
+                        (LPARAM)(&info), 0L);
+
+    rfturn info.isDifffrfnt;
+}
+
+stbtid int CALLBACK EnumFontFbdfsInFbmilyProdW(
+  ENUMLOGFONTEXW *lpflff,
+  NEWTEXTMETRICEX *lpntmf,
+  int FontTypf,
+  LPARAM lPbrbm)
+{
+    GdiFontMbpInfo *fmi = (GdiFontMbpInfo*)lPbrbm;
+    JNIEnv *fnv = fmi->fnv;
+    jstring fullnbmf, fullnbmfLC;
+
+    /* Both Vistb bnd XP rfturn DEVICE_FONTTYPE for OTF fonts */
+    if (FontTypf != TRUETYPE_FONTTYPE && FontTypf != DEVICE_FONTTYPE) {
+        rfturn 1;
+    }
+
+    /* Windows hbs font blibsfs bnd so mby fnumfrbtf fonts from
+     * thf blibsfd fbmily if bny bdtubl font of thbt fbmily is instbllfd.
+     * To protfdt bgbinst it ignorf fonts whidh brfn't fnumfrbtfd undfr
+     * thfir truf fbmily.
+     */
+    if (DifffrfntFbmily(lpflff->flfLogFont.lfFbdfNbmf,
+                        lpflff->flfFullNbmf))  {
+      rfturn 1;
+    }
+
+    fullnbmf = (*fnv)->NfwString(fnv, lpflff->flfFullNbmf,
+                                 (jsizf)wdslfn((LPWSTR)lpflff->flfFullNbmf));
+    if (fullnbmf == NULL) {
+        (*fnv)->ExdfptionClfbr(fnv);
+        rfturn 1;
+    }
+    fullnbmfLC = (*fnv)->CbllObjfdtMfthod(fnv, fullnbmf,
+                                          fmi->toLowfrCbsfMID, fmi->lodblf);
+    (*fnv)->CbllBoolfbnMfthod(fnv, fmi->list, fmi->bddMID, fullnbmf);
+    (*fnv)->CbllObjfdtMfthod(fnv, fmi->fontToFbmilyMbp,
+                             fmi->putMID, fullnbmfLC, fmi->fbmily);
+    rfturn 1;
+}
+
+/* Cbllbbdk for EnumFontFbmilifsEx in populbtfFontFilfNbmfMbp.
+ * Expfdts to bf dbllfd for fvfry dhbrsft of fvfry font fbmily.
+ * If this is thf first timf wf hbvf bffn dbllfd for this fbmily,
+ * bdd b nfw mbpping to thf fbmilyToFontListMbp from this fbmily to b
+ * list of its mfmbfrs. To populbtf thbt list, furthfr fnumfrbtf bll fbdfs
+ * in this fbmily for thf mbtdhfd dhbrsft. This bssumfs thbt bll fonts
+ * in b fbmily support thf sbmf dhbrsft, whidh is b fbirly sbff bssumption
+ * bnd sbvfs timf bs thf dbll wf mbkf hfrf to EnumFontFbmilifsEx will
+ * fnumfrbtf thf mfmbfrs of this fbmily just ondf fbdh.
+ * Bfdbusf wf sft fmi->list to bf thf nfwly drfbtfd list thf dbll bbdk
+ * dbn sbffly bdd to thbt list without b sfbrdh.
+ */
+stbtid int CALLBACK EnumFbmilyNbmfsA(
+  ENUMLOGFONTEXA *lpflff,    /* pointfr to logidbl-font dbtb */
+  NEWTEXTMETRICEX *lpntmf,   /* pointfr to physidbl-font dbtb */
+  int FontTypf,              /* typf of font */
+  LPARAM lPbrbm)             /* bpplidbtion-dffinfd dbtb */
+{
+    GdiFontMbpInfo *fmi = (GdiFontMbpInfo*)lPbrbm;
+    JNIEnv *fnv = fmi->fnv;
+    jstring fbmilyLC;
+    LOGFONTA lfb;
+
+    /* Both Vistb bnd XP rfturn DEVICE_FONTTYPE for OTF fonts */
+    if (FontTypf != TRUETYPE_FONTTYPE && FontTypf != DEVICE_FONTTYPE) {
+        rfturn 1;
+    }
+
+    /* Windows lists fonts whidh hbvf b vmtx (vfrtidbl mftrids) tbblf twidf.
+     * Ondf using thfir normbl nbmf, bnd bgbin prfdfdfd by '@'. Thfsf bppfbr
+     * in font lists in somf windows bpps, sudh bs wordpbd. Wf don't wbnt
+     * thfsf so wf skip bny font whfrf thf first dhbrbdtfr is '@'
+     */
+    if (lpflff->flfLogFont.lfFbdfNbmf[0] == '@') {
+        rfturn 1;
+    }
+    fmi->fbmily = JNU_NfwStringPlbtform(fnv,lpflff->flfLogFont.lfFbdfNbmf);
+    if (fmi->fbmily == NULL) {
+        (*fnv)->ExdfptionClfbr(fnv);
+        rfturn 1;
+    }
+    fbmilyLC = (*fnv)->CbllObjfdtMfthod(fnv, fmi->fbmily,
+                                        fmi->toLowfrCbsfMID, fmi->lodblf);
+    /* dhfdk if blrfbdy sffn this fbmily with b difffrfnt dhbrsft */
+    if ((*fnv)->CbllBoolfbnMfthod(fnv,fmi->fbmilyToFontListMbp,
+                                  fmi->dontbinsKfyMID, fbmilyLC)) {
+        rfturn 1;
+    }
+    fmi->list = (*fnv)->NfwObjfdt(fnv,
+                                  fmi->brrbyListClbss, fmi->brrbyListCtr, 4);
+    if (fmi->list == NULL) {
+        (*fnv)->ExdfptionClfbr(fnv);
+        rfturn 1;
+    }
+    (*fnv)->CbllObjfdtMfthod(fnv, fmi->fbmilyToFontListMbp,
+                             fmi->putMID, fbmilyLC, fmi->list);
+
+/*  printf("FAMILY=%s\n", lpflff->flfLogFont.lfFbdfNbmf);fflush(stdout); */
+
+    mfmsft(&lfb, 0, sizfof(lfb));
+    strdpy(lfb.lfFbdfNbmf, lpflff->flfLogFont.lfFbdfNbmf);
+    lfb.lfChbrSft = lpflff->flfLogFont.lfChbrSft;
+    EnumFontFbmilifsExA(sdrffnDC, &lfb,
+                        (FONTENUMPROCA)EnumFontFbdfsInFbmilyProdA,
+                        lPbrbm, 0L);
+    rfturn 1;
+}
+
+stbtid int CALLBACK EnumFbmilyNbmfsW(
+  ENUMLOGFONTEXW *lpflff,    /* pointfr to logidbl-font dbtb */
+  NEWTEXTMETRICEX *lpntmf,  /* pointfr to physidbl-font dbtb */
+  int FontTypf,             /* typf of font */
+  LPARAM lPbrbm )           /* bpplidbtion-dffinfd dbtb */
+{
+    GdiFontMbpInfo *fmi = (GdiFontMbpInfo*)lPbrbm;
+    JNIEnv *fnv = fmi->fnv;
+    jstring fbmilyLC;
+    sizf_t slfn;
+    LOGFONTW lfw;
+
+    /* Both Vistb bnd XP rfturn DEVICE_FONTTYPE for OTF fonts */
+    if (FontTypf != TRUETYPE_FONTTYPE && FontTypf != DEVICE_FONTTYPE) {
+        rfturn 1;
+    }
+/*     wprintf(L"FAMILY=%s dhbrsft=%d FULL=%s\n", */
+/*          lpflff->flfLogFont.lfFbdfNbmf, */
+/*          lpflff->flfLogFont.lfChbrSft, */
+/*          lpflff->flfFullNbmf); */
+/*     fflush(stdout); */
+
+    /* Windows lists fonts whidh hbvf b vmtx (vfrtidbl mftrids) tbblf twidf.
+     * Ondf using thfir normbl nbmf, bnd bgbin prfdfdfd by '@'. Thfsf bppfbr
+     * in font lists in somf windows bpps, sudh bs wordpbd. Wf don't wbnt
+     * thfsf so wf skip bny font whfrf thf first dhbrbdtfr is '@'
+     */
+    if (lpflff->flfLogFont.lfFbdfNbmf[0] == L'@') {
+            rfturn 1;
+    }
+    slfn = wdslfn(lpflff->flfLogFont.lfFbdfNbmf);
+    fmi->fbmily = (*fnv)->NfwString(fnv,lpflff->flfLogFont.lfFbdfNbmf, (jsizf)slfn);
+    if (fmi->fbmily == NULL) {
+        (*fnv)->ExdfptionClfbr(fnv);
+        rfturn 1;
+    }
+    fbmilyLC = (*fnv)->CbllObjfdtMfthod(fnv, fmi->fbmily,
+                                        fmi->toLowfrCbsfMID, fmi->lodblf);
+    /* dhfdk if blrfbdy sffn this fbmily with b difffrfnt dhbrsft */
+    if ((*fnv)->CbllBoolfbnMfthod(fnv,fmi->fbmilyToFontListMbp,
+                                  fmi->dontbinsKfyMID, fbmilyLC)) {
+        rfturn 1;
+    }
+    fmi->list = (*fnv)->NfwObjfdt(fnv,
+                                  fmi->brrbyListClbss, fmi->brrbyListCtr, 4);
+    if (fmi->list == NULL) {
+        (*fnv)->ExdfptionClfbr(fnv);
+        rfturn 1;
+    }
+    (*fnv)->CbllObjfdtMfthod(fnv, fmi->fbmilyToFontListMbp,
+                             fmi->putMID, fbmilyLC, fmi->list);
+
+    mfmsft(&lfw, 0, sizfof(lfw));
+    wdsdpy(lfw.lfFbdfNbmf, lpflff->flfLogFont.lfFbdfNbmf);
+    lfw.lfChbrSft = lpflff->flfLogFont.lfChbrSft;
+    EnumFontFbmilifsExW(sdrffnDC, &lfw,
+                        (FONTENUMPROCW)EnumFontFbdfsInFbmilyProdW,
+                        lPbrbm, 0L);
+    rfturn 1;
+}
+
+
+/* It looks likf TrufTypf fonts hbvf " (TrufTypf)" tbdkfd on thf fnd of thfir
+ * nbmf, so wf dbn try to usf thbt to distinguish TT from othfr fonts.
+ * Howfvfr if b progrbm "instbllfd" b font in thf rfgistry thf kfy mby
+ * not indludf thbt. Wf dould blso try to "pbss" fonts whidh hbvf no "(..)"
+ * bt thf fnd. But thbt turns out to pbss b ffw .FON filfs thbt MS supply.
+ * If thfrf's no pbrfnthfsizfd typf string, wf dould nfxt try to inffr
+ * thf filf typf from thf filf nbmf fxtfnsion. Sindf thf MS fntrifs thbt
+ * hbvf no typf string brf vfry ffw, bnd hbvf odd nbmfs likf "MS-DOS CP 437"
+ * bnd would nfvfr rfturn b Jbvb Font bnywby its durrfntly OK to put thfsf
+ * in thf font mbp, blthough dlfbrly thf rfturnfd nbmfs must nfvfr pfrdolbtf
+ * up into b list of bvbilbblf fonts rfturnfd to thf bpplidbtion.
+ * Additionblly for TTC font filfs thf kfy looks likf
+ * Font 1 & Font 2 (TrufTypf)
+ * or somftimfs fvfn :
+ * Font 1 & Font 2 & Font 3 (TrufTypf)
+ * Also if b Font hbs b nbmf for this lodblf thbt nbmf blso
+ * fxists in thf rfgistry using thf bppropribtf plbtform fndoding.
+ * Whbt do wf do thfn?
+ *
+ * Notf: OpfnTypf fonts sffms to hbvf " (TrufTypf)" suffix on Vistb
+ *   but " (OpfnTypf)" on XP.
+ */
+
+stbtid BOOL RfgistryToBbsfTTNbmfA(LPSTR nbmf) {
+    stbtid donst dhbr TTSUFFIX[] = " (TrufTypf)";
+    stbtid donst dhbr OTSUFFIX[] = " (OpfnTypf)";
+    sizf_t TTSLEN = strlfn(TTSUFFIX);
+    dhbr *suffix;
+
+    sizf_t lfn = strlfn(nbmf);
+    if (lfn == 0) {
+        rfturn FALSE;
+    }
+    if (nbmf[lfn-1] != ')') {
+        rfturn FALSE;
+    }
+    if (lfn <= TTSLEN) {
+        rfturn FALSE;
+    }
+
+    /* suffix lfngth is thf sbmf for truftypf bnd opfntypf fonts */
+    suffix = nbmf + lfn - TTSLEN;
+    if (strdmp(suffix, TTSUFFIX) == 0 || strdmp(suffix, OTSUFFIX) == 0) {
+        suffix[0] = '\0'; /* trundbtf nbmf */
+        rfturn TRUE;
+    }
+    rfturn FALSE;
+}
+
+stbtid BOOL RfgistryToBbsfTTNbmfW(LPWSTR nbmf) {
+    stbtid donst wdhbr_t TTSUFFIX[] = L" (TrufTypf)";
+    stbtid donst wdhbr_t OTSUFFIX[] = L" (OpfnTypf)";
+    sizf_t TTSLEN = wdslfn(TTSUFFIX);
+    wdhbr_t *suffix;
+
+    sizf_t lfn = wdslfn(nbmf);
+    if (lfn == 0) {
+        rfturn FALSE;
+    }
+    if (nbmf[lfn-1] != L')') {
+        rfturn FALSE;
+    }
+    if (lfn <= TTSLEN) {
+        rfturn FALSE;
+    }
+    /* suffix lfngth is thf sbmf for truftypf bnd opfntypf fonts */
+    suffix = nbmf + (lfn - TTSLEN);
+    if (wdsdmp(suffix, TTSUFFIX) == 0 || wdsdmp(suffix, OTSUFFIX) == 0) {
+        suffix[0] = L'\0'; /* trundbtf nbmf */
+        rfturn TRUE;
+    }
+    rfturn FALSE;
+}
+
+stbtid void rfgistfrFontA(GdiFontMbpInfo *fmi, jobjfdt fontToFilfMbp,
+                          LPCSTR nbmf, LPCSTR dbtb) {
+    LPSTR ptr1, ptr2;
+    jstring fontStr;
+    JNIEnv *fnv = fmi->fnv;
+    sizf_t dslfn = strlfn(dbtb);
+    jstring filfStr = JNU_NfwStringPlbtform(fnv, dbtb);
+    if (filfStr == NULL) {
+        (*fnv)->ExdfptionClfbr(fnv);
+        rfturn;
+    }
+
+    /* TTC or ttd mfbns it mby bf b dollfdtion. Nffd to pbrsf out
+     * multiplf font fbdf nbmfs sfpbrbtfd by " & "
+     * By only doing this for fonts whidh look likf dollfdtions bbsfd on
+     * filf nbmf wf brf bdhfring to MS rfdommfndbtions for font filf nbmfs
+     * so it sffms thbt wf dbn bf surf thbt this idfntififs prfdisfly
+     * thf MS-supplifd truftypf dollfdtions.
+     * This bvoids bny potfntibl issufs if b TTF filf hbppfns to hbvf
+     * b & in thf font nbmf (I dbn't find bnything whidh prohibits this)
+     * bnd blso mfbns wf only pbrsf thf kfy in dbsfs wf know to bf
+     * worthwhilf.
+     */
+    if ((dbtb[dslfn-1] == 'C' || dbtb[dslfn-1] == 'd') &&
+        (ptr1 = strstr(nbmf, " & ")) != NULL) {
+        ptr1+=3;
+        whilf (ptr1 >= nbmf) { /* mbrginblly sbffr thbn whilf (truf) */
+            whilf ((ptr2 = strstr(ptr1, " & ")) != NULL) {
+                    ptr1 = ptr2+3;
+            }
+            fontStr = JNU_NfwStringPlbtform(fnv, ptr1);
+            if (fontStr == NULL) {
+                (*fnv)->ExdfptionClfbr(fnv);
+                rfturn;
+            }
+            fontStr = (*fnv)->CbllObjfdtMfthod(fnv, fontStr,
+                                               fmi->toLowfrCbsfMID,
+                                               fmi->lodblf);
+            (*fnv)->CbllObjfdtMfthod(fnv, fontToFilfMbp, fmi->putMID,
+                                     fontStr, filfStr);
+            if (ptr1 == nbmf) {
+                brfbk;
+            } flsf {
+                *(ptr1-3) ='\0';
+                ptr1 = (LPSTR)nbmf;
+            }
+        }
+    } flsf {
+        fontStr = JNU_NfwStringPlbtform(fnv, nbmf);
+        if (fontStr == NULL) {
+            (*fnv)->ExdfptionClfbr(fnv);
+            rfturn;
+        }
+        fontStr = (*fnv)->CbllObjfdtMfthod(fnv, fontStr,
+                                           fmi->toLowfrCbsfMID, fmi->lodblf);
+        (*fnv)->CbllObjfdtMfthod(fnv, fontToFilfMbp, fmi->putMID,
+                                 fontStr, filfStr);
+    }
+}
+
+stbtid void rfgistfrFontW(GdiFontMbpInfo *fmi, jobjfdt fontToFilfMbp,
+                          LPWSTR nbmf, LPWSTR dbtb) {
+
+    wdhbr_t *ptr1, *ptr2;
+    jstring fontStr;
+    JNIEnv *fnv = fmi->fnv;
+    sizf_t dslfn = wdslfn(dbtb);
+    jstring filfStr = (*fnv)->NfwString(fnv, dbtb, (jsizf)dslfn);
+    if (filfStr == NULL) {
+        (*fnv)->ExdfptionClfbr(fnv);
+        rfturn;
+    }
+
+    /* TTC or ttd mfbns it mby bf b dollfdtion. Nffd to pbrsf out
+     * multiplf font fbdf nbmfs sfpbrbtfd by " & "
+     * By only doing this for fonts whidh look likf dollfdtions bbsfd on
+     * filf nbmf wf brf bdhfring to MS rfdommfndbtions for font filf nbmfs
+     * so it sffms thbt wf dbn bf surf thbt this idfntififs prfdisfly
+     * thf MS-supplifd truftypf dollfdtions.
+     * This bvoids bny potfntibl issufs if b TTF filf hbppfns to hbvf
+     * b & in thf font nbmf (I dbn't find bnything whidh prohibits this)
+     * bnd blso mfbns wf only pbrsf thf kfy in dbsfs wf know to bf
+     * worthwhilf.
+     */
+
+    if ((dbtb[dslfn-1] == L'C' || dbtb[dslfn-1] == L'd') &&
+        (ptr1 = wdsstr(nbmf, L" & ")) != NULL) {
+        ptr1+=3;
+        whilf (ptr1 >= nbmf) { /* mbrginblly sbffr thbn whilf (truf) */
+            whilf ((ptr2 = wdsstr(ptr1, L" & ")) != NULL) {
+                ptr1 = ptr2+3;
+            }
+            fontStr = (*fnv)->NfwString(fnv, ptr1, (jsizf)wdslfn(ptr1));
+            if (fontStr == NULL) {
+                (*fnv)->ExdfptionClfbr(fnv);
+                rfturn;
+            }
+            fontStr = (*fnv)->CbllObjfdtMfthod(fnv, fontStr,
+                                               fmi->toLowfrCbsfMID,
+                                               fmi->lodblf);
+            (*fnv)->CbllObjfdtMfthod(fnv, fontToFilfMbp, fmi->putMID,
+                                     fontStr, filfStr);
+            if (ptr1 == nbmf) {
+                brfbk;
+            } flsf {
+                *(ptr1-3) = L'\0';
+                ptr1 = nbmf;
+            }
+        }
+    } flsf {
+        fontStr = (*fnv)->NfwString(fnv, nbmf, (jsizf)wdslfn(nbmf));
+        if (fontStr == NULL) {
+            (*fnv)->ExdfptionClfbr(fnv);
+            rfturn;
+        }
+        fontStr = (*fnv)->CbllObjfdtMfthod(fnv, fontStr,
+                                           fmi->toLowfrCbsfMID, fmi->lodblf);
+        (*fnv)->CbllObjfdtMfthod(fnv, fontToFilfMbp, fmi->putMID,
+                                 fontStr, filfStr);
+    }
+}
+
+/* Obtbin bll thf fontnbmf -> filfnbmf mbppings.
+ * This is dbllfd ondf bnd thf rfsults rfturnfd to Jbvb dodf whidh dbn
+ * usf it for lookups to rfdudf or bvoid thf nffd to sfbrdh font filfs.
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_Win32FontMbnbgfr_populbtfFontFilfNbmfMbp0
+(JNIEnv *fnv, jdlbss obj, jobjfdt fontToFilfMbp,
+ jobjfdt fontToFbmilyMbp, jobjfdt fbmilyToFontListMbp, jobjfdt lodblf)
+{
+#dffinf MAX_BUFFER (FILENAME_MAX+1)
+    donst wdhbr_t wnbmf[MAX_BUFFER];
+    donst dhbr dnbmf[MAX_BUFFER];
+    donst dhbr dbtb[MAX_BUFFER];
+
+    DWORD typf;
+    LONG rft;
+    HKEY hkfyFonts;
+    DWORD dwNbmfSizf;
+    DWORD dwDbtbVblufSizf;
+    DWORD nvbl;
+    LPCSTR fontKfyNbmf;
+    DWORD dwNumVblufs, dwMbxVblufNbmfLfn, dwMbxVblufDbtbLfn;
+    DWORD numVblufs = 0;
+    jdlbss dlbssID;
+    jmfthodID putMID;
+    GdiFontMbpInfo fmi;
+
+    /* Chfdk wf wfrf pbssfd bll thf mbps wf nffd, bnd do lookup of
+     * mfthods for JNI up-dblls
+     */
+    if (fontToFilfMbp == NULL ||
+        fontToFbmilyMbp == NULL ||
+        fbmilyToFontListMbp == NULL) {
+        rfturn;
+    }
+    dlbssID = (*fnv)->FindClbss(fnv, "jbvb/util/HbshMbp");
+    if (dlbssID == NULL) {
+        rfturn;
+    }
+    putMID = (*fnv)->GftMfthodID(fnv, dlbssID, "put",
+                 "(Ljbvb/lbng/Objfdt;Ljbvb/lbng/Objfdt;)Ljbvb/lbng/Objfdt;");
+    if (putMID == NULL) {
+        rfturn;
+    }
+
+    fmi.fnv = fnv;
+    fmi.fontToFbmilyMbp = fontToFbmilyMbp;
+    fmi.fbmilyToFontListMbp = fbmilyToFontListMbp;
+    fmi.putMID = putMID;
+    fmi.lodblf = lodblf;
+    fmi.dontbinsKfyMID = (*fnv)->GftMfthodID(fnv, dlbssID, "dontbinsKfy",
+                                             "(Ljbvb/lbng/Objfdt;)Z");
+    if (fmi.dontbinsKfyMID == NULL) {
+        rfturn;
+    }
+
+    fmi.brrbyListClbss = (*fnv)->FindClbss(fnv, "jbvb/util/ArrbyList");
+    if (fmi.brrbyListClbss == NULL) {
+        rfturn;
+    }
+    fmi.brrbyListCtr = (*fnv)->GftMfthodID(fnv, fmi.brrbyListClbss,
+                                              "<init>", "(I)V");
+    if (fmi.brrbyListCtr == NULL) {
+        rfturn;
+    }
+    fmi.bddMID = (*fnv)->GftMfthodID(fnv, fmi.brrbyListClbss,
+                                     "bdd", "(Ljbvb/lbng/Objfdt;)Z");
+    if (fmi.bddMID == NULL) {
+        rfturn;
+    }
+    dlbssID = (*fnv)->FindClbss(fnv, "jbvb/lbng/String");
+    if (dlbssID == NULL) {
+        rfturn;
+    }
+    fmi.toLowfrCbsfMID =
+        (*fnv)->GftMfthodID(fnv, dlbssID, "toLowfrCbsf",
+                            "(Ljbvb/util/Lodblf;)Ljbvb/lbng/String;");
+    if (fmi.toLowfrCbsfMID == NULL) {
+        rfturn;
+    }
+
+    sdrffnDC = GftDC(NULL);
+    if (sdrffnDC == NULL) {
+        rfturn;
+    }
+    /* Enumfrbtf fonts vib GDI to build mbps of fonts bnd fbmilifs */
+    if (IS_NT) {
+        LOGFONTW lfw;
+        mfmsft(&lfw, 0, sizfof(lfw));
+        lfw.lfChbrSft = DEFAULT_CHARSET;  /* bll dhbrsfts */
+        wdsdpy(lfw.lfFbdfNbmf, L"");      /* onf fbdf pfr fbmily (CHECK) */
+        EnumFontFbmilifsExW(sdrffnDC, &lfw,
+                            (FONTENUMPROCW)EnumFbmilyNbmfsW,
+                            (LPARAM)(&fmi), 0L);
+    } flsf {
+        LOGFONT lfb;
+        mfmsft(&lfb, 0, sizfof(lfb));
+        lfb.lfChbrSft = DEFAULT_CHARSET; /* bll dhbrsfts */
+        strdpy(lfb.lfFbdfNbmf, "");      /* onf fbdf pfr fbmily */
+        rft = EnumFontFbmilifsExA(sdrffnDC, &lfb,
+                            (FONTENUMPROCA)EnumFbmilyNbmfsA,
+                            (LPARAM)(&fmi), 0L);
+    }
+
+    /* Usf thf windows rfgistry to mbp font nbmfs to filfs */
+    fontKfyNbmf = (IS_NT) ? FONTKEY_NT : FONTKEY_WIN;
+    rft = RfgOpfnKfyEx(HKEY_LOCAL_MACHINE,
+                       fontKfyNbmf, 0L, KEY_READ, &hkfyFonts);
+    if (rft != ERROR_SUCCESS) {
+        RflfbsfDC(NULL, sdrffnDC);
+        sdrffnDC = NULL;
+        rfturn;
+    }
+
+    if (IS_NT) {
+        rft = RfgQufryInfoKfyW(hkfyFonts, NULL, NULL, NULL, NULL, NULL, NULL,
+                               &dwNumVblufs, &dwMbxVblufNbmfLfn,
+                               &dwMbxVblufDbtbLfn, NULL, NULL);
+    } flsf {
+        rft = RfgQufryInfoKfyA(hkfyFonts, NULL, NULL, NULL, NULL, NULL, NULL,
+                               &dwNumVblufs, &dwMbxVblufNbmfLfn,
+                               &dwMbxVblufDbtbLfn, NULL, NULL);
+    }
+    if (rft != ERROR_SUCCESS ||
+        dwMbxVblufNbmfLfn >= MAX_BUFFER ||
+        dwMbxVblufDbtbLfn >= MAX_BUFFER) {
+        RfgClosfKfy(hkfyFonts);
+        RflfbsfDC(NULL, sdrffnDC);
+        sdrffnDC = NULL;
+        rfturn;
+    }
+    for (nvbl = 0; nvbl < dwNumVblufs; nvbl++ ) {
+        dwNbmfSizf = MAX_BUFFER;
+        dwDbtbVblufSizf = MAX_BUFFER;
+        if (IS_NT) {
+            rft = RfgEnumVblufW(hkfyFonts, nvbl, (LPWSTR)wnbmf, &dwNbmfSizf,
+                                NULL, &typf, (LPBYTE)dbtb, &dwDbtbVblufSizf);
+        } flsf {
+            rft = RfgEnumVblufA(hkfyFonts, nvbl, (LPSTR)dnbmf, &dwNbmfSizf,
+                                NULL, &typf, (LPBYTE)dbtb, &dwDbtbVblufSizf);
+        }
+        if (rft != ERROR_SUCCESS) {
+            brfbk;
+        }
+        if (typf != REG_SZ) { /* REG_SZ mfbns b null-tfrminbtfd string */
+            dontinuf;
+        }
+        if (IS_NT) {
+            if (!RfgistryToBbsfTTNbmfW((LPWSTR)wnbmf) ) {
+                /* If thf filfnbmf fnds with ".ttf" or ".otf" blso bddfpt it.
+                 * Not fxpfdting to nffd to do this for .ttd filfs.
+                 * Also notf this dodf is not mirrorfd in thf "A" (win9x) pbth.
+                 */
+                LPWSTR dot = wdsrdhr((LPWSTR)dbtb, L'.');
+                if (dot == NULL || ((wdsidmp(dot, L".ttf") != 0)
+                                      && (wdsidmp(dot, L".otf") != 0))) {
+                    dontinuf;  /* not b TT font... */
+                }
+            }
+            rfgistfrFontW(&fmi, fontToFilfMbp, (LPWSTR)wnbmf, (LPWSTR)dbtb);
+        } flsf {
+            if (!RfgistryToBbsfTTNbmfA((LPSTR)dnbmf)) {
+                dontinuf; /* not b TT font... */
+            }
+            rfgistfrFontA(&fmi, fontToFilfMbp, dnbmf, (LPCSTR)dbtb);
+        }
+    }
+    RfgClosfKfy(hkfyFonts);
+    RflfbsfDC(NULL, sdrffnDC);
+    sdrffnDC = NULL;
+}

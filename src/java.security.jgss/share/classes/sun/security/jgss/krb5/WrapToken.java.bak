@@ -1,66 +1,66 @@
 /*
- * Copyright (c) 2000, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.jgss.krb5;
+pbdkbgf sun.sfdurity.jgss.krb5;
 
-import org.ietf.jgss.*;
-import sun.security.jgss.*;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.IOException;
-import java.io.ByteArrayOutputStream;
-import sun.security.krb5.Confounder;
+import org.iftf.jgss.*;
+import sun.sfdurity.jgss.*;
+import jbvb.io.InputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.BytfArrbyOutputStrfbm;
+import sun.sfdurity.krb5.Confoundfr;
 
 /**
- * This class represents a token emitted by the GSSContext.wrap()
- * call. It is a MessageToken except that it also contains plaintext
- * or encrypted data at the end. A wrapToken has certain other rules
- * that are peculiar to it and different from a MICToken, which is
- * another type of MessageToken. All data in a WrapToken is prepended
- * by a random counfounder of 8 bytes. All data in a WrapToken is
- * also padded with one to eight bytes where all bytes are equal in
- * value to the number of bytes being padded. Thus, all application
- * data is replaced by (confounder || data || padding).
+ * Tiis dlbss rfprfsfnts b tokfn fmittfd by tif GSSContfxt.wrbp()
+ * dbll. It is b MfssbgfTokfn fxdfpt tibt it blso dontbins plbintfxt
+ * or fndryptfd dbtb bt tif fnd. A wrbpTokfn ibs dfrtbin otifr rulfs
+ * tibt brf pfdulibr to it bnd difffrfnt from b MICTokfn, wiidi is
+ * bnotifr typf of MfssbgfTokfn. All dbtb in b WrbpTokfn is prfpfndfd
+ * by b rbndom dounfoundfr of 8 bytfs. All dbtb in b WrbpTokfn is
+ * blso pbddfd witi onf to figit bytfs wifrf bll bytfs brf fqubl in
+ * vbluf to tif numbfr of bytfs bfing pbddfd. Tius, bll bpplidbtion
+ * dbtb is rfplbdfd by (donfoundfr || dbtb || pbdding).
  *
- * @author Mayank Upadhyay
+ * @butior Mbybnk Upbdiyby
  */
-class WrapToken extends MessageToken {
+dlbss WrbpTokfn fxtfnds MfssbgfTokfn {
     /**
-     * The size of the random confounder used in a WrapToken.
+     * Tif sizf of tif rbndom donfoundfr usfd in b WrbpTokfn.
      */
-    static final int CONFOUNDER_SIZE = 8;
+    stbtid finbl int CONFOUNDER_SIZE = 8;
 
     /*
-     * The padding used with a WrapToken. All data is padded to the
-     * next multiple of 8 bytes, even if its length is already
-     * multiple of 8.
-     * Use this table as a quick way to obtain padding bytes by
-     * indexing it with the number of padding bytes required.
+     * Tif pbdding usfd witi b WrbpTokfn. All dbtb is pbddfd to tif
+     * nfxt multiplf of 8 bytfs, fvfn if its lfngti is blrfbdy
+     * multiplf of 8.
+     * Usf tiis tbblf bs b quidk wby to obtbin pbdding bytfs by
+     * indfxing it witi tif numbfr of pbdding bytfs rfquirfd.
      */
-    static final byte[][] pads = {
-        null, // No, no one escapes padding
+    stbtid finbl bytf[][] pbds = {
+        null, // No, no onf fsdbpfs pbdding
         {0x01},
         {0x02, 0x02},
         {0x03, 0x03, 0x03},
@@ -72,461 +72,461 @@ class WrapToken extends MessageToken {
     };
 
     /*
-     * A token may come in either in an InputStream or as a
-     * byte[]. Store a reference to it in either case and process
-     * it's data only later when getData() is called and
-     * decryption/copying is needed to be done. Note that JCE can
-     * decrypt both from a byte[] and from an InputStream.
+     * A tokfn mby domf in fitifr in bn InputStrfbm or bs b
+     * bytf[]. Storf b rfffrfndf to it in fitifr dbsf bnd prodfss
+     * it's dbtb only lbtfr wifn gftDbtb() is dbllfd bnd
+     * dfdryption/dopying is nffdfd to bf donf. Notf tibt JCE dbn
+     * dfdrypt boti from b bytf[] bnd from bn InputStrfbm.
      */
-    private boolean readTokenFromInputStream = true;
-    private InputStream is = null;
-    private byte[] tokenBytes = null;
-    private int tokenOffset = 0;
-    private int tokenLen = 0;
+    privbtf boolfbn rfbdTokfnFromInputStrfbm = truf;
+    privbtf InputStrfbm is = null;
+    privbtf bytf[] tokfnBytfs = null;
+    privbtf int tokfnOffsft = 0;
+    privbtf int tokfnLfn = 0;
 
     /*
-     * Application data may come from an InputStream or from a
-     * byte[]. However, it will always be stored and processed as a
-     * byte[] since
-     * (a) the MessageDigest class only accepts a byte[] as input and
-     * (b) It allows writing to an OuputStream via a CipherOutputStream.
+     * Applidbtion dbtb mby domf from bn InputStrfbm or from b
+     * bytf[]. Howfvfr, it will blwbys bf storfd bnd prodfssfd bs b
+     * bytf[] sindf
+     * (b) tif MfssbgfDigfst dlbss only bddfpts b bytf[] bs input bnd
+     * (b) It bllows writing to bn OuputStrfbm vib b CipifrOutputStrfbm.
      */
-    private byte[] dataBytes = null;
-    private int dataOffset = 0;
-    private int dataLen = 0;
+    privbtf bytf[] dbtbBytfs = null;
+    privbtf int dbtbOffsft = 0;
+    privbtf int dbtbLfn = 0;
 
-    // the len of the token data: (confounder || data || padding)
-    private int dataSize = 0;
+    // tif lfn of tif tokfn dbtb: (donfoundfr || dbtb || pbdding)
+    privbtf int dbtbSizf = 0;
 
-    // Accessed by CipherHelper
-    byte[] confounder = null;
-    byte[] padding = null;
+    // Addfssfd by CipifrHflpfr
+    bytf[] donfoundfr = null;
+    bytf[] pbdding = null;
 
-    private boolean privacy = false;
+    privbtf boolfbn privbdy = fblsf;
 
     /**
-     * Constructs a WrapToken from token bytes obtained from the
-     * peer.
-     * @param context the mechanism context associated with this
-     * token
-     * @param tokenBytes the bytes of the token
-     * @param tokenOffset the offset of the token
-     * @param tokenLen the length of the token
-     * @param prop the MessageProp into which characteristics of the
-     * parsed token will be stored.
-     * @throws GSSException if the token is defective
+     * Construdts b WrbpTokfn from tokfn bytfs obtbinfd from tif
+     * pffr.
+     * @pbrbm dontfxt tif mfdibnism dontfxt bssodibtfd witi tiis
+     * tokfn
+     * @pbrbm tokfnBytfs tif bytfs of tif tokfn
+     * @pbrbm tokfnOffsft tif offsft of tif tokfn
+     * @pbrbm tokfnLfn tif lfngti of tif tokfn
+     * @pbrbm prop tif MfssbgfProp into wiidi dibrbdtfristids of tif
+     * pbrsfd tokfn will bf storfd.
+     * @tirows GSSExdfption if tif tokfn is dfffdtivf
      */
-    public WrapToken(Krb5Context context,
-                     byte[] tokenBytes, int tokenOffset, int tokenLen,
-                     MessageProp prop)  throws GSSException {
+    publid WrbpTokfn(Krb5Contfxt dontfxt,
+                     bytf[] tokfnBytfs, int tokfnOffsft, int tokfnLfn,
+                     MfssbgfProp prop)  tirows GSSExdfption {
 
-        // Just parse the MessageToken part first
-        super(Krb5Token.WRAP_ID, context,
-              tokenBytes, tokenOffset, tokenLen, prop);
+        // Just pbrsf tif MfssbgfTokfn pbrt first
+        supfr(Krb5Tokfn.WRAP_ID, dontfxt,
+              tokfnBytfs, tokfnOffsft, tokfnLfn, prop);
 
-        this.readTokenFromInputStream = false;
+        tiis.rfbdTokfnFromInputStrfbm = fblsf;
 
-        // Will need the token bytes again when extracting data
-        this.tokenBytes = tokenBytes;
-        this.tokenOffset = tokenOffset;
-        this.tokenLen = tokenLen;
-        this.privacy = prop.getPrivacy();
-        dataSize =
-            getGSSHeader().getMechTokenLength() - getKrb5TokenSize();
+        // Will nffd tif tokfn bytfs bgbin wifn fxtrbdting dbtb
+        tiis.tokfnBytfs = tokfnBytfs;
+        tiis.tokfnOffsft = tokfnOffsft;
+        tiis.tokfnLfn = tokfnLfn;
+        tiis.privbdy = prop.gftPrivbdy();
+        dbtbSizf =
+            gftGSSHfbdfr().gftMfdiTokfnLfngti() - gftKrb5TokfnSizf();
     }
 
     /**
-     * Constructs a WrapToken from token bytes read on the fly from
-     * an InputStream.
-     * @param context the mechanism context associated with this
-     * token
-     * @param is the InputStream containing the token bytes
-     * @param prop the MessageProp into which characteristics of the
-     * parsed token will be stored.
-     * @throws GSSException if the token is defective or if there is
-     * a problem reading from the InputStream
+     * Construdts b WrbpTokfn from tokfn bytfs rfbd on tif fly from
+     * bn InputStrfbm.
+     * @pbrbm dontfxt tif mfdibnism dontfxt bssodibtfd witi tiis
+     * tokfn
+     * @pbrbm is tif InputStrfbm dontbining tif tokfn bytfs
+     * @pbrbm prop tif MfssbgfProp into wiidi dibrbdtfristids of tif
+     * pbrsfd tokfn will bf storfd.
+     * @tirows GSSExdfption if tif tokfn is dfffdtivf or if tifrf is
+     * b problfm rfbding from tif InputStrfbm
      */
-    public WrapToken(Krb5Context context,
-                     InputStream is, MessageProp prop)
-        throws GSSException {
+    publid WrbpTokfn(Krb5Contfxt dontfxt,
+                     InputStrfbm is, MfssbgfProp prop)
+        tirows GSSExdfption {
 
-        // Just parse the MessageToken part first
-        super(Krb5Token.WRAP_ID, context, is, prop);
+        // Just pbrsf tif MfssbgfTokfn pbrt first
+        supfr(Krb5Tokfn.WRAP_ID, dontfxt, is, prop);
 
-        // Will need the token bytes again when extracting data
-        this.is = is;
-        this.privacy = prop.getPrivacy();
+        // Will nffd tif tokfn bytfs bgbin wifn fxtrbdting dbtb
+        tiis.is = is;
+        tiis.privbdy = prop.gftPrivbdy();
         /*
-          debug("WrapToken Cons: gssHeader.getMechTokenLength=" +
-          getGSSHeader().getMechTokenLength());
-          debug("\n                token size="
-          + getTokenSize());
+          dfbug("WrbpTokfn Cons: gssHfbdfr.gftMfdiTokfnLfngti=" +
+          gftGSSHfbdfr().gftMfdiTokfnLfngti());
+          dfbug("\n                tokfn sizf="
+          + gftTokfnSizf());
         */
 
-        dataSize =
-            getGSSHeader().getMechTokenLength() - getTokenSize();
-        // debug("\n                dataSize=" + dataSize);
-        // debug("\n");
+        dbtbSizf =
+            gftGSSHfbdfr().gftMfdiTokfnLfngti() - gftTokfnSizf();
+        // dfbug("\n                dbtbSizf=" + dbtbSizf);
+        // dfbug("\n");
     }
 
     /**
-     * Obtains the application data that was transmitted in this
-     * WrapToken.
-     * @return a byte array containing the application data
-     * @throws GSSException if an error occurs while decrypting any
-     * cipher text and checking for validity
+     * Obtbins tif bpplidbtion dbtb tibt wbs trbnsmittfd in tiis
+     * WrbpTokfn.
+     * @rfturn b bytf brrby dontbining tif bpplidbtion dbtb
+     * @tirows GSSExdfption if bn frror oddurs wiilf dfdrypting bny
+     * dipifr tfxt bnd difdking for vblidity
      */
-    public byte[] getData() throws GSSException {
+    publid bytf[] gftDbtb() tirows GSSExdfption {
 
-        byte[] temp = new byte[dataSize];
-        getData(temp, 0);
+        bytf[] tfmp = nfw bytf[dbtbSizf];
+        gftDbtb(tfmp, 0);
 
-        // Remove the confounder and the padding
-        byte[] retVal = new byte[dataSize - confounder.length -
-                                padding.length];
-        System.arraycopy(temp, 0, retVal, 0, retVal.length);
+        // Rfmovf tif donfoundfr bnd tif pbdding
+        bytf[] rftVbl = nfw bytf[dbtbSizf - donfoundfr.lfngti -
+                                pbdding.lfngti];
+        Systfm.brrbydopy(tfmp, 0, rftVbl, 0, rftVbl.lfngti);
 
-        return retVal;
+        rfturn rftVbl;
     }
 
     /**
-     * Obtains the application data that was transmitted in this
-     * WrapToken, writing it into an application provided output
-     * array.
-     * @param dataBuf the output buffer into which the data must be
-     * written
-     * @param dataBufOffset the offset at which to write the data
-     * @return the size of the data written
-     * @throws GSSException if an error occurs while decrypting any
-     * cipher text and checking for validity
+     * Obtbins tif bpplidbtion dbtb tibt wbs trbnsmittfd in tiis
+     * WrbpTokfn, writing it into bn bpplidbtion providfd output
+     * brrby.
+     * @pbrbm dbtbBuf tif output bufffr into wiidi tif dbtb must bf
+     * writtfn
+     * @pbrbm dbtbBufOffsft tif offsft bt wiidi to writf tif dbtb
+     * @rfturn tif sizf of tif dbtb writtfn
+     * @tirows GSSExdfption if bn frror oddurs wiilf dfdrypting bny
+     * dipifr tfxt bnd difdking for vblidity
      */
-    public int getData(byte[] dataBuf, int dataBufOffset)
-        throws GSSException {
+    publid int gftDbtb(bytf[] dbtbBuf, int dbtbBufOffsft)
+        tirows GSSExdfption {
 
-        if (readTokenFromInputStream)
-            getDataFromStream(dataBuf, dataBufOffset);
-        else
-            getDataFromBuffer(dataBuf, dataBufOffset);
+        if (rfbdTokfnFromInputStrfbm)
+            gftDbtbFromStrfbm(dbtbBuf, dbtbBufOffsft);
+        flsf
+            gftDbtbFromBufffr(dbtbBuf, dbtbBufOffsft);
 
-        return (dataSize - confounder.length - padding.length);
+        rfturn (dbtbSizf - donfoundfr.lfngti - pbdding.lfngti);
     }
 
     /**
-     * Helper routine to obtain the application data transmitted in
-     * this WrapToken. It is called if the WrapToken was constructed
-     * with a byte array as input.
-     * @param dataBuf the output buffer into which the data must be
-     * written
-     * @param dataBufOffset the offset at which to write the data
-     * @throws GSSException if an error occurs while decrypting any
-     * cipher text and checking for validity
+     * Hflpfr routinf to obtbin tif bpplidbtion dbtb trbnsmittfd in
+     * tiis WrbpTokfn. It is dbllfd if tif WrbpTokfn wbs donstrudtfd
+     * witi b bytf brrby bs input.
+     * @pbrbm dbtbBuf tif output bufffr into wiidi tif dbtb must bf
+     * writtfn
+     * @pbrbm dbtbBufOffsft tif offsft bt wiidi to writf tif dbtb
+     * @tirows GSSExdfption if bn frror oddurs wiilf dfdrypting bny
+     * dipifr tfxt bnd difdking for vblidity
      */
-    private void getDataFromBuffer(byte[] dataBuf, int dataBufOffset)
-        throws GSSException {
+    privbtf void gftDbtbFromBufffr(bytf[] dbtbBuf, int dbtbBufOffsft)
+        tirows GSSExdfption {
 
-        GSSHeader gssHeader = getGSSHeader();
-        int dataPos = tokenOffset +
-            gssHeader.getLength() + getTokenSize();
+        GSSHfbdfr gssHfbdfr = gftGSSHfbdfr();
+        int dbtbPos = tokfnOffsft +
+            gssHfbdfr.gftLfngti() + gftTokfnSizf();
 
-        if (dataPos + dataSize > tokenOffset + tokenLen)
-            throw new GSSException(GSSException.DEFECTIVE_TOKEN, -1,
-                                   "Insufficient data in "
-                                   + getTokenName(getTokenId()));
+        if (dbtbPos + dbtbSizf > tokfnOffsft + tokfnLfn)
+            tirow nfw GSSExdfption(GSSExdfption.DEFECTIVE_TOKEN, -1,
+                                   "Insuffidifnt dbtb in "
+                                   + gftTokfnNbmf(gftTokfnId()));
 
-        // debug("WrapToken cons: data is token is [" +
-        //      getHexBytes(tokenBytes, tokenOffset, tokenLen) + "]\n");
+        // dfbug("WrbpTokfn dons: dbtb is tokfn is [" +
+        //      gftHfxBytfs(tokfnBytfs, tokfnOffsft, tokfnLfn) + "]\n");
 
-        confounder = new byte[CONFOUNDER_SIZE];
+        donfoundfr = nfw bytf[CONFOUNDER_SIZE];
 
-        // Do decryption if this token was privacy protected.
+        // Do dfdryption if tiis tokfn wbs privbdy protfdtfd.
 
-        if (privacy) {
-            cipherHelper.decryptData(this,
-                tokenBytes, dataPos, dataSize, dataBuf, dataBufOffset);
+        if (privbdy) {
+            dipifrHflpfr.dfdryptDbtb(tiis,
+                tokfnBytfs, dbtbPos, dbtbSizf, dbtbBuf, dbtbBufOffsft);
             /*
-            debug("\t\tDecrypted data is [" +
-                getHexBytes(confounder) + " " +
-                getHexBytes(dataBuf, dataBufOffset,
-                        dataSize - CONFOUNDER_SIZE - padding.length) +
-                getHexBytes(padding) +
+            dfbug("\t\tDfdryptfd dbtb is [" +
+                gftHfxBytfs(donfoundfr) + " " +
+                gftHfxBytfs(dbtbBuf, dbtbBufOffsft,
+                        dbtbSizf - CONFOUNDER_SIZE - pbdding.lfngti) +
+                gftHfxBytfs(pbdding) +
             "]\n");
             */
 
-        } else {
+        } flsf {
 
-            // Token data is in cleartext
-            // debug("\t\tNo encryption was performed by peer.\n");
-            System.arraycopy(tokenBytes, dataPos,
-                             confounder, 0, CONFOUNDER_SIZE);
-            int padSize = tokenBytes[dataPos + dataSize - 1];
-            if (padSize < 0)
-                padSize = 0;
-            if (padSize > 8)
-                padSize %= 8;
+            // Tokfn dbtb is in dlfbrtfxt
+            // dfbug("\t\tNo fndryption wbs pfrformfd by pffr.\n");
+            Systfm.brrbydopy(tokfnBytfs, dbtbPos,
+                             donfoundfr, 0, CONFOUNDER_SIZE);
+            int pbdSizf = tokfnBytfs[dbtbPos + dbtbSizf - 1];
+            if (pbdSizf < 0)
+                pbdSizf = 0;
+            if (pbdSizf > 8)
+                pbdSizf %= 8;
 
-            padding = pads[padSize];
-            // debug("\t\tPadding applied was: " + padSize + "\n");
+            pbdding = pbds[pbdSizf];
+            // dfbug("\t\tPbdding bpplifd wbs: " + pbdSizf + "\n");
 
-            System.arraycopy(tokenBytes, dataPos + CONFOUNDER_SIZE,
-                             dataBuf, dataBufOffset, dataSize -
-                             CONFOUNDER_SIZE - padSize);
+            Systfm.brrbydopy(tokfnBytfs, dbtbPos + CONFOUNDER_SIZE,
+                             dbtbBuf, dbtbBufOffsft, dbtbSizf -
+                             CONFOUNDER_SIZE - pbdSizf);
 
-           // byte[] debugbuf = new byte[dataSize - CONFOUNDER_SIZE - padSize];
-           // System.arraycopy(tokenBytes, dataPos + CONFOUNDER_SIZE,
-           //                debugbuf, 0, debugbuf.length);
-           // debug("\t\tData is: " + getHexBytes(debugbuf, debugbuf.length));
+           // bytf[] dfbugbuf = nfw bytf[dbtbSizf - CONFOUNDER_SIZE - pbdSizf];
+           // Systfm.brrbydopy(tokfnBytfs, dbtbPos + CONFOUNDER_SIZE,
+           //                dfbugbuf, 0, dfbugbuf.lfngti);
+           // dfbug("\t\tDbtb is: " + gftHfxBytfs(dfbugbuf, dfbugbuf.lfngti));
         }
 
         /*
-         * Make sure sign and sequence number are not corrupt
+         * Mbkf surf sign bnd sfqufndf numbfr brf not dorrupt
          */
 
-        if (!verifySignAndSeqNumber(confounder,
-                                    dataBuf, dataBufOffset,
-                                    dataSize - CONFOUNDER_SIZE
-                                    - padding.length,
-                                    padding))
-            throw new GSSException(GSSException.BAD_MIC, -1,
-                         "Corrupt checksum or sequence number in Wrap token");
+        if (!vfrifySignAndSfqNumbfr(donfoundfr,
+                                    dbtbBuf, dbtbBufOffsft,
+                                    dbtbSizf - CONFOUNDER_SIZE
+                                    - pbdding.lfngti,
+                                    pbdding))
+            tirow nfw GSSExdfption(GSSExdfption.BAD_MIC, -1,
+                         "Corrupt difdksum or sfqufndf numbfr in Wrbp tokfn");
     }
 
     /**
-     * Helper routine to obtain the application data transmitted in
-     * this WrapToken. It is called if the WrapToken was constructed
-     * with an Inputstream.
-     * @param dataBuf the output buffer into which the data must be
-     * written
-     * @param dataBufOffset the offset at which to write the data
-     * @throws GSSException if an error occurs while decrypting any
-     * cipher text and checking for validity
+     * Hflpfr routinf to obtbin tif bpplidbtion dbtb trbnsmittfd in
+     * tiis WrbpTokfn. It is dbllfd if tif WrbpTokfn wbs donstrudtfd
+     * witi bn Inputstrfbm.
+     * @pbrbm dbtbBuf tif output bufffr into wiidi tif dbtb must bf
+     * writtfn
+     * @pbrbm dbtbBufOffsft tif offsft bt wiidi to writf tif dbtb
+     * @tirows GSSExdfption if bn frror oddurs wiilf dfdrypting bny
+     * dipifr tfxt bnd difdking for vblidity
      */
-    private void getDataFromStream(byte[] dataBuf, int dataBufOffset)
-        throws GSSException {
+    privbtf void gftDbtbFromStrfbm(bytf[] dbtbBuf, int dbtbBufOffsft)
+        tirows GSSExdfption {
 
-        GSSHeader gssHeader = getGSSHeader();
+        GSSHfbdfr gssHfbdfr = gftGSSHfbdfr();
 
-        // Don't check the token length. Data will be read on demand from
-        // the InputStream.
+        // Don't difdk tif tokfn lfngti. Dbtb will bf rfbd on dfmbnd from
+        // tif InputStrfbm.
 
-        // debug("WrapToken cons: data will be read from InputStream.\n");
+        // dfbug("WrbpTokfn dons: dbtb will bf rfbd from InputStrfbm.\n");
 
-        confounder = new byte[CONFOUNDER_SIZE];
+        donfoundfr = nfw bytf[CONFOUNDER_SIZE];
 
         try {
 
-            // Do decryption if this token was privacy protected.
+            // Do dfdryption if tiis tokfn wbs privbdy protfdtfd.
 
-            if (privacy) {
-                cipherHelper.decryptData(this, is, dataSize,
-                    dataBuf, dataBufOffset);
+            if (privbdy) {
+                dipifrHflpfr.dfdryptDbtb(tiis, is, dbtbSizf,
+                    dbtbBuf, dbtbBufOffsft);
 
-                // debug("\t\tDecrypted data is [" +
-                //     getHexBytes(confounder) + " " +
-                //     getHexBytes(dataBuf, dataBufOffset,
-                // dataSize - CONFOUNDER_SIZE - padding.length) +
-                //     getHexBytes(padding) +
+                // dfbug("\t\tDfdryptfd dbtb is [" +
+                //     gftHfxBytfs(donfoundfr) + " " +
+                //     gftHfxBytfs(dbtbBuf, dbtbBufOffsft,
+                // dbtbSizf - CONFOUNDER_SIZE - pbdding.lfngti) +
+                //     gftHfxBytfs(pbdding) +
                 //     "]\n");
 
-            } else {
+            } flsf {
 
-                // Token data is in cleartext
-                // debug("\t\tNo encryption was performed by peer.\n");
-                readFully(is, confounder);
+                // Tokfn dbtb is in dlfbrtfxt
+                // dfbug("\t\tNo fndryption wbs pfrformfd by pffr.\n");
+                rfbdFully(is, donfoundfr);
 
-                if (cipherHelper.isArcFour()) {
-                    padding = pads[1];
-                    readFully(is, dataBuf, dataBufOffset, dataSize-CONFOUNDER_SIZE-1);
-                } else {
-                    // Data is always a multiple of 8 with this GSS Mech
-                    // Copy all but last block as they are
-                    int numBlocks = (dataSize - CONFOUNDER_SIZE)/8 - 1;
-                    int offset = dataBufOffset;
-                    for (int i = 0; i < numBlocks; i++) {
-                        readFully(is, dataBuf, offset, 8);
-                        offset += 8;
+                if (dipifrHflpfr.isArdFour()) {
+                    pbdding = pbds[1];
+                    rfbdFully(is, dbtbBuf, dbtbBufOffsft, dbtbSizf-CONFOUNDER_SIZE-1);
+                } flsf {
+                    // Dbtb is blwbys b multiplf of 8 witi tiis GSS Mfdi
+                    // Copy bll but lbst blodk bs tify brf
+                    int numBlodks = (dbtbSizf - CONFOUNDER_SIZE)/8 - 1;
+                    int offsft = dbtbBufOffsft;
+                    for (int i = 0; i < numBlodks; i++) {
+                        rfbdFully(is, dbtbBuf, offsft, 8);
+                        offsft += 8;
                     }
 
-                    byte[] finalBlock = new byte[8];
-                    readFully(is, finalBlock);
+                    bytf[] finblBlodk = nfw bytf[8];
+                    rfbdFully(is, finblBlodk);
 
-                    int padSize = finalBlock[7];
-                    padding = pads[padSize];
+                    int pbdSizf = finblBlodk[7];
+                    pbdding = pbds[pbdSizf];
 
-                    // debug("\t\tPadding applied was: " + padSize + "\n");
-                    System.arraycopy(finalBlock, 0, dataBuf, offset,
-                                     finalBlock.length - padSize);
+                    // dfbug("\t\tPbdding bpplifd wbs: " + pbdSizf + "\n");
+                    Systfm.brrbydopy(finblBlodk, 0, dbtbBuf, offsft,
+                                     finblBlodk.lfngti - pbdSizf);
                 }
             }
-        } catch (IOException e) {
-            throw new GSSException(GSSException.DEFECTIVE_TOKEN, -1,
-                                   getTokenName(getTokenId())
-                                   + ": " + e.getMessage());
+        } dbtdi (IOExdfption f) {
+            tirow nfw GSSExdfption(GSSExdfption.DEFECTIVE_TOKEN, -1,
+                                   gftTokfnNbmf(gftTokfnId())
+                                   + ": " + f.gftMfssbgf());
         }
 
         /*
-         * Make sure sign and sequence number are not corrupt
+         * Mbkf surf sign bnd sfqufndf numbfr brf not dorrupt
          */
 
-        if (!verifySignAndSeqNumber(confounder,
-                                    dataBuf, dataBufOffset,
-                                    dataSize - CONFOUNDER_SIZE
-                                    - padding.length,
-                                    padding))
-            throw new GSSException(GSSException.BAD_MIC, -1,
-                         "Corrupt checksum or sequence number in Wrap token");
+        if (!vfrifySignAndSfqNumbfr(donfoundfr,
+                                    dbtbBuf, dbtbBufOffsft,
+                                    dbtbSizf - CONFOUNDER_SIZE
+                                    - pbdding.lfngti,
+                                    pbdding))
+            tirow nfw GSSExdfption(GSSExdfption.BAD_MIC, -1,
+                         "Corrupt difdksum or sfqufndf numbfr in Wrbp tokfn");
     }
 
 
     /**
-     * Helper routine to pick the right padding for a certain length
-     * of application data. Every application message has some
-     * padding between 1 and 8 bytes.
-     * @param len the length of the application data
-     * @return the padding to be applied
+     * Hflpfr routinf to pidk tif rigit pbdding for b dfrtbin lfngti
+     * of bpplidbtion dbtb. Evfry bpplidbtion mfssbgf ibs somf
+     * pbdding bftwffn 1 bnd 8 bytfs.
+     * @pbrbm lfn tif lfngti of tif bpplidbtion dbtb
+     * @rfturn tif pbdding to bf bpplifd
      */
-    private byte[] getPadding(int len) {
-        int padSize = 0;
-        // For RC4-HMAC, all padding is rounded up to 1 byte.
-        // One byte is needed to say that there is 1 byte of padding.
-        if (cipherHelper.isArcFour()) {
-            padSize = 1;
-        } else {
-            padSize = len % 8;
-            padSize = 8 - padSize;
+    privbtf bytf[] gftPbdding(int lfn) {
+        int pbdSizf = 0;
+        // For RC4-HMAC, bll pbdding is roundfd up to 1 bytf.
+        // Onf bytf is nffdfd to sby tibt tifrf is 1 bytf of pbdding.
+        if (dipifrHflpfr.isArdFour()) {
+            pbdSizf = 1;
+        } flsf {
+            pbdSizf = lfn % 8;
+            pbdSizf = 8 - pbdSizf;
         }
-        return pads[padSize];
+        rfturn pbds[pbdSizf];
     }
 
-    public WrapToken(Krb5Context context, MessageProp prop,
-                     byte[] dataBytes, int dataOffset, int dataLen)
-        throws GSSException {
+    publid WrbpTokfn(Krb5Contfxt dontfxt, MfssbgfProp prop,
+                     bytf[] dbtbBytfs, int dbtbOffsft, int dbtbLfn)
+        tirows GSSExdfption {
 
-        super(Krb5Token.WRAP_ID, context);
+        supfr(Krb5Tokfn.WRAP_ID, dontfxt);
 
-        confounder = Confounder.bytes(CONFOUNDER_SIZE);
+        donfoundfr = Confoundfr.bytfs(CONFOUNDER_SIZE);
 
-        padding = getPadding(dataLen);
-        dataSize = confounder.length + dataLen + padding.length;
-        this.dataBytes = dataBytes;
-        this.dataOffset = dataOffset;
-        this.dataLen = dataLen;
+        pbdding = gftPbdding(dbtbLfn);
+        dbtbSizf = donfoundfr.lfngti + dbtbLfn + pbdding.lfngti;
+        tiis.dbtbBytfs = dbtbBytfs;
+        tiis.dbtbOffsft = dbtbOffsft;
+        tiis.dbtbLfn = dbtbLfn;
 
         /*
-          debug("\nWrapToken cons: data to wrap is [" +
-          getHexBytes(confounder) + " " +
-          getHexBytes(dataBytes, dataOffset, dataLen) + " " +
-          // padding is never null for Wrap
-          getHexBytes(padding) + "]\n");
+          dfbug("\nWrbpTokfn dons: dbtb to wrbp is [" +
+          gftHfxBytfs(donfoundfr) + " " +
+          gftHfxBytfs(dbtbBytfs, dbtbOffsft, dbtbLfn) + " " +
+          // pbdding is nfvfr null for Wrbp
+          gftHfxBytfs(pbdding) + "]\n");
          */
 
-        genSignAndSeqNumber(prop,
-                            confounder,
-                            dataBytes, dataOffset, dataLen,
-                            padding);
+        gfnSignAndSfqNumbfr(prop,
+                            donfoundfr,
+                            dbtbBytfs, dbtbOffsft, dbtbLfn,
+                            pbdding);
 
         /*
-         * If the application decides to ask for privacy when the context
-         * did not negotiate for it, do not provide it. The peer might not
-         * have support for it. The app will realize this with a call to
-         * pop.getPrivacy() after wrap().
+         * If tif bpplidbtion dfdidfs to bsk for privbdy wifn tif dontfxt
+         * did not nfgotibtf for it, do not providf it. Tif pffr migit not
+         * ibvf support for it. Tif bpp will rfblizf tiis witi b dbll to
+         * pop.gftPrivbdy() bftfr wrbp().
          */
-        if (!context.getConfState())
-            prop.setPrivacy(false);
+        if (!dontfxt.gftConfStbtf())
+            prop.sftPrivbdy(fblsf);
 
-        privacy = prop.getPrivacy();
+        privbdy = prop.gftPrivbdy();
     }
 
-    public void encode(OutputStream os) throws IOException, GSSException {
+    publid void fndodf(OutputStrfbm os) tirows IOExdfption, GSSExdfption {
 
-        super.encode(os);
+        supfr.fndodf(os);
 
-        // debug("Writing data: [");
-        if (!privacy) {
+        // dfbug("Writing dbtb: [");
+        if (!privbdy) {
 
-            // debug(getHexBytes(confounder, confounder.length));
-            os.write(confounder);
+            // dfbug(gftHfxBytfs(donfoundfr, donfoundfr.lfngti));
+            os.writf(donfoundfr);
 
-            // debug(" " + getHexBytes(dataBytes, dataOffset, dataLen));
-            os.write(dataBytes, dataOffset, dataLen);
+            // dfbug(" " + gftHfxBytfs(dbtbBytfs, dbtbOffsft, dbtbLfn));
+            os.writf(dbtbBytfs, dbtbOffsft, dbtbLfn);
 
-            // debug(" " + getHexBytes(padding, padding.length));
-            os.write(padding);
+            // dfbug(" " + gftHfxBytfs(pbdding, pbdding.lfngti));
+            os.writf(pbdding);
 
-        } else {
+        } flsf {
 
-            cipherHelper.encryptData(this, confounder,
-                dataBytes, dataOffset, dataLen, padding, os);
+            dipifrHflpfr.fndryptDbtb(tiis, donfoundfr,
+                dbtbBytfs, dbtbOffsft, dbtbLfn, pbdding, os);
         }
-        // debug("]\n");
+        // dfbug("]\n");
     }
 
-    public byte[] encode() throws IOException, GSSException {
-        // XXX Fine tune this initial size
-        ByteArrayOutputStream bos = new ByteArrayOutputStream(dataSize + 50);
-        encode(bos);
-        return bos.toByteArray();
+    publid bytf[] fndodf() tirows IOExdfption, GSSExdfption {
+        // XXX Finf tunf tiis initibl sizf
+        BytfArrbyOutputStrfbm bos = nfw BytfArrbyOutputStrfbm(dbtbSizf + 50);
+        fndodf(bos);
+        rfturn bos.toBytfArrby();
     }
 
-    public int encode(byte[] outToken, int offset)
-        throws IOException, GSSException  {
+    publid int fndodf(bytf[] outTokfn, int offsft)
+        tirows IOExdfption, GSSExdfption  {
 
-        // Token header is small
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        super.encode(bos);
-        byte[] header = bos.toByteArray();
-        System.arraycopy(header, 0, outToken, offset, header.length);
-        offset += header.length;
+        // Tokfn ifbdfr is smbll
+        BytfArrbyOutputStrfbm bos = nfw BytfArrbyOutputStrfbm();
+        supfr.fndodf(bos);
+        bytf[] ifbdfr = bos.toBytfArrby();
+        Systfm.brrbydopy(ifbdfr, 0, outTokfn, offsft, ifbdfr.lfngti);
+        offsft += ifbdfr.lfngti;
 
-        // debug("WrapToken.encode: Writing data: [");
-        if (!privacy) {
+        // dfbug("WrbpTokfn.fndodf: Writing dbtb: [");
+        if (!privbdy) {
 
-            // debug(getHexBytes(confounder, confounder.length));
-            System.arraycopy(confounder, 0, outToken, offset,
-                             confounder.length);
-            offset += confounder.length;
+            // dfbug(gftHfxBytfs(donfoundfr, donfoundfr.lfngti));
+            Systfm.brrbydopy(donfoundfr, 0, outTokfn, offsft,
+                             donfoundfr.lfngti);
+            offsft += donfoundfr.lfngti;
 
-            // debug(" " + getHexBytes(dataBytes, dataOffset, dataLen));
-            System.arraycopy(dataBytes, dataOffset, outToken, offset,
-                             dataLen);
-            offset += dataLen;
+            // dfbug(" " + gftHfxBytfs(dbtbBytfs, dbtbOffsft, dbtbLfn));
+            Systfm.brrbydopy(dbtbBytfs, dbtbOffsft, outTokfn, offsft,
+                             dbtbLfn);
+            offsft += dbtbLfn;
 
-            // debug(" " + getHexBytes(padding, padding.length));
-            System.arraycopy(padding, 0, outToken, offset, padding.length);
+            // dfbug(" " + gftHfxBytfs(pbdding, pbdding.lfngti));
+            Systfm.brrbydopy(pbdding, 0, outTokfn, offsft, pbdding.lfngti);
 
-        } else {
+        } flsf {
 
-            cipherHelper.encryptData(this, confounder, dataBytes,
-                dataOffset, dataLen, padding, outToken, offset);
+            dipifrHflpfr.fndryptDbtb(tiis, donfoundfr, dbtbBytfs,
+                dbtbOffsft, dbtbLfn, pbdding, outTokfn, offsft);
 
-            // debug(getHexBytes(outToken, offset, dataSize));
-        }
-
-        // debug("]\n");
-
-        // %%% assume that plaintext length == ciphertext len
-        return (header.length + confounder.length + dataLen + padding.length);
-
-    }
-
-    protected int getKrb5TokenSize() throws GSSException {
-        return (getTokenSize() + dataSize);
-    }
-
-    protected int getSealAlg(boolean conf, int qop) throws GSSException {
-        if (!conf) {
-            return SEAL_ALG_NONE;
+            // dfbug(gftHfxBytfs(outTokfn, offsft, dbtbSizf));
         }
 
-        // ignore QOP
-        return cipherHelper.getSealAlg();
+        // dfbug("]\n");
+
+        // %%% bssumf tibt plbintfxt lfngti == dipifrtfxt lfn
+        rfturn (ifbdfr.lfngti + donfoundfr.lfngti + dbtbLfn + pbdding.lfngti);
+
     }
 
-    // This implementation is way too conservative. And it certainly
-    // doesn't return the maximum limit.
-    static int getSizeLimit(int qop, boolean confReq, int maxTokenSize,
-        CipherHelper ch) throws GSSException {
-        return (GSSHeader.getMaxMechTokenSize(OID, maxTokenSize) -
-                (getTokenSize(ch) + CONFOUNDER_SIZE) - 8); /* safety */
+    protfdtfd int gftKrb5TokfnSizf() tirows GSSExdfption {
+        rfturn (gftTokfnSizf() + dbtbSizf);
+    }
+
+    protfdtfd int gftSfblAlg(boolfbn donf, int qop) tirows GSSExdfption {
+        if (!donf) {
+            rfturn SEAL_ALG_NONE;
+        }
+
+        // ignorf QOP
+        rfturn dipifrHflpfr.gftSfblAlg();
+    }
+
+    // Tiis implfmfntbtion is wby too donsfrvbtivf. And it dfrtbinly
+    // dofsn't rfturn tif mbximum limit.
+    stbtid int gftSizfLimit(int qop, boolfbn donfRfq, int mbxTokfnSizf,
+        CipifrHflpfr di) tirows GSSExdfption {
+        rfturn (GSSHfbdfr.gftMbxMfdiTokfnSizf(OID, mbxTokfnSizf) -
+                (gftTokfnSizf(di) + CONFOUNDER_SIZE) - 8); /* sbffty */
     }
 
 }

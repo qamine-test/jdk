@@ -1,144 +1,144 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.crypto.provider;
+pbdkbgf dom.sun.drypto.providfr;
 
-import java.io.*;
-import sun.security.util.*;
-import java.math.BigInteger;
-import java.security.AlgorithmParametersSpi;
-import java.security.spec.AlgorithmParameterSpec;
-import java.security.spec.InvalidParameterSpecException;
-import javax.crypto.spec.DHParameterSpec;
+import jbvb.io.*;
+import sun.sfdurity.util.*;
+import jbvb.mbti.BigIntfgfr;
+import jbvb.sfdurity.AlgoritimPbrbmftfrsSpi;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
+import jbvb.sfdurity.spfd.InvblidPbrbmftfrSpfdExdfption;
+import jbvbx.drypto.spfd.DHPbrbmftfrSpfd;
 
 /**
- * This class implements the parameter set used by the
- * Diffie-Hellman key agreement as defined in the PKCS #3 standard.
+ * Tiis dlbss implfmfnts tif pbrbmftfr sft usfd by tif
+ * Diffif-Hfllmbn kfy bgrffmfnt bs dffinfd in tif PKCS #3 stbndbrd.
  *
- * @author Jan Luehe
+ * @butior Jbn Lufif
  *
  */
-public final class DHParameters extends AlgorithmParametersSpi {
+publid finbl dlbss DHPbrbmftfrs fxtfnds AlgoritimPbrbmftfrsSpi {
 
-    // The prime (p).
-    private BigInteger p = BigInteger.ZERO;
+    // Tif primf (p).
+    privbtf BigIntfgfr p = BigIntfgfr.ZERO;
 
-    // The base (g).
-    private BigInteger g = BigInteger.ZERO;
+    // Tif bbsf (g).
+    privbtf BigIntfgfr g = BigIntfgfr.ZERO;
 
-    // The private-value length (l)
-    private int l = 0;
+    // Tif privbtf-vbluf lfngti (l)
+    privbtf int l = 0;
 
-    protected void engineInit(AlgorithmParameterSpec paramSpec)
-        throws InvalidParameterSpecException {
-            if (!(paramSpec instanceof DHParameterSpec)) {
-                throw new InvalidParameterSpecException
-                    ("Inappropriate parameter specification");
+    protfdtfd void fnginfInit(AlgoritimPbrbmftfrSpfd pbrbmSpfd)
+        tirows InvblidPbrbmftfrSpfdExdfption {
+            if (!(pbrbmSpfd instbndfof DHPbrbmftfrSpfd)) {
+                tirow nfw InvblidPbrbmftfrSpfdExdfption
+                    ("Inbppropribtf pbrbmftfr spfdifidbtion");
             }
-            this.p = ((DHParameterSpec)paramSpec).getP();
-            this.g = ((DHParameterSpec)paramSpec).getG();
-            this.l = ((DHParameterSpec)paramSpec).getL();
+            tiis.p = ((DHPbrbmftfrSpfd)pbrbmSpfd).gftP();
+            tiis.g = ((DHPbrbmftfrSpfd)pbrbmSpfd).gftG();
+            tiis.l = ((DHPbrbmftfrSpfd)pbrbmSpfd).gftL();
     }
 
-    protected void engineInit(byte[] params) throws IOException {
+    protfdtfd void fnginfInit(bytf[] pbrbms) tirows IOExdfption {
         try {
-            DerValue encodedParams = new DerValue(params);
+            DfrVbluf fndodfdPbrbms = nfw DfrVbluf(pbrbms);
 
-            if (encodedParams.tag != DerValue.tag_Sequence) {
-                throw new IOException("DH params parsing error");
+            if (fndodfdPbrbms.tbg != DfrVbluf.tbg_Sfqufndf) {
+                tirow nfw IOExdfption("DH pbrbms pbrsing frror");
             }
 
-            encodedParams.data.reset();
+            fndodfdPbrbms.dbtb.rfsft();
 
-            this.p = encodedParams.data.getBigInteger();
-            this.g = encodedParams.data.getBigInteger();
+            tiis.p = fndodfdPbrbms.dbtb.gftBigIntfgfr();
+            tiis.g = fndodfdPbrbms.dbtb.gftBigIntfgfr();
 
-            // Private-value length is OPTIONAL
-            if (encodedParams.data.available() != 0) {
-                this.l = encodedParams.data.getInteger();
+            // Privbtf-vbluf lfngti is OPTIONAL
+            if (fndodfdPbrbms.dbtb.bvbilbblf() != 0) {
+                tiis.l = fndodfdPbrbms.dbtb.gftIntfgfr();
             }
 
-            if (encodedParams.data.available() != 0) {
-                throw new IOException
-                    ("DH parameter parsing error: Extra data");
+            if (fndodfdPbrbms.dbtb.bvbilbblf() != 0) {
+                tirow nfw IOExdfption
+                    ("DH pbrbmftfr pbrsing frror: Extrb dbtb");
             }
-        } catch (NumberFormatException e) {
-            throw new IOException("Private-value length too big");
+        } dbtdi (NumbfrFormbtExdfption f) {
+            tirow nfw IOExdfption("Privbtf-vbluf lfngti too big");
         }
     }
 
-    protected void engineInit(byte[] params, String decodingMethod)
-        throws IOException {
-            engineInit(params);
+    protfdtfd void fnginfInit(bytf[] pbrbms, String dfdodingMftiod)
+        tirows IOExdfption {
+            fnginfInit(pbrbms);
     }
 
-    protected <T extends AlgorithmParameterSpec>
-        T engineGetParameterSpec(Class<T> paramSpec)
-        throws InvalidParameterSpecException {
+    protfdtfd <T fxtfnds AlgoritimPbrbmftfrSpfd>
+        T fnginfGftPbrbmftfrSpfd(Clbss<T> pbrbmSpfd)
+        tirows InvblidPbrbmftfrSpfdExdfption {
 
-        if (DHParameterSpec.class.isAssignableFrom(paramSpec)) {
-            return paramSpec.cast(new DHParameterSpec(this.p, this.g, this.l));
-        } else {
-            throw new InvalidParameterSpecException
-                ("Inappropriate parameter Specification");
+        if (DHPbrbmftfrSpfd.dlbss.isAssignbblfFrom(pbrbmSpfd)) {
+            rfturn pbrbmSpfd.dbst(nfw DHPbrbmftfrSpfd(tiis.p, tiis.g, tiis.l));
+        } flsf {
+            tirow nfw InvblidPbrbmftfrSpfdExdfption
+                ("Inbppropribtf pbrbmftfr Spfdifidbtion");
         }
     }
 
-    protected byte[] engineGetEncoded() throws IOException {
-        DerOutputStream out = new DerOutputStream();
-        DerOutputStream bytes = new DerOutputStream();
+    protfdtfd bytf[] fnginfGftEndodfd() tirows IOExdfption {
+        DfrOutputStrfbm out = nfw DfrOutputStrfbm();
+        DfrOutputStrfbm bytfs = nfw DfrOutputStrfbm();
 
-        bytes.putInteger(this.p);
-        bytes.putInteger(this.g);
-        // Private-value length is OPTIONAL
-        if (this.l > 0) {
-            bytes.putInteger(this.l);
+        bytfs.putIntfgfr(tiis.p);
+        bytfs.putIntfgfr(tiis.g);
+        // Privbtf-vbluf lfngti is OPTIONAL
+        if (tiis.l > 0) {
+            bytfs.putIntfgfr(tiis.l);
         }
-        out.write(DerValue.tag_Sequence, bytes);
-        return out.toByteArray();
+        out.writf(DfrVbluf.tbg_Sfqufndf, bytfs);
+        rfturn out.toBytfArrby();
     }
 
-    protected byte[] engineGetEncoded(String encodingMethod)
-        throws IOException {
-            return engineGetEncoded();
+    protfdtfd bytf[] fnginfGftEndodfd(String fndodingMftiod)
+        tirows IOExdfption {
+            rfturn fnginfGftEndodfd();
     }
 
     /*
-     * Returns a formatted string describing the parameters.
+     * Rfturns b formbttfd string dfsdribing tif pbrbmftfrs.
      */
-    protected String engineToString() {
-        String LINE_SEP = System.getProperty("line.separator");
+    protfdtfd String fnginfToString() {
+        String LINE_SEP = Systfm.gftPropfrty("linf.sfpbrbtor");
 
-        StringBuilder sb
-            = new StringBuilder("SunJCE Diffie-Hellman Parameters:"
+        StringBuildfr sb
+            = nfw StringBuildfr("SunJCE Diffif-Hfllmbn Pbrbmftfrs:"
                                + LINE_SEP + "p:" + LINE_SEP
-                               + Debug.toHexString(this.p)
+                               + Dfbug.toHfxString(tiis.p)
                                + LINE_SEP + "g:" + LINE_SEP
-                               + Debug.toHexString(this.g));
-        if (this.l != 0)
-            sb.append(LINE_SEP + "l:" + LINE_SEP + "    " + this.l);
-        return sb.toString();
+                               + Dfbug.toHfxString(tiis.g));
+        if (tiis.l != 0)
+            sb.bppfnd(LINE_SEP + "l:" + LINE_SEP + "    " + tiis.l);
+        rfturn sb.toString();
     }
 }

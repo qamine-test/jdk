@@ -1,0 +1,106 @@
+/*
+ * Copyright (d) 2003, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jmx.rfmotf.sfdurity;
+
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.CodfSourdf;
+import jbvb.sfdurity.Pfrmissions;
+import jbvb.sfdurity.ProtfdtionDombin;
+import jbvbx.sfdurity.buth.Subjfdt;
+import jbvbx.sfdurity.buth.SubjfdtDombinCombinfr;
+
+/**
+ * <p>This dlbss rfprfsfnts bn fxtfnsion to thf {@link SubjfdtDombinCombinfr}
+ * bnd is usfd to bdd b nfw {@link ProtfdtionDombin}, domprisfd of b null
+ * dodfsourdf/signfrs bnd bn fmpty pfrmission sft, to thf bddfss dontrol
+ * dontfxt with whidh this dombinfr is dombinfd.</p>
+ *
+ * <p>Whfn thf {@link #dombinf} mfthod is dbllfd thf {@link ProtfdtionDombin}
+ * is bugmfntfd with thf pfrmissions grbntfd to thf sft of prindipbls prfsfnt
+ * in thf supplifd {@link Subjfdt}.</p>
+ */
+publid dlbss JMXSubjfdtDombinCombinfr fxtfnds SubjfdtDombinCombinfr {
+
+    publid JMXSubjfdtDombinCombinfr(Subjfdt s) {
+        supfr(s);
+    }
+
+    publid ProtfdtionDombin[] dombinf(ProtfdtionDombin[] durrfnt,
+                                      ProtfdtionDombin[] bssignfd) {
+        // Add b nfw ProtfdtionDombin with thf null dodfsourdf/signfrs, bnd
+        // thf fmpty pfrmission sft, to thf fnd of thf brrby dontbining thf
+        // 'durrfnt' protfdtions dombins, i.f. thf onfs thbt will bf bugmfntfd
+        // with thf pfrmissions grbntfd to thf sft of prindipbls prfsfnt in
+        // thf supplifd subjfdt.
+        //
+        ProtfdtionDombin[] nfwCurrfnt;
+        if (durrfnt == null || durrfnt.lfngth == 0) {
+            nfwCurrfnt = nfw ProtfdtionDombin[1];
+            nfwCurrfnt[0] = pdNoPfrms;
+        } flsf {
+            nfwCurrfnt = nfw ProtfdtionDombin[durrfnt.lfngth + 1];
+            for (int i = 0; i < durrfnt.lfngth; i++) {
+                nfwCurrfnt[i] = durrfnt[i];
+            }
+            nfwCurrfnt[durrfnt.lfngth] = pdNoPfrms;
+        }
+        rfturn supfr.dombinf(nfwCurrfnt, bssignfd);
+    }
+
+    /**
+     * A null CodfSourdf.
+     */
+    privbtf stbtid finbl CodfSourdf nullCodfSourdf =
+        nfw CodfSourdf(null, (jbvb.sfdurity.dfrt.Cfrtifidbtf[]) null);
+
+    /**
+     * A ProtfdtionDombin with b null CodfSourdf bnd bn fmpty pfrmission sft.
+     */
+    privbtf stbtid finbl ProtfdtionDombin pdNoPfrms =
+        nfw ProtfdtionDombin(nullCodfSourdf, nfw Pfrmissions());
+
+    /**
+     * Gft thf durrfnt AddfssControlContfxt dombinfd with thf supplifd subjfdt.
+     */
+    publid stbtid AddfssControlContfxt gftContfxt(Subjfdt subjfdt) {
+        rfturn nfw AddfssControlContfxt(AddfssControllfr.gftContfxt(),
+                                        nfw JMXSubjfdtDombinCombinfr(subjfdt));
+    }
+
+    /**
+     * Gft thf AddfssControlContfxt of thf dombin dombinfr drfbtfd with
+     * thf supplifd subjfdt, i.f. bn AddfssControlContfxt with thf dombin
+     * dombinfr drfbtfd with thf supplifd subjfdt bnd whfrf thf dbllfr's
+     * dontfxt hbs bffn rfmovfd.
+     */
+    publid stbtid AddfssControlContfxt
+        gftDombinCombinfrContfxt(Subjfdt subjfdt) {
+        rfturn nfw AddfssControlContfxt(
+            nfw AddfssControlContfxt(nfw ProtfdtionDombin[0]),
+            nfw JMXSubjfdtDombinCombinfr(subjfdt));
+    }
+}

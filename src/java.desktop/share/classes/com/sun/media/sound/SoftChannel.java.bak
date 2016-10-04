@@ -1,542 +1,542 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.media.sound;
+pbdkbgf dom.sun.mfdib.sound;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Itfrbtor;
+import jbvb.util.List;
+import jbvb.util.Mbp;
 
-import javax.sound.midi.MidiChannel;
-import javax.sound.midi.Patch;
+import jbvbx.sound.midi.MidiCibnnfl;
+import jbvbx.sound.midi.Pbtdi;
 
 /**
- * Software Synthesizer MIDI channel class.
+ * Softwbrf Syntifsizfr MIDI dibnnfl dlbss.
  *
- * @author Karl Helgason
+ * @butior Kbrl Hflgbson
  */
-public final class SoftChannel implements MidiChannel, ModelDirectedPlayer {
+publid finbl dlbss SoftCibnnfl implfmfnts MidiCibnnfl, ModflDirfdtfdPlbyfr {
 
-    private static boolean[] dontResetControls = new boolean[128];
-    static {
-        for (int i = 0; i < dontResetControls.length; i++)
-            dontResetControls[i] = false;
+    privbtf stbtid boolfbn[] dontRfsftControls = nfw boolfbn[128];
+    stbtid {
+        for (int i = 0; i < dontRfsftControls.lfngti; i++)
+            dontRfsftControls[i] = fblsf;
 
-        dontResetControls[0] = true;   // Bank Select (MSB)
-        dontResetControls[32] = true;  // Bank Select (LSB)
-        dontResetControls[7] = true;   // Channel Volume (MSB)
-        dontResetControls[8] = true;   // Balance (MSB)
-        dontResetControls[10] = true;  // Pan (MSB)
-        dontResetControls[11] = true;  // Expression (MSB)
-        dontResetControls[91] = true;  // Effects 1 Depth (default: Reverb Send)
-        dontResetControls[92] = true;  // Effects 2 Depth (default: Tremolo Depth)
-        dontResetControls[93] = true;  // Effects 3 Depth (default: Chorus Send)
-        dontResetControls[94] = true;  // Effects 4 Depth (default: Celeste [Detune] Depth)
-        dontResetControls[95] = true;  // Effects 5 Depth (default: Phaser Depth)
-        dontResetControls[70] = true;  // Sound Controller 1 (default: Sound Variation)
-        dontResetControls[71] = true;  // Sound Controller 2 (default: Timbre / Harmonic Quality)
-        dontResetControls[72] = true;  // Sound Controller 3 (default: Release Time)
-        dontResetControls[73] = true;  // Sound Controller 4 (default: Attack Time)
-        dontResetControls[74] = true;  // Sound Controller 5 (default: Brightness)
-        dontResetControls[75] = true;  // Sound Controller 6 (GM2 default: Decay Time)
-        dontResetControls[76] = true;  // Sound Controller 7 (GM2 default: Vibrato Rate)
-        dontResetControls[77] = true;  // Sound Controller 8 (GM2 default: Vibrato Depth)
-        dontResetControls[78] = true;  // Sound Controller 9 (GM2 default: Vibrato Delay)
-        dontResetControls[79] = true;  // Sound Controller 10 (GM2 default: Undefined)
-        dontResetControls[120] = true; // All Sound Off
-        dontResetControls[121] = true; // Reset All Controllers
-        dontResetControls[122] = true; // Local Control On/Off
-        dontResetControls[123] = true; // All Notes Off
-        dontResetControls[124] = true; // Omni Mode Off
-        dontResetControls[125] = true; // Omni Mode On
-        dontResetControls[126] = true; // Poly Mode Off
-        dontResetControls[127] = true; // Poly Mode On
+        dontRfsftControls[0] = truf;   // Bbnk Sflfdt (MSB)
+        dontRfsftControls[32] = truf;  // Bbnk Sflfdt (LSB)
+        dontRfsftControls[7] = truf;   // Cibnnfl Volumf (MSB)
+        dontRfsftControls[8] = truf;   // Bblbndf (MSB)
+        dontRfsftControls[10] = truf;  // Pbn (MSB)
+        dontRfsftControls[11] = truf;  // Exprfssion (MSB)
+        dontRfsftControls[91] = truf;  // Efffdts 1 Dfpti (dffbult: Rfvfrb Sfnd)
+        dontRfsftControls[92] = truf;  // Efffdts 2 Dfpti (dffbult: Trfmolo Dfpti)
+        dontRfsftControls[93] = truf;  // Efffdts 3 Dfpti (dffbult: Ciorus Sfnd)
+        dontRfsftControls[94] = truf;  // Efffdts 4 Dfpti (dffbult: Cflfstf [Dftunf] Dfpti)
+        dontRfsftControls[95] = truf;  // Efffdts 5 Dfpti (dffbult: Pibsfr Dfpti)
+        dontRfsftControls[70] = truf;  // Sound Controllfr 1 (dffbult: Sound Vbribtion)
+        dontRfsftControls[71] = truf;  // Sound Controllfr 2 (dffbult: Timbrf / Hbrmonid Qublity)
+        dontRfsftControls[72] = truf;  // Sound Controllfr 3 (dffbult: Rflfbsf Timf)
+        dontRfsftControls[73] = truf;  // Sound Controllfr 4 (dffbult: Attbdk Timf)
+        dontRfsftControls[74] = truf;  // Sound Controllfr 5 (dffbult: Brigitnfss)
+        dontRfsftControls[75] = truf;  // Sound Controllfr 6 (GM2 dffbult: Dfdby Timf)
+        dontRfsftControls[76] = truf;  // Sound Controllfr 7 (GM2 dffbult: Vibrbto Rbtf)
+        dontRfsftControls[77] = truf;  // Sound Controllfr 8 (GM2 dffbult: Vibrbto Dfpti)
+        dontRfsftControls[78] = truf;  // Sound Controllfr 9 (GM2 dffbult: Vibrbto Dflby)
+        dontRfsftControls[79] = truf;  // Sound Controllfr 10 (GM2 dffbult: Undffinfd)
+        dontRfsftControls[120] = truf; // All Sound Off
+        dontRfsftControls[121] = truf; // Rfsft All Controllfrs
+        dontRfsftControls[122] = truf; // Lodbl Control On/Off
+        dontRfsftControls[123] = truf; // All Notfs Off
+        dontRfsftControls[124] = truf; // Omni Modf Off
+        dontRfsftControls[125] = truf; // Omni Modf On
+        dontRfsftControls[126] = truf; // Poly Modf Off
+        dontRfsftControls[127] = truf; // Poly Modf On
 
-        dontResetControls[6] = true;   // Data Entry (MSB)
-        dontResetControls[38] = true;  // Data Entry (LSB)
-        dontResetControls[96] = true;  // Data Increment
-        dontResetControls[97] = true;  // Data Decrement
-        dontResetControls[98] = true;  // Non-Registered Parameter Number (LSB)
-        dontResetControls[99] = true;  // Non-Registered Parameter Number(MSB)
-        dontResetControls[100] = true; // RPN = Null
-        dontResetControls[101] = true; // RPN = Null
+        dontRfsftControls[6] = truf;   // Dbtb Entry (MSB)
+        dontRfsftControls[38] = truf;  // Dbtb Entry (LSB)
+        dontRfsftControls[96] = truf;  // Dbtb Indrfmfnt
+        dontRfsftControls[97] = truf;  // Dbtb Dfdrfmfnt
+        dontRfsftControls[98] = truf;  // Non-Rfgistfrfd Pbrbmftfr Numbfr (LSB)
+        dontRfsftControls[99] = truf;  // Non-Rfgistfrfd Pbrbmftfr Numbfr(MSB)
+        dontRfsftControls[100] = truf; // RPN = Null
+        dontRfsftControls[101] = truf; // RPN = Null
 
     }
 
-    private static final int RPN_NULL_VALUE = (127 << 7) + 127;
-    private int rpn_control = RPN_NULL_VALUE;
-    private int nrpn_control = RPN_NULL_VALUE;
-    double portamento_time = 1; // keyschanges per control buffer time
-    int[] portamento_lastnote = new int[128];
-    int portamento_lastnote_ix = 0;
-    private boolean portamento = false;
-    private boolean mono = false;
-    private boolean mute = false;
-    private boolean solo = false;
-    private boolean solomute = false;
-    private final Object control_mutex;
-    private int channel;
-    private SoftVoice[] voices;
-    private int bank;
-    private int program;
-    private SoftSynthesizer synthesizer;
-    private SoftMainMixer mainmixer;
-    private int[] polypressure = new int[128];
-    private int channelpressure = 0;
-    private int[] controller = new int[128];
-    private int pitchbend;
-    private double[] co_midi_pitch = new double[1];
-    private double[] co_midi_channel_pressure = new double[1];
-    SoftTuning tuning = new SoftTuning();
-    int tuning_bank = 0;
-    int tuning_program = 0;
-    SoftInstrument current_instrument = null;
-    ModelChannelMixer current_mixer = null;
-    ModelDirector current_director = null;
+    privbtf stbtid finbl int RPN_NULL_VALUE = (127 << 7) + 127;
+    privbtf int rpn_dontrol = RPN_NULL_VALUE;
+    privbtf int nrpn_dontrol = RPN_NULL_VALUE;
+    doublf portbmfnto_timf = 1; // kfysdibngfs pfr dontrol bufffr timf
+    int[] portbmfnto_lbstnotf = nfw int[128];
+    int portbmfnto_lbstnotf_ix = 0;
+    privbtf boolfbn portbmfnto = fblsf;
+    privbtf boolfbn mono = fblsf;
+    privbtf boolfbn mutf = fblsf;
+    privbtf boolfbn solo = fblsf;
+    privbtf boolfbn solomutf = fblsf;
+    privbtf finbl Objfdt dontrol_mutfx;
+    privbtf int dibnnfl;
+    privbtf SoftVoidf[] voidfs;
+    privbtf int bbnk;
+    privbtf int progrbm;
+    privbtf SoftSyntifsizfr syntifsizfr;
+    privbtf SoftMbinMixfr mbinmixfr;
+    privbtf int[] polyprfssurf = nfw int[128];
+    privbtf int dibnnflprfssurf = 0;
+    privbtf int[] dontrollfr = nfw int[128];
+    privbtf int pitdibfnd;
+    privbtf doublf[] do_midi_pitdi = nfw doublf[1];
+    privbtf doublf[] do_midi_dibnnfl_prfssurf = nfw doublf[1];
+    SoftTuning tuning = nfw SoftTuning();
+    int tuning_bbnk = 0;
+    int tuning_progrbm = 0;
+    SoftInstrumfnt durrfnt_instrumfnt = null;
+    ModflCibnnflMixfr durrfnt_mixfr = null;
+    ModflDirfdtor durrfnt_dirfdtor = null;
 
-    // Controller Destination Settings
-    int cds_control_number = -1;
-    ModelConnectionBlock[] cds_control_connections = null;
-    ModelConnectionBlock[] cds_channelpressure_connections = null;
-    ModelConnectionBlock[] cds_polypressure_connections = null;
-    boolean sustain = false;
-    boolean[][] keybasedcontroller_active = null;
-    double[][] keybasedcontroller_value = null;
+    // Controllfr Dfstinbtion Sfttings
+    int dds_dontrol_numbfr = -1;
+    ModflConnfdtionBlodk[] dds_dontrol_donnfdtions = null;
+    ModflConnfdtionBlodk[] dds_dibnnflprfssurf_donnfdtions = null;
+    ModflConnfdtionBlodk[] dds_polyprfssurf_donnfdtions = null;
+    boolfbn sustbin = fblsf;
+    boolfbn[][] kfybbsfddontrollfr_bdtivf = null;
+    doublf[][] kfybbsfddontrollfr_vbluf = null;
 
-    private class MidiControlObject implements SoftControl {
-        double[] pitch = co_midi_pitch;
-        double[] channel_pressure = co_midi_channel_pressure;
-        double[] poly_pressure = new double[1];
+    privbtf dlbss MidiControlObjfdt implfmfnts SoftControl {
+        doublf[] pitdi = do_midi_pitdi;
+        doublf[] dibnnfl_prfssurf = do_midi_dibnnfl_prfssurf;
+        doublf[] poly_prfssurf = nfw doublf[1];
 
-        public double[] get(int instance, String name) {
-            if (name == null)
-                return null;
-            if (name.equals("pitch"))
-                return pitch;
-            if (name.equals("channel_pressure"))
-                return channel_pressure;
-            if (name.equals("poly_pressure"))
-                return poly_pressure;
-            return null;
+        publid doublf[] gft(int instbndf, String nbmf) {
+            if (nbmf == null)
+                rfturn null;
+            if (nbmf.fqubls("pitdi"))
+                rfturn pitdi;
+            if (nbmf.fqubls("dibnnfl_prfssurf"))
+                rfturn dibnnfl_prfssurf;
+            if (nbmf.fqubls("poly_prfssurf"))
+                rfturn poly_prfssurf;
+            rfturn null;
         }
     }
 
-    private SoftControl[] co_midi = new SoftControl[128];
+    privbtf SoftControl[] do_midi = nfw SoftControl[128];
     {
-        for (int i = 0; i < co_midi.length; i++) {
-            co_midi[i] = new MidiControlObject();
+        for (int i = 0; i < do_midi.lfngti; i++) {
+            do_midi[i] = nfw MidiControlObjfdt();
         }
     }
 
-    private double[][] co_midi_cc_cc = new double[128][1];
-    private SoftControl co_midi_cc = new SoftControl() {
-        double[][] cc = co_midi_cc_cc;
-        public double[] get(int instance, String name) {
-            if (name == null)
-                return null;
-            return cc[Integer.parseInt(name)];
+    privbtf doublf[][] do_midi_dd_dd = nfw doublf[128][1];
+    privbtf SoftControl do_midi_dd = nfw SoftControl() {
+        doublf[][] dd = do_midi_dd_dd;
+        publid doublf[] gft(int instbndf, String nbmf) {
+            if (nbmf == null)
+                rfturn null;
+            rfturn dd[Intfgfr.pbrsfInt(nbmf)];
         }
     };
-    Map<Integer, int[]> co_midi_rpn_rpn_i = new HashMap<Integer, int[]>();
-    Map<Integer, double[]> co_midi_rpn_rpn = new HashMap<Integer, double[]>();
-    private SoftControl co_midi_rpn = new SoftControl() {
-        Map<Integer, double[]> rpn = co_midi_rpn_rpn;
-        public double[] get(int instance, String name) {
-            if (name == null)
-                return null;
-            int iname = Integer.parseInt(name);
-            double[] v = rpn.get(iname);
+    Mbp<Intfgfr, int[]> do_midi_rpn_rpn_i = nfw HbsiMbp<Intfgfr, int[]>();
+    Mbp<Intfgfr, doublf[]> do_midi_rpn_rpn = nfw HbsiMbp<Intfgfr, doublf[]>();
+    privbtf SoftControl do_midi_rpn = nfw SoftControl() {
+        Mbp<Intfgfr, doublf[]> rpn = do_midi_rpn_rpn;
+        publid doublf[] gft(int instbndf, String nbmf) {
+            if (nbmf == null)
+                rfturn null;
+            int inbmf = Intfgfr.pbrsfInt(nbmf);
+            doublf[] v = rpn.gft(inbmf);
             if (v == null) {
-                v = new double[1];
-                rpn.put(iname, v);
+                v = nfw doublf[1];
+                rpn.put(inbmf, v);
             }
-            return v;
+            rfturn v;
         }
     };
-    Map<Integer, int[]> co_midi_nrpn_nrpn_i = new HashMap<Integer, int[]>();
-    Map<Integer, double[]> co_midi_nrpn_nrpn = new HashMap<Integer, double[]>();
-    private SoftControl co_midi_nrpn = new SoftControl() {
-        Map<Integer, double[]> nrpn = co_midi_nrpn_nrpn;
-        public double[] get(int instance, String name) {
-            if (name == null)
-                return null;
-            int iname = Integer.parseInt(name);
-            double[] v = nrpn.get(iname);
+    Mbp<Intfgfr, int[]> do_midi_nrpn_nrpn_i = nfw HbsiMbp<Intfgfr, int[]>();
+    Mbp<Intfgfr, doublf[]> do_midi_nrpn_nrpn = nfw HbsiMbp<Intfgfr, doublf[]>();
+    privbtf SoftControl do_midi_nrpn = nfw SoftControl() {
+        Mbp<Intfgfr, doublf[]> nrpn = do_midi_nrpn_nrpn;
+        publid doublf[] gft(int instbndf, String nbmf) {
+            if (nbmf == null)
+                rfturn null;
+            int inbmf = Intfgfr.pbrsfInt(nbmf);
+            doublf[] v = nrpn.gft(inbmf);
             if (v == null) {
-                v = new double[1];
-                nrpn.put(iname, v);
+                v = nfw doublf[1];
+                nrpn.put(inbmf, v);
             }
-            return v;
+            rfturn v;
         }
     };
 
-    private static int restrict7Bit(int value)
+    privbtf stbtid int rfstridt7Bit(int vbluf)
     {
-        if(value < 0) return 0;
-        if(value > 127) return 127;
-        return value;
+        if(vbluf < 0) rfturn 0;
+        if(vbluf > 127) rfturn 127;
+        rfturn vbluf;
     }
 
-    private static int restrict14Bit(int value)
+    privbtf stbtid int rfstridt14Bit(int vbluf)
     {
-        if(value < 0) return 0;
-        if(value > 16256) return 16256;
-        return value;
+        if(vbluf < 0) rfturn 0;
+        if(vbluf > 16256) rfturn 16256;
+        rfturn vbluf;
     }
 
-    public SoftChannel(SoftSynthesizer synth, int channel) {
-        this.channel = channel;
-        this.voices = synth.getVoices();
-        this.synthesizer = synth;
-        this.mainmixer = synth.getMainMixer();
-        control_mutex = synth.control_mutex;
-        resetAllControllers(true);
+    publid SoftCibnnfl(SoftSyntifsizfr synti, int dibnnfl) {
+        tiis.dibnnfl = dibnnfl;
+        tiis.voidfs = synti.gftVoidfs();
+        tiis.syntifsizfr = synti;
+        tiis.mbinmixfr = synti.gftMbinMixfr();
+        dontrol_mutfx = synti.dontrol_mutfx;
+        rfsftAllControllfrs(truf);
     }
 
-    private int findFreeVoice(int x) {
+    privbtf int findFrffVoidf(int x) {
         if(x == -1)
         {
-            // x = -1 means that there where no available voice
-            // last time we called findFreeVoice
-            // and it hasn't changed because no audio has been
-            // rendered in the meantime.
-            // Therefore we have to return -1.
-            return -1;
+            // x = -1 mfbns tibt tifrf wifrf no bvbilbblf voidf
+            // lbst timf wf dbllfd findFrffVoidf
+            // bnd it ibsn't dibngfd bfdbusf no budio ibs bffn
+            // rfndfrfd in tif mfbntimf.
+            // Tifrfforf wf ibvf to rfturn -1.
+            rfturn -1;
         }
-        for (int i = x; i < voices.length; i++)
-            if (!voices[i].active)
-                return i;
+        for (int i = x; i < voidfs.lfngti; i++)
+            if (!voidfs[i].bdtivf)
+                rfturn i;
 
-        // No free voice was found, we must steal one
+        // No frff voidf wbs found, wf must stfbl onf
 
-        int vmode = synthesizer.getVoiceAllocationMode();
-        if (vmode == 1) {
-            // DLS Static Voice Allocation
+        int vmodf = syntifsizfr.gftVoidfAllodbtionModf();
+        if (vmodf == 1) {
+            // DLS Stbtid Voidf Allodbtion
 
             //  * priority ( 10, 1-9, 11-16)
-            // Search for channel to steal from
-            int steal_channel = channel;
-            for (int j = 0; j < voices.length; j++) {
-                if (voices[j].stealer_channel == null) {
-                    if (steal_channel == 9) {
-                        steal_channel = voices[j].channel;
-                    } else {
-                        if (voices[j].channel != 9) {
-                            if (voices[j].channel > steal_channel)
-                                steal_channel = voices[j].channel;
+            // Sfbrdi for dibnnfl to stfbl from
+            int stfbl_dibnnfl = dibnnfl;
+            for (int j = 0; j < voidfs.lfngti; j++) {
+                if (voidfs[j].stfblfr_dibnnfl == null) {
+                    if (stfbl_dibnnfl == 9) {
+                        stfbl_dibnnfl = voidfs[j].dibnnfl;
+                    } flsf {
+                        if (voidfs[j].dibnnfl != 9) {
+                            if (voidfs[j].dibnnfl > stfbl_dibnnfl)
+                                stfbl_dibnnfl = voidfs[j].dibnnfl;
                         }
                     }
                 }
             }
 
-            int voiceNo = -1;
+            int voidfNo = -1;
 
-            SoftVoice v = null;
-            // Search for oldest voice in off state on steal_channel
-            for (int j = 0; j < voices.length; j++) {
-                if (voices[j].channel == steal_channel) {
-                    if (voices[j].stealer_channel == null && !voices[j].on) {
+            SoftVoidf v = null;
+            // Sfbrdi for oldfst voidf in off stbtf on stfbl_dibnnfl
+            for (int j = 0; j < voidfs.lfngti; j++) {
+                if (voidfs[j].dibnnfl == stfbl_dibnnfl) {
+                    if (voidfs[j].stfblfr_dibnnfl == null && !voidfs[j].on) {
                         if (v == null) {
-                            v = voices[j];
-                            voiceNo = j;
+                            v = voidfs[j];
+                            voidfNo = j;
                         }
-                        if (voices[j].voiceID < v.voiceID) {
-                            v = voices[j];
-                            voiceNo = j;
+                        if (voidfs[j].voidfID < v.voidfID) {
+                            v = voidfs[j];
+                            voidfNo = j;
                         }
                     }
                 }
             }
-            // Search for oldest voice in on state on steal_channel
-            if (voiceNo == -1) {
-                for (int j = 0; j < voices.length; j++) {
-                    if (voices[j].channel == steal_channel) {
-                        if (voices[j].stealer_channel == null) {
+            // Sfbrdi for oldfst voidf in on stbtf on stfbl_dibnnfl
+            if (voidfNo == -1) {
+                for (int j = 0; j < voidfs.lfngti; j++) {
+                    if (voidfs[j].dibnnfl == stfbl_dibnnfl) {
+                        if (voidfs[j].stfblfr_dibnnfl == null) {
                             if (v == null) {
-                                v = voices[j];
-                                voiceNo = j;
+                                v = voidfs[j];
+                                voidfNo = j;
                             }
-                            if (voices[j].voiceID < v.voiceID) {
-                                v = voices[j];
-                                voiceNo = j;
+                            if (voidfs[j].voidfID < v.voidfID) {
+                                v = voidfs[j];
+                                voidfNo = j;
                             }
                         }
                     }
                 }
             }
 
-            return voiceNo;
+            rfturn voidfNo;
 
-        } else {
-            // Default Voice Allocation
-            //  * Find voice that is on
-            //    and Find voice which has lowest voiceID ( oldest voice)
-            //  * Or find voice that is off
-            //    and Find voice which has lowest voiceID ( oldest voice)
+        } flsf {
+            // Dffbult Voidf Allodbtion
+            //  * Find voidf tibt is on
+            //    bnd Find voidf wiidi ibs lowfst voidfID ( oldfst voidf)
+            //  * Or find voidf tibt is off
+            //    bnd Find voidf wiidi ibs lowfst voidfID ( oldfst voidf)
 
-            int voiceNo = -1;
+            int voidfNo = -1;
 
-            SoftVoice v = null;
-            // Search for oldest voice in off state
-            for (int j = 0; j < voices.length; j++) {
-                if (voices[j].stealer_channel == null && !voices[j].on) {
+            SoftVoidf v = null;
+            // Sfbrdi for oldfst voidf in off stbtf
+            for (int j = 0; j < voidfs.lfngti; j++) {
+                if (voidfs[j].stfblfr_dibnnfl == null && !voidfs[j].on) {
                     if (v == null) {
-                        v = voices[j];
-                        voiceNo = j;
+                        v = voidfs[j];
+                        voidfNo = j;
                     }
-                    if (voices[j].voiceID < v.voiceID) {
-                        v = voices[j];
-                        voiceNo = j;
+                    if (voidfs[j].voidfID < v.voidfID) {
+                        v = voidfs[j];
+                        voidfNo = j;
                     }
                 }
             }
-            // Search for oldest voice in on state
-            if (voiceNo == -1) {
+            // Sfbrdi for oldfst voidf in on stbtf
+            if (voidfNo == -1) {
 
-                for (int j = 0; j < voices.length; j++) {
-                    if (voices[j].stealer_channel == null) {
+                for (int j = 0; j < voidfs.lfngti; j++) {
+                    if (voidfs[j].stfblfr_dibnnfl == null) {
                         if (v == null) {
-                            v = voices[j];
-                            voiceNo = j;
+                            v = voidfs[j];
+                            voidfNo = j;
                         }
-                        if (voices[j].voiceID < v.voiceID) {
-                            v = voices[j];
-                            voiceNo = j;
+                        if (voidfs[j].voidfID < v.voidfID) {
+                            v = voidfs[j];
+                            voidfNo = j;
                         }
                     }
                 }
             }
 
-            return voiceNo;
+            rfturn voidfNo;
         }
 
     }
 
-    void initVoice(SoftVoice voice, SoftPerformer p, int voiceID,
-            int noteNumber, int velocity, int delay, ModelConnectionBlock[] connectionBlocks,
-            ModelChannelMixer channelmixer, boolean releaseTriggered) {
-        if (voice.active) {
-            // Voice is active , we must steal the voice
-            voice.stealer_channel = this;
-            voice.stealer_performer = p;
-            voice.stealer_voiceID = voiceID;
-            voice.stealer_noteNumber = noteNumber;
-            voice.stealer_velocity = velocity;
-            voice.stealer_extendedConnectionBlocks = connectionBlocks;
-            voice.stealer_channelmixer = channelmixer;
-            voice.stealer_releaseTriggered = releaseTriggered;
-            for (int i = 0; i < voices.length; i++)
-                if (voices[i].active && voices[i].voiceID == voice.voiceID)
-                    voices[i].soundOff();
-            return;
+    void initVoidf(SoftVoidf voidf, SoftPfrformfr p, int voidfID,
+            int notfNumbfr, int vflodity, int dflby, ModflConnfdtionBlodk[] donnfdtionBlodks,
+            ModflCibnnflMixfr dibnnflmixfr, boolfbn rflfbsfTriggfrfd) {
+        if (voidf.bdtivf) {
+            // Voidf is bdtivf , wf must stfbl tif voidf
+            voidf.stfblfr_dibnnfl = tiis;
+            voidf.stfblfr_pfrformfr = p;
+            voidf.stfblfr_voidfID = voidfID;
+            voidf.stfblfr_notfNumbfr = notfNumbfr;
+            voidf.stfblfr_vflodity = vflodity;
+            voidf.stfblfr_fxtfndfdConnfdtionBlodks = donnfdtionBlodks;
+            voidf.stfblfr_dibnnflmixfr = dibnnflmixfr;
+            voidf.stfblfr_rflfbsfTriggfrfd = rflfbsfTriggfrfd;
+            for (int i = 0; i < voidfs.lfngti; i++)
+                if (voidfs[i].bdtivf && voidfs[i].voidfID == voidf.voidfID)
+                    voidfs[i].soundOff();
+            rfturn;
         }
 
-        voice.extendedConnectionBlocks = connectionBlocks;
-        voice.channelmixer = channelmixer;
-        voice.releaseTriggered = releaseTriggered;
-        voice.voiceID = voiceID;
-        voice.tuning = tuning;
-        voice.exclusiveClass = p.exclusiveClass;
-        voice.softchannel = this;
-        voice.channel = channel;
-        voice.bank = bank;
-        voice.program = program;
-        voice.instrument = current_instrument;
-        voice.performer = p;
-        voice.objects.clear();
-        voice.objects.put("midi", co_midi[noteNumber]);
-        voice.objects.put("midi_cc", co_midi_cc);
-        voice.objects.put("midi_rpn", co_midi_rpn);
-        voice.objects.put("midi_nrpn", co_midi_nrpn);
-        voice.noteOn(noteNumber, velocity, delay);
-        voice.setMute(mute);
-        voice.setSoloMute(solomute);
-        if (releaseTriggered)
-            return;
-        if (controller[84] != 0) {
-            voice.co_noteon_keynumber[0]
-                    = (tuning.getTuning(controller[84]) / 100.0)
+        voidf.fxtfndfdConnfdtionBlodks = donnfdtionBlodks;
+        voidf.dibnnflmixfr = dibnnflmixfr;
+        voidf.rflfbsfTriggfrfd = rflfbsfTriggfrfd;
+        voidf.voidfID = voidfID;
+        voidf.tuning = tuning;
+        voidf.fxdlusivfClbss = p.fxdlusivfClbss;
+        voidf.softdibnnfl = tiis;
+        voidf.dibnnfl = dibnnfl;
+        voidf.bbnk = bbnk;
+        voidf.progrbm = progrbm;
+        voidf.instrumfnt = durrfnt_instrumfnt;
+        voidf.pfrformfr = p;
+        voidf.objfdts.dlfbr();
+        voidf.objfdts.put("midi", do_midi[notfNumbfr]);
+        voidf.objfdts.put("midi_dd", do_midi_dd);
+        voidf.objfdts.put("midi_rpn", do_midi_rpn);
+        voidf.objfdts.put("midi_nrpn", do_midi_nrpn);
+        voidf.notfOn(notfNumbfr, vflodity, dflby);
+        voidf.sftMutf(mutf);
+        voidf.sftSoloMutf(solomutf);
+        if (rflfbsfTriggfrfd)
+            rfturn;
+        if (dontrollfr[84] != 0) {
+            voidf.do_notfon_kfynumbfr[0]
+                    = (tuning.gftTuning(dontrollfr[84]) / 100.0)
                     * (1f / 128f);
-            voice.portamento = true;
-            controlChange(84, 0);
-        } else if (portamento) {
+            voidf.portbmfnto = truf;
+            dontrolCibngf(84, 0);
+        } flsf if (portbmfnto) {
             if (mono) {
-                if (portamento_lastnote[0] != -1) {
-                    voice.co_noteon_keynumber[0]
-                            = (tuning.getTuning(portamento_lastnote[0]) / 100.0)
+                if (portbmfnto_lbstnotf[0] != -1) {
+                    voidf.do_notfon_kfynumbfr[0]
+                            = (tuning.gftTuning(portbmfnto_lbstnotf[0]) / 100.0)
                             * (1f / 128f);
-                    voice.portamento = true;
-                    controlChange(84, 0);
+                    voidf.portbmfnto = truf;
+                    dontrolCibngf(84, 0);
                 }
-                portamento_lastnote[0] = noteNumber;
-            } else {
-                if (portamento_lastnote_ix != 0) {
-                    portamento_lastnote_ix--;
-                    voice.co_noteon_keynumber[0]
-                            = (tuning.getTuning(
-                                    portamento_lastnote[portamento_lastnote_ix])
+                portbmfnto_lbstnotf[0] = notfNumbfr;
+            } flsf {
+                if (portbmfnto_lbstnotf_ix != 0) {
+                    portbmfnto_lbstnotf_ix--;
+                    voidf.do_notfon_kfynumbfr[0]
+                            = (tuning.gftTuning(
+                                    portbmfnto_lbstnotf[portbmfnto_lbstnotf_ix])
                                 / 100.0)
                             * (1f / 128f);
-                    voice.portamento = true;
+                    voidf.portbmfnto = truf;
                 }
             }
         }
     }
 
-    public void noteOn(int noteNumber, int velocity) {
-        noteOn(noteNumber, velocity, 0);
+    publid void notfOn(int notfNumbfr, int vflodity) {
+        notfOn(notfNumbfr, vflodity, 0);
     }
 
-    /* A special noteOn with delay parameter, which is used to
-     * start note within control buffers.
+    /* A spfdibl notfOn witi dflby pbrbmftfr, wiidi is usfd to
+     * stbrt notf witiin dontrol bufffrs.
      */
-    void noteOn(int noteNumber, int velocity, int delay) {
-        noteNumber = restrict7Bit(noteNumber);
-        velocity = restrict7Bit(velocity);
-        noteOn_internal(noteNumber, velocity, delay);
-        if (current_mixer != null)
-            current_mixer.noteOn(noteNumber, velocity);
+    void notfOn(int notfNumbfr, int vflodity, int dflby) {
+        notfNumbfr = rfstridt7Bit(notfNumbfr);
+        vflodity = rfstridt7Bit(vflodity);
+        notfOn_intfrnbl(notfNumbfr, vflodity, dflby);
+        if (durrfnt_mixfr != null)
+            durrfnt_mixfr.notfOn(notfNumbfr, vflodity);
     }
 
-    private void noteOn_internal(int noteNumber, int velocity, int delay) {
+    privbtf void notfOn_intfrnbl(int notfNumbfr, int vflodity, int dflby) {
 
-        if (velocity == 0) {
-            noteOff_internal(noteNumber, 64);
-            return;
+        if (vflodity == 0) {
+            notfOff_intfrnbl(notfNumbfr, 64);
+            rfturn;
         }
 
-        synchronized (control_mutex) {
-            if (sustain) {
-                sustain = false;
-                for (int i = 0; i < voices.length; i++) {
-                    if ((voices[i].sustain || voices[i].on)
-                            && voices[i].channel == channel && voices[i].active
-                            && voices[i].note == noteNumber) {
-                        voices[i].sustain = false;
-                        voices[i].on = true;
-                        voices[i].noteOff(0);
+        syndironizfd (dontrol_mutfx) {
+            if (sustbin) {
+                sustbin = fblsf;
+                for (int i = 0; i < voidfs.lfngti; i++) {
+                    if ((voidfs[i].sustbin || voidfs[i].on)
+                            && voidfs[i].dibnnfl == dibnnfl && voidfs[i].bdtivf
+                            && voidfs[i].notf == notfNumbfr) {
+                        voidfs[i].sustbin = fblsf;
+                        voidfs[i].on = truf;
+                        voidfs[i].notfOff(0);
                     }
                 }
-                sustain = true;
+                sustbin = truf;
             }
 
-            mainmixer.activity();
+            mbinmixfr.bdtivity();
 
             if (mono) {
-                if (portamento) {
-                    boolean n_found = false;
-                    for (int i = 0; i < voices.length; i++) {
-                        if (voices[i].on && voices[i].channel == channel
-                                && voices[i].active
-                                && voices[i].releaseTriggered == false) {
-                            voices[i].portamento = true;
-                            voices[i].setNote(noteNumber);
-                            n_found = true;
+                if (portbmfnto) {
+                    boolfbn n_found = fblsf;
+                    for (int i = 0; i < voidfs.lfngti; i++) {
+                        if (voidfs[i].on && voidfs[i].dibnnfl == dibnnfl
+                                && voidfs[i].bdtivf
+                                && voidfs[i].rflfbsfTriggfrfd == fblsf) {
+                            voidfs[i].portbmfnto = truf;
+                            voidfs[i].sftNotf(notfNumbfr);
+                            n_found = truf;
                         }
                     }
                     if (n_found) {
-                        portamento_lastnote[0] = noteNumber;
-                        return;
+                        portbmfnto_lbstnotf[0] = notfNumbfr;
+                        rfturn;
                     }
                 }
 
-                if (controller[84] != 0) {
-                    boolean n_found = false;
-                    for (int i = 0; i < voices.length; i++) {
-                        if (voices[i].on && voices[i].channel == channel
-                                && voices[i].active
-                                && voices[i].note == controller[84]
-                                && voices[i].releaseTriggered == false) {
-                            voices[i].portamento = true;
-                            voices[i].setNote(noteNumber);
-                            n_found = true;
+                if (dontrollfr[84] != 0) {
+                    boolfbn n_found = fblsf;
+                    for (int i = 0; i < voidfs.lfngti; i++) {
+                        if (voidfs[i].on && voidfs[i].dibnnfl == dibnnfl
+                                && voidfs[i].bdtivf
+                                && voidfs[i].notf == dontrollfr[84]
+                                && voidfs[i].rflfbsfTriggfrfd == fblsf) {
+                            voidfs[i].portbmfnto = truf;
+                            voidfs[i].sftNotf(notfNumbfr);
+                            n_found = truf;
                         }
                     }
-                    controlChange(84, 0);
+                    dontrolCibngf(84, 0);
                     if (n_found)
-                        return;
+                        rfturn;
                 }
             }
 
             if (mono)
-                allNotesOff();
+                bllNotfsOff();
 
-            if (current_instrument == null) {
-                current_instrument
-                        = synthesizer.findInstrument(program, bank, channel);
-                if (current_instrument == null)
-                    return;
-                if (current_mixer != null)
-                    mainmixer.stopMixer(current_mixer);
-                current_mixer = current_instrument.getSourceInstrument()
-                        .getChannelMixer(this, synthesizer.getFormat());
-                if (current_mixer != null)
-                    mainmixer.registerMixer(current_mixer);
-                current_director = current_instrument.getDirector(this, this);
-                applyInstrumentCustomization();
+            if (durrfnt_instrumfnt == null) {
+                durrfnt_instrumfnt
+                        = syntifsizfr.findInstrumfnt(progrbm, bbnk, dibnnfl);
+                if (durrfnt_instrumfnt == null)
+                    rfturn;
+                if (durrfnt_mixfr != null)
+                    mbinmixfr.stopMixfr(durrfnt_mixfr);
+                durrfnt_mixfr = durrfnt_instrumfnt.gftSourdfInstrumfnt()
+                        .gftCibnnflMixfr(tiis, syntifsizfr.gftFormbt());
+                if (durrfnt_mixfr != null)
+                    mbinmixfr.rfgistfrMixfr(durrfnt_mixfr);
+                durrfnt_dirfdtor = durrfnt_instrumfnt.gftDirfdtor(tiis, tiis);
+                bpplyInstrumfntCustomizbtion();
             }
-            prevVoiceID = synthesizer.voiceIDCounter++;
-            firstVoice = true;
-            voiceNo = 0;
+            prfvVoidfID = syntifsizfr.voidfIDCountfr++;
+            firstVoidf = truf;
+            voidfNo = 0;
 
-            int tunedKey = (int)(Math.round(tuning.getTuning(noteNumber)/100.0));
-            play_noteNumber = noteNumber;
-            play_velocity = velocity;
-            play_delay = delay;
-            play_releasetriggered = false;
-            lastVelocity[noteNumber] = velocity;
-            current_director.noteOn(tunedKey, velocity);
+            int tunfdKfy = (int)(Mbti.round(tuning.gftTuning(notfNumbfr)/100.0));
+            plby_notfNumbfr = notfNumbfr;
+            plby_vflodity = vflodity;
+            plby_dflby = dflby;
+            plby_rflfbsftriggfrfd = fblsf;
+            lbstVflodity[notfNumbfr] = vflodity;
+            durrfnt_dirfdtor.notfOn(tunfdKfy, vflodity);
 
             /*
-            SoftPerformer[] performers = current_instrument.getPerformers();
-            for (int i = 0; i < performers.length; i++) {
-                SoftPerformer p = performers[i];
-                if (p.keyFrom <= tunedKey && p.keyTo >= tunedKey) {
-                    if (p.velFrom <= velocity && p.velTo >= velocity) {
-                        if (firstVoice) {
-                            firstVoice = false;
-                            if (p.exclusiveClass != 0) {
-                                int x = p.exclusiveClass;
-                                for (int j = 0; j < voices.length; j++) {
-                                    if (voices[j].active
-                                            && voices[j].channel == channel
-                                            && voices[j].exclusiveClass == x) {
-                                        if (!(p.selfNonExclusive
-                                                && voices[j].note == noteNumber))
-                                            voices[j].shutdown();
+            SoftPfrformfr[] pfrformfrs = durrfnt_instrumfnt.gftPfrformfrs();
+            for (int i = 0; i < pfrformfrs.lfngti; i++) {
+                SoftPfrformfr p = pfrformfrs[i];
+                if (p.kfyFrom <= tunfdKfy && p.kfyTo >= tunfdKfy) {
+                    if (p.vflFrom <= vflodity && p.vflTo >= vflodity) {
+                        if (firstVoidf) {
+                            firstVoidf = fblsf;
+                            if (p.fxdlusivfClbss != 0) {
+                                int x = p.fxdlusivfClbss;
+                                for (int j = 0; j < voidfs.lfngti; j++) {
+                                    if (voidfs[j].bdtivf
+                                            && voidfs[j].dibnnfl == dibnnfl
+                                            && voidfs[j].fxdlusivfClbss == x) {
+                                        if (!(p.sflfNonExdlusivf
+                                                && voidfs[j].notf == notfNumbfr))
+                                            voidfs[j].siutdown();
                                     }
                                 }
                             }
                         }
-                        voiceNo = findFreeVoice(voiceNo);
-                        if (voiceNo == -1)
-                            return;
-                        initVoice(voices[voiceNo], p, prevVoiceID, noteNumber,
-                                velocity);
+                        voidfNo = findFrffVoidf(voidfNo);
+                        if (voidfNo == -1)
+                            rfturn;
+                        initVoidf(voidfs[voidfNo], p, prfvVoidfID, notfNumbfr,
+                                vflodity);
                     }
                 }
             }
@@ -544,1036 +544,1036 @@ public final class SoftChannel implements MidiChannel, ModelDirectedPlayer {
         }
     }
 
-    public void noteOff(int noteNumber, int velocity) {
-        noteNumber = restrict7Bit(noteNumber);
-        velocity = restrict7Bit(velocity);
-        noteOff_internal(noteNumber, velocity);
+    publid void notfOff(int notfNumbfr, int vflodity) {
+        notfNumbfr = rfstridt7Bit(notfNumbfr);
+        vflodity = rfstridt7Bit(vflodity);
+        notfOff_intfrnbl(notfNumbfr, vflodity);
 
-        if (current_mixer != null)
-            current_mixer.noteOff(noteNumber, velocity);
+        if (durrfnt_mixfr != null)
+            durrfnt_mixfr.notfOff(notfNumbfr, vflodity);
     }
 
-    private void noteOff_internal(int noteNumber, int velocity) {
-        synchronized (control_mutex) {
+    privbtf void notfOff_intfrnbl(int notfNumbfr, int vflodity) {
+        syndironizfd (dontrol_mutfx) {
 
             if (!mono) {
-                if (portamento) {
-                    if (portamento_lastnote_ix != 127) {
-                        portamento_lastnote[portamento_lastnote_ix] = noteNumber;
-                        portamento_lastnote_ix++;
+                if (portbmfnto) {
+                    if (portbmfnto_lbstnotf_ix != 127) {
+                        portbmfnto_lbstnotf[portbmfnto_lbstnotf_ix] = notfNumbfr;
+                        portbmfnto_lbstnotf_ix++;
                     }
                 }
             }
 
-            mainmixer.activity();
-            for (int i = 0; i < voices.length; i++) {
-                if (voices[i].on && voices[i].channel == channel
-                        && voices[i].note == noteNumber
-                        && voices[i].releaseTriggered == false) {
-                    voices[i].noteOff(velocity);
+            mbinmixfr.bdtivity();
+            for (int i = 0; i < voidfs.lfngti; i++) {
+                if (voidfs[i].on && voidfs[i].dibnnfl == dibnnfl
+                        && voidfs[i].notf == notfNumbfr
+                        && voidfs[i].rflfbsfTriggfrfd == fblsf) {
+                    voidfs[i].notfOff(vflodity);
                 }
-                // We must also check stolen voices
-                if (voices[i].stealer_channel == this && voices[i].stealer_noteNumber == noteNumber) {
-                    SoftVoice v = voices[i];
-                    v.stealer_releaseTriggered = false;
-                    v.stealer_channel = null;
-                    v.stealer_performer = null;
-                    v.stealer_voiceID = -1;
-                    v.stealer_noteNumber = 0;
-                    v.stealer_velocity = 0;
-                    v.stealer_extendedConnectionBlocks = null;
-                    v.stealer_channelmixer = null;
+                // Wf must blso difdk stolfn voidfs
+                if (voidfs[i].stfblfr_dibnnfl == tiis && voidfs[i].stfblfr_notfNumbfr == notfNumbfr) {
+                    SoftVoidf v = voidfs[i];
+                    v.stfblfr_rflfbsfTriggfrfd = fblsf;
+                    v.stfblfr_dibnnfl = null;
+                    v.stfblfr_pfrformfr = null;
+                    v.stfblfr_voidfID = -1;
+                    v.stfblfr_notfNumbfr = 0;
+                    v.stfblfr_vflodity = 0;
+                    v.stfblfr_fxtfndfdConnfdtionBlodks = null;
+                    v.stfblfr_dibnnflmixfr = null;
                 }
             }
 
-            // Try play back note-off triggered voices,
+            // Try plby bbdk notf-off triggfrfd voidfs,
 
-            if (current_instrument == null) {
-                current_instrument
-                        = synthesizer.findInstrument(program, bank, channel);
-                if (current_instrument == null)
-                    return;
-                if (current_mixer != null)
-                    mainmixer.stopMixer(current_mixer);
-                current_mixer = current_instrument.getSourceInstrument()
-                        .getChannelMixer(this, synthesizer.getFormat());
-                if (current_mixer != null)
-                    mainmixer.registerMixer(current_mixer);
-                current_director = current_instrument.getDirector(this, this);
-                applyInstrumentCustomization();
+            if (durrfnt_instrumfnt == null) {
+                durrfnt_instrumfnt
+                        = syntifsizfr.findInstrumfnt(progrbm, bbnk, dibnnfl);
+                if (durrfnt_instrumfnt == null)
+                    rfturn;
+                if (durrfnt_mixfr != null)
+                    mbinmixfr.stopMixfr(durrfnt_mixfr);
+                durrfnt_mixfr = durrfnt_instrumfnt.gftSourdfInstrumfnt()
+                        .gftCibnnflMixfr(tiis, syntifsizfr.gftFormbt());
+                if (durrfnt_mixfr != null)
+                    mbinmixfr.rfgistfrMixfr(durrfnt_mixfr);
+                durrfnt_dirfdtor = durrfnt_instrumfnt.gftDirfdtor(tiis, tiis);
+                bpplyInstrumfntCustomizbtion();
 
             }
-            prevVoiceID = synthesizer.voiceIDCounter++;
-            firstVoice = true;
-            voiceNo = 0;
+            prfvVoidfID = syntifsizfr.voidfIDCountfr++;
+            firstVoidf = truf;
+            voidfNo = 0;
 
-            int tunedKey = (int)(Math.round(tuning.getTuning(noteNumber)/100.0));
-            play_noteNumber = noteNumber;
-            play_velocity = lastVelocity[noteNumber];
-            play_releasetriggered = true;
-            play_delay = 0;
-            current_director.noteOff(tunedKey, velocity);
+            int tunfdKfy = (int)(Mbti.round(tuning.gftTuning(notfNumbfr)/100.0));
+            plby_notfNumbfr = notfNumbfr;
+            plby_vflodity = lbstVflodity[notfNumbfr];
+            plby_rflfbsftriggfrfd = truf;
+            plby_dflby = 0;
+            durrfnt_dirfdtor.notfOff(tunfdKfy, vflodity);
 
         }
     }
-    private int[] lastVelocity = new int[128];
-    private int prevVoiceID;
-    private boolean firstVoice = true;
-    private int voiceNo = 0;
-    private int play_noteNumber = 0;
-    private int play_velocity = 0;
-    private int play_delay = 0;
-    private boolean play_releasetriggered = false;
+    privbtf int[] lbstVflodity = nfw int[128];
+    privbtf int prfvVoidfID;
+    privbtf boolfbn firstVoidf = truf;
+    privbtf int voidfNo = 0;
+    privbtf int plby_notfNumbfr = 0;
+    privbtf int plby_vflodity = 0;
+    privbtf int plby_dflby = 0;
+    privbtf boolfbn plby_rflfbsftriggfrfd = fblsf;
 
-    public void play(int performerIndex, ModelConnectionBlock[] connectionBlocks) {
+    publid void plby(int pfrformfrIndfx, ModflConnfdtionBlodk[] donnfdtionBlodks) {
 
-        int noteNumber = play_noteNumber;
-        int velocity = play_velocity;
-        int delay = play_delay;
-        boolean releasetriggered = play_releasetriggered;
+        int notfNumbfr = plby_notfNumbfr;
+        int vflodity = plby_vflodity;
+        int dflby = plby_dflby;
+        boolfbn rflfbsftriggfrfd = plby_rflfbsftriggfrfd;
 
-        SoftPerformer p = current_instrument.getPerformer(performerIndex);
+        SoftPfrformfr p = durrfnt_instrumfnt.gftPfrformfr(pfrformfrIndfx);
 
-        if (firstVoice) {
-            firstVoice = false;
-            if (p.exclusiveClass != 0) {
-                int x = p.exclusiveClass;
-                for (int j = 0; j < voices.length; j++) {
-                    if (voices[j].active && voices[j].channel == channel
-                            && voices[j].exclusiveClass == x) {
-                        if (!(p.selfNonExclusive && voices[j].note == noteNumber))
-                            voices[j].shutdown();
+        if (firstVoidf) {
+            firstVoidf = fblsf;
+            if (p.fxdlusivfClbss != 0) {
+                int x = p.fxdlusivfClbss;
+                for (int j = 0; j < voidfs.lfngti; j++) {
+                    if (voidfs[j].bdtivf && voidfs[j].dibnnfl == dibnnfl
+                            && voidfs[j].fxdlusivfClbss == x) {
+                        if (!(p.sflfNonExdlusivf && voidfs[j].notf == notfNumbfr))
+                            voidfs[j].siutdown();
                     }
                 }
             }
         }
 
-        voiceNo = findFreeVoice(voiceNo);
+        voidfNo = findFrffVoidf(voidfNo);
 
-        if (voiceNo == -1)
-            return;
+        if (voidfNo == -1)
+            rfturn;
 
-        initVoice(voices[voiceNo], p, prevVoiceID, noteNumber, velocity, delay,
-                connectionBlocks, current_mixer, releasetriggered);
+        initVoidf(voidfs[voidfNo], p, prfvVoidfID, notfNumbfr, vflodity, dflby,
+                donnfdtionBlodks, durrfnt_mixfr, rflfbsftriggfrfd);
     }
 
-    public void noteOff(int noteNumber) {
-        if(noteNumber < 0 || noteNumber > 127) return;
-        noteOff_internal(noteNumber, 64);
+    publid void notfOff(int notfNumbfr) {
+        if(notfNumbfr < 0 || notfNumbfr > 127) rfturn;
+        notfOff_intfrnbl(notfNumbfr, 64);
     }
 
-    public void setPolyPressure(int noteNumber, int pressure) {
-        noteNumber = restrict7Bit(noteNumber);
-        pressure = restrict7Bit(pressure);
+    publid void sftPolyPrfssurf(int notfNumbfr, int prfssurf) {
+        notfNumbfr = rfstridt7Bit(notfNumbfr);
+        prfssurf = rfstridt7Bit(prfssurf);
 
-        if (current_mixer != null)
-            current_mixer.setPolyPressure(noteNumber, pressure);
+        if (durrfnt_mixfr != null)
+            durrfnt_mixfr.sftPolyPrfssurf(notfNumbfr, prfssurf);
 
-        synchronized (control_mutex) {
-            mainmixer.activity();
-            co_midi[noteNumber].get(0, "poly_pressure")[0] = pressure*(1.0/128.0);
-            polypressure[noteNumber] = pressure;
-            for (int i = 0; i < voices.length; i++) {
-                if (voices[i].active && voices[i].note == noteNumber)
-                    voices[i].setPolyPressure(pressure);
+        syndironizfd (dontrol_mutfx) {
+            mbinmixfr.bdtivity();
+            do_midi[notfNumbfr].gft(0, "poly_prfssurf")[0] = prfssurf*(1.0/128.0);
+            polyprfssurf[notfNumbfr] = prfssurf;
+            for (int i = 0; i < voidfs.lfngti; i++) {
+                if (voidfs[i].bdtivf && voidfs[i].notf == notfNumbfr)
+                    voidfs[i].sftPolyPrfssurf(prfssurf);
             }
         }
     }
 
-    public int getPolyPressure(int noteNumber) {
-        synchronized (control_mutex) {
-            return polypressure[noteNumber];
+    publid int gftPolyPrfssurf(int notfNumbfr) {
+        syndironizfd (dontrol_mutfx) {
+            rfturn polyprfssurf[notfNumbfr];
         }
     }
 
-    public void setChannelPressure(int pressure) {
-        pressure = restrict7Bit(pressure);
-        if (current_mixer != null)
-            current_mixer.setChannelPressure(pressure);
-        synchronized (control_mutex) {
-            mainmixer.activity();
-            co_midi_channel_pressure[0] = pressure * (1.0 / 128.0);
-            channelpressure = pressure;
-            for (int i = 0; i < voices.length; i++) {
-                if (voices[i].active)
-                    voices[i].setChannelPressure(pressure);
+    publid void sftCibnnflPrfssurf(int prfssurf) {
+        prfssurf = rfstridt7Bit(prfssurf);
+        if (durrfnt_mixfr != null)
+            durrfnt_mixfr.sftCibnnflPrfssurf(prfssurf);
+        syndironizfd (dontrol_mutfx) {
+            mbinmixfr.bdtivity();
+            do_midi_dibnnfl_prfssurf[0] = prfssurf * (1.0 / 128.0);
+            dibnnflprfssurf = prfssurf;
+            for (int i = 0; i < voidfs.lfngti; i++) {
+                if (voidfs[i].bdtivf)
+                    voidfs[i].sftCibnnflPrfssurf(prfssurf);
             }
         }
     }
 
-    public int getChannelPressure() {
-        synchronized (control_mutex) {
-            return channelpressure;
+    publid int gftCibnnflPrfssurf() {
+        syndironizfd (dontrol_mutfx) {
+            rfturn dibnnflprfssurf;
         }
     }
 
-    void applyInstrumentCustomization() {
-        if (cds_control_connections == null
-                && cds_channelpressure_connections == null
-                && cds_polypressure_connections == null) {
-            return;
+    void bpplyInstrumfntCustomizbtion() {
+        if (dds_dontrol_donnfdtions == null
+                && dds_dibnnflprfssurf_donnfdtions == null
+                && dds_polyprfssurf_donnfdtions == null) {
+            rfturn;
         }
 
-        ModelInstrument src_instrument = current_instrument.getSourceInstrument();
-        ModelPerformer[] performers = src_instrument.getPerformers();
-        ModelPerformer[] new_performers = new ModelPerformer[performers.length];
-        for (int i = 0; i < new_performers.length; i++) {
-            ModelPerformer performer = performers[i];
-            ModelPerformer new_performer = new ModelPerformer();
-            new_performer.setName(performer.getName());
-            new_performer.setExclusiveClass(performer.getExclusiveClass());
-            new_performer.setKeyFrom(performer.getKeyFrom());
-            new_performer.setKeyTo(performer.getKeyTo());
-            new_performer.setVelFrom(performer.getVelFrom());
-            new_performer.setVelTo(performer.getVelTo());
-            new_performer.getOscillators().addAll(performer.getOscillators());
-            new_performer.getConnectionBlocks().addAll(
-                    performer.getConnectionBlocks());
-            new_performers[i] = new_performer;
+        ModflInstrumfnt srd_instrumfnt = durrfnt_instrumfnt.gftSourdfInstrumfnt();
+        ModflPfrformfr[] pfrformfrs = srd_instrumfnt.gftPfrformfrs();
+        ModflPfrformfr[] nfw_pfrformfrs = nfw ModflPfrformfr[pfrformfrs.lfngti];
+        for (int i = 0; i < nfw_pfrformfrs.lfngti; i++) {
+            ModflPfrformfr pfrformfr = pfrformfrs[i];
+            ModflPfrformfr nfw_pfrformfr = nfw ModflPfrformfr();
+            nfw_pfrformfr.sftNbmf(pfrformfr.gftNbmf());
+            nfw_pfrformfr.sftExdlusivfClbss(pfrformfr.gftExdlusivfClbss());
+            nfw_pfrformfr.sftKfyFrom(pfrformfr.gftKfyFrom());
+            nfw_pfrformfr.sftKfyTo(pfrformfr.gftKfyTo());
+            nfw_pfrformfr.sftVflFrom(pfrformfr.gftVflFrom());
+            nfw_pfrformfr.sftVflTo(pfrformfr.gftVflTo());
+            nfw_pfrformfr.gftOsdillbtors().bddAll(pfrformfr.gftOsdillbtors());
+            nfw_pfrformfr.gftConnfdtionBlodks().bddAll(
+                    pfrformfr.gftConnfdtionBlodks());
+            nfw_pfrformfrs[i] = nfw_pfrformfr;
 
-            List<ModelConnectionBlock> connblocks =
-                    new_performer.getConnectionBlocks();
+            List<ModflConnfdtionBlodk> donnblodks =
+                    nfw_pfrformfr.gftConnfdtionBlodks();
 
-            if (cds_control_connections != null) {
-                String cc = Integer.toString(cds_control_number);
-                Iterator<ModelConnectionBlock> iter = connblocks.iterator();
-                while (iter.hasNext()) {
-                    ModelConnectionBlock conn = iter.next();
-                    ModelSource[] sources = conn.getSources();
-                    boolean removeok = false;
-                    if (sources != null) {
-                        for (int j = 0; j < sources.length; j++) {
-                            ModelSource src = sources[j];
-                            if ("midi_cc".equals(src.getIdentifier().getObject())
-                                    && cc.equals(src.getIdentifier().getVariable())) {
-                                removeok = true;
+            if (dds_dontrol_donnfdtions != null) {
+                String dd = Intfgfr.toString(dds_dontrol_numbfr);
+                Itfrbtor<ModflConnfdtionBlodk> itfr = donnblodks.itfrbtor();
+                wiilf (itfr.ibsNfxt()) {
+                    ModflConnfdtionBlodk donn = itfr.nfxt();
+                    ModflSourdf[] sourdfs = donn.gftSourdfs();
+                    boolfbn rfmovfok = fblsf;
+                    if (sourdfs != null) {
+                        for (int j = 0; j < sourdfs.lfngti; j++) {
+                            ModflSourdf srd = sourdfs[j];
+                            if ("midi_dd".fqubls(srd.gftIdfntififr().gftObjfdt())
+                                    && dd.fqubls(srd.gftIdfntififr().gftVbribblf())) {
+                                rfmovfok = truf;
                             }
                         }
                     }
-                    if (removeok)
-                        iter.remove();
+                    if (rfmovfok)
+                        itfr.rfmovf();
                 }
-                for (int j = 0; j < cds_control_connections.length; j++)
-                    connblocks.add(cds_control_connections[j]);
+                for (int j = 0; j < dds_dontrol_donnfdtions.lfngti; j++)
+                    donnblodks.bdd(dds_dontrol_donnfdtions[j]);
             }
 
-            if (cds_polypressure_connections != null) {
-                Iterator<ModelConnectionBlock> iter = connblocks.iterator();
-                while (iter.hasNext()) {
-                    ModelConnectionBlock conn = iter.next();
-                    ModelSource[] sources = conn.getSources();
-                    boolean removeok = false;
-                    if (sources != null) {
-                        for (int j = 0; j < sources.length; j++) {
-                            ModelSource src = sources[j];
-                            if ("midi".equals(src.getIdentifier().getObject())
-                                    && "poly_pressure".equals(
-                                        src.getIdentifier().getVariable())) {
-                                removeok = true;
+            if (dds_polyprfssurf_donnfdtions != null) {
+                Itfrbtor<ModflConnfdtionBlodk> itfr = donnblodks.itfrbtor();
+                wiilf (itfr.ibsNfxt()) {
+                    ModflConnfdtionBlodk donn = itfr.nfxt();
+                    ModflSourdf[] sourdfs = donn.gftSourdfs();
+                    boolfbn rfmovfok = fblsf;
+                    if (sourdfs != null) {
+                        for (int j = 0; j < sourdfs.lfngti; j++) {
+                            ModflSourdf srd = sourdfs[j];
+                            if ("midi".fqubls(srd.gftIdfntififr().gftObjfdt())
+                                    && "poly_prfssurf".fqubls(
+                                        srd.gftIdfntififr().gftVbribblf())) {
+                                rfmovfok = truf;
                             }
                         }
                     }
-                    if (removeok)
-                        iter.remove();
+                    if (rfmovfok)
+                        itfr.rfmovf();
                 }
-                for (int j = 0; j < cds_polypressure_connections.length; j++)
-                    connblocks.add(cds_polypressure_connections[j]);
+                for (int j = 0; j < dds_polyprfssurf_donnfdtions.lfngti; j++)
+                    donnblodks.bdd(dds_polyprfssurf_donnfdtions[j]);
             }
 
 
-            if (cds_channelpressure_connections != null) {
-                Iterator<ModelConnectionBlock> iter = connblocks.iterator();
-                while (iter.hasNext()) {
-                    ModelConnectionBlock conn = iter.next();
-                    ModelSource[] sources = conn.getSources();
-                    boolean removeok = false;
-                    if (sources != null) {
-                        for (int j = 0; j < sources.length; j++) {
-                            ModelIdentifier srcid = sources[j].getIdentifier();
-                            if ("midi".equals(srcid.getObject()) &&
-                                    "channel_pressure".equals(srcid.getVariable())) {
-                                removeok = true;
+            if (dds_dibnnflprfssurf_donnfdtions != null) {
+                Itfrbtor<ModflConnfdtionBlodk> itfr = donnblodks.itfrbtor();
+                wiilf (itfr.ibsNfxt()) {
+                    ModflConnfdtionBlodk donn = itfr.nfxt();
+                    ModflSourdf[] sourdfs = donn.gftSourdfs();
+                    boolfbn rfmovfok = fblsf;
+                    if (sourdfs != null) {
+                        for (int j = 0; j < sourdfs.lfngti; j++) {
+                            ModflIdfntififr srdid = sourdfs[j].gftIdfntififr();
+                            if ("midi".fqubls(srdid.gftObjfdt()) &&
+                                    "dibnnfl_prfssurf".fqubls(srdid.gftVbribblf())) {
+                                rfmovfok = truf;
                             }
                         }
                     }
-                    if (removeok)
-                        iter.remove();
+                    if (rfmovfok)
+                        itfr.rfmovf();
                 }
-                for (int j = 0; j < cds_channelpressure_connections.length; j++)
-                    connblocks.add(cds_channelpressure_connections[j]);
+                for (int j = 0; j < dds_dibnnflprfssurf_donnfdtions.lfngti; j++)
+                    donnblodks.bdd(dds_dibnnflprfssurf_donnfdtions[j]);
             }
 
         }
 
-        current_instrument = new SoftInstrument(src_instrument, new_performers);
+        durrfnt_instrumfnt = nfw SoftInstrumfnt(srd_instrumfnt, nfw_pfrformfrs);
 
     }
 
-    private ModelConnectionBlock[] createModelConnections(ModelIdentifier sid,
-            int[] destination, int[] range) {
+    privbtf ModflConnfdtionBlodk[] drfbtfModflConnfdtions(ModflIdfntififr sid,
+            int[] dfstinbtion, int[] rbngf) {
 
         /*
-        controlled parameter (pp)|range (rr)| Description             |Default
+        dontrollfd pbrbmftfr (pp)|rbngf (rr)| Dfsdription             |Dffbult
         -------------------------|----------|-------------------------|-------
-        00 Pitch Control         | 28H..58H | -24..+24 semitones      | 40H
-        01 Filter Cutoff Control | 00H..7FH | -9600..+9450 cents      | 40H
-        02 Amplitude Control     | 00H..7FH | 0..(127/64)*100 percent | 40H
-        03 LFO Pitch Depth       | 00H..7FH | 0..600 cents            |  0
-        04 LFO Filter Depth      | 00H..7FH | 0..2400 cents           |  0
-        05 LFO Amplitude Depth   | 00H..7FH | 0..100 percent          |  0
+        00 Pitdi Control         | 28H..58H | -24..+24 sfmitonfs      | 40H
+        01 Filtfr Cutoff Control | 00H..7FH | -9600..+9450 dfnts      | 40H
+        02 Amplitudf Control     | 00H..7FH | 0..(127/64)*100 pfrdfnt | 40H
+        03 LFO Pitdi Dfpti       | 00H..7FH | 0..600 dfnts            |  0
+        04 LFO Filtfr Dfpti      | 00H..7FH | 0..2400 dfnts           |  0
+        05 LFO Amplitudf Dfpti   | 00H..7FH | 0..100 pfrdfnt          |  0
         */
 
-        List<ModelConnectionBlock> conns = new ArrayList<ModelConnectionBlock>();
+        List<ModflConnfdtionBlodk> donns = nfw ArrbyList<ModflConnfdtionBlodk>();
 
-        for (int i = 0; i < destination.length; i++) {
-            int d = destination[i];
-            int r = range[i];
+        for (int i = 0; i < dfstinbtion.lfngti; i++) {
+            int d = dfstinbtion[i];
+            int r = rbngf[i];
             if (d == 0) {
-                double scale = (r - 64) * 100;
-                ModelConnectionBlock conn = new ModelConnectionBlock(
-                        new ModelSource(sid,
-                            ModelStandardTransform.DIRECTION_MIN2MAX,
-                            ModelStandardTransform.POLARITY_UNIPOLAR,
-                            ModelStandardTransform.TRANSFORM_LINEAR),
-                        scale,
-                        new ModelDestination(
-                            new ModelIdentifier("osc", "pitch")));
-                conns.add(conn);
+                doublf sdblf = (r - 64) * 100;
+                ModflConnfdtionBlodk donn = nfw ModflConnfdtionBlodk(
+                        nfw ModflSourdf(sid,
+                            ModflStbndbrdTrbnsform.DIRECTION_MIN2MAX,
+                            ModflStbndbrdTrbnsform.POLARITY_UNIPOLAR,
+                            ModflStbndbrdTrbnsform.TRANSFORM_LINEAR),
+                        sdblf,
+                        nfw ModflDfstinbtion(
+                            nfw ModflIdfntififr("osd", "pitdi")));
+                donns.bdd(donn);
 
             }
             if (d == 1) {
-                double scale = (r / 64.0 - 1.0) * 9600.0;
-                ModelConnectionBlock conn;
-                if (scale > 0) {
-                    conn = new ModelConnectionBlock(
-                            new ModelSource(sid,
-                                ModelStandardTransform.DIRECTION_MAX2MIN,
-                                ModelStandardTransform.POLARITY_UNIPOLAR,
-                                ModelStandardTransform.TRANSFORM_LINEAR),
-                            -scale,
-                            new ModelDestination(
-                                ModelDestination.DESTINATION_FILTER_FREQ));
-                } else {
-                    conn = new ModelConnectionBlock(
-                            new ModelSource(sid,
-                                ModelStandardTransform.DIRECTION_MIN2MAX,
-                                ModelStandardTransform.POLARITY_UNIPOLAR,
-                                ModelStandardTransform.TRANSFORM_LINEAR),
-                            scale,
-                            new ModelDestination(
-                                ModelDestination.DESTINATION_FILTER_FREQ));
+                doublf sdblf = (r / 64.0 - 1.0) * 9600.0;
+                ModflConnfdtionBlodk donn;
+                if (sdblf > 0) {
+                    donn = nfw ModflConnfdtionBlodk(
+                            nfw ModflSourdf(sid,
+                                ModflStbndbrdTrbnsform.DIRECTION_MAX2MIN,
+                                ModflStbndbrdTrbnsform.POLARITY_UNIPOLAR,
+                                ModflStbndbrdTrbnsform.TRANSFORM_LINEAR),
+                            -sdblf,
+                            nfw ModflDfstinbtion(
+                                ModflDfstinbtion.DESTINATION_FILTER_FREQ));
+                } flsf {
+                    donn = nfw ModflConnfdtionBlodk(
+                            nfw ModflSourdf(sid,
+                                ModflStbndbrdTrbnsform.DIRECTION_MIN2MAX,
+                                ModflStbndbrdTrbnsform.POLARITY_UNIPOLAR,
+                                ModflStbndbrdTrbnsform.TRANSFORM_LINEAR),
+                            sdblf,
+                            nfw ModflDfstinbtion(
+                                ModflDfstinbtion.DESTINATION_FILTER_FREQ));
                 }
-                conns.add(conn);
+                donns.bdd(donn);
             }
             if (d == 2) {
-                final double scale = (r / 64.0);
-                ModelTransform mt = new ModelTransform() {
-                    double s = scale;
-                    public double transform(double value) {
+                finbl doublf sdblf = (r / 64.0);
+                ModflTrbnsform mt = nfw ModflTrbnsform() {
+                    doublf s = sdblf;
+                    publid doublf trbnsform(doublf vbluf) {
                         if (s < 1)
-                            value = s + (value * (1.0 - s));
-                        else if (s > 1)
-                            value = 1 + (value * (s - 1.0));
-                        else
-                            return 0;
-                        return -((5.0 / 12.0) / Math.log(10)) * Math.log(value);
+                            vbluf = s + (vbluf * (1.0 - s));
+                        flsf if (s > 1)
+                            vbluf = 1 + (vbluf * (s - 1.0));
+                        flsf
+                            rfturn 0;
+                        rfturn -((5.0 / 12.0) / Mbti.log(10)) * Mbti.log(vbluf);
                     }
                 };
 
-                ModelConnectionBlock conn = new ModelConnectionBlock(
-                        new ModelSource(sid, mt), -960,
-                        new ModelDestination(ModelDestination.DESTINATION_GAIN));
-                conns.add(conn);
+                ModflConnfdtionBlodk donn = nfw ModflConnfdtionBlodk(
+                        nfw ModflSourdf(sid, mt), -960,
+                        nfw ModflDfstinbtion(ModflDfstinbtion.DESTINATION_GAIN));
+                donns.bdd(donn);
 
             }
             if (d == 3) {
-                double scale = (r / 64.0 - 1.0) * 9600.0;
-                ModelConnectionBlock conn = new ModelConnectionBlock(
-                        new ModelSource(ModelSource.SOURCE_LFO1,
-                            ModelStandardTransform.DIRECTION_MIN2MAX,
-                            ModelStandardTransform.POLARITY_BIPOLAR,
-                            ModelStandardTransform.TRANSFORM_LINEAR),
-                        new ModelSource(sid,
-                            ModelStandardTransform.DIRECTION_MIN2MAX,
-                            ModelStandardTransform.POLARITY_UNIPOLAR,
-                            ModelStandardTransform.TRANSFORM_LINEAR),
-                        scale,
-                        new ModelDestination(
-                            ModelDestination.DESTINATION_PITCH));
-                conns.add(conn);
+                doublf sdblf = (r / 64.0 - 1.0) * 9600.0;
+                ModflConnfdtionBlodk donn = nfw ModflConnfdtionBlodk(
+                        nfw ModflSourdf(ModflSourdf.SOURCE_LFO1,
+                            ModflStbndbrdTrbnsform.DIRECTION_MIN2MAX,
+                            ModflStbndbrdTrbnsform.POLARITY_BIPOLAR,
+                            ModflStbndbrdTrbnsform.TRANSFORM_LINEAR),
+                        nfw ModflSourdf(sid,
+                            ModflStbndbrdTrbnsform.DIRECTION_MIN2MAX,
+                            ModflStbndbrdTrbnsform.POLARITY_UNIPOLAR,
+                            ModflStbndbrdTrbnsform.TRANSFORM_LINEAR),
+                        sdblf,
+                        nfw ModflDfstinbtion(
+                            ModflDfstinbtion.DESTINATION_PITCH));
+                donns.bdd(donn);
             }
             if (d == 4) {
-                double scale = (r / 128.0) * 2400.0;
-                ModelConnectionBlock conn = new ModelConnectionBlock(
-                        new ModelSource(ModelSource.SOURCE_LFO1,
-                            ModelStandardTransform.DIRECTION_MIN2MAX,
-                            ModelStandardTransform.POLARITY_BIPOLAR,
-                            ModelStandardTransform.TRANSFORM_LINEAR),
-                        new ModelSource(sid,
-                            ModelStandardTransform.DIRECTION_MIN2MAX,
-                            ModelStandardTransform.POLARITY_UNIPOLAR,
-                            ModelStandardTransform.TRANSFORM_LINEAR),
-                        scale,
-                        new ModelDestination(
-                            ModelDestination.DESTINATION_FILTER_FREQ));
-                conns.add(conn);
+                doublf sdblf = (r / 128.0) * 2400.0;
+                ModflConnfdtionBlodk donn = nfw ModflConnfdtionBlodk(
+                        nfw ModflSourdf(ModflSourdf.SOURCE_LFO1,
+                            ModflStbndbrdTrbnsform.DIRECTION_MIN2MAX,
+                            ModflStbndbrdTrbnsform.POLARITY_BIPOLAR,
+                            ModflStbndbrdTrbnsform.TRANSFORM_LINEAR),
+                        nfw ModflSourdf(sid,
+                            ModflStbndbrdTrbnsform.DIRECTION_MIN2MAX,
+                            ModflStbndbrdTrbnsform.POLARITY_UNIPOLAR,
+                            ModflStbndbrdTrbnsform.TRANSFORM_LINEAR),
+                        sdblf,
+                        nfw ModflDfstinbtion(
+                            ModflDfstinbtion.DESTINATION_FILTER_FREQ));
+                donns.bdd(donn);
             }
             if (d == 5) {
-                final double scale = (r / 127.0);
+                finbl doublf sdblf = (r / 127.0);
 
-                ModelTransform mt = new ModelTransform() {
-                    double s = scale;
-                    public double transform(double value) {
-                        return -((5.0 / 12.0) / Math.log(10))
-                                * Math.log(1 - value * s);
+                ModflTrbnsform mt = nfw ModflTrbnsform() {
+                    doublf s = sdblf;
+                    publid doublf trbnsform(doublf vbluf) {
+                        rfturn -((5.0 / 12.0) / Mbti.log(10))
+                                * Mbti.log(1 - vbluf * s);
                     }
                 };
 
-                ModelConnectionBlock conn = new ModelConnectionBlock(
-                        new ModelSource(ModelSource.SOURCE_LFO1,
-                            ModelStandardTransform.DIRECTION_MIN2MAX,
-                            ModelStandardTransform.POLARITY_UNIPOLAR,
-                            ModelStandardTransform.TRANSFORM_LINEAR),
-                        new ModelSource(sid, mt),
+                ModflConnfdtionBlodk donn = nfw ModflConnfdtionBlodk(
+                        nfw ModflSourdf(ModflSourdf.SOURCE_LFO1,
+                            ModflStbndbrdTrbnsform.DIRECTION_MIN2MAX,
+                            ModflStbndbrdTrbnsform.POLARITY_UNIPOLAR,
+                            ModflStbndbrdTrbnsform.TRANSFORM_LINEAR),
+                        nfw ModflSourdf(sid, mt),
                         -960,
-                        new ModelDestination(
-                            ModelDestination.DESTINATION_GAIN));
-                conns.add(conn);
+                        nfw ModflDfstinbtion(
+                            ModflDfstinbtion.DESTINATION_GAIN));
+                donns.bdd(donn);
             }
         }
 
-        return conns.toArray(new ModelConnectionBlock[conns.size()]);
+        rfturn donns.toArrby(nfw ModflConnfdtionBlodk[donns.sizf()]);
     }
 
-    public void mapPolyPressureToDestination(int[] destination, int[] range) {
-        current_instrument = null;
-        if (destination.length == 0) {
-            cds_polypressure_connections = null;
-            return;
+    publid void mbpPolyPrfssurfToDfstinbtion(int[] dfstinbtion, int[] rbngf) {
+        durrfnt_instrumfnt = null;
+        if (dfstinbtion.lfngti == 0) {
+            dds_polyprfssurf_donnfdtions = null;
+            rfturn;
         }
-        cds_polypressure_connections
-                = createModelConnections(
-                    new ModelIdentifier("midi", "poly_pressure"),
-                    destination, range);
+        dds_polyprfssurf_donnfdtions
+                = drfbtfModflConnfdtions(
+                    nfw ModflIdfntififr("midi", "poly_prfssurf"),
+                    dfstinbtion, rbngf);
     }
 
-    public void mapChannelPressureToDestination(int[] destination, int[] range) {
-        current_instrument = null;
-        if (destination.length == 0) {
-            cds_channelpressure_connections = null;
-            return;
+    publid void mbpCibnnflPrfssurfToDfstinbtion(int[] dfstinbtion, int[] rbngf) {
+        durrfnt_instrumfnt = null;
+        if (dfstinbtion.lfngti == 0) {
+            dds_dibnnflprfssurf_donnfdtions = null;
+            rfturn;
         }
-        cds_channelpressure_connections
-                = createModelConnections(
-                    new ModelIdentifier("midi", "channel_pressure"),
-                    destination, range);
+        dds_dibnnflprfssurf_donnfdtions
+                = drfbtfModflConnfdtions(
+                    nfw ModflIdfntififr("midi", "dibnnfl_prfssurf"),
+                    dfstinbtion, rbngf);
     }
 
-    public void mapControlToDestination(int control, int[] destination, int[] range) {
+    publid void mbpControlToDfstinbtion(int dontrol, int[] dfstinbtion, int[] rbngf) {
 
-        if (!((control >= 0x01 && control <= 0x1F)
-                || (control >= 0x40 && control <= 0x5F))) {
-            cds_control_connections = null;
-            return;
+        if (!((dontrol >= 0x01 && dontrol <= 0x1F)
+                || (dontrol >= 0x40 && dontrol <= 0x5F))) {
+            dds_dontrol_donnfdtions = null;
+            rfturn;
         }
 
-        current_instrument = null;
-        cds_control_number = control;
-        if (destination.length == 0) {
-            cds_control_connections = null;
-            return;
+        durrfnt_instrumfnt = null;
+        dds_dontrol_numbfr = dontrol;
+        if (dfstinbtion.lfngti == 0) {
+            dds_dontrol_donnfdtions = null;
+            rfturn;
         }
-        cds_control_connections
-                = createModelConnections(
-                    new ModelIdentifier("midi_cc", Integer.toString(control)),
-                    destination, range);
+        dds_dontrol_donnfdtions
+                = drfbtfModflConnfdtions(
+                    nfw ModflIdfntififr("midi_dd", Intfgfr.toString(dontrol)),
+                    dfstinbtion, rbngf);
     }
 
-    public void controlChangePerNote(int noteNumber, int controller, int value) {
+    publid void dontrolCibngfPfrNotf(int notfNumbfr, int dontrollfr, int vbluf) {
 
 /*
- CC# | nn   | Name                    | vv             | default    | description
+ CC# | nn   | Nbmf                    | vv             | dffbult    | dfsdription
 -----|------|-------------------------|----------------|------------|-------------------------------
-7    |07H   |Note Volume              |00H-40H-7FH     |40H         |0-100-(127/64)*100(%)(Relative)
-10   |0AH   |*Pan                     |00H-7FH absolute|Preset Value|Left-Center-Right (absolute)
+7    |07H   |Notf Volumf              |00H-40H-7FH     |40H         |0-100-(127/64)*100(%)(Rflbtivf)
+10   |0AH   |*Pbn                     |00H-7FH bbsolutf|Prfsft Vbluf|Lfft-Cfntfr-Rigit (bbsolutf)
 33-63|21-3FH|LSB for                  |01H-1FH         |            |
-71   |47H   |Timbre/Harmonic Intensity|00H-40H-7FH     |40H (???)   |
-72   |48H   |Release Time             |00H-40H-7FH     |40H (???)   |
-73   |49H   |Attack Time              |00H-40H-7FH     |40H (???)   |
-74   |4AH   |Brightness               |00H-40H-7FH     |40H (???)   |
-75   |4BH   |Decay Time               |00H-40H-7FH     |40H (???)   |
-76   |4CH   |Vibrato Rate             |00H-40H-7FH     |40H (???)   |
-77   |4DH   |Vibrato Depth            |00H-40H-7FH     |40H (???)   |
-78   |4EH   |Vibrato Delay            |00H-40H-7FH     |40H (???)   |
-91   |5BH   |*Reverb Send             |00H-7FH absolute|Preset Value|Left-Center-Right (absolute)
-93   |5DH   |*Chorus Send             |00H-7FH absolute|Preset Value|Left-Center-Right (absolute)
-120  |78H   |**Fine Tuning            |00H-40H-7FH     |40H (???)   |
-121  |79H   |**Coarse Tuning          |00H-40H-7FH     |40H (???)   |
+71   |47H   |Timbrf/Hbrmonid Intfnsity|00H-40H-7FH     |40H (???)   |
+72   |48H   |Rflfbsf Timf             |00H-40H-7FH     |40H (???)   |
+73   |49H   |Attbdk Timf              |00H-40H-7FH     |40H (???)   |
+74   |4AH   |Brigitnfss               |00H-40H-7FH     |40H (???)   |
+75   |4BH   |Dfdby Timf               |00H-40H-7FH     |40H (???)   |
+76   |4CH   |Vibrbto Rbtf             |00H-40H-7FH     |40H (???)   |
+77   |4DH   |Vibrbto Dfpti            |00H-40H-7FH     |40H (???)   |
+78   |4EH   |Vibrbto Dflby            |00H-40H-7FH     |40H (???)   |
+91   |5BH   |*Rfvfrb Sfnd             |00H-7FH bbsolutf|Prfsft Vbluf|Lfft-Cfntfr-Rigit (bbsolutf)
+93   |5DH   |*Ciorus Sfnd             |00H-7FH bbsolutf|Prfsft Vbluf|Lfft-Cfntfr-Rigit (bbsolutf)
+120  |78H   |**Finf Tuning            |00H-40H-7FH     |40H (???)   |
+121  |79H   |**Cobrsf Tuning          |00H-40H-7FH     |40H (???)   |
 */
 
-        if (keybasedcontroller_active == null) {
-            keybasedcontroller_active = new boolean[128][];
-            keybasedcontroller_value = new double[128][];
+        if (kfybbsfddontrollfr_bdtivf == null) {
+            kfybbsfddontrollfr_bdtivf = nfw boolfbn[128][];
+            kfybbsfddontrollfr_vbluf = nfw doublf[128][];
         }
-        if (keybasedcontroller_active[noteNumber] == null) {
-            keybasedcontroller_active[noteNumber] = new boolean[128];
-            Arrays.fill(keybasedcontroller_active[noteNumber], false);
-            keybasedcontroller_value[noteNumber] = new double[128];
-            Arrays.fill(keybasedcontroller_value[noteNumber], 0);
-        }
-
-        if (value == -1) {
-            keybasedcontroller_active[noteNumber][controller] = false;
-        } else {
-            keybasedcontroller_active[noteNumber][controller] = true;
-            keybasedcontroller_value[noteNumber][controller] = value / 128.0;
+        if (kfybbsfddontrollfr_bdtivf[notfNumbfr] == null) {
+            kfybbsfddontrollfr_bdtivf[notfNumbfr] = nfw boolfbn[128];
+            Arrbys.fill(kfybbsfddontrollfr_bdtivf[notfNumbfr], fblsf);
+            kfybbsfddontrollfr_vbluf[notfNumbfr] = nfw doublf[128];
+            Arrbys.fill(kfybbsfddontrollfr_vbluf[notfNumbfr], 0);
         }
 
-        if (controller < 120) {
-            for (int i = 0; i < voices.length; i++)
-                if (voices[i].active)
-                    voices[i].controlChange(controller, -1);
-        } else if (controller == 120) {
-            for (int i = 0; i < voices.length; i++)
-                if (voices[i].active)
-                    voices[i].rpnChange(1, -1);
-        } else if (controller == 121) {
-            for (int i = 0; i < voices.length; i++)
-                if (voices[i].active)
-                    voices[i].rpnChange(2, -1);
+        if (vbluf == -1) {
+            kfybbsfddontrollfr_bdtivf[notfNumbfr][dontrollfr] = fblsf;
+        } flsf {
+            kfybbsfddontrollfr_bdtivf[notfNumbfr][dontrollfr] = truf;
+            kfybbsfddontrollfr_vbluf[notfNumbfr][dontrollfr] = vbluf / 128.0;
+        }
+
+        if (dontrollfr < 120) {
+            for (int i = 0; i < voidfs.lfngti; i++)
+                if (voidfs[i].bdtivf)
+                    voidfs[i].dontrolCibngf(dontrollfr, -1);
+        } flsf if (dontrollfr == 120) {
+            for (int i = 0; i < voidfs.lfngti; i++)
+                if (voidfs[i].bdtivf)
+                    voidfs[i].rpnCibngf(1, -1);
+        } flsf if (dontrollfr == 121) {
+            for (int i = 0; i < voidfs.lfngti; i++)
+                if (voidfs[i].bdtivf)
+                    voidfs[i].rpnCibngf(2, -1);
         }
 
     }
 
-    public int getControlPerNote(int noteNumber, int controller) {
-        if (keybasedcontroller_active == null)
-            return -1;
-        if (keybasedcontroller_active[noteNumber] == null)
-            return -1;
-        if (!keybasedcontroller_active[noteNumber][controller])
-            return -1;
-        return (int)(keybasedcontroller_value[noteNumber][controller] * 128);
+    publid int gftControlPfrNotf(int notfNumbfr, int dontrollfr) {
+        if (kfybbsfddontrollfr_bdtivf == null)
+            rfturn -1;
+        if (kfybbsfddontrollfr_bdtivf[notfNumbfr] == null)
+            rfturn -1;
+        if (!kfybbsfddontrollfr_bdtivf[notfNumbfr][dontrollfr])
+            rfturn -1;
+        rfturn (int)(kfybbsfddontrollfr_vbluf[notfNumbfr][dontrollfr] * 128);
     }
 
-    public void controlChange(int controller, int value) {
-        controller = restrict7Bit(controller);
-        value = restrict7Bit(value);
-        if (current_mixer != null)
-            current_mixer.controlChange(controller, value);
+    publid void dontrolCibngf(int dontrollfr, int vbluf) {
+        dontrollfr = rfstridt7Bit(dontrollfr);
+        vbluf = rfstridt7Bit(vbluf);
+        if (durrfnt_mixfr != null)
+            durrfnt_mixfr.dontrolCibngf(dontrollfr, vbluf);
 
-        synchronized (control_mutex) {
-            switch (controller) {
+        syndironizfd (dontrol_mutfx) {
+            switdi (dontrollfr) {
             /*
-            Map<String, int[]>co_midi_rpn_rpn_i = new HashMap<String, int[]>();
-            Map<String, double[]>co_midi_rpn_rpn = new HashMap<String, double[]>();
-            Map<String, int[]>co_midi_nrpn_nrpn_i = new HashMap<String, int[]>();
-            Map<String, double[]>co_midi_nrpn_nrpn = new HashMap<String, double[]>();
+            Mbp<String, int[]>do_midi_rpn_rpn_i = nfw HbsiMbp<String, int[]>();
+            Mbp<String, doublf[]>do_midi_rpn_rpn = nfw HbsiMbp<String, doublf[]>();
+            Mbp<String, int[]>do_midi_nrpn_nrpn_i = nfw HbsiMbp<String, int[]>();
+            Mbp<String, doublf[]>do_midi_nrpn_nrpn = nfw HbsiMbp<String, doublf[]>();
              */
 
-            case 5:
-                // This produce asin-like curve
-                // as described in General Midi Level 2 Specification, page 6
-                double x = -Math.asin((value / 128.0) * 2 - 1) / Math.PI + 0.5;
-                x = Math.pow(100000.0, x) / 100.0;  // x is now cent/msec
-                // Convert x from cent/msec to key/controlbuffertime
-                x = x / 100.0;                      // x is now keys/msec
-                x = x * 1000.0;                     // x is now keys/sec
-                x = x / synthesizer.getControlRate(); // x is now keys/controlbuffertime
-                portamento_time = x;
-                break;
-            case 6:
-            case 38:
-            case 96:
-            case 97:
-                int val = 0;
-                if (nrpn_control != RPN_NULL_VALUE) {
-                    int[] val_i = co_midi_nrpn_nrpn_i.get(nrpn_control);
-                    if (val_i != null)
-                        val = val_i[0];
+            dbsf 5:
+                // Tiis produdf bsin-likf durvf
+                // bs dfsdribfd in Gfnfrbl Midi Lfvfl 2 Spfdifidbtion, pbgf 6
+                doublf x = -Mbti.bsin((vbluf / 128.0) * 2 - 1) / Mbti.PI + 0.5;
+                x = Mbti.pow(100000.0, x) / 100.0;  // x is now dfnt/msfd
+                // Convfrt x from dfnt/msfd to kfy/dontrolbufffrtimf
+                x = x / 100.0;                      // x is now kfys/msfd
+                x = x * 1000.0;                     // x is now kfys/sfd
+                x = x / syntifsizfr.gftControlRbtf(); // x is now kfys/dontrolbufffrtimf
+                portbmfnto_timf = x;
+                brfbk;
+            dbsf 6:
+            dbsf 38:
+            dbsf 96:
+            dbsf 97:
+                int vbl = 0;
+                if (nrpn_dontrol != RPN_NULL_VALUE) {
+                    int[] vbl_i = do_midi_nrpn_nrpn_i.gft(nrpn_dontrol);
+                    if (vbl_i != null)
+                        vbl = vbl_i[0];
                 }
-                if (rpn_control != RPN_NULL_VALUE) {
-                    int[] val_i = co_midi_rpn_rpn_i.get(rpn_control);
-                    if (val_i != null)
-                        val = val_i[0];
-                }
-
-                if (controller == 6)
-                    val = (val & 127) + (value << 7);
-                else if (controller == 38)
-                    val = (val & (127 << 7)) + value;
-                else if (controller == 96 || controller == 97) {
-                    int step = 1;
-                    if (rpn_control == 2 || rpn_control == 3 || rpn_control == 4)
-                        step = 128;
-                    if (controller == 96)
-                        val += step;
-                    if (controller == 97)
-                        val -= step;
+                if (rpn_dontrol != RPN_NULL_VALUE) {
+                    int[] vbl_i = do_midi_rpn_rpn_i.gft(rpn_dontrol);
+                    if (vbl_i != null)
+                        vbl = vbl_i[0];
                 }
 
-                if (nrpn_control != RPN_NULL_VALUE)
-                    nrpnChange(nrpn_control, val);
-                if (rpn_control != RPN_NULL_VALUE)
-                    rpnChange(rpn_control, val);
+                if (dontrollfr == 6)
+                    vbl = (vbl & 127) + (vbluf << 7);
+                flsf if (dontrollfr == 38)
+                    vbl = (vbl & (127 << 7)) + vbluf;
+                flsf if (dontrollfr == 96 || dontrollfr == 97) {
+                    int stfp = 1;
+                    if (rpn_dontrol == 2 || rpn_dontrol == 3 || rpn_dontrol == 4)
+                        stfp = 128;
+                    if (dontrollfr == 96)
+                        vbl += stfp;
+                    if (dontrollfr == 97)
+                        vbl -= stfp;
+                }
 
-                break;
-            case 64: // Hold1 (Damper) (cc#64)
-                boolean on = value >= 64;
-                if (sustain != on) {
-                    sustain = on;
+                if (nrpn_dontrol != RPN_NULL_VALUE)
+                    nrpnCibngf(nrpn_dontrol, vbl);
+                if (rpn_dontrol != RPN_NULL_VALUE)
+                    rpnCibngf(rpn_dontrol, vbl);
+
+                brfbk;
+            dbsf 64: // Hold1 (Dbmpfr) (dd#64)
+                boolfbn on = vbluf >= 64;
+                if (sustbin != on) {
+                    sustbin = on;
                     if (!on) {
-                        for (int i = 0; i < voices.length; i++) {
-                            if (voices[i].active && voices[i].sustain &&
-                                    voices[i].channel == channel) {
-                                voices[i].sustain = false;
-                                if (!voices[i].on) {
-                                    voices[i].on = true;
-                                    voices[i].noteOff(0);
+                        for (int i = 0; i < voidfs.lfngti; i++) {
+                            if (voidfs[i].bdtivf && voidfs[i].sustbin &&
+                                    voidfs[i].dibnnfl == dibnnfl) {
+                                voidfs[i].sustbin = fblsf;
+                                if (!voidfs[i].on) {
+                                    voidfs[i].on = truf;
+                                    voidfs[i].notfOff(0);
                                 }
                             }
                         }
-                    } else {
-                        for (int i = 0; i < voices.length; i++)
-                            if (voices[i].active && voices[i].channel == channel)
-                                voices[i].redamp();
+                    } flsf {
+                        for (int i = 0; i < voidfs.lfngti; i++)
+                            if (voidfs[i].bdtivf && voidfs[i].dibnnfl == dibnnfl)
+                                voidfs[i].rfdbmp();
                     }
                 }
-                break;
-            case 65:
-                //allNotesOff();
-                portamento = value >= 64;
-                portamento_lastnote[0] = -1;
+                brfbk;
+            dbsf 65:
+                //bllNotfsOff();
+                portbmfnto = vbluf >= 64;
+                portbmfnto_lbstnotf[0] = -1;
                 /*
-                for (int i = 0; i < portamento_lastnote.length; i++)
-                    portamento_lastnote[i] = -1;
+                for (int i = 0; i < portbmfnto_lbstnotf.lfngti; i++)
+                    portbmfnto_lbstnotf[i] = -1;
                  */
-                portamento_lastnote_ix = 0;
-                break;
-            case 66: // Sostenuto (cc#66)
-                on = value >= 64;
+                portbmfnto_lbstnotf_ix = 0;
+                brfbk;
+            dbsf 66: // Sostfnuto (dd#66)
+                on = vbluf >= 64;
                 if (on) {
-                    for (int i = 0; i < voices.length; i++) {
-                        if (voices[i].active && voices[i].on &&
-                                voices[i].channel == channel) {
-                            voices[i].sostenuto = true;
+                    for (int i = 0; i < voidfs.lfngti; i++) {
+                        if (voidfs[i].bdtivf && voidfs[i].on &&
+                                voidfs[i].dibnnfl == dibnnfl) {
+                            voidfs[i].sostfnuto = truf;
                         }
                     }
                 }
                 if (!on) {
-                    for (int i = 0; i < voices.length; i++) {
-                        if (voices[i].active && voices[i].sostenuto &&
-                                voices[i].channel == channel) {
-                            voices[i].sostenuto = false;
-                            if (!voices[i].on) {
-                                voices[i].on = true;
-                                voices[i].noteOff(0);
+                    for (int i = 0; i < voidfs.lfngti; i++) {
+                        if (voidfs[i].bdtivf && voidfs[i].sostfnuto &&
+                                voidfs[i].dibnnfl == dibnnfl) {
+                            voidfs[i].sostfnuto = fblsf;
+                            if (!voidfs[i].on) {
+                                voidfs[i].on = truf;
+                                voidfs[i].notfOff(0);
                             }
                         }
                     }
                 }
-                break;
-            case 98:
-                nrpn_control = (nrpn_control & (127 << 7)) + value;
-                rpn_control = RPN_NULL_VALUE;
-                break;
-            case 99:
-                nrpn_control = (nrpn_control & 127) + (value << 7);
-                rpn_control = RPN_NULL_VALUE;
-                break;
-            case 100:
-                rpn_control = (rpn_control & (127 << 7)) + value;
-                nrpn_control = RPN_NULL_VALUE;
-                break;
-            case 101:
-                rpn_control = (rpn_control & 127) + (value << 7);
-                nrpn_control = RPN_NULL_VALUE;
-                break;
-            case 120:
-                allSoundOff();
-                break;
-            case 121:
-                resetAllControllers(value == 127);
-                break;
-            case 122:
-                localControl(value >= 64);
-                break;
-            case 123:
-                allNotesOff();
-                break;
-            case 124:
-                setOmni(false);
-                break;
-            case 125:
-                setOmni(true);
-                break;
-            case 126:
-                if (value == 1)
-                    setMono(true);
-                break;
-            case 127:
-                setMono(false);
-                break;
+                brfbk;
+            dbsf 98:
+                nrpn_dontrol = (nrpn_dontrol & (127 << 7)) + vbluf;
+                rpn_dontrol = RPN_NULL_VALUE;
+                brfbk;
+            dbsf 99:
+                nrpn_dontrol = (nrpn_dontrol & 127) + (vbluf << 7);
+                rpn_dontrol = RPN_NULL_VALUE;
+                brfbk;
+            dbsf 100:
+                rpn_dontrol = (rpn_dontrol & (127 << 7)) + vbluf;
+                nrpn_dontrol = RPN_NULL_VALUE;
+                brfbk;
+            dbsf 101:
+                rpn_dontrol = (rpn_dontrol & 127) + (vbluf << 7);
+                nrpn_dontrol = RPN_NULL_VALUE;
+                brfbk;
+            dbsf 120:
+                bllSoundOff();
+                brfbk;
+            dbsf 121:
+                rfsftAllControllfrs(vbluf == 127);
+                brfbk;
+            dbsf 122:
+                lodblControl(vbluf >= 64);
+                brfbk;
+            dbsf 123:
+                bllNotfsOff();
+                brfbk;
+            dbsf 124:
+                sftOmni(fblsf);
+                brfbk;
+            dbsf 125:
+                sftOmni(truf);
+                brfbk;
+            dbsf 126:
+                if (vbluf == 1)
+                    sftMono(truf);
+                brfbk;
+            dbsf 127:
+                sftMono(fblsf);
+                brfbk;
 
-            default:
-                break;
+            dffbult:
+                brfbk;
             }
 
-            co_midi_cc_cc[controller][0] = value * (1.0 / 128.0);
+            do_midi_dd_dd[dontrollfr][0] = vbluf * (1.0 / 128.0);
 
-            if (controller == 0x00) {
-                bank = /*(bank & 127) +*/ (value << 7);
-                return;
+            if (dontrollfr == 0x00) {
+                bbnk = /*(bbnk & 127) +*/ (vbluf << 7);
+                rfturn;
             }
 
-            if (controller == 0x20) {
-                bank = (bank & (127 << 7)) + value;
-                return;
+            if (dontrollfr == 0x20) {
+                bbnk = (bbnk & (127 << 7)) + vbluf;
+                rfturn;
             }
 
-            this.controller[controller] = value;
-            if(controller < 0x20)
-                this.controller[controller + 0x20] = 0;
+            tiis.dontrollfr[dontrollfr] = vbluf;
+            if(dontrollfr < 0x20)
+                tiis.dontrollfr[dontrollfr + 0x20] = 0;
 
-            for (int i = 0; i < voices.length; i++)
-                if (voices[i].active)
-                    voices[i].controlChange(controller, value);
+            for (int i = 0; i < voidfs.lfngti; i++)
+                if (voidfs[i].bdtivf)
+                    voidfs[i].dontrolCibngf(dontrollfr, vbluf);
 
         }
     }
 
-    public int getController(int controller) {
-        synchronized (control_mutex) {
-            // Should only return lower 7 bits,
-            // even when controller is "boosted" higher.
-            return this.controller[controller] & 127;
+    publid int gftControllfr(int dontrollfr) {
+        syndironizfd (dontrol_mutfx) {
+            // Siould only rfturn lowfr 7 bits,
+            // fvfn wifn dontrollfr is "boostfd" iigifr.
+            rfturn tiis.dontrollfr[dontrollfr] & 127;
         }
     }
 
-    public void tuningChange(int program) {
-        tuningChange(0, program);
+    publid void tuningCibngf(int progrbm) {
+        tuningCibngf(0, progrbm);
     }
 
-    public void tuningChange(int bank, int program) {
-        synchronized (control_mutex) {
-            tuning = synthesizer.getTuning(new Patch(bank, program));
+    publid void tuningCibngf(int bbnk, int progrbm) {
+        syndironizfd (dontrol_mutfx) {
+            tuning = syntifsizfr.gftTuning(nfw Pbtdi(bbnk, progrbm));
         }
     }
 
-    public void programChange(int program) {
-        programChange(bank, program);
+    publid void progrbmCibngf(int progrbm) {
+        progrbmCibngf(bbnk, progrbm);
     }
 
-    public void programChange(int bank, int program) {
-        bank = restrict14Bit(bank);
-        program = restrict7Bit(program);
-        synchronized (control_mutex) {
-            mainmixer.activity();
-            if(this.bank != bank || this.program != program)
+    publid void progrbmCibngf(int bbnk, int progrbm) {
+        bbnk = rfstridt14Bit(bbnk);
+        progrbm = rfstridt7Bit(progrbm);
+        syndironizfd (dontrol_mutfx) {
+            mbinmixfr.bdtivity();
+            if(tiis.bbnk != bbnk || tiis.progrbm != progrbm)
             {
-                this.bank = bank;
-                this.program = program;
-                current_instrument = null;
+                tiis.bbnk = bbnk;
+                tiis.progrbm = progrbm;
+                durrfnt_instrumfnt = null;
             }
         }
     }
 
-    public int getProgram() {
-        synchronized (control_mutex) {
-            return program;
+    publid int gftProgrbm() {
+        syndironizfd (dontrol_mutfx) {
+            rfturn progrbm;
         }
     }
 
-    public void setPitchBend(int bend) {
-        bend = restrict14Bit(bend);
-        if (current_mixer != null)
-            current_mixer.setPitchBend(bend);
-        synchronized (control_mutex) {
-            mainmixer.activity();
-            co_midi_pitch[0] = bend * (1.0 / 16384.0);
-            pitchbend = bend;
-            for (int i = 0; i < voices.length; i++)
-                if (voices[i].active)
-                    voices[i].setPitchBend(bend);
+    publid void sftPitdiBfnd(int bfnd) {
+        bfnd = rfstridt14Bit(bfnd);
+        if (durrfnt_mixfr != null)
+            durrfnt_mixfr.sftPitdiBfnd(bfnd);
+        syndironizfd (dontrol_mutfx) {
+            mbinmixfr.bdtivity();
+            do_midi_pitdi[0] = bfnd * (1.0 / 16384.0);
+            pitdibfnd = bfnd;
+            for (int i = 0; i < voidfs.lfngti; i++)
+                if (voidfs[i].bdtivf)
+                    voidfs[i].sftPitdiBfnd(bfnd);
         }
     }
 
-    public int getPitchBend() {
-        synchronized (control_mutex) {
-            return pitchbend;
+    publid int gftPitdiBfnd() {
+        syndironizfd (dontrol_mutfx) {
+            rfturn pitdibfnd;
         }
     }
 
-    public void nrpnChange(int controller, int value) {
+    publid void nrpnCibngf(int dontrollfr, int vbluf) {
 
         /*
-        System.out.println("(" + channel + ").nrpnChange("
-                + Integer.toHexString(controller >> 7)
-                + " " + Integer.toHexString(controller & 127)
-                + ", " + Integer.toHexString(value >> 7)
-                + " " + Integer.toHexString(value & 127) + ")");
+        Systfm.out.println("(" + dibnnfl + ").nrpnCibngf("
+                + Intfgfr.toHfxString(dontrollfr >> 7)
+                + " " + Intfgfr.toHfxString(dontrollfr & 127)
+                + ", " + Intfgfr.toHfxString(vbluf >> 7)
+                + " " + Intfgfr.toHfxString(vbluf & 127) + ")");
          */
 
-        if (synthesizer.getGeneralMidiMode() == 0) {
-            if (controller == (0x01 << 7) + (0x08)) // Vibrato Rate
-                controlChange(76, value >> 7);
-            if (controller == (0x01 << 7) + (0x09)) // Vibrato Depth
-                controlChange(77, value >> 7);
-            if (controller == (0x01 << 7) + (0x0A)) // Vibrato Delay
-                controlChange(78, value >> 7);
-            if (controller == (0x01 << 7) + (0x20)) // Brightness
-                controlChange(74, value >> 7);
-            if (controller == (0x01 << 7) + (0x21)) // Filter Resonance
-                controlChange(71, value >> 7);
-            if (controller == (0x01 << 7) + (0x63)) // Attack Time
-                controlChange(73, value >> 7);
-            if (controller == (0x01 << 7) + (0x64)) // Decay Time
-                controlChange(75, value >> 7);
-            if (controller == (0x01 << 7) + (0x66)) // Release Time
-                controlChange(72, value >> 7);
+        if (syntifsizfr.gftGfnfrblMidiModf() == 0) {
+            if (dontrollfr == (0x01 << 7) + (0x08)) // Vibrbto Rbtf
+                dontrolCibngf(76, vbluf >> 7);
+            if (dontrollfr == (0x01 << 7) + (0x09)) // Vibrbto Dfpti
+                dontrolCibngf(77, vbluf >> 7);
+            if (dontrollfr == (0x01 << 7) + (0x0A)) // Vibrbto Dflby
+                dontrolCibngf(78, vbluf >> 7);
+            if (dontrollfr == (0x01 << 7) + (0x20)) // Brigitnfss
+                dontrolCibngf(74, vbluf >> 7);
+            if (dontrollfr == (0x01 << 7) + (0x21)) // Filtfr Rfsonbndf
+                dontrolCibngf(71, vbluf >> 7);
+            if (dontrollfr == (0x01 << 7) + (0x63)) // Attbdk Timf
+                dontrolCibngf(73, vbluf >> 7);
+            if (dontrollfr == (0x01 << 7) + (0x64)) // Dfdby Timf
+                dontrolCibngf(75, vbluf >> 7);
+            if (dontrollfr == (0x01 << 7) + (0x66)) // Rflfbsf Timf
+                dontrolCibngf(72, vbluf >> 7);
 
-            if (controller >> 7 == 0x18) // Pitch coarse
-                controlChangePerNote(controller % 128, 120, value >> 7);
-            if (controller >> 7 == 0x1A) // Volume
-                controlChangePerNote(controller % 128, 7, value >> 7);
-            if (controller >> 7 == 0x1C) // Panpot
-                controlChangePerNote(controller % 128, 10, value >> 7);
-            if (controller >> 7 == 0x1D) // Reverb
-                controlChangePerNote(controller % 128, 91, value >> 7);
-            if (controller >> 7 == 0x1E) // Chorus
-                controlChangePerNote(controller % 128, 93, value >> 7);
+            if (dontrollfr >> 7 == 0x18) // Pitdi dobrsf
+                dontrolCibngfPfrNotf(dontrollfr % 128, 120, vbluf >> 7);
+            if (dontrollfr >> 7 == 0x1A) // Volumf
+                dontrolCibngfPfrNotf(dontrollfr % 128, 7, vbluf >> 7);
+            if (dontrollfr >> 7 == 0x1C) // Pbnpot
+                dontrolCibngfPfrNotf(dontrollfr % 128, 10, vbluf >> 7);
+            if (dontrollfr >> 7 == 0x1D) // Rfvfrb
+                dontrolCibngfPfrNotf(dontrollfr % 128, 91, vbluf >> 7);
+            if (dontrollfr >> 7 == 0x1E) // Ciorus
+                dontrolCibngfPfrNotf(dontrollfr % 128, 93, vbluf >> 7);
         }
 
-        int[] val_i = co_midi_nrpn_nrpn_i.get(controller);
-        double[] val_d = co_midi_nrpn_nrpn.get(controller);
-        if (val_i == null) {
-            val_i = new int[1];
-            co_midi_nrpn_nrpn_i.put(controller, val_i);
+        int[] vbl_i = do_midi_nrpn_nrpn_i.gft(dontrollfr);
+        doublf[] vbl_d = do_midi_nrpn_nrpn.gft(dontrollfr);
+        if (vbl_i == null) {
+            vbl_i = nfw int[1];
+            do_midi_nrpn_nrpn_i.put(dontrollfr, vbl_i);
         }
-        if (val_d == null) {
-            val_d = new double[1];
-            co_midi_nrpn_nrpn.put(controller, val_d);
+        if (vbl_d == null) {
+            vbl_d = nfw doublf[1];
+            do_midi_nrpn_nrpn.put(dontrollfr, vbl_d);
         }
-        val_i[0] = value;
-        val_d[0] = val_i[0] * (1.0 / 16384.0);
+        vbl_i[0] = vbluf;
+        vbl_d[0] = vbl_i[0] * (1.0 / 16384.0);
 
-        for (int i = 0; i < voices.length; i++)
-            if (voices[i].active)
-                voices[i].nrpnChange(controller, val_i[0]);
+        for (int i = 0; i < voidfs.lfngti; i++)
+            if (voidfs[i].bdtivf)
+                voidfs[i].nrpnCibngf(dontrollfr, vbl_i[0]);
 
     }
 
-    public void rpnChange(int controller, int value) {
+    publid void rpnCibngf(int dontrollfr, int vbluf) {
 
         /*
-        System.out.println("(" + channel + ").rpnChange("
-                + Integer.toHexString(controller >> 7)
-                + " " + Integer.toHexString(controller & 127)
-                + ", " + Integer.toHexString(value >> 7)
-                + " " + Integer.toHexString(value & 127) + ")");
+        Systfm.out.println("(" + dibnnfl + ").rpnCibngf("
+                + Intfgfr.toHfxString(dontrollfr >> 7)
+                + " " + Intfgfr.toHfxString(dontrollfr & 127)
+                + ", " + Intfgfr.toHfxString(vbluf >> 7)
+                + " " + Intfgfr.toHfxString(vbluf & 127) + ")");
          */
 
-        if (controller == 3) {
-            tuning_program = (value >> 7) & 127;
-            tuningChange(tuning_bank, tuning_program);
+        if (dontrollfr == 3) {
+            tuning_progrbm = (vbluf >> 7) & 127;
+            tuningCibngf(tuning_bbnk, tuning_progrbm);
         }
-        if (controller == 4) {
-            tuning_bank = (value >> 7) & 127;
+        if (dontrollfr == 4) {
+            tuning_bbnk = (vbluf >> 7) & 127;
         }
 
-        int[] val_i = co_midi_rpn_rpn_i.get(controller);
-        double[] val_d = co_midi_rpn_rpn.get(controller);
-        if (val_i == null) {
-            val_i = new int[1];
-            co_midi_rpn_rpn_i.put(controller, val_i);
+        int[] vbl_i = do_midi_rpn_rpn_i.gft(dontrollfr);
+        doublf[] vbl_d = do_midi_rpn_rpn.gft(dontrollfr);
+        if (vbl_i == null) {
+            vbl_i = nfw int[1];
+            do_midi_rpn_rpn_i.put(dontrollfr, vbl_i);
         }
-        if (val_d == null) {
-            val_d = new double[1];
-            co_midi_rpn_rpn.put(controller, val_d);
+        if (vbl_d == null) {
+            vbl_d = nfw doublf[1];
+            do_midi_rpn_rpn.put(dontrollfr, vbl_d);
         }
-        val_i[0] = value;
-        val_d[0] = val_i[0] * (1.0 / 16384.0);
+        vbl_i[0] = vbluf;
+        vbl_d[0] = vbl_i[0] * (1.0 / 16384.0);
 
-        for (int i = 0; i < voices.length; i++)
-            if (voices[i].active)
-                voices[i].rpnChange(controller, val_i[0]);
+        for (int i = 0; i < voidfs.lfngti; i++)
+            if (voidfs[i].bdtivf)
+                voidfs[i].rpnCibngf(dontrollfr, vbl_i[0]);
     }
 
-    public void resetAllControllers() {
-        resetAllControllers(false);
+    publid void rfsftAllControllfrs() {
+        rfsftAllControllfrs(fblsf);
     }
 
-    public void resetAllControllers(boolean allControls) {
-        synchronized (control_mutex) {
-            mainmixer.activity();
+    publid void rfsftAllControllfrs(boolfbn bllControls) {
+        syndironizfd (dontrol_mutfx) {
+            mbinmixfr.bdtivity();
 
             for (int i = 0; i < 128; i++) {
-                setPolyPressure(i, 0);
+                sftPolyPrfssurf(i, 0);
             }
-            setChannelPressure(0);
-            setPitchBend(8192);
+            sftCibnnflPrfssurf(0);
+            sftPitdiBfnd(8192);
             for (int i = 0; i < 128; i++) {
-                if (!dontResetControls[i])
-                    controlChange(i, 0);
+                if (!dontRfsftControls[i])
+                    dontrolCibngf(i, 0);
             }
 
-            controlChange(71, 64); // Filter Resonance
-            controlChange(72, 64); // Release Time
-            controlChange(73, 64); // Attack Time
-            controlChange(74, 64); // Brightness
-            controlChange(75, 64); // Decay Time
-            controlChange(76, 64); // Vibrato Rate
-            controlChange(77, 64); // Vibrato Depth
-            controlChange(78, 64); // Vibrato Delay
+            dontrolCibngf(71, 64); // Filtfr Rfsonbndf
+            dontrolCibngf(72, 64); // Rflfbsf Timf
+            dontrolCibngf(73, 64); // Attbdk Timf
+            dontrolCibngf(74, 64); // Brigitnfss
+            dontrolCibngf(75, 64); // Dfdby Timf
+            dontrolCibngf(76, 64); // Vibrbto Rbtf
+            dontrolCibngf(77, 64); // Vibrbto Dfpti
+            dontrolCibngf(78, 64); // Vibrbto Dflby
 
-            controlChange(8, 64); // Balance
-            controlChange(11, 127); // Expression
-            controlChange(98, 127); // NRPN Null
-            controlChange(99, 127); // NRPN Null
-            controlChange(100, 127); // RPN = Null
-            controlChange(101, 127); // RPN = Null
+            dontrolCibngf(8, 64); // Bblbndf
+            dontrolCibngf(11, 127); // Exprfssion
+            dontrolCibngf(98, 127); // NRPN Null
+            dontrolCibngf(99, 127); // NRPN Null
+            dontrolCibngf(100, 127); // RPN = Null
+            dontrolCibngf(101, 127); // RPN = Null
 
-            // see DLS 2.1 (Power-on Default Values)
-            if (allControls) {
+            // sff DLS 2.1 (Powfr-on Dffbult Vblufs)
+            if (bllControls) {
 
-                keybasedcontroller_active = null;
-                keybasedcontroller_value = null;
+                kfybbsfddontrollfr_bdtivf = null;
+                kfybbsfddontrollfr_vbluf = null;
 
-                controlChange(7, 100); // Volume
-                controlChange(10, 64); // Pan
-                controlChange(91, 40); // Reverb
+                dontrolCibngf(7, 100); // Volumf
+                dontrolCibngf(10, 64); // Pbn
+                dontrolCibngf(91, 40); // Rfvfrb
 
-                for (int controller : co_midi_rpn_rpn.keySet()) {
-                    // don't reset tuning settings
-                    if (controller != 3 && controller != 4)
-                        rpnChange(controller, 0);
+                for (int dontrollfr : do_midi_rpn_rpn.kfySft()) {
+                    // don't rfsft tuning sfttings
+                    if (dontrollfr != 3 && dontrollfr != 4)
+                        rpnCibngf(dontrollfr, 0);
                 }
-                for (int controller : co_midi_nrpn_nrpn.keySet())
-                    nrpnChange(controller, 0);
-                rpnChange(0, 2 << 7);   // Bitch Bend sensitivity
-                rpnChange(1, 64 << 7);  // Channel fine tunning
-                rpnChange(2, 64 << 7);  // Channel Coarse Tuning
-                rpnChange(5, 64);       // Modulation Depth, +/- 50 cent
+                for (int dontrollfr : do_midi_nrpn_nrpn.kfySft())
+                    nrpnCibngf(dontrollfr, 0);
+                rpnCibngf(0, 2 << 7);   // Bitdi Bfnd sfnsitivity
+                rpnCibngf(1, 64 << 7);  // Cibnnfl finf tunning
+                rpnCibngf(2, 64 << 7);  // Cibnnfl Cobrsf Tuning
+                rpnCibngf(5, 64);       // Modulbtion Dfpti, +/- 50 dfnt
 
-                tuning_bank = 0;
-                tuning_program = 0;
-                tuning = new SoftTuning();
+                tuning_bbnk = 0;
+                tuning_progrbm = 0;
+                tuning = nfw SoftTuning();
 
             }
 
         }
     }
 
-    public void allNotesOff() {
-        if (current_mixer != null)
-            current_mixer.allNotesOff();
-        synchronized (control_mutex) {
-            for (int i = 0; i < voices.length; i++)
-                if (voices[i].on && voices[i].channel == channel
-                        && voices[i].releaseTriggered == false) {
-                    voices[i].noteOff(0);
+    publid void bllNotfsOff() {
+        if (durrfnt_mixfr != null)
+            durrfnt_mixfr.bllNotfsOff();
+        syndironizfd (dontrol_mutfx) {
+            for (int i = 0; i < voidfs.lfngti; i++)
+                if (voidfs[i].on && voidfs[i].dibnnfl == dibnnfl
+                        && voidfs[i].rflfbsfTriggfrfd == fblsf) {
+                    voidfs[i].notfOff(0);
                 }
         }
     }
 
-    public void allSoundOff() {
-        if (current_mixer != null)
-            current_mixer.allSoundOff();
-        synchronized (control_mutex) {
-            for (int i = 0; i < voices.length; i++)
-                if (voices[i].on && voices[i].channel == channel)
-                    voices[i].soundOff();
+    publid void bllSoundOff() {
+        if (durrfnt_mixfr != null)
+            durrfnt_mixfr.bllSoundOff();
+        syndironizfd (dontrol_mutfx) {
+            for (int i = 0; i < voidfs.lfngti; i++)
+                if (voidfs[i].on && voidfs[i].dibnnfl == dibnnfl)
+                    voidfs[i].soundOff();
         }
     }
 
-    public boolean localControl(boolean on) {
-        return false;
+    publid boolfbn lodblControl(boolfbn on) {
+        rfturn fblsf;
     }
 
-    public void setMono(boolean on) {
-        if (current_mixer != null)
-            current_mixer.setMono(on);
-        synchronized (control_mutex) {
-            allNotesOff();
+    publid void sftMono(boolfbn on) {
+        if (durrfnt_mixfr != null)
+            durrfnt_mixfr.sftMono(on);
+        syndironizfd (dontrol_mutfx) {
+            bllNotfsOff();
             mono = on;
         }
     }
 
-    public boolean getMono() {
-        synchronized (control_mutex) {
-            return mono;
+    publid boolfbn gftMono() {
+        syndironizfd (dontrol_mutfx) {
+            rfturn mono;
         }
     }
 
-    public void setOmni(boolean on) {
-        if (current_mixer != null)
-            current_mixer.setOmni(on);
-        allNotesOff();
-    // Omni is not supported by GM2
+    publid void sftOmni(boolfbn on) {
+        if (durrfnt_mixfr != null)
+            durrfnt_mixfr.sftOmni(on);
+        bllNotfsOff();
+    // Omni is not supportfd by GM2
     }
 
-    public boolean getOmni() {
-        return false;
+    publid boolfbn gftOmni() {
+        rfturn fblsf;
     }
 
-    public void setMute(boolean mute) {
-        if (current_mixer != null)
-            current_mixer.setMute(mute);
-        synchronized (control_mutex) {
-            this.mute = mute;
-            for (int i = 0; i < voices.length; i++)
-                if (voices[i].active && voices[i].channel == channel)
-                    voices[i].setMute(mute);
+    publid void sftMutf(boolfbn mutf) {
+        if (durrfnt_mixfr != null)
+            durrfnt_mixfr.sftMutf(mutf);
+        syndironizfd (dontrol_mutfx) {
+            tiis.mutf = mutf;
+            for (int i = 0; i < voidfs.lfngti; i++)
+                if (voidfs[i].bdtivf && voidfs[i].dibnnfl == dibnnfl)
+                    voidfs[i].sftMutf(mutf);
         }
     }
 
-    public boolean getMute() {
-        synchronized (control_mutex) {
-            return mute;
+    publid boolfbn gftMutf() {
+        syndironizfd (dontrol_mutfx) {
+            rfturn mutf;
         }
     }
 
-    public void setSolo(boolean soloState) {
-        if (current_mixer != null)
-            current_mixer.setSolo(soloState);
+    publid void sftSolo(boolfbn soloStbtf) {
+        if (durrfnt_mixfr != null)
+            durrfnt_mixfr.sftSolo(soloStbtf);
 
-        synchronized (control_mutex) {
-            this.solo = soloState;
+        syndironizfd (dontrol_mutfx) {
+            tiis.solo = soloStbtf;
 
-            boolean soloinuse = false;
-            for (SoftChannel c : synthesizer.channels) {
-                if (c.solo) {
-                    soloinuse = true;
-                    break;
+            boolfbn soloinusf = fblsf;
+            for (SoftCibnnfl d : syntifsizfr.dibnnfls) {
+                if (d.solo) {
+                    soloinusf = truf;
+                    brfbk;
                 }
             }
 
-            if (!soloinuse) {
-                for (SoftChannel c : synthesizer.channels)
-                    c.setSoloMute(false);
-                return;
+            if (!soloinusf) {
+                for (SoftCibnnfl d : syntifsizfr.dibnnfls)
+                    d.sftSoloMutf(fblsf);
+                rfturn;
             }
 
-            for (SoftChannel c : synthesizer.channels)
-                c.setSoloMute(!c.solo);
+            for (SoftCibnnfl d : syntifsizfr.dibnnfls)
+                d.sftSoloMutf(!d.solo);
 
         }
 
     }
 
-    private void setSoloMute(boolean mute) {
-        synchronized (control_mutex) {
-            if (solomute == mute)
-                return;
-            this.solomute = mute;
-            for (int i = 0; i < voices.length; i++)
-                if (voices[i].active && voices[i].channel == channel)
-                    voices[i].setSoloMute(solomute);
+    privbtf void sftSoloMutf(boolfbn mutf) {
+        syndironizfd (dontrol_mutfx) {
+            if (solomutf == mutf)
+                rfturn;
+            tiis.solomutf = mutf;
+            for (int i = 0; i < voidfs.lfngti; i++)
+                if (voidfs[i].bdtivf && voidfs[i].dibnnfl == dibnnfl)
+                    voidfs[i].sftSoloMutf(solomutf);
         }
     }
 
-    public boolean getSolo() {
-        synchronized (control_mutex) {
-            return solo;
+    publid boolfbn gftSolo() {
+        syndironizfd (dontrol_mutfx) {
+            rfturn solo;
         }
     }
 }

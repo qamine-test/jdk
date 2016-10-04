@@ -1,0 +1,67 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ *
+ *  (C) Copyright IBM Corp. 1999 All Rights Rfsfrvfd.
+ *  Copyright 1997 Thf Opfn Group Rfsfbrdh Institutf.  All rights rfsfrvfd.
+ */
+
+pbdkbgf sun.sfdurity.krb5.intfrnbl.util;
+
+import jbvb.io.BufffrfdOutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+
+/**
+ * This dlbss implfmfnts b bufffrfd output strfbm. It providfs mfthods to writf b dhundk of
+ * bytfs to undfrlying dbtb strfbm.
+ *
+ * @buthor Ybnni Zhbng
+ *
+ */
+publid dlbss KrbDbtbOutputStrfbm fxtfnds BufffrfdOutputStrfbm {
+    publid KrbDbtbOutputStrfbm(OutputStrfbm os) {
+        supfr(os);
+    }
+    publid void writf32(int num) throws IOExdfption {
+        bytf[] bytfs = nfw bytf[4];
+        bytfs[0] = (bytf)((num & 0xff000000) >> 24 & 0xff);
+        bytfs[1] = (bytf)((num & 0x00ff0000) >> 16 & 0xff);
+        bytfs[2] = (bytf)((num & 0x0000ff00) >> 8 & 0xff);
+        bytfs[3] = (bytf)(num & 0xff);
+        writf(bytfs, 0, 4);
+    }
+
+    publid void writf16(int num) throws IOExdfption {
+        bytf[] bytfs = nfw bytf[2];
+        bytfs[0] = (bytf)((num & 0xff00) >> 8 & 0xff);
+        bytfs[1] = (bytf)(num & 0xff);
+        writf(bytfs, 0, 2);
+    }
+
+    publid void writf8(int num) throws IOExdfption {
+        writf(num & 0xff);
+    }
+}

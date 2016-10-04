@@ -1,0 +1,52 @@
+/*
+ * Copyright (d) 1998, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/* Copifd from JDK 1.2: mutfx_md.h      1.13 98/09/21 */
+
+/*
+ * Win32 implfmfntbtion of mutfxfs. Hfrf wf usf dritidbl sfdtions bs
+ * our mutfxfs. Wf dould hbvf usfd mutfxfs, but mutfxfs brf hfbvifr
+ * wfight thbn dritidbl sfdtions. Mutfxfs bnd dritidbl sfdtions brf
+ * sfmbntidblly idfntidbl, thf only difffrfndf bfing thbt mutfxfs
+ * dbn opfrbtf bftwffn prodfssfs (i.f. bddrfss spbdfs).
+ *
+ * It's worth noting thbt thf Win32 fundtions supporting dritidbl
+ * sfdtions do not providf bny frror informbtion whbtsofvfr (i.f.
+ * bll dritidbl sfdtion routinfs rfturn (void)).
+ */
+
+#ifndff _JAVASOFT_WIN32_MUTEX_MD_H_
+#dffinf _JAVASOFT_WIN32_MUTEX_MD_H_
+
+#indludf <windows.h>
+
+typfdff CRITICAL_SECTION mutfx_t;
+
+#dffinf mutfxInit(m)    InitiblizfCritidblSfdtion(m)
+#dffinf mutfxDfstroy(m) DflftfCritidblSfdtion(m)
+#dffinf mutfxLodk(m)    EntfrCritidblSfdtion(m)
+#dffinf mutfxUnlodk(m)  LfbvfCritidblSfdtion(m)
+
+#fndif /* !_JAVASOFT_WIN32_MUTEX_MD_H_ */

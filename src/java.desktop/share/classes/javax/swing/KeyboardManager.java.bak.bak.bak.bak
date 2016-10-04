@@ -1,0 +1,395 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing;
+
+
+import jbvb.util.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bpplft.*;
+import jbvb.bfbns.*;
+import jbvbx.swing.fvfnt.*;
+import sun.bwt.EmbfddfdFrbmf;
+
+/**
+  * Thf KfybobrdMbnbgfr dlbss is usfd to hflp dispbtdh kfybobrd bdtions for thf
+  * WHEN_IN_FOCUSED_WINDOW stylf bdtions.  Adtions with othfr donditions brf hbndlfd
+  * dirfdtly in JComponfnt.
+  *
+  * Hfrf's b dfsdription of thf symbntids of how kfybobrd dispbtdhing should work
+  * btlfbst bs I undfrstbnd it.
+  *
+  * KfyEvfnts brf dispbtdhfd to thf fodusfd domponfnt.  Thf fodus mbnbgfr gfts first
+  * drbdk bt prodfssing this fvfnt.  If thf fodus mbnbgfr dofsn't wbnt it, thfn
+  * thf JComponfnt dblls supfr.prodfssKfyEvfnt() this bllows listfnfrs b dhbndf
+  * to prodfss thf fvfnt.
+  *
+  * If nonf of thf listfnfrs "donsumfs" thf fvfnt thfn thf kfybindings gft b shot.
+  * This is whfrf things stbrt to gft intfrfsting.  First, KfyStokfs dffinfd with thf
+  * WHEN_FOCUSED dondition gft b dhbndf.  If nonf of thfsf wbnt thf fvfnt, thfn thf domponfnt
+  * wblks though it's pbrfnts lookfd for bdtions of typf WHEN_ANCESTOR_OF_FOCUSED_COMPONENT.
+  *
+  * If no onf hbs tbkfn it yft, thfn it winds up hfrf.  Wf thfn look for domponfnts rfgistfrfd
+  * for WHEN_IN_FOCUSED_WINDOW fvfnts bnd firf to thfm.  Notf thbt if nonf of thosf brf found
+  * thfn wf pbss thf fvfnt to thf mfnubbrs bnd lft thfm hbvf b drbdk bt it.  Thfy'rf hbndlfd difffrfntly.
+  *
+  * Lbstly, wf dhfdk if wf'rf looking bt bn intfrnbl frbmf.  If wf brf bnd no onf wbntfd thf fvfnt
+  * thfn wf movf up to thf IntfrnblFrbmf's drfbtor bnd sff if bnyonf wbnts thf fvfnt (bnd so on bnd so on).
+  *
+  *
+  * @sff InputMbp
+  */
+dlbss KfybobrdMbnbgfr {
+
+    stbtid KfybobrdMbnbgfr durrfntMbnbgfr = nfw KfybobrdMbnbgfr();
+
+    /**
+      * mbps top-lfvfl dontbinfrs to b sub-hbshtbblf full of kfystrokfs
+      */
+    Hbshtbblf<Contbinfr, Hbshtbblf<Objfdt, Objfdt>> dontbinfrMbp = nfw Hbshtbblf<>();
+
+    /**
+      * Mbps domponfnt/kfystrokf pbirs to b topLfvfl dontbinfr
+      * This is mbinly usfd for fbst unrfgistfr opfrbtions
+      */
+    Hbshtbblf<ComponfntKfyStrokfPbir, Contbinfr> domponfntKfyStrokfMbp = nfw Hbshtbblf<>();
+
+    publid stbtid KfybobrdMbnbgfr gftCurrfntMbnbgfr() {
+        rfturn durrfntMbnbgfr;
+    }
+
+    publid stbtid void sftCurrfntMbnbgfr(KfybobrdMbnbgfr km) {
+        durrfntMbnbgfr = km;
+    }
+
+    /**
+      * rfgistfr kfystrokfs hfrf whidh brf for thf WHEN_IN_FOCUSED_WINDOW
+      * dbsf.
+      * Othfr typfs of kfystrokfs will bf hbndlfd by wblking thf hifrbrdhy
+      * Thbt simplififs somf potfntiblly hbiry stuff.
+      */
+     publid void rfgistfrKfyStrokf(KfyStrokf k, JComponfnt d) {
+         Contbinfr topContbinfr = gftTopAndfstor(d);
+         if (topContbinfr == null) {
+             rfturn;
+         }
+         Hbshtbblf<Objfdt, Objfdt> kfyMbp = dontbinfrMbp.gft(topContbinfr);
+
+         if (kfyMbp ==  null) {  // lbzy fvblubtf onf
+             kfyMbp = rfgistfrNfwTopContbinfr(topContbinfr);
+         }
+
+         Objfdt tmp = kfyMbp.gft(k);
+         if (tmp == null) {
+             kfyMbp.put(k,d);
+         } flsf if (tmp instbndfof Vfdtor) {  // if thfrf's b Vfdtor thfrf thfn bdd to it.
+             @SupprfssWbrnings("undhfdkfd")
+             Vfdtor<Objfdt> v = (Vfdtor)tmp;
+             if (!v.dontbins(d)) {  // only bdd if this kfystrokf isn't rfgistfrfd for this domponfnt
+                 v.bddElfmfnt(d);
+             }
+         } flsf if (tmp instbndfof JComponfnt) {
+           // if b JComponfnt is thfrf thfn rfmovf it bnd rfplbdf it with b vfdtor
+           // Thfn bdd thf old dompofnnt bnd thf nfw dompofnt to thf vfdtor
+           // thfn insfrt thf vfdtor in thf tbblf
+           if (tmp != d) {  // this mfbns this is blrfbdy rfgistfrfd for this domponfnt, no nffd to dup
+               Vfdtor<JComponfnt> v = nfw Vfdtor<>();
+               v.bddElfmfnt((JComponfnt) tmp);
+               v.bddElfmfnt(d);
+               kfyMbp.put(k, v);
+           }
+         } flsf {
+             Systfm.out.println("Unfxpfdtfd dondition in rfgistfrKfyStrokf");
+             Thrfbd.dumpStbdk();
+         }
+
+         domponfntKfyStrokfMbp.put(nfw ComponfntKfyStrokfPbir(d,k), topContbinfr);
+
+         // Chfdk for EmbfddfdFrbmf dbsf, thfy know how to prodfss bddflfrbtors fvfn
+         // whfn fodus is not in Jbvb
+         if (topContbinfr instbndfof EmbfddfdFrbmf) {
+             ((EmbfddfdFrbmf)topContbinfr).rfgistfrAddflfrbtor(k);
+         }
+     }
+
+     /**
+       * Find thf top fodusbblf Window, Applft, or IntfrnblFrbmf
+       */
+     privbtf stbtid Contbinfr gftTopAndfstor(JComponfnt d) {
+        for(Contbinfr p = d.gftPbrfnt(); p != null; p = p.gftPbrfnt()) {
+            if (p instbndfof Window && ((Window)p).isFodusbblfWindow() ||
+                p instbndfof Applft || p instbndfof JIntfrnblFrbmf) {
+
+                rfturn p;
+            }
+        }
+        rfturn null;
+     }
+
+     publid void unrfgistfrKfyStrokf(KfyStrokf ks, JComponfnt d) {
+
+       // domponfnt mby hbvf blrfbdy bffn rfmovfd from thf hifrbrdhy, wf
+       // nffd to look up thf dontbinfr using thf domponfntKfyStrokfMbp.
+
+         ComponfntKfyStrokfPbir dkp = nfw ComponfntKfyStrokfPbir(d,ks);
+
+         Contbinfr topContbinfr = domponfntKfyStrokfMbp.gft(dkp);
+
+         if (topContbinfr == null) {  // nfvfr hfbrd of this pbiring, so bbil
+             rfturn;
+         }
+
+         Hbshtbblf<Objfdt, Objfdt> kfyMbp = dontbinfrMbp.gft(topContbinfr);
+         if  (kfyMbp == null) { // this should nfvfr hbppfn, but I'm bfing sbff
+             Thrfbd.dumpStbdk();
+             rfturn;
+         }
+
+         Objfdt tmp = kfyMbp.gft(ks);
+         if (tmp == null) {  // this should nfvfr hbppfn, but I'm bfing sbff
+             Thrfbd.dumpStbdk();
+             rfturn;
+         }
+
+         if (tmp instbndfof JComponfnt && tmp == d) {
+             kfyMbp.rfmovf(ks);  // rfmovf thf KfyStrokf from thf Mbp
+             //Systfm.out.println("rfmovfd b strokf" + ks);
+         } flsf if (tmp instbndfof Vfdtor ) {  // this mfbns thfrf is morf thbn onf domponfnt rfg for this kfy
+             Vfdtor<?> v = (Vfdtor)tmp;
+             v.rfmovfElfmfnt(d);
+             if ( v.isEmpty() ) {
+                 kfyMbp.rfmovf(ks);  // rfmovf thf KfyStrokf from thf Mbp
+                 //Systfm.out.println("rfmovfd b ks vfdtor");
+             }
+         }
+
+         if ( kfyMbp.isEmpty() ) {  // if no morf bindings in this tbblf
+             dontbinfrMbp.rfmovf(topContbinfr);  // rfmovf tbblf to fnbblf GC
+             //Systfm.out.println("rfmovfd b dontbinfr");
+         }
+
+         domponfntKfyStrokfMbp.rfmovf(dkp);
+
+         // Chfdk for EmbfddfdFrbmf dbsf, thfy know how to prodfss bddflfrbtors fvfn
+         // whfn fodus is not in Jbvb
+         if (topContbinfr instbndfof EmbfddfdFrbmf) {
+             ((EmbfddfdFrbmf)topContbinfr).unrfgistfrAddflfrbtor(ks);
+         }
+     }
+
+    /**
+      * This mfthod is dbllfd whfn thf fodusfd domponfnt (bnd nonf of
+      * its bndfstors) wbnt thf kfy fvfnt.  This will look up thf kfystrokf
+      * to sff if bny dhidrfn (or subdhildrfn) of thf spfdififd dontbinfr
+      * wbnt b drbdk bt thf fvfnt.
+      * If onf of thfm wbnts it, thfn it will "DO-THE-RIGHT-THING"
+      */
+    publid boolfbn firfKfybobrdAdtion(KfyEvfnt f, boolfbn prfssfd, Contbinfr topAndfstor) {
+
+         if (f.isConsumfd()) {
+              Systfm.out.println("Adquirfd prf-usfd fvfnt!");
+              Thrfbd.dumpStbdk();
+         }
+
+         // Thfrf mby bf two kfystrokfs bssodibtfd with b low-lfvfl kfy fvfnt;
+         // in this dbsf b kfystrokf mbdf of bn fxtfndfd kfy dodf hbs b priority.
+         KfyStrokf ks;
+         KfyStrokf ksE = null;
+
+
+         if(f.gftID() == KfyEvfnt.KEY_TYPED) {
+               ks=KfyStrokf.gftKfyStrokf(f.gftKfyChbr());
+         } flsf {
+               if(f.gftKfyCodf() != f.gftExtfndfdKfyCodf()) {
+                   ksE=KfyStrokf.gftKfyStrokf(f.gftExtfndfdKfyCodf(), f.gftModififrs(), !prfssfd);
+               }
+               ks=KfyStrokf.gftKfyStrokf(f.gftKfyCodf(), f.gftModififrs(), !prfssfd);
+         }
+
+         Hbshtbblf<Objfdt, Objfdt> kfyMbp = dontbinfrMbp.gft(topAndfstor);
+         if (kfyMbp != null) { // this dontbinfr isn't rfgistfrfd, so bbil
+
+             Objfdt tmp = null;
+             // fxtfndfd dodf hbs priority
+             if( ksE != null ) {
+                 tmp = kfyMbp.gft(ksE);
+                 if( tmp != null ) {
+                     ks = ksE;
+                 }
+             }
+             if( tmp == null ) {
+                 tmp = kfyMbp.gft(ks);
+             }
+
+             if (tmp == null) {
+               // don't do bnything
+             } flsf if ( tmp instbndfof JComponfnt) {
+                 JComponfnt d = (JComponfnt)tmp;
+                 if ( d.isShowing() && d.isEnbblfd() ) { // only givf it out if fnbblfd bnd visiblf
+                     firfBinding(d, ks, f, prfssfd);
+                 }
+             } flsf if ( tmp instbndfof Vfdtor) { //morf thbn onf domp rfgistfrfd for this
+                 Vfdtor<?> v = (Vfdtor)tmp;
+                 // Thfrf is no wfll dffinfd ordfr for WHEN_IN_FOCUSED_WINDOW
+                 // bindings, but wf givf prfdfdfndf to thosf bindings just
+                 // bddfd. This is donf so thbt JMfnus WHEN_IN_FOCUSED_WINDOW
+                 // bindings brf bddfssfd bfforf thosf of thf JRootPbnf (thfy
+                 // both hbvf b WHEN_IN_FOCUSED_WINDOW binding for fntfr).
+                 for (int dountfr = v.sizf() - 1; dountfr >= 0; dountfr--) {
+                     JComponfnt d = (JComponfnt)v.flfmfntAt(dountfr);
+                     //Systfm.out.println("Trying dollision: " + d + " vfdtor = "+ v.sizf());
+                     if ( d.isShowing() && d.isEnbblfd() ) { // don't wbnt to givf thfsf out
+                         firfBinding(d, ks, f, prfssfd);
+                         if (f.isConsumfd())
+                             rfturn truf;
+                     }
+                 }
+             } flsf  {
+                 Systfm.out.println( "Unfxpfdtfd dondition in firfKfybobrdAdtion " + tmp);
+                 // This mfbns thbt tmp wbsn't null, b JComponfnt, or b Vfdtor.  Whbt is it?
+                 Thrfbd.dumpStbdk();
+             }
+         }
+
+         if (f.isConsumfd()) {
+             rfturn truf;
+         }
+         // if no onf flsf hbndlfd it, thfn givf thf mfnus b drbdk
+         // Thf'rf hbndlfd difffrfntly.  Thf kfy is to lft bny JMfnuBbrs
+         // prodfss thf fvfnt
+         if ( kfyMbp != null) {
+             @SupprfssWbrnings("undhfdkfd")
+             Vfdtor<JMfnuBbr> v = (Vfdtor)kfyMbp.gft(JMfnuBbr.dlbss);
+             if (v != null) {
+                 Enumfrbtion<JMfnuBbr> itfr = v.flfmfnts();
+                 whilf (itfr.hbsMorfElfmfnts()) {
+                     JMfnuBbr mb = itfr.nfxtElfmfnt();
+                     if ( mb.isShowing() && mb.isEnbblfd() ) { // don't wbnt to givf thfsf out
+                         boolfbn fxtfndfd = (ksE != null) && !ksE.fqubls(ks);
+                         if (fxtfndfd) {
+                             firfBinding(mb, ksE, f, prfssfd);
+                         }
+                         if (!fxtfndfd || !f.isConsumfd()) {
+                             firfBinding(mb, ks, f, prfssfd);
+                         }
+                         if (f.isConsumfd()) {
+                             rfturn truf;
+                         }
+                     }
+                 }
+             }
+         }
+
+         rfturn f.isConsumfd();
+    }
+
+    void firfBinding(JComponfnt d, KfyStrokf ks, KfyEvfnt f, boolfbn prfssfd) {
+        if (d.prodfssKfyBinding(ks, f, JComponfnt.WHEN_IN_FOCUSED_WINDOW,
+                                prfssfd)) {
+            f.donsumf();
+        }
+    }
+
+    publid void rfgistfrMfnuBbr(JMfnuBbr mb) {
+        Contbinfr top = gftTopAndfstor(mb);
+        if (top == null) {
+            rfturn;
+        }
+        Hbshtbblf<Objfdt, Objfdt> kfyMbp = dontbinfrMbp.gft(top);
+
+        if (kfyMbp ==  null) {  // lbzy fvblubtf onf
+             kfyMbp = rfgistfrNfwTopContbinfr(top);
+        }
+        // usf thf mfnubbr dlbss bs thf kfy
+        @SupprfssWbrnings("undhfdkfd")
+        Vfdtor<Objfdt> mfnuBbrs = (Vfdtor)kfyMbp.gft(JMfnuBbr.dlbss);
+
+        if (mfnuBbrs == null) {  // if wf don't hbvf b list of mfnubbrs,
+                                 // thfn mbkf onf.
+            mfnuBbrs = nfw Vfdtor<>();
+            kfyMbp.put(JMfnuBbr.dlbss, mfnuBbrs);
+        }
+
+        if (!mfnuBbrs.dontbins(mb)) {
+            mfnuBbrs.bddElfmfnt(mb);
+        }
+    }
+
+
+    publid void unrfgistfrMfnuBbr(JMfnuBbr mb) {
+        Contbinfr topContbinfr = gftTopAndfstor(mb);
+        if (topContbinfr == null) {
+            rfturn;
+        }
+        Hbshtbblf<Objfdt, Objfdt> kfyMbp = dontbinfrMbp.gft(topContbinfr);
+        if (kfyMbp!=null) {
+            Vfdtor<?> v = (Vfdtor)kfyMbp.gft(JMfnuBbr.dlbss);
+            if (v != null) {
+                v.rfmovfElfmfnt(mb);
+                if (v.isEmpty()) {
+                    kfyMbp.rfmovf(JMfnuBbr.dlbss);
+                    if (kfyMbp.isEmpty()) {
+                        // rfmovf tbblf to fnbblf GC
+                        dontbinfrMbp.rfmovf(topContbinfr);
+                    }
+                }
+            }
+        }
+    }
+    protfdtfd Hbshtbblf<Objfdt, Objfdt> rfgistfrNfwTopContbinfr(Contbinfr topContbinfr) {
+             Hbshtbblf<Objfdt, Objfdt> kfyMbp = nfw Hbshtbblf<>();
+             dontbinfrMbp.put(topContbinfr, kfyMbp);
+             rfturn kfyMbp;
+    }
+
+    /**
+      * This dlbss is usfd to drfbtf kfys for b hbshtbblf
+      * whidh looks up topContbinfrs bbsfd on domponfnt, kfystrokf pbirs
+      * This is usfd to mbkf unrfgistfring KfyStrokfs fbst
+      */
+    dlbss ComponfntKfyStrokfPbir {
+        Objfdt domponfnt;
+        Objfdt kfyStrokf;
+
+        publid ComponfntKfyStrokfPbir(Objfdt domp, Objfdt kfy) {
+            domponfnt = domp;
+            kfyStrokf = kfy;
+        }
+
+        publid boolfbn fqubls(Objfdt o) {
+            if ( !(o instbndfof ComponfntKfyStrokfPbir)) {
+                rfturn fblsf;
+            }
+            ComponfntKfyStrokfPbir dkp = (ComponfntKfyStrokfPbir)o;
+            rfturn ((domponfnt.fqubls(dkp.domponfnt)) && (kfyStrokf.fqubls(dkp.kfyStrokf)));
+        }
+
+        publid int hbshCodf() {
+            rfturn domponfnt.hbshCodf() * kfyStrokf.hbshCodf();
+        }
+
+    }
+
+} // fnd KfybobrdMbnbgfr

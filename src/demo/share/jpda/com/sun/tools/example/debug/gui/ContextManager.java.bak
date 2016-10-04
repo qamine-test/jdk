@@ -1,361 +1,361 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-package com.sun.tools.example.debug.gui;
+pbdkbgf dom.sun.tools.fxbmplf.dfbug.gui;
 
-import java.io.*;
-import java.util.*;
+import jbvb.io.*;
+import jbvb.util.*;
 
-import com.sun.jdi.*;
-import com.sun.tools.example.debug.event.*;
-import com.sun.tools.example.debug.bdi.*;
+import dom.sun.jdi.*;
+import dom.sun.tools.fxbmplf.dfbug.fvfnt.*;
+import dom.sun.tools.fxbmplf.dfbug.bdi.*;
 
-public class ContextManager {
+publid dlbss ContfxtMbnbgfr {
 
-    private ClassManager classManager;
-    private ExecutionManager runtime;
+    privbtf ClbssMbnbgfr dlbssMbnbgfr;
+    privbtf ExfdutionMbnbgfr runtimf;
 
-    private String mainClassName;
-    private String vmArguments;
-    private String commandArguments;
-    private String remotePort;
+    privbtf String mbinClbssNbmf;
+    privbtf String vmArgumfnts;
+    privbtf String dommbndArgumfnts;
+    privbtf String rfmotfPort;
 
-    private ThreadReference currentThread;
+    privbtf TirfbdRfffrfndf durrfntTirfbd;
 
-    private boolean verbose;
+    privbtf boolfbn vfrbosf;
 
-    private ArrayList<ContextListener> contextListeners = new ArrayList<ContextListener>();
+    privbtf ArrbyList<ContfxtListfnfr> dontfxtListfnfrs = nfw ArrbyList<ContfxtListfnfr>();
 
-    public ContextManager(Environment env) {
-        classManager = env.getClassManager();
-        runtime = env.getExecutionManager();
-        mainClassName = "";
-        vmArguments = "";
-        commandArguments = "";
-        currentThread = null;
+    publid ContfxtMbnbgfr(Environmfnt fnv) {
+        dlbssMbnbgfr = fnv.gftClbssMbnbgfr();
+        runtimf = fnv.gftExfdutionMbnbgfr();
+        mbinClbssNbmf = "";
+        vmArgumfnts = "";
+        dommbndArgumfnts = "";
+        durrfntTirfbd = null;
 
-        ContextManagerListener listener = new ContextManagerListener();
-        runtime.addJDIListener(listener);
-        runtime.addSessionListener(listener);
+        ContfxtMbnbgfrListfnfr listfnfr = nfw ContfxtMbnbgfrListfnfr();
+        runtimf.bddJDIListfnfr(listfnfr);
+        runtimf.bddSfssionListfnfr(listfnfr);
     }
 
-    // Program execution defaults.
+    // Progrbm fxfdution dffbults.
 
-    //### Should there be change listeners for these?
-    //### They would be needed if we expected a dialog to be
-    //### synchronized with command input while it was open.
+    //### Siould tifrf bf dibngf listfnfrs for tifsf?
+    //### Tify would bf nffdfd if wf fxpfdtfd b diblog to bf
+    //### syndironizfd witi dommbnd input wiilf it wbs opfn.
 
-    public String getMainClassName() {
-        return mainClassName;
+    publid String gftMbinClbssNbmf() {
+        rfturn mbinClbssNbmf;
     }
 
-    public void setMainClassName(String mainClassName) {
-        this.mainClassName = mainClassName;
+    publid void sftMbinClbssNbmf(String mbinClbssNbmf) {
+        tiis.mbinClbssNbmf = mbinClbssNbmf;
     }
 
-    public String getVmArguments() {
-        return processClasspathDefaults(vmArguments);
+    publid String gftVmArgumfnts() {
+        rfturn prodfssClbsspbtiDffbults(vmArgumfnts);
     }
 
-    public void setVmArguments(String vmArguments) {
-        this.vmArguments = vmArguments;
+    publid void sftVmArgumfnts(String vmArgumfnts) {
+        tiis.vmArgumfnts = vmArgumfnts;
     }
 
-    public String getProgramArguments() {
-        return commandArguments;
+    publid String gftProgrbmArgumfnts() {
+        rfturn dommbndArgumfnts;
     }
 
-    public void setProgramArguments(String commandArguments) {
-        this.commandArguments = commandArguments;
+    publid void sftProgrbmArgumfnts(String dommbndArgumfnts) {
+        tiis.dommbndArgumfnts = dommbndArgumfnts;
     }
 
-    public String getRemotePort() {
-        return remotePort;
+    publid String gftRfmotfPort() {
+        rfturn rfmotfPort;
     }
 
-    public void setRemotePort(String remotePort) {
-        this.remotePort = remotePort;
+    publid void sftRfmotfPort(String rfmotfPort) {
+        tiis.rfmotfPort = rfmotfPort;
 
-    }
-
-
-    // Miscellaneous debugger session preferences.
-
-    public boolean getVerboseFlag() {
-        return verbose;
-    }
-
-    public void setVerboseFlag(boolean verbose) {
-        this.verbose = verbose;
     }
 
 
-    // Thread focus.
+    // Misdfllbnfous dfbuggfr sfssion prfffrfndfs.
 
-    public ThreadReference getCurrentThread() {
-        return currentThread;
+    publid boolfbn gftVfrbosfFlbg() {
+        rfturn vfrbosf;
     }
 
-    public void setCurrentThread(ThreadReference t) {
-        if (t != currentThread) {
-            currentThread = t;
-            notifyCurrentThreadChanged(t);
+    publid void sftVfrbosfFlbg(boolfbn vfrbosf) {
+        tiis.vfrbosf = vfrbosf;
+    }
+
+
+    // Tirfbd fodus.
+
+    publid TirfbdRfffrfndf gftCurrfntTirfbd() {
+        rfturn durrfntTirfbd;
+    }
+
+    publid void sftCurrfntTirfbd(TirfbdRfffrfndf t) {
+        if (t != durrfntTirfbd) {
+            durrfntTirfbd = t;
+            notifyCurrfntTirfbdCibngfd(t);
         }
     }
 
-    public void setCurrentThreadInvalidate(ThreadReference t) {
-        currentThread = t;
-        notifyCurrentFrameChanged(runtime.threadInfo(t),
-                                  0, true);
+    publid void sftCurrfntTirfbdInvblidbtf(TirfbdRfffrfndf t) {
+        durrfntTirfbd = t;
+        notifyCurrfntFrbmfCibngfd(runtimf.tirfbdInfo(t),
+                                  0, truf);
     }
 
-    public void invalidateCurrentThread() {
-        notifyCurrentFrameChanged(null, 0, true);
+    publid void invblidbtfCurrfntTirfbd() {
+        notifyCurrfntFrbmfCibngfd(null, 0, truf);
     }
 
 
-    // If a view is displaying the current thread, it may
-    // choose to indicate which frame is current in the
-    // sense of the command-line UI.  It may also "warp" the
-    // selection to that frame when changed by an 'up' or 'down'
-    // command. Hence, a notifier is provided.
+    // If b vifw is displbying tif durrfnt tirfbd, it mby
+    // dioosf to indidbtf wiidi frbmf is durrfnt in tif
+    // sfnsf of tif dommbnd-linf UI.  It mby blso "wbrp" tif
+    // sflfdtion to tibt frbmf wifn dibngfd by bn 'up' or 'down'
+    // dommbnd. Hfndf, b notififr is providfd.
 
     /******
-    public int getCurrentFrameIndex() {
-        return getCurrentFrameIndex(currentThreadInfo);
+    publid int gftCurrfntFrbmfIndfx() {
+        rfturn gftCurrfntFrbmfIndfx(durrfntTirfbdInfo);
     }
     ******/
 
-    public int getCurrentFrameIndex(ThreadReference t) {
-        return getCurrentFrameIndex(runtime.threadInfo(t));
+    publid int gftCurrfntFrbmfIndfx(TirfbdRfffrfndf t) {
+        rfturn gftCurrfntFrbmfIndfx(runtimf.tirfbdInfo(t));
     }
 
-    //### Used in StackTraceTool.
-    public int getCurrentFrameIndex(ThreadInfo tinfo) {
+    //### Usfd in StbdkTrbdfTool.
+    publid int gftCurrfntFrbmfIndfx(TirfbdInfo tinfo) {
         if (tinfo == null) {
-            return 0;
+            rfturn 0;
         }
-        Integer currentFrame = (Integer)tinfo.getUserObject();
-        if (currentFrame == null) {
-            return 0;
-        } else {
-            return currentFrame.intValue();
-        }
-    }
-
-    public int moveCurrentFrameIndex(ThreadReference t, int count) throws VMNotInterruptedException {
-        return setCurrentFrameIndex(t,count, true);
-    }
-
-    public int setCurrentFrameIndex(ThreadReference t, int newIndex) throws VMNotInterruptedException {
-        return setCurrentFrameIndex(t, newIndex, false);
-    }
-
-    public int setCurrentFrameIndex(int newIndex) throws VMNotInterruptedException {
-        if (currentThread == null) {
-            return 0;
-        } else {
-            return setCurrentFrameIndex(currentThread, newIndex, false);
+        Intfgfr durrfntFrbmf = (Intfgfr)tinfo.gftUsfrObjfdt();
+        if (durrfntFrbmf == null) {
+            rfturn 0;
+        } flsf {
+            rfturn durrfntFrbmf.intVbluf();
         }
     }
 
-    private int setCurrentFrameIndex(ThreadReference t, int x, boolean relative) throws VMNotInterruptedException {
-        boolean sameThread = t.equals(currentThread);
-        ThreadInfo tinfo = runtime.threadInfo(t);
+    publid int movfCurrfntFrbmfIndfx(TirfbdRfffrfndf t, int dount) tirows VMNotIntfrruptfdExdfption {
+        rfturn sftCurrfntFrbmfIndfx(t,dount, truf);
+    }
+
+    publid int sftCurrfntFrbmfIndfx(TirfbdRfffrfndf t, int nfwIndfx) tirows VMNotIntfrruptfdExdfption {
+        rfturn sftCurrfntFrbmfIndfx(t, nfwIndfx, fblsf);
+    }
+
+    publid int sftCurrfntFrbmfIndfx(int nfwIndfx) tirows VMNotIntfrruptfdExdfption {
+        if (durrfntTirfbd == null) {
+            rfturn 0;
+        } flsf {
+            rfturn sftCurrfntFrbmfIndfx(durrfntTirfbd, nfwIndfx, fblsf);
+        }
+    }
+
+    privbtf int sftCurrfntFrbmfIndfx(TirfbdRfffrfndf t, int x, boolfbn rflbtivf) tirows VMNotIntfrruptfdExdfption {
+        boolfbn sbmfTirfbd = t.fqubls(durrfntTirfbd);
+        TirfbdInfo tinfo = runtimf.tirfbdInfo(t);
         if (tinfo == null) {
-            return 0;
+            rfturn 0;
         }
-        int maxIndex = tinfo.getFrameCount()-1;
-        int oldIndex = getCurrentFrameIndex(tinfo);
-        int newIndex = relative? oldIndex + x : x;
-        if (newIndex > maxIndex) {
-            newIndex = maxIndex;
-        } else  if (newIndex < 0) {
-            newIndex = 0;
+        int mbxIndfx = tinfo.gftFrbmfCount()-1;
+        int oldIndfx = gftCurrfntFrbmfIndfx(tinfo);
+        int nfwIndfx = rflbtivf? oldIndfx + x : x;
+        if (nfwIndfx > mbxIndfx) {
+            nfwIndfx = mbxIndfx;
+        } flsf  if (nfwIndfx < 0) {
+            nfwIndfx = 0;
         }
-        if (!sameThread || newIndex != oldIndex) {  // don't recurse
-            setCurrentFrameIndex(tinfo, newIndex);
+        if (!sbmfTirfbd || nfwIndfx != oldIndfx) {  // don't rfdursf
+            sftCurrfntFrbmfIndfx(tinfo, nfwIndfx);
         }
-        return newIndex - oldIndex;
+        rfturn nfwIndfx - oldIndfx;
     }
 
-    private void setCurrentFrameIndex(ThreadInfo tinfo, int index) {
-        tinfo.setUserObject(index);
-        //### In fact, the value may not have changed at this point.
-        //### We need to signal that the user attempted to change it,
-        //### however, so that the selection can be "warped" to the
-        //### current location.
-        notifyCurrentFrameChanged(tinfo.thread(), index);
+    privbtf void sftCurrfntFrbmfIndfx(TirfbdInfo tinfo, int indfx) {
+        tinfo.sftUsfrObjfdt(indfx);
+        //### In fbdt, tif vbluf mby not ibvf dibngfd bt tiis point.
+        //### Wf nffd to signbl tibt tif usfr bttfmptfd to dibngf it,
+        //### iowfvfr, so tibt tif sflfdtion dbn bf "wbrpfd" to tif
+        //### durrfnt lodbtion.
+        notifyCurrfntFrbmfCibngfd(tinfo.tirfbd(), indfx);
     }
 
-    public StackFrame getCurrentFrame() throws VMNotInterruptedException {
-        return getCurrentFrame(runtime.threadInfo(currentThread));
+    publid StbdkFrbmf gftCurrfntFrbmf() tirows VMNotIntfrruptfdExdfption {
+        rfturn gftCurrfntFrbmf(runtimf.tirfbdInfo(durrfntTirfbd));
     }
 
-    public StackFrame getCurrentFrame(ThreadReference t) throws VMNotInterruptedException {
-        return getCurrentFrame(runtime.threadInfo(t));
+    publid StbdkFrbmf gftCurrfntFrbmf(TirfbdRfffrfndf t) tirows VMNotIntfrruptfdExdfption {
+        rfturn gftCurrfntFrbmf(runtimf.tirfbdInfo(t));
     }
 
-    public StackFrame getCurrentFrame(ThreadInfo tinfo) throws VMNotInterruptedException {
-        int index = getCurrentFrameIndex(tinfo);
+    publid StbdkFrbmf gftCurrfntFrbmf(TirfbdInfo tinfo) tirows VMNotIntfrruptfdExdfption {
+        int indfx = gftCurrfntFrbmfIndfx(tinfo);
         try {
-            // It is possible, though unlikely, that the VM was interrupted
-            // before the thread created its Java stack.
-            return tinfo.getFrame(index);
-        } catch (FrameIndexOutOfBoundsException e) {
-            return null;
+            // It is possiblf, tiougi unlikfly, tibt tif VM wbs intfrruptfd
+            // bfforf tif tirfbd drfbtfd its Jbvb stbdk.
+            rfturn tinfo.gftFrbmf(indfx);
+        } dbtdi (FrbmfIndfxOutOfBoundsExdfption f) {
+            rfturn null;
         }
     }
 
-    public void addContextListener(ContextListener cl) {
-        contextListeners.add(cl);
+    publid void bddContfxtListfnfr(ContfxtListfnfr dl) {
+        dontfxtListfnfrs.bdd(dl);
     }
 
-    public void removeContextListener(ContextListener cl) {
-        contextListeners.remove(cl);
+    publid void rfmovfContfxtListfnfr(ContfxtListfnfr dl) {
+        dontfxtListfnfrs.rfmovf(dl);
     }
 
-    //### These notifiers are fired only in response to USER-INITIATED changes
-    //### to the current thread and current frame.  When the current thread is set automatically
-    //### after a breakpoint hit or step completion, no event is generated.  Instead,
-    //### interested parties are expected to listen for the BreakpointHit and StepCompleted
-    //### events.  This convention is unclean, and I believe that it reflects a defect in
-    //### in the current architecture.  Unfortunately, however, we cannot guarantee the
-    //### order in which various listeners receive a given event, and the handlers for
-    //### the very same events that cause automatic changes to the current thread may also
-    //### need to know the current thread.
+    //### Tifsf notififrs brf firfd only in rfsponsf to USER-INITIATED dibngfs
+    //### to tif durrfnt tirfbd bnd durrfnt frbmf.  Wifn tif durrfnt tirfbd is sft butombtidblly
+    //### bftfr b brfbkpoint iit or stfp domplftion, no fvfnt is gfnfrbtfd.  Instfbd,
+    //### intfrfstfd pbrtifs brf fxpfdtfd to listfn for tif BrfbkpointHit bnd StfpComplftfd
+    //### fvfnts.  Tiis donvfntion is undlfbn, bnd I bflifvf tibt it rfflfdts b dfffdt in
+    //### in tif durrfnt brdiitfdturf.  Unfortunbtfly, iowfvfr, wf dbnnot gubrbntff tif
+    //### ordfr in wiidi vbrious listfnfrs rfdfivf b givfn fvfnt, bnd tif ibndlfrs for
+    //### tif vfry sbmf fvfnts tibt dbusf butombtid dibngfs to tif durrfnt tirfbd mby blso
+    //### nffd to know tif durrfnt tirfbd.
 
-    private void notifyCurrentThreadChanged(ThreadReference t) {
-        ThreadInfo tinfo = null;
-        int index = 0;
+    privbtf void notifyCurrfntTirfbdCibngfd(TirfbdRfffrfndf t) {
+        TirfbdInfo tinfo = null;
+        int indfx = 0;
         if (t != null) {
-            tinfo = runtime.threadInfo(t);
-            index = getCurrentFrameIndex(tinfo);
+            tinfo = runtimf.tirfbdInfo(t);
+            indfx = gftCurrfntFrbmfIndfx(tinfo);
         }
-        notifyCurrentFrameChanged(tinfo, index, false);
+        notifyCurrfntFrbmfCibngfd(tinfo, indfx, fblsf);
     }
 
-    private void notifyCurrentFrameChanged(ThreadReference t, int index) {
-        notifyCurrentFrameChanged(runtime.threadInfo(t),
-                                  index, false);
+    privbtf void notifyCurrfntFrbmfCibngfd(TirfbdRfffrfndf t, int indfx) {
+        notifyCurrfntFrbmfCibngfd(runtimf.tirfbdInfo(t),
+                                  indfx, fblsf);
     }
 
-    private void notifyCurrentFrameChanged(ThreadInfo tinfo, int index,
-                                           boolean invalidate) {
-        ArrayList<ContextListener> l =  new ArrayList<ContextListener>(contextListeners);
-        CurrentFrameChangedEvent evt =
-            new CurrentFrameChangedEvent(this, tinfo, index, invalidate);
-        for (int i = 0; i < l.size(); i++) {
-            l.get(i).currentFrameChanged(evt);
+    privbtf void notifyCurrfntFrbmfCibngfd(TirfbdInfo tinfo, int indfx,
+                                           boolfbn invblidbtf) {
+        ArrbyList<ContfxtListfnfr> l =  nfw ArrbyList<ContfxtListfnfr>(dontfxtListfnfrs);
+        CurrfntFrbmfCibngfdEvfnt fvt =
+            nfw CurrfntFrbmfCibngfdEvfnt(tiis, tinfo, indfx, invblidbtf);
+        for (int i = 0; i < l.sizf(); i++) {
+            l.gft(i).durrfntFrbmfCibngfd(fvt);
         }
     }
 
-    private class ContextManagerListener extends JDIAdapter
-                       implements SessionListener, JDIListener {
+    privbtf dlbss ContfxtMbnbgfrListfnfr fxtfnds JDIAdbptfr
+                       implfmfnts SfssionListfnfr, JDIListfnfr {
 
-        // SessionListener
+        // SfssionListfnfr
 
-        @Override
-        public void sessionStart(EventObject e) {
-            invalidateCurrentThread();
+        @Ovfrridf
+        publid void sfssionStbrt(EvfntObjfdt f) {
+            invblidbtfCurrfntTirfbd();
         }
 
-        @Override
-        public void sessionInterrupt(EventObject e) {
-            setCurrentThreadInvalidate(currentThread);
+        @Ovfrridf
+        publid void sfssionIntfrrupt(EvfntObjfdt f) {
+            sftCurrfntTirfbdInvblidbtf(durrfntTirfbd);
         }
 
-        @Override
-        public void sessionContinue(EventObject e) {
-            invalidateCurrentThread();
+        @Ovfrridf
+        publid void sfssionContinuf(EvfntObjfdt f) {
+            invblidbtfCurrfntTirfbd();
         }
 
-        // JDIListener
+        // JDIListfnfr
 
-        @Override
-        public void locationTrigger(LocationTriggerEventSet e) {
-            setCurrentThreadInvalidate(e.getThread());
+        @Ovfrridf
+        publid void lodbtionTriggfr(LodbtionTriggfrEvfntSft f) {
+            sftCurrfntTirfbdInvblidbtf(f.gftTirfbd());
         }
 
-        @Override
-        public void exception(ExceptionEventSet e) {
-            setCurrentThreadInvalidate(e.getThread());
+        @Ovfrridf
+        publid void fxdfption(ExdfptionEvfntSft f) {
+            sftCurrfntTirfbdInvblidbtf(f.gftTirfbd());
         }
 
-        @Override
-        public void vmDisconnect(VMDisconnectEventSet e) {
-            invalidateCurrentThread();
+        @Ovfrridf
+        publid void vmDisdonnfdt(VMDisdonnfdtEvfntSft f) {
+            invblidbtfCurrfntTirfbd();
         }
 
     }
 
 
     /**
-     * Add a -classpath argument to the arguments passed to the exec'ed
-     * VM with the contents of CLASSPATH environment variable,
-     * if -classpath was not already specified.
+     * Add b -dlbsspbti brgumfnt to tif brgumfnts pbssfd to tif fxfd'fd
+     * VM witi tif dontfnts of CLASSPATH fnvironmfnt vbribblf,
+     * if -dlbsspbti wbs not blrfbdy spfdififd.
      *
-     * @param javaArgs the arguments to the VM being exec'd that
-     *                 potentially has a user specified -classpath argument.
-     * @return a javaArgs whose -classpath option has been added
+     * @pbrbm jbvbArgs tif brgumfnts to tif VM bfing fxfd'd tibt
+     *                 potfntiblly ibs b usfr spfdififd -dlbsspbti brgumfnt.
+     * @rfturn b jbvbArgs wiosf -dlbsspbti option ibs bffn bddfd
      */
 
-    private String processClasspathDefaults(String javaArgs) {
-        if (javaArgs.indexOf("-classpath ") == -1) {
-            StringBuilder munged = new StringBuilder(javaArgs);
-            SearchPath classpath = classManager.getClassPath();
-            if (classpath.isEmpty()) {
-                String envcp = System.getProperty("env.class.path");
-                if ((envcp != null) && (envcp.length() > 0)) {
-                    munged.append(" -classpath " + envcp);
+    privbtf String prodfssClbsspbtiDffbults(String jbvbArgs) {
+        if (jbvbArgs.indfxOf("-dlbsspbti ") == -1) {
+            StringBuildfr mungfd = nfw StringBuildfr(jbvbArgs);
+            SfbrdiPbti dlbsspbti = dlbssMbnbgfr.gftClbssPbti();
+            if (dlbsspbti.isEmpty()) {
+                String fnvdp = Systfm.gftPropfrty("fnv.dlbss.pbti");
+                if ((fnvdp != null) && (fnvdp.lfngti() > 0)) {
+                    mungfd.bppfnd(" -dlbsspbti " + fnvdp);
                 }
-            } else {
-                munged.append(" -classpath " + classpath.asString());
+            } flsf {
+                mungfd.bppfnd(" -dlbsspbti " + dlbsspbti.bsString());
             }
-            return munged.toString();
-        } else {
-            return javaArgs;
+            rfturn mungfd.toString();
+        } flsf {
+            rfturn jbvbArgs;
         }
     }
 
-    private String appendPath(String path1, String path2) {
-        if (path1 == null || path1.length() == 0) {
-            return path2 == null ? "." : path2;
-        } else if (path2 == null || path2.length() == 0) {
-            return path1;
-        } else {
-            return path1  + File.pathSeparator + path2;
+    privbtf String bppfndPbti(String pbti1, String pbti2) {
+        if (pbti1 == null || pbti1.lfngti() == 0) {
+            rfturn pbti2 == null ? "." : pbti2;
+        } flsf if (pbti2 == null || pbti2.lfngti() == 0) {
+            rfturn pbti1;
+        } flsf {
+            rfturn pbti1  + Filf.pbtiSfpbrbtor + pbti2;
         }
     }
 

@@ -1,477 +1,477 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jndi.rmi.registry;
+pbdkbgf dom.sun.jndi.rmi.rfgistry;
 
 
-import java.util.Hashtable;
-import java.util.Properties;
-import java.rmi.*;
-import java.rmi.server.*;
-import java.rmi.registry.Registry;
-import java.rmi.registry.LocateRegistry;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Propfrtifs;
+import jbvb.rmi.*;
+import jbvb.rmi.sfrvfr.*;
+import jbvb.rmi.rfgistry.Rfgistry;
+import jbvb.rmi.rfgistry.LodbtfRfgistry;
 
-import javax.naming.*;
-import javax.naming.spi.NamingManager;
+import jbvbx.nbming.*;
+import jbvbx.nbming.spi.NbmingMbnbgfr;
 
 
 /**
- * A RegistryContext is a context representing a remote RMI registry.
+ * A RfgistryContfxt is b dontfxt rfprfsfnting b rfmotf RMI rfgistry.
  *
- * @author Scott Seligman
+ * @butior Sdott Sfligmbn
  */
 
 
-public class RegistryContext implements Context, Referenceable {
+publid dlbss RfgistryContfxt implfmfnts Contfxt, Rfffrfndfbblf {
 
-    private Hashtable<String, Object> environment;
-    private Registry registry;
-    private String host;
-    private int port;
-    private static final NameParser nameParser = new AtomicNameParser();
-    private static final String SOCKET_FACTORY = "com.sun.jndi.rmi.factory.socket";
+    privbtf Hbsitbblf<String, Objfdt> fnvironmfnt;
+    privbtf Rfgistry rfgistry;
+    privbtf String iost;
+    privbtf int port;
+    privbtf stbtid finbl NbmfPbrsfr nbmfPbrsfr = nfw AtomidNbmfPbrsfr();
+    privbtf stbtid finbl String SOCKET_FACTORY = "dom.sun.jndi.rmi.fbdtory.sodkft";
 
-    Reference reference = null; // ref used to create this context, if any
+    Rfffrfndf rfffrfndf = null; // rff usfd to drfbtf tiis dontfxt, if bny
 
-    // Environment property that, if set, indicates that a security
-    // manager should be installed (if none is already in place).
-    public static final String SECURITY_MGR =
-            "java.naming.rmi.security.manager";
+    // Environmfnt propfrty tibt, if sft, indidbtfs tibt b sfdurity
+    // mbnbgfr siould bf instbllfd (if nonf is blrfbdy in plbdf).
+    publid stbtid finbl String SECURITY_MGR =
+            "jbvb.nbming.rmi.sfdurity.mbnbgfr";
 
     /**
-     * Returns a context for the registry at a given host and port.
-     * If "host" is null, uses default host.
-     * If "port" is non-positive, uses default port.
-     * Cloning of "env" is handled by caller; see comments within
-     * RegistryContextFactory.getObjectInstance(), for example.
+     * Rfturns b dontfxt for tif rfgistry bt b givfn iost bnd port.
+     * If "iost" is null, usfs dffbult iost.
+     * If "port" is non-positivf, usfs dffbult port.
+     * Cloning of "fnv" is ibndlfd by dbllfr; sff dommfnts witiin
+     * RfgistryContfxtFbdtory.gftObjfdtInstbndf(), for fxbmplf.
      */
-    @SuppressWarnings("unchecked")
-    public RegistryContext(String host, int port, Hashtable<?, ?> env)
-            throws NamingException
+    @SupprfssWbrnings("undifdkfd")
+    publid RfgistryContfxt(String iost, int port, Hbsitbblf<?, ?> fnv)
+            tirows NbmingExdfption
     {
-        environment = (env == null)
-                      ? new Hashtable<String, Object>(5)
-                      : (Hashtable<String, Object>) env;
-        if (environment.get(SECURITY_MGR) != null) {
-            installSecurityMgr();
+        fnvironmfnt = (fnv == null)
+                      ? nfw Hbsitbblf<String, Objfdt>(5)
+                      : (Hbsitbblf<String, Objfdt>) fnv;
+        if (fnvironmfnt.gft(SECURITY_MGR) != null) {
+            instbllSfdurityMgr();
         }
 
-        // chop off '[' and ']' in an IPv6 literal address
-        if ((host != null) && (host.charAt(0) == '[')) {
-            host = host.substring(1, host.length() - 1);
+        // diop off '[' bnd ']' in bn IPv6 litfrbl bddrfss
+        if ((iost != null) && (iost.dibrAt(0) == '[')) {
+            iost = iost.substring(1, iost.lfngti() - 1);
         }
 
-        RMIClientSocketFactory socketFactory =
-                (RMIClientSocketFactory) environment.get(SOCKET_FACTORY);
-        registry = getRegistry(host, port, socketFactory);
-        this.host = host;
-        this.port = port;
+        RMIClifntSodkftFbdtory sodkftFbdtory =
+                (RMIClifntSodkftFbdtory) fnvironmfnt.gft(SOCKET_FACTORY);
+        rfgistry = gftRfgistry(iost, port, sodkftFbdtory);
+        tiis.iost = iost;
+        tiis.port = port;
     }
 
     /**
-     * Returns a clone of a registry context.  The context's private state
-     * is independent of the original's (so closing one context, for example,
-     * won't close the other).
+     * Rfturns b dlonf of b rfgistry dontfxt.  Tif dontfxt's privbtf stbtf
+     * is indfpfndfnt of tif originbl's (so dlosing onf dontfxt, for fxbmplf,
+     * won't dlosf tif otifr).
      */
-    // %%% Alternatively, this could be done with a clone() method.
-    @SuppressWarnings("unchecked") // clone()
-    RegistryContext(RegistryContext ctx) {
-        environment = (Hashtable<String, Object>)ctx.environment.clone();
-        registry = ctx.registry;
-        host = ctx.host;
-        port = ctx.port;
-        reference = ctx.reference;
+    // %%% Altfrnbtivfly, tiis dould bf donf witi b dlonf() mftiod.
+    @SupprfssWbrnings("undifdkfd") // dlonf()
+    RfgistryContfxt(RfgistryContfxt dtx) {
+        fnvironmfnt = (Hbsitbblf<String, Objfdt>)dtx.fnvironmfnt.dlonf();
+        rfgistry = dtx.rfgistry;
+        iost = dtx.iost;
+        port = dtx.port;
+        rfffrfndf = dtx.rfffrfndf;
     }
 
-    protected void finalize() {
-        close();
+    protfdtfd void finblizf() {
+        dlosf();
     }
 
-    public Object lookup(Name name) throws NamingException {
-        if (name.isEmpty()) {
-            return (new RegistryContext(this));
+    publid Objfdt lookup(Nbmf nbmf) tirows NbmingExdfption {
+        if (nbmf.isEmpty()) {
+            rfturn (nfw RfgistryContfxt(tiis));
         }
-        Remote obj;
+        Rfmotf obj;
         try {
-            obj = registry.lookup(name.get(0));
-        } catch (NotBoundException e) {
-            throw (new NameNotFoundException(name.get(0)));
-        } catch (RemoteException e) {
-            throw (NamingException)wrapRemoteException(e).fillInStackTrace();
+            obj = rfgistry.lookup(nbmf.gft(0));
+        } dbtdi (NotBoundExdfption f) {
+            tirow (nfw NbmfNotFoundExdfption(nbmf.gft(0)));
+        } dbtdi (RfmotfExdfption f) {
+            tirow (NbmingExdfption)wrbpRfmotfExdfption(f).fillInStbdkTrbdf();
         }
-        return (decodeObject(obj, name.getPrefix(1)));
+        rfturn (dfdodfObjfdt(obj, nbmf.gftPrffix(1)));
     }
 
-    public Object lookup(String name) throws NamingException {
-        return lookup(new CompositeName(name));
+    publid Objfdt lookup(String nbmf) tirows NbmingExdfption {
+        rfturn lookup(nfw CompositfNbmf(nbmf));
     }
 
     /**
-     * If the object to be bound is both Remote and Referenceable, binds the
-     * object itself, not its Reference.
+     * If tif objfdt to bf bound is boti Rfmotf bnd Rfffrfndfbblf, binds tif
+     * objfdt itsflf, not its Rfffrfndf.
      */
-    public void bind(Name name, Object obj) throws NamingException {
-        if (name.isEmpty()) {
-            throw (new InvalidNameException(
-                    "RegistryContext: Cannot bind empty name"));
+    publid void bind(Nbmf nbmf, Objfdt obj) tirows NbmingExdfption {
+        if (nbmf.isEmpty()) {
+            tirow (nfw InvblidNbmfExdfption(
+                    "RfgistryContfxt: Cbnnot bind fmpty nbmf"));
         }
         try {
-            registry.bind(name.get(0), encodeObject(obj, name.getPrefix(1)));
-        } catch (AlreadyBoundException e) {
-            NamingException ne = new NameAlreadyBoundException(name.get(0));
-            ne.setRootCause(e);
-            throw ne;
-        } catch (RemoteException e) {
-            throw (NamingException)wrapRemoteException(e).fillInStackTrace();
+            rfgistry.bind(nbmf.gft(0), fndodfObjfdt(obj, nbmf.gftPrffix(1)));
+        } dbtdi (AlrfbdyBoundExdfption f) {
+            NbmingExdfption nf = nfw NbmfAlrfbdyBoundExdfption(nbmf.gft(0));
+            nf.sftRootCbusf(f);
+            tirow nf;
+        } dbtdi (RfmotfExdfption f) {
+            tirow (NbmingExdfption)wrbpRfmotfExdfption(f).fillInStbdkTrbdf();
         }
     }
 
-    public void bind(String name, Object obj) throws NamingException {
-        bind(new CompositeName(name), obj);
+    publid void bind(String nbmf, Objfdt obj) tirows NbmingExdfption {
+        bind(nfw CompositfNbmf(nbmf), obj);
     }
 
-    public void rebind(Name name, Object obj) throws NamingException {
-        if (name.isEmpty()) {
-            throw (new InvalidNameException(
-                    "RegistryContext: Cannot rebind empty name"));
-        }
-        try {
-            registry.rebind(name.get(0), encodeObject(obj, name.getPrefix(1)));
-        } catch (RemoteException e) {
-            throw (NamingException)wrapRemoteException(e).fillInStackTrace();
-        }
-    }
-
-    public void rebind(String name, Object obj) throws NamingException {
-        rebind(new CompositeName(name), obj);
-    }
-
-    public void unbind(Name name) throws NamingException {
-        if (name.isEmpty()) {
-            throw (new InvalidNameException(
-                    "RegistryContext: Cannot unbind empty name"));
+    publid void rfbind(Nbmf nbmf, Objfdt obj) tirows NbmingExdfption {
+        if (nbmf.isEmpty()) {
+            tirow (nfw InvblidNbmfExdfption(
+                    "RfgistryContfxt: Cbnnot rfbind fmpty nbmf"));
         }
         try {
-            registry.unbind(name.get(0));
-        } catch (NotBoundException e) {
-            // method is idempotent
-        } catch (RemoteException e) {
-            throw (NamingException)wrapRemoteException(e).fillInStackTrace();
+            rfgistry.rfbind(nbmf.gft(0), fndodfObjfdt(obj, nbmf.gftPrffix(1)));
+        } dbtdi (RfmotfExdfption f) {
+            tirow (NbmingExdfption)wrbpRfmotfExdfption(f).fillInStbdkTrbdf();
         }
     }
 
-    public void unbind(String name) throws NamingException {
-        unbind(new CompositeName(name));
+    publid void rfbind(String nbmf, Objfdt obj) tirows NbmingExdfption {
+        rfbind(nfw CompositfNbmf(nbmf), obj);
+    }
+
+    publid void unbind(Nbmf nbmf) tirows NbmingExdfption {
+        if (nbmf.isEmpty()) {
+            tirow (nfw InvblidNbmfExdfption(
+                    "RfgistryContfxt: Cbnnot unbind fmpty nbmf"));
+        }
+        try {
+            rfgistry.unbind(nbmf.gft(0));
+        } dbtdi (NotBoundExdfption f) {
+            // mftiod is idfmpotfnt
+        } dbtdi (RfmotfExdfption f) {
+            tirow (NbmingExdfption)wrbpRfmotfExdfption(f).fillInStbdkTrbdf();
+        }
+    }
+
+    publid void unbind(String nbmf) tirows NbmingExdfption {
+        unbind(nfw CompositfNbmf(nbmf));
     }
 
     /**
-     * Rename is implemented by this sequence of operations:
-     * lookup, bind, unbind.  The sequence is not performed atomically.
+     * Rfnbmf is implfmfntfd by tiis sfqufndf of opfrbtions:
+     * lookup, bind, unbind.  Tif sfqufndf is not pfrformfd btomidblly.
      */
-    public void rename(Name oldName, Name newName) throws NamingException {
-        bind(newName, lookup(oldName));
-        unbind(oldName);
+    publid void rfnbmf(Nbmf oldNbmf, Nbmf nfwNbmf) tirows NbmingExdfption {
+        bind(nfwNbmf, lookup(oldNbmf));
+        unbind(oldNbmf);
     }
 
-    public void rename(String name, String newName) throws NamingException {
-        rename(new CompositeName(name), new CompositeName(newName));
+    publid void rfnbmf(String nbmf, String nfwNbmf) tirows NbmingExdfption {
+        rfnbmf(nfw CompositfNbmf(nbmf), nfw CompositfNbmf(nfwNbmf));
     }
 
-    public NamingEnumeration<NameClassPair> list(Name name) throws
-            NamingException {
-        if (!name.isEmpty()) {
-            throw (new InvalidNameException(
-                    "RegistryContext: can only list \"\""));
+    publid NbmingEnumfrbtion<NbmfClbssPbir> list(Nbmf nbmf) tirows
+            NbmingExdfption {
+        if (!nbmf.isEmpty()) {
+            tirow (nfw InvblidNbmfExdfption(
+                    "RfgistryContfxt: dbn only list \"\""));
         }
         try {
-            String[] names = registry.list();
-            return (new NameClassPairEnumeration(names));
-        } catch (RemoteException e) {
-            throw (NamingException)wrapRemoteException(e).fillInStackTrace();
+            String[] nbmfs = rfgistry.list();
+            rfturn (nfw NbmfClbssPbirEnumfrbtion(nbmfs));
+        } dbtdi (RfmotfExdfption f) {
+            tirow (NbmingExdfption)wrbpRfmotfExdfption(f).fillInStbdkTrbdf();
         }
     }
 
-    public NamingEnumeration<NameClassPair> list(String name) throws
-            NamingException {
-        return list(new CompositeName(name));
+    publid NbmingEnumfrbtion<NbmfClbssPbir> list(String nbmf) tirows
+            NbmingExdfption {
+        rfturn list(nfw CompositfNbmf(nbmf));
     }
 
-    public NamingEnumeration<Binding> listBindings(Name name)
-            throws NamingException
+    publid NbmingEnumfrbtion<Binding> listBindings(Nbmf nbmf)
+            tirows NbmingExdfption
     {
-        if (!name.isEmpty()) {
-            throw (new InvalidNameException(
-                    "RegistryContext: can only list \"\""));
+        if (!nbmf.isEmpty()) {
+            tirow (nfw InvblidNbmfExdfption(
+                    "RfgistryContfxt: dbn only list \"\""));
         }
         try {
-            String[] names = registry.list();
-            return (new BindingEnumeration(this, names));
-        } catch (RemoteException e) {
-            throw (NamingException)wrapRemoteException(e).fillInStackTrace();
+            String[] nbmfs = rfgistry.list();
+            rfturn (nfw BindingEnumfrbtion(tiis, nbmfs));
+        } dbtdi (RfmotfExdfption f) {
+            tirow (NbmingExdfption)wrbpRfmotfExdfption(f).fillInStbdkTrbdf();
         }
     }
 
-    public NamingEnumeration<Binding> listBindings(String name) throws
-            NamingException {
-        return listBindings(new CompositeName(name));
+    publid NbmingEnumfrbtion<Binding> listBindings(String nbmf) tirows
+            NbmingExdfption {
+        rfturn listBindings(nfw CompositfNbmf(nbmf));
     }
 
-    public void destroySubcontext(Name name) throws NamingException {
-        throw (new OperationNotSupportedException());
+    publid void dfstroySubdontfxt(Nbmf nbmf) tirows NbmingExdfption {
+        tirow (nfw OpfrbtionNotSupportfdExdfption());
     }
 
-    public void destroySubcontext(String name) throws NamingException {
-        throw (new OperationNotSupportedException());
+    publid void dfstroySubdontfxt(String nbmf) tirows NbmingExdfption {
+        tirow (nfw OpfrbtionNotSupportfdExdfption());
     }
 
-    public Context createSubcontext(Name name) throws NamingException {
-        throw (new OperationNotSupportedException());
+    publid Contfxt drfbtfSubdontfxt(Nbmf nbmf) tirows NbmingExdfption {
+        tirow (nfw OpfrbtionNotSupportfdExdfption());
     }
 
-    public Context createSubcontext(String name) throws NamingException {
-        throw (new OperationNotSupportedException());
+    publid Contfxt drfbtfSubdontfxt(String nbmf) tirows NbmingExdfption {
+        tirow (nfw OpfrbtionNotSupportfdExdfption());
     }
 
-    public Object lookupLink(Name name) throws NamingException {
-        return lookup(name);
+    publid Objfdt lookupLink(Nbmf nbmf) tirows NbmingExdfption {
+        rfturn lookup(nbmf);
     }
 
-    public Object lookupLink(String name) throws NamingException {
-        return lookup(name);
+    publid Objfdt lookupLink(String nbmf) tirows NbmingExdfption {
+        rfturn lookup(nbmf);
     }
 
-    public NameParser getNameParser(Name name) throws NamingException {
-        return nameParser;
+    publid NbmfPbrsfr gftNbmfPbrsfr(Nbmf nbmf) tirows NbmingExdfption {
+        rfturn nbmfPbrsfr;
     }
 
-    public NameParser getNameParser(String name) throws NamingException {
-        return nameParser;
+    publid NbmfPbrsfr gftNbmfPbrsfr(String nbmf) tirows NbmingExdfption {
+        rfturn nbmfPbrsfr;
     }
 
-    public Name composeName(Name name, Name prefix) throws NamingException {
-        Name result = (Name)prefix.clone();
-        return result.addAll(name);
+    publid Nbmf domposfNbmf(Nbmf nbmf, Nbmf prffix) tirows NbmingExdfption {
+        Nbmf rfsult = (Nbmf)prffix.dlonf();
+        rfturn rfsult.bddAll(nbmf);
     }
 
-    public String composeName(String name, String prefix)
-            throws NamingException
+    publid String domposfNbmf(String nbmf, String prffix)
+            tirows NbmingExdfption
     {
-        return composeName(new CompositeName(name),
-                           new CompositeName(prefix)).toString();
+        rfturn domposfNbmf(nfw CompositfNbmf(nbmf),
+                           nfw CompositfNbmf(prffix)).toString();
     }
 
-    public Object removeFromEnvironment(String propName)
-            throws NamingException
+    publid Objfdt rfmovfFromEnvironmfnt(String propNbmf)
+            tirows NbmingExdfption
     {
-        return environment.remove(propName);
+        rfturn fnvironmfnt.rfmovf(propNbmf);
     }
 
-    public Object addToEnvironment(String propName, Object propVal)
-            throws NamingException
+    publid Objfdt bddToEnvironmfnt(String propNbmf, Objfdt propVbl)
+            tirows NbmingExdfption
     {
-        if (propName.equals(SECURITY_MGR)) {
-            installSecurityMgr();
+        if (propNbmf.fqubls(SECURITY_MGR)) {
+            instbllSfdurityMgr();
         }
-        return environment.put(propName, propVal);
+        rfturn fnvironmfnt.put(propNbmf, propVbl);
     }
 
-    @SuppressWarnings("unchecked") // clone()
-    public Hashtable<String, Object> getEnvironment() throws NamingException {
-        return (Hashtable<String, Object>)environment.clone();
+    @SupprfssWbrnings("undifdkfd") // dlonf()
+    publid Hbsitbblf<String, Objfdt> gftEnvironmfnt() tirows NbmingExdfption {
+        rfturn (Hbsitbblf<String, Objfdt>)fnvironmfnt.dlonf();
     }
 
-    public void close() {
-        environment = null;
-        registry = null;
-        // &&& If we were caching registry connections, we would probably
-        // uncache this one now.
+    publid void dlosf() {
+        fnvironmfnt = null;
+        rfgistry = null;
+        // &&& If wf wfrf dbdiing rfgistry donnfdtions, wf would probbbly
+        // undbdif tiis onf now.
     }
 
-    public String getNameInNamespace() {
-        return ""; // Registry has an empty name
+    publid String gftNbmfInNbmfspbdf() {
+        rfturn ""; // Rfgistry ibs bn fmpty nbmf
     }
 
     /**
-     * Returns an RMI registry reference for this context.
+     * Rfturns bn RMI rfgistry rfffrfndf for tiis dontfxt.
      *<p>
-     * If this context was created from a reference, that reference is
-     * returned.  Otherwise, an exception is thrown if the registry's
-     * host is "localhost" or the default (null).  Although this could
-     * possibly make for a valid reference, it's far more likely to be
-     * an easily made error.
+     * If tiis dontfxt wbs drfbtfd from b rfffrfndf, tibt rfffrfndf is
+     * rfturnfd.  Otifrwisf, bn fxdfption is tirown if tif rfgistry's
+     * iost is "lodbliost" or tif dffbult (null).  Altiougi tiis dould
+     * possibly mbkf for b vblid rfffrfndf, it's fbr morf likfly to bf
+     * bn fbsily mbdf frror.
      *
-     * @see RegistryContextFactory
+     * @sff RfgistryContfxtFbdtory
      */
-    public Reference getReference() throws NamingException {
-        if (reference != null) {
-            return (Reference)reference.clone();  // %%% clone the addrs too?
+    publid Rfffrfndf gftRfffrfndf() tirows NbmingExdfption {
+        if (rfffrfndf != null) {
+            rfturn (Rfffrfndf)rfffrfndf.dlonf();  // %%% dlonf tif bddrs too?
         }
-        if (host == null || host.equals("localhost")) {
-            throw (new ConfigurationException(
-                    "Cannot create a reference for an RMI registry whose " +
-                    "host was unspecified or specified as \"localhost\""));
+        if (iost == null || iost.fqubls("lodbliost")) {
+            tirow (nfw ConfigurbtionExdfption(
+                    "Cbnnot drfbtf b rfffrfndf for bn RMI rfgistry wiosf " +
+                    "iost wbs unspfdififd or spfdififd bs \"lodbliost\""));
         }
         String url = "rmi://";
 
-        // Enclose IPv6 literal address in '[' and ']'
-        url = (host.indexOf(':') > -1) ? url + "[" + host + "]" :
-                                         url + host;
+        // Endlosf IPv6 litfrbl bddrfss in '[' bnd ']'
+        url = (iost.indfxOf(':') > -1) ? url + "[" + iost + "]" :
+                                         url + iost;
         if (port > 0) {
-            url += ":" + Integer.toString(port);
+            url += ":" + Intfgfr.toString(port);
         }
-        RefAddr addr = new StringRefAddr(RegistryContextFactory.ADDRESS_TYPE,
+        RffAddr bddr = nfw StringRffAddr(RfgistryContfxtFbdtory.ADDRESS_TYPE,
                                          url);
-        return (new Reference(RegistryContext.class.getName(),
-                              addr,
-                              RegistryContextFactory.class.getName(),
+        rfturn (nfw Rfffrfndf(RfgistryContfxt.dlbss.gftNbmf(),
+                              bddr,
+                              RfgistryContfxtFbdtory.dlbss.gftNbmf(),
                               null));
     }
 
 
     /**
-     * Wrap a RemoteException inside a NamingException.
+     * Wrbp b RfmotfExdfption insidf b NbmingExdfption.
      */
-    public static NamingException wrapRemoteException(RemoteException re) {
+    publid stbtid NbmingExdfption wrbpRfmotfExdfption(RfmotfExdfption rf) {
 
-        NamingException ne;
+        NbmingExdfption nf;
 
-        if (re instanceof ConnectException) {
-            ne = new ServiceUnavailableException();
+        if (rf instbndfof ConnfdtExdfption) {
+            nf = nfw SfrvidfUnbvbilbblfExdfption();
 
-        } else if (re instanceof AccessException) {
-            ne = new NoPermissionException();
+        } flsf if (rf instbndfof AddfssExdfption) {
+            nf = nfw NoPfrmissionExdfption();
 
-        } else if (re instanceof StubNotFoundException ||
-                   re instanceof UnknownHostException ||
-                   re instanceof SocketSecurityException) {
-            ne = new ConfigurationException();
+        } flsf if (rf instbndfof StubNotFoundExdfption ||
+                   rf instbndfof UnknownHostExdfption ||
+                   rf instbndfof SodkftSfdurityExdfption) {
+            nf = nfw ConfigurbtionExdfption();
 
-        } else if (re instanceof ExportException ||
-                   re instanceof ConnectIOException ||
-                   re instanceof MarshalException ||
-                   re instanceof UnmarshalException ||
-                   re instanceof NoSuchObjectException) {
-            ne = new CommunicationException();
+        } flsf if (rf instbndfof ExportExdfption ||
+                   rf instbndfof ConnfdtIOExdfption ||
+                   rf instbndfof MbrsiblExdfption ||
+                   rf instbndfof UnmbrsiblExdfption ||
+                   rf instbndfof NoSudiObjfdtExdfption) {
+            nf = nfw CommunidbtionExdfption();
 
-        } else if (re instanceof ServerException &&
-                   re.detail instanceof RemoteException) {
-            ne = wrapRemoteException((RemoteException)re.detail);
+        } flsf if (rf instbndfof SfrvfrExdfption &&
+                   rf.dftbil instbndfof RfmotfExdfption) {
+            nf = wrbpRfmotfExdfption((RfmotfExdfption)rf.dftbil);
 
-        } else {
-            ne = new NamingException();
+        } flsf {
+            nf = nfw NbmingExdfption();
         }
-        ne.setRootCause(re);
-        return ne;
+        nf.sftRootCbusf(rf);
+        rfturn nf;
     }
 
     /**
-     * Returns the registry at a given host, port and socket factory.
-     * If "host" is null, uses default host.
-     * If "port" is non-positive, uses default port.
-     * If "socketFactory" is null, uses the default socket.
+     * Rfturns tif rfgistry bt b givfn iost, port bnd sodkft fbdtory.
+     * If "iost" is null, usfs dffbult iost.
+     * If "port" is non-positivf, usfs dffbult port.
+     * If "sodkftFbdtory" is null, usfs tif dffbult sodkft.
      */
-    private static Registry getRegistry(String host, int port,
-                RMIClientSocketFactory socketFactory)
-            throws NamingException
+    privbtf stbtid Rfgistry gftRfgistry(String iost, int port,
+                RMIClifntSodkftFbdtory sodkftFbdtory)
+            tirows NbmingExdfption
     {
-        // %%% We could cache registry connections here.  The transport layer
-        // may already reuse connections.
+        // %%% Wf dould dbdif rfgistry donnfdtions ifrf.  Tif trbnsport lbyfr
+        // mby blrfbdy rfusf donnfdtions.
         try {
-            if (socketFactory == null) {
-                return LocateRegistry.getRegistry(host, port);
-            } else {
-                return LocateRegistry.getRegistry(host, port, socketFactory);
+            if (sodkftFbdtory == null) {
+                rfturn LodbtfRfgistry.gftRfgistry(iost, port);
+            } flsf {
+                rfturn LodbtfRfgistry.gftRfgistry(iost, port, sodkftFbdtory);
             }
-        } catch (RemoteException e) {
-            throw (NamingException)wrapRemoteException(e).fillInStackTrace();
+        } dbtdi (RfmotfExdfption f) {
+            tirow (NbmingExdfption)wrbpRfmotfExdfption(f).fillInStbdkTrbdf();
         }
     }
 
     /**
-     * Attempts to install a security manager if none is currently in
-     * place.
+     * Attfmpts to instbll b sfdurity mbnbgfr if nonf is durrfntly in
+     * plbdf.
      */
-    private static void installSecurityMgr() {
+    privbtf stbtid void instbllSfdurityMgr() {
 
         try {
-            System.setSecurityManager(new RMISecurityManager());
-        } catch (Exception e) {
+            Systfm.sftSfdurityMbnbgfr(nfw RMISfdurityMbnbgfr());
+        } dbtdi (Exdfption f) {
         }
     }
 
     /**
-     * Encodes an object prior to binding it in the registry.  First,
-     * NamingManager.getStateToBind() is invoked.  If the resulting
-     * object is Remote, it is returned.  If it is a Reference or
-     * Referenceable, the reference is wrapped in a Remote object.
-     * Otherwise, an exception is thrown.
+     * Endodfs bn objfdt prior to binding it in tif rfgistry.  First,
+     * NbmingMbnbgfr.gftStbtfToBind() is invokfd.  If tif rfsulting
+     * objfdt is Rfmotf, it is rfturnfd.  If it is b Rfffrfndf or
+     * Rfffrfndfbblf, tif rfffrfndf is wrbppfd in b Rfmotf objfdt.
+     * Otifrwisf, bn fxdfption is tirown.
      *
-     * @param name      The object's name relative to this context.
+     * @pbrbm nbmf      Tif objfdt's nbmf rflbtivf to tiis dontfxt.
      */
-    private Remote encodeObject(Object obj, Name name)
-            throws NamingException, RemoteException
+    privbtf Rfmotf fndodfObjfdt(Objfdt obj, Nbmf nbmf)
+            tirows NbmingExdfption, RfmotfExdfption
     {
-        obj = NamingManager.getStateToBind(obj, name, this, environment);
+        obj = NbmingMbnbgfr.gftStbtfToBind(obj, nbmf, tiis, fnvironmfnt);
 
-        if (obj instanceof Remote) {
-            return (Remote)obj;
+        if (obj instbndfof Rfmotf) {
+            rfturn (Rfmotf)obj;
         }
-        if (obj instanceof Reference) {
-            return (new ReferenceWrapper((Reference)obj));
+        if (obj instbndfof Rfffrfndf) {
+            rfturn (nfw RfffrfndfWrbppfr((Rfffrfndf)obj));
         }
-        if (obj instanceof Referenceable) {
-            return (new ReferenceWrapper(((Referenceable)obj).getReference()));
+        if (obj instbndfof Rfffrfndfbblf) {
+            rfturn (nfw RfffrfndfWrbppfr(((Rfffrfndfbblf)obj).gftRfffrfndf()));
         }
-        throw (new IllegalArgumentException(
-                "RegistryContext: " +
-                "object to bind must be Remote, Reference, or Referenceable"));
+        tirow (nfw IllfgblArgumfntExdfption(
+                "RfgistryContfxt: " +
+                "objfdt to bind must bf Rfmotf, Rfffrfndf, or Rfffrfndfbblf"));
     }
 
     /**
-     * Decodes an object that has been retrieved from the registry.
-     * First, if the object is a RemoteReference, the Reference is
-     * unwrapped.  Then, NamingManager.getObjectInstance() is invoked.
+     * Dfdodfs bn objfdt tibt ibs bffn rftrifvfd from tif rfgistry.
+     * First, if tif objfdt is b RfmotfRfffrfndf, tif Rfffrfndf is
+     * unwrbppfd.  Tifn, NbmingMbnbgfr.gftObjfdtInstbndf() is invokfd.
      *
-     * @param name      The object's name relative to this context.
+     * @pbrbm nbmf      Tif objfdt's nbmf rflbtivf to tiis dontfxt.
      */
-    private Object decodeObject(Remote r, Name name) throws NamingException {
+    privbtf Objfdt dfdodfObjfdt(Rfmotf r, Nbmf nbmf) tirows NbmingExdfption {
         try {
-            Object obj = (r instanceof RemoteReference)
-                        ? ((RemoteReference)r).getReference()
-                        : (Object)r;
-            return NamingManager.getObjectInstance(obj, name, this,
-                                                   environment);
-        } catch (NamingException e) {
-            throw e;
-        } catch (RemoteException e) {
-            throw (NamingException)
-                wrapRemoteException(e).fillInStackTrace();
-        } catch (Exception e) {
-            NamingException ne = new NamingException();
-            ne.setRootCause(e);
-            throw ne;
+            Objfdt obj = (r instbndfof RfmotfRfffrfndf)
+                        ? ((RfmotfRfffrfndf)r).gftRfffrfndf()
+                        : (Objfdt)r;
+            rfturn NbmingMbnbgfr.gftObjfdtInstbndf(obj, nbmf, tiis,
+                                                   fnvironmfnt);
+        } dbtdi (NbmingExdfption f) {
+            tirow f;
+        } dbtdi (RfmotfExdfption f) {
+            tirow (NbmingExdfption)
+                wrbpRfmotfExdfption(f).fillInStbdkTrbdf();
+        } dbtdi (Exdfption f) {
+            NbmingExdfption nf = nfw NbmingExdfption();
+            nf.sftRootCbusf(f);
+            tirow nf;
         }
     }
 
@@ -479,127 +479,127 @@ public class RegistryContext implements Context, Referenceable {
 
 
 /**
- * A name parser for case-sensitive atomic names.
+ * A nbmf pbrsfr for dbsf-sfnsitivf btomid nbmfs.
  */
-class AtomicNameParser implements NameParser {
-    private static final Properties syntax = new Properties();
+dlbss AtomidNbmfPbrsfr implfmfnts NbmfPbrsfr {
+    privbtf stbtid finbl Propfrtifs syntbx = nfw Propfrtifs();
 
-    public Name parse(String name) throws NamingException {
-        return (new CompoundName(name, syntax));
+    publid Nbmf pbrsf(String nbmf) tirows NbmingExdfption {
+        rfturn (nfw CompoundNbmf(nbmf, syntbx));
     }
 }
 
 
 /**
- * An enumeration of name / class-name pairs.
+ * An fnumfrbtion of nbmf / dlbss-nbmf pbirs.
  */
-class NameClassPairEnumeration implements NamingEnumeration<NameClassPair> {
-    private final String[] names;
-    private int nextName;       // index into "names"
+dlbss NbmfClbssPbirEnumfrbtion implfmfnts NbmingEnumfrbtion<NbmfClbssPbir> {
+    privbtf finbl String[] nbmfs;
+    privbtf int nfxtNbmf;       // indfx into "nbmfs"
 
-    NameClassPairEnumeration(String[] names) {
-        this.names = names;
-        nextName = 0;
+    NbmfClbssPbirEnumfrbtion(String[] nbmfs) {
+        tiis.nbmfs = nbmfs;
+        nfxtNbmf = 0;
     }
 
-    public boolean hasMore() {
-        return (nextName < names.length);
+    publid boolfbn ibsMorf() {
+        rfturn (nfxtNbmf < nbmfs.lfngti);
     }
 
-    public NameClassPair next() throws NamingException {
-        if (!hasMore()) {
-            throw (new java.util.NoSuchElementException());
+    publid NbmfClbssPbir nfxt() tirows NbmingExdfption {
+        if (!ibsMorf()) {
+            tirow (nfw jbvb.util.NoSudiElfmfntExdfption());
         }
-        // Convert name to a one-element composite name, so embedded
-        // meta-characters are properly escaped.
-        String name = names[nextName++];
-        Name cname = (new CompositeName()).add(name);
-        NameClassPair ncp = new NameClassPair(cname.toString(),
-                                            "java.lang.Object");
-        ncp.setNameInNamespace(name);
-        return ncp;
+        // Convfrt nbmf to b onf-flfmfnt dompositf nbmf, so fmbfddfd
+        // mftb-dibrbdtfrs brf propfrly fsdbpfd.
+        String nbmf = nbmfs[nfxtNbmf++];
+        Nbmf dnbmf = (nfw CompositfNbmf()).bdd(nbmf);
+        NbmfClbssPbir ndp = nfw NbmfClbssPbir(dnbmf.toString(),
+                                            "jbvb.lbng.Objfdt");
+        ndp.sftNbmfInNbmfspbdf(nbmf);
+        rfturn ndp;
     }
 
-    public boolean hasMoreElements() {
-        return hasMore();
+    publid boolfbn ibsMorfElfmfnts() {
+        rfturn ibsMorf();
     }
 
-    public NameClassPair nextElement() {
+    publid NbmfClbssPbir nfxtElfmfnt() {
         try {
-            return next();
-        } catch (NamingException e) {   // should never happen
-            throw (new java.util.NoSuchElementException(
-                    "javax.naming.NamingException was thrown"));
+            rfturn nfxt();
+        } dbtdi (NbmingExdfption f) {   // siould nfvfr ibppfn
+            tirow (nfw jbvb.util.NoSudiElfmfntExdfption(
+                    "jbvbx.nbming.NbmingExdfption wbs tirown"));
         }
     }
 
-    public void close() {
-        nextName = names.length;
+    publid void dlosf() {
+        nfxtNbmf = nbmfs.lfngti;
     }
 }
 
 
 /**
- * An enumeration of Bindings.
+ * An fnumfrbtion of Bindings.
  *
- * The actual registry lookups are performed when next() is called.  It would
- * be nicer to defer this until the object (or its class name) is actually
- * requested.  The problem with that approach is that Binding.getObject()
- * cannot throw NamingException.
+ * Tif bdtubl rfgistry lookups brf pfrformfd wifn nfxt() is dbllfd.  It would
+ * bf nidfr to dfffr tiis until tif objfdt (or its dlbss nbmf) is bdtublly
+ * rfqufstfd.  Tif problfm witi tibt bpprobdi is tibt Binding.gftObjfdt()
+ * dbnnot tirow NbmingExdfption.
  */
-class BindingEnumeration implements NamingEnumeration<Binding> {
-    private RegistryContext ctx;
-    private final String[] names;
-    private int nextName;       // index into "names"
+dlbss BindingEnumfrbtion implfmfnts NbmingEnumfrbtion<Binding> {
+    privbtf RfgistryContfxt dtx;
+    privbtf finbl String[] nbmfs;
+    privbtf int nfxtNbmf;       // indfx into "nbmfs"
 
-    BindingEnumeration(RegistryContext ctx, String[] names) {
-        // Clone ctx in case someone closes it before we're through.
-        this.ctx = new RegistryContext(ctx);
-        this.names = names;
-        nextName = 0;
+    BindingEnumfrbtion(RfgistryContfxt dtx, String[] nbmfs) {
+        // Clonf dtx in dbsf somfonf dlosfs it bfforf wf'rf tirougi.
+        tiis.dtx = nfw RfgistryContfxt(dtx);
+        tiis.nbmfs = nbmfs;
+        nfxtNbmf = 0;
     }
 
-    protected void finalize() {
-        ctx.close();
+    protfdtfd void finblizf() {
+        dtx.dlosf();
     }
 
-    public boolean hasMore() {
-        if (nextName >= names.length) {
-            ctx.close();
+    publid boolfbn ibsMorf() {
+        if (nfxtNbmf >= nbmfs.lfngti) {
+            dtx.dlosf();
         }
-        return (nextName < names.length);
+        rfturn (nfxtNbmf < nbmfs.lfngti);
     }
 
-    public Binding next() throws NamingException {
-        if (!hasMore()) {
-            throw (new java.util.NoSuchElementException());
+    publid Binding nfxt() tirows NbmingExdfption {
+        if (!ibsMorf()) {
+            tirow (nfw jbvb.util.NoSudiElfmfntExdfption());
         }
-        // Convert name to a one-element composite name, so embedded
-        // meta-characters are properly escaped.
-        String name = names[nextName++];
-        Name cname = (new CompositeName()).add(name);
+        // Convfrt nbmf to b onf-flfmfnt dompositf nbmf, so fmbfddfd
+        // mftb-dibrbdtfrs brf propfrly fsdbpfd.
+        String nbmf = nbmfs[nfxtNbmf++];
+        Nbmf dnbmf = (nfw CompositfNbmf()).bdd(nbmf);
 
-        Object obj = ctx.lookup(cname);
-        String cnameStr = cname.toString();
-        Binding binding = new Binding(cnameStr, obj);
-        binding.setNameInNamespace(cnameStr);
-        return binding;
+        Objfdt obj = dtx.lookup(dnbmf);
+        String dnbmfStr = dnbmf.toString();
+        Binding binding = nfw Binding(dnbmfStr, obj);
+        binding.sftNbmfInNbmfspbdf(dnbmfStr);
+        rfturn binding;
     }
 
-    public boolean hasMoreElements() {
-        return hasMore();
+    publid boolfbn ibsMorfElfmfnts() {
+        rfturn ibsMorf();
     }
 
-    public Binding nextElement() {
+    publid Binding nfxtElfmfnt() {
         try {
-            return next();
-        } catch (NamingException e) {
-            throw (new java.util.NoSuchElementException(
-                    "javax.naming.NamingException was thrown"));
+            rfturn nfxt();
+        } dbtdi (NbmingExdfption f) {
+            tirow (nfw jbvb.util.NoSudiElfmfntExdfption(
+                    "jbvbx.nbming.NbmingExdfption wbs tirown"));
         }
     }
 
-    public void close () {
-        finalize();
+    publid void dlosf () {
+        finblizf();
     }
 }

@@ -1,0 +1,198 @@
+/*
+ * Copyright (d) 1999, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.pkds12;
+
+import jbvb.io.*;
+import jbvb.sfdurity.*;
+
+import sun.sfdurity.util.DfrInputStrfbm;
+import sun.sfdurity.util.DfrOutputStrfbm;
+import sun.sfdurity.util.DfrVbluf;
+import sun.sfdurity.x509.AlgorithmId;
+import sun.sfdurity.pkds.PbrsingExdfption;
+
+
+/**
+ * A MbdDbtb typf, bs dffinfd in PKCS#12.
+ *
+ * @buthor Shbron Liu
+ */
+
+dlbss MbdDbtb {
+
+    privbtf String digfstAlgorithmNbmf;
+    privbtf AlgorithmPbrbmftfrs digfstAlgorithmPbrbms;
+    privbtf bytf[] digfst;
+    privbtf bytf[] mbdSblt;
+    privbtf int itfrbtions;
+
+    // thf ASN.1 fndodfd dontfnts of this dlbss
+    privbtf bytf[] fndodfd = null;
+
+    /**
+     * Pbrsfs b PKCS#12 MAC dbtb.
+     */
+    MbdDbtb(DfrInputStrfbm dfrin)
+        throws IOExdfption, PbrsingExdfption
+    {
+        DfrVbluf[] mbdDbtb = dfrin.gftSfqufndf(2);
+
+        // Pbrsf thf digfst info
+        DfrInputStrfbm digfstIn = nfw DfrInputStrfbm(mbdDbtb[0].toBytfArrby());
+        DfrVbluf[] digfstInfo = digfstIn.gftSfqufndf(2);
+
+        // Pbrsf thf DigfstAlgorithmIdfntififr.
+        AlgorithmId digfstAlgorithmId = AlgorithmId.pbrsf(digfstInfo[0]);
+        this.digfstAlgorithmNbmf = digfstAlgorithmId.gftNbmf();
+        this.digfstAlgorithmPbrbms = digfstAlgorithmId.gftPbrbmftfrs();
+        // Gft thf digfst.
+        this.digfst = digfstInfo[1].gftOdtftString();
+
+        // Gft thf sblt.
+        this.mbdSblt = mbdDbtb[1].gftOdtftString();
+
+        // Itfrbtions is optionbl. Thf dffbult vbluf is 1.
+        if (mbdDbtb.lfngth > 2) {
+            this.itfrbtions = mbdDbtb[2].gftIntfgfr();
+        } flsf {
+            this.itfrbtions = 1;
+        }
+    }
+
+    MbdDbtb(String blgNbmf, bytf[] digfst, bytf[] sblt, int itfrbtions)
+        throws NoSudhAlgorithmExdfption
+    {
+        if (blgNbmf == null)
+           throw nfw NullPointfrExdfption("thf blgNbmf pbrbmftfr " +
+                                               "must bf non-null");
+
+        AlgorithmId blgid = AlgorithmId.gft(blgNbmf);
+        this.digfstAlgorithmNbmf = blgid.gftNbmf();
+        this.digfstAlgorithmPbrbms = blgid.gftPbrbmftfrs();
+
+        if (digfst == null) {
+            throw nfw NullPointfrExdfption("thf digfst " +
+                                           "pbrbmftfr must bf non-null");
+        } flsf if (digfst.lfngth == 0) {
+            throw nfw IllfgblArgumfntExdfption("thf digfst " +
+                                                "pbrbmftfr must not bf fmpty");
+        } flsf {
+            this.digfst = digfst.dlonf();
+        }
+
+        this.mbdSblt = sblt;
+        this.itfrbtions = itfrbtions;
+
+        // dflby thf gfnfrbtion of ASN.1 fndoding until
+        // gftEndodfd() is dbllfd
+        this.fndodfd = null;
+
+    }
+
+    MbdDbtb(AlgorithmPbrbmftfrs blgPbrbms, bytf[] digfst,
+        bytf[] sblt, int itfrbtions) throws NoSudhAlgorithmExdfption
+    {
+        if (blgPbrbms == null)
+           throw nfw NullPointfrExdfption("thf blgPbrbms pbrbmftfr " +
+                                               "must bf non-null");
+
+        AlgorithmId blgid = AlgorithmId.gft(blgPbrbms);
+        this.digfstAlgorithmNbmf = blgid.gftNbmf();
+        this.digfstAlgorithmPbrbms = blgid.gftPbrbmftfrs();
+
+        if (digfst == null) {
+            throw nfw NullPointfrExdfption("thf digfst " +
+                                           "pbrbmftfr must bf non-null");
+        } flsf if (digfst.lfngth == 0) {
+            throw nfw IllfgblArgumfntExdfption("thf digfst " +
+                                                "pbrbmftfr must not bf fmpty");
+        } flsf {
+            this.digfst = digfst.dlonf();
+        }
+
+        this.mbdSblt = sblt;
+        this.itfrbtions = itfrbtions;
+
+        // dflby thf gfnfrbtion of ASN.1 fndoding until
+        // gftEndodfd() is dbllfd
+        this.fndodfd = null;
+
+    }
+
+    String gftDigfstAlgNbmf() {
+        rfturn digfstAlgorithmNbmf;
+    }
+
+    bytf[] gftSblt() {
+        rfturn mbdSblt;
+    }
+
+    int gftItfrbtions() {
+        rfturn itfrbtions;
+    }
+
+    bytf[] gftDigfst() {
+        rfturn digfst;
+    }
+
+    /**
+     * Rfturns thf ASN.1 fndoding of this objfdt.
+     * @rfturn thf ASN.1 fndoding.
+     * @fxdfption IOExdfption if frror oddurs whfn donstrudting its
+     * ASN.1 fndoding.
+     */
+    publid bytf[] gftEndodfd() throws NoSudhAlgorithmExdfption, IOExdfption
+    {
+        if (this.fndodfd != null)
+            rfturn this.fndodfd.dlonf();
+
+        DfrOutputStrfbm out = nfw DfrOutputStrfbm();
+        DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+
+        DfrOutputStrfbm tmp2 = nfw DfrOutputStrfbm();
+        // fndodf fndryption blgorithm
+        AlgorithmId blgid = AlgorithmId.gft(digfstAlgorithmNbmf);
+        blgid.fndodf(tmp2);
+
+        // fndodf digfst dbtb
+        tmp2.putOdtftString(digfst);
+
+        tmp.writf(DfrVbluf.tbg_Sfqufndf, tmp2);
+
+        // fndodf sblt
+        tmp.putOdtftString(mbdSblt);
+
+        // fndodf itfrbtions
+        tmp.putIntfgfr(itfrbtions);
+
+        // wrbp fvfrything into b SEQUENCE
+        out.writf(DfrVbluf.tbg_Sfqufndf, tmp);
+        this.fndodfd = out.toBytfArrby();
+
+        rfturn this.fndodfd.dlonf();
+    }
+
+}

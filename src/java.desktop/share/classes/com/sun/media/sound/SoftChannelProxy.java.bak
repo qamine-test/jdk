@@ -1,202 +1,202 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.media.sound;
+pbdkbgf dom.sun.mfdib.sound;
 
-import javax.sound.midi.MidiChannel;
+import jbvbx.sound.midi.MidiCibnnfl;
 
 /**
- * A MidiChannel proxy object used for external access to synthesizer internal
- * channel objects.
+ * A MidiCibnnfl proxy objfdt usfd for fxtfrnbl bddfss to syntifsizfr intfrnbl
+ * dibnnfl objfdts.
  *
- * @author Karl Helgason
+ * @butior Kbrl Hflgbson
  */
-public final class SoftChannelProxy implements MidiChannel {
+publid finbl dlbss SoftCibnnflProxy implfmfnts MidiCibnnfl {
 
-    private MidiChannel channel = null;
+    privbtf MidiCibnnfl dibnnfl = null;
 
-    public MidiChannel getChannel() {
-        return channel;
+    publid MidiCibnnfl gftCibnnfl() {
+        rfturn dibnnfl;
     }
 
-    public void setChannel(MidiChannel channel) {
-        this.channel = channel;
+    publid void sftCibnnfl(MidiCibnnfl dibnnfl) {
+        tiis.dibnnfl = dibnnfl;
     }
 
-    public void allNotesOff() {
-        if (channel == null)
-            return;
-        channel.allNotesOff();
+    publid void bllNotfsOff() {
+        if (dibnnfl == null)
+            rfturn;
+        dibnnfl.bllNotfsOff();
     }
 
-    public void allSoundOff() {
-        if (channel == null)
-            return;
-        channel.allSoundOff();
+    publid void bllSoundOff() {
+        if (dibnnfl == null)
+            rfturn;
+        dibnnfl.bllSoundOff();
     }
 
-    public void controlChange(int controller, int value) {
-        if (channel == null)
-            return;
-        channel.controlChange(controller, value);
+    publid void dontrolCibngf(int dontrollfr, int vbluf) {
+        if (dibnnfl == null)
+            rfturn;
+        dibnnfl.dontrolCibngf(dontrollfr, vbluf);
     }
 
-    public int getChannelPressure() {
-        if (channel == null)
-            return 0;
-        return channel.getChannelPressure();
+    publid int gftCibnnflPrfssurf() {
+        if (dibnnfl == null)
+            rfturn 0;
+        rfturn dibnnfl.gftCibnnflPrfssurf();
     }
 
-    public int getController(int controller) {
-        if (channel == null)
-            return 0;
-        return channel.getController(controller);
+    publid int gftControllfr(int dontrollfr) {
+        if (dibnnfl == null)
+            rfturn 0;
+        rfturn dibnnfl.gftControllfr(dontrollfr);
     }
 
-    public boolean getMono() {
-        if (channel == null)
-            return false;
-        return channel.getMono();
+    publid boolfbn gftMono() {
+        if (dibnnfl == null)
+            rfturn fblsf;
+        rfturn dibnnfl.gftMono();
     }
 
-    public boolean getMute() {
-        if (channel == null)
-            return false;
-        return channel.getMute();
+    publid boolfbn gftMutf() {
+        if (dibnnfl == null)
+            rfturn fblsf;
+        rfturn dibnnfl.gftMutf();
     }
 
-    public boolean getOmni() {
-        if (channel == null)
-            return false;
-        return channel.getOmni();
+    publid boolfbn gftOmni() {
+        if (dibnnfl == null)
+            rfturn fblsf;
+        rfturn dibnnfl.gftOmni();
     }
 
-    public int getPitchBend() {
-        if (channel == null)
-            return 8192;
-        return channel.getPitchBend();
+    publid int gftPitdiBfnd() {
+        if (dibnnfl == null)
+            rfturn 8192;
+        rfturn dibnnfl.gftPitdiBfnd();
     }
 
-    public int getPolyPressure(int noteNumber) {
-        if (channel == null)
-            return 0;
-        return channel.getPolyPressure(noteNumber);
+    publid int gftPolyPrfssurf(int notfNumbfr) {
+        if (dibnnfl == null)
+            rfturn 0;
+        rfturn dibnnfl.gftPolyPrfssurf(notfNumbfr);
     }
 
-    public int getProgram() {
-        if (channel == null)
-            return 0;
-        return channel.getProgram();
+    publid int gftProgrbm() {
+        if (dibnnfl == null)
+            rfturn 0;
+        rfturn dibnnfl.gftProgrbm();
     }
 
-    public boolean getSolo() {
-        if (channel == null)
-            return false;
-        return channel.getSolo();
+    publid boolfbn gftSolo() {
+        if (dibnnfl == null)
+            rfturn fblsf;
+        rfturn dibnnfl.gftSolo();
     }
 
-    public boolean localControl(boolean on) {
-        if (channel == null)
-            return false;
-        return channel.localControl(on);
+    publid boolfbn lodblControl(boolfbn on) {
+        if (dibnnfl == null)
+            rfturn fblsf;
+        rfturn dibnnfl.lodblControl(on);
     }
 
-    public void noteOff(int noteNumber) {
-        if (channel == null)
-            return;
-        channel.noteOff(noteNumber);
+    publid void notfOff(int notfNumbfr) {
+        if (dibnnfl == null)
+            rfturn;
+        dibnnfl.notfOff(notfNumbfr);
     }
 
-    public void noteOff(int noteNumber, int velocity) {
-        if (channel == null)
-            return;
-        channel.noteOff(noteNumber, velocity);
+    publid void notfOff(int notfNumbfr, int vflodity) {
+        if (dibnnfl == null)
+            rfturn;
+        dibnnfl.notfOff(notfNumbfr, vflodity);
     }
 
-    public void noteOn(int noteNumber, int velocity) {
-        if (channel == null)
-            return;
-        channel.noteOn(noteNumber, velocity);
+    publid void notfOn(int notfNumbfr, int vflodity) {
+        if (dibnnfl == null)
+            rfturn;
+        dibnnfl.notfOn(notfNumbfr, vflodity);
     }
 
-    public void programChange(int program) {
-        if (channel == null)
-            return;
-        channel.programChange(program);
+    publid void progrbmCibngf(int progrbm) {
+        if (dibnnfl == null)
+            rfturn;
+        dibnnfl.progrbmCibngf(progrbm);
     }
 
-    public void programChange(int bank, int program) {
-        if (channel == null)
-            return;
-        channel.programChange(bank, program);
+    publid void progrbmCibngf(int bbnk, int progrbm) {
+        if (dibnnfl == null)
+            rfturn;
+        dibnnfl.progrbmCibngf(bbnk, progrbm);
     }
 
-    public void resetAllControllers() {
-        if (channel == null)
-            return;
-        channel.resetAllControllers();
+    publid void rfsftAllControllfrs() {
+        if (dibnnfl == null)
+            rfturn;
+        dibnnfl.rfsftAllControllfrs();
     }
 
-    public void setChannelPressure(int pressure) {
-        if (channel == null)
-            return;
-        channel.setChannelPressure(pressure);
+    publid void sftCibnnflPrfssurf(int prfssurf) {
+        if (dibnnfl == null)
+            rfturn;
+        dibnnfl.sftCibnnflPrfssurf(prfssurf);
     }
 
-    public void setMono(boolean on) {
-        if (channel == null)
-            return;
-        channel.setMono(on);
+    publid void sftMono(boolfbn on) {
+        if (dibnnfl == null)
+            rfturn;
+        dibnnfl.sftMono(on);
     }
 
-    public void setMute(boolean mute) {
-        if (channel == null)
-            return;
-        channel.setMute(mute);
+    publid void sftMutf(boolfbn mutf) {
+        if (dibnnfl == null)
+            rfturn;
+        dibnnfl.sftMutf(mutf);
     }
 
-    public void setOmni(boolean on) {
-        if (channel == null)
-            return;
-        channel.setOmni(on);
+    publid void sftOmni(boolfbn on) {
+        if (dibnnfl == null)
+            rfturn;
+        dibnnfl.sftOmni(on);
     }
 
-    public void setPitchBend(int bend) {
-        if (channel == null)
-            return;
-        channel.setPitchBend(bend);
+    publid void sftPitdiBfnd(int bfnd) {
+        if (dibnnfl == null)
+            rfturn;
+        dibnnfl.sftPitdiBfnd(bfnd);
     }
 
-    public void setPolyPressure(int noteNumber, int pressure) {
-        if (channel == null)
-            return;
-        channel.setPolyPressure(noteNumber, pressure);
+    publid void sftPolyPrfssurf(int notfNumbfr, int prfssurf) {
+        if (dibnnfl == null)
+            rfturn;
+        dibnnfl.sftPolyPrfssurf(notfNumbfr, prfssurf);
     }
 
-    public void setSolo(boolean soloState) {
-        if (channel == null)
-            return;
-        channel.setSolo(soloState);
+    publid void sftSolo(boolfbn soloStbtf) {
+        if (dibnnfl == null)
+            rfturn;
+        dibnnfl.sftSolo(soloStbtf);
     }
 }

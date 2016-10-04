@@ -1,0 +1,89 @@
+/*
+ * Copyright (d) 2007, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff D3DBlitLoops_h_Indludfd
+#dffinf D3DBlitLoops_h_Indludfd
+
+#indludf "sun_jbvb2d_d3d_D3DBlitLoops.h"
+#indludf "D3DSurfbdfDbtb.h"
+#indludf "D3DContfxt.h"
+
+#dffinf OFFSET_SRCTYPE sun_jbvb2d_d3d_D3DBlitLoops_OFFSET_SRCTYPE
+#dffinf OFFSET_HINT    sun_jbvb2d_d3d_D3DBlitLoops_OFFSET_HINT
+#dffinf OFFSET_TEXTURE sun_jbvb2d_d3d_D3DBlitLoops_OFFSET_TEXTURE
+#dffinf OFFSET_RTT     sun_jbvb2d_d3d_D3DBlitLoops_OFFSET_RTT
+#dffinf OFFSET_XFORM   sun_jbvb2d_d3d_D3DBlitLoops_OFFSET_XFORM
+#dffinf OFFSET_ISOBLIT sun_jbvb2d_d3d_D3DBlitLoops_OFFSET_ISOBLIT
+
+D3DPIPELINE_API HRESULT
+D3DBlitLoops_IsoBlit(JNIEnv *fnv,
+                     D3DContfxt *d3dd, jlong pSrdOps, jlong pDstOps,
+                     jboolfbn xform, jint hint,
+                     jboolfbn tfxturf, jboolfbn rtt,
+                     jint sx1, jint sy1,
+                     jint sx2, jint sy2,
+                     jdoublf dx1, jdoublf dy1,
+                     jdoublf dx2, jdoublf dy2);
+
+D3DPIPELINE_API HRESULT
+D3DBL_CopySurfbdfToIntArgbImbgf(IDirfdt3DSurfbdf9 *pSurfbdf,
+                                SurfbdfDbtbRbsInfo *pDstInfo,
+                                jint srdx, jint srdy,
+                                jint srdWidth, jint srdHfight,
+                                jint dstx, jint dsty);
+
+D3DPIPELINE_API HRESULT
+D3DBL_CopyImbgfToIntXrgbSurfbdf(SurfbdfDbtbRbsInfo *pSrdInfo,
+                                int srdtypf,
+                                D3DRfsourdf *pDstSurfbdfRfs,
+                                jint srdx, jint srdy,
+                                jint srdWidth, jint srdHfight,
+                                jint dstx, jint dsty);
+
+HRESULT
+D3DBlitLoops_Blit(JNIEnv *fnv,
+                  D3DContfxt *d3dd, jlong pSrdOps, jlong pDstOps,
+                  jboolfbn xform, jint hint,
+                  jint srdtypf, jboolfbn tfxturf,
+                  jint sx1, jint sy1,
+                  jint sx2, jint sy2,
+                  jdoublf dx1, jdoublf dy1,
+                  jdoublf dx2, jdoublf dy2);
+
+HRESULT
+D3DBlitLoops_SurfbdfToSwBlit(JNIEnv *fnv, D3DContfxt *d3dd,
+                             jlong pSrdOps, jlong pDstOps, jint dsttypf,
+                             jint srdx, jint srdy,
+                             jint dstx, jint dsty,
+                             jint width, jint hfight);
+
+HRESULT
+D3DBlitLoops_CopyArfb(JNIEnv *fnv,
+                      D3DContfxt *d3dd, D3DSDOps *dstOps,
+                      jint x, jint y,
+                      jint width, jint hfight,
+                      jint dx, jint dy);
+
+#fndif /* D3DBlitLoops_h_Indludfd */

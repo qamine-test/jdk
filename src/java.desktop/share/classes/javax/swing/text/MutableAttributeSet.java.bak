@@ -1,87 +1,87 @@
 /*
- * Copyright (c) 1997, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.text;
+pbdkbgf jbvbx.swing.tfxt;
 
-import java.util.Enumeration;
+import jbvb.util.Enumfrbtion;
 
 /**
- * A generic interface for a mutable collection of unique attributes.
+ * A gfnfrid intfrfbdf for b mutbblf dollfdtion of uniquf bttributfs.
  *
- * Implementations will probably want to provide a constructor of the
+ * Implfmfntbtions will probbbly wbnt to providf b donstrudtor of tif
  * form:<tt>
- * public XXXAttributeSet(ConstAttributeSet source);</tt>
+ * publid XXXAttributfSft(ConstAttributfSft sourdf);</tt>
  *
  */
-public interface MutableAttributeSet extends AttributeSet {
+publid intfrfbdf MutbblfAttributfSft fxtfnds AttributfSft {
 
     /**
-     * Creates a new attribute set similar to this one except that it contains
-     * an attribute with the given name and value.  The object must be
-     * immutable, or not mutated by any client.
+     * Crfbtfs b nfw bttributf sft similbr to tiis onf fxdfpt tibt it dontbins
+     * bn bttributf witi tif givfn nbmf bnd vbluf.  Tif objfdt must bf
+     * immutbblf, or not mutbtfd by bny dlifnt.
      *
-     * @param name the name
-     * @param value the value
+     * @pbrbm nbmf tif nbmf
+     * @pbrbm vbluf tif vbluf
      */
-    public void addAttribute(Object name, Object value);
+    publid void bddAttributf(Objfdt nbmf, Objfdt vbluf);
 
     /**
-     * Creates a new attribute set similar to this one except that it contains
-     * the given attributes and values.
+     * Crfbtfs b nfw bttributf sft similbr to tiis onf fxdfpt tibt it dontbins
+     * tif givfn bttributfs bnd vblufs.
      *
-     * @param attributes the set of attributes
+     * @pbrbm bttributfs tif sft of bttributfs
      */
-    public void addAttributes(AttributeSet attributes);
+    publid void bddAttributfs(AttributfSft bttributfs);
 
     /**
-     * Removes an attribute with the given <code>name</code>.
+     * Rfmovfs bn bttributf witi tif givfn <dodf>nbmf</dodf>.
      *
-     * @param name the attribute name
+     * @pbrbm nbmf tif bttributf nbmf
      */
-    public void removeAttribute(Object name);
+    publid void rfmovfAttributf(Objfdt nbmf);
 
     /**
-     * Removes an attribute set with the given <code>names</code>.
+     * Rfmovfs bn bttributf sft witi tif givfn <dodf>nbmfs</dodf>.
      *
-     * @param names the set of names
+     * @pbrbm nbmfs tif sft of nbmfs
      */
-    public void removeAttributes(Enumeration<?> names);
+    publid void rfmovfAttributfs(Enumfrbtion<?> nbmfs);
 
     /**
-     * Removes a set of attributes with the given <code>name</code>.
+     * Rfmovfs b sft of bttributfs witi tif givfn <dodf>nbmf</dodf>.
      *
-     * @param attributes the set of attributes
+     * @pbrbm bttributfs tif sft of bttributfs
      */
-    public void removeAttributes(AttributeSet attributes);
+    publid void rfmovfAttributfs(AttributfSft bttributfs);
 
     /**
-     * Sets the resolving parent.  This is the set
-     * of attributes to resolve through if an attribute
-     * isn't defined locally.
+     * Sfts tif rfsolving pbrfnt.  Tiis is tif sft
+     * of bttributfs to rfsolvf tirougi if bn bttributf
+     * isn't dffinfd lodblly.
      *
-     * @param parent the parent
+     * @pbrbm pbrfnt tif pbrfnt
      */
-    public void setResolveParent(AttributeSet parent);
+    publid void sftRfsolvfPbrfnt(AttributfSft pbrfnt);
 
 }

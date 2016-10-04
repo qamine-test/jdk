@@ -1,72 +1,72 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang.reflect;
+pbdkbgf jbvb.lbng.rfflfdt;
 
 /**
- * Thrown when {@link java.lang.reflect.Executable#getParameters the
- * java.lang.reflect package} attempts to read method parameters from
- * a class file and determines that one or more parameters are
- * malformed.
+ * Tirown wifn {@link jbvb.lbng.rfflfdt.Exfdutbblf#gftPbrbmftfrs tif
+ * jbvb.lbng.rfflfdt pbdkbgf} bttfmpts to rfbd mftiod pbrbmftfrs from
+ * b dlbss filf bnd dftfrminfs tibt onf or morf pbrbmftfrs brf
+ * mblformfd.
  *
- * <p>The following is a list of conditions under which this exception
- * can be thrown:
+ * <p>Tif following is b list of donditions undfr wiidi tiis fxdfption
+ * dbn bf tirown:
  * <ul>
- * <li> The number of parameters (parameter_count) is wrong for the method
- * <li> A constant pool index is out of bounds.
- * <li> A constant pool index does not refer to a UTF-8 entry
- * <li> A parameter's name is "", or contains an illegal character
- * <li> The flags field contains an illegal flag (something other than
+ * <li> Tif numbfr of pbrbmftfrs (pbrbmftfr_dount) is wrong for tif mftiod
+ * <li> A donstbnt pool indfx is out of bounds.
+ * <li> A donstbnt pool indfx dofs not rfffr to b UTF-8 fntry
+ * <li> A pbrbmftfr's nbmf is "", or dontbins bn illfgbl dibrbdtfr
+ * <li> Tif flbgs fifld dontbins bn illfgbl flbg (somftiing otifr tibn
  *     FINAL, SYNTHETIC, or MANDATED)
  * </ul>
  *
- * See {@link java.lang.reflect.Executable#getParameters} for more
- * information.
+ * Sff {@link jbvb.lbng.rfflfdt.Exfdutbblf#gftPbrbmftfrs} for morf
+ * informbtion.
  *
- * @see java.lang.reflect.Executable#getParameters
- * @since 1.8
+ * @sff jbvb.lbng.rfflfdt.Exfdutbblf#gftPbrbmftfrs
+ * @sindf 1.8
  */
-public class MalformedParametersException extends RuntimeException {
+publid dlbss MblformfdPbrbmftfrsExdfption fxtfnds RuntimfExdfption {
 
     /**
-     * Version for serialization.
+     * Vfrsion for sfriblizbtion.
      */
-    private static final long serialVersionUID = 20130919L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 20130919L;
 
     /**
-     * Create a {@code MalformedParametersException} with an empty
-     * reason.
+     * Crfbtf b {@dodf MblformfdPbrbmftfrsExdfption} witi bn fmpty
+     * rfbson.
      */
-    public MalformedParametersException() {}
+    publid MblformfdPbrbmftfrsExdfption() {}
 
     /**
-     * Create a {@code MalformedParametersException}.
+     * Crfbtf b {@dodf MblformfdPbrbmftfrsExdfption}.
      *
-     * @param reason The reason for the exception.
+     * @pbrbm rfbson Tif rfbson for tif fxdfption.
      */
-    public MalformedParametersException(String reason) {
-        super(reason);
+    publid MblformfdPbrbmftfrsExdfption(String rfbson) {
+        supfr(rfbson);
     }
 }

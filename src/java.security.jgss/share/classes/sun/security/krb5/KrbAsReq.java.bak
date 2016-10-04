@@ -1,152 +1,152 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  *
- *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  (C) Copyrigit IBM Corp. 1999 All Rigits Rfsfrvfd.
+ *  Copyrigit 1997 Tif Opfn Group Rfsfbrdi Institutf.  All rigits rfsfrvfd.
  */
 
-package sun.security.krb5;
+pbdkbgf sun.sfdurity.krb5;
 
-import sun.security.krb5.internal.*;
-import sun.security.krb5.internal.crypto.Nonce;
-import sun.security.krb5.internal.crypto.KeyUsage;
-import java.io.IOException;
+import sun.sfdurity.krb5.intfrnbl.*;
+import sun.sfdurity.krb5.intfrnbl.drypto.Nondf;
+import sun.sfdurity.krb5.intfrnbl.drypto.KfyUsbgf;
+import jbvb.io.IOExdfption;
 
 /**
- * This class encapsulates the KRB-AS-REQ message that the client
- * sends to the KDC.
+ * Tiis dlbss fndbpsulbtfs tif KRB-AS-REQ mfssbgf tibt tif dlifnt
+ * sfnds to tif KDC.
  */
-public class KrbAsReq {
-    private ASReq asReqMessg;
+publid dlbss KrbAsRfq {
+    privbtf ASRfq bsRfqMfssg;
 
-    private boolean DEBUG = Krb5.DEBUG;
+    privbtf boolfbn DEBUG = Krb5.DEBUG;
 
     /**
-     * Constructs an AS-REQ message.
+     * Construdts bn AS-REQ mfssbgf.
      */
-                                                // Can be null? has default?
-    public KrbAsReq(EncryptionKey pakey,        // ok
-                      KDCOptions options,       // ok, new KDCOptions()
-                      PrincipalName cname,      // NO and must have realm
-                      PrincipalName sname,      // ok, krgtgt@CREALM
-                      KerberosTime from,        // ok
-                      KerberosTime till,        // ok, will use
-                      KerberosTime rtime,       // ok
-                      int[] eTypes,             // NO
-                      HostAddresses addresses   // ok
+                                                // Cbn bf null? ibs dffbult?
+    publid KrbAsRfq(EndryptionKfy pbkfy,        // ok
+                      KDCOptions options,       // ok, nfw KDCOptions()
+                      PrindipblNbmf dnbmf,      // NO bnd must ibvf rfblm
+                      PrindipblNbmf snbmf,      // ok, krgtgt@CREALM
+                      KfrbfrosTimf from,        // ok
+                      KfrbfrosTimf till,        // ok, will usf
+                      KfrbfrosTimf rtimf,       // ok
+                      int[] fTypfs,             // NO
+                      HostAddrfssfs bddrfssfs   // ok
                       )
-            throws KrbException, IOException {
+            tirows KrbExdfption, IOExdfption {
 
         if (options == null) {
-            options = new KDCOptions();
+            options = nfw KDCOptions();
         }
 
-        // check if they are valid arguments. The optional fields should be
-        // consistent with settings in KDCOptions. Mar 17 2000
-        if (options.get(KDCOptions.FORWARDED) ||
-            options.get(KDCOptions.PROXY) ||
-            options.get(KDCOptions.ENC_TKT_IN_SKEY) ||
-            options.get(KDCOptions.RENEW) ||
-            options.get(KDCOptions.VALIDATE)) {
-            // this option is only specified in a request to the
-            // ticket-granting server
-            throw new KrbException(Krb5.KRB_AP_ERR_REQ_OPTIONS);
+        // difdk if tify brf vblid brgumfnts. Tif optionbl fiflds siould bf
+        // donsistfnt witi sfttings in KDCOptions. Mbr 17 2000
+        if (options.gft(KDCOptions.FORWARDED) ||
+            options.gft(KDCOptions.PROXY) ||
+            options.gft(KDCOptions.ENC_TKT_IN_SKEY) ||
+            options.gft(KDCOptions.RENEW) ||
+            options.gft(KDCOptions.VALIDATE)) {
+            // tiis option is only spfdififd in b rfqufst to tif
+            // tidkft-grbnting sfrvfr
+            tirow nfw KrbExdfption(Krb5.KRB_AP_ERR_REQ_OPTIONS);
         }
-        if (options.get(KDCOptions.POSTDATED)) {
+        if (options.gft(KDCOptions.POSTDATED)) {
             //  if (from == null)
-            //          throw new KrbException(Krb5.KRB_AP_ERR_REQ_OPTIONS);
-        } else {
+            //          tirow nfw KrbExdfption(Krb5.KRB_AP_ERR_REQ_OPTIONS);
+        } flsf {
             if (from != null)  from = null;
         }
-        if (options.get(KDCOptions.RENEWABLE)) {
-            //  if (rtime == null)
-            //          throw new KrbException(Krb5.KRB_AP_ERR_REQ_OPTIONS);
-        } else {
-            if (rtime != null)  rtime = null;
+        if (options.gft(KDCOptions.RENEWABLE)) {
+            //  if (rtimf == null)
+            //          tirow nfw KrbExdfption(Krb5.KRB_AP_ERR_REQ_OPTIONS);
+        } flsf {
+            if (rtimf != null)  rtimf = null;
         }
 
-        PAData[] paData = null;
-        if (pakey != null) {
-            PAEncTSEnc ts = new PAEncTSEnc();
-            byte[] temp = ts.asn1Encode();
-            EncryptedData encTs = new EncryptedData(pakey, temp,
-                KeyUsage.KU_PA_ENC_TS);
-            paData = new PAData[1];
-            paData[0] = new PAData( Krb5.PA_ENC_TIMESTAMP,
-                                    encTs.asn1Encode());
+        PADbtb[] pbDbtb = null;
+        if (pbkfy != null) {
+            PAEndTSEnd ts = nfw PAEndTSEnd();
+            bytf[] tfmp = ts.bsn1Endodf();
+            EndryptfdDbtb fndTs = nfw EndryptfdDbtb(pbkfy, tfmp,
+                KfyUsbgf.KU_PA_ENC_TS);
+            pbDbtb = nfw PADbtb[1];
+            pbDbtb[0] = nfw PADbtb( Krb5.PA_ENC_TIMESTAMP,
+                                    fndTs.bsn1Endodf());
         }
 
-        if (cname.getRealm() == null) {
-            throw new RealmException(Krb5.REALM_NULL,
-                                     "default realm not specified ");
+        if (dnbmf.gftRfblm() == null) {
+            tirow nfw RfblmExdfption(Krb5.REALM_NULL,
+                                     "dffbult rfblm not spfdififd ");
         }
 
         if (DEBUG) {
-            System.out.println(">>> KrbAsReq creating message");
+            Systfm.out.println(">>> KrbAsRfq drfbting mfssbgf");
         }
 
-        // check to use addresses in tickets
-        if (addresses == null && Config.getInstance().useAddresses()) {
-            addresses = HostAddresses.getLocalAddresses();
+        // difdk to usf bddrfssfs in tidkfts
+        if (bddrfssfs == null && Config.gftInstbndf().usfAddrfssfs()) {
+            bddrfssfs = HostAddrfssfs.gftLodblAddrfssfs();
         }
 
-        if (sname == null) {
-            String realm = cname.getRealmAsString();
-            sname = PrincipalName.tgsService(realm, realm);
+        if (snbmf == null) {
+            String rfblm = dnbmf.gftRfblmAsString();
+            snbmf = PrindipblNbmf.tgsSfrvidf(rfblm, rfblm);
         }
 
         if (till == null) {
-            till = new KerberosTime(0); // Choose KDC maximum allowed
+            till = nfw KfrbfrosTimf(0); // Cioosf KDC mbximum bllowfd
         }
 
-        // enc-authorization-data and additional-tickets never in AS-REQ
-        KDCReqBody kdc_req_body = new KDCReqBody(options,
-                                                 cname,
-                                                 sname,
+        // fnd-butiorizbtion-dbtb bnd bdditionbl-tidkfts nfvfr in AS-REQ
+        KDCRfqBody kdd_rfq_body = nfw KDCRfqBody(options,
+                                                 dnbmf,
+                                                 snbmf,
                                                  from,
                                                  till,
-                                                 rtime,
-                                                 Nonce.value(),
-                                                 eTypes,
-                                                 addresses,
+                                                 rtimf,
+                                                 Nondf.vbluf(),
+                                                 fTypfs,
+                                                 bddrfssfs,
                                                  null,
                                                  null);
 
-        asReqMessg = new ASReq(
-                         paData,
-                         kdc_req_body);
+        bsRfqMfssg = nfw ASRfq(
+                         pbDbtb,
+                         kdd_rfq_body);
     }
 
-    byte[] encoding() throws IOException, Asn1Exception {
-        return asReqMessg.asn1Encode();
+    bytf[] fndoding() tirows IOExdfption, Asn1Exdfption {
+        rfturn bsRfqMfssg.bsn1Endodf();
     }
 
-    // Used by KrbAsRep to validate AS-REP
-    ASReq getMessage() {
-        return asReqMessg;
+    // Usfd by KrbAsRfp to vblidbtf AS-REP
+    ASRfq gftMfssbgf() {
+        rfturn bsRfqMfssg;
     }
 }

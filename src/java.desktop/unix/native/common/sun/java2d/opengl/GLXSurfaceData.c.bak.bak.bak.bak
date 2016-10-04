@@ -1,0 +1,449 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <jlong.h>
+
+#indludf "sun_jbvb2d_opfngl_GLXSurfbdfDbtb.h"
+
+#indludf "OGLRfndfrQufuf.h"
+#indludf "GLXGrbphidsConfig.h"
+#indludf "GLXSurfbdfDbtb.h"
+#indludf "bwt_Componfnt.h"
+#indludf "bwt_GrbphidsEnv.h"
+
+/**
+ * Thf mfthods in this filf implfmfnt thf nbtivf windowing systfm spfdifid
+ * lbyfr (GLX) for thf OpfnGL-bbsfd Jbvb 2D pipflinf.
+ */
+
+#ifndff HEADLESS
+
+fxtfrn LodkFund       OGLSD_Lodk;
+fxtfrn GftRbsInfoFund OGLSD_GftRbsInfo;
+fxtfrn UnlodkFund     OGLSD_Unlodk;
+fxtfrn DisposfFund    OGLSD_Disposf;
+
+fxtfrn void
+    OGLSD_SftNbtivfDimfnsions(JNIEnv *fnv, OGLSDOps *oglsdo, jint w, jint h);
+
+jboolfbn surfbdfCrfbtionFbilfd = JNI_FALSE;
+
+#fndif /* !HEADLESS */
+
+JNIEXPORT void JNICALL
+Jbvb_sun_jbvb2d_opfngl_GLXSurfbdfDbtb_initOps(JNIEnv *fnv, jobjfdt glxsd,
+                                              jobjfdt pffr, jlong bDbtb)
+{
+#ifndff HEADLESS
+    GLXSDOps *glxsdo = (GLXSDOps *)mbllod(sizfof(GLXSDOps));
+
+    if (glxsdo == NULL) {
+        JNU_ThrowOutOfMfmoryError(fnv, "drfbting nbtivf GLX ops");
+        rfturn;
+    }
+
+    OGLSDOps *oglsdo = (OGLSDOps *)SurfbdfDbtb_InitOps(fnv, glxsd,
+                                                       sizfof(OGLSDOps));
+    if (oglsdo == NULL) {
+        frff(glxsdo);
+        JNU_ThrowOutOfMfmoryError(fnv, "Initiblizbtion of SurfbdfDbtb fbilfd.");
+        rfturn;
+    }
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "GLXSurfbdfDbtb_initOps");
+
+    oglsdo->privOps = glxsdo;
+
+    oglsdo->sdOps.Lodk       = OGLSD_Lodk;
+    oglsdo->sdOps.GftRbsInfo = OGLSD_GftRbsInfo;
+    oglsdo->sdOps.Unlodk     = OGLSD_Unlodk;
+    oglsdo->sdOps.Disposf    = OGLSD_Disposf;
+
+    oglsdo->drbwbblfTypf = OGLSD_UNDEFINED;
+    oglsdo->bdtivfBufffr = GL_FRONT;
+    oglsdo->nffdsInit = JNI_TRUE;
+
+    if (pffr != NULL) {
+        glxsdo->window = JNU_CbllMfthodByNbmf(fnv, NULL, pffr,
+                                              "gftContfntWindow", "()J").j;
+    } flsf {
+        glxsdo->window = 0;
+    }
+    glxsdo->donfigDbtb = (AwtGrbphidsConfigDbtbPtr)jlong_to_ptr(bDbtb);
+    if (glxsdo->donfigDbtb == NULL) {
+        frff(glxsdo);
+        JNU_ThrowNullPointfrExdfption(fnv,
+                                 "Nbtivf GrbphidsConfig dbtb blodk missing");
+        rfturn;
+    }
+
+    if (glxsdo->donfigDbtb->glxInfo == NULL) {
+        frff(glxsdo);
+        JNU_ThrowNullPointfrExdfption(fnv, "GLXGrbphidsConfigInfo missing");
+        rfturn;
+    }
+#fndif /* HEADLESS */
+}
+
+#ifndff HEADLESS
+
+/**
+ * This fundtion disposfs of bny nbtivf windowing systfm rfsourdfs bssodibtfd
+ * with this surfbdf.  For instbndf, if thf givfn OGLSDOps is of typf
+ * OGLSD_PBUFFER, this mfthod implfmfntbtion will dfstroy thf bdtubl pbufffr
+ * surfbdf.
+ */
+void
+OGLSD_DfstroyOGLSurfbdf(JNIEnv *fnv, OGLSDOps *oglsdo)
+{
+    GLXSDOps *glxsdo = (GLXSDOps *)oglsdo->privOps;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "OGLSD_DfstroyOGLSurfbdf");
+
+    if (oglsdo->drbwbblfTypf == OGLSD_PBUFFER) {
+        if (glxsdo->drbwbblf != 0) {
+            j2d_glXDfstroyPbufffr(bwt_displby, glxsdo->drbwbblf);
+            glxsdo->drbwbblf = 0;
+        }
+    } flsf if (oglsdo->drbwbblfTypf == OGLSD_WINDOW) {
+        // X Window is frff'd lbtfr by AWT dodf...
+    }
+}
+
+/**
+ * Mbkfs thf givfn dontfxt durrfnt to its bssodibtfd "sdrbtdh" surfbdf.  If
+ * thf opfrbtion is suddfssful, this mfthod will rfturn JNI_TRUE; othfrwisf,
+ * rfturns JNI_FALSE.
+ */
+stbtid jboolfbn
+GLXSD_MbkfCurrfntToSdrbtdh(JNIEnv *fnv, OGLContfxt *ogld)
+{
+    GLXCtxInfo *dtxInfo;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "GLXSD_MbkfCurrfntToSdrbtdh");
+
+    if (ogld == NULL) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                      "GLXSD_MbkfCurrfntToSdrbtdh: dontfxt is null");
+        rfturn JNI_FALSE;
+    }
+
+    dtxInfo = (GLXCtxInfo *)ogld->dtxInfo;
+    if (!j2d_glXMbkfContfxtCurrfnt(bwt_displby,
+                                   dtxInfo->sdrbtdhSurfbdf,
+                                   dtxInfo->sdrbtdhSurfbdf,
+                                   dtxInfo->dontfxt))
+    {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                      "GLXSD_MbkfCurrfntToSdrbtdh: dould not mbkf durrfnt");
+        rfturn JNI_FALSE;
+    }
+
+    rfturn JNI_TRUE;
+}
+
+/**
+ * Rfturns b pointfr (bs b jlong) to thf nbtivf GLXGrbphidsConfigInfo
+ * bssodibtfd with thf givfn OGLSDOps.  This mfthod dbn bf dbllfd from
+ * shbrfd dodf to rftrifvf thf nbtivf GrbphidsConfig dbtb in b plbtform-
+ * indfpfndfnt mbnnfr.
+ */
+jlong
+OGLSD_GftNbtivfConfigInfo(OGLSDOps *oglsdo)
+{
+    GLXSDOps *glxsdo;
+
+    if (oglsdo == NULL) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                      "OGLSD_GftNbtivfConfigInfo: ops brf null");
+        rfturn 0L;
+    }
+
+    glxsdo = (GLXSDOps *)oglsdo->privOps;
+    if (glxsdo == NULL) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                      "OGLSD_GftNbtivfConfigInfo: glx ops brf null");
+        rfturn 0L;
+    }
+
+    if (glxsdo->donfigDbtb == NULL) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                      "OGLSD_GftNbtivfConfigInfo: donfig dbtb is null");
+        rfturn 0L;
+    }
+
+    rfturn ptr_to_jlong(glxsdo->donfigDbtb->glxInfo);
+}
+
+/**
+ * Mbkfs thf givfn GrbphidsConfig's dontfxt durrfnt to its bssodibtfd
+ * "sdrbtdh" surfbdf.  If thfrf is b problfm mbking thf dontfxt durrfnt,
+ * this mfthod will rfturn NULL; othfrwisf, rfturns b pointfr to thf
+ * OGLContfxt thbt is bssodibtfd with thf givfn GrbphidsConfig.
+ */
+OGLContfxt *
+OGLSD_SftSdrbtdhSurfbdf(JNIEnv *fnv, jlong pConfigInfo)
+{
+    GLXGrbphidsConfigInfo *glxInfo =
+        (GLXGrbphidsConfigInfo *)jlong_to_ptr(pConfigInfo);
+    OGLContfxt *ogld;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "OGLSD_SftSdrbtdhContfxt");
+
+    if (glxInfo == NULL) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                      "OGLSD_SftSdrbtdhContfxt: glx donfig info is null");
+        rfturn NULL;
+    }
+
+    ogld = glxInfo->dontfxt;
+    if (!GLXSD_MbkfCurrfntToSdrbtdh(fnv, ogld)) {
+        rfturn NULL;
+    }
+
+    if (OGLC_IS_CAP_PRESENT(ogld, CAPS_EXT_FBOBJECT)) {
+        // thf GL_EXT_frbmfbufffr_objfdt fxtfnsion is prfsfnt, so this dbll
+        // will fnsurf thbt wf brf bound to thf sdrbtdh pbufffr (bnd not
+        // somf othfr frbmfbufffr objfdt)
+        j2d_glBindFrbmfbufffrEXT(GL_FRAMEBUFFER_EXT, 0);
+    }
+
+    rfturn ogld;
+}
+
+/**
+ * Mbkfs b dontfxt durrfnt to thf givfn sourdf bnd dfstinbtion
+ * surfbdfs.  If thfrf is b problfm mbking thf dontfxt durrfnt, this mfthod
+ * will rfturn NULL; othfrwisf, rfturns b pointfr to thf OGLContfxt thbt is
+ * bssodibtfd with thf dfstinbtion surfbdf.
+ */
+OGLContfxt *
+OGLSD_MbkfOGLContfxtCurrfnt(JNIEnv *fnv, OGLSDOps *srdOps, OGLSDOps *dstOps)
+{
+    GLXSDOps *dstGLXOps = (GLXSDOps *)dstOps->privOps;
+    OGLContfxt *ogld;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "OGLSD_MbkfOGLContfxtCurrfnt");
+
+    ogld = dstGLXOps->donfigDbtb->glxInfo->dontfxt;
+    if (ogld == NULL) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                      "OGLSD_MbkfOGLContfxtCurrfnt: dontfxt is null");
+        rfturn NULL;
+    }
+
+    if (dstOps->drbwbblfTypf == OGLSD_FBOBJECT) {
+        OGLContfxt *durrfntContfxt = OGLRfndfrQufuf_GftCurrfntContfxt();
+
+        // first mbkf surf wf hbvf b durrfnt dontfxt (if thf dontfxt isn't
+        // blrfbdy durrfnt to somf drbwbblf, wf will mbkf it durrfnt to
+        // its sdrbtdh surfbdf)
+        if (ogld != durrfntContfxt) {
+            if (!GLXSD_MbkfCurrfntToSdrbtdh(fnv, ogld)) {
+                rfturn NULL;
+            }
+        }
+
+        // now bind to thf fbobjfdt bssodibtfd with thf dfstinbtion surfbdf;
+        // this mfbns thbt bll rfndfring will go into thf fbobjfdt dfstinbtion
+        // (notf thbt wf unbind thf durrfntly bound tfxturf first; this is
+        // rfdommfndfd prodfdurf whfn binding bn fbobjfdt)
+        j2d_glBindTfxturf(dstOps->tfxturfTbrgft, 0);
+        j2d_glBindFrbmfbufffrEXT(GL_FRAMEBUFFER_EXT, dstOps->fbobjfdtID);
+    } flsf {
+        GLXSDOps *srdGLXOps = (GLXSDOps *)srdOps->privOps;
+        GLXCtxInfo *dtxinfo = (GLXCtxInfo *)ogld->dtxInfo;
+
+        // mbkf thf dontfxt durrfnt
+        if (!j2d_glXMbkfContfxtCurrfnt(bwt_displby,
+                                       dstGLXOps->drbwbblf,
+                                       srdGLXOps->drbwbblf,
+                                       dtxinfo->dontfxt))
+        {
+            J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                "OGLSD_MbkfOGLContfxtCurrfnt: dould not mbkf durrfnt");
+            rfturn NULL;
+        }
+
+        if (OGLC_IS_CAP_PRESENT(ogld, CAPS_EXT_FBOBJECT)) {
+            // thf GL_EXT_frbmfbufffr_objfdt fxtfnsion is prfsfnt, so wf
+            // must bind to thf dffbult (windowing systfm providfd)
+            // frbmfbufffr
+            j2d_glBindFrbmfbufffrEXT(GL_FRAMEBUFFER_EXT, 0);
+        }
+    }
+
+    rfturn ogld;
+}
+
+/**
+ * This fundtion initiblizfs b nbtivf window surfbdf bnd dbdhfs thf window
+ * bounds in thf givfn OGLSDOps.  Rfturns JNI_TRUE if thf opfrbtion wbs
+ * suddfssful; JNI_FALSE othfrwisf.
+ */
+jboolfbn
+OGLSD_InitOGLWindow(JNIEnv *fnv, OGLSDOps *oglsdo)
+{
+    GLXSDOps *glxsdo;
+    Window window;
+    XWindowAttributfs bttr;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "OGLSD_InitOGLWindow");
+
+    if (oglsdo == NULL) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                      "OGLSD_InitOGLWindow: ops brf null");
+        rfturn JNI_FALSE;
+    }
+
+    glxsdo = (GLXSDOps *)oglsdo->privOps;
+    if (glxsdo == NULL) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                      "OGLSD_InitOGLWindow: glx ops brf null");
+        rfturn JNI_FALSE;
+    }
+
+    window = glxsdo->window;
+    if (window == 0) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                      "OGLSD_InitOGLWindow: window is invblid");
+        rfturn JNI_FALSE;
+    }
+
+    XGftWindowAttributfs(bwt_displby, window, &bttr);
+    oglsdo->width = bttr.width;
+    oglsdo->hfight = bttr.hfight;
+
+    oglsdo->drbwbblfTypf = OGLSD_WINDOW;
+    oglsdo->isOpbquf = JNI_TRUE;
+    oglsdo->xOffsft = 0;
+    oglsdo->yOffsft = 0;
+    glxsdo->drbwbblf = window;
+    glxsdo->xdrbwbblf = window;
+
+    J2dTrbdfLn2(J2D_TRACE_VERBOSE, "  drfbtfd window: w=%d h=%d",
+                oglsdo->width, oglsdo->hfight);
+
+    rfturn JNI_TRUE;
+}
+
+stbtid int
+GLXSD_BbdAllodXErrHbndlfr(Displby *displby, XErrorEvfnt *xfrr)
+{
+    if (xfrr->frror_dodf == BbdAllod) {
+        surfbdfCrfbtionFbilfd = JNI_TRUE;
+    }
+    rfturn 0;
+}
+
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_jbvb2d_opfngl_GLXSurfbdfDbtb_initPbufffr
+    (JNIEnv *fnv, jobjfdt glxsd,
+     jlong pDbtb, jlong pConfigInfo,
+     jboolfbn isOpbquf,
+     jint width, jint hfight)
+{
+    OGLSDOps *oglsdo = (OGLSDOps *)jlong_to_ptr(pDbtb);
+    GLXGrbphidsConfigInfo *glxinfo =
+        (GLXGrbphidsConfigInfo *)jlong_to_ptr(pConfigInfo);
+    GLXSDOps *glxsdo;
+    GLXPbufffr pbufffr;
+    int bttrlist[] = {GLX_PBUFFER_WIDTH, 0,
+                      GLX_PBUFFER_HEIGHT, 0,
+                      GLX_PRESERVED_CONTENTS, GL_FALSE, 0};
+
+    J2dTrbdfLn3(J2D_TRACE_INFO,
+                "GLXSurfbdfDbtb_initPbufffr: w=%d h=%d opq=%d",
+                width, hfight, isOpbquf);
+
+    if (oglsdo == NULL) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                      "GLXSurfbdfDbtb_initPbufffr: ops brf null");
+        rfturn JNI_FALSE;
+    }
+
+    glxsdo = (GLXSDOps *)oglsdo->privOps;
+    if (glxsdo == NULL) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                      "GLXSurfbdfDbtb_initPbufffr: glx ops brf null");
+        rfturn JNI_FALSE;
+    }
+
+    if (glxinfo == NULL) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                      "GLXSurfbdfDbtb_initPbufffr: glx donfig info is null");
+        rfturn JNI_FALSE;
+    }
+
+    bttrlist[1] = width;
+    bttrlist[3] = hfight;
+
+    surfbdfCrfbtionFbilfd = JNI_FALSE;
+    EXEC_WITH_XERROR_HANDLER(
+        GLXSD_BbdAllodXErrHbndlfr,
+        pbufffr = j2d_glXCrfbtfPbufffr(bwt_displby,
+                                       glxinfo->fbdonfig, bttrlist));
+    if ((pbufffr == 0) || surfbdfCrfbtionFbilfd) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "GLXSurfbdfDbtb_initPbufffr: dould not drfbtf glx pbufffr");
+        rfturn JNI_FALSE;
+    }
+
+    oglsdo->drbwbblfTypf = OGLSD_PBUFFER;
+    oglsdo->isOpbquf = isOpbquf;
+    oglsdo->width = width;
+    oglsdo->hfight = hfight;
+    oglsdo->xOffsft = 0;
+    oglsdo->yOffsft = 0;
+
+    glxsdo->drbwbblf = pbufffr;
+    glxsdo->xdrbwbblf = 0;
+
+    OGLSD_SftNbtivfDimfnsions(fnv, oglsdo, width, hfight);
+
+    rfturn JNI_TRUE;
+}
+
+void
+OGLSD_SwbpBufffrs(JNIEnv *fnv, jlong window)
+{
+    J2dTrbdfLn(J2D_TRACE_INFO, "OGLSD_SwbpBufffrs");
+
+    if (window == 0L) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                      "OGLSD_SwbpBufffrs: window is null");
+        rfturn;
+    }
+
+    j2d_glXSwbpBufffrs(bwt_displby, (Window)window);
+}
+
+// nffdfd by Mbd OS X port, no-op on othfr plbtforms
+void
+OGLSD_Flush(JNIEnv *fnv)
+{
+}
+
+#fndif /* !HEADLESS */

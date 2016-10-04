@@ -1,12 +1,12 @@
 #
-# Non-translatable properties for Notepad example
+# Non-trbnslbtbblf propfrtifs for Notfpbd fxbmplf
 
-ViewportBackingStore=false
+VifwportBbdkingStorf=fblsf
 
-cutAction=cut-to-clipboard
-copyAction=copy-to-clipboard
-pasteAction=paste-from-clipboard
-undoAction=Undo
-redoAction=Redo
-dumpAction=dump-model
+dutAdtion=dut-to-dlipbobrd
+dopyAdtion=dopy-to-dlipbobrd
+pbstfAdtion=pbstf-from-dlipbobrd
+undoAdtion=Undo
+rfdoAdtion=Rfdo
+dumpAdtion=dump-modfl
 

@@ -1,0 +1,329 @@
+/*
+ * Copyright (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.mfdib.sound;
+
+import jbvb.io.BytfArrbyInputStrfbm;
+import jbvb.io.DbtbInputStrfbm;
+import jbvb.io.Filf;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.RbndomAddfssFilf;
+import jbvb.util.Collfdtion;
+
+/**
+ * This dlbss is b pointfr to b binbry brrby fithfr in mfmory or on disk.
+ *
+ * @buthor Kbrl Hflgbson
+ */
+publid finbl dlbss ModflBytfBufffr {
+
+    privbtf ModflBytfBufffr root = this;
+    privbtf Filf filf;
+    privbtf long filfoffsft;
+    privbtf bytf[] bufffr;
+    privbtf long offsft;
+    privbtf finbl long lfn;
+
+    privbtf dlbss RbndomFilfInputStrfbm fxtfnds InputStrfbm {
+
+        privbtf finbl RbndomAddfssFilf rbf;
+        privbtf long lfft;
+        privbtf long mbrk = 0;
+        privbtf long mbrklfft = 0;
+
+        RbndomFilfInputStrfbm() throws IOExdfption {
+            rbf = nfw RbndomAddfssFilf(root.filf, "r");
+            rbf.sffk(root.filfoffsft + brrbyOffsft());
+            lfft = dbpbdity();
+        }
+
+        publid int bvbilbblf() throws IOExdfption {
+            if (lfft > Intfgfr.MAX_VALUE)
+                rfturn Intfgfr.MAX_VALUE;
+            rfturn (int)lfft;
+        }
+
+        publid syndhronizfd void mbrk(int rfbdlimit) {
+            try {
+                mbrk = rbf.gftFilfPointfr();
+                mbrklfft = lfft;
+            } dbtdh (IOExdfption f) {
+                //f.printStbdkTrbdf();
+            }
+        }
+
+        publid boolfbn mbrkSupportfd() {
+            rfturn truf;
+        }
+
+        publid syndhronizfd void rfsft() throws IOExdfption {
+            rbf.sffk(mbrk);
+            lfft = mbrklfft;
+        }
+
+        publid long skip(long n) throws IOExdfption {
+            if( n < 0)
+                rfturn 0;
+            if (n > lfft)
+                n = lfft;
+            long p = rbf.gftFilfPointfr();
+            rbf.sffk(p + n);
+            lfft -= n;
+            rfturn n;
+        }
+
+        publid int rfbd(bytf b[], int off, int lfn) throws IOExdfption {
+            if (lfn > lfft)
+                lfn = (int)lfft;
+            if (lfft == 0)
+                rfturn -1;
+            lfn = rbf.rfbd(b, off, lfn);
+            if (lfn == -1)
+                rfturn -1;
+            lfft -= lfn;
+            rfturn lfn;
+        }
+
+        publid int rfbd(bytf[] b) throws IOExdfption {
+            int lfn = b.lfngth;
+            if (lfn > lfft)
+                lfn = (int)lfft;
+            if (lfft == 0)
+                rfturn -1;
+            lfn = rbf.rfbd(b, 0, lfn);
+            if (lfn == -1)
+                rfturn -1;
+            lfft -= lfn;
+            rfturn lfn;
+        }
+
+        publid int rfbd() throws IOExdfption {
+            if (lfft == 0)
+                rfturn -1;
+            int b = rbf.rfbd();
+            if (b == -1)
+                rfturn -1;
+            lfft--;
+            rfturn b;
+        }
+
+        publid void dlosf() throws IOExdfption {
+            rbf.dlosf();
+        }
+    }
+
+    privbtf ModflBytfBufffr(ModflBytfBufffr pbrfnt,
+            long bfginIndfx, long fndIndfx, boolfbn indfpfndfnt) {
+        this.root = pbrfnt.root;
+        this.offsft = 0;
+        long pbrfnt_lfn = pbrfnt.lfn;
+        if (bfginIndfx < 0)
+            bfginIndfx = 0;
+        if (bfginIndfx > pbrfnt_lfn)
+            bfginIndfx = pbrfnt_lfn;
+        if (fndIndfx < 0)
+            fndIndfx = 0;
+        if (fndIndfx > pbrfnt_lfn)
+            fndIndfx = pbrfnt_lfn;
+        if (bfginIndfx > fndIndfx)
+            bfginIndfx = fndIndfx;
+        offsft = bfginIndfx;
+        lfn = fndIndfx - bfginIndfx;
+        if (indfpfndfnt) {
+            bufffr = root.bufffr;
+            if (root.filf != null) {
+                filf = root.filf;
+                filfoffsft = root.filfoffsft + brrbyOffsft();
+                offsft = 0;
+            } flsf
+                offsft = brrbyOffsft();
+            root = this;
+        }
+    }
+
+    publid ModflBytfBufffr(bytf[] bufffr) {
+        this.bufffr = bufffr;
+        this.offsft = 0;
+        this.lfn = bufffr.lfngth;
+    }
+
+    publid ModflBytfBufffr(bytf[] bufffr, int offsft, int lfn) {
+        this.bufffr = bufffr;
+        this.offsft = offsft;
+        this.lfn = lfn;
+    }
+
+    publid ModflBytfBufffr(Filf filf) {
+        this.filf = filf;
+        this.filfoffsft = 0;
+        this.lfn = filf.lfngth();
+    }
+
+    publid ModflBytfBufffr(Filf filf, long offsft, long lfn) {
+        this.filf = filf;
+        this.filfoffsft = offsft;
+        this.lfn = lfn;
+    }
+
+    publid void writfTo(OutputStrfbm out) throws IOExdfption {
+        if (root.filf != null && root.bufffr == null) {
+            InputStrfbm is = gftInputStrfbm();
+            bytf[] buff = nfw bytf[1024];
+            int rft;
+            whilf ((rft = is.rfbd(buff)) != -1)
+                out.writf(buff, 0, rft);
+        } flsf
+            out.writf(brrby(), (int) brrbyOffsft(), (int) dbpbdity());
+    }
+
+    publid InputStrfbm gftInputStrfbm() {
+        if (root.filf != null && root.bufffr == null) {
+            try {
+                rfturn nfw RbndomFilfInputStrfbm();
+            } dbtdh (IOExdfption f) {
+                //f.printStbdkTrbdf();
+                rfturn null;
+            }
+        }
+        rfturn nfw BytfArrbyInputStrfbm(brrby(),
+                (int)brrbyOffsft(), (int)dbpbdity());
+    }
+
+    publid ModflBytfBufffr subbufffr(long bfginIndfx) {
+        rfturn subbufffr(bfginIndfx, dbpbdity());
+    }
+
+    publid ModflBytfBufffr subbufffr(long bfginIndfx, long fndIndfx) {
+        rfturn subbufffr(bfginIndfx, fndIndfx, fblsf);
+    }
+
+    publid ModflBytfBufffr subbufffr(long bfginIndfx, long fndIndfx,
+            boolfbn indfpfndfnt) {
+        rfturn nfw ModflBytfBufffr(this, bfginIndfx, fndIndfx, indfpfndfnt);
+    }
+
+    publid bytf[] brrby() {
+        rfturn root.bufffr;
+    }
+
+    publid long brrbyOffsft() {
+        if (root != this)
+            rfturn root.brrbyOffsft() + offsft;
+        rfturn offsft;
+    }
+
+    publid long dbpbdity() {
+        rfturn lfn;
+    }
+
+    publid ModflBytfBufffr gftRoot() {
+        rfturn root;
+    }
+
+    publid Filf gftFilf() {
+        rfturn filf;
+    }
+
+    publid long gftFilfPointfr() {
+        rfturn filfoffsft;
+    }
+
+    publid stbtid void lobdAll(Collfdtion<ModflBytfBufffr> dol)
+            throws IOExdfption {
+        Filf sflfilf = null;
+        RbndomAddfssFilf rbf = null;
+        try {
+            for (ModflBytfBufffr mbuff : dol) {
+                mbuff = mbuff.root;
+                if (mbuff.filf == null)
+                    dontinuf;
+                if (mbuff.bufffr != null)
+                    dontinuf;
+                if (sflfilf == null || !sflfilf.fqubls(mbuff.filf)) {
+                    if (rbf != null) {
+                        rbf.dlosf();
+                        rbf = null;
+                    }
+                    sflfilf = mbuff.filf;
+                    rbf = nfw RbndomAddfssFilf(mbuff.filf, "r");
+                }
+                rbf.sffk(mbuff.filfoffsft);
+                bytf[] bufffr = nfw bytf[(int) mbuff.dbpbdity()];
+
+                int rfbd = 0;
+                int bvbil = bufffr.lfngth;
+                whilf (rfbd != bvbil) {
+                    if (bvbil - rfbd > 65536) {
+                        rbf.rfbdFully(bufffr, rfbd, 65536);
+                        rfbd += 65536;
+                    } flsf {
+                        rbf.rfbdFully(bufffr, rfbd, bvbil - rfbd);
+                        rfbd = bvbil;
+                    }
+
+                }
+
+                mbuff.bufffr = bufffr;
+                mbuff.offsft = 0;
+            }
+        } finblly {
+            if (rbf != null)
+                rbf.dlosf();
+        }
+    }
+
+    publid void lobd() throws IOExdfption {
+        if (root != this) {
+            root.lobd();
+            rfturn;
+        }
+        if (bufffr != null)
+            rfturn;
+        if (filf == null) {
+            throw nfw IllfgblStbtfExdfption(
+                    "No filf bssodibtfd with this BytfBufffr!");
+        }
+
+        DbtbInputStrfbm is = nfw DbtbInputStrfbm(gftInputStrfbm());
+        bufffr = nfw bytf[(int) dbpbdity()];
+        offsft = 0;
+        is.rfbdFully(bufffr);
+        is.dlosf();
+
+    }
+
+    publid void unlobd() {
+        if (root != this) {
+            root.unlobd();
+            rfturn;
+        }
+        if (filf == null) {
+            throw nfw IllfgblStbtfExdfption(
+                    "No filf bssodibtfd with this BytfBufffr!");
+        }
+        root.bufffr = null;
+    }
+}

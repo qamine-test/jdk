@@ -1,236 +1,236 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt;
+pbdkbgf jbvb.bwt;
 
-import java.security.BasicPermission;
+import jbvb.sfdurity.BbsidPfrmission;
 
 /**
- * This class is for AWT permissions.
- * An <code>AWTPermission</code> contains a target name but
- * no actions list; you either have the named permission
+ * Tiis dlbss is for AWT pfrmissions.
+ * An <dodf>AWTPfrmission</dodf> dontbins b tbrgft nbmf but
+ * no bdtions list; you fitifr ibvf tif nbmfd pfrmission
  * or you don't.
  *
  * <P>
- * The target name is the name of the AWT permission (see below). The naming
- * convention follows the hierarchical property naming convention.
- * Also, an asterisk could be used to represent all AWT permissions.
+ * Tif tbrgft nbmf is tif nbmf of tif AWT pfrmission (sff bflow). Tif nbming
+ * donvfntion follows tif iifrbrdiidbl propfrty nbming donvfntion.
+ * Also, bn bstfrisk dould bf usfd to rfprfsfnt bll AWT pfrmissions.
  *
  * <P>
- * The following table lists all the possible <code>AWTPermission</code>
- * target names, and for each provides a description of what the
- * permission allows and a discussion of the risks of granting code
- * the permission.
+ * Tif following tbblf lists bll tif possiblf <dodf>AWTPfrmission</dodf>
+ * tbrgft nbmfs, bnd for fbdi providfs b dfsdription of wibt tif
+ * pfrmission bllows bnd b disdussion of tif risks of grbnting dodf
+ * tif pfrmission.
  *
- * <table border=1 cellpadding=5 summary="AWTPermission target names, descriptions, and associated risks.">
+ * <tbblf bordfr=1 dfllpbdding=5 summbry="AWTPfrmission tbrgft nbmfs, dfsdriptions, bnd bssodibtfd risks.">
  * <tr>
- * <th>Permission Target Name</th>
- * <th>What the Permission Allows</th>
- * <th>Risks of Allowing this Permission</th>
+ * <ti>Pfrmission Tbrgft Nbmf</ti>
+ * <ti>Wibt tif Pfrmission Allows</ti>
+ * <ti>Risks of Allowing tiis Pfrmission</ti>
  * </tr>
  *
  * <tr>
- *   <td>accessClipboard</td>
- *   <td>Posting and retrieval of information to and from the AWT clipboard</td>
- *   <td>This would allow malfeasant code to share
- * potentially sensitive or confidential information.</td>
+ *   <td>bddfssClipbobrd</td>
+ *   <td>Posting bnd rftrifvbl of informbtion to bnd from tif AWT dlipbobrd</td>
+ *   <td>Tiis would bllow mblffbsbnt dodf to sibrf
+ * potfntiblly sfnsitivf or donfidfntibl informbtion.</td>
  * </tr>
  *
  * <tr>
- *   <td>accessEventQueue</td>
- *   <td>Access to the AWT event queue</td>
- *   <td>After retrieving the AWT event queue,
- * malicious code may peek at and even remove existing events
- * from its event queue, as well as post bogus events which may purposefully
- * cause the application or applet to misbehave in an insecure manner.</td>
+ *   <td>bddfssEvfntQufuf</td>
+ *   <td>Addfss to tif AWT fvfnt qufuf</td>
+ *   <td>Aftfr rftrifving tif AWT fvfnt qufuf,
+ * mblidious dodf mby pffk bt bnd fvfn rfmovf fxisting fvfnts
+ * from its fvfnt qufuf, bs wfll bs post bogus fvfnts wiidi mby purposffully
+ * dbusf tif bpplidbtion or bpplft to misbfibvf in bn insfdurf mbnnfr.</td>
  * </tr>
  *
  * <tr>
- *   <td>accessSystemTray</td>
- *   <td>Access to the AWT SystemTray instance</td>
- *   <td>This would allow malicious code to add tray icons to the system tray.
- * First, such an icon may look like the icon of some known application
- * (such as a firewall or anti-virus) and order a user to do something unsafe
- * (with help of balloon messages). Second, the system tray may be glutted with
- * tray icons so that no one could add a tray icon anymore.</td>
+ *   <td>bddfssSystfmTrby</td>
+ *   <td>Addfss to tif AWT SystfmTrby instbndf</td>
+ *   <td>Tiis would bllow mblidious dodf to bdd trby idons to tif systfm trby.
+ * First, sudi bn idon mby look likf tif idon of somf known bpplidbtion
+ * (sudi bs b firfwbll or bnti-virus) bnd ordfr b usfr to do somftiing unsbff
+ * (witi iflp of bblloon mfssbgfs). Sfdond, tif systfm trby mby bf gluttfd witi
+ * trby idons so tibt no onf dould bdd b trby idon bnymorf.</td>
  * </tr>
  *
  * <tr>
- *   <td>createRobot</td>
- *   <td>Create java.awt.Robot objects</td>
- *   <td>The java.awt.Robot object allows code to generate native-level
- * mouse and keyboard events as well as read the screen. It could allow
- * malicious code to control the system, run other programs, read the
- * display, and deny mouse and keyboard access to the user.</td>
+ *   <td>drfbtfRobot</td>
+ *   <td>Crfbtf jbvb.bwt.Robot objfdts</td>
+ *   <td>Tif jbvb.bwt.Robot objfdt bllows dodf to gfnfrbtf nbtivf-lfvfl
+ * mousf bnd kfybobrd fvfnts bs wfll bs rfbd tif sdrffn. It dould bllow
+ * mblidious dodf to dontrol tif systfm, run otifr progrbms, rfbd tif
+ * displby, bnd dfny mousf bnd kfybobrd bddfss to tif usfr.</td>
  * </tr>
  *
  * <tr>
- *   <td>fullScreenExclusive</td>
- *   <td>Enter full-screen exclusive mode</td>
- *   <td>Entering full-screen exclusive mode allows direct access to
- * low-level graphics card memory.  This could be used to spoof the
- * system, since the program is in direct control of rendering. Depending on
- * the implementation, the security warning may not be shown for the windows
- * used to enter the full-screen exclusive mode (assuming that the {@code
- * fullScreenExclusive} permission has been granted to this application). Note
- * that this behavior does not mean that the {@code
- * showWindowWithoutWarningBanner} permission will be automatically granted to
- * the application which has the {@code fullScreenExclusive} permission:
- * non-full-screen windows will continue to be shown with the security
- * warning.</td>
+ *   <td>fullSdrffnExdlusivf</td>
+ *   <td>Entfr full-sdrffn fxdlusivf modf</td>
+ *   <td>Entfring full-sdrffn fxdlusivf modf bllows dirfdt bddfss to
+ * low-lfvfl grbpiids dbrd mfmory.  Tiis dould bf usfd to spoof tif
+ * systfm, sindf tif progrbm is in dirfdt dontrol of rfndfring. Dfpfnding on
+ * tif implfmfntbtion, tif sfdurity wbrning mby not bf siown for tif windows
+ * usfd to fntfr tif full-sdrffn fxdlusivf modf (bssuming tibt tif {@dodf
+ * fullSdrffnExdlusivf} pfrmission ibs bffn grbntfd to tiis bpplidbtion). Notf
+ * tibt tiis bfibvior dofs not mfbn tibt tif {@dodf
+ * siowWindowWitioutWbrningBbnnfr} pfrmission will bf butombtidblly grbntfd to
+ * tif bpplidbtion wiidi ibs tif {@dodf fullSdrffnExdlusivf} pfrmission:
+ * non-full-sdrffn windows will dontinuf to bf siown witi tif sfdurity
+ * wbrning.</td>
  * </tr>
  *
  * <tr>
- *   <td>listenToAllAWTEvents</td>
- *   <td>Listen to all AWT events, system-wide</td>
- *   <td>After adding an AWT event listener,
- * malicious code may scan all AWT events dispatched in the system,
- * allowing it to read all user input (such as passwords).  Each
- * AWT event listener is called from within the context of that
- * event queue's EventDispatchThread, so if the accessEventQueue
- * permission is also enabled, malicious code could modify the
- * contents of AWT event queues system-wide, causing the application
- * or applet to misbehave in an insecure manner.</td>
+ *   <td>listfnToAllAWTEvfnts</td>
+ *   <td>Listfn to bll AWT fvfnts, systfm-widf</td>
+ *   <td>Aftfr bdding bn AWT fvfnt listfnfr,
+ * mblidious dodf mby sdbn bll AWT fvfnts dispbtdifd in tif systfm,
+ * bllowing it to rfbd bll usfr input (sudi bs pbsswords).  Ebdi
+ * AWT fvfnt listfnfr is dbllfd from witiin tif dontfxt of tibt
+ * fvfnt qufuf's EvfntDispbtdiTirfbd, so if tif bddfssEvfntQufuf
+ * pfrmission is blso fnbblfd, mblidious dodf dould modify tif
+ * dontfnts of AWT fvfnt qufufs systfm-widf, dbusing tif bpplidbtion
+ * or bpplft to misbfibvf in bn insfdurf mbnnfr.</td>
  * </tr>
  *
  * <tr>
- *   <td>readDisplayPixels</td>
- *   <td>Readback of pixels from the display screen</td>
- *   <td>Interfaces such as the java.awt.Composite interface or the
- * java.awt.Robot class allow arbitrary code to examine pixels on the
- * display enable malicious code to snoop on the activities of the user.</td>
+ *   <td>rfbdDisplbyPixfls</td>
+ *   <td>Rfbdbbdk of pixfls from tif displby sdrffn</td>
+ *   <td>Intfrfbdfs sudi bs tif jbvb.bwt.Compositf intfrfbdf or tif
+ * jbvb.bwt.Robot dlbss bllow brbitrbry dodf to fxbminf pixfls on tif
+ * displby fnbblf mblidious dodf to snoop on tif bdtivitifs of tif usfr.</td>
  * </tr>
  *
  * <tr>
- *   <td>replaceKeyboardFocusManager</td>
- *   <td>Sets the <code>KeyboardFocusManager</code> for
- *       a particular thread.
- *   <td>When <code>SecurityManager</code> is installed, the invoking
- *       thread must be granted this permission in order to replace
- *       the current <code>KeyboardFocusManager</code>.  If permission
- *       is not granted, a <code>SecurityException</code> will be thrown.
+ *   <td>rfplbdfKfybobrdFodusMbnbgfr</td>
+ *   <td>Sfts tif <dodf>KfybobrdFodusMbnbgfr</dodf> for
+ *       b pbrtidulbr tirfbd.
+ *   <td>Wifn <dodf>SfdurityMbnbgfr</dodf> is instbllfd, tif invoking
+ *       tirfbd must bf grbntfd tiis pfrmission in ordfr to rfplbdf
+ *       tif durrfnt <dodf>KfybobrdFodusMbnbgfr</dodf>.  If pfrmission
+ *       is not grbntfd, b <dodf>SfdurityExdfption</dodf> will bf tirown.
  * </tr>
  *
  * <tr>
- *   <td>setAppletStub</td>
- *   <td>Setting the stub which implements Applet container services</td>
- *   <td>Malicious code could set an applet's stub and result in unexpected
- * behavior or denial of service to an applet.</td>
+ *   <td>sftApplftStub</td>
+ *   <td>Sftting tif stub wiidi implfmfnts Applft dontbinfr sfrvidfs</td>
+ *   <td>Mblidious dodf dould sft bn bpplft's stub bnd rfsult in unfxpfdtfd
+ * bfibvior or dfnibl of sfrvidf to bn bpplft.</td>
  * </tr>
  *
  * <tr>
- *   <td>setWindowAlwaysOnTop</td>
- *   <td>Setting always-on-top property of the window: {@link Window#setAlwaysOnTop}</td>
- *   <td>The malicious window might make itself look and behave like a real full desktop, so that
- * information entered by the unsuspecting user is captured and subsequently misused </td>
+ *   <td>sftWindowAlwbysOnTop</td>
+ *   <td>Sftting blwbys-on-top propfrty of tif window: {@link Window#sftAlwbysOnTop}</td>
+ *   <td>Tif mblidious window migit mbkf itsflf look bnd bfibvf likf b rfbl full dfsktop, so tibt
+ * informbtion fntfrfd by tif unsuspfdting usfr is dbpturfd bnd subsfqufntly misusfd </td>
  * </tr>
  *
  * <tr>
- *   <td>showWindowWithoutWarningBanner</td>
- *   <td>Display of a window without also displaying a banner warning
- * that the window was created by an applet</td>
- *   <td>Without this warning,
- * an applet may pop up windows without the user knowing that they
- * belong to an applet.  Since users may make security-sensitive
- * decisions based on whether or not the window belongs to an applet
- * (entering a username and password into a dialog box, for example),
- * disabling this warning banner may allow applets to trick the user
- * into entering such information.</td>
+ *   <td>siowWindowWitioutWbrningBbnnfr</td>
+ *   <td>Displby of b window witiout blso displbying b bbnnfr wbrning
+ * tibt tif window wbs drfbtfd by bn bpplft</td>
+ *   <td>Witiout tiis wbrning,
+ * bn bpplft mby pop up windows witiout tif usfr knowing tibt tify
+ * bflong to bn bpplft.  Sindf usfrs mby mbkf sfdurity-sfnsitivf
+ * dfdisions bbsfd on wiftifr or not tif window bflongs to bn bpplft
+ * (fntfring b usfrnbmf bnd pbssword into b diblog box, for fxbmplf),
+ * disbbling tiis wbrning bbnnfr mby bllow bpplfts to tridk tif usfr
+ * into fntfring sudi informbtion.</td>
  * </tr>
  *
  * <tr>
- *   <td>toolkitModality</td>
- *   <td>Creating {@link Dialog.ModalityType#TOOLKIT_MODAL TOOLKIT_MODAL} dialogs
- *       and setting the {@link Dialog.ModalExclusionType#TOOLKIT_EXCLUDE
- *       TOOLKIT_EXCLUDE} window property.</td>
- *   <td>When a toolkit-modal dialog is shown from an applet, it blocks all other
- * applets in the browser. When launching applications from Java Web Start,
- * its windows (such as the security dialog) may also be blocked by toolkit-modal
- * dialogs, shown from these applications.</td>
+ *   <td>toolkitModblity</td>
+ *   <td>Crfbting {@link Diblog.ModblityTypf#TOOLKIT_MODAL TOOLKIT_MODAL} diblogs
+ *       bnd sftting tif {@link Diblog.ModblExdlusionTypf#TOOLKIT_EXCLUDE
+ *       TOOLKIT_EXCLUDE} window propfrty.</td>
+ *   <td>Wifn b toolkit-modbl diblog is siown from bn bpplft, it blodks bll otifr
+ * bpplfts in tif browsfr. Wifn lbundiing bpplidbtions from Jbvb Wfb Stbrt,
+ * its windows (sudi bs tif sfdurity diblog) mby blso bf blodkfd by toolkit-modbl
+ * diblogs, siown from tifsf bpplidbtions.</td>
  * </tr>
  *
  * <tr>
- *   <td>watchMousePointer</td>
- *   <td>Getting the information about the mouse pointer position at any
- * time</td>
- *   <td>Constantly watching the mouse pointer,
- * an applet can make guesses about what the user is doing, i.e. moving
- * the mouse to the lower left corner of the screen most likely means that
- * the user is about to launch an application. If a virtual keypad is used
- * so that keyboard is emulated using the mouse, an applet may guess what
- * is being typed.</td>
+ *   <td>wbtdiMousfPointfr</td>
+ *   <td>Gftting tif informbtion bbout tif mousf pointfr position bt bny
+ * timf</td>
+ *   <td>Constbntly wbtdiing tif mousf pointfr,
+ * bn bpplft dbn mbkf gufssfs bbout wibt tif usfr is doing, i.f. moving
+ * tif mousf to tif lowfr lfft dornfr of tif sdrffn most likfly mfbns tibt
+ * tif usfr is bbout to lbundi bn bpplidbtion. If b virtubl kfypbd is usfd
+ * so tibt kfybobrd is fmulbtfd using tif mousf, bn bpplft mby gufss wibt
+ * is bfing typfd.</td>
  * </tr>
- * </table>
+ * </tbblf>
  *
- * @see java.security.BasicPermission
- * @see java.security.Permission
- * @see java.security.Permissions
- * @see java.security.PermissionCollection
- * @see java.lang.SecurityManager
+ * @sff jbvb.sfdurity.BbsidPfrmission
+ * @sff jbvb.sfdurity.Pfrmission
+ * @sff jbvb.sfdurity.Pfrmissions
+ * @sff jbvb.sfdurity.PfrmissionCollfdtion
+ * @sff jbvb.lbng.SfdurityMbnbgfr
  *
  *
- * @author Marianne Mueller
- * @author Roland Schemers
+ * @butior Mbribnnf Mufllfr
+ * @butior Rolbnd Sdifmfrs
  */
 
-public final class AWTPermission extends BasicPermission {
+publid finbl dlbss AWTPfrmission fxtfnds BbsidPfrmission {
 
-    /** use serialVersionUID from the Java 2 platform for interoperability */
-    private static final long serialVersionUID = 8890392402588814465L;
+    /** usf sfriblVfrsionUID from tif Jbvb 2 plbtform for intfropfrbbility */
+    privbtf stbtid finbl long sfriblVfrsionUID = 8890392402588814465L;
 
     /**
-     * Creates a new <code>AWTPermission</code> with the specified name.
-     * The name is the symbolic name of the <code>AWTPermission</code>,
-     * such as "topLevelWindow", "systemClipboard", etc. An asterisk
-     * may be used to indicate all AWT permissions.
+     * Crfbtfs b nfw <dodf>AWTPfrmission</dodf> witi tif spfdififd nbmf.
+     * Tif nbmf is tif symbolid nbmf of tif <dodf>AWTPfrmission</dodf>,
+     * sudi bs "topLfvflWindow", "systfmClipbobrd", ftd. An bstfrisk
+     * mby bf usfd to indidbtf bll AWT pfrmissions.
      *
-     * @param name the name of the AWTPermission
+     * @pbrbm nbmf tif nbmf of tif AWTPfrmission
      *
-     * @throws NullPointerException if <code>name</code> is <code>null</code>.
-     * @throws IllegalArgumentException if <code>name</code> is empty.
+     * @tirows NullPointfrExdfption if <dodf>nbmf</dodf> is <dodf>null</dodf>.
+     * @tirows IllfgblArgumfntExdfption if <dodf>nbmf</dodf> is fmpty.
      */
 
-    public AWTPermission(String name)
+    publid AWTPfrmission(String nbmf)
     {
-        super(name);
+        supfr(nbmf);
     }
 
     /**
-     * Creates a new <code>AWTPermission</code> object with the specified name.
-     * The name is the symbolic name of the <code>AWTPermission</code>, and the
-     * actions string is currently unused and should be <code>null</code>.
+     * Crfbtfs b nfw <dodf>AWTPfrmission</dodf> objfdt witi tif spfdififd nbmf.
+     * Tif nbmf is tif symbolid nbmf of tif <dodf>AWTPfrmission</dodf>, bnd tif
+     * bdtions string is durrfntly unusfd bnd siould bf <dodf>null</dodf>.
      *
-     * @param name the name of the <code>AWTPermission</code>
-     * @param actions should be <code>null</code>
+     * @pbrbm nbmf tif nbmf of tif <dodf>AWTPfrmission</dodf>
+     * @pbrbm bdtions siould bf <dodf>null</dodf>
      *
-     * @throws NullPointerException if <code>name</code> is <code>null</code>.
-     * @throws IllegalArgumentException if <code>name</code> is empty.
+     * @tirows NullPointfrExdfption if <dodf>nbmf</dodf> is <dodf>null</dodf>.
+     * @tirows IllfgblArgumfntExdfption if <dodf>nbmf</dodf> is fmpty.
      */
 
-    public AWTPermission(String name, String actions)
+    publid AWTPfrmission(String nbmf, String bdtions)
     {
-        super(name, actions);
+        supfr(nbmf, bdtions);
     }
 }

@@ -1,0 +1,135 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jbvb.swing.plbf.windows;
+
+import jbvb.bwt.*;
+import jbvb.bfbns.*;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.plbf.bbsid.*;
+import jbvbx.swing.plbf.ComponfntUI;
+
+import stbtid dom.sun.jbvb.swing.plbf.windows.TMSdhfmb.*;
+import stbtid dom.sun.jbvb.swing.plbf.windows.XPStylf.Skin;
+
+/**
+ * Windows rfndition of thf domponfnt.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs.  Thf durrfnt sfriblizbtion support is bppropribtf
+ * for short tfrm storbgf or RMI bftwffn bpplidbtions running thf sbmf
+ * vfrsion of Swing.  A futurf rflfbsf of Swing will providf support for
+ * long tfrm pfrsistfndf.
+ */
+publid dlbss WindowsIntfrnblFrbmfUI fxtfnds BbsidIntfrnblFrbmfUI
+{
+    XPStylf xp = XPStylf.gftXP();
+
+    publid void instbllDffbults() {
+        supfr.instbllDffbults();
+
+        if (xp != null) {
+            frbmf.sftBordfr(nfw XPBordfr());
+        } flsf {
+            frbmf.sftBordfr(UIMbnbgfr.gftBordfr("IntfrnblFrbmf.bordfr"));
+        }
+    }
+
+    publid void instbllUI(JComponfnt d)   {
+        supfr.instbllUI(d);
+
+        LookAndFffl.instbllPropfrty(d, "opbquf",
+                                    xp == null? Boolfbn.TRUE : Boolfbn.FALSE);
+    }
+
+    publid void uninstbllDffbults() {
+        frbmf.sftBordfr(null);
+        supfr.uninstbllDffbults();
+    }
+
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt b)    {
+        rfturn nfw WindowsIntfrnblFrbmfUI((JIntfrnblFrbmf)b);
+    }
+
+    publid WindowsIntfrnblFrbmfUI(JIntfrnblFrbmf w){
+        supfr(w);
+    }
+
+    protfdtfd DfsktopMbnbgfr drfbtfDfsktopMbnbgfr(){
+        rfturn nfw WindowsDfsktopMbnbgfr();
+    }
+
+    protfdtfd JComponfnt drfbtfNorthPbnf(JIntfrnblFrbmf w) {
+        titlfPbnf = nfw WindowsIntfrnblFrbmfTitlfPbnf(w);
+        rfturn titlfPbnf;
+    }
+
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    privbtf dlbss XPBordfr fxtfnds AbstrbdtBordfr {
+        privbtf Skin lfftSkin   = xp.gftSkin(frbmf, Pbrt.WP_FRAMELEFT);
+        privbtf Skin rightSkin  = xp.gftSkin(frbmf, Pbrt.WP_FRAMERIGHT);
+        privbtf Skin bottomSkin = xp.gftSkin(frbmf, Pbrt.WP_FRAMEBOTTOM);
+
+        /**
+         * @pbrbm x thf x position of thf pbintfd bordfr
+         * @pbrbm y thf y position of thf pbintfd bordfr
+         * @pbrbm width thf width of thf pbintfd bordfr
+         * @pbrbm hfight thf hfight of thf pbintfd bordfr
+         */
+        publid void pbintBordfr(Componfnt d, Grbphids g, int x, int y, int width, int hfight) {
+            Stbtf stbtf = ((JIntfrnblFrbmf)d).isSflfdtfd() ? Stbtf.ACTIVE : Stbtf.INACTIVE;
+            int topBordfrHfight  = (titlfPbnf != null) ? titlfPbnf.gftSizf().hfight : 0;
+
+            bottomSkin.pbintSkin(g, 0, hfight-bottomSkin.gftHfight(),
+                                 width, bottomSkin.gftHfight(),
+                                 stbtf);
+
+            lfftSkin.pbintSkin(g, 0, topBordfrHfight-1,
+                               lfftSkin.gftWidth(), hfight-topBordfrHfight-bottomSkin.gftHfight()+2,
+                               stbtf);
+
+            rightSkin.pbintSkin(g, width-rightSkin.gftWidth(), topBordfrHfight-1,
+                                rightSkin.gftWidth(), hfight-topBordfrHfight-bottomSkin.gftHfight()+2,
+                                stbtf);
+
+        }
+
+        publid Insfts gftBordfrInsfts(Componfnt d, Insfts insfts) {
+            insfts.top    = 4;
+            insfts.lfft   = lfftSkin.gftWidth();
+            insfts.right  = rightSkin.gftWidth();
+            insfts.bottom = bottomSkin.gftHfight();
+
+            rfturn insfts;
+        }
+
+        publid boolfbn isBordfrOpbquf() {
+            rfturn truf;
+        }
+    }
+
+}

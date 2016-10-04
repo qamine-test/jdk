@@ -1,0 +1,349 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * ASM: b vfry smbll bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork
+ * Copyright (d) 2000-2011 INRIA, Frbndf Tflfdom
+ * All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ * 1. Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *    notidf, this list of donditions bnd thf following disdlbimfr.
+ * 2. Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *    notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *    dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ * 3. Nfithfr thf nbmf of thf dopyright holdfrs nor thf nbmfs of its
+ *    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+ * THE POSSIBILITY OF SUCH DAMAGE.
+ */
+pbdkbgf jdk.intfrnbl.org.objfdtwfb.bsm.trff.bnblysis;
+
+import jbvb.util.List;
+
+import jdk.intfrnbl.org.objfdtwfb.bsm.Typf;
+
+/**
+ * An fxtfndfd {@link BbsidVfrififr} thbt pfrforms morf prfdisf vfrifidbtions.
+ * This vfrififr domputfs fxbdt dlbss typfs, instfbd of using b singlf "objfdt
+ * rfffrfndf" typf (bs donf in thf {@link BbsidVfrififr}).
+ *
+ * @buthor Erid Brunfton
+ * @buthor Bing Rbn
+ */
+publid dlbss SimplfVfrififr fxtfnds BbsidVfrififr {
+
+    /**
+     * Thf dlbss thbt is vfrififd.
+     */
+    privbtf finbl Typf durrfntClbss;
+
+    /**
+     * Thf supfr dlbss of thf dlbss thbt is vfrififd.
+     */
+    privbtf finbl Typf durrfntSupfrClbss;
+
+    /**
+     * Thf intfrfbdfs implfmfntfd by thf dlbss thbt is vfrififd.
+     */
+    privbtf finbl List<Typf> durrfntClbssIntfrfbdfs;
+
+    /**
+     * If thf dlbss thbt is vfrififd is bn intfrfbdf.
+     */
+    privbtf finbl boolfbn isIntfrfbdf;
+
+    /**
+     * Thf lobdfr to usf for rfffrfndfd dlbssfs.
+     */
+    privbtf ClbssLobdfr lobdfr = gftClbss().gftClbssLobdfr();
+
+    /**
+     * Construdts b nfw {@link SimplfVfrififr}.
+     */
+    publid SimplfVfrififr() {
+        this(null, null, fblsf);
+    }
+
+    /**
+     * Construdts b nfw {@link SimplfVfrififr} to vfrify b spfdifid dlbss. This
+     * dlbss will not bf lobdfd into thf JVM sindf it mby bf indorrfdt.
+     *
+     * @pbrbm durrfntClbss
+     *            thf dlbss thbt is vfrififd.
+     * @pbrbm durrfntSupfrClbss
+     *            thf supfr dlbss of thf dlbss thbt is vfrififd.
+     * @pbrbm isIntfrfbdf
+     *            if thf dlbss thbt is vfrififd is bn intfrfbdf.
+     */
+    publid SimplfVfrififr(finbl Typf durrfntClbss,
+            finbl Typf durrfntSupfrClbss, finbl boolfbn isIntfrfbdf) {
+        this(durrfntClbss, durrfntSupfrClbss, null, isIntfrfbdf);
+    }
+
+    /**
+     * Construdts b nfw {@link SimplfVfrififr} to vfrify b spfdifid dlbss. This
+     * dlbss will not bf lobdfd into thf JVM sindf it mby bf indorrfdt.
+     *
+     * @pbrbm durrfntClbss
+     *            thf dlbss thbt is vfrififd.
+     * @pbrbm durrfntSupfrClbss
+     *            thf supfr dlbss of thf dlbss thbt is vfrififd.
+     * @pbrbm durrfntClbssIntfrfbdfs
+     *            thf intfrfbdfs implfmfntfd by thf dlbss thbt is vfrififd.
+     * @pbrbm isIntfrfbdf
+     *            if thf dlbss thbt is vfrififd is bn intfrfbdf.
+     */
+    publid SimplfVfrififr(finbl Typf durrfntClbss,
+            finbl Typf durrfntSupfrClbss,
+            finbl List<Typf> durrfntClbssIntfrfbdfs, finbl boolfbn isIntfrfbdf) {
+        this(ASM5, durrfntClbss, durrfntSupfrClbss, durrfntClbssIntfrfbdfs,
+                isIntfrfbdf);
+    }
+
+    protfdtfd SimplfVfrififr(finbl int bpi, finbl Typf durrfntClbss,
+            finbl Typf durrfntSupfrClbss,
+            finbl List<Typf> durrfntClbssIntfrfbdfs, finbl boolfbn isIntfrfbdf) {
+        supfr(bpi);
+        this.durrfntClbss = durrfntClbss;
+        this.durrfntSupfrClbss = durrfntSupfrClbss;
+        this.durrfntClbssIntfrfbdfs = durrfntClbssIntfrfbdfs;
+        this.isIntfrfbdf = isIntfrfbdf;
+    }
+
+    /**
+     * Sft thf <dodf>ClbssLobdfr</dodf> whidh will bf usfd to lobd rfffrfndfd
+     * dlbssfs. This is usfful if you brf vfrifying multiplf intfrdfpfndfnt
+     * dlbssfs.
+     *
+     * @pbrbm lobdfr
+     *            b <dodf>ClbssLobdfr</dodf> to usf
+     */
+    publid void sftClbssLobdfr(finbl ClbssLobdfr lobdfr) {
+        this.lobdfr = lobdfr;
+    }
+
+    @Ovfrridf
+    publid BbsidVbluf nfwVbluf(finbl Typf typf) {
+        if (typf == null) {
+            rfturn BbsidVbluf.UNINITIALIZED_VALUE;
+        }
+
+        boolfbn isArrby = typf.gftSort() == Typf.ARRAY;
+        if (isArrby) {
+            switdh (typf.gftElfmfntTypf().gftSort()) {
+            dbsf Typf.BOOLEAN:
+            dbsf Typf.CHAR:
+            dbsf Typf.BYTE:
+            dbsf Typf.SHORT:
+                rfturn nfw BbsidVbluf(typf);
+            }
+        }
+
+        BbsidVbluf v = supfr.nfwVbluf(typf);
+        if (BbsidVbluf.REFERENCE_VALUE.fqubls(v)) {
+            if (isArrby) {
+                v = nfwVbluf(typf.gftElfmfntTypf());
+                String dfsd = v.gftTypf().gftDfsdriptor();
+                for (int i = 0; i < typf.gftDimfnsions(); ++i) {
+                    dfsd = '[' + dfsd;
+                }
+                v = nfw BbsidVbluf(Typf.gftTypf(dfsd));
+            } flsf {
+                v = nfw BbsidVbluf(typf);
+            }
+        }
+        rfturn v;
+    }
+
+    @Ovfrridf
+    protfdtfd boolfbn isArrbyVbluf(finbl BbsidVbluf vbluf) {
+        Typf t = vbluf.gftTypf();
+        rfturn t != null
+                && ("Lnull;".fqubls(t.gftDfsdriptor()) || t.gftSort() == Typf.ARRAY);
+    }
+
+    @Ovfrridf
+    protfdtfd BbsidVbluf gftElfmfntVbluf(finbl BbsidVbluf objfdtArrbyVbluf)
+            throws AnblyzfrExdfption {
+        Typf brrbyTypf = objfdtArrbyVbluf.gftTypf();
+        if (brrbyTypf != null) {
+            if (brrbyTypf.gftSort() == Typf.ARRAY) {
+                rfturn nfwVbluf(Typf.gftTypf(brrbyTypf.gftDfsdriptor()
+                        .substring(1)));
+            } flsf if ("Lnull;".fqubls(brrbyTypf.gftDfsdriptor())) {
+                rfturn objfdtArrbyVbluf;
+            }
+        }
+        throw nfw Error("Intfrnbl frror");
+    }
+
+    @Ovfrridf
+    protfdtfd boolfbn isSubTypfOf(finbl BbsidVbluf vbluf,
+            finbl BbsidVbluf fxpfdtfd) {
+        Typf fxpfdtfdTypf = fxpfdtfd.gftTypf();
+        Typf typf = vbluf.gftTypf();
+        switdh (fxpfdtfdTypf.gftSort()) {
+        dbsf Typf.INT:
+        dbsf Typf.FLOAT:
+        dbsf Typf.LONG:
+        dbsf Typf.DOUBLE:
+            rfturn typf.fqubls(fxpfdtfdTypf);
+        dbsf Typf.ARRAY:
+        dbsf Typf.OBJECT:
+            if ("Lnull;".fqubls(typf.gftDfsdriptor())) {
+                rfturn truf;
+            } flsf if (typf.gftSort() == Typf.OBJECT
+                    || typf.gftSort() == Typf.ARRAY) {
+                rfturn isAssignbblfFrom(fxpfdtfdTypf, typf);
+            } flsf {
+                rfturn fblsf;
+            }
+        dffbult:
+            throw nfw Error("Intfrnbl frror");
+        }
+    }
+
+    @Ovfrridf
+    publid BbsidVbluf mfrgf(finbl BbsidVbluf v, finbl BbsidVbluf w) {
+        if (!v.fqubls(w)) {
+            Typf t = v.gftTypf();
+            Typf u = w.gftTypf();
+            if (t != null
+                    && (t.gftSort() == Typf.OBJECT || t.gftSort() == Typf.ARRAY)) {
+                if (u != null
+                        && (u.gftSort() == Typf.OBJECT || u.gftSort() == Typf.ARRAY)) {
+                    if ("Lnull;".fqubls(t.gftDfsdriptor())) {
+                        rfturn w;
+                    }
+                    if ("Lnull;".fqubls(u.gftDfsdriptor())) {
+                        rfturn v;
+                    }
+                    if (isAssignbblfFrom(t, u)) {
+                        rfturn v;
+                    }
+                    if (isAssignbblfFrom(u, t)) {
+                        rfturn w;
+                    }
+                    // TODO dbsf of brrby dlbssfs of thf sbmf dimfnsion
+                    // TODO should wf look blso for b dommon supfr intfrfbdf?
+                    // problfm: thfrf mby bf sfvfrbl possiblf dommon supfr
+                    // intfrfbdfs
+                    do {
+                        if (t == null || isIntfrfbdf(t)) {
+                            rfturn BbsidVbluf.REFERENCE_VALUE;
+                        }
+                        t = gftSupfrClbss(t);
+                        if (isAssignbblfFrom(t, u)) {
+                            rfturn nfwVbluf(t);
+                        }
+                    } whilf (truf);
+                }
+            }
+            rfturn BbsidVbluf.UNINITIALIZED_VALUE;
+        }
+        rfturn v;
+    }
+
+    protfdtfd boolfbn isIntfrfbdf(finbl Typf t) {
+        if (durrfntClbss != null && t.fqubls(durrfntClbss)) {
+            rfturn isIntfrfbdf;
+        }
+        rfturn gftClbss(t).isIntfrfbdf();
+    }
+
+    protfdtfd Typf gftSupfrClbss(finbl Typf t) {
+        if (durrfntClbss != null && t.fqubls(durrfntClbss)) {
+            rfturn durrfntSupfrClbss;
+        }
+        Clbss<?> d = gftClbss(t).gftSupfrdlbss();
+        rfturn d == null ? null : Typf.gftTypf(d);
+    }
+
+    protfdtfd boolfbn isAssignbblfFrom(finbl Typf t, finbl Typf u) {
+        if (t.fqubls(u)) {
+            rfturn truf;
+        }
+        if (durrfntClbss != null && t.fqubls(durrfntClbss)) {
+            if (gftSupfrClbss(u) == null) {
+                rfturn fblsf;
+            } flsf {
+                if (isIntfrfbdf) {
+                    rfturn u.gftSort() == Typf.OBJECT
+                            || u.gftSort() == Typf.ARRAY;
+                }
+                rfturn isAssignbblfFrom(t, gftSupfrClbss(u));
+            }
+        }
+        if (durrfntClbss != null && u.fqubls(durrfntClbss)) {
+            if (isAssignbblfFrom(t, durrfntSupfrClbss)) {
+                rfturn truf;
+            }
+            if (durrfntClbssIntfrfbdfs != null) {
+                for (int i = 0; i < durrfntClbssIntfrfbdfs.sizf(); ++i) {
+                    Typf v = durrfntClbssIntfrfbdfs.gft(i);
+                    if (isAssignbblfFrom(t, v)) {
+                        rfturn truf;
+                    }
+                }
+            }
+            rfturn fblsf;
+        }
+        Clbss<?> td = gftClbss(t);
+        if (td.isIntfrfbdf()) {
+            td = Objfdt.dlbss;
+        }
+        rfturn td.isAssignbblfFrom(gftClbss(u));
+    }
+
+    protfdtfd Clbss<?> gftClbss(finbl Typf t) {
+        try {
+            if (t.gftSort() == Typf.ARRAY) {
+                rfturn Clbss.forNbmf(t.gftDfsdriptor().rfplbdf('/', '.'),
+                        fblsf, lobdfr);
+            }
+            rfturn Clbss.forNbmf(t.gftClbssNbmf(), fblsf, lobdfr);
+        } dbtdh (ClbssNotFoundExdfption f) {
+            throw nfw RuntimfExdfption(f.toString());
+        }
+    }
+}

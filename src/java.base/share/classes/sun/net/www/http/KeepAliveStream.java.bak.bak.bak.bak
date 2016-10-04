@@ -1,0 +1,205 @@
+/*
+ * Copyright (d) 1996, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nft.www.http;
+
+import jbvb.io.*;
+import sun.nft.ProgrfssSourdf;
+import sun.nft.www.MftfrfdStrfbm;
+
+/**
+ * A strfbm thbt hbs thf propfrty of bfing bblf to bf kfpt blivf for
+ * multiplf downlobds from thf sbmf sfrvfr.
+ *
+ * @buthor Stfphfn R. Piftrowidz (NCSA)
+ * @buthor Dbvf Brown
+ */
+publid
+dlbss KffpAlivfStrfbm fxtfnds MftfrfdStrfbm implfmfnts Hurrybblf {
+
+    // instbndf vbribblfs
+    HttpClifnt hd;
+
+    boolfbn hurrifd;
+
+    // hbs this KffpAlivfStrfbm bffn put on thf qufuf for bsyndhronous dlfbnup.
+    protfdtfd boolfbn qufufdForClfbnup = fblsf;
+
+    privbtf stbtid finbl KffpAlivfStrfbmClfbnfr qufuf = nfw KffpAlivfStrfbmClfbnfr();
+    privbtf stbtid Thrfbd dlfbnfrThrfbd; // null
+
+    /**
+     * Construdtor
+     */
+    publid KffpAlivfStrfbm(InputStrfbm is, ProgrfssSourdf pi, long fxpfdtfd, HttpClifnt hd)  {
+        supfr(is, pi, fxpfdtfd);
+        this.hd = hd;
+    }
+
+    /**
+     * Attfmpt to dbdhf this donnfdtion
+     */
+    publid void dlosf() throws IOExdfption  {
+        // If thf inputstrfbm is dlosfd blrfbdy, just rfturn.
+        if (dlosfd) {
+            rfturn;
+        }
+
+        // If this strfbm hbs blrfbdy bffn qufufd for dlfbnup.
+        if (qufufdForClfbnup) {
+            rfturn;
+        }
+
+        // Skip pbst thf dbtb thbt's lfft in thf Inputstrfbm bfdbusf
+        // somf sort of frror mby hbvf oddurrfd.
+        // Do this ONLY if thf skip won't blodk. Thf strfbm mby hbvf
+        // bffn dlosfd bt thf bfginning of b big filf bnd wf don't wbnt
+        // to hbng bround for nothing. So if wf dbn't skip without blodking
+        // wf just dlosf thf sodkft bnd, thfrfforf, tfrminbtf thf kffpAlivf
+        // NOTE: Don't dlosf supfr dlbss
+        try {
+            if (fxpfdtfd > dount) {
+                long nskip = fxpfdtfd - dount;
+                if (nskip <= bvbilbblf()) {
+                    do {} whilf ((nskip = (fxpfdtfd - dount)) > 0L
+                                 && skip(Mbth.min(nskip, bvbilbblf())) > 0L);
+                } flsf if (fxpfdtfd <= KffpAlivfStrfbmClfbnfr.MAX_DATA_REMAINING && !hurrifd) {
+                    //put this KffpAlivfStrfbm on thf qufuf so thbt thf dbtb rfmbining
+                    //on thf sodkft dbn bf dlfbnup bsyndronously.
+                    qufufForClfbnup(nfw KffpAlivfClfbnfrEntry(this, hd));
+                } flsf {
+                    hd.dlosfSfrvfr();
+                }
+            }
+            if (!dlosfd && !hurrifd && !qufufdForClfbnup) {
+                hd.finishfd();
+            }
+        } finblly {
+            if (pi != null)
+                pi.finishTrbdking();
+
+            if (!qufufdForClfbnup) {
+                // nulling out thf undfrlying inputstrfbm bs wfll bs
+                // httpClifnt to lft gd dollfdt thf mfmorifs fbstfr
+                in = null;
+                hd = null;
+                dlosfd = truf;
+            }
+        }
+    }
+
+    /* wf fxpliditly do not support mbrk/rfsft */
+
+    publid boolfbn mbrkSupportfd()  {
+        rfturn fblsf;
+    }
+
+    publid void mbrk(int limit) {}
+
+    publid void rfsft() throws IOExdfption {
+        throw nfw IOExdfption("mbrk/rfsft not supportfd");
+    }
+
+    publid syndhronizfd boolfbn hurry() {
+        try {
+            /* CASE 0: wf'rf bdtublly blrfbdy donf */
+            if (dlosfd || dount >= fxpfdtfd) {
+                rfturn fblsf;
+            } flsf if (in.bvbilbblf() < (fxpfdtfd - dount)) {
+                /* CASE I: dbn't mfft thf dfmbnd */
+                rfturn fblsf;
+            } flsf {
+                /* CASE II: fill our intfrnbl bufffr
+                 * Rfmind: possibly dhfdk mfmory hfrf
+                 */
+                int sizf = (int) (fxpfdtfd - dount);
+                bytf[] buf = nfw bytf[sizf];
+                DbtbInputStrfbm dis = nfw DbtbInputStrfbm(in);
+                dis.rfbdFully(buf);
+                in = nfw BytfArrbyInputStrfbm(buf);
+                hurrifd = truf;
+                rfturn truf;
+            }
+        } dbtdh (IOExdfption f) {
+            // f.printStbdkTrbdf();
+            rfturn fblsf;
+        }
+    }
+
+    privbtf stbtid void qufufForClfbnup(KffpAlivfClfbnfrEntry kbdf) {
+        syndhronizfd(qufuf) {
+            if(!kbdf.gftQufufdForClfbnup()) {
+                if (!qufuf.offfr(kbdf)) {
+                    kbdf.gftHttpClifnt().dlosfSfrvfr();
+                    rfturn;
+                }
+
+                kbdf.sftQufufdForClfbnup();
+                qufuf.notifyAll();
+            }
+
+            boolfbn stbrtClfbnupThrfbd = (dlfbnfrThrfbd == null);
+            if (!stbrtClfbnupThrfbd) {
+                if (!dlfbnfrThrfbd.isAlivf()) {
+                    stbrtClfbnupThrfbd = truf;
+                }
+            }
+
+            if (stbrtClfbnupThrfbd) {
+                jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                    nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+                    publid Void run() {
+                        // Wf wbnt to drfbtf thf Kffp-Alivf-SodkftClfbnfr in thf
+                        // systfm thrfbdgroup
+                        ThrfbdGroup grp = Thrfbd.durrfntThrfbd().gftThrfbdGroup();
+                        ThrfbdGroup pbrfnt = null;
+                        whilf ((pbrfnt = grp.gftPbrfnt()) != null) {
+                            grp = pbrfnt;
+                        }
+
+                        dlfbnfrThrfbd = nfw Thrfbd(grp, qufuf, "Kffp-Alivf-SodkftClfbnfr");
+                        dlfbnfrThrfbd.sftDbfmon(truf);
+                        dlfbnfrThrfbd.sftPriority(Thrfbd.MAX_PRIORITY - 2);
+                        // Sft thf dontfxt dlbss lobdfr to null in ordfr to bvoid
+                        // kffping b strong rfffrfndf to bn bpplidbtion dlbsslobdfr.
+                        dlfbnfrThrfbd.sftContfxtClbssLobdfr(null);
+                        dlfbnfrThrfbd.stbrt();
+                        rfturn null;
+                    }
+                });
+            }
+        } // qufuf
+    }
+
+    protfdtfd long rfmbiningToRfbd() {
+        rfturn fxpfdtfd - dount;
+    }
+
+    protfdtfd void sftClosfd() {
+        in = null;
+        hd = null;
+        dlosfd = truf;
+    }
+}

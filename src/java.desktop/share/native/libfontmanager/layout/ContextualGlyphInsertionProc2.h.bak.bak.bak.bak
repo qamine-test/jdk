@@ -1,0 +1,106 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ *
+ */
+
+/*
+ *
+ * (C) Copyright IBM Corp.  bnd othfrs 2013 - All Rights Rfsfrvfd
+ *
+ */
+
+#ifndff __CONTEXTUALGLYPHINSERTIONPROCESSOR2_H
+#dffinf __CONTEXTUALGLYPHINSERTIONPROCESSOR2_H
+
+/**
+ * \filf
+ * \intfrnbl
+ */
+
+#indludf "LETypfs.h"
+#indludf "MorphTbblfs.h"
+#indludf "SubtbblfProdfssor2.h"
+#indludf "StbtfTbblfProdfssor2.h"
+#indludf "ContfxtublGlyphInsfrtionProd2.h"
+#indludf "ContfxtublGlyphInsfrtion.h"
+
+U_NAMESPACE_BEGIN
+
+dlbss LEGlyphStorbgf;
+
+dlbss ContfxtublGlyphInsfrtionProdfssor2 : publid StbtfTbblfProdfssor2
+{
+publid:
+    virtubl void bfginStbtfTbblf();
+
+    virtubl lf_uint16 prodfssStbtfEntry(LEGlyphStorbgf &glyphStorbgf,
+                                        lf_int32 &durrGlyph, EntryTbblfIndfx2 indfx, LEErrorCodf &suddfss);
+
+    virtubl void fndStbtfTbblf();
+
+    ContfxtublGlyphInsfrtionProdfssor2(donst LERfffrfndfTo<MorphSubtbblfHfbdfr2> &morphSubtbblfHfbdfr, LEErrorCodf &suddfss);
+    virtubl ~ContfxtublGlyphInsfrtionProdfssor2();
+
+    /**
+     * ICU "poor mbn's RTTI", rfturns b UClbssID for thf bdtubl dlbss.
+     *
+     * @stbblf ICU 2.8
+     */
+    virtubl UClbssID gftDynbmidClbssID() donst;
+
+    /**
+     * ICU "poor mbn's RTTI", rfturns b UClbssID for this dlbss.
+     *
+     * @stbblf ICU 2.8
+     */
+    stbtid UClbssID gftStbtidClbssID();
+
+privbtf:
+    ContfxtublGlyphInsfrtionProdfssor2();
+
+    /**
+     * Pfrform thf bdtubl insfrtion
+     * @pbrbm btGlyph indfx of glyph to insfrt bt
+     * @pbrbm indfx indfx into thf insfrtionTbblf (in/out)
+     * @pbrbm dount numbfr of insfrtions
+     * @pbrbm isKbshidbLikf Kbshidb likf (vs Split Vowfl likf). No ffffdt durrfntly.
+     * @pbrbm isBfforf if truf, insfrt fxtrb glyphs bfforf thf mbrkfd glyph
+     */
+    void doInsfrtion(LEGlyphStorbgf &glyphStorbgf,
+                              lf_int16 btGlyph,
+                              lf_int16 &indfx,
+                              lf_int16 dount,
+                              lf_bool isKbshidbLikf,
+                              lf_bool isBfforf,
+                              LEErrorCodf &suddfss);
+
+
+protfdtfd:
+    lf_int32 mbrkGlyph;
+    LERfffrfndfToArrbyOf<lf_uint16> insfrtionTbblf;
+    LERfffrfndfToArrbyOf<ContfxtublGlyphInsfrtionStbtfEntry2> fntryTbblf;
+    LERfffrfndfTo<ContfxtublGlyphInsfrtionHfbdfr2> dontfxtublGlyphHfbdfr;
+};
+
+U_NAMESPACE_END
+#fndif
